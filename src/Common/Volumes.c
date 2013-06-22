@@ -798,24 +798,7 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 	cryptoInfo->HeaderVersion = VOLUME_HEADER_VERSION;
 
 	// Required program version to handle this volume
-	switch (mode)
-	{
-	case LRW:
-		// Deprecated/legacy
-		mputWord (p, 0x0410);
-		break;
-	case OUTER_CBC:
-	case INNER_CBC:
-		// Deprecated/legacy
-		mputWord (p, 0x0300);
-		break;
-	case CBC:
-		// Deprecated/legacy
-		mputWord (p, hiddenVolumeSize > 0 ? 0x0300 : 0x0100);
-		break;
-	default:
-		mputWord (p, requiredProgramVersion != 0 ? requiredProgramVersion : TC_VOLUME_MIN_REQUIRED_PROGRAM_VERSION);
-	}
+	mputWord (p, requiredProgramVersion != 0 ? requiredProgramVersion : TC_VOLUME_MIN_REQUIRED_PROGRAM_VERSION);
 
 	// CRC of the master key data
 	x = GetCrc32(keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
