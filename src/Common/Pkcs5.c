@@ -387,12 +387,13 @@ void hmac_ripemd160 (char *key, int keylen, char *input, int len, char *digest)
 	burn (&context, sizeof(context));
 }
 
-void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b)
+void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b)
 {
 	char j[RIPEMD160_DIGESTSIZE], k[RIPEMD160_DIGESTSIZE];
 	char init[128];
 	char counter[4];
-	int c, i;
+	int c, i, l;
+   int EnhanceSecurityLoops = (bNotTest)? 10 : 1;
 
 	/* iteration 1 */
 	memset (counter, 0, 4);
@@ -403,13 +404,16 @@ void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int i
 	memcpy (u, j, RIPEMD160_DIGESTSIZE);
 
 	/* remaining iterations */
-	for (c = 1; c < iterations; c++)
+	for (l = 0; l < EnhanceSecurityLoops; l++)
 	{
-		hmac_ripemd160 (pwd, pwd_len, j, RIPEMD160_DIGESTSIZE, k);
-		for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
+		for (c = 1; c < iterations; c++)
 		{
-			u[i] ^= k[i];
-			j[i] = k[i];
+			hmac_ripemd160 (pwd, pwd_len, j, RIPEMD160_DIGESTSIZE, k);
+			for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
+			{
+				u[i] ^= k[i];
+				j[i] = k[i];
+			}
 		}
 	}
 
@@ -418,7 +422,7 @@ void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int i
 	burn (k, sizeof(k));
 }
 
-void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
+void derive_key_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
 {
 	char u[RIPEMD160_DIGESTSIZE];
 	int b, l, r;
@@ -437,13 +441,13 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_ripemd160 (pwd, pwd_len, salt, salt_len, iterations, u, b);
+		derive_u_ripemd160 (bNotTest, pwd, pwd_len, salt, salt_len, iterations, u, b);
 		memcpy (dk, u, RIPEMD160_DIGESTSIZE);
 		dk += RIPEMD160_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_ripemd160 (pwd, pwd_len, salt, salt_len, iterations, u, b);
+	derive_u_ripemd160 (bNotTest, pwd, pwd_len, salt, salt_len, iterations, u, b);
 	memcpy (dk, u, r);
 
 
@@ -620,19 +624,22 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
 {
 	switch (pkcs5_prf_id)
 	{
+#ifdef TC_WINDOWS_BOOT
 	case RIPEMD160:	
-		return (bBoot ? 1000 : 2000);
+		return 32767; /* we multiply this number by 10 inside derive_u_ripemd160 */
 
-#ifndef TC_WINDOWS_BOOT
+#else
+	case RIPEMD160:	
+		return bBoot? 32767 : 200000; /* we multiply this number by 10 inside derive_u_ripemd160 */
 
 	case SHA512:	
-		return 1000;			
+		return 1000000;			
 
 	case SHA1:		// Deprecated/legacy		
-		return 2000;			
+		return 2000000;			
 
 	case WHIRLPOOL:	
-		return 1000;
+		return 1000000;
 #endif
 
 	default:		

@@ -1699,12 +1699,12 @@ BOOL test_pkcs5 ()
 #endif
 
 	/* PKCS-5 test 1 with HMAC-RIPEMD-160 used as the PRF */
-	derive_key_ripemd160 ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 4);
+	derive_key_ripemd160 (FALSE, "password", 8, "\x12\x34\x56\x78", 4, 5, dk, 4);
 	if (memcmp (dk, "\x7a\x3d\x7c\x03", 4) != 0)
 		return FALSE;
 
 	/* PKCS-5 test 2 with HMAC-RIPEMD-160 used as the PRF (derives a key longer than the underlying hash) */
-	derive_key_ripemd160 ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 48);
+	derive_key_ripemd160 (FALSE, "password", 8, "\x12\x34\x56\x78", 4, 5, dk, 48);
 	if (memcmp (dk, "\x7a\x3d\x7c\x03\xe7\x26\x6b\xf8\x3d\x78\xfb\x29\xd2\x64\x1f\x56\xea\xf0\xe5\xf5\xcc\xc4\x3a\x31\xa8\x84\x70\xbf\xbd\x6f\x8e\x78\x24\x5a\xc0\x0a\xf6\xfa\xf0\xf6\xe9\x00\x47\x5f\x73\xce\xe1\x43", 48) != 0)
 		return FALSE;
 
