@@ -1177,11 +1177,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				bPromptReleaseNotes = FALSE;
 
-				if (bPromptTutorial
+				/*if (bPromptTutorial
 					&& AskYesNo ("AFTER_INSTALL_TUTORIAL") == IDYES)
 				{
 					Applink ("beginnerstutorial", TRUE, "");
-				}
+				}*/
 
 				bPromptTutorial = FALSE;
 			}
