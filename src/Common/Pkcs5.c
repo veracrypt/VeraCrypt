@@ -630,16 +630,16 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
 
 #else
 	case RIPEMD160:	
-		return bBoot? 32767 : 200000; /* we multiply this number by 10 inside derive_u_ripemd160 */
+		return bBoot? 32767 : 65534; /* we multiply this number by 10 inside derive_u_ripemd160 */
 
 	case SHA512:	
-		return 1000000;			
+		return 500000;			
 
 	case SHA1:		// Deprecated/legacy		
-		return 2000000;			
+		return 1000000;			
 
 	case WHIRLPOOL:	
-		return 1000000;
+		return 500000;
 #endif
 
 	default:		
