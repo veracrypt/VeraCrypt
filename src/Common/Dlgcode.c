@@ -1655,10 +1655,10 @@ void ExceptionHandlerThread (void *threadArg)
 	DWORD addr;
 	DWORD exCode = ep->ExceptionRecord->ExceptionCode;
 	SYSTEM_INFO si;
-	wchar_t msg[8192];
+	// wchar_t msg[8192];
 	char modPath[MAX_PATH];
 	int crc = 0;
-	char url[MAX_URL_LENGTH];
+	// char url[MAX_URL_LENGTH];
 	char lpack[128];
 	stringstream callStack;
 	addr = (DWORD) ep->ExceptionRecord->ExceptionAddress;
