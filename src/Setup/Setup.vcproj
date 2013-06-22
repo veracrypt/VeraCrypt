@@ -66,7 +66,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMTD"
 				AdditionalDependencies="libcmtd.lib comctl32.lib setupapi.lib"
-				OutputFile="$(OutDir)/TrueCryptSetup.exe"
+				OutputFile="$(OutDir)/VeraCryptSetup.exe"
 				LinkIncremental="2"
 				GenerateManifest="false"
 				UACExecutionLevel="2"
@@ -99,7 +99,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md &quot;..\Debug\Setup Files&quot; 2&gt;NUL:&#x0D;&#x0A;copy Debug\TrueCryptSetup.exe &quot;..\Debug\Setup Files\TrueCrypt Setup.exe&quot; &gt;NUL:&#x0D;&#x0A;"
+				CommandLine="md &quot;..\Debug\Setup Files&quot; 2&gt;NUL:&#x0D;&#x0A;copy Debug\VeraCryptSetup.exe &quot;..\Debug\Setup Files\VeraCrypt Setup.exe&quot; &gt;NUL:&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -153,7 +153,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/IGNORE:4089"
 				AdditionalDependencies="comctl32.lib setupapi.lib"
-				OutputFile="$(OutDir)/TrueCryptSetup.exe"
+				OutputFile="$(OutDir)/VeraCryptSetup.exe"
 				LinkIncremental="1"
 				GenerateManifest="false"
 				UACExecutionLevel="2"
@@ -187,7 +187,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Release\TrueCryptSetup.exe &quot;..\Release\Setup Files\TrueCrypt Setup.exe&quot;"
+				CommandLine="copy Release\VeraCryptSetup.exe &quot;..\Release\Setup Files\VeraCrypt Setup.exe&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -416,19 +416,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Common\TrueCrypt.ico"
+				RelativePath="..\Common\VeraCrypt.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\TrueCrypt_setup.bmp"
+				RelativePath=".\VeraCrypt_setup.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\TrueCrypt_setup_background.bmp"
+				RelativePath=".\VeraCrypt_setup_background.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\Common\TrueCrypt_Volume.ico"
+				RelativePath="..\Common\VeraCrypt_Volume.ico"
 				>
 			</File>
 			<Filter

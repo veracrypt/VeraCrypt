@@ -296,17 +296,17 @@ typedef struct
 #define DRIVER_STR
 #endif
 
-#define TC_UNIQUE_ID_PREFIX "TrueCryptVolume"
-#define TC_MOUNT_PREFIX L"\\Device\\TrueCryptVolume"
+#define TC_UNIQUE_ID_PREFIX "VeraCryptVolume"
+#define TC_MOUNT_PREFIX L"\\Device\\VeraCryptVolume"
 
-#define NT_MOUNT_PREFIX DRIVER_STR("\\Device\\TrueCryptVolume")
-#define NT_ROOT_PREFIX DRIVER_STR("\\Device\\TrueCrypt")
+#define NT_MOUNT_PREFIX DRIVER_STR("\\Device\\VeraCryptVolume")
+#define NT_ROOT_PREFIX DRIVER_STR("\\Device\\VeraCrypt")
 #define DOS_MOUNT_PREFIX DRIVER_STR("\\DosDevices\\")
-#define DOS_ROOT_PREFIX DRIVER_STR("\\DosDevices\\TrueCrypt")
-#define WIN32_ROOT_PREFIX DRIVER_STR("\\\\.\\TrueCrypt")
+#define DOS_ROOT_PREFIX DRIVER_STR("\\DosDevices\\VeraCrypt")
+#define WIN32_ROOT_PREFIX DRIVER_STR("\\\\.\\VeraCrypt")
 
-#define TC_DRIVER_CONFIG_REG_VALUE_NAME DRIVER_STR("TrueCryptConfig")
-#define TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME DRIVER_STR("TrueCryptEncryptionFreeCpuCount")
+#define TC_DRIVER_CONFIG_REG_VALUE_NAME DRIVER_STR("VeraCryptConfig")
+#define TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME DRIVER_STR("VeraCryptEncryptionFreeCpuCount")
 
 // WARNING: Modifying the following values can introduce incompatibility with previous versions.
 #define TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD						0x1

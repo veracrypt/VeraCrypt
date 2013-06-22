@@ -21,7 +21,7 @@ start:
 	dw main, 0
 
 loader_name_msg:
-	db ' TrueCrypt Boot Loader', 13, 10, 0
+	db ' VeraCrypt Boot Loader', 13, 10, 0
 	
 main:
 	cli	

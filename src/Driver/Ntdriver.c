@@ -3053,7 +3053,7 @@ BOOL IsVolumeClassFilterRegistered ()
 			ULONG i;
 			for (i = 0; i <= data->DataLength - 9 * sizeof (wchar_t); ++i)
 			{
-				if (memcmp (data->Data + i, L"truecrypt", 9 * sizeof (wchar_t)) == 0)
+				if (memcmp (data->Data + i, L"veracrypt", 9 * sizeof (wchar_t)) == 0)
 				{
 					Dump ("Volume class filter active\n");
 					registered = TRUE;
@@ -3076,7 +3076,7 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 	NTSTATUS status;
 	uint32 flags = 0;
 
-	RtlInitUnicodeString (&name, L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\truecrypt");
+	RtlInitUnicodeString (&name, L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\veracrypt");
 	status = TCReadRegistryKey (&name, TC_DRIVER_CONFIG_REG_VALUE_NAME, &data);
 
 	if (NT_SUCCESS (status))
@@ -3118,7 +3118,7 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 NTSTATUS WriteRegistryConfigFlags (uint32 flags)
 {
 	UNICODE_STRING name;
-	RtlInitUnicodeString (&name, L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\truecrypt");
+	RtlInitUnicodeString (&name, L"\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\Services\\veracrypt");
 
 	return TCWriteRegistryKey (&name, TC_DRIVER_CONFIG_REG_VALUE_NAME, REG_DWORD, &flags, sizeof (flags));
 }

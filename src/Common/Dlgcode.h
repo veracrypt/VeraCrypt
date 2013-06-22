@@ -44,12 +44,12 @@ enum
 	TC_TBXID_EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS
 };
 
-#define TC_APPLICATION_ID	L"TrueCryptFoundation.TrueCrypt"
+#define TC_APPLICATION_ID	L"IDRIX.VeraCrypt"
 
-#define TC_MUTEX_NAME_SYSENC				"Global\\TrueCrypt System Encryption Wizard"
-#define TC_MUTEX_NAME_NONSYS_INPLACE_ENC	"Global\\TrueCrypt In-Place Encryption Wizard"
-#define TC_MUTEX_NAME_APP_SETUP				"Global\\TrueCrypt Setup"
-#define TC_MUTEX_NAME_DRIVER_SETUP			"Global\\TrueCrypt Driver Setup"
+#define TC_MUTEX_NAME_SYSENC				"Global\\VeraCrypt System Encryption Wizard"
+#define TC_MUTEX_NAME_NONSYS_INPLACE_ENC	"Global\\VeraCrypt In-Place Encryption Wizard"
+#define TC_MUTEX_NAME_APP_SETUP				"Global\\VeraCrypt Setup"
+#define TC_MUTEX_NAME_DRIVER_SETUP			"Global\\VeraCrypt Driver Setup"
 
 #define IDC_ABOUT 0x7fff	/* ID for AboutBox on system menu in wm_user range */
 

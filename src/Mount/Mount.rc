@@ -43,7 +43,7 @@ IDR_MOUNT_TLB           TYPELIB                 "Mount.tlb"
 
 IDD_PREFERENCES_DLG DIALOGEX 0, 0, 336, 282
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt - Preferences"
+CAPTION "VeraCrypt - Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Mount volumes as read-only",IDC_PREF_MOUNT_READONLY,
@@ -53,9 +53,9 @@ BEGIN
     CONTROL         "Enabled",IDC_PREF_BKG_TASK_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,111,10
     CONTROL         "Exit when there are no mounted volumes",IDC_CLOSE_BKG_TASK_WHEN_NOVOL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,44,188,10
-    CONTROL         "Start TrueCrypt Background Task",IDC_PREF_LOGON_START,
+    CONTROL         "Start VeraCrypt Background Task",IDC_PREF_LOGON_START,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,75,126,10
-    CONTROL         "Mount all device-hosted TrueCrypt volumes",IDC_PREF_LOGON_MOUNT_DEVICES,
+    CONTROL         "Mount all device-hosted VeraCrypt volumes",IDC_PREF_LOGON_MOUNT_DEVICES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,75,188,10
     CONTROL         "User logs off",IDC_PREF_DISMOUNT_LOGOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,104,114,11
     CONTROL         "Entering power saving mode",IDC_PREF_DISMOUNT_POWERSAVING,
@@ -84,7 +84,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,281,262,50,14
     GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,52
     GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,4,3,328,26
-    GROUPBOX        "TrueCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
+    GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
     GROUPBOX        "Auto-Dismount",IDT_AUTO_DISMOUNT,4,94,328,62
     LTEXT           "minutes",IDT_MINUTES,289,129,39,10
     LTEXT           "Dismount all when:",IDT_AUTO_DISMOUNT_ON,9,110,71,17
@@ -94,7 +94,7 @@ END
 
 IDD_VOLUME_PROPERTIES DIALOGEX 60, 30, 284, 186
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt Volume Properties"
+CAPTION "VeraCrypt Volume Properties"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,114,166,55,14
@@ -129,7 +129,7 @@ END
 
 IDD_MOUNT_DLG DIALOGEX 0, 0, 375, 271
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt"
+CAPTION "VeraCrypt"
 MENU IDR_MENU
 CLASS "CustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -159,7 +159,7 @@ END
 
 IDD_PASSWORD_DLG DIALOGEX 0, 0, 280, 68
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "Enter TrueCrypt Volume Password"
+CAPTION "Enter VeraCrypt Volume Password"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWORD,48,8,153,14,ES_PASSWORD | ES_AUTOHSCROLL
@@ -176,16 +176,16 @@ END
 
 IDD_TRAVELER_DLG DIALOGEX 0, 0, 300, 269
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt Traveler Disk Setup"
+CAPTION "VeraCrypt Traveler Disk Setup"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_DIRECTORY,17,29,205,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse...",IDC_BROWSE_DIRS,228,28,57,14
-    CONTROL         "Include TrueCrypt Volume Creation Wizard",IDC_COPY_WIZARD,
+    CONTROL         "Include VeraCrypt Volume Creation Wizard",IDC_COPY_WIZARD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,48,258,10
     CONTROL         "Do nothing",IDC_AUTORUN_DISABLE,"Button",BS_AUTORADIOBUTTON,15,97,262,10
-    CONTROL         "&Start TrueCrypt",IDC_AUTORUN_START,"Button",BS_AUTORADIOBUTTON,15,108,262,11
-    CONTROL         "&Auto-mount TrueCrypt volume (specified below)",IDC_AUTORUN_MOUNT,
+    CONTROL         "&Start VeraCrypt",IDC_AUTORUN_START,"Button",BS_AUTORADIOBUTTON,15,108,262,11
+    CONTROL         "&Auto-mount VeraCrypt volume (specified below)",IDC_AUTORUN_MOUNT,
                     "Button",BS_AUTORADIOBUTTON,15,120,262,11
     EDITTEXT        IDC_VOLUME_NAME,21,157,194,13,ES_AUTOHSCROLL | WS_DISABLED
     PUSHBUTTON      "Browse...",IDC_BROWSE_FILES,221,156,57,14,WS_DISABLED
@@ -199,7 +199,7 @@ BEGIN
     PUSHBUTTON      "Close",IDCLOSE,236,249,57,14
     GROUPBOX        "File Settings",IDT_FILE_SETTINGS,6,7,287,59
     GROUPBOX        "AutoRun Configuration (autorun.inf)",IDT_AUTORUN,5,70,288,172
-    LTEXT           "TrueCrypt volume to mount (relative to traveler disk root):",IDT_TRAVELER_MOUNT,21,147,248,8,WS_DISABLED
+    LTEXT           "VeraCrypt volume to mount (relative to traveler disk root):",IDT_TRAVELER_MOUNT,21,147,248,8,WS_DISABLED
     RTEXT           "Mount volume as drive letter:",IDT_MOUNT_LETTER,18,177,99,8,WS_DISABLED
     LTEXT           "Create traveler disk files at (traveler disk root directory):",IDT_TRAVEL_ROOT,18,19,259,8
     GROUPBOX        "Mount Settings",IDT_MOUNT_SETTINGS,13,134,272,100,WS_DISABLED
@@ -208,7 +208,7 @@ END
 
 IDD_HOTKEYS_DLG DIALOGEX 0, 0, 381, 239
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt - System-Wide Hot Keys"
+CAPTION "VeraCrypt - System-Wide Hot Keys"
 CLASS "CustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -234,7 +234,7 @@ END
 
 IDD_TOKEN_PREFERENCES DIALOGEX 0, 0, 316, 199
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt - Security Token Preferences"
+CAPTION "VeraCrypt - Security Token Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_PKCS11_MODULE,16,23,204,13,ES_AUTOHSCROLL
@@ -251,7 +251,7 @@ END
 
 IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 242
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt - System Encryption Settings"
+CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Do not &show any texts in the pre-boot authentication screen (except the below custom message)",IDC_DISABLE_BOOT_LOADER_OUTPUT,
@@ -271,7 +271,7 @@ END
 
 IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 370, 206
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt - Performance Options"
+CAPTION "VeraCrypt - Performance Options"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_HW_AES_SUPPORTED_BY_CPU,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,294,21,57,12,WS_EX_CLIENTEDGE
@@ -293,7 +293,7 @@ END
 
 IDD_FAVORITE_VOLUMES DIALOGEX 0, 0, 380, 276
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt - Favorite Volumes"
+CAPTION "VeraCrypt - Favorite Volumes"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_FAVORITE_VOLUMES_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,366,92
@@ -437,13 +437,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "TrueCrypt Foundation"
-            VALUE "FileDescription", "TrueCrypt"
-            VALUE "FileVersion", "7.1a"
-            VALUE "LegalTrademarks", "TrueCrypt"
-            VALUE "OriginalFilename", "TrueCrypt.exe"
-            VALUE "ProductName", "TrueCrypt"
-            VALUE "ProductVersion", "7.1a"
+            VALUE "CompanyName", "IDRIX"
+            VALUE "FileDescription", "VeraCrypt"
+            VALUE "FileVersion", "1.0a"
+            VALUE "LegalTrademarks", "VeraCrypt"
+            VALUE "OriginalFilename", "VeraCrypt.exe"
+            VALUE "ProductName", "VeraCrypt"
+            VALUE "ProductVersion", "1.0a"
         END
     END
     BLOCK "VarFileInfo"
@@ -593,7 +593,7 @@ BEGIN
         MENUITEM "Beginner's Tutorial",         IDM_ONLINE_TUTORIAL
         MENUITEM "Frequently Asked Questions",  IDM_FAQ
         MENUITEM SEPARATOR
-        MENUITEM "TrueCrypt Website",           IDM_WEBSITE
+        MENUITEM "VeraCrypt Website",				IDM_WEBSITE
         MENUITEM "Downloads",                   IDM_TC_DOWNLOADS
         MENUITEM "News",                        IDM_NEWS
         MENUITEM "Version History",             IDM_VERSION_HISTORY
@@ -615,7 +615,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_UACSTRING           "TrueCrypt"
+    IDS_UACSTRING           "VeraCrypt"
 END
 
 #endif    // English (U.S.) resources

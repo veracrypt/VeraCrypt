@@ -45,7 +45,7 @@ typedef struct _DriveFilterExtension
 
 } DriveFilterExtension;
 
-#define TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER 0x5452554542455854
+#define TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER 0x5645524142455854
 
 extern BOOL BootArgsValid;
 extern BootArguments BootArgs;

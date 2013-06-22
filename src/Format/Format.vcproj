@@ -66,7 +66,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib setupapi.lib ..\Crypto\Debug\crypto.lib"
-				OutputFile="$(OutDir)/TrueCryptFormat.exe"
+				OutputFile="$(OutDir)/VeraCryptFormat.exe"
 				LinkIncremental="2"
 				GenerateManifest="false"
 				IgnoreAllDefaultLibraries="false"
@@ -98,7 +98,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md &quot;..\Debug\Setup Files&quot; 2&gt;NUL:&#x0D;&#x0A;copy Debug\TrueCryptFormat.exe &quot;..\Debug\Setup Files\TrueCrypt Format.exe&quot; &gt;NUL:&#x0D;&#x0A;"
+				CommandLine="md &quot;..\Debug\Setup Files&quot; 2&gt;NUL:&#x0D;&#x0A;copy Debug\VeraCryptFormat.exe &quot;..\Debug\Setup Files\VeraCrypt Format.exe&quot; &gt;NUL:&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -152,7 +152,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib setupapi.lib ..\Crypto\Release\crypto.lib"
-				OutputFile="$(OutDir)/TrueCryptFormat.exe"
+				OutputFile="$(OutDir)/VeraCryptFormat.exe"
 				LinkIncremental="1"
 				GenerateManifest="false"
 				IgnoreAllDefaultLibraries="false"
@@ -186,7 +186,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Release\TrueCryptFormat.exe &quot;..\Release\Setup Files\TrueCrypt Format.exe&quot;"
+				CommandLine="copy Release\VeraCryptFormat.exe &quot;..\Release\Setup Files\VeraCrypt Format.exe&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -552,11 +552,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Common\TrueCrypt_Volume.ico"
+				RelativePath="..\Common\VeraCrypt_Volume.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\TrueCrypt_wizard.bmp"
+				RelativePath=".\VeraCrypt_wizard.bmp"
 				>
 			</File>
 			<Filter
@@ -671,7 +671,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\Common\TrueCrypt.ico"
+					RelativePath="..\Common\VeraCrypt.ico"
 					>
 				</File>
 			</Filter>

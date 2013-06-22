@@ -949,7 +949,7 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 		PROCESS_INFORMATION pi;
 		ZeroMemory (&si, sizeof (si));
 
-		strcpy (++tmp, "TrueCrypt Format.exe\"");
+		strcpy (++tmp, "VeraCrypt Format.exe\"");
 
 		if (!FileExists(t))
 			Error ("VOL_CREATION_WIZARD_NOT_FOUND");	// Display a user-friendly error message and advise what to do
@@ -2927,7 +2927,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (bSysEnc)
 			{
 				// TrueCrypt Boot Loader version
-				ListItemAddW (list, i, GetString ("TC_BOOT_LOADER_VERSION"));
+				ListItemAddW (list, i, GetString ("VC_BOOT_LOADER_VERSION"));
 				ListSubItemSet (list, i++, 1, (char *) GetUserFriendlyVersionString (BootEncStatus.BootLoaderVersion).c_str());
 
 				// Encrypted portion
@@ -3120,12 +3120,12 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			WaitCursor ();
 			GetSystemDirectory (sysDir, sizeof (sysDir));
 
-			sprintf (dstPath, "%s\\TrueCrypt", dstDir);
+			sprintf (dstPath, "%s\\VeraCrypt", dstDir);
 			CreateDirectory (dstPath, NULL);
 
 			// Main app
-			sprintf (srcPath, "%s\\TrueCrypt.exe", appDir);
-			sprintf (dstPath, "%s\\TrueCrypt\\TrueCrypt.exe", dstDir);
+			sprintf (srcPath, "%s\\VeraCrypt.exe", appDir);
+			sprintf (dstPath, "%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg);
@@ -3135,8 +3135,8 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// Wizard
 			if (copyWizard)
 			{
-				sprintf (srcPath, "%s\\TrueCrypt Format.exe", appDir);
-				sprintf (dstPath, "%s\\TrueCrypt\\TrueCrypt Format.exe", dstDir);
+				sprintf (srcPath, "%s\\VeraCrypt Format.exe", appDir);
+				sprintf (dstPath, "%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
 				if (!TCCopyFile (srcPath, dstPath))
 				{
 					handleWin32Error (hwndDlg);
@@ -3145,8 +3145,8 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Driver
-			sprintf (srcPath, "%s\\truecrypt.sys", appDir);
-			sprintf (dstPath, "%s\\TrueCrypt\\truecrypt.sys", dstDir);
+			sprintf (srcPath, "%s\\veracrypt.sys", appDir);
+			sprintf (dstPath, "%s\\VeraCrypt\\veracrypt.sys", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg);
@@ -3154,8 +3154,8 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Driver x64
-			sprintf (srcPath, "%s\\truecrypt-x64.sys", appDir);
-			sprintf (dstPath, "%s\\TrueCrypt\\truecrypt-x64.sys", dstDir);
+			sprintf (srcPath, "%s\\veracrypt-x64.sys", appDir);
+			sprintf (dstPath, "%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg);
@@ -3166,7 +3166,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				// Language pack
 				sprintf (srcPath, "%s\\Language.%s.xml", appDir, GetPreferredLangId ());
-				sprintf (dstPath, "%s\\TrueCrypt\\Language.%s.xml", dstDir, GetPreferredLangId ());
+				sprintf (dstPath, "%s\\VeraCrypt\\Language.%s.xml", dstDir, GetPreferredLangId ());
 				TCCopyFile (srcPath, dstPath);
 			}
 
@@ -3187,18 +3187,18 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					goto stop;
 				}
 
-				sprintf (autoMount, "TrueCrypt\\TrueCrypt.exe /q background%s%s%s%s /m rm /v %s",
+				sprintf (autoMount, "VeraCrypt\\VeraCrypt.exe /q background%s%s%s%s /m rm /v %s",
 					drive > 0 ? driveLetter : "",
 					bExplore ? " /e" : "",
 					bCacheInDriver ? " /c y" : "",
 					bMountReadOnly ? " /m ro" : "",
 					volName);
 
-				fwprintf (af, L"[autorun]\nlabel=%s\nicon=TrueCrypt\\TrueCrypt.exe\n", GetString ("TC_TRAVELER_DISK"));
+				fwprintf (af, L"[autorun]\nlabel=%s\nicon=VeraCrypt\\VeraCrypt.exe\n", GetString ("TC_TRAVELER_DISK"));
 				fwprintf (af, L"action=%s\n", bAutoMount ? GetString ("MOUNT_TC_VOLUME") : GetString ("IDC_PREF_LOGON_START"));
-				fwprintf (af, L"open=%hs\n", bAutoMount ? autoMount : "TrueCrypt\\TrueCrypt.exe");
-				fwprintf (af, L"shell\\start=%s\nshell\\start\\command=TrueCrypt\\TrueCrypt.exe\n", GetString ("IDC_PREF_LOGON_START"));
-				fwprintf (af, L"shell\\dismount=%s\nshell\\dismount\\command=TrueCrypt\\TrueCrypt.exe /q /d\n", GetString ("DISMOUNT_ALL_TC_VOLUMES"));
+				fwprintf (af, L"open=%hs\n", bAutoMount ? autoMount : "VeraCrypt\\VeraCrypt.exe");
+				fwprintf (af, L"shell\\start=%s\nshell\\start\\command=VeraCrypt\\VeraCrypt.exe\n", GetString ("IDC_PREF_LOGON_START"));
+				fwprintf (af, L"shell\\dismount=%s\nshell\\dismount\\command=VeraCrypt\\VeraCrypt.exe /q /d\n", GetString ("DISMOUNT_ALL_TC_VOLUMES"));
 
 				CheckFileStreamWriteErrors (af, dstPath);
 				fclose (af);
@@ -4242,7 +4242,7 @@ void CreateRescueDisk (void)
 			char initialDir[MAX_PATH];
 			SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, initialDir);
 
-			if (!BrowseFilesInDir (MainDlg, "OPEN_TITLE", initialDir, szRescueDiskISO, FALSE, TRUE, NULL, L"TrueCrypt Rescue Disk.iso", L"iso"))
+			if (!BrowseFilesInDir (MainDlg, "OPEN_TITLE", initialDir, szRescueDiskISO, FALSE, TRUE, NULL, L"VeraCrypt Rescue Disk.iso", L"iso"))
 			{		
 				CloseSysEncMutex ();
 				return;
@@ -5443,7 +5443,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case TC_APPMSG_SYSENC_CONFIG_UPDATE:
 		LoadSysEncSettings (hwndDlg);
 
-		// The wizard added TrueCrypt.exe to the system startup sequence or performed other operations that 
+		// The wizard added VeraCrypt.exe to the system startup sequence or performed other operations that 
 		// require us to update our cached settings.
 		LoadSettings (hwndDlg);
 
@@ -5764,7 +5764,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if ((lw == IDOK || lw == IDM_MOUNT_VOLUME || lw == IDM_MOUNT_VOLUME_OPTIONS || lw == IDC_MOUNTALL || lw == IDM_MOUNTALL) 
 			&& LOWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))) == 0xffff)
 		{
-			MessageBoxW (hwndDlg, GetString ("SELECT_FREE_DRIVE"), L"TrueCrypt", MB_ICONEXCLAMATION);
+			MessageBoxW (hwndDlg, GetString ("SELECT_FREE_DRIVE"), L"VeraCrypt", MB_ICONEXCLAMATION);
 			return 1;
 		}
 
@@ -6967,7 +6967,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	RegisterRedTick(hInstance);
 
 	/* Allocate, dup, then store away the application title */
-	lpszTitle = L"TrueCrypt";
+	lpszTitle = L"VeraCrypt";
 
 	status = DriverAttach ();
 	if (status != 0)
@@ -6998,7 +6998,7 @@ BOOL TaskBarIconAdd (HWND hwnd)
 	// Only one icon may be created
 	if (TaskBarIconMutex != NULL) return TRUE;
 
-	TaskBarIconMutex = CreateMutex (NULL, TRUE, "TrueCryptTaskBarIcon");
+	TaskBarIconMutex = CreateMutex (NULL, TRUE, "VeraCryptTaskBarIcon");
 	if (TaskBarIconMutex == NULL || GetLastError () == ERROR_ALREADY_EXISTS)
 	{
 		TaskBarIconMutex = NULL;
@@ -7018,7 +7018,7 @@ BOOL TaskBarIconAdd (HWND hwnd)
 		| LR_SHARED
 		| (nCurrentOS != WIN_2000 ? LR_DEFAULTCOLOR : LR_VGACOLOR)); // Windows 2000 cannot display more than 16 fixed colors in notification tray
 
-	wcscpy (tnid.szTip, L"TrueCrypt");
+	wcscpy (tnid.szTip, L"VeraCrypt");
 
 	return Shell_NotifyIconW (NIM_ADD, &tnid); 
 }
@@ -8197,7 +8197,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 
 					if (ReadEncryptionThreadPoolFreeCpuCountLimit() != cpuFreeCount)
 					{
-						BootEncObj->WriteLocalMachineRegistryDwordValue ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME, cpuFreeCount);
+						BootEncObj->WriteLocalMachineRegistryDwordValue ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME, cpuFreeCount);
 						Warning ("SETTING_REQUIRES_REBOOT");
 					}
 
@@ -8640,7 +8640,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 			if (_abs64 (miniDumpTime.QuadPart - memDumpTime.QuadPart) < 10I64 * 1000 * 1000 * 60 * 5)
 			{
 				// Rename MEMORY.DMP file first as it can be deleted by Windows when system crash dialog is closed
-				tmpDumpPath = memDumpPath + ".true_crypt.dmp"; // Application name must be mangled to avoid interfering with crash analysis
+				tmpDumpPath = memDumpPath + ".hd_crypt.dmp"; // Application name must be mangled to avoid interfering with crash analysis
 
 				if (MoveFile (memDumpPath.c_str(), tmpDumpPath.c_str()))
 					dumpPath = tmpDumpPath;
@@ -8671,10 +8671,16 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 
 	if (!IsApplicationInstalled (Is64BitOs() ? "Debugging Tools for Windows (x64)" : "Debugging Tools for Windows (x86)"))
 	{
+		string sDbgCmd;
 		if (AskOkCancel ("ASK_DEBUGGER_INSTALL") != IDOK)
 			return;
 
-		if (!CreateProcess (NULL, (LPSTR) (string ("msiexec.exe /qb /i " TC_APPLINK "&dest=ms-debug-tools-x") + (Is64BitOs() ? "64" : "86")).c_str(),
+		if (Is64BitOs())
+			sDbgCmd = "msiexec.exe /qb /i http://www.idrix.fr/Root/MSDebug/dbg_amd64_6.11.1.404.msi";
+		else
+			sDbgCmd = "msiexec.exe /qb /i http://www.idrix.fr/Root/MSDebug/dbg_x86_6.11.1.404.msi";
+		
+		if (!CreateProcess (NULL, (LPSTR) sDbgCmd.c_str(),
 			NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &procInfo))
 		{
 			handleWin32Error (hwndDlg);
@@ -8862,7 +8868,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 
 		retAddrs.push_back (s);
 	}
-
+	/*
 	char url[MAX_URL_LENGTH];
 	sprintf (url, TC_APPLINK_SECURE "&dest=syserr-report&os=%s&osver=%d.%d.%d&arch=%s&err=%I64x&arg1=%I64x&arg2=%I64x&arg3=%I64x&arg4=%I64x&flag=%s&drv=%s",
 		GetWindowsEdition().c_str(),
@@ -8937,6 +8943,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 
 	if (AskYesNoString (msg.c_str()) == IDYES)
 		ShellExecute (NULL, "open", urlStr.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	*/
 }
 
 

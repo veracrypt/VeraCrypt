@@ -12,18 +12,18 @@
 #ifndef TCDEFS_H
 #define TCDEFS_H
 
-#define TC_APP_NAME						"TrueCrypt"
+#define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"7.1a"
+#define VERSION_STRING					"1.0a"
 
 // Version number to compare against driver
-#define VERSION_NUM						0x071a
+#define VERSION_NUM						0x010a
 
 // Release date
-#define TC_STR_RELEASE_DATE				"February 7, 2012"
-#define TC_RELEASE_DATE_YEAR			2012
-#define TC_RELEASE_DATE_MONTH			2
+#define TC_STR_RELEASE_DATE				"June 22, 2013"
+#define TC_RELEASE_DATE_YEAR			2013
+#define TC_RELEASE_DATE_MONTH			6
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -247,13 +247,13 @@ void EraseMemory (void *memory, int size);
 #define TC_MAX_PATH		260	/* Includes the null terminator */
 #endif
 
-#define TC_STR_RELEASED_BY "Released by TrueCrypt Foundation on " TC_STR_RELEASE_DATE
+#define TC_STR_RELEASED_BY "Released by IDRIX on " TC_STR_RELEASE_DATE
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 
-#define TC_HOMEPAGE "http://www.truecrypt.org/"
-#define TC_APPLINK "http://www.truecrypt.org/applink?version=" VERSION_STRING
-#define TC_APPLINK_SECURE "https://www.truecrypt.org/applink?version=" VERSION_STRING
+#define TC_HOMEPAGE "http://www.idrix.fr/"
+#define TC_APPLINK "http://www.idrix.fr/
+#define TC_APPLINK_SECURE "https://www.idrix.fr/
 
 enum
 {

@@ -239,7 +239,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetCheckBox (hwndDlg, IDC_AGREE, bLicenseAccepted);
 
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), L"Please read the license terms");
-				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_INFO), L"You must accept these license terms before you can use, extract, or install TrueCrypt.");
+				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_INFO), L"You must accept these license terms before you can use, extract, or install VeraCrypt.");
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), L"IMPORTANT: By checking the checkbox below, you accept these license terms and signify that you understand and agree to them. Please click the 'arrow down' icon to see the rest of the license.");	// Cannot be localized by third parties (for legal reasons).
 				//SendMessage (GetDlgItem (hwndDlg, IDC_BOX_HELP), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 
@@ -308,7 +308,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (strlen(WizardDestExtractPath) < 2)
 			{ 
 				strcpy (WizardDestExtractPath, SetupFilesDir);
-				strncat (WizardDestExtractPath, "TrueCrypt\\", sizeof (WizardDestExtractPath) - strlen (WizardDestExtractPath) - 1);
+				strncat (WizardDestExtractPath, "VeraCrypt\\", sizeof (WizardDestExtractPath) - strlen (WizardDestExtractPath) - 1);
 			}
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_DESTINATION), EM_LIMITTEXT, TC_MAX_PATH - 1, 0);
@@ -838,7 +838,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 
-			SetWindowText (hwndDlg, "TrueCrypt Setup " VERSION_STRING);
+			SetWindowText (hwndDlg, "VeraCrypt Setup " VERSION_STRING);
 
 			DonColorSchemeId = GetDonVal (2, 9);
 
@@ -903,14 +903,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (nCurrentOS == WIN_2000)
 				{
-					WarningDirect (L"Warning: Please note that this may be the last version of TrueCrypt that supports Windows 2000. If you want to be able to upgrade to future versions of TrueCrypt (which is highly recommended), you will need to upgrade to Windows XP or a later version of Windows.\n\nNote: Microsoft stopped issuing security updates for Windows 2000 to the general public on 7/13/2010 (the last non-security update for Windows 2000 was issued to the general public in 2005).");
+					WarningDirect (L"Warning: Please note that this may be the last version of VeraCrypt that supports Windows 2000. If you want to be able to upgrade to future versions of VeraCrypt (which is highly recommended), you will need to upgrade to Windows XP or a later version of Windows.\n\nNote: Microsoft stopped issuing security updates for Windows 2000 to the general public on 7/13/2010 (the last non-security update for Windows 2000 was issued to the general public in 2005).");
 
 
 					HKEY hkey;
 
 					if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Updates\\Windows 2000\\SP5\\Update Rollup 1", 0, KEY_READ, &hkey) != ERROR_SUCCESS)
 					{
-						ErrorDirect (L"TrueCrypt requires Update Rollup 1 for Windows 2000 SP4 to be installed.\n\nFor more information, see http://support.microsoft.com/kb/891861");
+						ErrorDirect (L"VeraCrypt requires Update Rollup 1 for Windows 2000 SP4 to be installed.\n\nFor more information, see http://support.microsoft.com/kb/891861");
 						AbortProcessSilent ();
 					}
 

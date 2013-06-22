@@ -19,28 +19,28 @@ extern "C" {
 // Specifies what files to install, where (determined by the prefix), and in what order
 static char *szFiles[]=
 {
-	"ATrueCrypt User Guide.pdf",
+	"AVeraCrypt User Guide.pdf",
 	"ALicense.txt",
-	"ATrueCrypt.exe",
-	"ATrueCrypt Format.exe",
-	"Atruecrypt.sys",
-	"Atruecrypt-x64.sys",
-	"Dtruecrypt.sys",
-	"ATrueCrypt Setup.exe"
+	"AVeraCrypt.exe",
+	"AVeraCrypt Format.exe",
+	"Averacrypt.sys",
+	"Averacrypt-x64.sys",
+	"Dveracrypt.sys",
+	"AVeraCrypt Setup.exe"
 };
 
 // Specifies what files are included in self-extracting packages (no other files will be packaged or extracted).
 static char *szCompressedFiles[]=
 {
-	"TrueCrypt User Guide.pdf",
+	"VeraCrypt User Guide.pdf",
 	"License.txt",
-	"TrueCrypt.exe",
-	"TrueCrypt Format.exe",
-	"truecrypt.sys",
-	"truecrypt-x64.sys"
+	"VeraCrypt.exe",
+	"VeraCrypt Format.exe",
+	"veracrypt.sys",
+	"veracrypt-x64.sys"
 };
 
-#define FILENAME_64BIT_DRIVER	"truecrypt-x64.sys"
+#define FILENAME_64BIT_DRIVER	"veracrypt-x64.sys"
 #define NBR_COMPRESSED_FILES (sizeof(szCompressedFiles) / sizeof(szCompressedFiles[0]))
 
 void localcleanup (void);

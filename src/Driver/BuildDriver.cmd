@@ -143,7 +143,7 @@ popd
 if "%TC_ARG_CMD%"=="-clean" exit /B 0
 
 md "%TC_COPY_DIR%\Setup Files" >NUL: 2>NUL:
-copy /B /Y obj%TC_BUILD_ALT_DIR%\%TC_BUILD_ARCH_DIR%\truecrypt.sys "%TC_COPY_DIR%\Setup Files\truecrypt%TC_ARCH_SUFFIX%.sys" >NUL:
+copy /B /Y obj%TC_BUILD_ALT_DIR%\%TC_BUILD_ARCH_DIR%\veracrypt.sys "%TC_COPY_DIR%\Setup Files\veracrypt%TC_ARCH_SUFFIX%.sys" >NUL:
 
 if errorlevel 1 (
 	echo BuildDriver.cmd: error: Cannot copy target. >&2
@@ -151,7 +151,7 @@ if errorlevel 1 (
 )
 
 if %TC_TEST_SIGN% equ 1 (
-	signtool sign /s "%TC_KERNEL_TEST_CERTIFICATE_STORE%" /n "%TC_KERNEL_TEST_CERTIFICATE_NAME%" "%TC_COPY_DIR%\Setup Files\truecrypt%TC_ARCH_SUFFIX%.sys" >NUL:
+	signtool sign /s "%TC_KERNEL_TEST_CERTIFICATE_STORE%" /n "%TC_KERNEL_TEST_CERTIFICATE_NAME%" "%TC_COPY_DIR%\Setup Files\veracrypt%TC_ARCH_SUFFIX%.sys" >NUL:
 
 	if errorlevel 1 (
 		echo BuildDriver.cmd: error: Cannot test-sign target. >&2

@@ -1,4 +1,4 @@
-This archive contains the source code of TrueCrypt 7.1a.
+This archive contains the source code of VeraCrypt 1.0a. It is based on original TrueCrypt 7.1a with security enhancements modifications
 
 
 Important

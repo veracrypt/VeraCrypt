@@ -4,9 +4,9 @@
  Copyright (c) 1998-2000 Paul Le Roux and which is governed by the 'License
  Agreement for Encryption for the Masses'. Modifications and additions to
  the original source code (contained in this file) and all other portions
- of this file are Copyright (c) 2003-2012 TrueCrypt Developers Association
+ of this file are Copyright (c) 2003-2012 VeraCrypt Developers Association
  and are governed by the TrueCrypt License 3.0 the full text of which is
- contained in the file License.txt included in TrueCrypt binary and source
+ contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
 
 #include "Tcdefs.h"
@@ -306,7 +306,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 		BOOL bResult;
 		char szDir[TC_MAX_PATH];
 
-		if (strstr (szFiles[i], "TrueCrypt Setup") != 0)
+		if (strstr (szFiles[i], "VeraCrypt Setup") != 0)
 		{
 			if (bUninstall)
 				continue;	// Prevent 'access denied' error
@@ -344,9 +344,9 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 		{
 			SetCurrentDirectory (SetupFilesDir);
 
-			if (strstr (szFiles[i], "TrueCrypt Setup") != 0)
+			if (strstr (szFiles[i], "VeraCrypt Setup") != 0)
 			{
-				// Copy ourselves (the distribution package) to the destination location as 'TrueCrypt Setup.exe'
+				// Copy ourselves (the distribution package) to the destination location as 'VeraCrypt Setup.exe'
 
 				char mp[MAX_PATH];
 
@@ -361,7 +361,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 				curFileName [strlen (szFiles[i]) - 1] = 0;
 
 				if (Is64BitOs ()
-					&& strcmp (szFiles[i], "Dtruecrypt.sys") == 0)
+					&& strcmp (szFiles[i], "Dveracrypt.sys") == 0)
 				{
 					driver64 = TRUE;
 					strncpy (curFileName, FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
@@ -409,7 +409,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 
 								if (bUpgrade && InstalledVersion < 0x700)
 								{
-									bResult = WriteLocalMachineRegistryString ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", "ImagePath", "System32\\drivers\\truecrypt.sys", TRUE);
+									bResult = WriteLocalMachineRegistryString ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", "ImagePath", "System32\\drivers\\veracrypt.sys", TRUE);
 									if (!bResult)
 									{
 										handleWin32Error (hwndDlg);
@@ -435,7 +435,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 						EnableWow64FsRedirection (TRUE);
 				}
 
-				if (bResult && strcmp (szFiles[i], "ATrueCrypt.exe") == 0)
+				if (bResult && strcmp (szFiles[i], "AVeraCrypt.exe") == 0)
 				{
 					string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe");
 					if (FileExists (servicePath.c_str()))
@@ -501,7 +501,7 @@ err:
 
 		SetCurrentDirectory (SetupFilesDir);
 		SetCurrentDirectory ("Setup files");
-		h = FindFirstFile ("TrueCrypt User Guide.*.pdf", &f);
+		h = FindFirstFile ("VeraCrypt User Guide.*.pdf", &f);
 		if (h != INVALID_HANDLE_VALUE)
 		{
 			char d[MAX_PATH*2];
@@ -527,7 +527,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 
 	if (SystemEncryptionUpdate)
 	{
-		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\TrueCrypt",
+		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt",
 			0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) == ERROR_SUCCESS)
 		{
 			strcpy (szTmp, VERSION_STRING);
@@ -555,14 +555,14 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 	if (bInstallType)
 	{
 
-		key = "Software\\Classes\\TrueCryptVolume";
+		key = "Software\\Classes\\VeraCryptVolume";
 		RegMessage (hwndDlg, key);
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE,
 				    key,
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		strcpy (szTmp, "TrueCrypt Volume");
+		strcpy (szTmp, "VeraCrypt Volume");
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 
@@ -573,40 +573,40 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 		RegCloseKey (hkey);
 		hkey = 0;
 
-		key = "Software\\Classes\\TrueCryptVolume\\DefaultIcon";
+		key = "Software\\Classes\\VeraCryptVolume\\DefaultIcon";
 		RegMessage (hwndDlg, key);
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE,
 				    key,
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		sprintf (szTmp, "%sTrueCrypt.exe,1", szDir);
+		sprintf (szTmp, "%sVeraCrypt.exe,1", szDir);
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 
 		RegCloseKey (hkey);
 		hkey = 0;
 
-		key = "Software\\Classes\\TrueCryptVolume\\Shell\\open\\command";
+		key = "Software\\Classes\\VeraCryptVolume\\Shell\\open\\command";
 		RegMessage (hwndDlg, key);
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE,
 				    key,
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		sprintf (szTmp, "\"%sTrueCrypt.exe\" /v \"%%1\"", szDir );
+		sprintf (szTmp, "\"%sVeraCrypt.exe\" /v \"%%1\"", szDir );
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 
 		RegCloseKey (hkey);
 		hkey = 0;
 
-		key = "Software\\Classes\\.tc";
+		key = "Software\\Classes\\.hc";
 		BOOL typeClassChanged = TRUE;
 		char typeClass[256];
 		DWORD typeClassSize = sizeof (typeClass);
 
-		if (ReadLocalMachineRegistryString (key, "", typeClass, &typeClassSize) && typeClassSize > 0 && strcmp (typeClass, "TrueCryptVolume") == 0)
+		if (ReadLocalMachineRegistryString (key, "", typeClass, &typeClassSize) && typeClassSize > 0 && strcmp (typeClass, "VeraCryptVolume") == 0)
 			typeClassChanged = FALSE;
 
 		RegMessage (hwndDlg, key);
@@ -615,7 +615,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		strcpy (szTmp, "TrueCryptVolume");
+		strcpy (szTmp, "VeraCryptVolume");
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 		
@@ -626,7 +626,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 			SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	}
 
-	key = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\TrueCrypt";
+	key = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt";
 	RegMessage (hwndDlg, key);
 	if (RegCreateKeyEx (HKEY_LOCAL_MACHINE,
 		key,
@@ -634,15 +634,15 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 		goto error;
 
 	/* IMPORTANT: IF YOU CHANGE THIS IN ANY WAY, REVISE AND UPDATE SetInstallationPath() ACCORDINGLY! */ 
-	sprintf (szTmp, "\"%sTrueCrypt Setup.exe\" /u", szDir);
+	sprintf (szTmp, "\"%sVeraCrypt Setup.exe\" /u", szDir);
 	if (RegSetValueEx (hkey, "UninstallString", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	sprintf (szTmp, "\"%sTrueCrypt Setup.exe\" /c", szDir);
+	sprintf (szTmp, "\"%sVeraCrypt Setup.exe\" /c", szDir);
 	if (RegSetValueEx (hkey, "ModifyPath", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	sprintf (szTmp, "\"%sTrueCrypt Setup.exe\"", szDir);
+	sprintf (szTmp, "\"%sVeraCrypt Setup.exe\"", szDir);
 	if (RegSetValueEx (hkey, "DisplayIcon", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
@@ -650,11 +650,11 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 	if (RegSetValueEx (hkey, "DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 		
-	strcpy (szTmp, "TrueCrypt");
+	strcpy (szTmp, "VeraCrypt");
 	if (RegSetValueEx (hkey, "DisplayName", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	strcpy (szTmp, "TrueCrypt Foundation");
+	strcpy (szTmp, "VeraCrypt Foundation");
 	if (RegSetValueEx (hkey, "Publisher", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
@@ -696,7 +696,7 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	StatusMessage (hwndDlg, "REMOVING_APPDATA");
 
 	SHGetFolderPath (NULL, CSIDL_APPDATA, NULL, 0, path);
-	strcat (path, "\\TrueCrypt\\");
+	strcat (path, "\\VeraCrypt\\");
 
 	// Delete favorite volumes file
 	sprintf (path2, "%s%s", path, TC_APPD_FILENAME_FAVORITE_VOLUMES);
@@ -724,7 +724,7 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	StatDeleteFile (path2);
 
 	SHGetFolderPath (NULL, CSIDL_APPDATA, NULL, 0, path);
-	strcat (path, "\\TrueCrypt");
+	strcat (path, "\\VeraCrypt");
 	RemoveMessage (hwndDlg, path);
 	if (!StatRemoveDirectory (path))
 	{
@@ -750,20 +750,20 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 	if (!bRemoveDeprecated)
 		StatusMessage (hwndDlg, "REMOVING_REG");
 
-	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\TrueCrypt");
-	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\TrueCryptVolume\\Shell\\open\\command");
-	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\TrueCryptVolume\\Shell\\open");
-	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\TrueCryptVolume\\Shell");
-	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\TrueCryptVolume\\DefaultIcon");
-	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\TrueCryptVolume");
-	RegDeleteKey (HKEY_CURRENT_USER, "Software\\TrueCrypt");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell\\open\\command");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell\\open");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\DefaultIcon");
+	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume");
+	RegDeleteKey (HKEY_CURRENT_USER, "Software\\VeraCrypt");
 
 	if (!bRemoveDeprecated)
 	{
 		GetStartupRegKeyName (regk);
-		DeleteRegistryValue (regk, "TrueCrypt");
+		DeleteRegistryValue (regk, "VeraCrypt");
 
-		RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\.tc");
+		RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\.hc");
 		SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	}
 
@@ -801,7 +801,7 @@ retry:
 	if (hService == NULL)
 		goto error;
 
-	if (strcmp ("truecrypt", lpszService) == 0)
+	if (strcmp ("veracrypt", lpszService) == 0)
 	{
 		try
 		{
@@ -862,7 +862,7 @@ retry:
 
 try_delete:
 
-	if (strcmp ("truecrypt", lpszService) == 0)
+	if (strcmp ("veracrypt", lpszService) == 0)
 		StatusMessage (hwndDlg, "REMOVING_DRIVER");
 	else
 		StatusMessageParam (hwndDlg, "REMOVING", lpszService);
@@ -1068,8 +1068,8 @@ BOOL DoDriverUnload (HWND hwndDlg)
 	else
 	{
 		// Note that the driver may have already been unloaded during this session (e.g. retry after an error, etc.) so it is not 
-		// guaranteed that the user is installing TrueCrypt for the first time now (we also cannot know if the user has already
-		// installed and used TrueCrypt on another system before).
+		// guaranteed that the user is installing VeraCrypt for the first time now (we also cannot know if the user has already
+		// installed and used VeraCrypt on another system before).
 		bPossiblyFirstTimeInstall = TRUE;
 	}
 
@@ -1129,7 +1129,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 	if (bSlash == FALSE)
 		strcat (szLinkDir, "\\");
 
-	strcat (szLinkDir, "TrueCrypt");
+	strcat (szLinkDir, "VeraCrypt");
 
 	// Global start menu
 	{
@@ -1137,7 +1137,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 		char path[TC_MAX_PATH];
 
 		SHGetSpecialFolderPath (hwndDlg, path, CSIDL_COMMON_PROGRAMS, 0);
-		strcat (path, "\\TrueCrypt");
+		strcat (path, "\\VeraCrypt");
 
 		if (_stat (path, &st) == 0)
 		{
@@ -1147,22 +1147,22 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 	}
 
 	// Start menu entries
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt.lnk");
+	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
 		goto error;
 
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt Website.url");
+	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt Website.url");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
 		goto error;
 
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\Uninstall TrueCrypt.lnk");
+	sprintf (szTmp2, "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
 		goto error;
 	
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt User's Guide.lnk");
+	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
 	DeleteFile (szTmp2);
 
 	// Start menu group
@@ -1177,7 +1177,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 	else
 		SHGetSpecialFolderPath (hwndDlg, szLinkDir, CSIDL_DESKTOPDIRECTORY, 0);
 
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt.lnk");
+	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
@@ -1215,7 +1215,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 	if (bSlash == FALSE)
 		strcat (szLinkDir, "\\");
 
-	strcat (szLinkDir, "TrueCrypt");
+	strcat (szLinkDir, "VeraCrypt");
 
 	strcpy (szDir, szDestDir);
 	x = strlen (szDestDir);
@@ -1244,14 +1244,14 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 			}
 		}
 
-		sprintf (szTmp, "%s%s", szDir, "TrueCrypt.exe");
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt.lnk");
+		sprintf (szTmp, "%s%s", szDir, "VeraCrypt.exe");
+		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
 		if (CreateLink (szTmp, "", szTmp2) != S_OK)
 			goto error;
 
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt Website.url");
+		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt Website.url");
 		IconMessage (hwndDlg, szTmp2);
 		f = fopen (szTmp2, "w");
 		if (f)
@@ -1264,15 +1264,15 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		else
 			goto error;
 
-		sprintf (szTmp, "%s%s", szDir, "TrueCrypt Setup.exe");
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\Uninstall TrueCrypt.lnk");
+		sprintf (szTmp, "%s%s", szDir, "VeraCrypt Setup.exe");
+		sprintf (szTmp2, "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
 		strcpy (szTmp3, "/u");
 
 		IconMessage (hwndDlg, szTmp2);
 		if (CreateLink (szTmp, szTmp3, szTmp2) != S_OK)
 			goto error;
 
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt User's Guide.lnk");
+		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
 		DeleteFile (szTmp2);
 	}
 
@@ -1293,8 +1293,8 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		else
 			SHGetSpecialFolderPath (hwndDlg, szLinkDir, CSIDL_DESKTOPDIRECTORY, 0);
 
-		sprintf (szTmp, "%s%s", szDir, "TrueCrypt.exe");
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\TrueCrypt.lnk");
+		sprintf (szTmp, "%s%s", szDir, "VeraCrypt.exe");
+		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
 
@@ -1369,7 +1369,7 @@ static void SetSystemRestorePoint (HWND hwndDlg, BOOL finalize)
 		RestPtInfo.dwEventType = BEGIN_SYSTEM_CHANGE;
 		RestPtInfo.dwRestorePtType = bUninstall ? APPLICATION_UNINSTALL : APPLICATION_INSTALL | DEVICE_DRIVER_INSTALL;
 		RestPtInfo.llSequenceNumber = 0;
-		strcpy (RestPtInfo.szDescription, bUninstall ? "TrueCrypt uninstallation" : "TrueCrypt installation");
+		strcpy (RestPtInfo.szDescription, bUninstall ? "VeraCrypt uninstallation" : "VeraCrypt installation");
 
 		if(!_SRSetRestorePoint (&RestPtInfo, &SMgrStatus)) 
 		{
@@ -1415,7 +1415,7 @@ void DoUninstall (void *arg)
 		if (!Rollback && bSystemRestore && !bTempSkipSysRestore)
 			SetSystemRestorePoint (hwndDlg, FALSE);
 
-		if (DoServiceUninstall (hwndDlg, "truecrypt") == FALSE)
+		if (DoServiceUninstall (hwndDlg, "veracrypt") == FALSE)
 		{
 			bOK = FALSE;
 		}
@@ -1441,10 +1441,10 @@ void DoUninstall (void *arg)
 			FILE *f;
 
 			// Deprecated service
-			DoServiceUninstall (hwndDlg, "TrueCryptService");
+			DoServiceUninstall (hwndDlg, "VeraCryptService");
 
 			GetTempPath (sizeof (temp), temp);
-			_snprintf (UninstallBatch, sizeof (UninstallBatch), "%s\\TrueCrypt-Uninstall.bat", temp);
+			_snprintf (UninstallBatch, sizeof (UninstallBatch), "%s\\VeraCrypt-Uninstall.bat", temp);
 
 			UninstallBatch [sizeof(UninstallBatch)-1] = 0;
 
@@ -1459,8 +1459,8 @@ void DoUninstall (void *arg)
 					"if exist \"%s%s\" goto loop\n"
 					"rmdir \"%s\"\n"
 					"del \"%s\"",
-					InstallationPath, "TrueCrypt Setup.exe",
-					InstallationPath, "TrueCrypt Setup.exe",
+					InstallationPath, "VeraCrypt Setup.exe",
+					InstallationPath, "VeraCrypt Setup.exe",
 					InstallationPath,
 					UninstallBatch
 					);
@@ -1560,7 +1560,7 @@ void DoInstall (void *arg)
 	UpdateProgressBarProc(50);
 
 	// Remove deprecated
-	DoServiceUninstall (hwndDlg, "TrueCryptService");
+	DoServiceUninstall (hwndDlg, "VeraCryptService");
 	
 	UpdateProgressBarProc(55);
 
@@ -1639,12 +1639,12 @@ void DoInstall (void *arg)
 
 					GetStartupRegKeyName (regk);
 
-					ReadRegistryString (regk, "TrueCrypt", "", regVal, sizeof (regVal));
+					ReadRegistryString (regk, "VeraCrypt", "", regVal, sizeof (regVal));
 
 					if (strstr (regVal, "favorites"))
 					{
 						strcat_s (regVal, sizeof (regVal), " /a logon");
-						WriteRegistryString (regk, "TrueCrypt", regVal);
+						WriteRegistryString (regk, "VeraCrypt", regVal);
 					}
 				}
 			}
@@ -1655,10 +1655,10 @@ void DoInstall (void *arg)
 	}
 
 	GetWindowsDirectory (path, sizeof (path));
-	strcat_s (path, sizeof (path), "\\TrueCrypt Setup.exe");
+	strcat_s (path, sizeof (path), "\\VeraCrypt Setup.exe");
 	DeleteFile (path);
 
-	if (UpdateProgressBarProc(63) && UnloadDriver && DoServiceUninstall (hwndDlg, "truecrypt") == FALSE)
+	if (UpdateProgressBarProc(63) && UnloadDriver && DoServiceUninstall (hwndDlg, "veracrypt") == FALSE)
 	{
 		bOK = FALSE;
 	}
@@ -1786,27 +1786,27 @@ void SetInstallationPath (HWND hwndDlg)
 
 	memset (InstallationPath, 0, sizeof (InstallationPath));
 
-	// Determine if TrueCrypt is already installed and try to determine its "Program Files" location
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\TrueCrypt", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
+	// Determine if VeraCrypt is already installed and try to determine its "Program Files" location
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
 	{
-		/* Default 'UninstallString' registry strings written by past versions of TrueCrypt:
+		/* Default 'UninstallString' registry strings written by past versions of VeraCrypt:
 		------------------------------------------------------------------------------------
-		1.0		C:\WINDOWS\TrueCrypt Setup.exe /u			[optional]
-		1.0a	C:\WINDOWS\TrueCrypt Setup.exe /u			[optional]
-		2.0		C:\WINDOWS\TrueCrypt Setup.exe /u			[optional]
-		2.1		C:\WINDOWS\TrueCrypt Setup.exe /u			[optional]
-		2.1a	C:\WINDOWS\TrueCrypt Setup.exe /u			[optional]
-		3.0		C:\WINDOWS\TrueCrypt Setup.exe /u			[optional]
-		3.0a	C:\WINDOWS\TrueCrypt Setup.exe /u			[optional]
+		1.0		C:\WINDOWS\VeraCrypt Setup.exe /u			[optional]
+		1.0a	C:\WINDOWS\VeraCrypt Setup.exe /u			[optional]
+		2.0		C:\WINDOWS\VeraCrypt Setup.exe /u			[optional]
+		2.1		C:\WINDOWS\VeraCrypt Setup.exe /u			[optional]
+		2.1a	C:\WINDOWS\VeraCrypt Setup.exe /u			[optional]
+		3.0		C:\WINDOWS\VeraCrypt Setup.exe /u			[optional]
+		3.0a	C:\WINDOWS\VeraCrypt Setup.exe /u			[optional]
 		3.1		The UninstallString was NEVER written (fortunately, 3.1a replaced 3.1 after 2 weeks)
-		3.1a	C:\WINDOWS\TrueCrypt Setup.exe /u
-		4.0		C:\WINDOWS\TrueCrypt Setup.exe /u C:\Program Files\TrueCrypt
-		4.1		C:\WINDOWS\TrueCrypt Setup.exe /u C:\Program Files\TrueCrypt
-		4.2		C:\WINDOWS\TrueCrypt Setup.exe /u C:\Program Files\TrueCrypt
-		4.2a	C:\WINDOWS\TrueCrypt Setup.exe /u C:\Program Files\TrueCrypt
-		4.3		"C:\Program Files\TrueCrypt\TrueCrypt Setup.exe" /u C:\Program Files\TrueCrypt\
-		4.3a	"C:\Program Files\TrueCrypt\TrueCrypt Setup.exe" /u C:\Program Files\TrueCrypt\
-		5.0+	"C:\Program Files\TrueCrypt\TrueCrypt Setup.exe" /u
+		3.1a	C:\WINDOWS\VeraCrypt Setup.exe /u
+		4.0		C:\WINDOWS\VeraCrypt Setup.exe /u C:\Program Files\VeraCrypt
+		4.1		C:\WINDOWS\VeraCrypt Setup.exe /u C:\Program Files\VeraCrypt
+		4.2		C:\WINDOWS\VeraCrypt Setup.exe /u C:\Program Files\VeraCrypt
+		4.2a	C:\WINDOWS\VeraCrypt Setup.exe /u C:\Program Files\VeraCrypt
+		4.3		"C:\Program Files\VeraCrypt\VeraCrypt Setup.exe" /u C:\Program Files\VeraCrypt\
+		4.3a	"C:\Program Files\VeraCrypt\VeraCrypt Setup.exe" /u C:\Program Files\VeraCrypt\
+		5.0+	"C:\Program Files\VeraCrypt\VeraCrypt Setup.exe" /u
 
 		Note: In versions 1.0-3.0a the user was able to choose whether to install the uninstaller.
 			  The default was to install it. If it wasn't installed, there was no UninstallString.
@@ -1818,7 +1818,7 @@ void SetInstallationPath (HWND hwndDlg)
 		{
 			size_t len = 0;
 
-			// Cut and paste the location (path) where TrueCrypt is installed to InstallationPath
+			// Cut and paste the location (path) where VeraCrypt is installed to InstallationPath
 			if (rv[0] == '"')
 			{
 				// 4.3 or later
@@ -1851,7 +1851,7 @@ void SetInstallationPath (HWND hwndDlg)
 				{
 					// 1.0-3.1a (except 3.1)
 
-					// We know that TrueCrypt is installed but don't know where. It's not safe to continue installing
+					// We know that VeraCrypt is installed but don't know where. It's not safe to continue installing
 					// over the old version.
 
 					Error ("UNINSTALL_OLD_VERSION_FIRST");
@@ -1875,11 +1875,11 @@ void SetInstallationPath (HWND hwndDlg)
 	{
 		char mp[MAX_PATH];
 
-		// Determine whether we were launched from the folder where TrueCrypt is installed
+		// Determine whether we were launched from the folder where VeraCrypt is installed
 		GetModuleFileName (NULL, mp, sizeof (mp));
 		if (strncmp (InstallationPath, mp, min (strlen(InstallationPath), strlen(mp))) == 0)
 		{
-			// We were launched from the folder where TrueCrypt is installed
+			// We were launched from the folder where VeraCrypt is installed
 
 			if (!IsNonInstallMode() && !bDevm)
 				bChangeMode = TRUE;
@@ -1906,7 +1906,7 @@ void SetInstallationPath (HWND hwndDlg)
 			}
 		}
 
-		strncat (path, "\\TrueCrypt\\", min (strlen("\\TrueCrypt\\"), sizeof(path)-strlen(path)-1));
+		strncat (path, "\\VeraCrypt\\", min (strlen("\\VeraCrypt\\"), sizeof(path)-strlen(path)-1));
 		strncpy (InstallationPath, path, sizeof(InstallationPath)-1);
 	}
 
@@ -2020,7 +2020,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 
 	SelfExtractStartupInit();
 
-	lpszTitle = L"TrueCrypt Setup";
+	lpszTitle = L"VeraCrypt Setup";
 
 	InitCommonControls ();
 
@@ -2094,13 +2094,13 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 			}
 			else if (!bDevm)
 			{
-				MessageBox (NULL, "Error: This installer file does not contain any compressed files.\n\nTo create a self-extracting installation package (with embedded compressed files), run:\n\"TrueCrypt Setup.exe\" /p", "TrueCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+				MessageBox (NULL, "Error: This installer file does not contain any compressed files.\n\nTo create a self-extracting installation package (with embedded compressed files), run:\n\"VeraCrypt Setup.exe\" /p", "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
 				exit (1);
 			}
 
 			if (bChangeMode)
 			{
-				/* TrueCrypt is already installed on this system and we were launched from the Program Files folder */
+				/* VeraCrypt is already installed on this system and we were launched from the Program Files folder */
 
 				char *tmpStr[] = {0, "SELECT_AN_ACTION", "REPAIR_REINSTALL", "UNINSTALL", "EXIT", 0};
 

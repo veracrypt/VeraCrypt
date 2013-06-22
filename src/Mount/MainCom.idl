@@ -10,17 +10,17 @@ import "wtypes.idl";
 import "..\Common\Password.h";
 
 [
-	uuid(1770F56C-7881-4591-A179-79B8001C7D42),
-	helpstring("TrueCrypt Main UAC Support Library"),
+	uuid(9ACF6176-5FC4-4690-A025-B3306A50EB6A),
+	helpstring("VeraCrypt Main UAC Support Library"),
 	version(2.4)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptMainCom
 {
 	[
-		uuid(252C9DE6-D4B9-4A59-8A10-9CA73217B3D0),
+		uuid(C786E27C-2801-482c-B45D-D4357B270A29),
 		object,
 		oleautomation,
-		helpstring("TrueCrypt Main UAC Support Interface")
+		helpstring("VeraCrypt Main UAC Support Interface")
 	]
 	interface ITrueCryptMainCom : IUnknown
 	{
@@ -40,8 +40,8 @@ library TrueCryptMainCom
 	};
 
 	[
-		uuid(CECBC0EE-78D9-41E6-BCF1-BC222BB224BA),
-		helpstring("TrueCrypt Main UAC Support Coclass")
+		uuid(FE8B3B95-C80C-41f7-830F-FBA271C26F7E),
+		helpstring("VeraCrypt Main UAC Support Coclass")
 	]
 	coclass TrueCryptMainCom
 	{

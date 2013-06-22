@@ -209,23 +209,23 @@ char *XmlQuoteText (const char *textSrc, char *textDst, int textDstMaxSize)
 
 int XmlWriteHeader (FILE *file)
 {
-	return fputs ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<TrueCrypt>", file);
+	return fputs ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VeraCrypt>", file);
 }
 
 
 int XmlWriteHeaderW (FILE *file)
 {
-	return fputws (L"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<TrueCrypt>", file);
+	return fputws (L"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VeraCrypt>", file);
 }
 
 
 int XmlWriteFooter (FILE *file)
 {
-	return fputs ("\n</TrueCrypt>", file);
+	return fputs ("\n</VeraCrypt>", file);
 }
 
 
 int XmlWriteFooterW (FILE *file)
 {
-	return fputws (L"\n</TrueCrypt>", file);
+	return fputws (L"\n</VeraCrypt>", file);
 }

@@ -29,8 +29,8 @@ extern "C" BOOL RegisterComServers (char *modulePath)
 	wchar_t mainModule[1024], formatModule[1024];
 	CComPtr<ITypeLib> tl, tl2;
 
-	wsprintfW (mainModule, L"%hsTrueCrypt.exe", modulePath);
-	wsprintfW (formatModule, L"%hsTrueCrypt Format.exe", modulePath);
+	wsprintfW (mainModule, L"%hsVeraCrypt.exe", modulePath);
+	wsprintfW (formatModule, L"%hsVeraCrypt Format.exe", modulePath);
 
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR, 0, SYS_WIN32);
@@ -72,10 +72,10 @@ extern "C" BOOL UnregisterComServers (char *modulePath)
 	CRegObject ro;
 	ro.FinalConstruct ();
 
-	wsprintfW (module, L"%hsTrueCrypt.exe", modulePath);
+	wsprintfW (module, L"%hsVeraCrypt.exe", modulePath);
 	ro.AddReplacement (L"MAIN_MODULE", module);
 
-	wsprintfW (module, L"%hsTrueCrypt Format.exe", modulePath);
+	wsprintfW (module, L"%hsVeraCrypt Format.exe", modulePath);
 	ro.AddReplacement (L"FORMAT_MODULE", module);
 
 	wchar_t setupModule[MAX_PATH];

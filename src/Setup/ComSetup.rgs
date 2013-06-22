@@ -1,25 +1,25 @@
 HKCR
 {
-	ForceRemove TrueCrypt.1 = s 'TrueCrypt class'
+	ForceRemove VeraCrypt.1 = s 'VeraCrypt class'
 	{
-		CLSID = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
+		CLSID = s '{FE8B3B95-C80C-41f7-830F-FBA271C26F7E}'
 	}
 
-	ForceRemove TrueCrypt = s 'TrueCrypt class'
+	ForceRemove VeraCrypt = s 'VeraCrypt class'
 	{
-		CLSID = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
-		CurVer = s 'TrueCrypt.1'
+		CLSID = s '{FE8B3B95-C80C-41f7-830F-FBA271C26F7E}'
+		CurVer = s 'VeraCrypt.1'
 	}
 
 	NoRemove CLSID
 	{
-		ForceRemove {CECBC0EE-78D9-41E6-BCF1-BC222BB224BA} = s 'TrueCrypt class'
+		ForceRemove {FE8B3B95-C80C-41f7-830F-FBA271C26F7E} = s 'VeraCrypt class'
 		{
-			ProgID = s 'TrueCrypt.1'
-			VersionIndependentProgID = s 'TrueCrypt'
+			ProgID = s 'VeraCrypt.1'
+			VersionIndependentProgID = s 'VeraCrypt'
 			LocalServer32 = s '"%MAIN_MODULE%"'
 
-			TypeLib = s '{1770F56C-7881-4591-A179-79B8001C7D42}'
+			TypeLib = s '{9ACF6176-5FC4-4690-A025-B3306A50EB6A}'
 			
 			Elevation
             {
@@ -27,44 +27,44 @@ HKCR
 				val IconReference = s '@%MAIN_MODULE%,-501'
             }
 
-			val AppId = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
+			val AppId = s '{FE8B3B95-C80C-41f7-830F-FBA271C26F7E}'
             val LocalizedString = s '@%MAIN_MODULE%,-110'
 		}
 	}
 
 	NoRemove AppId
 	{
-		ForceRemove {CECBC0EE-78D9-41E6-BCF1-BC222BB224BA} = s 'TrueCrypt class'
+		ForceRemove {FE8B3B95-C80C-41f7-830F-FBA271C26F7E} = s 'VeraCrypt class'
 		{
 			val AccessPermission = b 010004803000000040000000000000001400000002001c000100000000001400070000000101000000000005040000000102000000000005200000002002000001020000000000052000000020020000
 		}
 		
-		ForceRemove TrueCrypt.exe
+		ForceRemove VeraCrypt.exe
 		{
-			val AppId = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
+			val AppId = s '{FE8B3B95-C80C-41f7-830F-FBA271C26F7E}'
 		}
 	}
 	
-	ForceRemove TrueCryptFormat.1 = s 'TrueCryptFormat class'
+	ForceRemove VeraCryptFormat.1 = s 'VeraCryptFormat class'
 	{
-		CLSID = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
+		CLSID = s '{A96D3797-9F31-49f4-A0CE-9657392CF789}'
 	}
 
-	ForceRemove TrueCryptFormat = s 'TrueCryptFormat class'
+	ForceRemove VeraCryptFormat = s 'VeraCryptFormat class'
 	{
-		CLSID = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
-		CurVer = s 'TrueCryptFormat.1'
+		CLSID = s '{A96D3797-9F31-49f4-A0CE-9657392CF789}'
+		CurVer = s 'VeraCryptFormat.1'
 	}
 	
 	NoRemove CLSID
 	{
-		ForceRemove {777DCDFD-C330-480B-B582-B02B57580CC9} = s 'TrueCryptFormat class'
+		ForceRemove {A96D3797-9F31-49f4-A0CE-9657392CF789} = s 'VeraCryptFormat class'
 		{
-			ProgID = s 'TrueCryptFormat.1'
-			VersionIndependentProgID = s 'TrueCryptFormat'
+			ProgID = s 'VeraCryptFormat.1'
+			VersionIndependentProgID = s 'VeraCryptFormat'
 			LocalServer32 = s '"%FORMAT_MODULE%"'
 
-			TypeLib = s '{A7DF958C-0716-49E9-8C3E-53A775797576}'
+			TypeLib = s '{56327DDA-F1A7-4e13-B128-520D129BDEF6}'
 			
 			Elevation
             {
@@ -72,21 +72,21 @@ HKCR
 				val IconReference = s '@%FORMAT_MODULE%,-501'
             }
 
-			val AppId = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
+			val AppId = s '{A96D3797-9F31-49f4-A0CE-9657392CF789}'
             val LocalizedString = s '@%FORMAT_MODULE%,-112'
 		}
 	}
 	
 	NoRemove AppId
 	{
-		ForceRemove {777DCDFD-C330-480B-B582-B02B57580CC9} = s 'TrueCryptFormat class'
+		ForceRemove {A96D3797-9F31-49f4-A0CE-9657392CF789} = s 'VeraCryptFormat class'
 		{
 			val AccessPermission = b 010004803000000040000000000000001400000002001c000100000000001400070000000101000000000005040000000102000000000005200000002002000001020000000000052000000020020000
 		}
 		
-		ForceRemove 'TrueCrypt Format.exe'
+		ForceRemove 'VeraCrypt Format.exe'
 		{
-			val AppId = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
+			val AppId = s '{A96D3797-9F31-49f4-A0CE-9657392CF789}'
 		}
 	}
 }

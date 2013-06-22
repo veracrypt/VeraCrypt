@@ -44,13 +44,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "TrueCrypt Foundation"
-            VALUE "FileDescription", "TrueCrypt Setup"
-            VALUE "FileVersion", "7.1a"
-            VALUE "LegalTrademarks", "TrueCrypt"
-            VALUE "OriginalFilename", "TrueCrypt Setup.exe"
-            VALUE "ProductName", "TrueCrypt"
-            VALUE "ProductVersion", "7.1a"
+            VALUE "CompanyName", "IDRIX"
+            VALUE "FileDescription", "VeraCrypt Setup"
+            VALUE "FileVersion", "1.0a"
+            VALUE "LegalTrademarks", "VeraCrypt"
+            VALUE "OriginalFilename", "VeraCrypt Setup.exe"
+            VALUE "ProductName", "VeraCrypt"
+            VALUE "ProductVersion", "1.0a"
         END
     END
     BLOCK "VarFileInfo"
@@ -81,11 +81,11 @@ IDR_COMREG              REGISTRY                "ComSetup.rgs"
 
 IDD_UNINSTALL DIALOGEX 0, 0, 349, 234
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Uninstall TrueCrypt"
+CAPTION "Uninstall VeraCrypt"
 CLASS "CustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Click Uninstall to remove TrueCrypt from this system.",IDT_UNINSTALL_DIR,8,8,334,8
+    LTEXT           "Click Uninstall to remove VeraCrypt from this system.",IDT_UNINSTALL_DIR,8,8,334,8
     LISTBOX         IDC_LOG_WINDOW,7,21,335,179,LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL
     DEFPUSHBUTTON   "&Uninstall",IDC_UNINSTALL,236,213,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,292,213,50,14
@@ -101,12 +101,12 @@ BEGIN
     EDITTEXT        IDC_DESTINATION,11,41,260,13,ES_AUTOHSCROLL
     PUSHBUTTON      "Bro&wse...",IDC_BROWSE,278,40,59,14
     CONTROL         "Install &for all users",IDC_ALL_USERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,77,168,11
-    CONTROL         "Associate the .tc file &extension with TrueCrypt",IDC_FILE_TYPE,
+    CONTROL         "Associate the .hc file &extension with VeraCrypt",IDC_FILE_TYPE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,113,232,11
-    CONTROL         "Add TrueCrypt to &Start menu",IDC_PROG_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,89,168,11
+    CONTROL         "Add VeraCrypt to &Start menu",IDC_PROG_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,89,168,11
     CONTROL         "Create System &Restore point",IDC_SYSTEM_RESTORE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,125,194,11
-    CONTROL         "Add TrueCrypt icon to &desktop",IDC_DESKTOP_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,101,168,11
-    LTEXT           "Please select or type the location where you want to install the TrueCrypt program files. If the specified folder does not exist, it will be automatically created.",IDT_INSTALL_DESTINATION,11,14,319,25
+    CONTROL         "Add VeraCrypt icon to &desktop",IDC_DESKTOP_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,101,168,11
+    LTEXT           "Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.",IDT_INSTALL_DESTINATION,11,14,319,25
 END
 
 IDD_INFO_PAGE_DLG DIALOGEX 0, 0, 217, 156
@@ -127,7 +127,7 @@ END
 
 IDD_INSTL_DLG DIALOGEX 0, 0, 374, 231
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "TrueCrypt Setup Wizard"
+CAPTION "VeraCrypt Setup Wizard"
 CLASS "CustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -141,7 +141,7 @@ BEGIN
     CONTROL         "",IDC_SETUP_WIZARD_GFX_AREA,"Static",SS_GRAYRECT | NOT WS_VISIBLE,0,0,378,36,WS_EX_TRANSPARENT | WS_EX_STATICEDGE
     CONTROL         "",IDC_HR_BOTTOM,"Static",SS_ETCHEDHORZ,67,204,306,1,WS_EX_STATICEDGE
     CONTROL         "",IDC_HR,"Static",SS_ETCHEDHORZ,0,35,399,1,WS_EX_STATICEDGE
-    LTEXT           "TrueCrypt Installer",IDC_STATIC,4,200,62,8,WS_DISABLED
+    LTEXT           "VeraCrypt Installer",IDC_STATIC,4,200,62,8,WS_DISABLED
     LTEXT           "",IDC_BOX_INFO,18,18,317,13,0,WS_EX_TRANSPARENT
     LTEXT           "",IDC_MAIN_CONTENT_CANVAS,0,36,374,164
     LTEXT           "",IDC_POS_BOX,14,42,346,155,0,WS_EX_TRANSPARENT
@@ -308,8 +308,8 @@ END
 // Bitmap
 //
 
-IDB_SETUP_WIZARD        BITMAP                  "TrueCrypt_setup.bmp"
-IDB_SETUP_WIZARD_BKG    BITMAP                  "TrueCrypt_setup_background.bmp"
+IDB_SETUP_WIZARD        BITMAP                  "VeraCrypt_setup.bmp"
+IDB_SETUP_WIZARD_BKG    BITMAP                  "VeraCrypt_setup_background.bmp"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

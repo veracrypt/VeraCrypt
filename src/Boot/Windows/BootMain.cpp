@@ -32,9 +32,9 @@ static void InitScreen ()
 
 	const char *title =
 #ifndef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
-		" TrueCrypt Boot Loader "
+		" VeraCrypt Boot Loader "
 #else
-		" TrueCrypt Rescue Disk "
+		" VeraCrypt Rescue Disk "
 #endif
 		VERSION_STRING "\r\n";
 
@@ -342,7 +342,7 @@ static bool MountVolume (byte drive, byte &exitKey, bool skipNormal, bool skipHi
 				   "If so, use 'Repair Options' > 'Restore key data'.\r\n\r\n");
 #else
 			Print ("If you are sure the password is correct, the key data may be damaged. Boot your\r\n"
-				   "TrueCrypt Rescue Disk and select 'Repair Options' > 'Restore key data'.\r\n\r\n");
+				   "VeraCrypt Rescue Disk and select 'Repair Options' > 'Restore key data'.\r\n\r\n");
 #endif
 		}
 	}
@@ -714,7 +714,7 @@ static void DecryptDrive (byte drive)
 	bool skipBadSectors = false;
 
 	Print ("\r\nUse only if Windows cannot start. Decryption under Windows is much faster\r\n"
-			"(in TrueCrypt, select 'System' > 'Permanently Decrypt').\r\n\r\n");
+			"(in VeraCrypt, select 'System' > 'Permanently Decrypt').\r\n\r\n");
 
 	if (!AskYesNo ("Decrypt now"))
 	{
@@ -867,7 +867,7 @@ static void RepairMenu ()
 			RestoreOriginalSystemLoader
 		};
 
-		static const char *options[] = { "Permanently decrypt system partition/drive", "Restore TrueCrypt Boot Loader", "Restore key data (volume header)", "Restore original system loader" };
+		static const char *options[] = { "Permanently decrypt system partition/drive", "Restore VeraCrypt Boot Loader", "Restore key data (volume header)", "Restore original system loader" };
 
 		int selection = AskSelection (options,
 			(BootSectorFlags & TC_BOOT_CFG_FLAG_RESCUE_DISK_ORIG_SYS_LOADER) ? array_capacity (options) : array_capacity (options) - 1);
@@ -1006,7 +1006,7 @@ done:
 		switch (selection)
 		{
 		case RestoreTrueCryptLoader:
-			Print ("TrueCrypt Boot Loader");
+			Print ("VeraCrypt Boot Loader");
 			break;
 
 		case RestoreVolumeHeader:

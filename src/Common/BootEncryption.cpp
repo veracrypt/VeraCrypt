@@ -521,7 +521,7 @@ namespace TrueCrypt
 	DWORD BootEncryption::GetDriverServiceStartType ()
 	{
 		DWORD startType;
-		throw_sys_if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", "Start", &startType));
+		throw_sys_if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", "Start", &startType));
 		return startType;
 	}
 
@@ -550,7 +550,7 @@ namespace TrueCrypt
 
 		finally_do_arg (SC_HANDLE, serviceManager, { CloseServiceHandle (finally_arg); });
 
-		SC_HANDLE service = OpenService (serviceManager, "truecrypt", SERVICE_CHANGE_CONFIG);
+		SC_HANDLE service = OpenService (serviceManager, "veracrypt", SERVICE_CHANGE_CONFIG);
 		throw_sys_if (!service);
 
 		finally_do_arg (SC_HANDLE, service, { CloseServiceHandle (finally_arg); });
@@ -564,7 +564,7 @@ namespace TrueCrypt
 			char filesystem[128];
 
 			string path (GetWindowsDirectory());
-			path += "\\drivers\\truecrypt.sys";
+			path += "\\drivers\\veracrypt.sys";
 
 			if (GetVolumePathName (path.c_str(), pathBuf, sizeof (pathBuf))
 				&& GetVolumeInformation (pathBuf, NULL, 0, NULL, NULL, NULL, filesystem, sizeof(filesystem))
@@ -585,7 +585,7 @@ namespace TrueCrypt
 			NULL, NULL, NULL, NULL, NULL));
 
 		// ChangeServiceConfig() rejects SERVICE_BOOT_START with ERROR_INVALID_PARAMETER
-		throw_sys_if (!WriteLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", "Start", startType));
+		throw_sys_if (!WriteLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", "Start", startType));
 	}
 
 
@@ -1396,7 +1396,7 @@ namespace TrueCrypt
 
 		// Primary volume descriptor
 		strcpy ((char *)image + 0x8000, "\001CD001\001");
-		strcpy ((char *)image + 0x7fff + 41, "TrueCrypt Rescue Disk           ");
+		strcpy ((char *)image + 0x7fff + 41, "VeraCrypt Rescue Disk           ");
 		*(uint32 *) (image + 0x7fff + 81) = RescueIsoImageSize / 2048;
 		*(uint32 *) (image + 0x7fff + 85) = BE32 (RescueIsoImageSize / 2048);
 		image[0x7fff + 121] = 1;
@@ -1572,7 +1572,7 @@ namespace TrueCrypt
 
 		DecryptBuffer (RescueVolumeHeader + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
-		if (GetHeaderField32 (RescueVolumeHeader, TC_HEADER_OFFSET_MAGIC) != 0x54525545)
+		if (GetHeaderField32 (RescueVolumeHeader, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
 			throw ParameterIncorrect (SRC_POS);
 
 		byte *fieldPos = RescueVolumeHeader + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
@@ -1682,7 +1682,7 @@ namespace TrueCrypt
 		{
 		case DriveFilter:
 		case VolumeFilter:
-			filter = "truecrypt";
+			filter = "veracrypt";
 			filterReg = "UpperFilters";
 			regKey = SetupDiOpenClassRegKey (deviceClassGuid, KEY_READ | KEY_WRITE);
 			throw_sys_if (regKey == INVALID_HANDLE_VALUE);
@@ -1693,7 +1693,7 @@ namespace TrueCrypt
 			if (!IsOSAtLeast (WIN_VISTA))
 				return;
 
-			filter = "truecrypt.sys";
+			filter = "veracrypt.sys";
 			filterReg = "DumpFilters";
 			SetLastError (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\CrashControl", 0, KEY_READ | KEY_WRITE, &regKey));
 			throw_sys_if (GetLastError() != ERROR_SUCCESS);
@@ -1725,14 +1725,14 @@ namespace TrueCrypt
 		}
 		else
 		{
-			string infFileName = GetTempPath() + "\\truecrypt_driver_setup.inf";
+			string infFileName = GetTempPath() + "\\veracrypt_driver_setup.inf";
 
 			File infFile (infFileName, false, true);
 			finally_do_arg (string, infFileName, { DeleteFile (finally_arg.c_str()); });
 
-			string infTxt = "[truecrypt]\r\n"
-							+ string (registerFilter ? "Add" : "Del") + "Reg=truecrypt_reg\r\n\r\n"
-							"[truecrypt_reg]\r\n"
+			string infTxt = "[veracrypt]\r\n"
+							+ string (registerFilter ? "Add" : "Del") + "Reg=veracrypt_reg\r\n\r\n"
+							"[veracrypt_reg]\r\n"
 							"HKR,,\"" + filterReg + "\",0x0001" + string (registerFilter ? "0008" : "8002") + ",\"" + filter + "\"\r\n";
 
 			infFile.Write ((byte *) infTxt.c_str(), infTxt.size());
@@ -1742,7 +1742,7 @@ namespace TrueCrypt
 			throw_sys_if (hInf == INVALID_HANDLE_VALUE);
 			finally_do_arg (HINF, hInf, { SetupCloseInfFile (finally_arg); });
 
-			throw_sys_if (!SetupInstallFromInfSection (ParentWindow, hInf, "truecrypt", SPINST_REGISTRY, regKey, NULL, 0, NULL, NULL, NULL, NULL));
+			throw_sys_if (!SetupInstallFromInfSection (ParentWindow, hInf, "veracrypt", SPINST_REGISTRY, regKey, NULL, 0, NULL, NULL, NULL, NULL));
 		}
 	}
 
@@ -1819,7 +1819,7 @@ namespace TrueCrypt
 			throw_sys_if (!service);
 
 			SERVICE_DESCRIPTION description;
-			description.lpDescription = "Mounts TrueCrypt system favorite volumes.";
+			description.lpDescription = "Mounts VeraCrypt system favorite volumes.";
 			ChangeServiceConfig2 (service, SERVICE_CONFIG_DESCRIPTION, &description);
 
 			CloseServiceHandle (service);
@@ -2337,7 +2337,7 @@ namespace TrueCrypt
 		else
 			configMap &= ~flag;
 
-		WriteLocalMachineRegistryDwordValue ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, configMap);
+		WriteLocalMachineRegistryDwordValue ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, configMap);
 	}
 
 	void BootEncryption::StartDecryption (BOOL discardUnreadableEncryptedSectors)
@@ -2403,7 +2403,7 @@ namespace TrueCrypt
 	{
 		DWORD configMap;
 
-		if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, &configMap))
+		if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, &configMap))
 			configMap = 0;
 
 		return configMap;

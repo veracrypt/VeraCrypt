@@ -375,7 +375,7 @@ void CreateFullVolumePath (char *lpszDiskFile, const char *lpszFileName, BOOL * 
 int FakeDosNameForDevice (const char *lpszDiskFile, char *lpszDosDevice, char *lpszCFDevice, BOOL bNameOnly)
 {
 	BOOL bDosLinkCreated = TRUE;
-	sprintf (lpszDosDevice, "truecrypt%lu", GetCurrentProcessId ());
+	sprintf (lpszDosDevice, "veracrypt%lu", GetCurrentProcessId ());
 
 	if (bNameOnly == FALSE)
 		bDosLinkCreated = DefineDosDevice (DDD_RAW_TARGET_PATH, lpszDosDevice, lpszDiskFile);
@@ -870,7 +870,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			LocalizeDialog (hwndDlg, "IDD_ABOUT_DLG");
 
 			// Hyperlink
-			SetWindowText (GetDlgItem (hwndDlg, IDC_HOMEPAGE), "www.truecrypt.org");
+			SetWindowText (GetDlgItem (hwndDlg, IDC_HOMEPAGE), "www.idrix.fr");
 			ToHyperlink (hwndDlg, IDC_HOMEPAGE);
 
 			// Logo area background (must not keep aspect ratio; must retain Windows-imposed distortion)
@@ -890,7 +890,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 			// Version
 			SendMessage (GetDlgItem (hwndDlg, IDT_ABOUT_VERSION), WM_SETFONT, (WPARAM) hUserBoldFont, 0);
-			sprintf (szTmp, "TrueCrypt %s", VERSION_STRING);
+			sprintf (szTmp, "VeraCrypt %s", VERSION_STRING);
 #if (defined(_DEBUG) || defined(DEBUG))
 			strcat (szTmp, "  (debug)");
 #endif
@@ -905,14 +905,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 	case WM_APP:
 		SetWindowText (GetDlgItem (hwndDlg, IDC_ABOUT_CREDITS),
-			"Portions of this software are based in part on the works of the following people: "
-			"Paul Le Roux, "
-			"Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall, Niels Ferguson, "
-			"Lars Knudsen, Ross Anderson, Eli Biham, "
-			"Joan Daemen, Vincent Rijmen, "
-			"Phillip Rogaway, "
-			"Hans Dobbertin, Antoon Bosselaers, Bart Preneel, "
-			"Paulo Barreto, Brian Gladman, Wei Dai, Peter Gutmann, and many others.\r\n\r\n"
+			"Based on TrueCrypt, freely available at http://www.truecrypt.org/ .\r\n\r\n"
 
 			"Portions of this software:\r\n"
 			"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
@@ -921,9 +914,9 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			"Copyright \xA9 2002-2004 Mark Adler. All Rights Reserved.\r\n\r\n"
 
 			"This software as a whole:\r\n"
-			"Copyright \xA9 2012 TrueCrypt Developers Association. All rights reserved.\r\n\r\n"
+			"Copyright \xA9 2013 IDRIX. All rights reserved.\r\n\r\n"
 
-			"A TrueCrypt Foundation Release");
+			"An IDRIX Release");
 
 		return 1;
 
@@ -1822,6 +1815,7 @@ void ExceptionHandlerThread (void *threadArg)
 	else
 		lpack[0] = 0;
 
+	/*
 	sprintf (url, TC_APPLINK_SECURE "&dest=err-report%s&os=%s&osver=%d.%d.%d&arch=%s&cpus=%d&app=%s&cksum=%x&dlg=%s&err=%x&addr=%x"
 		, lpack
 		, GetWindowsEdition().c_str()
@@ -1850,7 +1844,7 @@ void ExceptionHandlerThread (void *threadArg)
 
 	if (IDYES == MessageBoxW (0, msg, GetString ("EXCEPTION_REPORT_TITLE"), MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1))
 		ShellExecute (NULL, "open", urlStr.c_str(), NULL, NULL, SW_SHOWNORMAL);
-	else
+	else*/
 		UnhandledExceptionFilter (ep);
 }
 
@@ -2039,7 +2033,7 @@ uint32 ReadDriverConfigurationFlags ()
 {
 	DWORD configMap;
 
-	if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, &configMap))
+	if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, &configMap))
 		configMap = 0;
 
 	return configMap;
@@ -2050,7 +2044,7 @@ uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ()
 {
 	DWORD count;
 
-	if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME, &count))
+	if (!ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME, &count))
 		count = 0;
 
 	return count;
@@ -2329,12 +2323,12 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 		wcex.cbSize = sizeof(WNDCLASSEX); 
 		wcex.lpfnWndProc = (WNDPROC) NonInstallUacWndProc;
 		wcex.hInstance = hInstance;
-		wcex.lpszClassName = "TrueCrypt";
+		wcex.lpszClassName = "VeraCrypt";
 		RegisterClassEx (&wcex);
 
 		// A small transparent window is necessary to bring the new instance to foreground
 		hWnd = CreateWindowEx (WS_EX_TOOLWINDOW | WS_EX_LAYERED,
-			"TrueCrypt", "TrueCrypt", 0,
+			"VeraCrypt", "VeraCrypt", 0,
 			GetSystemMetrics (SM_CXSCREEN)/2,
 			GetSystemMetrics (SM_CYSCREEN)/2,
 			1, 1, NULL, NULL, hInstance, NULL);
@@ -2485,11 +2479,11 @@ void InitHelpFileName (void)
 		if (strcmp (GetPreferredLangId(), "en") == 0
 			|| GetPreferredLangId() == NULL)
 		{
-			strcpy (++lpszTmp, "TrueCrypt User Guide.pdf");
+			strcpy (++lpszTmp, "VeraCrypt User Guide.pdf");
 		}
 		else
 		{
-			sprintf (szTemp, "TrueCrypt User Guide.%s.pdf", GetPreferredLangId());
+			sprintf (szTemp, "VeraCrypt User Guide.%s.pdf", GetPreferredLangId());
 			strcpy (++lpszTmp, szTemp);
 		}
 
@@ -2498,7 +2492,7 @@ void InitHelpFileName (void)
 		lpszTmp = strrchr (szHelpFile2, '\\');
 		if (lpszTmp)
 		{
-			strcpy (++lpszTmp, "TrueCrypt User Guide.pdf");
+			strcpy (++lpszTmp, "VeraCrypt User Guide.pdf");
 		}
 	}
 }
@@ -2778,7 +2772,7 @@ BOOL CALLBACK TextInfoDialogBoxDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				break;
 
 			case TC_TBXID_SYS_ENC_RESCUE_DISK:
-				PrintHardCopyTextUTF16 ((wchar_t *) GetRescueDiskHelpString ().c_str(), "TrueCrypt Rescue Disk Help", GetRescueDiskHelpString ().length () * 2);
+				PrintHardCopyTextUTF16 ((wchar_t *) GetRescueDiskHelpString ().c_str(), "VeraCrypt Rescue Disk Help", GetRescueDiskHelpString ().length () * 2);
 				break;
 
 			case TC_TBXID_DECOY_OS_INSTRUCTIONS:
@@ -3198,9 +3192,9 @@ BOOL DoDriverInstall (HWND hwndDlg)
 	StatusMessage (hwndDlg, "INSTALLING_DRIVER");
 #endif
 
-	hService = CreateService (hManager, "truecrypt", "truecrypt",
+	hService = CreateService (hManager, "veracrypt", "veracrypt",
 		SERVICE_ALL_ACCESS, SERVICE_KERNEL_DRIVER, SERVICE_SYSTEM_START, SERVICE_ERROR_NORMAL,
-		"System32\\drivers\\truecrypt.sys",
+		"System32\\drivers\\veracrypt.sys",
 		NULL, NULL, NULL, NULL, NULL);
 
 	if (hService == NULL)
@@ -3208,7 +3202,7 @@ BOOL DoDriverInstall (HWND hwndDlg)
 	else
 		CloseServiceHandle (hService);
 
-	hService = OpenService (hManager, "truecrypt", SERVICE_ALL_ACCESS);
+	hService = OpenService (hManager, "veracrypt", SERVICE_ALL_ACCESS);
 	if (hService == NULL)
 		goto error;
 
@@ -3252,7 +3246,7 @@ static int DriverLoad ()
 	char *tmp;
 	DWORD startType;
 
-	if (ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\truecrypt", "Start", &startType) && startType == SERVICE_BOOT_START)
+	if (ReadLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", "Start", &startType) && startType == SERVICE_BOOT_START)
 		return ERR_PARAMETER_INCORRECT;
 
 	GetModuleFileName (NULL, driverPath, sizeof (driverPath));
@@ -3263,7 +3257,7 @@ static int DriverLoad ()
 		tmp = driverPath + 1;
 	}
 
-	strcpy (tmp, !Is64BitOs () ? "\\truecrypt.sys" : "\\truecrypt-x64.sys");
+	strcpy (tmp, !Is64BitOs () ? "\\veracrypt.sys" : "\\veracrypt-x64.sys");
 
 	file = FindFirstFile (driverPath, &find);
 
@@ -3287,7 +3281,7 @@ static int DriverLoad ()
 		return ERR_OS_ERROR;
 	}
 
-	hService = OpenService (hManager, "truecrypt", SERVICE_ALL_ACCESS);
+	hService = OpenService (hManager, "veracrypt", SERVICE_ALL_ACCESS);
 	if (hService != NULL)
 	{
 		// Remove stale service (driver is not loaded but service exists)
@@ -3296,7 +3290,7 @@ static int DriverLoad ()
 		Sleep (500);
 	}
 
-	hService = CreateService (hManager, "truecrypt", "truecrypt",
+	hService = CreateService (hManager, "veracrypt", "veracrypt",
 		SERVICE_ALL_ACCESS, SERVICE_KERNEL_DRIVER, SERVICE_DEMAND_START, SERVICE_ERROR_NORMAL,
 		driverPath, NULL, NULL, NULL, NULL, NULL);
 
@@ -3373,7 +3367,7 @@ BOOL DriverUnload ()
 	if (hManager == NULL)
 		goto error;
 
-	hService = OpenService (hManager, "truecrypt", SERVICE_ALL_ACCESS);
+	hService = OpenService (hManager, "veracrypt", SERVICE_ALL_ACCESS);
 	if (hService == NULL)
 		goto error;
 
@@ -3589,7 +3583,7 @@ BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, char *initialDir, char *lps
 	ofn.lStructSize				= sizeof (ofn);
 	ofn.hwndOwner				= hwndDlg;
 
-	wsprintfW (filter, L"%ls (*.*)%c*.*%c%ls (*.tc)%c*.tc%c%c",
+	wsprintfW (filter, L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
 		GetString ("ALL_FILES"), 0, 0, GetString ("TC_VOLUMES"), 0, 0, 0);
 	ofn.lpstrFilter				= browseFilter ? browseFilter : filter;
 	ofn.nFilterIndex			= 1;
@@ -3654,7 +3648,7 @@ BOOL SelectMultipleFiles (HWND hwndDlg, char *stringId, char *lpszFileName, BOOL
 	*lpszFileName = 0;
 	ofn.lStructSize				= sizeof (ofn);
 	ofn.hwndOwner				= hwndDlg;
-	wsprintfW (filter, L"%ls (*.*)%c*.*%c%ls (*.tc)%c*.tc%c%c",
+	wsprintfW (filter, L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
 		GetString ("ALL_FILES"), 0, 0, GetString ("TC_VOLUMES"), 0, 0, 0);
 	ofn.lpstrFilter				= filter;
 	ofn.nFilterIndex			= 1;
@@ -3994,7 +3988,7 @@ void LocalizeDialog (HWND hwnd, char *stringId)
 	SendMessage (hwnd, WM_SETFONT, (WPARAM) hUserFont, 0);
 
 	if (stringId == NULL)
-		SetWindowText (hwnd, "TrueCrypt");
+		SetWindowText (hwnd, "VeraCrypt");
 	else
 		SetWindowTextW (hwnd, GetString (stringId));
 	
@@ -7005,7 +6999,7 @@ BOOL IsNonInstallMode ()
 			// We can't use GetConfigPath() here because it would call us back (indirect recursion)
 			if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_APPDATA, NULL, 0, path)))
 			{
-				strcat (path, "\\TrueCrypt\\");
+				strcat (path, "\\VeraCrypt\\");
 				strcat (path, TC_APPD_FILENAME_SYSTEM_ENCRYPTION);
 
 				if (FileExists (path))
@@ -7031,7 +7025,7 @@ BOOL IsNonInstallMode ()
 
 	// The following test may be unreliable in some cases (e.g. after the user selects restore "Last Known Good
 	// Configuration" from the Windows boot menu).
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\TrueCrypt", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
 	{
 		RegCloseKey (hkey);
 		return FALSE;
@@ -7086,7 +7080,7 @@ void ManageStartupSeq (void)
 				char *tmp = NULL;
 
 				if (tmp = strrchr (exe, '\\'))
-					strcpy (++tmp, "TrueCrypt.exe");
+					strcpy (++tmp, "VeraCrypt.exe");
 			}
 #endif
 			strcat (exe, "\" /q preferences /a logon");
@@ -7094,10 +7088,10 @@ void ManageStartupSeq (void)
 			if (bMountDevicesOnLogon) strcat (exe, " /a devices");
 			if (bMountFavoritesOnLogon) strcat (exe, " /a favorites");
 
-			WriteRegistryString (regk, "TrueCrypt", exe);
+			WriteRegistryString (regk, "VeraCrypt", exe);
 		}
 		else
-			DeleteRegistryValue (regk, "TrueCrypt");
+			DeleteRegistryValue (regk, "VeraCrypt");
 	}
 }
 
@@ -7119,7 +7113,7 @@ void ManageStartupSeqWiz (BOOL bRemove, const char *arg)
 				char *tmp = NULL;
 
 				if (tmp = strrchr (exe, '\\'))
-					strcpy (++tmp, "TrueCrypt Format.exe");
+					strcpy (++tmp, "VeraCrypt Format.exe");
 			}
 #endif
 
@@ -7129,10 +7123,10 @@ void ManageStartupSeqWiz (BOOL bRemove, const char *arg)
 			strcat (exe, arg);
 		}
 
-		WriteRegistryString (regk, "TrueCrypt Format", exe);
+		WriteRegistryString (regk, "VeraCrypt Format", exe);
 	}
 	else
-		DeleteRegistryValue (regk, "TrueCrypt Format");
+		DeleteRegistryValue (regk, "VeraCrypt Format");
 }
 
 
@@ -7515,7 +7509,7 @@ char *GetConfigPath (char *fileName)
 
 	if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
 	{
-		strcat (path, "\\TrueCrypt\\");
+		strcat (path, "\\VeraCrypt\\");
 		CreateDirectory (path, NULL);
 		strcat (path, fileName);
 	}
@@ -7532,7 +7526,7 @@ char *GetProgramConfigPath (char *fileName)
 
 	if (SUCCEEDED (SHGetFolderPath (NULL, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
 	{
-		strcat (path, "\\TrueCrypt\\");
+		strcat (path, "\\VeraCrypt\\");
 		CreateDirectory (path, NULL);
 		strcat (path, fileName);
 	}
@@ -7612,7 +7606,7 @@ void InfoBalloon (char *headingStringId, char *textStringId)
 		return;
 
 	TaskBarIconDisplayBalloonTooltip (MainDlg,
-		headingStringId == NULL ? L"TrueCrypt" : GetString (headingStringId), 
+		headingStringId == NULL ? L"VeraCrypt" : GetString (headingStringId), 
 		textStringId == NULL ? L" " : GetString (textStringId), 
 		FALSE);
 }
@@ -7625,7 +7619,7 @@ void InfoBalloonDirect (wchar_t *headingString, wchar_t *textString)
 		return;
 
 	TaskBarIconDisplayBalloonTooltip (MainDlg,
-		headingString == NULL ? L"TrueCrypt" : headingString, 
+		headingString == NULL ? L"VeraCrypt" : headingString, 
 		textString == NULL ? L" " : textString, 
 		FALSE);
 }
@@ -7638,7 +7632,7 @@ void WarningBalloon (char *headingStringId, char *textStringId)
 		return;
 
 	TaskBarIconDisplayBalloonTooltip (MainDlg,
-		headingStringId == NULL ? L"TrueCrypt" : GetString (headingStringId), 
+		headingStringId == NULL ? L"VeraCrypt" : GetString (headingStringId), 
 		textStringId == NULL ? L" " : GetString (textStringId), 
 		TRUE);
 }
@@ -7651,7 +7645,7 @@ void WarningBalloonDirect (wchar_t *headingString, wchar_t *textString)
 		return;
 
 	TaskBarIconDisplayBalloonTooltip (MainDlg,
-		headingString == NULL ? L"TrueCrypt" : headingString, 
+		headingString == NULL ? L"VeraCrypt" : headingString, 
 		textString == NULL ? L" " : textString, 
 		TRUE);
 }
@@ -8085,7 +8079,7 @@ void DebugMsgBox (char *format, ...)
 	_vsnprintf (buf, sizeof (buf), format, val);
 	va_end(val);
 
-	MessageBox (MainDlg, buf, "TrueCrypt debug", 0);
+	MessageBox (MainDlg, buf, "VeraCrypt debug", 0);
 }
 
 
@@ -8327,7 +8321,8 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 
 	ArrowWaitCursor ();
 
-	sprintf_s (url, sizeof (url), TC_APPLINK "%s%s&dest=%s", bSendOS ? ("&os=" + GetWindowsEdition()).c_str() : "", extraOutput, dest);
+	// sprintf_s (url, sizeof (url), TC_APPLINK "%s%s&dest=%s", bSendOS ? ("&os=" + GetWindowsEdition()).c_str() : "", extraOutput, dest);
+	sprintf_s (url, sizeof (url),"%s", "https://sourceforge.net/projects/veracrypt/");
 	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 
 	Sleep (200);
@@ -8384,7 +8379,7 @@ BOOL CALLBACK CloseTCWindowsEnum (HWND hwnd, LPARAM lParam)
 	{
 		char name[1024] = { 0 };
 		GetWindowText (hwnd, name, sizeof (name) - 1);
-		if (hwnd != MainDlg && strstr (name, "TrueCrypt"))
+		if (hwnd != MainDlg && strstr (name, "VeraCrypt"))
 		{
 			PostMessage (hwnd, TC_APPMSG_CLOSE_BKG_TASK, 0, 0);
 
@@ -8409,7 +8404,7 @@ BOOL CALLBACK FindTCWindowEnum (HWND hwnd, LPARAM lParam)
 	{
 		char name[32] = { 0 };
 		GetWindowText (hwnd, name, sizeof (name) - 1);
-		if (hwnd != MainDlg && strcmp (name, "TrueCrypt") == 0)
+		if (hwnd != MainDlg && strcmp (name, "VeraCrypt") == 0)
 		{
 			if (lParam != 0)
 				*((HWND *)lParam) = hwnd;
@@ -9580,8 +9575,8 @@ BOOL RemoveDeviceWriteProtection (HWND hwndDlg, char *devicePath)
 	if (GetTempPath (sizeof (temp), temp) == 0)
 		return FALSE;
 
-	_snprintf (cmdBatch, sizeof (cmdBatch), "%s\\TrueCrypt_Write_Protection_Removal.cmd", temp);
-	_snprintf (diskpartScript, sizeof (diskpartScript), "%s\\TrueCrypt_Write_Protection_Removal.diskpart", temp);
+	_snprintf (cmdBatch, sizeof (cmdBatch), "%s\\VeraCrypt_Write_Protection_Removal.cmd", temp);
+	_snprintf (diskpartScript, sizeof (diskpartScript), "%s\\VeraCrypt_Write_Protection_Removal.diskpart", temp);
 
 	FILE *f = fopen (cmdBatch, "w");
 	if (!f)
@@ -9630,7 +9625,7 @@ void EnableElevatedCursorChange (HWND parent)
 	// Create a transparent window to work around a UAC issue preventing change of the cursor
 	if (UacElevated)
 	{
-		const char *className = "TrueCryptEnableElevatedCursorChange";
+		const char *className = "VeraCryptEnableElevatedCursorChange";
 		WNDCLASSEX winClass;
 		HWND hWnd;
 
@@ -9641,7 +9636,7 @@ void EnableElevatedCursorChange (HWND parent)
 		winClass.lpszClassName = className;
 		RegisterClassEx (&winClass);
 
-		hWnd = CreateWindowEx (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, "TrueCrypt UAC", 0, 0, 0, GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN), parent, NULL, hInst, NULL);
+		hWnd = CreateWindowEx (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, "VeraCrypt UAC", 0, 0, 0, GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN), parent, NULL, hInst, NULL);
 		SetLayeredWindowAttributes (hWnd, 0, 1, LWA_ALPHA);
 		ShowWindow (hWnd, SW_SHOWNORMAL);
 

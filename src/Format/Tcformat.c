@@ -379,7 +379,7 @@ static BOOL CALLBACK BroadcastSysEncCfgUpdateCallb (HWND hwnd, LPARAM lParam)
 	{
 		char name[1024] = { 0 };
 		GetWindowText (hwnd, name, sizeof (name) - 1);
-		if (hwnd != MainDlg && strstr (name, "TrueCrypt"))
+		if (hwnd != MainDlg && strstr (name, "VeraCrypt"))
 		{
 			PostMessage (hwnd, TC_APPMSG_SYSENC_CONFIG_UPDATE, 0, 0);
 		}
@@ -5431,7 +5431,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, szRescueDiskISO);
-			strcat (szRescueDiskISO, "\\TrueCrypt Rescue Disk.iso");
+			strcat (szRescueDiskISO, "\\VeraCrypt Rescue Disk.iso");
 
 			if (IsOSAtLeast (WIN_VISTA))
 			{
