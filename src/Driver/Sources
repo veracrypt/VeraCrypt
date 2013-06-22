@@ -1,0 +1,21 @@
+TARGETNAME=truecrypt
+TARGETTYPE=DRIVER
+
+USER_C_FLAGS=$(USER_C_FLAGS) -D_UNICODE
+LINKER_FLAGS=$(LINKER_FLAGS) -map
+
+INCLUDES = ../Common;../Crypto
+
+SOURCES = \
+	DriveFilter.c \
+	DumpFilter.c \
+	EncryptedIoQueue.c \
+	Ntdriver.c \
+	Ntvol.c \
+	VolumeFilter.c \
+	Driver.rc
+
+TARGETLIBS = \
+	$(SDK_LIB_PATH)/uuid.lib \
+	../Common/obj$(BUILD_ALT_DIR)/*/Common.lib \
+	../Crypto/obj$(BUILD_ALT_DIR)/*/Crypto.lib

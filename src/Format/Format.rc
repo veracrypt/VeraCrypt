@@ -1,0 +1,698 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+#include "..\\common\\resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 7,1,1,0
+ PRODUCTVERSION 7,1,1,0
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "TrueCrypt Foundation"
+            VALUE "FileDescription", "TrueCrypt Format"
+            VALUE "FileVersion", "7.1a"
+            VALUE "LegalTrademarks", "TrueCrypt"
+            VALUE "OriginalFilename", "TrueCrypt Format.exe"
+            VALUE "ProductName", "TrueCrypt"
+            VALUE "ProductVersion", "7.1a"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HEADER
+//
+
+IDR_FORMAT_RSRC_HEADER  HEADER                  "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// TYPELIB
+//
+
+IDR_FORMAT_TLB          TYPELIB                 "Format.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_VOL_CREATION_WIZARD_DLG DIALOGEX 0, 0, 400, 209
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt Volume Creation Wizard"
+CLASS "CustomDlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "&Help",IDHELP,176,189,50,14
+    PUSHBUTTON      "",IDC_PREV,235,189,50,14
+    DEFPUSHBUTTON   "",IDC_NEXT,285,189,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,343,189,50,14
+    LTEXT           "",IDC_BOX_TITLE,160,8,233,17
+    GROUPBOX        "",IDC_STATIC,4,0,392,183
+    CONTROL         116,IDC_BITMAP_WIZARD,"Static",SS_BITMAP | SS_SUNKEN,10,9,137,169
+    LTEXT           "",IDC_POS_BOX,160,24,231,152
+END
+
+IDD_CIPHER_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_COMBO_BOX,7,23,137,126,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Test",IDC_CIPHER_TEST,149,22,59,14
+    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,149,82,59,14
+    COMBOBOX        IDC_COMBO_BOX_HASH_ALGO,7,122,83,126,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_BOX_HELP,7,40,205,40
+    GROUPBOX        "Encryption Algorithm",IDT_ENCRYPTION_ALGO,0,10,217,95
+    GROUPBOX        "Hash Algorithm",IDT_HASH_ALGO,0,109,217,35
+    LTEXT           "More information",IDC_LINK_MORE_INFO_ABOUT_CIPHER,7,82,135,10,SS_NOTIFY
+    LTEXT           "Information on hash algorithms",IDC_LINK_HASH_INFO,97,124,115,8,SS_NOTIFY
+END
+
+IDD_PASSWORD_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_PASSWORD,53,3,163,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_VERIFY,53,19,163,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,53,45,95,11,WS_EX_TRANSPARENT
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,53,35,95,10
+    PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,152,36,64,14,WS_DISABLED
+    RTEXT           "Password:",IDT_PASSWORD,1,6,50,8
+    RTEXT           "&Confirm:",IDT_CONFIRM,1,23,50,8
+    LTEXT           "",IDC_BOX_HELP,0,59,225,89
+END
+
+IDD_SIZE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_SIZEBOX,0,22,71,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "&KB",IDC_KB,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,80,25,38,10
+    CONTROL         "&MB",IDC_MB,"Button",BS_AUTORADIOBUTTON,119,25,38,10
+    CONTROL         "&GB",IDC_GB,"Button",BS_AUTORADIOBUTTON,158,25,38,10
+    LTEXT           "",IDC_BOX_HELP,0,75,214,64
+    LTEXT           "",IDC_SPACE_LEFT,0,44,214,21
+END
+
+IDD_VOLUME_LOCATION_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_COMBO_BOX,0,9,148,80,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Never save history",IDC_NO_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,28,137,10
+    PUSHBUTTON      "",IDC_SELECT_VOLUME_LOCATION,155,9,62,14
+    LTEXT           "",IDC_BOX_HELP,0,45,219,104
+END
+
+IDD_FORMAT_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_FILESYS,43,13,36,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    COMBOBOX        IDC_CLUSTERSIZE,112,13,42,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    CONTROL         "Quick Format",IDC_QUICKFORMAT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,163,11,60,18
+    CONTROL         "",IDC_SHOW_KEYS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,214,38,9,8
+    PUSHBUTTON      "Abort",IDC_ABORT_BUTTON,169,75,50,14
+    RTEXT           "Header Key: ",IDT_HEADER_KEY,2,47,54,8
+    CONTROL         "",IDC_HEADER_KEY,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,57,46,163,8,WS_EX_TRANSPARENT
+    RTEXT           "Master Key: ",IDT_MASTER_KEY,2,55,54,8
+    LTEXT           "",IDC_DISK_KEY,57,54,163,8,0,WS_EX_TRANSPARENT
+    RTEXT           "Cluster ",IDT_CLUSTER,80,15,32,8
+    LTEXT           "",IDC_BOX_HELP,1,112,224,40
+    GROUPBOX        "Options",IDT_FORMAT_OPTIONS,0,3,225,29
+    CONTROL         "",IDC_PROGRESS_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,6,76,158,12
+    RTEXT           "",IDC_TIMEREMAIN,177,93,42,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "",IDC_WRITESPEED,106,93,42,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    LTEXT           "",IDC_BYTESWRITTEN,29,93,39,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "Done",IDT_DONE,5,94,22,8
+    RTEXT           "Speed",IDT_SPEED,70,94,34,8
+    RTEXT           "Left",IDT_LEFT,150,94,25,8
+    GROUPBOX        "",IDC_STATIC,0,67,225,41
+    RTEXT           "Filesystem ",IDT_FILESYSTEM,1,15,41,8,0,WS_EX_RIGHT
+    RTEXT           "Random Pool: ",IDT_RANDOM_POOL,2,39,54,8
+    GROUPBOX        "",IDC_STATIC,0,32,225,35
+    CONTROL         "",IDC_RANDOM_BYTES,"Static",SS_SIMPLE | WS_GROUP,57,38,155,8,WS_EX_TRANSPARENT
+END
+
+IDD_INTRO_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Create an encrypted file container",IDC_FILE_CONTAINER,
+                    "Button",BS_AUTORADIOBUTTON,0,7,217,10
+    LTEXT           "More information",IDC_MORE_INFO_ON_CONTAINERS,16,39,165,10,SS_NOTIFY
+    CONTROL         "Encrypt a non-system partition/drive",IDC_NONSYS_DEVICE,
+                    "Button",BS_AUTORADIOBUTTON,0,53,217,10
+    CONTROL         "Encrypt the system partition or entire system drive",IDC_SYS_DEVICE,
+                    "Button",BS_AUTORADIOBUTTON,0,87,217,10
+    LTEXT           "More information about system encryption",IDC_MORE_INFO_ON_SYS_ENCRYPTION,16,136,190,10,SS_NOTIFY
+    LTEXT           "Creates a virtual encrypted disk within a file. Recommended for inexperienced users.",IDT_FILE_CONTAINER,16,20,205,16
+    LTEXT           "Encrypts a non-system partition on any internal or external drive (e.g. a flash drive). Optionally, creates a hidden volume.",IDT_NON_SYS_DEVICE,16,66,205,16
+    LTEXT           "Encrypts the partition/drive where Windows is installed. Anyone who wants to gain access and use the system, read and write files, etc., will need to enter the correct password each time before Windows boots. Optionally, creates a hidden system.",IDT_SYS_DEVICE,16,100,205,33
+END
+
+IDD_INFO_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_BOX_HELP,0,10,225,137
+END
+
+IDD_HIDVOL_HOST_FILL_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_BOX_HELP,0,6,226,130
+    PUSHBUTTON      "Open Outer Volume",IDC_OPEN_OUTER_VOLUME,0,136,85,14
+END
+
+IDD_HIDDEN_VOL_WIZARD_MODE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Normal mode",IDC_HIDVOL_WIZ_MODE_FULL,"Button",BS_AUTORADIOBUTTON,0,7,217,10
+    CONTROL         "Direct mode",IDC_HIDVOL_WIZ_MODE_DIRECT,"Button",BS_AUTORADIOBUTTON,0,76,217,10
+    LTEXT           "",IDC_BOX_HELP,16,20,205,48
+    LTEXT           "",IDC_BOX_HELP2,16,89,205,50
+END
+
+IDD_PASSWORD_ENTRY_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_PASSWORD_DIRECT,50,11,149,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD_SINGLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,27,84,11,WS_EX_TRANSPARENT
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,38,82,11
+    PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,135,29,64,14
+    LTEXT           "",IDC_BOX_HELP,0,57,225,94
+    RTEXT           "Password:",IDT_PASSWORD,0,15,48,8
+END
+
+IDD_VOLUME_TYPE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Standard TrueCrypt volume",IDC_STD_VOL,"Button",BS_AUTORADIOBUTTON,0,7,212,10
+    CONTROL         "Hi&dden TrueCrypt volume ",IDC_HIDDEN_VOL,"Button",BS_AUTORADIOBUTTON,0,53,212,10
+    LTEXT           "More information about hidden volumes",IDC_HIDDEN_VOL_HELP,16,125,205,10,SS_NOTIFY
+    LTEXT           "",IDC_BOX_HELP_NORMAL_VOL,16,20,205,25
+    LTEXT           "",IDC_BOX_HELP,16,66,205,57
+END
+
+IDD_SYSENC_SPAN_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Encrypt the Windows system partition",IDC_SYS_PARTITION,
+                    "Button",BS_AUTORADIOBUTTON,0,7,212,10
+    CONTROL         "Encrypt the whole drive",IDC_WHOLE_SYS_DRIVE,"Button",BS_AUTORADIOBUTTON,0,53,212,10
+    LTEXT           "Select this option to encrypt the partition where the currently running Windows operating system is installed.",IDT_SYS_PARTITION,16,20,205,32
+    LTEXT           "",IDT_WHOLE_SYS_DRIVE,16,66,205,79
+END
+
+IDD_SYSENC_RESCUE_DISK_CREATION_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_RESCUE_DISK_ISO_PATH,0,135,163,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Bro&wse...",IDC_BROWSE,166,134,59,14
+    LTEXT           "",IDT_RESCUE_DISK_INFO,0,1,225,129
+END
+
+IDD_SYSENC_COLLECTING_RANDOM_DATA_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,1,98,122,10
+    CONTROL         "",IDC_SYS_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,8,14,205,72,WS_EX_TRANSPARENT
+    LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.",IDT_COLLECTING_RANDOM_DATA_NOTE,1,112,224,40
+    GROUPBOX        "Current pool content (partial)",IDT_PARTIAL_POOL_CONTENTS,0,5,222,88
+END
+
+IDD_SYSENC_MULTI_BOOT_MODE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Single-boot",IDC_SINGLE_BOOT,"Button",BS_AUTORADIOBUTTON,0,7,212,10
+    CONTROL         "Multi-boot",IDC_MULTI_BOOT,"Button",BS_AUTORADIOBUTTON,0,53,217,10
+    LTEXT           "Select this option if there is only one operating system installed on this computer (even if it has multiple users).",IDT_SINGLE_BOOT,16,20,205,32
+    LTEXT           "Select this option if there are two or more operating systems installed on this computer.\n\nFor example:\n- Windows XP and Windows XP\n- Windows XP and Windows Vista\n- Windows and Mac OS X\n- Windows and Linux\n- Windows, Linux and Mac OS X",IDT_MULTI_BOOT,16,66,205,72
+END
+
+IDD_SYSENC_RESCUE_DISK_BURN_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Download CD/DVD recording software",IDC_DOWNLOAD_CD_BURN_SOFTWARE,0,136,217,10,SS_NOTIFY
+    LTEXT           "",IDT_RESCUE_DISK_BURN_INFO,0,4,225,128
+END
+
+IDD_SYSENC_WIPE_MODE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_WIPE_MODE,61,0,127,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    RTEXT           "Wipe mode:",IDT_WIPE_MODE,0,2,59,8,0,WS_EX_RIGHT
+    LTEXT           "",IDT_WIPE_MODE_INFO,0,19,225,128
+END
+
+IDD_INPLACE_ENCRYPTION_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_WIPE_MODE,67,13,125,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    PUSHBUTTON      "&Pause",IDC_PAUSE,169,40,50,14
+    LTEXT           "More information",IDC_MORE_INFO_SYS_ENCRYPTION,1,141,202,10,SS_NOTIFY
+    LTEXT           "",IDC_BYTESWRITTEN,29,58,39,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "",IDC_WRITESPEED,103,58,46,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "",IDC_TIMEREMAIN,177,58,42,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "Wipe mode:",IDT_WIPE_MODE,6,15,59,8,0,WS_EX_RIGHT
+    CONTROL         "",IDC_PROGRESS_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,6,41,158,12
+    RTEXT           "Done",IDT_DONE,5,59,22,8
+    RTEXT           "Status",IDT_STATUS,72,59,29,8
+    RTEXT           "Left",IDT_LEFT,151,59,24,8
+    LTEXT           "",IDC_BOX_HELP,1,77,224,64
+    GROUPBOX        "Options",IDT_FORMAT_OPTIONS,0,3,225,29
+    GROUPBOX        "",IDC_STATIC,0,32,225,41
+END
+
+IDD_SYSENC_KEYS_GEN_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Display generated keys (their portions)",IDC_DISPLAY_KEYS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,1,94,216,10
+    CONTROL         "",IDC_HEADER_KEY,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,57,71,163,8,WS_EX_TRANSPARENT
+    LTEXT           "",IDC_DISK_KEY,57,79,163,8,0,WS_EX_TRANSPARENT
+    LTEXT           "The keys, salt, and other data have been successfully generated. If you want to generate new keys, click Back and then Next. Otherwise, click Next to continue.",IDT_SYSENC_KEYS_GEN_INFO,1,23,224,41
+    RTEXT           "Header Key: ",IDT_HEADER_KEY,2,72,54,8
+    RTEXT           "Master Key: ",IDT_MASTER_KEY,2,80,54,8
+    GROUPBOX        "",-1,0,65,225,26
+END
+
+IDD_UNIVERSAL_DUAL_CHOICE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CHOICE1,"Button",BS_AUTORADIOBUTTON,0,7,212,10
+    CONTROL         "",IDC_CHOICE2,"Button",BS_AUTORADIOBUTTON,0,17,217,10
+    LTEXT           "",IDC_BOX_HELP,1,34,220,112
+END
+
+IDD_SYSENC_DRIVE_ANALYSIS_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "",IDT_SYSENC_DRIVE_ANALYSIS_INFO,2,10,215,88
+    CONTROL         "",IDC_PROGRESS_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,1,115,216,12
+    LTEXT           "Progress:",IDT_PROGRESS,2,104,57,8
+END
+
+IDD_SYSENC_TYPE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Normal",IDC_SYSENC_NORMAL,"Button",BS_AUTORADIOBUTTON,0,7,212,10
+    CONTROL         "Hi&dden",IDC_SYSENC_HIDDEN,"Button",BS_AUTORADIOBUTTON,0,53,212,10
+    LTEXT           "More information",IDC_HIDDEN_SYSENC_INFO_LINK,16,138,205,10,SS_NOTIFY
+    LTEXT           "",IDC_BOX_HELP_SYSENC_NORMAL,16,20,205,25
+    LTEXT           "",IDC_BOX_HELP,16,66,205,72
+END
+
+IDD_SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "More information",IDC_HIDDEN_SYSENC_INFO_LINK,0,141,217,10,SS_NOTIFY
+    LTEXT           "",IDC_BOX_HELP,0,2,225,136
+END
+
+IDD_DEVICE_WIPE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Abort",IDC_ABORT_BUTTON,169,48,50,14
+    LTEXT           "",IDC_BYTESWRITTEN,29,66,39,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "",IDC_WRITESPEED,103,66,46,11,SS_CENTERIMAGE | NOT WS_VISIBLE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "",IDC_TIMEREMAIN,177,66,42,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_RIGHT | WS_EX_STATICEDGE
+    RTEXT           "Wipe mode:",IDT_WIPE_MODE,6,22,59,8,0,WS_EX_RIGHT
+    CONTROL         "",IDC_PROGRESS_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,6,49,158,12
+    RTEXT           "Done",IDT_DONE,5,67,22,8
+    RTEXT           "Pass",IDT_PASS,72,67,29,8,NOT WS_VISIBLE
+    RTEXT           "Left",IDT_LEFT,151,67,24,8
+    LTEXT           "",IDC_BOX_HELP,1,86,224,64
+    GROUPBOX        "",IDT_FORMAT_OPTIONS,0,10,225,29
+    GROUPBOX        "",IDC_STATIC,0,40,225,42
+    LTEXT           "",IDC_WIPE_MODE,67,21,125,11,SS_CENTERIMAGE,WS_EX_TRANSPARENT | WS_EX_STATICEDGE
+END
+
+IDD_DEVICE_WIPE_MODE_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_WIPE_MODE,61,9,127,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    RTEXT           "Wipe mode:",IDT_WIPE_MODE,0,11,59,8,0,WS_EX_RIGHT
+    LTEXT           "",IDT_WIPE_MODE_INFO,0,29,225,122
+END
+
+IDD_DEVICE_TRANSFORM_MODE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Create encrypted volume and format it",IDC_DEVICE_TRANSFORM_MODE_FORMAT,
+                    "Button",BS_AUTORADIOBUTTON,0,8,217,10
+    CONTROL         "Encrypt partition in place",IDC_DEVICE_TRANSFORM_MODE_INPLACE,
+                    "Button",BS_AUTORADIOBUTTON,0,98,217,10
+    LTEXT           "",IDC_BOX_HELP,16,21,205,74
+    LTEXT           "",IDC_BOX_HELP2,16,111,205,34
+END
+
+IDD_EXPANDED_LIST_SELECT_PAGE_DLG DIALOGEX 0, 0, 226, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_BOX_HELP,0,107,225,41
+    LISTBOX         IDC_LIST_BOX,0,3,222,100,LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | WS_VSCROLL
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "#include ""..\\\\common\\\\resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#include ""..\\\\common\\\\common.rc""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_VOL_CREATION_WIZARD_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 393
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 207
+        HORZGUIDE, 196
+    END
+
+    IDD_CIPHER_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 141
+    END
+
+    IDD_PASSWORD_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 123
+    END
+
+    IDD_SIZE_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_VOLUME_LOCATION_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_FORMAT_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 217
+        BOTTOMMARGIN, 133
+        HORZGUIDE, 80
+        HORZGUIDE, 96
+    END
+
+    IDD_INTRO_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_INFO_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_HIDVOL_HOST_FILL_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_HIDDEN_VOL_WIZARD_MODE_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_PASSWORD_ENTRY_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 123
+    END
+
+    IDD_VOLUME_TYPE_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_SYSENC_SPAN_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_SYSENC_RESCUE_DISK_CREATION_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_SYSENC_COLLECTING_RANDOM_DATA_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 217
+        BOTTOMMARGIN, 133
+        HORZGUIDE, 80
+        HORZGUIDE, 96
+    END
+
+    IDD_SYSENC_MULTI_BOOT_MODE_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_SYSENC_RESCUE_DISK_BURN_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_SYSENC_WIPE_MODE_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_INPLACE_ENCRYPTION_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 217
+        BOTTOMMARGIN, 133
+        HORZGUIDE, 80
+        HORZGUIDE, 96
+    END
+
+    IDD_SYSENC_KEYS_GEN_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 217
+        BOTTOMMARGIN, 133
+        HORZGUIDE, 80
+        HORZGUIDE, 96
+    END
+
+    IDD_UNIVERSAL_DUAL_CHOICE_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_SYSENC_DRIVE_ANALYSIS_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 217
+        BOTTOMMARGIN, 133
+        HORZGUIDE, 80
+        HORZGUIDE, 96
+    END
+
+    IDD_SYSENC_TYPE_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_DEVICE_WIPE_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 217
+        BOTTOMMARGIN, 133
+        HORZGUIDE, 80
+        HORZGUIDE, 96
+    END
+
+    IDD_DEVICE_WIPE_MODE_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_DEVICE_TRANSFORM_MODE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_EXPANDED_LIST_SELECT_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 219
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_WIZARD              BITMAP                  "TrueCrypt_wizard.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_UACSTRING_FMT       "TrueCrypt"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "..\\common\\common.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

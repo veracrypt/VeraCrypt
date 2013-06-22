@@ -1,0 +1,541 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUT_DLG DIALOGEX 31, 51, 292, 199
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About TrueCrypt"
+CLASS "SplashDlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_ABOUT_CREDITS,7,111,277,45,ES_MULTILINE | WS_VSCROLL | NOT WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,230,178,52,14
+    LTEXT           "",IDC_HOMEPAGE,18,87,117,9,SS_NOTIFY
+    LTEXT           "",IDT_ABOUT_RELEASE,18,71,235,8
+    CONTROL         517,IDC_ABOUT_BKG,"Static",SS_BITMAP,0,0,12,11,WS_EX_STATICEDGE
+    LTEXT           "",IDT_ABOUT_VERSION,18,61,161,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,167,291,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,169,291,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,107,291,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_ABOUT_LOGO_AREA,"Static",SS_GRAYRECT | NOT WS_VISIBLE,0,0,293,50,WS_EX_TRANSPARENT | WS_EX_STATICEDGE
+    CONTROL         518,IDC_TEXTUAL_LOGO_IMG,"Static",SS_BITMAP,12,26,157,16
+END
+
+IDD_COMMANDHELP_DLG DIALOGEX 0, 0, 249, 213
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Command Line Help"
+CLASS "CustomDlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,93,191,59,14
+    LTEXT           "",IDC_COMMANDHELP_TEXT,20,11,208,174
+END
+
+IDD_RAWDEVICES_DLG DIALOGEX 0, 0, 305, 209
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select a Partition or Device"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_DEVICELIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_EDITLABELS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,291,178
+    DEFPUSHBUTTON   "OK",IDOK,192,190,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,248,190,50,14
+END
+
+IDD_MOUNT_OPTIONS DIALOGEX 0, 0, 277, 172
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt - Mount Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,11,194,10
+    CONTROL         "Mount volume as removable &medium",IDC_MOUNT_REMOVABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,25,195,10
+    CONTROL         "Mount partition &using system encryption without pre-boot authentication",IDC_MOUNT_SYSENC_PART_WITHOUT_PBA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,259,11
+    CONTROL         "&Protect hidden volume against damage caused by writing to outer volume",IDC_PROTECT_HIDDEN_VOL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,86,252,10
+    EDITTEXT        IDC_PASSWORD_PROT_HIDVOL,112,104,151,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,123,90,10
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,136,90,10
+    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,203,125,60,14
+    LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,151,247,10,SS_NOTIFY
+    DEFPUSHBUTTON   "OK",IDOK,211,7,60,14
+    PUSHBUTTON      "Cancel",IDCANCEL,211,24,60,14
+    RTEXT           "P&assword to hidden volume:\n(if empty, cache is used)",IDT_HIDDEN_PROT_PASSWD,15,103,91,17,0,WS_EX_RIGHT
+    GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,72,265,95
+    CONTROL         "Use backup header embedded in &volume if available",IDC_USE_EMBEDDED_HEADER_BAK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,257,11
+END
+
+IDD_KEYFILES DIALOGEX 0, 0, 345, 237
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt - Keyfiles"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_KEYLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,8,263,118
+    PUSHBUTTON      "Add &Files...",IDC_KEYADD,7,132,61,14
+    PUSHBUTTON      "Add &Path...",IDC_ADD_KEYFILE_PATH,73,132,61,14
+    PUSHBUTTON      "Add &Token Files...",IDC_TOKEN_FILES_ADD,139,132,65,14
+    PUSHBUTTON      "&Remove",IDC_KEYREMOVE,209,132,61,14
+    PUSHBUTTON      "Remove &All",IDC_KEYREMOVEALL,275,132,61,14
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,219,83,11
+    PUSHBUTTON      "&Generate Random Keyfile...",IDC_GENERATE_KEYFILE,213,217,123,14
+    DEFPUSHBUTTON   "OK",IDOK,279,8,59,14
+    PUSHBUTTON      "Cancel",IDCANCEL,279,25,59,14
+    LTEXT           "",IDT_KEYFILES_NOTE,10,161,324,41,0,WS_EX_TRANSPARENT
+    LTEXT           "WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!",IDT_KEYFILE_WARNING,279,44,58,85,0,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,154,343,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,209,343,1,WS_EX_STATICEDGE
+    LTEXT           "More information on keyfiles",IDC_LINK_KEYFILES_INFO,96,220,108,10,SS_NOTIFY
+END
+
+IDD_LANGUAGE DIALOGEX 0, 0, 209, 183
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt - Language"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LISTBOX         IDC_LANGLIST,6,7,197,67,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_LANGPACK_CREDITS,6,108,197,28,ES_MULTILINE | ES_READONLY | WS_VSCROLL | NOT WS_TABSTOP
+    CTEXT           "Download language pack",IDC_GET_LANG_PACKS,2,146,205,10,SS_NOTIFY
+    DEFPUSHBUTTON   "OK",IDOK,97,165,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,153,165,50,14
+    LTEXT           "Translated by:",IDT_LANGPACK_AUTHORS,6,99,101,9,SS_NOTIFY,WS_EX_TRANSPARENT
+    RTEXT           "",IDC_LANGPACK_VERSION,79,86,118,11
+    GROUPBOX        "Active language pack",IDT_ACTIVE_LANG_PACK,0,77,209,65
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,158,208,1,WS_EX_STATICEDGE
+END
+
+IDD_BENCHMARK_DLG DIALOGEX 0, 0, 330, 223
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt - Encryption Algorithm Benchmark"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_BENCHMARK_BUFFER_SIZE,55,7,77,129,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_BENCHMARK_SORT_METHOD,207,7,116,74,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_RESULTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,37,249,160
+    DEFPUSHBUTTON   "Benchmark",IDC_PERFORM_BENCHMARK,265,37,58,14
+    PUSHBUTTON      "Close",IDCLOSE,265,55,58,14
+    LTEXT           "Hardware-accelerated AES:",IDC_HW_AES_LABEL_LINK,148,210,108,9,SS_NOTIFY,WS_EX_RIGHT
+    CONTROL         "",IDC_HW_AES,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,262,209,57,11,WS_EX_STATICEDGE
+    LTEXT           "Parallelization:",IDC_PARALLELIZATION_LABEL_LINK,4,210,67,9,SS_NOTIFY,WS_EX_RIGHT
+    CONTROL         "",IDC_PARALLELIZATION,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,77,209,57,11,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,29,328,1,WS_EX_STATICEDGE
+    LTEXT           "Buffer Size:",IDT_BUFFER_SIZE,0,9,53,8,0,WS_EX_RIGHT
+    LTEXT           "Sort Method:",IDT_SORT_METHOD,135,9,70,8,0,WS_EX_RIGHT
+    LTEXT           "Speed is affected by CPU load and storage device characteristics.\n\nThese tests take place in RAM.",IDT_BOX_BENCHMARK_INFO,266,81,57,116
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,205,328,1,WS_EX_STATICEDGE
+END
+
+IDD_CIPHER_TEST_DLG DIALOGEX 0, 0, 326, 249
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt - Test Vectors"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_CIPHER,109,10,104,126,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_KEY,8,36,309,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_KEY_SIZE,67,55,42,68,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_SECONDARY_KEY,8,93,309,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TEST_DATA_UNIT_NUMBER,8,118,84,14,ES_AUTOHSCROLL
+    CONTROL         "XTS mode",IDC_XTS_MODE_ENABLED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,221,12,95,10
+    EDITTEXT        IDC_PLAINTEXT,8,151,159,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_PLAINTEXT_SIZE,258,151,36,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_CIPHERTEXT,8,185,159,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Encrypt",IDC_ENCRYPT,8,229,52,14
+    PUSHBUTTON      "&Decrypt",IDC_DECRYPT,65,229,52,14
+    PUSHBUTTON      "&Auto-Test All",IDC_AUTO,129,229,67,14,BS_MULTILINE
+    PUSHBUTTON      "&Reset",IDC_RESET,208,229,52,14
+    PUSHBUTTON      "Close",IDCLOSE,266,229,52,14
+    GROUPBOX        "Key (hexadecimal)",IDT_TEST_KEY,1,26,323,49
+    GROUPBOX        "Plaintext (hexadecimal)",IDT_TEST_PLAINTEXT,1,140,323,33
+    GROUPBOX        "Ciphertext (hexadecimal)",IDT_TEST_CIPHERTEXT,1,174,323,33
+    RTEXT           "",IDC_TESTS_MESSAGE,50,213,178,10
+    CONTROL         "",IDC_REDTICK,"REDTICK",0x0,234,214,10,8
+    RTEXT           "Key size:",IDT_KEY,8,57,56,8
+    RTEXT           "Plaintext size:",IDT_PLAINTEXT,190,153,63,8
+    LTEXT           "bits",IDT_KEY_UNIT,114,57,45,8
+    RTEXT           "Cipher:",IDT_CIPHER,38,13,68,8
+    LTEXT           "bits",IDT_PLAINTEXT_SIZE_UNIT,298,153,22,8
+    GROUPBOX        "XTS mode",IDT_XTS_MODE,1,75,323,65
+    LTEXT           "Secondary key (hexadecimal)",IDT_SECONDARY_KEY,8,84,187,8
+    LTEXT           "Data unit number (64-bit hexadecimal, data unit size is 512 bytes)",IDT_TEST_DATA_UNIT_NUMBER,8,109,308,8
+    RTEXT           "Block number:",IDT_TEST_BLOCK_NUMBER,134,122,119,8
+    COMBOBOX        IDC_TEST_BLOCK_NUMBER,258,119,36,126,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_TEXT_INFO_DIALOG_BOX_DLG DIALOGEX 0, 0, 372, 220
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,305,200,58,14
+    PUSHBUTTON      "&Print",IDC_PRINT,156,200,58,14
+    CONTROL         "",IDC_INFO_BOX_TEXT,"RichEdit20A",ES_MULTILINE | ES_READONLY | ES_NUMBER | WS_BORDER | WS_VSCROLL | WS_TABSTOP,5,6,361,188
+END
+
+IDD_KEYFILE_GENERATOR DIALOGEX 0, 0, 308, 270
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt - Keyfile Generator"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Close",IDCLOSE,237,10,59,14
+    COMBOBOX        IDC_PRF_ID,79,49,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    PUSHBUTTON      "Generate and Save Keyfile...",IDC_GENERATE_AND_SAVE_KEYFILE,89,248,131,14
+    LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.",IDT_KEYFILE_GENERATOR_NOTE,11,5,213,33
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,40,307,1,WS_EX_STATICEDGE
+    RTEXT           "Mixing PRF:",IDT_PRF,6,51,67,10,SS_CENTERIMAGE
+    GROUPBOX        "Current Pool Content",IDT_POOL_CONTENTS,6,70,296,170
+    CONTROL         "",IDC_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,16,83,282,148,WS_EX_TRANSPARENT
+    CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,51,111,10
+END
+
+IDD_MULTI_CHOICE_DLG DIALOGEX 0, 0, 167, 322
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "",IDC_CHOICE10,7,292,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE9,7,268,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE8,7,244,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE7,7,220,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE6,7,196,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE5,7,172,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE4,7,148,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE3,7,124,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE2,7,100,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    PUSHBUTTON      "",IDC_CHOICE1,7,76,153,24,BS_CENTER | BS_MULTILINE,WS_EX_STATICEDGE
+    LTEXT           "",IDC_MULTI_CHOICE_MSG,7,7,153,56,0,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_MC_DLG_HR2,"Static",SS_ETCHEDHORZ,0,69,168,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_MC_DLG_HR1,"Static",SS_ETCHEDHORZ,0,1,168,1,WS_EX_STATICEDGE
+END
+
+IDD_AUXILIARY_DLG DIALOGEX 0, 0, 426, 296
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_NOFAILCREATE | WS_POPUP
+EXSTYLE WS_EX_TRANSPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_ASPECT_RATIO_CALIBRATION_BOX,3,2,282,282,WS_DISABLED
+END
+
+IDD_TOKEN_PASSWORD DIALOGEX 0, 0, 281, 47
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Security token password/PIN required"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TOKEN_PASSWORD,8,20,199,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,215,7,59,14
+    PUSHBUTTON      "Cancel",IDCANCEL,215,25,59,14
+    LTEXT           "",IDT_TOKEN_PASSWORD_INFO,9,8,196,8
+END
+
+IDD_TOKEN_KEYFILES DIALOGEX 0, 0, 337, 185
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Security Token Keyfiles"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TOKEN_FILE_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_EDITLABELS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,256,152
+    PUSHBUTTON      "&Export...",IDC_EXPORT,7,164,55,14
+    PUSHBUTTON      "&Delete",IDC_DELETE,66,164,55,14
+    PUSHBUTTON      "&Import Keyfile to Token...",IDC_IMPORT_KEYFILE,126,164,137,14
+    DEFPUSHBUTTON   "OK",IDOK,271,7,59,14
+    PUSHBUTTON      "Cancel",IDCANCEL,271,25,59,14
+END
+
+IDD_NEW_TOKEN_KEYFILE DIALOGEX 0, 0, 239, 82
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New Security Token Keyfile Properties"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,128,61,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,183,61,50,14
+    COMBOBOX        IDC_SELECTED_TOKEN,77,13,140,43,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Security token:",IDT_SECURITY_TOKEN,11,15,62,8,0,WS_EX_RIGHT
+    LTEXT           "Keyfile name:",IDT_TOKEN_KEYFILE_NAME,12,34,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_TOKEN_KEYFILE_NAME,77,32,140,13,ES_AUTOHSCROLL
+    GROUPBOX        "",IDC_STATIC,5,2,228,51
+END
+
+IDD_RANDOM_POOL_ENRICHMENT DIALOGEX 0, 0, 308, 270
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueCrypt - Random Pool Enrichment"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&Continue",IDC_CONTINUE,119,248,71,14
+    COMBOBOX        IDC_PRF_ID,79,49,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases security. When done, click 'Continue'.",IDT_RANDOM_POOL_ENRICHMENT_NOTE,11,6,282,25
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,37,307,1,WS_EX_STATICEDGE
+    RTEXT           "Mixing PRF:",IDT_PRF,6,51,67,10,SS_CENTERIMAGE
+    GROUPBOX        "Current Pool Content",IDT_POOL_CONTENTS,6,70,296,170
+    CONTROL         "",IDC_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,16,83,282,148,WS_EX_TRANSPARENT
+    CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,51,111,10
+END
+
+IDD_STATIC_MODELESS_WAIT_DLG DIALOGEX 0, 0, 292, 42
+STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
+CAPTION "TrueCrypt"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,9
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_COMMANDHELP_DLG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 205
+    END
+
+    IDD_RAWDEVICES_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 298
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 205
+    END
+
+    IDD_MOUNT_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_KEYFILES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 330
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 230
+    END
+
+    IDD_LANGUAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+
+    IDD_BENCHMARK_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 323
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 216
+    END
+
+    IDD_CIPHER_TEST_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 319
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 242
+    END
+
+    IDD_TEXT_INFO_DIALOG_BOX_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 365
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 213
+    END
+
+    IDD_KEYFILE_GENERATOR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 299
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 266
+    END
+
+    IDD_MULTI_CHOICE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 160
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 316
+    END
+
+    IDD_AUXILIARY_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 419
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 289
+    END
+
+    IDD_TOKEN_PASSWORD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 274
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 40
+    END
+
+    IDD_TOKEN_KEYFILES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 330
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 178
+    END
+
+    IDD_NEW_TOKEN_KEYFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 75
+    END
+
+    IDD_RANDOM_POOL_ENRICHMENT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 301
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 267
+    END
+
+    IDD_STATIC_MODELESS_WAIT_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 285
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 35
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// BIN
+//
+
+IDR_BOOT_SECTOR         BIN                     "..\\Boot\\Windows\\Release\\BootSector.bin"
+IDR_BOOT_SECTOR_AES     BIN                     "..\\Boot\\Windows\\Release_AES\\BootSector.bin"
+IDR_BOOT_SECTOR_SERPENT BIN                     "..\\Boot\\Windows\\Release_Serpent\\BootSector.bin"
+IDR_BOOT_SECTOR_TWOFISH BIN                     "..\\Boot\\Windows\\Release_Twofish\\BootSector.bin"
+IDR_BOOT_LOADER_DECOMPRESSOR BIN                     "..\\Boot\\Windows\\Release\\Decompressor.com"
+IDR_BOOT_LOADER         BIN                     "..\\Boot\\Windows\\Release\\BootLoader.com.gz"
+IDR_BOOT_LOADER_AES     BIN                     "..\\Boot\\Windows\\Release_AES\\BootLoader.com.gz"
+IDR_BOOT_LOADER_SERPENT BIN                     "..\\Boot\\Windows\\Release_Serpent\\BootLoader.com.gz"
+IDR_BOOT_LOADER_TWOFISH BIN                     "..\\Boot\\Windows\\Release_Twofish\\BootLoader.com.gz"
+IDR_RESCUE_BOOT_SECTOR  BIN                     "..\\Boot\\Windows\\Rescue\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_AES BIN                     "..\\Boot\\Windows\\Rescue_AES\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_SERPENT BIN                     "..\\Boot\\Windows\\Rescue_Serpent\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_TWOFISH BIN                     "..\\Boot\\Windows\\Rescue_Twofish\\BootSector.bin"
+IDR_RESCUE_LOADER       BIN                     "..\\Boot\\Windows\\Rescue\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_AES   BIN                     "..\\Boot\\Windows\\Rescue_AES\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_SERPENT BIN                     "..\\Boot\\Windows\\Rescue_Serpent\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_TWOFISH BIN                     "..\\Boot\\Windows\\Rescue_Twofish\\BootLoader.com.gz"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// XML
+//
+
+IDR_LANGUAGE            XML                     "..\\Common\\Language.xml"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HEADER
+//
+
+IDR_COMMON_RSRC_HEADER  HEADER                  "..\\Common\\Resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXT
+//
+
+IDR_LICENSE             TEXT                    "..\\Resources\\Texts\\License.rtf"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_TRUECRYPT_ICON      ICON                    "..\\Common\\TrueCrypt.ico"
+IDI_TRUECRYPT_VOL_ICON  ICON                    "..\\Common\\TrueCrypt_volume.ico"
+IDI_TRUECRYPT_MOUNTED_ICON ICON                    "..\\Common\\TrueCrypt_mounted.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_TEXTUAL_LOGO_BKG    BITMAP                  "..\\Common\\Textual_logo_background.bmp"
+IDB_TEXTUAL_LOGO_96DPI  BITMAP                  "..\\Common\\Textual_logo_96dpi.bmp"
+IDB_TEXTUAL_LOGO_288DPI BITMAP                  "..\\Common\\Textual_logo_288dpi.bmp"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

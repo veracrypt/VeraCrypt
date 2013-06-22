@@ -1,0 +1,92 @@
+HKCR
+{
+	ForceRemove TrueCrypt.1 = s 'TrueCrypt class'
+	{
+		CLSID = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
+	}
+
+	ForceRemove TrueCrypt = s 'TrueCrypt class'
+	{
+		CLSID = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
+		CurVer = s 'TrueCrypt.1'
+	}
+
+	NoRemove CLSID
+	{
+		ForceRemove {CECBC0EE-78D9-41E6-BCF1-BC222BB224BA} = s 'TrueCrypt class'
+		{
+			ProgID = s 'TrueCrypt.1'
+			VersionIndependentProgID = s 'TrueCrypt'
+			LocalServer32 = s '"%MAIN_MODULE%"'
+
+			TypeLib = s '{1770F56C-7881-4591-A179-79B8001C7D42}'
+			
+			Elevation
+            {
+				val Enabled = d 1
+				val IconReference = s '@%MAIN_MODULE%,-501'
+            }
+
+			val AppId = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
+            val LocalizedString = s '@%MAIN_MODULE%,-110'
+		}
+	}
+
+	NoRemove AppId
+	{
+		ForceRemove {CECBC0EE-78D9-41E6-BCF1-BC222BB224BA} = s 'TrueCrypt class'
+		{
+			val AccessPermission = b 010004803000000040000000000000001400000002001c000100000000001400070000000101000000000005040000000102000000000005200000002002000001020000000000052000000020020000
+		}
+		
+		ForceRemove TrueCrypt.exe
+		{
+			val AppId = s '{CECBC0EE-78D9-41E6-BCF1-BC222BB224BA}'
+		}
+	}
+	
+	ForceRemove TrueCryptFormat.1 = s 'TrueCryptFormat class'
+	{
+		CLSID = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
+	}
+
+	ForceRemove TrueCryptFormat = s 'TrueCryptFormat class'
+	{
+		CLSID = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
+		CurVer = s 'TrueCryptFormat.1'
+	}
+	
+	NoRemove CLSID
+	{
+		ForceRemove {777DCDFD-C330-480B-B582-B02B57580CC9} = s 'TrueCryptFormat class'
+		{
+			ProgID = s 'TrueCryptFormat.1'
+			VersionIndependentProgID = s 'TrueCryptFormat'
+			LocalServer32 = s '"%FORMAT_MODULE%"'
+
+			TypeLib = s '{A7DF958C-0716-49E9-8C3E-53A775797576}'
+			
+			Elevation
+            {
+				val Enabled = d 1
+				val IconReference = s '@%FORMAT_MODULE%,-501'
+            }
+
+			val AppId = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
+            val LocalizedString = s '@%FORMAT_MODULE%,-112'
+		}
+	}
+	
+	NoRemove AppId
+	{
+		ForceRemove {777DCDFD-C330-480B-B582-B02B57580CC9} = s 'TrueCryptFormat class'
+		{
+			val AccessPermission = b 010004803000000040000000000000001400000002001c000100000000001400070000000101000000000005040000000102000000000005200000002002000001020000000000052000000020020000
+		}
+		
+		ForceRemove 'TrueCrypt Format.exe'
+		{
+			val AppId = s '{777DCDFD-C330-480B-B582-B02B57580CC9}'
+		}
+	}
+}

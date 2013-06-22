@@ -1,0 +1,17 @@
+TARGETNAME=Common
+TARGETTYPE=DRIVER_LIBRARY
+
+INCLUDES = ..;../Crypto
+
+SOURCES = \
+	Cache.c \
+	Crc.c \
+	Crypto.c \
+	EncryptionThreadPool.c \
+	Endian.c \
+	GfMul.c \
+	Pkcs5.c \
+	Volumes.c \
+	Xts.c \
+	Tests.c \
+	Wipe.c
