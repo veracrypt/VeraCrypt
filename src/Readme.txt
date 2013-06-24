@@ -9,7 +9,7 @@ agree to the license terms contained in the file 'License.txt', which is
 included in this archive.
 
 Note that the license specifies, for example, that a derived work must not be
-called 'TrueCrypt'.
+called 'TrueCrypt' or 'VeraCrypt'
 
 
 
@@ -17,12 +17,13 @@ Contents
 ========
 
 I. Windows
-	Requirements for Building TrueCrypt for Windows
-	Instructions for Building TrueCrypt for Windows
+	Requirements for Building VeraCrypt for Windows
+	Instructions for Building VeraCrypt for Windows
+	Instructions for Signing and Packaging VeraCrypt for Windows
 
 II. Linux and Mac OS X
-	Requirements for Building TrueCrypt for Linux and Mac OS X
-	Instructions for Building TrueCrypt for Linux and Mac OS X
+	Requirements for Building VeraCrypt for Linux and Mac OS X
+	Instructions for Building VeraCrypt for Linux and Mac OS X
 	
 III. FreeBSD and OpenSolaris
 
@@ -37,7 +38,7 @@ VI. Further Information
 I. Windows
 ==========
 
-Requirements for Building TrueCrypt for Windows:
+Requirements for Building VeraCrypt for Windows:
 ------------------------------------------------
 
 - Microsoft Visual C++ 2008 SP1 (Professional Edition or compatible)
@@ -53,14 +54,14 @@ IMPORTANT:
 
 The 64-bit editions of Windows Vista and later versions of Windows, and in
 some cases (e.g. playback of HD DVD content) also the 32-bit editions, do not
-allow the TrueCrypt driver to run without an appropriate digital signature.
-Therefore, all .sys files in official TrueCrypt binary packages are digitally
-signed with the digital certificate of the TrueCrypt Foundation, which was
-issued by a certification authority. At the end of each official .exe and
+allow the VeraCrypt driver to run without an appropriate digital signature.
+Therefore, all .sys files in official VeraCrypt binary packages are digitally
+signed with the digital certificate of the IDRIX, which was
+issued by Thawt certification authority. At the end of each official .exe and
 .sys file, there are embedded digital signatures and all related certificates
 (i.e. all certificates in the relevant certification chain, such as the
 certification authority certificates, CA-MS cross-certificate, and the
-TrueCrypt Foundation certificate). Keep this in mind if you compile TrueCrypt
+IDRIX certificate). Keep this in mind if you compile VeraCrypt
 and compare your binaries with the official binaries. If your binaries are
 unsigned, the sizes of the official binaries will usually be approximately
 10 KB greater than sizes of your binaries (there may be further differences
@@ -69,7 +70,7 @@ or no service pack for Visual Studio, or different hotfixes for it, or if you
 use different versions of the required SDKs).
 
 
-Instructions for Building TrueCrypt for Windows:
+Instructions for Building VeraCrypt for Windows:
 ------------------------------------------------
 
 1) Create an environment variable 'MSVC16_ROOT' pointing to the folder 'MSVC15'
@@ -78,7 +79,7 @@ Instructions for Building TrueCrypt for Windows:
    Note: The 16-bit installer MSVC15\SETUP.EXE cannot be run on 64-bit Windows,
    but it is actually not necessary to run it. You only need to extract the
    folder 'MSVC15', which contains the 32-bit binaries required to build the
-   TrueCrypt Boot Loader.
+   VeraCrypt Boot Loader.
 
 2) If you have installed the Windows Driver Development Kit in another
    directory than '%SYSTEMDRIVE%\WinDDK', create an environment variable
@@ -88,21 +89,31 @@ Instructions for Building TrueCrypt for Windows:
    environment variable 'PKCS11_INC' pointing to the directory where
    the PKCS #11 header files are installed.
 
-4) Open the solution file 'TrueCrypt.sln' in Microsoft Visual Studio 2008.
+4) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2008.
 
 5) Select 'All' as the active solution configuration.
 
 6) Build the solution.
 
-7) If successful, there should be newly built TrueCrypt binaries in the
+7) If successful, there should be newly built VeraCrypt binaries in the
    'Release' folder.
 
+Instructions for Signing VeraCrypt for Windows:
+------------------------------------------------
+
+The folder "Signing" contains a batch file (sign.bat) that will sign all 
+VeraCrypt components using a code signing certificate present on the 
+certificate store and also build the final installation setup.
+The batch file suppose that the code signing certificate is issued by Thawt.
+This is the case for IDRIX's certificate. If yours is issued by another CA, 
+then you should put the Root and Intermediate certificates in the "Signing" 
+folder and then modify sign.bat accordingly.
 
 
 II. Linux and Mac OS X
 ======================
 
-Requirements for Building TrueCrypt for Linux and Mac OS X:
+Requirements for Building VeraCrypt for Linux and Mac OS X:
 -----------------------------------------------------------
 
 - GNU Make
@@ -120,13 +131,13 @@ Requirements for Building TrueCrypt for Linux and Mac OS X:
   environment variable 'PKCS11_INC'.
 
 
-Instructions for Building TrueCrypt for Linux and Mac OS X:
+Instructions for Building VeraCrypt for Linux and Mac OS X:
 -----------------------------------------------------------
 
-1) Change the current directory to the root of the TrueCrypt source code.
+1) Change the current directory to the root of the VeraCrypt source code.
 
 2) If you have no wxWidgets shared library installed, run the following
-   command to configure the wxWidgets static library for TrueCrypt and to
+   command to configure the wxWidgets static library for VeraCrypt and to
    build it: 
 
    $ make WX_ROOT=/usr/src/wxWidgets wxbuild
@@ -135,7 +146,7 @@ Instructions for Building TrueCrypt for Linux and Mac OS X:
    wxWidgets library. Output files will be placed in the './wxrelease/'
    directory.
 
-3) To build TrueCrypt, run the following command:
+3) To build VeraCrypt, run the following command:
 
    $ make
 
@@ -143,7 +154,7 @@ Instructions for Building TrueCrypt for Linux and Mac OS X:
    
    $ make WXSTATIC=1
 
-4) If successful, the TrueCrypt executable should be located in the directory
+4) If successful, the VeraCrypt executable should be located in the directory
    'Main'.
 
 By default, a universal executable supporting both graphical and text user
@@ -174,7 +185,7 @@ If you intend to implement a feature, please contact us first to make sure:
 3) Whether we need help of third-party developers with implementing the feature.
 
 Information on how to contact us can be found at:
-http://www.truecrypt.org/contact
+https://veracrypt.codeplex.com/
 
 
 
@@ -185,7 +196,7 @@ Copyright Information
 ---------------------
 
 This software as a whole:
-Copyright (c) 2012 TrueCrypt Developers Association. All rights reserved.
+Copyright (c) 2013 IDRIX. All rights reserved.
 
 Portions of this software:
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.
@@ -206,4 +217,4 @@ documentation, are the sole property of their respective owners.
 VI. Further Information
 =======================
 
-http://www.truecrypt.org
+http://www.idrix.fr
