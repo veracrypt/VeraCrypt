@@ -422,7 +422,7 @@ KeyReady:	;
 
 				// Required program version
 				cryptoInfo->RequiredProgramVersion = GetHeaderField16 (header, TC_HEADER_OFFSET_REQUIRED_VERSION);
-				cryptoInfo->LegacyVolume = cryptoInfo->RequiredProgramVersion < 0x600;
+				cryptoInfo->LegacyVolume = cryptoInfo->RequiredProgramVersion < 0x10b;
 
 				// Check CRC of the key set
 				if (!ReadVolumeHeaderRecoveryMode
