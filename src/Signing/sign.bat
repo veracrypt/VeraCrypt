@@ -12,6 +12,6 @@ cd "..\Release\Setup Files\"
 
 cd "..\..\Signing"
 
-signtool sign /v /a /ac Thawt_CodeSigning_CA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.0a.exe"
+signtool sign /v /a /ac Thawt_CodeSigning_CA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.0b.exe"
 
 pause
