@@ -70,7 +70,7 @@ void RMD160Update (RMD160_CTX *ctx, const unsigned char *input, unsigned __int32
 #ifndef TC_WINDOWS_BOOT
 	uint64 len = lenArg, have, need;
 #else
-	uint16 len = (uint16) lenArg, have, need;
+	uint32 len = lenArg, have, need;
 #endif
 
 	/* Check how many bytes we already have and how many more we need. */
@@ -117,8 +117,7 @@ static void RMD160Pad(RMD160_CTX *ctx)
 	PUT_64BIT_LE(count, ctx->count);
 #else
 	*(uint32 *) (count + 4) = 0;
-	*(uint16 *) (count + 2) = 0;
-	*(uint16 *) (count + 0) = ctx->count;
+	*(uint32 *) (count + 0) = ctx->count;
 #endif
 
 	/* Pad out to 56 mod 64. */

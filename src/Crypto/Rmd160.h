@@ -16,7 +16,7 @@ typedef struct RMD160Context
 #ifndef TC_WINDOWS_BOOT
 	uint64 count;
 #else
-	uint16 count;
+	uint32 count;
 #endif
 	unsigned char buffer[RIPEMD160_BLOCK_LENGTH];
 } RMD160_CTX;
