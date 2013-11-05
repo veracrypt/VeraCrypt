@@ -21,11 +21,11 @@ extern "C" {
 
 // Version number written to volume header during format;
 // specifies the minimum program version required to mount the volume
-#define TC_VOLUME_MIN_REQUIRED_PROGRAM_VERSION	0x0100
+#define TC_VOLUME_MIN_REQUIRED_PROGRAM_VERSION	0x010b
 
 // Version number written (encrypted) to the key data area of an encrypted system partition/drive;
 // specifies the minimum program version required to decrypt the system partition/drive
-#define TC_SYSENC_KEYSCOPE_MIN_REQ_PROG_VERSION	0x0100
+#define TC_SYSENC_KEYSCOPE_MIN_REQ_PROG_VERSION	0x010b
 
 // Current volume format version (created by TrueCrypt 6.0+)
 #define TC_VOLUME_FORMAT_VERSION				2
