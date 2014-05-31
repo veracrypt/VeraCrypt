@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
+<dict>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+
+	<key>CFBundleIdentifier</key>
+	<string>org.TrueCryptFoundation.TrueCrypt</string>
+
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+
+	<key>CFBundleExecutable</key>
+	<string>TrueCrypt</string>
+
+	<key>CFBundleIconFile</key>
+	<string>TrueCrypt.icns</string>
+
+	<key>CFBundleName</key>
+	<string>TrueCrypt</string>
+
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+
+	<key>CFBundleSignature</key>
+	<string>TRUE</string>
+
+	<key>CFBundleVersion</key>
+	<string>0</string>
+
+	<key>CFBundleShortVersionString</key>
+	<string>_VERSION_</string>
+
+	<key>CFBundleLongVersionString</key>
+	<string>TrueCrypt _VERSION_</string>
+
+	<key>LSRequiresCarbon</key>
+	<true/>
+
+	<key>CSResourcesFileMapped</key>
+	<true/>
+</dict>
+</plist>
