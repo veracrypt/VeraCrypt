@@ -104,12 +104,13 @@ char *ReadRegistryString (char *subKey, char *name, char *defaultValue, char *st
 	char value[MAX_PATH*4];
 	DWORD size = sizeof (value);
 
+   str[maxLen-1] = 0;
 	strncpy (str, defaultValue, maxLen-1);
 
 	ZeroMemory (value, sizeof value);
 	if (RegOpenKeyEx (HKEY_CURRENT_USER, subKey,
 		0, KEY_READ, &hkey) == ERROR_SUCCESS)
-		if (RegQueryValueEx (hkey, name, 0,	0, (LPBYTE) &value,	&size) == ERROR_SUCCESS)
+		if (RegQueryValueEx (hkey, name, 0,	0, (LPBYTE) value,	&size) == ERROR_SUCCESS)
 			strncpy (str, value, maxLen-1);
 
 	RegCloseKey (hkey);
