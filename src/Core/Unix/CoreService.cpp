@@ -357,7 +357,7 @@ namespace TrueCrypt
 
 					string appPath = request.ApplicationExecutablePath;
 					if (appPath.empty())
-						appPath = "truecrypt";
+						appPath = "veracrypt";
 
 					const char *args[] = { "sudo", "-S", "-p", "", appPath.c_str(), TC_CORE_SERVICE_CMDLINE_OPTION, nullptr };
 					execvp (args[0], ((char* const*) args));

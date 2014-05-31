@@ -13,14 +13,14 @@ namespace TrueCrypt
 {
 	void SystemLog::WriteDebug (const string &debugMessage)
 	{
-		openlog ("truecrypt", LOG_PID, LOG_USER);
+		openlog ("veracrypt", LOG_PID, LOG_USER);
 		syslog (LOG_DEBUG, "%s", debugMessage.c_str());
 		closelog();
 	}
 
 	void SystemLog::WriteError (const string &errorMessage)
 	{
-		openlog ("truecrypt", LOG_PID, LOG_USER);
+		openlog ("veracrypt", LOG_PID, LOG_USER);
 		syslog (LOG_ERR, "%s", errorMessage.c_str());
 		closelog();
 	}

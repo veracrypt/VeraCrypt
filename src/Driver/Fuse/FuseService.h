@@ -43,7 +43,7 @@ namespace TrueCrypt
 		static int ExceptionToErrorCode ();
 		static const char *GetControlPath () { return "/control"; }
 		static const char *GetVolumeImagePath ();
-		static string GetDeviceType () { return "truecrypt"; }
+		static string GetDeviceType () { return "veracrypt"; }
 		static uid_t GetGroupId () { return GroupId; }
 		static uid_t GetUserId () { return UserId; }
 		static shared_ptr <Buffer> GetVolumeInfo ();

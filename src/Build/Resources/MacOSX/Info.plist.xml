@@ -6,19 +6,19 @@
 	<string>6.0</string>
 
 	<key>CFBundleIdentifier</key>
-	<string>org.TrueCryptFoundation.TrueCrypt</string>
+	<string>org.idrix.VeraCrypt</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 
 	<key>CFBundleExecutable</key>
-	<string>TrueCrypt</string>
+	<string>VeraCrypt</string>
 
 	<key>CFBundleIconFile</key>
-	<string>TrueCrypt.icns</string>
+	<string>VeraCrypt.icns</string>
 
 	<key>CFBundleName</key>
-	<string>TrueCrypt</string>
+	<string>VeraCrypt</string>
 
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
@@ -33,7 +33,7 @@
 	<string>_VERSION_</string>
 
 	<key>CFBundleLongVersionString</key>
-	<string>TrueCrypt _VERSION_</string>
+	<string>VeraCrypt _VERSION_</string>
 
 	<key>LSRequiresCarbon</key>
 	<true/>

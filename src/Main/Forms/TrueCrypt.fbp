@@ -11,8 +11,8 @@
         <property name="first_id">1000</property>
         <property name="help_provider">none</property>
         <property name="internationalize">1</property>
-        <property name="name">TrueCrypt</property>
-        <property name="namespace">&quot;TrueCrypt&quot;</property>
+        <property name="name">VeraCrypt</property>
+        <property name="namespace">&quot;VeraCrypt&quot;</property>
         <property name="path">.</property>
         <property name="precompiled_header">#include &quot;System.h&quot;</property>
         <property name="relative_path">1</property>
@@ -35,7 +35,7 @@
             <property name="size">-1,496</property>
             <property name="style">wxCAPTION|wxCLOSE_BOX|wxMINIMIZE_BOX|wxSYSTEM_MENU</property>
             <property name="subclass"></property>
-            <property name="title">TrueCrypt</property>
+            <property name="title">VeraCrypt</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -646,7 +646,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">TrueCrypt Website</property>
+                        <property name="label">VeraCrypt Website</property>
                         <property name="name">WebsiteMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -3059,7 +3059,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">TrueCrypt - Encryption Algorithm Benchmark</property>
+            <property name="title">VeraCrypt - Encryption Algorithm Benchmark</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -3958,7 +3958,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">TrueCrypt - Test Vectors</property>
+            <property name="title">VeraCrypt - Test Vectors</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -6752,7 +6752,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">TrueCrypt - Legal Notices</property>
+            <property name="title">VeraCrypt - Legal Notices</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -6929,7 +6929,7 @@
             <property name="size">-1,-1</property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Enter TrueCrypt Volume Password</property>
+            <property name="title">Enter VeraCrypt Volume Password</property>
             <property name="tooltip"></property>
             <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
             <property name="window_name"></property>
@@ -9007,7 +9007,7 @@
                                                                     <property name="font"></property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Wipe after TrueCrypt window has been closed</property>
+                                                                    <property name="label">Wipe after VeraCrypt window has been closed</property>
                                                                     <property name="maximum_size"></property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">WipeCacheOnCloseCheckBox</property>
@@ -9544,7 +9544,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">TrueCrypt Background Task</property>
+                                                            <property name="label">VeraCrypt Background Task</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer18</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -9916,7 +9916,7 @@
                                                                     <property name="font"></property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Start TrueCrypt Background Task</property>
+                                                                    <property name="label">Start VeraCrypt Background Task</property>
                                                                     <property name="maximum_size"></property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">StartOnLogonCheckBox</property>
@@ -10020,7 +10020,7 @@
                                                                     <property name="font"></property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Mount all device-hosted TrueCrypt volumes</property>
+                                                                    <property name="label">Mount all device-hosted VeraCrypt volumes</property>
                                                                     <property name="maximum_size"></property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">MountDevicesOnLogonCheckBox</property>
@@ -11698,7 +11698,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">TrueCrypt - Random Pool Enrichment</property>
+            <property name="title">VeraCrypt - Random Pool Enrichment</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>

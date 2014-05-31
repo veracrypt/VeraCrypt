@@ -24,7 +24,7 @@ namespace TrueCrypt
 		static DirectoryPath GetExecutableDirectory ();
 		static FilePath GetExecutablePath ();
 		static int GetExitCode () { return ExitCode; }
-		static wstring GetName () { return L"TrueCrypt"; }
+		static wstring GetName () { return L"VeraCrypt"; }
 		static UserInterface *GetUserInterface () { return mUserInterface; }
 		static UserInterfaceType::Enum GetUserInterfaceType () { return mUserInterfaceType; }
 		static void Initialize (UserInterfaceType::Enum type);

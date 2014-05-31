@@ -152,7 +152,7 @@ namespace TrueCrypt
 				else if (SelectedVolumeType == VolumeType::Hidden)
 				{
 					pageTitle = LangString["SIZE_HIDVOL_TITLE"];
-					pageText = LangString["SIZE_HELP_HIDDEN_VOL"] + L"\n\n" + _("Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This not a bug in TrueCrypt but a limitation of the operating system.");
+					pageText = LangString["SIZE_HELP_HIDDEN_VOL"] + L"\n\n" + _("Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This not a bug in VeraCrypt but a limitation of the operating system.");
 					freeSpaceText = StringFormatter (_("Maximum possible hidden volume size for this volume is {0}."), Gui->SizeToString (MaxHiddenVolumeSize));
 				}
 				else
@@ -579,7 +579,7 @@ namespace TrueCrypt
 								{
 									if (partition.MountPoint == "/")
 									{
-										Gui->ShowError (_("Error: You are trying to encrypt a system drive.\n\nTrueCrypt can encrypt a system drive only under Windows."));
+										Gui->ShowError (_("Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows."));
 										return GetCurrentStep();
 									}
 								}
@@ -614,7 +614,7 @@ namespace TrueCrypt
 							{
 								if (mountPoint == "/")
 								{
-									Gui->ShowError (_("Error: You are trying to encrypt a system partition.\n\nTrueCrypt can encrypt system partitions only under Windows."));
+									Gui->ShowError (_("Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows."));
 									return GetCurrentStep();
 								}
 

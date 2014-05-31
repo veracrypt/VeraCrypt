@@ -55,7 +55,7 @@ namespace TrueCrypt
 		parser.AddSwitch (L"",	L"list-token-keyfiles",	_("List security token keyfiles"));
 		parser.AddSwitch (L"",	L"load-preferences",	_("Load user preferences"));
 		parser.AddSwitch (L"",	L"mount",				_("Mount volume interactively"));
-		parser.AddOption (L"m", L"mount-options",		_("TrueCrypt volume mount options"));
+		parser.AddOption (L"m", L"mount-options",		_("VeraCrypt volume mount options"));
 		parser.AddOption (L"",	L"new-keyfiles",		_("New keyfiles"));
 		parser.AddOption (L"",	L"new-password",		_("New password"));
 		parser.AddSwitch (L"",	L"non-interactive",		_("Do not interact with user"));

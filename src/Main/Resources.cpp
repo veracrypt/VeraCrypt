@@ -151,8 +151,8 @@ namespace TrueCrypt
 #ifdef TC_WINDOWS
 		return wxIcon (L"IDI_TRUECRYPT_ICON", wxBITMAP_TYPE_ICO_RESOURCE, 16, 16);
 #else
-#		include "Resources/Icons/TrueCrypt-16x16.xpm"
-		return wxIcon (TrueCryptIcon16x16);
+#		include "Resources/Icons/VeraCrypt-16x16.xpm"
+		return wxIcon (VeraCryptIcon16x16);
 #endif
 	}
 
@@ -163,7 +163,7 @@ namespace TrueCrypt
 #else
 		static const byte VolumeWizardIcon[] =
 		{
-#			include "Format/TrueCrypt_Wizard.bmp.h"
+#			include "Format/VeraCrypt_Wizard.bmp.h"
 		};
 
 		wxMemoryInputStream stream (VolumeWizardIcon, sizeof (VolumeWizardIcon));

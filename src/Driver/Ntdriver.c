@@ -3049,7 +3049,7 @@ BOOL IsVolumeClassFilterRegistered ()
 	{
 		if (data->Type == REG_MULTI_SZ && data->DataLength >= 9 * sizeof (wchar_t))
 		{
-			// Search for the string "truecrypt"
+			// Search for the string "veracrypt"
 			ULONG i;
 			for (i = 0; i <= data->DataLength - 9 * sizeof (wchar_t); ++i)
 			{

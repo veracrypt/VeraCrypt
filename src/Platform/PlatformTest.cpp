@@ -33,7 +33,7 @@ namespace TrueCrypt
 
 		try
 		{
-			file->Open ("truecrypt-serializer-test.tmp", File::CreateReadWrite);
+			file->Open ("veracrypt-serializer-test.tmp", File::CreateReadWrite);
 			stream = shared_ptr <Stream> (new FileStream (file));
 		}
 		catch (...) { }

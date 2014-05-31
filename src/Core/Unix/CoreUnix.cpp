@@ -210,10 +210,10 @@ namespace TrueCrypt
 			return envPrefix;
 		
 		if (FilesystemPath ("/media").IsDirectory())
-			return "/media/truecrypt";
+			return "/media/veracrypt";
 		
 		if (FilesystemPath ("/mnt").IsDirectory())
-			return "/mnt/truecrypt";
+			return "/mnt/veracrypt";
 		
 		return GetTempDirectory() + "/truecrypt_mnt";
 	}

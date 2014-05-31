@@ -860,7 +860,7 @@ namespace TrueCrypt
 
 				wxLog::FlushActive();
 				Application::SetExitCode (1);
-				Gui->ShowInfo (_("TrueCrypt is already running."));
+				Gui->ShowInfo (_("VeraCrypt is already running."));
 				return false;
 			}
 
@@ -1079,13 +1079,13 @@ namespace TrueCrypt
 			wxString docPath = wstring (Application::GetExecutableDirectory());
 
 #ifdef TC_RESOURCE_DIR
-			docPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/TrueCrypt User Guide.pdf");
+			docPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/VeraCrypt User Guide.pdf");
 #elif defined (TC_WINDOWS)
-			docPath += L"\\TrueCrypt User Guide.pdf";
+			docPath += L"\\VeraCrypt User Guide.pdf";
 #elif defined (TC_MACOSX)
-			docPath += L"/../Resources/TrueCrypt User Guide.pdf";
+			docPath += L"/../Resources/VeraCrypt User Guide.pdf";
 #elif defined (TC_UNIX)
-			docPath = L"/usr/share/truecrypt/doc/TrueCrypt User Guide.pdf";
+			docPath = L"/usr/share/veracrypt/doc/VeraCrypt User Guide.pdf";
 #else
 #	error TC_RESOURCE_DIR undefined
 #endif

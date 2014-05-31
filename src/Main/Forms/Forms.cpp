@@ -168,7 +168,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	HelpMenu->AppendSeparator();
 	
 	wxMenuItem* WebsiteMenuItem;
-	WebsiteMenuItem = new wxMenuItem( HelpMenu, wxID_ANY, wxString( _("TrueCrypt Website") ) , wxEmptyString, wxITEM_NORMAL );
+	WebsiteMenuItem = new wxMenuItem( HelpMenu, wxID_ANY, wxString( _("VeraCrypt Website") ) , wxEmptyString, wxITEM_NORMAL );
 	HelpMenu->Append( WebsiteMenuItem );
 	
 	wxMenuItem* DownloadsMenuItem;
@@ -1654,7 +1654,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	wxStaticBoxSizer* sbSizer14;
 	sbSizer14 = new wxStaticBoxSizer( new wxStaticBox( SecurityPage, wxID_ANY, _("Password Cache") ), wxVERTICAL );
 	
-	WipeCacheOnCloseCheckBox = new wxCheckBox( SecurityPage, wxID_ANY, _("Wipe after TrueCrypt window has been closed"), wxDefaultPosition, wxDefaultSize, 0 );
+	WipeCacheOnCloseCheckBox = new wxCheckBox( SecurityPage, wxID_ANY, _("Wipe after VeraCrypt window has been closed"), wxDefaultPosition, wxDefaultSize, 0 );
 	
 	sbSizer14->Add( WipeCacheOnCloseCheckBox, 0, wxALL, 5 );
 	
@@ -1728,7 +1728,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	bSizer62 = new wxBoxSizer( wxVERTICAL );
 	
 	wxStaticBoxSizer* sbSizer18;
-	sbSizer18 = new wxStaticBoxSizer( new wxStaticBox( BackgroundTaskPanel, wxID_ANY, _("TrueCrypt Background Task") ), wxVERTICAL );
+	sbSizer18 = new wxStaticBoxSizer( new wxStaticBox( BackgroundTaskPanel, wxID_ANY, _("VeraCrypt Background Task") ), wxVERTICAL );
 	
 	BackgroundTaskEnabledCheckBox = new wxCheckBox( BackgroundTaskPanel, wxID_ANY, _("Enabled"), wxDefaultPosition, wxDefaultSize, 0 );
 	
@@ -1772,7 +1772,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	
 	LogOnSizer = new wxStaticBoxSizer( new wxStaticBox( SystemIntegrationPage, wxID_ANY, _("Actions to Perform when User Logs On") ), wxVERTICAL );
 	
-	StartOnLogonCheckBox = new wxCheckBox( SystemIntegrationPage, wxID_ANY, _("Start TrueCrypt Background Task"), wxDefaultPosition, wxDefaultSize, 0 );
+	StartOnLogonCheckBox = new wxCheckBox( SystemIntegrationPage, wxID_ANY, _("Start VeraCrypt Background Task"), wxDefaultPosition, wxDefaultSize, 0 );
 	
 	LogOnSizer->Add( StartOnLogonCheckBox, 0, wxALL, 5 );
 	
@@ -1780,7 +1780,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	
 	LogOnSizer->Add( MountFavoritesOnLogonCheckBox, 0, wxALL, 5 );
 	
-	MountDevicesOnLogonCheckBox = new wxCheckBox( SystemIntegrationPage, wxID_ANY, _("Mount all device-hosted TrueCrypt volumes"), wxDefaultPosition, wxDefaultSize, 0 );
+	MountDevicesOnLogonCheckBox = new wxCheckBox( SystemIntegrationPage, wxID_ANY, _("Mount all device-hosted VeraCrypt volumes"), wxDefaultPosition, wxDefaultSize, 0 );
 	
 	LogOnSizer->Add( MountDevicesOnLogonCheckBox, 0, wxALL, 5 );
 	

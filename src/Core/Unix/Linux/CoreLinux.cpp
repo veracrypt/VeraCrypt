@@ -114,7 +114,7 @@ namespace TrueCrypt
 	{
 		string devPath = mountedVolume->VirtualDevice;
 
-		if (devPath.find ("/dev/mapper/truecrypt") != 0)
+		if (devPath.find ("/dev/mapper/veracrypt") != 0)
 			throw NotApplicable (SRC_POS);
 
 		size_t devCount = 0;
@@ -380,7 +380,7 @@ namespace TrueCrypt
 				}
 
 				stringstream nativeDevName;
-				nativeDevName << "truecrypt" << options.SlotNumber;
+				nativeDevName << "veracrypt" << options.SlotNumber;
 				
 				if (nativeDevCount != cipherCount - 1)
 					nativeDevName << "_" << cipherCount - nativeDevCount - 2;

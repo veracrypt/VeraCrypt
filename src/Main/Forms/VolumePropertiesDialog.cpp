@@ -69,7 +69,7 @@ namespace TrueCrypt
 		AppendToList ("BACKUP_HEADER", LangString[volumeInfo.MinRequiredProgramVersion >= 0x600 ? "UISTR_YES" : "UISTR_NO"]);
 
 #ifdef TC_LINUX
-		if (string (volumeInfo.VirtualDevice).find ("/dev/mapper/truecrypt") != 0)
+		if (string (volumeInfo.VirtualDevice).find ("/dev/mapper/veracrypt") != 0)
 		{
 #endif
 		AppendToList ("TOTAL_DATA_READ", Gui->SizeToString (volumeInfo.TotalDataRead));

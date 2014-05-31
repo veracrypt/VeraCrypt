@@ -25,7 +25,7 @@ namespace TrueCrypt
 
 		VersionStaticText->SetLabel (Application::GetName() + L" " + StringConverter::ToWide (Version::String()));
 		CopyrightStaticText->SetLabel (StringConverter::ToWide (TC_STR_RELEASED_BY));
-		WebsiteHyperlink->SetLabel (L"www.truecrypt.org");
+		WebsiteHyperlink->SetLabel (L"www.idrix.fr");
 
 		CreditsTextCtrl->SetMinSize (wxSize (
 			Gui->GetCharWidth (CreditsTextCtrl) * 70,
@@ -57,10 +57,10 @@ namespace TrueCrypt
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\n"
 
 			L"\nThis software as a whole:\n"
-			L"Copyright \xA9 2012 TrueCrypt Developers Association. All rights reserved.\n\n"
+			L"Copyright \xA9 2014 IDRIX. All rights reserved.\n\n"
 
 			L"This software uses wxWidgets library, which is copyright \xA9 1998-2011 Julian Smart, Robert Roebling et al.\n\n"
 
-			L"A TrueCrypt Foundation Release");
+			L"An IDRIX Release");
 	}
 }

@@ -1420,7 +1420,7 @@ namespace TrueCrypt
 		else if (show && !mTaskBarIcon->IsIconInstalled())
 		{
 #ifndef TC_MACOSX
-			mTaskBarIcon->SetIcon (Resources::GetTrueCryptIcon(), L"TrueCrypt");
+			mTaskBarIcon->SetIcon (Resources::GetTrueCryptIcon(), L"VeraCrypt");
 #endif
 		}
 	}

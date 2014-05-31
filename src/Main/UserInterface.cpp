@@ -48,7 +48,7 @@ namespace TrueCrypt
 		if (!Preferences.NonInteractive)
 		{
 			if (!SystemInfo::IsVersionAtLeast (2, 6, 24))
-				ShowWarning (_("Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a TrueCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later."));
+				ShowWarning (_("Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later."));
 		}
 #endif // TC_LINUX
 	}
@@ -280,7 +280,7 @@ namespace TrueCrypt
 			prop << LangString["BACKUP_HEADER"] << L": " << LangString[volume.MinRequiredProgramVersion >= 0x600 ? "UISTR_YES" : "UISTR_NO"] << L'\n';
 
 #ifdef TC_LINUX
-			if (string (volume.VirtualDevice).find ("/dev/mapper/truecrypt") != 0)
+			if (string (volume.VirtualDevice).find ("/dev/mapper/veracrypt") != 0)
 			{
 #endif
 			prop << LangString["TOTAL_DATA_READ"] << L": " << SizeToString (volume.TotalDataRead) << L'\n';
@@ -354,10 +354,10 @@ namespace TrueCrypt
 
 		// Unresolved exceptions
 		string typeName (StringConverter::GetTypeName (typeid (ex)));
-		size_t pos = typeName.find ("TrueCrypt::");
+		size_t pos = typeName.find ("VeraCrypt::");
 		if (pos != string::npos)
 		{
-			return StringConverter::ToWide (typeName.substr (pos + string ("TrueCrypt::").size()))
+			return StringConverter::ToWide (typeName.substr (pos + string ("VeraCrypt::").size()))
 				+ L" at " + StringConverter::ToWide (ex.what());
 		}
 
@@ -475,7 +475,7 @@ namespace TrueCrypt
 		EX2MSG (UnsupportedSectorSizeHiddenVolumeProtection, _("Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume."));
 		EX2MSG (UnsupportedSectorSizeNoKernelCrypto, _("Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive."));
 #else
-		EX2MSG (UnsupportedSectorSize,				_("Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use TrueCrypt on another platform."));
+		EX2MSG (UnsupportedSectorSize,				_("Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform."));
 #endif
 
 		EX2MSG (VolumeAlreadyMounted,				LangString["VOL_ALREADY_MOUNTED"]);
@@ -484,7 +484,7 @@ namespace TrueCrypt
 		EX2MSG (VolumeSlotUnavailable,				_("Volume slot unavailable."));
 
 #ifdef TC_MACOSX
-		EX2MSG (HigherFuseVersionRequired,			_("TrueCrypt requires MacFUSE 1.3 or later."));
+		EX2MSG (HigherFuseVersionRequired,			_("VeraCrypt requires MacFUSE 1.3 or later."));
 #endif
 
 #undef EX2MSG
@@ -1018,8 +1018,8 @@ namespace TrueCrypt
 				wstring helpText = StringConverter::ToWide (
 					"Synopsis:\n"
 					"\n"
-					"truecrypt [OPTIONS] COMMAND\n"
-					"truecrypt [OPTIONS] VOLUME_PATH [MOUNT_DIRECTORY]\n"
+					"veracrypt [OPTIONS] COMMAND\n"
+					"veracrypt [OPTIONS] VOLUME_PATH [MOUNT_DIRECTORY]\n"
 					"\n"
 					"\n"
 					"Commands:\n"
@@ -1103,7 +1103,7 @@ namespace TrueCrypt
 					"\n"
 					"MOUNTED_VOLUME:\n"
 					" Specifies a mounted volume. One of the following forms can be used:\n"
-					" 1) Path to the encrypted TrueCrypt volume.\n"
+					" 1) Path to the encrypted VeraCrypt volume.\n"
 					" 2) Mount directory of the volume's filesystem (if mounted).\n"
 					" 3) Slot number of the mounted volume (requires --slot).\n"
 					"\n"
@@ -1129,7 +1129,7 @@ namespace TrueCrypt
 					"\n"
 					"--fs-options=OPTIONS\n"
 					" Filesystem mount options. The OPTIONS argument is passed to mount(8)\n"
-					" command with option -o when a filesystem on a TrueCrypt volume is mounted.\n"
+					" command with option -o when a filesystem on a VeraCrypt volume is mounted.\n"
 					" This option is not available on some platforms.\n"
 					"\n"
 					"--hash=HASH\n"
@@ -1151,7 +1151,7 @@ namespace TrueCrypt
 					" Load user preferences.\n"
 					"\n"
 					"-m, --mount-options=OPTION1[,OPTION2,OPTION3,...]\n"
-					" Specifies comma-separated mount options for a TrueCrypt volume:\n"
+					" Specifies comma-separated mount options for a VeraCrypt volume:\n"
 					"  headerbak: Use backup headers when mounting a volume.\n"
 					"  nokernelcrypto: Do not use kernel cryptographic services.\n"
 					"  readonly|ro: Mount volume as read-only.\n"
@@ -1227,37 +1227,37 @@ namespace TrueCrypt
 					"\n"
 					"IMPORTANT:\n"
 					"\n"
-					"If you want to use TrueCrypt, you must follow the security requirements and\n"
+					"If you want to use VeraCrypt, you must follow the security requirements and\n"
 					"security precautions listed in chapter 'Security Requirements and Precautions'\n"
-					"in the TrueCrypt documentation (file 'TrueCrypt User Guide.pdf').\n"
+					"in the VeraCrypt documentation (file 'VeraCrypt User Guide.pdf').\n"
 					"\n"
 					"\nExamples:\n\n"
 					"Create a new volume:\n"
-					"truecrypt -t -c\n"
+					"veracrypt -t -c\n"
 					"\n"
 					"Mount a volume:\n"
-					"truecrypt volume.tc /media/truecrypt1\n"
+					"veracrypt volume.tc /media/truecrypt1\n"
 					"\n"
 					"Mount a volume as read-only, using keyfiles:\n"
-					"truecrypt -m ro -k keyfile1,keyfile2 volume.tc\n"
+					"veracrypt -m ro -k keyfile1,keyfile2 volume.tc\n"
 					"\n"
 					"Mount a volume without mounting its filesystem:\n"
-					"truecrypt --filesystem=none volume.tc\n"
+					"veracrypt --filesystem=none volume.tc\n"
 					"\n"
 					"Mount a volume prompting only for its password:\n"
-					"truecrypt -t -k \"\" --protect-hidden=no volume.tc /media/truecrypt1\n"
+					"veracrypt -t -k \"\" --protect-hidden=no volume.tc /media/truecrypt1\n"
 					"\n"
 					"Dismount a volume:\n"
-					"truecrypt -d volume.tc\n"
+					"veracrypt -d volume.tc\n"
 					"\n"
 					"Dismount all mounted volumes:\n"
-					"truecrypt -d\n"
+					"veracrypt -d\n"
 				);
 
 #ifndef TC_NO_GUI
 				if (Application::GetUserInterfaceType() == UserInterfaceType::Graphic)
 				{
-					wxDialog dialog (nullptr, wxID_ANY, _("TrueCrypt Command Line Help"), wxDefaultPosition);
+					wxDialog dialog (nullptr, wxID_ANY, _("VeraCrypt Command Line Help"), wxDefaultPosition);
 
 					wxTextCtrl *textCtrl = new wxTextCtrl (&dialog, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY);
 					textCtrl->SetFont (wxFont (wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, L"Courier"));
