@@ -140,7 +140,7 @@ void RMD160Final(unsigned char *digest, RMD160_CTX *ctx)
 	if (digest) {
 		for (i = 0; i < 5; i++)
 			PUT_32BIT_LE(digest + i * 4, ctx->state[i]);
-		memset (ctx, 0, sizeof(*ctx));
+		burn (ctx, sizeof(*ctx));
 	}
 }
 
