@@ -41,7 +41,7 @@
 // Unencrypted:
 // 0		64		Salt
 // Encrypted:
-// 64		4		ASCII string 'TRUE'
+// 64		4		ASCII string 'VERA'
 // 68		2		Header version
 // 70		2		Required program version
 // 72		4		CRC-32 checksum of the (decrypted) bytes 256-511
@@ -596,7 +596,7 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 
 	// PKCS5 PRF
 	derive_key_ripemd160 (TRUE, password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
-		PKCS5_SALT_SIZE, 32767, dk, sizeof (dk));
+		PKCS5_SALT_SIZE, bBoot ? 16384 : 32767, dk, sizeof (dk));
 
 	// Mode of operation
 	cryptoInfo->mode = FIRST_MODE_OF_OPERATION_ID;

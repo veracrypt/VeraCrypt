@@ -393,7 +393,7 @@ void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int 
 	char init[128];
 	char counter[4];
 	int c, i, l;
-   int EnhanceSecurityLoops = (bNotTest)? 10 : 1;
+   int EnhanceSecurityLoops = (bNotTest)? 20 : 1;
 
 	/* iteration 1 */
 	memset (counter, 0, 4);
@@ -416,6 +416,21 @@ void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int 
 			}
 		}
 	}
+
+   /* add extra 10 loops to ensure backward compatibilty with the previous count (327661 for boot, 655331 for normal) */
+   if (iterations == 32767)
+   {
+      /* case of normal partition : add 10 iterations to have a total of 655331 = (32767 - 1)*20 + 1 + 10 */
+		for (c = 0; c < 10; c++)
+		{
+			hmac_ripemd160 (pwd, pwd_len, j, RIPEMD160_DIGESTSIZE, k);
+			for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
+			{
+				u[i] ^= k[i];
+				j[i] = k[i];
+			}
+		}
+   }
 
 	/* Prevent possible leaks. */
 	burn (j, sizeof(j));
@@ -624,13 +639,11 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
 {
 	switch (pkcs5_prf_id)
 	{
-#ifdef TC_WINDOWS_BOOT
-	case RIPEMD160:	
-		return 32767; /* we multiply this number by 10 inside derive_u_ripemd160 */
 
-#else
 	case RIPEMD160:	
-		return bBoot? 32767 : 65534; /* we multiply this number by 10 inside derive_u_ripemd160 */
+		return bBoot? 16384 : 32767; /* we multiply this number by 10 inside derive_u_ripemd160 */
+
+#ifndef TC_WINDOWS_BOOT
 
 	case SHA512:	
 		return 500000;			
