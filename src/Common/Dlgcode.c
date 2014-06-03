@@ -7404,15 +7404,13 @@ char *LoadFile (const char *fileName, DWORD *size)
 		return NULL;
 
 	*size = GetFileSize (h, NULL);
-	buf = (char *) malloc (*size + 1);
+	buf = (char *) calloc (*size + 1, 1);
 
 	if (buf == NULL)
 	{
 		CloseHandle (h);
 		return NULL;
 	}
-
-	ZeroMemory (buf, *size + 1);
 
 	if (!ReadFile (h, buf, *size, size, NULL))
 	{
@@ -7444,18 +7442,15 @@ char *LoadFileBlock (char *fileName, __int64 fileOffset, size_t count)
 		return NULL;
 	}
 
-	buf = (char *) malloc (count);
+	buf = (char *) calloc (count, 1);
 
 	if (buf == NULL)
 	{
 		CloseHandle (h);
 		return NULL;
 	}
- 
-	ZeroMemory (buf, count);
 
-	if (buf != NULL)
-		ReadFile (h, buf, count, &bytesRead, NULL);
+	ReadFile (h, buf, count, &bytesRead, NULL);
 
 	CloseHandle (h);
 
