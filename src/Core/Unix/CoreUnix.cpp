@@ -205,7 +205,7 @@ namespace TrueCrypt
 
 	string CoreUnix::GetDefaultMountPointPrefix () const
 	{
-		const char *envPrefix = getenv ("TRUECRYPT_MOUNT_PREFIX");
+		const char *envPrefix = getenv ("VERACRYPT_MOUNT_PREFIX");
 		if (envPrefix && !string (envPrefix).empty())
 			return envPrefix;
 		
@@ -215,7 +215,7 @@ namespace TrueCrypt
 		if (FilesystemPath ("/mnt").IsDirectory())
 			return "/mnt/veracrypt";
 		
-		return GetTempDirectory() + "/truecrypt_mnt";
+		return GetTempDirectory() + "/veracrypt_mnt";
 	}
 
 	uint32 CoreUnix::GetDeviceSectorSize (const DevicePath &devicePath) const

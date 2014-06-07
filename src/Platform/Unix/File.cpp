@@ -39,7 +39,7 @@ namespace TrueCrypt
 	static void TraceFileOperation (int fileHandle, FilePath filePath, bool write, uint64 length, int64 position = -1)
 	{
 		string path = filePath;
-		if (path.empty() || path.find ("truecrypt_aux_mnt") != string::npos)
+		if (path.empty() || path.find ("veracrypt_aux_mnt") != string::npos)
 			return;
 
 		stringstream s;
