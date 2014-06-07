@@ -906,7 +906,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 					}
 					else
 					{
-						// Determine if the first sector contains a portion of the TrueCrypt Boot Loader
+						// Determine if the first sector contains a portion of the VeraCrypt Boot Loader
 
 						offset.QuadPart = 0;
 
@@ -926,7 +926,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 							if (opentest->bDetectTCBootLoader && IoStatus.Information >= TC_SECTOR_SIZE_BIOS)
 							{
-								// Search for the string "TrueCrypt"
+								// Search for the string "VeraCrypt"
 								for (i = 0; i < TC_SECTOR_SIZE_BIOS - strlen (TC_APP_NAME); ++i)
 								{
 									if (memcmp (readBuffer + i, TC_APP_NAME, strlen (TC_APP_NAME)) == 0)
@@ -995,7 +995,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 			if (NT_SUCCESS (ntStatus))
 			{
-				// Determine if the first sector contains a portion of the TrueCrypt Boot Loader
+				// Determine if the first sector contains a portion of the VeraCrypt Boot Loader
 				offset.QuadPart = 0;	// MBR
 
 				ntStatus = ZwReadFile (NtFileHandle,
@@ -1033,7 +1033,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 					request->UserConfiguration = 0;
 					request->CustomUserMessage[0] = 0;
 
-					// Search for the string "TrueCrypt"
+					// Search for the string "VeraCrypt"
 					for (i = 0; i < sizeof (readBuffer) - strlen (TC_APP_NAME); ++i)
 					{
 						if (memcmp (readBuffer + i, TC_APP_NAME, strlen (TC_APP_NAME)) == 0)
