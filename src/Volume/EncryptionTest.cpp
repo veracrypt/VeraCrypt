@@ -868,22 +868,22 @@ namespace TrueCrypt
 		Buffer derivedKey (4);
 
 		Pkcs5HmacRipemd160 pkcs5HmacRipemd160;
-		pkcs5HmacRipemd160.DeriveKey (derivedKey, password, salt, 5);
+		pkcs5HmacRipemd160.DeriveKey (derivedKey, password, salt, 5, FALSE);
 		if (memcmp (derivedKey.Ptr(), "\x7a\x3d\x7c\x03", 4) != 0)
 			throw TestFailed (SRC_POS);
 
 		Pkcs5HmacSha1 pkcs5HmacSha1;
-		pkcs5HmacSha1.DeriveKey (derivedKey, password, salt, 5);
+		pkcs5HmacSha1.DeriveKey (derivedKey, password, salt, 5, FALSE);
 		if (memcmp (derivedKey.Ptr(), "\x5c\x75\xce\xf0", 4) != 0)
 			throw TestFailed (SRC_POS);
 
 		Pkcs5HmacSha512 pkcs5HmacSha512;
-		pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5);
+		pkcs5HmacSha512.DeriveKey (derivedKey, password, salt, 5, FALSE);
 		if (memcmp (derivedKey.Ptr(), "\x13\x64\xae\xf8", 4) != 0)
 			throw TestFailed (SRC_POS);
 
 		Pkcs5HmacWhirlpool pkcs5HmacWhirlpool;
-		pkcs5HmacWhirlpool.DeriveKey (derivedKey, password, salt, 5);
+		pkcs5HmacWhirlpool.DeriveKey (derivedKey, password, salt, 5, FALSE);
 		if (memcmp (derivedKey.Ptr(), "\x50\x7c\x36\x6f", 4) != 0)
 			throw TestFailed (SRC_POS);
 	}

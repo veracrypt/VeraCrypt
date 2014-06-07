@@ -23,8 +23,8 @@ namespace TrueCrypt
 	public:
 		virtual ~Pkcs5Kdf ();
 
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt) const;
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const = 0;
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, BOOL bNotTest = TRUE) const;
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const = 0;
 		static shared_ptr <Pkcs5Kdf> GetAlgorithm (const wstring &name);
 		static shared_ptr <Pkcs5Kdf> GetAlgorithm (const Hash &hash);
 		static Pkcs5KdfList GetAvailableAlgorithms ();
@@ -49,7 +49,7 @@ namespace TrueCrypt
 		Pkcs5HmacRipemd160 () { }
 		virtual ~Pkcs5HmacRipemd160 () { }
 
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Ripemd160); }
 		virtual int GetIterationCount () const { return 655340; }
 		virtual wstring GetName () const { return L"HMAC-RIPEMD-160"; }
@@ -65,7 +65,7 @@ namespace TrueCrypt
 		Pkcs5HmacRipemd160_1000 () { }
 		virtual ~Pkcs5HmacRipemd160_1000 () { }
 
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Ripemd160); }
 		virtual int GetIterationCount () const { return 327670; }
 		virtual wstring GetName () const { return L"HMAC-RIPEMD-160"; }
@@ -81,7 +81,7 @@ namespace TrueCrypt
 		Pkcs5HmacSha1 () { }
 		virtual ~Pkcs5HmacSha1 () { }
 
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha1); }
 		virtual int GetIterationCount () const { return 500000; }
 		virtual wstring GetName () const { return L"HMAC-SHA-1"; }
@@ -97,7 +97,7 @@ namespace TrueCrypt
 		Pkcs5HmacSha512 () { }
 		virtual ~Pkcs5HmacSha512 () { }
 
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha512); }
 		virtual int GetIterationCount () const { return 500000; }
 		virtual wstring GetName () const { return L"HMAC-SHA-512"; }
@@ -113,7 +113,7 @@ namespace TrueCrypt
 		Pkcs5HmacWhirlpool () { }
 		virtual ~Pkcs5HmacWhirlpool () { }
 
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Whirlpool); }
 		virtual int GetIterationCount () const { return 500000; }
 		virtual wstring GetName () const { return L"HMAC-Whirlpool"; }
