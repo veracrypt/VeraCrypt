@@ -64,7 +64,7 @@ RESOURCES += ../License.txt.h
 RESOURCES += ../Common/Language.xml.h
 ifndef TC_NO_GUI
 RESOURCES += ../Common/Textual_logo_96dpi.bmp.h
-RESOURCES += ../Format/TrueCrypt_Wizard.bmp.h
+RESOURCES += ../Format/VeraCrypt_Wizard.bmp.h
 RESOURCES += ../Mount/Drive_icon_96dpi.bmp.h
 RESOURCES += ../Mount/Drive_icon_mask_96dpi.bmp.h
 RESOURCES += ../Mount/Logo_96dpi.bmp.h
@@ -131,7 +131,7 @@ else
 	-ln -sf $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)
 endif
 
-	cp $(PWD)/Resources/Icons/TrueCrypt.icns $(APPNAME).app/Contents/Resources
+	cp $(PWD)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
 	
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist

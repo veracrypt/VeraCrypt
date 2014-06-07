@@ -67,6 +67,8 @@ endif
 
 ifdef PKCS11_INC
 	C_CXX_FLAGS += -I$(PKCS11_INC)
++else
+	C_CXX_FLAGS += -I$(CURDIR)/PKCS11
 endif
 
 ifeq "$(origin RESOURCEDIR)" "command line"
@@ -171,7 +173,7 @@ endif
 ifeq "$(shell uname -s)" "Darwin"
 
 	PLATFORM := MacOSX
-	APPNAME := TrueCrypt
+	APPNAME := VeraCrypt
 
 	TC_OSX_SDK ?= /Developer/SDKs/MacOSX10.4u.sdk
 	CC := gcc-4.0
