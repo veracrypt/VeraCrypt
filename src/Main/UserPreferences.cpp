@@ -219,7 +219,7 @@ namespace TrueCrypt
 
 			foreach_ref (const Keyfile &keyfile, DefaultKeyfiles)
 			{
-				keyfilesXml.InnerNodes.push_back (XmlNode (L"keyfile", wxString (FilesystemPath (keyfile))));
+				keyfilesXml.InnerNodes.push_back (XmlNode (L"keyfile", wxString (wstring(FilesystemPath (keyfile)))));
 			}
 
 			XmlWriter keyfileWriter (keyfilesCfgPath);

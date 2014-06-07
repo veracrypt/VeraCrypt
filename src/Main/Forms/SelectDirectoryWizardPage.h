@@ -18,7 +18,7 @@ namespace TrueCrypt
 	public:
 		SelectDirectoryWizardPage (wxPanel* parent) : SelectDirectoryWizardPageBase (parent) { }
 
-		DirectoryPath GetDirectory () const { return DirectoryPath (DirectoryTextCtrl->GetValue()); }
+		DirectoryPath GetDirectory () const { return DirectoryPath (DirectoryTextCtrl->GetValue().wc_str()); }
 		bool IsValid ();
 		void SetDirectory (const DirectoryPath &path) { DirectoryTextCtrl->SetValue (wstring (path)); }
 		void SetMaxStaticTextWidth (int width) { InfoStaticText->Wrap (width); }

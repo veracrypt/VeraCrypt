@@ -1384,7 +1384,7 @@ namespace TrueCrypt
 #else
 			L"",
 #endif
-			L"", wxDD_DEFAULT_STYLE | (existingOnly ? wxDD_DIR_MUST_EXIST : 0), wxDefaultPosition, parent));
+			L"", wxDD_DEFAULT_STYLE | (existingOnly ? wxDD_DIR_MUST_EXIST : 0), wxDefaultPosition, parent).wc_str());
 	}
 
 	FilePathList GraphicUserInterface::SelectFiles (wxWindow *parent, const wxString &caption, bool saveMode, bool allowMultiple, const list < pair <wstring, wstring> > &fileExtensions, const DirectoryPath &directory) const
@@ -1428,14 +1428,14 @@ namespace TrueCrypt
 		if (dialog.ShowModal() == wxID_OK)
 		{
 			if (!allowMultiple)
-				files.push_back (make_shared <FilePath> (dialog.GetPath()));
+				files.push_back (make_shared <FilePath> (dialog.GetPath().wc_str()));
 			else
 			{
 				wxArrayString paths;
 				dialog.GetPaths (paths);
 
 				foreach (const wxString &path, paths)
-					files.push_back (make_shared <FilePath> (path));
+					files.push_back (make_shared <FilePath> (path.wc_str()));
 			}
 		}
 

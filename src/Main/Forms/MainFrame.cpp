@@ -828,7 +828,7 @@ namespace TrueCrypt
 			// File-hosted volumes
 			if (!volume->Path.IsDevice() && !mountPoint.IsEmpty())
 			{
-				if (wxString (volume->Path).Upper().StartsWith (wstring (mountPoint).c_str()))
+				if (wxString (wstring(volume->Path)).Upper().StartsWith (wstring (mountPoint).c_str()))
 				{
 					removedVolumes.push_back (volume);
 					continue;

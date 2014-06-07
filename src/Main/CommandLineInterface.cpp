@@ -380,7 +380,7 @@ namespace TrueCrypt
 		ArgQuick = parser.Found (L"quick");
 
 		if (parser.Found (L"random-source", &str))
-			ArgRandomSourcePath = FilesystemPath (str);
+			ArgRandomSourcePath = FilesystemPath (str.wc_str());
 
 		if (parser.Found (L"restore-headers"))
 		{
@@ -471,7 +471,7 @@ namespace TrueCrypt
 
 			if (param1IsFile)
 			{
-				ArgFilePath.reset (new FilePath (parser.GetParam (0)));
+				ArgFilePath.reset (new FilePath (parser.GetParam (0).wc_str()));
 			}
 		}
 
@@ -524,7 +524,7 @@ namespace TrueCrypt
 					arr.Add (L"");
 					continue;
 				}
-				arr.Last() += token.empty() ? L',' : token;
+				arr.Last() += token.empty() ? L"," : token.wc_str();
 			}
 			else
 				arr.Add (token);
@@ -562,12 +562,12 @@ namespace TrueCrypt
 			{
 				filteredVolumes.push_back (volume);
 			}
-			else if (wxString (volume->Path) == pathFilter.GetFullPath())
+			else if (wxString (wstring(volume->Path)) == pathFilter.GetFullPath())
 			{
 				filteredVolumes.push_back (volume);
 			}
-			else if (wxString (volume->MountPoint) == pathFilter.GetFullPath()
-				|| (wxString (volume->MountPoint) + wxFileName::GetPathSeparator()) == pathFilter.GetFullPath())
+			else if (wxString (wstring(volume->MountPoint)) == pathFilter.GetFullPath()
+				|| (wxString (wstring(volume->MountPoint)) + wxFileName::GetPathSeparator()) == pathFilter.GetFullPath())
 			{
 				filteredVolumes.push_back (volume);
 			}
