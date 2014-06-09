@@ -22,7 +22,7 @@ namespace TrueCrypt
 
 	void Pkcs5Kdf::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, BOOL bNotTest) const
 	{
-		DeriveKey (key, password, salt, GetIterationCount(), bNoTest);
+		DeriveKey (key, password, salt, GetIterationCount(), bNotTest);
 	}
 	
 	shared_ptr <Pkcs5Kdf> Pkcs5Kdf::GetAlgorithm (const wstring &name)
@@ -67,13 +67,13 @@ namespace TrueCrypt
 	void Pkcs5HmacRipemd160::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_ripemd160 (bNoTest, (char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
+		derive_key_ripemd160 (bNotTest, (char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
 
 	void Pkcs5HmacRipemd160_1000::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const
 	{
 		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_ripemd160 (bNoTest, (char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
+		derive_key_ripemd160 (bNotTest, (char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
 
 	void Pkcs5HmacSha1::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const

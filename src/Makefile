@@ -67,7 +67,7 @@ endif
 
 ifdef PKCS11_INC
 	C_CXX_FLAGS += -I$(PKCS11_INC)
-+else
+else
 	C_CXX_FLAGS += -I$(CURDIR)/PKCS11
 endif
 
