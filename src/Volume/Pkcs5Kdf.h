@@ -51,7 +51,7 @@ namespace TrueCrypt
 
 		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Ripemd160); }
-		virtual int GetIterationCount () const { return 655340; }
+		virtual int GetIterationCount () const { return 32767; }
 		virtual wstring GetName () const { return L"HMAC-RIPEMD-160"; }
 
 	private:
@@ -67,7 +67,7 @@ namespace TrueCrypt
 
 		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Ripemd160); }
-		virtual int GetIterationCount () const { return 327670; }
+		virtual int GetIterationCount () const { return 16384; }
 		virtual wstring GetName () const { return L"HMAC-RIPEMD-160"; }
 
 	private:
