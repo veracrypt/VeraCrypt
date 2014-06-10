@@ -1081,7 +1081,7 @@ void main ()
 	// Check whether the user is not using the Rescue Disk to create a hidden system
 
 	if (ReadWriteMBR (false, BootDrive, true) == BiosResultSuccess
-		&& *(uint32 *) (SectorBuffer + 6) == 0x65757254
+		&& *(uint32 *) (SectorBuffer + 6) == 0x61726556
 		&& *(uint32 *) (SectorBuffer + 10) == 0x70797243
 		&& (SectorBuffer[TC_BOOT_SECTOR_CONFIG_OFFSET] & TC_BOOT_CFG_MASK_HIDDEN_OS_CREATION_PHASE) != TC_HIDDEN_OS_CREATION_PHASE_NONE)
 	{
