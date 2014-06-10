@@ -103,16 +103,7 @@ NTSTATUS LoadBootArguments ()
 			BootArgsValid = TRUE;
 			memset (bootArguments, 0, sizeof (*bootArguments));
 
-			if (BootArgs.BootLoaderVersion < 0x600)
-			{
-				BootArgs.HiddenSystemPartitionStart = 0;
-				BootArgs.DecoySystemPartitionStart = 0;
-			}
-
-			if (BootArgs.BootLoaderVersion < 0x630)
-				BootArgs.Flags = 0;
-
-			BootDriveSignatureValid = (BootArgs.BootLoaderVersion >= 0x710);
+			BootDriveSignatureValid = TRUE;
 
 			Dump ("BootLoaderVersion = %x\n", (int) BootArgs.BootLoaderVersion);
 			Dump ("HeaderSaltCrc32 = %x\n", (int) BootArgs.HeaderSaltCrc32);

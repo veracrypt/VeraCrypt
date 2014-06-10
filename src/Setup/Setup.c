@@ -48,7 +48,6 @@ char InstallationPath[TC_MAX_PATH];
 char SetupFilesDir[TC_MAX_PATH];
 char UninstallBatch[MAX_PATH];
 
-LONG InstalledVersion = 0;
 BOOL bUninstall = FALSE;
 BOOL bRestartRequired = FALSE;
 BOOL bMakePackage = FALSE;
@@ -243,8 +242,6 @@ void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersi
 		if (!bResult)
 			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &driverVersion, sizeof (driverVersion), &dwResult, NULL);
 
-		if (bResult)
-			InstalledVersion = driverVersion;
 
 		bUpgrade = (bResult && driverVersion < VERSION_NUM);
 		bDowngrade = (bResult && driverVersion > VERSION_NUM);
@@ -407,17 +404,6 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 								if (!bResult)
 									goto err;
 
-								if (bUpgrade && InstalledVersion < 0x700)
-								{
-									bResult = WriteLocalMachineRegistryString ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", "ImagePath", "System32\\drivers\\veracrypt.sys", TRUE);
-									if (!bResult)
-									{
-										handleWin32Error (hwndDlg);
-										goto err;
-									}
-
-									DeleteFile (szTmp);
-								}
 							}
 
 							break;
@@ -1567,92 +1553,7 @@ void DoInstall (void *arg)
 	if (!SystemEncryptionUpdate)
 		DoRegUninstall ((HWND) hwndDlg, TRUE);
 
-	if (SystemEncryptionUpdate && InstalledVersion < 0x700)
-	{
-		try
-		{
-			bootEnc.RegisterFilterDriver (false, BootEncryption::DumpFilter);
-		}
-		catch (...) { }
-
-		try
-		{
-			bootEnc.RegisterFilterDriver (true, BootEncryption::DumpFilter);
-		}
-		catch (Exception &e)
-		{
-			try
-			{
-				bootEnc.RegisterFilterDriver (false, BootEncryption::DumpFilter);
-			}
-			catch (...) { }
-
-			e.Show (hwndDlg);
-
-			bOK = FALSE;
-			goto outcome;
-		}
-
-		if (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES)
-		{
-			WriteLocalMachineRegistryString ("SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, NULL, "Service", FALSE);
-			WriteLocalMachineRegistryString ("SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, NULL, "Service", FALSE);
-		}
-	}
-
 	UpdateProgressBarProc(61);
-
-	if (bUpgrade && InstalledVersion < 0x700)
-	{
-		bool bMountFavoritesOnLogon = ConfigReadInt ("MountFavoritesOnLogon", FALSE) != 0;
-		bool bOpenExplorerWindowAfterMount = ConfigReadInt ("OpenExplorerWindowAfterMount", FALSE) != 0;
-
-		if (bMountFavoritesOnLogon || bOpenExplorerWindowAfterMount)
-		{
-			char *favoritesFilename = GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES);
-			DWORD size;
-			char *favoritesXml = LoadFile (favoritesFilename, &size);
-
-			if (favoritesXml && size != 0)
-			{
-				string favorites;
-				favorites.insert (0, favoritesXml, size);
-
-				size_t p = favorites.find ("<volume ");
-				while (p != string::npos)
-				{
-					if (bMountFavoritesOnLogon)
-						favorites.insert (p + 8, "mountOnLogOn=\"1\" ");
-
-					if (bOpenExplorerWindowAfterMount)
-						favorites.insert (p + 8, "openExplorerWindow=\"1\" ");
-
-					p = favorites.find ("<volume ", p + 1);
-				}
-
-				SaveBufferToFile (favorites.c_str(), favoritesFilename, favorites.size(), FALSE);
-
-				if (bMountFavoritesOnLogon)
-				{
-					char regk[64];
-					char regVal[MAX_PATH * 2];
-
-					GetStartupRegKeyName (regk);
-
-					ReadRegistryString (regk, "VeraCrypt", "", regVal, sizeof (regVal));
-
-					if (strstr (regVal, "favorites"))
-					{
-						strcat_s (regVal, sizeof (regVal), " /a logon");
-						WriteRegistryString (regk, "VeraCrypt", regVal);
-					}
-				}
-			}
-
-			if (favoritesXml)
-				free (favoritesXml);
-		}
-	}
 
 	GetWindowsDirectory (path, sizeof (path));
 	strcat_s (path, sizeof (path), "\\VeraCrypt Setup.exe");
@@ -1691,15 +1592,6 @@ void DoInstall (void *arg)
 		bootEnc.RenameDeprecatedSystemLoaderBackup();
 	}
 	catch (...)	{ }
-
-	if (SystemEncryptionUpdate && InstalledVersion == 0x630)
-	{
-		string sysFavorites = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES);
-		string legacySysFavorites = GetProgramConfigPath ("System Favorite Volumes.xml");
-
-		if (FileExists (legacySysFavorites.c_str()) && !FileExists (sysFavorites.c_str()))
-			MoveFile (legacySysFavorites.c_str(), sysFavorites.c_str());
-	}
 
 	if (bOK)
 		UpdateProgressBarProc(97);
