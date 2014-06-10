@@ -136,10 +136,10 @@ namespace TrueCrypt
 		if (header.Size() != EncryptedHeaderDataSize)
 			throw ParameterIncorrect (SRC_POS);
 
-		if (header[0] != 'T' ||
-			header[1] != 'R' ||
-			header[2] != 'U' ||
-			header[3] != 'E')
+		if (header[0] != 'V' ||
+			header[1] != 'E' ||
+			header[2] != 'R' ||
+			header[3] != 'A')
 			return false;
 
 		size_t offset = 4;
@@ -285,10 +285,10 @@ namespace TrueCrypt
 
 		header.Zero();
 
-		header[0] = 'T';
-		header[1] = 'R';
-		header[2] = 'U';
-		header[3] = 'E';
+		header[0] = 'V';
+		header[1] = 'E';
+		header[2] = 'R';
+		header[3] = 'A';
 		size_t offset = 4;
 
 		header.GetRange (DataAreaKeyOffset, DataAreaKey.Size()).CopyFrom (DataAreaKey);
