@@ -1,0 +1,1341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TrueCrypt>
+  <localization prog-version="7.1a">
+    <!-- Languages -->
+    <language langid="ko" name="한국어" en-name="Korean" version="0.1.0" translators="Kim Young" />
+    <!-- Fonts -->
+    <font lang="ko" class="normal" size="11" face="default" />
+    <font lang="ko" class="bold" size="13" face="Arial" />
+    <font lang="ko" class="fixed" size="12" face="Lucida Console" />
+    <font lang="ko" class="title" size="21" face="Times New Roman" />
+    <!-- Controls -->
+    <control lang="ko" key="IDCANCEL">취소</control>
+    <control lang="ko" key="IDC_ALL_USERS">모든 사용자를 위해 설치(&amp;F)</control>
+    <control lang="ko" key="IDC_BROWSE">탐색(&amp;W)...</control>
+    <control lang="ko" key="IDC_DESKTOP_ICON">바탕화면에 TrueCrypt 아이콘 추가</control>
+    <control lang="en" key="IDC_DONATE">Donate now...</control>
+    <control lang="ko" key="IDC_FILE_TYPE">TrueCrypt와 “.tc” 파일 확장자를 연결</control>
+    <control lang="ko" key="IDC_OPEN_CONTAINING_FOLDER">완료시 타겟 위치 열기(&amp;O)</control>
+    <control lang="ko" key="IDC_PROG_GROUP">시작 메뉴에 TrueCrypt 추가</control>
+    <control lang="ko" key="IDC_SYSTEM_RESTORE">시스템 복구 시점 만들기</control>
+    <control lang="ko" key="IDC_UNINSTALL">제거(&amp;U)</control>
+    <control lang="ko" key="IDC_WIZARD_MODE_EXTRACT_ONLY">추출(&amp;E)</control>
+    <control lang="ko" key="IDC_WIZARD_MODE_INSTALL">설치(&amp;I)</control>
+    <control lang="ko" key="IDD_INSTL_DLG">TrueCrypt 설치 마법사</control>
+    <control lang="ko" key="IDD_UNINSTALL">TrueCrypt 제거</control>
+    <control lang="ko" key="IDHELP">도움말(&amp;H)</control>
+    <control lang="ko" key="IDT_EXTRACT_DESTINATION">추출된 파일을 둘 위치를 선택하거나 입력해 주세요:</control>
+    <control lang="ko" key="IDT_INSTALL_DESTINATION">TrueCrypt 프로그램 파일을 설치할 위치를 선택하거나 입력해 주세요. 지정한 폴더가 존재하지 않는 경우, 자동으로 폴더가 생성됩니다.</control>
+    <control lang="ko" key="IDT_UNINSTALL_DIR">현재 시스템에서 TrueCrypt를 제거하려면 “제거”를 클릭하세요.</control>
+    <control lang="ko" key="IDC_ABORT_BUTTON">중지</control>
+    <control lang="en" key="IDC_BENCHMARK">&amp;Benchmark</control>
+    <control lang="ko" key="IDC_CIPHER_TEST">테스트(&amp;T)</control>
+    <control lang="ko" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">암호화된 볼륨을 만든 후 포맷</control>
+    <control lang="ko" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">파티션 자체 암호화</control>
+    <control lang="ko" key="IDC_DISPLAY_KEYS">생성된 키 표시</control>
+    <control lang="ko" key="IDC_DISPLAY_POOL_CONTENTS">풀(Pool) 내용 표시</control>
+    <control lang="ko" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD 리코딩 소프트웨어 다운로드</control>
+    <control lang="ko" key="IDC_FILE_CONTAINER">암호화된 파일 보관소 만들기</control>
+    <control lang="ko" key="IDC_GB">GB(&amp;G)</control>
+    <control lang="ko" key="IDC_HIDDEN_SYSENC_INFO_LINK">추가 정보</control>
+    <control lang="ko" key="IDC_HIDDEN_VOL">숨긴 TrueCrypt 볼륨(&amp;D) </control>
+    <control lang="ko" key="IDC_HIDDEN_VOL_HELP">숨긴 볼륨에 대한 추가 정보</control>
+    <control lang="ko" key="IDC_HIDVOL_WIZ_MODE_DIRECT">직접 방식</control>
+    <control lang="ko" key="IDC_HIDVOL_WIZ_MODE_FULL">표준 방식</control>
+    <control lang="ko" key="IDC_KB">KB(&amp;K)</control>
+    <control lang="ko" key="IDC_KEYFILES_ENABLE">키파일 사용(&amp;S)</control>
+    <control lang="ko" key="IDC_KEY_FILES">키파일(&amp;K)...</control>
+    <control lang="ko" key="IDC_LINK_HASH_INFO">해시 알고리듬에 대한 정보</control>
+    <control lang="ko" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">추가 정보</control>
+    <control lang="ko" key="IDC_MB">MB(&amp;M)</control>
+    <control lang="ko" key="IDC_MORE_INFO_ON_CONTAINERS">추가 정보</control>
+    <control lang="ko" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">시스템 암호화에 대한 추가 정보</control>
+    <control lang="ko" key="IDC_MORE_INFO_SYS_ENCRYPTION">추가 정보</control>
+    <control lang="ko" key="IDC_MULTI_BOOT">멀티-부트</control>
+    <control lang="ko" key="IDC_NONSYS_DEVICE">비-시스템 파티션/드라이브 암호화</control>
+    <control lang="ko" key="IDC_NO_HISTORY">히스토리 저장 안함</control>
+    <control lang="ko" key="IDC_OPEN_OUTER_VOLUME">외부 볼륨 열기</control>
+    <control lang="ko" key="IDC_PAUSE">정지(&amp;P)</control>
+    <control lang="ko" key="IDC_QUICKFORMAT">빠른 포맷</control>
+    <control lang="ko" key="IDC_SHOW_PASSWORD">비밀번호 표시(&amp;D)</control>
+    <control lang="ko" key="IDC_SHOW_PASSWORD_SINGLE">비밀번호 표시(&amp;D)</control>
+    <control lang="ko" key="IDC_SINGLE_BOOT">싱글-부트</control>
+    <control lang="ko" key="IDC_STD_VOL">표준 TrueCrypt 볼륨</control>
+    <control lang="ko" key="IDC_SYSENC_HIDDEN">숨김(&amp;D)</control>
+    <control lang="ko" key="IDC_SYSENC_NORMAL">표준</control>
+    <control lang="ko" key="IDC_SYS_DEVICE">시스템 파티션 또는 전체 시스템 드라이브의 암호화</control>
+    <control lang="ko" key="IDC_SYS_PARTITION">윈도우 시스템 파티션 암호화</control>
+    <control lang="ko" key="IDC_WHOLE_SYS_DRIVE">전체 드라이브 암호화</control>
+    <control lang="ko" key="IDD_VOL_CREATION_WIZARD_DLG">TrueCrypt 볼륨 만들기 마법사</control>
+    <control lang="ko" key="IDT_CLUSTER">클러스터 </control>
+    <control lang="ko" key="IDT_COLLECTING_RANDOM_DATA_NOTE">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 암호키의 암호력을 상당히 증대시킵니다. 계속하려면 "다음"을 클릭하세요.</control>
+    <control lang="ko" key="IDT_CONFIRM">확인(&amp;C):</control>
+    <control lang="ko" key="IDT_DONE">완료</control>
+    <control lang="ko" key="IDT_ENCRYPTION_ALGO">암호 알고리듬</control>
+    <control lang="ko" key="IDT_FILESYSTEM">파일시스템 </control>
+    <control lang="ko" key="IDT_FILE_CONTAINER">파일 안에 가상의 암호화된 디스크를 만듭니다. 경험 없는 사용자에게 권장합니다.</control>
+    <control lang="ko" key="IDT_FORMAT_OPTIONS">옵션</control>
+    <control lang="ko" key="IDT_HASH_ALGO">해시 알고리듬</control>
+    <control lang="ko" key="IDT_HEADER_KEY">헤더 키: </control>
+    <control lang="ko" key="IDT_LEFT">남음</control>
+    <control lang="ko" key="IDT_MASTER_KEY">마스터 키: </control>
+    <control lang="ko" key="IDT_MULTI_BOOT">컴퓨터에 두 개 또는 그 이상의 운영체제가 설치되어 있는 경우에 이 옵션을 선택합니다.\n\n예:\n- Windows XP 및 Windows XP\n- Windows XP 및 Windows Vista\n- Windows 및 Mac OS X\n- Windows 및 Linux\n- Windows, Linux 및 Mac OS X</control>
+    <control lang="ko" key="IDT_NON_SYS_DEVICE">내부 또는 외부 드라이브(예: 플래시 드라이브)에 시스템이 아닌 파티션을 암호화합니다. 숨긴 볼륨을 선택적으로 만들 수 있습니다.</control>
+    <control lang="ko" key="IDT_PARTIAL_POOL_CONTENTS">현재의 풀(Pool) 내용 (부분)</control>
+    <control lang="ko" key="IDT_PASS">패스</control>
+    <control lang="ko" key="IDT_PASSWORD">비밀번호:</control>
+    <control lang="ko" key="IDT_PROGRESS">진행:</control>
+    <control lang="ko" key="IDT_RANDOM_POOL">무작위 풀: </control>
+    <control lang="ko" key="IDT_SINGLE_BOOT">현재 컴퓨터에 설치된 운영체제가 한 개인 경우 (비록 사용자가 여럿 있는 경우라 하더라도) 이 옵션을 선택합니다.</control>
+    <control lang="ko" key="IDT_SPEED">속도</control>
+    <control lang="ko" key="IDT_STATUS">상태</control>
+    <control lang="ko" key="IDT_SYSENC_KEYS_GEN_INFO">키, 소금(→ 패스워드 보호에서 패스워드 해시를 변환하는 데 사용되는 무작위 문자열) 및 기타 데이터를 성공적으로 생성했습니다. 새로운 키를 생성하려면 “뒤로”를 클릭한 후 “다음”을 누르세요. 계속하려면 “다음”을 클릭하세요.</control>
+    <control lang="ko" key="IDT_SYS_DEVICE">윈도우가 설치되어 있는 파티션/드라이브를 암호화합니다. 시스템에 접근해서 사용하고, 파일을 읽고 쓰는 등의 작업을 하려는 사람은 윈도우가 부팅할 때마다 올바른 비밀번호를 입력해야 합니다. 숨긴 시스템을 선택적으로 만들 수 있습니다.</control>
+    <control lang="ko" key="IDT_SYS_PARTITION">현재 실행 중인 윈도우 운영체제가 설치된 파티션을 암호화하려면 이 옵션을 선택합니다.</control>
+    <control lang="ko" key="IDT_WIPE_MODE">지움 방식:</control>
+    <control lang="ko" key="IDCLOSE">닫기</control>
+    <control lang="ko" key="IDC_ALLOW_ESC_PBA_BYPASS">Esc 키를 눌러 부팅-전 인증을 건너뛸 수 있습니다(* 부트 관리자 사용)(&amp;A)</control>
+    <control lang="ko" key="IDC_AUTORUN_DISABLE">아무 것도 안함</control>
+    <control lang="ko" key="IDC_AUTORUN_MOUNT">TrueCrypt 볼륨 자동삽입(&amp;A) (아래에서 지정)</control>
+    <control lang="ko" key="IDC_AUTORUN_START">TrueCrypt 시작(&amp;S)</control>
+    <control lang="ko" key="IDC_AUTO_DETECT_PKCS11_MODULE">라이브러리 자동-탐지(&amp;D)</control>
+    <control lang="ko" key="IDC_BOOT_LOADER_CACHE_PASSWORD">부팅-전-인증 암호를 드라이버 메모리에 캐시(* 시스템 아닌 볼륨의 삽입 목적)(&amp;C)</control>
+    <control lang="ko" key="IDC_BROWSE_DIRS">탐색...</control>
+    <control lang="ko" key="IDC_BROWSE_FILES">탐색...</control>
+    <control lang="ko" key="IDC_CACHE">메모리에 비밀번호 및 키파일 보관</control>
+    <control lang="ko" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">삽입된 볼륨이 없을 때 종료</control>
+    <control lang="ko" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">볼륨이 성공적으로 삽입된 후 토큰 세션 닫기(* 로그 아웃)(&amp;C)</control>
+    <control lang="ko" key="IDC_COPY_WIZARD">TrueCrypt 볼륨 만들기 마법사 포함</control>
+    <control lang="ko" key="IDC_CREATE">만들기</control>
+    <control lang="ko" key="IDC_CREATE_VOLUME">볼륨 만들기(&amp;C)</control>
+    <control lang="ko" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">부팅-전 인증 화면에 어떠한 텍스트도 표시 안함(* 하단의 사용자 메시지는 제외)(&amp;S)</control>
+    <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
+    <control lang="ko" key="IDC_ENABLE_KEYFILES">키파일 사용</control>
+    <control lang="ko" key="IDC_ENABLE_NEW_KEYFILES">키파일 사용</control>
+    <control lang="ko" key="IDC_EXIT">종료(&amp;X)</control>
+    <control lang="en" key="IDC_FAVORITES_HELP_LINK">Help on favorite volumes</control>
+    <control lang="en" key="IDC_FAVORITE_DISABLE_HOTKEY">Do not mount selected volume when 'Mount Favorite Volumes' &amp;hot key is pressed</control>
+    <control lang="en" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Mount selected volume when its host device gets &amp;connected</control>
+    <control lang="en" key="IDC_FAVORITE_MOUNT_ON_LOGON">Mount selected volume upon log&amp;on</control>
+    <control lang="en" key="IDC_FAVORITE_MOUNT_READONLY">Mount selected volume as read-o&amp;nly</control>
+    <control lang="en" key="IDC_FAVORITE_MOUNT_REMOVABLE">Mount selected volume as remo&amp;vable medium</control>
+    <control lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</control>
+    <control lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</control>
+    <control lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</control>
+    <control lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</control>
+    <control lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</control>
+    <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
+    <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>
+    <control lang="ko" key="IDC_HK_MOD_ALT">ALT</control>
+    <control lang="en" key="IDC_HK_MOD_CTRL">Ctrl</control>
+    <control lang="ko" key="IDC_HK_MOD_SHIFT">SHIFT</control>
+    <control lang="ko" key="IDC_HK_MOD_WIN">Win</control>
+    <control lang="ko" key="IDC_HOTKEY_ASSIGN">할당</control>
+    <control lang="ko" key="IDC_HOTKEY_REMOVE">제거</control>
+    <control lang="ko" key="IDC_KEYFILES">키파일...</control>
+    <control lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</control>
+    <control lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</control>
+    <control lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</control>
+    <control lang="ko" key="IDC_MORE_SETTINGS">다른 설정...</control>
+    <control lang="ko" key="IDC_MOUNTALL">장치 자동삽입(&amp;A)</control>
+    <control lang="ko" key="IDC_MOUNT_OPTIONS">삽입 옵션(&amp;O)...</control>
+    <control lang="ko" key="IDC_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입(&amp;O)</control>
+    <control lang="ko" key="IDC_NEW_KEYFILES">키파일...</control>
+    <control lang="ko" key="IDC_PREF_BKG_TASK_ENABLE">사용</control>
+    <control lang="ko" key="IDC_PREF_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관</control>
+    <control lang="ko" key="IDC_PREF_DISMOUNT_INACTIVE">어떤 데이터가 읽기/쓰기된 후 볼륨 자동 꺼내기</control>
+    <control lang="ko" key="IDC_PREF_DISMOUNT_LOGOFF">사용자 로그오프할 때</control>
+    <control lang="ko" key="IDC_PREF_DISMOUNT_POWERSAVING">절전 모드로 들어갈 때</control>
+    <control lang="ko" key="IDC_PREF_DISMOUNT_SCREENSAVER">화면보호기가 실행될 때</control>
+    <control lang="ko" key="IDC_PREF_FORCE_AUTO_DISMOUNT">볼륨에 열린 파일 또는 디렉토리가 있어도 강제로 꺼내기</control>
+    <control lang="ko" key="IDC_PREF_LOGON_MOUNT_DEVICES">장치-기반의 모든 TrueCrypt 볼륨 삽입</control>
+    <control lang="ko" key="IDC_PREF_LOGON_START">TrueCrypt 백그라운드 작업 시작</control>
+    <control lang="ko" key="IDC_PREF_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입</control>
+    <control lang="ko" key="IDC_PREF_MOUNT_REMOVABLE">볼륨을 이동식 디스크로 삽입</control>
+    <control lang="ko" key="IDC_PREF_OPEN_EXPLORER">성공적으로 삽입된 볼륨을 위한 탐색기 창 열기</control>
+    <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
+    <control lang="ko" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">“자동 꺼냄”시 보관된 비밀번호 삭제</control>
+    <control lang="ko" key="IDC_PREF_WIPE_CACHE_ON_EXIT">“종료”시 보관된 비밀번호 삭제</control>
+    <control lang="ko" key="IDC_PRESERVE_TIMESTAMPS">파일 보관소의 수정 타임스탬프 보존</control>
+    <control lang="ko" key="IDC_RESET_HOTKEYS">초기화</control>
+    <control lang="ko" key="IDC_SELECT_DEVICE">장치 선택(&amp;E)...</control>
+    <control lang="ko" key="IDC_SELECT_FILE">파일 선택(&amp;F)...</control>
+    <control lang="ko" key="IDC_SELECT_PKCS11_MODULE">라이브러리 선택(&amp;L)...</control>
+    <control lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_NEW">비밀번호 표시</control>
+    <control lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_ORI">비밀번호 표시</control>
+    <control lang="ko" key="IDC_TRAVEL_OPEN_EXPLORER">삽입된 볼륨을 위한 탐색기 창 열기</control>
+    <control lang="ko" key="IDC_TRAV_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관(&amp;C)</control>
+    <control lang="ko" key="IDC_UNMOUNTALL">모두 꺼내기(&amp;S)</control>
+    <control lang="ko" key="IDC_VOLUME_PROPERTIES">볼륨 속성(&amp;V)...</control>
+    <control lang="ko" key="IDC_VOLUME_TOOLS">볼륨 도구(&amp;T)...</control>
+    <control lang="ko" key="IDC_WIPE_CACHE">캐시 지우기(&amp;W)</control>
+    <control lang="en" key="IDD_FAVORITE_VOLUMES">TrueCrypt - Favorite Volumes</control>
+    <control lang="ko" key="IDD_HOTKEYS_DLG">TrueCrypt - 시스템 일반 단축키</control>
+    <control lang="ko" key="IDD_MOUNT_DLG">TrueCrypt</control>
+    <control lang="ko" key="IDD_PASSWORDCHANGE_DLG">비밀번호 또는 키파일 변경</control>
+    <control lang="ko" key="IDD_PASSWORD_DLG">TrueCrypt 볼륨 비밀번호 입력</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">TrueCrypt - Performance Options</control>
+    <control lang="ko" key="IDD_PREFERENCES_DLG">TrueCrypt - 옵션</control>
+    <control lang="ko" key="IDD_SYSENC_SETTINGS">TrueCrypt - 시스템 암호화 설정</control>
+    <control lang="ko" key="IDD_TOKEN_PREFERENCES">TrueCrypt - 보안 토큰 설정</control>
+    <control lang="ko" key="IDD_TRAVELER_DLG">TrueCrypt 휴대용 디스크 설치</control>
+    <control lang="ko" key="IDD_VOLUME_PROPERTIES">TrueCrypt 볼륨 속성</control>
+    <control lang="ko" key="IDM_ABOUT">정보...</control>
+    <control lang="ko" key="IDM_ADD_REMOVE_VOL_KEYFILES">볼륨에 키파일 추가/삭제...</control>
+    <control lang="en" key="IDM_ADD_VOLUME_TO_FAVORITES">Add Mounted Volume to Favorites...</control>
+    <control lang="en" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Add Mounted Volume to System Favorites...</control>
+    <control lang="en" key="IDM_ANALYZE_SYSTEM_CRASH">Analyze a System Crash...</control>
+    <control lang="ko" key="IDM_BACKUP_VOL_HEADER">볼륨 헤더 백업...</control>
+    <control lang="ko" key="IDM_BENCHMARK">벤치마크...</control>
+    <control lang="ko" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">헤더 키 도출 알고리듬 설정...</control>
+    <control lang="ko" key="IDM_CHANGE_PASSWORD">볼륨 비밀번호 변경...</control>
+    <control lang="ko" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">헤더 키 도출 알고리듬 설정...</control>
+    <control lang="ko" key="IDM_CHANGE_SYS_PASSWORD">비밀번호 변경...</control>
+    <control lang="ko" key="IDM_CLEAR_HISTORY">볼륨 히스토리 지우기</control>
+    <control lang="ko" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">모든 보안 토큰 세션 닫기</control>
+    <control lang="ko" key="IDM_CONTACT">연락처...</control>
+    <control lang="ko" key="IDM_CREATE_HIDDEN_OS">숨긴 운영체제 만들기...</control>
+    <control lang="ko" key="IDM_CREATE_RESCUE_DISK">응급복구 디스크 만들기...</control>
+    <control lang="ko" key="IDM_CREATE_VOLUME">새 볼륨 만들기...</control>
+    <control lang="ko" key="IDM_DEFAULT_KEYFILES">기본 키파일...</control>
+    <control lang="ko" key="IDM_ENCRYPT_SYSTEM_DEVICE">시스템 파티션/드라이브 암호화...</control>
+    <control lang="ko" key="IDM_FAQ">자주 묻는 질문</control>
+    <control lang="ko" key="IDM_HELP">사용 안내서</control>
+    <control lang="ko" key="IDM_HOMEPAGE">홈페이지(&amp;H) </control>
+    <control lang="ko" key="IDM_HOTKEY_SETTINGS">단축키...</control>
+    <control lang="ko" key="IDM_KEYFILE_GENERATOR">키파일 생성기...</control>
+    <control lang="ko" key="IDM_LANGUAGE">언어...</control>
+    <control lang="ko" key="IDM_LICENSE">법적 공지</control>
+    <control lang="ko" key="IDM_MANAGE_TOKEN_KEYFILES">보안 토큰 키파일 관리...</control>
+    <control lang="ko" key="IDM_MOUNTALL">장치-기반의 모든 볼륨 자동삽입</control>
+    <control lang="ko" key="IDM_MOUNT_FAVORITE_VOLUMES">즐겨찾는 볼륨 삽입</control>
+    <control lang="ko" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">부팅-전 인증 없이 삽입(&amp;A)...</control>
+    <control lang="ko" key="IDM_MOUNT_VOLUME">볼륨 삽입</control>
+    <control lang="ko" key="IDM_MOUNT_VOLUME_OPTIONS">볼륨 삽입 (옵션 부가)</control>
+    <control lang="ko" key="IDM_NEWS">뉴스</control>
+    <control lang="ko" key="IDM_ONLINE_HELP">온라인 도움말</control>
+    <control lang="ko" key="IDM_ONLINE_TUTORIAL">초보자 안내서</control>
+    <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
+    <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="ko" key="IDM_PERMANENTLY_DECRYPT_SYS">시스템 파티션/드라이브 영구적 암호해제...</control>
+    <control lang="ko" key="IDM_PREFERENCES">설정...</control>
+    <control lang="ko" key="IDM_REFRESH_DRIVE_LETTERS">드라이브 문자 새로 고침</control>
+    <control lang="ko" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">볼륨에서 모든 키파일 제거...</control>
+    <control lang="ko" key="IDM_RESTORE_VOL_HEADER">볼륨 헤더 복구...</control>
+    <control lang="ko" key="IDM_RESUME_INTERRUPTED_PROC">중단된 진행을 다시 시작</control>
+    <control lang="ko" key="IDM_SELECT_DEVICE">장치 선택...</control>
+    <control lang="ko" key="IDM_SELECT_FILE">파일 선택...</control>
+    <control lang="ko" key="IDM_SYSENC_RESUME">중단된 진행을 다시 시작</control>
+    <control lang="ko" key="IDM_SYSENC_SETTINGS">시스템 암호화...</control>
+    <control lang="ko" key="IDM_SYSTEM_ENCRYPTION_STATUS">속성...</control>
+    <control lang="ko" key="IDM_SYS_ENC_SETTINGS">설정...</control>
+    <control lang="ko" key="IDM_SYS_FAVORITES_SETTINGS">시스템 즐겨찾기 볼륨...</control>
+    <control lang="ko" key="IDM_TC_DOWNLOADS">다운로드</control>
+    <control lang="ko" key="IDM_TEST_VECTORS">벡터 테스트...</control>
+    <control lang="ko" key="IDM_TOKEN_PREFERENCES">보안 토큰...</control>
+    <control lang="ko" key="IDM_TRAVELER">휴대용 디스크 설치...</control>
+    <control lang="ko" key="IDM_UNMOUNTALL">삽입된 모든 볼륨 꺼내기</control>
+    <control lang="ko" key="IDM_UNMOUNT_VOLUME">볼륨 꺼내기</control>
+    <control lang="ko" key="IDM_VERIFY_RESCUE_DISK">응급복구 디스크 검증</control>
+    <control lang="ko" key="IDM_VERSION_HISTORY">버전 히스토리</control>
+    <control lang="ko" key="IDM_VOLUME_PROPERTIES">볼륨 속성</control>
+    <control lang="ko" key="IDM_VOLUME_WIZARD">볼륨 만들기 마법사</control>
+    <control lang="ko" key="IDM_WEBSITE">TrueCrypt 웹사이트</control>
+    <control lang="ko" key="IDM_WIPE_CACHE">보관된 비밀번호 지우기</control>
+    <control lang="ko" key="IDOK">확인</control>
+    <control lang="en" key="IDT_ACCELERATION_OPTIONS">Hardware Acceleration</control>
+    <control lang="ko" key="IDT_ASSIGN_HOTKEY">바로가기</control>
+    <control lang="ko" key="IDT_AUTORUN">자동-실행 설정 (autorun.inf)</control>
+    <control lang="ko" key="IDT_AUTO_DISMOUNT">자동 꺼냄</control>
+    <control lang="ko" key="IDT_AUTO_DISMOUNT_ON">모두 꺼낼 시기:</control>
+    <control lang="ko" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">부트 로더 화면 옵션</control>
+    <control lang="ko" key="IDT_CONFIRM_PASSWORD">비밀번호 확인:</control>
+    <control lang="ko" key="IDT_CURRENT">현재 비밀번호</control>
+    <control lang="ko" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">부팅-전 인증 화면에 사용자 메시지 표시(* 최대 문자수는 24개):</control>
+    <control lang="ko" key="IDT_DEFAULT_MOUNT_OPTIONS">기본 삽입 옵션</control>
+    <control lang="ko" key="IDT_DISMOUNT_ACTION">단축키 옵션</control>
+    <control lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</control>
+    <control lang="ko" key="IDT_FILE_SETTINGS">파일 설정</control>
+    <control lang="ko" key="IDT_HOTKEY_KEY">할당할 키:</control>
+    <control lang="en" key="IDT_HW_AES_SUPPORTED_BY_CPU">Processor (CPU) in this computer supports hardware acceleration for AES:</control>
+    <control lang="ko" key="IDT_LOGON">윈도우에 로그온할 때 수행할 작업</control>
+    <control lang="ko" key="IDT_MINUTES">분</control>
+    <control lang="ko" key="IDT_MOUNT_LETTER">특정 드라이브 문자로 삽입:</control>
+    <control lang="ko" key="IDT_MOUNT_SETTINGS">삽입 설정</control>
+    <control lang="ko" key="IDT_NEW">새 비밀번호</control>
+    <control lang="ko" key="IDT_NEW_PASSWORD">비밀번호:</control>
+    <control lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</control>
+    <control lang="ko" key="IDT_PKCS11_LIB_PATH">PKCS #11 라이브러리 경로</control>
+    <control lang="ko" key="IDT_PKCS5_PRF">PKCS-5 PRF</control>
+    <control lang="ko" key="IDT_PW_CACHE_OPTIONS">비밀번호 보관(→ 캐시)</control>
+    <control lang="ko" key="IDT_SECURITY_OPTIONS">보안 옵션</control>
+    <control lang="ko" key="IDT_TASKBAR_ICON">TrueCrypt 백그라운드 작업</control>
+    <control lang="ko" key="IDT_TRAVELER_MOUNT">삽입할 TrueCrypt 볼륨 (휴대용 디스크 루트에 상대적임):</control>
+    <control lang="ko" key="IDT_TRAVEL_INSERTION">휴대용 디스크 삽입시: </control>
+    <control lang="ko" key="IDT_TRAVEL_ROOT">휴대용 디스크 파일을 만들 위치 (휴대용 디스크 루트 디렉토리):</control>
+    <control lang="ko" key="IDT_VOLUME">볼륨</control>
+    <control lang="ko" key="IDT_WINDOWS_RELATED_SETTING">창</control>
+    <control lang="ko" key="IDC_ADD_KEYFILE_PATH">경로 추가(&amp;P)...</control>
+    <control lang="ko" key="IDC_AUTO">모두 자동-테스트</control>
+    <control lang="ko" key="IDC_CONTINUE">계속(&amp;C)</control>
+    <control lang="ko" key="IDC_DECRYPT">암호해제(&amp;D)</control>
+    <control lang="ko" key="IDC_DELETE">삭제(&amp;D)</control>
+    <control lang="ko" key="IDC_ENCRYPT">암호화(&amp;E)</control>
+    <control lang="ko" key="IDC_EXPORT">내보내기(&amp;E)...</control>
+    <control lang="ko" key="IDC_GENERATE_AND_SAVE_KEYFILE">키파일 생성 및 저장…</control>
+    <control lang="ko" key="IDC_GENERATE_KEYFILE">무작위 키파일 생성...</control>
+    <control lang="ko" key="IDC_GET_LANG_PACKS">언어팩 다운로드</control>
+    <control lang="en" key="IDC_HW_AES_LABEL_LINK">Hardware-accelerated AES:</control>
+    <control lang="ko" key="IDC_IMPORT_KEYFILE">토큰에 키파일 가져오기(&amp;I)...</control>
+    <control lang="ko" key="IDC_KEYADD">파일 추가(&amp;F)...</control>
+    <control lang="ko" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">키파일 사용(&amp;S)</control>
+    <control lang="ko" key="IDC_KEYFILES_HIDVOL_PROT">키파일(&amp;K)...</control>
+    <control lang="ko" key="IDC_KEYREMOVE">제거(&amp;R)</control>
+    <control lang="ko" key="IDC_KEYREMOVEALL">모두 제거(&amp;A)</control>
+    <control lang="ko" key="IDC_LINK_HIDVOL_PROTECTION_INFO">숨긴 볼륨 보호란 무엇인가?</control>
+    <control lang="ko" key="IDC_LINK_KEYFILES_INFO">키파일에 대한 추가 정보</control>
+    <control lang="ko" key="IDC_MOUNT_REMOVABLE">볼륨을 이동식 미디어로 삽입(&amp;M)</control>
+    <control lang="ko" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">부팅-전 인증 없는 시스템 암호화를 사용해서 파티션 삽입(&amp;U)</control>
+    <control lang="en" key="IDC_PARALLELIZATION_LABEL_LINK">Parallelization:</control>
+    <control lang="ko" key="IDC_PERFORM_BENCHMARK">벤치마크</control>
+    <control lang="ko" key="IDC_PRINT">인쇄(&amp;P)</control>
+    <control lang="ko" key="IDC_PROTECT_HIDDEN_VOL">숨긴 볼륨 보호 (외부 볼륨에 쓰는 것에 의해 손상되는 것을 방지)(&amp;P)</control>
+    <control lang="ko" key="IDC_RESET">초기화(&amp;R)</control>
+    <control lang="ko" key="IDC_SHOW_PASSWORD_MO">비밀번호 표시(&amp;D)</control>
+    <control lang="ko" key="IDC_TOKEN_FILES_ADD">토큰 파일 추가(&amp;T)...</control>
+    <control lang="ko" key="IDC_USE_EMBEDDED_HEADER_BAK">볼륨에 내장된 백업 헤더 사용 (가능한 경우)(&amp;V) </control>
+    <control lang="ko" key="IDC_XTS_MODE_ENABLED">XTS 모드</control>
+    <control lang="ko" key="IDD_ABOUT_DLG">TrueCrypt 정보</control>
+    <control lang="ko" key="IDD_BENCHMARK_DLG">TrueCrypt - 암호 알고리듬 벤치마크</control>
+    <control lang="ko" key="IDD_CIPHER_TEST_DLG">TrueCrypt - 벡터 테스트</control>
+    <control lang="ko" key="IDD_COMMANDHELP_DLG">명령줄 도움말</control>
+    <control lang="ko" key="IDD_KEYFILES">TrueCrypt - 키파일</control>
+    <control lang="ko" key="IDD_KEYFILE_GENERATOR">TrueCrypt - 키파일 생성기</control>
+    <control lang="ko" key="IDD_LANGUAGE">TrueCrypt - 언어</control>
+    <control lang="ko" key="IDD_MOUNT_OPTIONS">TrueCrypt - 삽입 옵션</control>
+    <control lang="ko" key="IDD_NEW_TOKEN_KEYFILE">새 보안 토큰 키파일 속성</control>
+    <control lang="ko" key="IDD_RANDOM_POOL_ENRICHMENT">TrueCrypt - 무작위 풀 향상</control>
+    <control lang="ko" key="IDD_RAWDEVICES_DLG">파티션 또는 장치 선택</control>
+    <control lang="en" key="IDD_STATIC_MODELESS_WAIT_DLG">TrueCrypt</control>
+    <control lang="ko" key="IDD_TOKEN_KEYFILES">보안 토큰 키파일</control>
+    <control lang="ko" key="IDD_TOKEN_PASSWORD">보안 토큰 비밀번호/PIN이 요구됨</control>
+    <control lang="ko" key="IDT_ACTIVE_LANG_PACK">현재의 언어팩</control>
+    <control lang="ko" key="IDT_BOX_BENCHMARK_INFO">CPU 및 저장장치 특성에 따라 속도가 달라집니다.\n\n이 테스트는 RAM에서 실행됩니다.</control>
+    <control lang="ko" key="IDT_BUFFER_SIZE">버퍼 크기:</control>
+    <control lang="ko" key="IDT_CIPHER">암호:</control>
+    <control lang="ko" key="IDT_HIDDEN_PROT_PASSWD">숨긴 볼륨에 대한 비밀번호:\n(비어 있는 경우, 캐시 사용)</control>
+    <control lang="ko" key="IDT_HIDDEN_VOL_PROTECTION">숨긴 볼륨 보호</control>
+    <control lang="ko" key="IDT_KEY">키 크기:</control>
+    <control lang="ko" key="IDT_KEYFILE_GENERATOR_NOTE">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 키파일의 암호력을 상당히 증대시킵니다.</control>
+    <control lang="ko" key="IDT_KEYFILE_WARNING">주의: 키파일을 분실하거나 키파일의 첫번째 1024KB가 변경되면, 키파일을 이용해서 볼륨을 삽입할 수 없게 됩니다!</control>
+    <control lang="ko" key="IDT_KEY_UNIT">비트</control>
+    <control lang="ko" key="IDT_LANGPACK_AUTHORS">번역자:</control>
+    <control lang="ko" key="IDT_PLAINTEXT">단순텍스트 크기:</control>
+    <control lang="ko" key="IDT_PLAINTEXT_SIZE_UNIT">비트</control>
+    <control lang="ko" key="IDT_POOL_CONTENTS">현재의 풀(Pool) 내용</control>
+    <control lang="ko" key="IDT_PRF">PRF 혼합:</control>
+    <control lang="ko" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 보안력을 상당히 증가시킵니다. 작업이 완료되면 “계속”을 클릭합니다.</control>
+    <control lang="ko" key="IDT_SECONDARY_KEY">보조 키(16진법)</control>
+    <control lang="ko" key="IDT_SECURITY_TOKEN">보안 토큰:</control>
+    <control lang="ko" key="IDT_SORT_METHOD">정렬 방법:</control>
+    <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
+    <control lang="ko" key="IDT_TEST_BLOCK_NUMBER">블록 수:</control>
+    <control lang="ko" key="IDT_TEST_CIPHERTEXT">암호문(16진법)</control>
+    <control lang="ko" key="IDT_TEST_DATA_UNIT_NUMBER">데이터 단위 수 (64-비트 16진법, 데이터 단위 크기는 512 바이트)</control>
+    <control lang="ko" key="IDT_TEST_KEY">키(16진법)</control>
+    <control lang="ko" key="IDT_TEST_PLAINTEXT">단순텍스트(16진법)</control>
+    <control lang="ko" key="IDT_TOKEN_KEYFILE_NAME">키파일 이름:</control>
+    <control lang="ko" key="IDT_XTS_MODE">XTS 모드</control>
+    <control lang="ko" key="MENU_SYSTEM_ENCRYPTION">시스템(&amp;Y)</control>
+    <control lang="ko" key="MENU_VOLUMES">볼륨(&amp;V)</control>
+    <control lang="en" key="MENU_FAVORITES">Favor&amp;ites</control>
+    <control lang="ko" key="MENU_TOOLS">도구(&amp;O)</control>
+    <control lang="ko" key="MENU_SETTINGS">설정(&amp;G)</control>
+    <control lang="ko" key="MENU_HELP">도움말(&amp;H)</control>
+    <control lang="ko" key="MENU_WEBSITE">   홈페이지(&amp;P)   </control>
+    <!-- Strings -->
+    <string lang="ko" key="ABOUTBOX">정보(&amp;A)...</string>
+    <string lang="ko" key="ACCESSMODEFAIL">이전 볼륨의 읽기전용 속성을 변경할 수 없습니다. 파일 접근 권한을 확인해 주세요.</string>
+    <string lang="ko" key="ACCESS_DENIED">오류: 접근이 허용되지 않습니다.\n\n접근하려고 하는 파티션의 0 섹터이거나 부팅 장치입니다.</string>
+    <string lang="ko" key="ADMINISTRATOR">관리자</string>
+    <string lang="ko" key="ADMIN_PRIVILEGES_DRIVER">TrueCrypt 드라이버를 로드하려면, 관리자 권한의 계정으로 로그온해야 합니다.</string>
+    <string lang="ko" key="ADMIN_PRIVILEGES_WARN_DEVICES">파티션/장치를 암호화/포맷하려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n이는 파일에 의한 볼륨에는 해당되지 않습니다.</string>
+    <string lang="ko" key="ADMIN_PRIVILEGES_WARN_HIDVOL">숨긴 볼륨을 만들려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n계속하시겠습니까?</string>
+    <string lang="ko" key="ADMIN_PRIVILEGES_WARN_NTFS">NTFS로 볼륨을 포맷하려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n관리자 권한이 없는 경우에는 볼륨을 FAT으로 포맷할 수 있습니다.</string>
+    <string lang="ko" key="AES_HELP">FIPS에 의해 승인된 암호(Rijndael, 1998년 발표)는 미국부무 및 각 부서에서 1급 기밀로 분류된 정보를 보호하는데 이용되고 있습니다. 256-비트 키, 128-비트 블록, 14 라운드 (AES-256). 작업 모드는 XTS입니다.</string>
+    <string lang="ko" key="ALREADY_MOUNTED">볼륨이 이미 삽입되어 있습니다.</string>
+    <string lang="ko" key="ERR_SELF_TESTS_FAILED">주의: 적어도 한 개의 암호 또는 해시 알고리듬이 내장된 자동 셀프-테스트를 하는데 실패했습니다!\n\nTrueCrypt 설치가 손상되었습니다.</string>
+    <string lang="ko" key="ERR_NOT_ENOUGH_RANDOM_DATA">주의: 요청된 양의 무작위 데이터를 제공하는 “무작위 숫자 생성기” 풀에서의 데이터가 불충분합니다.\n\n더 이상 진행할 수 없습니다. 도움말 메뉴에서 “버그 보고”를 선택해서 이 오류를 보고해 주세요.</string>
+    <string lang="ko" key="ERR_HARDWARE_ERROR">드라이브 손상(→ 드라이브에 물리적 결함이 있음), 케이블 손상 또는 메모리에 이상이 있습니다.\n\n이것은 TrueCrypt의 문제가 아니라 사용자의 하드웨어 문제입니다. 그러므로 TrueCrypt에서의 이러한 버그/문제점을 보고하지 않길 바랍니다. 또한 TrueCrypt 포럼에 도움을 요청하지도 않기를 바랍니다. 도움을 받으려면 컴퓨터 판매업체의 기술지원팀에 문의해 주세요. 감사합니다.\n\n참고: 만약 오류가 반복적으로 동일 장소에서 발생하는 경우라면 불량 디스크 블록이 원인일 수 있습니다. 이러한 경우는 제3의 소프트웨어를 사용해서 수리할 수 있습니다. (참고: 때론 “chkdsk /r” 명령으로 수리할 수 없는 경우가 많은데 이는 파일시스템 단계에서만 작동하기 때문입니다. 또한 어떤 때는 “chkdsk” 도구가 오류를 탐지하지 못하는 수도 있습니다.)</string>
+    <string lang="en" key="DEVICE_NOT_READY_ERROR">If you are accessing a drive for removable media, please make sure that a medium is inserted in the drive. The drive/medium may also be damaged (there may be a physical defect on it) or a cable may be damaged/disconnected.</string>
+    <string lang="ko" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">전체 시스템 드라이브의 암호화를 방해하는 버그를 포함하고 있는 사용자 칩셋 드라이버를 사용하는 것으로 보입니다.\n\n계속하기 전에 (Microsoft가 아닌) 사용자 칩센 드라이버를 업데이트하거나 제거해 주시기 바랍니다. 이렇게 해도 도움이 되지 않은 경우, 시스템 파티션만을 암호화해 보시기 바랍니다.</string>
+    <string lang="ko" key="BAD_DRIVE_LETTER">올바르지 못한 드라이브 문자.</string>
+    <string lang="ko" key="INVALID_PATH">올바르지 않은 경로.</string>
+    <string lang="ko" key="CANCEL">취소</string>
+    <string lang="ko" key="CANNOT_CALC_SPACE">장치에 접근할 수 없습니다. 선택한 장치가 존재하는지 여부 및 시스템에 의해 사용 중인가를 확인하세요.</string>
+    <string lang="ko" key="CAPSLOCK_ON">주의: Caps Lock이 켜져 있습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
+    <string lang="ko" key="VOLUME_TYPE_TITLE">볼륨 형식</string>
+    <string lang="ko" key="HIDDEN_VOLUME_TYPE_HELP">가끔 다른 사람에게 암호화된 볼륨에 대한 비밀번호를 공개해야 할 경우가 있을 수 있습니다. (예컨대 적대적인 폭력행사 앞에서) 비밀번호 표시를 거부할 수 없는 여러 상황들이 있을 수 있습니다. 이른바 “숨긴 볼륨”을 사용하여 볼륨에 대한 비밀번호의 노출없이 그런 상황을 별탈 없이 해결할 수 있습니다.</string>
+    <string lang="ko" key="NORMAL_VOLUME_TYPE_HELP">표준 TrueCrypt 볼륨을 생성하려면 이 옵션을 선택합니다.</string>
+    <string lang="ko" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">운영체제를 “숨긴 파티션-기반의 볼륨”에 설치할 경우, 한 개의 키를 사용해서 전체 시스템 드라이브를 암호화할 수 없다는 점을 참고하세요.</string>
+    <string lang="ko" key="CIPHER_HIDVOL_HOST_TITLE">외부 볼륨 암호 옵션</string>
+    <string lang="ko" key="CIPHER_HIDVOL_TITLE">숨긴 볼륨 암호 옵션</string>
+    <string lang="ko" key="CIPHER_TITLE">암호 옵션</string>
+    <string lang="ko" key="CLEAN_WINMRU_FAILED">주의: (파일 선택기에 의해 기억된) 선택한 볼륨/키파일의 최근 경로를 삭제하는 데 실패했습니다!</string>
+    <string lang="ko" key="COMPRESSION_NOT_SUPPORTED">오류: 보관소가 파일 시스템 레벨로 압축되어 있습니다. TrueCrypt는 압축된 보관소를 지원하지 않습니다(→ 암호화된 데이터 압축은 비효율적이고 중복되기만 합니다).\n\n다음 단계에 따라 보관소의 압축을 해제합니다: 1) (TrueCrypt가 아닌) 윈도우 탐색기에서 보관소를 오른쪽 클릭합니다. 2) “속성”을 선택합니다. 3) “속성” 대화창에서 “고급”을 클릭합니다. 4) “고급 속성” 대화창에서, “드라이브를 압축하여 디스크 공간 절약” 옵션을 체크해제하고 “확인”을 클릭합니다. 5) “속성” 대화창에서 “확인”을 클릭합니다.</string>
+    <string lang="ko" key="CREATE_FAILED">%hs 볼륨을 만드는데 실패했습니다.</string>
+    <string lang="ko" key="DEVICE_FREE_BYTES">드라이브 %hs의 크기 ▷ %.2f bytes</string>
+    <string lang="ko" key="DEVICE_FREE_KB">드라이브 %hs의 크기 ▷ %.2f KB</string>
+    <string lang="ko" key="DEVICE_FREE_MB">드라이브 %hs의 크기 ▷ %.2f MB</string>
+    <string lang="ko" key="DEVICE_FREE_GB">드라이브 %hs의 크기 ▷ %.2f GB</string>
+    <string lang="ko" key="DEVICE_FREE_TB">드라이브 %hs의 크기 ▷ %.2f TB</string>
+    <string lang="ko" key="DEVICE_FREE_PB">드라이브 %hs의 크기 ▷ %.2f PB</string>
+    <string lang="ko" key="DEVICE_IN_USE_FORMAT">주의: 장치/파티션이 운영체제나 프로그램에 의해 사용 중입니다. 장치/파티션을 포맷하면 데이터 손실 또는 시스템 불안정 등을 초래할 수 있습니다.\n\n계속하시겠습니까?</string>
+    <string lang="ko" key="DEVICE_IN_USE_INPLACE_ENC">주의: 파티션이 운영체제나 프로그램에 의해 사용 중입니다. 파티션을 사용 중인 프로그램(* 안티바이러스 소프트웨어 포함)을 종료해야 합니다.\n\n계속하시겠습니까?</string>
+    <string lang="ko" key="FORMAT_CANT_DISMOUNT_FILESYS">오류: 장치/파티션에 꺼낼 수 없는 파일 시스템이 있습니다. 파일 시스템이 운영체제에 의해 사용 중일 수도 있습니다. 장치/파티션을 포맷하면 데이터 손실 또는 시스템 불안정의 결과를 초래할 수도 있습니다.\n\n이 문제점의 해결책으로 먼저 파티션을 삭제하고, 포맷하지 않은 상태에서 파티션을 다시 만들 것을 권장합니다. 다음 단계를 따라야 합니다. 1) “시작 메뉴”에서 “내 컴퓨터”를 오른쪽 클릭한 다음 “관리”를 선택합니다. “컴퓨터 관리”창이 뜰 것입니다. 2) “컴퓨터 관리” 창에서 “저장소” ▶ “디스크 관리”를 선택합니다. 3) 암호화할 파티션을 오른쪽 클릭한 다음 “파티션 삭제”, “볼륨 삭제” 또는 “논리 드라이브 삭제” 중 하나를 선택합니다. 4) “예”를 클릭합니다. 윈도우가 컴퓨터를 재시작할 것인지 물으면 그렇게 해야 합니다. 그런 다음 1단계와 2단계를 반복한 후 5단계부터 계속합니다. 5) 빈 공간 영역(“할당 안됨”으로 표시됨)을 오른쪽 클릭한 다음 “새 파티션”, “새 단순 볼륨” 또는 “새 논리 드라이브”를 선택합니다. 6) “새 파티션 마법사” 또는 “새 단순 볼륨 마법사” 창이 뜨면 거기의 지침을 따릅니다. “파티션 포맷”이란 제목이 붙은 마법사에서, “현재 파티션 포맷 안함” 또는 “현재 볼륨 포맷 안함” 중 하나를 선택합니다. 동일한 마법사에서 “다음”을 클릭하고 “마침”을 클릭합니다. 7) TrueCrypt에서 선택했던 장치 경로가 지금은 틀릴 수도 있습니다. 이제 TrueCrypt 볼륨 만들기 마법사가 실행 중이라면 종료하고 다시 시작합니다. 8) TrueCrypt에서 장치/파티션 암호화를 다시 시도합니다.\n\n장치/파티션 암호화에 계속 실패할 경우, 암호화 대신에 “파일 보관소”를 만들 것을 고려해 봐야 합니다.</string>
+    <string lang="ko" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">오류: 파일시스템을 잠그거나 꺼낼 수 없습니다. 운영체제나 프로그램(예: 안티바이러스 소프트웨어)에 의해 사용 중입니다. 파티션 암호화는 데이터 손실 및 시스템 불안정을 초래할 수 있습니다.\n\n파일시스템을 사용할 수도 있는 프로그램(* 안티바이러스 소프트웨어 포함)을 닫은 후 다시 시도해 주십시오. 이렇게 해도 도움이 되지 않은 경우, 아래 단계를 따라주시기 바랍니다.</string>
+    <string lang="ko" key="DEVICE_IN_USE_INFO">주의: 삽입된 일부 장치/파티션이 현재 사용 중입니다!\n\n이를 무시하면 시스템 불안정을 포함한 바람직하지 않은 결과를 초래할 수 있습니다.\n\n장치/파티션을 사용 중인 프로그램을 닫을 것을 권장합니다.</string>
+    <string lang="ko" key="DEVICE_PARTITIONS_ERR">선택한 장치에 파티션이 포함되어 있습니다.\n\n장치를 포맷하면 시스템 불안정 또는 데이터 손상을 초래할 수 있습니다. TrueCrypt로 안전하게 포맷하려면 장치에서 파티션을 선택하거나 장치의 모든 파티션을 제거해야 합니다.</string>
+    <string lang="ko" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">선택한 비-시스템 장치는 파티션을 포함하고 있습니다.\n\n암호화된 장치-기반의 TrueCrypt 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다. 파티션을 포함하고 있는 장치 자체를 (단 한 개의 키로써) 완전히 암호화할 수 있습니다. 다만 윈도우가 설치되어 있고 그곳에서 부팅이 가능한 드라이브인 경우에 가능합니다.\n\n한 개의 마스터 키를 사용해서 “선택한 비-시스템 장치”를 암호화하려면, 먼저 장치에 있는 모든 파티션을 제거해서 TrueCrypt가 안전하게 이를 포맷할 수 있도록 해야 합니다(* 파티션을 포함하고 있는 장치의 포맷은 시스템 불안정 또는 데이터 손상을 초래할 수도 있습니다). 대체방법으로 드라이브의 각 파티션을 개별적으로 암호화할 수 있습니다(* 각 파티션은 서로 다른 마스터 키를 이용해서 암호화됩니다).\n\n참고: GPT 디스크에서 모든 파티션을 제거하려는 경우, 숨겨진 파티션을 제거하기 위해 (예컨대 컴퓨터 관리 도구를 이용해서) 이 디스크를 MBR 디스크로 변환할 필요가 있습니다.</string>
+    <string lang="en" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">Warning: If you encrypt the entire device (as opposed to encrypting only a partition on it), operating systems will consider the device as new, empty, and unformatted (as it will contain no partition table) and may spontaneously initialize the device (or ask you if you want to do so), which may damage the volume. Furthermore, it will not be possible to consistently mount the volume as favorite (e.g. when the drive number changes) or to assign a favorite-volume label to it.\n\nTo avoid that you may want to consider creating a partition on the device and encrypting the partition instead.\n\nAre you sure want to encrypt the entire device?</string>
+    <string lang="ko" key="AFTER_FORMAT_DRIVE_LETTER_WARN">중요: 드라이브 문자 %c: 을(를) 이용해서 이 볼륨을 삽입하거나 이에 접근할 수 없습니다. 이 문자가 현재 할당되어 있기 때문입니다.\n\n이 볼륨을 삽입하려면, TrueCrypt 메인 창에서 “장치 자동삽입”을 클릭하세요(* 대체방법으로는 TrueCrypt 메인 창에서 “장치 선택”을 클릭한 후 이 파티션/장치를 선택한 다음 “삽입”을 클릭하는 것입니다). 볼륨은 다른 드라이브 문자에 삽입되고, 드라이브 문자는 TrueCrypt 창의 목록에서 선택가능합니다.\n\n원래의 드라이브 문자 %c: 은(는) 파티션/장치에서 암호를 제거할 경우에만 사용되어야 합니다(예: 암호화가 더 이상 필요하지 않은 경우). 이런 경우에 “내 컴퓨터” 목록에서 드라이브 문자 %c:를 오른쪽 클릭한 다음 “포맷”을 선택합니다. 이런 경우를 제외하고는  드라이브 문자 %c:를 사용해서는 안됩니다. 다만 TrueCrypt FAQ에서 설명했던 것처럼 이를 제거한 후 다른 파티션/장치에 할당하는 것은 가능합니다.</string>
+    <string lang="ko" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">비-시스템 볼륨 자체의 암호화는 사용자가 사용 중인 운영체제 버전에서는 지원되지 않습니다(* Windows Vista 및 그 이후 버전에서만 지원됨).\n\n왜냐하면 이 버전의 윈도우는 파일시스템의 축소를 지원하지 않기 때문입니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).</string>
+    <string lang="ko" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">선택한 파티션은 NTFS 파일시스템을 포함하고 있지 않은 것으로 보입니다. NTFS 파일시스템을 포함한 파티션만이 자체적으로 암호화될 수 있습니다.\n\n참고: 왜냐하면 윈도우는 다른 형식의 파일시스템의 축소를 지원하지 않기 때문입니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).</string>
+    <string lang="ko" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">선택한 파티션은 NTFS 파일시스템을 포함하고 있지 않은 것으로 보입니다. NTFS 파일시스템을 포함한 파티션만이 자체적으로 암호화될 수 있습니다.\n\n이 파티션 내에 암호화된 TrueCrypt 볼륨을 만들고자 하는 경우, (“파티션 자체 암호화” 옵션을 사용하는 대신에) “암호화된 볼륨을 만든 후 포맷” 옵션을 선택합니다.</string>
+    <string lang="ko" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">오류: 파티션이 너무 작습니다. 이 파티션의 자체 암호화를 할 수 없습니다.</string>
+    <string lang="ko" key="INPLACE_ENC_ALTERNATIVE_STEPS">파티션에 있는 데이터를 암호화하려면 다음 단계를 따릅니다:\n\n1) 빈 파티션/장치에 TrueCrypt 볼륨을 만든 후 이를 삽입합니다.\n\n2) 처음에 암호화하려 했던 파티션에 있는 모든 파일을 (1단계에서 생성되어 삽입된) TrueCrypt 볼륨에 복사합니다. 이런 방식으로 TrueCrypt로 암호화된 데이터의 백업을 만듭니다.\n\n3) 처음에 암호화하려 했던 파티션에 TrueCrypt 볼륨을 만듭니다. 이때 TrueCrypt 마법사에서 (“파티션 자체 암호화” 옵션을 사용하는 대신에) “암호화된 볼륨을 만든 후 포맷” 옵션을 선택했는지 확인해야 합니다. 파티션에 저장되어 있는 모든 데이터가 지워진다는 것을 참고하시기 바랍니다. 볼륨이 생성된 후 이를 삽입합니다.\n\n4) (1단계에서 생성되어 삽입된) 백업용 TrueCrypt 볼륨의 모든 파일을 3단계에서 생성되어 삽입된 TrueCrypt 볼륨으로 복사합니다.\n\n이 단계를 마치게 되면 데이터는 암호화되고 또한 암호화된 데이터 백업도 있게 됩니다.</string>
+    <string lang="ko" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">TrueCrypt는 파티션, 동적(dynamic) 볼륨 또는 전체 시스템 드라이브만을 자체 암호화할 수 있습니다.\n\n선택한 비-시스템 장치 내에 암호화된 TrueCrypt 볼륨을 만들려고 하는 경우, (“파티션 자체 암호화” 옵션을 사용하는 대신에) “암호화된 볼륨을 만든 후 포맷” 옵션을 선택하십시오.</string>
+    <string lang="ko" key="INPLACE_ENC_INVALID_PATH">오류: TrueCrypt는 파티션, 동적(dynamic) 볼륨 또는 전체 시스템 드라이브만을 자체 암호화할 수 있습니다. 지정한 경로가 올바른지 확인해 주십시오.</string>
+    <string lang="ko" key="CANNOT_RESIZE_FILESYS">오류: 파일시스템의 크기를 줄일 수 없습니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).\n\n가능한 원인 및 해결책:\n\n- 볼륨에 충분한 여유 공간이 없음. 다른 프로그램이 파일시스템에 작성을 하고 있는 것은 아닌지 확인해 주시기 바랍니다.\n\n- 손상된 파일 시스템. 시스템을 검사해서 오류를 바로 잡습니다(* “컴퓨터” 목록에 있는 해당 드라이브 문자를 오른쪽-클릭한 후 속성 &gt; 도구 &gt; “지금 검사”를 선택한 해서 “파일 시스템 오류 자동 수정” 옵션을 체크한 후 “시작”을 클릭합니다).\n\n이렇게 해도 도움이 되지 않는 경우, 아래 단계를 따라주시기 바랍니다.</string>
+    <string lang="ko" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">오류: 볼륨에 충분한 여유 공간이 없고 파일시스템을 줄일 수 없습니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).\n\n중복되는 파일들을 삭제하고 휴지통을 비워서 적어도 256KB의 여유 공간을 만든 후 다시 시도해 주십시오. 윈도우의 문제점으로 인해, 운영체제를 다시 시작하기 전에는 여유 공간의 양을 윈도우 탐색기에서 올바르지 않게 보고할 수 있습니다. 시스템을 다시 시작해도 도움이 되지 않는 경우, 파일 시스템이 손상되었을 수도 있습니다. 시스템을 검사해서 오류를 바로 잡습니다(* “컴퓨터” 목록에 있는 해당 드라이브 문자를 오른쪽-클릭한 후 속성 &gt; 도구 &gt; “지금 검사”를 선택한 해서 “파일 시스템 오류 자동 수정” 옵션을 체크한 후 “시작”을 클릭합니다).\n\n이렇게 해도 도움이 되지 않는 경우, 아래 단계를 따라주시기 바랍니다.</string>
+    <string lang="ko" key="DISK_FREE_BYTES">드라이브 %hs의 여유 공간 ▷ %.2f bytes</string>
+    <string lang="ko" key="DISK_FREE_KB">드라이브 %hs의 여유 공간 ▷ %.2f KB</string>
+    <string lang="ko" key="DISK_FREE_MB">드라이브 %hs의 여유 공간 ▷ %.2f MB</string>
+    <string lang="ko" key="DISK_FREE_GB">드라이브 %hs의 여유 공간 ▷ %.2f GB</string>
+    <string lang="ko" key="DISK_FREE_TB">드라이브 %hs의 여유 공간 ▷ %.2f TB</string>
+    <string lang="ko" key="DISK_FREE_PB">드라이브 %hs의 여유 공간 ▷ %.2f PB</string>
+    <string lang="ko" key="DRIVELETTERS">이용가능한 드라이브 문자가 없습니다.</string>
+    <string lang="ko" key="DRIVER_NOT_FOUND">오류: TrueCrypt 드라이버를 찾을 수 없습니다!\n\n프로그램(TrueCrypt.exe)이 위치한 디렉토리에 “truecrypt.sys” 및 “turecrypt-x64.sys” 파일을 복사해 주세요.</string>
+    <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the TrueCrypt driver is currently running.\n\nIf you are trying to run TrueCrypt in portable mode (i.e. without installing it) and a different version of TrueCrypt is already installed, you must uninstall it first (or upgrade it using the TrueCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' &gt; Computer &gt; 'Uninstall or change a program' &gt; TrueCrypt &gt; Uninstall; on Windows XP, select 'Start Menu' &gt; Settings &gt; 'Control Panel' &gt; 'Add Or Remove Programs' &gt; TrueCrypt &gt; Remove.\n\nSimilarly, if you are trying to run TrueCrypt in portable mode (i.e. without installing it) and a different version of TrueCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
+    <string lang="ko" key="ERR_CIPHER_INIT_FAILURE">오류: 암호를 초기화하는데 실패했습니다.</string>
+    <string lang="ko" key="ERR_CIPHER_INIT_WEAK_KEY">오류: 강력하지 않은 키가 탐지되었습니다. 이 키는 무시되었습니다. 다시 시도하세요.</string>
+    <string lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 TrueCrypt를 종료해야 합니다. 만약 원인이 TrueCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- TrueCrypt 콤포넌트 이름\n- TrueCrypt 실행파일 체크섬\n- TrueCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- TrueCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%hs\n\n오류 보고서를 저희에게 보내시겠습니까?</string>
+    <string lang="ko" key="EXCEPTION_REPORT_EXT">TrueCrypt를 종료해야만 하는 치명적인 오류가 시스템에 발생했습니다.\n\n이 오류는 TrueCrypt에 의해 발생된 것이 아닙니다(그래서 TrueCrypt의 개발자가 고칠 수는 없습니다). 여러분의 시스템을 체크해 주세요(예: 시스템 설정, 네트워크 연결, 하드웨어 콤포넌트 실패 등).</string>
+    <string lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires TrueCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</string>
+    <string lang="ko" key="EXCEPTION_REPORT_TITLE">TrueCrypt 치명적 오류</string>
+    <string lang="en" key="SYSTEM_CRASHED_ASK_REPORT">TrueCrypt detected that the operating system recently crashed. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)\n\nDo you want TrueCrypt to check whether a bug in TrueCrypt could have caused the system crash?</string>
+    <string lang="en" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">Do you want TrueCrypt to continue detecting system crashes?</string>
+    <string lang="en" key="NO_MINIDUMP_FOUND">TrueCrypt found no system crash minidump file.</string>
+    <string lang="en" key="ASK_DELETE_KERNEL_CRASH_DUMP">Do you want to delete the Windows crash dump file to free up disk space?</string>
+    <string lang="en" key="ASK_DEBUGGER_INSTALL">In order to analyze the system crash, TrueCrypt needs to install Microsoft Debugging Tools for Windows first.\n\nAfter you click OK, the Windows installer will download the Microsoft Debugging Tools installation package (16 MB) from a Microsoft server and install it (the Windows installer will be forwarded to the Microsoft server URL from the truecrypt.org server, which ensures that this feature works even if Microsoft changes the location of the installation package).</string>
+    <string lang="en" key="SYSTEM_CRASH_ANALYSIS_INFO">After you click OK, TrueCrypt will analyze the system crash. This may take up to several minutes.</string>
+    <string lang="en" key="DEBUGGER_NOT_FOUND">Please make sure the environment variable 'PATH' includes the path to 'kd.exe' (Kernel Debugger).</string>
+    <string lang="en" key="SYSTEM_CRASH_NO_TRUECRYPT">It appears that TrueCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
+    <string lang="en" key="SYSTEM_CRASH_UPDATE_DRIVER">Results of the analysis indicate that updating the following driver might solve this issue: </string>
+    <string lang="en" key="SYSTEM_CRASH_REPORT">To help us determine whether there is a bug in TrueCrypt, you can send us an automatically generated error report containing the following items:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.</string>
+    <string lang="en" key="ASK_SEND_ERROR_REPORT">Do you want to send us the above error report?</string>
+    <string lang="ko" key="ENCRYPT">암호화(&amp;E)</string>
+    <string lang="ko" key="DECRYPT">암호해제(&amp;D)</string>
+    <string lang="ko" key="PERMANENTLY_DECRYPT">영구적 암호해제</string>
+    <string lang="ko" key="EXIT">종료</string>
+    <string lang="ko" key="EXT_PARTITION">이 확장 파티션에 대한 논리 드라이브를 만든 후 다시 시도하세요.</string>
+    <string lang="ko" key="FILE_HELP">(하드 디스크, USB 플래시 드라이브 등에 위치할 수 있는) TrueCrypt 보관소로 불리는 파일 안에 TrueCrypt 볼륨을 둘 수 있습니다. TrueCrypt 보관소는 일반의 보통 파일과 같습니다(* 예컨대 보통의 파일처럼 이동 또는 삭제가 가능합니다). 보관소를 위한 파일이름을 선택하고, 보관소가 만들어질 위치를 선택하려면 “파일 선택”을 클릭합니다.\n\n주의: 만약 기존의 파일을 선택하게 되면, TrueCrypt는 이 파일을 암호화하지 않습니다. 또한 이 파일은 삭제되고 “새롭게 생성된 TrueCrypt 보관소”로 교체됩니다. 기존의 파일을, 지금 만들려고 하는 TrueCrypt 보관소로 (나중에) 이동시켜서, 암호화할 수 있습니다.</string>
+    <string lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL">생성될 외부 볼륨의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\nTrueCrypt 볼륨은 하드 디스크, USB 플래시 드라이브 등에 위치할 수 있는 파일(→ TrueCrypt 보관소) 안에 둘 수 있습니다. TrueCrypt 보관소는 보통의 파일처럼 이동 또는 삭제가 가능합니다. 보관소를 위한 파일이름을 선택하고, 보관소가 만들어질 위치를 선택하려면 “파일 선택”을 클릭합니다. 만약 기존의 파일을 선택하게 되면, TrueCrypt는 이 파일을 암호화하지 않습니다. 또한 이 파일은 삭제되고 새롭게 생성된 TrueCrypt 보관소로 교체됩니다. 기존의 파일을, 지금 만들려고 하는 TrueCrypt 보관소로 (나중에) 이동시켜서, 암호화할 수 있습니다.</string>
+    <string lang="ko" key="DEVICE_HELP">암호화된 장치-기반의 TrueCrypt 볼륨은 ① 하드 디스크의 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 또한 파티션 자체를 암호화할 수도 있습니다.\n\n게다가 암호화된 장치-기반의 TrueCrypt 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n참고: 파티션을 포함하고 있는 장치 자체를 (단 한 개의 키로써) 완전히 암호화할 수 있습니다. 다만 윈도우가 설치되어 있고 그곳에서 부팅이 가능한 드라이브인 경우에 가능합니다.</string>
+    <string lang="ko" key="DEVICE_HELP_NO_INPLACE">장치-기반의 TrueCrypt 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 저장 장치 안에 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다. </string>
+    <string lang="ko" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n생성될 “외부 볼륨”의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\n외부 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 외부 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다. </string>
+    <string lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\n숨긴 볼륨을 생성할 TrueCrypt 외부 볼륨의 위치를 선택해 주세요.</string>
+    <string lang="ko" key="FILE_IN_USE">주의: 호스트 파일/장치가 이미 사용 중입니다!\n\n이것을 무시하면 시스템 불안정 등의 원하지 않는 결과를 초래할 수 있습니다. 호스트 파일/장치를 사용하는 모든 프로그램(예: 안티바이러스 또는 백업 프로그램)을 “볼륨이 삽입하기 전”에 닫아야 합니다.\n\n그래도 계속 하시겠습니까?</string>
+    <string lang="ko" key="FILE_IN_USE_FAILED">오류: 볼륨을 삽입할 수 없습니다. 호스트 파일/장치가 이미 사용 중입니다. 접근권한 없는 삽입의 시도는 실패했습니다.</string>
+    <string lang="ko" key="FILE_OPEN_FAILED">파일을 열 수 없습니다.</string>
+    <string lang="ko" key="FILE_TITLE">볼륨 위치</string>
+    <string lang="ko" key="FILESYS_PAGE_TITLE">큰 파일</string>
+    <string lang="ko" key="FILESYS_PAGE_HELP_QUESTION">현재 TrueCrypt 볼륨에 4GB 이상의 파일을 저장하시겠습니까?</string>
+    <string lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION">여러분이 위에서 선택한 것에 따라 TrueCrypt는 TrueCrypt 볼륨을 위해 적절한 기본 파일 시스템을 선택하게 됩니다. (다음 단계에서 파일 시스템을 선택할 수 있습니다.)</string>
+    <string lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">외부 볼륨을 만드는 동안 여러분은 “아니오”의 선택 여부를 고민해야 합니다. “예”를 선택하게 되면 기본 파일 시스템은 NTFS가 되는데 이는 외부 볼륨으로선 적당하지 않습니다(→ FAT이 적당). 예컨대 (외부 볼륨이 FAT으로 포맷된 경우) 숨긴 볼륨의 가능한 최대 크기는 훨씬 더 클 수도 있습니다. 대개 FAT은 표준 및 숨긴 볼륨에 기본 형식입니다. (그래서 FAT 볼륨은 별 문제가 없습니다.) 그러나 4GB 이상의 파일(→ FAT 파일 시스템에선 지원 안됨)을 저장하려고 하는 경우에는 FAT은 기본 형식이 아닙니다.</string>
+    <string lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">그래도 “예”를 선택하시겠습니까?</string>
+    <string lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">볼륨 생성 모드</string>
+    <string lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">이 방법은 파티션-기반 또는 장치-기반의 TrueCrypt 볼륨을 만드는 가장 빠른 방법입니다(* 다른 옵션인 “자체 암호화”는 각 섹터의 내용을 먼저 읽고, 암호화해서 쓰기 때문에 비교적 느립니다). 선택한 파티션/장치에 현재 저장되어 있는 모든 데이터는 잃게 됩니다(* 데이터는 암호화되지 않고 무작위 데이터로 덮어쓰기됩니다). 파티션에 있는 기존 데이터를 암호화하려면, 다른 옵션을 선택합니다.</string>
+    <string lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">선택한 전체 파티션 및 이곳에 저장된 모든 데이터는 자체(in place) 암호화됩니다. 파티션이 비어 있는 경우, 다른 옵션을 선택해야 합니다(* 볼륨이 훨씬 더 빠르게 생성됩니다).</string>
+    <string lang="ko" key="NOTE_BEGINNING">참고: </string>
+    <string lang="ko" key="RESUME">다시 시작(&amp;R)</string>
+    <string lang="ko" key="DEFER">연기(&amp;D)</string>
+    <string lang="ko" key="START">시작(&amp;S)</string>
+    <string lang="ko" key="CONTINUE">계속(&amp;C)</string>
+    <string lang="ko" key="FORMAT">포맷(&amp;F)</string>
+    <string lang="ko" key="WIPE">지우기(&amp;W)</string>
+    <string lang="ko" key="FORMAT_ABORT">포맷 중단?</string>
+    <string lang="ko" key="SHOW_MORE_INFORMATION">추가 정보 표시</string>
+    <string lang="ko" key="DO_NOT_SHOW_THIS_AGAIN">다시 표시 안함</string>
+    <string lang="ko" key="WIPE_FINISHED">파티션/장치의 내용을 성공적으로 지웠습니다.</string>
+    <string lang="ko" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">원래의 시스템(* 이 시스템의 숨겨진 시스템은 복제된 것임)이 존재했던 파티션의 내용을 성공적으로 지웠습니다.</string>
+    <string lang="ko" key="DECOY_OS_VERSION_WARNING">(지워진 파티션에) 설치하려는 윈도우 버전이 현재 실행 중인 윈도우 버전과 동일한 것인가를 확인해 주세요. 이 작업은 두 시스템이 부트 파티션을 공통으로 공유하기 때문에 필요합니다.</string>
+    <string lang="en" key="SYSTEM_ENCRYPTION_FINISHED">The system partition/drive has been successfully encrypted.\n\nNote: If there are non-system TrueCrypt volumes that you need to have mounted automatically every time Windows starts, you can set it up by mounting each of them and selecting 'Favorites' &gt; 'Add Mounted Volume to System Favorites').</string>
+    <string lang="ko" key="SYSTEM_DECRYPTION_FINISHED">시스템 파티션/드라이브를 성공적으로 암호해제했습니다.</string>
+    <string lang="ko" key="FORMAT_FINISHED_HELP">\n\n볼륨이 성공적으로 만들어졌고, 사용할 준비가 되었습니다. 또 다른 TrueCrypt 볼륨을 만들려면 “다음”을 클릭하세요. 마법사를 끝내려면 “종료”를 클릭하세요.</string>
+    <string lang="ko" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n숨겨진 TrueCrypt 볼륨을 성공적으로 만들었습니다(* 숨겨진 운영체제는 이 숨겨진 볼륨에 존재하게 됩니다).\n\n계속하려면 “다음”을 클릭합니다.</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">볼륨이 완전히 암호화됨</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_INFO">중요: 새롭게 만들어진 TrueCrypt 볼륨을 삽입해서 이에 저장된 데이터에 접근하려면, TrueCrypt 메인 창에서 “장치 자동삽입”을 클릭합니다. 올바른 비밀번호 또는 키파일을 입력한 이후 사용자가 TrueCrypt 메인 창에 있는 목록에서 선택한 드라이브 문자에 볼륨이 삽입됩니다(* 선택한 드라이브 문자를 통해 암호화된 데이터에 접근할 수 있게 됩니다).\n\n위에서 언급한 단계를 기억해 두거나 작성해 주십시오. 볼륨을 삽입하거나 그곳에 저장된 데이터에 접근하려 할 때마다 이 단계를 반드시 따라야 합니다. 대체방법은 TrueCrypt 메인 창에서 “장치 선택”을 클릭한 후 해당 파티션/볼륨을 선택해서 “삽입”을 클릭하는 것입니다.\n\n파티션/볼륨이 성공적으로 암호화되었고(* 완전히 암호화된 TrueCrypt 볼륨 포함) 사용할 준비가 되었습니다.</string>
+    <string lang="ko" key="FORMAT_FINISHED_INFO">볼륨이 성공적으로 만들어졌고, 사용할 준비가 되었습니다.</string>
+    <string lang="ko" key="FORMAT_FINISHED_TITLE">볼륨 생성</string>
+    <string lang="ko" key="FORMAT_HELP">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 암호키의 암호력을 상당히 증대시킵니다. 이제 볼륨을 생성하려면 “포맷”을 클릭하세요.</string>
+    <string lang="ko" key="FORMAT_HIDVOL_HOST_HELP">외부 볼륨을 만들 준비가 되면 “포맷”을 클릭하세요. 더 자세한 정보를 보려면 문서를 참고하세요.</string>
+    <string lang="ko" key="FORMAT_HIDVOL_HOST_TITLE">외부 볼륨 포맷</string>
+    <string lang="ko" key="FORMAT_HIDVOL_TITLE">숨긴 볼륨 포맷</string>
+    <string lang="ko" key="FORMAT_TITLE">볼륨 포맷</string>
+    <string lang="ko" key="HELP_READER_ERROR">TrueCrypt 사용자 안내서를 보거나 인쇄하려면 Adobe Reader(또는 호환가능한 도구)가 필요합니다. Adobe Reader (프리웨어) 다운로드 주소: www.adobe.com\n\n대신 온라인 문서를 보시겠습니까?</string>
+    <string lang="ko" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">만약 이 옵션을 선택했다면, 마법사가 ① 표준 TrueCrypt 볼륨을 만들고 ② 그 안에 숨긴 TrueCrypt 볼륨을 만드는 것을 도와줍니다. 경험이 없는 사용자는 항상 이 옵션을 선택해야 합니다.</string>
+    <string lang="ko" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">만약 이 옵션을 선택했다면, 기존의 TrueCrypt 볼륨 안에 숨긴 볼륨을 만들게 됩니다. “숨긴 볼륨”의 호스트에 적당한 TrueCrypt “외부 볼륨”은 이미 만들었다고 간주됩니다.</string>
+    <string lang="ko" key="HIDDEN_VOL_WIZARD_MODE_TITLE">볼륨 생성 모드</string>
+    <string lang="ko" key="HIDVOL_FORMAT_FINISHED_TITLE">숨긴 볼륨을 생성했습니다.</string>
+    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden TrueCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the TrueCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE TRUECRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
+    <string lang="ko" key="FIRST_HIDDEN_OS_BOOT_INFO">숨긴 운영체제를 시작했습니다. 주지했다시피 숨긴 운영체제는 원래의 운영체제와 동일한 파티션에 설치된 것으로 보이게 됩니다. 그러나 실제로는 (숨긴 볼륨 내에 있는) 파티션 안에 설치되어 있습니다. 모든 읽기 및 쓰기 작업은 원래의 시스템 파티션에서 숨긴 볼륨으로 (눈에 띄지 않게) 재전환됩니다.\n\n시스템 파티션에서 읽고 쓰여지는 데이터가 실제로는 숨긴 볼륨에서 읽고 쓰여지고 있다는 사실을 운영체제 뿐만 아니라 프로그램도 전혀 알지 못합니다. 이러한 데이터는 실시간으로 보통 때와 마찬가지로 (미끼용 운영체제에서 사용되는 키와는 다른 키를 사용해서) 암호화되고 암호해제됩니다.\n\n\n계속하려면 “다음”을 클릭해 주십시오.</string>
+    <string lang="ko" key="HIDVOL_HOST_FILLING_HELP_SYSENC">외부 볼륨이 만들어졌고, 드라이브 %hc:에 삽입되었습니다:. 실제로는 숨기고 싶지 않지만 겉으로 보기에 상당히 민감하게 보이는 파일들을 이 외부 볼륨에 지금 복사해야 합니다. 이러한 파일들은 노출을 강요하는 자에게 공개되어도 상관이 없는 “시스템 파티션 뒤의 첫번째 파티션에 대한 비밀번호용”입니다. 시스템 파티션에는 ① 외부 볼륨 및 ② 숨긴 볼륨(→ 숨긴 운영체제 포함)이 자리잡고 있습니다. 이러한 외부 볼륨용 비밀번호는 공개될 수 있지만, 숨긴 볼륨 (및 숨긴 운영체제)의 존재는 여전히 비밀로 남습니다.\n\n중요: 외부 볼륨에 복사한 파일이 %s 이상을 차지해선 안됩니다. 그렇지 않으면 외부 볼륨에 “숨긴 볼륨을 위한 충분한 공간”이 확보되지 않기 때문입니다. 이런 경우 계속 진행할 수 없게 됩니다. 복사 작업을 마친 후 “다음”을 클릭합니다(→ 볼륨을 꺼내지 마세요).</string>
+    <string lang="ko" key="HIDVOL_HOST_FILLING_HELP">외부 볼륨이 성공적으로 만들어졌고, 드라이브 %hc:에 삽입되었습니다. 실제로는 숨기고 싶지 않지만 겉으로 보기에 상당히 민감한 파일을 이 볼륨에 지금 복사해야 합니다. 강요에 의해 비밀번호를 노출해야만 하는 경우, 거기에 있는 파일들이 표시됩니다. 외부 볼륨에 대한 비밀번호만 노출될 뿐, 숨긴 볼륨은 안전합니다. 나중에 만들어질 “숨긴 볼륨”에 진짜 소중한 파일을 저장하면 됩니다. 복사 작업이 끝나면 “다음”을 클릭하세요. 볼륨을 꺼내지 마세요.\n\n참고: “다음”을 클릭하면, 여유 공간(이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에, 숨긴 볼륨의 가능한 최대 크기를 제한하게 됩니다. 클러스터 비트맵 스캔은 “숨긴 볼륨”이 외부 볼륨을 데이터로 덮어쓰지 못하도록 하는 것입니다.</string>
+    <string lang="ko" key="HIDVOL_HOST_FILLING_TITLE">외부 볼륨 내용</string>
+    <string lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n다음 단계에서 외부 볼륨에 대한 옵션을 설정하게 됩니다(→ 외부 볼륨 안에 숨긴 볼륨이 나중에 만들어집니다). </string>
+    <string lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n다음 단계에서, (이전 단계에서 설명했듯이) 시스템 파티션 뒤의 첫번째 파티션 안에 이른바 “외부 TrueCrypt 볼륨”을 만들게 됩니다.</string>
+    <string lang="ko" key="HIDVOL_HOST_PRE_CIPHER_TITLE">외부 볼륨</string>
+    <string lang="ko" key="HIDDEN_OS_PRE_CIPHER_HELP">다음 단계에서 (숨긴 운영체제를 포함하고 있는) 숨긴 볼륨에 대한 옵션 및 비밀번호를 설정하게 됩니다.\n\n참고: 여유 공간(→ 이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에 “숨긴 볼륨의 가능한 최대 크기”를 제한하게 됩니다. 숨긴 볼륨의 가능한 최대 크기는 시스템 파티션의 것보다 더 크게 정해지게 됩니다. 이는 시스템 파티션의 전체 내용이 숨긴 볼륨에 복사될 필요가 있기 때문입니다. 이를 통해 숨긴 볼륨 영역에 쓰여진 데이터가 “외부 볼륨에 현재 저장되어 있는 데이터”를 덮어쓰지 못하도록 방지합니다.</string>
+    <string lang="ko" key="HIDDEN_OS_PRE_CIPHER_WARNING">중요: 이 단계에서 선택한 알고리듬을 기억해 두십시오. 미끼용 시스템을 위해 동일한 알고리듬을 선택해야 할 것입니다. 그렇지 않으면 “숨긴 시스템”에 접근하지 못하게 됩니다! (미끼용 시스템은 “숨긴 시스템”과 동일한 암호 알고리듬으로 암호화되어야 합니다.)\n\n참고: 그 이유는 미끼용 시스템과 숨긴 시스템은 한 개의 부트 로더를 공유하게 되는데, 이 부트 로더는 사용자가 선택한 단일 알고리듬만을 지원하기 때문입니다(* 각 알고리듬에 대해 특별한 버전의 TrueCrypt 부트 로더가 있습니다).</string>
+    <string lang="ko" key="HIDVOL_PRE_CIPHER_HELP">\n\n볼륨 클러스트 비트맵이 스캔되었고, 숨긴 볼륨의 가능한 최대 크기가 결정되었습니다. 다음 단계에서 숨긴 볼륨에 대한 옵션, 크기 및 비밀번호를 설정하게 됩니다.</string>
+    <string lang="ko" key="HIDVOL_PRE_CIPHER_TITLE">숨긴 볼륨</string>
+    <string lang="ko" key="HIDVOL_PROT_WARN_AFTER_MOUNT">이제 외부 볼륨을 꺼내기 전에는 숨긴 볼륨이 손상으로부터 보호됩니다.\n\n주의: 만약 어떤 데이터를 숨긴 볼륨 영역에 쓰고자 시도한다면, 볼륨이 꺼내지기 전까지 TrueCrypt는 전체 볼륨(외부/숨긴 볼륨)을 쓰기금지로 보호합니다. 이는 외부 볼륨에 대한 파일시스템 손상으로 이어질 수 있습니다. 또한 이것이 반복되면 “숨긴 볼륨의 효과적인 거부방법”에 악영향을 미치게 됩니다. 그러므로 여러분은 숨긴 볼륨 영역에의 쓰기작업을 피하기 위해 노력을 해야만 합니다. 숨긴 볼륨 영역에 저장되어 있는 데이터는 저장되지도 않고 손실되지도 않습니다. 윈도우는 이를 “쓰기 오류”로 보고하게 됩니다(“지연된 쓰기 실패” 또는 “변수가 올바르지 않습니다”).</string>
+    <string lang="ko" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">이제 새로 삽입된 볼륨의 내부에 위치한 각 숨긴 볼륨은 꺼내지기 전까지는 손상으로부터 보호됩니다.\n\n주의: 만약 어떤 데이터를 보호된 숨긴 볼륨 영역에 쓰고자 시도한다면, 볼륨이 꺼내지기 전까지 TrueCrypt는 전체 볼륨(외부/숨긴 볼륨)을 쓰기금지로 보호합니다. 이는 외부 볼륨에 대한 파일시스템 손상으로 이어질 수 있습니다. 또한 이것이 반복되면 “숨긴 볼륨의 효과적인 거부방법”에 악영향을 미치게 됩니다. 그러므로 여러분은 숨긴 볼륨 영역에의 쓰기작업을 피하기 위해 노력을 해야만 합니다. 보호된 숨긴 볼륨 영역에 저장되어 있는 데이터는 저장되지도 않고 손실되지도 않습니다. 윈도우는 이를 “쓰기 오류”로 보고하게 됩니다(“지연된 쓰기 실패” 또는 “변수가 올바르지 않습니다”).</string>
+    <string lang="ko" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">주의: %c:로서 삽입된 볼륨의 숨긴 볼륨 영역에 데이터를 저장되는 작업이 시도되고 있습니다! 숨긴 볼륨을 보호하기 위해 TrueCrypt가 이러한 데이터 저장 작업을 방지했습니다. 이는 외부 볼륨에 대한 파일 시스템 손상을 초래할 수 있고, 윈도우는 이를 “쓰기 오류”로 보고하게 됩니다(“지연된 쓰기 실패” 또는 “변수가 올바르지 않습니다”). 볼륨이 꺼내지기 전까지 TrueCrypt는 전체 볼륨(외부 및 숨긴 볼륨)을 쓰기금지로 보호합니다. 만약 TrueCrypt가 이 볼륨의 숨긴 볼륨 영역에 데이터를 저장하는 작업을 방해한 것이 처음이 아니라면, 숨긴 볼륨의 그럴싸한 거부방법은 악영향을 받았을 수도 있습니다(→ 외부 볼륨 파일 시스템 내에서의 특이하게 관련된 불일치가 원인일 수 있음). 그러므로 새로운 TrueCrypt 볼륨을 (빠른 포맷을 사용하지 않고) 만들고, 이 볼륨의 파일들을 새 볼륨으로 이동시키는 것을 고려해 봐야 합니다. 이 볼륨은 안전하게 (외부 및 숨긴 부분 둘다) 지워져야 합니다. 지금 운영체제를 다시 시작할 것을 적극권장합니다.</string>
+    <string lang="en" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">You have indicated intent to store files larger than 4 GB on the volume. This requires the volume to be formatted as NTFS, which, however, will not be possible.</string>
+    <string lang="en" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">Please note that when a hidden operating system is running, non-hidden TrueCrypt volumes cannot be formatted as NTFS. The reason is that the volume would need to be temporarily mounted without write protection in order to allow the operating system to format it as NTFS (whereas formatting as FAT is performed by TrueCrypt, not by the operating system, and without mounting the volume). For further technical details, see below. You can create a non-hidden NTFS volume from within the decoy operating system.</string>
+    <string lang="ko" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">보안상의 이유로 숨긴 운영체제가 실행 중인 경우, 숨긴 볼륨은 “직접” 모드에서만 만들어질 수 있습니다(* 왜냐하면 외부 볼륨은 항상 읽기-전용으로만 삽입되기 때문입니다). 숨긴 볼륨을 안전하게 만드려면, 다음 지침을 따릅니다:\n\n1) 미끼용 시스템을 부팅합니다.\n\n2) 표준 TrueCrypt 볼륨을 만들고 이 볼륨 안에 민감한 파일처럼 보이지만 실제로는 숨기고 싶지 않은 일부 파일들을 복사합니다. 이 볼륨은 외부 볼륨이 됩니다.\n\n3) 숨긴 시스템을 부팅한 후 “TrueCrypt 볼륨 만들기 마법사”를 시작합니다. 파일-기반의 볼륨인 경우, 이 볼륨을 시스템 파티션 또는 다른 숨겨진 볼륨으로 이동시킵니다. 그렇지 않으면 새롭게 생성된 숨긴 볼륨이 읽기-전용으로 삽입되거나 이를 포맷할 수 없게 됩니다. 마법사의 지침에서 숨긴 볼륨 만들기 “직접 방식”을 선택합니다.\n\n4) 마법사의 2단계에서 여러분이 만든 볼륨을 선택한 다음 이 안에 “숨긴 볼륨”을 만들도록 지침을 따릅니다.</string>
+    <string lang="ko" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">보안상의 이유로, 숨긴 운영체제가 실행 중일 때, ① 암호화되지 않은 로컬 파일 시스템 및 ② 숨긴 볼륨이 아닌 TrueCrypt 볼륨은 읽기-전용으로 삽입됩니다. 어떠한 데이터도 그러한 파일 시스템 또는 TrueCrypt 볼륨에 쓰여질 수 없습니다.\n\n데이터는 숨긴 TrueCrypt 볼륨 내에 있는 파일 시스템에 쓰여지도록 되어 있습니다(* 숨긴 볼륨이 암호화되지 않은 파일시스템 또는 다른 읽기-전용 파일시스템에 저장되어 있는 보관소에 위치하지 않은 경우에 한함).</string>
+    <string lang="ko" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">이러한 대응책이 만들어진 주요한 3가지 이유가 있습니다:\n\n- 숨긴 TrueCrypt 볼륨의 삽입에 대한 안전한 플랫폼의 생성을 가능하게 합니다. 우리는 공식적으로 숨긴 운영 시스템이 실행 중일 때만 “숨긴 볼륨을 삽입할 것”을 권장하고 있습니다. (더 자세한 정보는 문서의 “Security Requirements and Precautions Pertaining to Hidden Volumes” 부분을 참고하세요.\n\n- 가끔 ① 특정 파일 시스템이 특정 운영 시스템에서는 삽입되지 않거나 ② 파일 시스템의 특정 파일이 특정 시스템에서 저장되지 않거나 접근할 수 없는 경우를 발견할 수 있습니다. 이는 컴퓨터에 “숨긴 운영체제”가 설치되어 있다는 것을 나타냅니다. 대응책은 이러한 문제점을 방지합니다.\n\n- 이를 통해 데이터 손상을 방지하고 최대 절전 모드로 안전하게 진입할 수 있게 합니다. 최대 절전 모드에서 윈도우가 다시 시작될 때, 윈도우는 (삽입된 모든 파일 시스템들이) 최대 절전 모드에 들어갈 때의 상태와 동일한 상태에 있다고 가정을 합니다. TrueCrypt는 미끼용 및 숨겨진 시스템 내에 접근가능한 파일 시스템의 쓰기를 금지합니다. 이러한 보호책이 없는 경우, 다른 시스템이 최대 절전 모드 상태로 진입하는 동안 또다른 시스템이 삽입(mount)될 때 파일 시스템이 손상될 수 있습니다.</string>
+    <string lang="ko" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">참고: 미끼용 시스템에서 숨긴 시스템으로 파일을 안전하게 전송할 필요가 있는 경우에는 다음 단계를 따릅니다. 1) 미끼용 시스템을 시작합니다. 2) 암호화되지 않은 볼륨 또는 외부/표준 TrueCrypt 볼륨에 파일을 저장합니다. 3) 숨긴 시스템을 시작합니다. 4) TrueCrypt 볼륨에 파일을 저장한 경우, 이 볼륨을 삽입합니다(→ 읽기-전용으로 자동으로 삽입됩니다). 5) 파일을 ① 숨긴 시스템 파티션 또는 ② 다른 숨긴 볼륨에 복사합니다.</string>
+    <string lang="ko" key="CONFIRM_RESTART">컴퓨터를 다시 시작해야 합니다.\n\n지금 다시 시작하시겠습니까?</string>
+    <string lang="ko" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">시스템 암호 상태를 얻는 동안 오류가 발생했습니다.</string>
+    <string lang="ko" key="INIT_SYS_ENC">시스템 암호화를 위한 프로그램 구성요소를 초기화하지 못했습니다.</string>
+    <string lang="ko" key="INIT_RAND">무작위 숫자 생성기를 초기화하는데 실패했습니다!</string>
+    <string lang="ko" key="INIT_REGISTER">프로그램을 초기화할 수 없습니다. 다이얼로그 클래스 등록에 실패했습니다.</string>
+    <string lang="ko" key="INIT_RICHEDIT">오류: Rich Edit 시스템 라이브러리를 로드하는데 실패했습니다.</string>
+    <string lang="ko" key="INTRO_TITLE">TrueCrypt 볼륨 만들기 마법사</string>
+    <string lang="ko" key="MAX_HIDVOL_SIZE_BYTES">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f bytes</string>
+    <string lang="ko" key="MAX_HIDVOL_SIZE_KB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f KB</string>
+    <string lang="ko" key="MAX_HIDVOL_SIZE_MB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f MB</string>
+    <string lang="ko" key="MAX_HIDVOL_SIZE_GB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f GB</string>
+    <string lang="ko" key="MOUNTED_NOPWCHANGE">볼륨이 삽입된 상태에서 “비밀번호/키파일”을 변경할 수 없습니다. 먼저 볼륨을 꺼내야 합니다.</string>
+    <string lang="ko" key="MOUNTED_NO_PKCS5_PRF_CHANGE">볼륨이 삽입된 상태에서 “헤더 키 도출 알고리듬”을 변경할 수 없습니다. 먼저 볼륨을 꺼내야 합니다.</string>
+    <string lang="ko" key="MOUNT_BUTTON">삽입(&amp;M)</string>
+    <string lang="ko" key="NEW_VERSION_REQUIRED">이 볼륨을 삽입하려면 최신 버전의 TrueCrypt가 필요합니다.</string>
+    <string lang="ko" key="VOL_CREATION_WIZARD_NOT_FOUND">오류: 볼륨 만들기 마법사를 찾을 수 없습니다.\n\n“TrueCrypt.exe”가 실행된 폴더에서 “TrueCrypt Format.exe” 파일을 찾아보시기 바랍니다. 만약 없으면 TrueCrypt를 다시 설치하거나, 디스크에서 “TrueCrypt Format.exe” 파일의 위치를 지정한 실행하세요.</string>
+    <string lang="ko" key="NEXT">다음(&amp;N) &gt;</string>
+    <string lang="ko" key="FINALIZE">마침(&amp;F)</string>
+    <string lang="ko" key="INSTALL">설치(&amp;I)</string>
+    <string lang="ko" key="EXTRACT">추출(&amp;X)</string>
+    <string lang="ko" key="NODRIVER">TrueCrypt 장치 드라이버에 연결할 수 없습니다. 장치 드라이버가 실행 중이 아니라면 TrueCrypt가 작동하지 않습니다.\n\n(윈도우의 문제로 인해) 장치 드라이버를 로드하기 전에 시스템을 로그오프하거나 다시 시작해야 합니다.</string>
+    <string lang="ko" key="NOFONT">글꼴을 로딩/준비할 때 오류가 발생했습니다.</string>
+    <string lang="ko" key="NOT_FOUND">드라이브 문자를 찾을 수 없거나 지정한 드라이브 문자가 없습니다.</string>
+    <string lang="ko" key="DRIVE_LETTER_UNAVAILABLE">드라이브 문자를 사용할 수 없습니다.</string>
+    <string lang="ko" key="NO_FILE_SELECTED">선택한 파일이 없습니다!</string>
+    <string lang="ko" key="NO_FREE_DRIVES">이용가능한 드라이브 문자가 없습니다.</string>
+    <string lang="ko" key="NO_FREE_DRIVE_FOR_OUTER_VOL">외부 볼륨을 위해 할당한 드라이브 문자가 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
+    <string lang="ko" key="NO_OS_VER">사용 중인 운영체제를 확인할 수 없거나 지원되지 않는 운영체제를 사용 중입니다.</string>
+    <string lang="ko" key="NO_PATH_SELECTED">선택한 경로가 없습니다!</string>
+    <string lang="ko" key="NO_SPACE_FOR_HIDDEN_VOL">숨긴 볼륨에 충분한 여유 공간이 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
+    <string lang="ko" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">오류: 외부 볼륨에 복사한 파일들이 너무 많은 공간을 차지합니다. 그 결과 외부 볼륨 공간에 (숨긴 볼륨을 위한) 충분한 여유 공간이 없습니다.\n\n숨긴 볼륨은 시스템 파티션 만큼 커야 합니다(→ 시스템 파티션은 현재 실행 중인 운영체제가 설치되어 있는 파티션입니다). 왜냐하면 숨긴 운영체제는 (시스템 파티션의 내용을 숨긴 볼륨에 복사함으로써) 만들어질 필요가 있기 때문입니다.\n\n\n숨긴 운영체제의 생성 진행을 계속할 수 없습니다.</string>
+    <string lang="ko" key="OPENFILES_DRIVER">드라이버가 볼륨을 꺼낼 수 없습니다. 볼륨의 일부 파일이 여전히 열려 있을 수도 있습니다.</string>
+    <string lang="ko" key="OPENFILES_LOCK">볼륨을 잠글 수 없습니다. 볼륨의 일부 파일이 여전히 열려 있습니다. 그래서 볼륨을 꺼낼 수 없습니다.</string>
+    <string lang="ko" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">볼륨이 시스템 또는 프로그램에 의해 사용 중이기 때문에(* 볼륨에 열려 있는 파일이 있을 수 있음) TrueCrypt가 이 볼륨을 잠글 수 없습니다.\n\n볼륨을 강제로 꺼내시겠습니까?</string>
+    <string lang="ko" key="OPEN_VOL_TITLE">TrueCrypt 볼륨 선택</string>
+    <string lang="ko" key="OPEN_TITLE">경로 및 파일이름 지정</string>
+    <string lang="ko" key="SELECT_PKCS11_MODULE">PKCS #11 라이브러리 선택</string>
+    <string lang="ko" key="OUTOFMEMORY">메모리 부족</string>
+    <string lang="ko" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">중요: 경험이 없는 사용자는 모든 장치/파티션을 암호화하는 대신에 선택한 장치/파티션에 “TrueCrypt 파일 보관소”를 만들 것을 권장합니다.\n\nTrueCrypt 파일 보관소를 만들게 되면 수많은 파일을 파괴할지도 모르는 위험을 피할 수 있습니다. TrueCrypt 파일 보관소는 (비록 가상의 암호화된 디스크를 포함할지라도) 실제로 보통 파일과 같습니다. 추가 정보를 보려면, TrueCrypt 사용자 안내서에서 Beginner´s Tutorial을 읽어보세요.\n\n정말로 모든 장치/파티션을 암호화하시겠습니까?</string>
+    <string lang="ko" key="OVERWRITEPROMPT">주의: “%hs” 파일이 이미 존재합니다! 중요: TrueCrypt는 파일을 암호화하지 않고, 삭제합니다. 파일을 삭제하고, 그 파일을 새로운 TrueCrypt 보관소로 교체하시겠습니까?</string>
+    <string lang="ko" key="OVERWRITEPROMPT_DEVICE">주의: 선택한 %s “%hs”%s에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM">주의: 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입하거나 볼륨에 저장된 파일에 접근할 수 없습니다.\n\n선택한 %s “%hs”%s의 암호화 작업을 시작하시겠습니까?</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">주의: 기존의 자체 데이터를 암호화하는 동안 ① 전력 공급이 갑자기 중단되거나 ② 소프트웨어 또는 하드웨어의 문제때문에 운영체제가 충돌을 일으키면, 일부 데이터가 손상되거나 유실될 수 있습니다. 그러므로 암호화 작업을 시작하기 전에 암호화하고자 하는 파일의 복사본을 백업해 두었는지 확인해야 합니다.\n\n파일의 백업이 있습니까?</string>
+    <string lang="ko" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">주의: “%hs”%s 파티션(→ 예: 시스템 파티션 뒤에 있는 첫번째 파티션)에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
+    <string lang="ko" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">주의: 선택한 파티션에 큰 규모의 데이터가 포함되어 있습니다! 파티션에 저장되어 있는 파일들은 지워지고 손실됩니다(* 이들은 암호화되지 않습니다)!</string>
+    <string lang="ko" key="ERASE_FILES_BY_CREATING_VOLUME">TrueCrypt 볼륨을 파티션 내에 만들면서 이 파티션에 저장되어 있는 파일들은 지워집니다.</string>
+    <string lang="ko" key="PASSWORD">비밀번호</string>
+    <string lang="ko" key="IDD_PCDM_CHANGE_PKCS5_PRF">헤더 키 도출 알고리듬 설정</string>
+    <string lang="ko" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">볼륨에 키파일 추가/삭제</string>
+    <string lang="ko" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">볼륨에서 모든 키파일 제거</string>
+    <string lang="ko" key="PASSWORD_CHANGED">비밀번호/키파일이 성공적으로 변경되었습니다.\n\n중요: TrueCrypt 사용자 안내서의 “Security Requirements and Precautions” 장에 있는 “Changing Passwords and Keyfiles(비밀번호 및 키파일 변경)” 섹션을 읽어볼 것을 권장합니다.</string>
+    <string lang="ko" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">중요: 만약 사용자가 TrueCrypt 응급복구 디스크를 파괴하지 않았다면, 이전의 비밀번호를 사용해서 시스템 파티션/드라이브의 암호를 해제할 수 있습니다(→ TrueCrypt 응급복구 디스크를 부팅한 다음 이전의 비밀번호를 입력하는 방법). 새로운 TrueCrypt 응급복구 디스크를 만들고 이전 복구 디스크를 파괴해야 합니다.\n\n새로운 TrueCrypt 응급복구 디스크를 만드시겠습니까?</string>
+    <string lang="ko" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">TrueCrypt 응급복구 디스크는 여전히 이전의 알고리듬을 사용하고 있습니다. 만약 이전의 알고리듬이 불안하다고 생각되면, 새로운 TrueCrypt 응급복구 디스크를 만들고 이전 복구 디스크를 파괴해야 합니다.\n\n새로운 TrueCrypt 응급복구 디스크를 만드시겠습니까?</string>
+    <string lang="en" key="KEYFILES_NOTE">Any kind of file (for example, .mp3, .jpg, .zip, .avi) may be used as a TrueCrypt keyfile. Note that TrueCrypt never modifies the keyfile contents. You can select more than one keyfile (the order does not matter). If you add a folder, all non-hidden files found in it will be used as keyfiles. Click 'Add Token Files' to select keyfiles stored on security tokens or smart cards (or to import keyfiles to security tokens or smart cards).</string>
+    <string lang="ko" key="KEYFILE_CHANGED">키파일이 성공적으로 추가/제거되었습니다.</string>
+    <string lang="ko" key="KEYFILE_EXPORTED">키파일을 내보냈습니다.</string>
+    <string lang="ko" key="PKCS5_PRF_CHANGED">헤더 키 도출 알고리듬을 성공적으로 설정했습니다.</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">자체 암호화 과정을 다시 시작하고자 하는 “비-시스템 볼륨”에 대한 비밀번호/키파일을 입력해 주십시오.\n\n\n참고: “다음”을 클릭하면 TrueCrypt는 ① 암호화 과정이 중단된 곳에서의 모든 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 TrueCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 모든 비-시스템 볼륨의 검색을 시도합니다. 한 개 이상의 볼륨이 검색되면, 사용자는 다음 단계에서 이러한 볼륨 중 하나를 선택해야 합니다.</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">나열된 볼륨 중 하나를 선택해 주십시오. 목록에는 ① 암호화 과정이 중단된 곳에서의 모든 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 TrueCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 접근가능한 모든 비-시스템 볼륨이 포함되어 있습니다.</string>
+    <string lang="ko" key="PASSWORD_HELP">좋은 비밀번호를 선택하는 것은 매우 중요합니다. 사전에 나오는 한 개의 단어만을 포함하는 것 또는 2, 3개 단어의 조합은 피해야 합니다. 이름이나 생일 등도 피해야 합니다. 추측하기가 쉽기 때문입니다. 좋은 비밀번호는 무작위 조합입니다. 즉 대소문자, 숫자 및 @ ^ = $ * + 등과 같은 특수기호의 조합입니다. 적어도 20개 이상의 문자로 이루어진 비밀번호를 선택할 것을 권장합니다.  가능한 최대 길이는 64개 문자입니다.</string>
+    <string lang="ko" key="PASSWORD_HIDDENVOL_HELP">숨긴 볼륨에 대한 비밀번호를 선택해 주세요. </string>
+    <string lang="ko" key="PASSWORD_HIDDEN_OS_HELP">숨긴 운영체제(즉 숨긴 볼륨)에 대한 비밀번호를 입력해 주세요. </string>
+    <string lang="ko" key="PASSWORD_HIDDEN_OS_NOTE">중요: 현재 단계에서 “숨긴 운영체제용으로 선택한 비밀번호”는 다른 2개의 비밀번호(→ 외부 볼륨용 비밀번호 및 미끼용 운영체제용 비밀번호)와 서로 달라야 합니다.</string>
+    <string lang="ko" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">볼륨(→ 이 안에 숨긴 볼륨을 만듬)의 비밀번호를 입력하세요.\n\n“다음”을 클릭하면, TrueCrypt가 볼륨을 삽입하기 위해 시도를 하게 됩니다. 볼륨이 삽입되었을 때, 여유 공간(이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에, 숨긴 볼륨의 가능한 최대 크기를 제한하게 됩니다. 클러스터 비트맵 스캔은 “숨긴 볼륨”이 외부 볼륨을 데이터로 덮어쓰지 못하도록 하기 위한 것이므로 필요한 작업입니다.</string>
+    <string lang="ko" key="PASSWORD_HIDDENVOL_HOST_HELP">\n외부 볼륨에 대한 비밀번호를 선택해 주세요. 이것은 적대자로부터 비밀번호를 강요당하거나 요청받은 경우에 그에게 표시할 수 있는 비밀번호입니다.\n\n중요: 비밀번호는 숨긴 볼륨용으로 선택했던 비밀번호와 서로 달라야 합니다.\n\n참고: 비밀번호의 가능한 최대 길이는 64개 문자입니다.</string>
+    <string lang="ko" key="PASSWORD_SYSENC_OUTERVOL_HELP">외부 볼륨에 대한 비밀번호를 선택해 주세요. 이것은 노출을 강요하는 자에게 공개되어도 상관이 없는 “시스템 파티션 뒤의 첫번째 파티션을 위한 비밀번호”입니다. 시스템 파티션에는 ① 외부 볼륨 및 ② 숨긴 볼륨(→ 숨긴 운영체제 포함)이 자리잡고 있습니다. 숨긴 볼륨 (및 숨긴 운영체제)의 존재는 여전히 비밀로 남습니다. 이 비밀번호는 미끼용 운영체제를 위한 것이 아닙니다.\n\n중요: 비밀번호는 숨긴 볼륨(→ 숨긴 운용체제)용으로 선택했던 비밀번호와 서로 달라야 합니다.</string>
+    <string lang="ko" key="PASSWORD_HIDVOL_HOST_TITLE">외부 볼륨 비밀번호</string>
+    <string lang="ko" key="PASSWORD_HIDVOL_TITLE">숨긴 볼륨 비밀번호</string>
+    <string lang="ko" key="PASSWORD_HIDDEN_OS_TITLE">숨긴 운영체제를 위한 비밀번호</string>
+    <string lang="ko" key="PASSWORD_LENGTH_WARNING">주의: 짧은 비밀번호는 주먹구구식 기술로도 쉽게 크랙될 수 있습니다!\n\n적어도 20개 이상의 문자 및 숫자로 이루어진 비밀번호를 만들 것을 권장합니다. 그래도 짧은 비밀번호를 사용하시겠습니까?</string>
+    <string lang="ko" key="PASSWORD_TITLE">볼륨 비밀번호</string>
+    <string lang="ko" key="PASSWORD_WRONG">올바르지 못한 비밀번호이거나 TrueCrypt 볼륨이 아닙니다.</string>
+    <string lang="ko" key="PASSWORD_OR_KEYFILE_WRONG">올바르지 못한 키파일 또는 비밀번호이거나 TrueCrypt 볼륨이 아닙니다.</string>
+    <string lang="ko" key="PASSWORD_OR_MODE_WRONG">올바르지 않은 삽입 모드 또는 비밀번호이거나 TrueCrypt 볼륨이 아닙니다.</string>
+    <string lang="ko" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">올바르지 않은 삽입 모드 또는 키파일/비밀번호이거나 TrueCrypt 볼륨이 아닙니다.</string>
+    <string lang="ko" key="PASSWORD_WRONG_AUTOMOUNT">올바르지 못한 비밀번호이거나 TrueCrypt 볼륨을 찾을 수 없습니다.</string>
+    <string lang="ko" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">올바르지 못한 키파일 또는 비밀번호이거나 TrueCrypt 볼륨을 찾을 수 없습니다.</string>
+    <string lang="ko" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n주의: Caps Lock이 켜져 있습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
+    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
+    <string lang="ko" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">숨긴 시스템을 포함하고 있는 숨긴 볼륨을 보호하려는 경우, 숨긴 볼륨에 대한 비밀번호를 입력할 때 “표준 US 키보드 레이아웃”을 사용하고 있는지 확인해 주십시오. (윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅 전 환경에서 비밀번호를 입력할 필요가 있기 때문입니다.</string>
+    <string lang="ko" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">① 암호화 과정이 중단된 곳에서의 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 TrueCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 비-시스템 볼륨을 찾지 못했습니다.\n\n비밀번호/키파일이 올바른지 확인해 주시고, 파티션/볼륨이 시스템 또는 프로그램(* 안티바이러스 소프트웨어 포함)에 의해 사용되고 있는지를 확인해 주십시오.</string>
+    <string lang="ko" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n참고: ① 부팅-전 인증 없이 암호화된 시스템 드라이브에 위치한 파티션에 삽입을 시도하거나 ② 실행 중이 아닌 운영체제의 암호화된 시스템 파티션에 삽입하려고 하는 경우, “시스템 ▶ 부팅-전 인증 없이 삽입”을 선택해서 이 작업을 할 수 있습니다.</string>
+    <string lang="ko" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">이 방식에서, 드라이브의 일부가 활성 시스템 암호화의 키 범위에 있는 경우, 드라이브에 위치한 파티션을 삽입할 수 없습니다.\n\n이 방식에서 이 파티션을 삽입하기 전에, ① 다른 드라이브에 설치되어 있는 운영체제로 부팅하거나 ② 암호화되지 않은 운영체제로 부팅해야 합니다.</string>
+    <string lang="ko" key="PREV">&lt; 뒤로(&amp;B)</string>
+    <string lang="ko" key="RAWDEVICES">시스템에 설치된 RAW 장치를 나열할 수 없습니다!</string>
+    <string lang="ko" key="READONLYPROMPT">“%hs” 볼륨이 존재하고, 읽기전용 상태입니다. 그래도 교체하시겠습니까?</string>
+    <string lang="ko" key="SELECT_DEST_DIR">대상 디렉토리 선택</string>
+    <string lang="ko" key="SELECT_KEYFILE">키파일 선택</string>
+    <string lang="ko" key="SELECT_KEYFILE_PATH">키파일 찾기 경로를 선택하세요. 주의: 경로만 기억되고, 파일 이름은 기억되지 않습니다!</string>
+    <string lang="ko" key="SERPENT_HELP">Ross Anderson, Eli Biham, 및 Lars Knudsen에 의해 디자인됨. 1998년 발표됨. 256-비트 키, 128-비트 블록. 작업 모드는 XTS입니다. Serpent는 AES 결선작 중의 하나였습니다.</string>
+    <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
+    <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
+    <string lang="en" key="SIZE_HELP_HIDDEN_VOL">Please specify the size of the hidden volume to create. The minimum possible size of a hidden volume is 40 KB (or 3664 KB if it is formatted as NTFS). The maximum possible size you can specify for the hidden volume is displayed above.</string>
+    <string lang="ko" key="SIZE_HIDVOL_HOST_TITLE">외부 볼륨 크기</string>
+    <string lang="ko" key="SIZE_HIDVOL_TITLE">숨긴 볼륨 크기</string>
+    <string lang="ko" key="SIZE_PARTITION_HELP">위에 표시된 선택한 장치/파티션의 크기가 올바른지 확인한 후 “다음”을 클릭하십시오.</string>
+    <string lang="ko" key="SIZE_PARTITION_HIDDEN_SYSENC_HELP">외부 볼륨 및 숨긴 볼륨(→ 여기에 숨긴 운영체제를 포함)은 위 파티션 안에 존재하게 됩니다. 이는 시스템 파티션 뒤의 첫번째 파티션에 있어야 합니다.\n\n위에 표시된 파티션의 크기 및 숫자가 올바른지 확인한 후 “다음”을 클릭합니다.</string>
+    <string lang="en" key="SIZE_PARTITION_HIDDEN_VOL_HELP">\n\nNote that the minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
+    <string lang="ko" key="SIZE_TITLE">볼륨 크기</string>
+    <string lang="ko" key="SPARSE_FILE">동적 보관소</string>
+    <string lang="ko" key="TESTS_FAILED">주의: 셀프-테스트 실패!</string>
+    <string lang="ko" key="TESTS_PASSED">모든 알고리듬이 셀프-테스트를 통과했습니다.</string>
+    <string lang="ko" key="TEST_INCORRECT_TEST_DATA_UNIT_SIZE">제공한 데이터 단위 수가 너무 길거나 짧습니다.</string>
+    <string lang="ko" key="TEST_INCORRECT_SECONDARY_KEY_SIZE">제공한 보조 키가 너무 길거나 짧습니다.</string>
+    <string lang="ko" key="TEST_CIPHERTEXT_SIZE">제공한 테스트 암호가 너무 길거나 짧습니다.</string>
+    <string lang="ko" key="TEST_KEY_SIZE">제공한 테스트 키가 너무 길거나 짧습니다.</string>
+    <string lang="ko" key="TEST_PLAINTEXT_SIZE">제공한 “테스트 단순텍스트”가 너무 길거나 짧습니다.</string>
+    <string lang="ko" key="TWO_LAYER_CASCADE_HELP">2개의 암호가 층계적으로 XTS 모드에서 작동. 각 블록은 처음에 %hs (%d-비트 키)로 암호화되고, 이어서 %hs (%d-비트 키)로 암호화됩니다. 각 암호는 각각의 키를 사용합니다. 모든 키는 상호 독립적입니다.</string>
+    <string lang="ko" key="THREE_LAYER_CASCADE_HELP">3개의 암호가 층계적으로 XTS 모드에서 작동. 각 블록은 처음에 %hs (%d-비트 키)로 암호화되고, 이어서 %hs (%d-비트 키)로 암호화됩니다. 마지막으로 %hs (%d-비트 키)로 암호화됩니다. 각 암호는 각각의 키를 사용합니다. 모든 키는 상호 독립적입니다.</string>
+    <string lang="ko" key="AUTORUN_MAY_NOT_ALWAYS_WORK">운영체제의 설정에 의존하는 이러한 자동-실행 및 자동-삽입 기능은 “휴대용 디스크 파일”이 작성이 불가능한 CD/DVD 같은 매체에 생성될 경우에만 작동된다는 것을 참고해 주십시오. 이는 윈도우의 제한사항이지, TrueCrypt의 버그가 아닙니다.</string>
+    <string lang="ko" key="TRAVELER_DISK_CREATED">TrueCrypt 휴대용 디스크가 성공적으로 만들어졌습니다.\n\n휴대용 모드에서 TrueCrypt를 실행하려면 관리자(administrator) 권한이 필요합니다. 레지스트리 파일을 검사한 후에, 비록 휴대용 모드로 실행될지라도 TrueCrypt가 윈도우 시스템에서 실행된 것으로 간주될 수도 있다는 것을 참고하세요.</string>
+    <string lang="ko" key="TC_TRAVELER_DISK">TrueCrypt 휴대용 디스크</string>
+    <string lang="ko" key="TWOFISH_HELP">Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall, 및 Niels Ferguson에 의해 디자인됨. 1998년 발표됨. 256-비트 키, 128-비트 블록. 작업 모드는 XTS입니다. Twofish는 AES 결선작 중의 하나였습니다.</string>
+    <string lang="ko" key="MORE_INFO_ABOUT">%hs에 대한 추가 정보</string>
+    <string lang="ko" key="UNKNOWN">알 수 없음</string>
+    <string lang="en" key="ERR_UNKNOWN">An unspecified or unknown error occurred (%d).</string>
+    <string lang="ko" key="UNMOUNTALL_LOCK_FAILED">일부 볼륨은 “프로그램 또는 시스템에 의해 사용되는” 파일 또는 폴더를 포함하고 있습니다.\n\n강제로 꺼내시겠습니까?</string>
+    <string lang="ko" key="UNMOUNT_BUTTON">꺼내기(&amp;D)</string>
+    <string lang="ko" key="UNMOUNT_FAILED">꺼내기 실패!</string>
+    <string lang="ko" key="UNMOUNT_LOCK_FAILED">볼륨이 “프로그램 또는 시스템에 의해 사용되는” 파일 또는 폴더를 포함하고 있습니다.\n\n강제로 꺼내시겠습니까?</string>
+    <string lang="en" key="NO_VOLUME_MOUNTED_TO_DRIVE">No volume is mounted to the specified drive letter.</string>
+    <string lang="ko" key="VOL_ALREADY_MOUNTED">삽입하고자 하는 볼륨은 이미 삽입되어 있습니다. </string>
+    <string lang="ko" key="VOL_MOUNT_FAILED">볼륨을 삽입하는 동안 오류가 발생했습니다.</string>
+    <string lang="ko" key="VOL_SEEKING">볼륨 내에서 위치를 찾는데 오류가 발생했습니다.</string>
+    <string lang="ko" key="VOL_SIZE_WRONG">오류: 올바르지 않는 볼륨 크기</string>
+    <string lang="en" key="WARN_QUICK_FORMAT">WARNING: You should use Quick Format only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Format?</string>
+    <string lang="ko" key="CONFIRM_SPARSE_FILE">동적인 보관소는 미리 할당된 NTFS 바구니 파일(sparse file)이고, 이 바구니 파일의 물리적 크기(실제 디스크 사용 공간)는 새로운 데이터가 추가될 때마다 증가합니다.\n\n주의: 바구니 파일에 기반한 볼륨의 성능은 보통의 볼륨 성능보다 매우 좋지 않습니다. 바구니 파일에 의한 볼륨은 또한 비교적 안전하지 못합니다. 왜냐하면 사용되지 않는 볼륨 섹터를 구분할 수 있기 때문입니다. 게다가 바구니-파일-기반의 볼륨은 (숨긴 볼륨 관리차원에서의) 그럴싸한 거절방법을 제공할 수 없습니다. 또한 호스트 파일 시스템에 충분한 여유 공간이 없는 경우, 데이터가 바구니 파일 보관소에 쓰여진다면, 암호화된 파일 시스템이 손상될 수도 있습니다.\n\n바구니-파일에 기반한 볼륨을 만드시겠습니까?</string>
+    <string lang="en" key="SPARSE_FILE_SIZE_NOTE">Note that the size of the dynamic container reported by Windows and by TrueCrypt will always be equal to its maximum size. To find out current physical size of the container (actual disk space it uses), right-click the container file (in a Windows Explorer window, not in TrueCrypt), then select 'Properties' and see the 'Size on disk' value.\n\nAlso note that if you move a dynamic container to another volume or drive, the physical size of the container will be extended to the maximum. (You can prevent that by creating a new dynamic container in the destination location, mounting it and then moving the files from the old container to the new one.)</string>
+    <string lang="en" key="PASSWORD_CACHE_WIPED_SHORT">Password cache wiped</string>
+    <string lang="en" key="PASSWORD_CACHE_WIPED">Passwords (and/or processed keyfile contents) stored in the TrueCrypt driver cache have been wiped.</string>
+    <string lang="ko" key="WRONG_VOL_TYPE">외계 볼륨에 대해 비밀번호를 변경할 수 없습니다.</string>
+    <string lang="ko" key="SELECT_FREE_DRIVE">비어 있는 드라이브 문자를 목록에서 선택해 주세요.</string>
+    <string lang="ko" key="SELECT_A_MOUNTED_VOLUME">드라이브 문자 목록에서 삽입된 볼륨을 선택해 주세요.</string>
+    <string lang="en" key="AMBIGUOUS_VOL_SELECTION">Two different mounted volumes are currently selected (one in the drive letter list and the other in the input field below the list).\n\nPlease choose the volume you wanted to select:</string>
+    <string lang="ko" key="CANT_CREATE_AUTORUN">오류: autorun.inf를 만들 수 없습니다.</string>
+    <string lang="ko" key="ERR_PROCESS_KEYFILE">키파일을 처리하는 동안 오류가 발생했습니다!</string>
+    <string lang="ko" key="ERR_PROCESS_KEYFILE_PATH">키파일 경로를 처리하는 동안 오류가 발생했습니다!</string>
+    <string lang="ko" key="ERR_KEYFILE_PATH_EMPTY">키파일 경로에 어떠한 파일도 포함되지 않았습니다.\n\n키파일 찾기 경로에서 발견된 폴더 (및 그 폴더 내의 파일들)를 무시한 것은 아닌지 확인해 주십시오.</string>
+    <string lang="ko" key="UNSUPPORTED_OS">TrueCrypt가 현재 운영체제를 지원하지 않습니다.</string>
+    <string lang="ko" key="UNSUPPORTED_BETA_OS">오류: TrueCrypt는 정식 버전의 운영체제만을 지원합니다(* 베타/RC 버전은 지원되지 않습니다).</string>
+    <string lang="ko" key="ERR_MEM_ALLOC">오류: 메모리 할당을 할 수 없습니다.</string>
+    <string lang="ko" key="ERR_PERF_COUNTER">오류: 성능 계산값을 검색할 수 없습니다.</string>
+    <string lang="ko" key="ERR_VOL_FORMAT_BAD">오류: 잘못된 볼륨 포맷.</string>
+    <string lang="ko" key="ERR_HIDDEN_NOT_NORMAL_VOLUME">오류: (표준 볼륨이 아닌) 숨긴 볼륨에 대한 비밀번호를 입력해야 합니다.</string>
+    <string lang="ko" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">보안상의 이유로, 그 자체가 암호화된 파일시스템을 포함하고 있는 TrueCrypt 볼륨 내에 “숨긴 볼륨”을 만들 수 없습니다. 왜냐하면 볼륨의 여유 공간이 무작위 데이터로 채워지지 않았기 때문입니다.</string>
+    <string lang="ko" key="LEGAL_NOTICES_DLG_TITLE">TrueCrypt - 법적 공지</string>
+    <string lang="ko" key="ALL_FILES">모든 파일</string>
+    <string lang="ko" key="TC_VOLUMES">TrueCrypt 볼륨</string>
+    <string lang="ko" key="DLL_FILES">라이브러리 모듈</string>
+    <string lang="ko" key="FORMAT_NTFS_STOP">NTFS 포맷을 계속할 수 없습니다.</string>
+    <string lang="ko" key="CANT_MOUNT_VOLUME">볼륨을 삽입할 수 없습니다.</string>
+    <string lang="ko" key="CANT_DISMOUNT_VOLUME">볼륨을 꺼낼 수 없습니다.</string>
+    <string lang="ko" key="FORMAT_NTFS_FAILED">윈도우가 NTFS로 볼륨을 포맷하는데 실패했습니다.\n\n가능하다면 다른 파일 형식을 선택한 다음 다시 시도하세요. 다른 방식으로는 현재 볼륨을 포맷되지 않은 상태로 그대로 두고(파일시스템을 “없음”으로 선택), 마법사를 종료합니다. 그 다음 볼륨을 삽입하고 시스템 도구 또는 제3자의 도구를 이용해서 삽입된 볼륨을 포맷합니다(볼륨은 여전히 암호화된 상태입니다).</string>
+    <string lang="ko" key="FORMAT_NTFS_FAILED_ASK_FAT">윈도우가 볼륨을 NTFS로 포맷하는 데 실패했습니다.\n\n대신에 볼륨을 FAT로 포맷하시겠습니까?</string>
+    <string lang="ko" key="DEFAULT">기본값</string>
+    <string lang="ko" key="PARTITION_LOWER_CASE">파티션</string>
+    <string lang="ko" key="PARTITION_UPPER_CASE">파티션</string>
+    <string lang="ko" key="DEVICE">장치</string>
+    <string lang="ko" key="DEVICE_LOWER_CASE">장치</string>
+    <string lang="ko" key="DEVICE_UPPER_CASE">장치</string>
+    <string lang="ko" key="VOLUME">볼륨</string>
+    <string lang="ko" key="VOLUME_LOWER_CASE">볼륨</string>
+    <string lang="ko" key="VOLUME_UPPER_CASE">볼륨</string>
+    <string lang="en" key="LABEL">Label</string>
+    <string lang="ko" key="CLUSTER_TOO_SMALL">선택한 클러스터 크기는 이 볼륨 크기에 비해 너무 작습니다. 대신 더 큰 클러스터 크기가 사용될 것입니다.</string>
+    <string lang="ko" key="CANT_GET_VOLSIZE">오류: 볼륨 크기를 가져올 수 없습니다!\n\n선택한 볼륨이 시스템이나 프로그램에 의해 사용 중인지 확인해 주세요.</string>
+    <string lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</string>
+    <string lang="ko" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">“TrueCrypt 볼륨 만들기 마법사”는 FAT 또는 NTFS 볼륨에만 숨긴 볼륨을 만들 수 있습니다.</string>
+    <string lang="ko" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Windows 2000에서, “TrueCrypt 볼륨 만들기 마법사”는 FAT 볼륨에만 숨긴 볼륨을 만들 수 있습니다.</string>
+    <string lang="ko" key="HIDDEN_VOL_HOST_NTFS">참고: 외부 볼륨에는 NTFS 파일 시스템보다 FAT 파일 시스템이 더욱 적당합니다. 예컨대 숨긴 볼륨의 가능한 최대 크기는 (외부 볼륨이 FAT으로 포맷된 경우보다) 훨씬 클 수도 있습니다.</string>
+    <string lang="ko" key="HIDDEN_VOL_HOST_NTFS_ASK">외부 볼륨으로는 (NTFS 파일 시스템보다) FAT 파일 시스템이 훨씬 적당합니다. 예컨대 숨긴 볼륨의 가능한 최대 크기는 (외부 볼륨이 FAT으로 포맷된 경우보다) 훨씬 클 수도 있습니다. 왜냐하면 NTFS 파일 시스템은 내부 데이터를 항상 볼륨의 중앙에 저장하고 그 결과 숨긴 볼륨은 외부 볼륨의 후반부에만 존재하기 때문입니다.\n\n외부 볼륨을 NTFS로 포맷하시겠습니까?</string>
+    <string lang="ko" key="OFFER_FAT_FORMAT_ALTERNATIVE">그 대신에 볼륨을 FAT으로 포맷하시겠습니까?</string>
+    <string lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Note: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</string>
+    <string lang="ko" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">오류: 숨긴 운영체제를 위한 파티션(→ 시스템 파티션 뒤의 첫번째 파티션)은 시스템 파티션보다 적어도 5%는 더 커야 합니다(→ 시스템 파티션은 현재 실행 중인 운영체제가 설치되어 있는 파티션입니다).</string>
+    <string lang="ko" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS_NTFS">오류: 숨긴 운영체제를 위한 파티션(→ 시스템 파티션 뒤의 첫번째 파티션)은 시스템 파티션보다 적어도 110% (2.1배)는 더 커야 합니다(→ 시스템 파티션은 현재 실행 중인 운영체제가 설치되어 있는 파티션입니다). 왜냐하면 NTFS 파일 시스템은 내부 데이터를 항상 볼륨의 중앙에 저장하고 그 결과 숨긴 볼륨(→ 시스템 파티션의 복사본을 포함하고 있음)은 외부 볼륨의 후반부에만 존재하기 때문입니다.</string>
+    <string lang="ko" key="OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS">오류: 외부 볼륨이 NFTF로 포맷된 경우라면 (시스템 파티션 보다) 적어도 110% (2.1배)는 더 커야 합니다. 왜냐하면 NTFS 파일 시스템은 내부 데이터를 항상 볼륨의 중앙에 저장하고 그 결과 숨긴 볼륨(→ 시스템 파티션의 복사본을 포함하고 있음)은 외부 볼륨의 후반부에만 존재하기 때문입니다.\n\n참고: 외부 볼륨은 숨긴 운영체제와 동일한 파티션 내에 위치해야 합니다(→ 시스템 파티션 뒤의 첫번째 파티션).</string>
+    <string lang="ko" key="NO_PARTITION_FOLLOWS_BOOT_PARTITION">오류: 시스템 파티션 뒤에 어떠한 파티션도 없습니다.\n\n숨긴 운영체제를 만들기 전에 반드시 시스템 드라이브에 “숨긴 OS를 포함할 파티션”을 만들어야 합니다. 숨긴 운영체제를 위한 파티션(→ 시스템 파티션 뒤의 첫번째 파티션)은 시스템 파티션보다 적어도 5%는 더 커야 합니다(→ 시스템 파티션은 현재 실행 중인 운영체제가 설치되어 있는 파티션입니다). 그러나 외부 볼륨(→ 시스템 파티션과 혼동하지 말 것)이 NTFS로 포맷된 경우, 숨긴 운영체제는 시스템 파티션 보다 최소 110% (2.1배)는 더 커야 합니다. 왜냐하면 NTFS 파일 시스템은 내부 데이터를 항상 볼륨의 중앙에 저장하고 그 결과 숨긴 볼륨(→ 시스템 파티션의 복사본을 포함하고 있음)은 외부 볼륨의 후반부에만 존재하기 때문입니다.</string>
+    <string lang="ko" key="TWO_SYSTEMS_IN_ONE_PARTITION_REMARK">의견: 1개의 파티션 내에 포함되어 있는 2개의 TrueCrypt 볼륨에 운영체제를 설치하는 것은 효과적이지 않습니다(→ 그래서 이는 지원되지 않습니다). 왜냐하면 가끔 외부 운영체제는 데이터를 숨긴 운영체제에 쓰도록 요구하기 때문입니다. (만약 이러한 쓰기 작업이 숨긴 볼륨의 보호 기능때문에 방해를 받게 되는 경우, 본질적으로 시스템 충돌, 즉 파란 화면 오류를 일으킵니다.)</string>
+    <string lang="ko" key="FOR_MORE_INFO_ON_PARTITIONS">파티션의 생성과 관리에 대한 자세한 정보는 운영체제와 함께 제공된 문서를 참고하거나 컴퓨터 판매업체의 기술지원 팀에게 도움을 요청하시기 바랍니다.</string>
+    <string lang="ko" key="SYSTEM_PARTITION_NOT_ACTIVE">오류: 현재 실행 중인 운영체제는 부트 파티션(→ 첫번째 활성 파티션)에 설치되어 있지 않습니다. 이것은 지원되지 않습니다.</string>
+    <string lang="en" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">You indicated that you intend to store files larger than 4 GB in this TrueCrypt volume. However, you chose the FAT file system, on which files larger than 4 GB cannot be stored.\n\nAre you sure you want to format the volume as FAT?</string>
+    <string lang="ko" key="CANT_ACCESS_VOL">오류: 볼륨에 접근할 수 없습니다!\n\n선택한 볼륨이 존재하는지 여부, 삽입되었는지 여부, 시스템 또는 프로그램에 의해 사용 중인지 여부 및 볼륨에 대한 읽기/쓰기 권한이 있는지 아니면 쓰기금지가 되어 있는지 확인해 주세요.</string>
+    <string lang="ko" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">오류: 볼륨에 접근할 수 없거나 볼륨 정보를 얻을 수 없습니다.\n\n선택한 볼륨이 존재하는지 여부, 삽입되었는지 여부, 시스템 또는 프로그램에 의해 사용 중인지 여부 및 볼륨에 대한 읽기/쓰기 권한이 있는지 아니면 쓰기금지가 되어 있는지 확인해 주세요.</string>
+    <string lang="ko" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">오류: 볼륨에 접근할 수 없거나 볼륨 정보를 얻을 수 없습니다. 선택한 볼륨이 존재하는지 여부, 삽입되었는지 여부, 시스템 또는 프로그램에 의해 사용 중인지 여부 및 볼륨에 대한 읽기/쓰기 권한이 있는지 아니면 쓰기금지가 되어 있는지 확인해 주세요.\n\n문자가 계속되면 다음 단계를 따르면 도움이 될 것입니다.</string>
+    <string lang="ko" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">오류로 인해 TrueCrypt가 파티션을 암호화하는데 방해가 됩니다. 이전에 보고된 문제점들을 고친 후 다시 시도해 보십시오. 문제가 계속되면 다음 단계를 따르면 도움이 될 것입니다.</string>
+    <string lang="ko" key="INPLACE_ENC_GENERIC_ERR_RESUME">오류로 인해 TrueCrypt가 파티션 암호화 과정을 재개하는데 문제가 있습니다.\n\n이전에 보고된 문제점들을 고친 후 과정을 재개하는 작업을 다시 시도해 보십시오. 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입할 수 없습니다.</string>
+    <string lang="ko" key="CANT_DISMOUNT_OUTER_VOL">오류: 외부 볼륨을 꺼낼 수 없습니다!\n\n프로그램이나 시스템에 의해 사용 중인 파일이나 폴더가 볼륨에 있는 경우에는 볼륨을 꺼낼 수 없습니다.\n\n볼륨에 있는 파일 또는 폴더를 사용 중인 다른 프로그램을 종료한 다음 “다시 시도”를 클릭하세요.</string>
+    <string lang="ko" key="CANT_GET_OUTER_VOL_INFO">오류: 외부 볼륨에 대한 정보를 얻을 수 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
+    <string lang="ko" key="CANT_ACCESS_OUTER_VOL">오류: 외부 볼륨에 접근할 수 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
+    <string lang="ko" key="CANT_MOUNT_OUTER_VOL">오류: 외부 볼륨에 삽입할 수 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
+    <string lang="ko" key="CANT_GET_CLUSTER_BITMAP">오류: 볼륨 클러스터 비트맵을 가져올 수 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
+    <string lang="ko" key="ALPHABETICAL_CATEGORIZED">알파벳/카테고리</string>
+    <string lang="ko" key="MEAN_SPEED">평균 속도 (내림차순)</string>
+    <string lang="ko" key="ALGORITHM">알고리듬</string>
+    <string lang="ko" key="ENCRYPTION">암호화</string>
+    <string lang="ko" key="DECRYPTION">암호해제</string>
+    <string lang="ko" key="MEAN">평균</string>
+    <string lang="ko" key="DRIVE">드라이브</string>
+    <string lang="ko" key="SIZE">크기</string>
+    <string lang="ko" key="ENCRYPTION_ALGORITHM">암호 알고리듬</string>
+    <string lang="ko" key="ENCRYPTION_ALGORITHM_LV">암호 알고리듬</string>
+    <string lang="ko" key="TYPE">형식</string>
+    <string lang="ko" key="VALUE">값</string>
+    <string lang="ko" key="PROPERTY">속성</string>
+    <string lang="ko" key="LOCATION">위치</string>
+    <string lang="ko" key="BYTES">바이트</string>
+    <string lang="ko" key="HIDDEN">숨김</string>
+    <string lang="ko" key="OUTER">외부</string>
+    <string lang="ko" key="NORMAL">표준</string>
+    <string lang="ko" key="SYSTEM_VOLUME_TYPE_ADJECTIVE">시스템</string>
+    <string lang="ko" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">숨김 (시스템)</string>
+    <string lang="ko" key="READ_ONLY">읽기-전용</string>
+    <string lang="ko" key="SYSTEM_DRIVE">시스템 드라이브</string>
+    <string lang="ko" key="SYSTEM_DRIVE_ENCRYPTING">시스템 드라이브 (암호화 중 - %.2f%% 완료)</string>
+    <string lang="ko" key="SYSTEM_DRIVE_DECRYPTING">시스템 드라이브 (암호해제 중 - %.2f%% 완료)</string>
+    <string lang="ko" key="SYSTEM_DRIVE_PARTIALLY_ENCRYPTED">시스템 드라이브 (%.2f%% 암호화)</string>
+    <string lang="ko" key="SYSTEM_PARTITION">시스템 파티션</string>
+    <string lang="ko" key="HIDDEN_SYSTEM_PARTITION">숨긴 시스템 파티션</string>
+    <string lang="ko" key="SYSTEM_PARTITION_ENCRYPTING">시스템 파티션 (암호화 중 - %.2f%% 완료)</string>
+    <string lang="ko" key="SYSTEM_PARTITION_DECRYPTING">시스템 파티션 (암호해제 중 - %.2f%% 완료)</string>
+    <string lang="ko" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">시스템 파티션 (%.2f%% 암호화)</string>
+    <string lang="ko" key="HID_VOL_DAMAGE_PREVENTED">예 (손상이 방지됨!)</string>
+    <string lang="ko" key="NONE">없음</string>
+    <string lang="ko" key="KEY_SIZE">1차 키 크기</string>
+    <string lang="ko" key="SECONDARY_KEY_SIZE_XTS">2차 키 크기 (XTS 모드)</string>
+    <string lang="ko" key="SECONDARY_KEY_SIZE_LRW">트윅 키 크기 (LRW 모드)</string>
+    <string lang="ko" key="BITS">비트</string>
+    <string lang="ko" key="BLOCK_SIZE">블록 크기</string>
+    <string lang="ko" key="PKCS5_PRF">PKCS-5 PRF</string>
+    <string lang="ko" key="PKCS5_ITERATIONS">PKCS-5 반복 수</string>
+    <string lang="ko" key="VOLUME_CREATE_DATE">볼륨 생성</string>
+    <string lang="ko" key="VOLUME_HEADER_DATE">헤더 최종 수정</string>
+    <string lang="ko" key="VOLUME_HEADER_DAYS"> (%I64d일 전)</string>
+    <string lang="ko" key="VOLUME_FORMAT_VERSION">볼륨 포맷 버전</string>
+    <string lang="ko" key="BACKUP_HEADER">포함된 백업 백업</string>
+    <string lang="en" key="TC_BOOT_LOADER_VERSION">TrueCrypt Boot Loader Version</string>
+    <string lang="ko" key="FIRST_AVAILABLE">이용가능한 첫번째</string>
+    <string lang="ko" key="REMOVABLE_DISK">이동식 디스크</string>
+    <string lang="ko" key="HARDDISK">하드디스크</string>
+    <string lang="ko" key="UNCHANGED">변경 없음</string>
+    <string lang="ko" key="SETUP_MODE_TITLE">마법사 모드</string>
+    <string lang="ko" key="SETUP_MODE_INFO">한 가지 모드를 선택하세요. 무엇을 선택해야 할 지 모르는 경우에는 “기본” 모드를 사용합니다.</string>
+    <string lang="ko" key="SETUP_MODE_HELP_INSTALL">TrueCrypt를 현재 시스템에 설치하려면 이 옵션을 선택합니다.</string>
+    <string lang="en" key="SETUP_MODE_HELP_UPGRADE">Note: You can upgrade without decrypting even if the system partition/drive is encrypted or you use a hidden operating system.</string>
+    <string lang="ko" key="SETUP_MODE_HELP_EXTRACT">이 옵션을 선택하면, 패키지에서 모든 파일이 추출되고, 시스템에는 어떤 것도 설치되지 않습니다. 시스템 파티션 또는 시스템 드라이브를 암호화하고자 한다면 이 옵션을 선택하지 마십시오. 이 옵션을 선택하면 예컨대 TrueCrypt를 휴대용(portable) 모드로 실행하고자 할 때 유용합니다. TrueCrypt를 실행 중인 운영체제에 반드시 설치할 필요는 없습니다. 모든 파일이 추출된 후, 실행 파일인 “TrueCrypt.exe”를 바로 실행할 수 있습니다. 이 경우 TrueCrypt는 휴대용 모드로 실행됩니다.</string>
+    <string lang="ko" key="SETUP_OPTIONS_TITLE">설치 옵션</string>
+    <string lang="ko" key="SETUP_OPTIONS_INFO">여기에서 설치 과정을 제어할 수 있는 다양한 옵션을 설정할 수 있습니다.</string>
+    <string lang="ko" key="SETUP_PROGRESS_TITLE">설치 중</string>
+    <string lang="ko" key="SETUP_PROGRESS_INFO">TrueCrypt가 설치되는 동안 잠시 기다려 주세요.</string>
+    <string lang="en" key="SETUP_FINISHED_TITLE_DON">TrueCrypt has been successfully installed</string>
+    <string lang="en" key="SETUP_FINISHED_UPGRADE_TITLE_DON">TrueCrypt has been successfully upgraded</string>
+    <string lang="en" key="SETUP_FINISHED_INFO_DON">Please consider making a donation. You can click Finish anytime to close the installer.</string>
+    <string lang="ko" key="EXTRACTION_OPTIONS_TITLE">추출 옵션</string>
+    <string lang="ko" key="EXTRACTION_OPTIONS_INFO">여기에서 추출 과정을 제어할 수 있는 다양한 옵션을 설정할 수 있습니다.</string>
+    <string lang="ko" key="EXTRACTION_PROGRESS_INFO">파일이 추출되는 동안 잠시 기다려 주세요.</string>
+    <string lang="en" key="EXTRACTION_FINISHED_TITLE_DON">Files successfully extracted</string>
+    <string lang="ko" key="EXTRACTION_FINISHED_INFO">타겟 위치에 모든 파일이 성공적으로 추출되었습니다.</string>
+    <string lang="ko" key="AUTO_FOLDER_CREATION">지정한 폴더가 존재하지 않는 경우, 자동으로 폴더가 생성됩니다.</string>
+    <string lang="ko" key="SETUP_UPGRADE_DESTINATION">TrueCrypt가 설치된 위치에서 TrueCrypt 프로그램 파일들이 업그레이드됩니다. 다른 위치를 선택할 필요가 있는 경우, 먼저 TrueCrypt를 제거해 주십시오.</string>
+    <string lang="ko" key="AFTER_UPGRADE_RELEASE_NOTES">TrueCrypt 최신 버전의 배포 정보를 보시겠습니까?</string>
+    <string lang="ko" key="AFTER_INSTALL_TUTORIAL">이전에 TrueCrypt를 사용해 본 적이 없는 경우, TrueCrypt 사용자 안내서에서 Beginner’s Tutorial을 읽어볼 것을 권장합니다. 지금 읽어 보시겠습니까? </string>
+    <string lang="ko" key="SELECT_AN_ACTION">아래에서 실행한 동작을 선택해 주세요:</string>
+    <string lang="ko" key="REPAIR_REINSTALL">수리/재설치</string>
+    <string lang="ko" key="UPGRADE">업그레이드</string>
+    <string lang="ko" key="UNINSTALL">제거</string>
+    <string lang="ko" key="SETUP_ADMIN">TrueCrypt를 성공적으로 설치하거나 제거하려면 관리자 권한을 가지고 있어야 합니다. 계속하시겠습니까?</string>
+    <string lang="ko" key="TC_INSTALLER_IS_RUNNING">TrueCrypt 설치기가 ① 현재 시스템에서 실행되고 있거나 ② 설치의 실행 및 준비 또는 ③ TrueCrypt를 업데이트하고 있습니다. 진행하기 전에, 그 작업이 끝날 때까지 기다리거나 닫아 주세요. 만약 닫기 작업이 되지 않는 경우에는 진행 전에 컴퓨터를 다시 시작해야 합니다.</string>
+    <string lang="ko" key="INSTALL_FAILED">설치 실패.</string>
+    <string lang="ko" key="UNINSTALL_FAILED">제거 실패.</string>
+    <string lang="ko" key="DIST_PACKAGE_CORRUPTED">배포 패키지가 손상되었습니다. 다시 다운로드해 보시기 바랍니다(TrueCrypt 공식 웹사이트 - www.truecrypt.org).</string>
+    <string lang="ko" key="CANNOT_WRITE_FILE_X">%hs 파일을 쓸 수 없습니다.</string>
+    <string lang="ko" key="EXTRACTING_VERB">추출 중</string>
+    <string lang="ko" key="CANNOT_READ_FROM_PACKAGE">패키지에서 데이터를 읽을 수 없습니다.</string>
+    <string lang="ko" key="CANT_VERIFY_PACKAGE_INTEGRITY">현재 배포 패키지의 완전성(무결성)을 검증할 수 없습니다.</string>
+    <string lang="ko" key="EXTRACTION_FAILED">추출 실패.</string>
+    <string lang="ko" key="ROLLBACK">설치가 롤백되었습니다.</string>
+    <string lang="ko" key="INSTALL_OK">TrueCrypt를 성공적으로 설치했습니다.</string>
+    <string lang="ko" key="SETUP_UPDATE_OK">TrueCrypt를 성공적으로 업데이트했습니다.</string>
+    <string lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">TrueCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</string>
+    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade TrueCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu &gt; All programs &gt; Accessories &gt; System Tools &gt; System Restore) to restore your system to the restore point named 'TrueCrypt installation'. If System Restore is not available, you should try installing the original or the new version of TrueCrypt again before you shut down or restart the system.</string>
+    <string lang="ko" key="UNINSTALL_OK">TrueCrypt를 성공적으로 제거했습니다.\n\nTrueCrypt 설치기와 %hs 폴더를 제거하려면 “마침”을 클릭하세요. TrueCrypt 설치기에 의해 설치되거나 TrueCrypt에 의해 생성된 것이 아닌 파일을 포함하고 있는 폴더는 제거되지 않는다는 것을 참고하세요.</string>
+    <string lang="ko" key="REMOVING_REG">TrueCrypt 레지스트리 항목을 제거하는 중</string>
+    <string lang="ko" key="ADDING_REG">레지스트리 항목 추가 중</string>
+    <string lang="ko" key="REMOVING_APPDATA">지정된 프로그램 데이터 제거 중</string>
+    <string lang="ko" key="INSTALLING">설치 중</string>
+    <string lang="ko" key="STOPPING">중단하는 중</string>
+    <string lang="ko" key="REMOVING">제거하는 중</string>
+    <string lang="ko" key="ADDING_ICON">아이콘 추가</string>
+    <string lang="ko" key="CREATING_SYS_RESTORE">시스템 복구 시점 만들기</string>
+    <string lang="ko" key="FAILED_SYS_RESTORE">시스템 복원 시점을 만들 수 없습니다!</string>
+    <string lang="ko" key="INSTALLER_UPDATING_BOOT_LOADER">부트 로더를 업데이트하는 중</string>
+    <string lang="ko" key="INSTALL_OF_FAILED">“%hs”을(를) 설치하는 데 실패했습니다. %hs 설치를 계속하시겠습니까?</string>
+    <string lang="ko" key="UNINSTALL_OF_FAILED">“%hs”을(를) 제거하는 데 실패했습니다. %hs 제거 작업을 계속하시겠습니까?</string>
+    <string lang="ko" key="INSTALL_COMPLETED">설치를 마쳤습니다.</string>
+    <string lang="ko" key="CANT_CREATE_FOLDER">“%hs” 폴더를 만들 수 없습니다.</string>
+    <string lang="ko" key="CLOSE_TC_FIRST">TrueCrypt 장치 드라이버를 언로드할 수 없습니다.\n\n먼저 열려 있는 TrueCrypt 창을 모두 닫아 주세요. 창을 닫아도 도움이 되지 않으면, 윈도우를 다시 시작해 보세요.</string>
+    <string lang="ko" key="DISMOUNT_ALL_FIRST">설치 또는 제거를 계속하려면 모든 TrueCrypt 볼륨을 먼저 꺼내야 합니다.</string>
+    <string lang="en" key="UNINSTALL_OLD_VERSION_FIRST">An obsolete version of TrueCrypt is currently installed on this system. It needs to be uninstalled before you can install this new version of TrueCrypt.\n\nAs soon as you close this message box, the uninstaller of the old version will be launched. Note that no volume will be decrypted when you uninstall TrueCrypt. After you uninstall the old version of TrueCrypt, run the installer of the new version of TrueCrypt again.</string>
+    <string lang="ko" key="REG_INSTALL_FAILED">레지스트리 항목을 설치하는 데 실패했습니다.</string>
+    <string lang="ko" key="DRIVER_INSTALL_FAILED">장치 드라이버를 설치하는 데 실패했습니다. 윈도우를 다시 시작한 다음 TrueCrypt 설치를 다시 시도해 보세요.</string>
+    <string lang="ko" key="STARTING_DRIVER">TrueCrypt 장치 드라이버 시작 중</string>
+    <string lang="ko" key="DRIVER_UINSTALL_FAILED">장치 드라이버를 제거하는 데 실패했습니다. (윈도우의 문제로 인해) 장치 드라이버를 제거하거나 재설치하기 전에 시스템을 로그오프하거나 다시 시작해야 합니다.</string>
+    <string lang="ko" key="INSTALLING_DRIVER">TrueCrypt 장치 드라이버 설치 중</string>
+    <string lang="ko" key="STOPPING_DRIVER">TrueCrypt 장치 드라이버 중지 중</string>
+    <string lang="ko" key="REMOVING_DRIVER">TrueCrypt 장치 드라이버 제거 중</string>
+    <string lang="ko" key="COM_REG_FAILED">사용자 계정 컨트롤(UAC) 지원 라이브러리를 등록하는 데 실패했습니다.</string>
+    <string lang="ko" key="COM_DEREG_FAILED">사용자 계정 컨트롤(UAC) 지원 라이브러리를 해제하는 데 실패했습니다.</string>
+    <string lang="en" key="TRAVELER_LIMITATIONS_NOTE">Note about portable mode:\n\nPlease note that the operating system requires drivers to be registered with it before they can be started. Hence, the TrueCrypt driver is not (and cannot be) fully portable (whereas the TrueCrypt applications are fully portable, i.e. they do not have to be installed or registered with the operating system). Also note that TrueCrypt needs a driver to provide transparent on-the-fly encryption/decryption.</string>
+    <string lang="ko" key="TRAVELER_UAC_NOTE">TrueCrypt를 휴대용 모드로 실행하기로 결정한 경우(* 이는 TrueCrypt 복사본을 설치해서 실행하는 것과 반대개념임), 이를 실행할 때마다 시스템에서 TrueCrypt 실행 권한(* UAC 묻기)을 요구하게 됩니다.\n\n왜냐하면 TrueCrypt를 휴대용 모드로 실행할 때 TrueCrypt 장치 드라이버를 로드해서 시작해야 하기 때문입니다. TrueCrypt는 실시간 암호화/암호해제를 제공하는 장치 드라이버를 필요로 합니다. 관리자 권한이 없는 사용자는 윈도우에서 장치 드라이버를 시작할 수 없습니다. 그래서 시스템에서 TrueCrypt 실행 권한(UAC 묻기)을 요구하게 되는 것입니다.\n\nTrueCrypt를 시스템에 설치한 경우(* 이는 휴대용 모드로 TrueCrypt를 실행하는 것과 반대개념임), 사용자가 TrueCrypt를 실행할 때마다 실행 권한을 묻지 않습니다.\n\n정말로 파일을 추출하시겠습니까?</string>
+    <string lang="ko" key="CONTAINER_ADMIN_WARNING">주의: 이 볼륨 만들기 마법사가 관리자 권한을 가지고 있습니다.\n\n사용자의 새로운 볼륨은, 볼륨이 삽입되었을 때 이 볼륨에 쓰기가 금지된 권한으로 생성될 수 있습니다. 이러한 점을 피하려면, 현재의 볼륨 만들기 마법사를 닫은 후 관리자 권한이 없는 새로운 마법사를 실행시키십시오.\n\n이 볼륨 만들기 마법사를 닫으시겠습니까?</string>
+    <string lang="ko" key="CANNOT_DISPLAY_LICENSE">오류: 라이선스를 표시할 수 없습니다.</string>
+    <string lang="ko" key="OUTER_VOL_WRITE_PREVENTED">외부(!)</string>
+    <string lang="ko" key="DAYS">일</string>
+    <string lang="ko" key="HOURS">시간</string>
+    <string lang="ko" key="MINUTES">분</string>
+    <string lang="ko" key="SECONDS">초</string>
+    <string lang="ko" key="OPEN">열기</string>
+    <string lang="ko" key="DISMOUNT">꺼내기</string>
+    <string lang="ko" key="SHOW_TC">TrueCrypt 보기</string>
+    <string lang="ko" key="HIDE_TC">TrueCrypt 숨김</string>
+    <string lang="ko" key="TOTAL_DATA_READ">삽입 후 읽은 데이터</string>
+    <string lang="ko" key="TOTAL_DATA_WRITTEN">삽입 후 쓰여진 데이터</string>
+    <string lang="ko" key="ENCRYPTED_PORTION">암호화된 부분</string>
+    <string lang="ko" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100% (완전 암호화됨)</string>
+    <string lang="ko" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (암호화 안됨)</string>
+    <string lang="ko" key="PROCESSED_PORTION_X_PERCENT">%.3f%%</string>
+    <string lang="ko" key="PROCESSED_PORTION_100_PERCENT">100%</string>
+    <string lang="ko" key="PROGRESS_STATUS_WAITING">기다려 주세요</string>
+    <string lang="ko" key="PROGRESS_STATUS_PREPARING">준비 중</string>
+    <string lang="ko" key="PROGRESS_STATUS_RESIZING">크기 조절 중</string>
+    <string lang="ko" key="PROGRESS_STATUS_ENCRYPTING">암호화 중</string>
+    <string lang="ko" key="PROGRESS_STATUS_DECRYPTING">암호해제 중</string>
+    <string lang="ko" key="PROGRESS_STATUS_FINALIZING">완료 중</string>
+    <string lang="ko" key="PROGRESS_STATUS_PAUSED">정지됨</string>
+    <string lang="ko" key="PROGRESS_STATUS_FINISHED">완료됨</string>
+    <string lang="ko" key="PROGRESS_STATUS_ERROR">오류</string>
+    <string lang="en" key="FAVORITE_DISCONNECTED_DEV">Device disconnected</string>
+    <string lang="ko" key="SYS_FAVORITE_VOLUMES_SAVED">시스템 즐겨찾기 볼륨이 저장되었습니다.\n\n시스템이 시작될 때 “시스템 즐겨찾기 볼륨”이 삽입되게 하려면, “설정” &gt; “시스템 즐겨찾기 볼륨” &gt; “윈도우 시작시 시스템 볼륨 삽입”을 선택해 주십시오.</string>
+    <string lang="en" key="FAVORITE_ADD_DRIVE_DEV_WARNING">The volume you are adding to favorites is neither a partition nor a dynamic volume. Therefore, TrueCrypt will be unable to mount this favorite volume if the device number changes.</string>
+    <string lang="en" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">The volume you are adding to favorites is a partition not recognized by Windows.\n\nTrueCrypt will be unable to mount this favorite volume if the device number changes. Please set the type of the partition to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then add the partition to favorites again.</string>
+    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">TrueCrypt Background Task is disabled or it is configured to exit when there are no mounted volumes (or TrueCrypt is running in portable mode). This may prevent your favorite volumes from being automatically mounted when devices hosting them get connected.\n\nNote: To enable the TrueCrypt Background Task, select Settings &gt; Preferences and check the 'Enabled' checkbox in the section 'TrueCrypt Background Task'.</string>
+    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR">A container stored in a remote filesystem shared over a network cannot be automatically mounted when its host device gets connected.</string>
+    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, the volume hosted on the device cannot be automatically mounted when the device gets connected.</string>
+    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable the volume hosted on the device to be automatically mounted when the device gets connected.</string>
+    <string lang="en" key="FAVORITE_LABEL_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, no label can be assigned to it.</string>
+    <string lang="en" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable TrueCrypt to assign a label to the partition.</string>
+    <string lang="en" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">Due to a Windows limitation, a container stored in a remote filesystem shared over a network cannot be mounted as a system favorite volume (however, it can be mounted as a non-system favorite volume when a user logs on).</string>
+    <string lang="ko" key="ENTER_PASSWORD_FOR">비밀번호 입력▷ %hs</string>
+    <string lang="en" key="ENTER_PASSWORD_FOR_LABEL">Enter password for '%s'</string>
+    <string lang="ko" key="ENTER_NORMAL_VOL_PASSWORD">표준/외부 볼륨을 위한 비밀번호 입력</string>
+    <string lang="ko" key="ENTER_HIDDEN_VOL_PASSWORD">숨긴 볼륨을 위한 비밀번호 입력</string>
+    <string lang="ko" key="ENTER_HEADER_BACKUP_PASSWORD">백업 파일에 저장된 헤더를 위한 비밀번호 입력</string>
+    <string lang="ko" key="KEYFILE_CREATED">키파일이 성공적으로 만들어졌습니다.</string>
+    <string lang="ko" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">주의: 이 볼륨의 헤더가 손상되었습니다! TrueCrypt는 볼륨에 포함된 볼륨 헤더의 백업을 자동으로 사용했습니다.\n\n“도구” ▶ “볼륨 헤더 복구”를 선택해서 볼륨 헤더를 수리해야 합니다.</string>
+    <string lang="ko" key="VOL_HEADER_BACKED_UP">볼륨 헤더 백업을 성공적으로 만들었습니다.\n\n중요: 이 백업을 이용해서 볼륨 헤더를 복구하게 되면 볼륨의 현재 비밀번호도 같이 복구합니다. 또한 볼륨을 삽입하는데 키파일이 필요한 경우, 볼륨 헤더가 복구되었을 때 볼륨을 다시 삽입하려면 동일한 키파일이 필요합니다.\n\n주의: 이 볼륨 헤더 백업은 현재의 특정 볼륨의 헤더만 복구하는 데 사용됩니다. 만약 이 헤더 백업으로 다른 볼륨의 헤더를 복구할 경우에 그 볼륨을 삽입할 수는 있지만, (그 볼륨의 마스터 키가 변경되기 때문에) 볼륨에 저장된 데이터의 암호해제는 할 수 없습니다.</string>
+    <string lang="ko" key="VOL_HEADER_RESTORED">볼륨 헤더가 성공적으로 복구되었습니다.\n\n중요: 이전 비밀번호도 같이 복구되었다는 것을 참고하세요. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨을 다시 삽입하고자 할 때도 동일한 키파일이 필요합니다. </string>
+    <string lang="ko" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">보안상의 이유로 볼륨에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다.\n\n참고: 볼륨에 숨긴 볼륨이 있는 경우, 먼저 “외부 볼륨”에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다. 나중에 숨긴 볼륨 헤더의 백업을 선택한 경우, “숨긴 볼륨”에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다.</string>
+    <string lang="ko" key="CONFIRM_VOL_HEADER_BAK">%hs에 대한 볼륨 헤더 백업을 만드시겠습니까?\n\n“예”를 클릭하면, 헤더 백업의 파일 이름을 묻게 됩니다.\n\n참고: 새로운 소금(→ 무작위 문자열)을 이용해서 ① 표준 볼륨 헤더 및 ② 숨긴 볼륨 헤더는 재암호화되고 백업 파일에 저장됩니다. 현재 볼륨 안에 “숨긴 볼륨”이 없을지라도, 백업 파일에 있는 숨긴 볼륨 헤더를 위해 남겨진 공간은 무작위 데이터로 채워지게 됩니다(→ 숨긴 볼륨의 효과적인 방법방법). 백업 파일에서 볼륨 헤더를 복구할 때, 볼륨 헤더 백업이 생성된 당시에 타당했던 ① 올바른 비밀번호 입력 또는 ② 올바른 키파일을 제공해야 합니다. 또한 비밀번호(또는 키파일)은 복구할 볼륨 헤더의 형식(→ 표준 또는 숨김)을 자동을 결정합니다. TrueCrypt는 시행착오를 거쳐 그 형식을 결정하게 됩니다.</string>
+    <string lang="ko" key="CONFIRM_VOL_HEADER_RESTORE">%hs의 볼륨 헤더를 복구하시겠습니까?\n\n주의: 볼륨 헤더의 복구는 “백업이 만들어졌을 당시의 볼륨 비밀번호”도 동시에 복구합니다. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨 헤더가 복구된 후 다시 볼륨을 삽입하고자 할 때도 동일한 키파일이 필요합니다.\n\n“예”를 클릭하면, 헤더 백업 파일을 선택할 수 있습니다.</string>
+    <string lang="ko" key="DOES_VOLUME_CONTAIN_HIDDEN">볼륨에 “숨긴 볼륨”이 포함되어 있습니까?</string>
+    <string lang="ko" key="VOLUME_CONTAINS_HIDDEN">볼륨에 “숨긴 볼륨”이 포함되어 있습니다.</string>
+    <string lang="ko" key="VOLUME_DOES_NOT_CONTAIN_HIDDEN">볼륨에 “숨긴 볼륨”이 포함되어 있지 않습니다.</string>
+    <string lang="ko" key="HEADER_RESTORE_EXTERNAL_INTERNAL">사용하고자 하는 “볼륨 헤더 백업 형식”을 선택해 주세요:</string>
+    <string lang="ko" key="HEADER_RESTORE_INTERNAL">볼륨에 포함된 백업에서 “볼륨 헤더” 복구</string>
+    <string lang="ko" key="HEADER_RESTORE_EXTERNAL">외부의 백업 파일에서 “볼륨 헤더” 복구</string>
+    <string lang="ko" key="HEADER_BACKUP_SIZE_INCORRECT">볼륨 헤더 백업 파일의 크기가 올바르지 않습니다.</string>
+    <string lang="ko" key="VOLUME_HAS_NO_BACKUP_HEADER">이 볼륨에 포함된 백업 헤더가 없습니다. TrueCrypt 6.0 또는 그 이상의 버전에서 생성된 볼륨만 “포함된 백업 헤더”를 가질 수 있습니다.</string>
+    <string lang="ko" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">사용자가 시스템 파티션/드라이브의 헤더를 백업하려고 합니다. 이것은 허용되지 않습니다. 시스템 파티션/드라이브에 관계된 백업/복구 작업은 TrueCrypt 응급복구 디스크를 사용해서만 실행될 수 있습니다.\n\nTrueCrypt 응급복구 디스크를 만드시겠습니까?</string>
+    <string lang="ko" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">사용자가 가상의 TrueCrypt 볼륨 헤더를 복구하려고 시도하면서 시스템 파티션/드라이브를 선택했습니다. 이것은 허용되지 않습니다. 시스템 파티션/드라이브에 관계된 백업/복구 작업은 TrueCrypt 응급복구 디스크를 사용해서만 실행될 수 있습니다.\n\nTrueCrypt 응급복구 디스크를 만드시겠습니까?</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">확인을 클릭한 다음, 새로운 TrueCrypt 응급복구 디스크 ISO 이미지를 위한 파일 이름 및 그 파일을 둘 위치를 선택하게 됩니다.</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 응급복구 디스크를 CD 또는 DVD에 구울 필요가 있습니다.\n\n중요: 파일은 (개별 파일이 아닌) ISO 디스크 이미지로 CD/DVD에 구워져야 합니다. 작업 방법에 대한 자세한 정보는 CD/DVD 리코딩 소프트웨어의 문서를 참고하세요.\n\n응급복구 디스크를 구운 후에 “시스템 ▶ 응급복구 디스크 검증”을 선택해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 응급복구 디스크를 CD 또는 DVD에 구울 필요가 있습니다.\n\n지금 Microsoft Windows Disc Image Burner를 실행하시겠습니까?\n\n참고: 응급복구 디스크를 구운 후에 “시스템 ▶ 응급복구 디스크 검증”을 선택해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">검증하려면 TrueCrypt 응급복구 디스크를 CD/DVD 드라이브에 삽입한 다음 “확인”을 클릭하세요.</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">TrueCrypt 응급복구 디스크를 성공적으로 검증했습니다.</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">응급복구 디스크가 올바르게 구워졌는지를 검증할 수 없습니다.\n\n응급복구 디스크를 구웠다면, CD/DVD를 꺼내서 다시 삽입한 다음 다시 시도해 주세요. 이것이 도움이 되지 않는 경우, 다른 CD/DVD 리코딩 소프트웨어 및 매체로 시도해 주세요.\n\n다른 마스터 키, 비밀번호, 소금 등을 위해 생성된 응급복구 디스크를 검증하려고 하는 경우, 그러한 응급복구 디스크는 항상 검증작업에 실패하게 됩니다. 현재 설정과 완전히 호환되는 새로운 응급복구 디스크를 만들려면, “시스템” ▶ “응급복구 디스크 만들기”를 선택하세요.</string>
+    <string lang="ko" key="ERROR_CREATING_RESCUE_DISK">TrueCrypt 응급복구 디스크 만들기 오류.</string>
+    <string lang="ko" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">숨긴 운영체제가 실행 중일 때 TrueCrypt 응급복구 디스크를 만들 수 없습니다.\n\nTrueCrypt 응급복구 디스크를 만들려면 미끼용 운영체제를 부팅한 다음 “시스템” ▶ “응급복구 디스크 만들기”를 선택하세요.</string>
+    <string lang="ko" key="RESCUE_DISK_CHECK_FAILED">응급복구 디스크가 올바르게 구워졌는지를 검증할 수 없습니다.\n\n응급복구 디스크를 구웠다면, CD/DVD를 꺼내서 다시 삽입한 다음, “다음”을 클릭해서 다시 시도해 주세요. 이것이 도움이 되지 않는 경우, 다른 매체%s로 시도해 주십시오.\n\n아직 응급복구 디스크를 굽지 않았다면, 다음을 클릭하세요.\n\n이 마법사를 시작하기 전에 TrueCrypt 응급복구 디스크를 검증하려고 할 경우, 이러한 응급복구 디스크는 (다른 마스터 키를 위해 생성되었기 때문에) 사용될 수 없습니다. 새롭게 생성된 응급복구 디스크를 구울 필요가 있습니다.</string>
+    <string lang="ko" key="RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"> 또는 다른 CD/DVD 리코딩 소프트웨어</string>
+    <string lang="en" key="SYSTEM_FAVORITES_DLG_TITLE">TrueCrypt - System Favorite Volumes</string>
+    <string lang="en" key="SYS_FAVORITES_HELP_LINK">What are system favorite volumes?</string>
+    <string lang="ko" key="SYS_FAVORITES_REQUIRE_PBA">시스템 파티션/드라이브가 암호화되지 않은 것으로 보입니다.\n\n시스템 즐겨찾기 볼륨은 부팅-전 인증 비밀번호의 사용을 통해서만 삽입(mount)될 수 있습니다. 그러므로 시스템 즐겨찾기 볼륨을 사용하려면, 먼저 시스템 파티션/드라이브를 암호화해야 합니다.</string>
+    <string lang="ko" key="DISMOUNT_FIRST">계속하기 전에 볼륨을 꺼내야 합니다.</string>
+    <string lang="ko" key="CANNOT_SET_TIMER">오류: 타이머를 설정할 수 없습니다.</string>
+    <string lang="ko" key="IDPM_CHECK_FILESYS">파일시스템 체크</string>
+    <string lang="ko" key="IDPM_REPAIR_FILESYS">파일시스템 수리</string>
+    <string lang="en" key="IDPM_ADD_TO_FAVORITES">Add to Favorites...</string>
+    <string lang="en" key="IDPM_ADD_TO_SYSTEM_FAVORITES">Add to System Favorites...</string>
+    <string lang="en" key="IDPM_PROPERTIES">P&amp;roperties...</string>
+    <string lang="ko" key="HIDDEN_VOL_PROTECTION">숨긴 볼륨 보호</string>
+    <string lang="ko" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">N/A</string>
+    <string lang="ko" key="UISTR_YES">예</string>
+    <string lang="ko" key="UISTR_NO">아니오</string>
+    <string lang="en" key="UISTR_DISABLED">Disabled</string>
+    <string lang="ko" key="DIGIT_ONE">1</string>
+    <string lang="ko" key="TWO_OR_MORE">2 또는 그 이상</string>
+    <string lang="ko" key="MODE_OF_OPERATION">작업 모드</string>
+    <string lang="ko" key="LABEL_ITEM">라벨:   </string>
+    <string lang="ko" key="SIZE_ITEM">크기:   </string>
+    <string lang="ko" key="PATH_ITEM">경로:   </string>
+    <string lang="ko" key="DRIVE_LETTER_ITEM">드라이브 문자:   </string>
+    <string lang="ko" key="UNSUPPORTED_CHARS_IN_PWD">오류: 비밀번호는 ASCII 문자만을 포함해야 합니다.\n\n비밀번호에 ASCII 아닌 문자가 있는 경우, 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\n다음 문자는 허용됩니다:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="ko" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">주의: 비밀번호에 ASCII 아닌 문자가 포함되어 있습니다. 이 경우 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\nASCII 아닌 문자를 ASCII 문자로 모두 교체해야 합니다. 이렇게 하려면, “볼륨” ▶ “볼륨 비밀번호 변경”을 클릭하세요.\n\n다음은 ASCII 문자입니다:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="ko" key="EXE_FILE_EXTENSION_CONFIRM">주의: 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 및 문제를 일으키는 유사한 파일 확장자는 사용하지 않길 권장합니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n파일 확장자를 제거하거나 (예컨대 “.tc”) 등으로 변경할 것을 적극권장합니다.\n\n문제가 될 만한 파일 확장자를 정말로 사용하시겠습니까?</string>
+    <string lang="ko" key="EXE_FILE_EXTENSION_MOUNT_WARNING">주의: 이 보관소는 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 또는 유사한 문제를 일으킬 수 있는 파일 확장자를 가지고 있습니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n(볼륨을 꺼낸 후에) 보관소의 확장자를 변경(예: “.tc”)하거나 제거할 것을 권장합니다.</string>
+    <string lang="ko" key="HOMEPAGE">홈페이지</string>
+    <string lang="ko" key="LARGE_IDE_WARNING_XP">주의: 윈도우 설치에 서비스팩을 적용하지 않은 것으로 보입니다. 서비스팩 1 또는 그 이상을 적용하지 않은 Windows XP를 사용하는 경우, 128 GB보다 큰 IDE 디스크에 데이터를 쓰면 안됩니다! 만약 그 디스크(TrueCrypt 볼륨인지 여부에 상관없음)에 데이터를 쓰게 되면, 데이터가 손상될 수도 있습니다. 이는 윈도우의 버그이지, TrueCrypt의 버그가 아닙니다.</string>
+    <string lang="ko" key="LARGE_IDE_WARNING_2K">주의: 윈도우 설치에 서비스팩 3 또는 그 이상을 적용하지 않은 것으로 보입니다. 서비스팩 3 또는 그 이상을 적용하지 않은 Windows 2000을 사용하는 경우, 128 GB보다 큰 IDE 디스크에 데이터를 쓰면 안됩니다! 만약 그 디스크(TrueCrypt 볼륨인지 여부에 상관없음)에 데이터를 쓰게 되면, 데이터가 손상될 수도 있습니다. 이는 윈도우의 제한이지, TrueCrypt의 버그가 아닙니다.\n\n참고: 레지스트리에서 48-비트 LBA 지원을 사용가능하게 해야 할지도 모릅니다. 추가정보 → http://support.microsoft.com/kb/305098/EN-US</string>
+    <string lang="ko" key="LARGE_IDE_WARNING_2K_REGISTRY">주의: 현재 시스템에서 48-bit LBA ATAPI 지원이 되지 않습니다. 그러므로 128GB보다 큰 IDE 디스크에 데이터를 작성하면 안됩니다! 만약 그 디스크(TrueCrypt 볼륨인지 여부에 상관없음)에 데이터를 쓰게 되면, 데이터가 손상될 수도 있습니다. 이는 윈도우의 제한이지, TrueCrypt의 제한이 아닙니다.\n\n48비트 LBA 지원을 사용하려면, 레지스트리 키 HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\atapi\\Parameters에 레지스트리 값을 추가하고 설정을 1로 합니다.\n\n추가 정보를 보려면 http://support.microsoft.com/kb/305098을 참고하세요.</string>
+    <string lang="ko" key="VOLUME_TOO_LARGE_FOR_FAT32">오류: 4 GB보다 큰 파일은 FAT32 파일 시스템에 저장될 수 없습니다. 그러므로 FAT32 파일 시스템에 저장된 “파일-기반 TrueCrypt 볼륨 (보관소)”는 4 GB 이상이 될 수 없습니다.\n\n만약 더 큰 볼륨이 필요하다면, NTFS 파일 시스템에 볼륨을 만들거나(→ Windows Vista SP1 또는 그 이상 경우는 exFAT 파일 시스템에 생성), 파일-기반 볼륨을 만드는 대신에 전체 파티션 또는 장치를 암호화합니다.</string>
+    <string lang="en" key="VOLUME_TOO_LARGE_FOR_WINXP">Warning: Windows XP does not support files larger than 2048 GB (it will report that "Not enough storage is available"). Therefore, you cannot create a file-hosted TrueCrypt volume (container) larger than 2048 GB under Windows XP.\n\nNote that it is still possible to encrypt the entire drive or create a partition-hosted TrueCrypt volume larger than 2048 GB under Windows XP.</string>
+    <string lang="ko" key="FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME">주의: 외부 볼륨에 더 많은 데이터/파일을 나중에 추가할 수 있게 하려면, 숨긴 볼륨의 크기를 작게 해야 합니다.\n\n지정한 크기로 계속하시겠습니까?</string>
+    <string lang="ko" key="NO_VOLUME_SELECTED">선택한 볼륨이 없습니다.\n\nTrueCrypt 볼륨을 선택하려면 “파일 선택” 또는 “장치 선택”을 클릭하세요.</string>
+    <string lang="ko" key="NO_SYSENC_PARTITION_SELECTED">선택된 파티션이 없습니다.\n\n일반적으로 부팅-전 인증을 요하는 꺼내진 파티션(→ 예컨대 ① 실행 중이 아닌 다른 운영체제의 암호화된 시스템 드라이브에 위치한 파티션, ② 다른 운영체제의 암호화된 시스템 파티션)을 선택하려면 “장치 선택”을 클릭합니다.\n\n참고: 선택한 파티션은 부팅-전 인증 없이 보통의 TrueCrypt 볼륨으로 삽입됩니다. 이는 예컨대 운영체제의 백업이나 수리에 유용합니다.</string>
+    <string lang="ko" key="CONFIRM_SAVE_DEFAULT_KEYFILES">주의: 기본값인 키파일이 사용되도록 설정되면, 이 키파일(들)을 사용하지 않는 볼륨은 삽입이 되지 않습니다. 그러므로 기본 키파일이 사용되도록 설정한 후에는, 그 볼륨을 삽입할 때마다 (비밀번호 입력 필드 아래의) “키파일 사용”을 체크해제해야 합니다.\n\n선택한 키파일/경로를 기본값으로 저장하시겠습니까?</string>
+    <string lang="ko" key="HK_AUTOMOUNT_DEVICES">장치 자동삽입</string>
+    <string lang="ko" key="HK_DISMOUNT_ALL">모두 꺼내기</string>
+    <string lang="ko" key="HK_WIPE_CACHE">캐시 지우기</string>
+    <string lang="ko" key="HK_DISMOUNT_ALL_AND_WIPE">모두 꺼내기 및 캐시 지우기</string>
+    <string lang="ko" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">강제로 모두 꺼내기 및 캐시 지우기</string>
+    <string lang="ko" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">강제로 모두 꺼내기, 캐시 지우기 및 종료</string>
+    <string lang="ko" key="HK_MOUNT_FAVORITE_VOLUMES">즐겨찾는 볼륨 삽입</string>
+    <string lang="ko" key="HK_SHOW_HIDE_MAIN_WINDOW">TrueCrypt 창 보기/숨김</string>
+    <string lang="ko" key="PRESS_A_KEY_TO_ASSIGN">(여기를 클릭하고 키를 누르세요)</string>
+    <string lang="ko" key="ACTION">동작</string>
+    <string lang="ko" key="SHORTCUT">바로가기</string>
+    <string lang="ko" key="CANNOT_USE_RESERVED_KEY">오류: 이 바로가기는 할당되어 있습니다. 다른 바로가기를 선택하세요.</string>
+    <string lang="ko" key="SHORTCUT_ALREADY_IN_USE">오류: 바로가기가 이미 사용 중입니다.</string>
+    <string lang="ko" key="HOTKEY_REGISTRATION_ERROR">주의: 한 개 또는 수 개의 TrueCrypt - 시스템 일반 단축키가 작동하지 않습니다!\n\n다른 프로그램이나 운영체제가 동일한 바로가기를 사용하고 있는지 확인해 주세요.</string>
+    <string lang="en" key="PAGING_FILE_CREATION_PREVENTED">Paging file creation has been prevented.\n\nPlease note that, due to Windows issues, paging files cannot be located on non-system TrueCrypt volumes (including system favorite volumes). TrueCrypt supports creation of paging files only on an encrypted system partition/drive.</string>
+    <string lang="ko" key="SYS_ENC_HIBERNATION_PREVENTED">오류 또는 비호환성으로 인해 TrueCrypt가 최대 절전 모드 파일을 암호화하지 못했습니다. 그 결과 최대 절전 모드로의 진입을 못했습니다.\n\n참고: 컴퓨터가 최대 절전 모드(또는 절전 모드)로 들어갈 때, 그 시스템 메모리의 내용은 (시스템 드라이브 상에 위치하는) 최대 절전 모드 저장 파일에 쓰여지게 됩니다. TrueCrypt는 “RAM에 열려 있는 암호화된 키 및 민감한 파일의 내용”이 암호화되지 않은 채 최대 절전 모드 저장 파일에 저장되는 것을 막을 수 없습니다.</string>
+    <string lang="ko" key="HIDDEN_OS_HIBERNATION_PREVENTED">최대 절전 모드 진입을 방지했습니다.\n\nTrueCrypt는 (별도의 부트 파티션을 사용하는) 숨겨진 운영체제에서의 최대 절전 모드를 지원하지 않습니다. 부트 파티션이 미끼용 및 숨겨진 시스템에 의해 공유되는 것은 아닌지 확인해 주십시오. 그래서 최대 절전 모드 상태에서 깨어날 때 데이터 누수 및 문제점을 방지하기 위해, TrueCrypt는 숨겨진 시스템이 공유된 부트 파티션에 쓰는 것을 방지하고 또한 이 시스템이 최대 절전 모드로 진입하는 것을 막게되는 것입니다.</string>
+    <string lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">TrueCrypt volume mounted as %c: has been dismounted.</string>
+    <string lang="en" key="MOUNTED_VOLUMES_DISMOUNTED">TrueCrypt volumes have been dismounted.</string>
+    <string lang="en" key="VOLUMES_DISMOUNTED_CACHE_WIPED">TrueCrypt volumes have been dismounted and password cache has been wiped.</string>
+    <string lang="en" key="SUCCESSFULLY_DISMOUNTED">Successfully dismounted</string>
+    <string lang="en" key="CONFIRM_BACKGROUND_TASK_DISABLED">WARNING: If the TrueCrypt Background Task is disabled, the following functions will be disabled:\n\n1) Hot keys\n2) Auto-dismount (e.g., upon logoff, inadvertent host device removal, time-out, etc.)\n3) Auto-mount of favorite volumes\n4) Notifications (e.g., when damage to hidden volume is prevented)\n5) Tray icon\n\nNote: You can shut down the Background Task anytime by right-clicking the TrueCrypt tray icon and selecting 'Exit'.\n\nAre you sure you want to permanently disable the TrueCrypt Background Task?</string>
+    <string lang="ko" key="CONFIRM_NO_FORCED_AUTODISMOUNT">주의: 이 옵션을 사용하지 않으면, 열려 있는 파일/디렉토리를 포함하고 있는 볼륨을 자동으로 꺼낼 수 없습니다.\n\n이 옵션을 사용하지 않으시겠습니까?</string>
+    <string lang="ko" key="WARN_PREF_AUTO_DISMOUNT">주의: 열려 있는 파일/디렉토리를 포함하고 있는 볼륨을 자동으로 꺼낼 수 없습니다.\n\n이를 방지하려면, 이 대화창에서 다음 옵션을 사용가능하게 합니다: “볼륨에 열린 파일 또는 디렉토리가 있어도 강제로 꺼내기”</string>
+    <string lang="ko" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">주의: 노트북 배터리 전력이 부족하게 되면, 컴퓨터가 절전 모드로 들어갈 때 윈도우의 적절한 메시지 보내기를 생략할 수도 있습니다. 이런 경우 TrueCrypt의 볼륨 자동-꺼내기 작업이 실패할 수도 있습니다.</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">파티션/볼륨의 만들기 과정을 예약했습니다. 아직 작업을 완전히 마치지 못했습니다.\n\n지금 그 작업을 다시 시작하시겠습니까?</string>
+    <string lang="ko" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">시스템 파티션/드라이브의 암호화 또는 암호해제 작업을 예약했습니다. 아직 작업을 완전히 마치지 못했습니다.\n\n지금 그 작업을 시작 (다시 시작) 하시겠습니까?</string>
+    <string lang="ko" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">현재 예약된 “비-시스템 파티션/볼륨의 암호화 과정”을 다시 시작할 것인지를 묻는 창을 표시하시겠습니까?</string>
+    <string lang="ko" key="KEEP_PROMPTING_ME">예, 사용자에게 묻습니다.</string>
+    <string lang="ko" key="DO_NOT_PROMPT_ME">아니오, 사용자에게 묻지 않습니다.</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">중요: 비-시스템 파티션/볼륨의 암호화 과정은 TrueCrypt 메인 창의 메뉴 표시줄에 있는 “볼륨” ▶ “중단된 진행을 다시 시작”을 선택해서 다시 시작할 수 있습니다.</string>
+    <string lang="ko" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">시스템 파티션/드라이브의 암호화 또는 암호해제 작업을 예약했습니다. 그러나 부팅-전 인증에 실패했습니다(또는 건너뛰었습니다).\n\n참고: 부팅-전 환경에서 시스템 파티션/드라이브를 암호해제한 경우라면, TrueCrypt 창의 메뉴표시줄에서 “시스템” ▶ “시스템 파티션/드라이브 영구적 암호해제”를 선택해서 작업을 마무리할 필요가 있습니다.</string>
+    <string lang="en" key="CONFIRM_EXIT">WARNING: If TrueCrypt exits now, the following functions will be disabled:\n\n1) Hot keys\n2) Auto-dismount (e.g., upon logoff, inadvertent host device removal, time-out, etc.)\n3) Auto-mount of favorite volumes\n4) Notifications (e.g., when damage to hidden volume is prevented)\n\nNote: If you do not wish TrueCrypt to run in the background, disable the TrueCrypt Background Task in the Preferences (and, if necessary, disable the automatic start of TrueCrypt in the Preferences).\n\nAre you sure you want TrueCrypt to exit?</string>
+    <string lang="ko" key="CONFIRM_EXIT_UNIVERSAL">종료?</string>
+    <string lang="ko" key="CHOOSE_ENCRYPT_OR_DECRYPT">TrueCrypt가 암호화를 할 지 아니면 암호해제를 할 것인가를 결정하는데 충분한 정보를 가지고 있지 않습니다.</string>
+    <string lang="ko" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">TrueCrypt가 암호화를 할 지 아니면 암호해제를 할 것인가를 결정하는데 충분한 정보를 가지고 있지 않습니다.\n\n참고: 부팅-전 환경에서 시스템 파티션/드라이브를 암호해제한 경우라면, 암호해제를 클릭해서 작업을 마무리할 필요가 있습니다.</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">파티션/볼륨의 암호화 진행을 중단하고 나중으로 연기하시겠습니까?\n\n참고: 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입할 수 없습니다. 나중에 암호화 과정을 다시 시작할 수 있고, 이 경우 중단된 시점부터 계속 진행됩니다. 이 작업은 예컨대 TrueCrypt 메인 창의 메뉴 표시줄에 있는 “볼륨” ▶ “중단된 진행을 다시 시작”을 선택해서 실행할 수 있습니다.</string>
+    <string lang="ko" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">시스템 파티션/드라이브의 암호화 진행을 중단하고 나중으로 연기하시겠습니까?\n\n참고: 나중에 이 과정을 다시 시작할 수 있고 중단된 시점부터 계속 진행됩니다. 이 작업은 예컨대 TrueCrypt 메인 창의 메뉴 표시줄에 있는 “시스템” ▶ “중단된 진행을 다시 시작”을 선택해서 실행할 수 있습니다. 암호화 진행을 완전히 종료하거나 되돌리려면, “시스템” ▶ “시스템 파티션/드라이브의 영구적 암호해제”를 선택하세요.</string>
+    <string lang="ko" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">시스템 파티션/드라이브의 암호해제 진행을 중단하고 나중으로 연기하시겠습니까?\n\n참고: 나중에 이 과정을 다시 시작할 수 있고 중단된 시점부터 계속 진행됩니다. 이 작업은 예컨대 TrueCrypt 메인 창의 메뉴 표시줄에 있는 “시스템” ▶ “중단된 진행을 다시 시작”을 선택해서 실행할 수 있습니다. 암호해제 진행을 되돌리고, 암호화를 시작하려면, “시스템” ▶ “시스템 파티션/드라이브 암호화”를 선택하세요.</string>
+    <string lang="ko" key="FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION">오류: 시스템 파티션/드라이브의 암호화 또는 암호해제 진행을 중단하는데 실패했습니다.</string>
+    <string lang="ko" key="FAILED_TO_INTERRUPT_WIPING">오류: 지우기 진행을 중단하는데 실패했습니다.</string>
+    <string lang="ko" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">오류: 시스템 파티션/드라이브의 암호화 또는 암호해제 진행을 다시 시작하는데 실패했습니다.</string>
+    <string lang="ko" key="FAILED_TO_START_WIPING">오류: 지우기 진행을 시작하는데 실패했습니다.</string>
+    <string lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결되었습니다.\n\n\n이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs</string>
+    <string lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs)</string>
+    <string lang="ko" key="NOTHING_TO_RESUME">다시 시작할 진행/작업이 없습니다.</string>
+    <string lang="ko" key="HIDVOL_PROT_BKG_TASK_WARNING">주의: TrueCrypt 백그라운드 작업의 사용이 해제되었습니다. 프로그램을 종료하면, 숨긴 볼륨의 손상이 방지된 경우에도 그 알림을 통보받지 못합니다.\n\n참고: 언제라도 TrueCrypt 트레이 아이콘을 오른쪽 클릭하고 “종료”를 선택해서 백그라운드 작업을 종료할 수 있습니다.\n\nTrueCrypt 백그라운드 작업을 지금 사용가능하게 할까요?</string>
+    <string lang="ko" key="LANG_PACK_VERSION">언어팩 버전:  %s</string>
+    <string lang="ko" key="CHECKING_FS">%hs로 삽입된 TrueCrypt 볼륨에 대한 파일 시스템을 체크하는 중...</string>
+    <string lang="ko" key="REPAIRING_FS">%hs로 삽입된 TrueCrypt 볼륨에 대한 파일 시스템의 수리를 시도하는 중...</string>
+    <string lang="ko" key="WARN_CBC_MODE">주의: 이 볼륨은 CBC 모드로 암호화되었습니다. 보안상의 문제로 CBC 모드는 TrueCrypt 4.1 이후로 비난받고 있습니다.\n\n그래서 이 TrueCrypt 볼륨의 데이터를 현재 버전의 TrueCrypt에 의해 만들어진 새 볼륨으로 이동할 것을 적극권장합니다. 이동작업을 마친 후에 이전 볼륨을 안전하게 삭제 또는 파괴해야 합니다. 자세한 정보는 문서에서 버전 내역을 확인하거나 TrueCrypt 4.1 또는 그 이상에서 배포된 배포 공지를 참고하시기 바랍니다.</string>
+    <string lang="ko" key="WARN_64_BIT_BLOCK_CIPHER">주의: 이 볼륨은 64-비트-블록 레거시 알고리듬으로 암호화되어 있습니다.\n\n모든 64-비트-블록 알고리듬(Blowfish, CAST-128, 및 Triple DES)은 비난받고 있습니다. 앞으로 나올 TrueCrypt 버전으로 이 볼륨을 삽입할 수 있을 것입니다. 그러나 이러한 레거시 암호화 알고리듬의 구현에 전혀 향상이 없는 상태입니다. 128-비트-블록 알고리듬(예: AES, Serpent, Twofish)으로 새로운 TrueCrypt 볼륨을 만들고, 모든 파일을 이 볼륨에서 새로운 볼륨으로 옮길 것을 권장합니다.</string>
+    <string lang="ko" key="SYS_AUTOMOUNT_DISABLED">새 볼륨을 자동으로 삽입하도록 시스템 설정이 되어 있지 않습니다. 장치-기반의 TrueCrypt 볼륨을 삽입할 수 없습니다. “자동삽입”은 다음 명령을 실행하고 시스템을 다시 시작하면 사용할 수 있습니다.\n\nmountvol.exe /E</string>
+    <string lang="ko" key="SYS_ASSIGN_DRIVE_LETTER">계속하기 전에 드라이브 문자를 파티션/장치에 할당해 주세요 (제어판 → 시스템 관리 → 관리자 도구 - 하드 디스크 파티션 생성 및 포맷)\n\n이것은 운영체제의 요구사항입니다.</string>
+    <string lang="ko" key="MOUNT_TC_VOLUME">TrueCrypt 볼륨 삽입</string>
+    <string lang="ko" key="DISMOUNT_ALL_TC_VOLUMES">모든 TrueCrypt 볼륨 꺼내기</string>
+    <string lang="ko" key="UAC_INIT_ERROR">TrueCrypt가 관리자 권한을 얻는데 실패했습니다.</string>
+    <string lang="ko" key="ERR_ACCESS_DENIED">운영체제에 의해 접근이 거부되었습니다.\n\n가능한 원인: 시스템을 읽고 데이터를 쓰기 위해서는 폴더, 파일, 장치에 대한 읽기/쓰기 권한 (또는 관리자 권한)을 가지고 있어야 합니다. 보통 관리자 권한이 없는 사용자는 그의 문서 폴더에서만 파일을 만들고, 읽고 수정하는 것이 허용되어 있습니다.</string>
+    <string lang="en" key="SECTOR_SIZE_UNSUPPORTED">Error: The drive uses an unsupported sector size.\n\nIt is currently not possible to create partition/device-hosted volumes on drives that use sectors larger than 4096 bytes. However, note that you can create file-hosted volumes (containers) on such drives.</string>
+    <string lang="en" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">It is currently not possible to encrypt a system installed on a disk that uses a sector size other than 512 bytes.</string>
+    <string lang="ko" key="NO_SPACE_FOR_BOOT_LOADER">TrueCrypt 부트 로더는 (시스템 드라이브의 시작 부분에) 최소 32 KBytes의 여유 공간을 필요로 합니다. 왜냐하면 TrueCrypt 부트 로더가 그 시작 부분에 저장되어야 하기 때문입니다. 불행하게도 사용자의 드라이브가 이 조건을 충족시키지 못합니다.\n\nTrueCrypt에서의 이 버그/문제점을 보고하지 않길 바랍니다. 이 문제점을 해결하려면, 사용자의 디스크 파티션을 재조정해서 32 Kbytes의 여유 공간을 남겨두어야 합니다. 대부분의 경우에 첫번째 파티션을 삭제하고 다시 만들어야 할 것입니다. 예를 들면 윈도우를 설치할 때 이용되는 Microsoft 파티션 관리자를 사용하실 것을 권장합니다.</string>
+    <string lang="ko" key="FEATURE_UNSUPPORTED_ON_CURRENT_OS">이 기능은 현재 사용 중인 운영체제 버전에서는 지원되지 않습니다.</string>
+    <string lang="ko" key="SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS">현재 사용 중인 운영체제 버전 상의 시스템 파티션/드라이브의 암호화를 TrueCrypt가 지원하지 않습니다.</string>
+    <string lang="ko" key="SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0">Windows Vista에 시스템 파티션/드라이브를 암호화하려면, 먼저 비스타용 서비스팩 1 또는 그 이상을 설치해야 합니다(* 현재 시스템에 서비스팩이 설치되지 않았습니다).\n\n참고: Windows Vista의 서비스팩 1은 시스템 부팅 도중에 기본 여유 메모리의 부족상태를 만드는 문제점을 해결했습니다.</string>
+    <string lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">TrueCrypt no longer supports encryption of the system partition/drive on Windows Vista with no Service Pack installed. Before upgrading TrueCrypt, please install Service Pack 1 or higher for Windows Vista.</string>
+    <string lang="ko" key="FEATURE_REQUIRES_INSTALLATION">오류: 이 기능은 (현재 TrueCrypt가 포터블 모드로 실행 되고 있는) 시스템에 TrueCrypt가 설치되어 있을 것을 요구합니다.\n\nTrueCrypt를 다시 설치한 후 다시 시도해 주십시오.</string>
+    <string lang="ko" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">주의: 부팅이 되는 드라이브에 윈도우가 설치되지 않은 것으로 보입니다. 이 작업은 지원되지 않습니다.\n\n부팅이 되는 드라이브에 윈도우가 설치된 경우에만 계속 진행해야 합니다.\n\n계속하시겠습니까?</string>
+    <string lang="ko" key="GPT_BOOT_DRIVE_UNSUPPORTED">시스템 드라이브에 GUID 파티션 테이블(GPT)이 있습니다. 현재 MBR 파티션 테이블을 가진 드라이브만 지원합니다.</string>
+    <string lang="ko" key="TC_BOOT_LOADER_ALREADY_INSTALLED">주의: TrueCrypt 부트 로더가 이미 시스템 드라이브에 설치되어 있습니다!\n\n컴퓨터 상의 다른 시스템이 이미 암호화되어 있을 수도 있습니다.\n\n주의: 현재 실행 중인 시스템의 암호화로 진행하면 다른 시스템이 시작이 안되고 관련 데이터에 접근할 수 없게될 지도 모릅니다.\n\n그래도 계속하시겠습니까?</string>
+    <string lang="ko" key="SYS_LOADER_RESTORE_FAILED">원래의 시스템 로더를 복구하는 데 실패했습니다.\n\nTrueCrypt 응급복구 디스크를 사용하거나(→ “Repair Options” 메뉴에서 “Restore original system loader”를 선택), TrueCrypt 부트 로더를 윈도우 시스템 로더로 교체하려면 윈도우 설치 매체를 사용해 주십시오.</string>
+    <string lang="ko" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">원래의 시스템 로더가 응급복구 디스크에 저장되지 않을 것입니다 (원인: 백업 파일 분실).</string>
+    <string lang="ko" key="ERROR_MBR_PROTECTED">MBR 섹터에 쓰는 데 실패했습니다.\n\n사용자의 BIOS가 MBR 섹터를 보호하도록 설정된 것으로 보입니다. MBR/안티바이러스 보호 상태를 확인하려면 (컴퓨터에 전원이 들어온 후 F2, Delete 또는 Esc를 눌러) BIOS 설정을 체크합니다.</string>
+    <string lang="ko" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">필요한 TrueCrypt Boot Loader 버전이 현재 설치되어 있지 않습니다. 이로 인해 일부 설정이 저장되지 않을 수도 있습니다.</string>
+    <string lang="ko" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">참고: 사용자가 컴퓨터를 시작하는 것을 특정인(* 적대자)이 지켜보는 가운데 TrueCrypt를 사용한다는 사실을 숨기고 싶을 때가 있을 것입니다. TrueCrypt 부트 로더 화면을 정의하는 위 옵션을 이용해서 이러한 작업을 할 수 있습니다. 첫번째 옵션을 사용하게 되면, 부트 로더에 어떠한 텍스트도 표시되지 않습니다(* 심지어 잘못된 비밀번호를 입력했을 때도 마찬가지입니다). 사용자가 비밀번호를 입력할 수 있는 동안 컴퓨터는 작동이 멈춘 것처럼 보입니다. 게다가 적대자를 속이는 사용자 메시지를 표시할 수도 있습니다. 예컨대 “Missing operating system” 같은 가짜 오류 메시지입니다(* 이는 윈도우 부트 파티션을 찾을 수 없을 때 윈도우 부트 로더에 의해 표시되는 문구입니다). 그러나 적대자가 하드 드라이브의 내용을 분석할 수 있는 경우에는 드라이브에 TrueCrypt 부트 로더가 포함되어 있음을 발견할 수 있을 것입니다.</string>
+    <string lang="ko" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">주의: 이 옵션을 사용하게 되면, TrueCrypt 부트 로더에 어떠한 텍스트도 표시되지 않습니다(* 심지어 잘못된 비밀번호를 입력했을 때도 마찬가지입니다). 사용자가 비밀번호를 입력할 수 있는 동안 컴퓨터는 작동이 멈춘 것처럼 보입니다(→ 커서가 움직이지 않고, 키를 누를 때 어떠한 별표(*)도 표시되지 않습니다.\n\n이 옵션을 사용하시겠습니까?</string>
+    <string lang="ko" key="SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED">사용자의 시스템 파티션/드라이바가 완전히 암호화된 것으로 보입니다.</string>
+    <string lang="ko" key="SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK">TrueCrypt는 동적(dynamic) 디스크로 변환된 시스템 드라이브의 암호화는 지원하지 않습니다.</string>
+    <string lang="en" key="WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS">The system drive contains extended (logical) partitions.\n\nYou can encrypt an entire system drive containing extended (logical) partitions only on Windows Vista and later versions of Windows. On Windows XP, you can encrypt an entire system drive provided that it contains only primary partitions.\n\nNote: You can still encrypt the system partition instead of the entire system drive (and, in addition to that, you can create partition-hosted TrueCrypt volumes within any non-system partitions on the drive).</string>
+    <string lang="en" key="WDE_EXTENDED_PARTITIONS_WARNING">WARNING: As you are running Windows XP/2003, after you start encrypting the drive, you must NOT create any extended (logical) partitions on it (you may create only primary partitions). Any extended (logical) partition on the drive would be inaccessible after you start encrypting (the drive currently does not contain any such partition).\n\nNote: If this limitation is not acceptable, you can go back and choose to encrypt only the system partition instead of the entire drive (and, in addition to that, you can create partition-hosted TrueCrypt volumes within any non-system partitions on the drive).\n\nAlternatively, if this limitation is not acceptable, you may want to consider upgrading to Windows Vista or a later version of Windows (you can encrypt an entire system drive containing extended/logical partitions only on Windows Vista or later).</string>
+    <string lang="en" key="SYSDRIVE_NON_STANDARD_PARTITIONS">Your system drive contains a non-standard partition.\n\nIf you are using a notebook, your system drive probably contains a special recovery partition. After the whole system drive is encrypted (including any recovery partition), your system might become unbootable if your computer is using an inappropriately designed BIOS. It would also be impossible to use any recovery partition until the system drive is decrypted. Therefore, we recommend that you encrypt only the system partition.</string>
+    <string lang="ko" key="ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE">전체 드라이브 대신 시스템 파티션을 암호화하시겠습니까?\n\n(시스템 파티션의 암호화뿐만 아니라) 드라이브 상의 시스템 아닌 파티션 내에 파티션-기반의 TrueCrypt 볼륨을 만들 수 있습니다.</string>
+    <string lang="ko" key="WHOLE_SYC_DEVICE_RECOM">시스템 드라이브가 (전체 드라이브를 점유하고 있는) 한 개의 파티션을 포함한 경우, 보통 그 파티션을 둘러싸고 있는 “느슨한” 여유 공간을 포함하고 있는 전체 드라이브를 암호화하는 것이 보다 안전합니다.</string>
+    <string lang="ko" key="TEMP_NOT_ON_SYS_PARTITION">임시 파일이 비-시스템 파티션에 저장되도록 시스템이 설정되어 있습니다.\n\n임시 파일은 시스템 파티션에만 저장될 수 있습니다.</string>
+    <string lang="ko" key="USER_PROFILE_NOT_ON_SYS_PARTITION">사용자 프로필 파일이 시스템 파티션에 저장되어 있지 않습니다.\n\n사용자 프로필 파일은 시스템 파티션에만 저장될 수 있습니다.</string>
+    <string lang="ko" key="PAGING_FILE_NOT_ON_SYS_PARTITION">페이징 파일이 비-시스템 파티션에 있습니다.\n\n페이징 파일은 시스템 파티션에만 위치할 수 있습니다.</string>
+    <string lang="ko" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">윈도우 파티션에만 페이징 파일이 만들어지도록 윈도우를 설정하시겠습니까?\n\n“예”를 클릭하면 컴퓨터가 다시 시작됩니다. 그런 다음 TrueCrypt를 시작한 후 숨긴 OS를 다시 만듭니다.</string>
+    <string lang="ko" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"> 그렇지 않으면 숨긴 운영체제의 그럴싸한 거부방법에 악영향을 끼치게 됩니다.\n\n참고: 적대자가 비-시스템 파티션에 존재하는 그 파일들의 내용을 분석해서 숨긴-시스템-생성 모드에서 사용자가 이 마법사를 사용했다는 사실(→ 이는 컴퓨터에 숨긴 운영체제가 존재한다는 것을 의미)을 발견할 수도 있습니다. 또한 시스템 파티션에 저장되어 있는 파일들은 (숨긴 운영체제를 만드는 과정 동안) TrueCrypt에 의해 안전하게 지워집니다.</string>
+    <string lang="en" key="DECOY_OS_REINSTALL_WARNING">WARNING: During the process of creation of the hidden operating system, you will be required to fully reinstall the currently running system (in order to create a decoy system securely).\n\nNote: The currently running operating system and the entire content of the system partition will be copied to the hidden volume (in order to create the hidden system).\n\n\nAre you sure you will be able to install Windows using a Windows Setup medium (or using a service partition)?</string>
+    <string lang="ko" key="DECOY_OS_REQUIREMENTS">보안상의 이유로, 현재 실행 중인 운영체제가 인증을 요구할 경우, 진행하기 전에 인증을 해야 합니다. 왜냐하면 “숨긴 운영체제”는 시스템 파티션의 내용을 숨긴 볼륨에 복사함으로써 생성되기 때문입니다. 만약 이러한 운영체제가 인증되지 않은 경우에는 숨긴 운영체제 또한 인증되지 않습니다. 더 자세한 정보를 보려면 TrueCrypt 사용자 안내서의 “Security Requirements and Precautions Pertaning to Hidden Volumes” 장을 참고하시기 바랍니다.\n\n중요: 진행하기 전에 TrueCrypt 사용자 안내서에 있는 “Security Requirements and Precautions Pertaining to Hidden Volumes”(숨긴 볼륨에 관련된 보안 지침)의 내용을 읽어보시길 권장합니다.\n\n\n현재 운영체제가 위 조건들을 충족시키고 있습니까?</string>
+    <string lang="ko" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">사용자의 시스템이 별도의 부트 파티션을 사용하고 있습니다. TrueCrypt는 별도의 부트 파티션을 사용하는 숨겨진 운영체제에서의 최대 절전 모드를 지원하지 않습니다(* 미끼용 시스템에서는 별 문제없이 최대 절전 모드 기능을 사용할 수 있습니다).\n\n부트 파티션이 미끼용 및 숨겨진 시스템에 의해 공유되는 것은 아닌지 확인해 주십시오. 그래서 최대 절전 모드 상태에서 깨어날 때 데이터 누수 및 문제점을 방지하기 위해, TrueCrypt는 숨겨진 시스템이 공유된 부트 파티션에 쓰는 것을 방지하고 또한 이 시스템이 최대 절전 모드로 진입하는 것을 막게 되는 것입니다.\n\n계속하시겠습니까? “아니오”를 선택하면, 별도의 부트 파티션을 제거하기 위한 지침이 표시됩니다.</string>
+    <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
+    <string lang="ko" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">주의: 시스템 파티션과 그 뒤에 있는 첫번쩨 파티션 사이에 할당되지 않은 공간이 있습니다. 숨긴 운영체제를 생성한 후에, 이러한 미할당 공간에 새로운 파티션을 만들어선 안됩니다. 그렇지 않으면 (새롭게 만들어진 파티션을 제거하기 전까지는) 숨긴 운영체제로 부팅을 할 수 없게 됩니다.</string>
+    <string lang="ko" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">이 알고리듬은 현재 시스템 암호화에 지원되지 않습니다.</string>
+    <string lang="ko" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">키파일이 현재 시스템 암호화에서 지원되지 않습니다.</string>
+    <string lang="ko" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">주의: TrueCrypt가 원래의 키보드 레이아웃을 복구할 수 없습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
+    <string lang="ko" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">오류: TrueCrypt 키보드 레이아웃을 표준 US 키보드 레이아웃에 설정할 수 없습니다.\n\n(윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅-전 환경에서 비밀번호를 입력할 필요가 있다는 것을 참고하세요. 그래서 표준 US 키보드 레이아웃을 사용해서 항상 비밀번호를 입력해야 합니다.</string>
+    <string lang="ko" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">TrueCrypt가 키보드 레이아웃을 표준 US 키보드 레이아웃으로 잠시 변경했기 때문에, 오른쪽 Alt 키가 눌러진 상태에서 키를 눌러 문자를 입력할 수 없습니다. 그러나 Shift 키가 눌러진 상태에서는 적당한 키를 눌러 대부분의 문자를 입력할 수 있습니다.</string>
+    <string lang="ko" key="KEYB_LAYOUT_CHANGE_PREVENTED">TrueCrypt가 키보드 레이아웃의 변경을 방지했습니다.</string>
+    <string lang="ko" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">참고: (윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅-전 환경에서 비밀번호를 입력할 필요가 있다는 것을 참고하세요. 그래서 표준 US 키보드 레이아웃을 사용해서 항상 비밀번호를 입력해야 합니다. 그러나 실제 US 키보드가 필요하지 않다는 사실을 명심하세요. 실제 US 키보드가 없는 경우일지라도, TrueCrypt는 (현재 및 부팅-전 환경에서) 사용자가 안전하게 비밀번호를 입력했는지를 자동으로 확인합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_INFO">사용자가 파티션/드라이브를 암호화하기 전에, TrueCrypt 응급복구 디스크(TRD)를 먼저 만들어야 합니다. 그 목적은 다음과 같습니다:\n\n- 만약 TrueCrypt 부트 로더, 마스터 키 또는 다른 중요한 데이터가 손상된 경우, TRD를 이용해서 복구할 수 있습니다(그러나 여전히 올바른 비밀번호를 입력해야 합니다).\n\n- 만약 윈도우가 손상되어 시작이 되지 않는다면, TRD를 이용해서 윈도우의 시작 전에 파티션/드라이브를 영구적으로 암호해제할 수 있습니다.\n\n- TRD는 첫번째 드라이브 트랙(* 보통 시스템 로더나 부트 관리자를 포함하고 있음)의 내용에 대한 백업을 포함하고 있으므로 이를 이용해서 필요한 경우 복구할 수 있습니다.\n\nTrueCrypt 응급복구 디스크 ISO 이미지는 아래의 지정된 위치에서 생성됩니다.</string>
+    <string lang="ko" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">“확인”을 클릭하면 Microsoft Windows Disc Image Burner가 실행됩니다. 이를 이용해서 TrueCrypt 응급복구 디스크 ISO 이미지를 CD 또는 DVD에 굽습니다.\n\n이 작업을 마친 후에 TrueCrypt 볼륨 만들기 마법사로 돌아가서 그 지침을 따릅니다.</string>
+    <string lang="ko" key="RESCUE_DISK_BURN_INFO">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 이미지를 CD 또는 DVD에 구울 필요가 있습니다.\n\n%ls응급복구 디스크를 구운 후, “다음”을 클릭해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_BURN_INFO_NO_CHECK">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 응급복구 디스크를 CD/DVD에 굽거나 나중에 사용하기 위해 안전한 위치에 ISO 이미지를 이동해야 합니다.\n\n%ls계속하려면 “다음”을 클릭합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">중요: 파일은 (개별 파일이 아닌) ISO 디스크 이미지로 CD/DVD에 구워져야 합니다. 굽기 작업에 대한 정보는 CD/DVD 리코딩 소프트웨어에 대한 문서를 참고해 주세요. ISO 디스크 이미지를 CD/DVD에 작성할 리코딩 소프트웨어가 없는 경우, 아래 링크를 클릭해서 무료 소프트웨어를 다운로드합니다.\n\n</string>
+    <string lang="ko" key="LAUNCH_WIN_ISOBURN">Microsoft Windows Disc Image Burner 실행</string>
+    <string lang="ko" key="RESCUE_DISK_BURN_NO_CHECK_WARN">주의: 과거에 TrueCrypt 응급복구 디스크를 이미 만든 경우, 이 디스크를 현재 시스템 파티션/드라이브에 다시 사용할 수 없습니다. 왜냐하면 서로 다른 마스터 키로 디스크가 생성되었기 때문입니다. 시스템 파티션/드라이브를 암호화할 때마다, 비록 동일한 비밀번호를 사용할지라도, 새로운 TrueCrypt 응급복구 디스크를 만들어야 합니다.</string>
+    <string lang="ko" key="CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS">오류: 시스템 암호화 설정을 저장할 수 없습니다.</string>
+    <string lang="ko" key="CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST">시스템 암호화 예비테스트를 시작할 수 없습니다.</string>
+    <string lang="ko" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">숨긴 운영체제의 생성 과정을 시작할 수 없습니다.</string>
+    <string lang="ko" key="WIPE_MODE_TITLE">지움 방식</string>
+    <string lang="ko" key="INPLACE_ENC_WIPE_MODE_INFO">일부 형식의 저장 매체에서, 데이터를 다른 데이터로 덮어쓰게 되면, Magnetic Force Microscopy 같은 기술을 이용해서 덮어쓰여진 데이터를 복구할 수 있습니다. 이것은 암호화된 형태로 덮어쓰여진 데이터에만 적용됩니다(→ 이는 TrueCrypt가 암호화되지 않은 파티션 또는 드라이브를 초기에 암호화한 경우에 발생합니다). 일부 연구와 정부 발표에 따르면, (의사무작위 및 비무작위 데이터로 여러번 데이터를 덮어쓰는 방법으로) 덮어쓰여진 데이터의 복구를 방지하거나 또는 매우 어렵게 할 수 있습니다. 그래서 만약 암호화할 데이터를 “적대적인 사람이 그러한 기술을 이용해서 복구할 수 있다”고 믿고 있다면, 여러분은 지움(wipe) 방식 중의 하나를 선택하고자 할 것입니다(→ 기존 데이터의 손실 없음). 지움(wiping)은 파티션/드라이브가 암호화된 후에는 실행되지 않습니다. 파티션/드라이브가 완전히 암호화되었을 때, 암호화되지 않은 모든 데이터는 쓰여질 수 없게 됩니다. 암호화된 파티션/드라이브에 쓰여지는 데이터는 먼저 실시간으로 메모리에서 암호화되고 그 후 (암호화된) 데이터가 디스크에 쓰여집니다.</string>
+    <string lang="ko" key="WIPE_MODE_INFO">일부 형식의 저장 매체에서, 데이터를 다른 데이터로 덮어쓰게 되면(예: 데이터가 지워진 경우), Magnetic Force Microscopy 같은 기술을 이용해서 덮어쓰여진 데이터를 복구할 수 있습니다. 일부 연구와 정부 발표에 따르면, (의사무작위 및 비무작위 데이터로 여러번 데이터를 덮어쓰는 방법으로) 덮어쓰여진 데이터의 복구를 방지하거나 또는 매우 어렵게 할 수 있습니다. 그래서 만약 지워진 데이터를 “적대적인 사람이 그러한 기술을 이용해서 복구할 수 있다”고 믿고 있다면, 여러분은 다중-지움 방식 중의 하나를 선택하고자 할 것입니다.\n\n참고: 지움 횟수가 많은 방식을 이용할수록 데이터를 지우는 시간은 더욱 길어지게 됩니다.</string>
+    <string lang="ko" key="DEVICE_WIPE_PAGE_TITLE">지우기</string>
+    <string lang="ko" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">\n참고: 사용자는 지우기 작업을 중단할 수 있고, 컴퓨터를 종료해서 숨긴 시스템을 다시 시작한 후 작업을 재개할 수 있습니다(* 이 마법사는 자동으로 실행됩니다). 그러나 사용자가 이를 중단하면, 지움 작업은 처음부터 다시 진행됩니다.</string>
+    <string lang="ko" key="DEVICE_WIPE_PAGE_INFO">\n\n참고: 사용자가 지움 작업을 중단하고 이 작업을 다시 시작하면, 지움 작업은 처음부터 다시 진행됩니다.</string>
+    <string lang="ko" key="CONFIRM_WIPE_ABORT">지움 작업을 중단하시겠습니까?</string>
+    <string lang="ko" key="CONFIRM_WIPE_START">주의: 선택한 파티션/장치의 모든 데이터는 지워지고 이를 잃게 됩니다.</string>
+    <string lang="ko" key="CONFIRM_WIPE_START_DECOY_SYS_PARTITION">원래의 시스템이 존재했던 파티션의 모든 데이터는 지워지게 됩니다.\n\n참고: 지워질 파티션의 모든 데이터는 이 숨긴 시스템 파티션으로 복사되었습니다.</string>
+    <string lang="ko" key="WIPE_MODE_WARN">주의: 예컨대 3번 지움 방식을 선택하게 되면 파티션/드라이브를 암호화하는 데 필요한 시간은 최대 4배가 길어집니다. 마찬가지로 35번 지움 방식을 선택하면, 최대 36배의 시간이 더 걸립니다(→ 이는 수주일이 걸릴 것입니다).\n\n그러나 지움(wiping)은 파티션/드라이브가 완전히 암호화된 후에는 실행되지 않습니다. 파티션/드라이브가 완전히 암호화되었을 때, 암호화되지 않은 모든 데이터는 쓰여질 수 없게 됩니다. 암호화된 파티션/드라이브에 쓰여지는 데이터는 먼저 실시간으로 메모리에서 암호화되고 그 후 (암호화된) 데이터가 디스크에 쓰여집니다(→ 그래서 실행에는 영향을 미치지 않습니다).\n\n지움 방식을 사용하시겠습니까?</string>
+    <string lang="ko" key="WIPE_MODE_NONE">없음 (가장 빠름)</string>
+    <string lang="ko" key="WIPE_MODE_1_RAND">1-번 (무작위 데이터)</string>
+    <string lang="ko" key="WIPE_MODE_3_DOD_5220">3-번 (US DoD 5220.22-M)</string>
+    <string lang="ko" key="WIPE_MODE_7_DOD_5220">7-번 (US DoD 5220.22-M)</string>
+    <string lang="ko" key="WIPE_MODE_35_GUTMANN">35-번 (“GUtmann”)</string>
+    <string lang="ko" key="SYS_MULTI_BOOT_MODE_TITLE">운영체제 개수</string>
+    <string lang="ko" key="MULTI_BOOT_FOR_ADVANCED_ONLY">주의: 경험이 없는 사용자는 “멀티-부트 설정의 윈도우”를 암호화하려고 시도해서는 안됩니다.\n\n계속하시겠습니까?</string>
+    <string lang="en" key="HIDDEN_OS_MULTI_BOOT">When creating/using a hidden operating system, TrueCrypt supports multi-boot configurations only when the following conditions are met:\n\n- The currently running operating system must be installed on the boot drive, which must not contain any other operating systems.\n\n- Operating systems installed on other drives must not use any boot loader residing on the drive on which the currently running operating system is installed.\n\nAre the above conditions met?</string>
+    <string lang="en" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">TrueCrypt does not support this multi-boot configuration when creating/using a hidden operating system.</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">부트 드라이브</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_HELP">현재 실행 중인 운영체제가 부트 드라이브에 설치되어 있습니까?\n\n참고: 때로 윈도우가 윈도우 부트 로더 (부트 파티션)와 동일한 드라이브에 설치되지 않은 경우도 있습니다. 이 경우에 “아니오”를 선택합니다.</string>
+    <string lang="ko" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">TrueCrypt는 운영체제가 설치되어 있는 드라이브에서 부팅을 하지 않는 운영체제의 암호화를 현재 지원하지 않고 있습니다.</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_TITLE">시스템 드라이브 수</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_HELP">운영체제에 몇 개의 드라이브가 있습니까?\n\n참고: 예컨대 사용자가 특정 운영체제(Windows, Mac OS X, Linux 등)를 첫번째(Primary) 드라이브에 설치하고, 다른 운영체제를 두번째(Secondary) 드라이브에 설치한 상태라면, “2 또는 그 이상”을 선택합니다.</string>
+    <string lang="ko" key="WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE">TrueCrypt는 다수의 운영체제를 포함하고 있는 전체 드라이브의 암호화를 현재 지원하지 않습니다.\n\n가능한 해결책:\n\n- 뒤로 가서 단일 시스템 파티션만을 암호화하는 것을 선택한다면(→ 이는 전체 시스템 드라이브를 암호화하는 것을 선택하는 것과 반대개념), 그 시스템 중 하나를 암호화할 수 있습니다.\n\n- 대체방법으로 사용자가 (암호화할 드라이브에 한 개의 시스템만 남겨둔 채) 시스템의 일부를 다른 드라이브로 옮긴 경우라면 전체 드라이브를 암호화할 수 있습니다.</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_TITLE">한 개 드라이브에 다중 시스템</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_HELP">현재 실행 중인 운영체제가 설치되어 있는 드라이브에 설치된 다른 운영체제가 있습니까?\n\n참고: 예컨대 현재 실행되고 있는 운영체제가 드라이브 #0에 설치된 경우, 이 드라이브엔 여러 개의 파티션이 있고, 그 중 하나의 파티션이 윈도우를 포함하고 있고, 다른 파티션이 또다른 운영체제를 포함하고 있는 경우라면(예: Windows, Mac OS X, Linux 등), “예”를 선택합니다.</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_TITLE">비-윈도우 부트 로더</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_HELP">비-윈도우 부트 로드(또는 부트 관리자)가 마스터 부트 레코드(MBR)에 설치되어 있습니까?\n\n참고: 예컨대 부트 드라이브의 첫번째 트랙에 GRUB, LILO, XOS 또는 다른 비-윈도우 부트 관리자(또는 부트 로더)가 있는 경우, “예”를 선택합니다.</string>
+    <string lang="ko" key="SYSENC_MULTI_BOOT_OUTCOME_TITLE">멀티-부트</string>
+    <string lang="ko" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">TrueCrypt는 MBR에 비-윈도우 부트 로더가 설치되어 있는 멀티-부트 설정을 현재 지원하지 않고 있습니다.\n\n가능한 해결책:\n\n- 윈도우와 리눅스를 부팅하기 위해 부트 관리자(보통 GRUB)를 사용 중이라면, 부트 관리자를 MBR에서 특정 파티션으로 이동시킵니다. 그런 다음 이 마법사를 다시 시작하고 시스템 파티션/드라이브를 암호화합니다. TrueCrypt 부트 로더는 사용자의 주요한 부트 관리자가 될 것이고, 원래의 부트 관리자(보통 GRUB)는 (TrueCrypt 부트 로더 화면에서 Esc를 눌러) 부차적으로 사용할 수 있습니다. 이런 방법으로 리눅스를 부팅할 수 있게 됩니다.</string>
+    <string lang="ko" key="WINDOWS_BOOT_LOADER_HINTS">현재 실행 중인 운영체제가 부트 파티션에 설치된 경우, 시스템을 암호화 후에는 (비록 사용자가 암호화되지 않은 다른 시스템을 시작하기를 원할 경우일지라도) 사용자는 올바른 비밀번호를 입력할 필요가 있습니다.\n\n반대로 현재 실행 중인 운영체제가 윈도우 부트 파티션에 설치되어 있지 않은 경우 (또는 윈도우 부트 로더/관리자가 다른 시스템에 의해 사용되지 않고 있는 경우), 시스템을 암호화한 후에는 암호화되지 않은 시스템을 부팅하기 위해 올바른 비밀번호를 입력할 필요가 없습니다. -- 암호화되지 않은 시스템을 시작하려면 Esc 키만 누르면 됩니다. (만약 다수의 암호화되지 않은 시스템이 있는 경우라면, TrueCrypt Boot Manager 메뉴에서 시작할 시스템을 선택할 필요가 있습니다.)\n\n참고: 보통 가장 초기에 설치된 윈도우 시스템은 부트 파티션에 설치되어 있습니다.</string>
+    <string lang="ko" key="SYSENC_PRE_DRIVE_ANALYSIS_TITLE">호스트로 보호된 영역의 암호화</string>
+    <string lang="ko" key="SYSENC_PRE_DRIVE_ANALYSIS_HELP">많은 드라이브의 끝에는 이른바 “호스트로 보호된 영역(Host Protected Area)”이라 불리며 대개 운영체제로부터 숨겨진 영역이 있습니다. 그러나 일부 프로그램은 그러한 영역의 데이터를 읽고 쓸 수 있습니다.\n\n주의: 일부 컴퓨터 제작자들은 그러한 영역에 RAID, 시스템 복구, 시스템 설정, 진단 또는 다른 목적을 위한 도구 및 데이터를 저장하기도 합니다. 만약 부팅-전에 그러한 도구 또는 데이터에 접근할 수 있는 경우라면, 숨긴 영역을 암호화해서는 안됩니다(→ 위에서 “아니오” 선택).\n\n시스템 드라이브의 끝에 있는 그러한 숨긴 영역이 존재하는 경우에 TrueCrypt가 이를 발견해서 암호화하도록 하시겠습니까?</string>
+    <string lang="ko" key="SYSENC_TYPE_PAGE_TITLE">시스템 암호화 형식</string>
+    <string lang="ko" key="SYSENC_NORMAL_TYPE_HELP">① 시스템 파티션 또는 ② 전체 시스템 드라이브를 단지 암호화만 하려면 이 옵션을 선택합니다.</string>
+    <string lang="en" key="SYSENC_HIDDEN_TYPE_HELP">It may happen that you are forced by somebody to decrypt the operating system. There are many situations where you cannot refuse to do so (for example, due to extortion). If you select this option, you will create a hidden operating system whose existence should be impossible to prove (provided that certain guidelines are followed). Thus, you will not have to decrypt or reveal the password to the hidden operating system. For a detailed explanation, please click the link below.</string>
+    <string lang="en" key="HIDDEN_OS_PREINFO">It may happen that you are forced by somebody to decrypt the operating system. There are many situations where you cannot refuse to do so (for example, due to extortion).\n\nUsing this wizard, you can create a hidden operating system whose existence should be impossible to prove (provided that certain guidelines are followed). Thus, you will not have to decrypt or reveal the password for the hidden operating system.</string>
+    <string lang="ko" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">숨긴 운영체제</string>
+    <string lang="ko" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">다음 단계에서 여러분은 시스템 파티션 뒤에 있는 첫번째 파티션 안에 2개의 TrueCrypt (외부 및 숨긴) 볼륨을 만들게 됩니다. 숨긴 볼륨은 “숨긴 운영체제(OS)”를 포함하게 됩니다. TrueCrypt는 현재 실행 중인 OS가 설치된 곳의 “시스템 파티션의 내용을 숨긴 볼륨에 복사함”으로써 숨긴 OS를 만듭니다. 겉으로 보기에 상당히 민감하게 보이지만 숨기고 싶지 않은 일부 파일들을 외부 볼륨에 복사합니다. 강요에 의해 “숨긴 OS 파티션의 비밀번호”를 노출해야만 하는 경우, 거기에 있는 파일들이 표시됩니다. 숨긴 OS 파티션 내에 있는 “외부 볼륨의 비밀번호”는 노출될 수 있지만, 숨긴 OS의 존재는 여전히 비밀로 남습니다.\n\n마지막으로 현재 실행 중인 운영체제에서 새로운 OS(→ 이른바 미끼용 OS)를 설치하고 이를 암호화할 수 있습니다. 미끼용 OS는 민감한 데이터를 포함하지 않아야 하며, 이는 부팅-전 인증 비밀번호의 노출을 강요하는 사람을 위한 것입니다. 정리하면 3개의 비밀번호가 있습니다. 그 중 2개의(→ 미끼용 OS 및 외부 볼륨을 위한) 비밀번호는 공격자에게 공개해도 무방합니다. 제3의 비밀번호를 사용하면, “숨긴 OS”가 시작됩니다.</string>
+    <string lang="ko" key="SYSENC_DRIVE_ANALYSIS_TITLE">숨겨진 섹터를 탐지 중</string>
+    <string lang="ko" key="SYSENC_DRIVE_ANALYSIS_INFO">TrueCrypt가 시스템 드라이브의 끝에 있음직한 숨겨진 섹터를 탐지하는 동안 잠시 기다려 주세요. 완료하려면 상당한 시간이 걸릴 수도 있습니다.\n\n참고: 아주 가끔 일부 컴퓨터에서 탐지 과정 중에 시스템의 응답이 없을 수도 있습니다. 이러한 경우에는, ① 컴퓨터를 다시 시작한 후 ② TrueCrypt를 시작해서 ③ (이러한 탐지 과정을 제외한) 이전 단계를 반복합니다. 이 문제는 TrueCrypt의 버그에 의해 발생한 문제가 아닙니다.</string>
+    <string lang="ko" key="SYS_ENCRYPTION_SPAN_TITLE">암호화할 영역</string>
+    <string lang="ko" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">현재 실행 중인 윈도우 시스템이 설치된 드라이브 전체를 암호화하려면 이 옵션을 선택합니다. 전체 드라이브(→ 모든 파티션 포함)가 암호화됩니다만, TrueCrypt 부트 로더가 자리잡는 첫번째 트랙은 암호화에서 제외됩니다. 드라이브에 설치된 시스템 또는 드라이브에 저장된 파일에 접근하려는 사람은 시스템 시작 전에 매번 올바른 비밀번호를 입력해야 합니다. 이 옵션은 윈도우가 설치되지 않았고 또한 부팅이 되지 않는 두번째 또는 외부 드라이브를 암호화하는 데 사용될 수 없습니다.</string>
+    <string lang="ko" key="COLLECTING_RANDOM_DATA_TITLE">무작위 데이터를 수집 중</string>
+    <string lang="ko" key="KEYS_GEN_TITLE">키가 생성됨</string>
+    <string lang="en" key="CD_BURNER_NOT_PRESENT">TrueCrypt has found no CD/DVD burner connected to your computer. TrueCrypt needs a CD/DVD burner to burn a bootable TrueCrypt Rescue Disk containing a backup of the encryption keys, TrueCrypt boot loader, original system loader, etc.\n\nWe strongly recommend that you burn the TrueCrypt Rescue Disk.</string>
+    <string lang="en" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO">I have no CD/DVD burner but I will store the Rescue Disk ISO image on a removable drive (e.g. USB flash drive).</string>
+    <string lang="en" key="CD_BURNER_NOT_PRESENT_WILL_CONNECT_LATER">I will connect a CD/DVD burner to my computer later. Terminate the process now.</string>
+    <string lang="en" key="CD_BURNER_NOT_PRESENT_CONNECTED_NOW">A CD/DVD burner is connected to my computer now. Continue and write the Rescue Disk.</string>
+    <string lang="en" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">Please follow these steps:\n\n1) Connect a removable drive, such as a USB flash drive, to your computer now.\n\n2) Copy the TrueCrypt Rescue Disk image file (%s) to the removable drive.\n\nIn case you need to use the TrueCrypt Rescue Disk in the future, you will be able to connect your removable drive (containing the TrueCrypt Rescue Disk image) to a computer with a CD/DVD burner and create a bootable TrueCrypt Rescue Disk by burning the image to a CD or DVD. IMPORTANT: Note that the TrueCrypt Rescue Disk image file must be written to the CD/DVD as an ISO disk image (not as an individual file).</string>
+    <string lang="ko" key="RESCUE_DISK_RECORDING_TITLE">응급복구 디스크 굽기</string>
+    <string lang="ko" key="RESCUE_DISK_CREATED_TITLE">응급복구 디스크가 생성됨</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_TITLE">시스템 암호화 예비테스트</string>
+    <string lang="ko" key="RESCUE_DISK_DISK_VERIFIED_TITLE">응급복구 디스크 검증</string>
+    <string lang="ko" key="RESCUE_DISK_VERIFIED_INFO">\nTrueCrypt 응급복구 디스크를 성공적으로 검증했습니다. 이제 드라이브에서 디스크를 제거하고 안전한 장소에 보관해 주세요.\n\n계속하려면 “다음”을 클릭하세요.</string>
+    <string lang="ko" key="REMOVE_RESCUE_DISK_FROM_DRIVE">주의: 다음 단계를 진행하는 동안 TrueCrypt 응급복구 디스크가 드라이브에 존재하지 않아야 합니다. 그렇지 않으면, 그 단계를 올바르게 완료할 수 없게 됩니다.\n\n드라이브에서 제거한 다음 안전한 장소에 보관해 주세요. 그 다음에 “확인”을 클릭합니다.</string>
+    <string lang="ko" key="PREBOOT_NOT_LOCALIZED">주의: 부팅-전 환경의 기술적 제한때문에, 부팅-전 환경(예: 윈도우 시작 전)에서 TrueCrypt에 의해 표시되는 텍스트는 현지화될 수 없습니다. TrueCrypt 부트 로더 인터페이스는 모두 영어입니다.\n\n계속하시겠습니까?</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO">시스템 파티션 또는 드라이브를 암호화하기 전에, TrueCrypt는 모든 것이 올바르게 작동하는지 여부를 검증할 필요가 있습니다.\n\n“테스트”를 클릭하면, 필요한 모든 구성요소(예: 부팅-전 인증 요소 즉 TrueCrypt 부트 로더)가 설치되고 컴퓨터가 다시 시작될 것입니다. 그리고나서 윈도우가 시작되기 전에 TrueCrypt 부트 로더 화면에서 비밀번호를 입력해야 합니다. 윈도우가 시작되면, 예비테스트 결과를 자동으로 통지받게 됩니다.\n\n다음과 같은 장치가 수정됩니다: 장치 #%d\n\n\n지금 “취소”를 클릭하면 어떤 것도 설치되지 않고 예비테스트는 실행되지 않습니다.</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">중요한 메모 -- 읽거나 (“인쇄”를 클릭해서) 인쇄를 해주세요:\n\n컴퓨터를 성공적으로 다시 시작하거나 윈도우를 시작하기 전에는 어떤 파일도 암호화되지 않습니다. 그래서 어떤 실패가 있더라도 사용자의 데이터는 손실되지 않습니다. 그러나 무엇인가 잘못될 경우, 윈도우를 시작하는 데 어려움을 겪을 수도 있습니다. 그러므로 컴퓨터를 다시 시작한 후에 “윈도우가 시작되지 않는 경우 해야 할 일”에 대한 다음 안내문을 반드시 읽어 주십시오(* 가능하다면 인쇄하길 권장합니다).\n\n</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">윈도우가 시작되지 않는 경우 해야 할 일 ------------------------------------------------\n\n참고: 이 지침은 사용자가 암호화 작업을 시작하지 않은 경우에만 타당합니다.\n\n- 반복해서 올바른 비밀번호를 입력했는데도 TrueCrypt가 잘못된 비밀번호를 입력했다고 말할 경우에 당황하지 마세요. 컴퓨터를 다시 시작하고, TrueCrypt 부트 로더 화면에서, Esc 키를 누릅니다. 멀티 시스템인 경우에는 시작할 시스템을 선택하세요. 그러면 윈도우가 시작되고(→ 암호화가 되지 않은 경우에 해당) TrueCrypt가 부팅-전 인증 요소를 제거할 것인지 여부를 자동으로 묻게 됩니다. 만약 시스템 파티션/드라이브가 암호화된 경우라면 이전 단계가 동작하지 않게 됩니다. 어느 누구도 (설령 그가 이전 단계를 따랐다고 하더라도) 올바른 비밀번호 없이 드라이브의 암호화된 데이터에 접근하거나 윈도우를 시작할 수 없습니다.\n\n</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- 만약 이전 단계가 도움이 되지 않거나 (윈도우가 시작되기 전에) TrueCrypt 부트 로더 화면이 나타나지 않으면, TrueCrypt 응급복구 디스크를 CD/DVD 드라이브에 삽입한 다음 컴퓨터를 다시 시작합니다. 만약 ① TrueCrypt 응급복구 디스크 화면이 나타나지 않거나 ② TrueCrypt 응급복구 디스크 화면의 “키보드 컨트롤” 섹션에서 Repair Option(수리 옵션) 항목을 볼 수 없는 경우, BIOS 설정에서 CD/DVD 부팅보다 하드 디스크 부팅이 먼저 되도록 설정되어 있는 경우일 수 있습니다. 이런 경우라면, 컴퓨터를 다시 시작한 다음 (BIOS 화면이 나타난 순간) F2 또는 Delete 키를 누르고 잠시 기다리면 BIOS 설정 화면이 나타납니다. BIOS 설정 화면이 나타나지 않으면 컴퓨터를 다시 시작하고 F2 또는 Delete 키를 누르는 것을 반복합니다. BIOS 설정 화면이 나타나면, CD/DVD 드라이브가 제일 먼저 부팅되도록 설정합니다(자세한 정보는 BIOS 또는 motherboard를 위한 문서를 참고하거나 컴퓨터 판매처의 기술지원 팀에게 도움을 요청하시기 바랍니다). 그런 다음 컴퓨터를 다시 시작합니다. 이제 TrueCrypt 응급복구 디스크 화면이 나타날 것입니다. TrueCrypt 응급복구 디스크 화면에서, F8을 눌러 “Repair Options”를 선택합니다. “Repair Options” 메뉴에서 “Restore original system loader”를 선택합니다. 그런 다음 응급복구 디스크를 CD/DVD 드라이브에서 제거한 다음 컴퓨터를 다시 시작합니다. (암호화가 해제된 경우) 윈도우가 정상적으로 시작됩니다.\n\n</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">만약 시스템 파티션/드라이브가 암호화된 경우라면 이전 단계가 동작하지 않게 됩니다. 어느 누구도 (설령 그가 이전 단계를 따랐다고 하더라도) 올바른 비밀번호 없이 드라이브의 암호화된 데이터에 접근하거나 윈도우를 시작할 수 없습니다.\n\n\n사용자가 TrueCrypt 응급복구 디스크를 분실하고 공격자가 이를 발견했을지라도 올바른 비밀번호 없이는 시스템 파티션 또는 드라이브의 암호를 해제할 수 없습니다.</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">예비테스트 완료</string>
+    <string lang="ko" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">예비테스트를 성공적으로 완료했습니다.\n\n주의: 기존의 자체 데이터를 암호화하는 동안 ① 전력 공급이 갑자기 중단되거나 ② 소프트웨어 또는 하드웨어의 문제때문에 운영체제가 충돌을 일으키면, 일부 데이터가 손상되거나 유실될 수 있습니다. 그러므로 암호화 작업을 시작하기 전에 암호화하고자 하는 파일의 복사을 백업해 두었는지를 확인해야 합니다. 백업을 하지 않은 경우라면 지금 파일들을 백업해 두시기 바랍니다. “연기”를 클릭해서 파일을 백업하고 TrueCrypt를 다시 실행한 다음, 암호화를 시작하려면 “시스템” ▶ “중단된 진행을 다시 시작”을 선택합니다.\n\n준비가 되었고 암호화 작업을 시작하려면 “암호화”를 클릭하세요.</string>
+    <string lang="ko" key="SYSENC_ENCRYPTION_PAGE_INFO">사용자는 언제라도 암호화 또는 암호해제 작업을 중단시키기 위해 “정지” 또는 “연기”를 클릭할 수 있고, 마법사를 종료한 후 컴퓨터를 다시 시작하고, 중단된 시점부터 다시 작업을 진행시킬 수 있습니다. 시스템 또는 프로그램이 시스템 드라이브의 데이터를 읽고 쓸 때 속도저하를 막기 위해, TrueCrypt는 데이터가 읽고 쓰여질 때까지 자동으로 대기한 다음 암호화 또는 암호해제 작업을 자동으로 계속합니다.</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n사용자는 언제라도 암호화 작업을 중단시키기 위해 “정지” 또는 “연기”를 클릭할 수 있고, 마법사를 종료한 후 컴퓨터를 다시 시작하고, 중단된 시점부터 다시 작업을 진행시킬 수 있습니다. 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입할 수 없습니다.</string>
+    <string lang="ko" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">숨겨진 시스템이 시작됨</string>
+    <string lang="ko" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">원래의 시스템</string>
+    <string lang="ko" key="SYSENC_HIDDEN_OS_WIPE_INFO">윈도우는 (대개 사용자의 인식 또는 동의 없이) 시스템 파티션에 다양한 로그 파일, 임시 파일 등을 만듭니다. 또한 RAM의 내용을 시스템 파티션에 위치한 최대 절전 모드 및 페이징 파일에 저장하기도 합니다. 그래서 적대자가 원래의 시스템(* 이 시스템의 숨겨진 시스템은 복제된 것임)이 존재했던 파티션에 저장된 내용을 분석해서 예컨대 숨긴-시스템-생성 모드에서 TrueCrypt 마법사를 사용했다는 사실(→ 이는 컴퓨터에 숨긴 운영체제가 존재한다는 것을 의미)을 발견할 수도 있습니다.\n\n이런 문제점을 방지하기 위해 TrueCrypt는 다음 단계에서 원래의 시스템이 있었던 파티션의 전체 내용을 안전하게 지우게 됩니다. 이후 그럴싸한 거절방법을 만들기 위해 사용자는 “파티션에 새로운 시스템을 설치해서 이를 암호화”할 필요가 있습니다. 사용자가 미끼용 시스템을 만들게 되면, 숨긴 운영체제 생성의 전체 과정은 마무리되게 됩니다.</string>
+    <string lang="ko" key="OS_WIPING_NOT_FINISHED_ASK">숨긴 운영체제가 성공적으로 만들어졌습니다. 그러나 이를 사용하기 전에(* 또한 그럴싸한 거절방법을 만들기 전에), 현재 실행 중인 운영체제가 설치되어 있는 파티션의 전체 내용을 TrueCrypt를 이용해서 안전하게 지워야 할 필요가 있습니다. 이 작업을 하기 전에 컴퓨터를 다시 시작한 다음 TrueCrypt 부트 로더 화면(→ 윈도우 시작 전에 나타남)에서 미끼용 운영체제에 대한 비밀번호를 입력합니다. 그러면 숨긴 시스템이 시작이 되고, TrueCrypt 마법사가 자동으로 실행됩니다.\n\n참고: 숨긴 운영체제의 생성 과정 작업을 지금 종료하도록 선택한 경우, 이 작업을 다시 시작할 수 없게 되고, 숨긴 시스템에 접근할 수 없게 됩니다(* TrueCrypt 부트 로더가 제거되었기 때문).</string>
+    <string lang="ko" key="HIDDEN_OS_CREATION_NOT_FINISHED_ASK">숨긴 운영체제의 생성 과정을 예약했습니다. 진행 작업이 아직 완료되지 않았습니다. 작업을 완료하려면 컴퓨터를 다시 시작한 다음 TrueCrypt 부트 로더 화면(→ 윈도우 시작 전에 나타남)에서 미끼용 운영체제에 대한 비밀번호를 입력해야 합니다.\n\n참고: 숨긴 운영체제의 생성 과정 작업을 지금 종료하도록 선택한 경우, 이 작업을 다시 시작할 수 없게 됩니다.</string>
+    <string lang="ko" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_RETRY">컴퓨터를 다시 시작한 후 계속 진행</string>
+    <string lang="ko" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_TERMINATE">숨긴 운영체제의 생성 과정 작업을 완전히 종료</string>
+    <string lang="ko" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_ASK_LATER">지금 아무 것도 안하고 나중에 다시 묻기</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_1">\n가능하다면 다음 텍스트를 인쇄해 주세요(* 아래의 “인쇄” 클릭).\n\n\n(암호화 후) TrueCrypt 응급복구 디스크 사용 방법 및 그 시기 -----------------------------------------------------------------------------------\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_2">I. TrueCrypt 응급복구 디스크 부팅 방법\n\nTrueCrypt 응급복구 디스크로 부팅하려면, CD/DVD 드라이브를 삽입한 다음 컴퓨터를 다시 시작합니다. 만약 ① TrueCrypt 응급복구 디스크 화면이 나타나지 않거나 ② TrueCrypt 응급복구 디스크 화면의 “키보드 컨트롤” 섹션에서 Repair Option(수리 옵션) 항목을 볼 수 없는 경우, BIOS 설정에서 CD/DVD 부팅보다 하드 디스크 부팅이 먼저 되도록 설정되어 있는 경우일 수 있습니다. 이런 경우라면, 컴퓨터를 다시 시작한 다음 (BIOS 화면이 나타난 순간) F2 또는 Delete 키를 누르고 잠시 기다리면 BIOS 설정 화면이 나타납니다. BIOS 설정 화면이 나타나지 않으면 컴퓨터를 다시 시작하고 F2 또는 Delete 키를 누르는 것을 반복합니다. BIOS 설정 화면이 나타나면, CD/DVD 드라이브가 제일 먼저 부팅되도록 설정합니다(자세한 정보는 BIOS 또는 motherboard를 위한 문서를 참고하거나 컴퓨터 판매처의 기술지원 팀에게 도움을 요청하시기 바랍니다). 그런 다음 컴퓨터를 다시 시작합니다. 이제 TrueCrypt 응급복구 디스크 화면이 나타날 것입니다. 참고: TrueCrypt 응급복구 디스크 화면에서, F8을 눌러 “Repair Options”를 선택합니다.\n\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_3">II. (암호화 후) TrueCrypt 응급복구 디스크 사용 방법 및 그 시기\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_4">1) 만약 컴퓨터를 다시 시작한 후에 TrueCrypt 부트 로더 화면이 나타나지 않거나 (또는 윈도우 부팅이 되지 않는 경우), TrueCrypt 부트 로더가 손상되었을 수도 있습니다. TrueCrypt 응급복구 디스크를 이용해서 이를 복구할 수 있고 암호화된 시스템 및 데이터에 다시 접근할 수 있습니다. 그러나 여전히 올바른 비밀번호를 입력해야만 합니다. 응급복구 디스크 화면에서, “Repair Options” ▶ “Restore TrueCrypt Boot Loader”를 선택합니다. 작업을 승인하려면 “Y”를 누른 다음, CD/DVD 드라이브에서 응급복구 디스크를 제거한 후 컴퓨터를 다시 시작합니다.\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_5">2) 올바른 비밀번호를 반복해서 입력했지만 TrueCrypt가 잘못된 비밀번호라고 하는 경우, 마스터 키 또는 다른 중요한 데이터가 손상되었을 수도 있습니다. TrueCrypt 응급복구 디스크를 이용해서 이를 복구할 수 있고 암호화된 시스템 및 데이터에 다시 접근할 수 있습니다. 그러나 여전히 올바른 비밀번호를 입력해야만 합니다. 응급복구 디스크 화면에서, “Repair Options” ▶ “Restore key data”를 선택합니다. 비밀번호를 입력 후 “Y”를 눌러 이를 승인한 다음, CD/DVD 드라이브에서 응급복구 디스크를 제거한 후 컴퓨터를 다시 시작합니다.\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_6">3) 만약 TrueCrypt 부트 로더가 손상된 경우, TrueCrypt 응급복구 디스크로 직접 부팅해서 그 실행을 피할 수 있습니다. CD/DVD 드라이브에 응급복구 디스크를 삽입한 다음 응급복구 화면에서 비밀번호를 입력합니다.\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_7">4) 만약 윈도우기 손상되어 시작되지 않는 경우, (TrueCrypt 응급복구 디스크를 이용해서) 윈도우가 시작되기 전에 파티션/드라이브를 영구적으로 암호해제할 수 있습니다. 응급복구 디스크 화면에서, “Repair Options”(수리 옵션) ▶ “Permanently decrypt system partition/drive”(시스템 파티션/드라이브의 영구적 암호해제)를 선택합니다. 그런 다음 올바른 비밀번호를 입력하고 암호해제 작업이 끝날 때까지 기다립니다. 이제 윈도우 설치를 수리하기 위해 예컨대 MS 윈도우 설치 CD/DVD로 부팅할 수 있습니다.\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_8">참고: 또다른 방법으로는, 만약 윈도우가 손상되어(→ 시작 불능) 이를 수리할 필요가 있는 경우(→ 또는 윈도우의 파일에 접근해야 하는 경우) 다음 단계에 의해 시스템 파티션/드라이브의 암호해제를 피할 수 있습니다. 컴퓨터에 설치된 운영체제가 여러 개인 경우, 부팅-전 인증을 필요로 하지 않는 운영체제로 부팅을 합니다. 컴퓨터에 여러 운영체제가 없는 경우에는 ① WinPE 또는 BartPE CD/DVD로 부팅을 하거나 ② 두번째(Secondary) 또는 외부 드라이브인 시스템 드라이브를 다른 컴퓨터에 연결해서 컴퓨터에 설치되어 있는 운영체제에 연결할 수 있습니다. 시스템을 부팅한 다음 TrueCrypt를 실행하고 “장치 선택”을 클릭해서 문제가 생긴 시스템 파티션을 선택한 후 “확인”을 클릭하고 “시스템 ▶ 부팅-전 인증 없이 삽입”을 선택한 다음 부팅-전-인증 암호를 입력한 후 “확인”을 클릭합니다. 보통의 TrueCrypt 볼륨으로서 파티션이 삽입됩니다(→ 여느 때처럼 데이터가 RAM에서 바로 암호해제/암호화됩니다).\n\n\n</string>
+    <string lang="ko" key="RESCUE_DISK_HELP_PORTION_9">사용자가 TrueCrypt 응급복구 디스크를 분실하고 공격자가 이를 발견했을지라도 올바른 비밀번호 없이는 시스템 파티션 또는 드라이브의 암호를 해제할 수 없습니다.</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_1">\n\n중 요 -- 가능하다면 다음 텍스트를 인쇄해 주십시오(→ 아래 “인쇄” 클릭).\n\n참고: 이 텍스트는 사용자가 숨긴 시스템을 시작할 때마다 미끼용 시스템을 만들기 시작할 때까지 자동으로 표시됩니다.\n\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_2">미끼용 시스템을 안전하게 만드는 방법 ----------------------------------------------------------------------------\n\n그럴싸한 거절방법을 만들려면, 사용자는 미끼용 시스템을 지금 만들어야 합니다. 이 작업을 하려면 다음 지침을 따릅니다:\n\n</string>
+    <string lang="en" key="DECOY_OS_INSTRUCTIONS_PORTION_3">1) For security reasons, shut down your computer and leave it powered off for at least several minutes (the longer, the better). This is required to clear the memory, which contains sensitive data. Then turn on the computer but do not boot the hidden system.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2) 지워진 데이터를 가지고 있었던 파티션(예: 원래의 시스템이 설치되어 있었던 파티션)에 윈도우를 설치합니다.\n\n중 요: 미끼용 시스템의 설치를 시작하면, 숨긴 시스템을 부팅되지 않습니다(→ 왜냐하면 윈도우 시스템 설치기에 의해 TrueCrypt 부트 로더가 지워지기 때문입니다). 이는 예견되었던 정상적인 상태입니다. 당황하지 마시기 바랍니다. 미끼용 시스템의 암호화를 시작하는 순간부터 숨긴 시스템을 다시 부팅시킬 수 있습니다(* TrueCrypt가 시스템 드라이브에 TrueCrypt 부트 로더를 자동으로 설치하기 때문입니다).\n\n중요: 미끼용 시스템 파티션의 크기는 숨긴 볼륨의 크기와 동일해야 합니다(* 이 조건은 이제 충족되었습니다). 또한 “미끼용 시스템 파티션”과 “숨긴 시스템이 존재하는 파티션” 사이에 다른 파티션을 만들어서는 안됩니다.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3) 미끼용 시스템(→ 2단계에서 설치하고 이에 TrueCrypt를 설치한 파티션)을 부팅합니다.\n\n미끼용 시스템에 민감한 데이터를 포함시켜선 안됩니다.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4) 미끼용 시스템에서 TrueCrypt를 실행한 후 “시스템” &gt; “시스템 파티션/드라이브 암호화”를 선택합니다. TrueCrypt 볼륨 만들기 마법사 창이 나타날 것입니다.\n\nTrueCrypt 볼륨 만들기 마법사에 다음 단계들이 적용됩니다.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5) TrueCrypt 볼륨 만들기 마법사에서 “숨김” 옵션을 선택하지 마시기 바랍니다. 선택된 “표준” 옵션을 그래도 둔 채 “다음”을 클릭합니다.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_8">6) “윈도우 시스템 파티션 암호화” 옵션을 선택한 후 “다음”을 클릭합니다.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_9">7) 컴퓨터에 숨긴 시스템과 미끼용 시스템만 설치되어 있는 경우, “싱글-부트” 옵션을 선택합니다(* 이러한 2개 시스템 이상이 컴퓨터에 설치되어 있는 경우라면 “멀티-부트”를 선택합니다). “다음”을 클릭합니다.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_10">8) 중요: 이 단계에서 “숨긴 시스템”을 위해 선택했던 암호화 알고리듬과 해시 알고리듬을 “미끼용 시스템”에도 동일하게 적용해야 합니다. 그렇지 않으면 “숨긴 시스템”에 접근하지 못하게 됩니다! 다시 말해 미끼용 시스템은 “숨긴 시스템”과 동일한 암호 알고리듬으로 암호화되어야 합니다. 참고: 그 이유는 미끼용 시스템과 숨긴 시스템은 한 개의 부트 로더를 공유하게 되는데, 이 부트 로더는 사용자가 선택한 단일 알고리듬만을 지원하기 때문입니다(* 각 알고리듬에 대해 특별한 버전의 TrueCrypt 부트 로더가 있습니다).\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_11">9) 이 단계에서 미끼용 운영체제에 대한 비밀번호를 선택합니다. 이것은 부팅-전 인증 비밀번호를 강요하거나 요청받은 경우에 그 강요자에게 표시할 비밀번호입니다. 표시할 수 있는 다른 비밀번호는 외부 볼륨에 대한 것입니다. 제3의 비밀번호(→ 숨긴 운영체제를 위한 부팅-전 인증 비밀번호)의 존재는 여전히 비밀로 남습니다.\n\n중요: 미끼용 시스템을 위해 선택한 비밀번호는 숨긴 볼륨(→ 숨긴 운용체제)용으로 선택했던 비밀번호와 서로 달라야 합니다.</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_12">10) 마법사의 나머지 지침들을 따라 미끼용 운영체제를 암호화합니다.\n\n\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_13">미끼용 시스템이 만들어진 이후 ------------------------------------------------\n\n미끼용 시스템을 암호화한 이후, 숨긴 운영체제의 생성 과정은 모두 완료되고 사용자는 이제 3가지의 비밀번호를 사용할 수 있게 됩니다:\n\n1) 숨긴 운영체제용 부팅-전 인증 비밀번호\n\n2) 미끼용 운영체제용 부팅-전 인증 비밀번호\n\n3) 외부 볼륨용 비밀번호\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_14">숨긴 운영체제를 시작하려면, TrueCrypt 부트 로더 화면(→ 컴퓨터를 켜거나 재시작할 때 나타남)에서 숨긴 운영체제용 비밀번호를 입력합니다.\n\n미끼용 운영체제를 시작하려면, TrueCrypt 부트 로더 화면에서 미끼용 운영체제용 비밀번호를 입력합니다.\n\n미끼용 시스템에 대한 비밀번호는, 부팅-전 인증 비밀번호의 노출을 강요하는 사람에게, 표시될 수 있습니다. 숨긴 볼륨 (및 숨긴 운영체제)의 존재는 여전히 비밀로 남습니다.\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_15">세번째 비밀번호(* 외부 볼륨용)는 노출을 강요하는 자에게 공개되어도 상관이 없는 “시스템 파티션 뒤의 첫번째 파티션에 대한 비밀번호용”입니다. 시스템 파티션에는 ① 외부 볼륨 및 ② 숨긴 볼륨(→ 숨긴 운영체제 포함)이 자리잡고 있습니다. 숨긴 볼륨 (및 숨긴 운영체제)의 존재는 여전히 비밀로 남습니다.\n\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_16">적대자에게 미끼용 시스템의 비밀번호를 노출했는데, 그가 (미끼용) 시스템의 여유 공간에 왜 무작위 데이터가 있는지를 물어볼 경우, 다음의 예와 같이 답변할 수 있습니다: “이 파티션은 TrueCrypt에 의해 암호화된 시스템을 포함하고 있었던 이전에 포함하고 있었다. 그러나 부팅-전 인증 비밀번호를 잊어버렸다(* 또는 시스템이 손상되었거나 부팅이 되지 않는다). 그래서 윈도우를 다시 설치한 후 파티션을 다시 암호화할 수밖에 없었다.”\n\n\n</string>
+    <string lang="en" key="DECOY_OS_INSTRUCTIONS_PORTION_17">If all the instructions are followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the TrueCrypt User's Guide are followed, it should be impossible to prove that the hidden volume and hidden operating system exist, even when the outer volume is mounted or when the decoy operating system is decrypted or started.\n\nIf you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after you have created the decoy system and after you have understood all the information contained in the text (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).\n\n</string>
+    <string lang="ko" key="DECOY_OS_INSTRUCTIONS_PORTION_18">주의: “숨긴 볼륨을 보호하지 않은 경우라면(→ 보호하는 방법은 TrueCrypt 사용자 안내서의 “Protection of Hidden Volumes Against Damage” 부분 참고), 절대로 “외부 볼륨”에 쓰기를 해서는 안됩니다. 미끼용 운영체제가 외부 볼륨에 설치되어 있지 않다는 점을 명심하세요. 만약 외부 볼륨에 데이터를 작성해 버리면 숨긴 볼륨(→ 이 안에 숨긴 운영체제가 존재함)을 덮어쓰게 되고 이를 손상시키게 됩니다.</string>
+    <string lang="ko" key="HIDDEN_OS_CREATION_PREINFO_TITLE">운영체제 복제(cloning)</string>
+    <string lang="ko" key="HIDDEN_OS_CREATION_PREINFO_HELP">다음 단계에서 TrueCrypt는 시스템 파티션의 내용을 숨긴 볼륨에 복사하는 방법으로 숨긴 운영체제를 만듭니다. 복사되는 데이터는 미끼용 운영체제에서 사용되는 키와 다른 것으로 실시간으로 암호화됩니다.\n\n진행 과정은 부팅-전 환경(→ 윈도우 시작 전)에서 실행되고, 완료하는데 많은 시간이 소요될 수 있습니다(→ 시스템 파티션의 크기 및 컴퓨터의 성능에 따라 몇 시간 또는 몇 일이 걸릴 수 있습니다).\n\n여러분은 진행 과정에 간섭할 수 있으며, 컴퓨터를 종료하고 운영체제를 시작하며 진행 과정을 다시 시작할 수도 있습니다. 그러나 진행 과정에 간섭을 할 경우, 시스템 복사 작업은 처음부터 시작하게 됩니다. 왜냐하면 시스템 파티션의 내용은 복제하는 동안 변경되어선 안되기 때문입니다.</string>
+    <string lang="ko" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">숨긴 운영체제의 전체 생성 작업을 취소하시겠습니까?\n\n참고: 지금 취소하게 되면 이 진행 작업을 다시 시작할 수 없게 됩니다.</string>
+    <string lang="ko" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">시스템 암호화 예비테스트를 취소하시겠습니까?</string>
+    <string lang="en" key="BOOT_PRETEST_FAILED_RETRY">The TrueCrypt system encryption pretest failed. Do you want to try again?\n\nIf you select 'No', the pre-boot authentication component will be uninstalled.\n\nNotes:\n\n- If the TrueCrypt Boot Loader did not ask you to enter the password before Windows started, it is possible that your operating system does not boot from the drive on which it is installed. This is not supported.\n\n- If you used an encryption algorithm other than AES and the pretest failed (and you entered the password), it may have been caused by an inappropriately designed driver. Select 'No', and try encrypting the system partition/drive again, but use the AES encryption algorithm (which has the lowest memory requirements).\n\n- For more possible causes and solutions, see: http://www.truecrypt.org/docs/?s=troubleshooting</string>
+    <string lang="ko" key="SYS_DRIVE_NOT_ENCRYPTED">시스템 파티션/드라이브가 (부분적으로 또는 완전히) 암호화되지 않은 것으로 보입니다.</string>
+    <string lang="ko" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">시스템 파티션/드라이브가 (완전히 또는 부분적으로) 암호화되었습니다.\n\n작업을 진행하기 전에 시스템 파티션/드라이브를 완전히 암호해제시켜 주세요. 해제하려면 TrueCrypt 메인 창의 메뉴표시줄에서 “시스템” ▶ “시스템 파티션/드라이브 영구적 암호해제”를 선택하세요.</string>
+    <string lang="ko" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">시스템 파티션/드라이브가 (완전히 또는 부분적으로) 암호화된 경우, TrueCrypt를 다운그레이드할 수 없습니다(* 업그레이드하거나 동일 버전을 재설치할 수는 있습니다).</string>
+    <string lang="ko" key="SYS_ENCRYPTION_OR_DECRYPTION_IN_PROGRESS">시스템 파티션/드라이브가 현재 암호화, 암호해제 또는 다른 방식으로 수정되었습니다. 작업을 진행하기 전에 암호화/암호해제/수정 작업 진행을 중단해 주세요(또는 마칠 때까지 기다립니다).</string>
+    <string lang="ko" key="SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE">TrueCrypt 볼륨 만들기 마법사가 현재 이 시스템에서 실행되어 시스템 파티션/드라이브에 대해 암호화/암호해제 작업을 수행 중이거나 준비 중입니다. 진행하기 전에, 그 작업이 끝날 때까지 기다리거나 닫아 주세요. 만약 닫기 작업이 되지 않는 경우에는 진행 전에 컴퓨터를 다시 시작해야 합니다.</string>
+    <string lang="ko" key="SYSTEM_ENCRYPTION_NOT_COMPLETED">시스템 파티션/드라이브에 대한 암호화 또는 암호해제 작업 진행이 완료되지 않았습니다. 진행하기 전에 작업이 마칠 때까지 기다려 주세요.</string>
+    <string lang="ko" key="ERR_ENCRYPTION_NOT_COMPLETED">오류: 시스템 파티션/드라이브에 대한 암호화 작업이 완료되지 않았습니다. 먼저 작업을 완료해야 합니다.</string>
+    <string lang="ko" key="ERR_NONSYS_INPLACE_ENC_INCOMPLETE">오류: 시스템 파티션/볼륨에 대한 암호화 작업이 완료되지 않았습니다. 먼저 작업을 완료해야 합니다.\n\n참고: 이 작업을 다시 시작하려면, TrueCrypt 메인 창의 메뉴 표시줄에 있는 “볼륨” &gt; “중단된 진행을 다시 시작”을 선택해서 실행할 수 있습니다.</string>
+    <string lang="ko" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">올바른 비밀번호입니다. TrueCrypt가 볼륨 헤더를 성공적으로 암호해제하고, 현재 볼륨이 숨긴 시스템 볼륨임을 탐지했습니다. 그러나 숨긴 시스템 볼륨의 헤더를 이런 방식으로 수정할 수는 없습니다.\n\n숨긴 시스템 볼륨에 대한 비밀번호를 변경하려면, 숨긴 볼륨에 위치한 운영체제를 부팅한 다음 메뉴에서 “시스템” ▶ “비밀번호 변경”을 선택합니다.\n\n헤더 키 도출 알고리듬을 설정하려면, 숨긴 운영체제로 부팅한 다음 “시스템” ▶ “헤더 키 도출 알고리듬 설정”을 선택합니다.</string>
+    <string lang="ko" key="CANNOT_DECRYPT_HIDDEN_OS">TrueCrypt는 “숨긴 시스템 파티션의 자체 암호해제”를 지원하지 않습니다.\n\n참고: 미끼용 시스템 파티션의 암호를 해제하려는 경우, 미끼용 시스템으로 부팅한 다음 TrueCrypt 메뉴에서 “시스템” ▶ “시스템 파티션/드라이브의 영구적 암호해제”를 선택합니다.</string>
+    <string lang="ko" key="ERR_PARAMETER_INCORRECT">오류: 올바르지 않은/잘못된 변수.</string>
+    <string lang="ko" key="DEVICE_SELECTED_IN_NON_DEVICE_MODE">사용자가 파티션 또는 장치를 선택했습니다만, 선택한 마법사 모드는 파일 보관소용으로만 적당합니다.\n\n마법사 모드를 변경하시겠습니까?</string>
+    <string lang="ko" key="CONFIRM_CHANGE_WIZARD_MODE_TO_FILE_CONTAINER">대신 TrueCrypt 파일 보관소를 만드시겠습니까?</string>
+    <string lang="ko" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">사용자가 시스템 파티션/드라이브 (또는 부트 파티션)을 선택했지만, 선택한 마법사 모드는 비-시스템 파티션/드라이브에만 해당됩니다.\n\n부팅-전 인증(→ 이는 윈도우 부팅/시작 전에 매번 비밀번호를 입력해야 한다는 것을 의미)을 설정하고, 시스템/드라이브를 암호화하시겠습니까?</string>
+    <string lang="ko" key="CONFIRM_DECRYPT_SYS_DEVICE">시스템 파티션/드라이브를 영구적으로 암호해제하시겠습니까?</string>
+    <string lang="ko" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">주의: 만약 시스템 파티션/드라이브를 영구적으로 암호해제시키면, 암호화되지 않은 데이터가 그곳에 덮여쓰여지게 됩니다.\n\n시스템 파티션/드라이브를 영구적으로 암호해제시키겠습니까?</string>
+    <string lang="ko" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">주의: 시스템 암호화에 층계적 암호문을 사용한 경우, 다음과 같은 문제점을 만날 수 있습니다:\n\n1) TrueCrypt 부트 로더의 크기가 보통보다 커서 부트 로더의 백업용 첫번째 드라이브의 트랙에 충분한 공간이 없습니다. 그러므로 부트 로더가 손상(→ 악성코드 프로그램의 실행 등으로 종종 발생함)될 때마다 부팅하기 위해 또는 부트 로더를 수리하기 위해 TrueCrypt 응급복구 디스크를 사용할 필요가 있습니다.\n\n2) (일부 컴퓨터에서) 최대 절전 모드에서의 시스템 시작 시간이 길어집니다.\n\n이러한 잠재적 문제점은 비-층계적 암호 알고리듬(예: AES)을 선택해서 방지할 수 있습니다.\n\n정말로 층계적 암호문을 사용하시겠습니까?</string>
+    <string lang="ko" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">이전에 설명된 문제점을 만날 경우, (암호화된 경우라면) 파티션/드라이브를 암호해제한 다음 비-층계적 암호 알고리듬(예: AES)을 사용해서 다시 암호화를 시도합니다.</string>
+    <string lang="en" key="UPDATE_TC_IN_DECOY_OS_FIRST">WARNING: For safety and security reasons, you should update TrueCrypt on the decoy operating system before you update it on the hidden operating system.\n\nTo do so, boot the decoy system and run the TrueCrypt installer from within it. Then boot the hidden system and run the installer from within it as well.\n\nNote: The decoy system and the hidden system share a single boot loader. If you upgraded TrueCrypt only on the hidden system (but not on the decoy system), the decoy system would contain a TrueCrypt driver and TrueCrypt applications whose version numbers are different from the version number of the TrueCrypt Boot Loader. Such a discrepancy might indicate that there is a hidden operating system on this computer.\n\n\nDo you want to continue?</string>
+    <string lang="ko" key="UPDATE_TC_IN_HIDDEN_OS_TOO">현재 운영체제를 부팅시켰던 TrueCrypt 부트 로더의 버전 번호는 “현재 시스템에 설치된 TrueCrypt 드라이버 및 TrueCrypt 프로그램의 버전 번호”와 서로 다릅니다.\n\n현재 운영체제에 있는 TrueCrypt를 업데이트하려면 (버전 번호가 TrueCrypt 부트 로더의 것과 동일한) TrueCrypt 설치기를 실행해야 합니다.</string>
+    <string lang="en" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">The version number of the TrueCrypt Boot Loader that booted this operating system is different from the version number of the TrueCrypt driver (and of the TrueCrypt applications) installed on this system. Note that older versions may contain bugs fixed in later versions.\n\nIf you did not boot from the TrueCrypt Rescue Disk, you should reinstall TrueCrypt or upgrade it to the latest stable version (the boot loader will be updated too).\n\nIf you booted from the TrueCrypt Rescue Disk, you should update it ('System' &gt; 'Create Rescue Disk').</string>
+    <string lang="ko" key="BOOT_LOADER_UPGRADE_OK">TrueCrypt 부트 로더가 업그레이드되었습니다.\n\n(TrueCrypt 부트 로더의 새 버전을 포함할) 새로운 TrueCrypt 응급복구 디스크를 만들 것을 권장합니다(→ 컴퓨터를 다시 시작한 다음 “시스템” ▶ “응급복구 디스크 만들기” 선택).</string>
+    <string lang="ko" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">TrueCrypt 부트 로더가 업그레이드되었습니다.\n\n미끼용 운영체제로 부팅한 다음 “시스템” ▶ “응급복구 디스크 만들기” 선택해서 (TrueCrypt 부트 로더의 새 버전을 포함할) 새로운 TrueCrypt 응급복구 디스크를 만들 것을 권장합니다.</string>
+    <string lang="ko" key="BOOT_LOADER_UPGRADE_FAILED">TrueCrypt 부트 로더를 업그레이드하는 데 실패했습니다.</string>
+    <string lang="ko" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">TrueCrypt가 시스템 드라이브의 실제 크기를 탐지하지 못해서 운영체제에 의해 보고된 크기(→ 이는 실제 크기보다 작을 수도 있음)가 사용됩니다. 또한 이 문제는 TrueCrypt의 버그가 아닙니다.</string>
+    <string lang="ko" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">주의: TrueCrypt가 이미 현재의 시스템 드라이브의 숨겨진 섹터를 탐지하려고 시도한 것으로 보입니다. 이전 탐지 과정에서 어떤 문제점이 발생한 경우, 숨겨진 섹터의 탐지를 건너뜀으로써 문제를 피할 수 있습니다. 이렇게 할 경우 TrueCrypt는 운영체제에 의해 보고된 크기를 사용합니다. 이 크기는 드라이브의 실제 크기보다 더 작을 수도 있습니다.\n\n이러한 문제점은 TrueCrypt에 의해 발생한 것이 아님을 참고하시기 바랍니다.</string>
+    <string lang="ko" key="SKIP_HIDDEN_SECTOR_DETECTION">숨겨진 섹트의 탐지를 건너뛰기 (운영체제에 의해 보고된 크기를 사용)</string>
+    <string lang="ko" key="RETRY_HIDDEN_SECTOR_DETECTION">숨겨진 섹터의 탐지를 다시 시도하기</string>
+    <string lang="ko" key="ENABLE_BAD_SECTOR_ZEROING">오류: 디스크에서 한 개 또는 그 이상의 섹터 내용을 읽을 수 없습니다(* 물리적 결함일 수 있음).\n\n자체 암호화 과정은 섹터를 다시 읽을 수 있을 때만 계속될 수 있습니다. TrueCrypt는 이러한 섹터에 0을 작성해서 이 섹터들을 읽을 수 있도록 시도할 수 있습니다(* 그 결과 0으로 된 모든 블록은 암호화됨). 그러나 읽을 수 없는 섹터에 저장된 데이터는 모두 손실된다는 것을 참고해 주십시오. 이러한 경우, 적당한 제3의 도구를 이용해서 손상된 데이터의 복구를 시도해 볼 수 있습니다.\n\n참고: 섹터가 물리적으로 손상된 경우(→ 이는 단순한 데이터 손실 및 체크섬 오류와는 반대개념), 대부분 형식의 저장 장치는 데이터가 장치에 쓰여질 때 이를 내부적으로 재할당하게 됩니다(* 그 결과 손상된 섹터에 있던 기존 데이터는 암호화되지 않은 상태로 드라이브에 남게 됩니다).\n\n읽을 수 없는 섹터에 0을 TrueCrypt를 이용해서 작성하시겠습니까?</string>
+    <string lang="ko" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">오류: 디스크에서 한 개 또는 그 이상의 섹터 내용을 읽을 수 없습니다(* 물리적 결함일 수 있음).\n\n암호해제 작업을 계속 진행할 수 있으려면, 읽기-불능 섹터의 내용을 모두 버려야 합니다(→ 그 섹터의 내용은 유사무작위 데이터로 교체됩니다). 작업을 계속하기 전에, 적당한 제3의 도구를 이용해서 손상된 데이터의 복구를 시도해 볼 수 있습니다.\n\n읽기-불능 섹터의 데이터를 지금 버리시겠습니까?</string>
+    <string lang="ko" key="ZEROED_BAD_SECTOR_COUNT">참고: TrueCrypt에서 %I64d 읽기-불능 섹터 (%s)의 내용을 암호화된 단순텍스트 블록(* 모두 0으로 되어 있음)으로 교체했습니다.</string>
+    <string lang="ko" key="ENTER_TOKEN_PASSWORD">“%s” 토큰을 위한 비밀번호/PIN 입력:</string>
+    <string lang="ko" key="PKCS11_LIB_LOCATION_HELP">TrueCrypt를 통해 보안 토큰 또는 스마트 카드에 접근하려면 먼저 토큰 또는 스마트 카드용 PKCS #11 소프트웨어 라이브러리를 설치해야 합니다. 해당 라이브러리는 장치에 의해 제공되거나 판매업체 또는 다른 제3업체의 웹사이트를 통해 다운로드할 수 있습니다.\n\n라이브러리를 설치한 이후 ① “라이브러리 선택”을 클릭해서 수동으로 이를 선택하거나 ② “라이브러리 자동-탐지”를 클릭해서 자동으로 선택할 수 있습니다(* 윈도우 시스템 디렉토리만 검색됩니다).</string>
+    <string lang="ko" key="SELECT_PKCS11_MODULE_HELP">참고: 보안 토큰 또는 스마트 카드를 위해 설치된 PKCS #11 라이브러리의 파일 이름 및 경로를 알아보려면, 토큰, 카드 또는 제3자 소프트웨어와 함께 제공된 문서를 참고해 주십시오.\n\n“확인”을 클릭한 후 경로 및 파일 이름을 선택해 주십시오.</string>
+    <string lang="ko" key="NO_PKCS11_MODULE_SPECIFIED">보안 토큰 또는 스마트 카드에의 TrueCrypt 접근을 허용하려면, 토큰/카드를 위한 PKCS #11 소프트웨어 라이브러리를 미리 설치해야 합니다. 이 작업을 하려면 “설정” &gt; “보안 토큰”을 선택해 주세요.</string>
+    <string lang="ko" key="PKCS11_MODULE_INIT_FAILED">PKCS #11 보안 토큰 라이브러리를 초기화하는 데 실패했습니다.\n\nPKCS #11 라이브러리에 대한 경로 및 파일이름이 올바른지 확인해 주십시오. PKCS #11 라이브러리의 경로 및 파일이름을 지정하려면, “설정” &gt; “보안 토큰”을 선택합니다.</string>
+    <string lang="ko" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">윈도우 시스템 디렉토리에서 어떠한 PKCS #11 라이브러리도 찾을 수 없습니다.\n\n보안 토큰(또는 스마트 카드)를 위한 PKCS #11 라이브러리가 설치되어 있는지 확인해 주십시오(* 이러한 라이브러리는 토큰/카드와 함께 제공되거나 판매업체 또는 제3업체의 웹사이트에서 다운로드할 수 있습니다). 윈도우 시스템 디렉토리가 아닌 디렉토리에 설치된 경우라면, “라이브러리 선택”을 클릭해서 라이브러리의 위치(예: 토큰/카드용 소프트웨어가 설치되어 있는 폴더)를 지정해 주십시오.</string>
+    <string lang="ko" key="NO_TOKENS_FOUND">보안 토큰을 찾을 수 없습니다.\n\n보안 토큰이 컴퓨터에 연결되어 있고 올바른 토큰용 장치 드라이버가 설치되어 있는지 확인해 주십시오.</string>
+    <string lang="ko" key="TOKEN_KEYFILE_NOT_FOUND">보안 토큰을 찾을 수 없습니다.</string>
+    <string lang="ko" key="TOKEN_KEYFILE_ALREADY_EXISTS">동일한 이름을 가진 보안 토큰 키파일이 이미 존재합니다.</string>
+    <string lang="ko" key="CONFIRM_SEL_FILES_DELETE">선택한 파일(들)을 삭제하시겠습니까?</string>
+    <string lang="ko" key="INVALID_TOKEN_KEYFILE_PATH">보안 토큰 키파일의 경로가 올바르지 않습니다.</string>
+    <string lang="ko" key="SECURITY_TOKEN_ERROR">보안 토큰 오류</string>
+    <string lang="ko" key="CKR_PIN_INCORRECT">보안 토큰의 비밀번호가 올바르지 않습니다.</string>
+    <string lang="en" key="CKR_DEVICE_MEMORY">The security token does not have enough memory/space to perform the requested operation.\n\nIf you are attempting to import a keyfile, you should select a smaller file or use a keyfile generated by TrueCrypt (select 'Tools' &gt; 'Keyfile Generator').</string>
+    <string lang="ko" key="ALL_TOKEN_SESSIONS_CLOSED">열려 있는 모든 토큰 세션을 닫았습니다.</string>
+    <string lang="ko" key="SELECT_TOKEN_KEYFILES">보안 토큰 키파일 선택</string>
+    <string lang="ko" key="TOKEN_SLOT_ID">슬롯</string>
+    <string lang="ko" key="TOKEN_NAME">토큰 이름</string>
+    <string lang="ko" key="TOKEN_DATA_OBJECT_LABEL">파일 이름</string>
+    <string lang="ko" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">중요: 부팅-전 인증 비밀번호를 입력할 때는 항상 “표준 US 키보드 레이아웃”을 사용해야 합니다. 그러므로 다른 키보드 레이아웃을 사용해서 입력된 비밀번호를 사용하는 볼륨은 “캐시로 보관된 부팅-전 인증 비밀번호”를 사용해서 삽입될 수 없습니다(* 이는 TrueCrypt의 버그가 아닙니다). 이러한 볼륨을 부팅-전 인증 비밀번호를 사용해서 삽입하려면, 다음 지침을 따릅니다:\n\n1) “파일 선택” 또는 “장치 선택”을 클릭한 후 볼륨을 선택합니다. 2) “볼륨” ▶ “볼륨 비밀번호 변경”을 선택합니다. 3) 볼륨을 위한 현재 비밀번호를 입력합니다. 4) 키보드 레이아웃을 English (US)로 변경합니다(* 윈도우 작업 표시줄의 언어 바 아이콘을 클릭한 후 “EN English (United States)” 선택) 5) Truerypt의 새 비밀번호 필드에 부팅-전 인증 비밀번호를 입력합니다. 6) 비밀번호 재입력 필드에 새 비밀번호를 다시 입력한 후 “확인”을 클릭합니다. 주의: 이러한 단계들을 따른 경우, 볼륨 비밀번호는 항상 US 키보드 레이아웃을 이용해서 입력되어야 합니다(* 부팅-전 환경에서는 자동으로 이 레이아웃이 사용됩니다).</string>
+    <string lang="ko" key="SYS_FAVORITES_KEYBOARD_WARNING">시스템 즐겨찾기 볼륨은 부팅-전 인증 비밀번호를 이용해서 삽입됩니다. 특정 시스템 즐겨찾기 볼륨이 다른 비밀번호를 사용하는 경우, 이 볼륨은 삽입되지 않습니다.</string>
+    <string lang="en" key="SYS_FAVORITES_ADMIN_ONLY_INFO">Please note that if you need to prevent normal TrueCrypt volume actions (such as 'Dismount All', auto-dismount, etc.) from affecting system favorite volumes, you should enable the option 'Allow only administrators to view and dismount system favorite volumes in TrueCrypt'. In addition, when TrueCrypt is run without administrator privileges (the default on Windows Vista and later), system favorite volumes will not be displayed in the drive letter list in the main TrueCrypt application window.</string>
+    <string lang="ko" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">중요: 이 옵션을 선택하고 TrueCrypt가 관리자 권한을 갖지 못한 경우, 삽입된 시스템 즐겨찾기 볼륨이 TrueCrypt 프로그램 창에 표시되지 않고 또한 이를 꺼낼 수도 없습니다. 그러므로 예컨대 시스템 즐겨찾기 볼륨을 꺼내려면, (시작 메뉴에서) TrueCrypt 아이콘을 오른쪽-클릭한 후 “관리한 권한으로 실행”을 선택해야 합니다. 동일한 제한은 “모두 꺼냄” 기능, “자동-꺼냄” 기능, “모두 꺼냄” 단축키 등에 적용됩니다.</string>
+    <string lang="en" key="SETTING_REQUIRES_REBOOT">Note that this setting takes effect only after the operating system is restarted.</string>
+    <string lang="ko" key="COMMAND_LINE_ERROR">명령 줄을 분석하는 동안 오류가 발생했습니다.</string>
+    <string lang="ko" key="RESCUE_DISK">응급복구 디스크</string>
+    <string lang="ko" key="SELECT_FILE_AND_MOUNT">파일 선택 후 삽입(&amp;F)...</string>
+    <string lang="ko" key="SELECT_DEVICE_AND_MOUNT">장치 선택 후 삽입(&amp;D)...</string>
+    <string lang="en" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">Allow only administrators to view and dismount system favorite volumes in TrueCrypt</string>
+    <string lang="en" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Mount system favorite volumes when Windows starts (in the initial phase of the startup procedure)</string>
+    <string lang="ko" key="MOUNTED_VOLUME_DIRTY">주의: “%s”로 삽입된 볼륨에 있는 파일 시스템이 제대로 꺼내지지 않아 오류를  포함하고 있습니다. 손상된 파일 시스템을 사용하면 데이터 손실이나 데이터의 손상이 발생할 수 있습니다.\n\n참고: 삽입된 TrueCrypt 볼륨이 위치하는 장치(예: USB 플래시 드라이브 또는 외장 하드 드라이브)를 물리적으로 제거하거나 시스템에서 중지하기 전에, TrueCrypt에서 TrueCrypt 볼륨을 먼저 꺼내줘야 합니다.\n\n\n윈도우를 통해 파일 시스템의 오류를 탐지해서 이를 수리하시겠습니까?</string>
+    <string lang="ko" key="SYS_FAVORITE_VOLUME_DIRTY">주의: 한 개 또는 수 개의 시스템 즐겨찾기 볼륨이 제대로 꺼내지지 않았기 때문에 파일시스템 오류를 포함하고 있을 수도 있습니다. 자세한 정보를 보려면 시스템 이벤트 로그를 참고해 주세요.\n\n손상된 파일시스템의 사용은 데이터 손실 또는 데이터 손상을 초래할 수 있습니다. 오류가 발생했을지도 모르는 시스템 즐겨찾기 볼륨을 체크해야 합니다(* TrueCrypt에서 각 볼륨을 오른쪽-클릭한 후 “파일시스템 수리”를 선택합니다).</string>
+    <string lang="ko" key="FILESYS_REPAIR_CONFIRM_BACKUP">주의: Microsoft의 “chkdsk” 도구를 이용해서 손상된 파일 시스템을 수리하게 되면 손상된 영역에 있는 파일의 손실이 발생할 수 있습니다. 그러므로 TrueCrypt 볼륨에 저장되어 있는 파일들을 상태가 좋은 다른 TrueCrypt 볼륨에 백업할 것을 권장합니다.\n\n파일 시스템의 오류를 지금 수리하시겠습니까?</string>
+    <string lang="ko" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">쓰기 권한이 거부되었기 때문에 “%s” 볼륨이 읽기-전용으로 삽입되었습니다.\n\n파일 보관소의 보안 권한이 작성을 허용하는 것인지 확인해 주십시오(* 보관소를 오른쪽-클릭한 후 “속성” &gt; “보안”을 선택합니다).\n\n윈도우의 문제로 인해, 보안 허가(security permission)을 적절하게 설정한 후에도 이러한 경고가 나타날 수 있습니다. 이 문제는 TrueCrypt의 버그가 아닙니다. 가능한 해결책은 사용자의 보관소(container)를 예컨대 “문서” 폴더로 이동시키는 것입니다.\n\n사용자의 볼륨을 읽기-전용으로 유지하려면, 보관소의 속성을 읽기-전용으로 설정합니다(* 보관소를 오른쪽-클릭한 후 “”속성 &gt; 읽기-전용을 선택합니다). 이렇게 하면 경고를 알리는 창이 뜨지 않게 됩니다.</string>
+    <string lang="ko" key="MOUNTED_DEVICE_FORCED_READ_ONLY">쓰기 권한이 거부되었기 때문에 “%s” 볼륨은 읽기-전용으로 삽입되어야 합니다.\n\n볼륨이 기반으로 하고 있는 파티션/장치에 다른 프로그램(예: 안티바이러스 소프트웨어)이 접근하고 있는지를 확인해 주십시오.</string>
+    <string lang="ko" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">운영체제가 호스트 장치를 쓰기-금지로 보고했기 때문에 “%s” 볼륨이 읽기-전용으로 삽입되었습니다.\n\n일부 사용자 칩셉 드라이버는 쓰기-허용된 미디어를 쓰기-금지된 것으로 잘못 표시한다는 보고가 있음을 참고해 주십시오. 이 문제는 TrueCrypt에 의해 야기된 것이 아닙니다. 현재 시스템에 설치되어 있는 (* Microsoft가 아닌) 사용자 칩셉 드라이버를 업데이트하거나 제거해서 해결될 수 있습니다.</string>
+    <string lang="en" key="LIMIT_ENC_THREAD_POOL_NOTE">Note that the Hyper-Threading technology provides multiple logical cores per a single physical core. When Hyper Threading is enabled, the number selected above represents the number of logical processors/cores.</string>
+    <string lang="en" key="NUMBER_OF_THREADS">%d threads</string>
+    <string lang="en" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Note that hardware-accelerated AES is disabled, which will affect benchmark results (worse performance).\n\nTo enable hardware acceleration, select 'Settings' &gt; 'Performance' and enable the corresponding option.</string>
+    <string lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' &gt; 'Performance' and disable the corresponding option.</string>
+    <string lang="ko" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">TrueCrypt를 이용해서 파티션/드라이브의 쓰기-금지를 제거해 보시겠습니까?</string>
+    <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
+    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: TrueCrypt volume auto-dismounted</string>
+    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in TrueCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="ko" key="TEST">테스트</string>
+    <string lang="ko" key="KEYFILE">키파일</string>
+    <string lang="ko" key="VKEY_08">Backspace</string>
+    <string lang="ko" key="VKEY_09">Tab</string>
+    <string lang="ko" key="VKEY_0C">제거</string>
+    <string lang="ko" key="VKEY_0D">Enter</string>
+    <string lang="ko" key="VKEY_13">Pause</string>
+    <string lang="ko" key="VKEY_14">Caps Lock</string>
+    <string lang="ko" key="VKEY_20">Spacebar</string>
+    <string lang="ko" key="VKEY_21">Page Up</string>
+    <string lang="ko" key="VKEY_22">Page Down</string>
+    <string lang="ko" key="VKEY_23">End</string>
+    <string lang="ko" key="VKEY_24">Home</string>
+    <string lang="ko" key="VKEY_25">Left Arrow</string>
+    <string lang="ko" key="VKEY_26">Up Arrow</string>
+    <string lang="ko" key="VKEY_27">Right Arrow</string>
+    <string lang="ko" key="VKEY_28">Down Arrow</string>
+    <string lang="ko" key="VKEY_29">키 선택</string>
+    <string lang="ko" key="VKEY_2A">Print Key</string>
+    <string lang="ko" key="VKEY_2B">Execute Key</string>
+    <string lang="ko" key="VKEY_2C">Print Screen</string>
+    <string lang="ko" key="VKEY_2D">Insert</string>
+    <string lang="ko" key="VKEY_2E">Delete</string>
+    <string lang="ko" key="VKEY_5D">Applications Key</string>
+    <string lang="ko" key="VKEY_5F">Sleep</string>
+    <string lang="ko" key="VKEY_90">Num Lock</string>
+    <string lang="ko" key="VKEY_91">Scroll Lock</string>
+    <string lang="ko" key="VKEY_A6">Browser Back</string>
+    <string lang="ko" key="VKEY_A7">Browser Forward</string>
+    <string lang="ko" key="VKEY_A8">Browser Refresh</string>
+    <string lang="ko" key="VKEY_A9">Browser Stop</string>
+    <string lang="ko" key="VKEY_AA">Browser Search</string>
+    <string lang="ko" key="VKEY_AB">Browser Favorites</string>
+    <string lang="ko" key="VKEY_AC">Browser Home</string>
+    <string lang="ko" key="VKEY_AD">음소거</string>
+    <string lang="ko" key="VKEY_AE">Volume Down</string>
+    <string lang="ko" key="VKEY_AF">Volume Up</string>
+    <string lang="ko" key="VKEY_B0">Next Track</string>
+    <string lang="ko" key="VKEY_B1">Previous Track</string>
+    <string lang="ko" key="VKEY_B2">Stop Media</string>
+    <string lang="ko" key="VKEY_B3">Play/Pause Media</string>
+    <string lang="ko" key="VKEY_B4">Start Mail Key</string>
+    <string lang="ko" key="VKEY_B5">Select Media Key</string>
+    <string lang="ko" key="VKEY_B6">Application 1</string>
+    <string lang="ko" key="VKEY_B7">Application 2</string>
+    <string lang="ko" key="VKEY_F6">Attn</string>
+    <string lang="ko" key="VKEY_F7">CrSel</string>
+    <string lang="ko" key="VKEY_F8">ExSel</string>
+    <string lang="ko" key="VKEY_FA">Play</string>
+    <string lang="ko" key="VKEY_FB">Zoom</string>
+    <string lang="ko" key="VK_NUMPAD">NumPad</string>
+    <string lang="ko" key="VK_SHIFT">SHIFT</string>
+    <string lang="ko" key="VK_CONTROL">Control</string>
+    <string lang="ko" key="VK_ALT">ALT</string>
+    <string lang="ko" key="VK_WIN">Win</string>
+    <string lang="ko" key="BYTE">B</string>
+    <string lang="ko" key="KB">KB</string>
+    <string lang="ko" key="MB">MB</string>
+    <string lang="ko" key="GB">GB</string>
+    <string lang="ko" key="TB">TB</string>
+    <string lang="ko" key="PB">PB</string>
+    <string lang="ko" key="B_PER_SEC">B/s</string>
+    <string lang="ko" key="KB_PER_SEC">KB/s</string>
+    <string lang="ko" key="MB_PER_SEC">MB/s</string>
+    <string lang="ko" key="GB_PER_SEC">GB/s</string>
+    <string lang="ko" key="TB_PER_SEC">TB/s</string>
+    <string lang="ko" key="PB_PER_SEC">PB/s</string>
+    <string lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+  </localization>
+  <!-- XML Schema -->
+  <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="TrueCrypt">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="localization">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="language">
+                  <xs:complexType>
+                    <xs:attribute name="langid" type="xs:string" use="required" />
+                    <xs:attribute name="name" type="xs:string" use="required" />
+                    <xs:attribute name="en-name" type="xs:string" use="required" />
+                    <xs:attribute name="version" type="xs:string" use="required" />
+                    <xs:attribute name="translators" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="4" maxOccurs="4" name="font">
+                  <xs:complexType>
+                    <xs:attribute name="lang" type="xs:string" use="required" />
+                    <xs:attribute name="class" type="xs:string" use="required" />
+                    <xs:attribute name="size" type="xs:unsignedByte" use="required" />
+                    <xs:attribute name="face" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" name="control">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="lang" type="xs:string" use="required" />
+                        <xs:attribute name="key" type="xs:string" use="required" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" name="string">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="lang" type="xs:string" use="required" />
+                        <xs:attribute name="key" type="xs:string" use="required" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="prog-version" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+</TrueCrypt>

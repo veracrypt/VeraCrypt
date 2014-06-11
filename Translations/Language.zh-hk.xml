@@ -1,0 +1,1341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TrueCrypt>
+  <localization prog-version="7.1a">
+    <!-- Languages -->
+    <language langid="zh-hk" name="繁體中文" en-name="Chinese (Hong Kong)" version="0.1.0" translators="PUN Chi Ho" />
+    <!-- Fonts -->
+    <font lang="zh-hk" class="normal" size="11" face="Arial" />
+    <font lang="zh-hk" class="bold" size="14" face="Arial" />
+    <font lang="zh-hk" class="fixed" size="14" face="Arial" />
+    <font lang="zh-hk" class="title" size="21" face="Arial" />
+    <!-- Controls -->
+    <control lang="zh-hk" key="IDCANCEL">取消</control>
+    <control lang="zh-hk" key="IDC_ALL_USERS">為所有用戶安裝(&amp;F)</control>
+    <control lang="zh-hk" key="IDC_BROWSE">流覽(&amp;W)...</control>
+    <control lang="zh-hk" key="IDC_DESKTOP_ICON">在桌面添加 TrueCrypt 圖示(&amp;D)</control>
+    <control lang="en" key="IDC_DONATE">Donate now...</control>
+    <control lang="zh-hk" key="IDC_FILE_TYPE">關聯 .tc 文件到 TrueCrypt(&amp;E) </control>
+    <control lang="zh-hk" key="IDC_OPEN_CONTAINING_FOLDER">完成後打開目標位置(&amp;O)</control>
+    <control lang="zh-hk" key="IDC_PROG_GROUP">創建 TrueCrypt 的開始菜單項(&amp;S)</control>
+    <control lang="zh-hk" key="IDC_SYSTEM_RESTORE">創建系統還原點(&amp;R)</control>
+    <control lang="zh-hk" key="IDC_UNINSTALL">卸載(&amp;U)</control>
+    <control lang="zh-hk" key="IDC_WIZARD_MODE_EXTRACT_ONLY">釋放(&amp;E)</control>
+    <control lang="zh-hk" key="IDC_WIZARD_MODE_INSTALL">安裝(&amp;I)</control>
+    <control lang="zh-hk" key="IDD_INSTL_DLG">TrueCrypt 安裝嚮導</control>
+    <control lang="zh-hk" key="IDD_UNINSTALL">卸載 TrueCrypt</control>
+    <control lang="zh-hk" key="IDHELP">説明(&amp;H)</control>
+    <control lang="zh-hk" key="IDT_EXTRACT_DESTINATION">請選擇或者輸入您希望釋放到的位置:</control>
+    <control lang="zh-hk" key="IDT_INSTALL_DESTINATION">請選擇或輸入您希望 TrueCrypt 程式檔釋放到的位置。如果指定檔夾不存在，檔夾將會被自動創建。</control>
+    <control lang="zh-hk" key="IDT_UNINSTALL_DIR">點擊“卸載”按鈕從系統中卸載 TrueCrypt。</control>
+    <control lang="zh-hk" key="IDC_ABORT_BUTTON">放棄</control>
+    <control lang="zh-hk" key="IDC_BENCHMARK">測試(&amp;B)</control>
+    <control lang="zh-hk" key="IDC_CIPHER_TEST">測試(&amp;T)</control>
+    <control lang="zh-hk" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">創建加密卷並格式化</control>
+    <control lang="zh-hk" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">就地加密分區</control>
+    <control lang="zh-hk" key="IDC_DISPLAY_KEYS">顯示生成的密鑰（及其部分）</control>
+    <control lang="zh-hk" key="IDC_DISPLAY_POOL_CONTENTS">顯示緩衝內容</control>
+    <control lang="zh-hk" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">下載 CD/DVD 刻錄軟體（聯網）</control>
+    <control lang="zh-hk" key="IDC_FILE_CONTAINER">創建檔型加密卷</control>
+    <control lang="zh-hk" key="IDC_GB">GB(&amp;G)</control>
+    <control lang="zh-hk" key="IDC_HIDDEN_SYSENC_INFO_LINK">更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_HIDDEN_VOL">隱藏的 TrueCrypt 加密卷(&amp;D) </control>
+    <control lang="zh-hk" key="IDC_HIDDEN_VOL_HELP">關於隱藏加密卷的更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_HIDVOL_WIZ_MODE_DIRECT">直接模式</control>
+    <control lang="zh-hk" key="IDC_HIDVOL_WIZ_MODE_FULL">常規模式</control>
+    <control lang="zh-hk" key="IDC_KB">KB(&amp;K)</control>
+    <control lang="zh-hk" key="IDC_KEYFILES_ENABLE">使用密鑰檔(&amp;S)</control>
+    <control lang="zh-hk" key="IDC_KEY_FILES">密鑰文件(&amp;K)..</control>
+    <control lang="zh-hk" key="IDC_LINK_HASH_INFO">關於混雜演算法的更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_MB">MB(&amp;M)</control>
+    <control lang="zh-hk" key="IDC_MORE_INFO_ON_CONTAINERS">更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">關於系統盤加密的更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_MORE_INFO_SYS_ENCRYPTION">更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_MULTI_BOOT">多重啟動</control>
+    <control lang="zh-hk" key="IDC_NONSYS_DEVICE">加密非系統分區/設備</control>
+    <control lang="zh-hk" key="IDC_NO_HISTORY">從不保留歷史記錄(&amp;S)</control>
+    <control lang="zh-hk" key="IDC_OPEN_OUTER_VOLUME">打開外層加密卷</control>
+    <control lang="zh-hk" key="IDC_PAUSE">暫停(&amp;P)</control>
+    <control lang="zh-hk" key="IDC_QUICKFORMAT">快速格式化</control>
+    <control lang="zh-hk" key="IDC_SHOW_PASSWORD">顯示密碼(&amp;D)</control>
+    <control lang="zh-hk" key="IDC_SHOW_PASSWORD_SINGLE">顯示密碼(&amp;D)</control>
+    <control lang="zh-hk" key="IDC_SINGLE_BOOT">單系統</control>
+    <control lang="zh-hk" key="IDC_STD_VOL">標準 TrueCrypt 加密卷</control>
+    <control lang="zh-hk" key="IDC_SYSENC_HIDDEN">隱藏(&amp;D)</control>
+    <control lang="zh-hk" key="IDC_SYSENC_NORMAL">常規</control>
+    <control lang="zh-hk" key="IDC_SYS_DEVICE">加密系統分區或者整個系統所在硬碟</control>
+    <control lang="zh-hk" key="IDC_SYS_PARTITION">加密 Windows 系統分區</control>
+    <control lang="zh-hk" key="IDC_WHOLE_SYS_DRIVE">加密整個硬碟驅動器</control>
+    <control lang="zh-hk" key="IDD_VOL_CREATION_WIZARD_DLG">TrueCrypt 加密卷創建嚮導</control>
+    <control lang="zh-hk" key="IDT_CLUSTER">簇</control>
+    <control lang="zh-hk" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：在視窗範圍內儘量任意移動滑鼠。移動時間越長越好。這將會極大的增強密鑰的加密強度。之後點擊 '下一步' 按鈕繼續。</control>
+    <control lang="zh-hk" key="IDT_CONFIRM">確認(&amp;C)：</control>
+    <control lang="zh-hk" key="IDT_DONE">完成 </control>
+    <control lang="zh-hk" key="IDT_ENCRYPTION_ALGO">加密演算法</control>
+    <control lang="zh-hk" key="IDT_FILESYSTEM">檔系統 </control>
+    <control lang="zh-hk" key="IDT_FILE_CONTAINER">創建一個檔類型的加密盤，推薦入門用戶使用。</control>
+    <control lang="zh-hk" key="IDT_FORMAT_OPTIONS">選項</control>
+    <control lang="zh-hk" key="IDT_HASH_ALGO">哈希演算法</control>
+    <control lang="zh-hk" key="IDT_HEADER_KEY">首密鑰：</control>
+    <control lang="zh-hk" key="IDT_LEFT">剩餘 </control>
+    <control lang="zh-hk" key="IDT_MASTER_KEY">主密鑰：</control>
+    <control lang="zh-hk" key="IDT_MULTI_BOOT">如果此電腦上安裝了兩個或多個作業系統請選擇此項。\n\n例如：\n- Windows XP 和 Windows XP\n- Windows XP 和 Windows Vista\n- Windows 和 Mac OS X\n- Windows 和 Linux\n- Windows，Linux 和 Mac OS X</control>
+    <control lang="zh-hk" key="IDT_NON_SYS_DEVICE">加密一個內部或者外部驅動器上的非系統分區（例如. 優盤）。也可以創建一個隱藏的加密卷。</control>
+    <control lang="zh-hk" key="IDT_PARTIAL_POOL_CONTENTS">當前緩存內容（部分）</control>
+    <control lang="zh-hk" key="IDT_PASS">密碼</control>
+    <control lang="zh-hk" key="IDT_PASSWORD">密碼：</control>
+    <control lang="zh-hk" key="IDT_PROGRESS">進程：</control>
+    <control lang="zh-hk" key="IDT_RANDOM_POOL">隨機緩衝：</control>
+    <control lang="zh-hk" key="IDT_SINGLE_BOOT">如果電腦上只安裝了一個作業系統請選擇此項（儘管該作業系統下可能有多個用戶）。</control>
+    <control lang="zh-hk" key="IDT_SPEED">速度 </control>
+    <control lang="zh-hk" key="IDT_STATUS">狀態</control>
+    <control lang="zh-hk" key="IDT_SYSENC_KEYS_GEN_INFO">密鑰、要素、以及其他資料已被成功生成。如果您希望生成新的密鑰，請點擊 '後退' 然後點擊 '下一步' 按鈕。否則點擊 '下一步' 按鈕繼續。</control>
+    <control lang="zh-hk" key="IDT_SYS_DEVICE">加密 Windows 系統所在的 分區/驅動器。加密後，任何人想要訪問和使用這個系統、讀寫檔等，都需每次在 Windows 啟動前輸入正確的密碼。也可以選擇創建一個隱形的作業系統。</control>
+    <control lang="zh-hk" key="IDT_SYS_PARTITION">選擇此選項，以加密您當前 Windows 作業系統所安裝的分區。</control>
+    <control lang="zh-hk" key="IDT_WIPE_MODE">擦除模式：</control>
+    <control lang="zh-hk" key="IDCLOSE">關閉</control>
+    <control lang="zh-hk" key="IDC_ALLOW_ESC_PBA_BYPASS">允許按下 Esc 按鍵跳過啟動驗證（啟用啟動管理器）(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_AUTORUN_DISABLE">什麼也不做</control>
+    <control lang="zh-hk" key="IDC_AUTORUN_MOUNT">自動載入 TrueCrypt 加密卷（下麵指定的）(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_AUTORUN_START">運行 TrueCrypt(&amp;S)</control>
+    <control lang="zh-hk" key="IDC_AUTO_DETECT_PKCS11_MODULE">自動檢測運行庫(&amp;D)</control>
+    <control lang="zh-hk" key="IDC_BOOT_LOADER_CACHE_PASSWORD">緩存啟動驗證密碼到驅動記憶體（用來載入非系統加密卷）(&amp;C)</control>
+    <control lang="zh-hk" key="IDC_BROWSE_DIRS">流覽...</control>
+    <control lang="zh-hk" key="IDC_BROWSE_FILES">流覽...</control>
+    <control lang="zh-hk" key="IDC_CACHE">在記憶體中緩存密碼和密鑰檔(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">沒有加密卷被載入時退出</control>
+    <control lang="zh-hk" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">在有加密卷成功載入後關閉口權杖會話（登出）(&amp;C)</control>
+    <control lang="zh-hk" key="IDC_COPY_WIZARD">包含 TrueCrypt 加密卷創建嚮導</control>
+    <control lang="zh-hk" key="IDC_CREATE">創建</control>
+    <control lang="zh-hk" key="IDC_CREATE_VOLUME">創建加密卷(&amp;C)</control>
+    <control lang="zh-hk" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">在啟動驗證螢幕不顯示任何文本（僅顯示下面自定義的資訊）(&amp;S)</control>
+    <control lang="zh-hk" key="IDC_ENABLE_HARDWARE_ENCRYPTION">使用處理器指令加速 AES 加解密（如果功能可用）</control>
+    <control lang="zh-hk" key="IDC_ENABLE_KEYFILES">使用密鑰檔</control>
+    <control lang="zh-hk" key="IDC_ENABLE_NEW_KEYFILES">使用密鑰檔</control>
+    <control lang="zh-hk" key="IDC_EXIT">退出(&amp;X)</control>
+    <control lang="zh-hk" key="IDC_FAVORITES_HELP_LINK">收藏加密卷的幫助</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_DISABLE_HOTKEY">當 '載入收藏加密卷' 熱鍵按下時不載入選定的加密卷(&amp;H)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">當主設備被連接時載入選定加密卷(&amp;C)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_MOUNT_ON_LOGON">登錄時載入選定加密卷(&amp;O)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_MOUNT_READONLY">以唯讀方式載入選定加密卷(&amp;N)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_MOUNT_REMOVABLE">以可移動介質方式載入選定加密卷(&amp;V)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_MOVE_DOWN">下移(&amp;D)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_MOVE_UP">上移(&amp;U)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">當成功載入選定加密卷後，為其打開資源管理器視窗(&amp;E)</control>
+    <control lang="zh-hk" key="IDC_FAVORITE_REMOVE">移除(&amp;R)</control>
+    <control lang="zh-hk" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">全局設置</control>
+    <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
+    <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>
+    <control lang="zh-hk" key="IDC_HK_MOD_ALT">Alt</control>
+    <control lang="en" key="IDC_HK_MOD_CTRL">Ctrl</control>
+    <control lang="zh-hk" key="IDC_HK_MOD_SHIFT">Shift</control>
+    <control lang="zh-hk" key="IDC_HK_MOD_WIN">Win</control>
+    <control lang="zh-hk" key="IDC_HOTKEY_ASSIGN">分配</control>
+    <control lang="zh-hk" key="IDC_HOTKEY_REMOVE">移除</control>
+    <control lang="zh-hk" key="IDC_KEYFILES">密鑰文件...</control>
+    <control lang="zh-hk" key="IDC_LIMIT_ENC_THREAD_POOL">不使用下面數目的處理器加密/解密:</control>
+    <control lang="zh-hk" key="IDC_MORE_INFO_ON_HW_ACCELERATION">更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_MORE_SETTINGS">更多設置...</control>
+    <control lang="zh-hk" key="IDC_MOUNTALL">自動載入設備(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_MOUNT_OPTIONS">載入選項(&amp;A)...</control>
+    <control lang="zh-hk" key="IDC_MOUNT_READONLY">以唯讀模式載入加密卷(&amp;O)</control>
+    <control lang="zh-hk" key="IDC_NEW_KEYFILES">密鑰文件...</control>
+    <control lang="zh-hk" key="IDC_PREF_BKG_TASK_ENABLE">啟用</control>
+    <control lang="zh-hk" key="IDC_PREF_CACHE_PASSWORDS">在驅動記憶體中緩存密碼</control>
+    <control lang="zh-hk" key="IDC_PREF_DISMOUNT_INACTIVE">自動卸載加密卷，在無數據讀寫動作下面時間後</control>
+    <control lang="zh-hk" key="IDC_PREF_DISMOUNT_LOGOFF">用戶註銷時</control>
+    <control lang="zh-hk" key="IDC_PREF_DISMOUNT_POWERSAVING">進入待機狀態時</control>
+    <control lang="zh-hk" key="IDC_PREF_DISMOUNT_SCREENSAVER">螢幕保護載入時</control>
+    <control lang="zh-hk" key="IDC_PREF_FORCE_AUTO_DISMOUNT">強制自動卸載，無論加密卷是否有被打開的檔或目錄</control>
+    <control lang="zh-hk" key="IDC_PREF_LOGON_MOUNT_DEVICES">載入所有設備類 TrueCrypt 加密卷</control>
+    <control lang="zh-hk" key="IDC_PREF_LOGON_START">啟動 TrueCrypt 後臺任務</control>
+    <control lang="zh-hk" key="IDC_PREF_MOUNT_READONLY">以唯讀模式載入加密卷</control>
+    <control lang="zh-hk" key="IDC_PREF_MOUNT_REMOVABLE">以可移動介質模式載入加密卷</control>
+    <control lang="zh-hk" key="IDC_PREF_OPEN_EXPLORER">為成功載入的加密卷打開資源管理器視窗</control>
+    <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
+    <control lang="zh-hk" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">自動卸載時擦除緩存的密碼</control>
+    <control lang="zh-hk" key="IDC_PREF_WIPE_CACHE_ON_EXIT">退出時擦除緩存的密碼</control>
+    <control lang="zh-hk" key="IDC_PRESERVE_TIMESTAMPS">保留檔類型加密卷的修改時間戳</control>
+    <control lang="zh-hk" key="IDC_RESET_HOTKEYS">重置</control>
+    <control lang="zh-hk" key="IDC_SELECT_DEVICE">選擇設備(&amp;E)...</control>
+    <control lang="zh-hk" key="IDC_SELECT_FILE">選擇檔(&amp;F)...</control>
+    <control lang="zh-hk" key="IDC_SELECT_PKCS11_MODULE">選擇運行庫(&amp;L)...</control>
+    <control lang="zh-hk" key="IDC_SHOW_PASSWORD_CHPWD_NEW">顯示密碼</control>
+    <control lang="zh-hk" key="IDC_SHOW_PASSWORD_CHPWD_ORI">顯示密碼</control>
+    <control lang="zh-hk" key="IDC_TRAVEL_OPEN_EXPLORER">為載入的加密卷打開資源管理器視窗(&amp;E)</control>
+    <control lang="zh-hk" key="IDC_TRAV_CACHE_PASSWORDS">在驅動記憶體中緩存密碼(&amp;C)</control>
+    <control lang="zh-hk" key="IDC_UNMOUNTALL">全部卸載(&amp;S)</control>
+    <control lang="zh-hk" key="IDC_VOLUME_PROPERTIES">加密卷屬性(&amp;V)...</control>
+    <control lang="zh-hk" key="IDC_VOLUME_TOOLS">加密卷工具(&amp;T)...</control>
+    <control lang="zh-hk" key="IDC_WIPE_CACHE">擦除緩存(&amp;W)</control>
+    <control lang="zh-hk" key="IDD_FAVORITE_VOLUMES">TrueCrypt - 收藏加密卷</control>
+    <control lang="zh-hk" key="IDD_HOTKEYS_DLG">TrueCrypt - 系統熱鍵</control>
+    <control lang="zh-hk" key="IDD_MOUNT_DLG">TrueCrypt</control>
+    <control lang="zh-hk" key="IDD_PASSWORDCHANGE_DLG">更改密碼或密鑰檔</control>
+    <control lang="zh-hk" key="IDD_PASSWORD_DLG">輸入 TrueCrypt 加密卷密碼</control>
+    <control lang="zh-hk" key="IDD_PERFORMANCE_SETTINGS">TrueCrypt - 性能選項</control>
+    <control lang="zh-hk" key="IDD_PREFERENCES_DLG">TrueCrypt - 參數選擇</control>
+    <control lang="zh-hk" key="IDD_SYSENC_SETTINGS">TrueCrypt - 系統加密設置選項</control>
+    <control lang="zh-hk" key="IDD_TOKEN_PREFERENCES">TrueCrypt - 安全口權杖參數</control>
+    <control lang="zh-hk" key="IDD_TRAVELER_DLG">TrueCrypt 便攜磁片安裝</control>
+    <control lang="zh-hk" key="IDD_VOLUME_PROPERTIES">TrueCrypt 加密卷屬性</control>
+    <control lang="zh-hk" key="IDM_ABOUT">關於 TrueCrypt...</control>
+    <control lang="zh-hk" key="IDM_ADD_REMOVE_VOL_KEYFILES">添加或移除密鑰文件...</control>
+    <control lang="zh-hk" key="IDM_ADD_VOLUME_TO_FAVORITES">添加已載入的加密卷為收藏加密卷...</control>
+    <control lang="zh-hk" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">添加已載入的加密卷為系統收藏加密卷...</control>
+    <control lang="zh-hk" key="IDM_ANALYZE_SYSTEM_CRASH">分析系統崩潰原因...</control>
+    <control lang="zh-hk" key="IDM_BACKUP_VOL_HEADER">備份加密卷頭信息...</control>
+    <control lang="zh-hk" key="IDM_BENCHMARK">基準測試...</control>
+    <control lang="zh-hk" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">設置首密鑰衍生演算法...</control>
+    <control lang="zh-hk" key="IDM_CHANGE_PASSWORD">更改加密卷密碼...</control>
+    <control lang="zh-hk" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">設置首密鑰離散演算法...</control>
+    <control lang="zh-hk" key="IDM_CHANGE_SYS_PASSWORD">更改密碼...</control>
+    <control lang="zh-hk" key="IDM_CLEAR_HISTORY">清除加密卷歷史記錄</control>
+    <control lang="zh-hk" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">關閉所有安全口權杖會話</control>
+    <control lang="zh-hk" key="IDM_CONTACT">聯繫作者（聯網）...</control>
+    <control lang="zh-hk" key="IDM_CREATE_HIDDEN_OS">創建隱形作業系統...</control>
+    <control lang="zh-hk" key="IDM_CREATE_RESCUE_DISK">創建應急盤...</control>
+    <control lang="zh-hk" key="IDM_CREATE_VOLUME">創建加密卷...</control>
+    <control lang="zh-hk" key="IDM_DEFAULT_KEYFILES">默認密鑰文件...</control>
+    <control lang="zh-hk" key="IDM_ENCRYPT_SYSTEM_DEVICE">加密系統分區/驅動器...</control>
+    <control lang="zh-hk" key="IDM_FAQ">常見問題（聯網）</control>
+    <control lang="zh-hk" key="IDM_HELP">用戶指南</control>
+    <control lang="zh-hk" key="IDM_HOMEPAGE">主頁（聯網）(&amp;H) </control>
+    <control lang="zh-hk" key="IDM_HOTKEY_SETTINGS">系統熱鍵...</control>
+    <control lang="zh-hk" key="IDM_KEYFILE_GENERATOR">密鑰文件生成器</control>
+    <control lang="zh-hk" key="IDM_LANGUAGE">語言選擇...</control>
+    <control lang="zh-hk" key="IDM_LICENSE">法律聲明（聯網）</control>
+    <control lang="zh-hk" key="IDM_MANAGE_TOKEN_KEYFILES">管理安全口權杖密鑰文件...</control>
+    <control lang="zh-hk" key="IDM_MOUNTALL">自動載入全部設備類加密卷</control>
+    <control lang="zh-hk" key="IDM_MOUNT_FAVORITE_VOLUMES">載入收藏加密卷</control>
+    <control lang="zh-hk" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">以非啟動驗證方式載入(&amp;A)...</control>
+    <control lang="zh-hk" key="IDM_MOUNT_VOLUME">載入所選加密卷</control>
+    <control lang="zh-hk" key="IDM_MOUNT_VOLUME_OPTIONS">根據選項載入加密卷</control>
+    <control lang="zh-hk" key="IDM_NEWS">軟體新聞（聯網）</control>
+    <control lang="zh-hk" key="IDM_ONLINE_HELP">線上幫助（聯網）</control>
+    <control lang="zh-hk" key="IDM_ONLINE_TUTORIAL">用戶嚮導（聯網）</control>
+    <control lang="zh-hk" key="IDM_ORGANIZE_FAVORITES">管理收藏加密卷...</control>
+    <control lang="zh-hk" key="IDM_ORGANIZE_SYSTEM_FAVORITES">管理系統收藏加密卷...</control>
+    <control lang="zh-hk" key="IDM_PERFORMANCE_SETTINGS">性能...</control>
+    <control lang="zh-hk" key="IDM_PERMANENTLY_DECRYPT_SYS">永久解密系統分區/驅動器</control>
+    <control lang="zh-hk" key="IDM_PREFERENCES">參數選擇...</control>
+    <control lang="zh-hk" key="IDM_REFRESH_DRIVE_LETTERS">刷新盤符列表</control>
+    <control lang="zh-hk" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">從加密卷中移除所有密鑰...</control>
+    <control lang="zh-hk" key="IDM_RESTORE_VOL_HEADER">恢復加密卷頭資訊...</control>
+    <control lang="zh-hk" key="IDM_RESUME_INTERRUPTED_PROC">繼續被中斷的過程</control>
+    <control lang="zh-hk" key="IDM_SELECT_DEVICE">選擇設備...</control>
+    <control lang="zh-hk" key="IDM_SELECT_FILE">選擇檔...</control>
+    <control lang="zh-hk" key="IDM_SYSENC_RESUME">繼續被中止的進程</control>
+    <control lang="zh-hk" key="IDM_SYSENC_SETTINGS">系統加密...</control>
+    <control lang="zh-hk" key="IDM_SYSTEM_ENCRYPTION_STATUS">屬性...</control>
+    <control lang="zh-hk" key="IDM_SYS_ENC_SETTINGS">設置...</control>
+    <control lang="zh-hk" key="IDM_SYS_FAVORITES_SETTINGS">系統收藏加密卷...</control>
+    <control lang="zh-hk" key="IDM_TC_DOWNLOADS">下載頁面（聯網）</control>
+    <control lang="zh-hk" key="IDM_TEST_VECTORS">測試向量...</control>
+    <control lang="zh-hk" key="IDM_TOKEN_PREFERENCES">安全口權杖...</control>
+    <control lang="zh-hk" key="IDM_TRAVELER">便攜磁片安裝...</control>
+    <control lang="zh-hk" key="IDM_UNMOUNTALL">卸載全部載入的加密卷</control>
+    <control lang="zh-hk" key="IDM_UNMOUNT_VOLUME">卸載所選加密卷</control>
+    <control lang="zh-hk" key="IDM_VERIFY_RESCUE_DISK">驗證應急盤</control>
+    <control lang="zh-hk" key="IDM_VERSION_HISTORY">版本歷史（聯網）</control>
+    <control lang="zh-hk" key="IDM_VOLUME_PROPERTIES">加密卷屬性</control>
+    <control lang="zh-hk" key="IDM_VOLUME_WIZARD">加密卷創建嚮導</control>
+    <control lang="zh-hk" key="IDM_WEBSITE">官方網站（聯網）</control>
+    <control lang="zh-hk" key="IDM_WIPE_CACHE">擦除緩存的密碼</control>
+    <control lang="zh-hk" key="IDOK">確定</control>
+    <control lang="zh-hk" key="IDT_ACCELERATION_OPTIONS">硬體加速</control>
+    <control lang="zh-hk" key="IDT_ASSIGN_HOTKEY">熱鍵</control>
+    <control lang="zh-hk" key="IDT_AUTORUN">自動運行配置（autorun.inf）</control>
+    <control lang="zh-hk" key="IDT_AUTO_DISMOUNT">自動卸載</control>
+    <control lang="zh-hk" key="IDT_AUTO_DISMOUNT_ON">全部卸載，當：</control>
+    <control lang="zh-hk" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">啟動管理器螢幕選項</control>
+    <control lang="zh-hk" key="IDT_CONFIRM_PASSWORD">確認密碼：</control>
+    <control lang="zh-hk" key="IDT_CURRENT">當前密碼</control>
+    <control lang="zh-hk" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">在啟動驗證螢幕顯示下面自定義資訊（最多 24 個字元）：</control>
+    <control lang="zh-hk" key="IDT_DEFAULT_MOUNT_OPTIONS">默認載入選項</control>
+    <control lang="zh-hk" key="IDT_DISMOUNT_ACTION">熱鍵設置</control>
+    <control lang="zh-hk" key="IDT_FAVORITE_LABEL">所選收藏加密卷的標籤:</control>
+    <control lang="zh-hk" key="IDT_FILE_SETTINGS">檔選項</control>
+    <control lang="zh-hk" key="IDT_HOTKEY_KEY">要分配的熱鍵：</control>
+    <control lang="en" key="IDT_HW_AES_SUPPORTED_BY_CPU">Processor (CPU) in this computer supports hardware acceleration for AES:</control>
+    <control lang="zh-hk" key="IDT_LOGON">Windows 登陸時執行的操作</control>
+    <control lang="zh-hk" key="IDT_MINUTES">分鐘</control>
+    <control lang="zh-hk" key="IDT_MOUNT_LETTER">以該驅動器盤符載入：</control>
+    <control lang="zh-hk" key="IDT_MOUNT_SETTINGS">載入設置</control>
+    <control lang="zh-hk" key="IDT_NEW">新密碼</control>
+    <control lang="zh-hk" key="IDT_NEW_PASSWORD">密碼：</control>
+    <control lang="zh-hk" key="IDT_PARALLELIZATION_OPTIONS">線程基礎的平行計算</control>
+    <control lang="zh-hk" key="IDT_PKCS11_LIB_PATH">PKCS #11 運行庫路徑</control>
+    <control lang="zh-hk" key="IDT_PKCS5_PRF">PKCS-5 PRF：</control>
+    <control lang="zh-hk" key="IDT_PW_CACHE_OPTIONS">密碼緩存</control>
+    <control lang="zh-hk" key="IDT_SECURITY_OPTIONS">安全選項</control>
+    <control lang="zh-hk" key="IDT_TASKBAR_ICON">TrueCrypt 後臺任務</control>
+    <control lang="zh-hk" key="IDT_TRAVELER_MOUNT">要載入的 TrueCrypt 加密卷（相對於便攜磁片的根目錄）：</control>
+    <control lang="zh-hk" key="IDT_TRAVEL_INSERTION">在插入便攜磁片時：</control>
+    <control lang="zh-hk" key="IDT_TRAVEL_ROOT">創建便攜磁片檔於（便攜磁片根目錄）：</control>
+    <control lang="zh-hk" key="IDT_VOLUME">加密卷</control>
+    <control lang="zh-hk" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
+    <control lang="zh-hk" key="IDC_ADD_KEYFILE_PATH">添加路徑(&amp;P)...</control>
+    <control lang="zh-hk" key="IDC_AUTO">全部自動測試(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_CONTINUE">繼續(&amp;C)</control>
+    <control lang="zh-hk" key="IDC_DECRYPT">解密(&amp;D)</control>
+    <control lang="zh-hk" key="IDC_DELETE">刪除(&amp;D)</control>
+    <control lang="zh-hk" key="IDC_ENCRYPT">加密(&amp;E)</control>
+    <control lang="zh-hk" key="IDC_EXPORT">導出(&amp;E)...</control>
+    <control lang="zh-hk" key="IDC_GENERATE_AND_SAVE_KEYFILE">生成並保存密鑰檔...</control>
+    <control lang="zh-hk" key="IDC_GENERATE_KEYFILE">生成隨機密鑰檔(&amp;G)...</control>
+    <control lang="zh-hk" key="IDC_GET_LANG_PACKS">下載語言包</control>
+    <control lang="zh-hk" key="IDC_HW_AES_LABEL_LINK">硬體加速 AES:</control>
+    <control lang="zh-hk" key="IDC_IMPORT_KEYFILE">導入密鑰文件到口權杖(&amp;I)...</control>
+    <control lang="zh-hk" key="IDC_KEYADD">添加文件(&amp;F)...</control>
+    <control lang="zh-hk" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">使用密鑰檔(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_KEYFILES_HIDVOL_PROT">密鑰文件(&amp;K)...</control>
+    <control lang="zh-hk" key="IDC_KEYREMOVE">移除(&amp;R)</control>
+    <control lang="zh-hk" key="IDC_KEYREMOVEALL">全部移除(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_LINK_HIDVOL_PROTECTION_INFO">什麼是隱藏加密卷保護？</control>
+    <control lang="zh-hk" key="IDC_LINK_KEYFILES_INFO">密鑰檔的更多資訊（聯網）</control>
+    <control lang="zh-hk" key="IDC_MOUNT_REMOVABLE">載入加密卷為可移動介質(&amp;M)</control>
+    <control lang="zh-hk" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">以非預啟動驗證方式載入使用系統加密處理的分區(&amp;U)</control>
+    <control lang="zh-hk" key="IDC_PARALLELIZATION_LABEL_LINK">平行計算:</control>
+    <control lang="zh-hk" key="IDC_PERFORM_BENCHMARK">基準測試</control>
+    <control lang="zh-hk" key="IDC_PRINT">列印(&amp;P)</control>
+    <control lang="zh-hk" key="IDC_PROTECT_HIDDEN_VOL">向外層加密卷寫入資料時保護隱藏加密卷(&amp;P)</control>
+    <control lang="zh-hk" key="IDC_RESET">重置(&amp;R)</control>
+    <control lang="zh-hk" key="IDC_SHOW_PASSWORD_MO">顯示密碼(&amp;A)</control>
+    <control lang="zh-hk" key="IDC_TOKEN_FILES_ADD">添加口權杖(&amp;T)...</control>
+    <control lang="zh-hk" key="IDC_USE_EMBEDDED_HEADER_BAK">使用嵌入在卷中的備份頭資訊（如果有可用的）(&amp;V)</control>
+    <control lang="zh-hk" key="IDC_XTS_MODE_ENABLED">XTS 模式</control>
+    <control lang="zh-hk" key="IDD_ABOUT_DLG">關於 TrueCrypt</control>
+    <control lang="zh-hk" key="IDD_BENCHMARK_DLG">TrueCrypt - 加密演算法基準測試</control>
+    <control lang="zh-hk" key="IDD_CIPHER_TEST_DLG">TrueCrypt - 測試向量</control>
+    <control lang="zh-hk" key="IDD_COMMANDHELP_DLG">命令行幫助</control>
+    <control lang="zh-hk" key="IDD_KEYFILES">TrueCrypt - 密鑰文件</control>
+    <control lang="zh-hk" key="IDD_KEYFILE_GENERATOR">TrueCrypt - 密鑰文件生成器</control>
+    <control lang="zh-hk" key="IDD_LANGUAGE">TrueCrypt - 語言</control>
+    <control lang="zh-hk" key="IDD_MOUNT_OPTIONS">TrueCrypt - 載入選項</control>
+    <control lang="zh-hk" key="IDD_NEW_TOKEN_KEYFILE">新的安全口權杖密鑰檔屬性</control>
+    <control lang="zh-hk" key="IDD_RANDOM_POOL_ENRICHMENT">TrueCrypt - 隨機緩衝增強</control>
+    <control lang="zh-hk" key="IDD_RAWDEVICES_DLG">選擇一個分區或設備</control>
+    <control lang="zh-hk" key="IDD_STATIC_MODELESS_WAIT_DLG">TrueCrypt</control>
+    <control lang="zh-hk" key="IDD_TOKEN_KEYFILES">安全口權杖密鑰檔</control>
+    <control lang="zh-hk" key="IDD_TOKEN_PASSWORD">需要安全口權杖密碼PIN</control>
+    <control lang="zh-hk" key="IDT_ACTIVE_LANG_PACK">當前語言包</control>
+    <control lang="zh-hk" key="IDT_BOX_BENCHMARK_INFO">速度由 CPU 和存儲設備性能決定。\n\n這些測試在記憶體中進行。</control>
+    <control lang="zh-hk" key="IDT_BUFFER_SIZE">緩衝大小：</control>
+    <control lang="zh-hk" key="IDT_CIPHER">密碼：</control>
+    <control lang="zh-hk" key="IDT_HIDDEN_PROT_PASSWD">隱藏加密卷的密碼(&amp;A)：\n（如果為空，則使用緩存）</control>
+    <control lang="zh-hk" key="IDT_HIDDEN_VOL_PROTECTION">保護隱藏加密卷</control>
+    <control lang="zh-hk" key="IDT_KEY">密鑰長度：</control>
+    <control lang="zh-hk" key="IDT_KEYFILE_GENERATOR_NOTE">重要：請在此視窗內隨機移動滑鼠，移動時間越長越好。這將會顯著增加密鑰的加密強度。</control>
+    <control lang="zh-hk" key="IDT_KEYFILE_WARNING">警告：如果您丟失了密鑰檔或者密鑰檔的前 1024 KB 位元組已改變，將不可能再載入使用該密鑰的加密卷！</control>
+    <control lang="zh-hk" key="IDT_KEY_UNIT">位</control>
+    <control lang="zh-hk" key="IDT_LANGPACK_AUTHORS">翻譯人員：</control>
+    <control lang="zh-hk" key="IDT_PLAINTEXT">明文密碼長度：</control>
+    <control lang="zh-hk" key="IDT_PLAINTEXT_SIZE_UNIT">位</control>
+    <control lang="zh-hk" key="IDT_POOL_CONTENTS">當前緩衝內容</control>
+    <control lang="zh-hk" key="IDT_PRF">混合 PRF：</control>
+    <control lang="zh-hk" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">重要：在視窗內盡可能自由的移動滑鼠。移動時間越長效果越好。這將會顯著增加安全性。當操作完成時，點擊 '繼續' 按鈕。</control>
+    <control lang="zh-hk" key="IDT_SECONDARY_KEY">次密鑰（十六進位）</control>
+    <control lang="zh-hk" key="IDT_SECURITY_TOKEN">安全口權杖：</control>
+    <control lang="zh-hk" key="IDT_SORT_METHOD">排序方式：</control>
+    <control lang="zh-hk" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">請耐心等待，此過程可能需要較長時間...</control>
+    <control lang="zh-hk" key="IDT_TEST_BLOCK_NUMBER">塊數值：</control>
+    <control lang="zh-hk" key="IDT_TEST_CIPHERTEXT">加密文本（十六進位）</control>
+    <control lang="zh-hk" key="IDT_TEST_DATA_UNIT_NUMBER">資料單元數值（64-位元十六進位，資料單元大小為 512 位元組）</control>
+    <control lang="zh-hk" key="IDT_TEST_KEY">密鑰（十六進位）</control>
+    <control lang="zh-hk" key="IDT_TEST_PLAINTEXT">明文密碼（十六進位）</control>
+    <control lang="zh-hk" key="IDT_TOKEN_KEYFILE_NAME">密鑰檔案名：</control>
+    <control lang="zh-hk" key="IDT_XTS_MODE">XTS 模式</control>
+    <control lang="zh-hk" key="MENU_SYSTEM_ENCRYPTION">系統(&amp;Y)</control>
+    <control lang="zh-hk" key="MENU_VOLUMES">加密卷(&amp;V)</control>
+    <control lang="zh-hk" key="MENU_FAVORITES">收藏卷(&amp;I)</control>
+    <control lang="zh-hk" key="MENU_TOOLS">工具(&amp;O)</control>
+    <control lang="zh-hk" key="MENU_SETTINGS">設置(&amp;G)</control>
+    <control lang="zh-hk" key="MENU_HELP">説明(&amp;H)</control>
+    <control lang="zh-hk" key="MENU_WEBSITE">   主頁（聯網）(&amp;P)   </control>
+    <!-- Strings -->
+    <string lang="zh-hk" key="ABOUTBOX">關於(&amp;A)...</string>
+    <string lang="zh-hk" key="ACCESSMODEFAIL">不能更改舊版本加密卷的唯讀屬性。請檢查檔訪問許可權。</string>
+    <string lang="zh-hk" key="ACCESS_DENIED">錯誤：訪問被拒絕。\n\n您試圖要訪問的分區要麼長度是 0 磁區，要麼是啟動設備。</string>
+    <string lang="zh-hk" key="ADMINISTRATOR">系統管理員</string>
+    <string lang="zh-hk" key="ADMIN_PRIVILEGES_DRIVER">要載入 TrueCrypt 驅動，您必需以一個具有管理員許可權的帳號登陸。</string>
+    <string lang="zh-hk" key="ADMIN_PRIVILEGES_WARN_DEVICES">請注意：如果要加密或格式化某分區和設備您必需以一個 具有管理員許可權的帳號登陸。\n\n檔類型加密卷不受這個限制。</string>
+    <string lang="zh-hk" key="ADMIN_PRIVILEGES_WARN_HIDVOL">如果要創建隱藏的加密卷，您必須以一個 具有管理員許可權的帳號登陸。\n\n需要繼續嗎？</string>
+    <string lang="zh-hk" key="ADMIN_PRIVILEGES_WARN_NTFS">請注意：如果要把加密卷格式化為 NTFS 檔系統，您必需以一個 具有管理員許可權的帳號登陸。\n\n若無管理員許可權，您可以格式化加密卷為 FAT 檔系統。</string>
+    <string lang="zh-hk" key="AES_HELP">FIPS-認可的加密演算法（Rijndael，發表於 1998）可能被美國聯邦部門和機構用來對特定資訊進行頂極保護。256 位密鑰、128-位塊、14 次離散迴圈（AES-256，發表於 2001 年）。操作模式為 XTS。</string>
+    <string lang="zh-hk" key="ALREADY_MOUNTED">加密卷已載入。</string>
+    <string lang="zh-hk" key="ERR_SELF_TESTS_FAILED">小心：在內置自動檢測時，至少一個 加密或哈希演算法失敗了！\n\n此 TrueCrypt 安裝可能已損壞。</string>
+    <string lang="zh-hk" key="ERR_NOT_ENOUGH_RANDOM_DATA">注意：在亂數生成器緩衝中的資料不足，無法提供要求數量的亂數據。\n\n您不應當繼續進行。請從幫助功能表選擇“報告錯誤”來報告此軟體錯誤。</string>
+    <string lang="zh-hk" key="ERR_HARDWARE_ERROR">該設備已經損壞（這是物理損壞）或者線纜損壞，或者是記憶體出現故障。\n\n請注意這是您的硬體的問題，並不是 TrueCrypt 的問題。因此，請不要把這個報告為 TrueCrypt 的錯誤，並且也不要在 TrueCrypt 論壇對此問題尋求幫助。請聯繫您的電腦供應商獲取技術支援，謝謝您！\n\n注意：如果該提示反復出現在同一位置，那就很可能是磁片壞塊導致的，應該通過使用第三方軟體來修復（請注意，在很多情況下，'chkdsk /r' 命令由於工作在系統層因此不能修復此問題；在某些情況中，'chkdsk' 工具甚至不能檢測到此類錯誤。</string>
+    <string lang="zh-hk" key="DEVICE_NOT_READY_ERROR">如果您正在訪問驅動器上的可移動介質，請確認可移動介質已經插入驅動器。驅動器/介質可能已被損壞（可能是物理原因），或者線纜已經損壞或斷開。</string>
+    <string lang="zh-hk" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">您的系統好象使用了帶有不支援創建全盤加密缺陷的第三方的晶片驅動。\n\n請在繼續之前嘗試更新或者卸載任何第三方晶片驅動（非微軟認證的驅動）。 如果仍然不起作用，請嘗試只加密系統分區。</string>
+    <string lang="zh-hk" key="BAD_DRIVE_LETTER">無效驅動器盤符。</string>
+    <string lang="zh-hk" key="INVALID_PATH">無效路徑。</string>
+    <string lang="zh-hk" key="CANCEL">取消</string>
+    <string lang="zh-hk" key="CANNOT_CALC_SPACE">無法訪問設備。請確保選中的設備存在並且未被系統佔用。</string>
+    <string lang="zh-hk" key="CAPSLOCK_ON">警告：Caps Lock（大小寫鎖定）已開啟。這可能導致您輸入密碼錯誤。</string>
+    <string lang="zh-hk" key="VOLUME_TYPE_TITLE">卷類型</string>
+    <string lang="zh-hk" key="HIDDEN_VOLUME_TYPE_HELP">可能在某些情況，有些人會迫使您告訴它們加密卷密碼。很多情況您可能無法拒絕這種要求（例如，存在暴力因素）。使用這種隱藏加密卷可以解決此類問題，而不須洩漏隱藏加密卷密碼。</string>
+    <string lang="zh-hk" key="NORMAL_VOLUME_TYPE_HELP">選擇您希望創建常規 TrueCrypt 加密卷的選項。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">請注意，如果您希望把作業系統安裝在隱藏加密分區之中，那麼整個系統驅動器不能使用單獨的密鑰加密（翻譯待驗證）。</string>
+    <string lang="zh-hk" key="CIPHER_HIDVOL_HOST_TITLE">外層加密卷加密選項</string>
+    <string lang="zh-hk" key="CIPHER_HIDVOL_TITLE">隱藏加密卷加密選項</string>
+    <string lang="zh-hk" key="CIPHER_TITLE">加密選項</string>
+    <string lang="zh-hk" key="CLEAN_WINMRU_FAILED">警告：清除上次選擇的加密卷或密鑰檔路徑失敗（由檔選擇器記憶）！</string>
+    <string lang="zh-hk" key="COMPRESSION_NOT_SUPPORTED">錯誤：此加密卷在 NTFS 格式分區上壓縮過。TrueCrypt 不支持壓縮過的加密卷（這是因為壓縮過的加密資料會低效和存在資料冗餘）。\n\n請使用以下步驟取消壓縮： 1）在Windows資源管理器中右鍵單擊加密卷（不是在 TrueCrypt 視窗中）。 2）選擇“屬性”。 3）在“屬性”對話方塊，單擊“高級”。 4）在“高級屬性”對話方塊，禁用“壓縮內容以節省磁碟空間”並點擊“確定”。 5）返回到“屬性”對話方塊，點“確定”。</string>
+    <string lang="zh-hk" key="CREATE_FAILED">創建加密卷  %hs 失敗</string>
+    <string lang="zh-hk" key="DEVICE_FREE_BYTES">%hs 的大小為 %.2f 位元組</string>
+    <string lang="zh-hk" key="DEVICE_FREE_KB">%hs 的大小為 %.2f KB</string>
+    <string lang="zh-hk" key="DEVICE_FREE_MB">%hs 的大小為 %.2f MB</string>
+    <string lang="zh-hk" key="DEVICE_FREE_GB">%hs 的大小為 %.2f GB</string>
+    <string lang="zh-hk" key="DEVICE_FREE_TB">%hs 的大小為 %.2f TB</string>
+    <string lang="zh-hk" key="DEVICE_FREE_PB">%hs 的大小為 %.2f PB</string>
+    <string lang="zh-hk" key="DEVICE_IN_USE_FORMAT">警告：設備/分區正在被系統或應用程式佔用。格式化該設備/分區它可能導致資料丟失或系統不穩定。\n\n繼續進行格式化嗎？</string>
+    <string lang="zh-hk" key="DEVICE_IN_USE_INPLACE_ENC">警告：該分區正在被作業系統或應用程式使用。您應當關閉任何可能佔用此分區的程式（包括反病毒軟體）。\n\n確認繼續嗎？</string>
+    <string lang="zh-hk" key="FORMAT_CANT_DISMOUNT_FILESYS">錯誤：該設備/分區包含不能被卸載的檔系統。此檔系統可能被作業系統使用。格式化此設備/分區很可能會導致資料損壞或者是系統不穩定。\n\n要解決此問題，我們推薦您首先刪除該分區之後在不格式化的情況下重新創建這個分區。要達成此目的，請遵照下麵步驟： 1）在 '開始' 菜單右鍵單擊 '電腦'（或者 '我的電腦'）圖示，之後選擇 '管理'，顯示 '電腦管理' 視窗。 2）在 '電腦管理' 視窗，選擇 '磁片管理'。 3）右鍵單擊要加密的分區，你可以選擇 '刪除分區' 或者是 '刪除卷'，或者是 '刪除邏輯驅動器'。 4）如果 Windows 提示重啟電腦，點 '是' 重啟。之後在第 5 個步驟中重複第 1 和第 2 步。 5）右鍵單擊未分配/自由空間並選擇 '新建分區'，或者 '新的卷'，或者 '新邏輯驅動器'。 6）在 '新分區嚮導' 或者 '新建卷嚮導' 視窗中，在帶有 '格式化分區' 標題的對話方塊中，選擇 '不格式化此分區' 或者是 '不格式化此卷'。在同樣的嚮導裏面，點 '下一步' 之後點 '完成' 按鈕。 7）注意：您現在在 Truecrypt 中選擇的設備路徑可能是錯誤的，因此，退出並重新啟動 TrueCrypt 加密卷創建嚮導（如果正在運行）。 8）嘗試重新加密該設備/分區。\n\n如果 TrueCrypt 仍然會加密失敗，您可以考慮創建檔類型的加密卷。</string>
+    <string lang="zh-hk" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">錯誤：此檔系統不能被鎖定 和/或 卸載。可能正在被作業系統或應用程式佔用（例如反病毒軟體）。加密此分區可能會導致資料損壞或者系統不穩定。\n\n請關閉任何可能佔用此分區的程式（包括反病毒軟體）並再試一次。如果仍然無效請參考下面步驟。</string>
+    <string lang="zh-hk" key="DEVICE_IN_USE_INFO">警告：一些載入的設備/分區正在使用中！\n\n若忽略這些則可能導致非期望的結果，包括系統不穩定。\n\n我們強烈建議您關閉所有可能正在使用 此設備/分區的應用程式。</string>
+    <string lang="zh-hk" key="DEVICE_PARTITIONS_ERR">選定的設備包含分區。\n\n格式化該設備可能會導致系統不穩定或資料丟失。您可以選擇該設備的某個分區，或者刪除該設備的所有分區，以保證 TrueCrypt 對其安全格式化。</string>
+    <string lang="zh-hk" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">選擇的非系統設備包含多個分區。\n\n設備類加密卷也可以在不包含任何分區的設備中創建（包括硬碟以及固態硬碟設備）。一個包含多個分區的設備，只有在此驅動器為 Windows 安裝和啟動分區時，才可以就地整盤加密（使用單一主密鑰）。\n\n如果您想使用單一主密鑰加密選擇的非系統設備，您需要首先移除所有分區以便 TrueCrypt 對其安全格式化（格式化包含多個分區的設備可能會導致系統不穩定 和/或 資料損壞。作為替代方法，您也可以單獨加密驅動器上的每個分區（每個分區將使用不同的主密鑰）。\n\n注意：如果您想從 GPT 磁片中移除所有分區，您可能需要把它轉換為 MBR 磁片（使用諸如電腦管理工具）以便移除隱藏分區。</string>
+    <string lang="zh-hk" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">警告：如果您加密了整個設備（而不是只加密設備上的一個分區），作業系統將會認為這個設備是新的、空的，和未格式化的（因為它沒有分區表），因此可能隨後會初始化這個設備（或者詢問您是否初始化），這可能會損壞加密卷。另外，也不能一如既往的將此加密卷載入為收藏卷（例如，當驅動器數目變化時），也不能為其賦予收藏卷標籤。\n\n要避免此類事情發生，您可以考慮在此設備上創建一個分區並加密此分區。\n\n您確認要加密整個設備嗎？</string>
+    <string lang="zh-hk" key="AFTER_FORMAT_DRIVE_LETTER_WARN">重要：請牢記，此加密卷不能使用當前賦給它的驅動器盤符 %c: 載入/訪問，這個盤符已經賦給了這個分區！\n\n要載入此加密卷，點擊 TrueCrypt 主視窗的 '自動載入設備'（也可以這樣，在 TrueCrypt 主視窗，點擊 '選擇設備'，之後選擇該分區/驅動器，然後點 '載入' 按鈕）。這個加密卷便會以不同的盤符載入（這個盤符可以在 TrueCrypt 主視窗的盤符列表中選擇）。\n\n原始的驅動盤符 %c: 僅應當在您需要移除對該分區/驅動器的加密時使用（例如：如果您不再需要加密）。在這種情況下，右鍵單擊 '我的電腦'（或者是 '資源管理器'）中的驅動器盤符 %c: 並選擇 '格式化'。否則該驅動器盤符 %c: 應當一直都不要使用（除非您移除它並把它指定給另外的分區/驅動器）。</string>
+    <string lang="zh-hk" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">就地加密非系統卷在您的作業系統裏不被支援（僅在 Windows Vista 和以後版本中支持）。\n\n原因是當前作業系統不支援檔系統壓縮（檔系統需要壓縮來為加密卷頭資訊以及備份頭資訊獲取空間）。</string>
+    <string lang="zh-hk" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">選擇的分區看起來不包含 NTFS 檔系統。僅在 NTFS 檔系統下才支援就地加密。\n\n說明：原因是當前作業系統不支援檔系統壓縮（檔系統需要壓縮來為加密卷頭資訊以及備份頭資訊獲取空間）。</string>
+    <string lang="zh-hk" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">選擇的分區看起來不包含 NTFS 檔系統。僅在 NTFS 檔系統下才支援就地加密。\n\n如果您想在此分區內創建 TrueCrypt 加密卷，請選擇 "創建加密卷並格式化"（而不是選擇 "就地加密分區"）.</string>
+    <string lang="zh-hk" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">錯誤：分區太小，TrueCrypt 不能實現就地加密。</string>
+    <string lang="zh-hk" key="INPLACE_ENC_ALTERNATIVE_STEPS">要加密此分區的資料，請遵循以下步驟：\n\n1）在一個空的 分區/設備 上創建一個 TrueCrypt 加密卷之後載入此加密卷。\n\n2）複製待加密分區中的所有資料到這個已經載入的 TrueCrypt 加密卷（該加密卷已經在步驟 1) 中創建）。這種方式下，您就創建了一個被 TrueCrypt 加密了的資料備份。\n\n3）在要加密的分區上創建一個 TrueCrypt 加密卷並確認您選擇了（在 TrueCrypt 嚮導中）選項 "創建加密卷並格式化"（而不是選擇選項 "就地加密分區"）。注意，所有存儲於該分區的資料都會被擦除。加密卷創建之後，載入這個加密卷。\n\n4）複製備份加密卷（在步驟 1)  中創建的）中的所有檔到這個新創建和載入的加密卷中（在步驟 3) 中創建和載入的）。\n\n完成以上步驟之後，資料將會被加密，並且，也會額外的備份了資料的加密副本。</string>
+    <string lang="zh-hk" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">TrueCrypt 只能就地加密分區、動態卷，或者整個系統啟動器。\n\n如果您想在選擇的非系統設備中創建加密卷，請選擇選項 "創建加密卷並格式化"（而不是選擇選項 "就地加密分區"）。</string>
+    <string lang="zh-hk" key="INPLACE_ENC_INVALID_PATH">錯誤：TrueCrypt 只能就地加密分區、動態卷，或者整個系統啟動器。請確認指定的路徑有效。</string>
+    <string lang="zh-hk" key="CANNOT_RESIZE_FILESYS">錯誤：不能壓縮檔系統（檔系統需要壓縮來為加密卷頭資訊以及備份頭資訊獲取空間）。\n\n可能原因及解決：\n\n- 該卷上無足夠的剩餘空間。請確認沒有其他程式正在寫入此檔系統。\n\n- 損壞的檔系統。嘗試檢查和修復錯誤（在 '我的電腦' 裏右鍵單擊相應的驅動器盤符，之後選擇 屬性 &gt; 工具 &gt; '開始檢查'，確認已經選擇了選項 '自動修復檔系統錯誤'，之後單擊 '開始' 按鈕）。\n\n如果以上方法都不起作用，請遵循以下步驟。</string>
+    <string lang="zh-hk" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">錯誤：剩餘空間不足，因此檔系統不能被壓縮（檔系統需要壓縮來為加密卷頭資訊以及備份頭資訊獲取空間）。\n\n請刪除任何多餘檔並清空回收站以便釋放 256KB 的空間之後再嘗試。注意由於 Windows 的問題，Windows 資源管理器報告的自由空間數量在作業系統重新啟動前可能是不正確的。如果重啟系統後並無幫助，檔系統可能已經損壞了。嘗試檢查和修復錯誤（在 '我的電腦' 裏右鍵單擊相應的驅動器盤符，之後選擇 屬性 &gt; 工具 &gt; '開始檢查'，確認已經選擇了選項 '自動修復檔系統錯誤'，之後單擊 '開始' 按鈕）。\n\n如果以上方法都不起作用，請遵循以下步驟。</string>
+    <string lang="zh-hk" key="DISK_FREE_BYTES">驅動器 %hs 上的自由空間為 %.2f 位元組。</string>
+    <string lang="zh-hk" key="DISK_FREE_KB">驅動器 %hs 的自由空間大小為 %.2f KB</string>
+    <string lang="zh-hk" key="DISK_FREE_MB">驅動器 %hs 的自由空間大小為 %.2f MB</string>
+    <string lang="zh-hk" key="DISK_FREE_GB">驅動器 %hs 的自由空間大小為 %.2f GB</string>
+    <string lang="zh-hk" key="DISK_FREE_TB">驅動器 %hs 的自由空間大小為 %.2f TB</string>
+    <string lang="zh-hk" key="DISK_FREE_PB">驅動器 %hs 的自由空間大小為 %.2f PB</string>
+    <string lang="zh-hk" key="DRIVELETTERS">無法得到可用的驅動器盤符。</string>
+    <string lang="zh-hk" key="DRIVER_NOT_FOUND">錯誤：未發現 TrueCrypt 驅動程式！\n\n請複製“truecrypt.sys”和“truecrypt-x64.sys”文件到 TrueCrypt.exe 程式所在的目錄。</string>
+    <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the TrueCrypt driver is currently running.\n\nIf you are trying to run TrueCrypt in portable mode (i.e. without installing it) and a different version of TrueCrypt is already installed, you must uninstall it first (or upgrade it using the TrueCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' &gt; Computer &gt; 'Uninstall or change a program' &gt; TrueCrypt &gt; Uninstall; on Windows XP, select 'Start Menu' &gt; Settings &gt; 'Control Panel' &gt; 'Add Or Remove Programs' &gt; TrueCrypt &gt; Remove.\n\nSimilarly, if you are trying to run TrueCrypt in portable mode (i.e. without installing it) and a different version of TrueCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
+    <string lang="zh-hk" key="ERR_CIPHER_INIT_FAILURE">錯誤：密碼初始化失敗。</string>
+    <string lang="zh-hk" key="ERR_CIPHER_INIT_WEAK_KEY">錯誤：檢測到弱強度密鑰！ 密鑰將被廢棄。請重試。</string>
+    <string lang="zh-hk" key="EXCEPTION_REPORT">發生了關鍵性錯誤，TrueCrypt 必須被終止。如果該錯誤是 TrueCrypt 的缺陷導致的，我們可能會修正它。要協助我們完善軟體，您可以把 Truecrypt 自動生成的錯誤報告發送給我們，報告包括下面內容：\n\n- 程式版本\n- 作業系統版本\n- CPU類型\n- TrueCrypt 元件名稱\n- TrueCrypt 執行程式的校驗值\n- 對話方塊視窗的符號標記\n- 錯誤分類\n- 錯誤位址資訊\n- TrueCrypt 調用堆疊\n\n如果您選擇“是”，下面的 URL 網址（包含錯誤報告）將會在您的默認流覽器中打開。\n\n%hs\n\n您希望發送給我們上述錯誤報告嗎？</string>
+    <string lang="zh-hk" key="EXCEPTION_REPORT_EXT">您的系統發生了關鍵性錯誤，該錯誤會終止 TrueCrypt。\n\n需要注意的是此錯誤並非由 TrueCrypt 導致（因此 TrueCrypt 開發者並不會修復這個錯誤）。請檢查您的系統來查找可能的原因（例如：系統配置、網路連接、失效的硬體元件等）。</string>
+    <string lang="zh-hk" key="EXCEPTION_REPORT_EXT_FILESEL">系統發生了關鍵性錯誤，要求終止 TrueCrypt。\n\n如果此錯誤一直存在，您可能需要嘗試禁用或卸載可能潛在導致此問題的應用程式，例如防病毒或防火牆軟體，系統性能提升軟體、優化軟體或者系統設置軟體，等等。如果仍然無法解決問題，您可能需要嘗試從新安裝您的作業系統（此問題也可能由惡意軟體導致）。</string>
+    <string lang="zh-hk" key="EXCEPTION_REPORT_TITLE">TrueCrypt 關鍵性錯誤</string>
+    <string lang="zh-hk" key="SYSTEM_CRASHED_ASK_REPORT">TrueCrypt 檢測到作業系統最近曾經崩潰過。系統崩潰存在很多潛在的原因（例如，硬體失敗，設備驅動存在BUG等等）\n\n您想要 TrueCrypt 檢查此次系統崩潰是否為 TrueCrypt 導致的嗎？</string>
+    <string lang="zh-hk" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">您想要 TrueCrypt 繼續檢查此次系統崩潰嗎？</string>
+    <string lang="zh-hk" key="NO_MINIDUMP_FOUND">TrueCrypt 未發現系統崩潰轉儲檔。</string>
+    <string lang="en" key="ASK_DELETE_KERNEL_CRASH_DUMP">Do you want to delete the Windows crash dump file to free up disk space?</string>
+    <string lang="zh-hk" key="ASK_DEBUGGER_INSTALL">為了分析系統崩潰原因，TrueCrypt 需要先安裝微軟調試工具。\n\n在您點擊 "確定" 按鈕之後，Windows installer 程式將會從微軟伺服器下載微軟調試工具安裝程式（16MB）並隨後安裝它( Windows installer 程式會從 truecrypt.org 伺服器上提交請求到微軟伺服器〖就是說先訪問 TrueCrypt 網站再訪問微軟〗，這樣即使微軟改變了安裝包的位址，此功能依然有效)。</string>
+    <string lang="zh-hk" key="SYSTEM_CRASH_ANALYSIS_INFO">在您點擊 "確定" 按鈕之後，TrueCrypt 將會分析系統崩潰原因，這可能會花費幾分鐘的時間。</string>
+    <string lang="zh-hk" key="DEBUGGER_NOT_FOUND">請確認環境變數 'PATH' 包含 'kd.exe'（內核調試器）的路徑。</string>
+    <string lang="zh-hk" key="SYSTEM_CRASH_NO_TRUECRYPT">看起來很可能 TrueCrypt 不是導致系統崩潰的原因。系統崩潰存在很多潛在的原因（例如，硬體失敗，設備驅動存在BUG等等）</string>
+    <string lang="zh-hk" key="SYSTEM_CRASH_UPDATE_DRIVER">分析結果表明更新下面驅動可能會解決問題：</string>
+    <string lang="zh-hk" key="SYSTEM_CRASH_REPORT">要協助我們確認這是否為 Truecrypt 的 BUG，您可以發送給我們一份自動生成的錯誤報告，錯誤報告包括下面內容：\n- 程式版本\n- 作業系統版本\n- CPU類型\n- 錯誤分類\n- 驅動名稱和版本\n- 系統調用堆疊\n\n如果您選擇“是”，下面的 URL 網址（包含錯誤報告）將會在您的默認流覽器中打開。</string>
+    <string lang="zh-hk" key="ASK_SEND_ERROR_REPORT">您希望把上述錯誤報告發送給我們嗎？</string>
+    <string lang="zh-hk" key="ENCRYPT">加密(&amp;E)</string>
+    <string lang="zh-hk" key="DECRYPT">解密(&amp;D)</string>
+    <string lang="zh-hk" key="PERMANENTLY_DECRYPT">&amp;永久解密</string>
+    <string lang="zh-hk" key="EXIT">退出</string>
+    <string lang="zh-hk" key="EXT_PARTITION">請為該擴展分區創建一個邏輯分區，然後再試。</string>
+    <string lang="zh-hk" key="FILE_HELP">TrueCrypt 加密卷可以存在於一個檔之中（叫作 TrueCrypt 容器），這個容器檔可以存在於硬碟上，或位於 USB 快閃記憶體上，等等。TrueCrypt 加密盤就象一個普通檔（例如，可以象任何普通檔一樣被移動、複製、刪除）。點擊 '選擇檔' 按鈕為容器檔選擇一個檔案名和它的保存位置。\n\n警告：如果您選擇了一個已經存在的檔，TrueCrypt 並不會加密它，該檔將會被刪除並會被新創建的 TrueCrypt 容器檔所覆蓋。您可以通過把檔複製到即將創建的 TrueCrypt 加密容器裏面去，來實現對相應檔的加密。</string>
+    <string lang="zh-hk" key="FILE_HELP_HIDDEN_HOST_VOL">選擇要創建的外層加密卷的位置（稍後將在此加密卷裏面創建隱藏加密卷）。\n\n一個 TrueCrypt 加密卷可以存在於一個檔之中（也可叫作 TrueCrypt 容器），這個加密盤檔可以存放在硬碟上，或位於 USB 快閃記憶體上，等等。TrueCrypt 容器可以象任何普通檔一樣被移動、複製、和刪除。點擊 '選擇檔' 按鈕為容器檔選擇一個檔案名和它的保存位置。如果您選擇了一個已經存在的檔，TrueCrypt 並不會加密它，該檔將會被刪除並會被新創建的 TrueCrypt 加密容器所覆蓋。您可以通過把檔複製到即將創建的 TrueCrypt 加密容器裏面去，來實現對相應檔的加密。</string>
+    <string lang="zh-hk" key="DEVICE_HELP">設備類 TrueCrypt 加密卷可以創建於硬碟分區、固態硬碟、USB 快閃記憶體、以及其他存儲設備上。分區也可以就地加密。\n\n除此之外，設備類加密卷也可以在不包含任何分區的設備中創建（包括硬碟以及固態設備）。\n\n注意：包含多個分區的設備，只有在此分區為 Windows 安裝和啟動分區時，才可以就地整盤加密（使用單一密鑰）。\n\n警告：如果您加密整個分區或設備，所有當前存儲於這個分區或設備上的資料將會被徹底擦除（僅在加密系統啟動分區/驅動器時該分區上的資料才不會被破壞）。</string>
+    <string lang="zh-hk" key="DEVICE_HELP_NO_INPLACE">設備類的 TrueCrypt 加密卷可以在硬碟分區、固態驅動器、USB 快閃記憶體，以及其他存儲設備中創建。\n\n警告：分區/設備 將會被格式化並且存儲在其上的所有資料都將會丟失。</string>
+    <string lang="zh-hk" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n選擇 TrueCrypt 外層加密卷的位置（您想要在這個加密卷裏創建隱藏加密卷）。\n\n外層加密卷可以創建於硬碟分區、固態硬碟、USB 快閃記憶體、以及其他存儲設備上。外層加密卷也可以在不包含任何分區的設備中創建（包括硬碟以及固態設備）。\n\n警告：該分區/設備將被格式化，所有當前存儲於這個分區或設備上的資料將會丟失。</string>
+    <string lang="zh-hk" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">選擇 TrueCrypt 外層加密卷的位置（您想要在這個加密卷裏創建隱藏加密卷）。</string>
+    <string lang="zh-hk" key="FILE_IN_USE">警告：外層加密卷或設備正在使用中！\n\n忽略這些可能會導致非期望的錯誤，包括系統不穩定。 您在載入加密卷前應當關閉所有可能使用該外層加密卷或設備的應用程式（例如殺毒軟體或備份程式）。\n\n繼續載入嗎？</string>
+    <string lang="zh-hk" key="FILE_IN_USE_FAILED">錯誤：無法載入加密卷。外層加密卷或設備正在使用中。不使用獨佔許可權的載入嘗試也同樣失敗。</string>
+    <string lang="zh-hk" key="FILE_OPEN_FAILED">檔不能被打開。</string>
+    <string lang="zh-hk" key="FILE_TITLE">加密卷位置</string>
+    <string lang="zh-hk" key="FILESYS_PAGE_TITLE">大文件</string>
+    <string lang="zh-hk" key="FILESYS_PAGE_HELP_QUESTION">您想要在此 TrueCrypt 加密卷中存儲大於 4 GB 的檔嗎？</string>
+    <string lang="zh-hk" key="FILESYS_PAGE_HELP_EXPLANATION">根據您在前面的選擇，TrueCrypt 將為加密卷選擇一個合適的檔系統格式（您可以在下一步選擇檔系統類型）。</string>
+    <string lang="zh-hk" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">當您創建外層加密卷的時候，您應當考慮選擇 '否'。如果您選擇 '是'，默認的檔系統將會是 NTFS，NTFS 不如 FAT 檔系統那樣適合於創建外層加密卷（例如，如果外層加密卷為 FAT 格式，可以創建的隱藏加密卷的最大容量比NTFS外層加密卷那個創建的隱藏加密卷要大很多）。通常情況下，FAT 格式為隱藏加密卷和常規加密卷的默認格式（因此創建 FAT 加密卷並無太多疑慮）。然而，如果用戶計畫在加密卷中存儲大於 4 GB 的檔（FAT檔系統不支援），那麼 FAT 系統則不是默認的格式。</string>
+    <string lang="zh-hk" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">您確認要選擇 '是' 嗎？</string>
+    <string lang="zh-hk" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">加密卷創建模式</string>
+    <string lang="zh-hk" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">這是創建分區類型或設備類型加密卷的最快方式（就地加密，是另外一種選項，速度比此種方式要慢，這是因為就地加密時每個磁區的內容都需要首先讀取、加密，之後再寫入）。任何當前存儲在選擇的分區/設備上的資料都會丟失（這些資料並不會被加密，它們將會被亂數據覆蓋）。如果您想加密一個分區中的現有資料，請選擇其他的選項。</string>
+    <string lang="zh-hk" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">整個選定的分區以及位於該分區上的資料將會被就地加密。如果分區裏面沒有內容，您應當選擇其他的選項（以使加密卷創建速度更快）。</string>
+    <string lang="zh-hk" key="NOTE_BEGINNING">注意： </string>
+    <string lang="zh-hk" key="RESUME">繼續(&amp;R)</string>
+    <string lang="zh-hk" key="DEFER">推遲(&amp;D)</string>
+    <string lang="zh-hk" key="START">開始(&amp;S)</string>
+    <string lang="zh-hk" key="CONTINUE">繼續(&amp;C)</string>
+    <string lang="zh-hk" key="FORMAT">格式化(&amp;F)</string>
+    <string lang="zh-hk" key="WIPE">擦除(&amp;W)</string>
+    <string lang="zh-hk" key="FORMAT_ABORT">放棄格式化嗎？</string>
+    <string lang="zh-hk" key="SHOW_MORE_INFORMATION">顯示更多資訊</string>
+    <string lang="zh-hk" key="DO_NOT_SHOW_THIS_AGAIN">不再顯示</string>
+    <string lang="zh-hk" key="WIPE_FINISHED">設備/分區 的內容已被成功擦除。</string>
+    <string lang="zh-hk" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">原始作業系統（隱形作業系統克隆時的系統來源）分區的內容已被成功擦除。</string>
+    <string lang="zh-hk" key="DECOY_OS_VERSION_WARNING">請確認您將要安裝的 Windows 版本（位於已擦除分區）與您正在運行的 Windows 版本相同。這點是必須的，這是因為兩個系統會共用同一公用啟動分區。</string>
+    <string lang="zh-hk" key="SYSTEM_ENCRYPTION_FINISHED">該系統分區/驅動器已經被成功加密。\n\n注意：如果存在您需要在 Windows 啟動時自動載入非系統 TrueCrypt 加密卷，您可以載入它們並隨後設置其為系統收藏加密卷，步驟：選擇 '收藏' &gt; 保存已載入的加密卷為系統收藏加密卷'）。</string>
+    <string lang="zh-hk" key="SYSTEM_DECRYPTION_FINISHED">該系統分區/驅動器已經被成功解密。</string>
+    <string lang="zh-hk" key="FORMAT_FINISHED_HELP">\n\nTrueCrypt 加密卷已被創建並準備就緒。要創建另外的 TrueCrypt 加密卷，請單擊“下一步”，否則請單擊“退出”按鈕。</string>
+    <string lang="zh-hk" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n隱藏的 TrueCrypt 加密卷已成功創建（隱形作業系統將包含在這個隱藏加密卷之內）。\n\n單擊 '下一步' 按鈕繼續。</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">該卷已被成功加密</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_FINISHED_INFO">重要：要載入這個新建的 TRUECRYPT 加密卷和訪問存儲於其中的資料，在 TRUECRYPT 視窗中點擊 '自動載入設備'。在您輸入正確密碼之後（和/或 提供正確的密鑰檔），加密卷將會以您在 TRUECRYPT 列表中選擇的盤符載入（您也將能夠以該盤符訪問加密資料）。\n\n【請記住或寫下上述步驟】。您在希望載入這個加密卷和訪問其中的資料時必須遵循上述步驟。另外一種方式是在 TrueCrypt 主視窗，點擊 '選擇設備'，之後選擇此 分區/設備，之後點 '載入'。\n\n此分區/設備 已被成功加密（選擇包含完全加密的 TrueCrypt 卷）並為使用準備就緒。</string>
+    <string lang="zh-hk" key="FORMAT_FINISHED_INFO">TrueCrypt 加密卷已成功創建。</string>
+    <string lang="zh-hk" key="FORMAT_FINISHED_TITLE">加密卷已創建</string>
+    <string lang="zh-hk" key="FORMAT_HELP">重要：請在此視窗內隨機移動滑鼠，移動時間越長越好。這將會顯著增加密鑰的加密強度。之後點擊“格式化”按鈕創建加密卷。</string>
+    <string lang="zh-hk" key="FORMAT_HIDVOL_HOST_HELP">點擊“格式化”按鈕創建外層的加密卷。如若獲得更多資訊，請參考軟體文檔。</string>
+    <string lang="zh-hk" key="FORMAT_HIDVOL_HOST_TITLE">外層加密卷格式化</string>
+    <string lang="zh-hk" key="FORMAT_HIDVOL_TITLE">隱藏加密卷格式化</string>
+    <string lang="zh-hk" key="FORMAT_TITLE">加密卷格式化</string>
+    <string lang="zh-hk" key="HELP_READER_ERROR">如要顯示或列印 TrueCrypt 用戶指南需要使用 Adobe Acrobat Reader（或與其相容的工具）。\n\nAdobe Reader（免費軟體）下載位址： www.adobe.com\n\n您想要線上查看這個文檔嗎？</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">如果您選擇此選項，嚮導將會首先幫助您創建一個普通的 TrueCrypt 加密卷，隨後會繼續在這個普通的加密卷裏面創建一個隱藏的 TrueCrypt 加密卷。非熟練用戶應當選擇這個選項來創建隱藏加密卷。</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">如果您選擇此選項，您將會在已有的 TrueCrypt 加密卷內創建一個隱藏的 TrueCrypt 加密卷。這裏假設您已經創建好了適合於創建隱藏 TrueCrypt 加密卷的 TrueCrypt 外層加密卷。</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_WIZARD_MODE_TITLE">加密卷創建模式</string>
+    <string lang="zh-hk" key="HIDVOL_FORMAT_FINISHED_TITLE">隱藏加密卷已創建</string>
+    <string lang="zh-hk" key="HIDVOL_FORMAT_FINISHED_HELP">該隱藏的 TrueCrypt 加密卷已成功創建並可以立即使用。如果“TrueCrypt User's Guide”（Truecrypt 用戶指南）的"Security Precautions Pertaining to Hidden Volumes"章節中的措施都被遵循，即使當外層加密卷被載入，也不可能證明存在隱藏加密卷。\n\n警告：如果您沒有保護隱藏加密卷（保護的做法參考 TrueCrypt 用戶指南的"PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE"章節），請不要向外層加密卷寫入資料。否則您可能會覆蓋或損壞隱藏隱藏加密卷！</string>
+    <string lang="zh-hk" key="FIRST_HIDDEN_OS_BOOT_INFO">您已經啟動了一個隱形作業系統。可能您已經注意到了，隱形作業系統看起來是安裝到原始作業系統所在的分區。然而，實際上，隱形系統是安裝到系統分區後面的分區上的（安裝在隱藏加密卷中）。所有的讀寫操作將會從系統分區中透明的重定向到隱藏加密卷裏面。\n\n作業系統本身和系統中的程式均不知道從系統分區中讀寫的資料實際上是從系統分區後面的分區中讀寫的（讀/寫到隱藏加密卷）。任何這樣的資料都是同樣即時加解密的（使用與即將創建的迷惑作業系統不同的加密鑰）。\n\n\n請單擊 '下一步' 按鈕繼續。</string>
+    <string lang="zh-hk" key="HIDVOL_HOST_FILLING_HELP_SYSENC">外層加密卷已成功創建並作為 %hc：驅動器載入。對這個外層加密卷，現在您應複製一些您不是真正要隱藏的貌似敏感的文件。這是為了對付那些強迫您給出系統分區後面那個分區密碼的人的，這個分區可能包含外層加密卷和隱藏加密卷（以及其中的隱形作業系統）。您可以洩漏這個外層加密卷的密碼，而此時沒有任何跡象可以識別存在隱藏加密卷（以及隱形作業系統）。\n\n重要：您複製到外層加密卷中的檔佔用的空間不應當超過 %s。否則，可能沒有足夠的自由空間來創建隱藏加密卷（此時您將無法繼續後續操作）。在您複製完成之後，請點擊 '下一步'（不要卸載加密卷）。</string>
+    <string lang="zh-hk" key="HIDVOL_HOST_FILLING_HELP">外層加密卷已成功創建並作為 %hc：驅動器載入。對這個加密卷，現在您應複製一些您不是真正要隱藏的貌似敏感的文件。這是讓那些強迫您洩漏密碼的人能看到的檔。您將僅對這個外層加密卷洩漏密碼，而不要洩漏給他們隱藏加密卷的密碼。您真正要保護的檔將被存儲在稍候創建的隱藏加密卷裏。當您完成複製後，請單擊"下一步"，並且不要卸載此加密卷。\n\n注意：單擊“下一步”後，將進行簇狀圖掃描來確定連續的自由空間大小，此自由空間的尾部與加密卷尾部一致。該空間將提供用來創建隱藏加密卷同時也是隱藏加密卷的最大容量。簇狀圖掃描能夠保證外層加密中卷的資料不會被隱藏卷覆蓋。</string>
+    <string lang="zh-hk" key="HIDVOL_HOST_FILLING_TITLE">外層加密卷內容</string>
+    <string lang="zh-hk" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n在下一步您將要為外層加密卷（在其內將創建隱藏加密卷）調整其選項。</string>
+    <string lang="zh-hk" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n在下一步，您將在系統分區後面的那個分區創建一個所謂的 TrueCrypt 外層加密卷（這在前面步驟已經有具體說明）。</string>
+    <string lang="zh-hk" key="HIDVOL_HOST_PRE_CIPHER_TITLE">外層加密卷</string>
+    <string lang="zh-hk" key="HIDDEN_OS_PRE_CIPHER_HELP">在下麵步驟裏，您將設置隱藏加密卷的選項和密碼，這個隱藏加密卷裏面將會包含隱形系統。\n\n注解：外層加密卷簇狀圖掃描已完成，以確定外層加密卷尾部開始的未受干擾的自由空間。該區域將容納隱藏加密卷，因此這將限制隱藏加密卷的最大尺寸。隱藏加密卷最大可能容量已被確定，已經確認大於系統分區的容量（這是必須的，因為整個系統分區的內容將被複製到隱藏加密卷中）。這也確保寫入隱藏加密卷的資料不會覆蓋儲存在外層加密卷的資料。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_PRE_CIPHER_WARNING">重要：請記住您在這個步驟所選擇的演算法。您在加密迷惑系統的時候也必須選擇這個演算法。否則將無法訪問隱形系統！（即迷惑系統和隱形系統必須使用同樣的加密演算法加密）。\n\n說明：原因是迷惑系統和隱形系統共用一個單一的啟動管理器，這個引導器目前只支援用戶選擇的單一演算法（對於每種演算法，都會對應一個特定的 TrueCrypt 啟動管理器版本）。</string>
+    <string lang="zh-hk" key="HIDVOL_PRE_CIPHER_HELP">\n\n外層加密卷簇狀圖掃描已完成，隱藏加密卷最大可能大小已被確定。在下一步裏您可以調整隱藏加密卷的選項、大小、和密碼。</string>
+    <string lang="zh-hk" key="HIDVOL_PRE_CIPHER_TITLE">隱藏加密卷</string>
+    <string lang="zh-hk" key="HIDVOL_PROT_WARN_AFTER_MOUNT">在外層加密卷卸載前隱藏加密卷將處於保護之中。\n\n警告：如果有資料試圖保存到隱藏加密卷區域，TrueCrypt 將會對整個加密卷（外層卷和隱藏卷）進行保護直到卸載。這會導致外層加密卷檔系統出錯，如若重複出現也會影響隱藏加密卷的隱蔽性。因此，您應當儘量避免寫入任何資料到隱藏加密卷區域。 任何保存到隱藏加密卷區域的資料將不被保存並且會丟失！Windows 可能會報告為寫入錯誤（“延遲寫入失敗”或者是“參數不正確”）。</string>
+    <string lang="zh-hk" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">在外層加密卷卸載前每一個隱藏加密卷將處於保護之中。\n\n警告：如果有資料試圖保存到任何隱藏加密卷區域，TrueCrypt 將會對整個加密卷（外層卷和隱藏卷）進行保護直到卸載。這會導致外層加密卷檔系統出錯，如果反復出現也會影響隱藏加密卷的隱蔽性。因此，您應當儘量避免寫入任何資料到隱藏加密卷區域。 任何保存到隱藏加密卷區域的資料將不被保存並且丟失！ Windows 可能會報告為寫入錯誤（“延遲寫入失敗”或者是“參數不正確）。</string>
+    <string lang="zh-hk" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">警告：資料試圖保存到載入為 %c: 的加密卷的隱藏加密卷區域！TrueCrypt 已阻止這些資料的保存來保護隱藏加密卷。這會導致外層加密卷檔系統出錯。Windows 可能會報告為寫入錯誤（“延遲寫入失敗”或者是“參數不正確）。整個加密卷（外層卷和隱藏卷）將會被防寫到加密卷卸載為止。如果這不是 TrueCrypt 第一次阻止資料寫入到隱藏加密卷區域，這樣也會影響隱藏加密卷的隱蔽性（這是因為在外層加密卷檔系統可能存在反常的關聯錯亂）。因此，您應當考慮創建一個新的 TrueCrypt 加密卷（禁用快速格式化）並把此加密卷的資料移動到新加密卷裏面去；此加密卷應當被安全擦除（外層卷和隱藏卷）。我們強烈建議您現在重啟電腦。</string>
+    <string lang="en" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">You have indicated intent to store files larger than 4 GB on the volume. This requires the volume to be formatted as NTFS, which, however, will not be possible.</string>
+    <string lang="en" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">Please note that when a hidden operating system is running, non-hidden TrueCrypt volumes cannot be formatted as NTFS. The reason is that the volume would need to be temporarily mounted without write protection in order to allow the operating system to format it as NTFS (whereas formatting as FAT is performed by TrueCrypt, not by the operating system, and without mounting the volume). For further technical details, see below. You can create a non-hidden NTFS volume from within the decoy operating system.</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">安全起見，當隱形作業系統正在運行時，隱藏加密卷只能以 '直接' 模式創建（這是因為外層加密卷必須總是以唯讀方式載入）。\n\n要安全的創建隱藏加密卷，請遵循如下步驟：\n\n1）啟動到迷惑作業系統。\n\n2）創建一個常規 TrueCrypt 加密卷並複製一些你實際上並不想隱藏的貌似敏感的檔（該加密卷會作為外層加密卷）。\n\n3）啟動隱形作業系統並啟動 TrueCrypt 加密卷創建嚮導。如果這個加密卷是檔類型的，移動該加密卷到系統分區或者是其他隱藏加密卷中（否則，這個新創建的隱藏加密卷將會以唯讀方式載入並且不能被格式化）。按照嚮導的步驟進行並選擇 '直接' 模式創建隱藏加密卷。\n\n4）在嚮導中，選擇您在步驟 2 中創建的加密卷並遵循嚮導後面的步驟在這個加密卷之內創建隱藏加密卷。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">安全起見，當隱形作業系統正在運行時，本地的非加密的檔系統和非隱藏 TrueCrypt 加密卷會以唯讀方式載入（沒有任何資料可以寫入這些檔系統或 TrueCrypt 加密卷）。\n\n而資料可以寫入到 TrueCrypt 隱藏加密卷中（假設隱藏加密卷的存儲容器並非位於非加密檔系統上或並非位於其他任何唯讀檔案系統上）。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">採取這樣的限制措施有三種主要原因：\n\n- 可以為載入隱藏加密卷提供更安全的平臺。因此我們官方推薦僅在隱形作業系統運行的情況下載入隱藏加密卷。（更多資訊請參考文檔的 'Security Precautions Pertaining to Hidden Volumes' 部份）\n\n- 在某些情況下，有可能確定在某一時間，某一特定的檔系統（或者檔系統中特定的檔並未保存或訪問）並未在特定的作業系統的實例中載入（例如，通過分析和比較檔系統日誌、時間戳記、應用程式日誌、錯誤日誌等等）。這可能暗示電腦上安裝了隱形作業系統（譯者注：恢復備份的系統、或者重新安裝系統也會造成這種跡象，作者考慮的因素並不全面）。而這裏的措施則可以避免此類情況發生。\n\n- 能夠防止資料損壞和保證安全的使用系統休眠功能，這裏假設所有載入的檔系統在系統休眠的時候均為同一狀態。TrueCrypt 通過對任何迷惑系統和隱形系統裏面可以訪問的系統執行防寫來保證這點。如果沒有這樣的保護，當在一個系統中載入一個檔系統，而此檔系統在另外系統中為休眠狀態時，檔系統可能會被損壞。</string>
+    <string lang="zh-hk" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">注意：如果您要安全的從迷惑作業系統向隱形作業系統中傳送檔，請遵循以下步驟： 1）啟動迷惑作業系統。 2）保存這些檔到未加密的卷或者是 TrueCrypt 外層/常規加密卷。 3）啟動隱形作業系統。 4）如果是把檔保存到 TrueCrypt 加密卷，則載入這個加密卷（該加密卷會自動以唯讀模式載入）。 5）複製這些檔到隱行作業系統的分區或者是其他隱藏加密卷。</string>
+    <string lang="zh-hk" key="CONFIRM_RESTART">您的電腦必須重啟。\n\n您希望現在重啟電腦嗎？</string>
+    <string lang="zh-hk" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">獲取系統加密狀態時出錯。</string>
+    <string lang="zh-hk" key="INIT_SYS_ENC">不能初始化用於系統加密的程式元件。</string>
+    <string lang="zh-hk" key="INIT_RAND">初始化亂數據生成器失敗！</string>
+    <string lang="zh-hk" key="INIT_REGISTER">無法初始化應用程式。註冊對話方塊類失敗。</string>
+    <string lang="zh-hk" key="INIT_RICHEDIT">錯誤：載入富文本編輯系統運行庫失敗。</string>
+    <string lang="zh-hk" key="INTRO_TITLE">TrueCrypt 加密卷創建嚮導</string>
+    <string lang="zh-hk" key="MAX_HIDVOL_SIZE_BYTES">該卷能創建的最大隱藏加密卷大小為 %.2f 位元組。</string>
+    <string lang="zh-hk" key="MAX_HIDVOL_SIZE_KB">該卷能創建的最大隱藏加密卷大小為 %.2f KB。</string>
+    <string lang="zh-hk" key="MAX_HIDVOL_SIZE_MB">該卷能創建的最大隱藏加密卷大小為 %.2f MB。</string>
+    <string lang="zh-hk" key="MAX_HIDVOL_SIZE_GB">該卷能創建的最大隱藏加密卷大小為 %.2f GB.</string>
+    <string lang="zh-hk" key="MOUNTED_NOPWCHANGE">當此加密卷被載入時，加密卷密碼/密鑰檔無法被更改。 請首先卸載此加密卷。</string>
+    <string lang="zh-hk" key="MOUNTED_NO_PKCS5_PRF_CHANGE">當加密卷被載入時不能修改首密鑰衍生演算法。 請首先卸載加密卷。</string>
+    <string lang="zh-hk" key="MOUNT_BUTTON">載入(&amp;M)</string>
+    <string lang="zh-hk" key="NEW_VERSION_REQUIRED">需要新版本的 TrueCrypt 來載入此加密卷。</string>
+    <string lang="zh-hk" key="VOL_CREATION_WIZARD_NOT_FOUND">錯誤：未發現加密卷創建嚮導。\n\n請確認文件“TrueCrypt Format.exe”位於“TrueCrypt.exe”的目錄之中。如果不是 這樣，請重新安裝 TrueCrypt，或在磁片中定位“TrueCrypt Format.exe”並運行它。</string>
+    <string lang="zh-hk" key="NEXT">下一步(&amp;N) &gt;</string>
+    <string lang="zh-hk" key="FINALIZE">完成(&amp;F)</string>
+    <string lang="zh-hk" key="INSTALL">安裝(&amp;I)</string>
+    <string lang="zh-hk" key="EXTRACT">釋放（&amp;X)</string>
+    <string lang="zh-hk" key="NODRIVER">不能連接到 TrueCrypt 設備驅動。如果設備驅動不能運行則 TrueCrypt 也無法正常工作。\n\n請注意，由於 Windows 系統問題，在能夠正常載入設備驅動前可能需要登出或者重啟電腦。</string>
+    <string lang="zh-hk" key="NOFONT">載入/準備字體時出錯。</string>
+    <string lang="zh-hk" key="NOT_FOUND">驅動器盤符未發現或沒有指定驅動器盤符。</string>
+    <string lang="zh-hk" key="DRIVE_LETTER_UNAVAILABLE">驅動器盤符不可用。</string>
+    <string lang="zh-hk" key="NO_FILE_SELECTED">未選定文件！</string>
+    <string lang="zh-hk" key="NO_FREE_DRIVES">無可用驅動器盤符。</string>
+    <string lang="zh-hk" key="NO_FREE_DRIVE_FOR_OUTER_VOL">外層加密卷無可用盤符！ 加密卷創建不能進行。</string>
+    <string lang="zh-hk" key="NO_OS_VER">不能檢測到作業系統的版本，或您正在使用不被支援的作業系統。</string>
+    <string lang="zh-hk" key="NO_PATH_SELECTED">未選定路徑！</string>
+    <string lang="zh-hk" key="NO_SPACE_FOR_HIDDEN_VOL">創建隱藏加密卷的自由空間不足！ 加密卷創建不能繼續。</string>
+    <string lang="zh-hk" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">錯誤：您複製到外層加密卷的檔佔用的空間過多。因此，沒有足夠的空間創建隱藏加密卷。\n\n注意，隱藏加密卷的容量至少要大於系統分區（當前運行的系統所在的分區）的容量。原因是隱形作業系統需要把系統分區的內容完全複製到隱藏加密卷來創建。\n\n\n創建隱形作業系統的過程無法再繼續。</string>
+    <string lang="zh-hk" key="OPENFILES_DRIVER">此驅動無法卸載這個加密卷。位於此加密卷上某些檔可能仍被打開。</string>
+    <string lang="zh-hk" key="OPENFILES_LOCK">無法鎖定此加密卷。此加密卷上仍有些檔被打開。因而也無法卸載。</string>
+    <string lang="zh-hk" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">TrueCrypt 不能鎖定該加密卷，這是因為此加密卷正在被作業系統或者其他程式佔用（例如加密卷中有文件被打開）。\n\n您確認要強制卸載加密卷嗎？</string>
+    <string lang="zh-hk" key="OPEN_VOL_TITLE">請選擇一個 TrueCrypt 加密卷</string>
+    <string lang="zh-hk" key="OPEN_TITLE">指定路徑和檔案名</string>
+    <string lang="zh-hk" key="SELECT_PKCS11_MODULE">選擇 PKCS #11 運行庫</string>
+    <string lang="zh-hk" key="OUTOFMEMORY">記憶體不足</string>
+    <string lang="zh-hk" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">重要：我們強烈建議非熟練用戶在選定的分區/設備裏面建立檔類型的加密卷，而不是嘗試加密整個分區/驅動器。\n\n例如，當您創建一個 TrueCrypt 檔類型加密卷時（相對於加密整個分區/驅動器），則不存在毀壞大量的檔的風險。請注意，一個 TrueCrypt 的檔類型加密卷（儘管其包含虛擬的加密磁片）事實上就象任意一個普通的檔一樣。如若獲取更多資訊，請參考TrueCrypt User Guide中的 Beginner's Tutorial 章節。\n\n您確認要加密整個設備/分區嗎？</string>
+    <string lang="zh-hk" key="OVERWRITEPROMPT">警告：加密卷 '%hs' 已存在！\n\n重要：TrueCrypt 並不會加密這個檔，而是會刪除這個檔。 您確定要刪除這個檔並用一個新的 TrueCrypt 加密卷來替換它嗎？</string>
+    <string lang="zh-hk" key="OVERWRITEPROMPT_DEVICE">務必小心：當前存儲在選擇的 %s '%hs'%s 上的所有資料將會丟失（它們並不會被加密）！\n\n您一定要繼續格式化嗎？</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_CONFIRM">警告：您在加密卷完全加密前不能載入此加密卷或者訪問存儲於該卷上的任何檔。\n\n您確認要開始加密選擇的 %s '%hs'%s 嗎？</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：請注意如果在就地加密現有資料時突然斷電，或者在 TrueCrypt 就地加密現有資料時由於軟硬體故障而導致系統當機，有些資料可能會損壞或丟失。因此，在您開始加密前，請確認您已經備份了要加密的資料。\n\n您確認已經有這樣的備份了嗎？</string>
+    <string lang="zh-hk" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">小心：任何存在於分區 '%hs'%s（即位於系統分區後面的第一個分區）的檔將會因被擦除而丟失。（這些檔並不會被加密）！\n\n您確認要繼續格式化嗎？</string>
+    <string lang="zh-hk" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：選定的分區包含大量的資料！！！任何存儲於此分區上的檔將會被擦除（他們並不會被加密）！</string>
+    <string lang="zh-hk" key="ERASE_FILES_BY_CREATING_VOLUME">通過在分區內創建 TrueCrypt 加密卷擦除該分區上的任何文件</string>
+    <string lang="zh-hk" key="PASSWORD">密碼</string>
+    <string lang="zh-hk" key="IDD_PCDM_CHANGE_PKCS5_PRF">設置首密鑰衍生演算法</string>
+    <string lang="zh-hk" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">添加/移除 密鑰文件..</string>
+    <string lang="zh-hk" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">從加密卷中移除所有密鑰檔</string>
+    <string lang="zh-hk" key="PASSWORD_CHANGED">密碼 和/或 密鑰檔已成功修改。\n\n重要：請確認您已經閱讀了用戶指南的'Security Requirements and Precautions'章節中的'Changing Passwords and Keyfiles'部分。</string>
+    <string lang="zh-hk" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果您不銷毀 TrueCrypt 應急盤，您的系統分區/驅動器仍然可以通過使用舊密碼解密（通過啟動 TrueCrypt 應急盤和輸入舊密碼）。您應當創建一個新的 TrueCrypt 應急盤，之後並銷毀原來的應急盤。\n\n您希望創建一個新的 TrueCrypt 應急盤嗎？</string>
+    <string lang="zh-hk" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">請注意，TrueCrypt 應急盤仍然使用著早期的加密演算法。如果您覺的先前的加密演算法不安全，您應當創建一個新的 TrueCrypt 應急盤，之後並銷毀原來的應急盤。\n\n您希望創建一個新的 TrueCrypt 應急盤嗎？</string>
+    <string lang="en" key="KEYFILES_NOTE">Any kind of file (for example, .mp3, .jpg, .zip, .avi) may be used as a TrueCrypt keyfile. Note that TrueCrypt never modifies the keyfile contents. You can select more than one keyfile (the order does not matter). If you add a folder, all non-hidden files found in it will be used as keyfiles. Click 'Add Token Files' to select keyfiles stored on security tokens or smart cards (or to import keyfiles to security tokens or smart cards).</string>
+    <string lang="zh-hk" key="KEYFILE_CHANGED">密鑰檔已成功添加/移除。</string>
+    <string lang="zh-hk" key="KEYFILE_EXPORTED">Keyfile exported.</string>
+    <string lang="zh-hk" key="PKCS5_PRF_CHANGED">首密鑰衍生演算法已成功設置。</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">請為您想要繼續就地加密的非系統分區輸入密碼 和/或 密鑰檔。\n\n\n注解：在您點擊 '下一步' 之後，TrueCrypt 將嘗試查找所有加密過程已被中斷的非系統分區（這些中斷加密的分區的 TrueCrypt 頭資訊可以使用提供的密碼 和/或 密鑰檔解密）。如果發現了多個此類的分區，您需要在下個步驟裏面選擇他們其中的一個。</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">請選擇下面列表中的一個加密卷。此列表包含所有加密被中斷非系統加密卷，它們的頭資訊可以使用提供的密碼 和/或 密鑰檔解密。</string>
+    <string lang="zh-hk" key="PASSWORD_HELP">選擇一個安全的密碼非常重要。您應該避免選取能夠在字典中查到的簡單辭彙（或是2、3、4 這類字元組合）作為密碼，也不應包含任何名字或生日，同時也不應該容易被猜到。安全的密碼應當包含隨機的大小寫字元、數位、以及類似 @ ^ = $ * + 這樣的特殊字元。我們推薦使用大於 20 個字元的密碼（越長越好）。最大的密碼長度為 64 個字元。</string>
+    <string lang="zh-hk" key="PASSWORD_HIDDENVOL_HELP">請為隱藏加密卷選擇一個密碼。 </string>
+    <string lang="zh-hk" key="PASSWORD_HIDDEN_OS_HELP">請為隱形作業系統設置一個密碼（即隱藏加密卷的密碼）。</string>
+    <string lang="zh-hk" key="PASSWORD_HIDDEN_OS_NOTE">重要：您在本步驟中為隱形作業系統設置的密碼必須絕對不同於其他的兩個密碼（也就是要不同於外層加密卷的密碼和迷惑作業系統的密碼）。</string>
+    <string lang="zh-hk" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">請輸入外層加密卷的密碼（您將在該加密卷中創建隱藏加密卷）。\n\n在單擊“下一步”後，TrueCrypt 會嘗試載入此加密卷。一旦加密卷被載入，將進行簇狀圖掃描來確定連續的自由空間大小（如果有的話），此空間的尾部與加密卷尾部一致。該區域將提供給隱藏加密卷並因此會限制它的最大可能大小。簇狀圖掃描是必要的，這可以確保外層卷的資料不會被隱藏卷覆蓋。</string>
+    <string lang="zh-hk" key="PASSWORD_HIDDENVOL_HOST_HELP">\n請選擇外層加密卷的密碼。在您被攻擊者強迫說出啟動驗證密碼的情況下，這個密碼可以告訴攻擊者。\n\n重要：您為外層加密卷選擇的密碼必須不同於隱藏加密卷的密碼。\n\n說明：密碼的最大長度為 64 個字元。</string>
+    <string lang="zh-hk" key="PASSWORD_SYSENC_OUTERVOL_HELP">請選擇外層加密卷的密碼。在您被攻擊者強迫說出系統分區後面的第一個分區（外層加密卷和包含隱形作業系統的隱藏加密卷均位於這個分區）密碼的情況下，這個密碼可以告訴這些攻擊者。而隱藏加密卷和隱形作業系統仍然是安全的。需要注意的是，外層加密卷的密碼並不是迷惑作業系統的密碼。\n\n重要：您為迷惑作業系統選擇的密碼必須不同於隱藏加密卷的密碼（也就是隱形作業系統的密碼）。</string>
+    <string lang="zh-hk" key="PASSWORD_HIDVOL_HOST_TITLE">外層加密卷密碼</string>
+    <string lang="zh-hk" key="PASSWORD_HIDVOL_TITLE">隱藏加密卷密碼</string>
+    <string lang="zh-hk" key="PASSWORD_HIDDEN_OS_TITLE">隱形作業系統的密碼</string>
+    <string lang="zh-hk" key="PASSWORD_LENGTH_WARNING">警告：簡短密碼容易被使用 暴力破解技術破解！\n\n我們建議選擇一個超過 20 個字元的密碼。\n\n您確定要使用簡短密碼嗎？</string>
+    <string lang="zh-hk" key="PASSWORD_TITLE">加密卷密碼</string>
+    <string lang="zh-hk" key="PASSWORD_WRONG">密碼不正確或不是 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="PASSWORD_OR_KEYFILE_WRONG">密鑰 和/或 密碼不正確或不是 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="PASSWORD_OR_MODE_WRONG">錯誤的載入模式/密碼或不是 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">錯誤的載入模式，無效的密鑰檔 和/或 密碼，或者不是 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="PASSWORD_WRONG_AUTOMOUNT">密碼不正確或不是 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">密鑰 和/或 密碼不正確或不是 TrueCrypt 加密卷</string>
+    <string lang="zh-hk" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock 已經開啟。 這可能導致您密碼輸入錯誤。</string>
+    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">如果您試圖保護包含隱形系統的隱藏加密卷，請確認輸入隱藏加密卷密碼時您正在使用標準的美國鍵盤佈局。這是因為這些密碼實在啟動驗證環境中輸入的，而此時非美國鍵盤佈局將無法使用。</string>
+    <string lang="zh-hk" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">TrueCrypt 未發現加密過程被中斷的，同時頭資訊可以使用提供的密碼 和/或 密鑰檔解密的非系統分區。\n\n請確認密碼 和/或 密鑰檔是正確的，並且確認此 分區/卷 並未被作業系統或其他程式（也包含殺毒軟體）佔用。</string>
+    <string lang="zh-hk" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n注意：如果您試圖載入不帶有啟動驗證的加密系統驅動器中的分區，或者是載入沒有運行的加密系統分區，您可以通過選擇 '系統' &gt; '以非啟動驗證方式載入'。</string>
+    <string lang="zh-hk" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">在此模式下，您不能載入此驅動器上的分區（該驅動器的部分內容處於當前活動加密系統的關鍵範圍）。\n\n要想以此模式載入此分區，您需要先啟動到安裝在不同驅動器上的作業系統（與該系統是否加密無關），或者是先啟動一個未加密的作業系統。</string>
+    <string lang="zh-hk" key="PREV">&lt; 後退(&amp;B)</string>
+    <string lang="zh-hk" key="RAWDEVICES">不能列表安裝在系統上的 raw 設備！</string>
+    <string lang="zh-hk" key="READONLYPROMPT">加密卷 '%hs' 存在，並且是唯讀的。您確定要替換它嗎？</string>
+    <string lang="zh-hk" key="SELECT_DEST_DIR">選擇目標目錄</string>
+    <string lang="zh-hk" key="SELECT_KEYFILE">選擇密鑰檔</string>
+    <string lang="zh-hk" key="SELECT_KEYFILE_PATH">選擇密鑰檔的搜索路徑。警告：注意，記憶的只是路徑，而不會記憶檔案名！</string>
+    <string lang="zh-hk" key="SERPENT_HELP">Serpent 為與 AES 競爭演算法中的一種。設計者為 Ross Anderson、Eli Biham、和 Lars Knudsen。發表於 1998 年。256 位密鑰，128 位元資料塊，操作模式為 XTS。</string>
+    <string lang="zh-hk" key="SIZE_HELP">請指定要創建的加密卷的大小。\n\n如果您打算創建一個動態的（稀疏檔）容器，該參數對應於該容器的最大容量。\n\n注意：最小的 FAT 加密卷大小為 292 KB。最小的 NTFS 加密卷大小為 3792 KB。</string>
+    <string lang="zh-hk" key="SIZE_HELP_HIDDEN_HOST_VOL">請指定要創建的外層加密卷的大小（隨後將在其內創建隱藏加密卷）。包含隱藏卷的外層加密卷最小可能容量為 340 KB。</string>
+    <string lang="zh-hk" key="SIZE_HELP_HIDDEN_VOL">請指定要創建的隱藏加密卷的大小。隱藏加密卷的最小可能大小為 40 KB（格式化為NTFS時為 3664 KB）。最小可能的 NTFS 加密卷大小為 2829 KB。您可以指定加密卷的最大容量如上面所示。</string>
+    <string lang="zh-hk" key="SIZE_HIDVOL_HOST_TITLE">外層加密卷大小</string>
+    <string lang="zh-hk" key="SIZE_HIDVOL_TITLE">隱藏加密卷大小</string>
+    <string lang="zh-hk" key="SIZE_PARTITION_HELP">請在確認選定的 分區/設備 的容量正確無誤後單擊“下一步”。</string>
+    <string lang="zh-hk" key="SIZE_PARTITION_HIDDEN_SYSENC_HELP">外層加密卷和隱藏加密卷（包含隱形作業系統）將存在於上面分區。\n\n請確認上面顯示的分區大小和數值是正確的，如果正確，請點擊 '下一步'。</string>
+    <string lang="zh-hk" key="SIZE_PARTITION_HIDDEN_VOL_HELP">\n\n注意：如若在其內創建隱藏加密卷，則外層加密卷最小可能大小為 340 KB。</string>
+    <string lang="zh-hk" key="SIZE_TITLE">加密卷大小</string>
+    <string lang="zh-hk" key="SPARSE_FILE">動態卷</string>
+    <string lang="zh-hk" key="TESTS_FAILED">小心：自檢失敗！</string>
+    <string lang="zh-hk" key="TESTS_PASSED">全部演算法自檢通過</string>
+    <string lang="zh-hk" key="TEST_INCORRECT_TEST_DATA_UNIT_SIZE">您提供的資料單元數值太長或太短。</string>
+    <string lang="zh-hk" key="TEST_INCORRECT_SECONDARY_KEY_SIZE">您提供的次密鑰太長或太短。</string>
+    <string lang="zh-hk" key="TEST_CIPHERTEXT_SIZE">您提供的測試加密文本太長或太短。</string>
+    <string lang="zh-hk" key="TEST_KEY_SIZE">您提供的測試密鑰太長或太短。</string>
+    <string lang="zh-hk" key="TEST_PLAINTEXT_SIZE">您提供的測試明碼文本太長或太短。</string>
+    <string lang="zh-hk" key="TWO_LAYER_CASCADE_HELP">在 XTS 模式的層疊操作中需要兩個密碼。每個塊首先使用 %hs（%d 位密鑰），之後使用 %hs（%d 位密鑰加密。每個密碼使用其各自的密鑰。所有的密鑰均各自獨立。</string>
+    <string lang="zh-hk" key="THREE_LAYER_CASCADE_HELP">在 XTS 模式的層疊操作中需要 3 個密碼。每個塊首先以 %hs（%d 位密鑰）加密，然後以 %hs（%d 位密鑰）加密，最後以 %hs（%d 位密鑰）加密。每個密碼均使用各自的密鑰。所有的密鑰均彼此獨立。</string>
+    <string lang="zh-hk" key="AUTORUN_MAY_NOT_ALWAYS_WORK">需要注意的是，依賴於作業系統配置，這些自動運行和自動載入功能可能僅當便攜磁片檔創建在非可讀寫 CD/DVD 類介質時才能使用。同樣也要注意這並不是 TrueCrypt 程式設計缺陷（而是 Windows 系統的限制）。</string>
+    <string lang="zh-hk" key="TRAVELER_DISK_CREATED">TrueCrypt 便攜磁片已被成功創建。\n\n注意：您必須具有系統管理員身份才能以便攜模式運行 TrueCrypt。同時也要注意儘管以便攜模式運行 TrueCrypt，也可能能夠從註冊表中被檢測到曾經運行過 TrueCrypt。</string>
+    <string lang="zh-hk" key="TC_TRAVELER_DISK">TrueCrypt 便攜磁片</string>
+    <string lang="zh-hk" key="TWOFISH_HELP">設計者：Bruce Schneie、John Kelsey、Doug Whiting、David Wagner、Chris Hall、Niels Ferguson。發表於 1998 年。256 位密鑰，128 位元塊，操作模式為 XTS。Twofish 為 AES 競爭演算法中的一種。</string>
+    <string lang="zh-hk" key="MORE_INFO_ABOUT">關於 %hs 的更多資訊（聯網）</string>
+    <string lang="zh-hk" key="UNKNOWN">未知</string>
+    <string lang="zh-hk" key="ERR_UNKNOWN">發生未預期的或未知錯誤（%d）。</string>
+    <string lang="zh-hk" key="UNMOUNTALL_LOCK_FAILED">一些加密卷包含的檔或檔夾 正被應用程式或系統使用。\n\n強行卸載嗎？</string>
+    <string lang="zh-hk" key="UNMOUNT_BUTTON">卸載(&amp;D)</string>
+    <string lang="zh-hk" key="UNMOUNT_FAILED">卸載失敗！</string>
+    <string lang="zh-hk" key="UNMOUNT_LOCK_FAILED">加密卷包含的檔或檔夾 被應用程式或系統使用。\n\n強行卸載嗎？</string>
+    <string lang="en" key="NO_VOLUME_MOUNTED_TO_DRIVE">No volume is mounted to the specified drive letter.</string>
+    <string lang="zh-hk" key="VOL_ALREADY_MOUNTED">您試圖要載入的加密卷早已被載入。</string>
+    <string lang="zh-hk" key="VOL_MOUNT_FAILED">試圖載入加密卷時出錯。</string>
+    <string lang="zh-hk" key="VOL_SEEKING">在加密卷裏定址時出錯。</string>
+    <string lang="zh-hk" key="VOL_SIZE_WRONG">錯誤：錯誤的加密卷大小.</string>
+    <string lang="en" key="WARN_QUICK_FORMAT">WARNING: You should use Quick Format only in the following cases:\n\n1) The device contains no sensitive data and you do not need plausible deniability.\n2) The device has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Format?</string>
+    <string lang="zh-hk" key="CONFIRM_SPARSE_FILE">動態的容器是一個預先分配的 NTFS 稀疏檔，它的物理大小（實際磁碟空間佔用）在有新資料添加到裏面的時候才會增加。\n\n警告: 稀疏檔基礎的加密卷性能比常規加密卷的性能有較大降低。稀疏檔基礎的加密卷的安全性也要弱些－因為它有可能洩漏哪些加密卷磁區未被使用的情況。另外，稀疏檔基礎的加密卷無法實現隱蔽性（容納一個隱藏加密卷）。同時需要注意到是如果資料被寫入到稀疏檔基礎的加密卷，而此時主機檔系統剩餘空間不足，加密的檔系統可能會損壞。\n\n您確認要創建稀疏檔基礎的加密卷嗎？</string>
+    <string lang="en" key="SPARSE_FILE_SIZE_NOTE">Note that the size of the dynamic container reported by Windows and by TrueCrypt will always be equal to its maximum size. To find out current physical size of the container (actual disk space it uses), right-click the container file (in a Windows Explorer window, not in TrueCrypt), then select 'Properties' and see the 'Size on disk' value.\n\nAlso note that if you move a dynamic container to another volume or drive, the physical size of the container will be extended to the maximum. (You can prevent that by creating a new dynamic container in the destination location, mounting it and then moving the files from the old container to the new one.)</string>
+    <string lang="en" key="PASSWORD_CACHE_WIPED_SHORT">Password cache wiped</string>
+    <string lang="en" key="PASSWORD_CACHE_WIPED">Passwords (and/or processed keyfile contents) stored in the TrueCrypt driver cache have been wiped.</string>
+    <string lang="zh-hk" key="WRONG_VOL_TYPE">TrueCrypt 不能修改外層加密卷的密碼。</string>
+    <string lang="zh-hk" key="SELECT_FREE_DRIVE">請從列表中選擇一個未被佔用的驅動器盤符。</string>
+    <string lang="zh-hk" key="SELECT_A_MOUNTED_VOLUME">請在驅動器列表中選擇一個已載入的加密卷。</string>
+    <string lang="zh-hk" key="AMBIGUOUS_VOL_SELECTION">當前選擇了兩個已載入的加密卷（一個位於盤符列表中，另外一個位於列表下面的文本輸入框中）。\n\n請選擇您要選擇的加密卷：</string>
+    <string lang="zh-hk" key="CANT_CREATE_AUTORUN">錯誤：不能創建 autorun.inf</string>
+    <string lang="zh-hk" key="ERR_PROCESS_KEYFILE">處理密鑰文件時出錯！</string>
+    <string lang="zh-hk" key="ERR_PROCESS_KEYFILE_PATH">處理密鑰檔路徑時出錯！</string>
+    <string lang="zh-hk" key="ERR_KEYFILE_PATH_EMPTY">密鑰檔路徑不包含檔。\n\n請注意，在密鑰檔搜索路徑中發現的該檔夾（以及其中包含的檔）已被忽略。</string>
+    <string lang="zh-hk" key="UNSUPPORTED_OS">TrueCrypt 不支援此作業系統。</string>
+    <string lang="zh-hk" key="UNSUPPORTED_BETA_OS">錯誤：TrueCrypt 僅支援穩定的作業系統版本（不支援 beta 版和 RC 版）。</string>
+    <string lang="zh-hk" key="ERR_MEM_ALLOC">錯誤：不能分配記憶體。</string>
+    <string lang="zh-hk" key="ERR_PERF_COUNTER">錯誤：不能恢復性能計數器的值。</string>
+    <string lang="zh-hk" key="ERR_VOL_FORMAT_BAD">錯誤：錯誤的加密卷格式。</string>
+    <string lang="zh-hk" key="ERR_HIDDEN_NOT_NORMAL_VOLUME">錯誤：您提供了一個隱藏加密卷的密碼（而不是常規加密卷的密碼）。</string>
+    <string lang="zh-hk" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">安全起見，隱藏加密卷不能在帶有就地加密檔系統的 TrueCrypt 加密卷中創建（這是因為該卷上的自由空間沒有填充亂數據）</string>
+    <string lang="zh-hk" key="LEGAL_NOTICES_DLG_TITLE">TrueCrypt - 法律提示</string>
+    <string lang="zh-hk" key="ALL_FILES">所有檔</string>
+    <string lang="zh-hk" key="TC_VOLUMES">TrueCrypt 加密卷</string>
+    <string lang="zh-hk" key="DLL_FILES">運行庫模組</string>
+    <string lang="zh-hk" key="FORMAT_NTFS_STOP">NTFS 格式化不能繼續。</string>
+    <string lang="zh-hk" key="CANT_MOUNT_VOLUME">不能載入加密卷。</string>
+    <string lang="zh-hk" key="CANT_DISMOUNT_VOLUME">不能卸載加密卷。</string>
+    <string lang="zh-hk" key="FORMAT_NTFS_FAILED">格式化成 NTFS 磁片格式時失敗。\n\n請選擇不同的檔系統格式（如果可能的話）再嘗試一次。此外，您可以保留該卷為未格式化卷（檔系統選擇為 '無' ），退出嚮導，載入這個加密卷，然後再使用系統或第三方工具格式化這個已經載入的加密卷（該載入的卷仍然為加密狀態）。</string>
+    <string lang="zh-hk" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows 格式化加密卷為 NTFS 時失敗。\n\n您希望格式化為 FAT 檔系統嗎？</string>
+    <string lang="zh-hk" key="DEFAULT">默認</string>
+    <string lang="zh-hk" key="PARTITION_LOWER_CASE">分區</string>
+    <string lang="zh-hk" key="PARTITION_UPPER_CASE">分區</string>
+    <string lang="zh-hk" key="DEVICE">設備</string>
+    <string lang="zh-hk" key="DEVICE_LOWER_CASE">設備</string>
+    <string lang="zh-hk" key="DEVICE_UPPER_CASE">設備</string>
+    <string lang="zh-hk" key="VOLUME">加密卷</string>
+    <string lang="zh-hk" key="VOLUME_LOWER_CASE">加密卷</string>
+    <string lang="zh-hk" key="VOLUME_UPPER_CASE">加密卷</string>
+    <string lang="zh-hk" key="LABEL">標籤</string>
+    <string lang="zh-hk" key="CLUSTER_TOO_SMALL">相對加密卷大小而言，選擇的簇大小太小。 將替代使用大一些的簇大小。</string>
+    <string lang="zh-hk" key="CANT_GET_VOLSIZE">錯誤：不能獲取加密卷大小資訊！\n\n請確認選擇的加密卷未被系統或 其他程式使用。</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_HOST_SPARSE">隱藏加密卷不能創建於動態（稀疏檔）的外層卷中。要達到足夠的隱蔽性，隱藏加密卷應當在非動態加密卷中創建。</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">TrueCrypt 加密卷創建嚮導只能在 FAT 或 NTFS 加密卷內創建隱藏加密卷。</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">在 Windows 2000 系統裏，TrueCrypt 加密卷創建嚮導只能在 FAT 加密卷裏面創建隱藏加密卷。</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_HOST_NTFS">注意：FAT 檔系統比 NTFS 檔系統更適合作為外層加密卷（例如，如果外層加密卷被格式化為 FAT 格式，能夠創建的隱藏加密卷的大小可能會更大一些）。</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_HOST_NTFS_ASK">注意：FAT 檔系統比 NTFS 檔系統更適合作為外層加密卷（例如，如果外層加密卷被格式化為 FAT 格式，能夠創建的隱藏加密卷的大小可能會更大一些）（原因是 NTFS 檔系統總是在卷的中部存儲內部資料，因此，隱藏加密卷只能創建在外層加密卷的後半部分）。\n\n您確認要繼續格式化外層為 NTFS 格式嗎？</string>
+    <string lang="zh-hk" key="OFFER_FAT_FORMAT_ALTERNATIVE">您想要把加密卷格式化為 FAT 格式嗎？</string>
+    <string lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Note: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</string>
+    <string lang="zh-hk" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">錯誤：隱形作業系統的分區（也就是系統分區後面的第一個分區）必須至少比系統分區大 5%（系統分區就是當前運行的作業系統所在的分區）。</string>
+    <string lang="zh-hk" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS_NTFS">錯誤：隱形作業系統的分區（也就是系統分區後面的第一個分區）必須至少比系統分區大 110%（2.1 倍）（系統分區就是當前運行的作業系統所在的分區）。原因是 NTFS 檔系統總是在卷的中部存儲內部資料，因此，隱藏加密卷只能創建在外層加密卷的後半部分。</string>
+    <string lang="zh-hk" key="OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS">錯誤：如果外層加密卷被格式化為 NTFS，則它必須至少比系統分區大 110%（2.1 倍）。原因是 NTFS 檔系統總是在卷的中部存儲內部資料，因此，隱藏加密卷只能創建在外層加密卷的後半部分。\n\n說明：外層加密卷需和隱形作業系統位於同一分區（即位於系統分區後面的第一個分區）。</string>
+    <string lang="zh-hk" key="NO_PARTITION_FOLLOWS_BOOT_PARTITION">錯誤：在系統分區後面沒有其他分區。\n\n注意，在您創建隱形作業系統之前，您需要在此系統驅動器上創建一個分區。該分區必須是系統分區後的第一個分區，並且必須至少比系統分區大 5%（系統分區就是當前運行的作業系統所在的分區）。然而，如果外層加密卷（不要與系統分區混淆）被格式化為 NTFS 格式，則該分區必須至少比系統分區大 110%（2.1 倍）（原因是 NTFS 檔系統總是在卷的中部存儲內部資料，因此，包含系統克隆的隱藏加密卷只能創建在外層加密卷的後半部分）。</string>
+    <string lang="zh-hk" key="TWO_SYSTEMS_IN_ONE_PARTITION_REMARK">注釋：同時在單一分區的 TrueCrypt 外層和隱藏加密卷裏面創建兩個系統並不可行（因此也不被支援）。因為使用外層作業系統會經常要求寫入資料到隱形作業系統所在區域（如果使用隱藏加密卷保護機制，也會因此而帶來系統崩潰，即藍屏錯誤）。</string>
+    <string lang="zh-hk" key="FOR_MORE_INFO_ON_PARTITIONS">關於創建和管理分區的更多資訊，請參考您的作業系統所提供的文檔，或者聯繫您的電腦提供商以獲取技術支援。</string>
+    <string lang="zh-hk" key="SYSTEM_PARTITION_NOT_ACTIVE">錯誤：當前運行的作業系統並未安裝到啟動分區（第一個作用/啟動的分區）。目前不支援此情況。</string>
+    <string lang="zh-hk" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">您已經表明了要在加密卷裏面存放大於 4GB 的文件。然而，您選擇了 FAT 檔系統，此系統無法存儲大於 4 GB 的檔。\n\n您確認要格式化該卷為 FAT 格式嗎？</string>
+    <string lang="zh-hk" key="CANT_ACCESS_VOL">錯誤：不能訪問加密卷！\n\n請確認選擇的加密卷存在，並且該加密卷並未由系統或其他程式使用，同時該卷未被防寫，並且你具有對該卷的讀寫許可權，並且確認該卷未被防寫。</string>
+    <string lang="zh-hk" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">錯誤：不能訪問該卷 和/或 獲取該卷的資訊。\n\n請確認該卷存在，並且未被作業系統或其他程式佔用，以及您具有對該卷的讀寫許可權，同時還要保證該卷未被防寫。</string>
+    <string lang="zh-hk" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">錯誤：不能訪問該卷 和/或 獲取該卷的資訊。請確認選擇的卷存在，並且未被作業系統或其他程式佔用，以及您具有對該卷的讀寫許可權，同時還要保證該卷未被防寫。\n\n如果此問題仍然存在，遵循以下步驟可能有所幫助。</string>
+    <string lang="zh-hk" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">發生了一個錯誤，TrueCrypt 無法加密分區。請嘗試修復任何前面報告的問題之後再次嘗試。如果此問題依然存在，遵循以下步驟可能有所幫助。</string>
+    <string lang="zh-hk" key="INPLACE_ENC_GENERIC_ERR_RESUME">發生了一個錯誤，TrueCrypt 無法繼續加密分區的過程。\n\n請嘗試修復任何前面報告的問題之後再次嘗試加密過程。注意：該卷在完全加密前將無法載入。</string>
+    <string lang="zh-hk" key="CANT_DISMOUNT_OUTER_VOL">錯誤：不能卸載外層加密卷！\n\n如果加密卷中的檔或檔夾被程式或被 系統使用，則該加密卷不能被鎖定。\n\n請關閉任何可能使用加密卷上檔或目錄 的程式，然後再點擊“重試”。</string>
+    <string lang="zh-hk" key="CANT_GET_OUTER_VOL_INFO">錯誤：不能獲取外層加密卷的資訊！ 加密卷創建不能繼續。</string>
+    <string lang="zh-hk" key="CANT_ACCESS_OUTER_VOL">錯誤：不能訪問外層加密卷！ 加密卷創建不能繼續。</string>
+    <string lang="zh-hk" key="CANT_MOUNT_OUTER_VOL">錯誤：不能載入外層加密卷！ 加密卷創建不能繼續。</string>
+    <string lang="zh-hk" key="CANT_GET_CLUSTER_BITMAP">錯誤：不能獲取加密卷簇狀圖！ 加密卷創建不能繼續。</string>
+    <string lang="zh-hk" key="ALPHABETICAL_CATEGORIZED">按字母順序</string>
+    <string lang="zh-hk" key="MEAN_SPEED">按平均速度（遞減）</string>
+    <string lang="zh-hk" key="ALGORITHM">演算法</string>
+    <string lang="zh-hk" key="ENCRYPTION">加密</string>
+    <string lang="zh-hk" key="DECRYPTION">解密</string>
+    <string lang="zh-hk" key="MEAN">平均</string>
+    <string lang="zh-hk" key="DRIVE">盤符</string>
+    <string lang="zh-hk" key="SIZE">大小</string>
+    <string lang="zh-hk" key="ENCRYPTION_ALGORITHM">加密演算法</string>
+    <string lang="zh-hk" key="ENCRYPTION_ALGORITHM_LV">加密演算法</string>
+    <string lang="zh-hk" key="TYPE">類型</string>
+    <string lang="zh-hk" key="VALUE">值</string>
+    <string lang="zh-hk" key="PROPERTY">屬性</string>
+    <string lang="zh-hk" key="LOCATION">位置</string>
+    <string lang="zh-hk" key="BYTES">位元組</string>
+    <string lang="zh-hk" key="HIDDEN">隱藏</string>
+    <string lang="zh-hk" key="OUTER">外層</string>
+    <string lang="zh-hk" key="NORMAL">常規</string>
+    <string lang="zh-hk" key="SYSTEM_VOLUME_TYPE_ADJECTIVE">系統</string>
+    <string lang="zh-hk" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">隱藏（系統）</string>
+    <string lang="zh-hk" key="READ_ONLY">唯讀</string>
+    <string lang="zh-hk" key="SYSTEM_DRIVE">系統驅動器</string>
+    <string lang="zh-hk" key="SYSTEM_DRIVE_ENCRYPTING">系統驅動器（正在加密 - %.2f%% 已完成）</string>
+    <string lang="zh-hk" key="SYSTEM_DRIVE_DECRYPTING">系統驅動器（正在解密 - %.2f%% 已完成）</string>
+    <string lang="zh-hk" key="SYSTEM_DRIVE_PARTIALLY_ENCRYPTED">系統驅動器（%.2f%% 已加密）</string>
+    <string lang="zh-hk" key="SYSTEM_PARTITION">系統分區</string>
+    <string lang="zh-hk" key="HIDDEN_SYSTEM_PARTITION">隱形作業系統</string>
+    <string lang="zh-hk" key="SYSTEM_PARTITION_ENCRYPTING">系統分區（正在加密 - %.2f%% 已完成）</string>
+    <string lang="zh-hk" key="SYSTEM_PARTITION_DECRYPTING">系統分區（正在解密 - %.2f%% 已完成）</string>
+    <string lang="zh-hk" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">系統分區（%.2f%% 已加密）</string>
+    <string lang="zh-hk" key="HID_VOL_DAMAGE_PREVENTED">是（防止損壞！）</string>
+    <string lang="zh-hk" key="NONE">無</string>
+    <string lang="zh-hk" key="KEY_SIZE">主密鑰大小</string>
+    <string lang="zh-hk" key="SECONDARY_KEY_SIZE_XTS">次密鑰大小（XTS 模式）</string>
+    <string lang="zh-hk" key="SECONDARY_KEY_SIZE_LRW">調整密鑰大小（LRW 模式）</string>
+    <string lang="zh-hk" key="BITS">位</string>
+    <string lang="zh-hk" key="BLOCK_SIZE">塊大小</string>
+    <string lang="zh-hk" key="PKCS5_PRF">PKCS-5 PRF</string>
+    <string lang="zh-hk" key="PKCS5_ITERATIONS">PKCS-5 迭代次數</string>
+    <string lang="zh-hk" key="VOLUME_CREATE_DATE">加密卷創建時間</string>
+    <string lang="zh-hk" key="VOLUME_HEADER_DATE">頭資訊上次修改時間</string>
+    <string lang="zh-hk" key="VOLUME_HEADER_DAYS">（%I64d 天前）</string>
+    <string lang="zh-hk" key="VOLUME_FORMAT_VERSION">加密卷格式版本</string>
+    <string lang="zh-hk" key="BACKUP_HEADER">內嵌的備份頭信息</string>
+    <string lang="zh-hk" key="TC_BOOT_LOADER_VERSION">TrueCrypt 啟動管理器版本</string>
+    <string lang="zh-hk" key="FIRST_AVAILABLE">首個可用的</string>
+    <string lang="zh-hk" key="REMOVABLE_DISK">移動硬碟</string>
+    <string lang="zh-hk" key="HARDDISK">硬碟</string>
+    <string lang="zh-hk" key="UNCHANGED">不改變</string>
+    <string lang="zh-hk" key="SETUP_MODE_TITLE">嚮導模式</string>
+    <string lang="zh-hk" key="SETUP_MODE_INFO">請選擇一種安裝模式，如果不確認，請使用默認模式。</string>
+    <string lang="zh-hk" key="SETUP_MODE_HELP_INSTALL">如果您想安裝 TrueCrypt 到當前系統，請選擇此選項。</string>
+    <string lang="zh-hk" key="SETUP_MODE_HELP_UPGRADE">注意：即使在系統分區/設備已加密的情況下，或者您正在使用隱形系統的情況下，您也可以執行更新而無需解密.</string>
+    <string lang="zh-hk" key="SETUP_MODE_HELP_EXTRACT">如果您選擇該選項，所有檔都會被從安裝包中釋放出來，但是不會向系統中安裝任何檔。如果您計畫加密 Windows 系統分區或系統驅動器，請不要選擇此選項。選擇此選項有時會比較有用，例如，你希望以便攜模式運行 TrueCrypt。TrueCrypt 不一定要必須安裝到系統中。在所有檔釋放後，你可以直接運行釋放後的 'TrueCrypt.exe' 檔（這時 TrueCrypt 會以便攜模式運行）。您也可以把釋放後的檔複製到其他電腦。</string>
+    <string lang="zh-hk" key="SETUP_OPTIONS_TITLE">安裝選項</string>
+    <string lang="zh-hk" key="SETUP_OPTIONS_INFO">這裏您可以設置控制安裝過程的不同選項。</string>
+    <string lang="zh-hk" key="SETUP_PROGRESS_TITLE">正在安裝</string>
+    <string lang="zh-hk" key="SETUP_PROGRESS_INFO">TrueCrypt 正在安裝，請稍候。</string>
+    <string lang="en" key="SETUP_FINISHED_TITLE_DON">TrueCrypt has been successfully installed</string>
+    <string lang="en" key="SETUP_FINISHED_UPGRADE_TITLE_DON">TrueCrypt has been successfully upgraded</string>
+    <string lang="en" key="SETUP_FINISHED_INFO_DON">Please consider making a donation. You can click Finish anytime to close the installer.</string>
+    <string lang="zh-hk" key="EXTRACTION_OPTIONS_TITLE">釋放選項</string>
+    <string lang="zh-hk" key="EXTRACTION_OPTIONS_INFO">您可以在這裏設置控制釋放過程的不同選項。</string>
+    <string lang="zh-hk" key="EXTRACTION_PROGRESS_INFO">正在釋放檔，請稍候。</string>
+    <string lang="en" key="EXTRACTION_FINISHED_TITLE_DON">Files successfully extracted</string>
+    <string lang="zh-hk" key="EXTRACTION_FINISHED_INFO">所有檔已經被成功釋放到目標檔夾。</string>
+    <string lang="zh-hk" key="AUTO_FOLDER_CREATION">如果指定檔夾，將會自動創建該檔夾。</string>
+    <string lang="zh-hk" key="SETUP_UPGRADE_DESTINATION">TrueCrypt 程式檔將會更新到 TrueCrypt 的安裝位置。如果您需要選擇一個不同的位置，請先卸載當前安裝的 TrueCrypt 。</string>
+    <string lang="zh-hk" key="AFTER_UPGRADE_RELEASE_NOTES">您想聯網查看當前版本的 TrueCrypt 的發行說明嗎？</string>
+    <string lang="zh-hk" key="AFTER_INSTALL_TUTORIAL">如果您以前從未沒有使用過 TrueCrypt，我們推薦您先閱讀“TrueCrypt User Guide”文檔中的“Beginner's Tutorial”章節。您想要查看用戶指南嗎（聯網）？</string>
+    <string lang="zh-hk" key="SELECT_AN_ACTION">請從下面選項中選擇要執行的操作：</string>
+    <string lang="zh-hk" key="REPAIR_REINSTALL">修復/重新安裝</string>
+    <string lang="zh-hk" key="UPGRADE">更新</string>
+    <string lang="zh-hk" key="UNINSTALL">卸載</string>
+    <string lang="zh-hk" key="SETUP_ADMIN">要成功安裝或卸載 TrueCrypt，您必須具有系統管理員許可權。您確認要繼續嗎？</string>
+    <string lang="zh-hk" key="TC_INSTALLER_IS_RUNNING">TrueCrypt 安裝程式正在執行 TrueCrypt 的安裝或更新。在您繼續進行前，請等待其完成或者關閉它。如果您無法關閉它，請在繼續之前重啟電腦。</string>
+    <string lang="zh-hk" key="INSTALL_FAILED">安裝失敗。</string>
+    <string lang="zh-hk" key="UNINSTALL_FAILED">卸載失敗。</string>
+    <string lang="zh-hk" key="DIST_PACKAGE_CORRUPTED">該安裝包已經損壞。請嘗試重新下載安裝包（優先建議從 TrueCrypt 官方網站 www.truecrypt.org 下載）。</string>
+    <string lang="zh-hk" key="CANNOT_WRITE_FILE_X">不能寫入檔 %hs</string>
+    <string lang="zh-hk" key="EXTRACTING_VERB">正在釋放</string>
+    <string lang="zh-hk" key="CANNOT_READ_FROM_PACKAGE">不能從安裝包中讀取資料</string>
+    <string lang="zh-hk" key="CANT_VERIFY_PACKAGE_INTEGRITY">不能驗證安裝包的完整性。</string>
+    <string lang="zh-hk" key="EXTRACTION_FAILED">釋放失敗。</string>
+    <string lang="zh-hk" key="ROLLBACK">安裝已經回滾。</string>
+    <string lang="zh-hk" key="INSTALL_OK">TrueCrypt 已成功安裝。</string>
+    <string lang="zh-hk" key="SETUP_UPDATE_OK">TrueCrypt 已經成功更新。</string>
+    <string lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">TrueCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</string>
+    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade TrueCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu &gt; All programs &gt; Accessories &gt; System Tools &gt; System Restore) to restore your system to the restore point named 'TrueCrypt installation'. If System Restore is not available, you should try installing the original or the new version of TrueCrypt again before you shut down or restart the system.</string>
+    <string lang="zh-hk" key="UNINSTALL_OK">TrueCrypt 已成功卸載。\n\n單擊 '完成' 按鈕來移除 TrueCrypt 安裝程式和檔夾 %hs。注意：如果該檔夾中含有非安裝程式創建的檔，則該檔夾不會被移除。</string>
+    <string lang="zh-hk" key="REMOVING_REG">正在移除 TrueCrypt 註冊表專案。</string>
+    <string lang="zh-hk" key="ADDING_REG">正在添加註冊表專案</string>
+    <string lang="zh-hk" key="REMOVING_APPDATA">正在刪除程式相關資料</string>
+    <string lang="zh-hk" key="INSTALLING">正在安裝</string>
+    <string lang="zh-hk" key="STOPPING">正在停止</string>
+    <string lang="zh-hk" key="REMOVING">正在刪除</string>
+    <string lang="zh-hk" key="ADDING_ICON">添加圖示</string>
+    <string lang="zh-hk" key="CREATING_SYS_RESTORE">創建系統還原點</string>
+    <string lang="zh-hk" key="FAILED_SYS_RESTORE">創建系統還原點失敗！</string>
+    <string lang="zh-hk" key="INSTALLER_UPDATING_BOOT_LOADER">正在更新啟動管理器</string>
+    <string lang="zh-hk" key="INSTALL_OF_FAILED">安裝 '%hs' 失敗。 %hs 您想要繼續安裝嗎？</string>
+    <string lang="zh-hk" key="UNINSTALL_OF_FAILED">卸載 '%hs' 失敗。 %hs 您想要繼續卸載嗎？</string>
+    <string lang="zh-hk" key="INSTALL_COMPLETED">安裝完畢。</string>
+    <string lang="zh-hk" key="CANT_CREATE_FOLDER">檔夾 '%hs' 不能被創建</string>
+    <string lang="zh-hk" key="CLOSE_TC_FIRST">不能卸載 TrueCrypt 設備驅動。\n\n請首先關閉所有打開的 TrueCrypt 視窗。如果這樣仍然不起作用，請重啟電腦然後再試一次。</string>
+    <string lang="zh-hk" key="DISMOUNT_ALL_FIRST">在安裝或者卸載 TrueCrypt 之前必須先要卸載所有的 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="UNINSTALL_OLD_VERSION_FIRST">當前系統已經安裝了一份不同版本的 TrueCrypt。在安裝新版本前需要卸載舊版本的 TrueCrypt。\n\n在您關閉此對話方塊之後，將會載入舊版本的卸載程式。在卸載的過程中將不會執行任何加密分區的解密操作。在卸載舊版本的 TrueCrypt 之後，請再次運行新版 TrueCrypt 的安裝程式。</string>
+    <string lang="zh-hk" key="REG_INSTALL_FAILED">安裝註冊表項目失敗</string>
+    <string lang="zh-hk" key="DRIVER_INSTALL_FAILED">安裝設備驅動失敗。請重啟電腦後再嘗試安裝 TrueCryp。</string>
+    <string lang="zh-hk" key="STARTING_DRIVER">正在啟動 TrueCrypt 設備驅動</string>
+    <string lang="zh-hk" key="DRIVER_UINSTALL_FAILED">卸載設備驅動失敗。請注意，由於 Windows 系統問題，在設置驅動能夠繼續卸載或重新安裝前可能需要登出或者重啟系統。</string>
+    <string lang="zh-hk" key="INSTALLING_DRIVER">正在安裝 TrueCrypt 設備驅動</string>
+    <string lang="zh-hk" key="STOPPING_DRIVER">正在停止 TrueCrypt 設備驅動</string>
+    <string lang="zh-hk" key="REMOVING_DRIVER">正在卸載 TrueCrypt 設備驅動</string>
+    <string lang="zh-hk" key="COM_REG_FAILED">註冊用戶帳戶控制支援運行庫失敗。</string>
+    <string lang="zh-hk" key="COM_DEREG_FAILED">取消用戶帳戶支援運行庫失敗。</string>
+    <string lang="en" key="TRAVELER_LIMITATIONS_NOTE">Note about portable mode:\n\nPlease note that the operating system requires drivers to be registered with it before they can be started. Hence, the TrueCrypt driver is not (and cannot be) fully portable (whereas the TrueCrypt applications are fully portable, i.e. they do not have to be installed or registered with the operating system). Also note that TrueCrypt needs a driver to provide transparent on-the-fly encryption/decryption.</string>
+    <string lang="zh-hk" key="TRAVELER_UAC_NOTE">注意：如果您決定以便攜方式運行 TrueCrypt（不同於安裝後運行 TrueCrypt），系統會在您每次嘗試運行 TrueCrypt 的時候詢問您運行 TrueCrypt  的許可權（UAC 提示）。\n\n原因是您以便攜模式運行 TrueCrypt 時，TrueCrypt需要載入和運行 TrueCrypt 設備驅動。TrueCrypt 需要此設備驅提供透明即時加解密，並且不具有管理員許可權的用戶在 Windows 中將不能啟動設備驅動。因此，系統將會要求您使用管理器特權運行 TrueCrypt 的許可權（UAC 提示）。\n\n說明：如果您在系統中安裝了 TrueCrypt，系統在每次啟動 TrueCrypt 時將不會詢問運行許可權（無 UAC 提示）。\n\n您確認要釋放這些檔嗎？</string>
+    <string lang="zh-hk" key="CONTAINER_ADMIN_WARNING">警告：這個加密卷創建嚮導的實例具有管理員許可權。\n\n您新建的加密卷可能許可為載入時不允許向該卷寫入資料。如果要避免這種情況發生，請關閉加密卷嚮導的實例並在非管理員許可權下載入新的嚮導。\n\n您要關閉這個加密卷創建嚮導的實例嗎？ a</string>
+    <string lang="zh-hk" key="CANNOT_DISPLAY_LICENSE">錯誤：不能顯示授權許可。</string>
+    <string lang="zh-hk" key="OUTER_VOL_WRITE_PREVENTED">外層(!)</string>
+    <string lang="zh-hk" key="DAYS">天</string>
+    <string lang="zh-hk" key="HOURS">小時</string>
+    <string lang="zh-hk" key="MINUTES">分鐘</string>
+    <string lang="zh-hk" key="SECONDS">秒</string>
+    <string lang="zh-hk" key="OPEN">打開</string>
+    <string lang="zh-hk" key="DISMOUNT">卸載</string>
+    <string lang="zh-hk" key="SHOW_TC">顯示 TrueCrypt</string>
+    <string lang="zh-hk" key="HIDE_TC">隱藏 TrueCrypt</string>
+    <string lang="zh-hk" key="TOTAL_DATA_READ">載入後讀取的數據</string>
+    <string lang="zh-hk" key="TOTAL_DATA_WRITTEN">載入後寫入的資料</string>
+    <string lang="zh-hk" key="ENCRYPTED_PORTION">加密部分</string>
+    <string lang="zh-hk" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100%（完全加密）</string>
+    <string lang="zh-hk" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0%（未加密）</string>
+    <string lang="zh-hk" key="PROCESSED_PORTION_X_PERCENT">%.3f%%</string>
+    <string lang="zh-hk" key="PROCESSED_PORTION_100_PERCENT">100%</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_WAITING">正在等待</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_PREPARING">正在準備</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_RESIZING">正在改變大小</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_ENCRYPTING">正在加密</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_DECRYPTING">正在解密</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_FINALIZING">正在完成</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_PAUSED">已暫停</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_FINISHED">已完成</string>
+    <string lang="zh-hk" key="PROGRESS_STATUS_ERROR">錯誤</string>
+    <string lang="zh-hk" key="FAVORITE_DISCONNECTED_DEV">設備已斷開</string>
+    <string lang="zh-hk" key="SYS_FAVORITE_VOLUMES_SAVED">系統收藏加密卷已保存。\n\n要想在系統啟動時載入系統收藏加密卷，請選擇 '設置' &gt; '系統收藏加密卷' &gt; '當 Windows 啟動時載入系統收藏加密卷'。</string>
+    <string lang="zh-hk" key="FAVORITE_ADD_DRIVE_DEV_WARNING">您添加收藏的既不是分區也不是動態卷。因此，如果設備號發生改變，TrueCrypt 將不能載入此收藏卷。</string>
+    <string lang="zh-hk" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">您添加收藏的卷不是 Windows 能夠識別的分區。\n\n因此，如果設備號發生改變，TrueCrypt 將不能載入此收藏卷。請設置分區的類型為 Windows 系統所能夠識別的類型(使用Windows 'diskpart' 工具的 SETID 命令)。之後再添加此分區到收藏。</string>
+    <string lang="zh-hk" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">TrueCrypt 後臺任務已被禁用，或者它被配置為在沒有加密卷被載入時退出（或者 TrueCrypt 正在以便攜模式運行）。當含有這些加密卷的設備連接到電腦的時候，後臺服務被禁用可能會阻止您的收藏加密卷被自動載入。\n\n說明：要啟用 TrueCrypt 後臺任務，選擇〖 設置 &gt; 參數〗之後勾選 'TrueCrypt 後臺任務' 部份的 '啟用' 核取方塊。</string>
+    <string lang="zh-hk" key="FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR">當含有這些加密卷的設備連接到電腦的時候，存儲於共用網路上的遠端檔系統的加密容器不能被自動載入。</string>
+    <string lang="zh-hk" key="FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR">下面顯示的設備既不是分區也不是動態卷。因此，當設備連接到電腦的時候，存儲於這些設備中的加密卷將不能被自動載入。</string>
+    <string lang="zh-hk" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">請設置下面顯示的分區的類型為 Windows 系統所能夠識別的類型(使用Windows 'diskpart' 工具的 SETID 命令)。之後從收藏中移除該分區並隨後再次添加它。這可以使設備連接時，包含於其中的加密卷可以被 TrueCrypt 自動載入。</string>
+    <string lang="zh-hk" key="FAVORITE_LABEL_DEVICE_PATH_ERR">下面顯示的設備既不是分區也不是動態卷。因此，不會賦予它們標籤。</string>
+    <string lang="zh-hk" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">請設置下面顯示的分區的類型為 Windows 系統所能夠識別的類型(使用Windows 'diskpart' 工具的 SETID 命令)。之後從收藏中移除該分區並隨後再次添加它。這可以使 TrueCrypt 能夠賦予盤符給這個分區。</string>
+    <string lang="zh-hk" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">由於 Windows 系統的限制，在網路上共用的遠端檔系統上的加密容器不能被載入為系統收藏加密卷（然而，它可以在用戶登錄時被載入為普通的收藏加密卷）。</string>
+    <string lang="zh-hk" key="ENTER_PASSWORD_FOR">為 %hs 輸入密碼</string>
+    <string lang="zh-hk" key="ENTER_PASSWORD_FOR_LABEL">為 '%s' 輸入密碼</string>
+    <string lang="zh-hk" key="ENTER_NORMAL_VOL_PASSWORD">輸入常規外層加密卷的密碼</string>
+    <string lang="zh-hk" key="ENTER_HIDDEN_VOL_PASSWORD">輸入隱藏加密卷的密碼</string>
+    <string lang="zh-hk" key="ENTER_HEADER_BACKUP_PASSWORD">輸入存儲在備份檔案中的加密卷頭的密碼</string>
+    <string lang="zh-hk" key="KEYFILE_CREATED">密鑰檔已成功創建。</string>
+    <string lang="zh-hk" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：加密卷頭資訊已經損壞！TrueCrypt 將自動使用內嵌在加密卷中的頭資訊備份。\n\n您應當通過選擇 '工具' &gt; '恢復加密卷頭資訊' 來修復頭資訊。</string>
+    <string lang="zh-hk" key="VOL_HEADER_BACKED_UP">加密卷頭資訊備份已經成功創建。\n\n重要：使用恢復功能恢復時也會恢復當前加密卷的密碼。另外，如果創建加密卷的時候使用了密鑰檔，恢復後也需要同樣的密鑰檔來打開加密卷。\n\n警告：該加密卷頭資訊備份只能用在這個提供備份的加密卷上。如果你把該頭資訊備份恢復到其他加密卷，您可能能夠打開加密卷，但是您將不能解密存儲於加密卷的任何資料（這是因為您已經改變了加密卷的主密鑰）。</string>
+    <string lang="zh-hk" key="VOL_HEADER_RESTORED">加密卷頭資訊備份已經成功恢復。\n\n重要：請注意舊密碼也同樣被恢復了。另外，備份時如果需要密鑰檔來載入加密卷，恢復後也需要同樣的密鑰檔。</string>
+    <string lang="zh-hk" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">安全起見，您需要輸入正確的加密卷密碼（和/或 提供正確的密鑰檔）。\n\n注意：如果該卷中包含隱藏加密卷，您需要先輸入正確的外層加密卷的密碼（和/或 正確的密鑰檔）。之後，如果您選擇老備份隱藏加密卷的頭資訊，您您需要輸入正確的隱藏加密卷密碼（和/或 提供正確的密鑰檔）。</string>
+    <string lang="zh-hk" key="CONFIRM_VOL_HEADER_BAK">您確認要創建加密卷 %hs 的頭資訊的備份嗎？\n\n在您點擊“是”後，將會彈出備份的頭資訊檔的檔案名提示對話方塊。\n\n注意：常規加密卷和隱藏加密卷頭資訊均將使用新的元素加密並存儲到備份檔案中。如果卷中沒有隱藏加密卷，在備份檔案中為隱藏加密卷保留的區域將會使用亂數據填充（以保持隱蔽性）。您需要輸入創建頭資訊備份時的正確的密碼（和/或 提供正確的密鑰檔）。密碼或密鑰檔會自動確定要恢復的加密卷頭資訊類型，即常規的或是隱藏的（TrueCrypt 通過嘗試和錯誤來偵測類型），儘管有時在加密卷裏面並沒有隱藏加密卷（為保留隱蔽性）。當從備份檔案中恢復一個加密卷的頭資訊時，可以選擇恢復哪個頭資訊（例如，隱藏卷或是標準卷）</string>
+    <string lang="zh-hk" key="CONFIRM_VOL_HEADER_RESTORE">您確認要恢復加密卷 %hs 的頭資訊嗎？\n\n警告：恢復加密卷頭資訊也會恢復在創建備份時 有效的密碼。另外，如果在備份時需要使用密鑰檔載入加密卷，那麼在頭資訊恢復後，仍然需要同樣的密鑰檔。\n\n在您點擊“是”後，您將選擇頭資訊備份檔案。</string>
+    <string lang="zh-hk" key="DOES_VOLUME_CONTAIN_HIDDEN">此加密卷包含隱藏加密卷嗎？</string>
+    <string lang="zh-hk" key="VOLUME_CONTAINS_HIDDEN">此加密卷包含隱藏加密卷</string>
+    <string lang="zh-hk" key="VOLUME_DOES_NOT_CONTAIN_HIDDEN">此加密卷不包含隱藏加密卷</string>
+    <string lang="zh-hk" key="HEADER_RESTORE_EXTERNAL_INTERNAL">請選擇您想要使用的加密卷頭資訊備份類型：</string>
+    <string lang="zh-hk" key="HEADER_RESTORE_INTERNAL">從加密卷內嵌的備份中恢復加密卷頭資訊</string>
+    <string lang="zh-hk" key="HEADER_RESTORE_EXTERNAL">從外部備份檔案中恢復加密卷頭資訊</string>
+    <string lang="zh-hk" key="HEADER_BACKUP_SIZE_INCORRECT">加密卷頭資訊備份檔案的尺寸不對。</string>
+    <string lang="zh-hk" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中沒有內嵌的備份頭資訊（注意，僅在 TrueCrypt 6.0 和以後的版本才包含內嵌的頭資訊）。</string>
+    <string lang="zh-hk" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在嘗試備份系統分區/設備的頭資訊，該功能不被允許。對於系統分區/設備頭資訊的備份/恢復 只能通過使用 TrueCrypt 應急盤來進行。\n\n您希望創建 TrueCrypt 應急盤嗎？</string>
+    <string lang="zh-hk" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在嘗試恢復系統分區/設備的頭資訊，但是您選擇的是系統分區/設備。該功能不被允許。 對於系統分區/設備頭資訊的備份/恢復 只能通過使用 TrueCrypt 應急盤來進行。\n\n您希望創建 TrueCrypt 應急盤嗎？</string>
+    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在點擊“確定”按鈕後，您將會設置新的 TrueCrypt 應急盤  ISO 鏡像檔的名稱和存放位置。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">應急盤  ISO 鏡像檔已經創建並存儲為檔： %hs\n\n現在您需要把應急盤刻錄到 CD 或 DVD。\n\n重要：檔必須以 ISO 鏡像檔方式刻錄到 CD/DVD（不要刻錄為單個的資料檔案）。要獲取更多的關於如何刻錄 ISO 檔的資訊，請參考您的 CD/DVD 刻錄軟體的說明書。\n\n請您在刻錄應急盤之後，選擇 '系統' &gt; '驗證應急盤' 來驗證應急盤是否已經成功刻錄。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">應急盤  ISO 鏡像檔已經創建並存儲為檔： %hs\n\n現在您需要把應急盤刻錄到 CD 或 DVD。\n\n您想要啟動 Windows 自帶的磁片鏡像刻錄功能嗎？\n\n注意，請您在刻錄應急盤之後，選擇 '系統' &gt; '驗證應急盤' 來驗證應急盤是否已經成功刻錄。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">請插入 TrueCrypt 應急盤到 CD/DVD 光碟機並點“確定”按鈕開始驗證。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">TrueCrypt 應急盤已經被成功驗證。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">應急盤驗證失敗。\n\n如果您已經刻錄了應急盤，請彈出後重新插入應急盤到 CD/DVD，之後再試一次。如果仍然無效，請嘗試使用其他 CD/DVD 刻錄軟體或刻錄盤。\n\n如果您嘗試驗證一個為不同的主密鑰、密碼、元素等創建的 TrueCrypt 應急盤，請注意這樣的應急盤會無法通過驗證。要創建一個新的和當前配置完全相容的應急盤，請選擇 '系統' &gt; '創建應急盤'。</string>
+    <string lang="zh-hk" key="ERROR_CREATING_RESCUE_DISK">創建 TrueCrypt 應急盤時失敗。</string>
+    <string lang="zh-hk" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">TrueCrypt 應急盤在隱形作業系統運行時無法創建。\n\n要創建 TrueCrypt 應急盤，請啟動到迷惑作業系統之後選擇 '系統' &gt; '創建應急盤'。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_CHECK_FAILED">不能確定應急盤是否刻錄成功。\n\n如果您已經刻錄了應急盤，請彈出後重新插入應急盤到 CD/DVD，之後再嘗試驗證一次。如果仍然無效，請嘗試使用其他 %s 。\n\n如果您還沒有創建應急盤，請首先創建一個，然後再點 '下一步' 按鈕。\n\n如果您嘗試驗證一個運行加密盤創建嚮導以前創建的應急盤，則這樣的應急盤是無法用於當前系統的，這是因為它是使用了不同的主密鑰創建的。您需要刻錄和創建一個新的應急盤。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"> 和/或 其他 CD/DVD 刻錄軟體</string>
+    <string lang="zh-hk" key="SYSTEM_FAVORITES_DLG_TITLE">TrueCrypt - 系統收藏加密卷</string>
+    <string lang="zh-hk" key="SYS_FAVORITES_HELP_LINK">什麼是系統收藏加密卷？</string>
+    <string lang="zh-hk" key="SYS_FAVORITES_REQUIRE_PBA">系統分區/驅動器看起來沒有加密。\n\n系統收藏加密卷只能使用啟動驗證中的密碼載入。因此，要啟用系統收藏加密卷功能，您需要先加密系統分區/驅動器。</string>
+    <string lang="zh-hk" key="DISMOUNT_FIRST">在操作前請卸載加密卷。</string>
+    <string lang="zh-hk" key="CANNOT_SET_TIMER">錯誤：不能設置計時器。</string>
+    <string lang="zh-hk" key="IDPM_CHECK_FILESYS">檢查檔系統</string>
+    <string lang="zh-hk" key="IDPM_REPAIR_FILESYS">修復檔系統</string>
+    <string lang="zh-hk" key="IDPM_ADD_TO_FAVORITES">添加到收藏...</string>
+    <string lang="zh-hk" key="IDPM_ADD_TO_SYSTEM_FAVORITES">添加為系統收藏加密卷...</string>
+    <string lang="zh-hk" key="IDPM_PROPERTIES">屬性(&amp;R)...</string>
+    <string lang="zh-hk" key="HIDDEN_VOL_PROTECTION">隱藏加密卷已被保護</string>
+    <string lang="zh-hk" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">N/A</string>
+    <string lang="zh-hk" key="UISTR_YES">是</string>
+    <string lang="zh-hk" key="UISTR_NO">否</string>
+    <string lang="zh-hk" key="UISTR_DISABLED">禁用</string>
+    <string lang="zh-hk" key="DIGIT_ONE">1</string>
+    <string lang="zh-hk" key="TWO_OR_MORE">2 或更多</string>
+    <string lang="zh-hk" key="MODE_OF_OPERATION">操作模式</string>
+    <string lang="zh-hk" key="LABEL_ITEM">標籤：   </string>
+    <string lang="zh-hk" key="SIZE_ITEM">大小：   </string>
+    <string lang="zh-hk" key="PATH_ITEM">路徑：   </string>
+    <string lang="zh-hk" key="DRIVE_LETTER_ITEM">驅動器盤符:   </string>
+    <string lang="zh-hk" key="UNSUPPORTED_CHARS_IN_PWD">錯誤：密碼必須僅包含 ASCII 字元。\n\n密碼中的非-ASCII 字元可能會導致在 作業系統配置改變時加密卷不能載入。\n\n允許使用下面字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
+    <string lang="zh-hk" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">警告：密碼中包含非-ASCII 字元。可能會導致在作業系統配置改變時加密卷不能載入。\n\n您應當使用 ASCII 字元替換密碼中的非 ASCII 字元。 如要這樣做，點擊“加密卷” -&gt; “修改加密卷密碼”\n\n下面字元為 ASCII 字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
+    <string lang="zh-hk" key="EXE_FILE_EXTENSION_CONFIRM">警告：我們強烈建議您避免使用可執行檔案名（例如 .exe，.sys，或 .dll）以及其他可能有問題的類似擴展名作為加密卷的名稱。使用這些副檔名通常會導致 Windows 或反病毒軟體干預加密卷，這很可能會嚴重影響加密卷的性能，也可能會導致其他嚴重的問題。\n\n我們強烈建議您移除此副檔名或更換其副檔名（例如，改變為 .iso，.img，.dat）。\n\n您確認繼續使用可能有潛在問題的副檔名嗎？</string>
+    <string lang="zh-hk" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告：該加密卷帶有可執行檔的副檔名（例如 .exe，.sys，或 .dll）或其他可能有問題的類似擴展名作為加密卷的名稱。 這很可能導致 Windows 或反病毒軟體干預加密卷，會嚴重影響加密卷的性能，也可能會導致其他嚴重的問題。\n\n我們強烈建議您在卸載加密卷後移除此副檔名或更換為其他副檔名（例如，改變為 .iso，.img，.dat）。</string>
+    <string lang="zh-hk" key="HOMEPAGE">主頁（聯網）</string>
+    <string lang="zh-hk" key="LARGE_IDE_WARNING_XP">警告：看起來您還沒有安裝任何 Windows 作業系統的補丁包。您不應當向未 安裝 SP1 或以後補丁包的 Windows XP 系統中的大於128 GB 的 IDE 硬碟寫 入資料！如果這樣做了，磁片上的資料（不論是否為 TrueCrypt 加密卷）可能 會損壞。注意：這是 Windows 作業系統的限制，而不是 TrueCrypt 的錯誤。</string>
+    <string lang="zh-hk" key="LARGE_IDE_WARNING_2K">警告：看起來您的 Windows 2000 系統還未安裝 SP3 或以後補丁包。 您不應當向這個系統中大於 128 GB 的 IDE 硬碟寫入資料！如果這樣 做了，磁片上的資料（不論是否為 TrueCrypt 加密卷）可能會損壞。 注意：這是 Windows 作業系統的限制，而不是 TrueCrypt 的錯誤。\n\n注意：您也需在註冊表裏面啟用 48-位 LBA 支持；更多資訊，請參考 http：//support.microsoft.com/kb/305098/EN-US</string>
+    <string lang="zh-hk" key="LARGE_IDE_WARNING_2K_REGISTRY">警告：您的系統不支援 48-位 LBA ATAPI。因此，您將不能寫入到超過 128GB 容量的 IDE 磁片！如果您仍然堅持這樣做，磁片上的資料（不論其是否為 TrueCrypt 加密卷）將會損壞。請注意，這是 Windows 系統的限制，不是 TrueCrypt 軟體的限制。\n\n要啟用 48-位 LBA 支持，請在註冊表的HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\atapi\\Parameters下添加一個 'EnableBigLba' 鍵值並設置其值為 1。\n\n更多資訊請參考 http://support.microsoft.com/kb/305098</string>
+    <string lang="zh-hk" key="VOLUME_TOO_LARGE_FOR_FAT32">錯誤：大於 4 GB 的檔不能存儲於 FAT32 檔系統。因此，存儲於 FAT32 檔系統上的檔類型的加密卷（或外層加密卷）不能大於 4 GB。\n\n如果您需要大容量的加密卷，請在 NTFS 檔系統（或者，如果您使用 Windows Vista SP1 或以後版本的系統，在擴展的 exFAT 檔系統）中創建，除此之外，您也可以使用創建加密分區來代替創建檔型加密盤。</string>
+    <string lang="zh-hk" key="VOLUME_TOO_LARGE_FOR_WINXP">警告：Windows XP 不支持大於 2048GB 的檔（將會被報告為 "無足夠存儲空間"）。因此，在 Windows XP 中您不能創建大於 2048GB 的檔類型加密盤。\n\n請注意，在 Windows XP 中仍然是可以加密整個設備或者創建大於 2048GB 的分區類型 TrueCrypt 加密卷的。</string>
+    <string lang="zh-hk" key="FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME">警告：如果您想以後向外層加密卷中添加更多的資料或檔，您應當考慮為隱藏加密卷選擇一個小一點的尺寸。\n\n您確認要以指定的尺寸繼續嗎？</string>
+    <string lang="zh-hk" key="NO_VOLUME_SELECTED">未選擇加密卷。\n\n點擊“選擇設備...”或“選擇檔...”來選擇 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="NO_SYSENC_PARTITION_SELECTED">沒有選擇分區。\n\n點擊 '選擇設備' 來選擇一個通常需要啟動驗證的已卸載的分區（例如，一個位於另外加密系統驅動器上的另外一個沒有運行的系統的分區，或者是另外一個作業系統的加密系統分區）。\n\n注意：選擇的分區將被以常規 TrueCrypt 加密卷的方式載入而無需啟動驗證。這在執行備份和修復等操作時比較有用。</string>
+    <string lang="zh-hk" key="CONFIRM_SAVE_DEFAULT_KEYFILES">警告：如果默認的密鑰檔被設定和啟用後，則不能載入不使用該密鑰檔的加密卷。因此，如果默認的密鑰檔被設定和啟用後，在打開非密鑰檔加密的加密卷時，請記住取消對“使用密鑰檔”選項的選擇（在密碼輸入框的下面）。\n\n您確認保存選定的密鑰檔/路徑作為預設值嗎？</string>
+    <string lang="zh-hk" key="HK_AUTOMOUNT_DEVICES">自動載入設備</string>
+    <string lang="zh-hk" key="HK_DISMOUNT_ALL">全部卸載</string>
+    <string lang="zh-hk" key="HK_WIPE_CACHE">擦除緩存</string>
+    <string lang="zh-hk" key="HK_DISMOUNT_ALL_AND_WIPE">卸載全部  &amp;  擦除緩存</string>
+    <string lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">強制全部卸載並擦除緩存</string>
+    <string lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">強制全部卸載擦除緩存並退出程式</string>
+    <string lang="zh-hk" key="HK_MOUNT_FAVORITE_VOLUMES">載入收藏加密卷</string>
+    <string lang="zh-hk" key="HK_SHOW_HIDE_MAIN_WINDOW">顯示/隱藏 TrueCrypt 主視窗</string>
+    <string lang="zh-hk" key="PRESS_A_KEY_TO_ASSIGN">（單擊這裏並按下某個鍵盤按鍵）</string>
+    <string lang="zh-hk" key="ACTION">操作</string>
+    <string lang="zh-hk" key="SHORTCUT">熱鍵</string>
+    <string lang="zh-hk" key="CANNOT_USE_RESERVED_KEY">錯誤：該熱鍵為系統保留熱鍵，請選擇一個其他熱鍵。</string>
+    <string lang="zh-hk" key="SHORTCUT_ALREADY_IN_USE">錯誤：熱鍵已被佔用。</string>
+    <string lang="zh-hk" key="HOTKEY_REGISTRATION_ERROR">警告：一個或多個 TrueCrypt 作用於系統範圍的熱鍵不能使用！\n\n請確認 TrueCrypt 的這些熱鍵沒有被其他程式或作業系統佔用。</string>
+    <string lang="zh-hk" key="PAGING_FILE_CREATION_PREVENTED">已阻止創建虛擬記憶體頁面檔。\n\n請注意，由於 Windows 自身的問題，頁面檔不能位於非系統類 TrueCrypt 加密卷（包括系統收藏加密卷）。TrueCrypt 僅支援在加密的系統分區/設備上創建頁面檔。</string>
+    <string lang="zh-hk" key="SYS_ENC_HIBERNATION_PREVENTED">TrueCrypt 加密休眠檔時發生了錯誤或者非相容問題。因此系統的休眠已被阻止。\n\n注意：當電腦處於休眠模式（或進入節電模式），系統記憶體的資訊會被寫入位於驅動器上的休眠檔。TrueCrypt 不能阻止在記憶體中打開的加密密鑰和敏感檔的內容以未加密的形式存放於休眠檔。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_HIBERNATION_PREVENTED">休眠功能已被阻止。\n\nTrueCrypt 不支援使用額外啟動分區的隱形系統中的休眠功能。請注意啟動分區是由迷惑系統和隱形系統共用的。因此，要防止資料洩露和休眠可能會帶來的問題，TrueCrypt 不得不阻止隱形系統向共用的啟動分區寫入資料，以及阻止隱形系統休眠。</string>
+    <string lang="en" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">TrueCrypt volume mounted as %c: has been dismounted.</string>
+    <string lang="en" key="MOUNTED_VOLUMES_DISMOUNTED">TrueCrypt volumes have been dismounted.</string>
+    <string lang="en" key="VOLUMES_DISMOUNTED_CACHE_WIPED">TrueCrypt volumes have been dismounted and password cache has been wiped.</string>
+    <string lang="en" key="SUCCESSFULLY_DISMOUNTED">Successfully dismounted</string>
+    <string lang="zh-hk" key="CONFIRM_BACKGROUND_TASK_DISABLED">警告：如果 TrueCrypt 後臺任務被禁用，下面的功能將會失效：\n\n1）系統熱鍵\n2）自動卸載加密卷（例如註銷時，意外的主設備移除，超時，等等）\n3）自動載入收藏加密卷\n4）提示（例如：對隱藏加密卷的損壞被阻止時）\n5）通知欄圖示\n\n注意：您可以隨時在通過右鍵單擊 TrueCrypt 的通知欄圖示並選擇“退出”來停止後臺任務。\n\n您確認要停止 TrueCrypt 的後臺任務嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_NO_FORCED_AUTODISMOUNT">警告：如果此選項被禁用，包含打開的檔/目錄 的加密卷將不能自動卸載。\n\n您確認要禁用這個選項嗎？</string>
+    <string lang="zh-hk" key="WARN_PREF_AUTO_DISMOUNT">警告：包含打開的檔/目錄的加密卷將不能自動卸載。\n\n要防止這種情況，在對話方塊視窗中啟用下面選項： “強行自動卸載，不論加密卷是否包含打開的檔或目錄”</string>
+    <string lang="zh-hk" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">警告：當筆記本電力不足時，Windows 可能會在電腦進入待機模式時，系統會向正在運行中的程式發送相應的資訊。因此，這種情況下 TrueCrypt 可能會無法自動卸載加密卷。</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">您已經安排了加密 分區/設備 的計畫。該計畫尚未完成。\n\n您希望現在繼續這個加密過程嗎？</string>
+    <string lang="zh-hk" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">您已經計畫了加密或解密系統分區/驅動器的操作。但該操作尚未完成。\n\n您希望開始（或繼續）該操作嗎？</string>
+    <string lang="zh-hk" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">您想要軟體提示您是否要繼續當前計畫的加密非系統分區/卷的加密過程嗎？</string>
+    <string lang="zh-hk" key="KEEP_PROMPTING_ME">是，一直提示我</string>
+    <string lang="zh-hk" key="DO_NOT_PROMPT_ME">否，不要再提示我</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">重要：請一定記住，任何時候，您都可以通過從 TrueCrypt 視窗的主功能表中選擇 '加密卷' &gt; '繼續被中斷的過程'，來繼續任何非系統服務/卷的加密過程。</string>
+    <string lang="zh-hk" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">您已經設置了加密解密系統分區或驅動器的計畫任務。然而，啟動驗證已失敗（或被繞過）。\n\n注意：如果您在啟動驗證環境中解密了系統分區/驅動器，您可能需要從 TrueCrypt 視窗的 '系統' 功能表 &gt; '永久解密系統分區/驅動器' 完成最後的設置步驟。</string>
+    <string lang="zh-hk" key="CONFIRM_EXIT">警告：如果 TrueCrypt 現在退出，以下功能將被禁用：\n\n1）系統熱鍵\n2）自動卸載加密卷（例如註銷時，意外的主設備移除，超時，等等）\n3）自動載入收藏加密卷 \n4）提示（例如，當阻止損害隱藏加密卷時）\n\n注意：如果您不希望 TrueCrypt 在關閉程式視窗後以後臺方式運行，請在程式參數選擇裏面禁用後臺任務選項。（並且，如有必要，在程式參數裏面禁用 TrueCrypt 的自動運行）。\n\n您確定要退出 TrueCrypt 嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_EXIT_UNIVERSAL">退出嗎？</string>
+    <string lang="zh-hk" key="CHOOSE_ENCRYPT_OR_DECRYPT">TrueCrypt 沒有足夠資訊確定是否要加密還是解密。</string>
+    <string lang="zh-hk" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">TrueCrypt 無足夠的資訊來確定加解密狀態。\n\n注意：如果您在啟動驗證環境解密系統分區/驅動器，您可能需要點擊 Decrypt（解密）來最後完成解密過程。</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">您想要打斷和推遲對分區/驅動器的加密嗎？\n\n注意：要記住這個加密卷在完全加密前是不能被載入的。您可以繼續加密過程，加密則會在中斷的地方繼續。要達到這點，例如，可以從 TrueCrypt 主視窗的功能表中選擇 '加密卷' &gt; '繼續被中斷的過程'。</string>
+    <string lang="zh-hk" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">您想要打斷和推遲對系統分區/驅動器的加密嗎？\n\n注意：您以後也可以從中斷位置恢復加密進程。操作如下：在 TrueCrypt 介面中選擇 '系統' &gt; '繼續被中斷的進程'。如果您想永久中止或回滾加密進程，請選擇 '系統' &gt; '永久解密系統分區/驅動器'。</string>
+    <string lang="zh-hk" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">您想要打斷和推遲對系統分區/驅動器的加密嗎？\n\n注意：您以後也可以從中斷位置恢復加密進程。操作如下：在 TrueCrypt 介面中選擇 '系統' &gt; '繼續被中斷的進程'。如果您想回滾解密進程（和開始加密），選擇 '系統' &gt; '加密系統分區/驅動器'。</string>
+    <string lang="zh-hk" key="FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION">錯誤：打斷加密/解密系統分區或驅動器的操作失敗。</string>
+    <string lang="zh-hk" key="FAILED_TO_INTERRUPT_WIPING">錯誤：中斷擦除過程時失敗。</string>
+    <string lang="zh-hk" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">錯誤：繼續加密/解密系統分區或驅動器的操作失敗。</string>
+    <string lang="zh-hk" key="FAILED_TO_START_WIPING">錯誤：啟動擦除過程時失敗。</string>
+    <string lang="zh-hk" key="INCONSISTENCY_RESOLVED">發現不一致性。\n\n\n（如果您使用此鏈結報告這個錯誤，請在報告中包含下面資訊： %hs）</string>
+    <string lang="zh-hk" key="UNEXPECTED_STATE">錯誤：未知狀態。\n\n\n（如果您報告與之相關的 BUG，請在錯誤報告裏面包含下面的技術資訊： %hs）</string>
+    <string lang="zh-hk" key="NOTHING_TO_RESUME">沒有可以繼續的進程/任務。</string>
+    <string lang="zh-hk" key="HIDVOL_PROT_BKG_TASK_WARNING">警告： TrueCrypt 後臺任務已禁用。在您退出 TrueCrypt 後，如果對隱藏加密卷的損壞企圖已被保護，您也將無法得到提示。\n\n注意：您可以隨時在通過右鍵單擊 TrueCrypt 的通知欄圖示並 選擇“退出”來停止後臺任務。\n\n\n您要啟用 TrueCrypt 後臺任務嗎？</string>
+    <string lang="zh-hk" key="LANG_PACK_VERSION">語言包版本： %s</string>
+    <string lang="zh-hk" key="CHECKING_FS">正在檢測載入為 %hs 的 TrueCrypt 加密卷的檔系統...</string>
+    <string lang="zh-hk" key="REPAIRING_FS">正在試圖修復載入為 %hs 的 TrueCrypt 加密卷的檔系統...</string>
+    <string lang="zh-hk" key="WARN_CBC_MODE">警告：該加密卷以 CBC 模式加密。由於安全原因，CBC 模式自從 TrueCrypt 4.1 以後已不再推薦。\n\n我們強烈建議您把原來的資料移動到使用此版本 TrueCrypt 創建的加密卷裏面。在執行此操作後，您應當安全的擦除或銷毀早期的加密盤。要獲取更多資訊，請參考軟體文檔中的版本歷史或者 TrueCrypt 4.1 或以後版本的發佈說明。</string>
+    <string lang="zh-hk" key="WARN_64_BIT_BLOCK_CIPHER">警告：該加密卷使用了已被廢棄的加密演算法。\n\n所有 64-位元塊加密演算法（Blowfish，CAST-128，和 Triple DES）已經逐漸不再被使用了。該加密卷在以後版本的 TrueCrypt 可能會被打開。然而以後則不會針對這些廢棄演算法採取一些改善措施。我們推薦您創建一個使用 128-位元塊加密演算法的 Truecrypt 加密卷（如：AES，Serpent，Twofish，等等）並把使用舊演算法的加密卷裏面的檔移動到新的加密卷裏面去。</string>
+    <string lang="zh-hk" key="SYS_AUTOMOUNT_DISABLED">您的系統未被配置為自動載入新加密卷。 因此也不可能載入設備類的加密卷。自動卸載 可以在執行下列命令後重啟系統來啟用。\n\n\nmountvol.exe /E</string>
+    <string lang="zh-hk" key="SYS_ASSIGN_DRIVE_LETTER">請在繼續前為該設備/分區分配一個盤符（'控制面板' &gt; '系統和維護' &gt; '管理工具' - '創建和格式化分區'）。\n\n這些是作業系統所要求的。</string>
+    <string lang="zh-hk" key="MOUNT_TC_VOLUME">載入 TrueCrypt 加密卷</string>
+    <string lang="zh-hk" key="DISMOUNT_ALL_TC_VOLUMES">卸載所有 TrueCrypt 加密卷</string>
+    <string lang="zh-hk" key="UAC_INIT_ERROR">TrueCrypt 獲取系統管理員許可權失敗。</string>
+    <string lang="zh-hk" key="ERR_ACCESS_DENIED">訪問已被作業系統拒絕。\n\n可能原因：作業系統要求你對某些檔夾、檔、和設備具有讀寫許可權（或管理員許可權），以便您能夠從其中讀寫資料。通常情況下，非系統管理員僅允許在他自己的文檔檔夾中創建、讀取和修改檔。</string>
+    <string lang="zh-hk" key="SECTOR_SIZE_UNSUPPORTED">錯誤：該驅動器使用了不被支援的磁區尺寸。\n\n如果設備的磁區大於 4096 位元組，目前不可能在其上創建 分區/設備 類的加密卷。然而，您可以在此類驅動器上創建檔類型的加密卷。</string>
+    <string lang="zh-hk" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">目前情況下，如果安裝系統的磁片磁區尺寸不是 512 位元組，則無法在此基礎上創建加密系統。</string>
+    <string lang="zh-hk" key="NO_SPACE_FOR_BOOT_LOADER">TrueCrypt 啟動管理器要求系統驅動器最前端至少有 32 KB 的未分配空間（TrueCrypt 啟動管理器需要安裝到該區域）。很不幸，您的驅動器無法滿足這個條件。\n\n請不要把這個問題報告為 TrueCrypt 的程式缺陷。要解決這個問題，您需要對硬碟重新分區並保留硬碟的前 32 KB 為空閒狀態（大多數情況下，需要您刪除和重建第一個分區）。我們推薦您使用微軟的分區管理來完成這個操作，例如，當您安裝 Windows 時的分區管理程式。</string>
+    <string lang="zh-hk" key="FEATURE_UNSUPPORTED_ON_CURRENT_OS">此功能不支援當前您正在使用的作業系統版本。</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS">TrueCrypt 不支援在您當前使用的作業系統版本內加密系統分區/驅動器。</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0">在您加密 Windows Vista 的系統分區/設備 前，您需要為 Vista 安裝 Service Pack 1 或更高版本的補丁。\n\n提示：Vista Service Pack 1解決了啟動系統時的自由基礎記憶體缺陷。</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">TrueCrypt 不再支援對未安裝 SP 補丁的 Windows Vista 系統的系統分區/設備的加密。在升級 TrueCrypt 之前，請安裝 Vista 的 Service Pack 1 或更高補丁版本。</string>
+    <string lang="zh-hk" key="FEATURE_REQUIRES_INSTALLATION">錯誤：此功能要求 TrueCrypt 必須安裝於當前系統（您正在以便攜模式運行 TrueCrypt）。\n\n請安裝 TrueCrypt 之後再試一次。</string>
+    <string lang="zh-hk" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">警告：Windows 看起來並未安裝在它所啟動的驅動器上。此功能目前尚不支援。\n\n盡在您確認 Windows 的確安裝在它所啟動的驅動器上時，您才應當繼續。\n\n您確認要繼續嗎？</string>
+    <string lang="zh-hk" key="GPT_BOOT_DRIVE_UNSUPPORTED">您的系統驅動器具有 GUID 分區表（GPT）。當前只支持具有 MBR 的分區表。</string>
+    <string lang="zh-hk" key="TC_BOOT_LOADER_ALREADY_INSTALLED">小心：TrueCrypt 啟動管理器已經安裝到了您的系統驅動器上了！\n\n這可能在您的電腦上已經加密了另外一個系統。\n\n警告：繼續加密當前運行的系統可能會導致其他系統無法啟動或導致資料無法訪問。\n\n您確定要繼續嗎？</string>
+    <string lang="zh-hk" key="SYS_LOADER_RESTORE_FAILED">恢復原來的系統啟動管理器時失敗。\n\n請使用您的 TrueCrypt 應急盤（'Repair Options' &gt; 'Restore original system loader'）或者 Windows 安裝盤來清除 TrueCrypt 啟動管理器。</string>
+    <string lang="zh-hk" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">原來的系統引導器沒有保存到應急盤上（可能原因：備份檔案丟失）。</string>
+    <string lang="zh-hk" key="ERROR_MBR_PROTECTED">寫入 MBR 磁區時失敗。\n\n您的 BIOS 可能設置為保護了 MBR 磁區或一些還原軟體也會保護 MBR。請確認沒有安裝保護 MBR 的還原軟體和檢查您的 BIOS 設置（啟動電腦後按 F2，Delete，或 Esc）中的 MBR/反病毒保護。</string>
+    <string lang="zh-hk" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">所要求版本的 TrueCrypt 啟動管理器當前沒有安裝。這可能導致某些設置無法保持。</string>
+    <string lang="zh-hk" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">提示：在某些環境，您可能希望避免外人（攻擊者）在您啟動電腦時看到您使用了 TrueCrypt 加密了系統。上面的選項允許您自定義 TrueCrypt 啟動管理器螢幕比避免此類被識別的事情發生。如果您啟用了第一個選項，在啟動管理器螢幕不會顯示任何文本（即時您輸入錯誤的密碼也不會顯示）。在您輸入密碼的時候電腦看起來就像被凍結的一樣。此外，也可以顯示自定義的資訊來誤導攻擊者。例如，諸如 "Missing operating system" 之類的英文資訊（這個資訊在 Windows 啟動管理器未發現啟動分區的時候顯示）。然而，必須要提醒的是，如果攻擊者分析硬碟的內容，他仍然可以發現硬碟上存在 TrueCrypt 啟動管理器（譯注：此乃下策矣）。</string>
+    <string lang="zh-hk" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">警告：請記住，如果您啟用此選項，TrueCrypt 啟動管理器不會顯示任何文本（即便是輸錯密碼了也不會顯示任何文本）。電腦在夠輸入密碼的時候電腦看起來就像被凍結（沒有回應）一樣（游標不會移動並且在按下按鍵的時候也不會顯示遮罩）。\n\n您確認要啟用此選項嗎？ </string>
+    <string lang="zh-hk" key="SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED">您的系統分區/驅動器看起來已被完全加密了。</string>
+    <string lang="zh-hk" key="SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK">TrueCrypt 不支援加密已經轉換為動態磁片的系統驅動器。</string>
+    <string lang="zh-hk" key="WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS">該系統驅動器包含擴展（邏輯）分區。\n\n 您只能在 Windows Vista 或以後版本中加密包含擴展（邏輯）分區的整個系統驅動器。而在 Windows XP 系統中，您只可以加密僅含有一個主分區的整個系統驅動器。\n\n請注意：您仍然可以加密系統分區，來取代加密整個驅動器（並且，有別於加密整個驅動器，您可以在驅動器上的任何非系統分區創建分區類型的 TrueCrypt 加密卷）。</string>
+    <string lang="zh-hk" key="WDE_EXTENDED_PARTITIONS_WARNING">警告： 由於您運行的系統為 Windows XP/2003，在您開始加密驅動器之後，您一定不要在其上面再創建建擴展（邏輯）分區（您只可以創建主分區）。當您開始加密以後，任何的擴展分區均將無法再繼續訪問。\n\n說明：如果您無法接受這個條件，您可以返回和選擇只加密系統所在分區而不是選擇加密系統所在硬碟驅動器（另外，您可以在驅動器上的任何非系統分區創建分區類型的加密卷）。\n\n作為替代方案，如果您無法接受這個條件，您也可以考慮升級到 Windows Vista 或以後版本（您只可以在 Windows Vista 或以後版本中加密包含擴展/邏輯分區的整個驅動器）。</string>
+    <string lang="en" key="SYSDRIVE_NON_STANDARD_PARTITIONS">Your system drive contains a non-standard partition.\n\nIf you are using a notebook, your system drive probably contains a special recovery partition. After the whole system drive is encrypted (including any recovery partition), your system might become unbootable if your computer is using an inappropriately designed BIOS. It would also be impossible to use any recovery partition until the system drive is decrypted. Therefore, we recommend that you encrypt only the system partition.</string>
+    <string lang="zh-hk" key="ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE">您確認要加密系統所在分區，而不是加密整個硬碟嗎？\n\n說明：除了加密系統所在分區之外，您可以在該硬碟驅動器上的非系統分區創建分區類型的 TrueCrypt 加密卷。</string>
+    <string lang="zh-hk" key="WHOLE_SYC_DEVICE_RECOM">由於您的系統驅動器僅包含一個佔據了整個驅動器的分區，更適合（更安全）加密整個包含鬆散空間（通常位於這樣分區的周圍）的驅動器。\n\n您希望加密整個系統驅動器嗎？</string>
+    <string lang="zh-hk" key="TEMP_NOT_ON_SYS_PARTITION">您的系統已配置為在非系統分區存儲暫存檔案。\n\n暫存檔案應該只位於系統分區（出於安全考慮）。</string>
+    <string lang="zh-hk" key="USER_PROFILE_NOT_ON_SYS_PARTITION">您的用戶配置檔並非設置在系統分區。\n\n用戶配置檔應該只存儲於系統分區（出於安全考慮）。</string>
+    <string lang="zh-hk" key="PAGING_FILE_NOT_ON_SYS_PARTITION">非系統分區存在頁面檔。\n\n頁面檔應該只存儲於系統分區（出於安全考慮）</string>
+    <string lang="zh-hk" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">您想要設置 Windows 僅在 Windows 分區生成頁面檔嗎？\n\n請注意，如果您點擊 '是'，電腦將會重新啟動。之後請啟動 TrueCrypt 和嘗試再次創建隱形系統。</string>
+    <string lang="zh-hk" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"> 否則，隱形系統的隱蔽性將會受到嚴重影響。\n\n說明：如果攻擊者分析這些檔的內容（存在於非系統分區中），他可能會發現您在隱形系統創建模式裏面使用了此嚮導（這可能暗示電腦上存在隱形系統）。還需說明的是，存儲於系統分區的此類檔，在隱形系統創建過程中將會被安全擦除。</string>
+    <string lang="zh-hk" key="DECOY_OS_REINSTALL_WARNING">警告：在隱形系統創建過程中，您將會被要求全新安裝當前運行的作業系統（以便安全創建迷惑系統）。\n\n說明：當前運行的作業系統和該系統分區的全部內容將會被複製到隱藏加密卷（以便創建隱形系統）。\n\n\n您確認您將使用 Windows 安裝介質安裝此系統嗎（或使用服務分區）？</string>
+    <string lang="zh-hk" key="DECOY_OS_REQUIREMENTS">安全起見，如果當前運行的作業系統需要啟動，則必須在繼續進行克隆前啟動。注意到隱形作業系統將通過複製當前作業系統的內容到隱藏加密卷來得以創建（因此如果當前作業系統未啟動，則隱形作業系統也處於未啟動狀態）。更多資訊，請參考《TrueCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章節。\n\n重要：在繼續進行前，確認您已經閱讀了《TrueCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章節。\n\n\n當前運行的作業系統滿足上面的條件嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">您的系統使用了一個額外的啟動分區。TrueCrypt 不支援使用額外啟動分區的隱形系統的休眠（迷惑系統完全可以休眠）。\n\n請注意，啟動分區應當被迷惑系統和隱形系統所共同使用。因此，為了防止資料洩露和由於休眠所導致的問題，TrueCrypt 只能阻止隱形系統寫入資料到共用的啟動分區和阻止隱形系統使用休眠。\n\n\n您確認要繼續嗎？如果您選擇 '否'，則會顯示移除額外啟動分區的提示資訊。</string>
+    <string lang="zh-hk" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\n在安裝 Windows 之前可以移除額外的啟動分區。想要如此，請遵循以下步驟（譯者注：這些步驟沒有在XP安裝光碟看到，請讀者自悟吧，抱歉）：\n\n1）啟動您的 Windows 安裝光碟。\n\n2）在 Windows 安裝螢幕，選擇 '現在安裝' &gt; '自定義（高級）'.\n\n3）點擊 '驅動器 選項'。\n\n4）選擇主系統分區並選擇刪除這個分區，之後再確認刪除（安裝盤刪除分區的時候會多次確認）。\n\n5）選擇 '系統保留' 分區，選擇 '擴展'，並增加它的大小直到可以安裝系統為止。\n\n6）選擇 '應用' 和確認。\n\n7）安裝 Windows 到 '系統保留' 分區。\n\n\n如果攻擊者詢問您移除額外啟動分區的原因，您可以回答是因為您不希望資料洩露到未加密的啟動分區。\n\n注意：您可以通過點擊下面的 "列印" 按鈕列印這些文本。如果您列印了這些文本，強烈建議您在移除額外啟動分區後銷毀這些紙張（否則，如果這些紙張被發現，可能暗示著存在隱形系統）。</string>
+    <string lang="zh-hk" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系統分區和其後的第一個分區之間存在未分配空間。在您創建隱形作業系統之後，您必須不能在此未分配空間上創建任何新的分區，否則，隱形作業系統將無法啟動（直到刪除了這個新創建的分區）。</string>
+    <string lang="zh-hk" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此演算法當前不支援系統加密。</string>
+    <string lang="zh-hk" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密鑰檔當前不支援用在系統加密中。</string>
+    <string lang="zh-hk" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：TrueCrypt 不能存儲原始鍵盤佈局。這可能導致您無法正確輸入密碼。</string>
+    <string lang="zh-hk" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設置 TrueCrypt 鍵盤佈局為標準的美國鍵盤佈局。\n\n說明：在 Windows 啟動前的啟動驗證裏需要輸入密碼，此時非美國標準鍵盤佈局不可用。因此，密碼必須使用標準的美國鍵盤佈局輸入。</string>
+    <string lang="zh-hk" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">由於 TrueCrypt 臨時改變鍵盤佈局為標準的美國鍵盤，目前在按下 ALT 按鍵的情況下無法通過鍵盤輸入字元。然而您可以按下 Shift 鍵的時候輸入大多數此類字元。</string>
+    <string lang="zh-hk" key="KEYB_LAYOUT_CHANGE_PREVENTED">TrueCrypt 會阻止對鍵盤佈局的修改。</string>
+    <string lang="zh-hk" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">說明：在 Windows 啟動前的啟動驗證裏需要輸入密碼，此時非美國標準鍵盤佈局不可用。因此，密碼必須使用標準的美國鍵盤佈局輸入。然而，這不需要您必須使用真實的美國鍵盤。TrueCrypt 在您沒有美國鍵盤的情況下也能夠自動的保證您能夠安全的輸入密碼（現在和啟動驗證環境）。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_INFO">在您加密系統分區/驅動器前，您必須創建一個 TrueCrypt 應急盤，用途如下：\n\n- 如果 TrueCrypt 啟動管理器、主密鑰、或其他關鍵資料損壞了，可以使用應急盤修復它們（當然你必須輸入正確的密碼）。\n\n- 如果 Windows 系統損壞了並且無法啟動，你可以在 Windows 啟動前使用應急盤永久解密這個分區/驅動器。\n\n- 應急盤包含第一個柱面當前內容的備份（通常包含系統引導器或者啟動管理器），在必要的時候你可以恢復它們。\n\nTrueCrypt 應急盤 ISO 映射檔將會在下面指定位置創建。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">在您點擊確定後，微軟的 Windows 磁片映射刻錄器將會被啟動。請使用它刻錄 TrueCrypt 應急盤映射檔到 CD 或 DVD 中。\n\n在操作完這些之後，請返回到 TrueCrypt 加密卷創建嚮導並遵循嚮導的指令。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_BURN_INFO">應急盤  ISO 鏡像檔已經創建並存儲為檔： %hs\n\n現在您需要把應急盤刻錄到 CD 或 DVD。\n\n在刻錄應急盤後，點擊 '下一步' 按鈕驗證應急盤已經成功刻錄。\n\n%ls在刻錄完應急盤之後，請點擊 "下一步" 按鈕驗證應急盤是否被成功刻錄。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_BURN_INFO_NO_CHECK">應急盤映射檔已經被創建並且存儲為檔： %hs\n\n現在您應當刻錄該應急盤到 CD/DVD 中去或者移動該 ISO 檔到一個安全的位置以備以後使用。\n\n%ls點擊 '下一步' 繼續。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">重要：請注意，映射檔必須以 ISO 磁片映射檔的方式刻錄到 CD/DVD 中去（不能刻錄為單個的資料檔案）。要獲取更多的關於如何刻錄 ISO 檔的資訊，請參考您的 CD/DVD 刻錄軟體的說明書。如果您還沒有刻錄 ISO 鏡像檔的光碟刻錄軟體，請點下面鏈結下載這樣的免費刻錄軟體。\n\n</string>
+    <string lang="zh-hk" key="LAUNCH_WIN_ISOBURN">啟動微軟 Windows 磁片映射刻錄器</string>
+    <string lang="zh-hk" key="RESCUE_DISK_BURN_NO_CHECK_WARN">警告：如果您已經創建了 TrueCrypt 應急盤，它將不能再用於系統分區/驅動器，這是因為您每次加密系統分區/驅動器時都會使用不同的主密鑰，儘管您使用的是同樣的密碼，您也必須創建一個新的 TrueCrypt 應急盤。</string>
+    <string lang="zh-hk" key="CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS">錯誤：不能保存系統加密設置。</string>
+    <string lang="zh-hk" key="CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST">不能初始化系統加密預測試。</string>
+    <string lang="zh-hk" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">不能初始化創建隱形作業系統的過程。</string>
+    <string lang="zh-hk" key="WIPE_MODE_TITLE">擦除模式</string>
+    <string lang="zh-hk" key="INPLACE_ENC_WIPE_MODE_INFO">在某些存儲介質上，當資料被其他資料覆蓋後，也仍有可能通過磁力顯微技術恢復出來被覆蓋的資料。這也包括一些被加密方式覆蓋的資料（這在 TrueCrypt 加密那些原來沒有加密的系統分區或系統驅動器時可能會發生）。根據一些研究機構和政府機構發佈的文獻，通過使用偽隨機或非亂數據覆蓋一定次數可以阻止資料恢復或使資料恢復變的異常困難。因此，如果您確認攻擊者可能會使用類似磁力顯微技術恢復您的加密資料，您可以選擇下拉清單中幾種擦除演算法中的一種（已經存在的資料不會丟失）。需要說明的是在分區/驅動器加密後不需要再執行擦除操作。當分區/驅動器被完全加密後，不會再有非加密資料向其寫入。寫入加密卷中的任何資料都是在記憶體中即時加密，然後這些已加密資料才會被寫入到磁片。</string>
+    <string lang="zh-hk" key="WIPE_MODE_INFO">在某些存儲介質上，當資料被其他資料覆蓋後，也仍有可能通過磁力顯微技術恢復出來被覆蓋的資料。根據一些研究機構和政府機構發佈的文獻，通過使用偽隨機或非亂數據覆蓋一定次數可以阻止資料恢復或使資料恢復變的異常困難。因此，如果您確認攻擊者可能會使用類似磁力顯微技術恢復您的加密資料，您可以選擇下拉清單中幾種擦除演算法中的一種（已經存在的資料不會丟失）。\n\n說明：擦除次數越多，花費的時間越長。</string>
+    <string lang="zh-hk" key="DEVICE_WIPE_PAGE_TITLE">正在擦除</string>
+    <string lang="zh-hk" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">\n說明：您可以中斷擦除的過程，關閉您的電腦，重新啟動隱形系統並在此後繼續這個過程（該嚮導將會被自動運行）。然而，如果您中斷此過程，整個擦除將會從頭開始執行。</string>
+    <string lang="zh-hk" key="DEVICE_WIPE_PAGE_INFO">\n\n說明：如果您中斷了擦除的過程並想在以後繼續擦除，整個的過程將不得不從頭開始。</string>
+    <string lang="zh-hk" key="CONFIRM_WIPE_ABORT">您確認要放棄擦除過程嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_WIPE_START">警告：選定 分區/設備 的全部內容將會被擦除並因此而丟失。</string>
+    <string lang="zh-hk" key="CONFIRM_WIPE_START_DECOY_SYS_PARTITION">原始作業系統所在的分區將會被擦除。\n\n說明：該分區的全部內容已經複製到了隱形系統分區。</string>
+    <string lang="zh-hk" key="WIPE_MODE_WARN">警告：請注意如果使用 3-次擦除模式，加密驅動器/分區需要時間將會增加為原來的4倍。同樣，如果你選擇了35-次擦除模式，所消耗的時間會為原來的36倍（如果分區容量很大，很可能花費幾周的時間）。\n\n然而，請注意在分區/驅動器完全加密後〖無須〗再對其執行擦除操作。在分區/驅動器被完全加密後，將不會再有非加密的資料向該分區/驅動器寫入。所有寫入的資料首先都會在記憶體中即時加密，之後才會向分區/驅動器寫入加密的資料（因此並不會影響性能）。\n\n您確認要使用這種擦除模式嗎？</string>
+    <string lang="zh-hk" key="WIPE_MODE_NONE">無（最快）</string>
+    <string lang="zh-hk" key="WIPE_MODE_1_RAND">1-次擦除（亂數據）</string>
+    <string lang="zh-hk" key="WIPE_MODE_3_DOD_5220">3-次擦除（US DoD 5220.22-M）</string>
+    <string lang="zh-hk" key="WIPE_MODE_7_DOD_5220">7-次擦除（US DoD 5220.22-M）</string>
+    <string lang="zh-hk" key="WIPE_MODE_35_GUTMANN">35-次擦除（"Gutmann"）</string>
+    <string lang="zh-hk" key="SYS_MULTI_BOOT_MODE_TITLE">作業系統數目</string>
+    <string lang="zh-hk" key="MULTI_BOOT_FOR_ADVANCED_ONLY">警告：入門用戶應當從來不嘗試加密多重啟動方式的 Windows 。\n\n希望繼續嗎？</string>
+    <string lang="en" key="HIDDEN_OS_MULTI_BOOT">When creating/using a hidden operating system, TrueCrypt supports multi-boot configurations only when the following conditions are met:\n\n- The currently running operating system must be installed on the boot drive, which must not contain any other operating systems.\n\n- Operating systems installed on other drives must not use any boot loader residing on the drive on which the currently running operating system is installed.\n\nAre the above conditions met?</string>
+    <string lang="en" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">TrueCrypt does not support this multi-boot configuration when creating/using a hidden operating system.</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">引導驅動器</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_HELP">當前運行的作業系統安裝到了引導驅動器上了嗎？\n\n說明：有時 Windows 可能並未安裝到 Windows 啟動管理器（活動分區）分區上。如果屬於這種情況，請選擇 '否'。</string>
+    <string lang="zh-hk" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">TrueCrypt 當前不支持加密安裝到非活動分區上的系統。</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_TITLE">系統驅動器數目</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_HELP">有多少個驅動器含有作業系統？\n\n說明：例如，您在主驅動器上安裝了任意系統（例如. Windows，Mac OS X，Linux，等等），在第二個驅動器上安裝了其他的作業系統，這時就選擇 '2 個或多個'。</string>
+    <string lang="zh-hk" key="WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE">TrueCrypt 目前不支援對包含多個作業系統的整個硬碟驅動器的加密。\n\n可能的解決方法：\n\n- 您可以後退並選擇只加密單系統分區加密其中的一個系統（與選擇加密整個系統驅動器相反）。\n\n- 或者，你也可以把要加密的驅動器中的其他系統遷移到其他的驅動器，而只在其中保留一個系統。</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_TITLE">單驅動器中包含多個系統</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_HELP">在當前運行的系統所安裝的驅動器中，是否包含其他任何作業系統？\n\n說明：例如當前運行的作業系統安裝在驅動器 #0，該驅動器包含幾個分區，其中一個分區安裝了 Windows 系統，而另一個分區安裝了其他任何作業系統（例如. Windows，Mac OS X，Linux，等等.），請選擇 '是'。</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_TITLE">非 Windows 啟動管理器</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_HELP">是否安裝了一個非 Windows 啟動管理器（或啟動管理器）到 MBR 中了嗎?\n\n說明：例如，可啟動的驅動器的第一個柱面包含 GRUB、LILO、XOSL，或其他非 Windows 啟動管理器（或啟動管理器），則選擇 '是'。</string>
+    <string lang="zh-hk" key="SYSENC_MULTI_BOOT_OUTCOME_TITLE">多重啟動</string>
+    <string lang="zh-hk" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">TrueCrypt 目前不支持在 MBR 中安裝的非 Windows 多重啟動管理器。\n\n可能的解決辦法：\n\n- 如果您使用了一個啟動管理器來啟動 Windows 或 Linux，把啟動管理器（典型的，例如 GRUB）從 MBR 中遷移到分區上。之後再次啟動嚮導和加密系統分區/設備。說明：TrueCrypt 啟動管理器將會成為主啟動管理器，並且會允許您把原來的啟動管理器（例如 GRUB）作為第二啟動管理器（通過在 TrueCrypt 啟動管理器螢幕按下 ESC 按鍵），因此你仍然可以啟動 Linux。</string>
+    <string lang="zh-hk" key="WINDOWS_BOOT_LOADER_HINTS">如果當前運行的系統安裝在活動分區上，隨後，在您加密了該分區後，儘管您想要啟動其他未加密的系統，您仍然要輸入正確的密碼（因為它們都會共用同一個加密的 Windows 啟動管理器）。\n\n相反的，如果當前運行的系統並沒有安裝到 Windows 的啟動分區（或者如果其他系統並未使用 Windows 啟動管理器），隨後，在您加密了該分區後，您在啟動其他未加密的系統時不需要輸入正確的密碼 -- 您只需按 ESC 按鍵來啟動未加密的系統（如果存在多個未加密的系統，您也同樣需要在 TrueCrypt 的啟動管理器中選擇要啟動的系統）。\n\n說明：通常情況下，最早安裝的那個系統一般都會安裝到啟動分區。</string>
+    <string lang="zh-hk" key="SYSENC_PRE_DRIVE_ANALYSIS_TITLE">加密主機保護區域（Host Protected Area）</string>
+    <string lang="zh-hk" key="SYSENC_PRE_DRIVE_ANALYSIS_HELP">在很多硬碟的尾部，存在一個相對於作業系統隱藏的區域（這些區域通常被稱作主機保護區域）。然而，某些程式可以從這些區域中讀寫資料。\n\n警告：某些電腦供應商可能使用這些區域存儲用於 RAID、系統恢復、系統設置、診斷的工具和資料，或用於其他目地。如果此類工具和資料必須在啟動前訪問，那麼這些隱藏區域不應當被加密（在上面選擇 '否'）。\n\n您希望 TrueCrypt 檢測和解密系統驅動器尾部這些隱藏區域嗎？</string>
+    <string lang="zh-hk" key="SYSENC_TYPE_PAGE_TITLE">系統加密類型</string>
+    <string lang="zh-hk" key="SYSENC_NORMAL_TYPE_HELP">如果您只想加密系統分區或整個系統驅動器，請選擇此項。</string>
+    <string lang="zh-hk" key="SYSENC_HIDDEN_TYPE_HELP">可能存在某些人強迫您解密作業系統的情況。在很多情況下您可能無法拒絕洩漏密碼（例如，被勒索）。如果您選擇了這個選項，您將會創建一個沒有任何手段可以識別的隱形作業系統（當然這得需要您遵循一定的步驟創建）。因此，您一定不要解密或者洩漏隱形作業系統的密碼（譯者注：這是因為隱形作業系統的存在只有你才知道，你不說沒有任何手段可以檢測到），如若獲取更多資訊，請單擊下面鏈結。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_PREINFO">可能存在某些人強迫您解密作業系統的情況。在很多情況下您可能無法拒絕洩漏密碼（例如，被勒索）。\n\n使用本嚮導，您將能夠創建一個沒有任何手段可以識別的隱形作業系統（當然這得需要您遵循一定的步驟創建）。因此，您一定不要解密隱形系統或者洩漏隱形作業系統的密碼（譯者注：這是因為隱形作業系統的存在只有你才知道，你不說沒有任何手段可以檢測到）。</string>
+    <string lang="zh-hk" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">隱形作業系統</string>
+    <string lang="zh-hk" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">在後面步驟中，您將在系統分區之後的分區中創建兩個 TrueCrypt 加密卷（外層的和隱藏的）。隱藏加密卷將包含隱形作業系統。TrueCrypt 將通過複製系統分區（即當前系統所在分區）的內容到隱藏加密卷來創建隱形作業系統。對於外層加密卷而言，您可以複製一些您實際上並不想隱藏的貌似敏感的文件。它們將用來對付那些強迫您說出隱藏系統分區密碼的人。您可以把含隱形作業系統的外層加密卷的密碼告訴它們（此時仍然無法發現是否存在隱形作業系統）。\n\n最後，在當前當前運行的系統的分區，您將會安裝一個新的系統並加密以後作為迷惑系統來使用。這個迷惑系統不要含有任何敏感檔並且用來對付那些強迫您說出啟動驗證密碼的人。總而言之，一共有三個密碼，兩個密碼用於對付那些攻擊者（分別對應迷惑作業系統和外層加密卷。如果您使用第三個密碼，則將會啟動隱形作業系統。</string>
+    <string lang="zh-hk" key="SYSENC_DRIVE_ANALYSIS_TITLE">正在檢測隱藏磁區</string>
+    <string lang="zh-hk" key="SYSENC_DRIVE_ANALYSIS_INFO">當 TrueCrypt 正在檢測系統驅動器尾部可能存在的隱藏磁區時，請稍候。注意該操作可能花費較長時間才能完成。\n\n注意：在極少數情況下，某些電腦環境中，系統可能在檢測過程中失去回應。如果發生此情況，重啟電腦，運行 TrueCrypt，重複前面步驟並跳過此檢測過程。此問題並不是 TrueCrypt 的程式 Bug。</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_SPAN_TITLE">要加密的區域</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">如果您想加密作業系統安裝和啟動的分區，請選擇此項。除了 TrueCrypt 啟動管理器存放的第一個柱面之外，包括所有分區的整個硬碟驅動器將會被加密。任何要訪問該驅動器上系統或檔的人都需要每次在系統啟動前輸入正確的密碼。如果 Windows 並未安裝到第二塊或外部驅動器上並且沒有從這些驅動器上啟動，此選項不能用於加密第二塊或外部驅動器。</string>
+    <string lang="zh-hk" key="COLLECTING_RANDOM_DATA_TITLE">正在搜集亂數據</string>
+    <string lang="zh-hk" key="KEYS_GEN_TITLE">密鑰已生成</string>
+    <string lang="zh-hk" key="CD_BURNER_NOT_PRESENT">TrueCrypt 未在系統上發現燒錄機。TrueCrypt 需要 CD/DVD 燒錄機來刻錄一張可啟動的 TrueCrypt 應急盤，應急盤包含密鑰、TrueCrypt 啟動管理器、原始啟動管理器等資訊的備份。\n\n我們強烈建議您刻錄一張 TrueCrypt 應急盤。.</string>
+    <string lang="zh-hk" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO">我沒有 CD/DVD 燒錄機，但是我想在可移動驅動器上存放應急盤 ISO 映射檔（例如，USB 快閃記憶體）。</string>
+    <string lang="zh-hk" key="CD_BURNER_NOT_PRESENT_WILL_CONNECT_LATER">我將會在以後添加 CD/DVD 燒錄機到電腦上。現在終止創建過程。</string>
+    <string lang="zh-hk" key="CD_BURNER_NOT_PRESENT_CONNECTED_NOW">現在 CD/DVD 燒錄機已經連接到電腦上了。繼續並且刻錄應急盤。</string>
+    <string lang="zh-hk" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">請遵循下麵步驟：\n\n1）現在連接可移動驅動器到電腦上，例如 USB 快閃記憶體。\n\n2）複製 TrueCrypt 應急盤映射檔（%s）到可移動驅動器上。\n\n考慮到您以後有使用 TrueCrypt 應急盤的可能，建議您把這個可移動驅動器連接到其他有燒錄機的電腦上，使用這個映射檔刻錄一張應急盤。重要：請注意，TrueCrypt 應急盤映射檔必須以映射檔方式刻錄，不能刻錄為資料光碟。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_RECORDING_TITLE">正在刻錄應急盤</string>
+    <string lang="zh-hk" key="RESCUE_DISK_CREATED_TITLE">應急盤已創建</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_TITLE">系統加密預測試</string>
+    <string lang="zh-hk" key="RESCUE_DISK_DISK_VERIFIED_TITLE">應急盤已驗證</string>
+    <string lang="zh-hk" key="RESCUE_DISK_VERIFIED_INFO">\nTrueCrypt 應急盤已被成功驗證。請從光碟機中取出應急盤並把它存放到安全的地方。\n\n點擊 '下一步' 繼續。</string>
+    <string lang="zh-hk" key="REMOVE_RESCUE_DISK_FROM_DRIVE">警告：在下面步驟中，TrueCrypt 應急盤必須不能放在光碟機中。否則就不可能正確完成此步驟。\n\n請從光碟機中取出應急盤並把他放在一個安全的地方，之後點 '確定' 按鈕。</string>
+    <string lang="zh-hk" key="PREBOOT_NOT_LOCALIZED">警告：由於啟動驗證環境（即在 Windows 系統啟動前）的技術局限，TrueCrypt 在啟動驗證環境顯示的文本不能被本地化。TrueCrypt 引導管理器的介面完全為英文模式。\n\n確認繼續嗎？</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_INFO">在加密系統分區或啟動前，TrueCrypt 需要驗證每個環節都正確無誤。\n\n在點擊“測試”按鈕以後，所有的元件（例如，啟動驗證元件，即 TrueCrypt 啟動管理器）將會被安裝並且您的電腦將會重啟。之後您需要在 Windows 啟動前的 TrueCrypt 啟動管理器介面輸入您的密碼。在 Windows 啟動後，程式將會自動通知您測試的結果。\n\n以下設備將會被修改: 驅動器 #%d\n\n\n如果您點擊 '取消'，將不會安裝任何內容並且預測試將不會被執行。</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">重要提示 -- 請仔細閱讀或列印（點擊 '列印'）：\n\n注意：在您成功重啟電腦和啟動 Windows 前，您的檔並沒有被加密。因此，如果出現任何失敗，您的資料不會丟失。然而，如果過程中發生某些錯誤，您可能在啟動 Windows 時會遇到麻煩。因此，請閱讀（如果可能，請列印）下面的操作指南，以瞭解在重啟電腦後不能啟動 Windows 時如何操作。\n\n</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">不能啟動 Windows 時如何操作 ------------------------------------------------\n\n注意：這些指令僅在您還沒有開始加密時有效。\n\n- 如果在輸入正確的密碼後 Windows 未能啟動（或者您持續的輸入正確的密碼但 TrueCrypt 始終提示密碼錯誤），請不要驚慌。重啟電腦（或關機後再開機），在 TrueCrpyt 啟動管理器螢幕，按下鍵盤的 ESC 按鍵（並且如果您有多個系統，就選擇啟動哪個系統）。之後 Windows 應當會啟動（此時尚未加密系統）並且 TrueCrypt 會自動詢問你是否要卸載啟動驗證元件。如果由於系統分區/驅動器已經加密而導致前面步驟無效（沒有正確的密碼，沒有人可以啟動加密系統或者訪問該驅動器上的加密資料，即使他遵循前面步驟）。\n\n</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- 如果前面步驟無效或者 TrueCrypt 啟動管理器螢幕並沒有出現（在 Windows 啟動前），請在光碟機中插入 TrueCrypt 應急盤並重啟電腦。如果 TrueCrypt 啟動管理器螢幕沒有出現 或者如果您在啟動管理器螢幕的 'Keyboard Controls'  部份沒有看到 'Repair Options' 項目，很可能您的 BIOS 設置了硬碟優先於光碟機啟動。如果是這種情況，重啟電腦，當你一看到 BIOS 啟動螢幕的時候按下 F2 或 DEL 按鍵，直到 BISO 設置介面出現。如果 BIOS 設置介面沒有出現，再次重啟電腦，在你按下重啟鍵的時候就按住 F2 或 DEL 按鍵。當 BIOS 設置介面出現時，配置您的 BIOS 優先從光碟機啟動（相關資訊可以參考您的主板說明書或者資訊您的電腦供應商尋求技術協助）。之後重啟電腦。TrueCrypt 啟動管理器應該就會從應急盤中啟動了。在TrueCrypt 啟動管理器螢幕，按下鍵盤的 F8 按鍵選擇修復選項（Repair Options）。在修復選項 'Repair Options' 功能表，選擇 'Restore TrueCrypt Boot Loader'（恢復啟動管理器）。之後從光碟機中取出應急盤並重啟電腦。之後 Windows 應當會啟動（此時尚未加密系統）。\n\n</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">注意，如果由於系統分區/驅動器已經加密而導致前面步驟無效（沒有正確的密碼，沒有人可以啟動加密系統或者訪問該驅動器上的加密資料，即使他遵循前面步驟）。\n\n\n即使你丟失了你的 TrueCrypt 應急盤並且被攻擊者發現了，他們沒有正確的密碼也無法解密已經加密了的系統分區或驅動器。</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">預測試已經完成</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">預測試已經成功完成。\n\n警告：請注意，加密時如果遇到突然斷電、或者加密時由於軟硬體故障而導致的系統當機，有些資料可能會損壞或丟失。因此，在您開始加密前，請確認您已經備份了要加密的資料。如果您還沒有備份，請現在就備份這些資料（您可以點擊 '推遲'，備份檔案，之後在以後的任何時候再運行 TrueCrypt，並選擇 '系統' &gt; '繼續中斷的進程' 來啟動加密）。\n\n當一切準備就緒時，點擊 '加密' 開始執行加密過程。</string>
+    <string lang="zh-hk" key="SYSENC_ENCRYPTION_PAGE_INFO">您可以在任何時候點擊 '暫停' 或者 '推遲' 以打斷加解密進程、退出嚮導、重啟或關閉電腦，並在以後繼續中斷的進程，繼續時將會從中斷位置開始。為防止對系統或程式讀寫系統驅動器造成的速度降低，TrueCrypt 會自動等待資料讀寫完畢後（參考上面的狀態）自動繼續加解密。</string>
+    <string lang="zh-hk" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n您可以在加密過程的任何時候點擊 '暫停' 或者 '推遲'，來中斷加密的過程，退出嚮導，重啟電腦，並在此後繼續該過程，繼續的時候將會從上次中斷之處開始。注意：此加密卷在完全加密之前無法被載入。</string>
+    <string lang="zh-hk" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">隱形系統已啟動</string>
+    <string lang="zh-hk" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">原始系統</string>
+    <string lang="zh-hk" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows 會在系統分區創建（通常情況下，您並不知道或者同意）不同的日誌檔、暫存檔案等等。同時也會在系統分區存儲記憶體中的內容到休眠檔或虛擬記憶體頁面檔。因此，如果攻擊者分析原始系統（即隱形系統所克隆的系統來源）所在分區的檔，他可能會發現，例如，您使用過 TrueCrypt 嚮導的隱形系統創建模式（因此可能暗示電腦中存在隱形系統。\n\n要預防此類問題，在後面步驟中，TrueCrypt 將會安全擦除原始系統所在分區的所有內容。在此之後，為了達到隱蔽性，您需要在此分區上安裝新的作業系統並使用 TrueCrypt 加密它（即成為所謂的迷惑系統）。因此您將會創建完成這個迷惑系統並且整個隱形系統的創建過程也會相應的完成。</string>
+    <string lang="zh-hk" key="OS_WIPING_NOT_FINISHED_ASK">隱形系統已經成功創建。然而，在您使用隱形系統（以及達到隱蔽性）之前，您需要安全擦除當前運行的系統所在分區的全部內容（使用 TrueCrypt）。在您這樣做之前，您需要重啟電腦，並在之後的TrueCrypt 啟動管理器螢幕（在 Windows 啟動前出現），輸入隱形系統的密碼。之後，在隱形系統啟動後，TrueCrypt 嚮導將會自動載入。\n\n說明：如果您現在選擇終止隱形系統的創建過程，您將〖無法再〗繼續該過程並且隱形系統將〖不能再〗被訪問（這是因為 TrueCrypt 啟動管理器將會被移除）。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_CREATION_NOT_FINISHED_ASK">您已經設置了創建隱形系統的計畫任務。該計畫尚未完成。要完成該計畫，您需要重啟電腦，並在 TrueCrypt 啟動管理器螢幕（在 Windows 啟動前出現），輸入隱形系統的密碼。\n\n注意：如果您現在選擇終止隱形系統的創建過程，您將〖無法〗再繼續該過程。</string>
+    <string lang="zh-hk" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_RETRY">重啟電腦並繼續</string>
+    <string lang="zh-hk" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_TERMINATE">永久終止隱形系統的創建過程</string>
+    <string lang="zh-hk" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_ASK_LATER">什麼也不做並在以後詢問</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_1">\n如果可能，請列印此段文本（單擊下面的“列印”按鈕）。\n\n\nTrueCrypt 應急盤使用時機和使用方法（加密後）-----------------------------------------------------------------------------------\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_2">I. 如何啟動 TrueCrypt 應急盤\n\n要使用 TrueCrypt 應急盤，把應急盤插入光碟機並重啟電腦。如果 TrueCrypt 應急盤螢幕並沒有出現（或者如果您在啟動管理器螢幕的 'Keyboard Controls'  部份沒有看到 'Repair Options' 項目），很可能您的 BIOS 設置了硬碟優先於光碟機啟動。如果是這種情況，重啟電腦，當你一看到 BIOS 啟動螢幕的時候按下 F2 或 DEL 按鍵，直到 BISO 設置介面出現。如果 BIOS 設置介面沒有出現，再次重啟電腦，在你按下重啟鍵的時候就按住 F2 或 DEL 按鍵。當 BIOS 設置介面出現時，配置您的 BIOS 優先從光碟機啟動（相關資訊可以參考您的主板說明書或者資訊您的電腦供應商尋求技術協助）。之後重啟電腦。TrueCrypt 啟動管理器應該就會從應急盤中啟動了。提示：在TrueCrypt 啟動管理器螢幕，您可以按下鍵盤的 F8 按鍵選擇修復選項（Repair Options）。\n\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_3">II. TrueCrypt 應急盤使用時機和使用方法（加密後）\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_4">1）如果在你啟動電腦前沒有出現 TrueCrypt 啟動管理器螢幕（或者 Windows 沒有能夠啟動），那麼 TrueCrypt 啟動管理器可能已經損壞。TrueCrypt 應急盤允許您恢復啟動管理器並重新獲取對加密系統和資料的訪問（當然您仍然需要輸入正確的密碼）。在應急盤螢幕選擇修復選項 'Repair Options' &gt; 'Restore TrueCrypt Boot Loader'（恢復啟動管理器）。之後按下 'Y' 按鍵確認操作，從光碟機中取出應急盤並重啟電腦。\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_5">2）如果您持續輸入正確密碼而 TrueCrypt 仍然提示密碼錯誤（password is incorrect），很可能是主密鑰或其他關鍵資料已經毀壞。TrueCrypt 應急盤允許您恢復這些資料因此就可以重新訪問這些加密的系統和資料了（當然您仍然需要輸入正確的密碼）。在應急盤螢幕，選擇修復選項 'Repair Options' &gt; 'Restore key data'（恢復密鑰資料）。之後輸入您的密碼，按下鍵盤的 'Y' 確認操作，從光碟機中取出應急盤並重啟電腦。\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_6">3）如果 TrueCrypt 啟動管理器被惡意程式損壞了或感染了，您可以通過運行應急盤來避免運行惡意程式。在光碟機中插入應急盤之後在應急盤螢幕輸入您的密碼。\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_7">4）如果 Windows 已經損壞並且不能啟動，TrueCrypt 應急盤也可以允許您在啟動 Windows 前永久解密分區/驅動器，在應急盤螢幕，選擇修復選項 'Repair Options' &gt; 'Permanently decrypt system partition/drive'（永久解密系統分區/驅動器）。之後輸入正確的密碼直到解密完成。接下來，您就可以啟動 Windows 的安裝光碟來修復 Windows 了。\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_8">提示：另外一種方式，如果 Windows 已經損壞不能啟動，您需要修復它（或者訪問其上的檔），您可以通過以下步驟避免解密系統分區/驅動器：如果您在電腦上安裝了多個作業系統，啟動其中的某個不需要啟動驗證的系統。如果您的電腦沒有安裝多個作業系統，您可以啟動一個 WinPE 或者 BartPE CD/DVD 系統，或者是把硬碟驅動器連接到其他電腦上作為從盤並啟動其他電腦上的系統。在啟動到此類系統環境之後，運行 TrueCrypt，點擊 '選擇設備'，選擇該受影響的系統分區，點擊 '確定'，選擇 '系統' &gt; '以非啟動驗證方式載入'，輸入您的啟動驗證密碼並點擊 '確定' 按鈕。該分區將會以常規 TrueCrypt 加密分區的方式載入（資料也會象常規加密卷資料一樣在記憶體中即時加解密）。\n\n\n</string>
+    <string lang="zh-hk" key="RESCUE_DISK_HELP_PORTION_9">注意：即使你丟失了你的 TrueCrypt 應急盤並且被攻擊者發現了，他們沒有正確的密碼也無法解密已經加密了的系統分區或驅動器。</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_1">\n\n重要 -- 如有可能請列印出來（點擊 '列印'）。\n\n\n注意：這些文本在您每次啟動隱形系統時會自動顯示，直到您開始創建迷惑系統。\n\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_2">如何成功和安全的創建迷惑系統 ----------------------------------------------------------------------------\n\n為了達到隱蔽性的目地，您現在應當創建迷惑系統。要達到這個目地，請遵循如下步驟：\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_3">1）安全考慮，關閉您的電腦並保持關機狀態幾分鐘（時間越長越好）。這是出於清除記憶體中敏感資料的需要。之後打開電腦但不要啟動隱形系統。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2）在已被擦除內容的原系統分區上安裝 Windows（也就是之前隱形系統克隆的系統源分區）。\n\n重要：在您開始安裝迷惑作業系統時，隱形系統將無法啟動（這是因為 TrueCrypt 啟動管理器將會被 Windows 系統安裝程式所清除）。這種情況是很正常的，遇到了請不必驚慌。一旦您開始加密迷惑系統，您就能夠啟動隱形系統了（這是因為 TrueCrypt 之後會自動在系統啟動器上安裝 TrueCrypt 啟動管理器）。\n\n重要：迷惑系統分區的大小必須等於隱藏加密卷的大小（此條件已達到）。並且，您必須不能在迷惑系統分區和隱形系統所在分區之間創建任何分區。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3）啟動迷惑系統（即您在前面的第 2) 步中安裝的並把 TrueCrypt 安裝到其中的那個系統）。\n\n必須牢記迷惑系統中從來都不要包含任何敏感資料。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4）在迷惑系統中，運行 TrueCrypt 並選擇 '系統' &gt; '加密系統分區/設備'。將會出現 TrueCrypt 加密卷創建嚮導。\n\n TrueCrypt 加密卷創建嚮導中執行以下步驟。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5）在 TrueCrypt 加密卷創建嚮導中，不要選擇 '隱藏' 選項。保持 '常規' 選項為選中狀態並點擊 '下一步'。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_8">6）選擇選項 '加密 Windows 系統分區' 並點擊 '下一步'。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_9">7）如果電腦中只安裝了一個隱形系統和迷惑系統，請選擇 '單系統'（如果在這兩個系統之外還有其他系統，請選擇 '多系統'）。之後點擊 '下一步'。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_10">8）重要：在本步中，對於迷惑系統，您必須選擇與加密隱形系統相同的加密演算法和哈希演算法！否則將無法訪問隱形系統。換句話說，迷惑系統和隱形系統的加密演算法必須系統。說明：原因是迷惑系統和隱形系統共用一個單啟動管理器，這個管理器只支持用戶選擇的某個單一演算法（對於每種演算法，都會對應一個特定的 TrueCrypt 啟動管理器版本）。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_11">9）在這個步驟中，為迷惑系統選擇一個密碼。當您被要求或者強迫提供啟動驗證密碼時您可以洩漏這個迷惑系統的密碼（另外一個可以洩漏的密碼是外層加密卷密碼）。而第三個密碼（也就是啟動驗證裏面用於啟動隱形系統的密碼）仍然是保密的。\n\n重要：迷惑系統的密碼必須完全不同於隱藏加密卷的密碼（隱藏加密卷的密碼也就是隱形作業系統的密碼）。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_12">10）遵循嚮導的其餘指令以加密迷惑作業系統。\n\n\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_13">在迷惑作業系統創建之後 ------------------------------------------------\n\n在您加密了迷惑作業系統之後，這個隱形系統的創建就完成了，這時您可以使用三個密碼：\n\n1）啟動驗證中用於啟動隱形系統的密碼。\n\n2）啟動驗證中用於啟動迷惑作業系統的密碼。\n\n3）用於外層加密卷的密碼。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_14">如果您想啟動隱形作業系統，只需要在 TrueCrypt 啟動管理器螢幕（該螢幕出現於您開機或者重啟系統的時候）輸入隱形作業系統的密碼。\n\n如果您想啟動迷惑作業系統，只需要在 TrueCrypt 啟動管理器螢幕輸入迷惑作業系統的密碼即可。\n\n迷惑作業系統的密碼可以洩漏給強迫您說出密碼的人，而此時隱藏加密卷（以及隱形作業系統）的存在仍然是保密的。\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_15">第三個密碼（外層加密卷的密碼），可以洩漏給強迫您說出系統分區之後那個分區密碼的人（這個分區包含外層加密卷和隱藏加密卷，隱藏加密卷中即為隱形系統）。而此時隱藏加密卷（以及隱形作業系統）的存在仍然是保密的。\n\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_16">如果您把迷惑系統的密碼洩漏給強迫您說出密碼的人，如果他詢問為什麼（迷惑）系統分區的自由空間包含亂數據，您可以回答，例如："這個分區以前包含 TrueCrypt 加密的系統但是我忘記了密碼（或者說這個系統已經損壞和無法啟動了），因此我不得不安裝了 Windows 和重新加密了這個分區"。\n\n\n</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_17">如果您遵循了前面的指令並且遵循了《TrueCrypt User Guide》中的 "Security Precautions Pertaining to Hidden Volumes" 章節所提到的防護措施，則外人無法證明隱藏加密卷和隱形系統的存在，哪怕是外層加密卷已被載入或迷惑作業系統已被解密/啟動。\n\n如果您列印了此文本，在您創建迷惑作業系統之後並理解了文本中所述內容之後，強烈建議您銷毀這個文本（否則，如果該文本紙張被發現，可能會暗示電腦上有存在隱形系統的可能）。</string>
+    <string lang="zh-hk" key="DECOY_OS_INSTRUCTIONS_PORTION_18">警告：如果您沒有保護隱藏加密卷（保護的做法參考 TrueCrypt 用戶指南的"Protection of Hidden Volumes Against Damage"章節），請不要向外層加密卷寫入資料。否則您可能會覆蓋或損壞隱藏隱藏加密卷！請不要想外層加密卷寫入資料（注意，迷惑作業系統並未安裝在外層加密卷）。否則，您可能會覆蓋和損壞隱藏加密卷（以及在其內的隱形系統）！</string>
+    <string lang="zh-hk" key="HIDDEN_OS_CREATION_PREINFO_TITLE">正在克隆作業系統</string>
+    <string lang="zh-hk" key="HIDDEN_OS_CREATION_PREINFO_HELP">在下一步中，TrueCrypt 將會通過複製當前運行系統的內容到隱藏加密卷來創建隱形系統（被複製的資料將會使用與迷惑系統不同的密鑰即時加密））。\n\n請注意該過程將會在啟動驗證環境中執行（在 Windows 啟動前），並可能花費較長的時間；可能需要花費幾個小時或者幾天（依據系統分區容量和電腦性能而定，例如PM1.6GHz加密時大概的速度是0.5GB/分鐘左右）。\n\n您可以中斷該過程，關機，啟動作業系統並在此之後繼續該過程。然而，如果您中斷該過程，整個複製系統的過程將會不得不從頭開始（因為系統分區的內容在克隆期間必須不能被改變）。</string>
+    <string lang="zh-hk" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">您想要取消整個隱形作業系統的創建過程嗎？\n\n注意：如果現在取消，您將無法繼續該進程。</string>
+    <string lang="zh-hk" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">您要取消系統加密預測試嗎？</string>
+    <string lang="zh-hk" key="BOOT_PRETEST_FAILED_RETRY">TrueCrypt 系統加密預測試失敗。您希望再試一次嗎？\n\n如果您選擇 '否'，則啟動驗證元件將會被卸載。\n\n說明：如果 TrueCrypt 啟動管理器在 Windows 啟動前不要求您輸入密碼，這很可能是您的作業系統並沒有從該系統所安裝的驅動器引導的。目前並不支援這種方式。\n\n- 如果您使用了AES 之外的加密演算法並且預測試失敗了（並且您也輸入了密碼），這可能由有設計缺陷的驅動導致的。選擇 '否'，嘗試再次加密系統分區/設備，但是要使用 AES 加密演算法（該演算法所需記憶體最低）。\n\n- 更多可能導致該錯誤的原因，請參考: http://www.truecrypt.org/docs/?s=troubleshooting</string>
+    <string lang="zh-hk" key="SYS_DRIVE_NOT_ENCRYPTED">該系統分區/驅動器看起來沒有被加密（或者是沒有被完全加密）。</string>
+    <string lang="zh-hk" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">您的系統分區/驅動器已加密（部分或完全加密）。\n\n請在繼續進行前解密這個系統分區/驅動器。操作步驟：在 TrueCrypt 主視窗的功能表中，選擇 '系統' &gt; '永久解密系統分區/驅動器'。</string>
+    <string lang="zh-hk" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">當系統分區/驅動器已被部份或完全加密時，您不能降級 TrueCrypt 的版本（但是可以更新到新版本或者從新安裝同一版本）。</string>
+    <string lang="zh-hk" key="SYS_ENCRYPTION_OR_DECRYPTION_IN_PROGRESS">您的系統分區/驅動器正在被加密/解密，或正在被修改。請在繼續操作前中斷這個加密/解密/修改進程（或者等待直到其完成）。</string>
+    <string lang="zh-hk" key="SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE">已經有 TrueCrypt 加密卷創建嚮導的實例在運行，並且正在執行對系統分區/驅動器的加密或解密操作。在您繼續前，請等候其完成或者關閉該實例。如果您無法關閉這個實例，請在繼續操作前重啟電腦。</string>
+    <string lang="zh-hk" key="SYSTEM_ENCRYPTION_NOT_COMPLETED">加密或解密系統分區/驅動器的進程尚未完成。在進程完成前請稍候。</string>
+    <string lang="zh-hk" key="ERR_ENCRYPTION_NOT_COMPLETED">錯誤：加密分區/驅動器的過程已經未完成，該過程必須首先完成。</string>
+    <string lang="zh-hk" key="ERR_NONSYS_INPLACE_ENC_INCOMPLETE">錯誤：加密 分區/卷 的過程尚未完成。您必須首先完成此過程。\n\n說明：要繼續該過程，在 TrueCrype 主介面的功能表中，選擇 '加密卷' &gt; '繼續被中斷的過程'。</string>
+    <string lang="zh-hk" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">密碼正確，TrueCrypt 已經成功解密加密卷頭資訊並檢測到了該加密卷存在一個隱形的作業系統。然而，您不能以此種方式修改隱形系統卷的頭資訊。\n\n要修改隱形系統卷的密碼，請啟動隱形作業系統，之後在 TrueCrypt 主介面選擇 '系統' &gt; '修改密碼' 。\n\n要設置首密鑰的生成演算法，啟動隱形作業系統並在程式視窗選擇 '系統' &gt; '設置首密鑰生成演算法'。</string>
+    <string lang="zh-hk" key="CANNOT_DECRYPT_HIDDEN_OS">TrueCrypt 不支援就地（在隱形系統內）解密隱形作業系統分區。\n\n說明：如果您想要解密迷惑作業系統，可以啟動到迷惑作業系統，在 TrueCrypt 程式中選擇 '系統' &gt; '永久解密系統分區/驅動器'。</string>
+    <string lang="zh-hk" key="ERR_PARAMETER_INCORRECT">錯誤：錯誤/無效的參數。</string>
+    <string lang="zh-hk" key="DEVICE_SELECTED_IN_NON_DEVICE_MODE">您已經選擇了一個分區或者設備，但是在嚮導模式您只能選擇檔型加密卷。\n\n您希望改變嚮導模式嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_CHANGE_WIZARD_MODE_TO_FILE_CONTAINER">您想取代創建為 TrueCrypt 檔型加密卷嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">您已經選擇了系統分區/驅動器（或啟動分區），但是您選擇的嚮導模式只適用於非系統驅動器。\n\n您希望設置啟動驗證（意味著每次啟動 Windows 前，都需要您輸入密碼）和加密系統分區或驅動器嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_DECRYPT_SYS_DEVICE">您確認要永久解密系統分區/驅動器嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">小心：如果您永久解密系統分區或驅動器，資料將會恢復為未加密狀態。\n\n您確認要永久解密系統分區或驅動器嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">警告：如果您使用一種級聯演算法加密作業系統，您可能會遇到以下問題：\n\n1）TrueCrypt 啟動管理器體積偏大，因此驅動器的第一個柱面可能無法容納 TrueCrypt 啟動管理器的備份。因此，當其損壞的時候（這個可能會經常發生，例如，在某些程式的有設計缺陷的反隱私操作情況下），您將需要使用 TrueCrypt 應急盤啟動和修復 TrueCrypt 啟動管理器。\n\n2）在一些電腦上，導致休眠時間過長。\n\n這些潛在的問題可以通過選擇一種非級聯演算法（例如 AES）來預防。\n\n您真的要堅持繼續使用級聯演算法嗎？</string>
+    <string lang="zh-hk" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">如果您遇到任何前面描述的問題，請解密該分區/驅動器（如果已加密）並使用一種非級聯演算法加密（例如 AES）。</string>
+    <string lang="en" key="UPDATE_TC_IN_DECOY_OS_FIRST">WARNING: For safety and security reasons, you should update TrueCrypt on the decoy operating system before you update it on the hidden operating system.\n\nTo do so, boot the decoy system and run the TrueCrypt installer from within it. Then boot the hidden system and run the installer from within it as well.\n\nNote: The decoy system and the hidden system share a single boot loader. If you upgraded TrueCrypt only on the hidden system (but not on the decoy system), the decoy system would contain a TrueCrypt driver and TrueCrypt applications whose version numbers are different from the version number of the TrueCrypt Boot Loader. Such a discrepancy might indicate that there is a hidden operating system on this computer.\n\n\nDo you want to continue?</string>
+    <string lang="zh-hk" key="UPDATE_TC_IN_HIDDEN_OS_TOO">TrueCrypt 啟動管理器的版本與系統中安裝的 TrueCrypt 驅動和程式版本不一致。\n\n您應當運行 TrueCrypt 安裝程式（版本號與 TrueCrypt 啟動管理器相同）來更新作業系統中的 TrueCrypt。</string>
+    <string lang="zh-hk" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">啟動該系統的 TrueCrypt 啟動管理器版本號不同於安裝在系統上的 TrueCrypt 設備驅動或 TrueCrypt 應用程式的版本號。請注意，早期版本可能存在一些新版已經修復的 BUG。\n\n如果您並未從應急盤啟動，您應當重新安裝 TrueCrypt 或者更新到最新的穩定版本（啟動管理器也會隨之更新）。\n\n如果您從應急盤啟動，您應當更新應急盤（'系統' &gt; '創建應急盤'）。</string>
+    <string lang="zh-hk" key="BOOT_LOADER_UPGRADE_OK">TrueCrypt 啟動管理器已經成功更新。\n\n強烈建議您重啟電腦後選擇 '系統' &gt; '創建應急盤' 來創建一個新的 TrueCrypt 應急盤（將會包含新版的 TrueCrypt 啟動管理器）。</string>
+    <string lang="zh-hk" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">TrueCrypt 啟動管理器已經更新。\n\n強烈建議您啟動迷惑作業系統並通過選擇功能表 '系統'  &gt; '創建應急盤' 創建一個新的 TrueCrypt應急盤（將會包含新版本的 TrueCrypt 啟動管理器）。</string>
+    <string lang="zh-hk" key="BOOT_LOADER_UPGRADE_FAILED">更新 TrueCrypt 啟動管理器時失敗。</string>
+    <string lang="zh-hk" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">TrueCrypt 檢測系統驅動器真實大小失敗，因此，作業系統所報告的大小（將會比實際小）將會被使用。另外需要指明的是，這並不是 TrueCrypt 的程式問題（BUG）。</string>
+    <string lang="zh-hk" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">警告：看起來 TrueCrypt 曾經檢測過此系統驅動器上的隱藏磁區。如果您在上次檢測過程中遇到任何問題，您可以通過跳過隱藏磁區檢測來避免這個問題。注意，如果跳過檢測，TrueCrypt 將會使用作業系統報告的容量（要小於真實驅動器的容量）。\n\n此問題並不是 TrueCrypt 的程式 Bug。</string>
+    <string lang="zh-hk" key="SKIP_HIDDEN_SECTOR_DETECTION">跳過隱藏磁區的檢測（使用作業系統報告的容量）</string>
+    <string lang="zh-hk" key="RETRY_HIDDEN_SECTOR_DETECTION">嘗試再次檢測隱藏磁區</string>
+    <string lang="zh-hk" key="ENABLE_BAD_SECTOR_ZEROING">錯誤：磁片上一個或多個磁區的內容無法讀取（可能由於物理因素影響）。\n\n這些磁區能夠重新讀取之前，就地加密的過程將無法繼續。TrueCrypt 能夠嘗試向其中寫入 0 來使這些磁區可讀（之後這些 0 填充的區塊將會被加密）。然而，請注意存儲於這些不可讀磁區的資料將會丟失。如果您想要避免資料丟失，您可以使用適當的第三方軟體恢復這些損壞資料的某些部分。\n\n注意：在有物理損壞磁區的情況下（不同於簡單的資料損壞和校驗錯誤），當有資料試圖向這些損壞磁區寫入資料時，大多數存儲設備都會在內部為這些要寫入的資料重新分配磁區（因此當前損壞磁區上的現有資料可能在啟動器上仍然保持未加密狀態）。\n\n您希望 TrueCrypt 為這些不可讀磁區填充 0 嗎？</string>
+    <string lang="zh-hk" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">錯誤：磁片上一個或多個磁區的內容無法讀取（可能由於物理因素影響）。\n\n為了能夠繼續加密，TrueCrypt 不得不放棄這些不可讀磁區（磁區內容會被偽亂數據填充）。請注意，在繼續進行之前，您可以嘗試使用適當的第三方軟體恢復任何損壞資料的一部分。\n\n您希望 TrueCrypt 廢棄不可讀磁區中的資料嗎？</string>
+    <string lang="zh-hk" key="ZEROED_BAD_SECTOR_COUNT">說明：TrueCrypt 已經把 %I64d 的不可讀磁區（%s）的當前內容全部替換為加密的全部為 0 的純文本塊。</string>
+    <string lang="zh-hk" key="ENTER_TOKEN_PASSWORD">輸入口權杖 '%s' 的密碼/PIN:</string>
+    <string lang="zh-hk" key="PKCS11_LIB_LOCATION_HELP">為允許 TrueCrypt 訪問安全口權杖或智慧卡，您首先需要為口權杖或智慧卡安裝一種 PKCS #11 運行庫，這些運行庫可能已經隨設備提供，或者可以從供應商網站或其他第三方網站上下載。\n\n在您安裝了運行庫後，您可以通過單擊 '選擇運行庫' 手動選擇，或者通過單擊 自動檢測運行庫' 來讓 TrueCrypt 發現和選擇（僅會搜索 Windows 系統目錄，比較耗費時間）。</string>
+    <string lang="zh-hk" key="SELECT_PKCS11_MODULE_HELP">說明：對於安裝到您電腦上的 PKCS #11 運行庫以及安全口權杖或智慧卡的檔案名和位置，請參考口權杖、智慧卡的文檔，或者參考第三方軟體。\n\n單擊 '確定' 按鈕選擇路徑和檔案名。</string>
+    <string lang="zh-hk" key="NO_PKCS11_MODULE_SPECIFIED">為允許 TrueCrypt 訪問安全口權杖或智慧卡，您需要為口權杖或智慧卡選擇一種 PKCS #11 運行庫。要做到這點，請選擇 '設置' &gt; '安全口權杖'。</string>
+    <string lang="zh-hk" key="PKCS11_MODULE_INIT_FAILED">初始化 PKCS #11 安全口權杖運行庫失敗。\n\n請確認指定路徑和檔案名對應有效的 PKCS #11 運行庫。要指定 PKCS #11 運行庫路徑和檔案名，選擇 '設置 &gt; '安全口權杖'。</string>
+    <string lang="zh-hk" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">在 Windows 系統目錄未發現 PKCS #11 運行庫。\n\n請確認您的安全口權杖或智慧卡已經安裝了 PKCS #11 運行庫（這些運行庫可能已經隨設備提供，或者可以從供應商網站或其他第三方網站上下載）。如果是被安裝到 Windows 系統目錄之外的地方，請點擊 '選擇運行庫' 來定位運行庫位置（例如：口權杖/智能卡 的安裝檔夾。</string>
+    <string lang="zh-hk" key="NO_TOKENS_FOUND">未發現安全口權杖。\n\n請確認您的安全口權杖已經連接到您的電腦上並且已經安裝好了正確的設備驅動程式。</string>
+    <string lang="zh-hk" key="TOKEN_KEYFILE_NOT_FOUND">安全口權杖密鑰檔未發現。</string>
+    <string lang="zh-hk" key="TOKEN_KEYFILE_ALREADY_EXISTS">已經存在同名的安全口權杖密鑰檔。</string>
+    <string lang="zh-hk" key="CONFIRM_SEL_FILES_DELETE">您想要刪除指定檔嗎？</string>
+    <string lang="zh-hk" key="INVALID_TOKEN_KEYFILE_PATH">安全口權杖密鑰檔路徑無效。</string>
+    <string lang="zh-hk" key="SECURITY_TOKEN_ERROR">安全口權杖錯誤</string>
+    <string lang="zh-hk" key="CKR_PIN_INCORRECT">安全口權杖密碼不正確。</string>
+    <string lang="zh-hk" key="CKR_DEVICE_MEMORY">安全口權杖無足夠的 記憶體/空間 執行請求的操作。\n\n如果您試圖導入一個密鑰檔，您應當選擇一個小一些的檔或者使用由 TrueCrypt 生成的密鑰檔（選擇 '工具' &gt; '密鑰文件生成器'）。</string>
+    <string lang="zh-hk" key="ALL_TOKEN_SESSIONS_CLOSED">所有打開的口權杖會話均已被關閉。</string>
+    <string lang="zh-hk" key="SELECT_TOKEN_KEYFILES">選擇安全口權杖密鑰檔</string>
+    <string lang="zh-hk" key="TOKEN_SLOT_ID">插槽</string>
+    <string lang="zh-hk" key="TOKEN_NAME">口權杖名稱</string>
+    <string lang="zh-hk" key="TOKEN_DATA_OBJECT_LABEL">檔案名</string>
+    <string lang="zh-hk" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">重要：請注意，啟動驗證的密碼總是以美國鍵盤佈局輸入的。因此，對於使用非美國鍵盤佈局輸入密碼的加密卷，在使用緩存的密碼載入時是不可能被載入的（注意這不是 TrueCrypt 的程式缺陷）。要允許這樣的加密卷使用啟動驗證密碼載入，請遵循以下步驟：\n\n1）點擊 '選擇檔' 或 '選擇設備' 並選擇加密卷。 2）選擇 '加密卷' &gt; '更改加密卷密碼'。 3）輸入當前加密卷的密碼。 4）更改鍵盤佈局為 English (US)，通過點擊 Windows 通知欄上的語言欄和選擇 '英語(美國)'。 5）在 TrueCrypt，在新密碼位置，輸入啟動驗證密碼。 6）在確認密碼位置重複輸入密碼，之後點 '確定'. 警告：如果您採用這些步驟，請牢記，加密卷密碼總是只能以美國鍵盤佈局輸入（這樣才能在啟動驗證環境中自動匹配）。</string>
+    <string lang="zh-hk" key="SYS_FAVORITES_KEYBOARD_WARNING">系統收藏加密卷將會以啟動驗證密碼載入。如果任何系統收藏加密卷使用了不同的密碼，它將不會被載入。</string>
+    <string lang="zh-hk" key="SYS_FAVORITES_ADMIN_ONLY_INFO">請注意，如果您希望系統收藏加密卷不會受到常規 TrueCrypt 加密卷操作的影響（例如 "全部卸載"），您應當啟用選項 '在 TrueCrypt 中，只允許系統管理員查看和卸載系統收藏加密卷'。另外，如果 TrueCrypt 以非管理員身份運行（在 Windows Vista 和以後版本的系統中默認為非管理員身份），系統收藏加密卷將不會出現在 TrueCrypt 程式視窗的驅動盤符列表中。</string>
+    <string lang="zh-hk" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">重要：請必須記住，此選項已經啟用並且 TrueCrypt 不具有系統管理員許可權，已載入的系統收藏加密卷不會顯示在 TrueCrypt 程式視窗並且它們也不能被卸載。因此，如果您需要卸載系統收藏加密卷，請右鍵單擊 TrueCrypt 圖示（在開始功能表中），並選擇“運行方式”和選擇管理員帳戶運行。"全部卸載"、"自動卸載"、"全部卸載"熱鍵等功能也存在上面所說的限制。</string>
+    <string lang="zh-hk" key="SETTING_REQUIRES_REBOOT">請注意，此設置在系統重啟後才會生效。</string>
+    <string lang="zh-hk" key="COMMAND_LINE_ERROR">解析命令行時出錯。</string>
+    <string lang="zh-hk" key="RESCUE_DISK">應急盤</string>
+    <string lang="zh-hk" key="SELECT_FILE_AND_MOUNT">選擇和載入檔(&amp;F)...</string>
+    <string lang="zh-hk" key="SELECT_DEVICE_AND_MOUNT">選擇和載入設備(&amp;D)...</string>
+    <string lang="zh-hk" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">在 TrueCrypt 中，只允許系統管理員查看和卸載系統收藏加密卷</string>
+    <string lang="zh-hk" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">在 Windows 啟動時載入系統收藏加密卷（在啟動過程的初始階段）</string>
+    <string lang="zh-hk" key="MOUNTED_VOLUME_DIRTY">警告：載入為 '%s' 的加密卷上的檔系統並未徹底卸載因此而存在錯誤。繼續使用損壞的檔系統可能會導致資料丟失或者損壞。\n\n注意：在您物理移除或卸載包含已被載入的 TrueCrypt 加密卷的設備（例如U盤或移動硬碟）之前，您應當先在 TrueCrypt 中卸載加密卷。\n\n\n您希望 Windows  系統嘗試檢測和修復可能的檔系統錯誤嗎？</string>
+    <string lang="zh-hk" key="SYS_FAVORITE_VOLUME_DIRTY">警告：一個或者多個系統收藏加密卷並沒有完全卸載，因此可能包含檔系統錯誤。請查看系統事件日誌獲取更多資訊。\n\n使用損壞的檔系統可以導致資料丟失或者資料損壞。您應當檢查受影響的收藏加密卷的磁片錯誤（在 TrueCrypt 中右鍵單擊每個打開的收藏加密卷，之後選擇 '修復檔系統'）。</string>
+    <string lang="zh-hk" key="FILESYS_REPAIR_CONFIRM_BACKUP">警告：使用微軟的 'chkdsk' 工具修復受損的檔系統時可能會導致受損區域的資料丟失。因此，建議您首先備份存儲在 TrueCrypt 加密卷中的檔到另外完好的加密卷。\n\n您確認現在就修復檔系統嗎？</string>
+    <string lang="zh-hk" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">由於寫入許可權被拒絕，加密卷 '%s' 不得不以唯讀模式載入。\n\n請確認檔類型加密卷的安全許可允許您對其執行寫入操作（右鍵單擊此容器並選擇 屬性 &gt; 安全）。\n\n注意，由於 Windows 的原因，您可能在設置成合適的安全屬性後還會看到這個警告，這並非是 TrueCrypt 的程式故障。一個可能的解決方法是移動您的加密卷檔，例如移動到文檔檔夾。\n\n如果您確實要保持加密卷的唯讀模式，請設置加密卷的屬性為唯讀（右鍵單擊加密盤檔並選擇屬性 &gt; 唯讀），這樣就可以禁止顯示警告了。</string>
+    <string lang="zh-hk" key="MOUNTED_DEVICE_FORCED_READ_ONLY">由於寫入許可權被拒絕，加密卷 '%s' 不得不以唯讀模式載入。\n\n請確認沒有其他程式（例如，防病毒程式）正在訪問加密卷所在的分區/設備。</string>
+    <string lang="zh-hk" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密卷 '%s' 已被已唯讀模式載入，這是因為作業系統報告主設備為防寫狀態。\n\n請注意，在一些第三方的晶片驅動中，已有錯誤報告指出可能會造成可寫入介質錯誤的被系統報告為防寫。這個問題並不是由 TrueCrypt 造成。這可以通過更新或卸載當前系統中的任何第三方晶片組驅動（非微軟認證）。</string>
+    <string lang="en" key="LIMIT_ENC_THREAD_POOL_NOTE">Note that the Hyper-Threading technology provides multiple logical cores per a single physical core. When Hyper Threading is enabled, the number selected above represents the number of logical processors/cores.</string>
+    <string lang="zh-hk" key="NUMBER_OF_THREADS">%d 線程</string>
+    <string lang="zh-hk" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">請注意，硬體加速 AES 已被禁用，這將會影響測試結果（使性能變差）。\n\n要啟用硬體加速，請選擇 '設置' &gt; '性能' 並禁用相應選項。</string>
+    <string lang="zh-hk" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">請注意，線程的數目當前受限，這將會影響測試結果（使性能變差）。\n\n要利用處理器的潛能，請選擇 '設置' &gt; '性能' 並禁用相應選項。</string>
+    <string lang="zh-hk" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">您想要 TrueCrypt 嘗試禁用此分區/設備 的防寫嗎？</string>
+    <string lang="zh-hk" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：此設置可能會降低性能。\n\n您確認要使用該設置嗎？</string>
+    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: TrueCrypt volume auto-dismounted</string>
+    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in TrueCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="zh-hk" key="TEST">測試</string>
+    <string lang="zh-hk" key="KEYFILE">密鑰文件</string>
+    <string lang="zh-hk" key="VKEY_08">Backspace</string>
+    <string lang="zh-hk" key="VKEY_09">Tab</string>
+    <string lang="zh-hk" key="VKEY_0C">Clear</string>
+    <string lang="zh-hk" key="VKEY_0D">Enter</string>
+    <string lang="zh-hk" key="VKEY_13">Pause</string>
+    <string lang="zh-hk" key="VKEY_14">Caps Lock</string>
+    <string lang="zh-hk" key="VKEY_20">Spacebar</string>
+    <string lang="zh-hk" key="VKEY_21">Page Up</string>
+    <string lang="zh-hk" key="VKEY_22">Page Down</string>
+    <string lang="zh-hk" key="VKEY_23">End</string>
+    <string lang="zh-hk" key="VKEY_24">Home</string>
+    <string lang="zh-hk" key="VKEY_25">左箭頭</string>
+    <string lang="zh-hk" key="VKEY_26">上箭頭</string>
+    <string lang="zh-hk" key="VKEY_27">右箭頭</string>
+    <string lang="zh-hk" key="VKEY_28">下箭頭</string>
+    <string lang="zh-hk" key="VKEY_29">Select Key</string>
+    <string lang="zh-hk" key="VKEY_2A">Print Key</string>
+    <string lang="zh-hk" key="VKEY_2B">Execute Key</string>
+    <string lang="zh-hk" key="VKEY_2C">Print Screen</string>
+    <string lang="zh-hk" key="VKEY_2D">Insert</string>
+    <string lang="zh-hk" key="VKEY_2E">Delete</string>
+    <string lang="zh-hk" key="VKEY_5D">Applications Key</string>
+    <string lang="zh-hk" key="VKEY_5F">Sleep</string>
+    <string lang="zh-hk" key="VKEY_90">Num Lock</string>
+    <string lang="zh-hk" key="VKEY_91">Scroll Lock</string>
+    <string lang="zh-hk" key="VKEY_A6">Browser Back</string>
+    <string lang="zh-hk" key="VKEY_A7">Browser Forward</string>
+    <string lang="zh-hk" key="VKEY_A8">Browser Refresh</string>
+    <string lang="zh-hk" key="VKEY_A9">Browser Stop</string>
+    <string lang="zh-hk" key="VKEY_AA">Browser Search</string>
+    <string lang="zh-hk" key="VKEY_AB">Browser Favorites</string>
+    <string lang="zh-hk" key="VKEY_AC">Browser Home</string>
+    <string lang="zh-hk" key="VKEY_AD">Mute</string>
+    <string lang="zh-hk" key="VKEY_AE">Volume Down</string>
+    <string lang="zh-hk" key="VKEY_AF">Volume Up</string>
+    <string lang="zh-hk" key="VKEY_B0">Next Track</string>
+    <string lang="zh-hk" key="VKEY_B1">Previous Track</string>
+    <string lang="zh-hk" key="VKEY_B2">Stop Media</string>
+    <string lang="zh-hk" key="VKEY_B3">Play/Pause Media</string>
+    <string lang="zh-hk" key="VKEY_B4">Start Mail Key</string>
+    <string lang="zh-hk" key="VKEY_B5">Select Media Key</string>
+    <string lang="zh-hk" key="VKEY_B6">Application 1</string>
+    <string lang="zh-hk" key="VKEY_B7">Application 2</string>
+    <string lang="zh-hk" key="VKEY_F6">Attn</string>
+    <string lang="zh-hk" key="VKEY_F7">CrSel</string>
+    <string lang="zh-hk" key="VKEY_F8">ExSel</string>
+    <string lang="zh-hk" key="VKEY_FA">Play</string>
+    <string lang="zh-hk" key="VKEY_FB">Zoom</string>
+    <string lang="zh-hk" key="VK_NUMPAD">數位鍵盤</string>
+    <string lang="zh-hk" key="VK_SHIFT">Shift</string>
+    <string lang="zh-hk" key="VK_CONTROL">Control</string>
+    <string lang="zh-hk" key="VK_ALT">Alt</string>
+    <string lang="zh-hk" key="VK_WIN">Win</string>
+    <string lang="zh-hk" key="BYTE">B</string>
+    <string lang="zh-hk" key="KB">KB</string>
+    <string lang="zh-hk" key="MB">MB</string>
+    <string lang="zh-hk" key="GB">GB</string>
+    <string lang="zh-hk" key="TB">TB</string>
+    <string lang="zh-hk" key="PB">PB</string>
+    <string lang="zh-hk" key="B_PER_SEC">B/s</string>
+    <string lang="zh-hk" key="KB_PER_SEC">KB/s</string>
+    <string lang="zh-hk" key="MB_PER_SEC">MB/s</string>
+    <string lang="zh-hk" key="GB_PER_SEC">GB/s</string>
+    <string lang="zh-hk" key="TB_PER_SEC">TB/s</string>
+    <string lang="zh-hk" key="PB_PER_SEC">PB/s</string>
+    <string lang="zh-hk" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+  </localization>
+  <!-- XML Schema -->
+  <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="TrueCrypt">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="localization">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="language">
+                  <xs:complexType>
+                    <xs:attribute name="langid" type="xs:string" use="required" />
+                    <xs:attribute name="name" type="xs:string" use="required" />
+                    <xs:attribute name="en-name" type="xs:string" use="required" />
+                    <xs:attribute name="version" type="xs:string" use="required" />
+                    <xs:attribute name="translators" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="4" maxOccurs="4" name="font">
+                  <xs:complexType>
+                    <xs:attribute name="lang" type="xs:string" use="required" />
+                    <xs:attribute name="class" type="xs:string" use="required" />
+                    <xs:attribute name="size" type="xs:unsignedByte" use="required" />
+                    <xs:attribute name="face" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" name="control">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="lang" type="xs:string" use="required" />
+                        <xs:attribute name="key" type="xs:string" use="required" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" name="string">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="lang" type="xs:string" use="required" />
+                        <xs:attribute name="key" type="xs:string" use="required" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="prog-version" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+</TrueCrypt>
