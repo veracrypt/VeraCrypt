@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TrueCrypt>
-  <localization prog-version="7.1a">
+<VeraCrypt>
+  <localization prog-version="1.0d">
     <!-- Languages -->
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.0" translators="Barney Li" />
     <!-- Fonts -->
@@ -12,21 +12,21 @@
     <control lang="zh-cn" key="IDCANCEL">取消</control>
     <control lang="zh-cn" key="IDC_ALL_USERS">为所有用户安装(&amp;F)</control>
     <control lang="zh-cn" key="IDC_BROWSE">浏览(&amp;W)...</control>
-    <control lang="zh-cn" key="IDC_DESKTOP_ICON">在桌面添加 TrueCrypt 图标(&amp;D)</control>
+    <control lang="zh-cn" key="IDC_DESKTOP_ICON">在桌面添加 VeraCrypt 图标(&amp;D)</control>
     <control lang="zh-cn" key="IDC_DONATE">现在捐助...</control>
-    <control lang="zh-cn" key="IDC_FILE_TYPE">关联 .tc 文件到 TrueCrypt(&amp;E) </control>
+    <control lang="zh-cn" key="IDC_FILE_TYPE">关联 .tc 文件到 VeraCrypt(&amp;E) </control>
     <control lang="zh-cn" key="IDC_OPEN_CONTAINING_FOLDER">完成后打开目标位置(&amp;O)</control>
-    <control lang="zh-cn" key="IDC_PROG_GROUP">创建 TrueCrypt 开始菜单项目(&amp;S)</control>
+    <control lang="zh-cn" key="IDC_PROG_GROUP">创建 VeraCrypt 开始菜单项目(&amp;S)</control>
     <control lang="zh-cn" key="IDC_SYSTEM_RESTORE">创建系统还原点(&amp;R)</control>
     <control lang="zh-cn" key="IDC_UNINSTALL">卸载(&amp;U)</control>
     <control lang="zh-cn" key="IDC_WIZARD_MODE_EXTRACT_ONLY">释放(&amp;E)</control>
     <control lang="zh-cn" key="IDC_WIZARD_MODE_INSTALL">安装(&amp;I)</control>
-    <control lang="zh-cn" key="IDD_INSTL_DLG">TrueCrypt 安装向导</control>
-    <control lang="zh-cn" key="IDD_UNINSTALL">卸载 TrueCrypt</control>
+    <control lang="zh-cn" key="IDD_INSTL_DLG">VeraCrypt 安装向导</control>
+    <control lang="zh-cn" key="IDD_UNINSTALL">卸载 VeraCrypt</control>
     <control lang="zh-cn" key="IDHELP">帮助(&amp;H)</control>
     <control lang="zh-cn" key="IDT_EXTRACT_DESTINATION">请选择或者输入您希望释放到的位置:</control>
-    <control lang="zh-cn" key="IDT_INSTALL_DESTINATION">请选择或输入您希望 TrueCrypt 程序文件释放到的位置。如果指定文件夹不存在，文件夹将会被自动创建。</control>
-    <control lang="zh-cn" key="IDT_UNINSTALL_DIR">点击〖卸载〗按钮从系统中卸载 TrueCrypt。</control>
+    <control lang="zh-cn" key="IDT_INSTALL_DESTINATION">请选择或输入您希望 VeraCrypt 程序文件释放到的位置。如果指定文件夹不存在，文件夹将会被自动创建。</control>
+    <control lang="zh-cn" key="IDT_UNINSTALL_DIR">点击〖卸载〗按钮从系统中卸载 VeraCrypt。</control>
     <control lang="zh-cn" key="IDC_ABORT_BUTTON">放弃</control>
     <control lang="zh-cn" key="IDC_BENCHMARK">测试(&amp;B)</control>
     <control lang="zh-cn" key="IDC_CIPHER_TEST">测试(&amp;T)</control>
@@ -38,7 +38,7 @@
     <control lang="zh-cn" key="IDC_FILE_CONTAINER">创建文件型加密卷</control>
     <control lang="zh-cn" key="IDC_GB">GB(&amp;G)</control>
     <control lang="zh-cn" key="IDC_HIDDEN_SYSENC_INFO_LINK">更多信息（联网）</control>
-    <control lang="zh-cn" key="IDC_HIDDEN_VOL">隐藏的 TrueCrypt 加密卷(&amp;D) </control>
+    <control lang="zh-cn" key="IDC_HIDDEN_VOL">隐藏的 VeraCrypt 加密卷(&amp;D) </control>
     <control lang="zh-cn" key="IDC_HIDDEN_VOL_HELP">关于隐藏加密卷的更多信息（联网）</control>
     <control lang="zh-cn" key="IDC_HIDVOL_WIZ_MODE_DIRECT">直接模式</control>
     <control lang="zh-cn" key="IDC_HIDVOL_WIZ_MODE_FULL">常规模式</control>
@@ -60,13 +60,13 @@
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD">显示密码(&amp;D)</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD_SINGLE">显示密码(&amp;D)</control>
     <control lang="zh-cn" key="IDC_SINGLE_BOOT">单系统</control>
-    <control lang="zh-cn" key="IDC_STD_VOL">标准 TrueCrypt 加密卷</control>
+    <control lang="zh-cn" key="IDC_STD_VOL">标准 VeraCrypt 加密卷</control>
     <control lang="zh-cn" key="IDC_SYSENC_HIDDEN">隐藏(&amp;D)</control>
     <control lang="zh-cn" key="IDC_SYSENC_NORMAL">常规</control>
     <control lang="zh-cn" key="IDC_SYS_DEVICE">加密系统分区或者整个系统所在硬盘</control>
     <control lang="zh-cn" key="IDC_SYS_PARTITION">加密 Windows 系统分区</control>
     <control lang="zh-cn" key="IDC_WHOLE_SYS_DRIVE">加密整个硬盘驱动器</control>
-    <control lang="zh-cn" key="IDD_VOL_CREATION_WIZARD_DLG">TrueCrypt 加密卷创建向导</control>
+    <control lang="zh-cn" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt 加密卷创建向导</control>
     <control lang="zh-cn" key="IDT_CLUSTER">簇</control>
     <control lang="zh-cn" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：在窗口范围内尽量任意移动鼠标。移动时间越长越好。这将会极大的增强密钥的加密强度。之后点击〖下一步〗按钮继续。</control>
     <control lang="zh-cn" key="IDT_CONFIRM">确认(&amp;C)：</control>
@@ -96,8 +96,8 @@
     <control lang="zh-cn" key="IDCLOSE">关闭</control>
     <control lang="zh-cn" key="IDC_ALLOW_ESC_PBA_BYPASS">允许按下 Esc 按键跳过启动验证（启用启动管理器）(&amp;A)</control>
     <control lang="zh-cn" key="IDC_AUTORUN_DISABLE">什么也不做</control>
-    <control lang="zh-cn" key="IDC_AUTORUN_MOUNT">自动加载 TrueCrypt 加密卷（下面指定的）(&amp;A)</control>
-    <control lang="zh-cn" key="IDC_AUTORUN_START">运行 TrueCrypt(&amp;S)</control>
+    <control lang="zh-cn" key="IDC_AUTORUN_MOUNT">自动加载 VeraCrypt 加密卷（下面指定的）(&amp;A)</control>
+    <control lang="zh-cn" key="IDC_AUTORUN_START">运行 VeraCrypt(&amp;S)</control>
     <control lang="zh-cn" key="IDC_AUTO_DETECT_PKCS11_MODULE">自动检测运行库(&amp;D)</control>
     <control lang="zh-cn" key="IDC_BOOT_LOADER_CACHE_PASSWORD">缓存启动验证密码到驱动内存（用来加载非系统加密卷）(&amp;C)</control>
     <control lang="zh-cn" key="IDC_BROWSE_DIRS">浏览...</control>
@@ -105,7 +105,7 @@
     <control lang="zh-cn" key="IDC_CACHE">在内存中缓存密码和密钥文件(&amp;A)</control>
     <control lang="zh-cn" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">没有加密卷被加载时退出</control>
     <control lang="zh-cn" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">在有加密卷成功加载后关闭口令牌会话（登出）(&amp;C)</control>
-    <control lang="zh-cn" key="IDC_COPY_WIZARD">包含 TrueCrypt 加密卷创建向导</control>
+    <control lang="zh-cn" key="IDC_COPY_WIZARD">包含 VeraCrypt 加密卷创建向导</control>
     <control lang="zh-cn" key="IDC_CREATE">创建</control>
     <control lang="zh-cn" key="IDC_CREATE_VOLUME">创建加密卷(&amp;C)</control>
     <control lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">在启动验证屏幕不显示任何文本（仅显示下面自定义的信息）(&amp;S)</control>
@@ -148,8 +148,8 @@
     <control lang="zh-cn" key="IDC_PREF_DISMOUNT_POWERSAVING">进入待机状态时</control>
     <control lang="zh-cn" key="IDC_PREF_DISMOUNT_SCREENSAVER">屏幕保护加载时</control>
     <control lang="zh-cn" key="IDC_PREF_FORCE_AUTO_DISMOUNT">强制自动卸载，无论加密卷是否有被打开的文件或目录</control>
-    <control lang="zh-cn" key="IDC_PREF_LOGON_MOUNT_DEVICES">加载所有设备类 TrueCrypt 加密卷</control>
-    <control lang="zh-cn" key="IDC_PREF_LOGON_START">启动 TrueCrypt 后台任务</control>
+    <control lang="zh-cn" key="IDC_PREF_LOGON_MOUNT_DEVICES">加载所有设备类 VeraCrypt 加密卷</control>
+    <control lang="zh-cn" key="IDC_PREF_LOGON_START">启动 VeraCrypt 后台任务</control>
     <control lang="zh-cn" key="IDC_PREF_MOUNT_READONLY">以只读模式加载加密卷</control>
     <control lang="zh-cn" key="IDC_PREF_MOUNT_REMOVABLE">以可移动介质模式加载加密卷</control>
     <control lang="zh-cn" key="IDC_PREF_OPEN_EXPLORER">为成功加载的加密卷打开资源管理器窗口</control>
@@ -169,18 +169,18 @@
     <control lang="zh-cn" key="IDC_VOLUME_PROPERTIES">加密卷属性(&amp;X)...</control>
     <control lang="zh-cn" key="IDC_VOLUME_TOOLS">加密卷工具(&amp;T)...</control>
     <control lang="zh-cn" key="IDC_WIPE_CACHE">擦除缓存(&amp;W)</control>
-    <control lang="zh-cn" key="IDD_FAVORITE_VOLUMES">TrueCrypt - 收藏加密卷</control>
-    <control lang="zh-cn" key="IDD_HOTKEYS_DLG">TrueCrypt - 系统热键</control>
-    <control lang="zh-cn" key="IDD_MOUNT_DLG">TrueCrypt</control>
+    <control lang="zh-cn" key="IDD_FAVORITE_VOLUMES">VeraCrypt - 收藏加密卷</control>
+    <control lang="zh-cn" key="IDD_HOTKEYS_DLG">VeraCrypt - 系统热键</control>
+    <control lang="zh-cn" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="zh-cn" key="IDD_PASSWORDCHANGE_DLG">修改密码或密钥文件</control>
-    <control lang="zh-cn" key="IDD_PASSWORD_DLG">输入 TrueCrypt 加密卷密码</control>
-    <control lang="zh-cn" key="IDD_PERFORMANCE_SETTINGS">TrueCrypt - 性能选项</control>
-    <control lang="zh-cn" key="IDD_PREFERENCES_DLG">TrueCrypt - 参数选择</control>
-    <control lang="zh-cn" key="IDD_SYSENC_SETTINGS">TrueCrypt - 系统加密设置选项</control>
-    <control lang="zh-cn" key="IDD_TOKEN_PREFERENCES">TrueCrypt - 安全口令牌参数</control>
-    <control lang="zh-cn" key="IDD_TRAVELER_DLG">TrueCrypt 便携磁盘安装</control>
-    <control lang="zh-cn" key="IDD_VOLUME_PROPERTIES">TrueCrypt 加密卷属性</control>
-    <control lang="zh-cn" key="IDM_ABOUT">关于 TrueCrypt...</control>
+    <control lang="zh-cn" key="IDD_PASSWORD_DLG">输入 VeraCrypt 加密卷密码</control>
+    <control lang="zh-cn" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - 性能选项</control>
+    <control lang="zh-cn" key="IDD_PREFERENCES_DLG">VeraCrypt - 参数选择</control>
+    <control lang="zh-cn" key="IDD_SYSENC_SETTINGS">VeraCrypt - 系统加密设置选项</control>
+    <control lang="zh-cn" key="IDD_TOKEN_PREFERENCES">VeraCrypt - 安全口令牌参数</control>
+    <control lang="zh-cn" key="IDD_TRAVELER_DLG">VeraCrypt 便携磁盘安装</control>
+    <control lang="zh-cn" key="IDD_VOLUME_PROPERTIES">VeraCrypt 加密卷属性</control>
+    <control lang="zh-cn" key="IDM_ABOUT">关于 VeraCrypt...</control>
     <control lang="zh-cn" key="IDM_ADD_REMOVE_VOL_KEYFILES">添加或移除密钥文件...</control>
     <control lang="zh-cn" key="IDM_ADD_VOLUME_TO_FAVORITES">添加已加载的加密卷为收藏加密卷...</control>
     <control lang="zh-cn" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">添加已加载的加密卷为系统收藏加密卷...</control>
@@ -270,8 +270,8 @@
     <control lang="zh-cn" key="IDT_PKCS5_PRF">PKCS-5 PRF：</control>
     <control lang="zh-cn" key="IDT_PW_CACHE_OPTIONS">密码缓存</control>
     <control lang="zh-cn" key="IDT_SECURITY_OPTIONS">安全选项</control>
-    <control lang="zh-cn" key="IDT_TASKBAR_ICON">TrueCrypt 后台任务</control>
-    <control lang="zh-cn" key="IDT_TRAVELER_MOUNT">要加载的 TrueCrypt 加密卷（相对于便携磁盘的根目录）：</control>
+    <control lang="zh-cn" key="IDT_TASKBAR_ICON">VeraCrypt 后台任务</control>
+    <control lang="zh-cn" key="IDT_TRAVELER_MOUNT">要加载的 VeraCrypt 加密卷（相对于便携磁盘的根目录）：</control>
     <control lang="zh-cn" key="IDT_TRAVEL_INSERTION">在插入便携磁盘时：</control>
     <control lang="zh-cn" key="IDT_TRAVEL_ROOT">创建便携磁盘文件于（便携磁盘根目录）：</control>
     <control lang="zh-cn" key="IDT_VOLUME">加密卷</control>
@@ -306,18 +306,18 @@
     <control lang="zh-cn" key="IDC_TOKEN_FILES_ADD">添加口令牌(&amp;T)...</control>
     <control lang="zh-cn" key="IDC_USE_EMBEDDED_HEADER_BAK">使用嵌入在卷中的备份头信息（如果有可用的）(&amp;V)</control>
     <control lang="zh-cn" key="IDC_XTS_MODE_ENABLED">XTS 模式</control>
-    <control lang="zh-cn" key="IDD_ABOUT_DLG">关于 TrueCrypt</control>
-    <control lang="zh-cn" key="IDD_BENCHMARK_DLG">TrueCrypt - 加密算法基准测试</control>
-    <control lang="zh-cn" key="IDD_CIPHER_TEST_DLG">TrueCrypt - 测试向量</control>
+    <control lang="zh-cn" key="IDD_ABOUT_DLG">关于 VeraCrypt</control>
+    <control lang="zh-cn" key="IDD_BENCHMARK_DLG">VeraCrypt - 加密算法基准测试</control>
+    <control lang="zh-cn" key="IDD_CIPHER_TEST_DLG">VeraCrypt - 测试向量</control>
     <control lang="zh-cn" key="IDD_COMMANDHELP_DLG">命令行帮助</control>
-    <control lang="zh-cn" key="IDD_KEYFILES">TrueCrypt - 密钥文件</control>
-    <control lang="zh-cn" key="IDD_KEYFILE_GENERATOR">TrueCrypt - 密钥文件生成器</control>
-    <control lang="zh-cn" key="IDD_LANGUAGE">TrueCrypt - 语言</control>
-    <control lang="zh-cn" key="IDD_MOUNT_OPTIONS">TrueCrypt - 加载选项</control>
+    <control lang="zh-cn" key="IDD_KEYFILES">VeraCrypt - 密钥文件</control>
+    <control lang="zh-cn" key="IDD_KEYFILE_GENERATOR">VeraCrypt - 密钥文件生成器</control>
+    <control lang="zh-cn" key="IDD_LANGUAGE">VeraCrypt - 语言</control>
+    <control lang="zh-cn" key="IDD_MOUNT_OPTIONS">VeraCrypt - 加载选项</control>
     <control lang="zh-cn" key="IDD_NEW_TOKEN_KEYFILE">新的安全口令牌密钥文件属性</control>
-    <control lang="zh-cn" key="IDD_RANDOM_POOL_ENRICHMENT">TrueCrypt - 随机缓冲增强</control>
+    <control lang="zh-cn" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - 随机缓冲增强</control>
     <control lang="zh-cn" key="IDD_RAWDEVICES_DLG">选择一个分区或设备</control>
-    <control lang="zh-cn" key="IDD_STATIC_MODELESS_WAIT_DLG">TrueCrypt</control>
+    <control lang="zh-cn" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
     <control lang="zh-cn" key="IDD_TOKEN_KEYFILES">安全口令牌密钥文件</control>
     <control lang="zh-cn" key="IDD_TOKEN_PASSWORD">需要安全口令牌密码PIN</control>
     <control lang="zh-cn" key="IDT_ACTIVE_LANG_PACK">当前语言包</control>
@@ -359,15 +359,15 @@
     <string lang="zh-cn" key="ACCESSMODEFAIL">无法修改旧版本加密卷的只读属性。请检查文件访问权限。</string>
     <string lang="zh-cn" key="ACCESS_DENIED">错误：访问被拒绝。\n\n您试图要访问的分区要么长度为 0 的扇区，要么是启动设备。</string>
     <string lang="zh-cn" key="ADMINISTRATOR">系统管理员</string>
-    <string lang="zh-cn" key="ADMIN_PRIVILEGES_DRIVER">要加载 TrueCrypt 驱动，您必需以一个具有管理员权限的帐号登陆。</string>
+    <string lang="zh-cn" key="ADMIN_PRIVILEGES_DRIVER">要加载 VeraCrypt 驱动，您必需以一个具有管理员权限的帐号登陆。</string>
     <string lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_DEVICES">请注意：如果要加密或格式化某分区和设备您必需以一个 具有管理员权限的帐号登陆。\n\n文件类型加密卷不受这个限制。</string>
     <string lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_HIDVOL">如果要创建隐藏的加密卷，您必须以一个 具有管理员权限的帐号登陆。\n\n需要继续吗？</string>
     <string lang="zh-cn" key="ADMIN_PRIVILEGES_WARN_NTFS">请注意：如果要把加密卷格式化为 NTFS 文件系统，您必需以具有管理员权限的帐号登陆。\n\n若无管理员权限，您可以格式化加密卷为 FAT 文件系统。</string>
     <string lang="zh-cn" key="AES_HELP">FIPS-认可的加密算法（Rijndael，发表于 1998）可能被美国联邦部门和机构用来对特定信息进行顶级保护。256 位密钥、128-位块、14 次离散循环（AES-256，发表于 2001 年）。操作模式为 XTS。</string>
     <string lang="zh-cn" key="ALREADY_MOUNTED">加密卷已加载。</string>
-    <string lang="zh-cn" key="ERR_SELF_TESTS_FAILED">注意：在内置自动检测时，至少一个 加密或哈希算法已失败！\n\n此 TrueCrypt 安装文件可能已损坏。</string>
+    <string lang="zh-cn" key="ERR_SELF_TESTS_FAILED">注意：在内置自动检测时，至少一个 加密或哈希算法已失败！\n\n此 VeraCrypt 安装文件可能已损坏。</string>
     <string lang="zh-cn" key="ERR_NOT_ENOUGH_RANDOM_DATA">注意：在随机数生成器缓冲中的数据不足，无法提供要求数量的随机数据。\n\n您不应当继续进行。请从帮助菜单选择〖报告错误〗来报告此软件错误。</string>
-    <string lang="zh-cn" key="ERR_HARDWARE_ERROR">该设备已经损坏（这是物理损坏）或者线缆损坏，或者是内存出现故障。\n\n请注意这是您的硬件问题，并不是 TrueCrypt 的问题。因此，请不要把这个报告为 TrueCrypt 的错误，并且也不要在 TrueCrypt 论坛对此问题寻求帮助。请联系您的计算机供应商获取技术支持，谢谢您！\n\n注意：如果该提示反复出现在同一位置，那就很可能是磁盘坏块导致的，应该通过使用第三方软件来修复（请注意，在很多情况下，'chkdsk /r' 命令由于工作在系统层因此不能修复此问题；在某些情况中，'chkdsk' 工具甚至不能检测到此类错误。</string>
+    <string lang="zh-cn" key="ERR_HARDWARE_ERROR">该设备已经损坏（这是物理损坏）或者线缆损坏，或者是内存出现故障。\n\n请注意这是您的硬件问题，并不是 VeraCrypt 的问题。因此，请不要把这个报告为 VeraCrypt 的错误，并且也不要在 VeraCrypt 论坛对此问题寻求帮助。请联系您的计算机供应商获取技术支持，谢谢您！\n\n注意：如果该提示反复出现在同一位置，那就很可能是磁盘坏块导致的，应该通过使用第三方软件来修复（请注意，在很多情况下，'chkdsk /r' 命令由于工作在系统层因此不能修复此问题；在某些情况中，'chkdsk' 工具甚至不能检测到此类错误。</string>
     <string lang="zh-cn" key="DEVICE_NOT_READY_ERROR">如果您正在访问驱动器上的可移动介质，请确认可移动介质已经插入驱动器。也可能是驱动器/介质已损坏（物理原因），或者连接线已经损坏或断开。</string>
     <string lang="zh-cn" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">您的系统好象使用了带有不支持创建全盘加密缺陷的第三方的芯片驱动。\n\n请在继续之前尝试更新或者卸载任何第三方芯片驱动（非微软认证的驱动）。 如果仍然不起作用，请尝试只加密系统分区。</string>
     <string lang="zh-cn" key="BAD_DRIVE_LETTER">无效驱动器盘符。</string>
@@ -377,13 +377,13 @@
     <string lang="zh-cn" key="CAPSLOCK_ON">警告：Caps Lock（大小写锁定）已开启。这可能导致您输入密码错误。</string>
     <string lang="zh-cn" key="VOLUME_TYPE_TITLE">加密卷类型</string>
     <string lang="zh-cn" key="HIDDEN_VOLUME_TYPE_HELP">可能在某些情况，有些人会迫使您告诉它们加密卷密码。很多情况您可能无法拒绝这种要求（例如，存在暴力因素）。使用这种隐藏加密卷可以解决此类问题，而无须泄漏隐藏加密卷密码。</string>
-    <string lang="zh-cn" key="NORMAL_VOLUME_TYPE_HELP">选择您希望创建常规 TrueCrypt 加密卷的选项。</string>
+    <string lang="zh-cn" key="NORMAL_VOLUME_TYPE_HELP">选择您希望创建常规 VeraCrypt 加密卷的选项。</string>
     <string lang="zh-cn" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">请注意，如果您希望把操作系统安装在隐藏加密分区之中，那么整个系统驱动器不能使用独立的密钥文件加密。</string>
     <string lang="zh-cn" key="CIPHER_HIDVOL_HOST_TITLE">外层加密卷加密选项</string>
     <string lang="zh-cn" key="CIPHER_HIDVOL_TITLE">隐藏加密卷加密选项</string>
     <string lang="zh-cn" key="CIPHER_TITLE">加密选项</string>
     <string lang="zh-cn" key="CLEAN_WINMRU_FAILED">警告：清除上次选择的加密卷或密钥文件路径失败（由文件选择器记忆）！</string>
-    <string lang="zh-cn" key="COMPRESSION_NOT_SUPPORTED">错误：此加密卷在 NTFS 格式分区上压缩过。TrueCrypt 不支持压缩过的加密卷（这是因为压缩过的加密数据会低效和存在数据冗余）。\n\n请使用以下步骤取消压缩： 1）在Windows资源管理器中右键单击加密卷（不是在 TrueCrypt 窗口中）。 2）选择“属性”。 3）在“属性”对话框，单击〖高级〗。 4）在“高级属性”对话框，禁用“压缩内容以节省磁盘空间”并点击〖确定〗。 5）返回到“属性”对话框，点〖确定〗。</string>
+    <string lang="zh-cn" key="COMPRESSION_NOT_SUPPORTED">错误：此加密卷在 NTFS 格式分区上压缩过。VeraCrypt 不支持压缩过的加密卷（这是因为压缩过的加密数据会低效和存在数据冗余）。\n\n请使用以下步骤取消压缩： 1）在Windows资源管理器中右键单击加密卷（不是在 VeraCrypt 窗口中）。 2）选择“属性”。 3）在“属性”对话框，单击〖高级〗。 4）在“高级属性”对话框，禁用“压缩内容以节省磁盘空间”并点击〖确定〗。 5）返回到“属性”对话框，点〖确定〗。</string>
     <string lang="zh-cn" key="CREATE_FAILED">创建加密卷  %hs 失败</string>
     <string lang="zh-cn" key="DEVICE_FREE_BYTES">%hs 的大小为 %.2f 字节</string>
     <string lang="zh-cn" key="DEVICE_FREE_KB">%hs 的大小为 %.2f KB</string>
@@ -393,20 +393,20 @@
     <string lang="zh-cn" key="DEVICE_FREE_PB">%hs 的大小为 %.2f PB</string>
     <string lang="zh-cn" key="DEVICE_IN_USE_FORMAT">警告：设备/分区正在被系统或应用程序占用。格式化该设备/分区它可能导致数据丢失或系统不稳定。\n\n继续进行格式化吗？</string>
     <string lang="zh-cn" key="DEVICE_IN_USE_INPLACE_ENC">警告：该分区正在被操作系统或应用程序使用。您应当关闭任何可能占用此分区的程序（包括反病毒软件）。\n\n确认继续吗？</string>
-    <string lang="zh-cn" key="FORMAT_CANT_DISMOUNT_FILESYS">错误：该设备/分区包含不能被卸载的文件系统。此文件系统可能被操作系统使用。格式化此设备/分区很可能会导致数据损坏或者是系统不稳定。\n\n要解决此问题，我们推荐您首先删除该分区之后在不格式化的情况下重新创建这个分区。要达成此目的，请遵照下面步骤： 1）在“开始”菜单右键单击“计算机”（或者“我的电脑”）图标，之后选择“管理”，显示“计算机管理”窗口。 2）在“计算机管理”窗口，选择“磁盘管理”。 3）右键单击要加密的分区，您可以选择“删除分区”或者是“删除卷”，或者是“删除逻辑驱动器”。 4）如果 Windows 提示重启计算机，点〖是〗重启。之后在第 5 个步骤中重复第 1 和第 2 步。 5）右键单击未分配/自由空间并选择“新建分区”，或者“新的卷”，或者“新逻辑驱动器”。 6）在“新分区向导”或者“新建卷向导”窗口中，在带有“格式化分区”标题的对话框中，选择“不格式化此分区”或者是“不格式化此卷”。在同样的向导里面，点〖下一步〗之后点〖完成〗按钮。 7）注意：您现在在 Truecrypt 中选择的设备路径可能是错误的，因此，退出并重新启动 TrueCrypt 加密卷创建向导（如果正在运行）。 8）尝试重新加密该设备/分区。\n\n如果 TrueCrypt 仍然会加密失败，您可以考虑创建文件类型的加密卷。</string>
+    <string lang="zh-cn" key="FORMAT_CANT_DISMOUNT_FILESYS">错误：该设备/分区包含不能被卸载的文件系统。此文件系统可能被操作系统使用。格式化此设备/分区很可能会导致数据损坏或者是系统不稳定。\n\n要解决此问题，我们推荐您首先删除该分区之后在不格式化的情况下重新创建这个分区。要达成此目的，请遵照下面步骤： 1）在“开始”菜单右键单击“计算机”（或者“我的电脑”）图标，之后选择“管理”，显示“计算机管理”窗口。 2）在“计算机管理”窗口，选择“磁盘管理”。 3）右键单击要加密的分区，您可以选择“删除分区”或者是“删除卷”，或者是“删除逻辑驱动器”。 4）如果 Windows 提示重启计算机，点〖是〗重启。之后在第 5 个步骤中重复第 1 和第 2 步。 5）右键单击未分配/自由空间并选择“新建分区”，或者“新的卷”，或者“新逻辑驱动器”。 6）在“新分区向导”或者“新建卷向导”窗口中，在带有“格式化分区”标题的对话框中，选择“不格式化此分区”或者是“不格式化此卷”。在同样的向导里面，点〖下一步〗之后点〖完成〗按钮。 7）注意：您现在在 Truecrypt 中选择的设备路径可能是错误的，因此，退出并重新启动 VeraCrypt 加密卷创建向导（如果正在运行）。 8）尝试重新加密该设备/分区。\n\n如果 VeraCrypt 仍然会加密失败，您可以考虑创建文件类型的加密卷。</string>
     <string lang="zh-cn" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">错误：此文件系统不能被锁定 和/或 卸载。可能正在被操作系统或应用程序占用（例如反病毒软件）。加密此分区可能会导致数据损坏或者系统不稳定。\n\n请关闭任何可能占用此分区的程序（包括反病毒软件）并再试一次。如果仍然无效请参考下面步骤。</string>
     <string lang="zh-cn" key="DEVICE_IN_USE_INFO">警告：一些加载的设备/分区正在使用中！\n\n若忽略这些则可能导致非期望的结果，包括系统不稳定。\n\n我们强烈建议您关闭所有可能正在使用 此设备/分区的应用程序。</string>
-    <string lang="zh-cn" key="DEVICE_PARTITIONS_ERR">选定的设备包含分区。\n\n格式化该设备可能会导致系统不稳定或数据丢失。您可以选择该设备的某个分区，或者删除该设备的所有分区，以保证 TrueCrypt 对其安全格式化。</string>
-    <string lang="zh-cn" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">选择的非系统设备包含多个分区。\n\n设备类加密卷也可以在不包含任何分区的设备中创建（包括硬盘以及固态硬盘设备）。对于包含多个分区的设备，只有在此驱动器作为 Windows 安装和启动分区时，才可以就地整盘加密（使用单一主密钥）。\n\n如果您想使用单一主密钥加密选择的非系统设备，您需要首先移除所有分区以便 TrueCrypt 对其安全格式化（格式化包含多个分区的设备可能会导致系统不稳定 和/或 数据损坏。作为替代方法，您也可以单独加密驱动器上的每个分区（每个分区将使用不同的主密钥）。\n\n注意：如果您想从 GPT 磁盘中移除所有分区，您可能需要把它转换为 MBR 磁盘（使用诸如计算机管理工具）以便移除隐藏分区。</string>
+    <string lang="zh-cn" key="DEVICE_PARTITIONS_ERR">选定的设备包含分区。\n\n格式化该设备可能会导致系统不稳定或数据丢失。您可以选择该设备的某个分区，或者删除该设备的所有分区，以保证 VeraCrypt 对其安全格式化。</string>
+    <string lang="zh-cn" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">选择的非系统设备包含多个分区。\n\n设备类加密卷也可以在不包含任何分区的设备中创建（包括硬盘以及固态硬盘设备）。对于包含多个分区的设备，只有在此驱动器作为 Windows 安装和启动分区时，才可以就地整盘加密（使用单一主密钥）。\n\n如果您想使用单一主密钥加密选择的非系统设备，您需要首先移除所有分区以便 VeraCrypt 对其安全格式化（格式化包含多个分区的设备可能会导致系统不稳定 和/或 数据损坏。作为替代方法，您也可以单独加密驱动器上的每个分区（每个分区将使用不同的主密钥）。\n\n注意：如果您想从 GPT 磁盘中移除所有分区，您可能需要把它转换为 MBR 磁盘（使用诸如计算机管理工具）以便移除隐藏分区。</string>
     <string lang="zh-cn" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">警告：如果您加密了整个设备（而不只是该设备上的一个分区），操作系统将会认为这个设备是全新未格式化的（因为它没有分区表），因此可能随后会初始化这个设备（或者询问您是否初始化），这可能会损坏加密卷。另外，也不能一如既往的将此加密卷加载为收藏加密卷（例如，当驱动器数目变化时），也不能为其赋予收藏加密卷卷标。\n\n要避免此类情况出现，您可以考虑在此设备上创建一个分区并加密此分区。\n\n您确认要加密整个设备吗？</string>
-    <string lang="zh-cn" key="AFTER_FORMAT_DRIVE_LETTER_WARN">重要：请牢记，此加密卷不能使用当前赋给它的驱动器盘符 %c: 加载/访问，这个盘符已经赋给了该加密卷所在分区！\n\n要加载此加密卷，点击 TrueCrypt 主窗口的〖自动加载设备〗（也可以这样，在 TrueCrypt 主窗口，点击〖选择设备〗，之后选择该分区/驱动器，然后点〖加载〗按钮）。这个加密卷便会以其它盘符加载（此盘符可在 TrueCrypt 主窗口的盘符列表中选择）。\n\n原始的驱动盘符 %c: 仅应当在您需要移除对该分区/驱动器的加密时使用（例如：如果您不再需要加密）。在这种情况下，右键单击“我的电脑”（或者“资源管理器”）中的驱动器盘符 %c: 并选择〖格式化〗。否则该驱动器盘符 %c: 应当一直都不要使用（除非您移除它并把它指定给其它分区/驱动器）。</string>
+    <string lang="zh-cn" key="AFTER_FORMAT_DRIVE_LETTER_WARN">重要：请牢记，此加密卷不能使用当前赋给它的驱动器盘符 %c: 加载/访问，这个盘符已经赋给了该加密卷所在分区！\n\n要加载此加密卷，点击 VeraCrypt 主窗口的〖自动加载设备〗（也可以这样，在 VeraCrypt 主窗口，点击〖选择设备〗，之后选择该分区/驱动器，然后点〖加载〗按钮）。这个加密卷便会以其它盘符加载（此盘符可在 VeraCrypt 主窗口的盘符列表中选择）。\n\n原始的驱动盘符 %c: 仅应当在您需要移除对该分区/驱动器的加密时使用（例如：如果您不再需要加密）。在这种情况下，右键单击“我的电脑”（或者“资源管理器”）中的驱动器盘符 %c: 并选择〖格式化〗。否则该驱动器盘符 %c: 应当一直都不要使用（除非您移除它并把它指定给其它分区/驱动器）。</string>
     <string lang="zh-cn" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">您的操作系统不支持就地加密非系统卷（仅在 Windows Vista 和以后版本中支持）。\n\n原因是当前操作系统不支持文件系统压缩（需要压缩文件系统以便为加密卷头信息以及备份头信息获取空间）。</string>
     <string lang="zh-cn" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">所选的分区看起来不包含 NTFS 文件系统。仅在 NTFS 文件系统下才支持就地加密。\n\n说明：当前操作系统不支持文件系统压缩（需要压缩文件系统以便为加密卷头信息以及备份头信息获取空间）。</string>
-    <string lang="zh-cn" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">选择的分区看起来不包含 NTFS 文件系统。仅在 NTFS 文件系统下才支持就地加密。\n\n如果您想在此分区内创建 TrueCrypt 加密卷，请选择“创建加密卷并格式化”（而不是选择“就地加密分区”）.</string>
-    <string lang="zh-cn" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">错误：分区太小，TrueCrypt 不能实现就地加密。</string>
-    <string lang="zh-cn" key="INPLACE_ENC_ALTERNATIVE_STEPS">要加密此分区的数据，请遵循以下步骤：\n\n1）在一个空的 分区/设备 上创建一个 TrueCrypt 加密卷之后加载此加密卷。\n\n2）复制待加密分区中的所有数据到这个已经加载的 TrueCrypt 加密卷（该加密卷已经在步骤 1) 中创建）。这种方式下，您就创建了一个被 TrueCrypt 加密了的数据备份。\n\n3）在要加密的分区上创建一个 TrueCrypt 加密卷并确认您在向导中选择了“创建加密卷并格式化”（而不是选择“就地加密分区”）。注意，所有存储于该分区的数据都会被擦除。加密卷创建之后，加载这个加密卷。\n\n4）复制备份加密卷（在步骤 1)  中创建的）中的所有文件到这个新创建的加密卷中（在步骤 3) 中创建和加载的）。\n\n完成以上步骤之后，数据将会被加密，并且也会额外的备份了数据的加密副本。</string>
-    <string lang="zh-cn" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">TrueCrypt 只能就地加密分区、动态卷，或者整个系统启动器。\n\n如果您想在选择的非系统设备中创建加密卷，请选择选项“创建加密卷并格式化”（而不是选择选项“就地加密分区”）。</string>
-    <string lang="zh-cn" key="INPLACE_ENC_INVALID_PATH">错误：TrueCrypt 只能就地加密分区、动态卷，或者整个系统启动器。请确认指定的路径有效。</string>
+    <string lang="zh-cn" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">选择的分区看起来不包含 NTFS 文件系统。仅在 NTFS 文件系统下才支持就地加密。\n\n如果您想在此分区内创建 VeraCrypt 加密卷，请选择“创建加密卷并格式化”（而不是选择“就地加密分区”）.</string>
+    <string lang="zh-cn" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">错误：分区太小，VeraCrypt 不能实现就地加密。</string>
+    <string lang="zh-cn" key="INPLACE_ENC_ALTERNATIVE_STEPS">要加密此分区的数据，请遵循以下步骤：\n\n1）在一个空的 分区/设备 上创建一个 VeraCrypt 加密卷之后加载此加密卷。\n\n2）复制待加密分区中的所有数据到这个已经加载的 VeraCrypt 加密卷（该加密卷已经在步骤 1) 中创建）。这种方式下，您就创建了一个被 VeraCrypt 加密了的数据备份。\n\n3）在要加密的分区上创建一个 VeraCrypt 加密卷并确认您在向导中选择了“创建加密卷并格式化”（而不是选择“就地加密分区”）。注意，所有存储于该分区的数据都会被擦除。加密卷创建之后，加载这个加密卷。\n\n4）复制备份加密卷（在步骤 1)  中创建的）中的所有文件到这个新创建的加密卷中（在步骤 3) 中创建和加载的）。\n\n完成以上步骤之后，数据将会被加密，并且也会额外的备份了数据的加密副本。</string>
+    <string lang="zh-cn" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">VeraCrypt 只能就地加密分区、动态卷，或者整个系统启动器。\n\n如果您想在选择的非系统设备中创建加密卷，请选择选项“创建加密卷并格式化”（而不是选择选项“就地加密分区”）。</string>
+    <string lang="zh-cn" key="INPLACE_ENC_INVALID_PATH">错误：VeraCrypt 只能就地加密分区、动态卷，或者整个系统启动器。请确认指定的路径有效。</string>
     <string lang="zh-cn" key="CANNOT_RESIZE_FILESYS">错误：不能压缩文件系统（需要压缩文件系统以便为加密卷头信息以及备份头信息获取空间）。\n\n可能原因及解决：\n\n- 该卷上无足够的剩余空间。请确认没有其它程序正在写入此文件系统。\n\n- 损坏的文件系统。尝试检查和修复错误（在“我的电脑”里右键单击相应的驱动器盘符，之后选择 属性 -&gt; 工具 -&gt;“开始检查”，确认已经选择了选项“自动修复文件系统错误”，之后单击〖开始〗按钮）。\n\n如果以上方法都不起作用，请遵循以下步骤。</string>
     <string lang="zh-cn" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">错误：剩余空间不足，因此文件系统不能被压缩（需要压缩文件系统以便为加密卷头信息以及备份头信息获取空间）。\n\n请删除任何多余文件并清空回收站以便释放 256KB 的空间之后再尝试。注意由于 Windows 的问题，Windows 资源管理器报告的自由空间数量在操作系统重新启动前可能是不正确的。如果重启系统后并无帮助，文件系统可能已经损坏了。尝试检查和修复错误（在“我的电脑”里右键单击相应的驱动器盘符，之后选择 属性 -&gt; 工具 -&gt; “开始检查”，确认已经选择了选项“自动修复文件系统错误”，之后单击〖开始〗按钮）。\n\n如果以上方法都不起作用，请遵循以下步骤。</string>
     <string lang="zh-cn" key="DISK_FREE_BYTES">驱动器 %hs 上的自由空间为 %.2f 字节。</string>
@@ -416,22 +416,22 @@
     <string lang="zh-cn" key="DISK_FREE_TB">驱动器 %hs 的自由空间大小为 %.2f TB</string>
     <string lang="zh-cn" key="DISK_FREE_PB">驱动器 %hs 的自由空间大小为 %.2f PB</string>
     <string lang="zh-cn" key="DRIVELETTERS">无法得到可用的驱动器盘符。</string>
-    <string lang="zh-cn" key="DRIVER_NOT_FOUND">错误：未发现 TrueCrypt 驱动程序！\n\n请复制“truecrypt.sys”和“truecrypt-x64.sys”文件到 TrueCrypt.exe 程序所在的目录。</string>
-    <string lang="zh-cn" key="DRIVER_VERSION">错误：正在运行不兼容版本的 TrueCrypt 设备驱动。\n\n如果您想在便携模式下运行 TrueCrypt（即不安装它）但是却安装了不同版本的 TrueCrypt，您必须先卸载已安装版本（或使用 TrueCrypt 安装程序升级）。要卸载 TrueCrypt，请按如下步骤进行：在 Windows Vista 或其后版本中，选择〖开始〗菜单 -&gt; 计算机 -&gt;〖卸载或更改程序〗-&gt; TrueCrypt -&gt; 卸载；在 Windows XP 中，选择〖开始〗菜单 -&gt; 〖设置〗 -&gt; 〖控制面板〗 -&gt; 〖添加或删除程序〗 -&gt; TrueCrypt -&gt; 删除\n\n与此相似，如果您尝试以便携版运行 TrueCrypt 但是却已经运行了其它版本的便携 TrueCrypt，您必须重启电脑之后再运行新的版本。</string>
+    <string lang="zh-cn" key="DRIVER_NOT_FOUND">错误：未发现 VeraCrypt 驱动程序！\n\n请复制“veracrypt.sys”和“veracrypt-x64.sys”文件到 VeraCrypt.exe 程序所在的目录。</string>
+    <string lang="zh-cn" key="DRIVER_VERSION">错误：正在运行不兼容版本的 VeraCrypt 设备驱动。\n\n如果您想在便携模式下运行 VeraCrypt（即不安装它）但是却安装了不同版本的 VeraCrypt，您必须先卸载已安装版本（或使用 VeraCrypt 安装程序升级）。要卸载 VeraCrypt，请按如下步骤进行：在 Windows Vista 或其后版本中，选择〖开始〗菜单 -&gt; 计算机 -&gt;〖卸载或更改程序〗-&gt; VeraCrypt -&gt; 卸载；在 Windows XP 中，选择〖开始〗菜单 -&gt; 〖设置〗 -&gt; 〖控制面板〗 -&gt; 〖添加或删除程序〗 -&gt; VeraCrypt -&gt; 删除\n\n与此相似，如果您尝试以便携版运行 VeraCrypt 但是却已经运行了其它版本的便携 VeraCrypt，您必须重启电脑之后再运行新的版本。</string>
     <string lang="zh-cn" key="ERR_CIPHER_INIT_FAILURE">错误：密码初始化失败。</string>
     <string lang="zh-cn" key="ERR_CIPHER_INIT_WEAK_KEY">错误：检测到弱强度密钥！ 密钥将被废弃。请重试。</string>
-    <string lang="zh-cn" key="EXCEPTION_REPORT">发生了关键性错误，TrueCrypt 必须被终止。如果该错误是 TrueCrypt 的缺陷导致的，我们可能会修正它。要协助我们完善软件，您可以把 Truecrypt 自动生成的错误报告发送给我们，报告包括下面内容：\n\n- 程序版本\n- 操作系统版本\n- CPU类型\n- TrueCrypt 组件名称\n- TrueCrypt 执行程序的校验值\n- 对话框窗口的符号标记\n- 错误分类\n- 错误地址信息\n- TrueCrypt 调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在默认浏览器中打开。\n\n%hs\n\n您希望发送给我们上述错误报告吗？</string>
-    <string lang="zh-cn" key="EXCEPTION_REPORT_EXT">您的系统发生了关键性错误，该错误会终止 TrueCrypt。\n\n需要注意的是此错误并非由 TrueCrypt 导致（因此 TrueCrypt 开发者并不会修复这个错误）。请检查您的系统查找可能的原因（例如：系统配置、网络连接、失效的硬件组件等）。</string>
-    <string lang="zh-cn" key="EXCEPTION_REPORT_EXT_FILESEL">系统遇到关键性错误，需要终止 TrueCrypt。\n\n如果此错误仍然存在，您可能需要尝试禁用或卸载可能导致此问题的应用程序，例如防病毒或防火墙软件，系统性能提升、优化或系统设置软件等等。如果仍然无法解决问题，您可能需要尝试从新安装您的操作系统（此问题也可能由恶意软件导致）。</string>
-    <string lang="zh-cn" key="EXCEPTION_REPORT_TITLE">TrueCrypt 关键性错误</string>
-    <string lang="zh-cn" key="SYSTEM_CRASHED_ASK_REPORT">TrueCrypt 检测到操作系统最近曾经崩溃过。有多种原因可能导致系统崩溃（例如，硬件故障、设备驱动存在BUG等等）\n\n您想要 TrueCrypt 检查此次系统崩溃是否为 TrueCrypt 自身导致的吗？</string>
-    <string lang="zh-cn" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">您想要 TrueCrypt 继续检查此次系统崩溃吗？</string>
-    <string lang="zh-cn" key="NO_MINIDUMP_FOUND">TrueCrypt 未发现系统崩溃转储文件。</string>
+    <string lang="zh-cn" key="EXCEPTION_REPORT">发生了关键性错误，VeraCrypt 必须被终止。如果该错误是 VeraCrypt 的缺陷导致的，我们可能会修正它。要协助我们完善软件，您可以把 Truecrypt 自动生成的错误报告发送给我们，报告包括下面内容：\n\n- 程序版本\n- 操作系统版本\n- CPU类型\n- VeraCrypt 组件名称\n- VeraCrypt 执行程序的校验值\n- 对话框窗口的符号标记\n- 错误分类\n- 错误地址信息\n- VeraCrypt 调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在默认浏览器中打开。\n\n%hs\n\n您希望发送给我们上述错误报告吗？</string>
+    <string lang="zh-cn" key="EXCEPTION_REPORT_EXT">您的系统发生了关键性错误，该错误会终止 VeraCrypt。\n\n需要注意的是此错误并非由 VeraCrypt 导致（因此 VeraCrypt 开发者并不会修复这个错误）。请检查您的系统查找可能的原因（例如：系统配置、网络连接、失效的硬件组件等）。</string>
+    <string lang="zh-cn" key="EXCEPTION_REPORT_EXT_FILESEL">系统遇到关键性错误，需要终止 VeraCrypt。\n\n如果此错误仍然存在，您可能需要尝试禁用或卸载可能导致此问题的应用程序，例如防病毒或防火墙软件，系统性能提升、优化或系统设置软件等等。如果仍然无法解决问题，您可能需要尝试从新安装您的操作系统（此问题也可能由恶意软件导致）。</string>
+    <string lang="zh-cn" key="EXCEPTION_REPORT_TITLE">VeraCrypt 关键性错误</string>
+    <string lang="zh-cn" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt 检测到操作系统最近曾经崩溃过。有多种原因可能导致系统崩溃（例如，硬件故障、设备驱动存在BUG等等）\n\n您想要 VeraCrypt 检查此次系统崩溃是否为 VeraCrypt 自身导致的吗？</string>
+    <string lang="zh-cn" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">您想要 VeraCrypt 继续检查此次系统崩溃吗？</string>
+    <string lang="zh-cn" key="NO_MINIDUMP_FOUND">VeraCrypt 未发现系统崩溃转储文件。</string>
     <string lang="zh-cn" key="ASK_DELETE_KERNEL_CRASH_DUMP">您想要删除系统崩溃转储文件以便释放磁盘空间吗？</string>
-    <string lang="zh-cn" key="ASK_DEBUGGER_INSTALL">为了分析系统崩溃原因，TrueCrypt 需要先安装微软调试工具。\n\n在您点击〖确定〗按钮之后，TrueCrpyt 将会从微软服务器下载微软调试工具安装程序（16MB）并随后安装它(先访问 TrueCrypt 网站再访问微软)，这样即使微软改变了安装包的地址，此功能依然有效)。</string>
-    <string lang="zh-cn" key="SYSTEM_CRASH_ANALYSIS_INFO">点击〖确定〗按钮之后，TrueCrypt 将会分析系统崩溃原因，这可能需要几分钟时间。</string>
+    <string lang="zh-cn" key="ASK_DEBUGGER_INSTALL">为了分析系统崩溃原因，VeraCrypt 需要先安装微软调试工具。\n\n在您点击〖确定〗按钮之后，TrueCrpyt 将会从微软服务器下载微软调试工具安装程序（16MB）并随后安装它(先访问 VeraCrypt 网站再访问微软)，这样即使微软改变了安装包的地址，此功能依然有效)。</string>
+    <string lang="zh-cn" key="SYSTEM_CRASH_ANALYSIS_INFO">点击〖确定〗按钮之后，VeraCrypt 将会分析系统崩溃原因，这可能需要几分钟时间。</string>
     <string lang="zh-cn" key="DEBUGGER_NOT_FOUND">请确认环境变量“PATH”包含“kd.exe”（内核调试器）的路径。</string>
-    <string lang="zh-cn" key="SYSTEM_CRASH_NO_TRUECRYPT">看起来TrueCrypt并未导致系统崩溃。系统崩溃是其它原因导致的（例如，硬件故障，设备驱动BUG等等）</string>
+    <string lang="zh-cn" key="SYSTEM_CRASH_NO_TRUECRYPT">看起来VeraCrypt并未导致系统崩溃。系统崩溃是其它原因导致的（例如，硬件故障，设备驱动BUG等等）</string>
     <string lang="zh-cn" key="SYSTEM_CRASH_UPDATE_DRIVER">分析结果表明更新以下驱动可能会解决问题：</string>
     <string lang="zh-cn" key="SYSTEM_CRASH_REPORT">要协助我们确认这是否为 Truecrypt 的错误，您可以向我们提交软件自动生成的错误报告，错误报告包括下面内容：\n- 程序版本\n- 操作系统版本\n- CPU类型\n- 错误类型\n- 驱动名称和版本\n- 系统调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在您的默认浏览器中打开。</string>
     <string lang="zh-cn" key="ASK_SEND_ERROR_REPORT">您希望向我们提交此错误报告吗？</string>
@@ -440,19 +440,19 @@
     <string lang="zh-cn" key="PERMANENTLY_DECRYPT">&amp;永久解密</string>
     <string lang="zh-cn" key="EXIT">退出</string>
     <string lang="zh-cn" key="EXT_PARTITION">请为该扩展分区创建一个逻辑分区，然后重试。</string>
-    <string lang="zh-cn" key="FILE_HELP">TrueCrypt 加密卷可以存在于一个文件之中（叫作 TrueCrypt 容器），这个容器文件可以存在于硬盘上，或位于 USB 闪存上，等等。TrueCrypt 加密盘就象一个普通文件（例如，可以象任何普通文件一样被移动、复制、删除）。点击〖选择文件〗按钮为容器文件选择一个文件名和它的保存位置。\n\n警告：如果选择了一个已经存在的文件，TrueCrypt 并不会加密它，该文件将会被删除并会被新创建的 TrueCrypt 容器文件所覆盖。您可以通过把文件复制到即将创建的 TrueCrypt 加密容器里面去，来实现对相应文件的加密。</string>
-    <string lang="zh-cn" key="FILE_HELP_HIDDEN_HOST_VOL">选择要创建的外层加密卷的位置（稍后将在此加密卷里面创建隐藏加密卷）。\n\n一个 TrueCrypt 加密卷可以存在于一个文件之中（也可叫作 TrueCrypt 容器），这个加密盘文件可以存放在硬盘上，或位于 USB 闪存上，等等。TrueCrypt 容器可以象任何普通文件一样被移动、复制、和删除。点击〖选择文件〗按钮为容器文件选择一个文件名和它的保存位置。如果您择了一个已经存在的文件，TrueCrypt 并不会加密它，该文件将会被删除并会被新创建的 TrueCrypt 加密容器所覆盖。您可以通过把文件复制到即将创建的 TrueCrypt 加密容器里面去，来实现对相应文件的加密。</string>
-    <string lang="zh-cn" key="DEVICE_HELP">设备类 TrueCrypt 加密卷可以创建于硬盘分区、固态硬盘、USB 闪存、以及其它存储设备上。分区也可以就地加密。\n\n除此之外，设备类加密卷也可以在不包含任何分区的设备中创建（包括硬盘以及固态设备）。\n\n注意：包含多个分区的设备，只有在此分区为 Windows 安装和启动分区时，才可以就地整盘加密（使用单一密钥）。\n\n警告：如果您加密整个分区或设备，所有当前存储于这个分区或设备上的数据将会被彻底擦除（仅在加密系统启动分区/驱动器时该分区上的数据才不会被破坏）。</string>
-    <string lang="zh-cn" key="DEVICE_HELP_NO_INPLACE">设备类的 TrueCrypt 加密卷可以在硬盘分区、固态驱动器、USB 闪存，以及其它存储设备中创建。\n\n警告：分区/设备 将会被格式化并且存储在其上的所有数据都将会丢失。</string>
-    <string lang="zh-cn" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n选择 TrueCrypt 外层加密卷的位置（您想要在这个加密卷里创建隐藏加密卷）。\n\n外层加密卷可以创建于硬盘分区、固态硬盘、USB 闪存、以及其它存储设备上。外层加密卷也可以在不包含任何分区的设备中创建（包括硬盘以及固态设备）。\n\n警告：该分区/设备将被格式化，所有当前存储于这个分区或设备上的数据将会丢失。</string>
-    <string lang="zh-cn" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">选择 TrueCrypt 外层加密卷的位置（您想要在这个加密卷里创建隐藏加密卷）。</string>
+    <string lang="zh-cn" key="FILE_HELP">VeraCrypt 加密卷可以存在于一个文件之中（叫作 VeraCrypt 容器），这个容器文件可以存在于硬盘上，或位于 USB 闪存上，等等。VeraCrypt 加密盘就象一个普通文件（例如，可以象任何普通文件一样被移动、复制、删除）。点击〖选择文件〗按钮为容器文件选择一个文件名和它的保存位置。\n\n警告：如果选择了一个已经存在的文件，VeraCrypt 并不会加密它，该文件将会被删除并会被新创建的 VeraCrypt 容器文件所覆盖。您可以通过把文件复制到即将创建的 VeraCrypt 加密容器里面去，来实现对相应文件的加密。</string>
+    <string lang="zh-cn" key="FILE_HELP_HIDDEN_HOST_VOL">选择要创建的外层加密卷的位置（稍后将在此加密卷里面创建隐藏加密卷）。\n\n一个 VeraCrypt 加密卷可以存在于一个文件之中（也可叫作 VeraCrypt 容器），这个加密盘文件可以存放在硬盘上，或位于 USB 闪存上，等等。VeraCrypt 容器可以象任何普通文件一样被移动、复制、和删除。点击〖选择文件〗按钮为容器文件选择一个文件名和它的保存位置。如果您择了一个已经存在的文件，VeraCrypt 并不会加密它，该文件将会被删除并会被新创建的 VeraCrypt 加密容器所覆盖。您可以通过把文件复制到即将创建的 VeraCrypt 加密容器里面去，来实现对相应文件的加密。</string>
+    <string lang="zh-cn" key="DEVICE_HELP">设备类 VeraCrypt 加密卷可以创建于硬盘分区、固态硬盘、USB 闪存、以及其它存储设备上。分区也可以就地加密。\n\n除此之外，设备类加密卷也可以在不包含任何分区的设备中创建（包括硬盘以及固态设备）。\n\n注意：包含多个分区的设备，只有在此分区为 Windows 安装和启动分区时，才可以就地整盘加密（使用单一密钥）。\n\n警告：如果您加密整个分区或设备，所有当前存储于这个分区或设备上的数据将会被彻底擦除（仅在加密系统启动分区/驱动器时该分区上的数据才不会被破坏）。</string>
+    <string lang="zh-cn" key="DEVICE_HELP_NO_INPLACE">设备类的 VeraCrypt 加密卷可以在硬盘分区、固态驱动器、USB 闪存，以及其它存储设备中创建。\n\n警告：分区/设备 将会被格式化并且存储在其上的所有数据都将会丢失。</string>
+    <string lang="zh-cn" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n选择 VeraCrypt 外层加密卷的位置（您想要在这个加密卷里创建隐藏加密卷）。\n\n外层加密卷可以创建于硬盘分区、固态硬盘、USB 闪存、以及其它存储设备上。外层加密卷也可以在不包含任何分区的设备中创建（包括硬盘以及固态设备）。\n\n警告：该分区/设备将被格式化，所有当前存储于这个分区或设备上的数据将会丢失。</string>
+    <string lang="zh-cn" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">选择 VeraCrypt 外层加密卷的位置（您想要在这个加密卷里创建隐藏加密卷）。</string>
     <string lang="zh-cn" key="FILE_IN_USE">警告：外层加密卷或设备正在使用中！\n\n忽略这些可能会导致非期望的错误，包括系统不稳定。 您在加载加密卷前应当关闭所有可能使用该外层加密卷或设备的应用程序（例如杀毒软件或备份程序）。\n\n继续加载吗？</string>
     <string lang="zh-cn" key="FILE_IN_USE_FAILED">错误：无法加载加密卷。外层加密卷或设备正在使用中。不使用独占权限的加载尝试也同样会失败。</string>
     <string lang="zh-cn" key="FILE_OPEN_FAILED">文件不能被打开。</string>
     <string lang="zh-cn" key="FILE_TITLE">加密卷位置</string>
     <string lang="zh-cn" key="FILESYS_PAGE_TITLE">大文件</string>
-    <string lang="zh-cn" key="FILESYS_PAGE_HELP_QUESTION">您想要在此 TrueCrypt 加密卷中存储大于 4 GB 的文件吗？</string>
-    <string lang="zh-cn" key="FILESYS_PAGE_HELP_EXPLANATION">根据您在前面的选择，TrueCrypt 将为加密卷选择一个合适的文件系统格式（您可以在下一步选择文件系统类型）。</string>
+    <string lang="zh-cn" key="FILESYS_PAGE_HELP_QUESTION">您想要在此 VeraCrypt 加密卷中存储大于 4 GB 的文件吗？</string>
+    <string lang="zh-cn" key="FILESYS_PAGE_HELP_EXPLANATION">根据您在前面的选择，VeraCrypt 将为加密卷选择一个合适的文件系统格式（您可以在下一步选择文件系统类型）。</string>
     <string lang="zh-cn" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">当您创建外层加密卷的时候，您应当考虑选择〖否〗。如果选择〖是〗，默认的文件系统将会是 NTFS，NTFS 不如 FAT 文件系统那样适合于创建外层加密卷（例如，如果外层加密卷为 FAT 格式，可以创建的隐藏加密卷的最大容量比NTFS外层加密卷那个创建的隐藏加密卷要大很多）。通常情况下，FAT 格式为隐藏加密卷和常规加密卷的默认格式（因此创建 FAT 加密卷并无太多疑虑）。然而，如果用户计划在加密卷中存储大于 4 GB 的文件（FAT文件系统不支持），那么 FAT 系统则不是默认的格式。</string>
     <string lang="zh-cn" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">您确认要选择〖是〗吗？</string>
     <string lang="zh-cn" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">加密卷创建模式</string>
@@ -471,52 +471,52 @@
     <string lang="zh-cn" key="WIPE_FINISHED">已成功擦除 设备/分区 的内容。</string>
     <string lang="zh-cn" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">已经成功擦除原始操作系统（隐形操作系统克隆时的系统来源）分区的内容。</string>
     <string lang="zh-cn" key="DECOY_OS_VERSION_WARNING">请确认您将要安装的 Windows 版本（位于已擦除分区）与您正在运行的 Windows 版本相同。这是必须的，这是因为两个系统会使用同一公用启动分区。</string>
-    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_FINISHED">该系统分区/驱动器已成功加密。\n\n注意：如果您需要在 TrueCrypt 加密系统启动时自动加载非系统加密卷，您可以加载它们并随后设置其为系统收藏加密卷，步骤：选择〖收藏〗 -&gt; 〖添加已加载的加密卷为系统收藏加密卷〗。</string>
+    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_FINISHED">该系统分区/驱动器已成功加密。\n\n注意：如果您需要在 VeraCrypt 加密系统启动时自动加载非系统加密卷，您可以加载它们并随后设置其为系统收藏加密卷，步骤：选择〖收藏〗 -&gt; 〖添加已加载的加密卷为系统收藏加密卷〗。</string>
     <string lang="zh-cn" key="SYSTEM_DECRYPTION_FINISHED">该系统分区/驱动器已经被成功解密。</string>
-    <string lang="zh-cn" key="FORMAT_FINISHED_HELP">\n\n已成功创建 TrueCrypt 加密卷并准备就绪。要创建另外的 TrueCrypt 加密卷，请单击〖下一步〗，否则请单击〖退出〗按钮。</string>
-    <string lang="zh-cn" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n隐藏的 TrueCrypt 加密卷已成功创建（隐形操作系统将包含在这个隐藏加密卷之内）。\n\n单击〖下一步〗按钮继续。</string>
+    <string lang="zh-cn" key="FORMAT_FINISHED_HELP">\n\n已成功创建 VeraCrypt 加密卷并准备就绪。要创建另外的 VeraCrypt 加密卷，请单击〖下一步〗，否则请单击〖退出〗按钮。</string>
+    <string lang="zh-cn" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n隐藏的 VeraCrypt 加密卷已成功创建（隐形操作系统将包含在这个隐藏加密卷之内）。\n\n单击〖下一步〗按钮继续。</string>
     <string lang="zh-cn" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">已成功加密该卷</string>
-    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_FINISHED_INFO">重要：要加载这个新建的 TRUECRYPT 加密卷和访问存储于其中的数据，在 TRUECRYPT 窗口中点击〖自动加载设备〗。在您输入正确密码之后（和/或 提供正确的密钥文件），加密卷将会以您在 TRUECRYPT 列表中选择的盘符加载（您也将能够以该盘符访问加密数据）。\n\n【请记住或写下上述步骤】。您在希望加载这个加密卷和访问其中的数据时必须遵循上述步骤。另外一种方式是在 TrueCrypt 主窗口，点击〖选择设备〗，之后选择此 分区/设备，之后点〖加载〗。\n\n此分区/设备 已成功加密（选择包含完全加密的 TrueCrypt 加密卷）并为使用准备就绪。</string>
-    <string lang="zh-cn" key="FORMAT_FINISHED_INFO">TrueCrypt 加密卷已成功创建。</string>
+    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_FINISHED_INFO">重要：要加载这个新建的 TRUECRYPT 加密卷和访问存储于其中的数据，在 TRUECRYPT 窗口中点击〖自动加载设备〗。在您输入正确密码之后（和/或 提供正确的密钥文件），加密卷将会以您在 TRUECRYPT 列表中选择的盘符加载（您也将能够以该盘符访问加密数据）。\n\n【请记住或写下上述步骤】。您在希望加载这个加密卷和访问其中的数据时必须遵循上述步骤。另外一种方式是在 VeraCrypt 主窗口，点击〖选择设备〗，之后选择此 分区/设备，之后点〖加载〗。\n\n此分区/设备 已成功加密（选择包含完全加密的 VeraCrypt 加密卷）并为使用准备就绪。</string>
+    <string lang="zh-cn" key="FORMAT_FINISHED_INFO">VeraCrypt 加密卷已成功创建。</string>
     <string lang="zh-cn" key="FORMAT_FINISHED_TITLE">加密卷已创建</string>
     <string lang="zh-cn" key="FORMAT_HELP">重要：请在此窗口内随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。之后点击〖格式化〗按钮创建加密卷。</string>
     <string lang="zh-cn" key="FORMAT_HIDVOL_HOST_HELP">点击〖格式化〗按钮创建外层的加密卷。如若获得更多信息，请参考软件文档。</string>
     <string lang="zh-cn" key="FORMAT_HIDVOL_HOST_TITLE">外层加密卷格式化</string>
     <string lang="zh-cn" key="FORMAT_HIDVOL_TITLE">隐藏加密卷格式化</string>
     <string lang="zh-cn" key="FORMAT_TITLE">加密卷格式化</string>
-    <string lang="zh-cn" key="HELP_READER_ERROR">如要显示或打印 TrueCrypt 用户指南需要使用 Adobe Acrobat Reader（或与其兼容的工具）。\n\nAdobe Reader（免费软件）下载地址： www.adobe.com\n\n您要在线查看这个文档吗（联网）？</string>
-    <string lang="zh-cn" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">如果选择此选项，向导将会首先帮助您创建一个普通的 TrueCrypt 加密卷，随后会继续在这个普通的加密卷里面创建一个隐藏的 TrueCrypt 加密卷。非熟练用户应当选择这个选项来创建隐藏加密卷。</string>
-    <string lang="zh-cn" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">如果选择此选项，您将会在已有的 TrueCrypt 加密卷内创建一个隐藏的 TrueCrypt 加密卷。这里假设您已经创建好了适合于创建隐藏 TrueCrypt 加密卷的 TrueCrypt 外层加密卷。</string>
+    <string lang="zh-cn" key="HELP_READER_ERROR">如要显示或打印 VeraCrypt 用户指南需要使用 Adobe Acrobat Reader（或与其兼容的工具）。\n\nAdobe Reader（免费软件）下载地址： www.adobe.com\n\n您要在线查看这个文档吗（联网）？</string>
+    <string lang="zh-cn" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">如果选择此选项，向导将会首先帮助您创建一个普通的 VeraCrypt 加密卷，随后会继续在这个普通的加密卷里面创建一个隐藏的 VeraCrypt 加密卷。非熟练用户应当选择这个选项来创建隐藏加密卷。</string>
+    <string lang="zh-cn" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">如果选择此选项，您将会在已有的 VeraCrypt 加密卷内创建一个隐藏的 VeraCrypt 加密卷。这里假设您已经创建好了适合于创建隐藏 VeraCrypt 加密卷的 VeraCrypt 外层加密卷。</string>
     <string lang="zh-cn" key="HIDDEN_VOL_WIZARD_MODE_TITLE">加密卷创建模式</string>
     <string lang="zh-cn" key="HIDVOL_FORMAT_FINISHED_TITLE">隐藏加密卷已创建</string>
-    <string lang="zh-cn" key="HIDVOL_FORMAT_FINISHED_HELP">该隐藏的 TrueCrypt 加密卷已成功创建并可以立即使用。如果“TrueCrypt User's Guide”（Truecrypt 用户指南）的"Security Precautions Pertaining to Hidden Volumes"章节中的措施都被遵循，即使当外层加密卷被加载，也不可能证明存在隐藏加密卷。\n\n警告：如果您没有保护隐藏加密卷（保护的做法参考 TrueCrypt 用户指南的"PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE"章节），请不要向外层加密卷写入数据。否则您可能会覆盖或损坏隐藏隐藏加密卷！</string>
+    <string lang="zh-cn" key="HIDVOL_FORMAT_FINISHED_HELP">该隐藏的 VeraCrypt 加密卷已成功创建并可以立即使用。如果“VeraCrypt User's Guide”（Truecrypt 用户指南）的"Security Precautions Pertaining to Hidden Volumes"章节中的措施都被遵循，即使当外层加密卷被加载，也不可能证明存在隐藏加密卷。\n\n警告：如果您没有保护隐藏加密卷（保护的做法参考 VeraCrypt 用户指南的"PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE"章节），请不要向外层加密卷写入数据。否则您可能会覆盖或损坏隐藏隐藏加密卷！</string>
     <string lang="zh-cn" key="FIRST_HIDDEN_OS_BOOT_INFO">您已经启动了一个隐形操作系统。可能您已经注意到了，隐形操作系统看起来是安装到原始操作系统所在的分区。然而，实际上，隐形系统是安装到系统分区后面的分区上的（安装在隐藏加密卷中）。所有的读写操作将会从系统分区中透明的重定向到隐藏加密卷里面。\n\n操作系统本身和系统中的程序均不知道从系统分区中读写的数据实际上是从系统分区后面的分区中读写的（读/写到隐藏加密卷）。任何这样的数据都是同样即时加解密的（使用与即将创建的迷惑操作系统不同的加密钥）。\n\n\n请单击〖下一步〗按钮继续。</string>
     <string lang="zh-cn" key="HIDVOL_HOST_FILLING_HELP_SYSENC">外层加密卷已成功创建并作为 %hc：驱动器加载。对这个外层加密卷，现在您应复制一些您不是真正要隐藏的貌似敏感的文件。这是为了对付那些强迫您给出系统分区后面那个分区密码的人的，这个分区可能包含外层加密卷和隐藏加密卷（以及其中的隐形操作系统）。您可以泄漏这个外层加密卷的密码，而此时没有任何迹象可以识别存在隐藏加密卷（以及隐形操作系统）。\n\n重要：您复制到外层加密卷中的文件占用的空间不应当超过 %s。否则，可能没有足够的自由空间来创建隐藏加密卷（此时您将无法继续后续操作）。在您复制完成之后，请点击〖下一步〗（不要卸载加密卷）。</string>
     <string lang="zh-cn" key="HIDVOL_HOST_FILLING_HELP">外层加密卷已成功创建并作为 %hc：驱动器加载。对这个加密卷，现在您应复制一些您不是真正要隐藏的貌似敏感的文件。这是让那些强迫您泄漏密码的人能看到的文件。您将仅对这个外层加密卷泄漏密码，而不要泄漏给他们隐藏加密卷的密码。您真正要保护的文件将被存储在稍候创建的隐藏加密卷里。当您完成复制后，请单击〖下一步〗，并且不要卸载此加密卷。\n\n注意：单击〖下一步〗后，将进行簇状图扫描来确定连续的自由空间大小，此自由空间的尾部与加密卷尾部一致。该空间将提供用来创建隐藏加密卷同时也是隐藏加密卷的最大容量。簇状图扫描能够保证外层加密中卷的数据不会被隐藏卷覆盖。</string>
     <string lang="zh-cn" key="HIDVOL_HOST_FILLING_TITLE">外层加密卷内容</string>
     <string lang="zh-cn" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n在下一步您将要为外层加密卷（在其内将创建隐藏加密卷）调整其选项。</string>
-    <string lang="zh-cn" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n在下一步，您将在系统分区后面的那个分区创建一个所谓的 TrueCrypt 外层加密卷（这在前面步骤已经有具体说明）。</string>
+    <string lang="zh-cn" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n在下一步，您将在系统分区后面的那个分区创建一个所谓的 VeraCrypt 外层加密卷（这在前面步骤已经有具体说明）。</string>
     <string lang="zh-cn" key="HIDVOL_HOST_PRE_CIPHER_TITLE">外层加密卷</string>
     <string lang="zh-cn" key="HIDDEN_OS_PRE_CIPHER_HELP">在下面步骤里，您将设置隐藏加密卷的选项和密码，这个隐藏加密卷里面将会包含隐形系统。\n\n注解：外层加密卷簇状图扫描已完成，以确定外层加密卷尾部开始的未受干扰的自由空间。该区域将容纳隐藏加密卷，因此这将限制隐藏加密卷的最大尺寸。隐藏加密卷最大可能容量已确定，已经确认大于系统分区的容量（这是必须的，因为整个系统分区的内容将被复制到隐藏加密卷中）。这也确保写入隐藏加密卷的数据不会覆盖储存在外层加密卷的数据。</string>
-    <string lang="zh-cn" key="HIDDEN_OS_PRE_CIPHER_WARNING">重要：请记住您在这个步骤所选择的算法。您在加密迷惑系统的时候也必须选择这个算法。否则将无法访问隐形系统！（即迷惑系统和隐形系统必须使用同样的加密算法加密）。\n\n说明：原因是迷惑系统和隐形系统共用一个单一的启动管理器，这个引导器目前只支持用户选择的单一算法（对于每种算法，都会对应一个特定的 TrueCrypt 启动管理器版本）。</string>
+    <string lang="zh-cn" key="HIDDEN_OS_PRE_CIPHER_WARNING">重要：请记住您在这个步骤所选择的算法。您在加密迷惑系统的时候也必须选择这个算法。否则将无法访问隐形系统！（即迷惑系统和隐形系统必须使用同样的加密算法加密）。\n\n说明：原因是迷惑系统和隐形系统共用一个单一的启动管理器，这个引导器目前只支持用户选择的单一算法（对于每种算法，都会对应一个特定的 VeraCrypt 启动管理器版本）。</string>
     <string lang="zh-cn" key="HIDVOL_PRE_CIPHER_HELP">\n\n外层加密卷簇状图扫描已完成，隐藏加密卷最大可能大小已确定。在下一步里您可以调整隐藏加密卷的选项、大小、和密码。</string>
     <string lang="zh-cn" key="HIDVOL_PRE_CIPHER_TITLE">隐藏加密卷</string>
-    <string lang="zh-cn" key="HIDVOL_PROT_WARN_AFTER_MOUNT">在外层加密卷卸载前隐藏加密卷将处于保护之中。\n\n警告：如果有数据试图保存到隐藏加密卷区域，TrueCrypt 将会对整个加密卷（外层加密卷和隐藏加密卷）进行保护直到卸载。这会导致外层加密卷文件系统出错，如若重复出现也会影响隐藏加密卷的隐蔽性。因此，您应当尽量避免写入任何数据到隐藏加密卷区域。 任何保存到隐藏加密卷区域的数据将不被保存并且会丢失！Windows 可能会报告为写入错误（“延迟写入失败”或者是“参数不正确”）。</string>
-    <string lang="zh-cn" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">在外层加密卷卸载前每一个隐藏加密卷将处于保护之中。\n\n警告：如果有数据试图保存到任何隐藏加密卷区域，TrueCrypt 将会对整个加密卷（外层加密卷和隐藏加密卷）进行保护直到卸载。这会导致外层加密卷文件系统出错，如果反复出现也会影响隐藏加密卷的隐蔽性。因此，您应当尽量避免写入任何数据到隐藏加密卷区域。 任何保存到隐藏加密卷区域的数据将不被保存并且丢失！ Windows 可能会报告为写入错误（“延迟写入失败”或者是“参数不正确）。</string>
-    <string lang="zh-cn" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">警告：数据试图保存到加载为 %c: 的加密卷的隐藏加密卷区域！TrueCrypt 已阻止这些数据的保存来保护隐藏加密卷。这会导致外层加密卷文件系统出错。Windows 可能会报告为写入错误（“延迟写入失败”或者是“参数不正确）。整个加密卷（外层加密卷和隐藏加密卷）将会被写保护到加密卷卸载为止。如果这不是 TrueCrypt 第一次阻止数据写入到隐藏加密卷区域，这样也会影响隐藏加密卷的隐蔽性（这是因为在外层加密卷文件系统可能存在反常的关联错乱）。因此，您应当考虑创建一个新的 TrueCrypt 加密卷（禁用快速格式化）并把此加密卷的数据移动到新加密卷里面去；此加密卷应当被安全擦除（外层卷和隐藏卷）。我们强烈建议您现在重启计算机。</string>
+    <string lang="zh-cn" key="HIDVOL_PROT_WARN_AFTER_MOUNT">在外层加密卷卸载前隐藏加密卷将处于保护之中。\n\n警告：如果有数据试图保存到隐藏加密卷区域，VeraCrypt 将会对整个加密卷（外层加密卷和隐藏加密卷）进行保护直到卸载。这会导致外层加密卷文件系统出错，如若重复出现也会影响隐藏加密卷的隐蔽性。因此，您应当尽量避免写入任何数据到隐藏加密卷区域。 任何保存到隐藏加密卷区域的数据将不被保存并且会丢失！Windows 可能会报告为写入错误（“延迟写入失败”或者是“参数不正确”）。</string>
+    <string lang="zh-cn" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">在外层加密卷卸载前每一个隐藏加密卷将处于保护之中。\n\n警告：如果有数据试图保存到任何隐藏加密卷区域，VeraCrypt 将会对整个加密卷（外层加密卷和隐藏加密卷）进行保护直到卸载。这会导致外层加密卷文件系统出错，如果反复出现也会影响隐藏加密卷的隐蔽性。因此，您应当尽量避免写入任何数据到隐藏加密卷区域。 任何保存到隐藏加密卷区域的数据将不被保存并且丢失！ Windows 可能会报告为写入错误（“延迟写入失败”或者是“参数不正确）。</string>
+    <string lang="zh-cn" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">警告：数据试图保存到加载为 %c: 的加密卷的隐藏加密卷区域！VeraCrypt 已阻止这些数据的保存来保护隐藏加密卷。这会导致外层加密卷文件系统出错。Windows 可能会报告为写入错误（“延迟写入失败”或者是“参数不正确）。整个加密卷（外层加密卷和隐藏加密卷）将会被写保护到加密卷卸载为止。如果这不是 VeraCrypt 第一次阻止数据写入到隐藏加密卷区域，这样也会影响隐藏加密卷的隐蔽性（这是因为在外层加密卷文件系统可能存在反常的关联错乱）。因此，您应当考虑创建一个新的 VeraCrypt 加密卷（禁用快速格式化）并把此加密卷的数据移动到新加密卷里面去；此加密卷应当被安全擦除（外层卷和隐藏卷）。我们强烈建议您现在重启计算机。</string>
     <string lang="zh-cn" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">您已表明要在此加密卷中存放大于 4GB 的文件。这种情况下加密卷就必须格式化为 NTFS。</string>
-    <string lang="zh-cn" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">当隐形操作系统运行时，非隐藏的加密卷无法被格式化为 NTFS 格式。原因是如需让操作系统格式化为 NTFS，就得以非写保护状态临时加载（反之如以格式化为 FAT，则由 TrueCrypt 而非操作系统来完成，无需加载加密卷）。如需获取更多技术细节，请参阅以下链接。您可以在迷惑操作系统中创建非隐藏的 NTFS 加密卷。</string>
-    <string lang="zh-cn" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">安全起见，当隐形操作系统正在运行时，隐藏加密卷只能以“直接”模式创建（这是因为外层加密卷必须总是以只读方式加载）。\n\n要安全的创建隐藏加密卷，请遵循如下步骤：\n\n1）启动到迷惑操作系统。\n\n2）创建一个常规 TrueCrypt 加密卷并复制一些您实际上并不想隐藏的貌似敏感的文件（该加密卷会作为外层加密卷）。\n\n3）启动隐形操作系统并启动 TrueCrypt 加密卷创建向导。如果此加密卷是文件类型的，移动该加密卷到系统分区或者其它隐藏加密卷中（否则新创建的隐藏加密卷将会以只读方式加载并且无法格式化）。按照向导的步骤进行并选择“直接”模式创建隐藏加密卷。\n\n4）在向导中，选择您在步骤 2 中创建的加密卷并遵循向导后面的步骤在这个加密卷之内创建隐藏加密卷。</string>
-    <string lang="zh-cn" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">安全起见，当隐形操作系统正在运行时，本地的非加密的文件系统和非隐藏 TrueCrypt 加密卷会以只读方式加载（没有任何数据可以写入这些文件系统或 TrueCrypt 加密卷）。\n\n而数据可以写入到 TrueCrypt 隐藏加密卷中（假设隐藏加密卷的存储容器并非位于非加密文件系统上或并非位于其它任何只读文件系统上）。</string>
-    <string lang="zh-cn" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">采取这样的限制措施有三种主要原因：\n\n- 可以为加载隐藏加密卷提供更安全的平台。因此我们官方推荐仅在隐形操作系统运行的情况下加载隐藏加密卷。（更多信息请参考文档的 'Security Precautions Pertaining to Hidden Volumes' 部份）\n\n- 在某些情况下，有可能确定在某一时间，某一特定的文件系统（或者文件系统中特定的文件并未保存或访问）并未在特定的操作系统的实例中加载（例如，通过分析和比较文件系统日志、时间戳记、应用程序日志、错误日志等等）。这可能暗示计算机上安装了隐形操作系统（译者注：恢复系统备份、重新安装系统也会造成这种迹象，作者考虑的因素并不全面）。而这里的措施则可以避免此类情况发生。\n\n- 能够防止数据损坏和保证安全的使用系统休眠功能，这里假设所有加载的文件系统在系统休眠的时候均为同一状态。TrueCrypt 通过对任何迷惑系统和隐形系统里面可以访问的系统执行写保护来保证这点。如果没有这样的保护，当在一个系统中加载一个文件系统，而此文件系统在另外操作系统中为休眠状态时，文件系统可能会被损坏。</string>
-    <string lang="zh-cn" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">注意：如果您要安全的从迷惑操作系统向隐形操作系统中传送文件，请遵循以下步骤： 1）启动迷惑操作系统。 2）保存这些文件到未加密的卷或者是 TrueCrypt 外层/常规加密卷。 3）启动隐形操作系统。 4）如果是把文件保存到 TrueCrypt 加密卷，则加载这个加密卷（该加密卷会自动以只读模式加载）。 5）复制这些文件到隐形操作系统的分区或者是其它隐藏加密卷。</string>
+    <string lang="zh-cn" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">当隐形操作系统运行时，非隐藏的加密卷无法被格式化为 NTFS 格式。原因是如需让操作系统格式化为 NTFS，就得以非写保护状态临时加载（反之如以格式化为 FAT，则由 VeraCrypt 而非操作系统来完成，无需加载加密卷）。如需获取更多技术细节，请参阅以下链接。您可以在迷惑操作系统中创建非隐藏的 NTFS 加密卷。</string>
+    <string lang="zh-cn" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">安全起见，当隐形操作系统正在运行时，隐藏加密卷只能以“直接”模式创建（这是因为外层加密卷必须总是以只读方式加载）。\n\n要安全的创建隐藏加密卷，请遵循如下步骤：\n\n1）启动到迷惑操作系统。\n\n2）创建一个常规 VeraCrypt 加密卷并复制一些您实际上并不想隐藏的貌似敏感的文件（该加密卷会作为外层加密卷）。\n\n3）启动隐形操作系统并启动 VeraCrypt 加密卷创建向导。如果此加密卷是文件类型的，移动该加密卷到系统分区或者其它隐藏加密卷中（否则新创建的隐藏加密卷将会以只读方式加载并且无法格式化）。按照向导的步骤进行并选择“直接”模式创建隐藏加密卷。\n\n4）在向导中，选择您在步骤 2 中创建的加密卷并遵循向导后面的步骤在这个加密卷之内创建隐藏加密卷。</string>
+    <string lang="zh-cn" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">安全起见，当隐形操作系统正在运行时，本地的非加密的文件系统和非隐藏 VeraCrypt 加密卷会以只读方式加载（没有任何数据可以写入这些文件系统或 VeraCrypt 加密卷）。\n\n而数据可以写入到 VeraCrypt 隐藏加密卷中（假设隐藏加密卷的存储容器并非位于非加密文件系统上或并非位于其它任何只读文件系统上）。</string>
+    <string lang="zh-cn" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">采取这样的限制措施有三种主要原因：\n\n- 可以为加载隐藏加密卷提供更安全的平台。因此我们官方推荐仅在隐形操作系统运行的情况下加载隐藏加密卷。（更多信息请参考文档的 'Security Precautions Pertaining to Hidden Volumes' 部份）\n\n- 在某些情况下，有可能确定在某一时间，某一特定的文件系统（或者文件系统中特定的文件并未保存或访问）并未在特定的操作系统的实例中加载（例如，通过分析和比较文件系统日志、时间戳记、应用程序日志、错误日志等等）。这可能暗示计算机上安装了隐形操作系统（译者注：恢复系统备份、重新安装系统也会造成这种迹象，作者考虑的因素并不全面）。而这里的措施则可以避免此类情况发生。\n\n- 能够防止数据损坏和保证安全的使用系统休眠功能，这里假设所有加载的文件系统在系统休眠的时候均为同一状态。VeraCrypt 通过对任何迷惑系统和隐形系统里面可以访问的系统执行写保护来保证这点。如果没有这样的保护，当在一个系统中加载一个文件系统，而此文件系统在另外操作系统中为休眠状态时，文件系统可能会被损坏。</string>
+    <string lang="zh-cn" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">注意：如果您要安全的从迷惑操作系统向隐形操作系统中传送文件，请遵循以下步骤： 1）启动迷惑操作系统。 2）保存这些文件到未加密的卷或者是 VeraCrypt 外层/常规加密卷。 3）启动隐形操作系统。 4）如果是把文件保存到 VeraCrypt 加密卷，则加载这个加密卷（该加密卷会自动以只读模式加载）。 5）复制这些文件到隐形操作系统的分区或者是其它隐藏加密卷。</string>
     <string lang="zh-cn" key="CONFIRM_RESTART">您的计算机必须重启。\n\n您希望现在重启计算机吗？</string>
     <string lang="zh-cn" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">获取系统加密状态时出错。</string>
     <string lang="zh-cn" key="INIT_SYS_ENC">不能初始化用于系统加密的程序组件。</string>
     <string lang="zh-cn" key="INIT_RAND">初始化随机数据生成器失败！</string>
     <string lang="zh-cn" key="INIT_REGISTER">无法初始化应用程序。注册对话框类失败。</string>
     <string lang="zh-cn" key="INIT_RICHEDIT">错误：加载富文本编辑系统运行库失败。</string>
-    <string lang="zh-cn" key="INTRO_TITLE">TrueCrypt 加密卷创建向导</string>
+    <string lang="zh-cn" key="INTRO_TITLE">VeraCrypt 加密卷创建向导</string>
     <string lang="zh-cn" key="MAX_HIDVOL_SIZE_BYTES">该加密卷能创建的最大隐藏加密卷大小为 %.2f 字节。</string>
     <string lang="zh-cn" key="MAX_HIDVOL_SIZE_KB">该加密卷能创建的最大隐藏加密卷大小为 %.2f KB。</string>
     <string lang="zh-cn" key="MAX_HIDVOL_SIZE_MB">该加密卷能创建的最大隐藏加密卷大小为 %.2f MB。</string>
@@ -524,13 +524,13 @@
     <string lang="zh-cn" key="MOUNTED_NOPWCHANGE">当此加密卷被加载时，无法修改加密卷密码/密钥文件。 请首先卸载此加密卷。</string>
     <string lang="zh-cn" key="MOUNTED_NO_PKCS5_PRF_CHANGE">当加密卷被加载时不能修改首密钥衍生算法。 请首先卸载加密卷。</string>
     <string lang="zh-cn" key="MOUNT_BUTTON">加载(&amp;M)</string>
-    <string lang="zh-cn" key="NEW_VERSION_REQUIRED">需要新版本的 TrueCrypt 来加载此加密卷。</string>
-    <string lang="zh-cn" key="VOL_CREATION_WIZARD_NOT_FOUND">错误：未发现加密卷创建向导。\n\n请确认文件“TrueCrypt Format.exe”位于“TrueCrypt.exe”的目录之中。如果不是 这样，请重新安装 TrueCrypt，或在磁盘中定位“TrueCrypt Format.exe”并运行它。</string>
+    <string lang="zh-cn" key="NEW_VERSION_REQUIRED">需要新版本的 VeraCrypt 来加载此加密卷。</string>
+    <string lang="zh-cn" key="VOL_CREATION_WIZARD_NOT_FOUND">错误：未发现加密卷创建向导。\n\n请确认文件“VeraCrypt Format.exe”位于“VeraCrypt.exe”的目录之中。如果不是 这样，请重新安装 VeraCrypt，或在磁盘中定位“VeraCrypt Format.exe”并运行它。</string>
     <string lang="zh-cn" key="NEXT">下一步(&amp;N) &gt;</string>
     <string lang="zh-cn" key="FINALIZE">完成(&amp;F)</string>
     <string lang="zh-cn" key="INSTALL">安装(&amp;I)</string>
     <string lang="zh-cn" key="EXTRACT">释放(&amp;X)</string>
-    <string lang="zh-cn" key="NODRIVER">不能连接到 TrueCrypt 设备驱动。如果设备驱动不能运行则 TrueCrypt 也无法正常工作。\n\n请注意，由于 Windows 系统问题，在能够正常加载设备驱动前可能需要注销或者重启计算机。</string>
+    <string lang="zh-cn" key="NODRIVER">不能连接到 VeraCrypt 设备驱动。如果设备驱动不能运行则 VeraCrypt 也无法正常工作。\n\n请注意，由于 Windows 系统问题，在能够正常加载设备驱动前可能需要注销或者重启计算机。</string>
     <string lang="zh-cn" key="NOFONT">加载/准备字体时出错。</string>
     <string lang="zh-cn" key="NOT_FOUND">驱动器盘符未发现或没有指定驱动器盘符。</string>
     <string lang="zh-cn" key="DRIVE_LETTER_UNAVAILABLE">驱动器盘符不可用。</string>
@@ -543,37 +543,37 @@
     <string lang="zh-cn" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">错误：您复制到外层加密卷的文件占用的空间过多。因此，没有足够的空间创建隐藏加密卷。\n\n注意，隐藏加密卷的容量至少要大于系统分区（当前运行的系统所在的分区）的容量。原因是隐形操作系统需要把系统分区的内容完全复制到隐藏加密卷来创建。\n\n\n创建隐形操作系统的过程无法再继续。</string>
     <string lang="zh-cn" key="OPENFILES_DRIVER">此驱动无法卸载这个加密卷。位于此加密卷上某些文件可能仍被打开。</string>
     <string lang="zh-cn" key="OPENFILES_LOCK">无法锁定此加密卷。此加密卷上仍有些文件被打开。因而也无法卸载。</string>
-    <string lang="zh-cn" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">TrueCrypt 不能锁定该加密卷，这是因为此加密卷正在被操作系统或者其它程序占用（例如加密卷中有文件被打开）。\n\n您确认要强制卸载加密卷吗？</string>
-    <string lang="zh-cn" key="OPEN_VOL_TITLE">请选择一个 TrueCrypt 加密卷</string>
+    <string lang="zh-cn" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt 不能锁定该加密卷，这是因为此加密卷正在被操作系统或者其它程序占用（例如加密卷中有文件被打开）。\n\n您确认要强制卸载加密卷吗？</string>
+    <string lang="zh-cn" key="OPEN_VOL_TITLE">请选择一个 VeraCrypt 加密卷</string>
     <string lang="zh-cn" key="OPEN_TITLE">指定路径和文件名</string>
     <string lang="zh-cn" key="SELECT_PKCS11_MODULE">选择 PKCS #11 运行库</string>
     <string lang="zh-cn" key="OUTOFMEMORY">内存不足</string>
-    <string lang="zh-cn" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">重要：我们强烈建议非熟练用户在选定的分区/设备里面建立文件类型的加密卷，而不是尝试加密整个分区/驱动器。\n\n例如，当您创建一个 TrueCrypt 文件类型加密卷时（相对于加密整个分区/驱动器），则不存在毁坏大量的文件的风险。请注意，一个 TrueCrypt 文件类型加密卷（尽管其包含虚拟的加密磁盘）事实上就象任意一个普通的文件一样。如若获取更多信息，请参考TrueCrypt User Guide中的 Beginner's Tutorial 章节。\n\n您确认要加密整个设备/分区吗？</string>
-    <string lang="zh-cn" key="OVERWRITEPROMPT">警告：加密卷 '%hs' 已存在！\n\n重要：TrueCrypt 并不会加密这个文件，而是会删除这个文件。 您确定要删除这个文件并用一个新的 TrueCrypt 加密卷来替换它吗？</string>
+    <string lang="zh-cn" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">重要：我们强烈建议非熟练用户在选定的分区/设备里面建立文件类型的加密卷，而不是尝试加密整个分区/驱动器。\n\n例如，当您创建一个 VeraCrypt 文件类型加密卷时（相对于加密整个分区/驱动器），则不存在毁坏大量的文件的风险。请注意，一个 VeraCrypt 文件类型加密卷（尽管其包含虚拟的加密磁盘）事实上就象任意一个普通的文件一样。如若获取更多信息，请参考VeraCrypt User Guide中的 Beginner's Tutorial 章节。\n\n您确认要加密整个设备/分区吗？</string>
+    <string lang="zh-cn" key="OVERWRITEPROMPT">警告：加密卷 '%hs' 已存在！\n\n重要：VeraCrypt 并不会加密这个文件，而是会删除这个文件。 您确定要删除这个文件并用一个新的 VeraCrypt 加密卷来替换它吗？</string>
     <string lang="zh-cn" key="OVERWRITEPROMPT_DEVICE">务必小心：当前存储在选择的 %s '%hs'%s 上的所有数据将会丢失（它们并不会被加密）！\n\n您一定要继续格式化吗？</string>
     <string lang="zh-cn" key="NONSYS_INPLACE_ENC_CONFIRM">警告：您在加密卷完全加密前不能加载此加密卷或者访问存储于该卷上的任何文件。\n\n您确认要开始加密选择的 %s '%hs'%s 吗？</string>
-    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：请注意如果在就地加密现有数据时突然断电，或者在 TrueCrypt 就地加密现有数据时由于软硬件故障而导致电脑死机，可能会损坏或丢失一些数据。因此，在您开始加密前，请确认您已经备份了要加密的数据。\n\n您确认已经有这样的备份了吗？</string>
+    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：请注意如果在就地加密现有数据时突然断电，或者在 VeraCrypt 就地加密现有数据时由于软硬件故障而导致电脑死机，可能会损坏或丢失一些数据。因此，在您开始加密前，请确认您已经备份了要加密的数据。\n\n您确认已经有这样的备份了吗？</string>
     <string lang="zh-cn" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">警告：任何存在于分区 '%hs'%s（即位于系统分区后面的第一个分区）的文件将会因被擦除而丢失。（这些文件并不会被加密）！\n\n您确认要继续格式化吗？</string>
     <string lang="zh-cn" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：选定的分区包含大量的数据！！！任何存储于此分区上的文件将会被擦除（他们并不会被加密）！</string>
-    <string lang="zh-cn" key="ERASE_FILES_BY_CREATING_VOLUME">通过在分区内创建 TrueCrypt 加密卷擦除该分区上的任何文件</string>
+    <string lang="zh-cn" key="ERASE_FILES_BY_CREATING_VOLUME">通过在分区内创建 VeraCrypt 加密卷擦除该分区上的任何文件</string>
     <string lang="zh-cn" key="PASSWORD">密码</string>
     <string lang="zh-cn" key="IDD_PCDM_CHANGE_PKCS5_PRF">设置首密钥衍生算法</string>
     <string lang="zh-cn" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">添加/移除 密钥文件..</string>
     <string lang="zh-cn" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">从加密卷中移除所有密钥文件</string>
     <string lang="zh-cn" key="PASSWORD_CHANGED">密码 和/或 密钥文件已成功修改。\n\n重要：请确认您已经阅读了用户指南的'Security Requirements and Precautions'章节中的'Changing Passwords and Keyfiles'部分。</string>
-    <string lang="zh-cn" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果您不销毁 TrueCrypt 应急盘，您的系统分区/驱动器仍然可以通过使用旧密码解密（通过启动 TrueCrypt 应急盘和输入旧密码）。您应当创建一个新的 TrueCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 TrueCrypt 应急盘吗？</string>
-    <string lang="zh-cn" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">请注意，TrueCrypt 应急盘仍然使用着早期的加密算法。如果您觉的先前的加密算法不安全，您应当创建一个新的 TrueCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 TrueCrypt 应急盘吗？</string>
-    <string lang="zh-cn" key="KEYFILES_NOTE">任何类型的文件（例如：.mp3、.jpg、.zip、.avi）都可以作为 TrueCrypt 的密钥文件。TrueCrypt 并不会修改密钥文件的内容。 您可以选择一个以上的密钥文件（与次序无关）。如果您添加了一个文件夹，里面的所有非隐藏文件都将作为密钥文件。点击〖添加口令牌〗来选择存储于安全口令牌或智能卡中的密钥文件（或者导入密钥文件到安全口令牌或智能卡）。</string>
+    <string lang="zh-cn" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果您不销毁 VeraCrypt 应急盘，您的系统分区/驱动器仍然可以通过使用旧密码解密（通过启动 VeraCrypt 应急盘和输入旧密码）。您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</string>
+    <string lang="zh-cn" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">请注意，VeraCrypt 应急盘仍然使用着早期的加密算法。如果您觉的先前的加密算法不安全，您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</string>
+    <string lang="zh-cn" key="KEYFILES_NOTE">任何类型的文件（例如：.mp3、.jpg、.zip、.avi）都可以作为 VeraCrypt 的密钥文件。VeraCrypt 并不会修改密钥文件的内容。 您可以选择一个以上的密钥文件（与次序无关）。如果您添加了一个文件夹，里面的所有非隐藏文件都将作为密钥文件。点击〖添加口令牌〗来选择存储于安全口令牌或智能卡中的密钥文件（或者导入密钥文件到安全口令牌或智能卡）。</string>
     <string lang="zh-cn" key="KEYFILE_CHANGED">密钥文件已成功添加/移除。</string>
     <string lang="zh-cn" key="KEYFILE_EXPORTED">密钥文件已导出.</string>
     <string lang="zh-cn" key="PKCS5_PRF_CHANGED">首密钥衍生算法已成功设置。</string>
-    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">请为您想要继续就地加密的非系统分区输入密码 和/或 密钥文件。\n\n\n注解：在您点击〖下一步〗之后，TrueCrypt 将尝试查找所有加密过程被中断的非系统分区（这些中断加密的分区的 TrueCrypt 头信息可以使用提供的密码 和/或 密钥文件解密）。如果发现了多个此类的分区，您需要在下个步骤里面选择他们其中的一个。</string>
+    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">请为您想要继续就地加密的非系统分区输入密码 和/或 密钥文件。\n\n\n注解：在您点击〖下一步〗之后，VeraCrypt 将尝试查找所有加密过程被中断的非系统分区（这些中断加密的分区的 VeraCrypt 头信息可以使用提供的密码 和/或 密钥文件解密）。如果发现了多个此类的分区，您需要在下个步骤里面选择他们其中的一个。</string>
     <string lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">请选择下面列表中的一个加密卷。此列表包含所有加密被中断的非系统加密卷，它们的头信息可以使用提供的密码 和/或 密钥文件解密。</string>
     <string lang="zh-cn" key="PASSWORD_HELP">选择一个安全的密码非常重要。您应该避免选取能够在字典中查到的简单词汇（或是2、3、4 这类字符组合）作为密码，也不应包含任何名字或生日，同时也不应该容易被猜到。安全的密码应当包含随机的大小写字母、数字、以及类似 @ ^ = $ * + 这样的特殊字符。我们推荐使用大于 20 个字符的密码（越长越好）。最大的密码长度为 64 个字符。</string>
     <string lang="zh-cn" key="PASSWORD_HIDDENVOL_HELP">请为隐藏加密卷选择一个密码。 </string>
     <string lang="zh-cn" key="PASSWORD_HIDDEN_OS_HELP">请为隐形操作系统设置一个密码（即隐藏加密卷的密码）。</string>
     <string lang="zh-cn" key="PASSWORD_HIDDEN_OS_NOTE">重要：您在本步骤中为隐形操作系统设置的密码必须绝对不同于其它的两个密码（也就是要不同于外层加密卷的密码和迷惑操作系统的密码）。</string>
-    <string lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">请输入外层加密卷的密码（您将在该加密卷中创建隐藏加密卷）。\n\n在单击〖下一步〗后，TrueCrypt 会尝试加载此加密卷。一旦加密卷被加载，将进行簇状图扫描来确定连续的自由空间大小（如果有的话），此空间的尾部与加密卷尾部一致。该区域将提供给隐藏加密卷并因此会限制它的最大可能大小。簇状图扫描是必要的，这可以确保外层加密卷的数据不会被隐藏加密卷覆盖。</string>
+    <string lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">请输入外层加密卷的密码（您将在该加密卷中创建隐藏加密卷）。\n\n在单击〖下一步〗后，VeraCrypt 会尝试加载此加密卷。一旦加密卷被加载，将进行簇状图扫描来确定连续的自由空间大小（如果有的话），此空间的尾部与加密卷尾部一致。该区域将提供给隐藏加密卷并因此会限制它的最大可能大小。簇状图扫描是必要的，这可以确保外层加密卷的数据不会被隐藏加密卷覆盖。</string>
     <string lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_HELP">\n请选择外层加密卷的密码。在您被攻击者强迫说出启动验证密码的情况下，这个密码可以告诉攻击者。\n\n重要：您为外层加密卷选择的密码必须不同于隐藏加密卷的密码。\n\n说明：密码的最大长度为 64 个字符。</string>
     <string lang="zh-cn" key="PASSWORD_SYSENC_OUTERVOL_HELP">请选择外层加密卷的密码。在您被攻击者强迫说出系统分区后面的第一个分区（外层加密卷和包含隐形操作系统的隐藏加密卷均位于这个分区）密码的情况下，这个密码可以告诉这些攻击者。而隐藏加密卷和隐形操作系统仍然是安全的。需要注意的是，外层加密卷的密码并不是迷惑操作系统的密码。\n\n重要：您为迷惑操作系统选择的密码必须不同于隐藏加密卷的密码（也就是隐形操作系统的密码）。</string>
     <string lang="zh-cn" key="PASSWORD_HIDVOL_HOST_TITLE">外层加密卷密码</string>
@@ -581,16 +581,16 @@
     <string lang="zh-cn" key="PASSWORD_HIDDEN_OS_TITLE">隐形操作系统的密码</string>
     <string lang="zh-cn" key="PASSWORD_LENGTH_WARNING">警告：简短密码容易被暴力破解技术破解！\n\n我们建议选择一个超过 20 个字符的密码。\n\n您确定要使用简短密码吗？</string>
     <string lang="zh-cn" key="PASSWORD_TITLE">加密卷密码</string>
-    <string lang="zh-cn" key="PASSWORD_WRONG">密码不正确或不是 TrueCrypt 加密卷。</string>
-    <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG">密钥 和/或 密码不正确或不是 TrueCrypt 加密卷。</string>
-    <string lang="zh-cn" key="PASSWORD_OR_MODE_WRONG">错误的加载模式/密码或不是 TrueCrypt 加密卷。</string>
-    <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">错误的加载模式，无效的密钥文件 和/或 密码，或者不是 TrueCrypt 加密卷。</string>
-    <string lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">密码不正确或不是 TrueCrypt 加密卷。</string>
-    <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">密钥 和/或 密码不正确或不是 TrueCrypt 加密卷</string>
+    <string lang="zh-cn" key="PASSWORD_WRONG">密码不正确或不是 VeraCrypt 加密卷。</string>
+    <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG">密钥 和/或 密码不正确或不是 VeraCrypt 加密卷。</string>
+    <string lang="zh-cn" key="PASSWORD_OR_MODE_WRONG">错误的加载模式/密码或不是 VeraCrypt 加密卷。</string>
+    <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">错误的加载模式，无效的密钥文件 和/或 密码，或者不是 VeraCrypt 加密卷。</string>
+    <string lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">密码不正确或不是 VeraCrypt 加密卷。</string>
+    <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">密钥 和/或 密码不正确或不是 VeraCrypt 加密卷</string>
     <string lang="zh-cn" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock 已经开启。 这可能导致您密码输入错误。</string>
     <string lang="zh-cn" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n警告：在密钥文件搜索路径中存在隐藏文件。此类隐藏文件无法被用作密钥文件。如果您需要将它们当作密钥文件使用，请去除它们的“隐藏”属性（使用鼠标右键点击文件，选择〖属性〗，去除勾选“隐藏”标志再点击〖确定〗按钮）。注意：隐藏文件仅在启用相关选项后才可见（我的电脑 -&gt; 工具 -&gt; 文件夹选项 -&gt; 查看）。</string>
     <string lang="zh-cn" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">如果您试图保护包含隐形系统的隐藏加密卷，请确认输入隐藏加密卷密码时您正在使用标准的美国键盘布局。这是因为这些密码实在启动验证环境中输入的，而此时非美国键盘布局将无法使用。</string>
-    <string lang="zh-cn" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">TrueCrypt 未发现加密过程被中断的，同时头信息可以使用提供的密码 和/或 密钥文件解密的非系统分区。\n\n请确认密码 和/或 密钥文件是正确的，并且确认此 分区/卷 并未被操作系统或其它程序（也包含杀毒软件）占用。</string>
+    <string lang="zh-cn" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt 未发现加密过程被中断的，同时头信息可以使用提供的密码 和/或 密钥文件解密的非系统分区。\n\n请确认密码 和/或 密钥文件是正确的，并且确认此 分区/卷 并未被操作系统或其它程序（也包含杀毒软件）占用。</string>
     <string lang="zh-cn" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n注意：如果您试图加载不带有启动验证的加密系统驱动器中的分区，或者是加载没有运行的加密系统分区，您可以通过选择〖系统〗 -&gt;〖以非启动验证方式加载〗。</string>
     <string lang="zh-cn" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">在此模式下，您不能加载此驱动器上的分区（该驱动器的部分内容处于当前活动加密系统的关键范围）。\n\n要想以此模式加载此分区，您需要先启动到安装在不同驱动器上的操作系统（与该系统是否加密无关），或者是先启动一个未加密的操作系统。</string>
     <string lang="zh-cn" key="PREV">&lt; 后退(&amp;B)</string>
@@ -619,9 +619,9 @@
     <string lang="zh-cn" key="TEST_PLAINTEXT_SIZE">您提供的测试明码文本太长或太短。</string>
     <string lang="zh-cn" key="TWO_LAYER_CASCADE_HELP">在 XTS 模式的层叠操作中需要两个密码。每个块首先使用 %hs（%d 位密钥），之后使用 %hs（%d 位密钥）加密。每个密码使用其各自的密钥。所有的密钥均各自独立。</string>
     <string lang="zh-cn" key="THREE_LAYER_CASCADE_HELP">在 XTS 模式的层叠操作中需要 3 个密码。每个块首先以 %hs（%d 位密钥）加密，然后以 %hs（%d 位密钥）加密，最后以 %hs（%d 位密钥）加密。每个密码均使用各自的密钥。所有的密钥均彼此独立。</string>
-    <string lang="zh-cn" key="AUTORUN_MAY_NOT_ALWAYS_WORK">需要注意的是，依赖于操作系统配置，这些自动运行和自动加载功能可能仅当便携磁盘文件创建在非可擦写 CD/DVD 类介质时才能使用。同样也要注意这并不是 TrueCrypt 程序设计缺陷（而是 Windows 系统的限制）。</string>
-    <string lang="zh-cn" key="TRAVELER_DISK_CREATED">TrueCrypt 便携磁盘已成功创建。\n\n注意：您必须具有系统管理员身份才能以便携模式运行 TrueCrypt。同时也要注意尽管以便携模式运行 TrueCrypt，也可能能够从注册表中被检测到曾经运行过 TrueCrypt。</string>
-    <string lang="zh-cn" key="TC_TRAVELER_DISK">TrueCrypt 便携磁盘</string>
+    <string lang="zh-cn" key="AUTORUN_MAY_NOT_ALWAYS_WORK">需要注意的是，依赖于操作系统配置，这些自动运行和自动加载功能可能仅当便携磁盘文件创建在非可擦写 CD/DVD 类介质时才能使用。同样也要注意这并不是 VeraCrypt 程序设计缺陷（而是 Windows 系统的限制）。</string>
+    <string lang="zh-cn" key="TRAVELER_DISK_CREATED">VeraCrypt 便携磁盘已成功创建。\n\n注意：您必须具有系统管理员身份才能以便携模式运行 VeraCrypt。同时也要注意尽管以便携模式运行 VeraCrypt，也可能能够从注册表中被检测到曾经运行过 VeraCrypt。</string>
+    <string lang="zh-cn" key="TC_TRAVELER_DISK">VeraCrypt 便携磁盘</string>
     <string lang="zh-cn" key="TWOFISH_HELP">设计者：Bruce Schneie、John Kelsey、Doug Whiting、David Wagner、Chris Hall、Niels Ferguson。发表于 1998 年。256 位密钥，128 位块，操作模式为 XTS。Twofish 为 AES 竞争算法中的一种。</string>
     <string lang="zh-cn" key="MORE_INFO_ABOUT">关于 %hs 的更多信息（联网）</string>
     <string lang="zh-cn" key="UNKNOWN">未知</string>
@@ -637,10 +637,10 @@
     <string lang="zh-cn" key="VOL_SIZE_WRONG">错误：错误的加密卷大小.</string>
     <string lang="zh-cn" key="WARN_QUICK_FORMAT">警告：您应当只能在下面的情况下使用快速格式化：\n\n1) 设备不包含敏感数据，且您不需要隐蔽性。\n2) 设备或分区已经被完全加密过。\n\n您确认要使用快速格式化吗？</string>
     <string lang="zh-cn" key="CONFIRM_SPARSE_FILE">动态的容器是一个预先分配的 NTFS 稀疏文件，它的物理大小（实际磁盘空间占用）在有新数据添加到里面的时候才会增加。\n\n警告: 稀疏文件基础的加密卷性能比常规加密卷的性能有较大降低。稀疏文件基础的加密卷的安全性也要弱些－因为它有可能泄漏哪些加密卷扇区未被使用的情况。另外，稀疏文件基础的加密卷无法实现隐蔽性（容纳一个隐藏加密卷）。同时需要注意到是如果数据被写入到稀疏文件基础的加密卷，而此时主机文件系统剩余空间不足，加密的文件系统可能会损坏。\n\n您确认要创建稀疏文件基础的加密卷吗？</string>
-    <string lang="zh-cn" key="SPARSE_FILE_SIZE_NOTE">注意，Windows 系统和 TrueCrypt 报告的动态加密卷的大小会等于它的最大尺寸。要查看当前容器的物理大小（占用的实际磁盘空间），在 Windows 资源管理器窗口右键单击容器文件，之后选择“属性”并查看“占用空间”的数值。\n\n同时也要注意，如果您把动态加密卷移动到另外容器或驱动器，容器的物理大小会变为它的最大大小。 (为避免此类情况发生，您可以在目标位置创建一个新的动态加密卷，然后把文件从老的加密卷中复制过来)</string>
+    <string lang="zh-cn" key="SPARSE_FILE_SIZE_NOTE">注意，Windows 系统和 VeraCrypt 报告的动态加密卷的大小会等于它的最大尺寸。要查看当前容器的物理大小（占用的实际磁盘空间），在 Windows 资源管理器窗口右键单击容器文件，之后选择“属性”并查看“占用空间”的数值。\n\n同时也要注意，如果您把动态加密卷移动到另外容器或驱动器，容器的物理大小会变为它的最大大小。 (为避免此类情况发生，您可以在目标位置创建一个新的动态加密卷，然后把文件从老的加密卷中复制过来)</string>
     <string lang="zh-cn" key="PASSWORD_CACHE_WIPED_SHORT">密码缓存已擦除</string>
-    <string lang="zh-cn" key="PASSWORD_CACHE_WIPED">存储在 TrueCrypt 驱动缓存中的密码（和/或 已处理的密钥文件内容）已经被擦除。</string>
-    <string lang="zh-cn" key="WRONG_VOL_TYPE">TrueCrypt 不能修改外层加密卷的密码。</string>
+    <string lang="zh-cn" key="PASSWORD_CACHE_WIPED">存储在 VeraCrypt 驱动缓存中的密码（和/或 已处理的密钥文件内容）已经被擦除。</string>
+    <string lang="zh-cn" key="WRONG_VOL_TYPE">VeraCrypt 不能修改外层加密卷的密码。</string>
     <string lang="zh-cn" key="SELECT_FREE_DRIVE">请从列表中选择一个未被占用的驱动器盘符。</string>
     <string lang="zh-cn" key="SELECT_A_MOUNTED_VOLUME">请在驱动器列表中选择一个已加载的加密卷。</string>
     <string lang="zh-cn" key="AMBIGUOUS_VOL_SELECTION">当前选择了两个已加载的加密卷（一个位于盘符列表中，另外一个位于列表下面的文本输入框中）。\n\n请确认您要选择的加密卷：</string>
@@ -648,16 +648,16 @@
     <string lang="zh-cn" key="ERR_PROCESS_KEYFILE">处理密钥文件时出错！</string>
     <string lang="zh-cn" key="ERR_PROCESS_KEYFILE_PATH">处理密钥文件路径时出错！</string>
     <string lang="zh-cn" key="ERR_KEYFILE_PATH_EMPTY">密钥文件路径不包含文件。\n\n请注意，在密钥文件搜索路径中发现的该文件夹（以及其中包含的文件）已忽略。</string>
-    <string lang="zh-cn" key="UNSUPPORTED_OS">TrueCrypt 不支持此操作系统。</string>
-    <string lang="zh-cn" key="UNSUPPORTED_BETA_OS">错误：TrueCrypt 仅支持稳定的操作系统版本（不支持 beta 版和 RC 版）。</string>
+    <string lang="zh-cn" key="UNSUPPORTED_OS">VeraCrypt 不支持此操作系统。</string>
+    <string lang="zh-cn" key="UNSUPPORTED_BETA_OS">错误：VeraCrypt 仅支持稳定的操作系统版本（不支持 beta 版和 RC 版）。</string>
     <string lang="zh-cn" key="ERR_MEM_ALLOC">错误：不能分配内存。</string>
     <string lang="zh-cn" key="ERR_PERF_COUNTER">错误：不能恢复性能计数器的值。</string>
     <string lang="zh-cn" key="ERR_VOL_FORMAT_BAD">错误：错误的加密卷格式。</string>
     <string lang="zh-cn" key="ERR_HIDDEN_NOT_NORMAL_VOLUME">错误：您提供了一个隐藏加密卷的密码（而不是常规加密卷的密码）。</string>
-    <string lang="zh-cn" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">安全起见，隐藏加密卷不能在带有就地加密文件系统的 TrueCrypt 加密卷中创建（这是因为该加密卷上的自由空间没有填充随机数据）</string>
-    <string lang="zh-cn" key="LEGAL_NOTICES_DLG_TITLE">TrueCrypt - 法律提示</string>
+    <string lang="zh-cn" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">安全起见，隐藏加密卷不能在带有就地加密文件系统的 VeraCrypt 加密卷中创建（这是因为该加密卷上的自由空间没有填充随机数据）</string>
+    <string lang="zh-cn" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - 法律提示</string>
     <string lang="zh-cn" key="ALL_FILES">所有文件</string>
-    <string lang="zh-cn" key="TC_VOLUMES">TrueCrypt 加密卷</string>
+    <string lang="zh-cn" key="TC_VOLUMES">VeraCrypt 加密卷</string>
     <string lang="zh-cn" key="DLL_FILES">运行库模块</string>
     <string lang="zh-cn" key="FORMAT_NTFS_STOP">NTFS 格式化不能继续。</string>
     <string lang="zh-cn" key="CANT_MOUNT_VOLUME">不能加载加密卷。</string>
@@ -677,8 +677,8 @@
     <string lang="zh-cn" key="CLUSTER_TOO_SMALL">相对加密卷大小而言，选择的簇大小太小。 将替代使用大一些的簇大小。</string>
     <string lang="zh-cn" key="CANT_GET_VOLSIZE">错误：不能获取加密卷大小信息！\n\n请确认选择的加密卷未被系统或 其它程序使用。</string>
     <string lang="zh-cn" key="HIDDEN_VOL_HOST_SPARSE">隐藏加密卷不能创建于动态（稀疏文件）的外层加密卷中。要达到足够的隐蔽性，隐藏加密卷应当在非动态加密卷中创建。</string>
-    <string lang="zh-cn" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">TrueCrypt 加密卷创建向导只能在 FAT 或 NTFS 加密卷内创建隐藏加密卷。</string>
-    <string lang="zh-cn" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">在 Windows 2000 系统里，TrueCrypt 加密卷创建向导只能在 FAT 加密卷里面创建隐藏加密卷。</string>
+    <string lang="zh-cn" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">VeraCrypt 加密卷创建向导只能在 FAT 或 NTFS 加密卷内创建隐藏加密卷。</string>
+    <string lang="zh-cn" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">在 Windows 2000 系统里，VeraCrypt 加密卷创建向导只能在 FAT 加密卷里面创建隐藏加密卷。</string>
     <string lang="zh-cn" key="HIDDEN_VOL_HOST_NTFS">注意：FAT 文件系统比 NTFS 文件系统更适合作为外层加密卷（例如，如果外层加密卷被格式化为 FAT 格式，能够创建的隐藏加密卷的大小可能会更大一些）。</string>
     <string lang="zh-cn" key="HIDDEN_VOL_HOST_NTFS_ASK">注意：FAT 文件系统比 NTFS 文件系统更适合作为外层加密卷（例如，如果外层加密卷被格式化为 FAT 格式，能够创建的隐藏加密卷的大小可能会更大一些）（原因是 NTFS 文件系统总是在卷的中部存储内部数据，因此，隐藏加密卷只能创建在外层加密卷的后半部分）。\n\n您确认要继续格式化外层为 NTFS 格式吗？</string>
     <string lang="zh-cn" key="OFFER_FAT_FORMAT_ALTERNATIVE">您想要把加密卷格式化为 FAT 格式吗？</string>
@@ -687,15 +687,15 @@
     <string lang="zh-cn" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS_NTFS">错误：隐形操作系统的分区（也就是系统分区后面的第一个分区）必须至少比系统分区大 110%（2.1 倍）（系统分区就是当前运行的操作系统所在的分区）。原因是 NTFS 文件系统总是在卷的中部存储内部数据，因此，隐藏加密卷只能创建在外层加密卷的后半部分。</string>
     <string lang="zh-cn" key="OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS">错误：如果外层加密卷被格式化为 NTFS，则它必须至少比系统分区大 110%（2.1 倍）。原因是 NTFS 文件系统总是在卷的中部存储内部数据，因此，隐藏加密卷只能创建在外层加密卷的后半部分。\n\n说明：外层加密卷需和隐形操作系统位于同一分区（即位于系统分区后面的第一个分区）。</string>
     <string lang="zh-cn" key="NO_PARTITION_FOLLOWS_BOOT_PARTITION">错误：在系统分区后面没有其它分区。\n\n注意，在您创建隐形操作系统之前，您需要在此系统驱动器上创建一个分区。该分区必须是系统分区后的第一个分区，并且必须至少比系统分区大 5%（系统分区就是当前运行的操作系统所在的分区）。然而，如果外层加密卷（不要与系统分区混淆）被格式化为 NTFS 格式，则该分区必须至少比系统分区大 110%（2.1 倍）（原因是 NTFS 文件系统总是在卷的中部存储内部数据，因此，包含系统克隆的隐藏加密卷只能创建在外层加密卷的后半部分）。</string>
-    <string lang="zh-cn" key="TWO_SYSTEMS_IN_ONE_PARTITION_REMARK">注释：同时在单一分区的 TrueCrypt 外层和隐藏加密卷里面创建两个系统并不可行（因此也不被支持）。因为使用外层操作系统会经常要求写入数据到隐形操作系统所在区域（如果使用隐藏加密卷保护机制，也会因此而带来系统崩溃，即蓝屏错误）。</string>
+    <string lang="zh-cn" key="TWO_SYSTEMS_IN_ONE_PARTITION_REMARK">注释：同时在单一分区的 VeraCrypt 外层和隐藏加密卷里面创建两个系统并不可行（因此也不被支持）。因为使用外层操作系统会经常要求写入数据到隐形操作系统所在区域（如果使用隐藏加密卷保护机制，也会因此而带来系统崩溃，即蓝屏错误）。</string>
     <string lang="zh-cn" key="FOR_MORE_INFO_ON_PARTITIONS">关于创建和管理分区的更多信息，请参考您的操作系统所提供的文档，或者联系您的计算机提供商以获取技术支持。</string>
     <string lang="zh-cn" key="SYSTEM_PARTITION_NOT_ACTIVE">错误：当前运行的操作系统并未安装到启动分区（第一个作用/激活的分区）。目前不支持此情况。</string>
     <string lang="zh-cn" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">您已经表明了要在加密卷里面存放大于 4GB 的文件。然而，您选择了 FAT 文件系统，此系统无法存储大于 4 GB 的文件。\n\n您确认要格式化该卷为 FAT 格式吗？</string>
     <string lang="zh-cn" key="CANT_ACCESS_VOL">错误：不能访问加密卷！\n\n请确认选择的加密卷存在，并且该加密卷并未由系统或其它程序使用，同时该加密卷未被写保护，并且您具有对该加密卷的读写权限，并且确认该加密卷未被写保护。</string>
     <string lang="zh-cn" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">错误：不能访问该加密卷 和/或 获取该加密卷的信息。\n\n请确认该加密卷存在，并且未被操作系统或其它程序占用，以及您具有对该加密卷的读写权限，同时还要保证该加密卷未被写保护。</string>
     <string lang="zh-cn" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">错误：不能访问该加密卷 和/或 获取该加密卷的信息。请确认选择的加密卷存在，并且未被操作系统或其它程序占用，以及您具有对该加密卷的读写权限，同时还要保证该加密卷未被写保护。\n\n如果此问题仍然存在，遵循以下步骤可能有所帮助。</string>
-    <string lang="zh-cn" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">发生了一个错误，TrueCrypt 无法加密分区。请尝试修复任何前面报告的问题之后再次尝试。如果此问题依然存在，遵循以下步骤可能有所帮助。</string>
-    <string lang="zh-cn" key="INPLACE_ENC_GENERIC_ERR_RESUME">发生了一个错误，TrueCrypt 无法继续加密分区的过程。\n\n请尝试修复任何前面报告的问题之后再次尝试加密过程。注意：该加密卷在完全加密前将无法加载。</string>
+    <string lang="zh-cn" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">发生了一个错误，VeraCrypt 无法加密分区。请尝试修复任何前面报告的问题之后再次尝试。如果此问题依然存在，遵循以下步骤可能有所帮助。</string>
+    <string lang="zh-cn" key="INPLACE_ENC_GENERIC_ERR_RESUME">发生了一个错误，VeraCrypt 无法继续加密分区的过程。\n\n请尝试修复任何前面报告的问题之后再次尝试加密过程。注意：该加密卷在完全加密前将无法加载。</string>
     <string lang="zh-cn" key="CANT_DISMOUNT_OUTER_VOL">错误：不能卸载外层加密卷！\n\n如果加密卷中的文件或文件夹被程序或被 系统使用，则该加密卷不能被锁定。\n\n请关闭任何可能使用加密卷上文件或目录 的程序，然后再点击〖重试〗。</string>
     <string lang="zh-cn" key="CANT_GET_OUTER_VOL_INFO">错误：不能获取外层加密卷的信息！ 加密卷创建不能继续。</string>
     <string lang="zh-cn" key="CANT_ACCESS_OUTER_VOL">错误：不能访问外层加密卷！ 加密卷创建不能继续。</string>
@@ -745,22 +745,22 @@
     <string lang="zh-cn" key="VOLUME_HEADER_DAYS">（%I64d 天前）</string>
     <string lang="zh-cn" key="VOLUME_FORMAT_VERSION">加密卷格式版本</string>
     <string lang="zh-cn" key="BACKUP_HEADER">内嵌的备份头信息</string>
-    <string lang="zh-cn" key="TC_BOOT_LOADER_VERSION">TrueCrypt 启动管理器版本</string>
+    <string lang="zh-cn" key="VC_BOOT_LOADER_VERSION">VeraCrypt 启动管理器版本</string>
     <string lang="zh-cn" key="FIRST_AVAILABLE">首个可用的</string>
     <string lang="zh-cn" key="REMOVABLE_DISK">移动硬盘</string>
     <string lang="zh-cn" key="HARDDISK">硬盘</string>
     <string lang="zh-cn" key="UNCHANGED">不改变</string>
     <string lang="zh-cn" key="SETUP_MODE_TITLE">向导模式</string>
     <string lang="zh-cn" key="SETUP_MODE_INFO">请选择一种安装模式，如果不确认，请使用默认模式。</string>
-    <string lang="zh-cn" key="SETUP_MODE_HELP_INSTALL">如果您想安装 TrueCrypt 到当前系统，请选择此选项。</string>
+    <string lang="zh-cn" key="SETUP_MODE_HELP_INSTALL">如果您想安装 VeraCrypt 到当前系统，请选择此选项。</string>
     <string lang="zh-cn" key="SETUP_MODE_HELP_UPGRADE">注意：即使在系统分区/设备已加密的情况下，或者您正在使用隐形系统的情况下，您也可以执行更新而无需解密.</string>
-    <string lang="zh-cn" key="SETUP_MODE_HELP_EXTRACT">如果选择该选项，所有文件都会被从安装包中释放出来，但是不会向系统中安装任何文件。如果您计划加密 Windows 系统分区或系统驱动器，请不要选择此选项。选择此选项有时会比较有用，例如，您希望以便携模式运行 TrueCrypt。TrueCrypt 不一定要必须安装到系统中。在所有文件释放后，您可以直接运行释放后的 'TrueCrypt.exe' 文件（这时 TrueCrypt 会以便携模式运行）。您也可以把释放后的文件复制到其它计算机。</string>
+    <string lang="zh-cn" key="SETUP_MODE_HELP_EXTRACT">如果选择该选项，所有文件都会被从安装包中释放出来，但是不会向系统中安装任何文件。如果您计划加密 Windows 系统分区或系统驱动器，请不要选择此选项。选择此选项有时会比较有用，例如，您希望以便携模式运行 VeraCrypt。VeraCrypt 不一定要必须安装到系统中。在所有文件释放后，您可以直接运行释放后的 'VeraCrypt.exe' 文件（这时 VeraCrypt 会以便携模式运行）。您也可以把释放后的文件复制到其它计算机。</string>
     <string lang="zh-cn" key="SETUP_OPTIONS_TITLE">安装选项</string>
     <string lang="zh-cn" key="SETUP_OPTIONS_INFO">这里您可以设置控制安装过程的不同选项。</string>
     <string lang="zh-cn" key="SETUP_PROGRESS_TITLE">正在安装</string>
-    <string lang="zh-cn" key="SETUP_PROGRESS_INFO">TrueCrypt 正在安装，请稍候。</string>
-    <string lang="zh-cn" key="SETUP_FINISHED_TITLE_DON">TrueCrypt 已经成功安装</string>
-    <string lang="zh-cn" key="SETUP_FINISHED_UPGRADE_TITLE_DON">TrueCrypt 已经成功更新</string>
+    <string lang="zh-cn" key="SETUP_PROGRESS_INFO">VeraCrypt 正在安装，请稍候。</string>
+    <string lang="zh-cn" key="SETUP_FINISHED_TITLE_DON">VeraCrypt 已经成功安装</string>
+    <string lang="zh-cn" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCrypt 已经成功更新</string>
     <string lang="zh-cn" key="SETUP_FINISHED_INFO_DON">请考虑给予捐助。您可在任何时间点击〖完成〗按钮关闭安装程序。 </string>
     <string lang="zh-cn" key="EXTRACTION_OPTIONS_TITLE">释放选项</string>
     <string lang="zh-cn" key="EXTRACTION_OPTIONS_INFO">您可以在这里设置控制释放过程的不同选项。</string>
@@ -768,30 +768,30 @@
     <string lang="zh-cn" key="EXTRACTION_FINISHED_TITLE_DON">文件已经成功释放</string>
     <string lang="zh-cn" key="EXTRACTION_FINISHED_INFO">所有文件已经被成功释放到目标文件夹。</string>
     <string lang="zh-cn" key="AUTO_FOLDER_CREATION">如果指定文件夹，将会自动创建该文件夹。</string>
-    <string lang="zh-cn" key="SETUP_UPGRADE_DESTINATION">TrueCrypt 程序文件将会更新到 TrueCrypt 的安装位置。如果您需要选择一个不同的位置，请先卸载当前安装的 TrueCrypt 。</string>
-    <string lang="zh-cn" key="AFTER_UPGRADE_RELEASE_NOTES">您想联网查看当前版本的 TrueCrypt 的发行说明吗？</string>
-    <string lang="zh-cn" key="AFTER_INSTALL_TUTORIAL">如果您以前从未没有使用过 TrueCrypt，我们推荐您先阅读“TrueCrypt User Guide”文档中的“Beginner's Tutorial”章节。您想要查看用户指南吗（联网）？</string>
+    <string lang="zh-cn" key="SETUP_UPGRADE_DESTINATION">VeraCrypt 程序文件将会更新到 VeraCrypt 的安装位置。如果您需要选择一个不同的位置，请先卸载当前安装的 VeraCrypt 。</string>
+    <string lang="zh-cn" key="AFTER_UPGRADE_RELEASE_NOTES">您想联网查看当前版本的 VeraCrypt 的发行说明吗？</string>
+    <string lang="zh-cn" key="AFTER_INSTALL_TUTORIAL">如果您以前从未没有使用过 VeraCrypt，我们推荐您先阅读“VeraCrypt User Guide”文档中的“Beginner's Tutorial”章节。您想要查看用户指南吗（联网）？</string>
     <string lang="zh-cn" key="SELECT_AN_ACTION">请从下面选项中选择要执行的操作：</string>
     <string lang="zh-cn" key="REPAIR_REINSTALL">修复/重新安装</string>
     <string lang="zh-cn" key="UPGRADE">更新</string>
     <string lang="zh-cn" key="UNINSTALL">卸载</string>
-    <string lang="zh-cn" key="SETUP_ADMIN">要成功安装或卸载 TrueCrypt，您必须具有系统管理员权限。您确认要继续吗？</string>
-    <string lang="zh-cn" key="TC_INSTALLER_IS_RUNNING">TrueCrypt 安装程序正在执行 TrueCrypt 的安装或更新。在您继续进行前，请等待其完成或者关闭它。如果您无法关闭它，请在继续之前重启计算机。</string>
+    <string lang="zh-cn" key="SETUP_ADMIN">要成功安装或卸载 VeraCrypt，您必须具有系统管理员权限。您确认要继续吗？</string>
+    <string lang="zh-cn" key="TC_INSTALLER_IS_RUNNING">VeraCrypt 安装程序正在执行 VeraCrypt 的安装或更新。在您继续进行前，请等待其完成或者关闭它。如果您无法关闭它，请在继续之前重启计算机。</string>
     <string lang="zh-cn" key="INSTALL_FAILED">安装失败。</string>
     <string lang="zh-cn" key="UNINSTALL_FAILED">卸载失败。</string>
-    <string lang="zh-cn" key="DIST_PACKAGE_CORRUPTED">该安装包已经损坏。请尝试重新下载安装包（优先建议从 TrueCrypt 官方网站 www.truecrypt.org 下载）。</string>
+    <string lang="zh-cn" key="DIST_PACKAGE_CORRUPTED">该安装包已经损坏。请尝试重新下载安装包（优先建议从 VeraCrypt 官方网站 www.veracrypt.org 下载）。</string>
     <string lang="zh-cn" key="CANNOT_WRITE_FILE_X">不能写入文件 %hs</string>
     <string lang="zh-cn" key="EXTRACTING_VERB">正在释放</string>
     <string lang="zh-cn" key="CANNOT_READ_FROM_PACKAGE">不能从安装包中读取数据</string>
     <string lang="zh-cn" key="CANT_VERIFY_PACKAGE_INTEGRITY">不能验证安装包的完整性。</string>
     <string lang="zh-cn" key="EXTRACTION_FAILED">释放失败。</string>
     <string lang="zh-cn" key="ROLLBACK">安装已经回滚。</string>
-    <string lang="zh-cn" key="INSTALL_OK">TrueCrypt 已成功安装。</string>
-    <string lang="zh-cn" key="SETUP_UPDATE_OK">TrueCrypt 已经成功更新。</string>
-    <string lang="zh-cn" key="UPGRADE_OK_REBOOT_REQUIRED">TrueCrypt 已经更新到新版本。在您开始使用新版本前，您必须重启计算机。\n\n您希望现在就重启计算机吗？</string>
-    <string lang="zh-cn" key="SYS_ENC_UPGRADE_FAILED">警告：TrueCrypt 更新失败！\n\n重要：在您关机或重新启动系统前 ，我们强烈建议您使用系统还原（〖开始〗菜单 -&gt; 所有程序 -&gt;  附件 -&gt; 系统工具 -&gt; 系统还原），以恢复系统到名为“TrueCrypt 安装”的还原点。如果系统还原不可用，您应该在关机前尝试再从新安装原始版本的 TrueCrypt。</string>
-    <string lang="zh-cn" key="UNINSTALL_OK">TrueCrypt 已成功卸载。\n\n单击〖完成〗按钮来移除 TrueCrypt 安装程序和文件夹 %hs。注意：如果该文件夹中含有非安装程序创建的文件，则该文件夹不会被移除。</string>
-    <string lang="zh-cn" key="REMOVING_REG">正在移除 TrueCrypt 注册表项目。</string>
+    <string lang="zh-cn" key="INSTALL_OK">VeraCrypt 已成功安装。</string>
+    <string lang="zh-cn" key="SETUP_UPDATE_OK">VeraCrypt 已经成功更新。</string>
+    <string lang="zh-cn" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt 已经更新到新版本。在您开始使用新版本前，您必须重启计算机。\n\n您希望现在就重启计算机吗？</string>
+    <string lang="zh-cn" key="SYS_ENC_UPGRADE_FAILED">警告：VeraCrypt 更新失败！\n\n重要：在您关机或重新启动系统前 ，我们强烈建议您使用系统还原（〖开始〗菜单 -&gt; 所有程序 -&gt;  附件 -&gt; 系统工具 -&gt; 系统还原），以恢复系统到名为“VeraCrypt 安装”的还原点。如果系统还原不可用，您应该在关机前尝试再从新安装原始版本的 VeraCrypt。</string>
+    <string lang="zh-cn" key="UNINSTALL_OK">VeraCrypt 已成功卸载。\n\n单击〖完成〗按钮来移除 VeraCrypt 安装程序和文件夹 %hs。注意：如果该文件夹中含有非安装程序创建的文件，则该文件夹不会被移除。</string>
+    <string lang="zh-cn" key="REMOVING_REG">正在移除 VeraCrypt 注册表项目。</string>
     <string lang="zh-cn" key="ADDING_REG">正在添加注册表项目</string>
     <string lang="zh-cn" key="REMOVING_APPDATA">正在删除程序相关数据</string>
     <string lang="zh-cn" key="INSTALLING">正在安装</string>
@@ -805,20 +805,20 @@
     <string lang="zh-cn" key="UNINSTALL_OF_FAILED">卸载 '%hs' 失败。 %hs 您想要继续卸载吗？</string>
     <string lang="zh-cn" key="INSTALL_COMPLETED">安装完毕。</string>
     <string lang="zh-cn" key="CANT_CREATE_FOLDER">无法创建文件夹 '%hs' </string>
-    <string lang="zh-cn" key="CLOSE_TC_FIRST">不能卸载 TrueCrypt 设备驱动。\n\n请首先关闭所有打开的 TrueCrypt 窗口。如果这样仍然不起作用，请重启计算机然后再试一次。</string>
-    <string lang="zh-cn" key="DISMOUNT_ALL_FIRST">在安装或者卸载 TrueCrypt 之前必须先要卸载所有的 TrueCrypt 加密卷。</string>
-    <string lang="zh-cn" key="UNINSTALL_OLD_VERSION_FIRST">当前系统已经安装了老版本的 TrueCrypt。在安装新版本前需要卸载旧版本的 TrueCrypt。\n\n在您关闭此对话框之后，将会加载旧版本的卸载程序。在卸载的过程中将不会执行任何加密分区的解密操作。在卸载旧版本的 TrueCrypt 之后，请再次运行新版 TrueCrypt 安装程序。</string>
+    <string lang="zh-cn" key="CLOSE_TC_FIRST">不能卸载 VeraCrypt 设备驱动。\n\n请首先关闭所有打开的 VeraCrypt 窗口。如果这样仍然不起作用，请重启计算机然后再试一次。</string>
+    <string lang="zh-cn" key="DISMOUNT_ALL_FIRST">在安装或者卸载 VeraCrypt 之前必须先要卸载所有的 VeraCrypt 加密卷。</string>
+    <string lang="zh-cn" key="UNINSTALL_OLD_VERSION_FIRST">当前系统已经安装了老版本的 VeraCrypt。在安装新版本前需要卸载旧版本的 VeraCrypt。\n\n在您关闭此对话框之后，将会加载旧版本的卸载程序。在卸载的过程中将不会执行任何加密分区的解密操作。在卸载旧版本的 VeraCrypt 之后，请再次运行新版 VeraCrypt 安装程序。</string>
     <string lang="zh-cn" key="REG_INSTALL_FAILED">安装注册表项目失败</string>
-    <string lang="zh-cn" key="DRIVER_INSTALL_FAILED">安装设备驱动失败。请重启计算机后再尝试安装 TrueCrypt。</string>
-    <string lang="zh-cn" key="STARTING_DRIVER">正在启动 TrueCrypt 设备驱动</string>
+    <string lang="zh-cn" key="DRIVER_INSTALL_FAILED">安装设备驱动失败。请重启计算机后再尝试安装 VeraCrypt。</string>
+    <string lang="zh-cn" key="STARTING_DRIVER">正在启动 VeraCrypt 设备驱动</string>
     <string lang="zh-cn" key="DRIVER_UINSTALL_FAILED">卸载设备驱动失败。请注意，由于 Windows 系统问题，在设置驱动能够继续卸载或重新安装前可能需要注销或者重启系统。</string>
-    <string lang="zh-cn" key="INSTALLING_DRIVER">正在安装 TrueCrypt 设备驱动</string>
-    <string lang="zh-cn" key="STOPPING_DRIVER">正在停止 TrueCrypt 设备驱动</string>
-    <string lang="zh-cn" key="REMOVING_DRIVER">正在卸载 TrueCrypt 设备驱动</string>
+    <string lang="zh-cn" key="INSTALLING_DRIVER">正在安装 VeraCrypt 设备驱动</string>
+    <string lang="zh-cn" key="STOPPING_DRIVER">正在停止 VeraCrypt 设备驱动</string>
+    <string lang="zh-cn" key="REMOVING_DRIVER">正在卸载 VeraCrypt 设备驱动</string>
     <string lang="zh-cn" key="COM_REG_FAILED">注册用户账户控制支持运行库失败。</string>
     <string lang="zh-cn" key="COM_DEREG_FAILED">取消用户账户支持运行库失败。</string>
-    <string lang="zh-cn" key="TRAVELER_LIMITATIONS_NOTE">便携模式注意事项：\n\n操作系统要求驱动程序在启动前已注册，因此，TrueCrypt 的驱动程序不是完全便携的（但 TrueCrypt 程序本身是完全便携的，也就是说，它们无需安装也不用在操作系统中注册）。此外，也须注意TrueCrypt 需要提供透明的实时加密/解密的驱动。</string>
-    <string lang="zh-cn" key="TRAVELER_UAC_NOTE">注意：如果您决定以便携方式运行 TrueCrypt（不同于安装后运行 TrueCrypt），系统会在您每次尝试运行 TrueCrypt 的时候询问您运行 TrueCrypt  的权限（UAC 提示）。\n\n原因是您以便携模式运行 TrueCrypt 时，TrueCrypt需要加载和运行 TrueCrypt 设备驱动。TrueCrypt 需要此设备驱提供透明实时加解密，并且不具有管理员权限的用户在 Windows 中将不能启动设备驱动。因此，系统将会要求您使用管理器特权运行 TrueCrypt 的权限（UAC 提示）。\n\n说明：如果您在系统中安装了 TrueCrypt，系统在每次启动 TrueCrypt 时将不会询问运行权限（无 UAC 提示）。\n\n您确认要释放这些文件吗？</string>
+    <string lang="zh-cn" key="TRAVELER_LIMITATIONS_NOTE">便携模式注意事项：\n\n操作系统要求驱动程序在启动前已注册，因此，VeraCrypt 的驱动程序不是完全便携的（但 VeraCrypt 程序本身是完全便携的，也就是说，它们无需安装也不用在操作系统中注册）。此外，也须注意VeraCrypt 需要提供透明的实时加密/解密的驱动。</string>
+    <string lang="zh-cn" key="TRAVELER_UAC_NOTE">注意：如果您决定以便携方式运行 VeraCrypt（不同于安装后运行 VeraCrypt），系统会在您每次尝试运行 VeraCrypt 的时候询问您运行 VeraCrypt  的权限（UAC 提示）。\n\n原因是您以便携模式运行 VeraCrypt 时，VeraCrypt需要加载和运行 VeraCrypt 设备驱动。VeraCrypt 需要此设备驱提供透明实时加解密，并且不具有管理员权限的用户在 Windows 中将不能启动设备驱动。因此，系统将会要求您使用管理器特权运行 VeraCrypt 的权限（UAC 提示）。\n\n说明：如果您在系统中安装了 VeraCrypt，系统在每次启动 VeraCrypt 时将不会询问运行权限（无 UAC 提示）。\n\n您确认要释放这些文件吗？</string>
     <string lang="zh-cn" key="CONTAINER_ADMIN_WARNING">警告：这个加密卷创建向导的实例具有管理员权限。\n\n您新建的加密卷可能许可为加载时不允许向该加密卷写入数据。如果要避免这种情况发生，请关闭加密卷向导的实例并在非管理员权限下加载新的向导。\n\n您要关闭这个加密卷创建向导的实例吗？ a</string>
     <string lang="zh-cn" key="CANNOT_DISPLAY_LICENSE">错误：不能显示授权许可。</string>
     <string lang="zh-cn" key="OUTER_VOL_WRITE_PREVENTED">外层(!)</string>
@@ -828,8 +828,8 @@
     <string lang="zh-cn" key="SECONDS">秒</string>
     <string lang="zh-cn" key="OPEN">打开</string>
     <string lang="zh-cn" key="DISMOUNT">卸载</string>
-    <string lang="zh-cn" key="SHOW_TC">显示 TrueCrypt</string>
-    <string lang="zh-cn" key="HIDE_TC">隐藏 TrueCrypt</string>
+    <string lang="zh-cn" key="SHOW_TC">显示 VeraCrypt</string>
+    <string lang="zh-cn" key="HIDE_TC">隐藏 VeraCrypt</string>
     <string lang="zh-cn" key="TOTAL_DATA_READ">加载后读取的数据</string>
     <string lang="zh-cn" key="TOTAL_DATA_WRITTEN">加载后写入的数据</string>
     <string lang="zh-cn" key="ENCRYPTED_PORTION">加密部分</string>
@@ -848,14 +848,14 @@
     <string lang="zh-cn" key="PROGRESS_STATUS_ERROR">错误</string>
     <string lang="zh-cn" key="FAVORITE_DISCONNECTED_DEV">设备已断开</string>
     <string lang="zh-cn" key="SYS_FAVORITE_VOLUMES_SAVED">系统收藏加密卷已保存。\n\n要想在系统启动时加载系统收藏加密卷，请选择〖设置〗 -&gt; 〖系统收藏加密卷〗 -&gt; 〖在 Windows 启动时加载系统收藏加密卷〗。</string>
-    <string lang="zh-cn" key="FAVORITE_ADD_DRIVE_DEV_WARNING">您添加到收藏的既不是加密分区也不是动态加密卷。因此，如果设备号发生改变，TrueCrypt 将不能载入此收藏加密卷。</string>
-    <string lang="zh-cn" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">您添加到收藏的加密卷不是 Windows 能够识别的分区。\n\n因此，如果设备号发生改变，TrueCrypt 将不能载入此收藏加密卷。请设置分区的类型为 Windows 系统所能够识别的类型(使用Windows 'diskpart' 工具的 SETID 命令)。之后再添加此分区到收藏。</string>
-    <string lang="zh-cn" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">TrueCrypt 后台任务已禁用，或被设置为在没有加密卷加载时退出（或者 TrueCrypt 正在以便携模式运行）。当含有这些加密卷的设备连接到电脑的时候，后台服务被禁用可能会阻止收藏加密卷自动加载。\n\n说明：要启用 TrueCrypt 后台任务，选择〖设置〗 -&gt; 〖参数选择〗之后勾选“TrueCrypt 后台任务”部份的“启用”复选框。</string>
+    <string lang="zh-cn" key="FAVORITE_ADD_DRIVE_DEV_WARNING">您添加到收藏的既不是加密分区也不是动态加密卷。因此，如果设备号发生改变，VeraCrypt 将不能载入此收藏加密卷。</string>
+    <string lang="zh-cn" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">您添加到收藏的加密卷不是 Windows 能够识别的分区。\n\n因此，如果设备号发生改变，VeraCrypt 将不能载入此收藏加密卷。请设置分区的类型为 Windows 系统所能够识别的类型(使用Windows 'diskpart' 工具的 SETID 命令)。之后再添加此分区到收藏。</string>
+    <string lang="zh-cn" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">VeraCrypt 后台任务已禁用，或被设置为在没有加密卷加载时退出（或者 VeraCrypt 正在以便携模式运行）。当含有这些加密卷的设备连接到电脑的时候，后台服务被禁用可能会阻止收藏加密卷自动加载。\n\n说明：要启用 VeraCrypt 后台任务，选择〖设置〗 -&gt; 〖参数选择〗之后勾选“VeraCrypt 后台任务”部份的“启用”复选框。</string>
     <string lang="zh-cn" key="FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR">当含有这些加密卷的设备连接到电脑的时候，存储于共享网络上的远程文件系统的加密容器不能被自动加载。</string>
     <string lang="zh-cn" key="FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR">下面显示的设备既不是分区也不是动态加密卷。因此，当设备连接到电脑的时候，存储于这些设备中的加密卷将不能自动加载。</string>
-    <string lang="zh-cn" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">请设置下面显示的分区的类型为 Windows 系统所能够识别的类型(使用Windows 'diskpart' 工具的 SETID 命令)。之后从收藏中移除该分区并随后再次添加它。这可以使设备连接时，包含于其中的加密卷可以被 TrueCrypt 自动加载。</string>
+    <string lang="zh-cn" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">请设置下面显示的分区的类型为 Windows 系统所能够识别的类型(使用Windows 'diskpart' 工具的 SETID 命令)。之后从收藏中移除该分区并随后再次添加它。这可以使设备连接时，包含于其中的加密卷可以被 VeraCrypt 自动加载。</string>
     <string lang="zh-cn" key="FAVORITE_LABEL_DEVICE_PATH_ERR">下面显示的设备既不是分区也不是动态加密卷。因此，不会赋予它们磁盘盘符。</string>
-    <string lang="zh-cn" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">请设置下面显示的分区的类型为 Windows 系统所能够识别的类型(使用 Windows 'diskpart' 工具的 SETID 命令)。之后从收藏中移除该分区并随后再次添加它。这可以使 TrueCrypt 能够赋予盘符给这个分区。</string>
+    <string lang="zh-cn" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">请设置下面显示的分区的类型为 Windows 系统所能够识别的类型(使用 Windows 'diskpart' 工具的 SETID 命令)。之后从收藏中移除该分区并随后再次添加它。这可以使 VeraCrypt 能够赋予盘符给这个分区。</string>
     <string lang="zh-cn" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">由于 Windows 系统的限制，在网络上共享的远程文件系统上的加密容器不能被加载为系统收藏加密卷（然而，它可以在用户登录时被加载为普通的收藏加密卷）。</string>
     <string lang="zh-cn" key="ENTER_PASSWORD_FOR">为 %hs 输入密码</string>
     <string lang="zh-cn" key="ENTER_PASSWORD_FOR_LABEL">为 '%s' 输入密码</string>
@@ -863,11 +863,11 @@
     <string lang="zh-cn" key="ENTER_HIDDEN_VOL_PASSWORD">输入隐藏加密卷的密码</string>
     <string lang="zh-cn" key="ENTER_HEADER_BACKUP_PASSWORD">输入存储在备份文件中的加密卷头的密码</string>
     <string lang="zh-cn" key="KEYFILE_CREATED">密钥文件已成功创建。</string>
-    <string lang="zh-cn" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：加密卷头信息已经损坏！TrueCrypt 将自动使用内嵌在加密卷中的头信息备份。\n\n您应当通过选择〖工具〗-&gt;〖恢复加密卷头信息〗来修复头信息。</string>
+    <string lang="zh-cn" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：加密卷头信息已经损坏！VeraCrypt 将自动使用内嵌在加密卷中的头信息备份。\n\n您应当通过选择〖工具〗-&gt;〖恢复加密卷头信息〗来修复头信息。</string>
     <string lang="zh-cn" key="VOL_HEADER_BACKED_UP">加密卷头信息备份已经成功创建。\n\n重要：使用恢复功能恢复时也会恢复当前加密卷的密码。另外，如果创建加密卷的时候使用了密钥文件，恢复后也需要同样的密钥文件来打开加密卷。\n\n警告：该加密卷头信息备份只能用在这个提供备份的加密卷上。如果您把该头信息备份恢复到其它加密卷，您可能能够打开加密卷，但是您将不能解密存储于加密卷的任何数据（这是因为您已经改变了加密卷的主密钥）。</string>
     <string lang="zh-cn" key="VOL_HEADER_RESTORED">加密卷头信息备份已经成功恢复。\n\n重要：请注意旧密码也同样被恢复了。另外，备份时如果需要密钥文件来加载加密卷，恢复后也需要同样的密钥文件。</string>
     <string lang="zh-cn" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">安全起见，您需要输入正确的加密卷密码（和/或 提供正确的密钥文件）。\n\n注意：如果该加密卷中包含隐藏加密卷，您需要先输入正确的外层加密卷的密码（和/或 正确的密钥文件）。之后，如果选择老备份隐藏加密卷的头信息，您需要输入正确的隐藏加密卷密码（和/或 提供正确的密钥文件）。</string>
-    <string lang="zh-cn" key="CONFIRM_VOL_HEADER_BAK">您确认要创建加密卷 %hs 的头信息的备份吗？\n\n在您点击〖是〗后，将会弹出备份的头信息文件的文件名提示对话框。\n\n注意：常规加密卷和隐藏加密卷头信息均将使用新的元素加密并存储到备份文件中。如果加密卷中没有隐藏加密卷，在备份文件中为隐藏加密卷保留的区域将会使用随机数据填充（以保持隐蔽性）。您需要输入创建头信息备份时的正确的密码（和/或 提供正确的密钥文件）。密码或密钥文件会自动确定要恢复的加密卷头信息类型，即常规的或是隐藏的（TrueCrypt 通过尝试和错误来侦测类型），尽管有时在加密卷里面并没有隐藏加密卷（为保留隐蔽性）。当从备份文件中恢复一个加密卷的头信息时，可以选择恢复哪个头信息（例如，隐藏解密卷或是标准加密卷）</string>
+    <string lang="zh-cn" key="CONFIRM_VOL_HEADER_BAK">您确认要创建加密卷 %hs 的头信息的备份吗？\n\n在您点击〖是〗后，将会弹出备份的头信息文件的文件名提示对话框。\n\n注意：常规加密卷和隐藏加密卷头信息均将使用新的元素加密并存储到备份文件中。如果加密卷中没有隐藏加密卷，在备份文件中为隐藏加密卷保留的区域将会使用随机数据填充（以保持隐蔽性）。您需要输入创建头信息备份时的正确的密码（和/或 提供正确的密钥文件）。密码或密钥文件会自动确定要恢复的加密卷头信息类型，即常规的或是隐藏的（VeraCrypt 通过尝试和错误来侦测类型），尽管有时在加密卷里面并没有隐藏加密卷（为保留隐蔽性）。当从备份文件中恢复一个加密卷的头信息时，可以选择恢复哪个头信息（例如，隐藏解密卷或是标准加密卷）</string>
     <string lang="zh-cn" key="CONFIRM_VOL_HEADER_RESTORE">您确认要恢复加密卷 %hs 的头信息吗？\n\n警告：恢复加密卷头信息也会恢复在创建备份时 有效的密码。另外，如果在备份时需要使用密钥文件加载加密卷，那么在头信息恢复后，仍然需要同样的密钥文件。\n\n在您点击〖是〗后，您将选择头信息备份文件。</string>
     <string lang="zh-cn" key="DOES_VOLUME_CONTAIN_HIDDEN">此加密卷包含隐藏加密卷吗？</string>
     <string lang="zh-cn" key="VOLUME_CONTAINS_HIDDEN">此加密卷包含隐藏加密卷</string>
@@ -876,20 +876,20 @@
     <string lang="zh-cn" key="HEADER_RESTORE_INTERNAL">从加密卷内嵌的备份中恢复加密卷头信息</string>
     <string lang="zh-cn" key="HEADER_RESTORE_EXTERNAL">从外部备份文件中恢复加密卷头信息</string>
     <string lang="zh-cn" key="HEADER_BACKUP_SIZE_INCORRECT">加密卷头信息备份文件的尺寸不对。</string>
-    <string lang="zh-cn" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中没有内嵌的备份头信息（注意，仅在 TrueCrypt 6.0 和以后的版本才包含内嵌的头信息）。</string>
-    <string lang="zh-cn" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试备份系统分区/设备的头信息，该功能不被允许。对于系统分区/设备头信息的备份/恢复 只能通过使用 TrueCrypt 应急盘来进行。\n\n您希望创建 TrueCrypt 应急盘吗？</string>
-    <string lang="zh-cn" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试恢复系统分区/设备的头信息，但是您选择的是系统分区/设备。该功能不被允许。 对于系统分区/设备头信息的备份/恢复 只能通过使用 TrueCrypt 应急盘来进行。\n\n您希望创建 TrueCrypt 应急盘吗？</string>
-    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在点击〖确定〗按钮后，您将会设置新的 TrueCrypt 应急盘  ISO 镜像文件的名称和存放位置。</string>
+    <string lang="zh-cn" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中没有内嵌的备份头信息（注意，仅在 VeraCrypt 6.0 和以后的版本才包含内嵌的头信息）。</string>
+    <string lang="zh-cn" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试备份系统分区/设备的头信息，该功能不被允许。对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</string>
+    <string lang="zh-cn" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试恢复系统分区/设备的头信息，但是您选择的是系统分区/设备。该功能不被允许。 对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</string>
+    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在点击〖确定〗按钮后，您将会设置新的 VeraCrypt 应急盘  ISO 镜像文件的名称和存放位置。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">应急盘  ISO 镜像文件已经创建并存储为文件： %hs\n\n现在您需要把应急盘刻录到 CD 或 DVD。\n\n重要：文件必须以 ISO 镜像文件方式刻录到 CD/DVD（不要刻录为单个的数据文件）。要获取更多的关于如何刻录 ISO 文件的信息，请参考您的 CD/DVD 刻录软件的说明书。\n\n请您在刻录应急盘之后，选择〖系统〗 -&gt; 〖验证应急盘〗来验证应急盘是否已经成功刻录。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">应急盘  ISO 镜像文件已经创建并存储为文件： %hs\n\n现在您需要把应急盘刻录到 CD 或 DVD。\n\n您想要启动 Windows 自带的磁盘镜像刻录功能吗？\n\n注意，请您在刻录应急盘之后，选择〖系统〗 -&gt; 〖验证应急盘〗来验证应急盘是否已经成功刻录。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">请插入 TrueCrypt 应急盘到 CD/DVD 光驱并点〖确定〗按钮开始验证。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">TrueCrypt 应急盘已经被成功验证。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">应急盘验证失败。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再试一次。如果仍然无效，请尝试使用其它 CD/DVD 刻录软件或刻录盘。\n\n如果您尝试验证一个为不同的主密钥、密码、元素等创建的 TrueCrypt 应急盘，请注意这样的应急盘会无法通过验证。要创建一个新的和当前配置完全兼容的应急盘，请选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
-    <string lang="zh-cn" key="ERROR_CREATING_RESCUE_DISK">创建 TrueCrypt 应急盘时失败。</string>
-    <string lang="zh-cn" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">TrueCrypt 应急盘在隐形操作系统运行时无法创建。\n\n要创建 TrueCrypt 应急盘，请启动到迷惑操作系统之后选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">请插入 VeraCrypt 应急盘到 CD/DVD 光驱并点〖确定〗按钮开始验证。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 应急盘已经被成功验证。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">应急盘验证失败。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再试一次。如果仍然无效，请尝试使用其它 CD/DVD 刻录软件或刻录盘。\n\n如果您尝试验证一个为不同的主密钥、密码、元素等创建的 VeraCrypt 应急盘，请注意这样的应急盘会无法通过验证。要创建一个新的和当前配置完全兼容的应急盘，请选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
+    <string lang="zh-cn" key="ERROR_CREATING_RESCUE_DISK">创建 VeraCrypt 应急盘时失败。</string>
+    <string lang="zh-cn" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 应急盘在隐形操作系统运行时无法创建。\n\n要创建 VeraCrypt 应急盘，请启动到迷惑操作系统之后选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
     <string lang="zh-cn" key="RESCUE_DISK_CHECK_FAILED">不能确定应急盘是否刻录成功。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再尝试验证一次。如果仍然无效，请尝试使用其它 %s 。\n\n如果您还没有创建应急盘，请首先创建一个，然后再点〖下一步〗按钮。\n\n如果您尝试验证一个运行加密盘创建向导以前创建的应急盘，则这样的应急盘是无法用于当前系统的，这是因为它是使用了不同的主密钥创建的。您需要刻录和创建一个新的应急盘。</string>
     <string lang="zh-cn" key="RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"> 和/或 其它 CD/DVD 刻录软件</string>
-    <string lang="zh-cn" key="SYSTEM_FAVORITES_DLG_TITLE">TrueCrypt - 系统收藏加密卷</string>
+    <string lang="zh-cn" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - 系统收藏加密卷</string>
     <string lang="zh-cn" key="SYS_FAVORITES_HELP_LINK">什么是系统收藏加密卷？（联网）</string>
     <string lang="zh-cn" key="SYS_FAVORITES_REQUIRE_PBA">系统分区/驱动器看起来没有加密。\n\n系统收藏加密卷只能使用启动验证中的密码加载。因此，要启用系统收藏加密卷功能，您需要先加密系统分区/驱动器。</string>
     <string lang="zh-cn" key="DISMOUNT_FIRST">在操作前请卸载加密卷。</string>
@@ -916,14 +916,14 @@
     <string lang="zh-cn" key="EXE_FILE_EXTENSION_CONFIRM">警告：我们强烈建议您避免使用可执行文件名（例如 .exe，.sys，或 .dll）以及其它可能有问题的类似扩展名作为加密卷的名称。使用这些扩展名通常会导致 Windows 或反病毒软件干预加密卷，这很可能会严重影响加密卷的性能，也可能会导致其它严重的问题。\n\n我们强烈建议您移除此扩展名或更换其扩展名（例如，改变为 .iso，.img，.dat）。\n\n您确认继续使用可能有潜在问题的扩展名吗？</string>
     <string lang="zh-cn" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告：该加密卷带有可执行文件的扩展名（例如 .exe，.sys，或 .dll）或其它可能有问题的类似扩展名作为加密卷的名称。 这很可能导致 Windows 或反病毒软件干预加密卷，会严重影响加密卷的性能，也可能会导致其它严重的问题。\n\n我们强烈建议您在卸载加密卷后移除此扩展名或更换为其它扩展名（例如，改变为 .iso，.img，.dat）。</string>
     <string lang="zh-cn" key="HOMEPAGE">主页（联网）</string>
-    <string lang="zh-cn" key="LARGE_IDE_WARNING_XP">警告：看起来您还没有安装任何 Windows 操作系统的补丁包。您不应当向未 安装 SP1 或以后补丁包的 Windows XP 系统中的大于128 GB 的 IDE 硬盘写 入数据！如果这样做，磁盘上的数据（不论是否为 TrueCrypt 加密卷）可能 会损坏。注意：这是 Windows 操作系统的限制，而不是 TrueCrypt 错误。</string>
-    <string lang="zh-cn" key="LARGE_IDE_WARNING_2K">警告：看起来您的 Windows 2000 系统还未安装 SP3 或以后补丁包。 您不应当向这个系统中大于 128 GB 的 IDE 硬盘写入数据！如果这样 做了，磁盘上的数据（不论是否为 TrueCrypt 加密卷）可能会损坏。 注意：这是 Windows 操作系统的限制，而不是 TrueCrypt 的错误。\n\n注意：您也需在注册表里面启用 48-位 LBA 支持；更多信息，请参考 http：//support.microsoft.com/kb/305098/EN-US</string>
-    <string lang="zh-cn" key="LARGE_IDE_WARNING_2K_REGISTRY">警告：您的系统不支持 48-位 LBA ATAPI。因此，您将不能写入到超过 128GB 容量的 IDE 磁盘！如果您仍然坚持这样做，磁盘上的数据（不论其是否为 TrueCrypt 加密卷）将会损坏。请注意，这是 Windows 系统的限制，不是 TrueCrypt 软件的限制。\n\n要启用 48-位 LBA 支持，请在注册表的HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\atapi\\Parameters下添加一个 'EnableBigLba' 键值并设置其值为 1。\n\n更多信息请参考 http://support.microsoft.com/kb/305098</string>
+    <string lang="zh-cn" key="LARGE_IDE_WARNING_XP">警告：看起来您还没有安装任何 Windows 操作系统的补丁包。您不应当向未 安装 SP1 或以后补丁包的 Windows XP 系统中的大于128 GB 的 IDE 硬盘写 入数据！如果这样做，磁盘上的数据（不论是否为 VeraCrypt 加密卷）可能 会损坏。注意：这是 Windows 操作系统的限制，而不是 VeraCrypt 错误。</string>
+    <string lang="zh-cn" key="LARGE_IDE_WARNING_2K">警告：看起来您的 Windows 2000 系统还未安装 SP3 或以后补丁包。 您不应当向这个系统中大于 128 GB 的 IDE 硬盘写入数据！如果这样 做了，磁盘上的数据（不论是否为 VeraCrypt 加密卷）可能会损坏。 注意：这是 Windows 操作系统的限制，而不是 VeraCrypt 的错误。\n\n注意：您也需在注册表里面启用 48-位 LBA 支持；更多信息，请参考 http：//support.microsoft.com/kb/305098/EN-US</string>
+    <string lang="zh-cn" key="LARGE_IDE_WARNING_2K_REGISTRY">警告：您的系统不支持 48-位 LBA ATAPI。因此，您将不能写入到超过 128GB 容量的 IDE 磁盘！如果您仍然坚持这样做，磁盘上的数据（不论其是否为 VeraCrypt 加密卷）将会损坏。请注意，这是 Windows 系统的限制，不是 VeraCrypt 软件的限制。\n\n要启用 48-位 LBA 支持，请在注册表的HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\atapi\\Parameters下添加一个 'EnableBigLba' 键值并设置其值为 1。\n\n更多信息请参考 http://support.microsoft.com/kb/305098</string>
     <string lang="zh-cn" key="VOLUME_TOO_LARGE_FOR_FAT32">错误：大于 4 GB 的文件不能存储于 FAT32 文件系统。因此，存储于 FAT32 文件系统上的文件类型的加密卷（或外层加密卷）不能大于 4 GB。\n\n如果您需要大容量的加密卷，请在 NTFS 文件系统（或者，如果您使用 Windows Vista SP1 或以后版本的系统，在扩展的 exFAT 文件系统）中创建，除此之外，您也可以使用创建加密分区来代替创建文件型加密盘。</string>
-    <string lang="zh-cn" key="VOLUME_TOO_LARGE_FOR_WINXP">警告：Windows XP 不支持大于 2048GB 的文件（将会被报告为“无足够存储空间”）。因此，在 Windows XP 中您不能创建大于 2048GB 的文件类型加密盘。\n\n请注意，在 Windows XP 中仍然是可以加密整个设备或者创建大于 2048GB 的分区类型 TrueCrypt 加密卷的。</string>
+    <string lang="zh-cn" key="VOLUME_TOO_LARGE_FOR_WINXP">警告：Windows XP 不支持大于 2048GB 的文件（将会被报告为“无足够存储空间”）。因此，在 Windows XP 中您不能创建大于 2048GB 的文件类型加密盘。\n\n请注意，在 Windows XP 中仍然是可以加密整个设备或者创建大于 2048GB 的分区类型 VeraCrypt 加密卷的。</string>
     <string lang="zh-cn" key="FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME">警告：如果您想以后向外层加密卷中添加更多的数据或文件，您应当考虑为隐藏加密卷选择一个小一点的尺寸。\n\n您确认要以指定的尺寸继续吗？</string>
-    <string lang="zh-cn" key="NO_VOLUME_SELECTED">未选择加密卷。\n\n点击〖选择设备...〗或〖选择文件...〗来选择 TrueCrypt 加密卷。</string>
-    <string lang="zh-cn" key="NO_SYSENC_PARTITION_SELECTED">没有选择分区。\n\n点击〖选择设备〗来选择一个通常需要启动验证的已卸载的分区（例如，一个位于另外加密系统驱动器上的另外一个没有运行的系统的分区，或者是另外一个操作系统的加密系统分区）。\n\n注意：选择的分区将被以常规 TrueCrypt 加密卷的方式加载而无需启动验证。这在执行备份和修复等操作时比较有用。</string>
+    <string lang="zh-cn" key="NO_VOLUME_SELECTED">未选择加密卷。\n\n点击〖选择设备...〗或〖选择文件...〗来选择 VeraCrypt 加密卷。</string>
+    <string lang="zh-cn" key="NO_SYSENC_PARTITION_SELECTED">没有选择分区。\n\n点击〖选择设备〗来选择一个通常需要启动验证的已卸载的分区（例如，一个位于另外加密系统驱动器上的另外一个没有运行的系统的分区，或者是另外一个操作系统的加密系统分区）。\n\n注意：选择的分区将被以常规 VeraCrypt 加密卷的方式加载而无需启动验证。这在执行备份和修复等操作时比较有用。</string>
     <string lang="zh-cn" key="CONFIRM_SAVE_DEFAULT_KEYFILES">警告：如果默认的密钥文件被设定和启用后，则不能加载不使用该密钥文件的加密卷。因此，如果默认的密钥文件被设定和启用后，在打开非密钥文件加密的加密卷时，请记住取消对〖使用密钥文件〗选项的选择（在密码输入框的下面）。\n\n您确认保存选定的密钥文件/路径作为默认值吗？</string>
     <string lang="zh-cn" key="HK_AUTOMOUNT_DEVICES">自动加载设备</string>
     <string lang="zh-cn" key="HK_DISMOUNT_ALL">全部卸载</string>
@@ -932,38 +932,38 @@
     <string lang="zh-cn" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">强制全部卸载并擦除缓存</string>
     <string lang="zh-cn" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">强制全部卸载擦除缓存并退出程序</string>
     <string lang="zh-cn" key="HK_MOUNT_FAVORITE_VOLUMES">加载收藏加密卷</string>
-    <string lang="zh-cn" key="HK_SHOW_HIDE_MAIN_WINDOW">显示/隐藏 TrueCrypt 主窗口</string>
+    <string lang="zh-cn" key="HK_SHOW_HIDE_MAIN_WINDOW">显示/隐藏 VeraCrypt 主窗口</string>
     <string lang="zh-cn" key="PRESS_A_KEY_TO_ASSIGN">（单击这里并按下某个键盘按键）</string>
     <string lang="zh-cn" key="ACTION">操作</string>
     <string lang="zh-cn" key="SHORTCUT">热键</string>
     <string lang="zh-cn" key="CANNOT_USE_RESERVED_KEY">错误：该热键为系统保留热键，请选择一个其它热键。</string>
     <string lang="zh-cn" key="SHORTCUT_ALREADY_IN_USE">错误：热键被占用。</string>
-    <string lang="zh-cn" key="HOTKEY_REGISTRATION_ERROR">警告：一个或多个 TrueCrypt 作用于系统范围的热键不能使用！\n\n请确认 TrueCrypt 的这些热键没有被其它程序或操作系统占用。</string>
-    <string lang="zh-cn" key="PAGING_FILE_CREATION_PREVENTED">已阻止创建虚拟内存页面文件。\n\n请注意，由于 Windows 自身的问题，页面文件不能位于非系统类 TrueCrypt 加密卷（包括系统收藏加密卷）。TrueCrypt 仅支持在加密的系统分区/设备上创建页面文件。</string>
-    <string lang="zh-cn" key="SYS_ENC_HIBERNATION_PREVENTED">TrueCrypt 加密休眠文件时发生了错误或者非兼容问题。因此系统的休眠已经被阻止。\n\n注意：当计算机处于休眠模式（或进入节电模式），系统内存的信息会被写入位于驱动器上的休眠文件。TrueCrypt 不能阻止在内存中打开的加密密钥和敏感文件的内容以未加密的形式存放于休眠文件。</string>
-    <string lang="zh-cn" key="HIDDEN_OS_HIBERNATION_PREVENTED">休眠功能已经被阻止。\n\nTrueCrypt 不支持使用额外启动分区的隐形系统中的休眠功能。请注意启动分区是由迷惑系统和隐形系统共用的。因此，要防止数据泄露和休眠可能会带来的问题，TrueCrypt 不得不阻止隐形系统向共用的启动分区写入数据，以及阻止隐形系统休眠。</string>
-    <string lang="zh-cn" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">加载为 %c: 的 TrueCrypt 加密卷已卸载。</string>
-    <string lang="zh-cn" key="MOUNTED_VOLUMES_DISMOUNTED">TrueCrypt 加密卷已卸载。</string>
-    <string lang="zh-cn" key="VOLUMES_DISMOUNTED_CACHE_WIPED">TrueCrypt 加密卷已经卸载，密码缓存已擦除。</string>
+    <string lang="zh-cn" key="HOTKEY_REGISTRATION_ERROR">警告：一个或多个 VeraCrypt 作用于系统范围的热键不能使用！\n\n请确认 VeraCrypt 的这些热键没有被其它程序或操作系统占用。</string>
+    <string lang="zh-cn" key="PAGING_FILE_CREATION_PREVENTED">已阻止创建虚拟内存页面文件。\n\n请注意，由于 Windows 自身的问题，页面文件不能位于非系统类 VeraCrypt 加密卷（包括系统收藏加密卷）。VeraCrypt 仅支持在加密的系统分区/设备上创建页面文件。</string>
+    <string lang="zh-cn" key="SYS_ENC_HIBERNATION_PREVENTED">VeraCrypt 加密休眠文件时发生了错误或者非兼容问题。因此系统的休眠已经被阻止。\n\n注意：当计算机处于休眠模式（或进入节电模式），系统内存的信息会被写入位于驱动器上的休眠文件。VeraCrypt 不能阻止在内存中打开的加密密钥和敏感文件的内容以未加密的形式存放于休眠文件。</string>
+    <string lang="zh-cn" key="HIDDEN_OS_HIBERNATION_PREVENTED">休眠功能已经被阻止。\n\nVeraCrypt 不支持使用额外启动分区的隐形系统中的休眠功能。请注意启动分区是由迷惑系统和隐形系统共用的。因此，要防止数据泄露和休眠可能会带来的问题，VeraCrypt 不得不阻止隐形系统向共用的启动分区写入数据，以及阻止隐形系统休眠。</string>
+    <string lang="zh-cn" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">加载为 %c: 的 VeraCrypt 加密卷已卸载。</string>
+    <string lang="zh-cn" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCrypt 加密卷已卸载。</string>
+    <string lang="zh-cn" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCrypt 加密卷已经卸载，密码缓存已擦除。</string>
     <string lang="zh-cn" key="SUCCESSFULLY_DISMOUNTED">已成功卸载</string>
-    <string lang="zh-cn" key="CONFIRM_BACKGROUND_TASK_DISABLED">警告：如果 TrueCrypt 后台任务被禁用，下面的功能将会失效：\n\n1）系统热键\n2）自动卸载加密卷（例如注销时，意外的主设备移除，超时，等等）\n3）自动加载收藏加密卷\n4）提示（例如：对隐藏加密卷的损坏被阻止时）\n5）通知栏图标\n\n注意：您可以随时在通过右键单击 TrueCrypt 的通知栏图标并选择〖退出〗来停止后台任务。\n\n您确认要停止 TrueCrypt 的后台任务吗？</string>
+    <string lang="zh-cn" key="CONFIRM_BACKGROUND_TASK_DISABLED">警告：如果 VeraCrypt 后台任务被禁用，下面的功能将会失效：\n\n1）系统热键\n2）自动卸载加密卷（例如注销时，意外的主设备移除，超时，等等）\n3）自动加载收藏加密卷\n4）提示（例如：对隐藏加密卷的损坏被阻止时）\n5）通知栏图标\n\n注意：您可以随时在通过右键单击 VeraCrypt 的通知栏图标并选择〖退出〗来停止后台任务。\n\n您确认要停止 VeraCrypt 的后台任务吗？</string>
     <string lang="zh-cn" key="CONFIRM_NO_FORCED_AUTODISMOUNT">警告：如果此选项被禁用，包含打开的文件/目录 的加密卷将不能自动卸载。\n\n您确认要禁用这个选项吗？</string>
     <string lang="zh-cn" key="WARN_PREF_AUTO_DISMOUNT">警告：包含打开的文件/目录的加密卷将不能自动卸载。\n\n要防止这种情况，在对话框窗口中启用下面选项： 〖强行自动卸载，不论加密卷是否包含打开的文件或目录〗</string>
-    <string lang="zh-cn" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">警告：当笔记本电力不足时，Windows 可能会在计算机进入待机模式时，系统会向正在运行中的程序发送相应的信息。因此，这种情况下 TrueCrypt 可能会无法自动卸载加密卷。</string>
+    <string lang="zh-cn" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">警告：当笔记本电力不足时，Windows 可能会在计算机进入待机模式时，系统会向正在运行中的程序发送相应的信息。因此，这种情况下 VeraCrypt 可能会无法自动卸载加密卷。</string>
     <string lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">您已经安排了加密 分区/设备 的计划。该计划尚未完成。\n\n您希望现在继续这个加密过程吗？</string>
     <string lang="zh-cn" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">您已经计划了加密或解密系统分区/驱动器的操作。但该操作尚未完成。\n\n您希望开始（或继续）该操作吗？</string>
     <string lang="zh-cn" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">您想要软件提示您是否要继续当前计划的加密非系统分区/卷的加密过程吗？</string>
     <string lang="zh-cn" key="KEEP_PROMPTING_ME">是，一直提示我</string>
     <string lang="zh-cn" key="DO_NOT_PROMPT_ME">否，不要再提示我</string>
-    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">重要：请一定记住，任何时候，您都可以通过从 TrueCrypt 窗口的主菜单中选择〖加密卷〗 -&gt; 〖继续被中断的过程〗，来继续任何非系统服务/卷的加密过程。</string>
-    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">您已经设置了加密解密系统分区或驱动器的计划任务。然而，启动验证已失败（或被绕过）。\n\n注意：如果您在启动验证环境中解密了系统分区/驱动器，您可能需要从 TrueCrypt 窗口的〖系统〗 菜单 -&gt; 〖永久解密系统分区/驱动器〗完成最后的设置步骤。</string>
-    <string lang="zh-cn" key="CONFIRM_EXIT">警告：如果 TrueCrypt 现在退出，以下功能将被禁用：\n\n1）系统热键\n2）自动卸载加密卷（例如注销时，意外的主设备移除，超时，等等）\n3）自动加载收藏加密卷 \n4）提示（例如，当阻止损害隐藏加密卷时）\n\n注意：如果您不希望 TrueCrypt 在关闭程序窗口后以后台方式运行，请在程序参数选择里面禁用后台任务选项。（并且，如有必要，在程序参数里面禁用 TrueCrypt 的自动运行）。\n\n您确定要退出 TrueCrypt 吗？</string>
+    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">重要：请一定记住，任何时候，您都可以通过从 VeraCrypt 窗口的主菜单中选择〖加密卷〗 -&gt; 〖继续被中断的过程〗，来继续任何非系统服务/卷的加密过程。</string>
+    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">您已经设置了加密解密系统分区或驱动器的计划任务。然而，启动验证已失败（或被绕过）。\n\n注意：如果您在启动验证环境中解密了系统分区/驱动器，您可能需要从 VeraCrypt 窗口的〖系统〗 菜单 -&gt; 〖永久解密系统分区/驱动器〗完成最后的设置步骤。</string>
+    <string lang="zh-cn" key="CONFIRM_EXIT">警告：如果 VeraCrypt 现在退出，以下功能将被禁用：\n\n1）系统热键\n2）自动卸载加密卷（例如注销时，意外的主设备移除，超时，等等）\n3）自动加载收藏加密卷 \n4）提示（例如，当阻止损害隐藏加密卷时）\n\n注意：如果您不希望 VeraCrypt 在关闭程序窗口后以后台方式运行，请在程序参数选择里面禁用后台任务选项。（并且，如有必要，在程序参数里面禁用 VeraCrypt 的自动运行）。\n\n您确定要退出 VeraCrypt 吗？</string>
     <string lang="zh-cn" key="CONFIRM_EXIT_UNIVERSAL">退出吗？</string>
-    <string lang="zh-cn" key="CHOOSE_ENCRYPT_OR_DECRYPT">TrueCrypt 没有足够信息确定是否要加密还是解密。</string>
-    <string lang="zh-cn" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">TrueCrypt 无足够的信息来确定加解密状态。\n\n注意：如果您在启动验证环境解密系统分区/驱动器，您可能需要点击 Decrypt（解密）来最后完成解密过程。</string>
-    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">您想要中断和推迟对分区/驱动器的加密吗？\n\n注意：要记住这个加密卷在完全加密前是不能被加载的。您可以继续加密过程，加密则会在中断的地方继续。要达到这点，例如，可以从 TrueCrypt 主窗口的菜单中选择〖加密卷〗 -&gt; 〖继续被中断的过程〗。</string>
-    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">您想要中断和推迟对系统分区/驱动器的加密吗？\n\n注意：您以后也可以从中断位置恢复加密进程。操作如下：在 TrueCrypt 界面中选择〖系统〗 -&gt; 〖继续被中断的过程〗。如果您想永久中止或回滚加密进程，请选择〖系统〗 -&gt; 〖永久解密系统分区/驱动器〗。</string>
-    <string lang="zh-cn" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">您想要中断和推迟对系统分区/驱动器的加密吗？\n\n注意：您以后也可以从中断位置恢复加密进程。操作如下：在 TrueCrypt 界面中选择〖系统〗 -&gt; 〖继续被中断的过程〗。如果您想回滚解密进程（和开始加密），选择〖系统〗 -&gt; 〖加密系统分区/驱动器〗。</string>
+    <string lang="zh-cn" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt 没有足够信息确定是否要加密还是解密。</string>
+    <string lang="zh-cn" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt 无足够的信息来确定加解密状态。\n\n注意：如果您在启动验证环境解密系统分区/驱动器，您可能需要点击 Decrypt（解密）来最后完成解密过程。</string>
+    <string lang="zh-cn" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">您想要中断和推迟对分区/驱动器的加密吗？\n\n注意：要记住这个加密卷在完全加密前是不能被加载的。您可以继续加密过程，加密则会在中断的地方继续。要达到这点，例如，可以从 VeraCrypt 主窗口的菜单中选择〖加密卷〗 -&gt; 〖继续被中断的过程〗。</string>
+    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">您想要中断和推迟对系统分区/驱动器的加密吗？\n\n注意：您以后也可以从中断位置恢复加密进程。操作如下：在 VeraCrypt 界面中选择〖系统〗 -&gt; 〖继续被中断的过程〗。如果您想永久中止或回滚加密进程，请选择〖系统〗 -&gt; 〖永久解密系统分区/驱动器〗。</string>
+    <string lang="zh-cn" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">您想要中断和推迟对系统分区/驱动器的加密吗？\n\n注意：您以后也可以从中断位置恢复加密进程。操作如下：在 VeraCrypt 界面中选择〖系统〗 -&gt; 〖继续被中断的过程〗。如果您想回滚解密进程（和开始加密），选择〖系统〗 -&gt; 〖加密系统分区/驱动器〗。</string>
     <string lang="zh-cn" key="FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION">错误：中断加密/解密系统分区或驱动器的操作失败。</string>
     <string lang="zh-cn" key="FAILED_TO_INTERRUPT_WIPING">错误：中断擦除过程时失败。</string>
     <string lang="zh-cn" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">错误：继续加密/解密系统分区或驱动器的操作失败。</string>
@@ -971,71 +971,71 @@
     <string lang="zh-cn" key="INCONSISTENCY_RESOLVED">发现不一致性。\n\n\n（如果您使用此链接报告这个错误，请在报告中包含下面信息： %hs）</string>
     <string lang="zh-cn" key="UNEXPECTED_STATE">错误：未知状态。\n\n\n（如果您报告与之相关的 BUG，请在错误报告里面包含下面的技术信息： %hs）</string>
     <string lang="zh-cn" key="NOTHING_TO_RESUME">没有可以继续的进程/任务。</string>
-    <string lang="zh-cn" key="HIDVOL_PROT_BKG_TASK_WARNING">警告： TrueCrypt 后台任务已禁用。在您退出 TrueCrypt 后，如果设置了阻止损坏隐藏加密卷，您也将无法得到提示。\n\n注意：您可以随时在通过右键单击 TrueCrypt 通知栏图标并 选择〖退出〗来停止后台任务。\n\n\n您要启用 TrueCrypt 后台任务吗？</string>
+    <string lang="zh-cn" key="HIDVOL_PROT_BKG_TASK_WARNING">警告： VeraCrypt 后台任务已禁用。在您退出 VeraCrypt 后，如果设置了阻止损坏隐藏加密卷，您也将无法得到提示。\n\n注意：您可以随时在通过右键单击 VeraCrypt 通知栏图标并 选择〖退出〗来停止后台任务。\n\n\n您要启用 VeraCrypt 后台任务吗？</string>
     <string lang="zh-cn" key="LANG_PACK_VERSION">语言包版本： %s</string>
-    <string lang="zh-cn" key="CHECKING_FS">正在检测加载为 %hs 的 TrueCrypt 加密卷的文件系统...</string>
-    <string lang="zh-cn" key="REPAIRING_FS">正在试图修复加载为 %hs 的 TrueCrypt 加密卷的文件系统...</string>
-    <string lang="zh-cn" key="WARN_CBC_MODE">警告：该加密卷以 CBC 模式加密。由于安全原因，CBC 模式自从 TrueCrypt 4.1 以后已不再推荐。\n\n我们强烈建议您把原来的数据移动到使用此版本 TrueCrypt 创建的加密卷里面。在执行此操作后，您应当安全的擦除或销毁早期的加密盘。要获取更多信息，请参考软件文档中的版本历史或者 TrueCrypt 4.1 或以后版本的发布说明。</string>
-    <string lang="zh-cn" key="WARN_64_BIT_BLOCK_CIPHER">警告：该加密卷使用了已废弃的加密算法。\n\n所有 64-位块加密算法（Blowfish，CAST-128，和 Triple DES）已经逐渐不再被使用了。该加密卷在以后版本的 TrueCrypt 可能会被打开。然而以后则不会针对这些废弃算法采取一些改善措施。我们推荐您创建一个使用 128-位块加密算法的 Truecrypt 加密卷（如：AES，Serpent，Twofish，等等）并把使用旧算法的加密卷里面的文件移动到新的加密卷里面去。</string>
+    <string lang="zh-cn" key="CHECKING_FS">正在检测加载为 %hs 的 VeraCrypt 加密卷的文件系统...</string>
+    <string lang="zh-cn" key="REPAIRING_FS">正在试图修复加载为 %hs 的 VeraCrypt 加密卷的文件系统...</string>
+    <string lang="zh-cn" key="WARN_CBC_MODE">警告：该加密卷以 CBC 模式加密。由于安全原因，CBC 模式自从 VeraCrypt 4.1 以后已不再推荐。\n\n我们强烈建议您把原来的数据移动到使用此版本 VeraCrypt 创建的加密卷里面。在执行此操作后，您应当安全的擦除或销毁早期的加密盘。要获取更多信息，请参考软件文档中的版本历史或者 VeraCrypt 4.1 或以后版本的发布说明。</string>
+    <string lang="zh-cn" key="WARN_64_BIT_BLOCK_CIPHER">警告：该加密卷使用了已废弃的加密算法。\n\n所有 64-位块加密算法（Blowfish，CAST-128，和 Triple DES）已经逐渐不再被使用了。该加密卷在以后版本的 VeraCrypt 可能会被打开。然而以后则不会针对这些废弃算法采取一些改善措施。我们推荐您创建一个使用 128-位块加密算法的 Truecrypt 加密卷（如：AES，Serpent，Twofish，等等）并把使用旧算法的加密卷里面的文件移动到新的加密卷里面去。</string>
     <string lang="zh-cn" key="SYS_AUTOMOUNT_DISABLED">您的系统未被配置为自动加载新加密卷。 因此也不可能加载设备类的加密卷。自动卸载 可以在执行下列命令后重启系统来启用。\n\n\nmountvol.exe /E</string>
     <string lang="zh-cn" key="SYS_ASSIGN_DRIVE_LETTER">请在继续前为该设备/分区分配一个盘符（〖控制面板〗 -&gt; 〖系统和维护〗 -&gt; 〖管理工具〗 - 〖创建和格式化分区〗）。\n\n这些是操作系统所要求的。</string>
-    <string lang="zh-cn" key="MOUNT_TC_VOLUME">加载 TrueCrypt 加密卷</string>
-    <string lang="zh-cn" key="DISMOUNT_ALL_TC_VOLUMES">卸载所有 TrueCrypt 加密卷</string>
-    <string lang="zh-cn" key="UAC_INIT_ERROR">TrueCrypt 获取系统管理员权限失败。</string>
+    <string lang="zh-cn" key="MOUNT_TC_VOLUME">加载 VeraCrypt 加密卷</string>
+    <string lang="zh-cn" key="DISMOUNT_ALL_TC_VOLUMES">卸载所有 VeraCrypt 加密卷</string>
+    <string lang="zh-cn" key="UAC_INIT_ERROR">VeraCrypt 获取系统管理员权限失败。</string>
     <string lang="zh-cn" key="ERR_ACCESS_DENIED">访问被操作系统拒绝。\n\n可能原因：操作系统要求您对某些文件夹、文件、和设备具有读写权限（或管理员权限），以便您能够从其中读写数据。通常情况下，非系统管理员仅允许在他自己的文档文件夹中创建、读取和修改文件。</string>
     <string lang="zh-cn" key="SECTOR_SIZE_UNSUPPORTED">错误：该驱动器使用了不被支持的扇区尺寸。\n\n如果设备的扇区大于 4096 字节，目前不可能在其上创建 分区/设备 类的加密卷。然而，您可以在此类驱动器上创建文件类型的加密卷。</string>
     <string lang="zh-cn" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">目前情况下，如果安装系统的磁盘扇区尺寸不是 512 字节，则无法在此基础上创建加密系统。</string>
-    <string lang="zh-cn" key="NO_SPACE_FOR_BOOT_LOADER">TrueCrypt 启动管理器要求系统驱动器最前端至少有 32 KB 的未分配空间（TrueCrypt 启动管理器需要安装到该区域）。很不幸，您的驱动器无法满足这个条件。\n\n请不要把这个问题报告为 TrueCrypt 的程序缺陷。要解决这个问题，您需要对硬盘重新分区并保留硬盘的前 32 KB 为空闲状态（大多数情况下，需要您删除和重建第一个分区）。我们推荐您使用微软的分区管理来完成这个操作，例如，当您安装 Windows 时的分区管理程序。</string>
+    <string lang="zh-cn" key="NO_SPACE_FOR_BOOT_LOADER">VeraCrypt 启动管理器要求系统驱动器最前端至少有 32 KB 的未分配空间（VeraCrypt 启动管理器需要安装到该区域）。很不幸，您的驱动器无法满足这个条件。\n\n请不要把这个问题报告为 VeraCrypt 的程序缺陷。要解决这个问题，您需要对硬盘重新分区并保留硬盘的前 32 KB 为空闲状态（大多数情况下，需要您删除和重建第一个分区）。我们推荐您使用微软的分区管理来完成这个操作，例如，当您安装 Windows 时的分区管理程序。</string>
     <string lang="zh-cn" key="FEATURE_UNSUPPORTED_ON_CURRENT_OS">此功能不支持当前您正在使用的操作系统版本。</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS">TrueCrypt 不支持在您当前使用的操作系统版本内加密系统分区/驱动器。</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS">VeraCrypt 不支持在您当前使用的操作系统版本内加密系统分区/驱动器。</string>
     <string lang="zh-cn" key="SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0">在您加密 Windows Vista 的系统分区/设备 前，您需要为 Vista 安装 Service Pack 1 或更高版本的补丁。\n\n提示：Vista Service Pack 1解决了启动系统时的自由基础内存缺陷。</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">TrueCrypt 不再支持对未安装 SP 补丁的 Windows Vista 系统的系统分区/设备的加密。在升级 TrueCrypt 之前，请安装 Vista 的 Service Pack 1 或更高补丁版本。</string>
-    <string lang="zh-cn" key="FEATURE_REQUIRES_INSTALLATION">错误：此功能要求 TrueCrypt 必须安装于当前系统（您正在以便携模式运行 TrueCrypt）。\n\n请安装 TrueCrypt 之后再试一次。</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt 不再支持对未安装 SP 补丁的 Windows Vista 系统的系统分区/设备的加密。在升级 VeraCrypt 之前，请安装 Vista 的 Service Pack 1 或更高补丁版本。</string>
+    <string lang="zh-cn" key="FEATURE_REQUIRES_INSTALLATION">错误：此功能要求 VeraCrypt 必须安装于当前系统（您正在以便携模式运行 VeraCrypt）。\n\n请安装 VeraCrypt 之后再试一次。</string>
     <string lang="zh-cn" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">警告：Windows 看起来并未安装在它所启动的驱动器上。此功能目前尚不支持。\n\n尽在您确认 Windows 的确安装在它所启动的驱动器上时，您才应当继续。\n\n您确认要继续吗？</string>
     <string lang="zh-cn" key="GPT_BOOT_DRIVE_UNSUPPORTED">您的系统驱动器具有 GUID 分区表（GPT）。当前只支持具有 MBR 的分区表。</string>
-    <string lang="zh-cn" key="TC_BOOT_LOADER_ALREADY_INSTALLED">警告：TrueCrypt 启动管理器已经安装到了您的系统驱动器上了！\n\n这可能在您的计算机上已经加密了另外一个系统。\n\n警告：继续加密当前运行的系统可能会导致其它系统无法启动或导致数据无法访问。\n\n您确定要继续吗？</string>
-    <string lang="zh-cn" key="SYS_LOADER_RESTORE_FAILED">恢复原来的系统启动管理器时失败。\n\n请使用您的 TrueCrypt 应急盘（'Repair Options' &gt; 'Restore original system loader'）或者 Windows 安装盘来清除 TrueCrypt 启动管理器。</string>
+    <string lang="zh-cn" key="TC_BOOT_LOADER_ALREADY_INSTALLED">警告：VeraCrypt 启动管理器已经安装到了您的系统驱动器上了！\n\n这可能在您的计算机上已经加密了另外一个系统。\n\n警告：继续加密当前运行的系统可能会导致其它系统无法启动或导致数据无法访问。\n\n您确定要继续吗？</string>
+    <string lang="zh-cn" key="SYS_LOADER_RESTORE_FAILED">恢复原来的系统启动管理器时失败。\n\n请使用您的 VeraCrypt 应急盘（'Repair Options' &gt; 'Restore original system loader'）或者 Windows 安装盘来清除 VeraCrypt 启动管理器。</string>
     <string lang="zh-cn" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">原来的系统引导器没有保存到应急盘上（可能原因：备份文件丢失）。</string>
     <string lang="zh-cn" key="ERROR_MBR_PROTECTED">写入 MBR 扇区时失败。\n\n您的 BIOS 可能设置为保护了 MBR 扇区或一些还原软件也会保护 MBR。请确认没有安装保护 MBR 的还原软件和检查您的 BIOS 设置（启动计算机后按 F2，Delete，或 Esc）中的 MBR/反病毒保护。</string>
-    <string lang="zh-cn" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">所要求版本的 TrueCrypt 启动管理器当前没有安装。这可能导致某些设置无法保存。</string>
-    <string lang="zh-cn" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">提示：在某些环境，您可能希望避免外人（攻击者）在您启动计算机时看到您使用 TrueCrypt 加密了系统。上面的选项允许您自定义 TrueCrypt 启动管理器屏幕比避免此类事情发生。如果您启用了第一个选项，在启动验证屏幕不会显示任何文本（即时输入错误密码也不会提示）。在输入密码的时候计算机看起来就像被冻结的一样。此外，也可以显示自定义的信息来误导攻击者。例如，例如“Missing operating system”之类的英文信息（这个信息在 Windows 启动管理器未发现启动分区的时候显示）。然而，必须要提醒的是，如果攻击者分析硬盘的内容，他仍然可以发现硬盘上存在 TrueCrypt 启动管理器。</string>
-    <string lang="zh-cn" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">警告：请记住，如果您启用此选项，TrueCrypt 启动管理器不会显示任何文本（即便是输错密码也不会显示任何文本）。计算机在够输入密码的时候计算机看起来就像被冻结（没有响应）一样（光标不会移动并且在按下按键的时候也不会显示掩码）。\n\n您确认要启用此选项吗？ </string>
+    <string lang="zh-cn" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">所要求版本的 VeraCrypt 启动管理器当前没有安装。这可能导致某些设置无法保存。</string>
+    <string lang="zh-cn" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">提示：在某些环境，您可能希望避免外人（攻击者）在您启动计算机时看到您使用 VeraCrypt 加密了系统。上面的选项允许您自定义 VeraCrypt 启动管理器屏幕比避免此类事情发生。如果您启用了第一个选项，在启动验证屏幕不会显示任何文本（即时输入错误密码也不会提示）。在输入密码的时候计算机看起来就像被冻结的一样。此外，也可以显示自定义的信息来误导攻击者。例如，例如“Missing operating system”之类的英文信息（这个信息在 Windows 启动管理器未发现启动分区的时候显示）。然而，必须要提醒的是，如果攻击者分析硬盘的内容，他仍然可以发现硬盘上存在 VeraCrypt 启动管理器。</string>
+    <string lang="zh-cn" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">警告：请记住，如果您启用此选项，VeraCrypt 启动管理器不会显示任何文本（即便是输错密码也不会显示任何文本）。计算机在够输入密码的时候计算机看起来就像被冻结（没有响应）一样（光标不会移动并且在按下按键的时候也不会显示掩码）。\n\n您确认要启用此选项吗？ </string>
     <string lang="zh-cn" key="SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED">您的系统分区/驱动器看起来已经完全加密了。</string>
-    <string lang="zh-cn" key="SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK">TrueCrypt 不支持加密已经转换为动态磁盘的系统驱动器。</string>
-    <string lang="zh-cn" key="WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS">该系统驱动器包含扩展（逻辑）分区。\n\n 您只能在 Windows Vista 或以后版本中加密包含扩展（逻辑）分区的整个系统驱动器。而在 Windows XP 系统中，您只可以加密仅含有一个主分区的整个系统驱动器。\n\n请注意：您仍然可以加密系统分区，来取代加密整个驱动器（并且，有别于加密整个驱动器，您可以在驱动器上的任何非系统分区创建分区类型的 TrueCrypt 加密卷）。</string>
+    <string lang="zh-cn" key="SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK">VeraCrypt 不支持加密已经转换为动态磁盘的系统驱动器。</string>
+    <string lang="zh-cn" key="WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS">该系统驱动器包含扩展（逻辑）分区。\n\n 您只能在 Windows Vista 或以后版本中加密包含扩展（逻辑）分区的整个系统驱动器。而在 Windows XP 系统中，您只可以加密仅含有一个主分区的整个系统驱动器。\n\n请注意：您仍然可以加密系统分区，来取代加密整个驱动器（并且，有别于加密整个驱动器，您可以在驱动器上的任何非系统分区创建分区类型的 VeraCrypt 加密卷）。</string>
     <string lang="zh-cn" key="WDE_EXTENDED_PARTITIONS_WARNING">警告： 由于您运行的系统为 Windows XP/2003，在您开始加密驱动器之后，您一定不要在其上面再创建建扩展（逻辑）分区（您只可以创建主分区）。当您开始加密以后，任何的扩展分区均将无法再继续访问。\n\n说明：如果您无法接受这个条件，您可以返回和选择只加密系统所在分区而不是选择加密系统所在硬盘驱动器（另外，您可以在驱动器上的任何非系统分区创建分区类型的加密卷）。\n\n作为替代方案，如果您无法接受这个条件，您也可以考虑升级到 Windows Vista 或以后版本（您只可以在 Windows Vista 或以后版本中加密包含扩展/逻辑分区的整个驱动器）。</string>
     <string lang="zh-cn" key="SYSDRIVE_NON_STANDARD_PARTITIONS">您的系统驱动器包含非标准分区。\n\n如果您正使用笔记本电脑，您的系统驱动器可能包含特别的恢复分区。当整个系统驱动器被加密后（包括任何恢复分区），如果计算机使用设计不当的BIOS系统可能无法启动。在系统盘解密前，也将无法使用任何恢复分区。因此，我们建议您只加密系统分区。</string>
-    <string lang="zh-cn" key="ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE">您确认要加密系统所在分区，而不是加密整个硬盘吗？\n\n说明：除了加密系统所在分区之外，您可以在该硬盘驱动器上的非系统分区创建分区类型的 TrueCrypt 加密卷。</string>
+    <string lang="zh-cn" key="ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE">您确认要加密系统所在分区，而不是加密整个硬盘吗？\n\n说明：除了加密系统所在分区之外，您可以在该硬盘驱动器上的非系统分区创建分区类型的 VeraCrypt 加密卷。</string>
     <string lang="zh-cn" key="WHOLE_SYC_DEVICE_RECOM">由于您的系统驱动器仅包含一个占据了整个驱动器的分区，更适合（更安全）加密整个包含松散空间（通常位于这样分区的周围）的驱动器。\n\n您希望加密整个系统驱动器吗？</string>
     <string lang="zh-cn" key="TEMP_NOT_ON_SYS_PARTITION">您的系统已配置为在非系统分区存储临时文件。\n\n临时文件应该只位于系统分区（出于安全考虑）。</string>
     <string lang="zh-cn" key="USER_PROFILE_NOT_ON_SYS_PARTITION">您的用户配置文件并非设置在系统分区。\n\n用户配置文件应该只存储于系统分区（出于安全考虑）。</string>
     <string lang="zh-cn" key="PAGING_FILE_NOT_ON_SYS_PARTITION">非系统分区存在页面文件。\n\n页面文件应该只存储于系统分区（出于安全考虑）</string>
-    <string lang="zh-cn" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">您想要设置 Windows 仅在 Windows 分区生成页面文件吗？\n\n请注意，如果您点击〖是〗，计算机将会重新启动。之后请启动 TrueCrypt 和尝试再次创建隐形系统。</string>
+    <string lang="zh-cn" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">您想要设置 Windows 仅在 Windows 分区生成页面文件吗？\n\n请注意，如果您点击〖是〗，计算机将会重新启动。之后请启动 VeraCrypt 和尝试再次创建隐形系统。</string>
     <string lang="zh-cn" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"> 否则，隐形系统的隐蔽性将会受到严重影响。\n\n说明：如果攻击者分析这些文件的内容（存在于非系统分区中），他可能会发现您在隐形系统创建模式里面使用了此向导（这可能暗示计算机上存在隐形系统）。还需说明的是，存储于系统分区的此类文件，在隐形系统创建过程中将会被安全擦除。</string>
     <string lang="zh-cn" key="DECOY_OS_REINSTALL_WARNING">警告：在隐形系统创建过程中，您将会被要求全新安装当前运行的操作系统（以便安全创建迷惑系统）。\n\n说明：当前运行的操作系统和该系统分区的全部内容将会被复制到隐藏加密卷（以便创建隐形系统）。\n\n\n您确认您将使用 Windows 安装介质安装此系统吗（或使用服务分区）？</string>
-    <string lang="zh-cn" key="DECOY_OS_REQUIREMENTS">安全起见，如果当前运行的操作系统需要激活，则必须在继续进行克隆前激活。注意到隐形操作系统将通过复制当前操作系统的内容到隐藏加密卷来得以创建（因此如果当前操作系统未激活，则隐形操作系统也处于未激活状态）。更多信息，请参考《TrueCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章节。\n\n重要：在继续进行前，确认您已经阅读了《TrueCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章节。\n\n\n当前运行的操作系统满足上面的条件吗？</string>
-    <string lang="zh-cn" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">您的系统使用了一个额外的启动分区。TrueCrypt 不支持使用额外启动分区的隐形系统的休眠（迷惑系统完全可以休眠）。\n\n请注意，启动分区应当被迷惑系统和隐形系统所共同使用。因此，为了防止数据泄露和由于休眠所导致的问题，TrueCrypt 只能阻止隐形系统写入数据到共用的启动分区和阻止隐形系统使用休眠。\n\n\n您确认要继续吗？如果选择〖否〗，则会显示移除额外启动分区的提示信息。</string>
+    <string lang="zh-cn" key="DECOY_OS_REQUIREMENTS">安全起见，如果当前运行的操作系统需要激活，则必须在继续进行克隆前激活。注意到隐形操作系统将通过复制当前操作系统的内容到隐藏加密卷来得以创建（因此如果当前操作系统未激活，则隐形操作系统也处于未激活状态）。更多信息，请参考《VeraCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章节。\n\n重要：在继续进行前，确认您已经阅读了《VeraCrypt User's Guide》的 "Security Precautions Pertaining to Hidden Volumes" 章节。\n\n\n当前运行的操作系统满足上面的条件吗？</string>
+    <string lang="zh-cn" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">您的系统使用了一个额外的启动分区。VeraCrypt 不支持使用额外启动分区的隐形系统的休眠（迷惑系统完全可以休眠）。\n\n请注意，启动分区应当被迷惑系统和隐形系统所共同使用。因此，为了防止数据泄露和由于休眠所导致的问题，VeraCrypt 只能阻止隐形系统写入数据到共用的启动分区和阻止隐形系统使用休眠。\n\n\n您确认要继续吗？如果选择〖否〗，则会显示移除额外启动分区的提示信息。</string>
     <string lang="zh-cn" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\n在安装 Windows 之前可以移除额外的启动分区。想要如此，请遵循以下步骤（译者注：这些步骤没有在XP安装光盘看到，请读者自悟吧，抱歉）：\n\n1）启动您的 Windows 安装光盘。\n\n2）在 Windows 安装屏幕，选择 '现在安装' -&gt; '自定义（高级）'.\n\n3）点击 '驱动器 选项'。\n\n4）选择主系统分区并选择删除这个分区，之后再确认删除（安装盘删除分区的时候会多次确认）。\n\n5）选择 '系统保留' 分区，选择 '扩展'，并增加它的大小直到可以安装系统为止。\n\n6）选择 '应用' 和确认。\n\n7）安装 Windows 到 '系统保留' 分区。\n\n\n如果攻击者询问您移除额外启动分区的原因，您可以回答是因为您不希望数据泄露到未加密的启动分区。\n\n注意：您可以通过点击下面的“打印”按钮打印这些文本。如果您打印了这些文本，强烈建议您在移除额外启动分区后销毁这些纸张（否则，如果这些纸张被发现，可能暗示着存在隐形系统）。</string>
     <string lang="zh-cn" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系统分区和其后的第一个分区之间存在未分配空间。在您创建隐形操作系统之后，您必须不能在此未分配空间上创建任何新的分区，否则，隐形操作系统将无法启动（直到删除了这个新创建的分区）。</string>
     <string lang="zh-cn" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此算法当前不支持系统加密。</string>
     <string lang="zh-cn" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密钥文件当前不支持用在系统加密中。</string>
-    <string lang="zh-cn" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：TrueCrypt 不能存储原始键盘布局。这可能导致您无法正确输入密码。</string>
-    <string lang="zh-cn" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">错误：不能设置 TrueCrypt 键盘布局为标准的美国键盘布局。\n\n说明：在 Windows 启动前的启动验证里需要输入密码，此时非美国标准键盘布局不可用。因此，密码必须使用标准的美国键盘布局输入。</string>
-    <string lang="zh-cn" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">由于 TrueCrypt 临时改变键盘布局为标准的美国键盘，目前在按下 ALT 按键的情况下无法通过键盘输入字符。然而您可以按下 Shift 键的时候输入大多数此类字符。</string>
-    <string lang="zh-cn" key="KEYB_LAYOUT_CHANGE_PREVENTED">TrueCrypt 会阻止对键盘布局的修改。</string>
-    <string lang="zh-cn" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">说明：在 Windows 启动前的启动验证里需要输入密码，此时非美国标准键盘布局不可用。因此，密码必须使用标准的美国键盘布局输入。然而，这不需要您必须使用真实的美国键盘。TrueCrypt 在您没有美国键盘的情况下也能够自动的保证您能够安全的输入密码（现在和启动验证环境）。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_INFO">在您加密系统分区/驱动器前，您必须创建一个 TrueCrypt 应急盘，用途如下：\n\n- 如果 TrueCrypt 启动管理器、主密钥、或其它关键数据损坏了，可以使用应急盘修复它们（当然您必须输入正确的密码）。\n\n- 如果 Windows 系统损坏了并且无法启动，您可以在 Windows 启动前使用应急盘永久解密这个分区/驱动器。\n\n- 应急盘包含第一个柱面当前内容的备份（通常包含系统引导器或者启动管理器），在必要的时候您可以恢复它们。\n\nTrueCrypt 应急盘 ISO 映像文件将会在下面指定位置创建。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">在您点击确定后，微软的 Windows 磁盘映像刻录器将会被启动。请使用它刻录 TrueCrypt 应急盘映像文件到 CD 或 DVD 中。\n\n在操作完这些之后，请返回到 TrueCrypt 加密卷创建向导并遵循向导的指令。</string>
+    <string lang="zh-cn" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCrypt 不能存储原始键盘布局。这可能导致您无法正确输入密码。</string>
+    <string lang="zh-cn" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">错误：不能设置 VeraCrypt 键盘布局为标准的美国键盘布局。\n\n说明：在 Windows 启动前的启动验证里需要输入密码，此时非美国标准键盘布局不可用。因此，密码必须使用标准的美国键盘布局输入。</string>
+    <string lang="zh-cn" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">由于 VeraCrypt 临时改变键盘布局为标准的美国键盘，目前在按下 ALT 按键的情况下无法通过键盘输入字符。然而您可以按下 Shift 键的时候输入大多数此类字符。</string>
+    <string lang="zh-cn" key="KEYB_LAYOUT_CHANGE_PREVENTED">VeraCrypt 会阻止对键盘布局的修改。</string>
+    <string lang="zh-cn" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">说明：在 Windows 启动前的启动验证里需要输入密码，此时非美国标准键盘布局不可用。因此，密码必须使用标准的美国键盘布局输入。然而，这不需要您必须使用真实的美国键盘。VeraCrypt 在您没有美国键盘的情况下也能够自动的保证您能够安全的输入密码（现在和启动验证环境）。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_INFO">在您加密系统分区/驱动器前，您必须创建一个 VeraCrypt 应急盘，用途如下：\n\n- 如果 VeraCrypt 启动管理器、主密钥、或其它关键数据损坏了，可以使用应急盘修复它们（当然您必须输入正确的密码）。\n\n- 如果 Windows 系统损坏了并且无法启动，您可以在 Windows 启动前使用应急盘永久解密这个分区/驱动器。\n\n- 应急盘包含第一个柱面当前内容的备份（通常包含系统引导器或者启动管理器），在必要的时候您可以恢复它们。\n\nVeraCrypt 应急盘 ISO 映像文件将会在下面指定位置创建。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">在您点击确定后，微软的 Windows 磁盘映像刻录器将会被启动。请使用它刻录 VeraCrypt 应急盘映像文件到 CD 或 DVD 中。\n\n在操作完这些之后，请返回到 VeraCrypt 加密卷创建向导并遵循向导的指令。</string>
     <string lang="zh-cn" key="RESCUE_DISK_BURN_INFO">应急盘  ISO 镜像文件已经创建并存储为文件： %hs\n\n现在您需要把应急盘刻录到 CD 或 DVD。\n\n在刻录应急盘后，点击〖下一步〗按钮验证应急盘已经成功刻录。\n\n%ls在刻录完应急盘之后，请点击〖下一步〗按钮验证应急盘是否被成功刻录。</string>
     <string lang="zh-cn" key="RESCUE_DISK_BURN_INFO_NO_CHECK">应急盘映像文件已经被创建并且存储为文件： %hs\n\n现在您应当刻录该应急盘到 CD/DVD 中去或者移动该 ISO 文件到一个安全的位置以备以后使用。\n\n%ls点击〖下一步〗继续。</string>
     <string lang="zh-cn" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">重要：请注意，映像文件必须以 ISO 磁盘映像文件的方式刻录到 CD/DVD 中去（不能刻录为单个的数据文件）。要获取更多的关于如何刻录 ISO 文件的信息，请参考您的 CD/DVD 刻录软件的说明书。如果您还没有刻录 ISO 镜像文件的光盘刻录软件，请点下面链接下载这样的免费刻录软件。\n\n</string>
     <string lang="zh-cn" key="LAUNCH_WIN_ISOBURN">启动微软 Windows 磁盘映像刻录器</string>
-    <string lang="zh-cn" key="RESCUE_DISK_BURN_NO_CHECK_WARN">警告：如果您已经创建了 TrueCrypt 应急盘，它将不能再用于系统分区/驱动器，这是因为您每次加密系统分区/驱动器时都会使用不同的主密钥，尽管您使用的是同样的密码，您也必须创建一个新的 TrueCrypt 应急盘。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_BURN_NO_CHECK_WARN">警告：如果您已经创建了 VeraCrypt 应急盘，它将不能再用于系统分区/驱动器，这是因为您每次加密系统分区/驱动器时都会使用不同的主密钥，尽管您使用的是同样的密码，您也必须创建一个新的 VeraCrypt 应急盘。</string>
     <string lang="zh-cn" key="CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS">错误：不能保存系统加密设置。</string>
     <string lang="zh-cn" key="CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST">不能初始化系统加密预测试。</string>
     <string lang="zh-cn" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">不能初始化创建隐形操作系统的过程。</string>
     <string lang="zh-cn" key="WIPE_MODE_TITLE">擦除模式</string>
-    <string lang="zh-cn" key="INPLACE_ENC_WIPE_MODE_INFO">在某些存储介质上，当数据被其他数据覆盖后，也仍有可能通过磁力显微技术恢复出来被覆盖的数据。这也包括一些被加密方式覆盖的数据（这在 TrueCrypt 加密那些原来没有加密的系统分区或系统驱动器时可能会发生）。根据一些研究机构和政府机构发布的文献，通过使用伪随机或非随机数据覆盖一定次数可以阻止数据恢复或使数据恢复变的异常困难。因此，如果您确认攻击者可能会使用类似磁力显微技术恢复您的加密数据，您可以选择下拉列表中几种擦除算法中的一种（已经存在的数据不会丢失）。需要说明的是在分区/驱动器加密后不需要再执行擦除操作。当分区/驱动器被完全加密后，不会再有非加密数据向其写入。写入加密卷中的任何数据都是在内存中实时加密，然后这些已加密数据才会被写入到磁盘。</string>
+    <string lang="zh-cn" key="INPLACE_ENC_WIPE_MODE_INFO">在某些存储介质上，当数据被其他数据覆盖后，也仍有可能通过磁力显微技术恢复出来被覆盖的数据。这也包括一些被加密方式覆盖的数据（这在 VeraCrypt 加密那些原来没有加密的系统分区或系统驱动器时可能会发生）。根据一些研究机构和政府机构发布的文献，通过使用伪随机或非随机数据覆盖一定次数可以阻止数据恢复或使数据恢复变的异常困难。因此，如果您确认攻击者可能会使用类似磁力显微技术恢复您的加密数据，您可以选择下拉列表中几种擦除算法中的一种（已经存在的数据不会丢失）。需要说明的是在分区/驱动器加密后不需要再执行擦除操作。当分区/驱动器被完全加密后，不会再有非加密数据向其写入。写入加密卷中的任何数据都是在内存中实时加密，然后这些已加密数据才会被写入到磁盘。</string>
     <string lang="zh-cn" key="WIPE_MODE_INFO">在某些存储介质上，当数据被其他数据覆盖后，也仍有可能通过磁力显微技术恢复出来被覆盖的数据。根据一些研究机构和政府机构发布的文献，通过使用伪随机或非随机数据覆盖一定次数可以阻止数据恢复或使数据恢复变的异常困难。因此，如果您确认攻击者可能会使用类似磁力显微技术恢复您的加密数据，您可以选择下拉列表中几种擦除算法中的一种（已经存在的数据不会丢失）。\n\n说明：擦除次数越多，花费的时间越长。</string>
     <string lang="zh-cn" key="DEVICE_WIPE_PAGE_TITLE">正在擦除</string>
     <string lang="zh-cn" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">\n说明：您可以中断擦除的过程，关闭您的计算机，重新启动隐形系统并在此后继续这个过程（该向导将会被自动运行）。然而，如果您中断此过程，整个擦除将会从头开始执行。</string>
@@ -1051,131 +1051,131 @@
     <string lang="zh-cn" key="WIPE_MODE_35_GUTMANN">35-次擦除（"Gutmann"）</string>
     <string lang="zh-cn" key="SYS_MULTI_BOOT_MODE_TITLE">操作系统数目</string>
     <string lang="zh-cn" key="MULTI_BOOT_FOR_ADVANCED_ONLY">警告：入门用户请勿尝试加密多重启动方式的 Windows 。\n\n希望继续吗？</string>
-    <string lang="zh-cn" key="HIDDEN_OS_MULTI_BOOT">当创建或使用隐形操作系统时，只有满足如下条件时，TrueCrypt 才支持多重启动配置：\n\n- 当前运行操作系统必须安装在启动驱动器，并且该驱动器中不能包含其它操作系统。\n\n- 安装在其它驱动器的操作系统不能使用任何位于当前运行操作系统所在驱动器中的启动管理器。\n\n确认满足以上条件吗？</string>
-    <string lang="zh-cn" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">在创建或使用隐形操作系统时，TrueCrypt 不支持此多重启动配置。</string>
+    <string lang="zh-cn" key="HIDDEN_OS_MULTI_BOOT">当创建或使用隐形操作系统时，只有满足如下条件时，VeraCrypt 才支持多重启动配置：\n\n- 当前运行操作系统必须安装在启动驱动器，并且该驱动器中不能包含其它操作系统。\n\n- 安装在其它驱动器的操作系统不能使用任何位于当前运行操作系统所在驱动器中的启动管理器。\n\n确认满足以上条件吗？</string>
+    <string lang="zh-cn" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">在创建或使用隐形操作系统时，VeraCrypt 不支持此多重启动配置。</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">引导驱动器</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_HELP">当前运行的操作系统安装到了引导驱动器上了吗？\n\n说明：有时 Windows 可能并未安装到 Windows 启动管理器（活动分区）分区上。如果属于这种情况，请选择〖否〗。</string>
-    <string lang="zh-cn" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">TrueCrypt 当前不支持加密安装到非活动分区上的系统。</string>
+    <string lang="zh-cn" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">VeraCrypt 当前不支持加密安装到非活动分区上的系统。</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_TITLE">系统驱动器数目</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_HELP">有多少个驱动器含有操作系统？\n\n说明：例如，您在主驱动器上安装了任意系统（例如. Windows，Mac OS X，Linux，等等），在第二个驱动器上安装了其它的操作系统，这时就选择“2 个或多个”。</string>
-    <string lang="zh-cn" key="WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE">TrueCrypt 目前不支持对包含多个操作系统的整个硬盘驱动器的加密。\n\n可能的解决方法：\n\n- 您可以后退并选择只加密单系统分区加密其中的一个系统（与选择加密整个系统驱动器相反）。\n\n- 或者，您也可以把要加密的驱动器中的其它系统迁移到其它的驱动器，而只在其中保留一个系统。</string>
+    <string lang="zh-cn" key="WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE">VeraCrypt 目前不支持对包含多个操作系统的整个硬盘驱动器的加密。\n\n可能的解决方法：\n\n- 您可以后退并选择只加密单系统分区加密其中的一个系统（与选择加密整个系统驱动器相反）。\n\n- 或者，您也可以把要加密的驱动器中的其它系统迁移到其它的驱动器，而只在其中保留一个系统。</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_TITLE">单驱动器中包含多个系统</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_HELP">在当前运行的系统所安装的驱动器中，是否包含其它任何操作系统？\n\n说明：例如当前运行的操作系统安装在驱动器 #0，该驱动器包含几个分区，其中一个分区安装了 Windows 系统，而另一个分区安装了其它任何操作系统（例如. Windows，Mac OS X，Linux，等等.），请选择〖是〗。</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_TITLE">非 Windows 启动管理器</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_HELP">是否安装了一个非 Windows 启动管理器（或启动管理器）到 MBR 中了吗?\n\n说明：例如，可启动的驱动器的第一个柱面包含 GRUB、LILO、XOSL，或其它非 Windows 启动管理器（或启动管理器），则选择“是”。</string>
     <string lang="zh-cn" key="SYSENC_MULTI_BOOT_OUTCOME_TITLE">多重启动</string>
-    <string lang="zh-cn" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">TrueCrypt 目前不支持在 MBR 中安装的非 Windows 多重启动管理器。\n\n可能的解决办法：\n\n- 如果您使用了一个启动管理器来启动 Windows 或 Linux，把启动管理器（典型的，例如 GRUB）从 MBR 中迁移到分区上。之后再次启动向导和加密系统分区/设备。说明：TrueCrypt 启动管理器将会成为主启动管理器，并且会允许您把原来的启动管理器（例如 GRUB）作为第二启动管理器（通过在 TrueCrypt 启动管理器屏幕按下 ESC 按键），因此您仍然可以启动 Linux。</string>
-    <string lang="zh-cn" key="WINDOWS_BOOT_LOADER_HINTS">如果当前运行的系统安装在活动分区上，随后，在您加密了该分区后，尽管您想要启动其它未加密的系统，您仍然要输入正确的密码（因为它们都会共享同一个加密的 Windows 启动管理器）。\n\n相反的，如果当前运行的系统并没有安装到 Windows 的启动分区（或者如果其它系统并未使用 Windows 启动管理器），随后，在您加密了该分区后，您在启动其它未加密的系统时不需要输入正确的密码 -- 您只需按 ESC 按键来启动未加密的系统（如果存在多个未加密的系统，您也同样需要在 TrueCrypt 的启动管理器中选择要启动的系统）。\n\n说明：通常情况下，最早安装的那个系统一般都会安装到启动分区。</string>
+    <string lang="zh-cn" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">VeraCrypt 目前不支持在 MBR 中安装的非 Windows 多重启动管理器。\n\n可能的解决办法：\n\n- 如果您使用了一个启动管理器来启动 Windows 或 Linux，把启动管理器（典型的，例如 GRUB）从 MBR 中迁移到分区上。之后再次启动向导和加密系统分区/设备。说明：VeraCrypt 启动管理器将会成为主启动管理器，并且会允许您把原来的启动管理器（例如 GRUB）作为第二启动管理器（通过在 VeraCrypt 启动管理器屏幕按下 ESC 按键），因此您仍然可以启动 Linux。</string>
+    <string lang="zh-cn" key="WINDOWS_BOOT_LOADER_HINTS">如果当前运行的系统安装在活动分区上，随后，在您加密了该分区后，尽管您想要启动其它未加密的系统，您仍然要输入正确的密码（因为它们都会共享同一个加密的 Windows 启动管理器）。\n\n相反的，如果当前运行的系统并没有安装到 Windows 的启动分区（或者如果其它系统并未使用 Windows 启动管理器），随后，在您加密了该分区后，您在启动其它未加密的系统时不需要输入正确的密码 -- 您只需按 ESC 按键来启动未加密的系统（如果存在多个未加密的系统，您也同样需要在 VeraCrypt 的启动管理器中选择要启动的系统）。\n\n说明：通常情况下，最早安装的那个系统一般都会安装到启动分区。</string>
     <string lang="zh-cn" key="SYSENC_PRE_DRIVE_ANALYSIS_TITLE">加密主机保护区域（Host Protected Area）</string>
-    <string lang="zh-cn" key="SYSENC_PRE_DRIVE_ANALYSIS_HELP">在很多硬盘的尾部，存在一个相对于操作系统隐藏的区域（这些区域通常被称作主机保护区域）。然而，某些程序可以从这些区域中读写数据。\n\n警告：某些计算机供应商可能使用这些区域存储用于 RAID、系统恢复、系统设置、诊断的工具和数据，或用于其它目地。如果此类工具和数据必须在启动前访问，那么这些隐藏区域不应当被加密（在上面选择〖否〗）。\n\n您希望 TrueCrypt 检测和解密系统驱动器尾部这些隐藏区域吗？</string>
+    <string lang="zh-cn" key="SYSENC_PRE_DRIVE_ANALYSIS_HELP">在很多硬盘的尾部，存在一个相对于操作系统隐藏的区域（这些区域通常被称作主机保护区域）。然而，某些程序可以从这些区域中读写数据。\n\n警告：某些计算机供应商可能使用这些区域存储用于 RAID、系统恢复、系统设置、诊断的工具和数据，或用于其它目地。如果此类工具和数据必须在启动前访问，那么这些隐藏区域不应当被加密（在上面选择〖否〗）。\n\n您希望 VeraCrypt 检测和解密系统驱动器尾部这些隐藏区域吗？</string>
     <string lang="zh-cn" key="SYSENC_TYPE_PAGE_TITLE">系统加密类型</string>
     <string lang="zh-cn" key="SYSENC_NORMAL_TYPE_HELP">如果您只想加密系统分区或整个系统驱动器，请选择此项。</string>
     <string lang="zh-cn" key="SYSENC_HIDDEN_TYPE_HELP">可能存在某些人强迫您解密操作系统的情况。在很多情况下您可能无法拒绝泄漏密码（例如，被勒索）。如果选择此选项，您将会创建一个没有任何手段可以识别的隐形操作系统（当然这得需要您遵循一定的步骤创建）。因此，您一定不要解密或者泄漏隐形操作系统的密码（译者注：这是因为隐形操作系统的存在只有您才知道，您不说的情况下没有任何手段可以检测到），如若获取更多信息，请单击下面链接。</string>
     <string lang="zh-cn" key="HIDDEN_OS_PREINFO">可能存在某些人强迫您解密操作系统的情况。在很多情况下您可能无法拒绝泄漏密码（例如，被勒索）。\n\n使用本向导，您将能够创建一个没有任何手段可以识别的隐形操作系统（当然这得需要您遵循一定的步骤创建）。因此，您一定不要解密隐形系统或者泄漏隐形操作系统的密码（译者注：这是因为隐形操作系统的存在只有您才知道，您不说的情况下没有任何手段可以检测到）。</string>
     <string lang="zh-cn" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">隐形操作系统</string>
-    <string lang="zh-cn" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">在后面步骤中，您将在系统分区之后的分区中创建两个 TrueCrypt 加密卷（外层的和隐藏的）。隐藏加密卷将包含隐形操作系统。TrueCrypt 将通过复制系统分区（即当前系统所在分区）的内容到隐藏加密卷来创建隐形操作系统。对于外层加密卷而言，您可以复制一些您实际上并不想隐藏的貌似敏感的文件。它们将用来对付那些强迫您说出隐藏系统分区密码的人。您可以把含隐形操作系统的外层加密卷的密码告诉它们（此时仍然无法发现是否存在隐形操作系统）。\n\n最后，在当前当前运行的系统的分区，您将会安装一个新的系统并加密以后作为迷惑系统来使用。这个迷惑系统不要含有任何敏感文件并且用来对付那些强迫您说出启动验证密码的人。总而言之，一共有三个密码，两个密码用于对付那些攻击者（分别对应迷惑操作系统和外层加密卷。如果您使用第三个密码，则将会启动隐形操作系统。</string>
+    <string lang="zh-cn" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">在后面步骤中，您将在系统分区之后的分区中创建两个 VeraCrypt 加密卷（外层的和隐藏的）。隐藏加密卷将包含隐形操作系统。VeraCrypt 将通过复制系统分区（即当前系统所在分区）的内容到隐藏加密卷来创建隐形操作系统。对于外层加密卷而言，您可以复制一些您实际上并不想隐藏的貌似敏感的文件。它们将用来对付那些强迫您说出隐藏系统分区密码的人。您可以把含隐形操作系统的外层加密卷的密码告诉它们（此时仍然无法发现是否存在隐形操作系统）。\n\n最后，在当前当前运行的系统的分区，您将会安装一个新的系统并加密以后作为迷惑系统来使用。这个迷惑系统不要含有任何敏感文件并且用来对付那些强迫您说出启动验证密码的人。总而言之，一共有三个密码，两个密码用于对付那些攻击者（分别对应迷惑操作系统和外层加密卷。如果您使用第三个密码，则将会启动隐形操作系统。</string>
     <string lang="zh-cn" key="SYSENC_DRIVE_ANALYSIS_TITLE">正在检测隐藏扇区</string>
-    <string lang="zh-cn" key="SYSENC_DRIVE_ANALYSIS_INFO">当 TrueCrypt 正在检测系统驱动器尾部可能存在的隐藏扇区时，请稍候。注意该操作可能花费较长时间才能完成。\n\n注意：在极少数情况下，某些计算机环境中，系统可能在检测过程中失去响应。如果发生此情况，重启计算机，运行 TrueCrypt，重复前面步骤并跳过此检测过程。此问题并不是 TrueCrypt 程序错误。</string>
+    <string lang="zh-cn" key="SYSENC_DRIVE_ANALYSIS_INFO">当 VeraCrypt 正在检测系统驱动器尾部可能存在的隐藏扇区时，请稍候。注意该操作可能花费较长时间才能完成。\n\n注意：在极少数情况下，某些计算机环境中，系统可能在检测过程中失去响应。如果发生此情况，重启计算机，运行 VeraCrypt，重复前面步骤并跳过此检测过程。此问题并不是 VeraCrypt 程序错误。</string>
     <string lang="zh-cn" key="SYS_ENCRYPTION_SPAN_TITLE">要加密的区域</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">如果您想加密操作系统安装和启动的分区，请选择此项。除了 TrueCrypt 启动管理器存放的第一个柱面之外，包括所有分区的整个硬盘驱动器将会被加密。任何要访问该驱动器上系统或文件的人都需要每次在系统启动前输入正确的密码。如果 Windows 并未安装到第二块或外部驱动器上并且没有从这些驱动器上启动，此选项不能用于加密第二块或外部驱动器。</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">如果您想加密操作系统安装和启动的分区，请选择此项。除了 VeraCrypt 启动管理器存放的第一个柱面之外，包括所有分区的整个硬盘驱动器将会被加密。任何要访问该驱动器上系统或文件的人都需要每次在系统启动前输入正确的密码。如果 Windows 并未安装到第二块或外部驱动器上并且没有从这些驱动器上启动，此选项不能用于加密第二块或外部驱动器。</string>
     <string lang="zh-cn" key="COLLECTING_RANDOM_DATA_TITLE">正在搜集随机数据</string>
     <string lang="zh-cn" key="KEYS_GEN_TITLE">密钥已生成</string>
-    <string lang="zh-cn" key="CD_BURNER_NOT_PRESENT">TrueCrypt 未在系统上发现刻录机。TrueCrypt 需要 CD/DVD 刻录机来刻录一张可启动的 TrueCrypt 应急盘，应急盘包含密钥、TrueCrypt 启动管理器、原始启动管理器等信息的备份。\n\n我们强烈建议您刻录一张 TrueCrypt 应急盘。.</string>
+    <string lang="zh-cn" key="CD_BURNER_NOT_PRESENT">VeraCrypt 未在系统上发现刻录机。VeraCrypt 需要 CD/DVD 刻录机来刻录一张可启动的 VeraCrypt 应急盘，应急盘包含密钥、VeraCrypt 启动管理器、原始启动管理器等信息的备份。\n\n我们强烈建议您刻录一张 VeraCrypt 应急盘。.</string>
     <string lang="zh-cn" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO">我没有 CD/DVD 刻录机，但是我想在可移动驱动器上存放应急盘 ISO 映像文件（例如，USB 闪存）。</string>
     <string lang="zh-cn" key="CD_BURNER_NOT_PRESENT_WILL_CONNECT_LATER">我将会在以后添加 CD/DVD 刻录机到电脑上。现在终止创建过程。</string>
     <string lang="zh-cn" key="CD_BURNER_NOT_PRESENT_CONNECTED_NOW">现在 CD/DVD 刻录机已经连接到电脑上了。继续并且刻录应急盘。</string>
-    <string lang="zh-cn" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">请遵循下面步骤：\n\n1）现在连接可移动驱动器到电脑上，例如 USB 闪存。\n\n2）复制 TrueCrypt 应急盘映像文件（%s）到可移动驱动器上。\n\n考虑到您以后有使用 TrueCrypt 应急盘的可能，建议您把这个可移动驱动器连接到其它有刻录机的电脑上，使用这个映像文件刻录一张应急盘。重要：请注意，TrueCrypt 应急盘映像文件必须以映像文件方式刻录，不能刻录为数据光盘。</string>
+    <string lang="zh-cn" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">请遵循下面步骤：\n\n1）现在连接可移动驱动器到电脑上，例如 USB 闪存。\n\n2）复制 VeraCrypt 应急盘映像文件（%s）到可移动驱动器上。\n\n考虑到您以后有使用 VeraCrypt 应急盘的可能，建议您把这个可移动驱动器连接到其它有刻录机的电脑上，使用这个映像文件刻录一张应急盘。重要：请注意，VeraCrypt 应急盘映像文件必须以映像文件方式刻录，不能刻录为数据光盘。</string>
     <string lang="zh-cn" key="RESCUE_DISK_RECORDING_TITLE">正在刻录应急盘</string>
     <string lang="zh-cn" key="RESCUE_DISK_CREATED_TITLE">应急盘已创建</string>
     <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_TITLE">系统加密预测试</string>
     <string lang="zh-cn" key="RESCUE_DISK_DISK_VERIFIED_TITLE">应急盘已验证</string>
-    <string lang="zh-cn" key="RESCUE_DISK_VERIFIED_INFO">\nTrueCrypt 应急盘已成功验证。请从光驱中取出应急盘并把它存放到安全的地方。\n\n点击〖下一步〗继续。</string>
-    <string lang="zh-cn" key="REMOVE_RESCUE_DISK_FROM_DRIVE">警告：在下面步骤中，TrueCrypt 应急盘必须不能放在光驱中。否则就不可能正确完成此步骤。\n\n请从光驱中取出应急盘并把他放在一个安全的地方，之后点〖确定〗按钮。</string>
-    <string lang="zh-cn" key="PREBOOT_NOT_LOCALIZED">警告：由于启动验证环境（即在 Windows 系统启动前）的技术局限，TrueCrypt 在启动验证环境显示的文本不能汉化。TrueCrypt 启动管理器的界面完全为英文模式。\n\n确认继续吗？</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO">在加密系统分区或启动前，TrueCrypt 需要验证每个环节都正确无误。\n\n在点击〖测试〗按钮以后，所有的组件（例如，启动验证组件，即 TrueCrypt 启动管理器）将会被安装并且您的计算机将会重启。之后您需要在 Windows 启动前的 TrueCrypt 启动管理器界面输入您的密码。在 Windows 启动后，程序将会自动通知您测试的结果。\n\n以下设备将会被修改: 驱动器 #%d\n\n\n如果您点击〖取消〗，将不会安装任何内容并且预测试将不会被执行。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCrypt 应急盘已成功验证。请从光驱中取出应急盘并把它存放到安全的地方。\n\n点击〖下一步〗继续。</string>
+    <string lang="zh-cn" key="REMOVE_RESCUE_DISK_FROM_DRIVE">警告：在下面步骤中，VeraCrypt 应急盘必须不能放在光驱中。否则就不可能正确完成此步骤。\n\n请从光驱中取出应急盘并把他放在一个安全的地方，之后点〖确定〗按钮。</string>
+    <string lang="zh-cn" key="PREBOOT_NOT_LOCALIZED">警告：由于启动验证环境（即在 Windows 系统启动前）的技术局限，VeraCrypt 在启动验证环境显示的文本不能汉化。VeraCrypt 启动管理器的界面完全为英文模式。\n\n确认继续吗？</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO">在加密系统分区或启动前，VeraCrypt 需要验证每个环节都正确无误。\n\n在点击〖测试〗按钮以后，所有的组件（例如，启动验证组件，即 VeraCrypt 启动管理器）将会被安装并且您的计算机将会重启。之后您需要在 Windows 启动前的 VeraCrypt 启动管理器界面输入您的密码。在 Windows 启动后，程序将会自动通知您测试的结果。\n\n以下设备将会被修改: 驱动器 #%d\n\n\n如果您点击〖取消〗，将不会安装任何内容并且预测试将不会被执行。</string>
     <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">重要提示 -- 请仔细阅读或打印（点击〖打印〗）：\n\n注意：在您成功重启计算机和启动 Windows 前，您的文件并没有被加密。因此，如果出现任何失败，您的数据不会丢失。然而，如果过程中发生某些错误，您可能在启动 Windows 时会遇到麻烦。因此，请阅读（如果可能，请打印）下面的操作指南，以了解在重启计算机后不能启动 Windows 时如何操作。\n\n</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">不能启动 Windows 时如何操作 ------------------------------------------------\n\n注意：这些指令仅在您还没有开始加密时有效。\n\n- 如果在输入正确的密码后 Windows 未能启动（或者您持续的输入正确的密码但 TrueCrypt 始终提示密码错误），请不要惊慌。重启计算机（或关机后再开机），在 TrueCrpyt 启动管理器屏幕，按下键盘的 ESC 按键（并且如果您有多个系统，就选择启动哪个系统）。之后 Windows 应当会启动（此时尚未加密系统）并且 TrueCrypt 会自动询问您是否要卸载启动验证组件。如果由于系统分区/驱动器已经加密而导致前面步骤无效（没有正确的密码，没有人可以启动加密系统或者访问该驱动器上的加密数据，即使他遵循前面步骤）。\n\n</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- 如果前面步骤无效或者 TrueCrypt 启动管理器屏幕并没有出现（在 Windows 启动前），请在光驱中插入 TrueCrypt 应急盘并重启计算机。如果 TrueCrypt 启动管理器屏幕没有出现 或者如果您在启动管理器屏幕的 'Keyboard Controls'  部份没有看到 'Repair Options' 项目，很可能您的 BIOS 设置了硬盘优先于光驱启动。如果是这种情况，重启计算机，当您一看到 BIOS 启动屏幕的时候按下 F2 或 DEL 按键，直到 BISO 设置界面出现。如果 BIOS 设置界面没有出现，再次重启计算机，在您按下重启键的时候就按住 F2 或 DEL 按键。当 BIOS 设置界面出现时，配置您的 BIOS 优先从光驱启动（相关信息可以参考您的主板说明书或者资讯您的计算机供应商寻求技术协助）。之后重启计算机。TrueCrypt 启动管理器应该就会从应急盘中启动了。在TrueCrypt 启动管理器屏幕，按下键盘的 F8 按键选择修复选项（Repair Options）。在修复选项 'Repair Options' 菜单，选择 'Restore TrueCrypt Boot Loader'（恢复启动管理器）。之后从光驱中取出应急盘并重启计算机。之后 Windows 应当会启动（此时尚未加密系统）。\n\n</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">注意，如果由于系统分区/驱动器已经加密而导致前面步骤无效（没有正确的密码，没有人可以启动加密系统或者访问该驱动器上的加密数据，即使他遵循前面步骤）。\n\n\n即使您丢失了您的 TrueCrypt 应急盘并且被攻击者发现了，他们没有正确的密码也无法解密已经加密了的系统分区或驱动器。</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">不能启动 Windows 时如何操作 ------------------------------------------------\n\n注意：这些指令仅在您还没有开始加密时有效。\n\n- 如果在输入正确的密码后 Windows 未能启动（或者您持续的输入正确的密码但 VeraCrypt 始终提示密码错误），请不要惊慌。重启计算机（或关机后再开机），在 TrueCrpyt 启动管理器屏幕，按下键盘的 ESC 按键（并且如果您有多个系统，就选择启动哪个系统）。之后 Windows 应当会启动（此时尚未加密系统）并且 VeraCrypt 会自动询问您是否要卸载启动验证组件。如果由于系统分区/驱动器已经加密而导致前面步骤无效（没有正确的密码，没有人可以启动加密系统或者访问该驱动器上的加密数据，即使他遵循前面步骤）。\n\n</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- 如果前面步骤无效或者 VeraCrypt 启动管理器屏幕并没有出现（在 Windows 启动前），请在光驱中插入 VeraCrypt 应急盘并重启计算机。如果 VeraCrypt 启动管理器屏幕没有出现 或者如果您在启动管理器屏幕的 'Keyboard Controls'  部份没有看到 'Repair Options' 项目，很可能您的 BIOS 设置了硬盘优先于光驱启动。如果是这种情况，重启计算机，当您一看到 BIOS 启动屏幕的时候按下 F2 或 DEL 按键，直到 BISO 设置界面出现。如果 BIOS 设置界面没有出现，再次重启计算机，在您按下重启键的时候就按住 F2 或 DEL 按键。当 BIOS 设置界面出现时，配置您的 BIOS 优先从光驱启动（相关信息可以参考您的主板说明书或者资讯您的计算机供应商寻求技术协助）。之后重启计算机。VeraCrypt 启动管理器应该就会从应急盘中启动了。在VeraCrypt 启动管理器屏幕，按下键盘的 F8 按键选择修复选项（Repair Options）。在修复选项 'Repair Options' 菜单，选择 'Restore VeraCrypt Boot Loader'（恢复启动管理器）。之后从光驱中取出应急盘并重启计算机。之后 Windows 应当会启动（此时尚未加密系统）。\n\n</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">注意，如果由于系统分区/驱动器已经加密而导致前面步骤无效（没有正确的密码，没有人可以启动加密系统或者访问该驱动器上的加密数据，即使他遵循前面步骤）。\n\n\n即使您丢失了您的 VeraCrypt 应急盘并且被攻击者发现了，他们没有正确的密码也无法解密已经加密了的系统分区或驱动器。</string>
     <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">预测试已经完成</string>
-    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">预测试已经成功完成。\n\n警告：请注意，加密时如果遇到突然断电、或者加密时由于软硬件故障而导致的电脑死机，可能会损坏或丢失一些数据。因此，在您开始加密前，请确认您已经备份了要加密的数据。如果您还没有备份，请现在就备份这些数据（您可以点击〖推迟〗，备份文件，之后在以后的任何时候再运行 TrueCrypt，并选择〖系统〗-&gt;〖继续被中断的进程〗来启动加密）。\n\n当一切准备就绪时，点击〖加密〗开始执行加密过程。</string>
-    <string lang="zh-cn" key="SYSENC_ENCRYPTION_PAGE_INFO">您可以在任何时候点击〖暂停〗或者〖推迟〗以中断加解密进程、退出向导、重启或关闭计算机，并在以后继续中断的进程，继续时将会从中断位置开始。为防止系统或程序读写系统盘盘造成性能变差，TrueCrypt 会自动等待数据读写完毕后（参考上面的状态）自动继续加解密。</string>
+    <string lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">预测试已经成功完成。\n\n警告：请注意，加密时如果遇到突然断电、或者加密时由于软硬件故障而导致的电脑死机，可能会损坏或丢失一些数据。因此，在您开始加密前，请确认您已经备份了要加密的数据。如果您还没有备份，请现在就备份这些数据（您可以点击〖推迟〗，备份文件，之后在以后的任何时候再运行 VeraCrypt，并选择〖系统〗-&gt;〖继续被中断的进程〗来启动加密）。\n\n当一切准备就绪时，点击〖加密〗开始执行加密过程。</string>
+    <string lang="zh-cn" key="SYSENC_ENCRYPTION_PAGE_INFO">您可以在任何时候点击〖暂停〗或者〖推迟〗以中断加解密进程、退出向导、重启或关闭计算机，并在以后继续中断的进程，继续时将会从中断位置开始。为防止系统或程序读写系统盘盘造成性能变差，VeraCrypt 会自动等待数据读写完毕后（参考上面的状态）自动继续加解密。</string>
     <string lang="zh-cn" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n您可以在加密过程的任何时候点击〖暂停〗或者〖推迟〗，来中断加密的过程，退出向导，重启计算机，并在此后继续该过程，继续的时候将会从上次中断之处开始。注意：此加密卷在完全加密之前无法被加载。</string>
     <string lang="zh-cn" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">隐形系统已启动</string>
     <string lang="zh-cn" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">原始系统</string>
-    <string lang="zh-cn" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows 会在系统分区创建（通常情况下，您并不知道或者同意）不同的日志文件、临时文件等等。同时也会在系统分区存储内存中的内容到休眠文件或虚拟内存页面文件。因此，如果攻击者分析原始系统（即隐形系统所克隆的系统来源）所在分区的文件，他可能会发现，例如，您使用过 TrueCrypt 向导的隐形系统创建模式（因此可能暗示计算机中存在隐形系统。\n\n要预防此类问题，在后面步骤中，TrueCrypt 将会安全擦除原始系统所在分区的所有内容。在此之后，为了达到隐蔽性，您需要在此分区上安装新的操作系统并使用 TrueCrypt 加密它（即成为所谓的迷惑系统）。因此您将会创建完成这个迷惑系统并且整个隐形系统的创建过程也会相应的完成。</string>
-    <string lang="zh-cn" key="OS_WIPING_NOT_FINISHED_ASK">隐形系统已经成功创建。然而，在您使用隐形系统（以及达到隐蔽性）之前，您需要安全擦除当前运行的系统所在分区的全部内容（使用 TrueCrypt）。在您这样做之前，您需要重启计算机，并在之后的TrueCrypt 启动管理器屏幕（在 Windows 启动前出现），输入隐形系统的密码。之后，在隐形系统启动后，TrueCrypt 向导将会自动加载。\n\n说明：如果您现在选择终止隐形系统的创建过程，您将【无法再】继续该过程并且隐形系统将【不能再】被访问（这是因为 TrueCrypt 启动管理器将会被移除）。</string>
-    <string lang="zh-cn" key="HIDDEN_OS_CREATION_NOT_FINISHED_ASK">您已经设置了创建隐形系统的计划任务。该计划尚未完成。要完成该计划，您需要重启计算机，并在 TrueCrypt 启动管理器屏幕（在 Windows 启动前出现），输入隐形系统的密码。\n\n注意：如果您现在选择终止隐形系统的创建过程，您将【无法】再继续该过程。</string>
+    <string lang="zh-cn" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows 会在系统分区创建（通常情况下，您并不知道或者同意）不同的日志文件、临时文件等等。同时也会在系统分区存储内存中的内容到休眠文件或虚拟内存页面文件。因此，如果攻击者分析原始系统（即隐形系统所克隆的系统来源）所在分区的文件，他可能会发现，例如，您使用过 VeraCrypt 向导的隐形系统创建模式（因此可能暗示计算机中存在隐形系统。\n\n要预防此类问题，在后面步骤中，VeraCrypt 将会安全擦除原始系统所在分区的所有内容。在此之后，为了达到隐蔽性，您需要在此分区上安装新的操作系统并使用 VeraCrypt 加密它（即成为所谓的迷惑系统）。因此您将会创建完成这个迷惑系统并且整个隐形系统的创建过程也会相应的完成。</string>
+    <string lang="zh-cn" key="OS_WIPING_NOT_FINISHED_ASK">隐形系统已经成功创建。然而，在您使用隐形系统（以及达到隐蔽性）之前，您需要安全擦除当前运行的系统所在分区的全部内容（使用 VeraCrypt）。在您这样做之前，您需要重启计算机，并在之后的VeraCrypt 启动管理器屏幕（在 Windows 启动前出现），输入隐形系统的密码。之后，在隐形系统启动后，VeraCrypt 向导将会自动加载。\n\n说明：如果您现在选择终止隐形系统的创建过程，您将【无法再】继续该过程并且隐形系统将【不能再】被访问（这是因为 VeraCrypt 启动管理器将会被移除）。</string>
+    <string lang="zh-cn" key="HIDDEN_OS_CREATION_NOT_FINISHED_ASK">您已经设置了创建隐形系统的计划任务。该计划尚未完成。要完成该计划，您需要重启计算机，并在 VeraCrypt 启动管理器屏幕（在 Windows 启动前出现），输入隐形系统的密码。\n\n注意：如果您现在选择终止隐形系统的创建过程，您将【无法】再继续该过程。</string>
     <string lang="zh-cn" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_RETRY">重启计算机并继续</string>
     <string lang="zh-cn" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_TERMINATE">永久终止隐形系统的创建过程</string>
     <string lang="zh-cn" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_ASK_LATER">什么也不做并在以后询问</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_1">\n如果可能，请打印此段文本（单击下面的〖打印〗按钮）。\n\n\nTrueCrypt 应急盘使用时机和使用方法（加密后）-----------------------------------------------------------------------------------\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_2">I. 如何启动 TrueCrypt 应急盘\n\n要使用 TrueCrypt 应急盘，把应急盘插入光驱并重启计算机。如果 TrueCrypt 应急盘屏幕并没有出现（或者如果您在启动管理器屏幕的 'Keyboard Controls〗 部份没有看到 'Repair Options' 项目），很可能您的 BIOS 设置了硬盘优先于光驱启动。如果是这种情况，重启计算机，当您一看到 BIOS 启动屏幕的时候按下 F2 或 DEL 按键，直到 BISO 设置界面出现。如果 BIOS 设置界面没有出现，再次重启计算机，在您按下重启键的时候就按住 F2 或 DEL 按键。当 BIOS 设置界面出现时，配置您的 BIOS 优先从光驱启动（相关信息可以参考您的主板说明书或者资讯您的计算机供应商寻求技术协助）。之后重启计算机。TrueCrypt 启动管理器应该就会从应急盘中启动了。提示：在TrueCrypt 启动管理器屏幕，您可以按下键盘的 F8 按键选择修复选项（Repair Options）。\n\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_3">II. TrueCrypt 应急盘使用时机和使用方法（加密后）\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_4">1）如果在您启动计算机前没有出现 TrueCrypt 启动管理器屏幕（或者 Windows 没有能够启动），那么 TrueCrypt 启动管理器可能已经损坏。TrueCrypt 应急盘允许您恢复启动管理器并重新获取对加密系统和数据的访问（当然您仍然需要输入正确的密码）。在应急盘屏幕选择修复选项 'Repair Options' &gt; 'Restore TrueCrypt Boot Loader'（恢复启动管理器）。之后按下 'Y' 按键确认操作，从光驱中取出应急盘并重启计算机。\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_5">2）如果您持续输入正确密码而 TrueCrypt 仍然提示密码错误（password is incorrect），很可能是主密钥或其它关键数据已经毁坏。TrueCrypt 应急盘允许您恢复这些数据因此就可以重新访问这些加密的系统和数据了（当然您仍然需要输入正确的密码）。在应急盘屏幕，选择修复选项 'Repair Options' &gt; 'Restore key data'（恢复密钥数据）。之后输入您的密码，按下键盘的 'Y' 确认操作，从光驱中取出应急盘并重启计算机。\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_6">3）如果 TrueCrypt 启动管理器被恶意程序损坏了或感染了，您可以通过运行应急盘来避免运行恶意程序。在光驱中插入应急盘之后在应急盘屏幕输入您的密码。\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_7">4）如果 Windows 已经损坏并且不能启动，TrueCrypt 应急盘也可以允许您在启动 Windows 前永久解密分区/驱动器，在应急盘屏幕，选择修复选项 'Repair Options' &gt; 'Permanently decrypt system partition/drive'（永久解密系统分区/驱动器）。之后输入正确的密码直到解密完成。接下来，您就可以启动 Windows 的安装光盘来修复 Windows 了。\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_8">提示：另外一种方式，如果 Windows 已经损坏不能启动，您需要修复它（或者访问其上的文件），您可以通过以下步骤避免解密系统分区/驱动器：如果您在计算机上安装了多个操作系统，启动其中的某个不需要启动验证的系统。如果您的计算机没有安装多个操作系统，您可以启动一个 WinPE 或者 BartPE CD/DVD 系统，或者是把硬盘驱动器连接到其它计算机上作为从盘并启动其它计算机上的系统。在启动到此类系统环境之后，运行 TrueCrypt，点击〖选择设备〗，选择该受影响的系统分区，点击〖确定〗，选择〖系统〗-&gt;〖以非启动验证方式加载〗，输入您的启动验证密码并点击〖确定〗按钮。该分区将会以常规 TrueCrypt 加密分区的方式加载（数据也会象常规加密卷数据一样在内存中即时加解密）。\n\n\n</string>
-    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_9">注意：即使您丢失了您的 TrueCrypt 应急盘并且被攻击者发现了，他们没有正确的密码也无法解密已经加密了的系统分区或驱动器。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_1">\n如果可能，请打印此段文本（单击下面的〖打印〗按钮）。\n\n\nVeraCrypt 应急盘使用时机和使用方法（加密后）-----------------------------------------------------------------------------------\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_2">I. 如何启动 VeraCrypt 应急盘\n\n要使用 VeraCrypt 应急盘，把应急盘插入光驱并重启计算机。如果 VeraCrypt 应急盘屏幕并没有出现（或者如果您在启动管理器屏幕的 'Keyboard Controls〗 部份没有看到 'Repair Options' 项目），很可能您的 BIOS 设置了硬盘优先于光驱启动。如果是这种情况，重启计算机，当您一看到 BIOS 启动屏幕的时候按下 F2 或 DEL 按键，直到 BISO 设置界面出现。如果 BIOS 设置界面没有出现，再次重启计算机，在您按下重启键的时候就按住 F2 或 DEL 按键。当 BIOS 设置界面出现时，配置您的 BIOS 优先从光驱启动（相关信息可以参考您的主板说明书或者资讯您的计算机供应商寻求技术协助）。之后重启计算机。VeraCrypt 启动管理器应该就会从应急盘中启动了。提示：在VeraCrypt 启动管理器屏幕，您可以按下键盘的 F8 按键选择修复选项（Repair Options）。\n\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_3">II. VeraCrypt 应急盘使用时机和使用方法（加密后）\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_4">1）如果在您启动计算机前没有出现 VeraCrypt 启动管理器屏幕（或者 Windows 没有能够启动），那么 VeraCrypt 启动管理器可能已经损坏。VeraCrypt 应急盘允许您恢复启动管理器并重新获取对加密系统和数据的访问（当然您仍然需要输入正确的密码）。在应急盘屏幕选择修复选项 'Repair Options' &gt; 'Restore VeraCrypt Boot Loader'（恢复启动管理器）。之后按下 'Y' 按键确认操作，从光驱中取出应急盘并重启计算机。\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_5">2）如果您持续输入正确密码而 VeraCrypt 仍然提示密码错误（password is incorrect），很可能是主密钥或其它关键数据已经毁坏。VeraCrypt 应急盘允许您恢复这些数据因此就可以重新访问这些加密的系统和数据了（当然您仍然需要输入正确的密码）。在应急盘屏幕，选择修复选项 'Repair Options' &gt; 'Restore key data'（恢复密钥数据）。之后输入您的密码，按下键盘的 'Y' 确认操作，从光驱中取出应急盘并重启计算机。\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_6">3）如果 VeraCrypt 启动管理器被恶意程序损坏了或感染了，您可以通过运行应急盘来避免运行恶意程序。在光驱中插入应急盘之后在应急盘屏幕输入您的密码。\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_7">4）如果 Windows 已经损坏并且不能启动，VeraCrypt 应急盘也可以允许您在启动 Windows 前永久解密分区/驱动器，在应急盘屏幕，选择修复选项 'Repair Options' &gt; 'Permanently decrypt system partition/drive'（永久解密系统分区/驱动器）。之后输入正确的密码直到解密完成。接下来，您就可以启动 Windows 的安装光盘来修复 Windows 了。\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_8">提示：另外一种方式，如果 Windows 已经损坏不能启动，您需要修复它（或者访问其上的文件），您可以通过以下步骤避免解密系统分区/驱动器：如果您在计算机上安装了多个操作系统，启动其中的某个不需要启动验证的系统。如果您的计算机没有安装多个操作系统，您可以启动一个 WinPE 或者 BartPE CD/DVD 系统，或者是把硬盘驱动器连接到其它计算机上作为从盘并启动其它计算机上的系统。在启动到此类系统环境之后，运行 VeraCrypt，点击〖选择设备〗，选择该受影响的系统分区，点击〖确定〗，选择〖系统〗-&gt;〖以非启动验证方式加载〗，输入您的启动验证密码并点击〖确定〗按钮。该分区将会以常规 VeraCrypt 加密分区的方式加载（数据也会象常规加密卷数据一样在内存中即时加解密）。\n\n\n</string>
+    <string lang="zh-cn" key="RESCUE_DISK_HELP_PORTION_9">注意：即使您丢失了您的 VeraCrypt 应急盘并且被攻击者发现了，他们没有正确的密码也无法解密已经加密了的系统分区或驱动器。</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_1">\n\n重要 -- 如有可能请打印出来（点击〖打印〗）。\n\n\n注意：这些文本在您每次启动隐形系统时会自动显示，直到您开始创建迷惑系统。\n\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_2">如何成功和安全的创建迷惑系统 ----------------------------------------------------------------------------\n\n为了达到隐蔽性的目地，您现在应当创建迷惑系统。要达到这个目地，请遵循如下步骤：\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_3">1）安全考虑，关闭您的计算机并保持关机状态几分钟（时间越长越好）。这是出于清除内存中敏感数据的需要。之后打开计算机但不要启动隐形系统。\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2）在已擦除内容的原系统分区上安装 Windows（也就是之前隐形系统克隆的系统源分区）。\n\n重要：在您开始安装迷惑操作系统时，隐形系统将无法启动（这是因为 TrueCrypt 启动管理器将会被 Windows 系统安装程序所清除）。这种情况是很正常的，遇到了请不必惊慌。一旦您开始加密迷惑系统，您就能够启动隐形系统了（这是因为 TrueCrypt 之后会自动在系统启动器上安装 TrueCrypt 启动管理器）。\n\n重要：迷惑系统分区的大小必须等于隐藏加密卷的大小（此条件已达到）。并且，您必须不能在迷惑系统分区和隐形系统所在分区之间创建任何分区。\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3）启动迷惑系统（即您在前面的第 2) 步中安装的并把 TrueCrypt 安装到其中的那个系统）。\n\n必须牢记迷惑系统中从来都不要包含任何敏感数据。\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4）在迷惑系统中，运行 TrueCrypt 并选择〖系统〗-&gt;〖加密系统分区/驱动器〗。将会出现 TrueCrypt 加密卷创建向导。\n\n TrueCrypt 加密卷创建向导中执行以下步骤。\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5）在 TrueCrypt 加密卷创建向导中，不要选择“隐藏” 选项。保持“常规”选项为选中状态并点击〖下一步〗。\n\n</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2）在已擦除内容的原系统分区上安装 Windows（也就是之前隐形系统克隆的系统源分区）。\n\n重要：在您开始安装迷惑操作系统时，隐形系统将无法启动（这是因为 VeraCrypt 启动管理器将会被 Windows 系统安装程序所清除）。这种情况是很正常的，遇到了请不必惊慌。一旦您开始加密迷惑系统，您就能够启动隐形系统了（这是因为 VeraCrypt 之后会自动在系统启动器上安装 VeraCrypt 启动管理器）。\n\n重要：迷惑系统分区的大小必须等于隐藏加密卷的大小（此条件已达到）。并且，您必须不能在迷惑系统分区和隐形系统所在分区之间创建任何分区。\n\n</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3）启动迷惑系统（即您在前面的第 2) 步中安装的并把 VeraCrypt 安装到其中的那个系统）。\n\n必须牢记迷惑系统中从来都不要包含任何敏感数据。\n\n</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4）在迷惑系统中，运行 VeraCrypt 并选择〖系统〗-&gt;〖加密系统分区/驱动器〗。将会出现 VeraCrypt 加密卷创建向导。\n\n VeraCrypt 加密卷创建向导中执行以下步骤。\n\n</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5）在 VeraCrypt 加密卷创建向导中，不要选择“隐藏” 选项。保持“常规”选项为选中状态并点击〖下一步〗。\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_8">6）选择选项“加密 Windows 系统分区”并点击〖下一步〗。\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_9">7）如果计算机中只安装了一个隐形系统和迷惑系统，请选择“单系统”（如果在这两个系统之外还有其它系统，请选择“多系统”）。之后点击〖下一步〗。\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_10">8）重要：在本步中，对于迷惑系统，您必须选择与加密隐形系统相同的加密算法和哈希算法！否则将无法访问隐形系统。换句话说，迷惑系统和隐形系统的加密算法必须系统。说明：原因是迷惑系统和隐形系统共用一个单启动管理器，这个管理器只支持用户选择的某个单一算法（对于每种算法，都会对应一个特定的 TrueCrypt 启动管理器版本）。\n\n</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_10">8）重要：在本步中，对于迷惑系统，您必须选择与加密隐形系统相同的加密算法和哈希算法！否则将无法访问隐形系统。换句话说，迷惑系统和隐形系统的加密算法必须系统。说明：原因是迷惑系统和隐形系统共用一个单启动管理器，这个管理器只支持用户选择的某个单一算法（对于每种算法，都会对应一个特定的 VeraCrypt 启动管理器版本）。\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_11">9）在这个步骤中，为迷惑系统选择一个密码。当您被要求或者强迫提供启动验证密码时您可以泄漏这个迷惑系统的密码（另外一个可以泄漏的密码是外层加密卷密码）。而第三个密码（也就是启动验证里面用于启动隐形系统的密码）仍然是保密的。\n\n重要：迷惑系统的密码必须完全不同于隐藏加密卷的密码（隐藏加密卷的密码也就是隐形操作系统的密码）。\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_12">10）遵循向导的其余指令以加密迷惑操作系统。\n\n\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_13">在迷惑操作系统创建之后 ------------------------------------------------\n\n在您加密了迷惑操作系统之后，这个隐形系统的创建就完成了，这时您可以使用三个密码：\n\n1）启动验证中用于启动隐形系统的密码。\n\n2）启动验证中用于启动迷惑操作系统的密码。\n\n3）用于外层加密卷的密码。\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_14">如果您想启动隐形操作系统，只需要在 TrueCrypt 启动管理器屏幕（该屏幕出现于您开机或者重启系统的时候）输入隐形操作系统的密码。\n\n如果您想启动迷惑操作系统，只需要在 TrueCrypt 启动管理器屏幕输入迷惑操作系统的密码即可。\n\n迷惑操作系统的密码可以泄漏给强迫您说出密码的人，而此时隐藏加密卷（以及隐形操作系统）的存在仍然是保密的。\n\n</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_14">如果您想启动隐形操作系统，只需要在 VeraCrypt 启动管理器屏幕（该屏幕出现于您开机或者重启系统的时候）输入隐形操作系统的密码。\n\n如果您想启动迷惑操作系统，只需要在 VeraCrypt 启动管理器屏幕输入迷惑操作系统的密码即可。\n\n迷惑操作系统的密码可以泄漏给强迫您说出密码的人，而此时隐藏加密卷（以及隐形操作系统）的存在仍然是保密的。\n\n</string>
     <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_15">第三个密码（外层加密卷的密码），可以泄漏给强迫您说出系统分区之后那个分区密码的人（这个分区包含外层加密卷和隐藏加密卷，隐藏加密卷中即为隐形系统）。而此时隐藏加密卷（以及隐形操作系统）的存在仍然是保密的。\n\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_16">如果您把迷惑系统的密码泄漏给强迫您说出密码的人，如果他询问为什么（迷惑）系统分区的自由空间包含随机数据，您可以回答，例如："这个分区以前包含 TrueCrypt 加密的系统但是我忘记了密码（或者说这个系统已经损坏和无法启动了），因此我不得不安装了 Windows 和重新加密了这个分区"。\n\n\n</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_17">如果您遵循了前面的指令并且遵循了《TrueCrypt User Guide》中的 "Security Precautions Pertaining to Hidden Volumes" 章节所提到的防护措施，则外人无法证明隐藏加密卷和隐形系统的存在，哪怕是外层加密卷已加载或迷惑操作系统已解密/启动。\n\n如果您打印了此文本，在您创建迷惑操作系统之后并理解了文本中所述内容之后，强烈建议您销毁这个文本（否则，如果该文本纸张被发现，可能会暗示计算机上有存在隐形系统的可能）。</string>
-    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_18">警告：如果您没有保护隐藏加密卷（保护的做法参考 TrueCrypt 用户指南的"Protection of Hidden Volumes Against Damage"章节），请不要向外层加密卷写入数据。否则您可能会覆盖或损坏隐藏隐藏加密卷！请不要想外层加密卷写入数据（注意，迷惑操作系统并未安装在外层加密卷）。否则，您可能会覆盖和损坏隐藏加密卷（以及在其内的隐形系统）！</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_16">如果您把迷惑系统的密码泄漏给强迫您说出密码的人，如果他询问为什么（迷惑）系统分区的自由空间包含随机数据，您可以回答，例如："这个分区以前包含 VeraCrypt 加密的系统但是我忘记了密码（或者说这个系统已经损坏和无法启动了），因此我不得不安装了 Windows 和重新加密了这个分区"。\n\n\n</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_17">如果您遵循了前面的指令并且遵循了《VeraCrypt User Guide》中的 "Security Precautions Pertaining to Hidden Volumes" 章节所提到的防护措施，则外人无法证明隐藏加密卷和隐形系统的存在，哪怕是外层加密卷已加载或迷惑操作系统已解密/启动。\n\n如果您打印了此文本，在您创建迷惑操作系统之后并理解了文本中所述内容之后，强烈建议您销毁这个文本（否则，如果该文本纸张被发现，可能会暗示计算机上有存在隐形系统的可能）。</string>
+    <string lang="zh-cn" key="DECOY_OS_INSTRUCTIONS_PORTION_18">警告：如果您没有保护隐藏加密卷（保护的做法参考 VeraCrypt 用户指南的"Protection of Hidden Volumes Against Damage"章节），请不要向外层加密卷写入数据。否则您可能会覆盖或损坏隐藏隐藏加密卷！请不要想外层加密卷写入数据（注意，迷惑操作系统并未安装在外层加密卷）。否则，您可能会覆盖和损坏隐藏加密卷（以及在其内的隐形系统）！</string>
     <string lang="zh-cn" key="HIDDEN_OS_CREATION_PREINFO_TITLE">正在克隆操作系统</string>
-    <string lang="zh-cn" key="HIDDEN_OS_CREATION_PREINFO_HELP">在下一步中，TrueCrypt 将会通过复制当前运行系统的内容到隐藏加密卷来创建隐形系统（被复制的数据将会使用与迷惑系统不同的密钥实时加密））。\n\n请注意该过程将会在启动验证环境中执行（在 Windows 启动前），并可能花费较长的时间；可能需要花费几个小时或者几天（依据系统分区容量和计算机性能而定，例如PM1.6GHz加密时大概的速度是0.5GB/分钟左右）。\n\n您可以中断该过程，关机，启动操作系统并在此之后继续该过程。然而，如果您中断该过程，整个复制系统的过程将会不得不从头开始（因为系统分区的内容在克隆期间必须不能被改变）。</string>
+    <string lang="zh-cn" key="HIDDEN_OS_CREATION_PREINFO_HELP">在下一步中，VeraCrypt 将会通过复制当前运行系统的内容到隐藏加密卷来创建隐形系统（被复制的数据将会使用与迷惑系统不同的密钥实时加密））。\n\n请注意该过程将会在启动验证环境中执行（在 Windows 启动前），并可能花费较长的时间；可能需要花费几个小时或者几天（依据系统分区容量和计算机性能而定，例如PM1.6GHz加密时大概的速度是0.5GB/分钟左右）。\n\n您可以中断该过程，关机，启动操作系统并在此之后继续该过程。然而，如果您中断该过程，整个复制系统的过程将会不得不从头开始（因为系统分区的内容在克隆期间必须不能被改变）。</string>
     <string lang="zh-cn" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">您想要取消整个隐形操作系统的创建过程吗？\n\n注意：如果现在取消，您将无法继续该进程。</string>
     <string lang="zh-cn" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">您要取消系统加密预测试吗？</string>
-    <string lang="zh-cn" key="BOOT_PRETEST_FAILED_RETRY">TrueCrypt 系统加密预测试失败。您希望再试一次吗？\n\n如果选择〖否〗，则启动验证组件将会被卸载。\n\n说明：如果 TrueCrypt 启动管理器在 Windows 启动前不要求您输入密码，这很可能是您的操作系统并没有从该系统所安装的驱动器引导的。目前并不支持这种方式。\n\n- 如果您使用了AES 之外的加密算法并且预测试失败了（并且您也输入了密码），这可能由有设计缺陷的驱动导致的。选择〖否〗，尝试再次加密系统分区/设备，但是要使用 AES 加密算法（该算法所需内存最低）。\n\n- 更多可能导致该错误的原因，请参考: http://www.truecrypt.org/docs/?s=troubleshooting</string>
+    <string lang="zh-cn" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt 系统加密预测试失败。您希望再试一次吗？\n\n如果选择〖否〗，则启动验证组件将会被卸载。\n\n说明：如果 VeraCrypt 启动管理器在 Windows 启动前不要求您输入密码，这很可能是您的操作系统并没有从该系统所安装的驱动器引导的。目前并不支持这种方式。\n\n- 如果您使用了AES 之外的加密算法并且预测试失败了（并且您也输入了密码），这可能由有设计缺陷的驱动导致的。选择〖否〗，尝试再次加密系统分区/设备，但是要使用 AES 加密算法（该算法所需内存最低）。\n\n- 更多可能导致该错误的原因，请参考: http://www.veracrypt.org/docs/?s=troubleshooting</string>
     <string lang="zh-cn" key="SYS_DRIVE_NOT_ENCRYPTED">该系统分区/驱动器看起来没有被加密（或者是没有被完全加密）。</string>
-    <string lang="zh-cn" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">您的系统分区/驱动器已加密（部分或完全加密）。\n\n请在继续进行前解密该系统分区/驱动器。操作步骤：在 TrueCrypt 主窗口的菜单中，选择〖系统〗-&gt;〖永久解密系统分区/驱动器〗。</string>
-    <string lang="zh-cn" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">当系统分区/驱动器已部份或完全加密时，您不能降级 TrueCrypt 的版本（但是可以更新到新版本或者从新安装同一版本）。</string>
+    <string lang="zh-cn" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">您的系统分区/驱动器已加密（部分或完全加密）。\n\n请在继续进行前解密该系统分区/驱动器。操作步骤：在 VeraCrypt 主窗口的菜单中，选择〖系统〗-&gt;〖永久解密系统分区/驱动器〗。</string>
+    <string lang="zh-cn" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">当系统分区/驱动器已部份或完全加密时，您不能降级 VeraCrypt 的版本（但是可以更新到新版本或者从新安装同一版本）。</string>
     <string lang="zh-cn" key="SYS_ENCRYPTION_OR_DECRYPTION_IN_PROGRESS">您的系统分区/驱动器正在被加密/解密，或正在被修改。请在继续操作前中断这个加密/解密/修改进程（或者等待直到其完成）。</string>
-    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE">已经有 TrueCrypt 加密卷创建向导的实例在运行，并且正在执行对系统分区/驱动器的加密或解密操作。在您继续前，请等候其完成或者关闭该实例。如果您无法关闭这个实例，请在继续操作前重启计算机。</string>
+    <string lang="zh-cn" key="SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE">已经有 VeraCrypt 加密卷创建向导的实例在运行，并且正在执行对系统分区/驱动器的加密或解密操作。在您继续前，请等候其完成或者关闭该实例。如果您无法关闭这个实例，请在继续操作前重启计算机。</string>
     <string lang="zh-cn" key="SYSTEM_ENCRYPTION_NOT_COMPLETED">加密或解密系统分区/驱动器的进程尚未完成。在进程完成前请稍候。</string>
     <string lang="zh-cn" key="ERR_ENCRYPTION_NOT_COMPLETED">错误：加密分区/驱动器的过程已经未完成，该过程必须首先完成。</string>
     <string lang="zh-cn" key="ERR_NONSYS_INPLACE_ENC_INCOMPLETE">错误：加密 分区/卷 的过程尚未完成。您必须首先完成此过程。\n\n说明：要继续该过程，在 TrueCrype 主界面的菜单中，选择〖加密卷〗-&gt;〖继续被中断的过程〗。</string>
-    <string lang="zh-cn" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">密码正确，TrueCrypt 已经成功解密加密卷头信息并检测到了该加密卷存在一个隐形的操作系统。然而，您不能以此种方式修改隐形系统卷的头信息。\n\n要修改隐形系统卷的密码，请启动隐形操作系统，之后在 TrueCrypt 主界面选择〖系统〗-&gt;〖修改密码〗。\n\n要设置首密钥的生成算法，启动隐形操作系统并在程序窗口选择〖系统〗-&gt;〖设置首密钥生成算法〗。</string>
-    <string lang="zh-cn" key="CANNOT_DECRYPT_HIDDEN_OS">TrueCrypt 不支持就地（在隐形系统内）解密隐形操作系统分区。\n\n说明：如果您要解密迷惑操作系统，可以启动到迷惑操作系统，在 TrueCrypt 程序中选择〖系统〗-&gt;〖永久解密系统分区/驱动器〗。</string>
+    <string lang="zh-cn" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">密码正确，VeraCrypt 已经成功解密加密卷头信息并检测到了该加密卷存在一个隐形的操作系统。然而，您不能以此种方式修改隐形系统卷的头信息。\n\n要修改隐形系统卷的密码，请启动隐形操作系统，之后在 VeraCrypt 主界面选择〖系统〗-&gt;〖修改密码〗。\n\n要设置首密钥的生成算法，启动隐形操作系统并在程序窗口选择〖系统〗-&gt;〖设置首密钥生成算法〗。</string>
+    <string lang="zh-cn" key="CANNOT_DECRYPT_HIDDEN_OS">VeraCrypt 不支持就地（在隐形系统内）解密隐形操作系统分区。\n\n说明：如果您要解密迷惑操作系统，可以启动到迷惑操作系统，在 VeraCrypt 程序中选择〖系统〗-&gt;〖永久解密系统分区/驱动器〗。</string>
     <string lang="zh-cn" key="ERR_PARAMETER_INCORRECT">错误：错误/无效的参数。</string>
     <string lang="zh-cn" key="DEVICE_SELECTED_IN_NON_DEVICE_MODE">您已经选择了一个分区或者设备，但是在向导模式您只能选择文件型加密卷。\n\n您希望改变向导模式吗？</string>
-    <string lang="zh-cn" key="CONFIRM_CHANGE_WIZARD_MODE_TO_FILE_CONTAINER">您想取代创建为 TrueCrypt 文件型加密卷吗？</string>
+    <string lang="zh-cn" key="CONFIRM_CHANGE_WIZARD_MODE_TO_FILE_CONTAINER">您想取代创建为 VeraCrypt 文件型加密卷吗？</string>
     <string lang="zh-cn" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">您已经选择了系统分区/驱动器（或启动分区），但是您选择的向导模式只适用于非系统驱动器。\n\n您希望设置启动验证（意味着每次启动 Windows 前，都需要您输入密码）和加密系统分区或驱动器吗？</string>
     <string lang="zh-cn" key="CONFIRM_DECRYPT_SYS_DEVICE">您确认要永久解密系统分区/驱动器吗？</string>
     <string lang="zh-cn" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">警告：如果您永久解密系统分区或驱动器，数据将会恢复为未加密状态。\n\n您确认要永久解密系统分区或驱动器吗？</string>
-    <string lang="zh-cn" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">警告：如果您使用一种级联算法加密操作系统，您可能会遇到以下问题：\n\n1）TrueCrypt 启动管理器体积偏大，因此驱动器的第一个柱面可能无法容纳 TrueCrypt 启动管理器的备份。因此，当其损坏的时候（这个可能会经常发生，例如，在某些程序的有设计缺陷的反隐私操作情况下），您将需要使用 TrueCrypt 应急盘启动和修复 TrueCrypt 启动管理器。\n\n2）在一些计算机上，导致休眠时间过长。\n\n这些潜在的问题可以通过选择一种非级联算法（例如 AES）来预防。\n\n您真的要坚持继续使用级联算法吗？</string>
+    <string lang="zh-cn" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">警告：如果您使用一种级联算法加密操作系统，您可能会遇到以下问题：\n\n1）VeraCrypt 启动管理器体积偏大，因此驱动器的第一个柱面可能无法容纳 VeraCrypt 启动管理器的备份。因此，当其损坏的时候（这个可能会经常发生，例如，在某些程序的有设计缺陷的反隐私操作情况下），您将需要使用 VeraCrypt 应急盘启动和修复 VeraCrypt 启动管理器。\n\n2）在一些计算机上，导致休眠时间过长。\n\n这些潜在的问题可以通过选择一种非级联算法（例如 AES）来预防。\n\n您真的要坚持继续使用级联算法吗？</string>
     <string lang="zh-cn" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">如果您遇到任何前面描述的问题，请解密该分区/驱动器（如果已加密）并使用一种非级联算法加密（例如 AES）。</string>
-    <string lang="zh-cn" key="UPDATE_TC_IN_DECOY_OS_FIRST">警告：安全考虑，在更新隐形系统中的 TrueCrypt 之前，您应当先更新迷惑系统中的 TrueCrypt。\n\n可以这样实现：启动到迷惑系统，运行 TrueCrypt 安装程序。之后启动到隐形系统和运行 TrueCrypt 安装程序。\n\n注意：迷惑系统和隐形系统共用一个启动管理器。如果你仅在隐形系统升级 TrueCrypt，迷惑系统的 TrueCrypt 驱动版本则与 TrueCrypt 启动管理器的版本不同，亦可能暗示在电脑上存在隐形系统。\n\n\n您确认要继续吗？</string>
-    <string lang="zh-cn" key="UPDATE_TC_IN_HIDDEN_OS_TOO">TrueCrypt 启动管理器的版本与系统中安装的 TrueCrypt 驱动和程序版本不一致。\n\n您应当运行 TrueCrypt 安装程序（版本号与 TrueCrypt 启动管理器相同）来更新操作系统中的 TrueCrypt。</string>
-    <string lang="zh-cn" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">启动该系统的 TrueCrypt 启动管理器版本号不同于安装在系统上的 TrueCrypt 设备驱动或 TrueCrypt 应用程序的版本号。请注意，早期版本可能存在一些新版已经修复的 BUG。\n\n如果您并未从应急盘启动，您应当重新安装 TrueCrypt 或者更新到最新的稳定版本（启动管理器也会随之更新）。\n\n如果您从应急盘启动，您应当更新应急盘（〖系统〗-&gt;〖创建应急盘〗）。</string>
-    <string lang="zh-cn" key="BOOT_LOADER_UPGRADE_OK">TrueCrypt 启动管理器已经成功更新。\n\n强烈建议您重启计算机后选择〖系统〗-&gt;〖创建应急盘〗来创建一个新的 TrueCrypt 应急盘（将会包含新版的 TrueCrypt 启动管理器）。</string>
-    <string lang="zh-cn" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">TrueCrypt 启动管理器已经更新。\n\n强烈建议您启动迷惑操作系统并通过选择菜单〖系统〗 -&gt;〖创建应急盘〗创建一个新的 TrueCrypt应急盘（将会包含新版本的 TrueCrypt 启动管理器）。</string>
-    <string lang="zh-cn" key="BOOT_LOADER_UPGRADE_FAILED">更新 TrueCrypt 启动管理器时失败。</string>
-    <string lang="zh-cn" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">TrueCrypt 检测系统驱动器真实大小失败，因此，操作系统所报告的大小（将会比实际小）将会被使用。另外需要指明的是，这并不是 TrueCrypt 的程序问题（BUG）。</string>
-    <string lang="zh-cn" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">警告：看起来 TrueCrypt 曾经检测过此系统驱动器上的隐藏扇区。如果您在上次检测过程中遇到任何问题，您可以通过跳过隐藏扇区检测来避免这个问题。注意，如果跳过检测，TrueCrypt 将会使用操作系统报告的容量（要小于真实驱动器的容量）。\n\n此问题并不是 TrueCrypt 的程序 Bug。</string>
+    <string lang="zh-cn" key="UPDATE_TC_IN_DECOY_OS_FIRST">警告：安全考虑，在更新隐形系统中的 VeraCrypt 之前，您应当先更新迷惑系统中的 VeraCrypt。\n\n可以这样实现：启动到迷惑系统，运行 VeraCrypt 安装程序。之后启动到隐形系统和运行 VeraCrypt 安装程序。\n\n注意：迷惑系统和隐形系统共用一个启动管理器。如果你仅在隐形系统升级 VeraCrypt，迷惑系统的 VeraCrypt 驱动版本则与 VeraCrypt 启动管理器的版本不同，亦可能暗示在电脑上存在隐形系统。\n\n\n您确认要继续吗？</string>
+    <string lang="zh-cn" key="UPDATE_TC_IN_HIDDEN_OS_TOO">VeraCrypt 启动管理器的版本与系统中安装的 VeraCrypt 驱动和程序版本不一致。\n\n您应当运行 VeraCrypt 安装程序（版本号与 VeraCrypt 启动管理器相同）来更新操作系统中的 VeraCrypt。</string>
+    <string lang="zh-cn" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">启动该系统的 VeraCrypt 启动管理器版本号不同于安装在系统上的 VeraCrypt 设备驱动或 VeraCrypt 应用程序的版本号。请注意，早期版本可能存在一些新版已经修复的 BUG。\n\n如果您并未从应急盘启动，您应当重新安装 VeraCrypt 或者更新到最新的稳定版本（启动管理器也会随之更新）。\n\n如果您从应急盘启动，您应当更新应急盘（〖系统〗-&gt;〖创建应急盘〗）。</string>
+    <string lang="zh-cn" key="BOOT_LOADER_UPGRADE_OK">VeraCrypt 启动管理器已经成功更新。\n\n强烈建议您重启计算机后选择〖系统〗-&gt;〖创建应急盘〗来创建一个新的 VeraCrypt 应急盘（将会包含新版的 VeraCrypt 启动管理器）。</string>
+    <string lang="zh-cn" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">VeraCrypt 启动管理器已经更新。\n\n强烈建议您启动迷惑操作系统并通过选择菜单〖系统〗 -&gt;〖创建应急盘〗创建一个新的 VeraCrypt应急盘（将会包含新版本的 VeraCrypt 启动管理器）。</string>
+    <string lang="zh-cn" key="BOOT_LOADER_UPGRADE_FAILED">更新 VeraCrypt 启动管理器时失败。</string>
+    <string lang="zh-cn" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">VeraCrypt 检测系统驱动器真实大小失败，因此，操作系统所报告的大小（将会比实际小）将会被使用。另外需要指明的是，这并不是 VeraCrypt 的程序问题（BUG）。</string>
+    <string lang="zh-cn" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">警告：看起来 VeraCrypt 曾经检测过此系统驱动器上的隐藏扇区。如果您在上次检测过程中遇到任何问题，您可以通过跳过隐藏扇区检测来避免这个问题。注意，如果跳过检测，VeraCrypt 将会使用操作系统报告的容量（要小于真实驱动器的容量）。\n\n此问题并不是 VeraCrypt 的程序 Bug。</string>
     <string lang="zh-cn" key="SKIP_HIDDEN_SECTOR_DETECTION">跳过隐藏扇区的检测（使用操作系统报告的容量）</string>
     <string lang="zh-cn" key="RETRY_HIDDEN_SECTOR_DETECTION">尝试再次检测隐藏扇区</string>
-    <string lang="zh-cn" key="ENABLE_BAD_SECTOR_ZEROING">错误：磁盘上一个或多个扇区的内容无法读取（可能由于物理因素影响）。\n\n这些扇区能够重新读取之前，就地加密的过程将无法继续。TrueCrypt 能够尝试向其中写入 0 来使这些扇区可读（之后这些 0 填充的区块将会被加密）。然而，请注意存储于这些不可读扇区的数据将会丢失。如果您想要避免数据丢失，您可以使用适当的第三方软件恢复这些损坏数据的某些部分。\n\n注意：在有物理损坏扇区的情况下（不同于简单的数据损坏和校验错误），当有数据试图向这些损坏扇区写入数据时，大多数存储设备都会在内部为这些要写入的数据重新分配扇区（因此当前损坏扇区上的现有数据可能在启动器上仍然保持未加密状态）。\n\n您希望 TrueCrypt 为这些不可读扇区填充 0 吗？</string>
-    <string lang="zh-cn" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">错误：磁盘上一个或多个扇区的内容无法读取（可能由于物理因素影响）。\n\n为了能够继续加密，TrueCrypt 不得不放弃这些不可读扇区（扇区内容会被伪随机数据填充）。请注意，在继续进行之前，您可以尝试使用适当的第三方软件恢复任何损坏数据的一部分。\n\n您希望 TrueCrypt 废弃不可读扇区中的数据吗？</string>
-    <string lang="zh-cn" key="ZEROED_BAD_SECTOR_COUNT">说明：TrueCrypt 已经把 %I64d 的不可读扇区（%s）的当前内容全部替换为加密的全部为 0 的纯文本块。</string>
+    <string lang="zh-cn" key="ENABLE_BAD_SECTOR_ZEROING">错误：磁盘上一个或多个扇区的内容无法读取（可能由于物理因素影响）。\n\n这些扇区能够重新读取之前，就地加密的过程将无法继续。VeraCrypt 能够尝试向其中写入 0 来使这些扇区可读（之后这些 0 填充的区块将会被加密）。然而，请注意存储于这些不可读扇区的数据将会丢失。如果您想要避免数据丢失，您可以使用适当的第三方软件恢复这些损坏数据的某些部分。\n\n注意：在有物理损坏扇区的情况下（不同于简单的数据损坏和校验错误），当有数据试图向这些损坏扇区写入数据时，大多数存储设备都会在内部为这些要写入的数据重新分配扇区（因此当前损坏扇区上的现有数据可能在启动器上仍然保持未加密状态）。\n\n您希望 VeraCrypt 为这些不可读扇区填充 0 吗？</string>
+    <string lang="zh-cn" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">错误：磁盘上一个或多个扇区的内容无法读取（可能由于物理因素影响）。\n\n为了能够继续加密，VeraCrypt 不得不放弃这些不可读扇区（扇区内容会被伪随机数据填充）。请注意，在继续进行之前，您可以尝试使用适当的第三方软件恢复任何损坏数据的一部分。\n\n您希望 VeraCrypt 废弃不可读扇区中的数据吗？</string>
+    <string lang="zh-cn" key="ZEROED_BAD_SECTOR_COUNT">说明：VeraCrypt 已经把 %I64d 的不可读扇区（%s）的当前内容全部替换为加密的全部为 0 的纯文本块。</string>
     <string lang="zh-cn" key="ENTER_TOKEN_PASSWORD">输入口令牌 '%s' 的密码/PIN:</string>
-    <string lang="zh-cn" key="PKCS11_LIB_LOCATION_HELP">为允许 TrueCrypt 访问安全口令牌或智能卡，您首先需要为口令牌或智能卡安装一种 PKCS #11 运行库，这些运行库可能已经随设备提供，或者可以从供应商网站或其它第三方网站上下载。\n\n在您安装了运行库后，您可以通过单击〖选择运行库〗手动选择，或者通过单击〖自动检测运行库〗来让 TrueCrypt 发现和选择（仅会搜索 Windows 系统目录，比较耗费时间）。</string>
+    <string lang="zh-cn" key="PKCS11_LIB_LOCATION_HELP">为允许 VeraCrypt 访问安全口令牌或智能卡，您首先需要为口令牌或智能卡安装一种 PKCS #11 运行库，这些运行库可能已经随设备提供，或者可以从供应商网站或其它第三方网站上下载。\n\n在您安装了运行库后，您可以通过单击〖选择运行库〗手动选择，或者通过单击〖自动检测运行库〗来让 VeraCrypt 发现和选择（仅会搜索 Windows 系统目录，比较耗费时间）。</string>
     <string lang="zh-cn" key="SELECT_PKCS11_MODULE_HELP">说明：对于安装到您计算机上的 PKCS #11 运行库以及安全口令牌或智能卡的文件名和位置，请参考口令牌、智能卡的文档，或者参考第三方软件。\n\n单击〖确定〗按钮选择路径和文件名。</string>
-    <string lang="zh-cn" key="NO_PKCS11_MODULE_SPECIFIED">为允许 TrueCrypt 访问安全口令牌或智能卡，您需要为口令牌或智能卡选择一种 PKCS #11 运行库。要做到这点，请选择〖设置〗-&gt;〖安全口令牌〗。</string>
+    <string lang="zh-cn" key="NO_PKCS11_MODULE_SPECIFIED">为允许 VeraCrypt 访问安全口令牌或智能卡，您需要为口令牌或智能卡选择一种 PKCS #11 运行库。要做到这点，请选择〖设置〗-&gt;〖安全口令牌〗。</string>
     <string lang="zh-cn" key="PKCS11_MODULE_INIT_FAILED">初始化 PKCS #11 安全口令牌运行库失败。\n\n请确认指定路径和文件名对应有效的 PKCS #11 运行库。要指定 PKCS #11 运行库路径和文件名，选择〖设置〗 -&gt;〖安全口令牌〗。</string>
     <string lang="zh-cn" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">在 Windows 系统目录未发现 PKCS #11 运行库。\n\n请确认您的安全口令牌或智能卡已经安装了 PKCS #11 运行库（这些运行库可能已经随设备提供，或者可以从供应商网站或其它第三方网站上下载）。如果是被安装到 Windows 系统目录之外的地方，请点击〖选择运行库〗来定位运行库位置（例如：口令牌/智能卡 的安装文件夹。</string>
     <string lang="zh-cn" key="NO_TOKENS_FOUND">未发现安全口令牌。\n\n请确认您的安全口令牌已经连接到您的计算机上并且已经安装好了正确的设备驱动程序。</string>
@@ -1185,37 +1185,37 @@
     <string lang="zh-cn" key="INVALID_TOKEN_KEYFILE_PATH">安全口令牌密钥文件路径无效。</string>
     <string lang="zh-cn" key="SECURITY_TOKEN_ERROR">安全口令牌错误</string>
     <string lang="zh-cn" key="CKR_PIN_INCORRECT">安全口令牌密码不正确。</string>
-    <string lang="zh-cn" key="CKR_DEVICE_MEMORY">安全口令牌无足够的 内存/空间 执行请求的操作。\n\n如果您试图导入一个密钥文件，您应当选择一个小一些的文件或者使用由 TrueCrypt 生成的密钥文件（选择〖工具〗-&gt;〖密钥文件生成器〗）。</string>
+    <string lang="zh-cn" key="CKR_DEVICE_MEMORY">安全口令牌无足够的 内存/空间 执行请求的操作。\n\n如果您试图导入一个密钥文件，您应当选择一个小一些的文件或者使用由 VeraCrypt 生成的密钥文件（选择〖工具〗-&gt;〖密钥文件生成器〗）。</string>
     <string lang="zh-cn" key="ALL_TOKEN_SESSIONS_CLOSED">所有打开的口令牌会话均已关闭。</string>
     <string lang="zh-cn" key="SELECT_TOKEN_KEYFILES">选择安全口令牌密钥文件</string>
     <string lang="zh-cn" key="TOKEN_SLOT_ID">插槽</string>
     <string lang="zh-cn" key="TOKEN_NAME">口令牌名称</string>
     <string lang="zh-cn" key="TOKEN_DATA_OBJECT_LABEL">文件名</string>
-    <string lang="zh-cn" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">重要：请注意，启动验证的密码总是以美国键盘布局输入的。因此，对于使用非美国键盘布局输入密码的加密卷，是不可能使用缓存密码加载的（注意这不是 TrueCrypt 的程序缺陷）。要允许这样的加密卷使用启动验证密码加载，请遵循以下步骤：\n\n1）点击〖选择文件〗或〖选择设备〗并选择加密卷。 2）选择〖加密卷〗-&gt;〖修改加密卷密码〗。 3）输入当前加密卷的密码。 4）修改键盘布局为 English (US)，通过点击 Windows 通知栏上的语言栏和选择“英语(美国)”。 5）在 TrueCrypt 新密码位置，输入启动验证密码。 6）在确认密码位置重复输入密码，之后点〖确定〗。警告：如果您采用这些步骤，请牢记，加密卷密码总是只能以美国键盘布局输入（这样才能在启动验证环境中自动匹配）。</string>
+    <string lang="zh-cn" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">重要：请注意，启动验证的密码总是以美国键盘布局输入的。因此，对于使用非美国键盘布局输入密码的加密卷，是不可能使用缓存密码加载的（注意这不是 VeraCrypt 的程序缺陷）。要允许这样的加密卷使用启动验证密码加载，请遵循以下步骤：\n\n1）点击〖选择文件〗或〖选择设备〗并选择加密卷。 2）选择〖加密卷〗-&gt;〖修改加密卷密码〗。 3）输入当前加密卷的密码。 4）修改键盘布局为 English (US)，通过点击 Windows 通知栏上的语言栏和选择“英语(美国)”。 5）在 VeraCrypt 新密码位置，输入启动验证密码。 6）在确认密码位置重复输入密码，之后点〖确定〗。警告：如果您采用这些步骤，请牢记，加密卷密码总是只能以美国键盘布局输入（这样才能在启动验证环境中自动匹配）。</string>
     <string lang="zh-cn" key="SYS_FAVORITES_KEYBOARD_WARNING">系统收藏加密卷将会以启动验证密码加载。如果任何系统收藏加密卷使用了不同的密码，它将不会被加载。</string>
-    <string lang="zh-cn" key="SYS_FAVORITES_ADMIN_ONLY_INFO">请注意，如果您希望系统收藏加密卷不会受到常规 TrueCrypt 加密卷操作的影响（例如〖全部卸载〗），您应当启用选项〖在 TrueCrypt 中，只允许系统管理员查看和卸载系统收藏加密卷〗。另外，如果 TrueCrypt 以非管理员身份运行（在 Windows Vista 和以后版本的系统中默认为非管理员身份），系统收藏加密卷将不会出现在 TrueCrypt 程序窗口的驱动盘符列表中。</string>
-    <string lang="zh-cn" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">重要：请必须记住，此选项已经启用并且 TrueCrypt 不具有系统管理员权限，已加载的系统收藏加密卷不会显示在 TrueCrypt 程序窗口并且它们也不能被卸载。因此，如果您需要卸载系统收藏加密卷，请右键单击 TrueCrypt 图标（在开始菜单中），并选择“运行方式”和选择管理员帐户运行。“全部卸载”、“自动卸载”热键等功能也存在上面所说的限制。</string>
+    <string lang="zh-cn" key="SYS_FAVORITES_ADMIN_ONLY_INFO">请注意，如果您希望系统收藏加密卷不会受到常规 VeraCrypt 加密卷操作的影响（例如〖全部卸载〗），您应当启用选项〖在 VeraCrypt 中，只允许系统管理员查看和卸载系统收藏加密卷〗。另外，如果 VeraCrypt 以非管理员身份运行（在 Windows Vista 和以后版本的系统中默认为非管理员身份），系统收藏加密卷将不会出现在 VeraCrypt 程序窗口的驱动盘符列表中。</string>
+    <string lang="zh-cn" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">重要：请必须记住，此选项已经启用并且 VeraCrypt 不具有系统管理员权限，已加载的系统收藏加密卷不会显示在 VeraCrypt 程序窗口并且它们也不能被卸载。因此，如果您需要卸载系统收藏加密卷，请右键单击 VeraCrypt 图标（在开始菜单中），并选择“运行方式”和选择管理员帐户运行。“全部卸载”、“自动卸载”热键等功能也存在上面所说的限制。</string>
     <string lang="zh-cn" key="SETTING_REQUIRES_REBOOT">请注意，此设置在系统重启后才会生效。</string>
     <string lang="zh-cn" key="COMMAND_LINE_ERROR">解析命令行时出错。</string>
     <string lang="zh-cn" key="RESCUE_DISK">应急盘</string>
     <string lang="zh-cn" key="SELECT_FILE_AND_MOUNT">选择和加载文件(&amp;F)...</string>
     <string lang="zh-cn" key="SELECT_DEVICE_AND_MOUNT">选择和加载设备(&amp;D)...</string>
-    <string lang="zh-cn" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">在 TrueCrypt 中，只允许系统管理员查看和卸载系统收藏加密卷</string>
+    <string lang="zh-cn" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">在 VeraCrypt 中，只允许系统管理员查看和卸载系统收藏加密卷</string>
     <string lang="zh-cn" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">在 Windows 启动时加载系统收藏加密卷（在启动过程的初始阶段）</string>
-    <string lang="zh-cn" key="MOUNTED_VOLUME_DIRTY">警告：加载为 '%s' 的加密卷上的文件系统并未彻底卸载因此而存在错误。继续使用损坏的文件系统可能会导致数据丢失或者损坏。\n\n注意：在您物理移除或卸载包含已加载的 TrueCrypt 加密卷的设备（例如U盘或移动硬盘）之前，您应当先在 TrueCrypt 中卸载加密卷。\n\n\n您希望 Windows  系统尝试检测和修复可能的文件系统错误吗？</string>
-    <string lang="zh-cn" key="SYS_FAVORITE_VOLUME_DIRTY">警告：一个或者多个系统收藏加密卷并没有完全卸载，因此可能包含文件系统错误。请查看系统事件日志获取更多信息。\n\n使用损坏的文件系统可以导致数据丢失或者数据损坏。您应当检查受影响的收藏加密卷的磁盘错误（在 TrueCrypt 中右键单击每个打开的收藏加密卷，之后选择〖修复文件系统〗）。</string>
-    <string lang="zh-cn" key="FILESYS_REPAIR_CONFIRM_BACKUP">警告：使用微软的 'chkdsk' 工具修复受损的文件系统时可能会导致受损区域的数据丢失。因此，建议您首先备份存储在 TrueCrypt 加密卷中的文件到另外完好的加密卷。\n\n您确认现在就修复文件系统吗？</string>
-    <string lang="zh-cn" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">由于写入权限被拒绝，加密卷 '%s' 不得不以只读模式加载。\n\n请确认文件类型加密卷的安全许可允许您对其执行写入操作（右键单击此容器并选择 属性 -&gt; 安全）。\n\n注意，由于 Windows 的原因，您可能在设置成合适的安全属性后还会看到这个警告，这并非是 TrueCrypt 的程序故障。一个可能的解决方法是移动您的加密卷文件，例如移动到文档文件夹。\n\n如果您确实要保持加密卷的只读模式，请设置加密卷的属性为只读（右键单击加密盘文件并选择属性 -&gt; 只读），这样就可以禁止显示警告了。</string>
+    <string lang="zh-cn" key="MOUNTED_VOLUME_DIRTY">警告：加载为 '%s' 的加密卷上的文件系统并未彻底卸载因此而存在错误。继续使用损坏的文件系统可能会导致数据丢失或者损坏。\n\n注意：在您物理移除或卸载包含已加载的 VeraCrypt 加密卷的设备（例如U盘或移动硬盘）之前，您应当先在 VeraCrypt 中卸载加密卷。\n\n\n您希望 Windows  系统尝试检测和修复可能的文件系统错误吗？</string>
+    <string lang="zh-cn" key="SYS_FAVORITE_VOLUME_DIRTY">警告：一个或者多个系统收藏加密卷并没有完全卸载，因此可能包含文件系统错误。请查看系统事件日志获取更多信息。\n\n使用损坏的文件系统可以导致数据丢失或者数据损坏。您应当检查受影响的收藏加密卷的磁盘错误（在 VeraCrypt 中右键单击每个打开的收藏加密卷，之后选择〖修复文件系统〗）。</string>
+    <string lang="zh-cn" key="FILESYS_REPAIR_CONFIRM_BACKUP">警告：使用微软的 'chkdsk' 工具修复受损的文件系统时可能会导致受损区域的数据丢失。因此，建议您首先备份存储在 VeraCrypt 加密卷中的文件到另外完好的加密卷。\n\n您确认现在就修复文件系统吗？</string>
+    <string lang="zh-cn" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">由于写入权限被拒绝，加密卷 '%s' 不得不以只读模式加载。\n\n请确认文件类型加密卷的安全许可允许您对其执行写入操作（右键单击此容器并选择 属性 -&gt; 安全）。\n\n注意，由于 Windows 的原因，您可能在设置成合适的安全属性后还会看到这个警告，这并非是 VeraCrypt 的程序故障。一个可能的解决方法是移动您的加密卷文件，例如移动到文档文件夹。\n\n如果您确实要保持加密卷的只读模式，请设置加密卷的属性为只读（右键单击加密盘文件并选择属性 -&gt; 只读），这样就可以禁止显示警告了。</string>
     <string lang="zh-cn" key="MOUNTED_DEVICE_FORCED_READ_ONLY">由于写入权限被拒绝，加密卷 '%s' 不得不以只读模式加载。\n\n请确认没有其它程序（例如，防病毒程序）正在访问加密卷所在的分区/设备。</string>
-    <string lang="zh-cn" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密卷 '%s' 加载为只读模式，这是因为操作系统报告主设备为写保护状态。\n\n请注意，在一些第三方的芯片驱动中，已有错误报告指出可能会造成可写入介质错误的被系统报告为写保护。这个问题并不是由 TrueCrypt 造成。这可以通过更新或卸载当前系统中的任何第三方芯片组驱动（非微软认证）。</string>
+    <string lang="zh-cn" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密卷 '%s' 加载为只读模式，这是因为操作系统报告主设备为写保护状态。\n\n请注意，在一些第三方的芯片驱动中，已有错误报告指出可能会造成可写入介质错误的被系统报告为写保护。这个问题并不是由 VeraCrypt 造成。这可以通过更新或卸载当前系统中的任何第三方芯片组驱动（非微软认证）。</string>
     <string lang="zh-cn" key="LIMIT_ENC_THREAD_POOL_NOTE">请注意，超线程技术为每个物理核心提供了多个逻辑核心。当启用了超线程，上面选中的数字表示逻辑处理器数（核心数）。</string>
     <string lang="zh-cn" key="NUMBER_OF_THREADS">%d 线程</string>
     <string lang="zh-cn" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">请注意，硬件加速 AES 已禁用，这将会影响测试结果（使性能变差）。\n\n要启用硬件加速，请选择〖设置〗-&gt;〖性能〗并禁用相应选项。</string>
     <string lang="zh-cn" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">请注意，线程的数目当前受限，这将会影响测试结果（使性能变差）。\n\n要利用处理器的潜能，请选择〖设置〗-&gt;〖性能〗并禁用相应选项。</string>
-    <string lang="zh-cn" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">您想要 TrueCrypt 尝试禁用此分区/设备 的写保护吗？</string>
+    <string lang="zh-cn" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">您想要 VeraCrypt 尝试禁用此分区/设备 的写保护吗？</string>
     <string lang="zh-cn" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：此设置可能会降低性能。\n\n您确认要使用该设置吗？</string>
-    <string lang="zh-cn" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告：TrueCrypt 加密卷已自动卸载</string>
-    <string lang="zh-cn" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">在您物理卸载或关闭连接到已加载的加密卷前，您应当总是先在 TrueCrypt 中卸载它。\n\n意外发生的卸载通常是由于线缆、驱动器（附件）等导致的。</string>
+    <string lang="zh-cn" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告：VeraCrypt 加密卷已自动卸载</string>
+    <string lang="zh-cn" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">在您物理卸载或关闭连接到已加载的加密卷前，您应当总是先在 VeraCrypt 中卸载它。\n\n意外发生的卸载通常是由于线缆、驱动器（附件）等导致的。</string>
     <string lang="zh-cn" key="TEST">测试</string>
     <string lang="zh-cn" key="KEYFILE">密钥文件</string>
     <string lang="zh-cn" key="VKEY_08">Backspace</string>
@@ -1287,7 +1287,7 @@
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="TrueCrypt">
+    <xs:element name="VeraCrypt">
       <xs:complexType>
         <xs:sequence>
           <xs:element name="localization">
@@ -1338,4 +1338,4 @@
       </xs:complexType>
     </xs:element>
   </xs:schema>
-</TrueCrypt>
+</VeraCrypt>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TrueCrypt>
-  <localization prog-version="7.1a">
+<VeraCrypt>
+  <localization prog-version="1.0d">
     <!-- Languages -->
     <language langid="ja" name="日本語" en-name="Japanese" version="1.0.0" translators="OGOSHI Masayuki" />
     <!-- Fonts -->
@@ -12,21 +12,21 @@
     <control lang="ja" key="IDCANCEL">キャンセル</control>
     <control lang="ja" key="IDC_ALL_USERS">全てのユーザにインストール(&amp;f)</control>
     <control lang="ja" key="IDC_BROWSE">参照(&amp;w)...</control>
-    <control lang="ja" key="IDC_DESKTOP_ICON">TrueCryptアイコンをデスクトップに作成する(&amp;D)</control>
+    <control lang="ja" key="IDC_DESKTOP_ICON">VeraCryptアイコンをデスクトップに作成する(&amp;D)</control>
     <control lang="ja" key="IDC_DONATE">寄付する...</control>
-    <control lang="ja" key="IDC_FILE_TYPE">拡張子「.tc」をTrueCryptに関連づける(&amp;e)</control>
+    <control lang="ja" key="IDC_FILE_TYPE">拡張子「.tc」をVeraCryptに関連づける(&amp;e)</control>
     <control lang="ja" key="IDC_OPEN_CONTAINING_FOLDER">完了時にフォルダを開く(&amp;O)</control>
-    <control lang="ja" key="IDC_PROG_GROUP">TrueCryptをスタートメニューに追加(&amp;S)</control>
+    <control lang="ja" key="IDC_PROG_GROUP">VeraCryptをスタートメニューに追加(&amp;S)</control>
     <control lang="ja" key="IDC_SYSTEM_RESTORE">システム復元ポイントの作成(&amp;R)</control>
     <control lang="ja" key="IDC_UNINSTALL">アンインストール(&amp;U)</control>
     <control lang="ja" key="IDC_WIZARD_MODE_EXTRACT_ONLY">展開のみ(&amp;E)</control>
     <control lang="ja" key="IDC_WIZARD_MODE_INSTALL">インストール(&amp;I)</control>
-    <control lang="ja" key="IDD_INSTL_DLG">TrueCryptセットアップウィザード</control>
-    <control lang="ja" key="IDD_UNINSTALL">TrueCryptのアンインストール</control>
+    <control lang="ja" key="IDD_INSTL_DLG">VeraCryptセットアップウィザード</control>
+    <control lang="ja" key="IDD_UNINSTALL">VeraCryptのアンインストール</control>
     <control lang="ja" key="IDHELP">ヘルプ(&amp;H)</control>
     <control lang="ja" key="IDT_EXTRACT_DESTINATION">展開先を選択するか入力してください:</control>
     <control lang="ja" key="IDT_INSTALL_DESTINATION">インストール先を選択するか入力してください。存在しないフォルダを指定した場合は自動的に作成します。</control>
-    <control lang="ja" key="IDT_UNINSTALL_DIR">TrueCryptをシステムから除去するためには「アンインストール」をクリックしてください。</control>
+    <control lang="ja" key="IDT_UNINSTALL_DIR">VeraCryptをシステムから除去するためには「アンインストール」をクリックしてください。</control>
     <control lang="ja" key="IDC_ABORT_BUTTON">中断</control>
     <control lang="ja" key="IDC_BENCHMARK">ベンチマーク(&amp;B)</control>
     <control lang="ja" key="IDC_CIPHER_TEST">テスト(&amp;T)</control>
@@ -38,7 +38,7 @@
     <control lang="ja" key="IDC_FILE_CONTAINER">暗号化されたファイルコンテナを作成</control>
     <control lang="ja" key="IDC_GB">&amp;GB</control>
     <control lang="ja" key="IDC_HIDDEN_SYSENC_INFO_LINK">詳細情報</control>
-    <control lang="ja" key="IDC_HIDDEN_VOL">TrueCrypt隠しボリューム(&amp;d)</control>
+    <control lang="ja" key="IDC_HIDDEN_VOL">VeraCrypt隠しボリューム(&amp;d)</control>
     <control lang="ja" key="IDC_HIDDEN_VOL_HELP">隠しボリュームについて</control>
     <control lang="ja" key="IDC_HIDVOL_WIZ_MODE_DIRECT">ダイレクトモード</control>
     <control lang="ja" key="IDC_HIDVOL_WIZ_MODE_FULL">通常モード</control>
@@ -60,13 +60,13 @@
     <control lang="ja" key="IDC_SHOW_PASSWORD">パスワード表示(&amp;D)</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD_SINGLE">パスワードを表示(&amp;D)</control>
     <control lang="ja" key="IDC_SINGLE_BOOT">シングルブート</control>
-    <control lang="ja" key="IDC_STD_VOL">TrueCrypt標準ボリューム</control>
+    <control lang="ja" key="IDC_STD_VOL">VeraCrypt標準ボリューム</control>
     <control lang="ja" key="IDC_SYSENC_HIDDEN">隠し(&amp;d)</control>
     <control lang="ja" key="IDC_SYSENC_NORMAL">通常</control>
     <control lang="ja" key="IDC_SYS_DEVICE">システムパーティションあるいはシステムドライブ全体を暗号化</control>
     <control lang="ja" key="IDC_SYS_PARTITION">Windowsシステムパーティションを暗号化</control>
     <control lang="ja" key="IDC_WHOLE_SYS_DRIVE">ドライブ全体の暗号化</control>
-    <control lang="ja" key="IDD_VOL_CREATION_WIZARD_DLG">TrueCryptボリューム作成ウィザード</control>
+    <control lang="ja" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCryptボリューム作成ウィザード</control>
     <control lang="ja" key="IDT_CLUSTER">クラスター</control>
     <control lang="ja" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：このウィンドウ内にてできるかぎりランダムにマウスを動かしてください。これにより暗号鍵の強度を大幅に上げられます。長く動かすほど良い結果を得られます。終わったら「次へ」をクリックしてください。</control>
     <control lang="ja" key="IDT_CONFIRM">確認入力(&amp;C)：</control>
@@ -97,7 +97,7 @@
     <control lang="ja" key="IDC_ALLOW_ESC_PBA_BYPASS">Escキーによる起動前認証のスキップを許可(ブートマネージャを有効化)(&amp;a)</control>
     <control lang="ja" key="IDC_AUTORUN_DISABLE">何もしない</control>
     <control lang="ja" key="IDC_AUTORUN_MOUNT">ボリュームの自動マウント(下欄で指定)(&amp;A)</control>
-    <control lang="ja" key="IDC_AUTORUN_START">TrueCryptの起動(&amp;S)</control>
+    <control lang="ja" key="IDC_AUTORUN_START">VeraCryptの起動(&amp;S)</control>
     <control lang="ja" key="IDC_AUTO_DETECT_PKCS11_MODULE">ライブラリ自動検出(&amp;D)</control>
     <control lang="ja" key="IDC_BOOT_LOADER_CACHE_PASSWORD">メモリー上に起動前認証パスワードを(非システムボリュームのマウント用に)キャッシュする(&amp;C)</control>
     <control lang="ja" key="IDC_BROWSE_DIRS">参照...</control>
@@ -105,7 +105,7 @@
     <control lang="ja" key="IDC_CACHE">パスワードやキーファイルをメモリに記憶する(&amp;E)</control>
     <control lang="ja" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">全てアンマウントされると常駐終了</control>
     <control lang="ja" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">ボリュームのマウントに成功したときにトークンセッションを閉じる(&amp;C)</control>
-    <control lang="ja" key="IDC_COPY_WIZARD">TrueCryptボリューム作成ウィザードを含める</control>
+    <control lang="ja" key="IDC_COPY_WIZARD">VeraCryptボリューム作成ウィザードを含める</control>
     <control lang="ja" key="IDC_CREATE">作成</control>
     <control lang="ja" key="IDC_CREATE_VOLUME">ボリュームの作成(&amp;C)</control>
     <control lang="ja" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">起動前認証画面で一切の文字を表示しない(以下のカスタムメッセージを除く)(&amp;s)</control>
@@ -149,7 +149,7 @@
     <control lang="ja" key="IDC_PREF_DISMOUNT_SCREENSAVER">スクリーンセーバの起動時</control>
     <control lang="ja" key="IDC_PREF_FORCE_AUTO_DISMOUNT">ボリュームに開かれたファイルやフォルダがあっても強制的にアンマウント</control>
     <control lang="ja" key="IDC_PREF_LOGON_MOUNT_DEVICES">すべてのデバイス型ボリュームをマウント</control>
-    <control lang="ja" key="IDC_PREF_LOGON_START">TrueCryptを常駐して開始</control>
+    <control lang="ja" key="IDC_PREF_LOGON_START">VeraCryptを常駐して開始</control>
     <control lang="ja" key="IDC_PREF_MOUNT_READONLY">ボリュームを読み取り専用でマウント</control>
     <control lang="ja" key="IDC_PREF_MOUNT_REMOVABLE">ボリュームをリムーバブルメディアとしてマウント</control>
     <control lang="ja" key="IDC_PREF_OPEN_EXPLORER">マウント成功時にそのボリュームのウィンドウを開く</control>
@@ -169,17 +169,17 @@
     <control lang="ja" key="IDC_VOLUME_PROPERTIES">ボリュームのプロパティ(&amp;V)...</control>
     <control lang="ja" key="IDC_VOLUME_TOOLS">ボリュームツール(&amp;T)...</control>
     <control lang="ja" key="IDC_WIPE_CACHE">記憶済ﾊﾟｽﾜｰﾄﾞの消去(&amp;W)</control>
-    <control lang="ja" key="IDD_FAVORITE_VOLUMES">TrueCrypt - お気に入りボリューム</control>
-    <control lang="ja" key="IDD_HOTKEYS_DLG">TrueCrypt - システム全体のホットキーの設定</control>
-    <control lang="ja" key="IDD_MOUNT_DLG">TrueCrypt</control>
+    <control lang="ja" key="IDD_FAVORITE_VOLUMES">VeraCrypt - お気に入りボリューム</control>
+    <control lang="ja" key="IDD_HOTKEYS_DLG">VeraCrypt - システム全体のホットキーの設定</control>
+    <control lang="ja" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="ja" key="IDD_PASSWORDCHANGE_DLG">パスワードあるいはキーファイルの変更</control>
-    <control lang="ja" key="IDD_PASSWORD_DLG">TrueCryptボリュームのパスワードの入力</control>
-    <control lang="ja" key="IDD_PERFORMANCE_SETTINGS">TrueCrypt - パフォーマンス設定</control>
-    <control lang="ja" key="IDD_PREFERENCES_DLG">TrueCrypt - 各種設定</control>
-    <control lang="ja" key="IDD_SYSENC_SETTINGS">TrueCrypt - システム暗号化設定</control>
-    <control lang="ja" key="IDD_TOKEN_PREFERENCES">TrueCrypt - セキュリティトークン設定</control>
-    <control lang="ja" key="IDD_TRAVELER_DLG">TrueCryptトラベラーディスクのセットアップ</control>
-    <control lang="ja" key="IDD_VOLUME_PROPERTIES">TrueCryptボリュームのプロパティ</control>
+    <control lang="ja" key="IDD_PASSWORD_DLG">VeraCryptボリュームのパスワードの入力</control>
+    <control lang="ja" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - パフォーマンス設定</control>
+    <control lang="ja" key="IDD_PREFERENCES_DLG">VeraCrypt - 各種設定</control>
+    <control lang="ja" key="IDD_SYSENC_SETTINGS">VeraCrypt - システム暗号化設定</control>
+    <control lang="ja" key="IDD_TOKEN_PREFERENCES">VeraCrypt - セキュリティトークン設定</control>
+    <control lang="ja" key="IDD_TRAVELER_DLG">VeraCryptトラベラーディスクのセットアップ</control>
+    <control lang="ja" key="IDD_VOLUME_PROPERTIES">VeraCryptボリュームのプロパティ</control>
     <control lang="ja" key="IDM_ABOUT">バージョン情報</control>
     <control lang="ja" key="IDM_ADD_REMOVE_VOL_KEYFILES">ボリュームへのキーファイルの追加/削除...</control>
     <control lang="ja" key="IDM_ADD_VOLUME_TO_FAVORITES">マウントされたボリュームをお気に入りに追加...</control>
@@ -212,7 +212,7 @@
     <control lang="ja" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">起動前認証をせずにマウント(&amp;A)...</control>
     <control lang="ja" key="IDM_MOUNT_VOLUME">ボリュームをマウント</control>
     <control lang="ja" key="IDM_MOUNT_VOLUME_OPTIONS">ボリュームをオプションを指定しながらマウント</control>
-    <control lang="ja" key="IDM_NEWS">TrueCryptニュース</control>
+    <control lang="ja" key="IDM_NEWS">VeraCryptニュース</control>
     <control lang="ja" key="IDM_ONLINE_HELP">オンラインヘルプ</control>
     <control lang="ja" key="IDM_ONLINE_TUTORIAL">初心者用チュートリアル</control>
     <control lang="ja" key="IDM_ORGANIZE_FAVORITES">お気に入りボリュームを編成...</control>
@@ -241,7 +241,7 @@
     <control lang="ja" key="IDM_VERSION_HISTORY">バージョン履歴</control>
     <control lang="ja" key="IDM_VOLUME_PROPERTIES">ボリュームのプロパティ</control>
     <control lang="ja" key="IDM_VOLUME_WIZARD">ボリューム作成ウィザード</control>
-    <control lang="ja" key="IDM_WEBSITE">TrueCryptウェブサイト</control>
+    <control lang="ja" key="IDM_WEBSITE">VeraCryptウェブサイト</control>
     <control lang="ja" key="IDM_WIPE_CACHE">記憶したパスワードの消去</control>
     <control lang="ja" key="IDOK">OK</control>
     <control lang="ja" key="IDT_ACCELERATION_OPTIONS">ハードウェアによる高速化設定</control>
@@ -270,8 +270,8 @@
     <control lang="ja" key="IDT_PKCS5_PRF">導出アルゴリズム：</control>
     <control lang="ja" key="IDT_PW_CACHE_OPTIONS">パスワードの記憶</control>
     <control lang="ja" key="IDT_SECURITY_OPTIONS">セキュリティオプション</control>
-    <control lang="ja" key="IDT_TASKBAR_ICON">TrueCryptの常駐</control>
-    <control lang="ja" key="IDT_TRAVELER_MOUNT">マウントするTrueCryptボリューム(トラベラーディスクからの相対位置):</control>
+    <control lang="ja" key="IDT_TASKBAR_ICON">VeraCryptの常駐</control>
+    <control lang="ja" key="IDT_TRAVELER_MOUNT">マウントするVeraCryptボリューム(トラベラーディスクからの相対位置):</control>
     <control lang="ja" key="IDT_TRAVEL_INSERTION">トラベラーディスクが挿入されたとき: </control>
     <control lang="ja" key="IDT_TRAVEL_ROOT">トラベラーディスクファイルを作成する場所(トラベラーディスクのルートディレクトリ):</control>
     <control lang="ja" key="IDT_VOLUME">ボリューム</control>
@@ -306,18 +306,18 @@
     <control lang="ja" key="IDC_TOKEN_FILES_ADD">ﾄｰｸﾝﾌｧｲﾙの追加(&amp;T)...</control>
     <control lang="ja" key="IDC_USE_EMBEDDED_HEADER_BAK">可能ならボリュームに付加されたバックアップヘッダを使用する(&amp;v)</control>
     <control lang="ja" key="IDC_XTS_MODE_ENABLED">XTSモード</control>
-    <control lang="ja" key="IDD_ABOUT_DLG">TrueCryptについて</control>
-    <control lang="ja" key="IDD_BENCHMARK_DLG">TrueCrypt - 暗号化アルゴリズムのベンチマーク</control>
-    <control lang="ja" key="IDD_CIPHER_TEST_DLG">TrueCrypt - ベクターのテスト</control>
+    <control lang="ja" key="IDD_ABOUT_DLG">VeraCryptについて</control>
+    <control lang="ja" key="IDD_BENCHMARK_DLG">VeraCrypt - 暗号化アルゴリズムのベンチマーク</control>
+    <control lang="ja" key="IDD_CIPHER_TEST_DLG">VeraCrypt - ベクターのテスト</control>
     <control lang="ja" key="IDD_COMMANDHELP_DLG">コマンドラインのヘルプ</control>
-    <control lang="ja" key="IDD_KEYFILES">TrueCrypt - キーファイル</control>
-    <control lang="ja" key="IDD_KEYFILE_GENERATOR">TrueCrypt - キーファイル生成</control>
-    <control lang="ja" key="IDD_LANGUAGE">TrueCrypt - 言語</control>
-    <control lang="ja" key="IDD_MOUNT_OPTIONS">TrueCrypt - マウントオプション</control>
+    <control lang="ja" key="IDD_KEYFILES">VeraCrypt - キーファイル</control>
+    <control lang="ja" key="IDD_KEYFILE_GENERATOR">VeraCrypt - キーファイル生成</control>
+    <control lang="ja" key="IDD_LANGUAGE">VeraCrypt - 言語</control>
+    <control lang="ja" key="IDD_MOUNT_OPTIONS">VeraCrypt - マウントオプション</control>
     <control lang="ja" key="IDD_NEW_TOKEN_KEYFILE">新しいセキュリティトークンキーファイルのプロパティ</control>
-    <control lang="ja" key="IDD_RANDOM_POOL_ENRICHMENT">TrueCrypt - ランダムプール強化</control>
+    <control lang="ja" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - ランダムプール強化</control>
     <control lang="ja" key="IDD_RAWDEVICES_DLG">パーティションまたはデバイスの選択</control>
-    <control lang="ja" key="IDD_STATIC_MODELESS_WAIT_DLG">TrueCrypt</control>
+    <control lang="ja" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
     <control lang="ja" key="IDD_TOKEN_KEYFILES">セキュリティトークンキーファイル</control>
     <control lang="ja" key="IDD_TOKEN_PASSWORD">セキュリティトークンのパスワードかPINが必要</control>
     <control lang="ja" key="IDT_ACTIVE_LANG_PACK">現在の言語パック</control>
@@ -359,15 +359,15 @@
     <string lang="ja" key="ACCESSMODEFAIL">古いボリュームの読み取り専用属性を変更できません。ファイルのアクセス許可を確認してください。</string>
     <string lang="ja" key="ACCESS_DENIED">エラー：アクセスできません。\n\nアクセスしようとしたパーティションは、セクター長が０であるかブートデバイスであるかのいずれかです。</string>
     <string lang="ja" key="ADMINISTRATOR">管理者</string>
-    <string lang="ja" key="ADMIN_PRIVILEGES_DRIVER">TrueCryptのドライバをロードするためには、管理者権限を持つアカウントでログオンする必要があります。</string>
+    <string lang="ja" key="ADMIN_PRIVILEGES_DRIVER">VeraCryptのドライバをロードするためには、管理者権限を持つアカウントでログオンする必要があります。</string>
     <string lang="ja" key="ADMIN_PRIVILEGES_WARN_DEVICES">パーティションやデバイスを暗号化またはフォーマットするためには、管理者権限を持つアカウントでログオンする必要があります。\n\nただしファイル型ボリュームの場合はその限りではありません。</string>
     <string lang="ja" key="ADMIN_PRIVILEGES_WARN_HIDVOL">隠しボリュームの作成には管理者権限を持つアカウントでログオンする必要があります。\n\n作業を続けますか？</string>
     <string lang="ja" key="ADMIN_PRIVILEGES_WARN_NTFS">ボリュームをNTFSでフォーマットするには、管理者権限を持つアカウントでログオンする必要があります。\n\nただし管理者権限がなくても、FATでならフォーマット可能です。</string>
     <string lang="ja" key="AES_HELP">FIPS(連邦情報処理基準)で規格化された暗号化方式(Rijndael 1998年)であり、アメリカ政府の各省庁において、最高機密レベルの情報保護に使われています。256ビットの鍵長、128ビットブロックで、ラウンド数は14です(AES-256)。動作モードはXTSです。</string>
     <string lang="ja" key="ALREADY_MOUNTED">ボリュームはすでにマウントされています。</string>
-    <string lang="ja" key="ERR_SELF_TESTS_FAILED">注意：自動セルフテストにおいて、暗号化あるいはハッシュのアルゴリズムのテストに失敗しました！\n\nおそらくTrueCryptのインストールに失敗しています。</string>
+    <string lang="ja" key="ERR_SELF_TESTS_FAILED">注意：自動セルフテストにおいて、暗号化あるいはハッシュのアルゴリズムのテストに失敗しました！\n\nおそらくVeraCryptのインストールに失敗しています。</string>
     <string lang="ja" key="ERR_NOT_ENOUGH_RANDOM_DATA">注意：乱数生成器において、要求された量のランダムなデータを生成できませんでした。\n\nこれ以上作業を進めるべきではありません。メニューの[ヘルプ]-[バグを報告する]から、このエラーを報告してください。</string>
-    <string lang="ja" key="ERR_HARDWARE_ERROR">このドライブに障害（物理的な故障）があるか、ケーブルに異常があるか、あるいはメモリに異常があります。\n\nこれはハードウェアの問題であってTrueCryptの問題ではありません。したがってこの件についてTrueCryptフォーラムにバグ報告をしたり助けを求めたりしないでください。コンピュータメーカーの技術サポートへご連絡ください。よろしくお願いいたします。\n\n注：もしこのエラーが同じ箇所で何度も繰り返される場合、ディスクブロック不良の可能性が高いです。サードパーティ製の修正用ソフトで修正してください。（なお、ほとんどのケースでは 'chkdsk /r' コマンドは効きません。chkdskコマンドはファイルシステムレベルにしか働きません。chkdskコマンドはディスクブロック不良を発見できないことさえあります。）</string>
+    <string lang="ja" key="ERR_HARDWARE_ERROR">このドライブに障害（物理的な故障）があるか、ケーブルに異常があるか、あるいはメモリに異常があります。\n\nこれはハードウェアの問題であってVeraCryptの問題ではありません。したがってこの件についてVeraCryptフォーラムにバグ報告をしたり助けを求めたりしないでください。コンピュータメーカーの技術サポートへご連絡ください。よろしくお願いいたします。\n\n注：もしこのエラーが同じ箇所で何度も繰り返される場合、ディスクブロック不良の可能性が高いです。サードパーティ製の修正用ソフトで修正してください。（なお、ほとんどのケースでは 'chkdsk /r' コマンドは効きません。chkdskコマンドはファイルシステムレベルにしか働きません。chkdskコマンドはディスクブロック不良を発見できないことさえあります。）</string>
     <string lang="ja" key="DEVICE_NOT_READY_ERROR">リムーバブルメディア用のドライブにアクセスする際は、メディアがドライブに装着されているかをよくご確認ください。このドライブもしくはメディアが破損・故障している（おそらく物理的な異常です）か、あるいはケーブルが切断もしくは接続されていないようです。</string>
     <string lang="ja" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">ご使用中のシステムのカスタムチップセットドライバに、システムドライブ全体の暗号化を妨げるバグがあるように思われます。\n\n手順を進める前に、（マイクロソフト以外の）カスタムチップセットドライバの更新あるいはアンインストールを試みてください。それでもうまくいかなければ、システムパーティションのみの暗号化を試してみてください。</string>
     <string lang="ja" key="BAD_DRIVE_LETTER">ドライブレターが無効です。</string>
@@ -377,13 +377,13 @@
     <string lang="ja" key="CAPSLOCK_ON">警告：Caps Lockキーがオンになっています。 そのためパスワードの入力を誤る可能性があります。</string>
     <string lang="ja" key="VOLUME_TYPE_TITLE">ボリュームタイプ</string>
     <string lang="ja" key="HIDDEN_VOLUME_TYPE_HELP">あなたは誰かに暗号化ボリュームのパスワードを明かすように強要されることがあるかもしれません。それを拒否できない状況(恐喝されるなど)もいろいろとあり得ます。「隠しボリューム」を使うことで、パスワードを明かさずに済むようになります。</string>
-    <string lang="ja" key="NORMAL_VOLUME_TYPE_HELP">通常のTrueCryptボリュームを作成する場合はこのオプションを選択してください。</string>
+    <string lang="ja" key="NORMAL_VOLUME_TYPE_HELP">通常のVeraCryptボリュームを作成する場合はこのオプションを選択してください。</string>
     <string lang="ja" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">もし隠しパーティションにOSをインストールしたい場合、単一の鍵ではシステムドライブ全体を暗号化できないことに留意してください。</string>
     <string lang="ja" key="CIPHER_HIDVOL_HOST_TITLE">外殻ボリュームの暗号化オプション</string>
     <string lang="ja" key="CIPHER_HIDVOL_TITLE">隠しボリュームの暗号化オプション</string>
     <string lang="ja" key="CIPHER_TITLE">暗号化オプション</string>
     <string lang="ja" key="CLEAN_WINMRU_FAILED">警告：(ファイル選択ダイアログが記憶している)最後に選択したボリュームあるいはキーファイルの場所の消去に失敗しました！</string>
-    <string lang="ja" key="COMPRESSION_NOT_SUPPORTED">エラー：このコンテナはファイルシステムレベルで圧縮されています。TrueCryptは圧縮されたコンテナには対応していません（暗号化されたデータを圧縮するのは冗長であり、効果がありません）。\n\n次の方法で圧縮を解除してください。\n\n1) エクスプローラ上で(TrueCrypt上ではありません)コンテナを右クリック\n\n2) プロパティを選択\n\n3) プロパティダイアログで「詳細設定」をクリック\n\n4) 属性の詳細ダイアログで「内容を圧縮してディスク領域を節約する」のチェックを外し「OK」をクリック\n\n5) プロパティダイアログに戻るので「OK」をクリック</string>
+    <string lang="ja" key="COMPRESSION_NOT_SUPPORTED">エラー：このコンテナはファイルシステムレベルで圧縮されています。VeraCryptは圧縮されたコンテナには対応していません（暗号化されたデータを圧縮するのは冗長であり、効果がありません）。\n\n次の方法で圧縮を解除してください。\n\n1) エクスプローラ上で(VeraCrypt上ではありません)コンテナを右クリック\n\n2) プロパティを選択\n\n3) プロパティダイアログで「詳細設定」をクリック\n\n4) 属性の詳細ダイアログで「内容を圧縮してディスク領域を節約する」のチェックを外し「OK」をクリック\n\n5) プロパティダイアログに戻るので「OK」をクリック</string>
     <string lang="ja" key="CREATE_FAILED">ボリューム %hs の作成に失敗しました</string>
     <string lang="ja" key="DEVICE_FREE_BYTES">%hs のサイズは %.2f バイト</string>
     <string lang="ja" key="DEVICE_FREE_KB">%hs のサイズは %.2f KB</string>
@@ -393,18 +393,18 @@
     <string lang="ja" key="DEVICE_FREE_PB">%hs のサイズは %.2f PB</string>
     <string lang="ja" key="DEVICE_IN_USE_FORMAT">警告：指定されたデバイスあるいはパーティションは、OSあるいはアプリケーションで使用されています。このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になるかもしれません。\n\nフォーマットを続けますか？</string>
     <string lang="ja" key="DEVICE_IN_USE_INPLACE_ENC">警告：そのパーティションはOSかアプリケーションで使用中です。まず使用されているパーティション上のすべてのアプリケーションを終了してください(アンチウィルスソフトも含みます)。\n\n続けますか？</string>
-    <string lang="ja" key="FORMAT_CANT_DISMOUNT_FILESYS">エラー：指定されたデバイスあるいはパーティションに、アンマウントできないファイルシステムが含まれています。このファイルシステムはおそらくOSで使用されており、このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になる可能性が高いです。\n\nこの問題を解決するためには、まず最初にパーティションを削除し、フォーマットをせずにパーティションを再作成することをお勧めします。そのためには以下の手順を行ってください。\n\n1) コンピュータ（マイコンピュータ）アイコンを右クリックして「管理」を選択し、「コンピュータの管理」画面を開く。 2) 「記憶域」＞「ディスクの管理」を選択。 3) 暗号化したいパーティションを選んで右クリックし、「パーティションの削除」「ボリュームの削除」「論理ドライブの削除」のいずれかを選択。 4) 「はい」をクリック。もし再起動を要求されたら再起動し、手順(1)と(2)を行い(5)に進む。 5) 空き領域／未割り当て領域を右クリックし、「新しいパーティション」「新しいシンプルボリューム」「新しい論理ドライブ」のいずれかを選択。 6) 「新しいパーティションウィザード」か「新しいシンプルボリュームウィザード」が開くので、表示された内容に従って進める。ウィザードが「パーティションのフォーマット」まで進んだら、「このパーティションをフォーマットしない」「このボリュームをフォーマットしない」のいずれかを選択する。続いて「次へ」をクリックし、最後に「終了」をクリック。 7)この時点でTrueCryptで指定されているデバイスの位置がずれていると思われるので、（もしまだ実行中なら）TrueCryptボリューム作成ウィザードをいったん終了し、再び実行する。 8) TrueCryptに戻って、再びデバイスあるいはパーティションの暗号化を試す。\n\nもしTrueCryptが再度暗号化に失敗したときは、代わりにコンテナファイルの作成を検討してください。</string>
+    <string lang="ja" key="FORMAT_CANT_DISMOUNT_FILESYS">エラー：指定されたデバイスあるいはパーティションに、アンマウントできないファイルシステムが含まれています。このファイルシステムはおそらくOSで使用されており、このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になる可能性が高いです。\n\nこの問題を解決するためには、まず最初にパーティションを削除し、フォーマットをせずにパーティションを再作成することをお勧めします。そのためには以下の手順を行ってください。\n\n1) コンピュータ（マイコンピュータ）アイコンを右クリックして「管理」を選択し、「コンピュータの管理」画面を開く。 2) 「記憶域」＞「ディスクの管理」を選択。 3) 暗号化したいパーティションを選んで右クリックし、「パーティションの削除」「ボリュームの削除」「論理ドライブの削除」のいずれかを選択。 4) 「はい」をクリック。もし再起動を要求されたら再起動し、手順(1)と(2)を行い(5)に進む。 5) 空き領域／未割り当て領域を右クリックし、「新しいパーティション」「新しいシンプルボリューム」「新しい論理ドライブ」のいずれかを選択。 6) 「新しいパーティションウィザード」か「新しいシンプルボリュームウィザード」が開くので、表示された内容に従って進める。ウィザードが「パーティションのフォーマット」まで進んだら、「このパーティションをフォーマットしない」「このボリュームをフォーマットしない」のいずれかを選択する。続いて「次へ」をクリックし、最後に「終了」をクリック。 7)この時点でVeraCryptで指定されているデバイスの位置がずれていると思われるので、（もしまだ実行中なら）VeraCryptボリューム作成ウィザードをいったん終了し、再び実行する。 8) VeraCryptに戻って、再びデバイスあるいはパーティションの暗号化を試す。\n\nもしVeraCryptが再度暗号化に失敗したときは、代わりにコンテナファイルの作成を検討してください。</string>
     <string lang="ja" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">エラー：ファイルシステムのロックを取得できないかアンマウントできません。おそらくOSかアプリケーションが使用中です(例：アンチウィルスソフトなど)。このパーティションの暗号化を続けるとデータが破壊されてシステムが不安定になるかもしれません。\n\nまず使用されているパーティション上のすべてのアプリケーションを終了してから(アンチウィルスソフトも含みます)、改めて試してください。方法がわからない場合は、以下の手順に従ってください。</string>
     <string lang="ja" key="DEVICE_IN_USE_INFO">警告：マウントされたデバイスあるいはパーティションのいくつかはすでに使用中です！\n\nこれを無視して進めるとシステムが不安定になるなどの望まれない結果を引き起こす可能性があります。\n\nそのデバイスあるいはパーティションを使用していると思われるアプリケーションを終了させることを強く推奨します。</string>
-    <string lang="ja" key="DEVICE_PARTITIONS_ERR">選択されたデバイスにはパーティションが含まれています。\n\nこのデバイスをフォーマットすることは、システムを不安定にし、データの破壊を引き起こすおそれがあります。デバイス全体ではなくいずれかのパーティションを選択するか、あるいは、このデバイスのすべてのパーティションを削除して、TrueCryptが安全にフォーマットできるようにしてください。</string>
-    <string lang="ja" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">選択された非システムデバイスはパーティションを含んでいます。\n\nデバイス型の暗号化ボリュームを保持するデバイスには、パーティションを含むことができません(ハードディスクやSSDも含みます)。パーティションを含むデバイスでデバイス全体を暗号化（単一のマスターキーを使用）できるのは、そのドライブにWindowsがインストールされており、かつそこから起動するときに限ります。\n\nもし選択された非システムデバイスを（単一のマスターキーで）暗号化したい場合は、TrueCryptが安全にフォーマットできるよう(パーティションを含むデバイスをフォーマットすると、データを破壊したりシステムが不安定になるおそれがあります)に、最初にそのデバイスの全てのパーティションを削除する必要があります。あるいは、そのドライブ上のパーティションを個々に暗号化することもできます（パーティションごとに別々のマスターキーが使われます）。\n\n注：もしGPTディスク上の全パーティションを削除したい場合、隠しパーティションを削除するためには「コンピュータの管理」などからMBRディスクに変換しておく必要があるでしょう。</string>
+    <string lang="ja" key="DEVICE_PARTITIONS_ERR">選択されたデバイスにはパーティションが含まれています。\n\nこのデバイスをフォーマットすることは、システムを不安定にし、データの破壊を引き起こすおそれがあります。デバイス全体ではなくいずれかのパーティションを選択するか、あるいは、このデバイスのすべてのパーティションを削除して、VeraCryptが安全にフォーマットできるようにしてください。</string>
+    <string lang="ja" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">選択された非システムデバイスはパーティションを含んでいます。\n\nデバイス型の暗号化ボリュームを保持するデバイスには、パーティションを含むことができません(ハードディスクやSSDも含みます)。パーティションを含むデバイスでデバイス全体を暗号化（単一のマスターキーを使用）できるのは、そのドライブにWindowsがインストールされており、かつそこから起動するときに限ります。\n\nもし選択された非システムデバイスを（単一のマスターキーで）暗号化したい場合は、VeraCryptが安全にフォーマットできるよう(パーティションを含むデバイスをフォーマットすると、データを破壊したりシステムが不安定になるおそれがあります)に、最初にそのデバイスの全てのパーティションを削除する必要があります。あるいは、そのドライブ上のパーティションを個々に暗号化することもできます（パーティションごとに別々のマスターキーが使われます）。\n\n注：もしGPTディスク上の全パーティションを削除したい場合、隠しパーティションを削除するためには「コンピュータの管理」などからMBRディスクに変換しておく必要があるでしょう。</string>
     <string lang="ja" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">警告：もしこのデバイス全体を暗号化した場合、OSはこのデバイスを、新しく、空で、未フォーマット(つまりパーティションテーブルを持っていない)であるものとみなし、自動的に初期化しようとするかもしれません(あるいは初期化しますかと尋ねてくるでしょう)。初期化すると暗号化ボリュームは破壊されてしまいます。さらに、このことでお気に入りボリュームのマウント先の一貫性や（例えばドライブの数が変わった時など）、お気に入りボリュームのラベル割当状態が崩れたりするでしょう。\n\nこれらを避けるためには、デバイス全体を暗号化するのではではなく、デバイス上にパーティションを作成してからパーティションを個別に暗号化した方が無難です。\n\n本当にデバイス全体を暗号化して良いですか？</string>
-    <string lang="ja" key="AFTER_FORMAT_DRIVE_LETTER_WARN">重要：このボリュームは現在割り当てられている %c: ドライブとしてマウント、使用することができないことを忘れないでください！\n\nこのボリュームをマウントするためには、TrueCryptのメインウィンドウから「デバイスの自動マウント」をクリック(あるいは「デバイスの選択」をクリックしてからこのパーティション/デバイスを選択し、「マウント」をクリック)してください。このボリュームは、メインウィンドウで選択されていた別のドライブレターにマウントされます。\n\n元のドライブレター %c: はパーティション/デバイスの暗号化を解除したいとき(例：暗号化が不要になったときなど)にのみ使用してください。その場合は、コンピュータ(あるいはマイコンピュータ)の %c: ドライブを右クリックし、[フォーマット]を選択するようにします。それ以外でドライブレター %c: を使うことは避けてください(ただしこれを例えばTrueCrypt FAQで説明されているように取り外して、別のパーティション/デバイスを割り当てる時を除きます)。</string>
+    <string lang="ja" key="AFTER_FORMAT_DRIVE_LETTER_WARN">重要：このボリュームは現在割り当てられている %c: ドライブとしてマウント、使用することができないことを忘れないでください！\n\nこのボリュームをマウントするためには、VeraCryptのメインウィンドウから「デバイスの自動マウント」をクリック(あるいは「デバイスの選択」をクリックしてからこのパーティション/デバイスを選択し、「マウント」をクリック)してください。このボリュームは、メインウィンドウで選択されていた別のドライブレターにマウントされます。\n\n元のドライブレター %c: はパーティション/デバイスの暗号化を解除したいとき(例：暗号化が不要になったときなど)にのみ使用してください。その場合は、コンピュータ(あるいはマイコンピュータ)の %c: ドライブを右クリックし、[フォーマット]を選択するようにします。それ以外でドライブレター %c: を使うことは避けてください(ただしこれを例えばVeraCrypt FAQで説明されているように取り外して、別のパーティション/デバイスを割り当てる時を除きます)。</string>
     <string lang="ja" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">現在使用中のOSではその場での非システムボリュームの暗号化には対応していません。これに対応しているのはVista以降のWindowsのみです。\n\nこれは、このバージョンのWindowsがファイルシステムの縮小に対応していないためです。ボリュームヘッダおよびバックアップヘッダの領域を確保するためには、ファイルシステムを縮小する必要があります。</string>
     <string lang="ja" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">選択されたパーティション上にNTFSファイルシステムが見あたりません。パーティションでその場での暗号化が可能なのはNTFSであるときのみです。\n\n注：これはWindowsがこれ以外のファイルシステムでの縮小に対応していないからです。ボリュームヘッダおよびバックアップヘッダの領域を確保するためには、ファイルシステムを縮小する必要があります。</string>
     <string lang="ja" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">選択されたパーティション上にNTFSファイルシステムが見あたりません。パーティションでその場での暗号化が可能なのはNTFSであるときのみです。\n\nこのパーティション上に暗号化ボリュームを作成するには、「パーティションをその場で暗号化」の代わりに「暗号化ボリュームを作成してフォーマット」オプションを選択してください。</string>
     <string lang="ja" key="PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC">エラー：パーティションが小さすぎます。その場での暗号化はできません。</string>
-    <string lang="ja" key="INPLACE_ENC_ALTERNATIVE_STEPS">このパーティションのデータを暗号化するには、次の手順に従ってください。\n\n1) 空のパーティション/デバイス上にTrueCryptボリュームを作成してマウントします。\n\n2) このパーティションにある暗号化したいすべてのデータを、手順1でマウントしたTrueCryptボリュームにコピーします。つまりそのデータの暗号化されたバックアップを作ります。\n\n3) 元々暗号化しようとしていたこのパーティションにTrueCryptボリュームを作成します。その際、TrueCryptのウィザードで「パーティションをその場で暗号化」ではなく、必ず「暗号化ボリュームを作成してフォーマット」を選択します。このとき、このパーティション上のデータが削除されることに注意してください。ボリュームが作成されたらそれをマウントしてください。\n\n4) 手順1で作成・マウントしていたバックアップのTrueCryptボリュームにあるすべてのファイルを、手順3で作ってマウントしたばかりのTrueCryptボリュームにコピーしてください。\n\n上記のすべての手順を終わったとき、このパーティション上のデータが暗号化されているのに加えて、暗号化されたバックアップもできあがっていることになります。</string>
+    <string lang="ja" key="INPLACE_ENC_ALTERNATIVE_STEPS">このパーティションのデータを暗号化するには、次の手順に従ってください。\n\n1) 空のパーティション/デバイス上にVeraCryptボリュームを作成してマウントします。\n\n2) このパーティションにある暗号化したいすべてのデータを、手順1でマウントしたVeraCryptボリュームにコピーします。つまりそのデータの暗号化されたバックアップを作ります。\n\n3) 元々暗号化しようとしていたこのパーティションにVeraCryptボリュームを作成します。その際、VeraCryptのウィザードで「パーティションをその場で暗号化」ではなく、必ず「暗号化ボリュームを作成してフォーマット」を選択します。このとき、このパーティション上のデータが削除されることに注意してください。ボリュームが作成されたらそれをマウントしてください。\n\n4) 手順1で作成・マウントしていたバックアップのVeraCryptボリュームにあるすべてのファイルを、手順3で作ってマウントしたばかりのVeraCryptボリュームにコピーしてください。\n\n上記のすべての手順を終わったとき、このパーティション上のデータが暗号化されているのに加えて、暗号化されたバックアップもできあがっていることになります。</string>
     <string lang="ja" key="RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC">その場での暗号化が可能なのは、パーティション、ダイナミックボリューム、あるいはシステムドライブ全体を暗号化するときに限られます。\n\n選択された非システムデバイスに暗号化ボリュームを作成するには、「パーティションをその場で暗号化」の代わりに「暗号化ボリュームを作成してフォーマット」オプションを選択してください。</string>
     <string lang="ja" key="INPLACE_ENC_INVALID_PATH">エラー：その場での暗号化が可能なのは、パーティション、ダイナミックボリューム、あるいはシステムドライブ全体を暗号化するときに限られます。指定されたパスが有効かどうか確認してください。</string>
     <string lang="ja" key="CANNOT_RESIZE_FILESYS">エラー：ファイルシステムを縮小できません。ファイルシステムを縮小するためにはボリュームヘッダとバックアップヘッダのための領域が必要です。\n\n想定される原因と解決方法は次のとおりです。\n\n- ボリュームに十分な空きスペースがありません。他のアプリケーションがファイルを書き込んでいないか確認してください。\n\n- ファイルシステムが壊れています。次の方法でエラーをチェックし修復してみてください（該当ドライブを右クリックして「プロパティ」を選択→「ツール」タブを選び「チェックする」をクリック→「ファイルシステムエラーを自動的に修復する」オプションにチェックを入れて「開始」）。\n\nもし上記の手順でうまくいかなければ、以下の手順に従ってください。</string>
@@ -416,47 +416,47 @@
     <string lang="ja" key="DISK_FREE_TB">ドライブ %hs の空き容量は %.2f TB</string>
     <string lang="ja" key="DISK_FREE_PB">ドライブ %hs の空き容量は %.2f PB</string>
     <string lang="ja" key="DRIVELETTERS">有効なドライブ名を取得できませんでした。</string>
-    <string lang="ja" key="DRIVER_NOT_FOUND">エラー：TrueCryptのドライバが見つかりません。\n\nTrueCrypt.exeと同じフォルダに、'truecrypt.sys' および 'truecrypt-x64.sys' ファイルをコピーしてください。</string>
-    <string lang="ja" key="DRIVER_VERSION">エラー：違うバージョンのTrueCryptデバイスドライバが作動中です。\n\nもしTrueCryptをポータブルモードで動作させようとしており、かつ違うバージョンのTrueCryptが既にインストールされているのであれば、先にそれをアンインストール（あるいはインストーラーでアップグレード）する必要があります。TrueCryptのアンインストールは次の手順で行ってください：[Vista以降] スタートメニュー→コンピュータ→プログラムのアンインストールと変更→TrueCrypt→アンインストール [Win XP] スタートメニュー→設定→コントロールパネル→プログラムの追加と削除→TrueCrypt→削除\n\n同じように、もしTrueCryptをポータブルモードで動作させようとしていて、すでに違うバージョンのTrueCryptがポータブルモードで起動しているのであれば、まずシステムを再起動した後に新しいバージョンのみを起動してください。</string>
+    <string lang="ja" key="DRIVER_NOT_FOUND">エラー：VeraCryptのドライバが見つかりません。\n\nVeraCrypt.exeと同じフォルダに、'veracrypt.sys' および 'veracrypt-x64.sys' ファイルをコピーしてください。</string>
+    <string lang="ja" key="DRIVER_VERSION">エラー：違うバージョンのVeraCryptデバイスドライバが作動中です。\n\nもしVeraCryptをポータブルモードで動作させようとしており、かつ違うバージョンのVeraCryptが既にインストールされているのであれば、先にそれをアンインストール（あるいはインストーラーでアップグレード）する必要があります。VeraCryptのアンインストールは次の手順で行ってください：[Vista以降] スタートメニュー→コンピュータ→プログラムのアンインストールと変更→VeraCrypt→アンインストール [Win XP] スタートメニュー→設定→コントロールパネル→プログラムの追加と削除→VeraCrypt→削除\n\n同じように、もしVeraCryptをポータブルモードで動作させようとしていて、すでに違うバージョンのVeraCryptがポータブルモードで起動しているのであれば、まずシステムを再起動した後に新しいバージョンのみを起動してください。</string>
     <string lang="ja" key="ERR_CIPHER_INIT_FAILURE">エラー：暗号処理の初期化に失敗しました。</string>
     <string lang="ja" key="ERR_CIPHER_INIT_WEAK_KEY">エラー：強度の弱い鍵が検出されました！ この鍵は廃棄されます。やり直してください。</string>
-    <string lang="ja" key="EXCEPTION_REPORT">致命的なエラーが発生したためTrueCryptを終了しました。もしこれがTrueCryptのバグに起因するものなら修正したいと思います。そのためにも、自動生成されたエラーレポートをお送りください。このレポートには次の情報が含まれています。\n\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- TrueCryptコンポーネント名\n- TrueCrypt実行ファイルのチェックサム\n- ダイアログウィンドウのシンボリックネーム\n- エラーのカテゴリ\n- エラーアドレス\n- TrueCryptのコールスタック\n\n「はい」を選択すると、次のURL(上記のエラー情報をすべて含んでいます)をデフォルトのインターネットブラウザを開いて呼び出します。\n\n%hs\n\n上記のエラーレポートを我々に送って良いですか？</string>
-    <string lang="ja" key="EXCEPTION_REPORT_EXT">システムで致命的なエラーが発生したため、TrueCryptが終了させられました。\n\nこれはTrueCryptに起因するエラーではありません。したがってTrueCryptの開発者はこの問題には対処できません。システム上に何か問題がないか確認してください(例：システムの設定、ネットワークの接続状況、ハードウェアエラーなど)。</string>
-    <string lang="ja" key="EXCEPTION_REPORT_EXT_FILESEL">システムに致命的なエラーが発生し、TrueCryptは強制終了させられました。\n\nもしこの問題が続くようであれば、原因となり得るアプリケーションを無効にするかアンインストールする必要があるかもしれません。例としては、アンチウィルスやインターネットセキュリティソフト、その他、システムを拡張したり最適化したりなどといったシステムの深部を操作するようなものが挙げられます。もしそうしても問題が解決しないのであればOSを再インストールしてみてください。この問題はマルウェアに起因する可能性もあります。</string>
-    <string lang="ja" key="EXCEPTION_REPORT_TITLE">TrueCrypt 致命的なエラー</string>
-    <string lang="ja" key="SYSTEM_CRASHED_ASK_REPORT">TrueCryptはシステムが最近クラッシュしたことを検出しました。なぜクラッシュしたのかについて様々な原因が考えられます。例えばハードウェアの故障、デバイスドライバのバグなどです。\n\nTrueCryptのバグがシステムクラッシュの原因であったかどうかチェックしますか？</string>
-    <string lang="ja" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">TrueCryptによるシステムクラッシュの確認を続けますか？</string>
+    <string lang="ja" key="EXCEPTION_REPORT">致命的なエラーが発生したためVeraCryptを終了しました。もしこれがVeraCryptのバグに起因するものなら修正したいと思います。そのためにも、自動生成されたエラーレポートをお送りください。このレポートには次の情報が含まれています。\n\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- VeraCryptコンポーネント名\n- VeraCrypt実行ファイルのチェックサム\n- ダイアログウィンドウのシンボリックネーム\n- エラーのカテゴリ\n- エラーアドレス\n- VeraCryptのコールスタック\n\n「はい」を選択すると、次のURL(上記のエラー情報をすべて含んでいます)をデフォルトのインターネットブラウザを開いて呼び出します。\n\n%hs\n\n上記のエラーレポートを我々に送って良いですか？</string>
+    <string lang="ja" key="EXCEPTION_REPORT_EXT">システムで致命的なエラーが発生したため、VeraCryptが終了させられました。\n\nこれはVeraCryptに起因するエラーではありません。したがってVeraCryptの開発者はこの問題には対処できません。システム上に何か問題がないか確認してください(例：システムの設定、ネットワークの接続状況、ハードウェアエラーなど)。</string>
+    <string lang="ja" key="EXCEPTION_REPORT_EXT_FILESEL">システムに致命的なエラーが発生し、VeraCryptは強制終了させられました。\n\nもしこの問題が続くようであれば、原因となり得るアプリケーションを無効にするかアンインストールする必要があるかもしれません。例としては、アンチウィルスやインターネットセキュリティソフト、その他、システムを拡張したり最適化したりなどといったシステムの深部を操作するようなものが挙げられます。もしそうしても問題が解決しないのであればOSを再インストールしてみてください。この問題はマルウェアに起因する可能性もあります。</string>
+    <string lang="ja" key="EXCEPTION_REPORT_TITLE">VeraCrypt 致命的なエラー</string>
+    <string lang="ja" key="SYSTEM_CRASHED_ASK_REPORT">VeraCryptはシステムが最近クラッシュしたことを検出しました。なぜクラッシュしたのかについて様々な原因が考えられます。例えばハードウェアの故障、デバイスドライバのバグなどです。\n\nVeraCryptのバグがシステムクラッシュの原因であったかどうかチェックしますか？</string>
+    <string lang="ja" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">VeraCryptによるシステムクラッシュの確認を続けますか？</string>
     <string lang="ja" key="NO_MINIDUMP_FOUND">システムクラッシュのミニダンプファイルは見つかりませんでした。</string>
     <string lang="ja" key="ASK_DELETE_KERNEL_CRASH_DUMP">ディスクの空き容量を増やすためにダンプファイルを削除しますか？</string>
     <string lang="ja" key="ASK_DEBUGGER_INSTALL">システムクラッシュの原因を解析するためには、Microsoft Debugging Tools for Windows を先にインストールする必要があります。\n\n「OK」をクリックすると、Windows Installer がそのインストールパッケージ(16 MB)をマイクロソフトのサーバーからダウンロードし、インストールします。なお Windows Installer がアクセスするサーバーの URL は truercyprt.org のサーバーから転送されます。これはマイクロソフトがインストールパッケージの場所を変更しても追随できるようにするためです。</string>
     <string lang="ja" key="SYSTEM_CRASH_ANALYSIS_INFO">「OK」をクリックするとシステムクラッシュの解析を始めます。これには数分かかる見込みです。</string>
     <string lang="ja" key="DEBUGGER_NOT_FOUND">環境変数「PATH」に 'kd.exe' (Kernel Debugger) へのパスが含まれているか確認してください。</string>
-    <string lang="ja" key="SYSTEM_CRASH_NO_TRUECRYPT">十中八九、TrueCryptはシステムクラッシュの原因ではないようです。システムがクラッシュした理由には様々な原因が考えられます。例えばハードウェアの故障、デバイスドライバのバグなどです。</string>
+    <string lang="ja" key="SYSTEM_CRASH_NO_TRUECRYPT">十中八九、VeraCryptはシステムクラッシュの原因ではないようです。システムがクラッシュした理由には様々な原因が考えられます。例えばハードウェアの故障、デバイスドライバのバグなどです。</string>
     <string lang="ja" key="SYSTEM_CRASH_UPDATE_DRIVER">解析結果によると、以下のドライバーをアップデートすることで問題が解決するかもしれません：</string>
-    <string lang="ja" key="SYSTEM_CRASH_REPORT">私たちがTrueCryptにバグがあるのかを確認できるよう、以下の事項が含まれた自動生成のエラーレポートを送信することができます。\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- エラーのカテゴリー\n- ドライバーの名前とバージョン\n- システムコールスタック\n\nもし「はい」を選択すると、下記のURL(エラーレポートの全項目が含まれる)がデフォルトのインターネットブラウザーで開かれます。</string>
+    <string lang="ja" key="SYSTEM_CRASH_REPORT">私たちがVeraCryptにバグがあるのかを確認できるよう、以下の事項が含まれた自動生成のエラーレポートを送信することができます。\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- エラーのカテゴリー\n- ドライバーの名前とバージョン\n- システムコールスタック\n\nもし「はい」を選択すると、下記のURL(エラーレポートの全項目が含まれる)がデフォルトのインターネットブラウザーで開かれます。</string>
     <string lang="ja" key="ASK_SEND_ERROR_REPORT">上記のエラーレポートを送信しますか？</string>
     <string lang="ja" key="ENCRYPT">暗号化(&amp;E)</string>
     <string lang="ja" key="DECRYPT">復号(&amp;D)</string>
     <string lang="ja" key="PERMANENTLY_DECRYPT">暗号解除(&amp;P)</string>
     <string lang="ja" key="EXIT">終了</string>
     <string lang="ja" key="EXT_PARTITION">この拡張パーティションに論理ドライブを作成してからやり直してください。</string>
-    <string lang="ja" key="FILE_HELP">TrueCryptのボリュームは、ハードディスクやUSBフラッシュドライブ中にあるファイル（TrueCryptコンテナと呼ばれます）として作ることができます。またTrueCryptコンテナは通常のファイルとまったく同じように移動や削除ができます。「ファイルの選択」をクリックして、作成したいコンテナのファイル名と場所を選んでください。\n\n注意：既存のファイルを選んだ場合、TrueCryptはそのファイルを暗号化するわけでは*ありません*。既存のファイルは削除され、新しく作成されたTrueCryptコンテナに置き換えられます。既存のファイルを暗号化したい場合は、ここで作成したTrueCryptコンテナの中に後で移動するようにします。</string>
-    <string lang="ja" key="FILE_HELP_HIDDEN_HOST_VOL">外殻ボリュームを作成する場所を指定してください（中に入れる隠しボリュームは後で作成されます）。\n\nTrueCryptのボリュームは、ハードディスクやUSBフラッシュドライブ等の中にあるファイルの中（TrueCryptコンテナと呼ばれます）に作ることができます。TrueCryptコンテナは通常のファイルとまったく同じように移動や削除ができます。「ファイルを選択」をクリックして、作成したいコンテナのファイル名と場所を選んでください。既存のファイルを選んだ場合、TrueCryptはそのファイルを暗号化するわけでは*ありません*。その既存ファイルは削除され、新しく作成されたTrueCryptコンテナに置き換えられます。既存のファイルを暗号化したい場合は、ここで作成したTrueCryptコンテナの中に後で移動するようにします。</string>
-    <string lang="ja" key="DEVICE_HELP">デバイス型のTrueCryptボリュームは、ハードディスクのパーティション・SSD・USBメモリースティックや、その他対応している記憶装置上に作成することができます。パーティションはその場で暗号化することも可能です。\n\nなお、デバイス型のTrueCryptボリュームはそのデバイスにパーティションがないときにも作成可能です（これはハードディスクやSSDも含みます）。\n\n注：パーティションを含むデバイス全体をその場で暗号化（単一のキーを使用）できるのは、そのドライブにWindowsがインストールされており、そこから起動する場合のみです。</string>
-    <string lang="ja" key="DEVICE_HELP_NO_INPLACE">デバイス型のTrueCryptボリュームを作成できるのは、ハードディスクのパーティション、SSD、USBメモリースティックなどの記憶装置です。\n\n警告：パーティション/デバイスがフォーマットされ、そこにあるすべての既存データが失われることに注意してください。</string>
+    <string lang="ja" key="FILE_HELP">VeraCryptのボリュームは、ハードディスクやUSBフラッシュドライブ中にあるファイル（VeraCryptコンテナと呼ばれます）として作ることができます。またVeraCryptコンテナは通常のファイルとまったく同じように移動や削除ができます。「ファイルの選択」をクリックして、作成したいコンテナのファイル名と場所を選んでください。\n\n注意：既存のファイルを選んだ場合、VeraCryptはそのファイルを暗号化するわけでは*ありません*。既存のファイルは削除され、新しく作成されたVeraCryptコンテナに置き換えられます。既存のファイルを暗号化したい場合は、ここで作成したVeraCryptコンテナの中に後で移動するようにします。</string>
+    <string lang="ja" key="FILE_HELP_HIDDEN_HOST_VOL">外殻ボリュームを作成する場所を指定してください（中に入れる隠しボリュームは後で作成されます）。\n\nVeraCryptのボリュームは、ハードディスクやUSBフラッシュドライブ等の中にあるファイルの中（VeraCryptコンテナと呼ばれます）に作ることができます。VeraCryptコンテナは通常のファイルとまったく同じように移動や削除ができます。「ファイルを選択」をクリックして、作成したいコンテナのファイル名と場所を選んでください。既存のファイルを選んだ場合、VeraCryptはそのファイルを暗号化するわけでは*ありません*。その既存ファイルは削除され、新しく作成されたVeraCryptコンテナに置き換えられます。既存のファイルを暗号化したい場合は、ここで作成したVeraCryptコンテナの中に後で移動するようにします。</string>
+    <string lang="ja" key="DEVICE_HELP">デバイス型のVeraCryptボリュームは、ハードディスクのパーティション・SSD・USBメモリースティックや、その他対応している記憶装置上に作成することができます。パーティションはその場で暗号化することも可能です。\n\nなお、デバイス型のVeraCryptボリュームはそのデバイスにパーティションがないときにも作成可能です（これはハードディスクやSSDも含みます）。\n\n注：パーティションを含むデバイス全体をその場で暗号化（単一のキーを使用）できるのは、そのドライブにWindowsがインストールされており、そこから起動する場合のみです。</string>
+    <string lang="ja" key="DEVICE_HELP_NO_INPLACE">デバイス型のVeraCryptボリュームを作成できるのは、ハードディスクのパーティション、SSD、USBメモリースティックなどの記憶装置です。\n\n警告：パーティション/デバイスがフォーマットされ、そこにあるすべての既存データが失われることに注意してください。</string>
     <string lang="ja" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n外殻ボリュームを作成する場所を選択してください（このボリュームの中に後で隠しボリュームが作られます）。\n\n外殻ボリュームはハードディスクのパーティション、SSD、USBメモリースティックなどの対応している記憶装置上に作成できます。パーティションの無いデバイス（ハードディスクやSSDを含みます）上にも作成可能です。\n\n警告：パーティション/デバイスがフォーマットされ、そこにあるすべての既存データが失われることに注意してください。</string>
-    <string lang="ja" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">隠しボリュームを格納したいTrueCryptボリュームの場所を選択してください</string>
+    <string lang="ja" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">隠しボリュームを格納したいVeraCryptボリュームの場所を選択してください</string>
     <string lang="ja" key="FILE_IN_USE">警告：そのファイルあるいはデバイスはすでに使われています！\n\nこれを無視して進めるとシステムが不安定になるなどの望まれない結果を引き起こす可能性があります。ファイルあるいはデバイスを使用しているすべてのアプリケーション（例えばアンチウィルスソフトやバックアップソフト等）を、このボリュームをマウントする前に終了してください。\n\nマウントを続行しますか？</string>
     <string lang="ja" key="FILE_IN_USE_FAILED">エラー：ボリュームをマウントできません。マウントしようとしたファイルあるいはデバイスはすでに使用中です。 排他的でないマウントも試みましたが失敗しました。</string>
     <string lang="ja" key="FILE_OPEN_FAILED">ファイルを開けません。</string>
     <string lang="ja" key="FILE_TITLE">ボリュームの位置</string>
     <string lang="ja" key="FILESYS_PAGE_TITLE">巨大なファイル</string>
-    <string lang="ja" key="FILESYS_PAGE_HELP_QUESTION">TrueCryptボリュームに4GB超のファイルを保存しようとしていますか？</string>
-    <string lang="ja" key="FILESYS_PAGE_HELP_EXPLANATION">上記の選択に基づき、TrueCryptボリュームに適切なデフォルトのファイルシステムを設定します（次のステップでファイルシステムを選択できます）。</string>
+    <string lang="ja" key="FILESYS_PAGE_HELP_QUESTION">VeraCryptボリュームに4GB超のファイルを保存しようとしていますか？</string>
+    <string lang="ja" key="FILESYS_PAGE_HELP_EXPLANATION">上記の選択に基づき、VeraCryptボリュームに適切なデフォルトのファイルシステムを設定します（次のステップでファイルシステムを選択できます）。</string>
     <string lang="ja" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">外殻ボリュームを作成しているのであれば「いいえ」を選択すべきです。「はい」を選ぶとデフォルトのファイルシステムはNTFSとなり、これは外殻ボリュームとしては適切ではありません（例えば外殻ボリュームをFATにした方が、より大きなサイズの隠しボリュームを内包できます）。通常は外殻ボリュームも通常ボリュームもFATがデフォルトとなります（つまりFATの方が怪しまれません）。しかし、もしサイズが4GBを越えるファイルを保存したいのであれば、FATがデフォルトにはなりません。FATでは4GB超のファイルを保存できません。</string>
     <string lang="ja" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">本当に「はい」を選択しますか？</string>
     <string lang="ja" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">ボリューム作成モード</string>
-    <string lang="ja" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">これがパーティション型あるいはデバイス型のTrueCryptボリュームを作成するための最速の方法です（別オプションのその場での暗号化は、セクタごとに読み込み、暗号化し、書き込みを行うためにより時間がかかります）。選択されたパーティション/デバイス上の既存のデータはすべて削除されます（既存データは暗号化されるわけではなくランダムなデータで上書きされます）。このパーティション上の既存データを暗号化したいのであれば、別のオプションを選択してください。</string>
+    <string lang="ja" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">これがパーティション型あるいはデバイス型のVeraCryptボリュームを作成するための最速の方法です（別オプションのその場での暗号化は、セクタごとに読み込み、暗号化し、書き込みを行うためにより時間がかかります）。選択されたパーティション/デバイス上の既存のデータはすべて削除されます（既存データは暗号化されるわけではなくランダムなデータで上書きされます）。このパーティション上の既存データを暗号化したいのであれば、別のオプションを選択してください。</string>
     <string lang="ja" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">選択されたパーティション上の全データがその場で暗号化されます。もしパーティションが空なら別のオプションを選択すべきです（より速くボリュームが作成されます）。</string>
     <string lang="ja" key="NOTE_BEGINNING">注：</string>
     <string lang="ja" key="RESUME">レジューム(&amp;R)</string>
@@ -471,13 +471,13 @@
     <string lang="ja" key="WIPE_FINISHED">パーティション/デバイス上のデータの抹消に成功しました。</string>
     <string lang="ja" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">元システム（隠しシステムのクローン元）パーティション上のデータの抹消に成功しました。</string>
     <string lang="ja" key="DECOY_OS_VERSION_WARNING">（消去済みパーティションに）インストールしようとしているWindowsのバージョンが、現在起動中のものと一致しているかよく確認してください。これは双方のシステムが一つの共通の起動パーティションを共用する必要があるからです。</string>
-    <string lang="ja" key="SYSTEM_ENCRYPTION_FINISHED">システムパーティション/ドライブの暗号化に成功しました。\n\n注：もしWindows起動の度に毎回自動的にマウントしたい非システムのTrueCryptボリュームがあるのならば、それらをマウント後に[お気に入り]-[マウントされたボリュームをシステムお気に入りに追加]と選択することで実現できます。</string>
+    <string lang="ja" key="SYSTEM_ENCRYPTION_FINISHED">システムパーティション/ドライブの暗号化に成功しました。\n\n注：もしWindows起動の度に毎回自動的にマウントしたい非システムのVeraCryptボリュームがあるのならば、それらをマウント後に[お気に入り]-[マウントされたボリュームをシステムお気に入りに追加]と選択することで実現できます。</string>
     <string lang="ja" key="SYSTEM_DECRYPTION_FINISHED">システムパーティション/ドライブの復号に成功しました。</string>
-    <string lang="ja" key="FORMAT_FINISHED_HELP">\n\nTrueCryptボリュームが作成され、使用できる状態になりました。TrueCryptボリュームを続けて作成する場合は「次へ」をクリックしてください。そうでなければ「終了」をクリックしてください。</string>
+    <string lang="ja" key="FORMAT_FINISHED_HELP">\n\nVeraCryptボリュームが作成され、使用できる状態になりました。VeraCryptボリュームを続けて作成する場合は「次へ」をクリックしてください。そうでなければ「終了」をクリックしてください。</string>
     <string lang="ja" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n隠しボリュームの作成に成功しました（隠しOSがこの隠しボリュームに作成されます）。\n\n「次へ」をクリックしてください。</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">ボリューム全体が暗号化されました。</string>
-    <string lang="ja" key="NONSYS_INPLACE_ENC_FINISHED_INFO">重要：この新規作成したTrueCryptボリュームをマウントしてデータにアクセスするには、TrueCryptのメインウィンドウで「デバイスの自動マウント」をクリックしてください。そして正しいパスワードを入力（そして正しいキーファイルを指定）すると、メインウィンドウで選択していたドライブレターにそのボリュームがマウントされ、そのドライブを通して暗号化されたデータにアクセスすることができます。\n\n上記の手順を記憶するかメモしておいてください。このボリュームをマウントしてデータにアクセスするためにはこの手順に沿わなければなりません。あるいは、メインウィンドウで「デバイスを選択」をクリックし、このパーティションあるいはボリュームを選択してから「マウント」をクリックしてください。\n\nこのパーティション/デバイスの暗号化に成功し、使用する準備ができました。</string>
-    <string lang="ja" key="FORMAT_FINISHED_INFO">TrueCryptボリュームの作成に成功しました。</string>
+    <string lang="ja" key="NONSYS_INPLACE_ENC_FINISHED_INFO">重要：この新規作成したVeraCryptボリュームをマウントしてデータにアクセスするには、VeraCryptのメインウィンドウで「デバイスの自動マウント」をクリックしてください。そして正しいパスワードを入力（そして正しいキーファイルを指定）すると、メインウィンドウで選択していたドライブレターにそのボリュームがマウントされ、そのドライブを通して暗号化されたデータにアクセスすることができます。\n\n上記の手順を記憶するかメモしておいてください。このボリュームをマウントしてデータにアクセスするためにはこの手順に沿わなければなりません。あるいは、メインウィンドウで「デバイスを選択」をクリックし、このパーティションあるいはボリュームを選択してから「マウント」をクリックしてください。\n\nこのパーティション/デバイスの暗号化に成功し、使用する準備ができました。</string>
+    <string lang="ja" key="FORMAT_FINISHED_INFO">VeraCryptボリュームの作成に成功しました。</string>
     <string lang="ja" key="FORMAT_FINISHED_TITLE">ボリュームが作成されました</string>
     <string lang="ja" key="FORMAT_HELP">重要：このウィンドウ内にてできるかぎりランダムにマウスを動かしてください。これにより暗号鍵の強度を大幅に上げられます。長く動かすほど良い結果を得られます。「フォーマット」をクリックするとボリュームを作成します。</string>
     <string lang="ja" key="FORMAT_HIDVOL_HOST_HELP">「フォーマット」をクリックすると外殻ボリュームを作成します。詳細はユーザーズガイドをご覧ください。</string>
@@ -485,8 +485,8 @@
     <string lang="ja" key="FORMAT_HIDVOL_TITLE">隠しボリュームのフォーマット</string>
     <string lang="ja" key="FORMAT_TITLE">ボリュームのフォーマット</string>
     <string lang="ja" key="HELP_READER_ERROR">ユーザーズガイドを表示・印刷するには、Adobe Reader（もしくはその互換品）が必要です。 Adobe Reader（フリーウェア）は www.adobe.com にてダウンロードできます。\n\n代わりにオンラインドキュメントを表示しますか？</string>
-    <string lang="ja" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">このオプションを選択すると、作成ウィザードはまず通常のTrueCryptボリュームを新規作成し、次に隠しボリュームをその中に配置します。慣れている方以外は常にこのオプションを選択してください。</string>
-    <string lang="ja" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">このオプションを選択すると、既存のTrueCryptボリューム内に隠しボリュームを配置できます。隠しボリュームを納めることのできるTrueCryptボリュームが作成済みであることが前提となります。</string>
+    <string lang="ja" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">このオプションを選択すると、作成ウィザードはまず通常のVeraCryptボリュームを新規作成し、次に隠しボリュームをその中に配置します。慣れている方以外は常にこのオプションを選択してください。</string>
+    <string lang="ja" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">このオプションを選択すると、既存のVeraCryptボリューム内に隠しボリュームを配置できます。隠しボリュームを納めることのできるVeraCryptボリュームが作成済みであることが前提となります。</string>
     <string lang="ja" key="HIDDEN_VOL_WIZARD_MODE_TITLE">ボリューム作成モード</string>
     <string lang="ja" key="HIDVOL_FORMAT_FINISHED_TITLE">隠しボリュームが作成されました</string>
     <string lang="ja" key="HIDVOL_FORMAT_FINISHED_HELP">隠しボリュームの作成に成功し、使用できる状態になりました。ユーザーズガイドの「隠しボリュームの安全に関する必要事項と予防策」に列挙されている必要事項および予防策に従い、正しい方法で使用するならば、たとえ外殻ボリュームがマウントされても、隠しボリュームを探索することはできません。\n\n重要な警告：もし隠しボリュームの保護をしていないならば（保護の方法はユーザーズガイドの「隠しボリュームを破損から守る」をご覧ください）、外殻ボリュームに書き込みをしないでください。さもなければ隠しボリュームを上書きして破壊してしまいます！</string>
@@ -498,25 +498,25 @@
     <string lang="ja" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n次のステップで、外殻ボリュームと呼ばれるものを作成します。前のステップで説明したとおり、これはシステムパーティションのすぐ次のパーティションに作成されます。</string>
     <string lang="ja" key="HIDVOL_HOST_PRE_CIPHER_TITLE">外殻ボリューム</string>
     <string lang="ja" key="HIDDEN_OS_PRE_CIPHER_HELP">次の手順で隠しOSを格納する隠しボリュームのパスワードとオプションを設定してください。\n\n注：外殻ボリュームのクラスタービットマップが、外殻ボリュームの終端から連続した空き領域のサイズを調べるために走査されます。この空き領域が隠しボリューム用になるため、その容量が隠しボリュームとして可能な最大サイズとなります。また隠しボリュームのサイズは、システムパーティションより大きくなるように決定されます（システムパーティションの内容全体を隠しボリュームにコピーする必要があるからです）。この確認によって、隠しボリュームのデータで外殻ボリューム上のデータが上書きされないようにしています。</string>
-    <string lang="ja" key="HIDDEN_OS_PRE_CIPHER_WARNING">重要：このステップで選択した暗号化アルゴリズムを忘れないでください。囮システムでも同じ暗号化アルゴリズムを選択する必要があります。そうしなかった場合、隠しOSにアクセスできなくなります！\n\n注：その理由は、囮システムと隠しシステムは一つのブートローダーを共用しているためです。これはユーザが選択した一つのアルゴリズムしかサポートしていません。いずれのアルゴリズムの場合でも、TrueCryptによる特製バージョンのブートローダーとなっています。</string>
+    <string lang="ja" key="HIDDEN_OS_PRE_CIPHER_WARNING">重要：このステップで選択した暗号化アルゴリズムを忘れないでください。囮システムでも同じ暗号化アルゴリズムを選択する必要があります。そうしなかった場合、隠しOSにアクセスできなくなります！\n\n注：その理由は、囮システムと隠しシステムは一つのブートローダーを共用しているためです。これはユーザが選択した一つのアルゴリズムしかサポートしていません。いずれのアルゴリズムの場合でも、VeraCryptによる特製バージョンのブートローダーとなっています。</string>
     <string lang="ja" key="HIDVOL_PRE_CIPHER_HELP">\n\nボリュームのクラスタービットマップが走査され、隠しボリュームの最大上限サイズが計測されました。この次のステップで、隠しボリュームのオプションやサイズ、パスワードを設定します。</string>
     <string lang="ja" key="HIDVOL_PRE_CIPHER_TITLE">隠しボリューム</string>
-    <string lang="ja" key="HIDVOL_PROT_WARN_AFTER_MOUNT">隠しボリュームは、これから外殻ボリュームがアンマウントされるまでの間、破壊から保護されます。\n\n警告：もし隠しボリューム領域に何らかのデータが書き込まれそうになったときには、TrueCryptはボリューム全体（外殻領域も隠し領域も）を、アンマウントされるまで書き込み禁止にします。このことは外殻ボリュームのファイルシステムに不整合状態を引き起こし、（そのようなことが繰り返されるなら）隠しボリュームに対する見せかけの拒否にも悪影響を及ぼします。したがってあなたは隠しボリューム領域に書き込みが起こらないように全力で務めるべきです。隠しボリューム領域に書き込もうとしたあらゆるデータは一切保存されずに失われます。Windowsは書き込みエラー（遅延書き込みの失敗/不正なパラメータ）が発生したと報告してくるでしょう。</string>
-    <string lang="ja" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">新たにマウントされたボリューム内の隠しボリュームはいずれもアンマウントされるまでの間、破壊から保護されます。\n\n警告：もし保護中の隠しボリューム領域に何らかのデータが書き込まれそうになったときには、TrueCryptはボリューム全体（外殻領域も隠し領域も）を、アンマウントされるまで書き込み禁止にします。このことは外殻ボリュームのファイルシステムに不整合状態を引き起こし、（そのようなことが繰り返されるなら）隠しボリュームに対する見せかけの拒否にも悪影響を及ぼします。したがってあなたは隠しボリューム領域に書き込みが起こらないように全力で務めるべきです。隠しボリューム領域に書き込もうとしたあらゆるデータは一切保存されずに失われます。Windowsは書き込みエラー（遅延書き込みの失敗/不正なパラメータ）が発生したと報告してくるでしょう。</string>
-    <string lang="ja" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">警告：%c:ドライブにマウントされたボリュームにある隠しボリューム領域にデータが書き込まれようとしました！\n\nTrueCryptは隠しボリュームを保護するため、この書き込みを防止しました。このことで外殻ボリュームのファイルシステムが不整合状態となり、Windowsは書き込みエラー（遅延書き込みの失敗/不正なパラメータ）が発生したと報告してくるでしょう。外殻ボリュームも隠しボリュームも含めたボリューム全体について、アンマウントされるまで書き込みが禁止されます。もし今回のようなケースが初めてでないのならば、この隠しボリュームに対するみせかけの拒否に悪影響があることでしょう（この外殻ボリュームのファイルシステムが特異な不整合状態をしばしば引き起こすからです）。したがって、新しくTrueCryptボリュームを（クイックフォーマットせずに）作成し、このボリュームから新ボリュームにファイルを移すことを検討してください。その際このボリュームは外殻・隠しいずれの領域も完全抹消すべきです。すぐにオペレーティングシステムを再起動するよう、強く推奨します。</string>
+    <string lang="ja" key="HIDVOL_PROT_WARN_AFTER_MOUNT">隠しボリュームは、これから外殻ボリュームがアンマウントされるまでの間、破壊から保護されます。\n\n警告：もし隠しボリューム領域に何らかのデータが書き込まれそうになったときには、VeraCryptはボリューム全体（外殻領域も隠し領域も）を、アンマウントされるまで書き込み禁止にします。このことは外殻ボリュームのファイルシステムに不整合状態を引き起こし、（そのようなことが繰り返されるなら）隠しボリュームに対する見せかけの拒否にも悪影響を及ぼします。したがってあなたは隠しボリューム領域に書き込みが起こらないように全力で務めるべきです。隠しボリューム領域に書き込もうとしたあらゆるデータは一切保存されずに失われます。Windowsは書き込みエラー（遅延書き込みの失敗/不正なパラメータ）が発生したと報告してくるでしょう。</string>
+    <string lang="ja" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">新たにマウントされたボリューム内の隠しボリュームはいずれもアンマウントされるまでの間、破壊から保護されます。\n\n警告：もし保護中の隠しボリューム領域に何らかのデータが書き込まれそうになったときには、VeraCryptはボリューム全体（外殻領域も隠し領域も）を、アンマウントされるまで書き込み禁止にします。このことは外殻ボリュームのファイルシステムに不整合状態を引き起こし、（そのようなことが繰り返されるなら）隠しボリュームに対する見せかけの拒否にも悪影響を及ぼします。したがってあなたは隠しボリューム領域に書き込みが起こらないように全力で務めるべきです。隠しボリューム領域に書き込もうとしたあらゆるデータは一切保存されずに失われます。Windowsは書き込みエラー（遅延書き込みの失敗/不正なパラメータ）が発生したと報告してくるでしょう。</string>
+    <string lang="ja" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">警告：%c:ドライブにマウントされたボリュームにある隠しボリューム領域にデータが書き込まれようとしました！\n\nVeraCryptは隠しボリュームを保護するため、この書き込みを防止しました。このことで外殻ボリュームのファイルシステムが不整合状態となり、Windowsは書き込みエラー（遅延書き込みの失敗/不正なパラメータ）が発生したと報告してくるでしょう。外殻ボリュームも隠しボリュームも含めたボリューム全体について、アンマウントされるまで書き込みが禁止されます。もし今回のようなケースが初めてでないのならば、この隠しボリュームに対するみせかけの拒否に悪影響があることでしょう（この外殻ボリュームのファイルシステムが特異な不整合状態をしばしば引き起こすからです）。したがって、新しくVeraCryptボリュームを（クイックフォーマットせずに）作成し、このボリュームから新ボリュームにファイルを移すことを検討してください。その際このボリュームは外殻・隠しいずれの領域も完全抹消すべきです。すぐにオペレーティングシステムを再起動するよう、強く推奨します。</string>
     <string lang="ja" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">4GBを超えるサイズのファイルの保存には、保存先のボリュームがNTFSでフォーマットされている必要がありますが、そうではないため保存できませんでした。</string>
-    <string lang="ja" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">隠しOSの起動中は隠しではないTrueCryptボリュームをNTFSでフォーマットすることはできません。その理由は、NTFSでのフォーマットをOSに許可するためには、一時的とはいえ、対象ボリュームを書き込みへの保護がない状態でマウントしなければならないからです。なおFATでのフォーマットの場合は、OSによらず、またマウントもせずに、TrueCrypt自らが行うのでこの限りではありません。技術的な詳細は下記をご覧ください。囮OSからなら、隠しではないNTFSボリュームを作成できます。</string>
-    <string lang="ja" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">隠しOSの起動中は、セキュリティ上の理由で外殻ボリュームは常に読み取り専用としてマウントされるため、ダイレクトモードでしか隠しボリュームを作成できません。隠しボリュームを安全に作成するには、以下の手順で行ってください。\n\n1) まず囮用OSを起動する。\n\n2) 標準ボリュームを作成し、本当は他人に見られても構わないが一見秘密にしたいように見えるファイルをコピーする（このボリュームは後で外殻ボリュームになります）。\n\n3) 隠しOSで起動し、TrueCryptボリューム作成ウィザードを開始する。もしボリュームがファイル型であればシステムパーティションか他の隠しボリュームに移動する（そうしないと、新規作成された隠しボリュームが読み取り専用としてマウントされてフォーマットできません）。そしてウィザードの指定に沿って進め、隠しボリュームの作成でダイレクトモードを選択する。\n\n4) そのウィザードでステップ2で作成したボリュームを選択し、その中に隠しボリュームを作成する。</string>
-    <string lang="ja" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">セキュリティ上の理由により、隠しOSの起動中は、ローカルの暗号化されていないファイルシステムと、隠しではないTrueCryptボリュームは読み取り専用でマウントされます。つまりそれらに何らかのデータを書き込むことはできません。\n\nデータは隠しボリューム上のファイルシステムにのみ書き込むことができます（ただしその隠しボリュームが、非暗号化ファイルシステム上あるいは読込専用のファイルシステム上、のコンテナファイルではない場合に限定されます）。</string>
-    <string lang="ja" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">このような対抗策が実装されているのは、主に3つの理由によります。\n\n- 隠しボリュームをマウントするための安全なプラットフォームを築くことができます。隠しボリュームをマウントするのは隠しOSの動作中に限定するよう、私たちが公式に推奨していることを忘れないでください（より詳しい情報はユーザーズガイドの「隠しボリュームの安全に関する必要事項と予防策」の項をご覧ください）。\n\n- いくつかのケースでは、一定の時刻に特殊なファイルシステムがマウントされていない（あるいはそのファイルシステム上の特殊なファイルが保存あるいは書き込みされていない）ことがわかってしまう可能性があります。これは例えば、ファイルシステムのジャーナル、ファイルのタイムスタンプ、アプリケーションのログやエラーログなどが、解析あるいは比較されたりしたときなどです。このことは隠しOSがそのコンピュータにインストールされていることを示唆することになりますが、この対抗策によってこのような問題は解決されます。\n\n- データの破損を防ぎ、安全な休止状態を提供できます。Windowsは休止状態から復帰した時、マウントされた全てのファイルシステムが、システムが休止状態に入った時と同じ状態を保持していることを仮定しています。TrueCryptはこのことを、囮および隠しシステムの双方からアクセスできるいかなるファイルシステムについても書き込みを禁止することによって保証しています。この保護機構がないと、一方のシステムが休止状態のときにもう一方のシステムからマウントされた場合に、ファイルシステムが破損してしまう可能性があります。</string>
-    <string lang="ja" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">注：囮用のシステムから隠しシステムへ安全にファイルを転送したい場合は、以下の手順で行ってください。 1) 囮用OSで起動する。 2) 暗号化されていないボリューム、あるいは標準か外殻のTrueCryptボリュームにファイルを保存する。 3) 隠しOSで起動する。 4) もしそのファイルをTrueCryptボリュームに保存したのならそれをマウントする（自動的に読み取り専用になります）。 5) そのファイルを隠しシステムパーティションあるいはその他の隠しボリュームに保存する。</string>
+    <string lang="ja" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">隠しOSの起動中は隠しではないVeraCryptボリュームをNTFSでフォーマットすることはできません。その理由は、NTFSでのフォーマットをOSに許可するためには、一時的とはいえ、対象ボリュームを書き込みへの保護がない状態でマウントしなければならないからです。なおFATでのフォーマットの場合は、OSによらず、またマウントもせずに、VeraCrypt自らが行うのでこの限りではありません。技術的な詳細は下記をご覧ください。囮OSからなら、隠しではないNTFSボリュームを作成できます。</string>
+    <string lang="ja" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">隠しOSの起動中は、セキュリティ上の理由で外殻ボリュームは常に読み取り専用としてマウントされるため、ダイレクトモードでしか隠しボリュームを作成できません。隠しボリュームを安全に作成するには、以下の手順で行ってください。\n\n1) まず囮用OSを起動する。\n\n2) 標準ボリュームを作成し、本当は他人に見られても構わないが一見秘密にしたいように見えるファイルをコピーする（このボリュームは後で外殻ボリュームになります）。\n\n3) 隠しOSで起動し、VeraCryptボリューム作成ウィザードを開始する。もしボリュームがファイル型であればシステムパーティションか他の隠しボリュームに移動する（そうしないと、新規作成された隠しボリュームが読み取り専用としてマウントされてフォーマットできません）。そしてウィザードの指定に沿って進め、隠しボリュームの作成でダイレクトモードを選択する。\n\n4) そのウィザードでステップ2で作成したボリュームを選択し、その中に隠しボリュームを作成する。</string>
+    <string lang="ja" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">セキュリティ上の理由により、隠しOSの起動中は、ローカルの暗号化されていないファイルシステムと、隠しではないVeraCryptボリュームは読み取り専用でマウントされます。つまりそれらに何らかのデータを書き込むことはできません。\n\nデータは隠しボリューム上のファイルシステムにのみ書き込むことができます（ただしその隠しボリュームが、非暗号化ファイルシステム上あるいは読込専用のファイルシステム上、のコンテナファイルではない場合に限定されます）。</string>
+    <string lang="ja" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">このような対抗策が実装されているのは、主に3つの理由によります。\n\n- 隠しボリュームをマウントするための安全なプラットフォームを築くことができます。隠しボリュームをマウントするのは隠しOSの動作中に限定するよう、私たちが公式に推奨していることを忘れないでください（より詳しい情報はユーザーズガイドの「隠しボリュームの安全に関する必要事項と予防策」の項をご覧ください）。\n\n- いくつかのケースでは、一定の時刻に特殊なファイルシステムがマウントされていない（あるいはそのファイルシステム上の特殊なファイルが保存あるいは書き込みされていない）ことがわかってしまう可能性があります。これは例えば、ファイルシステムのジャーナル、ファイルのタイムスタンプ、アプリケーションのログやエラーログなどが、解析あるいは比較されたりしたときなどです。このことは隠しOSがそのコンピュータにインストールされていることを示唆することになりますが、この対抗策によってこのような問題は解決されます。\n\n- データの破損を防ぎ、安全な休止状態を提供できます。Windowsは休止状態から復帰した時、マウントされた全てのファイルシステムが、システムが休止状態に入った時と同じ状態を保持していることを仮定しています。VeraCryptはこのことを、囮および隠しシステムの双方からアクセスできるいかなるファイルシステムについても書き込みを禁止することによって保証しています。この保護機構がないと、一方のシステムが休止状態のときにもう一方のシステムからマウントされた場合に、ファイルシステムが破損してしまう可能性があります。</string>
+    <string lang="ja" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">注：囮用のシステムから隠しシステムへ安全にファイルを転送したい場合は、以下の手順で行ってください。 1) 囮用OSで起動する。 2) 暗号化されていないボリューム、あるいは標準か外殻のVeraCryptボリュームにファイルを保存する。 3) 隠しOSで起動する。 4) もしそのファイルをVeraCryptボリュームに保存したのならそれをマウントする（自動的に読み取り専用になります）。 5) そのファイルを隠しシステムパーティションあるいはその他の隠しボリュームに保存する。</string>
     <string lang="ja" key="CONFIRM_RESTART">このマシンは再起動する必要があります。\n\nすぐに再起動しますか？</string>
     <string lang="ja" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">システムの暗号ステータスの取得中にエラーが見つかりました。</string>
     <string lang="ja" key="INIT_SYS_ENC">システムを暗号化するアプリケーションコンポーネントを初期化できませんでした。</string>
     <string lang="ja" key="INIT_RAND">乱数生成機構の初期化に失敗しました！</string>
     <string lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</string>
     <string lang="ja" key="INIT_RICHEDIT">エラー：リッチエディットシステムライブラリの読込に失敗しました。</string>
-    <string lang="ja" key="INTRO_TITLE">TrueCryptボリューム作成ウィザード</string>
+    <string lang="ja" key="INTRO_TITLE">VeraCryptボリューム作成ウィザード</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_BYTES">このボリュームに格納できる隠しボリュームの最大サイズは %.2f バイトです。</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_KB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f KB です。</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_MB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f MB です。</string>
@@ -524,13 +524,13 @@
     <string lang="ja" key="MOUNTED_NOPWCHANGE">ボリュームのマウント中には、そのパスワードやキーファイルを変更できません。 まず先にそのボリュームをアンマウントしてください。</string>
     <string lang="ja" key="MOUNTED_NO_PKCS5_PRF_CHANGE">ボリュームのマウント中には、そのヘッダキー導出アルゴリズムを変更できません。 まず先にそのボリュームをアンマウントしてください。</string>
     <string lang="ja" key="MOUNT_BUTTON">マウント(&amp;M)</string>
-    <string lang="ja" key="NEW_VERSION_REQUIRED">このボリュームをマウントするには、新しいバージョンのTrueCryptが必要です。</string>
-    <string lang="ja" key="VOL_CREATION_WIZARD_NOT_FOUND">エラー：ボリューム作成ウィザードが見つかりません。\n\n'TrueCrypt.exe' が起動されたフォルダに 'TrueCrypt Format.exe' があるか確認してください。 もし存在しなければ、TrueCryptを再インストールするか、ディスク上の 'TrueCrypt Fromat.exe' を探し出して実行してください。</string>
+    <string lang="ja" key="NEW_VERSION_REQUIRED">このボリュームをマウントするには、新しいバージョンのVeraCryptが必要です。</string>
+    <string lang="ja" key="VOL_CREATION_WIZARD_NOT_FOUND">エラー：ボリューム作成ウィザードが見つかりません。\n\n'VeraCrypt.exe' が起動されたフォルダに 'VeraCrypt Format.exe' があるか確認してください。 もし存在しなければ、VeraCryptを再インストールするか、ディスク上の 'VeraCrypt Fromat.exe' を探し出して実行してください。</string>
     <string lang="ja" key="NEXT">次へ(&amp;N)＞</string>
     <string lang="ja" key="FINALIZE">終了(&amp;F)</string>
     <string lang="ja" key="INSTALL">インストール(&amp;I)</string>
     <string lang="ja" key="EXTRACT">展開(&amp;x)</string>
-    <string lang="ja" key="NODRIVER">TrueCryptデバイスドライバに接続できません。デバイスドライバが実行されていないとTrueCryptは実行できません。\n\nWindows自体の問題によって、デバイスドライバを読み込むためにはログオフあるいは再起動が必要かもしれません。</string>
+    <string lang="ja" key="NODRIVER">VeraCryptデバイスドライバに接続できません。デバイスドライバが実行されていないとVeraCryptは実行できません。\n\nWindows自体の問題によって、デバイスドライバを読み込むためにはログオフあるいは再起動が必要かもしれません。</string>
     <string lang="ja" key="NOFONT">フォントの読み込み・準備中にエラーが発生しました。</string>
     <string lang="ja" key="NOT_FOUND">ドライブレターが見つからないか、ドライブレターが指定されていません。</string>
     <string lang="ja" key="DRIVE_LETTER_UNAVAILABLE">ドライブレターが利用できません。</string>
@@ -544,36 +544,36 @@
     <string lang="ja" key="OPENFILES_DRIVER">ドライバがそのボリュームをアンマウントできません。おそらくそのボリューム上のいくつかのファイルが開かれたままです。</string>
     <string lang="ja" key="OPENFILES_LOCK">ボリュームのロックができません。ボリューム上のいくつかのファイルが開かれたままです。そのためにアンマウントできません。</string>
     <string lang="ja" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">システムかアプリケーションがボリュームを使用中のため、ボリュームのロックに失敗しました（おそらくボリューム上のファイルが開かれています）。\n\nこのボリュームを強制的にアンマウントしますか？</string>
-    <string lang="ja" key="OPEN_VOL_TITLE">TrueCryptボリュームの選択</string>
+    <string lang="ja" key="OPEN_VOL_TITLE">VeraCryptボリュームの選択</string>
     <string lang="ja" key="OPEN_TITLE">フォルダやファイル名の指定</string>
     <string lang="ja" key="SELECT_PKCS11_MODULE">PKCS #11 ライブラリを選択</string>
     <string lang="ja" key="OUTOFMEMORY">メモリ不足</string>
-    <string lang="ja" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">重要：慣れていない方は、デバイスあるいはパーティション全体を暗号化しようとするのではなく、選択されたパーティションあるいはデバイス上にTrueCryptコンテナファイルを作成することを強く推奨します。\n\nデバイスあるいはパーティション全体を暗号化する方法に対し、コンテナファイルを作成する方法は、たとえば大量のファイルを破壊してしまうような危険性がありません。TrueCryptコンテナファイルは、これは仮想的な暗号化ディスクでありながら、それ自体は普通のファイルと変わりありません。より詳しい情報は「ユーザーズガイド」の「初心者のためのチュートリアル」をご覧ください。\n\n本当にデバイスあるいはパーティション全体を暗号化しますか？</string>
-    <string lang="ja" key="OVERWRITEPROMPT">警告：そのファイル '%hs' はすでに存在しています！\n\n重要：TrueCryptはそのファイル自体を暗号化するのではなく、消去して上書きします。 本当にそのファイルを消去して新しいTrueCryptコンテナで置き換えますか？</string>
+    <string lang="ja" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">重要：慣れていない方は、デバイスあるいはパーティション全体を暗号化しようとするのではなく、選択されたパーティションあるいはデバイス上にVeraCryptコンテナファイルを作成することを強く推奨します。\n\nデバイスあるいはパーティション全体を暗号化する方法に対し、コンテナファイルを作成する方法は、たとえば大量のファイルを破壊してしまうような危険性がありません。VeraCryptコンテナファイルは、これは仮想的な暗号化ディスクでありながら、それ自体は普通のファイルと変わりありません。より詳しい情報は「ユーザーズガイド」の「初心者のためのチュートリアル」をご覧ください。\n\n本当にデバイスあるいはパーティション全体を暗号化しますか？</string>
+    <string lang="ja" key="OVERWRITEPROMPT">警告：そのファイル '%hs' はすでに存在しています！\n\n重要：VeraCryptはそのファイル自体を暗号化するのではなく、消去して上書きします。 本当にそのファイルを消去して新しいVeraCryptコンテナで置き換えますか？</string>
     <string lang="ja" key="OVERWRITEPROMPT_DEVICE">注意：選択された %s '%hs'%s に存在しているすべてのファイルは消去され失われます（暗号化されるのではありません）！\n\n本当にフォーマットを続けてよいですか？</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_CONFIRM">警告：暗号化が完全に終了するまで、このボリューム上のファイルにはアクセスできなくなります。\n\n選択された %s '%hs'%s の暗号化を開始して良いですか？</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：既存データをその場で暗号化している最中に、電源が突然落ちたり、ソフトウェアエラーやハードウェア障害等によってOSがクラッシュした場合、データの一部が壊れたり失われたりする可能性があります。そのため、暗号化を開始する前に、必ず暗号化したいファイルのバックアップがあるかを確認してください。\n\nそのようなバックアップがありますか？</string>
     <string lang="ja" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">注意：このパーティション '%hs'%s （つまりシステムパーティションのすぐ次のパーティション）上に存在するすべてのファイルが削除され、失われます（暗号化されるわけではありません）！。\n\nこのままフォーマットを進めて良いですか？</string>
     <string lang="ja" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：選択されたパーティションには大量のデータがあります！ そのパーティションにあるすべてのデータが削除され、失われます。それらのファイルは暗号化されません！</string>
-    <string lang="ja" key="ERASE_FILES_BY_CREATING_VOLUME">このパーティションにTrueCryptボリュームを作成して、既存データすべてを削除する</string>
+    <string lang="ja" key="ERASE_FILES_BY_CREATING_VOLUME">このパーティションにVeraCryptボリュームを作成して、既存データすべてを削除する</string>
     <string lang="ja" key="PASSWORD">パスワード</string>
     <string lang="ja" key="IDD_PCDM_CHANGE_PKCS5_PRF">ヘッダキー導出アルゴリズムの設定</string>
     <string lang="ja" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">ボリュームへのキーファイルの追加/削除</string>
     <string lang="ja" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">ボリュームから全てのキーファイルを削除</string>
     <string lang="ja" key="PASSWORD_CHANGED">パスワードまたはキーファイルの変更に成功しました。\n\n重要：ユーザーズガイドの「安全のための必要事項と予防策」の章にある「パスワードとキーファイルの変更」節をよくお読みください。</string>
-    <string lang="ja" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：TrueCryptレスキューディスクを壊していなければ、システムパーティション/ドライブはまだ古いパスワードで復号可能です（レスキューディスクで起動して古いパスワードを入力します）。新しいTrueCryptレスキューディスクを作成し、古い方は壊してしまうべきです。\n\n新しいTrueCryptレスキューディスクを作成しますか？</string>
-    <string lang="ja" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">今お持ちのTrueCryptレスキューディスクは従来の暗号化アルゴリズムが使用されています。もし従来の暗号化アルゴリズムが安全でないとお考えなら、新しいTrueCryptレスキューディスクを作成し、古い方は壊してしまうべきです。\n\n新しいTrueCryptレスキューディスクを作成しますか？</string>
-    <string lang="ja" key="KEYFILES_NOTE">あらゆる種類のファイル（例：.mp3, .jpg, .zip, .avi）をTrueCryptのキーファイルとして使用できます。TrueCryptはキーファイルの内容を変更しません。キーファイルを複数選択することもできます（選択順序は無関係です）。フォルダを追加した場合は、その中にあって隠されていないファイルすべてがキーファイルとして使用されます。セキュリティトークンやスマートカードに保存されているキーファイルを選択する（あるいはキーファイルをセキュリティトークンやスマートカードにインポートする）には「トークンファイルの追加」をクリックしてください。</string>
+    <string lang="ja" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：VeraCryptレスキューディスクを壊していなければ、システムパーティション/ドライブはまだ古いパスワードで復号可能です（レスキューディスクで起動して古いパスワードを入力します）。新しいVeraCryptレスキューディスクを作成し、古い方は壊してしまうべきです。\n\n新しいVeraCryptレスキューディスクを作成しますか？</string>
+    <string lang="ja" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">今お持ちのVeraCryptレスキューディスクは従来の暗号化アルゴリズムが使用されています。もし従来の暗号化アルゴリズムが安全でないとお考えなら、新しいVeraCryptレスキューディスクを作成し、古い方は壊してしまうべきです。\n\n新しいVeraCryptレスキューディスクを作成しますか？</string>
+    <string lang="ja" key="KEYFILES_NOTE">あらゆる種類のファイル（例：.mp3, .jpg, .zip, .avi）をVeraCryptのキーファイルとして使用できます。VeraCryptはキーファイルの内容を変更しません。キーファイルを複数選択することもできます（選択順序は無関係です）。フォルダを追加した場合は、その中にあって隠されていないファイルすべてがキーファイルとして使用されます。セキュリティトークンやスマートカードに保存されているキーファイルを選択する（あるいはキーファイルをセキュリティトークンやスマートカードにインポートする）には「トークンファイルの追加」をクリックしてください。</string>
     <string lang="ja" key="KEYFILE_CHANGED">キーファイルの追加あるいは除去に成功しました</string>
     <string lang="ja" key="KEYFILE_EXPORTED">キーファイルをエクスポートしました。</string>
     <string lang="ja" key="PKCS5_PRF_CHANGED">ヘッダキー導出アルゴリズムの設定に成功しました</string>
-    <string lang="ja" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">非システムボリュームのその場での暗号化処理に復帰するため、パスワードを入力（またはキーファイルを指定）してください。\n\n\n注：「次へ」をクリックすると、TrueCryptは暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できるすべての非システムボリュームを検索します。もし複数のボリュームが見つかった場合は、次のステップでその内の一つを選択する必要があります。</string>
+    <string lang="ja" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">非システムボリュームのその場での暗号化処理に復帰するため、パスワードを入力（またはキーファイルを指定）してください。\n\n\n注：「次へ」をクリックすると、VeraCryptは暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できるすべての非システムボリュームを検索します。もし複数のボリュームが見つかった場合は、次のステップでその内の一つを選択する必要があります。</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">ボリュームリストから一つ選択してください。このリストには、暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できるすべての非システムボリュームが含まれています。</string>
     <string lang="ja" key="PASSWORD_HELP">質の良いパスワードにすることが非常に重要です。辞書に載っているような単語一つだけにしたり、あるいはそれを三つ四つ組み合わせた程度のものは避けるべきです。また何らかの名前や誕生日なども含ませるべきではありません。それは簡単に推測されてしまいます。 良いパスワードとは、大文字や小文字、数字や記号（ @ ^ = $ * + など）をランダムに組み合わせたものです。またパスワードの長さは20文字以上を推奨します（長い方がより良いです）。設定可能な最大長は64文字です。</string>
     <string lang="ja" key="PASSWORD_HIDDENVOL_HELP">隠しボリューム用のパスワードを入力してください</string>
     <string lang="ja" key="PASSWORD_HIDDEN_OS_HELP">隠しOS用のパスワードを入力してください（つまり隠しボリューム用です）。</string>
     <string lang="ja" key="PASSWORD_HIDDEN_OS_NOTE">重要：このステップで設定される隠しOS用のパスワードは、他の二つのパスワード（つまり外殻ボリュームおよび囮OS用のもの）とは大幅に変えておく必要があります。</string>
-    <string lang="ja" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">隠しボリュームを作って入れたいボリュームのパスワードを入力してください。\n\n「次へ」をクリックすると、TrueCryptはそのボリュームのマウントを試みます。ボリュームがマウントされるとすぐにクラスタービットマップが走査され、ボリューム終端からどれだけ連続した空き領域があるのかが測定されます。その領域は隠しボリュームの格納場所であり、これによって隠しボリュームの上限サイズが決まります。クラスターマップの走査は、隠しボリュームによって外殻ボリュームのデータが上書きされてしまわないために必要です。</string>
+    <string lang="ja" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">隠しボリュームを作って入れたいボリュームのパスワードを入力してください。\n\n「次へ」をクリックすると、VeraCryptはそのボリュームのマウントを試みます。ボリュームがマウントされるとすぐにクラスタービットマップが走査され、ボリューム終端からどれだけ連続した空き領域があるのかが測定されます。その領域は隠しボリュームの格納場所であり、これによって隠しボリュームの上限サイズが決まります。クラスターマップの走査は、隠しボリュームによって外殻ボリュームのデータが上書きされてしまわないために必要です。</string>
     <string lang="ja" key="PASSWORD_HIDDENVOL_HOST_HELP">\n外殻ボリューム用のパスワードを入力してください。これはあなたが誰かにパスワードを明かすよう強要されたときなどのためのものです。\n\n重要：このパスワードは隠しボリューム用のものとは大幅に変えておく必要があります。\n\n注：パスワードの最大文字数は64文字です。</string>
     <string lang="ja" key="PASSWORD_SYSENC_OUTERVOL_HELP">外殻ボリューム用のパスワードを入力してください。これはあなたが誰かにシステムパーティションのすぐ次にある、外殻ボリュームと隠しボリューム（この中に隠しOSが含まれます）の入ったパーティションのパスワードを明かすよう強要されたときなどのためのものです。隠しボリューム（そして隠しOSも）の存在は秘匿されたままです。これは囮用OSのためのものではないことに注意してください。重要：このパスワードは隠しボリューム用（つまり隠しOS用）のものとは大幅に変えておく必要があります。</string>
     <string lang="ja" key="PASSWORD_HIDVOL_HOST_TITLE">外殻ボリュームのパスワード</string>
@@ -581,16 +581,16 @@
     <string lang="ja" key="PASSWORD_HIDDEN_OS_TITLE">隠しOS用のパスワード</string>
     <string lang="ja" key="PASSWORD_LENGTH_WARNING">警告：短いパスワードは、総当たり攻撃によって容易に破られてしまいます！ パスワードは20文字以上にすることを推奨します。\n\n本当にこの短いパスワードを使いますか？</string>
     <string lang="ja" key="PASSWORD_TITLE">ボリュームのパスワード</string>
-    <string lang="ja" key="PASSWORD_WRONG">パスワードが正しくないか、TrueCryptのボリュームではありません。</string>
-    <string lang="ja" key="PASSWORD_OR_KEYFILE_WRONG">キーファイルもしくはパスワードが正しくないか、TrueCryptのボリュームではありません。</string>
-    <string lang="ja" key="PASSWORD_OR_MODE_WRONG">マウントモードが違うか、パスワードが正しくないか、あるいはTrueCryptのボリュームではありません。</string>
-    <string lang="ja" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">マウントモードが違うか、キーファイルもしくはパスワードが正しくないか、あるいはTrueCryptのボリュームではありません。</string>
-    <string lang="ja" key="PASSWORD_WRONG_AUTOMOUNT">パスワードが正しくないか、TrueCryptボリュームが見つかりません。</string>
-    <string lang="ja" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">キーファイルあるいはパスワードが正しくないか、TrueCryptのボリュームが見つかりません。</string>
+    <string lang="ja" key="PASSWORD_WRONG">パスワードが正しくないか、VeraCryptのボリュームではありません。</string>
+    <string lang="ja" key="PASSWORD_OR_KEYFILE_WRONG">キーファイルもしくはパスワードが正しくないか、VeraCryptのボリュームではありません。</string>
+    <string lang="ja" key="PASSWORD_OR_MODE_WRONG">マウントモードが違うか、パスワードが正しくないか、あるいはVeraCryptのボリュームではありません。</string>
+    <string lang="ja" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">マウントモードが違うか、キーファイルもしくはパスワードが正しくないか、あるいはVeraCryptのボリュームではありません。</string>
+    <string lang="ja" key="PASSWORD_WRONG_AUTOMOUNT">パスワードが正しくないか、VeraCryptボリュームが見つかりません。</string>
+    <string lang="ja" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">キーファイルあるいはパスワードが正しくないか、VeraCryptのボリュームが見つかりません。</string>
     <string lang="ja" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock がオンになっています。 そのためにパスワードの入力を誤るかもしれません。</string>
     <string lang="ja" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n警告：指定フォルダのキーファイル探索中に隠しファイルが見つかりました。このような隠しファイルはキーファイルとして使用されません。キーファイルとして使用したい場合は隠し属性を解除してください（該当ファイルを右クリックしてプロパティを開き、隠しファイルのチェックを外して「OK」をクリックします）。注：隠しファイルはフォルダオプションですべてのファイルを表示する設定になっていないと表示されません。</string>
     <string lang="ja" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">もし隠しシステムを持つ隠しボリュームを保護しようとしているのであれば、隠しボリューム用のパスワードを入力する際には、標準USキーボードレイアウトであることを確認してください。Windows起動前の環境では、パスワードを入力する場合に非USキーボードレイアウトが無効であるためです。</string>
-    <string lang="ja" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">TrueCryptは、暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できる非システムボリュームを見つけられませんでした。\n\nパスワードあるいはキーファイルが正しいか、またそのパーティション/ボリュームがシステムやアプリケーション（アンチウィルスソフトを含みます）で使用されていないか、確認してください。</string>
+    <string lang="ja" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCryptは、暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できる非システムボリュームを見つけられませんでした。\n\nパスワードあるいはキーファイルが正しいか、またそのパーティション/ボリュームがシステムやアプリケーション（アンチウィルスソフトを含みます）で使用されていないか、確認してください。</string>
     <string lang="ja" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n注：メニューから[システム]-[起動前認証をせずにマウント]を選ぶことで、起動前の認証をせずに暗号化したシステムドライブ上のパーティションをマウントすること、あるいは起動していないオペレーションシステムを暗号化したパーティションをマウントすることが可能です。</string>
     <string lang="ja" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">現在のモードでは、アクティブなシステムの暗号化対象となっている部分を含むドライブ上のパーティションをマウントすることができません。\n\nこのモードでそのパーティションをマウントする前に、他のドライブ（暗号化されてる否かは問いません）にインストールされているシステムから起動するか、暗号化されていないOSを起動する必要があります。</string>
     <string lang="ja" key="PREV">&lt; 戻る(&amp;B)</string>
@@ -619,9 +619,9 @@
     <string lang="ja" key="TEST_PLAINTEXT_SIZE">入力されたテスト用平文は長すぎるか、あるいは短すぎます。</string>
     <string lang="ja" key="TWO_LAYER_CASCADE_HELP">暗号化がXTSモードの二段のカスケードで実行されます。いずれのブロックも最初に %hs（%d-bit key）で、次に %hs（%d-bit key）で暗号化されます。いずれの暗号化でもそれ自身の鍵が使われ、全ての鍵が互いに独立しています。</string>
     <string lang="ja" key="THREE_LAYER_CASCADE_HELP">暗号化がXTSモードの三段のカスケードで実行されます。いずれのブロックも最初に %hs（%d-bit key）で、次に %hs（%d-bit key）で、そして最後に %hs（%d-bit key）で暗号化されます。いずれの暗号化でもそれ自身の鍵が使われ、全ての鍵が互いに独立しています。</string>
-    <string lang="ja" key="AUTORUN_MAY_NOT_ALWAYS_WORK">OSの設定によっては、これらのオートランあるいはオートマウントの機能が、書き込みのできないCDやDVDのようなメディア上にトラベラーディスクのファイルがあるときにしか働かないことに注意してください。これはTrueCryptのバグではなく、Windowsの制限です。</string>
-    <string lang="ja" key="TRAVELER_DISK_CREATED">TrueCryptトラベラーディスクは無事が作成されました。\n\nTrueCryptをポータブルモードで動作させるためには管理者権限が必要であることに注意してください。 また、たとえポータブルモードで動作させたとしても、 レジストリファイルを調べられると、そのWindowsでTrueCryptが動作したことがあると判ってしまうでしょう。</string>
-    <string lang="ja" key="TC_TRAVELER_DISK">TrueCryptトラベラーディスク</string>
+    <string lang="ja" key="AUTORUN_MAY_NOT_ALWAYS_WORK">OSの設定によっては、これらのオートランあるいはオートマウントの機能が、書き込みのできないCDやDVDのようなメディア上にトラベラーディスクのファイルがあるときにしか働かないことに注意してください。これはVeraCryptのバグではなく、Windowsの制限です。</string>
+    <string lang="ja" key="TRAVELER_DISK_CREATED">VeraCryptトラベラーディスクは無事が作成されました。\n\nVeraCryptをポータブルモードで動作させるためには管理者権限が必要であることに注意してください。 また、たとえポータブルモードで動作させたとしても、 レジストリファイルを調べられると、そのWindowsでVeraCryptが動作したことがあると判ってしまうでしょう。</string>
+    <string lang="ja" key="TC_TRAVELER_DISK">VeraCryptトラベラーディスク</string>
     <string lang="ja" key="TWOFISH_HELP">Bruce Schneier、John Kelsey、Doug Whiting、David Wagner、Chris Hall、そしてNiels Fergusonによって開発され、1998年に公開されました。256ビットキー、128ビットブロックを使用します。動作モードはXTSです。Twofishは、AES制定時の最終候補の一つでした。</string>
     <string lang="ja" key="MORE_INFO_ABOUT">%hsについての詳細</string>
     <string lang="ja" key="UNKNOWN">未知</string>
@@ -637,10 +637,10 @@
     <string lang="ja" key="VOL_SIZE_WRONG">エラー：ボリュームのサイズが正しくありません。</string>
     <string lang="ja" key="WARN_QUICK_FORMAT">警告：クイックフォーマットを使うのは、次のケースに限られるべきです。\n\n1) このデバイスに秘匿したいデータが記録されておらず、かつ「見せかけの拒否」が不要な場合\n2) このデバイスに安全な暗号化がすでに全体的に施されている場合\n\n本当にクイックフォーマットを使用しますか？</string>
     <string lang="ja" key="CONFIRM_SPARSE_FILE">ダイナミックコンテナとは、あらかじめNTFSに割り当てられた、新しいデータが追加されるにしたがって物理サイズ（ディスク上の実サイズ）が増加するスパースファイルのことです。\n\n警告：スパースファイルをホストにしたボリュームは、通常のボリュームに比べて効率が大変劣ります。またスパースファイルをホストにしたボリュームはセキュリティ面でも劣ります。なぜならボリュームのどの部分が未使用かがわかってしまい、さらに「見せかけの拒否」（隠しボリュームの外殻となること）が実質的に使い物になりません。また、もしディスクの空き容量が足りないときにスパースファイルコンテナにデータが書き込まれると、暗号化ファイルシステムが破損してしまうであろうことにも注意してください。\n\n本当にスパースファイルをホストにしたボリュームを作成しますか？</string>
-    <string lang="ja" key="SPARSE_FILE_SIZE_NOTE">WindowsやTrueCryptが報告するダイナミックコンテナのサイズは、常に最大時のサイズであることに注意してください。現在の物理サイズ（ディスク上の実サイズ）を知るには、コンテナファイルを右クリック（TrueCrypt上ではなくWindows上で）し、プロパティを選んで「ディスク上のサイズ」の値を見てください。\n\n注：ダイナミックコンテナを他のボリュームあるいはドライブに移動すると、その物理サイズは最大時サイズまで拡張されてしまいます（移動先に新たにダイナミックコンテナを作成してからマウントし、古いコンテナから新しいコンテナへ各ファイルを移動すれば回避可能です）。</string>
+    <string lang="ja" key="SPARSE_FILE_SIZE_NOTE">WindowsやVeraCryptが報告するダイナミックコンテナのサイズは、常に最大時のサイズであることに注意してください。現在の物理サイズ（ディスク上の実サイズ）を知るには、コンテナファイルを右クリック（VeraCrypt上ではなくWindows上で）し、プロパティを選んで「ディスク上のサイズ」の値を見てください。\n\n注：ダイナミックコンテナを他のボリュームあるいはドライブに移動すると、その物理サイズは最大時サイズまで拡張されてしまいます（移動先に新たにダイナミックコンテナを作成してからマウントし、古いコンテナから新しいコンテナへ各ファイルを移動すれば回避可能です）。</string>
     <string lang="ja" key="PASSWORD_CACHE_WIPED_SHORT">パスワードキャッシュが抹消されました。</string>
-    <string lang="ja" key="PASSWORD_CACHE_WIPED">TrueCryptドライバが記憶したパスワード（あるいはキーファイルの内容）は抹消されました。</string>
-    <string lang="ja" key="WRONG_VOL_TYPE">TrueCryptは未知の種類のボリュームのパスワードは変更できません。</string>
+    <string lang="ja" key="PASSWORD_CACHE_WIPED">VeraCryptドライバが記憶したパスワード（あるいはキーファイルの内容）は抹消されました。</string>
+    <string lang="ja" key="WRONG_VOL_TYPE">VeraCryptは未知の種類のボリュームのパスワードは変更できません。</string>
     <string lang="ja" key="SELECT_FREE_DRIVE">リストから空きドライブレターを選択してください。</string>
     <string lang="ja" key="SELECT_A_MOUNTED_VOLUME">ドライブ一覧からマウント済みのボリュームを選択してください。</string>
     <string lang="ja" key="AMBIGUOUS_VOL_SELECTION">現在、2つの異なるボリュームが指定されています（一方はドライブリストに、もう一方はリストの下の入力欄に）。\n\n本当に指定したいボリュームを選択してください：</string>
@@ -648,16 +648,16 @@
     <string lang="ja" key="ERR_PROCESS_KEYFILE">キーファイルの処理中にエラーが発生しました！</string>
     <string lang="ja" key="ERR_PROCESS_KEYFILE_PATH">キーファイルのあるフォルダの処理中にエラーが発生しました！</string>
     <string lang="ja" key="ERR_KEYFILE_PATH_EMPTY">キーファイルの場所として指定されたところにファイルが見つかりません。\n\n指定された場所の中にフォルダ（およびその中のファイル）があっても無視されますので、注意してください。</string>
-    <string lang="ja" key="UNSUPPORTED_OS">TrueCryptはこのオペレーティングシステムには対応していません。</string>
-    <string lang="ja" key="UNSUPPORTED_BETA_OS">エラー：TrueCryptは安定したバージョンのオペレーティングシステムにしか対応していません（ベータ/RC版には未対応です）。</string>
+    <string lang="ja" key="UNSUPPORTED_OS">VeraCryptはこのオペレーティングシステムには対応していません。</string>
+    <string lang="ja" key="UNSUPPORTED_BETA_OS">エラー：VeraCryptは安定したバージョンのオペレーティングシステムにしか対応していません（ベータ/RC版には未対応です）。</string>
     <string lang="ja" key="ERR_MEM_ALLOC">エラー：メモリを確保できません。</string>
     <string lang="ja" key="ERR_PERF_COUNTER">エラー：パフォーマンスカウンタから値を取得できません。</string>
     <string lang="ja" key="ERR_VOL_FORMAT_BAD">エラー：ボリュームのフォーマットが異常です。</string>
     <string lang="ja" key="ERR_HIDDEN_NOT_NORMAL_VOLUME">エラー：標準ボリュームではなく、隠しボリューム用のパスワードが与えられました。</string>
-    <string lang="ja" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">セキュリティ上の理由により、その場で暗号化されたファイルシステムを持つTrueCryptボリュームには、隠しボリュームを作成できません（そのボリュームの空き領域がランダムなデータで埋められていないため）。</string>
-    <string lang="ja" key="LEGAL_NOTICES_DLG_TITLE">TrueCrypt - 法的告知事項</string>
+    <string lang="ja" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">セキュリティ上の理由により、その場で暗号化されたファイルシステムを持つVeraCryptボリュームには、隠しボリュームを作成できません（そのボリュームの空き領域がランダムなデータで埋められていないため）。</string>
+    <string lang="ja" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - 法的告知事項</string>
     <string lang="ja" key="ALL_FILES">全てのファイル</string>
-    <string lang="ja" key="TC_VOLUMES">TrueCryptボリューム</string>
+    <string lang="ja" key="TC_VOLUMES">VeraCryptボリューム</string>
     <string lang="ja" key="DLL_FILES">ライブラリモジュール</string>
     <string lang="ja" key="FORMAT_NTFS_STOP">NTFS でのフォーマットを続けられません。</string>
     <string lang="ja" key="CANT_MOUNT_VOLUME">ボリュームをマウントできません。</string>
@@ -677,8 +677,8 @@
     <string lang="ja" key="CLUSTER_TOO_SMALL">選択されたクラスタサイズはそのサイズのボリュームには小さすぎます。 代わりに、より大きなサイズを選択してください。</string>
     <string lang="ja" key="CANT_GET_VOLSIZE">エラー：ボリュームのサイズを取得できません！\n\nそのボリュームがシステムあるいはアプリケーションで使用中でないか確認してください。</string>
     <string lang="ja" key="HIDDEN_VOL_HOST_SPARSE">隠しボリュームはダイナミック（スパースファイル）コンテナに作るべきではありません。「みせかけの拒否」を達成するためには、隠しボリュームは非ダイナミックコンテナ内に作成する必要があります。</string>
-    <string lang="ja" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">TrueCryptボリューム作成ウィザードが隠しボリュームを作成できるのはFATあるいはNTFSボリュームの中だけです。</string>
-    <string lang="ja" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Windows2000では、TrueCryptボリューム作成ウィザードが隠しボリュームを作成できるのはFATボリュームの中だけです。</string>
+    <string lang="ja" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">VeraCryptボリューム作成ウィザードが隠しボリュームを作成できるのはFATあるいはNTFSボリュームの中だけです。</string>
+    <string lang="ja" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Windows2000では、VeraCryptボリューム作成ウィザードが隠しボリュームを作成できるのはFATボリュームの中だけです。</string>
     <string lang="ja" key="HIDDEN_VOL_HOST_NTFS">注：外殻ボリュームにはNTFSよりFATの方がより適しています。たとえば外殻ボリュームがFATでフォーマットされていると、隠しボリュームの最大サイズをより大きく取ることが可能となるでしょう。</string>
     <string lang="ja" key="HIDDEN_VOL_HOST_NTFS_ASK">外殻ボリュームにはNTFSよりFATの方がより適しています。たとえば外殻ボリュームがFATでフォーマットされていると、隠しボリュームの最大サイズをより大きく取ることが可能となるでしょう。これはNTFSが常にボリュームの中程に内部で使用するデータを保存することにより、隠しボリューム領域を外殻ボリュームの後半部分にしか確保できないためです。\n\n本当に外殻ボリュームをNTFSでフォーマットしますか？</string>
     <string lang="ja" key="OFFER_FAT_FORMAT_ALTERNATIVE">代わりにボリュームをFATでフォーマットしますか？</string>
@@ -687,10 +687,10 @@
     <string lang="ja" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS_NTFS">エラー：隠しOS用のパーティション（つまりシステムパーティションのすぐ次のパーティション）は、システムパーティション（現在動作中のOSがインストールされているもの）より少なくとも110%以上大きい（つまり2.1倍のサイズ）必要があります。これはNTFSは常にボリュームの中程に内部で使用するデータを保存するため、隠しボリューム（システムパーティションのクローンを保持する必要があります）は隠しOS用パーティションの後半部分にしか格納できないからです。</string>
     <string lang="ja" key="OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS">エラー：隠しボリュームがNTFSでフォーマットされている場合、それはシステムパーティションより少なくとも110%以上大きい（つまり2.1倍のサイズ）必要があります。これはNTFSは常にボリュームの中程に内部で使用するデータを保存するため、隠しボリューム（システムパーティションのクローンを保持する必要があります）は外殻ボリュームの後半部分にしか格納できないからです。\n\n注：外殻ボリュームは隠しOSと同じパーティション（つまりシステムパーティションのすぐ次のパーティション）に属している必要があります。</string>
     <string lang="ja" key="NO_PARTITION_FOLLOWS_BOOT_PARTITION">エラー：システムパーティションのすぐ次のパーティションがありません。\n\n隠しOSを作る前に、まずシステムドライブにそれ用のパーティションを作る必要があります。それはシステムパーティションのすぐ次のパーティションである必要があり、少なくともシステムパーティション（現在動作中のOSがインストールされているもの）より5%以上大きくなければなりません。ただしもし外殻ボリューム（システムパーティションと混同しないでください）がNTFSでフォーマットされている場合、隠しOS用のパーティションは少なくともシステムパーティションの110%（つまり2.1倍）以上大きい必要があります。これはNTFSは常にボリュームの中程に内部で使用するデータを保存するため、隠しボリューム（システムパーティションのクローンを保持する必要があります）は外殻ボリュームの後半部分にしか格納できないからです。</string>
-    <string lang="ja" key="TWO_SYSTEMS_IN_ONE_PARTITION_REMARK">注：一つのパーティションに二つのTrueCryptボリュームを配置して双方にOSをインストールすることは非実用的であるため、対応していません。なぜなら、外殻ボリューム上のOSを使うことでしばしば隠しOSの領域に書き込みが行われるためです。あるいはそのときもし隠しボリュームへの書き込みを禁止していた場合は、システムクラッシュ、すなわちブルースクリーンエラーが発生してしまいます。</string>
+    <string lang="ja" key="TWO_SYSTEMS_IN_ONE_PARTITION_REMARK">注：一つのパーティションに二つのVeraCryptボリュームを配置して双方にOSをインストールすることは非実用的であるため、対応していません。なぜなら、外殻ボリューム上のOSを使うことでしばしば隠しOSの領域に書き込みが行われるためです。あるいはそのときもし隠しボリュームへの書き込みを禁止していた場合は、システムクラッシュ、すなわちブルースクリーンエラーが発生してしまいます。</string>
     <string lang="ja" key="FOR_MORE_INFO_ON_PARTITIONS">パーティションの作成と管理の方法については、OS付属のマニュアルを参照するか、メーカーの技術サポートにご相談ください。</string>
     <string lang="ja" key="SYSTEM_PARTITION_NOT_ACTIVE">エラー：現在動作中のOSはブートパーティション（最初のアクティブパーティション）にインストールされていません。この状態には対応していません。</string>
-    <string lang="ja" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">このTrueCryptボリュームに4GB超のファイルを保存する意向のようですが、ファイルシステムにはFATが指定されているため、4GB超のファイルを保存することはできません。\n\n本当に外殻ボリュームをFATでフォーマットしますか？</string>
+    <string lang="ja" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">このVeraCryptボリュームに4GB超のファイルを保存する意向のようですが、ファイルシステムにはFATが指定されているため、4GB超のファイルを保存することはできません。\n\n本当に外殻ボリュームをFATでフォーマットしますか？</string>
     <string lang="ja" key="CANT_ACCESS_VOL">エラー：ボリュームにアクセスできません！\n\n選択されたボリュームが実在するか、未マウントでないか、システムやアプリケーションですでに使用されていないか、そのボリュームへの読み書き権限があるか、書き込みプロテクトされていないか、などを確認してください。</string>
     <string lang="ja" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">エラー：このボリュームにアクセスできないかボリュームの情報を取得できません。\n\n選択されたボリュームが存在しているか、そのボリュームがシステムやアプリケーションで使用されていないか、ボリュームへの読み書き権限があるか、ボリュームが書き込み禁止になっていないか、などを確認してください。</string>
     <string lang="ja" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">エラー：このボリュームにアクセスできないかボリュームの情報を取得できません。\n\n選択されたボリュームが存在しているか、そのボリュームがシステムやアプリケーションで使用されていないか、ボリュームへの読み書き権限があるか、ボリュームが書き込み禁止になっていないか、などを確認してください。\n\n問題が解決しない場合は、以下の手順を試してみてください。</string>
@@ -745,22 +745,22 @@
     <string lang="ja" key="VOLUME_HEADER_DAYS">（%I64d 日前）</string>
     <string lang="ja" key="VOLUME_FORMAT_VERSION">ボリュームフォーマットバージョン</string>
     <string lang="ja" key="BACKUP_HEADER">埋込バックアップヘッダ</string>
-    <string lang="ja" key="TC_BOOT_LOADER_VERSION">TrueCryptブートローダーバージョン</string>
+    <string lang="ja" key="VC_BOOT_LOADER_VERSION">VeraCryptブートローダーバージョン</string>
     <string lang="ja" key="FIRST_AVAILABLE">最初の空き</string>
     <string lang="ja" key="REMOVABLE_DISK">リムーバブルディスク</string>
     <string lang="ja" key="HARDDISK">ハードディスク</string>
     <string lang="ja" key="UNCHANGED">未変更</string>
     <string lang="ja" key="SETUP_MODE_TITLE">ウィザードモード</string>
     <string lang="ja" key="SETUP_MODE_INFO">モードを選択してください。よくわからなければデフォルトのモードを使用してください。</string>
-    <string lang="ja" key="SETUP_MODE_HELP_INSTALL">TrueCryptをこのシステムにインストールしたいときは、このオプションを選択してください。</string>
+    <string lang="ja" key="SETUP_MODE_HELP_INSTALL">VeraCryptをこのシステムにインストールしたいときは、このオプションを選択してください。</string>
     <string lang="ja" key="SETUP_MODE_HELP_UPGRADE">注：システムパーティション/ドライブが暗号化されていたり、隠しOSを利用していたとしても、復号せずにアップグレードできます。</string>
-    <string lang="ja" key="SETUP_MODE_HELP_EXTRACT">このオプションを選択すると、パッケージ内のファイルがすべて展開されますが、システムへのインストールはされません。もしシステムパーティションあるいはシステムドライブを暗号化するのであれば、これは選択しないでください。このオプションは、たとえばTrueCryptをポータブルモードで使用する場合に有用です。TrueCryptを実行するとき、OSへのインストールは必須ではありません。すべてのファイルが展開された後、展開された'TrueCrypt.exe'を直接実行できます（ポータブルモードで動作します）。</string>
+    <string lang="ja" key="SETUP_MODE_HELP_EXTRACT">このオプションを選択すると、パッケージ内のファイルがすべて展開されますが、システムへのインストールはされません。もしシステムパーティションあるいはシステムドライブを暗号化するのであれば、これは選択しないでください。このオプションは、たとえばVeraCryptをポータブルモードで使用する場合に有用です。VeraCryptを実行するとき、OSへのインストールは必須ではありません。すべてのファイルが展開された後、展開された'VeraCrypt.exe'を直接実行できます（ポータブルモードで動作します）。</string>
     <string lang="ja" key="SETUP_OPTIONS_TITLE">セットアップオプション</string>
     <string lang="ja" key="SETUP_OPTIONS_INFO">ここでインストールに関する数々のオプションを指定できます。</string>
     <string lang="ja" key="SETUP_PROGRESS_TITLE">インストール中</string>
-    <string lang="ja" key="SETUP_PROGRESS_INFO">TrueCryptがインストールされるまでしばらくお待ちください。</string>
-    <string lang="ja" key="SETUP_FINISHED_TITLE_DON">TrueCryptのインストールに成功しました</string>
-    <string lang="ja" key="SETUP_FINISHED_UPGRADE_TITLE_DON">TrueCryptのアップグレードに成功しました</string>
+    <string lang="ja" key="SETUP_PROGRESS_INFO">VeraCryptがインストールされるまでしばらくお待ちください。</string>
+    <string lang="ja" key="SETUP_FINISHED_TITLE_DON">VeraCryptのインストールに成功しました</string>
+    <string lang="ja" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCryptのアップグレードに成功しました</string>
     <string lang="ja" key="SETUP_FINISHED_INFO_DON">どうぞ寄付をご検討ください。いつでも終了をクリックしてインストーラーを終了できます。</string>
     <string lang="ja" key="EXTRACTION_OPTIONS_TITLE">展開オプション</string>
     <string lang="ja" key="EXTRACTION_OPTIONS_INFO">ここで展開に関する種々のオプションを指定できます。</string>
@@ -768,30 +768,30 @@
     <string lang="ja" key="EXTRACTION_FINISHED_TITLE_DON">ファイルの展開に成功しました</string>
     <string lang="ja" key="EXTRACTION_FINISHED_INFO">指定された場所へのすべてのファイルの展開に成功しました。</string>
     <string lang="ja" key="AUTO_FOLDER_CREATION">指定されたフォルダが存在しない場合は自動的に作成されます。</string>
-    <string lang="ja" key="SETUP_UPGRADE_DESTINATION">既存のTrueCryptのインストール先にあるプログラムファイルがアップグレードされます。違う場所を指定したい場合は、まず先にTrueCryptをアンインストールしてください。</string>
-    <string lang="ja" key="AFTER_UPGRADE_RELEASE_NOTES">TrueCryptの現在（最新安定版）のリリースノートを表示しますか？</string>
-    <string lang="ja" key="AFTER_INSTALL_TUTORIAL">TrueCryptを使うのが初めてならば、ユーザーズガイドの「初心者のためのチュートリアル」に目を通されるようお勧めします。ユーザーズガイドを読みますか？</string>
+    <string lang="ja" key="SETUP_UPGRADE_DESTINATION">既存のVeraCryptのインストール先にあるプログラムファイルがアップグレードされます。違う場所を指定したい場合は、まず先にVeraCryptをアンインストールしてください。</string>
+    <string lang="ja" key="AFTER_UPGRADE_RELEASE_NOTES">VeraCryptの現在（最新安定版）のリリースノートを表示しますか？</string>
+    <string lang="ja" key="AFTER_INSTALL_TUTORIAL">VeraCryptを使うのが初めてならば、ユーザーズガイドの「初心者のためのチュートリアル」に目を通されるようお勧めします。ユーザーズガイドを読みますか？</string>
     <string lang="ja" key="SELECT_AN_ACTION">実行内容を以下から選択してください：</string>
     <string lang="ja" key="REPAIR_REINSTALL">リペア/再インストール</string>
     <string lang="ja" key="UPGRADE">アップグレード</string>
     <string lang="ja" key="UNINSTALL">アンインストール</string>
-    <string lang="ja" key="SETUP_ADMIN">TrueCryptのインストール/アンインストールを完了させるには、管理者権限が必要です。続けますか？</string>
-    <string lang="ja" key="TC_INSTALLER_IS_RUNNING">現在TrueCryptインストーラが起動しており、インストールあるいはアップデートの実行中です。インストーラの処理が終わるのを待つか、閉じるかしてください。閉じることができない場合は再起動してください。</string>
+    <string lang="ja" key="SETUP_ADMIN">VeraCryptのインストール/アンインストールを完了させるには、管理者権限が必要です。続けますか？</string>
+    <string lang="ja" key="TC_INSTALLER_IS_RUNNING">現在VeraCryptインストーラが起動しており、インストールあるいはアップデートの実行中です。インストーラの処理が終わるのを待つか、閉じるかしてください。閉じることができない場合は再起動してください。</string>
     <string lang="ja" key="INSTALL_FAILED">インストールに失敗しました。</string>
     <string lang="ja" key="UNINSTALL_FAILED">アンインストールに失敗しました。</string>
-    <string lang="ja" key="DIST_PACKAGE_CORRUPTED">この配布パッケージは破損しています。（なるべくTrueCryptの公式サイト www.truecrypt.org から）もう一度ダウンロードしてみてください。</string>
+    <string lang="ja" key="DIST_PACKAGE_CORRUPTED">この配布パッケージは破損しています。（なるべくVeraCryptの公式サイト www.veracrypt.org から）もう一度ダウンロードしてみてください。</string>
     <string lang="ja" key="CANNOT_WRITE_FILE_X">ファイル %hs を書き込めません。</string>
     <string lang="ja" key="EXTRACTING_VERB">展開</string>
     <string lang="ja" key="CANNOT_READ_FROM_PACKAGE">パッケージからデータを読み込めません。</string>
     <string lang="ja" key="CANT_VERIFY_PACKAGE_INTEGRITY">この配布パッケージの完全性を検証できません。</string>
     <string lang="ja" key="EXTRACTION_FAILED">展開に失敗しました。</string>
     <string lang="ja" key="ROLLBACK">インストール内容はロールバックされました。</string>
-    <string lang="ja" key="INSTALL_OK">TrueCryptのインストールに成功しました</string>
-    <string lang="ja" key="SETUP_UPDATE_OK">TrueCryptの更新に成功しました。</string>
-    <string lang="ja" key="UPGRADE_OK_REBOOT_REQUIRED">TrueCryptのアップグレードに成功しました。ただし使用を開始するためにはコンピュータを再起動する必要があります。\n\nすぐに再起動しますか？</string>
-    <string lang="ja" key="SYS_ENC_UPGRADE_FAILED">TrueCryptのアップグレードに失敗しました！\n\n重要：システムをシャットダウンあるいは再起動する前に、システムの復元（スタート→すべてのプログラム→アクセサリ→システムツール→システムの復元）で「TrueCrypt installation」と名付けられた復元ポイントまでシステムをリストアすることを強くお勧めします。もし「システムの復元」が使えない場合は、代わりにTrueCryptの元の（あるいは新しい）バージョンの再インストールを、システムをシャットダウンあるいは再起動する前に行ってみてください。</string>
-    <string lang="ja" key="UNINSTALL_OK">TrueCryptのアンインストールに成功しました。\n\n「終了」をクリックするとTrueCryptのインストーラーおよび %hs フォルダが削除されます。ただしこのフォルダの中に「TrueCryptが作成したファイル」あるいは「TrueCryptインストーラーが入れたものではないファイル」があった場合は削除されません。</string>
-    <string lang="ja" key="REMOVING_REG">TrueCryptのレジストリエントリを削除しています</string>
+    <string lang="ja" key="INSTALL_OK">VeraCryptのインストールに成功しました</string>
+    <string lang="ja" key="SETUP_UPDATE_OK">VeraCryptの更新に成功しました。</string>
+    <string lang="ja" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCryptのアップグレードに成功しました。ただし使用を開始するためにはコンピュータを再起動する必要があります。\n\nすぐに再起動しますか？</string>
+    <string lang="ja" key="SYS_ENC_UPGRADE_FAILED">VeraCryptのアップグレードに失敗しました！\n\n重要：システムをシャットダウンあるいは再起動する前に、システムの復元（スタート→すべてのプログラム→アクセサリ→システムツール→システムの復元）で「VeraCrypt installation」と名付けられた復元ポイントまでシステムをリストアすることを強くお勧めします。もし「システムの復元」が使えない場合は、代わりにVeraCryptの元の（あるいは新しい）バージョンの再インストールを、システムをシャットダウンあるいは再起動する前に行ってみてください。</string>
+    <string lang="ja" key="UNINSTALL_OK">VeraCryptのアンインストールに成功しました。\n\n「終了」をクリックするとVeraCryptのインストーラーおよび %hs フォルダが削除されます。ただしこのフォルダの中に「VeraCryptが作成したファイル」あるいは「VeraCryptインストーラーが入れたものではないファイル」があった場合は削除されません。</string>
+    <string lang="ja" key="REMOVING_REG">VeraCryptのレジストリエントリを削除しています</string>
     <string lang="ja" key="ADDING_REG">レジストリにエントリを追加しています</string>
     <string lang="ja" key="REMOVING_APPDATA">アプリケーションに固有のデータを削除しています</string>
     <string lang="ja" key="INSTALLING">インストール中</string>
@@ -805,20 +805,20 @@
     <string lang="ja" key="UNINSTALL_OF_FAILED">'%hs'. %hs からのアンインストールに失敗しました。 アンインストール作業を続けますか？</string>
     <string lang="ja" key="INSTALL_COMPLETED">インストールが完了しました。</string>
     <string lang="ja" key="CANT_CREATE_FOLDER">フォルダ '%hs' を作成できませんでした</string>
-    <string lang="ja" key="CLOSE_TC_FIRST">TrueCryptのデバイスドライバをメモリ上から解放できませんでした。\n\nまず先にTrueCryptのウィンドウをすべて閉じてください。うまくいかないようでしたら、Windowsを再起動してからもう一度試してみてください。</string>
-    <string lang="ja" key="DISMOUNT_ALL_FIRST">インストールあるいはアンインストールを続ける前に、TrueCryptのすべてのボリュームをアンマウントしなくてはなりません。</string>
-    <string lang="ja" key="UNINSTALL_OLD_VERSION_FIRST">TrueCryptの古いバージョンがこのシステムにインストールされています。TrueCryptの新しいバージョンをインストールする前に古いバージョンをアンインストールする必要があります。\n\nこのメッセージウィンドウを閉じると、古いバージョンのアンインストーラーがすぐに起動します。なおTrueCryptのアンインストール中に暗号化ボリュームが復号されることはありません。古いTrueCryptをアンインストールしてから、再びこの新しいバージョンのTrueCryptインストーラーを実行してください。</string>
+    <string lang="ja" key="CLOSE_TC_FIRST">VeraCryptのデバイスドライバをメモリ上から解放できませんでした。\n\nまず先にVeraCryptのウィンドウをすべて閉じてください。うまくいかないようでしたら、Windowsを再起動してからもう一度試してみてください。</string>
+    <string lang="ja" key="DISMOUNT_ALL_FIRST">インストールあるいはアンインストールを続ける前に、VeraCryptのすべてのボリュームをアンマウントしなくてはなりません。</string>
+    <string lang="ja" key="UNINSTALL_OLD_VERSION_FIRST">VeraCryptの古いバージョンがこのシステムにインストールされています。VeraCryptの新しいバージョンをインストールする前に古いバージョンをアンインストールする必要があります。\n\nこのメッセージウィンドウを閉じると、古いバージョンのアンインストーラーがすぐに起動します。なおVeraCryptのアンインストール中に暗号化ボリュームが復号されることはありません。古いVeraCryptをアンインストールしてから、再びこの新しいバージョンのVeraCryptインストーラーを実行してください。</string>
     <string lang="ja" key="REG_INSTALL_FAILED">レジストリエントリのインストールに失敗しました</string>
-    <string lang="ja" key="DRIVER_INSTALL_FAILED">デバイスドライバのインストールに失敗しました。Windowsを再起動してから、再度TrueCryptをインストールしてみてください。</string>
-    <string lang="ja" key="STARTING_DRIVER">TrueCryptデバイスドライバを開始しています</string>
+    <string lang="ja" key="DRIVER_INSTALL_FAILED">デバイスドライバのインストールに失敗しました。Windowsを再起動してから、再度VeraCryptをインストールしてみてください。</string>
+    <string lang="ja" key="STARTING_DRIVER">VeraCryptデバイスドライバを開始しています</string>
     <string lang="ja" key="DRIVER_UINSTALL_FAILED">デバイスドライバのアンインストールに失敗しました。これはWindowsの問題です。デバイスドライバをアンインストール（あるいは再インストール）する前に、ログオフあるいはシステムの再起動が必要でしょう。</string>
-    <string lang="ja" key="INSTALLING_DRIVER">TrueCryptデバイスドライバをインストール中です</string>
-    <string lang="ja" key="STOPPING_DRIVER">TrueCryptデバイスドライバを停止中です</string>
-    <string lang="ja" key="REMOVING_DRIVER">TrueCryptデバイスドライバをアンインストール中です</string>
+    <string lang="ja" key="INSTALLING_DRIVER">VeraCryptデバイスドライバをインストール中です</string>
+    <string lang="ja" key="STOPPING_DRIVER">VeraCryptデバイスドライバを停止中です</string>
+    <string lang="ja" key="REMOVING_DRIVER">VeraCryptデバイスドライバをアンインストール中です</string>
     <string lang="ja" key="COM_REG_FAILED">ユーザアカウントコントロールサポートライブラリの登録に失敗しました。</string>
     <string lang="ja" key="COM_DEREG_FAILED">ユーザアカウントコントロールサポートライブラリの登録解除に失敗しました。</string>
-    <string lang="ja" key="TRAVELER_LIMITATIONS_NOTE">ポータブルモードについて：\n\nOSはドライバーがその動作を開始するより前にそれがOSに登録済みであることを要求します。したがってTrueCryptのドライバーは完全なポータブルではなく、またそれは不可能です。ただしTrueCryptのアプリケーション自体は完全にポータブルです。たとえば事前にOSにインストールしておく必要がありません。なおTrueCryptは透過的に即時暗号化および復号を行うためにドライバーが必要であることもお知りおきください。</string>
-    <string lang="ja" key="TRAVELER_UAC_NOTE">TrueCryptを（インストールされたものではなく）ポータブルモードで実行させたい場合、TrueCryptを実行しようとするたびにシステムが実行権限について尋ねてくるでしょう（ユーザーアカウント制御）。\n\nこれはTrueCryptがポータブルモードで動作するときに、デバイスドライバの読み込みと開始を要求するからです。TrueCryptが即時の暗号化/復号処理を行うためにはデバイスドライバが必要ですが、Windowsでは管理者権限を持つユーザー以外はデバイスドライバを開始できません。そのため、システムはTrueCryptの起動に管理者権限を要求します。\n\nもしTrueCryptを（ポータブルモードではなく）システムにインストールした場合は、TrueCryptを実行するたびに権限を確認されることはありません。\n\n本当にファイルを展開しますか？</string>
+    <string lang="ja" key="TRAVELER_LIMITATIONS_NOTE">ポータブルモードについて：\n\nOSはドライバーがその動作を開始するより前にそれがOSに登録済みであることを要求します。したがってVeraCryptのドライバーは完全なポータブルではなく、またそれは不可能です。ただしVeraCryptのアプリケーション自体は完全にポータブルです。たとえば事前にOSにインストールしておく必要がありません。なおVeraCryptは透過的に即時暗号化および復号を行うためにドライバーが必要であることもお知りおきください。</string>
+    <string lang="ja" key="TRAVELER_UAC_NOTE">VeraCryptを（インストールされたものではなく）ポータブルモードで実行させたい場合、VeraCryptを実行しようとするたびにシステムが実行権限について尋ねてくるでしょう（ユーザーアカウント制御）。\n\nこれはVeraCryptがポータブルモードで動作するときに、デバイスドライバの読み込みと開始を要求するからです。VeraCryptが即時の暗号化/復号処理を行うためにはデバイスドライバが必要ですが、Windowsでは管理者権限を持つユーザー以外はデバイスドライバを開始できません。そのため、システムはVeraCryptの起動に管理者権限を要求します。\n\nもしVeraCryptを（ポータブルモードではなく）システムにインストールした場合は、VeraCryptを実行するたびに権限を確認されることはありません。\n\n本当にファイルを展開しますか？</string>
     <string lang="ja" key="CONTAINER_ADMIN_WARNING">警告：このボリューム作成ウィザードは管理者権限で動作しています。\n\nそのため、新規作成されたボリュームがマウントされたときに、権限が足りずに書き込めないおそれがあります。それを防ぐためには、このボリューム作成ウィザードをいったん終了し、管理者権限のない状態でボリューム作成ウィザードを起動してください。\n\nこのボリューム作成ウィザードを終了しますか？</string>
     <string lang="ja" key="CANNOT_DISPLAY_LICENSE">エラー：ライセンスを表示できません。</string>
     <string lang="ja" key="OUTER_VOL_WRITE_PREVENTED">外殻(!)</string>
@@ -850,7 +850,7 @@
     <string lang="ja" key="SYS_FAVORITE_VOLUMES_SAVED">システムお気に入りボリュームが登録されました。\n\nシステムお気に入りボリュームをWindows起動の度に毎回自動的にマウントしたい場合は、[設定]-[システムお気に入りボリューム]-[Windows起動時にシステムお気に入りボリュームをマウント]と選択してください。</string>
     <string lang="ja" key="FAVORITE_ADD_DRIVE_DEV_WARNING">お気に入りに登録しようとしたボリュームはパーティションでもダイナミックボリュームでもありませんでした。そのためデバイス数が変わった場合、お気に入りボリュームとしてはマウントできなくなります。</string>
     <string lang="ja" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">お気に入りに登録しようとしたボリュームはWindowsが認識できないパーティションでした。\n\nデバイス数が変わった場合、お気に入りボリュームとしてはマウントできなくなります。まずパーティションをWindowsが認識できるタイプに設定してください（Windowsの 'diskpart' ツールでSETIDコマンドを使ってください）。それからこのパーティションをお気に入りに登録しなおしてください。</string>
-    <string lang="ja" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">TrueCryptの常駐が無効であるか、何もマウントされていないときに終了する設定になっています。あるいはポータブルモードで起動しています。このためデバイスが接続されたときに自動マウントされるようにしたお気に入りボリュームは使えないことがあります。\n\n注：TrueCryptの常駐を有効にするには [設定]-[各種設定] を選択し、「TrueCryptの常駐」で「常駐する」にチェックを入れてください。</string>
+    <string lang="ja" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">VeraCryptの常駐が無効であるか、何もマウントされていないときに終了する設定になっています。あるいはポータブルモードで起動しています。このためデバイスが接続されたときに自動マウントされるようにしたお気に入りボリュームは使えないことがあります。\n\n注：VeraCryptの常駐を有効にするには [設定]-[各種設定] を選択し、「VeraCryptの常駐」で「常駐する」にチェックを入れてください。</string>
     <string lang="ja" key="FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR">ネットワーク越しに共有しているリモートファイルシステム上のコンテナは、デバイスが接続されたときに自動マウントすることはできません。</string>
     <string lang="ja" key="FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR">以下に表示されているデバイスはパーティションでも非ダイナミックボリュームでもありません。したがってこのデバイス上のボリュームは、デバイスが接続されたときに自動マウントすることはできません。</string>
     <string lang="ja" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">まず以下に表示されているパーティションのタイプをWindowsが認識できるタイプに設定してください（Windowsの 'diskpart' ツールでSETIDコマンドを使ってください）。その後、そのパーティションをお気に入りから削除し、追加しなおしてください。これによってそのデバイス型ボリュームを接続時に自動マウントできるようになります。</string>
@@ -863,11 +863,11 @@
     <string lang="ja" key="ENTER_HIDDEN_VOL_PASSWORD">隠しボリュームのパスワードを入力してください。</string>
     <string lang="ja" key="ENTER_HEADER_BACKUP_PASSWORD">バックアップファイルに保存されたヘッダのパスワードを入力してください。</string>
     <string lang="ja" key="KEYFILE_CREATED">キーファイルの生成に成功しました。</string>
-    <string lang="ja" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：このボリュームのヘッダが壊れています！ TrueCryptは自動的にこのボリュームに埋め込まれているバックアップを使用します。\n\n[ツール]-[ボリュームヘッダのリストア]を選択して、ボリュームヘッダを修復してください。</string>
+    <string lang="ja" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：このボリュームのヘッダが壊れています！ VeraCryptは自動的にこのボリュームに埋め込まれているバックアップを使用します。\n\n[ツール]-[ボリュームヘッダのリストア]を選択して、ボリュームヘッダを修復してください。</string>
     <string lang="ja" key="VOL_HEADER_BACKED_UP">ボリュームヘッダのバックアップを無事に作成しました。\n\n重要：このバックアップを使ってボリュームヘッダをリストアすることは、現在のボリュームのパスワードも同様に復元します。さらに、もしこのボリュームのマウントにキーファイルが必要だったのなら、同じキーファイルがこのボリュームのマウントのために必要です。\n\n警告：このボリュームヘッダのバックアップは、このボリュームにのみリストアできます。もし他のボリュームにこのヘッダのバックアップをリストアした場合、そのボリュームのマウントはできますが、格納されていたデータの復号化ができなくなります（マスターキーを変更したため）。</string>
     <string lang="ja" key="VOL_HEADER_RESTORED">ボリュームヘッダのリストアに成功しました。\n\n重要：古いパスワードも同様に復元されました。さらに、もしこのボリュームのマウントにキーファイルが必要だったのなら、同じキーファイルがこのボリュームのマウントのために必要です。</string>
     <string lang="ja" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">セキュリティ上の理由により、このボリュームの正しいパスワードを入力する必要があります（キーファイルがあるならそれも正しく指定してください）。\n\n注：もしこのボリュームに隠しボリュームが含まれているなら、まず外殻ボリュームのパスワードを先に入力してください（キーファイルも同様）。隠しボリュームのヘッダをバックアップするのであれば、その後に、隠しボリュームの正しいパスワードを入力する必要があります（キーファイルも同様）。</string>
-    <string lang="ja" key="CONFIRM_VOL_HEADER_BAK">ボリューム %hs のボリュームヘッダを本当にバックアップしますか？\n\n「はい」をクリックすると、ヘッダのバックアップを保存するファイル名を尋ねられます。\n\n注：標準および隠しのボリュームヘッダが新しいソルトによって再暗号化されてバックアップファイルに保存されます。もし隠しボリュームが存在していなくても、見せかけの拒否を守るため、バックアップファイルには隠しボリューム用の領域が確保されて、その領域はランダムなデータで充填されます。ボリュームヘッダをリストアするときには、ボリュームヘッダのバックアップを作成した時点の正しいパスワードを入力（および正しいキーファイルを指定）する必要があります。TrueCryptは入力されたパスワードによって、自動的に標準か隠しかどちらのボリュームヘッダをリストアするのかを決定します。</string>
+    <string lang="ja" key="CONFIRM_VOL_HEADER_BAK">ボリューム %hs のボリュームヘッダを本当にバックアップしますか？\n\n「はい」をクリックすると、ヘッダのバックアップを保存するファイル名を尋ねられます。\n\n注：標準および隠しのボリュームヘッダが新しいソルトによって再暗号化されてバックアップファイルに保存されます。もし隠しボリュームが存在していなくても、見せかけの拒否を守るため、バックアップファイルには隠しボリューム用の領域が確保されて、その領域はランダムなデータで充填されます。ボリュームヘッダをリストアするときには、ボリュームヘッダのバックアップを作成した時点の正しいパスワードを入力（および正しいキーファイルを指定）する必要があります。VeraCryptは入力されたパスワードによって、自動的に標準か隠しかどちらのボリュームヘッダをリストアするのかを決定します。</string>
     <string lang="ja" key="CONFIRM_VOL_HEADER_RESTORE">ボリューム %hs のボリュームヘッダを本当にリストアしますか？\n\n警告：ボリュームヘッダをリストアすると、パスワードもバックアップ作成時のものに復元されます。また、もしこのバックアップを作成した時点でこのボリュームのマウントにキーファイルが必要だったのなら、リストア後には同じキーファイルがマウントのために必要になります。\n\n「はい」をクリックした後、ヘッダのバックアップを選択してください。</string>
     <string lang="ja" key="DOES_VOLUME_CONTAIN_HIDDEN">このボリュームは隠しボリュームを含んでいますか？</string>
     <string lang="ja" key="VOLUME_CONTAINS_HIDDEN">このボリュームは隠しボリュームを含んでいます。</string>
@@ -876,20 +876,20 @@
     <string lang="ja" key="HEADER_RESTORE_INTERNAL">ボリューム内に埋め込まれたバックアップからボリュームヘッダをリストアする</string>
     <string lang="ja" key="HEADER_RESTORE_EXTERNAL">バックアップファイルからボリュームヘッダをリストアする</string>
     <string lang="ja" key="HEADER_BACKUP_SIZE_INCORRECT">ボリュームヘッダのバックアップファイルのサイズが正しくありません。</string>
-    <string lang="ja" key="VOLUME_HAS_NO_BACKUP_HEADER">このボリュームにはボリュームヘッダのバックアップが埋め込まれていません（注：TrueCrypt6.0以降でボリュームを作成しないと、ボリューム内にバックアップを埋め込めません）。</string>
-    <string lang="ja" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">システムパーティション/ドライブのヘッダのバックアップは拒否されました。システムパーティション/ドライブに関するバックアップおよびリストアの操作は、TrueCryptレスキューディスクを使用したときのみ可能です。\n\nTrueCryptレスキューディスクを作成しますか？</string>
-    <string lang="ja" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">TrueCrypt仮想ボリュームのヘッダをシステムパーティション/ドライブにリストアしようとしましたが拒否されました。システムパーティション/ドライブに関するバックアップおよびリストアの操作は、TrueCryptレスキューディスクを使用したときのみ可能です。\n\nTrueCryptレスキューディスクを作成しますか？</string>
-    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">「OK」をクリックして、TrueCryptレスキューディスクのISOイメージの新しいファイル名、および保存場所を指定してください。</string>
+    <string lang="ja" key="VOLUME_HAS_NO_BACKUP_HEADER">このボリュームにはボリュームヘッダのバックアップが埋め込まれていません（注：VeraCrypt6.0以降でボリュームを作成しないと、ボリューム内にバックアップを埋め込めません）。</string>
+    <string lang="ja" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">システムパーティション/ドライブのヘッダのバックアップは拒否されました。システムパーティション/ドライブに関するバックアップおよびリストアの操作は、VeraCryptレスキューディスクを使用したときのみ可能です。\n\nVeraCryptレスキューディスクを作成しますか？</string>
+    <string lang="ja" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">VeraCrypt仮想ボリュームのヘッダをシステムパーティション/ドライブにリストアしようとしましたが拒否されました。システムパーティション/ドライブに関するバックアップおよびリストアの操作は、VeraCryptレスキューディスクを使用したときのみ可能です。\n\nVeraCryptレスキューディスクを作成しますか？</string>
+    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">「OK」をクリックして、VeraCryptレスキューディスクのISOイメージの新しいファイル名、および保存場所を指定してください。</string>
     <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">レスキューディスクのイメージファイルが次の名前で作成されました： %hs\n\n次にレスキューディスクをCDかDVDに書き込む必要があります。\n\n重要：このファイルは個別のファイルとしてではなく、ISOディスクイメージとしてCD/DVDに書き込まなければなりません。具体的な方法はお使いのレコーディングソフトのマニュアルを参照してください。\n\nレスキューディスクを作成後、メニューから[システム]-[レスキューディスクの検証]を選択し、正しく作成されたかを検証してください。</string>
     <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">レスキューディスクのイメージファイルが次の名前で作成されました： %hs\n\n次にレスキューディスクをCDかDVDに書き込む必要があります。\n\nWindowsディスクイメージ書き込みツールを起動しますか？\n\n注：レスキューディスクを作成後、メニューから[システム]-[レスキューディスクの検証]を選択し、正しく作成されたかを検証してください。</string>
-    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">TrueCryptレスキューディスクをCD/DVDドライブに挿入してから「OK」を押すと検証します。</string>
-    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">TrueCryptレスキューディスクの検証に成功しました。</string>
+    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">VeraCryptレスキューディスクをCD/DVDドライブに挿入してから「OK」を押すと検証します。</string>
+    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCryptレスキューディスクの検証に成功しました。</string>
     <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">レスキューディスクが正しく作成されているか検証できませんでした。\n\nレスキューディスクをお持ちなら、CD/DVDをいったん排出してから再度挿入してみてください。もしこの方法でダメなら、他のレコーディングソフトあるいはメディアを使ってみてください。\n\nもし別のマスターキー、パスワード、ソルトを設定して作られたレスキューディスクを検証しようとしているのであれば、これは常に検証に失敗します。現在の設定に適合したレスキューディスクを作成するには、メニューから[システム]-[レスキューディスクの作成]を選択してください。</string>
-    <string lang="ja" key="ERROR_CREATING_RESCUE_DISK">TrueCryptレスキューディスクの作成中にエラーが発生しました。</string>
-    <string lang="ja" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">隠しOSの起動中はTrueCryptレスキューディスクを作成することができません。\n\nレスキューディスクを作成するためには、囮用OSを起動し、[システム]-[レスキューディスク作成]を選択してください。</string>
-    <string lang="ja" key="RESCUE_DISK_CHECK_FAILED">レスキューディスクが正しく作成されているか検証できませんでした。\n\nもしレスキューディスクを作成したばかりであれば、CD/DVDをいったん排出してから再度挿入し「次へ」をクリックしてみてください。もしこの方法でダメなら、他のメディア%sを使ってみてください。\n\nもしまだレスキューディスクを作成していないのであれば、作成してから「次へ」をクリックしてください。\n\nもしこのウィザードを開始する前に作成されたTrueCryptレスキューディスクを検証しようとしているのであれば、そのようなディスクは使えません。それは異なるマスターキーのために作成されたものだからです。この場合は新たにレスキューディスクを作成する必要があります。</string>
+    <string lang="ja" key="ERROR_CREATING_RESCUE_DISK">VeraCryptレスキューディスクの作成中にエラーが発生しました。</string>
+    <string lang="ja" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">隠しOSの起動中はVeraCryptレスキューディスクを作成することができません。\n\nレスキューディスクを作成するためには、囮用OSを起動し、[システム]-[レスキューディスク作成]を選択してください。</string>
+    <string lang="ja" key="RESCUE_DISK_CHECK_FAILED">レスキューディスクが正しく作成されているか検証できませんでした。\n\nもしレスキューディスクを作成したばかりであれば、CD/DVDをいったん排出してから再度挿入し「次へ」をクリックしてみてください。もしこの方法でダメなら、他のメディア%sを使ってみてください。\n\nもしまだレスキューディスクを作成していないのであれば、作成してから「次へ」をクリックしてください。\n\nもしこのウィザードを開始する前に作成されたVeraCryptレスキューディスクを検証しようとしているのであれば、そのようなディスクは使えません。それは異なるマスターキーのために作成されたものだからです。この場合は新たにレスキューディスクを作成する必要があります。</string>
     <string lang="ja" key="RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX">（あるいは他のレコーディングソフト）</string>
-    <string lang="ja" key="SYSTEM_FAVORITES_DLG_TITLE">TrueCrypt - システムお気に入りボリューム</string>
+    <string lang="ja" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - システムお気に入りボリューム</string>
     <string lang="ja" key="SYS_FAVORITES_HELP_LINK">システムお気に入りボリュームとは？</string>
     <string lang="ja" key="SYS_FAVORITES_REQUIRE_PBA">システムパーティション/ドライブは暗号化されてないようです。\n\nシステムお気に入りボリュームは起動前認証用のパスワードでのみマウントできます。したがって、システムお気に入りボリュームを使用するためには、先にシステムパーティション/ドライブを暗号化しておく必要があります。</string>
     <string lang="ja" key="DISMOUNT_FIRST">先に進む前にボリュームをアンマウントしてください。</string>
@@ -916,14 +916,14 @@
     <string lang="ja" key="EXE_FILE_EXTENSION_CONFIRM">警告：ファイル名の拡張子として、実行可能なもの（例：.exe, .sys, .dll）や、その他問題を起こしそうなものを使わないように強く推奨します。そのような拡張子のファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのような拡張子は消すかあるいは変更する（例えば .tc へ）ことを強く推奨します。\n\nこのような問題となりうる拡張子を本当に使用しますか？</string>
     <string lang="ja" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告；このコンテナファイルには、実行可能（例：.exe, .sys, .dll）あるいは、同様に問題を引き起こしそうな種類の拡張子が使われています。そのような拡張子のコンテナファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのボリュームをアンマウントした後、このような拡張子を消すかあるいは変更する（例えば .tc へ）ことを強く推奨します。</string>
     <string lang="ja" key="HOMEPAGE">ホームページ</string>
-    <string lang="ja" key="LARGE_IDE_WARNING_XP">警告：この Windows にはサービスパックが適用されていません。 サービスパック１以降が適用されていない WindowsXP では、128 GB を超えるサイズの IDE ハードディスクに書き込みができません！ もし書き込もうとすると（TrueCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、TrueCryptのバグではありません。</string>
-    <string lang="ja" key="LARGE_IDE_WARNING_2K">警告：この Windows にはサービスパック３以降が適用されていません。 サービスパック３以降が適用されていない Windows2000 では、128 GB を超えるサイズの IDE ハードディスクに書き込みができません！ もし書き込もうとすると（TrueCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、TrueCryptのバグではありません。\n\n注：レジストリの設定で 48ビットLBAを扱えるようにする必要があります。詳しくは http://support.microsoft.com/kb/305098/JA を参照してください。</string>
-    <string lang="ja" key="LARGE_IDE_WARNING_2K_REGISTRY">警告：このシステムでは48ビットLBA ATAPIがサポートされていません。したがって 128 GB を超えるサイズのIDEハードディスクに書き込みができません！ もし書き込もうとすると（TrueCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、TrueCryptの制限ではありません。\n\n48ビットLBA ATAPIのサポートを有効にするには、レジストリの HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\atapi\\Parameters で、'EnableBigLba' の値を1にしてください。\n\n詳しくは http://support.microsoft.com/kb/305098/JA を参照してください。</string>
-    <string lang="ja" key="VOLUME_TOO_LARGE_FOR_FAT32">エラー：FAT32ファイルシステムには4GBを超えるサイズのファイルを書き込むことはできません。そのため、FAT32でフォーマットされたボリューム上にも、4GBを超えるサイズのTrueCryptコンテナファイルを作成することはできません。\n\nもしより大きなサイズのボリュームが必要であれば、NTFSでフォーマットされたボリューム上に作成するか（あるいはVista SP1以降ならexFATも可）、あるいはパーティション全体を暗号化してください。</string>
+    <string lang="ja" key="LARGE_IDE_WARNING_XP">警告：この Windows にはサービスパックが適用されていません。 サービスパック１以降が適用されていない WindowsXP では、128 GB を超えるサイズの IDE ハードディスクに書き込みができません！ もし書き込もうとすると（VeraCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、VeraCryptのバグではありません。</string>
+    <string lang="ja" key="LARGE_IDE_WARNING_2K">警告：この Windows にはサービスパック３以降が適用されていません。 サービスパック３以降が適用されていない Windows2000 では、128 GB を超えるサイズの IDE ハードディスクに書き込みができません！ もし書き込もうとすると（VeraCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、VeraCryptのバグではありません。\n\n注：レジストリの設定で 48ビットLBAを扱えるようにする必要があります。詳しくは http://support.microsoft.com/kb/305098/JA を参照してください。</string>
+    <string lang="ja" key="LARGE_IDE_WARNING_2K_REGISTRY">警告：このシステムでは48ビットLBA ATAPIがサポートされていません。したがって 128 GB を超えるサイズのIDEハードディスクに書き込みができません！ もし書き込もうとすると（VeraCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、VeraCryptの制限ではありません。\n\n48ビットLBA ATAPIのサポートを有効にするには、レジストリの HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\atapi\\Parameters で、'EnableBigLba' の値を1にしてください。\n\n詳しくは http://support.microsoft.com/kb/305098/JA を参照してください。</string>
+    <string lang="ja" key="VOLUME_TOO_LARGE_FOR_FAT32">エラー：FAT32ファイルシステムには4GBを超えるサイズのファイルを書き込むことはできません。そのため、FAT32でフォーマットされたボリューム上にも、4GBを超えるサイズのVeraCryptコンテナファイルを作成することはできません。\n\nもしより大きなサイズのボリュームが必要であれば、NTFSでフォーマットされたボリューム上に作成するか（あるいはVista SP1以降ならexFATも可）、あるいはパーティション全体を暗号化してください。</string>
     <string lang="ja" key="VOLUME_TOO_LARGE_FOR_WINXP">警告：Windows XPは 2048GB 以上のファイルをサポートしていません（十分な容量がない旨のエラーが出ます）。したがって Windows XP 環境下では 2048GB より大きなコンテナファイルを作ることはできません。\n\n注：ただし Windows XP 環境下でも、デバイス全体あるいはパーティション型のボリュームなら 2048GB 以上のサイズであっても暗号化可能です。</string>
     <string lang="ja" key="FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME">警告：外殻ボリュームにファイルを追加できるようにしておきたいのであれば、隠しボリュームのサイズはもっと小さくするよう見直すべきです。\n\n指定されたサイズで処理を続けてよろしいですか？</string>
-    <string lang="ja" key="NO_VOLUME_SELECTED">ボリュームが選択されていません。\n\n「デバイスの選択」あるいは「ファイルの選択」をクリックして、TrueCryptボリュームを指定してください。</string>
-    <string lang="ja" key="NO_SYSENC_PARTITION_SELECTED">パーティションが選択されていません。\n\n「デバイスの選択」をクリックし、通常は起動前認証が必要な未マウント状態のパーティション（例：未起動の他のOSの暗号化システムドライブ上のパーティションあるいは他のOSの暗号化システムパーティションなど）を選択してください。\n\n注：選択されたパーティションは、通常の起動前認証が不要なTrueCryptボリュームと同じようにマウントされます。これは例えばバックアップや修復作業のときに有用です。</string>
+    <string lang="ja" key="NO_VOLUME_SELECTED">ボリュームが選択されていません。\n\n「デバイスの選択」あるいは「ファイルの選択」をクリックして、VeraCryptボリュームを指定してください。</string>
+    <string lang="ja" key="NO_SYSENC_PARTITION_SELECTED">パーティションが選択されていません。\n\n「デバイスの選択」をクリックし、通常は起動前認証が必要な未マウント状態のパーティション（例：未起動の他のOSの暗号化システムドライブ上のパーティションあるいは他のOSの暗号化システムパーティションなど）を選択してください。\n\n注：選択されたパーティションは、通常の起動前認証が不要なVeraCryptボリュームと同じようにマウントされます。これは例えばバックアップや修復作業のときに有用です。</string>
     <string lang="ja" key="CONFIRM_SAVE_DEFAULT_KEYFILES">警告：デフォルトのキーファイルを設定して有効にすると、それらのキーファイルを使っていないボリュームをマウントできなくなります。デフォルトのキーファイルを有効にした後に、そのようなボリュームをマウントする場合は「キーファイルを使用する」のチェック（パスワード入力欄の下にあります）を外すことを忘れないでください。\n\n指定されたキーファイルあるいはフォルダをデフォルトとして保存しますか？</string>
     <string lang="ja" key="HK_AUTOMOUNT_DEVICES">デバイスの自動マウント</string>
     <string lang="ja" key="HK_DISMOUNT_ALL">すべてアンマウント</string>
@@ -938,32 +938,32 @@
     <string lang="ja" key="SHORTCUT">ショートカット</string>
     <string lang="ja" key="CANNOT_USE_RESERVED_KEY">エラー：そのショートカットは予約されています。違うショートカットにしてください。</string>
     <string lang="ja" key="SHORTCUT_ALREADY_IN_USE">エラー：そのショートカットはすでに使われています。</string>
-    <string lang="ja" key="HOTKEY_REGISTRATION_ERROR">警告：一つ以上のTrueCryptホットキーが使えなくなっています！\n\nほかのアプリケーションやオペレーティングシステムが、TrueCryptと同じショートカットを使用していないか確認してください。</string>
-    <string lang="ja" key="PAGING_FILE_CREATION_PREVENTED">ページファイルの作成を中止しました。\n\nWindowsの問題により、ページファイルは非システムTrueCryptボリューム（システムお気に入りボリュームも含みます）上には作成できません。TrueCryptはページファイルを暗号化システムパーティション/ドライブ上にのみ作成可能です。</string>
-    <string lang="ja" key="SYS_ENC_HIBERNATION_PREVENTED">エラーあるいは非互換性によりハイバネーションファイルは暗号化できません。そのため休止状態は阻止されました。\n\n注：コンピュータが休止状態（あるいはパワーセーブモード）になるとき、メモリーの内容がハイバネーションファイルとしてディスク上に保存されます。TrueCryptは、暗号鍵自体やRAM上に展開されている秘密にしたいファイルの内容が、暗号化されないままハイバネーションファイルに保存されることを止めることができません。</string>
-    <string lang="ja" key="HIDDEN_OS_HIBERNATION_PREVENTED">休止状態は阻止されました。\n\nTrueCryptは追加のブートパーティションを利用している隠しOS上での休止状態をサポートしていません。ブートパーティションは囮と隠しの両システムで共用されていることに留意してください。データの漏出防止と休止状態からの復帰時の問題に対処するため、TrueCryptは隠しシステムについて共用ブートパーティションへの書き込みおよびシステム休止を禁止する必要があるのです。</string>
-    <string lang="ja" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">%c: ドライブとしてマウントされていたTrueCryptボリュームがアンマウントされました。</string>
-    <string lang="ja" key="MOUNTED_VOLUMES_DISMOUNTED">TrueCryptボリュームがアンマウントされました。</string>
-    <string lang="ja" key="VOLUMES_DISMOUNTED_CACHE_WIPED">TrueCryptボリュームがアンマウントされ、記憶されていたパスワードは抹消されました。</string>
+    <string lang="ja" key="HOTKEY_REGISTRATION_ERROR">警告：一つ以上のVeraCryptホットキーが使えなくなっています！\n\nほかのアプリケーションやオペレーティングシステムが、VeraCryptと同じショートカットを使用していないか確認してください。</string>
+    <string lang="ja" key="PAGING_FILE_CREATION_PREVENTED">ページファイルの作成を中止しました。\n\nWindowsの問題により、ページファイルは非システムVeraCryptボリューム（システムお気に入りボリュームも含みます）上には作成できません。VeraCryptはページファイルを暗号化システムパーティション/ドライブ上にのみ作成可能です。</string>
+    <string lang="ja" key="SYS_ENC_HIBERNATION_PREVENTED">エラーあるいは非互換性によりハイバネーションファイルは暗号化できません。そのため休止状態は阻止されました。\n\n注：コンピュータが休止状態（あるいはパワーセーブモード）になるとき、メモリーの内容がハイバネーションファイルとしてディスク上に保存されます。VeraCryptは、暗号鍵自体やRAM上に展開されている秘密にしたいファイルの内容が、暗号化されないままハイバネーションファイルに保存されることを止めることができません。</string>
+    <string lang="ja" key="HIDDEN_OS_HIBERNATION_PREVENTED">休止状態は阻止されました。\n\nVeraCryptは追加のブートパーティションを利用している隠しOS上での休止状態をサポートしていません。ブートパーティションは囮と隠しの両システムで共用されていることに留意してください。データの漏出防止と休止状態からの復帰時の問題に対処するため、VeraCryptは隠しシステムについて共用ブートパーティションへの書き込みおよびシステム休止を禁止する必要があるのです。</string>
+    <string lang="ja" key="VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED">%c: ドライブとしてマウントされていたVeraCryptボリュームがアンマウントされました。</string>
+    <string lang="ja" key="MOUNTED_VOLUMES_DISMOUNTED">VeraCryptボリュームがアンマウントされました。</string>
+    <string lang="ja" key="VOLUMES_DISMOUNTED_CACHE_WIPED">VeraCryptボリュームがアンマウントされ、記憶されていたパスワードは抹消されました。</string>
     <string lang="ja" key="SUCCESSFULLY_DISMOUNTED">アンマウントに成功しました</string>
-    <string lang="ja" key="CONFIRM_BACKGROUND_TASK_DISABLED">警告：TrueCryptの常駐を無効にすると次の機能も無効になります：\n\n1) ホットキー\n2) 自動アンマウント(例：ログオフしたとき、不用意にホストにしていたデバイスを外したとき、タイムアウト時など)\n3) お気に入りボリュームの自動マウント\n4) 通知機能（例：隠しボリュームの保護機能が働いたときなど）\n5) トレイアイコンの表示\n\n注：トレイアイコンを右クリックして「終了」を選べば、いつでも常駐を終了できます。\n\n本当にTrueCryptの常駐機能を無効にしますか？</string>
+    <string lang="ja" key="CONFIRM_BACKGROUND_TASK_DISABLED">警告：VeraCryptの常駐を無効にすると次の機能も無効になります：\n\n1) ホットキー\n2) 自動アンマウント(例：ログオフしたとき、不用意にホストにしていたデバイスを外したとき、タイムアウト時など)\n3) お気に入りボリュームの自動マウント\n4) 通知機能（例：隠しボリュームの保護機能が働いたときなど）\n5) トレイアイコンの表示\n\n注：トレイアイコンを右クリックして「終了」を選べば、いつでも常駐を終了できます。\n\n本当にVeraCryptの常駐機能を無効にしますか？</string>
     <string lang="ja" key="CONFIRM_NO_FORCED_AUTODISMOUNT">警告：もしこのオプションを無効にすると、ボリューム上に開かれているファイルやフォルダがあった場合に、自動アンマウントできなくなります。\n\n本当にこのオプションを無効にしますか？</string>
     <string lang="ja" key="WARN_PREF_AUTO_DISMOUNT">警告：今の設定では開かれたファイルやフォルダが含まれるボリュームは、自動アンマウントされません。\n\nこれを防ぐには、この設定画面の「ボリュームに開かれたファイルやフォルダがあっても強制的にアンマウント」のチェックを有効にしてください。</string>
-    <string lang="ja" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">警告：ノート型PCのバッテリー残量が低下したとき、Windowsは、実行中のアプリケーションへコンピュータが省電力モードに入ったときに通知すべきメッセージを送り損なう可能性があります。そのため、そのような場合にはTrueCryptがボリュームの自動アンマウントに失敗するかもしれません。</string>
+    <string lang="ja" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">警告：ノート型PCのバッテリー残量が低下したとき、Windowsは、実行中のアプリケーションへコンピュータが省電力モードに入ったときに通知すべきメッセージを送り損なう可能性があります。そのため、そのような場合にはVeraCryptがボリュームの自動アンマウントに失敗するかもしれません。</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">中断中のパーティション/ボリュームの暗号化処理があります。この処理は未完了です。\n\n今すぐ処理を再開しますか？</string>
     <string lang="ja" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">システムパーティション/ドライブの暗号化（もしくは復号）作業を予約しました。この作業はまだ完了していません。\n\nすぐに暗号化（もしくは復号）作業を開始しますか？</string>
     <string lang="ja" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">現在の非システムパーティション/ボリュームの暗号化処理の再開が計画されているかどうかについて、通知しますか？</string>
     <string lang="ja" key="KEEP_PROMPTING_ME">はい、通知してください</string>
     <string lang="ja" key="DO_NOT_PROMPT_ME">いいえ、通知しないでください</string>
-    <string lang="ja" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">重要：非システムパーティション/ボリュームの暗号化処理を再開するには、TrueCryptメインウィンドウのメニューから、[ボリューム]-[中断処理を再開]を選択してください。</string>
-    <string lang="ja" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">システムパーティション/ドライブの暗号化（もしくは復号）作業を予約しました。ただし起動前認証は失敗し（あるいはスキップされ）ました。\n\n注：起動前の環境下でシステムパーティション/ドライブを復号したのであれば、TrueCryptのメインウィンドウのメニューから[システム]-[システムパーティション/ドライブの暗号化を解除]を選んでその作業を完了させる必要があります。</string>
-    <string lang="ja" key="CONFIRM_EXIT">警告：ここでTrueCryptを終了すると、次の機能が働かなくなります：\n\n1) ホットキー\n2) 自動アンマウント(例：ログオフしたとき、不用意にホストにしていたデバイスを外したとき、タイムアウト時など)\n3) お気に入りボリュームの自動マウント\n4) 通知機能（例：隠しボリュームの保護機能が働いたときなど）\n\n注：TrueCryptを常駐させたくない場合は、設定画面でTrueCryptの常駐を無効にしてください（必要なら起動時の自動実行も無効にしてください）。\n\n本当にTrueCryptを終了しますか？</string>
+    <string lang="ja" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">重要：非システムパーティション/ボリュームの暗号化処理を再開するには、VeraCryptメインウィンドウのメニューから、[ボリューム]-[中断処理を再開]を選択してください。</string>
+    <string lang="ja" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">システムパーティション/ドライブの暗号化（もしくは復号）作業を予約しました。ただし起動前認証は失敗し（あるいはスキップされ）ました。\n\n注：起動前の環境下でシステムパーティション/ドライブを復号したのであれば、VeraCryptのメインウィンドウのメニューから[システム]-[システムパーティション/ドライブの暗号化を解除]を選んでその作業を完了させる必要があります。</string>
+    <string lang="ja" key="CONFIRM_EXIT">警告：ここでVeraCryptを終了すると、次の機能が働かなくなります：\n\n1) ホットキー\n2) 自動アンマウント(例：ログオフしたとき、不用意にホストにしていたデバイスを外したとき、タイムアウト時など)\n3) お気に入りボリュームの自動マウント\n4) 通知機能（例：隠しボリュームの保護機能が働いたときなど）\n\n注：VeraCryptを常駐させたくない場合は、設定画面でVeraCryptの常駐を無効にしてください（必要なら起動時の自動実行も無効にしてください）。\n\n本当にVeraCryptを終了しますか？</string>
     <string lang="ja" key="CONFIRM_EXIT_UNIVERSAL">終了しますか？</string>
     <string lang="ja" key="CHOOSE_ENCRYPT_OR_DECRYPT">暗号化なのか復号なのかを決定するための十分な情報がありません。</string>
     <string lang="ja" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">暗号化なのか復号なのかを決定するための十分な情報がありません。\n\n注：もし起動前の環境下でシステムパーティション/ドライブを復号したのであれば、「復号」をクリックして作業を完了させる必要があります。</string>
-    <string lang="ja" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">パーティション/ボリュームの暗号化処理を中断して後に回しますか？\n\n注：ボリュームは暗号化処理を完了するまでマウントできないことに注意してください。後で暗号化処理を中断した箇所から再開することができます。その際はTrueCryptのメインウィンドウから、[ボリューム]-[中断処理を再開]を選択してください。</string>
-    <string lang="ja" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばTrueCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化自体を解除したい場合は[システム]-[システムパーティション/ドライブの暗号化を解除]を選択してください。</string>
-    <string lang="ja" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化解除処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばTrueCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化解除をやめて暗号化する場合は[システム]-[システムパーティション/ドライブの暗号化]を選択してください。</string>
+    <string lang="ja" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">パーティション/ボリュームの暗号化処理を中断して後に回しますか？\n\n注：ボリュームは暗号化処理を完了するまでマウントできないことに注意してください。後で暗号化処理を中断した箇所から再開することができます。その際はVeraCryptのメインウィンドウから、[ボリューム]-[中断処理を再開]を選択してください。</string>
+    <string lang="ja" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばVeraCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化自体を解除したい場合は[システム]-[システムパーティション/ドライブの暗号化を解除]を選択してください。</string>
+    <string lang="ja" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化解除処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばVeraCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化解除をやめて暗号化する場合は[システム]-[システムパーティション/ドライブの暗号化]を選択してください。</string>
     <string lang="ja" key="FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION">エラー：システムパーティション/ドライブの暗号化/復号処理の中断に失敗しました。</string>
     <string lang="ja" key="FAILED_TO_INTERRUPT_WIPING">エラー：ワイプ処理の中断に失敗しました。</string>
     <string lang="ja" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">エラー：システムパーティション/ドライブの暗号化/復号処理の再開に失敗しました。</string>
@@ -971,71 +971,71 @@
     <string lang="ja" key="INCONSISTENCY_RESOLVED">不整合状態を解決しました。\n\n\n（もしこの問題についてバグ報告をしてくださるなら、以下の技術的情報を付け加えてくださるようお願いします： %hs）</string>
     <string lang="ja" key="UNEXPECTED_STATE">エラー：予期しない状態です。\n\n\n（この状態をバグ報告する場合、次の情報も報告に含めるようお願いいたします。: %hs）</string>
     <string lang="ja" key="NOTHING_TO_RESUME">再開される処理/タスクはありません。</string>
-    <string lang="ja" key="HIDVOL_PROT_BKG_TASK_WARNING">警告：TrueCryptの常駐は無効になっています。TrueCryptの終了後は、隠しボリュームの保護機能が働いても告知されません。\n\n注：TrueCryptのトレイアイコンを右クリックして終了を選べば、いつでも常駐を終了できます。\n\nTrueCryptの常駐を有効にしますか？</string>
+    <string lang="ja" key="HIDVOL_PROT_BKG_TASK_WARNING">警告：VeraCryptの常駐は無効になっています。VeraCryptの終了後は、隠しボリュームの保護機能が働いても告知されません。\n\n注：VeraCryptのトレイアイコンを右クリックして終了を選べば、いつでも常駐を終了できます。\n\nVeraCryptの常駐を有効にしますか？</string>
     <string lang="ja" key="LANG_PACK_VERSION">言語パックのバージョン： %s</string>
-    <string lang="ja" key="CHECKING_FS">%hs ドライブとしてマウントされた TrueCryptボリュームのファイルシステムをチェック中です...</string>
-    <string lang="ja" key="REPAIRING_FS">%hs ドライブとしてマウントされた TrueCryptボリュームのファイルシステム修復を試みています...</string>
-    <string lang="ja" key="WARN_CBC_MODE">警告：このボリュームはCBCモードで暗号化されています。セキュリティ上の問題によりCBCモードはバージョン4.1以降は非推奨となっています。\n\nこの新しいバージョンのTrueCryptで新しいボリュームを作成し、現在のボリュームからデータを移動するように強く推奨します。データの移動後は古いボリュームは抹消あるいは破壊すべきです。詳しい情報については、ユーザーズガイドのバージョン履歴や、TrueCrypt4.1以降のリリースノートをご覧ください。</string>
-    <string lang="ja" key="WARN_64_BIT_BLOCK_CIPHER">警告：このボリュームは旧式の暗号化アルゴリズムで暗号化されています。\n\nすべての64ビットブロックの暗号化アルゴリズム(例：Blowfish, CAST-128, Triple DES)は非推奨です。TrueCryptの将来のバージョンでも、このボリュームをマウントすることはできるでしょう。ただしこれら旧式の暗号化アルゴリズムの実装については今後の拡張予定はありません。128ビットブロックの暗号化アルゴリズム(AES, Serpent, Twofish など)を使ったTrueCryptボリュームを新しく作成し、今のこのボリュームにあるすべてのファイルを、新しいボリュームに移すことをお勧めします。</string>
-    <string lang="ja" key="SYS_AUTOMOUNT_DISABLED">このシステムは新しいボリュームの自動マウントができるようには設定されていません。 このことによりデバイス型のTrueCryptボリュームのマウントは不可能でしょう。 次のコマンドを実行してから再起動することで、自動マウントを有効にできます。\n\nmountvol.exe /E</string>
+    <string lang="ja" key="CHECKING_FS">%hs ドライブとしてマウントされた VeraCryptボリュームのファイルシステムをチェック中です...</string>
+    <string lang="ja" key="REPAIRING_FS">%hs ドライブとしてマウントされた VeraCryptボリュームのファイルシステム修復を試みています...</string>
+    <string lang="ja" key="WARN_CBC_MODE">警告：このボリュームはCBCモードで暗号化されています。セキュリティ上の問題によりCBCモードはバージョン4.1以降は非推奨となっています。\n\nこの新しいバージョンのVeraCryptで新しいボリュームを作成し、現在のボリュームからデータを移動するように強く推奨します。データの移動後は古いボリュームは抹消あるいは破壊すべきです。詳しい情報については、ユーザーズガイドのバージョン履歴や、VeraCrypt4.1以降のリリースノートをご覧ください。</string>
+    <string lang="ja" key="WARN_64_BIT_BLOCK_CIPHER">警告：このボリュームは旧式の暗号化アルゴリズムで暗号化されています。\n\nすべての64ビットブロックの暗号化アルゴリズム(例：Blowfish, CAST-128, Triple DES)は非推奨です。VeraCryptの将来のバージョンでも、このボリュームをマウントすることはできるでしょう。ただしこれら旧式の暗号化アルゴリズムの実装については今後の拡張予定はありません。128ビットブロックの暗号化アルゴリズム(AES, Serpent, Twofish など)を使ったVeraCryptボリュームを新しく作成し、今のこのボリュームにあるすべてのファイルを、新しいボリュームに移すことをお勧めします。</string>
+    <string lang="ja" key="SYS_AUTOMOUNT_DISABLED">このシステムは新しいボリュームの自動マウントができるようには設定されていません。 このことによりデバイス型のVeraCryptボリュームのマウントは不可能でしょう。 次のコマンドを実行してから再起動することで、自動マウントを有効にできます。\n\nmountvol.exe /E</string>
     <string lang="ja" key="SYS_ASSIGN_DRIVE_LETTER">作業を進める前に、先にパーティションあるいはデバイスにドライブレターを割り当ててください（Vistaならコントロールパネルから「システムとメンテナンス」→「管理ツール」とたどり、「ハードディスクパーティションの作成とフォーマット」を開きます）。\n\n注：これはオペレーティングシステム側の要請です。</string>
-    <string lang="ja" key="MOUNT_TC_VOLUME">TrueCryptボリュームのマウント</string>
-    <string lang="ja" key="DISMOUNT_ALL_TC_VOLUMES">TrueCryptボリュームのアンマウント</string>
-    <string lang="ja" key="UAC_INIT_ERROR">TrueCryptは管理者権限の取得に失敗しました。</string>
+    <string lang="ja" key="MOUNT_TC_VOLUME">VeraCryptボリュームのマウント</string>
+    <string lang="ja" key="DISMOUNT_ALL_TC_VOLUMES">VeraCryptボリュームのアンマウント</string>
+    <string lang="ja" key="UAC_INIT_ERROR">VeraCryptは管理者権限の取得に失敗しました。</string>
     <string lang="ja" key="ERR_ACCESS_DENIED">オペレーティングシステムによってアクセスが拒否されました。\n\n可能性のある原因：オペレーティングシステムは、指定されたフォルダやファイルあるいはデバイス等の読み書きについて、あなたが許可されている（あるいは管理者権限を持っている）ことを要求しています。普通は、管理者権限を持たない一般ユーザーであっても、自分自身のドキュメント置き場（マイドキュメントの中など）にファイルを新しく作成すること、ファイルの読み書きや修正することは許可されています。</string>
     <string lang="ja" key="SECTOR_SIZE_UNSUPPORTED">エラー：指定のドライブはサポートされていないセクタサイズを使用しています。\n\n今のところ、4096 バイトより大きいセクタが使われているドライブにはパーティション/デバイス型のボリュームを作成できません。ただしそのようなドライブでもファイルコンテナ型のボリュームなら作成可能です。</string>
     <string lang="ja" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">セクタサイズが 512 バイト以外であるディスクにインストールされているシステムは、今のところ暗号化できません。</string>
-    <string lang="ja" key="NO_SPACE_FOR_BOOT_LOADER">TrueCryptのブートローダーはシステムドライブの先頭に最低でも32Kバイトの空き領域を必要とします（その領域にブートローダーが保存されます）。残念ながら指定のドライブは条件を満たしていません。\n\nこの件についてTrueCryptのバグ/問題として報告しないでください。この問題を解決するにはディスクに再パーティション処理を行って、先頭に32Kバイトの空き領域を残してください（たいていのケースでは一番目のパーティションを削除して作り直す必要があります）。マイクロソフトのパーティションマネージャ（たとえばWindowsをインストールすると使用できるようになります）を使うことを推奨します。</string>
+    <string lang="ja" key="NO_SPACE_FOR_BOOT_LOADER">VeraCryptのブートローダーはシステムドライブの先頭に最低でも32Kバイトの空き領域を必要とします（その領域にブートローダーが保存されます）。残念ながら指定のドライブは条件を満たしていません。\n\nこの件についてVeraCryptのバグ/問題として報告しないでください。この問題を解決するにはディスクに再パーティション処理を行って、先頭に32Kバイトの空き領域を残してください（たいていのケースでは一番目のパーティションを削除して作り直す必要があります）。マイクロソフトのパーティションマネージャ（たとえばWindowsをインストールすると使用できるようになります）を使うことを推奨します。</string>
     <string lang="ja" key="FEATURE_UNSUPPORTED_ON_CURRENT_OS">この機能は現在ご使用中のバージョンのOSでは対応していません。</string>
     <string lang="ja" key="SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS">現在ご使用中のバージョンのOSではシステムパーティション/ドライブの暗号化に対応していません。</string>
     <string lang="ja" key="SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0">Windows Vistaのシステムパーティション/ドライブを暗号化する前に、Windows Vista用のサービスパック１以降をシステムに適用してください（このシステムにはそのようなサービスパックが未適用です）。\n\n注：Windows Vista SP1では、システム起動時に必要なメモリー量不足の問題が解決されています。</string>
-    <string lang="ja" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">サービスパックが適用されていないWindows Vistaのシステムパーティション/ドライブの暗号化はもうサポートされません。TrueCryptをアップグレードする前にVistaにSP1以上を適用してください。</string>
-    <string lang="ja" key="FEATURE_REQUIRES_INSTALLATION">エラー：この機能はTrueCryptがこのシステムにインストールされている必要があります（現在はポータブルモードです）。\n\nTrueCryptをインストールしてもう一度試してみてください。</string>
+    <string lang="ja" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">サービスパックが適用されていないWindows Vistaのシステムパーティション/ドライブの暗号化はもうサポートされません。VeraCryptをアップグレードする前にVistaにSP1以上を適用してください。</string>
+    <string lang="ja" key="FEATURE_REQUIRES_INSTALLATION">エラー：この機能はVeraCryptがこのシステムにインストールされている必要があります（現在はポータブルモードです）。\n\nVeraCryptをインストールしてもう一度試してみてください。</string>
     <string lang="ja" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">エラー：起動しようとしたドライブにWindowsがインストールされているか確認できません。この状態には対応していません。\n\n起動しようとしたドライブにWindowsがインストールされていることを確認してから続けるべきです。\n\n処理を続けますか？</string>
     <string lang="ja" key="GPT_BOOT_DRIVE_UNSUPPORTED">システムドライブにGPT(GUIDパーティションテーブル)があります。現在はMBRパーティションテーブルのドライブのみ対応しています。</string>
-    <string lang="ja" key="TC_BOOT_LOADER_ALREADY_INSTALLED">注意：TrueCryptブートローダーがすでにシステムドライブにインストールされています！\n\nこれはこのマシン上の別のシステムがすでに暗号化されている可能性を示唆しています。\n\n警告：現在実行中のシステムで暗号化処理を継続すると、その別のシステムを起動できなくなったり、そのデータを参照できなくなったりするでしょう。\n\n本当に処理を続けますか？</string>
-    <string lang="ja" key="SYS_LOADER_RESTORE_FAILED">元システムのブートローダーの復帰に失敗しました。\n\nTrueCryptブートローダーをWindowsのブートローダーに置き換えるには、TrueCryptレスキューディスクで 'Repair Options'→'Restore original system loader' を実行するか、Windowsのインストールディスクを使用してください。</string>
+    <string lang="ja" key="TC_BOOT_LOADER_ALREADY_INSTALLED">注意：VeraCryptブートローダーがすでにシステムドライブにインストールされています！\n\nこれはこのマシン上の別のシステムがすでに暗号化されている可能性を示唆しています。\n\n警告：現在実行中のシステムで暗号化処理を継続すると、その別のシステムを起動できなくなったり、そのデータを参照できなくなったりするでしょう。\n\n本当に処理を続けますか？</string>
+    <string lang="ja" key="SYS_LOADER_RESTORE_FAILED">元システムのブートローダーの復帰に失敗しました。\n\nVeraCryptブートローダーをWindowsのブートローダーに置き換えるには、VeraCryptレスキューディスクで 'Repair Options'→'Restore original system loader' を実行するか、Windowsのインストールディスクを使用してください。</string>
     <string lang="ja" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">元システムのブートローダーがレスキューディスクに保存されていないようです。おそらくバックアップファイルが失われています。</string>
     <string lang="ja" key="ERROR_MBR_PROTECTED">MBRセクターに書き込めませんでした。\n\nBIOSの設定でMBRセクターが保護されていると思われますので、BIOSの設定を確認してください（電源投入後にF2、Delete、あるいはEscキーを押してください）。</string>
-    <string lang="ja" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">TrueCryptブートローダーの必要なバージョンがインストールされていません。そのため指定された設定のいくつかは保存されません。</string>
-    <string lang="ja" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">注：時と場合によっては、このコンピュータを起動しているところを見ている他人に、あなたがTrueCryptを使っていることを知られたくないということもあるかもしれません。上記のオプションで、TrueCryptのブートローダー画面をカスタマイズすることができます。最初のオプションを有効にすると、ブートローダーの起動時に一切の文字表示をしません（誤ったパスワードを入力したときでさえもです）。コンピュータは正しいパスワードが入力されるまで固まっているように見えます。あるいはカスタムメッセージを表示させて敵対者に誤解を与えることもできます。たとえば次のような偽のエラーメッセージ「Missing operating system」（これは通常のWindowsブートローダーが、Windowsのブートパーティションを見つけられないときのものです）などです。ただし、もし敵対者がハードディスクの内容を解析できるのであれば、TrueCryptブートローダーの存在を検出することは可能です。</string>
-    <string lang="ja" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">警告：このオプションを有効にした場合、TrueCryptブートローダーは起動画面において一切の文字表示を行いません（パスワードが誤っていても同様です）。このコンピュータは正しいパスワードが入力されるまで固まってしまったかのように見えます。カーソルは動かず、キーを押してもアスタリスクは表示されません。\n\n本当にこのオプションを有効にしますか？</string>
+    <string lang="ja" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">VeraCryptブートローダーの必要なバージョンがインストールされていません。そのため指定された設定のいくつかは保存されません。</string>
+    <string lang="ja" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">注：時と場合によっては、このコンピュータを起動しているところを見ている他人に、あなたがVeraCryptを使っていることを知られたくないということもあるかもしれません。上記のオプションで、VeraCryptのブートローダー画面をカスタマイズすることができます。最初のオプションを有効にすると、ブートローダーの起動時に一切の文字表示をしません（誤ったパスワードを入力したときでさえもです）。コンピュータは正しいパスワードが入力されるまで固まっているように見えます。あるいはカスタムメッセージを表示させて敵対者に誤解を与えることもできます。たとえば次のような偽のエラーメッセージ「Missing operating system」（これは通常のWindowsブートローダーが、Windowsのブートパーティションを見つけられないときのものです）などです。ただし、もし敵対者がハードディスクの内容を解析できるのであれば、VeraCryptブートローダーの存在を検出することは可能です。</string>
+    <string lang="ja" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">警告：このオプションを有効にした場合、VeraCryptブートローダーは起動画面において一切の文字表示を行いません（パスワードが誤っていても同様です）。このコンピュータは正しいパスワードが入力されるまで固まってしまったかのように見えます。カーソルは動かず、キーを押してもアスタリスクは表示されません。\n\n本当にこのオプションを有効にしますか？</string>
     <string lang="ja" key="SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED">システムパーティション/ドライブはすべて暗号化されているようです。</string>
-    <string lang="ja" key="SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK">TrueCryptはダイナミックディスクに変換されたシステムドライブの暗号化には対応していません。</string>
+    <string lang="ja" key="SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK">VeraCryptはダイナミックディスクに変換されたシステムドライブの暗号化には対応していません。</string>
     <string lang="ja" key="WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS">システムドライブに拡張（論理）パーティションが存在します。\n\nWindows Vista以降のみ、拡張（論理）パーティションを含むシステムドライブ全体の暗号化を行うことができます。Windows XPの場合は、プライマリ（基本）パーティションだけで構成されているシステムドライブに限り、全体を暗号化することができます。\n\n注：システムドライブ全体ではなくシステムパーティションなら今でも暗号化は可能です。また、このドライブのどの非システムパーティションもパーティション型のボリュームとして暗号化できます。</string>
-    <string lang="ja" key="WDE_EXTENDED_PARTITIONS_WARNING">警告：WindowsXP/2003を起動している場合、このドライブを暗号化した後は、絶対に拡張（論理）パーティションを作成してはいけません。プライマリ（基本）パーティションのみ作成しても構いません。暗号化した後はこのドライブのすべての拡張（論理）パーティションがアクセスできなくなります（なおこのドライブには現在そのようなパーティションはありません）。\n\n注：この制限を受け入れられないのであれば、戻ってからドライブ全体の代わりにシステムパーティションのみ暗号化することを選択できます。また付け加えるなら、非システムパーティションをTrueCryptボリュームとして作成することができます。\n\nもう一つの手段としてはWindowsをVista以降にアップグレードするという方法があります。Vista以降のWindowsであれば、拡張（論理）パーティションを含んだドライブ全体を暗号化することができます。</string>
+    <string lang="ja" key="WDE_EXTENDED_PARTITIONS_WARNING">警告：WindowsXP/2003を起動している場合、このドライブを暗号化した後は、絶対に拡張（論理）パーティションを作成してはいけません。プライマリ（基本）パーティションのみ作成しても構いません。暗号化した後はこのドライブのすべての拡張（論理）パーティションがアクセスできなくなります（なおこのドライブには現在そのようなパーティションはありません）。\n\n注：この制限を受け入れられないのであれば、戻ってからドライブ全体の代わりにシステムパーティションのみ暗号化することを選択できます。また付け加えるなら、非システムパーティションをVeraCryptボリュームとして作成することができます。\n\nもう一つの手段としてはWindowsをVista以降にアップグレードするという方法があります。Vista以降のWindowsであれば、拡張（論理）パーティションを含んだドライブ全体を暗号化することができます。</string>
     <string lang="ja" key="SYSDRIVE_NON_STANDARD_PARTITIONS">システムドライブに標準的でないパーティションが含まれています。\n\nもしノート型PCをお使いならば、リカバリ用の特殊なパーティションが含まれている可能性があります。システムドライブ全体をリカバリ用パーティションも含めて暗号化した場合、BIOSの設計が適切でなければ起動できなくなるかもしれません。つまりシステムドライブの暗号化を解除しない限り、リカバリ用パーティションが使用不可能になることを表します。したがって、システムパーティションのみ暗号化することをお勧めします。</string>
-    <string lang="ja" key="ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE">ドライブ全体の代わりにシステムパーティションを暗号化しますか？\n\n注：システムパーティションの暗号化に加えて、システムの入っていないパーティションをTrueCryptボリュームとして作成することができます。</string>
+    <string lang="ja" key="ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE">ドライブ全体の代わりにシステムパーティションを暗号化しますか？\n\n注：システムパーティションの暗号化に加えて、システムの入っていないパーティションをVeraCryptボリュームとして作成することができます。</string>
     <string lang="ja" key="WHOLE_SYC_DEVICE_RECOM">システムドライブ全体が単一のパーティションとして構成されているとき、そのようなパーティションはスラック領域を含むため、ドライブ全体を暗号化した方が安全性が高まります。\n\nシステムドライブ全体を暗号化しますか？</string>
     <string lang="ja" key="TEMP_NOT_ON_SYS_PARTITION">このシステムは一時ファイルが非システムパーティションに作られるように設定されています。\n\n一時ファイルはシステムパーティションにのみ作成するようにしてください。</string>
     <string lang="ja" key="USER_PROFILE_NOT_ON_SYS_PARTITION">ユーザープロファイルがシステムパーティションに置かれていません。\n\nユーザープロファイルはシステムパーティションにのみ置いてください。</string>
     <string lang="ja" key="PAGING_FILE_NOT_ON_SYS_PARTITION">ページングファイルが非システムパーティションに置かれています。\n\nページングファイルはシステムパーティションにのみ置いてください。</string>
-    <string lang="ja" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">Windowsのページングファイルを、Windowsのパーティション上のみに作成するよう設定を変更しますか？\n\n「はい」をクリックするとコンピュータは再起動されます。その後TrueCryptを起動し、隠しOSをもう一度作成してください。</string>
-    <string lang="ja" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION">さもなければ、隠しOSに対する「みせかけの拒否」に影響を及ぼすでしょう。\n\n注：もし敵対者が非システムパーティションにあるページングファイルを解析したなら、あなたがこのウィザードを隠しシステム作成モードで使用したことが判明し、それはすなわちこのコンピュータに隠しシステムがあることを示してしまうことになります。そのためTrueCryptは、システムパーティション上のすべてのファイルについて、隠しOSの作成中に安全に抹消します。</string>
+    <string lang="ja" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">Windowsのページングファイルを、Windowsのパーティション上のみに作成するよう設定を変更しますか？\n\n「はい」をクリックするとコンピュータは再起動されます。その後VeraCryptを起動し、隠しOSをもう一度作成してください。</string>
+    <string lang="ja" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION">さもなければ、隠しOSに対する「みせかけの拒否」に影響を及ぼすでしょう。\n\n注：もし敵対者が非システムパーティションにあるページングファイルを解析したなら、あなたがこのウィザードを隠しシステム作成モードで使用したことが判明し、それはすなわちこのコンピュータに隠しシステムがあることを示してしまうことになります。そのためVeraCryptは、システムパーティション上のすべてのファイルについて、隠しOSの作成中に安全に抹消します。</string>
     <string lang="ja" key="DECOY_OS_REINSTALL_WARNING">警告：隠しOSの作成処理中、囮OSを安全に作成するために、現在起動中のシステムを再インストールする必要があります。\n\n注：隠しシステムを作成するために、現在起動中のシステムおよびシステムパーティション上のすべてのファイルは、隠しボリュームにコピーされます。\n\n\nWindowsをインストール可能なインストール用メディア（あるいはサービスパーティション）はお手元にありますか？</string>
     <string lang="ja" key="DECOY_OS_REQUIREMENTS">セキュリティ上の理由により、現在起動中のシステムにアクティベーションが必要な場合、処理を進める前にアクティベーションを済ませておく必要があります。隠しOSはシステムパーティションから隠しボリュームへファイルをコピーして作成されることに注意してください。現在起動中のシステムが未アクティベーションであるなら、隠しOSも同様に未アクティベーションとなります。より詳細な情報はユーザーズガイドの「隠しボリュームの安全に関する必要事項と予防策」をご覧ください。\n\n重要：処理を進める前に「隠しボリュームの安全に関する必要事項と予防策」をよくお読みください。\n\n\n現在起動中のシステムは上記の条件を満たしていますか？</string>
-    <string lang="ja" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">このシステムは追加のブートパーティションを使用しています。TrueCryptは追加のブートパーティションを利用する隠しOSでの休止状態をサポートしていません（囮システムではそのような問題なく休止状態に入れます）。\n\nブートパーティションは囮と隠しの両システムで共用されることに留意してください。データの漏出防止と休止状態からの復帰時の問題に対処するため、TrueCryptは隠しシステムについて共用ブートパーティションへの書き込みおよびシステム休止を禁止する必要があるのです。\n\n\n処理を続けますか？ 「いいえ」を選択した場合、追加ブートパーティションを消去する手順が表示されます。</string>
+    <string lang="ja" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">このシステムは追加のブートパーティションを使用しています。VeraCryptは追加のブートパーティションを利用する隠しOSでの休止状態をサポートしていません（囮システムではそのような問題なく休止状態に入れます）。\n\nブートパーティションは囮と隠しの両システムで共用されることに留意してください。データの漏出防止と休止状態からの復帰時の問題に対処するため、VeraCryptは隠しシステムについて共用ブートパーティションへの書き込みおよびシステム休止を禁止する必要があるのです。\n\n\n処理を続けますか？ 「いいえ」を選択した場合、追加ブートパーティションを消去する手順が表示されます。</string>
     <string lang="ja" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nWindowsをインストールする前に追加のブートパーティションを削除できます。そのためには次の手順に従ってください:\n\n1) Windowsインストールディスクで起動します。\n\n2) Windowsインストール画面で「今すぐインストール」→「カスタム（詳細）」とクリックします。\n\n3) 「ドライブオプション」をクリックします。\n\n4) メインのシステムパーティションを選択し、「消去」→「OK」とクリックして消去します。\n\n5) 「System Reserved」パーティションを選択し、「拡張」をクリックしてOSをインストール可能なサイズを指定します。6) 「適用」→「OK」をクリックします。\n\n7) 「System Reserved」パーティションにWindowsをインストールします。\n\n\n攻撃者が追加のブートパーティションを削除した理由を尋ねてくるかもしれません。そのときは、あなたは暗号化されていないブートパーティションへのデータ漏洩の可能性を無くしたかったからだと言うことができます。\n\n注：下の「印刷」ボタンをクリックしてこの文章を印刷することができます。もしこの文章をコピーあるいは印刷（プリンタの内蔵ドライブに文面が保存されるのでなければ、強くお勧めします）したならば、追加のブートパーティションを削除後にその紙やコピーを破棄すべきです。そうしないと、もしその紙やコピーが見つかったならば、このコンピュータに隠しOSがあることを推測されるおそれがあるからです。</string>
     <string lang="ja" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：システムパーティションとその次のパーティションの間に未割り当ての領域が存在しています。隠しOSを作成した後は、この未割り当ての領域に新たにパーティションを作成してはいけません。さもなければ（新たに作成したパーティションを削除するまで）隠しOSが起動できなくなります。</string>
     <string lang="ja" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">このアルゴリズムはシステムの暗号化には現在対応していません。</string>
     <string lang="ja" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">現在、システムの暗号化でのキーファイル使用には対応していません。</string>
-    <string lang="ja" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：TrueCryptは元のキーボードレイアウトを復元できませんでした。そのためパスワードを正確に入力できないおそれがあります。</string>
+    <string lang="ja" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCryptは元のキーボードレイアウトを復元できませんでした。そのためパスワードを正確に入力できないおそれがあります。</string>
     <string lang="ja" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">エラー：キーボードのレイアウトを標準USキーボードとして設定できません。\n\nシステム起動前に必要なパスワードがUS Windowsレイアウト以外のキーボードで入力されても無効となります。したがってパスワードは常に標準USレイアウトのキーボードで入力される必要があります。</string>
-    <string lang="ja" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">TrueCryptはキーボードのレイアウトを一時的に標準USキーボードに変更するため、右ALTキーの押下が必要な文字を入力できません。ただしそのような文字の大部分はシフトキーを押下することで入力できます。</string>
-    <string lang="ja" key="KEYB_LAYOUT_CHANGE_PREVENTED">TrueCryptはキーボードレイアウトの変更を阻止しました。</string>
-    <string lang="ja" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">注：起動前の環境下（Windowsの起動前）では、US-Windows以外のキーボードレイアウトが必要なパスワードは無効です。そのため、パスワードは常に標準USキーボードレイアウトで入力される必要があります。ただし、これは物理的にUSキーボードが必要という意味では*ありません*。TrueCryptはたとえ物理的にUSキーボードではない環境であっても、今現在でも起動前環境下でも、自動的に正しくパスワードが入力できるようにします。</string>
-    <string lang="ja" key="RESCUE_DISK_INFO">このパーティション/ドライブを暗号化する前にTrueCryptレスキューディスク(TRD)を作成する必要があります。TRDには以下の目的があります。：\n\n- TrueCryptブートローダーやマスターキー、その他重要なデータが破損した場合、TRDで復旧できます（ただし正しいパスワードの入力が必要なことには変わりありません）。\n\n- Windowsが破損して起動不能になった場合、Windowsの起動前にTRDでシステムドライブ/パーティションの暗号化を解除できます。\n\n- TRDは最初のドライブトラックに記録されていた情報をバックアップし、必要であればリストアできます。通常この部分にはシステムローダーあるいはブートマネージャーが含まれています。\n\nTrueCryptレスキューディスクのISOイメージは下記に示された場所に作成されます。</string>
-    <string lang="ja" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">OKをクリックすると、Windowsディスクイメージ書き込みツールが起動します。このツールでTrueCryptレスキューディスクのISOイメージをCDやDVDに書き込んでください。\n\n書き込み後、TrueCryptボリューム作成ウィザードに戻って、以下の手順に従ってください。</string>
+    <string lang="ja" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">VeraCryptはキーボードのレイアウトを一時的に標準USキーボードに変更するため、右ALTキーの押下が必要な文字を入力できません。ただしそのような文字の大部分はシフトキーを押下することで入力できます。</string>
+    <string lang="ja" key="KEYB_LAYOUT_CHANGE_PREVENTED">VeraCryptはキーボードレイアウトの変更を阻止しました。</string>
+    <string lang="ja" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">注：起動前の環境下（Windowsの起動前）では、US-Windows以外のキーボードレイアウトが必要なパスワードは無効です。そのため、パスワードは常に標準USキーボードレイアウトで入力される必要があります。ただし、これは物理的にUSキーボードが必要という意味では*ありません*。VeraCryptはたとえ物理的にUSキーボードではない環境であっても、今現在でも起動前環境下でも、自動的に正しくパスワードが入力できるようにします。</string>
+    <string lang="ja" key="RESCUE_DISK_INFO">このパーティション/ドライブを暗号化する前にVeraCryptレスキューディスク(TRD)を作成する必要があります。TRDには以下の目的があります。：\n\n- VeraCryptブートローダーやマスターキー、その他重要なデータが破損した場合、TRDで復旧できます（ただし正しいパスワードの入力が必要なことには変わりありません）。\n\n- Windowsが破損して起動不能になった場合、Windowsの起動前にTRDでシステムドライブ/パーティションの暗号化を解除できます。\n\n- TRDは最初のドライブトラックに記録されていた情報をバックアップし、必要であればリストアできます。通常この部分にはシステムローダーあるいはブートマネージャーが含まれています。\n\nVeraCryptレスキューディスクのISOイメージは下記に示された場所に作成されます。</string>
+    <string lang="ja" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">OKをクリックすると、Windowsディスクイメージ書き込みツールが起動します。このツールでVeraCryptレスキューディスクのISOイメージをCDやDVDに書き込んでください。\n\n書き込み後、VeraCryptボリューム作成ウィザードに戻って、以下の手順に従ってください。</string>
     <string lang="ja" key="RESCUE_DISK_BURN_INFO">レスキューディスクのイメージファイルが次の場所に作成されました: %hs\n\nこれをCDやDVDに書き込んでください。\n\n%ls レスキューディスクの作成後、「次へ」をクリックして正しく作成されたかを確認してください。</string>
     <string lang="ja" key="RESCUE_DISK_BURN_INFO_NO_CHECK">レスキューディスクのイメージファイルが次の場所に作成されました: %hs\n\nこのディスクイメージをCDやDVDに書き込むか、後で利用するために安全な場所に移動してください。\n\n%ls「次へ」で処理を続けます。</string>
     <string lang="ja" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">重要：このファイルは個別のファイルではなくISOイメージとしてCD/DVDに書き込む必要があります。詳しい方法についてはご使用中のレコーディングソフトのマニュアルを参照してください。もしISOイメージとして書き込めるCD/DVDレコーディングソフトをお持ちでない場合は、以下のリンク先からフリーソフトをダウンロードできます。\n\n</string>
     <string lang="ja" key="LAUNCH_WIN_ISOBURN">Windowsディスクイメージ書き込みツールを起動</string>
-    <string lang="ja" key="RESCUE_DISK_BURN_NO_CHECK_WARN">警告：もし以前にTrueCryptレスキューディスクをすでに作成していたのであれば、異なるマスターキーが作成されたため、このシステムパーティション/ドライブ用には使えなくなります！ システムパーティション/ドライブを暗号化するときは常に、たとえ以前と同じパスワードを使うのであっても、新しいTrueCryptレスキューディスクを作成する必要があります。</string>
+    <string lang="ja" key="RESCUE_DISK_BURN_NO_CHECK_WARN">警告：もし以前にVeraCryptレスキューディスクをすでに作成していたのであれば、異なるマスターキーが作成されたため、このシステムパーティション/ドライブ用には使えなくなります！ システムパーティション/ドライブを暗号化するときは常に、たとえ以前と同じパスワードを使うのであっても、新しいVeraCryptレスキューディスクを作成する必要があります。</string>
     <string lang="ja" key="CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS">エラー：システムの暗号化設定を保存できません。</string>
     <string lang="ja" key="CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST">システム暗号化の予備検査を開始できません。</string>
     <string lang="ja" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">隠しOSの作成プロセスが初期化できません。</string>
     <string lang="ja" key="WIPE_MODE_TITLE">ワイプモード</string>
-    <string lang="ja" key="INPLACE_ENC_WIPE_MODE_INFO">ある種の記録メディアでは、データが他のデータで上書きされた場合でも、磁力顕微鏡のような手法で上書きされたデータを復活することができます。これは元データを暗号化したデータで上書きした場合であっても当てはまります。TrueCryptでそのドライブ/パーティションを初めて暗号化した場合でも同様です。いくつかの研究や政府の発行物によれば、ランダムデータとある種のランダムでないデータで一定回数上書きすることによって、元データの復活を不可能あるいは極端に困難にすることが可能です。したがって敵対者が磁力顕微鏡のような手法で暗号化したデータを復活させてくると想定されるならば、以下に実装されたワイプモードを選択してください（既存のデータは失われません）。なおパーティションやドライブが暗号化された後ではワイプは機能しません。パーティションやドライブがすべて暗号化されているときは、暗号化されていないデータが書き込まれることがないからです。書き込もうとするすべてのデータは、メモリ上で即時に暗号化されてからディスクに書き込まれます。</string>
+    <string lang="ja" key="INPLACE_ENC_WIPE_MODE_INFO">ある種の記録メディアでは、データが他のデータで上書きされた場合でも、磁力顕微鏡のような手法で上書きされたデータを復活することができます。これは元データを暗号化したデータで上書きした場合であっても当てはまります。VeraCryptでそのドライブ/パーティションを初めて暗号化した場合でも同様です。いくつかの研究や政府の発行物によれば、ランダムデータとある種のランダムでないデータで一定回数上書きすることによって、元データの復活を不可能あるいは極端に困難にすることが可能です。したがって敵対者が磁力顕微鏡のような手法で暗号化したデータを復活させてくると想定されるならば、以下に実装されたワイプモードを選択してください（既存のデータは失われません）。なおパーティションやドライブが暗号化された後ではワイプは機能しません。パーティションやドライブがすべて暗号化されているときは、暗号化されていないデータが書き込まれることがないからです。書き込もうとするすべてのデータは、メモリ上で即時に暗号化されてからディスクに書き込まれます。</string>
     <string lang="ja" key="WIPE_MODE_INFO">ある種の記録メディアでは、データが他のデータで上書きされた場合でも、磁力顕微鏡のような手法で上書きされたデータを復活することができます。いくつかの研究や政府の発行物によれば、ランダムデータとある種のランダムでないデータで一定回数上書きすることによって、元データの復活を不可能あるいは極端に困難にすることが可能です。したがって敵対者が磁力顕微鏡のような手法で暗号化したデータを復活させてくると想定されるならば、以下に実装されたワイプモードを選択してください。\n\n注：ワイプの回数を増やすと、データ抹消にも時間がかかるようになります。</string>
     <string lang="ja" key="DEVICE_WIPE_PAGE_TITLE">ワイプ処理</string>
     <string lang="ja" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">\n注：この抹消処理は、中断し、コンピュータをシャットダウンして、隠しOSを起動してから処理を再開できます（このウィザードが自動的に起動します）。ただし中断した場合は、抹消処理全体を最初からやり直す必要があります。</string>
@@ -1051,21 +1051,21 @@
     <string lang="ja" key="WIPE_MODE_35_GUTMANN">35パス ("Gutmann")</string>
     <string lang="ja" key="SYS_MULTI_BOOT_MODE_TITLE">OSの数</string>
     <string lang="ja" key="MULTI_BOOT_FOR_ADVANCED_ONLY">警告：慣れているユーザー以外はマルチブート設定のWindowsを暗号化しないでください。\n\n続けますか？</string>
-    <string lang="ja" key="HIDDEN_OS_MULTI_BOOT">隠しOSを作成あるいは使用する場合、TrueCryptは次の条件を満たすときのみ、マルチブート設定に対応します：\n\n-現在起動中のOSが起動用ドライブにインストールされており、かつそのドライブに他のOSが一切含まれていないこと\n\n-起動用以外のドライブにインストールされているOSが、現在起動中のOSがインストールされているドライブに置かれたブートローダーを使用していないこと\n\n以上の条件を満たしていますか？</string>
-    <string lang="ja" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">TrueCryptは、このマルチブート設定において、隠しOSの作成/使用に対応していません。</string>
+    <string lang="ja" key="HIDDEN_OS_MULTI_BOOT">隠しOSを作成あるいは使用する場合、VeraCryptは次の条件を満たすときのみ、マルチブート設定に対応します：\n\n-現在起動中のOSが起動用ドライブにインストールされており、かつそのドライブに他のOSが一切含まれていないこと\n\n-起動用以外のドライブにインストールされているOSが、現在起動中のOSがインストールされているドライブに置かれたブートローダーを使用していないこと\n\n以上の条件を満たしていますか？</string>
+    <string lang="ja" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">VeraCryptは、このマルチブート設定において、隠しOSの作成/使用に対応していません。</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">起動ドライブ</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_HELP">現在動作中のオペレーティングシステムは起動ドライブにインストールされているものですか？\n\n注：場合によってはWindowsシステムがWindowsブートローダーのあるドライブ（起動パーティション）とは別のドライブにインストールされているケースがあります。もしそのようなケースに該当する場合は「いいえ」を選択してください。</string>
-    <string lang="ja" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">TrueCryptは起動ドライブ以外にインストールされているオペレーティングシステムの暗号化には現在対応していません。</string>
+    <string lang="ja" key="SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE">VeraCryptは起動ドライブ以外にインストールされているオペレーティングシステムの暗号化には現在対応していません。</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_TITLE">システムドライブの数</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_NBR_SYS_DRIVES_HELP">オペレーティングシステムの入ったドライブはいくつありますか？\n\n注：たとえばいずれかのOS（たとえばWindows, Mac OS X, Linuxなど）がプライマリドライブにインストールされており、セカンダリドライブに追加のOSがインストールされているなら「2以上」を選択してください。</string>
-    <string lang="ja" key="WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE">TrueCryptは複数のオペレーティングシステムを含むドライブ全体の暗号化には現在対応していません。\n\n対策として次の方法があります：\n\n- 前に戻ってから、システムドライブ全体ではなく、単一のシステムパーティションを暗号化する方法を選択できます。\n\n- 別の方法として、複数のうちの一つのシステムを他のドライブに移動し、このドライブを単一のシステムだけにしてからドライブ全体を暗号化することもできます。</string>
+    <string lang="ja" key="WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE">VeraCryptは複数のオペレーティングシステムを含むドライブ全体の暗号化には現在対応していません。\n\n対策として次の方法があります：\n\n- 前に戻ってから、システムドライブ全体ではなく、単一のシステムパーティションを暗号化する方法を選択できます。\n\n- 別の方法として、複数のうちの一つのシステムを他のドライブに移動し、このドライブを単一のシステムだけにしてからドライブ全体を暗号化することもできます。</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_TITLE">単一のドライブに複数のシステム</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_ADJACENT_SYS_HELP">現在動作中のオペレーティングシステムがインストールされているドライブに、他のオペレーティングシステムもインストールされていますか？\n\n注：たとえば現在動作中のOSがドライブ#0にインストールされており、このドライブには他のパーティションがあってそこに別のOS（Windows, Mac OS X, Linuxなど）がインストールされている場合は「はい」を選択してください。</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_TITLE">Windows以外のブートローダー</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_NONWIN_BOOT_LOADER_HELP">Windows以外のブートローダー（あるいはブートマネージャー）がマスターブートレコード(MBR)にインストールされていますか？\n\nたとえば起動ドライブの第一トラックにGRUB, LILO, XOSL等のWindows以外のブートローダー（ブートマネージャー）が存在するなら「はい」を選択してください。</string>
     <string lang="ja" key="SYSENC_MULTI_BOOT_OUTCOME_TITLE">マルチブート</string>
-    <string lang="ja" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">TrueCryptはマスターブートレコード(MBR)にWindows以外のブートローダーがインストールされているマルチブート環境には現在対応していません。\n\n対策として次の方法があります：\n\n- もしWindowsとLinuxのためにブートマネージャーを使用しているなら、MBRからパーティションにブートマネージャー（一般的にはGRUB）を移動してください。その後再度ウィザードを実行してシステムパーティション/ドライブを暗号化してください。なおTrueCryptブートローダーはプライマリブートマネージャーとなり、元のブートマネージャー(GRUBなど)をセカンダリブートマネージャーとして呼び出せるようになります（TrueCryptブートローダー画面でESCキーを押してください）。そうすればLinuxを起動できます。</string>
-    <string lang="ja" key="WINDOWS_BOOT_LOADER_HINTS">もし現在動作中のOSがこの起動パーティションにインストールされているのであれば、それを暗号化した後は、他の暗号化されていないWindowsを起動しようとするときにも、正しいパスワードを入力する必要があります（それらは一つの暗号化されたブートローダー/マネージャーを共有しています）。\n\n対照的に、もし現在動作中のOSがWindowsの起動パーティションにインストールされているのでなければ（あるいはWindowsブートローダー/マネージャーが他のシステムから使用されていない場合）、それを暗号化した後は、暗号化されていないシステムを起動する際にはパスワードは要求されません。非暗号化システムを起動するときはESCキーを押すだけです。もし非暗号化システムが複数あるときは、TrueCryptブートマネージャーメニューで起動するシステムを選択できます。\n\n注：一般的には、一番最初にインストールされたWindowsが起動パーティションにインストールされます。</string>
+    <string lang="ja" key="CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED">VeraCryptはマスターブートレコード(MBR)にWindows以外のブートローダーがインストールされているマルチブート環境には現在対応していません。\n\n対策として次の方法があります：\n\n- もしWindowsとLinuxのためにブートマネージャーを使用しているなら、MBRからパーティションにブートマネージャー（一般的にはGRUB）を移動してください。その後再度ウィザードを実行してシステムパーティション/ドライブを暗号化してください。なおVeraCryptブートローダーはプライマリブートマネージャーとなり、元のブートマネージャー(GRUBなど)をセカンダリブートマネージャーとして呼び出せるようになります（VeraCryptブートローダー画面でESCキーを押してください）。そうすればLinuxを起動できます。</string>
+    <string lang="ja" key="WINDOWS_BOOT_LOADER_HINTS">もし現在動作中のOSがこの起動パーティションにインストールされているのであれば、それを暗号化した後は、他の暗号化されていないWindowsを起動しようとするときにも、正しいパスワードを入力する必要があります（それらは一つの暗号化されたブートローダー/マネージャーを共有しています）。\n\n対照的に、もし現在動作中のOSがWindowsの起動パーティションにインストールされているのでなければ（あるいはWindowsブートローダー/マネージャーが他のシステムから使用されていない場合）、それを暗号化した後は、暗号化されていないシステムを起動する際にはパスワードは要求されません。非暗号化システムを起動するときはESCキーを押すだけです。もし非暗号化システムが複数あるときは、VeraCryptブートマネージャーメニューで起動するシステムを選択できます。\n\n注：一般的には、一番最初にインストールされたWindowsが起動パーティションにインストールされます。</string>
     <string lang="ja" key="SYSENC_PRE_DRIVE_ANALYSIS_TITLE">HPA(ホスト保護領域)の暗号化</string>
     <string lang="ja" key="SYSENC_PRE_DRIVE_ANALYSIS_HELP">多くのドライブの終端には、OSから隠された領域（一般にHPA(Host Protected Area)として知られています）が存在しています。ただしいくつかのプログラムはこの領域を読み書き可能です。\n\n警告：一部のコンピュータメーカーは、たとえばRAID・システムリカバリ・システムセットアップ・システム診断等の目的で、この領域に何らかのツールやデータを保持しています。これらのツールやデータに、システムの起動前にアクセスできる必要がある場合は、この隠し領域は暗号化してはいけません（上で「いいえ」を選択してください）。\n\nシステムドライブの終端にあるこのような隠し領域についても検出し、暗号化しますか？</string>
     <string lang="ja" key="SYSENC_TYPE_PAGE_TITLE">システム暗号化タイプ</string>
@@ -1073,57 +1073,57 @@
     <string lang="ja" key="SYSENC_HIDDEN_TYPE_HELP">あなたは誰かにOSを復号するよう強制されることがあるかもしれません。それを拒否できない状況は多数存在することでしょう（例えば脅迫されるなど）。このオプションを選択すれば、誰にもその存在を知られることのない隠しOSを作成できます（正しくガイドラインに沿うことが条件です）。かくて、隠しOSのパスワードを明かしたり、復号しなければならない状況を回避できます。詳しい説明は以下のリンクをクリックしてください。</string>
     <string lang="ja" key="HIDDEN_OS_PREINFO">あなたは誰かにOSを復号するよう強制されることがあるかもしれません。それを拒否できない状況は多数存在することでしょう（例えば脅迫されるなど）。\n\nこのウィザードを使えば、誰にもその存在を知られることのない隠しOSを作成できます（正しくガイドラインに沿うことが条件です）。かくて、隠しOSのパスワードを明かしたり、復号しなければならない状況を回避できます。</string>
     <string lang="ja" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">隠しオペレーティングシステム</string>
-    <string lang="ja" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">以降のステップで、二つのTrueCryptボリューム（外殻と隠し）をシステムパーティションのすぐ次のパーティションに作成します。隠しボリュームには隠しOSを収めます。TrueCryptは隠しOSをシステムパーティション（現在起動中のOSがインストールされているところ）の内容をコピーして作成します。外殻ボリュームには、本当には隠す必要はないが一見秘密のように見えるファイルをコピーします。これらは、誰かがあなたに隠しOS用パーティションのパスワードを明かすように強制されたときのために存在します。隠しOS用パーティションにある外殻ボリュームのパスワードなら明かしても構いません。それでもなお隠しOSの存在は秘密に保たれます。\n\n最後に現在起動中のOSのシステムパーティションに新しくOSをインストールし、暗号化します。これは囮OSと呼ばれるものになります。これにはいかなる秘密のファイルも置いてはなりません。これは起動前認証用のパスワードを明かすように強制されたときのものです。結果的に、全体で三つのパスワードが存在することになります。そのうち二つ（囮OS用および外殻ボリューム用）は明かしても構いません。三つ目のパスワードを使用したとき、隠しOSが起動することになります。</string>
+    <string lang="ja" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">以降のステップで、二つのVeraCryptボリューム（外殻と隠し）をシステムパーティションのすぐ次のパーティションに作成します。隠しボリュームには隠しOSを収めます。VeraCryptは隠しOSをシステムパーティション（現在起動中のOSがインストールされているところ）の内容をコピーして作成します。外殻ボリュームには、本当には隠す必要はないが一見秘密のように見えるファイルをコピーします。これらは、誰かがあなたに隠しOS用パーティションのパスワードを明かすように強制されたときのために存在します。隠しOS用パーティションにある外殻ボリュームのパスワードなら明かしても構いません。それでもなお隠しOSの存在は秘密に保たれます。\n\n最後に現在起動中のOSのシステムパーティションに新しくOSをインストールし、暗号化します。これは囮OSと呼ばれるものになります。これにはいかなる秘密のファイルも置いてはなりません。これは起動前認証用のパスワードを明かすように強制されたときのものです。結果的に、全体で三つのパスワードが存在することになります。そのうち二つ（囮OS用および外殻ボリューム用）は明かしても構いません。三つ目のパスワードを使用したとき、隠しOSが起動することになります。</string>
     <string lang="ja" key="SYSENC_DRIVE_ANALYSIS_TITLE">隠しセクタの検出</string>
-    <string lang="ja" key="SYSENC_DRIVE_ANALYSIS_INFO">TrueCryptがシステムドライブ末端の隠しセクタを検出している間、しばらくお待ちください。検出し終わるまでに長時間かかるかもしれません。\n\n注：一部のコンピュータにおいては、ごくまれに、この検出処理中にシステムが無反応になってしまうかもしれません。もしそうなった場合は、コンピュータを再起動し、あらためてTrueCryptを実行してください。前回の処理を繰り返しますが検出処理はスキップします。この問題はTrueCryptのバグではありません。</string>
+    <string lang="ja" key="SYSENC_DRIVE_ANALYSIS_INFO">VeraCryptがシステムドライブ末端の隠しセクタを検出している間、しばらくお待ちください。検出し終わるまでに長時間かかるかもしれません。\n\n注：一部のコンピュータにおいては、ごくまれに、この検出処理中にシステムが無反応になってしまうかもしれません。もしそうなった場合は、コンピュータを再起動し、あらためてVeraCryptを実行してください。前回の処理を繰り返しますが検出処理はスキップします。この問題はVeraCryptのバグではありません。</string>
     <string lang="ja" key="SYS_ENCRYPTION_SPAN_TITLE">暗号化する領域</string>
-    <string lang="ja" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">現在起動中のWindowsがインストールされているドライブ全体を暗号化したい場合は、このオプションを選択してください。すべてのパーティションを含むドライブ全体（TrueCryptブートローダーを格納する先頭トラックを除く）が暗号化されます。その後、このドライブにインストールされたシステムおよびそこに保存されているデータを読み書きしたいときには、システムを起動するたびに正しいパスワードを入力しなければなりません。このオプションではWindowsがインストールされていない（あるいはそこからは起動しない）セカンダリドライブや外付けドライブは暗号化できません。</string>
+    <string lang="ja" key="SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP">現在起動中のWindowsがインストールされているドライブ全体を暗号化したい場合は、このオプションを選択してください。すべてのパーティションを含むドライブ全体（VeraCryptブートローダーを格納する先頭トラックを除く）が暗号化されます。その後、このドライブにインストールされたシステムおよびそこに保存されているデータを読み書きしたいときには、システムを起動するたびに正しいパスワードを入力しなければなりません。このオプションではWindowsがインストールされていない（あるいはそこからは起動しない）セカンダリドライブや外付けドライブは暗号化できません。</string>
     <string lang="ja" key="COLLECTING_RANDOM_DATA_TITLE">ランダムデータの収集</string>
     <string lang="ja" key="KEYS_GEN_TITLE">鍵の生成</string>
-    <string lang="ja" key="CD_BURNER_NOT_PRESENT">CD/DVDを書き込めるドライブが接続されていません。起動可能なTrueCryptレスキューディスクを作成するためにはそのようなドライブが必要です。このレスキューディスクには、暗号鍵のバックアップ、TrueCryptブートローダー、オリジナルのシステムローダーなどが保存されます。\n\nTrueCryptレスキューディスクの作成を強く推奨します。</string>
+    <string lang="ja" key="CD_BURNER_NOT_PRESENT">CD/DVDを書き込めるドライブが接続されていません。起動可能なVeraCryptレスキューディスクを作成するためにはそのようなドライブが必要です。このレスキューディスクには、暗号鍵のバックアップ、VeraCryptブートローダー、オリジナルのシステムローダーなどが保存されます。\n\nVeraCryptレスキューディスクの作成を強く推奨します。</string>
     <string lang="ja" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO">CD/DVDを書き込めるドライブを持っていないので、レスキューディスクのISOイメージファイルをリムーバブルドライブ（USBフラッシュメモリなど）に保存する。</string>
     <string lang="ja" key="CD_BURNER_NOT_PRESENT_WILL_CONNECT_LATER">後でCD/DVDを書き込めるドライブを接続するので、処理をすぐに中止する。</string>
     <string lang="ja" key="CD_BURNER_NOT_PRESENT_CONNECTED_NOW">CD/DVDを書き込めるドライブを接続したので、レスキューディスクの作成を続行する。</string>
-    <string lang="ja" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">以下の手順に従ってください：\n\n1) USBフラッシュメモリなどのリムーバブルドライブを接続する。\n\n2) TrueCryptレスキューディスクのイメージファイル (%s) をそのリムーバブルドライブにコピーする。\n\n将来TrueCryptレスキューディスクを使う必要ができた場合には、CD/DVDを書き込めるドライブを接続したコンピュータにこのリムーバブルドライブを接続し、CDあるいはDVDにイメージファイルを書き込むことで、起動可能なTrueCryptレスキューディスクを作成することができます。重要：TrueCryptレスキューディスクのイメージファイルは、個別のファイルではなくISOディスクイメージとして書き込む必要があることに注意してください。</string>
+    <string lang="ja" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">以下の手順に従ってください：\n\n1) USBフラッシュメモリなどのリムーバブルドライブを接続する。\n\n2) VeraCryptレスキューディスクのイメージファイル (%s) をそのリムーバブルドライブにコピーする。\n\n将来VeraCryptレスキューディスクを使う必要ができた場合には、CD/DVDを書き込めるドライブを接続したコンピュータにこのリムーバブルドライブを接続し、CDあるいはDVDにイメージファイルを書き込むことで、起動可能なVeraCryptレスキューディスクを作成することができます。重要：VeraCryptレスキューディスクのイメージファイルは、個別のファイルではなくISOディスクイメージとして書き込む必要があることに注意してください。</string>
     <string lang="ja" key="RESCUE_DISK_RECORDING_TITLE">レスキューディスクのレコーディング</string>
     <string lang="ja" key="RESCUE_DISK_CREATED_TITLE">レスキューディスクが作成されました</string>
     <string lang="ja" key="SYS_ENCRYPTION_PRETEST_TITLE">システム暗号化の予備検査</string>
     <string lang="ja" key="RESCUE_DISK_DISK_VERIFIED_TITLE">レスキューディスクの検証</string>
-    <string lang="ja" key="RESCUE_DISK_VERIFIED_INFO">\nTrueCryptレスキューディスクの検証に成功しました。ドライブからディスクを排出し、安全な場所に保管してください。\n\n「次へ」で進みます。</string>
-    <string lang="ja" key="REMOVE_RESCUE_DISK_FROM_DRIVE">警告：次のステップの間はTrueCryptレスキューディスクが挿入されていてはいけません。さもなければ正常に次のステップを完了することができません。\n\nレスキューディスクをドライブから抜き取り、安全な場所に保管してください。その後「はい」をクリックしてください。</string>
-    <string lang="ja" key="PREBOOT_NOT_LOCALIZED">警告：起動前の環境には技術的な制限があるため、起動前にTrueCryptが表示するメッセージ（例：Windows起動前）は日本語化されません。TrueCryptブートローダーのユーザーインターフェースは完全に英語表記となります。\n\n続けますか？</string>
-    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO">システムパーティション/ドライブを暗号化する前に、TrueCryptはすべてが正常に動作するか検証する必要があります。\n\n「テスト」をクリックすると、すべての必要なコンポーネント（例：起動前の認証モジュールやTrueCryptブートローダーなど）がインストールされ、コンピュータが再起動されます。そしてWindowsが起動する前に表示されるTrueCryptブートローダーでパスワードを入力する必要があります。Windowsが起動した後、予備検査の結果が自動的に通知されます。\n\n以下のデバイスに更新が行われます：ドライブ #%d\n\n\n「キャンセル」をクリックすると予備検査は実行されず、インストールも行われません。</string>
+    <string lang="ja" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCryptレスキューディスクの検証に成功しました。ドライブからディスクを排出し、安全な場所に保管してください。\n\n「次へ」で進みます。</string>
+    <string lang="ja" key="REMOVE_RESCUE_DISK_FROM_DRIVE">警告：次のステップの間はVeraCryptレスキューディスクが挿入されていてはいけません。さもなければ正常に次のステップを完了することができません。\n\nレスキューディスクをドライブから抜き取り、安全な場所に保管してください。その後「はい」をクリックしてください。</string>
+    <string lang="ja" key="PREBOOT_NOT_LOCALIZED">警告：起動前の環境には技術的な制限があるため、起動前にVeraCryptが表示するメッセージ（例：Windows起動前）は日本語化されません。VeraCryptブートローダーのユーザーインターフェースは完全に英語表記となります。\n\n続けますか？</string>
+    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO">システムパーティション/ドライブを暗号化する前に、VeraCryptはすべてが正常に動作するか検証する必要があります。\n\n「テスト」をクリックすると、すべての必要なコンポーネント（例：起動前の認証モジュールやVeraCryptブートローダーなど）がインストールされ、コンピュータが再起動されます。そしてWindowsが起動する前に表示されるVeraCryptブートローダーでパスワードを入力する必要があります。Windowsが起動した後、予備検査の結果が自動的に通知されます。\n\n以下のデバイスに更新が行われます：ドライブ #%d\n\n\n「キャンセル」をクリックすると予備検査は実行されず、インストールも行われません。</string>
     <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">重要なお知らせ -- 目を通してください（「印刷」で印刷します）：\n\nWindowsの再起動に成功するまでは、どのファイルも暗号化されません。つまり何らかの失敗があってもデータが失われることはありません。ただし、何か誤ったことを行った場合、Windowsの起動が困難になるかもしれません。したがって以下のガイドラインを熟読し（できれば印刷してください）、もしWindowsが起動しなくなった場合にどうすれば良いかを把握してください。\n\n</string>
-    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">Windowsが起動できない場合の対処方法 ------------------------------------------------\n\n注：以下の説明は暗号化前の段階のときのみ有効です。\n\n- もし正しいパスワードを入力してもWindowsが起動しなくなったとしても（あるいはいくら正しいパスワードを入力しても、TrueCryptにパスワードが違うと言われたとしても）どうか落ち着いてください。コンピュータの電源をいったん切ってから入れて再起動し、TrueCryptブートローダー画面になったらキーボードのESCキーを押してください（もしマルチブート設定になっていれば、起動するシステムを選択してください）。その後Windowsが起動し（暗号化されていない場合）、自動的にTrueCryptが起動前認証用コンポーネントをアンインストールするかどうかを尋ねてきます。強調しておきますが、このステップはシステムパーティション/ドライブが暗号化されている場合には働きません。たとえ誰かがこの手順を踏んだとしても、正しいパスワードなしにはそのドライブのWindowsを起動したりデータにアクセスしたりはできません。\n\n</string>
-    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- もしESCキーを押しても上記のように機能しない、Windows起動前にTrueCryptブートローダー画面が表示されないなどといった場合には、TrueCryptレスキューディスクをCD/DVDドライブに挿入してから再起動してください。もしTrueCryptレスキューディスク画面が表示されない、あるいは表示されても「Keyboard Controls」セクションに「Repair Options」が見あたらない場合は、BIOSがCD/DVDより先にハードディスクから起動するように設定されている可能性があります。もしそのケースに当てはまる場合は、再度コンピュータを再起動（リセット）してから、BIOSの起動画面が表示されたらすぐにF2かDELETEキーを押し、BIOSの設定画面が表示されるまで待ってください。もしBIOSの設定画面が表示されないようであれば、コンピュータを再起動（リセット）し、すぐにF2かDELETEキーを何度か繰り返し押してください。BIOS設定画面が表示されたら、CD/DVDドライブから先に起動するように設定を変更してください（具体的な方法はBIOSかマザーボードのマニュアルを参照してください）。それからコンピュータを再起動してください。これでTrueCryptレスキューディスク画面が表示されるはずです。TrueCryptレスキューディスク画面で「Repair Options」をF8キーを押して選択してください。この「Repair Options」メニューから「Restore original system loader」を選択してください。その後レスキューディスクをドライブから排出してコンピュータを再起動してください。これでWindowsが正常に起動するはずです（暗号化されていない場合）。\n\n</string>
-    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">このプロセスはシステムパーティション/ドライブが暗号化されている場合には働き*ません*。たとえ誰かがこの手順を踏んだとしても、正しいパスワードなしにはそのドライブのWindowsを起動したりデータにアクセスしたりはできません。\n\n\nもしあなたがTrueCryptレスキューディスクを紛失して攻撃者がそれを見つけたとしても、正しいパスワードがなければ、システムパーティション/ドライブを復号することはでき*ません*。</string>
+    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">Windowsが起動できない場合の対処方法 ------------------------------------------------\n\n注：以下の説明は暗号化前の段階のときのみ有効です。\n\n- もし正しいパスワードを入力してもWindowsが起動しなくなったとしても（あるいはいくら正しいパスワードを入力しても、VeraCryptにパスワードが違うと言われたとしても）どうか落ち着いてください。コンピュータの電源をいったん切ってから入れて再起動し、VeraCryptブートローダー画面になったらキーボードのESCキーを押してください（もしマルチブート設定になっていれば、起動するシステムを選択してください）。その後Windowsが起動し（暗号化されていない場合）、自動的にVeraCryptが起動前認証用コンポーネントをアンインストールするかどうかを尋ねてきます。強調しておきますが、このステップはシステムパーティション/ドライブが暗号化されている場合には働きません。たとえ誰かがこの手順を踏んだとしても、正しいパスワードなしにはそのドライブのWindowsを起動したりデータにアクセスしたりはできません。\n\n</string>
+    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- もしESCキーを押しても上記のように機能しない、Windows起動前にVeraCryptブートローダー画面が表示されないなどといった場合には、VeraCryptレスキューディスクをCD/DVDドライブに挿入してから再起動してください。もしVeraCryptレスキューディスク画面が表示されない、あるいは表示されても「Keyboard Controls」セクションに「Repair Options」が見あたらない場合は、BIOSがCD/DVDより先にハードディスクから起動するように設定されている可能性があります。もしそのケースに当てはまる場合は、再度コンピュータを再起動（リセット）してから、BIOSの起動画面が表示されたらすぐにF2かDELETEキーを押し、BIOSの設定画面が表示されるまで待ってください。もしBIOSの設定画面が表示されないようであれば、コンピュータを再起動（リセット）し、すぐにF2かDELETEキーを何度か繰り返し押してください。BIOS設定画面が表示されたら、CD/DVDドライブから先に起動するように設定を変更してください（具体的な方法はBIOSかマザーボードのマニュアルを参照してください）。それからコンピュータを再起動してください。これでVeraCryptレスキューディスク画面が表示されるはずです。VeraCryptレスキューディスク画面で「Repair Options」をF8キーを押して選択してください。この「Repair Options」メニューから「Restore original system loader」を選択してください。その後レスキューディスクをドライブから排出してコンピュータを再起動してください。これでWindowsが正常に起動するはずです（暗号化されていない場合）。\n\n</string>
+    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">このプロセスはシステムパーティション/ドライブが暗号化されている場合には働き*ません*。たとえ誰かがこの手順を踏んだとしても、正しいパスワードなしにはそのドライブのWindowsを起動したりデータにアクセスしたりはできません。\n\n\nもしあなたがVeraCryptレスキューディスクを紛失して攻撃者がそれを見つけたとしても、正しいパスワードがなければ、システムパーティション/ドライブを復号することはでき*ません*。</string>
     <string lang="ja" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">予備検査完了</string>
-    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">予備検査が無事に完了しました。\n\n警告：もし既存データをその場での暗号化中に電源が突然切られたり、ソフトウェアエラーやハードウェア障害によってOSがクラッシュしたりした場合、データの一部が壊れたり失われたりする可能性があります。したがって暗号化する前に必ずファイルのバックアップをとってください。まだバックアップをとっていなければすぐにバックアップしてください。「保留」をクリックしてから、ファイルのバックアップを行い、TrueCryptを再度起動して[システム]-[中断処理を再開]を選択することで暗号化を再開できます。\n\n準備ができたら「暗号化」で暗号化を開始してください。</string>
-    <string lang="ja" key="SYSENC_ENCRYPTION_PAGE_INFO">「一時中断」か「保留」をクリックすることで暗号化あるいは復号処理をいつでも中断することができます。ウィザードを終了した後、コンピュータを再起動あるいはシャットダウンした後に、中断したところから処理を再開できます。またシステムやアプリケーションがシステムドライブを読み書きするときに遅くなることを防ぐため、TrueCryptは自動的にその読み書きが終わるのを待ちます（上のステータスを見てください）。その読み書きが終わると暗号化/復号処理を再開します。</string>
+    <string lang="ja" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">予備検査が無事に完了しました。\n\n警告：もし既存データをその場での暗号化中に電源が突然切られたり、ソフトウェアエラーやハードウェア障害によってOSがクラッシュしたりした場合、データの一部が壊れたり失われたりする可能性があります。したがって暗号化する前に必ずファイルのバックアップをとってください。まだバックアップをとっていなければすぐにバックアップしてください。「保留」をクリックしてから、ファイルのバックアップを行い、VeraCryptを再度起動して[システム]-[中断処理を再開]を選択することで暗号化を再開できます。\n\n準備ができたら「暗号化」で暗号化を開始してください。</string>
+    <string lang="ja" key="SYSENC_ENCRYPTION_PAGE_INFO">「一時中断」か「保留」をクリックすることで暗号化あるいは復号処理をいつでも中断することができます。ウィザードを終了した後、コンピュータを再起動あるいはシャットダウンした後に、中断したところから処理を再開できます。またシステムやアプリケーションがシステムドライブを読み書きするときに遅くなることを防ぐため、VeraCryptは自動的にその読み書きが終わるのを待ちます（上のステータスを見てください）。その読み書きが終わると暗号化/復号処理を再開します。</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n「ポーズ」あるいは「保留」をクリックして、いつでも暗号化を中断し、ウィザードを終了して、コンピュータを再起動あるいはシャットダウンし、中断した箇所から処理を再開することができます。なお、暗号化が完了するまではこのボリュームをマウントすることはできません。</string>
     <string lang="ja" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">隠しシステムの開始</string>
     <string lang="ja" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">オリジナルシステム</string>
-    <string lang="ja" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windowsは様々な種類のログファイルや一時ファイル等を、通常はユーザーに特に知らせることなくシステムパーティションに作成します。同様にメモリー上の情報を一時休止ファイルやページングファイルとして保存します。そのため、敵対者が元OSのパーティションにあるデータ（隠しシステムのコピー元）を解析した場合、たとえばあなたがTrueCryptのウィザードを隠しシステム作成モードで実行したことなどを見つけるかもしれません。これは隠しOSの存在を示唆します。\n\nこの問題を防ぐため、TrueCryptは次のステップで、元OSのあったパーティション上のデータすべてを安全に抹消します。その後、「みせかけの拒否」を達成するために、そのパーティションに新しいシステムをインストールし、暗号化しておく必要があります。このように囮システムを作成して、隠しOSを作成するすべての手順を終えてください。</string>
-    <string lang="ja" key="OS_WIPING_NOT_FINISHED_ASK">隠しOSの作成に成功しました。ただし隠しOSの使用を開始する前に、そして「みせかけの拒否」を達成するためにも、TrueCryptを使って、現在起動中のシステムがインストールされているパーティションの内容すべてを抹消してください。まずその前に、コンピュータを再起動し、TrueCryptブートローダー画面（Windows起動前に表示されます）で、隠しOS用の起動前認証用のパスワードを入力してください。隠しシステムが起動するとTrueCryptウィザードが自動的に開始されます。\n\n注：もし今ここで隠しOSの作成を解除した場合、処理を再開できなくなり、隠しシステムにアクセスできなくなります（TrueCryptブートローダーが削除されるためです）。</string>
-    <string lang="ja" key="HIDDEN_OS_CREATION_NOT_FINISHED_ASK">中断中の隠しOS作成処理があります。この処理は未完了です。完了させるためには、コンピュータを再起動し、TrueCryptブートローダー画面（Windows起動前に表示されます）で、隠しOS用のパスワードを入力してください。\n\n注：もし今ここで隠しOSの作成を解除した場合、処理を再開できなくなくなります。</string>
+    <string lang="ja" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windowsは様々な種類のログファイルや一時ファイル等を、通常はユーザーに特に知らせることなくシステムパーティションに作成します。同様にメモリー上の情報を一時休止ファイルやページングファイルとして保存します。そのため、敵対者が元OSのパーティションにあるデータ（隠しシステムのコピー元）を解析した場合、たとえばあなたがVeraCryptのウィザードを隠しシステム作成モードで実行したことなどを見つけるかもしれません。これは隠しOSの存在を示唆します。\n\nこの問題を防ぐため、VeraCryptは次のステップで、元OSのあったパーティション上のデータすべてを安全に抹消します。その後、「みせかけの拒否」を達成するために、そのパーティションに新しいシステムをインストールし、暗号化しておく必要があります。このように囮システムを作成して、隠しOSを作成するすべての手順を終えてください。</string>
+    <string lang="ja" key="OS_WIPING_NOT_FINISHED_ASK">隠しOSの作成に成功しました。ただし隠しOSの使用を開始する前に、そして「みせかけの拒否」を達成するためにも、VeraCryptを使って、現在起動中のシステムがインストールされているパーティションの内容すべてを抹消してください。まずその前に、コンピュータを再起動し、VeraCryptブートローダー画面（Windows起動前に表示されます）で、隠しOS用の起動前認証用のパスワードを入力してください。隠しシステムが起動するとVeraCryptウィザードが自動的に開始されます。\n\n注：もし今ここで隠しOSの作成を解除した場合、処理を再開できなくなり、隠しシステムにアクセスできなくなります（VeraCryptブートローダーが削除されるためです）。</string>
+    <string lang="ja" key="HIDDEN_OS_CREATION_NOT_FINISHED_ASK">中断中の隠しOS作成処理があります。この処理は未完了です。完了させるためには、コンピュータを再起動し、VeraCryptブートローダー画面（Windows起動前に表示されます）で、隠しOS用のパスワードを入力してください。\n\n注：もし今ここで隠しOSの作成を解除した場合、処理を再開できなくなくなります。</string>
     <string lang="ja" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_RETRY">再起動して処理を続行する</string>
     <string lang="ja" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_TERMINATE">隠しOSの作成処理を解除する</string>
     <string lang="ja" key="HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_ASK_LATER">今は何もせずに後でまた尋ねる</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_1">\nできればこの文面を印刷してください（下の「印刷」をクリック）。\n\n\nTrueCryptレスキューディスクの使用方法（暗号化後） -------------------------------------------------------------------------------------\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_2">I. TrueCryptレスキューディスクの起動方法\n\nTrueCryptレスキューディスクを使うにはCD/DVDドライブにディスクを挿入してコンピュータを再起動してください。もしTrueCryptブートローダー画面が表示されない、あるいは表示されても「Keyboard Controls」に「Repair Options」が存在しない場合は、BIOSがCD/DVDより先にハードディスクから起動するように設定されている可能性があります。もしそのケースに当てはまる場合は、コンピュータを再起動してから、BIOSの起動画面が表示されたらすぐにF2かDELETEキーを押し、BIOSの設定画面が表示されるまで待ってください。もしBIOSの設定画面が表示されないようであれば、コンピュータを再起動（リセット）し、すぐにF2かDELETEキーを何度か繰り返し押してください。BIOS設定画面が表示されたら、CD/DVDドライブから先に起動するように設定を変更してください（具体的な方法はBIOSかマザーボードのマニュアルを参照してください）。それからコンピュータを再起動してください。これでTrueCryptレスキューディスク画面が表示されるはずですので「Repair Options」をF8キーを押して選択してください。\n\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_3">II.TrueCryptレスキューディスクの使用方法（暗号化後）\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_4">1) もし起動後にTrueCryptブートローダー画面が表示されない（あるいはWindowsが起動しない）場合は、TrueCryptブートローダーが壊れている可能性があります。TrueCryptレスキューディスクによってブートローダーをリストアすることで、暗号化されたデータへのアクセスを復活させられます（ただし依然として正しいパスワードの入力が必要です）。レスキューディスクの画面で「Repair Options」→「Restore TrueCrypt Boot Loader」を選択して「Y」キーを押します。次にレスキューディスクを排出してコンピュータを再起動してください。\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_5">2) もし何度正しいパスワードを入力してもパスワードが誤っていると言われる場合は、マスターキーあるいはその他の重要なデータが壊れている可能性があります。TrueCryptレスキューディスクによってそれらをリストアし、暗号化されたデータへのアクセスを復活させられます（ただし依然として正しいパスワードの入力が必要です）。レスキューディスクの画面で「Repair Options」→「Restore key data」を選択してください。パスワードを入力してから「Y」キーを押します。次にレスキューディスクを排出してコンピュータを再起動してください。\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_6">3) もしTrueCryptブートローダーが壊れていた場合は、TrueCryptレスキューディスクから起動することで、ブートローダーの起動を回避できます。レスキューディスクをCD/DVDドライブに挿入してコンピュータを再起動します。レスキューディスクの画面でパスワードを入力してください。\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_7">4) もしWindowsが壊れていて起動できないのであれば、TrueCryptレスキューディスクでWindowsの起動前にディスク/ドライブの暗号化を解除できます。レスキューディスク画面で「Repair Options」→「Permanently decrypt system partition/drive」を選択してください。正しいパスワードを入力を入力して、復号処理の終了をお待ちください。その後は、たとえばWindowsのセットアップディスクから起動するなどして、Windowsを修復してください。\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_8">注：別の方法として、もしWindowsが破損しており（起動しない）、修復する（あるいはファイルにアクセスする）必要がある場合、次の手順でシステムパーティション/ドライブの暗号化解除を回避することもできます。 もし複数のOSを入れてマルチブート構成にしているのならば、その中で起動前認証が不要なものを起動してください。もしマルチブート構成にしていないのであれば、WinPE あるいは BartPE CD/DVD を使って起動したり、あるいはそのシステムドライブを他のマシンのセカンダリあるいは外付けドライブとして接続して、そのマシンを起動するという手もあります。いずれにせよそうやって起動した後、TrueCryptを実行して「デバイスの選択」をクリック、問題のシステムパーティションを選択して「OK」をクリック、[システム]-[起動前認証をせずにマウント]と選択して、起動前認証に使うパスワードを入力して「OK」をクリックします。このようにすることで、そのパーティションは通常のTrueCryptボリュームのようにマウントすることができます。\n\n\n</string>
-    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_9">もしあなたがTrueCryptレスキューディスクを紛失して攻撃者がそれを見つけたとしても、正しいパスワードがなければ、システムパーティション/ドライブを復号することはできません。</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_1">\nできればこの文面を印刷してください（下の「印刷」をクリック）。\n\n\nVeraCryptレスキューディスクの使用方法（暗号化後） -------------------------------------------------------------------------------------\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_2">I. VeraCryptレスキューディスクの起動方法\n\nVeraCryptレスキューディスクを使うにはCD/DVDドライブにディスクを挿入してコンピュータを再起動してください。もしVeraCryptブートローダー画面が表示されない、あるいは表示されても「Keyboard Controls」に「Repair Options」が存在しない場合は、BIOSがCD/DVDより先にハードディスクから起動するように設定されている可能性があります。もしそのケースに当てはまる場合は、コンピュータを再起動してから、BIOSの起動画面が表示されたらすぐにF2かDELETEキーを押し、BIOSの設定画面が表示されるまで待ってください。もしBIOSの設定画面が表示されないようであれば、コンピュータを再起動（リセット）し、すぐにF2かDELETEキーを何度か繰り返し押してください。BIOS設定画面が表示されたら、CD/DVDドライブから先に起動するように設定を変更してください（具体的な方法はBIOSかマザーボードのマニュアルを参照してください）。それからコンピュータを再起動してください。これでVeraCryptレスキューディスク画面が表示されるはずですので「Repair Options」をF8キーを押して選択してください。\n\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_3">II.VeraCryptレスキューディスクの使用方法（暗号化後）\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_4">1) もし起動後にVeraCryptブートローダー画面が表示されない（あるいはWindowsが起動しない）場合は、VeraCryptブートローダーが壊れている可能性があります。VeraCryptレスキューディスクによってブートローダーをリストアすることで、暗号化されたデータへのアクセスを復活させられます（ただし依然として正しいパスワードの入力が必要です）。レスキューディスクの画面で「Repair Options」→「Restore VeraCrypt Boot Loader」を選択して「Y」キーを押します。次にレスキューディスクを排出してコンピュータを再起動してください。\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_5">2) もし何度正しいパスワードを入力してもパスワードが誤っていると言われる場合は、マスターキーあるいはその他の重要なデータが壊れている可能性があります。VeraCryptレスキューディスクによってそれらをリストアし、暗号化されたデータへのアクセスを復活させられます（ただし依然として正しいパスワードの入力が必要です）。レスキューディスクの画面で「Repair Options」→「Restore key data」を選択してください。パスワードを入力してから「Y」キーを押します。次にレスキューディスクを排出してコンピュータを再起動してください。\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_6">3) もしVeraCryptブートローダーが壊れていた場合は、VeraCryptレスキューディスクから起動することで、ブートローダーの起動を回避できます。レスキューディスクをCD/DVDドライブに挿入してコンピュータを再起動します。レスキューディスクの画面でパスワードを入力してください。\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_7">4) もしWindowsが壊れていて起動できないのであれば、VeraCryptレスキューディスクでWindowsの起動前にディスク/ドライブの暗号化を解除できます。レスキューディスク画面で「Repair Options」→「Permanently decrypt system partition/drive」を選択してください。正しいパスワードを入力を入力して、復号処理の終了をお待ちください。その後は、たとえばWindowsのセットアップディスクから起動するなどして、Windowsを修復してください。\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_8">注：別の方法として、もしWindowsが破損しており（起動しない）、修復する（あるいはファイルにアクセスする）必要がある場合、次の手順でシステムパーティション/ドライブの暗号化解除を回避することもできます。 もし複数のOSを入れてマルチブート構成にしているのならば、その中で起動前認証が不要なものを起動してください。もしマルチブート構成にしていないのであれば、WinPE あるいは BartPE CD/DVD を使って起動したり、あるいはそのシステムドライブを他のマシンのセカンダリあるいは外付けドライブとして接続して、そのマシンを起動するという手もあります。いずれにせよそうやって起動した後、VeraCryptを実行して「デバイスの選択」をクリック、問題のシステムパーティションを選択して「OK」をクリック、[システム]-[起動前認証をせずにマウント]と選択して、起動前認証に使うパスワードを入力して「OK」をクリックします。このようにすることで、そのパーティションは通常のVeraCryptボリュームのようにマウントすることができます。\n\n\n</string>
+    <string lang="ja" key="RESCUE_DISK_HELP_PORTION_9">もしあなたがVeraCryptレスキューディスクを紛失して攻撃者がそれを見つけたとしても、正しいパスワードがなければ、システムパーティション/ドライブを復号することはできません。</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_1">\n\n--非 常 に 重 要 -- できるだけ印刷してください（下の「印刷」をクリック）\n\n\n注：この文章は、囮システムの作成を開始するまで、隠しシステムを起動するたび毎回表示されます。\n\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_2">安全かつ機密的に囮システムを作成する方法 ----------------------------------------------------------------------------\n\n「みせかけの拒否」を達成するため、囮OSをすぐ作成する必要があります。それには以下の手順に従ってください:\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_3">1) セキュリティ上の理由のため、コンピュータをシャットダウンし、電源を切って少なくとも数分間（長いほど良いです）は放置してください。これはメモリー上に残ったデータをクリアするために必要です。その後、電源を入れてください。ただし隠しシステムは起動しないでください。\n\n</string>
-    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2) 内容が削除されているパーティションにWindowsをインストールしてください（つまり、隠しシステムのコピー元であるOSがインストールされていたパーティション）。\n\n重要：囮システムのインストールを開始すると、WindowsインストーラーがTrueCryptブートローダーを上書きするため、隠しシステムを起動できなくなります。これは想定された事態であり異常ではありません。どうか慌てないでください。囮システムの暗号化を開始することですぐに、再び隠しシステムを起動できるようになります。TrueCryptがブートローダーを自動的にシステムドライブにインストールするからです。\n\n重要：囮システムパーティションのサイズは隠しシステムボリュームと同じままである必要があります（この状態は現在満たされています）。加えて、囮システムパーティションと隠しシステムパーティションの間にパーティションを作ってはなりません。\n\n</string>
-    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3) 手順２でインストールした囮システムを起動します。TrueCryptもインストールしておいてください。\n\n囮システムには、秘密にしたいデータは一切保存してはなりません。\n\n</string>
-    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4) 囮システムでTrueCryptを実行し、[システム]-[システムパーティション/ドライブの暗号化]を選択してください。TrueCryptボリューム作成ウィザードが起動します。\n\nウィザードを以下の手順で進めてください。\n\n</string>
+    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2) 内容が削除されているパーティションにWindowsをインストールしてください（つまり、隠しシステムのコピー元であるOSがインストールされていたパーティション）。\n\n重要：囮システムのインストールを開始すると、WindowsインストーラーがVeraCryptブートローダーを上書きするため、隠しシステムを起動できなくなります。これは想定された事態であり異常ではありません。どうか慌てないでください。囮システムの暗号化を開始することですぐに、再び隠しシステムを起動できるようになります。VeraCryptがブートローダーを自動的にシステムドライブにインストールするからです。\n\n重要：囮システムパーティションのサイズは隠しシステムボリュームと同じままである必要があります（この状態は現在満たされています）。加えて、囮システムパーティションと隠しシステムパーティションの間にパーティションを作ってはなりません。\n\n</string>
+    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3) 手順２でインストールした囮システムを起動します。VeraCryptもインストールしておいてください。\n\n囮システムには、秘密にしたいデータは一切保存してはなりません。\n\n</string>
+    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4) 囮システムでVeraCryptを実行し、[システム]-[システムパーティション/ドライブの暗号化]を選択してください。VeraCryptボリューム作成ウィザードが起動します。\n\nウィザードを以下の手順で進めてください。\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5) ボリューム作成ウィザードでは「隠し」オプションを選択しないでください。「通常」オプションを選択し「次へ」をクリックしてください。\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_8">6)「Windowsシステムパーティションの暗号化」オプションを選択し、「次へ」をクリックしてください。\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_9">7) もしコンピュータに隠しシステムと囮システムの二つだけしかインストールされていないのなら、「シングルブート」オプションを選択してください。それ以外のシステムもインストールされているのであれば「マルチブート」オプションを選択してください。それから「次へ」をクリックしてください。\n\n</string>
@@ -1131,51 +1131,51 @@
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_11">9) このステップで、囮OS用のパスワードを設定してください。このパスワードは、起動前認証用のパスワードの開示を敵対者に強要されたときに明かしても構わないものです（もう一つの明かして構わないパスワードは外殻ボリューム用のものです）。その場合でも、第三の、すなわち隠しOS用の起動前認証パスワードの存在は秘密に保たれたままです。\n\n重要：囮システム用のパスワードは、隠しボリューム用（すなわち隠しOS用）のものとは大幅に変えるようにしてください。\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_12">10) ウィザードの残りに手順に従って進めると、囮OSが暗号化されます。\n\n\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_13">囮システムの作成後 ------------------------------------------------\n\n囮システムを作成すれば、隠しOSの作成プロセスをすべて完了したことになります。その時点で、あなたは次の三つのパスワードを使い分けることになります：\n\n1) 隠しOS用の起動前認証パスワード\n\n2) 囮OS用の起動前認証パスワード\n\n3) 外殻ボリューム用のパスワード\n\n</string>
-    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_14">隠しOSを起動したい場合は、TrueCryptブートローダー画面（コンピュータの電源を入れるか再起動した後に表示）で、隠しOS用のパスワードを入力する必要があります。\n\n囮OSを起動したい場合は、TrueCryptブートローダー画面で、囮OS用のパスワードを入力する必要があります。\n\n囮OS用のパスワードは起動前認証パスワードの開示を強要する人に明かしても構いません。それでも隠しボリューム（および隠しOS）の存在は秘匿されたままです。\n\n</string>
+    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_14">隠しOSを起動したい場合は、VeraCryptブートローダー画面（コンピュータの電源を入れるか再起動した後に表示）で、隠しOS用のパスワードを入力する必要があります。\n\n囮OSを起動したい場合は、VeraCryptブートローダー画面で、囮OS用のパスワードを入力する必要があります。\n\n囮OS用のパスワードは起動前認証パスワードの開示を強要する人に明かしても構いません。それでも隠しボリューム（および隠しOS）の存在は秘匿されたままです。\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_15">第三のパスワード（外殻ボリューム用）は、システムパーティション直後のパーティション（外殻ボリュームと隠しボリュームが存在しています）のパスワードの開示を強要する人に明かしても構いません。それでも隠しボリューム（および隠しOS）の存在は秘匿されたままです。\n\n\n</string>
-    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_16">もしも囮システム用のパスワードを敵対者に明かしたとき、なぜ（囮）システムパーティションの空き領域がランダムデータで埋められているのかを尋ねられたら、たとえば次のように答えることができるでしょう。「このパーティションは以前からTrueCryptでシステムの暗号化をしていましたが、起動前認証用のパスワードを忘れた（あるいはシステム障害で起動しなくなった）ため、Windowsを再インストールするはめになり、その後もう一度暗号化したのです」\n\n\n</string>
+    <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_16">もしも囮システム用のパスワードを敵対者に明かしたとき、なぜ（囮）システムパーティションの空き領域がランダムデータで埋められているのかを尋ねられたら、たとえば次のように答えることができるでしょう。「このパーティションは以前からVeraCryptでシステムの暗号化をしていましたが、起動前認証用のパスワードを忘れた（あるいはシステム障害で起動しなくなった）ため、Windowsを再インストールするはめになり、その後もう一度暗号化したのです」\n\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_17">もし、この説明書の手順がすべて遵守され、ユーザーズガイドの「隠しボリュームの安全に関する必要事項と予防策」の記載内容によく留意しておくならば、たとえ外殻ボリュームがマウントされたり、囮OSの暗号化が突破されたとしても、隠しボリュームや隠しOSの存在を検知することは不可能です。\n\nもしこの文面のコピーを保存したり印刷（プリンタの内蔵ドライブに文面が保存されるのでなければ、強く推奨します）したなら、囮システムを作成し、文書の内容すべてを理解した後、その紙やコピーを破棄すべきです。そうしないと、もしその紙が見つかったならば、このコンピュータに隠しOSがあることを推測されるおそれがあるからです。\n\n</string>
     <string lang="ja" key="DECOY_OS_INSTRUCTIONS_PORTION_18">警告：隠しボリュームを保護（方法はユーザーズガイドの「隠しボリュームを破損から守る」を参照ください）していない場合、外殻ボリュームに書き込みをしないでください（囮OSは外殻ボリュームにインストールされているわけではありません）。さもなければ、隠しボリューム（そしてその中の隠しOS）の内容を上書きし、破壊してしまいます！</string>
     <string lang="ja" key="HIDDEN_OS_CREATION_PREINFO_TITLE">オペレーティングシステムの複製</string>
-    <string lang="ja" key="HIDDEN_OS_CREATION_PREINFO_HELP">次のステップで、TrueCryptはシステムパーティションから隠しボリュームへファイルをコピーすることで隠しOS領域を作成します（囮OS領域とは別の暗号鍵で即時暗号化しながらコピーします）。\n\nこの処理はWindows起動前の環境で行われ、完了するまでに長時間かかることに注意してください。処理時間はシステムパーティションのサイズやコンピュータの性能にもよりますが、数時間から数日かかることもあります。\n\nこの処理を途中で中断し、コンピュータを再起動した後にあらためて再開することも可能です。ただし、もし処理を中断した場合は、システムのコピー処理からやり直しになります。これはシステムパーティションとコピー先の内容を同一にするために必要です。</string>
+    <string lang="ja" key="HIDDEN_OS_CREATION_PREINFO_HELP">次のステップで、VeraCryptはシステムパーティションから隠しボリュームへファイルをコピーすることで隠しOS領域を作成します（囮OS領域とは別の暗号鍵で即時暗号化しながらコピーします）。\n\nこの処理はWindows起動前の環境で行われ、完了するまでに長時間かかることに注意してください。処理時間はシステムパーティションのサイズやコンピュータの性能にもよりますが、数時間から数日かかることもあります。\n\nこの処理を途中で中断し、コンピュータを再起動した後にあらためて再開することも可能です。ただし、もし処理を中断した場合は、システムのコピー処理からやり直しになります。これはシステムパーティションとコピー先の内容を同一にするために必要です。</string>
     <string lang="ja" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">隠しOSの作成をキャンセルしますか？\n\nここで処理をキャンセルした場合、後で処理を再開することはできません。</string>
     <string lang="ja" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">システム暗号化の予備検査をキャンセルしますか？</string>
-    <string lang="ja" key="BOOT_PRETEST_FAILED_RETRY">TrueCryptのシステム暗号化予備検査に失敗しました。もう一度予備検査をしますか？\n\nもし「いいえ」を選んだ場合、起動前認証用コンポーネントがアンインストールされます。\n\n注：\n\n- もしTrueCryptブートローダーがWindowsが起動する前にパスワードの入力を要求してこなかった場合、ブートローダーがインストールされたのではないドライブからOSが起動している可能性があります。このケースには対応していません。\n\n- もしAES以外の暗号化アルゴリズムを使って予備検査に失敗した（そしてパスワードは入力した）場合、不適切な設計のドライバーに起因している可能性があります。「いいえ」を選択し、システムパーティション/ドライブをAESを使って暗号化しなおしてみてください（メモリ使用量が最少になります）。\n\n- その他に考えられる原因や対処方法については、http://www.truecrypt.org/docs/?s=troubleshooting をご覧ください。</string>
+    <string lang="ja" key="BOOT_PRETEST_FAILED_RETRY">VeraCryptのシステム暗号化予備検査に失敗しました。もう一度予備検査をしますか？\n\nもし「いいえ」を選んだ場合、起動前認証用コンポーネントがアンインストールされます。\n\n注：\n\n- もしVeraCryptブートローダーがWindowsが起動する前にパスワードの入力を要求してこなかった場合、ブートローダーがインストールされたのではないドライブからOSが起動している可能性があります。このケースには対応していません。\n\n- もしAES以外の暗号化アルゴリズムを使って予備検査に失敗した（そしてパスワードは入力した）場合、不適切な設計のドライバーに起因している可能性があります。「いいえ」を選択し、システムパーティション/ドライブをAESを使って暗号化しなおしてみてください（メモリ使用量が最少になります）。\n\n- その他に考えられる原因や対処方法については、http://www.veracrypt.org/docs/?s=troubleshooting をご覧ください。</string>
     <string lang="ja" key="SYS_DRIVE_NOT_ENCRYPTED">システムパーティション/ドライブは部分的にも全体的にも暗号化されていないようです。</string>
-    <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">システムパーティション/デバイスは暗号化されています（部分的あるいは全体的）。\n\n処理を進める前にシステムパーティション/デバイス全体の暗号化を解除してください。TrueCryptのメインウィンドウのメニューから[システム]-[暗号化の解除]を選択することで解除できます。</string>
-    <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">システムパーティション/ドライブが部分的であれ全体であれ暗号化されている場合は、TrueCryptをダウングレードできません。ただしアップグレードあるいは同じバージョンでの再インストールは可能です。</string>
+    <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">システムパーティション/デバイスは暗号化されています（部分的あるいは全体的）。\n\n処理を進める前にシステムパーティション/デバイス全体の暗号化を解除してください。VeraCryptのメインウィンドウのメニューから[システム]-[暗号化の解除]を選択することで解除できます。</string>
+    <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">システムパーティション/ドライブが部分的であれ全体であれ暗号化されている場合は、VeraCryptをダウングレードできません。ただしアップグレードあるいは同じバージョンでの再インストールは可能です。</string>
     <string lang="ja" key="SYS_ENCRYPTION_OR_DECRYPTION_IN_PROGRESS">システムパーティション/ドライブは暗号化中か復号中か、もしくはその他の処理で更新中です。処理を進める前に暗号化/復号/更新を中断してください。あるいはそれらが終了するまで待ってください。</string>
-    <string lang="ja" key="SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE">TrueCryptボリューム作成ウィザードが他に起動しており、システムパーティション/ドライブの暗号化あるいは復号の準備中あるいは実行中です。処理を進める前に、そちらを終了するかあるいは処理が終わるのを待ってください。もし終了できない場合はコンピュータを再起動してください。</string>
+    <string lang="ja" key="SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE">VeraCryptボリューム作成ウィザードが他に起動しており、システムパーティション/ドライブの暗号化あるいは復号の準備中あるいは実行中です。処理を進める前に、そちらを終了するかあるいは処理が終わるのを待ってください。もし終了できない場合はコンピュータを再起動してください。</string>
     <string lang="ja" key="SYSTEM_ENCRYPTION_NOT_COMPLETED">システムパーティション/ドライブの暗号化あるいは復号処理はまだ終了していません。処理を進める前にそちらが終了するのを待ってください。</string>
     <string lang="ja" key="ERR_ENCRYPTION_NOT_COMPLETED">エラー：パーティション/ドライブの暗号化処理が完了していません。最初にこの処理を完了させる必要があります。</string>
     <string lang="ja" key="ERR_NONSYS_INPLACE_ENC_INCOMPLETE">エラー：パーティション/ボリュームの暗号化処理は完了していません。これは必ず最初に完了させる必要があります。\n\n注：処理を再開するには、メインウィンドウのメニューバーから[ボリューム]-[中断処理を再開]を選択してください。</string>
-    <string lang="ja" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">正しいパスワードによって、TrueCryptはボリュームヘッダを復号し、このボリュームが隠しシステムボリュームであることを検出することに成功しました。ただし今の状態では隠しシステムボリュームのヘッダを変更することはできません。\n\n隠しシステムボリュームのパスワードを変更するには、隠しOSを起動してTrueCryptのメニューから[システム]-[パスワード変更]を選択してください。\n\nヘッダキーの導出アルゴリズムを設定するには隠しOSを起動し、[システム]-[ヘッダキー導出アルゴリズムの設定]を選択してください。</string>
-    <string lang="ja" key="CANNOT_DECRYPT_HIDDEN_OS">TrueCryptは隠しシステムパーティションをその場所に復号することには対応していません。\n\n注：囮用OSを復号したい場合は、囮用OSを起動した後、TrueCryptのメニューから[システム]-[システムパーティション/ドライブの暗号化を解除]を選択してください。</string>
+    <string lang="ja" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">正しいパスワードによって、VeraCryptはボリュームヘッダを復号し、このボリュームが隠しシステムボリュームであることを検出することに成功しました。ただし今の状態では隠しシステムボリュームのヘッダを変更することはできません。\n\n隠しシステムボリュームのパスワードを変更するには、隠しOSを起動してVeraCryptのメニューから[システム]-[パスワード変更]を選択してください。\n\nヘッダキーの導出アルゴリズムを設定するには隠しOSを起動し、[システム]-[ヘッダキー導出アルゴリズムの設定]を選択してください。</string>
+    <string lang="ja" key="CANNOT_DECRYPT_HIDDEN_OS">VeraCryptは隠しシステムパーティションをその場所に復号することには対応していません。\n\n注：囮用OSを復号したい場合は、囮用OSを起動した後、VeraCryptのメニューから[システム]-[システムパーティション/ドライブの暗号化を解除]を選択してください。</string>
     <string lang="ja" key="ERR_PARAMETER_INCORRECT">エラー：正しくないか無効なパラメータです。</string>
     <string lang="ja" key="DEVICE_SELECTED_IN_NON_DEVICE_MODE">パーティションあるいはデバイスが選択されていますが、ウィザードモードではコンテナファイルのみ適応しています。\n\nウィザードモードから変更しますか？</string>
-    <string lang="ja" key="CONFIRM_CHANGE_WIZARD_MODE_TO_FILE_CONTAINER">代わりにTrueCryptコンテナファイルを作成しますか？</string>
+    <string lang="ja" key="CONFIRM_CHANGE_WIZARD_MODE_TO_FILE_CONTAINER">代わりにVeraCryptコンテナファイルを作成しますか？</string>
     <string lang="ja" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">システムパーティション/ドライブ（あるいはブートパーティション）が選択されていますが、このウィザードモードはシステム以外のパーティション/ドライブにのみ適応しています。\n\n起動前に認証（つまりWindowsを起動するたびに起動前のパスワード入力が必要になります）を行うようにし、システムパーティション/ドライブを暗号化しますか？</string>
     <string lang="ja" key="CONFIRM_DECRYPT_SYS_DEVICE">本当にシステムパーティション/ドライブの暗号化を解除しますか？</string>
     <string lang="ja" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">注意：システムパーティション/ドライブの暗号化を解除した場合、復号されたデータが書き込まれます。\n\n本当にシステムパーティション/ドライブの暗号化を解除しますか？</string>
-    <string lang="ja" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">警告：多段アルゴリズムを使用してシステムを暗号化した場合、次のような問題に直面する可能性があります。\n\n1) TrueCryptブートローダーが通常より大きなサイズになるため、TrueCryptブートローダーのバックアップのための十分な領域をドライブの最初のトラックに得られません。そのためにその領域が破損する（これはしばしば発生します。たとえば設計が不適切なプログラムによるアクティベーション処理などです）たびにレスキューディスクから起動して、ブートローダー領域を修復する必要があります。\n\n2) 一部のコンピュータでは休止状態からの復帰により時間がかかるようになります。\n\n多段ではないアルゴリズム（例：AES）を使えば、このような潜在的な問題には遭遇しません。\n\n本当に多段アルゴリズムでの暗号化を行いますか？</string>
+    <string lang="ja" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">警告：多段アルゴリズムを使用してシステムを暗号化した場合、次のような問題に直面する可能性があります。\n\n1) VeraCryptブートローダーが通常より大きなサイズになるため、VeraCryptブートローダーのバックアップのための十分な領域をドライブの最初のトラックに得られません。そのためにその領域が破損する（これはしばしば発生します。たとえば設計が不適切なプログラムによるアクティベーション処理などです）たびにレスキューディスクから起動して、ブートローダー領域を修復する必要があります。\n\n2) 一部のコンピュータでは休止状態からの復帰により時間がかかるようになります。\n\n多段ではないアルゴリズム（例：AES）を使えば、このような潜在的な問題には遭遇しません。\n\n本当に多段アルゴリズムでの暗号化を行いますか？</string>
     <string lang="ja" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">もし上記の問題が発生した場合は、もし暗号化されているのならパーティション/ドライブを復号し、あらためて多段ではないアルゴリズム（例：AES）での再暗号化を試みてください。</string>
-    <string lang="ja" key="UPDATE_TC_IN_DECOY_OS_FIRST">警告：安全性とセキュリティ上の理由により、隠しOSより先に囮用OSのTrueCryptをアップデートすべきです。\n\nそのためにはまず囮用OSを起動し、そこに入れたTrueCryptインストーラを実行してください。次に隠しOSを起動し、そこに入れたTrueCryptインストーラを実行するようにします。\n\n注：囮用OSと隠しOSは一つのブートローダーを共有しています。もし隠しOSのTrueCryptのみアップグレードした場合、囮用OSにはブートローダーと違うバージョン番号を持つTrueCryptドライバおよびアプリケーションが残されることになります。このような矛盾は隠しOSが存在することを示唆することになります。\n\n\n本当に続けますか？</string>
-    <string lang="ja" key="UPDATE_TC_IN_HIDDEN_OS_TOO">このOSを起動したTrueCryptブートローダーのバージョン番号が、このOSにインストールされているTrueCryptのドライバおよびアプリケーションのバージョン番号と異なっています。\n\nブートローダーと同じバージョン番号を持つTrueCryptインストーラを実行して、このOSのTrueCryptをアップデートすべきです。</string>
-    <string lang="ja" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">このOSを起動したTrueCryptブートローダーのバージョンが、このシステムにインストールされているTrueCryptのドライバおよびアプリケーションのものと異なります。古いバージョンは新しいバージョンで修正されたバグを含んでいる可能性があります。\n\nもしTrueCryptレスキューディスクから起動したのでなければ、最新かつ安定版のTrueCryptへアップグレードあるいは再インストールすべきです（ブートローダーも同時にアップグレードされます）。\n\nもしTrueCryptレスキューディスクから起動したのであれば、[システム]-[レスキューディスク作成] で最新のものにしてください。</string>
-    <string lang="ja" key="BOOT_LOADER_UPGRADE_OK">TrueCryptブートローダーがアップグレードされました。\n\nコンピューターを再起動後に[システム]-[レスキューディスク作成]を選択して、新しいレスキューディスク（新バージョンのブートローダー入り）を作成することを強く推奨します。</string>
-    <string lang="ja" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">TrueCryptブートローダーがアップグレードされました。\n\n囮用OSを起動し、[システム]-[レスキューディスク作成]を選択して、新しいTrueCryptレスキューディスク（新バージョンのTrueCryptブートローダーが含まれます）を作成することを強く推奨します。</string>
-    <string lang="ja" key="BOOT_LOADER_UPGRADE_FAILED">TrueCryptブートローダーのアップグレードに失敗しました。</string>
-    <string lang="ja" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">システムドライブの実サイズの検出に失敗したため、代わりにOSから得た情報を使用します（実サイズより小さい可能性があります）。これはTrueCryptのバグではありません。</string>
-    <string lang="ja" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">警告：TrueCryptはすでにこのシステムドライブの隠しセクタを検出しようとしていたようです。もし前回の検出処理時に問題があったのであれば、今回の検出処理をスキップすることで問題を回避することができます。もしそうした場合は、TrueCryptはOSが報告してきたドライブサイズ（おそらく実際のサイズより小さいでしょう）を使用します。\n\nこの問題はTrueCryptのバグに起因するものではありません。</string>
+    <string lang="ja" key="UPDATE_TC_IN_DECOY_OS_FIRST">警告：安全性とセキュリティ上の理由により、隠しOSより先に囮用OSのVeraCryptをアップデートすべきです。\n\nそのためにはまず囮用OSを起動し、そこに入れたVeraCryptインストーラを実行してください。次に隠しOSを起動し、そこに入れたVeraCryptインストーラを実行するようにします。\n\n注：囮用OSと隠しOSは一つのブートローダーを共有しています。もし隠しOSのVeraCryptのみアップグレードした場合、囮用OSにはブートローダーと違うバージョン番号を持つVeraCryptドライバおよびアプリケーションが残されることになります。このような矛盾は隠しOSが存在することを示唆することになります。\n\n\n本当に続けますか？</string>
+    <string lang="ja" key="UPDATE_TC_IN_HIDDEN_OS_TOO">このOSを起動したVeraCryptブートローダーのバージョン番号が、このOSにインストールされているVeraCryptのドライバおよびアプリケーションのバージョン番号と異なっています。\n\nブートローダーと同じバージョン番号を持つVeraCryptインストーラを実行して、このOSのVeraCryptをアップデートすべきです。</string>
+    <string lang="ja" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">このOSを起動したVeraCryptブートローダーのバージョンが、このシステムにインストールされているVeraCryptのドライバおよびアプリケーションのものと異なります。古いバージョンは新しいバージョンで修正されたバグを含んでいる可能性があります。\n\nもしVeraCryptレスキューディスクから起動したのでなければ、最新かつ安定版のVeraCryptへアップグレードあるいは再インストールすべきです（ブートローダーも同時にアップグレードされます）。\n\nもしVeraCryptレスキューディスクから起動したのであれば、[システム]-[レスキューディスク作成] で最新のものにしてください。</string>
+    <string lang="ja" key="BOOT_LOADER_UPGRADE_OK">VeraCryptブートローダーがアップグレードされました。\n\nコンピューターを再起動後に[システム]-[レスキューディスク作成]を選択して、新しいレスキューディスク（新バージョンのブートローダー入り）を作成することを強く推奨します。</string>
+    <string lang="ja" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">VeraCryptブートローダーがアップグレードされました。\n\n囮用OSを起動し、[システム]-[レスキューディスク作成]を選択して、新しいVeraCryptレスキューディスク（新バージョンのVeraCryptブートローダーが含まれます）を作成することを強く推奨します。</string>
+    <string lang="ja" key="BOOT_LOADER_UPGRADE_FAILED">VeraCryptブートローダーのアップグレードに失敗しました。</string>
+    <string lang="ja" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">システムドライブの実サイズの検出に失敗したため、代わりにOSから得た情報を使用します（実サイズより小さい可能性があります）。これはVeraCryptのバグではありません。</string>
+    <string lang="ja" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">警告：VeraCryptはすでにこのシステムドライブの隠しセクタを検出しようとしていたようです。もし前回の検出処理時に問題があったのであれば、今回の検出処理をスキップすることで問題を回避することができます。もしそうした場合は、VeraCryptはOSが報告してきたドライブサイズ（おそらく実際のサイズより小さいでしょう）を使用します。\n\nこの問題はVeraCryptのバグに起因するものではありません。</string>
     <string lang="ja" key="SKIP_HIDDEN_SECTOR_DETECTION">隠しセクタの検出をスキップする（OSが報告するサイズを使用する）</string>
     <string lang="ja" key="RETRY_HIDDEN_SECTOR_DETECTION">隠しセクタの検出を再度行う</string>
-    <string lang="ja" key="ENABLE_BAD_SECTOR_ZEROING">エラー：ディスク上の一つあるいは複数のセクターが読み込めません（おそらく物理的な原因です）。\n\nその場での暗号化処理は、セクターの読み込みが回復するまで続行できません。TrueCryptはセクターに0を書き込むことで読み込みが回復するか確認できます（その後、そのようにすべて0のブロックも暗号化されます）。ただしこの場合、読み込めなかったセクターの元の内容が失われることに注意してください。それを避けたいのであれば、他の適切なソフトウェアで破損データの回復を試すこともできます。\n\n注：単なるデータ破損やチェックサムエラーではなく、セクターが物理的に破損していた場合、ほとんどの記憶装置では、そのようなセクターへの書き込みを内部的に別セクターに差し替えます。そのため、破損セクター上のデータは暗号化されずに残ったままとなります。\n\nTrueCryptが読み込めないセクターに0を書き込んでも良いですか？</string>
-    <string lang="ja" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">エラー：ディスク上の一つあるいは複数のセクターが読み込めません（おそらく物理的な原因です）。\n\n復号処理を続行するためには、TrueCryptは読み込めないセクターの内容を破棄する必要があります（その内容は疑似乱数データに書き換えられます）。復号処理を続行する前に他の適切なソフトウェアで破損データの回復を試すことができます。\n\n読み込めないセクターの内容を破棄しますか？</string>
-    <string lang="ja" key="ZEROED_BAD_SECTOR_COUNT">注：TrueCryptは %I64d 個の読込不能セクター (%s) へ0を書き込み、暗号化しました。</string>
+    <string lang="ja" key="ENABLE_BAD_SECTOR_ZEROING">エラー：ディスク上の一つあるいは複数のセクターが読み込めません（おそらく物理的な原因です）。\n\nその場での暗号化処理は、セクターの読み込みが回復するまで続行できません。VeraCryptはセクターに0を書き込むことで読み込みが回復するか確認できます（その後、そのようにすべて0のブロックも暗号化されます）。ただしこの場合、読み込めなかったセクターの元の内容が失われることに注意してください。それを避けたいのであれば、他の適切なソフトウェアで破損データの回復を試すこともできます。\n\n注：単なるデータ破損やチェックサムエラーではなく、セクターが物理的に破損していた場合、ほとんどの記憶装置では、そのようなセクターへの書き込みを内部的に別セクターに差し替えます。そのため、破損セクター上のデータは暗号化されずに残ったままとなります。\n\nVeraCryptが読み込めないセクターに0を書き込んでも良いですか？</string>
+    <string lang="ja" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">エラー：ディスク上の一つあるいは複数のセクターが読み込めません（おそらく物理的な原因です）。\n\n復号処理を続行するためには、VeraCryptは読み込めないセクターの内容を破棄する必要があります（その内容は疑似乱数データに書き換えられます）。復号処理を続行する前に他の適切なソフトウェアで破損データの回復を試すことができます。\n\n読み込めないセクターの内容を破棄しますか？</string>
+    <string lang="ja" key="ZEROED_BAD_SECTOR_COUNT">注：VeraCryptは %I64d 個の読込不能セクター (%s) へ0を書き込み、暗号化しました。</string>
     <string lang="ja" key="ENTER_TOKEN_PASSWORD">トークン '%s' に対するパスワード/PINを入力してください：</string>
-    <string lang="ja" key="PKCS11_LIB_LOCATION_HELP">TrueCryptがセキュリティトークンやスマートカードへアクセスするためには、事前にPKCS#11ソフトウェアライブラリのインストールが必要です。そのようなライブラリは、トークンやカードに付属しているか、あるいはメーカー等のウェブサイトからダウンロードできるようになっているものと思われます。\n\nライブラリをインストールした後、「ライブラリの選択」をクリックしてライブラリを指定するか、「ライブラリ自動検出」をクリックしてライブラリの自動検出をしてください（なお自動検出はWindowsのシステムディレクトリのみ検索します）。</string>
+    <string lang="ja" key="PKCS11_LIB_LOCATION_HELP">VeraCryptがセキュリティトークンやスマートカードへアクセスするためには、事前にPKCS#11ソフトウェアライブラリのインストールが必要です。そのようなライブラリは、トークンやカードに付属しているか、あるいはメーカー等のウェブサイトからダウンロードできるようになっているものと思われます。\n\nライブラリをインストールした後、「ライブラリの選択」をクリックしてライブラリを指定するか、「ライブラリ自動検出」をクリックしてライブラリの自動検出をしてください（なお自動検出はWindowsのシステムディレクトリのみ検索します）。</string>
     <string lang="ja" key="SELECT_PKCS11_MODULE_HELP">注：セキュリティトークンやスマートカード用のPKCS#11ライブラリの場所とファイル名を指定します。トークンやカードなどに付属の説明書も参照してください。「OK」をクリックしてファイル名と場所を指定してください。</string>
-    <string lang="ja" key="NO_PKCS11_MODULE_SPECIFIED">TrueCryptがセキュリティトークンやスマートカードへアクセスするためには、PKCS#11ソフトウェアライブラリを選択する必要があります。 [設定]-[セキュリティトークン]を選択してください。</string>
+    <string lang="ja" key="NO_PKCS11_MODULE_SPECIFIED">VeraCryptがセキュリティトークンやスマートカードへアクセスするためには、PKCS#11ソフトウェアライブラリを選択する必要があります。 [設定]-[セキュリティトークン]を選択してください。</string>
     <string lang="ja" key="PKCS11_MODULE_INIT_FAILED">PKCS#11セキュリティトークン用ライブラリの初期化に失敗しました。\n\nPKCS#11ライブラリの場所とファイル名の設定に誤りがないか確認してください。設定をするには、[設定]-[セキュリティトークン]を選択してください。</string>
     <string lang="ja" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">PKCS#11ライブラリがWindowsシステムディレクトリに見つかりませんでした。\n\nセキュリティトークンやスマートカード用のPKCS#11ライブラリがインストールされているか確認してください。そのようなライブラリはトークンやカードに付属しているか、あるいはメーカー等のウェブサイトからダウンロードできるようになっているものと思われます。Windowsシステムディレクトリ以外の場所にインストールされている場合は、「ライブラリの選択」をクリックしてライブラリの場所を指定してください（例：トークンやカード用のソフトウェアがインストールされているフォルダなど）。</string>
     <string lang="ja" key="NO_TOKENS_FOUND">セキュリティトークンが見つかりませんでした。\n\nセキュリティトークンがコンピュータに接続されており、正しいデバイスドライバがインストールされているか確認してください。</string>
@@ -1185,16 +1185,16 @@
     <string lang="ja" key="INVALID_TOKEN_KEYFILE_PATH">セキュリティトークンキーファイルの場所が正しくありません。</string>
     <string lang="ja" key="SECURITY_TOKEN_ERROR">セキュリティトークンエラー</string>
     <string lang="ja" key="CKR_PIN_INCORRECT">セキュリティトークンのパスワードが正しくありません。</string>
-    <string lang="ja" key="CKR_DEVICE_MEMORY">セキュリティトークンに、要求された操作を行うための充分なメモリー/空き領域がありません。\n\nキーファイルをインポートしようとしているのであれば、もっと小さなファイルを指定するか、[ツール]-[キーファイル生成]を選択してTrueCryptでキーファイルを生成してください。</string>
+    <string lang="ja" key="CKR_DEVICE_MEMORY">セキュリティトークンに、要求された操作を行うための充分なメモリー/空き領域がありません。\n\nキーファイルをインポートしようとしているのであれば、もっと小さなファイルを指定するか、[ツール]-[キーファイル生成]を選択してVeraCryptでキーファイルを生成してください。</string>
     <string lang="ja" key="ALL_TOKEN_SESSIONS_CLOSED">すべてのセキュリティトークンセッションが閉じられました。</string>
     <string lang="ja" key="SELECT_TOKEN_KEYFILES">セキュリティトークンキーファイルを選択</string>
     <string lang="ja" key="TOKEN_SLOT_ID">スロット</string>
     <string lang="ja" key="TOKEN_NAME">トークン名</string>
     <string lang="ja" key="TOKEN_DATA_OBJECT_LABEL">ファイル名</string>
-    <string lang="ja" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">重要：起動前認証時のパスワードは、キーボードが常にUS標準配列であるものとして入力されます。したがって、その他のキー配列のキーボードから入力したパスワードを使用したボリュームは、起動前認証パスワードを使ったマウントが不可能かもしれません（これはTrueCryptのバグではありません）。そのようなボリュームを起動前認証でマウントするには以下の手順を行ってください。\n\n1) 「ファイルの選択」あるいは「デバイスの選択」をクリックして、ボリュームを選択する。 2) メニューから [ボリューム]-[ボリュームパスワードの変更] を選択する。 3) そのボリュームの現在のパスワードを入力する。 4) Windowsタスクバーにある言語バーアイコンをクリックして「EN 英語(米国)」を選択することで、キーボードレイアウトを英語(米国)に切り替える。 5) TrueCryptの画面で新規パスワード欄に、起動前認証用のパスワードを入力する。 6) パスワード確認欄にも同じパスワードを入力し、「OK」をクリックする。 警告：これらの手順を行った場合は、そのボリュームのパスワードは常にUS標準配列で入力する必要があります（Windowsの起動前なら自動的にそのような状態になっています）。</string>
+    <string lang="ja" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">重要：起動前認証時のパスワードは、キーボードが常にUS標準配列であるものとして入力されます。したがって、その他のキー配列のキーボードから入力したパスワードを使用したボリュームは、起動前認証パスワードを使ったマウントが不可能かもしれません（これはVeraCryptのバグではありません）。そのようなボリュームを起動前認証でマウントするには以下の手順を行ってください。\n\n1) 「ファイルの選択」あるいは「デバイスの選択」をクリックして、ボリュームを選択する。 2) メニューから [ボリューム]-[ボリュームパスワードの変更] を選択する。 3) そのボリュームの現在のパスワードを入力する。 4) Windowsタスクバーにある言語バーアイコンをクリックして「EN 英語(米国)」を選択することで、キーボードレイアウトを英語(米国)に切り替える。 5) VeraCryptの画面で新規パスワード欄に、起動前認証用のパスワードを入力する。 6) パスワード確認欄にも同じパスワードを入力し、「OK」をクリックする。 警告：これらの手順を行った場合は、そのボリュームのパスワードは常にUS標準配列で入力する必要があります（Windowsの起動前なら自動的にそのような状態になっています）。</string>
     <string lang="ja" key="SYS_FAVORITES_KEYBOARD_WARNING">システムお気に入りボリュームは起動前認証用パスワードによってマウントされます。もし違うパスワードを使うシステムお気に入りボリュームがあった場合、そのボリュームはマウントされません。</string>
-    <string lang="ja" key="SYS_FAVORITES_ADMIN_ONLY_INFO">通常のTrueCryptボリュームへの操作（全てアンマウント、自動マウントなど）が、システムお気に入りボリュームに波及しないようにしたい場合は、「システムお気に入りボリュームの表示およびアンマウントを管理者のみに限定する」オプションを有効にしてください。なおこのとき、もしTrueCryptを管理者権限なしに実行した場合は（Vista以降はこれがデフォルトです）、システムお気に入りボリュームはTrueCryptメインウィンドウのドライブリストに表示されなくなります。</string>
-    <string lang="ja" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">重要：このオプションを有効にし、かつ管理者権限なしにTrueCryptが実行された場合、マウントされたシステムお気に入りボリュームはTrueCryptのメインウィンドウ上に表示されず、アンマウントもできないことを忘れないでください。したがって、もし、たとえばシステムお気に入りボリュームをアンマウントする必要があるのなら、まずスタートメニューのTrueCryptアイコンを右クリックして「管理者として実行」を選択してください。同様の制限が「全てアンマウント」「自動アンマウント」機能や、ホットキーによる「全てアンマウント」などにも適用されます。</string>
+    <string lang="ja" key="SYS_FAVORITES_ADMIN_ONLY_INFO">通常のVeraCryptボリュームへの操作（全てアンマウント、自動マウントなど）が、システムお気に入りボリュームに波及しないようにしたい場合は、「システムお気に入りボリュームの表示およびアンマウントを管理者のみに限定する」オプションを有効にしてください。なおこのとき、もしVeraCryptを管理者権限なしに実行した場合は（Vista以降はこれがデフォルトです）、システムお気に入りボリュームはVeraCryptメインウィンドウのドライブリストに表示されなくなります。</string>
+    <string lang="ja" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">重要：このオプションを有効にし、かつ管理者権限なしにVeraCryptが実行された場合、マウントされたシステムお気に入りボリュームはVeraCryptのメインウィンドウ上に表示されず、アンマウントもできないことを忘れないでください。したがって、もし、たとえばシステムお気に入りボリュームをアンマウントする必要があるのなら、まずスタートメニューのVeraCryptアイコンを右クリックして「管理者として実行」を選択してください。同様の制限が「全てアンマウント」「自動アンマウント」機能や、ホットキーによる「全てアンマウント」などにも適用されます。</string>
     <string lang="ja" key="SETTING_REQUIRES_REBOOT">この設定の効果はOSの再起動後に有効になります。</string>
     <string lang="ja" key="COMMAND_LINE_ERROR">コマンドラインの解析でエラーが発生しました。</string>
     <string lang="ja" key="RESCUE_DISK">レスキューディスク</string>
@@ -1202,20 +1202,20 @@
     <string lang="ja" key="SELECT_DEVICE_AND_MOUNT">デバイスを選択してマウント(&amp;D)...</string>
     <string lang="ja" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">システムお気に入りボリュームの表示およびアンマウントを管理者のみに限定する</string>
     <string lang="ja" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Windows開始時にシステムお気に入りボリュームをマウントする</string>
-    <string lang="ja" key="MOUNTED_VOLUME_DIRTY">警告：ドライブ '%s' としてマウントされたボリュームのファイルシステムは、正しくアンマウントされなかったためにエラーが発生しています。壊れたファイルシステムを使用することは、データを失ったり破損したりする原因となります。\n\n注：TrueCryptボリュームをマウント中のデバイスを、取り外したりその電源を切ったりする前（USBフラッシュドライブや外付けハードディスクなど）に、必ずボリュームのアンマウントを行ってください。\n\n\nWindowsにファイルシステムのエラーを検出させて修復しますか？</string>
-    <string lang="ja" key="SYS_FAVORITE_VOLUME_DIRTY">警告：一つかそれ以上のシステムお気に入りボリュームが正しくアンマウントされなかったため、ファイルシステムにエラーが発生している可能性があります。詳細はシステムのイベントログを参照してください。\n\n破損したファイルシステムを使用することは、データの消失や破損の原因となります。システムお気に入りボリュームにエラーがないかチェックしてください（TrueCrypt上でそれらを右クリックし「ファイルシステムの修復」を選択してください）。</string>
-    <string lang="ja" key="FILESYS_REPAIR_CONFIRM_BACKUP">警告：マイクロソフトの「chkdsk」ツールで破損したファイルシステムを修復することで、破損領域内にあった各ファイルが失われる可能性があります。したがって、まず最初にこのTrueCryptボリューム内のファイルを、別の破損していないTrueCryptボリュームにバックアップすることをお勧めします。\n\n今すぐこのファイルシステムを修復しますか？</string>
-    <string lang="ja" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">ボリューム '%s' は、書込が禁止されているため読み取り専用でマウントされました。\n\nコンテナファイルに書き込みが可能かどうか確認してください（コンテナファイルを右クリック→プロパティ→セキュリティ）。\n\nWindows自体の不具合により、適切なアクセス許可を設定した後でもこの警告が表示されることがあります。これはTrueCryptのバグによるものではありません。解決方法の一つとして、コンテナファイルをたとえば「ドキュメント」フォルダに移動するなどといった方法があります。\n\n意図的にボリュームを読み取り専用にしたい場合は、読み取り専用属性をコンテナファイルに設定してください（コンテナファイルを右クリック→プロパティ→「読み取り専用」にチェック）。この場合はこの警告は出なくなります。</string>
+    <string lang="ja" key="MOUNTED_VOLUME_DIRTY">警告：ドライブ '%s' としてマウントされたボリュームのファイルシステムは、正しくアンマウントされなかったためにエラーが発生しています。壊れたファイルシステムを使用することは、データを失ったり破損したりする原因となります。\n\n注：VeraCryptボリュームをマウント中のデバイスを、取り外したりその電源を切ったりする前（USBフラッシュドライブや外付けハードディスクなど）に、必ずボリュームのアンマウントを行ってください。\n\n\nWindowsにファイルシステムのエラーを検出させて修復しますか？</string>
+    <string lang="ja" key="SYS_FAVORITE_VOLUME_DIRTY">警告：一つかそれ以上のシステムお気に入りボリュームが正しくアンマウントされなかったため、ファイルシステムにエラーが発生している可能性があります。詳細はシステムのイベントログを参照してください。\n\n破損したファイルシステムを使用することは、データの消失や破損の原因となります。システムお気に入りボリュームにエラーがないかチェックしてください（VeraCrypt上でそれらを右クリックし「ファイルシステムの修復」を選択してください）。</string>
+    <string lang="ja" key="FILESYS_REPAIR_CONFIRM_BACKUP">警告：マイクロソフトの「chkdsk」ツールで破損したファイルシステムを修復することで、破損領域内にあった各ファイルが失われる可能性があります。したがって、まず最初にこのVeraCryptボリューム内のファイルを、別の破損していないVeraCryptボリュームにバックアップすることをお勧めします。\n\n今すぐこのファイルシステムを修復しますか？</string>
+    <string lang="ja" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">ボリューム '%s' は、書込が禁止されているため読み取り専用でマウントされました。\n\nコンテナファイルに書き込みが可能かどうか確認してください（コンテナファイルを右クリック→プロパティ→セキュリティ）。\n\nWindows自体の不具合により、適切なアクセス許可を設定した後でもこの警告が表示されることがあります。これはVeraCryptのバグによるものではありません。解決方法の一つとして、コンテナファイルをたとえば「ドキュメント」フォルダに移動するなどといった方法があります。\n\n意図的にボリュームを読み取り専用にしたい場合は、読み取り専用属性をコンテナファイルに設定してください（コンテナファイルを右クリック→プロパティ→「読み取り専用」にチェック）。この場合はこの警告は出なくなります。</string>
     <string lang="ja" key="MOUNTED_DEVICE_FORCED_READ_ONLY">ボリューム '%s' は、書込が禁止されているため読み取り専用でマウントされました。\n\n他のアプリケーション（例：アンチウィルスソフトなど）が、このボリュームが存在しているパーティション/デバイスにアクセスしていないか確認してください。</string>
-    <string lang="ja" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">ホストとなっているデバイスが書込禁止のため、ボリューム '%s' は読み取り専用でマウントされました。\n\nいくつかのカスタムチップセットドライバは、書込可能なメディアを誤って書込禁止であるかのように通知してくることがあることに注意してください。これはTrueCryptの問題ではありません。現在のシステムにインストールされているカスタム（非マイクロソフト製）チップセットドライバをアンインストールあるいはアップデートすることで、この問題が解決するかもしれません。</string>
+    <string lang="ja" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">ホストとなっているデバイスが書込禁止のため、ボリューム '%s' は読み取り専用でマウントされました。\n\nいくつかのカスタムチップセットドライバは、書込可能なメディアを誤って書込禁止であるかのように通知してくることがあることに注意してください。これはVeraCryptの問題ではありません。現在のシステムにインストールされているカスタム（非マイクロソフト製）チップセットドライバをアンインストールあるいはアップデートすることで、この問題が解決するかもしれません。</string>
     <string lang="ja" key="LIMIT_ENC_THREAD_POOL_NOTE">ハイパースレッディングテクノロジーは、単体の物理コアで複数の論理コアを提供します。ハイパースレッディングが有効になっているときは、上で選択した数は論理プロセッサ/コアの数を示します。</string>
     <string lang="ja" key="NUMBER_OF_THREADS">%d スレッド</string>
     <string lang="ja" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">ハードウェアによるAES処理の高速化が無効であるため、ベンチマークの結果は悪くなります。\n\nハードウェアによる高速化を有効にするには [設定]-[パフォーマンス] を選択し、該当するオプションを有効にしてください。</string>
     <string lang="ja" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">処理に使用するスレッド数が現在制限されているため、ベンチマークの結果は悪くなります。\n\nプロセッサのポテンシャルを全て引き出すには [設定]-[パフォーマンス] を選択し、該当するオプションを無効にしてください。</string>
     <string lang="ja" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">このパーティション/ドライブの書込禁止の解除を試みますか？</string>
     <string lang="ja" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：この設定はパフォーマンスを低下させます。\n\n本当にこの設定を使用しますか？</string>
-    <string lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告：TrueCryptボリュームの自動的アンマウント</string>
-    <string lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">マウント中のボリュームが存在するデバイスを物理的に取り外したり電源を切ったりする先に、常にまずTrueCryptボリュームをアンマウントすべきです。\n\n想定外に勝手にアンマウントされるのは、ケーブルやドライブ等が断続的につながらなくなっているのが大抵の原因です。</string>
+    <string lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告：VeraCryptボリュームの自動的アンマウント</string>
+    <string lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">マウント中のボリュームが存在するデバイスを物理的に取り外したり電源を切ったりする先に、常にまずVeraCryptボリュームをアンマウントすべきです。\n\n想定外に勝手にアンマウントされるのは、ケーブルやドライブ等が断続的につながらなくなっているのが大抵の原因です。</string>
     <string lang="ja" key="TEST">テスト</string>
     <string lang="ja" key="KEYFILE">キーファイル</string>
     <string lang="ja" key="VKEY_08">Backspace</string>
@@ -1287,7 +1287,7 @@
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="TrueCrypt">
+    <xs:element name="VeraCrypt">
       <xs:complexType>
         <xs:sequence>
           <xs:element name="localization">
@@ -1338,4 +1338,4 @@
       </xs:complexType>
     </xs:element>
   </xs:schema>
-</TrueCrypt>
+</VeraCrypt>
