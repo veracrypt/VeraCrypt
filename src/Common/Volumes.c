@@ -64,7 +64,7 @@
 // Unencrypted:
 // 0		64		Salt
 // Encrypted:
-// 64		4		ASCII string 'TRUE'
+// 64		4		ASCII string 'VERA'
 // 68		2		Header version
 // 70		2		Required program version
 // 72		4		CRC-32 checksum of the (decrypted) bytes 256-511
@@ -86,7 +86,7 @@
 // Unencrypted:
 // 0		64		Salt
 // Encrypted:
-// 64		4		ASCII string 'TRUE'
+// 64		4		ASCII string 'VERA'
 // 68		2		Header version
 // 70		2		Required program version
 // 72		4		CRC-32 checksum of the (decrypted) bytes 256-511
@@ -107,7 +107,7 @@
 // Unencrypted:
 // 0		64		Salt
 // Encrypted:
-// 64		4		ASCII string 'TRUE'
+// 64		4		ASCII string 'VERA'
 // 68		2		Header version
 // 70		2		Required program version
 // 72		4		CRC-32 checksum of the (decrypted) bytes 256-511
@@ -401,7 +401,7 @@ KeyReady:	;
 
 				DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
-				// Magic 'TRUE'
+				// Magic 'VERA'
 				if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
 					continue;
 
@@ -614,7 +614,7 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 		// Try to decrypt header 
 		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 		
-		// Check magic 'TRUE' and CRC-32 of header fields and master keydata
+		// Check magic 'VERA' and CRC-32 of header fields and master keydata
 		if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241
 			|| (GetHeaderField16 (header, TC_HEADER_OFFSET_VERSION) >= 4 && GetHeaderField32 (header, TC_HEADER_OFFSET_HEADER_CRC) != GetCrc32 (header + TC_HEADER_OFFSET_MAGIC, TC_HEADER_OFFSET_HEADER_CRC - TC_HEADER_OFFSET_MAGIC))
 			|| GetHeaderField32 (header, TC_HEADER_OFFSET_KEY_AREA_CRC) != GetCrc32 (header + HEADER_MASTER_KEYDATA_OFFSET, MASTER_KEYDATA_SIZE))

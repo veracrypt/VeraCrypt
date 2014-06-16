@@ -375,7 +375,7 @@ static void localcleanup (void)
 
 static BOOL CALLBACK BroadcastSysEncCfgUpdateCallb (HWND hwnd, LPARAM lParam)
 {
-	if (GetWindowLongPtr (hwnd, GWLP_USERDATA) == (LONG_PTR) 'TRUE')
+	if (GetWindowLongPtr (hwnd, GWLP_USERDATA) == (LONG_PTR) 'VERA')
 	{
 		char name[1024] = { 0 };
 		GetWindowText (hwnd, name, sizeof (name) - 1);

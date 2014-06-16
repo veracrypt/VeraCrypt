@@ -3984,7 +3984,7 @@ static BOOL CALLBACK LocalizeDialogEnum( HWND hwnd, LPARAM font)
 void LocalizeDialog (HWND hwnd, char *stringId)
 {
 	LastDialogId = stringId;
-	SetWindowLongPtr (hwnd, GWLP_USERDATA, (LONG_PTR) 'TRUE');
+	SetWindowLongPtr (hwnd, GWLP_USERDATA, (LONG_PTR) 'VERA');
 	SendMessage (hwnd, WM_SETFONT, (WPARAM) hUserFont, 0);
 
 	if (stringId == NULL)
@@ -8370,7 +8370,7 @@ void HandleDriveNotReadyError ()
 
 BOOL CALLBACK CloseTCWindowsEnum (HWND hwnd, LPARAM lParam)
 {
-	if (GetWindowLongPtr (hwnd, GWLP_USERDATA) == (LONG_PTR) 'TRUE')
+	if (GetWindowLongPtr (hwnd, GWLP_USERDATA) == (LONG_PTR) 'VERA')
 	{
 		char name[1024] = { 0 };
 		GetWindowText (hwnd, name, sizeof (name) - 1);
@@ -8395,7 +8395,7 @@ BOOL CALLBACK FindTCWindowEnum (HWND hwnd, LPARAM lParam)
 	if (*(HWND *)lParam == hwnd)
 		return TRUE;
 
-	if (GetWindowLongPtr (hwnd, GWLP_USERDATA) == (LONG_PTR) 'TRUE')
+	if (GetWindowLongPtr (hwnd, GWLP_USERDATA) == (LONG_PTR) 'VERA')
 	{
 		char name[32] = { 0 };
 		GetWindowText (hwnd, name, sizeof (name) - 1);
