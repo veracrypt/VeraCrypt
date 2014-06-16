@@ -65,8 +65,8 @@ namespace TrueCrypt
 		AppendToList ("VOLUME_HEADER_DATE", Gui->VolumeTimeToString (volumeInfo.HeaderCreationTime));
 #endif
 
-		AppendToList ("VOLUME_FORMAT_VERSION", StringConverter::ToWide (volumeInfo.MinRequiredProgramVersion < 0x600 ? 1 : 2));
-		AppendToList ("BACKUP_HEADER", LangString[volumeInfo.MinRequiredProgramVersion >= 0x600 ? "UISTR_YES" : "UISTR_NO"]);
+		AppendToList ("VOLUME_FORMAT_VERSION", StringConverter::ToWide (volumeInfo.MinRequiredProgramVersion < 0x10b ? 1 : 2));
+		AppendToList ("BACKUP_HEADER", LangString[volumeInfo.MinRequiredProgramVersion >= 0x10b ? "UISTR_YES" : "UISTR_NO"]);
 
 #ifdef TC_LINUX
 		if (string (volumeInfo.VirtualDevice).find ("/dev/mapper/veracrypt") != 0)

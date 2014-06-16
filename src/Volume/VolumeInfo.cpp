@@ -27,7 +27,7 @@ namespace TrueCrypt
 		sr.Deserialize ("HiddenVolumeProtectionTriggered", HiddenVolumeProtectionTriggered);
 		LoopDevice = sr.DeserializeWString ("LoopDevice");
 
-		if (ProgramVersion >= 0x600)
+		if (ProgramVersion >= 0x10b)
 			sr.Deserialize ("MinRequiredProgramVersion", MinRequiredProgramVersion);
 
 		MountPoint = sr.DeserializeWString ("MountPoint");
@@ -39,10 +39,10 @@ namespace TrueCrypt
 		sr.Deserialize ("Size", Size);
 		sr.Deserialize ("SlotNumber", SlotNumber);
 
-		if (ProgramVersion >= 0x620)
+		if (ProgramVersion >= 0x10b)
 			sr.Deserialize ("SystemEncryption", SystemEncryption);
 
-		if (ProgramVersion >= 0x600)
+		if (ProgramVersion >= 0x10b)
 			sr.Deserialize ("TopWriteOffset", TopWriteOffset);
 
 		sr.Deserialize ("TotalDataRead", TotalDataRead);

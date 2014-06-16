@@ -194,7 +194,7 @@ namespace TrueCrypt
 				{
 					// Header decrypted
 
-					if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x600)
+					if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
 					{
 						// VolumeLayoutV1Normal has been opened as VolumeLayoutV2Normal
 						layout.reset (new VolumeLayoutV1Normal);

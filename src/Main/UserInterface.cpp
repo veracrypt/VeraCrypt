@@ -276,8 +276,8 @@ namespace TrueCrypt
 			prop << LangString["MODE_OF_OPERATION"] << L": " << volume.EncryptionModeName << L'\n';
 			prop << LangString["PKCS5_PRF"] << L": " << volume.Pkcs5PrfName << L'\n';
 	
-			prop << LangString["VOLUME_FORMAT_VERSION"] << L": " << (volume.MinRequiredProgramVersion < 0x600 ? 1 : 2) << L'\n';
-			prop << LangString["BACKUP_HEADER"] << L": " << LangString[volume.MinRequiredProgramVersion >= 0x600 ? "UISTR_YES" : "UISTR_NO"] << L'\n';
+			prop << LangString["VOLUME_FORMAT_VERSION"] << L": " << (volume.MinRequiredProgramVersion < 0x10b ? 1 : 2) << L'\n';
+			prop << LangString["BACKUP_HEADER"] << L": " << LangString[volume.MinRequiredProgramVersion >= 0x10b ? "UISTR_YES" : "UISTR_NO"] << L'\n';
 
 #ifdef TC_LINUX
 			if (string (volume.VirtualDevice).find ("/dev/mapper/veracrypt") != 0)
