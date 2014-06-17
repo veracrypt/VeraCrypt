@@ -254,9 +254,11 @@ WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-trac
 	--disable-toolbar --disable-tbarnative --disable-treebook --disable-toolbook --disable-tipwindow --disable-popupwin \
 	--disable-commondlg --disable-aboutdlg --disable-coldlg --disable-finddlg --disable-fontdlg --disable-numberdlg --disable-splash \
 	--disable-tipdlg --disable-progressdlg --disable-wizarddlg --disable-miniframe --disable-tooltips --disable-splines --disable-palette \
-	--disable-richtext --disable-dialupman --disable-debugreport --disable-filesystem \
+	--disable-richtext --disable-dialupman --disable-debugreport --disable-filesystem --disable-rearrangectrl --disable-treelist --disable-richmsgdlg \
+	--disable-richtooltip --disable-propgrid --disable-stc --without-libnotify \
+	--without-gtkprint --without-gnomevfs --disable-fsvolume --disable-fswatcher \
 	--disable-graphics_ctx --disable-sound --disable-mediactrl --disable-joystick --disable-apple_ieee \
-	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm \
+	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm --disable-svg \
 	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib
 
 
