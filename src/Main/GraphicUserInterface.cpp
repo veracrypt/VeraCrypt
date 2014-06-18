@@ -1012,7 +1012,7 @@ namespace TrueCrypt
 
 	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, bool secure, const wxString &extraVars) const
 	{
-		wxString url = wxString (StringConverter::ToWide (secure ? TC_APPLINK_SECURE : TC_APPLINK)) + L"&dest=" + linkId;
+		wxString url = wxString (StringConverter::ToWide (secure ? TC_APPLINK_SECURE : TC_APPLINK)); /* + L"&dest=" + linkId;
 		wxString os, osVersion, architecture;
 
 #ifdef TC_WINDOWS
@@ -1053,7 +1053,7 @@ namespace TrueCrypt
 			 url += L"&";
 			 url += extraVars;
 		}
-
+		*/
 		return url;
 	}
 
