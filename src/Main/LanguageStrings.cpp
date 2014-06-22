@@ -11,7 +11,7 @@
 #include "LanguageStrings.h"
 #include "Xml.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	LanguageStrings::LanguageStrings ()
 	{

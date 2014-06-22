@@ -15,7 +15,7 @@
 #include "FatFormatter.h"
 #include "RandomNumberGenerator.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct fatparams
 	{

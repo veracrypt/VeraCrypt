@@ -10,7 +10,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "FavoriteVolumesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	FavoriteVolumesDialog::FavoriteVolumesDialog (wxWindow* parent, const FavoriteVolumeList &favorites, size_t newItemCount)
 		: FavoriteVolumesDialogBase (parent), Favorites (favorites)

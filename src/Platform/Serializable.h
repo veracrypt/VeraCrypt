@@ -15,7 +15,7 @@
 #include "Serializer.h"
 #include "SerializerFactory.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Serializable
 	{

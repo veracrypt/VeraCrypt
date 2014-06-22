@@ -10,7 +10,7 @@
 #include "Platform/SyncEvent.h"
 #include "Platform/SystemException.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	SyncEvent::SyncEvent ()
 	{

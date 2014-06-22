@@ -9,7 +9,7 @@
 #include <syslog.h>
 #include "Platform/SystemLog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void SystemLog::WriteDebug (const string &debugMessage)
 	{

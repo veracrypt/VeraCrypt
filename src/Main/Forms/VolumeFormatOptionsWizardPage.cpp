@@ -10,7 +10,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "VolumeFormatOptionsWizardPage.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeFormatOptionsWizardPage::VolumeFormatOptionsWizardPage (wxPanel* parent, uint64 volumeSize, uint32 sectorSize, bool enableQuickFormatButton, bool disableNoneFilesystem, bool disable32bitFilesystems)
 		: VolumeFormatOptionsWizardPageBase (parent)

@@ -12,7 +12,7 @@
 #include "Platform/Platform.h"
 #include "EncryptionMode.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class EncryptionModeXTS : public EncryptionMode
 	{

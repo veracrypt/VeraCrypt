@@ -10,7 +10,7 @@
 #include "StringFormatter.h"
 #include "UserInterfaceException.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	StringFormatter::StringFormatter (const wxString &format, StringFormatterArg arg0, StringFormatterArg arg1, StringFormatterArg arg2, StringFormatterArg arg3, StringFormatterArg arg4, StringFormatterArg arg5, StringFormatterArg arg6, StringFormatterArg arg7, StringFormatterArg arg8, StringFormatterArg arg9)
 	{

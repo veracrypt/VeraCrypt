@@ -21,7 +21,7 @@
 #include "Application.h"
 #include "TextUserInterface.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	TextUserInterface::TextUserInterface ()
 	{

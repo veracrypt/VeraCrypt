@@ -31,7 +31,7 @@
 #include "Forms/RandomPoolEnrichmentDialog.h"
 #include "Forms/SecurityTokenKeyfilesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	GraphicUserInterface::GraphicUserInterface () :
 		ActiveFrame (nullptr),

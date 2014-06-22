@@ -15,7 +15,7 @@
 #include "CoreSolaris.h"
 #include "Core/Unix/CoreServiceProxy.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	CoreSolaris::CoreSolaris ()
 	{

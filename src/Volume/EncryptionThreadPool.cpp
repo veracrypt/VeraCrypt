@@ -20,7 +20,7 @@
 #include "Common/Crypto.h"
 #include "EncryptionThreadPool.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void EncryptionThreadPool::DoWork (WorkType::Enum type, const EncryptionMode *encryptionMode, byte *data, uint64 startUnitNo, uint64 unitCount, size_t sectorSize)
 	{

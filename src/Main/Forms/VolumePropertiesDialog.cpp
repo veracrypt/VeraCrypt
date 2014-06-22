@@ -11,7 +11,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "VolumePropertiesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumePropertiesDialog::VolumePropertiesDialog (wxWindow* parent, const VolumeInfo &volumeInfo)
 		: VolumePropertiesDialogBase (parent)

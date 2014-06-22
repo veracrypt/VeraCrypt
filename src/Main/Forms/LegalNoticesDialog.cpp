@@ -11,7 +11,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "Main/Resources.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	LegalNoticesDialog::LegalNoticesDialog (wxWindow* parent) : LegalNoticesDialogBase (parent)
 	{

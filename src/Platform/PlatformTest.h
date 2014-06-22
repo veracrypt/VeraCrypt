@@ -12,7 +12,7 @@
 #include "PlatformBase.h"
 #include "Thread.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class PlatformTest
 	{

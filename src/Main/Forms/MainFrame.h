@@ -12,7 +12,7 @@
 #include "Forms.h"
 #include "ChangePasswordDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct FavoriteVolume;
 

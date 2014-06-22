@@ -14,7 +14,7 @@
 #include "Core/CoreBase.h"
 #include "Core/Unix/MountedFilesystem.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class CoreUnix : public CoreBase
 	{

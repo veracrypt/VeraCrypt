@@ -12,7 +12,7 @@
 #include "System.h"
 #include "Core/Unix/CoreUnix.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class CoreSolaris : public CoreUnix
 	{

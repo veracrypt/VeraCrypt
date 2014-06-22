@@ -11,7 +11,7 @@
 
 #include "Platform/Platform.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct ElevationFailed : public ExecutedProcessFailed
 	{

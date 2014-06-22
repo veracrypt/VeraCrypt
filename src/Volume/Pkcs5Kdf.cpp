@@ -10,7 +10,7 @@
 #include "Pkcs5Kdf.h"
 #include "VolumePassword.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	Pkcs5Kdf::Pkcs5Kdf ()
 	{

@@ -13,7 +13,7 @@
 #include "VolumeLayout.h"
 #include "Boot/Windows/BootCommon.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeLayout::VolumeLayout ()
 	{

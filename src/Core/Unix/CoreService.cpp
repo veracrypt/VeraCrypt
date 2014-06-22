@@ -20,7 +20,7 @@
 #include "CoreServiceRequest.h"
 #include "CoreServiceResponse.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	template <class T>
 	auto_ptr <T> CoreService::GetResponse ()

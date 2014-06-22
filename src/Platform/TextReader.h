@@ -15,7 +15,7 @@
 #include "SharedPtr.h"
 #include "Stream.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class TextReader
 	{

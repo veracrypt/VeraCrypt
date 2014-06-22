@@ -12,7 +12,7 @@
 #include "Forms.h"
 #include "Core/VolumeCreator.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class VolumeFormatOptionsWizardPage : public VolumeFormatOptionsWizardPageBase
 	{

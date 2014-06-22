@@ -11,7 +11,7 @@
 #include "Main/Resources.h"
 #include "DeviceSelectionDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	DeviceSelectionDialog::DeviceSelectionDialog (wxWindow* parent)
 		: DeviceSelectionDialogBase (parent)

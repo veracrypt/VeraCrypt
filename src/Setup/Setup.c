@@ -34,7 +34,7 @@
 
 #include "../Common/Resource.h"
 
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 #pragma warning( disable : 4201 )
 #pragma warning( disable : 4115 )

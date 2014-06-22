@@ -12,7 +12,7 @@
 #include "EncryptionModeXTS.h"
 #include "EncryptionThreadPool.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	EncryptionMode::EncryptionMode () : KeySet (false), SectorOffset (0)
 	{

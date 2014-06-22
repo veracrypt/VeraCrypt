@@ -19,7 +19,7 @@
 #include "VolumeCreator.h"
 #include "FatFormatter.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeCreator::VolumeCreator ()
 		: SizeDone (0)

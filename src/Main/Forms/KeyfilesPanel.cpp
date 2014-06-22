@@ -11,7 +11,7 @@
 #include "KeyfilesPanel.h"
 #include "SecurityTokenKeyfilesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	KeyfilesPanel::KeyfilesPanel (wxWindow* parent, shared_ptr <KeyfileList> keyfiles)
 		: KeyfilesPanelBase (parent)

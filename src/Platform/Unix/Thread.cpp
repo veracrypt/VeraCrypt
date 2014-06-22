@@ -12,7 +12,7 @@
 #include "Platform/Thread.h"
 #include "Platform/SystemLog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void Thread::Join () const
 	{

@@ -14,7 +14,7 @@
 #include "Mutex.h"
 #include "SharedPtr.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct EventArgs
 	{

@@ -12,7 +12,7 @@
 #include "PlatformBase.h"
 #include "Exception.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class SystemException : public Exception
 	{

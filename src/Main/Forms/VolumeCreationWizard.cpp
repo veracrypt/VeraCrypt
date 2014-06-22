@@ -28,7 +28,7 @@
 #include "VolumePasswordWizardPage.h"
 #include "VolumeSizeWizardPage.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeCreationWizard::VolumeCreationWizard (wxWindow* parent)
 		: WizardFrame (parent),

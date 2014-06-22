@@ -14,7 +14,7 @@
 #include "FilesystemPath.h"
 #include "SystemException.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class File
 	{

@@ -9,7 +9,7 @@
 #include "Serializable.h"
 #include "SerializerFactory.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	string Serializable::DeserializeHeader (shared_ptr <Stream> stream)
 	{

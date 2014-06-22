@@ -11,7 +11,7 @@
 
 #include "Main/Main.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class WizardPage : public wxPanel
 	{

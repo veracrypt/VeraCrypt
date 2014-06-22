@@ -46,7 +46,7 @@
 #include "../Platform/Finally.h"
 #include "../Platform/ForEach.h"
 
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 enum timer_ids
 {

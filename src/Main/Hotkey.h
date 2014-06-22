@@ -12,7 +12,7 @@
 #include "System.h"
 #include "Main.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct Hotkey;
 	typedef list < shared_ptr <Hotkey> > HotkeyList;

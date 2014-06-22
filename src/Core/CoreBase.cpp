@@ -12,7 +12,7 @@
 #include "RandomNumberGenerator.h"
 #include "Volume/Volume.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	CoreBase::CoreBase ()
 		: DeviceChangeInProgress (false)

@@ -11,7 +11,7 @@
 #include "Main/Resources.h"
 #include "WizardFrame.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	WizardFrame::WizardFrame (wxWindow* parent)
 		: WizardFrameBase (parent),
@@ -20,7 +20,7 @@ namespace TrueCrypt
 		MaxStaticTextWidth (-1),
 		WorkInProgress (false)
 	{
-		SetIcon (Resources::GetTrueCryptIcon());
+		SetIcon (Resources::GetVeraCryptIcon());
 
 		PageTitleStaticText->SetFont (wxFont (
 #ifdef TC_WINDOWS

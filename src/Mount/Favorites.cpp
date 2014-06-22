@@ -19,7 +19,7 @@
 
 using namespace std;
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	vector <FavoriteVolume> FavoriteVolumes;
 	vector <FavoriteVolume> SystemFavoriteVolumes;

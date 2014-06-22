@@ -11,7 +11,7 @@
 
 #include "Forms.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	template <class ChoiceType>
 	class SingleChoiceWizardPage : public SingleChoiceWizardPageBase

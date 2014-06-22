@@ -23,7 +23,7 @@
 #include "FavoriteVolume.h"
 #include "UserInterface.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	UserInterface::UserInterface ()
 	{

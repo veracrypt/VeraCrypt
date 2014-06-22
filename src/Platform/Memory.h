@@ -63,7 +63,7 @@
 #	error Unsupported byte ordering detected.
 #endif
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Memory
 	{

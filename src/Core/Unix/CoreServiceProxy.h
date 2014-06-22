@@ -12,7 +12,7 @@
 #include "CoreService.h"
 #include "Volume/VolumePasswordCache.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	template <class T>
 	class CoreServiceProxy : public T

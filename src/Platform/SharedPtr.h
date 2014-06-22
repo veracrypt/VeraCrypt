@@ -14,7 +14,7 @@
 
 #ifdef nullptr
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	template <class T>
 	class SharedPtr 
@@ -135,7 +135,7 @@ namespace TrueCrypt
 #ifdef shared_ptr
 #undef shared_ptr
 #endif
-#define shared_ptr TrueCrypt::SharedPtr
+#define shared_ptr VeraCrypt::SharedPtr
 
 #ifdef make_shared
 #undef make_shared
@@ -151,7 +151,7 @@ namespace TrueCrypt
 		return shared_ptr <T> (new T (arg));
 	}
 
-#define make_shared TrueCrypt::make_shared
+#define make_shared VeraCrypt::make_shared
 
 }
 

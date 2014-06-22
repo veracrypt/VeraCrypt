@@ -9,7 +9,7 @@
 #include "EncryptionModeXTS.h"
 #include "Common/Crypto.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void EncryptionModeXTS::Encrypt (byte *data, uint64 length) const
 	{

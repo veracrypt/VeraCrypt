@@ -18,7 +18,7 @@
 #include "Driver/Fuse/FuseService.h"
 #include "Volume/VolumePasswordCache.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	CoreUnix::CoreUnix ()
 	{

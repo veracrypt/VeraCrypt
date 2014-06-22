@@ -14,7 +14,7 @@
 #include <utime.h>
 #endif
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	File::~File ()
 	{

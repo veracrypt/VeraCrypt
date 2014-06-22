@@ -12,7 +12,7 @@
 #include "Platform/SystemException.h"
 #include "Platform/StringConverter.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	SystemException::SystemException ()
 		: ErrorCode (errno)

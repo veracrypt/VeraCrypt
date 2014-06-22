@@ -10,7 +10,7 @@
 #include "Platform/MemoryStream.h"
 #include "Platform/SerializerFactory.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void MountOptions::CopyFrom (const MountOptions &other)
 	{

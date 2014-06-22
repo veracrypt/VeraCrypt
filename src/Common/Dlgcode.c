@@ -61,7 +61,7 @@
 #include "Setup/Setup.h"
 #endif
 
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 LONG DriverVersion;
 

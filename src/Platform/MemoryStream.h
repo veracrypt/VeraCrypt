@@ -12,7 +12,7 @@
 #include "PlatformBase.h"
 #include "Stream.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class MemoryStream : public Stream
 	{

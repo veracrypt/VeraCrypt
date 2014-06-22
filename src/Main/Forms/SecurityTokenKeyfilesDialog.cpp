@@ -12,7 +12,7 @@
 #include "NewSecurityTokenKeyfileDialog.h"
 #include "SecurityTokenKeyfilesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	SecurityTokenKeyfilesDialog::SecurityTokenKeyfilesDialog (wxWindow* parent, bool selectionMode)
 		: SecurityTokenKeyfilesDialogBase (parent)

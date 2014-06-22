@@ -19,7 +19,7 @@
 #	include "Crypto/Aes_hw_cpu.h"
 #endif
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	Cipher::Cipher () : Initialized (false)
 	{

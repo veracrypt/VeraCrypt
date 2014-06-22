@@ -13,7 +13,7 @@
 #include "Hotkey.h"
 #include "Xml.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	HotkeyList Hotkey::GetAvailableHotkeys ()
 	{

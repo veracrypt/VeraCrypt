@@ -13,7 +13,7 @@
 #include "Crypto/Sha2.h"
 #include "Crypto/Whirlpool.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	HashList Hash::GetAvailableAlgorithms ()
 	{

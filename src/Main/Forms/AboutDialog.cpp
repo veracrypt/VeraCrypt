@@ -13,7 +13,7 @@
 #include "Main/Resources.h"
 #include "AboutDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	AboutDialog::AboutDialog (wxWindow* parent) : AboutDialogBase (parent)
 	{

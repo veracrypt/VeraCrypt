@@ -10,7 +10,7 @@
 #include <sys/time.h>
 #include <time.h>
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	uint64 Time::GetCurrent ()
 	{

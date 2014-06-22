@@ -12,7 +12,7 @@
 #include "Platform/PlatformBase.h"
 #include "Platform/StringConverter.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class SystemLog
 	{

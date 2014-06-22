@@ -12,7 +12,7 @@
 #include "VolumePasswordPanel.h"
 #include "SecurityTokenKeyfilesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, const wxString &passwordLabel)
 		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList)

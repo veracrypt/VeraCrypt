@@ -12,7 +12,7 @@
 #include "Platform/PlatformBase.h"
 #include "Dlgcode.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct Exception
 	{

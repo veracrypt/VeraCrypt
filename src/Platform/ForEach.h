@@ -9,7 +9,7 @@
 #ifndef TC_HEADER_Platform_ForEach
 #define TC_HEADER_Platform_ForEach
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class ForEach
 	{

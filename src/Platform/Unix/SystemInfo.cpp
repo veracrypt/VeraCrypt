@@ -10,7 +10,7 @@
 #include "Platform/SystemInfo.h"
 #include <sys/utsname.h>
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	wstring SystemInfo::GetPlatformName ()
 	{

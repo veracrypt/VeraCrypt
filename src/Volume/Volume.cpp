@@ -16,7 +16,7 @@
 #include "VolumeLayout.h"
 #include "Common/Crypto.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	Volume::Volume ()
 		: HiddenVolumeProtectionTriggered (false),

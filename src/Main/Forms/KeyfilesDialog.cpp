@@ -10,7 +10,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "KeyfilesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	KeyfilesDialog::KeyfilesDialog (wxWindow* parent, shared_ptr <KeyfileList> keyfiles)
 		: KeyfilesDialogBase (parent), Keyfiles (keyfiles)

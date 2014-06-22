@@ -48,7 +48,7 @@
 #include "Wipe.h"
 #include "Xml.h"
 
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 enum wizard_pages
 {

@@ -17,7 +17,7 @@
 #include "PlatformBase.h"
 #include "Mutex.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class SyncEvent
 	{

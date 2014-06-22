@@ -11,7 +11,7 @@
 
 #include "Platform/Platform.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	TC_EXCEPTION_DECL (UserInterfaceException, Exception);
 	TC_EXCEPTION_DECL (MissingArgument, UserInterfaceException);

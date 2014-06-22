@@ -12,7 +12,7 @@
 #include "Platform/Platform.h"
 #include "Platform/Serializable.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class VolumePassword : public Serializable
 	{

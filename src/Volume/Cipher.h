@@ -12,7 +12,7 @@
 #include "Platform/Platform.h"
 
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Cipher;
 	typedef vector < shared_ptr <Cipher> > CipherList;

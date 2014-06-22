@@ -34,7 +34,7 @@
 #include "VolumeCreationWizard.h"
 #include "VolumePropertiesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	MainFrame::MainFrame (wxWindow* parent) : MainFrameBase (parent),
 		ListItemRightClickEventPending (false),
@@ -46,7 +46,7 @@ namespace TrueCrypt
 
 		SetName (Application::GetName());
 		SetTitle (Application::GetName());
-		SetIcon (Resources::GetTrueCryptIcon());
+		SetIcon (Resources::GetVeraCryptIcon());
 
 #if defined(TC_UNIX) && !defined(TC_MACOSX)
 		try
@@ -1420,7 +1420,7 @@ namespace TrueCrypt
 		else if (show && !mTaskBarIcon->IsIconInstalled())
 		{
 #ifndef TC_MACOSX
-			mTaskBarIcon->SetIcon (Resources::GetTrueCryptIcon(), L"VeraCrypt");
+			mTaskBarIcon->SetIcon (Resources::GetVeraCryptIcon(), L"VeraCrypt");
 #endif
 		}
 	}

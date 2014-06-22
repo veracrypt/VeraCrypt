@@ -12,7 +12,7 @@
 #include "Platform/Serializable.h"
 #include "Core/Core.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct CoreServiceRequest : public Serializable
 	{

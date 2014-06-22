@@ -109,7 +109,7 @@ static BOOL HandleDriveListMouseWheelEvent (UINT uMsg, WPARAM wParam, LPARAM lPa
 }
 
 void SetDriverConfigurationFlag (uint32 flag, BOOL state);
-BOOL MountFavoriteVolumes (BOOL systemFavorites = FALSE, BOOL logOnMount = FALSE, BOOL hotKeyMount = FALSE, const TrueCrypt::FavoriteVolume &favoriteVolumeToMount = TrueCrypt::FavoriteVolume());
+BOOL MountFavoriteVolumes (BOOL systemFavorites = FALSE, BOOL logOnMount = FALSE, BOOL hotKeyMount = FALSE, const VeraCrypt::FavoriteVolume &favoriteVolumeToMount = VeraCrypt::FavoriteVolume());
 BOOL GetExecutableImageInformation (const string &path, string &version, string &description, string &companyName, string &productName);
 
 #endif

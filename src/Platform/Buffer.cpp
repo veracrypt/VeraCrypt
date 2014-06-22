@@ -9,7 +9,7 @@
 #include "Buffer.h"
 #include "Exception.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	Buffer::Buffer () : DataPtr (nullptr), DataSize (0)
 	{

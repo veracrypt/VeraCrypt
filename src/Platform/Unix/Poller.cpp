@@ -11,7 +11,7 @@
 #include "Poller.h"
 #include "Platform/SystemException.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	Poller::Poller (int fileDescriptor1, int fileDescriptor2, int fileDescriptor3, int fileDescriptor4)
 	{

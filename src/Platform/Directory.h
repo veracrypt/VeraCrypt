@@ -12,7 +12,7 @@
 #include "PlatformBase.h"
 #include "FilesystemPath.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Directory
 	{

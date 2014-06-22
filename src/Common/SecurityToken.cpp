@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	SecurityTokenKeyfile::SecurityTokenKeyfile (const SecurityTokenKeyfilePath &path)
 	{

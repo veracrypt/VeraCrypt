@@ -14,7 +14,7 @@
 #include "Main/resource.h"
 #endif
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 
 #ifdef TC_WINDOWS
@@ -146,7 +146,7 @@ namespace TrueCrypt
 #endif
 	}
 
-	wxIcon Resources::GetTrueCryptIcon ()
+	wxIcon Resources::GetVeraCryptIcon ()
 	{
 #ifdef TC_WINDOWS
 		return wxIcon (L"IDI_TRUECRYPT_ICON", wxBITMAP_TYPE_ICO_RESOURCE, 16, 16);

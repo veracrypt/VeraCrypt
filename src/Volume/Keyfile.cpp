@@ -12,7 +12,7 @@
 #include "Keyfile.h"
 #include "VolumeException.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void Keyfile::Apply (const BufferPtr &pool) const
 	{

@@ -11,7 +11,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "BenchmarkDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	BenchmarkDialog::BenchmarkDialog (wxWindow *parent)
 		: BenchmarkDialogBase (parent)

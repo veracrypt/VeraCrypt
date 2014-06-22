@@ -9,7 +9,7 @@
 #ifndef TC_HEADER_Main_UserInterfaceType
 #define TC_HEADER_Main_UserInterfaceType
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct UserInterfaceType
 	{

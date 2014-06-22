@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class File
 	{

@@ -12,7 +12,7 @@
 #include "Forms.h"
 #include "VolumePasswordPanel.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class VolumePasswordWizardPage : public VolumePasswordWizardPageBase
 	{

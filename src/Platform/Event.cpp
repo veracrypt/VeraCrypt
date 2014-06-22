@@ -8,7 +8,7 @@
 
 #include "Event.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void Event::Connect (const EventConnectorBase &connector)
 	{

@@ -15,7 +15,7 @@
 #include "Volume/VolumeInfo.h"
 #include "Volume/Volume.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 
 	class FuseService

@@ -10,7 +10,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "VolumeSizeWizardPage.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeSizeWizardPage::VolumeSizeWizardPage (wxPanel* parent, const VolumePath &volumePath, uint32 sectorSize, const wxString &freeSpaceText)
 		: VolumeSizeWizardPageBase (parent),

@@ -16,7 +16,7 @@
 #endif
 #include "PlatformBase.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Mutex
 	{

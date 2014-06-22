@@ -23,7 +23,7 @@
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
 
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 #define stat _stat
 #define S_IFDIR _S_IFDIR

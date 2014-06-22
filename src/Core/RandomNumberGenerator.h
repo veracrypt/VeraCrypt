@@ -13,7 +13,7 @@
 #include "Volume/Hash.h"
 #include "Common/Random.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class RandomNumberGenerator
 	{

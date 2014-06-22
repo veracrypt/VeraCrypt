@@ -35,7 +35,7 @@ IMPORTANT: Due to this issue, functions in this file must not directly interact 
 #include "InPlace.h"
 
 using namespace std;
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 #define TC_MAX_NONSYS_INPLACE_ENC_WORK_CHUNK_SIZE	(2048 * BYTES_PER_KB)
 #define TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE		(2 * TC_MAX_VOLUME_SECTOR_SIZE)

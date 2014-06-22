@@ -13,7 +13,7 @@
 #include "Platform/Stream.h"
 #include "VolumePassword.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Keyfile;
 	typedef list < shared_ptr <Keyfile> > KeyfileList;

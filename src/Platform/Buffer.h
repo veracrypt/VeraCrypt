@@ -12,7 +12,7 @@
 #include "PlatformBase.h"
 #include "Memory.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 
 	class ConstBufferPtr

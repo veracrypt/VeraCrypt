@@ -18,7 +18,7 @@
 #include "Mount.h"
 #include "Password.h"
 
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 static volatile LONG ObjectCount = 0;
 

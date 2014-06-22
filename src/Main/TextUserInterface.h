@@ -13,7 +13,7 @@
 #include "Main.h"
 #include "UserInterface.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class TextUserInterface : public UserInterface
 	{

@@ -9,7 +9,7 @@
 #include "CoreException.h"
 #include "Platform/SerializerFactory.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void ElevationFailed::Deserialize (shared_ptr <Stream> stream)
 	{

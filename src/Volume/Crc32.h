@@ -12,7 +12,7 @@
 #include "Platform/Platform.h"
 #include "Common/Crc.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Crc32
 	{

@@ -11,7 +11,7 @@
 #include "Main/GraphicUserInterface.h"
 #include "MountOptionsDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	MountOptionsDialog::MountOptionsDialog (wxWindow *parent, MountOptions &options, const wxString &title, bool disableMountOptions)
 		: MountOptionsDialogBase (parent, wxID_ANY, wxString()

@@ -9,7 +9,7 @@
 #include "EncryptionModeLRW.h"
 #include "Common/GfMul.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void EncryptionModeLRW::Decrypt (byte *data, uint64 length) const
 	{

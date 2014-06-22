@@ -12,7 +12,7 @@
 #include "Forms.h"
 #include "Common/SecurityToken.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class NewSecurityTokenKeyfileDialog : public NewSecurityTokenKeyfileDialogBase
 	{

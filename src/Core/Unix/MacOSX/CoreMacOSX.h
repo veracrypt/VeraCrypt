@@ -12,7 +12,7 @@
 #include "System.h"
 #include "Core/Unix/FreeBSD/CoreFreeBSD.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class CoreMacOSX : public CoreFreeBSD
 	{

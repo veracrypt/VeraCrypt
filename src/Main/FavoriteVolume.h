@@ -12,7 +12,7 @@
 #include "System.h"
 #include "Main.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct FavoriteVolume;
 	typedef list < shared_ptr <FavoriteVolume> > FavoriteVolumeList;

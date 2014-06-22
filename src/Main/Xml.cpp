@@ -11,7 +11,7 @@
 #include "Platform/FileStream.h"
 #include "Xml.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	XmlParser::XmlParser (const FilePath &fileName)
 	{

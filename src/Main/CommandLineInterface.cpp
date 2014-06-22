@@ -15,7 +15,7 @@
 #include "LanguageStrings.h"
 #include "UserInterfaceException.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	CommandLineInterface::CommandLineInterface (wxCmdLineParser &parser, UserInterfaceType::Enum interfaceType) :
 		ArgCommand (CommandId::None),

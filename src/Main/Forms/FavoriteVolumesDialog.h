@@ -13,7 +13,7 @@
 #include "Main/Main.h"
 #include "Main/FavoriteVolume.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class FavoriteVolumesDialog : public FavoriteVolumesDialogBase
 	{

@@ -32,7 +32,7 @@
 #include "Mount/MainCom.h"
 #endif
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 #if !defined (SETUP)
 

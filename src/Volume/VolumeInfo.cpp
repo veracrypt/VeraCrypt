@@ -10,7 +10,7 @@
 #include "VolumeInfo.h"
 #include "Platform/SerializerFactory.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void VolumeInfo::Deserialize (shared_ptr <Stream> stream)
 	{

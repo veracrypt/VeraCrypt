@@ -11,7 +11,7 @@
 #include "UserPreferences.h"
 #include "Xml.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void UserPreferences::SetValue (const wxString &cfgText, bool &cfgVar)
 	{

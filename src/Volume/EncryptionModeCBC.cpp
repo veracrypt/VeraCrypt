@@ -11,7 +11,7 @@
 #include "Common/Endian.h"
 #include "EncryptionModeCBC.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void EncryptionModeCBC::Decrypt (byte *data, uint64 length) const
 	{

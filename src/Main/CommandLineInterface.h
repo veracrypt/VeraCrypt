@@ -17,7 +17,7 @@
 #include "UserPreferences.h"
 #include "UserInterfaceType.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct CommandId
 	{

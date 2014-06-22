@@ -18,7 +18,7 @@
 #include "Volume/Cipher.h"
 #include "PreferencesDialog.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	PreferencesDialog::PreferencesDialog (wxWindow* parent)
 		: PreferencesDialogBase (parent),

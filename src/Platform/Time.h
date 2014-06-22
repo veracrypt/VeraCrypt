@@ -11,7 +11,7 @@
 
 #include "PlatformBase.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Time
 	{

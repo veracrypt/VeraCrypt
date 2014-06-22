@@ -21,7 +21,7 @@
 #include "SharedPtr.h"
 #include "SyncEvent.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Thread
 	{

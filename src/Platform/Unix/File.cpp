@@ -31,7 +31,7 @@
 #include "Platform/File.h"
 #include "Platform/TextReader.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 #if 0
 #	define TC_TRACE_FILE_OPERATIONS

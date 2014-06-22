@@ -11,7 +11,7 @@
 
 #include <Tcdefs.h>
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct FavoriteVolume
 	{

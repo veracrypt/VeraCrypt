@@ -12,7 +12,7 @@
 #include "Xml.h"
 #include "VolumeHistory.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeHistory::VolumeHistory ()
 	{

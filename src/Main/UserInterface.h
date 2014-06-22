@@ -19,7 +19,7 @@
 #include "UserInterfaceException.h"
 #include "UserInterfaceType.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class UserInterface : public wxApp
 	{

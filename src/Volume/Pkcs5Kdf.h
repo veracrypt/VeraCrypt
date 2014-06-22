@@ -13,7 +13,7 @@
 #include "Hash.h"
 #include "VolumePassword.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Pkcs5Kdf;
 	typedef list < shared_ptr <Pkcs5Kdf> > Pkcs5KdfList;

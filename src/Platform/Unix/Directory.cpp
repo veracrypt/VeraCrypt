@@ -15,7 +15,7 @@
 #include "Platform/Finally.h"
 #include "Platform/SystemException.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	static Mutex ReadDirMutex;	// readdir_r() may be unsafe on some systems
 

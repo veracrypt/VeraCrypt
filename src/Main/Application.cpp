@@ -16,7 +16,7 @@
 #endif
 #include "TextUserInterface.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	wxApp* Application::CreateConsoleApp ()
 	{

@@ -13,7 +13,7 @@
 #include "Main.h"
 #include "Hotkey.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct UserPreferences
 	{

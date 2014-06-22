@@ -14,7 +14,7 @@
 #include "VolumeException.h"
 #include "Common/Crypto.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeHeader::VolumeHeader (uint32 size)
 	{

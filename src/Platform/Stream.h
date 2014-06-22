@@ -12,7 +12,7 @@
 #include "PlatformBase.h"
 #include "Buffer.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class Stream
 	{

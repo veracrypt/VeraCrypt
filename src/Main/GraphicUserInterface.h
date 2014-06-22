@@ -14,7 +14,7 @@
 #include "Main.h"
 #include "UserInterface.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class GraphicUserInterface : public UserInterface
 	{

@@ -13,7 +13,7 @@
 #include "Main/Main.h"
 #include "KeyfilesPanel.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class KeyfilesDialog : public KeyfilesDialogBase
 	{

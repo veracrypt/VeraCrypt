@@ -31,7 +31,7 @@
 
 #include "FatalErrorHandler.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	static terminate_handler DefaultTerminateHandler;
 

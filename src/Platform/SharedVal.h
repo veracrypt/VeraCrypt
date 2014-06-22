@@ -12,7 +12,7 @@
 #include "PlatformBase.h"
 #include "Mutex.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	template <class T>
 	class SharedVal

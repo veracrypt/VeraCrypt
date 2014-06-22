@@ -18,7 +18,7 @@
 #include "VolumeException.h"
 #include "VolumeLayout.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class VolumePath
 	{

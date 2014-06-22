@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void FilesystemPath::Delete () const
 	{

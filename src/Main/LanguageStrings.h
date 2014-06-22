@@ -12,7 +12,7 @@
 #include "System.h"
 #include "Main.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class LanguageStrings
 	{

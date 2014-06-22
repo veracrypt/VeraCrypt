@@ -11,7 +11,7 @@
 #include "Main/VolumeHistory.h"
 #include "VolumeLocationWizardPage.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	VolumeLocationWizardPage::VolumeLocationWizardPage (wxPanel* parent, VolumeHostType::Enum hostType, bool selectExisting)
 		: VolumeLocationWizardPageBase (parent),

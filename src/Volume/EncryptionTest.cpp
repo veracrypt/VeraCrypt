@@ -17,7 +17,7 @@
 #include "EncryptionTest.h"
 #include "Pkcs5Kdf.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	void EncryptionTest::TestAll ()
 	{

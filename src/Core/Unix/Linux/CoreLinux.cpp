@@ -22,7 +22,7 @@
 #include "Driver/Fuse/FuseService.h"
 #include "Core/Unix/CoreServiceProxy.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	CoreLinux::CoreLinux ()
 	{

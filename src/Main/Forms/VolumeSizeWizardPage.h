@@ -11,7 +11,7 @@
 
 #include "Forms.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	class VolumeSizeWizardPage : public VolumeSizeWizardPageBase
 	{

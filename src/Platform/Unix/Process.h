@@ -13,7 +13,7 @@
 #include "Platform/Buffer.h"
 #include "Platform/Functor.h"
 
-namespace TrueCrypt
+namespace VeraCrypt
 {
 	struct ProcessExecFunctor
 	{

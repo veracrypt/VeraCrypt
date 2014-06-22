@@ -20,7 +20,7 @@
 #include "FormatCom_h.h"
 #include "FormatCom_i.c"
 
-using namespace TrueCrypt;
+using namespace VeraCrypt;
 
 static volatile LONG ObjectCount = 0;
 
