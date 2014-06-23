@@ -101,7 +101,24 @@ FUSE_LIBS = $(shell pkg-config fuse --libs)
 
 #------ Executable ------
 
-TC_VERSION = $(shell grep VERSION_STRING ../Common/Tcdefs.h | head -n 1 | cut -d'"' -f 2)
+export TC_VERSION := $(shell grep VERSION_STRING ../Common/Tcdefs.h | head -n 1 | cut -d'"' -f 2)
+
+#------ Linux package naming ------
+ifeq "$(PLATFORM)" "Linux"
+
+ifdef TC_NO_GUI
+INSTALLER_TYPE := console
+PACKAGE_NAME := $(APPNAME)_$(TC_VERSION)_console_$(PLATFORM_ARCH).tar.gz
+else
+INSTALLER_TYPE := gui
+PACKAGE_NAME := $(APPNAME)_$(TC_VERSION)_$(PLATFORM_ARCH).tar.gz
+endif
+
+INTERNAL_INSTALLER_NAME := veracrypt_install_$(INSTALLER_TYPE)_$(CPU_ARCH).sh
+INSTALLER_NAME := veracrypt-$(TC_VERSION)-setup-$(INSTALLER_TYPE)-$(CPU_ARCH)
+
+endif
+#-----------------------------------
 
 $(APPNAME): $(LIBS) $(OBJS)
 	@echo Linking $@
@@ -137,6 +154,45 @@ endif
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 endif
 
+ifeq "$(PLATFORM)" "Linux"	
+ifeq "$(TC_BUILD_CONFIG)" "Release"
+	mkdir -p $(PWD)/Setup/Linux/usr/bin
+	mkdir -p $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc
+	cp $(PWD)/Main/$(APPNAME) $(PWD)/Setup/Linux/usr/bin/$(APPNAME)
+	cp $(PWD)/Setup/Linux/$(APPNAME)-uninstall.sh $(PWD)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
+	cp $(PWD)/License.txt $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/License.txt
+	cp "$(PWD)/Release/Setup Files/VeraCrypt User Guide.pdf" "$(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/VeraCrypt User Guide.pdf"
+
+ifndef TC_NO_GUI
+	mkdir -p $(PWD)/Setup/Linux/usr/share/applications
+	mkdir -p $(PWD)/Setup/Linux/usr/share/pixmaps
+	cp $(PWD)/Resources/Icons/VeraCrypt-48x48.xpm $(PWD)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
+	cp $(PWD)/Setup/Linux/$(APPNAME).desktop $(PWD)/Setup/Linux/usr/share/applications/$(APPNAME).desktop
+endif
+
+
+	tar cfz $(PWD)/Setup/Linux/$(PACKAGE_NAME) --directory $(PWD)/Setup/Linux usr
+	
+	@rm -fr $(INTERNAL_INSTALLER_NAME)
+	@echo "#!/bin/sh" > $(INTERNAL_INSTALLER_NAME)
+	@echo "VERSION=$(TC_VERSION)" >> $(INTERNAL_INSTALLER_NAME)
+	@echo "PACKAGE_TYPE=tar" >> $(INTERNAL_INSTALLER_NAME)
+	@echo "PACKAGE_NAME=$(PACKAGE_NAME)" >> $(INTERNAL_INSTALLER_NAME)
+	@echo "PACKAGE_START=841" >> $(INTERNAL_INSTALLER_NAME)
+	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
+	
+	@cat $(PWD)/Setup/Linux/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
+	@cat $(PWD)/Setup/Linux/$(PACKAGE_NAME) >> $(INTERNAL_INSTALLER_NAME)
+	chmod +x $(INTERNAL_INSTALLER_NAME)
+
+	rm -fr $(PWD)/Setup/Linux/packaging
+	mkdir -p $(PWD)/Setup/Linux/packaging
+	cp $(INTERNAL_INSTALLER_NAME) $(PWD)/Setup/Linux/packaging/.
+	makeself $(PWD)/Setup/Linux/packaging $(PWD)/Setup/Linux/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) Installer" ./$(INTERNAL_INSTALLER_NAME)
+
+endif
+
+endif
 
 $(OBJS): $(PCH)
 

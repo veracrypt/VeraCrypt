@@ -118,6 +118,7 @@ endif
 #------ Platform configuration ------
 
 export PLATFORM := "Unknown"
+export PLATFORM_ARCH := "Unknown"
 export PLATFORM_UNSUPPORTED := 0
 
 export CPU_ARCH ?= unknown
@@ -140,8 +141,10 @@ ifeq "$(origin NOASM)" "command line"
 endif
 
 ifeq "$(CPU_ARCH)" "x86"
+	PLATFORM_ARCH := i386
 	C_CXX_FLAGS += -D TC_ARCH_X86
 else ifeq "$(CPU_ARCH)" "x64"
+	PLATFORM_ARCH := amd64
 	C_CXX_FLAGS += -D TC_ARCH_X64
 endif
 

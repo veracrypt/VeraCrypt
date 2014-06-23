@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=VeraCrypt
+GenericName=VeraCrypt
+Comment=VeraCrypt
+Exec=/usr/bin/veracrypt
+Icon=veracrypt
+Terminal=false
+Type=Application
+Categories=Encryption;Encryption Tools;Utility;
