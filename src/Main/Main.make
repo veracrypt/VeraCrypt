@@ -160,6 +160,7 @@ ifeq "$(TC_BUILD_CONFIG)" "Release"
 	mkdir -p $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc
 	cp $(PWD)/Main/$(APPNAME) $(PWD)/Setup/Linux/usr/bin/$(APPNAME)
 	cp $(PWD)/Setup/Linux/$(APPNAME)-uninstall.sh $(PWD)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
+	chmod +x $(PWD)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
 	cp $(PWD)/License.txt $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/License.txt
 	cp "$(PWD)/Release/Setup Files/VeraCrypt User Guide.pdf" "$(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/VeraCrypt User Guide.pdf"
 
