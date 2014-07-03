@@ -26,7 +26,7 @@ XTERM=0
 case $PACKAGE_TYPE in
 	tar)
 		PACKAGE_INSTALLER=tar
-		PACKAGE_INSTALLER_OPTS='-C / -xpzvf'
+		PACKAGE_INSTALLER_OPTS='-C / --no-overwrite-dir -xpzvf'
 		;;
 esac
 
