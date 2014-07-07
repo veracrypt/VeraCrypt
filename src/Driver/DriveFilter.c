@@ -101,7 +101,7 @@ NTSTATUS LoadBootArguments ()
 
 			BootArgs = *bootArguments;
 			BootArgsValid = TRUE;
-			memset (bootArguments, 0, sizeof (*bootArguments));
+			burn (bootArguments, sizeof (*bootArguments));
 
 			BootDriveSignatureValid = TRUE;
 
