@@ -7420,11 +7420,15 @@ fsif_end:
 char *LoadFile (const char *fileName, DWORD *size)
 {
 	char *buf;
+	DWORD fileSize = INVALID_FILE_SIZE;
 	HANDLE h = CreateFile (fileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	if (h == INVALID_HANDLE_VALUE)
 		return NULL;
 
-	*size = GetFileSize (h, NULL);
+	if ((fileSize = GetFileSize (h, NULL)) == INVALID_FILE_SIZE)
+		return NULL;
+
+	*size = fileSize;
 	buf = (char *) calloc (*size + 1, 1);
 
 	if (buf == NULL)
