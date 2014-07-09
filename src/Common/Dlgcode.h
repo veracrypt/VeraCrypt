@@ -487,7 +487,8 @@ struct HostDevice
 		IsVirtualPartition (false),
 		HasUnencryptedFilesystem (false),
 		Removable (false),
-		Size (0)
+		Size (0),
+		SystemNumber((uint32) -1)
 	{
 	}
 
