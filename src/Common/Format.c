@@ -795,10 +795,20 @@ BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID paramet
 
 BOOL FormatNtfs (int driveNo, int clusterSize)
 {
+	char dllPath[MAX_PATH] = {0};
 	WCHAR dir[8] = { (WCHAR) driveNo + 'A', 0 };
 	PFORMATEX FormatEx;
-	HMODULE hModule = LoadLibrary ("fmifs.dll");
+	HMODULE hModule;
 	int i;
+	
+	if (GetSystemDirectory (dllPath, MAX_PATH))
+	{
+		strcat(dllPath, "\\fmifs.dll");
+	}
+	else
+		strcpy(dllPath, "C:\\Windows\\System32\\fmifs.dll");
+	
+	hModule = LoadLibrary (dllPath);
 
 	if (hModule == NULL)
 		return FALSE;

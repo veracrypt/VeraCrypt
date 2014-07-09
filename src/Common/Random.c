@@ -573,7 +573,15 @@ BOOL SlowPoll (void)
 	{
 		/* Obtain a handle to the module containing the Lan Manager
 		   functions */
-		hNetAPI32 = LoadLibrary ("NETAPI32.DLL");
+		char dllPath[MAX_PATH];
+		if (GetSystemDirectory (dllPath, MAX_PATH))
+		{
+			strcat(dllPath, "\\NETAPI32.DLL");
+		}
+		else
+			strcpy(dllPath, "C:\\Windows\\System32\\NETAPI32.DLL");
+
+		hNetAPI32 = LoadLibrary (dllPath);
 		if (hNetAPI32 != NULL)
 		{
 			/* Now get pointers to the functions */

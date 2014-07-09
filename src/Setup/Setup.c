@@ -2012,7 +2012,14 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 		}
 
 		// System Restore
-		SystemRestoreDll = LoadLibrary ("srclient.dll");
+		char dllPath[MAX_PATH];
+		if (GetSystemDirectory (dllPath, MAX_PATH))
+		{
+			strcat(dllPath, "\\srclient.dll");
+		}
+		else
+			strcpy(dllPath, "C:\\Windows\\System32\\srclient.dll");
+		SystemRestoreDll = LoadLibrary (dllPath);
 
 		if (!bUninstall)
 		{

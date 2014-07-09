@@ -218,7 +218,7 @@ typedef struct
 #define YES_NO MB_YESNO
 
 #define	ISO_BURNER_TOOL "isoburn.exe"
-#define PRINT_TOOL "notepad"
+#define PRINT_TOOL "notepad.exe"
 
 void cleanup ( void );
 void LowerCaseCopy ( char *lpszDest , const char *lpszSource );

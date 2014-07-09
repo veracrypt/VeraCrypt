@@ -1844,7 +1844,7 @@ void ExceptionHandlerThread (void *threadArg)
 
 	if (IDYES == MessageBoxW (0, msg, GetString ("EXCEPTION_REPORT_TITLE"), MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1))
 		ShellExecute (NULL, "open", urlStr.c_str(), NULL, NULL, SW_SHOWNORMAL);
-	else*/
+	else */
 		UnhandledExceptionFilter (ep);
 }
 
@@ -2276,6 +2276,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 {
 	WNDCLASS wc;
 	char langId[6];
+	char dllPath[MAX_PATH];
 
 	/* Save the instance handle for later */
 	hInst = hInstance;
@@ -2441,9 +2442,13 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 		handleWin32Error (NULL);
 		AbortProcess ("INIT_REGISTER");
 	}
-
+	
+	if (GetSystemDirectory(dllPath, MAX_PATH))
+		strcat(dllPath, "\\Riched20.dll");
+	else
+		strcpy(dllPath, "c:\\Windows\\System32\\Riched20.dll");
 	// Required for RichEdit text fields to work
-	if (LoadLibrary("Riched20.dll") == NULL)
+	if (LoadLibrary(dllPath) == NULL)
 	{
 		// This error is fatal e.g. because legal notices could not be displayed
 		handleWin32Error (NULL);
@@ -3486,7 +3491,7 @@ load:
 					return res;
 
 				bPortableModeConfirmed = TRUE;
-
+			
 				hDriver = CreateFile (WIN32_ROOT_PREFIX, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 			}
 
@@ -6951,6 +6956,16 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, int textByteLen)
 	strcat (cl, path);
 	strcat (cl, "\"");
 
+	// Get the absolute path for notepad
+	if (GetWindowsDirectory(filename, MAX_PATH))
+	{
+		if (filename[strlen (filename) - 1] != '\\')
+			strcat (filename, "\\");
+		strcat(filename, PRINT_TOOL);
+	}
+	else
+		strcpy(filename, "C:\\Windows\\" PRINT_TOOL);
+
 	WaitCursor ();
 	ShellExecute (NULL, "open", PRINT_TOOL, cl, NULL, SW_HIDE);
 	Sleep (6000);
@@ -9496,7 +9511,7 @@ BOOL IsFileOnReadOnlyFilesystem (const char *path)
 
 void CheckFilesystem (int driveNo, BOOL fixErrors)
 {
-	wchar_t msg[1024], param[1024];
+	wchar_t msg[1024], param[1024], cmdPath[MAX_PATH];
 	char driveRoot[] = { 'A' + (char) driveNo, ':', 0 };
 
 	if (fixErrors && AskWarnYesNo ("FILESYS_REPAIR_CONFIRM_BACKUP") == IDNO)
@@ -9505,7 +9520,14 @@ void CheckFilesystem (int driveNo, BOOL fixErrors)
 	wsprintfW (msg, GetString (fixErrors ? "REPAIRING_FS" : "CHECKING_FS"), driveRoot);
 	wsprintfW (param, fixErrors ? L"/C echo %s & chkdsk %hs /F /X & pause" : L"/C echo %s & chkdsk %hs & pause", msg, driveRoot);
 
-	ShellExecuteW (NULL, (!IsAdmin() && IsUacSupported()) ? L"runas" : L"open", L"cmd.exe", param, NULL, SW_SHOW);
+	if (GetSystemDirectoryW(cmdPath, MAX_PATH))
+	{
+		lstrcatW(cmdPath, L"\\cmd.exe");
+	}
+	else
+		lstrcpyW(cmdPath, L"C:\\Windows\\System32\\cmd.exe");
+
+	ShellExecuteW (NULL, (!IsAdmin() && IsUacSupported()) ? L"runas" : L"open", cmdPath, param, NULL, SW_SHOW);
 }
 
 
@@ -9701,7 +9723,15 @@ BOOL IsWindowsIsoBurnerAvailable ()
 
 BOOL LaunchWindowsIsoBurner (HWND hwnd, const char *isoPath)
 {
-	int r = (int) ShellExecute (hwnd, "open", ISO_BURNER_TOOL, (string ("\"") + isoPath + "\"").c_str(), NULL, SW_SHOWNORMAL);
+	char path[MAX_PATH*2] = { 0 };
+	int r;
+
+	if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_SYSTEM, NULL, 0, path)))
+		strcat (path, "\\" ISO_BURNER_TOOL);
+	else
+		strcpy (path, "C:\\Windows\\System32\\" ISO_BURNER_TOOL);
+
+	r = (int) ShellExecute (hwnd, "open", path, (string ("\"") + isoPath + "\"").c_str(), NULL, SW_SHOWNORMAL);
 
 	if (r <= 32)
 	{
