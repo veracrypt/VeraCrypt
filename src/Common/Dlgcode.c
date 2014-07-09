@@ -6743,7 +6743,11 @@ __int64 FindStringInFile (const char *filePath, const char* str, int strLen)
 		|| buffer == NULL 
 		|| strLen > bufSize
 		|| strLen < 1)
+	{
+	if (buffer)
+		free (buffer);
 		return -1;
+	}
 
 	src = CreateFile (filePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 

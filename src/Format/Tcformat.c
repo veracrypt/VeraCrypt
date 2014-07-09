@@ -7771,7 +7771,7 @@ ovf_end:
 
 void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 {
-	char **lpszCommandLineArgs;	/* Array of command line arguments */
+	char **lpszCommandLineArgs = NULL;	/* Array of command line arguments */
 	int nNoCommandLineArgs;	/* The number of arguments in the array */
 
 	if (_stricmp (lpszCommandLine, "-Embedding") == 0)
@@ -8012,6 +8012,9 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 	{
 		free (lpszCommandLineArgs[nNoCommandLineArgs]);
 	}
+
+	if (lpszCommandLineArgs)
+		free (lpszCommandLineArgs);
 }
 
 
@@ -8277,7 +8280,7 @@ int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int
 	if (lpOutBuffer == NULL)
 	{
 		MessageBoxW (hwndDlg, GetString ("ERR_MEM_ALLOC"), lpszTitle, ICON_HAND);
-		goto vcmf_error;
+		goto vcm_error;
 	}
 
 	lpInBuffer.StartingLcn.QuadPart = 0;
@@ -8328,7 +8331,7 @@ int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int
 
 vcm_error:
 	CloseHandle (hDevice);
-	free(lpOutBuffer);
+	if (lpOutBuffer) free(lpOutBuffer);
 
 vcmf_error:
 	return -1;

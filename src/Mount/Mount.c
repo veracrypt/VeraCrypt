@@ -6566,7 +6566,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 {
-	char **lpszCommandLineArgs;	/* Array of command line arguments */
+	char **lpszCommandLineArgs = NULL;	/* Array of command line arguments */
 	int nNoCommandLineArgs;	/* The number of arguments in the array */
 	char tmpPath[MAX_PATH * 2];
 
@@ -6842,6 +6842,9 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 	{
 		free (lpszCommandLineArgs[nNoCommandLineArgs]);
 	}
+
+	if (lpszCommandLineArgs)
+		free (lpszCommandLineArgs);
 }
 
 
