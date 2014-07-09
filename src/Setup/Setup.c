@@ -1629,7 +1629,6 @@ void DoInstall (void *arg)
 		}
 	}
 
-outcome:
 	OutcomePrompt (hwndDlg, bOK);
 
 	if (bOK && !bUninstall && !bDowngrade && !bRepairMode && !bDevm)
