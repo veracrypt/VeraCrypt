@@ -1617,7 +1617,7 @@ LRESULT CALLBACK CustomDlgProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	return DefDlgProc (hwnd, uMsg, wParam, lParam);
 }
 
-
+/*
 static BOOL IsReturnAddress (DWORD64 address)
 {
 	static size_t codeEnd = 0;
@@ -1637,7 +1637,7 @@ static BOOL IsReturnAddress (DWORD64 address)
 		|| (sp[-6] == 0xff && sp[-5] == 0x15)				// call [ADDR]
 		|| (sp[-2] == 0xff && (sp[-1] & 0xf0) == 0xd0);		// call REG
 }
-
+*/
 
 typedef struct
 {
@@ -1652,24 +1652,24 @@ void ExceptionHandlerThread (void *threadArg)
 	ExceptionHandlerThreadArgs *args = (ExceptionHandlerThreadArgs *) threadArg;
 
 	EXCEPTION_POINTERS *ep = args->ExceptionPointers;
-	DWORD addr;
+	//DWORD addr;
 	DWORD exCode = ep->ExceptionRecord->ExceptionCode;
-	SYSTEM_INFO si;
+	// SYSTEM_INFO si;
 	// wchar_t msg[8192];
-	char modPath[MAX_PATH];
-	int crc = 0;
+	// char modPath[MAX_PATH];
+	// int crc = 0;
 	// char url[MAX_URL_LENGTH];
-	char lpack[128];
-	stringstream callStack;
-	addr = (DWORD) ep->ExceptionRecord->ExceptionAddress;
-	PDWORD sp = (PDWORD) ep->ContextRecord->Esp;
-	int frameNumber = 0;
+	// char lpack[128];
+	// stringstream callStack;
+	// addr = (DWORD) ep->ExceptionRecord->ExceptionAddress;
+	// PDWORD sp = (PDWORD) ep->ContextRecord->Esp;
+	// int frameNumber = 0;
 
 	switch (exCode)
 	{
 	case STATUS_IN_PAGE_ERROR:
 	case 0xeedfade:
-		// Exception not caused by TrueCrypt
+		// Exception not caused by VeraCrypt
 		MessageBoxW (0, GetString ("EXCEPTION_REPORT_EXT"),
 			GetString ("EXCEPTION_REPORT_TITLE"),
 			MB_ICONERROR | MB_OK | MB_SETFOREGROUND | MB_TOPMOST);
@@ -1677,7 +1677,7 @@ void ExceptionHandlerThread (void *threadArg)
 	}
 
 	// Call stack
-	HMODULE dbgDll = LoadLibrary ("dbghelp.dll");
+/*	HMODULE dbgDll = LoadLibrary ("dbghelp.dll");
 	if (dbgDll)
 	{
 		typedef DWORD (__stdcall *SymGetOptions_t) ();
@@ -1815,7 +1815,7 @@ void ExceptionHandlerThread (void *threadArg)
 	else
 		lpack[0] = 0;
 
-	/*
+	
 	sprintf (url, TC_APPLINK_SECURE "&dest=err-report%s&os=%s&osver=%d.%d.%d&arch=%s&cpus=%d&app=%s&cksum=%x&dlg=%s&err=%x&addr=%x"
 		, lpack
 		, GetWindowsEdition().c_str()
