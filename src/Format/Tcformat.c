@@ -1699,7 +1699,7 @@ static BOOL GetDevicePathForHiddenOS (void)
 
 	try
 	{
-		strncpy (szFileName, BootEncObj->GetPartitionForHiddenOS().DevicePath.c_str(), sizeof(szFileName));
+		strncpy (szFileName, BootEncObj->GetPartitionForHiddenOS().DevicePath.c_str(), sizeof(szFileName) - 1);
 
 		CreateFullVolumePath (szDiskFile, szFileName, &tmpbDevice);
 	}

@@ -783,7 +783,7 @@ BOOL CheckSysEncMountWithoutPBA (const char *devicePath, BOOL quiet)
 		}
 	}
 	else
-		strncpy (szDevicePath, devicePath, sizeof (szDevicePath));
+		strncpy (szDevicePath, devicePath, sizeof (szDevicePath) - 1);
 
 	char *partionPortion = strrchr (szDevicePath, '\\');
 
@@ -1866,7 +1866,7 @@ err:
 	return 0;
 }
 
-static char PasswordDlgVolume[MAX_PATH];
+static char PasswordDlgVolume[MAX_PATH + 1];
 static BOOL PasswordDialogDisableMountOptions;
 static char *PasswordDialogTitleStringId;
 
@@ -6700,7 +6700,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 					KeyFile *kf;
 					RelativePath2Absolute (tmpPath);
 					kf = (KeyFile *) malloc (sizeof (KeyFile));
-					strncpy (kf->FileName, tmpPath, sizeof (kf->FileName));
+					strncpy (kf->FileName, tmpPath, sizeof (kf->FileName) - 1);
 					FirstCmdKeyFile = KeyFileAdd (FirstCmdKeyFile, kf);
 				}
 				break;
@@ -7750,7 +7750,7 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 		// Open the volume using backup header
 		while (TRUE)
 		{
-			strncpy (PasswordDlgVolume, lpszVolume, sizeof (PasswordDlgVolume));
+			strncpy (PasswordDlgVolume, lpszVolume, sizeof (PasswordDlgVolume) - 1);
 			if (!AskVolumePassword (hwndDlg, &VolumePassword, NULL, FALSE))
 			{
 				nStatus = ERR_SUCCESS;
@@ -8821,7 +8821,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 	}
 
 	uint64 bugcheckCode;
-	int n = sscanf (output.substr (p + 14, 8).c_str(), "%I64X", &bugcheckCode);
+	int n = sscanf (output.substr (p + 14, 8).c_str(), "%I64uX", &bugcheckCode);
 	if (n != 1)
 	{
 		Error ("ERR_PARAMETER_INCORRECT");
@@ -8831,7 +8831,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 	p = output.find ("Arguments ", p);
 	
 	uint64 bugcheckArgs[4];
-	n = sscanf (output.substr (p + 10, (Is64BitOs() ? 17 : 9) * 4).c_str(), "%I64X %I64X %I64X %I64X", &bugcheckArgs[0], &bugcheckArgs[1], &bugcheckArgs[2], &bugcheckArgs[3]);
+	n = sscanf (output.substr (p + 10, (Is64BitOs() ? 17 : 9) * 4).c_str(), "%I64uX %I64uX %I64uX %I64uX", &bugcheckArgs[0], &bugcheckArgs[1], &bugcheckArgs[2], &bugcheckArgs[3]);
 	if (n != 4)
 	{
 		Error ("ERR_PARAMETER_INCORRECT");

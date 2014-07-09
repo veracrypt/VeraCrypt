@@ -20,7 +20,7 @@ extern "C" {
 
 typedef struct KeyFileStruct
 {
-	char FileName[MAX_PATH];
+	char FileName[MAX_PATH + 1];
 	struct KeyFileStruct *Next;
 } KeyFile;
 
