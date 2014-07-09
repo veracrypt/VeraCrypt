@@ -7001,7 +7001,11 @@ BOOL TaskBarIconAdd (HWND hwnd)
 	TaskBarIconMutex = CreateMutex (NULL, TRUE, "VeraCryptTaskBarIcon");
 	if (TaskBarIconMutex == NULL || GetLastError () == ERROR_ALREADY_EXISTS)
 	{
-		TaskBarIconMutex = NULL;
+		if (TaskBarIconMutex)
+		{
+			CloseHandle(TaskBarIconMutex);
+			TaskBarIconMutex = NULL;
+		}
 		return FALSE;
 	}
 
@@ -8692,7 +8696,12 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 		NormalCursor();
 
 		DWORD exitCode;
-		if (!GetExitCodeProcess (procInfo.hProcess, &exitCode) || exitCode != 0)
+		bool bExitCheck = (!GetExitCodeProcess (procInfo.hProcess, &exitCode) || exitCode != 0);
+
+		CloseHandle(procInfo.hProcess);
+		CloseHandle(procInfo.hThread);
+
+		if (bExitCheck)
 			return;
 	}
 
@@ -8764,6 +8773,10 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 	{
 		handleWin32Error (hwndDlg);
 		Error ("DEBUGGER_NOT_FOUND");
+		CloseHandle (procInfo.hProcess);
+		CloseHandle (procInfo.hThread);
+		CloseHandle (hChildStdoutRead);
+		CloseHandle (hChildStdoutWrite);
 		return;
 	}
 
@@ -8786,6 +8799,8 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 
 		output.insert (output.size(), pipeBuffer, bytesReceived);
 	}
+
+	CloseHandle (hChildStdoutRead);
 
 	NormalCursor();
 
@@ -8868,7 +8883,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 
 		retAddrs.push_back (s);
 	}
-	/*
+/*
 	char url[MAX_URL_LENGTH];
 	sprintf (url, TC_APPLINK_SECURE "&dest=syserr-report&os=%s&osver=%d.%d.%d&arch=%s&err=%I64x&arg1=%I64x&arg2=%I64x&arg3=%I64x&arg4=%I64x&flag=%s&drv=%s",
 		GetWindowsEdition().c_str(),
@@ -8943,7 +8958,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 
 	if (AskYesNoString (msg.c_str()) == IDYES)
 		ShellExecute (NULL, "open", urlStr.c_str(), NULL, NULL, SW_SHOWNORMAL);
-	*/
+*/
 }
 
 

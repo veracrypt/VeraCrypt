@@ -150,6 +150,8 @@ static int CompressBuffer (char *out, char *in, int len)
 	if (!CreatePipe (&hChildStdinRead, &((HANDLE) hChildStdinWrite), &securityAttrib, 0))
 	{
 		PkgError ("Cannot create STDIN pipe.");
+		CloseHandle(hChildStdoutWrite);
+		CloseHandle(hChildStdoutRead);
 		return 0;
 	}
 	SetHandleInformation (hChildStdinWrite, HANDLE_FLAG_INHERIT, 0);
@@ -166,6 +168,10 @@ static int CompressBuffer (char *out, char *in, int len)
 	if (!CreateProcess (NULL, "gzip --best", NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &procInfo))
 	{
 		PkgError ("Error: Cannot run gzip.\n\nBefore you can create a self-extracting VeraCrypt package, you need to have the open-source 'gzip' compression tool placed in any directory in the search path for executable files (for example, in 'C:\\Windows\\').\n\nNote: gzip can be freely downloaded e.g. from www.gzip.org");
+		CloseHandle(hChildStdoutWrite);
+		CloseHandle(hChildStdoutRead);
+		CloseHandle(hChildStdinRead);
+		CloseHandle(hChildStdinWrite);
 		return 0;
 	}
 
@@ -179,6 +185,8 @@ static int CompressBuffer (char *out, char *in, int len)
 	if (!CloseHandle (hChildStdoutWrite))
 	{
 		PkgError ("Cannot close STDOUT write"); 
+		CloseHandle(hChildStdoutRead);
+		CloseHandle(hChildStdinRead);
 		return 0;
 	}
 
@@ -198,6 +206,9 @@ static int CompressBuffer (char *out, char *in, int len)
 		else
 			bGzipHeaderRead = TRUE;	// Skip the 10-byte gzip header
 	} 
+
+	CloseHandle(hChildStdoutRead);
+	CloseHandle(hChildStdinRead);
 	return res_len - 8;	// A gzip stream ends with a CRC-32 hash and a 32-bit size (those 8 bytes need to be chopped off)
 }
 

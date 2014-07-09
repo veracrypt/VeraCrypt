@@ -1349,7 +1349,7 @@ HBITMAP RenderBitmap (char *resource, HWND hwndDest, int x, int y, int nWidth, i
 		HDC hdcDest = GetDC (hwndDest);
 
 		BitBlt (hdcDest, x, y, nWidth, nHeight, hdcRescaled, 0, 0, SRCCOPY);
-		DeleteDC (hdcDest);
+		ReleaseDC (hwndDest, hdcDest);
 	}
 	else
 	{
@@ -3492,6 +3492,8 @@ load:
 
 				bPortableModeConfirmed = TRUE;
 			
+				if (hDriver != INVALID_HANDLE_VALUE)
+					CloseHandle (hDriver);
 				hDriver = CreateFile (WIN32_ROOT_PREFIX, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 			}
 
@@ -7484,16 +7486,19 @@ __int64 GetFileSize64 (const char *path)
 {
   	HANDLE h = CreateFile (path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	LARGE_INTEGER size;
+	__int64 retSize = -1;
 
-	if (h == INVALID_HANDLE_VALUE)
-		return -1;
+	if (h)
+	{
+		if (GetFileSizeEx (h, &size))
+		{
+			retSize = size.QuadPart;
+		}
 
-	if (GetFileSizeEx (h, &size) == 0)
-		return -1;
+		CloseHandle (h);
+	}
 
-	CloseHandle (h);
-
-	return size.QuadPart;
+	return retSize;
 }
 
 
@@ -8214,12 +8219,19 @@ BOOL RestartComputer (void)
 
 	AdjustTokenPrivileges (hTkn, false, &tokenPrivil, 0, (PTOKEN_PRIVILEGES) NULL, 0); 
 	if (GetLastError() != ERROR_SUCCESS) 
+	{
+		CloseHandle(hTkn);
 		return false; 
+	}
 
 	if (!ExitWindowsEx (EWX_REBOOT,
 		SHTDN_REASON_MAJOR_OTHER | SHTDN_REASON_MINOR_OTHER | SHTDN_REASON_FLAG_PLANNED)) 
+	{
+		CloseHandle(hTkn);
 		return false; 
+	}
 
+	CloseHandle(hTkn);
 	return true;
 }
 
