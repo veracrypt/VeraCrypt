@@ -298,7 +298,7 @@ BOOL LoadLanguageFile ()
 
 		do
 		{
-			if (sscanf (header, "#define %s %d", key, &intKey) == 2)
+			if (sscanf (header, "#define %127s %d", key, &intKey) == 2)
 			{
 				WCHAR *str = GetString (key);
 
