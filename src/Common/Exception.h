@@ -35,12 +35,12 @@ namespace VeraCrypt
 	struct ErrorException : public Exception
 	{
 		ErrorException (char *langId) : ErrLangId (langId) { }
-		ErrorException (const wstring &errMsg) : ErrMsg (errMsg) { }
+		ErrorException (const wstring &errMsg) : ErrLangId(NULL), ErrMsg (errMsg) { }
 
 		void Show (HWND parent) const
 		{
 			if (ErrMsg.empty())
-				::Error (ErrLangId);
+				::Error (ErrLangId? ErrLangId : "");
 			else
 				::ErrorDirect (ErrMsg.c_str());
 		}

@@ -22,7 +22,7 @@ namespace VeraCrypt
 	class File
 	{
 	public:
-		File () : FileOpen (false) { }
+		File () : Elevated (false), FileOpen (false), FilePointerPosition(0), Handle(NULL), IsDevice(false) { }
 		File (string path, bool readOnly = false, bool create = false);
 		~File () { Close(); }
 

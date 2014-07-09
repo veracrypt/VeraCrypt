@@ -375,6 +375,13 @@ namespace VeraCrypt
 		SelectedEncryptionAlgorithmId (0),
 		VolumeHeaderValid (false)
 	{
+      HiddenOSCandidatePartition.IsGPT = FALSE;
+      HiddenOSCandidatePartition.Number = (size_t) -1;
+      DriveConfig.DriveNumber = -1;
+      DriveConfig.ExtraBootPartitionPresent = false;
+      DriveConfig.SystemLoaderPresent = false;
+      DriveConfig.InitialUnallocatedSpace = 0;
+      DriveConfig.TotalUnallocatedSpace = 0;
 		Elevator::AddReference();
 	}
 

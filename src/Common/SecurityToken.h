@@ -69,7 +69,7 @@ namespace VeraCrypt
 
 	struct SecurityTokenKeyfile
 	{
-		SecurityTokenKeyfile () { }
+		SecurityTokenKeyfile () : Handle(CK_INVALID_HANDLE), SlotId(CK_UNAVAILABLE_INFORMATION) { Token.SlotId = CK_UNAVAILABLE_INFORMATION; Token.Flags = 0; }
 		SecurityTokenKeyfile (const SecurityTokenKeyfilePath &path);
 
 		operator SecurityTokenKeyfilePath () const;
@@ -85,7 +85,8 @@ namespace VeraCrypt
 	{
 		Pkcs11Exception (CK_RV errorCode = (CK_RV) -1)
 			: ErrorCode (errorCode),
-			SubjectErrorCodeValid (false)
+			SubjectErrorCodeValid (false),
+			SubjectErrorCode( (uint64) -1)
 		{
 		}
 
@@ -155,7 +156,7 @@ namespace VeraCrypt
 
 	struct Pkcs11Session
 	{
-		Pkcs11Session () : UserLoggedIn (false) { }
+		Pkcs11Session () : Handle (CK_UNAVAILABLE_INFORMATION), UserLoggedIn (false) { }
 
 		CK_SESSION_HANDLE Handle;
 		bool UserLoggedIn;
