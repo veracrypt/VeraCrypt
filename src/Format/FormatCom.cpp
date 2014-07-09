@@ -35,7 +35,7 @@ public:
 		InterlockedIncrement (&ObjectCount);
 	}
 
-	~TrueCryptFormatCom ()
+	virtual ~TrueCryptFormatCom ()
 	{
 		if (InterlockedDecrement (&ObjectCount) == 0)
 			PostThreadMessage (MessageThreadId, WM_APP, 0, 0);

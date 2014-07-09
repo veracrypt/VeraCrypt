@@ -31,7 +31,7 @@ public:
 		InterlockedIncrement (&ObjectCount);
 	}
 
-	~TrueCryptMainCom ()
+	virtual ~TrueCryptMainCom ()
 	{
 		if (InterlockedDecrement (&ObjectCount) == 0)
 			PostThreadMessage (MessageThreadId, WM_APP, 0, 0);
