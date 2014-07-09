@@ -8902,7 +8902,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 		otherDriver ? "0" : "1",
 		imageName.empty() ? "-" : imageName.c_str()
 		);
-
+*/
 	stringstream stackTraceArgs;
 	int i = 0;
 	foreach (const string &retAddr, retAddrs)
@@ -8943,6 +8943,8 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 		msg += L"\n\n";
 	}
 
+	InfoDirect(msg.c_str());
+/*
 	string urlStr = string (url) + "&drvver=" + (imageVersion.empty() ? "-" : imageVersion) + stackTraceArgs.str();
 
 	for (size_t i = 0; i < urlStr.size(); ++i)
