@@ -958,7 +958,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 				}
 				catch (...) { }
 
-				if (bUninstallInProgress && driverVersion >= 0x500 && !bootEnc.GetStatus().DriveMounted)
+				if (bUninstallInProgress && !bootEnc.GetStatus().DriveMounted)
 				{
 					try { bootEnc.RegisterFilterDriver (false, BootEncryption::DriveFilter); } catch (...) { }
 					try { bootEnc.RegisterFilterDriver (false, BootEncryption::VolumeFilter); } catch (...) { }
