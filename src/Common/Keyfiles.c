@@ -23,11 +23,12 @@
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
 
+#include <Strsafe.h>
+
 using namespace VeraCrypt;
 
 #define stat _stat
 #define S_IFDIR _S_IFDIR
-#define snprintf _snprintf
 
 
 BOOL HiddenFilesPresentInKeyfilePath = FALSE;
@@ -97,13 +98,16 @@ void KeyFileRemoveAll (KeyFile **firstKeyFile)
 
 KeyFile *KeyFileClone (KeyFile *keyFile)
 {
-	KeyFile *clone;
+	KeyFile *clone = NULL;
 
 	if (keyFile == NULL) return NULL;
 
 	clone = (KeyFile *) malloc (sizeof (KeyFile));
-	strcpy (clone->FileName, keyFile->FileName);
-	clone->Next = NULL;
+	if (clone)
+	{
+		StringCbCopyA (clone->FileName, sizeof(clone->FileName), keyFile->FileName);
+		clone->Next = NULL;
+	}
 	return clone;
 }
 
@@ -298,7 +302,7 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 			/* Find and process all keyfiles in the directory */
 			int keyfileCount = 0;
 
-			snprintf (searchPath, sizeof (searchPath), "%s\\*.*", kf->FileName);
+			StringCbPrintfA (searchPath, sizeof (searchPath), "%s\\*.*", kf->FileName);
 			if ((searchHandle = _findfirst (searchPath, &fBuf)) == -1)
 			{
 				handleWin32Error (MainDlg);
@@ -311,7 +315,7 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 			{
 				WIN32_FILE_ATTRIBUTE_DATA fileAttributes;
 
-				snprintf (kfSub->FileName, sizeof(kfSub->FileName), "%s%c%s", kf->FileName,
+				StringCbPrintfA (kfSub->FileName, sizeof(kfSub->FileName), "%s%c%s", kf->FileName,
 					'\\',
 					fBuf.name
 					);
@@ -462,18 +466,21 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_KEYADD)
 		{
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-			if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, bHistory))
+			if (kf)
 			{
-				do
+				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, sizeof(kf->FileName),bHistory))
 				{
-					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-					LoadKeyList (hwndDlg, param->FirstKeyFile);
+					do
+					{
+						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+						LoadKeyList (hwndDlg, param->FirstKeyFile);
 
-					kf = (KeyFile *) malloc (sizeof (KeyFile));
-				} while (SelectMultipleFilesNext (kf->FileName));
+						kf = (KeyFile *) malloc (sizeof (KeyFile));
+					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
+				}
+
+				free (kf);
 			}
-
-			free (kf);
 			return 1;
 		}
 
@@ -501,10 +508,13 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-					strcpy_s (kf->FileName, sizeof (kf->FileName), WideToSingleString (keyPath).c_str());
+					if (kf)
+					{
+						strcpy_s (kf->FileName, sizeof (kf->FileName), WideToSingleString (keyPath).c_str());
 
-					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-					LoadKeyList (hwndDlg, param->FirstKeyFile);
+						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+						LoadKeyList (hwndDlg, param->FirstKeyFile);
+					}
 				}
 			}
 
@@ -574,9 +584,12 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			while (count-- > 0)
 			{
 				KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-				DragQueryFile (hdrop, i++, kf->FileName, sizeof (kf->FileName));
-				param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-				LoadKeyList (hwndDlg, param->FirstKeyFile);
+				if (kf)
+				{
+					DragQueryFile (hdrop, i++, kf->FileName, sizeof (kf->FileName));
+					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+					LoadKeyList (hwndDlg, param->FirstKeyFile);
+				}
 			}
 
 			DragFinish (hdrop);
@@ -614,6 +627,8 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *param)
 {
 	HMENU popup = CreatePopupMenu ();
+	if (!popup)
+		return FALSE;
 	int sel;
 	BOOL status = FALSE;
 
@@ -628,35 +643,40 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 	case IDM_KEYFILES_POPUP_ADD_FILES:
 		{
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-			if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, bHistory))
+			if (kf)
 			{
-				do
+				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, sizeof(kf->FileName),bHistory))
 				{
-					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-					kf = (KeyFile *) malloc (sizeof (KeyFile));
-				} while (SelectMultipleFilesNext (kf->FileName));
+					do
+					{
+						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+						kf = (KeyFile *) malloc (sizeof (KeyFile));
+					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
 
-				param->EnableKeyFiles = TRUE;
-				status = TRUE;
+					param->EnableKeyFiles = TRUE;
+					status = TRUE;
+				}
+
+				free (kf);
 			}
-
-			free (kf);
 		}
 		break;
 
 	case IDM_KEYFILES_POPUP_ADD_DIR:
 		{
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-
-			if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
+			if (kf)
 			{
-				param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-				param->EnableKeyFiles = TRUE;
-				status = TRUE;
-			}
-			else
-			{
-				free (kf);
+				if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
+				{
+					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+					param->EnableKeyFiles = TRUE;
+					status = TRUE;
+				}
+				else
+				{
+					free (kf);
+				}
 			}
 		}
 		break;
@@ -669,11 +689,14 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 				foreach (const SecurityTokenKeyfilePath &keyPath, selectedTokenKeyfiles)
 				{
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-					strcpy_s (kf->FileName, sizeof (kf->FileName), WideToSingleString (keyPath).c_str());
+					if (kf)
+					{
+						strcpy_s (kf->FileName, sizeof (kf->FileName), WideToSingleString (keyPath).c_str());
 
-					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-					param->EnableKeyFiles = TRUE;
-					status = TRUE;
+						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+						param->EnableKeyFiles = TRUE;
+						status = TRUE;
+					}
 				}
 			}
 		}

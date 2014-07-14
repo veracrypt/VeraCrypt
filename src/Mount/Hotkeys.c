@@ -13,6 +13,8 @@
 #include "Mount.h"
 #include "Resource.h"
 
+#include <Strsafe.h>
+
 #define MAX_KEY_COMB_NAME_LEN	260
 
 TCHOTKEY	Hotkeys [NBR_HOTKEYS];
@@ -46,56 +48,56 @@ BOOL GetKeyName (UINT vKey, wchar_t *keyName)
 	if (vKey >= 0x30 && vKey <= 0x5a)	
 	{
 		// ASCII characters
-		wsprintfW (keyName, L"%hc", (char) vKey);
+		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%hc", (char) vKey);
 	}
 	else if (vKey >= 0xE9 && vKey <= 0xF5)	
 	{
 		// OEM-specific
-		wsprintfW (keyName, L"OEM-%d", vKey);
+		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM-%d", vKey);
 	}
 	else if (vKey >= VK_F1 && vKey <= VK_F24)
 	{
 		// F1-F24
-		wsprintfW (keyName, L"F%d", vKey - VK_F1 + 1);
+		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"F%d", vKey - VK_F1 + 1);
 	}
 	else if (vKey >= VK_NUMPAD0 && vKey <= VK_NUMPAD9)
 	{
 		// Numpad numbers
-		wsprintfW (keyName, L"%s %d", GetString ("VK_NUMPAD"), vKey - VK_NUMPAD0); 
+		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s %d", GetString ("VK_NUMPAD"), vKey - VK_NUMPAD0); 
 	}
 	else
 	{
 		switch (vKey)
 		{
-		case VK_MULTIPLY:	wsprintfW (keyName, L"%s *", GetString ("VK_NUMPAD")); break;
-		case VK_ADD:		wsprintfW (keyName, L"%s +", GetString ("VK_NUMPAD")); break;
-		case VK_SEPARATOR:	wsprintfW (keyName, L"%s Separator", GetString ("VK_NUMPAD")); break;
-		case VK_SUBTRACT:	wsprintfW (keyName, L"%s -", GetString ("VK_NUMPAD")); break;
-		case VK_DECIMAL:	wsprintfW (keyName, L"%s .", GetString ("VK_NUMPAD")); break;
-		case VK_DIVIDE:		wsprintfW (keyName, L"%s /", GetString ("VK_NUMPAD")); break;
-		case VK_OEM_1:		wcscpy (keyName, L"OEM 1 (';')"); break;
-		case VK_OEM_PLUS:	wcscpy (keyName, L"+"); break;
-		case VK_OEM_COMMA:	wcscpy (keyName, L","); break;
-		case VK_OEM_MINUS:	wcscpy (keyName, L"-"); break;
-		case VK_OEM_PERIOD:	wcscpy (keyName, L".");	break;
-		case VK_OEM_2:		wcscpy (keyName, L"OEM 2 ('/')"); break;
-		case VK_OEM_3:		wcscpy (keyName, L"OEM 3 (`)"); break;
-		case VK_OEM_4:		wcscpy (keyName, L"OEM 4 ('[')"); break;
-		case VK_OEM_5:		wcscpy (keyName, L"OEM 5 ('\\')"); break;
-		case VK_OEM_6:		wcscpy (keyName, L"OEM 6 (']')"); break;
-		case VK_OEM_7:		wcscpy (keyName, L"OEM 7 (')"); break;
-		case VK_OEM_8:		wcscpy (keyName, L"OEM 8"); break;
-		case VK_OEM_AX:		wcscpy (keyName, L"OEM AX"); break;
-		case VK_OEM_102:	wcscpy (keyName, L"OEM 102"); break;
-		case VK_ICO_HELP:	wcscpy (keyName, L"ICO_HELP"); break;
-		case VK_ICO_00:		wcscpy (keyName, L"ICO_00"); break;
-		case VK_ICO_CLEAR:	wcscpy (keyName, L"ICO_CLEAR"); break;
-		case VK_ATTN:		wcscpy (keyName, L"Attn"); break;
-		case VK_CRSEL:		wcscpy (keyName, L"CrSel"); break;
-		case VK_EXSEL:		wcscpy (keyName, L"ExSel"); break;
-		case VK_EREOF:		wcscpy (keyName, L"Erase EOF"); break;
-		case VK_PA1:		wcscpy (keyName, L"PA1"); break;
-		case VK_OEM_CLEAR:	wcscpy (keyName, L"OEM Clear"); break;
+		case VK_MULTIPLY:	StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s *", GetString ("VK_NUMPAD")); break;
+		case VK_ADD:		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s +", GetString ("VK_NUMPAD")); break;
+		case VK_SEPARATOR:	StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s Separator", GetString ("VK_NUMPAD")); break;
+		case VK_SUBTRACT:	StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s -", GetString ("VK_NUMPAD")); break;
+		case VK_DECIMAL:	StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s .", GetString ("VK_NUMPAD")); break;
+		case VK_DIVIDE:		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s /", GetString ("VK_NUMPAD")); break;
+		case VK_OEM_1:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 1 (';')"); break;
+		case VK_OEM_PLUS:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"+"); break;
+		case VK_OEM_COMMA:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L","); break;
+		case VK_OEM_MINUS:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"-"); break;
+		case VK_OEM_PERIOD:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L".");	break;
+		case VK_OEM_2:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 2 ('/')"); break;
+		case VK_OEM_3:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 3 (`)"); break;
+		case VK_OEM_4:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 4 ('[')"); break;
+		case VK_OEM_5:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 5 ('\\')"); break;
+		case VK_OEM_6:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 6 (']')"); break;
+		case VK_OEM_7:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 7 (')"); break;
+		case VK_OEM_8:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 8"); break;
+		case VK_OEM_AX:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM AX"); break;
+		case VK_OEM_102:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM 102"); break;
+		case VK_ICO_HELP:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"ICO_HELP"); break;
+		case VK_ICO_00:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"ICO_00"); break;
+		case VK_ICO_CLEAR:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"ICO_CLEAR"); break;
+		case VK_ATTN:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"Attn"); break;
+		case VK_CRSEL:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"CrSel"); break;
+		case VK_EXSEL:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"ExSel"); break;
+		case VK_EREOF:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"Erase EOF"); break;
+		case VK_PA1:		StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"PA1"); break;
+		case VK_OEM_CLEAR:	StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM Clear"); break;
 
 		case 0:
 		case 1:
@@ -107,12 +109,12 @@ BOOL GetKeyName (UINT vKey, wchar_t *keyName)
 			{
 				char key[16];
 				wchar_t *desc;
-				sprintf (key, "VKEY_%02X", vKey);
+				StringCbPrintfA (key, sizeof(key),"VKEY_%02X", vKey);
 				desc = GetString (key);
 				if (desc == UnknownString)
 					result = FALSE;
 				else
-					wcsncpy (keyName, desc, MAX_KEY_COMB_NAME_LEN);
+					StringCbCopyW (keyName, MAX_KEY_COMB_NAME_LEN, desc);
 			}
 		}
 	}
@@ -226,36 +228,36 @@ static void DisplayHotkeyList (HWND hwndDlg)
 		SendMessageW (hList,LVM_INSERTITEMW,0,(LPARAM)&item);
 
 		item.iSubItem = 1;
-		wcscpy (Shortcut, L"");
-		wcscpy (ShortcutMod, L"");
+		Shortcut[0] = 0;
+		ShortcutMod[0] = 0;
 
 		if (GetKeyName (tmpHotkeys[i].vKeyCode, Shortcut))
 		{
 			if (tmpHotkeys[i].vKeyModifiers & MOD_CONTROL)
 			{
-				wcscat (ShortcutMod, GetString ("VK_CONTROL"));
-				wcscat (ShortcutMod, L"+");
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),GetString ("VK_CONTROL"));
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),L"+");
 			}
 
 			if (tmpHotkeys[i].vKeyModifiers & MOD_SHIFT)
 			{
-				wcscat (ShortcutMod, GetString ("VK_SHIFT"));
-				wcscat (ShortcutMod, L"+");
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),GetString ("VK_SHIFT"));
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),L"+");
 			}
 
 			if (tmpHotkeys[i].vKeyModifiers & MOD_ALT)
 			{
-				wcscat (ShortcutMod, GetString ("VK_ALT"));
-				wcscat (ShortcutMod, L"+");
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),GetString ("VK_ALT"));
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),L"+");
 			}
 
 			if (tmpHotkeys[i].vKeyModifiers & MOD_WIN)
 			{
-				wcscat (ShortcutMod, GetString ("VK_WIN"));
-				wcscat (ShortcutMod, L"+");
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),GetString ("VK_WIN"));
+				StringCbCatW (ShortcutMod, sizeof(ShortcutMod),L"+");
 			}
 
-			wsprintfW (ShortcutFinal, L"%s%s", ShortcutMod, Shortcut);
+			StringCbPrintfW (ShortcutFinal, sizeof(ShortcutFinal), L"%s%s", ShortcutMod, Shortcut);
 			item.pszText = ShortcutFinal;
 		}
 		else

@@ -46,6 +46,8 @@
 #include "../Platform/Finally.h"
 #include "../Platform/ForEach.h"
 
+#include <Strsafe.h>
+
 using namespace VeraCrypt;
 
 enum timer_ids
@@ -534,7 +536,7 @@ void SaveSettings (HWND hwndDlg)
 	// Drive Letter
 	lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
 	if (LOWORD (lLetter) != 0xffff)
-		sprintf (szTmp, "%c:", (char) HIWORD (lLetter));
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%c:", (char) HIWORD (lLetter));
 	ConfigWriteString ("LastSelectedDrive", szTmp);
 
 	ConfigWriteInt ("CloseSecurityTokenSessionsAfterMount",	CloseSecurityTokenSessionsAfterMount);
@@ -721,19 +723,19 @@ static void PopulateSysEncContextMenu (HMENU popup, BOOL bToolsOnly)
 				AppendMenuW (popup, MF_STRING, IDM_PERMANENTLY_DECRYPT_SYS, GetString ("PERMANENTLY_DECRYPT"));
 			
 			AppendMenuW (popup, MF_STRING, IDM_ENCRYPT_SYSTEM_DEVICE, GetString ("ENCRYPT"));
-			AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+			AppendMenu (popup, MF_SEPARATOR, 0, "");
 		}
 	}
 
 	AppendMenuW (popup, MF_STRING, IDM_CHANGE_SYS_PASSWORD, GetString ("IDM_CHANGE_SYS_PASSWORD"));
 	AppendMenuW (popup, MF_STRING, IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO, GetString ("IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO"));
 
-	AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+	AppendMenu (popup, MF_SEPARATOR, 0, "");
 	AppendMenuW (popup, MF_STRING, IDM_SYS_ENC_SETTINGS, GetString ("IDM_SYS_ENC_SETTINGS"));
 
 	if (!IsHiddenOSRunning())
 	{
-		AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+		AppendMenu (popup, MF_SEPARATOR, 0, "");
 		AppendMenuW (popup, MF_STRING, IDM_CREATE_RESCUE_DISK, GetString ("IDM_CREATE_RESCUE_DISK"));
 		AppendMenuW (popup, MF_STRING, IDM_VERIFY_RESCUE_DISK, GetString ("IDM_VERIFY_RESCUE_DISK"));
 	}
@@ -742,10 +744,10 @@ static void PopulateSysEncContextMenu (HMENU popup, BOOL bToolsOnly)
 	{
 		if (SysDriveOrPartitionFullyEncrypted (FALSE) && !IsHiddenOSRunning())
 		{
-			AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+			AppendMenu (popup, MF_SEPARATOR, 0, "");
 			AppendMenuW (popup, MF_STRING, IDM_PERMANENTLY_DECRYPT_SYS, GetString ("PERMANENTLY_DECRYPT"));
 		}
-		AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+		AppendMenu (popup, MF_SEPARATOR, 0, "");
 		AppendMenuW (popup, MF_STRING, IDM_VOLUME_PROPERTIES, GetString ("IDPM_PROPERTIES"));
 	}
 }
@@ -764,7 +766,7 @@ BOOL CheckSysEncMountWithoutPBA (const char *devicePath, BOOL quiet)
 	if (strlen (devicePath) < 2)
 	{
 		GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), szDevicePath, sizeof (szDevicePath));
-		CreateFullVolumePath (szDiskFile, szDevicePath, &tmpbDevice);
+		CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), szDevicePath, &tmpbDevice);
 
 		if (!tmpbDevice)
 		{
@@ -783,7 +785,7 @@ BOOL CheckSysEncMountWithoutPBA (const char *devicePath, BOOL quiet)
 		}
 	}
 	else
-		strncpy (szDevicePath, devicePath, sizeof (szDevicePath) - 1);
+		StringCbCopyA (szDevicePath, sizeof(szDevicePath), devicePath);
 
 	char *partionPortion = strrchr (szDevicePath, '\\');
 
@@ -815,7 +817,7 @@ BOOL CheckSysEncMountWithoutPBA (const char *devicePath, BOOL quiet)
 				return FALSE;
 			}
 
-			_snprintf (parentDrivePath,
+			StringCbPrintfA (parentDrivePath,
 				sizeof (parentDrivePath),
 				"\\Device\\Harddisk%d\\Partition0",
 				driveNo);
@@ -872,7 +874,7 @@ BOOL TCBootLoaderOnInactiveSysEncDrive (void)
 		if (sscanf (szDevicePath, "\\Device\\Harddisk%d\\Partition", &driveNo) != 1)
 			return FALSE;
 
-		_snprintf (parentDrivePath,
+		StringCbPrintfA (parentDrivePath,
 			sizeof (parentDrivePath),
 			"\\Device\\Harddisk%d\\Partition0",
 			driveNo);
@@ -949,15 +951,16 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 		PROCESS_INFORMATION pi;
 		ZeroMemory (&si, sizeof (si));
 
-		strcpy (++tmp, "VeraCrypt Format.exe\"");
+		*tmp = 0;
+		StringCbCopyA (t, sizeof(t), "\\VeraCrypt Format.exe\"");
 
 		if (!FileExists(t))
 			Error ("VOL_CREATION_WIZARD_NOT_FOUND");	// Display a user-friendly error message and advise what to do
 
 		if (strlen (arg) > 0)
 		{
-			strcat (t, " ");
-			strcat (t, arg);
+			StringCbCatA (t, sizeof(t), " ");
+			StringCbCatA (t, sizeof(t), arg);
 		}
 
 		if (!CreateProcess (NULL, (LPSTR) t, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi))
@@ -1068,7 +1071,8 @@ void LoadDriveLetters (HWND hTree, int drive)
 			listItem.iItem = item++;  
 
 			listItem.pszText = szTmp;
-			strcpy (szTmp, " ");
+			szTmp[0] = ' ';
+			szTmp[1] = 0;
 
 			listItem.lParam = MAKELONG (TC_MLIST_ITEM_SYS_DRIVE, ENC_SYSDRIVE_PSEUDO_DRIVE_LETTER);	
 
@@ -1082,7 +1086,7 @@ void LoadDriveLetters (HWND hTree, int drive)
 			// Fully encrypted
 			if (SysDriveOrPartitionFullyEncrypted (TRUE))
 			{
-				wcscpy (szTmpW, GetString ("SYSTEM_DRIVE"));
+				StringCbCopyW (szTmpW, sizeof(szTmpW), GetString ("SYSTEM_DRIVE"));
 			}
 			else
 			{
@@ -1094,23 +1098,23 @@ void LoadDriveLetters (HWND hTree, int drive)
 
 					if (BootEncStatus.SetupMode != SetupDecryption)
 					{
-						_snwprintf (szTmpW, 
-							sizeof szTmpW/2,
+						StringCbPrintfW (szTmpW, 
+							sizeof szTmpW,
 							GetString ("SYSTEM_DRIVE_ENCRYPTING"),
 							(double) GetSysEncDeviceEncryptedPartSize (TRUE) / (double) GetSysEncDeviceSize (TRUE) * 100.0);
 					}
 					else
 					{
-						_snwprintf (szTmpW, 
-							sizeof szTmpW/2,
+						StringCbPrintfW (szTmpW, 
+							sizeof szTmpW,
 							GetString ("SYSTEM_DRIVE_DECRYPTING"),
 							100.0 - ((double) GetSysEncDeviceEncryptedPartSize (TRUE) / (double) GetSysEncDeviceSize (TRUE) * 100.0));
 					}
 				}
 				else
 				{
-					_snwprintf (szTmpW, 
-						sizeof szTmpW/2,
+					StringCbPrintfW (szTmpW, 
+						sizeof szTmpW,
 						GetString ("SYSTEM_DRIVE_PARTIALLY_ENCRYPTED"),
 						(double) GetSysEncDeviceEncryptedPartSize (TRUE) / (double) GetSysEncDeviceSize (TRUE) * 100.0);
 				}
@@ -1118,7 +1122,7 @@ void LoadDriveLetters (HWND hTree, int drive)
 			 
 			ListSubItemSetW (hTree, listItem.iItem, 1, szTmpW);
 
-			GetSizeString (GetSysEncDeviceSize(TRUE), szTmpW);
+			GetSizeString (GetSysEncDeviceSize(TRUE), szTmpW, sizeof(szTmpW));
 			ListSubItemSetW (hTree, listItem.iItem, 2, szTmpW);
 
 			EAGetName (szTmp, propSysEnc.ea);
@@ -1182,7 +1186,7 @@ void LoadDriveLetters (HWND hTree, int drive)
 				// Fully encrypted
 				if (SysDriveOrPartitionFullyEncrypted (TRUE))
 				{
-					wcscpy (szTmpW, GetString (IsHiddenOSRunning() ? "HIDDEN_SYSTEM_PARTITION" : "SYSTEM_PARTITION"));
+					StringCbCopyW (szTmpW, sizeof(szTmpW), GetString (IsHiddenOSRunning() ? "HIDDEN_SYSTEM_PARTITION" : "SYSTEM_PARTITION"));
 				}
 				else
 				{
@@ -1194,23 +1198,23 @@ void LoadDriveLetters (HWND hTree, int drive)
 
 						if (BootEncStatus.SetupMode != SetupDecryption)
 						{
-							_snwprintf (szTmpW, 
-								sizeof szTmpW/2,
+							StringCbPrintfW (szTmpW, 
+								sizeof szTmpW,
 								GetString ("SYSTEM_PARTITION_ENCRYPTING"),
 								(double) GetSysEncDeviceEncryptedPartSize (TRUE) / (double) GetSysEncDeviceSize (TRUE) * 100.0);
 						}
 						else
 						{
-							_snwprintf (szTmpW, 
-								sizeof szTmpW/2,
+							StringCbPrintfW (szTmpW, 
+								sizeof szTmpW,
 								GetString ("SYSTEM_PARTITION_DECRYPTING"),
 								100.0 - ((double) GetSysEncDeviceEncryptedPartSize (TRUE) / (double) GetSysEncDeviceSize (TRUE) * 100.0));
 						}
 					}
 					else
 					{
-						_snwprintf (szTmpW, 
-							sizeof szTmpW/2,
+						StringCbPrintfW (szTmpW, 
+							sizeof szTmpW,
 							GetString ("SYSTEM_PARTITION_PARTIALLY_ENCRYPTED"),
 							(double) GetSysEncDeviceEncryptedPartSize (TRUE) / (double) GetSysEncDeviceSize (TRUE) * 100.0);
 					}
@@ -1220,7 +1224,7 @@ void LoadDriveLetters (HWND hTree, int drive)
 			}
 			else
 			{
-				ToSBCS (driver.wszVolume[i]);
+				ToSBCS (driver.wszVolume[i], sizeof(driver.wszVolume[i]));
 				char *path = (char *) driver.wszVolume[i];
 
 				if (memcmp (path, "\\??\\", 4) == 0)
@@ -1235,7 +1239,7 @@ void LoadDriveLetters (HWND hTree, int drive)
 					ListSubItemSet (hTree, listItem.iItem, 1, (char *) FitPathInGfxWidth (hTree, hUserFont, ListView_GetColumnWidth (hTree, 1) - GetTextGfxWidth (hTree, L"___", hUserFont), path).c_str());
 			}
 
-			GetSizeString (bSysEncPartition ? GetSysEncDeviceSize(TRUE) : driver.diskLength[i], szTmpW);
+			GetSizeString (bSysEncPartition ? GetSysEncDeviceSize(TRUE) : driver.diskLength[i], szTmpW, sizeof(szTmpW));
 			ListSubItemSetW (hTree, listItem.iItem, 2, szTmpW);
 
 			EAGetName (szTmp, bSysEncPartition ? propSysEnc.ea : driver.ea[i]);
@@ -1276,7 +1280,7 @@ void LoadDriveLetters (HWND hTree, int drive)
 						wchar_t szTmp[4096];
 
 						VolumeNotificationsList.bHidVolDamagePrevReported[i] = TRUE;
-						swprintf (szTmp, GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), i+'A');
+						StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), i+'A');
 						SetForegroundWindow (GetParent(hTree));
 						MessageBoxW (GetParent(hTree), szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 					}
@@ -1554,9 +1558,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					bKeyboardLayoutChanged = TRUE;
 
 					wchar_t szTmp [4096];
-					wcscpy (szTmp, GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
-					wcscat (szTmp, L"\n\n");
-					wcscat (szTmp, GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+					StringCbCopyW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
+					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
 					MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 				}
 
@@ -1570,9 +1574,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						bKeybLayoutAltKeyWarningShown = TRUE;
 
 						wchar_t szTmp [4096];
-						wcscpy (szTmp, GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
-						wcscat (szTmp, L"\n\n");
-						wcscat (szTmp, GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+						StringCbCopyW (szTmp, sizeof(szTmp), GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
+						StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+						StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
 						MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
 					}
 				}
@@ -1899,12 +1903,12 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				wstring label = GetFavoriteVolumeLabel (PasswordDlgVolume);
 				if (!label.empty())
 				{
-					wsprintfW (s, GetString ("ENTER_PASSWORD_FOR_LABEL"), label.c_str());
+					StringCbPrintfW (s, sizeof(s), GetString ("ENTER_PASSWORD_FOR_LABEL"), label.c_str());
 				}
 				else
 				{
-					wsprintfW (s, GetString ("ENTER_PASSWORD_FOR"), "___");
-					wsprintfW (s, GetString ("ENTER_PASSWORD_FOR"), FitPathInGfxWidth (hwndDlg, WindowTitleBarFont, rect.right - rect.left - GetTextGfxWidth (hwndDlg, s, WindowTitleBarFont), PasswordDlgVolume).c_str());
+					StringCbPrintfW (s, sizeof(s), GetString ("ENTER_PASSWORD_FOR"), "___");
+					StringCbPrintfW (s, sizeof(s), GetString ("ENTER_PASSWORD_FOR"), FitPathInGfxWidth (hwndDlg, WindowTitleBarFont, rect.right - rect.left - GetTextGfxWidth (hwndDlg, s, WindowTitleBarFont), PasswordDlgVolume).c_str());
 				}
 
 				SetWindowTextW (hwndDlg, s);
@@ -1957,7 +1961,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), tmp);
 			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), "");
 
-			sprintf (OrigKeyboardLayout, "%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
+			StringCbPrintfA (OrigKeyboardLayout, sizeof(OrigKeyboardLayout),"%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
 
 			DWORD keybLayout = (DWORD) LoadKeyboardLayout ("00000409", KLF_ACTIVATE);
 
@@ -2015,9 +2019,9 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					}
 
 					wchar_t szTmp [4096];
-					wcscpy (szTmp, GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
-					wcscat (szTmp, L"\n\n");
-					wcscat (szTmp, GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+					StringCbCopyW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
+					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
 					MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 				}
 			}
@@ -2152,9 +2156,12 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			while (count-- > 0)
 			{
 				KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-				DragQueryFile (hdrop, i++, kf->FileName, sizeof (kf->FileName));
-				FirstKeyFile = KeyFileAdd (FirstKeyFile, kf);
-				KeyFilesEnable = TRUE;
+				if (kf)
+				{
+					DragQueryFile (hdrop, i++, kf->FileName, sizeof (kf->FileName));
+					FirstKeyFile = KeyFileAdd (FirstKeyFile, kf);
+					KeyFilesEnable = TRUE;
+				}
 			}
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
@@ -2351,23 +2358,27 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		if (lw == IDC_MORE_SETTINGS)
 		{
 			HMENU popup = CreatePopupMenu ();
+			if (popup)
+			{
+				AppendMenuW (popup, MF_STRING, IDM_LANGUAGE, GetString ("IDM_LANGUAGE"));
+				AppendMenuW (popup, MF_STRING, IDM_HOTKEY_SETTINGS, GetString ("IDM_HOTKEY_SETTINGS"));
+				AppendMenuW (popup, MF_STRING, IDM_PERFORMANCE_SETTINGS, GetString ("IDM_PERFORMANCE_SETTINGS"));
+				AppendMenuW (popup, MF_STRING, IDM_SYSENC_SETTINGS, GetString ("IDM_SYSENC_SETTINGS"));
+				AppendMenuW (popup, MF_STRING, IDM_SYS_FAVORITES_SETTINGS, GetString ("IDM_SYS_FAVORITES_SETTINGS"));
+				AppendMenuW (popup, MF_STRING, IDM_DEFAULT_KEYFILES, GetString ("IDM_DEFAULT_KEYFILES"));
+				AppendMenuW (popup, MF_STRING, IDM_TOKEN_PREFERENCES, GetString ("IDM_TOKEN_PREFERENCES"));
 
-			AppendMenuW (popup, MF_STRING, IDM_LANGUAGE, GetString ("IDM_LANGUAGE"));
-			AppendMenuW (popup, MF_STRING, IDM_HOTKEY_SETTINGS, GetString ("IDM_HOTKEY_SETTINGS"));
-			AppendMenuW (popup, MF_STRING, IDM_PERFORMANCE_SETTINGS, GetString ("IDM_PERFORMANCE_SETTINGS"));
-			AppendMenuW (popup, MF_STRING, IDM_SYSENC_SETTINGS, GetString ("IDM_SYSENC_SETTINGS"));
-			AppendMenuW (popup, MF_STRING, IDM_SYS_FAVORITES_SETTINGS, GetString ("IDM_SYS_FAVORITES_SETTINGS"));
-			AppendMenuW (popup, MF_STRING, IDM_DEFAULT_KEYFILES, GetString ("IDM_DEFAULT_KEYFILES"));
-			AppendMenuW (popup, MF_STRING, IDM_TOKEN_PREFERENCES, GetString ("IDM_TOKEN_PREFERENCES"));
+				RECT rect;
+				GetWindowRect (GetDlgItem (hwndDlg, IDC_MORE_SETTINGS), &rect);
 
-			RECT rect;
-			GetWindowRect (GetDlgItem (hwndDlg, IDC_MORE_SETTINGS), &rect);
+				int menuItem = TrackPopupMenu (popup, TPM_RETURNCMD | TPM_LEFTBUTTON, rect.left + 2, rect.top + 2, 0, hwndDlg, NULL);
+				DestroyMenu (popup);
 
-			int menuItem = TrackPopupMenu (popup, TPM_RETURNCMD | TPM_LEFTBUTTON, rect.left + 2, rect.top + 2, 0, hwndDlg, NULL);
-			DestroyMenu (popup);
-
-			SendMessage (MainDlg, WM_COMMAND, menuItem, NULL);
-			return 1;
+				SendMessage (MainDlg, WM_COMMAND, menuItem, NULL);
+				return 1;
+			}
+			else
+				return 0;
 		}
 
 		if (HIWORD (wParam) == BN_CLICKED)
@@ -2739,7 +2750,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			// Size
 			ListItemAddW (list, i, GetString ("SIZE"));
-			swprintf (sw, L"%I64u %s", prop.diskLength, GetString ("BYTES"));
+			StringCbPrintfW (sw, sizeof(sw), L"%I64u %s", prop.diskLength, GetString ("BYTES"));
 			ListSubItemSetW (list, i++, 1, sw);
 
 			// Type
@@ -2802,7 +2813,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				// Primary key
 				ListItemAddW (list, i, GetString ("KEY_SIZE"));
-				wsprintfW (sw, L"%d %s", size * 8, GetString ("BITS"));
+				StringCbPrintfW (sw, sizeof(sw), L"%d %s", size * 8, GetString ("BITS"));
 				ListSubItemSetW (list, i++, 1, sw);
 
 				if (strcmp (EAGetModeName (prop.ea, prop.mode, TRUE), "XTS") == 0)
@@ -2817,7 +2828,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					// Tweak key (LRW)
 
 					ListItemAddW (list, i, GetString ("SECONDARY_KEY_SIZE_LRW"));
-					swprintf (sw, L"%d %s", CipherGetBlockSize (EAGetFirstCipher(prop.ea))*8, GetString ("BITS"));
+					StringCbPrintfW (sw, sizeof(sw), L"%d %s", CipherGetBlockSize (EAGetFirstCipher(prop.ea))*8, GetString ("BITS"));
 					ListSubItemSetW (list, i++, 1, sw);
 				}
 			}
@@ -2830,20 +2841,20 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				wchar_t tmpstr[64];
 				int i = EAGetLastCipher(prop.ea);
 
-				swprintf (sw, L"%d", CipherGetBlockSize(i)*8);
+				StringCbPrintfW (sw, sizeof(sw), L"%d", CipherGetBlockSize(i)*8);
 				
 				while (i = EAGetPreviousCipher(prop.ea, i))
 				{
-					swprintf (tmpstr, L"/%d", CipherGetBlockSize(i)*8);
-					wcscat (sw, tmpstr);
+					StringCbPrintfW (tmpstr, sizeof(tmpstr), L"/%d", CipherGetBlockSize(i)*8);
+					StringCbCatW (sw, sizeof(sw), tmpstr);
 				}
-				wcscat (sw, L" ");
+				StringCbCatW (sw, sizeof(sw), L" ");
 			}
 			else
 			{
-				swprintf (sw, L"%d ", CipherGetBlockSize (EAGetFirstCipher(prop.ea))*8);
+				StringCbPrintfW (sw, sizeof(sw), L"%d ", CipherGetBlockSize (EAGetFirstCipher(prop.ea))*8);
 			}
-			wcscat (sw, GetString ("BITS"));
+			StringCbCatW (sw, sizeof(sw), GetString ("BITS"));
 			ListSubItemSetW (list, i++, 1, sw);
 
 			// Mode
@@ -2906,7 +2917,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				// Volume format version
 				ListItemAddW (list, i, GetString ("VOLUME_FORMAT_VERSION"));
-				sprintf (szTmp, "%d", prop.volFormatVersion);
+				StringCbPrintfA (szTmp, sizeof(szTmp), "%d", prop.volFormatVersion);
 				ListSubItemSet (list, i++, 1, szTmp);
 
 				// Backup header
@@ -2916,12 +2927,12 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			// Total data read
 			ListItemAddW (list, i, GetString ("TOTAL_DATA_READ"));
-			GetSizeString (prop.totalBytesRead, sw);
+			GetSizeString (prop.totalBytesRead, sw, sizeof(sw));
 			ListSubItemSetW (list, i++, 1, sw);
 
 			// Total data written
 			ListItemAddW (list, i, GetString ("TOTAL_DATA_WRITTEN"));
-			GetSizeString (prop.totalBytesWritten, sw);
+			GetSizeString (prop.totalBytesWritten, sw, sizeof(sw));
 			ListSubItemSetW (list, i++, 1, sw);
 
 			if (bSysEnc)
@@ -2939,8 +2950,8 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 				{
 
-					_snwprintf (sw, 
-						sizeof sw/2,
+					StringCbPrintfW (sw, 
+						sizeof sw,
 						GetString ("PROCESSED_PORTION_X_PERCENT"),
 						(double) GetSysEncDeviceEncryptedPartSize (FALSE) / (double) GetSysEncDeviceSize (FALSE) * 100.0);
 
@@ -3078,6 +3089,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			char sysDir[MAX_PATH];
 			char volName[MAX_PATH];
 			int drive;
+			char* ptr;
 
 			GetDlgItemText (hwndDlg, IDC_DIRECTORY, dstDir, sizeof dstDir);
 			volName[0] = 0;
@@ -3111,21 +3123,22 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (volName[1] != 0)
 			{
 				volName[0] = '"';
-				strcat (volName, "\"");
+				StringCbCatA (volName, sizeof(volName), "\"");
 			}
 
 			GetModuleFileName (NULL, appDir, sizeof (appDir));
-			strrchr (appDir, '\\')[0] = 0;
+			if (ptr = strrchr (appDir, '\\'))
+				ptr[0] = 0;
 
 			WaitCursor ();
 			GetSystemDirectory (sysDir, sizeof (sysDir));
 
-			sprintf (dstPath, "%s\\VeraCrypt", dstDir);
+			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt", dstDir);
 			CreateDirectory (dstPath, NULL);
 
 			// Main app
-			sprintf (srcPath, "%s\\VeraCrypt.exe", appDir);
-			sprintf (dstPath, "%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
+			StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt.exe", appDir);
+			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg);
@@ -3135,8 +3148,8 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// Wizard
 			if (copyWizard)
 			{
-				sprintf (srcPath, "%s\\VeraCrypt Format.exe", appDir);
-				sprintf (dstPath, "%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
+				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format.exe", appDir);
+				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
 				if (!TCCopyFile (srcPath, dstPath))
 				{
 					handleWin32Error (hwndDlg);
@@ -3145,8 +3158,8 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Driver
-			sprintf (srcPath, "%s\\veracrypt.sys", appDir);
-			sprintf (dstPath, "%s\\VeraCrypt\\veracrypt.sys", dstDir);
+			StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\veracrypt.sys", appDir);
+			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\veracrypt.sys", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg);
@@ -3154,8 +3167,8 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Driver x64
-			sprintf (srcPath, "%s\\veracrypt-x64.sys", appDir);
-			sprintf (dstPath, "%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
+			StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\veracrypt-x64.sys", appDir);
+			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg);
@@ -3165,13 +3178,13 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (GetPreferredLangId () && strcmp (GetPreferredLangId (), "en") != 0)
 			{
 				// Language pack
-				sprintf (srcPath, "%s\\Language.%s.xml", appDir, GetPreferredLangId ());
-				sprintf (dstPath, "%s\\VeraCrypt\\Language.%s.xml", dstDir, GetPreferredLangId ());
+				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\Language.%s.xml", appDir, GetPreferredLangId ());
+				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\Language.%s.xml", dstDir, GetPreferredLangId ());
 				TCCopyFile (srcPath, dstPath);
 			}
 
 			// AutoRun
-			sprintf (dstPath, "%s\\autorun.inf", dstDir);
+			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\autorun.inf", dstDir);
 			DeleteFile (dstPath);
 			if (bAutoRun)
 			{
@@ -3187,7 +3200,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					goto stop;
 				}
 
-				sprintf (autoMount, "VeraCrypt\\VeraCrypt.exe /q background%s%s%s%s /m rm /v %s",
+				StringCbPrintfA (autoMount, sizeof(autoMount), "VeraCrypt\\VeraCrypt.exe /q background%s%s%s%s /m rm /v %s",
 					drive > 0 ? driveLetter : "",
 					bExplore ? " /e" : "",
 					bCacheInDriver ? " /c y" : "",
@@ -3452,7 +3465,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 		}
 		else if (!Silent)
 		{
-			strcpy (PasswordDlgVolume, szFileName);
+			StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume), szFileName);
 
 			if (!AskVolumePassword (hwndDlg, &VolumePassword, NULL, TRUE))
 				goto ret;
@@ -3615,7 +3628,7 @@ retry:
 			wchar_t msg[4096];
 
 			VolumeNotificationsList.bHidVolDamagePrevReported [unmount.nDosDriveNo] = TRUE;
-			swprintf (msg, GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), unmount.nDosDriveNo + 'A');
+			StringCbPrintfW (msg, sizeof(msg), GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), unmount.nDosDriveNo + 'A');
 			SetForegroundWindow (hwndDlg);
 			MessageBoxW (hwndDlg, msg, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 
@@ -3836,9 +3849,9 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 			{
 				WCHAR szTmp[4096];
 
-				swprintf (szTmp, GetString (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT"));
+				StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable || FirstCmdKeyFile ? "PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT" : "PASSWORD_WRONG_AUTOMOUNT"));
 				if (CheckCapsLock (hwndDlg, TRUE))
-					wcscat (szTmp, GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
 				MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONWARNING);
 			}
@@ -3986,7 +3999,7 @@ static void ChangeSysEncPassword (HWND hwndDlg, BOOL bOnlyChangeKDF)
 
 	if (CreateSysEncMutex ())	// If no instance of the wizard is currently taking care of system encryption
 	{
-		sprintf (OrigKeyboardLayout, "%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
+		StringCbPrintfA (OrigKeyboardLayout, sizeof(OrigKeyboardLayout), "%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
 
 		bSysEncPwdChangeDlgMode = TRUE;
 
@@ -4251,7 +4264,7 @@ void CreateRescueDisk (void)
 			WaitCursor();
 			BootEncObj->CreateRescueIsoImage (false, szRescueDiskISO);
 
-			_snwprintf (szTmp, sizeof szTmp / 2,
+			StringCbPrintfW (szTmp, sizeof szTmp,
 				GetString (IsWindowsIsoBurnerAvailable() ? "RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN" : "RESCUE_DISK_NON_WIZARD_CREATION_BURN"),
 				szRescueDiskISO);
 
@@ -4785,7 +4798,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						VolumePassword.Length = 0;
 
-						strcpy (PasswordDlgVolume, szFileName);
+						StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume),szFileName);
 						if (!AskVolumePassword (hwndDlg, &VolumePassword, NULL, TRUE))
 							break;
 
@@ -5323,7 +5336,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (MainWindowHidden)
 					{
 						AppendMenuW (popup, MF_STRING, IDM_SHOW_HIDE, GetString ("SHOW_TC"));
-						AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+						AppendMenu (popup, MF_SEPARATOR, 0, "");
 					}
 					else if (bEnableBkgTask
 						&& (!(LastKnownMountList.ulMountedDrives == 0
@@ -5332,12 +5345,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						&& GetDriverRefCount () < 2)))
 					{
 						AppendMenuW (popup, MF_STRING, IDM_SHOW_HIDE, GetString ("HIDE_TC"));
-						AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+						AppendMenu (popup, MF_SEPARATOR, 0, "");
 					}
 					AppendMenuW (popup, MF_STRING, IDM_MOUNTALL, GetString ("IDC_MOUNTALL"));
 					AppendMenuW (popup, MF_STRING, IDM_MOUNT_FAVORITE_VOLUMES, GetString ("IDM_MOUNT_FAVORITE_VOLUMES"));
 					AppendMenuW (popup, MF_STRING, IDM_UNMOUNTALL, GetString ("IDC_UNMOUNTALL"));
-					AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+					AppendMenu (popup, MF_SEPARATOR, 0, "");
 
 					for (n = 0; n < 2; n++)
 					{
@@ -5352,7 +5365,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 								wstring label = GetFavoriteVolumeLabel (WideToSingleString (vol));
 
-								wsprintfW (s, L"%s %c: (%s)",
+								StringCbPrintfW (s, sizeof(s), L"%s %c: (%s)",
 									GetString (n==0 ? "OPEN" : "DISMOUNT"),
 									i + L'A', 
 									label.empty() ? vol : label.c_str());
@@ -5360,14 +5373,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 						}
 						if (LastKnownMountList.ulMountedDrives != 0)
-							AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+							AppendMenu (popup, MF_SEPARATOR, 0, "");
 					}
 
 					AppendMenuW (popup, MF_STRING, IDM_HELP, GetString ("MENU_HELP"));
 					AppendMenuW (popup, MF_STRING, IDM_HOMEPAGE_SYSTRAY, GetString ("HOMEPAGE"));
 					AppendMenuW (popup, MF_STRING, IDM_PREFERENCES, GetString ("IDM_PREFERENCES"));
 					AppendMenuW (popup, MF_STRING, IDM_ABOUT, GetString ("IDM_ABOUT"));
-					AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+					AppendMenu (popup, MF_SEPARATOR, 0, "");
 					AppendMenuW (popup, MF_STRING, IDCANCEL, GetString ("EXIT"));
 
 					GetCursorPos (&pos);
@@ -5393,7 +5406,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							if (Dismount (hwndDlg, sel - TRAYICON_MENU_DRIVE_OFFSET - 26))
 							{
 								wchar_t txt [2048];
-								wsprintfW (txt, GetString ("VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED"), sel - TRAYICON_MENU_DRIVE_OFFSET - 26 + L'A'); 
+								StringCbPrintfW (txt, sizeof(txt), GetString ("VOLUME_MOUNTED_AS_DRIVE_LETTER_X_DISMOUNTED"), sel - TRAYICON_MENU_DRIVE_OFFSET - 26 + L'A'); 
 
 								InfoBalloonDirect (GetString ("SUCCESSFULLY_DISMOUNTED"), txt);
 							}
@@ -5499,7 +5512,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (wcsstr (vol, L"\\??\\") == vol)
 						vol += 4;
 
-					_snprintf (volp, sizeof(volp), "%ls", vol);
+					StringCbPrintfA (volp, sizeof(volp), "%ls", vol);
 
 					if (IsVolumeDeviceHosted (volp))
 					{
@@ -5603,7 +5616,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						// No mounted volume at this drive letter
 
 						AppendMenuW (popup, MF_STRING, IDM_MOUNT_VOLUME, GetString ("IDM_MOUNT_VOLUME"));
-						AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+						AppendMenu (popup, MF_SEPARATOR, 0, "");
 						AppendMenuW (popup, MF_STRING, IDPM_SELECT_FILE_AND_MOUNT, GetString ("SELECT_FILE_AND_MOUNT"));
 						AppendMenuW (popup, MF_STRING, IDPM_SELECT_DEVICE_AND_MOUNT, GetString ("SELECT_DEVICE_AND_MOUNT"));
 						break;
@@ -5614,13 +5627,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 						AppendMenuW (popup, MF_STRING, IDM_UNMOUNT_VOLUME, GetString ("DISMOUNT"));
 						AppendMenuW (popup, MF_STRING, IDPM_OPEN_VOLUME, GetString ("OPEN"));
-						AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+						AppendMenu (popup, MF_SEPARATOR, 0, "");
 						AppendMenuW (popup, MF_STRING, IDPM_CHECK_FILESYS, GetString ("IDPM_CHECK_FILESYS"));
 						AppendMenuW (popup, MF_STRING, IDPM_REPAIR_FILESYS, GetString ("IDPM_REPAIR_FILESYS"));
-						AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+						AppendMenu (popup, MF_SEPARATOR, 0, "");
 						AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_FAVORITES, GetString ("IDPM_ADD_TO_FAVORITES"));
 						AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_SYSTEM_FAVORITES, GetString ("IDPM_ADD_TO_SYSTEM_FAVORITES"));
-						AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+						AppendMenu (popup, MF_SEPARATOR, 0, "");
 						AppendMenuW (popup, MF_STRING, IDM_VOLUME_PROPERTIES, GetString ("IDPM_PROPERTIES"));
 						break;
 
@@ -5867,10 +5880,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				AppendMenuW (popup, MF_STRING, IDM_CHANGE_PASSWORD, GetString ("IDM_CHANGE_PASSWORD"));
 				AppendMenuW (popup, MF_STRING, IDM_CHANGE_HEADER_KEY_DERIV_ALGO, GetString ("IDM_CHANGE_HEADER_KEY_DERIV_ALGO"));
-				AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+				AppendMenu (popup, MF_SEPARATOR, 0, "");
 				AppendMenuW (popup, MF_STRING, IDM_ADD_REMOVE_VOL_KEYFILES, GetString ("IDM_ADD_REMOVE_VOL_KEYFILES"));
 				AppendMenuW (popup, MF_STRING, IDM_REMOVE_ALL_KEYFILES_FROM_VOL, GetString ("IDM_REMOVE_ALL_KEYFILES_FROM_VOL"));
-				AppendMenu (popup, MF_SEPARATOR, 0, NULL);
+				AppendMenu (popup, MF_SEPARATOR, 0, "");
 				AppendMenuW (popup, MF_STRING, IDM_BACKUP_VOL_HEADER, GetString ("IDM_BACKUP_VOL_HEADER"));
 				AppendMenuW (popup, MF_STRING, IDM_RESTORE_VOL_HEADER, GetString ("IDM_RESTORE_VOL_HEADER"));
 			}
@@ -6250,9 +6263,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// volPathHigher will contain the volume path selected in the main drive list
 					wstring volPathHigher (prop.wszVolume);
 
-					ToSBCS (prop.wszVolume);
-					strcpy ((char *) volPathLowerW, volPathLower);
-					ToUNICODE ((char *) volPathLowerW);
+					ToSBCS (prop.wszVolume, sizeof(prop.wszVolume));
+					StringCbCopyA ((char *) volPathLowerW, sizeof(volPathLowerW), volPathLower);
+					ToUNICODE ((char *) volPathLowerW, sizeof(volPathLowerW));
 
 					if (strcmp (((memcmp ((char *) prop.wszVolume, "\\??\\", 4) == 0) ? (char *) prop.wszVolume + 4 : (char *) prop.wszVolume), volPathLower) != 0)
 					{
@@ -6700,8 +6713,11 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 					KeyFile *kf;
 					RelativePath2Absolute (tmpPath);
 					kf = (KeyFile *) malloc (sizeof (KeyFile));
-					strncpy (kf->FileName, tmpPath, sizeof (kf->FileName) - 1);
-					FirstCmdKeyFile = KeyFileAdd (FirstCmdKeyFile, kf);
+					if (kf)
+					{
+						StringCbCopyA (kf->FileName, sizeof(kf->FileName), tmpPath);
+						FirstCmdKeyFile = KeyFileAdd (FirstCmdKeyFile, kf);
+					}
 				}
 				break;
 
@@ -7025,7 +7041,7 @@ BOOL TaskBarIconAdd (HWND hwnd)
 		| LR_SHARED
 		| (nCurrentOS != WIN_2000 ? LR_DEFAULTCOLOR : LR_VGACOLOR)); // Windows 2000 cannot display more than 16 fixed colors in notification tray
 
-	wcscpy (tnid.szTip, L"VeraCrypt");
+	StringCbCopyW (tnid.szTip, sizeof(tnid.szTip), L"VeraCrypt");
 
 	return Shell_NotifyIconW (NIM_ADD, &tnid); 
 }
@@ -7450,7 +7466,7 @@ void ChangeMainWindowVisibility ()
 }
 
 
-int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, char *lpszVolume)
+int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lpszVolume)
 {
 	int nStatus = ERR_OS_ERROR;
 	wchar_t szTmp[4096];
@@ -7460,6 +7476,13 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, char *lpszVolum
 	Password hiddenVolPassword;
 	byte temporaryKey[MASTER_KEYDATA_SIZE];
 	byte originalK2[MASTER_KEYDATA_SIZE];
+
+   if (!lpszVolume)
+   {
+      nStatus = ERR_OUTOFMEMORY;
+      handleError (hwndDlg, nStatus);
+      return nStatus;
+   }
 
 	volume.VolumeIsOpen = FALSE;
 	hiddenVolume.VolumeIsOpen = FALSE;
@@ -7560,7 +7583,7 @@ noHidden:
 		goto error;
 	}
 
-	swprintf (szTmp, GetString ("CONFIRM_VOL_HEADER_BAK"), lpszVolume);
+	StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CONFIRM_VOL_HEADER_BAK"), lpszVolume);
 
 	if (bRequireConfirmation 
 		&& (MessageBoxW (hwndDlg, szTmp, lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON1) == IDNO))
@@ -7672,7 +7695,7 @@ error:
 }
 
 
-int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
+int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 {
 	int nDosLinkCreated = -1, nStatus = ERR_OS_ERROR;
 	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -7690,6 +7713,13 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 	HANDLE fBackup = INVALID_HANDLE_VALUE;
 	LARGE_INTEGER headerOffset;
 	CRYPTO_INFO *restoredCryptoInfo = NULL;
+
+   if (!lpszVolume)
+   {
+      nStatus = ERR_OUTOFMEMORY;
+      handleError (hwndDlg, nStatus);
+      return nStatus;
+   }
 
 	switch (IsSystemDevicePath (lpszVolume, hwndDlg, TRUE))
 	{
@@ -7750,7 +7780,7 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 		// Open the volume using backup header
 		while (TRUE)
 		{
-			strncpy (PasswordDlgVolume, lpszVolume, sizeof (PasswordDlgVolume) - 1);
+			StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume), lpszVolume);
 			if (!AskVolumePassword (hwndDlg, &VolumePassword, NULL, FALSE))
 			{
 				nStatus = ERR_SUCCESS;
@@ -7806,7 +7836,7 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 	{
 		// Restore header from an external backup
 		
-		swprintf (szTmp, GetString ("CONFIRM_VOL_HEADER_RESTORE"), lpszVolume);
+		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CONFIRM_VOL_HEADER_RESTORE"), lpszVolume);
 
 		if (MessageBoxW (hwndDlg, szTmp, lpszTitle, YES_NO|MB_ICONWARNING|MB_DEFBUTTON2) == IDNO)
 		{
@@ -7837,13 +7867,13 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 			goto error;
 		}
 
-		CreateFullVolumePath (szDiskFile, lpszVolume, &bDevice);
+		CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), lpszVolume, &bDevice);
 
 		if (bDevice == FALSE)
-			strcpy (szCFDevice, szDiskFile);
+			StringCbCopyA (szCFDevice, sizeof(szCFDevice), szDiskFile);
 		else
 		{
-			nDosLinkCreated = FakeDosNameForDevice (szDiskFile, szDosDevice, szCFDevice, FALSE);
+			nDosLinkCreated = FakeDosNameForDevice (szDiskFile, szDosDevice, sizeof(szDosDevice),szCFDevice, sizeof(szCFDevice),FALSE);
 			if (nDosLinkCreated != 0)
 				goto error;
 		}
@@ -8302,12 +8332,12 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 				else
 				{
 					char prevSecurityTokenLibraryPath[MAX_PATH];
-					strcpy (prevSecurityTokenLibraryPath, SecurityTokenLibraryPath);
-					strcpy (SecurityTokenLibraryPath, securityTokenLibraryPath);
+					StringCbCopyA (prevSecurityTokenLibraryPath, sizeof(prevSecurityTokenLibraryPath), SecurityTokenLibraryPath);
+					StringCbCopyA (SecurityTokenLibraryPath, sizeof(SecurityTokenLibraryPath), securityTokenLibraryPath);
 
 					if (!InitSecurityTokenLibrary())
 					{
-						strcpy (SecurityTokenLibraryPath, prevSecurityTokenLibraryPath);
+						StringCbCopyA (SecurityTokenLibraryPath, sizeof(SecurityTokenLibraryPath), prevSecurityTokenLibraryPath);
 						return 1;
 					}
 				}
@@ -8393,7 +8423,7 @@ static BOOL CALLBACK SecurityTokenPreferencesDlgProc (HWND hwndDlg, UINT msg, WP
 
 				Info ("SELECT_PKCS11_MODULE_HELP");
 
-				wsprintfW (browseFilter, L"%ls (*.dll)%c*.dll%c%c", GetString ("DLL_FILES"), 0, 0, 0);
+				StringCbPrintfW (browseFilter, sizeof(browseFilter), L"%ls (*.dll)%c*.dll%c%c", GetString ("DLL_FILES"), 0, 0, 0);
 				GetSystemDirectory (systemDir, sizeof (systemDir));
 
 				if (BrowseFilesInDir (hwndDlg, "SELECT_PKCS11_MODULE", systemDir, securityTokenLibraryPath, TRUE, FALSE, browseFilter))

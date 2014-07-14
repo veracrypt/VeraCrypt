@@ -32,6 +32,8 @@
 #include "Mount/MainCom.h"
 #endif
 
+#include <Strsafe.h>
+
 namespace VeraCrypt
 {
 #if !defined (SETUP)
@@ -604,7 +606,7 @@ namespace VeraCrypt
 		GetSystemDriveConfiguration();
 
 		ProbeRealDriveSizeRequest request;
-		_snwprintf (request.DeviceName, array_capacity (request.DeviceName), L"%hs", DriveConfig.DrivePartition.DevicePath.c_str());
+		StringCbPrintfW (request.DeviceName, sizeof (request.DeviceName), L"%hs", DriveConfig.DrivePartition.DevicePath.c_str());
 		
 		CallDriver (TC_IOCTL_PROBE_REAL_DRIVE_SIZE, &request, sizeof (request), &request, sizeof (request));
 		DriveConfig.DrivePartition.Info.PartitionLength = request.RealDriveSize;
@@ -633,7 +635,7 @@ namespace VeraCrypt
 			partPath << "\\Device\\Harddisk" << driveNumber << "\\Partition" << partNumber;
 
 			DISK_PARTITION_INFO_STRUCT diskPartInfo;
-			_snwprintf (diskPartInfo.deviceName, array_capacity (diskPartInfo.deviceName), L"%hs", partPath.str().c_str());
+			StringCbPrintfW (diskPartInfo.deviceName, sizeof (diskPartInfo.deviceName), L"%hs", partPath.str().c_str());
 
 			try
 			{
@@ -663,7 +665,7 @@ namespace VeraCrypt
 
 			// Volume ID
 			wchar_t volumePath[TC_MAX_PATH];
-			if (ResolveSymbolicLink ((wchar_t *) ws.str().c_str(), volumePath))
+			if (ResolveSymbolicLink ((wchar_t *) ws.str().c_str(), volumePath, sizeof(volumePath)))
 			{
 				wchar_t volumeName[TC_MAX_PATH];
 				HANDLE fh = FindFirstVolumeW (volumeName, array_capacity (volumeName));
@@ -742,8 +744,8 @@ namespace VeraCrypt
 			memset (&openTestStruct, 0, sizeof (openTestStruct));
 			DWORD dwResult;
 
-			strcpy ((char *) &openTestStruct.wszFileName[0], devicePath);
-			ToUNICODE ((char *) &openTestStruct.wszFileName[0]);
+			StringCbCopyA ((char *) &openTestStruct.wszFileName[0], sizeof(openTestStruct.wszFileName),devicePath);
+			ToUNICODE ((char *) &openTestStruct.wszFileName[0], sizeof(openTestStruct.wszFileName));
 
 			openTestStruct.bDetectTCBootLoader = TRUE;
 
@@ -844,7 +846,7 @@ namespace VeraCrypt
 	bool BootEncryption::SystemDriveIsDynamic ()
 	{
 		GetSystemDriveConfigurationRequest request;
-		_snwprintf (request.DevicePath, array_capacity (request.DevicePath), L"%hs", GetSystemDriveConfiguration().DeviceKernelPath.c_str());
+		StringCbPrintfW (request.DevicePath, sizeof (request.DevicePath), L"%hs", GetSystemDriveConfiguration().DeviceKernelPath.c_str());
 
 		CallDriver (TC_IOCTL_GET_SYSTEM_DRIVE_CONFIG, &request, sizeof (request), &request, sizeof (request));
 		return request.DriveIsDynamic ? true : false;
@@ -1095,7 +1097,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		GetSystemDriveConfigurationRequest request;
-		_snwprintf (request.DevicePath, array_capacity (request.DevicePath), L"%hs", GetSystemDriveConfiguration().DeviceKernelPath.c_str());
+		StringCbPrintfW (request.DevicePath, sizeof (request.DevicePath), L"%hs", GetSystemDriveConfiguration().DeviceKernelPath.c_str());
 
 		try
 		{
@@ -1402,8 +1404,10 @@ namespace VeraCrypt
 		memset (image, 0, RescueIsoImageSize);
 
 		// Primary volume descriptor
-		strcpy ((char *)image + 0x8000, "\001CD001\001");
-		strcpy ((char *)image + 0x7fff + 41, "VeraCrypt Rescue Disk           ");
+		const char* szPrimVolDesc = "\001CD001\001";
+		const char* szPrimVolLabel = "VeraCrypt Rescue Disk           ";
+		memcpy (image + 0x8000, szPrimVolDesc, strlen(szPrimVolDesc) + 1);
+		memcpy (image + 0x7fff + 41, szPrimVolLabel, strlen(szPrimVolLabel) + 1);
 		*(uint32 *) (image + 0x7fff + 81) = RescueIsoImageSize / 2048;
 		*(uint32 *) (image + 0x7fff + 85) = BE32 (RescueIsoImageSize / 2048);
 		image[0x7fff + 121] = 1;
@@ -1420,11 +1424,13 @@ namespace VeraCrypt
 		image[0x7fff + 159] = 0x18;
 
 		// Boot record volume descriptor
-		strcpy ((char *)image + 0x8801, "CD001\001EL TORITO SPECIFICATION");
+		const char* szBootRecDesc = "CD001\001EL TORITO SPECIFICATION";
+		memcpy (image + 0x8801, szBootRecDesc, strlen(szBootRecDesc) + 1);
 		image[0x8800 + 0x47] = 0x19;
 
 		// Volume descriptor set terminator
-		strcpy ((char *)image + 0x9000, "\377CD001\001");
+		const char* szVolDescTerm = "\377CD001\001";
+		memcpy (image + 0x9000, szVolDescTerm, strlen(szVolDescTerm) + 1);
 
 		// Path table
 		image[0xA000 + 0] = 1;
@@ -1722,7 +1728,7 @@ namespace VeraCrypt
 			DWORD size = sizeof (regKeyBuf) - strSize;
 
 			// SetupInstallFromInfSection() does not support prepending of values so we have to modify the registry directly
-			strncpy ((char *) regKeyBuf, filter.c_str(), sizeof (regKeyBuf));
+			StringCbCopyA ((char *) regKeyBuf, sizeof(regKeyBuf), filter.c_str());
 
 			if (RegQueryValueEx (regKey, filterReg.c_str(), NULL, NULL, regKeyBuf + strSize, &size) != ERROR_SUCCESS)
 				size = 1;
@@ -2318,7 +2324,7 @@ namespace VeraCrypt
 	void BootEncryption::RestrictPagingFilesToSystemPartition ()
 	{
 		char pagingFiles[128];
-		strncpy (pagingFiles, "X:\\pagefile.sys 0 0", sizeof (pagingFiles));
+		StringCbCopyA (pagingFiles, sizeof(pagingFiles), "X:\\pagefile.sys 0 0");
 		pagingFiles[0] = GetWindowsDirectory()[0];
 
 		throw_sys_if (!WriteLocalMachineRegistryMultiString ("System\\CurrentControlSet\\Control\\Session Manager\\Memory Management", "PagingFiles", pagingFiles, strlen (pagingFiles) + 2));

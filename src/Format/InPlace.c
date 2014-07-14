@@ -34,6 +34,8 @@ IMPORTANT: Due to this issue, functions in this file must not directly interact 
 
 #include "InPlace.h"
 
+#include <Strsafe.h>
+
 using namespace std;
 using namespace VeraCrypt;
 
@@ -151,15 +153,15 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 
 	/* Access to the partition */
 
-	strcpy ((char *) devPath, devicePath);
-	ToUNICODE ((char *) devPath);
+	StringCbCopyA ((char *) devPath, sizeof(devPath), devicePath);
+	ToUNICODE ((char *) devPath, sizeof(devPath));
 
 	driveLetterNo = GetDiskDeviceDriveLetter (devPath);
 
 	if (driveLetterNo >= 0)
 		szRootPath[0] = (char) driveLetterNo + 'A';
 
-	if (FakeDosNameForDevice (devicePath, dosDev, devName, FALSE) != 0)
+	if (FakeDosNameForDevice (devicePath, dosDev, sizeof(dosDev), devName, sizeof(devName),FALSE) != 0)
 	{
 		if (!silent)
 		{
@@ -348,13 +350,13 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	dataAreaSize = GetVolumeDataAreaSize (volParams->hiddenVol, deviceSize);
 
-	strcpy ((char *)deviceName, volParams->volumePath);
-	ToUNICODE ((char *)deviceName);
+	StringCbCopyA ((char *)deviceName, sizeof(deviceName), volParams->volumePath);
+	ToUNICODE ((char *)deviceName, sizeof(deviceName));
 
 	driveLetter = GetDiskDeviceDriveLetter (deviceName);
 
 
-	if (FakeDosNameForDevice (volParams->volumePath, dosDev, devName, FALSE) != 0)
+	if (FakeDosNameForDevice (volParams->volumePath, dosDev, sizeof(dosDev),devName, sizeof(devName),FALSE) != 0)
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
@@ -710,10 +712,10 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 
 	if (dev == INVALID_HANDLE_VALUE)
 	{
-		strcpy ((char *)deviceName, devicePath);
-		ToUNICODE ((char *)deviceName);
+		StringCbCopyA ((char *)deviceName, sizeof(deviceName), devicePath);
+		ToUNICODE ((char *)deviceName, sizeof(deviceName));
 
-		if (FakeDosNameForDevice (devicePath, dosDev, devName, FALSE) != 0)
+		if (FakeDosNameForDevice (devicePath, dosDev, sizeof(dosDev),devName, sizeof(devName),FALSE) != 0)
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -1085,9 +1087,9 @@ closing_seq:
 		wchar_t msg[30000] = {0};
 		wchar_t sizeStr[500] = {0};
 
-		GetSizeString (zeroedSectorCount * sectorSize, sizeStr);
+		GetSizeString (zeroedSectorCount * sectorSize, sizeStr, sizeof(sizeStr));
 
-		wsprintfW (msg, 
+		StringCbPrintfW (msg, sizeof(msg), 
 			GetString ("ZEROED_BAD_SECTOR_COUNT"),
 			zeroedSectorCount,
 			sizeStr);
@@ -1369,10 +1371,10 @@ void ShowInPlaceEncErrMsgWAltSteps (char *iniStrId, BOOL bErr)
 {
 	wchar_t msg[30000];
 
-	wcscpy (msg, GetString (iniStrId));
+	StringCbCopyW (msg, sizeof(msg), GetString (iniStrId));
 
-	wcscat (msg, L"\n\n\n");
-	wcscat (msg, GetString ("INPLACE_ENC_ALTERNATIVE_STEPS"));
+	StringCbCatW (msg, sizeof(msg), L"\n\n\n");
+	StringCbCatW (msg, sizeof(msg), GetString ("INPLACE_ENC_ALTERNATIVE_STEPS"));
 
 	if (bErr)
 		ErrorDirect (msg);
@@ -1414,7 +1416,7 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm)
 	{
 		if (newWipeAlgorithm != TC_WIPE_NONE)
 		{
-			sprintf (str, "%d", (int) newWipeAlgorithm);
+			StringCbPrintfA (str, sizeof(str), "%d", (int) newWipeAlgorithm);
 
 			SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE), strlen(str), FALSE);
 		} 
@@ -1423,7 +1425,7 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm)
 			remove (GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE));
 		}
 
-		sprintf (str, "%d", count);
+		StringCbPrintfA (str, sizeof(str), "%d", count);
 
 		return SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC), strlen(str), FALSE);
 	}

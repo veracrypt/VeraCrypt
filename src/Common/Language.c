@@ -26,6 +26,8 @@
 #include "../Setup/Resource.h"
 #endif
 
+#include <Strsafe.h>
+
 BOOL LocalizationActive;
 int LocalizationSerialNo;
 
@@ -68,8 +70,9 @@ static char *MapNextLanguageFile ()
 		GetModuleFileNameW (NULL, f, sizeof (f) / sizeof (f[0]));
 		t = wcsrchr (f, L'\\');
 		if (t == NULL) return NULL;
-
-		wcscpy (t, L"\\Language*.xml");
+		
+		*t = 0;
+		StringCbCatW (f, sizeof(f), L"\\Language*.xml");
 
 		LanguageFileFindHandle = FindFirstFileW (f, &find);
 	}
@@ -88,14 +91,29 @@ static char *MapNextLanguageFile ()
 
 	GetModuleFileNameW (NULL, f, sizeof (f) / sizeof(f[0]));
 	t = wcsrchr (f, L'\\');
-	wcscpy (t + 1, find.cFileName);
+	if (t == NULL)
+	{
+		free(LanguageFileBuffer);
+		return NULL;
+	}
+
+	t[1] = 0;
+	StringCbCatW (f, sizeof(f),find.cFileName);
 
 	file = CreateFileW (f, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
-	if (file == INVALID_HANDLE_VALUE) return NULL;
+	if (file == INVALID_HANDLE_VALUE)
+	{
+		free(LanguageFileBuffer);
+		return NULL;
+	}
 
 	ReadFile (file, LanguageFileBuffer, find.nFileSizeLow, &read, NULL);
 	CloseHandle (file);
-	if (read != find.nFileSizeLow) return NULL;
+	if (read != find.nFileSizeLow)
+	{
+		free(LanguageFileBuffer);
+		return NULL;
+	}
 
 	return LanguageFileBuffer;
 }
@@ -130,7 +148,7 @@ BOOL LoadLanguageFile ()
 	ClearDictionaryPool ();
 
 	if (PreferredLangId[0] != 0)
-		strcpy (langId, PreferredLangId);
+		StringCbCopyA (langId, sizeof(langId), PreferredLangId);
 
 	// Parse all available language files until preferred language is found
 	for (res = MapFirstLanguageFile (); res != NULL; res = MapNextLanguageFile ())
@@ -147,7 +165,7 @@ BOOL LoadLanguageFile ()
 		if (defaultLangParsed && strcmp (attr, VERSION_STRING) && strcmp (attr, "DEBUG"))
 		{
 			wchar_t m[2048];
-			swprintf (m, L"The installed language pack is incompatible with this version of VeraCrypt (the language pack is for VeraCrypt %hs). A newer version may be available at www.idrix.fr.\n\nTo prevent this message from being displayed, do any of the following:\n\n- Select 'Settings' > 'Language'; then select 'English' and click 'OK'.\n\n- Remove or replace the language pack with a compatible version (the language pack may reside e.g. in 'C:\\Program Files\\VeraCrypt' or '%%LOCALAPPDATA%%\\VirtualStore\\Program Files\\VeraCrypt', etc.)", attr);
+			StringCbPrintfW (m, sizeof(m), L"The installed language pack is incompatible with this version of VeraCrypt (the language pack is for VeraCrypt %hs). A newer version may be available at www.idrix.fr.\n\nTo prevent this message from being displayed, do any of the following:\n\n- Select 'Settings' > 'Language'; then select 'English' and click 'OK'.\n\n- Remove or replace the language pack with a compatible version (the language pack may reside e.g. in 'C:\\Program Files\\VeraCrypt' or '%%LOCALAPPDATA%%\\VirtualStore\\Program Files\\VeraCrypt', etc.)", attr);
 			MessageBoxW (NULL, m, L"VeraCrypt", MB_ICONERROR);
 			continue;
 		}
@@ -189,7 +207,7 @@ BOOL LoadLanguageFile ()
 				XmlGetAttributeText (xml, "size", attr, sizeof (attr));
 				sscanf (attr, "%d", &font.Size);
 
-				strcpy (attr, "font_");
+				StringCbCopyA (attr, sizeof(attr), "font_");
 				XmlGetAttributeText (xml, "class", attr + 5, sizeof (attr) - 5);
 				AddDictionaryEntry (
 					AddPoolData ((void *) attr, strlen (attr) + 1), 0,
@@ -375,13 +393,13 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 								// Language pack version 
 								if (!ActiveLangPackVersion[0] || memcmp (ActiveLangPackVersion, "0.0.0", 5) == 0)
 								{
-									swprintf (szVers, GetString("LANG_PACK_VERSION"), L"--");
+									StringCbPrintfW (szVers, sizeof(szVers), GetString("LANG_PACK_VERSION"), L"--");
 								}
 								else
 								{
 									nLen = MultiByteToWideChar (CP_UTF8, 0, ActiveLangPackVersion, -1, wversion, sizeof (wversion) / sizeof(wversion[0]));
 									if (nLen != 0 && nLen != ERROR_NO_UNICODE_TRANSLATION)
-										swprintf (szVers, GetString("LANG_PACK_VERSION"), wversion);
+										StringCbPrintfW (szVers, sizeof(szVers),GetString("LANG_PACK_VERSION"), wversion);
 								}
 								SetWindowTextW (GetDlgItem (hwndDlg, IDC_LANGPACK_VERSION), szVers);
 
@@ -394,7 +412,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 								}
 							}
 
-							strcpy (lastLangId, attr);
+							StringCbCopyA (lastLangId, sizeof(lastLangId),attr);
 							langCount++;
 						}
 					}
@@ -410,7 +428,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					EndDialog (hwndDlg, IDCANCEL);
 
 				if (langCount == 2)
-					strcpy (PreferredLangId, lastLangId);
+					StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), lastLangId);
 				
 				EndDialog (hwndDlg, IDOK);
 			}
@@ -446,7 +464,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					}	
 		
 					if (SendDlgItemMessage (hwndDlg, IDC_LANGLIST, LB_GETCOUNT, 0, 0) > 1)
-						strcpy (PreferredLangId, l);
+						StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), l);
 				}
 			}
 
@@ -465,7 +483,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			char tmpstr [256];
 
 			if (strlen (ActiveLangPackVersion) > 0 && strlen (GetPreferredLangId()) > 0)
-				sprintf (tmpstr, "&langpackversion=%s&lang=%s", ActiveLangPackVersion, GetPreferredLangId());
+				StringCbPrintfA (tmpstr, sizeof(tmpstr), "&langpackversion=%s&lang=%s", ActiveLangPackVersion, GetPreferredLangId());
 			else
 				tmpstr[0] = 0;
 
@@ -488,7 +506,7 @@ char *GetPreferredLangId ()
 
 void SetPreferredLangId (char *langId)
 {
-	strncpy (PreferredLangId, langId, 5);
+	StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), langId);
 }
 
 
@@ -503,7 +521,7 @@ wchar_t *GetString (const char *stringId)
 	WCHAR *str = (WCHAR *) GetDictionaryValue (stringId);
 	if (str != NULL) return str;
 
-	wsprintfW (UnknownString, UNKNOWN_STRING_ID L"%hs" UNKNOWN_STRING_ID, stringId);
+	StringCbPrintfW (UnknownString, sizeof(UnknownString), UNKNOWN_STRING_ID L"%hs" UNKNOWN_STRING_ID, stringId);
 	return UnknownString;
 }
 

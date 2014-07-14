@@ -20,6 +20,7 @@
 #include "Apidrvr.h"
 #include "Dlgcode.h"
 #include "Language.h"
+#include <Strsafe.h>
 
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
@@ -44,13 +45,13 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		*tmp = 0;
 
-		strcpy (tmp, "Command line options:\n\n");
+		StringCbCopyA (tmp, 8192, "Command line options:\n\n");
 		for (i = 0; i < as->arg_cnt; i ++)
 		{
 			if (!as->args[i].Internal)
 			{
-				sprintf(tmp2, "%s\t%s\n", as->args[i].short_name, as->args[i].long_name);
-				strcat(tmp,tmp2);
+				StringCchPrintf(tmp2, MAX_PATH * 2, "%s\t%s\n", as->args[i].short_name, as->args[i].long_name);
+				StringCchCat(tmp, 8192, tmp2);
 			}
 		}
 
@@ -220,7 +221,7 @@ int GetArgumentValue (char **lpszCommandLineArgs, int nArgPos, int *nArgIdx,
 	{
 		/* Handles the case of no space between parameter code and
 		   value */
-		strncpy (lpszValue, &lpszCommandLineArgs[*nArgIdx][nArgPos], nValueSize);
+		StringCbCopyA (lpszValue, nValueSize, &lpszCommandLineArgs[*nArgIdx][nArgPos]);
 		lpszValue[nValueSize - 1] = 0;
 		return HAS_ARGUMENT;
 	}
@@ -231,7 +232,7 @@ int GetArgumentValue (char **lpszCommandLineArgs, int nArgPos, int *nArgIdx,
 		{
 			/* Handles the case of space between parameter code
 			   and value */
-			strncpy (lpszValue, &lpszCommandLineArgs[*nArgIdx + 1][x], nValueSize);
+			StringCbCopyA (lpszValue, nValueSize, &lpszCommandLineArgs[*nArgIdx + 1][x]);
 			lpszValue[nValueSize - 1] = 0;
 			(*nArgIdx)++;
 			return HAS_ARGUMENT;

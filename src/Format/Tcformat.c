@@ -48,6 +48,8 @@
 #include "Wipe.h"
 #include "Xml.h"
 
+#include <Strsafe.h>
+
 using namespace VeraCrypt;
 
 enum wizard_pages
@@ -1217,7 +1219,7 @@ void ComboSelChangeEA (HWND hwndDlg)
 			switch (cnt)	// Number of ciphers in the cascade
 			{
 			case 2:
-				swprintf (auxLine, GetString ("TWO_LAYER_CASCADE_HELP"), 
+				StringCbPrintfW (auxLine, sizeof(auxLine), GetString ("TWO_LAYER_CASCADE_HELP"), 
 					CipherGetName (cipherIDs[1]),
 					CipherGetKeySize (cipherIDs[1])*8,
 					CipherGetName (cipherIDs[0]),
@@ -1225,7 +1227,7 @@ void ComboSelChangeEA (HWND hwndDlg)
 				break;
 
 			case 3:
-				swprintf (auxLine, GetString ("THREE_LAYER_CASCADE_HELP"), 
+				StringCbPrintfW (auxLine, sizeof(auxLine), GetString ("THREE_LAYER_CASCADE_HELP"), 
 					CipherGetName (cipherIDs[2]),
 					CipherGetKeySize (cipherIDs[2])*8,
 					CipherGetName (cipherIDs[1]),
@@ -1235,7 +1237,7 @@ void ComboSelChangeEA (HWND hwndDlg)
 				break;
 			}
 
-			wcscpy_s (hyperLink, sizeof(hyperLink) / 2, GetString ("IDC_LINK_MORE_INFO_ABOUT_CIPHER"));
+			StringCbCopyW (hyperLink, sizeof(hyperLink), GetString ("IDC_LINK_MORE_INFO_ABOUT_CIPHER"));
 
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), auxLine);
 		}
@@ -1454,11 +1456,11 @@ static void UpdateSysEncProgressBar (void)
 			// Status
 
 			if (locBootEncStatus.TransformWaitingForIdle)
-				wcscpy (tmpStr, GetString ("PROGRESS_STATUS_WAITING"));
+				StringCbCopyW (tmpStr, sizeof(tmpStr), GetString ("PROGRESS_STATUS_WAITING"));
 			else
-				wcscpy (tmpStr, GetString (SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING ? "PROGRESS_STATUS_DECRYPTING" : "PROGRESS_STATUS_ENCRYPTING"));
+				StringCbCopyW (tmpStr, sizeof(tmpStr), GetString (SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING ? "PROGRESS_STATUS_DECRYPTING" : "PROGRESS_STATUS_ENCRYPTING"));
 
-			wcscat (tmpStr, L" ");
+			StringCbCatW (tmpStr, sizeof(tmpStr), L" ");
 
 			SetWindowTextW (GetDlgItem (hCurPage, IDC_WRITESPEED), tmpStr);
 		}
@@ -1518,17 +1520,17 @@ static void UpdateSysEncControls (void)
 	{
 		wchar_t tmpStr[100];
 
-		wcscpy (tmpStr, GetString ((SysDriveOrPartitionFullyEncrypted (TRUE) || !locBootEncStatus.DriveMounted) ?
+		StringCbCopyW (tmpStr, sizeof(tmpStr), GetString ((SysDriveOrPartitionFullyEncrypted (TRUE) || !locBootEncStatus.DriveMounted) ?
 			"PROGRESS_STATUS_FINISHED" : "PROGRESS_STATUS_PAUSED"));
-		wcscat (tmpStr, L" ");
+		StringCbCatW (tmpStr, sizeof(tmpStr), L" ");
 
 		// Status
 		SetWindowTextW (GetDlgItem (hCurPage, IDC_WRITESPEED), tmpStr);
 
 		if (SysDriveOrPartitionFullyEncrypted (TRUE) || SystemEncryptionStatus == SYSENC_STATUS_NONE)
 		{
-			wcscpy (tmpStr, GetString ("PROCESSED_PORTION_100_PERCENT"));
-			wcscat (tmpStr, L" ");
+			StringCbCopyW (tmpStr, sizeof(tmpStr), GetString ("PROCESSED_PORTION_100_PERCENT"));
+			StringCbCatW (tmpStr, sizeof(tmpStr), L" ");
 
 			SetWindowTextW (GetDlgItem (hCurPage, IDC_BYTESWRITTEN), tmpStr);
 		}
@@ -1699,9 +1701,9 @@ static BOOL GetDevicePathForHiddenOS (void)
 
 	try
 	{
-		strncpy (szFileName, BootEncObj->GetPartitionForHiddenOS().DevicePath.c_str(), sizeof(szFileName) - 1);
+		StringCbCopyA (szFileName, sizeof(szFileName), BootEncObj->GetPartitionForHiddenOS().DevicePath.c_str());
 
-		CreateFullVolumePath (szDiskFile, szFileName, &tmpbDevice);
+		CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), szFileName, &tmpbDevice);
 	}
 	catch (Exception &e)
 	{
@@ -1804,29 +1806,29 @@ void ShowNonSysInPlaceEncUIStatus (void)
 	switch (NonSysInplaceEncStatus)
 	{
 	case NONSYS_INPLACE_ENC_STATUS_PAUSED:
-		wcscpy (nonSysInplaceEncUIStatus, GetString ("PROGRESS_STATUS_PAUSED"));
+		StringCbCopyW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), GetString ("PROGRESS_STATUS_PAUSED"));
 		break;
 	case NONSYS_INPLACE_ENC_STATUS_PREPARING:
-		wcscpy (nonSysInplaceEncUIStatus, GetString ("PROGRESS_STATUS_PREPARING"));
+		StringCbCopyW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), GetString ("PROGRESS_STATUS_PREPARING"));
 		break;
 	case NONSYS_INPLACE_ENC_STATUS_RESIZING:
-		wcscpy (nonSysInplaceEncUIStatus, GetString ("PROGRESS_STATUS_RESIZING"));
+		StringCbCopyW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), GetString ("PROGRESS_STATUS_RESIZING"));
 		break;
 	case NONSYS_INPLACE_ENC_STATUS_ENCRYPTING:
-		wcscpy (nonSysInplaceEncUIStatus, GetString ("PROGRESS_STATUS_ENCRYPTING"));
+		StringCbCopyW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), GetString ("PROGRESS_STATUS_ENCRYPTING"));
 		break;
 	case NONSYS_INPLACE_ENC_STATUS_FINALIZING:
-		wcscpy (nonSysInplaceEncUIStatus, GetString ("PROGRESS_STATUS_FINALIZING"));
+		StringCbCopyW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), GetString ("PROGRESS_STATUS_FINALIZING"));
 		break;
 	case NONSYS_INPLACE_ENC_STATUS_FINISHED:
-		wcscpy (nonSysInplaceEncUIStatus, GetString ("PROGRESS_STATUS_FINISHED"));
+		StringCbCopyW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), GetString ("PROGRESS_STATUS_FINISHED"));
 		break;
 	case NONSYS_INPLACE_ENC_STATUS_ERROR:
-		wcscpy (nonSysInplaceEncUIStatus, GetString ("PROGRESS_STATUS_ERROR"));
+		StringCbCopyW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), GetString ("PROGRESS_STATUS_ERROR"));
 		break;
 	}
 
-	wcscat (nonSysInplaceEncUIStatus, L" ");
+	StringCbCatW (nonSysInplaceEncUIStatus, sizeof(nonSysInplaceEncUIStatus), L" ");
 
 	SetWindowTextW (GetDlgItem (hCurPage, IDC_WRITESPEED), nonSysInplaceEncUIStatus);
 }
@@ -1974,10 +1976,10 @@ void DisplayRandPool (HWND hPoolDisplay, BOOL bShow)
 			{
 				tmpByte = randPool[row * RANDPOOL_DISPLAY_COLUMNS + col];
 
-				sprintf ((char *) tmp, bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != '&') ? " %c " : " . ") : "%02X ", tmpByte);
-				strcat ((char *) outRandPoolDispBuffer, (char *) tmp);
+				StringCbPrintfA ((char *) tmp, sizeof(tmp), bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != '&') ? " %c " : " . ") : "%02X ", tmpByte);
+				StringCbCatA ((char *) outRandPoolDispBuffer, sizeof(outRandPoolDispBuffer), (char *) tmp);
 			}
-			strcat ((char *) outRandPoolDispBuffer, "\n");
+			StringCbCatA ((char *) outRandPoolDispBuffer, sizeof(outRandPoolDispBuffer), "\n");
 		}
 		SetWindowText (hPoolDisplay, (char *) outRandPoolDispBuffer);
 
@@ -2300,7 +2302,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 
 				if (! ((bHiddenVol && !bHiddenVolHost) && errno != EACCES))	// Only ask ask for permission to overwrite an existing volume if we're not creating a hidden volume
 				{
-					_snwprintf (szTmp, sizeof szTmp / 2,
+					StringCbPrintfW (szTmp, sizeof szTmp,
 						GetString (errno == EACCES ? "READONLYPROMPT" : "OVERWRITEPROMPT"),
 						szDiskFile);
 
@@ -2463,7 +2465,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 			}
 			else if (!(bHiddenVolHost && hiddenVolHostDriveNo < 0))  // If the error was not that the hidden volume host could not be mounted (this error has already been reported to the user)
 			{
-				swprintf (szMsg, GetString ("CREATE_FAILED"), szDiskFile);
+				StringCbPrintfW (szMsg, sizeof(szMsg), GetString ("CREATE_FAILED"), szDiskFile);
 				MessageBoxW (hwndDlg, szMsg, lpszTitle, ICON_HAND);
 			}
 
@@ -2904,11 +2906,11 @@ int PrintFreeSpace (HWND hwndTextBox, char *lpszDrive, PLARGE_INTEGER lDiskFree)
 
 	if (bHiddenVol && !bHiddenVolHost)	// If it's a hidden volume
 	{
-		_snwprintf (szTmp2, sizeof szTmp2 / 2, GetString (nResourceString), ((double) lDiskFree->QuadPart) / nMultiplier);
+		StringCbPrintfW (szTmp2, sizeof szTmp2, GetString (nResourceString), ((double) lDiskFree->QuadPart) / nMultiplier);
 		SetWindowTextW (GetDlgItem (hwndTextBox, IDC_SIZEBOX), szTmp2);
 	}
 	else
-		_snwprintf (szTmp2, sizeof szTmp2 / 2, GetString (nResourceString), lpszDrive, ((double) lDiskFree->QuadPart) / nMultiplier);
+		StringCbPrintfW (szTmp2, sizeof szTmp2, GetString (nResourceString), lpszDrive, ((double) lDiskFree->QuadPart) / nMultiplier);
 
 	SetWindowTextW (hwndTextBox, szTmp2);
 
@@ -2925,7 +2927,7 @@ void DisplaySizingErrorText (HWND hwndTextBox)
 	if (translateWin32Error (szTmp, sizeof (szTmp) / sizeof(szTmp[0])))
 	{
 		wchar_t szTmp2[1024];
-		wsprintfW (szTmp2, L"%s\n%s", GetString ("CANNOT_CALC_SPACE"), szTmp);
+		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s\n%s", GetString ("CANNOT_CALC_SPACE"), szTmp);
 		SetWindowTextW (hwndTextBox, szTmp2);
 	}
 	else
@@ -3152,8 +3154,8 @@ static BOOL FinalPreTransformPrompts (void)
 	int driveNo;
 	WCHAR deviceName[MAX_PATH];
 
-	strcpy ((char *)deviceName, szFileName);
-	ToUNICODE ((char *)deviceName);
+	StringCbCopyA ((char *)deviceName, sizeof(deviceName), szFileName);
+	ToUNICODE ((char *)deviceName, sizeof(deviceName));
 
 	driveNo = GetDiskDeviceDriveLetter (deviceName);
 
@@ -3171,7 +3173,7 @@ static BOOL FinalPreTransformPrompts (void)
 			if (!GetDriveLabel (driveNo, volumeLabel, sizeof (volumeLabel)))
 				volumeLabel[0] = 0;
 
-			swprintf_s (drive, sizeof (drive)/2, volumeLabel[0] ? L" (%hc: '%s')" : L" (%hc:%s)", 'A' + driveNo, volumeLabel[0] ? volumeLabel : L"");
+			StringCbPrintfW (drive, sizeof (drive), volumeLabel[0] ? L" (%hc: '%s')" : L" (%hc:%s)", 'A' + driveNo, volumeLabel[0] ? volumeLabel : L"");
 		}
 		else
 		{
@@ -3180,9 +3182,9 @@ static BOOL FinalPreTransformPrompts (void)
 		}
 
 		if (bHiddenOS && bHiddenVolHost)
-			swprintf (szTmp, GetString ("OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION"), szFileName, drive);
+			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION"), szFileName, drive);
 		else
-			swprintf (szTmp, GetString (bInPlaceEncNonSys ? "NONSYS_INPLACE_ENC_CONFIRM" : "OVERWRITEPROMPT_DEVICE"), type, szFileName, drive);
+			StringCbPrintfW (szTmp, sizeof(szTmp), GetString (bInPlaceEncNonSys ? "NONSYS_INPLACE_ENC_CONFIRM" : "OVERWRITEPROMPT_DEVICE"), type, szFileName, drive);
 
 
 		x = MessageBoxW (MainDlg, szTmp, lpszTitle, YES_NO | MB_ICONWARNING | (bInPlaceEncNonSys ? MB_DEFBUTTON1 : MB_DEFBUTTON2));
@@ -3208,27 +3210,27 @@ static BOOL FinalPreTransformPrompts (void)
 					wchar_t tmpMcOption1 [500];
 					wchar_t tmpMcOptionCancel [50];
 
-					wcscpy (tmpMcMsg, GetString("OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA"));
-					wcscpy (tmpMcOption1, GetString("ERASE_FILES_BY_CREATING_VOLUME"));
-					wcscpy (tmpMcOptionCancel, GetString("CANCEL"));
+					StringCbCopyW (tmpMcMsg, sizeof(tmpMcMsg), GetString("OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA"));
+					StringCbCopyW (tmpMcOption1, sizeof(tmpMcOption1), GetString("ERASE_FILES_BY_CREATING_VOLUME"));
+					StringCbCopyW (tmpMcOptionCancel, sizeof(tmpMcOptionCancel), GetString("CANCEL"));
 
-					wcscat (tmpMcMsg, L"\n\n");
-					wcscat (tmpMcMsg, GetString("DRIVE_LETTER_ITEM"));
-					swprintf_s (szTmp, sizeof (szTmp)/2, L"%hc:", 'A' + driveNo);
-					wcscat (tmpMcMsg, szTmp);
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), L"\n\n");
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), GetString("DRIVE_LETTER_ITEM"));
+					StringCbPrintfW (szTmp, sizeof (szTmp), L"%hc:", 'A' + driveNo);
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), szTmp);
 
-					wcscat (tmpMcMsg, L"\n");
-					wcscat (tmpMcMsg, GetString("LABEL_ITEM"));
-					wcscat (tmpMcMsg, volumeLabel[0] != 0 ? volumeLabel : GetString("NOT_APPLICABLE_OR_NOT_AVAILABLE"));
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), L"\n");
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), GetString("LABEL_ITEM"));
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), volumeLabel[0] != 0 ? volumeLabel : GetString("NOT_APPLICABLE_OR_NOT_AVAILABLE"));
 
-					wcscat (tmpMcMsg, L"\n");
-					wcscat (tmpMcMsg, GetString("SIZE_ITEM"));
-					GetSizeString (nVolumeSize, szTmp);
-					wcscat (tmpMcMsg, szTmp);
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), L"\n");
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), GetString("SIZE_ITEM"));
+					GetSizeString (nVolumeSize, szTmp, sizeof(szTmp));
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), szTmp);
 
-					wcscat (tmpMcMsg, L"\n");
-					wcscat (tmpMcMsg, GetString("PATH_ITEM"));
-					wcscat (tmpMcMsg, deviceName);
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), L"\n");
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), GetString("PATH_ITEM"));
+					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), deviceName);
 
 					wchar_t *tmpStr[] = {L"", tmpMcMsg, tmpMcOption1, tmpMcOptionCancel, 0};
 					switch (AskMultiChoice ((void **) tmpStr, TRUE))
@@ -3258,8 +3260,8 @@ void HandleOldAssignedDriveLetter (void)
 		WCHAR deviceName[MAX_PATH];
 		int driveLetter = -1;
 
-		strcpy ((char *)deviceName, szDiskFile);
-		ToUNICODE ((char *)deviceName);
+		StringCbCopyA ((char *)deviceName, sizeof(deviceName), szDiskFile);
+		ToUNICODE ((char *)deviceName, sizeof(deviceName));
 		driveLetter = GetDiskDeviceDriveLetter (deviceName);
 
 		if (!bHiddenVolHost
@@ -3269,7 +3271,7 @@ void HandleOldAssignedDriveLetter (void)
 			char rootPath[] = { (char) driveLetter + 'A', ':', '\\', 0 };
 			wchar_t szTmp[8192];
 
-			swprintf (szTmp, GetString ("AFTER_FORMAT_DRIVE_LETTER_WARN"), rootPath[0], rootPath[0], rootPath[0], rootPath[0]);
+			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("AFTER_FORMAT_DRIVE_LETTER_WARN"), rootPath[0], rootPath[0], rootPath[0], rootPath[0]);
 			MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING);
 		}
 	}
@@ -3302,7 +3304,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		LocalizeDialog (hwndDlg, "IDD_VOL_CREATION_WIZARD_DLG");
 
-		sprintf (PageDebugId, "FORMAT_PAGE_%d", nCurPageNo);
+		StringCbPrintfA (PageDebugId, sizeof(PageDebugId), "FORMAT_PAGE_%d", nCurPageNo);
 		LastDialogId = PageDebugId;
 
 		switch (nCurPageNo)
@@ -3760,16 +3762,16 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (bHiddenVolHost)
 				{
-					wcsncpy (str, GetString ("SIZE_HELP_HIDDEN_HOST_VOL"), sizeof (str) / 2);
+					StringCbCopyW (str, sizeof(str), GetString ("SIZE_HELP_HIDDEN_HOST_VOL"));
 				}
 				else
 				{
-					wcsncpy (str, GetString (bHiddenVol ? "SIZE_HELP_HIDDEN_VOL" : "SIZE_HELP"), sizeof (str) / 2);
+					StringCbCopyW (str, sizeof(str), GetString (bHiddenVol ? "SIZE_HELP_HIDDEN_VOL" : "SIZE_HELP"));
 				}
 
 				if (bDevice && !(bHiddenVol && !bHiddenVolHost))	// If raw device but not a hidden volume
 				{
-					_snwprintf (str, sizeof str / 2, L"%s%s",
+					StringCbPrintfW (str, sizeof str, L"%s%s",
 						GetString ((bHiddenOS && bHiddenVol) ? "SIZE_PARTITION_HIDDEN_SYSENC_HELP" : "SIZE_PARTITION_HELP"),
 						 (bHiddenVolHost && !bHiddenOS) ? GetString ("SIZE_PARTITION_HIDDEN_VOL_HELP") : L"");
 				}
@@ -3823,7 +3825,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (nUIVolumeSize != 0)
 				{
 					char szTmp[32];
-					sprintf (szTmp, "%I64u", nUIVolumeSize);
+					StringCbPrintfA (szTmp, sizeof(szTmp), "%I64u", nUIVolumeSize);
 					SetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTmp);
 				}
 
@@ -3882,7 +3884,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					ToBootPwdField (hwndDlg, IDC_PASSWORD);
 					ToBootPwdField (hwndDlg, IDC_VERIFY);
 
-					sprintf (OrigKeyboardLayout, "%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
+					StringCbPrintfA (OrigKeyboardLayout, sizeof(OrigKeyboardLayout), "%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
 
 					if ((DWORD) GetKeyboardLayout (NULL) != 0x00000409 && (DWORD) GetKeyboardLayout (NULL) != 0x04090409)
 					{
@@ -3909,17 +3911,17 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (bHiddenVolHost)
 				{
-					wcsncpy (str, GetString (bHiddenOS ? "PASSWORD_SYSENC_OUTERVOL_HELP" : "PASSWORD_HIDDENVOL_HOST_HELP"), sizeof (str) / 2);
+					StringCbCopyW (str, sizeof(str), GetString (bHiddenOS ? "PASSWORD_SYSENC_OUTERVOL_HELP" : "PASSWORD_HIDDENVOL_HOST_HELP"));
 				}
 				else if (bHiddenVol)
 				{
-					_snwprintf (str, sizeof str / 2, L"%s%s",
+					StringCbPrintfW (str, sizeof str, L"%s%s",
 						GetString (bHiddenOS ? "PASSWORD_HIDDEN_OS_HELP" : "PASSWORD_HIDDENVOL_HELP"),
 						GetString ("PASSWORD_HELP"));
 				}
 				else
 				{
-					wcsncpy (str, GetString ("PASSWORD_HELP"), sizeof (str) / 2);
+					StringCbCopyW (str, sizeof(str), GetString ("PASSWORD_HELP"));
 				}
 
 				SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
@@ -3966,22 +3968,22 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Init2RadButtonPageYesNo (nNeedToStoreFilesOver4GB);
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("FILESYS_PAGE_TITLE"));
 
-				wcscpy (szTmp, GetString ("FILESYS_PAGE_HELP_QUESTION"));
+				StringCbCopyW (szTmp, sizeof(szTmp), GetString ("FILESYS_PAGE_HELP_QUESTION"));
 
 				if (bHiddenVolHost)
-					wcscat (szTmp, L"\n\n");
+					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
 				else
 				{
-					wcscat (szTmp, L"\n\n\n");
-					wcscat (szTmp, GetString ("NOTE_BEGINNING"));
+					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n\n");
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("NOTE_BEGINNING"));
 				}
 
-				wcscat (szTmp, GetString ("FILESYS_PAGE_HELP_EXPLANATION"));
+				StringCbCatW (szTmp, sizeof(szTmp), GetString ("FILESYS_PAGE_HELP_EXPLANATION"));
 
 				if (bHiddenVolHost)
 				{
-					wcscat (szTmp, L" ");
-					wcscat (szTmp, GetString ("FILESYS_PAGE_HELP_EXPLANATION_HIDVOL"));
+					StringCbCatW (szTmp, sizeof(szTmp), L" ");
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("FILESYS_PAGE_HELP_EXPLANATION_HIDVOL"));
 				}
 
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTmp);
@@ -4049,7 +4051,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
 
-				_snwprintf (szTmp, sizeof szTmp / 2,
+				StringCbPrintfW (szTmp, sizeof szTmp,
 					GetString (bDontVerifyRescueDisk ? "RESCUE_DISK_BURN_INFO_NO_CHECK" : "RESCUE_DISK_BURN_INFO"),
 					szRescueDiskISO, IsWindowsIsoBurnerAvailable() ? L"" : GetString ("RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER"));
 
@@ -4129,7 +4131,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				try
 				{
-					wsprintfW (finalMsg, 
+					StringCbPrintfW (finalMsg, sizeof(finalMsg),
 						GetString ("SYS_ENCRYPTION_PRETEST_INFO"), 
 						BootEncObj->GetSystemDriveConfiguration().DriveNumber);
 				}
@@ -4493,12 +4495,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						// -50% reserve for filesystem "peculiarities"
 						maxRecomOuterVolFillSize /= 2;	
 
-						swprintf (szMaxRecomOuterVolFillSize, L"%I64d %s", maxRecomOuterVolFillSize / BYTES_PER_MB, GetString ("MB"));
+						StringCbPrintfW (szMaxRecomOuterVolFillSize, sizeof(szMaxRecomOuterVolFillSize), L"%I64d %s", maxRecomOuterVolFillSize / BYTES_PER_MB, GetString ("MB"));
 
-						swprintf (msg, GetString ("HIDVOL_HOST_FILLING_HELP_SYSENC"), hiddenVolHostDriveNo + 'A', szMaxRecomOuterVolFillSize);			
+						StringCbPrintfW (msg, sizeof(msg), GetString ("HIDVOL_HOST_FILLING_HELP_SYSENC"), hiddenVolHostDriveNo + 'A', szMaxRecomOuterVolFillSize);			
 					}
 					else
-						swprintf (msg, GetString ("HIDVOL_HOST_FILLING_HELP"), hiddenVolHostDriveNo + 'A');
+						StringCbPrintfW (msg, sizeof(msg), GetString ("HIDVOL_HOST_FILLING_HELP"), hiddenVolHostDriveNo + 'A');
 
 					SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), msg);
 					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("HIDVOL_HOST_FILLING_TITLE"));
@@ -4738,9 +4740,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				bWarnOuterVolSuitableFileSys = FALSE;	// Do not show this warning anymore (this also prevents potential endless repetition due to some race conditions)
 
-				wcscpy (szTmp, GetString ("FILESYS_PAGE_HELP_EXPLANATION_HIDVOL"));
-				wcscat (szTmp, L"\n\n");
-				wcscat (szTmp, GetString ("FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM"));
+				StringCbCopyW (szTmp, sizeof(szTmp), GetString ("FILESYS_PAGE_HELP_EXPLANATION_HIDVOL"));
+				StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+				StringCbCatW (szTmp, sizeof(szTmp), GetString ("FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM"));
 
 				if (MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDNO)
 				{
@@ -4834,8 +4836,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					SetFocus (GetDlgItem (MainDlg, IDC_NEXT));
 
-					strcpy (szFileName, DeferredNonSysInPlaceEncDevices [selPartitionItemId].Path.c_str());
-					CreateFullVolumePath (szDiskFile, szFileName, &tmpbDevice);
+					StringCbCopyA (szFileName, sizeof(szFileName), DeferredNonSysInPlaceEncDevices [selPartitionItemId].Path.c_str());
+					CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), szFileName, &tmpbDevice);
 
 					nVolumeSize = GetDeviceSize (szDiskFile);
 					if (nVolumeSize == -1)
@@ -5298,7 +5300,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (!BrowseFiles (hwndDlg, "OPEN_TITLE", tmpszRescueDiskISO, FALSE, TRUE, NULL))
 					return 1;
 
-				strcpy (szRescueDiskISO, tmpszRescueDiskISO);
+				StringCbCopyA (szRescueDiskISO, sizeof(szRescueDiskISO), tmpszRescueDiskISO);
 
 				SetDlgItemText (hwndDlg, IDC_RESCUE_DISK_ISO_PATH, szRescueDiskISO);
 				EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), (GetWindowTextLength (GetDlgItem (hwndDlg, IDC_RESCUE_DISK_ISO_PATH)) > 1));
@@ -5431,7 +5433,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, szRescueDiskISO);
-			strcat (szRescueDiskISO, "\\VeraCrypt Rescue Disk.iso");
+			StringCbCatA (szRescueDiskISO, sizeof(szRescueDiskISO), "\\VeraCrypt Rescue Disk.iso");
 
 			if (IsOSAtLeast (WIN_VISTA))
 			{
@@ -5485,8 +5487,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				for (i = 0; i < sizeof (tmp); i++)
 				{
 					char tmp3[8];
-					sprintf (tmp3, "%02X", (int) (unsigned char) tmp[i]);
-					strcat (tmp2, tmp3);
+					StringCbPrintfA (tmp3, sizeof(tmp3), "%02X", (int) (unsigned char) tmp[i]);
+					StringCbCatA (tmp2, sizeof(tmp2), tmp3);
 				}
 
 				tmp2[32] = 0;
@@ -5703,9 +5705,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bKeyboardLayoutChanged = TRUE;
 
 					wchar_t szTmp [4096];
-					wcscpy (szTmp, GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
-					wcscat (szTmp, L"\n\n");
-					wcscat (szTmp, GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+					StringCbCopyW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
+					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+					StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
 					MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 				}
 
@@ -5718,9 +5720,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						bKeybLayoutAltKeyWarningShown = TRUE;
 
 						wchar_t szTmp [4096];
-						wcscpy (szTmp, GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
-						wcscat (szTmp, L"\n\n");
-						wcscat (szTmp, GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
+						StringCbCopyW (szTmp, sizeof(szTmp), GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
+						StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
+						StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
 						MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
 					}
 				}
@@ -6413,7 +6415,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				GetWindowText (GetDlgItem (hCurPage, IDC_COMBO_BOX), szFileName, sizeof (szFileName));
 				RelativePath2Absolute (szFileName);
-				CreateFullVolumePath (szDiskFile, szFileName, &tmpbDevice);
+				CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), szFileName, &tmpbDevice);
 
 				if (tmpbDevice != bDevice)
 				{
@@ -6885,7 +6887,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 					else if (DeferredNonSysInPlaceEncDevices.size() == 1)
 					{
-						CreateFullVolumePath (szDiskFile, DeferredNonSysInPlaceEncDevices.front().Path.c_str(), &tmpbDevice);
+						CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), DeferredNonSysInPlaceEncDevices.front().Path.c_str(), &tmpbDevice);
 
 						nVolumeSize = GetDeviceSize (szDiskFile);
 						if (nVolumeSize == -1)
@@ -7042,7 +7044,7 @@ retryCDDriveCheck:
 						{
 							wchar_t szTmp[8000];
 
-							swprintf (szTmp, GetString ("RESCUE_DISK_CHECK_FAILED"), 
+							StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("RESCUE_DISK_CHECK_FAILED"), 
 								IsWindowsIsoBurnerAvailable () ? L"" : GetString ("RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"));
 
 							ErrorDirect (szTmp);
@@ -7592,7 +7594,7 @@ ovf_end:
 				BOOL tmpbDevice;
 
 				GetWindowText (GetDlgItem (hCurPage, IDC_COMBO_BOX), szFileName, sizeof (szFileName));
-				CreateFullVolumePath (szDiskFile, szFileName, &tmpbDevice);
+				CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), szFileName, &tmpbDevice);
 
 				if (tmpbDevice == bDevice)
 				{

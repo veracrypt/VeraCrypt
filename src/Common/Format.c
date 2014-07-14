@@ -29,6 +29,8 @@
 #include "Format/FormatCom.h"
 #include "Format/Tcformat.h"
 
+#include <Strsafe.h>
+
 int FormatWriteBufferSize = 1024 * 1024;
 static uint32 FormatSectorSize = 0;
 
@@ -129,8 +131,8 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 
 	if (volParams->bDevice)
 	{
-		strcpy ((char *)deviceName, volParams->volumePath);
-		ToUNICODE ((char *)deviceName);
+		StringCbCopyA ((char *)deviceName, sizeof(deviceName), volParams->volumePath);
+		ToUNICODE ((char *)deviceName, sizeof(deviceName));
 
 		driveLetter = GetDiskDeviceDriveLetter (deviceName);
 	}
@@ -170,7 +172,7 @@ begin_format:
 		DWORD dwResult;
 		int nPass;
 
-		if (FakeDosNameForDevice (volParams->volumePath, dosDev, devName, FALSE) != 0)
+		if (FakeDosNameForDevice (volParams->volumePath, dosDev, sizeof(dosDev), devName, sizeof(devName), FALSE) != 0)
 			return ERR_OS_ERROR;
 
 		if (IsDeviceMounted (devName))
@@ -803,10 +805,10 @@ BOOL FormatNtfs (int driveNo, int clusterSize)
 	
 	if (GetSystemDirectory (dllPath, MAX_PATH))
 	{
-		strcat(dllPath, "\\fmifs.dll");
+		StringCbCatA(dllPath, sizeof(dllPath), "\\fmifs.dll");
 	}
 	else
-		strcpy(dllPath, "C:\\Windows\\System32\\fmifs.dll");
+		StringCbCopyA(dllPath, sizeof(dllPath), "C:\\Windows\\System32\\fmifs.dll");
 	
 	hModule = LoadLibrary (dllPath);
 
@@ -819,7 +821,7 @@ BOOL FormatNtfs (int driveNo, int clusterSize)
 		return FALSE;
 	}
 
-	wcscat (dir, L":\\");
+	StringCbCatW (dir, sizeof(dir), L":\\");
 
 	FormatExResult = FALSE;
 

@@ -56,7 +56,7 @@ namespace VeraCrypt
 			string volumeDevPath = favorite.Path;
 
 			wchar_t resolvedVolumeDevPath[TC_MAX_PATH];
-			if (ResolveSymbolicLink (SingleStringToWide (volumeDevPath).c_str(), resolvedVolumeDevPath))
+			if (ResolveSymbolicLink (SingleStringToWide (volumeDevPath).c_str(), resolvedVolumeDevPath, sizeof(resolvedVolumeDevPath)))
 				volumeDevPath = WideToSingleString (resolvedVolumeDevPath);
 
 			char volumeName[TC_MAX_PATH];
@@ -414,7 +414,7 @@ namespace VeraCrypt
 		if (FavoriteVolumes.empty())
 			return;
 
-		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, NULL);
+		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, "");
 		
 		int i = 0;
 		foreach (const FavoriteVolume &favorite, FavoriteVolumes)

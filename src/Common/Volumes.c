@@ -33,6 +33,9 @@
 #include "Volumes.h"
 #include "Pkcs5.h"
 
+#ifdef _WIN32
+#include <Strsafe.h>
+#endif
 
 /* Volume header v5 structure (used since TrueCrypt 7.0): */
 //
@@ -187,6 +190,9 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, PCR
 	}
 	else
 	{
+      if (!retInfo)
+         return ERR_PARAMETER_INCORRECT;
+
 		cryptoInfo = *retInfo = crypto_open ();
 		if (cryptoInfo == NULL)
 			return ERR_OUTOFMEMORY;
@@ -934,16 +940,16 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 		for (i = 0; i < j; i++)
 		{
 			char tmp2[8] = {0};
-			sprintf (tmp2, "%02X", (int) (unsigned char) keyInfo.master_keydata[i + primaryKeyOffset]);
-			strcat (MasterKeyGUIView, tmp2);
+			StringCbPrintfA (tmp2, sizeof(tmp2), "%02X", (int) (unsigned char) keyInfo.master_keydata[i + primaryKeyOffset]);
+			StringCbCatA (MasterKeyGUIView, sizeof(MasterKeyGUIView), tmp2);
 		}
 
 		HeaderKeyGUIView[0] = 0;
 		for (i = 0; i < NBR_KEY_BYTES_TO_DISPLAY; i++)
 		{
 			char tmp2[8];
-			sprintf (tmp2, "%02X", (int) (unsigned char) dk[primaryKeyOffset + i]);
-			strcat (HeaderKeyGUIView, tmp2);
+			StringCbPrintfA (tmp2, sizeof(tmp2), "%02X", (int) (unsigned char) dk[primaryKeyOffset + i]);
+			StringCbCatA (HeaderKeyGUIView, sizeof(HeaderKeyGUIView), tmp2);
 		}
 
 		if (dots3)

@@ -12,6 +12,7 @@
 #include "Tcdefs.h"
 #include "Crc.h"
 #include "Random.h"
+#include <Strsafe.h>
 
 static unsigned __int8 buffer[RNG_POOL_SIZE];
 static unsigned char *pRandPool = NULL;
@@ -576,10 +577,10 @@ BOOL SlowPoll (void)
 		char dllPath[MAX_PATH];
 		if (GetSystemDirectory (dllPath, MAX_PATH))
 		{
-			strcat(dllPath, "\\NETAPI32.DLL");
+			StringCbCatA(dllPath, sizeof(dllPath), "\\NETAPI32.DLL");
 		}
 		else
-			strcpy(dllPath, "C:\\Windows\\System32\\NETAPI32.DLL");
+			StringCbCopyA(dllPath, sizeof(dllPath), "C:\\Windows\\System32\\NETAPI32.DLL");
 
 		hNetAPI32 = LoadLibrary (dllPath);
 		if (hNetAPI32 != NULL)
@@ -630,7 +631,7 @@ BOOL SlowPoll (void)
 		char szDevice[24];
 
 		/* Check whether we can access this device */
-		sprintf (szDevice, "\\\\.\\PhysicalDrive%d", nDrive);
+		StringCbPrintfA (szDevice, sizeof(szDevice), "\\\\.\\PhysicalDrive%d", nDrive);
 		hDevice = CreateFile (szDevice, 0, FILE_SHARE_READ | FILE_SHARE_WRITE,
 				      NULL, OPEN_EXISTING, 0, NULL);
 		if (hDevice == INVALID_HANDLE_VALUE)

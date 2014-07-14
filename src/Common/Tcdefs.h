@@ -197,7 +197,7 @@ typedef int BOOL;
 #		ifdef DEVICE_DRIVER
 #			define trace_msg Dump
 #		elif defined (_WIN32)
-#			define trace_msg(...) do { char msg[2048]; _snprintf (msg, sizeof (msg), __VA_ARGS__); OutputDebugString (msg); } while (0)
+#			define trace_msg(...) do { char msg[2048]; StringCbPrintfA (msg, sizeof (msg), __VA_ARGS__); OutputDebugString (msg); } while (0)
 #		endif
 #		define trace_point trace_msg (__FUNCTION__ ":" TC_TO_STRING(__LINE__) "\n")
 #	else
