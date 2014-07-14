@@ -8,6 +8,7 @@
 
 #include "Tcdefs.h"
 #include "Registry.h"
+#include <Strsafe.h>
 
 BOOL ReadLocalMachineRegistryDword (char *subKey, char *name, DWORD *value)
 {
@@ -105,13 +106,13 @@ char *ReadRegistryString (char *subKey, char *name, char *defaultValue, char *st
 	DWORD size = sizeof (value);
 
    str[maxLen-1] = 0;
-	strncpy (str, defaultValue, maxLen-1);
+	StringCbCopyA (str, maxLen, defaultValue);
 
 	ZeroMemory (value, sizeof value);
 	if (RegOpenKeyEx (HKEY_CURRENT_USER, subKey,
 		0, KEY_READ, &hkey) == ERROR_SUCCESS)
 		if (RegQueryValueEx (hkey, name, 0,	0, (LPBYTE) value,	&size) == ERROR_SUCCESS)
-			strncpy (str, value, maxLen-1);
+			StringCbCopyA (str, maxLen,value);
 
 	RegCloseKey (hkey);
 	return str;
@@ -159,6 +160,30 @@ BOOL WriteLocalMachineRegistryDword (char *subKey, char *name, DWORD value)
 	}
 
 	if ((status = RegSetValueEx (hkey, name, 0, REG_DWORD, (BYTE *) &value, sizeof value)) != ERROR_SUCCESS)
+	{
+		RegCloseKey (hkey);
+		SetLastError (status);
+		return FALSE;
+	}
+
+	RegCloseKey (hkey);
+	return TRUE;
+}
+
+BOOL WriteLocalMachineRegistryDwordW (WCHAR *subKey, WCHAR *name, DWORD value)
+{
+	HKEY hkey = 0;
+	DWORD disp;
+	LONG status;
+
+	if ((status = RegCreateKeyExW (HKEY_LOCAL_MACHINE, subKey,
+		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &disp)) != ERROR_SUCCESS)
+	{
+		SetLastError (status);
+		return FALSE;
+	}
+
+	if ((status = RegSetValueExW (hkey, name, 0, REG_DWORD, (BYTE *) &value, sizeof value)) != ERROR_SUCCESS)
 	{
 		RegCloseKey (hkey);
 		SetLastError (status);
@@ -279,9 +304,9 @@ void DeleteRegistryValue (char *subKey, char *name)
 }
 
 
-void GetStartupRegKeyName (char *regk)
+void GetStartupRegKeyName (char *regk, size_t cbRegk)
 {
 	// The string is split in order to prevent some antivirus packages from falsely reporting  
 	// TrueCrypt.exe to contain a possible Trojan horse because of this string (heuristic scan).
-	sprintf (regk, "%s%s", "Software\\Microsoft\\Windows\\Curren", "tVersion\\Run");
+	StringCbPrintfA (regk, cbRegk,"%s%s", "Software\\Microsoft\\Windows\\Curren", "tVersion\\Run");
 }

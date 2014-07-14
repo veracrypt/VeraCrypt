@@ -19,13 +19,14 @@ char *ReadRegistryString (char *subKey, char *name, char *defaultValue, char *st
 DWORD ReadRegistryBytes (char *path, char *name, char *value, int maxLen);
 void WriteRegistryInt (char *subKey, char *name, int value);
 BOOL WriteLocalMachineRegistryDword (char *subKey, char *name, DWORD value);
+BOOL WriteLocalMachineRegistryDwordW (WCHAR *subKey, WCHAR *name, DWORD value);
 BOOL WriteLocalMachineRegistryMultiString (char *subKey, char *name, char *multiString, DWORD size);
 BOOL WriteLocalMachineRegistryString (char *subKey, char *name, char *str, BOOL expandable);
 void WriteRegistryString (char *subKey, char *name, char *str);
 BOOL WriteRegistryBytes (char *path, char *name, char *str, DWORD size);
 BOOL DeleteLocalMachineRegistryKey (char *parentKey, char *subKeyToDelete);
 void DeleteRegistryValue (char *subKey, char *name);
-void GetStartupRegKeyName (char *regk);
+void GetStartupRegKeyName (char *regk, size_t cbRegk);
 
 #ifdef  __cplusplus
 }
