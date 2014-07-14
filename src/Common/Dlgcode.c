@@ -61,6 +61,8 @@
 #include "Setup/Setup.h"
 #endif
 
+#include <strsafe.h>
+
 using namespace VeraCrypt;
 
 LONG DriverVersion;
@@ -320,14 +322,19 @@ void LowerCaseCopy (char *lpszDest, const char *lpszSource)
 
 }
 
-void UpperCaseCopy (char *lpszDest, const char *lpszSource)
+void UpperCaseCopy (char *lpszDest, size_t cbDest, const char *lpszSource)
 {
-	int i = strlen (lpszSource);
-
-	lpszDest[i] = 0;
-	while (--i >= 0)
+	if (lpszDest && cbDest)
 	{
-		lpszDest[i] = (char) toupper (lpszSource[i]);
+		int i = strlen (lpszSource);
+		if (i >= (int) cbDest)
+			i = cbDest - 1;
+
+		lpszDest[i] = 0;
+		while (--i >= 0)
+		{
+			lpszDest[i] = (char) toupper (lpszSource[i]);
+		}
 	}
 }
 
@@ -351,9 +358,9 @@ BOOL IsVolumeDeviceHosted (const char *lpszDiskFile)
 }
 
 
-void CreateFullVolumePath (char *lpszDiskFile, const char *lpszFileName, BOOL * bDevice)
+void CreateFullVolumePath (char *lpszDiskFile, size_t cbDiskFile, const char *lpszFileName, BOOL * bDevice)
 {
-	UpperCaseCopy (lpszDiskFile, lpszFileName);
+	UpperCaseCopy (lpszDiskFile, cbDiskFile, lpszFileName);
 
 	*bDevice = FALSE;
 
@@ -362,7 +369,7 @@ void CreateFullVolumePath (char *lpszDiskFile, const char *lpszFileName, BOOL * 
 		*bDevice = TRUE;
 	}
 
-	strcpy (lpszDiskFile, lpszFileName);
+	StringCbCopyA (lpszDiskFile, cbDiskFile, lpszFileName);
 
 #if _DEBUG
 	OutputDebugString ("CreateFullVolumePath: ");
@@ -372,10 +379,10 @@ void CreateFullVolumePath (char *lpszDiskFile, const char *lpszFileName, BOOL * 
 
 }
 
-int FakeDosNameForDevice (const char *lpszDiskFile, char *lpszDosDevice, char *lpszCFDevice, BOOL bNameOnly)
+int FakeDosNameForDevice (const char *lpszDiskFile , char *lpszDosDevice , size_t cbDosDevice, char *lpszCFDevice , size_t cbCFDevice, BOOL bNameOnly)
 {
 	BOOL bDosLinkCreated = TRUE;
-	sprintf (lpszDosDevice, "veracrypt%lu", GetCurrentProcessId ());
+	StringCbPrintfA (lpszDosDevice, cbDosDevice,"veracrypt%lu", GetCurrentProcessId ());
 
 	if (bNameOnly == FALSE)
 		bDosLinkCreated = DefineDosDevice (DDD_RAW_TARGET_PATH, lpszDosDevice, lpszDiskFile);
@@ -383,7 +390,7 @@ int FakeDosNameForDevice (const char *lpszDiskFile, char *lpszDosDevice, char *l
 	if (bDosLinkCreated == FALSE)
 		return ERR_OS_ERROR;
 	else
-		sprintf (lpszCFDevice, "\\\\.\\%s", lpszDosDevice);
+		StringCbPrintfA (lpszCFDevice, cbCFDevice,"\\\\.\\%s", lpszDosDevice);
 
 	return 0;
 }
@@ -809,8 +816,11 @@ BOOL CALLBACK AuxiliaryDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			HDC hDC = GetDC (hwndDlg);
 
-			ScreenDPI = GetDeviceCaps (hDC, LOGPIXELSY);
-			ReleaseDC (hwndDlg, hDC); 
+			if (hDC)
+			{
+				ScreenDPI = GetDeviceCaps (hDC, LOGPIXELSY);
+				ReleaseDC (hwndDlg, hDC); 
+			}
 
 			DPIScaleFactorX = 1;
 			DPIScaleFactorY = 1;
@@ -890,9 +900,9 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 			// Version
 			SendMessage (GetDlgItem (hwndDlg, IDT_ABOUT_VERSION), WM_SETFONT, (WPARAM) hUserBoldFont, 0);
-			sprintf (szTmp, "VeraCrypt %s", VERSION_STRING);
+			StringCbPrintfA (szTmp, sizeof(szTmp), "VeraCrypt %s", VERSION_STRING);
 #if (defined(_DEBUG) || defined(DEBUG))
-			strcat (szTmp, "  (debug)");
+			StringCbCatA (szTmp, sizeof(szTmp), "  (debug)");
 #endif
 			SetDlgItemText (hwndDlg, IDT_ABOUT_VERSION, szTmp);
 			SetDlgItemText (hwndDlg, IDT_ABOUT_RELEASE, TC_STR_RELEASED_BY);
@@ -1050,23 +1060,26 @@ void LeftPadString (char *szTmp, int len, int targetLen, char filler)
   ToSBCS: converts a unicode string to Single Byte Character String (SBCS).
   ***************************************************************************/
 
-void ToSBCS (LPWSTR lpszText)
+void ToSBCS (LPWSTR lpszText, size_t cbSize)
 {
-	int j = wcslen (lpszText);
-	if (j == 0)
+	if (lpszText)
 	{
-		strcpy ((char *) lpszText, "");
-		return;
-	}
-	else
-	{
-		char *lpszNewText = (char *) err_malloc (j + 1);
-		j = WideCharToMultiByte (CP_ACP, 0L, lpszText, -1, lpszNewText, j + 1, NULL, NULL);
-		if (j > 0)
-			strcpy ((char *) lpszText, lpszNewText);
+		int j = wcslen (lpszText);
+		if (j == 0)
+		{
+			*((char *) lpszText) = 0;
+			return;
+		}
 		else
-			strcpy ((char *) lpszText, "");
-		free (lpszNewText);
+		{
+			char *lpszNewText = (char *) err_malloc (j + 1);
+			j = WideCharToMultiByte (CP_ACP, 0L, lpszText, -1, lpszNewText, j + 1, NULL, NULL);
+			if (j > 0)
+				StringCbCopyA ((char *) lpszText, cbSize, lpszNewText);
+			else
+				*((char *) lpszText) = 0;
+			free (lpszNewText);
+		}
 	}
 }
 
@@ -1074,12 +1087,12 @@ void ToSBCS (LPWSTR lpszText)
   ToUNICODE: converts a SBCS string to a UNICODE string.
   ***************************************************************************/
 
-void ToUNICODE (char *lpszText)
+void ToUNICODE (char *lpszText, size_t cbSize)
 {
-	int j = strlen (lpszText);
+	int j = (int) strlen (lpszText);
 	if (j == 0)
 	{
-		wcscpy ((LPWSTR) lpszText, (LPWSTR) WIDE (""));
+		StringCbCopyW ((LPWSTR) lpszText, cbSize, (LPWSTR) WIDE (""));
 		return;
 	}
 	else
@@ -1087,9 +1100,9 @@ void ToUNICODE (char *lpszText)
 		LPWSTR lpszNewText = (LPWSTR) err_malloc ((j + 1) * 2);
 		j = MultiByteToWideChar (CP_ACP, 0L, lpszText, -1, lpszNewText, j + 1);
 		if (j > 0)
-			wcscpy ((LPWSTR) lpszText, lpszNewText);
+			StringCbCopyW ((LPWSTR) lpszText, cbSize, lpszNewText);
 		else
-			wcscpy ((LPWSTR) lpszText, (LPWSTR) WIDE (""));
+			StringCbCopyW ((LPWSTR) lpszText, cbSize, (LPWSTR) WIDE (""));
 		free (lpszNewText);
 	}
 }
@@ -1123,13 +1136,13 @@ void InitDialog (HWND hwndDlg)
 
 	if (font && wcscmp (font->FaceName, L"default") != 0)
 	{
-		wcsncpy ((WCHAR *)metric.lfMessageFont.lfFaceName, font->FaceName, sizeof (metric.lfMessageFont.lfFaceName)/2);
+		StringCbCopyW ((WCHAR *)metric.lfMessageFont.lfFaceName, sizeof (metric.lfMessageFont.lfFaceName), font->FaceName);
 	}
 	else if (IsOSAtLeast (WIN_VISTA))
 	{
 		// Vista's new default font (size and spacing) breaks compatibility with Windows 2k/XP applications.
 		// Force use of Tahoma (as Microsoft does in many dialogs) until a native Vista look is implemented.
-		wcsncpy ((WCHAR *)metric.lfMessageFont.lfFaceName, L"Tahoma", sizeof (metric.lfMessageFont.lfFaceName)/2);
+		StringCbCopyW ((WCHAR *)metric.lfMessageFont.lfFaceName, sizeof (metric.lfMessageFont.lfFaceName), L"Tahoma");
 	}
 
 	hUserFont = CreateFontIndirectW (&metric.lfMessageFont);
@@ -1160,7 +1173,7 @@ void InitDialog (HWND hwndDlg)
 	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	lf.lfQuality = PROOF_QUALITY;
 	lf.lfPitchAndFamily = FF_DONTCARE;
-	wcscpy (lf.lfFaceName, L"Courier New");
+	StringCbCopyW (lf.lfFaceName, sizeof(lf.lfFaceName), L"Courier New");
 	hFixedDigitFont = CreateFontIndirectW (&lf);
 	if (hFixedDigitFont == NULL)
 	{
@@ -1174,7 +1187,7 @@ void InitDialog (HWND hwndDlg)
 	nHeight = CompensateDPIFont (!font ? -13 : -font->Size);
 	lf.lfHeight = nHeight;
 	lf.lfWeight = FW_BLACK;
-	wcsncpy (lf.lfFaceName, !font ? L"Arial" : font->FaceName, sizeof (lf.lfFaceName)/2);
+	StringCbCopyW (lf.lfFaceName, sizeof(lf.lfFaceName), !font ? L"Arial" : font->FaceName);
 	hBoldFont = CreateFontIndirectW (&lf);
 	if (hBoldFont == NULL)
 	{
@@ -1188,7 +1201,7 @@ void InitDialog (HWND hwndDlg)
 	nHeight = CompensateDPIFont (!font ? -21 : -font->Size);
 	lf.lfHeight = nHeight;
 	lf.lfWeight = FW_REGULAR;
-	wcsncpy (lf.lfFaceName, !font ? L"Times New Roman" : font->FaceName, sizeof (lf.lfFaceName)/2);
+	StringCbCopyW (lf.lfFaceName, sizeof(lf.lfFaceName),!font ? L"Times New Roman" : font->FaceName);
 	hTitleFont = CreateFontIndirectW (&lf);
 	if (hTitleFont == NULL)
 	{
@@ -1213,7 +1226,7 @@ void InitDialog (HWND hwndDlg)
 	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	lf.lfQuality = PROOF_QUALITY;
 	lf.lfPitchAndFamily = FF_DONTCARE;
-	wcsncpy (lf.lfFaceName, !font ? L"Lucida Console" : font->FaceName, sizeof (lf.lfFaceName)/2);
+	StringCbCopyW (lf.lfFaceName, sizeof(lf.lfFaceName),!font ? L"Lucida Console" : font->FaceName);
 	hFixedFont = CreateFontIndirectW (&lf);
 	if (hFixedFont == NULL)
 	{
@@ -1224,7 +1237,7 @@ void InitDialog (HWND hwndDlg)
 	if (!aboutMenuAppended)
 	{
 		hMenu = GetSystemMenu (hwndDlg, FALSE);
-		AppendMenu (hMenu, MF_SEPARATOR, 0, NULL);
+		AppendMenu (hMenu, MF_SEPARATOR, 0, "");
 		AppendMenuW (hMenu, MF_ENABLED | MF_STRING, IDC_ABOUT, GetString ("ABOUTBOX"));
 
 		aboutMenuAppended = TRUE;
@@ -1280,10 +1293,12 @@ HBITMAP RenderBitmap (char *resource, HWND hwndDest, int x, int y, int nWidth, i
 	LRESULT lResult = 0;
 
 	HDC hdcSrc = CreateMemBitmap (hInst, hwndDest, resource);
+	if (!hdcSrc)
+		return NULL;
 
 	HGDIOBJ picture = GetCurrentObject (hdcSrc, OBJ_BITMAP);
 
-	HBITMAP hbmpRescaled;
+	HBITMAP hbmpRescaled = NULL;
 	BITMAP bitmap;
 
 	HDC hdcRescaled;
@@ -1320,46 +1335,51 @@ HBITMAP RenderBitmap (char *resource, HWND hwndDest, int x, int y, int nWidth, i
 
 	GetObject (picture, sizeof (BITMAP), &bitmap);
 
-    hdcRescaled = CreateCompatibleDC (hdcSrc); 
- 
-    hbmpRescaled = CreateCompatibleBitmap (hdcSrc, nWidth, nHeight); 
- 
-    SelectObject (hdcRescaled, hbmpRescaled);
+	hdcRescaled = CreateCompatibleDC (hdcSrc); 
 
-	/* Anti-aliasing mode (HALFTONE is the only anti-aliasing algorithm natively supported by Windows 2000.
-	   TODO: GDI+ offers higher quality -- InterpolationModeHighQualityBicubic) */
-	SetStretchBltMode (hdcRescaled, HALFTONE);
-
-	StretchBlt (hdcRescaled,
-		0,
-		0,
-		nWidth,
-		nHeight,
-		hdcSrc,
-		0,
-		0,
-		bitmap.bmWidth, 
-		bitmap.bmHeight,
-		SRCCOPY);
-
-	DeleteDC (hdcSrc);
-
-	if (bDirectRender)
+	if (hdcRescaled)
 	{
-		HDC hdcDest = GetDC (hwndDest);
+		hbmpRescaled = CreateCompatibleBitmap (hdcSrc, nWidth, nHeight); 
 
-		BitBlt (hdcDest, x, y, nWidth, nHeight, hdcRescaled, 0, 0, SRCCOPY);
-		ReleaseDC (hwndDest, hdcDest);
+		SelectObject (hdcRescaled, hbmpRescaled);
+
+		/* Anti-aliasing mode (HALFTONE is the only anti-aliasing algorithm natively supported by Windows 2000.
+		TODO: GDI+ offers higher quality -- InterpolationModeHighQualityBicubic) */
+		SetStretchBltMode (hdcRescaled, HALFTONE);
+
+		StretchBlt (hdcRescaled,
+			0,
+			0,
+			nWidth,
+			nHeight,
+			hdcSrc,
+			0,
+			0,
+			bitmap.bmWidth, 
+			bitmap.bmHeight,
+			SRCCOPY);
+
+		DeleteDC (hdcSrc);
+
+		if (bDirectRender)
+		{
+			HDC hdcDest = GetDC (hwndDest);
+			if (hdcDest)
+			{
+				BitBlt (hdcDest, x, y, nWidth, nHeight, hdcRescaled, 0, 0, SRCCOPY);
+				ReleaseDC (hwndDest, hdcDest);
+			}
+		}
+		else
+		{
+			lResult = SendMessage (hwndDest, (UINT) STM_SETIMAGE, (WPARAM) IMAGE_BITMAP, (LPARAM) (HANDLE) hbmpRescaled);
+		}
+
+		if ((HGDIOBJ) lResult != NULL && (HGDIOBJ) lResult != (HGDIOBJ) hbmpRescaled)
+			DeleteObject ((HGDIOBJ) lResult);
+
+		DeleteDC (hdcRescaled);
 	}
-	else
-	{
-		lResult = SendMessage (hwndDest, (UINT) STM_SETIMAGE, (WPARAM) IMAGE_BITMAP, (LPARAM) (HANDLE) hbmpRescaled);
-	}
-
-	if ((HGDIOBJ) lResult != NULL && (HGDIOBJ) lResult != (HGDIOBJ) hbmpRescaled)
-		DeleteObject ((HGDIOBJ) lResult);
-
-	DeleteDC (hdcRescaled);
 
 	return hbmpRescaled;
 }
@@ -2339,8 +2359,8 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 
 		GetModuleFileName (NULL, modPath, sizeof (modPath));
 
-		strcpy (newCmdLine, "/q UAC ");
-		strcat_s (newCmdLine, sizeof (newCmdLine), lpszCommandLine);
+		StringCbCopyA (newCmdLine, sizeof(newCmdLine), "/q UAC ");
+		StringCbCatA (newCmdLine, sizeof (newCmdLine), lpszCommandLine);
 
 		if ((int)ShellExecute (hWnd, "runas", modPath, newCmdLine, NULL, SW_SHOWNORMAL) <= 32)
 			exit (1);
@@ -2444,9 +2464,9 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	}
 	
 	if (GetSystemDirectory(dllPath, MAX_PATH))
-		strcat(dllPath, "\\Riched20.dll");
+		StringCbCatA(dllPath, sizeof(dllPath), "\\Riched20.dll");
 	else
-		strcpy(dllPath, "c:\\Windows\\System32\\Riched20.dll");
+		StringCbCopyA(dllPath, sizeof(dllPath), "c:\\Windows\\System32\\Riched20.dll");
 	// Required for RichEdit text fields to work
 	if (LoadLibrary(dllPath) == NULL)
 	{
@@ -2480,16 +2500,19 @@ void InitHelpFileName (void)
 	{
 		char szTemp[TC_MAX_PATH];
 
+		++lpszTmp;
+		*lpszTmp = 0; // add null terminating character to prepare for append operations
+
 		// Primary file name
 		if (strcmp (GetPreferredLangId(), "en") == 0
 			|| GetPreferredLangId() == NULL)
 		{
-			strcpy (++lpszTmp, "VeraCrypt User Guide.pdf");
+			StringCbCatA (szHelpFile, sizeof(szHelpFile), "VeraCrypt User Guide.pdf");
 		}
 		else
 		{
-			sprintf (szTemp, "VeraCrypt User Guide.%s.pdf", GetPreferredLangId());
-			strcpy (++lpszTmp, szTemp);
+			StringCbPrintfA (szTemp, sizeof(szTemp), "VeraCrypt User Guide.%s.pdf", GetPreferredLangId());
+			StringCbCatA (szHelpFile, sizeof(szHelpFile), szTemp);
 		}
 
 		// Secondary file name (used when localized documentation is not found).
@@ -2497,7 +2520,9 @@ void InitHelpFileName (void)
 		lpszTmp = strrchr (szHelpFile2, '\\');
 		if (lpszTmp)
 		{
-			strcpy (++lpszTmp, "VeraCrypt User Guide.pdf");
+			++lpszTmp;
+			*lpszTmp = 0;
+			StringCbCopyA (szHelpFile2, sizeof(szHelpFile2), "VeraCrypt User Guide.pdf");
 		}
 	}
 }
@@ -2507,8 +2532,8 @@ BOOL OpenDevice (const char *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFile
 	DWORD dwResult;
 	BOOL bResult;
 
-	strcpy ((char *) &driver->wszFileName[0], lpszPath);
-	ToUNICODE ((char *) &driver->wszFileName[0]);
+	StringCbCopyA ((char *) &driver->wszFileName[0], sizeof(driver->wszFileName), lpszPath);
+	ToUNICODE ((char *) &driver->wszFileName[0], sizeof(driver->wszFileName));
 
 	driver->bDetectTCBootLoader = FALSE;
 	driver->DetectFilesystem = detectFilesystem;
@@ -2627,7 +2652,7 @@ Return codes:
 3  - it is the extra boot partition path
 0  - it's not the system partition/drive path
 -1 - the result can't be determined, isn't reliable, or there was an error. */
-int IsSystemDevicePath (char *path, HWND hwndDlg, BOOL bReliableRequired)
+int IsSystemDevicePath (const char *path, HWND hwndDlg, BOOL bReliableRequired)
 {
 	if (!bCachedSysDevicePathsValid
 		&& bReliableRequired)
@@ -2637,6 +2662,9 @@ int IsSystemDevicePath (char *path, HWND hwndDlg, BOOL bReliableRequired)
 	}
 
 	if (strlen (SysPartitionDevicePath) <= 1 || strlen (SysDriveDevicePath) <= 1)
+		return -1;
+
+	if (!path)
 		return -1;
 
 	if (strncmp (path, SysPartitionDevicePath, max (strlen(path), strlen(SysPartitionDevicePath))) == 0)
@@ -2959,12 +2987,12 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					{
 						wchar_t s[1024];
 						if (device.Removable)
-							wsprintfW (s, L"%s %d", GetString ("REMOVABLE_DISK"), device.SystemNumber);
+							StringCbPrintfW (s, sizeof(s), L"%s %d", GetString ("REMOVABLE_DISK"), device.SystemNumber);
 						else
-							wsprintfW (s, L"%s %d", GetString ("HARDDISK"), device.SystemNumber);
+							StringCbPrintfW (s, sizeof(s), L"%s %d", GetString ("HARDDISK"), device.SystemNumber);
 
 						if (!device.Partitions.empty())
-							wcscat (s, L":");
+							StringCbCatW (s, sizeof(s), L":");
 
 						ListItemAddW (hList, item.iItem, s);
 					}
@@ -2980,7 +3008,7 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (device.Size != 0)
 				{
 					wchar_t size[100] = { 0 };
-					GetSizeString (device.Size, size);
+					GetSizeString (device.Size, size, sizeof(size));
 					ListSubItemSetW (hList, item.iItem, 2, size);
 				}
 
@@ -3258,11 +3286,13 @@ static int DriverLoad ()
 	tmp = strrchr (driverPath, '\\');
 	if (!tmp)
 	{
-		strcpy (driverPath, ".");
-		tmp = driverPath + 1;
+		driverPath[0] = '.';
+		driverPath[1] = 0;
 	}
+	else
+		*tmp = 0;
 
-	strcpy (tmp, !Is64BitOs () ? "\\veracrypt.sys" : "\\veracrypt-x64.sys");
+	StringCbCatA (driverPath, sizeof(driverPath), !Is64BitOs () ? "\\veracrypt.sys" : "\\veracrypt-x64.sys");
 
 	file = FindFirstFile (driverPath, &find);
 
@@ -3590,7 +3620,7 @@ BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, char *initialDir, char *lps
 	ofn.lStructSize				= sizeof (ofn);
 	ofn.hwndOwner				= hwndDlg;
 
-	wsprintfW (filter, L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
+	StringCbPrintfW (filter, sizeof(filter), L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
 		GetString ("ALL_FILES"), 0, 0, GetString ("TC_VOLUMES"), 0, 0, 0);
 	ofn.lpstrFilter				= browseFilter ? browseFilter : filter;
 	ofn.nFilterIndex			= 1;
@@ -3641,7 +3671,7 @@ ret:
 static char SelectMultipleFilesPath[131072];
 static int SelectMultipleFilesOffset;
 
-BOOL SelectMultipleFiles (HWND hwndDlg, char *stringId, char *lpszFileName, BOOL keepHistory)
+BOOL SelectMultipleFiles (HWND hwndDlg, const char *stringId, char *lpszFileName, size_t cbFileName,BOOL keepHistory)
 {
 	OPENFILENAMEW ofn;
 	wchar_t file[0xffff * 2] = { 0 };	// The size must not exceed 0xffff*2 due to a bug in Windows 2000 and XP SP1
@@ -3655,7 +3685,7 @@ BOOL SelectMultipleFiles (HWND hwndDlg, char *stringId, char *lpszFileName, BOOL
 	*lpszFileName = 0;
 	ofn.lStructSize				= sizeof (ofn);
 	ofn.hwndOwner				= hwndDlg;
-	wsprintfW (filter, L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
+	StringCbPrintfW (filter, sizeof(filter), L"%ls (*.*)%c*.*%c%ls (*.hc)%c*.hc%c%c",
 		GetString ("ALL_FILES"), 0, 0, GetString ("TC_VOLUMES"), 0, 0, 0);
 	ofn.lpstrFilter				= filter;
 	ofn.nFilterIndex			= 1;
@@ -3698,7 +3728,7 @@ BOOL SelectMultipleFiles (HWND hwndDlg, char *stringId, char *lpszFileName, BOOL
 		}
 
 		SelectMultipleFilesOffset = ofn.nFileOffset;
-		SelectMultipleFilesNext (lpszFileName);
+		SelectMultipleFilesNext (lpszFileName, cbFileName);
 	}
 
 	if (!keepHistory)
@@ -3715,18 +3745,18 @@ ret:
 }
 
 
-BOOL SelectMultipleFilesNext (char *lpszFileName)
+BOOL SelectMultipleFilesNext (char *lpszFileName, size_t cbFileName)
 {
 	if (SelectMultipleFilesOffset == 0)
 		return FALSE;
 
-	strncpy (lpszFileName, SelectMultipleFilesPath, TC_MAX_PATH);
+	StringCbCopyA (lpszFileName, cbFileName,SelectMultipleFilesPath);
 	lpszFileName[TC_MAX_PATH - 1] = 0;
 
 	if (lpszFileName[strlen (lpszFileName) - 1] != '\\')
-		strcat (lpszFileName, "\\");
+		StringCbCatA (lpszFileName, cbFileName,"\\");
 
-	strcat (lpszFileName, SelectMultipleFilesPath + SelectMultipleFilesOffset);
+	StringCbCatA (lpszFileName, cbFileName,SelectMultipleFilesPath + SelectMultipleFilesOffset);
 
 	SelectMultipleFilesOffset += strlen (SelectMultipleFilesPath + SelectMultipleFilesOffset) + 1;
 	if (SelectMultipleFilesPath[SelectMultipleFilesOffset] == 0)
@@ -3810,19 +3840,19 @@ std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
 {
 	WCHAR szTmp[8192];
 
-	swprintf (szTmp, GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_WRONG" : "PASSWORD_WRONG"));
+	StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_WRONG" : "PASSWORD_WRONG"));
 	if (CheckCapsLock (hwndDlg, TRUE))
-		wcscat (szTmp, GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
+		StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
 #ifdef TCMOUNT
 	if (TCBootLoaderOnInactiveSysEncDrive ())
 	{
-		swprintf (szTmp, GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_OR_MODE_WRONG" : "PASSWORD_OR_MODE_WRONG"));
+		StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_OR_MODE_WRONG" : "PASSWORD_OR_MODE_WRONG"));
 
 		if (CheckCapsLock (hwndDlg, TRUE))
-			wcscat (szTmp, GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
+			StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
-		wcscat (szTmp, GetString ("SYSENC_MOUNT_WITHOUT_PBA_NOTE"));
+		StringCbCatW (szTmp, sizeof(szTmp), GetString ("SYSENC_MOUNT_WITHOUT_PBA_NOTE"));
 	}
 #endif
 
@@ -3940,7 +3970,7 @@ void handleError (HWND hwndDlg, int code)
 		break;
 
 	default:
-		wsprintfW (szTmp, GetString ("ERR_UNKNOWN"), code);
+		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("ERR_UNKNOWN"), code);
 		MessageBoxW (hwndDlg, szTmp, lpszTitle, ICON_HAND);
 	}
 }
@@ -3951,7 +3981,7 @@ BOOL CheckFileStreamWriteErrors (FILE *file, const char *fileName)
 	if (ferror (file))
 	{
 		wchar_t s[TC_MAX_PATH];
-		swprintf_s (s, ARRAYSIZE (s), GetString ("CANNOT_WRITE_FILE_X"), fileName);
+		StringCbPrintfW (s, sizeof (s), GetString ("CANNOT_WRITE_FILE_X"), fileName);
 		ErrorDirect (s);
 
 		return FALSE;
@@ -4008,7 +4038,7 @@ void OpenVolumeExplorerWindow (int driveNo)
 	char dosName[5];
 	SHFILEINFO fInfo;
 
-	sprintf (dosName, "%c:\\", (char) driveNo + 'A');
+	StringCbPrintfA (dosName, sizeof(dosName), "%c:\\", (char) driveNo + 'A');
 
 	// Force explorer to discover the drive
 	SHGetFileInfo (dosName, 0, &fInfo, sizeof (fInfo), 0);
@@ -4039,7 +4069,7 @@ static BOOL CALLBACK CloseVolumeExplorerWindowsEnum (HWND hwnd, LPARAM driveNo)
 	char driveStr[10];
 	char s[MAX_PATH];
 
-	sprintf (driveStr, "%c:\\", driveNo + 'A');
+	StringCbPrintfA (driveStr, sizeof(driveStr), "%c:\\", driveNo + 'A');
 
 	GetClassName (hwnd, s, sizeof s);
 	if (strcmp (s, "CabinetWClass") == 0)
@@ -4073,7 +4103,7 @@ BOOL CloseVolumeExplorerWindows (HWND hwnd, int driveNo)
 string GetUserFriendlyVersionString (int version)
 {
 	char szTmp [64];
-	sprintf (szTmp, "%x", version);
+	StringCbPrintfA (szTmp, sizeof(szTmp), "%x", version);
 
 	string versionString (szTmp);
 
@@ -4085,7 +4115,7 @@ string GetUserFriendlyVersionString (int version)
 	return (versionString);
 }
 
-void GetSizeString (unsigned __int64 size, wchar_t *str)
+void GetSizeString (unsigned __int64 size, wchar_t *str, size_t cbStr)
 {
 	static wchar_t *b, *kb, *mb, *gb, *tb, *pb;
 	static int serNo;
@@ -4102,29 +4132,29 @@ void GetSizeString (unsigned __int64 size, wchar_t *str)
 	}
 
 	if (size > 1024I64*1024*1024*1024*1024*99)
-		swprintf (str, L"%I64d %s", size/1024/1024/1024/1024/1024, pb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", size/1024/1024/1024/1024/1024, pb);
 	else if (size > 1024I64*1024*1024*1024*1024)
-		swprintf (str, L"%.1f %s",(double)(size/1024.0/1024/1024/1024/1024), pb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(size/1024.0/1024/1024/1024/1024), pb);
 	else if (size > 1024I64*1024*1024*1024*99)
-		swprintf (str, L"%I64d %s",size/1024/1024/1024/1024, tb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s",size/1024/1024/1024/1024, tb);
 	else if (size > 1024I64*1024*1024*1024)
-		swprintf (str, L"%.1f %s",(double)(size/1024.0/1024/1024/1024), tb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(size/1024.0/1024/1024/1024), tb);
 	else if (size > 1024I64*1024*1024*99)
-		swprintf (str, L"%I64d %s",size/1024/1024/1024, gb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s",size/1024/1024/1024, gb);
 	else if (size > 1024I64*1024*1024)
-		swprintf (str, L"%.1f %s",(double)(size/1024.0/1024/1024), gb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(size/1024.0/1024/1024), gb);
 	else if (size > 1024I64*1024*99)
-		swprintf (str, L"%I64d %s", size/1024/1024, mb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", size/1024/1024, mb);
 	else if (size > 1024I64*1024)
-		swprintf (str, L"%.1f %s",(double)(size/1024.0/1024), mb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(size/1024.0/1024), mb);
 	else if (size >= 1024I64)
-		swprintf (str, L"%I64d %s", size/1024, kb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", size/1024, kb);
 	else
-		swprintf (str, L"%I64d %s", size, b);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", size, b);
 }
 
 #ifndef SETUP
-void GetSpeedString (unsigned __int64 speed, wchar_t *str)
+void GetSpeedString (unsigned __int64 speed, wchar_t *str, size_t cbStr)
 {
 	static wchar_t *b, *kb, *mb, *gb, *tb, *pb;
 	static int serNo;
@@ -4141,25 +4171,25 @@ void GetSpeedString (unsigned __int64 speed, wchar_t *str)
 	}
 
 	if (speed > 1024I64*1024*1024*1024*1024*99)
-		swprintf (str, L"%I64d %s", speed/1024/1024/1024/1024/1024, pb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", speed/1024/1024/1024/1024/1024, pb);
 	else if (speed > 1024I64*1024*1024*1024*1024)
-		swprintf (str, L"%.1f %s",(double)(speed/1024.0/1024/1024/1024/1024), pb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(speed/1024.0/1024/1024/1024/1024), pb);
 	else if (speed > 1024I64*1024*1024*1024*99)
-		swprintf (str, L"%I64d %s",speed/1024/1024/1024/1024, tb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s",speed/1024/1024/1024/1024, tb);
 	else if (speed > 1024I64*1024*1024*1024)
-		swprintf (str, L"%.1f %s",(double)(speed/1024.0/1024/1024/1024), tb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(speed/1024.0/1024/1024/1024), tb);
 	else if (speed > 1024I64*1024*1024*99)
-		swprintf (str, L"%I64d %s",speed/1024/1024/1024, gb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s",speed/1024/1024/1024, gb);
 	else if (speed > 1024I64*1024*1024)
-		swprintf (str, L"%.1f %s",(double)(speed/1024.0/1024/1024), gb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(speed/1024.0/1024/1024), gb);
 	else if (speed > 1024I64*1024*99)
-		swprintf (str, L"%I64d %s", speed/1024/1024, mb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", speed/1024/1024, mb);
 	else if (speed > 1024I64*1024)
-		swprintf (str, L"%.1f %s",(double)(speed/1024.0/1024), mb);
+		StringCbPrintfW (str, cbStr, L"%.1f %s",(double)(speed/1024.0/1024), mb);
 	else if (speed > 1024I64)
-		swprintf (str, L"%I64d %s", speed/1024, kb);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", speed/1024, kb);
 	else
-		swprintf (str, L"%I64d %s", speed, b);
+		StringCbPrintfW (str, cbStr, L"%I64d %s", speed, b);
 }
 
 static void DisplayBenchmarkResults (HWND hwndDlg)
@@ -4230,7 +4260,7 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 #if PKCS5_BENCHMARKS
 		wcscpy (item1, L"-");
 #else
-		GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].encSpeed / benchmarkPerformanceFrequency.QuadPart)), item1);
+		GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].encSpeed / benchmarkPerformanceFrequency.QuadPart)), item1, sizeof(item1));
 #endif
 		LvItem.iSubItem = 1;
 		LvItem.pszText = item1;
@@ -4240,7 +4270,7 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 #if PKCS5_BENCHMARKS
 		wcscpy (item1, L"-");
 #else
-		GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].decSpeed / benchmarkPerformanceFrequency.QuadPart)), item1);
+		GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].decSpeed / benchmarkPerformanceFrequency.QuadPart)), item1, sizeof(item1));
 #endif
 		LvItem.iSubItem = 2;
 		LvItem.pszText = item1;
@@ -4250,7 +4280,7 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 #if PKCS5_BENCHMARKS
 		swprintf (item1, L"%d t", benchmarkTable[i].encSpeed);
 #else
-		GetSpeedString (benchmarkTable[i].meanBytesPerSec, item1);
+		GetSpeedString (benchmarkTable[i].meanBytesPerSec, item1, sizeof(item1));
 #endif
 		LvItem.iSubItem = 3;
 		LvItem.pszText = item1;
@@ -4367,7 +4397,7 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 			benchmarkTable[benchmarkTotalItems].decSpeed = benchmarkTable[benchmarkTotalItems].encSpeed;
 			benchmarkTable[benchmarkTotalItems].id = hid;
 			benchmarkTable[benchmarkTotalItems].meanBytesPerSec = ((unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart)) + (unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].decSpeed / benchmarkPerformanceFrequency.QuadPart))) / 2;
-			sprintf (benchmarkTable[benchmarkTotalItems].name, "%s", HashGetName(hid));
+			StringCbPrintfA (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTotalItems].name),"%s", HashGetName(hid));
 
 			benchmarkTotalItems++;
 		}
@@ -4421,7 +4451,7 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 
 			benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 			benchmarkTable[benchmarkTotalItems].id = thid;
-			sprintf (benchmarkTable[benchmarkTotalItems].name, "%s", get_pkcs5_prf_name (thid));
+			StringCbPrintfA (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTable[benchmarkTotalItems].name),"%s", get_pkcs5_prf_name (thid));
 
 			benchmarkTotalItems++;
 		}
@@ -4569,43 +4599,43 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			SendMessage (hCboxBufferSize, CB_RESETCONTENT, 0, 0);
 
-			swprintf (s, L"100 %s", GetString ("KB"));
+			StringCbPrintfW (s, sizeof(s), L"100 %s", GetString ("KB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 100 * BYTES_PER_KB);
 
-			swprintf (s, L"500 %s", GetString ("KB"));
+			StringCbPrintfW (s, sizeof(s), L"500 %s", GetString ("KB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 500 * BYTES_PER_KB);
 
-			swprintf (s, L"1 %s", GetString ("MB"));
+			StringCbPrintfW (s, sizeof(s), L"1 %s", GetString ("MB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 1 * BYTES_PER_MB);
 
-			swprintf (s, L"5 %s", GetString ("MB"));
+			StringCbPrintfW (s, sizeof(s), L"5 %s", GetString ("MB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 5 * BYTES_PER_MB);
 
-			swprintf (s, L"10 %s", GetString ("MB"));
+			StringCbPrintfW (s, sizeof(s), L"10 %s", GetString ("MB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 10 * BYTES_PER_MB);
 
-			swprintf (s, L"50 %s", GetString ("MB"));
+			StringCbPrintfW (s, sizeof(s), L"50 %s", GetString ("MB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 50 * BYTES_PER_MB);
 
-			swprintf (s, L"100 %s", GetString ("MB"));
+			StringCbPrintfW (s, sizeof(s), L"100 %s", GetString ("MB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 100 * BYTES_PER_MB);
 
-			swprintf (s, L"200 %s", GetString ("MB"));
+			StringCbPrintfW (s, sizeof(s), L"200 %s", GetString ("MB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 200 * BYTES_PER_MB);
 
-			swprintf (s, L"500 %s", GetString ("MB"));
+			StringCbPrintfW (s, sizeof(s), L"500 %s", GetString ("MB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 500 * BYTES_PER_MB);
 
-			swprintf (s, L"1 %s", GetString ("GB"));
+			StringCbPrintfW (s, sizeof(s), L"1 %s", GetString ("GB"));
 			nIndex = SendMessageW (hCboxBufferSize, CB_ADDSTRING, 0, (LPARAM) s);
 			SendMessage (hCboxBufferSize, CB_SETITEMDATA, nIndex, (LPARAM) 1 * BYTES_PER_GB);
 
@@ -4631,15 +4661,15 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			wchar_t nbrThreadsStr [300];
 			if (sysInfo.dwNumberOfProcessors < 2)
 			{
-				wcscpy (nbrThreadsStr, GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE"));
+				StringCbCopyW (nbrThreadsStr, sizeof(nbrThreadsStr), GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE"));
 			}
 			else if (nbrThreads < 2)
 			{
-				wcscpy (nbrThreadsStr, GetString ("UISTR_DISABLED"));
+				StringCbCopyW (nbrThreadsStr, sizeof(nbrThreadsStr), GetString ("UISTR_DISABLED"));
 			}
 			else
 			{
-				wsprintfW (nbrThreadsStr, GetString ("NUMBER_OF_THREADS"), nbrThreads);
+				StringCbPrintfW (nbrThreadsStr, sizeof(nbrThreadsStr), GetString ("NUMBER_OF_THREADS"), nbrThreads);
 			}
 
 			SetDlgItemTextW (hwndDlg, IDC_PARALLELIZATION, (wstring (L" ") + nbrThreadsStr).c_str());
@@ -4772,10 +4802,10 @@ static BOOL CALLBACK RandomPoolEnrichementDlgProc (HWND hwndDlg, UINT msg, WPARA
 						{
 							tmpByte = randPool[row * RANDPOOL_DISPLAY_COLUMNS + col];
 
-							sprintf (tmp, bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != '&') ? " %c " : " . ") : "%02X ", tmpByte);
-							strcat (outputDispBuffer, tmp);
+							StringCbPrintfA (tmp, sizeof(tmp), bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != '&') ? " %c " : " . ") : "%02X ", tmpByte);
+							StringCbCatA (outputDispBuffer, sizeof(outputDispBuffer), tmp);
 						}
-						strcat (outputDispBuffer, "\n");
+						StringCbCatA (outputDispBuffer, sizeof(outputDispBuffer), "\n");
 					}
 					SetWindowText (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), outputDispBuffer);
 
@@ -4926,10 +4956,10 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						{
 							tmpByte = randPool[row * RANDPOOL_DISPLAY_COLUMNS + col];
 
-							sprintf (tmp, bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != '&') ? " %c " : " . ") : "%02X ", tmpByte);
-							strcat (outputDispBuffer, tmp);
+							StringCbPrintfA (tmp, sizeof(tmp), bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != '&') ? " %c " : " . ") : "%02X ", tmpByte);
+							StringCbCatA (outputDispBuffer, sizeof(outputDispBuffer), tmp);
 						}
-						strcat (outputDispBuffer, "\n");
+						StringCbCatA (outputDispBuffer, sizeof(outputDispBuffer), "\n");
 					}
 					SetWindowText (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), outputDispBuffer);
 
@@ -5370,8 +5400,8 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				for (n = 0; n < pt; n ++)
 				{
 					char szTmp2[3];
-					sprintf(szTmp2, "%02x", (int)((unsigned char)tmp[n]));
-					strcat(szTmp, szTmp2);
+					StringCbPrintfA(szTmp2, sizeof(szTmp2), "%02x", (int)((unsigned char)tmp[n]));
+					StringCbCatA(szTmp, sizeof(szTmp), szTmp2);
 				}
 
 				if (bEncrypt)
@@ -5424,7 +5454,7 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 	{
 		char tmpStr [16];
 
-		sprintf (tmpStr, "%d", ndx);
+		StringCbPrintfA (tmpStr, sizeof(tmpStr), "%d", ndx);
 
 		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_ADDSTRING, 0,(LPARAM) tmpStr);
 		SendMessage(GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_SETITEMDATA, ndx,(LPARAM) ndx);
@@ -5871,7 +5901,7 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced)
 		wchar_t msg[4096];
 
 		VolumeNotificationsList.bHidVolDamagePrevReported [nDosDriveNo] = TRUE;
-		swprintf (msg, GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), nDosDriveNo + 'A');
+		StringCbPrintfW (msg, sizeof(msg), GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), nDosDriveNo + 'A');
 		SetForegroundWindow (hwndDlg);
 		MessageBoxW (hwndDlg, msg, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 	}
@@ -5914,7 +5944,7 @@ void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap)
 				if (nCurrentOS == WIN_2000 && RemoteSession)
 				{
 					char target[32];
-					wsprintf (target, "%ls%c", TC_MOUNT_PREFIX, i + 'A');
+					StringCbPrintfA (target, sizeof(target), "%ls%c", TC_MOUNT_PREFIX, i + 'A');
 					root[2] = 0;
 
 					if (message == DBT_DEVICEARRIVAL)
@@ -6055,7 +6085,7 @@ retry:
 			strcpy_s (volumePath, TC_MAX_PATH, resolvedPath.c_str());
 	}
 
-	CreateFullVolumePath ((char *) mount.wszVolume, volumePath, &bDevice);
+	CreateFullVolumePath ((char *) mount.wszVolume, sizeof(mount.wszVolume), volumePath, &bDevice);
 
 	if (!bDevice)
 	{
@@ -6077,7 +6107,7 @@ retry:
 		}
 	}
 
-	ToUNICODE ((char *) mount.wszVolume);
+	ToUNICODE ((char *) mount.wszVolume, sizeof(mount.wszVolume));
 
 	if (mountOptions->PartitionInInactiveSysEncScope)
 	{
@@ -6168,7 +6198,7 @@ retry:
 						memset (&openTestStruct, 0, sizeof (openTestStruct));
 
 						openTestStruct.bDetectTCBootLoader = TRUE;
-						_snwprintf ((wchar_t *) openTestStruct.wszFileName, array_capacity (openTestStruct.wszFileName), L"\\Device\\Harddisk%d\\Partition0", driveNo);
+						StringCchPrintfW ((wchar_t *) openTestStruct.wszFileName, array_capacity (openTestStruct.wszFileName), L"\\Device\\Harddisk%d\\Partition0", driveNo);
 
 						DWORD dwResult;
 						if (DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST, &openTestStruct, sizeof (OPEN_TEST_STRUCT), &openTestStruct, sizeof (OPEN_TEST_STRUCT), &dwResult, NULL) && openTestStruct.TCBootLoaderDetected)
@@ -6205,7 +6235,7 @@ retry:
 	{
 		wchar_t msg[1024];
 		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
-		wsprintfW (msg, GetString ("MOUNTED_VOLUME_DIRTY"), mountPoint);
+		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_VOLUME_DIRTY"), mountPoint);
 
 		if (AskWarnYesNoStringTopmost (msg) == IDYES)
 			CheckFilesystem (driveNo, TRUE);
@@ -6219,7 +6249,7 @@ retry:
 	{
 		wchar_t msg[1024];
 		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
-		wsprintfW (msg, GetString ("MOUNTED_CONTAINER_FORCED_READ_ONLY"), mountPoint);
+		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_CONTAINER_FORCED_READ_ONLY"), mountPoint);
 
 		WarningDirect (msg);
 	}
@@ -6230,7 +6260,7 @@ retry:
 	{
 		wchar_t msg[1024];
 		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
-		wsprintfW (msg, GetString ("MOUNTED_DEVICE_FORCED_READ_ONLY"), mountPoint);
+		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_DEVICE_FORCED_READ_ONLY"), mountPoint);
 
 		WarningDirect (msg);
 	}
@@ -6241,7 +6271,7 @@ retry:
 	{
 		wchar_t msg[1024];
 		wchar_t mountPoint[] = { L'A' + (wchar_t) driveNo, L':', 0 };
-		wsprintfW (msg, GetString ("MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION"), mountPoint);
+		StringCbPrintfW (msg, sizeof(msg), GetString ("MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION"), mountPoint);
 
 		WarningDirect (msg);
 
@@ -6329,16 +6359,16 @@ BOOL IsMountedVolume (const char *volname)
 	int i;
 	char volume[TC_MAX_PATH*2+16];
 
-	strcpy (volume, volname);
+	StringCbCopyA (volume, sizeof(volume), volname);
 
 	if (strstr (volname, "\\Device\\") != volname)
-		sprintf(volume, "\\??\\%s", volname);
+		StringCbPrintfA(volume, sizeof(volume), "\\??\\%s", volname);
 
 	string resolvedPath = VolumeGuidPathToDevicePath (volname);
 	if (!resolvedPath.empty())
-		strcpy_s (volume, sizeof (volume), resolvedPath.c_str());
+		StringCbCopyA (volume, sizeof (volume), resolvedPath.c_str());
 
-	ToUNICODE (volume);
+	ToUNICODE (volume, sizeof(volume));
 
 	memset (&mlist, 0, sizeof (mlist));
 	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mlist,
@@ -6363,16 +6393,16 @@ int GetMountedVolumeDriveNo (char *volname)
 	if (volname == NULL)
 		return -1;
 
-	strcpy (volume, volname);
+	StringCbCopyA (volume, sizeof(volume), volname);
 
 	if (strstr (volname, "\\Device\\") != volname)
-		sprintf(volume, "\\??\\%s", volname);
+		StringCbPrintfA (volume, sizeof(volume), "\\??\\%s", volname);
 
 	string resolvedPath = VolumeGuidPathToDevicePath (volname);
 	if (!resolvedPath.empty())
-		strcpy_s (volume, sizeof (volume), resolvedPath.c_str());
+		StringCbCopyA (volume, sizeof (volume), resolvedPath.c_str());
 
-	ToUNICODE (volume);
+	ToUNICODE (volume, sizeof(volume));
 
 	memset (&mlist, 0, sizeof (mlist));
 	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mlist,
@@ -6439,20 +6469,20 @@ BOOL IsUacSupported ()
 }
 
 
-BOOL ResolveSymbolicLink (const wchar_t *symLinkName, PWSTR targetName)
+BOOL ResolveSymbolicLink (const wchar_t *symLinkName, PWSTR targetName, size_t cbTargetName)
 {
 	BOOL bResult;
 	DWORD dwResult;
 	RESOLVE_SYMLINK_STRUCT resolve;
 
 	memset (&resolve, 0, sizeof(resolve));
-	wcscpy ((PWSTR) &resolve.symLinkName, symLinkName);
+	StringCbCopyW (resolve.symLinkName, sizeof(resolve.symLinkName), symLinkName);
 
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_RESOLVED_SYMLINK, &resolve,
 		sizeof (resolve), &resolve, sizeof (resolve), &dwResult,
 		NULL);
 
-	wcscpy (targetName, (PWSTR) &resolve.targetName);
+	StringCbCopyW (targetName, cbTargetName, resolve.targetName);
 
 	return bResult;
 }
@@ -6465,7 +6495,7 @@ BOOL GetPartitionInfo (const char *deviceName, PPARTITION_INFORMATION rpartInfo)
 	DISK_PARTITION_INFO_STRUCT dpi;
 
 	memset (&dpi, 0, sizeof(dpi));
-	wsprintfW ((PWSTR) &dpi.deviceName, L"%hs", deviceName);
+	StringCbPrintfW ((PWSTR) &dpi.deviceName, sizeof(dpi.deviceName), L"%hs", deviceName);
 
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVE_PARTITION_INFO, &dpi,
 		sizeof (dpi), &dpi, sizeof (dpi), &dwResult, NULL);
@@ -6480,7 +6510,7 @@ BOOL GetDeviceInfo (const char *deviceName, DISK_PARTITION_INFO_STRUCT *info)
 	DWORD dwResult;
 
 	memset (info, 0, sizeof(*info));
-	wsprintfW ((PWSTR) &info->deviceName, L"%hs", deviceName);
+	StringCbPrintfW ((PWSTR) &info->deviceName, sizeof(info->deviceName), L"%hs", deviceName);
 
 	return DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVE_PARTITION_INFO, info, sizeof (*info), info, sizeof (*info), &dwResult, NULL);
 }
@@ -6493,7 +6523,7 @@ BOOL GetDriveGeometry (const char *deviceName, PDISK_GEOMETRY diskGeometry)
 	DISK_GEOMETRY_STRUCT dg;
 
 	memset (&dg, 0, sizeof(dg));
-	wsprintfW ((PWSTR) &dg.deviceName, L"%hs", deviceName);
+	StringCbPrintfW ((PWSTR) &dg.deviceName, sizeof(dg.deviceName), L"%hs", deviceName);
 
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVE_GEOMETRY, &dg,
 		sizeof (dg), &dg, sizeof (dg), &dwResult, NULL);
@@ -6511,17 +6541,17 @@ int GetDiskDeviceDriveLetter (PWSTR deviceName)
 	WCHAR target[MAX_PATH];
 	WCHAR device[MAX_PATH];
 
-	if (!ResolveSymbolicLink (deviceName, device))
-		wcscpy (device, deviceName);
+	if (!ResolveSymbolicLink (deviceName, device, sizeof(device)))
+		StringCchCopyW (device, MAX_PATH, deviceName);
 
 	for (i = 0; i < 26; i++)
 	{
 		WCHAR drive[] = { (WCHAR) i + 'A', ':', 0 };
 
-		wcscpy (link, L"\\DosDevices\\");
-		wcscat (link, drive);
+		StringCchCopyW (link, MAX_PATH, L"\\DosDevices\\");
+		StringCchCatW (link, MAX_PATH, drive);
 
-		ResolveSymbolicLink (link, target);
+		ResolveSymbolicLink (link, target, sizeof(target));
 
 		if (wcscmp (device, target) == 0)
 			return i;
@@ -6566,8 +6596,8 @@ __int64 GetStatsFreeSpaceOnPartition (const char *devicePath, float *percentFree
 	ULARGE_INTEGER totalNumberOfBytes;
 	ULARGE_INTEGER totalNumberOfFreeBytes;
 
-	strcpy ((char *) devPath, devicePath);
-	ToUNICODE ((char *) devPath);
+	StringCbCopyA ((char *) devPath, sizeof(devPath), devicePath);
+	ToUNICODE ((char *) devPath, sizeof(devPath));
 
 	driveLetterNo = GetDiskDeviceDriveLetter (devPath);
 	szRootPath[0] = (char) driveLetterNo + 'A';
@@ -6633,8 +6663,8 @@ HANDLE DismountDrive (char *devName, char *devicePath)
 	int driveLetterNo = -1;
 	WCHAR devPath [MAX_PATH];
 
-	strcpy ((char *) devPath, devicePath);
-	ToUNICODE ((char *) devPath);
+	StringCbCopyA ((char *) devPath, sizeof(devPath), devicePath);
+	ToUNICODE ((char *) devPath, sizeof(devPath));
 	driveLetterNo = GetDiskDeviceDriveLetter (devPath);
 
 
@@ -6702,16 +6732,16 @@ int64 FindString (const char *buf, const char *str, int64 bufLen, size_t strLen,
 // Returns TRUE if the file or directory exists (both may be enclosed in quotation marks).
 BOOL FileExists (const char *filePathPtr)
 {
-	char filePath [TC_MAX_PATH];
+	char filePath [TC_MAX_PATH * 2 + 1];
 
 	// Strip quotation marks (if any)
 	if (filePathPtr [0] == '"')
 	{
-		strcpy (filePath, filePathPtr + 1);
+		StringCbCopyA (filePath, sizeof(filePath), filePathPtr + 1);
 	}
 	else
 	{
-		strcpy (filePath, filePathPtr);
+		StringCbCopyA (filePath, sizeof(filePath), filePathPtr);
 	}
 
 	// Strip quotation marks (if any)
@@ -6928,21 +6958,21 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, int textByteLen)
 	char path [MAX_PATH * 2] = { 0 };
 	char filename [MAX_PATH + 1] = { 0 };
 
-	strcpy (filename, title);
+	StringCbCopyA (filename, sizeof(filename), title);
 	//strcat (filename, ".txt");
 
 	GetTempPath (sizeof (path), path);
 
 	if (!FileExists (path))
 	{
-		strcpy (path, GetConfigPath (filename));
+		StringCbCopyA (path, sizeof(path), GetConfigPath (filename));
 
 		if (strlen(path) < 2)
 			return FALSE;
 	}
 	else
 	{
-		strcat (path, filename);
+		StringCbCatA (path, sizeof(path), filename);
 	}
 
 	// Write the Unicode signature
@@ -6959,18 +6989,18 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, int textByteLen)
 		return FALSE;
 	}
 
-	strcat (cl, path);
-	strcat (cl, "\"");
+	StringCbCatA (cl, sizeof(cl), path);
+	StringCbCatA (cl, sizeof(cl), "\"");
 
 	// Get the absolute path for notepad
 	if (GetWindowsDirectory(filename, MAX_PATH))
 	{
 		if (filename[strlen (filename) - 1] != '\\')
-			strcat (filename, "\\");
-		strcat(filename, PRINT_TOOL);
+			StringCbCatA (filename, sizeof(filename), "\\");
+		StringCbCatA(filename, sizeof(filename), PRINT_TOOL);
 	}
 	else
-		strcpy(filename, "C:\\Windows\\" PRINT_TOOL);
+		StringCbCopyA(filename, sizeof(filename), "C:\\Windows\\" PRINT_TOOL);
 
 	WaitCursor ();
 	ShellExecute (NULL, "open", PRINT_TOOL, cl, NULL, SW_HIDE);
@@ -7020,8 +7050,8 @@ BOOL IsNonInstallMode ()
 			// We can't use GetConfigPath() here because it would call us back (indirect recursion)
 			if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_APPDATA, NULL, 0, path)))
 			{
-				strcat (path, "\\VeraCrypt\\");
-				strcat (path, TC_APPD_FILENAME_SYSTEM_ENCRYPTION);
+				StringCbCatA (path, MAX_PATH * 2, "\\VeraCrypt\\");
+				StringCbCatA (path, MAX_PATH * 2, TC_APPD_FILENAME_SYSTEM_ENCRYPTION);
 
 				if (FileExists (path))
 				{
@@ -7088,7 +7118,7 @@ void ManageStartupSeq (void)
 	{
 		char regk [64];
 
-		GetStartupRegKeyName (regk);
+		GetStartupRegKeyName (regk, sizeof(regk));
 
 		if (bStartOnLogon || bMountDevicesOnLogon || bMountFavoritesOnLogon)
 		{
@@ -7101,13 +7131,16 @@ void ManageStartupSeq (void)
 				char *tmp = NULL;
 
 				if (tmp = strrchr (exe, '\\'))
-					strcpy (++tmp, "VeraCrypt.exe");
+				{
+					*tmp = 0;
+					StringCbCatA (exe, MAX_PATH * 2, "\\VeraCrypt.exe");
+				}
 			}
 #endif
-			strcat (exe, "\" /q preferences /a logon");
+			StringCbCatA (exe, MAX_PATH * 2, "\" /q preferences /a logon");
 
-			if (bMountDevicesOnLogon) strcat (exe, " /a devices");
-			if (bMountFavoritesOnLogon) strcat (exe, " /a favorites");
+			if (bMountDevicesOnLogon) StringCbCatA (exe, MAX_PATH * 2, " /a devices");
+			if (bMountFavoritesOnLogon) StringCbCatA (exe, MAX_PATH * 2, " /a favorites");
 
 			WriteRegistryString (regk, "VeraCrypt", exe);
 		}
@@ -7117,34 +7150,42 @@ void ManageStartupSeq (void)
 }
 
 
-// Adds or removes the TrueCrypt Volume Creation Wizard to/from the system startup sequence
+// Adds or removes the VeraCrypt Volume Creation Wizard to/from the system startup sequence
 void ManageStartupSeqWiz (BOOL bRemove, const char *arg)
 {
 	char regk [64];
 
-	GetStartupRegKeyName (regk);
+	GetStartupRegKeyName (regk, sizeof(regk));
 
 	if (!bRemove)
 	{
-		char exe[MAX_PATH * 2] = { '"' };
-		GetModuleFileName (NULL, exe + 1, sizeof (exe) - 1);
+		size_t exeSize = (MAX_PATH * 2) + 3 + 20 + strlen (arg); // enough room for all concatenation operations
+		char* exe = (char*) calloc(1, exeSize);
+		exe[0] = '"';
+		GetModuleFileName (NULL, exe + 1, (DWORD) (exeSize - 1));
 
 #ifndef VOLFORMAT
 			{
 				char *tmp = NULL;
 
 				if (tmp = strrchr (exe, '\\'))
-					strcpy (++tmp, "VeraCrypt Format.exe");
+				{
+					*tmp = 0;
+
+					StringCbCatA (exe, exeSize, "\\VeraCrypt Format.exe");
+				}
 			}
 #endif
 
 		if (strlen (arg) > 0)
 		{
-			strcat (exe, "\" ");
-			strcat (exe, arg);
+			StringCbCatA (exe, exeSize, "\" ");
+			StringCbCatA (exe, exeSize, arg);
 		}
 
 		WriteRegistryString (regk, "VeraCrypt Format", exe);
+
+		free(exe);
 	}
 	else
 		DeleteRegistryValue (regk, "VeraCrypt Format");
@@ -7165,12 +7206,12 @@ void CleanLastVisitedMRU (void)
 	GetModuleFileNameW (NULL, exeFilename, sizeof (exeFilename) / sizeof(exeFilename[0]));
 	strToMatch = wcsrchr (exeFilename, '\\') + 1;
 
-	sprintf (regPath, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisited%sMRU", IsOSAtLeast (WIN_VISTA) ? "Pidl" : "");
+	StringCbPrintfA (regPath, sizeof(regPath), "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\LastVisited%sMRU", IsOSAtLeast (WIN_VISTA) ? "Pidl" : "");
 
 	for (id = (IsOSAtLeast (WIN_VISTA) ? 0 : 'a'); id <= (IsOSAtLeast (WIN_VISTA) ? 1000 : 'z'); id++)
 	{
 		*strTmp = 0;
-		sprintf (key, (IsOSAtLeast (WIN_VISTA) ? "%d" : "%c"), id);
+		StringCbPrintfA (key, sizeof(key), (IsOSAtLeast (WIN_VISTA) ? "%d" : "%c"), id);
 
 		if ((len = ReadRegistryBytes (regPath, key, (char *) strTmp, sizeof (strTmp))) > 0)
 		{
@@ -7513,7 +7554,9 @@ __int64 GetFileSize64 (const char *path)
 char *GetModPath (char *path, int maxSize)
 {
 	GetModuleFileName (NULL, path, maxSize);
-	strrchr (path, '\\')[1] = 0;
+	char* ptr = strrchr (path, '\\');
+	if (ptr)
+		ptr[1] = 0;
 	return path;
 }
 
@@ -7525,16 +7568,16 @@ char *GetConfigPath (char *fileName)
 	if (IsNonInstallMode ())
 	{
 		GetModPath (path, sizeof (path));
-		strcat (path, fileName);
+		StringCbCatA (path, (MAX_PATH * 2), fileName);
 
 		return path;
 	}
 
 	if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
 	{
-		strcat (path, "\\VeraCrypt\\");
+		StringCbCatA (path, (MAX_PATH * 2), "\\VeraCrypt\\");
 		CreateDirectory (path, NULL);
-		strcat (path, fileName);
+		StringCbCatA (path, (MAX_PATH * 2), fileName);
 	}
 	else
 		path[0] = 0;
@@ -7549,9 +7592,9 @@ char *GetProgramConfigPath (char *fileName)
 
 	if (SUCCEEDED (SHGetFolderPath (NULL, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
 	{
-		strcat (path, "\\VeraCrypt\\");
+		StringCbCatA (path, (MAX_PATH * 2), "\\VeraCrypt\\");
 		CreateDirectory (path, NULL);
-		strcat (path, fileName);
+		StringCbCatA (path, (MAX_PATH * 2), fileName);
 	}
 	else
 		path[0] = 0;
@@ -7613,8 +7656,8 @@ void TaskBarIconDisplayBalloonTooltip (HWND hwnd, wchar_t *headline, wchar_t *te
 	tnid.dwInfoFlags = (warning ? NIIF_WARNING : NIIF_INFO);
 	tnid.uTimeout = (IsOSAtLeast (WIN_VISTA) ? 1000 : 5000); // in ms
 
-	wcsncpy (tnid.szInfoTitle, headline, ARRAYSIZE (tnid.szInfoTitle) - 1);
-	wcsncpy (tnid.szInfo, text, ARRAYSIZE (tnid.szInfo) - 1);
+	StringCbCopyW (tnid.szInfoTitle, sizeof(tnid.szInfoTitle), headline);
+	StringCbCopyW (tnid.szInfo, sizeof(tnid.szInfo),text);
 
 	// Display the balloon tooltip quickly twice in a row to avoid the slow and unwanted "fade-in" phase
 	Shell_NotifyIconW (NIM_MODIFY, &tnid);
@@ -7953,7 +7996,7 @@ BOOL ConfigWriteString (char *configKey, char *configValue)
 BOOL ConfigWriteInt (char *configKey, int configValue)
 {
 	char val[32];
-	sprintf (val, "%d", configValue);
+	StringCbPrintfA (val, sizeof(val), "%d", configValue);
 	return ConfigWriteString (configKey, val);
 }
 
@@ -8062,17 +8105,26 @@ BOOL LoadDefaultKeyFilesParam (void)
 	while (xml = XmlFindElement (xml, "keyfile"))
 	{
 		kf = (KeyFile *) malloc (sizeof (KeyFile));
-
-		if (XmlGetNodeText (xml, kf->FileName, sizeof (kf->FileName)) != NULL)
-			defaultKeyFilesParam.FirstKeyFile = KeyFileAdd (defaultKeyFilesParam.FirstKeyFile, kf);
+		if (kf)
+		{
+			if (XmlGetNodeText (xml, kf->FileName, sizeof (kf->FileName)) != NULL)
+				defaultKeyFilesParam.FirstKeyFile = KeyFileAdd (defaultKeyFilesParam.FirstKeyFile, kf);
+			else
+				free (kf);
+		}
 		else
-			free (kf);
+		{
+			KeyFileRemoveAll (&defaultKeyFilesParam.FirstKeyFile);
+			status = FALSE;
+			break;
+		}
 
 		xml++;
 	}
 
 	free (defaultKeyfilesFile);
-	KeyFilesEnable = defaultKeyFilesParam.EnableKeyFiles;
+	if (status)
+		KeyFilesEnable = defaultKeyFilesParam.EnableKeyFiles;
 
 	return status;
 }
@@ -8086,7 +8138,7 @@ void Debug (char *format, ...)
 	va_list val;
 
 	va_start(val, format);
-	_vsnprintf (buf, sizeof (buf), format, val);
+	StringCbVPrintfA (buf, sizeof (buf), format, val);
 	va_end(val);
 
 	OutputDebugString (buf);
@@ -8099,7 +8151,7 @@ void DebugMsgBox (char *format, ...)
 	va_list val;
 
 	va_start(val, format);
-	_vsnprintf (buf, sizeof (buf), format, val);
+	StringCbVPrintfA (buf, sizeof (buf), format, val);
 	va_end(val);
 
 	MessageBox (MainDlg, buf, "VeraCrypt debug", 0);
@@ -8352,7 +8404,18 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 	ArrowWaitCursor ();
 
 	// sprintf_s (url, sizeof (url), TC_APPLINK "%s%s&dest=%s", bSendOS ? ("&os=" + GetWindowsEdition()).c_str() : "", extraOutput, dest);
-	sprintf_s (url, sizeof (url),"%s", "https://sourceforge.net/projects/veracrypt/");
+	if (strcmp(dest, "donate") == 0)
+	{
+		StringCbPrintfA (url, sizeof (url),"%s", "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PWT5LHZWANHY6");		
+	}
+	else if (strcmp(dest,"localizations") == 0)
+	{
+		StringCbPrintfA (url, sizeof (url),"http://sourceforge.net/projects/veracrypt/files/VeraCrypt%%20%s/VeraCrypt_%s_Language_Files.zip/download", VERSION_STRING, VERSION_STRING);
+	}
+	else
+	{
+		StringCbPrintfA (url, sizeof (url),"%s", "https://sourceforge.net/projects/veracrypt/");
+	}
 	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 
 	Sleep (200);
@@ -8370,10 +8433,10 @@ char *RelativePath2Absolute (char *szFileName)
 		GetCurrentDirectory (MAX_PATH, path);
 
 		if (path[strlen (path) - 1] != '\\')
-			strcat (path, "\\");
+			StringCbCatA (path, (MAX_PATH * 2), "\\");
 
-		strcat (path, szFileName);
-		strncpy (szFileName, path, MAX_PATH-1);
+		StringCbCatA (path, (MAX_PATH * 2), szFileName);
+		StringCbCopyA (szFileName, MAX_PATH + 1, path); // szFileName size is always at least (MAX_PATH + 1)
 	}
 
 	return szFileName;
@@ -8463,7 +8526,7 @@ void InconsistencyResolved (char *techInfo)
 {
 	wchar_t finalMsg[8024];
 
-	wsprintfW (finalMsg, GetString ("INCONSISTENCY_RESOLVED"), techInfo);
+	StringCbPrintfW (finalMsg, sizeof(finalMsg), GetString ("INCONSISTENCY_RESOLVED"), techInfo);
 	MessageBoxW (MainDlg, finalMsg, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 }
 
@@ -8472,7 +8535,7 @@ void ReportUnexpectedState (char *techInfo)
 {
 	wchar_t finalMsg[8024];
 
-	wsprintfW (finalMsg, GetString ("UNEXPECTED_STATE"), techInfo);
+	StringCbPrintfW (finalMsg, sizeof(finalMsg), GetString ("UNEXPECTED_STATE"), techInfo);
 	MessageBoxW (MainDlg, finalMsg, lpszTitle, MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
 }
 
@@ -8495,11 +8558,11 @@ int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *pa
 	context->HostFileHandle = INVALID_HANDLE_VALUE;
 	context->TimestampsValid = FALSE;
 
-	CreateFullVolumePath (szDiskFile, volumePath, &context->IsDevice);
+	CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), volumePath, &context->IsDevice);
 
 	if (context->IsDevice)
 	{
-		status = FakeDosNameForDevice (szDiskFile, szDosDevice, szCFDevice, FALSE);
+		status = FakeDosNameForDevice (szDiskFile, szDosDevice, sizeof(szDosDevice), szCFDevice, sizeof(szCFDevice), FALSE);
 		if (status != 0)
 			return status;
 
@@ -8512,7 +8575,7 @@ int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *pa
 		}
 	}
 	else
-		strcpy (szCFDevice, szDiskFile);
+		StringCbCopyA (szCFDevice, sizeof(szCFDevice), szDiskFile);
 
 	if (preserveTimestamps)
 		write = TRUE;
@@ -8888,7 +8951,7 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 			LocalizeDialog (hwndDlg, "IDD_TOKEN_PASSWORD");
 
 			wchar_t s[1024];
-			wsprintfW (s, GetString ("ENTER_TOKEN_PASSWORD"), Utf8StringToWide (password->c_str()).c_str());
+			StringCbPrintfW (s, sizeof(s), GetString ("ENTER_TOKEN_PASSWORD"), Utf8StringToWide (password->c_str()).c_str());
 			SetWindowTextW (GetDlgItem (hwndDlg, IDT_TOKEN_PASSWORD_INFO), s);
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD), EM_LIMITTEXT, SecurityToken::MaxPasswordLength, 0);
@@ -9537,15 +9600,15 @@ void CheckFilesystem (int driveNo, BOOL fixErrors)
 	if (fixErrors && AskWarnYesNo ("FILESYS_REPAIR_CONFIRM_BACKUP") == IDNO)
 		return;
 
-	wsprintfW (msg, GetString (fixErrors ? "REPAIRING_FS" : "CHECKING_FS"), driveRoot);
-	wsprintfW (param, fixErrors ? L"/C echo %s & chkdsk %hs /F /X & pause" : L"/C echo %s & chkdsk %hs & pause", msg, driveRoot);
+	StringCbPrintfW (msg, sizeof(msg), GetString (fixErrors ? "REPAIRING_FS" : "CHECKING_FS"), driveRoot);
+	StringCbPrintfW (param, sizeof(param), fixErrors ? L"/C echo %s & chkdsk %hs /F /X & pause" : L"/C echo %s & chkdsk %hs & pause", msg, driveRoot);
 
 	if (GetSystemDirectoryW(cmdPath, MAX_PATH))
 	{
-		lstrcatW(cmdPath, L"\\cmd.exe");
+		StringCbCatW(cmdPath, sizeof(cmdPath), L"\\cmd.exe");
 	}
 	else
-		lstrcpyW(cmdPath, L"C:\\Windows\\System32\\cmd.exe");
+		StringCbCopyW(cmdPath, sizeof(cmdPath), L"C:\\Windows\\System32\\cmd.exe");
 
 	ShellExecuteW (NULL, (!IsAdmin() && IsUacSupported()) ? L"runas" : L"open", cmdPath, param, NULL, SW_SHOW);
 }
@@ -9612,8 +9675,8 @@ BOOL RemoveDeviceWriteProtection (HWND hwndDlg, char *devicePath)
 	if (GetTempPath (sizeof (temp), temp) == 0)
 		return FALSE;
 
-	_snprintf (cmdBatch, sizeof (cmdBatch), "%s\\VeraCrypt_Write_Protection_Removal.cmd", temp);
-	_snprintf (diskpartScript, sizeof (diskpartScript), "%s\\VeraCrypt_Write_Protection_Removal.diskpart", temp);
+	StringCbPrintfA (cmdBatch, sizeof (cmdBatch), "%s\\VeraCrypt_Write_Protection_Removal.cmd", temp);
+	StringCbPrintfA (diskpartScript, sizeof (diskpartScript), "%s\\VeraCrypt_Write_Protection_Removal.diskpart", temp);
 
 	FILE *f = fopen (cmdBatch, "w");
 	if (!f)
@@ -9674,10 +9737,13 @@ void EnableElevatedCursorChange (HWND parent)
 		RegisterClassEx (&winClass);
 
 		hWnd = CreateWindowEx (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, "VeraCrypt UAC", 0, 0, 0, GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN), parent, NULL, hInst, NULL);
-		SetLayeredWindowAttributes (hWnd, 0, 1, LWA_ALPHA);
-		ShowWindow (hWnd, SW_SHOWNORMAL);
+		if (hWnd)
+		{
+			SetLayeredWindowAttributes (hWnd, 0, 1, LWA_ALPHA);
+			ShowWindow (hWnd, SW_SHOWNORMAL);
 
-		DestroyWindow (hWnd);
+			DestroyWindow (hWnd);
+		}
 		UnregisterClass (className, hInst);
 	}
 }
@@ -9699,12 +9765,12 @@ BOOL DisableFileCompression (HANDLE file)
 }
 
 
-BOOL VolumePathExists (char *volumePath)
+BOOL VolumePathExists (const char *volumePath)
 {
 	OPEN_TEST_STRUCT openTest;
-	char upperCasePath[TC_MAX_PATH];
+	char upperCasePath[TC_MAX_PATH + 1];
 
-	UpperCaseCopy (upperCasePath, volumePath);
+	UpperCaseCopy (upperCasePath, sizeof(upperCasePath), volumePath);
 
 	if (strstr (upperCasePath, "\\DEVICE\\") == upperCasePath)
 		return OpenDevice (volumePath, &openTest, FALSE);
@@ -9732,7 +9798,7 @@ BOOL IsWindowsIsoBurnerAvailable ()
 
 	if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_SYSTEM, NULL, 0, path)))
 	{
-		strcat (path, "\\" ISO_BURNER_TOOL);
+		StringCbCatA (path, MAX_PATH*2, "\\" ISO_BURNER_TOOL);
 
 		return (FileExists (path));
 	}
@@ -9747,9 +9813,9 @@ BOOL LaunchWindowsIsoBurner (HWND hwnd, const char *isoPath)
 	int r;
 
 	if (SUCCEEDED(SHGetFolderPath (NULL, CSIDL_SYSTEM, NULL, 0, path)))
-		strcat (path, "\\" ISO_BURNER_TOOL);
+		StringCbCatA (path, MAX_PATH*2, "\\" ISO_BURNER_TOOL);
 	else
-		strcpy (path, "C:\\Windows\\System32\\" ISO_BURNER_TOOL);
+		StringCbCopyA (path, MAX_PATH*2, "C:\\Windows\\System32\\" ISO_BURNER_TOOL);
 
 	r = (int) ShellExecute (hwnd, "open", path, (string ("\"") + isoPath + "\"").c_str(), NULL, SW_SHOWNORMAL);
 
@@ -9795,7 +9861,7 @@ std::string HarddiskVolumePathToPartitionPath (const std::string &harddiskVolume
 			swprintf_s (partitionPath, ARRAYSIZE (partitionPath), L"\\Device\\Harddisk%d\\Partition%d", driveNumber, partNumber);
 
 			wchar_t resolvedPath[TC_MAX_PATH];
-			if (ResolveSymbolicLink (partitionPath, resolvedPath))
+			if (ResolveSymbolicLink (partitionPath, resolvedPath, sizeof(resolvedPath)))
 			{
 				if (volPath == resolvedPath)
 					return WideToSingleString (partitionPath);
