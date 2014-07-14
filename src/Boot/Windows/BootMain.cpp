@@ -584,7 +584,7 @@ static bool CopySystemPartitionToHiddenVolume (byte drive, byte &exitKey)
 	sectorOffset.HighPart = 0;
 
 	int fragmentSectorCount = 0x7f; // Maximum safe value supported by BIOS
-	int statCount;
+	int statCount = 0;
 
 	if (!CheckMemoryRequirements ())
 		goto err;
@@ -709,7 +709,7 @@ static void DecryptDrive (byte drive)
 	uint64 sector = EncryptedVirtualPartition.EndSector + 1;
 
 	int fragmentSectorCount = 0x7f; // Maximum safe value supported by BIOS
-	int statCount;
+	int statCount = 0;
 
 	bool skipBadSectors = false;
 

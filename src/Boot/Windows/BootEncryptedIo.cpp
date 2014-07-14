@@ -74,7 +74,7 @@ BiosResult ReadEncryptedSectors (uint16 destSegment, uint16 destOffset, byte dri
 
 BiosResult WriteEncryptedSectors (uint16 sourceSegment, uint16 sourceOffset, byte drive, uint64 sector, uint16 sectorCount)
 {
-	BiosResult result;
+	BiosResult result = BiosResultSuccess;
 	AcquireSectorBuffer();
 	uint64 dataUnitNo;
 	uint64 writeOffset;
