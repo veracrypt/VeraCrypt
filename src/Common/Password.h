@@ -35,7 +35,7 @@ typedef struct
 void VerifyPasswordAndUpdate ( HWND hwndDlg , HWND hButton , HWND hPassword , HWND hVerify , unsigned char *szPassword , char *szVerify, BOOL keyFilesEnabled );
 BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem);		
 BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw);			
-int ChangePwd (char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, HWND hwndDlg);
+int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, HWND hwndDlg);
 
 #endif	// defined(_WIN32) && !defined(TC_WINDOWS_DRIVER)
 

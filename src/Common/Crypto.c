@@ -321,24 +321,28 @@ Cipher *CipherGet (int id)
 	return NULL;
 }
 
-char *CipherGetName (int cipherId)
+const char *CipherGetName (int cipherId)
 {
-	return CipherGet (cipherId) -> Name;
+   Cipher* pCipher = CipherGet (cipherId);
+   return  pCipher? pCipher -> Name : "";
 }
 
 int CipherGetBlockSize (int cipherId)
 {
-	return CipherGet (cipherId) -> BlockSize;
+   Cipher* pCipher = CipherGet (cipherId);
+   return pCipher? pCipher -> BlockSize : 0;
 }
 
 int CipherGetKeySize (int cipherId)
 {
-	return CipherGet (cipherId) -> KeySize;
+   Cipher* pCipher = CipherGet (cipherId);
+   return pCipher? pCipher -> KeySize : 0;
 }
 
 int CipherGetKeyScheduleSize (int cipherId)
 {
-	return CipherGet (cipherId) -> KeyScheduleSize;
+   Cipher* pCipher = CipherGet (cipherId);
+   return pCipher? pCipher -> KeyScheduleSize : 0;
 }
 
 #ifndef TC_WINDOWS_BOOT
@@ -715,15 +719,17 @@ int HashGetIdByName (char *name)
 }
 
 
-char *HashGetName (int hashId)
+const char *HashGetName (int hashId)
 {
-	return HashGet (hashId) -> Name;
+   Hash* pHash = HashGet(hashId);
+   return pHash? pHash -> Name : "";
 }
 
 
 BOOL HashIsDeprecated (int hashId)
 {
-	return HashGet (hashId) -> Deprecated;
+   Hash* pHash = HashGet(hashId);
+   return pHash? pHash -> Deprecated : FALSE;
 }
 
 

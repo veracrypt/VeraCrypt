@@ -66,15 +66,20 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 	
 	if (hPassword == NULL)
 	{
-		unsigned char *pw;
-		len = ptrPw->Length;
-		pw = (unsigned char *) ptrPw->Text;
-
-		for (i = 0; i < len; i++)
+		if (ptrPw)
 		{
-			if (pw[i] >= 0x7f || pw[i] < 0x20)	// A non-ASCII or non-printable character?
-				return FALSE;
+			unsigned char *pw;
+			len = ptrPw->Length;
+			pw = (unsigned char *) ptrPw->Text;
+
+			for (i = 0; i < len; i++)
+			{
+				if (pw[i] >= 0x7f || pw[i] < 0x20)	// A non-ASCII or non-printable character?
+					return FALSE;
+			}
 		}
+		else
+			return FALSE;
 	}
 	else
 	{
@@ -114,7 +119,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem)
 	return TRUE;
 }
 
-int ChangePwd (char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, HWND hwndDlg)
+int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, HWND hwndDlg)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
 	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -138,9 +143,16 @@ int ChangePwd (char *lpszVolume, Password *oldPassword, Password *newPassword, i
 
 	if (oldPassword->Length == 0 || newPassword->Length == 0) return -1;
 
+   if (!lpszVolume)
+   {
+      nStatus = ERR_OUTOFMEMORY;
+      handleError (hwndDlg, nStatus);
+      return nStatus;
+   }
+
 	WaitCursor ();
 
-	CreateFullVolumePath (szDiskFile, lpszVolume, &bDevice);
+	CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), lpszVolume, &bDevice);
 
 	if (bDevice == FALSE)
 	{
@@ -148,7 +160,7 @@ int ChangePwd (char *lpszVolume, Password *oldPassword, Password *newPassword, i
 	}
 	else
 	{
-		nDosLinkCreated = FakeDosNameForDevice (szDiskFile, szDosDevice, szCFDevice, FALSE);
+		nDosLinkCreated = FakeDosNameForDevice (szDiskFile, szDosDevice, sizeof(szDosDevice), szCFDevice, sizeof(szCFDevice),FALSE);
 		
 		if (nDosLinkCreated != 0)
 			goto error;

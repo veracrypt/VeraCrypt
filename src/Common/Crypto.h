@@ -269,7 +269,7 @@ int CipherGetBlockSize (int cipher);
 int CipherGetKeySize (int cipher);
 int CipherGetKeyScheduleSize (int cipher);
 BOOL CipherSupportsIntraDataUnitParallelization (int cipher);
-char * CipherGetName (int cipher);
+const char * CipherGetName (int cipher);
 
 int CipherInit (int cipher, unsigned char *key, unsigned char *ks);
 int EAInit (int ea, unsigned char *key, unsigned char *ks);
@@ -302,7 +302,7 @@ int EAGetPreviousCipher (int ea, int previousCipherId);
 int EAIsFormatEnabled (int ea);
 BOOL EAIsModeSupported (int ea, int testedMode);
 
-char *HashGetName (int hash_algo_id);
+const char *HashGetName (int hash_algo_id);
 BOOL HashIsDeprecated (int hashId);
 
 int GetMaxPkcs5OutSize (void);
