@@ -33,6 +33,8 @@
 #include <mountdev.h>
 #include <ntddvol.h>
 
+#include <Ntstrsafe.h>
+
 /* Init section, which is thrown away as soon as DriverEntry returns */
 #pragma alloc_text(INIT,DriverEntry)
 #pragma alloc_text(INIT,TCCreateRootDeviceObject)
@@ -359,8 +361,8 @@ NTSTATUS TCCreateRootDeviceObject (PDRIVER_OBJECT DriverObject)
 	Dump ("TCCreateRootDeviceObject BEGIN\n");
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
-	wcscpy (dosname, (LPWSTR) DOS_ROOT_PREFIX);
-	wcscpy (ntname, (LPWSTR) NT_ROOT_PREFIX);
+	RtlStringCbCopyW (dosname, sizeof(dosname),(LPWSTR) DOS_ROOT_PREFIX);
+	RtlStringCbCopyW (ntname, sizeof(ntname),(LPWSTR) NT_ROOT_PREFIX);
 	RtlInitUnicodeString (&ntUnicodeString, ntname);
 	RtlInitUnicodeString (&Win32NameString, dosname);
 
@@ -419,8 +421,8 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 	Dump ("TCCreateDeviceObject BEGIN\n");
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
-	TCGetDosNameFromNumber (dosname, mount->nDosDriveNo);
-	TCGetNTNameFromNumber (ntname, mount->nDosDriveNo);
+	TCGetDosNameFromNumber (dosname, sizeof(dosname),mount->nDosDriveNo);
+	TCGetNTNameFromNumber (ntname, sizeof(ntname),mount->nDosDriveNo);
 	RtlInitUnicodeString (&ntUnicodeString, ntname);
 	RtlInitUnicodeString (&Win32NameString, dosname);
 
@@ -510,7 +512,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			WCHAR ntName[256];
 			PMOUNTDEV_NAME outputBuffer = (PMOUNTDEV_NAME) Irp->AssociatedIrp.SystemBuffer;
 
-			TCGetNTNameFromNumber (ntName, Extension->nDosDriveNo);
+			TCGetNTNameFromNumber (ntName, sizeof(ntName),Extension->nDosDriveNo);
 			RtlInitUnicodeString (&ntUnicodeString, ntName);
 
 			outputBuffer->NameLength = ntUnicodeString.Length;
@@ -545,9 +547,9 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			UCHAR volId[128], tmp[] = { 0,0 };
 			PMOUNTDEV_UNIQUE_ID outputBuffer = (PMOUNTDEV_UNIQUE_ID) Irp->AssociatedIrp.SystemBuffer;
 
-			strcpy (volId, TC_UNIQUE_ID_PREFIX); 
+			RtlStringCbCopyA (volId, sizeof(volId),TC_UNIQUE_ID_PREFIX); 
 			tmp[0] = 'A' + (UCHAR) Extension->nDosDriveNo;
-			strcat (volId, tmp);
+			RtlStringCbCatA (volId, sizeof(volId),tmp);
 			
 			outputBuffer->UniqueIdLength = (USHORT) strlen (volId);
 			outLength = (ULONG) (strlen (volId) + sizeof (USHORT));
@@ -582,7 +584,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				break; 
 			}
 
-			TCGetDosNameFromNumber (ntName, Extension->nDosDriveNo);
+			TCGetDosNameFromNumber (ntName, sizeof(ntName),Extension->nDosDriveNo);
 			RtlInitUnicodeString (&ntUnicodeString, ntName);
 
 			outLength = FIELD_OFFSET(MOUNTDEV_SUGGESTED_LINK_NAME,Name) + ntUnicodeString.Length;
@@ -1122,7 +1124,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 				if (IsVolumeAccessibleByCurrentUser (ListExtension))
 				{
 					list->ulMountedDrives |= (1 << ListExtension->nDosDriveNo);
-					wcscpy (list->wszVolume[ListExtension->nDosDriveNo], ListExtension->wszVolume);
+					RtlStringCbCopyW (list->wszVolume[ListExtension->nDosDriveNo], sizeof(list->wszVolume[ListExtension->nDosDriveNo]),ListExtension->wszVolume);
 					list->diskLength[ListExtension->nDosDriveNo] = ListExtension->DiskLength;
 					list->ea[ListExtension->nDosDriveNo] = ListExtension->cryptoInfo->ea;
 					if (ListExtension->cryptoInfo->hiddenVolume)
@@ -1171,7 +1173,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 				if (IsVolumeAccessibleByCurrentUser (ListExtension))
 				{
 					prop->uniqueId = ListExtension->UniqueVolumeId;
-					wcscpy (prop->wszVolume, ListExtension->wszVolume);
+					RtlStringCbCopyW (prop->wszVolume, sizeof(prop->wszVolume),ListExtension->wszVolume);
 					prop->diskLength = ListExtension->DiskLength;
 					prop->ea = ListExtension->cryptoInfo->ea;
 					prop->mode = ListExtension->cryptoInfo->mode;
@@ -1747,16 +1749,14 @@ VOID VolumeThreadProc (PVOID Context)
 
 	if (memcmp (pThreadBlock->mount->wszVolume, WIDE ("\\Device"), 14) != 0)
 	{
-		wcscpy (pThreadBlock->wszMountVolume, WIDE ("\\??\\"));
-		wcsncat (pThreadBlock->wszMountVolume, pThreadBlock->mount->wszVolume,
-			sizeof (pThreadBlock->wszMountVolume) / 2 - 5);
+		RtlStringCbCopyW (pThreadBlock->wszMountVolume, sizeof(pThreadBlock->wszMountVolume),WIDE ("\\??\\"));
+		RtlStringCbCatW (pThreadBlock->wszMountVolume, sizeof(pThreadBlock->wszMountVolume),pThreadBlock->mount->wszVolume);
 		bDevice = FALSE;
 	}
 	else
 	{
 		pThreadBlock->wszMountVolume[0] = 0;
-		wcsncat (pThreadBlock->wszMountVolume, pThreadBlock->mount->wszVolume,
-			sizeof (pThreadBlock->wszMountVolume) / 2 - 1);
+		RtlStringCbCatW (pThreadBlock->wszMountVolume, sizeof(pThreadBlock->wszMountVolume),pThreadBlock->mount->wszVolume);
 		bDevice = TRUE;
 	}
 
@@ -1838,26 +1838,26 @@ VOID VolumeThreadProc (PVOID Context)
 	}
 }
 
-void TCGetNTNameFromNumber (LPWSTR ntname, int nDriveNo)
+void TCGetNTNameFromNumber (LPWSTR ntname, int cbNtName, int nDriveNo)
 {
 	WCHAR tmp[3] =
 	{0, ':', 0};
 	int j = nDriveNo + (WCHAR) 'A';
 
 	tmp[0] = (short) j;
-	wcscpy (ntname, (LPWSTR) NT_MOUNT_PREFIX);
-	wcsncat (ntname, tmp, 1);
+	RtlStringCbCopyW (ntname, cbNtName,(LPWSTR) NT_MOUNT_PREFIX);
+	RtlStringCbCatW (ntname, cbNtName, tmp);
 }
 
-void TCGetDosNameFromNumber (LPWSTR dosname, int nDriveNo)
+void TCGetDosNameFromNumber (LPWSTR dosname,int cbDosName, int nDriveNo)
 {
 	WCHAR tmp[3] =
 	{0, ':', 0};
 	int j = nDriveNo + (WCHAR) 'A';
 
 	tmp[0] = (short) j;
-	wcscpy (dosname, (LPWSTR) DOS_MOUNT_PREFIX);
-	wcscat (dosname, tmp);
+	RtlStringCbCopyW (dosname, cbDosName, (LPWSTR) DOS_MOUNT_PREFIX);
+	RtlStringCbCatW (dosname, cbDosName, tmp);
 }
 
 #ifdef _DEBUG
@@ -2292,7 +2292,7 @@ NTSTATUS TCOpenFsVolume (PEXTENSION Extension, PHANDLE volumeHandle, PFILE_OBJEC
 	IO_STATUS_BLOCK ioStatus;
 	WCHAR volumeName[TC_MAX_PATH];
 
-	TCGetNTNameFromNumber (volumeName, Extension->nDosDriveNo);
+	TCGetNTNameFromNumber (volumeName, sizeof(volumeName),Extension->nDosDriveNo);
 	RtlInitUnicodeString (&fullFileName, volumeName);
 	InitializeObjectAttributes (&objectAttributes, &fullFileName, OBJ_CASE_INSENSITIVE | OBJ_KERNEL_HANDLE, NULL, NULL);
 
@@ -2421,8 +2421,8 @@ NTSTATUS CreateDriveLink (int nDosDriveNo)
 	UNICODE_STRING deviceName, symLink;
 	NTSTATUS ntStatus;
 
-	TCGetNTNameFromNumber (dev, nDosDriveNo);
-	TCGetDosNameFromNumber (link, nDosDriveNo);
+	TCGetNTNameFromNumber (dev, sizeof(dev),nDosDriveNo);
+	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo);
 
 	RtlInitUnicodeString (&deviceName, dev);
 	RtlInitUnicodeString (&symLink, link);
@@ -2439,7 +2439,7 @@ NTSTATUS RemoveDriveLink (int nDosDriveNo)
 	UNICODE_STRING symLink;
 	NTSTATUS ntStatus;
 
-	TCGetDosNameFromNumber (link, nDosDriveNo);
+	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo);
 	RtlInitUnicodeString (&symLink, link);
 
 	ntStatus = IoDeleteSymbolicLink (&symLink);
@@ -2457,15 +2457,15 @@ NTSTATUS MountManagerMount (MOUNT_STRUCT *mount)
 	PMOUNTMGR_CREATE_POINT_INPUT point = (PMOUNTMGR_CREATE_POINT_INPUT) buf;
 	UNICODE_STRING symName, devName;
 
-	TCGetNTNameFromNumber (arrVolume, mount->nDosDriveNo);
+	TCGetNTNameFromNumber (arrVolume, sizeof(arrVolume),mount->nDosDriveNo);
 	in->DeviceNameLength = (USHORT) wcslen (arrVolume) * 2;
-	wcscpy(in->DeviceName, arrVolume);
+	RtlStringCbCopyW(in->DeviceName, sizeof(buf) - sizeof(in->DeviceNameLength),arrVolume);
 
 	ntStatus = TCDeviceIoControl (MOUNTMGR_DEVICE_NAME, IOCTL_MOUNTMGR_VOLUME_ARRIVAL_NOTIFICATION,
 		in, (ULONG) (sizeof (in->DeviceNameLength) + wcslen (arrVolume) * 2), 0, 0);
 
 	memset (buf, 0, sizeof buf);
-	TCGetDosNameFromNumber ((PWSTR) &point[1], mount->nDosDriveNo);
+	TCGetDosNameFromNumber ((PWSTR) &point[1], sizeof(buf) - sizeof(MOUNTMGR_CREATE_POINT_INPUT),mount->nDosDriveNo);
 
 	point->SymbolicLinkNameOffset = sizeof (MOUNTMGR_CREATE_POINT_INPUT);
 	point->SymbolicLinkNameLength = (USHORT) wcslen ((PWSTR) &point[1]) * 2;
@@ -2473,7 +2473,7 @@ NTSTATUS MountManagerMount (MOUNT_STRUCT *mount)
 	RtlInitUnicodeString(&symName, (PWSTR) (buf + point->SymbolicLinkNameOffset));
 
 	point->DeviceNameOffset = point->SymbolicLinkNameOffset + point->SymbolicLinkNameLength;
-	TCGetNTNameFromNumber ((PWSTR) (buf + point->DeviceNameOffset), mount->nDosDriveNo);
+	TCGetNTNameFromNumber ((PWSTR) (buf + point->DeviceNameOffset), sizeof(buf) - point->DeviceNameOffset,mount->nDosDriveNo);
 	point->DeviceNameLength = (USHORT) wcslen ((PWSTR) (buf + point->DeviceNameOffset)) * 2;
 
 	RtlInitUnicodeString(&devName, (PWSTR) (buf + point->DeviceNameOffset));
@@ -2493,7 +2493,7 @@ NTSTATUS MountManagerUnmount (int nDosDriveNo)
 
 	memset (buf, 0, sizeof buf);
 
-	TCGetDosNameFromNumber ((PWSTR) &in[1], nDosDriveNo);
+	TCGetDosNameFromNumber ((PWSTR) &in[1], sizeof(buf) - sizeof(MOUNTMGR_MOUNT_POINT),nDosDriveNo);
 
 	// Only symbolic link can be deleted with IOCTL_MOUNTMGR_DELETE_POINTS. If any other entry is specified, the mount manager will ignore subsequent IOCTL_MOUNTMGR_VOLUME_ARRIVAL_NOTIFICATION for the same volume ID.
 	in->SymbolicLinkNameOffset = sizeof (MOUNTMGR_MOUNT_POINT);
@@ -2885,7 +2885,7 @@ BOOL IsDriveLetterAvailable (int nDosDriveNo)
 	WCHAR link[128];
 	HANDLE handle;
 
-	TCGetDosNameFromNumber (link, nDosDriveNo);
+	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo);
 	RtlInitUnicodeString (&objectName, link);
 	InitializeObjectAttributes (&objectAttributes, &objectName, OBJ_KERNEL_HANDLE | OBJ_CASE_INSENSITIVE, NULL, NULL);
 

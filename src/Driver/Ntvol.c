@@ -30,6 +30,8 @@
 
 #pragma warning( disable : 4127 )
 
+#include <Ntstrsafe.h>
+
 volatile BOOL ProbingHostDeviceForWrite = FALSE;
 
 
@@ -380,8 +382,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			OBJECT_ATTRIBUTES oaParentFileAttributes;
 			LARGE_INTEGER parentKeyDataOffset;
 
-			_snwprintf (parentDrivePath,
-				sizeof (parentDrivePath) / sizeof (WCHAR) - 1,
+			RtlStringCbPrintfW (parentDrivePath,
+				sizeof (parentDrivePath),
 				WIDE ("\\Device\\Harddisk%d\\Partition0"),
 				mount->nPartitionInInactiveSysEncScopeDriveNo);
 
@@ -477,6 +479,14 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		if (mount->nReturnCode == 0 || mount->nReturnCode == ERR_CIPHER_INIT_WEAK_KEY)
 		{
 			/* Volume header successfully decrypted */
+
+			if (!Extension->cryptoInfo)
+			{
+				/* should never happen */
+				mount->nReturnCode = ERR_OUTOFMEMORY;
+				ntStatus = STATUS_SUCCESS;
+				goto error;
+			}
 
 			Dump ("Volume header decrypted\n");
 			Dump ("Required program version = %x\n", (int) Extension->cryptoInfo->RequiredProgramVersion);
@@ -645,14 +655,14 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				if (wcsstr (pwszMountVolume, WIDE ("\\??\\UNC\\")) == pwszMountVolume)
 				{
 					/* UNC path */
-					_snwprintf (Extension->wszVolume,
-						sizeof (Extension->wszVolume) / sizeof (WCHAR) - 1,
+					RtlStringCbPrintfW (Extension->wszVolume,
+						sizeof (Extension->wszVolume),
 						WIDE ("\\??\\\\%s"),
 						pwszMountVolume + 7);
 				}
 				else
 				{
-					wcsncpy (Extension->wszVolume, pwszMountVolume, sizeof (Extension->wszVolume) / sizeof (WCHAR) - 1);
+					RtlStringCbCopyW (Extension->wszVolume, sizeof(Extension->wszVolume),pwszMountVolume);
 				}
 			}
 

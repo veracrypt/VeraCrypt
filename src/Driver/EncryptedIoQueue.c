@@ -510,6 +510,15 @@ static VOID MainThreadProc (PVOID threadArg)
 				KeWaitForSingleObject (&queue->QueueResumedEvent, Executive, KernelMode, FALSE, NULL);
 
 			item = GetPoolBuffer (queue, sizeof (EncryptedIoQueueItem));
+			if (!item)
+			{
+				TCCompleteDiskIrp (irp, STATUS_INSUFFICIENT_RESOURCES, 0);
+				DecrementOutstandingIoCount (queue);
+				IoReleaseRemoveLock (&queue->RemoveLock, irp);
+
+				continue;
+			}
+
 			item->Queue = queue;
 			item->OriginalIrp = irp;
 			item->Status = STATUS_SUCCESS;
@@ -687,6 +696,11 @@ static VOID MainThreadProc (PVOID threadArg)
 
 				// Create IO request
 				request = GetPoolBuffer (queue, sizeof (EncryptedIoRequest));
+				if (!request)
+				{
+					CompleteOriginalIrp (item, STATUS_INSUFFICIENT_RESOURCES, 0);
+					break;
+				}
 				request->Item = item;
 				request->CompleteOriginalIrp = isLastFragment;
 				request->Offset = fragmentOffset;
