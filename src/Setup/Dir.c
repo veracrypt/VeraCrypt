@@ -73,15 +73,18 @@ mkfulldir_internal (char *path)
 		trail[0] = tokpath[0];
 		trail[1] = tokpath[1];
 		trail[2] = '\0';
-		strcat (trail, token);
-		strcat (trail, "\\");
-		token = strtok (NULL, "\\/");
 		if (token)
-		{		/* get share name */
+		{
 			strcat (trail, token);
 			strcat (trail, "\\");
+			token = strtok (NULL, "\\/");
+			if (token)
+			{		/* get share name */
+				strcat (trail, token);
+				strcat (trail, "\\");
+			}
+			token = strtok (NULL, "\\/");
 		}
-		token = strtok (NULL, "\\/");
 	}
 
 	if (tokpath[1] == ':')
