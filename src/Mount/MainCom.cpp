@@ -76,15 +76,23 @@ public:
 	virtual int STDMETHODCALLTYPE BackupVolumeHeader (LONG_PTR hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume)
 	{
 		USES_CONVERSION;
+		CW2A szVolumeA(lpszVolume);
 		MainDlg = (HWND) hwndDlg;
-		return ::BackupVolumeHeader ((HWND) hwndDlg, bRequireConfirmation, CW2A (lpszVolume));
+		if (szVolumeA.m_psz)
+			return ::BackupVolumeHeader ((HWND) hwndDlg, bRequireConfirmation, szVolumeA.m_psz);
+		else
+			return ERR_OUTOFMEMORY;
 	}
 
 	virtual int STDMETHODCALLTYPE RestoreVolumeHeader (LONG_PTR hwndDlg, BSTR lpszVolume)
 	{
 		USES_CONVERSION;
+		CW2A szVolumeA(lpszVolume);
 		MainDlg = (HWND) hwndDlg;
-		return ::RestoreVolumeHeader ((HWND) hwndDlg, CW2A (lpszVolume));
+		if (szVolumeA.m_psz)
+			return ::RestoreVolumeHeader ((HWND) hwndDlg, szVolumeA.m_psz);
+		else
+			return ERR_OUTOFMEMORY;
 	}
 
 	virtual DWORD STDMETHODCALLTYPE CallDriver (DWORD ioctl, BSTR input, BSTR *output)
@@ -95,8 +103,12 @@ public:
 	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, LONG_PTR hWnd)
 	{
 		USES_CONVERSION;
+		CW2A volumePathA(volumePath);
 		MainDlg = (HWND) hWnd;
-		return ::ChangePwd (CW2A (volumePath), oldPassword, newPassword, pkcs5, (HWND) hWnd);
+		if (volumePathA.m_psz)
+			return ::ChangePwd (volumePathA.m_psz, oldPassword, newPassword, pkcs5, (HWND) hWnd);
+		else
+			return ERR_OUTOFMEMORY;
 	}
 
 	virtual DWORD STDMETHODCALLTYPE CopyFile (BSTR sourceFile, BSTR destinationFile)

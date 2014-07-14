@@ -83,9 +83,8 @@ DWORD BaseCom::CallDriver (DWORD ioctl, BSTR input, BSTR *output)
 
 DWORD BaseCom::CopyFile (BSTR sourceFile, BSTR destinationFile)
 {
-	USES_CONVERSION;
 
-	if (!::CopyFile (CW2A (sourceFile), CW2A (destinationFile), FALSE))
+	if (!::CopyFileW (sourceFile, destinationFile, FALSE))
 		return GetLastError();
 
 	return ERROR_SUCCESS;
@@ -94,9 +93,8 @@ DWORD BaseCom::CopyFile (BSTR sourceFile, BSTR destinationFile)
 
 DWORD BaseCom::DeleteFile (BSTR file)
 {
-	USES_CONVERSION;
 
-	if (!::DeleteFile (CW2A (file)))
+	if (!::DeleteFileW (file))
 		return GetLastError();
 
 	return ERROR_SUCCESS;
@@ -112,10 +110,15 @@ BOOL BaseCom::IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly)
 DWORD BaseCom::ReadWriteFile (BOOL write, BOOL device, BSTR filePath, BSTR *bufferBstr, unsigned __int64 offset, unsigned __int32 size, DWORD *sizeDone)
 {
 	USES_CONVERSION;
+	CW2A szFilePathA(filePath);
+	if (!szFilePathA.m_psz)
+	{
+		return ERROR_NOT_ENOUGH_MEMORY;
+	}
 
 	try
 	{
-		auto_ptr <File> file (device ? new Device (string (CW2A (filePath)), !write) : new File (string (CW2A (filePath)), !write));
+		auto_ptr <File> file (device ? new Device (string (szFilePathA.m_psz), !write) : new File (string (szFilePathA.m_psz), !write));
 		file->SeekAt (offset);
 
 		if (write)
@@ -223,8 +226,7 @@ DWORD BaseCom::SetDriverServiceStartType (DWORD startType)
 
 DWORD BaseCom::WriteLocalMachineRegistryDwordValue (BSTR keyPath, BSTR valueName, DWORD value)
 {
-	USES_CONVERSION;
-	if (!::WriteLocalMachineRegistryDword (CW2A (keyPath), CW2A (valueName), value))
+	if (!::WriteLocalMachineRegistryDwordW (keyPath, valueName, value))
 		return GetLastError();
 
 	return ERROR_SUCCESS;
