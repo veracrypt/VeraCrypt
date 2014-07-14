@@ -164,7 +164,7 @@ static void localcleanup (void)
 	burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
 	burn (&mountOptions, sizeof (mountOptions));
 	burn (&defaultMountOptions, sizeof (defaultMountOptions));
-	burn (&szFileName, sizeof(szFileName));
+	burn (szFileName, sizeof(szFileName));
 
 	/* Cleanup common code resources */
 	cleanup ();
