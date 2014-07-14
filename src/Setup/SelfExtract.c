@@ -18,6 +18,7 @@
 #include "Dir.h"
 #include "Language.h"
 #include "Resource.h"
+#include <Strsafe.h>
 
 #define OutputPackageFile "VeraCrypt Setup " VERSION_STRING ".exe"
 
@@ -240,12 +241,12 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 		goto err;
 
 	if (szDestDir[x - 1] != '\\')
-		strcat (szDestDir, "\\");
+		StringCbCatA (szDestDir, MAX_PATH, "\\");
 
 	GetModuleFileName (NULL, inputFile, sizeof (inputFile));
 
-	strcpy (outputFile, szDestDir);
-	strncat (outputFile, OutputPackageFile, sizeof (outputFile) - strlen (outputFile) - 1);
+	StringCbCopyA (outputFile, sizeof(outputFile), szDestDir);
+	StringCbCatA (outputFile, sizeof(outputFile), OutputPackageFile);
 
 	// Clone 'VeraCrypt Setup.exe' to create the base of the new self-extracting archive
 
@@ -262,13 +263,13 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 
 	for (i = 0; i < sizeof (szCompressedFiles) / sizeof (szCompressedFiles[0]); i++)
 	{
-		_snprintf (szTmpFilePath, sizeof(szTmpFilePath), "%s%s", szDestDir, szCompressedFiles[i]);
+		StringCbPrintfA (szTmpFilePath, sizeof(szTmpFilePath), "%s%s", szDestDir, szCompressedFiles[i]);
 
 		if (!FileExists (szTmpFilePath))
 		{
 			char tmpstr [1000];
 
-			_snprintf (tmpstr, sizeof(tmpstr), "File not found:\n\n'%s'", szTmpFilePath);
+			StringCbPrintfA (tmpstr, sizeof(tmpstr), "File not found:\n\n'%s'", szTmpFilePath);
 			remove (outputFile);
 			PkgError (tmpstr);
 			goto err;
@@ -308,7 +309,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 		DWORD tmpFileSize;
 		unsigned char *tmpBuffer;
 
-		_snprintf (szTmpFilePath, sizeof(szTmpFilePath), "%s%s", szDestDir, szCompressedFiles[i]);
+		StringCbPrintfA (szTmpFilePath, sizeof(szTmpFilePath), "%s%s", szDestDir, szCompressedFiles[i]);
 
 		tmpBuffer = LoadFile (szTmpFilePath, &tmpFileSize);
 
@@ -317,7 +318,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 			char tmpstr [1000];
 
 			free (tmpBuffer);
-			_snprintf (tmpstr, sizeof(tmpstr), "Cannot load file \n'%s'", szTmpFilePath);
+			StringCbPrintfA (tmpstr, sizeof(tmpstr), "Cannot load file \n'%s'", szTmpFilePath);
 			remove (outputFile);
 			PkgError (tmpstr);
 			goto err;
@@ -436,7 +437,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 		}
 	}
 
-	sprintf (tmpStr, "Self-extracting package successfully created (%s)", outputFile);
+	StringCbPrintfA (tmpStr, sizeof(tmpStr), "Self-extracting package successfully created (%s)", outputFile);
 	PkgInfo (tmpStr);
 	return TRUE;
 
@@ -697,7 +698,7 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 			wchar_t szTmp[TC_MAX_PATH];
 
 			handleWin32Error (hwndDlg);
-			wsprintfW (szTmp, GetString ("CANT_CREATE_FOLDER"), DestExtractPath);
+			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CANT_CREATE_FOLDER"), DestExtractPath);
 			MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONHAND);
 			bSuccess = FALSE;
 			goto eaf_end;
@@ -710,10 +711,9 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 		char filePath [TC_MAX_PATH] = {0};
 
 		// Filename
-		strncpy (fileName, Decompressed_Files[fileNo].fileName, Decompressed_Files[fileNo].fileNameLength);
-		fileName [Decompressed_Files[fileNo].fileNameLength] = 0;
-		strcpy (filePath, DestExtractPath);
-		strcat (filePath, fileName);
+		StringCbCopyNA (fileName, sizeof(fileName), Decompressed_Files[fileNo].fileName, Decompressed_Files[fileNo].fileNameLength);
+		StringCbCopyA (filePath, sizeof(filePath), DestExtractPath);
+		StringCbCatA (filePath, sizeof(filePath), fileName);
 
 		StatusMessageParam (hwndDlg, "EXTRACTING_VERB", filePath);
 
@@ -726,7 +726,7 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 		{
 			wchar_t szTmp[512];
 
-			_snwprintf (szTmp, sizeof (szTmp) / 2, GetString ("CANNOT_WRITE_FILE_X"), filePath);
+			StringCbPrintfW (szTmp, sizeof (szTmp), GetString ("CANNOT_WRITE_FILE_X"), filePath);
 			MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
 			bSuccess = FALSE;
 			goto eaf_end;

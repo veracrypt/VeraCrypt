@@ -44,6 +44,8 @@ using namespace VeraCrypt;
 #pragma warning( default : 4201 )
 #pragma warning( default : 4115 )
 
+#include <Strsafe.h>
+
 char InstallationPath[TC_MAX_PATH];
 char SetupFilesDir[TC_MAX_PATH];
 char UninstallBatch[MAX_PATH];
@@ -194,7 +196,7 @@ void StatusMessageParam (HWND hwndDlg, char *stringId, char *param)
 	if (Rollback)
 		return;
 
-	wsprintfW (szTmp, L"%s %hs", GetString (stringId), param);
+	StringCbPrintfW (szTmp, sizeof(szTmp), L"%s %hs", GetString (stringId), param);
 	SendMessageW (GetDlgItem (hwndDlg, IDC_LOG_WINDOW), LB_ADDSTRING, 0, (LPARAM) szTmp);
 		
 	SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_SETTOPINDEX, 
@@ -296,7 +298,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 		return FALSE;
 
 	if (szDestDir[x - 1] != '\\')
-		strcat (szDestDir, "\\");
+		StringCbCatA (szDestDir, MAX_PATH, "\\");
 
 	for (i = 0; i < sizeof (szFiles) / sizeof (szFiles[0]); i++)
 	{
@@ -313,16 +315,16 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 		}
 
 		if (*szFiles[i] == 'A')
-			strcpy (szDir, szDestDir);
+			StringCbCopyA (szDir, sizeof(szDir), szDestDir);
 		else if (*szFiles[i] == 'D')
 		{
 			GetSystemDirectory (szDir, sizeof (szDir));
 
 			x = strlen (szDir);
 			if (szDir[x - 1] != '\\')
-				strcat (szDir, "\\");
+				StringCbCatA (szDir, sizeof(szDir), "\\");
 
-			strcat (szDir, "Drivers\\");
+			StringCbCatA (szDir, sizeof(szDir), "Drivers\\");
 		}
 		else if (*szFiles[i] == 'W')
 			GetWindowsDirectory (szDir, sizeof (szDir));
@@ -330,7 +332,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 		if (*szFiles[i] == 'I')
 			continue;
 
-		sprintf (szTmp, "%s%s", szDir, szFiles[i] + 1);
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, szFiles[i] + 1);
 
 		if (bUninstall == FALSE)
 			CopyMessage (hwndDlg, szTmp);
@@ -354,14 +356,14 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 			{
 				BOOL driver64 = FALSE;
 
-				strncpy (curFileName, szFiles[i] + 1, strlen (szFiles[i]) - 1);
+				StringCbCopyNA (curFileName, sizeof(curFileName), szFiles[i] + 1, strlen (szFiles[i]) - 1);
 				curFileName [strlen (szFiles[i]) - 1] = 0;
 
 				if (Is64BitOs ()
 					&& strcmp (szFiles[i], "Dveracrypt.sys") == 0)
 				{
 					driver64 = TRUE;
-					strncpy (curFileName, FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
+					StringCbCopyNA (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
 				}
 
 				if (!bDevm)
@@ -456,9 +458,9 @@ err:
 
 
 			if (bUninstall == FALSE)
-				wsprintfW (szTmp2, GetString ("INSTALL_OF_FAILED"), szTmp, lpMsgBuf);
+				StringCbPrintfW (szTmp2, sizeof(szTmp2), GetString ("INSTALL_OF_FAILED"), szTmp, lpMsgBuf);
 			else
-				wsprintfW (szTmp2, GetString ("UNINSTALL_OF_FAILED"), szTmp, lpMsgBuf);
+				StringCbPrintfW (szTmp2, sizeof(szTmp2), GetString ("UNINSTALL_OF_FAILED"), szTmp, lpMsgBuf);
 
 			LocalFree (lpMsgBuf);
 
@@ -479,7 +481,7 @@ err:
 		if (h != INVALID_HANDLE_VALUE)
 		{
 			char d[MAX_PATH*2];
-			sprintf (d, "%s%s", szDestDir, f.cFileName);
+			StringCbPrintfA (d, sizeof(d), "%s%s", szDestDir, f.cFileName);
 			CopyMessage (hwndDlg, d);
 			TCCopyFile (f.cFileName, d);
 			FindClose (h);
@@ -491,7 +493,7 @@ err:
 		if (h != INVALID_HANDLE_VALUE)
 		{
 			char d[MAX_PATH*2];
-			sprintf (d, "%s%s", szDestDir, f.cFileName);
+			StringCbPrintfA (d, sizeof(d), "%s%s", szDestDir, f.cFileName);
 			CopyMessage (hwndDlg, d);
 			TCCopyFile (f.cFileName, d);
 			FindClose (h);
@@ -516,10 +518,10 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt",
 			0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) == ERROR_SUCCESS)
 		{
-			strcpy (szTmp, VERSION_STRING);
+			StringCbCopyA (szTmp, sizeof(szTmp), VERSION_STRING);
 			RegSetValueEx (hkey, "DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1);
 
-			strcpy (szTmp, TC_HOMEPAGE);
+			StringCbCopyA (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 			RegSetValueEx (hkey, "URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1);
 
 			RegCloseKey (hkey);
@@ -528,7 +530,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 		return TRUE;
 	}
 
-	strcpy (szDir, szDestDir);
+	StringCbCopyA (szDir, sizeof(szDir), szDestDir);
 	x = strlen (szDestDir);
 	if (szDestDir[x - 1] == '\\')
 		bSlash = TRUE;
@@ -536,7 +538,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 		bSlash = FALSE;
 
 	if (bSlash == FALSE)
-		strcat (szDir, "\\");
+		StringCbCatA (szDir, sizeof(szDir), "\\");
 
 	if (bInstallType)
 	{
@@ -548,11 +550,11 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		strcpy (szTmp, "VeraCrypt Volume");
+		StringCbCopyA (szTmp, sizeof(szTmp), "VeraCrypt Volume");
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 
-		sprintf (szTmp, "%ws", TC_APPLICATION_ID);
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%ws", TC_APPLICATION_ID);
 		if (RegSetValueEx (hkey, "AppUserModelID", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 
@@ -566,7 +568,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		sprintf (szTmp, "%sVeraCrypt.exe,1", szDir);
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%sVeraCrypt.exe,1", szDir);
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 
@@ -580,7 +582,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		sprintf (szTmp, "\"%sVeraCrypt.exe\" /v \"%%1\"", szDir );
+		StringCbPrintfA (szTmp, sizeof(szTmp), "\"%sVeraCrypt.exe\" /v \"%%1\"", szDir );
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 
@@ -601,7 +603,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 				    0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
 			goto error;
 
-		strcpy (szTmp, "VeraCryptVolume");
+		StringCbCopyA (szTmp, sizeof(szTmp), "VeraCryptVolume");
 		if (RegSetValueEx (hkey, "", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 			goto error;
 		
@@ -620,31 +622,31 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 		goto error;
 
 	/* IMPORTANT: IF YOU CHANGE THIS IN ANY WAY, REVISE AND UPDATE SetInstallationPath() ACCORDINGLY! */ 
-	sprintf (szTmp, "\"%sVeraCrypt Setup.exe\" /u", szDir);
+	StringCbPrintfA (szTmp, sizeof(szTmp), "\"%sVeraCrypt Setup.exe\" /u", szDir);
 	if (RegSetValueEx (hkey, "UninstallString", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	sprintf (szTmp, "\"%sVeraCrypt Setup.exe\" /c", szDir);
+	StringCbPrintfA (szTmp, sizeof(szTmp), "\"%sVeraCrypt Setup.exe\" /c", szDir);
 	if (RegSetValueEx (hkey, "ModifyPath", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	sprintf (szTmp, "\"%sVeraCrypt Setup.exe\"", szDir);
+	StringCbPrintfA (szTmp, sizeof(szTmp), "\"%sVeraCrypt Setup.exe\"", szDir);
 	if (RegSetValueEx (hkey, "DisplayIcon", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	strcpy (szTmp, VERSION_STRING);
+	StringCbCopyA (szTmp, sizeof(szTmp), VERSION_STRING);
 	if (RegSetValueEx (hkey, "DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 		
-	strcpy (szTmp, "VeraCrypt");
+	StringCbCopyA (szTmp, sizeof(szTmp), "VeraCrypt");
 	if (RegSetValueEx (hkey, "DisplayName", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	strcpy (szTmp, "IDRIX");
+	StringCbCopyA (szTmp, sizeof(szTmp), "IDRIX");
 	if (RegSetValueEx (hkey, "Publisher", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
-	strcpy (szTmp, TC_HOMEPAGE);
+	StringCbCopyA (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 	if (RegSetValueEx (hkey, "URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1) != ERROR_SUCCESS)
 		goto error;
 
@@ -682,35 +684,35 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	StatusMessage (hwndDlg, "REMOVING_APPDATA");
 
 	SHGetFolderPath (NULL, CSIDL_APPDATA, NULL, 0, path);
-	strcat (path, "\\VeraCrypt\\");
+	StringCbCatA (path, sizeof(path), "\\VeraCrypt\\");
 
 	// Delete favorite volumes file
-	sprintf (path2, "%s%s", path, TC_APPD_FILENAME_FAVORITE_VOLUMES);
+	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_FAVORITE_VOLUMES);
 	RemoveMessage (hwndDlg, path2);
 	StatDeleteFile (path2);
 
 	// Delete keyfile defaults
-	sprintf (path2, "%s%s", path, TC_APPD_FILENAME_DEFAULT_KEYFILES);
+	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_DEFAULT_KEYFILES);
 	RemoveMessage (hwndDlg, path2);
 	StatDeleteFile (path2);
 
 	// Delete history file
-	sprintf (path2, "%s%s", path, TC_APPD_FILENAME_HISTORY);
+	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_HISTORY);
 	RemoveMessage (hwndDlg, path2);
 	StatDeleteFile (path2);
 	
 	// Delete configuration file
-	sprintf (path2, "%s%s", path, TC_APPD_FILENAME_CONFIGURATION);
+	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_CONFIGURATION);
 	RemoveMessage (hwndDlg, path2);
 	StatDeleteFile (path2);
 
 	// Delete system encryption configuration file
-	sprintf (path2, "%s%s", path, TC_APPD_FILENAME_SYSTEM_ENCRYPTION);
+	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_SYSTEM_ENCRYPTION);
 	RemoveMessage (hwndDlg, path2);
 	StatDeleteFile (path2);
 
 	SHGetFolderPath (NULL, CSIDL_APPDATA, NULL, 0, path);
-	strcat (path, "\\VeraCrypt");
+	StringCbCatA (path, sizeof(path), "\\VeraCrypt");
 	RemoveMessage (hwndDlg, path);
 	if (!StatRemoveDirectory (path))
 	{
@@ -746,7 +748,7 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 
 	if (!bRemoveDeprecated)
 	{
-		GetStartupRegKeyName (regk);
+		GetStartupRegKeyName (regk, sizeof(regk));
 		DeleteRegistryValue (regk, "VeraCrypt");
 
 		RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\.hc");
@@ -1113,9 +1115,9 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 		bSlash = FALSE;
 
 	if (bSlash == FALSE)
-		strcat (szLinkDir, "\\");
+		StringCbCatA (szLinkDir, sizeof(szLinkDir), "\\");
 
-	strcat (szLinkDir, "VeraCrypt");
+	StringCbCatA (szLinkDir, sizeof(szLinkDir), "VeraCrypt");
 
 	// Global start menu
 	{
@@ -1123,32 +1125,32 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 		char path[TC_MAX_PATH];
 
 		SHGetSpecialFolderPath (hwndDlg, path, CSIDL_COMMON_PROGRAMS, 0);
-		strcat (path, "\\VeraCrypt");
+		StringCbCatA (path, sizeof(path), "\\VeraCrypt");
 
 		if (_stat (path, &st) == 0)
 		{
-			strcpy (szLinkDir, path);
+			StringCbCopyA (szLinkDir, sizeof(szLinkDir), path);
 			allUsers = TRUE;
 		}
 	}
 
 	// Start menu entries
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
+	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
 		goto error;
 
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt Website.url");
+	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt Website.url");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
 		goto error;
 
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
+	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
 		goto error;
 	
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
+	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
 	DeleteFile (szTmp2);
 
 	// Start menu group
@@ -1163,7 +1165,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 	else
 		SHGetSpecialFolderPath (hwndDlg, szLinkDir, CSIDL_DESKTOPDIRECTORY, 0);
 
-	sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
+	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
@@ -1199,11 +1201,11 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		bSlash = FALSE;
 
 	if (bSlash == FALSE)
-		strcat (szLinkDir, "\\");
+		StringCbCatA (szLinkDir, sizeof(szLinkDir), "\\");
 
-	strcat (szLinkDir, "VeraCrypt");
+	StringCbCatA (szLinkDir, sizeof(szLinkDir), "VeraCrypt");
 
-	strcpy (szDir, szDestDir);
+	StringCbCopyA (szDir, sizeof(szDir), szDestDir);
 	x = strlen (szDestDir);
 	if (szDestDir[x - 1] == '\\')
 		bSlash = TRUE;
@@ -1211,7 +1213,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		bSlash = FALSE;
 
 	if (bSlash == FALSE)
-		strcat (szDir, "\\");
+		StringCbCatA (szDir, sizeof(szDir), "\\");
 
 	if (bProgGroup)
 	{
@@ -1221,23 +1223,23 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		{
 			if (mkfulldir (szLinkDir, FALSE) != 0)
 			{
-				wchar_t szTmp[TC_MAX_PATH];
+				wchar_t szTmpW[TC_MAX_PATH];
 
 				handleWin32Error (hwndDlg);
-				wsprintfW (szTmp, GetString ("CANT_CREATE_FOLDER"), szLinkDir);
-				MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONHAND);
+				StringCbPrintfW (szTmpW, sizeof(szTmpW), GetString ("CANT_CREATE_FOLDER"), szLinkDir);
+				MessageBoxW (hwndDlg, szTmpW, lpszTitle, MB_ICONHAND);
 				goto error;
 			}
 		}
 
-		sprintf (szTmp, "%s%s", szDir, "VeraCrypt.exe");
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCrypt.exe");
+		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
 		if (CreateLink (szTmp, "", szTmp2) != S_OK)
 			goto error;
 
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt Website.url");
+		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt Website.url");
 		IconMessage (hwndDlg, szTmp2);
 		f = fopen (szTmp2, "w");
 		if (f)
@@ -1250,21 +1252,21 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		else
 			goto error;
 
-		sprintf (szTmp, "%s%s", szDir, "VeraCrypt Setup.exe");
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
-		strcpy (szTmp3, "/u");
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCrypt Setup.exe");
+		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
+		StringCbCopyA (szTmp3, sizeof(szTmp3), "/u");
 
 		IconMessage (hwndDlg, szTmp2);
 		if (CreateLink (szTmp, szTmp3, szTmp2) != S_OK)
 			goto error;
 
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
+		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
 		DeleteFile (szTmp2);
 	}
 
 	if (bDesktopIcon)
 	{
-		strcpy (szDir, szDestDir);
+		StringCbCopyA (szDir, sizeof(szDir), szDestDir);
 		x = strlen (szDestDir);
 		if (szDestDir[x - 1] == '\\')
 			bSlash = TRUE;
@@ -1272,15 +1274,15 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 			bSlash = FALSE;
 
 		if (bSlash == FALSE)
-			strcat (szDir, "\\");
+			StringCbCatA (szDir, sizeof(szDir), "\\");
 
 		if (bForAllUsers)
 			SHGetSpecialFolderPath (hwndDlg, szLinkDir, CSIDL_COMMON_DESKTOPDIRECTORY, 0);
 		else
 			SHGetSpecialFolderPath (hwndDlg, szLinkDir, CSIDL_DESKTOPDIRECTORY, 0);
 
-		sprintf (szTmp, "%s%s", szDir, "VeraCrypt.exe");
-		sprintf (szTmp2, "%s%s", szLinkDir, "\\VeraCrypt.lnk");
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCrypt.exe");
+		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
 
@@ -1318,7 +1320,7 @@ void OutcomePrompt (HWND hwndDlg, BOOL bOK)
 		{
 			wchar_t str[4096];
 
-			swprintf (str, GetString ("UNINSTALL_OK"), InstallationPath);
+			StringCbPrintfW (str, sizeof(str), GetString ("UNINSTALL_OK"), InstallationPath);
 			MessageBoxW (hwndDlg, str, lpszTitle, MB_ICONASTERISK);
 		}
 	}
@@ -1355,7 +1357,7 @@ static void SetSystemRestorePoint (HWND hwndDlg, BOOL finalize)
 		RestPtInfo.dwEventType = BEGIN_SYSTEM_CHANGE;
 		RestPtInfo.dwRestorePtType = bUninstall ? APPLICATION_UNINSTALL : APPLICATION_INSTALL | DEVICE_DRIVER_INSTALL;
 		RestPtInfo.llSequenceNumber = 0;
-		strcpy (RestPtInfo.szDescription, bUninstall ? "VeraCrypt uninstallation" : "VeraCrypt installation");
+		StringCbCopyA (RestPtInfo.szDescription, sizeof(RestPtInfo.szDescription), bUninstall ? "VeraCrypt uninstallation" : "VeraCrypt installation");
 
 		if(!_SRSetRestorePoint (&RestPtInfo, &SMgrStatus)) 
 		{
@@ -1430,7 +1432,7 @@ void DoUninstall (void *arg)
 			DoServiceUninstall (hwndDlg, "VeraCryptService");
 
 			GetTempPath (sizeof (temp), temp);
-			_snprintf (UninstallBatch, sizeof (UninstallBatch), "%s\\VeraCrypt-Uninstall.bat", temp);
+			StringCbPrintfA (UninstallBatch, sizeof (UninstallBatch), "%s\\VeraCrypt-Uninstall.bat", temp);
 
 			UninstallBatch [sizeof(UninstallBatch)-1] = 0;
 
@@ -1494,7 +1496,7 @@ void DoInstall (void *arg)
 			wchar_t szTmp[TC_MAX_PATH];
 
 			handleWin32Error (hwndDlg);
-			wsprintfW (szTmp, GetString ("CANT_CREATE_FOLDER"), InstallationPath);
+			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CANT_CREATE_FOLDER"), InstallationPath);
 			MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONHAND);
 			Error ("INSTALL_FAILED");
 			PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0);
@@ -1556,7 +1558,7 @@ void DoInstall (void *arg)
 	UpdateProgressBarProc(61);
 
 	GetWindowsDirectory (path, sizeof (path));
-	strcat_s (path, sizeof (path), "\\VeraCrypt Setup.exe");
+	StringCbCatA (path, sizeof (path), "\\VeraCrypt Setup.exe");
 	DeleteFile (path);
 
 	if (UpdateProgressBarProc(63) && UnloadDriver && DoServiceUninstall (hwndDlg, "veracrypt") == FALSE)
@@ -1715,7 +1717,7 @@ void SetInstallationPath (HWND hwndDlg)
 				// 4.3 or later
 
 				len = strrchr (rv, '/') - rv - 2;
-				strncpy (InstallationPath, rv + 1, len);
+				StringCbCopyNA (InstallationPath, sizeof(InstallationPath), rv + 1, len);
 				InstallationPath [len] = 0;
 				bInstallPathDetermined = TRUE;
 
@@ -1734,7 +1736,7 @@ void SetInstallationPath (HWND hwndDlg)
 				{
 					// 4.0-4.2a
 
-					strncpy (InstallationPath, rv + len + 3, strlen (rv) - len - 3);
+					StringCbCopyNA (InstallationPath, sizeof(InstallationPath), rv + len + 3, strlen (rv) - len - 3);
 					InstallationPath [strlen (rv) - len - 3] = 0;
 					bInstallPathDetermined = TRUE;
 				}
@@ -1748,7 +1750,7 @@ void SetInstallationPath (HWND hwndDlg)
 					Error ("UNINSTALL_OLD_VERSION_FIRST");
 
 					len = strrchr (rv, '/') - rv - 1;
-					strncpy (InstallationPath, rv, len);	// Path and filename of the uninstaller
+					StringCbCopyNA (InstallationPath, sizeof(InstallationPath), rv, len);	// Path and filename of the uninstaller
 					InstallationPath [len] = 0;
 					bInstallPathDetermined = FALSE;
 
@@ -1778,7 +1780,7 @@ void SetInstallationPath (HWND hwndDlg)
 	}
 	else
 	{
-		/* TrueCypt is not installed or it wasn't possible to determine where it is installed. */
+		/* VeraCrypt is not installed or it wasn't possible to determine where it is installed. */
 
 		// Default "Program Files" path. 
 		SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList);
@@ -1793,18 +1795,18 @@ void SetInstallationPath (HWND hwndDlg)
 			{
 				s = s.substr (0, p);
 				if (_access (s.c_str(), 0) != -1)
-					strcpy_s (path, sizeof (path), s.c_str());
+					StringCbCopyA (path, sizeof (path), s.c_str());
 			}
 		}
 
-		strncat (path, "\\VeraCrypt\\", min (strlen("\\VeraCrypt\\"), sizeof(path)-strlen(path)-1));
-		strncpy (InstallationPath, path, sizeof(InstallationPath)-1);
+		StringCbCatA (path, sizeof(path), "\\VeraCrypt\\");
+		StringCbCopyA (InstallationPath, sizeof(InstallationPath), path);
 	}
 
 	// Make sure the path ends with a backslash
 	if (InstallationPath [strlen (InstallationPath) - 1] != '\\')
 	{
-		strcat (InstallationPath, "\\");
+		StringCbCatA (InstallationPath, sizeof(InstallationPath), "\\");
 	}
 }
 
@@ -2014,10 +2016,10 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 		char dllPath[MAX_PATH];
 		if (GetSystemDirectory (dllPath, MAX_PATH))
 		{
-			strcat(dllPath, "\\srclient.dll");
+			StringCbCatA(dllPath, sizeof(dllPath), "\\srclient.dll");
 		}
 		else
-			strcpy(dllPath, "C:\\Windows\\System32\\srclient.dll");
+			StringCbCopyA(dllPath, sizeof(dllPath), "C:\\Windows\\System32\\srclient.dll");
 		SystemRestoreDll = LoadLibrary (dllPath);
 
 		if (!bUninstall)

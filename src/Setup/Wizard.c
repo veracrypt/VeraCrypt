@@ -21,6 +21,7 @@
 #include "Common/Resource.h"
 #include "Resource.h"
 #include "Setup.h"
+#include <Strsafe.h>
 
 using namespace std;
 
@@ -91,10 +92,10 @@ static void InitWizardDestInstallPath (void)
 {
 	if (strlen (WizardDestInstallPath) < 2)
 	{
-		strcpy (WizardDestInstallPath, InstallationPath);
+		StringCbCopyA (WizardDestInstallPath, sizeof(WizardDestInstallPath), InstallationPath);
 		if (WizardDestInstallPath [strlen (WizardDestInstallPath) - 1] != '\\')
 		{
-			strcat (WizardDestInstallPath, "\\");
+			StringCbCatA (WizardDestInstallPath, sizeof(WizardDestInstallPath), "\\");
 		}
 	}
 }
@@ -213,7 +214,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		LocalizeDialog (hwndDlg, "IDD_INSTL_DLG");
 
-		sprintf (PageDebugId, "SETUP_WIZARD_PAGE_%d", nCurPageNo);
+		StringCbPrintfA (PageDebugId, sizeof(PageDebugId), "SETUP_WIZARD_PAGE_%d", nCurPageNo);
 		LastDialogId = PageDebugId;
 
 		switch (nCurPageNo)
@@ -307,8 +308,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (strlen(WizardDestExtractPath) < 2)
 			{ 
-				strcpy (WizardDestExtractPath, SetupFilesDir);
-				strncat (WizardDestExtractPath, "VeraCrypt\\", sizeof (WizardDestExtractPath) - strlen (WizardDestExtractPath) - 1);
+				StringCbCopyA (WizardDestExtractPath, sizeof(WizardDestExtractPath), SetupFilesDir);
+				StringCbCatNA (WizardDestExtractPath, sizeof(WizardDestExtractPath), "VeraCrypt\\", sizeof (WizardDestExtractPath) - strlen (WizardDestExtractPath) - 1);
 			}
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_DESTINATION), EM_LIMITTEXT, TC_MAX_PATH - 1, 0);
@@ -351,9 +352,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), FALSE);
 
 				if (WizardDestExtractPath [strlen(WizardDestExtractPath)-1] != '\\')
-					strcat (WizardDestExtractPath, "\\");
+					StringCbCatA (WizardDestExtractPath, sizeof(WizardDestExtractPath), "\\");
 
-				strcpy (DestExtractPath, WizardDestExtractPath);
+				StringCbCopyA (DestExtractPath, sizeof(DestExtractPath), WizardDestExtractPath);
 
 				InitProgressBar ();
 
@@ -454,9 +455,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				InitProgressBar ();
 
 				if (WizardDestInstallPath [strlen(WizardDestInstallPath)-1] != '\\')
-					strcat (WizardDestInstallPath, "\\");
+					StringCbCatA (WizardDestInstallPath, sizeof(WizardDestInstallPath), "\\");
 
-				strcpy (InstallationPath, WizardDestInstallPath);
+				StringCbCopyA (InstallationPath, sizeof(InstallationPath), WizardDestInstallPath);
 
 				WaitCursor ();
 
@@ -544,7 +545,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				memset (&lf, 0, sizeof(lf));
 
 				// Main font
-				wcsncpy (lf.lfFaceName, L"Times New Roman", sizeof (lf.lfFaceName)/2);
+				StringCbCopyW (lf.lfFaceName, sizeof (lf.lfFaceName),L"Times New Roman");
 				lf.lfHeight = CompensateDPIFont (-21);
 				lf.lfWeight = FW_NORMAL;
 				lf.lfWidth = 0;
@@ -626,7 +627,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					if (WizardDestExtractPath [strlen(WizardDestExtractPath)-1] != '\\')
 					{
-						strcat (WizardDestExtractPath, "\\");
+						StringCbCatA (WizardDestExtractPath, sizeof(WizardDestExtractPath), "\\");
 					}
 					SetDlgItemText (hwndDlg, IDC_DESTINATION, WizardDestExtractPath);
 				}
@@ -647,7 +648,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					if (WizardDestInstallPath [strlen(WizardDestInstallPath)-1] != '\\')
 					{
-						strcat (WizardDestInstallPath, "\\");
+						StringCbCatA (WizardDestInstallPath, sizeof(WizardDestInstallPath), "\\");
 					}
 					SetDlgItemText (hwndDlg, IDC_DESTINATION, WizardDestInstallPath);
 				}
@@ -684,7 +685,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					char tmpstr [200];
 
-					sprintf (tmpstr, "&ref=%d", DonColorSchemeId);
+					StringCbPrintfA (tmpstr, sizeof(tmpstr), "&ref=%d", DonColorSchemeId);
 
 					Applink ("donate", FALSE, tmpstr);
 				}
