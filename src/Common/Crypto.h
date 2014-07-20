@@ -42,9 +42,6 @@ extern "C" {
 // Size of the volume header area containing concatenated master key(s) and secondary key(s) (XTS mode)
 #define MASTER_KEYDATA_SIZE			256
 
-// Size of the deprecated volume header item containing either an IV seed (CBC mode) or tweak key (LRW mode)
-#define LEGACY_VOL_IV_SIZE			32
-
 // The first PRF to try when mounting
 #define FIRST_PRF_ID		1	
 
@@ -55,7 +52,6 @@ enum
 #ifndef TC_WINDOWS_BOOT
 	SHA512,
 	WHIRLPOOL,
-	SHA1,				// Deprecated/legacy
 #endif
 	HASH_ENUM_END_ID
 };
@@ -89,12 +85,6 @@ enum
 	/* If you add/remove a mode, update the following: GetMaxPkcs5OutSize(), EAInitMode() */
 
 	XTS = FIRST_MODE_OF_OPERATION_ID,
-#ifndef TC_WINDOWS_BOOT
-	LRW,		// Deprecated/legacy
-	CBC,		// Deprecated/legacy
-	OUTER_CBC,	// Deprecated/legacy
-	INNER_CBC,	// Deprecated/legacy
-#endif
 	MODE_ENUM_END_ID
 };
 
@@ -115,12 +105,7 @@ enum
 	NONE = 0,
 	AES,
 	SERPENT,			
-	TWOFISH,			
-#ifndef TC_WINDOWS_BOOT
-	BLOWFISH,		// Deprecated/legacy
-	CAST,			// Deprecated/legacy
-	TRIPLEDES		// Deprecated/legacy
-#endif
+	TWOFISH
 };
 
 typedef struct
@@ -184,15 +169,11 @@ typedef struct
 #endif
 
 #include "Aes_hw_cpu.h"
-#include "Blowfish.h"
-#include "Cast.h"
-#include "Des.h"
 #include "Serpent.h"
 #include "Twofish.h"
 
 #include "Rmd160.h"
 #ifndef TC_WINDOWS_BOOT
-#	include "Sha1.h"
 #	include "Sha2.h"
 #	include "Whirlpool.h"
 #endif
@@ -313,13 +294,6 @@ void DecryptDataUnits (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, 
 void DecryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci);
 void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
 void DecryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
-#ifndef TC_NO_COMPILER_INT64
-void EncryptBufferLRW128 (byte *buffer, uint64 length, uint64 blockIndex, PCRYPTO_INFO cryptoInfo);
-void DecryptBufferLRW128 (byte *buffer, uint64 length, uint64 blockIndex, PCRYPTO_INFO cryptoInfo);
-void EncryptBufferLRW64 (byte *buffer, uint64 length, uint64 blockIndex, PCRYPTO_INFO cryptoInfo);
-void DecryptBufferLRW64 (byte *buffer, uint64 length, uint64 blockIndex, PCRYPTO_INFO cryptoInfo);
-uint64 DataUnit2LRWIndex (uint64 dataUnit, int blockSize, PCRYPTO_INFO ci);
-#endif	// #ifndef TC_NO_COMPILER_INT64
 
 BOOL IsAesHwCpuSupported ();
 void EnableHwEncryption (BOOL enable);

@@ -2808,9 +2808,6 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				int size = EAGetKeySize (prop.ea);	
 				EAGetName (name, prop.ea);
 
-				if (strcmp (name, "Triple DES") == 0)	/* Deprecated/legacy */
-					size -= 3; // Compensate for parity bytes
-
 				// Primary key
 				ListItemAddW (list, i, GetString ("KEY_SIZE"));
 				StringCbPrintfW (sw, sizeof(sw), L"%d %s", size * 8, GetString ("BITS"));
@@ -2823,37 +2820,12 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					ListItemAddW (list, i, GetString ("SECONDARY_KEY_SIZE_XTS"));
 					ListSubItemSetW (list, i++, 1, sw);
 				}
-				else if (strcmp (EAGetModeName (prop.ea, prop.mode, TRUE), "LRW") == 0)
-				{
-					// Tweak key (LRW)
-
-					ListItemAddW (list, i, GetString ("SECONDARY_KEY_SIZE_LRW"));
-					StringCbPrintfW (sw, sizeof(sw), L"%d %s", CipherGetBlockSize (EAGetFirstCipher(prop.ea))*8, GetString ("BITS"));
-					ListSubItemSetW (list, i++, 1, sw);
-				}
 			}
 
 			// Block size
 			ListItemAddW (list, i, GetString ("BLOCK_SIZE"));
-			if (EAGetFirstMode (prop.ea) == INNER_CBC)
-			{
-				// Cascaded ciphers with non-equal block sizes  (deprecated/legacy)
-				wchar_t tmpstr[64];
-				int i = EAGetLastCipher(prop.ea);
-
-				StringCbPrintfW (sw, sizeof(sw), L"%d", CipherGetBlockSize(i)*8);
-				
-				while (i = EAGetPreviousCipher(prop.ea, i))
-				{
-					StringCbPrintfW (tmpstr, sizeof(tmpstr), L"/%d", CipherGetBlockSize(i)*8);
-					StringCbCatW (sw, sizeof(sw), tmpstr);
-				}
-				StringCbCatW (sw, sizeof(sw), L" ");
-			}
-			else
-			{
-				StringCbPrintfW (sw, sizeof(sw), L"%d ", CipherGetBlockSize (EAGetFirstCipher(prop.ea))*8);
-			}
+			
+			StringCbPrintfW (sw, sizeof(sw), L"%d ", CipherGetBlockSize (EAGetFirstCipher(prop.ea))*8);
 			StringCbCatW (sw, sizeof(sw), GetString ("BITS"));
 			ListSubItemSetW (list, i++, 1, sw);
 
@@ -3378,7 +3350,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 {
 	BOOL status = FALSE;
 	char fileName[MAX_PATH];
-	int mounted = 0, modeOfOperation;
+	int mounted = 0;
 
 	bPrebootPasswordDlgMode = mountOptions.PartitionInInactiveSysEncScope;
 
@@ -3443,14 +3415,6 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 
 	if (mounted)
 	{
-		// Check for deprecated CBC mode
-		modeOfOperation = GetModeOfOperationByDriveNo (nDosDriveNo);
-		if (modeOfOperation == CBC || modeOfOperation == OUTER_CBC)
-			Warning("WARN_CBC_MODE");
-
-		// Check for deprecated 64-bit-block ciphers
-		if (GetCipherBlockSizeByDriveNo (nDosDriveNo) == 64)
-			Warning("WARN_64_BIT_BLOCK_CIPHER");
 
 		// Check for problematic file extensions (exe, dll, sys)
 		if (CheckFileExtension(szFileName))
@@ -3478,15 +3442,6 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 
 		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, bCacheInDriver, bForceMount, &mountOptions, Silent, !Silent);
 		NormalCursor ();
-
-		// Check for deprecated CBC mode
-		modeOfOperation = GetModeOfOperationByDriveNo (nDosDriveNo);
-		if (modeOfOperation == CBC || modeOfOperation == OUTER_CBC)
-			Warning("WARN_CBC_MODE");
-
-		// Check for deprecated 64-bit-block ciphers
-		if (GetCipherBlockSizeByDriveNo (nDosDriveNo) == 64)
-			Warning("WARN_64_BIT_BLOCK_CIPHER");
 
 		// Check for legacy non-ASCII passwords
 		if (mounted > 0 && !KeyFilesEnable && !CheckPasswordCharEncoding (NULL, &VolumePassword))
@@ -3701,8 +3656,8 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 {
 	HWND driveList = GetDlgItem (hwndDlg, IDC_DRIVELIST);
 	int selDrive = ListView_GetSelectionMark (driveList);
-	BOOL shared = FALSE, status = FALSE, b64BitBlockCipher = FALSE, bCBCMode = FALSE, bHeaderBakRetry = FALSE;
-	int mountedVolCount = 0, modeOfOperation;
+	BOOL shared = FALSE, status = FALSE, bHeaderBakRetry = FALSE;
+	int mountedVolCount = 0;
 	vector <HostDevice> devices;
 
 	VolumePassword.Length = 0;
@@ -3808,13 +3763,6 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 
 						status = TRUE;
 
-						// Check for deprecated CBC mode
-						modeOfOperation = GetModeOfOperationByDriveNo (nDosDriveNo);
-						bCBCMode = (modeOfOperation == CBC || modeOfOperation == OUTER_CBC);
-
-						if (GetCipherBlockSizeByDriveNo(nDosDriveNo) == 64)
-							b64BitBlockCipher = TRUE;
-
 						mountedVolCount++;
 
 						// Skip other partitions of the disk if partition0 (whole disk) has been mounted
@@ -3888,14 +3836,6 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 		else if (mountedVolCount == 1)
 			Info ("HIDVOL_PROT_WARN_AFTER_MOUNT");
 	}
-
-	// Check for deprecated CBC mode
-	if (bCBCMode)
-		Warning("WARN_CBC_MODE");
-
-	// Check for deprecated 64-bit-block ciphers
-	if (b64BitBlockCipher)
-		Warning("WARN_64_BIT_BLOCK_CIPHER");
 
 	// Check for legacy non-ASCII passwords
 	if (!KeyFilesEnable
@@ -4664,7 +4604,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		{
 			int exitCode = 0;
-			int modeOfOperation;
 
 			MainDlg = hwndDlg;
 
@@ -4833,15 +4772,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 						if(!Silent)
 						{
-							// Check for deprecated CBC mode
-							modeOfOperation = GetModeOfOperationByDriveNo (szDriveLetter[0] - 'A');
-							if (modeOfOperation == CBC || modeOfOperation == OUTER_CBC)
-								Warning("WARN_CBC_MODE");
-
-							// Check for deprecated 64-bit-block ciphers
-							if (GetCipherBlockSizeByDriveNo (szDriveLetter[0] - 'A') == 64)
-								Warning("WARN_64_BIT_BLOCK_CIPHER");
-
 							// Check for problematic file extensions (exe, dll, sys)
 							if (CheckFileExtension (szFileName))
 								Warning ("EXE_FILE_EXTENSION_MOUNT_WARNING");

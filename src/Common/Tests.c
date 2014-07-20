@@ -290,91 +290,6 @@ BOOL XTSAesTest (PCRYPTO_INFO ci)
 	return TRUE;
 }
 
-/* Blowfish Test Vectors (deprecated/legacy) */
-
-/* Blowfish test vectors from www.counterpane.com/blowfish.html */
-
-#define BF_TEST_COUNT 34
-
-typedef struct {
-	unsigned char key[8];
-	unsigned char plaintext[8];
-	unsigned char ciphertext[8];
-	} BF_TEST;
-
-#pragma warning(disable:4295)
-
-BF_TEST bf_ecb_vectors[BF_TEST_COUNT] = {
-"\x00\x00\x00\x00\x00\x00\x00\x00","\x00\x00\x00\x00\x00\x00\x00\x00","\x4E\xF9\x97\x45\x61\x98\xDD\x78",
-"\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF","\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF","\x51\x86\x6F\xD5\xB8\x5E\xCB\x8A",
-"\x30\x00\x00\x00\x00\x00\x00\x00","\x10\x00\x00\x00\x00\x00\x00\x01","\x7D\x85\x6F\x9A\x61\x30\x63\xF2",
-"\x11\x11\x11\x11\x11\x11\x11\x11","\x11\x11\x11\x11\x11\x11\x11\x11","\x24\x66\xDD\x87\x8B\x96\x3C\x9D",
-"\x01\x23\x45\x67\x89\xAB\xCD\xEF","\x11\x11\x11\x11\x11\x11\x11\x11","\x61\xF9\xC3\x80\x22\x81\xB0\x96",
-"\x11\x11\x11\x11\x11\x11\x11\x11","\x01\x23\x45\x67\x89\xAB\xCD\xEF","\x7D\x0C\xC6\x30\xAF\xDA\x1E\xC7",
-"\x00\x00\x00\x00\x00\x00\x00\x00","\x00\x00\x00\x00\x00\x00\x00\x00","\x4E\xF9\x97\x45\x61\x98\xDD\x78",
-"\xFE\xDC\xBA\x98\x76\x54\x32\x10","\x01\x23\x45\x67\x89\xAB\xCD\xEF","\x0A\xCE\xAB\x0F\xC6\xA0\xA2\x8D",
-"\x7C\xA1\x10\x45\x4A\x1A\x6E\x57","\x01\xA1\xD6\xD0\x39\x77\x67\x42","\x59\xC6\x82\x45\xEB\x05\x28\x2B",
-"\x01\x31\xD9\x61\x9D\xC1\x37\x6E","\x5C\xD5\x4C\xA8\x3D\xEF\x57\xDA","\xB1\xB8\xCC\x0B\x25\x0F\x09\xA0",
-"\x07\xA1\x13\x3E\x4A\x0B\x26\x86","\x02\x48\xD4\x38\x06\xF6\x71\x72","\x17\x30\xE5\x77\x8B\xEA\x1D\xA4",
-"\x38\x49\x67\x4C\x26\x02\x31\x9E","\x51\x45\x4B\x58\x2D\xDF\x44\x0A","\xA2\x5E\x78\x56\xCF\x26\x51\xEB",
-"\x04\xB9\x15\xBA\x43\xFE\xB5\xB6","\x42\xFD\x44\x30\x59\x57\x7F\xA2","\x35\x38\x82\xB1\x09\xCE\x8F\x1A",
-"\x01\x13\xB9\x70\xFD\x34\xF2\xCE","\x05\x9B\x5E\x08\x51\xCF\x14\x3A","\x48\xF4\xD0\x88\x4C\x37\x99\x18",
-"\x01\x70\xF1\x75\x46\x8F\xB5\xE6","\x07\x56\xD8\xE0\x77\x47\x61\xD2","\x43\x21\x93\xB7\x89\x51\xFC\x98",
-"\x43\x29\x7F\xAD\x38\xE3\x73\xFE","\x76\x25\x14\xB8\x29\xBF\x48\x6A","\x13\xF0\x41\x54\xD6\x9D\x1A\xE5",
-"\x07\xA7\x13\x70\x45\xDA\x2A\x16","\x3B\xDD\x11\x90\x49\x37\x28\x02","\x2E\xED\xDA\x93\xFF\xD3\x9C\x79",
-"\x04\x68\x91\x04\xC2\xFD\x3B\x2F","\x26\x95\x5F\x68\x35\xAF\x60\x9A","\xD8\x87\xE0\x39\x3C\x2D\xA6\xE3",
-"\x37\xD0\x6B\xB5\x16\xCB\x75\x46","\x16\x4D\x5E\x40\x4F\x27\x52\x32","\x5F\x99\xD0\x4F\x5B\x16\x39\x69",
-"\x1F\x08\x26\x0D\x1A\xC2\x46\x5E","\x6B\x05\x6E\x18\x75\x9F\x5C\xCA","\x4A\x05\x7A\x3B\x24\xD3\x97\x7B",
-"\x58\x40\x23\x64\x1A\xBA\x61\x76","\x00\x4B\xD6\xEF\x09\x17\x60\x62","\x45\x20\x31\xC1\xE4\xFA\xDA\x8E",
-"\x02\x58\x16\x16\x46\x29\xB0\x07","\x48\x0D\x39\x00\x6E\xE7\x62\xF2","\x75\x55\xAE\x39\xF5\x9B\x87\xBD",
-"\x49\x79\x3E\xBC\x79\xB3\x25\x8F","\x43\x75\x40\xC8\x69\x8F\x3C\xFA","\x53\xC5\x5F\x9C\xB4\x9F\xC0\x19",
-"\x4F\xB0\x5E\x15\x15\xAB\x73\xA7","\x07\x2D\x43\xA0\x77\x07\x52\x92","\x7A\x8E\x7B\xFA\x93\x7E\x89\xA3",
-"\x49\xE9\x5D\x6D\x4C\xA2\x29\xBF","\x02\xFE\x55\x77\x81\x17\xF1\x2A","\xCF\x9C\x5D\x7A\x49\x86\xAD\xB5",
-"\x01\x83\x10\xDC\x40\x9B\x26\xD6","\x1D\x9D\x5C\x50\x18\xF7\x28\xC2","\xD1\xAB\xB2\x90\x65\x8B\xC7\x78",
-"\x1C\x58\x7F\x1C\x13\x92\x4F\xEF","\x30\x55\x32\x28\x6D\x6F\x29\x5A","\x55\xCB\x37\x74\xD1\x3E\xF2\x01",
-"\x01\x01\x01\x01\x01\x01\x01\x01","\x01\x23\x45\x67\x89\xAB\xCD\xEF","\xFA\x34\xEC\x48\x47\xB2\x68\xB2",
-"\x1F\x1F\x1F\x1F\x0E\x0E\x0E\x0E","\x01\x23\x45\x67\x89\xAB\xCD\xEF","\xA7\x90\x79\x51\x08\xEA\x3C\xAE",
-"\xE0\xFE\xE0\xFE\xF1\xFE\xF1\xFE","\x01\x23\x45\x67\x89\xAB\xCD\xEF","\xC3\x9E\x07\x2D\x9F\xAC\x63\x1D",
-"\x00\x00\x00\x00\x00\x00\x00\x00","\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF","\x01\x49\x33\xE0\xCD\xAF\xF6\xE4",
-"\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF","\x00\x00\x00\x00\x00\x00\x00\x00","\xF2\x1E\x9A\x77\xB7\x1C\x49\xBC",
-"\x01\x23\x45\x67\x89\xAB\xCD\xEF","\x00\x00\x00\x00\x00\x00\x00\x00","\x24\x59\x46\x88\x57\x54\x36\x9A",
-"\xFE\xDC\xBA\x98\x76\x54\x32\x10","\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF","\x6B\x5C\x5A\x9C\x5D\x9E\x0A\x5A"
-};
-
-
-#define TRIPLEDES_TEST_COUNT 1
-
-typedef struct {
-	unsigned char key[24];
-	unsigned char plaintext[8];
-	unsigned char ciphertext[8];
-	} TRIPLEDES_TEST;
-
-TRIPLEDES_TEST tripledes_vectors[TRIPLEDES_TEST_COUNT] = {
-0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0xfe, 0xdc, 0xba, 0x98,
-0x76, 0x54, 0x32, 0x10, 0x89, 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67,
-                              
-0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xe7,
-
-0xde, 0x0b, 0x7c, 0x06, 0xae, 0x5e, 0x0e, 0xd5
-};
-
-/* CAST-128 Test Vectors from RFC2144 (deprecated/legacy) */
-
-#define CAST_TEST_COUNT 1
-
-typedef struct {
-	unsigned char key[16];
-	unsigned char plaintext[8];
-	unsigned char ciphertext[8];
-	} CAST_TEST;
-
-
-CAST_TEST cast_ecb_vectors[CAST_TEST_COUNT] = {
-	"\x01\x23\x45\x67\x12\x34\x56\x78\x23\x45\x67\x89\x34\x56\x78\x9A",
-	"\x01\x23\x45\x67\x89\xAB\xCD\xEF",
-	"\x23\x8B\x4F\xE5\x84\x7E\x44\xB2"
-	};
 
 // AES ECB test vectors FIPS-197
 
@@ -463,35 +378,6 @@ char *hmac_sha512_test_vectors[] =
 	"\xe3\x7b\x6a\x77\x5d\xc8\x7d\xba\xa4\xdf\xa9\xf9\x6e\x5e\x3f\xfd\xde\xbd\x71\xf8\x86\x72\x89\x86\x5d\xf5\xa3\x2d\x20\xcd\xc9\x44\xb6\x02\x2c\xac\x3c\x49\x82\xb1\x0d\x5e\xeb\x55\xc3\xe4\xde\x15\x13\x46\x76\xfb\x6d\xe0\x44\x60\x65\xc9\x74\x40\xfa\x8c\x6a\x58",
 };
 
-char *hmac_sha1_test_keys[] =
-{
-	// Deprecated/legacy
-	"\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3",
-	"\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b",
-	"Jefe",
-	"\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA\xAA"
-};
-
-char *hmac_sha1_test_data[] =
-{
-	// Deprecated/legacy
-	"Sample #3",
-	"Hi There",
-	"what do ya want for nothing?",
-	"\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD"
-      "\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD"
-	"\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD\xDD"
-};
-
-char *hmac_sha1_test_vectors[] =
-{
-	// Deprecated/legacy
-	"\xbc\xf4\x1e\xab\x8b\xb2\xd8\x02\xf3\xd0\x5c\xaf\x7c\xb0\x92\xec\xf8\xd1\xa3\xaa",
-	"\xb6\x17\x31\x86\x55\x05\x72\x64\xe2\x8b\xc0\xb6\xfb\x37\x8c\x8e\xf1\x46\xbe\x00",
-	"\xef\xfc\xdf\x6a\xe5\xeb\x2f\xa2\xd2\x74\x16\xd5\xf1\x84\xdf\x9c\x25\x9a\x7c\x79",
-	"\x12\x5d\x73\x42\xb9\xac\x11\xcd\x91\xa3\x9a\xf4\x8a\xa1\x7b\x4f\x63\xf1\x75\xd3"
-};
-
 char *hmac_ripemd160_test_keys[] =
 {
 	"\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xaa\xbb\xcc\xdd\xee\xff\x01\x23\x45\x67",
@@ -534,26 +420,12 @@ void CipherInit2(int cipher, void* key, void* ks, int key_len)
 {
 	switch (cipher)
 	{
-	case BLOWFISH:
-		/* Deprecated/legacy */
-		BlowfishSetKey (ks, key_len,  key); 
-		break;
 
 	case AES:
 		CipherInit(cipher,key,ks);
 		break;
 
-	case CAST:
-		/* Deprecated/legacy */
-		CipherInit(cipher,key,ks);
-		break;
-
 	case SERPENT:
-		CipherInit(cipher,key,ks);
-		break;
-
-	case TRIPLEDES:
-		/* Deprecated/legacy */
 		CipherInit(cipher,key,ks);
 		break;
 
@@ -565,72 +437,6 @@ void CipherInit2(int cipher, void* key, void* ks, int key_len)
 		/* Unknown/wrong ID */
 		TC_THROW_FATAL_EXCEPTION;
 	}
-}
-
-
-/* Deprecated/legacy */
-typedef struct {
-	unsigned __int8 key1[32];
-	unsigned __int8 key2[16];
-	unsigned __int8 index[16];
-	unsigned __int8 plaintext[16];
-	unsigned __int8 ciphertext[16];
-} LRW_TEST;
-
-#define LRW_TEST_COUNT 2
-
-/* Deprecated/legacy */
-LRW_TEST lrw_vectors[LRW_TEST_COUNT] = {
-	{
-		{ 0xf8, 0xd4, 0x76, 0xff, 0xd6, 0x46, 0xee, 0x6c, 0x23, 0x84, 0xcb, 0x1c, 0x77, 0xd6, 0x19, 0x5d,
-		  0xfe, 0xf1, 0xa9, 0xf3, 0x7b, 0xbc, 0x8d, 0x21, 0xa7, 0x9c, 0x21, 0xf8, 0xcb, 0x90, 0x02, 0x89 },
-		{ 0xa8, 0x45, 0x34, 0x8e, 0xc8, 0xc5, 0xb5, 0xf1, 0x26, 0xf5, 0x0e, 0x76, 0xfe, 0xfd, 0x1b, 0x1e },
-		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 },
-		{ 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46 },
-		{ 0xbd, 0x06, 0xb8, 0xe1, 0xdb, 0x98, 0x89, 0x9e, 0xc4, 0x98, 0xe4, 0x91, 0xcf, 0x1c, 0x70, 0x2b }
-	},
-	{
-		{ 0xfb, 0x76, 0x15, 0xb2, 0x3d, 0x80, 0x89, 0x1d, 0xd4, 0x70, 0x98, 0x0b, 0xc7, 0x95, 0x84, 0xc8,
-		  0xb2, 0xfb, 0x64, 0xce, 0x60, 0x97, 0x87, 0x8d, 0x17, 0xfc, 0xe4, 0x5a, 0x49, 0xe8, 0x30, 0xb7 },
-		{ 0x6e, 0x78, 0x17, 0xe7, 0x2d, 0x5e, 0x12, 0xd4, 0x60, 0x64, 0x04, 0x7a, 0xf1, 0x2f, 0x9e, 0x0c },
-		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00 },
-		{ 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46 },
-		{ 0x5b, 0x90, 0x8e, 0xc1, 0xab, 0xdd, 0x67, 0x5f, 0x3d, 0x69, 0x8a, 0x95, 0x53, 0xc8, 0x9c, 0xe5 }
-	}
-};
-
-
-BOOL LRWAesTest (PCRYPTO_INFO ci)
-{
-	/* Deprecated/legacy */
-
-	unsigned __int8 p[16];
-	int i;
-
-	for (i = 0; i < LRW_TEST_COUNT; i++)
-	{
-		ci->ea = EAGetByName ("AES");
-		if (ci->ea == 0)
-			return FALSE;
-
-		ci->mode = LRW;
-
-		if (EAInit (ci->ea, lrw_vectors[i].key1, ci->ks) != ERR_SUCCESS)
-			return FALSE;
-
-		memcpy (&ci->k2, lrw_vectors[i].key2, sizeof (lrw_vectors[i].key2));
-		if (!EAInitMode (ci))
-			return FALSE;
-
-		memcpy (p, lrw_vectors[i].plaintext, sizeof (p));
-
-		EncryptBufferLRW128 (p, sizeof (p), BE64(((unsigned __int64 *)(lrw_vectors[i].index))[1]), ci);
-
-		if (memcmp (lrw_vectors[i].ciphertext, p, sizeof (p)) != 0)
-			return FALSE;
-	}
-
-	return TRUE;
 }
 
 
@@ -653,15 +459,12 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 		0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13
 	};
 
-	if (!TestLegacySectorBufEncryption (ci))
-		return FALSE;
-
 
 	/* Encryption/decryption of data units (typically, volume data sectors) */
 
 	nbrUnits = sizeof (buf) / ENCRYPTION_DATA_UNIT_SIZE;
 
-	ci->mode = XTS;	// Other modes of operation are tested in TestLegacySectorBufEncryption()
+	ci->mode = XTS;	// we only implement XTS
 
 	/* The buffer can accommodate 4 data units and we'll test 4 cases by "scrolling". The data unit 0xFFFFFFFFFF
 	will "move" from the start of the buffer to its end. For a 512-byte data unit, the byte offset 562949953420800
@@ -1029,340 +832,6 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 	return (nTestsPerformed == 80);
 }
 
-
-BOOL TestLegacySectorBufEncryption (PCRYPTO_INFO ci)
-{
-	unsigned char buf [ENCRYPTION_DATA_UNIT_SIZE * 2];
-	unsigned int i;
-	char name[64];
-	unsigned __int32 crc;
-	UINT64_STRUCT unitNo;
-	uint32 nbrUnits;
-	int blockSize;
-	BOOL lrw64InitDone = FALSE;
-	BOOL lrw128InitDone = FALSE;
-	int nTestsPerformed = 0;
-
-	unitNo.Value = 0x0234567890ABCDEFull;
-	nbrUnits = sizeof (buf) / ENCRYPTION_DATA_UNIT_SIZE;
-
-	for (i = 0; i < sizeof (buf); i++)
-		buf[i] = (unsigned char) i;
-
-	for (i = 0; i < sizeof (ci->k2); i++)
-		ci->k2[i] = (unsigned char) i;
-
-	// Test all EAs
-	for (ci->ea = EAGetFirst (); ci->ea != 0; ci->ea = EAGetNext (ci->ea))
-	{
-		EAGetName (name, ci->ea);
-		blockSize = CipherGetBlockSize (EAGetFirstCipher (ci->ea));
-
-		if (EAInit (ci->ea, (unsigned char *)buf, ci->ks) == ERR_CIPHER_INIT_FAILURE)
-			return FALSE;
-
-		// Test all deprecated modes of operation
-		for (ci->mode = EAGetFirstMode (ci->ea);
-			ci->mode != 0;
-			ci->mode = EAGetNextMode (ci->ea, ci->mode))
-		{
-			// Skip modes that are not deprecated
-			if (ci->mode == XTS)
-				continue;
-
-			if (ci->mode == LRW
-				&& (blockSize == 8 && !lrw64InitDone || blockSize == 16 && !lrw128InitDone ))
-			{
-				if (!EAInitMode (ci))
-					return FALSE;
-
-				if (blockSize == 8)
-					lrw64InitDone = TRUE;
-				else if (blockSize == 16)
-					lrw128InitDone = TRUE;
-			}
-
-			EncryptDataUnits (buf, &unitNo, nbrUnits, ci);
-			crc = GetCrc32 (buf, sizeof (buf));
-
-			switch (ci->mode)
-			{
-			case LRW:		// Deprecated/legacy
-				if (strcmp (name, "AES") == 0)
-				{
-					if (crc != 0x5237acf9)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Blowfish") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0xf94d5300)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "CAST5") == 0)		// Deprecated/legacy
-				{
-					if (crc != 0x33971e82)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent") == 0)
-				{
-					if (crc != 0x7fb86805)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Triple DES") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0x2b20bb84)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Twofish") == 0)
-				{
-					if (crc != 0xa9de0f0b)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Twofish") == 0)
-				{
-					if (crc != 0x4ed0fd80)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Twofish-Serpent") == 0)
-				{
-					if (crc != 0xea04b3cf)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent-AES") == 0)
-				{
-					if (crc != 0x0d33596a)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent-Twofish-AES") == 0)
-				{
-					if (crc != 0x2845d0e3)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Twofish-Serpent") == 0)
-				{
-					if (crc != 0xca65c5cd)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				break;
-
-			case CBC:		// Deprecated/legacy
-			case INNER_CBC:	// Deprecated/legacy
-			case OUTER_CBC:	// Deprecated/legacy
-				if (strcmp (name, "AES") == 0)
-				{
-					if (crc != 0x2274f53d)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Blowfish") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0x033899a1)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "CAST5") == 0)		// Deprecated/legacy
-				{
-					if (crc != 0x331cecc7)	
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent") == 0)
-				{
-					if (crc != 0x42dff3d4)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Triple DES") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0xfe497d0c)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Blowfish") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0xa7a80c84)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Blowfish-Serpent") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0xa0584562)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Twofish") == 0)
-				{
-					if (crc != 0x3c226444)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Twofish-Serpent") == 0)
-				{
-					if (crc != 0x5e5e77fd)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent-AES") == 0)
-				{
-					if (crc != 0x57c612d5)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent-Twofish-AES") == 0)
-				{
-					if (crc != 0x081e045a)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Twofish-Serpent") == 0)
-				{
-					if (crc != 0xa7b659f3)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				break;
-			}
-
-			if (crc == 0xb70b4c26)
-				return FALSE;
-
-			DecryptDataUnits (buf, &unitNo, nbrUnits, ci);
-
-			if (GetCrc32 (buf, sizeof (buf)) != 0xb70b4c26)
-				return FALSE;
-
-			nTestsPerformed++;
-
-			EncryptBuffer (buf, sizeof (buf), ci);
-			crc = GetCrc32 (buf, sizeof (buf));
-
-			switch (ci->mode)
-			{
-			case LRW:		// Deprecated/legacy
-				if (strcmp (name, "AES") == 0)
-				{
-					if (crc != 0x5ae1e3d8)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Blowfish") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0x2738426f)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Twofish-Serpent") == 0)
-				{
-					if (crc != 0x14f2948a)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				break;
-
-			case CBC:		// Deprecated/legacy
-			case INNER_CBC:	// Deprecated/legacy
-			case OUTER_CBC:	// Deprecated/legacy
-				if (strcmp (name, "AES") == 0)
-				{
-					if (crc != 0x960f740e)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Blowfish") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0x7e1cfabb)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "CAST5") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0xeaae21c8)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent") == 0)
-				{
-					if (crc != 0xa8139d62)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Triple DES") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0xecf5d7d0)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Blowfish") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0xb70171b6)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Blowfish-Serpent") == 0)	// Deprecated/legacy
-				{
-					if (crc != 0x1e749a87)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Twofish") == 0)
-				{
-					if (crc != 0xb4b8bb9b)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "AES-Twofish-Serpent") == 0)
-				{
-					if (crc != 0x76b6c1cb)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent-AES") == 0)
-				{
-					if (crc != 0x634f12ed)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Serpent-Twofish-AES") == 0)
-				{
-					if (crc != 0xe54bc1b9)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				else if (strcmp (name, "Twofish-Serpent") == 0)
-				{
-					if (crc != 0x21cdb382)
-						return FALSE;
-					nTestsPerformed++;
-				}
-				break;
-			}
-
-			if (crc == 0xb70b4c26)
-				return FALSE;
-
-			DecryptBuffer (buf, sizeof (buf), ci);
-
-			if (GetCrc32 (buf, sizeof (buf)) != 0xb70b4c26)
-				return FALSE;
-
-			nTestsPerformed++;
-		}
-	}
-	return (nTestsPerformed == 86);
-}
-
-
 static BOOL DoAutoTestAlgorithms (void)
 {
 	PCRYPTO_INFO ci;
@@ -1376,74 +845,6 @@ static BOOL DoAutoTestAlgorithms (void)
 		return FALSE;
 
 	memset (ci, 0, sizeof (*ci));
-
-	/* Blowfish (deprecated/legacy) */
-
-	for (i=0;i<BF_TEST_COUNT;i++)
-	{		
-		memcpy(key, bf_ecb_vectors[i].key, 8);
-		memcpy(tmp, bf_ecb_vectors[i].plaintext, 8);
-		CipherInit2(BLOWFISH, key, ks_tmp, 8);
-
-		((uint32 *)tmp)[0] = BE32 (((uint32 *)tmp)[0]);
-		((uint32 *)tmp)[1] = BE32 (((uint32 *)tmp)[1]);
-
-		BlowfishEncryptLE (tmp,tmp,(BF_KEY *)ks_tmp,1);
-		BlowfishEncryptLE (tmp,tmp,(BF_KEY *)ks_tmp,0);
-		BlowfishEncryptLE (tmp,tmp,(BF_KEY *)ks_tmp,1);
-
-		((uint32 *)tmp)[0] = BE32 (((uint32 *)tmp)[0]);
-		((uint32 *)tmp)[1] = BE32 (((uint32 *)tmp)[1]);
-
-		if (memcmp(bf_ecb_vectors[i].ciphertext,tmp,8)!=0)
-			break;
-	}
-
-	if (i != BF_TEST_COUNT)
-		bFailed = TRUE;
-
-	/* CAST5 (deprecated/legacy) */
-
-	for (i=0;i<CAST_TEST_COUNT;i++)
-	{			
-		int cipher = CAST;
-		memcpy(key, cast_ecb_vectors[i].key, 16);
-		memcpy(tmp, cast_ecb_vectors[i].plaintext, 8);
-		CipherInit2(cipher, key, ks_tmp, 16);
-
-		EncipherBlock(cipher, tmp, ks_tmp);
-		DecipherBlock(cipher, tmp, ks_tmp);
-		EncipherBlock(cipher, tmp, ks_tmp);
-
-		if (memcmp(cast_ecb_vectors[i].ciphertext, tmp,8)!=0)
-			break;
-	}
-
-	if (i!=CAST_TEST_COUNT)
-		bFailed = TRUE;
-
-
-	/* Triple DES (TECB, EDE) - deprecated/legacy */
-
-	for (i = 0; i < TRIPLEDES_TEST_COUNT; i++)
-	{			
-		int cipher = TRIPLEDES;
-		memcpy(key, tripledes_vectors[i].key, sizeof(tripledes_vectors->key));
-		memcpy(tmp, tripledes_vectors[i].plaintext, sizeof(tripledes_vectors->plaintext));
-
-		CipherInit(cipher, key, ks_tmp);
-
-		EncipherBlock(cipher, tmp, ks_tmp);
-		if (memcmp(tripledes_vectors[i].ciphertext, tmp, sizeof(tripledes_vectors->ciphertext)) != 0)
-			break;
-
-		DecipherBlock(cipher, tmp, ks_tmp);
-		if (memcmp(tripledes_vectors[i].plaintext, tmp, sizeof(tripledes_vectors->plaintext)) != 0)
-			break;
-	}
-	if (i != TRIPLEDES_TEST_COUNT)
-		bFailed = TRUE;
-
 
 	/* AES */
 
@@ -1550,10 +951,6 @@ static BOOL DoAutoTestAlgorithms (void)
 	if (!XTSAesTest (ci))
 		bFailed = TRUE;
 
-	/* LRW-AES (deprecated/legacy) */
-	if (!LRWAesTest (ci))
-		bFailed = TRUE;
-
 	/* Sector and buffer related algorithms */
 	if (!TestSectorBufEncryption (ci))
 		bFailed = TRUE;
@@ -1601,26 +998,6 @@ BOOL test_hmac_sha512 ()
 	return (nTestsPerformed == 6);
 }
 
-BOOL test_hmac_sha1 ()
-{
-	// Deprecated/legacy
-
-	int nTestsPerformed = 0;
-	int i;
-
-	for (i = 0; i < 3; i++)
-	{
-		char digest[SHA1_DIGESTSIZE];
-		hmac_sha1 (hmac_sha1_test_keys[i], (int) strlen (hmac_sha1_test_keys[i]), hmac_sha1_test_data[i], (int) strlen (hmac_sha1_test_data[i]), digest, SHA1_DIGESTSIZE);
-		if (memcmp (digest, hmac_sha1_test_vectors[i], SHA1_DIGESTSIZE) != 0)
-			return FALSE;
-		else
-			nTestsPerformed++;
-	}
-
-	return (nTestsPerformed == 3);
-}
-
 BOOL test_hmac_ripemd160 ()
 {
 	int nTestsPerformed = 0;
@@ -1658,10 +1035,6 @@ BOOL test_pkcs5 ()
 	if (!test_hmac_sha512())
 		return FALSE;
 
-	/* HMAC-SHA-1 tests (deprecated/legacy)  */
-	if (test_hmac_sha1() == FALSE)
-		return FALSE;
-
 	/* HMAC-RIPEMD-160 tests */
 	if (test_hmac_ripemd160() == FALSE)
 		return FALSE;
@@ -1680,23 +1053,6 @@ BOOL test_pkcs5 ()
 	derive_key_sha512 ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 144);
 	if (memcmp (dk, "\x13\x64\xae\xf8\x0d\xf5\x57\x6c\x30\xd5\x71\x4c\xa7\x75\x3f\xfd\x00\xe5\x25\x8b\x39\xc7\x44\x7f\xce\x23\x3d\x08\x75\xe0\x2f\x48\xd6\x30\xd7\x00\xb6\x24\xdb\xe0\x5a\xd7\x47\xef\x52\xca\xa6\x34\x83\x47\xe5\xcb\xe9\x87\xf1\x20\x59\x6a\xe6\xa9\xcf\x51\x78\xc6\xb6\x23\xa6\x74\x0d\xe8\x91\xbe\x1a\xd0\x28\xcc\xce\x16\x98\x9a\xbe\xfb\xdc\x78\xc9\xe1\x7d\x72\x67\xce\xe1\x61\x56\x5f\x96\x68\xe6\xe1\xdd\xf4\xbf\x1b\x80\xe0\x19\x1c\xf4\xc4\xd3\xdd\xd5\xd5\x57\x2d\x83\xc7\xa3\x37\x87\xf4\x4e\xe0\xf6\xd8\x6d\x65\xdc\xa0\x52\xa3\x13\xbe\x81\xfc\x30\xbe\x7d\x69\x58\x34\xb6\xdd\x41\xc6", 144) != 0)
 		return FALSE;
-
-	/* PKCS-5 test 1 with HMAC-SHA-1 (deprecated/legacy) used as the PRF (derives a key longer than the underlying hash) */
-	derive_key_sha1 ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 48);
-	if (memcmp (dk, "\x5c\x75\xce\xf0\x1a\x96\x0d\xf7\x4c\xb6\xb4\x9b\x9e\x38\xe6\xb5\x3b\x11\x80\xe3\x2f\xf7\xe0\xdd\xaa\xca\x8f\x81\x27\xf6\x9f\x4f\x1d\xc8\x2f\x48\x2d\xdb\x1a\x0a\xca\x90\xcb\x80\xb9\x2e\x90\x9e", 48) != 0)
-		return FALSE;
-
-	/* PKCS-5 test 2 with HMAC-SHA-1 (deprecated/legacy) used as the PRF */
-	derive_key_sha1 ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 4);
-	if (memcmp (dk, "\x5c\x75\xce\xf0", 4) != 0)
-		return FALSE;
-
-#if 0	// This test is disabled because it uses 1200 iterations (to prevent startup slowdown)
-	/* PKCS-5 test 3 with HMAC-SHA-1 (deprecated/legacy) used as the PRF */
-	derive_key_sha1 ("password", 8, "ATHENA.MIT.EDUraeburn", 21, 1200, dk, 16);
-	if (memcmp (dk, "\x5c\x08\xeb\x61\xfd\xf7\x1e\x4e\x4e\xc3\xcf\x6b\xa1\xf5\x51\x2b", 16) != 0)
-		return FALSE;
-#endif
 
 	/* PKCS-5 test 1 with HMAC-RIPEMD-160 used as the PRF */
 	derive_key_ripemd160 (FALSE, "password", 8, "\x12\x34\x56\x78", 4, 5, dk, 4);

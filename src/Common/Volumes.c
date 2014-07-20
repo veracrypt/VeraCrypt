@@ -240,10 +240,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, PCR
 
 	// Test all available PKCS5 PRFs
 	for (enqPkcs5Prf = FIRST_PRF_ID; enqPkcs5Prf <= LAST_PRF_ID || queuedWorkItems > 0; ++enqPkcs5Prf)
-	{
-		BOOL lrw64InitDone = FALSE;		// Deprecated/legacy
-		BOOL lrw128InitDone = FALSE;	// Deprecated/legacy
-
+	{	
 		if (encryptionThreadCount > 1)
 		{
 			// Enqueue key derivation on thread pool
@@ -314,12 +311,6 @@ KeyReady:	;
 					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
-			case SHA1:
-				// Deprecated/legacy
-				derive_key_sha1 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
-				break;
-
 			case WHIRLPOOL:
 				derive_key_whirlpool (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
@@ -338,16 +329,6 @@ KeyReady:	;
 		{
 			switch (cryptoInfo->mode)
 			{
-			case LRW:
-			case CBC:
-			case INNER_CBC:
-			case OUTER_CBC:
-
-				// For LRW (deprecated/legacy), copy the tweak key 
-				// For CBC (deprecated/legacy), copy the IV/whitening seed 
-				memcpy (cryptoInfo->k2, dk, LEGACY_VOL_IV_SIZE);
-				primaryKeyOffset = LEGACY_VOL_IV_SIZE;
-				break;
 
 			default:
 				primaryKeyOffset = 0;
@@ -383,21 +364,9 @@ KeyReady:	;
 						goto err;
 					}
 				}
-				else if (cryptoInfo->mode == LRW
-					&& (blockSize == 8 && !lrw64InitDone || blockSize == 16 && !lrw128InitDone))
+				else
 				{
-					// Deprecated/legacy
-
-					if (!EAInitMode (cryptoInfo))
-					{
-						status = ERR_MODE_INIT_FAILED;
-						goto err;
-					}
-
-					if (blockSize == 8)
-						lrw64InitDone = TRUE;
-					else if (blockSize == 16)
-						lrw128InitDone = TRUE;
+					continue;
 				}
 
 				// Copy the header for decryption
@@ -519,15 +488,6 @@ KeyReady:	;
 
 				switch (cryptoInfo->mode)
 				{
-				case LRW:
-				case CBC:
-				case INNER_CBC:
-				case OUTER_CBC:
-
-					// For LRW (deprecated/legacy), the tweak key
-					// For CBC (deprecated/legacy), the IV/whitening seed
-					memcpy (cryptoInfo->k2, keyInfo.master_keydata, LEGACY_VOL_IV_SIZE);
-					break;
 
 				default:
 					// The secondary master key (if cascade, multiple concatenated)
@@ -721,18 +681,6 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 
 		switch (mode)
 		{
-		case LRW:
-		case CBC:
-		case INNER_CBC:
-		case OUTER_CBC:
-
-			// Deprecated/legacy modes of operation
-			bytesNeeded = LEGACY_VOL_IV_SIZE + EAGetKeySize (ea);
-
-			// In fact, this should never be the case since volumes being newly created are not
-			// supposed to use any deprecated mode of operation.
-			TC_THROW_FATAL_EXCEPTION;
-			break;
 
 		default:
 			bytesNeeded = EAGetKeySize (ea) * 2;	// Size of primary + secondary key(s)
@@ -767,12 +715,6 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 	{
 	case SHA512:
 		derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
-		break;
-
-	case SHA1:
-		// Deprecated/legacy
-		derive_key_sha1 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 		break;
 
@@ -859,16 +801,6 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 
 	switch (mode)
 	{
-	case LRW:
-	case CBC:
-	case INNER_CBC:
-	case OUTER_CBC:
-
-		// For LRW (deprecated/legacy), the tweak key
-		// For CBC (deprecated/legacy), the IV/whitening seed
-		memcpy (cryptoInfo->k2, dk, LEGACY_VOL_IV_SIZE);
-		primaryKeyOffset = LEGACY_VOL_IV_SIZE;
-		break;
 
 	default:
 		// The secondary key (if cascade, multiple concatenated)
@@ -902,15 +834,6 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 
 	switch (cryptoInfo->mode)
 	{
-	case LRW:
-	case CBC:
-	case INNER_CBC:
-	case OUTER_CBC:
-
-		// For LRW (deprecated/legacy), the tweak key
-		// For CBC (deprecated/legacy), the IV/whitening seed
-		memcpy (cryptoInfo->k2, keyInfo.master_keydata, LEGACY_VOL_IV_SIZE);
-		break;
 
 	default:
 		// The secondary master key (if cascade, multiple concatenated)

@@ -133,10 +133,6 @@ typedef struct
 	BOOL readOnly;
 	BOOL removable;
 	BOOL partitionInInactiveSysEncScope;
-#if 0
-	unsigned __int64 volumeCreationTime;	// Deprecated in v6.0
-	unsigned __int64 headerCreationTime;	// Deprecated in v6.0
-#endif
 	uint32 volumeHeaderFlags;
 	unsigned __int64 totalBytesRead;
 	unsigned __int64 totalBytesWritten;

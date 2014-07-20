@@ -247,27 +247,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\Crypto\Blowfish.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Crypto\Cast.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Crypto\Des.c"
-					>
-				</File>
-				<File
 					RelativePath="..\Crypto\Rmd160.c"
 					>
 				</File>
 				<File
 					RelativePath="..\Crypto\Serpent.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Crypto\Sha1.c"
 					>
 				</File>
 				<File

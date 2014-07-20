@@ -212,27 +212,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Blowfish.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Cast.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Des.c"
-				>
-			</File>
-			<File
 				RelativePath=".\Rmd160.c"
 				>
 			</File>
 			<File
 				RelativePath=".\Serpent.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Sha1.c"
 				>
 			</File>
 			<File

@@ -14,7 +14,6 @@
 #include <memory.h>
 #include "Rmd160.h"
 #ifndef TC_WINDOWS_BOOT
-#include "Sha1.h"
 #include "Sha2.h"
 #include "Whirlpool.h"
 #endif
@@ -168,150 +167,6 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, int it
 
 	/* last block */
 	derive_u_sha512 (pwd, pwd_len, salt, salt_len, iterations, u, b);
-	memcpy (dk, u, r);
-
-
-	/* Prevent possible leaks. */
-	burn (u, sizeof(u));
-}
-
-
-/* Deprecated/legacy */
-void hmac_sha1
-(
-	  char *k,		/* secret key */
-	  int lk,		/* length of the key in bytes */
-	  char *d,		/* data */
-	  int ld,		/* length of data in bytes */
-	  char *out,		/* output buffer, at least "t" bytes */
-	  int t
-)
-{
-	sha1_ctx ictx, octx;
-	char isha[SHA1_DIGESTSIZE], osha[SHA1_DIGESTSIZE];
-	char key[SHA1_DIGESTSIZE];
-	char buf[SHA1_BLOCKSIZE];
-	int i;
-
-    /* If the key is longer than the hash algorithm block size,
-	   let key = sha1(key), as per HMAC specifications. */
-	if (lk > SHA1_BLOCKSIZE)
-	{
-		sha1_ctx tctx;
-
-		sha1_begin (&tctx);
-		sha1_hash ((unsigned char *) k, lk, &tctx);
-		sha1_end ((unsigned char *) key, &tctx);
-
-		k = key;
-		lk = SHA1_DIGESTSIZE;
-
-		burn (&tctx, sizeof(tctx));		// Prevent leaks
-	}
-
-	/**** Inner Digest ****/
-
-	sha1_begin (&ictx);
-
-	/* Pad the key for inner digest */
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x36);
-	for (i = lk; i < SHA1_BLOCKSIZE; ++i)
-		buf[i] = 0x36;
-
-	sha1_hash ((unsigned char *) buf, SHA1_BLOCKSIZE, &ictx);
-	sha1_hash ((unsigned char *) d, ld, &ictx);
-
-	sha1_end ((unsigned char *) isha, &ictx);
-
-	/**** Outer Digest ****/
-
-	sha1_begin (&octx);
-
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x5C);
-	for (i = lk; i < SHA1_BLOCKSIZE; ++i)
-		buf[i] = 0x5C;
-
-	sha1_hash ((unsigned char *) buf, SHA1_BLOCKSIZE, &octx);
-	sha1_hash ((unsigned char *) isha, SHA1_DIGESTSIZE, &octx);
-
-	sha1_end ((unsigned char *) osha, &octx);
-
-	/* truncate and print the results */
-	t = t > SHA1_DIGESTSIZE ? SHA1_DIGESTSIZE : t;
-	hmac_truncate (osha, out, t);
-
-	/* Prevent leaks */
-	burn (&ictx, sizeof(ictx));
-	burn (&octx, sizeof(octx));
-	burn (isha, sizeof(isha));
-	burn (osha, sizeof(osha));
-	burn (buf, sizeof(buf));
-	burn (key, sizeof(key));
-}
-
-
-/* Deprecated/legacy */
-void derive_u_sha1 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b)
-{
-	char j[SHA1_DIGESTSIZE], k[SHA1_DIGESTSIZE];
-	char init[128];
-	char counter[4];
-	int c, i;
-
-	/* iteration 1 */
-	memset (counter, 0, 4);
-	counter[3] = (char) b;
-	memcpy (init, salt, salt_len);	/* salt */
-	memcpy (&init[salt_len], counter, 4);	/* big-endian block number */
-	hmac_sha1 (pwd, pwd_len, init, salt_len + 4, j, SHA1_DIGESTSIZE);
-	memcpy (u, j, SHA1_DIGESTSIZE);
-
-	/* remaining iterations */
-	for (c = 1; c < iterations; c++)
-	{
-		hmac_sha1 (pwd, pwd_len, j, SHA1_DIGESTSIZE, k, SHA1_DIGESTSIZE);
-		for (i = 0; i < SHA1_DIGESTSIZE; i++)
-		{
-			u[i] ^= k[i];
-			j[i] = k[i];
-		}
-	}
-
-	/* Prevent possible leaks. */
-	burn (j, sizeof(j));
-	burn (k, sizeof(k));
-}
-
-
-/* Deprecated/legacy */
-void derive_key_sha1 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
-{
-	char u[SHA1_DIGESTSIZE];
-	int b, l, r;
-
-	if (dklen % SHA1_DIGESTSIZE)
-	{
-		l = 1 + dklen / SHA1_DIGESTSIZE;
-	}
-	else
-	{
-		l = dklen / SHA1_DIGESTSIZE;
-	}
-
-	r = dklen - (l - 1) * SHA1_DIGESTSIZE;
-
-	/* first l - 1 blocks */
-	for (b = 1; b < l; b++)
-	{
-		derive_u_sha1 (pwd, pwd_len, salt, salt_len, iterations, u, b);
-		memcpy (dk, u, SHA1_DIGESTSIZE);
-		dk += SHA1_DIGESTSIZE;
-	}
-
-	/* last block */
-	derive_u_sha1 (pwd, pwd_len, salt, salt_len, iterations, u, b);
 	memcpy (dk, u, r);
 
 
@@ -618,9 +473,6 @@ char *get_pkcs5_prf_name (int pkcs5_prf_id)
 	case SHA512:	
 		return "HMAC-SHA-512";
 
-	case SHA1:	// Deprecated/legacy
-		return "HMAC-SHA-1";
-
 	case RIPEMD160:	
 		return "HMAC-RIPEMD-160";
 
@@ -646,10 +498,7 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
 #ifndef TC_WINDOWS_BOOT
 
 	case SHA512:	
-		return 500000;			
-
-	case SHA1:		// Deprecated/legacy		
-		return 1000000;			
+		return 500000;
 
 	case WHIRLPOOL:	
 		return 500000;

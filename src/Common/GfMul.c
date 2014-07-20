@@ -651,43 +651,6 @@ int Gf128Tab64Init (unsigned __int8 *a, GfCtx *ctx)
 	return TRUE;
 }
 
-int Gf64TabInit (unsigned __int8 *a, GfCtx *ctx)
-{
-	/* Deprecated/legacy */
-
-	GfCtx4k64 *ctx4k;
-	unsigned __int8 am[8];
-	int i, j;
-
-	ctx4k = (GfCtx4k64 *) TCalloc (sizeof (GfCtx4k64));
-	if (!ctx4k)
-		return FALSE;
-
-	memcpy (am, a, 8);
-	MirrorBits64 (am);
-    compile_4k_table64 (am, ctx4k);
-
-	/* Convert LSB-first table to MSB-first */
-	for (i = 0; i < 16; i++) 
-	{
-		for (j = 0; j < 16; j++) 
-		{
-			int jm = 0;
-			jm |= (j & 0x1) << 3;
-			jm |= (j & 0x2) << 1;
-			jm |= (j & 0x4) >> 1;
-			jm |= (j & 0x8) >> 3;
-
-			memcpy (&ctx->gf_t64[i][jm], (unsigned char *)&ctx4k->gf_t4k[15-i][j], 8);
-			MirrorBits64 ((unsigned char *)&ctx->gf_t64[i][jm]);
-		}
-	}
-
-	burn (ctx4k,sizeof (*ctx4k));
-	burn (am, sizeof (am));
-	TCfree (ctx4k);
-	return TRUE;
-}
 
 #define xor_8kt64(i)   \
     xor_block_aligned(r, ctx->gf_t128[i + i][a[i] & 15]); \
@@ -718,36 +681,6 @@ void Gf128MulBy64Tab (unsigned __int8 a[8], unsigned __int8 p[16], GfCtx *ctx)
     move_block_aligned(p, r);
 }
 
-#define xor_8k64(i)   \
-    xor_block_aligned64(r, ctx->gf_t64[i + i][a[i] & 15]); \
-    xor_block_aligned64(r, ctx->gf_t64[i + i + 1][a[i] >> 4])
-
-/* Multiply two 64-bit numbers in the finite field GF(2^64) */
-void Gf64MulTab (unsigned char a[8], unsigned char p[8], GfCtx *ctx)
-{  
-	/* Deprecated/legacy */
-
-	unsigned __int32 r[CBLK_LEN8 >> 2];
-
-	move_block_aligned64(r, ctx->gf_t64[7*2][a[7] & 15]);
-    xor_block_aligned64(r,  ctx->gf_t64[7*2+1][a[7] >> 4]);
-
-	if (*(unsigned __int16 *)a)
-	{
-		xor_8k64(0);
-		xor_8k64(1);
-	}
-	if (a[2])
-	{
-		xor_8k64(2);
-	}
-	xor_8k64(3);
-    xor_8k64(4);
-	xor_8k64(5);
-	xor_8k64(6);
-
-    move_block_aligned64(p, r);
-}
 
 
 /* Basic algorithms for testing of optimized algorithms */
@@ -809,32 +742,6 @@ static void shl64 (unsigned __int8 *a)
 	}
 }
 
-static void GfMul64Basic (unsigned __int8 *a, unsigned __int8 *b, unsigned __int8* p)
-{
-	/* Deprecated/legacy */
-
-	int i;
-	unsigned __int8 la[8];
-	memcpy (la, a, 8);
-	memset (p, 0, 8);
-
-	for (i = 0; i < 64; i++)
-	{
-		if (IsBitSet64 (i, b))
-			xor64 ((uint64 *)p, (uint64 *)la);
-
-		if (la[0] & 0x80)
-		{
-			shl64 (la);
-			la[7] ^= 0x1b;
-		}
-		else
-		{
-			shl64 (la);
-		}
-	}
-}
-
 
 BOOL GfMulSelfTest ()
 {
@@ -849,23 +756,6 @@ BOOL GfMulSelfTest ()
 	if (!gfCtx)
 		return FALSE;
 
-	/* GF(2^64) - deprecated/legacy */
-	for (i = 0; i < 0x100; i++)
-	{
-		for (j = 0; j < 8; j++)
-		{
-			a[j] = (unsigned __int8) i;
-			b[j] = a[j] ^ 0xff;
-		}
-
-		GfMul64Basic (a, b, p1);
-	
-		Gf64TabInit (a, gfCtx);
-		Gf64MulTab (b, p2, gfCtx);
-
-		if (memcmp (p1, p2, 8) != 0)
-			result = FALSE;
-	}
 
 	/* GF(2^128) */
 	for (i = 0; i < 0x100; i++)

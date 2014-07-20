@@ -5366,15 +5366,6 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				else
 				{
-					if (idTestCipher == BLOWFISH)
-					{
-						/* Deprecated/legacy */
-
-						/* Convert to little-endian, this is needed here and not in
-						above auto-tests because BF_ecb_encrypt above correctly converts
-						from big to little endian, and EncipherBlock does not! */
-						LongReverse((unsigned int *) tmp, pt);
-					}
 
 					CipherInit2(idTestCipher, key, ks_tmp, ks);
 
@@ -5387,13 +5378,6 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 						DecipherBlock(idTestCipher, tmp, ks_tmp);
 					}
 
-					if (idTestCipher == BLOWFISH)
-					{
-						/* Deprecated/legacy */
-
-						/* Convert back to big-endian */
-						LongReverse((unsigned int *) tmp, pt);
-					}
 				}
 				*szTmp = 0;
 
@@ -5464,43 +5448,6 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 
 	SetWindowText(GetDlgItem(hwndDlg, IDC_SECONDARY_KEY), "0000000000000000000000000000000000000000000000000000000000000000");
 	SetWindowText(GetDlgItem(hwndDlg, IDC_TEST_DATA_UNIT_NUMBER), "0");
-
-	if (idTestCipher == BLOWFISH)
-	{
-		/* Deprecated/legacy */
-
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "448");
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 56);
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "256");
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 32);
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "128");
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 16);
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "64");
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 8);
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETCURSEL, 0,0);
-		SetWindowText(GetDlgItem(hwndDlg, IDC_KEY), "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
-	} 
-
-
-	if (idTestCipher == CAST)
-	{
-		/* Deprecated/legacy */
-
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "128");
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 16);
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETCURSEL, ndx,0);
-		SetWindowText(GetDlgItem(hwndDlg, IDC_KEY), "00000000000000000000000000000000");
-	}
-
-	if (idTestCipher == TRIPLEDES)
-	{
-		/* Deprecated/legacy */
-
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "168");
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 24);
-		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETCURSEL, ndx,0);
-		SetWindowText(GetDlgItem(hwndDlg, IDC_KEY), "000000000000000000000000000000000000000000000000");
-	}
 	
 	SetWindowText(GetDlgItem(hwndDlg, IDC_PLAINTEXT), "0000000000000000");
 	SetWindowText(GetDlgItem(hwndDlg, IDC_CIPHERTEXT), "0000000000000000");
