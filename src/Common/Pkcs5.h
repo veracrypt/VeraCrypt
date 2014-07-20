@@ -22,9 +22,6 @@ extern "C"
 void hmac_sha512 (char *k, int lk, char *d, int ld, char *out, int t);
 void derive_u_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b);
 void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen);
-void hmac_sha1 (char *k, int lk, char *d, int ld, char *out, int t);
-void derive_u_sha1 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b);
-void derive_key_sha1 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen);
 void hmac_ripemd160 (char *key, int keylen, char *input, int len, char *digest);
 void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b);
 void derive_key_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen);

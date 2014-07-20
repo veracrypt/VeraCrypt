@@ -11,8 +11,6 @@
 #include "Crc32.h"
 #include "EncryptionAlgorithm.h"
 #include "EncryptionMode.h"
-#include "EncryptionModeCBC.h"
-#include "EncryptionModeLRW.h"
 #include "EncryptionModeXTS.h"
 #include "EncryptionTest.h"
 #include "Pkcs5Kdf.h"
@@ -35,81 +33,7 @@ namespace VeraCrypt
 		TestCiphers();
 		TestXtsAES();
 		TestXts();
-		TestLegacyModes();
 		TestPkcs5();
-	}
-
-	void EncryptionTest::TestLegacyModes ()
-	{
-		byte buf[ENCRYPTION_DATA_UNIT_SIZE * 2];
-		byte iv[32];
-		unsigned int i;
-		uint32 crc;
-		uint64 secNo = 0x0234567890ABCDEFull;
-
-		for (i = 0; i < sizeof (buf); i++)
-			buf[i] = (byte) i;
-
-		for (i = 0; i < sizeof (iv); i++)
-			iv[i] = (byte) i;
-
-		EncryptionModeList encModes = EncryptionMode::GetAvailableModes ();
-
-		foreach_ref (EncryptionAlgorithm &ea, EncryptionAlgorithm::GetAvailableAlgorithms())
-		{
-			foreach (shared_ptr <EncryptionMode> mode, encModes)
-			{
-				if (typeid (*mode) == typeid (EncryptionModeXTS))
-					continue;
-
-				if (!mode->IsKeySet())
-				{
-					mode->SetKey (ConstBufferPtr (iv, mode->GetKeySize()));
-					mode->SetSectorOffset (1);
-				}
-
-				if (ea.IsModeSupported (mode))
-				{
-					ea.SetMode (mode);
-					ea.SetKey (ConstBufferPtr (buf, ea.GetKeySize()));
-
-					ea.EncryptSectors (buf, secNo, sizeof (buf) / ENCRYPTION_DATA_UNIT_SIZE, ENCRYPTION_DATA_UNIT_SIZE);
-					ea.DecryptSectors (buf, secNo, sizeof (buf) / ENCRYPTION_DATA_UNIT_SIZE, ENCRYPTION_DATA_UNIT_SIZE);
-					ea.EncryptSectors (buf, secNo, sizeof (buf) / ENCRYPTION_DATA_UNIT_SIZE, ENCRYPTION_DATA_UNIT_SIZE);
-
-					crc = ::GetCrc32 (buf, sizeof (buf));
-
-					if (typeid (*mode) == typeid (EncryptionModeLRW))
-					{
-						if (typeid (ea) == typeid (AES)					&& crc != 0x5237acf9) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (AESTwofish)			&& crc != 0x4ed0fd80) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (AESTwofishSerpent)	&& crc != 0xea04b3cf) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (Blowfish)			&& crc != 0xf94d5300) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (Cast5)				&& crc != 0x33971e82) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (Serpent)				&& crc != 0x7fb86805) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (TripleDES)			&& crc != 0x2b20bb84) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (Twofish)				&& crc != 0xa9de0f0b) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (TwofishSerpent)		&& crc != 0xca65c5cd) throw TestFailed (SRC_POS);
-					}
-
-					if (typeid (*mode) == typeid (EncryptionModeCBC))
-					{
-						if (typeid (ea) == typeid (AES)					&& crc != 0x2274f53d) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (AESBlowfish)			&& crc != 0xa7a80c84) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (AESBlowfishSerpent)	&& crc != 0xa0584562) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (AESTwofish)			&& crc != 0x3c226444) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (AESTwofishSerpent)	&& crc != 0x5e5e77fd) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (Blowfish)			&& crc != 0x033899a1) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (Cast5)				&& crc != 0x331cecc7) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (Serpent)				&& crc != 0x42dff3d4) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (TripleDES)			&& crc != 0xfe497d0c) throw TestFailed (SRC_POS);
-						if (typeid (ea) == typeid (TwofishSerpent)		&& crc != 0xa7b659f3) throw TestFailed (SRC_POS);
-					}
-
-					ea.DecryptSectors (buf, secNo, sizeof (buf) / ENCRYPTION_DATA_UNIT_SIZE, ENCRYPTION_DATA_UNIT_SIZE);
-				}
-			}
-		}
 	}
 
 
@@ -870,11 +794,6 @@ namespace VeraCrypt
 		Pkcs5HmacRipemd160 pkcs5HmacRipemd160;
 		pkcs5HmacRipemd160.DeriveKey (derivedKey, password, salt, 5, FALSE);
 		if (memcmp (derivedKey.Ptr(), "\x7a\x3d\x7c\x03", 4) != 0)
-			throw TestFailed (SRC_POS);
-
-		Pkcs5HmacSha1 pkcs5HmacSha1;
-		pkcs5HmacSha1.DeriveKey (derivedKey, password, salt, 5, FALSE);
-		if (memcmp (derivedKey.Ptr(), "\x5c\x75\xce\xf0", 4) != 0)
 			throw TestFailed (SRC_POS);
 
 		Pkcs5HmacSha512 pkcs5HmacSha512;

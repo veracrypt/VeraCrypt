@@ -9,9 +9,6 @@
 #include "Platform/Platform.h"
 #include "Cipher.h"
 #include "Crypto/Aes.h"
-#include "Crypto/Blowfish.h"
-#include "Crypto/Des.h"
-#include "Crypto/Cast.h"
 #include "Crypto/Serpent.h"
 #include "Crypto/Twofish.h"
 
@@ -76,9 +73,6 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Cipher> (new CipherAES ()));
 		l.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
 		l.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
-		l.push_back (shared_ptr <Cipher> (new CipherBlowfish ()));
-		l.push_back (shared_ptr <Cipher> (new CipherCast5 ()));
-		l.push_back (shared_ptr <Cipher> (new CipherTripleDES ()));
 
 		return l;
 	}
@@ -199,51 +193,6 @@ namespace VeraCrypt
 			throw CipherInitError (SRC_POS);
 	}
 
-	
-	// Blowfish
-	void CipherBlowfish::Decrypt (byte *data) const
-	{
-		BlowfishEncryptLE (data, data, (BF_KEY *) ScheduledKey.Ptr(), 0);
-	}
-
-	void CipherBlowfish::Encrypt (byte *data) const
-	{
-		BlowfishEncryptLE (data, data, (BF_KEY *) ScheduledKey.Ptr(), 1);
-	}
-
-	size_t CipherBlowfish::GetScheduledKeySize () const
-	{
-		return sizeof (BF_KEY);
-	}
-
-	void CipherBlowfish::SetCipherKey (const byte *key)
-	{
-		BlowfishSetKey ((BF_KEY *) ScheduledKey.Ptr(), static_cast<int> (GetKeySize ()), (unsigned char *) key);
-	}
-
-
-	// CAST5
-	void CipherCast5::Decrypt (byte *data) const
-	{
-		Cast5Decrypt (data, data, (CAST_KEY *) ScheduledKey.Ptr());
-	}
-
-	void CipherCast5::Encrypt (byte *data) const
-	{
-		Cast5Encrypt (data, data, (CAST_KEY *) ScheduledKey.Ptr());
-	}
-
-	size_t CipherCast5::GetScheduledKeySize () const
-	{
-		return sizeof (CAST_KEY);
-	}
-
-	void CipherCast5::SetCipherKey (const byte *key)
-	{
-		Cast5SetKey ((CAST_KEY *) ScheduledKey.Ptr(), static_cast<int> (GetKeySize ()), (unsigned char *) key);
-	}
-
-
 	// Serpent
 	void CipherSerpent::Decrypt (byte *data) const
 	{
@@ -263,28 +212,6 @@ namespace VeraCrypt
 	void CipherSerpent::SetCipherKey (const byte *key)
 	{
 		serpent_set_key (key, static_cast<int> (GetKeySize ()), ScheduledKey);
-	}
-
-
-	// Triple-DES
-	void CipherTripleDES::Decrypt (byte *data) const
-	{
-		TripleDesEncrypt (data, data, (TDES_KEY *) ScheduledKey.Ptr(), 0);
-	}
-
-	void CipherTripleDES::Encrypt (byte *data) const
-	{
-		TripleDesEncrypt (data, data, (TDES_KEY *) ScheduledKey.Ptr(), 1);
-	}
-
-	size_t CipherTripleDES::GetScheduledKeySize () const
-	{
-		return sizeof (TDES_KEY);
-	}
-
-	void CipherTripleDES::SetCipherKey (const byte *key)
-	{
-		TripleDesSetKey (key, GetKeySize(), (TDES_KEY *) ScheduledKey.Ptr());
 	}
 
 

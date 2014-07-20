@@ -4353,7 +4353,6 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 		BYTE *digest [MAX_DIGESTSIZE];
 		WHIRLPOOL_CTX	wctx;
 		RMD160_CTX		rctx;
-		sha1_ctx		sctx;
 		sha512_ctx		s2ctx;
 		int hid;
 
@@ -4364,11 +4363,6 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 
 			switch (hid)
 			{
-			case SHA1:
-				sha1_begin (&sctx);
-				sha1_hash (lpTestBuffer, benchmarkBufferSize, &sctx);
-				sha1_end ((unsigned char *) digest, &sctx);
-				break;
 
 			case SHA512:
 				sha512_begin (&s2ctx);
@@ -4424,10 +4418,6 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 			{
 				switch (thid)
 				{
-				case SHA1:
-					/* PKCS-5 test with HMAC-SHA-1 used as the PRF */
-					derive_key_sha1 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE), dk, MASTER_KEYDATA_SIZE);
-					break;
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */

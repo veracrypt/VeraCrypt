@@ -17,7 +17,6 @@
 #include "CoreLinux.h"
 #include "Platform/SystemInfo.h"
 #include "Platform/TextReader.h"
-#include "Volume/EncryptionModeLRW.h"
 #include "Volume/EncryptionModeXTS.h"
 #include "Driver/Fuse/FuseService.h"
 #include "Core/Unix/CoreServiceProxy.h"
@@ -290,10 +289,9 @@ namespace VeraCrypt
 	void CoreLinux::MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const
 	{
 		bool xts = (typeid (*volume->GetEncryptionMode()) == typeid (EncryptionModeXTS));
-		bool lrw = (typeid (*volume->GetEncryptionMode()) == typeid (EncryptionModeLRW));
 
 		if (options.NoKernelCrypto
-			|| (!xts && (!lrw || volume->GetEncryptionAlgorithm()->GetCiphers().size() > 1 || volume->GetEncryptionAlgorithm()->GetMinBlockSize() != 16))
+			|| !xts
 			|| volume->GetProtectionType() == VolumeProtection::HiddenVolumeReadOnly)
 		{
 			throw NotApplicable (SRC_POS);
@@ -371,9 +369,6 @@ namespace VeraCrypt
 				{
 					sprintf ((char *) hexStr.Ptr(), "%02x", (int) cipherKey[i]);
 					dmCreateArgsBuf.GetRange (keyArgOffset + i * 2, 2).CopyFrom (hexStr.GetRange (0, 2));
-
-					if (lrw && i >= 16)
-						continue;
 
 					sprintf ((char *) hexStr.Ptr(), "%02x", (int) secondaryKey[i]);
 					dmCreateArgsBuf.GetRange (keyArgOffset + cipherKey.Size() * 2 + i * 2, 2).CopyFrom (hexStr.GetRange (0, 2));

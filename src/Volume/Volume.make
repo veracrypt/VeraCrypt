@@ -41,12 +41,8 @@ endif
 
 OBJS += ../Crypto/Aeskey.o
 OBJS += ../Crypto/Aestab.o
-OBJS += ../Crypto/Blowfish.o
-OBJS += ../Crypto/Cast.o
-OBJS += ../Crypto/Des.o
 OBJS += ../Crypto/Rmd160.o
 OBJS += ../Crypto/Serpent.o
-OBJS += ../Crypto/Sha1.o
 OBJS += ../Crypto/Sha2.o
 OBJS += ../Crypto/Twofish.o
 OBJS += ../Crypto/Whirlpool.o

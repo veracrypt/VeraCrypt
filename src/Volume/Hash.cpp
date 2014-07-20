@@ -9,7 +9,6 @@
 #include "Hash.h"
 
 #include "Crypto/Rmd160.h"
-#include "Crypto/Sha1.h"
 #include "Crypto/Sha2.h"
 #include "Crypto/Whirlpool.h"
 
@@ -22,7 +21,6 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Hash> (new Ripemd160 ()));
 		l.push_back (shared_ptr <Hash> (new Sha512 ()));
 		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
-		l.push_back (shared_ptr <Hash> (new Sha1 ()));
 
 		return l;
 	}
@@ -61,31 +59,6 @@ namespace VeraCrypt
 	{
 		if_debug (ValidateDataParameters (data));
 		RMD160Update ((RMD160_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
-	}
-	
-	// SHA-1
-	Sha1::Sha1 ()
-	{
-		Deprecated = true;
-		Context.Allocate (sizeof (sha1_ctx));
-		Init();
-	}
-
-	void Sha1::GetDigest (const BufferPtr &buffer)
-	{
-		if_debug (ValidateDigestParameters (buffer));
-		sha1_end (buffer, (sha1_ctx *) Context.Ptr());
-	}
-
-	void Sha1::Init ()
-	{
-		sha1_begin ((sha1_ctx *) Context.Ptr());
-	}
-
-	void Sha1::ProcessData (const ConstBufferPtr &data)
-	{
-		if_debug (ValidateDataParameters (data));
-		sha1_hash (data.Get(), (int) data.Size(), (sha1_ctx *) Context.Ptr());
 	}
 
 	// SHA-512

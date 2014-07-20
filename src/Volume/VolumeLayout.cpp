@@ -7,8 +7,6 @@
 */
 
 #include "Volume/EncryptionMode.h"
-#include "Volume/EncryptionModeCBC.h"
-#include "Volume/EncryptionModeLRW.h"
 #include "Volume/EncryptionModeXTS.h"
 #include "VolumeLayout.h"
 #include "Boot/Windows/BootCommon.h"
@@ -73,15 +71,7 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
 
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESBlowfish ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESBlowfishSerpent ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new Blowfish ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new Cast5 ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TripleDES ()));
-
 		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	uint64 VolumeLayoutV1Normal::GetDataOffset (uint64 volumeHostSize) const
@@ -110,15 +100,7 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
 
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESBlowfish ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESBlowfishSerpent ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new Blowfish ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new Cast5 ()));
-		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TripleDES ()));
-
 		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	uint64 VolumeLayoutV1Hidden::GetDataOffset (uint64 volumeHostSize) const

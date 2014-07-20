@@ -7,8 +7,6 @@
 */
 
 #include "EncryptionAlgorithm.h"
-#include "EncryptionModeCBC.h"
-#include "EncryptionModeLRW.h"
 #include "EncryptionModeXTS.h"
 
 namespace VeraCrypt
@@ -68,11 +66,6 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
 
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESBlowfish ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESBlowfishSerpent ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new Blowfish ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new Cast5 ()));
-		l.push_back (shared_ptr <EncryptionAlgorithm> (new TripleDES ()));
 		return l;
 	}
 
@@ -209,31 +202,6 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
-	}
-
-	// AES-Blowfish
-	AESBlowfish::AESBlowfish ()
-	{
-		Deprecated = true;
-
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherBlowfish ()));
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
-	}
-
-	// AES-Blowfish-Serpent
-	AESBlowfishSerpent::AESBlowfishSerpent ()
-	{
-		Deprecated = true;
-
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherBlowfish ()));
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	// AES-Twofish
@@ -243,8 +211,6 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	// AES-Twofish-Serpent
@@ -255,28 +221,6 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
-	}
-
-	// Blowfish
-	Blowfish::Blowfish ()
-	{
-		Deprecated = true;
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherBlowfish()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
-	}
-
-	// CAST5
-	Cast5::Cast5 ()
-	{
-		Deprecated = true;
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherCast5()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	// Serpent
@@ -285,8 +229,6 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	// Serpent-AES
@@ -296,18 +238,6 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
-	}
-
-	// Triple-DES
-	TripleDES::TripleDES ()
-	{
-		Deprecated = true;
-		Ciphers.push_back (shared_ptr <Cipher> (new CipherTripleDES()));
-
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	// Twofish
@@ -316,8 +246,6 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	// Twofish-Serpent
@@ -327,8 +255,6 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 
 	// Serpent-Twofish-AES
@@ -339,7 +265,5 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 	}
 }

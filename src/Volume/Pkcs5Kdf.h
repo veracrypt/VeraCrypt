@@ -75,21 +75,6 @@ namespace VeraCrypt
 		Pkcs5HmacRipemd160_1000 &operator= (const Pkcs5HmacRipemd160_1000 &);
 	};
 
-	class Pkcs5HmacSha1 : public Pkcs5Kdf
-	{
-	public:
-		Pkcs5HmacSha1 () { }
-		virtual ~Pkcs5HmacSha1 () { }
-
-		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
-		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha1); }
-		virtual int GetIterationCount () const { return 500000; }
-		virtual wstring GetName () const { return L"HMAC-SHA-1"; }
-
-	private:
-		Pkcs5HmacSha1 (const Pkcs5HmacSha1 &);
-		Pkcs5HmacSha1 &operator= (const Pkcs5HmacSha1 &);
-	};
 
 	class Pkcs5HmacSha512 : public Pkcs5Kdf
 	{

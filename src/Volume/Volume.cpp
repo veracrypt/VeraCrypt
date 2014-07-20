@@ -9,7 +9,6 @@
 #ifndef TC_WINDOWS
 #include <errno.h>
 #endif
-#include "EncryptionModeLRW.h"
 #include "EncryptionModeXTS.h"
 #include "Volume.h"
 #include "VolumeHeader.h"
@@ -225,10 +224,6 @@ namespace VeraCrypt
 							throw PasswordIncorrect (SRC_POS);
 
 						mode.SetSectorOffset (partitionStartOffset / ENCRYPTION_DATA_UNIT_SIZE);
-					}
-					else if (typeid (mode) == typeid (EncryptionModeLRW))
-					{
-						mode.SetSectorOffset (VolumeDataOffset / SectorSize);
 					}
 
 					// Volume protection

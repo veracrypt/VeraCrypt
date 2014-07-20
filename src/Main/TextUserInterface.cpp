@@ -1184,7 +1184,6 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 		if (!Preferences.NonInteractive && !Preferences.DisableKernelEncryptionModeWarning
 			&& volume->EncryptionModeName != L"XTS"
-			&& (volume->EncryptionModeName != L"LRW" || volume->EncryptionAlgorithmMinBlockSize != 16 || volume->EncryptionAlgorithmKeySize != 32))
 		{
 			ShowWarning (LangString["ENCRYPTION_MODE_NOT_SUPPORTED_BY_KERNEL"]);
 		}

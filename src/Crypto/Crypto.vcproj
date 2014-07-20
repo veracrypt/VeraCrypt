@@ -254,27 +254,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Blowfish.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Cast.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Des.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Rmd160.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Serpent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Sha1.h"
 				>
 			</File>
 			<File

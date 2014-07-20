@@ -53,7 +53,6 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 ()));
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 ()));
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool ()));
-		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha1 ()));
 
 		return l;
 	}
@@ -74,12 +73,6 @@ namespace VeraCrypt
 	{
 		ValidateParameters (key, password, salt, iterationCount);
 		derive_key_ripemd160 (bNotTest, (char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
-	}
-
-	void Pkcs5HmacSha1::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const
-	{
-		ValidateParameters (key, password, salt, iterationCount);
-		derive_key_sha1 ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
 
 	void Pkcs5HmacSha512::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const

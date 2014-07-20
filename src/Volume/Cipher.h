@@ -100,10 +100,7 @@ namespace VeraCrypt
 #undef TC_CIPHER_ADD_METHODS
 #define TC_CIPHER_ADD_METHODS
 
-	TC_CIPHER (Blowfish, 8, 56);
-	TC_CIPHER (Cast5, 8, 16);
 	TC_CIPHER (Serpent, 16, 32);
-	TC_CIPHER (TripleDES, 8, 24);
 	TC_CIPHER (Twofish, 16, 32);
 
 #undef TC_CIPHER

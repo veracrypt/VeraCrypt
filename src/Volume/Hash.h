@@ -65,28 +65,6 @@ namespace VeraCrypt
 		Ripemd160 &operator= (const Ripemd160 &);
 	};
 
-	// SHA-1
-	class Sha1 : public Hash
-	{
-	public:
-		Sha1 ();
-		virtual ~Sha1 () { }
-
-		virtual void GetDigest (const BufferPtr &buffer);
-		virtual size_t GetBlockSize () const { return 64; }
-		virtual size_t GetDigestSize () const { return 160 / 8; }
-		virtual wstring GetName () const { return L"SHA-1"; }
-		virtual shared_ptr <Hash> GetNew () const { return shared_ptr <Hash> (new Sha1); }
-		virtual void Init ();
-		virtual void ProcessData (const ConstBufferPtr &data);
-
-	protected:
-
-	private:
-		Sha1 (const Sha1 &);
-		Sha1 &operator= (const Sha1 &);
-	};
-
 	// SHA-512
 	class Sha512 : public Hash
 	{

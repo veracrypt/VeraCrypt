@@ -7,8 +7,6 @@
 */
 
 #include "EncryptionMode.h"
-#include "EncryptionModeCBC.h"
-#include "EncryptionModeLRW.h"
 #include "EncryptionModeXTS.h"
 #include "EncryptionThreadPool.h"
 
@@ -37,8 +35,6 @@ namespace VeraCrypt
 		EncryptionModeList l;
 
 		l.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
-		l.push_back (shared_ptr <EncryptionMode> (new EncryptionModeLRW ()));
-		l.push_back (shared_ptr <EncryptionMode> (new EncryptionModeCBC ()));
 
 		return l;
 	}

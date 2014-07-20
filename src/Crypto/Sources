@@ -12,12 +12,8 @@ SOURCES = \
 	Aes_hw_cpu.asm \
 	Aeskey.c \
 	Aestab.c \
-	Blowfish.c \
-	Cast.c \
-	Des.c \
 	Rmd160.c \
 	Serpent.c \
-	Sha1.c \
 	Sha2.c \
 	Twofish.c \
 	Whirlpool.c
