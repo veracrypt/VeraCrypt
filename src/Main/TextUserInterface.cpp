@@ -1183,7 +1183,7 @@ namespace VeraCrypt
 
 #ifdef TC_LINUX
 		if (!Preferences.NonInteractive && !Preferences.DisableKernelEncryptionModeWarning
-			&& volume->EncryptionModeName != L"XTS"
+			&& volume->EncryptionModeName != L"XTS")
 		{
 			ShowWarning (LangString["ENCRYPTION_MODE_NOT_SUPPORTED_BY_KERNEL"]);
 		}
