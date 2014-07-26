@@ -501,7 +501,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	area is occuppied by data until the very end of the process). */
 
 	// Prepare the backup header
-	for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_DISK_WIPE_PASSES); wipePass++)
+	for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_HEADER_WIPE_PASSES); wipePass++)
 	{
 		nStatus = CreateVolumeHeaderInMemory (FALSE,
 			header,
@@ -518,7 +518,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 			0,
 			volParams->headerFlags | TC_HEADER_FLAG_NONSYS_INPLACE_ENC,
 			volParams->sectorSize,
-			wipeAlgorithm == TC_WIPE_NONE ? FALSE : (wipePass < PRAND_DISK_WIPE_PASSES - 1));
+			wipeAlgorithm == TC_WIPE_NONE ? FALSE : (wipePass < PRAND_HEADER_WIPE_PASSES - 1));
 
 		if (nStatus != 0)
 			goto closing_seq;
@@ -969,7 +969,7 @@ inplace_enc_read:
 
 		SetNonSysInplaceEncUIStatus (NONSYS_INPLACE_ENC_STATUS_FINALIZING);
 
-		for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_DISK_WIPE_PASSES); wipePass++)
+		for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_HEADER_WIPE_PASSES); wipePass++)
 		{
 			nStatus = CreateVolumeHeaderInMemory (FALSE,
 				header,
@@ -986,7 +986,7 @@ inplace_enc_read:
 				masterCryptoInfo->RequiredProgramVersion,
 				masterCryptoInfo->HeaderFlags | TC_HEADER_FLAG_NONSYS_INPLACE_ENC,
 				masterCryptoInfo->SectorSize,
-				wipeAlgorithm == TC_WIPE_NONE ? FALSE : (wipePass < PRAND_DISK_WIPE_PASSES - 1));
+				wipeAlgorithm == TC_WIPE_NONE ? FALSE : (wipePass < PRAND_HEADER_WIPE_PASSES - 1));
 
 			if (nStatus != ERR_SUCCESS)
 				goto closing_seq;

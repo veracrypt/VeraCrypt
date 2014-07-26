@@ -159,6 +159,9 @@ typedef struct
 #	define PRAND_DISK_WIPE_PASSES	256
 #endif
 
+/* specific value for volume header wipe used only when drive is fully wiped. */
+#define PRAND_HEADER_WIPE_PASSES	3
+
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_AES)
 #	include "Aes.h"
 #else
