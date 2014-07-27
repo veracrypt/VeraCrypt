@@ -796,7 +796,7 @@ _INFO
 Uninstalling VeraCrypt:
 -----------------------
 
-To uninstall VeraCrypt, please run 'truecrypt-uninstall.sh'.
+To uninstall VeraCrypt, please run 'veracrypt-uninstall.sh'.
 
 _INFO
 )"
