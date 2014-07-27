@@ -259,7 +259,7 @@ void HandCursor ();
 void AddComboPair (HWND hComboBox, const char *lpszItem, int value);
 void AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value);
 void SelectAlgo ( HWND hComboBox , int *nCipher );
-void PopulateWipeModeCombo (HWND hComboBox, BOOL bNA, BOOL bInPlaceEncryption);
+void PopulateWipeModeCombo (HWND hComboBox, BOOL bNA, BOOL bInPlaceEncryption, BOOL bHeaderWipe);
 wchar_t *GetWipeModeName (WipeAlgorithmId modeId);
 wchar_t *GetPathType (const char *path, BOOL bUpperCase, BOOL *bIsPartition);
 LRESULT CALLBACK CustomDlgProc ( HWND hwnd , UINT uMsg , WPARAM wParam , LPARAM lParam );

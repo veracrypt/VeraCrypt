@@ -27,7 +27,7 @@ library TrueCryptMainCom
 		void AnalyzeKernelMiniDump (LONG_PTR hwndDlg);
 		int BackupVolumeHeader (LONG_PTR hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume);
 		DWORD CallDriver (DWORD ioctl, BSTR input, BSTR *output);
-		int ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, LONG_PTR hWnd);
+		int ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd);
 		DWORD CopyFile (BSTR sourceFile, BSTR destinationFile);
 		DWORD DeleteFile (BSTR file);
 		BOOL IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly);

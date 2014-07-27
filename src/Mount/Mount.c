@@ -1396,6 +1396,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			LPARAM nIndex;
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			int i;
+			WipeAlgorithmId headerWipeMode = TC_WIPE_3_DOD_5220;
 
 			ZeroMemory (&newKeyFilesParam, sizeof (newKeyFilesParam));
 
@@ -1426,6 +1427,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 
 			SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
+
+			PopulateWipeModeCombo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), FALSE, FALSE, TRUE);
+			SelectAlgo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), (int *) &headerWipeMode);
 
 			switch (pwdChangeDlgMode)
 			{
@@ -1751,6 +1755,11 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HWND hParent = GetParent (hwndDlg);
 			Password oldPassword;
 			Password newPassword;
+			WipeAlgorithmId headerWiperMode = (WipeAlgorithmId) SendMessage (
+				GetDlgItem (hwndDlg, IDC_WIPE_MODE), 
+				CB_GETITEMDATA, 
+				SendMessage (GetDlgItem (hwndDlg, IDC_WIPE_MODE), CB_GETCURSEL, 0, 0), 
+				0);
 			int nStatus;
 			int pkcs5 = SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
@@ -1813,7 +1822,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				try
 				{
-					nStatus = BootEncObj->ChangePassword (&oldPassword, &newPassword, pkcs5);
+					nStatus = BootEncObj->ChangePassword (&oldPassword, &newPassword, pkcs5, GetWipePassCount(headerWiperMode));
 				}
 				catch (Exception &e)
 				{
@@ -1825,14 +1834,14 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 				// Non-system
 
-				nStatus = ChangePwd (szFileName, &oldPassword, &newPassword, pkcs5, hwndDlg);
+				nStatus = ChangePwd (szFileName, &oldPassword, &newPassword, pkcs5, GetWipePassCount(headerWiperMode), hwndDlg);
 
 				if (nStatus == ERR_OS_ERROR
 					&& GetLastError () == ERROR_ACCESS_DENIED
 					&& IsUacSupported ()
 					&& IsVolumeDeviceHosted (szFileName))
 				{
-					nStatus = UacChangePwd (szFileName, &oldPassword, &newPassword, pkcs5, hwndDlg);
+					nStatus = UacChangePwd (szFileName, &oldPassword, &newPassword, pkcs5, GetWipePassCount(headerWiperMode), hwndDlg);
 				}
 			}
 

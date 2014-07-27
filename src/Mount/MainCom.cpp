@@ -100,13 +100,13 @@ public:
 		return BaseCom::CallDriver (ioctl, input, output);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
 	{
 		USES_CONVERSION;
 		CW2A volumePathA(volumePath);
 		MainDlg = (HWND) hWnd;
 		if (volumePathA.m_psz)
-			return ::ChangePwd (volumePathA.m_psz, oldPassword, newPassword, pkcs5, (HWND) hWnd);
+			return ::ChangePwd (volumePathA.m_psz, oldPassword, newPassword, pkcs5, wipePassCount,(HWND) hWnd);
 		else
 			return ERR_OUTOFMEMORY;
 	}
@@ -261,7 +261,7 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 }
 
 
-extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, HWND hwndDlg)
+extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
 {
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
@@ -269,7 +269,7 @@ extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, Password *
 	if (ComGetInstance (hwndDlg, &tc))
 	{
 		WaitCursor ();
-		r = tc->ChangePassword (CComBSTR (lpszVolume), oldPassword, newPassword, pkcs5, (LONG_PTR) hwndDlg);
+		r = tc->ChangePassword (CComBSTR (lpszVolume), oldPassword, newPassword, pkcs5, wipePassCount, (LONG_PTR) hwndDlg);
 		NormalCursor ();
 	}
 	else

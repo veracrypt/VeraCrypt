@@ -2060,7 +2060,7 @@ namespace VeraCrypt
 	}
 
 
-	int BootEncryption::ChangePassword (Password *oldPassword, Password *newPassword, int pkcs5)
+	int BootEncryption::ChangePassword (Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount)
 	{
 		BootEncryptionStatus encStatus = GetStatus();
 
@@ -2125,7 +2125,7 @@ namespace VeraCrypt
 		UserEnrichRandomPool (ParentWindow);
 		WaitCursor();
 
-		/* The header will be re-encrypted PRAND_DISK_WIPE_PASSES times to prevent adversaries from using 
+		/* The header will be re-encrypted wipePassCount times to prevent adversaries from using 
 		techniques such as magnetic force microscopy or magnetic force scanning tunnelling microscopy
 		to recover the overwritten header. According to Peter Gutmann, data should be overwritten 22
 		times (ideally, 35 times) using non-random patterns and pseudorandom data. However, as users might
@@ -2145,7 +2145,7 @@ namespace VeraCrypt
 			BOOL backupHeader = FALSE;
 			while (TRUE)
 			{
-				for (int wipePass = 0; wipePass < PRAND_DISK_WIPE_PASSES; wipePass++)
+				for (int wipePass = 0; wipePass < wipePassCount; wipePass++)
 				{
 					PCRYPTO_INFO tmpCryptoInfo = NULL;
 
@@ -2164,7 +2164,7 @@ namespace VeraCrypt
 						cryptoInfo->RequiredProgramVersion,
 						cryptoInfo->HeaderFlags | TC_HEADER_FLAG_ENCRYPTED_SYSTEM,
 						cryptoInfo->SectorSize,
-						wipePass < PRAND_DISK_WIPE_PASSES - 1);
+						wipePass < wipePassCount - 1);
 
 					if (tmpCryptoInfo)
 						crypto_close (tmpCryptoInfo);

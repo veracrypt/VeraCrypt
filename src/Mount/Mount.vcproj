@@ -374,6 +374,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Common\Wipe.c"
+					>
+				</File>
+				<File
 					RelativePath="..\Common\Wipe.h"
 					>
 				</File>

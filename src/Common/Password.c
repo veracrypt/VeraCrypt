@@ -119,7 +119,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem)
 	return TRUE;
 }
 
-int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, HWND hwndDlg)
+int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
 	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -323,7 +323,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassw
 
 	while (TRUE)
 	{
-		/* The header will be re-encrypted PRAND_DISK_WIPE_PASSES times to prevent adversaries from using 
+		/* The header will be re-encrypted wipePassCount times to prevent adversaries from using 
 		techniques such as magnetic force microscopy or magnetic force scanning tunnelling microscopy
 		to recover the overwritten header. According to Peter Gutmann, data should be overwritten 22
 		times (ideally, 35 times) using non-random patterns and pseudorandom data. However, as users might
@@ -335,7 +335,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassw
 		of the header to differ substantially and in a random manner from the versions written during the
 		other passes. */
 
-		for (wipePass = 0; wipePass < PRAND_DISK_WIPE_PASSES; wipePass++)
+		for (wipePass = 0; wipePass < wipePassCount; wipePass++)
 		{
 			// Prepare new volume header
 			nStatus = CreateVolumeHeaderInMemory (FALSE,
@@ -353,7 +353,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassw
 				cryptoInfo->RequiredProgramVersion,
 				cryptoInfo->HeaderFlags,
 				cryptoInfo->SectorSize,
-				wipePass < PRAND_DISK_WIPE_PASSES - 1);
+				wipePass < wipePassCount - 1);
 
 			if (ci != NULL)
 				crypto_close (ci);

@@ -155,6 +155,9 @@ int GetWipePassCount (WipeAlgorithmId algorithm)
 	case TC_WIPE_35_GUTMANN:
 		return 35;
 
+	case TC_WIPE_256:
+		return 256;
+
 	default:
 		TC_THROW_FATAL_EXCEPTION;
 	}
@@ -168,6 +171,7 @@ BOOL WipeBuffer (WipeAlgorithmId algorithm, byte randChars[TC_WIPE_RAND_CHAR_COU
 	switch (algorithm)
 	{
 	case TC_WIPE_1_RAND:
+	case TC_WIPE_256:
 		return Wipe1PseudoRandom (pass, buffer, size);
 
 	case TC_WIPE_3_DOD_5220:

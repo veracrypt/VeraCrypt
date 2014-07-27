@@ -141,7 +141,7 @@ namespace VeraCrypt
 		void AbortSetup ();
 		void AbortSetupWait ();
 		void CallDriver (DWORD ioctl, void *input = nullptr, DWORD inputSize = 0, void *output = nullptr, DWORD outputSize = 0);
-		int ChangePassword (Password *oldPassword, Password *newPassword, int pkcs5);
+		int ChangePassword (Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount);
 		void CheckDecoyOSWipeResult ();
 		void CheckEncryptionSetupResult ();
 		void CheckRequirements ();

@@ -106,11 +106,13 @@
 #define IDC_SHOW_PASSWORD_CHPWD_ORI     1083
 #define IDC_HK_DISMOUNT_PLAY_SOUND      1084
 #define IDC_HOTKEY_ASSIGN               1085
+#define IDC_WIPE_MODE                   1085
 #define IDC_HOTKEY_REMOVE               1086
 #define IDC_HOTKEY_KEY                  1087
 #define IDT_HOTKEY_KEY                  1088
 #define IDC_HOTKEY_LIST                 1089
 #define IDC_RESET_HOTKEYS               1090
+#define IDT_WIPE_MODE                   1090
 #define IDT_DISMOUNT_ACTION             1091
 #define IDT_ASSIGN_HOTKEY               1092
 #define IDC_HK_MOD_SHIFT                1093

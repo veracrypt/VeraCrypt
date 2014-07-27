@@ -1565,7 +1565,7 @@ SelectAlgo (HWND hComboBox, int *algo_id)
 
 }
 
-void PopulateWipeModeCombo (HWND hComboBox, BOOL bNA, BOOL bInPlaceEncryption)
+void PopulateWipeModeCombo (HWND hComboBox, BOOL bNA, BOOL bInPlaceEncryption, BOOL bHeaderWipe)
 {
 	if (bNA)
 	{
@@ -1573,14 +1573,20 @@ void PopulateWipeModeCombo (HWND hComboBox, BOOL bNA, BOOL bInPlaceEncryption)
 	}
 	else
 	{
-		if (bInPlaceEncryption)
-			AddComboPairW (hComboBox, GetString ("WIPE_MODE_NONE"), TC_WIPE_NONE);
-		else
-			AddComboPairW (hComboBox, GetString ("WIPE_MODE_1_RAND"), TC_WIPE_1_RAND);
+		if (!bHeaderWipe)
+		{
+			if (bInPlaceEncryption)
+				AddComboPairW (hComboBox, GetString ("WIPE_MODE_NONE"), TC_WIPE_NONE);
+			else
+				AddComboPairW (hComboBox, GetString ("WIPE_MODE_1_RAND"), TC_WIPE_1_RAND);
+		}
 
 		AddComboPairW (hComboBox, GetString ("WIPE_MODE_3_DOD_5220"), TC_WIPE_3_DOD_5220);
 		AddComboPairW (hComboBox, GetString ("WIPE_MODE_7_DOD_5220"), TC_WIPE_7_DOD_5220);
 		AddComboPairW (hComboBox, GetString ("WIPE_MODE_35_GUTMANN"), TC_WIPE_35_GUTMANN);
+
+		if (bHeaderWipe)
+			AddComboPairW (hComboBox, GetString ("WIPE_MODE_256"), TC_WIPE_256); // paranoid wipe for volume header
 	}
 }
 
@@ -1602,6 +1608,9 @@ wchar_t *GetWipeModeName (WipeAlgorithmId modeId)
 
 	case TC_WIPE_35_GUTMANN:
 		return GetString ("WIPE_MODE_35_GUTMANN");
+
+	case TC_WIPE_256:
+		return GetString ("WIPE_MODE_256");
 
 	default:
 		return GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE");
