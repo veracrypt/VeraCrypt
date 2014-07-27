@@ -196,7 +196,7 @@ namespace VeraCrypt
 		{
 			long wipeCount;
 			wxString wipeCountStrDesc = HeaderWipeCount->GetStringSelection();
-			wxString wipeCountStr = wipeCountStrDesc.BeforeFirst(wxT("-"));
+			wxString wipeCountStr = wipeCountStrDesc.BeforeFirst(wxT('-'));
 			if (!wipeCountStr.ToLong(&wipeCount))
 				wipeCount = PRAND_HEADER_WIPE_PASSES;
 			return (int) wipeCount;
