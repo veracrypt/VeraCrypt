@@ -62,7 +62,9 @@ namespace VeraCrypt
 		KeyfilesButton->Show (enableKeyfiles);
 
 		Pkcs5PrfStaticText->Show (enablePkcs5Prf);
-		Pkcs5PrfChoice->Show (enablePkcs5Prf);
+		Pkcs5PrfChoice->Show (enablePkcs5Prf);		
+		HeaderWipeCountText->Show (enablePkcs5Prf);
+		HeaderWipeCount->Show (enablePkcs5Prf);
 
 		if (enablePkcs5Prf)
 		{	

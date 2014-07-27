@@ -3154,7 +3154,7 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	HeaderWipeCountText->Wrap( -1 );
 	GridBagSizer->Add( HeaderWipeCountText, wxGBPosition( 8, 0 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxRIGHT, 5 );
 	
-	wxString HeaderWipeCountChoices[] = { _("3-pass"), _("7-pass"), _("35-pass"), _("256-pass"), _("3") };
+	wxString HeaderWipeCountChoices[] = { _("3-pass"), _("7-pass"), _("35-pass"), _("256-pass") };
 	int HeaderWipeCountNChoices = sizeof( HeaderWipeCountChoices ) / sizeof( wxString );
 	HeaderWipeCount = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, HeaderWipeCountNChoices, HeaderWipeCountChoices, 0 );
 	HeaderWipeCount->SetSelection( 0 );

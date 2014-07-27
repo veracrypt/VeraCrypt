@@ -25402,7 +25402,7 @@
                                 <property name="caption"></property>
                                 <property name="caption_visible">1</property>
                                 <property name="center_pane">0</property>
-                                <property name="choices">&quot;3-pass&quot; &quot;7-pass&quot; &quot;35-pass&quot; &quot;256-pass&quot; &quot;3&quot;</property>
+                                <property name="choices">&quot;3-pass&quot; &quot;7-pass&quot; &quot;35-pass&quot; &quot;256-pass&quot;</property>
                                 <property name="close_button">1</property>
                                 <property name="context_help"></property>
                                 <property name="context_menu">1</property>
