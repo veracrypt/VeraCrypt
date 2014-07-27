@@ -124,7 +124,7 @@ namespace VeraCrypt
 				wxBusyCursor busy;
 				Core->ChangePassword (Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
 					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetKeyfiles(),
-					newPassword, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf());
+					newPassword, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
 			}
 
 			switch (DialogMode)

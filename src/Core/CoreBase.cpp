@@ -23,7 +23,7 @@ namespace VeraCrypt
 	{
 	}
 
-	void CoreBase::ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf) const
+	void CoreBase::ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
 	{
 		if ((!newPassword || newPassword->Size() < 1) && (!newKeyfiles || newKeyfiles->empty()))
 			throw PasswordEmpty (SRC_POS);
@@ -48,9 +48,9 @@ namespace VeraCrypt
 		bool backupHeader = false;
 		while (true)
 		{
-			for (int i = 1; i <= SecureWipePassCount; i++)
+			for (int i = 1; i <= wipeCount; i++)
 			{
-				if (i == SecureWipePassCount)
+				if (i == wipeCount)
 					RandomNumberGenerator::GetData (newSalt);
 				else
 					RandomNumberGenerator::GetDataFast (newSalt);
@@ -68,10 +68,10 @@ namespace VeraCrypt
 		}
 	}
 		
-	void CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf) const
+	void CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
 	{
 		shared_ptr <Volume> volume = OpenVolume (volumePath, preserveTimestamps, password, keyfiles);
-		ChangePassword (volume, newPassword, newKeyfiles, newPkcs5Kdf);
+		ChangePassword (volume, newPassword, newKeyfiles, newPkcs5Kdf, wipeCount);
 	}
 
 	void CoreBase::CoalesceSlotNumberAndMountPoint (MountOptions &options) const

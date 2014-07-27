@@ -25,6 +25,7 @@ namespace VeraCrypt
 		shared_ptr <KeyfileList> GetKeyfiles () const { return UseKeyfilesCheckBox->IsChecked() ? Keyfiles : shared_ptr <KeyfileList> (); }
 		shared_ptr <VolumePassword> GetPassword () const;
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
+		int GetHeaderWipeCount () const;
 		void SetCacheCheckBoxValidator (const wxGenericValidator &validator) { CacheCheckBox->SetValidator (validator); }
 		void SetFocusToPasswordTextCtrl () { PasswordTextCtrl->SetSelection (-1, -1); PasswordTextCtrl->SetFocus(); }
 		bool PasswordsMatch () const;

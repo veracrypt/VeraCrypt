@@ -28,8 +28,8 @@ namespace VeraCrypt
 	public:
 		virtual ~CoreBase ();
 
-		virtual void ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> ()) const;
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> ()) const;
+		virtual void ChangePassword (shared_ptr <Volume> openVolume, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> (), int wipeCount = PRAND_HEADER_WIPE_PASSES) const;
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf = shared_ptr <Pkcs5Kdf> (), int wipeCount = PRAND_HEADER_WIPE_PASSES) const;
 		virtual void CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair = false) const = 0; 
 		virtual void CoalesceSlotNumberAndMountPoint (MountOptions &options) const;
 		virtual void CreateKeyfile (const FilePath &keyfilePath) const;
@@ -80,7 +80,6 @@ namespace VeraCrypt
 	protected:
 		CoreBase ();
 
-		static const int SecureWipePassCount = PRAND_DISK_WIPE_PASSES;
 		bool DeviceChangeInProgress;
 		FilePath ApplicationExecutablePath;
 

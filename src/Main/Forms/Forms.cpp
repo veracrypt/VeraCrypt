@@ -3150,10 +3150,20 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	Pkcs5PrfChoice->SetSelection( 0 );
 	GridBagSizer->Add( Pkcs5PrfChoice, wxGBPosition( 7, 1 ), wxGBSpan( 1, 2 ), wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
 	
+	HeaderWipeCountText = new wxStaticText( this, wxID_ANY, _("Header Wipe:"), wxDefaultPosition, wxDefaultSize, 0 );
+	HeaderWipeCountText->Wrap( -1 );
+	GridBagSizer->Add( HeaderWipeCountText, wxGBPosition( 8, 0 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxRIGHT, 5 );
+	
+	wxString HeaderWipeCountChoices[] = { _("3-pass"), _("7-pass"), _("35-pass"), _("256-pass"), _("3") };
+	int HeaderWipeCountNChoices = sizeof( HeaderWipeCountChoices ) / sizeof( wxString );
+	HeaderWipeCount = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, HeaderWipeCountNChoices, HeaderWipeCountChoices, 0 );
+	HeaderWipeCount->SetSelection( 0 );
+	GridBagSizer->Add( HeaderWipeCount, wxGBPosition( 8, 1 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	
 	PasswordPlaceholderSizer = new wxBoxSizer( wxVERTICAL );
 	
 	
-	GridBagSizer->Add( PasswordPlaceholderSizer, wxGBPosition( 8, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxEXPAND, 5 );
+	GridBagSizer->Add( PasswordPlaceholderSizer, wxGBPosition( 9, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxEXPAND, 5 );
 	
 	
 	GridBagSizer->AddGrowableCol( 1 );

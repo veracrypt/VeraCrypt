@@ -189,6 +189,23 @@ namespace VeraCrypt
 			return shared_ptr <Pkcs5Kdf> ();
 		}
 	}
+	
+	int VolumePasswordPanel::GetHeaderWipeCount () const
+	{
+		try
+		{
+			long wipeCount;
+			wxString wipeCountStrDesc = HeaderWipeCount->GetStringSelection();
+			wxString wipeCountStr = wipeCountStrDesc.BeforeFirst(wxT("-"));
+			if (!wipeCountStr.ToLong(&wipeCount))
+				wipeCount = PRAND_HEADER_WIPE_PASSES;
+			return (int) wipeCount;
+		}
+		catch (ParameterIncorrect&)
+		{
+			return PRAND_HEADER_WIPE_PASSES;
+		}
+	}
 
 	void VolumePasswordPanel::OnAddKeyfileDirMenuItemSelected (wxCommandEvent& event)
 	{
