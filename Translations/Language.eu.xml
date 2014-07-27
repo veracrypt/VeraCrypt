@@ -1051,6 +1051,7 @@
     <string lang="eu" key="WIPE_MODE_3_DOD_5220">3-pasatze (US DoD 5220.22-M)</string>
     <string lang="eu" key="WIPE_MODE_7_DOD_5220">7-pasatze (US DoD 5220.22-M)</string>
     <string lang="eu" key="WIPE_MODE_35_GUTMANN">35-pasatze ("Gutmann")</string>
+    <string lang="eu" key="WIPE_MODE_256">256-pasatze</string>
     <string lang="eu" key="SYS_MULTI_BOOT_MODE_TITLE">Sistema Eragile Kopurua</string>
     <string lang="eu" key="MULTI_BOOT_FOR_ADVANCED_ONLY">KONTUZ: Esperientziarik gabeko erabiltzaileek ez lirateke Windows zifratzen saiatu behar hasieraketa-anitzeko konfigurazioekin.\n\nJarraitu?</string>
     <string lang="eu" key="HIDDEN_OS_MULTI_BOOT">Ezkutuko sistema eragile bat sortu/erabiltzerakoan, VeraCrypt-ek abiaketa-anitza hurrengo kasuetan onartzen du bakarrik :\n\n- Orain martxan dagoen sistema eragilea abiatze unitatean instalatuta egon behar du, eta bertan dagoen sistema eragile bakarra izan behar du.\n\n- Beste unitateetan dauden sistema eragileek ezin dute martxan dagoen sistema eragilearen unitatean dagoen hasieraketa kargatzailea erabili.\n\nGoiko kondizioak betetzen al dira?</string>

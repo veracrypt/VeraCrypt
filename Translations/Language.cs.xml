@@ -1048,7 +1048,7 @@
     <string lang="cs" key="WIPE_MODE_1_RAND">1-stopý (náhodná data)</string>
     <string lang="cs" key="WIPE_MODE_3_DOD_5220">3-stopý (US DoD 5220.22-M)</string>
     <string lang="cs" key="WIPE_MODE_7_DOD_5220">7-stopý (US DoD 5220.22-M)</string>
-    <string lang="cs" key="WIPE_MODE_35_GUTMANN">35-stopý ("Gutmann")</string>
+    <string lang="cs" key="WIPE_MODE_256">256-stopý</string>
     <string lang="cs" key="SYS_MULTI_BOOT_MODE_TITLE">Počet operačních systémů</string>
     <string lang="cs" key="MULTI_BOOT_FOR_ADVANCED_ONLY">VAROVÁNÍ: Nezkušení uživatelé by se nikdy neměli pokoušet zašifrovat Windows ve vícesystémové bootovací konfiguraci.\n\nPokračovat?</string>
     <string lang="cs" key="HIDDEN_OS_MULTI_BOOT">VeraCrypt podporuje vícesystémové bootování při vytvoření/použití skrytého operačního systému pouze za následujících podmínek:\n\n- Operační systém, který aktuálně běží, musí být nainstalován na bootovacím disku, který nesmí obsahovat žádné další operační systémy.\n\n- Operační systémy nainstalované na ostatních discích nesmí používat žádný bootovací zavaděč, který by byl umístěn na disku, kde je nainstalován systém, který nyní běží.\n\nJsou výše uvedené podmínky splněny?</string>

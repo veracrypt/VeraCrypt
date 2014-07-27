@@ -1049,6 +1049,7 @@
     <string lang="it" key="WIPE_MODE_3_DOD_5220">3-passaggi (US DoD 5220.22-M)</string>
     <string lang="it" key="WIPE_MODE_7_DOD_5220">7-passaggi (US DoD 5220.22-M)</string>
     <string lang="it" key="WIPE_MODE_35_GUTMANN">35-passaggi ("Gutmann")</string>
+    <string lang="it" key="WIPE_MODE_256">256-passaggi</string>
     <string lang="it" key="SYS_MULTI_BOOT_MODE_TITLE">Numero di sistemi operativi</string>
     <string lang="it" key="MULTI_BOOT_FOR_ADVANCED_ONLY">AVVERTENZA: Gli utenti non esperti non devono mai tentare di codificare Windows in configurazione di multi-avvio.\n\nContinuare?</string>
     <string lang="it" key="HIDDEN_OS_MULTI_BOOT">Quando si usa o si crea un sistema operativo nascosto, VeraCrypt supporta una configurazione multi-avvio solo quando si verificano le seguenti condizioni:\n\n- Il sistema operativo attualmente in uso deve essere installato sul disco d'avvio (di boot), il quale non deve contenere altri sistemi operativi.\n\n- Sistemi operativi installati su altri drive non devono usare boot d'avvio residenti sul disco nel quale è installato l'attuale sistema operativo in uso.\n\nSi sono verificate le condizioni di cui sopra?</string>

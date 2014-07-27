@@ -1049,6 +1049,7 @@
     <string lang="zh-cn" key="WIPE_MODE_3_DOD_5220">3-次擦除（US DoD 5220.22-M）</string>
     <string lang="zh-cn" key="WIPE_MODE_7_DOD_5220">7-次擦除（US DoD 5220.22-M）</string>
     <string lang="zh-cn" key="WIPE_MODE_35_GUTMANN">35-次擦除（"Gutmann"）</string>
+    <string lang="zh-cn" key="WIPE_MODE_256">256-次擦除</string>
     <string lang="zh-cn" key="SYS_MULTI_BOOT_MODE_TITLE">操作系统数目</string>
     <string lang="zh-cn" key="MULTI_BOOT_FOR_ADVANCED_ONLY">警告：入门用户请勿尝试加密多重启动方式的 Windows 。\n\n希望继续吗？</string>
     <string lang="zh-cn" key="HIDDEN_OS_MULTI_BOOT">当创建或使用隐形操作系统时，只有满足如下条件时，VeraCrypt 才支持多重启动配置：\n\n- 当前运行操作系统必须安装在启动驱动器，并且该驱动器中不能包含其它操作系统。\n\n- 安装在其它驱动器的操作系统不能使用任何位于当前运行操作系统所在驱动器中的启动管理器。\n\n确认满足以上条件吗？</string>

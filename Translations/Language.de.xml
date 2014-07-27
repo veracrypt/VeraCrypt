@@ -1049,6 +1049,7 @@
     <string lang="de" key="WIPE_MODE_3_DOD_5220">3-Durchgänge (US DoD 5220.22-M)</string>
     <string lang="de" key="WIPE_MODE_7_DOD_5220">7-Durchgänge (US DoD 5220.22-M)</string>
     <string lang="de" key="WIPE_MODE_35_GUTMANN">35-Durchgänge ("Gutmann")</string>
+    <string lang="de" key="WIPE_MODE_256">256-Durchgänge</string>
     <string lang="de" key="SYS_MULTI_BOOT_MODE_TITLE">Anzahl der Betriebssysteme</string>
     <string lang="de" key="MULTI_BOOT_FOR_ADVANCED_ONLY">WARNUNG: Unerfahrene Benutzer sollten niemals versuchen Windows in einer Multiboot-Konfigurationen verschlüsseln.\n\nFortfahren?</string>
     <string lang="de" key="HIDDEN_OS_MULTI_BOOT">Wenn Sie ein verstecktes Betriebsystem erstellen oder nutzen unterstützt VeraCrypt Mulit-Boot-Konfigurationen nur wenn die folgenden Bedingungen erfüllt sind:\n\n- Das derzeit laufende Betriebssystem muss auf dem Bootlaufwerk installiert sein welches keine weitere Betriebssysteme enthalten darf.\n\n- Betriebssysteme auf anderen Laufwerken dürfen keine Bootloader nutzen die auf dem selben Laufwerk liegen auf dem das  derzeit aktive Betriebssystem installiert ist.\n\nSind die obigen Bedingungen erfüllt?</string>

@@ -1049,6 +1049,7 @@
     <string lang="es" key="WIPE_MODE_3_DOD_5220">3 pasadas (US DoD 5220.22-M)</string>
     <string lang="es" key="WIPE_MODE_7_DOD_5220">7 pasadas (US DoD 5220.22-M)</string>
     <string lang="es" key="WIPE_MODE_35_GUTMANN">35 pasadas ("Gutmann")</string>
+    <string lang="es" key="WIPE_MODE_256">256 pasadas</string>
     <string lang="es" key="SYS_MULTI_BOOT_MODE_TITLE">Número de Sistemas Operativos</string>
     <string lang="es" key="MULTI_BOOT_FOR_ADVANCED_ONLY">AVISO: Los usuarios sin experiencia nunca deberían intentar cifrar Windows en configuraciones multi-arranque.\n\n¿Continuar?</string>
     <string lang="es" key="HIDDEN_OS_MULTI_BOOT">Al crear/usar un sistema operativo oculto, VeraCrypt soporta configuraciones multi-arranque sólo cuando se cumplen las siguientes condiciones:\n\n- El sistema operativo en ejecución debe estar instalado en la unidad de arranque, la cual no debe contener ningún otro sistema operativo.\n\n- Los sistemas operativos instalados en otras unidades no deben usar ningún cargador de arranque residente en la unidad en la que está instalado el sistema operativo en ejecución.\n\n¿Se cumplen las condiciones mencionadas?</string>

@@ -1045,10 +1045,11 @@
     <string lang="en" key="CONFIRM_WIPE_START_DECOY_SYS_PARTITION">The entire content of the partition where the original system resides will be erased.\n\nNote: The entire content of the partition that is to be erased has been copied to this hidden system partition.</string>
     <string lang="en" key="WIPE_MODE_WARN">WARNING: Note that when you choose e.g. the 3-pass wipe mode, the time necessary to encrypt the partition/drive will be up to 4 times longer. Likewise, if you choose the 35-pass wipe mode, it will be up to 36 times longer (it might even take several weeks).\n\nHowever, please note that wiping will NOT be performed after the partition/drive is fully encrypted. When the partition/drive is fully encrypted, no unencrypted data is written to it. Any data being written to it is first encrypted on the fly in memory and only then is the (encrypted) data written to the disk (so the performance will NOT be affected).\n\nAre you sure you want to use the wipe mode?</string>
     <string lang="ka" key="WIPE_MODE_NONE">არანაირი (უსწრაფესი)</string>
-    <string lang="en" key="WIPE_MODE_1_RAND">1-pass (random data)</string>
+    <string lang="en" key="WIPE_MODE_1_RAND">1-გზის (random data)</string>
     <string lang="ka" key="WIPE_MODE_3_DOD_5220">3-გზის (US DoD 5220.22-M)</string>
     <string lang="ka" key="WIPE_MODE_7_DOD_5220">7-გზის (US DoD 5220.22-M)</string>
-    <string lang="en" key="WIPE_MODE_35_GUTMANN">35-pass ("Gutmann")</string>
+    <string lang="en" key="WIPE_MODE_35_GUTMANN">35-გზის ("Gutmann")</string>
+    <string lang="en" key="WIPE_MODE_256">256-გზის</string>
     <string lang="ka" key="SYS_MULTI_BOOT_MODE_TITLE">ოპერაციული სისტემების რაოდენობა</string>
     <string lang="ka" key="MULTI_BOOT_FOR_ADVANCED_ONLY">გაფრთხილება: გამოუცდელი მომხმარებლისათვის არარეკომენდებულია Windows-ის შიფრაცია მრავალ-ჩატვირთვად კონფიგურაციაში.\n\nგავაგრძელოთ?</string>
     <string lang="en" key="HIDDEN_OS_MULTI_BOOT">When creating/using a hidden operating system, VeraCrypt supports multi-boot configurations only when the following conditions are met:\n\n- The currently running operating system must be installed on the boot drive, which must not contain any other operating systems.\n\n- Operating systems installed on other drives must not use any boot loader residing on the drive on which the currently running operating system is installed.\n\nAre the above conditions met?</string>

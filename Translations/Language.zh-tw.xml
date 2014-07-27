@@ -1049,6 +1049,7 @@
     <string lang="zh-tw" key="WIPE_MODE_3_DOD_5220">3 次複寫(美國國防部 5220.22-M 演算法)</string>
     <string lang="zh-tw" key="WIPE_MODE_7_DOD_5220">7 次複寫(美國國防部 5220.22-M 演算法)</string>
     <string lang="en" key="WIPE_MODE_35_GUTMANN">35-pass ("Gutmann")</string>
+    <string lang="en" key="WIPE_MODE_256">256-pass</string>
     <string lang="zh-tw" key="SYS_MULTI_BOOT_MODE_TITLE">作業系統數目</string>
     <string lang="zh-tw" key="MULTI_BOOT_FOR_ADVANCED_ONLY">警告：經驗不足的使用者從不應該試圖在多重開機的組態設定下加密 Windows。\n\n要繼續嗎？</string>
     <string lang="en" key="HIDDEN_OS_MULTI_BOOT">When creating/using a hidden operating system, VeraCrypt supports multi-boot configurations only when the following conditions are met:\n\n- The currently running operating system must be installed on the boot drive, which must not contain any other operating systems.\n\n- Operating systems installed on other drives must not use any boot loader residing on the drive on which the currently running operating system is installed.\n\nAre the above conditions met?</string>

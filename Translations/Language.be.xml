@@ -1049,6 +1049,7 @@
     <string lang="be" key="WIPE_MODE_3_DOD_5220">3 праходы (US DoD 5220.22-M)</string>
     <string lang="be" key="WIPE_MODE_7_DOD_5220">7 праходаў (US DoD 5220.22-M)</string>
     <string lang="en" key="WIPE_MODE_35_GUTMANN">35-pass ("Gutmann")</string>
+    <string lang="en" key="WIPE_MODE_256">256-pass</string>
     <string lang="be" key="SYS_MULTI_BOOT_MODE_TITLE">Лік аперацыйных сістэм</string>
     <string lang="be" key="MULTI_BOOT_FOR_ADVANCED_ONLY">УВАГА: Неспрактыкаваным карыстачам не варта спрабаваць шыфраваць Windows у мультызагрузных канфігурацыях.\n\nПрацягнуць?</string>
     <string lang="en" key="HIDDEN_OS_MULTI_BOOT">When creating/using a hidden operating system, VeraCrypt supports multi-boot configurations only when the following conditions are met:\n\n- The currently running operating system must be installed on the boot drive, which must not contain any other operating systems.\n\n- Operating systems installed on other drives must not use any boot loader residing on the drive on which the currently running operating system is installed.\n\nAre the above conditions met?</string>

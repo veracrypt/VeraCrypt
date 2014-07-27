@@ -1051,6 +1051,7 @@
     <string lang="my" key="WIPE_MODE_3_DOD_5220">၃-ကြိမ် (US DoD 5220.22-M)</string>
     <string lang="my" key="WIPE_MODE_7_DOD_5220">၇-ကြိမ် (US DoD 5220.22-M)</string>
     <string lang="my" key="WIPE_MODE_35_GUTMANN">၃၅-ကြိမ် ("Gutmann")</string>
+    <string lang="en" key="WIPE_MODE_256">256-pass</string>
     <string lang="my" key="SYS_MULTI_BOOT_MODE_TITLE">OS စနစ် အရေအတွက်</string>
     <string lang="my" key="MULTI_BOOT_FOR_ADVANCED_ONLY">သတိပေးချက် - အတွေ့အကြုံမရှိသေးသော သုံးစွဲသူများသည် ၀င်းဒိုးကို Multi-boot ပြုပြင်ဖန်တီးစနစ်ဖြင့် စာဝှက်ရန် မကြိုးစားသင့်ပါ။\n\n ဆက်လုပ်မည်လား?</string>
     <string lang="my" key="HIDDEN_OS_MULTI_BOOT">လျှို့ဝှက် OS စနစ်ကို ဖန်တီး/သုံးစွဲသည့်အခါ၊ VeraCrypt သည် အောက်ပါ အခြေအနေများနှင့် ကိုက်ညီမှ multi-boot ပြုပြင်ဖန်တီးမှုကကို ထောက်ပံ့ပေးသည် -\n\n- လောလောဆယ် အသုံးပြုနေသော OS စနစ်ကို boot drive ထဲတွင် ထည့်သွင်းရမည် ဖြစ်သည်၊ ၄င်း၌ အခြား OS စနစ်များ ရှိမည် မဟုတ်ပါ။\n\n အခြား drives များ၌ ထည့်သွင်းထားသော OS စနစ်များသည် လောလောဆယ် အသုံးပြုနေသော OS စနစ် ထည့်သွင်းထားသည့် drive ထဲတွင် ရှိသော မည်သည့် boot loader ကို အသုံးမပြုရပါ။\n\n အထက်မှ အခြေအနေများနှင့် ကိုက်ညီသလား?</string>

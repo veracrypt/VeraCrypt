@@ -1049,6 +1049,7 @@
     <string lang="ja" key="WIPE_MODE_3_DOD_5220">3パス(US DoD 5220.22-M)</string>
     <string lang="ja" key="WIPE_MODE_7_DOD_5220">7パス(US DoD 5220.22-M)</string>
     <string lang="ja" key="WIPE_MODE_35_GUTMANN">35パス ("Gutmann")</string>
+    <string lang="ja" key="WIPE_MODE_256">256パス</string>
     <string lang="ja" key="SYS_MULTI_BOOT_MODE_TITLE">OSの数</string>
     <string lang="ja" key="MULTI_BOOT_FOR_ADVANCED_ONLY">警告：慣れているユーザー以外はマルチブート設定のWindowsを暗号化しないでください。\n\n続けますか？</string>
     <string lang="ja" key="HIDDEN_OS_MULTI_BOOT">隠しOSを作成あるいは使用する場合、VeraCryptは次の条件を満たすときのみ、マルチブート設定に対応します：\n\n-現在起動中のOSが起動用ドライブにインストールされており、かつそのドライブに他のOSが一切含まれていないこと\n\n-起動用以外のドライブにインストールされているOSが、現在起動中のOSがインストールされているドライブに置かれたブートローダーを使用していないこと\n\n以上の条件を満たしていますか？</string>

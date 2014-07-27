@@ -1049,6 +1049,7 @@
     <string lang="pl" key="WIPE_MODE_3_DOD_5220">3-przebiegowy (US DoD 5220.22-M)</string>
     <string lang="pl" key="WIPE_MODE_7_DOD_5220">7-przebiegowy (US DoD 5220.22-M)</string>
     <string lang="pl" key="WIPE_MODE_35_GUTMANN">35-przebiegowy ("Gutmann")</string>
+    <string lang="pl" key="WIPE_MODE_256">256-przebiegowy</string>
     <string lang="pl" key="SYS_MULTI_BOOT_MODE_TITLE">Liczba systemów operacyjnych</string>
     <string lang="pl" key="MULTI_BOOT_FOR_ADVANCED_ONLY">OSTRZEŻENIE: Niedoświadczeni użytkownicy nie powinni nigdy próbować szyfrować systemu Windows w konfiguracji z wieloma uruchamianymi systemami.\n\nCzy kontynuować?</string>
     <string lang="pl" key="HIDDEN_OS_MULTI_BOOT">Podczas tworzenia/używania ukrytego systemu operacyjnego, VeraCrypt obsługuje konfigurację uruchamiania wielu systemów tylko gdy zostaną spełnione następujące warunki:\n\n- Obecnie działający system operacyjny musi być zainstalowany na napędzie rozruchowym, który nie może zawieraćżadnych innych systemów operacyjnych.\n\n- Systemy operacyjne zainstalowane na innych dyskach nie mogą używać żadnego programu startowego znajdującego się na dysku, na którym zainstalowany jest obecnie działający system operacyjny.\n\nCzy powyższe wymagania są spełnione?</string>

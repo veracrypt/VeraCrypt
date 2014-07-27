@@ -1049,6 +1049,7 @@
     <string lang="sv" key="WIPE_MODE_3_DOD_5220">Tre steg (US DoD 5220.22-M)</string>
     <string lang="sv" key="WIPE_MODE_7_DOD_5220">Sju steg (US DoD 5220.22-M)</string>
     <string lang="sv" key="WIPE_MODE_35_GUTMANN">35 steg (”Gutmann”)</string>
+    <string lang="sv" key="WIPE_MODE_256">256 steg</string>
     <string lang="sv" key="SYS_MULTI_BOOT_MODE_TITLE">Antal operativsystem</string>
     <string lang="sv" key="MULTI_BOOT_FOR_ADVANCED_ONLY">VARNING: Oerfarna användare bör aldrig försöka kryptera Windows i flervalsstartkonfigurationer.\n\nVill du fortsätta?</string>
     <string lang="sv" key="HIDDEN_OS_MULTI_BOOT">Endast när följande villkor är uppfyllda stöder VeraCrypt flervalsstartkonfigurationer vid skapandet eller användandet av ett dolt operativsystem:\n\n- Det aktuella operativsystemet måste vara installerat på startenheten, som inte får innehålla några andra operativsystem.\n\n- Operativsystem installerade på övriga enheter får inte använda sig av någon startinläsare belägen på enheten där det aktuella operativsystemet är installerat.\n\nÄr ovanstående villkor uppfyllda?</string>
