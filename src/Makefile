@@ -130,10 +130,10 @@ endif
 
 ifneq (,$(filter i386 i486 i586 i686 x86,$(ARCH)))
 	CPU_ARCH = x86
-	ASM_OBJ_FORMAT = elf32
+    ASFLAGS += -f elf32
 else ifneq (,$(filter x86_64 x86-64 amd64 x64,$(ARCH)))
 	CPU_ARCH = x64
-	ASM_OBJ_FORMAT = elf64
+    ASFLAGS += -f elf64
 endif
 
 ifeq "$(origin NOASM)" "command line"
@@ -177,20 +177,27 @@ ifeq "$(shell uname -s)" "Darwin"
 
 	PLATFORM := MacOSX
 	APPNAME := VeraCrypt
+	
+	export VC_OSX_TARGET ?= 10.7
 
-	TC_OSX_SDK ?= /Developer/SDKs/MacOSX10.4u.sdk
-	CC := gcc-4.0
-	CXX := g++-4.0
+	#check to see if XCode 3 path exists.Otherwise, use XCode 4 path
+	VC_OSX_SDK  := /Developer/SDKs/MacOSX$(VC_OSX_TARGET).sdk
+	ifeq ($(wildcard $(VC_OSX_SDK)/SDKSettings.plist),)
+		VC_OSX_SDK := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(VC_OSX_TARGET).sdk
+	endif
 
-	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_MACOSX -mmacosx-version-min=10.4 -isysroot $(TC_OSX_SDK)
-	LFLAGS += -mmacosx-version-min=10.4 -Wl,-syslibroot $(TC_OSX_SDK)
-	WX_CONFIGURE_FLAGS += --with-macosx-version-min=10.4 --with-macosx-sdk=$(TC_OSX_SDK)
+	CC := gcc
+	CXX := g++
+
+	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_MACOSX -mmacosx-version-min=$(VC_OSX_TARGET) -isysroot $(VC_OSX_SDK)
+	LFLAGS += -mmacosx-version-min=$(VC_OSX_TARGET) -Wl,-syslibroot $(VC_OSX_SDK)
+	WX_CONFIGURE_FLAGS += --with-macosx-version-min=$(VC_OSX_TARGET) --with-macosx-sdk=$(VC_OSX_SDK)
 
 	ifeq "$(CPU_ARCH)" "x64"
 		CPU_ARCH = x86
 	endif
 
-	ASM_OBJ_FORMAT = macho
+	AS := $(BASE_DIR)/Build/Tools/MacOSX/nasm
 	ASFLAGS += --prefix _
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
@@ -200,10 +207,10 @@ ifeq "$(shell uname -s)" "Darwin"
 		S := $(C_CXX_FLAGS)
 		C_CXX_FLAGS = $(subst -MMD,,$(S))
 
-		C_CXX_FLAGS += -gfull -arch i386 -arch ppc
-		LFLAGS += -Wl,-dead_strip -arch i386 -arch ppc
+		C_CXX_FLAGS += -gfull -arch i386 -arch x86_64
+		LFLAGS += -Wl,-dead_strip -arch i386 -arch x86_64
 
-		WX_CONFIGURE_FLAGS += --enable-universal_binary
+		WX_CONFIGURE_FLAGS += --enable-universal_binary=i386,x86_64
 		WXCONFIG_CFLAGS += -gfull
 		WXCONFIG_CXXFLAGS += -gfull
 
@@ -243,12 +250,11 @@ endif
 
 CFLAGS := $(C_CXX_FLAGS) $(CFLAGS) $(TC_EXTRA_CFLAGS)
 CXXFLAGS := $(C_CXX_FLAGS) $(CXXFLAGS) $(TC_EXTRA_CXXFLAGS)
-ASFLAGS += -f $(ASM_OBJ_FORMAT)
 LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 
 WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-tracking --disable-compat26 --enable-exceptions --enable-std_string --enable-dataobj --enable-mimetype \
 	--disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
-	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-webkit \
+	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-webkit --disable-webview \
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
 	--disable-animatectrl --disable-bmpcombobox --disable-calendar --disable-caret --disable-checklst --disable-collpane --disable-colourpicker --disable-comboctrl \
@@ -256,7 +262,7 @@ WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-trac
 	--disable-listbook --disable-odcombobox --disable-sash  --disable-searchctrl --disable-slider --disable-splitter --disable-togglebtn \
 	--disable-toolbar --disable-tbarnative --disable-treebook --disable-toolbook --disable-tipwindow --disable-popupwin \
 	--disable-commondlg --disable-aboutdlg --disable-coldlg --disable-finddlg --disable-fontdlg --disable-numberdlg --disable-splash \
-	--disable-tipdlg --disable-progressdlg --disable-wizarddlg --disable-miniframe --disable-tooltips --disable-splines --disable-palette \
+	--disable-tipdlg --disable-progressdlg --disable-wizarddlg --disable-miniframe --disable-splines --disable-palette \
 	--disable-richtext --disable-dialupman --disable-debugreport --disable-filesystem --disable-rearrangectrl --disable-treelist --disable-richmsgdlg \
 	--disable-richtooltip --disable-propgrid --disable-stc --without-libnotify \
 	--without-gtkprint --without-gnomevfs --disable-fsvolume --disable-fswatcher \
@@ -264,6 +270,9 @@ WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-trac
 	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm --disable-svg \
 	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib
 
+ifeq "$(PLATFORM)" "Linux"	
+WX_CONFIGURE_FLAGS += --disable-tooltips
+endif
 
 #------ Project build ------
 

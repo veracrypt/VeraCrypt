@@ -7,6 +7,7 @@
 #
 
 OBJS :=
+OBJSEX :=
 OBJS += Cipher.o
 OBJS += EncryptionAlgorithm.o
 OBJS += EncryptionMode.o
@@ -24,12 +25,13 @@ OBJS += VolumeLayout.o
 OBJS += VolumePassword.o
 OBJS += VolumePasswordCache.o
 
-ifeq "$(CPU_ARCH)" "x86"
+ifeq "$(PLATFORM)" "MacOSX"
+    OBJSEX += ../Crypto/Aes_asm.oo
+    OBJS += ../Crypto/Aes_hw_cpu.o
+    OBJS += ../Crypto/Aescrypt.o
+else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
-	ifeq "$(PLATFORM)" "MacOSX"
-		OBJS += ../Crypto/Aescrypt.o
-	endif
 else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/Aes_x64.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
@@ -52,5 +54,14 @@ OBJS += ../Common/Pkcs5.o
 OBJS += ../Common/SecurityToken.o
 
 VolumeLibrary: Volume.a
+
+ifeq "$(PLATFORM)" "MacOSX"
+../Crypto/Aes_asm.oo: ../Crypto/Aes_x86.asm ../Crypto/Aes_x64.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS) -f macho32 -o ../Crypto/Aes_x86.o ../Crypto/Aes_x86.asm
+	$(AS) $(ASFLAGS) -f macho64 -o ../Crypto/Aes_x64.o ../Crypto/Aes_x64.asm
+	lipo -create ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o -output ../Crypto/Aes_asm.oo
+	rm -fr ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o
+endif
 
 include $(BUILD_INC)/Makefile.inc

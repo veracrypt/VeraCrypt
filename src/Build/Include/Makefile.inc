@@ -10,7 +10,7 @@ $(NAME): $(NAME).a
 
 clean:
 	@echo Cleaning $(NAME)
-	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJS:.o=.d) *.gch
+	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJS:.o=.d) *.gch
 
 %.o: %.c
 	@echo Compiling $(<F)
@@ -20,10 +20,17 @@ clean:
 	@echo Compiling $(<F)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+ifeq "$(PLATFORM)" "MacOSX"
+%.o: %.asm
+	@echo Assembling $(<F)
+	$(AS) $(ASFLAGS) -f macho32 -o $@.32 $<
+	$(AS) $(ASFLAGS) -f macho64 -o $@.64 $<
+	lipo -create $@.32 $@.64 -output $@
+else
 %.o: %.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS) -o $@ $<
-
+endif
 
 # Precompiled headers
 %.h.gch: %.h
@@ -49,10 +56,10 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 
 
 # Dependencies
--include $(OBJS:.o=.d)
+-include $(OBJS:.o=.d) $(OBJSEX:.oo=.d)
 
 
-$(NAME).a: $(OBJS)
+$(NAME).a: $(OBJS) $(OBJSEX)
 	@echo Updating library $@
-	$(AR) $(AFLAGS) -rcu $@ $(OBJS)
+	$(AR) $(AFLAGS) -rcu $@ $(OBJS) $(OBJSEX)
 	$(RANLIB) $@
