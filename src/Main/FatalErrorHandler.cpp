@@ -20,11 +20,7 @@
 #endif
 
 #ifdef TC_MACOSX
-#	ifdef __ppc__
-#		include <ppc/ucontext.h>
-#	else
-#		include <i386/ucontext.h>
-#	endif
+#	include <sys/ucontext.h>
 #elif defined (TC_BSD)
 #	include <ucontext.h>
 #endif
@@ -54,12 +50,10 @@ namespace VeraCrypt
 #	endif
 
 #elif defined (TC_MACOSX)
-#	ifdef __ppc__
-		faultingInstructionAddress = context->uc_mcontext->ss.srr0;
-#	elif defined (__x86_64__)
-		faultingInstructionAddress = context->uc_mcontext->ss.rip;
+#	ifdef __x86_64__
+		faultingInstructionAddress = context->uc_mcontext->__ss.__rip;
 #	else
-		faultingInstructionAddress = context->uc_mcontext->ss.eip;
+		faultingInstructionAddress = context->uc_mcontext->__ss.__eip;
 #	endif
 
 #endif

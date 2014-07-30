@@ -1020,7 +1020,7 @@ namespace VeraCrypt
 		if (!ListItemRightClickEventPending)
 		{
 			ListItemRightClickEventPending = true;
-			SlotListCtrl->AddPendingEvent (event);
+			SlotListCtrl->GetEventHandler()->AddPendingEvent (event);
 			return;
 		}
 
