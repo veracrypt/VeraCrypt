@@ -15,6 +15,7 @@
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include "CoreMacOSX.h"
 #include "Driver/Fuse/FuseService.h"
 #include "Core/Unix/CoreServiceProxy.h"
@@ -111,9 +112,29 @@ namespace VeraCrypt
 		// Check FUSE version
 		char fuseVersionString[MAXHOSTNAMELEN + 1] = { 0 };
 		size_t fuseVersionStringLength = MAXHOSTNAMELEN;
+		int status;
+		bool bIsOSXFuse = false;
 
-		if (sysctlbyname ("macfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0) != 0)
-			throw HigherFuseVersionRequired (SRC_POS);
+		if ((status = sysctlbyname ("macfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
+		{
+			fuseVersionStringLength = MAXHOSTNAMELEN;
+			if ((status = sysctlbyname ("osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
+			{
+				throw HigherFuseVersionRequired (SRC_POS);
+			}
+			else
+			{
+				// look for compatibility mode
+				struct stat sb;
+				if ((0 == stat("/usr/local/lib/libfuse.dylib", &sb)) && (0 == stat("/Library/Frameworks/MacFUSE.framework/MacFUSE", &sb)))
+				{
+					bIsOSXFuse = true;
+				}
+				else
+					throw HigherFuseVersionRequired (SRC_POS);
+			}
+			
+		}
 
 		vector <string> fuseVersion = StringConverter::Split (string (fuseVersionString), ".");
 		if (fuseVersion.size() < 2)
@@ -122,7 +143,12 @@ namespace VeraCrypt
 		uint32 fuseVersionMajor = StringConverter::ToUInt32 (fuseVersion[0]);
 		uint32 fuseVersionMinor = StringConverter::ToUInt32 (fuseVersion[1]);
 
-		if (fuseVersionMajor < 1 || (fuseVersionMajor == 1 && fuseVersionMinor < 3))
+		if (bIsOSXFuse)
+		{
+			if (fuseVersionMajor < 2 || (fuseVersionMajor == 2 && fuseVersionMinor < 5))
+				throw HigherFuseVersionRequired (SRC_POS);
+		}
+		else if (fuseVersionMajor < 1 || (fuseVersionMajor == 1 && fuseVersionMinor < 3))
 			throw HigherFuseVersionRequired (SRC_POS);
 
 		// Mount volume image
