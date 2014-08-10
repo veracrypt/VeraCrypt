@@ -484,7 +484,7 @@ namespace VeraCrypt
 		EX2MSG (VolumeSlotUnavailable,				_("Volume slot unavailable."));
 
 #ifdef TC_MACOSX
-		EX2MSG (HigherFuseVersionRequired,			_("VeraCrypt requires OSXFUSE 2.5+ with MacFUSE compatibility layer or MacFUSE 1.3+."));
+		EX2MSG (HigherFuseVersionRequired,			_("VeraCrypt requires OSXFUSE 2.3 or later."));
 #endif
 
 #undef EX2MSG
