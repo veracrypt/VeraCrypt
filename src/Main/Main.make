@@ -141,11 +141,22 @@ endif
 ifeq "$(PLATFORM)" "MacOSX"
 	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources
 	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)
+	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
 	
 ifeq "$(TC_BUILD_CONFIG)" "Release"
+ifdef TC_NO_GUI
+	cp $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
+else
 	cp $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)
+endif
+else
+ifdef TC_NO_GUI
+	-rm -f $(PWD)/Main/$(APPNAME)_console
+	cp $(PWD)/Main/$(APPNAME) $(PWD)/Main/$(APPNAME)_console
+	-ln -sf $(PWD)/Main/$(APPNAME)_console $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
 else
 	-ln -sf $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)
+endif
 endif
 
 	cp $(PWD)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
