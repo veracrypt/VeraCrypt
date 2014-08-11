@@ -166,7 +166,7 @@ endif
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 	codesign -s "Developer ID Application: Mounir IDRASSI" $(APPNAME).app
 	/usr/local/bin/packagesbuild $(PWD)/Setup/MacOSX/veracrypt.pkgproj
-	productsign --sign "Developer ID Installer: Mounir IDRASSI" $(PWD)/Setup/MacOSX/veracrypt.pkg $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
+	productsign --sign "Developer ID Installer: Mounir IDRASSI" "$(PWD)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_$(TC_VERSION).dmg
 	hdiutil create -srcfolder $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg -volname "VeraCrypt $(TC_VERSION) for Mac OS X $(VC_OSX_TARGET) and later" $(APPNAME)_$(TC_VERSION).dmg
 endif
