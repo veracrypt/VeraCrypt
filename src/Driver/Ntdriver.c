@@ -1504,7 +1504,9 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		break;
 
 	case TC_IOCTL_GET_SYSTEM_DRIVE_DUMP_CONFIG:
-		if (ValidateIOBufferSize (Irp, sizeof (GetSystemDriveDumpConfigRequest), ValidateOutput))
+		if (	(ValidateIOBufferSize (Irp, sizeof (GetSystemDriveDumpConfigRequest), ValidateOutput))
+			&&	(Irp->RequestorMode == KernelMode)
+			)
 		{
 			GetSystemDriveDumpConfigRequest *request = (GetSystemDriveDumpConfigRequest *) Irp->AssociatedIrp.SystemBuffer;
 
