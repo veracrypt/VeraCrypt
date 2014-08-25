@@ -8423,9 +8423,6 @@ BOOL CALLBACK CloseTCWindowsEnum (HWND hwnd, LPARAM lParam)
 		{
 			PostMessage (hwnd, TC_APPMSG_CLOSE_BKG_TASK, 0, 0);
 
-			if (DriverVersion < 0x0430)
-				PostMessage (hwnd, WM_ENDSESSION, 0, 0);
-
 			PostMessage (hwnd, WM_CLOSE, 0, 0);
 
 			if (lParam != 0)
