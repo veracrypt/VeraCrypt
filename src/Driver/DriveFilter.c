@@ -323,7 +323,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 			if (mappedCryptoInfo)
 			{
 				Dump ("Wiping memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
-				memset (mappedCryptoInfo, 0, BootArgs.CryptoInfoLength);
+				burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
 				MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
 			}
 		}
