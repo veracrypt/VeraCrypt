@@ -377,7 +377,8 @@ static void localcleanup (void)
 
 static BOOL CALLBACK BroadcastSysEncCfgUpdateCallb (HWND hwnd, LPARAM lParam)
 {
-	if (GetWindowLongPtr (hwnd, GWLP_USERDATA) == (LONG_PTR) 'VERA')
+	LONG_PTR userDataVal = GetWindowLongPtr (hwnd, GWLP_USERDATA);
+	if ((userDataVal == (LONG_PTR) 'VERA') || (userDataVal == (LONG_PTR) 'TRUE')) // Prior to 1.0e, 'TRUE' was used for VeraCrypt dialogs
 	{
 		char name[1024] = { 0 };
 		GetWindowText (hwnd, name, sizeof (name) - 1);
