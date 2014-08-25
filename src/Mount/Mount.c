@@ -952,7 +952,7 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 		ZeroMemory (&si, sizeof (si));
 
 		*tmp = 0;
-		StringCbCopyA (t, sizeof(t), "\\VeraCrypt Format.exe\"");
+		StringCbCatA (t, sizeof(t), "\\VeraCrypt Format.exe\"");
 
 		if (!FileExists(t))
 			Error ("VOL_CREATION_WIZARD_NOT_FOUND");	// Display a user-friendly error message and advise what to do
