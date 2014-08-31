@@ -157,12 +157,9 @@ int GetWipePassCount (WipeAlgorithmId algorithm)
 
 	case TC_WIPE_256:
 		return 256;
-
-	default:
-		TC_THROW_FATAL_EXCEPTION;
 	}
 
-	return 0;	// Prevent compiler warnings
+	return -1;	// Prevent compiler warnings
 }
 
 
@@ -183,8 +180,14 @@ BOOL WipeBuffer (WipeAlgorithmId algorithm, byte randChars[TC_WIPE_RAND_CHAR_COU
 	case TC_WIPE_35_GUTMANN:
 		return Wipe35Gutmann (pass, buffer, size);
 
+	/* we will never reach here because all calls to WipeBuffer are preceeded
+	 * by a call to GetWipePassCount that already checks the same algorithm
+	 * parameters and in case of unsupported value an error is returned before
+	 * calling WipeBuffer
+	 */
+   /*
 	default:
-		TC_THROW_FATAL_EXCEPTION;
+		TC_THROW_FATAL_EXCEPTION;*/
 	}
 
 	return FALSE;	// Prevent compiler warnings

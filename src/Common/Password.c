@@ -143,6 +143,13 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassw
 
 	if (oldPassword->Length == 0 || newPassword->Length == 0) return -1;
 
+	if (wipePassCount <= 0)
+	{
+      nStatus = ERR_PARAMETER_INCORRECT;
+      handleError (hwndDlg, nStatus);
+      return nStatus;
+	}
+
    if (!lpszVolume)
    {
       nStatus = ERR_OUTOFMEMORY;

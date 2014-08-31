@@ -2064,7 +2064,7 @@ namespace VeraCrypt
 	{
 		BootEncryptionStatus encStatus = GetStatus();
 
-		if (encStatus.SetupInProgress)
+		if (encStatus.SetupInProgress || (wipePassCount <= 0))
 			throw ParameterIncorrect (SRC_POS);
 
 		SystemDriveConfiguration config = GetSystemDriveConfiguration ();

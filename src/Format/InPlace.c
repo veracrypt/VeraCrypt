@@ -861,10 +861,18 @@ inplace_enc_read:
 		if (wipeAlgorithm != TC_WIPE_NONE)
 		{
 			byte wipePass;
+			int wipePassCount = GetWipePassCount (wipeAlgorithm);
+
+			if (wipePassCount <= 0)
+			{
+				SetLastError (ERROR_INVALID_PARAMETER);
+				nStatus = ERR_PARAMETER_INCORRECT;
+				goto closing_seq;
+			}
 
 			offset.QuadPart = masterCryptoInfo->EncryptedAreaStart.Value - workChunkSize;
 
-			for (wipePass = 1; wipePass <= GetWipePassCount (wipeAlgorithm); ++wipePass)
+			for (wipePass = 1; wipePass <= wipePassCount; ++wipePass)
 			{
 				if (!WipeBuffer (wipeAlgorithm, wipeRandChars, wipePass, wipeBuffer, workChunkSize))
 				{

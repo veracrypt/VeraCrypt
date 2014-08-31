@@ -1320,7 +1320,14 @@ static VOID SetupThreadProc (PVOID threadArg)
 			if (SetupRequest.WipeAlgorithm != TC_WIPE_NONE)
 			{
 				byte wipePass;
-				for (wipePass = 1; wipePass <= GetWipePassCount (SetupRequest.WipeAlgorithm); ++wipePass)
+				int wipePassCount = GetWipePassCount (SetupRequest.WipeAlgorithm);
+				if (wipePassCount <= 0)
+				{
+					SetupResult = STATUS_INVALID_PARAMETER;
+					goto err;
+				}
+
+				for (wipePass = 1; wipePass <= wipePassCount; ++wipePass)
 				{
 					if (!WipeBuffer (SetupRequest.WipeAlgorithm, wipeRandChars, wipePass, wipeBuffer, setupBlockSize))
 					{
@@ -1692,7 +1699,7 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 	byte *wipeBuffer = NULL;
 	byte *wipeRandBuffer = NULL;
 	byte wipeRandChars[TC_WIPE_RAND_CHAR_COUNT];
-	int wipePass;
+	int wipePass, wipePassCount;
 	int ea = Extension->Queue.CryptoInfo->ea;
 
 	KIRQL irql;
@@ -1755,7 +1762,14 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 		if (offset.QuadPart > Extension->ConfiguredEncryptedAreaEnd)
 			break;
 
-		for (wipePass = 1; wipePass <= GetWipePassCount (WipeDecoyRequest.WipeAlgorithm); ++wipePass)
+		wipePassCount = GetWipePassCount (WipeDecoyRequest.WipeAlgorithm);
+		if (wipePassCount <= 0)
+		{
+			DecoySystemWipeResult = STATUS_INVALID_PARAMETER;
+			goto err;
+		}
+
+		for (wipePass = 1; wipePass <= wipePassCount; ++wipePass)
 		{
 			if (!WipeBuffer (WipeDecoyRequest.WipeAlgorithm, wipeRandChars, wipePass, wipeBuffer, wipeBlockSize))
 			{
