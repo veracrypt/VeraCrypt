@@ -34,6 +34,7 @@
 #include <ntddvol.h>
 
 #include <Ntstrsafe.h>
+#include <Intsafe.h>
 
 /* Init section, which is thrown away as soon as DriverEntry returns */
 #pragma alloc_text(INIT,DriverEntry)
@@ -704,10 +705,20 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	case IOCTL_DISK_VERIFY:
 		if (ValidateIOBufferSize (Irp, sizeof (VERIFY_INFORMATION), ValidateInput))
 		{
+			HRESULT hResult;
+			ULONGLONG ullStartingOffset, ullNewOffset, ullEndOffset; 
 			PVERIFY_INFORMATION pVerifyInformation;
 			pVerifyInformation = (PVERIFY_INFORMATION) Irp->AssociatedIrp.SystemBuffer;
 
-			if (pVerifyInformation->StartingOffset.QuadPart + pVerifyInformation->Length > Extension->DiskLength)
+			ullStartingOffset = (ULONGLONG) pVerifyInformation->StartingOffset.QuadPart;
+			hResult = ULongLongAdd(ullStartingOffset, 
+				(ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset, 
+				&ullNewOffset);
+			if (hResult != S_OK)
+				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+			else if (S_OK != ULongLongAdd(ullNewOffset, (ULONGLONG) pVerifyInformation->Length, &ullEndOffset))
+				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+			else if (ullEndOffset > (ULONGLONG) Extension->DiskLength)
 				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
 			else
 			{
@@ -721,7 +732,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				else
 				{
 					LARGE_INTEGER offset = pVerifyInformation->StartingOffset;
-					offset.QuadPart += Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset;
+					offset.QuadPart = ullNewOffset;
 
 					Irp->IoStatus.Status = ZwReadFile (Extension->hDeviceFile, NULL, NULL, NULL, &ioStatus, buffer, pVerifyInformation->Length, &offset, NULL);
 					TCfree (buffer);

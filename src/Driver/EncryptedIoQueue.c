@@ -13,6 +13,7 @@
 #include "EncryptedIoQueue.h"
 #include "EncryptionThreadPool.h"
 #include "Volumes.h"
+#include <IntSafe.h>
 
 
 static void AcquireBufferPoolMutex (EncryptedIoQueue *queue)
@@ -492,6 +493,8 @@ static VOID MainThreadProc (PVOID threadArg)
 	EncryptedIoRequest *request;
 	uint64 intersectStart;
 	uint32 intersectLength;
+	ULONGLONG addResult;
+	HRESULT hResult;
 
 	if (IsEncryptionThreadPoolRunning())
 		KeSetPriorityThread (KeGetCurrentThread(), LOW_REALTIME_PRIORITY);
@@ -561,8 +564,15 @@ static VOID MainThreadProc (PVOID threadArg)
 				&& (item->OriginalOffset.QuadPart & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
 			{
 				byte *buffer;
-				ULONG alignedLength = item->OriginalLength + ENCRYPTION_DATA_UNIT_SIZE;
+				ULONG alignedLength;
 				LARGE_INTEGER alignedOffset;
+				hResult = ULongAdd(item->OriginalLength, ENCRYPTION_DATA_UNIT_SIZE, &alignedLength);
+				if (hResult != S_OK)
+				{
+					CompleteOriginalIrp (item, STATUS_INVALID_PARAMETER, 0);
+					continue;
+				}
+
 				alignedOffset.QuadPart = item->OriginalOffset.QuadPart & ~((LONGLONG) ENCRYPTION_DATA_UNIT_SIZE - 1);
 
 				buffer = TCalloc (alignedLength);
@@ -608,7 +618,12 @@ static VOID MainThreadProc (PVOID threadArg)
 			if (item->OriginalLength == 0
 				|| (item->OriginalLength & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0
 				|| (item->OriginalOffset.QuadPart & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0
-				|| (!queue->IsFilterDevice && item->OriginalOffset.QuadPart + item->OriginalLength > queue->VirtualDeviceLength))
+				|| (	!queue->IsFilterDevice && 
+						(	(S_OK != ULongLongAdd(item->OriginalOffset.QuadPart, item->OriginalLength, &addResult))
+							||	(addResult > (ULONGLONG) queue->VirtualDeviceLength)
+						)
+					)
+				)
 			{
 				CompleteOriginalIrp (item, STATUS_INVALID_PARAMETER, 0);
 				continue;
@@ -622,9 +637,17 @@ static VOID MainThreadProc (PVOID threadArg)
 			{
 				// Adjust the offset for host file or device
 				if (queue->CryptoInfo->hiddenVolume)
-					item->OriginalOffset.QuadPart += queue->CryptoInfo->hiddenVolumeOffset;
+					hResult = ULongLongAdd(item->OriginalOffset.QuadPart, queue->CryptoInfo->hiddenVolumeOffset, &addResult);
 				else
-					item->OriginalOffset.QuadPart += queue->CryptoInfo->volDataAreaOffset; 
+					hResult = ULongLongAdd(item->OriginalOffset.QuadPart, queue->CryptoInfo->volDataAreaOffset, &addResult); 
+
+				if (hResult != S_OK)
+				{
+					CompleteOriginalIrp (item, STATUS_INVALID_PARAMETER, 0);
+					continue;
+				}
+				else
+					item->OriginalOffset.QuadPart = addResult;
 
 				// Hidden volume protection
 				if (item->Write && queue->CryptoInfo->bProtectHiddenVolume)
