@@ -1734,6 +1734,22 @@ void TCSleep (int milliSeconds)
 	TCfree (timer);
 }
 
+BOOL IsDeviceName(wchar_t wszVolume[TC_MAX_PATH])
+{
+	if	(	(wszVolume[0] == '\\')
+		&&	(wszVolume[1] == 'D' || wszVolume[1] == 'd')
+		&&	(wszVolume[2] == 'E' || wszVolume[2] == 'e')
+		&&	(wszVolume[3] == 'V' || wszVolume[3] == 'v')
+		&&	(wszVolume[4] == 'I' || wszVolume[4] == 'i')
+		&&	(wszVolume[5] == 'C' || wszVolume[5] == 'c')
+		&&	(wszVolume[6] == 'E' || wszVolume[6] == 'e')
+		)
+	{
+		return TRUE;
+	}
+	else
+		return FALSE;
+}
 
 /* VolumeThreadProc does all the work of processing IRP's, and dispatching them
    to either the ReadWrite function or the DeviceControl function */
@@ -1749,7 +1765,7 @@ VOID VolumeThreadProc (PVOID Context)
 
 	Dump ("Mount THREAD OPENING VOLUME BEGIN\n");
 
-	if (memcmp (pThreadBlock->mount->wszVolume, WIDE ("\\Device"), 14) != 0)
+	if ( !IsDeviceName (pThreadBlock->mount->wszVolume))
 	{
 		RtlStringCbCopyW (pThreadBlock->wszMountVolume, sizeof(pThreadBlock->wszMountVolume),WIDE ("\\??\\"));
 		RtlStringCbCatW (pThreadBlock->wszMountVolume, sizeof(pThreadBlock->wszMountVolume),pThreadBlock->mount->wszVolume);
