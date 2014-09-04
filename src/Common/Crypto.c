@@ -275,28 +275,47 @@ Cipher *CipherGet (int id)
 	return NULL;
 }
 
-const char *CipherGetName (int cipherId)
+#ifndef TC_WINDOWS_BOOT
+const
+#endif
+char *CipherGetName (int cipherId)
 {
+#ifdef TC_WINDOWS_BOOT
+	return CipherGet (cipherId) -> Name;
+#else
    Cipher* pCipher = CipherGet (cipherId);
    return  pCipher? pCipher -> Name : "";
+#endif
 }
 
 int CipherGetBlockSize (int cipherId)
 {
+#ifdef TC_WINDOWS_BOOT
+	return CipherGet (cipherId) -> BlockSize;
+#else
    Cipher* pCipher = CipherGet (cipherId);
    return pCipher? pCipher -> BlockSize : 0;
+#endif
 }
 
 int CipherGetKeySize (int cipherId)
 {
+#ifdef TC_WINDOWS_BOOT
+	return CipherGet (cipherId) -> KeySize;
+#else
    Cipher* pCipher = CipherGet (cipherId);
    return pCipher? pCipher -> KeySize : 0;
+#endif
 }
 
 int CipherGetKeyScheduleSize (int cipherId)
 {
+#ifdef TC_WINDOWS_BOOT
+	return CipherGet (cipherId) -> KeyScheduleSize;
+#else
    Cipher* pCipher = CipherGet (cipherId);
    return pCipher? pCipher -> KeyScheduleSize : 0;
+#endif
 }
 
 #ifndef TC_WINDOWS_BOOT
@@ -619,18 +638,28 @@ int HashGetIdByName (char *name)
 	return 0;
 }
 
-
-const char *HashGetName (int hashId)
+#ifndef TC_WINDOWS_BOOT
+const
+#endif
+char *HashGetName (int hashId)
 {
+#ifdef TC_WINDOWS_BOOT
+	return HashGet(hashId) -> Name;
+#else
    Hash* pHash = HashGet(hashId);
    return pHash? pHash -> Name : "";
+#endif
 }
 
 
 BOOL HashIsDeprecated (int hashId)
 {
+#ifdef TC_WINDOWS_BOOT
+	return HashGet(hashId) -> Deprecated;
+#else
    Hash* pHash = HashGet(hashId);
    return pHash? pHash -> Deprecated : FALSE;
+#endif
 }
 
 

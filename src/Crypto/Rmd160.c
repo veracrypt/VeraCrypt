@@ -140,7 +140,9 @@ void RMD160Final(unsigned char *digest, RMD160_CTX *ctx)
 	if (digest) {
 		for (i = 0; i < 5; i++)
 			PUT_32BIT_LE(digest + i * 4, ctx->state[i]);
+#ifndef TC_WINDOWS_BOOT
 		burn (ctx, sizeof(*ctx));
+#endif
 	}
 }
 
