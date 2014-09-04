@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0d">
+  <localization prog-version="1.0e">
     <!-- Languages -->
     <language langid="cs" name="Čeština" en-name="Czech" version="1.0.0" translators="Vítek Moser" />
     <!-- Fonts -->

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0d">
+  <localization prog-version="1.0e">
     <!-- Languages -->
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.0" translators="Barney Li" />
     <!-- Fonts -->

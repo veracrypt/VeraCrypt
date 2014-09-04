@@ -15,15 +15,15 @@
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.0d"
+#define VERSION_STRING					"1.0e"
 
 // Version number to compare against driver
-#define VERSION_NUM						0x010d
+#define VERSION_NUM						0x010e
 
 // Release date
-#define TC_STR_RELEASE_DATE				"June 3, 2014"
+#define TC_STR_RELEASE_DATE				"August 26, 2014"
 #define TC_RELEASE_DATE_YEAR			2014
-#define TC_RELEASE_DATE_MONTH			06
+#define TC_RELEASE_DATE_MONTH			8
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL

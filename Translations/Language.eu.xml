@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0d">
+  <localization prog-version="1.0e">
     <!-- Languages -->
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <!-- Fonts -->

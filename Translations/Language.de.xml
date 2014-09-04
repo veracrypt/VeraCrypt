@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0d">
+  <localization prog-version="1.0e">
     <!-- Languages -->
     <language langid="de" name="Deutsch" en-name="German" version="1.0.1" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt" />
     <!-- Fonts -->
