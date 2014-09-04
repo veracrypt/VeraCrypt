@@ -8,7 +8,11 @@ signtool sign /v /a /n IDRIX /ac Thawt_CodeSigning_CA.crt /t http://timestamp.ve
 
 cd "..\Release\Setup Files\"
 
+copy /V /Y ..\..\..\Translations\*.xml .
+
 "VeraCrypt Setup.exe" /p
+
+del *.xml
 
 cd "..\..\Signing"
 
