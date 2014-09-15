@@ -25,6 +25,7 @@ I. Windows
 II. Linux and Mac OS X
 	Requirements for Building VeraCrypt for Linux and Mac OS X
 	Instructions for Building VeraCrypt for Linux and Mac OS X
+	Mac OS X specifics
 	
 III. FreeBSD and OpenSolaris
 
@@ -122,14 +123,14 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - Apple Xcode (Mac OS X only)
 - NASM assembler 2.08 or compatible (x86/x64 architecture only)
 - pkg-config
-- wxWidgets 2.8 shared library and header files installed or
-  wxWidgets 2.8 library source code (available at http://www.wxwidgets.org)
+- wxWidgets 3.0 shared library and header files installed or
+  wxWidgets 3.0 library source code (available at http://www.wxwidgets.org)
 - FUSE library and header files (available at http://fuse.sourceforge.net
-  and http://code.google.com/p/macfuse)
+  and https://osxfuse.github.io/)
 - RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
-  header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20)
-  located in a standard include path or in a directory defined by the
-  environment variable 'PKCS11_INC'.
+  header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20).
+  They are already included in the source tree under the directory PKCS11 but 
+  it is possible to override it using the environment variable 'PKCS11_INC'. 
 
 
 Instructions for Building VeraCrypt for Linux and Mac OS X:
@@ -141,7 +142,7 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
    command to configure the wxWidgets static library for VeraCrypt and to
    build it: 
 
-   $ make WX_ROOT=/usr/src/wxWidgets wxbuild
+   $ make WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
 
    The variable WX_ROOT must point to the location of the source code of the
    wxWidgets library. Output files will be placed in the './wxrelease/'
@@ -162,16 +163,36 @@ By default, a universal executable supporting both graphical and text user
 interface is built. To build a console-only executable, which requires no GUI
 library, use the 'NOGUI' parameter:
 
-   $ make NOGUI=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+   $ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
    $ make NOGUI=1 WXSTATIC=1
+   
+
+Mac OS X specifics:
+-----------------------------------------------------------
+   
+Under MacOSX, the SDK for OSX 10.7 is used by default. To use another version
+of the SDK (e.i. 10.6), you can export the environment variable VC_OSX_TARGET :
+	
+	$ export VC_OSX_TARGET=10.6
+
+
+Before building under MacOSX, pkg-config must be installed if not yet available.
+Get it from http://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
+compile using the following commands : 
+
+	$ ./configure --with-internal-glib
+	$ make
+	$ sudo make install
+
+After making sure pkg-config is available, download and install OSXFuse from
+https://osxfuse.github.io/ (MacFUSE compatibility layer must selected)
 
 
 
 III. FreeBSD and OpenSolaris
 ============================
 
-Support status for FreeBSD: http://www.truecrypt.org/misc/freebsd
-Support status for OpenSolaris: http://www.truecrypt.org/misc/opensolaris
+FreeBSD and OpenSolaris are not yet supported.
 
 
 
