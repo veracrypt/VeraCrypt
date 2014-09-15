@@ -493,7 +493,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0d</string>
+				<string>1.0e</string>
 			</dict>
 			<key>UUID</key>
 			<string>B14381D9-EC5F-43E4-B971-82AB3D132A64</string>
@@ -513,7 +513,7 @@
 			ZW50LVN0eWxlLVR5cGUiIGNvbnRlbnQ9InRleHQvY3NzIj4KPHRp
 			dGxlPjwvdGl0bGU+CjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29u
 			dGVudD0iQ29jb2EgSFRNTCBXcml0ZXIiPgo8bWV0YSBuYW1lPSJD
-			b2NvYVZlcnNpb24iIGNvbnRlbnQ9IjEyNjUuMjEiPgo8c3R5bGUg
+			b2NvYVZlcnNpb24iIGNvbnRlbnQ9IjExMzguNTEiPgo8c3R5bGUg
 			dHlwZT0idGV4dC9jc3MiPgo8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5
 			Pgo8L2JvZHk+CjwvaHRtbD4K
 			</data>
@@ -1049,7 +1049,7 @@ Merci de ré-installer OSXFUSE et de cocher l'option de compatibilité MacFUSE d
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>VeraCrypt 1.0d</string>
+			<string>VeraCrypt 1.0e</string>
 		</dict>
 	</dict>
 	<key>SHARED_GLOBAL_DATA</key>
