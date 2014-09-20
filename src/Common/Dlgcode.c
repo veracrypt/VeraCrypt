@@ -6949,7 +6949,7 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, int textByteLen)
 		StringCbCopyA(filename, sizeof(filename), "C:\\Windows\\" PRINT_TOOL);
 
 	WaitCursor ();
-	ShellExecute (NULL, "open", PRINT_TOOL, cl, NULL, SW_HIDE);
+	ShellExecute (NULL, "open", filename, cl, NULL, SW_HIDE);
 	Sleep (6000);
 	NormalCursor();
 
