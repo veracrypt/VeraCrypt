@@ -4404,7 +4404,7 @@ static void Benchmark (HWND hwndDlg)
 }
 
 
-static BOOL CheckMountList ()
+static BOOL CheckMountList (BOOL bForceTaskBarUpdate)
 {
 	MOUNT_LIST_STRUCT current;
 	static BootEncryptionStatus newBootEncStatus;
@@ -4413,13 +4413,18 @@ static BOOL CheckMountList ()
 
 	GetMountList (&current);
 
-	if ((current.ulMountedDrives != lastUlMountedDrives || bUseDifferentTrayIconIfVolMounted != lastbUseDifferentTrayIconIfVolMounted)
+	if ((bForceTaskBarUpdate || current.ulMountedDrives != lastUlMountedDrives || bUseDifferentTrayIconIfVolMounted != lastbUseDifferentTrayIconIfVolMounted)
 		&& TaskBarIconMutex != NULL)
 	{
 		lastUlMountedDrives = current.ulMountedDrives;
 		lastbUseDifferentTrayIconIfVolMounted = bUseDifferentTrayIconIfVolMounted;
 
 		TaskBarIconChange (MainDlg, current.ulMountedDrives != 0 && bUseDifferentTrayIconIfVolMounted ? IDI_TRUECRYPT_MOUNTED_ICON : IDI_TRUECRYPT_ICON);
+	}
+
+	if (bForceTaskBarUpdate)
+	{
+		return TRUE;
 	}
 
 	if (LastKnownLogicalDrives != GetLogicalDrives()
@@ -4910,7 +4915,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			Silent = FALSE;
 
 			GetMountList (&LastKnownMountList);
-			SetTimer (hwndDlg, TIMER_ID_MAIN, TIMER_INTERVAL_MAIN, NULL);
+			SetTimer (hwndDlg, TIMER_ID_MAIN, TIMER_INTERVAL_MAIN, NULL);			
 
 			taskBarCreatedMsg = RegisterWindowMessage ("TaskbarCreated");
 
@@ -5065,7 +5070,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_TIMER:
 		{
 			// Check mount list and update GUI if needed
-			CheckMountList ();
+			CheckMountList (FALSE);
 
 			// Cache status
 			if (IsPasswordCacheEmpty() == IsWindowEnabled (GetDlgItem (hwndDlg, IDC_WIPE_CACHE)))
@@ -5340,7 +5345,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 					else if (sel >= TRAYICON_MENU_DRIVE_OFFSET + 26 && sel < TRAYICON_MENU_DRIVE_OFFSET + 26*2)
 					{
-						if (CheckMountList ())
+						if (CheckMountList (FALSE))
 						{
 							if (Dismount (hwndDlg, sel - TRAYICON_MENU_DRIVE_OFFSET - 26))
 							{
@@ -5524,7 +5529,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							KeyFilesApply (&mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile);
 					}
 
-					if (CheckMountList ())
+					if (CheckMountList (FALSE))
 						Mount (hwndDlg, 0, 0);
 				}
 				return 1;
@@ -5620,7 +5625,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						break;
 
 					case IDM_UNMOUNT_VOLUME:
-						if (CheckMountList ())
+						if (CheckMountList (FALSE))
 							Dismount (hwndDlg, 0);
 						break;
 
@@ -5651,7 +5656,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							mountOptions = defaultMountOptions;
 							bPrebootPasswordDlgMode = FALSE;
 
-							if (CheckMountList ())
+							if (CheckMountList (FALSE))
 								Mount (hwndDlg, 0, 0);
 						}
 						break;
@@ -5708,7 +5713,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 
-			if (CheckMountList ())
+			if (CheckMountList (FALSE))
 				Dismount (hwndDlg, 0);
 			return 1;
 		}
@@ -5794,7 +5799,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				mountOptions.PartitionInInactiveSysEncScope = TRUE;
 				bPrebootPasswordDlgMode = TRUE;
 
-				if (CheckMountList ())
+				if (CheckMountList (FALSE))
 					Mount (hwndDlg, 0, 0);
 
 				bPrebootPasswordDlgMode = FALSE;
@@ -6509,6 +6514,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			TaskBarIconRemove (hwndDlg);
 			TaskBarIconAdd (hwndDlg);
+			CheckMountList(TRUE);
 			return 1;
 		}
 	}
@@ -8529,7 +8535,7 @@ void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions)
 				KeyFilesApply (&mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile);
 		}
 
-		if (CheckMountList ())
+		if (CheckMountList (FALSE))
 			Mount (hwndDlg, 0, 0);
 	}
 	else

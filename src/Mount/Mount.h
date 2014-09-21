@@ -85,7 +85,7 @@ static BOOL Dismount (HWND hwndDlg, int nDosDriveNo);
 static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dismountMaxRetries, int dismountAutoRetryDelay);
 static void KeyfileDefaultsDlg (HWND hwndDlg);
 static void HandleHotKey (HWND hwndDlg, WPARAM wParam);
-static BOOL CheckMountList ();
+static BOOL CheckMountList (BOOL bForceTaskBarUpdate);
 int GetCipherBlockSizeByDriveNo (int nDosDriveNo);
 int GetModeOfOperationByDriveNo (int nDosDriveNo);
 void ChangeMainWindowVisibility ();
