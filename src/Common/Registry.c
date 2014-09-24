@@ -114,7 +114,8 @@ char *ReadRegistryString (char *subKey, char *name, char *defaultValue, char *st
 		if (RegQueryValueEx (hkey, name, 0,	0, (LPBYTE) value,	&size) == ERROR_SUCCESS)
 			StringCbCopyA (str, maxLen,value);
 
-	RegCloseKey (hkey);
+	if (hkey)
+		RegCloseKey (hkey);
 	return str;
 }
 
