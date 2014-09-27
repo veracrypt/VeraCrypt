@@ -630,18 +630,15 @@ static void KXf (const unsigned __int32 *k, unsigned int r, unsigned __int32 *a,
 
 #ifndef TC_MINIMIZE_CODE_SIZE
 
-void serpent_set_key(const unsigned __int8 userKey[], int keylen, unsigned __int8 *ks)
+void serpent_set_key(const unsigned __int8 userKey[],unsigned __int8 *ks)
 {
 	unsigned __int32 a,b,c,d,e;
 	unsigned __int32 *k = (unsigned __int32 *)ks;
 	unsigned __int32 t;
 	int i;
 
-	for (i = 0; i < keylen / (int)sizeof(__int32); i++)
+	for (i = 0; i < 8; i++)
 		k[i] = LE32(((unsigned __int32*)userKey)[i]);
-
-	if (keylen < 32)
-		k[keylen/4] |= (unsigned __int32)1 << ((keylen%4)*8);
 
 	k += 8;
 	t = k[-1];
@@ -694,18 +691,15 @@ static void SKf (unsigned __int32 *k, unsigned int r, unsigned __int32 *a, unsig
 	k[r + 7] = *d;
 }
 
-void serpent_set_key(const unsigned __int8 userKey[], int keylen, unsigned __int8 *ks)
+void serpent_set_key(const unsigned __int8 userKey[], unsigned __int8 *ks)
 {
 	unsigned __int32 a,b,c,d,e;
 	unsigned __int32 *k = (unsigned __int32 *)ks;
 	unsigned __int32 t;
 	int i;
 
-	for (i = 0; i < keylen / (int)sizeof(__int32); i++)
+	for (i = 0; i < 8; i++)
 		k[i] = LE32(((unsigned __int32*)userKey)[i]);
-
-	if (keylen < 32)
-		k[keylen/4] |= (unsigned __int32)1 << ((keylen%4)*8);
 
 	k += 8;
 	t = k[-1];

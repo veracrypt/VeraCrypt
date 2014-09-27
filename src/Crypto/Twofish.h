@@ -44,7 +44,8 @@ typedef struct
 
 #define TWOFISH_KS		sizeof(TwofishInstance)
 
-u4byte * twofish_set_key(TwofishInstance *instance, const u4byte in_key[], const u4byte key_len);
+/* in_key must be 32-bytes long */
+u4byte * twofish_set_key(TwofishInstance *instance, const u4byte in_key[]);
 void twofish_encrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte out_blk[]);
 void twofish_decrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte out_blk[4]);
 

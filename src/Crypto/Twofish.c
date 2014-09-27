@@ -369,7 +369,7 @@ static u4byte mds_rem(u4byte p0, u4byte p1)
 
 /* initialise the key schedule from the user supplied key   */
 
-u4byte *twofish_set_key(TwofishInstance *instance, const u4byte in_key[], const u4byte key_len)
+u4byte *twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
 {   u4byte  i, a, b, me_key[4], mo_key[4];
 	u4byte *l_key, *s_key;
 
@@ -390,7 +390,7 @@ u4byte *twofish_set_key(TwofishInstance *instance, const u4byte in_key[], const 
     }
 #endif
 
-    instance->k_len = key_len / 64;   /* 2, 3 or 4 */
+    instance->k_len = 4;
 
     for(i = 0; i < instance->k_len; ++i)
     {

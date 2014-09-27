@@ -119,11 +119,11 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 		break;
 
 	case SERPENT:
-		serpent_set_key (key, CipherGetKeySize(SERPENT) * 8, ks);
+		serpent_set_key (key, ks);
 		break;
 		
 	case TWOFISH:
-		twofish_set_key ((TwofishInstance *)ks, (const u4byte *)key, CipherGetKeySize(TWOFISH) * 8);
+		twofish_set_key ((TwofishInstance *)ks, (const u4byte *)key);
 		break;
 
 	default:
@@ -972,9 +972,9 @@ int EAInit (int ea, unsigned char *key, unsigned __int8 *ks)
 		return ERR_CIPHER_INIT_FAILURE;
 
 #elif defined (TC_WINDOWS_BOOT_SERPENT)
-	serpent_set_key (key, 32 * 8, ks);
+	serpent_set_key (key, ks);
 #elif defined (TC_WINDOWS_BOOT_TWOFISH)
-	twofish_set_key ((TwofishInstance *)ks, (const u4byte *)key, 32 * 8);
+	twofish_set_key ((TwofishInstance *)ks, (const u4byte *)key);
 #endif
 	return ERR_SUCCESS;
 }

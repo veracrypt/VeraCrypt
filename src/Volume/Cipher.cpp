@@ -211,7 +211,7 @@ namespace VeraCrypt
 
 	void CipherSerpent::SetCipherKey (const byte *key)
 	{
-		serpent_set_key (key, static_cast<int> (GetKeySize ()), ScheduledKey);
+		serpent_set_key (key, ScheduledKey);
 	}
 
 
@@ -233,7 +233,7 @@ namespace VeraCrypt
 
 	void CipherTwofish::SetCipherKey (const byte *key)
 	{
-		twofish_set_key ((TwofishInstance *) ScheduledKey.Ptr(), (unsigned int *) key, static_cast<int> (GetKeySize ()) * 8);
+		twofish_set_key ((TwofishInstance *) ScheduledKey.Ptr(), (unsigned int *) key);
 	}
 
 
