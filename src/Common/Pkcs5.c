@@ -247,8 +247,20 @@ void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int 
 	char j[RIPEMD160_DIGESTSIZE], k[RIPEMD160_DIGESTSIZE];
 	char init[128];
 	char counter[4];
-	int c, i, l;
-   int EnhanceSecurityLoops = (bNotTest)? 20 : 1;
+	uint32 c;
+	int i;
+
+	if (bNotTest)
+	{
+		if (iterations == 32767)
+			c = 655331;
+		else
+			c = 327661;
+	}
+	else
+	{
+		c  = iterations;
+	}
 
 	/* iteration 1 */
 	memset (counter, 0, 4);
@@ -259,33 +271,16 @@ void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int 
 	memcpy (u, j, RIPEMD160_DIGESTSIZE);
 
 	/* remaining iterations */
-	for (l = 0; l < EnhanceSecurityLoops; l++)
+	while ( c > 1)
 	{
-		for (c = 1; c < iterations; c++)
+		hmac_ripemd160 (pwd, pwd_len, j, RIPEMD160_DIGESTSIZE, k);
+		for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
 		{
-			hmac_ripemd160 (pwd, pwd_len, j, RIPEMD160_DIGESTSIZE, k);
-			for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
-			{
-				u[i] ^= k[i];
-				j[i] = k[i];
-			}
+			u[i] ^= k[i];
+			j[i] = k[i];
 		}
+		c--;
 	}
-
-   /* add extra 10 loops to ensure backward compatibilty with the previous count (327661 for boot, 655331 for normal) */
-   if (iterations == 32767)
-   {
-      /* case of normal partition : add 10 iterations to have a total of 655331 = (32767 - 1)*20 + 1 + 10 */
-		for (c = 0; c < 10; c++)
-		{
-			hmac_ripemd160 (pwd, pwd_len, j, RIPEMD160_DIGESTSIZE, k);
-			for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
-			{
-				u[i] ^= k[i];
-				j[i] = k[i];
-			}
-		}
-   }
 
 	/* Prevent possible leaks. */
 	burn (j, sizeof(j));
