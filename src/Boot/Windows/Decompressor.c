@@ -47,6 +47,7 @@ struct state {
 
     /* input state */
     unsigned char *in;          /* input buffer */
+    unsigned int inlen;			 /* available input at in */
     unsigned int incnt;        /* bytes read so far */
     int bitbuf;                 /* bit buffer */
     int bitcnt;                 /* number of bits in bit buffer */
@@ -81,12 +82,18 @@ local int stored(struct state *s)
     s->bitbuf = 0;
     s->bitcnt = 0;
 
+    if (s->incnt + 4 > s->inlen)
+        return 2;                               /* not enough input */
+
     /* get length and check against its one's complement */
     len = s->in[s->incnt++];
     len |= s->in[s->incnt++] << 8;
     if (s->in[s->incnt++] != (~len & 0xff) ||
         s->in[s->incnt++] != ((~len >> 8) & 0xff))
         return -2;                              /* didn't match complement! */
+
+    if (s->incnt + len > s->inlen)
+        return 2;                               /* not enough input */
 
     /* copy len bytes from in to out */
     if (s->out != NIL) {
@@ -110,6 +117,8 @@ struct huffman {
     short *symbol;      /* canonically ordered symbols */
 };
 
+/* reduce code size by using slow version of the decompressor */
+#define SLOW
 
 #ifdef SLOW
 local int decode(struct state *s, struct huffman *h)
@@ -265,7 +274,7 @@ local int codes(struct state *s,
 
             /* get and check distance */
             symbol = decode(s, distcode);
-            if (symbol < 0) return symbol;      /* invalid symbol */
+            if (symbol < 0) return symbol;          /* invalid symbol */
             dist = dists[symbol] + bits(s, dext[symbol]);
             if (dist > s->outcnt)
                 return -10;     /* distance too far back */
@@ -363,25 +372,37 @@ local int dynamic(struct state *s)
         int len;                /* last length to repeat */
 
         symbol = decode(s, &lencode);
+        if (symbol < 0)
+            return symbol;          /* invalid symbol */
         if (symbol < 16)                /* length in 0..15 */
             lengths[index++] = symbol;
         else {                          /* repeat instruction */
             len = 0;                    /* assume repeating zeros */
-            if (symbol == 16) {         /* repeat last length 3..6 times */
-                if (index == 0) return -5;      /* no last length! */
-                len = lengths[index - 1];       /* last length */
-                symbol = 3 + bits(s, 2);
-            }
-            else if (symbol == 17)      /* repeat zero 3..10 times */
-                symbol = 3 + bits(s, 3);
-            else                        /* == 18, repeat zero 11..138 times */
-                symbol = 11 + bits(s, 7);
-            if (index + symbol > nlen + ndist)
+            switch(symbol)
+            {
+               case 16: {         /* repeat last length 3..6 times */
+                  if (index == 0) return -5;      /* no last length! */
+                  len = lengths[index - 1];       /* last length */
+                  symbol = 3 + bits(s, 2);
+                  break;
+               }
+               case  17:      /* repeat zero 3..10 times */
+                  symbol = 3 + bits(s, 3);
+                  break;
+               default:                  /* == 18, repeat zero 11..138 times */
+                   symbol = 11 + bits(s, 7);
+                   break;
+             }
+            if ((index + symbol > nlen + ndist))
                 return -6;              /* too many lengths! */
             while (symbol--)            /* repeat last or zero symbol times */
                 lengths[index++] = len;
         }
     }
+
+    /* check for end-of-block code -- there better be one! */
+    if (lengths[256] == 0)
+        return -9;
 
     /* build huffman table for literal/length codes */
     err = construct(&lencode, lengths, nlen);
@@ -404,7 +425,8 @@ void _acrtused () { }
 int far main (
          unsigned char *dest,         /* pointer to destination pointer */
          unsigned int destlen,        /* amount of output space */
-         unsigned char *source)       /* pointer to source data pointer */
+         unsigned char *source,       /* pointer to source data pointer */
+         unsigned int sourcelen)
 {
     struct state s;             /* input/output state */
     int last, type;             /* block information */
@@ -417,6 +439,7 @@ int far main (
 
     /* initialize input state */
     s.in = source;
+    s.inlen = sourcelen;
     s.incnt = 0;
     s.bitbuf = 0;
     s.bitcnt = 0;
@@ -425,10 +448,22 @@ int far main (
 	do {
 		last = bits(&s, 1);         /* one if last block */
 		type = bits(&s, 2);         /* block type 0..3 */
-		err = type == 0 ? stored(&s) :
-			(type == 1 ? fixed(&s) :
-			(type == 2 ? dynamic(&s) :
-			-1));               /* type == 3, invalid */
+		switch(type)
+		{
+		case 0:
+			err = stored(&s);
+			break;
+		case 1:
+			err = fixed(&s);
+			break;
+		case 2:
+			err = dynamic(&s);
+			break;
+		default:
+			err = -1; /* type == 3, invalid */
+			break;
+		}
+
 		if (err != 0) break;        /* return with error */
 	} while (!last);
 

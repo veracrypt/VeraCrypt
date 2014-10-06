@@ -134,6 +134,8 @@ checksum_ok:
 	push dx
 	
 	; Decompress boot loader
+	mov cx, word ptr [start + TC_BOOT_SECTOR_LOADER_LENGTH_OFFSET]
+	push cx																		; Compressed data size
 	push TC_BOOT_LOADER_COMPRESSED_BUFFER_OFFSET + TC_GZIP_HEADER_SIZE			; Compressed data
 	push TC_MAX_BOOT_LOADER_DECOMPRESSED_SIZE									; Output buffer size
 	push TC_BOOT_LOADER_DECOMPRESSOR_MEMORY_SIZE + TC_COM_EXECUTABLE_OFFSET		; Output buffer
@@ -145,7 +147,7 @@ checksum_ok:
 	retf
 decompressor_ret:
 
-	add sp, 6
+	add sp, 8
 	pop dx
 	
 	; Restore boot sector segment
