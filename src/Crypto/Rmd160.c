@@ -68,17 +68,18 @@ void RMD160Init (RMD160_CTX *ctx)
 void RMD160Update (RMD160_CTX *ctx, const unsigned char *input, unsigned __int32 lenArg)
 {
 #ifndef TC_WINDOWS_BOOT
-	uint64 len = lenArg, have, need;
+	uint64 len = lenArg;
 #else
-	uint32 len = lenArg, have, need;
+	uint32 len = lenArg;
 #endif
+	unsigned int have, need;
 
 	/* Check how many bytes we already have and how many more we need. */
-	have = ((ctx->count >> 3) & (RIPEMD160_BLOCK_LENGTH - 1));
+	have = (unsigned int) ((ctx->count) & (RIPEMD160_BLOCK_LENGTH - 1));
 	need = RIPEMD160_BLOCK_LENGTH - have;
 
 	/* Update bitcount */
-	ctx->count += len << 3;
+	ctx->count += len;
 
 	if (len >= need) {
 		if (have != 0) {
@@ -114,15 +115,16 @@ static void RMD160Pad(RMD160_CTX *ctx)
 	/* Convert count to 8 bytes in little endian order. */
 
 #ifndef TC_WINDOWS_BOOT
-	PUT_64BIT_LE(count, ctx->count);
+	uint64 bitcount = ctx->count << 3;
+	PUT_64BIT_LE(count, bitcount);
 #else
 	*(uint32 *) (count + 4) = 0;
-	*(uint32 *) (count + 0) = ctx->count;
+	*(uint32 *) (count + 0) = ctx->count << 3;
 #endif
 
 	/* Pad out to 56 mod 64. */
 	padlen = RIPEMD160_BLOCK_LENGTH -
-		(uint32)((ctx->count >> 3) & (RIPEMD160_BLOCK_LENGTH - 1));
+		(uint32)((ctx->count) & (RIPEMD160_BLOCK_LENGTH - 1));
 	if (padlen < 1 + 8)
 		padlen += RIPEMD160_BLOCK_LENGTH;
 	RMD160Update(ctx, PADDING, padlen - 8);            /* padlen - 8 <= 64 */
