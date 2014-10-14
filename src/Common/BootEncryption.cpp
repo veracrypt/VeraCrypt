@@ -375,6 +375,7 @@ namespace VeraCrypt
 		RescueIsoImage (nullptr),
 		RescueVolumeHeaderValid (false),
 		SelectedEncryptionAlgorithmId (0),
+		SelectedPrfAlgorithmId (0),
 		VolumeHeaderValid (false)
 	{
       HiddenOSCandidatePartition.IsGPT = FALSE;
@@ -975,11 +976,16 @@ namespace VeraCrypt
 		ZeroMemory (buffer, bufferSize);
 
 		int ea = 0;
+		int pkcs5_prf = 0;
 		if (GetStatus().DriveMounted)
 		{
 			try
 			{
 				GetBootEncryptionAlgorithmNameRequest request;
+				// since we added new field to GetBootEncryptionAlgorithmNameRequest since version 1.0f
+				// we zero all the structure so that if we are talking to an older driver, the field
+				// BootPrfAlgorithmName will be an empty string
+				ZeroMemory(&request, sizeof(request));
 				CallDriver (TC_IOCTL_GET_BOOT_ENCRYPTION_ALGORITHM_NAME, NULL, 0, &request, sizeof (request));
 
 				if (_stricmp (request.BootEncryptionAlgorithmName, "AES") == 0)
@@ -988,6 +994,13 @@ namespace VeraCrypt
 					ea = SERPENT;
 				else if (_stricmp (request.BootEncryptionAlgorithmName, "Twofish") == 0)
 					ea = TWOFISH;
+
+				if (_stricmp(request.BootPrfAlgorithmName, "SHA-256") == 0)
+					pkcs5_prf = SHA256;
+				else if (_stricmp(request.BootPrfAlgorithmName, "RIPEMD-160") == 0)
+					pkcs5_prf = RIPEMD160;
+				else if (strlen(request.BootPrfAlgorithmName) == 0) // case of version < 1.0f
+					pkcs5_prf = RIPEMD160;
 			}
 			catch (...)
 			{
@@ -996,36 +1009,77 @@ namespace VeraCrypt
 					VOLUME_PROPERTIES_STRUCT properties;
 					GetVolumeProperties (&properties);
 					ea = properties.ea;
+					pkcs5_prf = properties.pkcs5;
 				}
 				catch (...) { }
 			}
 		}
 		else
 		{
-			if (SelectedEncryptionAlgorithmId == 0)
+			if (SelectedEncryptionAlgorithmId == 0 || SelectedPrfAlgorithmId == 0)
 				throw ParameterIncorrect (SRC_POS);
 
 			ea = SelectedEncryptionAlgorithmId;
+			pkcs5_prf = SelectedPrfAlgorithmId;
 		}
 
-		int bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR : IDR_BOOT_SECTOR;
-		int bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER : IDR_BOOT_LOADER;
+		// Only RIPEMD160 and SHA-256 are supported for boot loader
+		if (pkcs5_prf != RIPEMD160 && pkcs5_prf != SHA256)
+			throw ParameterIncorrect (SRC_POS);
+
+		int bootSectorId = 0;
+		int bootLoaderId = 0;
+
+		if (pkcs5_prf == SHA256)
+		{
+			bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_SHA2 : IDR_BOOT_SECTOR_SHA2;
+			bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_SHA2 : IDR_BOOT_LOADER_SHA2;
+		}
+		else
+		{
+			bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR : IDR_BOOT_SECTOR;
+			bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER : IDR_BOOT_LOADER;
+		}
 
 		switch (ea)
 		{
 		case AES:
-			bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_AES : IDR_BOOT_SECTOR_AES;
-			bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_AES : IDR_BOOT_LOADER_AES;
+			if (pkcs5_prf == SHA256)
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_AES_SHA2 : IDR_BOOT_SECTOR_AES_SHA2;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_AES_SHA2 : IDR_BOOT_LOADER_AES_SHA2;
+			}
+			else
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_AES : IDR_BOOT_SECTOR_AES;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_AES : IDR_BOOT_LOADER_AES;
+			}
 			break;
 
 		case SERPENT:
-			bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_SERPENT : IDR_BOOT_SECTOR_SERPENT;
-			bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_SERPENT : IDR_BOOT_LOADER_SERPENT;
+			if (pkcs5_prf == SHA256)
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_SERPENT_SHA2 : IDR_BOOT_SECTOR_SERPENT_SHA2;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_SERPENT_SHA2 : IDR_BOOT_LOADER_SERPENT_SHA2;
+			}
+			else
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_SERPENT : IDR_BOOT_SECTOR_SERPENT;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_SERPENT : IDR_BOOT_LOADER_SERPENT;
+			}
 			break;
 
 		case TWOFISH:
-			bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_TWOFISH : IDR_BOOT_SECTOR_TWOFISH;
-			bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_TWOFISH : IDR_BOOT_LOADER_TWOFISH;
+			if (pkcs5_prf == SHA256)
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_TWOFISH_SHA2 : IDR_BOOT_SECTOR_TWOFISH_SHA2;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_TWOFISH_SHA2 : IDR_BOOT_LOADER_TWOFISH_SHA2;
+			}
+			else
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_TWOFISH : IDR_BOOT_SECTOR_TWOFISH;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_TWOFISH : IDR_BOOT_LOADER_TWOFISH;
+			}
 			break;
 		}
 
@@ -1084,7 +1138,7 @@ namespace VeraCrypt
 
 			buffer[TC_BOOT_SECTOR_CONFIG_OFFSET] |= TC_BOOT_CFG_FLAG_BACKUP_LOADER_AVAILABLE;
 		}
-		else if (!rescueDisk && bootLoaderId != IDR_BOOT_LOADER)
+		else if (!rescueDisk && bootLoaderId != IDR_BOOT_LOADER && bootLoaderId != IDR_BOOT_LOADER_SHA2)
 		{
 			throw ParameterIncorrect (SRC_POS);
 		}
@@ -2253,6 +2307,7 @@ namespace VeraCrypt
 		BackupSystemLoader();
 
 		SelectedEncryptionAlgorithmId = ea;
+		SelectedPrfAlgorithmId = pkcs5;
 	}
 
 
@@ -2307,6 +2362,7 @@ namespace VeraCrypt
 		}
 
 		SelectedEncryptionAlgorithmId = ea;
+		SelectedPrfAlgorithmId = pkcs5;
 		CreateVolumeHeader (volumeSize, encryptedAreaStart, &password, ea, mode, pkcs5);
 		
 		if (!rescueIsoImagePath.empty())

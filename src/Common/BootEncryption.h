@@ -215,6 +215,7 @@ namespace VeraCrypt
 		HWND ParentWindow;
 		SystemDriveConfiguration DriveConfig;
 		int SelectedEncryptionAlgorithmId;
+		int SelectedPrfAlgorithmId;
 		Partition HiddenOSCandidatePartition;
 		byte *RescueIsoImage;
 		byte RescueVolumeHeader[TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];

@@ -241,6 +241,7 @@ typedef struct
 typedef struct
 {
 	char BootEncryptionAlgorithmName[256];
+	char BootPrfAlgorithmName[256];
 } GetBootEncryptionAlgorithmNameRequest;
 
 typedef struct

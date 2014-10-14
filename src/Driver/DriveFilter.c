@@ -1621,6 +1621,7 @@ void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp)
 		{
 			GetBootEncryptionAlgorithmNameRequest *request = (GetBootEncryptionAlgorithmNameRequest *) irp->AssociatedIrp.SystemBuffer;
 			EAGetName (request->BootEncryptionAlgorithmName, BootDriveFilterExtension->Queue.CryptoInfo->ea);
+			HashGetName2 (request->BootPrfAlgorithmName, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
 
 			irp->IoStatus.Information = sizeof (GetBootEncryptionAlgorithmNameRequest);
 			irp->IoStatus.Status = STATUS_SUCCESS;

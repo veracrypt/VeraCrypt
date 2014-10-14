@@ -449,6 +449,17 @@ IDR_BOOT_LOADER         BIN                     "..\\Boot\\Windows\\Release\\Boo
 IDR_BOOT_LOADER_AES     BIN                     "..\\Boot\\Windows\\Release_AES\\BootLoader.com.gz"
 IDR_BOOT_LOADER_SERPENT BIN                     "..\\Boot\\Windows\\Release_Serpent\\BootLoader.com.gz"
 IDR_BOOT_LOADER_TWOFISH BIN                     "..\\Boot\\Windows\\Release_Twofish\\BootLoader.com.gz"
+
+IDR_BOOT_SECTOR_SHA2         BIN                     "..\\Boot\\Windows\\Release_SHA2\\BootSector.bin"
+IDR_BOOT_SECTOR_AES_SHA2     BIN                     "..\\Boot\\Windows\\Release_AES_SHA2\\BootSector.bin"
+IDR_BOOT_SECTOR_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Release_Serpent_SHA2\\BootSector.bin"
+IDR_BOOT_SECTOR_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Release_Twofish_SHA2\\BootSector.bin"
+IDR_BOOT_LOADER_SHA2         BIN                     "..\\Boot\\Windows\\Release_SHA2\\BootLoader.com.gz"
+IDR_BOOT_LOADER_AES_SHA2	  BIN                     "..\\Boot\\Windows\\Release_AES_SHA2\\BootLoader.com.gz"
+IDR_BOOT_LOADER_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Release_Serpent_SHA2\\BootLoader.com.gz"
+IDR_BOOT_LOADER_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Release_Twofish_SHA2\\BootLoader.com.gz"
+
+
 IDR_RESCUE_BOOT_SECTOR  BIN                     "..\\Boot\\Windows\\Rescue\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_AES BIN                     "..\\Boot\\Windows\\Rescue_AES\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_SERPENT BIN                     "..\\Boot\\Windows\\Rescue_Serpent\\BootSector.bin"
@@ -457,6 +468,15 @@ IDR_RESCUE_LOADER       BIN                     "..\\Boot\\Windows\\Rescue\\Boot
 IDR_RESCUE_LOADER_AES   BIN                     "..\\Boot\\Windows\\Rescue_AES\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_SERPENT BIN                     "..\\Boot\\Windows\\Rescue_Serpent\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_TWOFISH BIN                     "..\\Boot\\Windows\\Rescue_Twofish\\BootLoader.com.gz"
+
+IDR_RESCUE_BOOT_SECTOR_SHA2  BIN                     "..\\Boot\\Windows\\Rescue_SHA2\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_AES_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_AES_SHA2\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Serpent_SHA2\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Twofish_SHA2\\BootSector.bin"
+IDR_RESCUE_LOADER_SHA2   BIN                     "..\\Boot\\Windows\\Rescue_SHA2\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_AES_SHA2   BIN                 "..\\Boot\\Windows\\Rescue_AES_SHA2\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_SERPENT_SHA2 BIN               "..\\Boot\\Windows\\Rescue_Serpent_SHA2\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_TWOFISH_SHA2 BIN               "..\\Boot\\Windows\\Rescue_Twofish_SHA2\\BootLoader.com.gz"
 
 /////////////////////////////////////////////////////////////////////////////
 //

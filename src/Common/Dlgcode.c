@@ -4363,6 +4363,7 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 		WHIRLPOOL_CTX	wctx;
 		RMD160_CTX		rctx;
 		sha512_ctx		s2ctx;
+		sha256_ctx		s256ctx;
 		int hid;
 
 		for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++) 
@@ -4377,6 +4378,12 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 				sha512_begin (&s2ctx);
 				sha512_hash (lpTestBuffer, benchmarkBufferSize, &s2ctx);
 				sha512_end ((unsigned char *) digest, &s2ctx);
+				break;
+
+			case SHA256:
+				sha256_begin (&s256ctx);
+				sha256_hash (lpTestBuffer, benchmarkBufferSize, &s256ctx);
+				sha256_end ((unsigned char *) digest, &s256ctx);
 				break;
 
 			case RIPEMD160:
@@ -4431,6 +4438,11 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
 					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE), dk, MASTER_KEYDATA_SIZE);
+					break;
+
+				case SHA256:
+					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case RIPEMD160:

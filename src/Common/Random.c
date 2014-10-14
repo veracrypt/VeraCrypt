@@ -210,6 +210,7 @@ BOOL Randmix ()
 		WHIRLPOOL_CTX	wctx;
 		RMD160_CTX		rctx;
 		sha512_ctx		sctx;
+		sha256_ctx		s256ctx;
 		int poolIndex, digestIndex, digestSize;
 
 		switch (HashFunction)
@@ -220,6 +221,10 @@ BOOL Randmix ()
 
 		case SHA512:
 			digestSize = SHA512_DIGESTSIZE;
+			break;
+
+		case SHA256:
+			digestSize = SHA256_DIGESTSIZE;
 			break;
 
 		case WHIRLPOOL:
@@ -250,6 +255,12 @@ BOOL Randmix ()
 				sha512_end (hashOutputBuffer, &sctx);
 				break;
 
+			case SHA256:
+				sha256_begin (&s256ctx);
+				sha256_hash (pRandPool, RNG_POOL_SIZE, &s256ctx);
+				sha256_end (hashOutputBuffer, &s256ctx);
+				break;
+
 			case WHIRLPOOL:
 				WHIRLPOOL_init (&wctx);
 				WHIRLPOOL_add (pRandPool, RNG_POOL_SIZE * 8, &wctx);
@@ -278,6 +289,10 @@ BOOL Randmix ()
 
 		case SHA512:
 			burn (&sctx, sizeof(sctx));		
+			break;
+
+		case SHA256:
+			burn (&s256ctx, sizeof(s256ctx));		
 			break;
 
 		case WHIRLPOOL:
