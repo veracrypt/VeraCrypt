@@ -16,6 +16,8 @@
 #ifndef TC_WINDOWS_BOOT
 #include "Sha2.h"
 #include "Whirlpool.h"
+#else
+#include "Sha2Small.h"
 #endif
 #include "Pkcs5.h"
 #include "Crypto.h"
@@ -31,6 +33,155 @@ void hmac_truncate
 	for (i = 0; i < len; i++)
 		d2[i] = d1[i];
 }
+
+#if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_SHA2)
+
+void hmac_sha256
+(
+	  char *k,		/* secret key */
+	  int lk,		/* length of the key in bytes */
+	  char *d,		/* data */
+	  int ld,		/* length of data in bytes */
+	  char *out		/* output buffer, at least "t" bytes */
+)
+{
+	sha256_ctx ictx, octx;
+	char isha[SHA256_DIGESTSIZE], osha[SHA256_DIGESTSIZE];
+	char key[SHA256_DIGESTSIZE];
+	char buf[SHA256_BLOCKSIZE];
+	int i;
+
+    /* If the key is longer than the hash algorithm block size,
+	   let key = sha256(key), as per HMAC specifications. */
+	if (lk > SHA256_BLOCKSIZE)
+	{
+		sha256_ctx tctx;
+
+		sha256_begin (&tctx);
+		sha256_hash ((unsigned char *) k, lk, &tctx);
+		sha256_end ((unsigned char *) key, &tctx);
+
+		k = key;
+		lk = SHA256_DIGESTSIZE;
+
+		burn (&tctx, sizeof(tctx));		// Prevent leaks
+	}
+
+	/**** Inner Digest ****/
+
+	sha256_begin (&ictx);
+
+	/* Pad the key for inner digest */
+	for (i = 0; i < lk; ++i)
+		buf[i] = (char) (k[i] ^ 0x36);
+	for (i = lk; i < SHA256_BLOCKSIZE; ++i)
+		buf[i] = 0x36;
+
+	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, &ictx);
+	sha256_hash ((unsigned char *) d, ld, &ictx);
+
+	sha256_end ((unsigned char *) isha, &ictx);
+
+	/**** Outer Digest ****/
+
+	sha256_begin (&octx);
+
+	for (i = 0; i < lk; ++i)
+		buf[i] = (char) (k[i] ^ 0x5C);
+	for (i = lk; i < SHA256_BLOCKSIZE; ++i)
+		buf[i] = 0x5C;
+
+	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, &octx);
+	sha256_hash ((unsigned char *) isha, SHA256_DIGESTSIZE, &octx);
+
+	sha256_end ((unsigned char *) osha, &octx);
+
+	/* truncate and print the results */
+	hmac_truncate (osha, out, SHA256_DIGESTSIZE);
+
+	/* Prevent leaks */
+	burn (&ictx, sizeof(ictx));
+	burn (&octx, sizeof(octx));
+	burn (isha, sizeof(isha));
+	burn (osha, sizeof(osha));
+	burn (buf, sizeof(buf));
+	burn (key, sizeof(key));
+}
+
+
+void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b)
+{
+	char j[SHA256_DIGESTSIZE], k[SHA256_DIGESTSIZE];
+	char init[128];
+	char counter[4];
+	uint32 c;
+	int i;
+
+	if (iterations == 2000)
+		c = 200000;
+	else
+		c = 500000;
+
+	/* iteration 1 */
+	memset (counter, 0, 4);
+	counter[3] = (char) b;
+	memcpy (init, salt, salt_len);	/* salt */
+	memcpy (&init[salt_len], counter, 4);	/* big-endian block number */
+	hmac_sha256 (pwd, pwd_len, init, salt_len + 4, j);
+	memcpy (u, j, SHA256_DIGESTSIZE);
+
+	/* remaining iterations */
+	while (c > 1)
+	{
+		hmac_sha256 (pwd, pwd_len, j, SHA256_DIGESTSIZE, k);
+		for (i = 0; i < SHA256_DIGESTSIZE; i++)
+		{
+			u[i] ^= k[i];
+			j[i] = k[i];
+		}
+		c--;
+	}
+
+	/* Prevent possible leaks. */
+	burn (j, sizeof(j));
+	burn (k, sizeof(k));
+}
+
+
+void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
+{
+	char u[SHA256_DIGESTSIZE];
+	int b, l, r;
+
+	if (dklen % SHA256_DIGESTSIZE)
+	{
+		l = 1 + dklen / SHA256_DIGESTSIZE;
+	}
+	else
+	{
+		l = dklen / SHA256_DIGESTSIZE;
+	}
+
+	r = dklen - (l - 1) * SHA256_DIGESTSIZE;
+
+	/* first l - 1 blocks */
+	for (b = 1; b < l; b++)
+	{
+		derive_u_sha256 (pwd, pwd_len, salt, salt_len, iterations, u, b);
+		memcpy (dk, u, SHA256_DIGESTSIZE);
+		dk += SHA256_DIGESTSIZE;
+	}
+
+	/* last block */
+	derive_u_sha256 (pwd, pwd_len, salt, salt_len, iterations, u, b);
+	memcpy (dk, u, r);
+
+
+	/* Prevent possible leaks. */
+	burn (u, sizeof(u));
+}
+
+#endif
 
 #ifndef TC_WINDOWS_BOOT
 
@@ -176,6 +327,8 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, int it
 
 #endif // TC_WINDOWS_BOOT
 
+#if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_RIPEMD160)
+
 void hmac_ripemd160 (char *key, int keylen, char *input, int len, char *digest)
 {
     RMD160_CTX context;
@@ -319,6 +472,7 @@ void derive_key_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, in
 	/* Prevent possible leaks. */
 	burn (u, sizeof(u));
 }
+#endif // TC_WINDOWS_BOOT
 
 #ifndef TC_WINDOWS_BOOT
 
@@ -468,6 +622,9 @@ char *get_pkcs5_prf_name (int pkcs5_prf_id)
 	case SHA512:	
 		return "HMAC-SHA-512";
 
+	case SHA256:	
+		return "HMAC-SHA-256";
+
 	case RIPEMD160:	
 		return "HMAC-RIPEMD-160";
 
@@ -488,7 +645,7 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
 	{
 
 	case RIPEMD160:	
-		return bBoot? 16384 : 32767; /* we multiply this number by 10 inside derive_u_ripemd160 */
+		return bBoot? 16384 : 32767; /* it will be changed to 327661 and 655331 respectively inside derive_u_ripemd160 */
 
 #ifndef TC_WINDOWS_BOOT
 
@@ -498,6 +655,9 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
 	case WHIRLPOOL:	
 		return 500000;
 #endif
+
+	case SHA256:
+		return bBoot? 2000 : 5000; /* it will be changed to 200000 and 500000 respectively inside derive_u_sha256 */
 
 	default:		
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID

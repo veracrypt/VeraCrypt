@@ -39,6 +39,13 @@ OBJDIR = $(OBJDIR)_$(SINGLE_CIPHER)
 CFLAGS = $(CFLAGS) /D TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE /D TC_WINDOWS_BOOT_$(SINGLE_CIPHER)
 !endif
 
+!ifdef SINGLE_PRF
+OBJDIR = $(OBJDIR)_$(SINGLE_PRF)
+CFLAGS = $(CFLAGS) /D TC_WINDOWS_BOOT_$(SINGLE_PRF)
+!else
+CFLAGS = $(CFLAGS) /D TC_WINDOWS_BOOT_RIPEMD160
+!endif
+
 OUTDIR = $(OBJDIR)
 TARGETEXT = com
 TARGETS = $(OUTDIR)\BootDefs.i $(OUTDIR)\BootSector.bin $(OUTDIR)\Decompressor.com
@@ -72,7 +79,11 @@ OBJS = $(OBJS) $(OUTDIR)\Pkcs5.obj
 OBJS = $(OBJS) $(OUTDIR)\Volumes.obj
 OBJS = $(OBJS) $(OUTDIR)\Xts.obj
 
+!if "$(SINGLE_PRF)" == "SHA2"
+OBJS = $(OBJS) $(OUTDIR)\Sha2Small.obj
+!else
 OBJS = $(OBJS) $(OUTDIR)\Rmd160.obj
+!endif
 
 !if !DEFINED (SINGLE_CIPHER)
 OBJS = $(OBJS) $(OUTDIR)\AesSmall.obj

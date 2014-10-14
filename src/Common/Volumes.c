@@ -316,6 +316,11 @@ KeyReady:	;
 					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
+			case SHA256:
+				derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				break;
+
 			default:		
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
@@ -561,8 +566,13 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 		cryptoInfo = *retInfo = crypto_open ();
 
 	// PKCS5 PRF
+#ifdef TC_WINDOWS_BOOT_SHA2
+	derive_key_sha256 (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
+		PKCS5_SALT_SIZE, bBoot ? 2000 : 5000, dk, sizeof (dk));
+#else
 	derive_key_ripemd160 (TRUE, password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
 		PKCS5_SALT_SIZE, bBoot ? 16384 : 32767, dk, sizeof (dk));
+#endif
 
 	// Mode of operation
 	cryptoInfo->mode = FIRST_MODE_OF_OPERATION_ID;
@@ -605,6 +615,12 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 
 		// Flags
 		cryptoInfo->HeaderFlags = GetHeaderField32 (header, TC_HEADER_OFFSET_FLAGS);
+
+#ifdef TC_WINDOWS_BOOT_SHA2
+		cryptoInfo->pkcs5 = SHA256;
+#else
+		cryptoInfo->pkcs5 = RIPEMD160;
+#endif
 
 		memcpy (masterKey, header + HEADER_MASTER_KEYDATA_OFFSET, sizeof (masterKey));
 		EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
@@ -703,6 +719,9 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 	// User selected encryption algorithm
 	cryptoInfo->ea = ea;
 
+	// User selected PRF
+	cryptoInfo->pkcs5 = pkcs5_prf;
+
 	// Mode of operation
 	cryptoInfo->mode = mode;
 
@@ -715,6 +734,11 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 	{
 	case SHA512:
 		derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+		break;
+
+	case SHA256:
+		derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 		break;
 

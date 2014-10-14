@@ -48,11 +48,10 @@ extern "C" {
 // Hash algorithms (pseudorandom functions). 
 enum
 {
-	RIPEMD160 = FIRST_PRF_ID,
-#ifndef TC_WINDOWS_BOOT
-	SHA512,
+	SHA512 = FIRST_PRF_ID,
 	WHIRLPOOL,
-#endif
+	SHA256,
+	RIPEMD160,
 	HASH_ENUM_END_ID
 };
 
@@ -61,6 +60,9 @@ enum
 
 #define RIPEMD160_BLOCKSIZE		64
 #define RIPEMD160_DIGESTSIZE	20
+
+#define SHA256_BLOCKSIZE		64
+#define SHA256_DIGESTSIZE		32
 
 #define SHA512_BLOCKSIZE		128
 #define SHA512_DIGESTSIZE		64
@@ -71,7 +73,7 @@ enum
 #define MAX_DIGESTSIZE			WHIRLPOOL_DIGESTSIZE
 
 #define DEFAULT_HASH_ALGORITHM			FIRST_PRF_ID
-#define DEFAULT_HASH_ALGORITHM_BOOT		RIPEMD160
+#define DEFAULT_HASH_ALGORITHM_BOOT		SHA256
 
 // The mode of operation used for newly created volumes and first to try when mounting
 #define FIRST_MODE_OF_OPERATION_ID		1
@@ -207,8 +209,7 @@ typedef struct CRYPTO_INFO_t
 	unsigned __int8 master_keydata[MASTER_KEYDATA_SIZE];	/* This holds the volume header area containing concatenated master key(s) and secondary key(s) (XTS mode). For LRW (deprecated/legacy), it contains the tweak key before the master key(s). For CBC (deprecated/legacy), it contains the IV seed before the master key(s). */
 	unsigned __int8 k2[MASTER_KEYDATA_SIZE];				/* For XTS, this contains the secondary key (if cascade, multiple concatenated). For LRW (deprecated/legacy), it contains the tweak key. For CBC (deprecated/legacy), it contains the IV seed. */
 	unsigned __int8 salt[PKCS5_SALT_SIZE];
-	int noIterations;
-	int pkcs5;
+	int noIterations;	
 
 	uint64 volume_creation_time;	// Legacy
 	uint64 header_creation_time;	// Legacy
@@ -239,6 +240,7 @@ typedef struct CRYPTO_INFO_t
 	UINT64_STRUCT EncryptedAreaLength;
 
 	uint32 HeaderFlags;
+	int pkcs5;
 
 } CRYPTO_INFO, *PCRYPTO_INFO;
 
@@ -292,9 +294,14 @@ BOOL EAIsModeSupported (int ea, int testedMode);
 const
 #endif
 char *HashGetName (int hash_algo_id);
-BOOL HashIsDeprecated (int hashId);
 
+#ifndef TC_WINDOWS_BOOT
+void HashGetName2 (char *buf, int hashId);
+BOOL HashIsDeprecated (int hashId);
+BOOL HashForSystemEncryption (int hashId);
 int GetMaxPkcs5OutSize (void);
+#endif
+
 
 void EncryptDataUnits (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, uint32 nbrUnits, PCRYPTO_INFO ci);
 void EncryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci);
