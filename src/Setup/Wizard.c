@@ -271,7 +271,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				DetermineUpgradeDowngradeStatus (TRUE, &driverVersion);
 
-				if (bRepairMode)
+				if (bRepairMode || bReinstallMode)
 				{
 					SetWindowTextW (GetDlgItem (hwndDlg, IDC_WIZARD_MODE_INSTALL), GetString ("REPAIR_REINSTALL"));
 					bExtractOnly = FALSE;

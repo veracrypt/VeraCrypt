@@ -60,6 +60,7 @@ BOOL bDowngrade = FALSE;
 BOOL SystemEncryptionUpdate = FALSE;
 BOOL PortableMode = FALSE;
 BOOL bRepairMode = FALSE;
+BOOL bReinstallMode = FALSE;
 BOOL bChangeMode = FALSE;
 BOOL bDevm = FALSE;
 BOOL bPossiblyFirstTimeInstall = FALSE;
@@ -245,8 +246,9 @@ void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersi
 			bResult = DeviceIoControl (hDriver, TC_IOCTL_LEGACY_GET_DRIVER_VERSION, NULL, 0, &driverVersion, sizeof (driverVersion), &dwResult, NULL);
 
 
-		bUpgrade = (bResult && driverVersion < VERSION_NUM);
+		bUpgrade = (bResult && driverVersion <= VERSION_NUM);
 		bDowngrade = (bResult && driverVersion > VERSION_NUM);
+		bReinstallMode = (bResult && driverVersion == VERSION_NUM);
 
 		PortableMode = DeviceIoControl (hDriver, TC_IOCTL_GET_PORTABLE_MODE_STATUS, NULL, 0, NULL, 0, &dwResult, NULL);
 
@@ -1073,7 +1075,8 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 	try
 	{
 		BootEncryption bootEnc (hwndDlg);
-		if (bootEnc.GetInstalledBootLoaderVersion() < VERSION_NUM)
+		uint64 bootLoaderVersion = bootEnc.GetInstalledBootLoaderVersion();
+		if ((bootLoaderVersion < VERSION_NUM) || (bReinstallMode && (bootLoaderVersion == VERSION_NUM)))
 		{
 			StatusMessage (hwndDlg, "INSTALLER_UPDATING_BOOT_LOADER");
 

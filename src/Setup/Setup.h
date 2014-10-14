@@ -154,6 +154,7 @@ extern BOOL Rollback;
 extern BOOL bUpgrade;
 extern BOOL bPossiblyFirstTimeInstall;
 extern BOOL bRepairMode;
+extern BOOL bReinstallMode;
 extern BOOL bSystemRestore;
 extern BOOL bDisableSwapFiles;
 extern BOOL bForAllUsers;
