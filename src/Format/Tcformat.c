@@ -3735,16 +3735,25 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (SysEncInEffect ())
 				{
 					hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
-					RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);
+					RandSetHashFunction (hash_algo);
+
+					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
+					{
+						// For now, we keep RIPEMD160 for system encryption
+						if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && HashForSystemEncryption (hid))
+							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+					}					
 				}
 				else
-					hash_algo = RandGetHashFunction();
-
-				for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 				{
-					if (!HashIsDeprecated (hid))
-						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+					hash_algo = RandGetHashFunction();
+					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
+					{
+						if (!HashIsDeprecated (hid))
+							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+					}
 				}
+
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), &hash_algo);
 
 				ToHyperlink (hwndDlg, IDC_LINK_HASH_INFO);
@@ -5227,15 +5236,17 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				break;
 
 			case IDC_COMBO_BOX_HASH_ALGO:
-				if (SysEncInEffect ()
-					&& SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), CB_GETITEMDATA, 
-					SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), CB_GETCURSEL, 0, 0), 0) 
-					!= DEFAULT_HASH_ALGORITHM_BOOT)
+				if (SysEncInEffect ())
 				{
-					hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
-					RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);
-					Info ("ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION");
-					SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), &hash_algo);
+					HWND hHashAlgoItem = GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO);
+					LRESULT selectedAlgo = SendMessage (hHashAlgoItem, CB_GETITEMDATA, SendMessage (hHashAlgoItem, CB_GETCURSEL, 0, 0), 0);
+					if (!HashForSystemEncryption(selectedAlgo))
+					{
+						hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
+						RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);
+						Info ("ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION");
+						SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), &hash_algo);
+					}
 				}
 				break;
 			}
