@@ -49,10 +49,11 @@ namespace VeraCrypt
 	Pkcs5KdfList Pkcs5Kdf::GetAvailableAlgorithms ()
 	{
 		Pkcs5KdfList l;
-		
-		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 ()));
+				
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha512 ()));
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacWhirlpool ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256 ()));
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160 ()));
 
 		return l;
 	}
@@ -73,6 +74,18 @@ namespace VeraCrypt
 	{
 		ValidateParameters (key, password, salt, iterationCount);
 		derive_key_ripemd160 (bNotTest, (char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
+	}
+	
+	void Pkcs5HmacSha256_Boot::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const
+	{
+		ValidateParameters (key, password, salt, iterationCount);
+		derive_key_sha256 ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
+	}
+	
+	void Pkcs5HmacSha256::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const
+	{
+		ValidateParameters (key, password, salt, iterationCount);
+		derive_key_sha256 ((char *) password.DataPtr(), (int) password.Size(), (char *) salt.Get(), (int) salt.Size(), iterationCount, (char *) key.Get(), (int) key.Size());
 	}
 
 	void Pkcs5HmacSha512::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest) const

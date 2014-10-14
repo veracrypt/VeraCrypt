@@ -229,7 +229,8 @@ namespace VeraCrypt
 	Pkcs5KdfList VolumeLayoutSystemEncryption::GetSupportedKeyDerivationFunctions () const
 	{
 		Pkcs5KdfList l;
-		
+
+		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacSha256_Boot ()));
 		l.push_back (shared_ptr <Pkcs5Kdf> (new Pkcs5HmacRipemd160_1000 ()));
 		return l;
 	}

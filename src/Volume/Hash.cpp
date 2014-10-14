@@ -17,10 +17,11 @@ namespace VeraCrypt
 	HashList Hash::GetAvailableAlgorithms ()
 	{
 		HashList l;
-
-		l.push_back (shared_ptr <Hash> (new Ripemd160 ()));
+		
 		l.push_back (shared_ptr <Hash> (new Sha512 ()));
 		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
+		l.push_back (shared_ptr <Hash> (new Sha256 ()));
+		l.push_back (shared_ptr <Hash> (new Ripemd160 ()));
 
 		return l;
 	}
@@ -59,6 +60,30 @@ namespace VeraCrypt
 	{
 		if_debug (ValidateDataParameters (data));
 		RMD160Update ((RMD160_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
+	}
+	
+	// SHA-256
+	Sha256::Sha256 ()
+	{
+		Context.Allocate (sizeof (sha256_ctx));
+		Init();
+	}
+
+	void Sha256::GetDigest (const BufferPtr &buffer)
+	{
+		if_debug (ValidateDigestParameters (buffer));
+		sha256_end (buffer, (sha256_ctx *) Context.Ptr());
+	}
+
+	void Sha256::Init ()
+	{
+		sha256_begin ((sha256_ctx *) Context.Ptr());
+	}
+
+	void Sha256::ProcessData (const ConstBufferPtr &data)
+	{
+		if_debug (ValidateDataParameters (data));
+		sha256_hash (data.Get(), (int) data.Size(), (sha256_ctx *) Context.Ptr());
 	}
 
 	// SHA-512

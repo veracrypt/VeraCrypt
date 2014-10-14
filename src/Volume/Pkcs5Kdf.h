@@ -74,7 +74,38 @@ namespace VeraCrypt
 		Pkcs5HmacRipemd160_1000 (const Pkcs5HmacRipemd160_1000 &);
 		Pkcs5HmacRipemd160_1000 &operator= (const Pkcs5HmacRipemd160_1000 &);
 	};
+	
+	class Pkcs5HmacSha256_Boot : public Pkcs5Kdf
+	{
+	public:
+		Pkcs5HmacSha256_Boot () { }
+		virtual ~Pkcs5HmacSha256_Boot () { }
 
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
+		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256); }
+		virtual int GetIterationCount () const { return 200000; }
+		virtual wstring GetName () const { return L"HMAC-SHA-256"; }
+
+	private:
+		Pkcs5HmacSha256_Boot (const Pkcs5HmacSha256_Boot &);
+		Pkcs5HmacSha256_Boot &operator= (const Pkcs5HmacSha256_Boot &);
+	};
+
+	class Pkcs5HmacSha256 : public Pkcs5Kdf
+	{
+	public:
+		Pkcs5HmacSha256 () { }
+		virtual ~Pkcs5HmacSha256 () { }
+
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount, BOOL bNotTest = TRUE) const;
+		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256); }
+		virtual int GetIterationCount () const { return 500000; }
+		virtual wstring GetName () const { return L"HMAC-SHA-256"; }
+
+	private:
+		Pkcs5HmacSha256 (const Pkcs5HmacSha256 &);
+		Pkcs5HmacSha256 &operator= (const Pkcs5HmacSha256 &);
+	};
 
 	class Pkcs5HmacSha512 : public Pkcs5Kdf
 	{
