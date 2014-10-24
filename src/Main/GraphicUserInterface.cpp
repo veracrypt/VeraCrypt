@@ -996,13 +996,8 @@ namespace VeraCrypt
 		{
 			try
 			{
-#ifdef TC_MACOSX
 				if (wxExecute (fileType->GetOpenCommand (document.GetFullPath())) != 0)
 					return;
-#else
-				if (wxExecute (fileType->GetOpenCommand (L"\"" + document.GetFullPath() + L"\"")) != 0)
-					return;
-#endif
 			}
 			catch (TimeOut&) { }
 		}
