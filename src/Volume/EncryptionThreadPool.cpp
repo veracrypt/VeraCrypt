@@ -108,7 +108,7 @@ namespace VeraCrypt
 				workItem->Encryption.StartUnitNo = fragmentStartUnitNo;
 				workItem->Encryption.SectorSize = sectorSize;
 
-				fragmentData += unitsPerFragment * ENCRYPTION_DATA_UNIT_SIZE;
+				fragmentData += unitsPerFragment * sectorSize;
 				fragmentStartUnitNo += unitsPerFragment;
 
 				if (remainder > 0 && --remainder == 0)
