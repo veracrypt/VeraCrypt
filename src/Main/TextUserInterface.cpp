@@ -698,6 +698,7 @@ namespace VeraCrypt
 				ShowInfo (L" 3) Linux Ext2"); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext2);
 				ShowInfo (L" 4) Linux Ext3"); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext3);
 				ShowInfo (L" 5) Linux Ext4"); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext4);
+				ShowInfo (L" 6) NTFS");       filesystems.push_back (VolumeCreationOptions::FilesystemType::NTFS);
 #elif defined (TC_MACOSX)
 				ShowInfo (L" 3) Mac OS Extended"); filesystems.push_back (VolumeCreationOptions::FilesystemType::MacOsExt);
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
@@ -786,6 +787,7 @@ namespace VeraCrypt
 			case VolumeCreationOptions::FilesystemType::Ext4:		fsFormatter = "mkfs.ext4"; break;
 			case VolumeCreationOptions::FilesystemType::MacOsExt:	fsFormatter = "newfs_hfs"; break;
 			case VolumeCreationOptions::FilesystemType::UFS:		fsFormatter = "newfs" ; break;
+			case VolumeCreationOptions::FilesystemType::NTFS:		fsFormatter = "mkfs.ntfs"; break;
 			default: throw ParameterIncorrect (SRC_POS);
 			}
 
