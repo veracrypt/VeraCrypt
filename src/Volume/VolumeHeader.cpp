@@ -184,7 +184,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 		}
 
-#if !(defined (TC_WINDOWS) || defined (TC_LINUX))
+#if !(defined (TC_WINDOWS) || defined (TC_LINUX) || defined (TC_MACOSX))
 		if (SectorSize != TC_SECTOR_SIZE_LEGACY)
 			throw UnsupportedSectorSize (SRC_POS);
 #endif

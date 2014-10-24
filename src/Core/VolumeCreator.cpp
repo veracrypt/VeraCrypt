@@ -213,7 +213,7 @@ namespace VeraCrypt
 
 				if (options->SectorSize < TC_MIN_VOLUME_SECTOR_SIZE
 					|| options->SectorSize > TC_MAX_VOLUME_SECTOR_SIZE
-#if !defined (TC_LINUX)
+#if !defined (TC_LINUX) && !defined (TC_MACOSX)
 					|| options->SectorSize != TC_SECTOR_SIZE_LEGACY
 #endif
 					|| options->SectorSize % ENCRYPTION_DATA_UNIT_SIZE != 0)
