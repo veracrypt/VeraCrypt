@@ -97,28 +97,32 @@ NTSTATUS LoadBootArguments ()
 				TC_BUG_CHECK (STATUS_CRC_ERROR);
 			}
 
-			BootLoaderSegment = bootLoaderSegment;
+			// Sanity check: for valid boot argument, the password is less than 64 bytes long
+			if (bootArguments->BootPassword.Length <= MAX_PASSWORD)
+			{
+				BootLoaderSegment = bootLoaderSegment;
 
-			BootArgs = *bootArguments;
-			BootArgsValid = TRUE;
-			burn (bootArguments, sizeof (*bootArguments));
+				BootArgs = *bootArguments;
+				BootArgsValid = TRUE;
+				burn (bootArguments, sizeof (*bootArguments));
 
-			BootDriveSignatureValid = TRUE;
+				BootDriveSignatureValid = TRUE;
 
-			Dump ("BootLoaderVersion = %x\n", (int) BootArgs.BootLoaderVersion);
-			Dump ("HeaderSaltCrc32 = %x\n", (int) BootArgs.HeaderSaltCrc32);
-			Dump ("CryptoInfoOffset = %x\n", (int) BootArgs.CryptoInfoOffset);
-			Dump ("CryptoInfoLength = %d\n", (int) BootArgs.CryptoInfoLength);
-			Dump ("HiddenSystemPartitionStart = %I64u\n", BootArgs.HiddenSystemPartitionStart);
-			Dump ("DecoySystemPartitionStart = %I64u\n", BootArgs.DecoySystemPartitionStart);
-			Dump ("Flags = %x\n", BootArgs.Flags);
-			Dump ("BootDriveSignature = %x\n", BootArgs.BootDriveSignature);
-			Dump ("BootArgumentsCrc32 = %x\n", BootArgs.BootArgumentsCrc32);
+				Dump ("BootLoaderVersion = %x\n", (int) BootArgs.BootLoaderVersion);
+				Dump ("HeaderSaltCrc32 = %x\n", (int) BootArgs.HeaderSaltCrc32);
+				Dump ("CryptoInfoOffset = %x\n", (int) BootArgs.CryptoInfoOffset);
+				Dump ("CryptoInfoLength = %d\n", (int) BootArgs.CryptoInfoLength);
+				Dump ("HiddenSystemPartitionStart = %I64u\n", BootArgs.HiddenSystemPartitionStart);
+				Dump ("DecoySystemPartitionStart = %I64u\n", BootArgs.DecoySystemPartitionStart);
+				Dump ("Flags = %x\n", BootArgs.Flags);
+				Dump ("BootDriveSignature = %x\n", BootArgs.BootDriveSignature);
+				Dump ("BootArgumentsCrc32 = %x\n", BootArgs.BootArgumentsCrc32);
 
-			if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
-				AddPasswordToCache (&BootArgs.BootPassword);
+				if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
+					AddPasswordToCache (&BootArgs.BootPassword);
 
-			status = STATUS_SUCCESS;
+				status = STATUS_SUCCESS;
+			}
 		}
 
 		MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
