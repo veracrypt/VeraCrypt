@@ -551,10 +551,8 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 {
 #ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
 	char dk[32 * 2];			// 2 * 256-bit key
-	char masterKey[32 * 2];
 #else
 	char dk[32 * 2 * 3];		// 6 * 256-bit key
-	char masterKey[32 * 2 * 3];
 #endif
 
 	PCRYPTO_INFO cryptoInfo;
@@ -652,7 +650,7 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 		cryptoInfo->pkcs5 = RIPEMD160;
 #endif
 
-		memcpy (masterKey, header + HEADER_MASTER_KEYDATA_OFFSET, sizeof (masterKey));
+		memcpy (dk, header + HEADER_MASTER_KEYDATA_OFFSET, sizeof (dk));
 		EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
 		if (retHeaderCryptoInfo)
@@ -661,16 +659,16 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 		// Init the encryption algorithm with the decrypted master key
 #ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
 	#if defined (TC_WINDOWS_BOOT_SERPENT)
-		serpent_set_key (masterKey, cryptoInfo->ks);
+		serpent_set_key (dk, cryptoInfo->ks);
 	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
-		twofish_set_key ((TwofishInstance *) cryptoInfo->ks, (const u4byte *) masterKey);
+		twofish_set_key ((TwofishInstance *) cryptoInfo->ks, (const u4byte *) dk);
 	#else
-		status = EAInit (masterKey, cryptoInfo->ks);
+		status = EAInit (dk, cryptoInfo->ks);
 		if (status == ERR_CIPHER_INIT_FAILURE)
 			goto err;
 	#endif
 #else
-		status = EAInit (cryptoInfo->ea, masterKey, cryptoInfo->ks);
+		status = EAInit (cryptoInfo->ea, dk, cryptoInfo->ks);
 		if (status == ERR_CIPHER_INIT_FAILURE)
 			goto err;
 #endif
@@ -678,14 +676,14 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 		// The secondary master key (if cascade, multiple concatenated)
 #ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
 	#if defined (TC_WINDOWS_BOOT_SERPENT)
-		serpent_set_key (masterKey + 32, cryptoInfo->ks2);
+		serpent_set_key (dk + 32, cryptoInfo->ks2);
 	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
-		twofish_set_key ((TwofishInstance *)cryptoInfo->ks2, (const u4byte *) (masterKey + 32));
+		twofish_set_key ((TwofishInstance *)cryptoInfo->ks2, (const u4byte *) (dk + 32));
 	#else
-		EAInit (masterKey + 32, cryptoInfo->ks2);
+		EAInit (dk + 32, cryptoInfo->ks2);
 	#endif
 #else
-		EAInit (cryptoInfo->ea, masterKey + EAGetKeySize (cryptoInfo->ea), cryptoInfo->ks2);
+		EAInit (cryptoInfo->ea, dk + EAGetKeySize (cryptoInfo->ea), cryptoInfo->ks2);
 #endif
 		goto ret;
 	}
@@ -701,7 +699,6 @@ err:
 
 ret:
 	burn (dk, sizeof(dk));
-	burn (masterKey, sizeof(masterKey));
 	return status;
 }
 
