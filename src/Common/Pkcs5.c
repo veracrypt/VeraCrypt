@@ -122,10 +122,17 @@ void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, int iter
 	uint32 c;
 	int i;
 
-	if (iterations == 2000)
+#ifdef TC_WINDOWS_BOOT
+	/* In bootloader, iterations is a boolean : TRUE for boot derivation mode, FALSE otherwise 
+	 * This enables us to save code space needed for implementing other features.
+	 */
+	if (iterations)
 		c = 200000;
 	else
 		c = 500000;
+#else
+	c = iterations;
+#endif
 
 	/* iteration 1 */
 	memset (counter, 0, 4);
@@ -410,7 +417,7 @@ void hmac_ripemd160 (char *key, int keylen, char *input, int len, char *digest)
 	burn (&context, sizeof(context));
 }
 
-void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b)
+void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b)
 {
 	char j[RIPEMD160_DIGESTSIZE], k[RIPEMD160_DIGESTSIZE];
 	char init[128];
@@ -418,17 +425,17 @@ void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int 
 	uint32 c;
 	int i;
 
-	if (bNotTest)
-	{
-		if (iterations == 32767)
-			c = 655331;
-		else
-			c = 327661;
-	}
+#ifdef TC_WINDOWS_BOOT
+	/* In bootloader, iterations is a boolean : TRUE for boot derivation mode, FALSE otherwise 
+	 * This enables us to save code space needed for implementing other features.
+	 */
+	if (iterations)
+		c = 327661;
 	else
-	{
-		c  = iterations;
-	}
+		c = 655331;
+#else
+	c  = iterations;
+#endif
 
 	/* iteration 1 */
 	memset (counter, 0, 4);
@@ -455,7 +462,7 @@ void derive_u_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int 
 	burn (k, sizeof(k));
 }
 
-void derive_key_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
+void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
 {
 	char u[RIPEMD160_DIGESTSIZE];
 	int b, l, r;
@@ -474,13 +481,13 @@ void derive_key_ripemd160 (BOOL bNotTest, char *pwd, int pwd_len, char *salt, in
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_ripemd160 (bNotTest, pwd, pwd_len, salt, salt_len, iterations, u, b);
+		derive_u_ripemd160 (pwd, pwd_len, salt, salt_len, iterations, u, b);
 		memcpy (dk, u, RIPEMD160_DIGESTSIZE);
 		dk += RIPEMD160_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_ripemd160 (bNotTest, pwd, pwd_len, salt, salt_len, iterations, u, b);
+	derive_u_ripemd160 (pwd, pwd_len, salt, salt_len, iterations, u, b);
 	memcpy (dk, u, r);
 
 
@@ -656,7 +663,6 @@ char *get_pkcs5_prf_name (int pkcs5_prf_id)
 	}
 }
 
-#endif //!TC_WINDOWS_BOOT
 
 
 int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
@@ -665,22 +671,21 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
 	{
 
 	case RIPEMD160:	
-		return bBoot? 16384 : 32767; /* it will be changed to 327661 and 655331 respectively inside derive_u_ripemd160 */
-
-#ifndef TC_WINDOWS_BOOT
+		return bBoot? 327661 : 655331;
 
 	case SHA512:	
 		return 500000;
 
 	case WHIRLPOOL:	
 		return 500000;
-#endif
 
 	case SHA256:
-		return bBoot? 2000 : 5000; /* it will be changed to 200000 and 500000 respectively inside derive_u_sha256 */
+		return bBoot? 200000 : 500000;
 
 	default:		
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
 	return 0;
 }
+
+#endif //!TC_WINDOWS_BOOT

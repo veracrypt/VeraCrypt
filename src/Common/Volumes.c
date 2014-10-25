@@ -302,7 +302,7 @@ KeyReady:	;
 			switch (pkcs5_prf)
 			{
 			case RIPEMD160:
-				derive_key_ripemd160 (TRUE, keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				derive_key_ripemd160 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
@@ -566,10 +566,10 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 	// PKCS5 PRF
 #ifdef TC_WINDOWS_BOOT_SHA2
 	derive_key_sha256 (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
-		PKCS5_SALT_SIZE, bBoot ? 2000 : 5000, dk, sizeof (dk));
+		PKCS5_SALT_SIZE, bBoot, dk, sizeof (dk));
 #else
-	derive_key_ripemd160 (TRUE, password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
-		PKCS5_SALT_SIZE, bBoot ? 16384 : 32767, dk, sizeof (dk));
+	derive_key_ripemd160 (password->Text, (int) password->Length, header + HEADER_SALT_OFFSET,
+		PKCS5_SALT_SIZE, bBoot, dk, sizeof (dk));
 #endif
 
 	// Mode of operation
@@ -792,7 +792,7 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 		break;
 
 	case RIPEMD160:
-		derive_key_ripemd160 (TRUE, keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+		derive_key_ripemd160 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
 			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 		break;
 
