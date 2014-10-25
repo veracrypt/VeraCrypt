@@ -558,7 +558,7 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 #endif
 
 	PCRYPTO_INFO cryptoInfo;
-	int status;
+	int status = ERR_SUCCESS;
 
 	if (retHeaderCryptoInfo != NULL)
 		cryptoInfo = retHeaderCryptoInfo;
@@ -577,15 +577,40 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 	// Mode of operation
 	cryptoInfo->mode = FIRST_MODE_OF_OPERATION_ID;
 
+#ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
+	cryptoInfo->ea = 1;
+#else
 	// Test all available encryption algorithms
 	for (cryptoInfo->ea = EAGetFirst (); cryptoInfo->ea != 0; cryptoInfo->ea = EAGetNext (cryptoInfo->ea))
+#endif
 	{
+#ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
+	#if defined (TC_WINDOWS_BOOT_SERPENT)
+		serpent_set_key (dk, cryptoInfo->ks);
+	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+		twofish_set_key ((TwofishInstance *) cryptoInfo->ks, (const u4byte *) dk);
+	#else
+		status = EAInit (dk, cryptoInfo->ks);
+		if (status == ERR_CIPHER_INIT_FAILURE)
+			goto err;
+	#endif
+#else
 		status = EAInit (cryptoInfo->ea, dk, cryptoInfo->ks);
 		if (status == ERR_CIPHER_INIT_FAILURE)
 			goto err;
-
+#endif
 		// Secondary key schedule
+#ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
+	#if defined (TC_WINDOWS_BOOT_SERPENT)
+		serpent_set_key (dk + 32, cryptoInfo->ks2);
+	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+		twofish_set_key ((TwofishInstance *)cryptoInfo->ks2, (const u4byte *) (dk + 32));
+	#else
+		EAInit (dk + 32, cryptoInfo->ks2);
+	#endif
+#else
 		EAInit (cryptoInfo->ea, dk + EAGetKeySize (cryptoInfo->ea), cryptoInfo->ks2);
+#endif
 
 		// Try to decrypt header 
 		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
@@ -596,7 +621,12 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 			|| GetHeaderField32 (header, TC_HEADER_OFFSET_KEY_AREA_CRC) != GetCrc32 (header + HEADER_MASTER_KEYDATA_OFFSET, MASTER_KEYDATA_SIZE))
 		{
 			EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
+#ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
+			status = ERR_PASSWORD_WRONG;
+			goto err;
+#else
 			continue;
+#endif
 		}
 
 		// Header decrypted
@@ -629,12 +659,34 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, PCRYPTO_INFO
 			goto ret;
 
 		// Init the encryption algorithm with the decrypted master key
+#ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
+	#if defined (TC_WINDOWS_BOOT_SERPENT)
+		serpent_set_key (masterKey, cryptoInfo->ks);
+	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+		twofish_set_key ((TwofishInstance *) cryptoInfo->ks, (const u4byte *) masterKey);
+	#else
+		status = EAInit (masterKey, cryptoInfo->ks);
+		if (status == ERR_CIPHER_INIT_FAILURE)
+			goto err;
+	#endif
+#else
 		status = EAInit (cryptoInfo->ea, masterKey, cryptoInfo->ks);
 		if (status == ERR_CIPHER_INIT_FAILURE)
 			goto err;
+#endif
 
 		// The secondary master key (if cascade, multiple concatenated)
+#ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
+	#if defined (TC_WINDOWS_BOOT_SERPENT)
+		serpent_set_key (masterKey + 32, cryptoInfo->ks2);
+	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
+		twofish_set_key ((TwofishInstance *)cryptoInfo->ks2, (const u4byte *) (masterKey + 32));
+	#else
+		EAInit (masterKey + 32, cryptoInfo->ks2);
+	#endif
+#else
 		EAInit (cryptoInfo->ea, masterKey + EAGetKeySize (cryptoInfo->ea), cryptoInfo->ks2);
+#endif
 		goto ret;
 	}
 

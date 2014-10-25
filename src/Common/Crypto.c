@@ -965,20 +965,11 @@ void DecipherBlock(int cipher, void *data, void *ks)
 #endif
 }
 
-int EAGetFirst ()
-{
-	return 1;
-}
 
-int EAGetNext (int previousEA)
-{
-	return 0;
-}
-
-int EAInit (int ea, unsigned char *key, unsigned __int8 *ks)
-{
 #ifdef TC_WINDOWS_BOOT_AES
 
+int EAInit (unsigned char *key, unsigned __int8 *ks)
+{
 	aes_init();
 
 	if (aes_encrypt_key256 (key, (aes_encrypt_ctx *) ks) != EXIT_SUCCESS)
@@ -986,23 +977,11 @@ int EAInit (int ea, unsigned char *key, unsigned __int8 *ks)
 	if (aes_decrypt_key256 (key, (aes_decrypt_ctx *) (ks + sizeof (aes_encrypt_ctx))) != EXIT_SUCCESS)
 		return ERR_CIPHER_INIT_FAILURE;
 
-#elif defined (TC_WINDOWS_BOOT_SERPENT)
-	serpent_set_key (key, ks);
-#elif defined (TC_WINDOWS_BOOT_TWOFISH)
-	twofish_set_key ((TwofishInstance *)ks, (const u4byte *)key);
-#endif
 	return ERR_SUCCESS;
 }
 
-int EAGetKeySize (int ea)
-{
-	return 32;
-}
+#endif
 
-int EAGetFirstCipher (int ea)
-{
-	return 1;
-}
 
 void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo)
 {

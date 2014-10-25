@@ -259,7 +259,11 @@ const
 char * CipherGetName (int cipher);
 
 int CipherInit (int cipher, unsigned char *key, unsigned char *ks);
+#ifndef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
 int EAInit (int ea, unsigned char *key, unsigned char *ks);
+#else
+int EAInit (unsigned char *key, unsigned char *ks);
+#endif
 BOOL EAInitMode (PCRYPTO_INFO ci);
 void EncipherBlock(int cipher, void *data, void *ks);
 void DecipherBlock(int cipher, void *data, void *ks);
