@@ -47,10 +47,13 @@ void hmac_sha256
 {
 	sha256_ctx ictx, octx;
 	char isha[SHA256_DIGESTSIZE], osha[SHA256_DIGESTSIZE];
+#ifndef TC_WINDOWS_BOOT
 	char key[SHA256_DIGESTSIZE];
+#endif
 	char buf[SHA256_BLOCKSIZE];
 	int i;
 
+#ifndef TC_WINDOWS_BOOT
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha256(key), as per HMAC specifications. */
 	if (lk > SHA256_BLOCKSIZE)
@@ -66,7 +69,7 @@ void hmac_sha256
 
 		burn (&tctx, sizeof(tctx));		// Prevent leaks
 	}
-
+#endif
 	/**** Inner Digest ****/
 
 	sha256_begin (&ictx);
@@ -105,7 +108,9 @@ void hmac_sha256
 	burn (isha, sizeof(isha));
 	burn (osha, sizeof(osha));
 	burn (buf, sizeof(buf));
+#ifndef TC_WINDOWS_BOOT
 	burn (key, sizeof(key));
+#endif
 }
 
 
@@ -197,10 +202,13 @@ void hmac_sha512
 {
 	sha512_ctx ictx, octx;
 	char isha[SHA512_DIGESTSIZE], osha[SHA512_DIGESTSIZE];
+#ifndef TC_WINDOWS_BOOT
 	char key[SHA512_DIGESTSIZE];
+#endif
 	char buf[SHA512_BLOCKSIZE];
 	int i;
 
+#ifndef TC_WINDOWS_BOOT
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha512(key), as per HMAC specifications. */
 	if (lk > SHA512_BLOCKSIZE)
@@ -216,7 +224,7 @@ void hmac_sha512
 
 		burn (&tctx, sizeof(tctx));		// Prevent leaks
 	}
-
+#endif
 	/**** Inner Digest ****/
 
 	sha512_begin (&ictx);
@@ -256,7 +264,9 @@ void hmac_sha512
 	burn (isha, sizeof(isha));
 	burn (osha, sizeof(osha));
 	burn (buf, sizeof(buf));
+#ifndef TC_WINDOWS_BOOT
 	burn (key, sizeof(key));
+#endif
 }
 
 
@@ -334,9 +344,12 @@ void hmac_ripemd160 (char *key, int keylen, char *input, int len, char *digest)
     RMD160_CTX context;
     unsigned char k_ipad[65];  /* inner padding - key XORd with ipad */
     unsigned char k_opad[65];  /* outer padding - key XORd with opad */
+#ifndef TC_WINDOWS_BOOT
     unsigned char tk[RIPEMD160_DIGESTSIZE];
+#endif
     int i;
 
+#ifndef TC_WINDOWS_BOOT
     /* If the key is longer than the hash algorithm block size,
 	   let key = ripemd160(key), as per HMAC specifications. */
     if (keylen > RIPEMD160_BLOCKSIZE) 
@@ -352,7 +365,7 @@ void hmac_ripemd160 (char *key, int keylen, char *input, int len, char *digest)
 
 		burn (&tctx, sizeof(tctx));	// Prevent leaks
     }
-
+#endif
 	/*
 
 	RMD160(K XOR opad, RMD160(K XOR ipad, text))
@@ -391,7 +404,9 @@ void hmac_ripemd160 (char *key, int keylen, char *input, int len, char *digest)
 	/* Prevent possible leaks. */
     burn (k_ipad, sizeof(k_ipad));
     burn (k_opad, sizeof(k_opad));
+#ifndef TC_WINDOWS_BOOT
 	burn (tk, sizeof(tk));
+#endif
 	burn (&context, sizeof(context));
 }
 
@@ -488,10 +503,13 @@ void hmac_whirlpool
 {
 	WHIRLPOOL_CTX ictx, octx;
 	char iwhi[WHIRLPOOL_DIGESTSIZE], owhi[WHIRLPOOL_DIGESTSIZE];
+#ifndef TC_WINDOWS_BOOT
 	char key[WHIRLPOOL_DIGESTSIZE];
+#endif
 	char buf[WHIRLPOOL_BLOCKSIZE];
 	int i;
 
+#ifndef TC_WINDOWS_BOOT
     /* If the key is longer than the hash algorithm block size,
 	   let key = whirlpool(key), as per HMAC specifications. */
 	if (lk > WHIRLPOOL_BLOCKSIZE)
@@ -507,7 +525,7 @@ void hmac_whirlpool
 
 		burn (&tctx, sizeof(tctx));		// Prevent leaks
 	}
-
+#endif
 	/**** Inner Digest ****/
 
 	WHIRLPOOL_init (&ictx);
@@ -547,7 +565,9 @@ void hmac_whirlpool
 	burn (owhi, sizeof(owhi));
 	burn (iwhi, sizeof(iwhi));
 	burn (buf, sizeof(buf));
+#ifndef TC_WINDOWS_BOOT
 	burn (key, sizeof(key));
+#endif
 }
 
 void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b)
