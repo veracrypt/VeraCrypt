@@ -764,8 +764,8 @@ namespace VeraCrypt
 
 				ShowString (wxString::Format (L"\rDone: %7.3f%%  Speed: %9s  Left: %s         ",
 					100.0 - double (options->Size - progress.SizeDone) / (double (options->Size) / 100.0),
-					speed > 0 ? SpeedToString (speed).c_str() : L" ",
-					speed > 0 ? TimeSpanToString ((options->Size - progress.SizeDone) / speed).c_str() : L""));
+					speed > 0 ? (const wchar_t*) SpeedToString (speed).c_str() : L" ",
+					speed > 0 ? (const wchar_t*) TimeSpanToString ((options->Size - progress.SizeDone) / speed).c_str() : L""));
 			}
 
 			Thread::Sleep (100);
