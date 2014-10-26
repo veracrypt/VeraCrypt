@@ -835,7 +835,7 @@ void serpent_encrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, 
 
 #endif // TC_MINIMIZE_CODE_SIZE
 
-#if !defined (TC_MINIMIZE_CODE_SIZE) || defined (TC_WINDOWS_BOOT_SERPENT)
+#if !defined (TC_MINIMIZE_CODE_SIZE)
 
 void serpent_decrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, unsigned __int8 *ks)
 {
@@ -878,7 +878,7 @@ start:
 	out[3] = LE32(e);
 }
 
-#else // TC_MINIMIZE_CODE_SIZE && !TC_WINDOWS_BOOT_SERPENT
+#else // TC_MINIMIZE_CODE_SIZE
 
 static void ILTf (uint32 *a, uint32 *b, uint32 *c, uint32 *d)
 { 
@@ -934,4 +934,4 @@ start:
 	out[3] = LE32(e);
 }
 
-#endif // TC_MINIMIZE_CODE_SIZE && !TC_WINDOWS_BOOT_SERPENT
+#endif // TC_MINIMIZE_CODE_SIZE
