@@ -36,7 +36,6 @@ namespace VeraCrypt
 
 	FilePath Application::GetConfigFilePath (const wxString &configFileName, bool createConfigDir)
 	{
-		wxStandardPaths& stdPaths = wxStandardPaths::Get();
 		DirectoryPath configDir;
 		
 		if (!Core->IsInPortableMode())
@@ -46,6 +45,7 @@ namespace VeraCrypt
 			configPath.Normalize();
 			configDir = wstring (configPath.GetFullPath());
 #else
+			wxStandardPaths& stdPaths = wxStandardPaths::Get();
 			configDir = wstring (stdPaths.GetUserDataDir());
 #endif
 		}
