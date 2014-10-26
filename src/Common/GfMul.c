@@ -726,22 +726,6 @@ static void GfMul128Basic (unsigned __int8 *a, unsigned __int8 *b, unsigned __in
 	}
 }
 
-static void xor64 (uint64 *a, uint64 *b)
-{
-	*a ^= *b;
-}
-
-static void shl64 (unsigned __int8 *a)
-{
-	int i, x = 0, xx;
-	for (i = 7; i >= 0; i--)
-	{
-		xx = (a[i] & 0x80) >> 7;
-		a[i] = (char) ((a[i] << 1) | x);
-		x = xx;
-	}
-}
-
 
 BOOL GfMulSelfTest ()
 {
