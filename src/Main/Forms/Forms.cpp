@@ -392,6 +392,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	this->SetSizer( bSizer1 );
 	this->Layout();
+	bSizer1->Fit( this );
 	
 	this->Centre( wxBOTH );
 	
@@ -1743,7 +1744,9 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	DismountOnInactivityCheckBox = new wxCheckBox( SecurityPage, wxID_ANY, _("Auto-dismount volume after no data has been read/written to it for"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer34->Add( DismountOnInactivityCheckBox, 0, wxTOP|wxBOTTOM|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	DismountOnInactivitySpinCtrl = new wxSpinCtrl( SecurityPage, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize( 60,-1 ), wxSP_ARROW_KEYS, 1, 9999, 1 );
+	DismountOnInactivitySpinCtrl = new wxSpinCtrl( SecurityPage, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize( -1,-1 ), wxSP_ARROW_KEYS, 1, 9999, 1 );
+	DismountOnInactivitySpinCtrl->SetMinSize( wxSize( 60,-1 ) );
+	
 	bSizer34->Add( DismountOnInactivitySpinCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	wxStaticText* m_staticText5;
@@ -2542,6 +2545,8 @@ InfoWizardPageBase::~InfoWizardPageBase()
 
 KeyfilesPanelBase::KeyfilesPanelBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
 {
+	this->SetMinSize( wxSize( 500,300 ) );
+	
 	wxBoxSizer* bSizer19;
 	bSizer19 = new wxBoxSizer( wxVERTICAL );
 	
@@ -2584,6 +2589,7 @@ KeyfilesPanelBase::KeyfilesPanelBase( wxWindow* parent, wxWindowID id, const wxP
 	
 	this->SetSizer( bSizer19 );
 	this->Layout();
+	bSizer19->Fit( this );
 	
 	// Connect Events
 	KeyfilesListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( KeyfilesPanelBase::OnListItemDeselected ), NULL, this );
@@ -2657,6 +2663,8 @@ ProgressWizardPageBase::~ProgressWizardPageBase()
 
 SelectDirectoryWizardPageBase::SelectDirectoryWizardPageBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : WizardPage( parent, id, pos, size, style )
 {
+	this->SetMinSize( wxSize( 200,65 ) );
+	
 	wxBoxSizer* bSizer68;
 	bSizer68 = new wxBoxSizer( wxVERTICAL );
 	
@@ -2686,6 +2694,7 @@ SelectDirectoryWizardPageBase::SelectDirectoryWizardPageBase( wxWindow* parent, 
 	
 	this->SetSizer( bSizer68 );
 	this->Layout();
+	bSizer68->Fit( this );
 	
 	// Connect Events
 	DirectoryTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( SelectDirectoryWizardPageBase::OnDirectoryTextChanged ), NULL, this );

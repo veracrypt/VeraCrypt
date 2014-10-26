@@ -44,7 +44,7 @@
             <property name="minimum_size">-1,496</property>
             <property name="name">MainFrameBase</property>
             <property name="pos"></property>
-            <property name="size">-1,496</property>
+            <property name="size">-1,-1</property>
             <property name="style">wxCAPTION|wxCLOSE_BOX|wxMINIMIZE_BOX|wxSYSTEM_MENU</property>
             <property name="subclass"></property>
             <property name="title">VeraCrypt</property>
@@ -12833,7 +12833,7 @@
                                                                             <property name="min">1</property>
                                                                             <property name="min_size"></property>
                                                                             <property name="minimize_button">0</property>
-                                                                            <property name="minimum_size"></property>
+                                                                            <property name="minimum_size">60,-1</property>
                                                                             <property name="moveable">1</property>
                                                                             <property name="name">DismountOnInactivitySpinCtrl</property>
                                                                             <property name="pane_border">1</property>
@@ -12844,7 +12844,7 @@
                                                                             <property name="pos"></property>
                                                                             <property name="resize">Resizable</property>
                                                                             <property name="show">1</property>
-                                                                            <property name="size">60,-1</property>
+                                                                            <property name="size">-1,-1</property>
                                                                             <property name="style">wxSP_ARROW_KEYS</property>
                                                                             <property name="subclass"></property>
                                                                             <property name="toolbar_pane">0</property>
@@ -19939,10 +19939,10 @@
             <property name="hidden">0</property>
             <property name="id">wxID_ANY</property>
             <property name="maximum_size"></property>
-            <property name="minimum_size"></property>
+            <property name="minimum_size">500,300</property>
             <property name="name">KeyfilesPanelBase</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">-1,-1</property>
             <property name="subclass"></property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -20915,10 +20915,10 @@
             <property name="hidden">0</property>
             <property name="id">wxID_ANY</property>
             <property name="maximum_size"></property>
-            <property name="minimum_size"></property>
+            <property name="minimum_size">200,65</property>
             <property name="name">SelectDirectoryWizardPageBase</property>
             <property name="pos"></property>
-            <property name="size">200,65</property>
+            <property name="size">-1,-1</property>
             <property name="subclass">WizardPage; WizardPage.h</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
