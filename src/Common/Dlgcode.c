@@ -7425,7 +7425,10 @@ char *LoadFile (const char *fileName, DWORD *size)
 		return NULL;
 
 	if ((fileSize = GetFileSize (h, NULL)) == INVALID_FILE_SIZE)
+	{
+		CloseHandle (h);
 		return NULL;
+	}
 
 	*size = fileSize;
 	buf = (char *) calloc (*size + 1, 1);
