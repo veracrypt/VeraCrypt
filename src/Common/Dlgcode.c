@@ -2409,14 +2409,15 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 					DWORD val = 0, size = sizeof(val);
 					HKEY hkey;
 
-					if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\Atapi\\Parameters", 0, KEY_READ, &hkey) == ERROR_SUCCESS
-						&& (RegQueryValueEx (hkey, "EnableBigLba", 0, 0, (LPBYTE) &val, &size) != ERROR_SUCCESS
-						|| val != 1))
-
+					if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\Atapi\\Parameters", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
 					{
-						Warning ("LARGE_IDE_WARNING_2K_REGISTRY");
+						if (RegQueryValueEx (hkey, "EnableBigLba", 0, 0, (LPBYTE) &val, &size) != ERROR_SUCCESS
+								|| val != 1)
+						{
+							Warning ("LARGE_IDE_WARNING_2K_REGISTRY");
+						}
+						RegCloseKey (hkey);
 					}
-					RegCloseKey (hkey);
 				}
 				break;
 
