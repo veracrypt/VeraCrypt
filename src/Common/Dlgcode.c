@@ -8368,15 +8368,115 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 	// sprintf_s (url, sizeof (url), TC_APPLINK "%s%s&dest=%s", bSendOS ? ("&os=" + GetWindowsEdition()).c_str() : "", extraOutput, dest);
 	if (strcmp(dest, "donate") == 0)
 	{
-		StringCbPrintfA (url, sizeof (url),"%s", "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PWT5LHZWANHY6");		
+		StringCbCopyA (url, sizeof (url),"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BCXVMTTNJDCY");
+	}
+	else if (strcmp(dest, "main") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),TC_HOMEPAGE);
 	}
 	else if (strcmp(dest,"localizations") == 0)
 	{
-		StringCbPrintfA (url, sizeof (url),"http://sourceforge.net/projects/veracrypt/files/VeraCrypt%%20%s/VeraCrypt_%s_Language_Files.zip/download", VERSION_STRING, VERSION_STRING);
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Language%20Packs");
+	}
+	else if (strcmp(dest, "beginnerstutorial") == 0 || strcmp(dest,"tutorial") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Beginner%27s%20Tutorial");
+	}
+	else if (strcmp(dest, "releasenotes") == 0 || strcmp(dest, "history") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Release%20Notes");
+	}
+	else if (strcmp(dest, "hwacceleration") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Hardware%20Acceleration");
+	}
+	else if (strcmp(dest, "parallelization") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Parallelization");
+	}
+	else if (strcmp(dest, "help") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/documentation");
+	}
+	else if (strcmp(dest, "keyfiles") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Keyfiles");
+	}
+	else if (strcmp(dest, "introcontainer") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Creating%20New%20Volumes");
+	}
+	else if (strcmp(dest, "introsysenc") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption");
+	}
+	else if (strcmp(dest, "hiddensysenc") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=VeraCrypt%20Hidden%20Operating%20System");
+	}
+	else if (strcmp(dest, "sysencprogressinfo") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption");
+	}
+	else if (strcmp(dest, "hiddenvolume") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Hidden%20Volume");
+	}
+	else if (strcmp(dest, "aes") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=AES");
+	}
+	else if (strcmp(dest, "serpent") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Serpent");
+	}
+	else if (strcmp(dest, "twofish") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Twofish");
+	}
+	else if (strcmp(dest, "cascades") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Cascades");
+	}
+	else if (strcmp(dest, "hashalgorithms") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Hash%20Algorithms");
+	}
+	else if (strcmp(dest, "isoburning") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://cdburnerxp.se/en/home");
+	}
+	else if (strcmp(dest, "sysfavorites") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=System%20Favorite%20Volumes");
+	}
+	else if (strcmp(dest, "favorites") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Favorite%20Volumes");
+	}
+	else if (strcmp(dest, "hiddenvolprotection") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Protection%20of%20Hidden%20Volumes");
+	}
+	else if (strcmp(dest, "faq") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=FAQ");
+	}
+	else if (strcmp(dest, "downloads") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Downloads");
+	}
+	else if (strcmp(dest, "news") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=News");
+	}
+	else if (strcmp(dest, "contact") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Contact");
 	}
 	else
 	{
-		StringCbPrintfA (url, sizeof (url),"%s", "https://sourceforge.net/projects/veracrypt/");
+		StringCbCopyA (url, sizeof (url),TC_APPLINK);
 	}
 	ShellExecute (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 
