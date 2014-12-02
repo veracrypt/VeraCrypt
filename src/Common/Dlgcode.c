@@ -2515,7 +2515,7 @@ void InitHelpFileName (void)
 
 		// Primary file name
 		if (strcmp (GetPreferredLangId(), "en") == 0
-			|| GetPreferredLangId() == NULL)
+			|| strlen(GetPreferredLangId()) == 0)
 		{
 			StringCbCatA (szHelpFile, sizeof(szHelpFile), "VeraCrypt User Guide.pdf");
 		}
@@ -2532,7 +2532,7 @@ void InitHelpFileName (void)
 		{
 			++lpszTmp;
 			*lpszTmp = 0;
-			StringCbCopyA (szHelpFile2, sizeof(szHelpFile2), "VeraCrypt User Guide.pdf");
+			StringCbCatA (szHelpFile2, sizeof(szHelpFile2), "VeraCrypt User Guide.pdf");
 		}
 	}
 }
