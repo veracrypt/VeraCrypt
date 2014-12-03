@@ -1006,48 +1006,117 @@ namespace VeraCrypt
 
 	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, bool secure, const wxString &extraVars) const
 	{
-		wxString url = wxString (StringConverter::ToWide (secure ? TC_APPLINK_SECURE : TC_APPLINK)); /* + L"&dest=" + linkId;
-		wxString os, osVersion, architecture;
-
-#ifdef TC_WINDOWS
-
-		os = L"Windows";
-
-#elif defined (TC_UNIX)
-		struct utsname unameData;
-		if (uname (&unameData) != -1)
+		wxString url = wxString (StringConverter::ToWide (secure ? TC_APPLINK_SECURE : TC_APPLINK));
+		
+		if (linkId == L"donate") 
 		{
-			os = StringConverter::ToWide (unameData.sysname);
-			osVersion = StringConverter::ToWide (unameData.release);
-			architecture = StringConverter::ToWide (unameData.machine);
-
-			if (os == L"Darwin")
-				os = L"MacOSX";
+			url = L"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BCXVMTTNJDCY";
 		}
-		else
-			os = L"Unknown";
-#else
-		os = L"Unknown";
-#endif
-
-		os.Replace (L" ", L"-");
-		url += L"&os=";
-		url += os;
-
-		osVersion.Replace (L" ", L"-");
-		url += L"&osver=";
-		url += osVersion;
-
-		architecture.Replace (L" ", L"-");
-		url += L"&arch=";
-		url += architecture;
-
-		if (!extraVars.empty())
+		else if (linkId == L"main") 
 		{
-			 url += L"&";
-			 url += extraVars;
+			url = wxString (StringConverter::ToWide (TC_HOMEPAGE));
 		}
-		*/
+		else if (linkId == L"localizations") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Language%20Packs";
+		}
+		else if (linkId == L"beginnerstutorial" || linkId == L"tutorial") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Beginner%27s%20Tutorial";
+		}
+		else if (linkId == L"releasenotes" || linkId == L"history") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Release%20Notes";
+		}
+		else if (linkId == L"hwacceleration") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Hardware%20Acceleration";
+		}
+		else if (linkId == L"parallelization") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Parallelization";
+		}
+		else if (linkId == L"help") 
+		{
+			url = L"https://veracrypt.codeplex.com/documentation";
+		}
+		else if (linkId == L"keyfiles") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Keyfiles";
+		}
+		else if (linkId == L"introcontainer") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Creating%20New%20Volumes";
+		}
+		else if (linkId == L"introsysenc") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+		}
+		else if (linkId == L"hiddensysenc") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=VeraCrypt%20Hidden%20Operating%20System";
+		}
+		else if (linkId == L"sysencprogressinfo") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+		}
+		else if (linkId == L"hiddenvolume") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Hidden%20Volume";
+		}
+		else if (linkId == L"aes") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=AES";
+		}
+		else if (linkId == L"serpent") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Serpent";
+		}
+		else if (linkId == L"twofish") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Twofish";
+		}
+		else if (linkId == L"cascades") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Cascades";
+		}
+		else if (linkId == L"hashalgorithms") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Hash%20Algorithms";
+		}
+		else if (linkId == L"isoburning") 
+		{
+			url = L"https://cdburnerxp.se/en/home";
+		}
+		else if (linkId == L"sysfavorites") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Favorite%20Volumes";
+		}
+		else if (linkId == L"favorites") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Favorite%20Volumes";
+		}
+		else if (linkId == L"hiddenvolprotection") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Protection%20of%20Hidden%20Volumes";
+		}
+		else if (linkId == L"faq") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=FAQ";
+		}
+		else if (linkId == L"downloads") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Downloads";
+		}
+		else if (linkId == L"news") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=News";
+		}
+		else if (linkId == L"contact") 
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Contact";
+		}
+
 		return url;
 	}
 
