@@ -557,6 +557,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_LINK_KEYFILES_INFO)
 		{
 			Applink ("keyfiles", TRUE, "");
+			return 1;
 		}
 
 		if (lw == IDOK)
@@ -574,6 +575,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			EndDialog (hwndDlg, IDCLOSE);
 			return 1;
 		}
+		break;
 
 	case WM_DROPFILES:
 		{
