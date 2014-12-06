@@ -59,9 +59,9 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,75,188,10
     CONTROL         "User logs off",IDC_PREF_DISMOUNT_LOGOFF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,104,114,11
     CONTROL         "Entering power saving mode",IDC_PREF_DISMOUNT_POWERSAVING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,109,130,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,115,130,11
     CONTROL         "Screen saver is launched",IDC_PREF_DISMOUNT_SCREENSAVER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,115,114,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,81,116,114,10
     CONTROL         "Auto-dismount volume after no data has been read/written to it for",IDC_PREF_DISMOUNT_INACTIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,128,246,11
     EDITTEXT        IDC_PREF_DISMOUNT_INACTIVE_TIME,258,127,27,12,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
@@ -90,6 +90,8 @@ BEGIN
     LTEXT           "Dismount all when:",IDT_AUTO_DISMOUNT_ON,9,110,71,17
     GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,216,328,39
     GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,4,63,328,28
+    CONTROL         "User session locked",IDC_PREF_DISMOUNT_SESSION_LOCKED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,105,130,11
 END
 
 IDD_VOLUME_PROPERTIES DIALOGEX 60, 30, 284, 186

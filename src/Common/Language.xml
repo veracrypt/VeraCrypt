@@ -145,6 +145,7 @@
     <control lang="en" key="IDC_PREF_CACHE_PASSWORDS">Cache passwords in driver memory</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_INACTIVE">Auto-dismount volume after no data has been read/written to it for</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_LOGOFF">User logs off</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_POWERSAVING">Entering power saving mode</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SCREENSAVER">Screen saver is launched</control>
     <control lang="en" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Force auto-dismount even if volume contains open files or directories</control>

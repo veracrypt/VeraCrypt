@@ -48,6 +48,11 @@
 
 #include <Strsafe.h>
 
+#include <wtsapi32.h>
+
+typedef BOOL (WINAPI *WTSREGISTERSESSIONNOTIFICATION)(HWND, DWORD);
+typedef BOOL (WINAPI *WTSUNREGISTERSESSIONNOTIFICATION)(HWND);
+
 using namespace VeraCrypt;
 
 enum timer_ids
@@ -85,6 +90,7 @@ BOOL bWipeCacheOnAutoDismount = TRUE;
 BOOL bEnableBkgTask = FALSE;
 BOOL bCloseBkgTaskWhenNoVolumes = FALSE;
 BOOL bDismountOnLogOff = TRUE;
+BOOL bDismountOnSessionLocked = TRUE;
 BOOL bDismountOnScreenSaver = TRUE;
 BOOL bDismountOnPowerSaving = FALSE;
 BOOL bForceAutoDismount = TRUE;
@@ -142,6 +148,51 @@ static int bPrebootPasswordDlgMode = FALSE;
 static int NoCmdLineArgs;
 static BOOL CmdLineVolumeSpecified;
 static int LastDriveListVolumeColumnWidth;
+// WTS handling
+static HMODULE hWtsLib = NULL;
+static WTSREGISTERSESSIONNOTIFICATION   fnWtsRegisterSessionNotification = NULL;
+static WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification = NULL;
+
+static void RegisterWtsNotification(HWND hWnd)
+{
+	if (!hWtsLib)
+	{
+		char dllPath[MAX_PATH];
+		if (GetSystemDirectory(dllPath, MAX_PATH))
+			StringCbCatA(dllPath, sizeof(dllPath), "\\wtsapi32.dll");
+		else
+			StringCbCopyA(dllPath, sizeof(dllPath), "c:\\Windows\\System32\\wtsapi32.dll");
+
+		hWtsLib = LoadLibrary(dllPath);
+		if (hWtsLib)
+		{
+			fnWtsRegisterSessionNotification = (WTSREGISTERSESSIONNOTIFICATION) GetProcAddress(hWtsLib, "WTSRegisterSessionNotification" );
+			fnWtsUnRegisterSessionNotification = (WTSUNREGISTERSESSIONNOTIFICATION) GetProcAddress(hWtsLib, "WTSUnRegisterSessionNotification" );
+			if (	!fnWtsRegisterSessionNotification 
+				|| 	!fnWtsUnRegisterSessionNotification 
+				||	!fnWtsRegisterSessionNotification( hWnd, NOTIFY_FOR_THIS_SESSION )
+				)
+			{
+				fnWtsRegisterSessionNotification = NULL;
+				fnWtsUnRegisterSessionNotification = NULL;
+				FreeLibrary(hWtsLib);
+				hWtsLib = NULL;
+			}
+		}
+	}
+}
+
+static void UnregisterWtsNotification(HWND hWnd)
+{
+	if (hWtsLib && fnWtsUnRegisterSessionNotification)
+	{
+		fnWtsUnRegisterSessionNotification(hWnd);
+		FreeLibrary(hWtsLib);
+		hWtsLib = NULL;
+		fnWtsRegisterSessionNotification = NULL;
+		fnWtsUnRegisterSessionNotification = NULL;
+	}
+}
 
 static void localcleanup (void)
 {
@@ -215,6 +266,7 @@ void EndMainDlg (HWND hwndDlg)
 	{
 		KillTimer (hwndDlg, TIMER_ID_MAIN);
 		TaskBarIconRemove (hwndDlg);
+		UnregisterWtsNotification(hwndDlg);
 		EndDialog (hwndDlg, 0);
 	}
 }
@@ -427,6 +479,7 @@ void LoadSettings (HWND hwndDlg)
 	bCloseBkgTaskWhenNoVolumes =	ConfigReadInt ("CloseBackgroundTaskOnNoVolumes", FALSE);
 
 	bDismountOnLogOff =				ConfigReadInt ("DismountOnLogOff", !(IsServerOS() && IsAdmin()));
+	bDismountOnSessionLocked =		ConfigReadInt ("DismountOnSessionLocked", FALSE);
 	bDismountOnPowerSaving =		ConfigReadInt ("DismountOnPowerSaving", FALSE);
 	bDismountOnScreenSaver =		ConfigReadInt ("DismountOnScreenSaver", FALSE);
 	bForceAutoDismount =			ConfigReadInt ("ForceAutoDismount", TRUE);
@@ -521,6 +574,7 @@ void SaveSettings (HWND hwndDlg)
 	ConfigWriteInt ("CloseBackgroundTaskOnNoVolumes",	bCloseBkgTaskWhenNoVolumes);
 
 	ConfigWriteInt ("DismountOnLogOff",					bDismountOnLogOff);
+	ConfigWriteInt ("DismountOnSessionLocked",			bDismountOnSessionLocked);
 	ConfigWriteInt ("DismountOnPowerSaving",			bDismountOnPowerSaving);
 	ConfigWriteInt ("DismountOnScreenSaver",			bDismountOnScreenSaver);
 	ConfigWriteInt ("ForceAutoDismount",				bForceAutoDismount);
@@ -2187,6 +2241,7 @@ static void PreferencesDlgEnableButtons (HWND hwndDlg)
 	BOOL back = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_BKG_TASK_ENABLE));
 	BOOL idle = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE));
 	BOOL installed = !IsNonInstallMode();
+	BOOL wtsEnabled = (hWtsLib != NULL) ? TRUE : FALSE;
 
 	EnableWindow (GetDlgItem (hwndDlg, IDC_CLOSE_BKG_TASK_WHEN_NOVOL), back && installed);
 	EnableWindow (GetDlgItem (hwndDlg, IDT_LOGON), installed);
@@ -2196,6 +2251,7 @@ static void PreferencesDlgEnableButtons (HWND hwndDlg)
 	EnableWindow (GetDlgItem (hwndDlg, IDT_AUTO_DISMOUNT_ON), back);
 	EnableWindow (GetDlgItem (hwndDlg, IDT_MINUTES), back);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF), back);
+	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED), back && wtsEnabled);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING), back);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SCREENSAVER), back);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE), back);
@@ -2266,6 +2322,9 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF), BM_SETCHECK, 
 						bDismountOnLogOff ? BST_CHECKED:BST_UNCHECKED, 0);
 
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED), BM_SETCHECK, 
+						bDismountOnSessionLocked ? BST_CHECKED:BST_UNCHECKED, 0);
+
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING), BM_SETCHECK, 
 						bDismountOnPowerSaving ? BST_CHECKED:BST_UNCHECKED, 0);
 
@@ -2295,25 +2354,28 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		// Forced dismount disabled warning
 		if (lw == IDC_PREF_DISMOUNT_INACTIVE
 			|| lw == IDC_PREF_DISMOUNT_LOGOFF
+			|| lw == IDC_PREF_DISMOUNT_SESSION_LOCKED
 			|| lw == IDC_PREF_DISMOUNT_POWERSAVING
 			|| lw == IDC_PREF_DISMOUNT_SCREENSAVER
 			|| lw == IDC_PREF_FORCE_AUTO_DISMOUNT)
 		{
 			BOOL i = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE));
 			BOOL l = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF));
+			BOOL sl = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED));
 			BOOL p = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING));
 			BOOL s = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SCREENSAVER));
 			BOOL q = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT));
 
 			if (!q)
 			{
-				if (lw == IDC_PREF_FORCE_AUTO_DISMOUNT && (i || l || p || s))
+				if (lw == IDC_PREF_FORCE_AUTO_DISMOUNT && (i || l || sl || p || s))
 				{
 					if (AskWarnNoYes ("CONFIRM_NO_FORCED_AUTODISMOUNT") == IDNO)
 						SetCheckBox (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT, TRUE);
 				}
 				else if ((lw == IDC_PREF_DISMOUNT_INACTIVE && i
 					|| lw == IDC_PREF_DISMOUNT_LOGOFF && l
+					|| lw == IDC_PREF_DISMOUNT_SESSION_LOCKED && sl
 					|| lw == IDC_PREF_DISMOUNT_POWERSAVING && p
 					|| lw == IDC_PREF_DISMOUNT_SCREENSAVER && s))
 					Warning ("WARN_PREF_AUTO_DISMOUNT");
@@ -2345,6 +2407,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bEnableBkgTask				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_BKG_TASK_ENABLE));
 			bCloseBkgTaskWhenNoVolumes	= IsNonInstallMode() ? bCloseBkgTaskWhenNoVolumes : IsButtonChecked (GetDlgItem (hwndDlg, IDC_CLOSE_BKG_TASK_WHEN_NOVOL));
 			bDismountOnLogOff				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_LOGOFF));
+			bDismountOnSessionLocked		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SESSION_LOCKED));
 			bDismountOnPowerSaving			= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_POWERSAVING));
 			bDismountOnScreenSaver			= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_SCREENSAVER));
 			bForceAutoDismount				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT));
@@ -5000,6 +5063,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 			}
 
+			if (TaskBarIconMutex != NULL)
+				RegisterWtsNotification(hwndDlg);
 			DoPostInstallTasks ();
 			ResetCurrentDirectory ();
 		}
@@ -5030,6 +5095,25 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		OpenPageHelp (hwndDlg, 0);
 		return 1;
 
+	case WM_WTSSESSION_CHANGE:
+		if (TaskBarIconMutex != NULL)
+		{
+			if (bDismountOnSessionLocked && (WTS_SESSION_LOCK == wParam))
+			{
+				// Auto-dismount when session is locked
+				DWORD dwResult;
+
+				if (bWipeCacheOnAutoDismount)
+				{
+					DeviceIoControl (hDriver, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0, &dwResult, NULL);
+					SecurityToken::CloseAllSessions();
+				}
+				
+				DismountAll (hwndDlg, bForceAutoDismount, TRUE, UNMOUNT_MAX_AUTO_RETRIES, UNMOUNT_AUTO_RETRY_DELAY);
+			}
+		}
+		return 0;
+
 	case WM_ENDSESSION:
 		if (TaskBarIconMutex != NULL)
 		{
@@ -5045,6 +5129,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			TaskBarIconRemove (hwndDlg);
+			UnregisterWtsNotification(hwndDlg);
 		}
 		EndMainDlg (hwndDlg);
 		localcleanup ();
@@ -5255,6 +5340,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				&& GetDriverRefCount () < 2)
 			{
 				TaskBarIconRemove (hwndDlg);
+				UnregisterWtsNotification(hwndDlg);
 				EndMainDlg (hwndDlg);
 			}
 		}
@@ -5374,6 +5460,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							EnumWindows (CloseTCWindowsEnum, 0);
 
 							TaskBarIconRemove (hwndDlg);
+							UnregisterWtsNotification(hwndDlg);
 							SendMessage (hwndDlg, WM_COMMAND, sel, 0);
 						}
 					}
@@ -5394,6 +5481,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case TC_APPMSG_CLOSE_BKG_TASK:
 		if (TaskBarIconMutex != NULL)
 			TaskBarIconRemove (hwndDlg);
+		UnregisterWtsNotification(hwndDlg);
 
 		return 1;
 
@@ -6129,10 +6217,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bEnableBkgTask)
 				{
 					TaskBarIconAdd (hwndDlg);
+					RegisterWtsNotification(hwndDlg);
 				}
 				else
 				{
 					TaskBarIconRemove (hwndDlg);
+					UnregisterWtsNotification(hwndDlg);
 					if (MainWindowHidden)
 						EndMainDlg (hwndDlg);
 				}
@@ -7376,6 +7466,7 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 				MessageBeep (0xFFFFFFFF);
 		}
 		TaskBarIconRemove (hwndDlg);
+		UnregisterWtsNotification(hwndDlg);
 		EndMainDlg (hwndDlg);
 		break;
 

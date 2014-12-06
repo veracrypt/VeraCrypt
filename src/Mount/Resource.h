@@ -159,6 +159,7 @@
 #define IDC_FAV_VOL_OPTIONS_GROUP_BOX   1134
 #define IDC_FAVORITES_HELP_LINK         1135
 #define IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX 1136
+#define IDC_PREF_DISMOUNT_SESSION_LOCKED 1137
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -230,7 +231,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40064
-#define _APS_NEXT_CONTROL_VALUE         1137
+#define _APS_NEXT_CONTROL_VALUE         1138
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
