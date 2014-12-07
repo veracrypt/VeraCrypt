@@ -350,6 +350,57 @@ std::string ToUpperCase (const std::string &str)
 	return u;
 }
 
+size_t TrimWhiteSpace(char *str)
+{
+  char *end, *ptr = str;
+  size_t out_size;
+
+  if(!str || *str == 0)
+    return 0;
+
+  // Trim leading space
+  while(isspace(*ptr)) ptr++;
+
+  if(*ptr == 0)  // All spaces?
+  {
+    *str = 0;
+    return 0;
+  }
+
+  // Trim trailing space
+  end = str + strlen(str) - 1;
+  while(end > ptr && isspace(*end)) end--;
+  end++;
+
+  // Set output size to trimmed string length
+  out_size = (end - ptr);
+
+  // Copy trimmed string and add null terminator
+  memmove(str, ptr, out_size);
+  str[out_size] = 0;
+
+  return out_size;
+}
+
+// check the validity of a file name
+BOOL IsValidFileName(const char* str)
+{
+	static char invalidChars[9] = {'<', '>', ':', '"', '/', '\\', '|', '?', '*'};
+	char c;
+	int i;
+	BOOL bNotDotOnly = FALSE;
+	while ((c = *str))
+	{
+		if (c != '.')
+			bNotDotOnly = TRUE;
+		for (i= 0; i < sizeof(invalidChars); i++)
+			if (c == invalidChars[i])
+				return FALSE;
+		str++;
+	}
+
+	return bNotDotOnly;
+}
 
 BOOL IsVolumeDeviceHosted (const char *lpszDiskFile)
 {
@@ -4945,6 +4996,10 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 #endif
 			SetTimer (hwndDlg, 0xfd, RANDPOOL_DISPLAY_REFRESH_INTERVAL, NULL);
 			SendMessage (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), WM_SETFONT, (WPARAM) hFixedDigitFont, (LPARAM) TRUE);
+			SendMessage  (GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), EM_SETLIMITTEXT, (WPARAM) (TC_MAX_PATH - 1), 0);
+			SetWindowText(GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), "1");
+			// set the maximum length of the keyfile base name to (TC_MAX_PATH - 1)
+			SendMessage (GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), EM_SETLIMITTEXT, (WPARAM) (TC_MAX_PATH - 1), 0);
 			return 1;
 		}
 
@@ -5011,40 +5066,133 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		if (lw == IDC_GENERATE_AND_SAVE_KEYFILE)
 		{
-			char szFileName [TC_MAX_PATH];
+			char szNumberKeyFiles[TC_MAX_PATH] = {0};
+			char szFileBaseName[TC_MAX_PATH];
+			char szDirName[TC_MAX_PATH];
+			char szFileName [3*TC_MAX_PATH];
 			unsigned char keyfile [MAX_PASSWORD];
-			int fhKeyfile = -1;
+			int fhKeyfile = -1, status;
+			long keyfilesCount = 0, i;
+			char* fileExtensionPtr = 0;
+			char szSuffix[32];
+			BOOL bBaseNameValid = FALSE;
 
-			/* Select filename */
-			if (!BrowseFiles (hwndDlg, "OPEN_TITLE", szFileName, bHistory, TRUE, NULL))
-				return 1;
+			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), szNumberKeyFiles, TC_MAX_PATH))
+				szNumberKeyFiles[0] = 0;
 
-			/* Conceive the file */
-			if ((fhKeyfile = _open(szFileName, _O_CREAT|_O_TRUNC|_O_WRONLY|_O_BINARY, _S_IREAD|_S_IWRITE)) == -1)
+			keyfilesCount = strtoul(szNumberKeyFiles, NULL, 0);
+			if (keyfilesCount <= 0 || keyfilesCount == LONG_MAX)
 			{
-				handleWin32Error (hwndDlg);
+				Warning("KEYFILE_INCORRECT_NUMBER");
+				SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), TRUE);
 				return 1;
 			}
 
-			/* Generate the keyfile */ 
+			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), szFileBaseName, TC_MAX_PATH))
+				szFileBaseName[0] = 0;
+
+			// Trim trailing space
+			if (TrimWhiteSpace(szFileBaseName) == 0)
+			{
+				Warning("KEYFILE_EMPTY_BASE_NAME");
+				SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), TRUE);
+				return 1;
+			}
+
+			if (!IsValidFileName(szFileBaseName))
+			{
+				Warning("KEYFILE_INVALID_BASE_NAME");
+				SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), TRUE);
+				return 1;
+			}
+
+			fileExtensionPtr = strrchr(szFileBaseName, '.');
+
+			/* Select directory */
+			if (!BrowseDirectories (hwndDlg, "SELECT_KEYFILE_GENERATION_DIRECTORY", szDirName))
+				return 1;
+
+			if (szDirName[strlen(szDirName) - 1] != '\\' && szDirName[strlen(szDirName) - 1] != '/')
+				StringCbCat(szDirName, sizeof(szDirName), "\\");
+
 			WaitCursor();
-			if (!RandgetBytes (keyfile, sizeof(keyfile), TRUE))
+
+			for (i= 0; i < keyfilesCount; i++)
 			{
+				StringCbCopy(szFileName, sizeof(szFileName), szDirName);
+				
+				if (i > 0)
+				{
+					StringCbPrintfA(szSuffix, sizeof(szSuffix), "_%d", i);
+					// Append the counter to the name
+					if (fileExtensionPtr)
+					{
+						StringCbCatN(szFileName, sizeof(szFileName), szFileBaseName, (size_t) (fileExtensionPtr - szFileBaseName));
+						StringCbCat(szFileName, sizeof(szFileName), szSuffix);
+						StringCbCat(szFileName, sizeof(szFileName), fileExtensionPtr);
+					}
+					else
+					{
+						StringCbCat(szFileName, sizeof(szFileName), szFileBaseName);
+						StringCbCat(szFileName, sizeof(szFileName), szSuffix);
+					}
+				}
+				else
+					StringCbCat(szFileName, sizeof(szFileName), szFileBaseName);
+
+				// check if the file exists
+				if ((fhKeyfile = _open(szFileName, _O_RDONLY|_O_BINARY, _S_IREAD|_S_IWRITE)) != -1)
+				{
+					WCHAR s[4*TC_MAX_PATH] = {0};
+					WCHAR wszFileName[3*TC_MAX_PATH] = {0};
+
+					_close (fhKeyfile);
+
+					MultiByteToWideChar(CP_ACP, 0, szFileName, -1, wszFileName, sizeof(wszFileName) / sizeof(WCHAR));
+
+					StringCbPrintfW (s, sizeof(s), GetString ("KEYFILE_ALREADY_EXISTS"), wszFileName);
+					status = AskWarnNoYesString (s);
+					if (status == IDNO)
+					{
+						NormalCursor();
+						return 1;
+					}
+				}
+
+				/* Conceive the file */
+				if ((fhKeyfile = _open(szFileName, _O_CREAT|_O_TRUNC|_O_WRONLY|_O_BINARY, _S_IREAD|_S_IWRITE)) == -1)
+				{
+					NormalCursor();
+					handleWin32Error (hwndDlg);
+					return 1;
+				}
+
+				/* Generate the keyfile */ 				
+				if (!RandgetBytes (keyfile, sizeof(keyfile), TRUE))
+				{
+					_close (fhKeyfile);
+					DeleteFile (szFileName);
+					NormalCursor();
+					return 1;
+				}				
+
+				/* Write the keyfile */
+				status = _write (fhKeyfile, keyfile, sizeof(keyfile));
+				burn (keyfile, sizeof(keyfile));
 				_close (fhKeyfile);
-				DeleteFile (szFileName);
-				NormalCursor();
-				return 1;
+
+				if (status == -1)
+				{
+					NormalCursor();
+					handleWin32Error (hwndDlg);
+					return 1;
+				}				
 			}
+
 			NormalCursor();
 
-			/* Write the keyfile */
-			if (_write (fhKeyfile, keyfile, sizeof(keyfile)) == -1)
-				handleWin32Error (hwndDlg);
-			else
-				Info("KEYFILE_CREATED");
+			Info("KEYFILE_CREATED");
 
-			burn (keyfile, sizeof(keyfile));
-			_close (fhKeyfile);
 			return 1;
 		}
 		return 0;

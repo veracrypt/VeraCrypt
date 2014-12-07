@@ -331,6 +331,8 @@
     <control lang="en" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.</control>
     <control lang="en" key="IDT_KEYFILE_WARNING">WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!</control>
     <control lang="en" key="IDT_KEY_UNIT">bits</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="en" key="IDT_LANGPACK_AUTHORS">Translated by:</control>
     <control lang="en" key="IDT_PLAINTEXT">Plaintext size:</control>
     <control lang="en" key="IDT_PLAINTEXT_SIZE_UNIT">bits</control>
@@ -600,6 +602,7 @@
     <string lang="en" key="SELECT_DEST_DIR">Select destination directory</string>
     <string lang="en" key="SELECT_KEYFILE">Select Keyfile</string>
     <string lang="en" key="SELECT_KEYFILE_PATH">Select a keyfile search path. WARNING: Note that only the path will be remembered, not the filenames!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="en" key="SERPENT_HELP">Designed by Ross Anderson, Eli Biham, and Lars Knudsen. Published in 1998. 256-bit key, 128-bit block. Mode of operation is XTS. Serpent was one of the AES finalists.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -863,7 +866,11 @@
     <string lang="en" key="ENTER_NORMAL_VOL_PASSWORD">Enter password for the normal/outer volume</string>
     <string lang="en" key="ENTER_HIDDEN_VOL_PASSWORD">Enter password for the hidden volume</string>
     <string lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</string>
-    <string lang="en" key="KEYFILE_CREATED">Keyfile has been successfully created.</string>
+    <string lang="en" key="KEYFILE_CREATED">Keyfiles have been successfully created.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="en" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">WARNING: The header of this volume is damaged! VeraCrypt automatically used the backup of the volume header embedded in the volume.\n\nYou should repair the volume header by selecting 'Tools' > 'Restore Volume Header'.</string>
     <string lang="en" key="VOL_HEADER_BACKED_UP">Volume header backup has been successfully created.\n\nIMPORTANT: Restoring the volume header using this backup will also restore the current volume password. Moreover, if keyfile(s) are/is necessary to mount the volume, the same keyfile(s) will be necessary to mount the volume again when the volume header is restored.\n\nWARNING: This volume header backup may be used to restore the header ONLY of this particular volume. If you use this header backup to restore a header of a different volume, you will be able to mount the volume, but you will NOT be able to decrypt any data stored in the volume (because you will change its master key).</string>
     <string lang="en" key="VOL_HEADER_RESTORED">The volume header has been successfully restored.\n\nIMPORTANT: Please note that an old password may have been restored as well. Moreover, if keyfile(s) were/was necessary to mount the volume when the backup was created, the same keyfile(s) are now necessary to mount the volume again.</string>
@@ -1217,7 +1224,7 @@
     <string lang="en" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Do you want VeraCrypt to attempt to disable write protection of the partition/drive?</string>
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
-    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>    
     <string lang="en" key="TEST">Test</string>
     <string lang="en" key="KEYFILE">Keyfile</string>
     <string lang="en" key="VKEY_08">Backspace</string>
