@@ -519,10 +519,9 @@ MainFrameBase::~MainFrameBase()
 
 WizardFrameBase::WizardFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 750,450 ), wxDefaultSize );
 	
-	wxBoxSizer* bSizer92;
-	bSizer92 = new wxBoxSizer( wxVERTICAL );
+	MainSizer = new wxBoxSizer( wxVERTICAL );
 	
 	MainPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer63;
@@ -598,12 +597,12 @@ WizardFrameBase::WizardFrameBase( wxWindow* parent, wxWindowID id, const wxStrin
 	MainPanel->SetSizer( bSizer63 );
 	MainPanel->Layout();
 	bSizer63->Fit( MainPanel );
-	bSizer92->Add( MainPanel, 1, wxEXPAND, 5 );
+	MainSizer->Add( MainPanel, 1, wxEXPAND, 5 );
 	
 	
-	this->SetSizer( bSizer92 );
+	this->SetSizer( MainSizer );
 	this->Layout();
-	bSizer92->Fit( this );
+	MainSizer->Fit( this );
 	
 	// Connect Events
 	this->Connect( wxEVT_ACTIVATE, wxActivateEventHandler( WizardFrameBase::OnActivate ) );

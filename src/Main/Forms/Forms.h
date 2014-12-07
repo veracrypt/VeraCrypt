@@ -161,6 +161,7 @@ namespace VeraCrypt
 		private:
 		
 		protected:
+			wxBoxSizer* MainSizer;
 			wxPanel* MainPanel;
 			wxStaticBitmap* WizardBitmap;
 			wxStaticText* PageTitleStaticText;
