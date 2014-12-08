@@ -180,6 +180,9 @@
 #define IDC_NUMBER_KEYFILES             5118
 #define IDT_KEYFILES_BASE_NAME          5119
 #define IDC_KEYFILES_BASE_NAME          5120
+#define IDC_KEYFILES_SIZE               5121
+#define IDC_KEYFILES_RANDOM_SIZE        5122
+#define IDT_KEYFILES_SIZE               5123
 
 // Next default values for new objects
 // 
@@ -188,7 +191,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        542
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5121
+#define _APS_NEXT_CONTROL_VALUE         5124
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

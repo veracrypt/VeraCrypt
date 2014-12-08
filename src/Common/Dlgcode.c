@@ -4996,8 +4996,12 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 #endif
 			SetTimer (hwndDlg, 0xfd, RANDPOOL_DISPLAY_REFRESH_INTERVAL, NULL);
 			SendMessage (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), WM_SETFONT, (WPARAM) hFixedDigitFont, (LPARAM) TRUE);
-			SendMessage  (GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), EM_SETLIMITTEXT, (WPARAM) (TC_MAX_PATH - 1), 0);
+			// 9-digit limit for the number of keyfiles (more than enough!)
+			SendMessage  (GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), EM_SETLIMITTEXT, (WPARAM) 9, 0);
 			SetWindowText(GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), "1");
+			// maximum keyfile size is 1048576, so limit the edit control to 7 characters
+			SendMessage  (GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), EM_SETLIMITTEXT, (WPARAM) 7, 0);
+			SetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), "64");
 			// set the maximum length of the keyfile base name to (TC_MAX_PATH - 1)
 			SendMessage (GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), EM_SETLIMITTEXT, (WPARAM) (TC_MAX_PATH - 1), 0);
 			return 1;
@@ -5064,28 +5068,47 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return 1;
 		}
 
+		if (lw == IDC_KEYFILES_RANDOM_SIZE)
+		{
+			EnableWindow(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), !GetCheckBox (hwndDlg, IDC_KEYFILES_RANDOM_SIZE));
+		}
+
 		if (lw == IDC_GENERATE_AND_SAVE_KEYFILE)
 		{
-			char szNumberKeyFiles[TC_MAX_PATH] = {0};
+			char szNumber[16] = {0};
 			char szFileBaseName[TC_MAX_PATH];
 			char szDirName[TC_MAX_PATH];
-			char szFileName [3*TC_MAX_PATH];
-			unsigned char keyfile [MAX_PASSWORD];
+			char szFileName [2*TC_MAX_PATH + 16];
+			unsigned char *keyfile = NULL;
 			int fhKeyfile = -1, status;
-			long keyfilesCount = 0, i;
+			long keyfilesCount = 0, keyfilesSize = 0, i;
 			char* fileExtensionPtr = 0;
 			char szSuffix[32];
-			BOOL bBaseNameValid = FALSE;
+			BOOL bRandomSize = GetCheckBox (hwndDlg, IDC_KEYFILES_RANDOM_SIZE);
 
-			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), szNumberKeyFiles, TC_MAX_PATH))
-				szNumberKeyFiles[0] = 0;
+			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), szNumber, sizeof(szNumber)))
+				szNumber[0] = 0;
 
-			keyfilesCount = strtoul(szNumberKeyFiles, NULL, 0);
+			keyfilesCount = strtoul(szNumber, NULL, 0);
 			if (keyfilesCount <= 0 || keyfilesCount == LONG_MAX)
 			{
 				Warning("KEYFILE_INCORRECT_NUMBER");
 				SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_NUMBER_KEYFILES), TRUE);
 				return 1;
+			}
+
+			if (!bRandomSize)
+			{
+				if (!GetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), szNumber, sizeof(szNumber)))
+					szNumber[0] = 0;
+
+				keyfilesSize = strtoul(szNumber, NULL, 0);
+				if (keyfilesSize < 64 || keyfilesSize > 1024*1024)
+				{
+					Warning("KEYFILE_INCORRECT_SIZE");
+					SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_KEYFILES_SIZE), TRUE);
+					return 1;
+				}
 			}
 
 			if (!GetWindowText(GetDlgItem (hwndDlg, IDC_KEYFILES_BASE_NAME), szFileBaseName, TC_MAX_PATH))
@@ -5116,6 +5139,8 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				StringCbCat(szDirName, sizeof(szDirName), "\\");
 
 			WaitCursor();
+
+			keyfile = (unsigned char*) TCalloc( bRandomSize? KEYFILE_MAX_READ_LEN : keyfilesSize );
 
 			for (i= 0; i < keyfilesCount; i++)
 			{
@@ -5154,6 +5179,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					status = AskWarnNoYesString (s);
 					if (status == IDNO)
 					{
+						TCfree(keyfile);
 						NormalCursor();
 						return 1;
 					}
@@ -5162,33 +5188,56 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				/* Conceive the file */
 				if ((fhKeyfile = _open(szFileName, _O_CREAT|_O_TRUNC|_O_WRONLY|_O_BINARY, _S_IREAD|_S_IWRITE)) == -1)
 				{
+					TCfree(keyfile);
 					NormalCursor();
 					handleWin32Error (hwndDlg);
 					return 1;
 				}
 
+				if (bRandomSize)
+				{
+					/* Generate a random size */
+					if (!RandgetBytes ((unsigned char*) &keyfilesSize, sizeof(keyfilesSize), FALSE))
+					{
+						_close (fhKeyfile);
+						DeleteFile (szFileName);
+						TCfree(keyfile);
+						NormalCursor();
+						return 1;
+					}
+					
+					/* since keyfilesSize < 1024 * 1024, we mask with 0x000FFFFF */
+					keyfilesSize = (long) (((unsigned long) keyfilesSize) & 0x000FFFFF);
+
+					keyfilesSize %= ((KEYFILE_MAX_READ_LEN - 64) + 1);
+					keyfilesSize += 64;
+				}
+
 				/* Generate the keyfile */ 				
-				if (!RandgetBytes (keyfile, sizeof(keyfile), TRUE))
+				if (!RandgetBytesFull (keyfile, keyfilesSize, TRUE, TRUE))
 				{
 					_close (fhKeyfile);
 					DeleteFile (szFileName);
+					TCfree(keyfile);
 					NormalCursor();
 					return 1;
 				}				
 
 				/* Write the keyfile */
-				status = _write (fhKeyfile, keyfile, sizeof(keyfile));
-				burn (keyfile, sizeof(keyfile));
+				status = _write (fhKeyfile, keyfile, keyfilesSize);
+				burn (keyfile, keyfilesSize);
 				_close (fhKeyfile);
 
 				if (status == -1)
 				{
+					TCfree(keyfile);
 					NormalCursor();
 					handleWin32Error (hwndDlg);
 					return 1;
 				}				
 			}
 
+			TCfree(keyfile);
 			NormalCursor();
 
 			Info("KEYFILE_CREATED");

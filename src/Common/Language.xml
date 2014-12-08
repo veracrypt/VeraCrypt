@@ -44,6 +44,7 @@
     <control lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</control>
     <control lang="en" key="IDC_KB">&amp;KB</control>
     <control lang="en" key="IDC_KEYFILES_ENABLE">U&amp;se keyfiles</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 <-> 1048576 )</control>
     <control lang="en" key="IDC_KEY_FILES">&amp;Keyfiles...</control>
     <control lang="en" key="IDC_LINK_HASH_INFO">Information on hash algorithms</control>
     <control lang="en" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">More information</control>
@@ -332,6 +333,7 @@
     <control lang="en" key="IDT_KEYFILE_WARNING">WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!</control>
     <control lang="en" key="IDT_KEY_UNIT">bits</control>
     <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
     <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="en" key="IDT_LANGPACK_AUTHORS">Translated by:</control>
     <control lang="en" key="IDT_PLAINTEXT">Plaintext size:</control>
@@ -868,6 +870,7 @@
     <string lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</string>
     <string lang="en" key="KEYFILE_CREATED">Keyfiles have been successfully created.</string>
     <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
     <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
     <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
     <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
