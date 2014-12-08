@@ -363,6 +363,7 @@ BOOL RandgetBytes (unsigned char *buf, int len, BOOL forceSlowPoll)
 	{
 		Error ("ERR_NOT_ENOUGH_RANDOM_DATA");	
 		len = RNG_POOL_SIZE;
+		LeaveCriticalSection (&critRandProt);
 		return FALSE;
 	}
 
