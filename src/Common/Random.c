@@ -339,7 +339,16 @@ BOOL RandpeekBytes (unsigned char *buf, int len)
 /* Get len random bytes from the pool (max. RNG_POOL_SIZE bytes per a single call) */
 BOOL RandgetBytes (unsigned char *buf, int len, BOOL forceSlowPoll)
 {
-	int i;
+	return RandgetBytesFull (buf, len, forceSlowPoll, FALSE);
+}
+
+/* Get len random bytes from the pool.
+ *  If allowAnyLength is FALSE, then len must be less or equal to RNG_POOL_SIZE
+ *  If allowAnyLength is TRUE, then len can have any positive value
+ */
+BOOL RandgetBytesFull ( unsigned char *buf , int len, BOOL forceSlowPoll , BOOL allowAnyLength)
+{
+	int i, looplen;
 	BOOL ret = TRUE;
 
 	if (!bRandDidInit || HashFunction == 0)
@@ -359,7 +368,7 @@ BOOL RandgetBytes (unsigned char *buf, int len, BOOL forceSlowPoll)
 		ret = FALSE;
 
 	/* There's never more than RNG_POOL_SIZE worth of randomess */
-	if (len > RNG_POOL_SIZE)
+	if ( (!allowAnyLength) && (len > RNG_POOL_SIZE))
 	{
 		Error ("ERR_NOT_ENOUGH_RANDOM_DATA");	
 		len = RNG_POOL_SIZE;
@@ -367,29 +376,46 @@ BOOL RandgetBytes (unsigned char *buf, int len, BOOL forceSlowPoll)
 		return FALSE;
 	}
 
-	// Requested number of bytes is copied from pool to output buffer,
-	// pool is rehashed, and output buffer is XORed with new data from pool
-	for (i = 0; i < len; i++)
+	while (len > 0)
 	{
-		buf[i] = pRandPool[randPoolReadIndex++];
-		if (randPoolReadIndex == RNG_POOL_SIZE) randPoolReadIndex = 0;
-	}
+		if (len > RNG_POOL_SIZE)
+		{
+			looplen = RNG_POOL_SIZE;
+			len -= RNG_POOL_SIZE;
+		}
+		else
+		{
+			looplen = len;
+			len = 0;
+		}
 
-	/* Invert the pool */
-	for (i = 0; i < RNG_POOL_SIZE / 4; i++)
-	{
-		((unsigned __int32 *) pRandPool)[i] = ~((unsigned __int32 *) pRandPool)[i];
-	}
+		// this loop number of bytes is copied from pool to output buffer,
+		// pool is rehashed, and output buffer is XORed with new data from pool
+		for (i = 0; i < looplen; i++)
+		{
+			buf[i] = pRandPool[randPoolReadIndex++];
+			if (randPoolReadIndex == RNG_POOL_SIZE) randPoolReadIndex = 0;
+		}
 
-	// Mix the pool
-	if (!FastPoll ())
-		ret = FALSE;
+		/* Invert the pool */
+		for (i = 0; i < RNG_POOL_SIZE / 4; i++)
+		{
+			((unsigned __int32 *) pRandPool)[i] = ~((unsigned __int32 *) pRandPool)[i];
+		}
 
-	// XOR the current pool content into the output buffer to prevent pool state leaks
-	for (i = 0; i < len; i++)
-	{
-		buf[i] ^= pRandPool[randPoolReadIndex++];
-		if (randPoolReadIndex == RNG_POOL_SIZE) randPoolReadIndex = 0;
+		// Mix the pool
+		if (!FastPoll ())
+			ret = FALSE;
+
+		// XOR the current pool content into the output buffer to prevent pool state leaks
+		for (i = 0; i < looplen; i++)
+		{
+			buf[i] ^= pRandPool[randPoolReadIndex++];
+			if (randPoolReadIndex == RNG_POOL_SIZE) randPoolReadIndex = 0;
+		}
+
+		// increment the pointer for the next loop
+		buf += looplen;
 	}
 
 	LeaveCriticalSection (&critRandProt);

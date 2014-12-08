@@ -44,7 +44,15 @@ void RandaddBuf ( void *buf , int len );
 BOOL FastPoll ( void );
 BOOL SlowPoll ( void );
 BOOL RandpeekBytes ( unsigned char *buf , int len );
+
+/* Get len random bytes from the pool (max. RNG_POOL_SIZE bytes per a single call) */
 BOOL RandgetBytes ( unsigned char *buf , int len, BOOL forceSlowPoll );
+
+/* Get len random bytes from the pool.
+ *  If allowAnyLength is FALSE, then len must be less or equal to RNG_POOL_SIZE
+ *  If allowAnyLength is TRUE, then len can have any positive value
+ */
+BOOL RandgetBytesFull ( unsigned char *buf , int len, BOOL forceSlowPoll , BOOL allowAnyLength);
 
 #ifdef _WIN32
 
