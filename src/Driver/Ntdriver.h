@@ -169,6 +169,6 @@ void GetElapsedTimeInit (LARGE_INTEGER *lastPerfCounter);
 int64 GetElapsedTime (LARGE_INTEGER *lastPerfCounter);
 BOOL IsOSAtLeast (OSVersionEnum reqMinOS);
 
-#define TC_BUG_CHECK(status) KeBugCheckEx (SECURITY_SYSTEM, __LINE__, (ULONG_PTR) status, 0, 'TC')
+#define TC_BUG_CHECK(status) KeBugCheckEx (SECURITY_SYSTEM, __LINE__, (ULONG_PTR) status, 0, 'VC')
 
 #endif // TC_HEADER_NTDRIVER

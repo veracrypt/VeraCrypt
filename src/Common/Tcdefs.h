@@ -123,7 +123,7 @@ void ThrowFatalException (int line);
 
 #	define TC_THROW_FATAL_EXCEPTION	ThrowFatalException (__LINE__)
 #elif defined (TC_WINDOWS_DRIVER)
-#	define TC_THROW_FATAL_EXCEPTION KeBugCheckEx (SECURITY_SYSTEM, __LINE__, 0, 0, 'TC')
+#	define TC_THROW_FATAL_EXCEPTION KeBugCheckEx (SECURITY_SYSTEM, __LINE__, 0, 0, 'VC')
 #else
 #	define TC_THROW_FATAL_EXCEPTION	*(char *) 0 = 0
 #endif
@@ -134,8 +134,8 @@ void ThrowFatalException (int line);
 #include <ntddk.h>		/* Standard header file for nt drivers */
 #include <ntdddisk.h>		/* Standard I/O control codes  */
 
-#define TCalloc(size) ((void *) ExAllocatePoolWithTag( NonPagedPool, size, 'MMCT' ))
-#define TCfree(memblock) ExFreePoolWithTag( memblock, 'MMCT' )
+#define TCalloc(size) ((void *) ExAllocatePoolWithTag( NonPagedPool, size, 'MMCV' ))
+#define TCfree(memblock) ExFreePoolWithTag( memblock, 'MMCV' )
 
 #define DEVICE_DRIVER
 

@@ -466,7 +466,7 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 	KeInitializeSemaphore (&Extension->RequestSemaphore, 0L, MAXLONG);
 	KeInitializeSpinLock (&Extension->ListSpinLock);
 	InitializeListHead (&Extension->ListEntry);
-	IoInitializeRemoveLock (&Extension->Queue.RemoveLock, 'LRCT', 0, 0);
+	IoInitializeRemoveLock (&Extension->Queue.RemoveLock, 'LRCV', 0, 0);
 
 	VirtualVolumeDeviceObjects[mount->nDosDriveNo] = *ppDeviceObject;
 

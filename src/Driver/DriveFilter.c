@@ -167,7 +167,7 @@ NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 	Extension->Pdo = pdo;
 	
 	Extension->Queue.LowerDeviceObject = Extension->LowerDeviceObject;
-	IoInitializeRemoveLock (&Extension->Queue.RemoveLock, 'LRCT', 0, 0);
+	IoInitializeRemoveLock (&Extension->Queue.RemoveLock, 'LRCV', 0, 0);
 
 	Extension->ConfiguredEncryptedAreaStart = -1;
 	Extension->ConfiguredEncryptedAreaEnd = -1;

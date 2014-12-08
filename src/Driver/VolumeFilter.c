@@ -53,7 +53,7 @@ NTSTATUS VolumeFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 	Extension->DeviceObject = filterDeviceObject;
 	Extension->Pdo = pdo;
 
-	IoInitializeRemoveLock (&Extension->Queue.RemoveLock, 'LRCT', 0, 0);
+	IoInitializeRemoveLock (&Extension->Queue.RemoveLock, 'LRCV', 0, 0);
 
 	filterDeviceObject->Flags |= Extension->LowerDeviceObject->Flags & (DO_DIRECT_IO | DO_BUFFERED_IO | DO_POWER_PAGABLE);
 	filterDeviceObject->Flags &= ~DO_DEVICE_INITIALIZING;
