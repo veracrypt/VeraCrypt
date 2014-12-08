@@ -44,7 +44,7 @@
     <control lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</control>
     <control lang="en" key="IDC_KB">&amp;KB</control>
     <control lang="en" key="IDC_KEYFILES_ENABLE">U&amp;se keyfiles</control>
-    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 <-> 1048576 )</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="en" key="IDC_KEY_FILES">&amp;Keyfiles...</control>
     <control lang="en" key="IDC_LINK_HASH_INFO">Information on hash algorithms</control>
     <control lang="en" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">More information</control>
