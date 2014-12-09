@@ -1,3 +1,26 @@
+VeraCrypt License
+Software distributed under this license is distributed on an "AS
+IS" BASIS WITHOUT WARRANTIES OF ANY KIND. THE AUTHORS AND
+DISTRIBUTORS OF THE SOFTWARE DISCLAIM ANY LIABILITY. ANYONE WHO
+USES, COPIES, MODIFIES, OR (RE)DISTRIBUTES ANY PART OF THE
+SOFTWARE IS, BY SUCH ACTION(S), ACCEPTING AND AGREEING TO BE
+BOUND BY ALL TERMS AND CONDITIONS OF THIS LICENSE. IF YOU DO NOT
+ACCEPT THEM, DO NOT USE, COPY, MODIFY, NOR (RE)DISTRIBUTE THE
+SOFTWARE, NOR ANY PART(S) THEREOF.
+
+VeraCrypt is governed by the TrueCrypt License version 3.0,
+a verbatim copy of this version of the TrueCrypt License 
+can be found below.
+
+This license does not grant you rights to use any 
+contributors' name, logo, or trademarks, including IDRIX, 
+VeraCrypt and all derivative names.
+For example, the following names are not allowed: VeraCrypt, 
+VeraCrypt+, VeraCrypt Professional, iVeraCrypt, etc. Nor any 
+other names confusingly similar to the name VeraCrypt (e.g., 
+Vera-Crypt, Vera Crypt, VerKrypt, etc.)
+____________________________________________________________
+
 TrueCrypt License Version 3.0
 
 Software distributed under this license is distributed on an "AS
