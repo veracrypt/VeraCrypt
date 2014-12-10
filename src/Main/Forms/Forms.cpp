@@ -1370,6 +1370,51 @@ KeyfileGeneratorDialogBase::KeyfileGeneratorDialogBase( wxWindow* parent, wxWind
 	
 	bSizer144->Add( sbSizer43, 1, wxEXPAND|wxBOTTOM|wxRIGHT|wxLEFT, 5 );
 	
+	wxBoxSizer* bSizer162;
+	bSizer162 = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer8;
+	fgSizer8 = new wxFlexGridSizer( 3, 3, 0, 0 );
+	fgSizer8->AddGrowableCol( 2 );
+	fgSizer8->SetFlexibleDirection( wxBOTH );
+	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText60 = new wxStaticText( this, wxID_ANY, _("Number of keyfiles:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText60->Wrap( -1 );
+	fgSizer8->Add( m_staticText60, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	NumberOfKeyfiles = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 9999999, 1 );
+	fgSizer8->Add( NumberOfKeyfiles, 0, wxALL, 5 );
+	
+	m_panel18 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	fgSizer8->Add( m_panel18, 1, wxEXPAND | wxALL, 5 );
+	
+	m_staticText63 = new wxStaticText( this, wxID_ANY, _("Keyfiles size (in Bytes):"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText63->Wrap( -1 );
+	fgSizer8->Add( m_staticText63, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	KeyfilesSize = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 64, 1048576, 64 );
+	fgSizer8->Add( KeyfilesSize, 0, wxALL, 5 );
+	
+	RandomSizeCheckBox = new wxCheckBox( this, wxID_ANY, _("Random size (64 <-> 1048576)"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer8->Add( RandomSizeCheckBox, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_staticText65 = new wxStaticText( this, wxID_ANY, _("Keyfiles base name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText65->Wrap( -1 );
+	fgSizer8->Add( m_staticText65, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	KeyfilesBaseName = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer8->Add( KeyfilesBaseName, 0, wxALL, 5 );
+	
+	m_panel19 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	fgSizer8->Add( m_panel19, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	bSizer162->Add( fgSizer8, 1, wxEXPAND, 5 );
+	
+	
+	bSizer144->Add( bSizer162, 1, wxALL|wxEXPAND, 5 );
+	
 	wxBoxSizer* bSizer146;
 	bSizer146 = new wxBoxSizer( wxHORIZONTAL );
 	
@@ -1398,6 +1443,7 @@ KeyfileGeneratorDialogBase::KeyfileGeneratorDialogBase( wxWindow* parent, wxWind
 	this->Connect( wxEVT_MOTION, wxMouseEventHandler( KeyfileGeneratorDialogBase::OnMouseMotion ) );
 	HashChoice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnHashSelected ), NULL, this );
 	ShowRandomPoolCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnShowRandomPoolCheckBoxClicked ), NULL, this );
+	RandomSizeCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnRandomSizeCheckBoxClicked ), NULL, this );
 	GenerateButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnGenerateButtonClick ), NULL, this );
 }
 
@@ -1407,6 +1453,7 @@ KeyfileGeneratorDialogBase::~KeyfileGeneratorDialogBase()
 	this->Disconnect( wxEVT_MOTION, wxMouseEventHandler( KeyfileGeneratorDialogBase::OnMouseMotion ) );
 	HashChoice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnHashSelected ), NULL, this );
 	ShowRandomPoolCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnShowRandomPoolCheckBoxClicked ), NULL, this );
+	RandomSizeCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnRandomSizeCheckBoxClicked ), NULL, this );
 	GenerateButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KeyfileGeneratorDialogBase::OnGenerateButtonClick ), NULL, this );
 	
 }

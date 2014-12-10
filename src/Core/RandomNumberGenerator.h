@@ -19,8 +19,8 @@ namespace VeraCrypt
 	{
 	public:
 		static void AddToPool (const ConstBufferPtr &buffer);
-		static void GetData (const BufferPtr &buffer) { GetData (buffer, false); }
-		static void GetDataFast (const BufferPtr &buffer) { GetData (buffer, true); }
+		static void GetData (const BufferPtr &buffer, bool allowAnyLength = false) { GetData (buffer, false, allowAnyLength); }
+		static void GetDataFast (const BufferPtr &buffer, bool allowAnyLength = false) { GetData (buffer, true, allowAnyLength); }
 		static shared_ptr <Hash> GetHash ();
 		static bool IsEnrichedByUser () { return EnrichedByUser; }
 		static bool IsRunning () { return Running; }
@@ -34,7 +34,7 @@ namespace VeraCrypt
 
 	protected:
 		static void AddSystemDataToPool (bool fast);
-		static void GetData (const BufferPtr &buffer, bool fast);
+		static void GetData (const BufferPtr &buffer, bool fast, bool allowAnyLength);
 		static void HashMixPool ();
 		static void Test ();
 		RandomNumberGenerator ();

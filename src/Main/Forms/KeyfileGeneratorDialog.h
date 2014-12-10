@@ -25,6 +25,7 @@ namespace VeraCrypt
 		void OnHashSelected (wxCommandEvent& event);
 		void OnMouseMotion (wxMouseEvent& event);
 		void OnShowRandomPoolCheckBoxClicked (wxCommandEvent& event);
+		void OnRandomSizeCheckBoxClicked( wxCommandEvent& event );
 		void ShowBytes (wxStaticText *textCtrl, const ConstBufferPtr &buffer, bool appendDots = true);
 		
 		HashList Hashes;

@@ -410,12 +410,22 @@ namespace VeraCrypt
 			wxStaticText* RandomPoolStaticText;
 			wxCheckBox* ShowRandomPoolCheckBox;
 			wxStaticText* MouseStaticText;
+			wxStaticText* m_staticText60;
+			wxSpinCtrl* NumberOfKeyfiles;
+			wxPanel* m_panel18;
+			wxStaticText* m_staticText63;
+			wxSpinCtrl* KeyfilesSize;
+			wxCheckBox* RandomSizeCheckBox;
+			wxStaticText* m_staticText65;
+			wxTextCtrl* KeyfilesBaseName;
+			wxPanel* m_panel19;
 			wxButton* GenerateButton;
 			
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnMouseMotion( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnHashSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnRandomSizeCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnGenerateButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			
 		
