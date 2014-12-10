@@ -1290,6 +1290,9 @@ namespace VeraCrypt
 		if (Randinit() != ERR_SUCCESS)
 			throw ParameterIncorrect (SRC_POS);
 
+		/* force the display of the random enriching dialog */
+		SetRandomPoolEnrichedByUserStatus (FALSE);
+
 		UserEnrichRandomPool (ParentWindow);
 
 		if (!RandgetBytes (request.WipeKey, sizeof (request.WipeKey), TRUE))
@@ -2174,6 +2177,9 @@ namespace VeraCrypt
 
 		throw_sys_if (Randinit () != 0);
 		finally_do ({ RandStop (FALSE); });
+
+		/* force the display of the random enriching dialog */
+		SetRandomPoolEnrichedByUserStatus (FALSE);
 
 		NormalCursor();
 		UserEnrichRandomPool (ParentWindow);

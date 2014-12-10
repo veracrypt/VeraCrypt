@@ -7652,6 +7652,9 @@ noHidden:
 		goto error;
 	}
 
+	/* force the display of the random enriching dialog */
+	SetRandomPoolEnrichedByUserStatus (FALSE);
+
 	NormalCursor();
 	UserEnrichRandomPool (hwndDlg);
 	WaitCursor();
@@ -7806,6 +7809,9 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 
 	OpenVolumeContext volume;
 	volume.VolumeIsOpen = FALSE;
+
+	/* force the display of the random enriching dialog */
+	SetRandomPoolEnrichedByUserStatus (FALSE);
 
 	WaitCursor();
 

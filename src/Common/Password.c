@@ -232,6 +232,8 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, Password *newPassw
 	if (Randinit ())
 		goto error;
 
+	SetRandomPoolEnrichedByUserStatus (FALSE); /* force the display of the random enriching dialog */
+
 	if (!bDevice && bPreserveTimestamp)
 	{
 		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
