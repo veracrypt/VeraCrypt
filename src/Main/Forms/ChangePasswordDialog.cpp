@@ -102,6 +102,8 @@ namespace VeraCrypt
 			else if (DialogMode != Mode::RemoveAllKeyfiles)
 				newKeyfiles = CurrentPasswordPanel->GetKeyfiles();
 
+			/* force the display of the random enriching interface */
+			RandomNumberGenerator::SetEnrichedByUserStatus (false);
 			Gui->UserEnrichRandomPool (this, NewPasswordPanel->GetPkcs5Kdf() ? NewPasswordPanel->GetPkcs5Kdf()->GetHash() : shared_ptr <Hash>());
 
 			{

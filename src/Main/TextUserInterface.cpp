@@ -330,6 +330,8 @@ namespace VeraCrypt
 		backupFile.Open (filePath, File::CreateWrite);
 
 		RandomNumberGenerator::Start();
+		/* force the display of the random enriching interface */
+		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool();
 
 		// Re-encrypt volume header
@@ -443,6 +445,8 @@ namespace VeraCrypt
 				newKeyfiles = AskKeyfiles (_("Enter new keyfile"));
 		}
 
+		/* force the display of the random enriching interface */
+		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool();
 
 		Core->ChangePassword (volume, newPassword, newKeyfiles,
@@ -456,6 +460,8 @@ namespace VeraCrypt
 		FilePath path;
 
 		RandomNumberGenerator::Start();
+		/* force the display of the random enriching interface */
+		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool();
 
 		if (keyfilePath)
@@ -742,6 +748,8 @@ namespace VeraCrypt
 
 		// Random data
 		RandomNumberGenerator::Start();
+		/* force the display of the random enriching interface */
+		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool();
 
 		ShowString (L"\n");
@@ -1294,6 +1302,9 @@ namespace VeraCrypt
 		default:
 			throw UserAbort (SRC_POS);
 		}
+		
+		/* force the display of the random enriching interface */
+		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 
 		if (restoreInternalBackup)
 		{

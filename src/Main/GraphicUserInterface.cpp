@@ -252,6 +252,8 @@ namespace VeraCrypt
 		backupFile.Open (*files.front(), File::CreateWrite);
 
 		RandomNumberGenerator::Start();
+		/* force the display of the random enriching interface */
+		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 		UserEnrichRandomPool (nullptr);
 
 		{
@@ -1233,6 +1235,9 @@ namespace VeraCrypt
 		default:
 			return;
 		}
+		
+		/* force the display of the random enriching interface */
+		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 
 		if (restoreInternalBackup)
 		{
@@ -1282,6 +1287,7 @@ namespace VeraCrypt
 			UserEnrichRandomPool (nullptr);
 
 			// Re-encrypt volume header
+			wxBusyCursor busy;
 			SecureBuffer newHeaderBuffer (volume->GetLayout()->GetHeaderSize());
 			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, volume->GetHeader(), options.Password, options.Keyfiles);
 
@@ -1390,6 +1396,7 @@ namespace VeraCrypt
 			UserEnrichRandomPool (nullptr);
 
 			// Re-encrypt volume header
+			wxBusyCursor busy;
 			SecureBuffer newHeaderBuffer (decryptedLayout->GetHeaderSize());
 			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Keyfiles);
 
