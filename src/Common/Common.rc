@@ -307,6 +307,14 @@ BEGIN
     LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,9
 END
 
+IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 42
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION
+CAPTION "VeraCrypt"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,11,274,9
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -433,6 +441,14 @@ BEGIN
     END
 
     IDD_STATIC_MODELESS_WAIT_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 285
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 35
+    END
+
+    IDD_STATIC_MODAL_WAIT_DLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 285

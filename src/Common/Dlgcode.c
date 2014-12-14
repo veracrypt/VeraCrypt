@@ -6135,6 +6135,80 @@ void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap)
 	IgnoreWmDeviceChange = FALSE;
 }
 
+/************************************************************/
+typedef struct
+{
+	HWND hwnd;
+	MOUNT_STRUCT* pmount;
+	BOOL* pbResult;
+	DWORD* pdwResult;
+} MountThreadParam;
+
+static UINT g_wmMountWaitDlg = ::RegisterWindowMessage("VeraCryptMountWaitDlgMessage");
+
+static DWORD WINAPI DeviceIoControlThread (void* pParam)
+{
+	MountThreadParam* pThreadParam = (MountThreadParam*) pParam;
+
+	*(pThreadParam->pbResult) = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, pThreadParam->pmount,
+		sizeof (MOUNT_STRUCT),pThreadParam->pmount, sizeof (MOUNT_STRUCT), pThreadParam->pdwResult, NULL);
+
+	/* close the wait dialog */
+	PostMessage (pThreadParam->hwnd, g_wmMountWaitDlg, 0, 0);
+	return 0;
+}
+
+static BOOL CALLBACK MountWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	WORD lw = LOWORD (wParam);
+
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		{
+			MountThreadParam* thParam = (MountThreadParam*) lParam;
+			HANDLE hThread = NULL;
+			
+			thParam->hwnd = hwndDlg; 
+
+			// For now, we don't have system menu is the resources but we leave this code
+			// if it is enabled in the future
+			HMENU hSysMenu = GetSystemMenu(hwndDlg, FALSE);
+			if (hSysMenu)
+			{
+				//disable the X
+				EnableMenuItem(hSysMenu,SC_CLOSE, MF_BYCOMMAND|MF_GRAYED);
+
+				// set icons
+				HICON hIcon = (HICON)::LoadImage(hInst, MAKEINTRESOURCE(IDI_TRUECRYPT_ICON), IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
+				::SendMessage(hwndDlg, WM_SETICON, TRUE, (LPARAM)hIcon);
+				HICON hIconSmall = (HICON)::LoadImage(hInst, MAKEINTRESOURCE(IDI_TRUECRYPT_ICON), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+				::SendMessage(hwndDlg, WM_SETICON, FALSE, (LPARAM)hIconSmall);   
+			} 
+
+			LocalizeDialog (hwndDlg, NULL);
+			hThread = CreateThread(NULL, 0, DeviceIoControlThread, (void*) thParam, 0, NULL);
+			SetWindowLongPtr(hwndDlg, GWL_USERDATA, (LONG_PTR) hThread);
+			return 0;
+		}
+
+	case WM_COMMAND:
+
+		if (lw == IDOK || lw == IDCANCEL)
+			return 1;
+
+	default:
+		if (msg == g_wmMountWaitDlg)
+		{
+			HANDLE hThread = (HANDLE) GetWindowLongPtrA(hwndDlg, GWL_USERDATA);
+			CloseHandle(hThread);
+			EndDialog (hwndDlg, IDOK);
+			return 1;
+		}
+		return 0;
+	}
+}
+
 
 // Use only cached passwords if password = NULL
 //
@@ -6278,8 +6352,15 @@ retry:
 		mount.bPartitionInInactiveSysEncScope = TRUE;
 	}
 
-	bResult = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, &mount,
-		sizeof (mount), &mount, sizeof (mount), &dwResult, NULL);
+	MountThreadParam threadParam;
+	threadParam.hwnd = hwndDlg;
+	threadParam.pmount = &mount;
+	threadParam.pbResult = &bResult;
+	threadParam.pdwResult = &dwResult;
+
+	DialogBoxParamW (hInst,
+				MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hwndDlg,
+				(DLGPROC) MountWaitDlgProc, (LPARAM) &threadParam);
 
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
 	burn (&mount.ProtectedHidVolPassword, sizeof (mount.ProtectedHidVolPassword));
