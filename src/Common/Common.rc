@@ -65,7 +65,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,248,190,50,14
 END
 
-IDD_MOUNT_OPTIONS DIALOGEX 0, 0, 277, 172
+IDD_MOUNT_OPTIONS DIALOGEX 0, 0, 277, 204
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Mount Options"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -78,16 +78,18 @@ BEGIN
     CONTROL         "&Protect hidden volume against damage caused by writing to outer volume",IDC_PROTECT_HIDDEN_VOL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,86,252,10
     EDITTEXT        IDC_PASSWORD_PROT_HIDVOL,112,104,151,14,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,123,90,10
-    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,136,90,10
-    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,203,125,60,14
-    LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,151,247,10,SS_NOTIFY
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,146,90,10
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,159,90,10
+    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,203,148,60,14
+    LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,174,247,10,SS_NOTIFY
     DEFPUSHBUTTON   "OK",IDOK,211,7,60,14
     PUSHBUTTON      "Cancel",IDCANCEL,211,24,60,14
     RTEXT           "P&assword to hidden volume:\n(if empty, cache is used)",IDT_HIDDEN_PROT_PASSWD,15,103,91,17,0,WS_EX_RIGHT
-    GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,72,265,95
+    GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,72,265,120
     CONTROL         "Use backup header embedded in &volume if available",IDC_USE_EMBEDDED_HEADER_BAK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,257,11
+    COMBOBOX        IDC_PKCS5_PRF_ID,112,125,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,15,126,91,17
 END
 
 IDD_KEYFILES DIALOGEX 0, 0, 345, 237
@@ -307,12 +309,13 @@ BEGIN
     LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,9
 END
 
-IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 42
+IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 61
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,11,274,9
+    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,11,274,20
+    CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,37,278,14
 END
 
 
@@ -341,7 +344,7 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         TOPMARGIN, 7
-        BOTTOMMARGIN, 166
+        BOTTOMMARGIN, 198
     END
 
     IDD_KEYFILES, DIALOG
@@ -453,7 +456,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 285
         TOPMARGIN, 7
-        BOTTOMMARGIN, 35
+        BOTTOMMARGIN, 54
     END
 END
 #endif    // APSTUDIO_INVOKED

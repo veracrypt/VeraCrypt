@@ -270,6 +270,7 @@
     <control lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</control>
     <control lang="en" key="IDT_PKCS11_LIB_PATH">PKCS #11 Library Path</control>
     <control lang="en" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="en" key="IDT_PW_CACHE_OPTIONS">Password Cache</control>
     <control lang="en" key="IDT_SECURITY_OPTIONS">Security Options</control>
     <control lang="en" key="IDT_TASKBAR_ICON">VeraCrypt Background Task</control>
@@ -345,6 +346,7 @@
     <control lang="en" key="IDT_SECURITY_TOKEN">Security token:</control>
     <control lang="en" key="IDT_SORT_METHOD">Sort Method:</control>
     <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="en" key="IDT_TEST_BLOCK_NUMBER">Block number:</control>
     <control lang="en" key="IDT_TEST_CIPHERTEXT">Ciphertext (hexadecimal)</control>
     <control lang="en" key="IDT_TEST_DATA_UNIT_NUMBER">Data unit number (64-bit hexadecimal, data unit size is 512 bytes)</control>
@@ -756,6 +758,7 @@
     <string lang="en" key="REMOVABLE_DISK">Removable Disk</string>
     <string lang="en" key="HARDDISK">Harddisk</string>
     <string lang="en" key="UNCHANGED">Unchanged</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="en" key="SETUP_MODE_TITLE">Wizard Mode</string>
     <string lang="en" key="SETUP_MODE_INFO">Select one of the modes. If you are not sure which to select, use the default mode.</string>
     <string lang="en" key="SETUP_MODE_HELP_INSTALL">Select this option if you want to install VeraCrypt on this system.</string>

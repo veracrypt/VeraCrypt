@@ -67,7 +67,7 @@ static void NonSysInplaceEncPause (void);
 static void NonSysInplaceEncResume (void);
 void ShowNonSysInPlaceEncUIStatus (void);
 void UpdateNonSysInPlaceEncControls (void);
-int MountHiddenVolHost ( HWND hwndDlg, char *volumePath, int *driveNo, Password *password, BOOL bReadOnly );
+int MountHiddenVolHost ( HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5_prf, BOOL bReadOnly );
 int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *pnbrFreeClusters);
 int ScanVolClusterBitmap ( HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int64 *nbrFreeClusters);
 static void WipeStart (void);

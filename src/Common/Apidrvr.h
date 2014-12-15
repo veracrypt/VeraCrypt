@@ -100,6 +100,8 @@ typedef struct
 	Password ProtectedHidVolPassword;	/* Password to the hidden volume to be protected against overwriting */
 	BOOL UseBackupHeader;
 	BOOL RecoveryMode;
+	int pkcs5_prf;
+	int ProtectedHidVolPkcs5Prf;
 } MOUNT_STRUCT;
 
 typedef struct
@@ -235,6 +237,7 @@ typedef struct
 typedef struct
 {
 	Password VolumePassword;
+	int pkcs5_prf;
 } ReopenBootVolumeHeaderRequest;
 
 

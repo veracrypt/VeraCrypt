@@ -48,6 +48,11 @@ typedef struct
 	BOOL bHidVolDamagePrevReported[26];
 } VOLUME_NOTIFICATIONS_LIST;
 
+typedef struct
+{
+	Password *password;
+	int* pkcs5;
+} PasswordDlgParam;
 
 extern VOLUME_NOTIFICATIONS_LIST VolumeNotificationsList;
 

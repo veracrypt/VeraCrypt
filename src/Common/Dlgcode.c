@@ -6168,6 +6168,14 @@ static BOOL CALLBACK MountWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			MountThreadParam* thParam = (MountThreadParam*) lParam;
 			HANDLE hThread = NULL;
+
+			// set the progress bar type to MARQUEE (indefinite progress)
+			HWND hProgress = GetDlgItem (hwndDlg, IDC_WAIT_PROGRESS_BAR);
+			if (hProgress)
+			{
+				SetWindowLongPtr (hProgress, GWL_STYLE, PBS_MARQUEE | GetWindowLongPtr (hProgress, GWL_STYLE));
+				::SendMessage(hProgress, PBM_SETMARQUEE, (WPARAM) TRUE, (LPARAM) 0);
+			}
 			
 			thParam->hwnd = hwndDlg; 
 
@@ -6225,6 +6233,7 @@ int MountVolume (HWND hwndDlg,
 				 int driveNo,
 				 char *volumePath,
 				 Password *password,
+				 int pkcs5,
 				 BOOL cachePassword,
 				 BOOL sharedAccess,
 				 const MountOptions* const mountOptions,
@@ -6285,6 +6294,7 @@ retry:
 	{
 		mount.ProtectedHidVolPassword = mountOptions->ProtectedHidVolPassword;
 		mount.bProtectHiddenVolume = TRUE;
+		mount.ProtectedHidVolPkcs5Prf = mountOptions->ProtectedHidVolPkcs5Prf;
 	}
 	else
 		mount.bProtectHiddenVolume = FALSE;
@@ -6294,6 +6304,7 @@ retry:
 	mount.bPreserveTimestamp = mountOptions->PreserveTimestamp;
 
 	mount.bMountManager = TRUE;
+	mount.pkcs5_prf = pkcs5;
 
 	// Windows 2000 mount manager causes problems with remounted volumes
 	if (CurrentOSMajor == 5 && CurrentOSMinor == 0)
@@ -6364,6 +6375,8 @@ retry:
 
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
 	burn (&mount.ProtectedHidVolPassword, sizeof (mount.ProtectedHidVolPassword));
+	burn (&mount.pkcs5_prf, sizeof (mount.pkcs5_prf));
+	burn (&mount.ProtectedHidVolPkcs5Prf, sizeof (mount.ProtectedHidVolPkcs5Prf));
 
 	if (bResult == FALSE)
 	{
@@ -8881,7 +8894,7 @@ void ReportUnexpectedState (char *techInfo)
 
 #ifndef SETUP
 
-int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
+int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, int pkcs5_prf, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
 {
 	int status = ERR_PARAMETER_INCORRECT;
 	int volumeType;
@@ -9043,7 +9056,7 @@ int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *pa
 		}
 
 		// Decrypt volume header
-		status = ReadVolumeHeader (FALSE, buffer, password, &context->CryptoInfo, NULL);
+		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, &context->CryptoInfo, NULL);
 
 		if (status == ERR_PASSWORD_WRONG)
 			continue;		// Try next volume type

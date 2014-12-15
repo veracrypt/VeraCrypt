@@ -12,7 +12,7 @@ import "..\Common\Password.h";
 [
 	uuid(9ACF6176-5FC4-4690-A025-B3306A50EB6A),
 	helpstring("VeraCrypt Main UAC Support Library"),
-	version(2.4)	// Update ComSetup.cpp when changing version number
+	version(2.5)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptMainCom
 {
@@ -37,6 +37,7 @@ library TrueCryptMainCom
 		int RestoreVolumeHeader (LONG_PTR hwndDlg, BSTR lpszVolume);
 		DWORD SetDriverServiceStartType (DWORD startType);
 		DWORD WriteLocalMachineRegistryDwordValue (BSTR keyPath, BSTR valueName, DWORD value);
+		int ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd);
 	};
 
 	[

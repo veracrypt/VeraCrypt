@@ -163,7 +163,7 @@ typedef struct
 
 BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 
-int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
 	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	KEY_INFO keyInfo;
@@ -198,7 +198,8 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, PCR
 			return ERR_OUTOFMEMORY;
 	}
 
-	if (encryptionThreadCount > 1)
+	/* use thread pool only if no PRF was specified */
+	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
 		keyDerivationWorkItems = TCalloc (sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
 		if (!keyDerivationWorkItems)
@@ -241,7 +242,11 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, PCR
 	// Test all available PKCS5 PRFs
 	for (enqPkcs5Prf = FIRST_PRF_ID; enqPkcs5Prf <= LAST_PRF_ID || queuedWorkItems > 0; ++enqPkcs5Prf)
 	{	
-		if (encryptionThreadCount > 1)
+		// if a PRF is specified, we skip all other PRFs
+		if (selected_pkcs5_prf != 0 && enqPkcs5Prf != selected_pkcs5_prf)
+			continue;
+
+		if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 		{
 			// Enqueue key derivation on thread pool
 			if (queuedWorkItems < encryptionThreadCount && enqPkcs5Prf <= LAST_PRF_ID)
@@ -529,7 +534,7 @@ ret:
 	VirtualUnlock (&dk, sizeof (dk));
 #endif
 
-	if (encryptionThreadCount > 1)
+	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
 		TC_WAIT_EVENT (noOutstandingWorkItemEvent);
 

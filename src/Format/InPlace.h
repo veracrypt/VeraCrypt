@@ -37,7 +37,7 @@ static int ConcealNTFS (HANDLE dev);
 BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId wipeAlgorithm);
 static void ExportProgressStats (__int64 bytesDone, __int64 totalSize);
 int ZeroUnreadableSectors (HANDLE dev, LARGE_INTEGER startOffset, int64 size, int sectorSize, uint64 *zeroedSectorCount);
-static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *password, PCRYPTO_INFO *retCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize);
+static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *password, int pkcs5, PCRYPTO_INFO *retCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize);
 BOOL MoveClustersBeforeThreshold (HANDLE volumeHandle, PWSTR volumeDevicePath, int64 clusterThreshold);
 
 #ifdef __cplusplus

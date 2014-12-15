@@ -184,6 +184,10 @@
 #define IDC_KEYFILES_RANDOM_SIZE        5122
 #define IDT_KEYFILES_SIZE               5123
 #define IDD_STATIC_MODAL_WAIT_DLG       5124
+#define IDT_STATIC_MODAL_WAIT_DLG_INFO  5125
+#define IDC_WAIT_PROGRESS_BAR           5126
+#define IDC_PKCS5_PRF_ID                5127
+#define IDT_PKCS5_PRF                   5128
 
 // Next default values for new objects
 // 
@@ -192,7 +196,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        542
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5125
+#define _APS_NEXT_CONTROL_VALUE         5129
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

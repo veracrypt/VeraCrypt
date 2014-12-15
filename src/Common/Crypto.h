@@ -196,6 +196,7 @@ typedef struct CRYPTO_INFO_t
 {
 	int ea;									/* Encryption algorithm ID */
 	int mode;								/* Mode of operation (e.g., XTS) */
+	int pkcs5;								/* PRF algorithm */
 	unsigned __int8 ks[MAX_EXPANDED_KEY];	/* Primary key schedule (if it is a cascade, it conatins multiple concatenated keys) */
 	unsigned __int8 ks2[MAX_EXPANDED_KEY];	/* Secondary key schedule (if cascade, multiple concatenated) for XTS mode. */
 
@@ -240,9 +241,25 @@ typedef struct CRYPTO_INFO_t
 	UINT64_STRUCT EncryptedAreaLength;
 
 	uint32 HeaderFlags;
-	int pkcs5;
 
 } CRYPTO_INFO, *PCRYPTO_INFO;
+
+#ifdef _WIN32
+
+#pragma pack (push)
+#pragma pack(1)
+
+typedef struct BOOT_CRYPTO_HEADER_t
+{
+	__int16 ea;									/* Encryption algorithm ID */
+	__int16 mode;								/* Mode of operation (e.g., XTS) */
+	__int16 pkcs5;								/* PRF algorithm */
+
+} BOOT_CRYPTO_HEADER, *PBOOT_CRYPTO_HEADER;
+
+#pragma pack (pop)
+
+#endif
 
 PCRYPTO_INFO crypto_open (void);
 void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen);
@@ -300,6 +317,7 @@ const
 char *HashGetName (int hash_algo_id);
 
 #ifndef TC_WINDOWS_BOOT
+Hash *HashGet (int id);
 void HashGetName2 (char *buf, int hashId);
 BOOL HashIsDeprecated (int hashId);
 BOOL HashForSystemEncryption (int hashId);

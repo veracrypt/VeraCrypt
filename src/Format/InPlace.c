@@ -548,7 +548,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	/* Now we will try to decrypt the backup header to verify it has been correctly written. */
 
-	nStatus = OpenBackupHeader (dev, volParams->volumePath, volParams->password, &cryptoInfo2, NULL, deviceSize);
+	nStatus = OpenBackupHeader (dev, volParams->volumePath, volParams->password, volParams->pkcs5,&cryptoInfo2, NULL, deviceSize);
 
 	if (nStatus != ERR_SUCCESS
 		|| cryptoInfo->EncryptedAreaStart.Value != cryptoInfo2->EncryptedAreaStart.Value
@@ -663,6 +663,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	DWORD n;
 	char *devicePath = volParams->volumePath;
 	Password *password = volParams->password;
+	int pkcs5_prf = volParams->pkcs5;
 	DISK_GEOMETRY driveGeometry;
 
 
@@ -755,7 +756,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	sectorSize = driveGeometry.BytesPerSector;
 
 
-	nStatus = OpenBackupHeader (dev, devicePath, password, &masterCryptoInfo, headerCryptoInfo, deviceSize);
+	nStatus = OpenBackupHeader (dev, devicePath, password, pkcs5_prf, &masterCryptoInfo, headerCryptoInfo, deviceSize);
 
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
@@ -1504,7 +1505,7 @@ closing_seq:
 }
 
 
-static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *password, PCRYPTO_INFO *retMasterCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize)
+static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *password, int pkcs5, PCRYPTO_INFO *retMasterCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize)
 {
 	LARGE_INTEGER offset;
 	DWORD n;
@@ -1530,7 +1531,7 @@ static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *passw
 	}
 
 
-	nStatus = ReadVolumeHeader (FALSE, header, password, retMasterCryptoInfo, headerCryptoInfo);
+	nStatus = ReadVolumeHeader (FALSE, header, password, pkcs5, retMasterCryptoInfo, headerCryptoInfo);
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
 

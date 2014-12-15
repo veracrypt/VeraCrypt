@@ -1638,7 +1638,7 @@ namespace VeraCrypt
 
 		// Initial rescue disk assumes encryption of the drive has been completed (EncryptedAreaLength == volumeSize)
 		memcpy (RescueVolumeHeader, VolumeHeader, sizeof (RescueVolumeHeader));
-		ReadVolumeHeader (TRUE, (char *) RescueVolumeHeader, password, NULL, cryptoInfo);
+		ReadVolumeHeader (TRUE, (char *) RescueVolumeHeader, password, pkcs5, NULL, cryptoInfo);
 
 		DecryptBuffer (RescueVolumeHeader + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
@@ -2117,7 +2117,7 @@ namespace VeraCrypt
 	}
 
 
-	int BootEncryption::ChangePassword (Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount)
+	int BootEncryption::ChangePassword (Password *oldPassword, int old_pkcs5,Password *newPassword, int pkcs5, int wipePassCount)
 	{
 		BootEncryptionStatus encStatus = GetStatus();
 
@@ -2159,7 +2159,7 @@ namespace VeraCrypt
 
 		PCRYPTO_INFO cryptoInfo = NULL;
 		
-		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, &cryptoInfo, NULL);
+		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, old_pkcs5, &cryptoInfo, NULL);
 		finally_do_arg (PCRYPTO_INFO, cryptoInfo, { if (finally_arg) crypto_close (finally_arg); });
 
 		if (status != 0)
@@ -2257,6 +2257,7 @@ namespace VeraCrypt
 		{
 			ReopenBootVolumeHeaderRequest reopenRequest;
 			reopenRequest.VolumePassword = *newPassword;
+			reopenRequest.pkcs5_prf = cryptoInfo->pkcs5;
 			finally_do_arg (ReopenBootVolumeHeaderRequest*, &reopenRequest, { burn (finally_arg, sizeof (*finally_arg)); });
 
 			CallDriver (TC_IOCTL_REOPEN_BOOT_VOLUME_HEADER, &reopenRequest, sizeof (reopenRequest));

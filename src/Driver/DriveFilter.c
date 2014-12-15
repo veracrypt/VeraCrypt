@@ -219,6 +219,8 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 	NTSTATUS status;
 	LARGE_INTEGER offset;
 	char *header;
+	int pkcs5_prf = 0;
+	byte *mappedCryptoInfo = NULL;
 
 	Dump ("MountDrive pdo=%p\n", Extension->Pdo);
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
@@ -269,7 +271,30 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		goto ret;
 	}
 
-	if (ReadVolumeHeader (!hiddenVolume, header, password, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
+	if (BootArgs.CryptoInfoLength > 0)
+	{
+		PHYSICAL_ADDRESS cryptoInfoAddress;		
+		
+		cryptoInfoAddress.QuadPart = (BootLoaderSegment << 4) + BootArgs.CryptoInfoOffset;
+		mappedCryptoInfo = MmMapIoSpace (cryptoInfoAddress, BootArgs.CryptoInfoLength, MmCached);
+		if (mappedCryptoInfo)
+		{
+			/* Get the parameters used for booting to speed up driver startup and avoid testing irrelevant PRFs */
+			BOOT_CRYPTO_HEADER* pBootCryptoInfo = (BOOT_CRYPTO_HEADER*) mappedCryptoInfo;
+			Hash* pHash = HashGet(pBootCryptoInfo->pkcs5);
+			if (pHash && pHash->SystemEncryption)
+				pkcs5_prf = pBootCryptoInfo->pkcs5;
+			else
+			{
+				status = STATUS_UNSUCCESSFUL;
+				burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+				MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+				goto ret;
+			}
+		}
+	}
+
+	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
 	{
 		// Header decrypted
 		status = STATUS_SUCCESS;
@@ -316,20 +341,15 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		Dump ("Loaded: EncryptedAreaStart=%I64d (%I64d)  EncryptedAreaEnd=%I64d (%I64d)\n", Extension->Queue.EncryptedAreaStart / 1024 / 1024, Extension->Queue.EncryptedAreaStart, Extension->Queue.EncryptedAreaEnd / 1024 / 1024, Extension->Queue.EncryptedAreaEnd);
 
 		// Erase boot loader scheduled keys
-		if (BootArgs.CryptoInfoLength > 0)
+		if (mappedCryptoInfo)
 		{
-			PHYSICAL_ADDRESS cryptoInfoAddress;
-			byte *mappedCryptoInfo;
-			
+#ifdef DEBUG
+			PHYSICAL_ADDRESS cryptoInfoAddress;				
 			cryptoInfoAddress.QuadPart = (BootLoaderSegment << 4) + BootArgs.CryptoInfoOffset;
-			mappedCryptoInfo = MmMapIoSpace (cryptoInfoAddress, BootArgs.CryptoInfoLength, MmCached);
-			
-			if (mappedCryptoInfo)
-			{
-				Dump ("Wiping memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
-				burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-				MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-			}
+			Dump ("Wiping memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
+#endif
+			burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+			MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
 		}
 
 		BootDriveFilterExtension = Extension;
@@ -755,7 +775,10 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		return;
 
 	if (!BootDriveFound || !BootDriveFilterExtension || !BootDriveFilterExtension->DriveMounted || !BootDriveFilterExtension->HeaderCryptoInfo
-		|| request->VolumePassword.Length > MAX_PASSWORD)
+		|| request->VolumePassword.Length > MAX_PASSWORD
+		|| request->pkcs5_prf < 0
+		|| request->pkcs5_prf > LAST_PRF_ID
+		)
 	{
 		irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
 		goto wipe;
@@ -780,7 +803,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		goto ret;
 	}
 
-	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
+	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
 	{
 		Dump ("Header reopened\n");
 		

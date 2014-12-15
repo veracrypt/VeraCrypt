@@ -76,6 +76,7 @@ typedef struct
 	Password ProtectedHidVolPassword;	/* Password of hidden volume to protect against overwriting */
 	BOOL UseBackupHeader;
 	BOOL RecoveryMode;
+	int ProtectedHidVolPkcs5Prf;
 } MountOptions;
 
 #endif

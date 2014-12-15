@@ -35,7 +35,6 @@
 #define IDC_ENABLE_NEW_KEYFILES         1012
 #define IDC_PRESERVE_TIMESTAMPS         1013
 #define IDC_PREF_WIPE_CACHE_ON_EXIT     1014
-#define IDC_PKCS5_PRF_ID                1015
 #define IDC_PREF_CACHE_PASSWORDS        1016
 #define IDC_DIRECTORY                   1017
 #define IDC_PREF_DISMOUNT_LOGOFF        1018
@@ -77,7 +76,6 @@
 #define IDT_NEW                         1054
 #define IDT_NEW_PASSWORD                1055
 #define IDT_CONFIRM_PASSWORD            1056
-#define IDT_PKCS5_PRF                   1057
 #define IDT_PW_CACHE_OPTIONS            1058
 #define IDT_DEFAULT_MOUNT_OPTIONS       1059
 #define IDT_WINDOWS_RELATED_SETTING     1060
@@ -160,6 +158,8 @@
 #define IDC_FAVORITES_HELP_LINK         1135
 #define IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX 1136
 #define IDC_PREF_DISMOUNT_SESSION_LOCKED 1137
+#define IDT_NEW_PKCS5_PRF               1138
+#define IDC_PKCS5_OLD_PRF_ID            1139
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -231,7 +231,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40064
-#define _APS_NEXT_CONTROL_VALUE         1138
+#define _APS_NEXT_CONTROL_VALUE         1140
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
