@@ -9169,7 +9169,7 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 
 	if (otherDriver)
 	{
-		msg += GetString ("SYSTEM_CRASH_NO_TRUECRYPT");
+		msg += GetString ("SYSTEM_CRASH_NO_VERACRYPT");
 		msg += L"\n\n";
 	}
 
