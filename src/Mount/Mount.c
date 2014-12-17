@@ -7009,13 +7009,13 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
 						nArgPos, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
 					{
-						if (stricmp(szTmp, "sha512") == 0)
+						if (_stricmp(szTmp, "sha512") == 0)
 							CmdVolumePkcs5 = SHA512;
-						else if (stricmp(szTmp, "whirlpool") == 0)
+						else if (_stricmp(szTmp, "whirlpool") == 0)
 							CmdVolumePkcs5 = WHIRLPOOL;
-						else if (stricmp(szTmp, "sha256") == 0)
+						else if (_stricmp(szTmp, "sha256") == 0)
 							CmdVolumePkcs5 = SHA256;
-						else if (stricmp(szTmp, "ripemd160") == 0)
+						else if (_stricmp(szTmp, "ripemd160") == 0)
 							CmdVolumePkcs5 = RIPEMD160;
 						else
 						{
