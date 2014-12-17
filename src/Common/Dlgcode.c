@@ -6363,15 +6363,23 @@ retry:
 		mount.bPartitionInInactiveSysEncScope = TRUE;
 	}
 
-	MountThreadParam threadParam;
-	threadParam.hwnd = hwndDlg;
-	threadParam.pmount = &mount;
-	threadParam.pbResult = &bResult;
-	threadParam.pdwResult = &dwResult;
+	if (!quiet)
+	{
+		MountThreadParam threadParam;
+		threadParam.hwnd = hwndDlg;
+		threadParam.pmount = &mount;
+		threadParam.pbResult = &bResult;
+		threadParam.pdwResult = &dwResult;
 
-	DialogBoxParamW (hInst,
-				MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hwndDlg,
-				(DLGPROC) MountWaitDlgProc, (LPARAM) &threadParam);
+		DialogBoxParamW (hInst,
+					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hwndDlg,
+					(DLGPROC) MountWaitDlgProc, (LPARAM) &threadParam);
+	}
+	else
+	{
+		bResult = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, &mount,
+				sizeof (mount), &mount, sizeof (mount), &dwResult, NULL);
+	}
 
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
 	burn (&mount.ProtectedHidVolPassword, sizeof (mount.ProtectedHidVolPassword));
