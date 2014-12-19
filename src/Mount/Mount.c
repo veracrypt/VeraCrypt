@@ -6804,7 +6804,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				{ OptionTokenLib,				"/tokenlib",		NULL, FALSE },
 				{ OptionVolume,					"/volume",			"/v", FALSE },
 				{ CommandWipeCache,				"/wipecache",		"/w", FALSE },
-				{ OptionPkcs5,					"/prf",		NULL , FALSE }
+				{ OptionPkcs5,					"/hash",		NULL , FALSE }
 			};
 
 			argumentspec as;
@@ -7009,13 +7009,13 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
 						nArgPos, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
 					{
-						if (_stricmp(szTmp, "sha512") == 0)
+						if (_stricmp(szTmp, "sha512") == 0 || _stricmp(szTmp, "sha-512") == 0)
 							CmdVolumePkcs5 = SHA512;
 						else if (_stricmp(szTmp, "whirlpool") == 0)
 							CmdVolumePkcs5 = WHIRLPOOL;
-						else if (_stricmp(szTmp, "sha256") == 0)
+						else if (_stricmp(szTmp, "sha256") == 0 || _stricmp(szTmp, "sha-256") == 0)
 							CmdVolumePkcs5 = SHA256;
-						else if (_stricmp(szTmp, "ripemd160") == 0)
+						else if (_stricmp(szTmp, "ripemd160") == 0 || _stricmp(szTmp, "ripemd-160") == 0)
 							CmdVolumePkcs5 = RIPEMD160;
 						else
 						{
