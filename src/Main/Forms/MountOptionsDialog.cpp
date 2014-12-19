@@ -30,7 +30,7 @@ namespace VeraCrypt
 		if (disableMountOptions)
 			OptionsButton->Show (false);
 
-		PasswordPanel = new VolumePasswordPanel (this, options.Password, options.Keyfiles, !disableMountOptions);
+		PasswordPanel = new VolumePasswordPanel (this, options.Password, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
 
 		PasswordSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);
@@ -61,7 +61,7 @@ namespace VeraCrypt
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, options.ProtectionPassword, options.ProtectionKeyfiles, false, true, true, false, false, _("P&assword to hidden volume:"));
+		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, options.ProtectionPassword, options.ProtectionKeyfiles, false, true, true, false, true, true, _("P&assword to hidden volume:"));
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
 		UpdateDialog();
@@ -85,6 +85,7 @@ namespace VeraCrypt
 		TransferDataFromWindow();
 
 		Options.Password = PasswordPanel->GetPassword();
+		Options.Kdf = PasswordPanel->GetPkcs5Kdf();
 		Options.Keyfiles = PasswordPanel->GetKeyfiles();
 
 		if (ReadOnlyCheckBox->IsChecked())
@@ -95,6 +96,7 @@ namespace VeraCrypt
 		{
 			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;
 			Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword();
+			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf();
 			Options.ProtectionKeyfiles = ProtectionPasswordPanel->GetKeyfiles();
 		}
 		else

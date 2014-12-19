@@ -244,6 +244,12 @@ namespace VeraCrypt
 #endif
 
 		ShowInfo ("EXTERNAL_VOL_HEADER_BAK_FIRST_INFO");
+		
+		shared_ptr <Pkcs5Kdf> kdf;
+		if (CmdLine->ArgHash)
+		{
+			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+		}
 
 		shared_ptr <Volume> normalVolume;
 		shared_ptr <Volume> hiddenVolume;
@@ -274,9 +280,11 @@ namespace VeraCrypt
 						options->Path,
 						options->PreserveTimestamps,
 						options->Password,
+						kdf,
 						options->Keyfiles,
 						options->Protection,
 						options->ProtectionPassword,
+						options->ProtectionKdf,
 						options->ProtectionKeyfiles,
 						true,
 						volumeType,
@@ -359,7 +367,7 @@ namespace VeraCrypt
 		ShowInfo ("VOL_HEADER_BACKED_UP");
 	}
 
-	void TextUserInterface::ChangePassword (shared_ptr <VolumePath> volumePath, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Hash> newHash) const
+	void TextUserInterface::ChangePassword (shared_ptr <VolumePath> volumePath, shared_ptr <VolumePassword> password, shared_ptr <Hash> currentHash, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Hash> newHash) const
 	{
 		shared_ptr <Volume> volume;
 
@@ -377,6 +385,12 @@ namespace VeraCrypt
 
 		bool passwordInteractive = !password.get();
 		bool keyfilesInteractive = !keyfiles.get();
+
+		shared_ptr<Pkcs5Kdf> kdf;
+		if (currentHash)
+		{
+			kdf = Pkcs5Kdf::GetAlgorithm (*currentHash);
+		}
 
 		while (true)
 		{
@@ -406,7 +420,7 @@ namespace VeraCrypt
 					try
 					{
 						keyfiles.reset (new KeyfileList);
-						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, keyfiles);
+						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, kdf, keyfiles);
 					}
 					catch (PasswordException&)
 					{
@@ -416,7 +430,7 @@ namespace VeraCrypt
 				}	
 
 				if (!volume.get())
-					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, keyfiles);
+					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, kdf, keyfiles);
 			}
 			catch (PasswordException &e)
 			{
@@ -1285,6 +1299,12 @@ namespace VeraCrypt
 		// Ask whether to restore internal or external backup
 		bool restoreInternalBackup;
 
+		shared_ptr <Pkcs5Kdf> kdf;
+		if (CmdLine->ArgHash)
+		{
+			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+		}
+
 		ShowInfo (LangString["HEADER_RESTORE_EXTERNAL_INTERNAL"]);
 		ShowInfo (L"\n1) " + LangString["HEADER_RESTORE_INTERNAL"]);
 		ShowInfo (L"2) " + LangString["HEADER_RESTORE_EXTERNAL"] + L"\n");
@@ -1325,9 +1345,11 @@ namespace VeraCrypt
 						options.Path,
 						options.PreserveTimestamps,
 						options.Password,
+						kdf,
 						options.Keyfiles,
 						options.Protection,
 						options.ProtectionPassword,
+						options.ProtectionKdf,
 						options.ProtectionKeyfiles,
 						options.SharedAccessAllowed,
 						VolumeType::Unknown,
@@ -1432,7 +1454,7 @@ namespace VeraCrypt
 
 						// Decrypt header
 						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
-						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, layout->GetSupportedKeyDerivationFunctions(), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
+						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, kdf, layout->GetSupportedKeyDerivationFunctions(), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
 						{
 							decryptedLayout = layout;
 							break;

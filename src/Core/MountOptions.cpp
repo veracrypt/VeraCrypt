@@ -26,11 +26,21 @@ namespace VeraCrypt
 		TC_CLONE (NoHardwareCrypto);
 		TC_CLONE (NoKernelCrypto);
 		TC_CLONE_SHARED (VolumePassword, Password);
+		if (other.Kdf)
+		{
+			Kdf.reset(other.Kdf->Clone());
+		}
+		else
+			Kdf.reset();
 		TC_CLONE_SHARED (VolumePath, Path);
 		TC_CLONE (PartitionInSystemEncryptionScope);
 		TC_CLONE (PreserveTimestamps);
 		TC_CLONE (Protection);
 		TC_CLONE_SHARED (VolumePassword, ProtectionPassword);
+		if (other.ProtectionKdf)
+			ProtectionKdf.reset(other.ProtectionKdf->Clone());
+		else
+			ProtectionKdf.reset();
 		TC_CLONE_SHARED (KeyfileList, ProtectionKeyfiles);
 		TC_CLONE (Removable);
 		TC_CLONE (SharedAccessAllowed);
@@ -41,6 +51,7 @@ namespace VeraCrypt
 	void MountOptions::Deserialize (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
+		wstring nameValue;
 
 		sr.Deserialize ("CachePassword", CachePassword);
 		sr.Deserialize ("FilesystemOptions", FilesystemOptions);
@@ -61,6 +72,14 @@ namespace VeraCrypt
 			Password = Serializable::DeserializeNew <VolumePassword> (stream);
 		else
 			Password.reset();
+			
+		if (!sr.DeserializeBool ("KdfNull"))
+		{
+			sr.Deserialize ("Kdf", nameValue);
+			Kdf = Pkcs5Kdf::GetAlgorithm (nameValue);
+		}
+		else
+			Kdf.reset();
 
 		if (!sr.DeserializeBool ("PathNull"))
 			Path.reset (new VolumePath (sr.DeserializeWString ("Path")));
@@ -76,6 +95,14 @@ namespace VeraCrypt
 			ProtectionPassword = Serializable::DeserializeNew <VolumePassword> (stream);
 		else
 			ProtectionPassword.reset();
+
+		if (!sr.DeserializeBool ("ProtectionKdfNull"))
+		{
+			sr.Deserialize ("ProtectionKdf", nameValue);
+			ProtectionKdf = Pkcs5Kdf::GetAlgorithm (nameValue);
+		}
+		else
+			ProtectionKdf.reset();
 
 		ProtectionKeyfiles = Keyfile::DeserializeList (stream, "ProtectionKeyfiles");
 		sr.Deserialize ("Removable", Removable);
@@ -106,6 +133,10 @@ namespace VeraCrypt
 		if (Password)
 			Password->Serialize (stream);
 
+		sr.Serialize ("KdfNull", Kdf == nullptr);
+		if (Kdf)
+			sr.Serialize ("Kdf", Kdf->GetName());
+
 		sr.Serialize ("PathNull", Path == nullptr);
 		if (Path)
 			sr.Serialize ("Path", wstring (*Path));
@@ -117,6 +148,10 @@ namespace VeraCrypt
 		sr.Serialize ("ProtectionPasswordNull", ProtectionPassword == nullptr);
 		if (ProtectionPassword)
 			ProtectionPassword->Serialize (stream);
+
+		sr.Serialize ("ProtectionKdfNull", ProtectionKdf == nullptr);
+		if (ProtectionKdf)
+			sr.Serialize ("ProtectionKdf", ProtectionKdf->GetName());
 
 		Keyfile::SerializeList (stream, "ProtectionKeyfiles", ProtectionKeyfiles);
 		sr.Serialize ("Removable", Removable);

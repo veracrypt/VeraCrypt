@@ -51,11 +51,13 @@ namespace VeraCrypt
 		bool NoHardwareCrypto;
 		bool NoKernelCrypto;
 		shared_ptr <VolumePassword> Password;
+		shared_ptr <Pkcs5Kdf> Kdf;
 		bool PartitionInSystemEncryptionScope;
 		shared_ptr <VolumePath> Path;
 		bool PreserveTimestamps;
 		VolumeProtection::Enum Protection;
 		shared_ptr <VolumePassword> ProtectionPassword;
+		shared_ptr <Pkcs5Kdf> ProtectionKdf;
 		shared_ptr <KeyfileList> ProtectionKeyfiles;
 		bool Removable;
 		bool SharedAccessAllowed;

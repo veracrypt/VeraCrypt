@@ -31,6 +31,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const = 0;
 		virtual int GetIterationCount () const = 0;
 		virtual wstring GetName () const = 0;
+		virtual Pkcs5Kdf* Clone () const = 0;
 		virtual bool IsDeprecated () const { return GetHash()->IsDeprecated(); }
 
 	protected:
@@ -53,6 +54,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Ripemd160); }
 		virtual int GetIterationCount () const { return 655331; }
 		virtual wstring GetName () const { return L"HMAC-RIPEMD-160"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacRipemd160(); }
 
 	private:
 		Pkcs5HmacRipemd160 (const Pkcs5HmacRipemd160 &);
@@ -69,6 +71,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Ripemd160); }
 		virtual int GetIterationCount () const { return 327661; }
 		virtual wstring GetName () const { return L"HMAC-RIPEMD-160"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacRipemd160_1000(); }
 
 	private:
 		Pkcs5HmacRipemd160_1000 (const Pkcs5HmacRipemd160_1000 &);
@@ -85,6 +88,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256); }
 		virtual int GetIterationCount () const { return 200000; }
 		virtual wstring GetName () const { return L"HMAC-SHA-256"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacSha256_Boot(); }
 
 	private:
 		Pkcs5HmacSha256_Boot (const Pkcs5HmacSha256_Boot &);
@@ -101,6 +105,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha256); }
 		virtual int GetIterationCount () const { return 500000; }
 		virtual wstring GetName () const { return L"HMAC-SHA-256"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacSha256(); }
 
 	private:
 		Pkcs5HmacSha256 (const Pkcs5HmacSha256 &);
@@ -117,6 +122,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Sha512); }
 		virtual int GetIterationCount () const { return 500000; }
 		virtual wstring GetName () const { return L"HMAC-SHA-512"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacSha512(); }
 
 	private:
 		Pkcs5HmacSha512 (const Pkcs5HmacSha512 &);
@@ -133,6 +139,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Whirlpool); }
 		virtual int GetIterationCount () const { return 500000; }
 		virtual wstring GetName () const { return L"HMAC-Whirlpool"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacWhirlpool; }
 
 	private:
 		Pkcs5HmacWhirlpool (const Pkcs5HmacWhirlpool &);

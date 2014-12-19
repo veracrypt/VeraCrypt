@@ -883,6 +883,11 @@ namespace VeraCrypt
 				cmdLine.ArgMountOptions.Password = cmdLine.ArgPassword;
 				cmdLine.ArgMountOptions.Keyfiles = cmdLine.ArgKeyfiles;
 				cmdLine.ArgMountOptions.SharedAccessAllowed = cmdLine.ArgForce;
+				if (cmdLine.ArgHash)
+				{
+					cmdLine.ArgMountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash);
+				}
+
 
 				VolumeInfoList mountedVolumes;
 				switch (cmdLine.ArgCommand)
@@ -965,7 +970,7 @@ namespace VeraCrypt
 			return true;
 
 		case CommandId::ChangePassword:
-			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgKeyfiles, cmdLine.ArgNewPassword, cmdLine.ArgNewKeyfiles, cmdLine.ArgHash);
+			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgCurrentHash, cmdLine.ArgKeyfiles, cmdLine.ArgNewPassword, cmdLine.ArgNewKeyfiles, cmdLine.ArgHash);
 			return true;
 
 		case CommandId::CreateKeyfile:

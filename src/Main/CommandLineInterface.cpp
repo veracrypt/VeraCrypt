@@ -36,6 +36,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"C", L"change",				_("Change password or keyfiles"));
 		parser.AddSwitch (L"c", L"create",				_("Create new volume"));
 		parser.AddSwitch (L"",	L"create-keyfile",		_("Create new keyfile"));
+		parser.AddOption (L"",	L"current-hash",		_("Current hash algorithm for change password/keyfiles operation"));
 		parser.AddSwitch (L"",	L"delete-token-keyfiles", _("Delete security token keyfiles"));
 		parser.AddSwitch (L"d", L"dismount",			_("Dismount volume"));
 		parser.AddSwitch (L"",	L"display-password",	_("Display password while typing"));
@@ -61,6 +62,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"non-interactive",		_("Do not interact with user"));
 		parser.AddOption (L"p", L"password",			_("Password"));
 		parser.AddOption (L"",	L"protect-hidden",		_("Protect hidden volume"));
+		parser.AddOption (L"",	L"protection-hash",		_("Hash algorithm for protected hidden volume"));
 		parser.AddOption (L"",	L"protection-keyfiles",	_("Keyfiles for protected hidden volume"));
 		parser.AddOption (L"",	L"protection-password",	_("Password for protected hidden volume"));
 		parser.AddOption (L"",	L"random-source",		_("Use file as source of random data"));
@@ -306,6 +308,20 @@ namespace VeraCrypt
 				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
 		}
 
+		if (parser.Found (L"current-hash", &str))
+		{
+			ArgCurrentHash.reset();
+
+			foreach (shared_ptr <Hash> hash, Hash::GetAvailableAlgorithms())
+			{
+				if (wxString (hash->GetName()).IsSameAs (str, false))
+					ArgCurrentHash = hash;
+			}
+
+			if (!ArgCurrentHash)
+				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
+		}
+
 		if (parser.Found (L"keyfiles", &str))
 			ArgKeyfiles = ToKeyfileList (str);
 
@@ -375,6 +391,22 @@ namespace VeraCrypt
 		{
 			ArgMountOptions.ProtectionPassword.reset (new VolumePassword (wstring (str)));
 			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
+		}
+
+		if (parser.Found (L"protection-hash", &str))
+		{
+			bool bHashFound = false;
+			foreach (shared_ptr <Hash> hash, Hash::GetAvailableAlgorithms())
+			{
+				if (wxString (hash->GetName()).IsSameAs (str, false))
+				{
+					bHashFound = true;
+					ArgMountOptions.ProtectionKdf = Pkcs5Kdf::GetAlgorithm (*hash);
+				}
+			}
+
+			if (!bHashFound)
+				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
 		}
 
 		ArgQuick = parser.Found (L"quick");

@@ -699,6 +699,7 @@ namespace VeraCrypt
 			{
 				VolumePasswordWizardPage *page = dynamic_cast <VolumePasswordWizardPage *> (GetCurrentPage());
 				Password = page->GetPassword();
+				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
 
 				if (forward && Password && !Password->IsEmpty())
@@ -937,7 +938,7 @@ namespace VeraCrypt
 				});
 #endif
 
-				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Keyfiles, VolumeProtection::ReadOnly);
+				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Kdf, Keyfiles, VolumeProtection::ReadOnly);
 				MaxHiddenVolumeSize = Core->GetMaxHiddenVolumeSize (outerVolume);
 
 				// Add a reserve (in case the user mounts the outer volume and creates new files

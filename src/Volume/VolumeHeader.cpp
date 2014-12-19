@@ -78,7 +78,7 @@ namespace VeraCrypt
 		EncryptNew (headerBuffer, options.Salt, options.HeaderKey, options.Kdf);
 	}
 
-	bool VolumeHeader::Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
+	bool VolumeHeader::Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
 	{
 		if (password.Size() < 1)
 			throw PasswordEmpty (SRC_POS);
@@ -89,6 +89,9 @@ namespace VeraCrypt
 
 		foreach (shared_ptr <Pkcs5Kdf> pkcs5, keyDerivationFunctions)
 		{
+			if (kdf && (kdf->GetName() != pkcs5->GetName()))
+				continue;
+
 			pkcs5->DeriveKey (headerKey, password, salt);
 
 			foreach (shared_ptr <EncryptionMode> mode, encryptionModes)

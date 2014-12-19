@@ -14,7 +14,7 @@
 
 namespace VeraCrypt
 {
-	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, const wxString &passwordLabel)
+	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
 		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList)
 	{
 		if (keyfiles)
@@ -63,14 +63,20 @@ namespace VeraCrypt
 
 		Pkcs5PrfStaticText->Show (enablePkcs5Prf);
 		Pkcs5PrfChoice->Show (enablePkcs5Prf);		
-		HeaderWipeCountText->Show (enablePkcs5Prf);
-		HeaderWipeCount->Show (enablePkcs5Prf);
+		HeaderWipeCountText->Show (enablePkcs5Prf && !isMountPassword);
+		HeaderWipeCount->Show (enablePkcs5Prf && !isMountPassword);
 
 		if (enablePkcs5Prf)
 		{	
+			if (isMountPassword)
+			{
+				// case of password for mounting
+				Pkcs5PrfChoice->Delete (0);
+				Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);		
+			}
 			foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms())
 			{
-				if (!kdf.IsDeprecated())
+				if (!kdf.IsDeprecated() || isMountPassword)
 					Pkcs5PrfChoice->Append (kdf.GetName());
 			}
 			Pkcs5PrfChoice->Select (0);

@@ -47,7 +47,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 		}
 
-		CurrentPasswordPanel = new VolumePasswordPanel (this, password, keyfiles);
+		CurrentPasswordPanel = new VolumePasswordPanel (this, password, keyfiles, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -125,7 +125,7 @@ namespace VeraCrypt
 #endif
 				wxBusyCursor busy;
 				Core->ChangePassword (Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
-					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetKeyfiles(),
+					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
 					newPassword, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
 			}
 
