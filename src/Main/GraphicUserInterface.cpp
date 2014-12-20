@@ -1366,7 +1366,7 @@ namespace VeraCrypt
 						if (layout->HasDriveHeader())
 							continue;
 
-						if (!legacyBackup && (typeid (*layout) == typeid (VolumeLayoutV1Normal) || typeid (*layout) == typeid (VolumeLayoutV1Hidden)))
+						if (!legacyBackup && (typeid (*layout) == typeid (VolumeLayoutV1Normal)))
 							continue;
 
 						if (legacyBackup && (typeid (*layout) == typeid (VolumeLayoutV2Normal) || typeid (*layout) == typeid (VolumeLayoutV2Hidden)))

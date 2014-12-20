@@ -314,7 +314,7 @@ namespace VeraCrypt
 
 		if (hiddenVolume)
 		{
-			if (typeid (*normalVolume->GetLayout()) == typeid (VolumeLayoutV1Normal) && typeid (*hiddenVolume->GetLayout()) != typeid (VolumeLayoutV1Hidden))
+			if (typeid (*normalVolume->GetLayout()) == typeid (VolumeLayoutV1Normal))
 				throw ParameterIncorrect (SRC_POS);
 
 			if (typeid (*normalVolume->GetLayout()) == typeid (VolumeLayoutV2Normal) && typeid (*hiddenVolume->GetLayout()) != typeid (VolumeLayoutV2Hidden))
@@ -1363,7 +1363,7 @@ namespace VeraCrypt
 			}
 
 			shared_ptr <VolumeLayout> layout = volume->GetLayout();
-			if (typeid (*layout) == typeid (VolumeLayoutV1Normal) || typeid (*layout) == typeid (VolumeLayoutV1Hidden))
+			if (typeid (*layout) == typeid (VolumeLayoutV1Normal))
 			{
 				throw_err (LangString ["VOLUME_HAS_NO_BACKUP_HEADER"]);
 			}
@@ -1443,7 +1443,7 @@ namespace VeraCrypt
 						if (layout->HasDriveHeader())
 							continue;
 
-						if (!legacyBackup && (typeid (*layout) == typeid (VolumeLayoutV1Normal) || typeid (*layout) == typeid (VolumeLayoutV1Hidden)))
+						if (!legacyBackup && (typeid (*layout) == typeid (VolumeLayoutV1Normal)))
 							continue;
 
 						if (legacyBackup && (typeid (*layout) == typeid (VolumeLayoutV2Normal) || typeid (*layout) == typeid (VolumeLayoutV2Hidden)))
