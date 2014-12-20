@@ -129,6 +129,7 @@ namespace VeraCrypt
 			virtual void OnDownloadsMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnNewsMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnVersionHistoryMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnDonateMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnContactMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnLegalNoticesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnAboutMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }

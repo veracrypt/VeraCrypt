@@ -76,6 +76,7 @@ namespace VeraCrypt
 		void OnClearSlotSelectionMenuItemSelected (wxCommandEvent& event);
 		void OnClose (wxCloseEvent& event);
 		void OnCloseAllSecurityTokenSessionsMenuItemSelected (wxCommandEvent& event);
+		void OnDonateMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"donate"); }
 		void OnContactMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"contact"); }
 		void OnCreateKeyfileMenuItemSelected (wxCommandEvent& event) { Gui->CreateKeyfile(); }
 		void OnCreateVolumeButtonClick (wxCommandEvent& event);
