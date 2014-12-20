@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="ja" name="日本語" en-name="Japanese" version="1.0.0" translators="OGOSHI Masayuki" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="ja" key="IDC_HIDVOL_WIZ_MODE_FULL">通常モード</control>
     <control lang="ja" key="IDC_KB">&amp;KB</control>
     <control lang="ja" key="IDC_KEYFILES_ENABLE">キーファイルを使用(&amp;S)</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ja" key="IDC_KEY_FILES">キーファイル(&amp;K)</control>
     <control lang="ja" key="IDC_LINK_HASH_INFO">ハッシュアルゴリズムについて</control>
     <control lang="ja" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">暗号について</control>
@@ -145,6 +146,7 @@
     <control lang="ja" key="IDC_PREF_CACHE_PASSWORDS">パスワードをドライバのメモリに記憶する</control>
     <control lang="ja" key="IDC_PREF_DISMOUNT_INACTIVE">右に示す時間内に読み書きがなければ自動的にアンマウント</control>
     <control lang="ja" key="IDC_PREF_DISMOUNT_LOGOFF">ユーザがログオフしたとき</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="ja" key="IDC_PREF_DISMOUNT_POWERSAVING">省電力モードに入ったとき</control>
     <control lang="ja" key="IDC_PREF_DISMOUNT_SCREENSAVER">スクリーンセーバの起動時</control>
     <control lang="ja" key="IDC_PREF_FORCE_AUTO_DISMOUNT">ボリュームに開かれたファイルやフォルダがあっても強制的にアンマウント</control>
@@ -198,6 +200,7 @@
     <control lang="ja" key="IDM_CREATE_RESCUE_DISK">レスキューディスク作成...</control>
     <control lang="ja" key="IDM_CREATE_VOLUME">新規ボリュームの作成...</control>
     <control lang="ja" key="IDM_DEFAULT_KEYFILES">デフォルトキーファイル...</control>
+    <control lang="ja" key="IDM_DONATE">寄付する...</control>
     <control lang="ja" key="IDM_ENCRYPT_SYSTEM_DEVICE">システムパーティション/ドライブの暗号化...</control>
     <control lang="ja" key="IDM_FAQ">よくある質問と答え</control>
     <control lang="ja" key="IDM_HELP">ユーザーズガイド</control>
@@ -268,6 +271,7 @@
     <control lang="ja" key="IDT_PARALLELIZATION_OPTIONS">マルチスレッドによる並列処理設定</control>
     <control lang="ja" key="IDT_PKCS11_LIB_PATH">PKCS#11ライブラリの場所</control>
     <control lang="ja" key="IDT_PKCS5_PRF">導出アルゴリズム：</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="ja" key="IDT_PW_CACHE_OPTIONS">パスワードの記憶</control>
     <control lang="ja" key="IDT_SECURITY_OPTIONS">セキュリティオプション</control>
     <control lang="ja" key="IDT_TASKBAR_ICON">VeraCryptの常駐</control>
@@ -330,6 +334,9 @@
     <control lang="ja" key="IDT_KEYFILE_GENERATOR_NOTE">重要：このウィンドウ内にてできるかぎりランダムにマウスを動かしてください。これにより暗号鍵の強度を大幅に上げられます。長く動かすほど良い結果を得られます。</control>
     <control lang="ja" key="IDT_KEYFILE_WARNING">警告：もしキーファイルを紛失、あるいはその先頭1024キロバイト中に1ビットでも変化があった場合、そのキーファイルを使っているボリュームはマウントできなくなります！</control>
     <control lang="ja" key="IDT_KEY_UNIT">ビット</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="ja" key="IDT_LANGPACK_AUTHORS">翻訳者：</control>
     <control lang="ja" key="IDT_PLAINTEXT">平文のサイズ：</control>
     <control lang="ja" key="IDT_PLAINTEXT_SIZE_UNIT">ビット</control>
@@ -340,6 +347,7 @@
     <control lang="ja" key="IDT_SECURITY_TOKEN">セキュリティトークン:</control>
     <control lang="ja" key="IDT_SORT_METHOD">並び替え：</control>
     <control lang="ja" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">このままお待ちください。長時間かかるものと思われます。</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="ja" key="IDT_TEST_BLOCK_NUMBER">ブロック番号:</control>
     <control lang="ja" key="IDT_TEST_CIPHERTEXT">暗号文(16進)</control>
     <control lang="ja" key="IDT_TEST_DATA_UNIT_NUMBER">データユニット番号(64ビット16進, データユニットサイズ:512バイト)</control>
@@ -431,7 +439,7 @@
     <string lang="ja" key="ASK_DEBUGGER_INSTALL">システムクラッシュの原因を解析するためには、Microsoft Debugging Tools for Windows を先にインストールする必要があります。\n\n「OK」をクリックすると、Windows Installer がそのインストールパッケージ(16 MB)をマイクロソフトのサーバーからダウンロードし、インストールします。なお Windows Installer がアクセスするサーバーの URL は truercyprt.org のサーバーから転送されます。これはマイクロソフトがインストールパッケージの場所を変更しても追随できるようにするためです。</string>
     <string lang="ja" key="SYSTEM_CRASH_ANALYSIS_INFO">「OK」をクリックするとシステムクラッシュの解析を始めます。これには数分かかる見込みです。</string>
     <string lang="ja" key="DEBUGGER_NOT_FOUND">環境変数「PATH」に 'kd.exe' (Kernel Debugger) へのパスが含まれているか確認してください。</string>
-    <string lang="ja" key="SYSTEM_CRASH_NO_TRUECRYPT">十中八九、VeraCryptはシステムクラッシュの原因ではないようです。システムがクラッシュした理由には様々な原因が考えられます。例えばハードウェアの故障、デバイスドライバのバグなどです。</string>
+    <string lang="ja" key="SYSTEM_CRASH_NO_VERACRYPT">十中八九、VeraCryptはシステムクラッシュの原因ではないようです。システムがクラッシュした理由には様々な原因が考えられます。例えばハードウェアの故障、デバイスドライバのバグなどです。</string>
     <string lang="ja" key="SYSTEM_CRASH_UPDATE_DRIVER">解析結果によると、以下のドライバーをアップデートすることで問題が解決するかもしれません：</string>
     <string lang="ja" key="SYSTEM_CRASH_REPORT">私たちがVeraCryptにバグがあるのかを確認できるよう、以下の事項が含まれた自動生成のエラーレポートを送信することができます。\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- エラーのカテゴリー\n- ドライバーの名前とバージョン\n- システムコールスタック\n\nもし「はい」を選択すると、下記のURL(エラーレポートの全項目が含まれる)がデフォルトのインターネットブラウザーで開かれます。</string>
     <string lang="ja" key="ASK_SEND_ERROR_REPORT">上記のエラーレポートを送信しますか？</string>
@@ -599,6 +607,7 @@
     <string lang="ja" key="SELECT_DEST_DIR">フォルダの選択</string>
     <string lang="ja" key="SELECT_KEYFILE">キーファイルの選択</string>
     <string lang="ja" key="SELECT_KEYFILE_PATH">キーファイルを探すフォルダを選択してください。 警告：記憶されるのはフォルダであり、ファイル名ではありません！</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="ja" key="SERPENT_HELP">Ross Anderson、Eli Biham、Lars Knudsenによって開発され1998年に公開されました。256ビットキー、128ビットブロックを使用します。動作モードはXTSです。SerpentはAES制定時の最終候補の一つでした。</string>
     <string lang="ja" key="SIZE_HELP">作成するコンテナのサイズを指定してください。\n\nもしダイナミック（スパースファイル）コンテナを作成するのであれば、このパラメータは上限サイズの指定になります。\n\n下限サイズはFATボリュームの場合で292KB、NTFSボリュームの場合で3792KB となります。</string>
     <string lang="ja" key="SIZE_HELP_HIDDEN_HOST_VOL">新しい外殻ボリュームのサイズを指定してください（中に入れる隠しボリュームは後で作成します）。中に隠しボリュームを作成できる下限サイズは340KBです。</string>
@@ -750,6 +759,7 @@
     <string lang="ja" key="REMOVABLE_DISK">リムーバブルディスク</string>
     <string lang="ja" key="HARDDISK">ハードディスク</string>
     <string lang="ja" key="UNCHANGED">未変更</string>
+    <string lang="ja" key="AUTODETECTION">自動検出</string>
     <string lang="ja" key="SETUP_MODE_TITLE">ウィザードモード</string>
     <string lang="ja" key="SETUP_MODE_INFO">モードを選択してください。よくわからなければデフォルトのモードを使用してください。</string>
     <string lang="ja" key="SETUP_MODE_HELP_INSTALL">VeraCryptをこのシステムにインストールしたいときは、このオプションを選択してください。</string>
@@ -863,6 +873,11 @@
     <string lang="ja" key="ENTER_HIDDEN_VOL_PASSWORD">隠しボリュームのパスワードを入力してください。</string>
     <string lang="ja" key="ENTER_HEADER_BACKUP_PASSWORD">バックアップファイルに保存されたヘッダのパスワードを入力してください。</string>
     <string lang="ja" key="KEYFILE_CREATED">キーファイルの生成に成功しました。</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="ja" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：このボリュームのヘッダが壊れています！ VeraCryptは自動的にこのボリュームに埋め込まれているバックアップを使用します。\n\n[ツール]-[ボリュームヘッダのリストア]を選択して、ボリュームヘッダを修復してください。</string>
     <string lang="ja" key="VOL_HEADER_BACKED_UP">ボリュームヘッダのバックアップを無事に作成しました。\n\n重要：このバックアップを使ってボリュームヘッダをリストアすることは、現在のボリュームのパスワードも同様に復元します。さらに、もしこのボリュームのマウントにキーファイルが必要だったのなら、同じキーファイルがこのボリュームのマウントのために必要です。\n\n警告：このボリュームヘッダのバックアップは、このボリュームにのみリストアできます。もし他のボリュームにこのヘッダのバックアップをリストアした場合、そのボリュームのマウントはできますが、格納されていたデータの復号化ができなくなります（マスターキーを変更したため）。</string>
     <string lang="ja" key="VOL_HEADER_RESTORED">ボリュームヘッダのリストアに成功しました。\n\n重要：古いパスワードも同様に復元されました。さらに、もしこのボリュームのマウントにキーファイルが必要だったのなら、同じキーファイルがこのボリュームのマウントのために必要です。</string>
@@ -911,8 +926,8 @@
     <string lang="ja" key="SIZE_ITEM">サイズ: </string>
     <string lang="ja" key="PATH_ITEM">PATH: </string>
     <string lang="ja" key="DRIVE_LETTER_ITEM">ドライブレター: </string>
-    <string lang="ja" key="UNSUPPORTED_CHARS_IN_PWD">エラー：パスワードにはASCII文字しか使えません。\n\nASCII文字以外を使うと、システムの設定が変更されたときにボリュームがマウントできなくなる可能性があります。\n\n次の文字を使うことができます：\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="ja" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">警告：パスワードにASCII文字以外の文字が含まれています。このことによって、システムの設定が変更されたときに、ボリュームのマウントが不可能になる可能性があります。\n\n全ての非ASCII文字をASCII文字に置き換えてください。 そのためには、[ボリューム]-[パスワードの変更]とクリックしてください。\n\n次の文字を使うことができます：\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="ja" key="UNSUPPORTED_CHARS_IN_PWD">エラー：パスワードにはASCII文字しか使えません。\n\nASCII文字以外を使うと、システムの設定が変更されたときにボリュームがマウントできなくなる可能性があります。\n\n次の文字を使うことができます：\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="ja" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">警告：パスワードにASCII文字以外の文字が含まれています。このことによって、システムの設定が変更されたときに、ボリュームのマウントが不可能になる可能性があります。\n\n全ての非ASCII文字をASCII文字に置き換えてください。 そのためには、[ボリューム]-[パスワードの変更]とクリックしてください。\n\n次の文字を使うことができます：\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="ja" key="EXE_FILE_EXTENSION_CONFIRM">警告：ファイル名の拡張子として、実行可能なもの（例：.exe, .sys, .dll）や、その他問題を起こしそうなものを使わないように強く推奨します。そのような拡張子のファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのような拡張子は消すかあるいは変更する（例えば .tc へ）ことを強く推奨します。\n\nこのような問題となりうる拡張子を本当に使用しますか？</string>
     <string lang="ja" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告；このコンテナファイルには、実行可能（例：.exe, .sys, .dll）あるいは、同様に問題を引き起こしそうな種類の拡張子が使われています。そのような拡張子のコンテナファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのボリュームをアンマウントした後、このような拡張子を消すかあるいは変更する（例えば .tc へ）ことを強く推奨します。</string>
     <string lang="ja" key="HOMEPAGE">ホームページ</string>

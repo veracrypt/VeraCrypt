@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="eu" key="IDC_HIDVOL_WIZ_MODE_FULL">Modu Normala</control>
     <control lang="eu" key="IDC_KB">&amp;KB</control>
     <control lang="eu" key="IDC_KEYFILES_ENABLE">Gako-artxiboa &amp;erabili</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="eu" key="IDC_KEY_FILES">&amp;Gako-artxiboa..</control>
     <control lang="eu" key="IDC_LINK_HASH_INFO">Hash algoritmoei buruzko informazioa</control>
     <control lang="eu" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Informazio gehiago</control>
@@ -145,6 +146,7 @@
     <control lang="eu" key="IDC_PREF_CACHE_PASSWORDS">Pasahitzak gorde gailuaren memorian</control>
     <control lang="eu" key="IDC_PREF_DISMOUNT_INACTIVE">Bolumena auto-desmuntatu daturik ez bada idatzi/irakurri</control>
     <control lang="eu" key="IDC_PREF_DISMOUNT_LOGOFF">Erabiltzailea saioa amaitzen du</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="eu" key="IDC_PREF_DISMOUNT_POWERSAVING">Energia aurrezteko moduan sartzen</control>
     <control lang="eu" key="IDC_PREF_DISMOUNT_SCREENSAVER">Pantaila-babeslea martxan dago</control>
     <control lang="eu" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Desmuntaketa eragin bolumenak irekitako fitxategi eta direktorioak dituen arren</control>
@@ -198,6 +200,7 @@
     <control lang="eu" key="IDM_CREATE_RESCUE_DISK">Salbatze diska sortu...</control>
     <control lang="eu" key="IDM_CREATE_VOLUME">Bolumen berria sortu...</control>
     <control lang="eu" key="IDM_DEFAULT_KEYFILES">Lehenetsitako gako-fitxategiak...</control>
+    <control lang="eu" key="IDM_DONATE">Orain eman...</control>
     <control lang="eu" key="IDM_ENCRYPT_SYSTEM_DEVICE">Sistemaren partizioa/diska zifratu...</control>
     <control lang="eu" key="IDM_FAQ">Maiz egindako galderak</control>
     <control lang="eu" key="IDM_HELP">Erabiltzailearen Gida</control>
@@ -269,6 +272,7 @@
     <control lang="eu" key="IDT_PARALLELIZATION_OPTIONS">Prozesuetan Oinarritutako Paralelizazioa</control>
     <control lang="eu" key="IDT_PKCS11_LIB_PATH">PKCS #11 Liburutegiaren Helbidea</control>
     <control lang="eu" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="eu" key="IDT_PW_CACHE_OPTIONS">Pasahitzen Memoria</control>
     <control lang="eu" key="IDT_SECURITY_OPTIONS">Sekurtasun Aukerak</control>
     <control lang="eu" key="IDT_TASKBAR_ICON">VeraCrypt Ezkutuko Lana</control>
@@ -332,6 +336,9 @@
     <control lang="eu" key="IDT_KEYFILE_GENERATOR_NOTE">GARRANTZITSUA: Zure xagua ahalik eta ausazkoen mugitu ezazu lehio honen barruan. Zenbat eta gehiago, hobeto. Honek gako-fitxategiaren indar kriptografikoa handitzen du.</control>
     <control lang="eu" key="IDT_KEYFILE_WARNING">KONTUZ: Gako-fitxategi bat galtzen baduzu edo lehenengo 1024 kilobytetako bit bat aldatzen bada, ezinezkoa izango da gako-fitxategi hori erabiltzen duten bolumenak muntatzea!</control>
     <control lang="eu" key="IDT_KEY_UNIT">bit-ak</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="eu" key="IDT_LANGPACK_AUTHORS">Hauek Izulita:</control>
     <control lang="eu" key="IDT_PLAINTEXT">Testu Arruntako tamaina:</control>
     <control lang="eu" key="IDT_PLAINTEXT_SIZE_UNIT">bit-ak</control>
@@ -342,6 +349,7 @@
     <control lang="eu" key="IDT_SECURITY_TOKEN">Sekurtasun agiria:</control>
     <control lang="eu" key="IDT_SORT_METHOD">Sailkatze Modua:</control>
     <control lang="eu" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Mesedez itxaron. Prozesu honek denbora asko iraun dezake...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="eu" key="IDT_TEST_BLOCK_NUMBER">Blokearen Zenbakia:</control>
     <control lang="eu" key="IDT_TEST_CIPHERTEXT">Zifratutako Testua (hamaseitarra)</control>
     <control lang="eu" key="IDT_TEST_DATA_UNIT_NUMBER">Datu unitatearen zenbakia (64-bit hamaseitar, datu unitatearen tamaina 512 byte-takoa da)</control>
@@ -433,7 +441,7 @@
     <string lang="eu" key="ASK_DEBUGGER_INSTALL">Sistemaren errore kritikoa aztertu baino lehen VeraCrypt-ek Microsoft Debugging Tools for Windows instalatu behar du.\n\nAdos sakatu ondoren, Windowsen instalatzaileak Microsoft Debugging Tools deskargatzen hasiko da (16 MB) Mircrosoft-en serbitzari batetik eta, ondoren, instalatuko du (Windows instalatzailea beti eskuragarri izateko, Microsoftek instalatze paketearen helbidea aldatzen badu ere, Microsoft serbitzariaren helbidea veracrypt.org serbitzaritik lortuko da)..</string>
     <string lang="eu" key="SYSTEM_CRASH_ANALYSIS_INFO">Ados sakatu eta gero, VeraCrypt-ek sistemaren errore kritikoa aztertuko du. Honek minutu batzuk eman diztake.</string>
     <string lang="eu" key="DEBUGGER_NOT_FOUND">Mesedez, ziurtatu zaitez 'PATH' inguruneko aldagaiak 'kd.exe' (Kernel Debugger) programaren helbidea daukala.</string>
-    <string lang="eu" key="SYSTEM_CRASH_NO_TRUECRYPT">Dirudienez VeraCrypt-ek ez du sistemaren errorea eragin. Sistemak arazo askorengatik errore kritiko bat izan dezake (adibidez, hardware gailu baten akats batengatik, gailu kontrolagailu baten akats batengatik,...)</string>
+    <string lang="eu" key="SYSTEM_CRASH_NO_VERACRYPT">Dirudienez VeraCrypt-ek ez du sistemaren errorea eragin. Sistemak arazo askorengatik errore kritiko bat izan dezake (adibidez, hardware gailu baten akats batengatik, gailu kontrolagailu baten akats batengatik,...)</string>
     <string lang="eu" key="SYSTEM_CRASH_UPDATE_DRIVER">Analisiaren emaitzak esaten dute arazo hau konpondu dezakezula hondorengo kudeatzailea eguneratzen baduzu: </string>
     <string lang="eu" key="SYSTEM_CRASH_REPORT">VeraCrypt-en akats bat dagoen jakiten laguntzeko, automatikoki ondorengo datuak dituen errorearen txosten bat bidali diezagukezu:\n- Programaren bertsioa\n- Sistema eragilearen bertsioa\n- CPU mota\n- Errorearen maila\n- Kontrolatzailearen izena eta bertsioa\n- Sistemaren dei pila\n\n'Bai' aukeratzen baduzu, ondorengo helbidea (zeinek errorearen txosten osoa daukan) zure lehenetsitako Internet nabigatzailean irekiko da.</string>
     <string lang="eu" key="ASK_SEND_ERROR_REPORT">Goiko erroreari buruzko txostena bidali nahi diguzu?</string>
@@ -478,7 +486,7 @@
     <string lang="eu" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt bolumena sortu egin da eta erabiltzeko prest. TrueCryp bolumen berri bat egin nahi baduzu Hurrengoa sakatu. Bestela Irten klikatu.</string>
     <string lang="eu" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nEzkutuko bolumena sortu egin da (ezkutuko sistema eragilea ezkutuko bolumenean egongo da).\n\n "Hurrengoa" klikatu jarraitzeko.</string>
     <string lang="eu" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Bolumena Guztiz Zifratu Da</string>
-    <string lang="eu" key="NONSYS_INPLACE_ENC_FINISHED_INFO">GARRANTZITSUA: ORAIN SORTU DUZUN TRUECRYPT BOLUMEN HAU MUNTATU ETA HAN DAUDEN DATUAK IRAKURTZEKO, 'Gailuak Auto-Muntatu' KLIKATU TRUECYPT-EN LEHIO NAGUSIAN. Pasahitz (edo/eta gako-fitxategi) zuzena sartu eta gero, bolumena VeraCrypt-en lehio nagusiko zerrendan hautatutako unitate letrarekin muntatuko da (eta zifratutako datuak irakurri ahal izango dituzu unitate letra horren bitartez).\n\nMESEDEZ AIPATUTAKO PAUSOAK GOGORATU EDO IDATZI ITZAZU. BOLUMENA MUNTATU ETA DATUAK IRAKURRI NAHI DITUZUN BAKOITZEAN JARRAITU BEHAR IZANGO DITUZU. Alternatiboki, VeraCrypt-en lehio nagusian, 'Gailua Aukeratu' botoian klik egin, partizioa/bolumena hautatu eta 'Muntatu' klikatu.\n\nPartizioa/Bolumena arazorik gabe zifratu da (guztiz zifratutako VeraCrypt bolumena dauka orain) eta erabiltzeko prest dago.</string>
+    <string lang="eu" key="NONSYS_INPLACE_ENC_FINISHED_INFO">GARRANTZITSUA: ORAIN SORTU DUZUN VERACRYPT BOLUMEN HAU MUNTATU ETA HAN DAUDEN DATUAK IRAKURTZEKO, 'Gailuak Auto-Muntatu' KLIKATU TRUECYPT-EN LEHIO NAGUSIAN. Pasahitz (edo/eta gako-fitxategi) zuzena sartu eta gero, bolumena VeraCrypt-en lehio nagusiko zerrendan hautatutako unitate letrarekin muntatuko da (eta zifratutako datuak irakurri ahal izango dituzu unitate letra horren bitartez).\n\nMESEDEZ AIPATUTAKO PAUSOAK GOGORATU EDO IDATZI ITZAZU. BOLUMENA MUNTATU ETA DATUAK IRAKURRI NAHI DITUZUN BAKOITZEAN JARRAITU BEHAR IZANGO DITUZU. Alternatiboki, VeraCrypt-en lehio nagusian, 'Gailua Aukeratu' botoian klik egin, partizioa/bolumena hautatu eta 'Muntatu' klikatu.\n\nPartizioa/Bolumena arazorik gabe zifratu da (guztiz zifratutako VeraCrypt bolumena dauka orain) eta erabiltzeko prest dago.</string>
     <string lang="eu" key="FORMAT_FINISHED_INFO">VeraCrypt bolumena sortu egin da.</string>
     <string lang="eu" key="FORMAT_FINISHED_TITLE">Bolumena Sortu Da.</string>
     <string lang="eu" key="FORMAT_HELP">GARRANTZITSUA: Zure xagua ahalik eta ausazkoen mugitu ezazu lehio honen barruan. Zenbat eta gehiago, hobeto. Honek gakoaren zifraketa boterea asko indartzen du. Gero 'Formatatu' sakatu bolumena sortzeko.</string>
@@ -491,7 +499,7 @@
     <string lang="eu" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Aukera hau hautatzen baduzu, dagoeneko existitzen den VeraCrypt bolumen baten barruan ezkutuko bolumen bat sortuko du. Dagoeneko ezkutuko bolumena ostatzeko VeraCrypt bolumen egoki bat sortu duzula hartuko da.</string>
     <string lang="eu" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Bolumena Sortzeko Modua</string>
     <string lang="eu" key="HIDVOL_FORMAT_FINISHED_TITLE">Ezkutuko Bolumena Sortu Da</string>
-    <string lang="eu" key="HIDVOL_FORMAT_FINISHED_HELP">VeraCrypt-en ezkutuko bolumena sotu da eta erabiltzeko prest dago. Jarraibideak bete badira eta VeraCrypt-en erabiltzaile gidaren "Ezkutuko Bolumenentzako Sekurtasun Baldintzak eta Neurriak" kapituloko betebeharrak bete badira, ezinezkoa da ezkutuko bolumenaren esistentzia frogatzea, baita kanpoko bolumena muntatuta dagoenean ere.\n\nKONTUZ: EZKUTUKO BOLUMENA BABESTEN EZ BADUZU (HORI EGITEKO INFORMAZIOA NAHI BADUZU TRUECRYPT-EN ERABILTZAILE GIDAREN "EZKUTUKO BOLUMENEN KALTEEN AURKAKO BABESA" KAPITULOA IRAKURRI EZAZU), EZ EZAZU KANPOKO BOLUMENEAN IDATZI. BESTELA, EZKUTUKO BOLUMENAREN GAINEAN IDATZI DEZAKEZU ETA HURA HONDATU!</string>
+    <string lang="eu" key="HIDVOL_FORMAT_FINISHED_HELP">VeraCrypt-en ezkutuko bolumena sotu da eta erabiltzeko prest dago. Jarraibideak bete badira eta VeraCrypt-en erabiltzaile gidaren "Ezkutuko Bolumenentzako Sekurtasun Baldintzak eta Neurriak" kapituloko betebeharrak bete badira, ezinezkoa da ezkutuko bolumenaren esistentzia frogatzea, baita kanpoko bolumena muntatuta dagoenean ere.\n\nKONTUZ: EZKUTUKO BOLUMENA BABESTEN EZ BADUZU (HORI EGITEKO INFORMAZIOA NAHI BADUZU VERACRYPT-EN ERABILTZAILE GIDAREN "EZKUTUKO BOLUMENEN KALTEEN AURKAKO BABESA" KAPITULOA IRAKURRI EZAZU), EZ EZAZU KANPOKO BOLUMENEAN IDATZI. BESTELA, EZKUTUKO BOLUMENAREN GAINEAN IDATZI DEZAKEZU ETA HURA HONDATU!</string>
     <string lang="eu" key="FIRST_HIDDEN_OS_BOOT_INFO">Ezkutuko sistema eragilea abiatu duzu. Agian ohartu zaren bezala, ezkutuko sistema eragilea jatorrizko sistema eragilearen partizio berean instalatuta dagoela dirudi. Hala dirudien arren, errealitatean haren atzean dagoen partizio batean instalatuta dago (ezkutuko bolumenean). Irakurtze eta idazte eragiketa guztiak gardenki berrabiatzen dira jatorrizko sistemaren partiziotik ezkutuko bolumenera.\n\nEz sistema eragileak, ez aplikazioak, ez dute jakingo sistemaren partizioan idatzi eta irakurritako datuak benetan bere atzean dagoen partizioan idatzi eta irakurriko direla (ezkutuko bolumenera/bolumenetik). Ohi den bezala, horrelako datuak momentuan zifratu eta argituko dira (sistema eragile amuarentzako erabiliko den zifratzeko gako ezberdin batekin).\n\n\nMesedez, 'Hurrengoa'-n klik egin jarraitzeko.</string>
     <string lang="eu" key="HIDVOL_HOST_FILLING_HELP_SYSENC">Kanpoko bolumena sortu da eta %hc: unitate bezala muntatu da. Kanpoko bolumen honetan pribatuak diruditen, baina ezkutatu nahi EZ dituzun, fitxategi batzuk kopiatu behar zenituzke. Hauek han egongo dira norbait sistemaren partizioaren atzean dagoen partizioaren pasahitza ematera behartzen bazaitu, non kanpoko eta ezkutuko bolumenak (ezkutuko sistema eragilea hostatzen duena) egongo dira. Kanpoko bolumen honen pasahitza eman ahal izango duzu, eta ezkutuko bolumena (eta ezkutuko sistema eragilea) sekretupean jarraituko dute.\n\nGARRANTZITSUA: Kanpoko bolumenaera kopiatzen dituzun fitxategiak ez lukete %s baino gehiago okupatu behar. Bestela, agian ez da toki aske nahikoa egongo kanpoko bolumenean ezkutuko bolumenarentzako (eta ezin izango duzu jarraitu). Kopiatzen bukatzen duzunean 'Hurrengoa' sakatu (ez ezazu bolumena desmuntatu)..</string>
     <string lang="eu" key="HIDVOL_HOST_FILLING_HELP">Kanpoko bolumena sortu da eta %hc: unitate bezala muntatu da.Kanpoko bolumen honetan pribatuak diruditen, baina ezkutatu nahi EZ dituzun, fitxategi batzuk kopiatu behar zenituzke. Fitxategiak han egongo dira norbait pasahitza ematera behartzen bazaitu. Bakarrik kanpoko bolumenaren pasahitza emango duzu, ez ezkutukoarena. Benetan garratzia duten fitxategiak ezkutko bolumenean sortuko dira, hau geroago sortuko dugu. Kopiatzen bukatzen duzunean, 'Hurrengoa' sakatu. Ez ezazu bolumena desmuntatu.\n\nOharra: 'Hurrengoa' klikatu eta gero kanpoko bolumenaren klusterraren bitmapa arakatuko da etenik gabeko espazio hutsaren tamaina zehazteko, non espazio hutsaren bukaera bolumenaren bukaerarekin bat datorren. Tarte honetan ezkutuko bolumena ostatuko da, beraz, haren gehienezko tamaina mugatuko du. Klusterraren bitmaparen arakaketak ezkutuko bolumena kanpoko bolumenaren datuak berridatziko ez dituela ziurtatzen du.</string>
@@ -551,7 +559,7 @@
     <string lang="eu" key="SELECT_PKCS11_MODULE">PKCS #11 Liburutegia Aukeratu</string>
     <string lang="eu" key="OUTOFMEMORY">Memoriarik Gabe</string>
     <string lang="eu" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">GARRATZITSUA: Esperientziarik gabeko erabiltzaileentzat oso gomendagarria da VeraCrypt fitxategi-edukionktzi bat aukeratutako partizio/gailuan sortzea, partizio/gailu osoa zifratzen saiatu beharrean.\n\n Fitxategi-edukiontzi bat sortzerakoan (gailu edo partizio osoa zifratzearekin konparatuta) ez dago, adibidez, fitxategi kopuru handia hondatzeko arriskurik. Ohartu zaitez VeraCrypt-en fitxategi-edukiontzi bat (nahiz eta bere barruan zifratutako disko bat izan) berez beste edozein fitxategi normal bat bezalakoa da. Informazio gehiago nahi baduzu, VeraCrypt-en Erabiltzaile Gidan Hasiberrien Tutoriala kapituloa irakurri ezazu.\n\nZiur zaude gailu/partizio osoa zifratu nahi duzula?</string>
-    <string lang="eu" key="OVERWRITEPROMPT">KONTUZ: '%hs' fitxategia dagoeneko badago!\n\nGARRANTZITSUA: TRUECRYPT-EK EZ DU FITXATEGIA ZIFRATUKO, EZABATUKO DU.	Ziur zaude fitxategia ezabatu eta VeraCrypt edukiontzi berri batengatik ordezkatu nahi duzula?</string>
+    <string lang="eu" key="OVERWRITEPROMPT">KONTUZ: '%hs' fitxategia dagoeneko badago!\n\nGARRANTZITSUA: VERACRYPT-EK EZ DU FITXATEGIA ZIFRATUKO, EZABATUKO DU.	Ziur zaude fitxategia ezabatu eta VeraCrypt edukiontzi berri batengatik ordezkatu nahi duzula?</string>
     <string lang="eu" key="OVERWRITEPROMPT_DEVICE">KONTUZ: AUKERATUTAKO %s '%hs'%s-etan GORDETA DAUDEN FITXATEGI GUZTIAK EZABATU ETA GALDUKO DIRA (EZ DIRA ZIFRATUKO)!\n\nZiur zaude formataketarekin jarraitu nahi duzula?</string>
     <string lang="eu" key="NONSYS_INPLACE_ENC_CONFIRM">KONTUZ: Bolumena guztiz zifratzen den arte ezin izango duzu, ez muntatu, ez bertan dauden fitxategiak erabili.\n\nZiur zaude aukeratutako %s '%hs'%s-ak zifratu nahi dituzula?</string>
     <string lang="eu" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">KONTUZ: VeraCrypt-ek datuak "bertan" zifratzen ari den bitartean argia joaten bada edo sistemak huts egiten badu, softwarearen edo hardwarearen akats batengatik, datuen zatiak hondatu edo galduko dira. Horregatik, zifratzen hasi aurretik, ziurta zaitez zifratu nahi dituzun fitxategien babeskopiak dituzula.\n\nBabeskopia hori daukazu?</string>
@@ -601,6 +609,7 @@
     <string lang="eu" key="SELECT_DEST_DIR">Helmuga Karpeta Aukeratu</string>
     <string lang="eu" key="SELECT_KEYFILE">Gako-fitxategia Aukeratu</string>
     <string lang="eu" key="SELECT_KEYFILE_PATH">Gako-fitxategiak bilatzeko helbidea aukeratu. KONTUZ: Ohartu zaitez bakarrik helbidea gogoratuko dela, ez fitxategien izenak!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="eu" key="SERPENT_HELP">Ross Anderson, Eli Biham eta Lars Knudsen diseinatuta. 1998an argitaratuta. 256 biteko blokea. XTS eragiketa modua. Serpent AES-eko finalista bat izan zen.</string>
     <string lang="eu" key="SIZE_HELP">Mesedez, sortuko den edukiontziaren tamaina aukeratu ezazu.\n\nEdukiontzi dinamiko bat (fitxategi mehatza) sortzen ari bazara, balio honek gehienezko tamaina adieraziko du.\n\nOhartu zaitez FAT moduan formatatuta badago bolumenaren gutxienezko tamaina 292 KB dela. NTFS moduan formatatuta badago, bolumenaren gutxienezko tamaina 3792 KB da.</string>
     <string lang="eu" key="SIZE_HELP_HIDDEN_HOST_VOL">Mesedez, sortuko den kanpoko bolumenaren tamaina aukeratu ezazu (lehendabizi kanpoko bolumena sortuko duzu eta, gero, bertan ezkutuko bolumena sortuko duzu). Ezkutuko bolumen bat ostatuko duen kanpoko bolumen baten gutxienezko tamaina 340 KB da.</string>
@@ -752,6 +761,7 @@
     <string lang="eu" key="REMOVABLE_DISK">Disko Aldagarria</string>
     <string lang="eu" key="HARDDISK">Disko Gogorra</string>
     <string lang="eu" key="UNCHANGED">Aldatu Gabea</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="eu" key="SETUP_MODE_TITLE">Laguntzaile Modua</string>
     <string lang="eu" key="SETUP_MODE_INFO">Modu hauetako bat aukeratu. Ziur ez bazaude, lehenetsitako modua aukera ezazu.</string>
     <string lang="eu" key="SETUP_MODE_HELP_INSTALL">Aukera hau hautatu ezazu sistema honetan VeraCrypt instalatu nahi baduzu.</string>
@@ -865,6 +875,11 @@
     <string lang="eu" key="ENTER_HIDDEN_VOL_PASSWORD">Ezkutuko bolumenarentzako pasahitza sartu</string>
     <string lang="eu" key="ENTER_HEADER_BACKUP_PASSWORD">Babeskopia fitxategian gordetako goiburuaren pasahitza sartu</string>
     <string lang="eu" key="KEYFILE_CREATED">Gako-fitxategia sortu egin da.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="eu" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">KONTUZ: Bolumen honen goiburua hondatuta dago! VeraCrypt-ek automatikoki bolumenean kapsulatua dagoen goiburuaren babeskopia eraibliko du.\n\nBolumena konpondu beharko zenuke 'Tresnak' &gt; 'Bolumenaren Goiburua Leheneratu' aukeratuz.</string>
     <string lang="eu" key="VOL_HEADER_BACKED_UP">Bolumenaren goiburuaren babeskopia sortu egin da.\n\nGARRANTZITSUA: Bolumenaren goiburua leheneratzen baduzu babeskopia hau erabiliz bolumenaren oraingo pasahitza izango du. Gainera, bolumena muntatzeko gako-fitxategiak beharrezkoak badira, gako-fitxategi berdinak beharrezkoak izango dira bolumenaren gohiburua leheneratu eta gero bolumena muntatzeko.\n\nKONTUZ: Bolumenaren goiburuaren babeskopia BAKARRIK bolumen zehatz honen goiburua leheneratzeko balio du. Goiburuaren babeskopia hau bolumen ezberdin baten goiburua leheneratzeko erabiltzen baduzu, bolumena muntatzeko gai izango zara, baina EZIN izango duzu han gordetako daturik argitu (bere gako nagusia aldatuko baituzu).</string>
     <string lang="eu" key="VOL_HEADER_RESTORED">Bolumenaren goiburua leheneratu egin da.\n\nGARRANTZITSUA: Ohartu zaitez pasahitz zaharra leheneratu egin dela ere. Babeskopia egin zenean bolumena muntatzeko gako-fitxategirik behar bazen, gako fitxategi berdinak beharrezkoak dira orain bolumena berriro muntatzeko.</string>
@@ -913,8 +928,8 @@
     <string lang="eu" key="SIZE_ITEM">Tamaina:   </string>
     <string lang="eu" key="PATH_ITEM">Helbidea:   </string>
     <string lang="eu" key="DRIVE_LETTER_ITEM">Unitatearen Letra:   </string>
-    <string lang="eu" key="UNSUPPORTED_CHARS_IN_PWD">Errorea: Pasahitzak ASCII karaktereak bakarrik izan ditzake.\n\nSistemaren konfigurazioa aldatzen bada pasahitzan dauden ASCII ez diren karaktereak muntaketa eragotzi dezakete.\n\nHurrengo karaktereak erabili daitezke:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="eu" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Kontuz: Pasahitzak ASCII ez diren karaktereak ditu. Honek bolumena ezin muntatzea eragin dezake zure sistemaren konfigurazioa aldatzen bada.\n\nPasahitzan dituzun ASCII ez diren karaktereak ASCII karaktereen ordez aldatu beharko zenituzke. Hau egiteko, 'Volumenak' -&gt; 'Change Volume Password' sakatu ezazu. Ondorengo hauek ASCII karaktereak dira:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="eu" key="UNSUPPORTED_CHARS_IN_PWD">Errorea: Pasahitzak ASCII karaktereak bakarrik izan ditzake.\n\nSistemaren konfigurazioa aldatzen bada pasahitzan dauden ASCII ez diren karaktereak muntaketa eragotzi dezakete.\n\nHurrengo karaktereak erabili daitezke:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="eu" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Kontuz: Pasahitzak ASCII ez diren karaktereak ditu. Honek bolumena ezin muntatzea eragin dezake zure sistemaren konfigurazioa aldatzen bada.\n\nPasahitzan dituzun ASCII ez diren karaktereak ASCII karaktereen ordez aldatu beharko zenituzke. Hau egiteko, 'Volumenak' -&gt; 'Change Volume Password' sakatu ezazu. Ondorengo hauek ASCII karaktereak dira:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="eu" key="EXE_FILE_EXTENSION_CONFIRM">KONTUZ: Gogor gomendatzen dugu fitxategi exekutagarrien fitxategi luzapenak (adibidez, .exe, .sys, edo .dll) eta bestelako arazodun fitxategi luzapenak ez erabiltzea. Fitxategi luzapen hauek erabiltzeak Windows eta antibirusek edukiontzietan oztopatzea ekartzen du, honek bolumenaren abiaduran eragin okerra dauka eta beste arazo garrantzitsuak sortu ditzake.\n\nGogor gomendatzen dugu fitxategiaren luzapena kentzea edo aldatzea (adibidez '.tc'-ra).\n\nZiur zaude arazoak ematen dituen fitxategi luzapena erabili nahi duzula?</string>
     <string lang="eu" key="EXE_FILE_EXTENSION_MOUNT_WARNING">KONTUZ: Edukiontziak fitxategi exekutagarrientzako erabiltzen den luzapena dauka (adibidez, .exe, .sys, edo .dll) edo arazoak sortu ditzaken antzeko luzapen bat. Fitxategi luzapen hauek erabiltzeak Windows eta antibirusek edukiontzietan oztopatzea ekartzen du, honek bolumenaren abiaduran eragin okerra dauka eta beste arazo garrantzitsuak sortu ditzake.\n\nGogor gomendatzen dugu fitxategiaren luzapena kentzea edo aldatzea (adibidez '.tc'-ra) bolumena desmuntatu eta gero.</string>
     <string lang="eu" key="HOMEPAGE">Horri-Nagusia</string>

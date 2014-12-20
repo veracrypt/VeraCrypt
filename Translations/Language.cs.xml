@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="cs" name="Čeština" en-name="Czech" version="1.0.0" translators="Vítek Moser" />
     <!-- Fonts -->
@@ -25,7 +25,7 @@
     <control lang="cs" key="IDD_UNINSTALL">Odinstalovat VeraCrypt</control>
     <control lang="cs" key="IDHELP">&amp;Nápověda</control>
     <control lang="cs" key="IDT_EXTRACT_DESTINATION">Vyberte nebo zadejte prosím složku, kam chcete umístit rozbalené soubory:</control>
-    <control lang="cs" key="IDT_INSTALL_DESTINATION">Vyberte nebo zadejte prosím složku, kam chcete program Truecrypt nainstalovat. Pokud daná složka neexistuje, bude automaticky vytvořena.</control>
+    <control lang="cs" key="IDT_INSTALL_DESTINATION">Vyberte nebo zadejte prosím složku, kam chcete program Veracrypt nainstalovat. Pokud daná složka neexistuje, bude automaticky vytvořena.</control>
     <control lang="cs" key="IDT_UNINSTALL_DIR">Klikněte Odinstalovat pro odstranění programu VeraCrypt z tohoto systému.</control>
     <control lang="cs" key="IDC_ABORT_BUTTON">Přerušit</control>
     <control lang="cs" key="IDC_BENCHMARK">&amp;Test výkonu</control>
@@ -44,6 +44,7 @@
     <control lang="cs" key="IDC_HIDVOL_WIZ_MODE_FULL">Normální mód</control>
     <control lang="cs" key="IDC_KB">&amp;KB</control>
     <control lang="cs" key="IDC_KEYFILES_ENABLE">&amp;Použít souborové klíče</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="cs" key="IDC_KEY_FILES">Souborové &amp;klíče…</control>
     <control lang="cs" key="IDC_LINK_HASH_INFO">Informace o hash. algoritmech</control>
     <control lang="cs" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Více informací</control>
@@ -145,6 +146,7 @@
     <control lang="cs" key="IDC_PREF_CACHE_PASSWORDS">Ukládat hesla do paměti ovladače</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_INACTIVE">Autom. odpojit svazek pokud z/do něj nebylo čteno/zapisováno</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_LOGOFF">Uživatel se odhlašuje</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_POWERSAVING">Přecházím do úsporného režimu</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_SCREENSAVER">Je spuštěn spořič obrazovky</control>
     <control lang="cs" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Vynutit automatické odpojení, i když svazek obsahuje otevřené soubory nebo adresáře</control>
@@ -198,6 +200,7 @@
     <control lang="cs" key="IDM_CREATE_RESCUE_DISK">Vytvořit záchranný disk…</control>
     <control lang="cs" key="IDM_CREATE_VOLUME">Vytvořit nový svazek…</control>
     <control lang="cs" key="IDM_DEFAULT_KEYFILES">Výchozí souborové klíče…</control>
+    <control lang="cs" key="IDM_DONATE">Podpořte nás...</control>
     <control lang="cs" key="IDM_ENCRYPT_SYSTEM_DEVICE">Zašifrovat systémový oddíl/disk…</control>
     <control lang="cs" key="IDM_FAQ">Často kladené dotazy</control>
     <control lang="cs" key="IDM_HELP">Uživatelská příručka</control>
@@ -268,6 +271,7 @@
     <control lang="cs" key="IDT_PARALLELIZATION_OPTIONS">Paralelizace založená na vláknech</control>
     <control lang="cs" key="IDT_PKCS11_LIB_PATH">PKCS #11 cesta ke knihovně</control>
     <control lang="cs" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="cs" key="IDT_PW_CACHE_OPTIONS">Mezipaměť pro hesla</control>
     <control lang="cs" key="IDT_SECURITY_OPTIONS">Volby zabezpečení</control>
     <control lang="cs" key="IDT_TASKBAR_ICON">VeraCrypt služba na pozadí</control>
@@ -330,6 +334,9 @@
     <control lang="cs" key="IDT_KEYFILE_GENERATOR_NOTE">DŮLEŽITÉ: Pohybujte s myší v tomto okně co nejnáhodněji. Čím déle s ní budete hýbat, tím lépe. Kryptografická síla souborového klíče se tak výrazně zvýší.</control>
     <control lang="cs" key="IDT_KEYFILE_WARNING">VAROVÁNÍ: Ztratíte-li soub. klíč nebo změní-li se jediný bit z prvních 1024 kilobytů, bude nemožné připojit svazek používající soubor. klíč!</control>
     <control lang="cs" key="IDT_KEY_UNIT">bitů</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="cs" key="IDT_LANGPACK_AUTHORS">Přeložil:</control>
     <control lang="cs" key="IDT_PLAINTEXT">Velikost textu:</control>
     <control lang="cs" key="IDT_PLAINTEXT_SIZE_UNIT">bitů</control>
@@ -340,6 +347,7 @@
     <control lang="cs" key="IDT_SECURITY_TOKEN">Bezpečnostní token:</control>
     <control lang="cs" key="IDT_SORT_METHOD">Metoda třídění:</control>
     <control lang="cs" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Čekejte prosím. Tento proces může trvat delší dobu...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="cs" key="IDT_TEST_BLOCK_NUMBER">Číslo bloku:</control>
     <control lang="cs" key="IDT_TEST_CIPHERTEXT">Šifrovaný text (hexadecimálně)</control>
     <control lang="cs" key="IDT_TEST_DATA_UNIT_NUMBER">Číslo datové jednotky (64-bit hexadecimálně, velikost datové jednotky je 512 bajtů)</control>
@@ -431,7 +439,7 @@
     <string lang="cs" key="ASK_DEBUGGER_INSTALL">Aby bylo možné pád systému analyzovat, VeraCrypt musí nejprve nainstalovat Microsoft Debugging Tools pro Windows.\n\nJakmile kliknete na OK, Windows instalátor stáhne instalační balíček Microsoft Debugging Tools (16 MB) ze serveru Microsoft a nainstaluje ho (Windows instalátor bude přeposlán ze serveru veracrypt.org na adresu Microsoft serveru, což zajistí, že tato funkce bude fungovat i v případě, že Microsoft změní umístění instalačního balíčku).</string>
     <string lang="cs" key="SYSTEM_CRASH_ANALYSIS_INFO">Jakmile kliknete na OK, VeraCrypt zanalyzuje pád systému. To může trvat několik minut.</string>
     <string lang="cs" key="DEBUGGER_NOT_FOUND">Ujistěte se, prosím, že proměnná systému 'PATH' obsahuje cestu k souboru 'kd.exe' (Kernel Debugger).</string>
-    <string lang="cs" key="SYSTEM_CRASH_NO_TRUECRYPT">Zdá se, že VeraCrypt pravděpodobně nezpůsobil pád systému. Existuje mnoho důvodů, proč mohl systém spadnout (například chybný hardware, chyba v ovladači, apod.)</string>
+    <string lang="cs" key="SYSTEM_CRASH_NO_VERACRYPT">Zdá se, že VeraCrypt pravděpodobně nezpůsobil pád systému. Existuje mnoho důvodů, proč mohl systém spadnout (například chybný hardware, chyba v ovladači, apod.)</string>
     <string lang="cs" key="SYSTEM_CRASH_UPDATE_DRIVER">Výsledek analýzy naznačuje, že tento problém by mohla vyřešit aktualizace následujícího ovladače: </string>
     <string lang="cs" key="SYSTEM_CRASH_REPORT">Pokud nám chcete pomoci zjistit, zda se jedná o chybu v VeraCryptu, můžete nám poslat automaticky vygenerovanou chybovou zprávu, která obsahuje následující položky:\n- Verze programu\n- Verze operačního systému\n- Typ procesoru\n- Kategorie chyby\n- Jméno ovladače a jeho verzi\n- Systémový zásobník\n\nVyberete-li 'Ano', následující URL odkaz (který obsahuje celou chybovou zprávu) se otevře ve vašem výchozím prohlížeči internetu.</string>
     <string lang="cs" key="ASK_SEND_ERROR_REPORT">Chcete nám poslat výše uvedenou zprávu?</string>
@@ -476,7 +484,7 @@
     <string lang="cs" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt svazek byl vytvořen a je připraven k použití. Pokud chcete vytvořit další svazek VeraCrypt, klikněte Další. Jinak klikněte Konec.</string>
     <string lang="cs" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nSkrytý svazek VeraCrypt byl úspěšně vytvořen (skrytý operační systém bude umístěn v tomto skrytém svazku).\n\nKlikněte na Další pro pokračování.</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Svazek plně zašifrován</string>
-    <string lang="cs" key="NONSYS_INPLACE_ENC_FINISHED_INFO">DŮLEŽITÉ: PRO PŘIPOJENÍ TOHOTO NOVĚ VYTVOŘENÉHO SVAZKU TRUECRYPT A PRO PŘÍSTUP K DATŮM NA NĚM, KLIKNĚTE NA 'Autom. připojit zařízení' V HLAVNÍM OKNĚ TRUECRYPT. Jakmile zadáte správné heslo (a/nebo přiložíte správný souborový klíč/e), svazek bude připojen k písmenu jednotky, které jste vybrali v seznamu v hlavním okně VeraCryptu (a budete moci přistupovat k zašifrovaným datům přes toto vybrané písmeno jednotky).\n\nZAPAMATUJTE SI PROSÍM, NEBO ZAPIŠTE, VÝŠE UVEDENÉ KROKY. TĚMITO KROKY SE MUSÍTE ŘÍDIT KDYKOLIV, KDYŽ BUDETE CHTÍT SVAZEK PŘIPOJIT A PŘISTUPOVAT K DATŮM NA NĚM. Případně můžete v hlavním okně VeraCryptu kliknout na 'Vybrat zařízení', pak vybrat tento oddíl/svazek a kliknout na 'Připojit'.\n\nOddíl/svazek byl úspěšně zašifrován (obsahuje nyní úplně zašifrovaný svazek VeraCrypt) a je připraven k použití.</string>
+    <string lang="cs" key="NONSYS_INPLACE_ENC_FINISHED_INFO">DŮLEŽITÉ: PRO PŘIPOJENÍ TOHOTO NOVĚ VYTVOŘENÉHO SVAZKU VERACRYPT A PRO PŘÍSTUP K DATŮM NA NĚM, KLIKNĚTE NA 'Autom. připojit zařízení' V HLAVNÍM OKNĚ VERACRYPT. Jakmile zadáte správné heslo (a/nebo přiložíte správný souborový klíč/e), svazek bude připojen k písmenu jednotky, které jste vybrali v seznamu v hlavním okně VeraCryptu (a budete moci přistupovat k zašifrovaným datům přes toto vybrané písmeno jednotky).\n\nZAPAMATUJTE SI PROSÍM, NEBO ZAPIŠTE, VÝŠE UVEDENÉ KROKY. TĚMITO KROKY SE MUSÍTE ŘÍDIT KDYKOLIV, KDYŽ BUDETE CHTÍT SVAZEK PŘIPOJIT A PŘISTUPOVAT K DATŮM NA NĚM. Případně můžete v hlavním okně VeraCryptu kliknout na 'Vybrat zařízení', pak vybrat tento oddíl/svazek a kliknout na 'Připojit'.\n\nOddíl/svazek byl úspěšně zašifrován (obsahuje nyní úplně zašifrovaný svazek VeraCrypt) a je připraven k použití.</string>
     <string lang="cs" key="FORMAT_FINISHED_INFO">Svazek VeraCrypt byl úspěšně vytvořen.</string>
     <string lang="cs" key="FORMAT_FINISHED_TITLE">Svazek byl vytvořen</string>
     <string lang="cs" key="FORMAT_HELP">DŮLEŽITÉ: Pohybujte s myší v tomto okně co nejnáhodněji. Čím déle s ní budete hýbat, tím lépe. Kryptografická síla šifrovacích klíčů se tak výrazně zvýší. Pak klikněte Formátovat pro vytvoření svazku.</string>
@@ -489,7 +497,7 @@
     <string lang="cs" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Zvolíte-li tuto možnost, vytvoříte skrytý svazek uvnitř existujícího svazku VeraCrypt. Předpokládá se, že jste již vytvořili svazek VeraCrypt, do kterého lze umístit skrytý svazek.</string>
     <string lang="cs" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Mód vytvoření svazku</string>
     <string lang="cs" key="HIDVOL_FORMAT_FINISHED_TITLE">Skrytý svazek byl vytvořen</string>
-    <string lang="cs" key="HIDVOL_FORMAT_FINISHED_HELP">Skrytý svazek VeraCrypt byl úspěšně vytvořen a je připraven k použití. Pokud jste postupovali dle instrukcí, a pokud jste si dali pozor na požadavky a opatření uvedená v sekci "Bezpečnostní požadavky a opatření týkající se skrytých svazků" v uživatelské příručce VeraCrypt, mělo by být nemožné prokázat, že skrytý svazek existuje, i když je připojený externí svazek.\n\nVAROVÁNÍ: POKUD NEBUDETE CHRÁNIT SKRYTÝ SVAZEK (PRO VÍCE INFORMACÍ, JAK TAK UČINIT, VIZ SEKCE "OCHRANA SKYTÝCH SVAZKŮ PROTI POŠKOZENÍ" V UŽIVATELSKÉ PŘÍRUČCE TRUECRYPT), NEZAPISUJTE DO VNĚJŠÍHO SVAZKU. JINAK MŮŽETE PŘEPSAT A POŠKODIT SKRYTÝ SVAZEK!</string>
+    <string lang="cs" key="HIDVOL_FORMAT_FINISHED_HELP">Skrytý svazek VeraCrypt byl úspěšně vytvořen a je připraven k použití. Pokud jste postupovali dle instrukcí, a pokud jste si dali pozor na požadavky a opatření uvedená v sekci "Bezpečnostní požadavky a opatření týkající se skrytých svazků" v uživatelské příručce VeraCrypt, mělo by být nemožné prokázat, že skrytý svazek existuje, i když je připojený externí svazek.\n\nVAROVÁNÍ: POKUD NEBUDETE CHRÁNIT SKRYTÝ SVAZEK (PRO VÍCE INFORMACÍ, JAK TAK UČINIT, VIZ SEKCE "OCHRANA SKYTÝCH SVAZKŮ PROTI POŠKOZENÍ" V UŽIVATELSKÉ PŘÍRUČCE VERACRYPT), NEZAPISUJTE DO VNĚJŠÍHO SVAZKU. JINAK MŮŽETE PŘEPSAT A POŠKODIT SKRYTÝ SVAZEK!</string>
     <string lang="cs" key="FIRST_HIDDEN_OS_BOOT_INFO">Spustili jste operační systém na skrytém svazku. Jak jste si asi všimli, skrytý operační systém vypadá tak, jako by byl nainstalován na stejném oddílu původního operačního systému. Ale v reálu je nainstalován uvnitř oddílu za ním (ve skrytém svazku). Všechny operace pro čtení a zapisování jsou transparentně přesměrovány z původního oddílu systému do skrytého svazku.\n\nAni operační systém, ani aplikace nebudou vědět, data čtená a zapisovaná do systémového oddílu jsou ve skutečnosti zapisována a čtena z oddílu za ním (z/do skrytého svazku). Jakákoliv taková data jsou zašifrována a dešifrována za běhu, jako obvykle (s jiným šifrovacím klíčem, než je klíč použitý pro operační systém, který odláká pozornost).\n\n\nKlikněte na Další pro pokračování.</string>
     <string lang="cs" key="HIDVOL_HOST_FILLING_HELP_SYSENC">Vnější svazek byl vytvořen a připojen jako disk %hc:. Do tohoto vnějšího svazku byste nyní měli nakopírovat nějaká citlivě vypadající soubory, které ve skutečnosti NECHCETE skrýt. Budou tam umístěny pro kohokoliv, kdo by vás nutil prozradit heslo k prvnímu oddílu za oddílem s operačním systémem, kde budou umístěny jak vnější svazek, tak skrytý svazek (obsahující skrytý operační systém). Budete moci odhalit heslo pro tento vnější svazek a existence skrytého svazku (a skrytého operačního systému) zůstane utajena.\n\nDŮLEŽITÉ: Soubory, které nakopírujete do vnějšího svazku, by neměly zabírat více než %s. Jinak by nemusel být k dispozici dostatek volného místa na vnějším svazku pro skrytý svazek (a nebudete moci pokračovat). Jakmile dokončíte kopírování, klikněte na Další (neodpojujte svazek).</string>
     <string lang="cs" key="HIDVOL_HOST_FILLING_HELP">Vnější svazek byl úspěšně vytvořen a připojen jako jednotka %hc:. Do tohoto svazku byste nyní měli nakopírovat nějaké citlivě-vypadající soubory, které ve skutečnosti NECHCETE skrýt. Soubory tam budou uloženy pro kohokoliv, kdo by Vás nutil odhalit heslo. Odhalíte jen heslo pro tento vnější svazek, ne pro skrytý. Soubory, o které Vám jde ve skutečnosti, budou uloženy ve skrytém svazku, který se vytvoří později. Jakmile data dokopírujete, klikněte Další. Svazek neodpojujte.\n\nPoznámka: Až kliknete Další, clusterová bitmapa vnějšího svazku bude oskenována pro určení velikosti nepřerušené oblasti volného místa, jehož konec se nachází na konci svazku. Tato oblast bude obsahovat skrytý svazek, takže tím omezí svou maximální možnou velikost. Skenování clusterové bitmapy zajistí, že žádná data na vnějším svazku nebudou přepsána vnějším svazkem.</string>
@@ -549,7 +557,7 @@
     <string lang="cs" key="SELECT_PKCS11_MODULE">Vybrat knihovnu PKCS #11</string>
     <string lang="cs" key="OUTOFMEMORY">Nedostatek paměti</string>
     <string lang="cs" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">DŮLEŽITÉ: Důrazně doporučujeme, aby nezkušení uživatelé vytvořili souborový svazek VeraCrypt na vybraném zařízení/oddílu, místo zašifrování celého zařízení/oddílu.\n\nPokud vytvoříte souborový svazek VeraCrypt (oproti zašifrování zařízení nebo oddílu), neriskujete například ztrátu velkého množství souborů. Souborový svazek VeraCrypt (ačkoliv obsahuje virtuální zašifrovaný disk) se chová je ve skutečnosti jako obyčejný soubor. Pro více informací viz kapitola Návod pro začátečníky v uživatelské příručce VeraCryptu.\n\nJste si jisti, že chcete zašifrovat celé zařízení/oddíl?</string>
-    <string lang="cs" key="OVERWRITEPROMPT">VAROVÁNÍ: Soubor '%hs' již existuje!\n\nDŮLEŽITÉ: TRUECRYPT TENTO SOUBOR NEZAŠIFRUJE, ALE SMAŽE HO. Jste si jisti, že chcete tento soubor smazat a nahradit ho novým souborovým svazkem VeraCrypt?</string>
+    <string lang="cs" key="OVERWRITEPROMPT">VAROVÁNÍ: Soubor '%hs' již existuje!\n\nDŮLEŽITÉ: VERACRYPT TENTO SOUBOR NEZAŠIFRUJE, ALE SMAŽE HO. Jste si jisti, že chcete tento soubor smazat a nahradit ho novým souborovým svazkem VeraCrypt?</string>
     <string lang="cs" key="OVERWRITEPROMPT_DEVICE">VAROVÁNÍ: VŠECHNY SOUBORY, KTERÉ JSOU MOMENTÁLNĚ ULOŽENY NA VÁMI VYBRANÉM %s '%hs'%s BUDOU VYMAZÁNY A ZTRACENY (NEBUDOU ZAŠIFROVÁNY)!\n\nJste si jisti, že chcete pokračovat s formátováním?</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_CONFIRM">VAROVÁNÍ: Nebudete moci na svazek přistoupit ani přistupovat k souborům na něm do té doby, než bude plně zašifrován.\n\nJste si jisti, že chcete začít zašifrovávat vybraný %s '%hs'%s?</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">VAROVÁNÍ: Pokud dojde při šifrování dat za běhu k náhlému výpadku proudu, nebo pokud systém spadne kvůli softwarové chybě nebo hardwarovému selhání, část dat bude poškozena nebo ztracena. Než začnete zašifrovávat, ujistěte se, že máte záložní kopie souborů, které chcete zašifrovat.\n\nMáte takovou zálohu?</string>
@@ -599,6 +607,7 @@
     <string lang="cs" key="SELECT_DEST_DIR">Vyberte cílový adresář</string>
     <string lang="cs" key="SELECT_KEYFILE">Vyberte souborový klíč</string>
     <string lang="cs" key="SELECT_KEYFILE_PATH">Zvolte cestu pro hledání souborového klíče. UPOZORNĚNÍ: Zapamatována bude pouze cesta, nikoliv název souboru!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="cs" key="SERPENT_HELP">Navrhnuta Rossem Andersonem, Elim Bihamem a Larsem Knudsenem. Zveřejněna v roce 1998. 256-bitový klíč, 128-bitové bloky. Operační mód je XTS. Serpent byla jedním z finalistů AES.</string>
     <string lang="cs" key="SIZE_HELP">Definujte, prosím, velikost svazku, který chcete vytvořit.\n\nVytvoříte-li dynamický (rozptýlený soubor) svaze, tento parametr určí jeho maximální možnou velikost.\n\nMinimální možná velikost FAT svazku je 292 KB. Minimální možná velikost NTFS svazku je 3792 KB.</string>
     <string lang="cs" key="SIZE_HELP_HIDDEN_HOST_VOL">Definujte, prosím, velikost vnějšího svazku, který se má vytvořit (nejdříve vytvoříte vnější svazek a pak skrytý uvnitř něj). Minimální možná velikost svazku, v němž má být vytvořen svazek skrytý, je 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="cs" key="REMOVABLE_DISK">Vyjímatelný disk</string>
     <string lang="cs" key="HARDDISK">Hard disk</string>
     <string lang="cs" key="UNCHANGED">Nezměněný</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="cs" key="SETUP_MODE_TITLE">Průvodcovský mód</string>
     <string lang="cs" key="SETUP_MODE_INFO">Vyberte jeden z módů. Pokud nevíte, který zvolit, vyberte předvolený.</string>
     <string lang="cs" key="SETUP_MODE_HELP_INSTALL">Zvolte tuto možnost, pokud chcete VeraCrypt nainstalovat na tento systém.</string>
@@ -863,6 +873,11 @@
     <string lang="cs" key="ENTER_HIDDEN_VOL_PASSWORD">Zadejte heslo pro skrytý svazek</string>
     <string lang="cs" key="ENTER_HEADER_BACKUP_PASSWORD">Zadejte heslo pro hlavičku uloženou v záložním souboru</string>
     <string lang="cs" key="KEYFILE_CREATED">Souborový klíč byl úspěšně vytvořen.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="cs" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">VAROVÁNÍ: Hlavička tohoto svazku je poškozena! VeraCrypt automaticky použil zálohu hlavičky svazku umístěnou uvnitř svazku.\n\nMěli byste opravit hlavičku pomocí 'Nástroje' &gt; 'Obnovit hlavičku svazku'.</string>
     <string lang="cs" key="VOL_HEADER_BACKED_UP">Záloha hlavičky svazku byla úspěšně vytvořena.\n\nDŮLEŽITÉ: Obnovením hlavičky svazku s použitím této zálohy se také obnoví aktuální heslo pro svazek. Navíc, pokud je/jsou potřeba souborový klíč(e) pro připojení svazku, ten samý souborový klíč/e bude potřeba pro připojení svazku znovu, až bude hlavička opět vytvořena.\n\nVAROVÁNÍ: Tato záloha hlavičky svazku může být použita k obnovení JEN tohoto svazku. Pokud použijete tuto zálohu hlavičky k obnovení hlavičky jiného svazku, budete moci svazek připojit, ale NEBUDETE schopni dešifrovat jakákoliv data uložená na svazku (protože změníte jeho hlavní klíč).</string>
     <string lang="cs" key="VOL_HEADER_RESTORED">Hlavička svazku byla úspěšně obnovena.\n\nDŮLEŽITÉ: Staré heslo mohlo být obnoveno také. Navíc, pokud byl v době zálohy potřeba k připojení svazku souborový klíč(e), stejný souborový klíč(e) bude nyní potřeba opětnému připojení svazku.</string>
@@ -911,8 +926,8 @@
     <string lang="cs" key="SIZE_ITEM">Velikost:   </string>
     <string lang="cs" key="PATH_ITEM">Cesta:   </string>
     <string lang="cs" key="DRIVE_LETTER_ITEM">Písmeno jednotky:   </string>
-    <string lang="cs" key="UNSUPPORTED_CHARS_IN_PWD">Chyba: Heslo musí obsahovat jen ASCII znaky.\n\nNe-ASCII znaky v hesle mohou způsobit nemožnost připojení svazku při změně vaší systémové konfigurace.\n\nPovoleny jsou následující znaky:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
-    <string lang="cs" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Upozornění: Heslo obsahuje ne-ASCII znaky. To může způsobit nemožnost připojení svazku při změně vaší systémové konfigurace.\n\nMěli byste zaměnit všechny ne-ASCII znaky v hesle za ASCII znaky. Klikněte 'Svazky' -&gt; 'Změnit heslo svazku'.\n\nToto jsou ASCII znaky:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
+    <string lang="cs" key="UNSUPPORTED_CHARS_IN_PWD">Chyba: Heslo musí obsahovat jen ASCII znaky.\n\nNe-ASCII znaky v hesle mohou způsobit nemožnost připojení svazku při změně vaší systémové konfigurace.\n\nPovoleny jsou následující znaky:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
+    <string lang="cs" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Upozornění: Heslo obsahuje ne-ASCII znaky. To může způsobit nemožnost připojení svazku při změně vaší systémové konfigurace.\n\nMěli byste zaměnit všechny ne-ASCII znaky v hesle za ASCII znaky. Klikněte 'Svazky' -&gt; 'Změnit heslo svazku'.\n\nToto jsou ASCII znaky:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
     <string lang="cs" key="EXE_FILE_EXTENSION_CONFIRM">VAROVÁNÍ: Důrazně doporučujeme, abyste se vyhnuli souborům s příponami spustitelných souborů (např. .exe, .sys, nebo .dll) a ostatním stejně problematickým příponám. Použití takovýchto přípon způsobuje, že Windows a antivirové programy ruší souborový svazek, což nepříznivě ovlivňuje výkonnost svazku a může také způsobit další závažné problémy.\n\nDůrazně doporučujeme, abyste příponu odstranili nebo ji změnili (například na '.tc').\n\nJste si jisti, že chcete použít problematickou příponu souboru?</string>
     <string lang="cs" key="EXE_FILE_EXTENSION_MOUNT_WARNING">VAROVÁNÍ: Tento souborový svazek má příponu souborů, které se používají jako spustitelné (např. .exe, .sys, or .dll) nebo má jinou problematickou příponu. Velmi pravděpodobně to způsobí, že Windows a antivirové programy budou rušit souborový svazek, což nepříznivě ovlivní výkonnost svazku a může také způsobit další závažné problémy.\n\nDůrazně doporučujeme, abyste příponu svazku po odpojení odstranili nebo ji změnili (např. na '.tc').</string>
     <string lang="cs" key="HOMEPAGE">Domovská stránka</string>
@@ -1122,7 +1137,7 @@
     <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_2">Jak vytvořit klamný systém bezpečně a spolehlivě\n----------------------------------------------------------------------------\n\nAby bylo možné dosáhnout hodnověrného popření, musíte teď vytvořit klamný operační systém. Pokračujte dle následujících kroků:\n\n</string>
     <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_3">1) Z bezpečnostních důvodu vypněte váš počítač a nechte ho vypnutý alespoň na pár minut (čím déle, tím lépe). Je to nutné, aby se vyčistila paměť, která obsahuje citlivá data. Pak zapněte počítač, ale nebootujte do skrytého systému.\n\n</string>
     <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_4">2) Nainstalujte Windows do oddílu, jehož obsah byl smazán (např. do oddílu, kde byl nainstalován původního systému a jehož klonem je skrytý systém).\n\nDŮLEŽITÉ: KDYŽ SPUSTÍTE INSTALACI NA KLAMNÉM SYSTÉMU, SKRYTÝ SYSTÉM *NEBUDE* MOŽNÉ SPUSTIT (protože bootovací zavaděč VeraCryptu bude smazán zavaděčem systému Windows). TOTO CHOVÁNÍ JE V POŘÁDKU. NEPANIKAŘTE, PROSÍM. SKRYTÝ SYSTÉM BUDETE MOCI SPUSTIT ZNOVU, JAKMILE ZAČNETE ZAŠIFROVÁVAT KLAMNÝ OPERAČNÍ SYSTÉM (protože VeraCrypt pak hned nainstaluje na systémový disk bootovací zavaděč VeraCryptu).\n\nDůležité: Velikost systémového svazku klamného systému musí být stejná jako velikost skrytého svazku (tato podmínka je nyní splněna). Navíc nemusíte vytvářet žádné další oddíly mezi oddílem klamného systému a oddílem, kde je umístěn skrytý systém.\n\n</string>
-    <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3) Spusťte klamný systém (který jste nainstalovali v kroku 2 a do nějž jste nainstalovali Truecrypt).\n\nMějte na paměti, že klamný operační systém nesmí nikdy obsahovat citlivá data.\n\n</string>
+    <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_5">3) Spusťte klamný systém (který jste nainstalovali v kroku 2 a do nějž jste nainstalovali Veracrypt).\n\nMějte na paměti, že klamný operační systém nesmí nikdy obsahovat citlivá data.\n\n</string>
     <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_6">4) Spusťte VeraCrypt na klamném systému  a vyberte 'Systém' &gt; 'Zašifrovat systémový oddíl/disk'. Měl by se objevit Průvodce vytvořením svazku VeraCrypt.\n\nNásledující kroky se týkají Průvodce vytvořením svazku VeraCrypt.\n\n</string>
     <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_7">5) V Průvodci vytvořením svazku VeraCrypt NEVYBÍREJTE 'Skrytou' volbu. Ponechte volbu na 'Normální' a klikněte na 'Další'.\n\n</string>
     <string lang="cs" key="DECOY_OS_INSTRUCTIONS_PORTION_8">6) Vyberte volbu 'Zašifrovat systémový oddíl Windows' a klikněte na 'Další'.\n\n</string>

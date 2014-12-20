@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="es" name="Español" en-name="Spanish" version="1.0.0" translators="Juan Antonio Auñón Ochando" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="es" key="IDC_HIDVOL_WIZ_MODE_FULL">Modo Normal</control>
     <control lang="es" key="IDC_KB">&amp;KB</control>
     <control lang="es" key="IDC_KEYFILES_ENABLE">U&amp;sar archivo-llave</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="es" key="IDC_KEY_FILES">A&amp;rchivos-llave</control>
     <control lang="es" key="IDC_LINK_HASH_INFO">Información de algoritmos hash</control>
     <control lang="es" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Más información</control>
@@ -145,6 +146,7 @@
     <control lang="es" key="IDC_PREF_CACHE_PASSWORDS">Guardar contraseñas en caché</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_INACTIVE">Desmontar volumen autom. cuando dejen de leerse/escribirse datos</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_LOGOFF">Si el usuario cierra sesión</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_POWERSAVING">Si se entra en "ahorro de energía"</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_SCREENSAVER">Si se activa el salvapantallas</control>
     <control lang="es" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forzar desmontaje automático aunque el volumen tenga archivos abiertos</control>
@@ -198,6 +200,7 @@
     <control lang="es" key="IDM_CREATE_RESCUE_DISK">Crear Disco de Rescate</control>
     <control lang="es" key="IDM_CREATE_VOLUME">Crear Nuevo Volumen</control>
     <control lang="es" key="IDM_DEFAULT_KEYFILES">Archivos-llave Por Defecto</control>
+    <control lang="es" key="IDM_DONATE">Donar ahora...</control>
     <control lang="es" key="IDM_ENCRYPT_SYSTEM_DEVICE">Cifrar la Partición/Unidad del Sistema</control>
     <control lang="es" key="IDM_FAQ">Preguntas Frecuentes</control>
     <control lang="es" key="IDM_HELP">Guía del Usuario</control>
@@ -268,6 +271,7 @@
     <control lang="es" key="IDT_PARALLELIZATION_OPTIONS">Paralelización basada en hilos</control>
     <control lang="es" key="IDT_PKCS11_LIB_PATH">Ruta de Librería PKCS #11</control>
     <control lang="es" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="es" key="IDT_PW_CACHE_OPTIONS">Caché de Contraseñas</control>
     <control lang="es" key="IDT_SECURITY_OPTIONS">Opciones de seguridad</control>
     <control lang="es" key="IDT_TASKBAR_ICON">VeraCrypt en Segundo Plano</control>
@@ -330,6 +334,9 @@
     <control lang="es" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANTE: Mueva el ratón al azar todo lo posible dentro de esta ventana. Cuanto más lo mueva, mejor. Esto incrementa significativamente la fuerza criptográfica del archivo-llave.</control>
     <control lang="es" key="IDT_KEYFILE_WARNING">PRECAUCIÓN: ¡si pierde un archivo-llave o si cambian sus primeros 1024 KB, será imposible montar los volúmenes que usan ese archivo-llave!</control>
     <control lang="es" key="IDT_KEY_UNIT">bits</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="es" key="IDT_LANGPACK_AUTHORS">Traducido por:</control>
     <control lang="es" key="IDT_PLAINTEXT">Tamaño del texto plano:</control>
     <control lang="es" key="IDT_PLAINTEXT_SIZE_UNIT">bits</control>
@@ -340,6 +347,7 @@
     <control lang="es" key="IDT_SECURITY_TOKEN">Token de seguridad:</control>
     <control lang="es" key="IDT_SORT_METHOD">Orden:</control>
     <control lang="es" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Por favor espere. Este proceso puede llevar mucho tiempo...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="es" key="IDT_TEST_BLOCK_NUMBER">Número de bloque:</control>
     <control lang="es" key="IDT_TEST_CIPHERTEXT">Texto cifrado (hexadecimal)</control>
     <control lang="es" key="IDT_TEST_DATA_UNIT_NUMBER">Datos de la unidad (64-bit hexadecimal, tamaño de la unidad de datos es 512 bytes)</control>
@@ -431,7 +439,7 @@
     <string lang="es" key="ASK_DEBUGGER_INSTALL">Para analizar el fallo del sistema, VeraCrypt necesita instalar las Herramientas de Depuración para Windows primero.\n\nDespués de hacer click en Aceptar, el instalador de Windows descargará el paquete de instalación de las Herramientas de Depuración de Microsoft (16 MB) de un servidor de Microsoft y las instalará (el instalador de Windows será enviado a la URL del servidor de Microsoft desde el servidor veracrypt.org, lo que asegura que esta característica funcione incluso si Microsoft cambiara la localización del paquete de instalación).</string>
     <string lang="es" key="SYSTEM_CRASH_ANALYSIS_INFO">Después de pulsar Aceptar, VeraCrypt analizará el fallo del sistema. Esto podría durar varios minutos.</string>
     <string lang="es" key="DEBUGGER_NOT_FOUND">Asegúrese de que la variable de entorno 'PATH' incluye la ruta a 'kd.exe' (Depurador del Núcleo).</string>
-    <string lang="es" key="SYSTEM_CRASH_NO_TRUECRYPT">Parece que lo más probable es que VeraCrypt no causara el fallo del sistema. Hay muchas razones potenciales por las que el sistema podría haber fallado (por ejemplo, un componente hardware defectuoso, un error en un controlador de dispositivo, etc.)</string>
+    <string lang="es" key="SYSTEM_CRASH_NO_VERACRYPT">Parece que lo más probable es que VeraCrypt no causara el fallo del sistema. Hay muchas razones potenciales por las que el sistema podría haber fallado (por ejemplo, un componente hardware defectuoso, un error en un controlador de dispositivo, etc.)</string>
     <string lang="es" key="SYSTEM_CRASH_UPDATE_DRIVER">Los resultados del análisis indican que actualizar el siguiente controlador podría resolver este problema:</string>
     <string lang="es" key="SYSTEM_CRASH_REPORT">Para ayudarnos a determinar si hay un error (bug) en VeraCrypt o no, puede enviarnos un informe de errores generado automáticamente conteniendo los siguientes datos:\n\n- Versión del programa\n- Versión del sistema operativo\n- Tipo de CPU\n- Categoría del error\n- Nombre y versión del controlador\n- Pila de llamadas del sistema\n\nSi selecciona 'Sí', la siguiente URL (que contiene el informe completo del error) se abrirá en su explorador de Internet predeterminado.</string>
     <string lang="es" key="ASK_SEND_ERROR_REPORT">¿Desea enviarnos dicho informe de errores?</string>
@@ -476,7 +484,7 @@
     <string lang="es" key="FORMAT_FINISHED_HELP">\n\nEl volumen VeraCrypt ha sido creado y está listo para usarse. Si desea crear otro volumen VeraCrypt haga click en Siguiente. Si no, haga click en Salir.</string>
     <string lang="es" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nEl volumen oculto VeraCrypt ha sido creado con éxito (el sistema operativo oculto residirá dentro de este volumen oculto).\n\nHaga click en Siguiente para continuar.</string>
     <string lang="es" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volumen Completamente Cifrado</string>
-    <string lang="es" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANTE: PARA MONTAR EL VOLUMEN TRUECRYPT RECIÉN CREADO Y ACCEDER A SUS DATOS, HAGA CLICK EN 'Montar Autom.' EN LA VENTANA PRINCIPAL DE TRUECRYPT. Después de introducir la contraseña (y/o los archivos-llave), el volumen será montado en la letra de unidad seleccionada de la lista de la ventana principal (y podrá acceder a los datos cifrados a través de dicha letra).\n\nRECUERDE O APUNTE ESTAS INSTRUCCIONES. DEBERÁ SEGUIRLAS CADA VEZ QUE QUIERA MONTAR EL VOLUMEN Y ACCEDER A LOS DATOS ALMACENADOS EN ÉL. Alternativamente, en la ventana principal, haga click en 'Seleccionar Dispositivo', seleccione esta partición/volumen, y haga click en 'Montar'.\n\nLa partición/volumen ha sido cifrado correctamente (ahora contiene un volumen VeraCrypt completamente cifrado) y está listo para su uso.</string>
+    <string lang="es" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANTE: PARA MONTAR EL VOLUMEN VERACRYPT RECIÉN CREADO Y ACCEDER A SUS DATOS, HAGA CLICK EN 'Montar Autom.' EN LA VENTANA PRINCIPAL DE VERACRYPT. Después de introducir la contraseña (y/o los archivos-llave), el volumen será montado en la letra de unidad seleccionada de la lista de la ventana principal (y podrá acceder a los datos cifrados a través de dicha letra).\n\nRECUERDE O APUNTE ESTAS INSTRUCCIONES. DEBERÁ SEGUIRLAS CADA VEZ QUE QUIERA MONTAR EL VOLUMEN Y ACCEDER A LOS DATOS ALMACENADOS EN ÉL. Alternativamente, en la ventana principal, haga click en 'Seleccionar Dispositivo', seleccione esta partición/volumen, y haga click en 'Montar'.\n\nLa partición/volumen ha sido cifrado correctamente (ahora contiene un volumen VeraCrypt completamente cifrado) y está listo para su uso.</string>
     <string lang="es" key="FORMAT_FINISHED_INFO">El volumen VeraCrypt ha sido creado con éxito.</string>
     <string lang="es" key="FORMAT_FINISHED_TITLE">Volumen creado</string>
     <string lang="es" key="FORMAT_HELP">IMPORTANTE: Mueva el ratón al azar todo lo posible dentro de esta ventana. Cuanto más lo mueva, mejor. Esto incrementa significativamente la fuerza criptográfica de las claves de cifrado. Luego haga click en 'Formatear' para crear el volumen.</string>
@@ -489,7 +497,7 @@
     <string lang="es" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Si selecciona esta opción, creará un volumen oculto dentro de un volumen VeraCrypt existente. Se asumirá que ya ha creado ud. un volumen VeraCrypt que pueda alojar un volumen oculto.</string>
     <string lang="es" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Modo de Creación de Volumen</string>
     <string lang="es" key="HIDVOL_FORMAT_FINISHED_TITLE">Volumen oculto creado</string>
-    <string lang="es" key="HIDVOL_FORMAT_FINISHED_HELP">El volumen oculto VeraCrypt ha sido creado con éxito y está listo para ser usado. Si todas las instrucciones han sido seguidas y las precauciones y requisitos listados en la sección "Precauciones y Requisitos de Seguridad Concernientes a los Volúmenes Ocultos" de la Guía del Usuario de VeraCrypt han sido seguidos, debería ser imposible demostrar que el volumen oculto existe, incluso si el volumen externo está montado.\n\nAVISO: SI NO PROTEGE EL VOLUMEN OCULTO (PARA INFORMARSE SOBRE CÓMO HACERLO, VAYA A LA SECCIÓN "PROTECCIÓN DE VOLÚMENES OCULTOS CONTRA DAÑOS" EN LA GUÍA DEL USUARIO DE TRUECRYPT), NO MODIFIQUE EL VOLUMEN EXTERNO. DE LO CONTRARIO, ¡PODRÍA SOBREESCRIBIR Y DAÑAR EL VOLUMEN OCULTO!</string>
+    <string lang="es" key="HIDVOL_FORMAT_FINISHED_HELP">El volumen oculto VeraCrypt ha sido creado con éxito y está listo para ser usado. Si todas las instrucciones han sido seguidas y las precauciones y requisitos listados en la sección "Precauciones y Requisitos de Seguridad Concernientes a los Volúmenes Ocultos" de la Guía del Usuario de VeraCrypt han sido seguidos, debería ser imposible demostrar que el volumen oculto existe, incluso si el volumen externo está montado.\n\nAVISO: SI NO PROTEGE EL VOLUMEN OCULTO (PARA INFORMARSE SOBRE CÓMO HACERLO, VAYA A LA SECCIÓN "PROTECCIÓN DE VOLÚMENES OCULTOS CONTRA DAÑOS" EN LA GUÍA DEL USUARIO DE VERACRYPT), NO MODIFIQUE EL VOLUMEN EXTERNO. DE LO CONTRARIO, ¡PODRÍA SOBREESCRIBIR Y DAÑAR EL VOLUMEN OCULTO!</string>
     <string lang="es" key="FIRST_HIDDEN_OS_BOOT_INFO">Ha iniciado el sistema operativo oculto. Como habrá observado, el sistema operativo oculto parece estar instalado en la misma partición que el sistema operativo original. Sin embargo, en realidad, está instalado dentro de la partición trasera (en el volumen oculto). Todas las operaciones de lectura y escritura están siendo redirigidas transparentemente desde la partición del sistema original al volumen oculto.\n\nNi el sistema operativo ni las aplicaciones sabrán que los datos escritos y leídos desde la partición del sistema son en realidad escritos y leídos desde la partición trasera (desde un volumen oculto). Dichos datos son cifrados y descifrados al vuelo como siempre (con una clave de cifrado diferente de la que será utilizada para el sistema operativo señuelo).\n\n\nHaga click en Siguiente para continuar.</string>
     <string lang="es" key="HIDVOL_HOST_FILLING_HELP_SYSENC">El volumen externo ha sido creado y montado como la unidad %hc:. Ahora debería ud. copiar a este volumen externo algunos archivos susceptibles de ser buscados pero que realmente NO sean los que quiere ocultar. Estarán ahí por si alguien le obligara a revelar la contraseña para la primera partición tras la partición del sistema, donde los volúmenes externo y oculto (conteniendo el sistema operativo oculto) residirán. Ud. podrá revelar la contraseña para este volumen externo, y la existencia del volumen oculto (y del sistema operativo oculto) permanecerá en secreto.\n\nIMPORTANTE: Los archivos que copie al volumen externo no deben ocupar más de %s. De lo contrario, podría no haber suficiente espacio libre en el volumen externo para el volumen interno (y no se podrá continuar). Cuando termine de copiar, haga click en Siguiente (no desmonte el volumen).</string>
     <string lang="es" key="HIDVOL_HOST_FILLING_HELP">El volumen externo ha sido creado con éxito y montado como la unidad %hc:. Ahora debería ud. copiar a este volumen algunos archivos susceptibles de ser buscados pero que realmente NO sean los que quiere ocultar. Los archivos estarán ahí por si alguien le obligara a revelar su contraseña. Ud. revelará sólo la contraseña para este volumen externo, no la del volumen oculto. Los archivos que realmente le importan serán almacenados en el volumen oculto, que será creado más adelante. Cuando termine de copiar, haga click en Siguiente. No desmonte el volumen.\n\nNota: Después de pulsar Siguiente, el mapa de bits del cluster del volumen externo será escaneado para determinar el tamaño del área ininterrumpida de espacio libre al final del volumen. Este área alojará el volumen oculto, así que limitará su máximo tamaño posible. Escanear el mapa de bits del cluster asegura que ningún dato del volumen externo sea sobreescrito por el volumen oculto.</string>
@@ -549,7 +557,7 @@
     <string lang="es" key="SELECT_PKCS11_MODULE">Seleccione librería PKCS #11</string>
     <string lang="es" key="OUTOFMEMORY">Memoria Insuficiente</string>
     <string lang="es" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANTE: Recomendamos encarecidamente que los usuarios sin experiencia creen un contenedor de archivos VeraCrypt en el dispositivo/partición seleccionado, en lugar de intentar cifrar el dispositivo/partición entero.\n\nAl crear un contenedor VeraCrypt (al contrario que al cifrar un dispositivo o partición) no hay, por ejemplo, riesgo de destruir una gran cantidad de archivos. Tenga en cuenta que un contenedor VeraCrypt (a pesar de que contiene un disco virtual cifrado) es exactamente igual que cualquier archivo normal. Para más información, vea el capítulo Tutorial del Principiante en la Guía de Usuario de VeraCrypt.\n\n¿Seguro que desea cifrar el dispositivo/partición entero?</string>
-    <string lang="es" key="OVERWRITEPROMPT">AVISO: ¡El archivo '%hs' ya existe!\n\nIMPORTANTE: TRUECRYPT NO CIFRARÁ EL ARCHIVO, PERO LO BORRARÁ. ¿Seguro que desea borrar el archivo y reemplazarlo por un nuevo contenedor VeraCrypt?</string>
+    <string lang="es" key="OVERWRITEPROMPT">AVISO: ¡El archivo '%hs' ya existe!\n\nIMPORTANTE: VERACRYPT NO CIFRARÁ EL ARCHIVO, PERO LO BORRARÁ. ¿Seguro que desea borrar el archivo y reemplazarlo por un nuevo contenedor VeraCrypt?</string>
     <string lang="es" key="OVERWRITEPROMPT_DEVICE">CUIDADO: ¡TODOS LOS ARCHIVOS ACTUALMENTE ALMACENADOS EN %s '%hs'%s SERÁN BORRADOS Y SE PERDERÁN (NO SERÁN CIFRADOS)!\n\n¿Seguro que desea continuar con el formato?</string>
     <string lang="es" key="NONSYS_INPLACE_ENC_CONFIRM">AVISO: No podrá montar el volumen o acceder a los archivos almacenados en él hasta que haya sido cifrado por completo.\n\n¿Seguro que desea comenzar a cifrar %s '%hs'%s?</string>
     <string lang="es" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">AVISO: Tenga en cuenta que si el suministro de energía se interrumpe repentinamente mientras se cifran datos existentes sin pérdida de información, o si el sistema operativo falla debido a un error de software o hardware mientras VeraCrypt cifra datos sin pérdida de información, se corromperán o perderán porciones de los datos. Por tanto, antes de comenzar a cifrar, asegúrese de que tiene copias de seguridad de los archivos que desea cifrar.\n\n¿Tiene dichas copias?</string>
@@ -599,6 +607,7 @@
     <string lang="es" key="SELECT_DEST_DIR">Seleccione el directorio de destino</string>
     <string lang="es" key="SELECT_KEYFILE">Seleccione Archivo-llave</string>
     <string lang="es" key="SELECT_KEYFILE_PATH">Seleccione ruta de búsqueda de archivos-llave. AVISO: ¡Sólo se recordará la ruta, no el nombre de los archivos!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="es" key="SERPENT_HELP">Diseñado por Ross Anderson, Eli Biham, y Lars Knudsen. Publicado en 1998. Clave de 256-bit, bloque de 128-bit. Modo de operación XTS. Serpent fue uno de los finalistas AES.</string>
     <string lang="es" key="SIZE_HELP">Especifique el tamaño del contenedor que desea crear.\n\nSi crea un contenedor dinámico (archivo disperso), este parámetro especificará su máximo tamaño posible.\n\nTenga en cuenta que el mínimo tamaño posible de un volumen FAT es 292 KB. De un volumen NTFS, el mínimo es 3792 KB.</string>
     <string lang="es" key="SIZE_HELP_HIDDEN_HOST_VOL">Especifique el tamaño del volumen externo (primero creará un volumen externo y luego un volumen oculto en su interior). El mínimo tamaño posible para un volumen en el que se pretenda crear un volumen oculto es 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="es" key="REMOVABLE_DISK">Disco extraíble</string>
     <string lang="es" key="HARDDISK">Disco Duro</string>
     <string lang="es" key="UNCHANGED">Sin cambios</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="es" key="SETUP_MODE_TITLE">Modo Asistente</string>
     <string lang="es" key="SETUP_MODE_INFO">Seleccione uno de los modos. Si no sabe cuál seleccionar, use el modo predeterminado.</string>
     <string lang="es" key="SETUP_MODE_HELP_INSTALL">Seleccione esta opción si desea instalar VeraCrypt en este sistema.</string>
@@ -863,6 +873,11 @@
     <string lang="es" key="ENTER_HIDDEN_VOL_PASSWORD">Introduzca contraseña para el volumen oculto</string>
     <string lang="es" key="ENTER_HEADER_BACKUP_PASSWORD">Introduzca contraseña para la cabecera almacenada en archivo de respaldo</string>
     <string lang="es" key="KEYFILE_CREATED">Se ha creado con éxito el archivo-llave.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="es" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">AVISO: ¡La cabecera de este volumen está dañada! VeraCrypt usó automáticamente la copia de seguridad de la cabecera insertada en el volumen.\n\nDebería reparar la cabecera del volumen seleccionando 'Herramientas' &gt; 'Restaurar Cabecera de Volumen'.</string>
     <string lang="es" key="VOL_HEADER_BACKED_UP">La copia de seguridad de la cabecera del volumen ha sido creada con éxito.\n\nIMPORTANTE: Restaurar la cabecera usando esta copia de seguridad también restaurará la contraseña actual del volumen. Es más, si son necesarios archivos-llave para montar el volumen, los mismos archivos-llave serán necesarios para montarlo de nuevo cuando se restaure la cabecera del volumen.\n\nAVISO: Esta copia de seguridad puede usarse SÓLO para restaurar la cabecera de éste volumen concreto. Si la usa para restaurar la cabecera de un volumen distinto, podrá montar el volumen pero NO será capaz de descifrar ningún dato almacenado en él (porque cambiará su clave maestra).</string>
     <string lang="es" key="VOL_HEADER_RESTORED">La cabecera del volumen ha sido restaurada con éxito.\n\nIMPORTANTE: Recuerde que también puede haberse restaurado una contraseña antigua. Además, si cuando se creó la copia de seguridad de la cabecera se necesitaban archivos-llave para montar el volumen, esos archivos-llave serán necesarios de nuevo.</string>
@@ -911,8 +926,8 @@
     <string lang="es" key="SIZE_ITEM">Tamaño:   </string>
     <string lang="es" key="PATH_ITEM">Ruta:   </string>
     <string lang="es" key="DRIVE_LETTER_ITEM">Letra de unidad:   </string>
-    <string lang="es" key="UNSUPPORTED_CHARS_IN_PWD">Error: La contraseña debe contener solamente caracteres ASCII.\n\nIntroducir otros caracteres en la contraseña puede hacer que sea imposible montar el volumen si la configuración de su sistema cambia.\n\nLos  siguientes caracteres están permitidos:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="es" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Aviso: La contraseña contiene caracteres ajenos a ASCII. Esto puede causar que sea imposible montar el volumen si la configuración de su sistema cambia.\n\nDebe sustituir todos los caracteres no-ASCII en la contraseña por caracteres ASCII. Haga click  en 'Volúmenes' -&gt;  'Cambiar Contraseña del Volumen'.\n\nLos siguientes  caracteres son ASCII:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="es" key="UNSUPPORTED_CHARS_IN_PWD">Error: La contraseña debe contener solamente caracteres ASCII.\n\nIntroducir otros caracteres en la contraseña puede hacer que sea imposible montar el volumen si la configuración de su sistema cambia.\n\nLos  siguientes caracteres están permitidos:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="es" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Aviso: La contraseña contiene caracteres ajenos a ASCII. Esto puede causar que sea imposible montar el volumen si la configuración de su sistema cambia.\n\nDebe sustituir todos los caracteres no-ASCII en la contraseña por caracteres ASCII. Haga click  en 'Volúmenes' -&gt;  'Cambiar Contraseña del Volumen'.\n\nLos siguientes  caracteres son ASCII:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="es" key="EXE_FILE_EXTENSION_CONFIRM">AVISO: Recomendamos que evite extensiones de archivo que son usadas para archivos ejecutables (como .exe, .sys o .dll) y otras extensiones problemáticas similares. Usar estas extensiones hace que Windows y el software antivirus interfiera con el contenedor, lo que afecta negativamente el rendimiento del volumen y puede causar problemas serios.\n\nEs muy recomendable que elimine la extensión del archivo o la cambie (por ejemplo, a '.tc').\n\n¿Seguro que desea usar la extensión problemática?</string>
     <string lang="es" key="EXE_FILE_EXTENSION_MOUNT_WARNING">AVISO: Este contenedor tiene una extensión que es usada por archivos ejecutables (como .exe, .sys o .dll) o alguna otra extensión que es igualmente problemática. Esto probablemente hará que Windows y el software antivirus interfiera con el contenedor, lo que afectará negativamente el rendimiento del volumen y puede causar otros problemas serios.\n\nEs muy recomendable que elimine la extensión del archivo del contenedor o la cambie (por ejemplo, a '.tc' después de desmontar el volumen.</string>
     <string lang="es" key="HOMEPAGE">Página Inicial</string>

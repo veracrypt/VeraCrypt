@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="sv" key="IDC_HIDVOL_WIZ_MODE_FULL">N&amp;ormalläge</control>
     <control lang="sv" key="IDC_KB">&amp;kB</control>
     <control lang="sv" key="IDC_KEYFILES_ENABLE">&amp;Använd nyckelfiler</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="sv" key="IDC_KEY_FILES">N&amp;yckelfiler …</control>
     <control lang="sv" key="IDC_LINK_HASH_INFO">Information om hashalgoritmer</control>
     <control lang="sv" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Ytterligare information</control>
@@ -145,6 +146,7 @@
     <control lang="sv" key="IDC_PREF_CACHE_PASSWORDS">La&amp;gra lösenord i drivrutinens minnescache</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_INACTIVE">&amp;Demontera automatiskt volymer där inga data har skrivits eller lästs på</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_LOGOFF">Användaren &amp;loggar ut</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_POWERSAVING">&amp;Energisparläge aktiveras</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_SCREENSAVER">S&amp;kärmsläckaren aktiveras</control>
     <control lang="sv" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Fram&amp;tvinga automatisk demontering även om volymen innehåller öppna filer eller mappar</control>
@@ -198,6 +200,7 @@
     <control lang="sv" key="IDM_CREATE_RESCUE_DISK">Skapa återställningsskiva …</control>
     <control lang="sv" key="IDM_CREATE_VOLUME">Skapa ny volym …</control>
     <control lang="sv" key="IDM_DEFAULT_KEYFILES">Standardnyckelfiler …</control>
+    <control lang="sv" key="IDM_DONATE">Donera nu …</control>
     <control lang="sv" key="IDM_ENCRYPT_SYSTEM_DEVICE">Kryptera systempartition eller -enhet …</control>
     <control lang="sv" key="IDM_FAQ">Vanliga frågor och svar (FAQ)</control>
     <control lang="sv" key="IDM_HELP">Användarhandbok</control>
@@ -268,6 +271,7 @@
     <control lang="sv" key="IDT_PARALLELIZATION_OPTIONS">Trådbaserad parallellism</control>
     <control lang="sv" key="IDT_PKCS11_LIB_PATH">Sökväg till PKCS #11-bibliotek</control>
     <control lang="sv" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="sv" key="IDT_PW_CACHE_OPTIONS">Lösenordscache</control>
     <control lang="sv" key="IDT_SECURITY_OPTIONS">Säkerhetsalternativ</control>
     <control lang="sv" key="IDT_TASKBAR_ICON">VeraCrypts bakgrundsaktivitet</control>
@@ -330,6 +334,9 @@
     <control lang="sv" key="IDT_KEYFILE_GENERATOR_NOTE">Flytta muspekaren så slumpmässigt som möjligt innanför detta fönsters gränser. Ju längre du flyttar den desto bättre. Detta förfarande ökar nyckelfilens kryptografiska styrka avsevärt.</control>
     <control lang="sv" key="IDT_KEYFILE_WARNING">VARNING: Om du tappar bort en nyckelfil eller om någon bit av de första 1 024 kB ändras, blir det omöjligt att montera volymer som använder den nyckelfilen!</control>
     <control lang="sv" key="IDT_KEY_UNIT">bitar</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="sv" key="IDT_LANGPACK_AUTHORS">Översatt av:</control>
     <control lang="sv" key="IDT_PLAINTEXT">Storlek på klartext:</control>
     <control lang="sv" key="IDT_PLAINTEXT_SIZE_UNIT">bitar</control>
@@ -340,6 +347,7 @@
     <control lang="sv" key="IDT_SECURITY_TOKEN">Säkerhetstoken:</control>
     <control lang="sv" key="IDT_SORT_METHOD">Sortering:</control>
     <control lang="sv" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Vänta. Denna process kan ta lång tid …</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="sv" key="IDT_TEST_BLOCK_NUMBER">Blocknummer:</control>
     <control lang="sv" key="IDT_TEST_CIPHERTEXT">Krypterad text (hexadecimalt)</control>
     <control lang="sv" key="IDT_TEST_DATA_UNIT_NUMBER">Dataenhetsnummer (64 bitar hexadecimalt, dataenhetsstorleken är 512 byte)</control>
@@ -431,7 +439,7 @@
     <string lang="sv" key="ASK_DEBUGGER_INSTALL">För att kunna analysera en systemkrasch måste VeraCrypt först installera Microsoft Debugging Tools for Windows.\n\nEfter att du klickat på OK, kommer Windows Installer att ladda ned installationspaketet för Microsoft Debugging Tools (16 MB) från en Microsoft-server och installera det. (Windows Installer kommer att hänvisas till Microsoft-servern via en server hos veracrypt.org, vilket säkerställer att nedladdningen kommer att fungera även om Microsoft ändrar URL:en till installationspaketet.)</string>
     <string lang="sv" key="SYSTEM_CRASH_ANALYSIS_INFO">Efter att du klickat på OK kommer VeraCrypt att analysera systemkraschen. Detta kan ta flera minuter.</string>
     <string lang="sv" key="DEBUGGER_NOT_FOUND">Kontrollera att miljövariabeln ”PATH” innehåller sökvägen till ”kd.exe” (kernelfelsökaren).</string>
-    <string lang="sv" key="SYSTEM_CRASH_NO_TRUECRYPT">Det förefaller som att VeraCrypt högst troligen inte orsakade systemkraschen. Det finns många möjliga orsaker till varför systemet kraschade, som t.ex. en fallerande maskinvarukomponent eller ett fel i en drivrutin.</string>
+    <string lang="sv" key="SYSTEM_CRASH_NO_VERACRYPT">Det förefaller som att VeraCrypt högst troligen inte orsakade systemkraschen. Det finns många möjliga orsaker till varför systemet kraschade, som t.ex. en fallerande maskinvarukomponent eller ett fel i en drivrutin.</string>
     <string lang="sv" key="SYSTEM_CRASH_UPDATE_DRIVER">Analysresultatet visar att en uppdatering av följande drivrutin eventuellt kan lösa problemet: </string>
     <string lang="sv" key="SYSTEM_CRASH_REPORT">Genom att skicka en automatiskt genererad felrapport kan du hjälpa oss att avgöra om det finns ett fel i VeraCrypt. Felrapporten innehåller följande information:\n· Programversion\n· Operativsystemets version\n· Typ av processor\n· Felkategori\n· Drivrutinsnamn och -version\n· Systemets anropsstack\n\nOm du klickar på ”Ja” kommer följande URL, som innehåller hela felrapporten, att öppnas i din standardwebbläsare.</string>
     <string lang="sv" key="ASK_SEND_ERROR_REPORT">Vill du skicka ovanstående felrapport till oss?</string>
@@ -476,7 +484,7 @@
     <string lang="sv" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt-volymen har skapats och är klar att använda. Klicka på ”Nästa” om du vill skapa ytterligare en VeraCrypt-volym. Annars klickar du på ”Avsluta”.</string>
     <string lang="sv" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nDen dolda VeraCrypt-volymen har skapats utan fel. (Det dolda operativsystemet kommer att placeras inuti denna dolda volym.)\n\nKlicka på Nästa för att fortsätta.</string>
     <string lang="sv" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volymen är fullständigt krypterad</string>
-    <string lang="sv" key="NONSYS_INPLACE_ENC_FINISHED_INFO">VIKTIGT: KLICKA PÅ ”Automontera enheter” I TRUECRYPTS HUVUDFÖNSTER FÖR ATT MONTERA DENNA NYLIGEN SKAPADE TRUECRYPT-VOLYM OCH FÖR ATT KOMMA ÅT DATA LAGRADE PÅ DEN. Efter att du angett rätt lösenord (och/eller rätt nyckelfiler), kommer volymen att monteras med den enhetsbeteckning du valt i listan i VeraCrypts huvudfönster, och du kan komma åt dina krypterade data via den valda enhetsbeteckningen.\n\nLÄGG OVANSTÅENDE STEG PÅ MINNET ELLER SKRIV NED DEM. DU MÅSTE FÖLJA DEM VARJE GÅNG DU VILL MONTERA VOLYMEN OCH KOMMA ÅT DATA LAGRADE PÅ DEN. Alternativt kan du klicka på ”Välj enhet” i VeraCrypts huvudfönster, välja denna partition eller volym och sedan klicka på ”Montera”.\n\nPartitionen eller enheten har krypterats utan fel och är klar för användning. (Den innehåller nu en färdigkrypterad VeraCrypt-volym.)</string>
+    <string lang="sv" key="NONSYS_INPLACE_ENC_FINISHED_INFO">VIKTIGT: KLICKA PÅ ”Automontera enheter” I VERACRYPTS HUVUDFÖNSTER FÖR ATT MONTERA DENNA NYLIGEN SKAPADE VERACRYPT-VOLYM OCH FÖR ATT KOMMA ÅT DATA LAGRADE PÅ DEN. Efter att du angett rätt lösenord (och/eller rätt nyckelfiler), kommer volymen att monteras med den enhetsbeteckning du valt i listan i VeraCrypts huvudfönster, och du kan komma åt dina krypterade data via den valda enhetsbeteckningen.\n\nLÄGG OVANSTÅENDE STEG PÅ MINNET ELLER SKRIV NED DEM. DU MÅSTE FÖLJA DEM VARJE GÅNG DU VILL MONTERA VOLYMEN OCH KOMMA ÅT DATA LAGRADE PÅ DEN. Alternativt kan du klicka på ”Välj enhet” i VeraCrypts huvudfönster, välja denna partition eller volym och sedan klicka på ”Montera”.\n\nPartitionen eller enheten har krypterats utan fel och är klar för användning. (Den innehåller nu en färdigkrypterad VeraCrypt-volym.)</string>
     <string lang="sv" key="FORMAT_FINISHED_INFO">VeraCrypt-volymen har skapats utan fel.</string>
     <string lang="sv" key="FORMAT_FINISHED_TITLE">Volym skapad</string>
     <string lang="sv" key="FORMAT_HELP">VIKTIGT: Flytta muspekaren så slumpmässigt som möjligt innanför detta fönsters gränser. Ju längre du flyttar den desto bättre. Detta förfarande ökar krypteringsnycklarnas kryptografiska styrka avsevärt. Klicka sedan på ”Formatera” för att skapa volymen.</string>
@@ -489,7 +497,7 @@
     <string lang="sv" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Om du väljer detta alternativ kommer du att få skapa en dold volym inuti en existerande VeraCrypt-volym. Det förutsätts att du redan har skapat en VeraCrypt-volym som kan hysa den dolda volymen.</string>
     <string lang="sv" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Metod för skapande av volym</string>
     <string lang="sv" key="HIDVOL_FORMAT_FINISHED_TITLE">Dold volym skapad</string>
-    <string lang="sv" key="HIDVOL_FORMAT_FINISHED_HELP">Den dolda VeraCrypt-volymen har skapats utan fel och är klar för användning. Om alla instruktioner samt de försiktighetsåtgärder och krav som beskrivs i avsnittet ”Security Requirements and Precautions Pertaining to Hidden Volumes” i VeraCrypts användarhandbok har följts, bör det vara omöjligt att upptäcka att den dolda volymen existerar, även om den yttre volymen monteras.\n\nVARNING: SKRIV INTE TILL DEN YTTRE VOLYMEN OM DU INTE SKYDDAT DEN DOLDA VOLYMEN. (LÄS AVSNITTET ”PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE” I TRUECRYPTS ANVÄNDARHANDBOK FÖR MER INFORMATION OM DETTA.) ANNARS KAN DU SKRIVA ÖVER OCH SKADA DEN DOLDA VOLYMEN!</string>
+    <string lang="sv" key="HIDVOL_FORMAT_FINISHED_HELP">Den dolda VeraCrypt-volymen har skapats utan fel och är klar för användning. Om alla instruktioner samt de försiktighetsåtgärder och krav som beskrivs i avsnittet ”Security Requirements and Precautions Pertaining to Hidden Volumes” i VeraCrypts användarhandbok har följts, bör det vara omöjligt att upptäcka att den dolda volymen existerar, även om den yttre volymen monteras.\n\nVARNING: SKRIV INTE TILL DEN YTTRE VOLYMEN OM DU INTE SKYDDAT DEN DOLDA VOLYMEN. (LÄS AVSNITTET ”PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE” I VERACRYPTS ANVÄNDARHANDBOK FÖR MER INFORMATION OM DETTA.) ANNARS KAN DU SKRIVA ÖVER OCH SKADA DEN DOLDA VOLYMEN!</string>
     <string lang="sv" key="FIRST_HIDDEN_OS_BOOT_INFO">Du har startat det dolda operativsystemet. Som du kanske har märkt, ser det dolda operativsystemet ut att vara installerat på samma partition som det ursprungliga operativsystemet. I verkligheten är det dock installerat på partitionen efter den (i den dolda volymen). Alla läs- och skrivåtgärder blir transparent omdirigerade från den ursprungliga systempartitionen till den dolda volymen.\n\nVarken operativsystemet eller applikationerna kommer att veta att data som skrivs till och läses från systempartitionen skrivs till och läses från partitionen efter den (till/från en dold volym). Alla dessa data krypteras och dekrypteras som vanligt i realtid med en krypteringsnyckel skild från den som används för skenoperativsystemet.\n\n\nKlicka på Nästa för att fortsätta.</string>
     <string lang="sv" key="HIDVOL_HOST_FILLING_HELP_SYSENC">Den yttre volymen har nu skapats och monterats som enhet %hc:. Till denna yttre volym bör du nu kopiera några skenbart känsliga filer som du egentligen INTE vill dölja. De ska finnas där om någon tvingar dig att avslöja lösenordet till den första partitionen efter systempartitionen, där både den yttre volymen och den dolda volymen (innehållande det dolda operativsystemet) kommer att finnas. Även om du avslöjar lösenordet för den yttre volymen, kommer den dolda volymens (och det dolda operativsystemets) existens att förbli hemlig.\n\nVIKTIGT: Filerna du kopierar till den yttre volymen bör inte uppta mer än %s. Annars kan det hända att det inte finns tillräckligt med ledigt utrymme för den dolda volymen i den yttre volymen, och du kommer inte att kunna fortsätta. Klicka på Nästa när du har kopierat klart. (Demontera inte volymen.)</string>
     <string lang="sv" key="HIDVOL_HOST_FILLING_HELP">Den yttre volymen har skapats utan fel och monterats som enhet %hc:. Till denna volym bör du nu kopiera några skenbart känsliga filer som du egentligen INTE vill dölja. Meningen med dessa filer är att de ska kunna hittas av någon som tvingar dig att avslöja ditt lösenord. Dock avslöjar du endast lösenordet till den yttre volymen, inte den dolda. De filer du verkligen bryr dig om ska lagras i den dolda volymen, som kommer att skapas i ett senare skede. Klicka på ”Nästa” när du har kopierat klart. Demontera inte volymen.\n\nObservera: Efter att du klickat på ”Nästa” kommer den yttre volymens klusterbitmapp att läsas av för att bestämma storleken på det sammanhängande lediga utrymmet i slutet av volymen. Detta utrymme kommer att hysa den dolda volymen och därmed även begränsa dess storlek. Avläsningen av klusterbitmappen säkerställer att inga data i den yttre volymen skrivs över av den dolda volymen.</string>
@@ -549,7 +557,7 @@
     <string lang="sv" key="SELECT_PKCS11_MODULE">Välj PKCS #11-bibliotek</string>
     <string lang="sv" key="OUTOFMEMORY">Slut på ledigt minne</string>
     <string lang="sv" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">VIKTIGT: Oerfarna användare rekommenderas att skapa en volymbehållare i stället för att försöka kryptera en hel enhet eller partition.\n\nNär du skapar en volymbehållare (till skillnad från när du krypterar en enhet eller partition) finns det exempelvis ingen risk att ett stort antal filer går förlorade. Observera att en volymbehållare – även om den innehåller en virtuell krypterad disk – är som vilken annan fil som helst. För mer information, läs kapitlet ”Beginner’s Tutorial” i VeraCrypts användarhandbok.\n\nÄr du säker på att du vill kryptera hela enheten eller partitionen?</string>
-    <string lang="sv" key="OVERWRITEPROMPT">VARNING: Filen ”%hs” finns redan!\n\nVIKTIGT: TRUECRYPT KOMMER ATT TA BORT FILEN OCH INTE KRYPTERA DEN. Är du säker på att du vill ta bort filen och ersätta den med en ny volymbehållare?</string>
+    <string lang="sv" key="OVERWRITEPROMPT">VARNING: Filen ”%hs” finns redan!\n\nVIKTIGT: VERACRYPT KOMMER ATT TA BORT FILEN OCH INTE KRYPTERA DEN. Är du säker på att du vill ta bort filen och ersätta den med en ny volymbehållare?</string>
     <string lang="sv" key="OVERWRITEPROMPT_DEVICE">VARNING: ALLA FILER SOM FINNS LAGRADE PÅ DEN %s DU VALT, ”%hs”%s, KOMMER ATT TAS BORT OCH GÅ FÖRLORADE! (DE KOMMER INTE ATT KRYPTERAS.)\n\nÄr du säker på att du vill gå vidare med formateringen?</string>
     <string lang="sv" key="NONSYS_INPLACE_ENC_CONFIRM">VARNING: Du kommer inte att kunna montera volymen eller ha tillgång till några filer lagrade på den förrän krypteringen har slutförts.\n\nÄr du säker på att du vill påbörja krypteringen av %s ”%hs”%s?</string>
     <string lang="sv" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">VARNING: Delar av dina data kan bli skadade eller gå förlorade, om strömförsörjningen plötsligt bryts eller om operativsystemet kraschar beroende på program- eller maskinvarufel medan existerande data på plats-krypteras. Därför bör du, innan krypteringsprocessen startar, kontrollera att du har säkerhetskopior av de filer du vill kryptera.\n\nHar du sådana säkerhetskopior?</string>
@@ -599,6 +607,7 @@
     <string lang="sv" key="SELECT_DEST_DIR">Välj målmapp</string>
     <string lang="sv" key="SELECT_KEYFILE">Välj nyckelfil</string>
     <string lang="sv" key="SELECT_KEYFILE_PATH">Välj en nyckelfilssökväg. VARNING: Observera att endast sökvägen lagras, inte filnamnen!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="sv" key="SERPENT_HELP">Utvecklad av Ross Anderson, Eli Biham och Lars Knudsen. Publicerad 1998. 256-bitars nyckel, 128-bitars block. Arbetsläget är XTS. Serpent var en av AES-finalisterna.</string>
     <string lang="sv" key="SIZE_HELP">Ange storleken på den volymbehållare du vill skapa.\n\nOm du skapar en dynamisk volymbehållare (sparse-fil), kommer volymbehållarens maximala storlek att vara värdet du anger.\n\nObservera att den minsta möjliga storleken på en FAT-volym är 292 kB. Den minsta möjliga storleken på en NTFS-volym är 3 792 kB.</string>
     <string lang="sv" key="SIZE_HELP_HIDDEN_HOST_VOL">Ange storleken på den yttre volym som ska skapas. (Du kommer först att skapa den yttre volymen och sedan en dold volym inuti den.) Den minsta möjliga storleken på en volym inuti vilken en dold volym ska skapas är 340 kB.</string>
@@ -750,6 +759,7 @@
     <string lang="sv" key="REMOVABLE_DISK">Flyttbar disk</string>
     <string lang="sv" key="HARDDISK">Hårddisk</string>
     <string lang="sv" key="UNCHANGED">Oförändrat</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="sv" key="SETUP_MODE_TITLE">Installationsguide</string>
     <string lang="sv" key="SETUP_MODE_INFO">Välj ett av nedanstående alternativ. Använd det förvalda alternativet om du är osäker.</string>
     <string lang="sv" key="SETUP_MODE_HELP_INSTALL">Välj detta alternativ om du vill installera VeraCrypt i denna dator.</string>
@@ -863,6 +873,11 @@
     <string lang="sv" key="ENTER_HIDDEN_VOL_PASSWORD">Ange lösenordet för den dolda volymen</string>
     <string lang="sv" key="ENTER_HEADER_BACKUP_PASSWORD">Ange lösenordet för volymhuvudet lagrat i säkerhetskopian</string>
     <string lang="sv" key="KEYFILE_CREATED">Nyckelfilen har skapats utan fel.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="sv" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">VARNING: Volymhuvudet är skadat! VeraCrypt använde automatiskt den inbäddade säkerhetskopian av volymhuvudet.\n\nDu bör reparera volymhuvudet genom att välja ”Återställ volymhuvud” under ”Verktyg” i rullgardinsmenyn.</string>
     <string lang="sv" key="VOL_HEADER_BACKED_UP">En säkerhetskopia av volymhuvudet har skapats utan fel.\n\nVIKTIGT: En återställning av volymhuvudet återställer även det aktuella lösenordet för volymen. Om nyckelfiler används för att montera volymen, kommer dessutom samma nyckelfiler att behövas för att montera volymen igen när volymhuvudet återställts.\n\nVARNING: Denna säkerhetskopia kan endast användas för att återställa detta specifika volymhuvud. Om du använder denna säkerhetskopia för att återställa ett annat volymhuvud kommer du visserligen att kunna montera volymen, men du kommer INTE att kunna dekryptera några data lagrade på den (eftersom du ändrar dess primära nyckel).</string>
     <string lang="sv" key="VOL_HEADER_RESTORED">Volymhuvudet har återställts utan fel.\n\nVIKTIGT: Observera att även ett gammalt lösenord kan ha återställts. Om nyckelfiler användes för att montera volymen när säkerhetskopian skapades, kommer dessutom samma nyckelfiler att behövas för att montera volymen igen.</string>
@@ -911,8 +926,8 @@
     <string lang="sv" key="SIZE_ITEM">Storlek:   </string>
     <string lang="sv" key="PATH_ITEM">Sökväg:   </string>
     <string lang="sv" key="DRIVE_LETTER_ITEM">Enhetsbeteckning:   </string>
-    <string lang="sv" key="UNSUPPORTED_CHARS_IN_PWD">Fel: Lösenord får endast innehålla ASCII-tecken.\n\nIcke-ASCII-tecken i lösenord kan orsaka att volymen blir omöjlig att montera när din systemkonfiguration ändras.\n\nFöljande tecken är tillåtna:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="sv" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Varning: Lösenordet innehåller icke-ASCII-tecken. Detta kan orsaka att volymen blir omöjlig att montera när din systemkonfiguration ändras.\n\nDu bör ersätta alla icke-ASCII-tecken i lösenordet med ASCII-tecken. För att göra det, välj ”Ändra volymlösenord” under ”Volymer” i rullgardinsmenyn.\n\nFöljande tecken är ASCII-tecken:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="sv" key="UNSUPPORTED_CHARS_IN_PWD">Fel: Lösenord får endast innehålla ASCII-tecken.\n\nIcke-ASCII-tecken i lösenord kan orsaka att volymen blir omöjlig att montera när din systemkonfiguration ändras.\n\nFöljande tecken är tillåtna:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="sv" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Varning: Lösenordet innehåller icke-ASCII-tecken. Detta kan orsaka att volymen blir omöjlig att montera när din systemkonfiguration ändras.\n\nDu bör ersätta alla icke-ASCII-tecken i lösenordet med ASCII-tecken. För att göra det, välj ”Ändra volymlösenord” under ”Volymer” i rullgardinsmenyn.\n\nFöljande tecken är ASCII-tecken:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="sv" key="EXE_FILE_EXTENSION_CONFIRM">VARNING: Du rekommenderas att undvika filnamnstillägg som används av körbara filer (som exempelvis .exe, .sys och .dll) och andra liknande problematiska filnamnstillägg. Användning av sådana filnamnstillägg kan medföra att Windows och antivirusprogramvaror stör volymbehållaren, vilket har en avsevärd påverkan på volymens prestanda och även kan orsaka andra allvarliga problem.\n\nDu rekommenderas att ta bort filnamnstillägget eller ändra det (till exempelvis ”.tc”).\n\nÄr du säker på att du vill använda det problematiska filnamnstillägget?</string>
     <string lang="sv" key="EXE_FILE_EXTENSION_MOUNT_WARNING">VARNING: Denna volymbehållare har ett filnamnstillägg som används av körbara filer (som exempelvis .exe, .sys och .dll) eller ett annat problematiskt filnamnstillägg. Det är mycket troligt att det kommer att medföra att Windows och antivirusprogramvaror stör volymbehållaren, vilket har en avsevärd påverkan på volymens prestanda och även kan orsaka andra allvarliga problem.\n\nDu rekommenderas att ta bort filnamnstillägget eller ändra det (till exempelvis ”.tc”) efter att du har demonterat volymen.</string>
     <string lang="sv" key="HOMEPAGE">Webbplats</string>

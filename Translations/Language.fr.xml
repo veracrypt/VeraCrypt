@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="fr" name="Français" en-name="French" version="0.2.0" translators="Stéphane S., Olivier M." />
     <!-- Fonts -->
@@ -13,7 +13,7 @@
     <control lang="fr" key="IDC_ALL_USERS">Installer pour tous les utilisateurs</control>
     <control lang="fr" key="IDC_BROWSE">Parcourir...</control>
     <control lang="fr" key="IDC_DESKTOP_ICON">Icône de VeraCrypt sur le Bureau</control>
-    <control lang="en" key="IDC_DONATE">Donate now...</control>
+    <control lang="fr" key="IDC_DONATE">Faire un don...</control>
     <control lang="fr" key="IDC_FILE_TYPE">Associer l'extension '.tc' à VeraCrypt</control>
     <control lang="fr" key="IDC_OPEN_CONTAINING_FOLDER">Ouvrir le dossier de destination après l'installation</control>
     <control lang="fr" key="IDC_PROG_GROUP">Ajouter VeraCrypt au menu Démarrer</control>
@@ -44,6 +44,7 @@
     <control lang="fr" key="IDC_HIDVOL_WIZ_MODE_FULL">Mode normal</control>
     <control lang="fr" key="IDC_KB">Ko</control>
     <control lang="fr" key="IDC_KEYFILES_ENABLE">Fichiers clés</control>
+    <control lang="fr" key="IDC_KEYFILES_RANDOM_SIZE">Taille aléatoire ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="fr" key="IDC_KEY_FILES">Fichiers clés...</control>
     <control lang="fr" key="IDC_LINK_HASH_INFO">Infos : algorithmes de hachage</control>
     <control lang="fr" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Plus d'infos</control>
@@ -145,6 +146,7 @@
     <control lang="fr" key="IDC_PREF_CACHE_PASSWORDS">Mots de passe en cache</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_INACTIVE">Démontage automatique quand aucune donnée n'a été lue/écrite durant</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_LOGOFF">L'utilisateur se déconnecte</control>
+    <control lang="fr" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">L'utilisateur verrouille la session</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_POWERSAVING">Le PC passe en mise en veille</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_SCREENSAVER">L'écran de veille est activé</control>
     <control lang="fr" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forcer le démontage automatique même s'il y a encore des fichiers ouverts</control>
@@ -196,8 +198,9 @@
     <control lang="fr" key="IDM_CONTACT">Contact...</control>
     <control lang="fr" key="IDM_CREATE_HIDDEN_OS">Créer un système d'exploitation caché...</control>
     <control lang="fr" key="IDM_CREATE_RESCUE_DISK">Créer un disque de secours...</control>
-    <control lang="fr" key="IDM_CREATE_VOLUME">Créer un nouveau volume...</control>
+    <control lang="fr" key="IDM_CREATE_VOLUME">Créer un nouveau volume...</control>	
     <control lang="fr" key="IDM_DEFAULT_KEYFILES">Fichiers clés par défaut...</control>
+    <control lang="fr" key="IDM_DONATE">Faire un don...</control>
     <control lang="fr" key="IDM_ENCRYPT_SYSTEM_DEVICE">Chiffrer la partition/le disque système...</control>
     <control lang="fr" key="IDM_FAQ">Foire aux questions</control>
     <control lang="fr" key="IDM_HELP">Guide de l'utilisateur</control>
@@ -268,6 +271,7 @@
     <control lang="fr" key="IDT_PARALLELIZATION_OPTIONS">Parallélisation</control>
     <control lang="fr" key="IDT_PKCS11_LIB_PATH">Chemin de bibliothèque PKCS #11</control>
     <control lang="fr" key="IDT_PKCS5_PRF">PKCS-5 PRF :</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="fr" key="IDT_PW_CACHE_OPTIONS">Mots de passe en cache</control>
     <control lang="fr" key="IDT_SECURITY_OPTIONS">Options de sécurité</control>
     <control lang="fr" key="IDT_TASKBAR_ICON">Tâche de fond VeraCrypt</control>
@@ -330,6 +334,9 @@
     <control lang="fr" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANT : Déplacez aléatoirement la souris dans cette fenêtre. Plus longtemps vous le faites, mieux c'est. Cela accroît significativement la force cryptographique du fichier clé.</control>
     <control lang="fr" key="IDT_KEYFILE_WARNING">AVERTISSEMENT : Si vous perdez un fichier clé ou si tout bit de ses 1024 premiers kilooctets change, il sera impossible de monter les volumes utilisant ce fichier clé !</control>
     <control lang="fr" key="IDT_KEY_UNIT">bits</control>
+    <control lang="fr" key="IDT_NUMBER_KEYFILES">Nombre de fichiers clé:</control>
+    <control lang="fr" key="IDT_KEYFILES_SIZE">Taille fichiers clé (en Octets):</control>
+    <control lang="fr" key="IDT_KEYFILES_BASE_NAME">Nom de base fichiers clé:</control>
     <control lang="fr" key="IDT_LANGPACK_AUTHORS">Traduit par :</control>
     <control lang="fr" key="IDT_PLAINTEXT">Taille :</control>
     <control lang="fr" key="IDT_PLAINTEXT_SIZE_UNIT">bits</control>
@@ -339,7 +346,8 @@
     <control lang="fr" key="IDT_SECONDARY_KEY">Clé secondaire (hexadécimal)</control>
     <control lang="en" key="IDT_SECURITY_TOKEN">Security token:</control>
     <control lang="fr" key="IDT_SORT_METHOD">Méthode de tri :</control>
-    <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
+    <control lang="fr" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Merci de patienter. Cette opération peut prendre beaucoup de temps...</control>
+    <control lang="fr" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Merci de patienter...\nCette opération peut prendre beaucoup de temps et la fenêtre de VeraCrypt peur se figer et ne plus répondre.</control>
     <control lang="fr" key="IDT_TEST_BLOCK_NUMBER">Nombre de blocs :</control>
     <control lang="fr" key="IDT_TEST_CIPHERTEXT">Cryptogramme (hexadécimal)</control>
     <control lang="fr" key="IDT_TEST_DATA_UNIT_NUMBER">Nombre d'unité de données (hexadécimal de 64 bits, taille d'une unité = 512 octets)</control>
@@ -431,7 +439,7 @@
     <string lang="fr" key="ASK_DEBUGGER_INSTALL">Pour analyser la panne système, VeraCrypt a d'abord besoin d'installer Microsoft Debugging Tools pour Windows.\n\nAprès avoir cliqué sur OK, l'installateur Windows va télécharger le paquetage d'installation Microsoft Debugging Tools (16 Mo) depuis un serveur Microsoft et l'installer (l'installateur Windows sera transmis à l'URL du serveur Microsoft depuis le serveur de veracrypt.org, ce qui assure le bon fonctionnement de cette procédure même si Microsoft change l'emplacement du paquetage d'installation).</string>
     <string lang="en" key="SYSTEM_CRASH_ANALYSIS_INFO">After you click OK, VeraCrypt will analyze the system crash. This may take up to several minutes.</string>
     <string lang="en" key="DEBUGGER_NOT_FOUND">Please make sure the environment variable 'PATH' includes the path to 'kd.exe' (Kernel Debugger).</string>
-    <string lang="en" key="SYSTEM_CRASH_NO_TRUECRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
+    <string lang="en" key="SYSTEM_CRASH_NO_VERACRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
     <string lang="en" key="SYSTEM_CRASH_UPDATE_DRIVER">Results of the analysis indicate that updating the following driver might solve this issue: </string>
     <string lang="en" key="SYSTEM_CRASH_REPORT">To help us determine whether there is a bug in VeraCrypt, you can send us an automatically generated error report containing the following items:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.</string>
     <string lang="en" key="ASK_SEND_ERROR_REPORT">Do you want to send us the above error report?</string>
@@ -476,7 +484,7 @@
     <string lang="fr" key="FORMAT_FINISHED_HELP">\n\nLe volume VeraCrypt a été créé et il est prêt à l'emploi. Pour créer un autre volume VeraCrypt, cliquez sur 'Suivant'. Sinon 'Quitter'.</string>
     <string lang="en" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nThe hidden VeraCrypt volume has been successfully created (the hidden operating system will reside within this hidden volume).\n\nClick Next to continue.</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volume Fully Encrypted</string>
-    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: TO MOUNT THIS NEWLY CREATED TRUECRYPT VOLUME AND TO ACCESS DATA STORED IN IT, CLICK 'Auto-Mount Devices' IN THE MAIN TRUECRYPT WINDOW. After you enter the correct password (and/or supply correct keyfiles), the volume will be mounted to the drive letter you select from the list in the main VeraCrypt window (and you will be able to access the encrypted data via the selected drive letter).\n\nPLEASE REMEMBER OR WRITE DOWN THE ABOVE STEPS. YOU MUST FOLLOW THEM WHENEVER YOU WANT TO MOUNT THE VOLUME AND ACCESS DATA STORED IN IT. Alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/volume, and click 'Mount'.\n\nThe partition/volume has been successfully encrypted (it contains a fully encrypted VeraCrypt volume now) and is ready for use.</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: TO MOUNT THIS NEWLY CREATED VERACRYPT VOLUME AND TO ACCESS DATA STORED IN IT, CLICK 'Auto-Mount Devices' IN THE MAIN VERACRYPT WINDOW. After you enter the correct password (and/or supply correct keyfiles), the volume will be mounted to the drive letter you select from the list in the main VeraCrypt window (and you will be able to access the encrypted data via the selected drive letter).\n\nPLEASE REMEMBER OR WRITE DOWN THE ABOVE STEPS. YOU MUST FOLLOW THEM WHENEVER YOU WANT TO MOUNT THE VOLUME AND ACCESS DATA STORED IN IT. Alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/volume, and click 'Mount'.\n\nThe partition/volume has been successfully encrypted (it contains a fully encrypted VeraCrypt volume now) and is ready for use.</string>
     <string lang="fr" key="FORMAT_FINISHED_INFO">Le volume VeraCrypt a été créé avec succès.</string>
     <string lang="fr" key="FORMAT_FINISHED_TITLE">Volume créé</string>
     <string lang="fr" key="FORMAT_HELP">IMPORTANT : Déplacez votre souris dans cette fenêtre aussi aléatoirement que possible. Plus longtemps vous la bougez, mieux c'est. Cela accroît significativement la force cryptographique des clés de chiffrement. Puis cliquez sur 'Formater' pour créer le volume.</string>
@@ -489,7 +497,7 @@
     <string lang="fr" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Si vous sélectionnez cette option, vous créerez un volume caché dans un volume VeraCrypt existant. Il sera supposé que vous avez déjà créé un volume VeraCrypt prêt à héberger un volume caché.</string>
     <string lang="fr" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Mode création de volume</string>
     <string lang="fr" key="HIDVOL_FORMAT_FINISHED_TITLE">Volume caché créé</string>
-    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE TRUECRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
+    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE VERACRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
     <string lang="en" key="FIRST_HIDDEN_OS_BOOT_INFO">You have started the hidden operating system. As you may have noticed, the hidden operating system appears to be installed on the same partition as the original operating system. However, in reality, it is installed within the partition behind it (in the hidden volume). All read and write operations are being transparently redirected from the original system partition to the hidden volume.\n\nNeither the operating system nor applications will know that data written to and read from the system partition are actually written to and read from the partition behind it (from/to a hidden volume). Any such data is encrypted and decrypted on the fly as usual (with an encryption key different from the one that will be used for the decoy operating system).\n\n\nPlease click Next to continue.</string>
     <string lang="fr" key="HIDVOL_HOST_FILLING_HELP_SYSENC">Le volume externe a été créé et monté comme lecteur %hc:. Dans ce volume, vous devriez y copier quelques fichiers apparemment importants que vous ne voulez en réalité PAS cacher. Ils seront là pour quiconque vous force à dévoiler le mot de passe pour la première partition après la partition système, où se trouveront le volume externe et le volume caché (contenant le système d'exploitation caché). Vous pourrez révéler le mot de passe de ce volume externe et l'existence du volume caché (ainsi que du système d'exploitation qui est présent) restera secrète.\n\nIMPORTANT : Les fichiers que vous copiez dans le volume externe ne devraient pas occuper plus de %s. Sinon il n'y aura pas assez d'espace libre pour y mettre le volume caché (et vous ne pourrez pas continuer). Après la copie, cliquez sur 'Suivant' (ne démontez pas le volume).</string>
     <string lang="fr" key="HIDVOL_HOST_FILLING_HELP">Le volume externe a été créé avec succès et monté comme lecteur %hc:. Pour utiliser ce volume, vous devriez maintenant copier quelques données 'apparemment' sensibles que vous ne voulez PAS réellement cacher. Ces fichiers seront là pour quiconque voudrait vous forcer la main pour avoir votre mot de passe. Vous ne révélerez que le mot de passe du volume externe, pas celui du volume caché. Les fichiers auxquels vous tenez seront stockés dans le volume caché, qui sera créé ultérieurement.\n\nQuand vous avez terminé de copier, cliquez sur 'Suivant'. Ne démontez pas ce volume.\n\nNote : Après avoir cliqué sur 'Suivant', le plan de configuration du volume externe sera scanné pour déterminer la taille du bloc ininterrompu de l'espace libre (s'il existe) dont la fin est alignée avec celle du volume. Ce bloc adaptera le volume caché et ainsi limitera sa taille maximale possible. Le scan du plan de configuration est nécessaire pour s'assurer qu'aucune donnée sur le volume externe ne sera écrasée par le volume caché.</string>
@@ -549,7 +557,7 @@
     <string lang="fr" key="SELECT_PKCS11_MODULE">Sélectionner la bibliothèque PKCS #11</string>
     <string lang="fr" key="OUTOFMEMORY">Pas assez de mémoire</string>
     <string lang="en" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANT: We strongly recommend that inexperienced users create a VeraCrypt file container on the selected device/partition, instead of attempting to encrypt the entire device/partition.\n\nWhen you create a VeraCrypt file container (as opposed to encrypting a device or partition) there is, for example, no risk of destroying a large number of files. Note that a VeraCrypt file container (even though it contains a virtual encrypted disk) is actually just like any normal file. For more information, see the chapter Beginner's Tutorial in the VeraCrypt User Guide.\n\nAre you sure you want to encrypt the entire device/partition?</string>
-    <string lang="fr" key="OVERWRITEPROMPT">AVERTISSEMENT : Le fichier '%hs' existe déjà !\n\nIMPORTANT : TRUECRYPT NE CHIFFRERA PAS LE FICHIER, MAIS IL LE SUPPRIMERA.\n\nÊtes-vous sûr de vouloir supprimer le fichier et le remplacer par un nouveau conteneur VeraCrypt ?</string>
+    <string lang="fr" key="OVERWRITEPROMPT">AVERTISSEMENT : Le fichier '%hs' existe déjà !\n\nIMPORTANT : VERACRYPT NE CHIFFRERA PAS LE FICHIER, MAIS IL LE SUPPRIMERA.\n\nÊtes-vous sûr de vouloir supprimer le fichier et le remplacer par un nouveau conteneur VeraCrypt ?</string>
     <string lang="fr" key="OVERWRITEPROMPT_DEVICE">ATTENTION : TOUS LES FICHIERS ACTUELLEMENT STOCKÉS SUR %s '%hs'%s  SERONT ÉCRASÉS ET PERDUS (ILS NE SERONT PAS CHIFFRÉS) !\n\nÊtes vous sûr de vouloir procéder au formatage.</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully encrypted.\n\nAre you sure you want to start encrypting the selected %s '%hs'%s?</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">WARNING: Please note that if power supply is suddenly interrupted while encrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting, please make sure that you have backup copies of the files you want to encrypt.\n\nDo you have such a backup?</string>
@@ -599,6 +607,7 @@
     <string lang="fr" key="SELECT_DEST_DIR">Sélectionnez le répertoire de destination</string>
     <string lang="fr" key="SELECT_KEYFILE">Sélectionner un fichier clé</string>
     <string lang="fr" key="SELECT_KEYFILE_PATH">Sélectionnez un chemin de recherche pour le fichier clé. AVERTISSEMENT : Notez que seul l'emplacement sera retenu, pas les noms de fichier.</string>
+    <string lang="fr" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Sélectionnez un répertorie où les fichiers clé seront créés.</string>
     <string lang="fr" key="SERPENT_HELP">Conçu par Ross Anderson, Eli Biham et Lars Knudsen. Publié en 1998. Clé de 256 bits, bloc de 128 bits. Le mode opératoire est XTS. Serpent était l'un des finalistes de AES.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="en" key="REMOVABLE_DISK">Removable Disk</string>
     <string lang="fr" key="HARDDISK">Disque dur</string>
     <string lang="fr" key="UNCHANGED">Inchangé</string>
+    <string lang="fr" key="AUTODETECTION">Auto détection</string>
     <string lang="fr" key="SETUP_MODE_TITLE">Mode assistant</string>
     <string lang="fr" key="SETUP_MODE_INFO">Sélectionnez l'un des modes. Si vous ne savez pas lequel, utilisez celui par défaut.</string>
     <string lang="en" key="SETUP_MODE_HELP_INSTALL">Select this option if you want to install VeraCrypt on this system.</string>
@@ -862,7 +872,12 @@
     <string lang="fr" key="ENTER_NORMAL_VOL_PASSWORD">Entrez le mot de passe pour le volume normal/externe</string>
     <string lang="fr" key="ENTER_HIDDEN_VOL_PASSWORD">Entrez le mot de passe pour le volume caché</string>
     <string lang="fr" key="ENTER_HEADER_BACKUP_PASSWORD">Entrez le mot de passe pour l'en-tête stocké dans un fichier de sauvegarde</string>
-    <string lang="fr" key="KEYFILE_CREATED">Fichier clé créé avec succès.</string>
+    <string lang="fr" key="KEYFILE_CREATED">Fichiers clé créés avec succès.</string>
+    <string lang="fr" key="KEYFILE_INCORRECT_NUMBER">Le nombre de fichiers clé que vous avez saisi est invalide.</string>
+    <string lang="fr" key="KEYFILE_INCORRECT_SIZE">La taille du fichier clé doit être comprise entre 64 and 1048576 octets.</string>
+    <string lang="fr" key="KEYFILE_EMPTY_BASE_NAME">Merci de saisir le nom de base des fichiers clé qui vont être crées</string>
+    <string lang="fr" key="KEYFILE_INVALID_BASE_NAME">Le nom de base saisi des fichiers clé est invalide</string>
+    <string lang="fr" key="KEYFILE_ALREADY_EXISTS">Le fichier clé '%s' existe déjà.\nVoulez-vous l'écraser? L'opération de génération va s'arrêter si vous répondez non.</string>
     <string lang="fr" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">AVERTISSEMENT : L'en-tête de ce volume est endommagé ! VeraCrypt a automatiquement utilisé la sauvegarde de l'en-tête du volume intégré au volume.\n\nVous devriez réparer l'en-tête du volume en sélectionnant 'Outils' &gt; 'Restaurer l'en-tête du volume'.</string>
     <string lang="fr" key="VOL_HEADER_BACKED_UP">La sauvegarde de l'en-tête du volume a été créée avec succès.\n\nIMPORTANT : Restaurer l'en-tête du volume avec cette sauvegarde restaurera aussi le mot de passe actuel du volume. De plus si un(des) fichier(s) clé est(sont) nécessaire(s) pour monter le volume, la(les) même(s) clé(s) sera(seront) nécessaire(s) pour monter à nouveau le volume quand l'en-tête sera restauré.\n\nAVERTISSEMENT : Cette sauvegarde de l'en-tête de volume ne peut être utilisée que pour restaurer l'en-tête de ce volume en particulier. Si vous utilisez cette sauvegarde d'en-tête sur un volume différent, vous pourrez monter le volume mais vous ne pourrez PAS déchiffrer les données stockées (car vous changerez sa clé principale).</string>
     <string lang="fr" key="VOL_HEADER_RESTORED">L'en-tête du volume a été restaurée avec succès.\n\nIMPORTANT : Notez qu'un ancien mot de passe peut aussi avoir été restauré. De plus si un(des) fichier(s) clé est(sont) nécessaire(s) pour monter le volume, la(les) même(s) clé(s) sera(seront) nécessaire(s) pour monter à nouveau le volume.</string>
@@ -911,8 +926,8 @@
     <string lang="en" key="SIZE_ITEM">Size:   </string>
     <string lang="en" key="PATH_ITEM">Path:   </string>
     <string lang="en" key="DRIVE_LETTER_ITEM">Drive Letter:   </string>
-    <string lang="fr" key="UNSUPPORTED_CHARS_IN_PWD">Erreur : Le mot de passe ne doit contenir que des caractères ASCII.\n\nLes caractères non-ASCII peuvent empêcher le volume d'être montés si la configuration de votre système change.\n\nLes caractères suivants sont autorisés :\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="fr" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Avertissement : Le mot de passe contient certains caractères non-ASCII. Cela peut empêcher le montage du volume si la configuration de votre système change.\n\nVous devriez remplacer les caractères non-ASCII du mot de passe par des caractères ASCII. Pour cela cliquez sur 'Volumes' -&gt; 'Modifier le mot de passe du volume'.\n\nLes caractères ASCII sont les suivants :\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="fr" key="UNSUPPORTED_CHARS_IN_PWD">Erreur : Le mot de passe ne doit contenir que des caractères ASCII.\n\nLes caractères non-ASCII peuvent empêcher le volume d'être montés si la configuration de votre système change.\n\nLes caractères suivants sont autorisés :\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="fr" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Avertissement : Le mot de passe contient certains caractères non-ASCII. Cela peut empêcher le montage du volume si la configuration de votre système change.\n\nVous devriez remplacer les caractères non-ASCII du mot de passe par des caractères ASCII. Pour cela cliquez sur 'Volumes' -&gt; 'Modifier le mot de passe du volume'.\n\nLes caractères ASCII sont les suivants :\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="en" key="EXE_FILE_EXTENSION_CONFIRM">WARNING: We strongly recommend that you avoid file extensions that are used for executable files (such as .exe, .sys, or .dll) and other similarly problematic file extensions. Using such file extensions causes Windows and antivirus software to interfere with the container, which adversely affects the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension or change it (e.g., to '.tc').\n\nAre you sure you want to use the problematic file extension?</string>
     <string lang="en" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: This container has a file extension that is used for executable files (such as .exe, .sys, or .dll) or some other file extension that is similarly problematic. It will very likely cause Windows and antivirus software to interfere with the container, which will adversely affect the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension of the container or change it (e.g., to '.tc') after you dismount the volume.</string>
     <string lang="fr" key="HOMEPAGE">Site Web</string>

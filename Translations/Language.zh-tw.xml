@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="zh-tw" name="繁體中文" en-name="Chinese (Taiwan)" version="0.1.0" translators="Barney Li, Simon Ma, ChangMing Hsu" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="zh-tw" key="IDC_HIDVOL_WIZ_MODE_FULL">正常模式</control>
     <control lang="zh-tw" key="IDC_KB">KB(&amp;K)</control>
     <control lang="zh-tw" key="IDC_KEYFILES_ENABLE">使用金鑰檔(&amp;S)</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="zh-tw" key="IDC_KEY_FILES">金鑰檔案(&amp;K)...</control>
     <control lang="zh-tw" key="IDC_LINK_HASH_INFO">關於雜湊演算法的更多資訊</control>
     <control lang="zh-tw" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">更多訊息</control>
@@ -145,6 +146,7 @@
     <control lang="zh-tw" key="IDC_PREF_CACHE_PASSWORDS">在驅動記憶體中快取密碼</control>
     <control lang="zh-tw" key="IDC_PREF_DISMOUNT_INACTIVE">自動卸載加密區，在無資料讀寫活動以下時間後</control>
     <control lang="zh-tw" key="IDC_PREF_DISMOUNT_LOGOFF">用戶登出時</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="zh-tw" key="IDC_PREF_DISMOUNT_POWERSAVING">進入省電模式時</control>
     <control lang="zh-tw" key="IDC_PREF_DISMOUNT_SCREENSAVER">螢幕保護裝置啟動時</control>
     <control lang="zh-tw" key="IDC_PREF_FORCE_AUTO_DISMOUNT">強制自動卸載，無論加密區是否有使用中的檔案或目錄</control>
@@ -198,6 +200,7 @@
     <control lang="zh-tw" key="IDM_CREATE_RESCUE_DISK">建立救援磁碟...</control>
     <control lang="zh-tw" key="IDM_CREATE_VOLUME">建立新的加密區...</control>
     <control lang="zh-tw" key="IDM_DEFAULT_KEYFILES">預設金鑰檔案...</control>
+    <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="zh-tw" key="IDM_ENCRYPT_SYSTEM_DEVICE">加密系統分割區/磁碟機...</control>
     <control lang="zh-tw" key="IDM_FAQ">常見問題(線上)</control>
     <control lang="zh-tw" key="IDM_HELP">使用者指南</control>
@@ -268,6 +271,7 @@
     <control lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</control>
     <control lang="en" key="IDT_PKCS11_LIB_PATH">PKCS #11 Library Path</control>
     <control lang="zh-tw" key="IDT_PKCS5_PRF">PKCS-5 PRF：</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="zh-tw" key="IDT_PW_CACHE_OPTIONS">密碼快取</control>
     <control lang="en" key="IDT_SECURITY_OPTIONS">Security Options</control>
     <control lang="zh-tw" key="IDT_TASKBAR_ICON">VeraCrypt 背景工作</control>
@@ -330,6 +334,9 @@
     <control lang="zh-tw" key="IDT_KEYFILE_GENERATOR_NOTE">重要：請在此視窗內僅可能的隨機移動滑鼠，移動時間越長越好。。這將極為增強金鑰的加密強度。</control>
     <control lang="zh-tw" key="IDT_KEYFILE_WARNING">警告：如果您遺失了金鑰檔或者金鑰檔的前 1024 KB 位元組已改變，將不可能再掛載使用該金鑰的加密區！</control>
     <control lang="zh-tw" key="IDT_KEY_UNIT">位元</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="zh-tw" key="IDT_LANGPACK_AUTHORS">翻譯人員：</control>
     <control lang="zh-tw" key="IDT_PLAINTEXT">純文字密碼長度：</control>
     <control lang="zh-tw" key="IDT_PLAINTEXT_SIZE_UNIT">位元</control>
@@ -340,6 +347,7 @@
     <control lang="en" key="IDT_SECURITY_TOKEN">Security token:</control>
     <control lang="zh-tw" key="IDT_SORT_METHOD">排序方式：</control>
     <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="zh-tw" key="IDT_TEST_BLOCK_NUMBER">區塊數值：</control>
     <control lang="zh-tw" key="IDT_TEST_CIPHERTEXT">密文(十六進位)</control>
     <control lang="zh-tw" key="IDT_TEST_DATA_UNIT_NUMBER">資料單位數值(64 位元十六進位，資料單位大小是 512 位元組)</control>
@@ -431,7 +439,7 @@
     <string lang="en" key="ASK_DEBUGGER_INSTALL">In order to analyze the system crash, VeraCrypt needs to install Microsoft Debugging Tools for Windows first.\n\nAfter you click OK, the Windows installer will download the Microsoft Debugging Tools installation package (16 MB) from a Microsoft server and install it (the Windows installer will be forwarded to the Microsoft server URL from the veracrypt.org server, which ensures that this feature works even if Microsoft changes the location of the installation package).</string>
     <string lang="en" key="SYSTEM_CRASH_ANALYSIS_INFO">After you click OK, VeraCrypt will analyze the system crash. This may take up to several minutes.</string>
     <string lang="en" key="DEBUGGER_NOT_FOUND">Please make sure the environment variable 'PATH' includes the path to 'kd.exe' (Kernel Debugger).</string>
-    <string lang="en" key="SYSTEM_CRASH_NO_TRUECRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
+    <string lang="en" key="SYSTEM_CRASH_NO_VERACRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
     <string lang="en" key="SYSTEM_CRASH_UPDATE_DRIVER">Results of the analysis indicate that updating the following driver might solve this issue: </string>
     <string lang="en" key="SYSTEM_CRASH_REPORT">To help us determine whether there is a bug in VeraCrypt, you can send us an automatically generated error report containing the following items:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.</string>
     <string lang="en" key="ASK_SEND_ERROR_REPORT">Do you want to send us the above error report?</string>
@@ -476,7 +484,7 @@
     <string lang="zh-tw" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt 加密區已建立並準備就緒。要建立另外的 VeraCrypt 加密區，請點 '下一步'，否則請點 '結束'。</string>
     <string lang="en" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nThe hidden VeraCrypt volume has been successfully created (the hidden operating system will reside within this hidden volume).\n\nClick Next to continue.</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volume Fully Encrypted</string>
-    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: TO MOUNT THIS NEWLY CREATED TRUECRYPT VOLUME AND TO ACCESS DATA STORED IN IT, CLICK 'Auto-Mount Devices' IN THE MAIN TRUECRYPT WINDOW. After you enter the correct password (and/or supply correct keyfiles), the volume will be mounted to the drive letter you select from the list in the main VeraCrypt window (and you will be able to access the encrypted data via the selected drive letter).\n\nPLEASE REMEMBER OR WRITE DOWN THE ABOVE STEPS. YOU MUST FOLLOW THEM WHENEVER YOU WANT TO MOUNT THE VOLUME AND ACCESS DATA STORED IN IT. Alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/volume, and click 'Mount'.\n\nThe partition/volume has been successfully encrypted (it contains a fully encrypted VeraCrypt volume now) and is ready for use.</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: TO MOUNT THIS NEWLY CREATED VERACRYPT VOLUME AND TO ACCESS DATA STORED IN IT, CLICK 'Auto-Mount Devices' IN THE MAIN VERACRYPT WINDOW. After you enter the correct password (and/or supply correct keyfiles), the volume will be mounted to the drive letter you select from the list in the main VeraCrypt window (and you will be able to access the encrypted data via the selected drive letter).\n\nPLEASE REMEMBER OR WRITE DOWN THE ABOVE STEPS. YOU MUST FOLLOW THEM WHENEVER YOU WANT TO MOUNT THE VOLUME AND ACCESS DATA STORED IN IT. Alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/volume, and click 'Mount'.\n\nThe partition/volume has been successfully encrypted (it contains a fully encrypted VeraCrypt volume now) and is ready for use.</string>
     <string lang="zh-tw" key="FORMAT_FINISHED_INFO">VeraCrypt 加密區已成功建立。</string>
     <string lang="zh-tw" key="FORMAT_FINISHED_TITLE">加密區已建立</string>
     <string lang="zh-tw" key="FORMAT_HELP">重要：請在此視窗內僅可能的隨機移動滑鼠。移動時間越長越好。這將極為增強金鑰的加密強度。然後點 '格式化' 建立加密區。</string>
@@ -489,7 +497,7 @@
     <string lang="zh-tw" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">如果您選擇此選項，您將會在一個現存的 VeraCrypt 加密區內建立一個隱藏的 VeraCrypt 加密區。假設您已建立好了一個適合存放隱藏加密區的 VeraCrypt 加密區。</string>
     <string lang="zh-tw" key="HIDDEN_VOL_WIZARD_MODE_TITLE">加密區建立模式</string>
     <string lang="zh-tw" key="HIDVOL_FORMAT_FINISHED_TITLE">隱藏加密區已建立</string>
-    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE TRUECRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
+    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE VERACRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
     <string lang="en" key="FIRST_HIDDEN_OS_BOOT_INFO">You have started the hidden operating system. As you may have noticed, the hidden operating system appears to be installed on the same partition as the original operating system. However, in reality, it is installed within the partition behind it (in the hidden volume). All read and write operations are being transparently redirected from the original system partition to the hidden volume.\n\nNeither the operating system nor applications will know that data written to and read from the system partition are actually written to and read from the partition behind it (from/to a hidden volume). Any such data is encrypted and decrypted on the fly as usual (with an encryption key different from the one that will be used for the decoy operating system).\n\n\nPlease click Next to continue.</string>
     <string lang="en" key="HIDVOL_HOST_FILLING_HELP_SYSENC">The outer volume has been created and mounted as drive %hc:. To this outer volume you should now copy some sensitive-looking files that you actually do NOT want to hide. They will be there for anyone forcing you to disclose the password for the first partition behind the system partition, where both the outer volume and the hidden volume (containing the hidden operating system) will reside. You will be able to reveal the password for this outer volume, and the existence of the hidden volume (and of the hidden operating system) will remain secret.\n\nIMPORTANT: The files you copy to the outer volume should not occupy more than %s. Otherwise, there may not be enough free space on the outer volume for the hidden volume (and you will not be able to continue). After you finish copying, click Next (do not dismount the volume).</string>
     <string lang="zh-tw" key="HIDVOL_HOST_FILLING_HELP">外層加密區已成功建立並作為 %hc: 磁碟機掛載。對這個加密區，現在您應複製一些您不是真正要隱藏的看似敏感的檔案。這是讓那些強迫您洩漏密碼的人能看到的檔。您將僅對這個外層加密區洩漏密碼，而不要洩漏給他們隱藏加密區的密碼。您真正要保護的檔將被儲存在稍後建立的隱藏加密區裡。當您完成複製後，請點 '下一步'，而且不要卸載此加密區。\n\n注意：點 '下一步' 後，將進行叢集圖掃描來確定連續的可用空間大小，此可用空間的結尾與加密區結尾一致。該空間將提供用來建立隱藏加密區同時也是隱藏加密區的最大容量。叢集圖掃描能夠保證外層加密區中的資料不會被隱藏加密區複寫。</string>
@@ -599,6 +607,7 @@
     <string lang="zh-tw" key="SELECT_DEST_DIR">選擇目標目錄</string>
     <string lang="zh-tw" key="SELECT_KEYFILE">選擇金鑰檔</string>
     <string lang="zh-tw" key="SELECT_KEYFILE_PATH">選擇金鑰檔的搜索路徑。警告：要注意記憶的只是路徑，而不會記憶檔案名！</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="zh-tw" key="SERPENT_HELP">設計者為 Ross Anderson、Eli Biham、和 Lars Knudsen。發表於 1998 年。256 位金鑰，128 位元資料塊。操作模式為 XTS。Serpent 為與 AES 候選演算法中的一種。</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="en" key="REMOVABLE_DISK">Removable Disk</string>
     <string lang="zh-tw" key="HARDDISK">硬碟</string>
     <string lang="zh-tw" key="UNCHANGED">不改變</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="zh-tw" key="SETUP_MODE_TITLE">精靈模式</string>
     <string lang="en" key="SETUP_MODE_INFO">Select one of the modes. If you are not sure which to select, use the default mode.</string>
     <string lang="en" key="SETUP_MODE_HELP_INSTALL">Select this option if you want to install VeraCrypt on this system.</string>
@@ -863,6 +873,11 @@
     <string lang="en" key="ENTER_HIDDEN_VOL_PASSWORD">Enter password for the hidden volume</string>
     <string lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</string>
     <string lang="zh-tw" key="KEYFILE_CREATED">金鑰檔已成功建立。</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="en" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">WARNING: The header of this volume is damaged! VeraCrypt automatically used the backup of the volume header embedded in the volume.\n\nYou should repair the volume header by selecting 'Tools' &gt; 'Restore Volume Header'.</string>
     <string lang="zh-tw" key="VOL_HEADER_BACKED_UP">加密區標頭資訊備份已經成功建立。\n\n重要：使用復原功能復原時也會復原目前加密區的密碼。此外，如果建立加密區的時候使用了金鑰檔，復原後也需要同樣的金鑰檔來打開加密區。\n\n警告：該加密區標頭資訊備份只能用在這個提供備份的加密區上。如果您把該標頭資訊備份復原到其他加密區，您可能能夠打開加密區，但是您將無法解密儲存在加密區的任何資料(這是因為您已經改變了加密區的主金鑰)。</string>
     <string lang="zh-tw" key="VOL_HEADER_RESTORED">加密區標頭資訊備份已經成功復原。\n\n重要：請注意舊密碼也同樣被復原了。此外，備份時如果需要金鑰檔來掛載加密區，復原後也需要同樣的金鑰檔。</string>
@@ -911,8 +926,8 @@
     <string lang="en" key="SIZE_ITEM">Size:   </string>
     <string lang="en" key="PATH_ITEM">Path:   </string>
     <string lang="en" key="DRIVE_LETTER_ITEM">Drive Letter:   </string>
-    <string lang="zh-tw" key="UNSUPPORTED_CHARS_IN_PWD">錯誤：密碼必須只包含 ASCII 字元。\n\n密碼中的非 ASCII 字元可能會導致當作業系統組態改變時加密區無法掛載。\n\n允許使用以下字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
-    <string lang="zh-tw" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">警告：密碼中包含非 ASCII 字元。可能會導致當作業系統組態改變時加密區無法掛載。\n\n您應該使用 ASCII 字元取代密碼中的非 ASCII 字元。如要這樣做，請選取 "加密區" -&gt; "修改加密區密碼"\n\n以下字元為 ASCII 字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
+    <string lang="zh-tw" key="UNSUPPORTED_CHARS_IN_PWD">錯誤：密碼必須只包含 ASCII 字元。\n\n密碼中的非 ASCII 字元可能會導致當作業系統組態改變時加密區無法掛載。\n\n允許使用以下字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
+    <string lang="zh-tw" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">警告：密碼中包含非 ASCII 字元。可能會導致當作業系統組態改變時加密區無法掛載。\n\n您應該使用 ASCII 字元取代密碼中的非 ASCII 字元。如要這樣做，請選取 "加密區" -&gt; "修改加密區密碼"\n\n以下字元為 ASCII 字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
     <string lang="en" key="EXE_FILE_EXTENSION_CONFIRM">WARNING: We strongly recommend that you avoid file extensions that are used for executable files (such as .exe, .sys, or .dll) and other similarly problematic file extensions. Using such file extensions causes Windows and antivirus software to interfere with the container, which adversely affects the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension or change it (e.g., to '.tc').\n\nAre you sure you want to use the problematic file extension?</string>
     <string lang="en" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: This container has a file extension that is used for executable files (such as .exe, .sys, or .dll) or some other file extension that is similarly problematic. It will very likely cause Windows and antivirus software to interfere with the container, which will adversely affect the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension of the container or change it (e.g., to '.tc') after you dismount the volume.</string>
     <string lang="zh-tw" key="HOMEPAGE">首頁(線上)</string>
@@ -976,7 +991,7 @@
     <string lang="zh-tw" key="CHECKING_FS">正在檢測掛載為 %hs 的 VeraCrypt 加密區的檔案系統...</string>
     <string lang="zh-tw" key="REPAIRING_FS">正在試圖修正掛載為 %hs 的 VeraCrypt 加密區的檔案系統...</string>
     <string lang="zh-tw" key="WARN_CBC_MODE">警告：這個加密區是加密成 CBC 模式。因為安全性的問題，CBC 模式自從 VeraCrypt 4.1 版已經廢棄。\n\n我們強烈建議您將資料從這個 VeraCrypt 加密區移到這版 VeraCrypt 製成的新加密區。完成之後，您應該安全的消除或毀滅舊的加密區。要取得更多資訊，請參考文件裏的版本歷史或 VeraCrypt 4.1 或更新版的發行說明。</string>
-    <string lang="zh-tw" key="WARN_64_BIT_BLOCK_CIPHER">警告：該加密區使用了被保留的加密演算法。\n\n所有 64 位元區塊加密演算法(Blowfish，CAST-128 和 Triple DES)已經逐漸不再被使用了。雖然該加密區在以後版本的 VeraCrypt 可能會被掛載。然而以後不會針對這些被保留演算法採取一些改善措施。我們建議您建立一個使用 128 位元區塊加密演算法的 Truecrypt 加密區(如：AES，Serpent，Twofish，等等)並把使用舊演算法的加密區裡面的檔案移動到新的加密區裡面去。</string>
+    <string lang="zh-tw" key="WARN_64_BIT_BLOCK_CIPHER">警告：該加密區使用了被保留的加密演算法。\n\n所有 64 位元區塊加密演算法(Blowfish，CAST-128 和 Triple DES)已經逐漸不再被使用了。雖然該加密區在以後版本的 VeraCrypt 可能會被掛載。然而以後不會針對這些被保留演算法採取一些改善措施。我們建議您建立一個使用 128 位元區塊加密演算法的 Veracrypt 加密區(如：AES，Serpent，Twofish，等等)並把使用舊演算法的加密區裡面的檔案移動到新的加密區裡面去。</string>
     <string lang="zh-tw" key="SYS_AUTOMOUNT_DISABLED">您的系統未被設置為自動掛載新加密區。因此也不可能掛載磁碟機類型的加密區。自動卸載可以在執行下列命令後重啟系統來啟用。\n\n\nmountvol.exe /E</string>
     <string lang="zh-tw" key="SYS_ASSIGN_DRIVE_LETTER">請在繼續前為該磁碟機/磁碟分割區指定一個代號("控制台" &gt; "系統和維護" &gt; "管理工具" - "建立和格式化磁碟分割區")。\n\n要注意這些是作業系統所需要的。</string>
     <string lang="zh-tw" key="MOUNT_TC_VOLUME">掛載 VeraCrypt 加密區</string>

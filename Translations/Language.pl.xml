@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="pl" key="IDC_HIDVOL_WIZ_MODE_FULL">Tryb zwykły</control>
     <control lang="pl" key="IDC_KB">&amp;kB</control>
     <control lang="pl" key="IDC_KEYFILES_ENABLE">Użyj plików &amp;kluczowych</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="pl" key="IDC_KEY_FILES">Pliki kl&amp;uczowe...</control>
     <control lang="pl" key="IDC_LINK_HASH_INFO">Informacja o algorytmach mieszających</control>
     <control lang="pl" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Informacje dodatkowe</control>
@@ -145,6 +146,7 @@
     <control lang="pl" key="IDC_PREF_CACHE_PASSWORDS">Przechowuj hasła w pamięci sterownika</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_INACTIVE">Automatycznie odłącz wolumen, jeśli nie był używany przez</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_LOGOFF">Użytkownik się wylogował</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_POWERSAVING">W trybie oszczędzania energii</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_SCREENSAVER">Zadziałał wygaszacz ekranu</control>
     <control lang="pl" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Wymuś odłączanie, nawet gdy są otwarte pliki lub katalogi</control>
@@ -198,6 +200,7 @@
     <control lang="pl" key="IDM_CREATE_RESCUE_DISK">Utwórz płytę ratunkową...</control>
     <control lang="pl" key="IDM_CREATE_VOLUME">Utwórz nowy wolumen...</control>
     <control lang="pl" key="IDM_DEFAULT_KEYFILES">Domyślne pliki kluczowe...</control>
+    <control lang="pl" key="IDM_DONATE">Dotuj teraz...</control>
     <control lang="pl" key="IDM_ENCRYPT_SYSTEM_DEVICE">Szyfruj partycję/dysk systemowy...</control>
     <control lang="pl" key="IDM_FAQ">Odpowiedzi na często zadawane pytania (FAQ)</control>
     <control lang="pl" key="IDM_HELP">Podręcznik użytkownika</control>
@@ -268,6 +271,7 @@
     <control lang="pl" key="IDT_PARALLELIZATION_OPTIONS">Zrównoleglanie Wątkowe</control>
     <control lang="pl" key="IDT_PKCS11_LIB_PATH">PKCS #11 Ścieżka Biblioteki</control>
     <control lang="pl" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="pl" key="IDT_PW_CACHE_OPTIONS">Pamięć haseł</control>
     <control lang="pl" key="IDT_SECURITY_OPTIONS">Opcje Bezpieczeństwa</control>
     <control lang="pl" key="IDT_TASKBAR_ICON">Proces VeraCrypt uruchamiany w tle</control>
@@ -330,6 +334,9 @@
     <control lang="pl" key="IDT_KEYFILE_GENERATOR_NOTE">WAŻNE: Wykonuj w tym oknie losowe ruchy myszą. Im dłużej to robisz, tym lepiej. Poprawia to znacząco kryptograficzną jakość pliku kluczowego.</control>
     <control lang="pl" key="IDT_KEYFILE_WARNING">Uwaga: Jeśli zgubisz plik kluczowy lub zostanie zmieniony choć jeden bit z pierwszych 1024 kB, podłączenie wolumenów nie będzie możliwe!</control>
     <control lang="pl" key="IDT_KEY_UNIT">bity</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="pl" key="IDT_LANGPACK_AUTHORS">Przetłumaczony przez:</control>
     <control lang="pl" key="IDT_PLAINTEXT">Długość:</control>
     <control lang="pl" key="IDT_PLAINTEXT_SIZE_UNIT">bity</control>
@@ -340,6 +347,7 @@
     <control lang="pl" key="IDT_SECURITY_TOKEN">Token/Bilet bezpieczeństwa:</control>
     <control lang="pl" key="IDT_SORT_METHOD">Metoda sortowania:</control>
     <control lang="pl" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Czekaj. Ten proces może trwać długo...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="pl" key="IDT_TEST_BLOCK_NUMBER">Numer bloku:</control>
     <control lang="pl" key="IDT_TEST_CIPHERTEXT">Tekst zaszyfrowany (szesnastkowo)</control>
     <control lang="pl" key="IDT_TEST_DATA_UNIT_NUMBER">Numer jednostki danych (64 bity - szesnastkowo, wielkość jednostki danych: 512 bajtów)</control>
@@ -431,7 +439,7 @@
     <string lang="pl" key="ASK_DEBUGGER_INSTALL">W celu wykonania analizy upadku systemu, VeraCrypt wymaga uprzedniej instalacji Microsoft Debugging Tools for Windows.\n\nPo wciśnięciu OK, Instalator Windows pobierze pakiet instalacyjny Microsoft Debugging Tools (16 MB) z serwera Microsoftu i zainstaluje go. (Instalator Windows zostanie przekierowany do na adres serwera Microsoft z serwera veracrypt.org server, co zapewni wykonanie procedury nawet jeśli  Microsoft zmieni położenie pakietu instalacyjnego).</string>
     <string lang="pl" key="SYSTEM_CRASH_ANALYSIS_INFO">Po wciśnięciu OK, VeraCrypt wykona analizę upadku systemu. Może to potrwać kilka(naście) minut.</string>
     <string lang="pl" key="DEBUGGER_NOT_FOUND">Sprawdź, czy zmienna systemowa 'PATH' zawiera ścieżkę do 'kd.exe' (Kernel Debugger).</string>
-    <string lang="pl" key="SYSTEM_CRASH_NO_TRUECRYPT">Wydaje się, że VeraCrypt najprawdopodobniej nie spowodował upadku systemu. Istnieje wiele potencjalnych przyczyn upadku (na przykład wadliwy komponent sprzętowy, błąd w sterowniku urządzenia, itp.)</string>
+    <string lang="pl" key="SYSTEM_CRASH_NO_VERACRYPT">Wydaje się, że VeraCrypt najprawdopodobniej nie spowodował upadku systemu. Istnieje wiele potencjalnych przyczyn upadku (na przykład wadliwy komponent sprzętowy, błąd w sterowniku urządzenia, itp.)</string>
     <string lang="pl" key="SYSTEM_CRASH_UPDATE_DRIVER">Wyniki analizy wskazują, że aktualizacja wskazanego sterownika może rozwiązać problem: </string>
     <string lang="pl" key="SYSTEM_CRASH_REPORT">Aby pomóc nam określić, czy występuje błąd w VeraCrypt, proszę wysłać automatycznie wygenerowany raport zawierający następujące pozycje:\n- Wersja programu\n- Wersja systemu operacyjnego\n- Typ CPU\n- Kategoria błędu\n- Nazwa i wersja sterownika\n- Stos wywołań systemowych\n\nJeśli wybierzesz 'Tak', poniższy URL (zawierający pełny raport błędu) zostanie otwarty w domyślnej przeglądarce internetowej.</string>
     <string lang="pl" key="ASK_SEND_ERROR_REPORT">Czy chcesz wysłać powyższy raport błędu?</string>
@@ -476,7 +484,7 @@
     <string lang="pl" key="FORMAT_FINISHED_HELP">\n\nWolumen VeraCrypt został utworzony i jest gotowy do użycia. Jeśli chcesz utworzyć inny wolumen VeraCrypt, kliknij przycisk Dalej. W przeciwnym wypadku kliknij przycisk Wyjście.</string>
     <string lang="pl" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nUkryty wolumen VeraCrypt został pomyślnie stworzony (ukryty system operacyjny został umieszczony wewnątrz ukrytego wolumenu).\n\nNaciśnij Dalej aby kontynuować.</string>
     <string lang="pl" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Cały wolumen zaszyfrowany</string>
-    <string lang="pl" key="NONSYS_INPLACE_ENC_FINISHED_INFO">WAŻNE: ABY DOSTAĆ SIĘ DO DANYCH W NOWYM WOLUMENIE TRUECRYPT PODŁĄCZ GO, KLIKNIJ 'Podłączaj automatycznie' W GŁÓWNYM OKNIE TRUECRYPT. Po wprowadzeniu poprawnego hasła (i/lub wskazania poprawnego pliku kluczowego), wolumen zostanie podłączony pod literę dysku wybraną z listy w oknie VeraCrypt (i będziesz miał dostęp do zaszyfrowanych danych poprzez ten dysk).\n\nPROSZĘ ZAPAMIĘTAĆ LUB ZAPISAĆ SOBIE POWYŻSZE KROKI. MUSISZ TAK POSTĘPOWAĆ JEŻELI KIEDYKOLWIEK CHCESZ PODŁĄCZYĆ WOLUMEN I MIEĆ DOSTĘP DO DANYCH ZAWARTYCH W NIM. Opcjonalnie, w głównym oknie VeraCrypt, kliknij 'Wybierz urządzenie', wybierz partycję/wolumen, kliknij 'Podłącz'.\n\nPartycja/wolumen zostanie poprawnie odszyfrowana (zawartość wolumenu jest zaszyfrowana przez VeraCrypt) i jest gotowa do użycia.</string>
+    <string lang="pl" key="NONSYS_INPLACE_ENC_FINISHED_INFO">WAŻNE: ABY DOSTAĆ SIĘ DO DANYCH W NOWYM WOLUMENIE VERACRYPT PODŁĄCZ GO, KLIKNIJ 'Podłączaj automatycznie' W GŁÓWNYM OKNIE VERACRYPT. Po wprowadzeniu poprawnego hasła (i/lub wskazania poprawnego pliku kluczowego), wolumen zostanie podłączony pod literę dysku wybraną z listy w oknie VeraCrypt (i będziesz miał dostęp do zaszyfrowanych danych poprzez ten dysk).\n\nPROSZĘ ZAPAMIĘTAĆ LUB ZAPISAĆ SOBIE POWYŻSZE KROKI. MUSISZ TAK POSTĘPOWAĆ JEŻELI KIEDYKOLWIEK CHCESZ PODŁĄCZYĆ WOLUMEN I MIEĆ DOSTĘP DO DANYCH ZAWARTYCH W NIM. Opcjonalnie, w głównym oknie VeraCrypt, kliknij 'Wybierz urządzenie', wybierz partycję/wolumen, kliknij 'Podłącz'.\n\nPartycja/wolumen zostanie poprawnie odszyfrowana (zawartość wolumenu jest zaszyfrowana przez VeraCrypt) i jest gotowa do użycia.</string>
     <string lang="pl" key="FORMAT_FINISHED_INFO">Wolumen VeraCrypt został pomyślnie utworzony.</string>
     <string lang="pl" key="FORMAT_FINISHED_TITLE">Utworzono wolumen</string>
     <string lang="pl" key="FORMAT_HELP">WAŻNE: Wykonuj w tym oknie losowe ruchy myszą. Im dłużej to robisz, tym lepiej. Poprawia to znacząco kryptograficzną jakość kluczy. Następnie kliknij przycisk Sformatuj, aby utworzyć wolumen. </string>
@@ -489,7 +497,7 @@
     <string lang="pl" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Zamierzasz utworzyć wolumen ukryty w istniejącym wolumenie VeraCrypt. Zostało przyjęte założenie, że właśnie utworzono wolumen VeraCrypt odpowiedni do przechowywania wolumenu ukrytego. </string>
     <string lang="pl" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Tryb tworzenia wolumenu</string>
     <string lang="pl" key="HIDVOL_FORMAT_FINISHED_TITLE">Wolumen ukryty został utworzony</string>
-    <string lang="pl" key="HIDVOL_FORMAT_FINISHED_HELP">Ukryty wolumen VeraCrypt został pomyślnie utworzony i jest gotowy do użycia. Jeśli wykonano wszystkie instrukcje a ostrzeżenia wymagania wymienione w sekcji "Security Requirements and Precautions Pertaining to Hidden Volumes" w Instrukcji użytkownika VeraCrypt, powinno być niemożliwe udowodnienie że ukryty wolumen istnieje, nawet, gdy wolumen zewnętrzny jest zamontowany.\n\nUWAGA: JEŚLI NIE CHRONISZ UKRYTEGO WOLUMENU (BY DOWIEDZIEĆ SIĘ JAK, CZYTAJ W SEKCJI "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" W INSTRUKCJI UŻYTKOWNIKA TRUECRYPT), NIE ZAPISUJ NA WOLUMINIE ZEWNĘTRZNYM. INACZEJ MOŻESZ NADPISAĆ I USZKODZIĆ WOLUMEN UKRYTY!</string>
+    <string lang="pl" key="HIDVOL_FORMAT_FINISHED_HELP">Ukryty wolumen VeraCrypt został pomyślnie utworzony i jest gotowy do użycia. Jeśli wykonano wszystkie instrukcje a ostrzeżenia wymagania wymienione w sekcji "Security Requirements and Precautions Pertaining to Hidden Volumes" w Instrukcji użytkownika VeraCrypt, powinno być niemożliwe udowodnienie że ukryty wolumen istnieje, nawet, gdy wolumen zewnętrzny jest zamontowany.\n\nUWAGA: JEŚLI NIE CHRONISZ UKRYTEGO WOLUMENU (BY DOWIEDZIEĆ SIĘ JAK, CZYTAJ W SEKCJI "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" W INSTRUKCJI UŻYTKOWNIKA VERACRYPT), NIE ZAPISUJ NA WOLUMINIE ZEWNĘTRZNYM. INACZEJ MOŻESZ NADPISAĆ I USZKODZIĆ WOLUMEN UKRYTY!</string>
     <string lang="pl" key="FIRST_HIDDEN_OS_BOOT_INFO">Wystartowałeś ukryty system operacyjny. Jak zostałeś poinformowany, ukryty system operacyjny zostanie zainstalowany na tej samej partycji co oryginalny system operacyjny. Jednakże, w rzeczywistości, jest on zainstalowany na zewnątrz partycji - za nią (w ukrytym wolumenie). Wszystkie odczyty i zapisy będą transparentnie przekazywane z oryginalnej partycji systemowej do ukrytego wolumenu.\n\nŻaden system operacyjny lub aplikacja nie wie że zapis danych i odczyt z partycji systemowej są realizowane spoza partycji (od/do ukrytego wolumenu). Wszystkie szukane dane są szyfrowanie i deszyfrowane w locie.\n\n\nProszę kliknąć Dalej aby kontynuować.</string>
     <string lang="pl" key="HIDVOL_HOST_FILLING_HELP_SYSENC">Zewnętrzny wolumen został stworzony i podłączony jako %hc:. Do tego wolumenu możesz skopiować jakieś pliki, które aktualnie nie były ukryte.\n\nWAŻNE: Pliki kopiowane na zewnętrzny wolumen nie powinny być większe niż %s. Inaczej, może nie być wystarczającej ilości wolnego miejsca na zewnętrznym wolumenie dla ukrytego wolumenu (i nie da się przejść dalej). Po zakończeniu kopiowania, kliknij Dalej (nie odłączaj wolumenu).</string>
     <string lang="pl" key="HIDVOL_HOST_FILLING_HELP">Wolumen zewnętrzny został pomyślnie utworzony i podłączony jako dysk %hc:. Należy teraz skopiować do niego dane sprawiające wrażenie cennych, a których w rzeczywistości NIE chcesz chronić. Dane te będą udostępnione osobie zmuszającej Cię do wyjawienia hasła. Możesz zdradzić tylko hasło do wolumenu zewnętrznego, a nie do ukrytego. Dane, które NAPRAWDĘ chcesz chronić, będą zapisywane w wolumenie ukrytym, który zostanie utworzony później. Kiedy skończysz kopiowanie, kliknij przycisk Dalej. Nie odłączaj tego wolumenu.\n\nPamiętaj: Po kliknięciu przycisku Dalej, mapa bitowa klastrów wolumenu zewnętrznego zostanie przeskanowana w celu określenia wielkości ciągłego obszaru wolnego, którego koniec pokrywa się z końcem wolumenu. Ten obszar może być wykorzystany przez wolumen ukryty i ogranicza jego maksymalną wielkość. Skanowanie mapy bitowej klastrów zapewnia, że żadne dane wolumenu zewnętrznego nie zostaną nadpisane przez wolumen ukryty.</string>
@@ -549,7 +557,7 @@
     <string lang="pl" key="SELECT_PKCS11_MODULE">Wybierz PKCS #11 bibliotekę</string>
     <string lang="pl" key="OUTOFMEMORY">Brak pamięci</string>
     <string lang="pl" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">WAŻNE: Mocno rekomendujemy niedoświadczonym użytkownikom tworzenie kontenerów VeraCrypt w plikach na wybranych urządzeniach/partycjach, zamiast szyfrować całe urządzenie/partycję.\n\nKiedy tworzysz kontener VeraCrypt plik (jako alternatywę zaszyfrowania urządzenia lub partycji) nie ma ryzyka np. uszkodzenia dużej ilości plików. Pamiętaj, że kontener - plik VeraCrypt (każdy wirtualny zaszyfrowany dysk) jest tak jak każdy normalny plik. Po więcej informacji, zajrzyj do instrukcji Beginner's Tutorial w dokumentacji VeraCrypt.\n\nCzy jesteś pewien że chcesz zaszyfrować całe urządzenie/partycję?</string>
-    <string lang="pl" key="OVERWRITEPROMPT">OSTRZEŻENIE: Plik '%hs' już istnieje!\n\nWAŻNE: PROGRAM TRUECRYPT NIE ZASZYFRUJE TEGO PLIKU, ALE GO USUNIE! Czy na pewno usunąć ten plik i zastąpić go nowym kontenerem VeraCrypt?</string>
+    <string lang="pl" key="OVERWRITEPROMPT">OSTRZEŻENIE: Plik '%hs' już istnieje!\n\nWAŻNE: PROGRAM VERACRYPT NIE ZASZYFRUJE TEGO PLIKU, ALE GO USUNIE! Czy na pewno usunąć ten plik i zastąpić go nowym kontenerem VeraCrypt?</string>
     <string lang="pl" key="OVERWRITEPROMPT_DEVICE">UWAGA: WSZYSTKIE PLIKI OBECNIE ZAPISANE W %s '%hs'%s BĘDĄ USUNIĘTE I ZOSTANĄ UTRACONE (NIE BĘDĄ ZASZYFROWANE)!\n\nCzy na pewno chcesz kontynuować formatowanie?</string>
     <string lang="pl" key="NONSYS_INPLACE_ENC_CONFIRM">UWAGA: Nie zostaniesz dopuszczony do podłączenia wolumenu lub dostępu do zapisanych plików dopóki nie zostaną one w pełni zaszyfrowane.\n\nCzy jesteś pewien, że chcesz uruchomić szyfrowanie: %s '%hs'%s?</string>
     <string lang="pl" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">UWAGA: Proszę mieć na uwadze, że jeżeli zabraknie prądu podczas szyfrowania istniejących danych "w locie", lub kiedy nastąpi błąd systemu przez oprogramowanie lub sprzęt podczas szyfrowania "w locie" VeraCrypt, część danych szyfrowanych może być uszkodzona lub utracona. Dlatego, przed uruchomieniem szyfrowania, proszę upewnić się że masz kopię plików, które szyfrujesz.\n\nCzy masz taką kopię?</string>
@@ -599,6 +607,7 @@
     <string lang="pl" key="SELECT_DEST_DIR">Wybierz katalog docelowy</string>
     <string lang="pl" key="SELECT_KEYFILE">Wybierz plik kluczowy</string>
     <string lang="pl" key="SELECT_KEYFILE_PATH">Wskaż ścieżkę wyszukiwania pliku kluczowego. UWAGA: Zapisana będzie tylko ścieżka a nie nazwy plików!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="pl" key="SERPENT_HELP">Zaprojektowany przez Rossa Andersona, Eli Bihama i Larsa Knudsena. Opublikowany w 1998. 256-bitowy klucz, 128-bitowy blok. Tryb szyfrowania: XTS. Algorytm Serpent był jednym z finalistów konkursu na algorytm AES.</string>
     <string lang="pl" key="SIZE_HELP">Wskaż rozmiar kontenera do utworzenia.\n\nJeśli tworzysz dynamiczny (sparse-file) kontener, ten parametr wskazuje maksymalny możliwy rozmiar.\n\nZauważ, że minimalny możliwy rozmiar woluminu FAT wynosi 292 KB. Minimalny możliwy rozmiar wolumenu NTFS jest 3792 KB.</string>
     <string lang="pl" key="SIZE_HELP_HIDDEN_HOST_VOL">Wskaż rozmiar zewnętrznego wolumenu do utworzenia (na początku zostanie utworzony wolumen zewnętrzny a następnie wolumen ukryty wewnątrz niego). Minimalny możliwy rozmiar wolumenu, wewnątrz którego tworzony jest wolumen ukryty wynosi 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="pl" key="REMOVABLE_DISK">Wymienny dysk</string>
     <string lang="pl" key="HARDDISK">Dysk twardy</string>
     <string lang="pl" key="UNCHANGED">Niezmieniony</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="pl" key="SETUP_MODE_TITLE">Tryb kreatora</string>
     <string lang="pl" key="SETUP_MODE_INFO">Wybierz jedną z metod. Jeżeli nie jesteś pewny co wybrać, wybierz wartość domyślną.</string>
     <string lang="pl" key="SETUP_MODE_HELP_INSTALL">Wybierz tą opcję jeżeli chcesz zainstalować VeraCrypt w tym systemie.</string>
@@ -863,6 +873,11 @@
     <string lang="pl" key="ENTER_HIDDEN_VOL_PASSWORD">Wprowadź hasło dla ukrytego wolumenu</string>
     <string lang="pl" key="ENTER_HEADER_BACKUP_PASSWORD">Wprowadź hasło do zapisania do pliku kopii bezpieczeństwa nagłówka</string>
     <string lang="pl" key="KEYFILE_CREATED">Plik kluczowy został pomyślnie utworzony.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="pl" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">UWAGA: Nagłówek tego wolumenu jest uszkodzony! VeraCrypt automatycznie użyje wbudowanej kopii bezpieczeństwa nagłówka wolumenu.\n\nMożesz naprawić nagłówek wolumenu wybierając 'Narzędzia' &gt; 'Odtwórz nagłówek wolumenu'.</string>
     <string lang="pl" key="VOL_HEADER_BACKED_UP">Pomyślnie utworzono kopię zapasową nagłówka wolumenu.\n\nWAŻNE: Odtworzenie nagłówka wolumenu z użyciem tej kopii spowoduje odtworzenie aktualnego hasła wolumenu. Oprócz tego jeśli pliki kluczowe są potrzebne do podłączania, te same pliki kluczowe będą niezbędne do podłączenia wolumenu po odtworzeniu jego nagłówka.\n\nOSTRZEŻENIE: Ta kopia zapasowa nagłówka może być użyta TYLKO dla tego wolumenu. Użycie tej kopii nagłówka dla innego wolumenu umożliwi jego podłączenie, ale NIE BĘDZIE MOŻLIWE odszyfrowanie danych zapisanych w wolumenie (ponieważ zmieni się jego klucz nadrzędny).</string>
     <string lang="pl" key="VOL_HEADER_RESTORED">Nagłówek wolumenu został pomyślnie odtworzony.\n\nWAŻNE: Stare hasło również zostało odtworzone. Jeśli w chwili utworzenia tej kopii zapasowej do podłączenia wolumenu były konieczne pliki kluczowe, te same pliki będą znów potrzebne do podłączenia wolumenu. </string>
@@ -911,8 +926,8 @@
     <string lang="pl" key="SIZE_ITEM">Wielkość:   </string>
     <string lang="pl" key="PATH_ITEM">Ścieżka:    </string>
     <string lang="pl" key="DRIVE_LETTER_ITEM">Litera dysku:   </string>
-    <string lang="pl" key="UNSUPPORTED_CHARS_IN_PWD">Błąd: Hasło może zawierać tylko znaki ASCII.\n\nZnaki spoza zestawu ASCII w haśle mogą spowodować brak możliwości podłączenia po zmianie konfiguracji systemu.\n\nDozwolone jest użycie następujących znaków:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="pl" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">OSTRZEŻENIE: Hasło zawiera znaki spoza zestawu ASCII. Może to spowodować brak możliwości podłączenia wolumenu po zmianie konfiguracji systemu operacyjnego.\n\nNależy zastąpić wszystkie znaki spoza zestawu ASCII w haśle znakami ASCII. W tym celu kliknij 'Wolumeny' -&gt; 'Zmień hasło wolumenu'.\n\nNastępujące znaki należą do zestawu ASCII:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="pl" key="UNSUPPORTED_CHARS_IN_PWD">Błąd: Hasło może zawierać tylko znaki ASCII.\n\nZnaki spoza zestawu ASCII w haśle mogą spowodować brak możliwości podłączenia po zmianie konfiguracji systemu.\n\nDozwolone jest użycie następujących znaków:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="pl" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">OSTRZEŻENIE: Hasło zawiera znaki spoza zestawu ASCII. Może to spowodować brak możliwości podłączenia wolumenu po zmianie konfiguracji systemu operacyjnego.\n\nNależy zastąpić wszystkie znaki spoza zestawu ASCII w haśle znakami ASCII. W tym celu kliknij 'Wolumeny' -&gt; 'Zmień hasło wolumenu'.\n\nNastępujące znaki należą do zestawu ASCII:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="pl" key="EXE_FILE_EXTENSION_CONFIRM">OSTRZEŻENIE: Stanowczo zaleca się unikanie używania rozszerzeń nazw plików używanych przez pliki wykonywalne (takich jak .exe, .sys lub .dll) i innych podobnych problematycznych rozszerzeń nazw plików. Użycie takich rozszerzeń nazw sugeruje systemowi Windows i oprogramowaniu antywirusowemu ingerowanie w kontenery, co może spowodować obniżenie wydajności wolumenu a także poważne problemy.\n\nStanowczo zaleca się usunięcie tego rozszerzenia pliku lub jego zmianę (np. na .raw, .iso, .img, .dat lub .rnd).\n\nCzy na pewno chcesz użyć problematycznego rozszerzenia nazwy pliku?</string>
     <string lang="pl" key="EXE_FILE_EXTENSION_MOUNT_WARNING">OSTRZEŻENIE: Ten kontener ma rozszerzenie nazwy pliku, które jest zarezerwowane dla plików wykonywalnych (takich jak .exe, .sys lub .dll) lub inne podobnie problematyczne rozszerzenie nazwy pliku. To prawdopodobnie spowoduje ingerencję systemu Windows i oprogramowania antywirusowego w kontener, co wpłynie na wydajność wolumenu i może być przyczyną poważnych problemów.\n\nStanowczo zaleca się usunięcie rozszerzenia lub jego zmianę (np. na .raw, .iso, .img, .dat lub .rnd) po odłączeniu tego wolumenu.</string>
     <string lang="pl" key="HOMEPAGE">Strona główna</string>

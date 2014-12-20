@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="el" name="Ελληνικά" en-name="Greek" version="0.1.0" translators="Βασίλης Κοσμίδης" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="el" key="IDC_HIDVOL_WIZ_MODE_FULL">Κανονική μέθοδος</control>
     <control lang="el" key="IDC_KB">&amp;KB</control>
     <control lang="el" key="IDC_KEYFILES_ENABLE">Χ&amp;ρήση αρχ.-κλειδιού</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="el" key="IDC_KEY_FILES">Αρ&amp;χεία-κλειδιά</control>
     <control lang="el" key="IDC_LINK_HASH_INFO">Πληροφορίες για αλγόριθμους hash</control>
     <control lang="el" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Περισσότερες πληροφορίες</control>
@@ -145,6 +146,7 @@
     <control lang="el" key="IDC_PREF_CACHE_PASSWORDS">Αποθ/ση κωδικών στη μνήμη του οδηγού</control>
     <control lang="el" key="IDC_PREF_DISMOUNT_INACTIVE">Όταν δε διαβάζονται/γράφονται δεδομένα σ'αυτόν για</control>
     <control lang="el" key="IDC_PREF_DISMOUNT_LOGOFF">Αποσύνδεση χρήστη</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="el" key="IDC_PREF_DISMOUNT_POWERSAVING">Λειτουργία χαμηλής κατανάλωσης</control>
     <control lang="el" key="IDC_PREF_DISMOUNT_SCREENSAVER">Ενεργή προστασία οθόνης</control>
     <control lang="el" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Εξαναγκασμένη ακόμα και αν ο τόμος έχει ανοικτά αρχεία/φακέλους</control>
@@ -198,6 +200,7 @@
     <control lang="el" key="IDM_CREATE_RESCUE_DISK">Δημιουργία Δίσκου Ασφαλείας...</control>
     <control lang="el" key="IDM_CREATE_VOLUME">Δημιουργία νέου τόμου...</control>
     <control lang="el" key="IDM_DEFAULT_KEYFILES">Εξ'ορισμού αρχεία-κλειδιά...</control>
+    <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="el" key="IDM_ENCRYPT_SYSTEM_DEVICE">Κρυπτογράφηση διαμερίσματος/οδηγού συστήματος...</control>
     <control lang="el" key="IDM_FAQ">Συχνές ερωτήσεις</control>
     <control lang="el" key="IDM_HELP">Οδηγός χρήσης</control>
@@ -268,6 +271,7 @@
     <control lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</control>
     <control lang="en" key="IDT_PKCS11_LIB_PATH">PKCS #11 Library Path</control>
     <control lang="el" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="el" key="IDT_PW_CACHE_OPTIONS">Cache κωδικού</control>
     <control lang="en" key="IDT_SECURITY_OPTIONS">Security Options</control>
     <control lang="el" key="IDT_TASKBAR_ICON">Εργασία VeraCrypt στο παρασκήνιο</control>
@@ -330,6 +334,9 @@
     <control lang="el" key="IDT_KEYFILE_GENERATOR_NOTE">ΣΗΜΑΝΤΙΚΟ: Κινήστε το ποντίκι όσο πιο τυχαία γίνεται μέσα σε αυτό το παράθυρο. Όσο περισσότερο, τόσο καλύτερα. Αυτό αυξάνει σημαντικά την κρυπτογραφική ικανότητα των αρχείων-κλειδιών.</control>
     <control lang="el" key="IDT_KEYFILE_WARNING">ΠΡΟΣΟΧΗ: Αν χάσετε ένα αρχείο-κλειδί ή κάποιο bit από τα πρώτα 1024 ΚΒ του αλλάξει, θα είναι αδύνατο να φορτώσετε τόμους που το χρησιμοποιούν!</control>
     <control lang="el" key="IDT_KEY_UNIT">bits</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="el" key="IDT_LANGPACK_AUTHORS">Μετάφραση:</control>
     <control lang="el" key="IDT_PLAINTEXT">Μέγεθος απλού κειμένου:</control>
     <control lang="el" key="IDT_PLAINTEXT_SIZE_UNIT">bits</control>
@@ -340,6 +347,7 @@
     <control lang="en" key="IDT_SECURITY_TOKEN">Security token:</control>
     <control lang="el" key="IDT_SORT_METHOD">Μέθοδος ταξινόμησης:</control>
     <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="el" key="IDT_TEST_BLOCK_NUMBER">Αριθμός μπλοκ:</control>
     <control lang="el" key="IDT_TEST_CIPHERTEXT">Κρυπτοκείμενο (δεκαεξαδικό)</control>
     <control lang="el" key="IDT_TEST_DATA_UNIT_NUMBER">Αριθμός μονάδων δεδομένων(64-bit 16δικό, μέγεθος μονάδας δεδομένων 512 bytes)</control>
@@ -431,7 +439,7 @@
     <string lang="en" key="ASK_DEBUGGER_INSTALL">In order to analyze the system crash, VeraCrypt needs to install Microsoft Debugging Tools for Windows first.\n\nAfter you click OK, the Windows installer will download the Microsoft Debugging Tools installation package (16 MB) from a Microsoft server and install it (the Windows installer will be forwarded to the Microsoft server URL from the veracrypt.org server, which ensures that this feature works even if Microsoft changes the location of the installation package).</string>
     <string lang="en" key="SYSTEM_CRASH_ANALYSIS_INFO">After you click OK, VeraCrypt will analyze the system crash. This may take up to several minutes.</string>
     <string lang="en" key="DEBUGGER_NOT_FOUND">Please make sure the environment variable 'PATH' includes the path to 'kd.exe' (Kernel Debugger).</string>
-    <string lang="en" key="SYSTEM_CRASH_NO_TRUECRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
+    <string lang="en" key="SYSTEM_CRASH_NO_VERACRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
     <string lang="en" key="SYSTEM_CRASH_UPDATE_DRIVER">Results of the analysis indicate that updating the following driver might solve this issue: </string>
     <string lang="en" key="SYSTEM_CRASH_REPORT">To help us determine whether there is a bug in VeraCrypt, you can send us an automatically generated error report containing the following items:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.</string>
     <string lang="en" key="ASK_SEND_ERROR_REPORT">Do you want to send us the above error report?</string>
@@ -476,7 +484,7 @@
     <string lang="el" key="FORMAT_FINISHED_HELP">\n\nΟ τόμος VeraCrypt δημιουργήθηκε και είναι έτοιμος για χρήση. Αν θέλετε να δημιουργήσετε κι άλλον τόμο πιέστε "Επόμενο", αλλιώς "Έξοδος".</string>
     <string lang="en" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nThe hidden VeraCrypt volume has been successfully created (the hidden operating system will reside within this hidden volume).\n\nClick Next to continue.</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volume Fully Encrypted</string>
-    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: TO MOUNT THIS NEWLY CREATED TRUECRYPT VOLUME AND TO ACCESS DATA STORED IN IT, CLICK 'Auto-Mount Devices' IN THE MAIN TRUECRYPT WINDOW. After you enter the correct password (and/or supply correct keyfiles), the volume will be mounted to the drive letter you select from the list in the main VeraCrypt window (and you will be able to access the encrypted data via the selected drive letter).\n\nPLEASE REMEMBER OR WRITE DOWN THE ABOVE STEPS. YOU MUST FOLLOW THEM WHENEVER YOU WANT TO MOUNT THE VOLUME AND ACCESS DATA STORED IN IT. Alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/volume, and click 'Mount'.\n\nThe partition/volume has been successfully encrypted (it contains a fully encrypted VeraCrypt volume now) and is ready for use.</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: TO MOUNT THIS NEWLY CREATED VERACRYPT VOLUME AND TO ACCESS DATA STORED IN IT, CLICK 'Auto-Mount Devices' IN THE MAIN VERACRYPT WINDOW. After you enter the correct password (and/or supply correct keyfiles), the volume will be mounted to the drive letter you select from the list in the main VeraCrypt window (and you will be able to access the encrypted data via the selected drive letter).\n\nPLEASE REMEMBER OR WRITE DOWN THE ABOVE STEPS. YOU MUST FOLLOW THEM WHENEVER YOU WANT TO MOUNT THE VOLUME AND ACCESS DATA STORED IN IT. Alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/volume, and click 'Mount'.\n\nThe partition/volume has been successfully encrypted (it contains a fully encrypted VeraCrypt volume now) and is ready for use.</string>
     <string lang="el" key="FORMAT_FINISHED_INFO">Ο τόμος VeraCrypt δημιουργήθηκε επιτυχώς.</string>
     <string lang="el" key="FORMAT_FINISHED_TITLE">Ο τόμος δημιουργήθηκε</string>
     <string lang="el" key="FORMAT_HELP">ΣΗΜΑΝΤΙΚΟ: Κινήστε το ποντίκι όσο πιο τυχαία γίνεται μέσα σε αυτό το παράθυρο. Όσο περισσότερο, τόσο καλύτερα. Αυτό αυξάνει σημαντικά την κρυπτογραφική ικανότητα των αρχείων-κλειδιών. Στη συνέχεια πιέστε Διαμόρφωση για να δημιουργήσετε τον τόμο.</string>
@@ -489,7 +497,7 @@
     <string lang="el" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Αν επιλέξετε αυτή τη δυνατότητα, θα δημιουργήσετε έναν κρυφό τόμο μέσα σε έναν υπάρχοντα τόμο VeraCrypt. Θα θεωρηθεί ότι έχετε ήδη δημιουργήσει έναν τόμο VeraCrypt κατάλληλο να φιλοξενήσει τον κρυφό τόμο.</string>
     <string lang="el" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Μέθοδος δημιουργίας τόμου</string>
     <string lang="el" key="HIDVOL_FORMAT_FINISHED_TITLE">Ο κρυφός τόμος δημιουργήθηκε</string>
-    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE TRUECRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
+    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE VERACRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
     <string lang="en" key="FIRST_HIDDEN_OS_BOOT_INFO">You have started the hidden operating system. As you may have noticed, the hidden operating system appears to be installed on the same partition as the original operating system. However, in reality, it is installed within the partition behind it (in the hidden volume). All read and write operations are being transparently redirected from the original system partition to the hidden volume.\n\nNeither the operating system nor applications will know that data written to and read from the system partition are actually written to and read from the partition behind it (from/to a hidden volume). Any such data is encrypted and decrypted on the fly as usual (with an encryption key different from the one that will be used for the decoy operating system).\n\n\nPlease click Next to continue.</string>
     <string lang="en" key="HIDVOL_HOST_FILLING_HELP_SYSENC">The outer volume has been created and mounted as drive %hc:. To this outer volume you should now copy some sensitive-looking files that you actually do NOT want to hide. They will be there for anyone forcing you to disclose the password for the first partition behind the system partition, where both the outer volume and the hidden volume (containing the hidden operating system) will reside. You will be able to reveal the password for this outer volume, and the existence of the hidden volume (and of the hidden operating system) will remain secret.\n\nIMPORTANT: The files you copy to the outer volume should not occupy more than %s. Otherwise, there may not be enough free space on the outer volume for the hidden volume (and you will not be able to continue). After you finish copying, click Next (do not dismount the volume).</string>
     <string lang="el" key="HIDVOL_HOST_FILLING_HELP">Ο εξωτερικός τόμος δημιουργήθηκε επιτυχώς και φορτώθηκε ως οδηγός %hc:. Σε αυτόν τον τόμο θα πρέπει να γράψετε αρχεία που ΔΕΝ θέλετε να κρύψετε. Τα αρχεία θα είναι εμφανή για όποιον σας εξαναγκάσει να αποκαλύψετε τον κωδικό σας. Θα αποκαλύψετε μόνο τον κωδικό του εξωτερικού τόμου, όχι του κρυφού. Τα πραγματικά σημαντικά σας αρχεία θα είναι στον κρυφό τόμο που θα δημιουργηθεί στη συνέχεια. Όταν τελειώσετε την αντιγραφή πιέστε "Επόμενο". Μην εκφορτώσετε τον τόμο.\n\nΣημείωση: Αφού πιέσετε "Επόμενο", το cluster bitmap του εξωτερικού τόμου θα ανιχνευθεί για να καθορισθεί το μέγεθος του συνεχούς ελεύθερου χώρου του οποίου το τέλος ευθυγραμμίζεται με το τέλος του τόμου. Αυτή η περιοχή θα περιέχει τον κρυφό τόμο, συνεπώς θα περιορίσει το μέγιστο δυνατό του μέγεθος. Η ανίχνευση του cluster bitmap διασφαλίζει ότι δεν θα διαγραφούν δεδομένα του εξωτερικού τόμου από τον κρυφό τόμο.</string>
@@ -549,7 +557,7 @@
     <string lang="en" key="SELECT_PKCS11_MODULE">Select PKCS #11 Library</string>
     <string lang="el" key="OUTOFMEMORY">Η μνήμη εξαντλήθηκε</string>
     <string lang="en" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANT: We strongly recommend that inexperienced users create a VeraCrypt file container on the selected device/partition, instead of attempting to encrypt the entire device/partition.\n\nWhen you create a VeraCrypt file container (as opposed to encrypting a device or partition) there is, for example, no risk of destroying a large number of files. Note that a VeraCrypt file container (even though it contains a virtual encrypted disk) is actually just like any normal file. For more information, see the chapter Beginner's Tutorial in the VeraCrypt User Guide.\n\nAre you sure you want to encrypt the entire device/partition?</string>
-    <string lang="el" key="OVERWRITEPROMPT">ΠΡΟΣΟΧΗ: Το αρχείο '%hs' ήδη υπάρχει!\n\nΣΗΜΑΝΤΙΚΟ: ΤΟ TRUECRYPT ΔΕ ΘΑ ΚΡΥΠΤΟΓΡΑΦΗΣΕΙ ΤΟ ΑΡΧΕΙΟ ΑΛΛΑ ΘΑ ΤΟ ΔΙΑΓΡΑΨΕΙ. Είστε σίγουρος ότι θέλετε να διαγράψετε το αρχείο και να το αντικαταστήσετε με ένα νέο αρχείο-τόμο VeraCrypt;</string>
+    <string lang="el" key="OVERWRITEPROMPT">ΠΡΟΣΟΧΗ: Το αρχείο '%hs' ήδη υπάρχει!\n\nΣΗΜΑΝΤΙΚΟ: ΤΟ VERACRYPT ΔΕ ΘΑ ΚΡΥΠΤΟΓΡΑΦΗΣΕΙ ΤΟ ΑΡΧΕΙΟ ΑΛΛΑ ΘΑ ΤΟ ΔΙΑΓΡΑΨΕΙ. Είστε σίγουρος ότι θέλετε να διαγράψετε το αρχείο και να το αντικαταστήσετε με ένα νέο αρχείο-τόμο VeraCrypt;</string>
     <string lang="el" key="OVERWRITEPROMPT_DEVICE">ΠΡΟΣΟΧΗ: ΟΛΑ ΤΑ ΑΠΟΘΗΚΕΥΜΕΝΑ ΑΡΧΕΙΑ ΣΤΟ ΕΠΙΛΕΓΜΕΝΟ %s '%hs'%s ΘΑ ΔΙΑΓΡΑΦΟΥΝ (ΔΕ ΘΑ ΚΡΥΠΤΟΓΡΑΦΗΘΟΥΝ)!\n\nΕίστε σίγουρος ότι θέλετε να συνεχίσετε τη διαμόρφωση;</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully encrypted.\n\nAre you sure you want to start encrypting the selected %s '%hs'%s?</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">WARNING: Please note that if power supply is suddenly interrupted while encrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting, please make sure that you have backup copies of the files you want to encrypt.\n\nDo you have such a backup?</string>
@@ -599,6 +607,7 @@
     <string lang="el" key="SELECT_DEST_DIR">Επιλέξτε φάκελο προορισμού</string>
     <string lang="el" key="SELECT_KEYFILE">Επιλέξτε αρχείο-κλειδί</string>
     <string lang="el" key="SELECT_KEYFILE_PATH">Επιλέξτε διαδρομή αναζήτησης αρχείου-κλειδιού. ΠΡΟΣΟΧΗ: Μόνο η διαδρομή θα απομνημονευθεί, όχι τα αρχεία!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="el" key="SERPENT_HELP">Σχεδιασμένος από τους Ross Anderson, Eli Biham και Lars Knudsen. Δημοσιεύτηκε το 1998. Κλειδί 256-bit, μπλοκ 128-bit. Κατάσταση λειτουργίας XTS. Ο Serpent ήταν ένας από τους φιναλίστ του AES.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="en" key="REMOVABLE_DISK">Removable Disk</string>
     <string lang="el" key="HARDDISK">Σκληρός δίσκος</string>
     <string lang="el" key="UNCHANGED">Αμετάβλητο</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="el" key="SETUP_MODE_TITLE">Κατάσταση Οδηγού</string>
     <string lang="en" key="SETUP_MODE_INFO">Select one of the modes. If you are not sure which to select, use the default mode.</string>
     <string lang="en" key="SETUP_MODE_HELP_INSTALL">Select this option if you want to install VeraCrypt on this system.</string>
@@ -863,6 +873,11 @@
     <string lang="en" key="ENTER_HIDDEN_VOL_PASSWORD">Enter password for the hidden volume</string>
     <string lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</string>
     <string lang="el" key="KEYFILE_CREATED">Το αρχείο-κλειδί δημιουργήθηκε επιτυχώς.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="en" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">WARNING: The header of this volume is damaged! VeraCrypt automatically used the backup of the volume header embedded in the volume.\n\nYou should repair the volume header by selecting 'Tools' &gt; 'Restore Volume Header'.</string>
     <string lang="el" key="VOL_HEADER_BACKED_UP">Το αντίγραφο ασφαλείας του header του τόμου δημιουργήθηκε επιτυχώς.\n\nΣΗΜΑΝΤΙΚΟ: Η επαναφορά του header με αυτό το αντίγραφο θα επαναφέρει επίσης και τον κωδικό του τόμου. Επιπλέον αν χρειάζονται αρχεία-κλειδιά για να φορτωθεί ο τόμος, τα ίδια αρχεία-κλειδιά θα είναι απαραίτητα για να φορτώσετε τον τόμο ξανά όταν ανακτηθεί το header.\n\nΠΡΟΣΟΧΗ: Αυτό το αντίγραφο ασφαλείας του header μπορεί να χρησιμοποιηθεί για την επαναφορά του header ΜΟΝΟ αυτού του συγκεκριμένου τόμου. Αν το χρησιμοποιήσετε σε άλλο τόμο, θα μπορείτε να φορτώσετε τον τόμο, αλλά ΔΕΝ θα μπορείτε να αποκρυπτογραφήσετε τα δεδομένα του (γιατί θα αλλάξετε το βασικό κλειδί του).</string>
     <string lang="el" key="VOL_HEADER_RESTORED">Το header του τόμου ανακτήθηκε με επιτυχία.\n\nΣΗΜΑΝΤΙΚΟ: Παρακαλώ σημειώστε ότι κάποιος παλιός κωδικός μπορεί επίσης να ανακτήθηκε. Επιπλέον αν χρειάζονταν αρχεία-κλειδιά για να φορτωθεί ο τόμος όταν δημιουργήθηκε το αντίγραφο ασφαλείας, τα ίδια αρχεία-κλειδιά είναι τώρα απαραίτητα για να φορτώσετε τον τόμο ξανά.</string>
@@ -911,8 +926,8 @@
     <string lang="en" key="SIZE_ITEM">Size:   </string>
     <string lang="en" key="PATH_ITEM">Path:   </string>
     <string lang="en" key="DRIVE_LETTER_ITEM">Drive Letter:   </string>
-    <string lang="el" key="UNSUPPORTED_CHARS_IN_PWD">Σφάλμα: Ο κωδικός πρέπει να περιέχει μόνο χαρακτήρες ASCII.\n\nΜη-ASCII χαρακτήρες στον κωδικό μπορεί να προκαλέσουν αδυναμία φόρτωσης του τόμου όταν αλλάξουν οι ρυθμίσεις του συστήματος σας.\n\nΟι επόμενοι χαρακτήρες επιτρέπονται:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="el" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Προειδοποίηση: Ο κωδικός περιέχει χαρακτήρες μη-ASCII.\n\nΑυτό μπορεί να προκαλέσει αδυναμία φόρτωσης του τόμου όταν αλλάξουν οι ρυθμίσεις του συστήματος σας.\n\nΘα πρέπει να αλλάξετε όλους τους μη-ASCII χαρακτήρες με χαρακτήρες ASCII όπως τους παρακάτω:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~. Για να το κάνετε αυτό επιλέξτε "Τόμοι" και "Αλλαγή κωδικού τόμου".</string>
+    <string lang="el" key="UNSUPPORTED_CHARS_IN_PWD">Σφάλμα: Ο κωδικός πρέπει να περιέχει μόνο χαρακτήρες ASCII.\n\nΜη-ASCII χαρακτήρες στον κωδικό μπορεί να προκαλέσουν αδυναμία φόρτωσης του τόμου όταν αλλάξουν οι ρυθμίσεις του συστήματος σας.\n\nΟι επόμενοι χαρακτήρες επιτρέπονται:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="el" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Προειδοποίηση: Ο κωδικός περιέχει χαρακτήρες μη-ASCII.\n\nΑυτό μπορεί να προκαλέσει αδυναμία φόρτωσης του τόμου όταν αλλάξουν οι ρυθμίσεις του συστήματος σας.\n\nΘα πρέπει να αλλάξετε όλους τους μη-ASCII χαρακτήρες με χαρακτήρες ASCII όπως τους παρακάτω:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~. Για να το κάνετε αυτό επιλέξτε "Τόμοι" και "Αλλαγή κωδικού τόμου".</string>
     <string lang="en" key="EXE_FILE_EXTENSION_CONFIRM">WARNING: We strongly recommend that you avoid file extensions that are used for executable files (such as .exe, .sys, or .dll) and other similarly problematic file extensions. Using such file extensions causes Windows and antivirus software to interfere with the container, which adversely affects the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension or change it (e.g., to '.tc').\n\nAre you sure you want to use the problematic file extension?</string>
     <string lang="en" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: This container has a file extension that is used for executable files (such as .exe, .sys, or .dll) or some other file extension that is similarly problematic. It will very likely cause Windows and antivirus software to interfere with the container, which will adversely affect the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension of the container or change it (e.g., to '.tc') after you dismount the volume.</string>
     <string lang="el" key="HOMEPAGE">Ιστοτόπος</string>

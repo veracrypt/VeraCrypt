@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="ar" name="العربية" en-name="Arabic" version="0.1.0" translators="Ahmad Gharbeia, Khaled Hosny" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="ar" key="IDC_HIDVOL_WIZ_MODE_FULL">‮الطور العادي</control>
     <control lang="ar" key="IDC_KB">‮&amp;كيلوبايت</control>
     <control lang="ar" key="IDC_KEYFILES_ENABLE">‮ا&amp;ستخدم الملفات المفاتيح</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ar" key="IDC_KEY_FILES">‮الملفات ال&amp;مفاتيح…</control>
     <control lang="ar" key="IDC_LINK_HASH_INFO">‮معلومات حوْل خوازميات التلبيد </control>
     <control lang="ar" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">المزيد من المعلومات</control>
@@ -145,6 +146,7 @@
     <control lang="ar" key="IDC_PREF_CACHE_PASSWORDS">‮خزّن كلمات السرّ مؤقتا في ذاكرة المُشغِّل</control>
     <control lang="ar" key="IDC_PREF_DISMOUNT_INACTIVE">‮افصل المجلد تلقائيا عندما لا تُكتب/تُقرأ بيانات منه</control>
     <control lang="ar" key="IDC_PREF_DISMOUNT_LOGOFF">‮خروج المستخدم</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="ar" key="IDC_PREF_DISMOUNT_POWERSAVING">‮الدخول في طور حِفظ الطاقة</control>
     <control lang="ar" key="IDC_PREF_DISMOUNT_SCREENSAVER">‮اشتغال حافظة الشاشة</control>
     <control lang="ar" key="IDC_PREF_FORCE_AUTO_DISMOUNT">‮أجبر الفصل التلقائي حتى إن وجدت ملفات أو أدلّة مفتوحة في المجلد</control>
@@ -196,8 +198,9 @@
     <control lang="ar" key="IDM_CONTACT">‮التواصل…</control>
     <control lang="ar" key="IDM_CREATE_HIDDEN_OS">‮أنشئ نظام تشغيل مخفي…</control>
     <control lang="ar" key="IDM_CREATE_RESCUE_DISK">‮أنشئ قرص إنقاذ…</control>
-    <control lang="ar" key="IDM_CREATE_VOLUME">‮أنشئ مجلدا جديدا…</control>
+    <control lang="ar" key="IDM_CREATE_VOLUME">‮أنشئ مجلدا جديدا…</control>	
     <control lang="ar" key="IDM_DEFAULT_KEYFILES">‮الملفات المفاتيح المبدئية…</control>
+    <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="ar" key="IDM_ENCRYPT_SYSTEM_DEVICE">‮عمّ قسم\\سواقة النظام…</control>
     <control lang="ar" key="IDM_FAQ">‮الأسئلة المتكررة</control>
     <control lang="ar" key="IDM_HELP">‮دليل المستخدم</control>
@@ -268,6 +271,7 @@
     <control lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</control>
     <control lang="ar" key="IDT_PKCS11_LIB_PATH">‮مسار مكتبة ‪PKCS #11‬</control>
     <control lang="ar" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="ar" key="IDT_PW_CACHE_OPTIONS">‮ذاكرة كلمات السّر</control>
     <control lang="ar" key="IDT_SECURITY_OPTIONS">‮خيارات الأمان</control>
     <control lang="ar" key="IDT_TASKBAR_ICON">‮مهمّة الخلفية لتروكرِبت</control>
@@ -330,6 +334,9 @@
     <control lang="ar" key="IDT_KEYFILE_GENERATOR_NOTE">‮هام: حرّك الفأرة عشوائيا بقدر الإمكان في إطار هذه النافذة، كلما طال تحريكك لها كان ذلك أفضل؛ هذا يزيد بشدة من القوة التعموية للملف المفتاح.</control>
     <control lang="ar" key="IDT_KEYFILE_WARNING">‮تحذير: إذا فَقدّت الملف المفتاح أو تغيرت أي بتة من أوّل ‪1024‬ كيلوبايت منه فسيكون من المستحيل وصل المجلدات التي تستخدم ذلك المفتاح!</control>
     <control lang="ar" key="IDT_KEY_UNIT">‮بتات</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="ar" key="IDT_LANGPACK_AUTHORS">‮ترجمه: </control>
     <control lang="ar" key="IDT_PLAINTEXT">‮حجم النص الصريح:</control>
     <control lang="ar" key="IDT_PLAINTEXT_SIZE_UNIT">‮بتات</control>
@@ -340,6 +347,7 @@
     <control lang="ar" key="IDT_SECURITY_TOKEN">‮أمارة الأمان:</control>
     <control lang="ar" key="IDT_SORT_METHOD">‮طريقة الترتيب:</control>
     <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="ar" key="IDT_TEST_BLOCK_NUMBER">‮رقم الكتلة:</control>
     <control lang="ar" key="IDT_TEST_CIPHERTEXT">‮النص المعمى (ستعشري)</control>
     <control lang="ar" key="IDT_TEST_DATA_UNIT_NUMBER">‮رقم وحدة البيانات (ستعشري من ‪64‬ بتة، حجم وحدة البيانات ‪512‬ بايت)</control>
@@ -431,7 +439,7 @@
     <string lang="en" key="ASK_DEBUGGER_INSTALL">In order to analyze the system crash, VeraCrypt needs to install Microsoft Debugging Tools for Windows first.\n\nAfter you click OK, the Windows installer will download the Microsoft Debugging Tools installation package (16 MB) from a Microsoft server and install it (the Windows installer will be forwarded to the Microsoft server URL from the veracrypt.org server, which ensures that this feature works even if Microsoft changes the location of the installation package).</string>
     <string lang="en" key="SYSTEM_CRASH_ANALYSIS_INFO">After you click OK, VeraCrypt will analyze the system crash. This may take up to several minutes.</string>
     <string lang="en" key="DEBUGGER_NOT_FOUND">Please make sure the environment variable 'PATH' includes the path to 'kd.exe' (Kernel Debugger).</string>
-    <string lang="en" key="SYSTEM_CRASH_NO_TRUECRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
+    <string lang="en" key="SYSTEM_CRASH_NO_VERACRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
     <string lang="en" key="SYSTEM_CRASH_UPDATE_DRIVER">Results of the analysis indicate that updating the following driver might solve this issue: </string>
     <string lang="en" key="SYSTEM_CRASH_REPORT">To help us determine whether there is a bug in VeraCrypt, you can send us an automatically generated error report containing the following items:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.</string>
     <string lang="en" key="ASK_SEND_ERROR_REPORT">Do you want to send us the above error report?</string>
@@ -489,7 +497,7 @@
     <string lang="ar" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">‮إن اخترت هذا فستنشئ مجلدا مخفيا داخل مجلد تروكربت قائم. سيفترض أنك قد أنشأت بالفعل مجلدا مناسبا لاستضافة المجلد المخفي.</string>
     <string lang="ar" key="HIDDEN_VOL_WIZARD_MODE_TITLE">‮طور إنشاء مجلد</string>
     <string lang="ar" key="HIDVOL_FORMAT_FINISHED_TITLE">‮أُنشئ المجلد المخفي</string>
-    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE TRUECRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
+    <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE VERACRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
     <string lang="ar" key="FIRST_HIDDEN_OS_BOOT_INFO">‮لقد شغلت نظام التشغيل المخفي. و ربما لاحظت فإن نظام التشغيل المخفي يظهر كأنه منصب في ذات القسم المنصب فيه نظام التشغيل الأصلي. لكن الحقيقة هي أنه منصب في القسم الذي يليه (في المجلد المخفي). كل عمليات القراءة و الكتابة يجري تحويلها بشفافية من قسم نظام التشغيل الأصلي إلى المجلد المخفي. ‮ ‮لن يدرك كل من نظام التشغيل و لا التطبيقات أن البيانات المقروءة و المكتوبة في قسم النظام تكتب و تقرأ من القسم الذي يليه (من و إلى مجلد مخفي). كل تلك البيانات تُعمَّى و تُظهَّر لحظيا كالمعتاد (بمفتاح تعمية غير الذي يستخدم لنظام التشغيل التمويه). ‮ ‮انقر 'اللاحق' للمواصلة.</string>
     <string lang="ar" key="HIDVOL_HOST_FILLING_HELP_SYSENC">‮المجاد الخارجي تم إنشاؤه و وصله بحرف السواقة ‪%hc‬:‬، و ينبغي لك أن تنسخ إليه بعض الملفات التي تبدو هامة لكنك حقيقة لا تهتم لإخفاءها، ليعثر عليها من يرغمك على الإفصاح عن كلمة سر القسم الأول الذي يلي قسم النظام، و الذي سيوجد فيه كلا من المجلد الخارجي و المجلد المخفي (الذي يحوي نظام التشغيل المخفي). يمكنك عندها أن تفصح عن كلمة السر لهذا المجلد الخارجي و سيظل وجود المجلد المخفي (و نظام التشغيل المخفي) سرا. ‮ ‮هام: الملفات التس تنسخها إلى المجلد الخارجي ينبغي ألا تشغل ما يزيد على ‪%s‬. و إلا فإنه قد لا تبقى مساحة شاغرة كافية في المجلد الخارجي لإنشاء المجلد المخفي (و لن تمكن المواصلة). بعد أن تنهي النسخ انقر 'اللاحق' (لا تفصل المجلد).</string>
     <string lang="ar" key="HIDVOL_HOST_FILLING_HELP">‮لقد أنشئ المجلد الخارجي بنجاح و أوصل معرفا بالحرف ‪%hc‬:. يجب عليك الآن أن تنسخ إلى هذا المجلد بعض الملفات التي تبدو كأنها حساسة لكنك في الحقيقة لا تهتم بإخفائها. سيجد هذه الملفات من يجبرك على الإفصاح عن كلمة سرّك حيث يجب عليك عندئذ الإفصاح عن كلمة السر لهذا المجلد الخارجي و ليس المخفي. الملفات التي تهمك سريتها حقا ستظل محفوظة في المجلد المخفي الذي سيُنشأ لاحقًا. عندما تنتهي من نسخ الملفات، انقر 'اللاحق'. لا تفصل المجلد. ‮ ‮ملاحظة: بعد أن تنقر 'اللاحق' سيجري فحص خارطة عناقيد المجلد الخارجي لتحديد المساحة الشاغرة المتصلة التي تتماس نهايتها مع نهاية المجلد الخارجي. ستحوي هذه المساحة المجلد المخفي و ستحدد أقصى حجم ممكن له. يضمن فحص خارطة العناقيد أن لا يطمس المجلد المخفي أيا من البيانات على المجلد الخارجي لتبقى بنيته سليمة.</string>
@@ -599,6 +607,7 @@
     <string lang="ar" key="SELECT_DEST_DIR">‮اختر الدليل الوجهة</string>
     <string lang="ar" key="SELECT_KEYFILE">‮اختر الملف المفتاح</string>
     <string lang="ar" key="SELECT_KEYFILE_PATH">‮اختر مسار البحث عن الملفات المفتاح. تنبيه: لاحظ المسار و حسب هو ما سيُحفظ و ليس أسماء الملفات.</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="ar" key="SERPENT_HELP">‮صممها رُس أندرسُن و إلي بيهام و لارس نودسٍن، و نشرت في ‪1998‬. مفتاح بطول ‪256‬ بتة؛ كتلة ‪128‬ بتة؛ تعمل في طور ‪XTS‬. كان ‪Serpent‬ أحد الواصلين لنهائيات ‪AES‬.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="ar" key="REMOVABLE_DISK">‮قرص محمول</string>
     <string lang="ar" key="HARDDISK">‮قرص صلب</string>
     <string lang="ar" key="UNCHANGED">‮لم يتغيّر</string>
+    <string lang="ar" key="AUTODETECTION">اكتشاف تلقائي</string>
     <string lang="ar" key="SETUP_MODE_TITLE">‮طور المرشد</string>
     <string lang="ar" key="SETUP_MODE_INFO">‮اختر أحد الأطوار. إن لم تعرف أيها تختار فدعه على الخيار المبدئي.</string>
     <string lang="en" key="SETUP_MODE_HELP_INSTALL">Select this option if you want to install VeraCrypt on this system.</string>
@@ -863,6 +873,11 @@
     <string lang="ar" key="ENTER_HIDDEN_VOL_PASSWORD">‮أدخل كلمة سرِّ المجلد المخفي</string>
     <string lang="ar" key="ENTER_HEADER_BACKUP_PASSWORD">‮أدخل كلمة سر الترويسة المحفوظة في الملف</string>
     <string lang="ar" key="KEYFILE_CREATED">‮أُنشئ ملف المفتاح بنجاح.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="ar" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">‮تنبيه: ترويسة هذا المجلد تالفة! تروكربت تلقائيا النسخة الاحتياطية من الترويسة المضمَّنة في المجلد. ‮ ‮ينبغي إصلاح ترويسة المجلد باختيار 'أدوات' &gt; 'استرجع ترويسة المجلد'.</string>
     <string lang="ar" key="VOL_HEADER_BACKED_UP">‮أُنشئت نسخة احتياطية من ترويسة المجلد بنجاح. ‮ ‮هام: استرجاع ترويسة الحجم من النسخة الاختياطية سيستعيد كذلك كلمة سر المجلد الحالية. إضافة إلى ذلك، إذا تطلب وصل المجلد ملفات مفاتيح، فإن ذات الملفات المفاتيح ستكون مطلوبة لوصل المجلد بعد استعادة ترويسته. ‮ ‮تنبيه:لا يمكن استخدام نسخة ترويسة المجلد الاحتياطية هذه إلا لاسترجاع ترويسة هذا المجلد بعينه. إذا استخدمتها لاستعادة ترويسة مجلد آخر فسيمكنك وصله إلا أنه لن يمكنك تظهير أية بيانات مخزنة فيه (لأنك ستكون قد غيّرت مفتاحه الرئيسي).</string>
     <string lang="ar" key="VOL_HEADER_RESTORED">‮استرجعت ترويسة المجلد بنجاح. ‮ ‮هام: لاحظ أنه قد تكون استعيدت كلمة سر سابقة كذلك. إضافة إلى ذلك، إذا تطلّب وصل المجلد ملفات مفاتيح فإن ذات الملفات المفاتيح ستكون مطلوبة لوصل المجلد حاليا.</string>
@@ -911,8 +926,8 @@
     <string lang="ar" key="SIZE_ITEM">‮الحجم:	 </string>
     <string lang="ar" key="PATH_ITEM">‮المسار:	 </string>
     <string lang="ar" key="DRIVE_LETTER_ITEM">‮حرف السواقة:	 </string>
-    <string lang="ar" key="UNSUPPORTED_CHARS_IN_PWD">‮عُطل: يجب أن تتألف كلمة السر من محارف أسكي (‪ASCII‬) حصرا. ‮ ‮غير محارف أسكي (‪non-ASCII‬) قد تجعل من غير الممكن وصل المجلد عندما تتغير إعدادات نظامك. ‮ ‮المحارف التالية مسموح بها: ‮ ‮	! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &gt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\\\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="ar" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">‮تنبيه: تضم كلمة السر غير محارف أسكي (‪non-ASCII‬). قد يجعل هذا من غير الممكن وصل المجلد عندما تتغير إعدادات نظامك. ‮ ‮ينبغي أن تستبدل كل المحارف غير أسكي في كلمة السر بمحارف أسكي. لتفعل هذا، انقر 'المجلدات' -&gt; 'غير كلمة سر المجلد'. ‮ ‮المحارف التالية مسموح بها: ‮ ‮	! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &gt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\\\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="ar" key="UNSUPPORTED_CHARS_IN_PWD">‮عُطل: يجب أن تتألف كلمة السر من محارف أسكي (‪ASCII‬) حصرا. ‮ ‮غير محارف أسكي (‪non-ASCII‬) قد تجعل من غير الممكن وصل المجلد عندما تتغير إعدادات نظامك. ‮ ‮المحارف التالية مسموح بها: ‮ ‮	! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &gt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\\\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="ar" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">‮تنبيه: تضم كلمة السر غير محارف أسكي (‪non-ASCII‬). قد يجعل هذا من غير الممكن وصل المجلد عندما تتغير إعدادات نظامك. ‮ ‮ينبغي أن تستبدل كل المحارف غير أسكي في كلمة السر بمحارف أسكي. لتفعل هذا، انقر 'المجلدات' -&gt; 'غير كلمة سر المجلد'. ‮ ‮المحارف التالية مسموح بها: ‮ ‮	! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &gt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\\\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="en" key="EXE_FILE_EXTENSION_CONFIRM">WARNING: We strongly recommend that you avoid file extensions that are used for executable files (such as .exe, .sys, or .dll) and other similarly problematic file extensions. Using such file extensions causes Windows and antivirus software to interfere with the container, which adversely affects the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension or change it (e.g., to '.tc').\n\nAre you sure you want to use the problematic file extension?</string>
     <string lang="en" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: This container has a file extension that is used for executable files (such as .exe, .sys, or .dll) or some other file extension that is similarly problematic. It will very likely cause Windows and antivirus software to interfere with the container, which will adversely affect the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension of the container or change it (e.g., to '.tc') after you dismount the volume.</string>
     <string lang="ar" key="HOMEPAGE">‮الموقع على الوب</string>

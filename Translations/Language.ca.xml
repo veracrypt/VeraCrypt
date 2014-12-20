@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="ca" name="Català" en-name="Catalan" version="0.1.0" translators="CESICAT, Centre de Seguretat de la Informació de Catalunya" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="ca" key="IDC_HIDVOL_WIZ_MODE_FULL">Mètode normal</control>
     <control lang="ca" key="IDC_KB">&amp;KB</control>
     <control lang="ca" key="IDC_KEYFILES_ENABLE">&amp;Usar fitxers de claus</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ca" key="IDC_KEY_FILES">Fitxers de &amp;claus...</control>
     <control lang="ca" key="IDC_LINK_HASH_INFO">Més informació</control>
     <control lang="ca" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Més informació</control>
@@ -145,6 +146,7 @@
     <control lang="ca" key="IDC_PREF_CACHE_PASSWORDS">Guardar contrasenyes al controlador</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_INACTIVE">Desmuntar el volum automàticament quan no s'hi llegeixi/escrigui durant</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_LOGOFF">L'usuari tanqui la sessió</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_POWERSAVING">S'entri en el mode d'estalvi d'energia</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_SCREENSAVER">S'activi el protector de pantalla</control>
     <control lang="ca" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forçar el desmuntatge automàtic encara que el volum tingui fitxers o directoris oberts</control>
@@ -198,6 +200,7 @@
     <control lang="ca" key="IDM_CREATE_RESCUE_DISK">Crear un disc de recuperació...</control>
     <control lang="ca" key="IDM_CREATE_VOLUME">Crear un volum nou...</control>
     <control lang="ca" key="IDM_DEFAULT_KEYFILES">Fitxers de claus per defecte...</control>
+    <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="ca" key="IDM_ENCRYPT_SYSTEM_DEVICE">Xifrar la partició/unitat del sistema...</control>
     <control lang="ca" key="IDM_FAQ">Preguntes més freqüents</control>
     <control lang="ca" key="IDM_HELP">Guia d'usuari</control>
@@ -268,6 +271,7 @@
     <control lang="ca" key="IDT_PARALLELIZATION_OPTIONS">Paral·lelització per fils</control>
     <control lang="ca" key="IDT_PKCS11_LIB_PATH">Ubicació de la biblioteca PKCS #11</control>
     <control lang="ca" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="ca" key="IDT_PW_CACHE_OPTIONS">Recordar contrasenyes</control>
     <control lang="ca" key="IDT_SECURITY_OPTIONS">Opcions de seguretat</control>
     <control lang="ca" key="IDT_TASKBAR_ICON">VeraCrypt en segon pla</control>
@@ -330,6 +334,9 @@
     <control lang="ca" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANT: Mogui el seu ratolí tant aleatòriament com pugui en aquesta finestra. Com més el mogui, millor. Això incrementarà significativament la força de les claus de xifrat.</control>
     <control lang="ca" key="IDT_KEYFILE_WARNING">ATENCIÓ: Si perd un fitxer de claus o si canvia algun dels seus primers 1024 kilobytes, serà impossible de muntar els volums que utilitzin aquest fitxer de claus!</control>
     <control lang="ca" key="IDT_KEY_UNIT">bits</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="ca" key="IDT_LANGPACK_AUTHORS">Traduït per:</control>
     <control lang="ca" key="IDT_PLAINTEXT">Mida del text pla:</control>
     <control lang="ca" key="IDT_PLAINTEXT_SIZE_UNIT">bits</control>
@@ -340,6 +347,7 @@
     <control lang="ca" key="IDT_SECURITY_TOKEN">Testimoni de seguretat:</control>
     <control lang="ca" key="IDT_SORT_METHOD">Mètode d'ordenació:</control>
     <control lang="ca" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Si us plau, esperi. Aquest procés pot trigar molt de temps...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="ca" key="IDT_TEST_BLOCK_NUMBER">Número de bloc:</control>
     <control lang="ca" key="IDT_TEST_CIPHERTEXT">Text xifrat (hexadecimal)</control>
     <control lang="ca" key="IDT_TEST_DATA_UNIT_NUMBER">número de dades per unitat (La mida per a 64-bit hexadecimal és 512 bytes)</control>
@@ -431,7 +439,7 @@
     <string lang="ca" key="ASK_DEBUGGER_INSTALL">Per tal d'analitzar la fallada del sistema, el VeraCrypt necessita instal·lar abans les eines de depuració per Windows de Microsoft.\n\nDesprés de fer clic a 'OK', l'instal·lador de windows descarregarà el paquet de les eines de depuració de windows (16 MB) des d'un servidor de Microsoft i les instal·larà (l'instal·lador de Windows arribarà la URL del servidor de Microsoft a través del servidor treucrypt.org, la qual cosa permet que això funcioni encara que Microsoft canvii l'ubicació del paquet d'instal·lació).</string>
     <string lang="ca" key="SYSTEM_CRASH_ANALYSIS_INFO">Després de fer clic a 'OK', el VeraCrypt analitzarà la fallda del sistema. Això pot trigar diversos minuts.</string>
     <string lang="ca" key="DEBUGGER_NOT_FOUND">Si us plau, asseguri's que la variable d'entorn 'PATH' inclou la ruta cap a 'kd.exe' (Kernel Debugger).</string>
-    <string lang="ca" key="SYSTEM_CRASH_NO_TRUECRYPT">Sembla que el VeraCrypt no ha causat la fallada del sistema. Hi ha moltes raons potencials per les quals el sistema pot haver fallat (un component que falli, un error en un controlador de dispositiu, etc.)</string>
+    <string lang="ca" key="SYSTEM_CRASH_NO_VERACRYPT">Sembla que el VeraCrypt no ha causat la fallada del sistema. Hi ha moltes raons potencials per les quals el sistema pot haver fallat (un component que falli, un error en un controlador de dispositiu, etc.)</string>
     <string lang="ca" key="SYSTEM_CRASH_UPDATE_DRIVER">Els resultats de l'anàlisi indiquen que actualitzar el següent controlador solucionaria el problema: </string>
     <string lang="ca" key="SYSTEM_CRASH_REPORT">Per ajudar-nos a determinar si hi ha un error al VeraCrypt, pot enviar un informe de l'error generat automàticament que conté la següent informació:\n\n- Versió del programa\n- Versió del sistema operatiu\n- Tipus de CPU- Tipus l'error\n-Nom i versió del controlador\n- Estat de la pila del sistema.\n\nSi fa clic a 'Si', la següent URL (que conté l'informe complet) s'obirarà al seu navegador per defecte.\n\nVol enviar-nos aquest informa d'error?</string>
     <string lang="ca" key="ASK_SEND_ERROR_REPORT">Vol enviar-nos l'informe de l'error?</string>
@@ -476,7 +484,7 @@
     <string lang="ca" key="FORMAT_FINISHED_HELP">\n\nS'ha creat el volum i ja es pot utilitzar. Si vol crear un altre volum, faci clic a 'Següent'. Si no, faci clic a 'Sortir'.</string>
     <string lang="ca" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nEl volum ocult s'ha creat amb èxit (el sistema operatiu ocult residirà dins aquest volum ocult).\n\nFaci clic a 'Següent' per continuar.</string>
     <string lang="ca" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volum completament xifrat</string>
-    <string lang="ca" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: PER MUNTAR AQUEST VOLUM ACABAT DE CREAR I ACCEDIR A LES DADES QUE CONTÉ, FACI CLIC A '' A LA FINESTRA PRINCIPAL DEL TRUECRYPT. Després d'introduïr la contrassenya correcte (i/o proporcionar els fitxers de claus correctes) el volum es muntarà a la lletra d'unitat que s'hagi seleccionat de la llista de la finestra principal del VeraCrypt (i serà possible accedir a les dades xifrades a través de la lletra d'unitat).\n\nSI US PLAU, RECORDI O ANOTI AQUESTS PASSOS. HAURÀ DE SEGUIR-LOS CADA COP QUE VULGUI MUNTAR EL VOLUM O ACCEDIR A LES DADES QUE CONTÉ. D'altra banda, també pot accedir a 'Triar dispositiu' des de la finestra principal del programa i després seleccionar la partició/volum i fer clic a 'Muntar'.\n\nLa partició/unitat s'ha xifrat amb èxit (ara conté un volum VeraCrypt completament xifrat) i està a punt per utilitzar-se.</string>
+    <string lang="ca" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: PER MUNTAR AQUEST VOLUM ACABAT DE CREAR I ACCEDIR A LES DADES QUE CONTÉ, FACI CLIC A '' A LA FINESTRA PRINCIPAL DEL VERACRYPT. Després d'introduïr la contrassenya correcte (i/o proporcionar els fitxers de claus correctes) el volum es muntarà a la lletra d'unitat que s'hagi seleccionat de la llista de la finestra principal del VeraCrypt (i serà possible accedir a les dades xifrades a través de la lletra d'unitat).\n\nSI US PLAU, RECORDI O ANOTI AQUESTS PASSOS. HAURÀ DE SEGUIR-LOS CADA COP QUE VULGUI MUNTAR EL VOLUM O ACCEDIR A LES DADES QUE CONTÉ. D'altra banda, també pot accedir a 'Triar dispositiu' des de la finestra principal del programa i després seleccionar la partició/volum i fer clic a 'Muntar'.\n\nLa partició/unitat s'ha xifrat amb èxit (ara conté un volum VeraCrypt completament xifrat) i està a punt per utilitzar-se.</string>
     <string lang="ca" key="FORMAT_FINISHED_INFO">S'ha creat el volum VeraCrypt amb èxit.</string>
     <string lang="ca" key="FORMAT_FINISHED_TITLE">S'ha creat el volum</string>
     <string lang="ca" key="FORMAT_HELP">IMPORTANT: Mogui el seu ratolí tant aleatòriament com pugui en aquesta finestra. Com més el mogui, millor. Això incrementarà significativament la força de les claus de xifrat. Després faci clic a Formatar per continuar.</string>
@@ -489,7 +497,7 @@
     <string lang="ca" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Si selecciona aquesta opció, es crearà un nou volum ocult a dins d'un volum VeraCrypt existent. S'assumeix que ja s'ha creat un volum VeraCrypt capaç d'allotjar el volum ocult.</string>
     <string lang="ca" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Mètode de creació del volum</string>
     <string lang="ca" key="HIDVOL_FORMAT_FINISHED_TITLE">Volum ocult creat</string>
-    <string lang="ca" key="HIDVOL_FORMAT_FINISHED_HELP">S'ha creat el volum ocult i ja es pot utilitzar. Si s'han seguit totes les instruccions i s'han pres les precaucions i requeriments que es llisten a la secció 'Requeriments de seguretat i precaucions per als volums ocults' de la guia d'usuari del VeraCrypt, no hauria de ser possible demostrar que el volum ocult existeix, encara que es monti el volum exterior.\n\nATENCIÓ: SI NO PROTEGEIX EL VOLUM OCULT (PER TROBAR INFORMACIÓ SOBRE AIXÒ, CONSULTI LA SECCIÓ 'PROTECCIÓ DELS VOLUMS OCULTS' A LA GUIA D'USUARI DEL TRUECRYPT), NO ESCRIGUI AL VOLUM EXTERIOR. SI HO FA, PODRIA MALMETRE EL VOLUM OCULT!</string>
+    <string lang="ca" key="HIDVOL_FORMAT_FINISHED_HELP">S'ha creat el volum ocult i ja es pot utilitzar. Si s'han seguit totes les instruccions i s'han pres les precaucions i requeriments que es llisten a la secció 'Requeriments de seguretat i precaucions per als volums ocults' de la guia d'usuari del VeraCrypt, no hauria de ser possible demostrar que el volum ocult existeix, encara que es monti el volum exterior.\n\nATENCIÓ: SI NO PROTEGEIX EL VOLUM OCULT (PER TROBAR INFORMACIÓ SOBRE AIXÒ, CONSULTI LA SECCIÓ 'PROTECCIÓ DELS VOLUMS OCULTS' A LA GUIA D'USUARI DEL VERACRYPT), NO ESCRIGUI AL VOLUM EXTERIOR. SI HO FA, PODRIA MALMETRE EL VOLUM OCULT!</string>
     <string lang="ca" key="FIRST_HIDDEN_OS_BOOT_INFO">Ha iniciat el sistema operatiu ocult. Com haurà notat, el sistema operatiu iocult sembla instal·lat a la mateixa partició que el sistema operatiu original. No obstant, en realitat, està instal·lat en una partició a dins seu (al volum ocult). Totes les operacions de lectura i escriptura seran redirigides de forma transparent des de la partició de sistema original cap al volum ocult.\n\nNi el sistema operatiu ni les aplicacións saben que les dades que s'escriuen i es llegeixen de la partició de sistema s'estan llegint i escrivint des de la partició que hi ha a dins (el volum ocult). Totes les dades són xifrades i desxifrades al vol com és habitual (amb una clau de xifrat diferent de la que s'utilitza al sistema operatiu esquer).\n\nSi us plau, faci clic a 'Següent' per continuar.</string>
     <string lang="ca" key="HIDVOL_HOST_FILLING_HELP_SYSENC">S'ha creat el volum exterior i muntat a la unitat %hc:. Ara ha de de copiar alguns fitxers que semblin confidencials i que NO vulgui amagar en aquest volum exterior. Seran allà per qualsevol que l'obligui a revelar la contrasenya de la primera partició després de la partició de sisetma, on hi ha el volum exterior i l'ocult (que conté el sistema operatiu ocult). Podrà revelar la contrasenya del volum exterior i l'existència del volum ocult (i el sistema operatiu ocult) es mantindran en secret.\n\nIMPORTANT: Els fitxers que copii al volum exterior no poden ocupar més de %s. Si no és així, no hi haurà prou espai lliure al volum exterior pel volum ocult (i no serà possible continuar). Quan acabi de copiar els fitxers, faci clic a 'Següent' (no desmunti el volum).</string>
     <string lang="ca" key="HIDVOL_HOST_FILLING_HELP">El volum exterior s'ha creat amb èxit i s'ha muntat a la unitat %hc:. Ara hauria de copiar alguns fitxers que semblin confidencials i que NO vulgui amagar cap aquest volum exterior, no a l'ocult. Els fitxers que vulgui mantenir segurs els ha de guardar al volum ocult, que es crearà després Quan acabi de copiar, faci clic a 'Següent'. No desmunti el volum.\n\nNota: Després de fer clic a 'Següent, s'escannejarà el mapa de bits del clúster per determinar la mida d'espai lliure ininterromput més gran el final de la qual estigui alineada amb el final del volum. Aquesta àrea allotjarà el volum ocult. Per tant, limitarà la seva mida màxima. L'escanneig del mapa de bits del clúster assegura que no se sobreescriguin dades del volum ocult des del volum exterior.</string>
@@ -548,8 +556,8 @@
     <string lang="ca" key="OPEN_TITLE">Ubicació i nom del fitxer</string>
     <string lang="ca" key="SELECT_PKCS11_MODULE">Seleccioni la bilioteca PKCS #11</string>
     <string lang="ca" key="OUTOFMEMORY">Sense memòria</string>
-    <string lang="ca" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANT: És molt recomanable per als usuaris sense experiència crear un contenidor de fitxers Truecrypt dins el disc/partició seleccionat en compte de xifrar el disc/partició sencer.\n\nQuan es crea un contenidor de fitxers (al contrari que quan es xifra un disc o una partició) no hi ha, per exemple, risc de destruïr un gran número de fitxers. Per a més informació, consulti el capítol 'Tutorial per a principiants' a la guia d'usuari de TrueCrtpy.\n\nEstà segur que vol xifrar el disc/partició sencer?</string>
-    <string lang="ca" key="OVERWRITEPROMPT">ATENCIÓ: El fitxer '%hs' ja existeix!\n\nIMPORTANT: EL TRUECRYPT NO XIFRARÀ EL FITXER, L'ESBORRARÀ. Està segur que vol esborrar el fitxer i substituïr-lo per un nou contenidor VeraCrypt?</string>
+    <string lang="ca" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANT: És molt recomanable per als usuaris sense experiència crear un contenidor de fitxers Veracrypt dins el disc/partició seleccionat en compte de xifrar el disc/partició sencer.\n\nQuan es crea un contenidor de fitxers (al contrari que quan es xifra un disc o una partició) no hi ha, per exemple, risc de destruïr un gran número de fitxers. Per a més informació, consulti el capítol 'Tutorial per a principiants' a la guia d'usuari de TrueCrtpy.\n\nEstà segur que vol xifrar el disc/partició sencer?</string>
+    <string lang="ca" key="OVERWRITEPROMPT">ATENCIÓ: El fitxer '%hs' ja existeix!\n\nIMPORTANT: EL VERACRYPT NO XIFRARÀ EL FITXER, L'ESBORRARÀ. Està segur que vol esborrar el fitxer i substituïr-lo per un nou contenidor VeraCrypt?</string>
     <string lang="ca" key="OVERWRITEPROMPT_DEVICE">ATENCIÓ: TOTS ELS FITXERS QUE HI HAGI A (%s) '%hs'%s S'ESBORRARAN (NO ES XIFRARAN)!\n\nSegur que vol seguir amb el formateig?</string>
     <string lang="ca" key="NONSYS_INPLACE_ENC_CONFIRM">ATENCIÓ: No serà posible muntar ni accedir a cap fitxer del volum mentre no estigui xifrat completament.\n\nSegur que vol xifrar (%s) '%hs'%s?</string>
     <string lang="ca" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">ATENCIÓ: Tingui en compte que si el subministrament d'energia s'interromp  o si el sistema operatiu falla degut a un error mentre s'està xifrat les dades in situ, algunes parts de les dades es corrompran o perdran. Per tant, abans de començar a xifrar, asseguri's que té còpies de seguretat dels fitxers que vol xifrar. Té una còpia de seguretat?</string>
@@ -599,6 +607,7 @@
     <string lang="ca" key="SELECT_DEST_DIR">Seleccioni la ubicació de destí</string>
     <string lang="ca" key="SELECT_KEYFILE">Seleccioni fitxers de claus</string>
     <string lang="ca" key="SELECT_KEYFILE_PATH">Seleccioni la ruta de cerca dels fitxers de claus. ATENCIÓ: Només es guardarà la ruta, no els noms dels fitxers!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="ca" key="SERPENT_HELP">Dissenyat per Ross Anderson, Eli Biham i Lars Knudsen. Publicat el 1998. Clau de 256 bits, bloc de 128 bits. Mode XTS. Va ser un dels finalistes d'AES.</string>
     <string lang="ca" key="SIZE_HELP">Si us plau, especifiqui la mida del nou contenidor.\n\nSi crea un contenidor dinàmic (fitxer ampliable), aquest paràmetre ha d'especificat la seva mida màxima.\n\nTingui en compte que la mida mínima d'un volum FAT és de 292 KB. La mida mínima possible d'un volum NTFS és de 3792 KB.</string>
     <string lang="ca" key="SIZE_HELP_HIDDEN_HOST_VOL">Si us plau, especifiqui la mida del volum exterior a crear (primer es crea el volum exterior i després el volum ocult a dins). La mida mínima possible d'un volum que hagi de contenir un volum ocult és de 340KB.</string>
@@ -750,6 +759,7 @@
     <string lang="ca" key="REMOVABLE_DISK">Disc extraïble</string>
     <string lang="ca" key="HARDDISK">Disc dur</string>
     <string lang="ca" key="UNCHANGED">Sense canvis</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="ca" key="SETUP_MODE_TITLE">Assistent</string>
     <string lang="ca" key="SETUP_MODE_INFO">Seleccioni una de les modalitats. Si no està segur de quina escollir, trii l'opció per defecte.</string>
     <string lang="ca" key="SETUP_MODE_HELP_INSTALL">Seleccioni aquesta opció si vol instal·lar el VeraCrypt al seu sistema.</string>
@@ -863,6 +873,11 @@
     <string lang="ca" key="ENTER_HIDDEN_VOL_PASSWORD">Introdueixi la contrasenya del volum ocult</string>
     <string lang="ca" key="ENTER_HEADER_BACKUP_PASSWORD">Introdueixi la contrasenya de la capçalera guardada a la còpia de seguretat</string>
     <string lang="ca" key="KEYFILE_CREATED">El fitxer de claus s'ha creat amb èxit.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="ca" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">ATENCIÓ: La capçalera d'aquest volum està malmesa! El VeraCrypt ha utilitzat automàticament la còpia de seguretat inclosa al volum.\n\nHa de reparar la capçalera del volum seleccionant 'Eines' &gt; 'Restaurar la capçalera'</string>
     <string lang="ca" key="VOL_HEADER_BACKED_UP">S'ha creat amb èxit la còpia de seguretat de la capçalera.\n\nIMPORTANT: Restaurar la capçalera utilitzant aquesta còpia de seguretat també restaurarà la contrasenya actual. D'altre banda, si es necessiten fitxers de claus per muntar el volum, seràn necessàris els mateixos fitxers de claus per muntar el volum quan es restauri la capçalera.\n\nATENCIÓ: Aquesta còpia de seguretat de la capçalera NOMÉS es pot utilitzar per restaurar la capçalera d'aquest volum en particular. Si utilitza aquesta còpia de seguretat per restaurar la capçalera d'un volum diferent, podrà muntar el volum, però NO serà possible desxifrar-ne el contingut que hi hagi emmagatzemat (ja que s'haurà canviat la clau mestra).</string>
     <string lang="ca" key="VOL_HEADER_RESTORED">S'ha restaurat la capçalera del volum.\n\nIMPORTANT: Si us plau, recordi que també s'ha restaurat l'antiga contrasenya. A més, si era necessari algun fitxer de claus per muntar el volum quan es va crear, ara tornaran a ser-ho.</string>
@@ -911,8 +926,8 @@
     <string lang="ca" key="SIZE_ITEM">Mida:   </string>
     <string lang="ca" key="PATH_ITEM">Ubicació:   </string>
     <string lang="ca" key="DRIVE_LETTER_ITEM">Lletra d'unitat:   </string>
-    <string lang="ca" key="UNSUPPORTED_CHARS_IN_PWD">Error: La contrasenya només pot contenir caràcters ASCII.\n\nEls caràcters fora d'ASCII poden causar que el volum sigui impossible de muntar quan canvii la configuració del sistema.\n\nEls següents caràcters són vàlids:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="ca" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">ATENCIÓ: La contrasenya només pot contenir caràcters ASCII.\n\nEls caràcters fora d'ASCII poden causar que el volum sigui impossible de muntar quan canvii la configuració del sistema.\n\nHa de sustituïr tots els caràcters fora d'ASCII de la contrasenya per caràcters ASCII. Per fer-ho, faci clic a 'Volums' -&gt; 'Canviar la contrasenya del volum'.\n\nEls següents caràcters són vàlids:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="ca" key="UNSUPPORTED_CHARS_IN_PWD">Error: La contrasenya només pot contenir caràcters ASCII.\n\nEls caràcters fora d'ASCII poden causar que el volum sigui impossible de muntar quan canvii la configuració del sistema.\n\nEls següents caràcters són vàlids:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="ca" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">ATENCIÓ: La contrasenya només pot contenir caràcters ASCII.\n\nEls caràcters fora d'ASCII poden causar que el volum sigui impossible de muntar quan canvii la configuració del sistema.\n\nHa de sustituïr tots els caràcters fora d'ASCII de la contrasenya per caràcters ASCII. Per fer-ho, faci clic a 'Volums' -&gt; 'Canviar la contrasenya del volum'.\n\nEls següents caràcters són vàlids:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="ca" key="EXE_FILE_EXTENSION_CONFIRM">ATENCIÓ: És molt recomanable evitar les extensions de fitxer que utilitzen els executables (.exe, .sys o .dll) i d'altres extensions problemàtiques similars. Utilitzar aquest tipus d'extensions provoca que el Windows i els programes antivirus monitoritzin el contenidor, cosa que afecta el rendiment del volum i pot causar d'altres problemes greus.\n\nÉs molt recomanable que elimini l'extensió del fitxer o la canvii (per exemple, a .tc).\n\nSegur que vol utilitzar aquest tipus d'extensió problemàtica?</string>
     <string lang="ca" key="EXE_FILE_EXTENSION_MOUNT_WARNING">ATENCIÓ: Aquest contenidor té una extensió de fitxer que utilitzen els executables (.exe, .sys o .dll) i d'altres extensions problemàtiques similars. Utilitzar aquest tipus d'extensions provoca que el Windows i els programes antivirus monitoritzin el contenidor, cosa que afecta el rendiment del volum i pot causar d'altres problemes greus. És molt recomanable que elimini l'extensió del fitxer o la canvii (per exemple, a .tc) després de desmuntar el volum.</string>
     <string lang="ca" key="HOMEPAGE">Pàgina principal</string>

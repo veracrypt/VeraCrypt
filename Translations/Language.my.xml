@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="my" name="မြန်မာ" en-name="Burmese" version="1.0.0" translators="Zaw Myo Htet" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="my" key="IDC_HIDVOL_WIZ_MODE_FULL">ပုံမှန် နည်းစနစ်</control>
     <control lang="my" key="IDC_KB">&amp;KB</control>
     <control lang="my" key="IDC_KEYFILES_ENABLE">ကီးဖိုင်ကို သုံးရန်</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="my" key="IDC_KEY_FILES">ကီးဖိုင်များ...</control>
     <control lang="my" key="IDC_LINK_HASH_INFO">H​ash အယ်လဂိုရီသမ်များ၏ အချက်အလက်များ</control>
     <control lang="my" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">နောက်ထပ် အချက်အလက်</control>
@@ -145,6 +146,7 @@
     <control lang="my" key="IDC_PREF_CACHE_PASSWORDS">စကားဝှက်ကို ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲ၌ ခေတ္တ သိမ်းဆည်းရန်</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_INACTIVE">ဒေတာများကို ဖတ်ရှုခြင်း/ရေးသားခြင်း မပြုသည့်အခါ volume ကို အလိုအလျောက် အဆုံးသတ်ပါ</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_LOGOFF">သုံးစွဲသူ ထွက်ရန်</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_POWERSAVING">စွမ်းအင် ချွေတာရေးစနစ်ကို သုံးစွဲရန်</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_SCREENSAVER">Screen saver ဖွင့်ထားသည်</control>
     <control lang="my" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Volume ၌ ဖွင့်ထားသော ဖိုင်များ (သို့) ဖိုင်တွဲများ ပါ၀င်နေလျှင်လည်း ၎င်းကို အလိုအလျှောက် အတင်း အဆုံးသတ်ပါ</control>
@@ -198,6 +200,7 @@
     <control lang="my" key="IDM_CREATE_RESCUE_DISK">ကယ်ဆယ်ရေး Disk ဖန်တီးရန်...</control>
     <control lang="my" key="IDM_CREATE_VOLUME">Volume အသစ် ဖန်တီးရန်...</control>
     <control lang="my" key="IDM_DEFAULT_KEYFILES">မူလ ကီးဖိုင်များ...</control>
+    <control lang="my" key="IDM_DONATE">ယခု လှူဒါန်းရန်...</control>
     <control lang="my" key="IDM_ENCRYPT_SYSTEM_DEVICE">ကွန်ပျူတာ အခန်းကန့်/Drive ကို စာဝှက်ရန်...</control>
     <control lang="my" key="IDM_FAQ">မေးလေ့ရှိသော မေခွန်းများ</control>
     <control lang="my" key="IDM_HELP">သုံးစွဲသူ လမ်းညွှန်</control>
@@ -268,6 +271,7 @@
     <control lang="my" key="IDT_PARALLELIZATION_OPTIONS">Thread-အခြေပြု ပြိုင်တူပြုလုပ်ခြင်း</control>
     <control lang="my" key="IDT_PKCS11_LIB_PATH">PKCS #11 လိုင်ဘရာရီ လမ်းကြောင်း</control>
     <control lang="my" key="IDT_PKCS5_PRF">PKCS-5 PRF-</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="my" key="IDT_PW_CACHE_OPTIONS">စကားဝှက် ယာယီ သိမ်းဆည်းခန်း</control>
     <control lang="my" key="IDT_SECURITY_OPTIONS">လုံခြုံရေး ရွေးစရာများ</control>
     <control lang="my" key="IDT_TASKBAR_ICON">VeraCrypt နောက်ခံ လုပ်ငန်း</control>
@@ -330,6 +334,9 @@
     <control lang="my" key="IDT_KEYFILE_GENERATOR_NOTE">အရေးကြီးချက် - ဤ၀င်းဒိုးထဲ၌ သင့် ကြွက်ခလုတ်ကို တက်နိုင်သမျှ ကျပန်းနည်းဖြင့် လှုပ်ရှားပေးပါ။ ကြာကြာ​ ရွှေ့လေ၊ ပိုကောင်းလေ ဖြစ်သည်။ ဤအရာက ကီးဖိုင်၏ စာဝှက်အားကို တိုးမြှင့်စေသည်။</control>
     <control lang="my" key="IDT_KEYFILE_WARNING">သတိပေးချက် - ကီးဖိုင်​ ပျောက်သွားသည် ဖြစ်စေ (သို့) ၄င်း၏ ပထမဆုံး ၁၀၂၄ kilobytes ပြောင်းသွားသည် ဖြစ်စေ၊ အဲဒီ ကီးဖိုင်ကို အသုံးပြုသော volumes များကို အစပျိုးနိုင်မည် မဟုတ်ပါ။</control>
     <control lang="my" key="IDT_KEY_UNIT">bits</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="my" key="IDT_LANGPACK_AUTHORS">ဘာသာပြန်ဆိုသူ -</control>
     <control lang="my" key="IDT_PLAINTEXT">စာသား သက်သက် အရွယ် -</control>
     <control lang="my" key="IDT_PLAINTEXT_SIZE_UNIT">bits</control>
@@ -340,6 +347,7 @@
     <control lang="my" key="IDT_SECURITY_TOKEN">လုံခြုံရေး တိုကင် -</control>
     <control lang="my" key="IDT_SORT_METHOD">မျိုးတူစုနည်း -</control>
     <control lang="my" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">ကျေးဇူးပြု၍ စောင့်ပါ။ ဤလုပ်ငန်းစဉ်သည် အတော် ကြာနိုင်ပါသည်...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="my" key="IDT_TEST_BLOCK_NUMBER">နံပါတ် အစု -</control>
     <control lang="my" key="IDT_TEST_CIPHERTEXT">ဝှက်စာ စာသား (hexadecimal)</control>
     <control lang="my" key="IDT_TEST_DATA_UNIT_NUMBER">ဒေတာ ယူနစ် နံပါတ် (64-bit hexadecimal, ဒေတာ ယူနစ် အရွယ်သည် 512 bytes ဖြစ်သည်)</control>
@@ -431,7 +439,7 @@
     <string lang="my" key="ASK_DEBUGGER_INSTALL">ကွန်ပျူတာစနစ် ပျက်စီးမှုကို စစ်ဆေးနိုင်ရန်၊ ပထမဆုံး VeraCrypt သည် ၀င်းဒိုးထဲ၌ မိုက်ခရိုဆော့ဗ် Debugging Tools များကို ထည့်သွင်းရန် လိုအပ်သည်။\n\n 'ကောင်းပြီ' ခလုတ်ကို နှိပ်ပြီးနောက်၊ ဝင်းဒိုး ဆော့ဗ်ဝဲ ထည့်သွင်းစနစ်သည် မိုက်ခရိုဆော့ဗ် ဆာဗာမှ မိုက်ခရိုဆော့​ဗ် Debugging Tools (16 MB) ကို ဒေါင်းလုပ် ဆွဲယူသွားမည် ဖြစ်သည်။ (Windows ဆော့ဗ်ဝဲ ထည့်သွင်းစနစ်သည် veracrypt.org ဆာဗာ မှတဆင့် မိုက်ခရိုဆော့ဗ် ဆာဗာ ရှိရာသို့ ပို့ဆောင်ပေးမည် ဖြစ်သည်။ ဤ​နည်းဖြင့် မိုက်ခရိုဆော့ဗ်၏ ဆော့ဗ်ဝဲ ထည့်သွင်းမှုဖိုင်၏ တည်နေရာ ​​ပြောင်းသွားလျှင်ပင်၊ ဤအင်္ဂါရပ်ကို ဆက်လက် အလုပ်လုပ်သွားစေမည် ဖြစ်သည်။)</string>
     <string lang="my" key="SYSTEM_CRASH_ANALYSIS_INFO">ကောင်းပြီ ခလုတ်ကို နှိပ်ပြီးပါက၊ VeraCrypt သည် ကွန်ပျူတာစနစ် ပျက်စီးမှုကို စစ်ဆေးသွားမည် ဖြစ်သည်။ ဒီအတွက် မိနစ်အ​တန်ကြာ အချိန်ယူမည် ဖြစ်သည်။</string>
     <string lang="my" key="DEBUGGER_NOT_FOUND">Environment variable 'PATH' တွင် 'kd.exe' (Kernel Debugger) ပါဝင်နေရမည် ဖြစ်သည်။</string>
-    <string lang="my" key="SYSTEM_CRASH_NO_TRUECRYPT">ကွန်ပျူတာစနစ် ပျက်စီးမှုသည် VeraCrypt ကြောင့် မဟုတ်ကြောင်း ပေါ်လွင်နေသည်။ ကွန်ပျူတာစနစ် ပျက်စီးရခြင်း အကြောင်းရင်း များစွာရှိနိုင်ပါသည် (ဥပမာ အားဖြင့် - စက်ပိုင်းဆိုင်ရာ ပျက်စီးမှု၊ စက်ပစ္စည်း၏ ဒရိုင်ဘာထဲမှ ပရိုဂရမ် အမှားတစ်ခုခု စသဖြင့်)။</string>
+    <string lang="my" key="SYSTEM_CRASH_NO_VERACRYPT">ကွန်ပျူတာစနစ် ပျက်စီးမှုသည် VeraCrypt ကြောင့် မဟုတ်ကြောင်း ပေါ်လွင်နေသည်။ ကွန်ပျူတာစနစ် ပျက်စီးရခြင်း အကြောင်းရင်း များစွာရှိနိုင်ပါသည် (ဥပမာ အားဖြင့် - စက်ပိုင်းဆိုင်ရာ ပျက်စီးမှု၊ စက်ပစ္စည်း၏ ဒရိုင်ဘာထဲမှ ပရိုဂရမ် အမှားတစ်ခုခု စသဖြင့်)။</string>
     <string lang="my" key="SYSTEM_CRASH_UPDATE_DRIVER">စစ်ဆေးမှု ရလဒ်အရ အောက်ပါ ဒရိုင်ဘာကို မွမ်းမံခြင်းအားဖြင့် ဤပြဿနာကို ဖြေရှင်းနိုင်ကြောင်း ညွှန်​ပြနေသည် -</string>
     <string lang="my" key="SYSTEM_CRASH_REPORT">TryeCrypt ၌ ပရိုဂရမ် အမှား ရှိမရှိ သိရှိနိုင်ရန်၊ သင့်အနေဖြင့် အောက်ပါ အချက်များ အပါအဝင် အလိုအလျောက် ထုတ်ပြန်သော ချို့ယွင်းချက် အကြောင်းကြားစာကို ကျွန်တော်တို့ထံ ပေးပို့နိုင်ပါသည်။\n- ပရိုဂရမ် ဗားရှင်း\n- OS  ဗားရှင်း\n - CPU အမျိုးအစား\n- ချို့ယွင်းချက် အမျိုးအစား\n- ဒရိုင်ဘာ အမည်နှင့်ဗားရှင်း\n - System call stack\n\n 'ကောင်းပြီ' ကို ရွေးချယ်လိုက်ပါက၊ (ချို့ယွင်းချက် အကြောင်းကြားစာ အားလုံး ပါ၀င်သော) အောက်ပါ ကွန်ရက် လိပ်စာသည် သင့် ပုံမှန် အင်တာနက် ဘရောင်ဆာပေါ်တွင် ဖွင့်လာလိမ့်မည်။</string>
     <string lang="my" key="ASK_SEND_ERROR_REPORT">အထက်ပါ ချို့ယွင်းချက် မှတ်တမ်းကို ကျွန်တော်တို့ထံ ပေးပို့လိုသလား?</string>
@@ -476,7 +484,7 @@
     <string lang="my" key="FORMAT_FINISHED_HELP">\n\n VeraCrypt volume ကို ဖန်တီးလိုက်ပြီ ဖြစ်၍ သုံးစွဲရန် အသင့် ဖြစ်နေပြီ။ အခြား VeraCrypt volume ကို ဖန်တီးလိုပါက၊ 'ရှေ့သို့' ကို နှိပ်ပါ။ ဒါမှမဟုတ် 'ထွက်ရန်' ကို နှိပ်ပါ။</string>
     <string lang="my" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n လျှို့ဝှက် VeraCrypt volume ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ (လျှို့ဝှက် OS သည် ဤလျှို့ဝှက် volume ထဲ၌ ရှိနေမည် ဖြစ်သည်)။\n\n ဆက်လုပ်ရန် 'ရှေ့သို့' ကို နှိပ်ပါ။</string>
     <string lang="my" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volume ကို အပြည့်အ၀ စာဝှက်ထားပြီ</string>
-    <string lang="my" key="NONSYS_INPLACE_ENC_FINISHED_INFO">အရေးကြီးချက် - အသစ်စက်စက် ဖန်တီးလိုက်သော TRUECRYPT VOLUME ကို အစပျိုးပြီး ၄င်းအထဲ၌ သိုလှောင်ထားသော ဒေတာကို ရယူရန်၊ 'Devices များ အလိုလို အစပျိုးရန်' ကို နှိပ်ပါ။ စကားဝှက် (နှင့် ကီးဖိုင်) အမှန်ကို ထည့်သွင်းပြီးပါက ()၊ VeraCrypt ၏ ပင်မ ၀င်းဒိုးပေါ်ရှိ စာရင်းမှ သင် ရွေးချယ်လိုက်သော drive အက္ခရာဖြင့် volume ကို အစပျိုးလာမည် (ပြီးနောက် စာဝှက်ထားသော ဒေတာကို ရွေးချယ်​ထားသော drive အက္ခရာမှတဆင့် ၀င်ရောက်နိုင်မည်) ဖြစ်သည်။\n\nအ​ထက် ဖေါ်ပြပါ အဆင့်များကို မှတ်ထားခြင်း/ရေးမှတ်ခြင်း ပြုထားပါ။ VOLUME ကို အစပျိုးလိုသော အချိန်၊ အထဲ၌ သိုလှောင်ထားသော ဒေတာများကို ရယူလိုသည့်အချိန်တွင် ၄င်းအဆင့်များအတိုင်း လုပ်ဆောင်ပါ။ တနည်းအားဖြင့် - VeraCrypt ၏ ပင်မ ဝင်းဒိုးထဲ၌ တွင် 'Device ရွေးရန်' ကို နှိပ်ပါ၊ ထို့နောက် ဤ အခန်းကန့်/volume ကို ရေးပြီး၊ 'အစပျိုးရန်' ကို နှိပ်ပါ။\n\n အခန်းကန့်/volume ကို အောင်မြင်စွာ စာဝှက်လိုက်ပြီ ဖြစ်၍ သုံးစွဲရန် အသင့် ဖြစ်နေပြီ။</string>
+    <string lang="my" key="NONSYS_INPLACE_ENC_FINISHED_INFO">အရေးကြီးချက် - အသစ်စက်စက် ဖန်တီးလိုက်သော VERACRYPT VOLUME ကို အစပျိုးပြီး ၄င်းအထဲ၌ သိုလှောင်ထားသော ဒေတာကို ရယူရန်၊ 'Devices များ အလိုလို အစပျိုးရန်' ကို နှိပ်ပါ။ စကားဝှက် (နှင့် ကီးဖိုင်) အမှန်ကို ထည့်သွင်းပြီးပါက ()၊ VeraCrypt ၏ ပင်မ ၀င်းဒိုးပေါ်ရှိ စာရင်းမှ သင် ရွေးချယ်လိုက်သော drive အက္ခရာဖြင့် volume ကို အစပျိုးလာမည် (ပြီးနောက် စာဝှက်ထားသော ဒေတာကို ရွေးချယ်​ထားသော drive အက္ခရာမှတဆင့် ၀င်ရောက်နိုင်မည်) ဖြစ်သည်။\n\nအ​ထက် ဖေါ်ပြပါ အဆင့်များကို မှတ်ထားခြင်း/ရေးမှတ်ခြင်း ပြုထားပါ။ VOLUME ကို အစပျိုးလိုသော အချိန်၊ အထဲ၌ သိုလှောင်ထားသော ဒေတာများကို ရယူလိုသည့်အချိန်တွင် ၄င်းအဆင့်များအတိုင်း လုပ်ဆောင်ပါ။ တနည်းအားဖြင့် - VeraCrypt ၏ ပင်မ ဝင်းဒိုးထဲ၌ တွင် 'Device ရွေးရန်' ကို နှိပ်ပါ၊ ထို့နောက် ဤ အခန်းကန့်/volume ကို ရေးပြီး၊ 'အစပျိုးရန်' ကို နှိပ်ပါ။\n\n အခန်းကန့်/volume ကို အောင်မြင်စွာ စာဝှက်လိုက်ပြီ ဖြစ်၍ သုံးစွဲရန် အသင့် ဖြစ်နေပြီ။</string>
     <string lang="my" key="FORMAT_FINISHED_INFO">VeraCrypt volume ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။</string>
     <string lang="my" key="FORMAT_FINISHED_TITLE">Volume ဖန်တီးလိုက်ပြီ</string>
     <string lang="my" key="FORMAT_HELP">အရေးကြီးချက် - သင့် ကြွက်ခလုတ်ကို ဤဝင်းဒိုးအတွင်း တက်နိုင်သမျ ကျပန်း ရွေ့လျားပါ။ ပိုကြာလေ ကောင်းလေ ဖြစ်သည်။ ၎င်းသည် စာဝှက် ကီးများ၏ ဝှက်စာ ကြံ့ခိုင်မှုကို အားကောင်းစေသည်။ ထို့နောက် volume ကို ဖန်တီးရန် ဖော်မက်ချရန် ကို နှိပ်ပါ။</string>
@@ -489,7 +497,7 @@
     <string lang="my" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">ဤရွေးစရာကို သင် ရွေးချယ်ပါက၊ လက်ရှိ VeraCrypt volume တစ်ခု အထဲ၌ လျှို့ဝှက် volume တစ်ခုကို သင် ဖန်တီးရမည် ဖြစ်သည်။ သင့်အနေဖြင့် လျှို့ဝှက် volume တစ်ခု ထားရှိရန် သင့်လျှော်သော VeraCrypt volume တစ်ခုကို  ဖန်တီးလိုက်ပြီဟု ယူဆပါမည်။</string>
     <string lang="my" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Volume ဖန်တီးမှု စနစ်</string>
     <string lang="my" key="HIDVOL_FORMAT_FINISHED_TITLE">လျှို့ဝှက် Volume ဖန်တီးလိုက်ပြီ</string>
-    <string lang="my" key="HIDVOL_FORMAT_FINISHED_HELP">လျှို့ဝှက် VeraCrypt volume ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီး သုံးစွဲရန် အသင့်ဖြစ်ပါပြီ။ အကယ်၍ ညွှန်ကြားချက်များကို လိုက်နာပြီး၊ VeraCrypt သုံးစွဲသူ လမ်းညွှန် အခန်း "လျှို့ဝှက် Volumes များ အတွက် လုံခြုံရေး လိုအပ်ချက်များနှင့် ကြိုတင် ကာကွယ်မှုများ" ထဲ၌ ဖေါ်ပြထားသည့် ကြိုတင်ကာကွယ်မှုများနှင့် လိုအပ်ချက်များကို လိုက်နာပါက၊ ပြင်ပ volume ကို အစပျိုးထားလျှင်ပင်၊ လျှို့ဝှက် volume တည်ရှိကြောင်း ​သက်သေပြနိုင်မည် ဖြစ်သည်။\n\nသတိပေးချက် - အကယ်၍ သင်သည် လျှို့ဝှက် VOLUME ကို (လုပ်ဆောင်နည်းနဲ့ ပါတ်သက်သော အချက်အလက်ကို TRUECRYPT သုံးစွဲသူ လမ်းညွှန်ထဲရှိ "လျှို့ဝှက် VOLUMES များကို မပျက်စီးအောင် ကာကွယ်နည်း" ကို လေ့လာပါ) မကာကွယ်ထားပါက၊ ပြင်ပ VOLUME ထဲ၌ ရေးသားခြင်း မပြုပါနှင့်။ သို့မဟုတ်ပါက၊ လျှို့ဝှက် VOLUME ပေါ် သင် ထပ်ရေးမိပြီး ၄င်းကို ပျက်စီးစေလိမ့်မည် ဖြစ်သည်။</string>
+    <string lang="my" key="HIDVOL_FORMAT_FINISHED_HELP">လျှို့ဝှက် VeraCrypt volume ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီး သုံးစွဲရန် အသင့်ဖြစ်ပါပြီ။ အကယ်၍ ညွှန်ကြားချက်များကို လိုက်နာပြီး၊ VeraCrypt သုံးစွဲသူ လမ်းညွှန် အခန်း "လျှို့ဝှက် Volumes များ အတွက် လုံခြုံရေး လိုအပ်ချက်များနှင့် ကြိုတင် ကာကွယ်မှုများ" ထဲ၌ ဖေါ်ပြထားသည့် ကြိုတင်ကာကွယ်မှုများနှင့် လိုအပ်ချက်များကို လိုက်နာပါက၊ ပြင်ပ volume ကို အစပျိုးထားလျှင်ပင်၊ လျှို့ဝှက် volume တည်ရှိကြောင်း ​သက်သေပြနိုင်မည် ဖြစ်သည်။\n\nသတိပေးချက် - အကယ်၍ သင်သည် လျှို့ဝှက် VOLUME ကို (လုပ်ဆောင်နည်းနဲ့ ပါတ်သက်သော အချက်အလက်ကို VERACRYPT သုံးစွဲသူ လမ်းညွှန်ထဲရှိ "လျှို့ဝှက် VOLUMES များကို မပျက်စီးအောင် ကာကွယ်နည်း" ကို လေ့လာပါ) မကာကွယ်ထားပါက၊ ပြင်ပ VOLUME ထဲ၌ ရေးသားခြင်း မပြုပါနှင့်။ သို့မဟုတ်ပါက၊ လျှို့ဝှက် VOLUME ပေါ် သင် ထပ်ရေးမိပြီး ၄င်းကို ပျက်စီးစေလိမ့်မည် ဖြစ်သည်။</string>
     <string lang="my" key="FIRST_HIDDEN_OS_BOOT_INFO">သင်သည် လျှို့ဝှက် OS ကို စတင် လည်ပတ်​​နေပြီ။ လျှို့ဝှက် OS သည် မူလ လျှို့ဝှက် OS ကဲ့သို့ အခန်းကန့် တစ်ခုထဲ၌ ထည့်သွင်းထာသကဲ့သို့ ပေါ်လွင်နေသည်ကို သင် သတိပြုမိလိမ့်မည်။ သို့သော်၊ လက်တွေ့၌၊ လျှို့ဝှက် volume ၏ နောက်ကွယ်ရှိ အခန်းကန့်ထဲတွင် ထည့်သွင်းထားခြင်း ဖြစ်သည်။ အရေး/အဖတ် လုပ်ငန်းစဉ်အားလုံးကို မှုလ ကွန်ပျူတာစနစ် အခန်းကန့်မှ လျှို့ဝှက် volume ထဲ လွှဲပြောင်းပေးနေသည်။\n\nOS ဒါမှမဟုတ် အပ္ပလီကေးရှင်းများကပင် ကွန်ပျူတာစနစ် အခန်းကန့်ထဲ၌ ဒေတာများ ရေးသားချက်/ဖတ်ရှုချက်များသည် လျှို့ဝှက် volume နောက်ကွယ်က အခန်းကန့်မှ ပြုလုပ်နေကြောင်း သိရှိမည် မဟုတ်ပါ။ ယင်းကဲ့သို့ ဒေတာများကို ထုံးစံအတိုင်း  (မျက်လှည့် OS အတွက် အသုံးပြုမည့် စာဝှက် ကီးနှင့် မတူသော) လက်ငင်း စာဝှက်ပေးခြင်း၊ စာဝှက်ဖြည်ပေးခြင်းများ ဆောင်ရွတ်ပေးသည်။\n\n ဆက်လုပ်ရန် 'ရှေ့သို့' ကို နှိပ်ပါ။</string>
     <string lang="my" key="HIDVOL_HOST_FILLING_HELP_SYSENC">ပြင်ပ volume ကို ဖန်တီးခဲ့ပြီး drive %hc အဖြစ် အစပျိုးလိုက်ပြီ။ ဤပြင်ပ volume ထဲ၌ သင် တကယ် မဝှက်ထားလိုသော အရေးကြီးပုံပေါ်သည့် ဖိုင်အချို့ကို ကော်ပီကူးလိုက်ပါ။ ဤအရာသည် သင့်ကို ကွန်ပျူတာစနစ် အခန်းကန့်၏ နောက်ကွယ်မှ ပထမ အခန်းကန့်၏ စကားဝှက်ကို အကျပ်ကိုင် တောင်းဆိုလာသူအား ပေးရန် ဖြစ်သည်။ ထိုနေရာ၌ ပြင်ပ volume နှင့် (လျှို့ဝှက် OS အပါအ၀င်) လျှို့ဝှက် volume နှစ်ခုစလုံး တည်ရှိနေကြသည်။\n\n အရေးကြီးချက် - ပြင်ပ volume သို့ သင် ကော်ပီကူးသော ဖိုင်များသည် %s ထက် နေရာ မယူစေရပါ။ သို့မဟုတ်ပါက၊ ပြင်ပ volume ၌ လျှို့ဝှက် volume ထားရှိရန်အတွက် နေရာအလွတ် ရှိမည် မဟုတ်ပါ (နောက်ပြီး သင် အလုပ် ဆက်လုပ်၍ ရမည် မဟုတ်ပါ)။ ကော်ပီ ကူးပြီးပါက၊ 'ရှေ့သို့' ကို နှိပ်ပါ (volume ကို အဆုံးမသတ်ပါနှင့်)။</string>
     <string lang="my" key="HIDVOL_HOST_FILLING_HELP">ပြင်ပ volume ကို ဖန်တီးခဲ့ပြီး drive %hc အဖြစ် အစပျိုးလိုက်ပြီ။ ဤပြင်ပ volume ထဲ၌ သင် တကယ် မဝှက်ထားလိုသော အရေးကြီးပုံပေါ်သည့် ဖိုင်အချို့ကို ကော်ပီကူးလိုက်ပါ။  ၎င်းဖိုင်များသည် သင့် စကားဝှက်ကို အကျပ်ကိုင် တောင်းဆိုလာသူများအား ပြသရန်အတွက် ဖြစ်သည်။ သင်အနေဖြင့် လျှို့ဝှက် volume မဟုတ်ပဲ၊ ပြင်ပ volume ၏ စကားဝှက်ကိုသာ ဖေါ်ပြရမည် ဖြစ်သည်။ သင် တကယ် ဂရုစိုက်ရမည့် ဖိုင်များကို လျှို့ဝှက် volume ထဲတွင် သိမ်းဆည်းမည် ဖြစ်သည်။ ၄င်းကို နောက်ပိုင်းတွင် ဖန်တီးသွားမည် ဖြစ်သည်။ ကော်ပီ ကူးပြီးပါက၊ ရှေ့သို့ ကို နှိပ်ပါ။ ဤ volume ကို အဆုံးမသတ်ပါနှင့်။ \n\n မှတ်ချက် - ရှေ့သို့ ကို သင်နှိပ်ပြီးပါက၊ ကျန်ရှိနေသေးသည့် နေရာလွတ် ပမာဏကို သိရှိရန် ပြင်ပ volume ၏cluster bitmap ကို စကင်ဖတ် စစ်ဆေးသွားမည် ဖြစ်သည်။ ၄င်းသည် volume ၏ အဆုံးပိုင်းနှင့် တစ်ဆက်တည်း တည်ရှိသည်။ ဤနေရာ၌ လျှို့ဝှက် volume ကို ထားရှိသွားမည်။ ဤသို့ဖြင့် ၄င်း၏ အများဆုံး အရွယ်ပမာဏကို ရရှိလာမည် ဖြစ်သည်။ Cluster bitmap စကင်ဖတ် စစ်ဆေးခြင်းဖြင့် ပြင်ပ volume ရှိ ဒေတာများကို လျှို့ဝှက် volume မှ မပျက်စီးစေရန် သေချာစေမည် ဖြစ်သည်။</string>
@@ -601,6 +609,7 @@
     <string lang="my" key="SELECT_DEST_DIR">ဖိုင်တွဲ ထားမည့်နေရာကို ရွေးရန်</string>
     <string lang="my" key="SELECT_KEYFILE">ကီးဖိုင် ရွေးရန်</string>
     <string lang="my" key="SELECT_KEYFILE_PATH">ကီးဖိုင် ရှာဖွေရေး လမ်းကြောင်း တစ်ခုကို ရွေးပါ။ သတိပေးချက် - ဖိုင်အမည်များ မပါပဲ၊ ဖိုင်လမ်းကြောင်းကိုသာ မှတ်သားမည် ဖြစ်သည်။</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="my" key="SERPENT_HELP">Ross Anderson, , Eli Biham နှင့် Lars Knudsen တို့မှ ဒီဇိုင်းဆွဲသည်။ ၁၉၉၈ ခုနှစ်၌ ပုံနှိပ်ထုတ်ဝေသည်။ 256-bit key, 128-bit block ရှိသည်။ လုပ်ဆောင်သည့် စနစ်မှာ XTS ဖြစ်သည်။ Serpent သည် AES ၏ နောက်ဆုံး ရွေးချယ်စာရင်းထဲမှ တစ်ခု ဖြစ်သည်။</string>
     <string lang="my" key="SIZE_HELP">သင် ဖန်တီးလိုသော သိမ်းဆည်းခန်း၏ အရွယ်အစားကို သတ်မှတ်ပါ။\n\nအကယ်၍ တက်ကြွ (sparse-file) သိမ်းဆည်းခန်း တစ်ခုကို သင် ဖန်တီးပါက၊ ဒီပါရာမီတာသည် ၄င်း၏ အများဆုံး အရွယ်အစားကို သတ်မှတ်ပေးမည် ဖြစ်သည်။\n\nFAT volume ၏ အနည်းဆုံး အရွယ်အစားသည် 292 KB ဖြစ်သည်။ NTFS volume ၏ အနည်းဆုံး အရွယ်အစားမှာ 3792 KB ဖြစ်သည်။</string>
     <string lang="my" key="SIZE_HELP_HIDDEN_HOST_VOL">သင် ဖန်တီးမည့် ပြင်ပ volume  ၏ အရွယ်အစားကို သတ်မှတ်ပါ (ပြင်ပ volume ကို သင် အရင် ဖန်တီးပြီး၊ ၄င်းအထဲ၌ လျှို့ဝှက် volume တစ်ခု ဖန်တီးရမည် ဖြစ်သည်)။ လျှို့ဝှက် volume  တည်ရှိသော volume ၏ အနည်းဆုံး အရွယ်အစားမှာ340 KB ဖြစ်သည်။</string>
@@ -752,6 +761,7 @@
     <string lang="my" key="REMOVABLE_DISK">ဖြုတ်တပ်နိုင်သော Disk</string>
     <string lang="my" key="HARDDISK">Harddisk</string>
     <string lang="my" key="UNCHANGED">အပြောင်းအလဲ မရှိ</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="my" key="SETUP_MODE_TITLE">အညွှန်းစနစ်</string>
     <string lang="my" key="SETUP_MODE_INFO">စနစ် တစ်ခုခုကို ရွေးပါ။ ရွေးချယ်မည့် အရာကို မသေချာပါက၊ ပုံမှန်စနစ်ကို ရွေးပါ။</string>
     <string lang="my" key="SETUP_MODE_HELP_INSTALL">VeraCrypt ကို ကွန်ပျူတာစနစ်ထဲ ထည့်သွင်းလိုပါက ဤရွေးစရာကို ရွေးချယ်ပါ။</string>
@@ -865,6 +875,11 @@
     <string lang="my" key="ENTER_HIDDEN_VOL_PASSWORD">လျှို့ဝှက် volume အတွက် စကားဝှက် ရေးထည့်ပါ</string>
     <string lang="my" key="ENTER_HEADER_BACKUP_PASSWORD">အရံသင့် ဖိုင်ထဲ၌ သိမ်းဆည်းထားသော ခေါင်းစီးအတွက် စကားဝှက် ရေးထည့်ပါ</string>
     <string lang="my" key="KEYFILE_CREATED">ကီးဖိုင်ကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="my" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">သတိပေးချက် - ဤ volume ၏ ခေါင်းစီး ပျက်စီးသွားပြီ! ၎င်း volume ထဲ၌ ထည့်မြှပ်ထားသော volume ခေါင်းစီး အရံသင့် သိမ်းဆည်းချက်ကို VeraCrypt သည် အလိုအလျောက် သုံးစွဲထားသည်။\n\n Volume  ခေါင်းစီးကို 'ကိရိယာများ' &gt; 'Volume ​ခေါင်းစီး ပြန်ထားရန်' ကို ရွေးပြီး ပြုပြင်ပါ။</string>
     <string lang="my" key="VOL_HEADER_BACKED_UP">Volume ခေါင်းစီးကို အောင်မြင်စွာ ဖန်တီးလိုက်ပြီ။\n\nအရေးကြီးချက် - ဤအရန်သင့် ဖိုင်ကို အသုံးပြုပြီး volume ခေါင်းစီးကို ပြန်ထားခြင်းဖြင့် လက်ရှိ volume ၏ စကားဝှက်ကိုလည်း ပြန်ထားပေးမည် ဖြစ်သည်။ ထို့အပြင် volume ကို အစပျိုးရန် ကီးဖိုင်(များ) လိုအပ်လာပါက၊ volume ခေါင်းစီးကို ပြန်ထားသည့်အခါ ၄င်း volume ကို အစပျိုးရန်အတွက် အလားတူ ကီးဖိုင် လိုအပ်လာမည်ဖြစ်သည်။\n\nသတိပေးချက် - ဤ volume ခေါင်းစီးကို သီးခြား volume ၏ ခေါင်းစီးကို ပြန်ထားရန် သုံးစွဲနိုင်သည်။ အကယ်၍ ဤခေါင်းစီး အရန်သင့် ဖိုင်ကို အခြား volume တစ်ခု၏ ခေါင်းစီး ပြန်ထားရန် အသုံးပြုပါက၊ ၄င်း volume ကို သင် အစပျိုးနိုင်မည် ဖြစ်သည်၊ သို့သော် volume ထဲ၌ သိမ်းဆည်းထားသော ဒေတာများကို သင် စာဝှက်ဖေါ်နိုင်မည် မဟုတ်ပါ (အဘယ့်ကြောင့် ဆိုသော် ၄င်း၏ မာစတာ ကီးကို သင် ပြောင်းလဲရမည် ဖြစ်သည်)။</string>
     <string lang="my" key="VOL_HEADER_RESTORED">volume ခေါင်းစီးကို အောင်မြင်စွာ ပြန်ထားလိုက်ပြီ။\n\nအရေးကြီးချက် - စကားဝှက် အဟောင်းကိုပါ ပြန်ထားနိုင်သည်ကို သတိပြုပါ။ ဒါ့အပြင်၊ အကယ်၍ အရန်သင့်ဖိုင်ကို ဖန်တီးသည့်အခါ volume ကို အစပျိုးရန်အတွက် ကီးဖိုင်(များ) လိုအပ်လာပါက၊ ၄င်း volume ကို အစပျိုးရန်အတွက် အလားတူ ကီးဖိုင်များ လိုအပ်လာမည် ဖြစ်သည်။</string>
@@ -913,8 +928,8 @@
     <string lang="my" key="SIZE_ITEM">အရွယ်အစား-</string>
     <string lang="my" key="PATH_ITEM">ဖိုင် လမ်းကြောင်း -</string>
     <string lang="my" key="DRIVE_LETTER_ITEM">Drive အက္ခရာ -</string>
-    <string lang="my" key="UNSUPPORTED_CHARS_IN_PWD">ချို့ယွင်းချက် - စကားဝှက်၌ ASCII အက္ခရာ စာလုံးများသာ ပါ၀င်ရမည်။\n\nစကားဝှက်တွင် ASCII အက္ခရာ စာလုံးများ မဟုတ်သော စာလုံးများ ရှိပါက၊ သင့် ကွန်ပျူတာစနစ် ပြုပြင်ဖန်တီးမှု ပြောင်းသွားသောအခါ volume ကို ဖွင့်နိုင်မည် မဟုတ်ပါ။\n\nအောက်ပါ အက္ခရာ စာလုံးများကို ခွင့်ပြုထားသည် -\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
-    <string lang="my" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">သတိပေးချက် - စကားဝှက်၌ ASCII မဟုတ်သော အက္ခရာစာလုံးများ ပါရှိနေသည်။ ဤအချက်ကြောင့် သင့် ကွန်ပျူတာစနစ် ပြုပြင်ဖန်တီးမှု ပြောင်းသွားသောအခါ volume ကို ဖွင့်နိုင်မည် မဟုတ်ပါ။\n\n စကားဝှက်၌ ပါသော ASCII မဟုတ်သော စကားဝှက်များကို ASCII အက္ခရာများနှင့် အစားထိုးပါ။ ထိုသို့ ပြုလုပ်ရန် 'Volumes' -&gt; 'Volume စကားဝှက် ပြောင်းရန်' ကို နှိပ်ပါ။\n\n ASCII အက္ခရာစာလုံးများကို အောက်ပါအတိုင်း ဖေါ်ပြထားသည် -\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="my" key="UNSUPPORTED_CHARS_IN_PWD">ချို့ယွင်းချက် - စကားဝှက်၌ ASCII အက္ခရာ စာလုံးများသာ ပါ၀င်ရမည်။\n\nစကားဝှက်တွင် ASCII အက္ခရာ စာလုံးများ မဟုတ်သော စာလုံးများ ရှိပါက၊ သင့် ကွန်ပျူတာစနစ် ပြုပြင်ဖန်တီးမှု ပြောင်းသွားသောအခါ volume ကို ဖွင့်နိုင်မည် မဟုတ်ပါ။\n\nအောက်ပါ အက္ခရာ စာလုံးများကို ခွင့်ပြုထားသည် -\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
+    <string lang="my" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">သတိပေးချက် - စကားဝှက်၌ ASCII မဟုတ်သော အက္ခရာစာလုံးများ ပါရှိနေသည်။ ဤအချက်ကြောင့် သင့် ကွန်ပျူတာစနစ် ပြုပြင်ဖန်တီးမှု ပြောင်းသွားသောအခါ volume ကို ဖွင့်နိုင်မည် မဟုတ်ပါ။\n\n စကားဝှက်၌ ပါသော ASCII မဟုတ်သော စကားဝှက်များကို ASCII အက္ခရာများနှင့် အစားထိုးပါ။ ထိုသို့ ပြုလုပ်ရန် 'Volumes' -&gt; 'Volume စကားဝှက် ပြောင်းရန်' ကို နှိပ်ပါ။\n\n ASCII အက္ခရာစာလုံးများကို အောက်ပါအတိုင်း ဖေါ်ပြထားသည် -\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="my" key="EXE_FILE_EXTENSION_CONFIRM">သတိပေးချက် - ဖိုင် extensions များ (such as .exe, .sys, or .dll) နှင့် အခြား အလားတူ ပြဿနာ ရှိနိုင်သော ဖိုင် extensions များကို ရှောင်ရန် အထူး တိုက်တွန်းလိုသည်။ ယင်းကဲ့သို့ ဖိုင် extensions များကို သုံးစွဲခြင်းဖြင့် ဝင်းဒိုးနှင့် ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲတို့သည် သိမ်းဆည်းခန်းနှင့် အနှောင့်အယှက် ဖြစ်လာနိုင်သည်။ ၄င်းကြောင့် volume ၏ စွမ်းဆောင်ရည်ကို ထိ​ခိုက်စေပြီး အခြား ပြင်းထန်သော ပြဿနာများ ပေါ်ပေါက်စေနိုင်သည်။\n \nဖိုင် extension ကို ဖယ်ရှားပြီး ​အမည်ပြောင်းရန် အထူး အကြံပြုလိုသည် (ဥပမာ - '.tc' စသဖြင့်)။\n \nဤပြဿနာများ ဖြစ်စေနိုင်သည့် ဖိုင် extension ကို အသုံးပြုရန် သေချာသလား?</string>
     <string lang="my" key="EXE_FILE_EXTENSION_MOUNT_WARNING">သတိပေးချက် - ဤသိမ်းဆည်းခန်း၌ ဖိုင် extensions များ (such as .exe, .sys, or .dll) နှင့် အခြား အလားတူ ပြဿနာ ရှိနိုင်သော ဖိုင် extensions များ၌ သုံးစွဲသော ဖိုင် extension တစ်ခု ရှိနေသည်။ ယင်းကြောင့် ဝင်းဒိုးနှင့် ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲတို့သည် သိမ်းဆည်းခန်းနှင့် အနှောင့်အယှက် ဖြစ်လာနိုင်ပြီး volume ၏ စွမ်းဆောင်ရည်ကို ထိ​ခိုက်စေပြီး အခြား ပြင်းထန်သော ပြဿနာများ ပေါ်ပေါက်စေနိုင်သည်။\n\n Volume ကို အဆုံးသတ်ပြီးနောက် ဖိုင် extension ကို ဖယ်ရှားပြီး ​(ဥပမာ - '.tc' စသဖြင့်) အမည်ပြောင်းရန် အထူး အကြံပြုလိုသည်။</string>
     <string lang="my" key="HOMEPAGE">ပင်မ စာမျက်နှာ</string>
@@ -1203,7 +1218,7 @@
     <string lang="my" key="RESCUE_DISK">ဆယ်တင်ရေး အခွေ</string>
     <string lang="my" key="SELECT_FILE_AND_MOUNT">&amp;ဖိုင်ကို ရွေးပြီး အစပျိုးပါ...</string>
     <string lang="my" key="SELECT_DEVICE_AND_MOUNT">&amp;Device ကို ရွေးပြီး အစပျိုးပါ...</string>
-    <string lang="my" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">စီမံခန့်ခွဲသူများကိုသာ ကြည့်ရှုခွင့် ပေးပြီး Truecrypt ထဲရှိ ကွန်ပျူတာစနစ် စိတ်ကြိုက် volumes များကို အဆုံးသတ်ပါ</string>
+    <string lang="my" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">စီမံခန့်ခွဲသူများကိုသာ ကြည့်ရှုခွင့် ပေးပြီး Veracrypt ထဲရှိ ကွန်ပျူတာစနစ် စိတ်ကြိုက် volumes များကို အဆုံးသတ်ပါ</string>
     <string lang="my" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Windows ဖွင့်လာသည့်အခါ (စက်အတက် လုပ်ငန်းစဉ် အစပိုင်း အဆင့်တွင်) ကွန်ပျူတာစနစ် စိတ်ကြိုက် volumes များကို အစပျိုးပါ</string>
     <string lang="my" key="MOUNTED_VOLUME_DIRTY">သတိပေးချက် - '%s' အဖြစ် အစပျိုးခဲ့​​သော volume ထဲရှိ ဖိုင်စနစ်ကို ရှင်းရှင်း အဆုံးသတ် မထားပါ၊ ၄င်းကြောင့် ချို့ယွင်းချက်များ ပါ၀င်နိုင်သည်။ ပျက်စီးသွားသော ဖိုင်စနစ်ကြောင့် ဒေတာများ ပျောက်ဆုံးနိုင်သည် (သို့) ဒေတာ ပျက်စီးနိုင်သည်။\n\nမှတ်ချက်ရန် - ဖွင့်ထားသော VeraCrypt volume တည်ရှိနေသော နေရာရှိ device တစ်ခု () ကို မဖယ်ရှားမီ၊ VeraCrypt ထဲမှ VeraCrypt volume ကို ပထမဦးဆုံး အမြဲတမ်း အဆုံးသတ်ပေးရမည် ဖြစ်သည်။\n\n\nWindows သည် ဖိုင်စနစ်၌ ရှိသော ချို့ယွင်းချက်များကို (အကယ်၍ ရှိပါက) စစ်ဆေးပြီး ပြုပြင်လိုသလား?</string>
     <string lang="my" key="SYS_FAVORITE_VOLUME_DIRTY">သတိပေးချက် - ကွန်ပျူတာစနစ် စိတ်ကြိုက် volume တစ်ခု (သို့) အများကို ရှင်းလင်းစွာ အဆုံးသတ်မထားပါ၊ ထိုအချက်ကြောင့် ဖိုင်စနစ် ချို့ယွင်းချက်များ ပါရှိနေခြင်း ဖြစ်နိုင်သည်။ နောက်ထပ် အသေးစိတ် အချက်အလက်များကို ကွန်ပျူတာစနစ် ဖြစ်ရပ် မှတ်တမ်းကို လေ့လာပါ။\n\nပျက်စီးသွားသော ဖိုင်စနစ်သည် ဒေတာ ပျောက်ဆုံးခြင်း (သို့) ဒေတာ ပျက်စီးခြင်းကို ​ဖြစ်စေနိုင်သည်။ ထိခိုက်ခံရသော ကွန်ပျူတာစနစ် စိတ်ကြိုက် volume(များ)၌ ချို့ယွင်းချက်များ (VeraCrypt ၌ တစ်ခုချင်းကို ညာဖက်နှိပ်ပြီး 'ဖိုင်စနစ် ပြုပြင်ရန်' ကို ရွေးပါ) ကို သင် စစ်ဆေးကြည့်ရန် လိုသည်။</string>

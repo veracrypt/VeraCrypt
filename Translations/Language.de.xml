@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="de" name="Deutsch" en-name="German" version="1.0.1" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="de" key="IDC_HIDVOL_WIZ_MODE_FULL">Kompletter Modus</control>
     <control lang="de" key="IDC_KB">&amp;KB</control>
     <control lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;t. verwenden</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien…</control>
     <control lang="de" key="IDC_LINK_HASH_INFO">Infos über Hash-Algorithmen</control>
     <control lang="de" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Weitere Informationen</control>
@@ -145,6 +146,7 @@
     <control lang="de" key="IDC_PREF_CACHE_PASSWORDS">Kennwörter im &amp;Cache halten</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_INACTIVE">Bei ausbleibendem Lese-/Schreibzugriff aut&amp;omatisch trennen nach</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_LOGOFF">Benutzerabmel&amp;dung</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_POWERSAVING">Wechsel in Energiesparmod&amp;us</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_SCREENSAVER">Bildsc&amp;hirmschonerstart</control>
     <control lang="de" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Automatisches Trennen bei geöffneten Date&amp;ien erzwingen</control>
@@ -198,6 +200,7 @@
     <control lang="de" key="IDM_CREATE_RESCUE_DISK">Rettungsdatenträger erstellen...</control>
     <control lang="de" key="IDM_CREATE_VOLUME">&amp;Neues Volumen erstellen...</control>
     <control lang="de" key="IDM_DEFAULT_KEYFILES">&amp;Standardschlüsseldateien...</control>
+    <control lang="de" key="IDM_DONATE">Jetzt spenden....</control>
     <control lang="de" key="IDM_ENCRYPT_SYSTEM_DEVICE">System-Partition/Laufwerk verschlüsseln...</control>
     <control lang="de" key="IDM_FAQ">Häufig gestellte &amp;Fragen (FAQ)</control>
     <control lang="de" key="IDM_HELP">&amp;Benutzerhandbuch</control>
@@ -268,6 +271,7 @@
     <control lang="de" key="IDT_PARALLELIZATION_OPTIONS">Thread-basierte Parallelisierung</control>
     <control lang="de" key="IDT_PKCS11_LIB_PATH">Pfad der PKCS #11 Bibliothek</control>
     <control lang="de" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="de" key="IDT_PW_CACHE_OPTIONS">Kennwort-Cache (im Speicher des VeraCrypt-Treibers)</control>
     <control lang="de" key="IDT_SECURITY_OPTIONS">Sicherheitsoptionen</control>
     <control lang="de" key="IDT_TASKBAR_ICON">VeraCrypt Hintergrunddienst</control>
@@ -330,6 +334,9 @@
     <control lang="de" key="IDT_KEYFILE_GENERATOR_NOTE">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin u. her bewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei.</control>
     <control lang="de" key="IDT_KEYFILE_WARNING">WARNUNG: Ein Volumen kann nicht mehr eingebunden werden, wenn eine der Schlüsseldateien fehlt oder in den ersten 1024 KB verändert wurde!</control>
     <control lang="de" key="IDT_KEY_UNIT">Bit</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="de" key="IDT_LANGPACK_AUTHORS">Übersetzt von:</control>
     <control lang="de" key="IDT_PLAINTEXT">Klartextgröße:</control>
     <control lang="de" key="IDT_PLAINTEXT_SIZE_UNIT">Bit</control>
@@ -340,6 +347,7 @@
     <control lang="de" key="IDT_SECURITY_TOKEN">Security-Token:</control>
     <control lang="de" key="IDT_SORT_METHOD">Sortiermethode:</control>
     <control lang="de" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Bitte warten. Dieser Vorgang kann sehr lange dauern...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="de" key="IDT_TEST_BLOCK_NUMBER">Block Nummer:</control>
     <control lang="de" key="IDT_TEST_CIPHERTEXT">Chiffretext (hexadezimal)</control>
     <control lang="de" key="IDT_TEST_DATA_UNIT_NUMBER">Dateneinheit-Nummer (64-bit hexadezimal, die Größe einer Dateneinheit beträgt 512 Byte) </control>
@@ -431,7 +439,7 @@
     <string lang="de" key="ASK_DEBUGGER_INSTALL">Um den Systemabsturz zu anaylsieren muss VeraCrypt zuerst die Microsoft Debugging Tools für Windows installieren.\n\nNachdem Sie OK klicken wird der Windows Installer das Microsoft Debugging Tools Installationspaket (16 MB) von einem Microsoft Server herunterladen und installieren (der Windows Installer wird vom veracrypt.org Server auf die Server-URL des Microsoft Servers weitergeleitet, wodurch sichergestellt wird, dass der Vorgang auch funktioniert wenn Micosoft die URL ändert).</string>
     <string lang="de" key="SYSTEM_CRASH_ANALYSIS_INFO">Nachdem Sie OK klicken analysiert VeraCrypt den Systemabsturz. Die kann mehrere Minuten dauern.</string>
     <string lang="de" key="DEBUGGER_NOT_FOUND">Bitte stellen Sie sicher, dass die Umgebungsvariable "PATH" den Pfad zu "kd.exe" (Kernel Debugger) enthält ("Systemsteuerung" &gt; "System" &gt; "Erweiterte Systemeinstellungen" &gt; "erweitert" &gt; "Umgebungsvariablen").</string>
-    <string lang="de" key="SYSTEM_CRASH_NO_TRUECRYPT">Es scheint als ob VeraCrypt sehr wahrscheinlich den Systemabsturz nicht verursacht hat. Es gibt viele mögliche Gründe für einen Systemabsturz (z.B. Fehler in einer Hardwarekomponente, fehlerhafte Treiber usw.).</string>
+    <string lang="de" key="SYSTEM_CRASH_NO_VERACRYPT">Es scheint als ob VeraCrypt sehr wahrscheinlich den Systemabsturz nicht verursacht hat. Es gibt viele mögliche Gründe für einen Systemabsturz (z.B. Fehler in einer Hardwarekomponente, fehlerhafte Treiber usw.).</string>
     <string lang="de" key="SYSTEM_CRASH_UPDATE_DRIVER">Die Ergebnisse der Analyse deuten darauf hin, dass die Aktualisierung folgender Treiber das Problem beheben könnte:</string>
     <string lang="de" key="SYSTEM_CRASH_REPORT">Um uns zu helfen ob ein Fehler in VeraCrypt existiert können Sie uns einen automatisch erstellen Bericht senden der die folgenden Punkte enthält:\n- Programmversion\n- Version des Betriebssystems\n- CPU-Typ\n- Fehlerkategorie\n- Treibername und -Version\n- System call stack\n\nWenn Sie "Ja" wählen wird die folgende URL (die den gesamten Fehlerbericht enthält) in Ihrem Browser geöffnet.</string>
     <string lang="de" key="ASK_SEND_ERROR_REPORT">Möchten Sie uns den obigen Fehlerbericht senden?</string>
@@ -476,7 +484,7 @@
     <string lang="de" key="FORMAT_FINISHED_HELP">\n\nDas VeraCrypt-Volumen wurde erstellt und ist Einsatzbereit. Mit "Weiter" können Sie ein weiteres VeraCrypt-Volumen erstellen (anderenfalls drücken Sie auf "Beenden").</string>
     <string lang="de" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nDas versteckte VeraCrypt Volumen wurde erfolgreich erstellt (das versteckte Betriebssystem wird sich innerhalb diesem Versteckten Volumen befinden).\n\nKlicken Sie auf Weiter um fortzufahren.</string>
     <string lang="de" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volumen Vollständig Verschlüsselt</string>
-    <string lang="de" key="NONSYS_INPLACE_ENC_FINISHED_INFO">WICHTIG: UM DIESES NEU ERSTELLTE TRUECRYPT VOLUMEN EINZUBINDEN UND UM AUF DIE DATEN DARAUF ZU ZUGREIFEN, KLICKEN SIE AUF 'Alle Datentr. einbinden' IM TRUECRYPT HAUPTBILDSCHIRM. Nachdem Sie das richtige Passwort eingegeben haben (und/ oder die korrekten Schlüsseldateien angegeben haben), wird das Volumen unter dem Laufwerksbuchstaben den Sie aus der Liste im VeraCrypt Hauptbildschirm wählen eingebunden (und Sie können auf die verschlüsselten Daten über den gewählten Laufwerksbuchstabe zugreifen).\n\nBITTE MERKEN SIE SICH ODER SCHREIBEN SIE SICH DIE OBEN GENANNTEN SCHRITTE AUF. SIE MÜSSEN DIESE JEDES MAL BEFOLGEN, WENN SIE DAS VOLUMEN EINBINDEN UND AUF DARAUF BEFINDLICHE DATEN ZUGREIFEN MÖCHTEN. Alternativ klicken Sie im VeraCrypt Hauptbildschirm auf 'Datenträger...', dann wählen Sie diese(s) Partition/ Volumen und klicken auf 'Einbinden'.\n\nDie Partition/ das Volumen wurde erfolgreich verschlüsselt (es enthält jetzt ein voll-verschlüsseltes VeraCrypt Volumen und ist einsatzbereit.</string>
+    <string lang="de" key="NONSYS_INPLACE_ENC_FINISHED_INFO">WICHTIG: UM DIESES NEU ERSTELLTE VERACRYPT VOLUMEN EINZUBINDEN UND UM AUF DIE DATEN DARAUF ZU ZUGREIFEN, KLICKEN SIE AUF 'Alle Datentr. einbinden' IM VERACRYPT HAUPTBILDSCHIRM. Nachdem Sie das richtige Passwort eingegeben haben (und/ oder die korrekten Schlüsseldateien angegeben haben), wird das Volumen unter dem Laufwerksbuchstaben den Sie aus der Liste im VeraCrypt Hauptbildschirm wählen eingebunden (und Sie können auf die verschlüsselten Daten über den gewählten Laufwerksbuchstabe zugreifen).\n\nBITTE MERKEN SIE SICH ODER SCHREIBEN SIE SICH DIE OBEN GENANNTEN SCHRITTE AUF. SIE MÜSSEN DIESE JEDES MAL BEFOLGEN, WENN SIE DAS VOLUMEN EINBINDEN UND AUF DARAUF BEFINDLICHE DATEN ZUGREIFEN MÖCHTEN. Alternativ klicken Sie im VeraCrypt Hauptbildschirm auf 'Datenträger...', dann wählen Sie diese(s) Partition/ Volumen und klicken auf 'Einbinden'.\n\nDie Partition/ das Volumen wurde erfolgreich verschlüsselt (es enthält jetzt ein voll-verschlüsseltes VeraCrypt Volumen und ist einsatzbereit.</string>
     <string lang="de" key="FORMAT_FINISHED_INFO">Das VeraCrypt-Volumen wurde erfolgreich erstellt.</string>
     <string lang="de" key="FORMAT_FINISHED_TITLE">Volumen wurde erstellt</string>
     <string lang="de" key="FORMAT_HELP">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin und her bewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei. Klicken Sie auf Formatieren um mit der Erstellung fortzufahren.</string>
@@ -549,7 +557,7 @@
     <string lang="de" key="SELECT_PKCS11_MODULE">Wähle PKCS #11 Bibliothek</string>
     <string lang="de" key="OUTOFMEMORY">Kein Speicher mehr vorhanden</string>
     <string lang="de" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">WICHTIG: Wir empfehlen unerfahrenen Nutzern dringend eine VeraCrypt Containerdatei auf der ausgewählten Partition/Laufwerk zu erstellen anstatt zu versuchen die gesamte Partition/Laufwerk zu verschlüsseln.\n\nWenn Sie eine VeraCrypt Containerdatei erstellen besteht zum Beispiel (im Gegensatz zum verschlüsseln einer ganzen Partition oder eines Laufwerks) keine Gefahr eine große Zahl von Dateien zu zerstören. Bitte beachten Sie, dass eine VeraCrypt Containerdatei (obwohl sie eine virtuelle verschlüsselte Festplatte enthält) sich genau wie eine normale Datei verhält (sie kann z.B. kopiert, verschoben oder gelöscht werden). Für mehr Informationen siehe Kapitel "Beginner's Tutorial" in der VeraCrypt Bedienungsanleitung.\n\nSind Sie sicher, dass Sie die gesamte Partition / das gesamte Laufwerk verschlüsseln möchten?</string>
-    <string lang="de" key="OVERWRITEPROMPT">WARNUNG: Die Datei '%hs' existiert bereits!\n\nWICHTIG: TRUECRYPT WIRD DIE DATEI NICHT ENTSCHLÜSSLEN SONDERN LÖSCHEN. Sind Sie sicher, dass Sie die Datei löschen möchten und mit dem neuen VeraCrypt Container ersetzen wollen?</string>
+    <string lang="de" key="OVERWRITEPROMPT">WARNUNG: Die Datei '%hs' existiert bereits!\n\nWICHTIG: VERACRYPT WIRD DIE DATEI NICHT ENTSCHLÜSSLEN SONDERN LÖSCHEN. Sind Sie sicher, dass Sie die Datei löschen möchten und mit dem neuen VeraCrypt Container ersetzen wollen?</string>
     <string lang="de" key="OVERWRITEPROMPT_DEVICE">WARNUNG: Alle zurzeit gespeicherten Dateien auf %s '%hs'%s werden gelöscht und gehen verloren (SIE WERDEN NICHT VERSCHLÜSSELT!)!\n\nMöchten Sie trotzdem mit dem Formatieren beginnen?</string>
     <string lang="de" key="NONSYS_INPLACE_ENC_CONFIRM">WARNUNG: Sie werden nicht in der Lage sein das Volumen zu mounten oder auf Daten zugreifen die darauf sind, bis es vollständig verschlüsselt wurde.\n\nSind Sie sicher, dass Sie mit dem verschlüsseln von %s '%hs'%s beginnen möchten?</string>
     <string lang="de" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">WARNUNG: Wenn die Stromversorgung plötzlich unterbrochen wird während vorhandene Daten 'in-place' verschlüsselt werden, oder wenn das Betriebssystem wegen eines Software- oder Hardwarefehlers abstürzt während VeraCrypt vorhandene Daten 'in-place' verschlüsselt, werden Daten beschädigt oder gehen verloren. Stellen Sie daher vor dem verschlüsseln sicher, dass Sie von den Dateien, die Sie verschlüsseln wollen, eine Sicherungskopie haben.\n\nHaben Sie eine solche Sicherung?</string>
@@ -599,6 +607,7 @@
     <string lang="de" key="SELECT_DEST_DIR">Zielverzeichnis auswählen</string>
     <string lang="de" key="SELECT_KEYFILE">Schlüsseldatei auswählen</string>
     <string lang="de" key="SELECT_KEYFILE_PATH">Suchpfad für Schlüsseldatei auswählen. WARNUNG: Es wird lediglich der Pfad nicht aber die Dateinamen berücksichtigt!</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="de" key="SERPENT_HELP">Entwickelt von Ross Anderson, Eli Biham, und Lars Knudsen. 1998 herausgegeben. 256-bit Schlüssellänge, 128-bit Blockgröße. Arbeitet im XTS-Modus. Serpent war einer der AES Finalisten.</string>
     <string lang="de" key="SIZE_HELP">Bitte geben Sie die Größe des zu erstellenden Containers an.\n\nWenn sie einen dynamischen (Sparse-Datei) Container erstellen, dann gibt dieser Wert seine maximal mögliche Größe an.\n\nHinweis: die Mindestgröße eines FAT Volumen ist 292 KB. Die Mindestgröße eines NTFS Volumen ist 3792 KB.</string>
     <string lang="de" key="SIZE_HELP_HIDDEN_HOST_VOL">Bitte geben Sie die Größe des zu erstellenden äußeren Volumens (Sie erstellen erst ein äußeres Volumen und dann darin ein Verstecktes Volumen). Die Mindestgröße eines Volumen innerhalb welchem ein verstecktes Volumen erstellt werden kann ist 340 KB.</string>
@@ -750,6 +759,7 @@
     <string lang="de" key="REMOVABLE_DISK">Wechseldatenträger</string>
     <string lang="de" key="HARDDISK">Festplatte</string>
     <string lang="de" key="UNCHANGED">Unverändert</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="de" key="SETUP_MODE_TITLE">Installationsassistent - Wählen Sie eine Installationsoption</string>
     <string lang="de" key="SETUP_MODE_INFO">Wenn Sie nicht sicher sind verwenden Sie bitte die automatisch markierte Option.</string>
     <string lang="de" key="SETUP_MODE_HELP_INSTALL">Wählen Sie diese Option wenn Sie VeraCrypt auf diesem System neu installieren möchten.</string>
@@ -863,6 +873,11 @@
     <string lang="de" key="ENTER_HIDDEN_VOL_PASSWORD">Geben Sie das Kennwort für das versteckte Volumen ein</string>
     <string lang="de" key="ENTER_HEADER_BACKUP_PASSWORD">Geben Sie das Kennwort für den, in der Sicherungsdatei abgelegten, Header ein</string>
     <string lang="de" key="KEYFILE_CREATED">Die Schlüsseldatei wurde erfolgreich erstellt.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="de" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">Warnung: Der Header von diesen Volumen ist beschädigt! VeraCrypt verwendet automatisch die Sicherung vom Volumen-Header, welche im Volumen eingebettet ist.\n\nSie sollten den Volumen-Header reparieren, indem 'Extras' &gt; 'Volumen-Header wiederherstellen...' auswählen.</string>
     <string lang="de" key="VOL_HEADER_BACKED_UP">Der Volumen-Header wurde erfolgreich gesichert.\n\nWICHTIG: Beim Wiederherstellen des Volumen-Headers mit dieser Sicherungskopie wird gleichzeitig das momentane Volumen-Kennwort wiederhergestellt. Werden zudem Schlüsseldatei(en) zum Einbinden dieses Volumen benötigt, so werden dieselben Schlüsseldatei(en) auch dann wieder zum Einbinden des Volumens benötigt nachdem der Volumen-Header wiederhergestellt worden ist.\n\nWARNUNG: Diese Sicherungskopie des Volumen-Headers kann NUR für die Wiederherstellung von speziell diesem Volumen verwendet werden. Sollte die Header-Sicherungskopie zur Wiederherstellung des Headers eines anderen Volumen verwendet werden, so kann dann zwar das Volumen danach eingebunden werden, aber es können KEINE Daten die in diesem Volumen gespeichert sind entschlüsselt werden (weil der Hauptschlüssel geändert worden ist).</string>
     <string lang="de" key="VOL_HEADER_RESTORED">Der Volumen-Header wurde erfolgreich wiederhergestellt.\n\nWICHTIG: Möglicherweise wurde ein veraltetes Kennwort ebenfalls wiederhergestellt. Wurden zudem zum Zeitpunkt der Sicherung Schlüsseldatei(en) zum Einbinden dieses Volumen benötigt, so werden dieselben Schlüsseldatei(en) jetzt ebenfalls wieder zum Einbinden des Volumens benötigt.</string>
@@ -911,8 +926,8 @@
     <string lang="de" key="SIZE_ITEM">Größe:   </string>
     <string lang="de" key="PATH_ITEM">Pfad:   </string>
     <string lang="de" key="DRIVE_LETTER_ITEM">Laufw.buchstabe:   </string>
-    <string lang="de" key="UNSUPPORTED_CHARS_IN_PWD">Fehler: Das Kennwort darf nur ASCII-Zeichen enthalten.\n\nNicht-ASCII-Zeichen im Kennwort könnten dazu führen, dass das Volumen nach einer Änderung der Systemkonfiguration nicht eingebunden werden kann. Folgende Zeichen sind zulässig:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
-    <string lang="de" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Warnung: Das Kennwort enthält Nicht-ASCII-Zeichen. Dies kann nach einer Änderung der Systemkonfiguration dazu führen, dass das Volumen nicht eingebunden werden kann.\n\nAlle Nicht-ASCII-Zeichen des Kennwortes sollten durch ASCII-Zeichen ersetzt werden ("Volumen" -&gt; "Volumen-Kennwort ändern…").\n\nFolgende Zeichen sind ASCII-Zeichen:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
+    <string lang="de" key="UNSUPPORTED_CHARS_IN_PWD">Fehler: Das Kennwort darf nur ASCII-Zeichen enthalten.\n\nNicht-ASCII-Zeichen im Kennwort könnten dazu führen, dass das Volumen nach einer Änderung der Systemkonfiguration nicht eingebunden werden kann. Folgende Zeichen sind zulässig:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
+    <string lang="de" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Warnung: Das Kennwort enthält Nicht-ASCII-Zeichen. Dies kann nach einer Änderung der Systemkonfiguration dazu führen, dass das Volumen nicht eingebunden werden kann.\n\nAlle Nicht-ASCII-Zeichen des Kennwortes sollten durch ASCII-Zeichen ersetzt werden ("Volumen" -&gt; "Volumen-Kennwort ändern…").\n\nFolgende Zeichen sind ASCII-Zeichen:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
     <string lang="de" key="EXE_FILE_EXTENSION_CONFIRM">WARNUNG: Wir empfehlen Ihnen dringend, dass Sie nicht Dateierweiterungen für ausführbare Dateien (wie .exe, .sys oder .dll) oder ähnliche Endungen verwenden. Die Endungen können Windows und Virenscanner dazu bringen, mit dem Container zu interagieren, was wiederum die Leistung des Volumens beeinträchtigt und ausserdem zu ernsthaften Problemen führen kann.\n\nWir empfehlen Ihnen, dass Sie die Endung entfernen oder ändern (z.B. auf '.tc').\n\nSind Sie sicher, dass Sie diese problematische Dateiendung behalten wollen?</string>
     <string lang="de" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNUNG: Dieser Container hat eine Dateiendung welche von Windows für ausführbare Dateien verwendet wird (unter anderem .exe, .sys oder .dll) oder eine andere, problematische Dateiendung. Dies wird sehr wahrscheinlich Probleme mit Windows und Virenscannern machen, da diese mit dem Container interagieren möchten. Dies wird die Leistung beeinflussen und kann zu anderen, schwerwiegenden Problemen führen.\n\nWir empfehlen Ihnen deshalb, die Endung entweder zu entfernen, oder zu ändern (z.B. in '.tc') nachdem Sie den Container wieder entfernt haben.</string>
     <string lang="de" key="HOMEPAGE">Homepage</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0e">
+  <localization prog-version="1.0f-BETA3">
     <!-- Languages -->
     <language langid="ru" name="Русский" en-name="Russian" version="1.0.0" translators="Dmitry Yerokhin" />
     <!-- Fonts -->
@@ -44,6 +44,7 @@
     <control lang="ru" key="IDC_HIDVOL_WIZ_MODE_FULL">Обычный режим</control>
     <control lang="ru" key="IDC_KB">&amp;КБ</control>
     <control lang="ru" key="IDC_KEYFILES_ENABLE">Кл&amp;юч. файлы</control>
+    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ru" key="IDC_KEY_FILES">Клю&amp;ч. файлы...</control>
     <control lang="ru" key="IDC_LINK_HASH_INFO">Сведения о хеш-алгоритмах</control>
     <control lang="ru" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Подробнее</control>
@@ -145,6 +146,7 @@
     <control lang="ru" key="IDC_PREF_CACHE_PASSWORDS">Кэшировать пароли в памяти драйвера</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_INACTIVE">Автоматически размонтировать тома при неактивности в течение</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_LOGOFF">завершении сеансов</control>
+    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_POWERSAVING">входе в энергосбережение</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_SCREENSAVER">старте экранной заставки</control>
     <control lang="ru" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Автоматически размонтировать тома даже при открытых файлах/папках</control>
@@ -198,6 +200,7 @@
     <control lang="ru" key="IDM_CREATE_RESCUE_DISK">Создать диск восстановления...</control>
     <control lang="ru" key="IDM_CREATE_VOLUME">Создать новый том...</control>
     <control lang="ru" key="IDM_DEFAULT_KEYFILES">Ключевые файлы по умолчанию...</control>
+    <control lang="ru" key="IDM_DONATE">Помочь...</control>
     <control lang="ru" key="IDM_ENCRYPT_SYSTEM_DEVICE">Зашифровать системный раздел/диск...</control>
     <control lang="ru" key="IDM_FAQ">Часто задаваемые вопросы</control>
     <control lang="ru" key="IDM_HELP">Руководство пользователя</control>
@@ -268,6 +271,7 @@
     <control lang="ru" key="IDT_PARALLELIZATION_OPTIONS">Потоковое распараллеливание</control>
     <control lang="ru" key="IDT_PKCS11_LIB_PATH">Путь к библиотеке PKCS #11</control>
     <control lang="ru" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="ru" key="IDT_PW_CACHE_OPTIONS">Кэширование (запоминание) паролей</control>
     <control lang="ru" key="IDT_SECURITY_OPTIONS">Параметры безопасности</control>
     <control lang="ru" key="IDT_TASKBAR_ICON">Работа VeraCrypt в фоновом режиме</control>
@@ -330,6 +334,9 @@
     <control lang="ru" key="IDT_KEYFILE_GENERATOR_NOTE">ВАЖНО: Хаотично перемещайте мышь внутри этого окна (чем дольше, тем лучше). Это значительно увеличит криптостойкость ключевого файла.</control>
     <control lang="ru" key="IDT_KEYFILE_WARNING">!!! При утере ключевого файла или повреждении его первых 1024 килобайт монтирование использующих этот файл томов невозможно!</control>
     <control lang="ru" key="IDT_KEY_UNIT">бит</control>
+    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
+    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
+    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
     <control lang="ru" key="IDT_LANGPACK_AUTHORS">Автор перевода:</control>
     <control lang="ru" key="IDT_PLAINTEXT">Размер:</control>
     <control lang="ru" key="IDT_PLAINTEXT_SIZE_UNIT">бит</control>
@@ -340,6 +347,7 @@
     <control lang="ru" key="IDT_SECURITY_TOKEN">Токен:</control>
     <control lang="ru" key="IDT_SORT_METHOD">Сортировка:</control>
     <control lang="ru" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Этот процесс может занять много времени, подождите...</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
     <control lang="ru" key="IDT_TEST_BLOCK_NUMBER">Число блоков:</control>
     <control lang="ru" key="IDT_TEST_CIPHERTEXT">Зашифрованный текст (16-ричное)</control>
     <control lang="ru" key="IDT_TEST_DATA_UNIT_NUMBER">Число единиц с данными (64-бит 16-ричное, размер единицы с данными - 512 байт)</control>
@@ -431,7 +439,7 @@
     <string lang="ru" key="ASK_DEBUGGER_INSTALL">Чтобы проанализировать системный сбой, VeraCrypt сначала нужно\nустановить Microsoft Debugging Tools для Windows.\n\nПосле нажатия OK начнётся загрузка и установка пакета\nMicrosoft Debugging Tools (16 МБ) с сервера Microsoft\n(программа установки Windows перенаправит вас на сервер\nMicrosoft с сервера veracrypt.org, тем самым гарантируя успех операции,\nдаже если Microsoft изменит местоположение пакета установки).</string>
     <string lang="ru" key="SYSTEM_CRASH_ANALYSIS_INFO">После нажатия OK начнётся анализ системного сбоя. Эта операция может занять несколько минут.</string>
     <string lang="ru" key="DEBUGGER_NOT_FOUND">Убедитесь, что в переменной окружения 'PATH' указан путь к файлу отладчика ядра 'kd.exe' (Kernel Debugger).</string>
-    <string lang="ru" key="SYSTEM_CRASH_NO_TRUECRYPT">Судя по всему, причина системного сбоя НЕ в VeraCrypt. Потенциальных причин сбоя системы множество (например, отказ аппаратуры, ошибка в драйвере устройства, и т.д.)</string>
+    <string lang="ru" key="SYSTEM_CRASH_NO_VERACRYPT">Судя по всему, причина системного сбоя НЕ в VeraCrypt. Потенциальных причин сбоя системы множество (например, отказ аппаратуры, ошибка в драйвере устройства, и т.д.)</string>
     <string lang="ru" key="SYSTEM_CRASH_UPDATE_DRIVER">Как показал анализ, данную проблему может решить обновление следующего драйвера: </string>
     <string lang="ru" key="SYSTEM_CRASH_REPORT">Чтобы помочь определить, имеется ли ошибка в VeraCrypt, отправьте нам автоматически созданный отчёт об ошибках, содержащий следующие данные:\n- Версия программы\n- Версия операционной системы\n- Тип ЦП\n- Категория ошибки\n- Название и версия драйвера\n- Стек системных вызовов\n\nПри выборе 'Да' в вашем интернет-браузере будет открыт следующий URL-адрес (с полным отчётом об ошибках).</string>
     <string lang="ru" key="ASK_SEND_ERROR_REPORT">Хотите отправить нам этот отчёт об ошибках?</string>
@@ -476,7 +484,7 @@
     <string lang="ru" key="FORMAT_FINISHED_HELP">\n\nТом VeraCrypt создан и готов к использованию.\n\nЕсли вы хотите создать ещё один том VeraCrypt, нажмите кнопку 'Далее'. Иначе нажмите 'Выход'.</string>
     <string lang="ru" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nСкрытый том VeraCrypt успешно создан (внутри него будет находиться скрытая операционная система).\n\nНажмите 'Далее' для продолжения.</string>
     <string lang="ru" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Том полностью зашифрован</string>
-    <string lang="ru" key="NONSYS_INPLACE_ENC_FINISHED_INFO">ВАЖНО: ДЛЯ МОНТИРОВАНИЯ ЭТОГО ТОМА TRUECRYPT И ДОСТУПА К СОДЕРЖАЩИМСЯ В НЁМ ДАННЫМ НАЖМИТЕ 'Автомонтирование' В ГЛАВНОМ ОКНЕ TRUECRYPT. После ввода правильного пароля (и/или ключевых файлов) том будет смонтирован на букву диска, выбранную вами в главном окне VeraCrypt (доступ к зашифрованным данным будет по этой букве диска).\n\nЗАПОМНИТЕ ИЛИ ЗАПИШИТЕ ЭТАПЫ ВЫШЕ. ВЫ ДОЛЖНЫ ИМ СЛЕДОВАТЬ ДЛЯ МОНТИРОВАНИЯ ТОМА И ДОСТУПА К ЕГО ДАННЫМ. Другой способ: нажмите кнопку 'Устройство' в главном окне VeraCrypt, выберите этот раздел/том и нажмите 'Смонтировать'.\n\nРаздел/том успешно зашифрован (сейчас он содержит полностью зашифрованный том VeraCrypt) и готов к использованию.</string>
+    <string lang="ru" key="NONSYS_INPLACE_ENC_FINISHED_INFO">ВАЖНО: ДЛЯ МОНТИРОВАНИЯ ЭТОГО ТОМА VERACRYPT И ДОСТУПА К СОДЕРЖАЩИМСЯ В НЁМ ДАННЫМ НАЖМИТЕ 'Автомонтирование' В ГЛАВНОМ ОКНЕ VERACRYPT. После ввода правильного пароля (и/или ключевых файлов) том будет смонтирован на букву диска, выбранную вами в главном окне VeraCrypt (доступ к зашифрованным данным будет по этой букве диска).\n\nЗАПОМНИТЕ ИЛИ ЗАПИШИТЕ ЭТАПЫ ВЫШЕ. ВЫ ДОЛЖНЫ ИМ СЛЕДОВАТЬ ДЛЯ МОНТИРОВАНИЯ ТОМА И ДОСТУПА К ЕГО ДАННЫМ. Другой способ: нажмите кнопку 'Устройство' в главном окне VeraCrypt, выберите этот раздел/том и нажмите 'Смонтировать'.\n\nРаздел/том успешно зашифрован (сейчас он содержит полностью зашифрованный том VeraCrypt) и готов к использованию.</string>
     <string lang="ru" key="FORMAT_FINISHED_INFO">Том VeraCrypt успешно создан.</string>
     <string lang="ru" key="FORMAT_FINISHED_TITLE">Том создан</string>
     <string lang="ru" key="FORMAT_HELP">ВАЖНО: Хаотично перемещайте мышь внутри этого окна (чем дольше, тем лучше) - это значительно увеличит криптостойкость ключей шифрования.\nЗатем нажмите 'Разметить', чтобы создать том.</string>
@@ -489,7 +497,7 @@
     <string lang="ru" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Выберите эту опцию, чтобы создать скрытый том внутри уже имеющегося тома VeraCrypt (т.е. у вас уже должен быть ранее созданный том VeraCrypt, пригодный для хранения скрытого тома).</string>
     <string lang="ru" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Режим создания тома</string>
     <string lang="ru" key="HIDVOL_FORMAT_FINISHED_TITLE">Скрытый том создан</string>
-    <string lang="ru" key="HIDVOL_FORMAT_FINISHED_HELP">Скрытый том VeraCrypt создан и готов к использованию. Если были соблюдены все инструкции и предприняты меры предосторожности, перечисленные в разделе "Требования и меры предосторожности, касающиеся скрытых томов" в Руководстве пользователя VeraCrypt, узнать наверняка, имеется ли скрытый том, станет вряд ли возможно даже при смонтированном внешнем томе.\n\nВНИМАНИЕ: ЕСЛИ ВЫ НЕ ЗАЩИТИЛИ СКРЫТЫЙ ТОМ (О ТОМ, КАК ЭТО СДЕЛАТЬ, СМ. РАЗДЕЛ "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" ("ЗАЩИТА СКРЫТЫХ ТОМОВ ОТ ПОВРЕЖДЕНИЙ") В РУКОВОДСТВЕ ПОЛЬЗОВАТЕЛЯ TRUECRYPT), НИЧЕГО НЕ ЗАПИСЫВАЙТЕ ВО ВНЕШНИЙ ТОМ, ИНАЧЕ ВЫ МОЖЕТЕ ПЕРЕЗАПИСАТЬ И ПОВРЕДИТЬ СКРЫТЫЙ ТОМ!</string>
+    <string lang="ru" key="HIDVOL_FORMAT_FINISHED_HELP">Скрытый том VeraCrypt создан и готов к использованию. Если были соблюдены все инструкции и предприняты меры предосторожности, перечисленные в разделе "Требования и меры предосторожности, касающиеся скрытых томов" в Руководстве пользователя VeraCrypt, узнать наверняка, имеется ли скрытый том, станет вряд ли возможно даже при смонтированном внешнем томе.\n\nВНИМАНИЕ: ЕСЛИ ВЫ НЕ ЗАЩИТИЛИ СКРЫТЫЙ ТОМ (О ТОМ, КАК ЭТО СДЕЛАТЬ, СМ. РАЗДЕЛ "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" ("ЗАЩИТА СКРЫТЫХ ТОМОВ ОТ ПОВРЕЖДЕНИЙ") В РУКОВОДСТВЕ ПОЛЬЗОВАТЕЛЯ VERACRYPT), НИЧЕГО НЕ ЗАПИСЫВАЙТЕ ВО ВНЕШНИЙ ТОМ, ИНАЧЕ ВЫ МОЖЕТЕ ПЕРЕЗАПИСАТЬ И ПОВРЕДИТЬ СКРЫТЫЙ ТОМ!</string>
     <string lang="ru" key="FIRST_HIDDEN_OS_BOOT_INFO">Вы запустили скрытую операционную систему. Скрытая ОС выглядит так, как будто она установлена на том же разделе, что и исходная ОС. Однако на самом деле эта ОС установлена в разделе, следующем за ним (в скрытом томе). Все операции чтения и записи прозрачно перенаправляются из системного раздела в скрытый том.\n\nНи операционная система, ни приложения не будут знать, что данные, записываемые и считываемые в системном разделе, в действительности записываются и считываются в разделе позади него (в скрытом томе). Любые такие данные шифруются и расшифровываются на лету как обычно (с ключом шифрования, отличным от ключа для обманной ОС).\n\n\nНажмите 'Далее' для продолжения.</string>
     <string lang="ru" key="HIDVOL_HOST_FILLING_HELP_SYSENC">Внешний том создан и смонтирован как диск %hc:. Скопируйте в этот том какие-нибудь осмысленно выглядящие файлы, которые на самом деле вам прятать НЕ нужно. Они понадобятся для демонстрации, если вас вынудят сообщить пароль от раздела, следующего за системным, где будут расположены внешний том и скрытый том (со скрытой ОС). Вы сможете открыть пароль от этого внешнего тома, а существование скрытого тома (и скрытой ОС) останется в тайне.\n\nВАЖНО: Файлы, копируемые во внешний том, не должны занимать больше, чем %s. В противном случае на внешнем томе может оказаться недостаточно свободного места для скрытого тома (и вы не сможете продолжить). Когда закончите копирование, нажмите 'Далее' (не размонтируйте том).</string>
     <string lang="ru" key="HIDVOL_HOST_FILLING_HELP">Внешний том успешно создан и смонтирован как диск %hc:. В этот том сейчас следует скопировать какие-нибудь осмысленно выглядящие файлы, которые на самом деле вам прятать НЕ нужно, чтобы ввести в заблуждение неприятеля, если он вынудит вас сообщить пароль. В этом случае вы скажете только пароль для этого внешнего тома, но не для скрытого. Действительно ценные для вас файлы будут храниться в скрытом томе, создаваемом позже. Когда закончите копировать файлы, нажмите 'Далее'. Не размонтируйте этот том. ПРИМЕЧАНИЕ: Нажатие 'Далее' запустит сканирование карты кластеров внешнего тома для выяснения размера непрерывной свободной области, конец которой станет концом тома. Этот участок будет приспособлен под скрытый том, т.е. именно им определяется его максимально возможный размер. Сканирование карты кластеров гарантирует, что никакие данные во внешнем томе не будут перезаписаны скрытым томом.</string>
@@ -549,7 +557,7 @@
     <string lang="ru" key="SELECT_PKCS11_MODULE">Выберите библиотеку PKCS #11</string>
     <string lang="ru" key="OUTOFMEMORY">Мало памяти</string>
     <string lang="ru" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">ВАЖНО: Неопытным пользователям настоятельно рекомендуется вместо шифрования\nвсего раздела/устройства создать на выбранном разделе/устройстве файловый контейнер VeraCrypt.\n\nПри создании файлового контейнера VeraCrypt (в отличие от шифрования устройства или раздела),\nнапример, нет риска уничтожения большого числа файлов.\nОбратите внимание: файловый контейнер VeraCrypt (хотя он и содержит виртуальный зашифрованный диск)\nв действительности представляет собой обычный файл.\nСм. подробности в Руководстве пользователя VeraCrypt (глава 'Руководство для новичков').\n\nВы действительно хотите зашифровать целиком устройство/раздел?</string>
-    <string lang="ru" key="OVERWRITEPROMPT">ВНИМАНИЕ: Файл '%hs' уже существует!\n\nВАЖНО: TRUECRYPT НЕ БУДЕТ ШИФРОВАТЬ ЭТОТ ФАЙЛ, ОН ЕГО УДАЛИТ.\n\nВы действительно хотите удалить этот файл, заменив его новым контейнером VeraCrypt?</string>
+    <string lang="ru" key="OVERWRITEPROMPT">ВНИМАНИЕ: Файл '%hs' уже существует!\n\nВАЖНО: VERACRYPT НЕ БУДЕТ ШИФРОВАТЬ ЭТОТ ФАЙЛ, ОН ЕГО УДАЛИТ.\n\nВы действительно хотите удалить этот файл, заменив его новым контейнером VeraCrypt?</string>
     <string lang="ru" key="OVERWRITEPROMPT_DEVICE">ОСТОРОЖНО: ВСЕ ДАННЫЕ, КОТОРЫЕ СОДЕРЖИТ  %s '%hs'%s, БУДУТ УНИЧТОЖЕНЫ (А НЕ ЗАШИФРОВАНЫ)!\n\nВы настаиваете на форматировании?</string>
     <string lang="ru" key="NONSYS_INPLACE_ENC_CONFIRM">ВНИМАНИЕ: Монтирование тома и доступ к хранящимся в нём файлам невозможны, пока том не будет полностью зашифрован.\n\nВы действительно хотите приступить к шифрованию %s '%hs'%s?</string>
     <string lang="ru" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">ВНИМАНИЕ: Неожиданное пропадание электропитания во время шифрования имеющихся данных 'на месте' или сбой операционной системы из-за программной/аппаратной ошибки может привести к частичному повреждению или потере данных. Поэтому прежде чем приступить к шифрованию, сделайте резервную копию файлов, которые вы хотите зашифровать.\n\nВы сделали такую резервную копию?</string>
@@ -599,6 +607,7 @@
     <string lang="ru" key="SELECT_DEST_DIR">Выберите папку назначения</string>
     <string lang="ru" key="SELECT_KEYFILE">Выберите ключевой файл</string>
     <string lang="ru" key="SELECT_KEYFILE_PATH">Выберите путь поиска ключевых файлов. ВНИМАНИЕ: Запоминается только путь, но не имена файлов.</string>
+    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
     <string lang="ru" key="SERPENT_HELP">Авторы: Ross Anderson, Eli Biham и Lars Knudsen. Опубликован в 1998 г. 256-бит ключ, 128-бит блок. Режим работы: XTS. Алгоритм Serpent - один из финалистов AES.</string>
     <string lang="ru" key="SIZE_HELP">Укажите размер создаваемого контейнера.\n\nПри создании динамического ('растягивающегося' по мере заполнения) контейнера, этот параметр определяет его максимальный размер.\n\nМинимальный объём для тома FAT: 292 КБ, для тома NTFS: 3792 КБ.</string>
     <string lang="ru" key="SIZE_HELP_HIDDEN_HOST_VOL">Укажите размер нового внешнего тома (сначала создаётся внешний том, а затем внутри него - скрытый). Минимально возможный размер тома, предназначенного для создания скрытого тома, составляет 340 КБ.</string>
@@ -750,6 +759,7 @@
     <string lang="ru" key="REMOVABLE_DISK">Сменный диск</string>
     <string lang="ru" key="HARDDISK">Жёсткий диск</string>
     <string lang="ru" key="UNCHANGED">Не изменять</string>
+    <string lang="en" key="AUTODETECTION">Autodetection</string>
     <string lang="ru" key="SETUP_MODE_TITLE">Режим мастера</string>
     <string lang="ru" key="SETUP_MODE_INFO">Выберите режим. Если не знаете, какой выбрать, используйте предложенный.</string>
     <string lang="ru" key="SETUP_MODE_HELP_INSTALL">Выберите эту опцию, чтобы установить VeraCrypt в данной системе.</string>
@@ -863,6 +873,11 @@
     <string lang="ru" key="ENTER_HIDDEN_VOL_PASSWORD">Введите пароль для скрытого тома</string>
     <string lang="ru" key="ENTER_HEADER_BACKUP_PASSWORD">Введите пароль для заголовка в файле резервной копии</string>
     <string lang="ru" key="KEYFILE_CREATED">Ключевой файл успешно создан.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
+    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
+    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
+    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
+    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
     <string lang="ru" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">ВНИМАНИЕ: Заголовок этого тома повреждён! VeraCrypt автоматически задействовал резервную копию заголовка, встроенную в том.\n\nВам следует исправить заголовок, выбрав 'Сервис' &gt; 'Восстановить заголовок тома'.</string>
     <string lang="ru" key="VOL_HEADER_BACKED_UP">Резервная копия заголовка тома успешно создана.\n\nВАЖНО: При восстановлении заголовка из этой резервной копии также будет восстановлен и текущий пароль тома. Более того, если для монтирования тома требуются ключевые файлы, после восстановления заголовка из копии для монтирования тома понадобятся те же ключевые файлы.\n\nВНИМАНИЕ: Эту копию заголовка тома можно использовать для восстановления заголовка ТОЛЬКО этого конкретного тома. Если применить эту копию для восстановления заголовка другого тома, смонтировать том вы сможете, но вам НЕ удастся расшифровать никаких данных, хранящихся в этом томе (так как это изменит его мастер-ключ).</string>
     <string lang="ru" key="VOL_HEADER_RESTORED">Заголовок тома успешно восстановлен.\n\nВАЖНО: Имейте в виду, что вместе с заголовком также был восстановлен и прежний пароль.\nБолее того, если на момент создания резервной копии для монтирования тома\nтакже требовались ключевые файлы, эти же ключевые файлы понадобятся\nдля монтирования данного тома сейчас.</string>
@@ -911,8 +926,8 @@
     <string lang="ru" key="SIZE_ITEM">Размер:   </string>
     <string lang="ru" key="PATH_ITEM">Путь:   </string>
     <string lang="ru" key="DRIVE_LETTER_ITEM">Буква диска:   </string>
-    <string lang="ru" key="UNSUPPORTED_CHARS_IN_PWD">Ошибка! Пароль должен содержать только символы стандартного набора ASCII.\n\nСимволы не из набора ASCII могут привести к невозможности монтирования тома при смене настроек в конфигурации системы.\n\nРазрешается использовать следующие символы:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
-    <string lang="ru" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Внимание! Пароль содержит не-ASCII символы. Это может привести к невозможности монтирования тома при смене конфигурации системы.\n\nВам следует заменить все не-ASCII символы в пароле на символы ASCII. Для этого щёлкните на меню 'Тома' -&gt; 'Изменить пароль тома'.\n\nК символам ASCII относятся:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w k y z { | } ~</string>
+    <string lang="ru" key="UNSUPPORTED_CHARS_IN_PWD">Ошибка! Пароль должен содержать только символы стандартного набора ASCII.\n\nСимволы не из набора ASCII могут привести к невозможности монтирования тома при смене настроек в конфигурации системы.\n\nРазрешается использовать следующие символы:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
+    <string lang="ru" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Внимание! Пароль содержит не-ASCII символы. Это может привести к невозможности монтирования тома при смене конфигурации системы.\n\nВам следует заменить все не-ASCII символы в пароле на символы ASCII. Для этого щёлкните на меню 'Тома' -&gt; 'Изменить пароль тома'.\n\nК символам ASCII относятся:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
     <string lang="ru" key="EXE_FILE_EXTENSION_CONFIRM">ВНИМАНИЕ: Настоятельно рекомендуется избегать расширений, используемых для исполняемых файлов (таких, как .exe, .sys или .dll) или других, которые могут быть источником потенциальных проблем. Использование таких файловых расширений часто приводит к влиянию на контейнер со стороны Windows и антивирусных программ, что снижает производительность тома и также может привести к другим серьёзным проблемам.\n\nНастоятельно рекомендуем вам удалить это расширение или изменить его (например, на '.tc').\n\nВы настаиваете на использовании этого проблематичного расширения файла?</string>
     <string lang="ru" key="EXE_FILE_EXTENSION_MOUNT_WARNING">ВНИМАНИЕ: Этот контейнер имеет расширение, используемое для исполняемых файлов (таких, как .exe, .sys или .dll) или других, которые могут быть источником потенциальных проблем. Вероятнее всего это приведёт к влиянию на данный контейнер со стороны Windows и антивирусного ПО, что снизит производительность тома и может вызвать другие серьёзные проблемы.\n\nНастоятельно рекомендуем вам удалить это расширение у файла-контейнера или изменить его (например, на '.tc') после размонтирования тома.</string>
     <string lang="ru" key="HOMEPAGE">Домашняя страница</string>
