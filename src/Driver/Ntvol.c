@@ -319,10 +319,6 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	{
 		Dump ("Trying to open volume type %d\n", volumeType);
 
-		if (mount->bPartitionInInactiveSysEncScope
-			&& volumeType == TC_VOLUME_TYPE_HIDDEN_LEGACY)
-			continue;		
-
 		/* Read the volume header */
 
 		if (!mount->bPartitionInInactiveSysEncScope
@@ -347,16 +343,6 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 					continue;
 
 				headerOffset.QuadPart = mount->UseBackupHeader ? lDiskLength.QuadPart - TC_HIDDEN_VOLUME_HEADER_OFFSET : TC_HIDDEN_VOLUME_HEADER_OFFSET;
-				break;
-
-			case TC_VOLUME_TYPE_HIDDEN_LEGACY:
-				if (mount->UseBackupHeader)
-					continue;
-
-				if (bRawDevice && Extension->HostBytesPerSector != TC_SECTOR_SIZE_LEGACY)
-					continue;
-
-				headerOffset.QuadPart = lDiskLength.QuadPart - TC_HIDDEN_VOLUME_HEADER_OFFSET_LEGACY;
 				break;
 			}
 
@@ -455,7 +441,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 		ReadVolumeHeaderRecoveryMode = mount->RecoveryMode;
 
-		if ((volumeType == TC_VOLUME_TYPE_HIDDEN || volumeType == TC_VOLUME_TYPE_HIDDEN_LEGACY) && mount->bProtectHiddenVolume)
+		if ((volumeType == TC_VOLUME_TYPE_HIDDEN) && mount->bProtectHiddenVolume)
 		{
 			mount->nReturnCode = ReadVolumeHeaderWCache (
 				FALSE,
@@ -577,14 +563,10 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				break;
 
 			case TC_VOLUME_TYPE_HIDDEN:
-			case TC_VOLUME_TYPE_HIDDEN_LEGACY:
 
 				cryptoInfoPtr = mount->bProtectHiddenVolume ? tmpCryptoInfo : Extension->cryptoInfo;
 
-				if (volumeType == TC_VOLUME_TYPE_HIDDEN_LEGACY)
-					Extension->cryptoInfo->hiddenVolumeOffset = lDiskLength.QuadPart - cryptoInfoPtr->hiddenVolumeSize - TC_HIDDEN_VOLUME_HEADER_OFFSET_LEGACY;
-				else
-					Extension->cryptoInfo->hiddenVolumeOffset = cryptoInfoPtr->EncryptedAreaStart.Value;
+				Extension->cryptoInfo->hiddenVolumeOffset = cryptoInfoPtr->EncryptedAreaStart.Value;
 
 				Dump ("Hidden volume offset = %I64d\n", Extension->cryptoInfo->hiddenVolumeOffset);
 				Dump ("Hidden volume size = %I64d\n", cryptoInfoPtr->hiddenVolumeSize);
@@ -612,9 +594,6 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 					Extension->cryptoInfo->bProtectHiddenVolume = TRUE;
 					
 					Extension->cryptoInfo->hiddenVolumeProtectedSize = tmpCryptoInfo->hiddenVolumeSize;
-
-					if (volumeType == TC_VOLUME_TYPE_HIDDEN_LEGACY)
-						Extension->cryptoInfo->hiddenVolumeProtectedSize += TC_VOLUME_HEADER_SIZE_LEGACY;
 
 					Dump ("Hidden volume protection active: %I64d-%I64d (%I64d)\n", Extension->cryptoInfo->hiddenVolumeOffset, Extension->cryptoInfo->hiddenVolumeProtectedSize + Extension->cryptoInfo->hiddenVolumeOffset - 1, Extension->cryptoInfo->hiddenVolumeProtectedSize);
 				}

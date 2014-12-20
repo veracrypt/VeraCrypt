@@ -9024,18 +9024,6 @@ int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *pa
 			headerOffset.QuadPart = useBackupHeader ? context->HostSize - TC_VOLUME_HEADER_SIZE : TC_HIDDEN_VOLUME_HEADER_OFFSET;
 			break;
 
-		case TC_VOLUME_TYPE_HIDDEN_LEGACY:
-			if (useBackupHeader)
-			{
-				status = ERR_PASSWORD_WRONG;
-				goto error;
-			}
-
-			if (context->IsDevice && deviceGeometry.BytesPerSector != TC_SECTOR_SIZE_LEGACY)
-				continue;
-
-			headerOffset.QuadPart = context->HostSize - TC_HIDDEN_VOLUME_HEADER_OFFSET_LEGACY;
-			break;
 		}
 
 		if (!SetFilePointerEx ((HANDLE) context->HostFileHandle, headerOffset, NULL, FILE_BEGIN))

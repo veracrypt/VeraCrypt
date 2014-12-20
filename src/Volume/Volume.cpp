@@ -129,13 +129,6 @@ namespace VeraCrypt
 				if (useBackupHeaders && !layout->HasBackupHeader())
 					continue;
 
-				if (typeid (*layout) == typeid (VolumeLayoutV1Hidden)
-					&& deviceHosted
-					&& hostDeviceSectorSize != TC_SECTOR_SIZE_LEGACY)
-				{
-					continue;
-				}
-
 				SecureBuffer headerBuffer (layout->GetHeaderSize());
 
 				if (layout->HasDriveHeader())
@@ -249,9 +242,6 @@ namespace VeraCrypt
 
 								ProtectedRangeStart = protectedVolume.VolumeDataOffset;
 								ProtectedRangeEnd = protectedVolume.VolumeDataOffset + protectedVolume.VolumeDataSize;
-
-								if (typeid (*protectedVolume.Layout) == typeid (VolumeLayoutV1Hidden))
-									ProtectedRangeEnd += protectedVolume.Layout->GetHeaderSize();
 							}
 							catch (PasswordException&)
 							{

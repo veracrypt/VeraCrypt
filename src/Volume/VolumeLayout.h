@@ -78,24 +78,6 @@ namespace VeraCrypt
 	};
 
 
-	class VolumeLayoutV1Hidden : public VolumeLayout
-	{
-	public:
-		VolumeLayoutV1Hidden ();
-		virtual ~VolumeLayoutV1Hidden () { }
-
-		virtual int GetBackupHeaderOffset () const { throw NotApplicable (SRC_POS); }
-		virtual uint64 GetDataOffset (uint64 volumeHostSize) const;
-		virtual uint64 GetDataSize (uint64 volumeHostSize) const;
-		virtual uint64 GetMaxDataSize (uint64 volumeSize) const { throw NotApplicable (SRC_POS); }
-		virtual bool HasBackupHeader () const { return false; }
-
-	private:
-		VolumeLayoutV1Hidden (const VolumeLayoutV1Hidden &);
-		VolumeLayoutV1Hidden &operator= (const VolumeLayoutV1Hidden &);
-	};
-
-
 	class VolumeLayoutV2Normal : public VolumeLayout
 	{
 	public:

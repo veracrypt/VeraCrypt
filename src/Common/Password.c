@@ -258,12 +258,6 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Pas
 			headerOffset.QuadPart = TC_HIDDEN_VOLUME_HEADER_OFFSET;
 			break;
 
-		case TC_VOLUME_TYPE_HIDDEN_LEGACY:
-			if (bDevice && driveInfo.BytesPerSector != TC_SECTOR_SIZE_LEGACY)
-				continue;
-
-			headerOffset.QuadPart = hostSize - TC_HIDDEN_VOLUME_HEADER_OFFSET_LEGACY;
-			break;
 		}
 
 		if (!SetFilePointerEx ((HANDLE) dev, headerOffset, NULL, FILE_BEGIN))
@@ -356,7 +350,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Pas
 				cryptoInfo->master_keydata,
 				&ci,
 				cryptoInfo->VolumeSize.Value,
-				(volumeType == TC_VOLUME_TYPE_HIDDEN || volumeType == TC_VOLUME_TYPE_HIDDEN_LEGACY) ? cryptoInfo->hiddenVolumeSize : 0,
+				(volumeType == TC_VOLUME_TYPE_HIDDEN) ? cryptoInfo->hiddenVolumeSize : 0,
 				cryptoInfo->EncryptedAreaStart.Value,
 				cryptoInfo->EncryptedAreaLength.Value,
 				cryptoInfo->RequiredProgramVersion,
