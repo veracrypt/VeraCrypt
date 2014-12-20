@@ -609,6 +609,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Analyze a System Crash...",   IDM_ANALYZE_SYSTEM_CRASH
         MENUITEM SEPARATOR
+        MENUITEM "Donate now...",               IDM_DONATE
         MENUITEM "Contact",                     IDM_CONTACT
         MENUITEM "Legal Notices",               IDM_LICENSE
         MENUITEM "About",                       IDM_ABOUT

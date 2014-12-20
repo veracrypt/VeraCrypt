@@ -6274,6 +6274,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 		}
 
+		if (lw == IDM_DONATE)
+		{
+			Applink ("donate", TRUE, "");
+			return 1;
+		}
+
 		if (lw == IDM_LICENSE)
 		{
 			TextInfoDialogBox (TC_TBXID_LEGAL_NOTICES);

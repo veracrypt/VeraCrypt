@@ -200,6 +200,7 @@
     <control lang="en" key="IDM_CREATE_RESCUE_DISK">Create Rescue Disk...</control>
     <control lang="en" key="IDM_CREATE_VOLUME">Create New Volume...</control>
     <control lang="en" key="IDM_DEFAULT_KEYFILES">Default Keyfiles...</control>
+	 <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="en" key="IDM_ENCRYPT_SYSTEM_DEVICE">Encrypt System Partition/Drive...</control>
     <control lang="en" key="IDM_FAQ">Frequently Asked Questions</control>
     <control lang="en" key="IDM_HELP">User's Guide</control>
