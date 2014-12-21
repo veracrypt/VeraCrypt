@@ -270,25 +270,19 @@ static void DisplayHotkeyList (HWND hwndDlg)
 
 
 BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	HWND hList = GetDlgItem (hwndDlg, IDC_HOTKEY_LIST);
-	HWND hwndMainDlg = hwndDlg;
+{	
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
 	static BOOL bKeyScanOn;
 	static BOOL bTPlaySoundOnSuccessfulHkDismount;
 	static BOOL bTDisplayBalloonOnSuccessfulHkDismount;
 
-	while (GetParent (hwndMainDlg) != NULL)
-	{
-		hwndMainDlg = GetParent (hwndMainDlg);
-	}
-
 	switch (msg)
 	{
 	case WM_INITDIALOG:
 		{
 			LVCOLUMNW col;
+			HWND hList = GetDlgItem (hwndDlg, IDC_HOTKEY_LIST);
 
 			bKeyScanOn = FALSE;
 			nSelectedHotkeyId = -1;
@@ -354,16 +348,8 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			return 1;
 		}
 
-	case WM_COMMAND:
 	case WM_NOTIFY:
-
-		if (lw == IDC_HOTKEY_KEY && hw == EN_CHANGE)
-		{
-			if (!bKeyScanOn && nSelectedHotkeyId < 0 && GetWindowTextLengthW (GetDlgItem (hwndDlg, IDC_HOTKEY_KEY)))
-				SetWindowTextW (GetDlgItem (hwndDlg, IDC_HOTKEY_KEY), L"");
-		}
-
-		if (msg == WM_NOTIFY && wParam == IDC_HOTKEY_LIST)
+		if (wParam == IDC_HOTKEY_LIST)
 		{
 			if (((LPNMHDR) lParam)->code == LVN_ITEMACTIVATE
 				|| ((LPNMHDR) lParam)->code == LVN_ITEMCHANGED && (((LPNMLISTVIEW) lParam)->uNewState & LVIS_FOCUSED))
@@ -379,6 +365,15 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				bKeyScanOn = TRUE;
 				return 1;
 			}
+		}
+
+		return 0;
+
+	case WM_COMMAND:
+		if (lw == IDC_HOTKEY_KEY && hw == EN_CHANGE)
+		{
+			if (!bKeyScanOn && nSelectedHotkeyId < 0 && GetWindowTextLengthW (GetDlgItem (hwndDlg, IDC_HOTKEY_KEY)))
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_HOTKEY_KEY), L"");
 		}
 
 		if (lw == IDC_HOTKEY_ASSIGN)
@@ -502,6 +497,12 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		if (lw == IDOK)
 		{
+			HWND hwndMainDlg = hwndDlg;
+
+			while (GetParent (hwndMainDlg) != NULL)
+			{
+				hwndMainDlg = GetParent (hwndMainDlg);
+			}
 			UnregisterAllHotkeys (hwndMainDlg, Hotkeys);
 			memcpy (Hotkeys, tmpHotkeys, sizeof(Hotkeys));
 			RegisterAllHotkeys (hwndMainDlg, Hotkeys);

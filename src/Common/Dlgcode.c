@@ -3123,7 +3123,7 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			int selectedItem = ListView_GetSelectionMark (GetDlgItem (hwndDlg, IDC_DEVICELIST));
 
 			if (selectedItem == -1 || itemToDeviceMap.find (selectedItem) == itemToDeviceMap.end())
-				return 1; // non-device line selected
+				return 1; // non-device line selected	
 
 			const HostDevice selectedDevice = itemToDeviceMap[selectedItem];
 			strcpy_s (lpszFileName, TC_MAX_PATH, selectedDevice.Path.c_str());
@@ -3256,7 +3256,7 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			return 1;
 		}
 
-		if (lw == IDCANCEL)
+		if ((msg == WM_COMMAND) && (lw == IDCANCEL))
 		{
 			NormalCursor ();
 			EndDialog (hwndDlg, IDCANCEL);
@@ -4750,7 +4750,6 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_COMMAND:
-	case WM_NOTIFY:
 
 		switch (lw)
 		{
@@ -9581,141 +9580,143 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 			return 1;
 		}
 
-		switch (lw)
+		if (msg == WM_COMMAND)
 		{
-		case IDCANCEL:
-			EndDialog (hwndDlg, IDCANCEL);
-			return 1;
-
-		case IDC_IMPORT_KEYFILE:
+			switch (lw)
 			{
-				char keyfilePath[TC_MAX_PATH];
+			case IDCANCEL:
+				EndDialog (hwndDlg, IDCANCEL);
+				return 1;
 
-				if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE, NULL))
+			case IDC_IMPORT_KEYFILE:
 				{
-					DWORD keyfileSize;
-					byte *keyfileData = (byte *) LoadFile (keyfilePath, &keyfileSize);
-					if (!keyfileData)
+					char keyfilePath[TC_MAX_PATH];
+
+					if (BrowseFiles (hwndDlg, "SELECT_KEYFILE", keyfilePath, bHistory, FALSE, NULL))
 					{
-						handleWin32Error (hwndDlg);
-						return 1;
+						DWORD keyfileSize;
+						byte *keyfileData = (byte *) LoadFile (keyfilePath, &keyfileSize);
+						if (!keyfileData)
+						{
+							handleWin32Error (hwndDlg);
+							return 1;
+						}
+
+						if (keyfileSize != 0)
+						{
+							NewSecurityTokenKeyfileDlgProcParams newParams;
+							newParams.Name = WideToUtf8String (SingleStringToWide (keyfilePath));
+
+							size_t lastBackSlash = newParams.Name.find_last_of ('\\');
+							if (lastBackSlash != string::npos)
+								newParams.Name = newParams.Name.substr (lastBackSlash + 1);
+
+							if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_NEW_TOKEN_KEYFILE), hwndDlg, (DLGPROC) NewSecurityTokenKeyfileDlgProc, (LPARAM) &newParams) == IDOK)
+							{
+								vector <byte> keyfileDataVector (keyfileSize);
+								memcpy (&keyfileDataVector.front(), keyfileData, keyfileSize);
+
+								try
+								{
+									WaitCursor();
+									finally_do ({ NormalCursor(); });
+
+									SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name);
+
+									keyfiles = SecurityToken::GetAvailableKeyfiles();
+									SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
+								}
+								catch (Exception &e)
+								{
+									e.Show (hwndDlg);
+								}
+
+								burn (&keyfileDataVector.front(), keyfileSize);
+							}
+						}
+						else
+						{
+							SetLastError (ERROR_HANDLE_EOF);
+							handleWin32Error (hwndDlg);
+						}
+
+						burn (keyfileData, keyfileSize);
+						TCfree (keyfileData);
 					}
 
-					if (keyfileSize != 0)
+					return 1;
+				}
+
+			case IDC_EXPORT:
+				{
+					try
 					{
-						NewSecurityTokenKeyfileDlgProcParams newParams;
-						newParams.Name = WideToUtf8String (SingleStringToWide (keyfilePath));
-
-						size_t lastBackSlash = newParams.Name.find_last_of ('\\');
-						if (lastBackSlash != string::npos)
-							newParams.Name = newParams.Name.substr (lastBackSlash + 1);
-
-						if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_NEW_TOKEN_KEYFILE), hwndDlg, (DLGPROC) NewSecurityTokenKeyfileDlgProc, (LPARAM) &newParams) == IDOK)
+						foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
 						{
-							vector <byte> keyfileDataVector (keyfileSize);
-							memcpy (&keyfileDataVector.front(), keyfileData, keyfileSize);
+							char keyfilePath[TC_MAX_PATH];
 
-							try
+							if (!BrowseFiles (hwndDlg, "OPEN_TITLE", keyfilePath, bHistory, TRUE, NULL))
+								break;
+
 							{
 								WaitCursor();
 								finally_do ({ NormalCursor(); });
 
-								SecurityToken::CreateKeyfile (newParams.SlotId, keyfileDataVector, newParams.Name);
+								vector <byte> keyfileData;
 
-								keyfiles = SecurityToken::GetAvailableKeyfiles();
-								SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
-							}
-							catch (Exception &e)
-							{
-								e.Show (hwndDlg);
+								SecurityToken::GetKeyfileData (keyfile, keyfileData);
+
+								if (keyfileData.empty())
+								{
+									SetLastError (ERROR_HANDLE_EOF);
+									handleWin32Error (hwndDlg);
+									return 1;
+								}
+
+								finally_do_arg (vector <byte> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
+
+								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, keyfileData.size(), FALSE))
+									throw SystemException ();
 							}
 
-							burn (&keyfileDataVector.front(), keyfileSize);
+							Info ("KEYFILE_EXPORTED");
 						}
 					}
-					else
+					catch (Exception &e)
 					{
-						SetLastError (ERROR_HANDLE_EOF);
-						handleWin32Error (hwndDlg);
+						e.Show (hwndDlg);
 					}
 
-					burn (keyfileData, keyfileSize);
-					TCfree (keyfileData);
-				}
-
-				return 1;
-			}
-
-		case IDC_EXPORT:
-			{
-				try
-				{
-					foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
-					{
-						char keyfilePath[TC_MAX_PATH];
-
-						if (!BrowseFiles (hwndDlg, "OPEN_TITLE", keyfilePath, bHistory, TRUE, NULL))
-							break;
-
-						{
-							WaitCursor();
-							finally_do ({ NormalCursor(); });
-
-							vector <byte> keyfileData;
-
-							SecurityToken::GetKeyfileData (keyfile, keyfileData);
-
-							if (keyfileData.empty())
-							{
-								SetLastError (ERROR_HANDLE_EOF);
-								handleWin32Error (hwndDlg);
-								return 1;
-							}
-
-							finally_do_arg (vector <byte> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
-
-							if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, keyfileData.size(), FALSE))
-								throw SystemException ();
-						}
-
-						Info ("KEYFILE_EXPORTED");
-					}
-				}
-				catch (Exception &e)
-				{
-					e.Show (hwndDlg);
-				}
-
-				return 1;
-			}
-
-		case IDC_DELETE:
-			{
-				if (AskNoYes ("CONFIRM_SEL_FILES_DELETE") == IDNO)
 					return 1;
+				}
 
-				try
+			case IDC_DELETE:
 				{
-					WaitCursor();
-					finally_do ({ NormalCursor(); });
+					if (AskNoYes ("CONFIRM_SEL_FILES_DELETE") == IDNO)
+						return 1;
 
-					foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
+					try
 					{
-						SecurityToken::DeleteKeyfile (keyfile);
+						WaitCursor();
+						finally_do ({ NormalCursor(); });
+
+						foreach (const SecurityTokenKeyfile &keyfile, SecurityTokenKeyfileDlgGetSelected (hwndDlg, keyfiles))
+						{
+							SecurityToken::DeleteKeyfile (keyfile);
+						}
+
+						keyfiles = SecurityToken::GetAvailableKeyfiles();
+						SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
+					}
+					catch (Exception &e)
+					{
+						e.Show (hwndDlg);
 					}
 
-					keyfiles = SecurityToken::GetAvailableKeyfiles();
-					SecurityTokenKeyfileDlgFillList (hwndDlg, keyfiles);
+					return 1;
 				}
-				catch (Exception &e)
-				{
-					e.Show (hwndDlg);
-				}
-
-				return 1;
 			}
 		}
-
 		return 0;
 	}
 	return 0;
