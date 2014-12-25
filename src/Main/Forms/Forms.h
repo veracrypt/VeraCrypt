@@ -1025,6 +1025,29 @@ namespace VeraCrypt
 		
 	};
 	
+	///////////////////////////////////////////////////////////////////////////////
+	/// Class WaitDialogBase
+	///////////////////////////////////////////////////////////////////////////////
+	class WaitDialogBase : public wxDialog 
+	{
+		private:
+		
+		protected:
+			wxStaticText* WaitStaticText;
+			wxGauge* WaitProgessBar;
+			
+			// Virtual event handlers, overide them in your derived class
+			virtual void OnWaitDialogClose( wxCloseEvent& event ) { event.Skip(); }
+			virtual void OnWaitDialogInit( wxInitDialogEvent& event ) { event.Skip(); }
+			
+		
+		public:
+			
+			WaitDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION ); 
+			~WaitDialogBase();
+		
+	};
+	
 } // namespace VeraCrypt
 
 #endif //__FORMS_H__

@@ -36,6 +36,10 @@
 
 namespace VeraCrypt
 {
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_UPDATE_VOLUME_LIST)
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_PREF_UPDATED)
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_OPEN_VOLUME_REQUEST)
+
 	MainFrame::MainFrame (wxWindow* parent) : MainFrameBase (parent),
 		ListItemRightClickEventPending (false),
 		SelectedItemIndex (-1),
@@ -84,6 +88,11 @@ namespace VeraCrypt
 				Gui->ShowError (e);
 			}
 		}
+
+		Connect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxCommandEventHandler( MainFrame::OnUpdateVolumeList ) );
+		Connect( wxID_ANY, wxEVT_COMMAND_PREF_UPDATED, wxCommandEventHandler( MainFrame::OnPreferencesUpdated ) );
+		Connect( wxID_ANY, wxEVT_COMMAND_OPEN_VOLUME_REQUEST, wxCommandEventHandler( MainFrame::OnOpenVolumeSystemRequest ) );
+
 	}
 
 	MainFrame::~MainFrame ()
@@ -100,6 +109,9 @@ namespace VeraCrypt
 		}
 #endif
 
+		Disconnect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxCommandEventHandler( MainFrame::OnUpdateVolumeList ) );
+		Disconnect( wxID_ANY, wxEVT_COMMAND_PREF_UPDATED, wxCommandEventHandler( MainFrame::OnPreferencesUpdated ) );
+		Disconnect( wxID_ANY, wxEVT_COMMAND_OPEN_VOLUME_REQUEST, wxCommandEventHandler( MainFrame::OnOpenVolumeSystemRequest ) );
 		Core->VolumeMountedEvent.Disconnect (this);
 		Core->VolumeDismountedEvent.Disconnect (this);
 		Gui->OpenVolumeSystemRequestEvent.Disconnect (this);
@@ -343,7 +355,7 @@ namespace VeraCrypt
 		Core->VolumeMountedEvent.Connect (EventConnector <MainFrame> (this, &MainFrame::OnVolumeMounted));
 		Core->VolumeDismountedEvent.Connect (EventConnector <MainFrame> (this, &MainFrame::OnVolumeDismounted));
 		Gui->OpenVolumeSystemRequestEvent.Connect (EventConnector <MainFrame> (this, &MainFrame::OnOpenVolumeSystemRequestEvent));
-		Gui->PreferencesUpdatedEvent.Connect (EventConnector <MainFrame> (this, &MainFrame::OnPreferencesUpdated));
+		Gui->PreferencesUpdatedEvent.Connect (EventConnector <MainFrame> (this, &MainFrame::OnPreferencesUpdatedEvent));
 
 		// Drag & drop
 		class FileDropTarget : public wxFileDropTarget
@@ -1139,7 +1151,22 @@ namespace VeraCrypt
 		dialog.ShowModal();
 	}
 
-	void MainFrame::OnPreferencesUpdated (EventArgs &args)
+	void MainFrame::OnOpenVolumeSystemRequest (wxCommandEvent& event)
+	{
+		wstring* eventPath = (wstring*) event.GetClientData();
+		SetVolumePath (*eventPath);
+		delete eventPath;
+	}
+
+	void MainFrame::OnOpenVolumeSystemRequestEvent (EventArgs &args)
+	{
+		wstring* eventPath = new wstring (dynamic_cast <OpenVolumeSystemRequestEventArgs &> (args).mVolumePath);
+		wxCommandEvent* pEvent = new wxCommandEvent( wxEVT_COMMAND_OPEN_VOLUME_REQUEST,0);
+		pEvent->SetClientData(eventPath);
+		wxQueueEvent (this, pEvent);
+	}
+
+	void MainFrame::OnPreferencesUpdated (wxCommandEvent& event)
 	{
 		const UserPreferences &prefs = GetPreferences();
 

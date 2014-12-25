@@ -3349,3 +3349,38 @@ VolumeSizeWizardPageBase::~VolumeSizeWizardPageBase()
 	VolumeSizePrefixChoice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( VolumeSizeWizardPageBase::OnVolumeSizePrefixSelected ), NULL, this );
 	
 }
+
+WaitDialogBase::WaitDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer160;
+	bSizer160 = new wxBoxSizer( wxVERTICAL );
+	
+	WaitStaticText = new wxStaticText( this, wxID_ANY, _("MyLabel"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+	WaitStaticText->Wrap( -1 );
+	bSizer160->Add( WaitStaticText, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5 );
+	
+	WaitProgessBar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL|wxGA_SMOOTH );
+	WaitProgessBar->SetValue( 0 ); 
+	bSizer160->Add( WaitProgessBar, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer160 );
+	this->Layout();
+	bSizer160->Fit( this );
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( WaitDialogBase::OnWaitDialogClose ) );
+	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( WaitDialogBase::OnWaitDialogInit ) );
+}
+
+WaitDialogBase::~WaitDialogBase()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( WaitDialogBase::OnWaitDialogClose ) );
+	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( WaitDialogBase::OnWaitDialogInit ) );
+	
+}

@@ -27,6 +27,7 @@
 #include "VolumeLocationWizardPage.h"
 #include "VolumePasswordWizardPage.h"
 #include "VolumeSizeWizardPage.h"
+#include "WaitDialog.h"
 
 namespace VeraCrypt
 {
@@ -865,7 +866,9 @@ namespace VeraCrypt
 						options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*SelectedHash);
 
 						Creator.reset (new VolumeCreator);
-						Creator->CreateVolume (options);
+						VolumeCreatorThreadRoutine routine(options, Creator);
+						WaitDialog dlg(this, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+						dlg.Run();
 
 						page->SetKeyInfo (Creator->GetKeyInfo());
 

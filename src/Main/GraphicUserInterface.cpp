@@ -30,6 +30,7 @@
 #include "Forms/MountOptionsDialog.h"
 #include "Forms/RandomPoolEnrichmentDialog.h"
 #include "Forms/SecurityTokenKeyfilesDialog.h"
+#include "Forms/WaitDialog.h"
 
 namespace VeraCrypt
 {
@@ -173,7 +174,7 @@ namespace VeraCrypt
 				try
 				{
 					wxBusyCursor busy;
-					volume = Core->OpenVolume (
+					OpenVolumeThreadRoutine routine(
 						options->Path,
 						options->PreserveTimestamps,
 						options->Password,
@@ -187,6 +188,10 @@ namespace VeraCrypt
 						volumeType,
 						options->UseBackupHeaders
 						);
+						WaitDialog dlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+						dlg.Run();
+		
+						volume = routine.m_pVolume;
 				}
 				catch (PasswordException &e)
 				{
@@ -263,14 +268,18 @@ namespace VeraCrypt
 
 			// Re-encrypt volume header
 			SecureBuffer newHeaderBuffer (normalVolume->GetLayout()->GetHeaderSize());
-			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, normalVolume->GetHeader(), normalVolumeMountOptions.Password, normalVolumeMountOptions.Keyfiles);
+			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, normalVolume->GetHeader(), normalVolumeMountOptions.Password, normalVolumeMountOptions.Keyfiles);
+			WaitDialog dlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+			dlg.Run();
 
 			backupFile.Write (newHeaderBuffer);
 
 			if (hiddenVolume)
 			{
 				// Re-encrypt hidden volume header
-				Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Keyfiles);
+				ReEncryptHeaderThreadRoutine hiddenRoutine(newHeaderBuffer, hiddenVolume->GetHeader(), hiddenVolumeMountOptions.Password, hiddenVolumeMountOptions.Keyfiles);
+				WaitDialog hiddenDlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &hiddenRoutine);
+				hiddenDlg.Run();
 			}
 			else
 			{
@@ -1259,7 +1268,7 @@ namespace VeraCrypt
 				try
 				{
 					wxBusyCursor busy;
-					volume = Core->OpenVolume (
+					OpenVolumeThreadRoutine routine(
 						options.Path,
 						options.PreserveTimestamps,
 						options.Password,
@@ -1273,6 +1282,10 @@ namespace VeraCrypt
 						VolumeType::Unknown,
 						true
 						);
+						WaitDialog dlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+						dlg.Run();
+		
+						volume = routine.m_pVolume;
 				}
 				catch (PasswordException &e)
 				{
@@ -1293,7 +1306,9 @@ namespace VeraCrypt
 			// Re-encrypt volume header
 			wxBusyCursor busy;
 			SecureBuffer newHeaderBuffer (volume->GetLayout()->GetHeaderSize());
-			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, volume->GetHeader(), options.Password, options.Keyfiles);
+			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, volume->GetHeader(), options.Password, options.Keyfiles);
+			WaitDialog dlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+			dlg.Run();
 
 			// Write volume header
 			int headerOffset = volume->GetLayout()->GetHeaderOffset();
@@ -1377,7 +1392,15 @@ namespace VeraCrypt
 
 						// Decrypt header
 						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
-						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, options.Kdf, layout->GetSupportedKeyDerivationFunctions(), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
+						Pkcs5KdfList keyDerivationFunctions = layout->GetSupportedKeyDerivationFunctions();
+						EncryptionAlgorithmList encryptionAlgorithms = layout->GetSupportedEncryptionAlgorithms();
+						EncryptionModeList encryptionModes = layout->GetSupportedEncryptionModes();
+
+						DecryptThreadRoutine decryptRoutine(layout->GetHeader(), headerBuffer, *passwordKey, options.Kdf, keyDerivationFunctions, encryptionAlgorithms, encryptionModes);
+						WaitDialog decryptDlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &decryptRoutine);
+						decryptDlg.Run();
+
+						if (decryptRoutine.m_bResult)
 						{
 							decryptedLayout = layout;
 							break;
@@ -1402,7 +1425,9 @@ namespace VeraCrypt
 			// Re-encrypt volume header
 			wxBusyCursor busy;
 			SecureBuffer newHeaderBuffer (decryptedLayout->GetHeaderSize());
-			Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Keyfiles);
+			ReEncryptHeaderThreadRoutine routine(newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Keyfiles);
+			WaitDialog dlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+			dlg.Run();
 
 			// Write volume header
 			int headerOffset = decryptedLayout->GetHeaderOffset();
@@ -1416,7 +1441,9 @@ namespace VeraCrypt
 			if (decryptedLayout->HasBackupHeader())
 			{
 				// Re-encrypt backup volume header
-				Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Keyfiles);
+				ReEncryptHeaderThreadRoutine backupRoutine(newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Keyfiles);
+				WaitDialog backupDlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &backupRoutine);
+				backupDlg.Run();
 				
 				// Write backup volume header
 				headerOffset = decryptedLayout->GetBackupHeaderOffset();
@@ -1756,6 +1783,20 @@ namespace VeraCrypt
 #ifndef TC_WINDOWS
 		wxSafeYield (nullptr, true);
 #endif
+	}
+
+	WaitThreadUI* GraphicUserInterface::GetWaitThreadUI(WaitThreadRoutine *pRoutine) const
+	{
+		return new WaitDialog(GetTopWindow(), LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], pRoutine);
+	}
+
+	shared_ptr <VolumeInfo> GraphicUserInterface::MountVolumeThread (MountOptions &options) const
+	{
+		MountThreadRoutine routine(options);
+		WaitDialog dlg(GetTopWindow(), LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+		dlg.Run();
+		
+		return routine.m_pVolume;
 	}
 
 	DEFINE_EVENT_TYPE (TC_EVENT_THREAD_EXITING);

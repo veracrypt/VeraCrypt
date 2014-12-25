@@ -10,6 +10,7 @@
 #include "Main/Main.h"
 #include "Main/GraphicUserInterface.h"
 #include "ChangePasswordDialog.h"
+#include "WaitDialog.h"
 
 namespace VeraCrypt
 {
@@ -124,9 +125,11 @@ namespace VeraCrypt
 				});
 #endif
 				wxBusyCursor busy;
-				Core->ChangePassword (Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
+				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
 					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
 					newPassword, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
+				WaitDialog dlg(this, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+				dlg.Run();
 			}
 
 			switch (DialogMode)

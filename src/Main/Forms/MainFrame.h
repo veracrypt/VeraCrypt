@@ -16,6 +16,10 @@ namespace VeraCrypt
 {
 	struct FavoriteVolume;
 
+	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_UPDATE_VOLUME_LIST, -1);
+	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_PREF_UPDATED, -1);
+	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_OPEN_VOLUME_REQUEST, -1);
+
 	class MainFrame : public MainFrameBase
 	{
 	public:
@@ -109,10 +113,12 @@ namespace VeraCrypt
 		void OnNoHistoryCheckBoxClick (wxCommandEvent& event);
 		void OnOnlineHelpMenuItemSelected (wxCommandEvent& event) { Gui->OpenOnlineHelp (this); }
 		void OnOpenVolumeMenuItemSelected (wxCommandEvent& event) { OpenSelectedVolume(); }
-		void OnOpenVolumeSystemRequestEvent (EventArgs &args) { SetVolumePath (wstring (dynamic_cast <OpenVolumeSystemRequestEventArgs &> (args).mVolumePath)); }
+		void OnOpenVolumeSystemRequest (wxCommandEvent& event);
+		void OnOpenVolumeSystemRequestEvent (EventArgs &args);
 		void OnOrganizeFavoritesMenuItemSelected (wxCommandEvent& event);
 		void OnPreferencesMenuItemSelected (wxCommandEvent& event);
-		void OnPreferencesUpdated (EventArgs &args);
+		void OnPreferencesUpdated (wxCommandEvent& event);
+		void OnPreferencesUpdatedEvent (EventArgs &args) { wxQueueEvent (this, new wxCommandEvent( wxEVT_COMMAND_PREF_UPDATED,0)); }
 		void OnRemoveKeyfilesMenuItemSelected (wxCommandEvent& event) { ChangePassword (ChangePasswordDialog::Mode::RemoveAllKeyfiles); }
 		void OnRepairFilesystemMenuItemSelected( wxCommandEvent& event ) { CheckFilesystem (true); }
 		void OnRestoreVolumeHeaderMenuItemSelected (wxCommandEvent& event);
@@ -126,8 +132,9 @@ namespace VeraCrypt
 		void OnVolumePropertiesButtonClick (wxCommandEvent& event);
 		void OnVolumeToolsButtonClick (wxCommandEvent& event);
 		void OnVolumeButtonClick (wxCommandEvent& event);
-		void OnVolumeDismounted (EventArgs &args) { UpdateVolumeList(); }
-		void OnVolumeMounted (EventArgs &args) { UpdateVolumeList(); }
+		void OnUpdateVolumeList (wxCommandEvent& event) { UpdateVolumeList(); }
+		void OnVolumeDismounted (EventArgs &args) { wxQueueEvent (this, new wxCommandEvent( wxEVT_COMMAND_UPDATE_VOLUME_LIST,0)); }
+		void OnVolumeMounted (EventArgs &args) { wxQueueEvent (this, new wxCommandEvent( wxEVT_COMMAND_UPDATE_VOLUME_LIST,0)); }
 		void OnUserGuideMenuItemSelected (wxCommandEvent& event) { Gui->OpenUserGuide (this); }
 		void OnWebsiteMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"website"); }
 		void OnWipeCacheButtonClick (wxCommandEvent& event);

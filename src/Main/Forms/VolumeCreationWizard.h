@@ -54,7 +54,7 @@ namespace VeraCrypt
 		volatile bool AbortConfirmationPending;
 		volatile bool AbortRequested;
 		volatile bool CreationAborted;
-		auto_ptr <VolumeCreator> Creator;
+		shared_ptr <VolumeCreator> Creator;
 		bool CrossPlatformSupport;
 		static bool DeviceWarningConfirmed;
 		bool DisplayKeyInfo;

@@ -88,6 +88,8 @@ namespace VeraCrypt
 		virtual bool UpdateListCtrlItem (wxListCtrl *listCtrl, long itemIndex, const vector <wstring> &itemFields) const;
 		virtual void UserEnrichRandomPool (wxWindow *parent, shared_ptr <Hash> hash = shared_ptr <Hash>()) const;
 		virtual void Yield () const;
+		virtual WaitThreadUI* GetWaitThreadUI(WaitThreadRoutine *pRoutine) const;
+		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const;
 
 #ifdef TC_MACOSX
 		virtual void MacOpenFile (const wxString &fileName);

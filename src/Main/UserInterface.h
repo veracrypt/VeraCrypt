@@ -54,6 +54,7 @@ namespace VeraCrypt
 		virtual void ListMountedVolumes (const VolumeInfoList &volumes) const;
 		virtual void ListSecurityTokenKeyfiles () const = 0;
 		virtual shared_ptr <VolumeInfo> MountVolume (MountOptions &options) const;
+		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const { return Core->MountVolume (options);}
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
 		virtual VolumeInfoList MountAllFavoriteVolumes (MountOptions &options);
 		virtual void OpenExplorerWindow (const DirectoryPath &path);
@@ -75,6 +76,7 @@ namespace VeraCrypt
 		virtual wxString TimeSpanToString (uint64 seconds) const;
 		virtual bool VolumeHasUnrecommendedExtension (const VolumePath &path) const;
 		virtual void Yield () const = 0;
+		virtual WaitThreadUI* GetWaitThreadUI(WaitThreadRoutine *pRoutine) const { return new WaitThreadUI(pRoutine);}
 		virtual wxDateTime VolumeTimeToDateTime (VolumeTime volumeTime) const { return wxDateTime ((time_t) (volumeTime / 1000ULL / 1000 / 10 - 134774ULL * 24 * 3600)); }
 		virtual wxString VolumeTimeToString (VolumeTime volumeTime) const;
 		virtual wxString VolumeTypeToString (VolumeType::Enum type, VolumeProtection::Enum protection) const;
@@ -87,6 +89,8 @@ namespace VeraCrypt
 			~BusyScope () { UI->EndBusyState (); }
 			const UserInterface *UI;
 		};
+
+		static void ThrowException (Exception* ex);
 
 	protected:
 		UserInterface ();

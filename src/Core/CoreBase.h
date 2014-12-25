@@ -20,6 +20,7 @@
 #include "CoreException.h"
 #include "HostDevice.h"
 #include "MountOptions.h"
+#include "VolumeCreator.h"
 
 namespace VeraCrypt
 {
