@@ -6369,9 +6369,9 @@ retry:
 		threadParam.pmount = &mount;
 		threadParam.pbResult = &bResult;
 		threadParam.pdwResult = &dwResult;
-
+		
 		DialogBoxParamW (hInst,
-					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hwndDlg,
+					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), GetDesktopWindow(),
 					(DLGPROC) MountWaitDlgProc, (LPARAM) &threadParam);
 	}
 	else

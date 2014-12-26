@@ -3707,6 +3707,16 @@ static BOOL Dismount (HWND hwndDlg, int nDosDriveNo)
 	return status;
 }
 
+void __cdecl mountThreadFunction (void *hwndDlgArg)
+{
+	HWND hwndDlg =(HWND) hwndDlgArg;
+	// Disable parent dialog during processing to avoid user interaction
+	EnableWindow(hwndDlg, FALSE);
+	finally_do_arg (HWND, hwndDlg, { EnableWindow(finally_arg, TRUE); });
+
+	Mount (hwndDlg, 0, 0);	
+}
+
 static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dismountMaxRetries, int dismountAutoRetryDelay)
 {
 	BOOL status = TRUE;
@@ -5745,7 +5755,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					if (CheckMountList (FALSE))
-						Mount (hwndDlg, 0, 0);
+						_beginthread(mountThreadFunction, 0, hwndDlg);
 				}
 				return 1;
 			}
@@ -5872,7 +5882,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							bPrebootPasswordDlgMode = FALSE;
 
 							if (CheckMountList (FALSE))
-								Mount (hwndDlg, 0, 0);
+								_beginthread(mountThreadFunction, 0, hwndDlg);
 						}
 						break;
 
@@ -6015,7 +6025,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bPrebootPasswordDlgMode = TRUE;
 
 				if (CheckMountList (FALSE))
-					Mount (hwndDlg, 0, 0);
+					_beginthread(mountThreadFunction, 0, hwndDlg);
 
 				bPrebootPasswordDlgMode = FALSE;
 			}
@@ -6627,7 +6637,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_MOUNT_FAVORITE_VOLUMES)
 		{
-			MountFavoriteVolumes();
+			_beginthread(mountFavoriteVolumeThreadFunction, 0, NULL);
 			return 1;
 		}
 
@@ -6680,7 +6690,15 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					NormalCursor();
 				}
 				else
-					MountFavoriteVolumes (FALSE, FALSE, FALSE, FavoriteVolumes[favoriteIndex]);
+				{
+					mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
+					pParam->systemFavorites = FALSE;
+					pParam->logOnMount = FALSE;
+					pParam->hotKeyMount = FALSE;
+					pParam->favoriteVolumeToMount = &FavoriteVolumes[favoriteIndex];
+
+					_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+				}
 			}
 
 			return 1;
@@ -7501,6 +7519,26 @@ skipMount:
 	return status;
 }
 
+void __cdecl mountFavoriteVolumeThreadFunction (void *pArg)
+{
+	mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) pArg;
+	// Disable main dialog during processing to avoid user interaction
+	EnableWindow(MainDlg, FALSE);
+	finally_do ({ EnableWindow(MainDlg, TRUE); });
+
+	if (pParam)
+	{
+		if (pParam->favoriteVolumeToMount)
+			MountFavoriteVolumes (pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount, *(pParam->favoriteVolumeToMount));
+		else
+			MountFavoriteVolumes (pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount);
+
+		free(pParam);
+	}
+	else
+		MountFavoriteVolumes ();
+}
+
 
 static void SaveDefaultKeyFilesParam (void)
 {
@@ -7633,7 +7671,14 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 		break;
 
 	case HK_MOUNT_FAVORITE_VOLUMES:
-		MountFavoriteVolumes (FALSE, FALSE, TRUE);
+		{
+			mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
+			pParam->systemFavorites = FALSE;
+			pParam->logOnMount = FALSE;
+			pParam->hotKeyMount = TRUE;
+
+			_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+		}
 		break;
 
 	case HK_SHOW_HIDE_MAIN_WINDOW:
@@ -8797,7 +8842,7 @@ void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions)
 		}
 
 		if (CheckMountList (FALSE))
-			Mount (hwndDlg, 0, 0);
+			_beginthread (mountThreadFunction, 0, hwndDlg);			
 	}
 	else
 		Warning ("SELECT_FREE_DRIVE");
