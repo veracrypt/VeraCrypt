@@ -6135,29 +6135,29 @@ void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap)
 }
 
 /************************************************************/
+
+// implementation of the generic wait dialog mechanism
+
+static UINT g_wmWaitDlg = ::RegisterWindowMessage("VeraCryptWaitDlgMessage");
+
 typedef struct
 {
 	HWND hwnd;
-	MOUNT_STRUCT* pmount;
-	BOOL* pbResult;
-	DWORD* pdwResult;
-} MountThreadParam;
+	void* pArg;
+	WaitThreadProc callback;
+} WaitThreadParam;
 
-static UINT g_wmMountWaitDlg = ::RegisterWindowMessage("VeraCryptMountWaitDlgMessage");
-
-static DWORD WINAPI DeviceIoControlThread (void* pParam)
+static void _cdecl WaitThread (void* pParam)
 {
-	MountThreadParam* pThreadParam = (MountThreadParam*) pParam;
+	WaitThreadParam* pThreadParam = (WaitThreadParam*) pParam;
 
-	*(pThreadParam->pbResult) = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, pThreadParam->pmount,
-		sizeof (MOUNT_STRUCT),pThreadParam->pmount, sizeof (MOUNT_STRUCT), pThreadParam->pdwResult, NULL);
+	pThreadParam->callback(pThreadParam->pArg, pThreadParam->hwnd);
 
 	/* close the wait dialog */
-	PostMessage (pThreadParam->hwnd, g_wmMountWaitDlg, 0, 0);
-	return 0;
+	PostMessage (pThreadParam->hwnd, g_wmWaitDlg, 0, 0);
 }
 
-static BOOL CALLBACK MountWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD (wParam);
 
@@ -6165,8 +6165,7 @@ static BOOL CALLBACK MountWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	{
 	case WM_INITDIALOG:
 		{
-			MountThreadParam* thParam = (MountThreadParam*) lParam;
-			HANDLE hThread = NULL;
+			WaitThreadParam* thParam = (WaitThreadParam*) lParam;
 
 			// set the progress bar type to MARQUEE (indefinite progress)
 			HWND hProgress = GetDlgItem (hwndDlg, IDC_WAIT_PROGRESS_BAR);
@@ -6194,8 +6193,7 @@ static BOOL CALLBACK MountWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			} 
 
 			LocalizeDialog (hwndDlg, NULL);
-			hThread = CreateThread(NULL, 0, DeviceIoControlThread, (void*) thParam, 0, NULL);
-			SetWindowLongPtr(hwndDlg, GWL_USERDATA, (LONG_PTR) hThread);
+			_beginthread(WaitThread, 0, thParam);
 			return 0;
 		}
 
@@ -6205,10 +6203,8 @@ static BOOL CALLBACK MountWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return 1;
 
 	default:
-		if (msg == g_wmMountWaitDlg)
+		if (msg == g_wmWaitDlg)
 		{
-			HANDLE hThread = (HANDLE) GetWindowLongPtrA(hwndDlg, GWL_USERDATA);
-			CloseHandle(hThread);
 			EndDialog (hwndDlg, IDOK);
 			return 1;
 		}
@@ -6216,6 +6212,45 @@ static BOOL CALLBACK MountWaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	}
 }
 
+void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg)
+{
+	HWND hParent = (hwnd && bUseHwndAsParent)? hwnd : GetDesktopWindow();
+	WaitThreadParam threadParam;
+	threadParam.callback = callback;
+	threadParam.pArg = pArg;
+	
+	DialogBoxParamW (hInst,
+				MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hParent,
+				(DLGPROC) WaitDlgProc, (LPARAM) &threadParam);
+
+	if (hwnd && IsWindowVisible(hwnd) && !bUseHwndAsParent)
+	{
+		SetForegroundWindow(hwnd);
+		BringWindowToTop(hwnd);
+	}
+}
+
+/************************************************************************/
+
+// specific definitions and implementation for support of mount operation 
+// in wait dialog mechanism
+
+typedef struct
+{
+	MOUNT_STRUCT* pmount;
+	BOOL* pbResult;
+	DWORD* pdwResult;
+} MountThreadParam;
+
+void CALLBACK MountWaitThreadProc(void* pArg, HWND )
+{
+	MountThreadParam* pThreadParam = (MountThreadParam*) pArg;
+
+	*(pThreadParam->pbResult) = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, pThreadParam->pmount,
+		sizeof (MOUNT_STRUCT),pThreadParam->pmount, sizeof (MOUNT_STRUCT), pThreadParam->pdwResult, NULL);
+}
+
+/************************************************************************/
 
 // Use only cached passwords if password = NULL
 //
@@ -6364,15 +6399,12 @@ retry:
 
 	if (!quiet)
 	{
-		MountThreadParam threadParam;
-		threadParam.hwnd = hwndDlg;
-		threadParam.pmount = &mount;
-		threadParam.pbResult = &bResult;
-		threadParam.pdwResult = &dwResult;
-		
-		DialogBoxParamW (hInst,
-					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), GetDesktopWindow(),
-					(DLGPROC) MountWaitDlgProc, (LPARAM) &threadParam);
+		MountThreadParam mountThreadParam;
+		mountThreadParam.pmount = &mount;
+		mountThreadParam.pbResult = &bResult;
+		mountThreadParam.pdwResult = &dwResult;
+
+		ShowWaitDialog (hwndDlg, FALSE, MountWaitThreadProc, &mountThreadParam);
 	}
 	else
 	{

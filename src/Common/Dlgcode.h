@@ -528,6 +528,10 @@ std::string HarddiskVolumePathToPartitionPath (const std::string &harddiskVolume
 std::string FindLatestFileOrDirectory (const std::string &directory, const char *namePattern, bool findDirectory, bool findFile);
 std::string GetUserFriendlyVersionString (int version);
 
+// Display a wait dialog while calling the provided callback with the given parameter
+typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);
+void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg);
+
 #endif // __cplusplus
 
 #endif // TC_HEADER_DLGCODE
