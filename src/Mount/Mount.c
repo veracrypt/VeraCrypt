@@ -1437,6 +1437,63 @@ static void PasswordChangeEnable (HWND hwndDlg, int button, int passwordId, BOOL
 	EnableWindow (GetDlgItem (hwndDlg, button), bEnable);
 }
 
+// implementation for support of change password operation in wait dialog mechanism
+
+typedef struct
+{
+	Password *oldPassword;
+	int old_pkcs5;
+	Password *newPassword;
+	int pkcs5;
+	int wipePassCount;
+	int* pnStatus;
+} ChangePwdThreadParam;
+
+void CALLBACK ChangePwdWaitThreadProc(void* pArg, HWND hwndDlg)
+{
+	ChangePwdThreadParam* pThreadParam = (ChangePwdThreadParam*) pArg;
+
+	if (bSysEncPwdChangeDlgMode)
+	{
+		// System
+
+		try
+		{
+			VOLUME_PROPERTIES_STRUCT properties;
+			BootEncObj->GetVolumeProperties(&properties);
+			pThreadParam->old_pkcs5 = properties.pkcs5;
+		}
+		catch(...)
+		{}
+
+		pThreadParam->pkcs5 = 0;	// PKCS-5 PRF unchanged (currently we can't change PRF of system encryption)
+
+		try
+		{
+			*pThreadParam->pnStatus = BootEncObj->ChangePassword (pThreadParam->oldPassword, pThreadParam->old_pkcs5, pThreadParam->newPassword, pThreadParam->pkcs5, pThreadParam->wipePassCount);
+		}
+		catch (Exception &e)
+		{
+			e.Show (hwndDlg);
+			*(pThreadParam->pnStatus) = ERR_OS_ERROR;
+		}
+	}
+	else
+	{
+		// Non-system
+
+		*pThreadParam->pnStatus = ChangePwd (szFileName, pThreadParam->oldPassword, pThreadParam->old_pkcs5, pThreadParam->newPassword, pThreadParam->pkcs5, pThreadParam->wipePassCount, hwndDlg);
+
+		if (*pThreadParam->pnStatus == ERR_OS_ERROR
+			&& GetLastError () == ERROR_ACCESS_DENIED
+			&& IsUacSupported ()
+			&& IsVolumeDeviceHosted (szFileName))
+		{
+			*pThreadParam->pnStatus = UacChangePwd (szFileName, pThreadParam->oldPassword, pThreadParam->old_pkcs5, pThreadParam->newPassword, pThreadParam->pkcs5, pThreadParam->wipePassCount, hwndDlg);
+		}
+	}
+}
+
 
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
@@ -1899,45 +1956,15 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				}
 			}
 
-			if (bSysEncPwdChangeDlgMode)
-			{
-				// System
+			ChangePwdThreadParam changePwdParam;
+			changePwdParam.oldPassword = &oldPassword;
+			changePwdParam.old_pkcs5 = old_pkcs5;
+			changePwdParam.newPassword = &newPassword;
+			changePwdParam.pkcs5 = pkcs5;
+			changePwdParam.wipePassCount = GetWipePassCount(headerWiperMode);
+			changePwdParam.pnStatus = &nStatus;
 
-				try
-				{
-					VOLUME_PROPERTIES_STRUCT properties;
-					BootEncObj->GetVolumeProperties(&properties);
-					old_pkcs5 = properties.pkcs5;
-				}
-				catch(...)
-				{}
-
-				pkcs5 = 0;	// PKCS-5 PRF unchanged (currently we can't change PRF of system encryption)
-
-				try
-				{
-					nStatus = BootEncObj->ChangePassword (&oldPassword, old_pkcs5, &newPassword, pkcs5, GetWipePassCount(headerWiperMode));
-				}
-				catch (Exception &e)
-				{
-					e.Show (MainDlg);
-					nStatus = ERR_OS_ERROR;
-				}
-			}
-			else
-			{
-				// Non-system
-
-				nStatus = ChangePwd (szFileName, &oldPassword, old_pkcs5, &newPassword, pkcs5, GetWipePassCount(headerWiperMode), hwndDlg);
-
-				if (nStatus == ERR_OS_ERROR
-					&& GetLastError () == ERROR_ACCESS_DENIED
-					&& IsUacSupported ()
-					&& IsVolumeDeviceHosted (szFileName))
-				{
-					nStatus = UacChangePwd (szFileName, &oldPassword, old_pkcs5, &newPassword, pkcs5, GetWipePassCount(headerWiperMode), hwndDlg);
-				}
-			}
+			ShowWaitDialog(hwndDlg, TRUE, ChangePwdWaitThreadProc, &changePwdParam);
 
 err:
 			burn (&oldPassword, sizeof (oldPassword));
