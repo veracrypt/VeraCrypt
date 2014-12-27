@@ -1494,6 +1494,42 @@ void CALLBACK ChangePwdWaitThreadProc(void* pArg, HWND hwndDlg)
 	}
 }
 
+// implementation for support of backup header operation in wait dialog mechanism
+
+typedef struct
+{
+	BOOL bRequireConfirmation;
+	char *lpszVolume;
+	int* iResult;
+} BackupHeaderThreadParam;
+
+void CALLBACK BackupHeaderWaitThreadProc(void* pArg, HWND hwndDlg)
+{
+	BackupHeaderThreadParam* pThreadParam = (BackupHeaderThreadParam*) pArg;
+
+	if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (pThreadParam->lpszVolume))
+		*(pThreadParam->iResult) = UacBackupVolumeHeader (hwndDlg, pThreadParam->bRequireConfirmation, pThreadParam->lpszVolume);
+	else
+		*(pThreadParam->iResult) = BackupVolumeHeader (hwndDlg, pThreadParam->bRequireConfirmation, pThreadParam->lpszVolume);
+}
+
+// implementation for support of restoring header operation in wait dialog mechanism
+
+typedef struct
+{
+	char *lpszVolume;
+	int* iResult;
+} RestoreHeaderThreadParam;
+
+void CALLBACK RestoreHeaderWaitThreadProc(void* pArg, HWND hwndDlg)
+{
+	RestoreHeaderThreadParam* pThreadParam = (RestoreHeaderThreadParam*) pArg;
+
+	if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (pThreadParam->lpszVolume))
+		*(pThreadParam->iResult) = UacRestoreVolumeHeader (hwndDlg, pThreadParam->lpszVolume);
+	else
+		*(pThreadParam->iResult) = RestoreVolumeHeader (hwndDlg, pThreadParam->lpszVolume);
+}
 
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
@@ -6157,10 +6193,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					WaitCursor ();
 
-					if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (volPath))
-						UacBackupVolumeHeader (hwndDlg, TRUE, volPath);
-					else
-						BackupVolumeHeader (hwndDlg, TRUE, volPath);
+					int iStatus = 0;
+					BackupHeaderThreadParam threadParam;
+					threadParam.bRequireConfirmation = TRUE;
+					threadParam.lpszVolume = volPath;
+					threadParam.iResult = &iStatus;
+
+					ShowWaitDialog (hwndDlg, TRUE, BackupHeaderWaitThreadProc, &threadParam);
 
 					NormalCursor ();
 				}
@@ -6177,10 +6216,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					WaitCursor ();
 
-					if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (volPath))
-						UacRestoreVolumeHeader (hwndDlg, volPath);
-					else
-						RestoreVolumeHeader (hwndDlg, volPath);
+					int iStatus = 0;
+					RestoreHeaderThreadParam threadParam;
+					threadParam.lpszVolume = volPath;
+					threadParam.iResult = &iStatus;
+
+					ShowWaitDialog(hwndDlg, TRUE, RestoreHeaderWaitThreadProc, &threadParam);
 
 					NormalCursor ();
 				}
@@ -6578,10 +6619,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				WaitCursor ();
 
-				if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (volPath))
-					UacBackupVolumeHeader (hwndDlg, TRUE, volPath);
-				else
-					BackupVolumeHeader (hwndDlg, TRUE, volPath);
+				int iStatus = 0;
+				BackupHeaderThreadParam threadParam;
+				threadParam.bRequireConfirmation = TRUE;
+				threadParam.lpszVolume = volPath;
+				threadParam.iResult = &iStatus;
+
+				ShowWaitDialog (hwndDlg, TRUE, BackupHeaderWaitThreadProc, &threadParam);
 
 				NormalCursor ();
 			}
@@ -6602,10 +6646,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				WaitCursor ();
 
-				if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (volPath))
-					UacRestoreVolumeHeader (hwndDlg, volPath);
-				else
-					RestoreVolumeHeader (hwndDlg, volPath);
+				int iStatus = 0;
+				RestoreHeaderThreadParam threadParam;
+				threadParam.lpszVolume = volPath;
+				threadParam.iResult = &iStatus;
+
+				ShowWaitDialog(hwndDlg, TRUE, RestoreHeaderWaitThreadProc, &threadParam);
 
 				NormalCursor ();
 			}
