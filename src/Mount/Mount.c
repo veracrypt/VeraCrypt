@@ -1470,7 +1470,7 @@ void CALLBACK ChangePwdWaitThreadProc(void* pArg, HWND hwndDlg)
 
 		try
 		{
-			*pThreadParam->pnStatus = BootEncObj->ChangePassword (pThreadParam->oldPassword, pThreadParam->old_pkcs5, pThreadParam->newPassword, pThreadParam->pkcs5, pThreadParam->wipePassCount);
+			*pThreadParam->pnStatus = BootEncObj->ChangePassword (pThreadParam->oldPassword, pThreadParam->old_pkcs5, pThreadParam->newPassword, pThreadParam->pkcs5, pThreadParam->wipePassCount, hwndDlg);
 		}
 		catch (Exception &e)
 		{

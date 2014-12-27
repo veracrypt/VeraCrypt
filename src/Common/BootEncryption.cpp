@@ -2117,7 +2117,7 @@ namespace VeraCrypt
 	}
 
 
-	int BootEncryption::ChangePassword (Password *oldPassword, int old_pkcs5,Password *newPassword, int pkcs5, int wipePassCount)
+	int BootEncryption::ChangePassword (Password *oldPassword, int old_pkcs5,Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
 	{
 		BootEncryptionStatus encStatus = GetStatus();
 
@@ -2164,7 +2164,7 @@ namespace VeraCrypt
 
 		if (status != 0)
 		{
-			handleError (ParentWindow, status);
+			handleError (hwndDlg, status);
 			return status;
 		}
 
@@ -2182,7 +2182,7 @@ namespace VeraCrypt
 		SetRandomPoolEnrichedByUserStatus (FALSE);
 
 		NormalCursor();
-		UserEnrichRandomPool (ParentWindow);
+		UserEnrichRandomPool (hwndDlg);
 		WaitCursor();
 
 		/* The header will be re-encrypted wipePassCount times to prevent adversaries from using 
@@ -2209,7 +2209,7 @@ namespace VeraCrypt
 				{
 					PCRYPTO_INFO tmpCryptoInfo = NULL;
 
-					status = CreateVolumeHeaderInMemory (ParentWindow, !encStatus.HiddenSystem,
+					status = CreateVolumeHeaderInMemory (hwndDlg, !encStatus.HiddenSystem,
 						header,
 						cryptoInfo->ea,
 						cryptoInfo->mode,
@@ -2231,7 +2231,7 @@ namespace VeraCrypt
 
 					if (status != 0)
 					{
-						handleError (ParentWindow, status);
+						handleError (hwndDlg, status);
 						return status;
 					}
 
@@ -2249,7 +2249,7 @@ namespace VeraCrypt
 		}
 		catch (Exception &e)
 		{
-			e.Show (ParentWindow);
+			e.Show (hwndDlg);
 			result = ERR_OS_ERROR;
 		}
 
