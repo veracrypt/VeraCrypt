@@ -273,7 +273,7 @@ static BOOL ElevateWholeWizardProcess (string arguments)
 	}
 	else
 	{
-		Error ("UAC_INIT_ERROR");
+		Error ("UAC_INIT_ERROR", MainDlg);
 		return FALSE;
 	}
 }
@@ -419,7 +419,7 @@ static BOOL SaveSysEncSettings (HWND hwndDlg)
 	{
 		if (remove (GetConfigPath (TC_APPD_FILENAME_SYSTEM_ENCRYPTION)) != 0)
 		{
-			Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS");
+			Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS", hwndDlg);
 			return FALSE;
 		}
 
@@ -431,7 +431,7 @@ static BOOL SaveSysEncSettings (HWND hwndDlg)
 	f = fopen (GetConfigPath (TC_APPD_FILENAME_SYSTEM_ENCRYPTION), "w");
 	if (f == NULL)
 	{
-		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS");
+		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS", hwndDlg);
 		handleWin32Error (hwndDlg);
 		return FALSE;
 	}
@@ -450,7 +450,7 @@ static BOOL SaveSysEncSettings (HWND hwndDlg)
 	{
 		handleWin32Error (hwndDlg);
 		fclose (f);
-		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS");
+		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS", hwndDlg);
 		return FALSE;
 	}
 
@@ -488,7 +488,7 @@ static BOOL ChangeHiddenOSCreationPhase (int newPhase)
 {
 	if (!CreateSysEncMutex ())
 	{
-		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 		return FALSE;
 	}
 
@@ -517,7 +517,7 @@ static BOOL ChangeSystemEncryptionStatus (int newStatus)
 {
 	if (!CreateSysEncMutex ())
 	{
-		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 		return FALSE;		// Only one instance that has the mutex can modify the system encryption settings
 	}
 
@@ -560,7 +560,7 @@ static BOOL ChangeWizardMode (int newWizardMode)
 			{
 				if (!CreateSysEncMutex ())
 				{
-					Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+					Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 					return FALSE;
 				}
 			}
@@ -637,7 +637,7 @@ static void LoadSettings (HWND hwndDlg)
 
 	ConfigReadString ("SecurityTokenLibrary", "", SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath) - 1);
 	if (SecurityTokenLibraryPath[0])
-		InitSecurityTokenLibrary();
+		InitSecurityTokenLibrary(hwndDlg);
 
 	if (hwndDlg != NULL)
 	{
@@ -666,7 +666,7 @@ static void SaveSettings (HWND hwndDlg)
 	if (GetPreferredLangId () != NULL)
 		ConfigWriteString ("Language", GetPreferredLangId ());
 
-	ConfigWriteEnd ();
+	ConfigWriteEnd (hwndDlg);
 
 	NormalCursor ();
 }
@@ -764,7 +764,7 @@ BOOL SwitchWizardToSysEncMode (void)
 	catch (Exception &e)
 	{
 		e.Show (MainDlg);
-		Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+		Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", MainDlg);
 		NormalCursor ();
 		return FALSE;
 	}
@@ -772,7 +772,7 @@ BOOL SwitchWizardToSysEncMode (void)
 	// From now on, we should be the only instance of the TC wizard allowed to deal with system encryption
 	if (!CreateSysEncMutex ())
 	{
-		Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+		Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 		NormalCursor ();
 		return FALSE;
 	}
@@ -780,7 +780,7 @@ BOOL SwitchWizardToSysEncMode (void)
 	// User-mode app may have crashed and its mutex may have gotten lost, so we need to check the driver status too
 	if (BootEncStatus.SetupInProgress)
 	{
-		if (AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT") == IDYES)
+		if (AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT", MainDlg) == IDYES)
 		{
 			if (SystemEncryptionStatus != SYSENC_STATUS_ENCRYPTING
 				&& SystemEncryptionStatus != SYSENC_STATUS_DECRYPTING)
@@ -803,7 +803,7 @@ BOOL SwitchWizardToSysEncMode (void)
 		else
 		{
 			CloseSysEncMutex ();	
-			Error ("SYS_ENCRYPTION_OR_DECRYPTION_IN_PROGRESS");
+			Error ("SYS_ENCRYPTION_OR_DECRYPTION_IN_PROGRESS", MainDlg);
 			NormalCursor ();
 			return FALSE;
 		}
@@ -815,7 +815,7 @@ BOOL SwitchWizardToSysEncMode (void)
 	{
 
 		if (!SysDriveOrPartitionFullyEncrypted (FALSE)
-			&& AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT") == IDYES)
+			&& AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT", MainDlg) == IDYES)
 		{
 			if (SystemEncryptionStatus == SYSENC_STATUS_NONE)
 			{
@@ -840,7 +840,7 @@ BOOL SwitchWizardToSysEncMode (void)
 		else
 		{
 			CloseSysEncMutex ();	
-			Error ("SETUP_FAILED_BOOT_DRIVE_ENCRYPTED");
+			Error ("SETUP_FAILED_BOOT_DRIVE_ENCRYPTED", MainDlg);
 			NormalCursor ();
 			return FALSE;
 		}
@@ -853,7 +853,7 @@ BOOL SwitchWizardToSysEncMode (void)
 		{
 			if (!IsUacSupported())
 			{
-				Warning ("ADMIN_PRIVILEGES_WARN_DEVICES");
+				Warning ("ADMIN_PRIVILEGES_WARN_DEVICES", MainDlg);
 			}
 		}
 
@@ -892,7 +892,7 @@ BOOL SwitchWizardToSysEncMode (void)
 					{
 						if (BootEncObj->SystemDriveContainsNonStandardPartitions())
 						{
-							if (AskWarnYesNoString ((wstring (GetString ("SYSDRIVE_NON_STANDARD_PARTITIONS")) + L"\n\n" + GetString ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE")).c_str()) == IDYES)
+							if (AskWarnYesNoString ((wstring (GetString ("SYSDRIVE_NON_STANDARD_PARTITIONS")) + L"\n\n" + GetString ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE")).c_str(), MainDlg) == IDYES)
 								bWholeSysDrive = FALSE;
 						}
 
@@ -902,21 +902,21 @@ BOOL SwitchWizardToSysEncMode (void)
 							{
 								bWholeSysDrive = FALSE;
 
-								Error ("WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS");
+								Error ("WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS", MainDlg);
 
-								if (AskYesNo ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE") == IDNO)
+								if (AskYesNo ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE", MainDlg) == IDNO)
 								{
 									ChangeWizardMode (WIZARD_MODE_NONSYS_DEVICE);
 									return FALSE;
 								}
 							}
 							else
-								Warning ("WDE_EXTENDED_PARTITIONS_WARNING");
+								Warning ("WDE_EXTENDED_PARTITIONS_WARNING", MainDlg);
 						}
 					}
 					else if (BootEncObj->SystemPartitionCoversWholeDrive() 
 						&& !bWholeSysDrive)
-						bWholeSysDrive = (AskYesNo ("WHOLE_SYC_DEVICE_RECOM") == IDYES);
+						bWholeSysDrive = (AskYesNo ("WHOLE_SYC_DEVICE_RECOM", MainDlg) == IDYES);
 				}
 
 			}
@@ -937,7 +937,7 @@ BOOL SwitchWizardToSysEncMode (void)
 				// In addition, he selected the hidden volume mode.
 
 				if (bWholeSysDrive)
-					Warning ("HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE");
+					Warning ("HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE", MainDlg);
 
 				bWholeSysDrive = FALSE;
 
@@ -1055,7 +1055,7 @@ static BOOL ResolveUnknownSysEncDirection (void)
 			catch (Exception &e)
 			{
 				e.Show (MainDlg);
-				Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+				Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", MainDlg);
 				return FALSE;
 			}
 
@@ -1075,7 +1075,7 @@ static BOOL ResolveUnknownSysEncDirection (void)
 					"IDCANCEL",
 					0};
 
-				switch (AskMultiChoice ((void **) tmpStr, FALSE))
+				switch (AskMultiChoice ((void **) tmpStr, FALSE, MainDlg))
 				{
 				case 1:
 					return ChangeSystemEncryptionStatus (SYSENC_STATUS_ENCRYPTING);
@@ -1091,7 +1091,7 @@ static BOOL ResolveUnknownSysEncDirection (void)
 	}
 	else
 	{
-		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 		return FALSE;
 	}
 }
@@ -1558,7 +1558,7 @@ static void SysEncPause (void)
 		catch (Exception &e)
 		{
 			e.Show (MainDlg);
-			Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+			Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", MainDlg);
 			EnableWindow (GetDlgItem (hCurPage, IDC_PAUSE), TRUE);
 			return;
 		}
@@ -1601,7 +1601,7 @@ static void SysEncPause (void)
 		{
 			SetTimer (MainDlg, TIMER_ID_SYSENC_PROGRESS, TIMER_INTERVAL_SYSENC_PROGRESS, NULL);
 			EnableWindow (GetDlgItem (hCurPage, IDC_PAUSE), TRUE);
-			Error ("FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION");
+			Error ("FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION", MainDlg);
 			return;
 		}
 		
@@ -1609,7 +1609,7 @@ static void SysEncPause (void)
 		EnableWindow (GetDlgItem (hCurPage, IDC_PAUSE), TRUE);
 	}
 	else
-		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 }
 
 
@@ -1628,7 +1628,7 @@ static void SysEncResume (void)
 		catch (Exception &e)
 		{
 			e.Show (MainDlg);
-			Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+			Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", MainDlg);
 			EnableWindow (GetDlgItem (hCurPage, IDC_PAUSE), TRUE);
 			return;
 		}
@@ -1680,7 +1680,7 @@ static void SysEncResume (void)
 			SetThreadExecutionState (ES_CONTINUOUS);
 
 			EnableWindow (GetDlgItem (hCurPage, IDC_PAUSE), TRUE);
-			Error ("FAILED_TO_RESUME_SYSTEM_ENCRYPTION");
+			Error ("FAILED_TO_RESUME_SYSTEM_ENCRYPTION", MainDlg);
 			return;
 		}
 
@@ -1695,7 +1695,7 @@ static void SysEncResume (void)
 		SetTimer (MainDlg, TIMER_ID_SYSENC_PROGRESS, TIMER_INTERVAL_SYSENC_PROGRESS, NULL);
 	}
 	else
-		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+		Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 }
 
 
@@ -1955,7 +1955,7 @@ static void InitNonSysInplaceEncProgressBar (void)
 }
 
 
-void DisplayRandPool (HWND hPoolDisplay, BOOL bShow)
+void DisplayRandPool (HWND hwndDlg, HWND hPoolDisplay, BOOL bShow)
 {		
 	unsigned char tmp[4];
 	unsigned char tmpByte;
@@ -1968,7 +1968,7 @@ void DisplayRandPool (HWND hPoolDisplay, BOOL bShow)
 		return;
 	}
 
-	RandpeekBytes (randPool, sizeof (randPool));
+	RandpeekBytes (hwndDlg, randPool, sizeof (randPool));
 
 	if (memcmp (lastRandPool, randPool, sizeof(lastRandPool)) != 0)
 	{
@@ -2060,7 +2060,7 @@ static void WipeAbort (void)
 		{
 			SetTimer (MainDlg, TIMER_ID_WIPE_PROGRESS, TIMER_INTERVAL_WIPE_PROGRESS, NULL);
 			EnableWindow (GetDlgItem (hCurPage, IDC_ABORT_BUTTON), TRUE);
-			Error ("FAILED_TO_INTERRUPT_WIPING");
+			Error ("FAILED_TO_INTERRUPT_WIPING", MainDlg);
 			return;
 		}
 	}
@@ -2101,7 +2101,7 @@ static void WipeStart (void)
 		if (!bDeviceWipeInProgress)
 		{
 			EnableWindow (GetDlgItem (hCurPage, IDC_ABORT_BUTTON), TRUE);
-			Error ("FAILED_TO_START_WIPING");
+			Error ("FAILED_TO_START_WIPING", MainDlg);
 			return;
 		}
 	}
@@ -2459,12 +2459,12 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				if (bInPlaceEncNonSysResumed)
 				{
 					SetNonSysInplaceEncUIStatus (NONSYS_INPLACE_ENC_STATUS_PAUSED);
-					Error ("INPLACE_ENC_GENERIC_ERR_RESUME");
+					Error ("INPLACE_ENC_GENERIC_ERR_RESUME", hwndDlg);
 				}
 				else
 				{
 					SetNonSysInplaceEncUIStatus (NONSYS_INPLACE_ENC_STATUS_ERROR);
-					ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_GENERIC_ERR_ALT_STEPS", TRUE);
+					ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_GENERIC_ERR_ALT_STEPS", TRUE);
 				}
 			}
 			else if (!(bHiddenVolHost && hiddenVolHostDriveNo < 0))  // If the error was not that the hidden volume host could not be mounted (this error has already been reported to the user)
@@ -2500,20 +2500,20 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 					bHiddenVolFinished = TRUE;
 
 					if (!bHiddenOS)
-						Warning ("HIDVOL_FORMAT_FINISHED_HELP");
+						Warning ("HIDVOL_FORMAT_FINISHED_HELP", hwndDlg);
 				}
 				else if (bInPlaceEncNonSys)
 				{
-					Warning ("NONSYS_INPLACE_ENC_FINISHED_INFO");
+					Warning ("NONSYS_INPLACE_ENC_FINISHED_INFO", hwndDlg);
 
 					HandleOldAssignedDriveLetter ();
 				}
 				else 
 				{
-					Info("FORMAT_FINISHED_INFO");
+					Info("FORMAT_FINISHED_INFO", hwndDlg);
 
 					if (bSparseFileSwitch && quickFormat)
-						Warning("SPARSE_FILE_SIZE_NOTE");
+						Warning("SPARSE_FILE_SIZE_NOTE", hwndDlg);
 				}
 			}
 			else
@@ -2841,14 +2841,14 @@ static void LoadPage (HWND hwndDlg, int nPageNo)
 			CheckCapsLock (hwndDlg, FALSE);
 
 			if (CreatingHiddenSysVol())
-				Warning ("PASSWORD_HIDDEN_OS_NOTE");
+				Warning ("PASSWORD_HIDDEN_OS_NOTE", MainDlg);
 
 			break;
 
 		case CIPHER_PAGE:
 
 			if (CreatingHiddenSysVol())
-				Warning ("HIDDEN_OS_PRE_CIPHER_WARNING");
+				Warning ("HIDDEN_OS_PRE_CIPHER_WARNING", MainDlg);
 
 			break;
 		}
@@ -3109,7 +3109,7 @@ BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display)
 			|| sectorSize > TC_MAX_VOLUME_SECTOR_SIZE
 			|| sectorSize % ENCRYPTION_DATA_UNIT_SIZE != 0)
 		{
-			Error ("SECTOR_SIZE_UNSUPPORTED");
+			Error ("SECTOR_SIZE_UNSUPPORTED", hwndDlg);
 			return FALSE;
 		}
 
@@ -3237,7 +3237,7 @@ static BOOL FinalPreTransformPrompts (void)
 					StringCbCatW (tmpMcMsg, sizeof(tmpMcMsg), deviceName);
 
 					wchar_t *tmpStr[] = {L"", tmpMcMsg, tmpMcOption1, tmpMcOptionCancel, 0};
-					switch (AskMultiChoice ((void **) tmpStr, TRUE))
+					switch (AskMultiChoice ((void **) tmpStr, TRUE, MainDlg))
 					{
 					case 1:
 						// Proceed 
@@ -3421,7 +3421,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				// Ask the user if he wants to try again (to prevent repeated system freezing, etc.)
 
 				char *tmpStr[] = {0, "HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY", "SKIP_HIDDEN_SECTOR_DETECTION", "RETRY_HIDDEN_SECTOR_DETECTION", "IDC_EXIT", 0};
-				switch (AskMultiChoice ((void **) tmpStr, FALSE))
+				switch (AskMultiChoice ((void **) tmpStr, FALSE, MainDlg))
 				{
 				case 1:
 					// Do not try again
@@ -3627,7 +3627,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				WaitCursor();
 
-				if (CheckRequirementsForNonSysInPlaceEnc (szDiskFile, TRUE))
+				if (CheckRequirementsForNonSysInPlaceEnc (hwndDlg, szDiskFile, TRUE))
 				{
 					bInPlaceEncNonSys = (FileSystemAppearsEmpty (szDiskFile) == 0);
 				}
@@ -3923,7 +3923,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 						if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 						{
-							Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION");
+							Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
 							EndMainDlg (MainDlg);
 							return 1;
 						}
@@ -3934,7 +3934,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (SetTimer (MainDlg, TIMER_ID_KEYB_LAYOUT_GUARD, TIMER_INTERVAL_KEYB_LAYOUT_GUARD, NULL) == 0)
 					{
-						Error ("CANNOT_SET_TIMER");
+						Error ("CANNOT_SET_TIMER", MainDlg);
 						EndMainDlg (MainDlg);
 						return 1;
 					}
@@ -4038,7 +4038,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), BM_SETCHECK, showKeys ? BST_CHECKED : BST_UNCHECKED, 0);
 
-			DisplayRandPool (hRandPoolSys, showKeys);
+			DisplayRandPool (hwndDlg, hRandPoolSys, showKeys);
 
 			break;
 
@@ -4211,7 +4211,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				catch (Exception &e)
 				{
 					e.Show (hwndDlg);
-					Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+					Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", MainDlg);
 					EndMainDlg (MainDlg);
 					return 0;
 				}
@@ -4258,7 +4258,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			else
 			{
-				Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+				Error ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", MainDlg);
 				EndMainDlg (MainDlg);
 				return 0;
 			}
@@ -5068,7 +5068,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				if (SysEncInEffect())
 				{
-					Warning ("KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION");
+					Warning ("KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION", MainDlg);
 					return 1;
 				}
 
@@ -5265,7 +5265,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
 						RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);
-						Info ("ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION");
+						Info ("ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION", MainDlg);
 						SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), &hash_algo);
 					}
 				}
@@ -5279,12 +5279,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (bSparseFileSwitch)
 			{
-				if (AskWarnYesNo("CONFIRM_SPARSE_FILE") == IDNO)
+				if (AskWarnYesNo("CONFIRM_SPARSE_FILE", MainDlg) == IDNO)
 					SetCheckBox (hwndDlg, IDC_QUICKFORMAT, FALSE); 
 			}
 			else
 			{
-				if (AskWarnYesNo("WARN_QUICK_FORMAT") == IDNO)
+				if (AskWarnYesNo("WARN_QUICK_FORMAT", MainDlg) == IDNO)
 					SetCheckBox (hwndDlg, IDC_QUICKFORMAT, FALSE); 
 			}
 			return 1;
@@ -5312,7 +5312,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			&& (nCurPageNo == SYSENC_COLLECTING_RANDOM_DATA_PAGE || nCurPageNo == NONSYS_INPLACE_ENC_RAND_DATA_PAGE))
 		{
 			showKeys = IsButtonChecked (GetDlgItem (hCurPage, IDC_DISPLAY_POOL_CONTENTS));
-			DisplayRandPool (hRandPoolSys, showKeys);
+			DisplayRandPool (hwndDlg, hRandPoolSys, showKeys);
 
 			return 1;
 		}
@@ -5378,7 +5378,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 			case IDC_ABORT_BUTTON:
 
-				if (AskWarnNoYes ("CONFIRM_WIPE_ABORT") == IDYES)
+				if (AskWarnNoYes ("CONFIRM_WIPE_ABORT", MainDlg) == IDYES)
 					WipeAbort();
 
 				return 1;
@@ -5444,7 +5444,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			catch (Exception &e)
 			{
 				e.Show (hwndDlg);
-				Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+				Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", MainDlg);
 				EndMainDlg (MainDlg);
 				return 0;
 			}
@@ -5503,7 +5503,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (WizardMode == WIZARD_MODE_SYS_DEVICE
 				|| bInPlaceEncNonSys)
 			{
-				DisplayRandPool (hRandPoolSys, showKeys);
+				DisplayRandPool (hwndDlg, hRandPoolSys, showKeys);
 			}
 			else
 			{
@@ -5514,7 +5514,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (!showKeys) 
 					return 1;
 
-				RandpeekBytes (tmp, sizeof (tmp));
+				RandpeekBytes (hwndDlg, tmp, sizeof (tmp));
 
 				tmp2[0] = 0;
 
@@ -5556,7 +5556,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					e.Show (hwndDlg);
-					Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+					Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", MainDlg);
 					EndMainDlg (MainDlg);
 					return 1;
 				}
@@ -5591,7 +5591,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								&& SystemEncryptionStatus == SYSENC_STATUS_ENCRYPTING
 								&& (IsDiskReadError (e.ErrorCode)))
 							{
-								bTryToCorrectReadErrors = (AskWarnYesNo ("ENABLE_BAD_SECTOR_ZEROING") == IDYES);
+								bTryToCorrectReadErrors = (AskWarnYesNo ("ENABLE_BAD_SECTOR_ZEROING", MainDlg) == IDYES);
 
 								if (bTryToCorrectReadErrors)
 								{
@@ -5603,7 +5603,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								&& SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING
 								&& (IsDiskReadError (e.ErrorCode)))
 							{
-								DiscardUnreadableEncryptedSectors = (AskWarnYesNo ("DISCARD_UNREADABLE_ENCRYPTED_SECTORS") == IDYES);
+								DiscardUnreadableEncryptedSectors = (AskWarnYesNo ("DISCARD_UNREADABLE_ENCRYPTED_SECTORS", MainDlg) == IDYES);
 
 								if (DiscardUnreadableEncryptedSectors)
 								{
@@ -5640,7 +5640,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 								ChangeSystemEncryptionStatus (SYSENC_STATUS_NONE);
 
-								Info ("SYSTEM_ENCRYPTION_FINISHED");
+								Info ("SYSTEM_ENCRYPTION_FINISHED", MainDlg);
 								return 1;
 							}
 							break;
@@ -5669,10 +5669,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								EnableWindow (GetDlgItem (hwndDlg, IDCANCEL), FALSE);
 								EnableWindow (GetDlgItem (hCurPage, IDC_PAUSE), FALSE);
 
-								Info ("SYSTEM_DECRYPTION_FINISHED");
+								Info ("SYSTEM_DECRYPTION_FINISHED", MainDlg);
 
 								// Reboot is required to enable uninstallation and hibernation
-								if (AskWarnYesNo ("CONFIRM_RESTART") == IDYES)
+								if (AskWarnYesNo ("CONFIRM_RESTART", MainDlg) == IDYES)
 								{
 									EndMainDlg (MainDlg);
 
@@ -5731,7 +5731,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 					{
 						KillTimer (hwndDlg, TIMER_ID_KEYB_LAYOUT_GUARD);
-						Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION");
+						Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
 						EndMainDlg (MainDlg);
 						return 1;
 					}
@@ -5785,7 +5785,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Sleep (1500);	// User-friendly GUI
 
 				if (bSysEncDriveAnalysisTimeOutOccurred)
-					Warning ("SYS_DRIVE_SIZE_PROBE_TIMEOUT");
+					Warning ("SYS_DRIVE_SIZE_PROBE_TIMEOUT", MainDlg);
 
 				LoadPage (hwndDlg, SYSENC_DRIVE_ANALYSIS_PAGE + 1);
 			}
@@ -5866,12 +5866,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), FALSE);
 							EnableWindow (GetDlgItem (hCurPage, IDC_ABORT_BUTTON), FALSE);
 
-							Info ("WIPE_FINISHED_DECOY_SYSTEM_PARTITION");
+							Info ("WIPE_FINISHED_DECOY_SYSTEM_PARTITION", MainDlg);
 
 							TextInfoDialogBox (TC_TBXID_DECOY_OS_INSTRUCTIONS);
 
 							if (BootEncObj->GetSystemDriveConfiguration().ExtraBootPartitionPresent)
-								Warning ("DECOY_OS_VERSION_WARNING");
+								Warning ("DECOY_OS_VERSION_WARNING", MainDlg);
 
 							return 1;
 						}
@@ -5970,7 +5970,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			&& (bVolTransformThreadRunning || bVolTransformThreadToRun || bInPlaceEncNonSysResumed))
 		{
 			// Non-system encryption in progress
-			if (AskNoYes ("NONSYS_INPLACE_ENC_DEFER_CONFIRM") == IDYES)
+			if (AskNoYes ("NONSYS_INPLACE_ENC_DEFER_CONFIRM", hwndDlg) == IDYES)
 			{
 				NonSysInplaceEncPause ();
 
@@ -5983,7 +5983,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		else if (bVolTransformThreadRunning || bVolTransformThreadToRun)
 		{
 			// Format (non-in-place encryption) in progress
-			if (AskNoYes ("FORMAT_ABORT") == IDYES)
+			if (AskNoYes ("FORMAT_ABORT", hwndDlg) == IDYES)
 			{
 				bVolTransformThreadCancel = TRUE;
 
@@ -6000,7 +6000,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			// System encryption/decryption in progress
 
 			if (AskYesNo (SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING ? 
-				"SYSTEM_DECRYPTION_DEFER_CONFIRM" : "SYSTEM_ENCRYPTION_DEFER_CONFIRM") == IDYES)
+				"SYSTEM_DECRYPTION_DEFER_CONFIRM" : "SYSTEM_ENCRYPTION_DEFER_CONFIRM", MainDlg) == IDYES)
 			{
 				if (nCurPageNo == SYSENC_PRETEST_RESULT_PAGE)
 					TextInfoDialogBox (TC_TBXID_SYS_ENC_RESCUE_DISK);
@@ -6023,7 +6023,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 					else
 					{
-						Error ("FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION");
+						Error ("FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION", MainDlg);
 						return 1;	// Disallow close
 					}
 				}
@@ -6038,12 +6038,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		else if (bConfirmQuitSysEncPretest)
 		{
-			if (AskWarnNoYes (bHiddenOS ? "CONFIRM_CANCEL_HIDDEN_OS_CREATION" : "CONFIRM_CANCEL_SYS_ENC_PRETEST") == IDNO)
+			if (AskWarnNoYes (bHiddenOS ? "CONFIRM_CANCEL_HIDDEN_OS_CREATION" : "CONFIRM_CANCEL_SYS_ENC_PRETEST", MainDlg) == IDNO)
 				return 1;	// Disallow close
 		}
 		else if (bConfirmQuit)
 		{
-			if (AskWarnNoYes ("CONFIRM_EXIT_UNIVERSAL") == IDNO)
+			if (AskWarnNoYes ("CONFIRM_EXIT_UNIVERSAL", MainDlg) == IDNO)
 				return 1;	// Disallow close
 		}
 
@@ -6082,7 +6082,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						static bool warningConfirmed = false;
 						if (!warningConfirmed)
 						{
-							if (AskWarnYesNo ("CONTAINER_ADMIN_WARNING") == IDYES)
+							if (AskWarnYesNo ("CONTAINER_ADMIN_WARNING", MainDlg) == IDYES)
 								exit (0);
 
 							warningConfirmed = true;
@@ -6140,7 +6140,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					BootEncObj->CheckRequirementsHiddenOS ();
 
 					if (CheckGapBetweenSysAndHiddenOS ())
-						Warning ("GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION");
+						Warning ("GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION", MainDlg);
 				}
 				catch (Exception &e)
 				{
@@ -6149,7 +6149,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					return 1;
 				}
 
-				if (AskWarnYesNo ("DECOY_OS_REINSTALL_WARNING") == IDNO)
+				if (AskWarnYesNo ("DECOY_OS_REINSTALL_WARNING", MainDlg) == IDNO)
 				{
 					NormalCursor ();
 					return 1;
@@ -6157,7 +6157,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				WarningDirect ((wstring (GetString ("HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO"))
 					+ L"\n\n"
-					+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str());
+					+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str(), MainDlg);
 
 				if (!IsAdmin() && IsUacSupported())
 				{
@@ -6202,7 +6202,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						if (BootEncObj->SystemDriveContainsNonStandardPartitions())
 						{
-							if (AskWarnYesNoString ((wstring (GetString ("SYSDRIVE_NON_STANDARD_PARTITIONS")) + L"\n\n" + GetString ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE")).c_str()) == IDYES)
+							if (AskWarnYesNoString ((wstring (GetString ("SYSDRIVE_NON_STANDARD_PARTITIONS")) + L"\n\n" + GetString ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE")).c_str(), MainDlg) == IDYES)
 								bWholeSysDrive = FALSE;
 						}
 
@@ -6210,20 +6210,20 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						{
 							if (BootEncObj->SystemDriveContainsExtendedPartition())
 							{
-								Error ("WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS");
+								Error ("WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS", MainDlg);
 
-								if (AskYesNo ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE") == IDNO)
+								if (AskYesNo ("ASK_ENCRYPT_PARTITION_INSTEAD_OF_DRIVE", MainDlg) == IDNO)
 									return 1;
 
 								bWholeSysDrive = FALSE;
 							}
 							else
-								Warning ("WDE_EXTENDED_PARTITIONS_WARNING");
+								Warning ("WDE_EXTENDED_PARTITIONS_WARNING", hwndDlg);
 						}
 					}
 
 					if (!bWholeSysDrive && BootEncObj->SystemPartitionCoversWholeDrive())
-						bWholeSysDrive = (AskYesNo ("WHOLE_SYC_DEVICE_RECOM") == IDYES);
+						bWholeSysDrive = (AskYesNo ("WHOLE_SYC_DEVICE_RECOM", hwndDlg) == IDYES);
 				}
 				catch (Exception &e)
 				{
@@ -6262,14 +6262,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					// Multi-boot 
 
-					if (AskWarnNoYes ("MULTI_BOOT_FOR_ADVANCED_ONLY") == IDNO)
+					if (AskWarnNoYes ("MULTI_BOOT_FOR_ADVANCED_ONLY", hwndDlg) == IDNO)
 						return 1;
 
 					if (bHiddenOS)
 					{
-						if (AskWarnNoYes ("HIDDEN_OS_MULTI_BOOT") == IDNO)
+						if (AskWarnNoYes ("HIDDEN_OS_MULTI_BOOT", hwndDlg) == IDNO)
 						{
-							Error ("UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG");
+							Error ("UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG", hwndDlg);
 							return 1;
 						}
 					}
@@ -6279,14 +6279,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					if (IsOSAtLeast (WIN_7)
 						&& BootEncObj->GetSystemDriveConfiguration().ExtraBootPartitionPresent
-						&& AskWarnYesNo ("CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION") == IDNO)
+						&& AskWarnYesNo ("CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION", hwndDlg) == IDNO)
 					{
 						TextInfoDialogBox (TC_TBXID_EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS);
 						NormalCursor ();
 						return 1;
 					}
 
-					if (AskWarnYesNo ("DECOY_OS_REQUIREMENTS") == IDNO)
+					if (AskWarnYesNo ("DECOY_OS_REQUIREMENTS", hwndDlg) == IDNO)
 					{
 						NormalCursor ();
 						return 1;
@@ -6315,7 +6315,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (!SysEncMultiBootCfg.SystemOnBootDrive)
 				{
-					Error ("SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE");
+					Error ("SYS_PARTITION_MUST_BE_ON_BOOT_DRIVE", hwndDlg);
 					EndMainDlg (MainDlg);
 					return 1;
 				}
@@ -6338,7 +6338,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						// Whole-system-drive encryption is currently not supported if the drive contains
 						// more than one system
-						Error ("WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE");
+						Error ("WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE", hwndDlg);
 						return 1;
 					}
 
@@ -6354,7 +6354,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					// Whole-system-drive encryption is currently not supported if the drive contains
 					// more than one system
-					Error ("WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE");
+					Error ("WDE_UNSUPPORTED_FOR_MULTIPLE_SYSTEMS_ON_ONE_DRIVE", hwndDlg);
 					return 1;
 				}
 			}
@@ -6366,7 +6366,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (SysEncMultiBootCfg.BootLoaderBrand)
 				{
 					// A non-Windows boot manager in the MBR
-					Error ("CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED");
+					Error ("CUSTOM_BOOT_MANAGERS_IN_MBR_UNSUPPORTED", hwndDlg);
 					EndMainDlg (MainDlg);
 					return 1;
 				}
@@ -6432,7 +6432,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							+ GetString ("NOTE_BEGINNING")
 							+ GetString ("HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO")
 							+ L" "
-							+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str());
+							+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str(), hwndDlg);
 						NormalCursor ();
 						return 1;
 					}
@@ -6456,13 +6456,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (bDevice)
 					{
 						// Not a valid device path
-						Error ("CANNOT_CALC_SPACE");
+						Error ("CANNOT_CALC_SPACE", hwndDlg);
 						NormalCursor ();
 						return 1;
 					}
 					else
 					{
-						if (AskWarnYesNo ("DEVICE_SELECTED_IN_NON_DEVICE_MODE") == IDNO)
+						if (AskWarnYesNo ("DEVICE_SELECTED_IN_NON_DEVICE_MODE", hwndDlg) == IDNO)
 						{
 							NormalCursor ();
 							return 1;
@@ -6478,7 +6478,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (IsMountedVolume (szDiskFile))
 				{
-					Error ("ALREADY_MOUNTED");
+					Error ("ALREADY_MOUNTED", hwndDlg);
 					NormalCursor ();
 					return 1;
 				}
@@ -6490,7 +6490,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					case 1:
 					case 2:
 					case 3:
-						if (AskYesNo ("CONFIRM_SYSTEM_ENCRYPTION_MODE") == IDNO)
+						if (AskYesNo ("CONFIRM_SYSTEM_ENCRYPTION_MODE", hwndDlg) == IDNO)
 						{
 							NormalCursor ();
 							return 1;
@@ -6514,7 +6514,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				else
 				{
 					if (CheckFileExtension(szFileName) 
-						&& AskWarnNoYes ("EXE_FILE_EXTENSION_CONFIRM") == IDNO)
+						&& AskWarnNoYes ("EXE_FILE_EXTENSION_CONFIRM", hwndDlg) == IDNO)
 					{
 						NormalCursor ();
 						return 1;
@@ -6550,7 +6550,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						else if (IsSparseFile (hwndDlg))
 						{
 							// Hidden volumes must not be created within sparse file containers
-							Warning ("HIDDEN_VOL_HOST_SPARSE");
+							Warning ("HIDDEN_VOL_HOST_SPARSE", hwndDlg);
 							NormalCursor ();
 							return 1;
 						}
@@ -6571,7 +6571,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					// Check requirements for non-system in-place encryption
 
-					if (!CheckRequirementsForNonSysInPlaceEnc (szDiskFile, FALSE))
+					if (!CheckRequirementsForNonSysInPlaceEnc (hwndDlg, szDiskFile, FALSE))
 					{
 						return 1;
 					}
@@ -6585,7 +6585,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 
-					if (AskWarnYesNo ("NONSYS_INPLACE_ENC_CONFIRM_BACKUP") == IDNO)
+					if (AskWarnYesNo ("NONSYS_INPLACE_ENC_CONFIRM_BACKUP", hwndDlg) == IDNO)
 						return 1;
 				}
 				nNewPageNo = CIPHER_PAGE - 1;
@@ -6606,11 +6606,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (SysEncInEffect ()
 					&& EAGetCipherCount (nVolumeEA) > 1)		// Cascade?
 				{
-					if (AskWarnNoYes ("CONFIRM_CASCADE_FOR_SYS_ENCRYPTION") == IDNO)
+					if (AskWarnNoYes ("CONFIRM_CASCADE_FOR_SYS_ENCRYPTION", hwndDlg) == IDNO)
 						return 1;
 
 					if (!bHiddenOS)
-						Info ("NOTE_CASCADE_FOR_SYS_ENCRYPTION");
+						Info ("NOTE_CASCADE_FOR_SYS_ENCRYPTION", hwndDlg);
 				}
 
 				nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX_HASH_ALGO), CB_GETCURSEL, 0, 0);
@@ -6641,7 +6641,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						// The host file system is FAT32
 						if (nUIVolumeSize * nMultiplier >= 4 * BYTES_PER_GB)
 						{
-							Error ("VOLUME_TOO_LARGE_FOR_FAT32");
+							Error ("VOLUME_TOO_LARGE_FOR_FAT32", hwndDlg);
 							return 1;
 						}
 					}
@@ -6651,7 +6651,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (!IsOSAtLeast (WIN_VISTA)
 						&& nUIVolumeSize * nMultiplier > 2 * BYTES_PER_TB)
 					{
-						Warning ("VOLUME_TOO_LARGE_FOR_WINXP");
+						Warning ("VOLUME_TOO_LARGE_FOR_WINXP", hwndDlg);
 					}
 				}
 
@@ -6662,7 +6662,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (((double) nUIVolumeSize / (nMaximumHiddenVolSize / nMultiplier)) > 0.85)	// 85%
 					{
-						if (AskWarnNoYes ("FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME") == IDNO)
+						if (AskWarnNoYes ("FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME", hwndDlg) == IDNO)
 							return 1;
 					}
 				}
@@ -6687,7 +6687,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// Password character encoding
 					if (!CheckPasswordCharEncoding (GetDlgItem (hCurPage, IDC_PASSWORD), NULL))
 					{
-						Error ("UNSUPPORTED_CHARS_IN_PWD");
+						Error ("UNSUPPORTED_CHARS_IN_PWD", hwndDlg);
 						return 1;
 					}
 					// Check password length (do not check if it's for an outer volume).
@@ -6707,7 +6707,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						WaitCursor ();
 
-						if (!KeyFilesApply (&volumePassword, FirstKeyFile))
+						if (!KeyFilesApply (hwndDlg, &volumePassword, FirstKeyFile))
 						{
 							NormalCursor ();
 							return 1;
@@ -6725,7 +6725,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						// Restore the original keyboard layout
 						if (LoadKeyboardLayout (OrigKeyboardLayout, KLF_ACTIVATE | KLF_SUBSTITUTE_OK) == NULL) 
-							Warning ("CANNOT_RESTORE_KEYBOARD_LAYOUT");
+							Warning ("CANNOT_RESTORE_KEYBOARD_LAYOUT", hwndDlg);
 						else
 							bKeyboardLayoutChanged = FALSE;
 					}
@@ -6760,7 +6760,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (KeyFilesEnable)
 				{
-					KeyFilesApply (&volumePassword, FirstKeyFile);
+					KeyFilesApply (hwndDlg, &volumePassword, FirstKeyFile);
 				}
 			
 				if (!bInPlaceEncNonSys)
@@ -6916,7 +6916,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (DeferredNonSysInPlaceEncDevices.empty())
 					{
-						Warning ("FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC");
+						Warning ("FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC", hwndDlg);
 
 						NormalCursor();
 						return 1;
@@ -6954,7 +6954,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						+ GetString ("NOTE_BEGINNING")
 						+ GetString ("HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO")
 						+ L" "
-						+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str());
+						+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str(), hwndDlg);
 
 					return 1;
 				}
@@ -7038,14 +7038,14 @@ retryCDDriveCheck:
 						"CD_BURNER_NOT_PRESENT_CONNECTED_NOW",
 						0 };
 
-					switch (AskMultiChoice ((void **) multiChoiceStr, FALSE))
+					switch (AskMultiChoice ((void **) multiChoiceStr, FALSE, hwndDlg))
 					{
 					case 1:
 						wchar_t msg[8192];
 						swprintf_s (msg, array_capacity (msg), GetString ("CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO"), SingleStringToWide (szRescueDiskISO).c_str());
-						WarningDirect (msg);
+						WarningDirect (msg, hwndDlg);
 
-						Warning ("RESCUE_DISK_BURN_NO_CHECK_WARN");
+						Warning ("RESCUE_DISK_BURN_NO_CHECK_WARN", hwndDlg);
 						bDontVerifyRescueDisk = TRUE;
 						nNewPageNo = SYSENC_RESCUE_DISK_VERIFIED_PAGE;
 						break;
@@ -7062,7 +7062,7 @@ retryCDDriveCheck:
 				}
 
 				if (IsWindowsIsoBurnerAvailable() && !bDontVerifyRescueDisk)
-					Info ("RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE");
+					Info ("RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE", hwndDlg);
 
 				NormalCursor ();
 			}
@@ -7083,7 +7083,7 @@ retryCDDriveCheck:
 							StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("RESCUE_DISK_CHECK_FAILED"), 
 								IsWindowsIsoBurnerAvailable () ? L"" : GetString ("RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"));
 
-							ErrorDirect (szTmp);
+							ErrorDirect (szTmp, hwndDlg);
 
 							NormalCursor ();
 #ifndef _DEBUG
@@ -7101,7 +7101,7 @@ retryCDDriveCheck:
 				}
 				else
 				{
-					Warning ("RESCUE_DISK_BURN_NO_CHECK_WARN");
+					Warning ("RESCUE_DISK_BURN_NO_CHECK_WARN", hwndDlg);
 					nNewPageNo = SYSENC_RESCUE_DISK_VERIFIED_PAGE;		// Skip irrelevant pages
 				}
 			}
@@ -7110,14 +7110,14 @@ retryCDDriveCheck:
 				|| nCurPageNo == NONSYS_INPLACE_ENC_WIPE_MODE_PAGE)
 			{
 				if (nWipeMode > 0 
-					&& AskWarnYesNo ("WIPE_MODE_WARN") == IDNO)
+					&& AskWarnYesNo ("WIPE_MODE_WARN", hwndDlg) == IDNO)
 					return 1;
 			}
 
 			else if (nCurPageNo == SYSENC_PRETEST_INFO_PAGE)
 			{
 				if (LocalizationActive
-					&& AskWarnYesNo ("PREBOOT_NOT_LOCALIZED") == IDNO)
+					&& AskWarnYesNo ("PREBOOT_NOT_LOCALIZED", hwndDlg) == IDNO)
 					return 1;
 
 				bConfirmQuitSysEncPretest = TRUE;
@@ -7125,7 +7125,7 @@ retryCDDriveCheck:
 				if (!bHiddenOS)	// This text is not tailored to hidden OS
 					TextInfoDialogBox (TC_TBXID_SYS_ENCRYPTION_PRETEST);
 
-				if (AskWarnYesNo ("CONFIRM_RESTART") == IDNO)
+				if (AskWarnYesNo ("CONFIRM_RESTART", hwndDlg) == IDNO)
 					return 1;
 
 				/* Install the pre-boot authentication component and initiate the system encryption pretest.
@@ -7148,7 +7148,7 @@ retryCDDriveCheck:
 				catch (Exception &e)
 				{
 					e.Show (hwndDlg);
-					Error (bHiddenOS ? "CANNOT_INITIATE_HIDDEN_OS_CREATION" : "CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST");
+					Error (bHiddenOS ? "CANNOT_INITIATE_HIDDEN_OS_CREATION" : "CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST", hwndDlg);
 					NormalCursor ();
 					return 1;
 				}
@@ -7178,14 +7178,14 @@ retryCDDriveCheck:
 						|| !ChangeHiddenOSCreationPhase (TC_HIDDEN_OS_CREATION_PHASE_CLONING))
 					{
 						ChangeSystemEncryptionStatus (SYSENC_STATUS_NONE);
-						Error ("CANNOT_INITIATE_HIDDEN_OS_CREATION");
+						Error ("CANNOT_INITIATE_HIDDEN_OS_CREATION", hwndDlg);
 						NormalCursor ();
 						return 1;
 					}
 				}
 				else if (!ChangeSystemEncryptionStatus (SYSENC_STATUS_PRETEST))
 				{
-					Error ("CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST");
+					Error ("CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST", hwndDlg);
 					NormalCursor ();
 					return 1;
 				}
@@ -7288,10 +7288,10 @@ retryCDDriveCheck:
 							+ GetString ("NOTE_BEGINNING")
 							+ GetString ("HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO")
 							+ L" "
-							+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str());
+							+ GetString ("HIDDEN_OS_WRITE_PROTECTION_EXPLANATION")).c_str(), hwndDlg);
 
 						if (GetVolumeDataAreaSize (FALSE, nVolumeSize) <= TC_MAX_FAT_SECTOR_COUNT * GetFormatSectorSize()
-							&& AskYesNo("OFFER_FAT_FORMAT_ALTERNATIVE") == IDYES)
+							&& AskYesNo("OFFER_FAT_FORMAT_ALTERNATIVE", hwndDlg) == IDYES)
 						{
 							fileSystem = FILESYS_FAT;
 							SelectAlgo (GetDlgItem (hCurPage, IDC_FILESYS), (int *) &fileSystem);
@@ -7299,7 +7299,7 @@ retryCDDriveCheck:
 						else
 						{
 							if (GetVolumeDataAreaSize (FALSE, nVolumeSize) > TC_MAX_FAT_SECTOR_COUNT * GetFormatSectorSize())
-								Info ("FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME");
+								Info ("FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME", hwndDlg);
 
 							bVolTransformThreadToRun = FALSE;
 							return 1;
@@ -7317,10 +7317,10 @@ retryCDDriveCheck:
 						if (bHiddenOS
 							&& (double) nVolumeSize / GetSystemPartitionSize() < MIN_HIDDENOS_DECOY_PARTITION_SIZE_RATIO_NTFS)
 						{
-							Error("OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS");
+							Error("OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS", hwndDlg);
 
 							if (GetVolumeDataAreaSize (FALSE, nVolumeSize) <= TC_MAX_FAT_SECTOR_COUNT * GetFormatSectorSize()
-								&& AskYesNo("OFFER_FAT_FORMAT_ALTERNATIVE") == IDYES)
+								&& AskYesNo("OFFER_FAT_FORMAT_ALTERNATIVE", hwndDlg) == IDYES)
 							{
 								fileSystem = FILESYS_FAT;
 								SelectAlgo (GetDlgItem (hCurPage, IDC_FILESYS), (int *) &fileSystem);
@@ -7328,7 +7328,7 @@ retryCDDriveCheck:
 							else
 							{
 								if (GetVolumeDataAreaSize (FALSE, nVolumeSize) > TC_MAX_FAT_SECTOR_COUNT * GetFormatSectorSize())
-									Info ("FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME");
+									Info ("FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME", hwndDlg);
 
 								bVolTransformThreadToRun = FALSE;
 								return 1;
@@ -7339,12 +7339,12 @@ retryCDDriveCheck:
 						{
 							if (nCurrentOS == WIN_2000)
 							{
-								Error("HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000");
+								Error("HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000", hwndDlg);
 								bVolTransformThreadToRun = FALSE;
 								return 1;
 							}
 							else if (GetVolumeDataAreaSize (FALSE, nVolumeSize) <= TC_MAX_FAT_SECTOR_COUNT * GetFormatSectorSize()
-								&& AskYesNo("HIDDEN_VOL_HOST_NTFS_ASK") == IDNO)
+								&& AskYesNo("HIDDEN_VOL_HOST_NTFS_ASK", hwndDlg) == IDNO)
 							{
 								bVolTransformThreadToRun = FALSE;
 								return 1;
@@ -7362,7 +7362,7 @@ retryCDDriveCheck:
 
 				if (fileSystem == FILESYS_FAT
 					&& nNeedToStoreFilesOver4GB == 1
-					&& AskWarnNoYes("CONFIRM_FAT_FOR_FILES_OVER_4GB") == IDNO)
+					&& AskWarnNoYes("CONFIRM_FAT_FOR_FILES_OVER_4GB", hwndDlg) == IDNO)
 				{
 					bVolTransformThreadToRun = FALSE;
 					return 1;
@@ -7555,7 +7555,7 @@ retryCDDriveCheck:
 
 			else if (nCurPageNo == DEVICE_WIPE_PAGE)
 			{
-				if (AskWarnOkCancel (bHiddenOS && IsHiddenOSRunning() ? "CONFIRM_WIPE_START_DECOY_SYS_PARTITION" : "CONFIRM_WIPE_START") == IDOK)
+				if (AskWarnOkCancel (bHiddenOS && IsHiddenOSRunning() ? "CONFIRM_WIPE_START_DECOY_SYS_PARTITION" : "CONFIRM_WIPE_START", hwndDlg) == IDOK)
 				{
 					WipeStart ();
 					ArrowWaitCursor();
@@ -7705,7 +7705,7 @@ ovf_end:
 					{
 						// Restore the original keyboard layout
 						if (LoadKeyboardLayout (OrigKeyboardLayout, KLF_ACTIVATE | KLF_SUBSTITUTE_OK) == NULL) 
-							Warning ("CANNOT_RESTORE_KEYBOARD_LAYOUT");
+							Warning ("CANNOT_RESTORE_KEYBOARD_LAYOUT", hwndDlg);
 						else
 							bKeyboardLayoutChanged = FALSE;
 					}
@@ -7888,7 +7888,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				}
 				else
 				{
-					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 					exit(0);
 				}
 
@@ -7906,7 +7906,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				}
 				else
 				{
-					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 					exit(0);
 				}
 				break;
@@ -7923,7 +7923,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				}
 				else
 				{
-					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 					exit(0);
 				}
 
@@ -7941,7 +7941,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				}
 				else
 				{
-					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 					exit(0);
 				}
 
@@ -7959,7 +7959,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				}
 				else
 				{
-					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 					exit(0);
 				}
 				break;
@@ -7976,7 +7976,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				}
 				else
 				{
-					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE");
+					Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 					exit(0);
 				}
 				break;
@@ -8022,9 +8022,9 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				
 			case OptionTokenLib:
 				if (GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs, SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath)) == HAS_ARGUMENT)
-					InitSecurityTokenLibrary();
+					InitSecurityTokenLibrary(hwndDlg);
 				else
-					Error ("COMMAND_LINE_ERROR");
+					Error ("COMMAND_LINE_ERROR", hwndDlg);
 
 				break;
 
@@ -8123,28 +8123,28 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 	if (!DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &volProp, sizeof (volProp), &volProp, sizeof (volProp), &dwResult, NULL) || dwResult == 0)
 	{
 		handleWin32Error (hwndDlg);
-		Error ("CANT_ACCESS_OUTER_VOL");
+		Error ("CANT_ACCESS_OUTER_VOL", hwndDlg);
 		goto efsf_error;
 	}
 
 	if (volProp.volFormatVersion < TC_VOLUME_FORMAT_VERSION)
 	{
 		// We do not support creating hidden volumes within volumes created by TrueCrypt 5.1a or earlier.
-		Error ("ERR_VOL_FORMAT_BAD");
+		Error ("ERR_VOL_FORMAT_BAD", hwndDlg);
 		return 0;
 	}
 
 	if (volProp.hiddenVolume)
 	{
 		// The user entered a password for a hidden volume
-		Error ("ERR_HIDDEN_NOT_NORMAL_VOLUME");
+		Error ("ERR_HIDDEN_NOT_NORMAL_VOLUME", hwndDlg);
 		return 0;
 	}
 
 	if (volProp.volumeHeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC
 		|| volProp.volumeHeaderFlags & TC_HEADER_FLAG_ENCRYPTED_SYSTEM)
 	{
-		Warning ("ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE");
+		Warning ("ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE", hwndDlg);
 		return 0;
 	}
 
@@ -8206,12 +8206,12 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 
 		if (nCurrentOS == WIN_2000)
 		{
-			Error("HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000");
+			Error("HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000", hwndDlg);
 			return 0;
 		}
 
 		if (bHiddenVolDirect && GetVolumeDataAreaSize (FALSE, hiddenVolHostSize) <= TC_MAX_FAT_SECTOR_COUNT * GetFormatSectorSize())
-			Info ("HIDDEN_VOL_HOST_NTFS");
+			Info ("HIDDEN_VOL_HOST_NTFS", hwndDlg);
 
 		if (!GetDiskFreeSpace(szRootPathName, 
 			&dwSectorsPerCluster, 
@@ -8220,7 +8220,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 			&dwTotalNumberOfClusters))
 		{
 			handleWin32Error (hwndDlg);
-			Error ("CANT_GET_OUTER_VOL_INFO");
+			Error ("CANT_GET_OUTER_VOL_INFO", hwndDlg);
 			return -1;
 		};
 
@@ -8240,7 +8240,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 	{
 		// Unsupported file system
 
-		Error ((nCurrentOS == WIN_2000) ? "HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000" : "HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS");
+		Error ((nCurrentOS == WIN_2000) ? "HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000" : "HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS", hwndDlg);
 		return 0;
 	}
 
@@ -8418,7 +8418,7 @@ static void AfterSysEncProgressWMInitTasks (HWND hwndDlg)
 				WipeHiddenOSCreationConfig();	// For extra conservative security
 				ChangeSystemEncryptionStatus (SYSENC_STATUS_NONE);
 
-				Info ("SYSTEM_ENCRYPTION_FINISHED");
+				Info ("SYSTEM_ENCRYPTION_FINISHED", hwndDlg);
 				EndMainDlg (MainDlg);
 				return;
 			}
@@ -8472,7 +8472,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 	{
 		if (IsHiddenOSRunning())
 		{
-			Warning ("CANNOT_DECRYPT_HIDDEN_OS");
+			Warning ("CANNOT_DECRYPT_HIDDEN_OS", hwndDlg);
 			AbortProcessSilent();
 		}
 
@@ -8517,7 +8517,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 					// system partition and then pressed Esc in the boot loader screen. 3) Corrupted or stale config
 					// file. 4) Damaged system.
 					
-					Warning ("SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED");
+					Warning ("SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED", hwndDlg);
 					EndMainDlg (MainDlg);
 					return;
 				}
@@ -8542,7 +8542,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 		case SYSENC_COMMAND_STARTUP_SEQ_RESUME:
 
 			if (bDirectSysEncModeCommand == SYSENC_COMMAND_STARTUP_SEQ_RESUME
-				&& AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT") == IDNO)
+				&& AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT", hwndDlg) == IDNO)
 			{
 				EndMainDlg (MainDlg);
 				return;
@@ -8570,7 +8570,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 			else
 			{
 				// Nothing to resume
-				Warning ("NOTHING_TO_RESUME");
+				Warning ("NOTHING_TO_RESUME", hwndDlg);
 				EndMainDlg (MainDlg);
 
 				return;
@@ -8581,7 +8581,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 
 			if (SysDriveOrPartitionFullyEncrypted (FALSE))
 			{
-				Info ("SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED");
+				Info ("SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED", hwndDlg);
 				EndMainDlg (MainDlg);
 				return;
 			}
@@ -8636,7 +8636,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 
 			if (CreateSysEncMutex ())	// If no other instance is currently taking care of system encryption
 			{
-				if (AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT") == IDYES)
+				if (AskWarnYesNo ("SYSTEM_ENCRYPTION_RESUME_PROMPT", hwndDlg) == IDYES)
 				{
 					bDirectSysEncMode = TRUE;
 					ChangeWizardMode (WIZARD_MODE_SYS_DEVICE);
@@ -8708,7 +8708,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 				catch (Exception &e)
 				{
 					e.Show (hwndDlg);
-					Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS");
+					Error ("ERR_GETTING_SYSTEM_ENCRYPTION_STATUS", hwndDlg);
 					EndMainDlg (MainDlg);
 					return;
 				}
@@ -8780,7 +8780,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 					{
 						// Pretest failed (no hidden operating system involved)
 
-						if (AskWarnYesNo ("BOOT_PRETEST_FAILED_RETRY") == IDYES)
+						if (AskWarnYesNo ("BOOT_PRETEST_FAILED_RETRY", hwndDlg) == IDYES)
 						{
 							// User wants to retry the pretest
 							bAnswerTerminate = FALSE;
@@ -8804,7 +8804,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 							"HIDDEN_OS_CREATION_NOT_FINISHED_CHOICE_ASK_LATER",
 							0};
 
-						switch (AskMultiChoice ((void **) tmpStr, FALSE))
+						switch (AskMultiChoice ((void **) tmpStr, FALSE, hwndDlg))
 						{
 						case 1:
 							// User wants to restart and continue/retry
@@ -8843,7 +8843,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 							e.Show (NULL);
 						}
 
-						if (AskWarnYesNo ("CONFIRM_RESTART") == IDYES)
+						if (AskWarnYesNo ("CONFIRM_RESTART", hwndDlg) == IDYES)
 						{
 							EndMainDlg (MainDlg);
 
@@ -8935,7 +8935,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 			if (NonSysInplaceEncInProgressElsewhere ())
 				AbortProcessSilent ();
 
-			if (AskNonSysInPlaceEncryptionResume() == IDYES)
+			if (AskNonSysInPlaceEncryptionResume(hwndDlg) == IDYES)
 				SwitchWizardToNonSysInplaceEncResumeMode();
 			else
 				AbortProcessSilent ();
@@ -8944,7 +8944,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 		}
 		else if (bInPlaceEncNonSysPending
 			&& !NonSysInplaceEncInProgressElsewhere ()
-			&& AskNonSysInPlaceEncryptionResume() == IDYES)
+			&& AskNonSysInPlaceEncryptionResume(hwndDlg) == IDYES)
 		{
 			SwitchWizardToNonSysInplaceEncResumeMode();
 			return;

@@ -253,7 +253,7 @@ static void PutFSInfo (unsigned char *sector, fatparams *ft)
 
 
 int
-FormatFat (unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
+FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
@@ -261,6 +261,7 @@ FormatFat (unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INF
 	int x, n;
 	int retVal;
 	char temporaryKey[MASTER_KEYDATA_SIZE];
+	HWND hwndDlg = (HWND) hwndDlgPtr;
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
@@ -281,7 +282,7 @@ FormatFat (unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INF
 
 	memset (sector, 0, ft->sector_size);
 
-	RandgetBytes (ft->volume_id, sizeof (ft->volume_id), FALSE);
+	RandgetBytes (hwndDlg, ft->volume_id, sizeof (ft->volume_id), FALSE);
 
 	PutBoot (ft, (unsigned char *) sector);
 	if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,
@@ -399,11 +400,11 @@ FormatFat (unsigned __int64 startSector, fatparams * ft, void * dev, PCRYPTO_INF
 		within the volume). */
 
 		// Temporary master key
-		if (!RandgetBytes (temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE))
+		if (!RandgetBytes (hwndDlg, temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE))
 			goto fail;
 
 		// Temporary secondary key (XTS mode)
-		if (!RandgetBytes (cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))		
+		if (!RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))		
 			goto fail;
 
 		retVal = EAInit (cryptoInfo->ea, temporaryKey, cryptoInfo->ks);

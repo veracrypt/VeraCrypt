@@ -47,7 +47,7 @@ void AddCipher ( HWND hComboBox , char *lpszCipher , int nCipher );
 BOOL CALLBACK PageDialogProc ( HWND hwndDlg , UINT uMsg , WPARAM wParam , LPARAM lParam );
 BOOL CALLBACK MainDialogProc ( HWND hwndDlg , UINT uMsg , WPARAM wParam , LPARAM lParam );
 void ExtractCommandLine ( HWND hwndDlg , char *lpszCommandLine );
-void DisplayRandPool (HWND hPoolDisplay, BOOL bShow);
+void DisplayRandPool (HWND hwndDlg, HWND hPoolDisplay, BOOL bShow);
 void DisplayPortionsOfKeys (HWND headerKeyHandle, HWND masterKeyHandle, char *headerKeyStr, char *masterKeyStr, BOOL hideKeys);
 int DetermineMaxHiddenVolSize (HWND hwndDlg);
 BOOL IsSparseFile (HWND hwndDlg);

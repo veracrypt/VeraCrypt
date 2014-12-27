@@ -661,7 +661,7 @@ error:
 	if (bOK == FALSE)
 	{
 		handleWin32Error (hwndDlg);
-		Error ("REG_INSTALL_FAILED");
+		Error ("REG_INSTALL_FAILED", hwndDlg);
 	}
 	
 	// Register COM servers for UAC
@@ -669,7 +669,7 @@ error:
 	{
 		if (!RegisterComServers (szDir))
 		{
-			Error ("COM_REG_FAILED");
+			Error ("COM_REG_FAILED", hwndDlg);
 			return FALSE;
 		}
 	}
@@ -955,7 +955,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 					{
 						if (bootEnc.GetInstalledBootLoaderVersion() != VERSION_NUM)
 						{
-							if (AskWarnNoYes ("UPDATE_TC_IN_DECOY_OS_FIRST") == IDNO)
+							if (AskWarnNoYes ("UPDATE_TC_IN_DECOY_OS_FIRST", hwndDlg) == IDNO)
 								AbortProcessSilent ();
 						}
 					}
@@ -971,7 +971,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 				}
 				else if (bUninstallInProgress || bDowngrade)
 				{
-					Error (bDowngrade ? "SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE" : "SETUP_FAILED_BOOT_DRIVE_ENCRYPTED");
+					Error (bDowngrade ? "SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE" : "SETUP_FAILED_BOOT_DRIVE_ENCRYPTED", hwndDlg);
 					return FALSE;
 				}
 				else
@@ -1083,7 +1083,7 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 			bootEnc.InstallBootLoader (true);
 
 			if (bootEnc.GetInstalledBootLoaderVersion() <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
-				Info (IsHiddenOSRunning() ? "BOOT_LOADER_UPGRADE_OK_HIDDEN_OS" : "BOOT_LOADER_UPGRADE_OK");
+				Info (IsHiddenOSRunning() ? "BOOT_LOADER_UPGRADE_OK_HIDDEN_OS" : "BOOT_LOADER_UPGRADE_OK", hwndDlg);
 		}
 		return TRUE;
 	}
@@ -1093,7 +1093,7 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 	}
 	catch (...) { }
 
-	Error ("BOOT_LOADER_UPGRADE_FAILED");
+	Error ("BOOT_LOADER_UPGRADE_FAILED", hwndDlg);
 	return FALSE;
 }
 
@@ -1249,7 +1249,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		{
 			fprintf (f, "[InternetShortcut]\nURL=%s\n", TC_APPLINK);
 
-			CheckFileStreamWriteErrors (f, szTmp2);
+			CheckFileStreamWriteErrors (hwndDlg, f, szTmp2);
 			fclose (f);
 		}
 		else
@@ -1315,9 +1315,9 @@ void OutcomePrompt (HWND hwndDlg, BOOL bOK)
 			if (bDevm)
 				PostMessage (MainDlg, WM_CLOSE, 0, 0);
 			else if (bPossiblyFirstTimeInstall || bRepairMode || (!bUpgrade && !bDowngrade))
-				Info ("INSTALL_OK");
+				Info ("INSTALL_OK", hwndDlg);
 			else
-				Info ("SETUP_UPDATE_OK");
+				Info ("SETUP_UPDATE_OK", hwndDlg);
 		}
 		else
 		{
@@ -1330,9 +1330,9 @@ void OutcomePrompt (HWND hwndDlg, BOOL bOK)
 	else
 	{
 		if (bUninstall == FALSE)
-			Error ("INSTALL_FAILED");
+			Error ("INSTALL_FAILED", hwndDlg);
 		else
-			Error ("UNINSTALL_FAILED");
+			Error ("UNINSTALL_FAILED", hwndDlg);
 	}
 }
 
@@ -1456,7 +1456,7 @@ void DoUninstall (void *arg)
 					UninstallBatch
 					);
 
-				CheckFileStreamWriteErrors (f, UninstallBatch);
+				CheckFileStreamWriteErrors (hwndDlg, f, UninstallBatch);
 				fclose (f);
 			}
 		}
@@ -1501,7 +1501,7 @@ void DoInstall (void *arg)
 			handleWin32Error (hwndDlg);
 			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CANT_CREATE_FOLDER"), InstallationPath);
 			MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONHAND);
-			Error ("INSTALL_FAILED");
+			Error ("INSTALL_FAILED", hwndDlg);
 			PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0);
 			return;
 		}
@@ -1524,7 +1524,7 @@ void DoInstall (void *arg)
 		)
 	{
 		NormalCursor ();
-		Error ("CLOSE_TC_FIRST");
+		Error ("CLOSE_TC_FIRST", hwndDlg);
 		PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0);
 		return;
 	}
@@ -1542,7 +1542,7 @@ void DoInstall (void *arg)
 		if (!DisablePagingFile())
 		{
 			handleWin32Error (hwndDlg);
-			Error ("FAILED_TO_DISABLE_PAGING_FILES");
+			Error ("FAILED_TO_DISABLE_PAGING_FILES", hwndDlg);
 		}
 		else
 			bRestartRequired = TRUE;
@@ -1630,7 +1630,7 @@ void DoInstall (void *arg)
 		}
 		else
 		{
-			Warning ("SYS_ENC_UPGRADE_FAILED");
+			Warning ("SYS_ENC_UPGRADE_FAILED", hwndDlg);
 		}
 	}
 
@@ -1750,7 +1750,7 @@ void SetInstallationPath (HWND hwndDlg)
 					// We know that VeraCrypt is installed but don't know where. It's not safe to continue installing
 					// over the old version.
 
-					Error ("UNINSTALL_OLD_VERSION_FIRST");
+					Error ("UNINSTALL_OLD_VERSION_FIRST", hwndDlg);
 
 					len = strrchr (rv, '/') - rv - 1;
 					StringCbCopyNA (InstallationPath, sizeof(InstallationPath), rv, len);	// Path and filename of the uninstaller
@@ -1896,7 +1896,7 @@ BOOL CALLBACK UninstallDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (bUninstallInProgress)
 		{
 			NormalCursor();
-			if (AskNoYes("CONFIRM_EXIT_UNIVERSAL") == IDNO)
+			if (AskNoYes("CONFIRM_EXIT_UNIVERSAL", hwndDlg) == IDNO)
 			{
 				return 1;
 			}
@@ -2001,7 +2001,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 				char *tmpStr[] = {0, "SELECT_AN_ACTION", "REPAIR_REINSTALL", "UNINSTALL", "EXIT", 0};
 
 				// Ask the user to select either Repair or Unistallation
-				switch (AskMultiChoice ((void **) tmpStr, FALSE))
+				switch (AskMultiChoice ((void **) tmpStr, FALSE, NULL))
 				{
 				case 1:
 					bRepairMode = TRUE;

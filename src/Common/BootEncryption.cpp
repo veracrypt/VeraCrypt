@@ -1295,7 +1295,7 @@ namespace VeraCrypt
 
 		UserEnrichRandomPool (ParentWindow);
 
-		if (!RandgetBytes (request.WipeKey, sizeof (request.WipeKey), TRUE))
+		if (!RandgetBytes (ParentWindow, request.WipeKey, sizeof (request.WipeKey), TRUE))
 			throw ParameterIncorrect (SRC_POS);
 
 		CallDriver (TC_IOCTL_START_DECOY_SYSTEM_WIPE, &request, sizeof (request), NULL, 0);
@@ -1348,7 +1348,7 @@ namespace VeraCrypt
 #endif
 
 		byte randData[PRAND_DISK_WIPE_PASSES];
-		if (!RandgetBytes (randData, sizeof (randData), FALSE))
+		if (!RandgetBytes (ParentWindow, randData, sizeof (randData), FALSE))
 			throw ParameterIncorrect (SRC_POS);
 
 		for (int wipePass = 0; wipePass < PRAND_DISK_WIPE_PASSES; wipePass++)
@@ -1557,7 +1557,7 @@ namespace VeraCrypt
 		catch (Exception &e)
 		{
 			e.Show (ParentWindow);
-			Warning ("SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK");
+			Warning ("SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK", ParentWindow);
 		}
 		
 		// Boot loader backup
@@ -1631,7 +1631,7 @@ namespace VeraCrypt
 		if (!IsRandomNumberGeneratorStarted())
 			throw ParameterIncorrect (SRC_POS);
 
-		throw_sys_if (CreateVolumeHeaderInMemory (TRUE, (char *) VolumeHeader, ea, mode, password, pkcs5, NULL, &cryptoInfo,
+		throw_sys_if (CreateVolumeHeaderInMemory (ParentWindow, TRUE, (char *) VolumeHeader, ea, mode, password, pkcs5, NULL, &cryptoInfo,
 			volumeSize, 0, encryptedAreaStart, 0, TC_SYSENC_KEYSCOPE_MIN_REQ_PROG_VERSION, TC_HEADER_FLAG_ENCRYPTED_SYSTEM, TC_SECTOR_SIZE_BIOS, FALSE) != 0);
 
 		finally_do_arg (PCRYPTO_INFO*, &cryptoInfo, { crypto_close (*finally_arg); });
@@ -1708,7 +1708,7 @@ namespace VeraCrypt
 		{
 			if (memcmp (bootLoaderBuf + i, TC_APP_NAME, strlen (TC_APP_NAME)) == 0)
 			{
-				if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED") == IDNO)
+				if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED", ParentWindow) == IDNO)
 					throw UserAbort (SRC_POS);
 				return;
 			}
@@ -1974,7 +1974,7 @@ namespace VeraCrypt
 		{
 			static bool confirmed = false;
 
-			if (!confirmed && AskWarnNoYes ("WINDOWS_NOT_ON_BOOT_DRIVE_ERROR") == IDNO)
+			if (!confirmed && AskWarnNoYes ("WINDOWS_NOT_ON_BOOT_DRIVE_ERROR", ParentWindow) == IDNO)
 				throw UserAbort (SRC_POS);
 
 			confirmed = true;
@@ -2022,7 +2022,7 @@ namespace VeraCrypt
 				+ GetString ("LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION")
 				+ L"\n\n\n"
 				+ GetString ("RESTRICT_PAGING_FILES_TO_SYS_PARTITION")
-				).c_str()) == IDYES)
+				).c_str(), ParentWindow) == IDYES)
 			{
 				RestrictPagingFilesToSystemPartition();
 				RestartComputer();
@@ -2209,7 +2209,7 @@ namespace VeraCrypt
 				{
 					PCRYPTO_INFO tmpCryptoInfo = NULL;
 
-					status = CreateVolumeHeaderInMemory (!encStatus.HiddenSystem,
+					status = CreateVolumeHeaderInMemory (ParentWindow, !encStatus.HiddenSystem,
 						header,
 						cryptoInfo->ea,
 						cryptoInfo->mode,
@@ -2346,7 +2346,7 @@ namespace VeraCrypt
 				if (e.ErrorCode != ERROR_CRC)
 				{
 					e.Show (ParentWindow);
-					Error ("WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS");
+					Error ("WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS", ParentWindow);
 					throw UserAbort (SRC_POS);
 				}
 			}

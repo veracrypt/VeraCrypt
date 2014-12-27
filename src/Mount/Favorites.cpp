@@ -91,7 +91,7 @@ namespace VeraCrypt
 			&& IsVolumeDeviceHosted (favorite.Path.c_str())
 			&& favorite.Path.find ("\\\\?\\Volume{") != 0)
 		{
-			Warning (favorite.Path.find ("\\Partition0") == string::npos ? "FAVORITE_ADD_PARTITION_TYPE_WARNING" : "FAVORITE_ADD_DRIVE_DEV_WARNING");
+			Warning (favorite.Path.find ("\\Partition0") == string::npos ? "FAVORITE_ADD_PARTITION_TYPE_WARNING" : "FAVORITE_ADD_DRIVE_DEV_WARNING", hwndDlg);
 		}
 
 		return OrganizeFavoriteVolumes (hwndDlg, systemFavorites, favorite);
@@ -255,7 +255,7 @@ namespace VeraCrypt
 				if (SelectedItem != -1 && !Favorites.empty())
 					SetFavoriteVolume (hwndDlg, Favorites[SelectedItem], SystemFavoritesMode);
 
-				if (SaveFavoriteVolumes (Favorites, SystemFavoritesMode))
+				if (SaveFavoriteVolumes (hwndDlg, Favorites, SystemFavoritesMode))
 				{
 					if (!SystemFavoritesMode)
 					{
@@ -276,7 +276,7 @@ namespace VeraCrypt
 							{
 								if (favorite.MountOnArrival)
 								{
-									Warning ("FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR");
+									Warning ("FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR", hwndDlg);
 									break;
 								}
 							}
@@ -291,7 +291,7 @@ namespace VeraCrypt
 						SystemFavoriteVolumes = Favorites;
 
 					OnFavoriteVolumesUpdated();
-					LoadDriveLetters (GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
+					LoadDriveLetters (hwndDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
 
 					EndDialog (hwndDlg, IDOK);
 				}
@@ -344,10 +344,10 @@ namespace VeraCrypt
 
 					if (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT))
 					{
-						WarningDirect ((wstring (GetString ("SYS_FAVORITES_KEYBOARD_WARNING")) + L"\n\n" + GetString ("BOOT_PASSWORD_CACHE_KEYBOARD_WARNING")).c_str());
+						WarningDirect ((wstring (GetString ("SYS_FAVORITES_KEYBOARD_WARNING")) + L"\n\n" + GetString ("BOOT_PASSWORD_CACHE_KEYBOARD_WARNING")).c_str(), hwndDlg);
 
 						if (!IsServerOS() && !IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY))
-							Info ("SYS_FAVORITES_ADMIN_ONLY_INFO");
+							Info ("SYS_FAVORITES_ADMIN_ONLY_INFO", hwndDlg);
 					}
 				}
 				return 1;
@@ -358,9 +358,9 @@ namespace VeraCrypt
 					// DISABLE_NONADMIN_SYS_FAVORITES_ACCESS
 
 					if (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY))
-						WarningDirect ((wstring (GetString ("SYS_FAVORITES_ADMIN_ONLY_WARNING")) + L"\n\n" + GetString ("SETTING_REQUIRES_REBOOT")).c_str());
+						WarningDirect ((wstring (GetString ("SYS_FAVORITES_ADMIN_ONLY_WARNING")) + L"\n\n" + GetString ("SETTING_REQUIRES_REBOOT")).c_str(), hwndDlg);
 					else
-						Warning ("SETTING_REQUIRES_REBOOT");
+						Warning ("SETTING_REQUIRES_REBOOT", hwndDlg);
 				}
 				return 1;
 
@@ -647,7 +647,7 @@ namespace VeraCrypt
 	}
 
 
-	static bool SaveFavoriteVolumes (const vector <FavoriteVolume> &favorites, bool systemFavorites)
+	static bool SaveFavoriteVolumes (HWND hwndDlg, const vector <FavoriteVolume> &favorites, bool systemFavorites)
 	{
 		FILE *f;
 		int cnt = 0;
@@ -667,7 +667,7 @@ namespace VeraCrypt
 			char tq[2048];
 
 			if (systemFavorites && favorite.Path.find ("\\\\") == 0 && favorite.Path.find ("Volume{") == string::npos)
-				Warning ("SYSTEM_FAVORITE_NETWORK_PATH_ERR");
+				Warning ("SYSTEM_FAVORITE_NETWORK_PATH_ERR", hwndDlg);
 
 			XmlQuoteText (!favorite.VolumePathId.empty() ? favorite.VolumePathId.c_str() : favorite.Path.c_str(), tq, sizeof (tq));
 
@@ -706,7 +706,7 @@ namespace VeraCrypt
 		fputws (L"\n\t</favorites>", f);
 		XmlWriteFooterW (f);
 
-		if (!CheckFileStreamWriteErrors (f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
+		if (!CheckFileStreamWriteErrors (hwndDlg, f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
 		{
 			fclose (f);
 			return false;
@@ -734,7 +734,7 @@ namespace VeraCrypt
 					bootEnc.CopyFileAdmin (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES), GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES).c_str());
 
 					if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
-						Info ("SYS_FAVORITE_VOLUMES_SAVED");
+						Info ("SYS_FAVORITE_VOLUMES_SAVED", hwndDlg);
 				}
 			}
 			catch (Exception &e)
@@ -834,20 +834,20 @@ namespace VeraCrypt
 
 			if (!favorite.Label.empty())
 			{
-				ErrorDirect ((GetString (partition ? "FAVORITE_LABEL_PARTITION_TYPE_ERR" : "FAVORITE_LABEL_DEVICE_PATH_ERR") + wstring (L"\n\n") + SingleStringToWide (favorite.Path)).c_str());
+				ErrorDirect ((GetString (partition ? "FAVORITE_LABEL_PARTITION_TYPE_ERR" : "FAVORITE_LABEL_DEVICE_PATH_ERR") + wstring (L"\n\n") + SingleStringToWide (favorite.Path)).c_str(), hwndDlg);
 				favorite.Label.clear();
 			}
 
 			if (favorite.MountOnArrival)
 			{
-				ErrorDirect ((GetString (partition ? "FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR" : "FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR") + wstring (L"\n\n") + SingleStringToWide (favorite.Path)).c_str());
+				ErrorDirect ((GetString (partition ? "FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR" : "FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR") + wstring (L"\n\n") + SingleStringToWide (favorite.Path)).c_str(), hwndDlg);
 				favorite.MountOnArrival = false;
 			}
 		}
 
 		if (favorite.MountOnArrival && favorite.Path.find ("\\\\") == 0 && favorite.Path.find ("Volume{") == string::npos)
 		{
-			Error ("FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR");
+			Error ("FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR", hwndDlg);
 			favorite.MountOnArrival = false;
 		}
 	}

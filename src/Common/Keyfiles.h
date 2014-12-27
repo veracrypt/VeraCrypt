@@ -34,7 +34,7 @@ KeyFile *KeyFileAdd (KeyFile *firstKeyFile, KeyFile *keyFile);
 void KeyFileRemoveAll (KeyFile **firstKeyFile);
 KeyFile *KeyFileClone (KeyFile *keyFile);
 KeyFile *KeyFileCloneAll (KeyFile *firstKeyFile);
-BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile);
+BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile);
 
 BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *dialogParam);

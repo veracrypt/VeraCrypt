@@ -718,7 +718,7 @@ ret:
 #endif
 
 // Creates a volume header in memory
-int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Password *password,
+int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, int mode, Password *password,
 		   int pkcs5_prf, char *masterKeydata, PCRYPTO_INFO *retInfo,
 		   unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize,
 		   unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode)
@@ -756,7 +756,7 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 			bytesNeeded = EAGetKeySize (ea) * 2;	// Size of primary + secondary key(s)
 		}
 
-		if (!RandgetBytes (keyInfo.master_keydata, bytesNeeded, TRUE))
+		if (!RandgetBytes (hwndDlg, keyInfo.master_keydata, bytesNeeded, TRUE))
 			return ERR_CIPHER_INIT_WEAK_KEY;
 	}
 	else
@@ -780,7 +780,7 @@ int CreateVolumeHeaderInMemory (BOOL bBoot, char *header, int ea, int mode, Pass
 	cryptoInfo->mode = mode;
 
 	// Salt for header key derivation
-	if (!RandgetBytes (keyInfo.salt, PKCS5_SALT_SIZE, !bWipeMode))
+	if (!RandgetBytes (hwndDlg, keyInfo.salt, PKCS5_SALT_SIZE, !bWipeMode))
 		return ERR_CIPHER_INIT_WEAK_KEY; 
 
 	// PBKDF2 (PKCS5) is used to derive primary header key(s) and secondary header key(s) (XTS) from the password/keyfiles
@@ -1075,7 +1075,7 @@ BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header)
 // Writes randomly generated data to unused/reserved header areas.
 // When bPrimaryOnly is TRUE, then only the primary header area (not the backup header area) is filled with random data.
 // When bBackupOnly is TRUE, only the backup header area (not the primary header area) is filled with random data.
-int WriteRandomDataToReservedHeaderAreas (HANDLE dev, CRYPTO_INFO *cryptoInfo, uint64 dataAreaSize, BOOL bPrimaryOnly, BOOL bBackupOnly)
+int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO *cryptoInfo, uint64 dataAreaSize, BOOL bPrimaryOnly, BOOL bBackupOnly)
 {
 	char temporaryKey[MASTER_KEYDATA_SIZE];
 	char originalK2[MASTER_KEYDATA_SIZE];
@@ -1096,8 +1096,8 @@ int WriteRandomDataToReservedHeaderAreas (HANDLE dev, CRYPTO_INFO *cryptoInfo, u
 	while (TRUE)
 	{
 		// Temporary keys
-		if (!RandgetBytes (temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE)
-			|| !RandgetBytes (cryptoInfo->k2, sizeof (cryptoInfo->k2), FALSE))
+		if (!RandgetBytes (hwndDlg, temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE)
+			|| !RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof (cryptoInfo->k2), FALSE))
 		{
 			nStatus = ERR_PARAMETER_INCORRECT; 
 			goto final_seq;

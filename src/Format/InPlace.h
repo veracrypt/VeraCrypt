@@ -24,15 +24,15 @@ enum nonsys_inplace_enc_status
 	NONSYS_INPLACE_ENC_STATUS_ERROR
 };
 
-BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent);
+BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath, BOOL silent);
 int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, volatile HANDLE *outHandle, WipeAlgorithmId wipeAlgorithm);
 int EncryptPartitionInPlaceResume (HANDLE dev, volatile FORMAT_VOL_PARAMETERS *volParams, WipeAlgorithmId wipeAlgorithm, volatile BOOL *bTryToCorrectReadErrors);
-void ShowInPlaceEncErrMsgWAltSteps (char *iniStrId, BOOL bErr);
+void ShowInPlaceEncErrMsgWAltSteps (HWND hwndDlg, char *iniStrId, BOOL bErr);
 void SetNonSysInplaceEncUIStatus (int nonSysInplaceEncStatus);
 int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_INFO *masterCryptoInfo, __int64 deviceSize);
 
-static HANDLE OpenPartitionVolume (const char *devName, BOOL bExclusiveRequired, BOOL bSharedRequired, BOOL bSharedRequiresConfirmation, BOOL bShowAlternativeSteps, BOOL bSilent);
-static int DismountFileSystem (HANDLE dev, int driveLetter, BOOL bForcedAllowed, BOOL bForcedRequiresConfirmation, BOOL bSilent);
+static HANDLE OpenPartitionVolume (HWND hwndDlg, const char *devName, BOOL bExclusiveRequired, BOOL bSharedRequired, BOOL bSharedRequiresConfirmation, BOOL bShowAlternativeSteps, BOOL bSilent);
+static int DismountFileSystem (HWND hwndDlg, HANDLE dev, int driveLetter, BOOL bForcedAllowed, BOOL bForcedRequiresConfirmation, BOOL bSilent);
 static int ConcealNTFS (HANDLE dev);
 BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId wipeAlgorithm);
 static void ExportProgressStats (__int64 bytesDone, __int64 totalSize);

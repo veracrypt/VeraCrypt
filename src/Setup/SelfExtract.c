@@ -466,7 +466,7 @@ BOOL VerifyPackageIntegrity (void)
 	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, strlen (MagEndMarker));
 	if (fileDataEndPos < 0)
 	{
-		Error ("DIST_PACKAGE_CORRUPTED");
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		return FALSE;
 	}
 	fileDataEndPos--;
@@ -474,7 +474,7 @@ BOOL VerifyPackageIntegrity (void)
 	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, strlen (MAG_START_MARKER));
 	if (fileDataStartPos < 0)
 	{
-		Error ("DIST_PACKAGE_CORRUPTED");
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		return FALSE;
 	}
 	fileDataStartPos += strlen (MAG_START_MARKER);
@@ -482,7 +482,7 @@ BOOL VerifyPackageIntegrity (void)
 
 	if (!LoadInt32 (path, &crc, fileDataEndPos + strlen (MagEndMarker) + 1))
 	{
-		Error ("CANT_VERIFY_PACKAGE_INTEGRITY");
+		Error ("CANT_VERIFY_PACKAGE_INTEGRITY", NULL);
 		return FALSE;
 	}
 
@@ -491,7 +491,7 @@ BOOL VerifyPackageIntegrity (void)
 
 	if (tmpBuffer == NULL)
 	{
-		Error ("CANT_VERIFY_PACKAGE_INTEGRITY");
+		Error ("CANT_VERIFY_PACKAGE_INTEGRITY", NULL);
 		return FALSE;
 	}
 
@@ -501,7 +501,7 @@ BOOL VerifyPackageIntegrity (void)
 	if (crc != GetCrc32 (tmpBuffer, fileDataEndPos + 1 + strlen (MagEndMarker)))
 	{
 		free (tmpBuffer);
-		Error ("DIST_PACKAGE_CORRUPTED");
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		return FALSE;
 	}
 
@@ -562,7 +562,7 @@ BOOL SelfExtractInMemory (char *path)
 	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, strlen (MagEndMarker));
 	if (fileDataEndPos < 0)
 	{
-		Error ("CANNOT_READ_FROM_PACKAGE");
+		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
 		return FALSE;
 	}
 
@@ -571,7 +571,7 @@ BOOL SelfExtractInMemory (char *path)
 	fileDataStartPos = (int) FindStringInFile (path, MAG_START_MARKER, strlen (MAG_START_MARKER));
 	if (fileDataStartPos < 0)
 	{
-		Error ("CANNOT_READ_FROM_PACKAGE");
+		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
 		return FALSE;
 	}
 
@@ -582,7 +582,7 @@ BOOL SelfExtractInMemory (char *path)
 	// Read the stored total size of the uncompressed data
 	if (!LoadInt32 (path, &uncompressedLen, filePos))
 	{
-		Error ("CANNOT_READ_FROM_PACKAGE");
+		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
 		return FALSE;
 	}
 
@@ -591,7 +591,7 @@ BOOL SelfExtractInMemory (char *path)
 	// Read the stored total size of the compressed data
 	if (!LoadInt32 (path, &compressedLen, filePos))
 	{
-		Error ("CANNOT_READ_FROM_PACKAGE");
+		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
 		return FALSE;
 	}
 
@@ -599,13 +599,13 @@ BOOL SelfExtractInMemory (char *path)
 
 	if (compressedLen != fileDataEndPos - fileDataStartPos - 8 + 1)
 	{
-		Error ("DIST_PACKAGE_CORRUPTED");
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 	}
 
 	DecompressedData = malloc (uncompressedLen + 524288);	// + 512K reserve 
 	if (DecompressedData == NULL)
 	{
-		Error ("ERR_MEM_ALLOC");
+		Error ("ERR_MEM_ALLOC", NULL);
 		return FALSE;
 	}
 
@@ -619,14 +619,14 @@ BOOL SelfExtractInMemory (char *path)
 		free (DecompressedData);
 		DecompressedData = NULL;
 
-		Error ("CANNOT_READ_FROM_PACKAGE");
+		Error ("CANNOT_READ_FROM_PACKAGE", NULL);
 		return FALSE;
 	}
 
 	// Decompress the data
 	if (DecompressBuffer (DecompressedData, compressedData, compressedLen) != uncompressedLen)
 	{
-		Error ("DIST_PACKAGE_CORRUPTED");
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		goto sem_end;
 	}
 
@@ -653,7 +653,7 @@ BOOL SelfExtractInMemory (char *path)
 		if (Decompressed_Files[fileNo].crc 
 			!= GetCrc32 (Decompressed_Files[fileNo].fileContent, Decompressed_Files[fileNo].fileLength))
 		{
-			Error ("DIST_PACKAGE_CORRUPTED");
+			Error ("DIST_PACKAGE_CORRUPTED", NULL);
 			goto sem_end;
 		}
 
@@ -662,7 +662,7 @@ BOOL SelfExtractInMemory (char *path)
 
 	if (fileNo < NBR_COMPRESSED_FILES)
 	{
-		Error ("DIST_PACKAGE_CORRUPTED");
+		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		goto sem_end;
 	}
 

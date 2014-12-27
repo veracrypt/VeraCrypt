@@ -65,7 +65,7 @@ namespace VeraCrypt
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation = false);
 	static void OnFavoriteVolumesUpdated ();
 	BOOL OrganizeFavoriteVolumes (HWND hwndDlg, bool systemFavorites, const FavoriteVolume &newFavorite = FavoriteVolume());
-	static bool SaveFavoriteVolumes (const vector <FavoriteVolume> &favorites, bool systemFavorites);
+	static bool SaveFavoriteVolumes (HWND hwndDlg, const vector <FavoriteVolume> &favorites, bool systemFavorites);
 	static void SetControls (HWND hwndDlg, const FavoriteVolume &favorite, bool systemFavoritesMode, bool enable = true);
 	static void SetFavoriteVolume (HWND hwndDlg, FavoriteVolume &favorite, bool systemFavoritesMode);
 	void UpdateDeviceHostedFavoriteVolumes ();

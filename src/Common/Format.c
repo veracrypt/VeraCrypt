@@ -93,6 +93,7 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 	uint64 dataOffset, dataAreaSize;
 	LARGE_INTEGER offset;
 	BOOL bFailedRequiredDASD = FALSE;
+	HWND hwndDlg = volParams->hwndDlg;
 
 	FormatSectorSize = volParams->sectorSize;
 
@@ -100,7 +101,7 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 		|| FormatSectorSize > TC_MAX_VOLUME_SECTOR_SIZE
 		|| FormatSectorSize % ENCRYPTION_DATA_UNIT_SIZE != 0)
 	{
-		Error ("SECTOR_SIZE_UNSUPPORTED");
+		Error ("SECTOR_SIZE_UNSUPPORTED", hwndDlg);
 		return ERR_DONT_REPORT; 
 	}
 
@@ -139,7 +140,7 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 
 	VirtualLock (header, sizeof (header));
 
-	nStatus = CreateVolumeHeaderInMemory (FALSE,
+	nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 				     header,
 				     volParams->ea,
 					 FIRST_MODE_OF_OPERATION_ID,
@@ -179,7 +180,7 @@ begin_format:
 		{
 			if ((dev = DismountDrive (devName, volParams->volumePath)) == INVALID_HANDLE_VALUE)
 			{
-				Error ("FORMAT_CANT_DISMOUNT_FILESYS");
+				Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
 				nStatus = ERR_DONT_REPORT; 
 				goto error;
 			}
@@ -285,7 +286,7 @@ begin_format:
 				else
 				{
 					handleWin32Error (volParams->hwndDlg);
-					Error ("CANT_ACCESS_VOL");
+					Error ("CANT_ACCESS_VOL", hwndDlg);
 					nStatus = ERR_DONT_REPORT; 
 					goto error;
 				}
@@ -317,7 +318,7 @@ begin_format:
 
 		if (DeviceIoControl (dev, FSCTL_IS_VOLUME_MOUNTED, NULL, 0, NULL, 0, &dwResult, NULL))
 		{
-			Error ("FORMAT_CANT_DISMOUNT_FILESYS");
+			Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
 			nStatus = ERR_DONT_REPORT; 
 			goto error;
 		}
@@ -474,7 +475,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatNoFs (startSector, num_sectors, dev, cryptoInfo, volParams->quickFormat);
+		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, volParams->quickFormat);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -507,7 +508,7 @@ begin_format:
 			goto error;
 		}
 
-		nStatus = FormatFat (startSector, &ft, (void *) dev, cryptoInfo, volParams->quickFormat);
+		nStatus = FormatFat (hwndDlg, startSector, &ft, (void *) dev, cryptoInfo, volParams->quickFormat);
 
 		if (volParams->bDevice)
 			StopFormatWriteThread();
@@ -531,7 +532,7 @@ begin_format:
 		goto error;
 	}
 
-	nStatus = CreateVolumeHeaderInMemory (FALSE,
+	nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 		header,
 		volParams->ea,
 		FIRST_MODE_OF_OPERATION_ID,
@@ -557,7 +558,7 @@ begin_format:
 	// Fill reserved header sectors (including the backup header area) with random data
 	if (!volParams->hiddenVol)
 	{
-		nStatus = WriteRandomDataToReservedHeaderAreas (dev, cryptoInfo, dataAreaSize, FALSE, FALSE);
+		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, FALSE);
 
 		if (nStatus != ERR_SUCCESS)
 			goto error;
@@ -643,7 +644,7 @@ error:
 
 			if (dataAreaSize <= TC_MAX_FAT_SECTOR_COUNT * FormatSectorSize)
 			{
-				if (AskErrYesNo ("FORMAT_NTFS_FAILED_ASK_FAT") == IDYES)
+				if (AskErrYesNo ("FORMAT_NTFS_FAILED_ASK_FAT", hwndDlg) == IDYES)
 				{
 					// NTFS format failed and the user wants to try FAT format immediately
 					volParams->fileSystem = FILESYS_FAT;
@@ -654,7 +655,7 @@ error:
 				}
 			}
 			else
-				Error ("FORMAT_NTFS_FAILED");
+				Error ("FORMAT_NTFS_FAILED", hwndDlg);
 
 			nStatus = ERR_DONT_REPORT;
 			goto fv_end;
@@ -677,7 +678,7 @@ fv_end:
 }
 
 
-int FormatNoFs (unsigned __int64 startSector, __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
+int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors, void * dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat)
 {
 	int write_buf_cnt = 0;
 	char sector[TC_MAX_VOLUME_SECTOR_SIZE], *write_buf;
@@ -719,11 +720,11 @@ int FormatNoFs (unsigned __int64 startSector, __int64 num_sectors, void * dev, P
 		deniability of hidden volumes. */
 
 		// Temporary master key
-		if (!RandgetBytes (temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE))
+		if (!RandgetBytes (hwndDlg, temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE))
 			goto fail;
 
 		// Temporary secondary key (XTS mode)
-		if (!RandgetBytes (cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))
+		if (!RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))
 			goto fail;
 
 		retVal = EAInit (cryptoInfo->ea, temporaryKey, cryptoInfo->ks);

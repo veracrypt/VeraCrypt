@@ -218,7 +218,7 @@ close:
 }
 
 
-BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
+BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 {
 	BOOL status = TRUE;
 	KeyFile kfSubStruct;
@@ -252,8 +252,8 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 				if (keyfileData.empty())
 				{
 					SetLastError (ERROR_HANDLE_EOF); 
-					handleWin32Error (MainDlg);
-					Error ("ERR_PROCESS_KEYFILE");
+					handleWin32Error (hwndDlg);
+					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
 					continue;
 				}
@@ -291,8 +291,8 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 		// Determine whether it's a path or a file
 		if (stat (kf->FileName, &statStruct) != 0)
 		{
-			handleWin32Error (MainDlg);
-			Error ("ERR_PROCESS_KEYFILE");
+			handleWin32Error (hwndDlg);
+			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 			status = FALSE;
 			continue;
 		}
@@ -305,8 +305,8 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 			StringCbPrintfA (searchPath, sizeof (searchPath), "%s\\*.*", kf->FileName);
 			if ((searchHandle = _findfirst (searchPath, &fBuf)) == -1)
 			{
-				handleWin32Error (MainDlg);
-				Error ("ERR_PROCESS_KEYFILE_PATH");
+				handleWin32Error (hwndDlg);
+				Error ("ERR_PROCESS_KEYFILE_PATH", hwndDlg);
 				status = FALSE;
 				continue;
 			}
@@ -323,8 +323,8 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 				// Determine whether it's a path or a file
 				if (stat (kfSub->FileName, &statStruct) != 0)
 				{
-					handleWin32Error (MainDlg);
-					Error ("ERR_PROCESS_KEYFILE");
+					handleWin32Error (hwndDlg);
+					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
 					continue;
 				}
@@ -347,8 +347,8 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 				// Apply keyfile to the pool
 				if (!KeyFileProcess (keyPool, kfSub))
 				{
-					handleWin32Error (MainDlg);
-					Error ("ERR_PROCESS_KEYFILE");
+					handleWin32Error (hwndDlg);
+					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
 				}
 
@@ -359,15 +359,15 @@ BOOL KeyFilesApply (Password *password, KeyFile *firstKeyFile)
 
 			if (keyfileCount == 0)
 			{
-				ErrorDirect ((wstring (GetString ("ERR_KEYFILE_PATH_EMPTY")) + L"\n\n" + SingleStringToWide (kf->FileName)).c_str());
+				ErrorDirect ((wstring (GetString ("ERR_KEYFILE_PATH_EMPTY")) + L"\n\n" + SingleStringToWide (kf->FileName)).c_str(), hwndDlg);
 				status = FALSE;
 			}
 		}
 		// Apply keyfile to the pool
 		else if (!KeyFileProcess (keyPool, kf))
 		{
-			handleWin32Error (MainDlg);
-			Error ("ERR_PROCESS_KEYFILE");
+			handleWin32Error (hwndDlg);
+			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 			status = FALSE;
 		}
 	}

@@ -40,9 +40,9 @@ namespace VeraCrypt
 		void Show (HWND parent) const
 		{
 			if (ErrMsg.empty())
-				::Error (ErrLangId? ErrLangId : "");
+				::Error (ErrLangId? ErrLangId : "", parent);
 			else
-				::ErrorDirect (ErrMsg.c_str());
+				::ErrorDirect (ErrMsg.c_str(), parent);
 		}
 
 		char *ErrLangId;
@@ -65,7 +65,7 @@ namespace VeraCrypt
 	struct TimeOut : public Exception
 	{
 		TimeOut (const char *srcPos) { }
-		void Show (HWND parent) const { ErrorDirect (L"Timeout"); }
+		void Show (HWND parent) const { ErrorDirect (L"Timeout", parent); }
 	};
 
 	struct UserAbort : public Exception

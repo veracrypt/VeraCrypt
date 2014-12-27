@@ -317,14 +317,14 @@ void RandaddBuf (void *buf, int len)
 	}
 }
 
-BOOL RandpeekBytes (unsigned char *buf, int len)
+BOOL RandpeekBytes (void* hwndDlg, unsigned char *buf, int len)
 {
 	if (!bRandDidInit)
 		return FALSE;
 
 	if (len > RNG_POOL_SIZE)
 	{
-		Error ("ERR_NOT_ENOUGH_RANDOM_DATA");	
+		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);	
 		len = RNG_POOL_SIZE;
 	}
 
@@ -337,16 +337,16 @@ BOOL RandpeekBytes (unsigned char *buf, int len)
 
 
 /* Get len random bytes from the pool (max. RNG_POOL_SIZE bytes per a single call) */
-BOOL RandgetBytes (unsigned char *buf, int len, BOOL forceSlowPoll)
+BOOL RandgetBytes (void* hwndDlg, unsigned char *buf, int len, BOOL forceSlowPoll)
 {
-	return RandgetBytesFull (buf, len, forceSlowPoll, FALSE);
+	return RandgetBytesFull (hwndDlg, buf, len, forceSlowPoll, FALSE);
 }
 
 /* Get len random bytes from the pool.
  *  If allowAnyLength is FALSE, then len must be less or equal to RNG_POOL_SIZE
  *  If allowAnyLength is TRUE, then len can have any positive value
  */
-BOOL RandgetBytesFull ( unsigned char *buf , int len, BOOL forceSlowPoll , BOOL allowAnyLength)
+BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceSlowPoll , BOOL allowAnyLength)
 {
 	int i, looplen;
 	BOOL ret = TRUE;
@@ -370,7 +370,7 @@ BOOL RandgetBytesFull ( unsigned char *buf , int len, BOOL forceSlowPoll , BOOL 
 	/* There's never more than RNG_POOL_SIZE worth of randomess */
 	if ( (!allowAnyLength) && (len > RNG_POOL_SIZE))
 	{
-		Error ("ERR_NOT_ENOUGH_RANDOM_DATA");	
+		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);	
 		len = RNG_POOL_SIZE;
 		LeaveCriticalSection (&critRandProt);
 		return FALSE;

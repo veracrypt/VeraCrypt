@@ -341,7 +341,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Pas
 		for (wipePass = 0; wipePass < wipePassCount; wipePass++)
 		{
 			// Prepare new volume header
-			nStatus = CreateVolumeHeaderInMemory (FALSE,
+			nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 				buffer,
 				cryptoInfo->ea,
 				cryptoInfo->mode,
@@ -383,7 +383,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Pas
 				&& (cryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
 				&& (cryptoInfo->HeaderFlags & ~TC_HEADER_FLAG_NONSYS_INPLACE_ENC) == 0)
 			{
-				nStatus = WriteRandomDataToReservedHeaderAreas (dev, cryptoInfo, cryptoInfo->VolumeSize.Value, !backupHeader, backupHeader);
+				nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, cryptoInfo->VolumeSize.Value, !backupHeader, backupHeader);
 				if (nStatus != ERR_SUCCESS)
 					goto error;
 			}

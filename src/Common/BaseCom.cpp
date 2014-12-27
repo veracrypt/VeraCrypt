@@ -48,7 +48,7 @@ BOOL ComGetInstanceBase (HWND hWnd, REFCLSID clsid, REFIID iid, void **tcServer)
 		r = CoCreateInstance (clsid, NULL, CLSCTX_LOCAL_SERVER, iid, tcServer) == S_OK;
 
 	if (!r)
-		Error ("UAC_INIT_ERROR");
+		Error ("UAC_INIT_ERROR", hWnd);
 
 	return r;
 }

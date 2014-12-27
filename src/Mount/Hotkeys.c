@@ -398,7 +398,7 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				// Check if it's not already assigned
 				if (ShortcutInUse (currentVKeyCode, modifiers, tmpHotkeys))
 				{
-					Error ("SHORTCUT_ALREADY_IN_USE");
+					Error ("SHORTCUT_ALREADY_IN_USE", hwndDlg);
 					return 1;
 				}
 
@@ -410,7 +410,7 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					/* F1 is help and F12 is reserved for use by the debugger at all times */
 					if (modifiers == 0)
 					{
-						Error ("CANNOT_USE_RESERVED_KEY");
+						Error ("CANNOT_USE_RESERVED_KEY", hwndDlg);
 						return 1;
 					}
 					break;

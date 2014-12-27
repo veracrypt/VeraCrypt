@@ -87,7 +87,7 @@ static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const char *devicePath, in
 }
 
 
-BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
+BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath, BOOL silent)
 {
 	NTFS_VOLUME_DATA_BUFFER ntfsVolData;
 	DWORD nBytesReturned;
@@ -110,7 +110,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 	if (CurrentOSMajor < 6)
 	{
 		if (!silent)
-			ShowInPlaceEncErrMsgWAltSteps ("OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC", FALSE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC", FALSE);
 
 		return FALSE;
 	}
@@ -122,7 +122,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 		&& sscanf (devicePath, "\\Device\\Harddisk%d\\Partition%d", &driveNumber, &partitionNumber) != 2)
 	{
 		if (!silent)
-			Error ("INPLACE_ENC_INVALID_PATH");
+			Error ("INPLACE_ENC_INVALID_PATH", hwndDlg);
 
 		return FALSE;
 	}
@@ -130,7 +130,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 	if (partitionNumber == 0)
 	{
 		if (!silent)
-			Warning ("RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC");
+			Warning ("RAW_DEV_NOT_SUPPORTED_FOR_INPLACE_ENC", hwndDlg);
 
 		return FALSE;
 	}
@@ -144,7 +144,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 		// status can be ignored). In case the IsAdmin() detection somehow fails, we allow the user to continue.
 
 		if (!silent)
-			Warning ("ADMIN_PRIVILEGES_WARN_DEVICES");
+			Warning ("ADMIN_PRIVILEGES_WARN_DEVICES", hwndDlg);
 	}
 
 
@@ -165,13 +165,13 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 	{
 		if (!silent)
 		{
-			handleWin32Error (MainDlg);
-			Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL");
+			handleWin32Error (hwndDlg);
+			Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL", hwndDlg);
 		}
 		return FALSE;
 	}
 
-	dev = OpenPartitionVolume (devName,
+	dev = OpenPartitionVolume (hwndDlg, devName,
 		FALSE,	// Do not require exclusive access
 		TRUE,	// Require shared access (must be TRUE; otherwise, volume properties will not be possible to obtain)
 		FALSE,	// Do not ask the user to confirm shared access (if exclusive fails)
@@ -205,9 +205,9 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 				// is dismounted).
 
 				if (IsDeviceMounted (devName))
-					ShowInPlaceEncErrMsgWAltSteps ("ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC", FALSE);
+					ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC", FALSE);
 				else
-					Warning ("ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC");
+					Warning ("ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC", hwndDlg);
 			}
 
 			CloseHandle (dev);
@@ -222,7 +222,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 	{
 		// Cannot determine whether shrinking is required
 		if (!silent)
-			ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
 
 		CloseHandle (dev);
 		return FALSE;
@@ -236,7 +236,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 	{
 		// Cannot determine the size of the partition
 		if (!silent)
-			Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL");
+			Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL", hwndDlg);
 
 		CloseHandle (dev);
 		return FALSE;
@@ -247,7 +247,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 		// The partition is too small
 		if (!silent)
 		{
-			ShowInPlaceEncErrMsgWAltSteps ("PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC", FALSE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC", FALSE);
 		}
 
 		CloseHandle (dev);
@@ -267,7 +267,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 		NULL))
 	{
 		if (!silent)
-			ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL", TRUE);
 
 		CloseHandle (dev);
 		return FALSE;
@@ -276,7 +276,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 	if (ntfsVolData.FreeClusters.QuadPart * ntfsVolData.BytesPerCluster < TC_TOTAL_VOLUME_HEADERS_SIZE)
 	{
 		if (!silent)
-			ShowInPlaceEncErrMsgWAltSteps ("NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK", TRUE);
 
 		CloseHandle (dev);
 		return FALSE;
@@ -289,7 +289,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (const char *devicePath, BOOL silent)
 		|| ntfsVolData.BytesPerSector % ENCRYPTION_DATA_UNIT_SIZE != 0)
 	{
 		if (!silent)
-			ShowInPlaceEncErrMsgWAltSteps ("SECTOR_SIZE_UNSUPPORTED", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "SECTOR_SIZE_UNSUPPORTED", TRUE);
 
 		CloseHandle (dev);
 		return FALSE;
@@ -319,11 +319,12 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	__int64 deviceSize;
 	LARGE_INTEGER offset;
 	DWORD dwResult;
+	HWND hwndDlg = volParams->hwndDlg;
 
 	SetNonSysInplaceEncUIStatus (NONSYS_INPLACE_ENC_STATUS_PREPARING);
 
 
-	if (!CheckRequirementsForNonSysInPlaceEnc (volParams->volumePath, FALSE))
+	if (!CheckRequirementsForNonSysInPlaceEnc (hwndDlg, volParams->volumePath, FALSE))
 		return ERR_DONT_REPORT;
 
 
@@ -343,7 +344,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	if (deviceSize < TC_NONSYS_INPLACE_ENC_MIN_VOL_SIZE)
 	{
-		ShowInPlaceEncErrMsgWAltSteps ("PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC", TRUE);
+		ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "PARTITION_TOO_SMALL_FOR_NONSYS_INPLACE_ENC", TRUE);
 		nStatus = ERR_DONT_REPORT;
 		goto closing_seq;
 	}
@@ -364,7 +365,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	if (IsDeviceMounted (devName))
 	{
-		dev = OpenPartitionVolume (devName,
+		dev = OpenPartitionVolume (hwndDlg, devName,
 			FALSE,	// Do not require exclusive access (must be FALSE; otherwise, it will not be possible to dismount the volume or obtain its properties and FSCTL_ALLOW_EXTENDED_DASD_IO will fail too)
 			TRUE,	// Require shared access (must be TRUE; otherwise, it will not be possible to dismount the volume or obtain its properties and FSCTL_ALLOW_EXTENDED_DASD_IO will fail too)
 			FALSE,	// Do not ask the user to confirm shared access (if exclusive fails)
@@ -380,7 +381,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	else
 	{
 		// The volume is not mounted so we can't work with the filesystem.
-		Error ("ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC");
+		Error ("ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC", hwndDlg);
 		nStatus = ERR_DONT_REPORT; 
 		goto closing_seq;
 	}
@@ -398,7 +399,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		NULL))
 	{
 		handleWin32Error (MainDlg);
-		ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
+		ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
 		nStatus = ERR_DONT_REPORT; 
 		goto closing_seq;
 	}
@@ -414,7 +415,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	if (sizeToShrinkTo == -1)
 	{
-		ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
+		ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
 		nStatus = ERR_DONT_REPORT; 
 		goto closing_seq;
 	}
@@ -435,8 +436,8 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		&dwResult,
 		NULL))
 	{
-		handleWin32Error (MainDlg);
-		ShowInPlaceEncErrMsgWAltSteps ("CANNOT_RESIZE_FILESYS", TRUE);
+		handleWin32Error (hwndDlg);
+		ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "CANNOT_RESIZE_FILESYS", TRUE);
 		nStatus = ERR_DONT_REPORT; 
 		goto closing_seq;
 	}
@@ -462,13 +463,13 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 						continue;
 					}
 
-					handleWin32Error (MainDlg);
+					handleWin32Error (hwndDlg);
 				}
 			}
 			else
-				handleWin32Error (MainDlg);
+				handleWin32Error (hwndDlg);
 
-			ShowInPlaceEncErrMsgWAltSteps ("CANNOT_RESIZE_FILESYS", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "CANNOT_RESIZE_FILESYS", TRUE);
 			nStatus = ERR_DONT_REPORT; 
 			goto closing_seq;
 		}
@@ -481,7 +482,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	/* Gain exclusive access to the volume */
 
-	nStatus = DismountFileSystem (dev,
+	nStatus = DismountFileSystem (hwndDlg, dev,
 		driveLetter,
 		TRUE,
 		TRUE,
@@ -503,7 +504,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	// Prepare the backup header
 	for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_HEADER_WIPE_PASSES); wipePass++)
 	{
-		nStatus = CreateVolumeHeaderInMemory (FALSE,
+		nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 			header,
 			volParams->ea,
 			FIRST_MODE_OF_OPERATION_ID,
@@ -539,7 +540,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		}
 
 		// Fill the reserved sectors of the backup header area with random data
-		nStatus = WriteRandomDataToReservedHeaderAreas (dev, cryptoInfo, dataAreaSize, FALSE, TRUE);
+		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, TRUE);
 
 		if (nStatus != ERR_SUCCESS)
 			goto closing_seq;
@@ -665,6 +666,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	Password *password = volParams->password;
 	int pkcs5_prf = volParams->pkcs5;
 	DISK_GEOMETRY driveGeometry;
+	HWND hwndDlg = volParams->hwndDlg;
 
 
 	bInPlaceEncNonSysResumed = TRUE;
@@ -722,7 +724,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 			goto closing_seq;
 		}
 
-		dev = OpenPartitionVolume (devName,
+		dev = OpenPartitionVolume (hwndDlg, devName,
 			FALSE,	// Do not require exclusive access
 			FALSE,	// Do not require shared access
 			TRUE,	// Ask the user to confirm shared access (if exclusive fails)
@@ -814,7 +816,7 @@ inplace_enc_read:
 
 				if (!*bTryToCorrectReadErrors)
 				{
-					*bTryToCorrectReadErrors = (AskWarnYesNo ("ENABLE_BAD_SECTOR_ZEROING") == IDYES);
+					*bTryToCorrectReadErrors = (AskWarnYesNo ("ENABLE_BAD_SECTOR_ZEROING", hwndDlg) == IDYES);
 				}
 
 				if (*bTryToCorrectReadErrors)
@@ -980,7 +982,7 @@ inplace_enc_read:
 
 		for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_HEADER_WIPE_PASSES); wipePass++)
 		{
-			nStatus = CreateVolumeHeaderInMemory (FALSE,
+			nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 				header,
 				headerCryptoInfo->ea,
 				headerCryptoInfo->mode,
@@ -1011,7 +1013,7 @@ inplace_enc_read:
 			}
 
 			// Fill the reserved sectors of the header area with random data
-			nStatus = WriteRandomDataToReservedHeaderAreas (dev, headerCryptoInfo, masterCryptoInfo->VolumeSize.Value, TRUE, FALSE);
+			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, headerCryptoInfo, masterCryptoInfo->VolumeSize.Value, TRUE, FALSE);
 
 			if (nStatus != ERR_SUCCESS)
 				goto closing_seq;
@@ -1103,7 +1105,7 @@ closing_seq:
 			zeroedSectorCount,
 			sizeStr);
 
-		WarningDirect (msg);
+		WarningDirect (msg, hwndDlg);
 	}
 
 	if (nStatus != ERR_SUCCESS && nStatus != ERR_USER_ABORT)
@@ -1185,7 +1187,7 @@ closing_seq:
 }
 
 
-static HANDLE OpenPartitionVolume (const char *devName,
+static HANDLE OpenPartitionVolume (HWND hwndDlg, const char *devName,
 							 BOOL bExclusiveRequired,
 							 BOOL bSharedRequired,
 							 BOOL bSharedRequiresConfirmation,
@@ -1217,12 +1219,12 @@ static HANDLE OpenPartitionVolume (const char *devName,
 		{
 			if (!bSilent)
 			{
-				handleWin32Error (MainDlg);
+				handleWin32Error (hwndDlg);
 
 				if (bShowAlternativeSteps)
-					ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
+					ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
 				else
-					Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL");
+					Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL", hwndDlg);
 			}
 			return INVALID_HANDLE_VALUE;
 		}
@@ -1233,7 +1235,7 @@ static HANDLE OpenPartitionVolume (const char *devName,
 		{
 			if (bSharedRequiresConfirmation 
 				&& !bSilent
-				&& AskWarnNoYes ("DEVICE_IN_USE_INPLACE_ENC") == IDNO)
+				&& AskWarnNoYes ("DEVICE_IN_USE_INPLACE_ENC", hwndDlg) == IDNO)
 			{
 				CloseHandle (dev);
 				return INVALID_HANDLE_VALUE;
@@ -1246,9 +1248,9 @@ static HANDLE OpenPartitionVolume (const char *devName,
 				handleWin32Error (MainDlg);
 
 				if (bShowAlternativeSteps)
-					ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
+					ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
 				else
-					Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL");
+					Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL", hwndDlg);
 			}
 			return INVALID_HANDLE_VALUE;
 		}
@@ -1258,7 +1260,7 @@ static HANDLE OpenPartitionVolume (const char *devName,
 }
 
 
-static int DismountFileSystem (HANDLE dev,
+static int DismountFileSystem (HWND hwndDlg, HANDLE dev,
 					int driveLetter,
 					BOOL bForcedAllowed,
 					BOOL bForcedRequiresConfirmation,
@@ -1284,14 +1286,14 @@ static int DismountFileSystem (HANDLE dev,
 		if (!bForcedAllowed)
 		{
 			if (!bSilent)
-				ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
+				ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
 
 			return ERR_DONT_REPORT;
 		}
 
 		if (bForcedRequiresConfirmation
 			&& !bSilent
-			&& AskWarnYesNo ("VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT") == IDNO)
+			&& AskWarnYesNo ("VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT", hwndDlg) == IDNO)
 		{
 			return ERR_DONT_REPORT;
 		}
@@ -1311,7 +1313,7 @@ static int DismountFileSystem (HANDLE dev,
 	if (!bResult)
 	{
 		if (!bSilent)
-			ShowInPlaceEncErrMsgWAltSteps ("INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
+			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS", TRUE);
 
 		return ERR_DONT_REPORT; 
 	}
@@ -1376,7 +1378,7 @@ static int ConcealNTFS (HANDLE dev)
 }
 
 
-void ShowInPlaceEncErrMsgWAltSteps (char *iniStrId, BOOL bErr)
+void ShowInPlaceEncErrMsgWAltSteps (HWND hwndDlg, char *iniStrId, BOOL bErr)
 {
 	wchar_t msg[30000];
 
@@ -1386,9 +1388,9 @@ void ShowInPlaceEncErrMsgWAltSteps (char *iniStrId, BOOL bErr)
 	StringCbCatW (msg, sizeof(msg), GetString ("INPLACE_ENC_ALTERNATIVE_STEPS"));
 
 	if (bErr)
-		ErrorDirect (msg);
+		ErrorDirect (msg, hwndDlg);
 	else
-		WarningDirect (msg);
+		WarningDirect (msg, hwndDlg);
 }
 
 

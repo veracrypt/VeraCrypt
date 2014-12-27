@@ -133,22 +133,22 @@ namespace VeraCrypt
 
 	struct SecurityTokenLibraryNotInitialized : public Exception
 	{
-		void Show (HWND parent) const { Error (SecurityTokenLibraryPath[0] == 0 ? "NO_PKCS11_MODULE_SPECIFIED" : "PKCS11_MODULE_INIT_FAILED"); }
+		void Show (HWND parent) const { Error (SecurityTokenLibraryPath[0] == 0 ? "NO_PKCS11_MODULE_SPECIFIED" : "PKCS11_MODULE_INIT_FAILED", parent); }
 	};
 	
 	struct InvalidSecurityTokenKeyfilePath : public Exception
 	{
-		void Show (HWND parent) const { Error ("INVALID_TOKEN_KEYFILE_PATH"); }
+		void Show (HWND parent) const { Error ("INVALID_TOKEN_KEYFILE_PATH", parent); }
 	};
 
 	struct SecurityTokenKeyfileAlreadyExists : public Exception
 	{
-		void Show (HWND parent) const { Error ("TOKEN_KEYFILE_ALREADY_EXISTS"); }
+		void Show (HWND parent) const { Error ("TOKEN_KEYFILE_ALREADY_EXISTS", parent); }
 	};
 
 	struct SecurityTokenKeyfileNotFound : public Exception
 	{
-		void Show (HWND parent) const { Error ("TOKEN_KEYFILE_NOT_FOUND"); }
+		void Show (HWND parent) const { Error ("TOKEN_KEYFILE_NOT_FOUND", parent); }
 	};
 
 #endif // !TC_HEADER_Platform_Exception
