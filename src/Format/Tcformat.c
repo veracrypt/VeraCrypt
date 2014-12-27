@@ -224,7 +224,6 @@ Password volumePassword;			/* User password */
 char szVerify[MAX_PASSWORD + 1];	/* Tmp password buffer */
 char szRawPassword[MAX_PASSWORD + 1];	/* Password before keyfile was applied to it */
 
-int volumePkcs5Prf = 0;
 
 BOOL bHistoryCmdLine = FALSE; /* History control is always disabled */
 BOOL ComServerMode = FALSE;
@@ -6901,7 +6900,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						{
 							OpenVolumeContext volume;
 
-							if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, volumePkcs5Prf, FALSE, FALSE, TRUE) == ERR_SUCCESS)
+							if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, FALSE, FALSE, TRUE) == ERR_SUCCESS)
 							{
 								if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
 									&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
