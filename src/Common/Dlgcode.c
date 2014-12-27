@@ -4348,7 +4348,24 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 	}
 }
 
-static BOOL PerformBenchmark(HWND hwndDlg)
+// specific implementation for support of benchmark operation in wait dialog mechanism
+
+typedef struct
+{
+	HWND hBenchDlg;
+	BOOL bStatus; 
+} BenchmarkThreadParam;
+
+static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg);
+
+void CALLBACK BenchmarkThreadProc(void* pArg, HWND hwndDlg)
+{
+	BenchmarkThreadParam* pThreadParam = (BenchmarkThreadParam*) pArg;
+
+	pThreadParam->bStatus = PerformBenchmark (pThreadParam->hBenchDlg, hwndDlg);
+}
+
+static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 {
     LARGE_INTEGER performanceCountStart, performanceCountEnd;
 	BYTE *lpTestBuffer;
@@ -4569,10 +4586,10 @@ static BOOL PerformBenchmark(HWND hwndDlg)
 
 	benchmarkLastBufferSize = benchmarkBufferSize;
 
-	DisplayBenchmarkResults(hwndDlg);
+	DisplayBenchmarkResults(hBenchDlg);
 
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PERFORM_BENCHMARK), TRUE);
-	EnableWindow (GetDlgItem (hwndDlg, IDCLOSE), TRUE);
+	EnableWindow (GetDlgItem (hBenchDlg, IDC_PERFORM_BENCHMARK), TRUE);
+	EnableWindow (GetDlgItem (hBenchDlg, IDCLOSE), TRUE);
 
 	NormalCursor ();
 	return TRUE;
@@ -4588,8 +4605,8 @@ counter_error:
 
 	NormalCursor ();
 
-	EnableWindow (GetDlgItem (hwndDlg, IDC_PERFORM_BENCHMARK), TRUE);
-	EnableWindow (GetDlgItem (hwndDlg, IDCLOSE), TRUE);
+	EnableWindow (GetDlgItem (hBenchDlg, IDC_PERFORM_BENCHMARK), TRUE);
+	EnableWindow (GetDlgItem (hBenchDlg, IDCLOSE), TRUE);
 
 	MessageBoxW (hwndDlg, GetString ("ERR_PERF_COUNTER"), lpszTitle, ICON_HAND);
 	return FALSE;
@@ -4766,7 +4783,13 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			nIndex = SendMessage (hCboxBufferSize, CB_GETCURSEL, 0, 0);
 			benchmarkBufferSize = SendMessage (hCboxBufferSize, CB_GETITEMDATA, nIndex, 0);
 
-			if (PerformBenchmark (hwndDlg) == FALSE)
+			BenchmarkThreadParam threadParam;
+			threadParam.hBenchDlg = hwndDlg;
+			threadParam.bStatus = FALSE;
+
+			ShowWaitDialog (hwndDlg, TRUE, BenchmarkThreadProc, &threadParam);
+
+			if (threadParam.bStatus == FALSE)
 			{
 				EndDialog (hwndDlg, IDCLOSE);
 			}
