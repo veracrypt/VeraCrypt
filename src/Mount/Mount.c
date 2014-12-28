@@ -2163,6 +2163,25 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE, FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_TRUECRYPT_MODE), FALSE);
 
+			/* Repopulate the PRF algorithms list with algorithms that support system encryption */
+			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
+			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
+
+			int i, nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
+
+			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
+			{
+				if (HashForSystemEncryption(i))
+				{
+					nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
+				}
+			}
+
+			/* make autodetection the default */
+			SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
+
 			ToBootPwdField (hwndDlg, IDC_PASSWORD);
 
 			// Attempt to wipe the password stored in the input field buffer
