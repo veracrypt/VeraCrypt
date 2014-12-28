@@ -163,7 +163,7 @@ typedef struct
 
 BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 
-int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
 	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	KEY_INFO keyInfo;
@@ -183,6 +183,14 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	size_t queuedWorkItems = 0;
 	LONG outstandingWorkItemCount = 0;
 	int i;
+
+	if (truecryptMode)
+	{
+		// SHA-256 not supported in TrueCrypt mode
+		if (selected_pkcs5_prf == SHA256)
+			return ERR_PARAMETER_INCORRECT;
+		pkcs5PrfCount--; // don't count SHA-256 in case of TrueCrypt mode
+	}
 
 	if (retHeaderCryptoInfo != NULL)
 	{
@@ -246,6 +254,10 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 		if (selected_pkcs5_prf != 0 && enqPkcs5Prf != selected_pkcs5_prf)
 			continue;
 
+		// skip SHA-256 in case of TrueCrypt mode
+		if (truecryptMode && (enqPkcs5Prf == SHA256))
+			continue;
+
 		if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 		{
 			// Enqueue key derivation on thread pool
@@ -262,7 +274,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 
 						EncryptionThreadPoolBeginKeyDerivation (&keyDerivationCompletedEvent, &noOutstandingWorkItemEvent,
 							&item->KeyReady, &outstandingWorkItemCount, enqPkcs5Prf, keyInfo.userKey,
-							keyInfo.keyLength, keyInfo.salt, get_pkcs5_iteration_count (enqPkcs5Prf, bBoot), item->DerivedKey);
+							keyInfo.keyLength, keyInfo.salt, get_pkcs5_iteration_count (enqPkcs5Prf, truecryptMode, bBoot), item->DerivedKey);
 						
 						++queuedWorkItems;
 						break;
@@ -284,7 +296,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 					if (!item->Free && InterlockedExchangeAdd (&item->KeyReady, 0) == TRUE)
 					{
 						pkcs5_prf = item->Pkcs5Prf;
-						keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, bBoot);
+						keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, truecryptMode, bBoot);
 						memcpy (dk, item->DerivedKey, sizeof (dk));
 
 						item->Free = TRUE;
@@ -302,7 +314,7 @@ KeyReady:	;
 		else
 		{
 			pkcs5_prf = enqPkcs5Prf;
-			keyInfo.noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, bBoot);
+			keyInfo.noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, truecryptMode, bBoot);
 
 			switch (pkcs5_prf)
 			{
@@ -386,8 +398,10 @@ KeyReady:	;
 
 				DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
-				// Magic 'VERA'
-				if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
+				// Magic 'VERA' or 'TRUE' depending if we are in TrueCrypt mode or not
+				if ((truecryptMode && GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x54525545)
+					|| (!truecryptMode && GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
+					)
 					continue;
 
 				// Header version
@@ -407,7 +421,17 @@ KeyReady:	;
 
 				// Required program version
 				cryptoInfo->RequiredProgramVersion = GetHeaderField16 (header, TC_HEADER_OFFSET_REQUIRED_VERSION);
-				cryptoInfo->LegacyVolume = cryptoInfo->RequiredProgramVersion < 0x10b;
+				if (truecryptMode)
+				{
+					if (cryptoInfo->RequiredProgramVersion < 0x700 || cryptoInfo->RequiredProgramVersion > 0x71a)
+					{
+						status = ERR_UNSUPPORTED_TRUECRYPT_FORMAT;
+						goto err;
+					}
+					cryptoInfo->LegacyVolume = FALSE;
+				}
+				else
+					cryptoInfo->LegacyVolume = cryptoInfo->RequiredProgramVersion < 0x10b;
 
 				// Check CRC of the key set
 				if (!ReadVolumeHeaderRecoveryMode
@@ -417,7 +441,7 @@ KeyReady:	;
 				// Now we have the correct password, cipher, hash algorithm, and volume type
 
 				// Check the version required to handle this volume
-				if (cryptoInfo->RequiredProgramVersion > VERSION_NUM)
+				if (!truecryptMode && (cryptoInfo->RequiredProgramVersion > VERSION_NUM))
 				{
 					status = ERR_NEW_VERSION_REQUIRED;
 					goto err;
@@ -469,6 +493,7 @@ KeyReady:	;
 					{
 						cryptoInfo->pkcs5 = pkcs5_prf;
 						cryptoInfo->noIterations = keyInfo.noIterations;
+						cryptoInfo->bTrueCryptMode = truecryptMode;
 						goto ret;
 					}
 
@@ -490,6 +515,7 @@ KeyReady:	;
 				memcpy (cryptoInfo->salt, keyInfo.salt, PKCS5_SALT_SIZE);
 				cryptoInfo->pkcs5 = pkcs5_prf;
 				cryptoInfo->noIterations = keyInfo.noIterations;
+				cryptoInfo->bTrueCryptMode = truecryptMode;
 
 				// Init the cipher with the decrypted master key
 				status = EAInit (cryptoInfo->ea, keyInfo.master_keydata + primaryKeyOffset, cryptoInfo->ks);
@@ -768,13 +794,14 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	// User key 
 	memcpy (keyInfo.userKey, password->Text, nUserKeyLen);
 	keyInfo.keyLength = nUserKeyLen;
-	keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, bBoot);
+	keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, FALSE, bBoot);
 
 	// User selected encryption algorithm
 	cryptoInfo->ea = ea;
 
 	// User selected PRF
 	cryptoInfo->pkcs5 = pkcs5_prf;
+	cryptoInfo->bTrueCryptMode = FALSE;
 
 	// Mode of operation
 	cryptoInfo->mode = mode;

@@ -160,6 +160,7 @@
 #define IDC_PREF_DISMOUNT_SESSION_LOCKED 1137
 #define IDT_NEW_PKCS5_PRF               1138
 #define IDC_PKCS5_OLD_PRF_ID            1139
+#define IDC_TRUECRYPT_MODE              1140
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -232,7 +233,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40065
-#define _APS_NEXT_CONTROL_VALUE         1140
+#define _APS_NEXT_CONTROL_VALUE         1141
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -4028,6 +4028,10 @@ void handleError (HWND hwndDlg, int code)
 		// A non-error
 		break;
 
+	case ERR_UNSUPPORTED_TRUECRYPT_FORMAT:
+		MessageBoxW (hwndDlg, GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), lpszTitle, ICON_HAND);
+		break;
+
 	default:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("ERR_UNKNOWN"), code);
 		MessageBoxW (hwndDlg, szTmp, lpszTitle, ICON_HAND);
@@ -4504,22 +4508,22 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case RIPEMD160:
 					/* PKCS-5 test with HMAC-RIPEMD-160 used as the PRF */
-					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 			}
@@ -6289,6 +6293,7 @@ int MountVolume (HWND hwndDlg,
 				 char *volumePath,
 				 Password *password,
 				 int pkcs5,
+				 BOOL truecryptMode,
 				 BOOL cachePassword,
 				 BOOL sharedAccess,
 				 const MountOptions* const mountOptions,
@@ -6360,6 +6365,7 @@ retry:
 
 	mount.bMountManager = TRUE;
 	mount.pkcs5_prf = pkcs5;
+	mount.bTrueCryptMode = truecryptMode;
 
 	// Windows 2000 mount manager causes problems with remounted volumes
 	if (CurrentOSMajor == 5 && CurrentOSMinor == 0)
@@ -6412,6 +6418,8 @@ retry:
 			&mount.nPartitionInInactiveSysEncScopeDriveNo,
 			sizeof(mount.nPartitionInInactiveSysEncScopeDriveNo)) != 1)
 		{
+			if (!quiet)
+				Warning ("NO_SYSENC_PARTITION_SELECTED", hwndDlg);
 			return -1;
 		}
 
@@ -6436,6 +6444,7 @@ retry:
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
 	burn (&mount.ProtectedHidVolPassword, sizeof (mount.ProtectedHidVolPassword));
 	burn (&mount.pkcs5_prf, sizeof (mount.pkcs5_prf));
+	burn (&mount.bTrueCryptMode, sizeof (mount.bTrueCryptMode));
 	burn (&mount.ProtectedHidVolPkcs5Prf, sizeof (mount.ProtectedHidVolPkcs5Prf));
 
 	if (bResult == FALSE)
@@ -8954,7 +8963,7 @@ void ReportUnexpectedState (char *techInfo)
 
 #ifndef SETUP
 
-int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, int pkcs5_prf, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
+int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, int pkcs5_prf, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
 {
 	int status = ERR_PARAMETER_INCORRECT;
 	int volumeType;
@@ -9104,7 +9113,7 @@ int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *pa
 		}
 
 		// Decrypt volume header
-		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, &context->CryptoInfo, NULL);
+		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, truecryptMode, &context->CryptoInfo, NULL);
 
 		if (status == ERR_PASSWORD_WRONG)
 			continue;		// Try next volume type

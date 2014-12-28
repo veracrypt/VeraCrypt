@@ -106,7 +106,7 @@ public:
 		CW2A volumePathA(volumePath);
 		MainDlg = (HWND) hWnd;
 		if (volumePathA.m_psz)
-			return ::ChangePwd (volumePathA.m_psz, oldPassword, 0, newPassword, pkcs5, wipePassCount,(HWND) hWnd);
+			return ::ChangePwd (volumePathA.m_psz, oldPassword, 0, FALSE, newPassword, pkcs5, wipePassCount, (HWND) hWnd);
 		else
 			return ERR_OUTOFMEMORY;
 	}
@@ -157,7 +157,18 @@ public:
 		CW2A volumePathA(volumePath);
 		MainDlg = (HWND) hWnd;
 		if (volumePathA.m_psz)
-			return ::ChangePwd (volumePathA.m_psz, oldPassword, old_pkcs5, newPassword, pkcs5, wipePassCount,(HWND) hWnd);
+			return ::ChangePwd (volumePathA.m_psz, oldPassword, old_pkcs5, FALSE, newPassword, pkcs5, wipePassCount, (HWND) hWnd);
+		else
+			return ERR_OUTOFMEMORY;
+	}
+
+	virtual int STDMETHODCALLTYPE ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
+	{
+		USES_CONVERSION;
+		CW2A volumePathA(volumePath);
+		MainDlg = (HWND) hWnd;
+		if (volumePathA.m_psz)
+			return ::ChangePwd (volumePathA.m_psz, oldPassword, old_pkcs5, truecryptMode, newPassword, pkcs5, wipePassCount, (HWND) hWnd);
 		else
 			return ERR_OUTOFMEMORY;
 	}
@@ -272,7 +283,7 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 }
 
 
-extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
+extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
 {
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
@@ -280,7 +291,7 @@ extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pk
 	if (ComGetInstance (hwndDlg, &tc))
 	{
 		WaitCursor ();
-		r = tc->ChangePasswordEx (CComBSTR (lpszVolume), oldPassword, old_pkcs5, newPassword, pkcs5, wipePassCount, (LONG_PTR) hwndDlg);
+		r = tc->ChangePasswordEx2 (CComBSTR (lpszVolume), oldPassword, old_pkcs5, truecryptMode, newPassword, pkcs5, wipePassCount, (LONG_PTR) hwndDlg);
 		NormalCursor ();
 	}
 	else

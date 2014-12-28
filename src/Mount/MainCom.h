@@ -23,7 +23,7 @@ BOOL ComServerMain ();
 void UacAnalyzeKernelMiniDump (HWND hwndDlg);
 int UacBackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, char *lpszVolume);
 int UacRestoreVolumeHeader (HWND hwndDlg, char *lpszVolume);
-int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg);
+int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg);
 
 #ifdef __cplusplus
 }

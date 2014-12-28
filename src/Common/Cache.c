@@ -21,7 +21,7 @@ Password CachedPasswords[CACHE_SIZE];
 int cacheEmpty = 1;
 static int nPasswordIdx = 0;
 
-int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *password, int pkcs5_prf, PCRYPTO_INFO *retInfo)
+int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *password, int pkcs5_prf, BOOL truecryptMode, PCRYPTO_INFO *retInfo)
 {
 	int nReturnCode = ERR_PASSWORD_WRONG;
 	int i;
@@ -29,7 +29,7 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *pas
 	/* Attempt to recognize volume using mount password */
 	if (password->Length > 0)
 	{
-		nReturnCode = ReadVolumeHeader (bBoot, header, password, pkcs5_prf, retInfo, NULL);
+		nReturnCode = ReadVolumeHeader (bBoot, header, password, pkcs5_prf, truecryptMode, retInfo, NULL);
 
 		/* Save mount passwords back into cache if asked to do so */
 		if (bCache && (nReturnCode == 0 || nReturnCode == ERR_CIPHER_INIT_WEAK_KEY))
@@ -59,7 +59,7 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *pas
 		{
 			if (CachedPasswords[i].Length > 0)
 			{
-				nReturnCode = ReadVolumeHeader (bBoot, header, &CachedPasswords[i], pkcs5_prf, retInfo, NULL);
+				nReturnCode = ReadVolumeHeader (bBoot, header, &CachedPasswords[i], pkcs5_prf, truecryptMode, retInfo, NULL);
 
 				if (nReturnCode != ERR_PASSWORD_WRONG)
 					break;

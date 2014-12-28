@@ -19,5 +19,5 @@
 extern int cacheEmpty;
 
 void AddPasswordToCache (Password *password);
-int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *password, int pkcs5_prf, PCRYPTO_INFO *retInfo);
+int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *password, int pkcs5_prf, BOOL truecryptMode, PCRYPTO_INFO *retInfo);
 void WipeCache (void);

@@ -119,7 +119,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem)
 	return TRUE;
 }
 
-int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
+int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
 	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -143,7 +143,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Pas
 
 	if (oldPassword->Length == 0 || newPassword->Length == 0) return -1;
 
-	if (wipePassCount <= 0)
+	if ((wipePassCount <= 0) || (truecryptMode && (old_pkcs5 == SHA256)))
 	{
       nStatus = ERR_PARAMETER_INCORRECT;
       handleError (hwndDlg, nStatus);
@@ -281,7 +281,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Pas
 
 		/* Try to decrypt the header */
 
-		nStatus = ReadVolumeHeader (FALSE, buffer, oldPassword, old_pkcs5, &cryptoInfo, NULL);
+		nStatus = ReadVolumeHeader (FALSE, buffer, oldPassword, old_pkcs5, truecryptMode, &cryptoInfo, NULL);
 		if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 			nStatus = 0;	// We can ignore this error here
 
@@ -353,7 +353,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, Pas
 				(volumeType == TC_VOLUME_TYPE_HIDDEN) ? cryptoInfo->hiddenVolumeSize : 0,
 				cryptoInfo->EncryptedAreaStart.Value,
 				cryptoInfo->EncryptedAreaLength.Value,
-				cryptoInfo->RequiredProgramVersion,
+				truecryptMode? 0 : cryptoInfo->RequiredProgramVersion,
 				cryptoInfo->HeaderFlags,
 				cryptoInfo->SectorSize,
 				wipePass < wipePassCount - 1);

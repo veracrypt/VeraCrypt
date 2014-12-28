@@ -211,6 +211,7 @@ typedef struct CRYPTO_INFO_t
 	unsigned __int8 k2[MASTER_KEYDATA_SIZE];				/* For XTS, this contains the secondary key (if cascade, multiple concatenated). For LRW (deprecated/legacy), it contains the tweak key. For CBC (deprecated/legacy), it contains the IV seed. */
 	unsigned __int8 salt[PKCS5_SALT_SIZE];
 	int noIterations;	
+	BOOL bTrueCryptMode;
 
 	uint64 volume_creation_time;	// Legacy
 	uint64 header_creation_time;	// Legacy

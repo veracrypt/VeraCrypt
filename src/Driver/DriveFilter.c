@@ -294,7 +294,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		}
 	}
 
-	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
+	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, FALSE, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
 	{
 		// Header decrypted
 		status = STATUS_SUCCESS;
@@ -803,7 +803,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		goto ret;
 	}
 
-	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
+	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, FALSE, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
 	{
 		Dump ("Header reopened\n");
 		

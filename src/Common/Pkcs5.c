@@ -665,19 +665,22 @@ char *get_pkcs5_prf_name (int pkcs5_prf_id)
 
 
 
-int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot)
+int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL truecryptMode, BOOL bBoot)
 {
 	switch (pkcs5_prf_id)
 	{
 
 	case RIPEMD160:	
-		return bBoot? 327661 : 655331;
+		if (truecryptMode)
+			return bBoot ? 1000 : 2000;
+		else
+			return bBoot? 327661 : 655331;
 
 	case SHA512:	
-		return 500000;
+		return truecryptMode? 1000 : 500000;
 
 	case WHIRLPOOL:	
-		return 500000;
+		return truecryptMode? 1000 : 500000;
 
 	case SHA256:
 		return bBoot? 200000 : 500000;

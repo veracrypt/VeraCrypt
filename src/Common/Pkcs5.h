@@ -31,7 +31,7 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int
 void hmac_whirlpool (char *k, int lk, char *d, int ld, char *out, int t);
 void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *u, int b);
 void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen);
-int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL bBoot);
+int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL truecryptMode, BOOL bBoot);
 char *get_pkcs5_prf_name (int pkcs5_prf_id);
 
 #if defined(__cplusplus)

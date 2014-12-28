@@ -1638,7 +1638,7 @@ namespace VeraCrypt
 
 		// Initial rescue disk assumes encryption of the drive has been completed (EncryptedAreaLength == volumeSize)
 		memcpy (RescueVolumeHeader, VolumeHeader, sizeof (RescueVolumeHeader));
-		ReadVolumeHeader (TRUE, (char *) RescueVolumeHeader, password, pkcs5, NULL, cryptoInfo);
+		ReadVolumeHeader (TRUE, (char *) RescueVolumeHeader, password, pkcs5, FALSE, NULL, cryptoInfo);
 
 		DecryptBuffer (RescueVolumeHeader + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
@@ -2159,7 +2159,7 @@ namespace VeraCrypt
 
 		PCRYPTO_INFO cryptoInfo = NULL;
 		
-		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, old_pkcs5, &cryptoInfo, NULL);
+		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, old_pkcs5, FALSE, &cryptoInfo, NULL);
 		finally_do_arg (PCRYPTO_INFO, cryptoInfo, { if (finally_arg) crypto_close (finally_arg); });
 
 		if (status != 0)

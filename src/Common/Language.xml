@@ -167,6 +167,7 @@
     <control lang="en" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Display password</control>
     <control lang="en" key="IDC_TRAVEL_OPEN_EXPLORER">Open &amp;Explorer window for mounted volume</control>
     <control lang="en" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Cache password in driver memory</control>
+	 <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="en" key="IDC_UNMOUNTALL">Di&amp;smount All</control>
     <control lang="en" key="IDC_VOLUME_PROPERTIES">&amp;Volume Properties...</control>
     <control lang="en" key="IDC_VOLUME_TOOLS">Volume &amp;Tools...</control>
@@ -1033,6 +1034,7 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' > 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">This algorithm is currently not supported for system encryption.</string>
+	 <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="en" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warning: VeraCrypt could not restore the original keyboard layout. This may cause you to enter a password incorrectly.</string>
     <string lang="en" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: Cannot set the keyboard layout for VeraCrypt to the standard US keyboard layout.\n\nNote that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available. Therefore, the password must always be typed using the standard US keyboard layout.</string>
@@ -1231,8 +1233,9 @@
     <string lang="en" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Do you want VeraCrypt to attempt to disable write protection of the partition/drive?</string>
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
-    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>    
-    <string lang="en" key="TEST">Test</string>
+    <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	  <string lang="en" key="TEST">Test</string>
     <string lang="en" key="KEYFILE">Keyfile</string>
     <string lang="en" key="VKEY_08">Backspace</string>
     <string lang="en" key="VKEY_09">Tab</string>

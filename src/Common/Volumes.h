@@ -129,7 +129,7 @@ UINT64_STRUCT GetHeaderField64 (byte *header, int offset);
 #ifdef TC_WINDOWS_BOOT
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 #else
-int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
+int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 #endif
 
 #if !defined (DEVICE_DRIVER) && !defined (TC_WINDOWS_BOOT)

@@ -102,6 +102,7 @@ typedef struct
 	BOOL RecoveryMode;
 	int pkcs5_prf;
 	int ProtectedHidVolPkcs5Prf;
+	BOOL bTrueCryptMode;
 } MOUNT_STRUCT;
 
 typedef struct
