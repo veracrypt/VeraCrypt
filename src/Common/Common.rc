@@ -309,14 +309,14 @@ BEGIN
     LTEXT           "Please wait. This process may take a long time...",IDT_STATIC_MODELESS_WAIT_DLG_INFO,9,8,274,9
 END
 
-IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 61
+IDD_STATIC_MODAL_WAIT_DLG DIALOGEX 0, 0, 292, 74
 STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION
 EXSTYLE WS_EX_TOPMOST
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,11,274,20
-    CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,37,278,14
+    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,11,274,33
+    CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,49,278,14
 END
 
 
@@ -457,7 +457,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 285
         TOPMARGIN, 7
-        BOTTOMMARGIN, 54
+        BOTTOMMARGIN, 67
     END
 END
 #endif    // APSTUDIO_INVOKED
