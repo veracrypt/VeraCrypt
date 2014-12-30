@@ -284,13 +284,6 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 			Hash* pHash = HashGet(pBootCryptoInfo->pkcs5);
 			if (pHash && pHash->SystemEncryption)
 				pkcs5_prf = pBootCryptoInfo->pkcs5;
-			else
-			{
-				status = STATUS_UNSUCCESSFUL;
-				burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-				MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-				goto ret;
-			}
 		}
 	}
 
