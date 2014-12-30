@@ -78,7 +78,7 @@ namespace VeraCrypt
 		EncryptNew (headerBuffer, options.Salt, options.HeaderKey, options.Kdf);
 	}
 
-	bool VolumeHeader::Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
+	bool VolumeHeader::Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes)
 	{
 		if (password.Size() < 1)
 			throw PasswordEmpty (SRC_POS);
@@ -121,7 +121,7 @@ namespace VeraCrypt
 					header.CopyFrom (encryptedData.GetRange (EncryptedHeaderDataOffset, EncryptedHeaderDataSize));
 					ea->Decrypt (header);
 
-					if (Deserialize (header, ea, mode))
+					if (Deserialize (header, ea, mode, truecryptMode))
 					{
 						EA = ea;
 						Pkcs5 = pkcs5;
@@ -134,15 +134,21 @@ namespace VeraCrypt
 		return false;
 	}
 
-	bool VolumeHeader::Deserialize (const ConstBufferPtr &header, shared_ptr <EncryptionAlgorithm> &ea, shared_ptr <EncryptionMode> &mode)
+	bool VolumeHeader::Deserialize (const ConstBufferPtr &header, shared_ptr <EncryptionAlgorithm> &ea, shared_ptr <EncryptionMode> &mode, bool truecryptMode)
 	{
 		if (header.Size() != EncryptedHeaderDataSize)
 			throw ParameterIncorrect (SRC_POS);
 
-		if (header[0] != 'V' ||
+		if (truecryptMode && (header[0] != 'T' ||
+			header[1] != 'R' ||
+			header[2] != 'U' ||
+			header[3] != 'E'))
+			return false;
+
+		if (!truecryptMode && (header[0] != 'V' ||
 			header[1] != 'E' ||
 			header[2] != 'R' ||
-			header[3] != 'A')
+			header[3] != 'A'))
 			return false;
 
 		size_t offset = 4;
@@ -163,8 +169,15 @@ namespace VeraCrypt
 
 		RequiredMinProgramVersion = DeserializeEntry <uint16> (header, offset);
 		
-		if (RequiredMinProgramVersion > Version::Number())
+		if (!truecryptMode && (RequiredMinProgramVersion > Version::Number()))
 			throw HigherVersionRequired (SRC_POS);
+
+		if (truecryptMode)
+		{
+			if (RequiredMinProgramVersion < 0x700 || RequiredMinProgramVersion > 0x71a)
+				throw UnsupportedTrueCryptFormat (SRC_POS);
+			RequiredMinProgramVersion = CurrentRequiredMinProgramVersion;
+		}
 
 		VolumeKeyAreaCrc32 = DeserializeEntry <uint32> (header, offset);
 		VolumeCreationTime = DeserializeEntry <uint64> (header, offset);

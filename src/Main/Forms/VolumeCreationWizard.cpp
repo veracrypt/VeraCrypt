@@ -863,7 +863,7 @@ namespace VeraCrypt
 						options->Quick = QuickFormatEnabled;
 						options->Size = VolumeSize;
 						options->Type = OuterVolume ? VolumeType::Normal : SelectedVolumeType;
-						options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*SelectedHash);
+						options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*SelectedHash, false);
 
 						Creator.reset (new VolumeCreator);
 						VolumeCreatorThreadRoutine routine(options, Creator);
@@ -941,7 +941,7 @@ namespace VeraCrypt
 				});
 #endif
 
-				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Kdf, Keyfiles, VolumeProtection::ReadOnly);
+				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Kdf, false, Keyfiles, VolumeProtection::ReadOnly);
 				MaxHiddenVolumeSize = Core->GetMaxHiddenVolumeSize (outerVolume);
 
 				// Add a reserve (in case the user mounts the outer volume and creates new files

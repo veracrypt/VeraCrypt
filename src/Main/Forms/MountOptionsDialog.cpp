@@ -30,7 +30,7 @@ namespace VeraCrypt
 		if (disableMountOptions)
 			OptionsButton->Show (false);
 
-		PasswordPanel = new VolumePasswordPanel (this, options.Password, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
+		PasswordPanel = new VolumePasswordPanel (this, options.Password, disableMountOptions, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
 
 		PasswordSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);
@@ -61,7 +61,7 @@ namespace VeraCrypt
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, options.ProtectionPassword, options.ProtectionKeyfiles, false, true, true, false, true, true, _("P&assword to hidden volume:"));
+		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, _("P&assword to hidden volume:"));
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
 		UpdateDialog();
@@ -86,6 +86,7 @@ namespace VeraCrypt
 
 		Options.Password = PasswordPanel->GetPassword();
 		Options.Kdf = PasswordPanel->GetPkcs5Kdf();
+		Options.TrueCryptMode = PasswordPanel->GetTrueCryptMode();
 		Options.Keyfiles = PasswordPanel->GetKeyfiles();
 
 		if (ReadOnlyCheckBox->IsChecked())
@@ -118,6 +119,13 @@ namespace VeraCrypt
 		catch (UnportablePassword &)
 		{
 			Gui->ShowWarning (LangString ["UNSUPPORTED_CHARS_IN_PWD_RECOM"]);
+		}
+		
+		if (Options.TrueCryptMode && Options.Kdf && (Options.Kdf->GetName() == L"HMAC-SHA-256"))
+		{
+			Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
+			event.Skip();
+			return;
 		}
 
 		EndModal (wxID_OK);

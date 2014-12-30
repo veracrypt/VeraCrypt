@@ -13,6 +13,7 @@
 #include <utility>
 #include "Main.h"
 #include "UserInterface.h"
+#include "Forms/WaitDialog.h"
 
 namespace VeraCrypt
 {
@@ -29,7 +30,7 @@ namespace VeraCrypt
 		virtual void BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const;
 		virtual void BeginBusyState () const { wxBeginBusyCursor(); }
 		virtual void BeginInteractiveBusyState (wxWindow *window);
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), shared_ptr <Hash> currentHash = shared_ptr <Hash>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const { ThrowTextModeRequired(); }
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), shared_ptr <Hash> currentHash = shared_ptr <Hash>(), bool truecryptMode = false, shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const { ThrowTextModeRequired(); }
 		wxHyperlinkCtrl *CreateHyperlink (wxWindow *parent, const wxString &linkUrl, const wxString &linkText) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const;
 		virtual void CreateVolume (shared_ptr <VolumeCreationOptions> options) const { ThrowTextModeRequired(); }
@@ -84,12 +85,13 @@ namespace VeraCrypt
 		virtual void ShowInfoTopMost (char *langStringId) const { ShowInfoTopMost (LangString[langStringId]); }
 		virtual void ShowInfoTopMost (const wxString &message) const;
 		virtual void ShowWarningTopMost (char *langStringId) const { ShowWarningTopMost (LangString[langStringId]); }
-		virtual void ShowWarningTopMost (const wxString &message) const;
+		virtual void ShowWarningTopMost (const wxString &message) const;	
 		virtual bool UpdateListCtrlItem (wxListCtrl *listCtrl, long itemIndex, const vector <wstring> &itemFields) const;
 		virtual void UserEnrichRandomPool (wxWindow *parent, shared_ptr <Hash> hash = shared_ptr <Hash>()) const;
 		virtual void Yield () const;
 		virtual WaitThreadUI* GetWaitThreadUI(WaitThreadRoutine *pRoutine) const;
 		virtual shared_ptr <VolumeInfo> MountVolumeThread (MountOptions &options) const;
+		WaitDialog* GetWaitDialog () { return mWaitDialog; }
 
 #ifdef TC_MACOSX
 		virtual void MacOpenFile (const wxString &fileName);
@@ -124,6 +126,8 @@ namespace VeraCrypt
 #endif
 		wxFrame *mMainFrame;
 		auto_ptr <wxSingleInstanceChecker> SingleInstanceChecker;
+
+		mutable WaitDialog* mWaitDialog;
 
 	private:
 		GraphicUserInterface (const GraphicUserInterface &);

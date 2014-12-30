@@ -39,6 +39,7 @@ namespace VeraCrypt
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_UPDATE_VOLUME_LIST)
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_PREF_UPDATED)
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_OPEN_VOLUME_REQUEST)
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_SHOW_WARNING)
 
 	MainFrame::MainFrame (wxWindow* parent) : MainFrameBase (parent),
 		ListItemRightClickEventPending (false),
@@ -1495,6 +1496,7 @@ namespace VeraCrypt
 		}
 
 		VolumeInfoList protectionTriggeredVolumes;
+		SlotListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 
 		// Update list
 		long prevItemIndex = -1;
@@ -1516,7 +1518,7 @@ namespace VeraCrypt
 #endif
 				fields[ColumnPath] = volume->Path;
 				fields[ColumnSize] = Gui->SizeToString (volume->Size);
-				fields[ColumnType] = Gui->VolumeTypeToString (volume->Type, volume->Protection);
+				fields[ColumnType] = Gui->VolumeTypeToString (volume->Type, volume->TrueCryptMode, volume->Protection);
 				
 				if (volume->HiddenVolumeProtectionTriggered)
 				{

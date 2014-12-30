@@ -23,6 +23,7 @@ namespace VeraCrypt
 		ArgNoHiddenVolumeProtection (false),
 		ArgSize (0),
 		ArgVolumeType (VolumeType::Unknown),
+		ArgTrueCryptMode (false),
 		StartBackgroundTask (false)
 	{
 		parser.SetSwitchChars (L"-");
@@ -71,6 +72,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"quick",				_("Enable quick format"));
 		parser.AddOption (L"",	L"size",				_("Size in bytes"));
 		parser.AddOption (L"",	L"slot",				_("Volume slot number"));
+		parser.AddOption (L"tc",L"truecrypt",			_("Enable TrueCrypt mode. Should be put first to avoid issues."));
 		parser.AddSwitch (L"",	L"test",				_("Test internal algorithms"));
 		parser.AddSwitch (L"t", L"text",				_("Use text user interface"));
 		parser.AddOption (L"",	L"token-lib",			_("Security token library"));
@@ -288,6 +290,8 @@ namespace VeraCrypt
 		}
 
 		ArgForce = parser.Found (L"force");
+		
+		ArgTrueCryptMode = parser.Found (L"truecrypt");
 
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
 		if (parser.Found (L"fs-options", &str))
@@ -401,7 +405,7 @@ namespace VeraCrypt
 				if (wxString (hash->GetName()).IsSameAs (str, false))
 				{
 					bHashFound = true;
-					ArgMountOptions.ProtectionKdf = Pkcs5Kdf::GetAlgorithm (*hash);
+					ArgMountOptions.ProtectionKdf = Pkcs5Kdf::GetAlgorithm (*hash, ArgTrueCryptMode);
 				}
 			}
 

@@ -30,14 +30,14 @@
 #include "Forms/MountOptionsDialog.h"
 #include "Forms/RandomPoolEnrichmentDialog.h"
 #include "Forms/SecurityTokenKeyfilesDialog.h"
-#include "Forms/WaitDialog.h"
 
 namespace VeraCrypt
 {
 	GraphicUserInterface::GraphicUserInterface () :
 		ActiveFrame (nullptr),
 		BackgroundMode (false),
-		mMainFrame (nullptr)
+		mMainFrame (nullptr),
+		mWaitDialog (nullptr)
 	{
 #ifdef TC_UNIX
 		signal (SIGHUP, OnSignal);
@@ -179,6 +179,7 @@ namespace VeraCrypt
 						options->PreserveTimestamps,
 						options->Password,
 						options->Kdf,
+						false,
 						options->Keyfiles,
 						options->Protection,
 						options->ProtectionPassword,
@@ -409,12 +410,22 @@ namespace VeraCrypt
 		{
 			virtual void operator() (string &passwordStr)
 			{
-				wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), _("Enter your user password or administrator password:"), _("Administrator privileges required"));
 
-				if (dialog.ShowModal() != wxID_OK)
-					throw UserAbort (SRC_POS);
-
-				wstring wPassword (dialog.GetValue());	// A copy of the password is created here by wxWidgets, which cannot be erased
+				wxString sValue;
+				if (Gui->GetWaitDialog())
+				{
+					Gui->GetWaitDialog()->RequestAdminPassword(sValue);
+					if (sValue.IsEmpty())
+						throw UserAbort (SRC_POS);
+				}
+				else
+				{
+					wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), _("Enter your user password or administrator password:"), _("Administrator privileges required"));
+					if (dialog.ShowModal() != wxID_OK)
+						throw UserAbort (SRC_POS);
+					sValue = dialog.GetValue();
+				}
+				wstring wPassword (sValue);	// A copy of the password is created here by wxWidgets, which cannot be erased
 				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
 
 				StringConverter::ToSingle (wPassword, passwordStr);
@@ -525,13 +536,25 @@ namespace VeraCrypt
 				if (Gui->GetPreferences().NonInteractive)
 					throw MissingArgument (SRC_POS);
 
-				wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), wxString::Format (LangString["ENTER_TOKEN_PASSWORD"], StringConverter::ToWide (passwordStr).c_str()), LangString["IDD_TOKEN_PASSWORD"]);
-				dialog.SetSize (wxSize (Gui->GetCharWidth (&dialog) * 50, -1));
+				wxString sValue;
+				if (Gui->GetWaitDialog())
+				{
+					sValue = StringConverter::ToWide (passwordStr).c_str();
+					Gui->GetWaitDialog()->RequestPin (sValue);
+					if (sValue.IsEmpty ())
+						throw UserAbort (SRC_POS);
+				}
+				else
+				{
+					wxPasswordEntryDialog dialog (Gui->GetActiveWindow(), wxString::Format (LangString["ENTER_TOKEN_PASSWORD"], StringConverter::ToWide (passwordStr).c_str()), LangString["IDD_TOKEN_PASSWORD"]);
+					dialog.SetSize (wxSize (Gui->GetCharWidth (&dialog) * 50, -1));
 
-				if (dialog.ShowModal() != wxID_OK)
-					throw UserAbort (SRC_POS);
+					if (dialog.ShowModal() != wxID_OK)
+						throw UserAbort (SRC_POS);
+					sValue = dialog.GetValue();
+				}
 
-				wstring wPassword (dialog.GetValue());	// A copy of the password is created here by wxWidgets, which cannot be erased
+				wstring wPassword (sValue);	// A copy of the password is created here by wxWidgets, which cannot be erased
 				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
 
 				StringConverter::ToSingle (wPassword, passwordStr);
@@ -1273,6 +1296,7 @@ namespace VeraCrypt
 						options.PreserveTimestamps,
 						options.Password,
 						options.Kdf,
+						options.TrueCryptMode,
 						options.Keyfiles,
 						options.Protection,
 						options.ProtectionPassword,
@@ -1392,11 +1416,11 @@ namespace VeraCrypt
 
 						// Decrypt header
 						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
-						Pkcs5KdfList keyDerivationFunctions = layout->GetSupportedKeyDerivationFunctions();
+						Pkcs5KdfList keyDerivationFunctions = layout->GetSupportedKeyDerivationFunctions(options.TrueCryptMode);
 						EncryptionAlgorithmList encryptionAlgorithms = layout->GetSupportedEncryptionAlgorithms();
 						EncryptionModeList encryptionModes = layout->GetSupportedEncryptionModes();
 
-						DecryptThreadRoutine decryptRoutine(layout->GetHeader(), headerBuffer, *passwordKey, options.Kdf, keyDerivationFunctions, encryptionAlgorithms, encryptionModes);
+						DecryptThreadRoutine decryptRoutine(layout->GetHeader(), headerBuffer, *passwordKey, options.Kdf, options.TrueCryptMode, keyDerivationFunctions, encryptionAlgorithms, encryptionModes);
 						WaitDialog decryptDlg(parent, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &decryptRoutine);
 						decryptDlg.Run();
 
@@ -1713,15 +1737,22 @@ namespace VeraCrypt
 				caption.clear();
 		}
 #endif
-		if (topMost)
+		if (mWaitDialog)
 		{
-			if (!IsActive())
-				mMainFrame->RequestUserAttention (wxUSER_ATTENTION_ERROR);
-
-			style |= wxSTAY_ON_TOP;
+			return mWaitDialog->RequestShowMessage(subMessage, caption, style, topMost);
 		}
+		else
+		{
+			if (topMost)
+			{
+				if (!IsActive())
+					mMainFrame->RequestUserAttention (wxUSER_ATTENTION_ERROR);
 
-		return wxMessageBox (subMessage, caption, style, GetActiveWindow());
+				style |= wxSTAY_ON_TOP;
+			}
+
+			return wxMessageBox (subMessage, caption, style, GetActiveWindow());
+		}
 	}
 
 	void GraphicUserInterface::ShowWarningTopMost (const wxString &message) const
@@ -1758,6 +1789,8 @@ namespace VeraCrypt
 			{
 				item.SetText (field);
 				listCtrl->SetItem (item);
+				if (item.GetColumn() == 3 || item.GetColumn() == 4)
+					listCtrl->SetColumnWidth(item.GetColumn(), wxLIST_AUTOSIZE);
 				changed = true;
 			}
 		}
@@ -1794,8 +1827,11 @@ namespace VeraCrypt
 	{
 		MountThreadRoutine routine(options);
 		WaitDialog dlg(GetTopWindow(), LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
+
+		mWaitDialog = &dlg;
+		finally_do_arg (WaitDialog**, &mWaitDialog, { *finally_arg = nullptr; });
+
 		dlg.Run();
-		
 		return routine.m_pVolume;
 	}
 

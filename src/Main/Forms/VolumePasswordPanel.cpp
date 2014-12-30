@@ -14,7 +14,7 @@
 
 namespace VeraCrypt
 {
-	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
+	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, shared_ptr <VolumePassword> password, bool disableTruecryptMode, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
 		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList)
 	{
 		if (keyfiles)
@@ -63,6 +63,7 @@ namespace VeraCrypt
 
 		Pkcs5PrfStaticText->Show (enablePkcs5Prf);
 		Pkcs5PrfChoice->Show (enablePkcs5Prf);		
+		TrueCryptModeCheckBox->Show (!disableTruecryptMode);
 		HeaderWipeCountText->Show (enablePkcs5Prf && !isMountPassword);
 		HeaderWipeCount->Show (enablePkcs5Prf && !isMountPassword);
 
@@ -74,7 +75,7 @@ namespace VeraCrypt
 				Pkcs5PrfChoice->Delete (0);
 				Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);		
 			}
-			foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms())
+			foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms(false))
 			{
 				if (!kdf.IsDeprecated() || isMountPassword)
 					Pkcs5PrfChoice->Append (kdf.GetName());
@@ -190,12 +191,17 @@ namespace VeraCrypt
 	{
 		try
 		{
-			return Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection()));
+			return Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection()), GetTrueCryptMode());
 		}
 		catch (ParameterIncorrect&)
 		{
 			return shared_ptr <Pkcs5Kdf> ();
 		}
+	}
+	
+	bool VolumePasswordPanel::GetTrueCryptMode () const
+	{
+		return TrueCryptModeCheckBox->GetValue ();
 	}
 	
 	int VolumePasswordPanel::GetHeaderWipeCount () const

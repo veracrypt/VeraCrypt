@@ -86,11 +86,12 @@ namespace VeraCrypt
 		uint64 GetTotalDataRead () const { return TotalDataRead; }
 		uint64 GetTotalDataWritten () const { return TotalDataWritten; }
 		VolumeType::Enum GetType () const { return Type; }
+		bool GetTrueCryptMode() const { return TrueCryptMode; }
 		uint64 GetVolumeCreationTime () const { return Header->GetVolumeCreationTime(); }
 		bool IsHiddenVolumeProtectionTriggered () const { return HiddenVolumeProtectionTriggered; }
 		bool IsInSystemEncryptionScope () const { return SystemEncryption; }
-		void Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection = VolumeProtection::None, shared_ptr <VolumePassword> protectionPassword = shared_ptr <VolumePassword> (), shared_ptr <Pkcs5Kdf> protectionKdf = shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> protectionKeyfiles = shared_ptr <KeyfileList> (), bool sharedAccessAllowed = false, VolumeType::Enum volumeType = VolumeType::Unknown, bool useBackupHeaders = false, bool partitionInSystemEncryptionScope = false);
-		void Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection = VolumeProtection::None, shared_ptr <VolumePassword> protectionPassword = shared_ptr <VolumePassword> (), shared_ptr <Pkcs5Kdf> protectionKdf = shared_ptr <Pkcs5Kdf> (), shared_ptr <KeyfileList> protectionKeyfiles = shared_ptr <KeyfileList> (), VolumeType::Enum volumeType = VolumeType::Unknown, bool useBackupHeaders = false, bool partitionInSystemEncryptionScope = false);
+		void Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection = VolumeProtection::None, shared_ptr <VolumePassword> protectionPassword = shared_ptr <VolumePassword> (), shared_ptr <Pkcs5Kdf> protectionKdf = shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> protectionKeyfiles = shared_ptr <KeyfileList> (), bool sharedAccessAllowed = false, VolumeType::Enum volumeType = VolumeType::Unknown, bool useBackupHeaders = false, bool partitionInSystemEncryptionScope = false);
+		void Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection = VolumeProtection::None, shared_ptr <VolumePassword> protectionPassword = shared_ptr <VolumePassword> (), shared_ptr <Pkcs5Kdf> protectionKdf = shared_ptr <Pkcs5Kdf> (), shared_ptr <KeyfileList> protectionKeyfiles = shared_ptr <KeyfileList> (), VolumeType::Enum volumeType = VolumeType::Unknown, bool useBackupHeaders = false, bool partitionInSystemEncryptionScope = false);
 		void ReadSectors (const BufferPtr &buffer, uint64 byteOffset);
 		void ReEncryptHeader (bool backupHeader, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf);
 		void WriteSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
@@ -116,6 +117,7 @@ namespace VeraCrypt
 		uint64 TopWriteOffset;
 		uint64 TotalDataRead;
 		uint64 TotalDataWritten;
+		bool TrueCryptMode;
 
 	private:
 		Volume (const Volume &);

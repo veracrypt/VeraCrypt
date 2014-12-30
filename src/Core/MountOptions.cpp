@@ -46,6 +46,7 @@ namespace VeraCrypt
 		TC_CLONE (SharedAccessAllowed);
 		TC_CLONE (SlotNumber);
 		TC_CLONE (UseBackupHeaders);
+		TC_CLONE (TrueCryptMode);
 	}
 
 	void MountOptions::Deserialize (shared_ptr <Stream> stream)
@@ -72,14 +73,6 @@ namespace VeraCrypt
 			Password = Serializable::DeserializeNew <VolumePassword> (stream);
 		else
 			Password.reset();
-			
-		if (!sr.DeserializeBool ("KdfNull"))
-		{
-			sr.Deserialize ("Kdf", nameValue);
-			Kdf = Pkcs5Kdf::GetAlgorithm (nameValue);
-		}
-		else
-			Kdf.reset();
 
 		if (!sr.DeserializeBool ("PathNull"))
 			Path.reset (new VolumePath (sr.DeserializeWString ("Path")));
@@ -96,19 +89,33 @@ namespace VeraCrypt
 		else
 			ProtectionPassword.reset();
 
-		if (!sr.DeserializeBool ("ProtectionKdfNull"))
-		{
-			sr.Deserialize ("ProtectionKdf", nameValue);
-			ProtectionKdf = Pkcs5Kdf::GetAlgorithm (nameValue);
-		}
-		else
-			ProtectionKdf.reset();
-
 		ProtectionKeyfiles = Keyfile::DeserializeList (stream, "ProtectionKeyfiles");
 		sr.Deserialize ("Removable", Removable);
 		sr.Deserialize ("SharedAccessAllowed", SharedAccessAllowed);
 		sr.Deserialize ("SlotNumber", SlotNumber);
 		sr.Deserialize ("UseBackupHeaders", UseBackupHeaders);
+
+		sr.Deserialize ("TrueCryptMode", TrueCryptMode);
+		
+		try
+		{
+			if (!sr.DeserializeBool ("KdfNull"))
+			{
+				sr.Deserialize ("Kdf", nameValue);
+				Kdf = Pkcs5Kdf::GetAlgorithm (nameValue, TrueCryptMode);
+			}			
+		}
+		catch(...) {}
+
+		try
+		{
+			if (!sr.DeserializeBool ("ProtectionKdfNull"))
+			{
+				sr.Deserialize ("ProtectionKdf", nameValue);
+				ProtectionKdf = Pkcs5Kdf::GetAlgorithm (nameValue, TrueCryptMode);
+			}
+		}
+		catch(...) {}
 	}
 
 	void MountOptions::Serialize (shared_ptr <Stream> stream) const
@@ -133,10 +140,6 @@ namespace VeraCrypt
 		if (Password)
 			Password->Serialize (stream);
 
-		sr.Serialize ("KdfNull", Kdf == nullptr);
-		if (Kdf)
-			sr.Serialize ("Kdf", Kdf->GetName());
-
 		sr.Serialize ("PathNull", Path == nullptr);
 		if (Path)
 			sr.Serialize ("Path", wstring (*Path));
@@ -149,15 +152,21 @@ namespace VeraCrypt
 		if (ProtectionPassword)
 			ProtectionPassword->Serialize (stream);
 
-		sr.Serialize ("ProtectionKdfNull", ProtectionKdf == nullptr);
-		if (ProtectionKdf)
-			sr.Serialize ("ProtectionKdf", ProtectionKdf->GetName());
-
 		Keyfile::SerializeList (stream, "ProtectionKeyfiles", ProtectionKeyfiles);
 		sr.Serialize ("Removable", Removable);
 		sr.Serialize ("SharedAccessAllowed", SharedAccessAllowed);
 		sr.Serialize ("SlotNumber", SlotNumber);
 		sr.Serialize ("UseBackupHeaders", UseBackupHeaders);
+
+		sr.Serialize ("TrueCryptMode", TrueCryptMode);
+
+		sr.Serialize ("KdfNull", Kdf == nullptr);
+		if (Kdf)
+			sr.Serialize ("Kdf", Kdf->GetName());
+
+		sr.Serialize ("ProtectionKdfNull", ProtectionKdf == nullptr);
+		if (ProtectionKdf)
+			sr.Serialize ("ProtectionKdf", ProtectionKdf->GetName());
 	}
 
 	TC_SERIALIZER_FACTORY_ADD_CLASS (MountOptions);

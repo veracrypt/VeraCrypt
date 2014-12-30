@@ -410,6 +410,7 @@ namespace VeraCrypt
 					options.PreserveTimestamps,
 					options.Password,
 					options.Kdf,
+					options.TrueCryptMode,
 					options.Keyfiles,
 					options.Protection,
 					options.ProtectionPassword,

@@ -48,11 +48,11 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 		}
 
-		CurrentPasswordPanel = new VolumePasswordPanel (this, password, keyfiles, false, true, true, false, true, true);
+		CurrentPasswordPanel = new VolumePasswordPanel (this, password, false, keyfiles, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
-		NewPasswordPanel = new VolumePasswordPanel (this, newPassword, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
+		NewPasswordPanel = new VolumePasswordPanel (this, newPassword, true, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
 		
@@ -81,6 +81,14 @@ namespace VeraCrypt
 
 		try
 		{
+			shared_ptr <Pkcs5Kdf> currentKdf = CurrentPasswordPanel->GetPkcs5Kdf();
+			if (currentKdf && CurrentPasswordPanel->GetTrueCryptMode() && (currentKdf->GetName() == L"HMAC-SHA-256"))
+			{
+				Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
+				event.Skip();
+				return;
+			}
+			
 			shared_ptr <VolumePassword> newPassword;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 			{
@@ -126,7 +134,7 @@ namespace VeraCrypt
 #endif
 				wxBusyCursor busy;
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
-					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetKeyfiles(),
+					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
 					newPassword, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
 				WaitDialog dlg(this, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
 				dlg.Run();

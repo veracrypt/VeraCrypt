@@ -75,6 +75,7 @@ namespace VeraCrypt
 		shared_ptr <VolumePath> ArgVolumePath;
 		VolumeInfoList ArgVolumes;
 		VolumeType::Enum ArgVolumeType;
+		bool ArgTrueCryptMode;
 
 		bool StartBackgroundTask;
 		UserPreferences Preferences;

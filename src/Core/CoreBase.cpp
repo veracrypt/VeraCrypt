@@ -29,7 +29,15 @@ namespace VeraCrypt
 			throw PasswordEmpty (SRC_POS);
 
 		if (!newPkcs5Kdf)
-			newPkcs5Kdf = openVolume->GetPkcs5Kdf();
+		{
+			if (openVolume->GetPkcs5Kdf()->GetTrueCryptMode ())
+			{
+				newPkcs5Kdf.reset (openVolume->GetPkcs5Kdf()->Clone());
+				newPkcs5Kdf->SetTrueCryptMode (false);
+			}
+			else
+				newPkcs5Kdf = openVolume->GetPkcs5Kdf();
+		}
 
 		if ((openVolume->GetHeader()->GetFlags() & TC_HEADER_FLAG_ENCRYPTED_SYSTEM) != 0
 			&& openVolume->GetType() == VolumeType::Hidden
@@ -68,9 +76,9 @@ namespace VeraCrypt
 		}
 	}
 		
-	void CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
+	void CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
 	{
-		shared_ptr <Volume> volume = OpenVolume (volumePath, preserveTimestamps, password, kdf, keyfiles);
+		shared_ptr <Volume> volume = OpenVolume (volumePath, preserveTimestamps, password, kdf, truecryptMode, keyfiles);
 		ChangePassword (volume, newPassword, newKeyfiles, newPkcs5Kdf, wipeCount);
 	}
 
@@ -242,10 +250,10 @@ namespace VeraCrypt
 		return GetMountedVolume (volumePath);
 	}
 
-	shared_ptr <Volume> CoreBase::OpenVolume (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr<Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr<Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope) const
+	shared_ptr <Volume> CoreBase::OpenVolume (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr<Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr<Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope) const
 	{
 		make_shared_auto (Volume, volume);
-		volume->Open (*volumePath, preserveTimestamps, password, kdf, keyfiles, protection, protectionPassword, protectionKdf, protectionKeyfiles, sharedAccessAllowed, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
+		volume->Open (*volumePath, preserveTimestamps, password, kdf, truecryptMode, keyfiles, protection, protectionPassword, protectionKdf, protectionKeyfiles, sharedAccessAllowed, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
 		return volume;
 	}
 	

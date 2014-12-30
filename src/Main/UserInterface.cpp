@@ -249,7 +249,7 @@ namespace VeraCrypt
 #endif
 			prop << LangString["MOUNT_POINT"] << L": " << wstring (volume.MountPoint) << L'\n';
 			prop << LangString["SIZE"] << L": " << SizeToString (volume.Size) << L'\n';
-			prop << LangString["TYPE"] << L": " << VolumeTypeToString (volume.Type, volume.Protection) << L'\n';
+			prop << LangString["TYPE"] << L": " << VolumeTypeToString (volume.Type, volume.TrueCryptMode, volume.Protection) << L'\n';
 
 			prop << LangString["READ_ONLY"] << L": " << LangString [volume.Protection == VolumeProtection::ReadOnly ? "UISTR_YES" : "UISTR_NO"] << L'\n';
 
@@ -296,7 +296,7 @@ namespace VeraCrypt
 		ShowString (prop);
 	}
 
-	wxString UserInterface::ExceptionToMessage (const exception &ex) const
+	wxString UserInterface::ExceptionToMessage (const exception &ex)
 	{
 		wxString message;
 		
@@ -365,7 +365,7 @@ namespace VeraCrypt
 		return StringConverter::ToWide (typeName) + L" at " + StringConverter::ToWide (ex.what());
 	}
 
-	wxString UserInterface::ExceptionToString (const Exception &ex) const
+	wxString UserInterface::ExceptionToString (const Exception &ex)
 	{
 		// Error messages
 		const ErrorMessage *errMsgEx = dynamic_cast <const ErrorMessage *> (&ex);
@@ -436,7 +436,7 @@ namespace VeraCrypt
 		return ExceptionTypeToString (typeid (ex));
 	}
 
-	wxString UserInterface::ExceptionTypeToString (const std::type_info &ex) const
+	wxString UserInterface::ExceptionTypeToString (const std::type_info &ex)
 	{
 #define EX2MSG(exception, message) do { if (ex == typeid (exception)) return (message); } while (false)
 		EX2MSG (DriveLetterUnavailable,				LangString["DRIVE_LETTER_UNAVAILABLE"]);
@@ -483,6 +483,8 @@ namespace VeraCrypt
 		EX2MSG (VolumeEncryptionNotCompleted,		LangString["ERR_ENCRYPTION_NOT_COMPLETED"]);
 		EX2MSG (VolumeHostInUse,					_("The host file/device is already in use."));
 		EX2MSG (VolumeSlotUnavailable,				_("Volume slot unavailable."));
+		EX2MSG (UnsupportedAlgoInTrueCryptMode,		LangString["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
+		EX2MSG (UnsupportedTrueCryptFormat,			LangString["UNSUPPORTED_TRUECRYPT_FORMAT"]);
 
 #ifdef TC_MACOSX
 		EX2MSG (HigherFuseVersionRequired,			_("VeraCrypt requires OSXFUSE 2.3 or later with MacFUSE compatibility layer installer.\nPlease ensure that you have selected this compatibility layer during OSXFUSE installation."));
@@ -885,9 +887,10 @@ namespace VeraCrypt
 				cmdLine.ArgMountOptions.Password = cmdLine.ArgPassword;
 				cmdLine.ArgMountOptions.Keyfiles = cmdLine.ArgKeyfiles;
 				cmdLine.ArgMountOptions.SharedAccessAllowed = cmdLine.ArgForce;
+				cmdLine.ArgMountOptions.TrueCryptMode = cmdLine.ArgTrueCryptMode;
 				if (cmdLine.ArgHash)
 				{
-					cmdLine.ArgMountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash);
+					cmdLine.ArgMountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash, cmdLine.ArgTrueCryptMode);
 				}
 
 
@@ -972,7 +975,7 @@ namespace VeraCrypt
 			return true;
 
 		case CommandId::ChangePassword:
-			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgCurrentHash, cmdLine.ArgKeyfiles, cmdLine.ArgNewPassword, cmdLine.ArgNewKeyfiles, cmdLine.ArgHash);
+			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgCurrentHash, cmdLine.ArgTrueCryptMode, cmdLine.ArgKeyfiles, cmdLine.ArgNewPassword, cmdLine.ArgNewKeyfiles, cmdLine.ArgHash);
 			return true;
 
 		case CommandId::CreateKeyfile:
@@ -985,7 +988,7 @@ namespace VeraCrypt
 
 				if (cmdLine.ArgHash)
 				{
-					options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash);
+					options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash, false);
 					RandomNumberGenerator::SetHash (cmdLine.ArgHash);
 				}
 				
@@ -1484,19 +1487,27 @@ namespace VeraCrypt
 		return dateStr;
 	}
 
-	wxString UserInterface::VolumeTypeToString (VolumeType::Enum type, VolumeProtection::Enum protection) const
+	wxString UserInterface::VolumeTypeToString (VolumeType::Enum type, bool truecryptMode, VolumeProtection::Enum protection) const
 	{
+		wxString sResult;
 		switch (type)
 		{
 		case VolumeType::Normal:
-			return LangString[protection == VolumeProtection::HiddenVolumeReadOnly ? "OUTER" : "NORMAL"];
+			sResult = LangString[protection == VolumeProtection::HiddenVolumeReadOnly ? "OUTER" : "NORMAL"];
+			break;
 
 		case VolumeType::Hidden:
-			return LangString["HIDDEN"];
+			sResult = LangString["HIDDEN"];
+			break;
 
 		default:
-			return L"?";
+			sResult = L"?";
+			break;
 		}
+
+		if (truecryptMode)
+			sResult = wxT("TrueCrypt-") + sResult;
+		return sResult;
 	}
 
 	#define VC_CONVERT_EXCEPTION(NAME) if (dynamic_cast<NAME*> (ex)) throw (NAME&) *ex;
@@ -1565,6 +1576,8 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileAlreadyExists);
 		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileNotFound);
 		VC_CONVERT_EXCEPTION (SystemException);
+		VC_CONVERT_EXCEPTION (UnsupportedAlgoInTrueCryptMode);
+		VC_CONVERT_EXCEPTION (UnsupportedTrueCryptFormat);
 		throw *ex;
 	}
 }

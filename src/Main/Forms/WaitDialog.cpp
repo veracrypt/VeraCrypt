@@ -15,11 +15,12 @@
 namespace VeraCrypt
 {
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOGTHREAD_COMPLETED)
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOG_ADMIN_PASSWORD)
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOG_PIN)
+	DEFINE_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOG_SHOW_MSG)
 
 	wxThread::ExitCode WaitThread::Entry()
-	{
-		wxCommandEvent finishEvent( wxEVT_COMMAND_WAITDIALOGTHREAD_COMPLETED,0);
-		
+	{	
 		m_pRoutine->Execute();
 		wxQueueEvent (m_pHandler, new wxCommandEvent( wxEVT_COMMAND_WAITDIALOGTHREAD_COMPLETED,0));
 		return (wxThread::ExitCode)0; // success
@@ -88,7 +89,9 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (InvalidSecurityTokenKeyfilePath);
 		VC_CONVERT_EXCEPTION (SecurityTokenLibraryNotInitialized);
 		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileAlreadyExists);
-		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileNotFound);	
+		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileNotFound);
+		VC_CONVERT_EXCEPTION (UnsupportedAlgoInTrueCryptMode);	
+		VC_CONVERT_EXCEPTION (UnsupportedTrueCryptFormat);
 		throw *ex;
 	}
 }

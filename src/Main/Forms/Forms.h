@@ -962,6 +962,7 @@ namespace VeraCrypt
 			wxBoxSizer* Pkcs5PrfSizer;
 			wxStaticText* Pkcs5PrfStaticText;
 			wxChoice* Pkcs5PrfChoice;
+			wxCheckBox* TrueCryptModeCheckBox;
 			wxStaticText* HeaderWipeCountText;
 			wxChoice* HeaderWipeCount;
 			wxBoxSizer* PasswordPlaceholderSizer;

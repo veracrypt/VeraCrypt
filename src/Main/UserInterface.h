@@ -29,7 +29,7 @@ namespace VeraCrypt
 		virtual bool AskYesNo (const wxString &message, bool defaultYes = false, bool warning = false) const = 0;
 		virtual void BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const = 0;
 		virtual void BeginBusyState () const = 0;
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), shared_ptr <Hash> currentHash = shared_ptr <Hash>(), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const = 0;
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), shared_ptr <Hash> currentHash = shared_ptr <Hash>(), bool truecryptMode = false, shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const = 0;
 		virtual void CheckRequirementsForMountingVolume () const;
 		virtual void CloseExplorerWindows (shared_ptr <VolumeInfo> mountedVolume) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const = 0;
@@ -44,7 +44,7 @@ namespace VeraCrypt
 		virtual void DoShowString (const wxString &str) const = 0;
 		virtual void DoShowWarning (const wxString &message) const = 0;
 		virtual void EndBusyState () const = 0;
-		virtual wxString ExceptionToMessage (const exception &ex) const;
+		static wxString ExceptionToMessage (const exception &ex);
 		virtual void ExportSecurityTokenKeyfile () const = 0;
 		virtual shared_ptr <GetStringFunctor> GetAdminPasswordRequestHandler () = 0;
 		virtual const UserPreferences &GetPreferences () const { return Preferences; }
@@ -79,7 +79,7 @@ namespace VeraCrypt
 		virtual WaitThreadUI* GetWaitThreadUI(WaitThreadRoutine *pRoutine) const { return new WaitThreadUI(pRoutine);}
 		virtual wxDateTime VolumeTimeToDateTime (VolumeTime volumeTime) const { return wxDateTime ((time_t) (volumeTime / 1000ULL / 1000 / 10 - 134774ULL * 24 * 3600)); }
 		virtual wxString VolumeTimeToString (VolumeTime volumeTime) const;
-		virtual wxString VolumeTypeToString (VolumeType::Enum type, VolumeProtection::Enum protection) const;
+		virtual wxString VolumeTypeToString (VolumeType::Enum type, bool truecryptMode, VolumeProtection::Enum protection) const;
 
 		Event PreferencesUpdatedEvent;
 
@@ -100,8 +100,8 @@ namespace VeraCrypt
 		virtual void OnWarning (EventArgs &args);
 		virtual bool ProcessCommandLine ();
 
-		virtual wxString ExceptionToString (const Exception &ex) const;
-		virtual wxString ExceptionTypeToString (const std::type_info &ex) const;
+		static wxString ExceptionToString (const Exception &ex);
+		static wxString ExceptionTypeToString (const std::type_info &ex);
 
 		UserPreferences Preferences;
 		UserInterfaceType::Enum InterfaceType;

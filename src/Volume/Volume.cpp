@@ -23,7 +23,8 @@ namespace VeraCrypt
 		VolumeDataSize (0),
 		TopWriteOffset (0),
 		TotalDataRead (0),
-		TotalDataWritten (0)
+		TotalDataWritten (0),
+		TrueCryptMode (false)
 	{
 	}
 
@@ -62,7 +63,7 @@ namespace VeraCrypt
 		return EA->GetMode();
 	}
 
-	void Volume::Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr <Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
+	void Volume::Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr <Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
 	{
 		make_shared_auto (File, file);
 
@@ -93,12 +94,19 @@ namespace VeraCrypt
 				throw;
 		}
 
-		return Open (file, password, kdf, keyfiles, protection, protectionPassword, protectionKdf,protectionKeyfiles, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
+		return Open (file, password, kdf, truecryptMode, keyfiles, protection, protectionPassword, protectionKdf,protectionKeyfiles, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
 	}
 
-	void Volume::Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr <Pkcs5Kdf> protectionKdf,shared_ptr <KeyfileList> protectionKeyfiles, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
+	void Volume::Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr <Pkcs5Kdf> protectionKdf,shared_ptr <KeyfileList> protectionKeyfiles, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
 	{
 		if (!volumeFile)
+			throw ParameterIncorrect (SRC_POS);
+
+		// TrueCrypt doesn't support SHA-256
+		if (kdf && truecryptMode && (kdf->GetName() == L"HMAC-SHA-256"))
+			throw UnsupportedAlgoInTrueCryptMode (SRC_POS);	
+
+		if (truecryptMode && partitionInSystemEncryptionScope)
 			throw ParameterIncorrect (SRC_POS);
 
 		Protection = protection;
@@ -182,11 +190,11 @@ namespace VeraCrypt
 
 				shared_ptr <VolumeHeader> header = layout->GetHeader();
 
-				if (header->Decrypt (headerBuffer, *passwordKey, kdf, layout->GetSupportedKeyDerivationFunctions(), layoutEncryptionAlgorithms, layoutEncryptionModes))
+				if (header->Decrypt (headerBuffer, *passwordKey, kdf, truecryptMode, layout->GetSupportedKeyDerivationFunctions(truecryptMode), layoutEncryptionAlgorithms, layoutEncryptionModes))
 				{
 					// Header decrypted
 
-					if (typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
+					if (!truecryptMode && typeid (*layout) == typeid (VolumeLayoutV2Normal) && header->GetRequiredMinProgramVersion() < 0x10b)
 					{
 						// VolumeLayoutV1Normal has been opened as VolumeLayoutV2Normal
 						layout.reset (new VolumeLayoutV1Normal);
@@ -194,6 +202,7 @@ namespace VeraCrypt
 						layout->SetHeader (header);
 					}
 
+					TrueCryptMode = truecryptMode;
 					Type = layout->GetType();
 					SectorSize = header->GetSectorSize();
 
@@ -231,7 +240,7 @@ namespace VeraCrypt
 								Volume protectedVolume;
 
 								protectedVolume.Open (VolumeFile,
-									protectionPassword, protectionKdf, protectionKeyfiles,
+									protectionPassword, protectionKdf, truecryptMode, protectionKeyfiles,
 									VolumeProtection::ReadOnly,
 									shared_ptr <VolumePassword> (), shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
 									VolumeType::Hidden,
@@ -269,11 +278,12 @@ namespace VeraCrypt
 					Buffer mbr (VolumeFile->GetDeviceSectorSize());
 					driveDevice.ReadAt (mbr, 0);
 
-					// Search for the string "VeraCrypt"
-					size_t nameLen = strlen (TC_APP_NAME);
+					// Search for the string "VeraCrypt" or "TrueCrypt"
+					const char* bootSignature = truecryptMode? "TrueCrypt" : TC_APP_NAME;
+					size_t nameLen = strlen (bootSignature);
 					for (size_t i = 0; i < mbr.Size() - nameLen; ++i)
 					{
-						if (memcmp (mbr.Ptr() + i, TC_APP_NAME, nameLen) == 0)
+						if (memcmp (mbr.Ptr() + i, bootSignature, nameLen) == 0)
 							throw PasswordOrMountOptionsIncorrect (SRC_POS);
 					}
 				}

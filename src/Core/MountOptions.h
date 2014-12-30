@@ -31,7 +31,8 @@ namespace VeraCrypt
 			Removable (false),
 			SharedAccessAllowed (false),
 			SlotNumber (0),
-			UseBackupHeaders (false)
+			UseBackupHeaders (false),
+			TrueCryptMode (false)
 		{
 		}
 
@@ -63,6 +64,7 @@ namespace VeraCrypt
 		bool SharedAccessAllowed;
 		VolumeSlotNumber SlotNumber;
 		bool UseBackupHeaders;
+		bool TrueCryptMode;
 
 	protected:
 		void CopyFrom (const MountOptions &other);

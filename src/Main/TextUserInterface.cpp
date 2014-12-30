@@ -248,7 +248,7 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> kdf;
 		if (CmdLine->ArgHash)
 		{
-			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, false);
 		}
 
 		shared_ptr <Volume> normalVolume;
@@ -281,6 +281,7 @@ namespace VeraCrypt
 						options->PreserveTimestamps,
 						options->Password,
 						kdf,
+						false,
 						options->Keyfiles,
 						options->Protection,
 						options->ProtectionPassword,
@@ -367,7 +368,7 @@ namespace VeraCrypt
 		ShowInfo ("VOL_HEADER_BACKED_UP");
 	}
 
-	void TextUserInterface::ChangePassword (shared_ptr <VolumePath> volumePath, shared_ptr <VolumePassword> password, shared_ptr <Hash> currentHash, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Hash> newHash) const
+	void TextUserInterface::ChangePassword (shared_ptr <VolumePath> volumePath, shared_ptr <VolumePassword> password, shared_ptr <Hash> currentHash, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Hash> newHash) const
 	{
 		shared_ptr <Volume> volume;
 
@@ -389,7 +390,7 @@ namespace VeraCrypt
 		shared_ptr<Pkcs5Kdf> kdf;
 		if (currentHash)
 		{
-			kdf = Pkcs5Kdf::GetAlgorithm (*currentHash);
+			kdf = Pkcs5Kdf::GetAlgorithm (*currentHash, truecryptMode);
 		}
 
 		while (true)
@@ -420,7 +421,7 @@ namespace VeraCrypt
 					try
 					{
 						keyfiles.reset (new KeyfileList);
-						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, kdf, keyfiles);
+						volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, kdf, truecryptMode, keyfiles);
 					}
 					catch (PasswordException&)
 					{
@@ -430,7 +431,7 @@ namespace VeraCrypt
 				}	
 
 				if (!volume.get())
-					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, kdf, keyfiles);
+					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, kdf, truecryptMode, keyfiles);
 			}
 			catch (PasswordException &e)
 			{
@@ -464,7 +465,7 @@ namespace VeraCrypt
 		UserEnrichRandomPool();
 
 		Core->ChangePassword (volume, newPassword, newKeyfiles,
-			newHash ? Pkcs5Kdf::GetAlgorithm (*newHash) : shared_ptr <Pkcs5Kdf>());
+			newHash ? Pkcs5Kdf::GetAlgorithm (*newHash, false) : shared_ptr <Pkcs5Kdf>());
 
 		ShowInfo ("PASSWORD_CHANGED");
 	}
@@ -692,7 +693,7 @@ namespace VeraCrypt
 
 			shared_ptr <Hash> selectedHash = hashes[AskSelection (hashes.size(), 1) - 1];
 			RandomNumberGenerator::SetHash (selectedHash);
-			options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*selectedHash);
+			options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*selectedHash, false);
 
 		}
 
@@ -1298,11 +1299,10 @@ namespace VeraCrypt
 
 		// Ask whether to restore internal or external backup
 		bool restoreInternalBackup;
-
 		shared_ptr <Pkcs5Kdf> kdf;
 		if (CmdLine->ArgHash)
 		{
-			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash);
+			kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, false);
 		}
 
 		ShowInfo (LangString["HEADER_RESTORE_EXTERNAL_INTERNAL"]);
@@ -1346,6 +1346,7 @@ namespace VeraCrypt
 						options.PreserveTimestamps,
 						options.Password,
 						kdf,
+						false,
 						options.Keyfiles,
 						options.Protection,
 						options.ProtectionPassword,
@@ -1454,7 +1455,7 @@ namespace VeraCrypt
 
 						// Decrypt header
 						shared_ptr <VolumePassword> passwordKey = Keyfile::ApplyListToPassword (options.Keyfiles, options.Password);
-						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, kdf, layout->GetSupportedKeyDerivationFunctions(), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
+						if (layout->GetHeader()->Decrypt (headerBuffer, *passwordKey, kdf, false, layout->GetSupportedKeyDerivationFunctions(false), layout->GetSupportedEncryptionAlgorithms(), layout->GetSupportedEncryptionModes()))
 						{
 							decryptedLayout = layout;
 							break;
