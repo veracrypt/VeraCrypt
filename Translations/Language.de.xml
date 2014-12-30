@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="de" name="Deutsch" en-name="German" version="1.0.1" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Kennwort an&amp;zeigen</control>
     <control lang="de" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer-Fenster für eingebundenes Volumen öffnen</control>
     <control lang="de" key="IDC_TRAV_CACHE_PASSWORDS">Kennwort im Cache halten</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="de" key="IDC_UNMOUNTALL">A&amp;lle trennen</control>
     <control lang="de" key="IDC_VOLUME_PROPERTIES">Eigenscha&amp;ften...</control>
     <control lang="de" key="IDC_VOLUME_TOOLS">Vol.-&amp;Operationen…</control>
@@ -1033,6 +1034,8 @@
     <string lang="de" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nDie extra Bootpartition kann vor der Installation von Windows entfernt werden. Um dies zu tun, befolgen sie diese Schritte:\n\n1) Starten Sie Windows von der Installations-CD. \n\n2) Im Windows-Installationsbildschirm, klicken Sie "Jetzt installieren"; &gt; "Benutzerdefiniert (erweitert)".\n\n3) Klicken Sie auf "Laufwerksoptionen (erweitert)".\n\n4)Wählen Sie die Hauptsystempartition aus und löschen Sie diese indem Sie "Löschen" und "OK" klicken.\n\n5)Wählen Sie die "System-reservierte" Partition, klicken sie "erweitern" und vergrößern Sie diese so, dass das Betriebssystem darauf installiert werden kann.\n\n6) Klicken Sie "Anwenden" und "OK".\n\n7) Installieren Sie Windows auf der "System-reservierten" Partition.\n\n\nSollte jemand fragen warum Sie die extra Bootpartition entfernt haben können Sie antworten, dass Sie alle möglichen Datenlecks auf die unverschlüsselte Bootpartition vermeiden wollten.\n\nBitte Beachten Sie: Sie können diesen Text ausdrucken indem Sie auf den unten stehenden "Drucken"-Knopf klicken. Wenn Sie diesen Text speichern oder drucken (wird dringend empfohlen es sei denn Ihr Drucker speichert Kopien gedruckter Dokumente auf seinem internen Speicher) sollten Sie ihn und alle Kopien zerstören nachdem Sie die extra Bootpartition entfernt haben (andernfalls könnte der Text gefunden und ein Rückschluss auf ein verstecktes Betriebssystem gezogen werden).</string>
     <string lang="de" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warnung: Es gibt einen nicht zugeordneten Bereich zwischen der Systempartition und der ersten Partition dahinter. Sie dürfen nach dem Erstellen des versteckten Betriebssystems keine neuen Partitionen in dem nicht zugeordneten Bereich erstellen. Das Versteckte Betriebssystem wird andernfalls nicht starten (bis Sie solche neu erstellten Partitionen löschen).</string>
     <string lang="de" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Dieser Algorithmus wird derzeit nicht für die Systemverschlüsselung unterstützt.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="de" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Schlüsseldateien werden derzeit nicht für die Systemverschlüsselung unterstützt.</string>
     <string lang="de" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warnung: VeraCrypt konnte das ursprüngliche Tastaturlayout nicht wiederherstellen. Dadurch könnten Sie das Passwort falsch eingeben.</string>
     <string lang="de" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fehler: Es kann das Tastaturlayout für VeraCrypt nicht auf das Standard-US-Tastaturlayout festgelegt werden.\n\nBeachten Sie, dass das Kennwort in der Pre-Boot Umgebung eingegeben werden muss (bevor Windows startet), wo Nicht-US Windows Tastaturlayouts nicht verfügbar sind. Daher muss das Kennwort immer unter Verwendung des Standard-US-Tastaturlayout eingegeben werden.</string>

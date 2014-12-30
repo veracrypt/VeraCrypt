@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="zh-tw" name="繁體中文" en-name="Chinese (Taiwan)" version="0.1.0" translators="Barney Li, Simon Ma, ChangMing Hsu" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="zh-tw" key="IDC_SHOW_PASSWORD_CHPWD_ORI">顯示密碼</control>
     <control lang="zh-tw" key="IDC_TRAVEL_OPEN_EXPLORER">為掛載的加密區打開檔案總管視窗(&amp;E)</control>
     <control lang="zh-tw" key="IDC_TRAV_CACHE_PASSWORDS">在動態記憶體中快取密碼(&amp;C)</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="zh-tw" key="IDC_UNMOUNTALL">全部卸載(&amp;S)</control>
     <control lang="zh-tw" key="IDC_VOLUME_PROPERTIES">加密區內容(&amp;V)...</control>
     <control lang="zh-tw" key="IDC_VOLUME_TOOLS">加密區工具(&amp;T)...</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="zh-tw" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此演算法目前不支援系統加密。</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="zh-tw" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">&gt;警告：VeraCrypt 不能回復原始鍵盤配置。這可能導致您輸入不正確的密碼。</string>
     <string lang="zh-tw" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設定 VeraCrypt 鍵盤配置為標準美式鍵盤配置。\n\n要注意在啟動前置環境(Windows 啟動前)需要輸入密碼，這時非標準美式鍵盤配置是無法使用的。因此，密碼必須總是使用標準美式鍵盤配置輸入。</string>

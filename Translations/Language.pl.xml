@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="pl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Wyświetl hasło</control>
     <control lang="pl" key="IDC_TRAVEL_OPEN_EXPLORER">Otwórz okno &amp;Eksploratora dla podłączonego wolumenu</control>
     <control lang="pl" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Przechowuj hasło w pamięci sterownika</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="pl" key="IDC_UNMOUNTALL">Odłącz w&amp;szystko</control>
     <control lang="pl" key="IDC_VOLUME_PROPERTIES">Właściwośc&amp;i wolumenu...</control>
     <control lang="pl" key="IDC_VOLUME_TOOLS">&amp;Narzędzia wolumenu...</control>
@@ -1033,6 +1034,8 @@
     <string lang="pl" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nOsobna boot partycja może zostać usunięta przed instalacją Windows. Aby to zrobić wykonaj następujące kroki:\n\n1) Uruchom dysk instalacyjny Windows.\n\n2) Na ekranie instalatora Windows, wciśnij 'Instaluj teraz' &gt; 'Użytkownika (zaawansowane)'.\n\n3) Wciśnij 'Opcje Dysku'.\n\n4) Wybierz podstawową partycję systemową i usuń ją wciskając 'Delete' i 'OK'.\n\n5) Wybierz partycję 'System Reserved', wciśnij 'Rozszerz' i zwiększ jej rozmiar tak by można było zainstalować na niej.\n\n6) Wciśnij 'Zastosuj' i 'OK'.\n\n7) Zainstaluj Windows na partycji 'System Reserved'.\n\n\nNapastnik może cię spytać, dlaczego usunąłeś the osobną boot partycję, możesz odpowiedzieć, że chciałeś zapobiec możliwym wyciekom danych przez niezaszyfrowaną partycję uruchomieniową.\n\nUwaga: Możesz wydrukować ten tekst wciskając przycisk 'Drukuj' poniżej. Jeśli zachowasz ten tekst lub go wydrukujesz (gorąco sugerowane, chyba że drukarka zapisuje kopie drukowanych dokumentów na wewnętrznym dysku twardym), powinieneś zniszczyć wszystkie jego kopie po usunięciu osobnej boot partycji (w przeciwnym razie, jeśli taka kopia zostanie znaleziona, może wskazywać że zainstalowano ukryty system operacyjny na komputerze).</string>
     <string lang="pl" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">UWAGA: Istnieje niezalokowane miejsce pomiędzy partycją systemową i pierwszą partycją za partycją systemową. Po stworzeniu ukrytego systemu operacyjnego nie mżesz tworzyć nowych partycji w niezaalokowanym miejscu. Inaczej zabootowanie ukrytego systemu operacyjnego może być niemożliwe (dopóki nie skasujesz nowo stworzonej partycji).</string>
     <string lang="pl" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Ten algorytm nie jest obecnie obsługiwany do szyfrowania systemu.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="pl" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Pliki kluczowe nie są obecnie obsługiwane/wspierane do szyfrowania systemu.</string>
     <string lang="pl" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Ostrzeżenie: Program VeraCrypt nie mógł odtworzyć oryginalnych ustawień klawiatury. To może spowodować błędne wprowadzenie hasła.</string>
     <string lang="pl" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Błąd: Nie można ustawić trybu klawiatury dla VeraCrypt na układ USA.\n\nHasło będzie wprowadzane w środowisku PRZED uruchomieniem systemu Windows, gdzie inne niż standardowy układy klawiatury nie są dostępne. Dlatego, hasło MUSI być zawsze wprowadzane przy użyciu standardowego układu klawiatury USA.</string>

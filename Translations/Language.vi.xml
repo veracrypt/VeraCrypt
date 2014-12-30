@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="vi" name="Tiếng Việt" en-name="Vietnamese" version="0.1.0" translators="Nguyễn Kim Huy" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="vi" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Hiển thị mật mã</control>
     <control lang="vi" key="IDC_TRAVEL_OPEN_EXPLORER">Mở cửa sổ &amp;Explorer cho tập đĩa được nạp lên</control>
     <control lang="vi" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Tạm trữ mật mã trong bộ nhớ của trình điều khiển</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="vi" key="IDC_UNMOUNTALL">Th&amp;áo Tất cả xuống</control>
     <control lang="vi" key="IDC_VOLUME_PROPERTIES">Đặc tính của Tập đĩa...</control>
     <control lang="vi" key="IDC_VOLUME_TOOLS">Công cụ của Tập đĩa...</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="vi" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Cảnh báo: Có chỗ trống chưa phân phát giữa phân vùng hệ thống và phân vùng đầu tiên phía sau nó. Sau khi bạn cấu tạo hệ điều hành ẩn, bạn không được cấu tạo bất cứ phân vùng mới nào trong chỗ trống chưa phân phát đó. Không thôi, hệ điều hành ẩn sẽ không thể nào khởi động được (cho đến khi bạn xóa bỏ những phân vùng được cấu tạo như thế).</string>
     <string lang="vi" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Thuật toán này hiện không được hỗ trợ cho việc mã hóa hệ thống.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="vi" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Các tập tin khóa hiện không được hỗ trợ cho việc mã hóa hệ thống.</string>
     <string lang="vi" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Cảnh báo: VeraCrypt không thể hồi phục bố trí bàn phím gốc được. Chuyện này có thể làm cho bạn đánh mật mã không đúng vào.</string>
     <string lang="vi" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Lỗi: Không thể thiết đặt bố trí bàn phím cho VeraCrypt thành bố trí bàn phím căn bản của Mỹ được.\n\nLưu ý là mật mã cần được đánh vào trong môi trường tiền khởi động (trước khi Windows bắt đầu) lúc mà bố trí bàn phím Windows không phải của Mỹ không có sẵn. Vì vậy, mật mã phải luôn luôn được đánh vào dùng bố trí bàn phím căn bản của Mỹ.</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="fr" name="Français" en-name="French" version="0.2.0" translators="Stéphane S., Olivier M." />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Afficher mot de passe</control>
     <control lang="fr" key="IDC_TRAVEL_OPEN_EXPLORER">Ouvrir l'Explorateur pour le volume monté</control>
     <control lang="fr" key="IDC_TRAV_CACHE_PASSWORDS">Mot de passe en cache</control>
+	<control lang="fr" key="IDC_TRUECRYPT_MODE">Mode TrueCrypt</control>
     <control lang="fr" key="IDC_UNMOUNTALL">Tout démonter</control>
     <control lang="fr" key="IDC_VOLUME_PROPERTIES">Propriétés du volume</control>
     <control lang="fr" key="IDC_VOLUME_TOOLS">Outils pour le volume</control>
@@ -347,7 +348,7 @@
     <control lang="en" key="IDT_SECURITY_TOKEN">Security token:</control>
     <control lang="fr" key="IDT_SORT_METHOD">Méthode de tri :</control>
     <control lang="fr" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Merci de patienter. Cette opération peut prendre beaucoup de temps...</control>
-    <control lang="fr" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Merci de patienter...\nCette opération peut prendre beaucoup de temps et la fenêtre de VeraCrypt peur se figer et ne plus répondre.</control>
+    <control lang="fr" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Merci de patienter...\nCette opération peut prendre beaucoup de temps et la fenêtre de VeraCrypt peut se figer et ne plus répondre.</control>
     <control lang="fr" key="IDT_TEST_BLOCK_NUMBER">Nombre de blocs :</control>
     <control lang="fr" key="IDT_TEST_CIPHERTEXT">Cryptogramme (hexadécimal)</control>
     <control lang="fr" key="IDT_TEST_DATA_UNIT_NUMBER">Nombre d'unité de données (hexadécimal de 64 bits, taille d'une unité = 512 octets)</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="fr" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Avertissement : Il existe un espace non alloué entre la partition système et la première partition après celle-ci. Après la création du système d'exploitation caché, vous ne devez pas créer de nouvelles partitions dans cet espace non alloué. Dans le cas contraire, le système d'exploitation caché serait impossible à amorcer (jusqu'à la suppression des nouvelles partitions créées).</string>
     <string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Cet algorithme n'est pas encore supporté pour le chiffrement système.</string>
+	<string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Cet algorithme n'est pas supporté pour le mode TrueCrypt.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 7.x de TrueCrypt</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="fr" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Avertissement : VeraCrypt n'a pas pu restaurer la disposition originale du clavier. Cela peut vous faire saisir votre mot de passe de manière erronée .</string>
     <string lang="fr" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Erreur : Impossible de paramétrer la disposition du clavier pour VeraCrypt en clavier Américain standard.\n\nNotez que le mot de passe doit être saisi dans un environnement de pré-amorçage (avant que Windows ne démarre) où seul le clavier américain est disponible. Aussi le mot de passe doit toujours être saisi en utilisant la disposition du clavier américain.</string>

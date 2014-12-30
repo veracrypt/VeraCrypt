@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="it" name="Italiano" en-name="Italian" version="1.0.1" translators="Maurizio Ballo, Consiglio Gaetano" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="it" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Mostra password</control>
     <control lang="it" key="IDC_TRAVEL_OPEN_EXPLORER">Apri la finestra di Esplora risorse per il volume montato</control>
     <control lang="it" key="IDC_TRAV_CACHE_PASSWORDS">Mantieni la password nella cache</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="it" key="IDC_UNMOUNTALL">Smonta tutti</control>
     <control lang="it" key="IDC_VOLUME_PROPERTIES">Proprietà volume...</control>
     <control lang="it" key="IDC_VOLUME_TOOLS">Strumenti volume...</control>
@@ -1033,6 +1034,8 @@
     <string lang="it" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nL’extra boot della partizione può essere rimosso prima di installare Windows. Per fare questo, seguite questa procedura:\n\n1) Avviate il vostro disco di installazione di Windows.\n\n2)Nello schermo di installazione di  Windows fate clic su “Installa”&gt; “Personalizzata (avanzata)”.\n\n3) Fate clic su “Opzioni unità”.\n\n4) Selezionare la partizione di sistema ed eliminatela facendo clic su “Elimina”e quindi “OK”.\n\n5) Selezionare la partizione “Riservata al sistema”, fate clic su “Estendi” ed aumentate la sua dimensione in modo che il sistema operative possa essere installato in essa.\n\n6)Fate clic su “Applica” ed “OK”.\n\n7) Installare Windows nella partizione “Riservata al sistema”.\n\n\nDovrebbe ora un attaccante chiedervi chi ha rimosso l’extra boot della partizione. Potreste quindi rispondere che volevate prevenire qualsiasi danno ai dati nella partizione di avvio non Crittata.\n\nNota: Potete stampare questo testo facendo clic sul tasto “Stampa” sotto. Se voi salvate una copia di questo testo o la stampate (raccomandata rigorosamente, finché la vostra stampante conserva delle copie di documenti nella sua unità interna), dovete distruggere qualsiasi copia di esso dopo la rimozione dell’extra boot della partizione (diversamente, se viene trovata una di tali copie, essa potrebbe segnalare la presenza di un sistema operativo nascosto in questo computer).</string>
     <string lang="it" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">AVVERTENZA: C’è uno spazio non allocato tra la partizione di sistema e la prima partizione dietro di essa. Dopo aver creato il sistema operativo nascosto, non dovete creare nessuna nuova partizione in questo spazio non allocato. Diversamente sarà impossibile avviare il sistema operativo nascosto (finché voi eliminate tali nuove partizioni create).</string>
     <string lang="it" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Questo algoritmo non è attualmente supportato per la codifica del sistema.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="it" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">I file chiave sono attualmente non supportate dalla codifica di sistema.</string>
     <string lang="it" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">AVVERTENZA: VeraCrypt non può ripristinare la configurazione originale della tastiera. Questo può causare la digitazione errata della password.</string>
     <string lang="it" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ERRORE: Impossibile impostare la configurazione della tastiera per VeraCrypt nel layout standard tastiera USA.\n\nNotare che la password necessita di essere digitata in ambiente di pre-boot (prima dell’avvio di Windows) dove la configurazione delle tastiere Windows non americane non sono disponibili. Pertanto, la password deve essere sempre digitata usando il layout tastiera standard USA.</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="pt-br" name="Português-Brasil" en-name="Portuguese (Brazil)" version="0.1.0" translators="Thiago C. L. Mendes, Lecidio S. Alencar , Lucas C. Ferreira" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="pt-br" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Mostrar senha</control>
     <control lang="pt-br" key="IDC_TRAVEL_OPEN_EXPLORER">Abrir janela do &amp;Explorer para os volumes montados</control>
     <control lang="pt-br" key="IDC_TRAV_CACHE_PASSWORDS">Armazenar as senhas na memória da unidade</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="pt-br" key="IDC_UNMOUNTALL">De&amp;smontar Todos</control>
     <control lang="pt-br" key="IDC_VOLUME_PROPERTIES">Propriedades do &amp;Volume</control>
     <control lang="pt-br" key="IDC_VOLUME_TOOLS">Ferramen&amp;tas do Volume</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="pt-br" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Aviso: Há espaço não alocado entre a partição de sistema e a primeira partição depois dela. Depois de criar o sistema operacional oculto, você não deve criar novas partições nesse espaço não alocado. Caso contrário, o sistema operacional oculto será impossibilitado de inicializar (até você excluir essas recém-criadas partições).</string>
     <string lang="pt-br" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Este algoritmo não é suportado para criptografia de sistema.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="pt-br" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Arquivos-chave atualmente não são suportados para criptografia do sistema.</string>
     <string lang="pt-br" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Aviso: O VeraCrypt não conseguiu restaurar o layout original do teclado. Isto poderá fazê-lo digitar a senha incorretamente.</string>
     <string lang="pt-br" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Erro: Não foi possível configurar o layout do teclado para o VeraCrypt como layout Estados Unidos (Internacional).\n\nLembre que a senha precisa ser digitada em ambiente pré-boot (antes de o Windows iniciar) onde layouts não-Windows Estados Unidos (Internacional) não estão disponíveis. Por isso, a senha deve ser digitada sempre usando o layout Estados Unidos (Internacional).</string>

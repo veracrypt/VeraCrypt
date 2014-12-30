@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="da" name="Dansk" en-name="Danish" version="0.1.0" translators="Lasse Bond" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="da" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Vis kodeord</control>
     <control lang="da" key="IDC_TRAVEL_OPEN_EXPLORER">Åben &amp;Explorer vindue for tilsluttet bind</control>
     <control lang="da" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Gem kodeord i driver-hukommelsen</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="da" key="IDC_UNMOUNTALL">Afb&amp;ryd Alle</control>
     <control lang="da" key="IDC_VOLUME_PROPERTIES">Bin&amp;d Egenskaber...</control>
     <control lang="da" key="IDC_VOLUME_TOOLS">Bind V&amp;ærktøjer...</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="da" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Advarsel: Der er uallokeret område mellem system partition og den første partition bag den. Efter du har oprettet det skjulte operativsystem, må du ikke oprette nogle nye partitioner i det uallokerede område. Ellers vil det skjulte operativsystem være umuligt at boote (indtil du sletter sådanne nyoprettede partitioner).</string>
     <string lang="da" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Denne algoritme er for tiden ikke supporteret til system kryptering.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="da" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Advarsel: VeraCrypt kunne ikke gendanne det originale keyboard layout. Dette kan medføre at du indtaster et kodeord ukorrekt.</string>
     <string lang="da" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fejl: Kan ikke indstille keyboard layoutet for VeraCrypt til standard US keyboard layout.\n\nBemærk at kodeordet skal indtastes i før-boot miljøet (før Windows starter) hvor ikke-US Windows keyboard layouts ikke er tilgængelige. Derfor skal kodeordet altid skrives ved brug af standard US keyboard layout.</string>

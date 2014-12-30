@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="ja" name="日本語" en-name="Japanese" version="1.0.0" translators="OGOSHI Masayuki" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="ja" key="IDC_SHOW_PASSWORD_CHPWD_ORI">パスワードを表示</control>
     <control lang="ja" key="IDC_TRAVEL_OPEN_EXPLORER">マウントされたボリュームのウィンドウを開く(&amp;E)</control>
     <control lang="ja" key="IDC_TRAV_CACHE_PASSWORDS">パスワードをドライバのメモリに記憶(&amp;C)</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="ja" key="IDC_UNMOUNTALL">全てアンマウント(&amp;S)</control>
     <control lang="ja" key="IDC_VOLUME_PROPERTIES">ボリュームのプロパティ(&amp;V)...</control>
     <control lang="ja" key="IDC_VOLUME_TOOLS">ボリュームツール(&amp;T)...</control>
@@ -1033,6 +1034,8 @@
     <string lang="ja" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nWindowsをインストールする前に追加のブートパーティションを削除できます。そのためには次の手順に従ってください:\n\n1) Windowsインストールディスクで起動します。\n\n2) Windowsインストール画面で「今すぐインストール」→「カスタム（詳細）」とクリックします。\n\n3) 「ドライブオプション」をクリックします。\n\n4) メインのシステムパーティションを選択し、「消去」→「OK」とクリックして消去します。\n\n5) 「System Reserved」パーティションを選択し、「拡張」をクリックしてOSをインストール可能なサイズを指定します。6) 「適用」→「OK」をクリックします。\n\n7) 「System Reserved」パーティションにWindowsをインストールします。\n\n\n攻撃者が追加のブートパーティションを削除した理由を尋ねてくるかもしれません。そのときは、あなたは暗号化されていないブートパーティションへのデータ漏洩の可能性を無くしたかったからだと言うことができます。\n\n注：下の「印刷」ボタンをクリックしてこの文章を印刷することができます。もしこの文章をコピーあるいは印刷（プリンタの内蔵ドライブに文面が保存されるのでなければ、強くお勧めします）したならば、追加のブートパーティションを削除後にその紙やコピーを破棄すべきです。そうしないと、もしその紙やコピーが見つかったならば、このコンピュータに隠しOSがあることを推測されるおそれがあるからです。</string>
     <string lang="ja" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：システムパーティションとその次のパーティションの間に未割り当ての領域が存在しています。隠しOSを作成した後は、この未割り当ての領域に新たにパーティションを作成してはいけません。さもなければ（新たに作成したパーティションを削除するまで）隠しOSが起動できなくなります。</string>
     <string lang="ja" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">このアルゴリズムはシステムの暗号化には現在対応していません。</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="ja" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">現在、システムの暗号化でのキーファイル使用には対応していません。</string>
     <string lang="ja" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCryptは元のキーボードレイアウトを復元できませんでした。そのためパスワードを正確に入力できないおそれがあります。</string>
     <string lang="ja" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">エラー：キーボードのレイアウトを標準USキーボードとして設定できません。\n\nシステム起動前に必要なパスワードがUS Windowsレイアウト以外のキーボードで入力されても無効となります。したがってパスワードは常に標準USレイアウトのキーボードで入力される必要があります。</string>

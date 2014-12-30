@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="ko" name="한국어" en-name="Korean" version="0.1.0" translators="Kim Young" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_ORI">비밀번호 표시</control>
     <control lang="ko" key="IDC_TRAVEL_OPEN_EXPLORER">삽입된 볼륨을 위한 탐색기 창 열기</control>
     <control lang="ko" key="IDC_TRAV_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관(&amp;C)</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="ko" key="IDC_UNMOUNTALL">모두 꺼내기(&amp;S)</control>
     <control lang="ko" key="IDC_VOLUME_PROPERTIES">볼륨 속성(&amp;V)...</control>
     <control lang="ko" key="IDC_VOLUME_TOOLS">볼륨 도구(&amp;T)...</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="ko" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">주의: 시스템 파티션과 그 뒤에 있는 첫번쩨 파티션 사이에 할당되지 않은 공간이 있습니다. 숨긴 운영체제를 생성한 후에, 이러한 미할당 공간에 새로운 파티션을 만들어선 안됩니다. 그렇지 않으면 (새롭게 만들어진 파티션을 제거하기 전까지는) 숨긴 운영체제로 부팅을 할 수 없게 됩니다.</string>
     <string lang="ko" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">이 알고리듬은 현재 시스템 암호화에 지원되지 않습니다.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="ko" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">키파일이 현재 시스템 암호화에서 지원되지 않습니다.</string>
     <string lang="ko" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">주의: VeraCrypt가 원래의 키보드 레이아웃을 복구할 수 없습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
     <string lang="ko" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">오류: VeraCrypt 키보드 레이아웃을 표준 US 키보드 레이아웃에 설정할 수 없습니다.\n\n(윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅-전 환경에서 비밀번호를 입력할 필요가 있다는 것을 참고하세요. 그래서 표준 US 키보드 레이아웃을 사용해서 항상 비밀번호를 입력해야 합니다.</string>

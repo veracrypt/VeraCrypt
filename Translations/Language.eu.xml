@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="eu" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Pasahitza erakutsi</control>
     <control lang="eu" key="IDC_TRAVEL_OPEN_EXPLORER">Muntatutako Bolumenak &amp;Explorer-aren lehioak ireki</control>
     <control lang="eu" key="IDC_TRAV_CACHE_PASSWORDS">Pasahitza &amp;gorde diskaren memorian</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="eu" key="IDC_UNMOUNTALL">&amp;Guztiak desmuntatu</control>
     <control lang="eu" key="IDC_VOLUME_PROPERTIES">&amp;Bolumenaren ezaugarriak...</control>
     <control lang="eu" key="IDC_VOLUME_TOOLS">Bolumenaren &amp;Tresnak...</control>
@@ -1035,6 +1036,8 @@
     <string lang="eu" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nAbiatze partizio gehigarria Windows instalatu aurretik kendu daiteke. Hori egitueko, hurrengo pausoak jarraitu itzazu:\n\n1) Zure Windows instalatze diska abiatu ezazu.\n\n2) Windows instalatzailearen lehioan 'Orain Instalatu' &gt; 'Pertsonalizatua (aurreratua)' aukeratu.\n\n3) 'Unitate Aukerak' sakatu ezazu.\n\n4) Sistemaren partizio nagusia aukeratu eta ezabatu ezazu 'Ezabatu' eta 'Ados'-en klik eginez.\n\n5) 'Sistemaren Erreserbatua' partizioa aukeratu ezazu eta 'Hedatu' aukeratu ezazu, ondoren, berre tamaina handitu ezazu bertan sistema eragilea instalatu ahal izan dadin.\n\n6) 'Aplikatu' eta 'Ados'-en klik egin ezazu.\n\n7) 'Sistemaren Erreserbatua' partizioan Windows instalatu ezazu.\n\nErasotzaile batek Abiatze partizio gehigarria ezabatzeari buruz galdetzen badizu, zifratu gabeko abiatze partiziora daturik ez galtzearren egin duzula erantzun diezaiokezu.\n\nOharra: Testu hau inprimatu dezakezu azpian dagoen 'Inprimatu' botoian klik eginez. Testu honen kopia bat gorde edo inprimatzen baduzu (hau gogor gomendatzen da, zure inprimagailuak inprimitzen dituen dokumentuen kopia bere barneko memorian gordetzen ez baditu), abiatze partizio gehigarria ezabatu eta gero kopia horiek suntsitu beharko zenituzke (bestela, kopia hori aurkituko balitz, ordenagailu honetan ezkutuko sistema eragile bat dagoelaren susmoa eman dezake).</string>
     <string lang="eu" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Kontuz: Alokatu gabeko tarte bat dago sistemaren partizioa eta haren hurrengo partizioaren artean. Ezkutuko sistema eragilea sortu eta gero ezin izango duzu tarte horretan partizio berririk egin. Bestela, ezin izango da ezkutuko sistema eragilea hasieratu (partizio berri horiek ezabatu arte).</string>
     <string lang="eu" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Algoritmo honek momentuz ez du balio sistema zifratzeko .</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="eu" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Momentuz ezin dira gako-fitxategiak erabili sistema zifratzeko.</string>
     <string lang="eu" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Kontuz: VeraCrypt-ek ezin izan du teklatua diseinu originaera leheneratu. Honek pasahitza gaizki sartzea ekar dezake.</string>
     <string lang="eu" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Errorea: Ezin da VeraCrypt-entzat teklatuaren diseinua aldatu EB teklatu estandar diseinura.\n\nOhartu zaitez pasahitza hasieraketa aurreko ingurunean (Windows hasi aurretik) sartu behar dela eta bertan EB-etako teklatu diseinuak ez daudela eskuragarri. Horregatik, pasahitza beti sartu behar da EB-etako teklatu estandarraren diseinuarekin.</string>

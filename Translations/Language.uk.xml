@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="uk" name="Українська" en-name="Ukrainian" version="1.0.0" translators="Kravchuk Olexandr, Babchuk Volodymyr" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="uk" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Показати пароль</control>
     <control lang="uk" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Відкрити змонтований том в вікні Провідника</control>
     <control lang="uk" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Кешувати пароль в памяті драйвера</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="uk" key="IDC_UNMOUNTALL">&amp;Розмонтувати всі</control>
     <control lang="uk" key="IDC_VOLUME_PROPERTIES">Власт&amp;ивості тома...</control>
     <control lang="uk" key="IDC_VOLUME_TOOLS">О&amp;перації...</control>
@@ -1033,6 +1034,8 @@
     <string lang="uk" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nДодатковий завантажувальний розділ можна видалити до встановлення Windows. Для цього виконайте наступні дії:\n\n1) Завантажте Windows з інсталяційного компакт-диска.\n\n2) На екрані встановлення Windows натисніть 'Install now' &gt; 'Custom (advanced)'.\n\n3) Натисніть 'Drive Options'.\n\n4) Виберіть основний системний розділ і видаліть його, натиснувши 'Delete' та 'OK'.\n\n5) Виберіть розділ 'System Reserved', натисніть 'Extend' і збільшіть його розмір відповідно до встановлюваної ОС.\n\n6) Натисніть 'Apply' і 'OK'.\n\n7) Встановіть Windows у розділ 'System Reserved'.\n\n\nЯкщо ворог запитає вас, навіщо ви видалили додатковий завантажувальний розділ, ви можете відповісти, що хотіли запобігти можливості витоку даних у незашифрований завантажувальний розділ.\n\n!! Щоб роздрукувати цей текст, натисніть кнопку 'Друк' нижче. Якщо ви збережете або роздрукуєте копію цього тексту (це рекомендується зробити, якщо тільки ваш принтер не зберігає копії завдань на своєму внутрішньому накопичувачі), то після видалення додаткового завантажувального розділу всі копії цього тексту слід знищити (інакше якщо таку копію виявлять, це може навести на думку про наявність в ПК прихованої ОС).</string>
     <string lang="uk" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Увага! Між системним розділом і першим розділом за ним є нерозподілене місце. Після створення прихованої операційної системи ви не повинні створювати в цій нерозподіленій області жодних нових розділів. В іншому випадку прихована ОС не зможе завантажитися (до тих пір, поки не будуть вилучені такі знову створені розділи).</string>
     <string lang="uk" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">У даний момент цей алгоритм для шифрування системи не підтримується.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="uk" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">В даний момент ключові файли для шифрування системи не підтримуються.</string>
     <string lang="uk" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Увага! VeraCrypt не може відновити первісну розкладку клавіатури. Це може призвести до неправильного введення пароля.</string>
     <string lang="uk" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Помилка! Неможливо встановити розкладку клавіатури для VeraCrypt в стандартну американську (US).\n\nЗверніть увагу, що пароль вводиться ДО завантаження Windows, коли будь-які розкладки клавіатури, що відрізняються від американської, ще недоступні. Тому пароль завжди повинен вводиться при стандартній американської розкладці.</string>

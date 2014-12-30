@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="el" name="Ελληνικά" en-name="Greek" version="0.1.0" translators="Βασίλης Κοσμίδης" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="el" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Εμφάνιση κωδικού</control>
     <control lang="el" key="IDC_TRAVEL_OPEN_EXPLORER">Άνοιγμα &amp;Explorer για φορτωμένους τόμους</control>
     <control lang="el" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Αποθήκευση κωδικών στη μνήμη του οδηγού</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="el" key="IDC_UNMOUNTALL">Εκ&amp;φόρτωση όλων</control>
     <control lang="el" key="IDC_VOLUME_PROPERTIES">&amp;Ιδιότητες τόμου...</control>
     <control lang="el" key="IDC_VOLUME_TOOLS">Εργαλεία &amp;τόμου...</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="el" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Αυτός ο αλγόριθμος προς το παρόν δεν υποστηρίζεται για κρυπτογράφηση συστήματος.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="el" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Προειδοποίηση: Το VeraCrypt δεν μπόρεσε να επαναφέρει την αρχική διάταξη του πληκτρολογίου. Αυτό μπορεί να προκαλέσει εσφαλμένη εισαγωγή κωδικού.</string>
     <string lang="el" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Σφάλμα: Αδυναμία ορισμού διάταξης πληκτρολογίου για το VeraCrypt σε Η.Π.Α..\n\nΣημειώστε ότι ο κωδικός πρέπει να πληκτρολογηθεί στο περιβάλλον πριν την εκκίνηση των Windows όπου μη-Η.Π.Α. διατάξεις πληκτρολογίου δεν είναι διαθέσιμες. Γι'αυτό ο κωδικός πρέπει πάντα να πληκτρολογείται με χρήση διάταξης πληκτρολογίου Η.Π.Α.</string>

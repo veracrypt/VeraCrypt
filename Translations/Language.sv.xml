@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_ORI">&amp;Visa lösenord</control>
     <control lang="sv" key="IDC_TRAVEL_OPEN_EXPLORER">Öppna &amp;Utforskaren efter montering</control>
     <control lang="sv" key="IDC_TRAV_CACHE_PASSWORDS">Lagra lösenord i drivrutinens minnes&amp;cache</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="sv" key="IDC_UNMOUNTALL">Demontera &amp;allt</control>
     <control lang="sv" key="IDC_VOLUME_PROPERTIES">Volym&amp;egenskaper …</control>
     <control lang="sv" key="IDC_VOLUME_TOOLS">Volymverkty&amp;g …</control>
@@ -1033,6 +1034,8 @@
     <string lang="sv" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nDen extra startpartitionen kan tas bort innan Windows installeras. Följ nedanstående steg för att göra det:\n\n1) Starta Windows installationsskiva.\n\n2) I Windows installationsprogram väljer du alternativen ”Installera nu” följt av ”Anpassad (avancerat)”.\n\n3) Klicka på ”Enhetsalternativ (avancerat)”.\n\n4) Markera systempartitionen och ta bort den genom att klicka på ”Ta bort” och bekräfta med ”OK”.\n\n5) Välj partitionen markerad ”Reserverad av systemet”, klicka på ”Utöka” och öka dess storlek så att operativsystemet kan installeras på den.\n\n6) Klicka på ”Verkställ” och ”OK”.\n\n7) Installera Windows på partitionen markerad ”Reserverad av systemet”.\n\n\nOm någon frågar dig varför du tagit bort den extra startpartitionen, kan du svara att du ville förhindra dataläckage till den okrypterade startpartitionen.\n\nObservera: Du kan skriva ut denna text genom att klicka på knappen ”Skriv ut” nedan. Om du sparar en kopia av denna text eller skriver ut den (vilket rekommenderas, såvida inte skrivaren lagrar kopior av dokument den skriver ut på en intern enhet), bör du förstöra alla kopior av den efter att du tagit bort den extra startpartitionen. (Annars riskerar en sådan kopia avslöja existensen av ett dolt operativsystem i datorn.)</string>
     <string lang="sv" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varning: Det finns oallokerat utrymme mellan systempartitionen och den första partitionen efter den. Efter att du skapat det dolda operativsystemet, får du inte skapa några nya partitioner i det oallokerade utrymmet. I så fall kommer det dolda operativsystemet att vara omöjligt att starta (tills du tar bort de nyskapade partitionerna).</string>
     <string lang="sv" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Denna algoritm stöds för närvarande inte vid systemkryptering.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="sv" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Nyckelfiler stöds för närvarande inte vid systemkryptering.</string>
     <string lang="sv" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varning: VeraCrypt kunde inte återställa den ursprungliga tangentbordslayouten. Detta kan orsaka att du anger ett felaktigt lösenord.</string>
     <string lang="sv" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fel: Det går inte att ange amerikansk tangentbordslayout som tangentbordslayout för VeraCrypt.\n\nObservera att lösenordet måste anges i förstartsmiljön (innan Windows startas), där inga andra tangentbordslayouter än den amerikanska finns tillgängliga. Därför måste amerikansk tangentbordslayout alltid användas när du anger lösenordet.</string>

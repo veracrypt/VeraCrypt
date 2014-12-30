@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-BETA3">
+  <localization prog-version="1.0f">
     <!-- Languages -->
     <language langid="nl" name="Nederlands" en-name="Dutch" version="0.1.0" translators="Jan van der Wal" />
     <!-- Fonts -->
@@ -167,6 +167,7 @@
     <control lang="nl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Toon wachtwoord</control>
     <control lang="nl" key="IDC_TRAVEL_OPEN_EXPLORER">Open &amp;Explorer venster voor gekoppeld volume</control>
     <control lang="nl" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Cache wachtwoorden in programmageheugen</control>
+	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="nl" key="IDC_UNMOUNTALL">O&amp;ntkoppel Alles</control>
     <control lang="nl" key="IDC_VOLUME_PROPERTIES">Volume &amp;Eigenschappen</control>
     <control lang="nl" key="IDC_VOLUME_TOOLS">Vol&amp;ume Tools</control>
@@ -1033,6 +1034,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="nl" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">WAARSCHUWING: Er is niet-toegewezen ruimte aanwezig tussen de systeem partitie en de eerste partitie daar achter. Na aanmaken van het verborgen operating systeem (OS) mag u geen partitie meer maken in deze ruimte, anders zal het verborgen OS systeem niet meer te starten zijn (totdat u deze partitie weer verwijdert).</string>
     <string lang="nl" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Dit algoritme wordt momenteel niet ondersteund voor systeem codering.</string>
+	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
     <string lang="nl" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Sleutelbestanden zijn niet ondersteund bij systeemcodering.</string>
     <string lang="nl" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Waarschuwing: VeraCrypt kon de originele toetsenbord lay-out niet terugzetten. Dit zou ertoe kunnen leiden dat u een wachtwoord verkeerd ingeeft.</string>
     <string lang="nl" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fout: Kan de toetsenbord indeling voor VeraCrypt niet instellen op de standaard (US) toetsenbord indeling.\n\nMerk op dat het wachtwoord ingetypt moet worden in de pre-boot omgeving (voor Windows start) waar niet-standaard (US) Windows toetsenbord indelingen niet beschikbaar zijn. Daarom moet het wachtwoord altijd worden ingetypt met gebruik van de standaard (US) toetsenbord indeling.</string>
