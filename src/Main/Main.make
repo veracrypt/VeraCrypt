@@ -123,7 +123,7 @@ endif
 
 $(APPNAME): $(LIBS) $(OBJS)
 	@echo Linking $@
-	$(CXX) -o $(APPNAME) $(LFLAGS) $(OBJS) $(LIBS) $(FUSE_LIBS) $(WX_LIBS)
+	$(CXX) -o $(APPNAME) $(OBJS) $(LIBS) $(FUSE_LIBS) $(WX_LIBS) $(LFLAGS)
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifndef NOSTRIP

@@ -167,9 +167,12 @@ ifeq "$(shell uname -s)" "Linux"
 		WXCONFIG_CFLAGS += -fdata-sections -ffunction-sections
 		WXCONFIG_CXXFLAGS += -fdata-sections -ffunction-sections
 	endif
+	
+	ifneq "$(origin WXSTATIC)" "command line"
+		LFLAGS += -ldl
+	endif
 
 endif
-
 
 #------ Mac OS X configuration ------
 
