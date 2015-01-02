@@ -741,18 +741,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		return 0; 
 
-
-	case WM_CTLCOLORSTATIC:
-
-		/* This maintains the background under the transparent-backround texts */
-
-		SetBkMode ((HDC) wParam, TRANSPARENT);
-		return ((LONG) (HBRUSH) (GetStockObject (NULL_BRUSH)));
-
-
-	case WM_ERASEBKGND:
-
-		return 0;
 	}
 
 	return 0;
