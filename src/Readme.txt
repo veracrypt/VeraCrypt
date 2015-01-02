@@ -123,6 +123,7 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - Apple Xcode (Mac OS X only)
 - NASM assembler 2.08 or compatible (x86/x64 architecture only)
 - pkg-config
+- makeself (Linux only)
 - wxWidgets 3.0 shared library and header files installed or
   wxWidgets 3.0 library source code (available at http://www.wxwidgets.org)
 - FUSE library and header files (available at http://fuse.sourceforge.net
@@ -232,7 +233,7 @@ Copyright Information
 ---------------------
 
 This software as a whole:
-Copyright (c) 2013 IDRIX. All rights reserved.
+Copyright (c) 2013-2015 IDRIX. All rights reserved.
 
 Portions of this software:
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.
@@ -253,4 +254,5 @@ documentation, are the sole property of their respective owners.
 VI. Further Information
 =======================
 
-http://www.idrix.fr
+http://www.veracrypt.fr
+
