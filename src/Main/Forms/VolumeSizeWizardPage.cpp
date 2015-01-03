@@ -89,7 +89,7 @@ namespace VeraCrypt
 
 	bool VolumeSizeWizardPage::IsValid ()
 	{
-		if (!VolumeSizeTextCtrl->IsEmpty() && Validate())
+		if (!VolumeSizeTextCtrl->GetValue().empty() && Validate())
 		{
 			try
 			{
