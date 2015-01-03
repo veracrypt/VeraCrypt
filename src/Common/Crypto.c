@@ -408,19 +408,35 @@ BOOL EAInitMode (PCRYPTO_INFO ci)
 	return TRUE;
 }
 
+static void EAGetDisplayName(char *buf, int ea, int i)
+{
+	strcpy (buf, CipherGetName (i));
+	if (i = EAGetPreviousCipher(ea, i))
+	{
+		strcat (buf, "(");
+		EAGetDisplayName (&buf[strlen(buf)], ea, i);
+		strcat (buf, ")");
+	}
+}
 
 // Returns name of EA, cascaded cipher names are separated by hyphens
-char *EAGetName (char *buf, int ea)
+char *EAGetName (char *buf, int ea, int guiDisplay)
 {
-	int i = EAGetLastCipher(ea);
-	strcpy (buf, (i != 0) ? CipherGetName (i) : "?");
-
-	while (i = EAGetPreviousCipher(ea, i))
+	if (guiDisplay)
 	{
-		strcat (buf, "-");
-		strcat (buf, CipherGetName (i));
+		EAGetDisplayName (buf, ea, EAGetLastCipher(ea));
 	}
+	else
+	{
+		int i = EAGetLastCipher(ea);
+		strcpy (buf, (i != 0) ? CipherGetName (i) : "?");
 
+		while (i = EAGetPreviousCipher(ea, i))
+		{
+			strcat (buf, "-");
+			strcat (buf, CipherGetName (i));
+		}
+	}
 	return buf;
 }
 
@@ -432,7 +448,7 @@ int EAGetByName (char *name)
 
 	do
 	{
-		EAGetName (n, ea);
+		EAGetName (n, ea, 0);
 		if (strcmp (n, name) == 0)
 			return ea;
 	}

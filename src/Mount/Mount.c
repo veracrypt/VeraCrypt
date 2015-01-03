@@ -1188,7 +1188,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 			GetSizeString (GetSysEncDeviceSize(TRUE), szTmpW, sizeof(szTmpW));
 			ListSubItemSetW (hTree, listItem.iItem, 2, szTmpW);
 
-			EAGetName (szTmp, propSysEnc.ea);
+			EAGetName (szTmp, propSysEnc.ea, 1);
 			listItem.iSubItem = 3;
 			ListView_SetItem (hTree, &listItem);
 
@@ -1305,7 +1305,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 			GetSizeString (bSysEncPartition ? GetSysEncDeviceSize(TRUE) : driver.diskLength[i], szTmpW, sizeof(szTmpW));
 			ListSubItemSetW (hTree, listItem.iItem, 2, szTmpW);
 
-			EAGetName (szTmp, bSysEncPartition ? propSysEnc.ea : driver.ea[i]);
+			EAGetName (szTmp, bSysEncPartition ? propSysEnc.ea : driver.ea[i], 1);
 			listItem.iSubItem = 3;
 			ListView_SetItem (hTree, &listItem);
 
@@ -3081,14 +3081,14 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				return 1;
 			}
 
-			EAGetName (szTmp, prop.ea);
+			EAGetName (szTmp, prop.ea, 1);
 			ListSubItemSet (list, i++, 1, szTmp);
 
 			// Key size(s)
 			{
 				char name[128];
 				int size = EAGetKeySize (prop.ea);	
-				EAGetName (name, prop.ea);
+				EAGetName (name, prop.ea, 1);
 
 				// Primary key
 				ListItemAddW (list, i, GetString ("KEY_SIZE"));

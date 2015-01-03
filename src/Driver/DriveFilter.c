@@ -1640,7 +1640,7 @@ void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp)
 		if (BootDriveFilterExtension && BootDriveFilterExtension->DriveMounted)
 		{
 			GetBootEncryptionAlgorithmNameRequest *request = (GetBootEncryptionAlgorithmNameRequest *) irp->AssociatedIrp.SystemBuffer;
-			EAGetName (request->BootEncryptionAlgorithmName, BootDriveFilterExtension->Queue.CryptoInfo->ea);
+			EAGetName (request->BootEncryptionAlgorithmName, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
 			HashGetName2 (request->BootPrfAlgorithmName, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
 
 			irp->IoStatus.Information = sizeof (GetBootEncryptionAlgorithmNameRequest);

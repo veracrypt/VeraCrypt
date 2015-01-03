@@ -293,7 +293,7 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount);
 int EAGetFirst ();
 int EAGetCount (void);
 int EAGetNext (int previousEA);
-char * EAGetName (char *buf, int ea);
+char * EAGetName (char *buf, int ea, int guiDisplay);
 int EAGetByName (char *name);
 int EAGetKeySize (int ea);
 int EAGetFirstMode (int ea);

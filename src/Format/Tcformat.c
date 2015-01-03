@@ -1189,7 +1189,7 @@ void ComboSelChangeEA (HWND hwndDlg)
 		int i, cnt = 0;
 
 		nIndex = SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
-		EAGetName (name, nIndex);
+		EAGetName (name, nIndex, 0);
 
 		if (strcmp (name, "AES") == 0)
 		{
@@ -3723,7 +3723,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 				{
 					if (EAIsFormatEnabled (ea))
-						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea), ea);
+						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea, 1), ea);
 				}
 
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), &nVolumeEA);
@@ -4976,7 +4976,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			int nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
 			nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
-			EAGetName (name, nIndex);
+			EAGetName (name, nIndex, 0);
 
 			if (strcmp (name, "AES") == 0)
 				Applink ("aes", FALSE, "");
