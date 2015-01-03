@@ -24,7 +24,7 @@ namespace VeraCrypt
 		foreach (shared_ptr <EncryptionAlgorithm> ea, EncryptionAlgorithms)
 		{
 			if (!ea->IsDeprecated())
-				EncryptionAlgorithmChoice->Append (ea->GetName(), ea.get());
+				EncryptionAlgorithmChoice->Append (ea->GetName(true), ea.get());
 		}
 
 		EncryptionAlgorithmChoice->Select (0);
@@ -124,7 +124,7 @@ namespace VeraCrypt
 	{
 		if (algorithm)
 		{
-			EncryptionAlgorithmChoice->SetStringSelection (algorithm->GetName());
+			EncryptionAlgorithmChoice->SetStringSelection (algorithm->GetName(true));
 			OnEncryptionAlgorithmSelected ();
 		}
 	}

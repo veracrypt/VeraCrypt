@@ -664,7 +664,7 @@ namespace VeraCrypt
 			{
 				if (!ea->IsDeprecated())
 				{
-					ShowString (StringFormatter (L" {0}) {1}\n", (uint32) encryptionAlgorithms.size() + 1, ea->GetName()));
+					ShowString (StringFormatter (L" {0}) {1}\n", (uint32) encryptionAlgorithms.size() + 1, ea->GetName(true)));
 					encryptionAlgorithms.push_back (ea);
 				}
 			}

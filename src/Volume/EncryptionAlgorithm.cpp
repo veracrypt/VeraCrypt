@@ -125,19 +125,33 @@ namespace VeraCrypt
 		return Mode;
 	}
 
-	wstring EncryptionAlgorithm::GetName () const
+	wstring EncryptionAlgorithm::GetName (bool forGuiDisplay) const
 	{
 		if (Ciphers.size() < 1)
 			throw NotInitialized (SRC_POS);
 
 		wstring name;
 
+		int depth = 0;
 		foreach_reverse_ref (const Cipher &c, Ciphers)
 		{
 			if (name.empty())
 				name = c.GetName();
 			else
-				name += wstring (L"-") + c.GetName();
+			{
+				depth++;
+				if (forGuiDisplay)
+					name += wstring (L"(");
+				else
+					name += wstring (L"-");
+				name += c.GetName();				
+			}
+		}
+		
+		if (forGuiDisplay && depth)
+		{
+			for (int i = 0; i < depth; i++)
+				name += wstring(L")");
 		}
 
 		return name;

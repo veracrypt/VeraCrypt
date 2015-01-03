@@ -73,7 +73,7 @@ namespace VeraCrypt
 				if (!ea->IsDeprecated())
 				{
 					BenchmarkResult result;
-					result.AlgorithmName = ea->GetName();
+					result.AlgorithmName = ea->GetName(true);
 
 					Buffer key (ea->GetKeySize());
 					ea->SetKey (key);
