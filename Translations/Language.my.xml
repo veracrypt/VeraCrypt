@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="my" name="မြန်မာ" en-name="Burmese" version="1.0.0" translators="Zaw Myo Htet" />
     <!-- Fonts -->
@@ -1037,7 +1037,7 @@
     <string lang="my" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">သတိပေးချက် - ကွန်ပျူတာစနစ် အခန်းကန့်နှင့် ပထမ အခန်းကန့်တို့ အကြား၌ မသတ်မှတ်ရသေးသော နေရာရှိသည်။ လျှို့ဝှက် OS စနစ်ကို ဖန်တီးပြီးသောအခါ၊ ယင်း မသတ်မှတ်ရသေးသော နေရာ၌ အခန်းကန့်အသစ် မဖန်တီးရ။ သို့မဟုတ်ပါက၊ (ယင်းကဲ့သို့ အသစ် ဖန်တီးလိုက်သော အခန်းကန့်များကို မဖျက်မချင်း) လျှို့ဝှက် OS စနစ်ကို ဖွင့်၍ မရ ဖြစ်သွားနိုင်သည်။</string>
     <string lang="my" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ဤအယ်လဂိုရီသမ်၌ လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="my" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ကီးဖိုင်များသည် လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။​</string>
     <string lang="my" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">သတိပေးချက် - VeraCrypt သည် မူရင်း ​ကီးဘုတ် လေးအောက်ကို နဂိုအတိုင်း ပြန်မထားနိုင်ပါ။ ဤအချက်ကြောင့် စကားဝှက်ကို မှားယွင်းစွာ ရေးထည့်မိနိုင်သည်။</string>
     <string lang="my" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ချို့ယွင်းချက် - VeraCrypt အတွက် ကီးဘုတ် လေးအောက်ကို standard US ကီးဘုတ် လေးအောက် အဖြစ် သတ်မှတ်၍ မရပါ။\n\n US စနစ် မဟုတ်သော ဝင်းဒိုး ကီးဘုတ် လေးအောက် မရနိုင်သည့် နေရာ၌ စက်မတက်ခင် အခြေအနေ (ကွန်ပျူတာ မတက်မီ) တွင် စကားဝှက်ကို ရေးထည့်ရန် လိုအပ်သည်။ ထို့ကြာင့်၊ စကားဝှက်ကို  ဝှက်စာကို standard US ကီးဘုတ် လေးအောက် သုံးပြီး အမြဲတမ်း ရေးထည့်ရမည်။</string>

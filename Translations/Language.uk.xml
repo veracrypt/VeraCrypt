@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="uk" name="Українська" en-name="Ukrainian" version="1.0.0" translators="Kravchuk Olexandr, Babchuk Volodymyr" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="uk" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Увага! Між системним розділом і першим розділом за ним є нерозподілене місце. Після створення прихованої операційної системи ви не повинні створювати в цій нерозподіленій області жодних нових розділів. В іншому випадку прихована ОС не зможе завантажитися (до тих пір, поки не будуть вилучені такі знову створені розділи).</string>
     <string lang="uk" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">У даний момент цей алгоритм для шифрування системи не підтримується.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="uk" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">В даний момент ключові файли для шифрування системи не підтримуються.</string>
     <string lang="uk" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Увага! VeraCrypt не може відновити первісну розкладку клавіатури. Це може призвести до неправильного введення пароля.</string>
     <string lang="uk" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Помилка! Неможливо встановити розкладку клавіатури для VeraCrypt в стандартну американську (US).\n\nЗверніть увагу, що пароль вводиться ДО завантаження Windows, коли будь-які розкладки клавіатури, що відрізняються від американської, ще недоступні. Тому пароль завжди повинен вводиться при стандартній американської розкладці.</string>

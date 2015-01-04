@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="zh-tw" name="繁體中文" en-name="Chinese (Taiwan)" version="0.1.0" translators="Barney Li, Simon Ma, ChangMing Hsu" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="zh-tw" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此演算法目前不支援系統加密。</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="zh-tw" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">&gt;警告：VeraCrypt 不能回復原始鍵盤配置。這可能導致您輸入不正確的密碼。</string>
     <string lang="zh-tw" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設定 VeraCrypt 鍵盤配置為標準美式鍵盤配置。\n\n要注意在啟動前置環境(Windows 啟動前)需要輸入密碼，這時非標準美式鍵盤配置是無法使用的。因此，密碼必須總是使用標準美式鍵盤配置輸入。</string>

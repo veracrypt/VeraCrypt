@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="ca" name="Català" en-name="Catalan" version="0.1.0" translators="CESICAT, Centre de Seguretat de la Informació de Catalunya" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="ca" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">ATENCIÓ: Hi ha espai no assignat entre la partició del sistema i la primera partició després d'ella. Després de crear el sistema operatiu ocult, no podrà crear cap nova partició en aquest espai. Si ho fa, el sistema operatiu ocult no es podrà engegar (fins que esborri aquestes noves particions).</string>
     <string lang="ca" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Aquest algorisme de xifrat no està suportat per al xifrat del sistema</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="ca" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Els fitxers de claus no estan suportats per al xifrat del sistema.</string>
     <string lang="ca" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">ATENCIÓ: El VeraCrypt no ha pogut restaurar la disposició de teclat orignal. Això pot provocar que introdueixi la contrasenya incorrectament.</string>
     <string lang="ca" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: No s'ha pogut establir la disposició de teclat estàndard als EUA pel VeraCrypt.\n\nTingui en compte que la contrasenya s'haurà d'esciure a l'entorn de prearrencada (abans que arrenqui el windows) on no hi haurà altres disposicions de teclat disponibles. Per tant, la contrasenya s'ha d'escriure sempre amb la disposició de teclat estàndard als EUA.</string>

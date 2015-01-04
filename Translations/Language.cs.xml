@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="cs" name="Čeština" en-name="Czech" version="1.0.0" translators="Vítek Moser" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="cs" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varování: Mezi systémovým oddílem a prvním oddílem za ním je nealokované místo. Po vytvoření skrytého operačního systému nesmíte vytvořit žádné nové oddíly v tomto nealokovaném prostoru. Jinak nebude možné spustit skrytý operační systém (dokud nesmažete takto nově vytvořené oddíly).</string>
     <string lang="cs" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Systémové šifrování momentálně nepodporuje tento algoritmus.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="cs" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Souborové klíče aktuálně nejsou podporovány pro šifrování systémů.</string>
     <string lang="cs" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varování: VeraCrypt nemohl obnovit původní nastavení klávesnice. To může způsobit, že heslo bude zadáno nesprávně.</string>
     <string lang="cs" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Chyba: Nelze nastavit rozvržení klávesnice na typickou americkou klávesnici.\n\nHeslo musí být nastaveno v před-bootovacím prostředí (před startem Windows), kde nejsou ne-americké klávesnice k dispozici. Proto musí být heslo vždy nastaveno s použitím rozvržení kláves jako na americké klávesnici.</string>

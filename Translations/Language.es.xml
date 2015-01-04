@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="es" name="Español" en-name="Spanish" version="1.0.0" translators="Juan Antonio Auñón Ochando" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="es" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Aviso: Hay espacio no asignado entre la partición del sistema y la primera partición tras ella. Después de crear el sistema operativo oculto, no debe crear ninguna partición nueva en ese espacio sin asignar. De lo contrario, podría ser iposible arrancar el sistema operativo oculto (hasta que elimine esas particiones nuevas).</string>
     <string lang="es" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Este algoritmo no está soportado actualmente para el cifrado del sistema.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="es" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Los archivos-llave no están soportados actualmente para el cifrado del sistema.</string>
     <string lang="es" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Aviso: VeraCrypt no pudo restaurar la disposición de teclado original. Esto puede hacer que ud. introduzca incorrectamente la contraseña.</string>
     <string lang="es" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: No se puede establecer la disposición del teclado para VeraCrypt al estándar de EEUU.\n\nRecuerde que la contraseña necesita ser escrita en el entorno de pre-arranque (antes de que Windows se inicie) donde no están disponibles disposiciones de teclado distintas a la de EEUU. Por tanto, la contraseña debe ser escrita siempre usando la disposición de teclado EEUU estándar.</string>

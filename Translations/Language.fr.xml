@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="fr" name="Français" en-name="French" version="0.2.0" translators="Stéphane S., Olivier M." />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="fr" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Avertissement : Il existe un espace non alloué entre la partition système et la première partition après celle-ci. Après la création du système d'exploitation caché, vous ne devez pas créer de nouvelles partitions dans cet espace non alloué. Dans le cas contraire, le système d'exploitation caché serait impossible à amorcer (jusqu'à la suppression des nouvelles partitions créées).</string>
     <string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Cet algorithme n'est pas encore supporté pour le chiffrement système.</string>
 	<string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Cet algorithme n'est pas supporté pour le mode TrueCrypt.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 7.x de TrueCrypt</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 6.x de TrueCrypt</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="fr" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Avertissement : VeraCrypt n'a pas pu restaurer la disposition originale du clavier. Cela peut vous faire saisir votre mot de passe de manière erronée .</string>
     <string lang="fr" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Erreur : Impossible de paramétrer la disposition du clavier pour VeraCrypt en clavier Américain standard.\n\nNotez que le mot de passe doit être saisi dans un environnement de pré-amorçage (avant que Windows ne démarre) où seul le clavier américain est disponible. Aussi le mot de passe doit toujours être saisi en utilisant la disposition du clavier américain.</string>

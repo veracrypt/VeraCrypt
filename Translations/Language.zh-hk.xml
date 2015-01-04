@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="zh-hk" name="繁體中文" en-name="Chinese (Hong Kong)" version="0.1.0" translators="PUN Chi Ho" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="zh-hk" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系統分區和其後的第一個分區之間存在未分配空間。在您創建隱形作業系統之後，您必須不能在此未分配空間上創建任何新的分區，否則，隱形作業系統將無法啟動（直到刪除了這個新創建的分區）。</string>
     <string lang="zh-hk" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此演算法當前不支援系統加密。</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="zh-hk" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密鑰檔當前不支援用在系統加密中。</string>
     <string lang="zh-hk" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCrypt 不能存儲原始鍵盤佈局。這可能導致您無法正確輸入密碼。</string>
     <string lang="zh-hk" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設置 VeraCrypt 鍵盤佈局為標準的美國鍵盤佈局。\n\n說明：在 Windows 啟動前的啟動驗證裏需要輸入密碼，此時非美國標準鍵盤佈局不可用。因此，密碼必須使用標準的美國鍵盤佈局輸入。</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="ar" name="العربية" en-name="Arabic" version="0.1.0" translators="Ahmad Gharbeia, Khaled Hosny" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="ar" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">‮تحذير: توجد مساحة غير مخصصة بين قسم النظام و القسم الذي يليه. بعد إنشاء نظام التشغيل المخفي ينبغي ألا تنشئ أية أقسام جديدة في هذه المساحة غير المخصصة و إلا فلن يمكن إقلاع نظام التشغيل (حتى تحذف تلك الأقسام المنشأة حديثا).</string>
     <string lang="ar" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">‮هذه الخوارزمية ليست مدعومة حاليا لتعمية النظام.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="ar" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">‮لا يمكن حاليا استخدام الملفات المفاتيح عند تعمية النظام.</string>
     <string lang="ar" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">تنبيه: تعذَّر على تروكربت استعادة النسق الأصلي للوحة المفاتيح مما قد يؤدي إلى أن تُدخلَ كلمة السر على نحو غير صحيح.</string>
     <string lang="ar" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">‮عطل: تعذّر ضبط هيئة لوحة المفاتيح لتروكربت إلى التوزيع القياسي للولايات المتحدة. ‮ ‮لاحظ أن كلمة السر يجب أن تدخل في بيئة ما قبل الإقلاع (قبل أن يبدأ ويندوز) حيث لا يتاح سوى لوحات مفاتيح ويندوز الولايات المتحدة. لذا يجب أن تدخل كلمة السر دوما باستخدام هيئة لوحة مفاتيح الولايات المتحدة القياسية.</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="de" name="Deutsch" en-name="German" version="1.0.1" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="de" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warnung: Es gibt einen nicht zugeordneten Bereich zwischen der Systempartition und der ersten Partition dahinter. Sie dürfen nach dem Erstellen des versteckten Betriebssystems keine neuen Partitionen in dem nicht zugeordneten Bereich erstellen. Das Versteckte Betriebssystem wird andernfalls nicht starten (bis Sie solche neu erstellten Partitionen löschen).</string>
     <string lang="de" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Dieser Algorithmus wird derzeit nicht für die Systemverschlüsselung unterstützt.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="de" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Schlüsseldateien werden derzeit nicht für die Systemverschlüsselung unterstützt.</string>
     <string lang="de" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warnung: VeraCrypt konnte das ursprüngliche Tastaturlayout nicht wiederherstellen. Dadurch könnten Sie das Passwort falsch eingeben.</string>
     <string lang="de" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fehler: Es kann das Tastaturlayout für VeraCrypt nicht auf das Standard-US-Tastaturlayout festgelegt werden.\n\nBeachten Sie, dass das Kennwort in der Pre-Boot Umgebung eingegeben werden muss (bevor Windows startet), wo Nicht-US Windows Tastaturlayouts nicht verfügbar sind. Daher muss das Kennwort immer unter Verwendung des Standard-US-Tastaturlayout eingegeben werden.</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="vi" name="Tiếng Việt" en-name="Vietnamese" version="0.1.0" translators="Nguyễn Kim Huy" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="vi" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Cảnh báo: Có chỗ trống chưa phân phát giữa phân vùng hệ thống và phân vùng đầu tiên phía sau nó. Sau khi bạn cấu tạo hệ điều hành ẩn, bạn không được cấu tạo bất cứ phân vùng mới nào trong chỗ trống chưa phân phát đó. Không thôi, hệ điều hành ẩn sẽ không thể nào khởi động được (cho đến khi bạn xóa bỏ những phân vùng được cấu tạo như thế).</string>
     <string lang="vi" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Thuật toán này hiện không được hỗ trợ cho việc mã hóa hệ thống.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="vi" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Các tập tin khóa hiện không được hỗ trợ cho việc mã hóa hệ thống.</string>
     <string lang="vi" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Cảnh báo: VeraCrypt không thể hồi phục bố trí bàn phím gốc được. Chuyện này có thể làm cho bạn đánh mật mã không đúng vào.</string>
     <string lang="vi" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Lỗi: Không thể thiết đặt bố trí bàn phím cho VeraCrypt thành bố trí bàn phím căn bản của Mỹ được.\n\nLưu ý là mật mã cần được đánh vào trong môi trường tiền khởi động (trước khi Windows bắt đầu) lúc mà bố trí bàn phím Windows không phải của Mỹ không có sẵn. Vì vậy, mật mã phải luôn luôn được đánh vào dùng bố trí bàn phím căn bản của Mỹ.</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="el" name="Ελληνικά" en-name="Greek" version="0.1.0" translators="Βασίλης Κοσμίδης" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="el" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Αυτός ο αλγόριθμος προς το παρόν δεν υποστηρίζεται για κρυπτογράφηση συστήματος.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="el" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Προειδοποίηση: Το VeraCrypt δεν μπόρεσε να επαναφέρει την αρχική διάταξη του πληκτρολογίου. Αυτό μπορεί να προκαλέσει εσφαλμένη εισαγωγή κωδικού.</string>
     <string lang="el" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Σφάλμα: Αδυναμία ορισμού διάταξης πληκτρολογίου για το VeraCrypt σε Η.Π.Α..\n\nΣημειώστε ότι ο κωδικός πρέπει να πληκτρολογηθεί στο περιβάλλον πριν την εκκίνηση των Windows όπου μη-Η.Π.Α. διατάξεις πληκτρολογίου δεν είναι διαθέσιμες. Γι'αυτό ο κωδικός πρέπει πάντα να πληκτρολογείται με χρήση διάταξης πληκτρολογίου Η.Π.Α.</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="it" name="Italiano" en-name="Italian" version="1.0.1" translators="Maurizio Ballo, Consiglio Gaetano" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="it" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">AVVERTENZA: C’è uno spazio non allocato tra la partizione di sistema e la prima partizione dietro di essa. Dopo aver creato il sistema operativo nascosto, non dovete creare nessuna nuova partizione in questo spazio non allocato. Diversamente sarà impossibile avviare il sistema operativo nascosto (finché voi eliminate tali nuove partizioni create).</string>
     <string lang="it" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Questo algoritmo non è attualmente supportato per la codifica del sistema.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="it" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">I file chiave sono attualmente non supportate dalla codifica di sistema.</string>
     <string lang="it" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">AVVERTENZA: VeraCrypt non può ripristinare la configurazione originale della tastiera. Questo può causare la digitazione errata della password.</string>
     <string lang="it" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ERRORE: Impossibile impostare la configurazione della tastiera per VeraCrypt nel layout standard tastiera USA.\n\nNotare che la password necessita di essere digitata in ambiente di pre-boot (prima dell’avvio di Windows) dove la configurazione delle tastiere Windows non americane non sono disponibili. Pertanto, la password deve essere sempre digitata usando il layout tastiera standard USA.</string>

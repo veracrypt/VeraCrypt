@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="ko" name="한국어" en-name="Korean" version="0.1.0" translators="Kim Young" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="ko" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">주의: 시스템 파티션과 그 뒤에 있는 첫번쩨 파티션 사이에 할당되지 않은 공간이 있습니다. 숨긴 운영체제를 생성한 후에, 이러한 미할당 공간에 새로운 파티션을 만들어선 안됩니다. 그렇지 않으면 (새롭게 만들어진 파티션을 제거하기 전까지는) 숨긴 운영체제로 부팅을 할 수 없게 됩니다.</string>
     <string lang="ko" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">이 알고리듬은 현재 시스템 암호화에 지원되지 않습니다.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="ko" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">키파일이 현재 시스템 암호화에서 지원되지 않습니다.</string>
     <string lang="ko" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">주의: VeraCrypt가 원래의 키보드 레이아웃을 복구할 수 없습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
     <string lang="ko" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">오류: VeraCrypt 키보드 레이아웃을 표준 US 키보드 레이아웃에 설정할 수 없습니다.\n\n(윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅-전 환경에서 비밀번호를 입력할 필요가 있다는 것을 참고하세요. 그래서 표준 US 키보드 레이아웃을 사용해서 항상 비밀번호를 입력해야 합니다.</string>

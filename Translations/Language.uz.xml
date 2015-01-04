@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="uz" name="Ўзбекча" en-name="Uzbek (Cyrillic)" version="0.1.0" translators="Abdurauf Azizov, Dmitry Yerokhin" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="uz" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Внимание! Между системным разделом и первым разделом за ним имеется нераспределённое место. После создания скрытой операционной системы вы не должны создавать в этой нераспределённой области никаких новых разделов. В противном случае скрытая ОС не сможет загрузиться (до тех пор, пока не будут удалены такие вновь созданные разделы).</string>
     <string lang="uz" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">В данный момент этот алгоритм для шифрования системы не поддерживается.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="uz" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">В настоящий момент ключевые файлы для шифрования системы не поддерживаются.</string>
     <string lang="uz" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Внимание! VeraCrypt не может восстановить первоначальную раскладку клавиатуры. Это может привести к неправильному вводу пароля.</string>
     <string lang="uz" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Ошибка! Невозможно установить раскладку клавиатуры для VeraCrypt в стандартную американскую (US).\n\nОбратите внимание, что пароль вводится ДО загрузки Windows, когда любые раскладки клавиатуры, отличающиеся от американской, ещё недоступны. Поэтому пароль всегда должен вводиться при стандартной американской раскладке.</string>

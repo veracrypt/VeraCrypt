@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="da" name="Dansk" en-name="Danish" version="0.1.0" translators="Lasse Bond" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="da" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Advarsel: Der er uallokeret område mellem system partition og den første partition bag den. Efter du har oprettet det skjulte operativsystem, må du ikke oprette nogle nye partitioner i det uallokerede område. Ellers vil det skjulte operativsystem være umuligt at boote (indtil du sletter sådanne nyoprettede partitioner).</string>
     <string lang="da" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Denne algoritme er for tiden ikke supporteret til system kryptering.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="da" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Advarsel: VeraCrypt kunne ikke gendanne det originale keyboard layout. Dette kan medføre at du indtaster et kodeord ukorrekt.</string>
     <string lang="da" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fejl: Kan ikke indstille keyboard layoutet for VeraCrypt til standard US keyboard layout.\n\nBemærk at kodeordet skal indtastes i før-boot miljøet (før Windows starter) hvor ikke-US Windows keyboard layouts ikke er tilgængelige. Derfor skal kodeordet altid skrives ved brug af standard US keyboard layout.</string>

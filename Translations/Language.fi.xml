@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="fi" name="Suomi" en-name="Finnish" version="0.1.0" translators="Matti Ruhanen" />
     <!-- Fonts -->
@@ -1035,7 +1035,7 @@
     <string lang="fi" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varoitus: Siellä on allokoimatonta tilaa järjestelmäosion ja ensimmäisen osion takana. Kun olet luonut piilotetun käyttöjärjestelmän, sinun täytyy luoda uudet osiot tälle allokoimattomalle tilalle. Muutoin, piilotettu käyttöjärjestelmä ei ole mahdollista käynnistää (ennen kuin poistat sellaisen vasta luodun osion).</string>
     <string lang="fi" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Tämä algoritmi ei ole tuettuna järjestelmän salauksessa.</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="fi" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Avaintiedostot eivät ole nykyisin tuettuna järjestelmä salaukselle.</string>
     <string lang="fi" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varoitus: VeraCrypt ei voi palauttaa alkuperäistä näppäimistä ulkoasua. Tämä saattaa johtaa sinun antamasta väärästä salasanasta.</string>
     <string lang="fi" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Virhe: Ei voida asettaa näppäimistö ulkoasua VeraCrypt standardi US näppäin ulkoasuksi.\n\nHuomioi, että salasana täytyy kirjoittaa esikäynnistys ympäristössä (ennen kuin Windows käynnistyy) kun ei-US Windows näppäimistö ulkoasu ei ole saatavana. Siksi salasana tulee aina kirjoittaa käyttäen standardia näppäin asetusta.</string>

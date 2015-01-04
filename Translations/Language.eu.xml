@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f">
+  <localization prog-version="1.0f-1">
     <!-- Languages -->
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <!-- Fonts -->
@@ -1037,7 +1037,7 @@
     <string lang="eu" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Kontuz: Alokatu gabeko tarte bat dago sistemaren partizioa eta haren hurrengo partizioaren artean. Ezkutuko sistema eragilea sortu eta gero ezin izango duzu tarte horretan partizio berririk egin. Bestela, ezin izango da ezkutuko sistema eragilea hasieratu (partizio berri horiek ezabatu arte).</string>
     <string lang="eu" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Algoritmo honek momentuz ez du balio sistema zifratzeko .</string>
 	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 7.x series</string>
+	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="eu" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Momentuz ezin dira gako-fitxategiak erabili sistema zifratzeko.</string>
     <string lang="eu" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Kontuz: VeraCrypt-ek ezin izan du teklatua diseinu originaera leheneratu. Honek pasahitza gaizki sartzea ekar dezake.</string>
     <string lang="eu" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Errorea: Ezin da VeraCrypt-entzat teklatuaren diseinua aldatu EB teklatu estandar diseinura.\n\nOhartu zaitez pasahitza hasieraketa aurreko ingurunean (Windows hasi aurretik) sartu behar dela eta bertan EB-etako teklatu diseinuak ez daudela eskuragarri. Horregatik, pasahitza beti sartu behar da EB-etako teklatu estandarraren diseinuarekin.</string>
