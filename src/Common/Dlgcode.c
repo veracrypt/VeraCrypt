@@ -4350,6 +4350,8 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 
 		SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
 	}
+
+	SendMessageW(hList, LVM_SETCOLUMNWIDTH, 0, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
 }
 
 // specific implementation for support of benchmark operation in wait dialog mechanism
