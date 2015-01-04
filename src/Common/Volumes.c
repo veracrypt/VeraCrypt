@@ -423,7 +423,7 @@ KeyReady:	;
 				cryptoInfo->RequiredProgramVersion = GetHeaderField16 (header, TC_HEADER_OFFSET_REQUIRED_VERSION);
 				if (truecryptMode)
 				{
-					if (cryptoInfo->RequiredProgramVersion < 0x700 || cryptoInfo->RequiredProgramVersion > 0x71a)
+					if (cryptoInfo->RequiredProgramVersion < 0x600 || cryptoInfo->RequiredProgramVersion > 0x71a)
 					{
 						status = ERR_UNSUPPORTED_TRUECRYPT_FORMAT;
 						goto err;
