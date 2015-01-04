@@ -174,7 +174,7 @@ namespace VeraCrypt
 
 		if (truecryptMode)
 		{
-			if (RequiredMinProgramVersion < 0x700 || RequiredMinProgramVersion > 0x71a)
+			if (RequiredMinProgramVersion < 0x600 || RequiredMinProgramVersion > 0x71a)
 				throw UnsupportedTrueCryptFormat (SRC_POS);
 			RequiredMinProgramVersion = CurrentRequiredMinProgramVersion;
 		}
