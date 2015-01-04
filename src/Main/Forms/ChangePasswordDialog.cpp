@@ -136,8 +136,7 @@ namespace VeraCrypt
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
 					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
 					newPassword, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
-				WaitDialog dlg(this, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
-				dlg.Run();
+				Gui->ExecuteWaitThreadRoutine (this, &routine);
 			}
 
 			switch (DialogMode)

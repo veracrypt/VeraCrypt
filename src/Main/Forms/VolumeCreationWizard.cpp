@@ -867,8 +867,7 @@ namespace VeraCrypt
 
 						Creator.reset (new VolumeCreator);
 						VolumeCreatorThreadRoutine routine(options, Creator);
-						WaitDialog dlg(this, LangString["IDT_STATIC_MODAL_WAIT_DLG_INFO"], &routine);
-						dlg.Run();
+						Gui->ExecuteWaitThreadRoutine (this, &routine);
 
 						page->SetKeyInfo (Creator->GetKeyInfo());
 

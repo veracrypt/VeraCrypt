@@ -36,7 +36,20 @@ namespace VeraCrypt
 			uint64 MeanSpeed;
 		};
 
+		void DoBenchmark (list<BenchmarkResult>& results, Buffer& buffer);
 		void OnBenchmarkButtonClick (wxCommandEvent& event);
+		
+		class BenchmarkThreadRoutine : public WaitThreadRoutine
+		{
+		public:
+			BenchmarkDialog* m_pDlg;
+			list<BenchmarkResult>& m_results;
+			Buffer& m_buffer;
+			BenchmarkThreadRoutine(BenchmarkDialog* pDlg, list<BenchmarkResult>& results, Buffer& buffer)
+				: m_pDlg(pDlg), m_results(results), m_buffer(buffer) { }
+			virtual ~BenchmarkThreadRoutine() { }
+			virtual void ExecutionCode(void) { m_pDlg->DoBenchmark (m_results, m_buffer); }
+		};
 	};
 }
 
