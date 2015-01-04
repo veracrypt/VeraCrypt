@@ -120,6 +120,7 @@ typedef struct
 	unsigned __int64 diskLength[26];
 	int ea[26];
 	int volumeType[26];	/* Volume type (e.g. PROP_VOL_TYPE_OUTER, PROP_VOL_TYPE_OUTER_VOL_WRITE_PREVENTED, etc.) */
+	BOOL truecryptMode[26];
 } MOUNT_LIST_STRUCT;
 
 typedef struct

@@ -1146,6 +1146,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 						list->volumeType[ListExtension->nDosDriveNo] = PROP_VOL_TYPE_OUTER;	// Normal/outer volume (hidden volume protected)
 					else
 						list->volumeType[ListExtension->nDosDriveNo] = PROP_VOL_TYPE_NORMAL;	// Normal volume
+					list->truecryptMode[ListExtension->nDosDriveNo] = ListExtension->cryptoInfo->bTrueCryptMode;
 				}
 			}
 
