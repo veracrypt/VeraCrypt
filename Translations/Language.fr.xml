@@ -348,7 +348,7 @@
     <control lang="en" key="IDT_SECURITY_TOKEN">Security token:</control>
     <control lang="fr" key="IDT_SORT_METHOD">Méthode de tri :</control>
     <control lang="fr" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Merci de patienter. Cette opération peut prendre beaucoup de temps...</control>
-    <control lang="fr" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Merci de patienter...\nCette opération peut prendre beaucoup de temps et la fenêtre de VeraCrypt peut se figer et ne plus répondre.</control>
+    <control lang="fr" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Merci de patienter...\nCette opération peut prendre beaucoup de temps et la fenêtre de VeraCrypt peut paraître figée ou ne plus répondre.</control>
     <control lang="fr" key="IDT_TEST_BLOCK_NUMBER">Nombre de blocs :</control>
     <control lang="fr" key="IDT_TEST_CIPHERTEXT">Cryptogramme (hexadécimal)</control>
     <control lang="fr" key="IDT_TEST_DATA_UNIT_NUMBER">Nombre d'unité de données (hexadécimal de 64 bits, taille d'une unité = 512 octets)</control>
