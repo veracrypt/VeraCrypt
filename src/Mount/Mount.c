@@ -4696,7 +4696,7 @@ static void ResumeInterruptedNonSysInplaceEncProcess (void)
 	LaunchVolCreationWizard (MainDlg, "/zinplace");
 }
 
-static BOOL SelectContainer (HWND hwndDlg)
+BOOL SelectContainer (HWND hwndDlg)
 {
 	if (BrowseFiles (hwndDlg, "OPEN_VOL_TITLE", szFileName, bHistory, FALSE, NULL) == FALSE)
 		return FALSE;
@@ -4707,7 +4707,7 @@ static BOOL SelectContainer (HWND hwndDlg)
 	return TRUE;
 }
 
-static BOOL SelectPartition (HWND hwndDlg)
+BOOL SelectPartition (HWND hwndDlg)
 {
 	int nResult = DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), hwndDlg,
 		(DLGPROC) RawDevicesDlgProc, (LPARAM) & szFileName[0]);
@@ -7335,7 +7335,7 @@ static BOOL StartSystemFavoritesService ()
 	return result;
 }
 
-
+#ifndef VCEXPANDER
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszCommandLine, int nCmdShow)
 {
 	int argc;
@@ -7392,6 +7392,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	/* Terminate */
 	return 0;
 }
+#endif
 
 
 BOOL TaskBarIconAdd (HWND hwnd) 

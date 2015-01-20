@@ -25,12 +25,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Setup", "Setup\Setup.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boot", "Boot\Windows\Boot.vcproj", "{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VeraCyptExpander", "ExpandVolume\ExpandVolume.vcproj", "{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All Debug|Win32 = All Debug|Win32
 		All|Win32 = All|Win32
 		Boot Loader|Win32 = Boot Loader|Win32
 		Boot|Win32 = Boot|Win32
+		Debug|Win32 = Debug|Win32
 		Driver Debug|Win32 = Driver Debug|Win32
 		Driver x64 Debug|Win32 = Driver x64 Debug|Win32
 		Driver x64|Win32 = Driver x64|Win32
@@ -41,6 +44,7 @@ Global
 		Format|Win32 = Format|Win32
 		Mount Debug|Win32 = Mount Debug|Win32
 		Mount|Win32 = Mount|Win32
+		Release|Win32 = Release|Win32
 		Setup Debug|Win32 = Setup Debug|Win32
 		Setup|Win32 = Setup|Win32
 	EndGlobalSection
@@ -51,6 +55,8 @@ Global
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.All|Win32.Build.0 = Release|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Boot Loader|Win32.ActiveCfg = Release|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Boot|Win32.ActiveCfg = Release|Win32
+		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Debug|Win32.Build.0 = Debug|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Driver Debug|Win32.ActiveCfg = Debug|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Driver x64 Debug|Win32.ActiveCfg = Debug|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Driver x64|Win32.ActiveCfg = Release|Win32
@@ -65,6 +71,8 @@ Global
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Mount Debug|Win32.Build.0 = Debug|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Mount|Win32.ActiveCfg = Release|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Mount|Win32.Build.0 = Release|Win32
+		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release|Win32.ActiveCfg = Release|Win32
+		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Release|Win32.Build.0 = Release|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Setup Debug|Win32.ActiveCfg = Debug|Win32
 		{993245CF-6B70-47EE-91BB-39F8FC6DC0E7}.Setup|Win32.ActiveCfg = Release|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.All Debug|Win32.ActiveCfg = Debug|Win32
@@ -73,6 +81,8 @@ Global
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.All|Win32.Build.0 = Release|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Boot Loader|Win32.ActiveCfg = Release|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Boot|Win32.ActiveCfg = Release|Win32
+		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Debug|Win32.Build.0 = Debug|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Driver Debug|Win32.ActiveCfg = Debug|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Driver Debug|Win32.Build.0 = Debug|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Driver x64 Debug|Win32.ActiveCfg = Debug x64|Win32
@@ -89,6 +99,8 @@ Global
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Format|Win32.ActiveCfg = Release|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Mount Debug|Win32.ActiveCfg = Debug|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Mount|Win32.ActiveCfg = Release|Win32
+		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Release|Win32.ActiveCfg = Release|Win32
+		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Release|Win32.Build.0 = Release|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Setup Debug|Win32.ActiveCfg = Debug|Win32
 		{EF5EF444-18D0-40D7-8DFA-775EC4448602}.Setup|Win32.ActiveCfg = Release|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.All Debug|Win32.ActiveCfg = Debug|Win32
@@ -97,6 +109,8 @@ Global
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.All|Win32.Build.0 = Release|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Boot Loader|Win32.ActiveCfg = Release|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Boot|Win32.ActiveCfg = Release|Win32
+		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Debug|Win32.Build.0 = Debug|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Driver Debug|Win32.ActiveCfg = Debug|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Driver x64 Debug|Win32.ActiveCfg = Debug|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Driver x64|Win32.ActiveCfg = Release|Win32
@@ -109,6 +123,8 @@ Global
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Format|Win32.Build.0 = Release|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Mount Debug|Win32.ActiveCfg = Debug|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Mount|Win32.ActiveCfg = Release|Win32
+		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release|Win32.ActiveCfg = Release|Win32
+		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Release|Win32.Build.0 = Release|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Setup Debug|Win32.ActiveCfg = Debug|Win32
 		{9DC1ABE2-D18B-48FB-81D2-8C50ADC57BCF}.Setup|Win32.ActiveCfg = Release|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.All Debug|Win32.ActiveCfg = Debug|Win32
@@ -117,6 +133,8 @@ Global
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.All|Win32.Build.0 = Release|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Boot Loader|Win32.ActiveCfg = Release|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Boot|Win32.ActiveCfg = Release|Win32
+		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Debug|Win32.Build.0 = Debug|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Driver Debug|Win32.ActiveCfg = Debug|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Driver x64 Debug|Win32.ActiveCfg = Debug|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Driver x64|Win32.ActiveCfg = Release|Win32
@@ -129,6 +147,8 @@ Global
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Mount Debug|Win32.Build.0 = Debug|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Mount|Win32.ActiveCfg = Release|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Mount|Win32.Build.0 = Release|Win32
+		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release|Win32.ActiveCfg = Release|Win32
+		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Release|Win32.Build.0 = Release|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Setup Debug|Win32.ActiveCfg = Debug|Win32
 		{E4C40F94-E7F9-4981-86E4-186B46F993F3}.Setup|Win32.ActiveCfg = Release|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.All Debug|Win32.ActiveCfg = Debug|Win32
@@ -137,6 +157,8 @@ Global
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.All|Win32.Build.0 = Release|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Boot Loader|Win32.ActiveCfg = Release|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Boot|Win32.ActiveCfg = Release|Win32
+		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Debug|Win32.Build.0 = Debug|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Driver Debug|Win32.ActiveCfg = Debug|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Driver x64 Debug|Win32.ActiveCfg = Debug|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Driver x64|Win32.ActiveCfg = Release|Win32
@@ -147,6 +169,8 @@ Global
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Format|Win32.ActiveCfg = Release|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Mount Debug|Win32.ActiveCfg = Debug|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Mount|Win32.ActiveCfg = Release|Win32
+		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release|Win32.ActiveCfg = Release|Win32
+		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Release|Win32.Build.0 = Release|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Setup Debug|Win32.ActiveCfg = Debug|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Setup Debug|Win32.Build.0 = Debug|Win32
 		{DF5F654D-BD44-4E31-B92E-B68074DC37A8}.Setup|Win32.ActiveCfg = Release|Win32
@@ -159,6 +183,8 @@ Global
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Boot Loader|Win32.Build.0 = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Boot|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Boot|Win32.Build.0 = Release|Win32
+		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Debug|Win32.ActiveCfg = Release Loader|Win32
+		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Debug|Win32.Build.0 = Release Loader|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Driver Debug|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Driver x64 Debug|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Driver x64|Win32.ActiveCfg = Release|Win32
@@ -169,8 +195,46 @@ Global
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Format|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Mount Debug|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Mount|Win32.ActiveCfg = Release|Win32
+		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release|Win32.ActiveCfg = Release|Win32
+		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Release|Win32.Build.0 = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Setup Debug|Win32.ActiveCfg = Release|Win32
 		{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}.Setup|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.All Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.All Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.All|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.All|Win32.Build.0 = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Boot Loader|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Boot Loader|Win32.Build.0 = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Boot|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Boot|Win32.Build.0 = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x64 Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x64 Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x64|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x64|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x86 Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x86 Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x86|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver x86|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Driver|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Format Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Format Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Format|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Format|Win32.Build.0 = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Mount Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Mount Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Mount|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Mount|Win32.Build.0 = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Release|Win32.Build.0 = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Setup Debug|Win32.ActiveCfg = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Setup Debug|Win32.Build.0 = Debug|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Setup|Win32.ActiveCfg = Release|Win32
+		{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}.Setup|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
