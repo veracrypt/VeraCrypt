@@ -315,7 +315,7 @@ EXSTYLE WS_EX_TOPMOST
 CAPTION "VeraCrypt"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,11,274,33
+    CTEXT           "Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.",IDT_STATIC_MODAL_WAIT_DLG_INFO,9,11,274,33
     CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,49,278,14
 END
 
