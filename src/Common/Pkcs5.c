@@ -683,7 +683,10 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL truecryptMode, BOOL bBoot)
 		return truecryptMode? 1000 : 500000;
 
 	case SHA256:
-		return bBoot? 200000 : 500000;
+		if (truecryptMode)
+			return 0; // SHA-256 not supported by TrueCrypt
+		else
+			return bBoot? 200000 : 500000;
 
 	default:		
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
