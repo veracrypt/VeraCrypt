@@ -2078,7 +2078,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	{
 	case WM_INITDIALOG:
 		{
-			int i, nIndex;
+			int i, nIndex, defaultPrfIndex = 0;
 			szXPwd = ((PasswordDlgParam *) lParam) -> password;
 			pkcs5 = ((PasswordDlgParam *) lParam) -> pkcs5;
 			truecryptMode = ((PasswordDlgParam *) lParam) -> truecryptMode;
@@ -2120,10 +2120,12 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
+				if (*pkcs5 && (*pkcs5 == i))
+					defaultPrfIndex = nIndex;
 			}
 
-			/* make autodetection the default */
-			SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
+			/* make autodetection the default unless a specific PRF was specified in the command line */
+			SendMessage (hComboBox, CB_SETCURSEL, defaultPrfIndex, 0);
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
@@ -2144,6 +2146,11 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				/* Disable TrueCrypt mode option in case of backup/restore header operation */
 				SetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE, FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_TRUECRYPT_MODE), FALSE);
+			}
+			else if (*truecryptMode)
+			{
+				/* Check TrueCryptMode if it is enabled on the command line */
+				SetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE, TRUE);
 			}
 
 			if (!SetForegroundWindow (hwndDlg) && (FavoriteMountOnArrivalInProgress || LogOn))
@@ -2174,7 +2181,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 
-			int i, nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+			int i, defaultPrfIndex = 0, nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
@@ -2183,11 +2190,13 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				{
 					nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
+					if (*pkcs5 && (*pkcs5 == i))
+						defaultPrfIndex = nIndex;
 				}
 			}
 
-			/* make autodetection the default */
-			SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
+			/* make autodetection the default unless a specific PRF was specified in the command line */
+			SendMessage (hComboBox, CB_SETCURSEL, defaultPrfIndex, 0);
 
 			ToBootPwdField (hwndDlg, IDC_PASSWORD);
 
