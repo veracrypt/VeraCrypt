@@ -664,6 +664,11 @@ namespace VeraCrypt
 		MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 		mountOptions.SlotNumber = SelectedSlotNumber;
 		mountOptions.Path = GetSelectedVolumePath();
+		mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+		if (CmdLine->ArgHash)
+		{
+			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, CmdLine->ArgTrueCryptMode);
+		}
 
 		try
 		{
@@ -881,6 +886,11 @@ namespace VeraCrypt
 			SetVolumePath (favorite.Path);
 
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
+			mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+			if (CmdLine->ArgHash)
+			{
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, CmdLine->ArgTrueCryptMode);
+			}
 			favorite.ToMountOptions (mountOptions);
 
 			shared_ptr <VolumeInfo> volume = Gui->MountVolume (mountOptions);

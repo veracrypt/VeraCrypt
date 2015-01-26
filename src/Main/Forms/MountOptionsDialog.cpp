@@ -30,7 +30,7 @@ namespace VeraCrypt
 		if (disableMountOptions)
 			OptionsButton->Show (false);
 
-		PasswordPanel = new VolumePasswordPanel (this, options.Password, disableMountOptions, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
+		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, disableMountOptions, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
 
 		PasswordSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);
@@ -61,7 +61,7 @@ namespace VeraCrypt
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, _("P&assword to hidden volume:"));
+		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, &options, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, _("P&assword to hidden volume:"));
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
 		UpdateDialog();

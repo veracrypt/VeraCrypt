@@ -14,7 +14,7 @@
 
 namespace VeraCrypt
 {
-	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, shared_ptr <VolumePassword> password, bool disableTruecryptMode, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
+	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, MountOptions* options, shared_ptr <VolumePassword> password, bool disableTruecryptMode, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
 		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList)
 	{
 		if (keyfiles)
@@ -67,8 +67,14 @@ namespace VeraCrypt
 		HeaderWipeCountText->Show (enablePkcs5Prf && !isMountPassword);
 		HeaderWipeCount->Show (enablePkcs5Prf && !isMountPassword);
 
+		if (options && !disableTruecryptMode)
+		{
+			TrueCryptModeCheckBox->SetValue (options->TrueCryptMode);
+		}
+
 		if (enablePkcs5Prf)
 		{	
+			int index, prfInitialIndex = 0;
 			if (isMountPassword)
 			{
 				// case of password for mounting
@@ -78,9 +84,17 @@ namespace VeraCrypt
 			foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms(false))
 			{
 				if (!kdf.IsDeprecated() || isMountPassword)
-					Pkcs5PrfChoice->Append (kdf.GetName());
+				{
+					index = Pkcs5PrfChoice->Append (kdf.GetName());
+					if (isMountPassword && options && options->Kdf 
+						&& (options->Kdf->GetName() == kdf.GetName())
+					   )
+					{
+						prfInitialIndex = index;
+					}
+				}
 			}
-			Pkcs5PrfChoice->Select (0);
+			Pkcs5PrfChoice->Select (prfInitialIndex);
 		}
 
 		if (!enablePkcs5Prf || (!enablePassword && !enableKeyfiles))
