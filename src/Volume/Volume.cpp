@@ -106,9 +106,6 @@ namespace VeraCrypt
 		if (kdf && truecryptMode && (kdf->GetName() == L"HMAC-SHA-256"))
 			throw UnsupportedAlgoInTrueCryptMode (SRC_POS);	
 
-		if (truecryptMode && partitionInSystemEncryptionScope)
-			throw ParameterIncorrect (SRC_POS);
-
 		Protection = protection;
 		VolumeFile = volumeFile;
 		SystemEncryption = partitionInSystemEncryptionScope;

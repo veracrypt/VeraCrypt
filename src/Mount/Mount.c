@@ -2173,10 +2173,6 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 	case TC_APPMSG_PREBOOT_PASSWORD_MODE:
 		{
-			/* No support for mounting TrueCrypt system partition */				
-			SetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE, FALSE);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_TRUECRYPT_MODE), FALSE);
-
 			/* Repopulate the PRF algorithms list with algorithms that support system encryption */
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
