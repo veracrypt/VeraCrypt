@@ -25,7 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Setup", "Setup\Setup.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boot", "Boot\Windows\Boot.vcproj", "{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VeraCyptExpander", "ExpandVolume\ExpandVolume.vcproj", "{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExpandVolume", "ExpandVolume\ExpandVolume.vcproj", "{9715FF1D-599B-4BBC-AD96-BEF6E08FF827}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
