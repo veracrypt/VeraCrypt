@@ -266,14 +266,18 @@ static BOOL ElevateWholeWizardProcess (string arguments)
 
 	GetModuleFileName (NULL, modPath, sizeof (modPath));
 
-	if ((int)ShellExecute (MainDlg, "runas", modPath, (string("/q UAC ") + arguments).c_str(), NULL, SW_SHOWNORMAL) > 32)
-	{				
-		exit (0);
-	}
-	else
+	while (true)
 	{
-		Error ("UAC_INIT_ERROR", MainDlg);
-		return FALSE;
+		if ((int)ShellExecute (MainDlg, "runas", modPath, (string("/q UAC ") + arguments).c_str(), NULL, SW_SHOWNORMAL) > 32)
+		{				
+			exit (0);
+		}
+		else
+		{
+			if (IDRETRY == ErrorRetryCancel ("UAC_INIT_ERROR", MainDlg))
+				continue;
+			return FALSE;
+		}
 	}
 }
 

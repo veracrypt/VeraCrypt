@@ -385,6 +385,7 @@ int Warning (char *stringId, HWND hwnd);
 int WarningTopMost (char *stringId, HWND hwnd);
 int WarningDirect (const wchar_t *warnMsg, HWND hwnd);
 int Error (char *stringId, HWND hwnd);
+int ErrorRetryCancel (char *stringId, HWND hwnd);
 int ErrorDirect (const wchar_t *errMsg, HWND hwnd);
 int ErrorTopMost (char *stringId, HWND hwnd);
 int AskYesNo (char *stringId, HWND hwnd);

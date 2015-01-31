@@ -8089,6 +8089,11 @@ int Error (char *stringId, HWND hwnd)
 	return MessageBoxW (hwnd, GetString (stringId), lpszTitle, MB_ICONERROR);
 }
 
+int ErrorRetryCancel (char *stringId, HWND hwnd)
+{
+	if (Silent) return 0;
+	return MessageBoxW (hwnd, GetString (stringId), lpszTitle, MB_ICONERROR | MB_RETRYCANCEL);
+}
 
 int ErrorTopMost (char *stringId, HWND hwnd)
 {
