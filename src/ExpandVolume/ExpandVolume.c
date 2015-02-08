@@ -288,6 +288,7 @@ int QueryVolumeInfo (HWND hwndDlg, const char *lpszVolume, uint64 * pHostSizeFre
 		break;
 	case EV_FS_TYPE_FAT:
 		*pSizeLimitFS = 4 * BYTES_PER_GB - 1;
+		break;
 	default:
 		*pSizeLimitFS = (uint64)-1;
 	}
@@ -410,7 +411,7 @@ int ExtendFileSystem (HWND hwndDlg , char *lpszVolume, Password *pVolumePassword
 	if ( !GetFileSystemType(rootPath,&fs) )
 	{
 		dwError = GetLastError();
-		if (dwError = ERROR_UNRECOGNIZED_VOLUME)
+		if (dwError == ERROR_UNRECOGNIZED_VOLUME)
 		{
 			// raw volume with unrecognized file system -> return with no error
 			nStatus = ERR_SUCCESS;
@@ -517,6 +518,8 @@ static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePasswo
 	BOOL bTimeStampValid = FALSE;
 	LARGE_INTEGER headerOffset;
 	BOOL backupHeader;
+	byte *wipeBuffer = NULL;
+	uint32 workChunkSize = TC_VOLUME_HEADER_GROUP_SIZE;
 
 	if (pVolumePassword->Length == 0) return -1;
 
@@ -858,15 +861,21 @@ static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePasswo
 
 	/* wipe old backup header */
 	if ( !cryptoInfo->LegacyVolume )
-	{
-		byte *wipeBuffer = NULL;
+	{		
 		byte wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
 		byte wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
 		byte wipePass;
-		uint32 workChunkSize = TC_VOLUME_HEADER_GROUP_SIZE;
 		UINT64_STRUCT unitNo;
 		LARGE_INTEGER offset;
 		WipeAlgorithmId wipeAlgorithm = TC_WIPE_35_GUTMANN;
+
+		if (	!RandgetBytes (hwndDlg, wipeRandChars, TC_WIPE_RAND_CHAR_COUNT, TRUE)
+			|| !RandgetBytes (hwndDlg, wipeRandCharsUpdate, TC_WIPE_RAND_CHAR_COUNT, TRUE)
+			)
+		{
+			nStatus = ERR_OS_ERROR;
+			goto error;
+		}
 
 		DebugAddProgressDlgStatus(hwndDlg, "Wiping old backup header ...\r\n");
 
@@ -911,10 +920,20 @@ static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePasswo
 			// we don't check FlushFileBuffers() return code, because it fails for devices
 			// (same implementation in password.c - a bug or not ???)
 		}
+
+		burn (wipeRandChars, TC_WIPE_RAND_CHAR_COUNT);
+		burn (wipeRandCharsUpdate, TC_WIPE_RAND_CHAR_COUNT);
 	}
 
 error:
 	dwError = GetLastError ();
+
+	if (wipeBuffer)
+	{
+		burn (wipeBuffer, workChunkSize);
+		TCfree (wipeBuffer);
+		wipeBuffer = NULL;
+	}
 
 	burn (buffer, sizeof (buffer));
 
