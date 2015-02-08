@@ -41,6 +41,7 @@ namespace VeraCrypt
 	// RIPEMD-160
 	Ripemd160::Ripemd160 ()
 	{
+		Deprecated = true; // Mark RIPEMD-160 as deprecated like on Windows.
 		Context.Allocate (sizeof (RMD160_CTX));
 		Init();
 	}
