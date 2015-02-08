@@ -832,7 +832,7 @@ namespace VeraCrypt
 		// MIME handler for directory seems to be unavailable through wxWidgets
 		wxString desktop = GetTraits()->GetDesktopEnvironment();
 
-		if (desktop == L"GNOME" || desktop.empty())
+		if (desktop == L"GNOME")
 		{
 			args.push_back ("--no-default-window");
 			args.push_back ("--no-desktop");
@@ -864,6 +864,22 @@ namespace VeraCrypt
 				catch (TimeOut&) { }
 				catch (exception &e) { ShowError (e); }
 			}
+		}
+		else if (wxFileName::IsFileExecutable (wxT("/usr/bin/xdg-open")))
+		{
+			// Fallback on the standard xdg-open command 
+			// which is not always available by default
+			args.push_back (string (path));
+			try
+			{
+				Process::Execute ("xdg-open", args, 2000);
+			}
+			catch (TimeOut&) { }
+			catch (exception &e) { ShowError (e); }
+		}
+		else
+		{
+			ShowWarning (wxT("Unable to find a file manager to open the mounted volume"));
 		}
 #endif
 	}
