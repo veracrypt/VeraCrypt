@@ -22,10 +22,11 @@ namespace VeraCrypt
 	class File
 	{
 	public:
-		File () : Elevated (false), FileOpen (false), FilePointerPosition(0), Handle(NULL), IsDevice(false) { }
-		File (string path, bool readOnly = false, bool create = false);
-		~File () { Close(); }
+		File () : Elevated (false), FileOpen (false), FilePointerPosition(0), Handle(INVALID_HANDLE_VALUE), IsDevice(false), LastError(0) { }
+		File (string path,bool readOnly = false, bool create = false);
+		virtual ~File () { Close(); }
 
+		void CheckOpened () { if (!FileOpen) { SetLastError (LastError); throw SystemException ();} }
 		void Close ();
 		DWORD Read (byte *buffer, DWORD size);
 		void Write (byte *buffer, DWORD size);
@@ -38,13 +39,15 @@ namespace VeraCrypt
 		HANDLE Handle;
 		bool IsDevice;
 		string Path;
+		DWORD LastError;
 	};
 
 
 	class Device : public File
 	{
 	public:
-		Device (string path, bool readOnly = false);
+		Device (string path,bool readOnly = false);
+		virtual ~Device () {}
 	};
 
 

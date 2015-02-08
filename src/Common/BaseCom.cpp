@@ -134,6 +134,7 @@ DWORD BaseCom::ReadWriteFile (BOOL write, BOOL device, BSTR filePath, BSTR *buff
 	try
 	{
 		auto_ptr <File> file (device ? new Device (string (szFilePathA.m_psz), !write) : new File (string (szFilePathA.m_psz), !write));
+		file->CheckOpened ();
 		file->SeekAt (offset);
 
 		if (write)
