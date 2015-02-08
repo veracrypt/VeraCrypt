@@ -288,6 +288,7 @@ void SavePostInstallTasksSettings (int command);
 void DoPostInstallTasks (HWND hwndDlg);
 void InitOSVersionInfo ();
 void InitApp ( HINSTANCE hInstance, char *lpszCommandLine );
+void FinalizeApp (void);
 void InitHelpFileName (void);
 BOOL OpenDevice (const char *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem);
 void NotifyDriverOfPortableMode (void);
