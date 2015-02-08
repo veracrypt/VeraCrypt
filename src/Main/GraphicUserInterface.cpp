@@ -842,8 +842,9 @@ namespace VeraCrypt
 
 			wxLogLevel logLevel = wxLog::GetLogLevel();
 			wxLog::SetLogLevel (wxLOG_Error);
-
-			SingleInstanceChecker.reset (new wxSingleInstanceChecker (wxString (L".") + Application::GetName() + L"-lock-" + wxGetUserId()));
+			
+			const wxString instanceCheckerName = wxString (L".") + Application::GetName() + L"-lock-" + wxGetUserId();
+			SingleInstanceChecker.reset (new wxSingleInstanceChecker (instanceCheckerName));
 
 			wxLog::SetLogLevel (logLevel);
 
@@ -878,6 +879,7 @@ namespace VeraCrypt
 					if (write (showFifo, buf, 1) == 1)
 					{
 						close (showFifo);
+						Gui->ShowInfo (_("VeraCrypt is already running."));
 						Application::SetExitCode (0);
 						return false;
 					}
@@ -890,12 +892,28 @@ namespace VeraCrypt
 					throw;
 #endif
 				}
-#endif
+
+				// This is a false positive as VeraCrypt is not running (pipe not available)
+				// we continue running after cleaning the lock file
+				// and creating a new instance of the checker
+				wxString lockFileName = wxGetHomeDir();
+				if ( lockFileName.Last() != wxT('/') )
+				{
+					lockFileName += wxT('/');
+				}
+				lockFileName << instanceCheckerName;
+
+				if (wxRemoveFile (lockFileName))
+				{
+					SingleInstanceChecker.reset (new wxSingleInstanceChecker (instanceCheckerName));
+				}
+#else
 
 				wxLog::FlushActive();
 				Application::SetExitCode (1);
 				Gui->ShowInfo (_("VeraCrypt is already running."));
 				return false;
+#endif
 			}
 
 #ifdef TC_WINDOWS
