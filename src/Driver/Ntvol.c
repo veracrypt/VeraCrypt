@@ -726,7 +726,7 @@ error:
 
 void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 {
-	if (DeviceObject);	/* Remove compiler warning */
+	UNREFERENCED_PARAMETER (DeviceObject);	/* Remove compiler warning */
 
 	if (Extension->hDeviceFile != NULL)
 	{
@@ -738,7 +738,11 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 		ZwClose (Extension->hDeviceFile);
 	}
 	ObDereferenceObject (Extension->pfoDeviceFile);
-	crypto_close (Extension->cryptoInfo);
+	if (Extension->cryptoInfo)
+	{
+		crypto_close (Extension->cryptoInfo);
+		Extension->cryptoInfo = NULL;
+	}
 }
 
 
@@ -752,7 +756,7 @@ NTSTATUS TCSendHostDeviceIoControlRequest (PDEVICE_OBJECT DeviceObject,
 	NTSTATUS ntStatus;
 	PIRP Irp;
 
-	if (DeviceObject);	/* Remove compiler warning */
+	UNREFERENCED_PARAMETER(DeviceObject);	/* Remove compiler warning */
 
 	KeClearEvent (&Extension->keVolumeEvent);
 
@@ -791,7 +795,7 @@ NTSTATUS COMPLETE_IRP (PDEVICE_OBJECT DeviceObject,
 	Irp->IoStatus.Status = IrpStatus;
 	Irp->IoStatus.Information = IrpInformation;
 
-	if (DeviceObject);	/* Remove compiler warning */
+	UNREFERENCED_PARAMETER (DeviceObject);	/* Remove compiler warning */
 
 #if EXTRA_INFO
 	if (!NT_SUCCESS (IrpStatus))

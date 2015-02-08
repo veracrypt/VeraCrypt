@@ -1176,6 +1176,36 @@ static VOID SetupThreadProc (PVOID threadArg)
 	KIRQL irql;
 	NTSTATUS status;
 
+	// generate real random values for wipeRandChars and 
+	// wipeRandCharsUpdate instead of relying on uninitialized stack memory
+	LARGE_INTEGER iSeed;
+	KeQuerySystemTime( &iSeed );
+	if (KeGetCurrentIrql() < DISPATCH_LEVEL)
+	{
+		ULONG ulRandom;
+		ulRandom = RtlRandomEx( &iSeed.LowPart );
+		memcpy (wipeRandChars, &ulRandom, TC_WIPE_RAND_CHAR_COUNT);
+		ulRandom = RtlRandomEx( &ulRandom );
+		memcpy (wipeRandCharsUpdate, &ulRandom, TC_WIPE_RAND_CHAR_COUNT);
+		burn (&ulRandom, sizeof(ulRandom));
+	}
+	else
+	{
+		byte digest[SHA512_DIGESTSIZE];
+		sha512_ctx tctx;
+		sha512_begin (&tctx);
+		sha512_hash ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+		sha512_end (digest, &tctx);
+
+		memcpy (wipeRandChars, digest, TC_WIPE_RAND_CHAR_COUNT);
+		memcpy (wipeRandCharsUpdate, &digest[SHA512_DIGESTSIZE - TC_WIPE_RAND_CHAR_COUNT], TC_WIPE_RAND_CHAR_COUNT);
+
+		burn (digest, SHA512_DIGESTSIZE);
+		burn (&tctx, sizeof (tctx));
+	}
+	
+	burn (&iSeed, sizeof(iSeed));
+
 	SetupResult = STATUS_UNSUCCESSFUL;
 
 	// Make sure volume header can be updated
@@ -1475,9 +1505,18 @@ err:
 
 ret:
 	if (buffer)
+	{
+		burn (buffer, TC_ENCRYPTION_SETUP_IO_BLOCK_SIZE);
 		TCfree (buffer);
+	}
 	if (wipeBuffer)
+	{
+		burn (wipeBuffer, TC_ENCRYPTION_SETUP_IO_BLOCK_SIZE);
 		TCfree (wipeBuffer);
+	}
+
+	burn (wipeRandChars, TC_WIPE_RAND_CHAR_COUNT);
+	burn (wipeRandCharsUpdate, TC_WIPE_RAND_CHAR_COUNT);
 
 	SetupInProgress = FALSE;
 	PsTerminateSystemThread (SetupResult);

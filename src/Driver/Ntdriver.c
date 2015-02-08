@@ -1709,7 +1709,7 @@ void TCStopVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 {
 	NTSTATUS ntStatus;
 
-	if (DeviceObject);	/* Remove compiler warning */
+	UNREFERENCED_PARAMETER (DeviceObject);	/* Remove compiler warning */
 
 	Dump ("Signalling thread to quit...\n");
 
