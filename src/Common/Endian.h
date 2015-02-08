@@ -108,7 +108,7 @@ extern "C"
 	  ( ( unsigned __int32 ) memPtr[ -2 ] << 8 ) | ( unsigned __int32 ) memPtr[ -1 ] )
 
 #define mgetWord(memPtr) 		\
-	( memPtr += 2, ( unsigned short ) memPtr[ -2 ] << 8 ) | ( ( unsigned short ) memPtr[ -1 ] ) 
+	( memPtr += 2, ((( unsigned short ) memPtr[ -2 ] << 8 ) | ( ( unsigned short ) memPtr[ -1 ] )) ) 
 
 #define mgetByte(memPtr)		\
 	( ( unsigned char ) *memPtr++ )
