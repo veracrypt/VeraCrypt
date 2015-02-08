@@ -270,7 +270,8 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 			char tmpstr [1000];
 
 			StringCbPrintfA (tmpstr, sizeof(tmpstr), "File not found:\n\n'%s'", szTmpFilePath);
-			remove (outputFile);
+			if (remove (outputFile))
+				StringCbCatA (tmpstr, sizeof(tmpstr), "\nFailed also to delete package file");
 			PkgError (tmpstr);
 			goto err;
 		}
@@ -287,16 +288,21 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 	if (buffer == NULL)
 	{
 		PkgError ("Cannot allocate memory for uncompressed data");
-		remove (outputFile);
+		if (remove (outputFile))
+			PkgError ("Cannot allocate memory for uncompressed data.\nFailed also to delete package file");
+		else
+			PkgError ("Cannot allocate memory for uncompressed data");
 		goto err;
 	}
 
 
 	// Write the start marker
 	if (!SaveBufferToFile (MAG_START_MARKER, outputFile, strlen (MAG_START_MARKER), TRUE))
-	{
-		PkgError ("Cannot write the start marker");
-		remove (outputFile);
+	{		
+		if (remove (outputFile))
+			PkgError ("Cannot write the start marker\nFailed also to delete package file");
+		else
+			PkgError ("Cannot write the start marker");
 		goto err;
 	}
 
@@ -319,7 +325,8 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 
 			free (tmpBuffer);
 			StringCbPrintfA (tmpstr, sizeof(tmpstr), "Cannot load file \n'%s'", szTmpFilePath);
-			remove (outputFile);
+			if (remove (outputFile))
+				StringCbCatA (tmpstr, sizeof(tmpstr), "\nFailed also to delete package file");
 			PkgError (tmpstr);
 			goto err;
 		}
@@ -352,8 +359,10 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 	mputLong (szTmp32bitPtr, (unsigned __int32) uncompressedDataLen);
 	if (!SaveBufferToFile (szTmp32bit, outputFile, sizeof (szTmp32bit), TRUE))
 	{
-		remove (outputFile);
-		PkgError ("Cannot write the total size of the uncompressed data");
+		if (remove (outputFile))
+			PkgError ("Cannot write the total size of the uncompressed data.\nFailed also to delete package file");
+		else
+			PkgError ("Cannot write the total size of the uncompressed data");
 		goto err;
 	}
 
@@ -362,16 +371,20 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 	compressedBuffer = malloc (uncompressedDataLen + 524288);	// + 512K reserve
 	if (compressedBuffer == NULL)
 	{
-		remove (outputFile);
-		PkgError ("Cannot allocate memory for compressed data");
+		if (remove (outputFile))
+			PkgError ("Cannot allocate memory for compressed data.\nFailed also to delete package file");
+		else
+			PkgError ("Cannot allocate memory for compressed data");
 		goto err;
 	}
 
 	compressedDataLen = CompressBuffer (compressedBuffer, buffer, uncompressedDataLen);
 	if (compressedDataLen <= 0)
 	{
-		remove (outputFile);
-		PkgError ("Failed to compress the data");
+		if (remove (outputFile))
+			PkgError ("Failed to compress the data.\nFailed also to delete package file");
+		else
+			PkgError ("Failed to compress the data");
 		goto err;
 	}
 
@@ -383,24 +396,30 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 	mputLong (szTmp32bitPtr, (unsigned __int32) compressedDataLen);
 	if (!SaveBufferToFile (szTmp32bit, outputFile, sizeof (szTmp32bit), TRUE))
 	{
-		remove (outputFile);
-		PkgError ("Cannot write the total size of the compressed data");
+		if (remove (outputFile))
+			PkgError ("Cannot write the total size of the compressed data.\nFailed also to delete package file");
+		else
+			PkgError ("Cannot write the total size of the compressed data");
 		goto err;
 	}
 
 	// Write the compressed data
 	if (!SaveBufferToFile (compressedBuffer, outputFile, compressedDataLen, TRUE))
 	{
-		remove (outputFile);
-		PkgError ("Cannot write compressed data to the package");
+		if (remove (outputFile))
+			PkgError ("Cannot write compressed data to the package.\nFailed also to delete package file");
+		else
+			PkgError ("Cannot write compressed data to the package");
 		goto err;
 	}
 
 	// Write the end marker
 	if (!SaveBufferToFile (MagEndMarker, outputFile, strlen (MagEndMarker), TRUE))
 	{
-		remove (outputFile);
-		PkgError ("Cannot write the end marker");
+		if (remove (outputFile))
+			PkgError ("Cannot write the end marker.\nFailed also to delete package file");
+		else
+			PkgError ("Cannot write the end marker");
 		goto err;
 	}
 
@@ -417,8 +436,10 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 		if (tmpBuffer == NULL)
 		{
 			handleWin32Error (hwndDlg);
-			remove (outputFile);
-			PkgError ("Cannot load the package to compute CRC");
+			if (remove (outputFile))
+				PkgError ("Cannot load the package to compute CRC.\nFailed also to delete package file");
+			else
+				PkgError ("Cannot load the package to compute CRC");
 			goto err;
 		}
 
@@ -431,8 +452,10 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 
 		if (!SaveBufferToFile (szTmp32bit, outputFile, sizeof (szTmp32bit), TRUE))
 		{
-			remove (outputFile);
-			PkgError ("Cannot write the total size of the compressed data");
+			if (remove (outputFile))
+				PkgError ("Cannot write the total size of the compressed data.\nFailed also to delete package file");
+			else
+				PkgError ("Cannot write the total size of the compressed data");
 			goto err;
 		}
 	}
