@@ -849,7 +849,10 @@ static int inflate_dynamic(__G)
       j = 3 + ((unsigned)b & 3);
       DUMPBITS(2)
       if ((unsigned)i + j > n)
+      {
+        huft_free(tl);
         return 1;
+      }
       while (j--)
         ll[i++] = l;
     }
@@ -859,7 +862,10 @@ static int inflate_dynamic(__G)
       j = 3 + ((unsigned)b & 7);
       DUMPBITS(3)
       if ((unsigned)i + j > n)
+      {
+        huft_free(tl);
         return 1;
+      }
       while (j--)
         ll[i++] = 0;
       l = 0;
@@ -870,7 +876,10 @@ static int inflate_dynamic(__G)
       j = 11 + ((unsigned)b & 0x7f);
       DUMPBITS(7)
       if ((unsigned)i + j > n)
+      {
+        huft_free(tl);
         return 1;
+      }
       while (j--)
         ll[i++] = 0;
       l = 0;
@@ -908,6 +917,7 @@ static int inflate_dynamic(__G)
     //if (!uO.qflag)
       MESSAGE((uch *)"(incomplete d-tree)  ", 21L, 1);
     huft_free(tl);
+    huft_free(td);
     return 1;
   }
   if (i == 1) {
@@ -917,6 +927,7 @@ static int inflate_dynamic(__G)
     //if (!uO.qflag)
       MESSAGE((uch *)"(incomplete d-tree)  ", 21L, 1);
     huft_free(td);
+    td = NULL;
 #endif
   }
   if (i)
@@ -927,13 +938,15 @@ static int inflate_dynamic(__G)
 
 
   /* decompress until an end-of-block code */
-  if (inflate_codes(__G__ tl, td, bl, bd))
-    return 1;
-
+  i = inflate_codes(__G__ tl, td, bl, bd);
 
   /* free the decoding tables, return */
   huft_free(tl);
   huft_free(td);
+
+  if (i)
+    return 1;
+
   return 0;
 }
 
