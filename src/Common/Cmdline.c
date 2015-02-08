@@ -27,8 +27,8 @@
    not. - see DialogProc */
 BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (lParam);		/* remove warning */
-	if (wParam);		/* remove warning */
+	UNREFERENCED_PARAMETER (lParam);		/* remove warning */
+	UNREFERENCED_PARAMETER (wParam);		/* remove warning */
 
 	switch (msg)
 	{

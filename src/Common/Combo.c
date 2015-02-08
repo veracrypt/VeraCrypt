@@ -157,7 +157,7 @@ void LoadCombo (HWND hComboBox)
 void DumpCombo (HWND hComboBox, int bClear)
 {
 	FILE *f;
-	int i, nComboIdx[SIZEOF_MRU_LIST];
+	int i, nComboIdx[SIZEOF_MRU_LIST] = {0};
 
 	if (bClear)
 	{

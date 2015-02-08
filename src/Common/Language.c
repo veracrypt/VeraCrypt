@@ -64,6 +64,7 @@ static char *MapNextLanguageFile ()
 	WIN32_FIND_DATAW find;
 	HANDLE file;
 	DWORD read;
+	BOOL bStatus;
 
 	if (LanguageFileFindHandle == INVALID_HANDLE_VALUE)
 	{
@@ -107,9 +108,9 @@ static char *MapNextLanguageFile ()
 		return NULL;
 	}
 
-	ReadFile (file, LanguageFileBuffer, find.nFileSizeLow, &read, NULL);
+	bStatus = ReadFile (file, LanguageFileBuffer, find.nFileSizeLow, &read, NULL);
 	CloseHandle (file);
-	if (read != find.nFileSizeLow)
+	if (!bStatus || (read != find.nFileSizeLow))
 	{
 		free(LanguageFileBuffer);
 		return NULL;

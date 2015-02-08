@@ -32,7 +32,7 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 	int k = GetWindowTextLength (hPassword);
 	BOOL bEnable = FALSE;
 
-	if (hwndDlg);		/* Remove warning */
+	UNREFERENCED_PARAMETER (hwndDlg);		/* Remove warning */
 
 	GetWindowText (hPassword, szTmp1, sizeof (szTmp1));
 	GetWindowText (hVerify, szTmp2, sizeof (szTmp2));

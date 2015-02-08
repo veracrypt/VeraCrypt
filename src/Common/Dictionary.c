@@ -22,11 +22,15 @@ static size_t DataPoolSize = 0;
 
 void AddDictionaryEntry (char *key, int intKey, void *value)
 {
-	if (key)
-		StringKeyMap[key] = value;
+	try
+	{
+		if (key)
+			StringKeyMap[key] = value;
 
-	if (intKey != 0)
-		IntKeyMap[intKey] = value;
+		if (intKey != 0)
+			IntKeyMap[intKey] = value;
+	}
+	catch (exception&) {}
 }
 
 

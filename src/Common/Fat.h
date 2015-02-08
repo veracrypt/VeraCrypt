@@ -19,7 +19,7 @@ typedef struct fatparams_t
 	int size_fat;		/* size of FAT */
 	int fats;
 	int media;
-	int cluster_size;
+	unsigned int cluster_size;
 	int fat_length;
 	uint16 dir_entries;
 	uint16 sector_size;

@@ -817,7 +817,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 {
 	static UINT taskBarCreatedMsg;
 	WORD lw = LOWORD (wParam);
-	WORD hw = HIWORD (wParam);
 
 	switch (uMsg)
 	{

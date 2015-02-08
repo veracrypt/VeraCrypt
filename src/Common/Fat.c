@@ -60,7 +60,7 @@ GetFatParams (fatparams * ft)
 		if (ft->cluster_size == 0)
 			ft->cluster_size = 1;
 
-		if (ft->cluster_size * ft->sector_size > TC_MAX_FAT_CLUSTER_SIZE)
+		if (((unsigned __int64) ft->cluster_size * ft->sector_size) > TC_MAX_FAT_CLUSTER_SIZE)
 			ft->cluster_size = TC_MAX_FAT_CLUSTER_SIZE / ft->sector_size;
 
 		if (ft->cluster_size > 128)
@@ -85,7 +85,7 @@ GetFatParams (fatparams * ft)
 	ft->size_fat = 12;
 	ft->reserved = 2;
 	fatsecs = ft->num_sectors - (ft->size_root_dir + ft->sector_size - 1) / ft->sector_size - ft->reserved;
-	ft->cluster_count = (int) (((__int64) fatsecs * ft->sector_size) / (ft->cluster_size * ft->sector_size));
+	ft->cluster_count = (int) (((unsigned __int64) fatsecs * ft->sector_size) / ((unsigned __int64) ft->cluster_size * ft->sector_size));
 	ft->fat_length = (((ft->cluster_count * 3 + 1) >> 1) + ft->sector_size - 1) / ft->sector_size;
 
 	if (ft->cluster_count >= 4085) // FAT16
@@ -108,7 +108,7 @@ GetFatParams (fatparams * ft)
 
 			fatsecs = ft->num_sectors - ft->reserved;
 			ft->size_root_dir = ft->cluster_size * ft->sector_size;
-			ft->cluster_count = (int) (((__int64) fatsecs * ft->sector_size) / (ft->cluster_size * ft->sector_size));
+			ft->cluster_count = (int) (((unsigned __int64) fatsecs * ft->sector_size) / (ft->cluster_size * ft->sector_size));
 			ft->fat_length = (ft->cluster_count * 4 + ft->sector_size - 1) / ft->sector_size;
 
 		// Align data area on TC_MAX_VOLUME_SECTOR_SIZE
@@ -282,7 +282,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 
 	memset (sector, 0, ft->sector_size);
 
-	RandgetBytes (hwndDlg, ft->volume_id, sizeof (ft->volume_id), FALSE);
+	if (!RandgetBytes (hwndDlg, ft->volume_id, sizeof (ft->volume_id), FALSE))
+		goto fail;
 
 	PutBoot (ft, (unsigned char *) sector);
 	if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,

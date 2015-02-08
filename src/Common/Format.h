@@ -33,7 +33,7 @@ typedef struct
 	int pkcs5;
 	uint32 headerFlags;
 	int fileSystem;
-	int clusterSize;
+	unsigned int clusterSize;
 	BOOL sparseFileSwitch;
 	BOOL quickFormat;
 	int sectorSize;
