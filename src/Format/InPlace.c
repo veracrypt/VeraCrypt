@@ -21,6 +21,7 @@ IMPORTANT: Due to this issue, functions in this file must not directly interact 
 #include <stdlib.h>
 #include <string.h>
 #include <string>
+#include <intsafe.h>
 
 #include "Tcdefs.h"
 #include "Platform/Finally.h"
@@ -70,6 +71,17 @@ static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const char *devicePath, in
 
 		return -1;
 	}
+
+	if (	(ntfsVolData.NumberSectors.QuadPart <= 0)
+		||	(ntfsVolData.NumberSectors.QuadPart > (INT64_MAX / (__int64) ntfsVolData.BytesPerSector)) // overflow test
+		)
+	{
+		SetLastError (ERROR_INTERNAL_ERROR);
+		if (!silent)
+			handleWin32Error (MainDlg);
+
+		return -1;
+	}	
 
 	fileSysSize = ntfsVolData.NumberSectors.QuadPart * ntfsVolData.BytesPerSector;
 

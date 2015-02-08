@@ -251,11 +251,12 @@ void IconMessage (HWND hwndDlg, char *txt)
 void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersionPtr)
 {
 	LONG driverVersion = VERSION_NUM;
+	int status = 0;
 
 	if (hDriver == INVALID_HANDLE_VALUE)
-		DriverAttach();
+		status = DriverAttach();
 
-	if (hDriver != INVALID_HANDLE_VALUE)
+	if ((status == 0) && (hDriver != INVALID_HANDLE_VALUE))
 	{
 		DWORD dwResult;
 		BOOL bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &driverVersion, sizeof (driverVersion), &dwResult, NULL);
@@ -745,7 +746,6 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 
 BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 {
-	BOOL bOK = FALSE;
 	char regk [64];
 
 	// Unregister COM servers
@@ -775,17 +775,7 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 		SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	}
 
-	bOK = TRUE;
-
-	if (bOK == FALSE && GetLastError ()!= ERROR_NO_TOKEN && GetLastError ()!= ERROR_FILE_NOT_FOUND
-	    && GetLastError ()!= ERROR_PATH_NOT_FOUND)
-	{
-		handleWin32Error (hwndDlg);
-	}
-	else
-		bOK = TRUE;
-
-	return bOK;
+	return TRUE;
 }
 
 
@@ -876,10 +866,16 @@ try_delete:
 		StatusMessageParam (hwndDlg, "REMOVING", lpszService);
 
 	if (hService != NULL)
+	{
 		CloseServiceHandle (hService);
+		hService = NULL;
+	}
 
 	if (hManager != NULL)
+	{
 		CloseServiceHandle (hManager);
+		hManager = NULL;
+	}
 
 	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (hManager == NULL)
@@ -897,6 +893,8 @@ try_delete:
 			// Second try for an eventual no-install driver instance
 			CloseServiceHandle (hService);
 			CloseServiceHandle (hManager);
+			hService = NULL;
+			hManager = NULL;
 
 			Sleep(1000);
 			firstTry = FALSE;
@@ -1944,6 +1942,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	if (IsAdmin () != TRUE)
 		if (MessageBoxW (NULL, GetString ("SETUP_ADMIN"), lpszTitle, MB_YESNO | MB_ICONQUESTION) != IDYES)
 		{
+			FinalizeApp ();
 			exit (1);
 		}
 
@@ -2009,6 +2008,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 			else if (!bDevm)
 			{
 				MessageBox (NULL, "Error: This installer file does not contain any compressed files.\n\nTo create a self-extracting installation package (with embedded compressed files), run:\n\"VeraCrypt Setup.exe\" /p", "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+				FinalizeApp ();
 				exit (1);
 			}
 
@@ -2028,6 +2028,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 					bUninstall = TRUE;
 					break;
 				default:
+					FinalizeApp ();
 					exit (1);
 				}
 			}
@@ -2076,6 +2077,6 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 			}
 		}
 	}
-
+	FinalizeApp ();
 	return 0;
 }

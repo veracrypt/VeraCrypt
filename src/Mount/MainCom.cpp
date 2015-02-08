@@ -255,7 +255,17 @@ extern "C" int UacBackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, c
 	CoInitialize (NULL);
 
 	if (ComGetInstance (hwndDlg, &tc))
-		r = tc->BackupVolumeHeader ((LONG_PTR) hwndDlg, bRequireConfirmation, CComBSTR (lpszVolume));
+	{
+		CComBSTR volumeBstr;
+		BSTR bstr = A2WBSTR(lpszVolume);
+		if (bstr)
+		{
+			volumeBstr.Attach (bstr);
+			r = tc->BackupVolumeHeader ((LONG_PTR) hwndDlg, bRequireConfirmation, volumeBstr);
+		}
+		else
+			r = ERR_OUTOFMEMORY;
+	}
 	else
 		r = -1;
 
@@ -273,7 +283,17 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 	CoInitialize (NULL);
 
 	if (ComGetInstance (hwndDlg, &tc))
-		r = tc->RestoreVolumeHeader ((LONG_PTR) hwndDlg, CComBSTR (lpszVolume));
+	{
+		CComBSTR volumeBstr;
+		BSTR bstr = A2WBSTR(lpszVolume);
+		if (bstr)
+		{
+			volumeBstr.Attach (bstr);
+			r = tc->RestoreVolumeHeader ((LONG_PTR) hwndDlg, volumeBstr);
+		}
+		else
+			r = ERR_OUTOFMEMORY;
+	}
 	else
 		r = -1;
 
@@ -291,7 +311,16 @@ extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pk
 	if (ComGetInstance (hwndDlg, &tc))
 	{
 		WaitCursor ();
-		r = tc->ChangePasswordEx2 (CComBSTR (lpszVolume), oldPassword, old_pkcs5, truecryptMode, newPassword, pkcs5, wipePassCount, (LONG_PTR) hwndDlg);
+		CComBSTR volumeBstr;
+		BSTR bstr = A2WBSTR(lpszVolume);
+		if (bstr)
+		{
+			volumeBstr.Attach (bstr);
+
+			r = tc->ChangePasswordEx2 (volumeBstr, oldPassword, old_pkcs5, truecryptMode, newPassword, pkcs5, wipePassCount, (LONG_PTR) hwndDlg);
+		}
+		else
+			r = ERR_OUTOFMEMORY;
 		NormalCursor ();
 	}
 	else

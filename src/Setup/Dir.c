@@ -17,6 +17,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <Strsafe.h>
 
 #include "Dir.h"
 
@@ -28,7 +29,7 @@ mkfulldir (char *oriPath, BOOL bCheckonly)
 	char *uniq_file;
 	char path [TC_MAX_PATH];
 
-	strcpy (path, oriPath);
+	StringCbCopyA (path, TC_MAX_PATH, oriPath);
 
 	if (strlen (path) == 3 && path[1] == ':')
 		goto is_root;	/* keep final slash in root if present */
@@ -63,7 +64,7 @@ mkfulldir_internal (char *path)
 	static char tokpath[_MAX_PATH];
 	static char trail[_MAX_PATH];
 
-	strcpy (tokpath, path);
+	StringCbCopyA (tokpath, _MAX_PATH, path);
 	trail[0] = '\0';
 
 	token = strtok (tokpath, "\\/");
@@ -75,13 +76,13 @@ mkfulldir_internal (char *path)
 		trail[2] = '\0';
 		if (token)
 		{
-			strcat (trail, token);
-			strcat (trail, "\\");
+			StringCbCatA (trail, _MAX_PATH, token);
+			StringCbCatA (trail, _MAX_PATH, "\\");
 			token = strtok (NULL, "\\/");
 			if (token)
 			{		/* get share name */
-				strcat (trail, token);
-				strcat (trail, "\\");
+				StringCbCatA (trail, _MAX_PATH, token);
+				StringCbCatA (trail, _MAX_PATH, "\\");
 			}
 			token = strtok (NULL, "\\/");
 		}
@@ -89,17 +90,17 @@ mkfulldir_internal (char *path)
 
 	if (tokpath[1] == ':')
 	{			/* drive letter */
-		strcat (trail, tokpath);
-		strcat (trail, "\\");
+		StringCbCatA (trail, _MAX_PATH, tokpath);
+		StringCbCatA (trail, _MAX_PATH, "\\");
 		token = strtok (NULL, "\\/");
 	}
 
 	while (token != NULL)
 	{
 		int x;
-		strcat (trail, token);
+		StringCbCatA (trail, _MAX_PATH, token);
 		x = _mkdir (trail);
-		strcat (trail, "\\");
+		StringCbCatA (trail, _MAX_PATH, "\\");
 		token = strtok (NULL, "\\/");
 	}
 

@@ -2537,13 +2537,12 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 			if (!bInPlaceEncNonSys)
 				SetTimer (hwndDlg, TIMER_ID_RANDVIEW, TIMER_INTERVAL_RANDVIEW, NULL);
 
-			if (volParams != NULL)
-			{
-				burn ((LPVOID) volParams, sizeof(FORMAT_VOL_PARAMETERS));
-				VirtualUnlock ((LPVOID) volParams, sizeof(FORMAT_VOL_PARAMETERS));
-				free ((LPVOID) volParams);
-				volParams = NULL;
-			}
+
+			// volParams is ensured to be non NULL at this stage
+			burn ((LPVOID) volParams, sizeof(FORMAT_VOL_PARAMETERS));
+			VirtualUnlock ((LPVOID) volParams, sizeof(FORMAT_VOL_PARAMETERS));
+			free ((LPVOID) volParams);
+			volParams = NULL;
 
 			bVolTransformThreadRunning = FALSE;
 			bVolTransformThreadCancel = FALSE;
@@ -9027,6 +9026,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_VOL_CREATION_WIZARD_DLG), NULL, (DLGPROC) MainDialogProc, 
 		(LPARAM)lpszCommandLine);
 
+	FinalizeApp ();
 	return 0;
 }
 

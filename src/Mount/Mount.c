@@ -719,8 +719,11 @@ BOOL WholeSysDriveEncryption (BOOL bSilent)
 	{
 		BootEncStatus = BootEncObj->GetStatus();
 
-		return (BootEncStatus.ConfiguredEncryptedAreaStart == TC_BOOT_LOADER_AREA_SIZE
-			&& BootEncStatus.ConfiguredEncryptedAreaEnd >= BootEncStatus.BootDriveLength.QuadPart - 1);
+		if (BootEncStatus.BootDriveLength.QuadPart < 1) // paranoid check
+			return FALSE;
+		else
+			return (BootEncStatus.ConfiguredEncryptedAreaStart == TC_BOOT_LOADER_AREA_SIZE
+				&& BootEncStatus.ConfiguredEncryptedAreaEnd >= BootEncStatus.BootDriveLength.QuadPart - 1);
 	}
 	catch (Exception &e)
 	{
@@ -742,9 +745,16 @@ unsigned __int64 GetSysEncDeviceSize (BOOL bSilent)
 	{
 		if (!bSilent)
 			e.Show (MainDlg);
+		return 1;
 	}
 
-	return (BootEncStatus.ConfiguredEncryptedAreaEnd - BootEncStatus.ConfiguredEncryptedAreaStart + 1);
+	if (	BootEncStatus.ConfiguredEncryptedAreaEnd < 0
+		||	BootEncStatus.ConfiguredEncryptedAreaStart < 0
+		||	BootEncStatus.ConfiguredEncryptedAreaEnd < BootEncStatus.ConfiguredEncryptedAreaStart
+		)
+		return 1; // we return 1 to avoid devision by zero
+	else
+		return ((unsigned __int64)(BootEncStatus.ConfiguredEncryptedAreaEnd - BootEncStatus.ConfiguredEncryptedAreaStart)) + 1;
 }
 
 // Returns the current size of the encrypted area of the system drive/partition in bytes
@@ -758,9 +768,16 @@ unsigned __int64 GetSysEncDeviceEncryptedPartSize (BOOL bSilent)
 	{
 		if (!bSilent)
 			e.Show (MainDlg);
+		return 0;
 	}
 
-	return (BootEncStatus.EncryptedAreaEnd - BootEncStatus.EncryptedAreaStart + 1);
+	if (	BootEncStatus.EncryptedAreaEnd < 0 
+		|| BootEncStatus.EncryptedAreaStart < 0
+		|| BootEncStatus.EncryptedAreaEnd < BootEncStatus.EncryptedAreaStart
+		)
+		return 0;
+	else
+		return ((unsigned __int64)(BootEncStatus.EncryptedAreaEnd - BootEncStatus.EncryptedAreaStart)) + 1;
 }
 
 
@@ -2885,14 +2902,19 @@ int GetCipherBlockSizeByDriveNo (int nDosDriveNo)
 
 	if (DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &dwResult, NULL))
 	{
-		for (cipherID = EAGetLastCipher (prop.ea);
-			cipherID != 0;
-			cipherID = EAGetPreviousCipher (prop.ea, cipherID))
+		if (	(prop.driveNo == nDosDriveNo)
+			&&	(prop.ea >= EAGetFirst() && prop.ea <= EAGetCount())
+			)
 		{
-			if (blockSize > 0)
-				blockSize = min (blockSize, CipherGetBlockSize (cipherID) * 8);
-			else
-				blockSize = CipherGetBlockSize (cipherID) * 8;
+			for (cipherID = EAGetLastCipher (prop.ea);
+				cipherID != 0;
+				cipherID = EAGetPreviousCipher (prop.ea, cipherID))
+			{
+				if (blockSize > 0)
+					blockSize = min (blockSize, CipherGetBlockSize (cipherID) * 8);
+				else
+					blockSize = CipherGetBlockSize (cipherID) * 8;
+			}
 		}
 	}
 
@@ -2911,7 +2933,13 @@ int GetModeOfOperationByDriveNo (int nDosDriveNo)
 
 	if (DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &dwResult, NULL))
 	{
-		return prop.mode;
+		if (	(prop.driveNo == nDosDriveNo)
+			&&	(prop.ea >= EAGetFirst() && prop.ea <= EAGetCount())
+			&&	(prop.mode >= FIRST_MODE_OF_OPERATION_ID && prop.mode < MODE_ENUM_END_ID)
+			)
+		{
+			return prop.mode;
+		}
 	}
 
 	return 0;
@@ -3359,7 +3387,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			GetDlgItemText (hwndDlg, IDC_DIRECTORY, dstDir, sizeof dstDir);
 			volName[0] = 0;
-			GetDlgItemText (hwndDlg, IDC_VOLUME_NAME, volName + 1, sizeof volName);
+			GetDlgItemText (hwndDlg, IDC_VOLUME_NAME, volName + 1, (sizeof volName) - 1);
 			
 			drive = SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETCURSEL, 0, 0);
 			drive = SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETITEMDATA, drive, 0);
@@ -3872,9 +3900,9 @@ void __cdecl mountThreadFunction (void *hwndDlgArg)
 static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dismountMaxRetries, int dismountAutoRetryDelay)
 {
 	BOOL status = TRUE;
-	MOUNT_LIST_STRUCT mountList;
+	MOUNT_LIST_STRUCT mountList = {0};
 	DWORD dwResult;
-	UNMOUNT_STRUCT unmount;
+	UNMOUNT_STRUCT unmount = {0};
 	BOOL bResult;
 	unsigned __int32 prevMountedDrives = 0;
 	int i;
@@ -3910,6 +3938,17 @@ retry:
 	{
 		bResult = DeviceIoControl (hDriver, TC_IOCTL_DISMOUNT_ALL_VOLUMES, &unmount,
 			sizeof (unmount), &unmount, sizeof (unmount), &dwResult, NULL);
+
+		if (	unmount.nDosDriveNo < 0 || unmount.nDosDriveNo > 25 
+				|| (unmount.ignoreOpenFiles != TRUE && unmount.ignoreOpenFiles != FALSE)
+				||	(unmount.HiddenVolumeProtectionTriggered != TRUE && unmount.HiddenVolumeProtectionTriggered != FALSE)
+				||	(unmount.nReturnCode < 0)
+			)
+		{
+			if (bResult)
+				SetLastError (ERROR_INTERNAL_ERROR);
+			bResult = FALSE;			
+		}
 
 		if (bResult == FALSE)
 		{
@@ -5847,7 +5886,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (IsVolumeDeviceHosted (volp))
 					{
-						OPEN_TEST_STRUCT ots;
+						OPEN_TEST_STRUCT ots = {0};
 
 						if (!OpenDevice (volp, &ots, FALSE))
 						{
@@ -7394,6 +7433,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_MOUNT_DLG), NULL, (DLGPROC) MainDialogProc,
 			(LPARAM) lpszCommandLine);
 
+	FinalizeApp ();
 	/* Terminate */
 	return 0;
 }
@@ -7412,7 +7452,7 @@ BOOL TaskBarIconAdd (HWND hwnd)
 	TaskBarIconMutex = CreateMutex (NULL, TRUE, "VeraCryptTaskBarIcon");
 	if (TaskBarIconMutex == NULL || GetLastError () == ERROR_ALREADY_EXISTS)
 	{
-		if (TaskBarIconMutex)
+		if (TaskBarIconMutex != NULL)
 		{
 			CloseHandle(TaskBarIconMutex);
 			TaskBarIconMutex = NULL;
@@ -7516,7 +7556,15 @@ void DismountIdleVolumes ()
 			bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop,
 				sizeof (prop), &prop, sizeof (prop), &dwResult, NULL);
 
-			if (bResult)
+			if (	bResult 
+				&&	(	(prop.driveNo == i) && prop.uniqueId >= 0 
+					&& prop.ea >= EAGetFirst() && prop.ea <= EAGetCount()
+					&& prop.mode >= FIRST_MODE_OF_OPERATION_ID && prop.mode <= LAST_MODE_OF_OPERATION 
+					&& prop.pkcs5 >= FIRST_PRF_ID && prop.pkcs5 <= LAST_PRF_ID 
+					&& prop.pkcs5Iterations > 0
+					&& prop.hiddenVolProtection >= 0 && prop.volFormatVersion >= 0
+					)
+				)
 			{
 				if (LastRead[i] == prop.totalBytesRead 
 					&& LastWritten[i] == prop.totalBytesWritten
@@ -9145,9 +9193,9 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 			return;
 
 		if (Is64BitOs())
-			sDbgCmd = "msiexec.exe /qb /i http://www.idrix.fr/Root/MSDebug/dbg_amd64_6.11.1.404.msi";
+			sDbgCmd = "msiexec.exe /qb /i https://www.idrix.fr/Root/MSDebug/dbg_amd64_6.11.1.404.msi";
 		else
-			sDbgCmd = "msiexec.exe /qb /i http://www.idrix.fr/Root/MSDebug/dbg_x86_6.11.1.404.msi";
+			sDbgCmd = "msiexec.exe /qb /i https://www.idrix.fr/Root/MSDebug/dbg_x86_6.11.1.404.msi";
 		
 		if (!CreateProcess (NULL, (LPSTR) sDbgCmd.c_str(),
 			NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &procInfo))
@@ -9253,14 +9301,31 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 	CloseHandle (hChildStdoutWrite);
 
 	string output;
+	BOOL bIsValidResponse = TRUE;
 
 	while (TRUE) 
 	{ 
-		DWORD bytesReceived;
-		char pipeBuffer [4096];
+		DWORD bytesReceived = 0, i;
+		char pipeBuffer [4096] = {0};
+		
+		unsigned char uc;
 
 		if (!ReadFile (hChildStdoutRead, pipeBuffer, sizeof (pipeBuffer), &bytesReceived, NULL)) 
-			break; 
+			break;
+
+		/* check if the buffer contains printable characters only*/
+		for (i = 0; i < bytesReceived; i++)
+		{
+			uc =  (unsigned char) pipeBuffer [i];
+			if ( uc >= 0x7f || uc < 0x20) // A non-ASCII or non-printable character?
+			{
+				bIsValidResponse = FALSE;
+				break;
+			}
+		}
+
+		if (!bIsValidResponse)
+			break;
 
 		output.insert (output.size(), pipeBuffer, bytesReceived);
 	}
@@ -9268,6 +9333,12 @@ void AnalyzeKernelMiniDump (HWND hwndDlg)
 	CloseHandle (hChildStdoutRead);
 
 	NormalCursor();
+
+	if (!bIsValidResponse)
+	{
+		Error ("ERR_PARAMETER_INCORRECT", hwndDlg);
+		return;
+	}
 
 	bool otherDriver = (StringToUpperCase (output).find (StringToUpperCase (TC_APP_NAME)) == string::npos);
 
