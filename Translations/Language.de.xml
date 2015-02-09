@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.0f-1">
     <!-- Languages -->
@@ -44,7 +44,7 @@
     <control lang="de" key="IDC_HIDVOL_WIZ_MODE_FULL">Kompletter Modus</control>
     <control lang="de" key="IDC_KB">&amp;KB</control>
     <control lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;t. verwenden</control>
-    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
+    <control lang="de" key="IDC_KEYFILES_RANDOM_SIZE">Zufällige Größe ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien…</control>
     <control lang="de" key="IDC_LINK_HASH_INFO">Infos über Hash-Algorithmen</control>
     <control lang="de" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Weitere Informationen</control>
@@ -146,7 +146,7 @@
     <control lang="de" key="IDC_PREF_CACHE_PASSWORDS">Kennwörter im &amp;Cache halten</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_INACTIVE">Bei ausbleibendem Lese-/Schreibzugriff aut&amp;omatisch trennen nach</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_LOGOFF">Benutzerabmel&amp;dung</control>
-    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
+    <control lang="de" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Benutzersession gesperrt</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_POWERSAVING">Wechsel in Energiesparmod&amp;us</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_SCREENSAVER">Bildsc&amp;hirmschonerstart</control>
     <control lang="de" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Automatisches Trennen bei geöffneten Date&amp;ien erzwingen</control>
@@ -167,7 +167,7 @@
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Kennwort an&amp;zeigen</control>
     <control lang="de" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer-Fenster für eingebundenes Volumen öffnen</control>
     <control lang="de" key="IDC_TRAV_CACHE_PASSWORDS">Kennwort im Cache halten</control>
-	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
+	<control lang="de" key="IDC_TRUECRYPT_MODE">TrueCrypt Modus</control>
     <control lang="de" key="IDC_UNMOUNTALL">A&amp;lle trennen</control>
     <control lang="de" key="IDC_VOLUME_PROPERTIES">Eigenscha&amp;ften...</control>
     <control lang="de" key="IDC_VOLUME_TOOLS">Vol.-&amp;Operationen…</control>
@@ -272,7 +272,7 @@
     <control lang="de" key="IDT_PARALLELIZATION_OPTIONS">Thread-basierte Parallelisierung</control>
     <control lang="de" key="IDT_PKCS11_LIB_PATH">Pfad der PKCS #11 Bibliothek</control>
     <control lang="de" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
-    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="de" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="de" key="IDT_PW_CACHE_OPTIONS">Kennwort-Cache (im Speicher des VeraCrypt-Treibers)</control>
     <control lang="de" key="IDT_SECURITY_OPTIONS">Sicherheitsoptionen</control>
     <control lang="de" key="IDT_TASKBAR_ICON">VeraCrypt Hintergrunddienst</control>
@@ -335,9 +335,9 @@
     <control lang="de" key="IDT_KEYFILE_GENERATOR_NOTE">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin u. her bewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei.</control>
     <control lang="de" key="IDT_KEYFILE_WARNING">WARNUNG: Ein Volumen kann nicht mehr eingebunden werden, wenn eine der Schlüsseldateien fehlt oder in den ersten 1024 KB verändert wurde!</control>
     <control lang="de" key="IDT_KEY_UNIT">Bit</control>
-    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
-    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
-    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
+    <control lang="de" key="IDT_NUMBER_KEYFILES">Anzahl Schlüsseldateien:</control>
+    <control lang="de" key="IDT_KEYFILES_SIZE">Größe der Schlüsseldateien (in Bytes):</control>
+    <control lang="de" key="IDT_KEYFILES_BASE_NAME">Name der Schlüsseldateien:</control>
     <control lang="de" key="IDT_LANGPACK_AUTHORS">Übersetzt von:</control>
     <control lang="de" key="IDT_PLAINTEXT">Klartextgröße:</control>
     <control lang="de" key="IDT_PLAINTEXT_SIZE_UNIT">Bit</control>
@@ -348,7 +348,7 @@
     <control lang="de" key="IDT_SECURITY_TOKEN">Security-Token:</control>
     <control lang="de" key="IDT_SORT_METHOD">Sortiermethode:</control>
     <control lang="de" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Bitte warten. Dieser Vorgang kann sehr lange dauern...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="de" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Bitte warten...\nDieser Prozess kann sehr lange dauern und VeraCrypt kann vorrübergehend hängen bleiben.</control>
     <control lang="de" key="IDT_TEST_BLOCK_NUMBER">Block Nummer:</control>
     <control lang="de" key="IDT_TEST_CIPHERTEXT">Chiffretext (hexadezimal)</control>
     <control lang="de" key="IDT_TEST_DATA_UNIT_NUMBER">Dateneinheit-Nummer (64-bit hexadezimal, die Größe einer Dateneinheit beträgt 512 Byte) </control>
@@ -608,7 +608,7 @@
     <string lang="de" key="SELECT_DEST_DIR">Zielverzeichnis auswählen</string>
     <string lang="de" key="SELECT_KEYFILE">Schlüsseldatei auswählen</string>
     <string lang="de" key="SELECT_KEYFILE_PATH">Suchpfad für Schlüsseldatei auswählen. WARNUNG: Es wird lediglich der Pfad nicht aber die Dateinamen berücksichtigt!</string>
-    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="de" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Wählen Sie den Ordner, in den die Schlüsseldateien gespeichert werden sollen.</string>
     <string lang="de" key="SERPENT_HELP">Entwickelt von Ross Anderson, Eli Biham, und Lars Knudsen. 1998 herausgegeben. 256-bit Schlüssellänge, 128-bit Blockgröße. Arbeitet im XTS-Modus. Serpent war einer der AES Finalisten.</string>
     <string lang="de" key="SIZE_HELP">Bitte geben Sie die Größe des zu erstellenden Containers an.\n\nWenn sie einen dynamischen (Sparse-Datei) Container erstellen, dann gibt dieser Wert seine maximal mögliche Größe an.\n\nHinweis: die Mindestgröße eines FAT Volumen ist 292 KB. Die Mindestgröße eines NTFS Volumen ist 3792 KB.</string>
     <string lang="de" key="SIZE_HELP_HIDDEN_HOST_VOL">Bitte geben Sie die Größe des zu erstellenden äußeren Volumens (Sie erstellen erst ein äußeres Volumen und dann darin ein Verstecktes Volumen). Die Mindestgröße eines Volumen innerhalb welchem ein verstecktes Volumen erstellt werden kann ist 340 KB.</string>
@@ -760,7 +760,7 @@
     <string lang="de" key="REMOVABLE_DISK">Wechseldatenträger</string>
     <string lang="de" key="HARDDISK">Festplatte</string>
     <string lang="de" key="UNCHANGED">Unverändert</string>
-    <string lang="en" key="AUTODETECTION">Autodetection</string>
+    <string lang="de" key="AUTODETECTION">Automatische Erkennung</string>
     <string lang="de" key="SETUP_MODE_TITLE">Installationsassistent - Wählen Sie eine Installationsoption</string>
     <string lang="de" key="SETUP_MODE_INFO">Wenn Sie nicht sicher sind verwenden Sie bitte die automatisch markierte Option.</string>
     <string lang="de" key="SETUP_MODE_HELP_INSTALL">Wählen Sie diese Option wenn Sie VeraCrypt auf diesem System neu installieren möchten.</string>
@@ -874,11 +874,11 @@
     <string lang="de" key="ENTER_HIDDEN_VOL_PASSWORD">Geben Sie das Kennwort für das versteckte Volumen ein</string>
     <string lang="de" key="ENTER_HEADER_BACKUP_PASSWORD">Geben Sie das Kennwort für den, in der Sicherungsdatei abgelegten, Header ein</string>
     <string lang="de" key="KEYFILE_CREATED">Die Schlüsseldatei wurde erfolgreich erstellt.</string>
-    <string lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</string>
-    <string lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</string>
-    <string lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</string>
-    <string lang="en" key="KEYFILE_INVALID_BASE_NAME">The base name of the keyfile(s) is invalid</string>
-    <string lang="en" key="KEYFILE_ALREADY_EXISTS">The keyfile '%s' already exists.\nDo you want to overwrite it? The generation process will be stopped if you answer No.</string>
+    <string lang="de" key="KEYFILE_INCORRECT_NUMBER">Die Anzahl der gewählten Schlüsseldateien ist unzulässig.</string>
+    <string lang="de" key="KEYFILE_INCORRECT_SIZE">Die Schlüsseldatei muss zwischen 64 und 1048576 Bytes groß sein.</string>
+    <string lang="de" key="KEYFILE_EMPTY_BASE_NAME">Bitte geben Sie einen Namen für die zu generierenden Schlüsseldateien ein</string>
+    <string lang="de" key="KEYFILE_INVALID_BASE_NAME">Der Name für die Schlüsseldateien ist unzulässig</string>
+    <string lang="de" key="KEYFILE_ALREADY_EXISTS">Die Schlüsseldatei '%s' existiert bereits.\nMöchten Sie sie überschreiben? Der Erstellungsprozess wird abgebrochen, wenn Sie Nein wählen.</string>
     <string lang="de" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">Warnung: Der Header von diesen Volumen ist beschädigt! VeraCrypt verwendet automatisch die Sicherung vom Volumen-Header, welche im Volumen eingebettet ist.\n\nSie sollten den Volumen-Header reparieren, indem 'Extras' &gt; 'Volumen-Header wiederherstellen...' auswählen.</string>
     <string lang="de" key="VOL_HEADER_BACKED_UP">Der Volumen-Header wurde erfolgreich gesichert.\n\nWICHTIG: Beim Wiederherstellen des Volumen-Headers mit dieser Sicherungskopie wird gleichzeitig das momentane Volumen-Kennwort wiederhergestellt. Werden zudem Schlüsseldatei(en) zum Einbinden dieses Volumen benötigt, so werden dieselben Schlüsseldatei(en) auch dann wieder zum Einbinden des Volumens benötigt nachdem der Volumen-Header wiederhergestellt worden ist.\n\nWARNUNG: Diese Sicherungskopie des Volumen-Headers kann NUR für die Wiederherstellung von speziell diesem Volumen verwendet werden. Sollte die Header-Sicherungskopie zur Wiederherstellung des Headers eines anderen Volumen verwendet werden, so kann dann zwar das Volumen danach eingebunden werden, aber es können KEINE Daten die in diesem Volumen gespeichert sind entschlüsselt werden (weil der Hauptschlüssel geändert worden ist).</string>
     <string lang="de" key="VOL_HEADER_RESTORED">Der Volumen-Header wurde erfolgreich wiederhergestellt.\n\nWICHTIG: Möglicherweise wurde ein veraltetes Kennwort ebenfalls wiederhergestellt. Wurden zudem zum Zeitpunkt der Sicherung Schlüsseldatei(en) zum Einbinden dieses Volumen benötigt, so werden dieselben Schlüsseldatei(en) jetzt ebenfalls wieder zum Einbinden des Volumens benötigt.</string>
@@ -1034,8 +1034,8 @@
     <string lang="de" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nDie extra Bootpartition kann vor der Installation von Windows entfernt werden. Um dies zu tun, befolgen sie diese Schritte:\n\n1) Starten Sie Windows von der Installations-CD. \n\n2) Im Windows-Installationsbildschirm, klicken Sie "Jetzt installieren"; &gt; "Benutzerdefiniert (erweitert)".\n\n3) Klicken Sie auf "Laufwerksoptionen (erweitert)".\n\n4)Wählen Sie die Hauptsystempartition aus und löschen Sie diese indem Sie "Löschen" und "OK" klicken.\n\n5)Wählen Sie die "System-reservierte" Partition, klicken sie "erweitern" und vergrößern Sie diese so, dass das Betriebssystem darauf installiert werden kann.\n\n6) Klicken Sie "Anwenden" und "OK".\n\n7) Installieren Sie Windows auf der "System-reservierten" Partition.\n\n\nSollte jemand fragen warum Sie die extra Bootpartition entfernt haben können Sie antworten, dass Sie alle möglichen Datenlecks auf die unverschlüsselte Bootpartition vermeiden wollten.\n\nBitte Beachten Sie: Sie können diesen Text ausdrucken indem Sie auf den unten stehenden "Drucken"-Knopf klicken. Wenn Sie diesen Text speichern oder drucken (wird dringend empfohlen es sei denn Ihr Drucker speichert Kopien gedruckter Dokumente auf seinem internen Speicher) sollten Sie ihn und alle Kopien zerstören nachdem Sie die extra Bootpartition entfernt haben (andernfalls könnte der Text gefunden und ein Rückschluss auf ein verstecktes Betriebssystem gezogen werden).</string>
     <string lang="de" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warnung: Es gibt einen nicht zugeordneten Bereich zwischen der Systempartition und der ersten Partition dahinter. Sie dürfen nach dem Erstellen des versteckten Betriebssystems keine neuen Partitionen in dem nicht zugeordneten Bereich erstellen. Das Versteckte Betriebssystem wird andernfalls nicht starten (bis Sie solche neu erstellten Partitionen löschen).</string>
     <string lang="de" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Dieser Algorithmus wird derzeit nicht für die Systemverschlüsselung unterstützt.</string>
-	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+	<string lang="de" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Dieser Algorithmus ist im TrueCrypt Modus nicht vothanden.</string>
+	<string lang="de" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt unterstützt nur TrueCrypt volumes, die mit TrueCrypt 6.x erstellt wurden.</string>
     <string lang="de" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Schlüsseldateien werden derzeit nicht für die Systemverschlüsselung unterstützt.</string>
     <string lang="de" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warnung: VeraCrypt konnte das ursprüngliche Tastaturlayout nicht wiederherstellen. Dadurch könnten Sie das Passwort falsch eingeben.</string>
     <string lang="de" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fehler: Es kann das Tastaturlayout für VeraCrypt nicht auf das Standard-US-Tastaturlayout festgelegt werden.\n\nBeachten Sie, dass das Kennwort in der Pre-Boot Umgebung eingegeben werden muss (bevor Windows startet), wo Nicht-US Windows Tastaturlayouts nicht verfügbar sind. Daher muss das Kennwort immer unter Verwendung des Standard-US-Tastaturlayout eingegeben werden.</string>
