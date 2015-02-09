@@ -9864,7 +9864,10 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 		PinRequestHandler(HWND hwnd) : m_hwnd(hwnd) {}
 		virtual void operator() (string &str)
 		{
-			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PASSWORD), m_hwnd, (DLGPROC) SecurityTokenPasswordDlgProc, (LPARAM) &str) == IDCANCEL)
+			HWND hParent = IsWindow (m_hwnd)? m_hwnd : GetActiveWindow();
+			if (!hParent)
+				hParent = GetForegroundWindow ();
+			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PASSWORD), hParent, (DLGPROC) SecurityTokenPasswordDlgProc, (LPARAM) &str) == IDCANCEL)
 				throw UserAbort (SRC_POS);
 
 			if (hCursor != NULL)
@@ -9878,7 +9881,10 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 		WarningHandler(HWND hwnd) : m_hwnd(hwnd) {}
 		virtual void operator() (const Exception &e)
 		{
-			e.Show (m_hwnd);
+			HWND hParent = IsWindow (m_hwnd)? m_hwnd : GetActiveWindow();
+			if (!hParent)
+				hParent = GetForegroundWindow ();
+			e.Show (hParent);
 		}
 	};
 
