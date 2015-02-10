@@ -21,6 +21,8 @@ tty >/dev/null 2>/dev/null && TTY=1
 GUI=0
 XMESSAGE=0
 XTERM=0
+GTERM=0
+KTERM=0
 
 
 case $PACKAGE_TYPE in
@@ -36,13 +38,15 @@ then
 	GUI=1
 	which xmessage >/dev/null 2>/dev/null && XMESSAGE=1
 	which xterm >/dev/null 2>/dev/null && XTERM=1
+	which gnome-terminal >/dev/null 2>/dev/null && GTERM=1
+	which konsole >/dev/null 2>/dev/null && KTERM=1
 fi
 
 if [ $TTY -eq 0 ]
 then
 	[ $GUI -eq 0 ] && echo 'Error: Terminal required' >&2 && exit 1
 	
-	if [ $XMESSAGE -eq 0 ] || [ $XTERM -eq 0 ]
+	if [ $XMESSAGE -eq 0 ] || ([ $XTERM -eq 0 ] && [ $GTERM -eq 0 ] && [ $KTERM -eq 0 ])
 	then
 		which gnome-terminal && exec gnome-terminal -e "$0"
 		which konsole && exec konsole -e "$0"
@@ -53,11 +57,13 @@ then
 	fi
 fi
 
-if [ $XMESSAGE -eq 0 ] || [ $XTERM -eq 0 ]
+if [ $XMESSAGE -eq 0 ] || ([ $XTERM -eq 0 ] && [ $GTERM -eq 0 ] && [ $KTERM -eq 0 ])
 then
 	GUI=0
 	XMESSAGE=0
 	XTERM=0
+	GTERM=0
+	KTERM=0
 fi
 
 
@@ -73,7 +79,20 @@ show_message()
 			then
 				echo "$*"
 			else
-				xterm -T 'VeraCrypt Setup' -e sh -c "echo $*; read A"
+				if [ $XTERM -eq 1 ]
+				then
+					xterm -T 'VeraCrypt Setup' -e sh -c "echo $*; read A"
+				else
+					if [ $GTERM -eq 1 ]
+					then
+						gnome-terminal --title='VeraCrypt Setup' -e "sh -c \"echo $*; read A\""
+					else
+						if [ $KTERM -eq 1 ]
+						then
+							konsole -T 'VeraCrypt Setup' -e "sh -c \"echo $*; read A\""
+						fi
+					fi
+				fi
 			fi
 		fi
 	else
@@ -833,7 +852,20 @@ then
 
 	if [ $GUI -eq 1 ]
 	then
-		exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A"
+		if [ $XTERM -eq 1 ]
+		then
+			exec xterm -T 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A"
+		else
+			if [ $GTERM -eq 1 ]
+			then
+				exec gnome-terminal --title='VeraCrypt Setup' -e "sh -c \"echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A\""
+			else
+				if [ $KTERM -eq 1 ]
+				then
+					exec konsole -T 'VeraCrypt Setup' -e "sh -c \"echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A\""
+				fi
+			fi
+		fi
 	else
 		echo 'Installing package...'
 		$SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && INSTALLED=1
