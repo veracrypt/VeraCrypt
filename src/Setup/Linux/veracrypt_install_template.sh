@@ -774,16 +774,36 @@ printf 'terms of the VeraCrypt License.\n\nPress Enter to display the license te
 read A
 
 MORE=more
-which less >/dev/null 2>/dev/null && MORE='less -E -X'
-
+HASLESS=0
+which less >/dev/null 2>/dev/null && HASLESS=1
+if [ $HASLESS -eq 1 ]
+then
+	MORE='less -E -X'
+fi
 	cat <<_END | cat - $LICENSE | $MORE
 
 Press Enter or space bar to see the rest of the license.
 
 
 _END
+	if [ $? -ne 0 ]
+	then
+		if [ $HASLESS -eq 1 ]
+		then
+# use less without -X as it is not supported by some versions (busybox case)
+			MORE='less -E'
+			cat <<_END | cat - $LICENSE | $MORE
 
-	[ $? -ne 0 ] && exit 1
+Press Enter or space bar to see the rest of the license.
+
+
+_END
+			[ $? -ne 0 ] && exit 1
+		else
+			exit 1
+		fi
+	fi
+
 	rm -f $LICENSE
 
 	ACCEPTED=0
