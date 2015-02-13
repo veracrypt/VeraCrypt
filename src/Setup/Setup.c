@@ -1258,6 +1258,13 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		if (CreateLink (szTmp, "", szTmp2) != S_OK)
 			goto error;
 
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCryptExpander.exe");
+		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCryptExpander.lnk");
+
+		IconMessage (hwndDlg, szTmp2);
+		if (CreateLink (szTmp, "", szTmp2) != S_OK)
+			goto error;
+
 		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt Website.url");
 		IconMessage (hwndDlg, szTmp2);
 		f = fopen (szTmp2, "w");
@@ -1302,6 +1309,14 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 
 		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCrypt.exe");
 		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
+
+		IconMessage (hwndDlg, szTmp2);
+
+		if (CreateLink (szTmp, "", szTmp2) != S_OK)
+			goto error;
+
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCryptExpander.exe");
+		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCryptExpander.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
 
