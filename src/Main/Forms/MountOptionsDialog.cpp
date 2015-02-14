@@ -20,6 +20,7 @@ namespace VeraCrypt
 #endif
 		), Options (options)
 	{
+		SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
 		if (!title.empty())
 			this->SetTitle (title);
 		else if (options.Path && !options.Path->IsEmpty())

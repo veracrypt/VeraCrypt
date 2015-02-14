@@ -15,6 +15,7 @@ namespace VeraCrypt
 	KeyfilesDialog::KeyfilesDialog (wxWindow* parent, shared_ptr <KeyfileList> keyfiles)
 		: KeyfilesDialogBase (parent), Keyfiles (keyfiles)
 	{
+		SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
 		mKeyfilesPanel = new KeyfilesPanel (this, keyfiles);
 		PanelSizer->Add (mKeyfilesPanel, 1, wxALL | wxEXPAND);
 

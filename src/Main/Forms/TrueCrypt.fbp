@@ -4972,7 +4972,7 @@
             <property name="subclass"></property>
             <property name="title"></property>
             <property name="tooltip"></property>
-            <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
+            <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style"></property>
             <event name="OnActivate"></event>
@@ -5300,7 +5300,7 @@
             <property name="subclass"></property>
             <property name="title">Select a Partition or Device</property>
             <property name="tooltip"></property>
-            <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
+            <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style"></property>
             <event name="OnActivate"></event>
@@ -8117,7 +8117,7 @@
             <property name="subclass"></property>
             <property name="title">Select Keyfiles</property>
             <property name="tooltip"></property>
-            <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
+            <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style"></property>
             <event name="OnActivate"></event>
@@ -10851,7 +10851,7 @@
             <property name="subclass"></property>
             <property name="title">Enter VeraCrypt Volume Password</property>
             <property name="tooltip"></property>
-            <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
+            <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style"></property>
             <event name="OnActivate"></event>
@@ -12987,7 +12987,7 @@
             <property name="subclass"></property>
             <property name="title">Preferences</property>
             <property name="tooltip"></property>
-            <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
+            <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style"></property>
             <event name="OnActivate"></event>
@@ -18975,7 +18975,7 @@
             <property name="subclass"></property>
             <property name="title">Security Token Keyfiles</property>
             <property name="tooltip"></property>
-            <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
+            <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style"></property>
             <event name="OnActivate"></event>
