@@ -167,7 +167,7 @@
     <control lang="zh-hk" key="IDC_SHOW_PASSWORD_CHPWD_ORI">顯示密碼</control>
     <control lang="zh-hk" key="IDC_TRAVEL_OPEN_EXPLORER">為載入的加密卷打開資源管理器視窗(&amp;E)</control>
     <control lang="zh-hk" key="IDC_TRAV_CACHE_PASSWORDS">在驅動記憶體中緩存密碼(&amp;C)</control>
-	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
+    <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="zh-hk" key="IDC_UNMOUNTALL">全部卸載(&amp;S)</control>
     <control lang="zh-hk" key="IDC_VOLUME_PROPERTIES">加密卷屬性(&amp;V)...</control>
     <control lang="zh-hk" key="IDC_VOLUME_TOOLS">加密卷工具(&amp;T)...</control>
@@ -243,6 +243,7 @@
     <control lang="zh-hk" key="IDM_UNMOUNT_VOLUME">卸載所選加密卷</control>
     <control lang="zh-hk" key="IDM_VERIFY_RESCUE_DISK">驗證應急盤</control>
     <control lang="zh-hk" key="IDM_VERSION_HISTORY">版本歷史（聯網）</control>
+    <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="zh-hk" key="IDM_VOLUME_PROPERTIES">加密卷屬性</control>
     <control lang="zh-hk" key="IDM_VOLUME_WIZARD">加密卷創建嚮導</control>
     <control lang="zh-hk" key="IDM_WEBSITE">官方網站（聯網）</control>
@@ -535,6 +536,7 @@
     <string lang="zh-hk" key="MOUNT_BUTTON">載入(&amp;M)</string>
     <string lang="zh-hk" key="NEW_VERSION_REQUIRED">需要新版本的 VeraCrypt 來載入此加密卷。</string>
     <string lang="zh-hk" key="VOL_CREATION_WIZARD_NOT_FOUND">錯誤：未發現加密卷創建嚮導。\n\n請確認文件“VeraCrypt Format.exe”位於“VeraCrypt.exe”的目錄之中。如果不是 這樣，請重新安裝 VeraCrypt，或在磁片中定位“VeraCrypt Format.exe”並運行它。</string>
+    <string lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</string>
     <string lang="zh-hk" key="NEXT">下一步(&amp;N) &gt;</string>
     <string lang="zh-hk" key="FINALIZE">完成(&amp;F)</string>
     <string lang="zh-hk" key="INSTALL">安裝(&amp;I)</string>
@@ -1034,8 +1036,8 @@
     <string lang="zh-hk" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\n在安裝 Windows 之前可以移除額外的啟動分區。想要如此，請遵循以下步驟（譯者注：這些步驟沒有在XP安裝光碟看到，請讀者自悟吧，抱歉）：\n\n1）啟動您的 Windows 安裝光碟。\n\n2）在 Windows 安裝螢幕，選擇 '現在安裝' &gt; '自定義（高級）'.\n\n3）點擊 '驅動器 選項'。\n\n4）選擇主系統分區並選擇刪除這個分區，之後再確認刪除（安裝盤刪除分區的時候會多次確認）。\n\n5）選擇 '系統保留' 分區，選擇 '擴展'，並增加它的大小直到可以安裝系統為止。\n\n6）選擇 '應用' 和確認。\n\n7）安裝 Windows 到 '系統保留' 分區。\n\n\n如果攻擊者詢問您移除額外啟動分區的原因，您可以回答是因為您不希望資料洩露到未加密的啟動分區。\n\n注意：您可以通過點擊下面的 "列印" 按鈕列印這些文本。如果您列印了這些文本，強烈建議您在移除額外啟動分區後銷毀這些紙張（否則，如果這些紙張被發現，可能暗示著存在隱形系統）。</string>
     <string lang="zh-hk" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系統分區和其後的第一個分區之間存在未分配空間。在您創建隱形作業系統之後，您必須不能在此未分配空間上創建任何新的分區，否則，隱形作業系統將無法啟動（直到刪除了這個新創建的分區）。</string>
     <string lang="zh-hk" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此演算法當前不支援系統加密。</string>
-	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="zh-hk" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密鑰檔當前不支援用在系統加密中。</string>
     <string lang="zh-hk" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCrypt 不能存儲原始鍵盤佈局。這可能導致您無法正確輸入密碼。</string>
     <string lang="zh-hk" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設置 VeraCrypt 鍵盤佈局為標準的美國鍵盤佈局。\n\n說明：在 Windows 啟動前的啟動驗證裏需要輸入密碼，此時非美國標準鍵盤佈局不可用。因此，密碼必須使用標準的美國鍵盤佈局輸入。</string>

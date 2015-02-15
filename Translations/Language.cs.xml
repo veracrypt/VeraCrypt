@@ -167,7 +167,7 @@
     <control lang="cs" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Zobrazit heslo</control>
     <control lang="cs" key="IDC_TRAVEL_OPEN_EXPLORER">Otevřít okno &amp;Průzkumníka pro připojený svazek</control>
     <control lang="cs" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Ukládat hesla do mezipaměti</control>
-	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
+    <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="cs" key="IDC_UNMOUNTALL">O&amp;dpojit vše</control>
     <control lang="cs" key="IDC_VOLUME_PROPERTIES">Vlastnos&amp;ti svazku…</control>
     <control lang="cs" key="IDC_VOLUME_TOOLS">&amp;Nástroje svazku…</control>
@@ -243,6 +243,7 @@
     <control lang="cs" key="IDM_UNMOUNT_VOLUME">Odpojit svazek</control>
     <control lang="cs" key="IDM_VERIFY_RESCUE_DISK">Ověřit záchranný disk</control>
     <control lang="cs" key="IDM_VERSION_HISTORY">Historie verzí</control>
+    <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="cs" key="IDM_VOLUME_PROPERTIES">Vlastnosti svazku</control>
     <control lang="cs" key="IDM_VOLUME_WIZARD">Průvodce vytvořením svazku</control>
     <control lang="cs" key="IDM_WEBSITE">Domovská stránka VeraCrypt</control>
@@ -535,6 +536,7 @@
     <string lang="cs" key="MOUNT_BUTTON">&amp;Připojit</string>
     <string lang="cs" key="NEW_VERSION_REQUIRED">Pro připojení tohoto oddílu je potřeba novější verze programu VeraCrypt.</string>
     <string lang="cs" key="VOL_CREATION_WIZARD_NOT_FOUND">Chyba: Průvodce vytvořením svazku nebyl nalezen.\n\nUjistěte se prosím, že  soubor 'VeraCrypt Format.exe' je ve složce, ze které byl 'VeraCrypt.exe' spuštěn. Pokud není, přeinstalujte prosím VeraCrypt nebo najděte 'VeraCrypt Format.exe' na vašem disku a spusťte jej.</string>
+    <string lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</string>
     <string lang="cs" key="NEXT">&amp;Další &gt;</string>
     <string lang="cs" key="FINALIZE">&amp;Dokončit</string>
     <string lang="cs" key="INSTALL">&amp;Instalovat</string>
@@ -1034,8 +1036,8 @@
     <string lang="cs" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nDodatečný bootovací oddíl může být před instalací Windows odstraněn. Abyste to mohli udělat, řiďte se následujícími kroky:\n\n1) Nabootujte váš instalační disk Windows.\n\n2) Na instalační obrazovce Windows klikněte na 'Nyní nainstalovat' &gt; 'Volitelné (pokročilé)'.\n\n3) Klikněte na 'Volby disku'.\n\n4) Vyberte hlavní systémový oddíl a smažte ho kliknutím na 'Smazat' a 'OK'.\n\n5) Vyberte 'Rezervovaný systémový' oddíl, klikněte 'Rozšířit', a zvyšte jeho velikost, aby do něj mohl být nainstalován operační systém.\n\n6) Klikněte na 'Použít' a 'OK'.\n\n7) Nainstalujte Windows na 'Rezervovaný systémový' oddíl.\n\n\nPokud by se útočník ptal, proč jste odstranili dodatečný bootovací oddíl, můžete odpovědět, že jste chtěli předejít jakémukoliv možnému úniku dat do nezašifrovaného bootovacího oddílu.\n\nPoznámka: Tento text si můžete vytisknout kliknutím na tlačítko 'Tisknout' níže. Pokud si uschováte kopii tohoto textu nebo jej vytisknete (důrazně doporučujeme, pokud vaše tiskárna neukládá vytištěné dokumenty na svůj pevný disk ), měli byste zničit jakékoliv jeho kopie po odstranění dodatečného bootovacího svazku (pokud by se nalezla takováto kopie, mohla by naznačovat přítomnost skrytého svazku s operačním systémem).</string>
     <string lang="cs" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varování: Mezi systémovým oddílem a prvním oddílem za ním je nealokované místo. Po vytvoření skrytého operačního systému nesmíte vytvořit žádné nové oddíly v tomto nealokovaném prostoru. Jinak nebude možné spustit skrytý operační systém (dokud nesmažete takto nově vytvořené oddíly).</string>
     <string lang="cs" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Systémové šifrování momentálně nepodporuje tento algoritmus.</string>
-	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="cs" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Souborové klíče aktuálně nejsou podporovány pro šifrování systémů.</string>
     <string lang="cs" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varování: VeraCrypt nemohl obnovit původní nastavení klávesnice. To může způsobit, že heslo bude zadáno nesprávně.</string>
     <string lang="cs" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Chyba: Nelze nastavit rozvržení klávesnice na typickou americkou klávesnici.\n\nHeslo musí být nastaveno v před-bootovacím prostředí (před startem Windows), kde nejsou ne-americké klávesnice k dispozici. Proto musí být heslo vždy nastaveno s použitím rozvržení kláves jako na americké klávesnici.</string>

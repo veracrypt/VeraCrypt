@@ -167,7 +167,7 @@
     <control lang="my" key="IDC_SHOW_PASSWORD_CHPWD_ORI">စကားဝှက် ပြရန်</control>
     <control lang="my" key="IDC_TRAVEL_OPEN_EXPLORER">အစပျိုးထားသော volume အတွက် Explorer ၀င်းဒိုး ဖွင့်ရန်</control>
     <control lang="my" key="IDC_TRAV_CACHE_PASSWORDS">ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲရှိ ယာယီ စကားဝှက်</control>
-	<control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
+    <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="my" key="IDC_UNMOUNTALL">အားလုံးကို အဆုံးသတ်ရန်</control>
     <control lang="my" key="IDC_VOLUME_PROPERTIES">Volume  ဂုဏ်အင်္ဂါရပ်များ...</control>
     <control lang="my" key="IDC_VOLUME_TOOLS">Volume ကိရိယာများ...</control>
@@ -243,6 +243,7 @@
     <control lang="my" key="IDM_UNMOUNT_VOLUME">Volume အဆုံးသတ်ရန်</control>
     <control lang="my" key="IDM_VERIFY_RESCUE_DISK">ကယ်ဆယ်ရေး Disk စစ်ဆေးရန်</control>
     <control lang="my" key="IDM_VERSION_HISTORY">ဗားရှင်း မှတ်တမ်း</control>
+    <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="my" key="IDM_VOLUME_PROPERTIES">Volume ဂုဏ်အင်္ဂါရပ်များ</control>
     <control lang="my" key="IDM_VOLUME_WIZARD">Volume ဖန်တီးမှု အညွှန်း</control>
     <control lang="my" key="IDM_WEBSITE">VeraCrypt ကွန်ရက် စာမျက်နှာ</control>
@@ -536,6 +537,7 @@
     <string lang="my" key="MOUNT_BUTTON">&amp;အစပျိုးပါ</string>
     <string lang="my" key="NEW_VERSION_REQUIRED">ဤ volume ကို အစပျိုးရန် VeraCrypt ဗားရှင်း အသစ် လိုအပ်သည်။</string>
     <string lang="my" key="VOL_CREATION_WIZARD_NOT_FOUND">ချို့ယွင်းချက် - Volume ဖန်တီးခြင်း အညွှန်းကို ရှာမတွေ့ပါ။\n\nဖိုင်တွဲထဲ၌ 'VeraCrypt Format.exe' ရှိရမည် ဖြစ်ပြီး၊ ၄င်းဖိုင်တွဲမှာ 'VeraCrypt.exe' ကို ဖွင့်ရမည် ဖြစ်သည်။ အကယ်၍ မရှိခဲ့လျှင် VeraCrypt ကို ဖက်ထဲ ထပ်မထည့်သွင်းပါ၊ (သို့) သင့် disk တွင် 'VeraCrypt Format.exe' ကို ရှာပြီး ၄င်းကို ဖွင့်ပါ။</string>
+    <string lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</string>
     <string lang="my" key="NEXT">&amp;ရှေ့သို့ &gt;</string>
     <string lang="my" key="FINALIZE">&amp;ပြီးသွားပြီ</string>
     <string lang="my" key="INSTALL">စက်ထဲ ထည့်သွင်းရန်</string>
@@ -1036,8 +1038,8 @@
     <string lang="my" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nအပို boot အခန်းကန့်ကို Windows မထည့်သွင်းမီ ဖယ်ရှားနိုင်သည်။ ထိုသို့ ပြုလုပ်ရန်၊ အောက်ပါ အဆင့်များကို လိုက်နာပါ -\n\n၁) Windows အခွေကို ဖွင့်ပါ။\n\n၂) Windows ထည့်သွင်းစနစ် မျက်နှာပြင်၌၊ 'Install now' &gt; 'Custom (advanced)' ကို နှိပ်ပါ။\n\n၃) 'Drive Options' ကို နှိပ်ပါ။\n\n၄) ပင်မ ကွန်ပျူတာစနစ် အခန်းကန့်ကို ရွေးပါ။ ၄င်းကို 'Delete' နှိပ်ပြီး 'OK' နှိပ်ပါ။\n\n၅)  'System Reserved' အခန်းကန့်ကို ရွေးပြီး၊ 'Extend' ကို နှိပ်ပါ။ OS စနစ် ထည့်သွင်းမည့် အခန်းကန့်​ အရွယ်အစားကို တိုးမြှင့်လိုက်ပါ။\n\n၆) 'Apply' နှင့် 'OK' ကို နှိပ်ပါ။\n\n၇) Windows ကို 'System Reserved' အခန်းကန့်၌ ထည့်သွင်းပါ။\n\n\nရန်သူက အပို boot အခန်းကန့်ကို ဖယ်ရှားရသည့် အကြောင်းရင်းကို မေးသည့်အခါ၊ သင့်အနေဖြင့် စာဝှက်မထားသော boot အခန်းကန့်ထဲ၌ ဒေတာ ယိုဖိတ်မှု မရှိစေရန် လုပ်ဆောင်ခြင်း ဖြစ်ကြောင်း ဖြေကြားနိုင်သည်။\n\nမှတ်ချက် - ဤစာတမ်းကို အောက်မှ 'Print' ခလုတ် နှိပ်ပြီး ပရင့်ထုတ်နိုင်သည်။ အကယ်၍ ဤစာတမ်းကို သိမ်းထားသည် ဖြစ်စေ၊ ပရင့်ထုတ်သည့် ဖြစ်စေ (သင့်ပရင်တာသည် ၄င်းပရင့်ထုတ်ထားသော မှတ်တမ်းမှတ်ရာများကို ၄င်း၏ အတွင်း drive ထဲ၌ သိမ်းဆည်းမထားပါက)၊ အပို boot အခန်းကန့် (အကယ်၍ ယင်းကော်ပီကို တွေ့ခဲ့လျှင်၊ ဤကွန်ပျူတာ၌ လျှို့ဝှက် OS စနစ် တစ်ခု ​ရှိနေကြောင်း ညွှန်ပြနေမည် ဖြစ်သည်) ကို ဖယ်ရှားပြီးသည့်အခါ ၄င်းကော်ပီးများကို ဖျက်ဆီးပစ်ရမည် ဖြစ်သည်။</string>
     <string lang="my" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">သတိပေးချက် - ကွန်ပျူတာစနစ် အခန်းကန့်နှင့် ပထမ အခန်းကန့်တို့ အကြား၌ မသတ်မှတ်ရသေးသော နေရာရှိသည်။ လျှို့ဝှက် OS စနစ်ကို ဖန်တီးပြီးသောအခါ၊ ယင်း မသတ်မှတ်ရသေးသော နေရာ၌ အခန်းကန့်အသစ် မဖန်တီးရ။ သို့မဟုတ်ပါက၊ (ယင်းကဲ့သို့ အသစ် ဖန်တီးလိုက်သော အခန်းကန့်များကို မဖျက်မချင်း) လျှို့ဝှက် OS စနစ်ကို ဖွင့်၍ မရ ဖြစ်သွားနိုင်သည်။</string>
     <string lang="my" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ဤအယ်လဂိုရီသမ်၌ လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။</string>
-	<string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-	<string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
     <string lang="my" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ကီးဖိုင်များသည် လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။​</string>
     <string lang="my" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">သတိပေးချက် - VeraCrypt သည် မူရင်း ​ကီးဘုတ် လေးအောက်ကို နဂိုအတိုင်း ပြန်မထားနိုင်ပါ။ ဤအချက်ကြောင့် စကားဝှက်ကို မှားယွင်းစွာ ရေးထည့်မိနိုင်သည်။</string>
     <string lang="my" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ချို့ယွင်းချက် - VeraCrypt အတွက် ကီးဘုတ် လေးအောက်ကို standard US ကီးဘုတ် လေးအောက် အဖြစ် သတ်မှတ်၍ မရပါ။\n\n US စနစ် မဟုတ်သော ဝင်းဒိုး ကီးဘုတ် လေးအောက် မရနိုင်သည့် နေရာ၌ စက်မတက်ခင် အခြေအနေ (ကွန်ပျူတာ မတက်မီ) တွင် စကားဝှက်ကို ရေးထည့်ရန် လိုအပ်သည်။ ထို့ကြာင့်၊ စကားဝှက်ကို  ဝှက်စာကို standard US ကီးဘုတ် လေးအောက် သုံးပြီး အမြဲတမ်း ရေးထည့်ရမည်။</string>
