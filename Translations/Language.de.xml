@@ -2,7 +2,7 @@
 <VeraCrypt>
   <localization prog-version="1.0f-1">
     <!-- Languages -->
-    <language langid="de" name="Deutsch" en-name="German" version="1.0.1" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt" />
+    <language langid="de" name="Deutsch" en-name="German" version="1.1.0" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer" />
     <!-- Fonts -->
     <font lang="de" class="normal" size="11" face="default" />
     <font lang="de" class="bold" size="13" face="Arial" />
@@ -243,7 +243,7 @@
     <control lang="de" key="IDM_UNMOUNT_VOLUME">Volumen &amp;trennen</control>
     <control lang="de" key="IDM_VERIFY_RESCUE_DISK">Rettungsdatenträger überprüfen</control>
     <control lang="de" key="IDM_VERSION_HISTORY">&amp;Versionsverlauf</control>
-    <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
+    <control lang="de" key="IDM_VOLUME_EXPANDER">Volumen-Erweiterer</control>
     <control lang="de" key="IDM_VOLUME_PROPERTIES">E&amp;igenschaften des VeraCrypt-Volumens</control>
     <control lang="de" key="IDM_VOLUME_WIZARD">VeraCrypt-Volumen &amp;erstellen…</control>
     <control lang="de" key="IDM_WEBSITE">VeraCrypt-&amp;Webseite</control>
@@ -536,7 +536,7 @@
     <string lang="de" key="MOUNT_BUTTON">E&amp;inbinden</string>
     <string lang="de" key="NEW_VERSION_REQUIRED">Zum Einbinden dieses Volumen wird eine neuere VeraCrypt-Version benötigt.</string>
     <string lang="de" key="VOL_CREATION_WIZARD_NOT_FOUND">FEHLER: Der Assistent zum Erstellen von VeraCrypt-Volumen wurde nicht gefunden.\n\nDie Datei "VeraCrypt Format.exe" muss sich in demselben Verzeichnis befinden von welchem aus "VeraCrypt.exe" gestartet worden ist. Falls diese Datei fehlt muss VeraCrypt neu installiert, oder die Datei "VeraCrypt Format.exe" manuell gesucht und gestartet werden.</string>
-    <string lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</string>
+    <string lang="de" key="VOL_EXPANDER_NOT_FOUND">FEHLER: Der Volumen-Expander wurde nicht gefunden.\n\nBitte stellen Sie sicher, dass sich die Datei 'VeraCryptExpander.exe' im dem Ordner befindet, von welchem aus die Datei 'VeraCrypt.exe' gestartet wurde. Andernfalls installieren Sie VeraCrypt bitte neu oder suchen Sie die Datei 'VeraCryptExpander.exe' auf Ihrer Festplatte und starten Sie diese.</string>
     <string lang="de" key="NEXT">&amp;Weiter &gt;</string>
     <string lang="de" key="FINALIZE">&amp;Fertig stellen</string>
     <string lang="de" key="INSTALL">&amp;Installieren</string>
