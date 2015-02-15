@@ -1314,14 +1314,6 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 
 		if (CreateLink (szTmp, "", szTmp2) != S_OK)
 			goto error;
-
-		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCryptExpander.exe");
-		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCryptExpander.lnk");
-
-		IconMessage (hwndDlg, szTmp2);
-
-		if (CreateLink (szTmp, "", szTmp2) != S_OK)
-			goto error;
 	}
 
 	bOK = TRUE;
