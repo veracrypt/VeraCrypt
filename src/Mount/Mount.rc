@@ -568,6 +568,7 @@ BEGIN
         MENUITEM "Test Vectors...",             IDM_TEST_VECTORS
         MENUITEM SEPARATOR
         MENUITEM "Traveler Disk Setup...",      IDM_TRAVELER
+        MENUITEM "Volume Expander",             IDM_VOLUME_EXPANDER
         MENUITEM "Volume Creation Wizard",      IDM_VOLUME_WIZARD
         MENUITEM SEPARATOR
         MENUITEM "Keyfile Generator",           IDM_KEYFILE_GENERATOR

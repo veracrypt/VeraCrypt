@@ -225,6 +225,7 @@
 #define IDM_PERFORMANCE_SETTINGS        40062
 #define IDM_ANALYZE_SYSTEM_CRASH        40063
 #define IDM_DONATE                      40064
+#define IDM_VOLUME_EXPANDER             40065
 
 // Next default values for new objects
 // 
@@ -232,7 +233,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        118
-#define _APS_NEXT_COMMAND_VALUE         40065
+#define _APS_NEXT_COMMAND_VALUE         40066
 #define _APS_NEXT_CONTROL_VALUE         1141
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -1055,6 +1055,28 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 	}
 }
 
+static void LaunchVolExpander (HWND hwndDlg)
+{
+	char t[TC_MAX_PATH] = {'"',0};
+	char *tmp;
+
+	GetModuleFileName (NULL, t+1, sizeof(t)-1);
+
+	tmp = strrchr (t, '\\');
+	if (tmp)
+	{
+		*tmp = 0;
+		StringCbCatA (t, sizeof(t), "\\VeraCryptExpander.exe\"");
+
+		if (!FileExists(t))
+			Error ("VOL_EXPANDER_NOT_FOUND", hwndDlg);	// Display a user-friendly error message and advise what to do
+		else if (((int)ShellExecuteA (NULL, (!IsAdmin() && IsUacSupported()) ? "runas" : "open", t, NULL, NULL, SW_SHOW)) <= 32)
+		{
+			handleWin32Error (hwndDlg);
+		}
+	}
+}
+
 
 // Fills drive list
 // drive>0 = update only the corresponding drive subitems
@@ -6430,6 +6452,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_CREATE_VOLUME || lw == IDM_CREATE_VOLUME || lw == IDM_VOLUME_WIZARD)
 		{
 			LaunchVolCreationWizard (hwndDlg, "");
+			return 1;
+		}
+
+		if (lw == IDM_VOLUME_EXPANDER)
+		{
+			LaunchVolExpander (hwndDlg);
 			return 1;
 		}
 
