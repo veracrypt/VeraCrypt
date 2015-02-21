@@ -1016,8 +1016,9 @@ BOOL test_hmac_sha256 ()
 
 	for (i = 0; i < sizeof (hmac_sha256_test_data) / sizeof(char *); i++)
 	{
-		char digest[SHA256_DIGESTSIZE];
-		hmac_sha256 (hmac_sha256_test_keys[i], (int) strlen (hmac_sha256_test_keys[i]), hmac_sha256_test_data[i], (int) strlen (hmac_sha256_test_data[i]), digest);
+		char digest[1024]; /* large enough to hold digets and test vector inputs */
+		memcpy (digest, hmac_sha256_test_data[i], strlen (hmac_sha256_test_data[i]));
+		hmac_sha256 (hmac_sha256_test_keys[i], (int) strlen (hmac_sha256_test_keys[i]), digest, (int) strlen (hmac_sha256_test_data[i]));
 		if (memcmp (digest, hmac_sha256_test_vectors[i], SHA256_DIGESTSIZE) != 0)
 			return FALSE;
 		else
@@ -1034,8 +1035,9 @@ BOOL test_hmac_sha512 ()
 
 	for (i = 0; i < sizeof (hmac_sha512_test_data) / sizeof(char *); i++)
 	{
-		char digest[SHA512_DIGESTSIZE];
-		hmac_sha512 (hmac_sha512_test_keys[i], (int) strlen (hmac_sha512_test_keys[i]), hmac_sha512_test_data[i], (int) strlen (hmac_sha512_test_data[i]), digest, SHA512_DIGESTSIZE);
+		char digest[1024]; /* large enough to hold digets and test vector inputs */
+		memcpy (digest, hmac_sha512_test_data[i], (int) strlen (hmac_sha512_test_data[i]));
+		hmac_sha512 (hmac_sha512_test_keys[i], (int) strlen (hmac_sha512_test_keys[i]), digest, (int) strlen (hmac_sha512_test_data[i]));
 		if (memcmp (digest, hmac_sha512_test_vectors[i], SHA512_DIGESTSIZE) != 0)
 			return FALSE;
 		else
@@ -1052,8 +1054,9 @@ BOOL test_hmac_ripemd160 ()
 
 	for (i = 0; i < sizeof (hmac_ripemd160_test_data) / sizeof(char *); i++)
 	{
-		char digest[RIPEMD160_DIGESTSIZE];
-		hmac_ripemd160 (hmac_ripemd160_test_keys[i], RIPEMD160_DIGESTSIZE, hmac_ripemd160_test_data[i], (int) strlen (hmac_ripemd160_test_data[i]), digest);
+		char digest[1024]; /* large enough to hold digets and test vector inputs */
+		memcpy (digest, hmac_ripemd160_test_data[i], strlen (hmac_ripemd160_test_data[i]));
+		hmac_ripemd160 (hmac_ripemd160_test_keys[i], RIPEMD160_DIGESTSIZE, digest, (int) strlen (hmac_ripemd160_test_data[i]));
 		if (memcmp (digest, hmac_ripemd160_test_vectors[i], RIPEMD160_DIGESTSIZE) != 0)
 			return FALSE;
 		else
@@ -1065,9 +1068,10 @@ BOOL test_hmac_ripemd160 ()
 
 BOOL test_hmac_whirlpool ()
 {
-	unsigned char digest[WHIRLPOOL_DIGESTSIZE];
+	unsigned char digest[1024]; /* large enough to hold digets and test vector inputs */
 
-	hmac_whirlpool (hmac_whirlpool_test_key, 64, hmac_whirlpool_test_data, (int) strlen (hmac_whirlpool_test_data), digest, WHIRLPOOL_DIGESTSIZE);
+	memcpy (digest, hmac_whirlpool_test_data, strlen (hmac_whirlpool_test_data));
+	hmac_whirlpool (hmac_whirlpool_test_key, 64, digest, (int) strlen (hmac_whirlpool_test_data));
 	if (memcmp (digest, hmac_whirlpool_test_vectors, WHIRLPOOL_DIGESTSIZE) != 0)
 		return FALSE;
 
