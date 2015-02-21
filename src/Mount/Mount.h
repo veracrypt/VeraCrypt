@@ -110,6 +110,7 @@ uint32 ReadDriverConfigurationFlags ();
 void AnalyzeKernelMiniDump (HWND hwndDlg);
 void HookMouseWheel (HWND hwndDlg, UINT ctrlId);
 static BOOL HandleDriveListMouseWheelEvent (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bListMustBePointed);
+static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #ifdef __cplusplus
 }

@@ -331,6 +331,18 @@ BEGIN
     GROUPBOX        "Global Settings",IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX,7,202,366,49
 END
 
+IDD_DEFAULT_MOUNT_PARAMETERS DIALOGEX 0, 0, 167, 65
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "VeraCrypt - Mount Parameters"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,57,44,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,111,44,50,14
+    COMBOBOX        IDC_PKCS5_PRF_ID,57,24,103,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    LTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,8,26,44,11
+    CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,76,10
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -421,6 +433,14 @@ BEGIN
         RIGHTMARGIN, 373
         TOPMARGIN, 7
         BOTTOMMARGIN, 269
+    END
+
+    IDD_DEFAULT_MOUNT_PARAMETERS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 160
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -594,6 +614,7 @@ BEGIN
         MENUITEM "Performance...",              IDM_PERFORMANCE_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "Default Keyfiles...",         IDM_DEFAULT_KEYFILES
+        MENUITEM "Default Mount Parameters...", IDM_DEFAULT_MOUNT_PARAMETERS
         MENUITEM "Security Tokens...",          IDM_TOKEN_PREFERENCES
         MENUITEM SEPARATOR
         MENUITEM "Preferences...",              IDM_PREFERENCES

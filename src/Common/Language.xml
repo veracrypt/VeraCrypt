@@ -172,6 +172,7 @@
     <control lang="en" key="IDC_VOLUME_PROPERTIES">&amp;Volume Properties...</control>
     <control lang="en" key="IDC_VOLUME_TOOLS">Volume &amp;Tools...</control>
     <control lang="en" key="IDC_WIPE_CACHE">&amp;Wipe Cache</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="en" key="IDD_HOTKEYS_DLG">VeraCrypt - System-Wide Hot Keys</control>
     <control lang="en" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="en" key="IDM_CREATE_RESCUE_DISK">Create Rescue Disk...</control>
     <control lang="en" key="IDM_CREATE_VOLUME">Create New Volume...</control>
     <control lang="en" key="IDM_DEFAULT_KEYFILES">Default Keyfiles...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
 	 <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="en" key="IDM_ENCRYPT_SYSTEM_DEVICE">Encrypt System Partition/Drive...</control>
     <control lang="en" key="IDM_FAQ">Frequently Asked Questions</control>
