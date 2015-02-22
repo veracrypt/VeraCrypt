@@ -6692,9 +6692,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						Error ("UNSUPPORTED_CHARS_IN_PWD", hwndDlg);
 						return 1;
 					}
-					// Check password length (do not check if it's for an outer volume).
-					else if (!bHiddenVolHost
-						&& !CheckPasswordLength (hwndDlg, GetDlgItem (hCurPage, IDC_PASSWORD)))
+					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
+					else if (!CheckPasswordLength (hwndDlg, GetDlgItem (hCurPage, IDC_PASSWORD)))
 					{
 						return 1;
 					}
