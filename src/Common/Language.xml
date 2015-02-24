@@ -594,12 +594,12 @@
     <string lang="en" key="PASSWORD_HIDDEN_OS_TITLE">Password for Hidden Operating System</string>
     <string lang="en" key="PASSWORD_LENGTH_WARNING">WARNING: Short passwords are easy to crack using brute force techniques!\n\nWe recommend choosing a password consisting of more than 20 characters. Are you sure you want to use a short password?</string>
     <string lang="en" key="PASSWORD_TITLE">Volume Password</string>
-    <string lang="en" key="PASSWORD_WRONG">Incorrect password or not a VeraCrypt volume.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Incorrect keyfile(s) and/or password or not a VeraCrypt volume.</string>
-    <string lang="en" key="PASSWORD_OR_MODE_WRONG">Wrong mount mode, incorrect password, or not a VeraCrypt volume.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Wrong mount mode, incorrect keyfile(s) and/or password, or not a VeraCrypt volume.</string>
-    <string lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Incorrect password or no VeraCrypt volume found.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Incorrect keyfile(s)/password or no VeraCrypt volume found.</string>
+    <string lang="en" key="PASSWORD_WRONG">Incorrect password/PRF or not a valid volume.</string>
+    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Incorrect keyfile(s) and/or password/PRF or not a valid volume.</string>
+    <string lang="en" key="PASSWORD_OR_MODE_WRONG">Wrong mount mode, incorrect password/PRF, or not a valid volume.</string>
+    <string lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Wrong mount mode, incorrect keyfile(s) and/or password/PRF, or not a valid volume.</string>
+    <string lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Incorrect password/PRF or no valid volume found.</string>
+    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Incorrect keyfile(s)/password/PRF or no valid volume found.</string>
     <string lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</string>
     <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer > Organize > 'Folder and search options' > View).</string>
     <string lang="en" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">If you are attempting to protect a hidden volume containing a hidden system, please make sure you are using the standard US keyboard layout when typing the password for the hidden volume. This is required due to the fact that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available.</string>
