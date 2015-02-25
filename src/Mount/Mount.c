@@ -2329,6 +2329,9 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_MOUNT_OPTIONS)
 		{
+			/* Use default PRF specified by the user if any */
+			if (mountOptions.ProtectedHidVolPkcs5Prf == 0)
+				mountOptions.ProtectedHidVolPkcs5Prf = *pkcs5;
 			DialogBoxParamW (hInst, 
 				MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwndDlg,
 				(DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions);
@@ -6013,6 +6016,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (GetAsyncKeyState (VK_CONTROL) < 0)
 					{
+						/* Priority is given to command line parameters 
+						 * Default values used only when nothing specified in command line
+						 */
+						if (CmdVolumePkcs5 == 0)
+							mountOptions.ProtectedHidVolPkcs5Prf = DefaultVolumePkcs5;
+						else
+							mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
+
 						if (IDCANCEL == DialogBoxParamW (hInst, 
 							MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwndDlg,
 							(DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions))
@@ -7765,6 +7776,13 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 				&& !favoriteVolumeToMount.Path.empty()
 				&& GetAsyncKeyState (VK_CONTROL) < 0)
 			{
+				/* Priority is given to command line parameters 
+				 * Default values used only when nothing specified in command line
+				 */
+				if (CmdVolumePkcs5 == 0)
+					mountOptions.ProtectedHidVolPkcs5Prf = DefaultVolumePkcs5;
+				else
+					mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
 				if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), MainDlg, MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
 				{
 					status = FALSE;
@@ -9214,6 +9232,13 @@ void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions)
 
 		if (mountWithOptions || GetAsyncKeyState (VK_CONTROL) < 0)
 		{
+			/* Priority is given to command line parameters 
+			 * Default values used only when nothing specified in command line
+			 */
+			if (CmdVolumePkcs5 == 0)
+				mountOptions.ProtectedHidVolPkcs5Prf = DefaultVolumePkcs5;
+			else
+				mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
 			if (IDCANCEL == DialogBoxParamW (hInst, 
 				MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwndDlg,
 				(DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions))
