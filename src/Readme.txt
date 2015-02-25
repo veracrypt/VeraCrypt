@@ -161,12 +161,14 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
    'Main'.
 
 By default, a universal executable supporting both graphical and text user
-interface is built. To build a console-only executable, which requires no GUI
-library, use the 'NOGUI' parameter:
+interface (through the switch --text) is built.
+On Linux, a console-only executable, which requires no GUI library, can be
+built using the 'NOGUI' parameter:
 
    $ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
    $ make NOGUI=1 WXSTATIC=1
    
+On MacOSX, building a console-only executable is not supported.
 
 Mac OS X specifics:
 -----------------------------------------------------------
