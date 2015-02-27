@@ -27,7 +27,7 @@ namespace VeraCrypt
 		RestoreValidatorBell (false)
 	{
 #define TC_CHECK_BOX_VALIDATOR(NAME) (TC_JOIN(NAME,CheckBox))->SetValidator (wxGenericValidator (&Preferences.NAME));
-		SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
+
 #ifdef TC_MACOSX
 		PreferencesNotebook->SetMinSize (wxSize (Gui->GetCharWidth (PreferencesNotebook) * 108, -1));
 #endif

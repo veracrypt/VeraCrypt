@@ -17,7 +17,6 @@ namespace VeraCrypt
 	SecurityTokenKeyfilesDialog::SecurityTokenKeyfilesDialog (wxWindow* parent, bool selectionMode)
 		: SecurityTokenKeyfilesDialogBase (parent)
 	{
-		SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
 		if (selectionMode)
 			SetTitle (LangString["SELECT_TOKEN_KEYFILES"]);
 

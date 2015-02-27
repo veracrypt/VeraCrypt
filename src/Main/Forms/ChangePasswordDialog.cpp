@@ -16,12 +16,11 @@ namespace VeraCrypt
 {
 	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles)
 		: ChangePasswordDialogBase (parent), DialogMode (mode), Path (volumePath)
-	{		
+	{
 		bool enableNewPassword = false;
 		bool enableNewKeyfiles = false;
 		bool enablePkcs5Prf = false;
 
-		SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
 		switch (mode)
 		{
 		case Mode::ChangePasswordAndKeyfiles:

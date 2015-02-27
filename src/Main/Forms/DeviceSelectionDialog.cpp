@@ -16,8 +16,6 @@ namespace VeraCrypt
 	DeviceSelectionDialog::DeviceSelectionDialog (wxWindow* parent)
 		: DeviceSelectionDialogBase (parent)
 	{
-		SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
-
 		wxBusyCursor busy;
 
 		list <int> colPermilles;
