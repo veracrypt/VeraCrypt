@@ -137,6 +137,10 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	DefaultKeyfilesMenuItem = new wxMenuItem( SettingsMenu, wxID_ANY, wxString( _("Default Keyfiles...") ) , wxEmptyString, wxITEM_NORMAL );
 	SettingsMenu->Append( DefaultKeyfilesMenuItem );
 	
+	wxMenuItem* DefaultMountParametersMenuItem;
+	DefaultMountParametersMenuItem = new wxMenuItem( SettingsMenu, wxID_ANY, wxString( _("Default Mount Parameters...") ) , wxEmptyString, wxITEM_NORMAL );
+	SettingsMenu->Append( DefaultMountParametersMenuItem );
+	
 	wxMenuItem* SecurityTokenPreferencesMenuItem;
 	SecurityTokenPreferencesMenuItem = new wxMenuItem( SettingsMenu, wxID_ANY, wxString( _("Security Tokens...") ) , wxEmptyString, wxITEM_NORMAL );
 	SettingsMenu->Append( SecurityTokenPreferencesMenuItem );
@@ -428,6 +432,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	this->Connect( WipeCachedPasswordsMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnWipeCacheButtonClick ) );
 	this->Connect( HotkeysMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnHotkeysMenuItemSelected ) );
 	this->Connect( DefaultKeyfilesMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnDefaultKeyfilesMenuItemSelected ) );
+	this->Connect( DefaultMountParametersMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnDefaultMountParametersMenuItemSelected ) );
 	this->Connect( SecurityTokenPreferencesMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnSecurityTokenPreferencesMenuItemSelected ) );
 	this->Connect( PreferencesMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnPreferencesMenuItemSelected ) );
 	this->Connect( UserGuideMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnUserGuideMenuItemSelected ) );
@@ -490,6 +495,7 @@ MainFrameBase::~MainFrameBase()
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnWipeCacheButtonClick ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnHotkeysMenuItemSelected ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnDefaultKeyfilesMenuItemSelected ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnDefaultMountParametersMenuItemSelected ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnSecurityTokenPreferencesMenuItemSelected ) );
 	this->Disconnect( wxID_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnPreferencesMenuItemSelected ) );
 	this->Disconnect( wxID_HELP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrameBase::OnUserGuideMenuItemSelected ) );
@@ -1861,6 +1867,24 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	
 	CachePasswordsCheckBox = new wxCheckBox( DefaultMountOptionsPage, wxID_ANY, _("Cache passwords in memory"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer15->Add( CachePasswordsCheckBox, 0, wxALL, 5 );
+	
+	TrueCryptModeCheckBox = new wxCheckBox( DefaultMountOptionsPage, wxID_ANY, _("TrueCrypt Mode"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer15->Add( TrueCryptModeCheckBox, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer163;
+	bSizer163 = new wxBoxSizer( wxHORIZONTAL );
+	
+	Pkcs5PrfStaticText = new wxStaticText( DefaultMountOptionsPage, wxID_ANY, _("PKCS5-PRF:"), wxDefaultPosition, wxDefaultSize, 0 );
+	Pkcs5PrfStaticText->Wrap( -1 );
+	bSizer163->Add( Pkcs5PrfStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	wxArrayString Pkcs5PrfChoiceChoices;
+	Pkcs5PrfChoice = new wxChoice( DefaultMountOptionsPage, wxID_ANY, wxDefaultPosition, wxDefaultSize, Pkcs5PrfChoiceChoices, 0 );
+	Pkcs5PrfChoice->SetSelection( 0 );
+	bSizer163->Add( Pkcs5PrfChoice, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	
+	sbSizer15->Add( bSizer163, 0, wxEXPAND, 5 );
 	
 	
 	bSizer35->Add( sbSizer15, 0, wxEXPAND|wxALL, 5 );

@@ -625,6 +625,14 @@ namespace VeraCrypt
 		try
 		{
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
+			if (CmdLine->ArgTrueCryptMode)
+			{
+				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+			}
+			if (CmdLine->ArgHash)
+			{
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+			}
 
 			if (SlotListCtrl->GetSelectedItemCount() == 1)
 				mountOptions.SlotNumber = SelectedSlotNumber;
@@ -642,6 +650,14 @@ namespace VeraCrypt
 		try
 		{
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
+			if (CmdLine->ArgTrueCryptMode)
+			{
+				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+			}
+			if (CmdLine->ArgHash)
+			{
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+			}
 			Gui->MountAllFavoriteVolumes (mountOptions);
 		}
 		catch (exception &e)
@@ -664,10 +680,13 @@ namespace VeraCrypt
 		MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 		mountOptions.SlotNumber = SelectedSlotNumber;
 		mountOptions.Path = GetSelectedVolumePath();
-		mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+		if (CmdLine->ArgTrueCryptMode)
+		{
+			mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+		}
 		if (CmdLine->ArgHash)
 		{
-			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, CmdLine->ArgTrueCryptMode);
+			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
 		}
 
 		try
@@ -837,6 +856,13 @@ namespace VeraCrypt
 		dialog.ShowModal();
 	}
 
+	void MainFrame::OnDefaultMountParametersMenuItemSelected(wxCommandEvent& event)
+	{ 
+		PreferencesDialog dialog (this);
+		dialog.SelectPage (dialog.DefaultMountOptionsPage);
+		dialog.ShowModal();
+	}
+
 	void MainFrame::OnDeviceChange (const DirectoryPath &mountPoint)
 	{
 		// Check if any host device has been removed and force dismount of volumes accordingly
@@ -886,10 +912,13 @@ namespace VeraCrypt
 			SetVolumePath (favorite.Path);
 
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
-			mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+			if (CmdLine->ArgTrueCryptMode)
+			{
+				mountOptions.TrueCryptMode = CmdLine->ArgTrueCryptMode;
+			}
 			if (CmdLine->ArgHash)
 			{
-				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, CmdLine->ArgTrueCryptMode);
+				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
 			}
 			favorite.ToMountOptions (mountOptions);
 

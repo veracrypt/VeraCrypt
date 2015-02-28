@@ -104,6 +104,24 @@ namespace VeraCrypt
 			TC_CONFIG_SET (UseKeyfiles);
 			TC_CONFIG_SET (WipeCacheOnAutoDismount);
 			TC_CONFIG_SET (WipeCacheOnClose);
+			
+			SetValue (configMap[L"DefaultTrueCryptMode"], DefaultMountOptions.TrueCryptMode);
+			
+			wstring defaultPrf;
+			SetValue (configMap[L"DefaultPRF"], defaultPrf);
+			
+			shared_ptr <Pkcs5Kdf> savedKdf;
+			try
+			{
+				if (defaultPrf != L"autodetection")
+					savedKdf = Pkcs5Kdf::GetAlgorithm (defaultPrf, DefaultMountOptions.TrueCryptMode);
+			}
+			catch (ParameterIncorrect&)
+			{
+			}
+			
+			DefaultMountOptions.Kdf = savedKdf;
+			DefaultMountOptions.ProtectionKdf = savedKdf;				
 		}
 
 		// Default keyfiles
@@ -200,6 +218,13 @@ namespace VeraCrypt
 		TC_CONFIG_ADD (UseKeyfiles);
 		TC_CONFIG_ADD (WipeCacheOnAutoDismount);
 		TC_CONFIG_ADD (WipeCacheOnClose);
+		
+		formatter.AddEntry (L"DefaultTrueCryptMode", DefaultMountOptions.TrueCryptMode);	
+			
+		wstring defaultPrf = L"autodetection";
+		if (DefaultMountOptions.Kdf)
+			defaultPrf = DefaultMountOptions.Kdf->GetName ();		
+		formatter.AddEntry (L"DefaultPRF", defaultPrf);
 
 		XmlWriter writer (Application::GetConfigFilePath (GetPreferencesFileName(), true));
 		writer.WriteNode (formatter.XmlConfig);

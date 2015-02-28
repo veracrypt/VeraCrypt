@@ -48,6 +48,23 @@ namespace VeraCrypt
 		MountRemovableCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.Removable));
 
 		FilesystemOptionsTextCtrl->SetValue (Preferences.DefaultMountOptions.FilesystemOptions);
+		
+		TrueCryptModeCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.TrueCryptMode));
+		
+		int index, prfInitialIndex = 0;
+		Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);		
+
+		foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms(false))
+		{
+			index = Pkcs5PrfChoice->Append (kdf.GetName());
+			if (Preferences.DefaultMountOptions.Kdf 
+				&& (Preferences.DefaultMountOptions.Kdf->GetName() == kdf.GetName())
+				)
+			{
+				prfInitialIndex = index;
+			}
+		}
+		Pkcs5PrfChoice->Select (prfInitialIndex);
 
 		// Keyfiles
 		TC_CHECK_BOX_VALIDATOR (UseKeyfiles);
@@ -342,12 +359,29 @@ namespace VeraCrypt
 #endif
 		if (!Validate())
 			return;
+			
+		shared_ptr <Pkcs5Kdf> selectedKdf;
+		if (Pkcs5PrfChoice->GetSelection () != 0)
+		{
+			try
+			{
+				selectedKdf = Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection ()), TrueCryptModeCheckBox->IsChecked ());
+			}
+			catch (ParameterIncorrect&)
+			{
+				Gui->ShowWarning ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE");
+				return;
+			}
+		}
 
 		TransferDataFromWindow();
 
 		Preferences.DefaultMountOptions.Protection = MountReadOnlyCheckBox->IsChecked() ? VolumeProtection::ReadOnly : VolumeProtection::None;
 		Preferences.DefaultMountOptions.FilesystemOptions = FilesystemOptionsTextCtrl->GetValue();
 		Preferences.DefaultKeyfiles = *DefaultKeyfilesPanel->GetKeyfiles();
+		
+		Preferences.DefaultMountOptions.Kdf = selectedKdf;
+		Preferences.DefaultMountOptions.ProtectionKdf = selectedKdf;
 
 		bool securityTokenModuleChanged = (Preferences.SecurityTokenModule != wstring (Pkcs11ModulePathTextCtrl->GetValue()));
 		Preferences.SecurityTokenModule = wstring (Pkcs11ModulePathTextCtrl->GetValue());

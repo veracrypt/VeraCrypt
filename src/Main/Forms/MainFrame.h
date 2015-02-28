@@ -85,6 +85,7 @@ namespace VeraCrypt
 		void OnCreateKeyfileMenuItemSelected (wxCommandEvent& event) { Gui->CreateKeyfile(); }
 		void OnCreateVolumeButtonClick (wxCommandEvent& event);
 		void OnDefaultKeyfilesMenuItemSelected (wxCommandEvent& event);
+		void OnDefaultMountParametersMenuItemSelected( wxCommandEvent& event );
 		void OnDismountAllButtonClick (wxCommandEvent& event);
 		void OnDismountVolumeMenuItemSelected (wxCommandEvent& event) { DismountVolume(); }
 		void OnDownloadsMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"downloads"); }

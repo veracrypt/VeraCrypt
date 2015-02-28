@@ -119,6 +119,7 @@ namespace VeraCrypt
 			virtual void OnWipeCacheButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnHotkeysMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDefaultKeyfilesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnDefaultMountParametersMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnSecurityTokenPreferencesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnPreferencesMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnUserGuideMenuItemSelected( wxCommandEvent& event ) { event.Skip(); }
@@ -550,10 +551,12 @@ namespace VeraCrypt
 			wxCheckBox* PreserveTimestampsCheckBox;
 			wxCheckBox* WipeCacheOnCloseCheckBox;
 			wxCheckBox* WipeCacheOnAutoDismountCheckBox;
-			wxPanel* DefaultMountOptionsPage;
 			wxCheckBox* MountReadOnlyCheckBox;
 			wxCheckBox* MountRemovableCheckBox;
 			wxCheckBox* CachePasswordsCheckBox;
+			wxCheckBox* TrueCryptModeCheckBox;
+			wxStaticText* Pkcs5PrfStaticText;
+			wxChoice* Pkcs5PrfChoice;
 			wxStaticBoxSizer* FilesystemSizer;
 			wxTextCtrl* FilesystemOptionsTextCtrl;
 			wxPanel* BackgroundTaskPanel;
@@ -613,6 +616,7 @@ namespace VeraCrypt
 			
 		
 		public:
+			wxPanel* DefaultMountOptionsPage;
 			wxPanel* DefaultKeyfilesPage;
 			wxPanel* SecurityTokensPage;
 			wxPanel* HotkeysPage;
