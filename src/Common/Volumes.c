@@ -425,7 +425,7 @@ KeyReady:	;
 				{
 					if (cryptoInfo->RequiredProgramVersion < 0x600 || cryptoInfo->RequiredProgramVersion > 0x71a)
 					{
-						status = ERR_UNSUPPORTED_TRUECRYPT_FORMAT;
+						status = ERR_UNSUPPORTED_TRUECRYPT_FORMAT | (((int)cryptoInfo->RequiredProgramVersion) << 16);
 						goto err;
 					}
 					cryptoInfo->LegacyVolume = FALSE;

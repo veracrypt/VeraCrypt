@@ -3978,7 +3978,7 @@ void handleError (HWND hwndDlg, int code)
 
 	if (Silent) return;
 
-	switch (code)
+	switch (code & 0x0000FFFF)
 	{
 	case ERR_OS_ERROR:
 		handleWin32Error (hwndDlg);
@@ -4072,7 +4072,8 @@ void handleError (HWND hwndDlg, int code)
 		break;
 
 	case ERR_UNSUPPORTED_TRUECRYPT_FORMAT:
-		MessageBoxW (hwndDlg, GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), lpszTitle, ICON_HAND);
+		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), (code >> 24), (code >> 16) & 0x000000FF);
+		MessageBoxW (hwndDlg, szTmp, lpszTitle, ICON_HAND);
 		break;
 
 	default:

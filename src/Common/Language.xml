@@ -1238,7 +1238,7 @@
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
 	  <string lang="en" key="TEST">Test</string>
     <string lang="en" key="KEYFILE">Keyfile</string>
     <string lang="en" key="VKEY_08">Backspace</string>
