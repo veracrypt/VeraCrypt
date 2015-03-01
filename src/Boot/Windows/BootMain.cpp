@@ -327,9 +327,13 @@ static bool MountVolume (byte drive, byte &exitKey, bool skipNormal, bool skipHi
 		if (exitKey != TC_BIOS_KEY_ENTER)
 			return false;
 
-		if (OpenVolume (BootDrive, bootArguments->BootPassword, &BootCryptoInfo, &bootArguments->HeaderSaltCrc32, skipNormal, skipHidden))
-			break;
+		Print ("Verifying password...");
 
+		if (OpenVolume (BootDrive, bootArguments->BootPassword, &BootCryptoInfo, &bootArguments->HeaderSaltCrc32, skipNormal, skipHidden))
+		{
+			Print ("OK\r\n");
+			break;
+		}
 		if (GetShiftFlags() & TC_BIOS_SHIFTMASK_CAPSLOCK)
 			Print ("Warning: Caps Lock is on.\r\n");
 
