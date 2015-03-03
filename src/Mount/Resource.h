@@ -162,6 +162,7 @@
 #define IDT_NEW_PKCS5_PRF               1138
 #define IDC_PKCS5_OLD_PRF_ID            1139
 #define IDC_TRUECRYPT_MODE              1140
+#define IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT 1141
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -237,7 +238,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40068
-#define _APS_NEXT_CONTROL_VALUE         1141
+#define _APS_NEXT_CONTROL_VALUE         1142
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

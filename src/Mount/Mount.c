@@ -82,6 +82,7 @@ char szDriveLetter[3];				/* Drive Letter to mount */
 char commandLineDrive = 0;
 BOOL bCacheInDriver = FALSE;		/* Cache any passwords we see */
 BOOL bCacheInDriverDefault = FALSE;
+BOOL bCacheDuringMultipleMount = FALSE;
 BOOL bHistoryCmdLine = FALSE;		/* History control is always disabled */
 BOOL bUseDifferentTrayIconIfVolMounted = TRUE;
 BOOL bCloseDismountedWindows=TRUE;	/* Close all open explorer windows of dismounted volume */
@@ -478,6 +479,7 @@ void LoadSettings (HWND hwndDlg)
 	bHistory =						ConfigReadInt ("SaveVolumeHistory", FALSE);
 
 	bCacheInDriverDefault = bCacheInDriver = ConfigReadInt ("CachePasswords", FALSE);
+	bCacheDuringMultipleMount =	ConfigReadInt ("CachePasswordDuringMultipleMount", FALSE);
 	bWipeCacheOnExit =				ConfigReadInt ("WipePasswordCacheOnExit", FALSE);
 	bWipeCacheOnAutoDismount =		ConfigReadInt ("WipeCacheOnAutoDismount", TRUE);
 
@@ -579,6 +581,7 @@ void SaveSettings (HWND hwndDlg)
 	ConfigWriteInt ("SaveVolumeHistory",				!IsButtonChecked (GetDlgItem (hwndDlg, IDC_NO_HISTORY)));
 
 	ConfigWriteInt ("CachePasswords",					bCacheInDriverDefault);
+	ConfigWriteInt ("CachePasswordDuringMultipleMount",	bCacheDuringMultipleMount);
 	ConfigWriteInt ("WipePasswordCacheOnExit",			bWipeCacheOnExit);
 	ConfigWriteInt ("WipeCacheOnAutoDismount",			bWipeCacheOnAutoDismount);
 
@@ -2537,6 +2540,9 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			
 			SendMessage (GetDlgItem (hwndDlg, IDC_PRESERVE_TIMESTAMPS), BM_SETCHECK, 
 						defaultMountOptions.PreserveTimestamp ? BST_CHECKED:BST_UNCHECKED, 0);
+			
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT), BM_SETCHECK, 
+						bCacheDuringMultipleMount ? BST_CHECKED:BST_UNCHECKED, 0);
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT), BM_SETCHECK, 
 						bWipeCacheOnExit ? BST_CHECKED:BST_UNCHECKED, 0);
@@ -2645,6 +2651,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bExplore						= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_OPEN_EXPLORER));	 
 			bUseDifferentTrayIconIfVolMounted = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED));	 
 			bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PRESERVE_TIMESTAMPS));	 
+			bCacheDuringMultipleMount	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT));
 			bWipeCacheOnExit				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT));
 			bWipeCacheOnAutoDismount		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT));
 			bCacheInDriverDefault = bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PASSWORDS));	 
@@ -3777,7 +3784,10 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 	// First try cached passwords and if they fail ask user for a new one
 	WaitCursor ();
 
-	mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, EffectiveVolumePkcs5, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+	// try TrueCrypt mode first since it is quick
+	mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+	if (!mounted)
+		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 	
 	// If keyfiles are enabled, test empty password first
 	if (!mounted && KeyFilesEnable && FirstKeyFile)
@@ -3786,19 +3796,22 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 		emptyPassword.Length = 0;
 
 		KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile);
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, EffectiveVolumePkcs5, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
-		if (mounted)
-		{
-			VolumePkcs5 = EffectiveVolumePkcs5;
-			VolumeTrueCryptMode = EffectiveVolumeTrueCryptMode;
-		}
+		// try TrueCrypt mode first since it is quick
+		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+		if (!mounted)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 		
 		burn (&emptyPassword, sizeof (emptyPassword));
 	}
 
 	// Test password and/or keyfiles used for the previous volume
-	if (!mounted && MultipleMountOperationInProgress && VolumePassword.Length != 0)
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, VolumePkcs5, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+	if (!mounted && bCacheDuringMultipleMount && MultipleMountOperationInProgress && VolumePassword.Length != 0)
+	{
+		// try TrueCrypt mode first as it is quick
+		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+		if (!mounted)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+	}
 
 	NormalCursor ();
 
