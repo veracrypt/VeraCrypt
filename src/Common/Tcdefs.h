@@ -128,6 +128,11 @@ void ThrowFatalException (int line);
 #	define TC_THROW_FATAL_EXCEPTION	*(char *) 0 = 0
 #endif
 
+#ifdef __COVERITY__
+#undef TC_THROW_FATAL_EXCEPTION
+#define TC_THROW_FATAL_EXCEPTION __coverity_panic__()
+#endif
+
 #ifdef TC_WINDOWS_DRIVER
 
 #include <ntifs.h>
