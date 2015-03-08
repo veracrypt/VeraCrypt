@@ -501,10 +501,8 @@ namespace VeraCrypt
 
 		LangString.Init();
 		Core->Init();
-
-		wxCmdLineParser parser;
-		parser.SetCmdLine (argc, argv);
-		CmdLine.reset (new CommandLineInterface (parser, InterfaceType));
+		
+		CmdLine.reset (new CommandLineInterface (argc, argv, InterfaceType));
 		SetPreferences (CmdLine->Preferences);
 
 		Core->SetApplicationExecutablePath (Application::GetExecutablePath());

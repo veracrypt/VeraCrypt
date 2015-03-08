@@ -50,7 +50,7 @@ namespace VeraCrypt
 	struct CommandLineInterface
 	{
 	public:
-		CommandLineInterface (wxCmdLineParser &parser, UserInterfaceType::Enum interfaceType);
+		CommandLineInterface (int argc, wchar_t** argv, UserInterfaceType::Enum interfaceType);
 		virtual ~CommandLineInterface ();
 
 

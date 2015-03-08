@@ -17,7 +17,7 @@
 
 namespace VeraCrypt
 {
-	CommandLineInterface::CommandLineInterface (wxCmdLineParser &parser, UserInterfaceType::Enum interfaceType) :
+	CommandLineInterface::CommandLineInterface (int argc, wchar_t** argv, UserInterfaceType::Enum interfaceType) :
 		ArgCommand (CommandId::None),
 		ArgFilesystem (VolumeCreationOptions::FilesystemType::Unknown),
 		ArgNoHiddenVolumeProtection (false),
@@ -26,6 +26,9 @@ namespace VeraCrypt
 		ArgTrueCryptMode (false),
 		StartBackgroundTask (false)
 	{
+		wxCmdLineParser parser;
+		parser.SetCmdLine (argc, argv);
+
 		parser.SetSwitchChars (L"-");
 
 		parser.AddOption (L"",  L"auto-mount",			_("Auto mount device-hosted/favorite volumes"));
@@ -475,6 +478,22 @@ namespace VeraCrypt
 		// Parameters
 		if (parser.GetParamCount() > 0)
 		{
+			// in case of GUI interface, we load the preference when only 
+			// specifying volume path without any option/switch
+			if (Application::GetUserInterfaceType() != UserInterfaceType::Text)
+			{
+				// check if only parameters were specified in the command line
+				// (e.g. when associating .hc extension in mimetype with /usr/bin/veracrypt)
+				bool onlyParametersPresent = (parser.GetParamCount() == (size_t) (argc - 1));
+
+				if (onlyParametersPresent)
+				{
+					// no options/switches, so we load prefences now
+					Preferences.Load();
+					ArgMountOptions = Preferences.DefaultMountOptions;
+				}
+			}
+
 			if (ArgCommand == CommandId::None)
 			{
 				ArgCommand = CommandId::MountVolume;
