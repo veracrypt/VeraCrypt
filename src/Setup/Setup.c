@@ -124,6 +124,104 @@ BOOL StatRemoveDirectory (char *lpszDir)
 		return TRUE;
 }
 
+void SearchAndDeleteRegistrySubString (HKEY hKey, const char *subKey, const char *str, BOOL bEnumSubKeys, const char* enumMatchSubStr)
+{
+	HKEY hSubKey = 0;
+	LSTATUS status = 0;
+	DWORD dwIndex = 0, dwType, dwValueNameLen, dwDataLen;
+	std::list<std::string> subKeysList;
+	size_t subStringLength = str? strlen(str) : 0;
+
+	if (bEnumSubKeys)
+	{
+		DWORD dwMaxNameLen = 0;
+		if (ERROR_SUCCESS == RegQueryInfoKey(hKey, NULL, NULL, NULL, NULL, &dwMaxNameLen, NULL, NULL, NULL, NULL, NULL, NULL))
+		{
+			dwMaxNameLen++;
+			char* szNameValue = new char[dwMaxNameLen];
+			dwIndex = 0;
+			while (true)
+			{
+				dwValueNameLen = dwMaxNameLen;
+				status = RegEnumKeyExA (hKey, dwIndex++, szNameValue, &dwValueNameLen, NULL, NULL, NULL, NULL);
+				if (status == ERROR_SUCCESS)
+				{
+					if (enumMatchSubStr && !strstr(szNameValue, enumMatchSubStr))
+						continue;
+					std::string entryName = szNameValue;
+					entryName += "\\";
+					entryName += subKey;
+					subKeysList.push_back(entryName);
+				}
+				else
+					break;
+			}
+			delete [] szNameValue;
+		}
+	}
+	else
+	{
+		subKeysList.push_back(subKey);
+	}
+
+	for (std::list<std::string>::iterator ItSubKey = subKeysList.begin(); ItSubKey != subKeysList.end(); ItSubKey++)
+	{	
+		// if the string to search for is empty, delete the sub key, otherwise, look for matching value and delete them
+		if (subStringLength == 0)
+		{
+			SHDeleteKeyA (hKey, ItSubKey->c_str());
+		}
+		else
+		{
+			if (RegOpenKeyExA (hKey, ItSubKey->c_str(), 0, KEY_ALL_ACCESS, &hSubKey) == ERROR_SUCCESS)
+			{
+				DWORD dwMaxNameLen = 0, dwMaxDataLen = 0;
+				if (ERROR_SUCCESS == RegQueryInfoKey(hSubKey, NULL, NULL, NULL, NULL, NULL, NULL, NULL, &dwMaxNameLen, &dwMaxDataLen, NULL, NULL))
+				{
+					dwMaxNameLen++;
+					char* szNameValue = new char[dwMaxNameLen];
+					LPBYTE pbData = new BYTE[dwMaxDataLen];
+
+					std::list<std::string> foundEntries;
+					dwIndex = 0;
+					do
+					{
+						dwValueNameLen = dwMaxNameLen;
+						dwDataLen = dwMaxDataLen;
+						status = RegEnumValueA(hSubKey, dwIndex++, szNameValue, &dwValueNameLen, NULL, &dwType, pbData, &dwDataLen);
+						if (status == ERROR_SUCCESS)
+						{
+							if (	(strlen(szNameValue) >= subStringLength && strstr(szNameValue, str))
+								||	(dwType == REG_SZ && strlen((char*) pbData) >= subStringLength && strstr((char*) pbData, str))
+								)
+							{
+								foundEntries.push_back(szNameValue);
+							}
+						}
+					} while ((status == ERROR_SUCCESS) || (status == ERROR_MORE_DATA)); // we ignore ERROR_MORE_DATA errors since 
+																						// we are sure to use the correct sizes
+
+					// delete the entries
+					if (!foundEntries.empty())
+					{
+						for (std::list<std::string>::iterator It = foundEntries.begin(); 
+							It != foundEntries.end(); It++)
+						{
+							RegDeleteValueA (hSubKey, It->c_str());
+						}
+					}
+
+					delete [] szNameValue;
+					delete [] pbData;
+				}
+
+
+				RegCloseKey (hSubKey);
+			}
+		}
+	}
+}
+
 HRESULT CreateLink (char *lpszPathObj, char *lpszArguments,
 	    char *lpszPathLink)
 {
@@ -764,14 +862,30 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\DefaultIcon");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume");
-	RegDeleteKey (HKEY_CURRENT_USER, "Software\\VeraCrypt");
+	RegDeleteKey (HKEY_CURRENT_USER, "Software\\VeraCrypt");	
 
 	if (!bRemoveDeprecated)
 	{
+		HKEY hKey;
 		GetStartupRegKeyName (regk, sizeof(regk));
 		DeleteRegistryValue (regk, "VeraCrypt");
 
-		RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\.hc");
+		SHDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\.hc");
+
+		// clean MuiCache list from VeraCrypt entries
+		SearchAndDeleteRegistrySubString (HKEY_CLASSES_ROOT, "Local Settings\\Software\\Microsoft\\Windows\\Shell\\MuiCache", "VeraCrypt", FALSE, NULL);
+
+		// clean other VeraCrypt entries from all users
+		SearchAndDeleteRegistrySubString (HKEY_USERS, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.hc", NULL, TRUE, NULL);
+		SearchAndDeleteRegistrySubString (HKEY_USERS, "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Compatibility Assistant\\Persisted", "VeraCrypt", TRUE, NULL);
+		
+		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM", 0, KEY_ALL_ACCESS, &hKey) == ERROR_SUCCESS)
+		{
+			SearchAndDeleteRegistrySubString (hKey, "services\\veracrypt", NULL, TRUE, "ControlSet");
+			RegCloseKey(hKey);
+		}
+
+
 		SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	}
 
