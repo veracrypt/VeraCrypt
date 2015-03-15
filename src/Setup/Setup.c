@@ -124,6 +124,152 @@ BOOL StatRemoveDirectory (char *lpszDir)
 		return TRUE;
 }
 
+
+/* Recursively set the given OWNER security descriptor to the key and its subkeys */
+static void RecursiveSetOwner (HKEY hKey, PSECURITY_DESCRIPTOR pSD)
+{
+	LSTATUS status = 0;
+	DWORD dwIndex = 0, dwMaxNameLen = 0, dwNameLen = 0, numberSubKeys = 0;
+	HKEY hSubKey;   
+
+	if (	(ERROR_SUCCESS == status) && (ERROR_SUCCESS == RegQueryInfoKey(hKey, NULL, NULL, NULL, &numberSubKeys, &dwMaxNameLen, NULL, NULL, NULL, NULL, NULL, NULL))
+		&&	(numberSubKeys >= 1)
+		)
+	{
+		dwMaxNameLen++;
+		char* szNameValue = new char[dwMaxNameLen];
+		while (true)
+		{
+			dwNameLen = dwMaxNameLen;
+			status = RegEnumKeyExA (hKey, dwIndex++, szNameValue, &dwNameLen, NULL, NULL, NULL, NULL);
+			if (status == ERROR_SUCCESS)
+			{
+				status = RegOpenKeyExA (hKey, szNameValue, 0, WRITE_OWNER | KEY_READ , &hSubKey);
+				if (ERROR_SUCCESS == status)
+				{
+					RecursiveSetOwner (hSubKey, pSD);
+					RegCloseKey(hSubKey);
+				}
+			}
+			else
+				break;
+		}
+		delete [] szNameValue;
+	}
+
+	RegSetKeySecurity (hKey, OWNER_SECURITY_INFORMATION, pSD);
+}
+
+/* Recursively set the given DACL security descriptor to the key and its subkeys */
+static void RecursiveSetDACL (HKEY hKey, const char* SubKeyName, PSECURITY_DESCRIPTOR pSD)
+{
+	HKEY hSubKey;
+	DWORD dwIndex = 0, dwMaxNameLen = 0, dwNameLen = 0, numberSubKeys = 0;
+	LSTATUS status = RegOpenKeyExA(hKey, SubKeyName, 0, WRITE_DAC | KEY_READ /*| ACCESS_SYSTEM_SECURITY*/, &hSubKey);
+	if (status == ERROR_SUCCESS) 
+	{
+		status = RegSetKeySecurity (hSubKey, DACL_SECURITY_INFORMATION, pSD);
+		if (status == ERROR_SUCCESS)
+		{
+			RegCloseKey(hSubKey);
+			status = RegOpenKeyExA(hKey, SubKeyName, 0, WRITE_DAC | KEY_READ , &hSubKey);
+		}
+
+		if ( (ERROR_SUCCESS == status)
+			&&	(ERROR_SUCCESS == RegQueryInfoKeyA(hSubKey, NULL, NULL, NULL, &numberSubKeys, &dwMaxNameLen, NULL, NULL, NULL, NULL, NULL, NULL))
+			&&	(numberSubKeys >= 1)
+			)
+		{
+			dwMaxNameLen++;
+			char* szNameValue = new char[dwMaxNameLen];
+			while (true)
+			{
+				dwNameLen = dwMaxNameLen;
+				status = RegEnumKeyExA (hSubKey, dwIndex++, szNameValue, &dwNameLen, NULL, NULL, NULL, NULL);
+				if (status == ERROR_SUCCESS)
+			 	{
+					RecursiveSetDACL (hSubKey, szNameValue, pSD);
+				}
+				else
+					break;
+			}
+			delete [] szNameValue;
+		}
+	}
+}
+
+/* Correct the key permissions to allow its deletion */
+static void AllowKeyAccess(HKEY Key,const char* SubKeyName)
+{
+	LSTATUS RegResult;
+	HKEY SvcKey;
+	DWORD dwLength;
+	HANDLE Token = NULL;
+	PTOKEN_USER pTokenUser;
+	std::string sNewSD;
+
+	RegResult = RegOpenKeyExA(Key, SubKeyName, 0, WRITE_OWNER | KEY_READ, &SvcKey);
+	if (RegResult==ERROR_SUCCESS) 
+	{
+		dwLength=0;
+		pTokenUser = NULL;
+		if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &Token)) 
+		{
+			if (!GetTokenInformation(Token, TokenUser, pTokenUser, 0, &dwLength)) 
+			{
+				if (GetLastError() ==ERROR_INSUFFICIENT_BUFFER) 
+				{
+					pTokenUser = (PTOKEN_USER) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwLength);
+					if (pTokenUser) 
+					{
+						if (GetTokenInformation(Token, TokenUser, pTokenUser, dwLength, &dwLength))
+						{
+							SECURITY_DESCRIPTOR SecDesc;
+							if (	InitializeSecurityDescriptor(&SecDesc, SECURITY_DESCRIPTOR_REVISION)
+								&&	SetSecurityDescriptorDacl(&SecDesc, TRUE, NULL, FALSE) // NULL DACL: full access to everyone
+								&& SetSecurityDescriptorOwner(&SecDesc, pTokenUser->User.Sid, FALSE)
+								)
+							{
+								RecursiveSetOwner(SvcKey, &SecDesc);
+							}
+						}
+					
+					}
+				}
+			}
+		}
+		RegCloseKey(SvcKey);
+	}
+
+	if (pTokenUser) 
+	{
+		PSID pSid = pTokenUser->User.Sid;
+		DWORD dwAclSize = sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + ::GetLengthSid(pSid) - sizeof(DWORD);
+		PACL pDacl = (PACL) new BYTE[dwAclSize];
+
+		if (TRUE == ::InitializeAcl(pDacl, dwAclSize, ACL_REVISION))
+		{
+			if (TRUE == AddAccessAllowedAceEx(pDacl, ACL_REVISION, CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE, WRITE_DAC | KEY_ALL_ACCESS, pSid))
+			{
+				SECURITY_DESCRIPTOR SecDesc;
+				if (TRUE == ::InitializeSecurityDescriptor(&SecDesc, SECURITY_DESCRIPTOR_REVISION))
+				{
+					if (TRUE == ::SetSecurityDescriptorDacl(&SecDesc, TRUE, pDacl, FALSE))
+					{
+						RecursiveSetDACL (Key, SubKeyName, &SecDesc);
+					}
+				}
+			}
+		}
+		delete [] pDacl;
+	}
+
+	if (pTokenUser)
+		HeapFree(GetProcessHeap(), 0, pTokenUser);
+	if (Token)
+		CloseHandle(Token);
+}
+
 void SearchAndDeleteRegistrySubString (HKEY hKey, const char *subKey, const char *str, BOOL bEnumSubKeys, const char* enumMatchSubStr)
 {
 	HKEY hSubKey = 0;
@@ -134,30 +280,31 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const char *subKey, const char
 
 	if (bEnumSubKeys)
 	{
-		DWORD dwMaxNameLen = 0;
-		if (ERROR_SUCCESS == RegQueryInfoKey(hKey, NULL, NULL, NULL, NULL, &dwMaxNameLen, NULL, NULL, NULL, NULL, NULL, NULL))
-		{
-			dwMaxNameLen++;
-			char* szNameValue = new char[dwMaxNameLen];
-			dwIndex = 0;
-			while (true)
-			{
-				dwValueNameLen = dwMaxNameLen;
-				status = RegEnumKeyExA (hKey, dwIndex++, szNameValue, &dwValueNameLen, NULL, NULL, NULL, NULL);
-				if (status == ERROR_SUCCESS)
-				{
-					if (enumMatchSubStr && !strstr(szNameValue, enumMatchSubStr))
-						continue;
+         DWORD dwMaxNameLen = 0;
+         if (ERROR_SUCCESS == RegQueryInfoKey(hKey, NULL, NULL, NULL, NULL, &dwMaxNameLen, NULL, NULL, NULL, NULL, NULL, NULL))
+         {
+            dwMaxNameLen++;
+            char* szNameValue = new char[dwMaxNameLen];
+			   dwIndex = 0;
+			   while (true)
+			   {
+				   dwValueNameLen = dwMaxNameLen;
+				   status = RegEnumKeyExA (hKey, dwIndex++, szNameValue, &dwValueNameLen, NULL, NULL, NULL, NULL);
+				   if (status == ERROR_SUCCESS)
+				   {
+						if (enumMatchSubStr && !strstr(szNameValue, enumMatchSubStr))
+							continue;
 					std::string entryName = szNameValue;
 					entryName += "\\";
 					entryName += subKey;
+					entryName += "\\";
 					subKeysList.push_back(entryName);
-				}
-				else
-					break;
-			}
-			delete [] szNameValue;
-		}
+				   }
+				   else
+					   break;
+			   }
+            delete [] szNameValue;
+         }
 	}
 	else
 	{
@@ -169,57 +316,102 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const char *subKey, const char
 		// if the string to search for is empty, delete the sub key, otherwise, look for matching value and delete them
 		if (subStringLength == 0)
 		{
-			SHDeleteKeyA (hKey, ItSubKey->c_str());
+			if (ERROR_ACCESS_DENIED == SHDeleteKeyA (hKey, ItSubKey->c_str()))
+			{
+				// grant permission to delete
+				AllowKeyAccess (hKey, ItSubKey->c_str());
+
+				// try again
+				SHDeleteKeyA (hKey, ItSubKey->c_str());
+			}
 		}
 		else
 		{
 			if (RegOpenKeyExA (hKey, ItSubKey->c_str(), 0, KEY_ALL_ACCESS, &hSubKey) == ERROR_SUCCESS)
 			{
-				DWORD dwMaxNameLen = 0, dwMaxDataLen = 0;
-				if (ERROR_SUCCESS == RegQueryInfoKey(hSubKey, NULL, NULL, NULL, NULL, NULL, NULL, NULL, &dwMaxNameLen, &dwMaxDataLen, NULL, NULL))
-				{
-					dwMaxNameLen++;
-					char* szNameValue = new char[dwMaxNameLen];
-					LPBYTE pbData = new BYTE[dwMaxDataLen];
+            DWORD dwMaxNameLen = 0, dwMaxDataLen = 0;
+            if (ERROR_SUCCESS == RegQueryInfoKey(hSubKey, NULL, NULL, NULL, NULL, NULL, NULL, NULL, &dwMaxNameLen, &dwMaxDataLen, NULL, NULL))
+            {
+               dwMaxNameLen++;
+               char* szNameValue = new char[dwMaxNameLen];
+               LPBYTE pbData = new BYTE[dwMaxDataLen];
 
-					std::list<std::string> foundEntries;
-					dwIndex = 0;
-					do
-					{
-						dwValueNameLen = dwMaxNameLen;
-						dwDataLen = dwMaxDataLen;
-						status = RegEnumValueA(hSubKey, dwIndex++, szNameValue, &dwValueNameLen, NULL, &dwType, pbData, &dwDataLen);
-						if (status == ERROR_SUCCESS)
-						{
-							if (	(strlen(szNameValue) >= subStringLength && strstr(szNameValue, str))
-								||	(dwType == REG_SZ && strlen((char*) pbData) >= subStringLength && strstr((char*) pbData, str))
-								)
-							{
-								foundEntries.push_back(szNameValue);
-							}
-						}
-					} while ((status == ERROR_SUCCESS) || (status == ERROR_MORE_DATA)); // we ignore ERROR_MORE_DATA errors since 
-																						// we are sure to use the correct sizes
+				   std::list<std::string> foundEntries;
+				   dwIndex = 0;
+				   do
+				   {
+					   dwValueNameLen = dwMaxNameLen;
+					   dwDataLen = dwMaxDataLen;
+					   status = RegEnumValueA(hSubKey, dwIndex++, szNameValue, &dwValueNameLen, NULL, &dwType, pbData, &dwDataLen);
+					   if (status == ERROR_SUCCESS)
+					   {
+						   if (	(strlen(szNameValue) >= subStringLength && strstr(szNameValue, str))
+							   ||	(dwType == REG_SZ && strlen((char*) pbData) >= subStringLength && strstr((char*) pbData, str))
+							   )
+						   {
+							   foundEntries.push_back(szNameValue);
+						   }
+					   }
+				   } while ((status == ERROR_SUCCESS) || (status == ERROR_MORE_DATA)); // we ignore ERROR_MORE_DATA errors since 
+                                                                                   // we are sure to use the correct sizes
 
-					// delete the entries
-					if (!foundEntries.empty())
-					{
-						for (std::list<std::string>::iterator It = foundEntries.begin(); 
-							It != foundEntries.end(); It++)
-						{
-							RegDeleteValueA (hSubKey, It->c_str());
-						}
-					}
+				   // delete the entries
+				   if (!foundEntries.empty())
+				   {
+					   for (std::list<std::string>::iterator It = foundEntries.begin(); 
+						   It != foundEntries.end(); It++)
+					   {
+						   RegDeleteValueA (hSubKey, It->c_str());
+					   }
+				   }
 
-					delete [] szNameValue;
-					delete [] pbData;
-				}
+               delete [] szNameValue;
+               delete [] pbData;
+            }
 
 
 				RegCloseKey (hSubKey);
 			}
 		}
 	}
+}
+
+/* Set the given privilege of the current process */
+BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable) 
+{
+	TOKEN_PRIVILEGES tp;
+	LUID luid;
+	HANDLE hProcessToken; 
+	BOOL bStatus = FALSE;
+
+	if ( OpenProcessToken(GetCurrentProcess(),
+			TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
+			&hProcessToken) )
+	{
+		if ( LookupPrivilegeValue( 
+				NULL,
+				szPrivilegeName,
+				&luid ) )
+		{
+
+			tp.PrivilegeCount = 1;
+			tp.Privileges[0].Luid = luid;
+			tp.Privileges[0].Attributes = bEnable? SE_PRIVILEGE_ENABLED : SE_PRIVILEGE_REMOVED;
+
+			// Enable the privilege
+			bStatus = AdjustTokenPrivileges(
+				hProcessToken, 
+				FALSE, 
+				&tp, 
+				sizeof(TOKEN_PRIVILEGES), 
+				(PTOKEN_PRIVILEGES) NULL, 
+				(PDWORD) NULL);
+		}
+
+		CloseHandle(hProcessToken);
+	}
+
+	return bStatus;
 }
 
 HRESULT CreateLink (char *lpszPathObj, char *lpszArguments,
@@ -872,6 +1064,9 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 
 		SHDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\.hc");
 
+		// enable the SE_TAKE_OWNERSHIP_NAME privilege for this operation
+		SetPrivilege (SE_TAKE_OWNERSHIP_NAME, TRUE);
+
 		// clean MuiCache list from VeraCrypt entries
 		SearchAndDeleteRegistrySubString (HKEY_CLASSES_ROOT, "Local Settings\\Software\\Microsoft\\Windows\\Shell\\MuiCache", "VeraCrypt", FALSE, NULL);
 
@@ -879,12 +1074,15 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 		SearchAndDeleteRegistrySubString (HKEY_USERS, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.hc", NULL, TRUE, NULL);
 		SearchAndDeleteRegistrySubString (HKEY_USERS, "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Compatibility Assistant\\Persisted", "VeraCrypt", TRUE, NULL);
 		
-		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM", 0, KEY_ALL_ACCESS, &hKey) == ERROR_SUCCESS)
+		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM", 0, KEY_ALL_ACCESS | WRITE_DAC | WRITE_OWNER, &hKey) == ERROR_SUCCESS)
 		{
+			SearchAndDeleteRegistrySubString (hKey, "Enum\\Root\\LEGACY_VERACRYPT", NULL, TRUE, "ControlSet");
 			SearchAndDeleteRegistrySubString (hKey, "services\\veracrypt", NULL, TRUE, "ControlSet");
 			RegCloseKey(hKey);
 		}
 
+		// disable the SE_TAKE_OWNERSHIP_NAME privilege for this operation
+		SetPrivilege (SE_TAKE_OWNERSHIP_NAME, FALSE);
 
 		SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	}
@@ -1572,7 +1770,7 @@ void DoUninstall (void *arg)
 			DoServiceUninstall (hwndDlg, "VeraCryptService");
 
 			GetTempPath (sizeof (temp), temp);
-			StringCbPrintfA (UninstallBatch, sizeof (UninstallBatch), "%s\\VeraCrypt-Uninstall.bat", temp);
+			StringCbPrintfA (UninstallBatch, sizeof (UninstallBatch), "%sVeraCrypt-Uninstall.bat", temp);
 
 			UninstallBatch [sizeof(UninstallBatch)-1] = 0;
 
@@ -1582,7 +1780,7 @@ void DoUninstall (void *arg)
 				bOK = FALSE;
 			else
 			{
-				fprintf (f, ":loop\n"
+				fprintf (f,":loop\n"
 					"del \"%s%s\"\n"
 					"if exist \"%s%s\" goto loop\n"
 					"rmdir \"%s\"\n"
