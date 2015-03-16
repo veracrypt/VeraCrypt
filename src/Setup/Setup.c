@@ -1073,6 +1073,7 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 		// clean other VeraCrypt entries from all users
 		SearchAndDeleteRegistrySubString (HKEY_USERS, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.hc", NULL, TRUE, NULL);
 		SearchAndDeleteRegistrySubString (HKEY_USERS, "Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Compatibility Assistant\\Persisted", "VeraCrypt", TRUE, NULL);
+		SearchAndDeleteRegistrySubString (HKEY_USERS, "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartPage\\NewShortcuts", "VeraCrypt", TRUE, NULL);
 		
 		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM", 0, KEY_ALL_ACCESS | WRITE_DAC | WRITE_OWNER, &hKey) == ERROR_SUCCESS)
 		{
@@ -1467,6 +1468,11 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 
 	// Start menu entries
 	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
+	RemoveMessage (hwndDlg, szTmp2);
+	if (StatDeleteFile (szTmp2) == FALSE)
+		goto error;
+
+	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCryptExpander.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
 	if (StatDeleteFile (szTmp2) == FALSE)
 		goto error;
