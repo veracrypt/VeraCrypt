@@ -415,7 +415,7 @@ BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 }
 
 HRESULT CreateLink (char *lpszPathObj, char *lpszArguments,
-	    char *lpszPathLink)
+	    char *lpszPathLink, const char* iconFile, int iconIndex)
 {
 	HRESULT hres;
 	IShellLink *psl;
@@ -431,6 +431,10 @@ HRESULT CreateLink (char *lpszPathObj, char *lpszArguments,
 		   description.  */
 		psl->SetPath (lpszPathObj);
 		psl->SetArguments (lpszArguments);
+		if (iconFile)
+		{
+			psl->SetIconLocation (iconFile, iconIndex);
+		}
 
 		// Application ID
 		if (strstr (lpszPathObj, TC_APP_NAME ".exe"))
@@ -1573,14 +1577,14 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
-		if (CreateLink (szTmp, "", szTmp2) != S_OK)
+		if (CreateLink (szTmp, "", szTmp2, NULL, -1) != S_OK)
 			goto error;
 
 		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCryptExpander.exe");
 		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCryptExpander.lnk");
 
 		IconMessage (hwndDlg, szTmp2);
-		if (CreateLink (szTmp, "", szTmp2) != S_OK)
+		if (CreateLink (szTmp, "", szTmp2, NULL, -1) != S_OK)
 			goto error;
 
 		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt Website.url");
@@ -1598,10 +1602,15 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 
 		StringCbPrintfA (szTmp, sizeof(szTmp), "%s%s", szDir, "VeraCrypt Setup.exe");
 		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
-		StringCbCopyA (szTmp3, sizeof(szTmp3), "/u");
+		if (GetSystemDirectoryA (szTmp3, sizeof(szTmp3)))
+		{
+			StringCbCatA (szTmp3, sizeof(szTmp3), "\\control.exe");
+		}
+		else
+			StringCbCopyA(szTmp3, sizeof(szTmp3), "C:\\Windows\\System32\\control.exe");
 
 		IconMessage (hwndDlg, szTmp2);
-		if (CreateLink (szTmp, szTmp3, szTmp2) != S_OK)
+		if (CreateLink (szTmp3, "appwiz.cpl", szTmp2, szTmp, 0) != S_OK)
 			goto error;
 
 		StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
@@ -1630,7 +1639,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 
 		IconMessage (hwndDlg, szTmp2);
 
-		if (CreateLink (szTmp, "", szTmp2) != S_OK)
+		if (CreateLink (szTmp, "", szTmp2, NULL, -1) != S_OK)
 			goto error;
 	}
 
