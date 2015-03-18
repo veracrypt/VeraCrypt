@@ -6317,6 +6317,7 @@ typedef struct
 	MOUNT_STRUCT* pmount;
 	BOOL* pbResult;
 	DWORD* pdwResult;
+	DWORD dwLastError;
 } MountThreadParam;
 
 void CALLBACK MountWaitThreadProc(void* pArg, HWND )
@@ -6325,6 +6326,8 @@ void CALLBACK MountWaitThreadProc(void* pArg, HWND )
 
 	*(pThreadParam->pbResult) = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, pThreadParam->pmount,
 		sizeof (MOUNT_STRUCT),pThreadParam->pmount, sizeof (MOUNT_STRUCT), pThreadParam->pdwResult, NULL);
+
+	pThreadParam->dwLastError = GetLastError ();
 }
 
 /************************************************************************/
@@ -6353,7 +6356,7 @@ int MountVolume (HWND hwndDlg,
 				 BOOL bReportWrongPassword)
 {
 	MOUNT_STRUCT mount;
-	DWORD dwResult;
+	DWORD dwResult, dwLastError = ERROR_SUCCESS;
 	BOOL bResult, bDevice;
 	char root[MAX_PATH];
 	int favoriteMountOnArrivalRetryCount = 0;
@@ -6484,13 +6487,17 @@ retry:
 		mountThreadParam.pmount = &mount;
 		mountThreadParam.pbResult = &bResult;
 		mountThreadParam.pdwResult = &dwResult;
+		mountThreadParam.dwLastError = ERROR_SUCCESS;
 
 		ShowWaitDialog (hwndDlg, FALSE, MountWaitThreadProc, &mountThreadParam);
+
+		dwLastError  = mountThreadParam.dwLastError;
 	}
 	else
 	{
 		bResult = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, &mount,
 				sizeof (mount), &mount, sizeof (mount), &dwResult, NULL);
+		dwLastError = GetLastError ();
 	}
 
 	burn (&mount.VolumePassword, sizeof (mount.VolumePassword));
@@ -6499,6 +6506,7 @@ retry:
 	burn (&mount.bTrueCryptMode, sizeof (mount.bTrueCryptMode));
 	burn (&mount.ProtectedHidVolPkcs5Prf, sizeof (mount.ProtectedHidVolPkcs5Prf));
 
+	SetLastError (dwLastError);
 	if (bResult == FALSE)
 	{
 		// Volume already open by another process
@@ -10270,7 +10278,16 @@ BOOL VolumePathExists (const char *volumePath)
 			return TRUE;
 	}
 
-	return _access (volumePath, 0) == 0;
+	if (_access (volumePath, 0) == 0)
+		return TRUE;
+	else
+	{
+		DWORD dwResult = GetLastError ();
+		if (dwResult == ERROR_SHARING_VIOLATION)
+			return TRUE;
+		else
+			return FALSE;
+	}
 }
 
 

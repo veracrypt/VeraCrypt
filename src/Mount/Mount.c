@@ -5182,74 +5182,81 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (szFileName[0] != 0 && !IsMountedVolume (szFileName))
 				{
-					BOOL mounted;
+					BOOL mounted = FALSE;
 					int EffectiveVolumePkcs5 = CmdVolumePkcs5;
 					BOOL EffectiveVolumeTrueCryptMode = CmdVolumeTrueCryptMode;
 
-					/* Priority is given to command line parameters 
-					 * Default values used only when nothing specified in command line
-					 */
-					if (EffectiveVolumePkcs5 == 0)
-						EffectiveVolumePkcs5 = DefaultVolumePkcs5;
-					if (!EffectiveVolumeTrueCryptMode)
-						EffectiveVolumeTrueCryptMode = DefaultVolumeTrueCryptMode;
-
-					// Cached password
-					mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A', szFileName, NULL, EffectiveVolumePkcs5, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
-
-					// Command line password or keyfiles
-					if (!mounted && (CmdVolumePassword.Length != 0 || FirstCmdKeyFile))
+					if (!VolumePathExists (szFileName))
 					{
-						BOOL reportBadPasswd = CmdVolumePassword.Length > 0;
-
-						if (FirstCmdKeyFile)
-							KeyFilesApply (hwndDlg, &CmdVolumePassword, FirstCmdKeyFile);
-
-						mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A',
-							szFileName, &CmdVolumePassword, EffectiveVolumePkcs5, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount,
-							&mountOptions, Silent, reportBadPasswd);
-
-						burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
+						handleWin32Error (hwndDlg);
 					}
-
-					if (FirstCmdKeyFile)
+					else
 					{
-						FirstKeyFile = FirstCmdKeyFile;
-						KeyFilesEnable = TRUE;
-					}
+						/* Priority is given to command line parameters 
+						 * Default values used only when nothing specified in command line
+						 */
+						if (EffectiveVolumePkcs5 == 0)
+							EffectiveVolumePkcs5 = DefaultVolumePkcs5;
+						if (!EffectiveVolumeTrueCryptMode)
+							EffectiveVolumeTrueCryptMode = DefaultVolumeTrueCryptMode;
 
-					// Ask user for password
-					while (!mounted && !Silent)
-					{
-						int GuiPkcs5 = EffectiveVolumePkcs5;
-						BOOL GuiTrueCryptMode = EffectiveVolumeTrueCryptMode;
-						VolumePassword.Length = 0;
+						// Cached password
+						mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A', szFileName, NULL, EffectiveVolumePkcs5, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 
-						StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume),szFileName);
-						if (!AskVolumePassword (hwndDlg, &VolumePassword, &GuiPkcs5, &GuiTrueCryptMode, NULL, TRUE))
-							break;
-						else
+						// Command line password or keyfiles
+						if (!mounted && (CmdVolumePassword.Length != 0 || FirstCmdKeyFile))
 						{
-							VolumePkcs5 = GuiPkcs5;
-							VolumeTrueCryptMode = GuiTrueCryptMode;
-							burn (&GuiPkcs5, sizeof(GuiPkcs5));
-							burn (&GuiTrueCryptMode, sizeof(GuiTrueCryptMode));
+							BOOL reportBadPasswd = CmdVolumePassword.Length > 0;
+
+							if (FirstCmdKeyFile)
+								KeyFilesApply (hwndDlg, &CmdVolumePassword, FirstCmdKeyFile);
+
+							mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A',
+								szFileName, &CmdVolumePassword, EffectiveVolumePkcs5, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount,
+								&mountOptions, Silent, reportBadPasswd);
+
+							burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
 						}
 
-						WaitCursor ();
+						if (FirstCmdKeyFile)
+						{
+							FirstKeyFile = FirstCmdKeyFile;
+							KeyFilesEnable = TRUE;
+						}
 
-						if (KeyFilesEnable && FirstKeyFile)
-							KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+						// Ask user for password
+						while (!mounted && !Silent)
+						{
+							int GuiPkcs5 = EffectiveVolumePkcs5;
+							BOOL GuiTrueCryptMode = EffectiveVolumeTrueCryptMode;
+							VolumePassword.Length = 0;
 
-						mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A', szFileName, &VolumePassword, VolumePkcs5, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, FALSE, TRUE);
+							StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume),szFileName);
+							if (!AskVolumePassword (hwndDlg, &VolumePassword, &GuiPkcs5, &GuiTrueCryptMode, NULL, TRUE))
+								break;
+							else
+							{
+								VolumePkcs5 = GuiPkcs5;
+								VolumeTrueCryptMode = GuiTrueCryptMode;
+								burn (&GuiPkcs5, sizeof(GuiPkcs5));
+								burn (&GuiTrueCryptMode, sizeof(GuiTrueCryptMode));
+							}
 
-						burn (&VolumePassword, sizeof (VolumePassword));
-						burn (&VolumePkcs5, sizeof (VolumePkcs5));
-						burn (&VolumeTrueCryptMode, sizeof (VolumeTrueCryptMode));
-						burn (&mountOptions.ProtectedHidVolPassword, sizeof (mountOptions.ProtectedHidVolPassword));
-						burn (&mountOptions.ProtectedHidVolPkcs5Prf, sizeof (mountOptions.ProtectedHidVolPkcs5Prf));
+							WaitCursor ();
 
-						NormalCursor ();
+							if (KeyFilesEnable && FirstKeyFile)
+								KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+
+							mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A', szFileName, &VolumePassword, VolumePkcs5, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, FALSE, TRUE);
+
+							burn (&VolumePassword, sizeof (VolumePassword));
+							burn (&VolumePkcs5, sizeof (VolumePkcs5));
+							burn (&VolumeTrueCryptMode, sizeof (VolumeTrueCryptMode));
+							burn (&mountOptions.ProtectedHidVolPassword, sizeof (mountOptions.ProtectedHidVolPassword));
+							burn (&mountOptions.ProtectedHidVolPkcs5Prf, sizeof (mountOptions.ProtectedHidVolPkcs5Prf));
+
+							NormalCursor ();
+						}
 					}
 
 					if (UsePreferences)
