@@ -202,17 +202,15 @@ static void RecursiveSetDACL (HKEY hKey, const char* SubKeyName, PSECURITY_DESCR
 static void AllowKeyAccess(HKEY Key,const char* SubKeyName)
 {
 	LSTATUS RegResult;
-	HKEY SvcKey;
-	DWORD dwLength;
+	HKEY SvcKey = NULL;
+	DWORD dwLength = 0;
 	HANDLE Token = NULL;
-	PTOKEN_USER pTokenUser;
+	PTOKEN_USER pTokenUser = NULL;
 	std::string sNewSD;
 
 	RegResult = RegOpenKeyExA(Key, SubKeyName, 0, WRITE_OWNER | KEY_READ, &SvcKey);
 	if (RegResult==ERROR_SUCCESS) 
 	{
-		dwLength=0;
-		pTokenUser = NULL;
 		if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &Token)) 
 		{
 			if (!GetTokenInformation(Token, TokenUser, pTokenUser, 0, &dwLength)) 
@@ -246,22 +244,24 @@ static void AllowKeyAccess(HKEY Key,const char* SubKeyName)
 		PSID pSid = pTokenUser->User.Sid;
 		DWORD dwAclSize = sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + ::GetLengthSid(pSid) - sizeof(DWORD);
 		PACL pDacl = (PACL) new BYTE[dwAclSize];
-
-		if (TRUE == ::InitializeAcl(pDacl, dwAclSize, ACL_REVISION))
+		if (pDacl)
 		{
-			if (TRUE == AddAccessAllowedAceEx(pDacl, ACL_REVISION, CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE, WRITE_DAC | KEY_ALL_ACCESS, pSid))
+			if (TRUE == ::InitializeAcl(pDacl, dwAclSize, ACL_REVISION))
 			{
-				SECURITY_DESCRIPTOR SecDesc;
-				if (TRUE == ::InitializeSecurityDescriptor(&SecDesc, SECURITY_DESCRIPTOR_REVISION))
+				if (TRUE == AddAccessAllowedAceEx(pDacl, ACL_REVISION, CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE, WRITE_DAC | KEY_ALL_ACCESS, pSid))
 				{
-					if (TRUE == ::SetSecurityDescriptorDacl(&SecDesc, TRUE, pDacl, FALSE))
+					SECURITY_DESCRIPTOR SecDesc;
+					if (TRUE == ::InitializeSecurityDescriptor(&SecDesc, SECURITY_DESCRIPTOR_REVISION))
 					{
-						RecursiveSetDACL (Key, SubKeyName, &SecDesc);
+						if (TRUE == ::SetSecurityDescriptorDacl(&SecDesc, TRUE, pDacl, FALSE))
+						{
+							RecursiveSetDACL (Key, SubKeyName, &SecDesc);
+						}
 					}
 				}
 			}
+			delete [] pDacl;
 		}
-		delete [] pDacl;
 	}
 
 	if (pTokenUser)
