@@ -551,6 +551,23 @@ namespace VeraCrypt
 					remove (mountPoint.c_str());
 				throw;
 			}
+
+#ifndef TC_MACOSX			
+			// set again correct ownership of the mount point to avoid any issues
+			if (!options.NoFilesystem && options.MountPoint)
+			{
+				mountPoint = *options.MountPoint;
+
+				if (mountPoint.find (GetDefaultMountPointPrefix()) == 0)
+				{
+					try
+					{
+						chown (mountPoint.c_str(), GetRealUserId(), GetRealGroupId());
+					} catch (...) { }
+				}
+			}
+#endif
+
 		}
 		catch (...)
 		{
