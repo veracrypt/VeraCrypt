@@ -28,8 +28,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,2
- PRODUCTVERSION 1,0,6,2
+ FILEVERSION 1,0,6,3
+ PRODUCTVERSION 1,0,6,3
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,11 +46,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt Format"
-            VALUE "FileVersion", "1.0f-1"
+            VALUE "FileVersion", "1.0f-2"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt Format.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.0f-1"
+            VALUE "ProductVersion", "1.0f-2"
         END
     END
     BLOCK "VarFileInfo"
