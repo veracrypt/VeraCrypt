@@ -9000,7 +9000,15 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	nPbar = IDC_PROGRESS_BAR;
 
 	if (Randinit ())
-		AbortProcess ("INIT_RAND");
+	{
+		DWORD dwLastError = GetLastError ();
+		wchar_t szTmp[4096];		
+		if (CryptoAPILastError == ERROR_SUCCESS)
+			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("INIT_RAND"), SRC_POS, dwLastError);
+		else
+			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CAPI_RAND"), SRC_POS, CryptoAPILastError);
+		AbortProcessDirect (szTmp);
+	}
 
 	RegisterRedTick(hInstance);
 

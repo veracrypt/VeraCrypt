@@ -230,7 +230,13 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, BOO
 	}
 
 	if (Randinit ())
+	{
+		if (CryptoAPILastError == ERROR_SUCCESS)
+			nStatus = ERR_RAND_INIT_FAILED;
+		else
+			nStatus = ERR_CAPI_INIT_FAILED;
 		goto error;
+	}
 
 	SetRandomPoolEnrichedByUserStatus (FALSE); /* force the display of the random enriching dialog */
 

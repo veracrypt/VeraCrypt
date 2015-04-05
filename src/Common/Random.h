@@ -58,6 +58,7 @@ BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceS
 
 extern BOOL volatile bFastPollEnabled;
 extern BOOL volatile bRandmixEnabled;
+extern DWORD CryptoAPILastError;
 
 LRESULT CALLBACK MouseProc ( int nCode , WPARAM wParam , LPARAM lParam );
 LRESULT CALLBACK KeyboardProc ( int nCode , WPARAM wParam , LPARAM lParam );

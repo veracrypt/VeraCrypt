@@ -60,12 +60,14 @@ HANDLE hNetAPI32 = NULL;
 
 // CryptoAPI
 BOOL CryptoAPIAvailable = FALSE;
+DWORD CryptoAPILastError = ERROR_SUCCESS;
 HCRYPTPROV hCryptProv;
 
 
 /* Init the random number generator, setup the hooks, and start the thread */
 int Randinit ()
 {
+	DWORD dwLastError = ERROR_SUCCESS;
 	if (GetMaxPkcs5OutSize() > RNG_POOL_SIZE)
 		TC_THROW_FATAL_EXCEPTION;
 
@@ -75,6 +77,7 @@ int Randinit ()
 	InitializeCriticalSection (&critRandProt);
 
 	bRandDidInit = TRUE;
+	CryptoAPILastError = ERROR_SUCCESS;
 
 	if (pRandPool == NULL)
 	{
@@ -98,10 +101,13 @@ int Randinit ()
 		handleWin32Error (0);
 		goto error;
 	}
-
-	if (!CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)
-		&& !CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET))
+	
+	if (!CryptAcquireContext (&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
+	{		
 		CryptoAPIAvailable = FALSE;
+		CryptoAPILastError = GetLastError ();
+		goto error;
+	}
 	else
 		CryptoAPIAvailable = TRUE;
 
@@ -111,7 +117,9 @@ int Randinit ()
 	return 0;
 
 error:
+	dwLastError = GetLastError();
 	RandStop (TRUE);
+	SetLastError (dwLastError);
 	return 1;
 }
 
@@ -149,6 +157,7 @@ void RandStop (BOOL freePool)
 	{
 		CryptReleaseContext (hCryptProv, 0);
 		CryptoAPIAvailable = FALSE;
+		CryptoAPILastError = ERROR_SUCCESS;
 	}
 
 	hMouse = NULL;
@@ -359,13 +368,19 @@ BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceS
 	if (bDidSlowPoll == FALSE || forceSlowPoll)
 	{
 		if (!SlowPoll ())
+		{
+			handleError ((HWND) hwndDlg, ERR_CAPI_INIT_FAILED);
 			ret = FALSE;
+		}
 		else
 			bDidSlowPoll = TRUE;
 	}
 
 	if (!FastPoll ())
+	{
+		handleError ((HWND) hwndDlg, ERR_CAPI_INIT_FAILED);
 		ret = FALSE;
+	}
 
 	/* There's never more than RNG_POOL_SIZE worth of randomess */
 	if ( (!allowAnyLength) && (len > RNG_POOL_SIZE))
@@ -692,13 +707,24 @@ BOOL SlowPoll (void)
 		CloseHandle (hDevice);
 	}
 
-	// CryptoAPI
-	if (CryptoAPIAvailable && CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	// CryptoAPI: We always have a valid CryptoAPI context when we arrive here but
+	//            we keep the check for clarity purpose
+	if ( !CryptoAPIAvailable )
+		return FALSE;
+	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	{
 		RandaddBuf (buffer, sizeof (buffer));
 
-	burn(buffer, sizeof (buffer));
-	Randmix();
-	return TRUE;
+		burn(buffer, sizeof (buffer));
+		Randmix();
+		return TRUE;
+	}
+	else
+	{
+		/* return error in case CryptGenRandom fails */
+		CryptoAPILastError = GetLastError ();		
+		return FALSE;
+	}
 }
 
 
@@ -803,9 +829,21 @@ BOOL FastPoll (void)
 		RandaddBuf ((unsigned char *) &dwTicks, sizeof (dwTicks));
 	}
 
-	// CryptoAPI
-	if (CryptoAPIAvailable && CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	// CryptoAPI: We always have a valid CryptoAPI context when we arrive here but
+	//            we keep the check for clarity purpose
+	if ( !CryptoAPIAvailable )
+		return FALSE;
+	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	{
 		RandaddBuf (buffer, sizeof (buffer));
+		burn (buffer, sizeof(buffer));
+	}
+	else
+	{
+		/* return error in case CryptGenRandom fails */
+		CryptoAPILastError = GetLastError ();
+		return FALSE;
+	}
 
 	/* Apply the pool mixing function */
 	Randmix();

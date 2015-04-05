@@ -461,17 +461,23 @@ int RemoveFakeDosName (char *lpszDiskFile, char *lpszDosDevice)
 }
 
 
-void AbortProcess (char *stringId)
+void AbortProcessDirect (wchar_t *abortMsg)
 {
 	// Note that this function also causes localcleanup() to be called (see atexit())
 	MessageBeep (MB_ICONEXCLAMATION);
-	MessageBoxW (NULL, GetString (stringId), lpszTitle, ICON_HAND);
+	MessageBoxW (NULL, abortMsg, lpszTitle, ICON_HAND);
 	if (hRichEditDll)
 	{
 		FreeLibrary (hRichEditDll);
 		hRichEditDll = NULL;
 	}
 	exit (1);
+}
+
+void AbortProcess (char *stringId)
+{
+	// Note that this function also causes localcleanup() to be called (see atexit())
+	AbortProcessDirect (GetString (stringId));
 }
 
 void AbortProcessSilent (void)
@@ -4076,6 +4082,18 @@ void handleError (HWND hwndDlg, int code)
 		MessageBoxW (hwndDlg, szTmp, lpszTitle, ICON_HAND);
 		break;
 
+#ifndef SETUP
+	case ERR_RAND_INIT_FAILED:
+		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("INIT_RAND"), SRC_POS, GetLastError ());
+		MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR);
+		break;
+
+	case ERR_CAPI_INIT_FAILED:
+		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CAPI_RAND"), SRC_POS, CryptoAPILastError);
+		MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR);
+		break;
+#endif
+
 	default:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("ERR_UNKNOWN"), code);
 		MessageBoxW (hwndDlg, szTmp, lpszTitle, ICON_HAND);
@@ -5009,7 +5027,10 @@ exit:
 	return 0;
 }
 
-
+/* Randinit is always called before UserEnrichRandomPool, so we don't need
+ * the extra Randinit call here since it will always succeed but we keep it
+ * for clarity purposes
+ */
 void UserEnrichRandomPool (HWND hwndDlg)
 {
 	if ((0 == Randinit()) && !IsRandomPoolEnrichedByUser())
@@ -5060,7 +5081,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 #ifndef VOLFORMAT			
 			if (Randinit ()) 
 			{
-				Error ("INIT_RAND", hwndDlg);
+				handleError (hwndDlg, (CryptoAPILastError == ERROR_SUCCESS)? ERR_RAND_INIT_FAILED : ERR_CAPI_INIT_FAILED);
 				EndDialog (hwndDlg, IDCLOSE);
 			}
 #endif
@@ -9236,7 +9257,12 @@ int ReEncryptVolumeHeader (HWND hwndDlg, char *buffer, BOOL bBoot, CRYPTO_INFO *
 	RandSetHashFunction (cryptoInfo->pkcs5);
 
 	if (Randinit() != ERR_SUCCESS)
-		return ERR_PARAMETER_INCORRECT;
+	{
+		if (CryptoAPILastError == ERROR_SUCCESS)
+			return ERR_RAND_INIT_FAILED;
+		else
+			return ERR_CAPI_INIT_FAILED;
+	}
 
 	UserEnrichRandomPool (NULL);
 

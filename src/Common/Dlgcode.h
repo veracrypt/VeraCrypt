@@ -226,6 +226,7 @@ void UpperCaseCopy ( char *lpszDest , size_t cbDest, const char *lpszSource );
 void CreateFullVolumePath ( char *lpszDiskFile , size_t cbDiskFile, const char *lpszFileName , BOOL *bDevice );
 int FakeDosNameForDevice ( const char *lpszDiskFile , char *lpszDosDevice , size_t cbDosDevice, char *lpszCFDevice , size_t cbCFDevice, BOOL bNameOnly );
 int RemoveFakeDosName ( char *lpszDiskFile , char *lpszDosDevice );
+void AbortProcessDirect ( wchar_t *abortMsg );
 void AbortProcess ( char *stringId );
 void AbortProcessSilent ( void );
 void *err_malloc ( size_t size );

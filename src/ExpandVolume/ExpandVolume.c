@@ -602,7 +602,13 @@ static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePasswo
 	}
 
 	if (Randinit ())
-		goto error; // note: nStatus == ERR_OS_ERROR
+	{
+		if (CryptoAPILastError == ERROR_SUCCESS)
+			nStatus = ERR_RAND_INIT_FAILED;
+		else
+			nStatus = ERR_CAPI_INIT_FAILED;
+		goto error;
+	}
 
 	if (!bDevice && bPreserveTimestamp)
 	{

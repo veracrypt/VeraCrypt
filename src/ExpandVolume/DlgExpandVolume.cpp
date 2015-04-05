@@ -476,7 +476,10 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 	}
 
 	if (Randinit() != ERR_SUCCESS) {
-		nStatus = ERR_PARAMETER_INCORRECT;
+		if (CryptoAPILastError == ERROR_SUCCESS)
+			nStatus = ERR_RAND_INIT_FAILED;
+		else
+			nStatus = ERR_CAPI_INIT_FAILED;
 		goto error;
 	}
 

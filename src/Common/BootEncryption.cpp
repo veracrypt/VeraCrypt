@@ -1383,7 +1383,12 @@ namespace VeraCrypt
 		request.WipeAlgorithm = wipeAlgorithm;
 		
 		if (Randinit() != ERR_SUCCESS)
-			throw ParameterIncorrect (SRC_POS);
+		{
+			if (CryptoAPILastError == ERROR_SUCCESS)
+				throw RandInitFailed (SRC_POS, GetLastError ());
+			else
+				throw CryptoApiFailed (SRC_POS, CryptoAPILastError);
+		}
 
 		/* force the display of the random enriching dialog */
 		SetRandomPoolEnrichedByUserStatus (FALSE);
@@ -1421,8 +1426,16 @@ namespace VeraCrypt
 
 	void BootEncryption::WipeHiddenOSCreationConfig ()
 	{
-		if (IsHiddenOSRunning() || Randinit() != ERR_SUCCESS)
+		if (IsHiddenOSRunning())
 			throw ParameterIncorrect (SRC_POS);
+
+		if (Randinit() != ERR_SUCCESS)
+		{
+			if (CryptoAPILastError == ERROR_SUCCESS)
+				throw RandInitFailed (SRC_POS, GetLastError ());
+			else
+				throw CryptoApiFailed (SRC_POS, CryptoAPILastError);
+		}
 
 		Device device (GetSystemDriveConfiguration().DevicePath);
 		device.CheckOpened();
@@ -2280,7 +2293,13 @@ namespace VeraCrypt
 			RandSetHashFunction (pkcs5);
 		}
 
-		throw_sys_if (Randinit () != 0);
+		if (Randinit() != 0)
+		{
+			if (CryptoAPILastError == ERROR_SUCCESS)
+				throw RandInitFailed (SRC_POS, GetLastError ());
+			else
+				throw CryptoApiFailed (SRC_POS, CryptoAPILastError);
+		}
 		finally_do ({ RandStop (FALSE); });
 
 		/* force the display of the random enriching dialog */
