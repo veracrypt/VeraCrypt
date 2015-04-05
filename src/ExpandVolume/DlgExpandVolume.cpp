@@ -114,7 +114,7 @@ void SetCurrentVolSize(HWND hwndDlg, uint64 size)
 	--i;
 
 	SendDlgItemMessage (hwndDlg, IdRadioBtn[i], BM_SETCHECK, BST_CHECKED, 0);
-	sprintf(szTemp,"%I64u",size/Muliplier[i]);
+	StringCbPrintfA(szTemp,sizeof(szTemp),"%I64u",size/Muliplier[i]);
 	SetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTemp);
 }
 
@@ -175,7 +175,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				SetWindowText (GetDlgItem (hwndDlg, IDT_NEW_SIZE), "");
 				GetSpaceString(szHostFreeStr,sizeof(szHostFreeStr),pVolExpandParam->hostSizeFree,FALSE);
-				sprintf (szTemp,"%s available on host drive", szHostFreeStr);
+				StringCbPrintfA (szTemp,sizeof(szTemp),"%s available on host drive", szHostFreeStr);
 			}
 
 			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_VOLUME_NEWSIZE), szTemp);
@@ -183,13 +183,13 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			// set help text
 			if (pVolExpandParam->bIsDevice)
 			{
-				sprintf (szTemp,"This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.");
+				StringCbPrintfA (szTemp,sizeof(szTemp),"This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.");
 				if (pVolExpandParam->bIsLegacy)
-					strcat(szTemp," Note: filling the new space with random data is not supported for legacy volumes.");
+					StringCbCatA(szTemp,sizeof(szTemp)," Note: filling the new space with random data is not supported for legacy volumes.");
 			}
 			else
 			{
-				sprintf (szTemp,"Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).",TC_MINVAL_FS_EXPAND/1024);
+				StringCbPrintfA (szTemp, sizeof(szTemp),"Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).",TC_MINVAL_FS_EXPAND/1024);
 			}
 			SetWindowText (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTemp);
 
@@ -327,22 +327,16 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 		case TIMER_ID_RANDVIEW:
 			{
-				unsigned char tmp[16];
-				char szRndPool[64], *t;
-				DWORD *p;
+				unsigned char tmp[16] = {0};
+				char szRndPool[64] = {0};
 
 				if (!showRandPool)
 					return 1;
 
 				RandpeekBytes (hwndDlg, tmp, sizeof (tmp));
 
-				for ( p = (DWORD*)(tmp + sizeof(tmp)), t=szRndPool; p > (DWORD*)tmp; )
-				{
-					int len;
-					if ( (len = sprintf ( t, "%08X", *--p)) < 0 )
-						return 1;
-					t += len;
-				}
+				StringCbPrintfA (szRndPool, sizeof(szRndPool), "%08X%08X%08X%08X", 
+					*((DWORD*) (tmp + 12)), *((DWORD*) (tmp + 8)), *((DWORD*) (tmp + 4)), *((DWORD*) (tmp)));
 
 				SetWindowText (GetDlgItem (hwndDlg, IDC_RANDOM_BYTES), szRndPool);
 
@@ -680,21 +674,21 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 		{
 			if ( newVolumeSize < hostSize + TC_MINVAL_FS_EXPAND)
 			{
-				swprintf(szTmp,L"New volume size too small, must be at least %I64u kB larger than the current size.",TC_MINVAL_FS_EXPAND/BYTES_PER_KB);
+				StringCbPrintfW(szTmp,sizeof(szTmp),L"New volume size too small, must be at least %I64u kB larger than the current size.",TC_MINVAL_FS_EXPAND/BYTES_PER_KB);
 				MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 				continue;
 			}
 
 			if ( newVolumeSize - hostSize > hostSizeFree )
 			{
-				swprintf(szTmp,L"New volume size too large, not enough space on host drive.");
+				StringCbPrintfW(szTmp,sizeof(szTmp),L"New volume size too large, not enough space on host drive.");
 				MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 				continue;
 			}
 
 			if ( newVolumeSize>maxSizeFS )
 			{
-				swprintf(szTmp,L"Maximum file size of %I64u MB on host drive exceeded.",maxSizeFS/BYTES_PER_MB);
+				StringCbPrintfW(szTmp,sizeof(szTmp),L"Maximum file size of %I64u MB on host drive exceeded.",maxSizeFS/BYTES_PER_MB);
 				MessageBoxW (hwndDlg, L"!\n",lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 				continue;
 			}
@@ -703,7 +697,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 		if ( newVolumeSize > TC_MAX_VOLUME_SIZE )
 		{
 			// note: current limit TC_MAX_VOLUME_SIZE is 1 PetaByte
-			swprintf(szTmp,L"Maximum VeraCrypt volume size of %I64u TB exceeded!\n",TC_MAX_VOLUME_SIZE/BYTES_PER_TB);
+			StringCbPrintfW(szTmp,sizeof(szTmp),L"Maximum VeraCrypt volume size of %I64u TB exceeded!\n",TC_MAX_VOLUME_SIZE/BYTES_PER_TB);
 			MessageBoxW (hwndDlg, szTmp,lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 			if (bIsDevice)
 				break; // TODO: ask to limit volume size to TC_MAX_VOLUME_SIZE

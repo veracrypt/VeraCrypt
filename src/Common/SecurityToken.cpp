@@ -700,7 +700,7 @@ namespace VeraCrypt
 					}
 				}
 				wchar_t err[8192];
-				wsprintfW (err, L"%s:\n\n%hs%s", GetString ("SECURITY_TOKEN_ERROR"), errorString.c_str(), subjectErrorCode.str().c_str());
+				StringCbPrintfW (err, sizeof(err),L"%s:\n\n%hs%s", GetString ("SECURITY_TOKEN_ERROR"), errorString.c_str(), subjectErrorCode.str().c_str());
 				ErrorDirect (err, parent);
 			}
 			else
