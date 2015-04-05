@@ -340,10 +340,9 @@ namespace VeraCrypt
 					message << L"\n\n" << LangString["ERR_HARDWARE_ERROR"];
 #endif
 
-#ifdef DEBUG
 				if (sysEx && sysEx->what())
 					message << L"\n\n" << StringConverter::ToWide (sysEx->what());
-#endif
+
 				return message;
 			}
 		}
