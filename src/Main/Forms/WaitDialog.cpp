@@ -29,6 +29,10 @@ namespace VeraCrypt
 	void WaitDialog::ThrowException(Exception* ex)
 	{
 	#define VC_CONVERT_EXCEPTION(NAME) if (dynamic_cast<NAME*> (ex)) throw (NAME&) *ex;
+		VC_CONVERT_EXCEPTION (SystemException);
+		VC_CONVERT_EXCEPTION (CipherException);
+		VC_CONVERT_EXCEPTION (VolumeException);
+		VC_CONVERT_EXCEPTION (PasswordException);
 		VC_CONVERT_EXCEPTION (PasswordIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordKeyfilesIncorrect);
 		VC_CONVERT_EXCEPTION (PasswordOrKeyboardLayoutIncorrect);
