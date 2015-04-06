@@ -27,7 +27,7 @@
 	<string>TRUE</string>
 
 	<key>CFBundleVersion</key>
-	<string>0</string>
+	<string>1.6.3</string>
 
 	<key>CFBundleShortVersionString</key>
 	<string>_VERSION_</string>
@@ -36,7 +36,7 @@
 	<string>VeraCrypt _VERSION_</string>
 
 	<key>LSRequiresCarbon</key>
-	<true/>
+	<false/>
 
 	<key>CSResourcesFileMapped</key>
 	<true/>

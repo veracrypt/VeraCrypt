@@ -33,6 +33,8 @@
 									<integer>0</integer>
 								</dict>
 								<dict>
+									<key>BUNDLE_CAN_DOWNGRADE</key>
+									<true/>
 									<key>CHILDREN</key>
 									<array/>
 									<key>GID</key>
@@ -493,7 +495,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.0e</string>
+				<string>1.6.3</string>
 			</dict>
 			<key>UUID</key>
 			<string>B14381D9-EC5F-43E4-B971-82AB3D132A64</string>
