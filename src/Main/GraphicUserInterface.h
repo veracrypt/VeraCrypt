@@ -94,7 +94,8 @@ namespace VeraCrypt
 		void ExecuteWaitThreadRoutine (wxWindow *parent, WaitThreadRoutine *pRoutine) const;
 
 #ifdef TC_MACOSX
-		virtual void MacOpenFile (const wxString &fileName);
+		virtual void MacOpenFiles (const wxArrayString &fileNames);
+		virtual void MacReopenApp ();
 #endif
 
 		template <class T>

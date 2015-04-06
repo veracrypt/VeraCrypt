@@ -622,10 +622,20 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_MACOSX
-	void GraphicUserInterface::MacOpenFile (const wxString &fileName)
+	void GraphicUserInterface::MacOpenFiles (const wxArrayString &fileNames)
 	{
-		OpenVolumeSystemRequestEventArgs eventArgs (fileName);
-		OpenVolumeSystemRequestEvent.Raise (eventArgs);
+		if (fileNames.GetCount() > 0)
+		{
+			// we can only put one volume path at a time on the text field
+			// so we take the first on the list
+			OpenVolumeSystemRequestEventArgs eventArgs (fileNames[0]);
+			OpenVolumeSystemRequestEvent.Raise (eventArgs);
+		}
+	}
+
+	void GraphicUserInterface::MacReopenApp ()
+	{
+		SetBackgroundMode (false);
 	}
 #endif
 
