@@ -67,6 +67,7 @@ namespace VeraCrypt
 		void MountAllFavorites ();
 		void MountVolume ();
 		void OnAboutMenuItemSelected (wxCommandEvent& event);
+		void OnQuit(wxCommandEvent& event) { Close(true); }
 		void OnActivate (wxActivateEvent& event);
 		void OnAddAllMountedToFavoritesMenuItemSelected (wxCommandEvent& event);
 		void OnAddToFavoritesMenuItemSelected (wxCommandEvent& event);
@@ -82,7 +83,14 @@ namespace VeraCrypt
 		void OnCloseAllSecurityTokenSessionsMenuItemSelected (wxCommandEvent& event);
 		void OnDonateMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"donate"); }
 		void OnContactMenuItemSelected (wxCommandEvent& event) { Gui->OpenHomepageLink (this, L"contact"); }
-		void OnCreateKeyfileMenuItemSelected (wxCommandEvent& event) { Gui->CreateKeyfile(); }
+		void OnCreateKeyfileMenuItemSelected (wxCommandEvent& event) 
+		{
+#ifdef TC_MACOSX
+			if (Gui->IsInBackgroundMode())
+				Gui->SetBackgroundMode (false);
+#endif
+			Gui->CreateKeyfile();
+		}
 		void OnCreateVolumeButtonClick (wxCommandEvent& event);
 		void OnDefaultKeyfilesMenuItemSelected (wxCommandEvent& event);
 		void OnDefaultMountParametersMenuItemSelected( wxCommandEvent& event );

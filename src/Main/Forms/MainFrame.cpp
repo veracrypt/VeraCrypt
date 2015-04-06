@@ -90,6 +90,7 @@ namespace VeraCrypt
 			}
 		}
 
+		Connect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnQuit ) );
 		Connect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxCommandEventHandler( MainFrame::OnUpdateVolumeList ) );
 		Connect( wxID_ANY, wxEVT_COMMAND_PREF_UPDATED, wxCommandEventHandler( MainFrame::OnPreferencesUpdated ) );
 		Connect( wxID_ANY, wxEVT_COMMAND_OPEN_VOLUME_REQUEST, wxCommandEventHandler( MainFrame::OnOpenVolumeSystemRequest ) );
@@ -110,6 +111,7 @@ namespace VeraCrypt
 		}
 #endif
 
+		Disconnect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnQuit ) );
 		Disconnect( wxID_ANY, wxEVT_COMMAND_UPDATE_VOLUME_LIST, wxCommandEventHandler( MainFrame::OnUpdateVolumeList ) );
 		Disconnect( wxID_ANY, wxEVT_COMMAND_PREF_UPDATED, wxCommandEventHandler( MainFrame::OnPreferencesUpdated ) );
 		Disconnect( wxID_ANY, wxEVT_COMMAND_OPEN_VOLUME_REQUEST, wxCommandEventHandler( MainFrame::OnOpenVolumeSystemRequest ) );
@@ -181,7 +183,10 @@ namespace VeraCrypt
 			return;
 		}
 #endif
-
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		ChangePasswordDialog dialog (this, volumePath, mode);
 		dialog.ShowModal();
 	}
@@ -702,6 +707,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnAboutMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		AboutDialog dialog (this);
 		dialog.ShowModal();
 	}
@@ -750,6 +759,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnBenchmarkMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		BenchmarkDialog dialog (this);
 		dialog.ShowModal();
 	}
@@ -851,6 +864,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnDefaultKeyfilesMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		PreferencesDialog dialog (this);
 		dialog.SelectPage (dialog.DefaultKeyfilesPage);
 		dialog.ShowModal();
@@ -858,6 +875,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnDefaultMountParametersMenuItemSelected(wxCommandEvent& event)
 	{ 
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		PreferencesDialog dialog (this);
 		dialog.SelectPage (dialog.DefaultMountOptionsPage);
 		dialog.ShowModal();
@@ -895,6 +916,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnEncryptionTestMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		EncryptionTestDialog dialog (this);
 		dialog.ShowModal();
 	}
@@ -1018,6 +1043,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnHotkeysMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		PreferencesDialog dialog (this);
 		dialog.SelectPage (dialog.HotkeysPage);
 		dialog.ShowModal();
@@ -1025,6 +1054,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnLegalNoticesMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		LegalNoticesDialog dialog (this);
 		dialog.ShowModal();
 	}
@@ -1138,6 +1171,10 @@ namespace VeraCrypt
 	{
 		try
 		{
+#ifdef TC_MACOSX
+			if (Gui->IsInBackgroundMode())
+				Gui->SetBackgroundMode (false);
+#endif
 			SecurityTokenKeyfilesDialog dialog (this, false);
 			dialog.ShowModal();
 		}
@@ -1187,6 +1224,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnPreferencesMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		PreferencesDialog dialog (this);
 		dialog.ShowModal();
 	}
@@ -1236,6 +1277,10 @@ namespace VeraCrypt
 
 	void MainFrame::OnSecurityTokenPreferencesMenuItemSelected (wxCommandEvent& event)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		PreferencesDialog dialog (this);
 		dialog.SelectPage (dialog.SecurityTokensPage);
 		dialog.ShowModal();
@@ -1396,6 +1441,10 @@ namespace VeraCrypt
 		shared_ptr <VolumeInfo> selectedVolume = GetSelectedVolume();
 		if (selectedVolume)
 		{
+#ifdef TC_MACOSX
+			if (Gui->IsInBackgroundMode())
+				Gui->SetBackgroundMode (false);
+#endif
 			VolumePropertiesDialog dialog (this, *selectedVolume);
 			dialog.ShowModal();
 		}
@@ -1452,6 +1501,10 @@ namespace VeraCrypt
 
 	void MainFrame::OrganizeFavorites (const FavoriteVolumeList &favorites, size_t newItemCount)
 	{
+#ifdef TC_MACOSX
+		if (Gui->IsInBackgroundMode())
+			Gui->SetBackgroundMode (false);
+#endif
 		FavoriteVolumesDialog dialog (this, favorites, newItemCount);
 
 		if (dialog.ShowModal() == wxID_OK)
