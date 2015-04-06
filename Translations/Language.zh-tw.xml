@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="zh-tw" name="繁體中文" en-name="Chinese (Taiwan)" version="0.1.0" translators="Barney Li, Simon Ma, ChangMing Hsu" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="zh-tw" key="IDC_VOLUME_PROPERTIES">加密區內容(&amp;V)...</control>
     <control lang="zh-tw" key="IDC_VOLUME_TOOLS">加密區工具(&amp;T)...</control>
     <control lang="zh-tw" key="IDC_WIPE_CACHE">清除快取(&amp;W)</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="zh-tw" key="IDD_HOTKEYS_DLG">VeraCrypt - 系統快速鍵</control>
     <control lang="zh-tw" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="zh-tw" key="IDM_CREATE_RESCUE_DISK">建立救援磁碟...</control>
     <control lang="zh-tw" key="IDM_CREATE_VOLUME">建立新的加密區...</control>
     <control lang="zh-tw" key="IDM_DEFAULT_KEYFILES">預設金鑰檔案...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="zh-tw" key="IDM_ENCRYPT_SYSTEM_DEVICE">加密系統分割區/磁碟機...</control>
     <control lang="zh-tw" key="IDM_FAQ">常見問題(線上)</control>
@@ -524,6 +526,7 @@
     <string lang="zh-tw" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">取得系統加密狀態時出錯。</string>
     <string lang="zh-tw" key="INIT_SYS_ENC">不能初始化用於系統加密的應用程式元件。</string>
     <string lang="zh-tw" key="INIT_RAND">初始化亂數資料產生器失敗！</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="zh-tw" key="INIT_REGISTER">無法初始化應用程式。註冊對話方塊類別失敗。</string>
     <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
     <string lang="zh-tw" key="INTRO_TITLE">VeraCrypt 加密區建立精靈</string>
@@ -1037,7 +1040,7 @@
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="zh-tw" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此演算法目前不支援系統加密。</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="zh-tw" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">&gt;警告：VeraCrypt 不能回復原始鍵盤配置。這可能導致您輸入不正確的密碼。</string>
     <string lang="zh-tw" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設定 VeraCrypt 鍵盤配置為標準美式鍵盤配置。\n\n要注意在啟動前置環境(Windows 啟動前)需要輸入密碼，這時非標準美式鍵盤配置是無法使用的。因此，密碼必須總是使用標準美式鍵盤配置輸入。</string>

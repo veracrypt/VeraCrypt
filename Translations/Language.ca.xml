@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="ca" name="Català" en-name="Catalan" version="0.1.0" translators="CESICAT, Centre de Seguretat de la Informació de Catalunya" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="ca" key="IDC_VOLUME_PROPERTIES">Propietats del &amp;volum...</control>
     <control lang="ca" key="IDC_VOLUME_TOOLS">&amp;Eines de volum...</control>
     <control lang="ca" key="IDC_WIPE_CACHE">&amp;Buidar la memòria cau</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="ca" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Volums favorits</control>
     <control lang="ca" key="IDD_HOTKEYS_DLG">VeraCrypt - Dreceres de teclat</control>
     <control lang="ca" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="ca" key="IDM_CREATE_RESCUE_DISK">Crear un disc de recuperació...</control>
     <control lang="ca" key="IDM_CREATE_VOLUME">Crear un volum nou...</control>
     <control lang="ca" key="IDM_DEFAULT_KEYFILES">Fitxers de claus per defecte...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="ca" key="IDM_ENCRYPT_SYSTEM_DEVICE">Xifrar la partició/unitat del sistema...</control>
     <control lang="ca" key="IDM_FAQ">Preguntes més freqüents</control>
@@ -524,6 +526,7 @@
     <string lang="ca" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">S'ha produït un error quan s'intentava obtenir l'estat de xifratge del sistema.</string>
     <string lang="ca" key="INIT_SYS_ENC">No s'han pogut inicialitzar els components de l'aplicació per xifrar el sistema.</string>
     <string lang="ca" key="INIT_RAND">No s'ha pogut inicialitzar el generador de números aleatòris!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="ca" key="INIT_REGISTER">No es pot inicialitzar l'aplicació. No es pot registrar la classe Dialog.</string>
     <string lang="ca" key="INIT_RICHEDIT">Error: no s'ha pogut carregar la biblioteca d'edició enriquida del sistema.</string>
     <string lang="ca" key="INTRO_TITLE">Assistent de creació de volums</string>
@@ -1037,7 +1040,7 @@
     <string lang="ca" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">ATENCIÓ: Hi ha espai no assignat entre la partició del sistema i la primera partició després d'ella. Després de crear el sistema operatiu ocult, no podrà crear cap nova partició en aquest espai. Si ho fa, el sistema operatiu ocult no es podrà engegar (fins que esborri aquestes noves particions).</string>
     <string lang="ca" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Aquest algorisme de xifrat no està suportat per al xifrat del sistema</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="ca" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Els fitxers de claus no estan suportats per al xifrat del sistema.</string>
     <string lang="ca" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">ATENCIÓ: El VeraCrypt no ha pogut restaurar la disposició de teclat orignal. Això pot provocar que introdueixi la contrasenya incorrectament.</string>
     <string lang="ca" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: No s'ha pogut establir la disposició de teclat estàndard als EUA pel VeraCrypt.\n\nTingui en compte que la contrasenya s'haurà d'esciure a l'entorn de prearrencada (abans que arrenqui el windows) on no hi haurà altres disposicions de teclat disponibles. Per tant, la contrasenya s'ha d'escriure sempre amb la disposició de teclat estàndard als EUA.</string>

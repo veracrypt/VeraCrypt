@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="ru" name="Русский" en-name="Russian" version="1.0.0" translators="Dmitry Yerokhin" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="ru" key="IDC_VOLUME_PROPERTIES">Сво&amp;йства тома...</control>
     <control lang="ru" key="IDC_VOLUME_TOOLS">О&amp;перации с томами</control>
     <control lang="ru" key="IDC_WIPE_CACHE">О&amp;чистить кэш</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="ru" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Избранные тома</control>
     <control lang="ru" key="IDD_HOTKEYS_DLG">VeraCrypt - Общесистемные горячие клавиши</control>
     <control lang="ru" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="ru" key="IDM_CREATE_RESCUE_DISK">Создать диск восстановления...</control>
     <control lang="ru" key="IDM_CREATE_VOLUME">Создать новый том...</control>
     <control lang="ru" key="IDM_DEFAULT_KEYFILES">Ключевые файлы по умолчанию...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="ru" key="IDM_DONATE">Помочь...</control>
     <control lang="ru" key="IDM_ENCRYPT_SYSTEM_DEVICE">Зашифровать системный раздел/диск...</control>
     <control lang="ru" key="IDM_FAQ">Часто задаваемые вопросы</control>
@@ -524,6 +526,7 @@
     <string lang="ru" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Ошибка получения состояния системного шифрования.</string>
     <string lang="ru" key="INIT_SYS_ENC">Невозможно инициализировать компоненты приложения для системного шифрования.</string>
     <string lang="ru" key="INIT_RAND">Ошибка инициализации генератора случайных чисел.</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="ru" key="INIT_REGISTER">Ошибка инициализации приложения. Невозможно зарегистрировать класс Dialog.</string>
     <string lang="ru" key="INIT_RICHEDIT">Ошибка загрузки системной библиотеки Rich Edit.</string>
     <string lang="ru" key="INTRO_TITLE">Мастер создания томов VeraCrypt</string>
@@ -1037,7 +1040,7 @@
     <string lang="ru" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Внимание! Между системным разделом и первым разделом за ним имеется нераспределённое место. После создания скрытой операционной системы вы не должны создавать в этой нераспределённой области никаких новых разделов. В противном случае скрытая ОС не сможет загрузиться (до тех пор, пока не будут удалены такие вновь созданные разделы).</string>
     <string lang="ru" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">В данный момент этот алгоритм для шифрования системы не поддерживается.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="ru" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">В настоящий момент ключевые файлы для шифрования системы не поддерживаются.</string>
     <string lang="ru" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Внимание! VeraCrypt не может восстановить первоначальную раскладку клавиатуры. Это может привести к неправильному вводу пароля.</string>
     <string lang="ru" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Ошибка! Невозможно установить раскладку клавиатуры для VeraCrypt в стандартную американскую (US).\n\nОбратите внимание, что пароль вводится ДО загрузки Windows, когда любые раскладки клавиатуры, отличающиеся от американской, ещё недоступны. Поэтому пароль всегда должен вводиться при стандартной американской раскладке.</string>

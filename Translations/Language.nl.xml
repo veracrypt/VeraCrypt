@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="nl" name="Nederlands" en-name="Dutch" version="0.1.0" translators="Jan van der Wal" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="nl" key="IDC_VOLUME_PROPERTIES">Volume &amp;Eigenschappen</control>
     <control lang="nl" key="IDC_VOLUME_TOOLS">Vol&amp;ume Tools</control>
     <control lang="nl" key="IDC_WIPE_CACHE">&amp;Wis Cache</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="nl" key="IDD_HOTKEYS_DLG">VeraCrypt - Sneltoetsen</control>
     <control lang="nl" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="nl" key="IDM_CREATE_RESCUE_DISK">Maak Reddingsschijf aan</control>
     <control lang="nl" key="IDM_CREATE_VOLUME">Volume Aanmaak Wizard</control>
     <control lang="nl" key="IDM_DEFAULT_KEYFILES">Creëer Standaard Sleutelbestanden</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="nl" key="IDM_ENCRYPT_SYSTEM_DEVICE">Codeer Systeem Partitie/Schijf</control>
     <control lang="nl" key="IDM_FAQ">Veel Gestelde Vragen</control>
@@ -524,6 +526,7 @@
     <string lang="nl" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Er trad een fout op tijdens een poging de systeem codeer status op te halen.</string>
     <string lang="nl" key="INIT_SYS_ENC">Applicatie componenten voor systeem codering kunnen niet geïnitialiseerd worden.</string>
     <string lang="nl" key="INIT_RAND">Het programma heeft de initialisatie van de random nummer generator niet kunnen voltooien!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="nl" key="INIT_REGISTER">Het programma heeft de initialisatie niet kunnen voltooien. Het registreren van de 'Dialog Class' is mislukt.</string>
     <string lang="nl" key="INIT_RICHEDIT">Fout: Laden van Rich Edit systeem library mislukt.</string>
     <string lang="nl" key="INTRO_TITLE">VeraCrypt Volume Aanmaak Wizard</string>
@@ -1037,7 +1040,7 @@
     <string lang="nl" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">WAARSCHUWING: Er is niet-toegewezen ruimte aanwezig tussen de systeem partitie en de eerste partitie daar achter. Na aanmaken van het verborgen operating systeem (OS) mag u geen partitie meer maken in deze ruimte, anders zal het verborgen OS systeem niet meer te starten zijn (totdat u deze partitie weer verwijdert).</string>
     <string lang="nl" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Dit algoritme wordt momenteel niet ondersteund voor systeem codering.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="nl" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Sleutelbestanden zijn niet ondersteund bij systeemcodering.</string>
     <string lang="nl" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Waarschuwing: VeraCrypt kon de originele toetsenbord lay-out niet terugzetten. Dit zou ertoe kunnen leiden dat u een wachtwoord verkeerd ingeeft.</string>
     <string lang="nl" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fout: Kan de toetsenbord indeling voor VeraCrypt niet instellen op de standaard (US) toetsenbord indeling.\n\nMerk op dat het wachtwoord ingetypt moet worden in de pre-boot omgeving (voor Windows start) waar niet-standaard (US) Windows toetsenbord indelingen niet beschikbaar zijn. Daarom moet het wachtwoord altijd worden ingetypt met gebruik van de standaard (US) toetsenbord indeling.</string>

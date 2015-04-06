@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="vi" name="Tiếng Việt" en-name="Vietnamese" version="0.1.0" translators="Nguyễn Kim Huy" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="vi" key="IDC_VOLUME_PROPERTIES">Đặc tính của Tập đĩa...</control>
     <control lang="vi" key="IDC_VOLUME_TOOLS">Công cụ của Tập đĩa...</control>
     <control lang="vi" key="IDC_WIPE_CACHE">&amp;Tẩy Bộ tạm trữ</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="vi" key="IDD_HOTKEYS_DLG">VeraCrypt - Các khóa kích hoạt cho Nguyên cả Hệ thống</control>
     <control lang="vi" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="vi" key="IDM_CREATE_RESCUE_DISK">Cấu tạo Đĩa Cứu hộ...</control>
     <control lang="vi" key="IDM_CREATE_VOLUME">Cấu tạo Tập đĩa mới...</control>
     <control lang="vi" key="IDM_DEFAULT_KEYFILES">Tập tin khóa Mặc định...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="vi" key="IDM_ENCRYPT_SYSTEM_DEVICE">Mã hóa Phân vùng Hệ thống/Ổ đĩa...</control>
     <control lang="vi" key="IDM_FAQ">Câu hỏi thông dụng</control>
@@ -524,6 +526,7 @@
     <string lang="vi" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Có lỗi xảy ra khi đang lấy tình trạng mã hóa hệ thống.</string>
     <string lang="vi" key="INIT_SYS_ENC">Không thể sơ khởi các bộ phận của ứng dụng cho việc mã hóa hệ thống.</string>
     <string lang="vi" key="INIT_RAND">Không sơ khởi hàm tạo ra các số ngẫu nhiên được!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="vi" key="INIT_REGISTER">Không thể sơ khởi ứng dụng được. Không đăng ký hạng Hộp thoại được.</string>
     <string lang="vi" key="INIT_RICHEDIT">Lỗi: Không nạp thư viện hệ thống Rich Edit được.</string>
     <string lang="vi" key="INTRO_TITLE">Trợ lý Cấu tạo Tập đĩa VeraCrypt</string>
@@ -1037,7 +1040,7 @@
     <string lang="vi" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Cảnh báo: Có chỗ trống chưa phân phát giữa phân vùng hệ thống và phân vùng đầu tiên phía sau nó. Sau khi bạn cấu tạo hệ điều hành ẩn, bạn không được cấu tạo bất cứ phân vùng mới nào trong chỗ trống chưa phân phát đó. Không thôi, hệ điều hành ẩn sẽ không thể nào khởi động được (cho đến khi bạn xóa bỏ những phân vùng được cấu tạo như thế).</string>
     <string lang="vi" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Thuật toán này hiện không được hỗ trợ cho việc mã hóa hệ thống.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="vi" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Các tập tin khóa hiện không được hỗ trợ cho việc mã hóa hệ thống.</string>
     <string lang="vi" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Cảnh báo: VeraCrypt không thể hồi phục bố trí bàn phím gốc được. Chuyện này có thể làm cho bạn đánh mật mã không đúng vào.</string>
     <string lang="vi" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Lỗi: Không thể thiết đặt bố trí bàn phím cho VeraCrypt thành bố trí bàn phím căn bản của Mỹ được.\n\nLưu ý là mật mã cần được đánh vào trong môi trường tiền khởi động (trước khi Windows bắt đầu) lúc mà bố trí bàn phím Windows không phải của Mỹ không có sẵn. Vì vậy, mật mã phải luôn luôn được đánh vào dùng bố trí bàn phím căn bản của Mỹ.</string>

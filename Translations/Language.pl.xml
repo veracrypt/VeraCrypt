@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="pl" key="IDC_VOLUME_PROPERTIES">Właściwośc&amp;i wolumenu...</control>
     <control lang="pl" key="IDC_VOLUME_TOOLS">&amp;Narzędzia wolumenu...</control>
     <control lang="pl" key="IDC_WIPE_CACHE">Wyczyść pamięć &amp;haseł</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="pl" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Ulubione Woluminy</control>
     <control lang="pl" key="IDD_HOTKEYS_DLG">VeraCrypt - Systemowe skróty klawiaturowe</control>
     <control lang="pl" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="pl" key="IDM_CREATE_RESCUE_DISK">Utwórz płytę ratunkową...</control>
     <control lang="pl" key="IDM_CREATE_VOLUME">Utwórz nowy wolumen...</control>
     <control lang="pl" key="IDM_DEFAULT_KEYFILES">Domyślne pliki kluczowe...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="pl" key="IDM_DONATE">Dotuj teraz...</control>
     <control lang="pl" key="IDM_ENCRYPT_SYSTEM_DEVICE">Szyfruj partycję/dysk systemowy...</control>
     <control lang="pl" key="IDM_FAQ">Odpowiedzi na często zadawane pytania (FAQ)</control>
@@ -524,6 +526,7 @@
     <string lang="pl" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Wystąpił błąd podczas pobierania statusu szyfrowania systemu. </string>
     <string lang="pl" key="INIT_SYS_ENC">Nie można zainicjować komponentów aplikacji dla szyfrowania systemu.</string>
     <string lang="pl" key="INIT_RAND">Błąd inicjowania generatora liczb losowych!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="pl" key="INIT_REGISTER">Nie można zainicjować aplikacji. Błąd rejestracji klasy okna dialogowego.</string>
     <string lang="pl" key="INIT_RICHEDIT">BŁĄD: Nie można załadować systemowej biblioteki edytora Rich Edit.</string>
     <string lang="pl" key="INTRO_TITLE">Kreator tworzenia wolumenów VeraCrypt</string>
@@ -1037,7 +1040,7 @@
     <string lang="pl" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">UWAGA: Istnieje niezalokowane miejsce pomiędzy partycją systemową i pierwszą partycją za partycją systemową. Po stworzeniu ukrytego systemu operacyjnego nie mżesz tworzyć nowych partycji w niezaalokowanym miejscu. Inaczej zabootowanie ukrytego systemu operacyjnego może być niemożliwe (dopóki nie skasujesz nowo stworzonej partycji).</string>
     <string lang="pl" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Ten algorytm nie jest obecnie obsługiwany do szyfrowania systemu.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="pl" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Pliki kluczowe nie są obecnie obsługiwane/wspierane do szyfrowania systemu.</string>
     <string lang="pl" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Ostrzeżenie: Program VeraCrypt nie mógł odtworzyć oryginalnych ustawień klawiatury. To może spowodować błędne wprowadzenie hasła.</string>
     <string lang="pl" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Błąd: Nie można ustawić trybu klawiatury dla VeraCrypt na układ USA.\n\nHasło będzie wprowadzane w środowisku PRZED uruchomieniem systemu Windows, gdzie inne niż standardowy układy klawiatury nie są dostępne. Dlatego, hasło MUSI być zawsze wprowadzane przy użyciu standardowego układu klawiatury USA.</string>

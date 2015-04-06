@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="fi" name="Suomi" en-name="Finnish" version="0.1.0" translators="Matti Ruhanen" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="fi" key="IDC_VOLUME_PROPERTIES">Taltion Ominaisuu&amp;det..</control>
     <control lang="fi" key="IDC_VOLUME_TOOLS">Taltio&amp;n Työkalut..</control>
     <control lang="fi" key="IDC_WIPE_CACHE">Tyhjennä &amp;Välimuisti</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="fi" key="IDD_HOTKEYS_DLG">VeraCrypt - Järjestelmän Pikanäppäimet</control>
     <control lang="fi" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="fi" key="IDM_CREATE_RESCUE_DISK">Luo Pelastuslevy..</control>
     <control lang="fi" key="IDM_CREATE_VOLUME">Luo Uusi Taltio..</control>
     <control lang="fi" key="IDM_DEFAULT_KEYFILES">Oletus Avaintiedosto..</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="fi" key="IDM_ENCRYPT_SYSTEM_DEVICE">Salaa Järjestelmän Osio/Asema..</control>
     <control lang="fi" key="IDM_FAQ">Usein Kysyttyjä Kysymyksiä</control>
@@ -524,6 +526,7 @@
     <string lang="fi" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Virhe tapahtui kun haettiin järjestelmän salakirjoitus arvoa.</string>
     <string lang="fi" key="INIT_SYS_ENC">Sovelluksen komponentteja ei voida alustaa järjestelmän salakirjoitusta varten.</string>
     <string lang="fi" key="INIT_RAND">Satunnaisnumeron luonnin alustus epäonnistui!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="fi" key="INIT_REGISTER">Sovellusta ei pystytä alustamaan. Viestiruudun ikkunan rekisteröinti epäonnistui.</string>
     <string lang="fi" key="INIT_RICHEDIT">Virhe: Virhe ladattaessa Rich edit järjestelmä kirjastoa.</string>
     <string lang="fi" key="INTRO_TITLE">Opastettu VeraCrypt Taltion Luonti</string>
@@ -1037,7 +1040,7 @@
     <string lang="fi" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varoitus: Siellä on allokoimatonta tilaa järjestelmäosion ja ensimmäisen osion takana. Kun olet luonut piilotetun käyttöjärjestelmän, sinun täytyy luoda uudet osiot tälle allokoimattomalle tilalle. Muutoin, piilotettu käyttöjärjestelmä ei ole mahdollista käynnistää (ennen kuin poistat sellaisen vasta luodun osion).</string>
     <string lang="fi" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Tämä algoritmi ei ole tuettuna järjestelmän salauksessa.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="fi" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Avaintiedostot eivät ole nykyisin tuettuna järjestelmä salaukselle.</string>
     <string lang="fi" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varoitus: VeraCrypt ei voi palauttaa alkuperäistä näppäimistä ulkoasua. Tämä saattaa johtaa sinun antamasta väärästä salasanasta.</string>
     <string lang="fi" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Virhe: Ei voida asettaa näppäimistö ulkoasua VeraCrypt standardi US näppäin ulkoasuksi.\n\nHuomioi, että salasana täytyy kirjoittaa esikäynnistys ympäristössä (ennen kuin Windows käynnistyy) kun ei-US Windows näppäimistö ulkoasu ei ole saatavana. Siksi salasana tulee aina kirjoittaa käyttäen standardia näppäin asetusta.</string>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="ja" name="日本語" en-name="Japanese" version="1.0.0" translators="OGOSHI Masayuki" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="ja" key="IDC_VOLUME_PROPERTIES">ボリュームのプロパティ(&amp;V)...</control>
     <control lang="ja" key="IDC_VOLUME_TOOLS">ボリュームツール(&amp;T)...</control>
     <control lang="ja" key="IDC_WIPE_CACHE">記憶済ﾊﾟｽﾜｰﾄﾞの消去(&amp;W)</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="ja" key="IDD_FAVORITE_VOLUMES">VeraCrypt - お気に入りボリューム</control>
     <control lang="ja" key="IDD_HOTKEYS_DLG">VeraCrypt - システム全体のホットキーの設定</control>
     <control lang="ja" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="ja" key="IDM_CREATE_RESCUE_DISK">レスキューディスク作成...</control>
     <control lang="ja" key="IDM_CREATE_VOLUME">新規ボリュームの作成...</control>
     <control lang="ja" key="IDM_DEFAULT_KEYFILES">デフォルトキーファイル...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="ja" key="IDM_DONATE">寄付する...</control>
     <control lang="ja" key="IDM_ENCRYPT_SYSTEM_DEVICE">システムパーティション/ドライブの暗号化...</control>
     <control lang="ja" key="IDM_FAQ">よくある質問と答え</control>
@@ -524,6 +526,7 @@
     <string lang="ja" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">システムの暗号ステータスの取得中にエラーが見つかりました。</string>
     <string lang="ja" key="INIT_SYS_ENC">システムを暗号化するアプリケーションコンポーネントを初期化できませんでした。</string>
     <string lang="ja" key="INIT_RAND">乱数生成機構の初期化に失敗しました！</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</string>
     <string lang="ja" key="INIT_RICHEDIT">エラー：リッチエディットシステムライブラリの読込に失敗しました。</string>
     <string lang="ja" key="INTRO_TITLE">VeraCryptボリューム作成ウィザード</string>
@@ -1037,7 +1040,7 @@
     <string lang="ja" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：システムパーティションとその次のパーティションの間に未割り当ての領域が存在しています。隠しOSを作成した後は、この未割り当ての領域に新たにパーティションを作成してはいけません。さもなければ（新たに作成したパーティションを削除するまで）隠しOSが起動できなくなります。</string>
     <string lang="ja" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">このアルゴリズムはシステムの暗号化には現在対応していません。</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="ja" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">現在、システムの暗号化でのキーファイル使用には対応していません。</string>
     <string lang="ja" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCryptは元のキーボードレイアウトを復元できませんでした。そのためパスワードを正確に入力できないおそれがあります。</string>
     <string lang="ja" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">エラー：キーボードのレイアウトを標準USキーボードとして設定できません。\n\nシステム起動前に必要なパスワードがUS Windowsレイアウト以外のキーボードで入力されても無効となります。したがってパスワードは常に標準USレイアウトのキーボードで入力される必要があります。</string>

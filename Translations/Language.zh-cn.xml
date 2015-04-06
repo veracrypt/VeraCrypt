@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.0" translators="Barney Li" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="zh-cn" key="IDC_VOLUME_PROPERTIES">加密卷属性(&amp;X)...</control>
     <control lang="zh-cn" key="IDC_VOLUME_TOOLS">加密卷工具(&amp;T)...</control>
     <control lang="zh-cn" key="IDC_WIPE_CACHE">擦除缓存(&amp;W)</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="zh-cn" key="IDD_FAVORITE_VOLUMES">VeraCrypt - 收藏加密卷</control>
     <control lang="zh-cn" key="IDD_HOTKEYS_DLG">VeraCrypt - 系统热键</control>
     <control lang="zh-cn" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="zh-cn" key="IDM_CREATE_RESCUE_DISK">创建应急盘...</control>
     <control lang="zh-cn" key="IDM_CREATE_VOLUME">创建加密卷...</control>
     <control lang="zh-cn" key="IDM_DEFAULT_KEYFILES">默认密钥文件...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="zh-cn" key="IDM_DONATE">现在捐助...</control>
     <control lang="zh-cn" key="IDM_ENCRYPT_SYSTEM_DEVICE">加密系统分区/驱动器...</control>
     <control lang="zh-cn" key="IDM_FAQ">常见问题（联网）</control>
@@ -524,6 +526,7 @@
     <string lang="zh-cn" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">获取系统加密状态时出错。</string>
     <string lang="zh-cn" key="INIT_SYS_ENC">不能初始化用于系统加密的程序组件。</string>
     <string lang="zh-cn" key="INIT_RAND">初始化随机数据生成器失败！</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="zh-cn" key="INIT_REGISTER">无法初始化应用程序。注册对话框类失败。</string>
     <string lang="zh-cn" key="INIT_RICHEDIT">错误：加载富文本编辑系统运行库失败。</string>
     <string lang="zh-cn" key="INTRO_TITLE">VeraCrypt 加密卷创建向导</string>
@@ -1037,7 +1040,7 @@
     <string lang="zh-cn" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系统分区和其后的第一个分区之间存在未分配空间。在您创建隐形操作系统之后，您必须不能在此未分配空间上创建任何新的分区，否则，隐形操作系统将无法启动（直到删除了这个新创建的分区）。</string>
     <string lang="zh-cn" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此算法当前不支持系统加密。</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="zh-cn" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密钥文件当前不支持用在系统加密中。</string>
     <string lang="zh-cn" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCrypt 不能存储原始键盘布局。这可能导致您无法正确输入密码。</string>
     <string lang="zh-cn" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">错误：不能设置 VeraCrypt 键盘布局为标准的美国键盘布局。\n\n说明：在 Windows 启动前的启动验证里需要输入密码，此时非美国标准键盘布局不可用。因此，密码必须使用标准的美国键盘布局输入。</string>

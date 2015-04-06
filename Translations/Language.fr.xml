@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="fr" name="Français" en-name="French" version="0.3.0" translators="Stéphane S., Olivier M., Thierry T" />
     <!-- Fonts -->
@@ -167,11 +167,12 @@
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Afficher mot de passe</control>
     <control lang="fr" key="IDC_TRAVEL_OPEN_EXPLORER">Ouvrir l'Explorateur pour le volume monté</control>
     <control lang="fr" key="IDC_TRAV_CACHE_PASSWORDS">Mot de passe en cache</control>
-	<control lang="fr" key="IDC_TRUECRYPT_MODE">Mode TrueCrypt</control>
+    <control lang="fr" key="IDC_TRUECRYPT_MODE">Mode TrueCrypt</control>
     <control lang="fr" key="IDC_UNMOUNTALL">Tout démonter</control>
     <control lang="fr" key="IDC_VOLUME_PROPERTIES">Propriétés du volume</control>
     <control lang="fr" key="IDC_VOLUME_TOOLS">Outils pour le volume</control>
     <control lang="fr" key="IDC_WIPE_CACHE">Vider le cache</control>
+    <control lang="fr" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Paramèters montage</control>
     <control lang="fr" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Volumes favoris</control>
     <control lang="fr" key="IDD_HOTKEYS_DLG">VeraCrypt - Raccourcis système</control>
     <control lang="fr" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="fr" key="IDM_CREATE_RESCUE_DISK">Créer un disque de secours...</control>
     <control lang="fr" key="IDM_CREATE_VOLUME">Créer un nouveau volume...</control>	
     <control lang="fr" key="IDM_DEFAULT_KEYFILES">Fichiers clés par défaut...</control>
+    <control lang="fr" key="IDM_DEFAULT_MOUNT_PARAMETERS">Paramètres de montage par défaut...</control>
     <control lang="fr" key="IDM_DONATE">Faire un don...</control>
     <control lang="fr" key="IDM_ENCRYPT_SYSTEM_DEVICE">Chiffrer la partition/le disque système...</control>
     <control lang="fr" key="IDM_FAQ">Foire aux questions</control>
@@ -523,7 +525,8 @@
     <string lang="fr" key="CONFIRM_RESTART">Votre ordinateur doit être redémarré.\n\nVoulez-vous le redémarrer maintenant ?</string>
     <string lang="fr" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Une erreur s'est produite en récupérant l'état du chiffrement du système.</string>
     <string lang="fr" key="INIT_SYS_ENC">Impossible d'initialiser les composants de l'application pour le chiffrement du système.</string>
-    <string lang="fr" key="INIT_RAND">L'initialisation du générateur de nombre aléatoire a échoué !</string>
+    <string lang="fr" key="INIT_RAND">L'initialisation du générateur de nombre aléatoire a échoué !\n\n\n(Si vous rapportez un bogue en rapport à cela, n'oubliez pas d'inclure les informations techniques suivantes dans le rapport de bogue : %hs, code d'erreur : 0x%.8X)</string>
+    <string lang="fr" key="CAPI_RAND">L'API Crypto Windows a échoué !\n\n\n(Si vous rapportez un bogue en rapport à cela, n'oubliez pas d'inclure les informations techniques suivantes dans le rapport de bogue : %hs, code d'erreur : 0x%.8X)</string>
     <string lang="fr" key="INIT_REGISTER">Impossible d'initialiser l'application. L'enregistrement de la classe Dialog a échoué.</string>
     <string lang="fr" key="INIT_RICHEDIT">Erreur : Echec de chargement de la librairie système Rich Edit.</string>
     <string lang="fr" key="INTRO_TITLE">Assistant de création de volume</string>
@@ -1037,7 +1040,7 @@
     <string lang="fr" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Avertissement : Il existe un espace non alloué entre la partition système et la première partition après celle-ci. Après la création du système d'exploitation caché, vous ne devez pas créer de nouvelles partitions dans cet espace non alloué. Dans le cas contraire, le système d'exploitation caché serait impossible à amorcer (jusqu'à la suppression des nouvelles partitions créées).</string>
     <string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Cet algorithme n'est pas encore supporté pour le chiffrement système.</string>
     <string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Cet algorithme n'est pas supporté pour le mode TrueCrypt.</string>
-    <string lang="fr" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 7.x de TrueCrypt</string>
+    <string lang="fr" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ce volume a été créé par TrueCrypt %x.%x mais VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 6.x/7.x de TrueCrypt</string>
     <string lang="fr" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Les fichiers clés ne sont actuellement pas pris en charge pour le chiffrement du système.</string>
     <string lang="fr" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Avertissement : VeraCrypt n'a pas pu restaurer la disposition originale du clavier. Cela peut vous faire saisir votre mot de passe de manière erronée .</string>
     <string lang="fr" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Erreur : Impossible de paramétrer la disposition du clavier pour VeraCrypt en clavier Américain standard.\n\nNotez que le mot de passe doit être saisi dans un environnement de pré-amorçage (avant que Windows ne démarre) où seul le clavier américain est disponible. Aussi le mot de passe doit toujours être saisi en utilisant la disposition du clavier américain.</string>

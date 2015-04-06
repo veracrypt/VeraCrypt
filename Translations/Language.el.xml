@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="el" name="Ελληνικά" en-name="Greek" version="0.1.0" translators="Βασίλης Κοσμίδης" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="el" key="IDC_VOLUME_PROPERTIES">&amp;Ιδιότητες τόμου...</control>
     <control lang="el" key="IDC_VOLUME_TOOLS">Εργαλεία &amp;τόμου...</control>
     <control lang="el" key="IDC_WIPE_CACHE">&amp;Διαγραφή μνήμης cache</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="el" key="IDD_HOTKEYS_DLG">VeraCrypt - Συντομεύσεις</control>
     <control lang="el" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="el" key="IDM_CREATE_RESCUE_DISK">Δημιουργία Δίσκου Ασφαλείας...</control>
     <control lang="el" key="IDM_CREATE_VOLUME">Δημιουργία νέου τόμου...</control>
     <control lang="el" key="IDM_DEFAULT_KEYFILES">Εξ'ορισμού αρχεία-κλειδιά...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="el" key="IDM_ENCRYPT_SYSTEM_DEVICE">Κρυπτογράφηση διαμερίσματος/οδηγού συστήματος...</control>
     <control lang="el" key="IDM_FAQ">Συχνές ερωτήσεις</control>
@@ -524,6 +526,7 @@
     <string lang="el" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Ένα σφάλμα συνέβη κατά τη λήψη της κατάστασης κρυπτογράφησης του συστήματος.</string>
     <string lang="el" key="INIT_SYS_ENC">Αδυναμία αρχικοποίησης των στοιχείων της εφαρμογής για κρυπτογράφηση του συστήματος.</string>
     <string lang="el" key="INIT_RAND">Αποτυχία αρχικοποίησης της γεννήτριας τυχαίων αριθμών!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="el" key="INIT_REGISTER">Αδυναμία αρχικοποίησης της εφαρμογής. Αποτυχία καταχώρησης της τάξης διαλόγου.</string>
     <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
     <string lang="el" key="INTRO_TITLE">Οδηγός δημιουργίας τόμου VeraCrypt</string>
@@ -1037,7 +1040,7 @@
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="el" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Αυτός ο αλγόριθμος προς το παρόν δεν υποστηρίζεται για κρυπτογράφηση συστήματος.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="el" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Προειδοποίηση: Το VeraCrypt δεν μπόρεσε να επαναφέρει την αρχική διάταξη του πληκτρολογίου. Αυτό μπορεί να προκαλέσει εσφαλμένη εισαγωγή κωδικού.</string>
     <string lang="el" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Σφάλμα: Αδυναμία ορισμού διάταξης πληκτρολογίου για το VeraCrypt σε Η.Π.Α..\n\nΣημειώστε ότι ο κωδικός πρέπει να πληκτρολογηθεί στο περιβάλλον πριν την εκκίνηση των Windows όπου μη-Η.Π.Α. διατάξεις πληκτρολογίου δεν είναι διαθέσιμες. Γι'αυτό ο κωδικός πρέπει πάντα να πληκτρολογείται με χρήση διάταξης πληκτρολογίου Η.Π.Α.</string>

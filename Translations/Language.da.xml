@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="da" name="Dansk" en-name="Danish" version="0.1.0" translators="Lasse Bond" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="da" key="IDC_VOLUME_PROPERTIES">Bin&amp;d Egenskaber...</control>
     <control lang="da" key="IDC_VOLUME_TOOLS">Bind V&amp;ærktøjer...</control>
     <control lang="da" key="IDC_WIPE_CACHE">&amp;Slet hukommelsen</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="da" key="IDD_HOTKEYS_DLG">VeraCrypt - System genvejstaster</control>
     <control lang="da" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="da" key="IDM_CREATE_RESCUE_DISK">Opret Nødhjælps Disk...</control>
     <control lang="da" key="IDM_CREATE_VOLUME">Opret nyt Bind...</control>
     <control lang="da" key="IDM_DEFAULT_KEYFILES">Standard nøglefiler...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="da" key="IDM_ENCRYPT_SYSTEM_DEVICE">Krypter System Partition/Drev...</control>
     <control lang="da" key="IDM_FAQ">FAQ - Ofte stillede spørgsmål</control>
@@ -524,6 +526,7 @@
     <string lang="da" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">En fejl opstod under læsning af system krypterings status.</string>
     <string lang="da" key="INIT_SYS_ENC">Kan ikke initialisere applikations komponenter for system kryptering.</string>
     <string lang="da" key="INIT_RAND">Kunne ikke initialisere tilfældigheds nummergenerator!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="da" key="INIT_REGISTER">Kunne ikke initialisere applikationen. Fejl i registrering af Dialog class.</string>
     <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
     <string lang="da" key="INTRO_TITLE">VeraCrypt Bind Oprettelsesguide</string>
@@ -1037,7 +1040,7 @@
     <string lang="da" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Advarsel: Der er uallokeret område mellem system partition og den første partition bag den. Efter du har oprettet det skjulte operativsystem, må du ikke oprette nogle nye partitioner i det uallokerede område. Ellers vil det skjulte operativsystem være umuligt at boote (indtil du sletter sådanne nyoprettede partitioner).</string>
     <string lang="da" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Denne algoritme er for tiden ikke supporteret til system kryptering.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="da" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Advarsel: VeraCrypt kunne ikke gendanne det originale keyboard layout. Dette kan medføre at du indtaster et kodeord ukorrekt.</string>
     <string lang="da" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fejl: Kan ikke indstille keyboard layoutet for VeraCrypt til standard US keyboard layout.\n\nBemærk at kodeordet skal indtastes i før-boot miljøet (før Windows starter) hvor ikke-US Windows keyboard layouts ikke er tilgængelige. Derfor skal kodeordet altid skrives ved brug af standard US keyboard layout.</string>

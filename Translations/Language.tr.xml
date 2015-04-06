@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="tr" name="Türkçe" en-name="Turkish" version="0.1.0" translators="Ali İskender Turan, Zeynel Abidin Öztürk" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="tr" key="IDC_VOLUME_PROPERTIES">Birim Ö&amp;zellikleri...</control>
     <control lang="tr" key="IDC_VOLUME_TOOLS">Biri&amp;m Araçları...</control>
     <control lang="tr" key="IDC_WIPE_CACHE">Ö&amp;nbelleği Temizle</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="tr" key="IDD_HOTKEYS_DLG">VeraCrypt - Sistem çapında kısayol tuşları</control>
     <control lang="tr" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="en" key="IDM_CREATE_RESCUE_DISK">Create Rescue Disk...</control>
     <control lang="tr" key="IDM_CREATE_VOLUME">Yeni Birim Oluştur...</control>
     <control lang="tr" key="IDM_DEFAULT_KEYFILES">Varsayılan Anahtar Dosyaları...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="en" key="IDM_ENCRYPT_SYSTEM_DEVICE">Encrypt System Partition/Drive...</control>
     <control lang="tr" key="IDM_FAQ">Sık Sorulan Sorular</control>
@@ -524,6 +526,7 @@
     <string lang="en" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">An error occurred when obtaining the system encryption status.</string>
     <string lang="en" key="INIT_SYS_ENC">Cannot initialize application components for system encryption.</string>
     <string lang="tr" key="INIT_RAND">Rasgele sayı oluşturucusunu başlatma başarısız!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="tr" key="INIT_REGISTER">Uygulamayı başlatma başarısız. Dialog sınıfını kayıt etme başarısız.</string>
     <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
     <string lang="tr" key="INTRO_TITLE">VeraCrypt Birim Oluşturma Sihirbazı</string>
@@ -1037,7 +1040,7 @@
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">This algorithm is currently not supported for system encryption.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="en" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warning: VeraCrypt could not restore the original keyboard layout. This may cause you to enter a password incorrectly.</string>
     <string lang="en" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: Cannot set the keyboard layout for VeraCrypt to the standard US keyboard layout.\n\nNote that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available. Therefore, the password must always be typed using the standard US keyboard layout.</string>

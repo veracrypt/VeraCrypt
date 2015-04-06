@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="eu" key="IDC_VOLUME_PROPERTIES">&amp;Bolumenaren ezaugarriak...</control>
     <control lang="eu" key="IDC_VOLUME_TOOLS">Bolumenaren &amp;Tresnak...</control>
     <control lang="eu" key="IDC_WIPE_CACHE">&amp;Memoria ezabatu</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="eu" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Gogoko Bolumenak</control>
     <control lang="eu" key="IDD_HOTKEYS_DLG">VeraCrypt - Sistema osoaren tekla bereziak</control>
     <control lang="eu" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="eu" key="IDM_CREATE_RESCUE_DISK">Salbatze diska sortu...</control>
     <control lang="eu" key="IDM_CREATE_VOLUME">Bolumen berria sortu...</control>
     <control lang="eu" key="IDM_DEFAULT_KEYFILES">Lehenetsitako gako-fitxategiak...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="eu" key="IDM_DONATE">Orain eman...</control>
     <control lang="eu" key="IDM_ENCRYPT_SYSTEM_DEVICE">Sistemaren partizioa/diska zifratu...</control>
     <control lang="eu" key="IDM_FAQ">Maiz egindako galderak</control>
@@ -526,6 +528,7 @@
     <string lang="eu" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Errore bat jazo da sistemaren enkripzio egoera irakurtzen ari zenean.</string>
     <string lang="eu" key="INIT_SYS_ENC">Ezin izan dira aplikazioaren osagaiak hasieratu sistema zifratzeko.</string>
     <string lang="eu" key="INIT_RAND">Ausazko zenbakien sortzailea hasieratzerakoan hutse egin du!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="eu" key="INIT_REGISTER">Ezin izan da aplikazioa hasieratu. 'Dialog Class'-a erregistratzerakoan huts egin du.</string>
     <string lang="eu" key="INIT_RICHEDIT">Errorea: Ezin izan da Rich Edit sistemaren liburutegia kargatu.</string>
     <string lang="eu" key="INTRO_TITLE">VeraCrypt Bolumenak Sortzeko Laguntzailea</string>
@@ -1039,7 +1042,7 @@
     <string lang="eu" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Kontuz: Alokatu gabeko tarte bat dago sistemaren partizioa eta haren hurrengo partizioaren artean. Ezkutuko sistema eragilea sortu eta gero ezin izango duzu tarte horretan partizio berririk egin. Bestela, ezin izango da ezkutuko sistema eragilea hasieratu (partizio berri horiek ezabatu arte).</string>
     <string lang="eu" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Algoritmo honek momentuz ez du balio sistema zifratzeko .</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="eu" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Momentuz ezin dira gako-fitxategiak erabili sistema zifratzeko.</string>
     <string lang="eu" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Kontuz: VeraCrypt-ek ezin izan du teklatua diseinu originaera leheneratu. Honek pasahitza gaizki sartzea ekar dezake.</string>
     <string lang="eu" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Errorea: Ezin da VeraCrypt-entzat teklatuaren diseinua aldatu EB teklatu estandar diseinura.\n\nOhartu zaitez pasahitza hasieraketa aurreko ingurunean (Windows hasi aurretik) sartu behar dela eta bertan EB-etako teklatu diseinuak ez daudela eskuragarri. Horregatik, pasahitza beti sartu behar da EB-etako teklatu estandarraren diseinuarekin.</string>

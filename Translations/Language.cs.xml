@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="cs" name="Čeština" en-name="Czech" version="1.0.0" translators="Vítek Moser" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="cs" key="IDC_VOLUME_PROPERTIES">Vlastnos&amp;ti svazku…</control>
     <control lang="cs" key="IDC_VOLUME_TOOLS">&amp;Nástroje svazku…</control>
     <control lang="cs" key="IDC_WIPE_CACHE">Vyčistit &amp;mezipaměť</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="cs" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Oblíbené svazky</control>
     <control lang="cs" key="IDD_HOTKEYS_DLG">VeraCrypt - Systémové klávesové zkratky</control>
     <control lang="cs" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="cs" key="IDM_CREATE_RESCUE_DISK">Vytvořit záchranný disk…</control>
     <control lang="cs" key="IDM_CREATE_VOLUME">Vytvořit nový svazek…</control>
     <control lang="cs" key="IDM_DEFAULT_KEYFILES">Výchozí souborové klíče…</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="cs" key="IDM_DONATE">Podpořte nás...</control>
     <control lang="cs" key="IDM_ENCRYPT_SYSTEM_DEVICE">Zašifrovat systémový oddíl/disk…</control>
     <control lang="cs" key="IDM_FAQ">Často kladené dotazy</control>
@@ -524,6 +526,7 @@
     <string lang="cs" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Nastala chyba při získávání informací o stavu zašifrovaného systému.</string>
     <string lang="cs" key="INIT_SYS_ENC">Nelze inicializovat aplikační komponenty pro systémové šifrování.</string>
     <string lang="cs" key="INIT_RAND">Selhala inicializace generátoru náhodných čísel!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="cs" key="INIT_REGISTER">Aplikace nemohla být inicializována. Selhala registrace Dialogové třídy.</string>
     <string lang="cs" key="INIT_RICHEDIT">Chyba: Systémová knihovna Rich Edit nemohla být načtena.</string>
     <string lang="cs" key="INTRO_TITLE">Průvodce vytvořením svazku VeraCrypt</string>
@@ -1037,7 +1040,7 @@
     <string lang="cs" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varování: Mezi systémovým oddílem a prvním oddílem za ním je nealokované místo. Po vytvoření skrytého operačního systému nesmíte vytvořit žádné nové oddíly v tomto nealokovaném prostoru. Jinak nebude možné spustit skrytý operační systém (dokud nesmažete takto nově vytvořené oddíly).</string>
     <string lang="cs" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Systémové šifrování momentálně nepodporuje tento algoritmus.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="cs" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Souborové klíče aktuálně nejsou podporovány pro šifrování systémů.</string>
     <string lang="cs" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varování: VeraCrypt nemohl obnovit původní nastavení klávesnice. To může způsobit, že heslo bude zadáno nesprávně.</string>
     <string lang="cs" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Chyba: Nelze nastavit rozvržení klávesnice na typickou americkou klávesnici.\n\nHeslo musí být nastaveno v před-bootovacím prostředí (před startem Windows), kde nejsou ne-americké klávesnice k dispozici. Proto musí být heslo vždy nastaveno s použitím rozvržení kláves jako na americké klávesnici.</string>

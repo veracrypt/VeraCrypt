@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="sl" name="Slovenščina" en-name="Slovenian" version="0.1.0" translators="Erik David Salam" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="sl" key="IDC_VOLUME_PROPERTIES">&amp;Lastnosti zbirnika...</control>
     <control lang="sl" key="IDC_VOLUME_TOOLS">&amp;Orodja za zbirnik...</control>
     <control lang="sl" key="IDC_WIPE_CACHE">&amp;Izbriši predpomnilnik</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="sl" key="IDD_HOTKEYS_DLG">VeraCrypt - Širše sistemske vroče tipke</control>
     <control lang="en" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="sl" key="IDM_CREATE_RESCUE_DISK">Ustvari rešilni disk...</control>
     <control lang="sl" key="IDM_CREATE_VOLUME">Ustvari nov zbirnik...</control>
     <control lang="sl" key="IDM_DEFAULT_KEYFILES">Privzete ključne datoteke...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="sl" key="IDM_ENCRYPT_SYSTEM_DEVICE">Šifriraj sistemski razdelek/pogon...</control>
     <control lang="sl" key="IDM_FAQ">Pogosto zastavljena vprašanja</control>
@@ -523,7 +525,8 @@
     <string lang="en" key="CONFIRM_RESTART">Your computer must be restarted.\n\nDo you want to restart it now?</string>
     <string lang="en" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">An error occurred when obtaining the system encryption status.</string>
     <string lang="en" key="INIT_SYS_ENC">Cannot initialize application components for system encryption.</string>
-    <string lang="en" key="INIT_RAND">Failed to initialize the random number generator!</string>
+    <string lang="en" key="INIT_RAND">Failed to initialize the random number generator!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="en" key="INIT_REGISTER">Unable to initialize the application. Failed to register the Dialog class.</string>
     <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
     <string lang="sl" key="INTRO_TITLE">VeraCrypt-ov čarovnik za ustvar. zbirnika</string>
@@ -1037,7 +1040,7 @@
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">This algorithm is currently not supported for system encryption.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="en" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warning: VeraCrypt could not restore the original keyboard layout. This may cause you to enter a password incorrectly.</string>
     <string lang="en" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: Cannot set the keyboard layout for VeraCrypt to the standard US keyboard layout.\n\nNote that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available. Therefore, the password must always be typed using the standard US keyboard layout.</string>

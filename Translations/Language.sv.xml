@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="sv" key="IDC_VOLUME_PROPERTIES">Volym&amp;egenskaper …</control>
     <control lang="sv" key="IDC_VOLUME_TOOLS">Volymverkty&amp;g …</control>
     <control lang="sv" key="IDC_WIPE_CACHE">Töm lösenords&amp;cache</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="sv" key="IDD_FAVORITE_VOLUMES">VeraCrypt – Volymfavoriter</control>
     <control lang="sv" key="IDD_HOTKEYS_DLG">VeraCrypt – Snabbtangenter</control>
     <control lang="sv" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="sv" key="IDM_CREATE_RESCUE_DISK">Skapa återställningsskiva …</control>
     <control lang="sv" key="IDM_CREATE_VOLUME">Skapa ny volym …</control>
     <control lang="sv" key="IDM_DEFAULT_KEYFILES">Standardnyckelfiler …</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="sv" key="IDM_DONATE">Donera nu …</control>
     <control lang="sv" key="IDM_ENCRYPT_SYSTEM_DEVICE">Kryptera systempartition eller -enhet …</control>
     <control lang="sv" key="IDM_FAQ">Vanliga frågor och svar (FAQ)</control>
@@ -524,6 +526,7 @@
     <string lang="sv" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Ett fel inträffade när systemets krypteringsstatus skulle inhämtas.</string>
     <string lang="sv" key="INIT_SYS_ENC">Det går inte att initiera applikationskomponenter för systemkryptering.</string>
     <string lang="sv" key="INIT_RAND">Initieringen av slumptalsgeneratorn misslyckades!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="sv" key="INIT_REGISTER">Det gick inte att initiera applikationen. Registreringen av dialogruteklassen misslyckades.</string>
     <string lang="sv" key="INIT_RICHEDIT">Fel: Det gick inte att ladda systembiblioteket för ”Rich Edit”.</string>
     <string lang="sv" key="INTRO_TITLE">Guiden Skapa VeraCrypt-volym</string>
@@ -1037,7 +1040,7 @@
     <string lang="sv" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varning: Det finns oallokerat utrymme mellan systempartitionen och den första partitionen efter den. Efter att du skapat det dolda operativsystemet, får du inte skapa några nya partitioner i det oallokerade utrymmet. I så fall kommer det dolda operativsystemet att vara omöjligt att starta (tills du tar bort de nyskapade partitionerna).</string>
     <string lang="sv" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Denna algoritm stöds för närvarande inte vid systemkryptering.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="sv" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Nyckelfiler stöds för närvarande inte vid systemkryptering.</string>
     <string lang="sv" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varning: VeraCrypt kunde inte återställa den ursprungliga tangentbordslayouten. Detta kan orsaka att du anger ett felaktigt lösenord.</string>
     <string lang="sv" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fel: Det går inte att ange amerikansk tangentbordslayout som tangentbordslayout för VeraCrypt.\n\nObservera att lösenordet måste anges i förstartsmiljön (innan Windows startas), där inga andra tangentbordslayouter än den amerikanska finns tillgängliga. Därför måste amerikansk tangentbordslayout alltid användas när du anger lösenordet.</string>

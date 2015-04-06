@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="bg" name="Български" en-name="Bulgarian" version="0.1.0" translators="Lachezar Gorchev" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="bg" key="IDC_VOLUME_PROPERTIES">&amp;Свойства на тома...</control>
     <control lang="bg" key="IDC_VOLUME_TOOLS">&amp;Инструменти за том...</control>
     <control lang="bg" key="IDC_WIPE_CACHE">&amp;Заличаване на кеша</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
     <control lang="bg" key="IDD_HOTKEYS_DLG">VeraCrypt - Системни клавиши</control>
     <control lang="bg" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="bg" key="IDM_CREATE_RESCUE_DISK">Създаване на Спасителен Диск...</control>
     <control lang="bg" key="IDM_CREATE_VOLUME">Създаване на нов том...</control>
     <control lang="bg" key="IDM_DEFAULT_KEYFILES">Ключ-файлове по подразбиране...</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDC_DONATE">Donate now...</control>
     <control lang="bg" key="IDM_ENCRYPT_SYSTEM_DEVICE">Криптиране на системен дял/устройство...</control>
     <control lang="bg" key="IDM_FAQ">Често задавани въпроси</control>
@@ -524,6 +526,7 @@
     <string lang="bg" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Грешка при опит за получаване на статуса на системното криптиране.</string>
     <string lang="bg" key="INIT_SYS_ENC">Компонентите за систено криптиране не могат да бъдат инициализирани .</string>
     <string lang="bg" key="INIT_RAND">Неуспешно инициализиране на генератора за случайни числа!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="bg" key="INIT_REGISTER">Инициализацията на приложението е невъзможна. Деуспешно регистриране на Dialog класа.</string>
     <string lang="bg" key="INIT_RICHEDIT">Грешка: Не може да се зареди Rich Edit системната библиотека.</string>
     <string lang="bg" key="INTRO_TITLE">VeraCrypt помощник за създаване на томове</string>
@@ -1037,7 +1040,7 @@
     <string lang="bg" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Внимание: Има неразпределено пространство между системния дял и първия дял след него. След като създадете скритата операционна система, не трябва да създавате нови дялове в това неразпределено пространство. В противен случай, няма да бъде възможно да се стартира скритата операционна система (докато не изтриете такива новосъздадени дялове).</string>
     <string lang="bg" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">За момента този алгоритъм не се поддържа з системно криптиране.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="bg" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">За сега ключ-файлове не се поддържат за системно криптиране.</string>
     <string lang="bg" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Внимание: VeraCrypt не може да възстанови оригиналната подредба на клавиатурата. Заради това може да въведете някоя парола грешно.</string>
     <string lang="bg" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Грешка: Подредбата на клавиатурата за VeraCrypt не може да се зададе да бъде стандартна US клавиатурна подредба.\n\nЗабележете, че паролата трябва да бъде въведена в pre-boot средата (преди стартирането на Windows), където не-US Windows клавиатурни подредби не са достъпни. Поради тази причина, паролата винаги трябва да бъде въвеждана, като се използва стандартна US клавиатурна подредба.</string>

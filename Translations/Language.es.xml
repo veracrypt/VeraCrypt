@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0f-1">
+  <localization prog-version="1.0f-2">
     <!-- Languages -->
     <language langid="es" name="Español" en-name="Spanish" version="1.0.0" translators="Juan Antonio Auñón Ochando" />
     <!-- Fonts -->
@@ -172,6 +172,7 @@
     <control lang="es" key="IDC_VOLUME_PROPERTIES">Propiedades del &amp;Volumen</control>
     <control lang="es" key="IDC_VOLUME_TOOLS">Herramien&amp;tas de volumen</control>
     <control lang="es" key="IDC_WIPE_CACHE">&amp;Borrar Caché</control>
+    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
     <control lang="es" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Volúmenes favoritos</control>
     <control lang="es" key="IDD_HOTKEYS_DLG">VeraCrypt - Atajos de teclado para sistema completo</control>
     <control lang="es" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -201,6 +202,7 @@
     <control lang="es" key="IDM_CREATE_RESCUE_DISK">Crear Disco de Rescate</control>
     <control lang="es" key="IDM_CREATE_VOLUME">Crear Nuevo Volumen</control>
     <control lang="es" key="IDM_DEFAULT_KEYFILES">Archivos-llave Por Defecto</control>
+    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="es" key="IDM_DONATE">Donar ahora...</control>
     <control lang="es" key="IDM_ENCRYPT_SYSTEM_DEVICE">Cifrar la Partición/Unidad del Sistema</control>
     <control lang="es" key="IDM_FAQ">Preguntas Frecuentes</control>
@@ -524,6 +526,7 @@
     <string lang="es" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Ha ocurrido un error al obtener el estado del cifrado del sistema.</string>
     <string lang="es" key="INIT_SYS_ENC">No se pueden inicializar componentes de la aplicación para el cifrado del sistema.</string>
     <string lang="es" key="INIT_RAND">¡Fallo al inicializar el generador de números aleatorios!</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="es" key="INIT_REGISTER">No se pudo iniciar la aplicación. Fallo al registrar la clase Dialog.</string>
     <string lang="es" key="INIT_RICHEDIT">Error: Fallo al cargar la librería de sistema Rich Edit.</string>
     <string lang="es" key="INTRO_TITLE">Asistente de Creación de Volúmenes VeraCrypt</string>
@@ -1037,7 +1040,7 @@
     <string lang="es" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Aviso: Hay espacio no asignado entre la partición del sistema y la primera partición tras ella. Después de crear el sistema operativo oculto, no debe crear ninguna partición nueva en ese espacio sin asignar. De lo contrario, podría ser iposible arrancar el sistema operativo oculto (hasta que elimine esas particiones nuevas).</string>
     <string lang="es" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Este algoritmo no está soportado actualmente para el cifrado del sistema.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x series</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="es" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Los archivos-llave no están soportados actualmente para el cifrado del sistema.</string>
     <string lang="es" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Aviso: VeraCrypt no pudo restaurar la disposición de teclado original. Esto puede hacer que ud. introduzca incorrectamente la contraseña.</string>
     <string lang="es" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: No se puede establecer la disposición del teclado para VeraCrypt al estándar de EEUU.\n\nRecuerde que la contraseña necesita ser escrita en el entorno de pre-arranque (antes de que Windows se inicie) donde no están disponibles disposiciones de teclado distintas a la de EEUU. Por tanto, la contraseña debe ser escrita siempre usando la disposición de teclado EEUU estándar.</string>
