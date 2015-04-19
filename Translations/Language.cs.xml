@@ -155,6 +155,7 @@
     <control lang="cs" key="IDC_PREF_MOUNT_READONLY">Připojit svazky jen pro čtení</control>
     <control lang="cs" key="IDC_PREF_MOUNT_REMOVABLE">Připojit svazky jako výměnná média</control>
     <control lang="cs" key="IDC_PREF_OPEN_EXPLORER">Otevřít okno Průzkumníka pro úspěšně připojený svazek</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
     <control lang="cs" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Použít jinou ikonu na hlavním panelu, pokud jsou k dispozici připojené svazky</control>
     <control lang="cs" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Odstranit hesla z mezipaměti a automaticky odpojit</control>
     <control lang="cs" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Odstranit hesla z mezipaměti při ukončení</control>

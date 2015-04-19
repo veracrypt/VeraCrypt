@@ -155,6 +155,7 @@
     <control lang="ko" key="IDC_PREF_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입</control>
     <control lang="ko" key="IDC_PREF_MOUNT_REMOVABLE">볼륨을 이동식 디스크로 삽입</control>
     <control lang="ko" key="IDC_PREF_OPEN_EXPLORER">성공적으로 삽입된 볼륨을 위한 탐색기 창 열기</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="ko" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">“자동 꺼냄”시 보관된 비밀번호 삭제</control>
     <control lang="ko" key="IDC_PREF_WIPE_CACHE_ON_EXIT">“종료”시 보관된 비밀번호 삭제</control>

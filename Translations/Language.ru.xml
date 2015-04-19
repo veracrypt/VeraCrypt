@@ -155,6 +155,7 @@
     <control lang="ru" key="IDC_PREF_MOUNT_READONLY">Монтировать как тома\nтолько для чтения</control>
     <control lang="ru" key="IDC_PREF_MOUNT_REMOVABLE">Монтировать тома как сменные носители</control>
     <control lang="ru" key="IDC_PREF_OPEN_EXPLORER">Открывать окно Проводника для успешно смонтированного тома</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
     <control lang="ru" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Другой значок в системном лотке, если есть смонтированные тома</control>
     <control lang="ru" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Очищать кэш паролей при авторазмонтировании</control>
     <control lang="ru" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Очищать кэш паролей при выходе</control>

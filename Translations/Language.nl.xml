@@ -155,6 +155,7 @@
     <control lang="nl" key="IDC_PREF_MOUNT_READONLY">Koppel volumes als alleen-lezen</control>
     <control lang="nl" key="IDC_PREF_MOUNT_REMOVABLE">Koppel volumes als verwijderbare media</control>
     <control lang="nl" key="IDC_PREF_OPEN_EXPLORER">Open Explorer venster voor succesvol gekoppeld volume</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="nl" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Wis wachtwoorden in de cache bij auto-ontkoppeling</control>
     <control lang="nl" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Wis wachtwoorden in de cache bij afsluiten</control>
