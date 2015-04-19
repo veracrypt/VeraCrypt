@@ -228,8 +228,7 @@
 #define IDM_ANALYZE_SYSTEM_CRASH        40063
 #define IDM_DONATE                      40064
 #define IDM_VOLUME_EXPANDER             40065
-#define ID_SETTINGS_DEFAULTMOUNTOPTIONS 40066
-#define IDM_DEFAULT_MOUNT_PARAMETERS    40067
+#define IDM_DEFAULT_MOUNT_PARAMETERS    40066
 
 // Next default values for new objects
 // 
@@ -237,7 +236,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
-#define _APS_NEXT_COMMAND_VALUE         40068
+#define _APS_NEXT_COMMAND_VALUE         40067
 #define _APS_NEXT_CONTROL_VALUE         1142
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
