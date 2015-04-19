@@ -89,7 +89,7 @@ show_message()
 					else
 						if [ $KTERM -eq 1 ]
 						then
-							konsole -T 'VeraCrypt Setup' -e "sh -c \"echo $*; read A\""
+							konsole --title 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo $*; read A"
 						fi
 					fi
 				fi
@@ -734,6 +734,7 @@ else
 fi
 
 [ -n "$SUDO" -a $GUI -eq 1 ] && which gksudo >/dev/null 2>/dev/null && SUDO="gksudo -D 'VeraCrypt Setup' --"
+[ -n "$SUDO" -a $GUI -eq 1 ] && which kdesudo >/dev/null 2>/dev/null && SUDO="kdesudo -d --comment 'VeraCrypt Setup' --"
 
 
 # License agreement
@@ -882,7 +883,7 @@ then
 			else
 				if [ $KTERM -eq 1 ]
 				then
-					exec konsole -T 'VeraCrypt Setup' -e "sh -c \"echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A\""
+					exec konsole --title 'VeraCrypt Setup' --caption 'VeraCrypt Setup' -e sh -c "echo Installing package...; $SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE; rm -f $PACKAGE; echo; echo Press Enter to exit...; read A"
 				fi
 			fi
 		fi
