@@ -717,7 +717,6 @@ AboutDialogBase::AboutDialogBase( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer117->Add( m_staticline3, 0, wxEXPAND|wxBOTTOM, 5 );
 	
 	CreditsTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxSUNKEN_BORDER );
-	CreditsTextCtrl->SetMaxLength( 0 ); 
 	bSizer117->Add( CreditsTextCtrl, 0, wxEXPAND|wxBOTTOM|wxRIGHT|wxLEFT, 10 );
 	
 	
@@ -1481,7 +1480,6 @@ LegalNoticesDialogBase::LegalNoticesDialogBase( wxWindow* parent, wxWindowID id,
 	bSizer115 = new wxBoxSizer( wxVERTICAL );
 	
 	LegalNoticesTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-	LegalNoticesTextCtrl->SetMaxLength( 0 ); 
 	bSizer115->Add( LegalNoticesTextCtrl, 1, wxALL|wxEXPAND, 5 );
 	
 	wxButton* OKButton;
