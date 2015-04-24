@@ -307,7 +307,9 @@ namespace VeraCrypt
 
 			foreach (shared_ptr <Hash> hash, Hash::GetAvailableAlgorithms())
 			{
-				if (wxString (hash->GetName()).IsSameAs (str, false))
+				wxString hashName (hash->GetName());
+				wxString hashAltName (hash->GetAltName());
+				if (hashName.IsSameAs (str, false) || hashAltName.IsSameAs (str, false))
 					ArgHash = hash;
 			}
 
@@ -321,7 +323,9 @@ namespace VeraCrypt
 
 			foreach (shared_ptr <Hash> hash, Hash::GetAvailableAlgorithms())
 			{
-				if (wxString (hash->GetName()).IsSameAs (str, false))
+				wxString hashName (hash->GetName());
+				wxString hashAltName (hash->GetAltName());
+				if (hashName.IsSameAs (str, false) || hashAltName.IsSameAs (str, false))
 					ArgCurrentHash = hash;
 			}
 
@@ -405,7 +409,9 @@ namespace VeraCrypt
 			bool bHashFound = false;
 			foreach (shared_ptr <Hash> hash, Hash::GetAvailableAlgorithms())
 			{
-				if (wxString (hash->GetName()).IsSameAs (str, false))
+				wxString hashName (hash->GetName());
+				wxString hashAltName (hash->GetAltName());
+				if (hashName.IsSameAs (str, false) || hashAltName.IsSameAs (str, false))
 				{
 					bHashFound = true;
 					ArgMountOptions.ProtectionKdf = Pkcs5Kdf::GetAlgorithm (*hash, ArgTrueCryptMode);
