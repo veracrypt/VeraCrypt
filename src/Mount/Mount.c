@@ -7156,20 +7156,18 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			argumentspec as;
 
-			int nArgPos;
-
 			as.args = args;
 			as.arg_cnt = sizeof(args)/ sizeof(args[0]);
 			
-			switch (GetArgumentID (&as, lpszCommandLineArgs[i], &nArgPos))
+			switch (GetArgumentID (&as, lpszCommandLineArgs[i]))
 			{
 			case OptionAuto:
 				{
-					char szTmp[32];
+					char szTmp[32] = {0};
 					bAuto = TRUE;
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						nArgPos, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
 					{
 						if (!_stricmp (szTmp, "devices"))
 							bAutoMountDevices = TRUE;
@@ -7177,6 +7175,8 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 							bAutoMountFavorites = TRUE;
 						else if (!_stricmp (szTmp, "logon"))
 							LogOn = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
 					}
 				}
 				break;
@@ -7187,22 +7187,39 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			case OptionCache:
 				{
-					char szTmp[8];
+					char szTmp[8] = {0};
 					bCacheInDriver = TRUE;
 
-					GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs,
-						     szTmp, sizeof (szTmp));
-
-					if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
-						bCacheInDriver = FALSE;
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, sizeof (szTmp)))
+					{
+						if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
+							bCacheInDriver = FALSE;
+						else if (!_stricmp(szTmp,"y") || !_stricmp(szTmp,"yes"))
+							bCacheInDriver = FALSE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
 				}
 				break;
 
 			case CommandDismount:
 
-				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs,
+				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
 				     szDriveLetter, sizeof (szDriveLetter)))
-					cmdUnmountDrive = toupper(szDriveLetter[0]) - 'A';
+				{
+					if (	(strlen(szDriveLetter) == 1)
+						|| (strlen(szDriveLetter) == 2 && szDriveLetter[1] == ':')
+						)
+					{
+						cmdUnmountDrive = toupper(szDriveLetter[0]) - 'A';
+						if ((cmdUnmountDrive < 0) || (cmdUnmountDrive > ('Z' - 'A')))
+							AbortProcess ("BAD_DRIVE_LETTER");
+					}
+					else
+						AbortProcess ("BAD_DRIVE_LETTER");
+
+				}
 				else 
 					cmdUnmountDrive = -1;
 
@@ -7218,7 +7235,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				break;
 
 			case OptionKeyfile:
-				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, nArgPos, &i,
+				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i,
 					nNoCommandLineArgs, tmpPath, sizeof (tmpPath)))
 				{
 					KeyFile *kf;
@@ -7230,97 +7247,130 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 						FirstCmdKeyFile = KeyFileAdd (FirstCmdKeyFile, kf);
 					}
 				}
+				else
+					AbortProcess ("COMMAND_LINE_ERROR");
+
 				break;
 
 			case OptionLetter:
-				GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs,
-					szDriveLetter, sizeof (szDriveLetter));
-				commandLineDrive = *szDriveLetter = (char) toupper (*szDriveLetter);
+				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+					szDriveLetter, sizeof (szDriveLetter)))
+				{
+					if (	(strlen(szDriveLetter) == 1)
+						|| (strlen(szDriveLetter) == 2 && szDriveLetter[1] == ':')
+						)
+					{
+						commandLineDrive = *szDriveLetter = (char) toupper (*szDriveLetter);
 
-				if (commandLineDrive < 'C' || commandLineDrive > 'Z')
+						if (commandLineDrive < 'C' || commandLineDrive > 'Z')
+							AbortProcess ("BAD_DRIVE_LETTER");
+					}
+					else
+						AbortProcess ("BAD_DRIVE_LETTER");
+				}
+				else
 					AbortProcess ("BAD_DRIVE_LETTER");
 
 				break;
 
 			case OptionHistory:
 				{
-					char szTmp[8];
+					char szTmp[8] = {0};
 					bHistory = bHistoryCmdLine = TRUE;
 
-					GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs,
-						     szTmp, sizeof (szTmp));
-
-					if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
-						bHistory = FALSE;
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, sizeof (szTmp)))
+					{
+						if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
+							bHistory = FALSE;
+						else if (!_stricmp(szTmp,"y") || !_stricmp(szTmp,"yes"))
+							bHistory = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
 				}
 				break;
 
 			case OptionMountOption:
 				{
-					char szTmp[16];
+					char szTmp[16] = {0};
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						nArgPos, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
 					{
 						if (!_stricmp (szTmp, "ro") || !_stricmp (szTmp, "readonly"))
 							mountOptions.ReadOnly = TRUE;
 
-						if (!_stricmp (szTmp, "rm") || !_stricmp (szTmp, "removable"))
+						else if (!_stricmp (szTmp, "rm") || !_stricmp (szTmp, "removable"))
 							mountOptions.Removable = TRUE;
 
-						if (!_stricmp (szTmp, "ts") || !_stricmp (szTmp, "timestamp"))
+						else if (!_stricmp (szTmp, "ts") || !_stricmp (szTmp, "timestamp"))
 							mountOptions.PreserveTimestamp = FALSE;
 
-						if (!_stricmp (szTmp, "sm") || !_stricmp (szTmp, "system"))
+						else if (!_stricmp (szTmp, "sm") || !_stricmp (szTmp, "system"))
 							mountOptions.PartitionInInactiveSysEncScope = bPrebootPasswordDlgMode = TRUE;
 					
-						if (!_stricmp (szTmp, "bk") || !_stricmp (szTmp, "headerbak"))
+						else if (!_stricmp (szTmp, "bk") || !_stricmp (szTmp, "headerbak"))
 							mountOptions.UseBackupHeader = TRUE;
 
-						if (!_stricmp (szTmp, "recovery"))
+						else if (!_stricmp (szTmp, "recovery"))
 							mountOptions.RecoveryMode = TRUE;
+
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
 
 						CmdMountOptions = mountOptions;
 						CmdMountOptionsValid = TRUE;
 					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
 				}
 				break;
 
 			case OptionPassword:
-				GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs,
-						     (char *) CmdVolumePassword.Text, sizeof (CmdVolumePassword.Text));
-				CmdVolumePassword.Length = strlen ((char *) CmdVolumePassword.Text);
-				CmdVolumePasswordValid = TRUE;
+				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     (char *) CmdVolumePassword.Text, sizeof (CmdVolumePassword.Text)))
+				{
+					CmdVolumePassword.Length = strlen ((char *) CmdVolumePassword.Text);
+					CmdVolumePasswordValid = TRUE;
+				}
+				else
+					AbortProcess ("COMMAND_LINE_ERROR");
 				break;
 
 			case OptionVolume:
-				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, nArgPos, &i,
+				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i,
 								      nNoCommandLineArgs, szFileName, sizeof (szFileName)))
 				{
 					RelativePath2Absolute (szFileName);
 					AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
 					CmdLineVolumeSpecified = TRUE;
 				}
+				else
+					AbortProcess ("COMMAND_LINE_ERROR");
 				break;
 
 			case OptionQuit:
 				{
-					char szTmp[32];
+					char szTmp[32] = {0};
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						nArgPos, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
 					{
 						if (!_stricmp (szTmp, "UAC")) // Used to indicate non-install elevation
 							break;
 
-						if (!_stricmp (szTmp, "preferences"))
+						else if (!_stricmp (szTmp, "preferences"))
 						{
 							Quit = TRUE;
 							UsePreferences = TRUE;
 							break;
 						}
 
-						if (!_stricmp (szTmp, "background"))
+						else if (!_stricmp (szTmp, "background"))
 							bEnableBkgTask = TRUE;
+
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
 					}
 
 					Quit = TRUE;
@@ -7333,10 +7383,10 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				break;
 
 			case OptionTokenLib:
-				if (GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs, SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath)) == HAS_ARGUMENT)
+				if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath)) == HAS_ARGUMENT)
 					InitSecurityTokenLibrary(hwndDlg);
 				else
-					Error ("COMMAND_LINE_ERROR", hwndDlg);
+					AbortProcess ("COMMAND_LINE_ERROR");
 
 				break;
 
@@ -7352,9 +7402,9 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			case OptionPkcs5:
 				{
-					char szTmp[32];
+					char szTmp[32] = {0};
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						nArgPos, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
 					{
 						if (_stricmp(szTmp, "sha512") == 0 || _stricmp(szTmp, "sha-512") == 0)
 							CmdVolumePkcs5 = SHA512;
@@ -7367,27 +7417,31 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 						else
 						{
 							CmdVolumePkcs5 = 0;
-							Error ("COMMAND_LINE_ERROR", hwndDlg);
+							AbortProcess ("COMMAND_LINE_ERROR");
 						}
 
 					}
 					else
-						Error ("COMMAND_LINE_ERROR", hwndDlg);
+						AbortProcess ("COMMAND_LINE_ERROR");
 				}
 				break;
 			case OptionTrueCryptMode:
 				CmdVolumeTrueCryptMode = TRUE;
 				break;
 
-				// no option = file name
+				// no option = file name if there is only one argument
 			default:
 				{
-					strcpy_s (szFileName, array_capacity (szFileName), lpszCommandLineArgs[i]);
-					RelativePath2Absolute (szFileName);
-
 					if (nNoCommandLineArgs == 1)
+					{
+						strcpy_s (szFileName, array_capacity (szFileName), lpszCommandLineArgs[i]);
+						RelativePath2Absolute (szFileName);
+
 						CmdLineVolumeSpecified = TRUE;
-					AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
+						AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
 				}
 			}
 		}

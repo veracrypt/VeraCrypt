@@ -130,81 +130,26 @@ int GetArgSepPosOffset (char *lpszArgument)
 	return 0;
 }
 
-int GetArgumentID (argumentspec *as, char *lpszArgument, int *nArgPos)
+int GetArgumentID (argumentspec *as, char *lpszArgument)
 {
-	char szTmp[MAX_PATH * 2];
 	int i;
-
-	i = strlen (lpszArgument);
-	szTmp[i] = 0;
-	while (--i >= 0)
-	{
-		szTmp[i] = (char) tolower (lpszArgument[i]);
-	}
 
 	for (i = 0; i < as->arg_cnt; i++)
 	{
-		size_t k;
-
-		k = strlen (as->args[i].long_name);
-		if (memcmp (as->args[i].long_name, szTmp, k * sizeof (char)) == 0)
+		if (_stricmp (as->args[i].long_name, lpszArgument) == 0)
 		{
-			int x;
-			for (x = i + 1; x < as->arg_cnt; x++)
-			{
-				size_t m;
-
-				m = strlen (as->args[x].long_name);
-				if (memcmp (as->args[x].long_name, szTmp, m * sizeof (char)) == 0)
-				{
-					break;
-				}
-			}
-
-			if (x == as->arg_cnt)
-			{
-				if (strlen (lpszArgument) != k)
-					*nArgPos = k;
-				else
-					*nArgPos = 0;
-				return as->args[i].Id;
-			}
+			return as->args[i].Id;
 		}
 	}
 
 	for (i = 0; i < as->arg_cnt; i++)
 	{
-		size_t k;
-
 		if (as->args[i].short_name[0] == 0)
 			continue;
 
-		k = strlen (as->args[i].short_name);
-		if (memcmp (as->args[i].short_name, szTmp, k * sizeof (char)) == 0)
+		if (_stricmp (as->args[i].short_name, lpszArgument) == 0)
 		{
-			int x;
-			for (x = i + 1; x < as->arg_cnt; x++)
-			{
-				size_t m;
-
-				if (as->args[x].short_name[0] == 0)
-					continue;
-
-				m = strlen (as->args[x].short_name);
-				if (memcmp (as->args[x].short_name, szTmp, m * sizeof (char)) == 0)
-				{
-					break;
-				}
-			}
-
-			if (x == as->arg_cnt)
-			{
-				if (strlen (lpszArgument) != k)
-					*nArgPos = k;
-				else
-					*nArgPos = 0;
-				return as->args[i].Id;
-			}
+			return as->args[i].Id;
 		}
 	}
 
@@ -212,27 +157,19 @@ int GetArgumentID (argumentspec *as, char *lpszArgument, int *nArgPos)
 	return -1;
 }
 
-int GetArgumentValue (char **lpszCommandLineArgs, int nArgPos, int *nArgIdx,
+int GetArgumentValue (char **lpszCommandLineArgs, int *nArgIdx,
 		  int nNoCommandLineArgs, char *lpszValue, int nValueSize)
 {
 	*lpszValue = 0;
 
-	if (nArgPos)
-	{
-		/* Handles the case of no space between parameter code and
-		   value */
-		StringCbCopyA (lpszValue, nValueSize, &lpszCommandLineArgs[*nArgIdx][nArgPos]);
-		lpszValue[nValueSize - 1] = 0;
-		return HAS_ARGUMENT;
-	}
-	else if (*nArgIdx + 1 < nNoCommandLineArgs)
+	if (*nArgIdx + 1 < nNoCommandLineArgs)
 	{
 		int x = GetArgSepPosOffset (lpszCommandLineArgs[*nArgIdx + 1]);
 		if (x == 0)
 		{
 			/* Handles the case of space between parameter code
 			   and value */
-			StringCbCopyA (lpszValue, nValueSize, &lpszCommandLineArgs[*nArgIdx + 1][x]);
+			StringCbCopyA (lpszValue, nValueSize, lpszCommandLineArgs[*nArgIdx + 1]);
 			lpszValue[nValueSize - 1] = 0;
 			(*nArgIdx)++;
 			return HAS_ARGUMENT;

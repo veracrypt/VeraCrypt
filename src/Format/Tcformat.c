@@ -7831,7 +7831,6 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 			{
 				OptionHistory,
 				OptionNoIsoCheck,
-				OptionQuit,
 				OptionTokenLib,
 				CommandResumeSysEncLogOn,
 				CommandResumeSysEnc,
@@ -7848,7 +7847,6 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 			{
 				{ OptionHistory,				"/history",			"/h", FALSE },
 				{ OptionNoIsoCheck,				"/noisocheck",		"/n", FALSE },
-				{ OptionQuit,					"/quit",			"/q", FALSE },
 				{ OptionTokenLib,				"/tokenlib",		NULL, FALSE },
 
 				{ CommandResumeSysEncLogOn,		"/acsysenc",		"/a", TRUE },
@@ -7864,7 +7862,6 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			argumentspec as;
 
-			int nArgPos;
 			int x;
 
 			if (lpszCommandLineArgs[i] == NULL)
@@ -7873,7 +7870,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 			as.args = args;
 			as.arg_cnt = sizeof(args)/ sizeof(args[0]);
 			
-			x = GetArgumentID (&as, lpszCommandLineArgs[i], &nArgPos);
+			x = GetArgumentID (&as, lpszCommandLineArgs[i]);
 
 			switch (x)
 			{
@@ -8004,37 +8001,33 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			case OptionHistory:
 				{
-					char szTmp[8];
-					GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs,
-						     szTmp, sizeof (szTmp));
-					if (!_stricmp(szTmp,"y") || !_stricmp(szTmp,"yes"))
-					{
-						bHistory = TRUE;
-						bHistoryCmdLine = TRUE;
-					}
+					char szTmp[8] = {0};
+					bHistory = bHistoryCmdLine = TRUE;
 
-					if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, sizeof (szTmp)))
 					{
-						bHistory = FALSE;
-						bHistoryCmdLine = TRUE;
+						if (!_stricmp(szTmp,"y") || !_stricmp(szTmp,"yes"))
+						{
+							bHistory = TRUE;
+						}
+
+						else if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
+						{
+							bHistory = FALSE;
+						}
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
 					}
 				}
 				break;
 				
 			case OptionTokenLib:
-				if (GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs, SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath)) == HAS_ARGUMENT)
+				if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath)) == HAS_ARGUMENT)
 					InitSecurityTokenLibrary(hwndDlg);
 				else
-					Error ("COMMAND_LINE_ERROR", hwndDlg);
+					AbortProcess ("COMMAND_LINE_ERROR");
 
-				break;
-
-			case OptionQuit:
-				{
-					// Used to indicate non-install elevation
-					char szTmp[32];
-					GetArgumentValue (lpszCommandLineArgs, nArgPos, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp));
-				}
 				break;
 
 			default:

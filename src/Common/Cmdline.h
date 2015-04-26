@@ -33,8 +33,8 @@ typedef struct argumentspec_t
 BOOL CALLBACK CommandHelpDlgProc ( HWND hwndDlg , UINT msg , WPARAM wParam , LPARAM lParam );
 int Win32CommandLine ( char *lpszCommandLine , char ***lpszArgs );
 int GetArgSepPosOffset ( char *lpszArgument );
-int GetArgumentID ( argumentspec *as , char *lpszArgument , int *nArgPos );
-int GetArgumentValue ( char **lpszCommandLineArgs , int nArgPos , int *nArgIdx , int nNoCommandLineArgs , char *lpszValue , int nValueSize );
+int GetArgumentID ( argumentspec *as , char *lpszArgument );
+int GetArgumentValue ( char **lpszCommandLineArgs , int *nArgIdx , int nNoCommandLineArgs , char *lpszValue , int nValueSize );
 
 #ifdef __cplusplus
 }
