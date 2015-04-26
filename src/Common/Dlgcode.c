@@ -6072,7 +6072,7 @@ int GetFirstAvailableDrive ()
 	DWORD dwUsedDrives = GetLogicalDrives();
 	int i;
 
-	for (i = 3; i < 26; i++)
+	for (i = 0; i < 26; i++)
 	{
 		if (!(dwUsedDrives & 1 << i))
 			return i;
@@ -6087,7 +6087,7 @@ int GetLastAvailableDrive ()
 	DWORD dwUsedDrives = GetLogicalDrives();
 	int i;
 
-	for (i = 25; i > 2; i--)
+	for (i = 25; i >= 0; i--)
 	{
 		if (!(dwUsedDrives & 1 << i))
 			return i;

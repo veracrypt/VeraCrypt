@@ -134,7 +134,7 @@ int MaxVolumeIdleTime = -120;
 int nCurrentShowType = 0;			/* current display mode, mount, unmount etc */
 int nSelectedDriveIndex = -1;		/* Item number of selected drive */
 
-int cmdUnmountDrive = 0;			/* Volume drive letter to unmount (-1 = all) */
+int cmdUnmountDrive = -2;			/* Volume drive letter to unmount (-1 = all) */
 Password VolumePassword;			/* Password used for mounting volumes */
 Password CmdVolumePassword;			/* Password passed from command line */
 BOOL CmdVolumePasswordValid = FALSE;

@@ -120,7 +120,7 @@ int MaxVolumeIdleTime = -120;
 int nCurrentShowType = 0;			/* current display mode, mount, unmount etc */
 int nSelectedDriveIndex = -1;		/* Item number of selected drive */
 
-int cmdUnmountDrive = 0;			/* Volume drive letter to unmount (-1 = all) */
+int cmdUnmountDrive = -2;			/* Volume drive letter to unmount (-1 = all) */
 Password VolumePassword;			/* Password used for mounting volumes */
 Password CmdVolumePassword;			/* Password passed from command line */
 int VolumePkcs5 = 0;
@@ -1255,7 +1255,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 
 	/* Drive letters */
 
-	for (i = 2; i < 26; i++)
+	for (i = 0; i < 26; i++)
 	{
 		int curDrive = 0;
 
@@ -3926,7 +3926,7 @@ static BOOL Dismount (HWND hwndDlg, int nDosDriveNo)
 	BOOL status = FALSE;
 	WaitCursor ();
 
-	if (nDosDriveNo == 0)
+	if (nDosDriveNo == -2)
 		nDosDriveNo = (char) (HIWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))) - 'A');
 
 	if (bCloseDismountedWindows)
@@ -5322,7 +5322,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Dismount
-			if (cmdUnmountDrive > 0)
+			if (cmdUnmountDrive >= 0)
 			{
 				MOUNT_LIST_STRUCT mountList;
 				DWORD bytesReturned;
@@ -6150,7 +6150,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					case IDM_UNMOUNT_VOLUME:
 						if (CheckMountList (hwndDlg, FALSE))
-							Dismount (hwndDlg, 0);
+							Dismount (hwndDlg, -2);
 						break;
 
 					case IDPM_OPEN_VOLUME:
@@ -6238,7 +6238,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			if (CheckMountList (hwndDlg, FALSE))
-				Dismount (hwndDlg, 0);
+				Dismount (hwndDlg, -2);
 			return 1;
 		}
 
@@ -7262,7 +7262,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 					{
 						commandLineDrive = *szDriveLetter = (char) toupper (*szDriveLetter);
 
-						if (commandLineDrive < 'C' || commandLineDrive > 'Z')
+						if (commandLineDrive < 'A' || commandLineDrive > 'Z')
 							AbortProcess ("BAD_DRIVE_LETTER");
 					}
 					else
