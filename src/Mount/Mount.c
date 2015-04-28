@@ -1744,8 +1744,6 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					bKeyboardLayoutChanged = TRUE;
 				}
 
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SHOW_PASSWORD_CHPWD_ORI), SW_HIDE);
 
 				/* for system encryption, we can't change the PRF */
 				EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), FALSE);
@@ -2279,7 +2277,6 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			SetCheckBox (hwndDlg, IDC_SHOW_PASSWORD, FALSE);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD), FALSE);
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_SETPASSWORDCHAR, '*', 0);
 			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);

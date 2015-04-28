@@ -60,6 +60,7 @@ static void PrintMainMenu ()
 		return;
 
 	Print ("    Keyboard Controls:\r\n");
+	Print ("    [F5]   Hide/Show Password\r\n");
 	Print ("    [Esc]  ");
 
 #ifndef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
@@ -149,6 +150,7 @@ static byte AskPassword (Password &password)
 	size_t pos = 0;
 	byte scanCode;
 	byte asciiCode;
+	byte hidePassword = 1;
 
 	Print ("Enter password");
 	Print (PreventNormalSystemBoot ? " for hidden system:\r\n" : ": ");
@@ -178,6 +180,10 @@ static byte AskPassword (Password &password)
 			}
 			continue;
 
+		case TC_BIOS_KEY_F5:
+			hidePassword ^= 0x01;
+			continue;
+
 		default:
 			if (scanCode == TC_BIOS_KEY_ESC || IsMenuKey (scanCode))
 			{
@@ -196,10 +202,11 @@ static byte AskPassword (Password &password)
 		}
 
 		password.Text[pos++] = asciiCode;
+		if (hidePassword) asciiCode = '*';
 		if (pos < MAX_PASSWORD)
-			PrintChar ('*');
+			PrintChar (asciiCode);
 		else
-			PrintCharAtCursor ('*');
+			PrintCharAtCursor (asciiCode);
 	}
 }
 

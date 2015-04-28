@@ -534,7 +534,6 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 
 			SetCheckBox (hwndDlg, IDC_SHOW_PASSWORD, FALSE);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD), FALSE);
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_SETPASSWORDCHAR, '*', 0);
 			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
