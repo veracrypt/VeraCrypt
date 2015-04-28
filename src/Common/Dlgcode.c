@@ -186,8 +186,8 @@ HMODULE hRichEditDll = NULL;
 #define WINDOWS_DIALOG_CLASS "#32770"
 
 /* Custom class names */
-#define TC_DLG_CLASS "CustomDlg"
-#define TC_SPLASH_CLASS "SplashDlg"
+#define TC_DLG_CLASS "VeraCryptCustomDlg"
+#define TC_SPLASH_CLASS "VeraCryptSplashDlg"
 
 /* Benchmarks */
 
@@ -1532,7 +1532,7 @@ RegisterRedTick (HINSTANCE hInstance)
   wc.hIcon = LoadIcon (NULL, IDI_APPLICATION);
   wc.hCursor = NULL;
   wc.hbrBackground = (HBRUSH) GetStockObject (LTGRAY_BRUSH);
-  wc.lpszClassName = "REDTICK";
+  wc.lpszClassName = "VCREDTICK";
   wc.lpfnWndProc = &RedTick; 
   
   rc = (ULONG) RegisterClass (&wc);
@@ -1543,7 +1543,7 @@ RegisterRedTick (HINSTANCE hInstance)
 BOOL
 UnregisterRedTick (HINSTANCE hInstance)
 {
-  return UnregisterClass ("REDTICK", hInstance);
+  return UnregisterClass ("VCREDTICK", hInstance);
 }
 
 LRESULT CALLBACK
@@ -2502,7 +2502,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 			}
 		}
 	}
-
+	
 	/* Get the attributes for the standard dialog class */
 	if ((GetClassInfo (hInst, WINDOWS_DIALOG_CLASS, &wc)) == 0)
 	{
