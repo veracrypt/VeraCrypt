@@ -15,5 +15,6 @@ NTSTATUS TCOpenVolume ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension , MOU
 void TCCloseVolume ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension );
 NTSTATUS TCCompletion ( PDEVICE_OBJECT DeviceObject , PIRP Irp , PVOID pUserBuffer );
 static NTSTATUS TCSendHostDeviceIoControlRequest ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension , ULONG IoControlCode , void *OutputBuffer , ULONG OutputBufferSize );
+static NTSTATUS TCSendHostDeviceIoControlRequestEx ( PDEVICE_OBJECT DeviceObject , PEXTENSION Extension , ULONG IoControlCode , void *InputBuffer , ULONG InputBufferSize , void *OutputBuffer , ULONG OutputBufferSize );
 NTSTATUS COMPLETE_IRP ( PDEVICE_OBJECT DeviceObject , PIRP Irp , NTSTATUS IrpStatus , ULONG_PTR IrpInformation );
 static void RestoreTimeStamp ( PEXTENSION Extension );

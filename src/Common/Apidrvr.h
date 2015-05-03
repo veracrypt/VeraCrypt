@@ -103,6 +103,7 @@ typedef struct
 	int pkcs5_prf;
 	int ProtectedHidVolPkcs5Prf;
 	BOOL bTrueCryptMode;
+	uint32 BytesPerPhysicalSector;
 } MOUNT_STRUCT;
 
 typedef struct

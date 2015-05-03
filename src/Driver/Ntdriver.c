@@ -120,8 +120,8 @@ NTSTATUS DriverAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 
 	if (VolumeClassFilterRegistered && BootArgsValid && BootArgs.HiddenSystemPartitionStart != 0)
 	{
-		PWSTR interfaceLinks;
-		if (NT_SUCCESS (IoGetDeviceInterfaces (&GUID_DEVINTERFACE_VOLUME, pdo, DEVICE_INTERFACE_INCLUDE_NONACTIVE, &interfaceLinks)))
+		PWSTR interfaceLinks = NULL;
+		if (NT_SUCCESS (IoGetDeviceInterfaces (&GUID_DEVINTERFACE_VOLUME, pdo, DEVICE_INTERFACE_INCLUDE_NONACTIVE, &interfaceLinks)) && interfaceLinks)
 		{
 			if (interfaceLinks[0] != UNICODE_NULL)
 			{
@@ -626,6 +626,42 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (DISK_GEOMETRY);
 		}
+		break;
+
+	case IOCTL_STORAGE_QUERY_PROPERTY:
+		if (ValidateIOBufferSize (Irp, sizeof (STORAGE_PROPERTY_QUERY), ValidateInput))
+		{			
+			PSTORAGE_PROPERTY_QUERY pStoragePropQuery = (PSTORAGE_PROPERTY_QUERY) Irp->AssociatedIrp.SystemBuffer;
+			STORAGE_QUERY_TYPE type = pStoragePropQuery->QueryType;
+
+			if (type == PropertyExistsQuery)
+			{
+				if (pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
+				{
+					Irp->IoStatus.Status = STATUS_SUCCESS;
+					Irp->IoStatus.Information = 0;
+				}
+			}
+			else if (type == PropertyStandardQuery)
+			{
+				if (pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
+				{
+					if (ValidateIOBufferSize (Irp, sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR), ValidateOutput))
+					{
+						PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR outputBuffer = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+
+						outputBuffer->Version = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+						outputBuffer->Size = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+						outputBuffer->BytesPerLogicalSector = Extension->BytesPerSector;
+						outputBuffer->BytesPerPhysicalSector = Extension->HostBytesPerPhysicalSector;
+						outputBuffer->BytesOffsetForSectorAlignment = Extension->BytesOffsetForSectorAlignment;
+						Irp->IoStatus.Status = STATUS_SUCCESS;
+						Irp->IoStatus.Information = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+					}
+				}
+			}
+		}
+		
 		break;
 
 	case IOCTL_DISK_GET_PARTITION_INFO:

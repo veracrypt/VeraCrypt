@@ -21,6 +21,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <time.h>
+#include <tchar.h>
 
 #include "Resource.h"
 
@@ -6230,6 +6231,48 @@ void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap)
 	IgnoreWmDeviceChange = FALSE;
 }
 
+BOOL GetPhysicalDriveAlignment(UINT nDriveNumber, STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR* pDesc)
+{
+	DWORD dwRet = NO_ERROR;
+
+	if (!pDesc)
+		return FALSE;
+
+	// Format physical drive path (may be '\\.\PhysicalDrive0', '\\.\PhysicalDrive1' and so on).
+	TCHAR strDrivePath[512];
+	StringCbPrintf(strDrivePath, sizeof(strDrivePath), _T("\\\\.\\PhysicalDrive%u"), nDriveNumber);
+
+	// Get a handle to physical drive
+	HANDLE hDevice = ::CreateFile(strDrivePath, 0, FILE_SHARE_READ,
+		NULL, OPEN_EXISTING, 0, NULL);
+
+	if(INVALID_HANDLE_VALUE == hDevice)
+		return FALSE;
+
+	// Set the input data structure
+	STORAGE_PROPERTY_QUERY storagePropertyQuery;
+	ZeroMemory(&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY));
+	storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
+	storagePropertyQuery.QueryType = PropertyStandardQuery;
+
+	// Get the necessary output buffer size
+	DWORD dwBytesReturned = 0;
+	BOOL bRet = ::DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY,
+		&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY),
+		pDesc, sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR),
+		&dwBytesReturned, NULL);
+	dwRet = ::GetLastError();
+	::CloseHandle(hDevice);
+
+	if (!bRet)
+	{
+		SetLastError (dwRet);
+		return FALSE;
+	}
+	else
+		return TRUE;
+}
+
 /************************************************************/
 
 // implementation of the generic wait dialog mechanism
@@ -6477,7 +6520,42 @@ retry:
 		{
 			DWORD bps, flags, d;
 			if (GetDiskFreeSpace (root, &d, &bps, &d, &d))
+			{
 				mount.BytesPerSector = bps;
+				mount.BytesPerPhysicalSector = bps;
+			}
+			
+			if (IsOSAtLeast (WIN_VISTA))
+			{
+				if (	(strlen(root) >= 2)
+					&&	(root[1] == ':')
+					&&	(toupper(root[0]) >= 'A' && toupper(root[0]) <= 'Z')
+					)
+				{
+					string drivePath = "\\\\.\\X:";
+					HANDLE dev = INVALID_HANDLE_VALUE;
+					VOLUME_DISK_EXTENTS extents = {0};
+					DWORD dwResult = 0;
+					drivePath[4] = root[0];
+
+					if ((dev = CreateFile (drivePath.c_str(),0, 0, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
+					{
+						if (DeviceIoControl (dev, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &extents, sizeof(extents), &dwResult, NULL))
+						{
+							if (extents.NumberOfDiskExtents > 0)
+							{
+								STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR desc;
+								if (GetPhysicalDriveAlignment (extents.Extents[0].DiskNumber, &desc))
+								{
+									mount.BytesPerSector = desc.BytesPerLogicalSector;
+									mount.BytesPerPhysicalSector = desc.BytesPerPhysicalSector;
+								}
+							}
+						}
+						CloseHandle (dev);
+					}
+				}
+			}
 
 			// Read-only host filesystem
 			if (!mount.bMountReadOnly && GetVolumeInformation (root, NULL, 0,  NULL, &d, &flags, NULL, 0))

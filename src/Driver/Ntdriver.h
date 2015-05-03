@@ -58,8 +58,10 @@ typedef struct EXTENSION
 	ULONG SectorsPerTrack;		/* Partition info */
 	ULONG BytesPerSector;		/* Partition info */
 	UCHAR PartitionType;		/* Partition info */
-	
+
 	uint32 HostBytesPerSector;
+	uint32 HostBytesPerPhysicalSector;
+	ULONG BytesOffsetForSectorAlignment;
 
 	KEVENT keVolumeEvent;		/* Event structure used when setting up a device */
 
