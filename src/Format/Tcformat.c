@@ -7830,6 +7830,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 			{
 				OptionHistory,
 				OptionNoIsoCheck,
+				OptionQuit,
 				OptionTokenLib,
 				CommandResumeSysEncLogOn,
 				CommandResumeSysEnc,
@@ -7847,7 +7848,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				{ OptionHistory,				"/history",			"/h", FALSE },
 				{ OptionNoIsoCheck,				"/noisocheck",		"/n", FALSE },
 				{ OptionTokenLib,				"/tokenlib",		NULL, FALSE },
-
+				{ OptionQuit,					"/quit",			"/q", FALSE },
 				{ CommandResumeSysEncLogOn,		"/acsysenc",		"/a", TRUE },
 				{ CommandResumeSysEnc,			"/csysenc",			"/c", TRUE },
 				{ CommandDecryptSysEnc,			"/dsysenc",			"/d", TRUE },
@@ -8027,6 +8028,14 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				else
 					AbortProcess ("COMMAND_LINE_ERROR");
 
+				break;
+
+			case OptionQuit:
+				{
+					// Used to indicate non-install elevation
+					char szTmp[32];
+					GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, szTmp, sizeof (szTmp));
+				}
 				break;
 
 			default:
