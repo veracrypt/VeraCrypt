@@ -253,6 +253,44 @@ volatile int NonSysInplaceEncStatus = NONSYS_INPLACE_ENC_STATUS_NONE;
 
 vector <HostDevice> DeferredNonSysInPlaceEncDevices;
 
+// specific definitions and implementation for support of resume operation 
+// in wait dialog mechanism
+
+void CALLBACK ResumeInPlaceEncWaitThreadProc(void* pArg, HWND hwndDlg)
+{
+	char szDevicePath[MAX_PATH] = {0};
+
+	DeferredNonSysInPlaceEncDevices.clear();
+	if (IDOK != DialogBoxParamW (hInst,
+		MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), hwndDlg,
+		(DLGPROC) RawDevicesDlgProc, (LPARAM) & szDevicePath[0]))
+	{
+		szDevicePath[0] = 0;
+	}
+
+	foreach (const HostDevice &device, GetAvailableHostDevices (true, true))
+	{
+		if (device.IsPartition || device.DynamicVolume)
+		{
+			if ((strlen(szDevicePath) > 0) && (device.Path != szDevicePath))
+				continue;
+
+			OpenVolumeContext volume;
+
+			if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, FALSE, FALSE, FALSE, TRUE) == ERR_SUCCESS)
+			{
+				if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
+					&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
+				{
+					DeferredNonSysInPlaceEncDevices.push_back (device);
+				}
+
+				CloseVolume (&volume);
+			}
+		}
+	}
+}
+
 
 static BOOL ElevateWholeWizardProcess (string arguments)
 {
@@ -6892,27 +6930,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					/* Scan all available partitions to discover all partitions where non-system in-place
 					encryption has been interrupted. */
 
-					BOOL tmpbDevice;
-					DeferredNonSysInPlaceEncDevices.clear();
+					BOOL tmpbDevice;					
 
-					foreach (const HostDevice &device, GetAvailableHostDevices (true, true))
-					{
-						if (device.IsPartition || device.DynamicVolume)
-						{
-							OpenVolumeContext volume;
+					NormalCursor ();
 
-							if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, FALSE, FALSE, FALSE, TRUE) == ERR_SUCCESS)
-							{
-								if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
-									&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
-								{
-									DeferredNonSysInPlaceEncDevices.push_back (device);
-								}
+					ShowWaitDialog (hwndDlg, TRUE, ResumeInPlaceEncWaitThreadProc, NULL);
 
-								CloseVolume (&volume);
-							}
-						}
-					}
+					WaitCursor();
 
 					if (DeferredNonSysInPlaceEncDevices.empty())
 					{
