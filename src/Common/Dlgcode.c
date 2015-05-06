@@ -3016,6 +3016,7 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		{
 			LVCOLUMNW LvCol;
 			HWND hList = GetDlgItem (hwndDlg, IDC_DEVICELIST);
+			RawDevicesDlgParam* pDlgParam = (RawDevicesDlgParam *) lParam;
 
 			LocalizeDialog (hwndDlg, "IDD_RAWDEVICES_DLG");
 
@@ -3048,9 +3049,14 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			devices.clear();
 			itemToDeviceMap.clear();
 
-			WaitCursor();
-			devices = GetAvailableHostDevices (false, true, false);
-			NormalCursor();
+			if (pDlgParam->devices.empty())
+			{
+				WaitCursor();
+				devices = GetAvailableHostDevices (false, true, false);
+				NormalCursor();
+			}
+			else
+				devices = pDlgParam->devices;
 
 			if (devices.empty())
 			{
@@ -3140,7 +3146,7 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				item.iItem = line++;   
 			}
 
-			lpszFileName = (char *) lParam;
+			lpszFileName = pDlgParam->pszFileName;
 
 #ifdef VOLFORMAT
 			EnableWindow (GetDlgItem (hwndDlg, IDOK), FALSE);
@@ -3153,15 +3159,33 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		// catch non-device line selected
 		if (msg == WM_NOTIFY && ((LPNMHDR) lParam)->code == LVN_ITEMCHANGED && (((LPNMLISTVIEW) lParam)->uNewState & LVIS_FOCUSED ))
 		{
+			BOOL bEnableOkButton = FALSE;
 			LVITEM LvItem;
-			memset(&LvItem,0,sizeof(LvItem));
+			memset(&LvItem,0,sizeof(LvItem));			
 			LvItem.mask = LVIF_TEXT | LVIF_PARAM;   
 			LvItem.iItem = ((LPNMLISTVIEW) lParam)->iItem;
 			LvItem.pszText = lpszFileName;
 			LvItem.cchTextMax = TC_MAX_PATH;
 
+			lpszFileName[0] = 0;
 			SendMessage (GetDlgItem (hwndDlg, IDC_DEVICELIST), LVM_GETITEM, LvItem.iItem, (LPARAM) &LvItem);
-			EnableWindow (GetDlgItem ((HWND) hwndDlg, IDOK), lpszFileName[0] != 0 && lpszFileName[0] != ' ');
+			if (lpszFileName[0] != 0 && lpszFileName[0] != ' ')
+			{
+				bEnableOkButton = TRUE;
+#ifdef VOLFORMAT
+				if (	bInPlaceEncNonSysResumed && (WizardMode == WIZARD_MODE_NONSYS_DEVICE)
+					&&	LvItem.iItem != -1 && itemToDeviceMap.find (LvItem.iItem) != itemToDeviceMap.end()
+					)
+				{
+					const HostDevice selectedDevice = itemToDeviceMap[LvItem.iItem];
+					if (selectedDevice.ContainsSystem)
+					{
+						bEnableOkButton = FALSE;
+					}
+				}
+#endif
+			}
+			EnableWindow (GetDlgItem ((HWND) hwndDlg, IDOK), bEnableOkButton);
 
 			return 1;
 		}
@@ -3181,6 +3205,12 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				if (WizardMode != WIZARD_MODE_SYS_DEVICE)
 				{
+					if (bInPlaceEncNonSysResumed && (WizardMode == WIZARD_MODE_NONSYS_DEVICE))
+					{
+						// disable selection
+						return 1;
+					}
+
 					if (AskYesNo ("CONFIRM_SYSTEM_ENCRYPTION_MODE", hwndDlg) == IDNO)
 					{
 						EndDialog (hwndDlg, IDCANCEL);
@@ -3243,6 +3273,12 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				{
 					if (WizardMode != WIZARD_MODE_SYS_DEVICE)
 					{
+						if (bInPlaceEncNonSysResumed && (WizardMode == WIZARD_MODE_NONSYS_DEVICE))
+						{
+							// disable selection
+							return 1;
+						}
+
 						if (AskYesNo ("CONFIRM_SYSTEM_ENCRYPTION_MODE", hwndDlg) == IDNO)
 						{
 							NormalCursor ();

@@ -94,6 +94,7 @@ extern __int64 NonSysInplaceEncBytesDone;
 extern __int64 NonSysInplaceEncTotalSize;
 extern int nPbar;
 extern volatile int WizardMode;
+extern volatile BOOL bInPlaceEncNonSysResumed;
 
 extern char HeaderKeyGUIView [KEY_GUI_VIEW_SIZE];
 extern char MasterKeyGUIView [KEY_GUI_VIEW_SIZE];

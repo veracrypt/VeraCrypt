@@ -259,33 +259,77 @@ vector <HostDevice> DeferredNonSysInPlaceEncDevices;
 void CALLBACK ResumeInPlaceEncWaitThreadProc(void* pArg, HWND hwndDlg)
 {
 	char szDevicePath[MAX_PATH] = {0};
+	RawDevicesDlgParam param;
+	param.devices = GetAvailableHostDevices (false, true, false);
+	param.pszFileName = szDevicePath;
 
 	DeferredNonSysInPlaceEncDevices.clear();
-	if (IDOK != DialogBoxParamW (hInst,
+
+	if ((IDOK == DialogBoxParamW (hInst,
 		MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), hwndDlg,
-		(DLGPROC) RawDevicesDlgProc, (LPARAM) & szDevicePath[0]))
+		(DLGPROC) RawDevicesDlgProc, (LPARAM) &param)) && strlen(szDevicePath))
 	{
-		szDevicePath[0] = 0;
-	}
-
-	foreach (const HostDevice &device, GetAvailableHostDevices (true, true))
-	{
-		if (device.IsPartition || device.DynamicVolume)
+		foreach (const HostDevice &device, param.devices)
 		{
-			if ((strlen(szDevicePath) > 0) && (device.Path != szDevicePath))
-				continue;
-
-			OpenVolumeContext volume;
-
-			if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, FALSE, FALSE, FALSE, TRUE) == ERR_SUCCESS)
+			if (device.Path == szDevicePath)
 			{
-				if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
-					&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
+				OpenVolumeContext volume;
+				int status = OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, FALSE, FALSE, FALSE, TRUE);
+
+				if ( status == ERR_SUCCESS)
 				{
-					DeferredNonSysInPlaceEncDevices.push_back (device);
+					if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
+						&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
+					{
+						DeferredNonSysInPlaceEncDevices.push_back (device);
+					}
+					else if (volume.CryptoInfo->EncryptedAreaLength.Value == volume.CryptoInfo->VolumeSize.Value)
+					{
+						WCHAR szMsg[1024];
+						StringCbPrintfW(szMsg, sizeof(szMsg), GetString ("SELECTED_PARTITION_ALREADY_INPLACE_ENC"),
+							volume.CryptoInfo->HeaderFlags);
+						ErrorDirect(szMsg, hwndDlg);
+					}
+					else
+					{
+						WCHAR szMsg[1024];
+						StringCbPrintfW(szMsg, sizeof(szMsg), GetString ("SELECTED_PARTITION_NOT_INPLACE_ENC"),
+							volume.CryptoInfo->HeaderFlags);
+						ErrorDirect(szMsg, hwndDlg);
+					}
+
+					CloseVolume (&volume);
+				}
+				else
+				{
+					handleError(hwndDlg, status);
 				}
 
-				CloseVolume (&volume);
+				break;
+			}
+		}
+	}
+	else
+	{
+		foreach (const HostDevice &device, param.devices)
+		{
+			if (	!device.ContainsSystem
+				&&	(device.IsPartition || device.DynamicVolume || device.IsVirtualPartition || device.Partitions.empty())
+				)
+			{
+
+				OpenVolumeContext volume;
+
+				if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, FALSE, FALSE, FALSE, TRUE) == ERR_SUCCESS)
+				{
+					if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
+						&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
+					{
+						DeferredNonSysInPlaceEncDevices.push_back (device);
+					}
+
+					CloseVolume (&volume);
+				}
 			}
 		}
 	}
@@ -5232,10 +5276,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			else
 			{
 				// Select device
-
+				RawDevicesDlgParam param;
+				param.pszFileName = szFileName;
 				int nResult = DialogBoxParamW (hInst,
 					MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), GetParent (hwndDlg),
-					(DLGPROC) RawDevicesDlgProc, (LPARAM) & szFileName[0]);
+					(DLGPROC) RawDevicesDlgProc, (LPARAM) & param);
 
 				// Check administrator privileges
 				if (!strstr (szFileName, "Floppy") && !IsAdmin() && !IsUacSupported ())

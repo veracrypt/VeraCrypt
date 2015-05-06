@@ -4823,8 +4823,10 @@ BOOL SelectContainer (HWND hwndDlg)
 
 BOOL SelectPartition (HWND hwndDlg)
 {
+	RawDevicesDlgParam param;
+	param.pszFileName = szFileName;
 	int nResult = DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), hwndDlg,
-		(DLGPROC) RawDevicesDlgProc, (LPARAM) & szFileName[0]);
+		(DLGPROC) RawDevicesDlgProc, (LPARAM) & param);
 	if (nResult == IDOK)
 	{
 		AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);

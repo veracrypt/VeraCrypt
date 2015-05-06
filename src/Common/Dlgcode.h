@@ -514,6 +514,12 @@ struct HostDevice
 	std::vector <HostDevice> Partitions;
 };
 
+struct RawDevicesDlgParam
+{
+	std::vector <HostDevice> devices;
+	char *pszFileName;
+};
+
 BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, char *initialDir, char *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter, const wchar_t *initialFileName = NULL, const wchar_t *defaultExtension = NULL);
 std::wstring SingleStringToWide (const std::string &singleString);
 std::wstring Utf8StringToWide (const std::string &utf8String);
