@@ -752,7 +752,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				&ullNewOffset);
 			if (hResult != S_OK)
 				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
-			else if (S_OK != ULongLongAdd(ullNewOffset, (ULONGLONG) pVerifyInformation->Length, &ullEndOffset))
+			else if (S_OK != ULongLongAdd(ullStartingOffset, (ULONGLONG) pVerifyInformation->Length, &ullEndOffset))
 				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
 			else if (ullEndOffset > (ULONGLONG) Extension->DiskLength)
 				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
