@@ -155,7 +155,12 @@ NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 	Extension = (DriveFilterExtension *) filterDeviceObject->DeviceExtension;
 	memset (Extension, 0, sizeof (DriveFilterExtension));
 
-	Extension->LowerDeviceObject = IoAttachDeviceToDeviceStack (filterDeviceObject, pdo);  // IoAttachDeviceToDeviceStackSafe() is not required in AddDevice routine and is also unavailable on Windows 2000 SP4
+	status = IoAttachDeviceToDeviceStackSafe (filterDeviceObject, pdo, &(Extension->LowerDeviceObject)); 
+	if (!NT_SUCCESS (status))
+	{
+		goto err;
+	}
+
 	if (!Extension->LowerDeviceObject)
 	{
 		status = STATUS_DEVICE_REMOVED;
@@ -276,6 +281,9 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		PHYSICAL_ADDRESS cryptoInfoAddress;		
 		
 		cryptoInfoAddress.QuadPart = (BootLoaderSegment << 4) + BootArgs.CryptoInfoOffset;
+#ifdef DEBUG
+		Dump ("Wiping memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
+#endif
 		mappedCryptoInfo = MmMapIoSpace (cryptoInfoAddress, BootArgs.CryptoInfoLength, MmCached);
 		if (mappedCryptoInfo)
 		{
@@ -336,13 +344,9 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		// Erase boot loader scheduled keys
 		if (mappedCryptoInfo)
 		{
-#ifdef DEBUG
-			PHYSICAL_ADDRESS cryptoInfoAddress;				
-			cryptoInfoAddress.QuadPart = (BootLoaderSegment << 4) + BootArgs.CryptoInfoOffset;
-			Dump ("Wiping memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
-#endif
 			burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
 			MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+			BootArgs.CryptoInfoLength = 0;
 		}
 
 		BootDriveFilterExtension = Extension;

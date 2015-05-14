@@ -42,7 +42,12 @@ NTSTATUS VolumeFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 	Extension = (VolumeFilterExtension *) filterDeviceObject->DeviceExtension;
 	memset (Extension, 0, sizeof (VolumeFilterExtension));
 
-	Extension->LowerDeviceObject = IoAttachDeviceToDeviceStack (filterDeviceObject, pdo);  // IoAttachDeviceToDeviceStackSafe() is not required in AddDevice routine and is also unavailable on Windows 2000 SP4
+	status = IoAttachDeviceToDeviceStackSafe (filterDeviceObject, pdo, &(Extension->LowerDeviceObject));
+	if (status != STATUS_SUCCESS)
+	{
+		goto err;
+	}
+
 	if (!Extension->LowerDeviceObject)
 	{
 		status = STATUS_DEVICE_REMOVED;
