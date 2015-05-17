@@ -98,7 +98,7 @@ void ChangeMainWindowVisibility ();
 void LaunchVolCreationWizard (HWND hwndDlg);
 BOOL WholeSysDriveEncryption (BOOL bSilent);
 BOOL CheckSysEncMountWithoutPBA (HWND hwndDlg, const char *devicePath, BOOL quiet);
-BOOL TCBootLoaderOnInactiveSysEncDrive (void);
+BOOL TCBootLoaderOnInactiveSysEncDrive (char *szDevicePath);
 void CreateRescueDisk (HWND hwndDlg);
 int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lpszVolume);
 int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume);

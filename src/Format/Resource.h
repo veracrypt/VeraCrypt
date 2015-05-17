@@ -34,6 +34,7 @@
 #define IDD_DEVICE_WIPE_MODE_PAGE_DLG   129
 #define IDD_DEVICE_TRANSFORM_MODE_DLG   130
 #define IDD_EXPANDED_LIST_SELECT_PAGE_DLG 131
+#define IDD_DRIVE_LETTER_SELECTION_PAGE 132
 #define IDC_BOX_TITLE                   1000
 #define IDC_RESCUE_DISK_ISO_PATH        1001
 #define IDC_COMBO_BOX                   1002
@@ -137,15 +138,17 @@
 #define IDT_PASS                        1100
 #define IDC_DEVICE_TRANSFORM_MODE_FORMAT 1101
 #define IDC_DEVICE_TRANSFORM_MODE_INPLACE 1102
+#define IDC_DRIVE_LETTER_LIST			1103
+#define IDT_DRIVE_LETTER				1104
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        132
+#define _APS_NEXT_RESOURCE_VALUE        133
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1103
+#define _APS_NEXT_CONTROL_VALUE         1105
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

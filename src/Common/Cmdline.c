@@ -55,6 +55,8 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 		}
 
+		StringCbCatA (tmp, 8192, "\nExamples:\n\nMount a volume as X:\tveracrypt.exe /q /v volume.tc /l X\nDismount a volume X:\tveracrypt.exe /q /d X");
+
 		SetWindowText (GetDlgItem (hwndDlg, IDC_COMMANDHELP_TEXT), (char*) tmp);
 		
 		TCfree(tmp);

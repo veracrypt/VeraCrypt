@@ -454,6 +454,184 @@ BOOL ActiveSysEncDeviceSelected (void)
 	return FALSE;
 }
 
+// When a function does not require the affected volume to be dismounted, there may be cases where we have two valid
+// paths selected in the main window and we cannot be sure which of them the user really intends to apply the function to.
+// This function asks the user to explicitly select either the volume path specified in the input field below the main 
+// drive list (whether mounted or not), or the path to the volume selected in the main drive list. If, however, both
+// of the GUI elements contain the same volume (or one of them does not contain any path), this function does not 
+// ask the user and returns the volume path directly (no selection ambiguity).
+// If driveNoPtr is not NULL, and the volume is mounted, its drive letter is returned in *driveNoPtr (if no valid drive
+// letter is resolved, -1 is stored instead).
+static string ResolveAmbiguousSelection (HWND hwndDlg, int *driveNoPtr)
+{
+	LPARAM selectedDrive = GetSelectedLong (GetDlgItem (MainDlg, IDC_DRIVELIST));
+
+	char volPathInputField [TC_MAX_PATH];
+	wchar_t volPathInputFieldW [TC_MAX_PATH];
+
+	wchar_t volPathDriveListW [TC_MAX_PATH];
+	string volPathDriveListStr;
+	wstring volPathDriveListWStr;
+
+	string retPath;
+
+	VOLUME_PROPERTIES_STRUCT prop;
+	DWORD dwResult;
+
+	BOOL useInputField = TRUE;
+
+	memset (&prop, 0, sizeof(prop));
+
+	BOOL ambig = (LOWORD (selectedDrive) != TC_MLIST_ITEM_FREE && LOWORD (selectedDrive) != 0xffff && HIWORD (selectedDrive) != 0xffff
+		&& VolumeSelected (MainDlg));
+
+	if (VolumeSelected (MainDlg))
+	{
+		// volPathInputField will contain the volume path (if any) from the input field below the drive list 
+		GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), volPathInputField, sizeof (volPathInputField));
+
+		if (!ambig)
+			retPath = (string) volPathInputField;
+	}
+
+	if (LOWORD (selectedDrive) != TC_MLIST_ITEM_FREE && LOWORD (selectedDrive) != 0xffff && HIWORD (selectedDrive) != 0xffff)
+	{
+		// A volume is selected in the main drive list.
+
+		switch (LOWORD (selectedDrive))
+		{
+		case TC_MLIST_ITEM_NONSYS_VOL:
+			prop.driveNo = HIWORD (selectedDrive) - 'A';
+
+			if (!DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &dwResult, NULL) || dwResult == 0)
+			{
+				// The driver did not return any path for this drive letter (the volume may have been dismounted).
+
+				// Return whatever is in the input field below the drive list (even if empty)
+				return ((string) volPathInputField);
+			}
+
+			// volPathDriveListWStr will contain the volume path selected in the main drive list
+			volPathDriveListWStr = (wstring) prop.wszVolume;
+			volPathDriveListStr = WideToSingleString (volPathDriveListWStr);
+			break;
+
+		case TC_MLIST_ITEM_SYS_PARTITION:
+
+			GetSysDevicePaths (MainDlg);
+			
+			if (bCachedSysDevicePathsValid)
+			{
+				volPathDriveListStr = (string) SysPartitionDevicePath;
+				volPathDriveListWStr = SingleStringToWide (volPathDriveListStr);
+			}
+
+			break;
+
+		case TC_MLIST_ITEM_SYS_DRIVE:
+
+			GetSysDevicePaths (MainDlg);
+
+			if (bCachedSysDevicePathsValid)
+			{
+				volPathDriveListStr = (string) SysDriveDevicePath;
+				volPathDriveListWStr = SingleStringToWide (volPathDriveListStr);
+			}
+
+			break;
+		}
+
+		if (!ambig)
+		{
+			useInputField = FALSE;
+			retPath = volPathDriveListStr;
+		}
+	}
+
+	if (ambig)
+	{
+		/* We have two paths. Compare them and if they don't match, ask the user to select one of them. Otherwise, return the path without asking. */
+
+		if (memcmp (volPathDriveListStr.c_str (), "\\??\\", 4) == 0)
+		{
+			// The volume path starts with "\\??\\" which is used for file-hosted containers. We're going to strip this prefix.
+
+			volPathDriveListStr = (string) (volPathDriveListStr.c_str () + 4);
+			volPathDriveListWStr = SingleStringToWide (volPathDriveListStr);
+		}
+
+		StringCbCopyW (volPathDriveListW, sizeof(volPathDriveListW), SingleStringToWide (volPathDriveListStr).c_str ());
+
+		ToSBCS (volPathDriveListW, sizeof(volPathDriveListW));
+		StringCbCopyA ((char *) volPathInputFieldW, sizeof(volPathInputFieldW), volPathInputField);
+		ToUNICODE ((char *) volPathInputFieldW, sizeof(volPathInputFieldW));
+
+		if (strcmp (((memcmp ((char *) volPathDriveListW, "\\??\\", 4) == 0) ? (char *) volPathDriveListW + 4 : (char *) volPathDriveListW), volPathInputField) != 0)
+		{
+			// The path selected in the input field is different from the path to the volume selected
+			// in the drive lettter list. We have to resolve possible ambiguity.
+
+			wchar_t *tmp[] = {L"", L"", L"", L"", L"", 0};
+			const int maxVolPathLen = 80;
+
+			if (volPathDriveListWStr.length () > maxVolPathLen)
+			{
+				// Ellipsis (path too long)
+				volPathDriveListWStr = wstring (L"...") + volPathDriveListWStr.substr (volPathDriveListWStr.length () - maxVolPathLen, maxVolPathLen);
+			}
+
+			wstring volPathInputFieldWStr (volPathInputFieldW);
+
+			if (volPathInputFieldWStr.length () > maxVolPathLen)
+			{
+				// Ellipsis (path too long)
+				volPathInputFieldWStr = wstring (L"...") + volPathInputFieldWStr.substr (volPathInputFieldWStr.length () - maxVolPathLen, maxVolPathLen);
+			}
+
+			tmp[1] = GetString ("AMBIGUOUS_VOL_SELECTION");
+			tmp[2] = (wchar_t *) volPathDriveListWStr.c_str();
+			tmp[3] = (wchar_t *) volPathInputFieldWStr.c_str();
+			tmp[4] = GetString ("IDCANCEL");
+
+			switch (AskMultiChoice ((void **) tmp, FALSE, hwndDlg))
+			{
+			case 1:
+				retPath = volPathDriveListStr;
+				break;
+
+			case 2:
+				retPath = (string) volPathInputField;
+				break;
+
+			default:
+				if (driveNoPtr != NULL)
+					*driveNoPtr = -1;
+
+				return string ("");
+			}
+		}
+		else
+		{
+			// Both selected paths are the same
+			retPath = (string) volPathInputField;
+		}
+	}
+
+	if (driveNoPtr != NULL)
+		*driveNoPtr = GetMountedVolumeDriveNo ((char *) retPath.c_str ());
+
+
+	if (memcmp (retPath.c_str (), "\\??\\", 4) == 0)
+	{
+		// The selected volume path starts with "\\??\\" which is used for file-hosted containers. We're going to strip this prefix.
+
+		retPath = (string) (retPath.c_str () + 4);
+	}
+
+	return retPath;
+}
+
+
 void LoadSettings (HWND hwndDlg)
 {
 	EnableHwEncryption ((ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
@@ -730,7 +908,7 @@ static BOOL SysEncDeviceActive (BOOL bSilent)
 	return (BootEncStatus.DriveMounted);
 }
 
-// Returns TRUE if the entire system drive (as opposed to the system partition only) is (or is to be) encrypted
+// Returns TRUE if the entire system drive (as opposed to the system partition only) of the currently running OS is (or is to be) encrypted
 BOOL WholeSysDriveEncryption (BOOL bSilent)
 {
 	try
@@ -956,18 +1134,16 @@ BOOL CheckSysEncMountWithoutPBA (HWND hwndDlg, const char *devicePath, BOOL quie
 // Returns TRUE if the host drive of the specified partition contains a portion of the TrueCrypt Boot Loader
 // and if the drive is not within key scope of active system encryption (e.g. the system drive of the running OS).
 // If bPrebootPasswordDlgMode is TRUE, this function returns FALSE (because the check would be redundant).
-BOOL TCBootLoaderOnInactiveSysEncDrive (void) 
+BOOL TCBootLoaderOnInactiveSysEncDrive (char *szDevicePath) 
 {
 	try
 	{
 		int driveNo;
-		char szDevicePath [TC_MAX_PATH+1];
 		char parentDrivePath [TC_MAX_PATH+1];
 
 		if (bPrebootPasswordDlgMode)
 			return FALSE;
 
-		GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), szDevicePath, sizeof (szDevicePath));
 
 		if (sscanf (szDevicePath, "\\Device\\Harddisk%d\\Partition", &driveNo) != 1)
 			return FALSE;
@@ -1037,7 +1213,7 @@ BOOL SelectItem (HWND hTree, char nLetter)
 
 static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 {
-	char t[TC_MAX_PATH] = {'"',0};
+	char t[TC_MAX_PATH + 1024] = {'"',0};
 	char *tmp;
 
 	GetModuleFileName (NULL, t+1, sizeof(t)-1);
@@ -3671,7 +3847,9 @@ LPARAM GetSelectedLong (HWND hTree)
 	item.mask = LVIF_PARAM;
 	item.iItem = hItem;
 
-	if (ListView_GetItem (hTree, &item) == FALSE)
+	if (	(ListView_GetItemCount (hTree) < 1)
+		||	(ListView_GetItem (hTree, &item) == FALSE)
+		)
 		return MAKELONG (0xffff, 0xffff);
 	else
 		return item.lParam;
@@ -4490,7 +4668,7 @@ static void EncryptSystemDevice (HWND hwndDlg)
 
 		if (!MutexExistsOnSystem (TC_MUTEX_NAME_SYSENC))	// If no instance of the wizard is currently taking care of system encryption
 		{
-			LaunchVolCreationWizard (MainDlg, "/sysenc");
+			LaunchVolCreationWizard (hwndDlg, "/sysenc");
 		}
 		else
 			Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
@@ -4504,7 +4682,7 @@ static void EncryptSystemDevice (HWND hwndDlg)
 
 		if (!MutexExistsOnSystem (TC_MUTEX_NAME_SYSENC))	// If no instance of the wizard is currently taking care of system encryption
 		{
-			LaunchVolCreationWizard (MainDlg, "/sysenc");
+			LaunchVolCreationWizard (hwndDlg, "/sysenc");
 		}
 		else
 			Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
@@ -4584,7 +4762,7 @@ static void DecryptSystemDevice (HWND hwndDlg)
 		}
 
 		CloseSysEncMutex ();	
-		LaunchVolCreationWizard (MainDlg, "/dsysenc");
+		LaunchVolCreationWizard (hwndDlg, "/dsysenc");
 	}
 	else
 		Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
@@ -4599,7 +4777,118 @@ static void CreateHiddenOS (HWND hwndDlg)
 	// such information, but will exit (displaying only an error meessage).
 	Info("HIDDEN_OS_PREINFO", hwndDlg);
 
-	LaunchVolCreationWizard (MainDlg, "/isysenc");
+	LaunchVolCreationWizard (hwndDlg, "/isysenc");
+}
+
+static void DecryptNonSysDevice (HWND hwndDlg, BOOL bResolveAmbiguousSelection, BOOL bUseDriveListSel)
+{
+	string scPath;
+
+	if (bResolveAmbiguousSelection)
+	{
+		scPath = ResolveAmbiguousSelection (hwndDlg, NULL);
+
+		if (scPath.empty ())
+		{
+			// The user selected Cancel
+			return;
+		}
+	}
+	else if (bUseDriveListSel)
+	{
+		// Decrypt mounted volume selected in the main drive list
+
+		LPARAM lLetter = GetSelectedLong (GetDlgItem (MainDlg, IDC_DRIVELIST));
+
+		if (LOWORD (lLetter) != 0xffff)
+		{
+			VOLUME_PROPERTIES_STRUCT prop;
+			DWORD bytesReturned;
+
+			memset (&prop, 0, sizeof (prop));
+			prop.driveNo = (char) HIWORD (lLetter) - 'A';
+
+			if (!DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &bytesReturned, NULL))
+			{
+				handleWin32Error (MainDlg);
+				return;
+			}
+
+			scPath = WideToSingleString ((wchar_t *) prop.wszVolume);
+		}
+		else
+			return;
+	}
+	else
+	{
+		// Decrypt volume specified in the input field below the main drive list
+
+		char volPath [TC_MAX_PATH];
+
+		GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), volPath, sizeof (volPath));
+
+		scPath = volPath;
+	}
+
+	if (scPath.empty ())
+	{
+		Warning ("NO_VOLUME_SELECTED", hwndDlg);
+		return;
+	}
+
+	WaitCursor();
+
+	switch (IsSystemDevicePath ((char *) scPath.c_str (), MainDlg, TRUE))
+	{
+	case 1:
+	case 2:
+		// The user wants to decrypt the system partition/drive. Divert to the appropriate function.
+
+		NormalCursor ();
+
+		DecryptSystemDevice (hwndDlg);
+		return;
+	}
+
+	WaitCursor();
+
+	// Make sure the user is not attempting to decrypt a partition on an entirely encrypted system drive.
+	if (IsNonSysPartitionOnSysDrive (scPath.c_str ()) == 1)
+	{
+		if (WholeSysDriveEncryption (TRUE))
+		{
+			// The system drive is entirely encrypted and the encrypted OS is running
+
+			NormalCursor ();
+
+			Warning ("CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE", hwndDlg);
+			return;
+		}
+	}
+	else if (TCBootLoaderOnInactiveSysEncDrive ((char *) scPath.c_str ()))
+	{
+		// The system drive MAY be entirely encrypted (external access without PBA) and the potentially encrypted OS is not running
+
+		NormalCursor ();
+
+		Warning ("CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE", hwndDlg);
+
+		// We allow the user to continue as we don't know if the drive is really an encrypted system drive.
+		// If it is, the user has been warned and he will not be able to start decrypting, because the
+		// format wizard will not enable (nor will it allow the user to enable) the mount option for 
+		// external without-PBA access (the user will receive the 'Incorrect password' error message).
+	}
+
+	NormalCursor ();
+
+	
+	if (AskNoYesString ((wstring (GetString ("CONFIRM_DECRYPT_NON_SYS_DEVICE")) + L"\n\n" + SingleStringToWide (scPath)).c_str(), hwndDlg) == IDNO)
+		return;
+
+	if (AskWarnNoYes ("CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION", hwndDlg) == IDNO)
+		return;
+
+	LaunchVolCreationWizard (hwndDlg, (string ("/inplacedec \"") + scPath + "\"").c_str ());
 }
 
 // Blindly attempts (without any checks) to instruct the wizard to resume whatever system encryption process
@@ -4802,12 +5091,12 @@ static void ShowSystemEncryptionStatus (HWND hwndDlg)
 
 }
 
-static void ResumeInterruptedNonSysInplaceEncProcess (void)
+static void ResumeInterruptedNonSysInplaceEncProcess (BOOL bDecrypt)
 {
 	// IMPORTANT: This function must not check any config files! Otherwise, if a config file was lost or corrupt, 
 	// the user would not be able resume encryption and the data on the volume would be inaccessible.
 
-	LaunchVolCreationWizard (MainDlg, "/zinplace");
+	LaunchVolCreationWizard (MainDlg, bDecrypt? "/resumeinplacedec" : "/zinplace");
 }
 
 BOOL SelectContainer (HWND hwndDlg)
@@ -5435,8 +5724,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (bInPlaceEncNonSysPending && !NonSysInplaceEncInProgressElsewhere())
 				{
-					if (AskNonSysInPlaceEncryptionResume(hwndDlg) == IDYES)
-						ResumeInterruptedNonSysInplaceEncProcess ();
+					BOOL bDecrypt = FALSE;
+					if (AskNonSysInPlaceEncryptionResume(hwndDlg, &bDecrypt) == IDYES)
+						ResumeInterruptedNonSysInplaceEncProcess (bDecrypt);
 				}
 			}
 
@@ -6101,6 +6391,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_FAVORITES, GetString ("IDPM_ADD_TO_FAVORITES"));
 						AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_SYSTEM_FAVORITES, GetString ("IDPM_ADD_TO_SYSTEM_FAVORITES"));
 						AppendMenu (popup, MF_SEPARATOR, 0, "");
+						AppendMenuW (popup, MF_STRING, IDM_DECRYPT_NONSYS_VOL, GetString ("IDM_DECRYPT_NONSYS_VOL"));
+						AppendMenu (popup, MF_SEPARATOR, 0, "");
 						AppendMenuW (popup, MF_STRING, IDM_VOLUME_PROPERTIES, GetString ("IDPM_PROPERTIES"));
 						break;
 
@@ -6150,6 +6442,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					case IDM_UNMOUNT_VOLUME:
 						if (CheckMountList (hwndDlg, FALSE))
 							Dismount (hwndDlg, -2);
+						break;
+
+					case IDM_DECRYPT_NONSYS_VOL:
+						if (CheckMountList (hwndDlg, FALSE))
+							DecryptNonSysDevice (hwndDlg, FALSE, TRUE);
 						break;
 
 					case IDPM_OPEN_VOLUME:
@@ -6351,6 +6648,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				AppendMenuW (popup, MF_STRING, IDM_ADD_REMOVE_VOL_KEYFILES, GetString ("IDM_ADD_REMOVE_VOL_KEYFILES"));
 				AppendMenuW (popup, MF_STRING, IDM_REMOVE_ALL_KEYFILES_FROM_VOL, GetString ("IDM_REMOVE_ALL_KEYFILES_FROM_VOL"));
 				AppendMenu (popup, MF_SEPARATOR, 0, "");
+				AppendMenuW (popup, MF_STRING, IDM_DECRYPT_NONSYS_VOL, GetString ("IDM_DECRYPT_NONSYS_VOL"));
+				AppendMenu (popup, MF_SEPARATOR, 0, NULL);
 				AppendMenuW (popup, MF_STRING, IDM_BACKUP_VOL_HEADER, GetString ("IDM_BACKUP_VOL_HEADER"));
 				AppendMenuW (popup, MF_STRING, IDM_RESTORE_VOL_HEADER, GetString ("IDM_RESTORE_VOL_HEADER"));
 			}
@@ -6369,6 +6668,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			switch (menuItem)
 			{
+			case IDM_DECRYPT_NONSYS_VOL:
+				if (!VolumeSelected(hwndDlg))
+				{
+					Warning ("NO_VOLUME_SELECTED", hwndDlg);
+				}
+				else
+				{
+					DecryptNonSysDevice (hwndDlg, TRUE, FALSE);
+				}
+				break;
+
 			case IDM_CHANGE_PASSWORD:
 				if (!VolumeSelected(hwndDlg))
 				{
@@ -6466,6 +6776,22 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SendMessage (MainDlg, WM_COMMAND, menuItem, NULL);
 				break;
 			}
+			return 1;
+		}
+
+		if (lw == IDM_DECRYPT_NONSYS_VOL)
+		{
+			LPARAM selectedDrive = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
+
+			if (LOWORD (selectedDrive) == TC_MLIST_ITEM_FREE && !VolumeSelected (MainDlg))
+			{
+				Warning ("NO_VOLUME_SELECTED", hwndDlg);
+			}
+			else
+			{
+				DecryptNonSysDevice (hwndDlg, TRUE, FALSE);
+			}
+
 			return 1;
 		}
 
@@ -6963,7 +7289,27 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_RESUME_INTERRUPTED_PROC)
 		{
-			ResumeInterruptedNonSysInplaceEncProcess ();
+			// Ask the user to select encryption, decryption, or cancel
+			BOOL bDecrypt = FALSE;
+			char *tmpStr[] = {0,
+				"CHOOSE_ENCRYPT_OR_DECRYPT",
+				"ENCRYPT",
+				"DECRYPT",
+				"IDCANCEL",
+				0};
+
+			switch (AskMultiChoice ((void **) tmpStr, FALSE, hwndDlg))
+			{
+			case 1:
+				bDecrypt = FALSE;
+				break;
+			case 2:
+				bDecrypt = TRUE;
+				break;
+			default:
+				return 1;
+			}
+			ResumeInterruptedNonSysInplaceEncProcess (bDecrypt);
 			return 1;
 		}
 

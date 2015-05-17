@@ -52,6 +52,7 @@
 
 #ifdef TCMOUNT
 #include "Mount/Mount.h"
+#include "Mount/resource.h"
 #endif
 
 #ifdef VOLFORMAT
@@ -845,6 +846,17 @@ void AccommodateTextField (HWND hwndDlg, UINT ctrlId, BOOL bFirstUpdate, HFONT h
 	}
 }
 
+// Note that the user can still close the window by right-clicking its taskbar icon and selecting 'Close window', or by pressing Alt-F4, or using the Task Manager.
+void DisableCloseButton (HWND hwndDlg)
+{
+	EnableMenuItem (GetSystemMenu (hwndDlg, FALSE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
+}
+
+
+void EnableCloseButton (HWND hwndDlg)
+{
+	EnableMenuItem (GetSystemMenu (hwndDlg, FALSE), SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
+}
 
 // Protects an input field from having its content updated by a Paste action (call ToBootPwdField() to use this).
 static LRESULT CALLBACK BootPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -2787,6 +2799,61 @@ int IsSystemDevicePath (const char *path, HWND hwndDlg, BOOL bReliableRequired)
 }
 
 
+/* Determines whether the path points to a non-system partition on the system drive.
+IMPORTANT: As this may take a very long time if called for the first time, it should be called
+           only before performing a dangerous operation, never at WM_INITDIALOG or any other GUI events. 
+Return codes:
+0  - it isn't a non-system partition on the system drive 
+1  - it's a non-system partition on the system drive 
+-1 - the result can't be determined, isn't reliable, or there was an error. */
+int IsNonSysPartitionOnSysDrive (const char *path)
+{
+	char tmpPath [TC_MAX_PATH + 1];
+	int pos;
+
+	if (!GetSysDevicePaths (MainDlg))
+		return -1;
+
+	if (strlen (SysPartitionDevicePath) <= 1 || strlen (SysDriveDevicePath) <= 1)
+		return -1;
+
+	if (strncmp (path, SysPartitionDevicePath, max (strlen(path), strlen(SysPartitionDevicePath))) == 0
+		|| strncmp (path, SysDriveDevicePath, max (strlen(path), strlen(SysDriveDevicePath))) == 0)
+	{
+		// It is the system partition/drive path (it isn't a non-system partition)
+		return 0;
+	}
+
+	memset (tmpPath, 0, sizeof (tmpPath));
+	strncpy (tmpPath, path, sizeof (tmpPath) - 1);
+
+
+	pos = (int) FindString (tmpPath, "Partition", strlen (tmpPath), strlen ("Partition"), 0);
+
+	if (pos < 0)
+		return -1;
+
+	pos += strlen ("Partition");
+
+	if (pos + 1 > sizeof (tmpPath) - 1)
+		return -1;
+
+	tmpPath [pos] = '0';
+	tmpPath [pos + 1] = 0;
+
+	if (strncmp (tmpPath, SysDriveDevicePath, max (strlen(tmpPath), strlen(SysDriveDevicePath))) == 0)
+	{
+		// It is a non-system partition on the system drive 
+		return 1;
+	}
+	else 
+	{
+		// The partition is not on the system drive 
+		return 0;
+	}
+}
+
+
 wstring GetSysEncryptionPretestInfo2String (void)
 {
 	// This huge string is divided into smaller portions to make it easier for translators to
@@ -3990,7 +4057,10 @@ std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
 		StringCbCatW (szTmp, sizeof(szTmp), GetString ("PASSWORD_WRONG_CAPSLOCK_ON"));
 
 #ifdef TCMOUNT
-	if (TCBootLoaderOnInactiveSysEncDrive ())
+	char szDevicePath [TC_MAX_PATH+1] = {0};
+	GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), szDevicePath, sizeof (szDevicePath));
+
+	if (TCBootLoaderOnInactiveSysEncDrive (szDevicePath))
 	{
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString (KeyFilesEnable ? "PASSWORD_OR_KEYFILE_OR_MODE_WRONG" : "PASSWORD_OR_MODE_WRONG"));
 
@@ -6005,6 +6075,8 @@ BOOL CALLBACK MultiChoiceDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 				wrec.bottom - wrec.top - vertSubOffset + 1 + vertMsgHeightOffset,
 				TRUE);
 
+			DisableCloseButton (hwndDlg);
+
 			return 1;
 		}
 
@@ -6027,7 +6099,8 @@ BOOL CALLBACK MultiChoiceDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 		break;
 
 	case WM_CLOSE:
-		EndDialog (hwndDlg, 0);
+		// This prevents the window from being closed by pressing Alt-F4 (the Close button is hidden).
+		// Note that the OS handles modal MessageBox() dialog windows the same way.
 		return 1;
 	}
 
@@ -8335,6 +8408,11 @@ int AskNoYes (char *stringId, HWND hwnd)
 	return MessageBoxW (hwnd, GetString (stringId), lpszTitle, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2);
 }
 
+int AskNoYesString (const wchar_t *string, HWND hwnd)
+{
+	if (Silent) return IDNO;
+	return MessageBoxW (hwnd, string, lpszTitle, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2);
+}
 
 int AskOkCancel (char *stringId, HWND hwnd)
 {
@@ -8425,8 +8503,7 @@ int AskErrNoYes (char *stringId, HWND hwnd)
 // Input format 2: {L"", L"Message text", L"Button caption 1", ... L"Last button caption", 0};
 // The second format is to be used if any of the strings contains format specification (e.g. %s, %d) or
 // in any other cases where a string needs to be resolved before calling this function.
-// If the returned value is 0, the user closed the dialog window without making a choice. 
-// If the user made a choice, the returned value is the ordinal number of the choice (1..MAX_MULTI_CHOICES)
+// The returned value is the ordinal number of the choice the user selected (1..MAX_MULTI_CHOICES)
 int AskMultiChoice (void *strings[], BOOL bBold, HWND hwnd)
 {
 	MULTI_CHOICE_DLGPROC_PARAMS params;
@@ -10270,10 +10347,29 @@ BOOL BufferContainsString (const byte *buffer, size_t bufferSize, const char *st
 
 #ifndef SETUP
 
-int AskNonSysInPlaceEncryptionResume (HWND hwndDlg)
+int AskNonSysInPlaceEncryptionResume (HWND hwndDlg, BOOL *pbDecrypt)
 {
 	if (AskWarnYesNo ("NONSYS_INPLACE_ENC_RESUME_PROMPT", hwndDlg) == IDYES)
-		return IDYES;
+	{
+		char *tmpStr[] = {0,
+			"CHOOSE_ENCRYPT_OR_DECRYPT",
+			"ENCRYPT",
+			"DECRYPT",
+			"IDCANCEL",
+			0};
+
+		switch (AskMultiChoice ((void **) tmpStr, FALSE, hwndDlg))
+		{
+		case 1:
+			*pbDecrypt = FALSE;
+			return IDYES;
+		case 2:
+			*pbDecrypt = TRUE;
+			return IDYES;
+		default:
+			break;
+		}		
+	}
 
 	char *multiChoiceStr[] = { 0, "ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL", "DO_NOT_PROMPT_ME", "KEEP_PROMPTING_ME", 0 };
 

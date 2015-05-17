@@ -538,6 +538,7 @@ BEGIN
         MENUITEM "Select Device...",            IDM_SELECT_DEVICE
         MENUITEM SEPARATOR
         MENUITEM "Create New Volume...",        IDM_CREATE_VOLUME
+        MENUITEM "Permanently Decrypt...",      IDM_DECRYPT_NONSYS_VOL
         MENUITEM "Resume Interrupted Process",  IDM_RESUME_INTERRUPTED_PROC
         MENUITEM SEPARATOR
         MENUITEM "Mount Volume",                IDM_MOUNT_VOLUME
