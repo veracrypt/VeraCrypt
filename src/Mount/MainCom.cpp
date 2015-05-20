@@ -67,12 +67,6 @@ public:
 		return S_OK;
 	}
 
-	virtual void STDMETHODCALLTYPE AnalyzeKernelMiniDump (LONG_PTR hwndDlg)
-	{
-		MainDlg = (HWND) hwndDlg;
-		::AnalyzeKernelMiniDump ((HWND) hwndDlg);
-	}
-
 	virtual int STDMETHODCALLTYPE BackupVolumeHeader (LONG_PTR hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume)
 	{
 		USES_CONVERSION;
@@ -227,23 +221,6 @@ ITrueCryptMainCom *GetElevatedInstance (HWND parent)
 		throw UserAbort (SRC_POS);
 
 	return instance;
-}
-
-
-extern "C" void UacAnalyzeKernelMiniDump (HWND hwndDlg)
-{
-	CComPtr<ITrueCryptMainCom> tc;
-
-	CoInitialize (NULL);
-
-	if (ComGetInstance (hwndDlg, &tc))
-	{
-		WaitCursor();
-		tc->AnalyzeKernelMiniDump ((LONG_PTR) hwndDlg);
-		NormalCursor();
-	}
-
-	CoUninitialize ();
 }
 
 

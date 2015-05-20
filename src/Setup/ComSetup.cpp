@@ -7,7 +7,7 @@
 */
 
 #define TC_MAIN_COM_VERSION_MAJOR 2
-#define TC_MAIN_COM_VERSION_MINOR 6
+#define TC_MAIN_COM_VERSION_MINOR 7
 
 #define TC_FORMAT_COM_VERSION_MAJOR 2
 #define TC_FORMAT_COM_VERSION_MINOR 4
@@ -35,6 +35,7 @@ extern "C" BOOL RegisterComServers (char *modulePath)
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR, 0, SYS_WIN32);
 	// unregister older versions that may still exist
+	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-3, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-2, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-1, 0, SYS_WIN32);
 
@@ -72,6 +73,7 @@ extern "C" BOOL UnregisterComServers (char *modulePath)
 		return FALSE;
 
 	// unregister older versions that may still exist
+	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-3, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-2, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-1, 0, SYS_WIN32);
 

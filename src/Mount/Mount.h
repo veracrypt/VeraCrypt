@@ -107,7 +107,6 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions);
 uint32 ReadDriverConfigurationFlags ();
-void AnalyzeKernelMiniDump (HWND hwndDlg);
 void HookMouseWheel (HWND hwndDlg, UINT ctrlId);
 static BOOL HandleDriveListMouseWheelEvent (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bListMustBePointed);
 static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -126,6 +125,5 @@ typedef struct
 void SetDriverConfigurationFlag (uint32 flag, BOOL state);
 BOOL MountFavoriteVolumes (BOOL systemFavorites = FALSE, BOOL logOnMount = FALSE, BOOL hotKeyMount = FALSE, const VeraCrypt::FavoriteVolume &favoriteVolumeToMount = VeraCrypt::FavoriteVolume());
 void __cdecl mountFavoriteVolumeThreadFunction (void *pArg);
-BOOL GetExecutableImageInformation (const string &path, string &version, string &description, string &companyName, string &productName);
 
 #endif
