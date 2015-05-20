@@ -5761,7 +5761,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_WTSSESSION_CHANGE:
 		if (TaskBarIconMutex != NULL)
 		{
-			if (bDismountOnSessionLocked && (WTS_SESSION_LOCK == wParam))
+			if (bDismountOnSessionLocked && ((WTS_SESSION_LOCK == wParam) || (WTS_CONSOLE_DISCONNECT == wParam) || (WTS_REMOTE_DISCONNECT == wParam)))
 			{
 				// Auto-dismount when session is locked
 				DWORD dwResult;
