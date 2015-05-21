@@ -36,12 +36,31 @@ static HANDLE PeriodicFastPollThreadHandle = NULL;
 /* Macro to add four bytes to the pool */
 #define RandaddInt32(x) RandAddInt((unsigned __int32)x);
 
+#ifdef _WIN64
+#define RandaddIntPtr(x) RandAddInt64((unsigned __int64)x);
+#else
+#define RandaddIntPtr(x) RandAddInt((unsigned __int32)x);
+#endif
+
 void RandAddInt (unsigned __int32 x)
 {
 	RandaddByte(x); 
 	RandaddByte((x >> 8)); 
 	RandaddByte((x >> 16));
 	RandaddByte((x >> 24));
+}
+
+void RandAddInt64 (unsigned __int64 x)
+{
+	RandaddByte(x); 
+	RandaddByte((x >> 8)); 
+	RandaddByte((x >> 16));
+	RandaddByte((x >> 24));
+
+	RandaddByte((x >> 32));
+	RandaddByte((x >> 40));
+	RandaddByte((x >> 48));
+	RandaddByte((x >> 56));
 }
 
 #include <tlhelp32.h>
@@ -539,7 +558,7 @@ LRESULT CALLBACK KeyboardProc (int nCode, WPARAM wParam, LPARAM lParam)
 		}
 
 		EnterCriticalSection (&critRandProt);
-		RandaddInt32 ((unsigned __int32) (crc32int(&lParam) + timeCrc));
+		RandaddInt32 ((unsigned __int32) (GetCrc32((unsigned char*) &lParam, sizeof(lParam)) + timeCrc));
 		LeaveCriticalSection (&critRandProt);
 	}
 
@@ -734,36 +753,36 @@ BOOL FastPoll (void)
 	int nOriginalRandIndex = nRandIndex;
 	static BOOL addedFixedItems = FALSE;
 	FILETIME creationTime, exitTime, kernelTime, userTime;
-	DWORD minimumWorkingSetSize, maximumWorkingSetSize;
+	SIZE_T minimumWorkingSetSize, maximumWorkingSetSize;
 	LARGE_INTEGER performanceCount;
 	MEMORYSTATUS memoryStatus;
 	HANDLE handle;
 	POINT point;
 
 	/* Get various basic pieces of system information */
-	RandaddInt32 (GetActiveWindow ());	/* Handle of active window */
-	RandaddInt32 (GetCapture ());	/* Handle of window with mouse
+	RandaddIntPtr (GetActiveWindow ());	/* Handle of active window */
+	RandaddIntPtr (GetCapture ());	/* Handle of window with mouse
 					   capture */
-	RandaddInt32 (GetClipboardOwner ());	/* Handle of clipboard owner */
-	RandaddInt32 (GetClipboardViewer ());	/* Handle of start of
+	RandaddIntPtr (GetClipboardOwner ());	/* Handle of clipboard owner */
+	RandaddIntPtr (GetClipboardViewer ());	/* Handle of start of
 						   clpbd.viewer list */
-	RandaddInt32 (GetCurrentProcess ());	/* Pseudohandle of current
+	RandaddIntPtr (GetCurrentProcess ());	/* Pseudohandle of current
 						   process */
 	RandaddInt32 (GetCurrentProcessId ());	/* Current process ID */
-	RandaddInt32 (GetCurrentThread ());	/* Pseudohandle of current
+	RandaddIntPtr (GetCurrentThread ());	/* Pseudohandle of current
 						   thread */
 	RandaddInt32 (GetCurrentThreadId ());	/* Current thread ID */
 	RandaddInt32 (GetCurrentTime ());	/* Milliseconds since Windows
 						   started */
-	RandaddInt32 (GetDesktopWindow ());	/* Handle of desktop window */
-	RandaddInt32 (GetFocus ());	/* Handle of window with kb.focus */
+	RandaddIntPtr (GetDesktopWindow ());	/* Handle of desktop window */
+	RandaddIntPtr (GetFocus ());	/* Handle of window with kb.focus */
 	RandaddInt32 (GetInputState ());	/* Whether sys.queue has any events */
 	RandaddInt32 (GetMessagePos ());	/* Cursor pos.for last message */
 	RandaddInt32 (GetMessageTime ());	/* 1 ms time for last message */
-	RandaddInt32 (GetOpenClipboardWindow ());	/* Handle of window with
+	RandaddIntPtr (GetOpenClipboardWindow ());	/* Handle of window with
 							   clpbd.open */
-	RandaddInt32 (GetProcessHeap ());	/* Handle of process heap */
-	RandaddInt32 (GetProcessWindowStation ());	/* Handle of procs
+	RandaddIntPtr (GetProcessHeap ());	/* Handle of process heap */
+	RandaddIntPtr (GetProcessWindowStation ());	/* Handle of procs
 							   window station */
 	RandaddInt32 (GetQueueStatus (QS_ALLEVENTS));	/* Types of events in
 							   input queue */
@@ -800,8 +819,8 @@ BOOL FastPoll (void)
 	   process */
 	GetProcessWorkingSetSize (handle, &minimumWorkingSetSize,
 				  &maximumWorkingSetSize);
-	RandaddInt32 (minimumWorkingSetSize);
-	RandaddInt32 (maximumWorkingSetSize);
+	RandaddIntPtr (minimumWorkingSetSize);
+	RandaddIntPtr (maximumWorkingSetSize);
 
 	/* The following are fixed for the lifetime of the process so we only
 	   add them once */

@@ -60,6 +60,8 @@ extern BOOL volatile bFastPollEnabled;
 extern BOOL volatile bRandmixEnabled;
 extern DWORD CryptoAPILastError;
 
+void RandAddInt64 ( unsigned __int64 x );
+
 LRESULT CALLBACK MouseProc ( int nCode , WPARAM wParam , LPARAM lParam );
 LRESULT CALLBACK KeyboardProc ( int nCode , WPARAM wParam , LPARAM lParam );
 static unsigned __stdcall PeriodicFastPollThreadProc (void *dummy);
