@@ -13,7 +13,7 @@ extern "C" {
 BOOL ReadLocalMachineRegistryDword (char *subKey, char *name, DWORD *value);
 BOOL ReadLocalMachineRegistryMultiString (char *subKey, char *name, char *value, DWORD *size);
 BOOL ReadLocalMachineRegistryString (const char *subKey, char *name, char *value, DWORD *size);
-BOOL ReadLocalMachineRegistryStringNonReflected (const char *subKey, char *name, char *str, DWORD *size);
+BOOL ReadLocalMachineRegistryStringNonReflected (const char *subKey, char *name, char *str, DWORD *size, BOOL b32bitApp);
 int ReadRegistryInt (char *subKey, char *name, int defaultValue);
 char *ReadRegistryString (char *subKey, char *name, char *defaultValue, char *str, int maxLen);
 DWORD ReadRegistryBytes (char *path, char *name, char *value, int maxLen);

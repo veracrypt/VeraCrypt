@@ -8115,7 +8115,7 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 					mountOptions.ProtectedHidVolPkcs5Prf = DefaultVolumePkcs5;
 				else
 					mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
-				if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), MainDlg, MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
+				if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), MainDlg, (DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
 				{
 					status = FALSE;
 					goto skipMount;

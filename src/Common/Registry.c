@@ -65,12 +65,12 @@ BOOL ReadLocalMachineRegistryString (const char *subKey, char *name, char *str, 
 	return type == REG_SZ;
 }
 
-BOOL ReadLocalMachineRegistryStringNonReflected (const char *subKey, char *name, char *str, DWORD *size)
+BOOL ReadLocalMachineRegistryStringNonReflected (const char *subKey, char *name, char *str, DWORD *size, BOOL b32bitApp)
 {
 	HKEY hkey = 0;
 	DWORD type;
 
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, subKey, 0, KEY_READ | KEY_WOW64_64KEY, &hkey) != ERROR_SUCCESS)
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, subKey, 0, KEY_READ | (b32bitApp? KEY_WOW64_32KEY: KEY_WOW64_64KEY), &hkey) != ERROR_SUCCESS)
 		return FALSE;
 
 	if (RegQueryValueEx (hkey, name, NULL, &type, (BYTE *) str, size) != ERROR_SUCCESS)

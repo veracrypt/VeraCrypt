@@ -7668,7 +7668,7 @@ BOOL IsNonInstallMode ()
 
 	// The following test may be unreliable in some cases (e.g. after the user selects restore "Last Known Good
 	// Configuration" from the Windows boot menu).
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
 	{
 		RegCloseKey (hkey);
 		return FALSE;
@@ -10615,12 +10615,12 @@ std::string HarddiskVolumePathToPartitionPath (const std::string &harddiskVolume
 }
 
 
-BOOL IsApplicationInstalled (const char *appName)
+BOOL IsApplicationInstalled (const char *appName, BOOL b32bitApp)
 {
 	const char *uninstallRegName = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
 	BOOL installed = FALSE;
 	HKEY unistallKey;
-	LONG res = RegOpenKeyEx (HKEY_LOCAL_MACHINE, uninstallRegName, 0, KEY_READ | KEY_WOW64_64KEY, &unistallKey);
+	LONG res = RegOpenKeyEx (HKEY_LOCAL_MACHINE, uninstallRegName, 0, KEY_READ | b32bitApp? KEY_WOW64_32KEY: KEY_WOW64_64KEY, &unistallKey);
 	if (res != ERROR_SUCCESS)
 	{
 		SetLastError (res);
@@ -10635,7 +10635,7 @@ BOOL IsApplicationInstalled (const char *appName)
 		if (strstr (regName, "{") == regName)
 		{
 			regNameSize = sizeof (regName);
-			if (!ReadLocalMachineRegistryStringNonReflected ((string (uninstallRegName) + "\\" + regName).c_str(), "DisplayName", regName, &regNameSize))
+			if (!ReadLocalMachineRegistryStringNonReflected ((string (uninstallRegName) + "\\" + regName).c_str(), "DisplayName", regName, &regNameSize, b32bitApp))
 				regName[0] = 0;
 		}
 
