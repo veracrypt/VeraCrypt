@@ -72,6 +72,7 @@
     <control lang="ko" key="IDT_COLLECTING_RANDOM_DATA_NOTE">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 암호키의 암호력을 상당히 증대시킵니다. 계속하려면 "다음"을 클릭하세요.</control>
     <control lang="ko" key="IDT_CONFIRM">확인(&amp;C):</control>
     <control lang="ko" key="IDT_DONE">완료</control>
+	<control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="ko" key="IDT_ENCRYPTION_ALGO">암호 알고리듬</control>
     <control lang="ko" key="IDT_FILESYSTEM">파일시스템 </control>
     <control lang="ko" key="IDT_FILE_CONTAINER">파일 안에 가상의 암호화된 디스크를 만듭니다. 경험 없는 사용자에게 권장합니다.</control>
@@ -202,6 +203,7 @@
     <control lang="ko" key="IDM_CREATE_HIDDEN_OS">숨긴 운영체제 만들기...</control>
     <control lang="ko" key="IDM_CREATE_RESCUE_DISK">응급복구 디스크 만들기...</control>
     <control lang="ko" key="IDM_CREATE_VOLUME">새 볼륨 만들기...</control>
+	<control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
     <control lang="ko" key="IDM_DEFAULT_KEYFILES">기본 키파일...</control>
     <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
@@ -373,7 +375,7 @@
     <string lang="ko" key="ACCESS_DENIED">오류: 접근이 허용되지 않습니다.\n\n접근하려고 하는 파티션의 0 섹터이거나 부팅 장치입니다.</string>
     <string lang="ko" key="ADMINISTRATOR">관리자</string>
     <string lang="ko" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypt 드라이버를 로드하려면, 관리자 권한의 계정으로 로그온해야 합니다.</string>
-    <string lang="ko" key="ADMIN_PRIVILEGES_WARN_DEVICES">파티션/장치를 암호화/포맷하려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n이는 파일에 의한 볼륨에는 해당되지 않습니다.</string>
+    <string lang="ko" key="ADMIN_PRIVILEGES_WARN_DEVICES">파티션/장치를 암호화/암호해제/포맷하려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n이는 파일에 의한 볼륨에는 해당되지 않습니다.</string>
     <string lang="ko" key="ADMIN_PRIVILEGES_WARN_HIDVOL">숨긴 볼륨을 만들려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n계속하시겠습니까?</string>
     <string lang="ko" key="ADMIN_PRIVILEGES_WARN_NTFS">NTFS로 볼륨을 포맷하려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n관리자 권한이 없는 경우에는 볼륨을 FAT으로 포맷할 수 있습니다.</string>
     <string lang="ko" key="AES_HELP">FIPS에 의해 승인된 암호(Rijndael, 1998년 발표)는 미국부무 및 각 부서에서 1급 기밀로 분류된 정보를 보호하는데 이용되고 있습니다. 256-비트 키, 128-비트 블록, 14 라운드 (AES-256). 작업 모드는 XTS입니다.</string>
@@ -489,7 +491,11 @@
     <string lang="ko" key="FORMAT_FINISHED_HELP">\n\n볼륨이 성공적으로 만들어졌고, 사용할 준비가 되었습니다. 또 다른 VeraCrypt 볼륨을 만들려면 “다음”을 클릭하세요. 마법사를 끝내려면 “종료”를 클릭하세요.</string>
     <string lang="ko" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n숨겨진 VeraCrypt 볼륨을 성공적으로 만들었습니다(* 숨겨진 운영체제는 이 숨겨진 볼륨에 존재하게 됩니다).\n\n계속하려면 “다음”을 클릭합니다.</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">볼륨이 완전히 암호화됨</string>
+	<string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_INFO">중요: 새롭게 만들어진 VeraCrypt 볼륨을 삽입해서 이에 저장된 데이터에 접근하려면, VeraCrypt 메인 창에서 “장치 자동삽입”을 클릭합니다. 올바른 비밀번호 또는 키파일을 입력한 이후 사용자가 VeraCrypt 메인 창에 있는 목록에서 선택한 드라이브 문자에 볼륨이 삽입됩니다(* 선택한 드라이브 문자를 통해 암호화된 데이터에 접근할 수 있게 됩니다).\n\n위에서 언급한 단계를 기억해 두거나 작성해 주십시오. 볼륨을 삽입하거나 그곳에 저장된 데이터에 접근하려 할 때마다 이 단계를 반드시 따라야 합니다. 대체방법은 VeraCrypt 메인 창에서 “장치 선택”을 클릭한 후 해당 파티션/볼륨을 선택해서 “삽입”을 클릭하는 것입니다.\n\n파티션/볼륨이 성공적으로 암호화되었고(* 완전히 암호화된 VeraCrypt 볼륨 포함) 사용할 준비가 되었습니다.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</string>
     <string lang="ko" key="FORMAT_FINISHED_INFO">볼륨이 성공적으로 만들어졌고, 사용할 준비가 되었습니다.</string>
     <string lang="ko" key="FORMAT_FINISHED_TITLE">볼륨 생성</string>
     <string lang="ko" key="FORMAT_HELP">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 암호키의 암호력을 상당히 증대시킵니다. 이제 볼륨을 생성하려면 “포맷”을 클릭하세요.</string>
@@ -548,6 +554,7 @@
     <string lang="ko" key="NODRIVER">VeraCrypt 장치 드라이버에 연결할 수 없습니다. 장치 드라이버가 실행 중이 아니라면 VeraCrypt가 작동하지 않습니다.\n\n(윈도우의 문제로 인해) 장치 드라이버를 로드하기 전에 시스템을 로그오프하거나 다시 시작해야 합니다.</string>
     <string lang="ko" key="NOFONT">글꼴을 로딩/준비할 때 오류가 발생했습니다.</string>
     <string lang="ko" key="NOT_FOUND">드라이브 문자를 찾을 수 없거나 지정한 드라이브 문자가 없습니다.</string>
+	<string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
     <string lang="ko" key="DRIVE_LETTER_UNAVAILABLE">드라이브 문자를 사용할 수 없습니다.</string>
     <string lang="ko" key="NO_FILE_SELECTED">선택한 파일이 없습니다!</string>
     <string lang="ko" key="NO_FREE_DRIVES">이용가능한 드라이브 문자가 없습니다.</string>
@@ -567,6 +574,8 @@
     <string lang="ko" key="OVERWRITEPROMPT">주의: “%hs” 파일이 이미 존재합니다! 중요: VeraCrypt는 파일을 암호화하지 않고, 삭제합니다. 파일을 삭제하고, 그 파일을 새로운 VeraCrypt 보관소로 교체하시겠습니까?</string>
     <string lang="ko" key="OVERWRITEPROMPT_DEVICE">주의: 선택한 %s “%hs”%s에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM">주의: 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입하거나 볼륨에 저장된 파일에 접근할 수 없습니다.\n\n선택한 %s “%hs”%s의 암호화 작업을 시작하시겠습니까?</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%hs'%s?</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">WARNING: Please note that if power supply is suddenly interrupted while encrypting/decrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting/decrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting/decrypting, please make sure that you have backup copies of the files you want to encrypt/decrypt.\n\nDo you have such a backup?</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">주의: 기존의 자체 데이터를 암호화하는 동안 ① 전력 공급이 갑자기 중단되거나 ② 소프트웨어 또는 하드웨어의 문제때문에 운영체제가 충돌을 일으키면, 일부 데이터가 손상되거나 유실될 수 있습니다. 그러므로 암호화 작업을 시작하기 전에 암호화하고자 하는 파일의 복사본을 백업해 두었는지 확인해야 합니다.\n\n파일의 백업이 있습니까?</string>
     <string lang="ko" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">주의: “%hs”%s 파티션(→ 예: 시스템 파티션 뒤에 있는 첫번째 파티션)에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
     <string lang="ko" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">주의: 선택한 파티션에 큰 규모의 데이터가 포함되어 있습니다! 파티션에 저장되어 있는 파일들은 지워지고 손실됩니다(* 이들은 암호화되지 않습니다)!</string>
@@ -584,6 +593,7 @@
     <string lang="ko" key="PKCS5_PRF_CHANGED">헤더 키 도출 알고리듬을 성공적으로 설정했습니다.</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">자체 암호화 과정을 다시 시작하고자 하는 “비-시스템 볼륨”에 대한 비밀번호/키파일을 입력해 주십시오.\n\n\n참고: “다음”을 클릭하면 VeraCrypt는 ① 암호화 과정이 중단된 곳에서의 모든 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 VeraCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 모든 비-시스템 볼륨의 검색을 시도합니다. 한 개 이상의 볼륨이 검색되면, 사용자는 다음 단계에서 이러한 볼륨 중 하나를 선택해야 합니다.</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">나열된 볼륨 중 하나를 선택해 주십시오. 목록에는 ① 암호화 과정이 중단된 곳에서의 모든 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 VeraCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 접근가능한 모든 비-시스템 볼륨이 포함되어 있습니다.</string>
+	<string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="ko" key="PASSWORD_HELP">좋은 비밀번호를 선택하는 것은 매우 중요합니다. 사전에 나오는 한 개의 단어만을 포함하는 것 또는 2, 3개 단어의 조합은 피해야 합니다. 이름이나 생일 등도 피해야 합니다. 추측하기가 쉽기 때문입니다. 좋은 비밀번호는 무작위 조합입니다. 즉 대소문자, 숫자 및 @ ^ = $ * + 등과 같은 특수기호의 조합입니다. 적어도 20개 이상의 문자로 이루어진 비밀번호를 선택할 것을 권장합니다.  가능한 최대 길이는 64개 문자입니다.</string>
     <string lang="ko" key="PASSWORD_HIDDENVOL_HELP">숨긴 볼륨에 대한 비밀번호를 선택해 주세요. </string>
     <string lang="ko" key="PASSWORD_HIDDEN_OS_HELP">숨긴 운영체제(즉 숨긴 볼륨)에 대한 비밀번호를 입력해 주세요. </string>
@@ -606,8 +616,12 @@
     <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
     <string lang="ko" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">숨긴 시스템을 포함하고 있는 숨긴 볼륨을 보호하려는 경우, 숨긴 볼륨에 대한 비밀번호를 입력할 때 “표준 US 키보드 레이아웃”을 사용하고 있는지 확인해 주십시오. (윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅 전 환경에서 비밀번호를 입력할 필요가 있기 때문입니다.</string>
     <string lang="ko" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">① 암호화 과정이 중단된 곳에서의 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 VeraCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 비-시스템 볼륨을 찾지 못했습니다.\n\n비밀번호/키파일이 올바른지 확인해 주시고, 파티션/볼륨이 시스템 또는 프로그램(* 안티바이러스 소프트웨어 포함)에 의해 사용되고 있는지를 확인해 주십시오.</string>
+    <string lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</string>
+    <string lang="en" key="SELECTED_PARTITION_NOT_INPLACE_ENC">The selected partition/device is not using in-place encryption.\nHeader Flags = 0x%.8X</string>
     <string lang="ko" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n참고: ① 부팅-전 인증 없이 암호화된 시스템 드라이브에 위치한 파티션에 삽입을 시도하거나 ② 실행 중이 아닌 운영체제의 암호화된 시스템 파티션에 삽입하려고 하는 경우, “시스템 ▶ 부팅-전 인증 없이 삽입”을 선택해서 이 작업을 할 수 있습니다.</string>
     <string lang="ko" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">이 방식에서, 드라이브의 일부가 활성 시스템 암호화의 키 범위에 있는 경우, 드라이브에 위치한 파티션을 삽입할 수 없습니다.\n\n이 방식에서 이 파티션을 삽입하기 전에, ① 다른 드라이브에 설치되어 있는 운영체제로 부팅하거나 ② 암호화되지 않은 운영체제로 부팅해야 합니다.</string>
+    <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive).</string>
+    <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</string>
     <string lang="ko" key="PREV">&lt; 뒤로(&amp;B)</string>
     <string lang="ko" key="RAWDEVICES">시스템에 설치된 RAW 장치를 나열할 수 없습니다!</string>
     <string lang="ko" key="READONLYPROMPT">“%hs” 볼륨이 존재하고, 읽기전용 상태입니다. 그래도 교체하시겠습니까?</string>
@@ -707,11 +721,18 @@
     <string lang="ko" key="FOR_MORE_INFO_ON_PARTITIONS">파티션의 생성과 관리에 대한 자세한 정보는 운영체제와 함께 제공된 문서를 참고하거나 컴퓨터 판매업체의 기술지원 팀에게 도움을 요청하시기 바랍니다.</string>
     <string lang="ko" key="SYSTEM_PARTITION_NOT_ACTIVE">오류: 현재 실행 중인 운영체제는 부트 파티션(→ 첫번째 활성 파티션)에 설치되어 있지 않습니다. 이것은 지원되지 않습니다.</string>
     <string lang="en" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">You indicated that you intend to store files larger than 4 GB in this VeraCrypt volume. However, you chose the FAT file system, on which files larger than 4 GB cannot be stored.\n\nAre you sure you want to format the volume as FAT?</string>
+    <string lang="en" key="NONSYS_INPLACE_DECRYPTION_BAD_VOL_FORMAT">Error: VeraCrypt does not support in-place decryption of legacy non-system volumes created by VeraCrypt 1.0b or earlier.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</string>
+    <string lang="en" key="NONSYS_INPLACE_DECRYPTION_CANT_DECRYPT_HID_VOL">Error: VeraCrypt cannot in-place decrypt a hidden VeraCrypt volume.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</string>
+    <string lang="en" key="CONFIRM_VOL_CONTAINS_NO_HIDDEN_VOL">Warning: Note that VeraCrypt cannot in-place decrypt a volume that contains a hidden VeraCrypt volume (the hidden volume would be overwritten with pseudorandom data).\n\nPlease confirm that the volume you are about to decrypt contains no hidden volume.\n\nNote: If the volume contains a hidden volume but you do not mind losing the hidden volume, you can select Proceed (the outer volume will be safely decrypted).</string>
+    <string lang="en" key="VOL_CONTAINS_NO_HIDDEN_VOL">The volume does not contain any hidden volume. Proceed.</string>
+    <string lang="en" key="VOL_CONTAINS_A_HIDDEN_VOL">The volume contains a hidden volume. Cancel.</string>
     <string lang="ko" key="CANT_ACCESS_VOL">오류: 볼륨에 접근할 수 없습니다!\n\n선택한 볼륨이 존재하는지 여부, 삽입되었는지 여부, 시스템 또는 프로그램에 의해 사용 중인지 여부 및 볼륨에 대한 읽기/쓰기 권한이 있는지 아니면 쓰기금지가 되어 있는지 확인해 주세요.</string>
+	<string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
     <string lang="ko" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">오류: 볼륨에 접근할 수 없거나 볼륨 정보를 얻을 수 없습니다.\n\n선택한 볼륨이 존재하는지 여부, 삽입되었는지 여부, 시스템 또는 프로그램에 의해 사용 중인지 여부 및 볼륨에 대한 읽기/쓰기 권한이 있는지 아니면 쓰기금지가 되어 있는지 확인해 주세요.</string>
     <string lang="ko" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">오류: 볼륨에 접근할 수 없거나 볼륨 정보를 얻을 수 없습니다. 선택한 볼륨이 존재하는지 여부, 삽입되었는지 여부, 시스템 또는 프로그램에 의해 사용 중인지 여부 및 볼륨에 대한 읽기/쓰기 권한이 있는지 아니면 쓰기금지가 되어 있는지 확인해 주세요.\n\n문자가 계속되면 다음 단계를 따르면 도움이 될 것입니다.</string>
     <string lang="ko" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">오류로 인해 VeraCrypt가 파티션을 암호화하는데 방해가 됩니다. 이전에 보고된 문제점들을 고친 후 다시 시도해 보십시오. 문제가 계속되면 다음 단계를 따르면 도움이 될 것입니다.</string>
     <string lang="ko" key="INPLACE_ENC_GENERIC_ERR_RESUME">오류로 인해 VeraCrypt가 파티션 암호화 과정을 재개하는데 문제가 있습니다.\n\n이전에 보고된 문제점들을 고친 후 과정을 재개하는 작업을 다시 시도해 보십시오. 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입할 수 없습니다.</string>
+	<string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
     <string lang="ko" key="CANT_DISMOUNT_OUTER_VOL">오류: 외부 볼륨을 꺼낼 수 없습니다!\n\n프로그램이나 시스템에 의해 사용 중인 파일이나 폴더가 볼륨에 있는 경우에는 볼륨을 꺼낼 수 없습니다.\n\n볼륨에 있는 파일 또는 폴더를 사용 중인 다른 프로그램을 종료한 다음 “다시 시도”를 클릭하세요.</string>
     <string lang="ko" key="CANT_GET_OUTER_VOL_INFO">오류: 외부 볼륨에 대한 정보를 얻을 수 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
     <string lang="ko" key="CANT_ACCESS_OUTER_VOL">오류: 외부 볼륨에 접근할 수 없습니다! 볼륨 만들기를 계속할 수 없습니다.</string>
@@ -796,7 +817,7 @@
     <string lang="ko" key="TC_INSTALLER_IS_RUNNING">VeraCrypt 설치기가 ① 현재 시스템에서 실행되고 있거나 ② 설치의 실행 및 준비 또는 ③ VeraCrypt를 업데이트하고 있습니다. 진행하기 전에, 그 작업이 끝날 때까지 기다리거나 닫아 주세요. 만약 닫기 작업이 되지 않는 경우에는 진행 전에 컴퓨터를 다시 시작해야 합니다.</string>
     <string lang="ko" key="INSTALL_FAILED">설치 실패.</string>
     <string lang="ko" key="UNINSTALL_FAILED">제거 실패.</string>
-    <string lang="ko" key="DIST_PACKAGE_CORRUPTED">배포 패키지가 손상되었습니다. 다시 다운로드해 보시기 바랍니다(VeraCrypt 공식 웹사이트 - www.veracrypt.org).</string>
+    <string lang="ko" key="DIST_PACKAGE_CORRUPTED">배포 패키지가 손상되었습니다. 다시 다운로드해 보시기 바랍니다(VeraCrypt 공식 웹사이트 - https://veracrypt.codeplex.com).</string>
     <string lang="ko" key="CANNOT_WRITE_FILE_X">%hs 파일을 쓸 수 없습니다.</string>
     <string lang="ko" key="EXTRACTING_VERB">추출 중</string>
     <string lang="ko" key="CANNOT_READ_FROM_PACKAGE">패키지에서 데이터를 읽을 수 없습니다.</string>
@@ -983,6 +1004,7 @@
     <string lang="ko" key="CONFIRM_EXIT_UNIVERSAL">종료?</string>
     <string lang="ko" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt가 암호화를 할 지 아니면 암호해제를 할 것인가를 결정하는데 충분한 정보를 가지고 있지 않습니다.</string>
     <string lang="ko" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt가 암호화를 할 지 아니면 암호해제를 할 것인가를 결정하는데 충분한 정보를 가지고 있지 않습니다.\n\n참고: 부팅-전 환경에서 시스템 파티션/드라이브를 암호해제한 경우라면, 암호해제를 클릭해서 작업을 마무리할 필요가 있습니다.</string>
+	<string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">파티션/볼륨의 암호화 진행을 중단하고 나중으로 연기하시겠습니까?\n\n참고: 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입할 수 없습니다. 나중에 암호화 과정을 다시 시작할 수 있고, 이 경우 중단된 시점부터 계속 진행됩니다. 이 작업은 예컨대 VeraCrypt 메인 창의 메뉴 표시줄에 있는 “볼륨” ▶ “중단된 진행을 다시 시작”을 선택해서 실행할 수 있습니다.</string>
     <string lang="ko" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">시스템 파티션/드라이브의 암호화 진행을 중단하고 나중으로 연기하시겠습니까?\n\n참고: 나중에 이 과정을 다시 시작할 수 있고 중단된 시점부터 계속 진행됩니다. 이 작업은 예컨대 VeraCrypt 메인 창의 메뉴 표시줄에 있는 “시스템” ▶ “중단된 진행을 다시 시작”을 선택해서 실행할 수 있습니다. 암호화 진행을 완전히 종료하거나 되돌리려면, “시스템” ▶ “시스템 파티션/드라이브의 영구적 암호해제”를 선택하세요.</string>
     <string lang="ko" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">시스템 파티션/드라이브의 암호해제 진행을 중단하고 나중으로 연기하시겠습니까?\n\n참고: 나중에 이 과정을 다시 시작할 수 있고 중단된 시점부터 계속 진행됩니다. 이 작업은 예컨대 VeraCrypt 메인 창의 메뉴 표시줄에 있는 “시스템” ▶ “중단된 진행을 다시 시작”을 선택해서 실행할 수 있습니다. 암호해제 진행을 되돌리고, 암호화를 시작하려면, “시스템” ▶ “시스템 파티션/드라이브 암호화”를 선택하세요.</string>
@@ -992,6 +1014,7 @@
     <string lang="ko" key="FAILED_TO_START_WIPING">오류: 지우기 진행을 시작하는데 실패했습니다.</string>
     <string lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결되었습니다.\n\n\n이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs</string>
     <string lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs)</string>
+	<string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ko" key="NOTHING_TO_RESUME">다시 시작할 진행/작업이 없습니다.</string>
     <string lang="ko" key="HIDVOL_PROT_BKG_TASK_WARNING">주의: VeraCrypt 백그라운드 작업의 사용이 해제되었습니다. 프로그램을 종료하면, 숨긴 볼륨의 손상이 방지된 경우에도 그 알림을 통보받지 못합니다.\n\n참고: 언제라도 VeraCrypt 트레이 아이콘을 오른쪽 클릭하고 “종료”를 선택해서 백그라운드 작업을 종료할 수 있습니다.\n\nVeraCrypt 백그라운드 작업을 지금 사용가능하게 할까요?</string>
     <string lang="ko" key="LANG_PACK_VERSION">언어팩 버전:  %s</string>
@@ -1126,6 +1149,7 @@
     <string lang="ko" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">예비테스트를 성공적으로 완료했습니다.\n\n주의: 기존의 자체 데이터를 암호화하는 동안 ① 전력 공급이 갑자기 중단되거나 ② 소프트웨어 또는 하드웨어의 문제때문에 운영체제가 충돌을 일으키면, 일부 데이터가 손상되거나 유실될 수 있습니다. 그러므로 암호화 작업을 시작하기 전에 암호화하고자 하는 파일의 복사을 백업해 두었는지를 확인해야 합니다. 백업을 하지 않은 경우라면 지금 파일들을 백업해 두시기 바랍니다. “연기”를 클릭해서 파일을 백업하고 VeraCrypt를 다시 실행한 다음, 암호화를 시작하려면 “시스템” ▶ “중단된 진행을 다시 시작”을 선택합니다.\n\n준비가 되었고 암호화 작업을 시작하려면 “암호화”를 클릭하세요.</string>
     <string lang="ko" key="SYSENC_ENCRYPTION_PAGE_INFO">사용자는 언제라도 암호화 또는 암호해제 작업을 중단시키기 위해 “정지” 또는 “연기”를 클릭할 수 있고, 마법사를 종료한 후 컴퓨터를 다시 시작하고, 중단된 시점부터 다시 작업을 진행시킬 수 있습니다. 시스템 또는 프로그램이 시스템 드라이브의 데이터를 읽고 쓸 때 속도저하를 막기 위해, VeraCrypt는 데이터가 읽고 쓰여질 때까지 자동으로 대기한 다음 암호화 또는 암호해제 작업을 자동으로 계속합니다.</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n사용자는 언제라도 암호화 작업을 중단시키기 위해 “정지” 또는 “연기”를 클릭할 수 있고, 마법사를 종료한 후 컴퓨터를 다시 시작하고, 중단된 시점부터 다시 작업을 진행시킬 수 있습니다. 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입할 수 없습니다.</string>
+	<string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
     <string lang="ko" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">숨겨진 시스템이 시작됨</string>
     <string lang="ko" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">원래의 시스템</string>
     <string lang="ko" key="SYSENC_HIDDEN_OS_WIPE_INFO">윈도우는 (대개 사용자의 인식 또는 동의 없이) 시스템 파티션에 다양한 로그 파일, 임시 파일 등을 만듭니다. 또한 RAM의 내용을 시스템 파티션에 위치한 최대 절전 모드 및 페이징 파일에 저장하기도 합니다. 그래서 적대자가 원래의 시스템(* 이 시스템의 숨겨진 시스템은 복제된 것임)이 존재했던 파티션에 저장된 내용을 분석해서 예컨대 숨긴-시스템-생성 모드에서 VeraCrypt 마법사를 사용했다는 사실(→ 이는 컴퓨터에 숨긴 운영체제가 존재한다는 것을 의미)을 발견할 수도 있습니다.\n\n이런 문제점을 방지하기 위해 VeraCrypt는 다음 단계에서 원래의 시스템이 있었던 파티션의 전체 내용을 안전하게 지우게 됩니다. 이후 그럴싸한 거절방법을 만들기 위해 사용자는 “파티션에 새로운 시스템을 설치해서 이를 암호화”할 필요가 있습니다. 사용자가 미끼용 시스템을 만들게 되면, 숨긴 운영체제 생성의 전체 과정은 마무리되게 됩니다.</string>
@@ -1165,7 +1189,7 @@
     <string lang="ko" key="HIDDEN_OS_CREATION_PREINFO_HELP">다음 단계에서 VeraCrypt는 시스템 파티션의 내용을 숨긴 볼륨에 복사하는 방법으로 숨긴 운영체제를 만듭니다. 복사되는 데이터는 미끼용 운영체제에서 사용되는 키와 다른 것으로 실시간으로 암호화됩니다.\n\n진행 과정은 부팅-전 환경(→ 윈도우 시작 전)에서 실행되고, 완료하는데 많은 시간이 소요될 수 있습니다(→ 시스템 파티션의 크기 및 컴퓨터의 성능에 따라 몇 시간 또는 몇 일이 걸릴 수 있습니다).\n\n여러분은 진행 과정에 간섭할 수 있으며, 컴퓨터를 종료하고 운영체제를 시작하며 진행 과정을 다시 시작할 수도 있습니다. 그러나 진행 과정에 간섭을 할 경우, 시스템 복사 작업은 처음부터 시작하게 됩니다. 왜냐하면 시스템 파티션의 내용은 복제하는 동안 변경되어선 안되기 때문입니다.</string>
     <string lang="ko" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">숨긴 운영체제의 전체 생성 작업을 취소하시겠습니까?\n\n참고: 지금 취소하게 되면 이 진행 작업을 다시 시작할 수 없게 됩니다.</string>
     <string lang="ko" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">시스템 암호화 예비테스트를 취소하시겠습니까?</string>
-    <string lang="en" key="BOOT_PRETEST_FAILED_RETRY">The VeraCrypt system encryption pretest failed. Do you want to try again?\n\nIf you select 'No', the pre-boot authentication component will be uninstalled.\n\nNotes:\n\n- If the VeraCrypt Boot Loader did not ask you to enter the password before Windows started, it is possible that your operating system does not boot from the drive on which it is installed. This is not supported.\n\n- If you used an encryption algorithm other than AES and the pretest failed (and you entered the password), it may have been caused by an inappropriately designed driver. Select 'No', and try encrypting the system partition/drive again, but use the AES encryption algorithm (which has the lowest memory requirements).\n\n- For more possible causes and solutions, see: http://www.veracrypt.org/docs/?s=troubleshooting</string>
+    <string lang="en" key="BOOT_PRETEST_FAILED_RETRY">The VeraCrypt system encryption pretest failed. Do you want to try again?\n\nIf you select 'No', the pre-boot authentication component will be uninstalled.\n\nNotes:\n\n- If the VeraCrypt Boot Loader did not ask you to enter the password before Windows started, it is possible that your operating system does not boot from the drive on which it is installed. This is not supported.\n\n- If you used an encryption algorithm other than AES and the pretest failed (and you entered the password), it may have been caused by an inappropriately designed driver. Select 'No', and try encrypting the system partition/drive again, but use the AES encryption algorithm (which has the lowest memory requirements).\n\n- For more possible causes and solutions, see: https://veracrypt.codeplex.com/wikipage?title=Troubleshooting</string>
     <string lang="ko" key="SYS_DRIVE_NOT_ENCRYPTED">시스템 파티션/드라이브가 (부분적으로 또는 완전히) 암호화되지 않은 것으로 보입니다.</string>
     <string lang="ko" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">시스템 파티션/드라이브가 (완전히 또는 부분적으로) 암호화되었습니다.\n\n작업을 진행하기 전에 시스템 파티션/드라이브를 완전히 암호해제시켜 주세요. 해제하려면 VeraCrypt 메인 창의 메뉴표시줄에서 “시스템” ▶ “시스템 파티션/드라이브 영구적 암호해제”를 선택하세요.</string>
     <string lang="ko" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">시스템 파티션/드라이브가 (완전히 또는 부분적으로) 암호화된 경우, VeraCrypt를 다운그레이드할 수 없습니다(* 업그레이드하거나 동일 버전을 재설치할 수는 있습니다).</string>
@@ -1182,6 +1206,8 @@
     <string lang="ko" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">사용자가 시스템 파티션/드라이브 (또는 부트 파티션)을 선택했지만, 선택한 마법사 모드는 비-시스템 파티션/드라이브에만 해당됩니다.\n\n부팅-전 인증(→ 이는 윈도우 부팅/시작 전에 매번 비밀번호를 입력해야 한다는 것을 의미)을 설정하고, 시스템/드라이브를 암호화하시겠습니까?</string>
     <string lang="ko" key="CONFIRM_DECRYPT_SYS_DEVICE">시스템 파티션/드라이브를 영구적으로 암호해제하시겠습니까?</string>
     <string lang="ko" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">주의: 만약 시스템 파티션/드라이브를 영구적으로 암호해제시키면, 암호화되지 않은 데이터가 그곳에 덮여쓰여지게 됩니다.\n\n시스템 파티션/드라이브를 영구적으로 암호해제시키겠습니까?</string>
+	<string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
+    <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">CAUTION: If you permanently decrypt the VeraCrypt volume, unencrypted data will be written to the disk.\n\nAre you really sure you want to permanently decrypt the selected volume?</string>
     <string lang="ko" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">주의: 시스템 암호화에 층계적 암호문을 사용한 경우, 다음과 같은 문제점을 만날 수 있습니다:\n\n1) VeraCrypt 부트 로더의 크기가 보통보다 커서 부트 로더의 백업용 첫번째 드라이브의 트랙에 충분한 공간이 없습니다. 그러므로 부트 로더가 손상(→ 악성코드 프로그램의 실행 등으로 종종 발생함)될 때마다 부팅하기 위해 또는 부트 로더를 수리하기 위해 VeraCrypt 응급복구 디스크를 사용할 필요가 있습니다.\n\n2) (일부 컴퓨터에서) 최대 절전 모드에서의 시스템 시작 시간이 길어집니다.\n\n이러한 잠재적 문제점은 비-층계적 암호 알고리듬(예: AES)을 선택해서 방지할 수 있습니다.\n\n정말로 층계적 암호문을 사용하시겠습니까?</string>
     <string lang="ko" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">이전에 설명된 문제점을 만날 경우, (암호화된 경우라면) 파티션/드라이브를 암호해제한 다음 비-층계적 암호 알고리듬(예: AES)을 사용해서 다시 암호화를 시도합니다.</string>
     <string lang="en" key="UPDATE_TC_IN_DECOY_OS_FIRST">WARNING: For safety and security reasons, you should update VeraCrypt on the decoy operating system before you update it on the hidden operating system.\n\nTo do so, boot the decoy system and run the VeraCrypt installer from within it. Then boot the hidden system and run the installer from within it as well.\n\nNote: The decoy system and the hidden system share a single boot loader. If you upgraded VeraCrypt only on the hidden system (but not on the decoy system), the decoy system would contain a VeraCrypt driver and VeraCrypt applications whose version numbers are different from the version number of the VeraCrypt Boot Loader. Such a discrepancy might indicate that there is a hidden operating system on this computer.\n\n\nDo you want to continue?</string>
@@ -1197,6 +1223,7 @@
     <string lang="ko" key="ENABLE_BAD_SECTOR_ZEROING">오류: 디스크에서 한 개 또는 그 이상의 섹터 내용을 읽을 수 없습니다(* 물리적 결함일 수 있음).\n\n자체 암호화 과정은 섹터를 다시 읽을 수 있을 때만 계속될 수 있습니다. VeraCrypt는 이러한 섹터에 0을 작성해서 이 섹터들을 읽을 수 있도록 시도할 수 있습니다(* 그 결과 0으로 된 모든 블록은 암호화됨). 그러나 읽을 수 없는 섹터에 저장된 데이터는 모두 손실된다는 것을 참고해 주십시오. 이러한 경우, 적당한 제3의 도구를 이용해서 손상된 데이터의 복구를 시도해 볼 수 있습니다.\n\n참고: 섹터가 물리적으로 손상된 경우(→ 이는 단순한 데이터 손실 및 체크섬 오류와는 반대개념), 대부분 형식의 저장 장치는 데이터가 장치에 쓰여질 때 이를 내부적으로 재할당하게 됩니다(* 그 결과 손상된 섹터에 있던 기존 데이터는 암호화되지 않은 상태로 드라이브에 남게 됩니다).\n\n읽을 수 없는 섹터에 0을 VeraCrypt를 이용해서 작성하시겠습니까?</string>
     <string lang="ko" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">오류: 디스크에서 한 개 또는 그 이상의 섹터 내용을 읽을 수 없습니다(* 물리적 결함일 수 있음).\n\n암호해제 작업을 계속 진행할 수 있으려면, 읽기-불능 섹터의 내용을 모두 버려야 합니다(→ 그 섹터의 내용은 유사무작위 데이터로 교체됩니다). 작업을 계속하기 전에, 적당한 제3의 도구를 이용해서 손상된 데이터의 복구를 시도해 볼 수 있습니다.\n\n읽기-불능 섹터의 데이터를 지금 버리시겠습니까?</string>
     <string lang="ko" key="ZEROED_BAD_SECTOR_COUNT">참고: VeraCrypt에서 %I64d 읽기-불능 섹터 (%s)의 내용을 암호화된 단순텍스트 블록(* 모두 0으로 되어 있음)으로 교체했습니다.</string>
+	<string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
     <string lang="ko" key="ENTER_TOKEN_PASSWORD">“%s” 토큰을 위한 비밀번호/PIN 입력:</string>
     <string lang="ko" key="PKCS11_LIB_LOCATION_HELP">VeraCrypt를 통해 보안 토큰 또는 스마트 카드에 접근하려면 먼저 토큰 또는 스마트 카드용 PKCS #11 소프트웨어 라이브러리를 설치해야 합니다. 해당 라이브러리는 장치에 의해 제공되거나 판매업체 또는 다른 제3업체의 웹사이트를 통해 다운로드할 수 있습니다.\n\n라이브러리를 설치한 이후 ① “라이브러리 선택”을 클릭해서 수동으로 이를 선택하거나 ② “라이브러리 자동-탐지”를 클릭해서 자동으로 선택할 수 있습니다(* 윈도우 시스템 디렉토리만 검색됩니다).</string>
     <string lang="ko" key="SELECT_PKCS11_MODULE_HELP">참고: 보안 토큰 또는 스마트 카드를 위해 설치된 PKCS #11 라이브러리의 파일 이름 및 경로를 알아보려면, 토큰, 카드 또는 제3자 소프트웨어와 함께 제공된 문서를 참고해 주십시오.\n\n“확인”을 클릭한 후 경로 및 파일 이름을 선택해 주십시오.</string>

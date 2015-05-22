@@ -72,6 +72,7 @@
     <control lang="ja" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：このウィンドウ内にてできるかぎりランダムにマウスを動かしてください。これにより暗号鍵の強度を大幅に上げられます。長く動かすほど良い結果を得られます。終わったら「次へ」をクリックしてください。</control>
     <control lang="ja" key="IDT_CONFIRM">確認入力(&amp;C)：</control>
     <control lang="ja" key="IDT_DONE">完了 </control>
+	<control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="ja" key="IDT_ENCRYPTION_ALGO">暗号化アルゴリズム</control>
     <control lang="ja" key="IDT_FILESYSTEM">ファイルシステム</control>
     <control lang="ja" key="IDT_FILE_CONTAINER">ファイルとして仮想暗号化ディスクを作成します。\n初心者にはこちらを推奨します。</control>
@@ -202,6 +203,7 @@
     <control lang="ja" key="IDM_CREATE_HIDDEN_OS">隠しOSを作成...</control>
     <control lang="ja" key="IDM_CREATE_RESCUE_DISK">レスキューディスク作成...</control>
     <control lang="ja" key="IDM_CREATE_VOLUME">新規ボリュームの作成...</control>
+	<control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
     <control lang="ja" key="IDM_DEFAULT_KEYFILES">デフォルトキーファイル...</control>
     <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="ja" key="IDM_DONATE">寄付する...</control>
@@ -489,7 +491,11 @@
     <string lang="ja" key="FORMAT_FINISHED_HELP">\n\nVeraCryptボリュームが作成され、使用できる状態になりました。VeraCryptボリュームを続けて作成する場合は「次へ」をクリックしてください。そうでなければ「終了」をクリックしてください。</string>
     <string lang="ja" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n隠しボリュームの作成に成功しました（隠しOSがこの隠しボリュームに作成されます）。\n\n「次へ」をクリックしてください。</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">ボリューム全体が暗号化されました。</string>
+	<string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_FINISHED_INFO">重要：この新規作成したVeraCryptボリュームをマウントしてデータにアクセスするには、VeraCryptのメインウィンドウで「デバイスの自動マウント」をクリックしてください。そして正しいパスワードを入力（そして正しいキーファイルを指定）すると、メインウィンドウで選択していたドライブレターにそのボリュームがマウントされ、そのドライブを通して暗号化されたデータにアクセスすることができます。\n\n上記の手順を記憶するかメモしておいてください。このボリュームをマウントしてデータにアクセスするためにはこの手順に沿わなければなりません。あるいは、メインウィンドウで「デバイスを選択」をクリックし、このパーティションあるいはボリュームを選択してから「マウント」をクリックしてください。\n\nこのパーティション/デバイスの暗号化に成功し、使用する準備ができました。</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</string>
     <string lang="ja" key="FORMAT_FINISHED_INFO">VeraCryptボリュームの作成に成功しました。</string>
     <string lang="ja" key="FORMAT_FINISHED_TITLE">ボリュームが作成されました</string>
     <string lang="ja" key="FORMAT_HELP">重要：このウィンドウ内にてできるかぎりランダムにマウスを動かしてください。これにより暗号鍵の強度を大幅に上げられます。長く動かすほど良い結果を得られます。「フォーマット」をクリックするとボリュームを作成します。</string>
@@ -548,6 +554,7 @@
     <string lang="ja" key="NODRIVER">VeraCryptデバイスドライバに接続できません。デバイスドライバが実行されていないとVeraCryptは実行できません。\n\nWindows自体の問題によって、デバイスドライバを読み込むためにはログオフあるいは再起動が必要かもしれません。</string>
     <string lang="ja" key="NOFONT">フォントの読み込み・準備中にエラーが発生しました。</string>
     <string lang="ja" key="NOT_FOUND">ドライブレターが見つからないか、ドライブレターが指定されていません。</string>
+	<string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
     <string lang="ja" key="DRIVE_LETTER_UNAVAILABLE">ドライブレターが利用できません。</string>
     <string lang="ja" key="NO_FILE_SELECTED">ファイルが選択されていません！</string>
     <string lang="ja" key="NO_FREE_DRIVES">有効な空きドライブレターがありません。</string>
@@ -567,6 +574,8 @@
     <string lang="ja" key="OVERWRITEPROMPT">警告：そのファイル '%hs' はすでに存在しています！\n\n重要：VeraCryptはそのファイル自体を暗号化するのではなく、消去して上書きします。 本当にそのファイルを消去して新しいVeraCryptコンテナで置き換えますか？</string>
     <string lang="ja" key="OVERWRITEPROMPT_DEVICE">注意：選択された %s '%hs'%s に存在しているすべてのファイルは消去され失われます（暗号化されるのではありません）！\n\n本当にフォーマットを続けてよいですか？</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_CONFIRM">警告：暗号化が完全に終了するまで、このボリューム上のファイルにはアクセスできなくなります。\n\n選択された %s '%hs'%s の暗号化を開始して良いですか？</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%hs'%s?</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">WARNING: Please note that if power supply is suddenly interrupted while encrypting/decrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting/decrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting/decrypting, please make sure that you have backup copies of the files you want to encrypt/decrypt.\n\nDo you have such a backup?</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：既存データをその場で暗号化している最中に、電源が突然落ちたり、ソフトウェアエラーやハードウェア障害等によってOSがクラッシュした場合、データの一部が壊れたり失われたりする可能性があります。そのため、暗号化を開始する前に、必ず暗号化したいファイルのバックアップがあるかを確認してください。\n\nそのようなバックアップがありますか？</string>
     <string lang="ja" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">注意：このパーティション '%hs'%s （つまりシステムパーティションのすぐ次のパーティション）上に存在するすべてのファイルが削除され、失われます（暗号化されるわけではありません）！。\n\nこのままフォーマットを進めて良いですか？</string>
     <string lang="ja" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：選択されたパーティションには大量のデータがあります！ そのパーティションにあるすべてのデータが削除され、失われます。それらのファイルは暗号化されません！</string>
@@ -584,6 +593,7 @@
     <string lang="ja" key="PKCS5_PRF_CHANGED">ヘッダキー導出アルゴリズムの設定に成功しました</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">非システムボリュームのその場での暗号化処理に復帰するため、パスワードを入力（またはキーファイルを指定）してください。\n\n\n注：「次へ」をクリックすると、VeraCryptは暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できるすべての非システムボリュームを検索します。もし複数のボリュームが見つかった場合は、次のステップでその内の一つを選択する必要があります。</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">ボリュームリストから一つ選択してください。このリストには、暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できるすべての非システムボリュームが含まれています。</string>
+	<string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="ja" key="PASSWORD_HELP">質の良いパスワードにすることが非常に重要です。辞書に載っているような単語一つだけにしたり、あるいはそれを三つ四つ組み合わせた程度のものは避けるべきです。また何らかの名前や誕生日なども含ませるべきではありません。それは簡単に推測されてしまいます。 良いパスワードとは、大文字や小文字、数字や記号（ @ ^ = $ * + など）をランダムに組み合わせたものです。またパスワードの長さは20文字以上を推奨します（長い方がより良いです）。設定可能な最大長は64文字です。</string>
     <string lang="ja" key="PASSWORD_HIDDENVOL_HELP">隠しボリューム用のパスワードを入力してください</string>
     <string lang="ja" key="PASSWORD_HIDDEN_OS_HELP">隠しOS用のパスワードを入力してください（つまり隠しボリューム用です）。</string>
@@ -606,8 +616,12 @@
     <string lang="ja" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n警告：指定フォルダのキーファイル探索中に隠しファイルが見つかりました。このような隠しファイルはキーファイルとして使用されません。キーファイルとして使用したい場合は隠し属性を解除してください（該当ファイルを右クリックしてプロパティを開き、隠しファイルのチェックを外して「OK」をクリックします）。注：隠しファイルはフォルダオプションですべてのファイルを表示する設定になっていないと表示されません。</string>
     <string lang="ja" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">もし隠しシステムを持つ隠しボリュームを保護しようとしているのであれば、隠しボリューム用のパスワードを入力する際には、標準USキーボードレイアウトであることを確認してください。Windows起動前の環境では、パスワードを入力する場合に非USキーボードレイアウトが無効であるためです。</string>
     <string lang="ja" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCryptは、暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できる非システムボリュームを見つけられませんでした。\n\nパスワードあるいはキーファイルが正しいか、またそのパーティション/ボリュームがシステムやアプリケーション（アンチウィルスソフトを含みます）で使用されていないか、確認してください。</string>
+    <string lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</string>
+    <string lang="en" key="SELECTED_PARTITION_NOT_INPLACE_ENC">The selected partition/device is not using in-place encryption.\nHeader Flags = 0x%.8X</string>
     <string lang="ja" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\n注：メニューから[システム]-[起動前認証をせずにマウント]を選ぶことで、起動前の認証をせずに暗号化したシステムドライブ上のパーティションをマウントすること、あるいは起動していないオペレーションシステムを暗号化したパーティションをマウントすることが可能です。</string>
     <string lang="ja" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">現在のモードでは、アクティブなシステムの暗号化対象となっている部分を含むドライブ上のパーティションをマウントすることができません。\n\nこのモードでそのパーティションをマウントする前に、他のドライブ（暗号化されてる否かは問いません）にインストールされているシステムから起動するか、暗号化されていないOSを起動する必要があります。</string>
+    <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive).</string>
+    <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</string>
     <string lang="ja" key="PREV">&lt; 戻る(&amp;B)</string>
     <string lang="ja" key="RAWDEVICES">このシステムのデバイスを列挙できません！</string>
     <string lang="ja" key="READONLYPROMPT">ボリューム '%hs' は読み取り専用としてすでに存在しています。本当に置き換えますか？</string>
@@ -707,11 +721,18 @@
     <string lang="ja" key="FOR_MORE_INFO_ON_PARTITIONS">パーティションの作成と管理の方法については、OS付属のマニュアルを参照するか、メーカーの技術サポートにご相談ください。</string>
     <string lang="ja" key="SYSTEM_PARTITION_NOT_ACTIVE">エラー：現在動作中のOSはブートパーティション（最初のアクティブパーティション）にインストールされていません。この状態には対応していません。</string>
     <string lang="ja" key="CONFIRM_FAT_FOR_FILES_OVER_4GB">このVeraCryptボリュームに4GB超のファイルを保存する意向のようですが、ファイルシステムにはFATが指定されているため、4GB超のファイルを保存することはできません。\n\n本当に外殻ボリュームをFATでフォーマットしますか？</string>
+    <string lang="en" key="NONSYS_INPLACE_DECRYPTION_BAD_VOL_FORMAT">Error: VeraCrypt does not support in-place decryption of legacy non-system volumes created by VeraCrypt 1.0b or earlier.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</string>
+    <string lang="en" key="NONSYS_INPLACE_DECRYPTION_CANT_DECRYPT_HID_VOL">Error: VeraCrypt cannot in-place decrypt a hidden VeraCrypt volume.\n\nNote: You can still decrypt files stored on the volume by copying/moving them to any unencrypted volume.</string>
+    <string lang="en" key="CONFIRM_VOL_CONTAINS_NO_HIDDEN_VOL">Warning: Note that VeraCrypt cannot in-place decrypt a volume that contains a hidden VeraCrypt volume (the hidden volume would be overwritten with pseudorandom data).\n\nPlease confirm that the volume you are about to decrypt contains no hidden volume.\n\nNote: If the volume contains a hidden volume but you do not mind losing the hidden volume, you can select Proceed (the outer volume will be safely decrypted).</string>
+    <string lang="en" key="VOL_CONTAINS_NO_HIDDEN_VOL">The volume does not contain any hidden volume. Proceed.</string>
+    <string lang="en" key="VOL_CONTAINS_A_HIDDEN_VOL">The volume contains a hidden volume. Cancel.</string>
     <string lang="ja" key="CANT_ACCESS_VOL">エラー：ボリュームにアクセスできません！\n\n選択されたボリュームが実在するか、未マウントでないか、システムやアプリケーションですでに使用されていないか、そのボリュームへの読み書き権限があるか、書き込みプロテクトされていないか、などを確認してください。</string>
+	<string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
     <string lang="ja" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">エラー：このボリュームにアクセスできないかボリュームの情報を取得できません。\n\n選択されたボリュームが存在しているか、そのボリュームがシステムやアプリケーションで使用されていないか、ボリュームへの読み書き権限があるか、ボリュームが書き込み禁止になっていないか、などを確認してください。</string>
     <string lang="ja" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">エラー：このボリュームにアクセスできないかボリュームの情報を取得できません。\n\n選択されたボリュームが存在しているか、そのボリュームがシステムやアプリケーションで使用されていないか、ボリュームへの読み書き権限があるか、ボリュームが書き込み禁止になっていないか、などを確認してください。\n\n問題が解決しない場合は、以下の手順を試してみてください。</string>
     <string lang="ja" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">エラーによりパーティションの暗号化が中断されました。ここまでに報告された問題を解決してから再度やり直してください。問題が解決しない場合は、以下の手順を試してみてください。</string>
     <string lang="ja" key="INPLACE_ENC_GENERIC_ERR_RESUME">エラーによりパーティションの暗号化処理への復帰が中断されました。\n\nここまでに報告された問題を解決してから再度やり直してみてください。なお、暗号化処理が完了するまではこのボリュームをマウントすることはできません。</string>
+	<string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
     <string lang="ja" key="CANT_DISMOUNT_OUTER_VOL">エラー：外殻ボリュームをアンマウントできません！\n\nボリューム内にプログラムやシステムで使用中のファイルあるいはフォルダがあると、ボリュームのアンマウントができません。\n\nファイルやフォルダを使用していると思われるプログラムを終了させてから「再試行」をクリックしてください。</string>
     <string lang="ja" key="CANT_GET_OUTER_VOL_INFO">エラー：外殻ボリュームの情報を取得できませんでした！ ボリュームの作成を続行できません。</string>
     <string lang="ja" key="CANT_ACCESS_OUTER_VOL">エラー：外殻ボリュームにアクセスできません！ ボリュームの作成を続行できません。</string>
@@ -796,7 +817,7 @@
     <string lang="ja" key="TC_INSTALLER_IS_RUNNING">現在VeraCryptインストーラが起動しており、インストールあるいはアップデートの実行中です。インストーラの処理が終わるのを待つか、閉じるかしてください。閉じることができない場合は再起動してください。</string>
     <string lang="ja" key="INSTALL_FAILED">インストールに失敗しました。</string>
     <string lang="ja" key="UNINSTALL_FAILED">アンインストールに失敗しました。</string>
-    <string lang="ja" key="DIST_PACKAGE_CORRUPTED">この配布パッケージは破損しています。（なるべくVeraCryptの公式サイト www.veracrypt.org から）もう一度ダウンロードしてみてください。</string>
+    <string lang="ja" key="DIST_PACKAGE_CORRUPTED">この配布パッケージは破損しています。（なるべくVeraCryptの公式サイト https://veracrypt.codeplex.com から）もう一度ダウンロードしてみてください。</string>
     <string lang="ja" key="CANNOT_WRITE_FILE_X">ファイル %hs を書き込めません。</string>
     <string lang="ja" key="EXTRACTING_VERB">展開</string>
     <string lang="ja" key="CANNOT_READ_FROM_PACKAGE">パッケージからデータを読み込めません。</string>
@@ -983,6 +1004,7 @@
     <string lang="ja" key="CONFIRM_EXIT_UNIVERSAL">終了しますか？</string>
     <string lang="ja" key="CHOOSE_ENCRYPT_OR_DECRYPT">暗号化なのか復号なのかを決定するための十分な情報がありません。</string>
     <string lang="ja" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">暗号化なのか復号なのかを決定するための十分な情報がありません。\n\n注：もし起動前の環境下でシステムパーティション/ドライブを復号したのであれば、「復号」をクリックして作業を完了させる必要があります。</string>
+	<string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">パーティション/ボリュームの暗号化処理を中断して後に回しますか？\n\n注：ボリュームは暗号化処理を完了するまでマウントできないことに注意してください。後で暗号化処理を中断した箇所から再開することができます。その際はVeraCryptのメインウィンドウから、[ボリューム]-[中断処理を再開]を選択してください。</string>
     <string lang="ja" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばVeraCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化自体を解除したい場合は[システム]-[システムパーティション/ドライブの暗号化を解除]を選択してください。</string>
     <string lang="ja" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">システムパーティション/ドライブの暗号化解除処理を中断して先送りにしますか？\n\n注：この処理は中断した箇所から後で再開することができます。それはたとえばVeraCryptメインウィンドウのメニューから[システム]-[中断処理を再開]を選択することで可能です。もし暗号化解除をやめて暗号化する場合は[システム]-[システムパーティション/ドライブの暗号化]を選択してください。</string>
@@ -992,6 +1014,7 @@
     <string lang="ja" key="FAILED_TO_START_WIPING">エラー：ワイプ処理の開始に失敗しました。</string>
     <string lang="ja" key="INCONSISTENCY_RESOLVED">不整合状態を解決しました。\n\n\n（もしこの問題についてバグ報告をしてくださるなら、以下の技術的情報を付け加えてくださるようお願いします： %hs）</string>
     <string lang="ja" key="UNEXPECTED_STATE">エラー：予期しない状態です。\n\n\n（この状態をバグ報告する場合、次の情報も報告に含めるようお願いいたします。: %hs）</string>
+	<string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ja" key="NOTHING_TO_RESUME">再開される処理/タスクはありません。</string>
     <string lang="ja" key="HIDVOL_PROT_BKG_TASK_WARNING">警告：VeraCryptの常駐は無効になっています。VeraCryptの終了後は、隠しボリュームの保護機能が働いても告知されません。\n\n注：VeraCryptのトレイアイコンを右クリックして終了を選べば、いつでも常駐を終了できます。\n\nVeraCryptの常駐を有効にしますか？</string>
     <string lang="ja" key="LANG_PACK_VERSION">言語パックのバージョン： %s</string>
@@ -1126,6 +1149,7 @@
     <string lang="ja" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">予備検査が無事に完了しました。\n\n警告：もし既存データをその場での暗号化中に電源が突然切られたり、ソフトウェアエラーやハードウェア障害によってOSがクラッシュしたりした場合、データの一部が壊れたり失われたりする可能性があります。したがって暗号化する前に必ずファイルのバックアップをとってください。まだバックアップをとっていなければすぐにバックアップしてください。「保留」をクリックしてから、ファイルのバックアップを行い、VeraCryptを再度起動して[システム]-[中断処理を再開]を選択することで暗号化を再開できます。\n\n準備ができたら「暗号化」で暗号化を開始してください。</string>
     <string lang="ja" key="SYSENC_ENCRYPTION_PAGE_INFO">「一時中断」か「保留」をクリックすることで暗号化あるいは復号処理をいつでも中断することができます。ウィザードを終了した後、コンピュータを再起動あるいはシャットダウンした後に、中断したところから処理を再開できます。またシステムやアプリケーションがシステムドライブを読み書きするときに遅くなることを防ぐため、VeraCryptは自動的にその読み書きが終わるのを待ちます（上のステータスを見てください）。その読み書きが終わると暗号化/復号処理を再開します。</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\n「ポーズ」あるいは「保留」をクリックして、いつでも暗号化を中断し、ウィザードを終了して、コンピュータを再起動あるいはシャットダウンし、中断した箇所から処理を再開することができます。なお、暗号化が完了するまではこのボリュームをマウントすることはできません。</string>
+	<string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
     <string lang="ja" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">隠しシステムの開始</string>
     <string lang="ja" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">オリジナルシステム</string>
     <string lang="ja" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windowsは様々な種類のログファイルや一時ファイル等を、通常はユーザーに特に知らせることなくシステムパーティションに作成します。同様にメモリー上の情報を一時休止ファイルやページングファイルとして保存します。そのため、敵対者が元OSのパーティションにあるデータ（隠しシステムのコピー元）を解析した場合、たとえばあなたがVeraCryptのウィザードを隠しシステム作成モードで実行したことなどを見つけるかもしれません。これは隠しOSの存在を示唆します。\n\nこの問題を防ぐため、VeraCryptは次のステップで、元OSのあったパーティション上のデータすべてを安全に抹消します。その後、「みせかけの拒否」を達成するために、そのパーティションに新しいシステムをインストールし、暗号化しておく必要があります。このように囮システムを作成して、隠しOSを作成するすべての手順を終えてください。</string>
@@ -1165,7 +1189,7 @@
     <string lang="ja" key="HIDDEN_OS_CREATION_PREINFO_HELP">次のステップで、VeraCryptはシステムパーティションから隠しボリュームへファイルをコピーすることで隠しOS領域を作成します（囮OS領域とは別の暗号鍵で即時暗号化しながらコピーします）。\n\nこの処理はWindows起動前の環境で行われ、完了するまでに長時間かかることに注意してください。処理時間はシステムパーティションのサイズやコンピュータの性能にもよりますが、数時間から数日かかることもあります。\n\nこの処理を途中で中断し、コンピュータを再起動した後にあらためて再開することも可能です。ただし、もし処理を中断した場合は、システムのコピー処理からやり直しになります。これはシステムパーティションとコピー先の内容を同一にするために必要です。</string>
     <string lang="ja" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">隠しOSの作成をキャンセルしますか？\n\nここで処理をキャンセルした場合、後で処理を再開することはできません。</string>
     <string lang="ja" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">システム暗号化の予備検査をキャンセルしますか？</string>
-    <string lang="ja" key="BOOT_PRETEST_FAILED_RETRY">VeraCryptのシステム暗号化予備検査に失敗しました。もう一度予備検査をしますか？\n\nもし「いいえ」を選んだ場合、起動前認証用コンポーネントがアンインストールされます。\n\n注：\n\n- もしVeraCryptブートローダーがWindowsが起動する前にパスワードの入力を要求してこなかった場合、ブートローダーがインストールされたのではないドライブからOSが起動している可能性があります。このケースには対応していません。\n\n- もしAES以外の暗号化アルゴリズムを使って予備検査に失敗した（そしてパスワードは入力した）場合、不適切な設計のドライバーに起因している可能性があります。「いいえ」を選択し、システムパーティション/ドライブをAESを使って暗号化しなおしてみてください（メモリ使用量が最少になります）。\n\n- その他に考えられる原因や対処方法については、http://www.veracrypt.org/docs/?s=troubleshooting をご覧ください。</string>
+    <string lang="ja" key="BOOT_PRETEST_FAILED_RETRY">VeraCryptのシステム暗号化予備検査に失敗しました。もう一度予備検査をしますか？\n\nもし「いいえ」を選んだ場合、起動前認証用コンポーネントがアンインストールされます。\n\n注：\n\n- もしVeraCryptブートローダーがWindowsが起動する前にパスワードの入力を要求してこなかった場合、ブートローダーがインストールされたのではないドライブからOSが起動している可能性があります。このケースには対応していません。\n\n- もしAES以外の暗号化アルゴリズムを使って予備検査に失敗した（そしてパスワードは入力した）場合、不適切な設計のドライバーに起因している可能性があります。「いいえ」を選択し、システムパーティション/ドライブをAESを使って暗号化しなおしてみてください（メモリ使用量が最少になります）。\n\n- その他に考えられる原因や対処方法については、https://veracrypt.codeplex.com/wikipage?title=Troubleshooting をご覧ください。</string>
     <string lang="ja" key="SYS_DRIVE_NOT_ENCRYPTED">システムパーティション/ドライブは部分的にも全体的にも暗号化されていないようです。</string>
     <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">システムパーティション/デバイスは暗号化されています（部分的あるいは全体的）。\n\n処理を進める前にシステムパーティション/デバイス全体の暗号化を解除してください。VeraCryptのメインウィンドウのメニューから[システム]-[暗号化の解除]を選択することで解除できます。</string>
     <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">システムパーティション/ドライブが部分的であれ全体であれ暗号化されている場合は、VeraCryptをダウングレードできません。ただしアップグレードあるいは同じバージョンでの再インストールは可能です。</string>
@@ -1182,6 +1206,8 @@
     <string lang="ja" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">システムパーティション/ドライブ（あるいはブートパーティション）が選択されていますが、このウィザードモードはシステム以外のパーティション/ドライブにのみ適応しています。\n\n起動前に認証（つまりWindowsを起動するたびに起動前のパスワード入力が必要になります）を行うようにし、システムパーティション/ドライブを暗号化しますか？</string>
     <string lang="ja" key="CONFIRM_DECRYPT_SYS_DEVICE">本当にシステムパーティション/ドライブの暗号化を解除しますか？</string>
     <string lang="ja" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">注意：システムパーティション/ドライブの暗号化を解除した場合、復号されたデータが書き込まれます。\n\n本当にシステムパーティション/ドライブの暗号化を解除しますか？</string>
+	<string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
+    <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">CAUTION: If you permanently decrypt the VeraCrypt volume, unencrypted data will be written to the disk.\n\nAre you really sure you want to permanently decrypt the selected volume?</string>
     <string lang="ja" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">警告：多段アルゴリズムを使用してシステムを暗号化した場合、次のような問題に直面する可能性があります。\n\n1) VeraCryptブートローダーが通常より大きなサイズになるため、VeraCryptブートローダーのバックアップのための十分な領域をドライブの最初のトラックに得られません。そのためにその領域が破損する（これはしばしば発生します。たとえば設計が不適切なプログラムによるアクティベーション処理などです）たびにレスキューディスクから起動して、ブートローダー領域を修復する必要があります。\n\n2) 一部のコンピュータでは休止状態からの復帰により時間がかかるようになります。\n\n多段ではないアルゴリズム（例：AES）を使えば、このような潜在的な問題には遭遇しません。\n\n本当に多段アルゴリズムでの暗号化を行いますか？</string>
     <string lang="ja" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">もし上記の問題が発生した場合は、もし暗号化されているのならパーティション/ドライブを復号し、あらためて多段ではないアルゴリズム（例：AES）での再暗号化を試みてください。</string>
     <string lang="ja" key="UPDATE_TC_IN_DECOY_OS_FIRST">警告：安全性とセキュリティ上の理由により、隠しOSより先に囮用OSのVeraCryptをアップデートすべきです。\n\nそのためにはまず囮用OSを起動し、そこに入れたVeraCryptインストーラを実行してください。次に隠しOSを起動し、そこに入れたVeraCryptインストーラを実行するようにします。\n\n注：囮用OSと隠しOSは一つのブートローダーを共有しています。もし隠しOSのVeraCryptのみアップグレードした場合、囮用OSにはブートローダーと違うバージョン番号を持つVeraCryptドライバおよびアプリケーションが残されることになります。このような矛盾は隠しOSが存在することを示唆することになります。\n\n\n本当に続けますか？</string>
@@ -1197,6 +1223,7 @@
     <string lang="ja" key="ENABLE_BAD_SECTOR_ZEROING">エラー：ディスク上の一つあるいは複数のセクターが読み込めません（おそらく物理的な原因です）。\n\nその場での暗号化処理は、セクターの読み込みが回復するまで続行できません。VeraCryptはセクターに0を書き込むことで読み込みが回復するか確認できます（その後、そのようにすべて0のブロックも暗号化されます）。ただしこの場合、読み込めなかったセクターの元の内容が失われることに注意してください。それを避けたいのであれば、他の適切なソフトウェアで破損データの回復を試すこともできます。\n\n注：単なるデータ破損やチェックサムエラーではなく、セクターが物理的に破損していた場合、ほとんどの記憶装置では、そのようなセクターへの書き込みを内部的に別セクターに差し替えます。そのため、破損セクター上のデータは暗号化されずに残ったままとなります。\n\nVeraCryptが読み込めないセクターに0を書き込んでも良いですか？</string>
     <string lang="ja" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">エラー：ディスク上の一つあるいは複数のセクターが読み込めません（おそらく物理的な原因です）。\n\n復号処理を続行するためには、VeraCryptは読み込めないセクターの内容を破棄する必要があります（その内容は疑似乱数データに書き換えられます）。復号処理を続行する前に他の適切なソフトウェアで破損データの回復を試すことができます。\n\n読み込めないセクターの内容を破棄しますか？</string>
     <string lang="ja" key="ZEROED_BAD_SECTOR_COUNT">注：VeraCryptは %I64d 個の読込不能セクター (%s) へ0を書き込み、暗号化しました。</string>
+	<string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
     <string lang="ja" key="ENTER_TOKEN_PASSWORD">トークン '%s' に対するパスワード/PINを入力してください：</string>
     <string lang="ja" key="PKCS11_LIB_LOCATION_HELP">VeraCryptがセキュリティトークンやスマートカードへアクセスするためには、事前にPKCS#11ソフトウェアライブラリのインストールが必要です。そのようなライブラリは、トークンやカードに付属しているか、あるいはメーカー等のウェブサイトからダウンロードできるようになっているものと思われます。\n\nライブラリをインストールした後、「ライブラリの選択」をクリックしてライブラリを指定するか、「ライブラリ自動検出」をクリックしてライブラリの自動検出をしてください（なお自動検出はWindowsのシステムディレクトリのみ検索します）。</string>
     <string lang="ja" key="SELECT_PKCS11_MODULE_HELP">注：セキュリティトークンやスマートカード用のPKCS#11ライブラリの場所とファイル名を指定します。トークンやカードなどに付属の説明書も参照してください。「OK」をクリックしてファイル名と場所を指定してください。</string>
