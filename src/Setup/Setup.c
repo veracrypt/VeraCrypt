@@ -681,6 +681,24 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 					StringCbCopyNA (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
 				}
 
+				if (Is64BitOs ()
+					&& strcmp (szFiles[i], "AVeraCrypt.exe") == 0)
+				{
+					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCrypt-x64.exe", sizeof ("VeraCrypt-x64.exe"));
+				}
+
+				if (Is64BitOs ()
+					&& strcmp (szFiles[i], "AVeraCryptExpander.exe") == 0)
+				{
+					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCryptExpander-x64.exe", sizeof ("VeraCryptExpander-x64.exe"));
+				}
+
+				if (Is64BitOs ()
+					&& strcmp (szFiles[i], "AVeraCrypt Format.exe") == 0)
+				{
+					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCrypt Format-x64.exe", sizeof ("VeraCrypt Format-x64.exe"));
+				}
+
 				if (!bDevm)
 				{
 					bResult = FALSE;
@@ -831,7 +849,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 	if (SystemEncryptionUpdate)
 	{
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt",
-			0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) == ERROR_SUCCESS)
+			0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_32KEY, NULL, &hkey, &dw) == ERROR_SUCCESS)
 		{
 			StringCbCopyA (szTmp, sizeof(szTmp), VERSION_STRING);
 			RegSetValueEx (hkey, "DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, strlen (szTmp) + 1);
@@ -933,7 +951,7 @@ BOOL DoRegInstall (HWND hwndDlg, char *szDestDir, BOOL bInstallType)
 	RegMessage (hwndDlg, key);
 	if (RegCreateKeyEx (HKEY_LOCAL_MACHINE,
 		key,
-		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &dw) != ERROR_SUCCESS)
+		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_32KEY, NULL, &hkey, &dw) != ERROR_SUCCESS)
 		goto error;
 
 	/* IMPORTANT: IF YOU CHANGE THIS IN ANY WAY, REVISE AND UPDATE SetInstallationPath() ACCORDINGLY! */ 
@@ -1052,13 +1070,13 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 	if (!bRemoveDeprecated)
 		StatusMessage (hwndDlg, "REMOVING_REG");
 
-	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt");
+	RegDeleteKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", KEY_WOW64_32KEY, 0);
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell\\open\\command");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell\\open");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\DefaultIcon");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume");
-	RegDeleteKey (HKEY_CURRENT_USER, "Software\\VeraCrypt");	
+	RegDeleteKeyEx (HKEY_CURRENT_USER, "Software\\VeraCrypt", KEY_WOW64_32KEY, 0);	
 
 	if (!bRemoveDeprecated)
 	{
@@ -2033,7 +2051,7 @@ void SetInstallationPath (HWND hwndDlg)
 	memset (InstallationPath, 0, sizeof (InstallationPath));
 
 	// Determine if VeraCrypt is already installed and try to determine its "Program Files" location
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
 	{
 		/* Default 'UninstallString' registry strings written by past versions of VeraCrypt:
 		------------------------------------------------------------------------------------

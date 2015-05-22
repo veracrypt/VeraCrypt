@@ -10,6 +10,10 @@ signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_Test
 signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_TestRootCA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Format.exe"
 signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_TestRootCA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCryptExpander.exe"
 
+signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_TestRootCA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCryptx-x64.exe"
+signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_TestRootCA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Format-x64.exe"
+signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_TestRootCA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCryptExpander-x64.exe"
+
 cd "..\Release\Setup Files\"
 
 copy /V /Y ..\..\..\Translations\*.xml .
