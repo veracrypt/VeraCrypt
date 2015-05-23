@@ -1721,7 +1721,7 @@ namespace VeraCrypt
 				size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
 				Buffer buffer ((verifiedSectorCount + 1) * 2048);
 
-				DWORD bytesRead = driveDevice.Read (buffer.Ptr(), buffer.Size());
+				DWORD bytesRead = driveDevice.Read (buffer.Ptr(), (DWORD) buffer.Size());
 				if (bytesRead != buffer.Size())
 					continue;
 
@@ -1898,7 +1898,7 @@ namespace VeraCrypt
 
 			size_t strSize = filter.size() + 1;
 			byte regKeyBuf[65536];
-			DWORD size = sizeof (regKeyBuf) - strSize;
+			DWORD size = (DWORD) (sizeof (regKeyBuf) - strSize);
 
 			// SetupInstallFromInfSection() does not support prepending of values so we have to modify the registry directly
 			StringCbCopyA ((char *) regKeyBuf, sizeof(regKeyBuf), filter.c_str());
@@ -1906,7 +1906,7 @@ namespace VeraCrypt
 			if (RegQueryValueEx (regKey, filterReg.c_str(), NULL, NULL, regKeyBuf + strSize, &size) != ERROR_SUCCESS)
 				size = 1;
 
-			SetLastError (RegSetValueEx (regKey, filterReg.c_str(), 0, REG_MULTI_SZ, regKeyBuf, strSize + size));
+			SetLastError (RegSetValueEx (regKey, filterReg.c_str(), 0, REG_MULTI_SZ, regKeyBuf, (DWORD) strSize + size));
 			throw_sys_if (GetLastError() != ERROR_SUCCESS);
 		}
 		else
@@ -1921,7 +1921,7 @@ namespace VeraCrypt
 							"[veracrypt_reg]\r\n"
 							"HKR,,\"" + filterReg + "\",0x0001" + string (registerFilter ? "0008" : "8002") + ",\"" + filter + "\"\r\n";
 
-			infFile.Write ((byte *) infTxt.c_str(), infTxt.size());
+			infFile.Write ((byte *) infTxt.c_str(), (DWORD) infTxt.size());
 			infFile.Close();
 
 			HINF hInf = SetupOpenInfFile (infFileName.c_str(), NULL, INF_STYLE_OLDNT | INF_STYLE_WIN4, NULL);
@@ -2464,7 +2464,7 @@ namespace VeraCrypt
 			try
 			{
 				device.SeekAt (config.DrivePartition.Info.PartitionLength.QuadPart - geometry.BytesPerSector);
-				device.Read (sector.Ptr(), sector.Size());
+				device.Read (sector.Ptr(), (DWORD) sector.Size());
 			}
 			catch (SystemException &e)
 			{
@@ -2515,7 +2515,7 @@ namespace VeraCrypt
 		StringCbCopyA (pagingFiles, sizeof(pagingFiles), "X:\\pagefile.sys 0 0");
 		pagingFiles[0] = GetWindowsDirectory()[0];
 
-		throw_sys_if (!WriteLocalMachineRegistryMultiString ("System\\CurrentControlSet\\Control\\Session Manager\\Memory Management", "PagingFiles", pagingFiles, strlen (pagingFiles) + 2));
+		throw_sys_if (!WriteLocalMachineRegistryMultiString ("System\\CurrentControlSet\\Control\\Session Manager\\Memory Management", "PagingFiles", pagingFiles, (DWORD) strlen (pagingFiles) + 2));
 	}
 
 	void BootEncryption::WriteLocalMachineRegistryDwordValue (char *keyPath, char *valueName, DWORD value)

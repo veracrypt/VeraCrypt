@@ -308,7 +308,7 @@ static void InitMainDialog (HWND hwndDlg)
 		info.fMask = MIIM_TYPE;
 		info.fType = MFT_STRING;
 		info.dwTypeData = str;
-		info.cch = wcslen (str);
+		info.cch = (UINT) wcslen (str);
 
 		SetMenuItemInfoW (GetMenu (hwndDlg), i, FALSE,  &info); 
 	}
@@ -329,7 +329,7 @@ static void InitMainDialog (HWND hwndDlg)
 			FavoriteVolumesMenu = GetSubMenu (GetMenu (hwndDlg), i);
 
 		info.dwTypeData = str;
-		info.cch = wcslen (str);
+		info.cch = (UINT) wcslen (str);
 
 		SetMenuItemInfoW (GetMenu (hwndDlg), i, TRUE,  &info); 
 	}
@@ -2128,7 +2128,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_PKCS5_PRF_ID:
 				if (bSysEncPwdChangeDlgMode)
 				{
-					int new_hash_algo_id = SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
+					int new_hash_algo_id = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
 						SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
 					if (new_hash_algo_id != 0 && !HashForSystemEncryption(new_hash_algo_id))
@@ -2180,9 +2180,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SendMessage (GetDlgItem (hwndDlg, IDC_WIPE_MODE), CB_GETCURSEL, 0, 0), 
 				0);
 			int nStatus;
-			int old_pkcs5 = SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID), CB_GETITEMDATA, 
+			int old_pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID), CB_GETITEMDATA, 
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID), CB_GETCURSEL, 0, 0), 0);
-			int pkcs5 = SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
+			int pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 			BOOL truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
@@ -2212,7 +2212,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			GetWindowText (GetDlgItem (hParent, IDC_VOLUME), szFileName, sizeof (szFileName));
 
 			GetWindowText (GetDlgItem (hwndDlg, IDC_OLD_PASSWORD), (LPSTR) oldPassword.Text, sizeof (oldPassword.Text));
-			oldPassword.Length = strlen ((char *) oldPassword.Text);
+			oldPassword.Length = (unsigned __int32) strlen ((char *) oldPassword.Text);
 
 			switch (pwdChangeDlgMode)
 			{
@@ -2220,12 +2220,12 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PCDM_ADD_REMOVE_VOL_KEYFILES:
 			case PCDM_CHANGE_PKCS5_PRF:
 				memcpy (newPassword.Text, oldPassword.Text, sizeof (newPassword.Text));
-				newPassword.Length = strlen ((char *) oldPassword.Text);
+				newPassword.Length = (unsigned __int32) strlen ((char *) oldPassword.Text);
 				break;
 
 			default:
 				GetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), (LPSTR) newPassword.Text, sizeof (newPassword.Text));
-				newPassword.Length = strlen ((char *) newPassword.Text);
+				newPassword.Length = (unsigned __int32) strlen ((char *) newPassword.Text);
 			}
 
 			WaitCursor ();
@@ -2340,12 +2340,12 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 
-			nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+			nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				if (*pkcs5 && (*pkcs5 == i))
 					defaultPrfIndex = nIndex;
@@ -2404,14 +2404,14 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 
-			int i, defaultPrfIndex = 0, nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+			int i, defaultPrfIndex = 0, nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
 				if (HashForSystemEncryption(i))
 				{
-					nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+					nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 					if (*pkcs5 && (*pkcs5 == i))
 						defaultPrfIndex = nIndex;
@@ -2560,7 +2560,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile);
 
 				GetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), (LPSTR) szXPwd->Text, MAX_PASSWORD + 1);
-				szXPwd->Length = strlen ((char *) szXPwd->Text);
+				szXPwd->Length = (unsigned __int32) strlen ((char *) szXPwd->Text);
 
 				bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_CACHE));	 
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
@@ -2929,12 +2929,12 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 
-			int i, nSelectedIndex = 0, nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+			int i, nSelectedIndex = 0, nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				/* if a PRF was selected previously, select it */
 				if (i == mountOptions->ProtectedHidVolPkcs5Prf)
@@ -3051,9 +3051,9 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					(LPSTR) mountOptions->ProtectedHidVolPassword.Text,
 					sizeof (mountOptions->ProtectedHidVolPassword.Text));
 
-				mountOptions->ProtectedHidVolPassword.Length = strlen ((char *) mountOptions->ProtectedHidVolPassword.Text);
+				mountOptions->ProtectedHidVolPassword.Length = (unsigned __int32) strlen ((char *) mountOptions->ProtectedHidVolPassword.Text);
 
-				mountOptions->ProtectedHidVolPkcs5Prf = SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
+				mountOptions->ProtectedHidVolPkcs5Prf = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 			}
 
@@ -3516,13 +3516,13 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_RESETCONTENT, 0, 0);
 
-			index = SendDlgItemMessageW (hwndDlg, IDC_DRIVELIST, CB_ADDSTRING, 0, (LPARAM) GetString ("FIRST_AVAILABLE"));
+			index = (int) SendDlgItemMessageW (hwndDlg, IDC_DRIVELIST, CB_ADDSTRING, 0, (LPARAM) GetString ("FIRST_AVAILABLE"));
 			SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_SETITEMDATA, index, (LPARAM) 0);
 
 			for (i = 'D'; i <= 'Z'; i++)
 			{
 				drive[0] = i;
-				index = SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_ADDSTRING, 0, (LPARAM) drive);
+				index = (int) SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_ADDSTRING, 0, (LPARAM) drive);
 				SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_SETITEMDATA, index, (LPARAM) i);
 			}
 		
@@ -3606,8 +3606,8 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			volName[0] = 0;
 			GetDlgItemText (hwndDlg, IDC_VOLUME_NAME, volName + 1, (sizeof volName) - 1);
 			
-			drive = SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETCURSEL, 0, 0);
-			drive = SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETITEMDATA, drive, 0);
+			drive = (int) SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETCURSEL, 0, 0);
+			drive = (int) SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETITEMDATA, drive, 0);
 
 			copyWizard = IsButtonChecked (GetDlgItem (hwndDlg, IDC_COPY_WIZARD));
 			bExplore = IsButtonChecked (GetDlgItem (hwndDlg, IDC_TRAVEL_OPEN_EXPLORER));
@@ -3867,7 +3867,7 @@ LPARAM GetItemLong (HWND hTree, int itemNo)
 
 static int AskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
 {
-	int result;
+	INT_PTR result;
 	PasswordDlgParam dlgParam;
 
 	PasswordDialogTitleStringId = titleStringId;
@@ -4511,7 +4511,7 @@ ret:
 
 static void ChangePassword (HWND hwndDlg)
 {
-	int result;
+	INT_PTR result;
 	
 	GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, sizeof (szFileName));
 	if (IsMountedVolume (szFileName))
@@ -5110,7 +5110,7 @@ BOOL SelectPartition (HWND hwndDlg)
 {
 	RawDevicesDlgParam param;
 	param.pszFileName = szFileName;
-	int nResult = DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), hwndDlg,
+	INT_PTR nResult = DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), hwndDlg,
 		(DLGPROC) RawDevicesDlgProc, (LPARAM) & param);
 	if (nResult == IDOK)
 	{
@@ -5665,7 +5665,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						COPYDATASTRUCT cd;
 						memcpy (&cd.dwData, WM_COPY_SET_VOLUME_NAME, 4);
 						cd.lpData = szFileName;
-						cd.cbData = strlen (szFileName) + 1;
+						cd.cbData = (DWORD) strlen (szFileName) + 1;
 
 						SendMessage (h, WM_COPYDATA, (WPARAM)hwndDlg, (LPARAM)&cd);
 					}
@@ -6231,7 +6231,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			/* Double click within drive list */
 			if (((LPNMHDR) lParam)->code == LVN_ITEMACTIVATE)
 			{
-				int state = GetItemLong (GetDlgItem (hwndDlg, IDC_DRIVELIST), ((LPNMITEMACTIVATE)lParam)->iItem );
+				LPARAM state = GetItemLong (GetDlgItem (hwndDlg, IDC_DRIVELIST), ((LPNMITEMACTIVATE)lParam)->iItem );
 				nSelectedDriveIndex = ((LPNMITEMACTIVATE)lParam)->iItem;
 				if (LOWORD(state) == TC_MLIST_ITEM_NONSYS_VOL || LOWORD(state) == TC_MLIST_ITEM_SYS_PARTITION)
 				{
@@ -6373,7 +6373,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					case IDPM_OPEN_VOLUME:
 						{
-							int state = GetItemLong(GetDlgItem (hwndDlg, IDC_DRIVELIST), ((LPNMITEMACTIVATE)lParam)->iItem );
+							LPARAM state = GetItemLong(GetDlgItem (hwndDlg, IDC_DRIVELIST), ((LPNMITEMACTIVATE)lParam)->iItem );
 							nSelectedDriveIndex = ((LPNMITEMACTIVATE)lParam)->iItem;
 
 							WaitCursor ();
@@ -7588,7 +7588,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
 						     (char *) CmdVolumePassword.Text, sizeof (CmdVolumePassword.Text)))
 				{
-					CmdVolumePassword.Length = strlen ((char *) CmdVolumePassword.Text);
+					CmdVolumePassword.Length = (unsigned __int32) strlen ((char *) CmdVolumePassword.Text);
 					CmdVolumePasswordValid = TRUE;
 				}
 				else
@@ -9367,12 +9367,12 @@ static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPAR
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 
-			nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+			nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				if (DefaultVolumePkcs5 && (DefaultVolumePkcs5 == i))
 					defaultPrfIndex = nIndex;

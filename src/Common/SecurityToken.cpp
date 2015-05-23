@@ -132,8 +132,8 @@ namespace VeraCrypt
 			{ CKA_CLASS, &dataClass, sizeof (dataClass) },
 			{ CKA_TOKEN, &trueVal, sizeof (trueVal) },
 			{ CKA_PRIVATE, &trueVal, sizeof (trueVal) },
-			{ CKA_LABEL, (CK_UTF8CHAR *) name.c_str(), name.size() },
-			{ CKA_VALUE, &keyfileData.front(), keyfileData.size() }
+			{ CKA_LABEL, (CK_UTF8CHAR *) name.c_str(), (CK_ULONG) name.size() },
+			{ CKA_VALUE, &keyfileData.front(), (CK_ULONG) keyfileData.size() }
 		};
 
 		CK_OBJECT_HANDLE keyfileHandle;
@@ -420,7 +420,7 @@ namespace VeraCrypt
 		else if (Sessions[slotId].UserLoggedIn)
 			return;
 
-		CK_RV status = Pkcs11Functions->C_Login (Sessions[slotId].Handle, CKU_USER, (CK_CHAR_PTR) pin.c_str(), pin.size());
+		CK_RV status = Pkcs11Functions->C_Login (Sessions[slotId].Handle, CKU_USER, (CK_CHAR_PTR) pin.c_str(), (CK_ULONG) pin.size());
 
 		if (status != CKR_OK)
 			throw Pkcs11Exception (status);

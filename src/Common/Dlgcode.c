@@ -316,12 +316,12 @@ void cleanup ()
 
 void LowerCaseCopy (char *lpszDest, const char *lpszSource)
 {
-	int i = strlen (lpszSource);
+	size_t i = strlen (lpszSource) + 1;
 
-	lpszDest[i] = 0;
-	while (--i >= 0)
+	lpszDest[i - 1] = 0;
+	while (--i > 0)
 	{
-		lpszDest[i] = (char) tolower (lpszSource[i]);
+		lpszDest[i - 1] = (char) tolower (lpszSource[i - 1]);
 	}
 
 }
@@ -330,14 +330,15 @@ void UpperCaseCopy (char *lpszDest, size_t cbDest, const char *lpszSource)
 {
 	if (lpszDest && cbDest)
 	{
-		int i = strlen (lpszSource);
-		if (i >= (int) cbDest)
+		size_t i = strlen (lpszSource);
+		if (i >= cbDest)
 			i = cbDest - 1;
 
 		lpszDest[i] = 0;
-		while (--i >= 0)
+		i++;
+		while (--i > 0)
 		{
-			lpszDest[i] = (char) toupper (lpszSource[i]);
+			lpszDest[i - 1] = (char) toupper (lpszSource[i - 1]);
 		}
 	}
 }
@@ -511,7 +512,7 @@ void *err_malloc (size_t size)
 
 char *err_strdup (char *lpszText)
 {
-	int j = (strlen (lpszText) + 1) * sizeof (char);
+	size_t j = (strlen (lpszText) + 1) * sizeof (char);
 	char *z = (char *) err_malloc (j);
 	memmove (z, lpszText, j);
 	return z;
@@ -667,7 +668,7 @@ int GetTextGfxWidth (HWND hwndDlgItem, const wchar_t *text, HFONT hFont)
 
 	SelectObject(hdc, (HGDIOBJ) hFont);
 
-	GetTextExtentPoint32W (hdc, text, wcslen (text), &sizes);
+	GetTextExtentPoint32W (hdc, text, (int) wcslen (text), &sizes);
 
 	GetTextMetrics(hdc, &textMetrics);	// Necessary for non-TrueType raster fonts (tmOverhang)
 
@@ -684,7 +685,7 @@ int GetTextGfxHeight (HWND hwndDlgItem, const wchar_t *text, HFONT hFont)
 
 	SelectObject(hdc, (HGDIOBJ) hFont);
 
-	GetTextExtentPoint32W (hdc, text, wcslen (text), &sizes);
+	GetTextExtentPoint32W (hdc, text, (int) wcslen (text), &sizes);
 
 	ReleaseDC (hwndDlgItem, hdc); 
 
@@ -708,7 +709,7 @@ std::string FitPathInGfxWidth (HWND hwnd, HFONT hFont, LONG width, const std::st
 	char pathBuf[TC_MAX_PATH];
 	strcpy_s (pathBuf, sizeof (pathBuf), path.c_str());
 
-	if (DrawText (hdc, pathBuf, path.size(), &rect, DT_CALCRECT | DT_MODIFYSTRING | DT_PATH_ELLIPSIS | DT_SINGLELINE) != 0)
+	if (DrawText (hdc, pathBuf, (int) path.size(), &rect, DT_CALCRECT | DT_MODIFYSTRING | DT_PATH_ELLIPSIS | DT_SINGLELINE) != 0)
 		newPath = pathBuf;
 
 	ReleaseDC (hwnd, hdc); 
@@ -1146,7 +1147,7 @@ void ToSBCS (LPWSTR lpszText, size_t cbSize)
 {
 	if (lpszText)
 	{
-		int j = wcslen (lpszText);
+		int j = (int) wcslen (lpszText);
 		if (j == 0)
 		{
 			*((char *) lpszText) = 0;
@@ -1641,7 +1642,7 @@ SelectAlgo (HWND hComboBox, int *algo_id)
 	/* Something went wrong ; couldn't find the requested algo id so we drop
 	   back to a default */
 
-	*algo_id = SendMessage (hComboBox, CB_GETITEMDATA, 0, 0);
+	*algo_id = (int) SendMessage (hComboBox, CB_GETITEMDATA, 0, 0);
 
 	SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
 
@@ -2828,12 +2829,12 @@ int IsNonSysPartitionOnSysDrive (const char *path)
 	strncpy (tmpPath, path, sizeof (tmpPath) - 1);
 
 
-	pos = (int) FindString (tmpPath, "Partition", strlen (tmpPath), strlen ("Partition"), 0);
+	pos = (int) FindString (tmpPath, "Partition", (int) strlen (tmpPath), (int) strlen ("Partition"), 0);
 
 	if (pos < 0)
 		return -1;
 
-	pos += strlen ("Partition");
+	pos += (int) strlen ("Partition");
 
 	if (pos + 1 > sizeof (tmpPath) - 1)
 		return -1;
@@ -2912,7 +2913,7 @@ wstring GetDecoyOsInstructionsString (void)
 }
 
 
-BOOL TextInfoDialogBox (int nID)
+INT_PTR TextInfoDialogBox (int nID)
 {
 	return DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TEXT_INFO_DIALOG_BOX_DLG), MainDlg, (DLGPROC) TextInfoDialogBoxDlgProc, (LPARAM) nID);
 }
@@ -3970,7 +3971,7 @@ BOOL SelectMultipleFilesNext (char *lpszFileName, size_t cbFileName)
 
 	StringCbCatA (lpszFileName, cbFileName,SelectMultipleFilesPath + SelectMultipleFilesOffset);
 
-	SelectMultipleFilesOffset += strlen (SelectMultipleFilesPath + SelectMultipleFilesOffset) + 1;
+	SelectMultipleFilesOffset += (int) strlen (SelectMultipleFilesPath + SelectMultipleFilesOffset) + 1;
 	if (SelectMultipleFilesPath[SelectMultipleFilesOffset] == 0)
 		SelectMultipleFilesOffset = 0;
 
@@ -4950,7 +4951,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			nIndex = SendMessage (hCboxSortMethod, CB_GETCURSEL, 0, 0);
 			if (nIndex != benchmarkSortMethod)
 			{
-				benchmarkSortMethod = nIndex;
+				benchmarkSortMethod = (int) nIndex;
 				DisplayBenchmarkResults (hwndDlg);
 			}
 			return 1;
@@ -4958,7 +4959,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_PERFORM_BENCHMARK:
 
 			nIndex = SendMessage (hCboxBufferSize, CB_GETCURSEL, 0, 0);
-			benchmarkBufferSize = SendMessage (hCboxBufferSize, CB_GETITEMDATA, nIndex, 0);
+			benchmarkBufferSize = (int) SendMessage (hCboxBufferSize, CB_GETITEMDATA, nIndex, 0);
 
 			BenchmarkThreadParam threadParam;
 			threadParam.hBenchDlg = hwndDlg;
@@ -5841,7 +5842,7 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 	SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_RESETCONTENT, 0,0);
 	SendMessage (GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_RESETCONTENT, 0,0);
 
-	ndx = SendMessage (GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_ADDSTRING, 0,(LPARAM) "64");
+	ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_ADDSTRING, 0,(LPARAM) "64");
 	SendMessage(GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 8);
 	SendMessage(GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_SETCURSEL, ndx,0);
 
@@ -5851,7 +5852,7 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 
 		StringCbPrintfA (tmpStr, sizeof(tmpStr), "%d", ndx);
 
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_ADDSTRING, 0,(LPARAM) tmpStr);
+		ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_ADDSTRING, 0,(LPARAM) tmpStr);
 		SendMessage(GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_SETITEMDATA, ndx,(LPARAM) ndx);
 	}
 
@@ -5865,12 +5866,12 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 
 	if (idTestCipher == AES || idTestCipher == SERPENT || idTestCipher == TWOFISH)
 	{
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "256");
+		ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) "256");
 		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 32);
 		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETCURSEL, ndx,0);
 
 		SendMessage (GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_RESETCONTENT, 0,0);
-		ndx = SendMessage (GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_ADDSTRING, 0,(LPARAM) "128");
+		ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_ADDSTRING, 0,(LPARAM) "128");
 		SendMessage(GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 16);
 		SendMessage(GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_SETCURSEL, ndx,0);
 
@@ -5960,7 +5961,7 @@ BOOL CALLBACK MultiChoiceDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			} while (nStr < MAX_MULTI_CHOICES+1);
 
 			// Length of main message in characters (not bytes)
-			nMainTextLenInChars = wcslen ((const wchar_t *) (bResolve ? GetString(*(pStrOrig+1)) : *(pwStrOrig+1)));
+			nMainTextLenInChars = (int) wcslen ((const wchar_t *) (bResolve ? GetString(*(pStrOrig+1)) : *(pwStrOrig+1)));
 
 			if (nMainTextLenInChars > 200 
 				&& nMainTextLenInChars / nLongestButtonCaptionCharLen >= 10)
@@ -6000,7 +6001,7 @@ BOOL CALLBACK MultiChoiceDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 					offset = FindString ((char *) (bResolve ? GetString(*(pStrOrig+1)) : *(pwStrOrig+1)), 
 						(char *) L"\n",
 						nMainTextLenInChars * 2, 
-						wcslen (L"\n") * 2, 
+						(int) wcslen (L"\n") * 2, 
 						offset + 1);
 
 					newLineSeqCount++;
@@ -7300,7 +7301,7 @@ HANDLE DismountDrive (char *devName, char *devicePath)
 // Returns -1 if the specified string is not found in the buffer. Otherwise, returns the
 // offset of the first occurrence of the string. The string and the buffer may contain zeroes, 
 // which do NOT terminate them.
-int64 FindString (const char *buf, const char *str, int64 bufLen, size_t strLen, int64 startOffset)
+int64 FindString (const char *buf, const char *str, int64 bufLen, int64 strLen, int64 startOffset)
 {
 	if (buf == NULL 
 		|| str == NULL 
@@ -7544,7 +7545,7 @@ BOOL TCFlushFile (FILE *f)
 // Prints a UTF-16 text (note that this involves a real printer, not a screen).
 // textByteLen - length of the text in bytes
 // title - printed as part of the page header and used as the filename for a temporary file 
-BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, int textByteLen)
+BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, size_t textByteLen)
 {
 	char cl [MAX_PATH*3] = {"/p \""};
 	char path [MAX_PATH * 2] = { 0 };
@@ -7575,7 +7576,7 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, int textByteLen)
 	}
 
 	// Write the actual text
-	if (!SaveBufferToFile ((char *) text, path, textByteLen, TRUE))
+	if (!SaveBufferToFile ((char *) text, path, (DWORD) textByteLen, TRUE))
 	{
 		remove (path);
 		return FALSE;
@@ -7965,7 +7966,7 @@ int GetDriverRefCount ()
 // processed by mputLong(). The result is stored in *result. Returns TRUE if successful (otherwise FALSE).
 BOOL LoadInt32 (char *filePath, unsigned __int32 *result, __int64 fileOffset)
 {
-	size_t bufSize = sizeof(__int32);
+	DWORD bufSize = sizeof(__int32);
 	unsigned char *buffer = (unsigned char *) malloc (bufSize);
 	unsigned char *bufferPtr = buffer;
 	HANDLE src = NULL;
@@ -8009,7 +8010,7 @@ fsif_end:
 // processed by mputWord(). The result is stored in *result. Returns TRUE if successful (otherwise FALSE).
 BOOL LoadInt16 (char *filePath, int *result, __int64 fileOffset)
 {
-	size_t bufSize = sizeof(__int16);
+	DWORD bufSize = sizeof(__int16);
 	unsigned char *buffer = (unsigned char *) malloc (bufSize);
 	unsigned char *bufferPtr = buffer;
 	HANDLE src = NULL;
@@ -8085,7 +8086,7 @@ char *LoadFile (const char *fileName, DWORD *size)
 
 
 // Returns NULL if there's any error.
-char *LoadFileBlock (char *fileName, __int64 fileOffset, size_t count)
+char *LoadFileBlock (char *fileName, __int64 fileOffset, DWORD count)
 {
 	char *buf;
 	DWORD bytesRead = 0;
@@ -8511,7 +8512,7 @@ int AskMultiChoice (void *strings[], BOOL bBold, HWND hwnd)
 	params.strings = &strings[0];
 	params.bold = bBold;
 
-	return DialogBoxParamW (hInst, 
+	return (int) DialogBoxParamW (hInst, 
 		MAKEINTRESOURCEW (IDD_MULTI_CHOICE_DLG), hwnd,
 		(DLGPROC) MultiChoiceDialogProc, (LPARAM) &params);
 }
@@ -9765,7 +9766,7 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 					return 1;
 				}
 
-				newParams->SlotId = ComboBox_GetItemData (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), selectedToken);
+				newParams->SlotId = (CK_SLOT_ID) ComboBox_GetItemData (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), selectedToken);
 
 				wchar_t name[1024];
 				if (GetWindowTextW (GetDlgItem (hwndDlg, IDC_TOKEN_KEYFILE_NAME), name, array_capacity (name)) != 0)
@@ -10028,7 +10029,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 								finally_do_arg (vector <byte> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
 
-								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, keyfileData.size(), FALSE))
+								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE))
 									throw SystemException ();
 							}
 

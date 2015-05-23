@@ -1295,7 +1295,7 @@ __int64 GetSystemPartitionSize (void)
 
 void ComboSelChangeEA (HWND hwndDlg)
 {
-	LPARAM nIndex = SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
+	int nIndex = (int) SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
 
 	if (nIndex == CB_ERR)
 	{
@@ -1309,7 +1309,7 @@ void ComboSelChangeEA (HWND hwndDlg)
 		int cipherIDs[5];
 		int i, cnt = 0;
 
-		nIndex = SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
+		nIndex = (int) SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 		EAGetName (name, nIndex, 0);
 
 		if (strcmp (name, "AES") == 0)
@@ -1383,12 +1383,12 @@ static void VerifySizeAndUpdate (HWND hwndDlg, BOOL bUpdate)
 	BOOL bEnable = TRUE;
 	char szTmp[50];
 	__int64 lTmp;
-	size_t i;
+	int i;
 	static unsigned __int64 nLastVolumeSize = 0;
 
 	GetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTmp, sizeof (szTmp));
 
-	for (i = 0; i < strlen (szTmp); i++)
+	for (i = 0; i < (int) strlen (szTmp); i++)
 	{
 		if (szTmp[i] >= '0' && szTmp[i] <= '9')
 			continue;
@@ -3111,7 +3111,7 @@ void DisplaySizingErrorText (HWND hwndTextBox)
 
 void EnableDisableFileNext (HWND hComboBox, HWND hMainButton)
 {
-	LPARAM nIndex = SendMessage (hComboBox, CB_GETCURSEL, 0, 0);
+	int nIndex = (int) SendMessage (hComboBox, CB_GETCURSEL, 0, 0);
 	if (bHistory && nIndex == CB_ERR)
 	{
 		EnableWindow (hMainButton, FALSE);
@@ -4046,12 +4046,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 				SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 
-				nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+				nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 				for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 				{
-					nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+					nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
 				}
 
@@ -4163,7 +4163,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						      NULL,
 							  NULL,
 							  KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
-				volumePassword.Length = strlen ((char *) volumePassword.Text);
+				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 			}
 			break;
 
@@ -5177,7 +5177,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			int c;
 
 			nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
-			nVolumeEA = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
+			nVolumeEA = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 
 			for (c = EAGetLastCipher (nVolumeEA); c != 0; c = EAGetPreviousCipher (nVolumeEA, c))
 			{
@@ -5207,8 +5207,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			char name[100];
 
-			int nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
-			nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
+			int nIndex = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
+			nIndex = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 			EAGetName (name, nIndex, 0);
 
 			if (strcmp (name, "AES") == 0)
@@ -5272,7 +5272,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				NULL,
 				NULL,
 				KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
-			volumePassword.Length = strlen ((char *) volumePassword.Text);
+			volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
 			return 1;
 		}
@@ -5356,7 +5356,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (hw == EN_CHANGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD_DIRECT), (char *) volumePassword.Text, sizeof (volumePassword.Text));
-				volumePassword.Length = strlen ((char *) volumePassword.Text);
+				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 				return 1;
 			}
 
@@ -5427,7 +5427,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				// Select device
 				RawDevicesDlgParam param;
 				param.pszFileName = szFileName;
-				int nResult = DialogBoxParamW (hInst,
+				INT_PTR nResult = DialogBoxParamW (hInst,
 					MAKEINTRESOURCEW (IDD_RAWDEVICES_DLG), GetParent (hwndDlg),
 					(DLGPROC) RawDevicesDlgProc, (LPARAM) & param);
 
@@ -5493,7 +5493,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (SysEncInEffect ())
 				{
 					HWND hHashAlgoItem = GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO);
-					LRESULT selectedAlgo = SendMessage (hHashAlgoItem, CB_GETITEMDATA, SendMessage (hHashAlgoItem, CB_GETCURSEL, 0, 0), 0);
+					int selectedAlgo = (int) SendMessage (hHashAlgoItem, CB_GETITEMDATA, SendMessage (hHashAlgoItem, CB_GETCURSEL, 0, 0), 0);
 					if (!HashForSystemEncryption(selectedAlgo))
 					{
 						hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
@@ -5525,7 +5525,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_FILESYS && hw == CBN_SELCHANGE)
 		{
-			fileSystem = SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETITEMDATA,
+			fileSystem = (int) SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETITEMDATA,
 				SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETCURSEL, 0, 0) , 0);
 
 			return 1;
@@ -6860,7 +6860,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				LPARAM nIndex;
 				nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
-				nVolumeEA = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
+				nVolumeEA = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 
 				if (SysEncInEffect ()
 					&& EAGetCipherCount (nVolumeEA) > 1)		// Cascade?
@@ -6873,7 +6873,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX_HASH_ALGO), CB_GETCURSEL, 0, 0);
-				hash_algo = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX_HASH_ALGO), CB_GETITEMDATA, nIndex, 0);
+				hash_algo = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX_HASH_ALGO), CB_GETITEMDATA, nIndex, 0);
 
 				RandSetHashFunction (hash_algo);
 
@@ -6939,7 +6939,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					szVerify,
 					KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
 
-				volumePassword.Length = strlen ((char *) volumePassword.Text);
+				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
 				if (volumePassword.Length > 0)
 				{
@@ -7009,7 +7009,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				WaitCursor ();
 
 				GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD_DIRECT), (char *) volumePassword.Text, sizeof (volumePassword.Text));
-				volumePassword.Length = strlen ((char *) volumePassword.Text);
+				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
 				hash_algo = (int) SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
@@ -7671,10 +7671,10 @@ retryCDDriveCheck:
 
 				bVolTransformThreadToRun = TRUE;
 
-				fileSystem = SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETITEMDATA,
+				fileSystem = (int) SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETITEMDATA,
 					SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETCURSEL, 0, 0) , 0);
 
-				clusterSize = SendMessage (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), CB_GETITEMDATA,
+				clusterSize = (int) SendMessage (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), CB_GETITEMDATA,
 					SendMessage (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), CB_GETCURSEL, 0, 0) , 0);
 
 				quickFormat = IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT));
@@ -8049,10 +8049,10 @@ ovf_end:
 			{
 				LPARAM nIndex;
 				nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
-				nVolumeEA = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
+				nVolumeEA = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 
 				nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX_HASH_ALGO), CB_GETCURSEL, 0, 0);
-				hash_algo = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX_HASH_ALGO), CB_GETITEMDATA, nIndex, 0);
+				hash_algo = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX_HASH_ALGO), CB_GETITEMDATA, nIndex, 0);
 
 				RandSetHashFunction (hash_algo);
 
@@ -8094,7 +8094,7 @@ ovf_end:
 					szVerify,
 					KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect ());
 
-				volumePassword.Length = strlen ((char *) volumePassword.Text);
+				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
 				nNewPageNo = SIZE_PAGE + 1;		// Skip the hidden volume host password page
 
@@ -8124,7 +8124,7 @@ ovf_end:
 				GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD_DIRECT), szRawPassword, sizeof (szRawPassword));
 
 				GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD_DIRECT), (char *) volumePassword.Text, sizeof (volumePassword.Text));
-				volumePassword.Length = strlen ((char *) volumePassword.Text);
+				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
 				if (!bInPlaceEncNonSys)
 					nNewPageNo = VOLUME_LOCATION_PAGE + 1;

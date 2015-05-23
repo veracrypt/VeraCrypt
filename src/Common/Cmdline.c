@@ -107,7 +107,7 @@ int Win32CommandLine (char *lpszCommandLine, char ***lpszArgs)
 
 		if (argLen > 0)
 		{
-			int len = WideCharToMultiByte (CP_ACP, 0, arguments[i + 1], -1, arg, argLen + 1, NULL, NULL);
+			int len = WideCharToMultiByte (CP_ACP, 0, arguments[i + 1], -1, arg, (int) argLen + 1, NULL, NULL);
 			if (len == 0)
 			{
 				handleWin32Error (NULL);

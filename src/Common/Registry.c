@@ -232,7 +232,7 @@ BOOL WriteLocalMachineRegistryString (char *subKey, char *name, char *str, BOOL 
 		return FALSE;
 	}
 
-	if ((status = RegSetValueEx (hkey, name, 0, expandable ? REG_EXPAND_SZ : REG_SZ, (BYTE *) str, strlen (str) + 1)) != ERROR_SUCCESS)
+	if ((status = RegSetValueEx (hkey, name, 0, expandable ? REG_EXPAND_SZ : REG_SZ, (BYTE *) str, (DWORD) strlen (str) + 1)) != ERROR_SUCCESS)
 	{
 		RegCloseKey (hkey);
 		SetLastError (status);
@@ -252,7 +252,7 @@ void WriteRegistryString (char *subKey, char *name, char *str)
 		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &disp) != ERROR_SUCCESS)
 		return;
 
-	RegSetValueEx (hkey, name, 0, REG_SZ, (BYTE *) str, strlen (str) + 1);
+	RegSetValueEx (hkey, name, 0, REG_SZ, (BYTE *) str, (DWORD) strlen (str) + 1);
 	RegCloseKey (hkey);
 }
 

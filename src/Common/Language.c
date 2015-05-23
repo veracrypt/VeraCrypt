@@ -362,7 +362,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					if (len != 0 && len != ERROR_NO_UNICODE_TRANSLATION
 						&& (!defaultLangFound || wcscmp (wattr, L"English") != 0))
 					{
-						int i = SendDlgItemMessageW (hwndDlg, IDC_LANGLIST, LB_ADDSTRING, 0, (LPARAM)wattr);
+						int i = (int) SendDlgItemMessageW (hwndDlg, IDC_LANGLIST, LB_ADDSTRING, 0, (LPARAM)wattr);
 						if (i >= 0)
 						{
 							int id;
@@ -441,11 +441,11 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDOK || hw == LBN_DBLCLK)
 		{
-			int i = SendDlgItemMessage (hwndDlg, IDC_LANGLIST, LB_GETCURSEL, 0, 0);
+			int i = (int) SendDlgItemMessage (hwndDlg, IDC_LANGLIST, LB_GETCURSEL, 0, 0);
 
 			if (i >= 0)
 			{
-				int id = SendDlgItemMessage (hwndDlg, IDC_LANGLIST, LB_GETITEMDATA, i, 0);
+				int id = (int) SendDlgItemMessage (hwndDlg, IDC_LANGLIST, LB_GETITEMDATA, i, 0);
 
 				if (id != LB_ERR)
 				{

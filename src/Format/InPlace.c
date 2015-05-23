@@ -2003,7 +2003,7 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm, 
 		{
 			StringCbPrintfA (str, sizeof(str), "%d", (int) newWipeAlgorithm);
 
-			SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE), strlen(str), FALSE);
+			SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE), (DWORD) strlen(str), FALSE);
 		} 
 		else if (FileExists (GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE)))
 		{
@@ -2013,7 +2013,7 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm, 
 	
 	StringCbPrintfA (str, sizeof(str), "%d", count);
 
-	return SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC), strlen(str), FALSE);
+	return SaveBufferToFile (str, GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC), (DWORD) strlen(str), FALSE);
 }
 
 
