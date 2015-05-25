@@ -76,6 +76,7 @@ typedef struct
 	BOOL UseBackupHeader;
 	BOOL RecoveryMode;
 	int ProtectedHidVolPkcs5Prf;
+	int ProtectedHidVolPin;
 } MountOptions;
 
 #endif

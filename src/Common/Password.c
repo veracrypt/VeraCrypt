@@ -107,19 +107,33 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 }
 
 
-BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem)
+BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem, int pin, BOOL bForBoot)
 {
+	BOOL bCustomPinSmall = ((pin != 0) && (pin < (bForBoot? 98 : 485)))? TRUE : FALSE;
 	if (GetWindowTextLength (hwndItem) < PASSWORD_LEN_WARNING)
 	{
+		if (bCustomPinSmall)
+		{
+			Error (bForBoot? "BOOT_PIN_REQUIRE_LONG_PASSWORD": "PIN_REQUIRE_LONG_PASSWORD", hwndDlg);
+			return FALSE;						
+		}
+
 #ifndef _DEBUG
 		if (MessageBoxW (hwndDlg, GetString ("PASSWORD_LENGTH_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES)
 			return FALSE;
 #endif
 	}
+#ifndef _DEBUG
+	else if (bCustomPinSmall)
+	{
+		if (MessageBoxW (hwndDlg, GetString ("PIN_SMALL_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES)
+			return FALSE;
+	}
+#endif
 	return TRUE;
 }
 
-int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
+int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pin, BOOL truecryptMode, Password *newPassword, int pkcs5, int pin, int wipePassCount, HWND hwndDlg)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
 	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -287,7 +301,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, BOO
 
 		/* Try to decrypt the header */
 
-		nStatus = ReadVolumeHeader (FALSE, buffer, oldPassword, old_pkcs5, truecryptMode, &cryptoInfo, NULL);
+		nStatus = ReadVolumeHeader (FALSE, buffer, oldPassword, old_pkcs5, old_pin, truecryptMode, &cryptoInfo, NULL);
 		if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 			nStatus = 0;	// We can ignore this error here
 
@@ -353,6 +367,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, BOO
 				cryptoInfo->mode,
 				newPassword,
 				cryptoInfo->pkcs5,
+				pin,
 				cryptoInfo->master_keydata,
 				&ci,
 				cryptoInfo->VolumeSize.Value,

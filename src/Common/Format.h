@@ -39,6 +39,7 @@ typedef struct
 	int sectorSize;
 	int *realClusterSize;
 	Password *password;
+	int pin;
 	HWND hwndDlg;
 }
 FORMAT_VOL_PARAMETERS;

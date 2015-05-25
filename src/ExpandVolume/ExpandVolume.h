@@ -59,6 +59,7 @@ typedef struct
 	BOOL bInitFreeSpace;
 	Password *pVolumePassword;
 	int VolumePkcs5;
+	int VolumePin;
 	HWND hwndDlg;
 } EXPAND_VOL_THREAD_PARAMS;
 
@@ -74,7 +75,7 @@ extern volatile BOOL bVolTransformThreadCancel; /* TRUE if the user cancels/paus
 uint64 GetVolumeDataAreaSize (uint64 volumeSize, BOOL legacyVolume);
 uint64 GetVolumeSizeByDataAreaSize (uint64 dataSize, BOOL legacyVolume);
 int QueryVolumeInfo (HWND hwndDlg, const char *lpszVolume, uint64 * pHostSizeFree, uint64 * pSizeLimitFS );
-int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5);
+int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5, int pin);
 BOOL GetFileSystemType(const char *szFileName, enum EV_FileSystem *pFS);
 BOOL GetNtfsNumberOfSectors(char *rootPath, uint64 *pNumberOfSectors, DWORD *pBytesPerSector);
 void __cdecl volTransformThreadFunction (void *hwndDlgArg);

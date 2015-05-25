@@ -66,6 +66,13 @@
 #define IDC_EDIT1                       1114
 #define IDC_BOX_STATUS                  1114
 #define IDC_TRUECRYPT_MODE              1140
+#define IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT 1141
+#define IDT_PIN                         1142
+#define IDC_PIN                         1143
+#define IDC_PIN_HELP                    1144
+#define IDT_OLD_PIN                     1145
+#define IDC_OLD_PIN                     1146
+#define IDC_OLD_PIN_HELP                1147
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -137,7 +144,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40064
-#define _APS_NEXT_CONTROL_VALUE         1116
+#define _APS_NEXT_CONTROL_VALUE         1148
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

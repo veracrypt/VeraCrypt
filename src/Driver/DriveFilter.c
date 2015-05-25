@@ -224,7 +224,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 	NTSTATUS status;
 	LARGE_INTEGER offset;
 	char *header;
-	int pkcs5_prf = 0;
+	int pkcs5_prf = 0, pin = 0;
 	byte *mappedCryptoInfo = NULL;
 
 	Dump ("MountDrive pdo=%p\n", Extension->Pdo);
@@ -295,7 +295,9 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		}
 	}
 
-	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, FALSE, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
+	pin = (int) (BootArgs.Flags >> 16);
+
+	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, pin, FALSE, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
 	{
 		// Header decrypted
 		status = STATUS_SUCCESS;
@@ -775,6 +777,8 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		|| request->VolumePassword.Length > MAX_PASSWORD
 		|| request->pkcs5_prf < 0
 		|| request->pkcs5_prf > LAST_PRF_ID
+		|| request->pin < 0
+		|| request->pin > 65535
 		)
 	{
 		irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
@@ -800,7 +804,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		goto ret;
 	}
 
-	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, FALSE, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
+	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, request->pin, FALSE, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
 	{
 		Dump ("Header reopened\n");
 		

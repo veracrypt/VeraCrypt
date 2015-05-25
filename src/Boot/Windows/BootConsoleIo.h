@@ -48,6 +48,7 @@ int GetString (char *buffer, size_t bufferSize);
 void InitVideoMode ();
 bool IsKeyboardCharAvailable ();
 bool IsPrintable (char c);
+bool IsDigit (char c);
 void Print (const char *str);
 void Print (uint32 number);
 void Print (const uint64 &number);

@@ -144,7 +144,7 @@ namespace VeraCrypt
 		void AbortSetup ();
 		void AbortSetupWait ();
 		void CallDriver (DWORD ioctl, void *input = nullptr, DWORD inputSize = 0, void *output = nullptr, DWORD outputSize = 0);
-		int ChangePassword (Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg);
+		int ChangePassword (Password *oldPassword, int old_pkcs5, int old_pin, Password *newPassword, int pkcs5, int pin, int wipePassCount, HWND hwndDlg);
 		void CheckDecoyOSWipeResult ();
 		void CheckEncryptionSetupResult ();
 		void CheckRequirements ();
@@ -170,7 +170,7 @@ namespace VeraCrypt
 		bool IsHiddenSystemRunning ();
 		bool IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly);
 		void PrepareHiddenOSCreation (int ea, int mode, int pkcs5);
-		void PrepareInstallation (bool systemPartitionOnly, Password &password, int ea, int mode, int pkcs5, const string &rescueIsoImagePath);
+		void PrepareInstallation (bool systemPartitionOnly, Password &password, int ea, int mode, int pkcs5, int pin, const string &rescueIsoImagePath);
 		void ProbeRealSystemDriveSize ();
 		void ReadBootSectorConfig (byte *config, size_t bufLength, byte *userConfig = nullptr, string *customUserMessage = nullptr, uint16 *bootLoaderVersion = nullptr);
 		uint32 ReadDriverConfigurationFlags ();
@@ -204,7 +204,7 @@ namespace VeraCrypt
 
 		void BackupSystemLoader ();
 		void CreateBootLoaderInMemory (byte *buffer, size_t bufferSize, bool rescueDisk, bool hiddenOSCreation = false);
-		void CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5);
+		void CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5, int pin);
 		string GetSystemLoaderBackupPath ();
 		uint32 GetChecksum (byte *data, size_t size);
 		DISK_GEOMETRY GetDriveGeometry (int driveNumber);

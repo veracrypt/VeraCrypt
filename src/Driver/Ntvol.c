@@ -467,6 +467,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				readBuffer,
 				&mount->ProtectedHidVolPassword,
 				mount->ProtectedHidVolPkcs5Prf,
+				mount->ProtectedHidVolPin,
 				mount->bTrueCryptMode,
 				&tmpCryptoInfo);
 		}
@@ -478,6 +479,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				readBuffer,
 				&mount->VolumePassword,
 				mount->pkcs5_prf,
+				mount->VolumePin,
 				mount->bTrueCryptMode,
 				&Extension->cryptoInfo);
 		}

@@ -98,7 +98,7 @@ static int FsctlExtendVolume(char * szVolume, LONGLONG nTotalSectors );
 		int with Truecrypt error code (ERR_SUCCESS on success)
 
 */
-int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5)
+int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5, int pin)
 {
 	MountOptions mountOptions;
 	ZeroMemory (&mountOptions, sizeof (mountOptions));
@@ -118,7 +118,7 @@ int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *passwo
 	mountOptions.PartitionInInactiveSysEncScope = FALSE;
 	mountOptions.UseBackupHeader = FALSE;
 
-	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
+	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pin, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
 	{
 		*driveNo = -3;
 		return ERR_VOL_MOUNT_FAILED;
@@ -385,7 +385,7 @@ uint64 GetVolumeSizeByDataAreaSize (uint64 dataAreaSize, BOOL legacyVolume)
 }
 
 
-int ExtendFileSystem (HWND hwndDlg , char *lpszVolume, Password *pVolumePassword, int VolumePkcs5, uint64 newDataAreaSize)
+int ExtendFileSystem (HWND hwndDlg , char *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePin, uint64 newDataAreaSize)
 {
 	char szVolumeGUID[128];
 	int driveNo = -1;
@@ -399,7 +399,7 @@ int ExtendFileSystem (HWND hwndDlg , char *lpszVolume, Password *pVolumePassword
 
 	DebugAddProgressDlgStatus (hwndDlg, "Mounting volume ...\r\n");
 
-	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, pVolumePassword, VolumePkcs5);
+	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, pVolumePassword, VolumePkcs5, VolumePin);
 	if (nStatus!=ERR_SUCCESS)
 	{
 		driveNo = -1;
@@ -500,7 +500,7 @@ error:
 	Remarks: a lot of code is from TrueCrypt 'Common\Password.c' :: ChangePwd()
 
 */
-static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePassword, int VolumePkcs5, uint64 newHostSize, BOOL initFreeSpace)
+static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePin, uint64 newHostSize, BOOL initFreeSpace)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
 	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -644,7 +644,7 @@ static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePasswo
 
 	/* Try to decrypt the header */
 
-	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, FALSE, &cryptoInfo, NULL);
+	nStatus = ReadVolumeHeader (FALSE, buffer, pVolumePassword, VolumePkcs5, VolumePin, FALSE, &cryptoInfo, NULL);
 	if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 		nStatus = 0;	// We can ignore this error here
 
@@ -802,6 +802,7 @@ static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePasswo
 			cryptoInfo->mode,
 			pVolumePassword,
 			cryptoInfo->pkcs5,
+			VolumePin,
 			(char*)(cryptoInfo->master_keydata),
 			&ci,
 			newDataAreaSize,
@@ -968,7 +969,7 @@ error:
 
 	if (nStatus == ERR_SUCCESS)
 	{
-		nStatus = ExtendFileSystem (hwndDlg, lpszVolume, pVolumePassword, VolumePkcs5, newDataAreaSize);
+		nStatus = ExtendFileSystem (hwndDlg, lpszVolume, pVolumePassword, VolumePkcs5, VolumePin, newDataAreaSize);
 	}
 
 	return nStatus;
@@ -983,7 +984,7 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	HWND hwndDlg = (HWND) pParam->hwndDlg;
 
 	nStatus = ExpandVolume (hwndDlg, (char*)pParam->szVolumeName, pParam->pVolumePassword,
-		pParam->VolumePkcs5, pParam->newSize, pParam->bInitFreeSpace );
+		pParam->VolumePkcs5, pParam->VolumePin, pParam->newSize, pParam->bInitFreeSpace );
 
 	if (nStatus!=ERR_SUCCESS && nStatus!=ERR_USER_ABORT)
 			handleError (hwndDlg, nStatus);

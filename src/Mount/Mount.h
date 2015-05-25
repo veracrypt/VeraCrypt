@@ -52,6 +52,7 @@ typedef struct
 {
 	Password *password;
 	int* pkcs5;
+	int* pin;
 	BOOL* truecryptMode;
 } PasswordDlgParam;
 

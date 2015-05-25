@@ -4680,22 +4680,22 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case RIPEMD160:
 					/* PKCS-5 test with HMAC-RIPEMD-160 used as the PRF */
-					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 			}
@@ -6522,6 +6522,7 @@ int MountVolume (HWND hwndDlg,
 				 char *volumePath,
 				 Password *password,
 				 int pkcs5,
+				 int pin,
 				 BOOL truecryptMode,
 				 BOOL cachePassword,
 				 BOOL sharedAccess,
@@ -6584,6 +6585,7 @@ retry:
 		mount.ProtectedHidVolPassword = mountOptions->ProtectedHidVolPassword;
 		mount.bProtectHiddenVolume = TRUE;
 		mount.ProtectedHidVolPkcs5Prf = mountOptions->ProtectedHidVolPkcs5Prf;
+		mount.ProtectedHidVolPin = mountOptions->ProtectedHidVolPin;
 	}
 	else
 		mount.bProtectHiddenVolume = FALSE;
@@ -6595,6 +6597,7 @@ retry:
 	mount.bMountManager = TRUE;
 	mount.pkcs5_prf = pkcs5;
 	mount.bTrueCryptMode = truecryptMode;
+	mount.VolumePin = pin;
 
 	// Windows 2000 mount manager causes problems with remounted volumes
 	if (CurrentOSMajor == 5 && CurrentOSMinor == 0)
@@ -7315,7 +7318,7 @@ int64 FindString (const char *buf, const char *str, int64 bufLen, int64 strLen, 
 
 	for (int64 i = startOffset; i <= bufLen - strLen; i++)
 	{
-		if (memcmp (buf + i, str, strLen) == 0)
+		if (memcmp (buf + i, str, (size_t) strLen) == 0)
 			return i;
 	}
 
@@ -8803,6 +8806,9 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 
 BOOL Is64BitOs ()
 {
+#ifdef _WIN64
+	return TRUE;
+#else
     static BOOL isWow64 = FALSE;
 	static BOOL valid = FALSE;
 	typedef BOOL (__stdcall *LPFN_ISWOW64PROCESS ) (HANDLE hProcess,PBOOL Wow64Process);
@@ -8819,6 +8825,7 @@ BOOL Is64BitOs ()
 
 	valid = TRUE;
     return isWow64;
+#endif
 }
 
 
@@ -9247,7 +9254,7 @@ void ReportUnexpectedState (char *techInfo)
 
 #ifndef SETUP
 
-int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, int pkcs5_prf, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
+int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, int pkcs5_prf, int pin, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
 {
 	int status = ERR_PARAMETER_INCORRECT;
 	int volumeType;
@@ -9397,7 +9404,7 @@ int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *pa
 		}
 
 		// Decrypt volume header
-		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, truecryptMode, &context->CryptoInfo, NULL);
+		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pin, truecryptMode, &context->CryptoInfo, NULL);
 
 		if (status == ERR_PASSWORD_WRONG)
 			continue;		// Try next volume type
@@ -9442,7 +9449,7 @@ void CloseVolume (OpenVolumeContext *context)
 }
 
 
-int ReEncryptVolumeHeader (HWND hwndDlg, char *buffer, BOOL bBoot, CRYPTO_INFO *cryptoInfo, Password *password, BOOL wipeMode)
+int ReEncryptVolumeHeader (HWND hwndDlg, char *buffer, BOOL bBoot, CRYPTO_INFO *cryptoInfo, Password *password, int pin, BOOL wipeMode)
 {
 	CRYPTO_INFO *newCryptoInfo = NULL;
 	
@@ -9464,6 +9471,7 @@ int ReEncryptVolumeHeader (HWND hwndDlg, char *buffer, BOOL bBoot, CRYPTO_INFO *
 		cryptoInfo->mode,
 		password,
 		cryptoInfo->pkcs5,
+		pin,
 		(char *) cryptoInfo->master_keydata,
 		&newCryptoInfo,
 		cryptoInfo->VolumeSize.Value,
@@ -10692,4 +10700,19 @@ std::string FindLatestFileOrDirectory (const std::string &directory, const char 
 		return name;
 
 	return string (directory) + "\\" + name;
+}
+
+int GetPin (HWND hwndDlg, UINT ctrlId)
+{
+	int pin = 0;
+	char szTmp[MAX_PIN + 1] = {0};
+	GetDlgItemText (hwndDlg, ctrlId, szTmp, MAX_PIN + 1);
+	if (strlen(szTmp))
+	{
+		char* endPtr = NULL;
+		pin = strtol(szTmp, &endPtr, 0);
+		if (pin < 0 || endPtr == szTmp || !endPtr || *endPtr != '\0')
+			pin = 0;
+	}
+	return pin;
 }

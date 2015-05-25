@@ -12,7 +12,7 @@
 #include "TCdefs.h"
 #include "Platform.h"
 
-static byte AskPassword (Password &password);
+static byte AskPassword (Password &password, int& pin);
 static int AskSelection (const char *options[], size_t optionCount);
 static bool AskYesNo (const char *message);
 static byte BootEncryptedDrive ();

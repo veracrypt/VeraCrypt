@@ -392,6 +392,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	WORD lw = LOWORD (wParam);
 	static Password *szXPwd;
 	static int *pkcs5;
+	static int *pin;
 	static BOOL* truecryptMode;
 
 	switch (msg)
@@ -401,6 +402,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			int i, nIndex;
 			szXPwd = ((PasswordDlgParam *) lParam) -> password;
 			pkcs5 = ((PasswordDlgParam *) lParam) -> pkcs5;
+			pin = ((PasswordDlgParam *) lParam) -> pin;
 			truecryptMode = ((PasswordDlgParam *) lParam) -> truecryptMode;
 			LocalizeDialog (hwndDlg, "IDD_PASSWORD_DLG");
 			DragAcceptFiles (hwndDlg, TRUE);
@@ -443,6 +445,16 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
+
+			if (*pin >= 0)
+			{
+				/* display the given PIN */
+				char szTmp[MAX_PIN + 1];
+				StringCbPrintfA(szTmp, sizeof(szTmp), "%d", *pin);
+
+				SetDlgItemText (hwndDlg, IDC_PIN, szTmp);
+			}
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
@@ -537,6 +549,19 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_SETPASSWORDCHAR, '*', 0);
 			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
+
+			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, FALSE);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), FALSE);
+
+			if (*pin >= 0)
+			{
+				/* display the given PIN */
+				char szTmp[MAX_PIN + 1];
+				StringCbPrintfA(szTmp, sizeof(szTmp), "%d", *pin);
+
+				SetDlgItemText (hwndDlg, IDC_PIN, szTmp);
+			}
 
 			bPrebootPasswordDlgMode = TRUE;
 		}
@@ -647,12 +672,27 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_CACHE));	 
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 				*truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
+
+				GetWindowText (GetDlgItem (hwndDlg, IDC_PIN), tmp, MAX_PIN + 1);
+				if (strlen(tmp))
+					*pin = (int) strtol(tmp, NULL, 10); /* IDC_PIN is configured to accept only numbers */
+				else
+					*pin = 0;
+
 				/* SHA-256 is not supported by TrueCrypt */
 				if (	(*truecryptMode) 
 					&& ((*pkcs5 == SHA256) || (mountOptions.ProtectHiddenVolume && mountOptions.ProtectedHidVolPkcs5Prf == SHA256))
 					)
 				{
 					Error ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
+					return 1;
+				}
+
+				if (	(*truecryptMode) 
+					&&	(*pin != 0)
+					)
+				{
+					Error ("PIN_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
 					return 1;
 				}
 			}
@@ -753,7 +793,7 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 	return 0;
 }
 
-int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
+int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *pin, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
 {
 	int result;
 	PasswordDlgParam dlgParam;
@@ -763,6 +803,7 @@ int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, BOOL* 
 
 	dlgParam.password = password;
 	dlgParam.pkcs5 = pkcs5;
+	dlgParam.pin = pin;
 	dlgParam.truecryptMode = truecryptMode;
 
 	result = DialogBoxParamW (hInst, 
@@ -773,6 +814,7 @@ int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, BOOL* 
 	{
 		password->Length = 0;
 		*pkcs5 = 0;
+		*pin = 0;
 		*truecryptMode = FALSE;
 		burn (&mountOptions.ProtectedHidVolPassword, sizeof (mountOptions.ProtectedHidVolPassword));
 		burn (&mountOptions.ProtectedHidVolPkcs5Prf, sizeof (mountOptions.ProtectedHidVolPkcs5Prf));

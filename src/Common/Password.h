@@ -15,6 +15,9 @@
 // User text input limits
 #define MIN_PASSWORD			1		// Minimum possible password length
 #define MAX_PASSWORD			64		// Maximum possible password length
+#define MAX_PIN				10		// Maximum allowed digits in a PIN (enough for 32-bit value)
+#define MAX_BOOT_PIN			5		// Maximum allowed digits in a PIN for boot (enough for 16-bit value)
+#define MAX_BOOT_PIN_VALUE	65535
 
 #define PASSWORD_LEN_WARNING	20		// Display a warning when a password is shorter than this
 
@@ -33,9 +36,9 @@ typedef struct
 #if defined(_WIN32) && !defined(TC_WINDOWS_DRIVER)
 
 void VerifyPasswordAndUpdate ( HWND hwndDlg , HWND hButton , HWND hPassword , HWND hVerify , unsigned char *szPassword , char *szVerify, BOOL keyFilesEnabled );
-BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem);		
+BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem, int pin, BOOL bForBoot);		
 BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw);			
-int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg);
+int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pin, BOOL truecryptMode, Password *newPassword, int pkcs5, int pin, int wipePassCount, HWND hwndDlg);
 
 #endif	// defined(_WIN32) && !defined(TC_WINDOWS_DRIVER)
 

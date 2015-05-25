@@ -1737,21 +1737,21 @@ namespace VeraCrypt
 
 #ifndef SETUP
 
-	void BootEncryption::CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5)
+	void BootEncryption::CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5, int pin)
 	{
 		PCRYPTO_INFO cryptoInfo = NULL;
 
 		if (!IsRandomNumberGeneratorStarted())
 			throw ParameterIncorrect (SRC_POS);
 
-		throw_sys_if (CreateVolumeHeaderInMemory (ParentWindow, TRUE, (char *) VolumeHeader, ea, mode, password, pkcs5, NULL, &cryptoInfo,
+		throw_sys_if (CreateVolumeHeaderInMemory (ParentWindow, TRUE, (char *) VolumeHeader, ea, mode, password, pkcs5, pin, NULL, &cryptoInfo,
 			volumeSize, 0, encryptedAreaStart, 0, TC_SYSENC_KEYSCOPE_MIN_REQ_PROG_VERSION, TC_HEADER_FLAG_ENCRYPTED_SYSTEM, TC_SECTOR_SIZE_BIOS, FALSE) != 0);
 
 		finally_do_arg (PCRYPTO_INFO*, &cryptoInfo, { crypto_close (*finally_arg); });
 
 		// Initial rescue disk assumes encryption of the drive has been completed (EncryptedAreaLength == volumeSize)
 		memcpy (RescueVolumeHeader, VolumeHeader, sizeof (RescueVolumeHeader));
-		if (0 != ReadVolumeHeader (TRUE, (char *) RescueVolumeHeader, password, pkcs5, FALSE, NULL, cryptoInfo))
+		if (0 != ReadVolumeHeader (TRUE, (char *) RescueVolumeHeader, password, pkcs5, pin, FALSE, NULL, cryptoInfo))
 			throw ParameterIncorrect (SRC_POS);
 
 		DecryptBuffer (RescueVolumeHeader + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
@@ -2234,7 +2234,7 @@ namespace VeraCrypt
 	}
 
 
-	int BootEncryption::ChangePassword (Password *oldPassword, int old_pkcs5,Password *newPassword, int pkcs5, int wipePassCount, HWND hwndDlg)
+	int BootEncryption::ChangePassword (Password *oldPassword, int old_pkcs5, int old_pin, Password *newPassword, int pkcs5, int pin, int wipePassCount, HWND hwndDlg)
 	{
 		BootEncryptionStatus encStatus = GetStatus();
 
@@ -2277,7 +2277,7 @@ namespace VeraCrypt
 
 		PCRYPTO_INFO cryptoInfo = NULL;
 		
-		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, old_pkcs5, FALSE, &cryptoInfo, NULL);
+		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, old_pkcs5, old_pin, FALSE, &cryptoInfo, NULL);
 		finally_do_arg (PCRYPTO_INFO, cryptoInfo, { if (finally_arg) crypto_close (finally_arg); });
 
 		if (status != 0)
@@ -2339,6 +2339,7 @@ namespace VeraCrypt
 						cryptoInfo->mode,
 						newPassword,
 						cryptoInfo->pkcs5,
+						pin,
 						(char *) cryptoInfo->master_keydata,
 						&tmpCryptoInfo,
 						cryptoInfo->VolumeSize.Value,
@@ -2382,6 +2383,7 @@ namespace VeraCrypt
 			ReopenBootVolumeHeaderRequest reopenRequest;
 			reopenRequest.VolumePassword = *newPassword;
 			reopenRequest.pkcs5_prf = cryptoInfo->pkcs5;
+			reopenRequest.pin = pin;
 			finally_do_arg (ReopenBootVolumeHeaderRequest*, &reopenRequest, { burn (finally_arg, sizeof (*finally_arg)); });
 
 			CallDriver (TC_IOCTL_REOPEN_BOOT_VOLUME_HEADER, &reopenRequest, sizeof (reopenRequest));
@@ -2442,7 +2444,7 @@ namespace VeraCrypt
 	}
 
 
-	void BootEncryption::PrepareInstallation (bool systemPartitionOnly, Password &password, int ea, int mode, int pkcs5, const string &rescueIsoImagePath)
+	void BootEncryption::PrepareInstallation (bool systemPartitionOnly, Password &password, int ea, int mode, int pkcs5, int pin, const string &rescueIsoImagePath)
 	{
 		BootEncryptionStatus encStatus = GetStatus();
 		if (encStatus.DriveMounted)
@@ -2495,7 +2497,7 @@ namespace VeraCrypt
 
 		SelectedEncryptionAlgorithmId = ea;
 		SelectedPrfAlgorithmId = pkcs5;
-		CreateVolumeHeader (volumeSize, encryptedAreaStart, &password, ea, mode, pkcs5);
+		CreateVolumeHeader (volumeSize, encryptedAreaStart, &password, ea, mode, pkcs5, pin);
 		
 		if (!rescueIsoImagePath.empty())
 			CreateRescueIsoImage (true, rescueIsoImagePath);

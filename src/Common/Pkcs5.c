@@ -120,7 +120,7 @@ void hmac_sha256
 }
 #endif
 
-static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, int b, hmac_sha256_ctx* hmac)
+static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
 {
 	char* k = hmac->k;
 	char* u = hmac->u;
@@ -128,13 +128,16 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, i
 	int i;	
 
 #ifdef TC_WINDOWS_BOOT
-	/* In bootloader, iterations is a boolean : TRUE for boot derivation mode, FALSE otherwise 
+	/* In bootloader mode, least significant bit of iterations is a boolean (TRUE for boot derivation mode, FALSE otherwise)
+	 * and the most significant 16 bits hold the pin value
 	 * This enables us to save code space needed for implementing other features.
 	 */
-	if (iterations)
-		c = 200000;
+	c = iterations >> 16;
+	i = ((int) iterations) & 0x01;
+	if (i)
+		c = (c == 0)? 200000 : c << 11;
 	else
-		c = 500000;
+		c = (c == 0)? 500000 : 15000 + c * 1000;
 #else
 	c = iterations;
 #endif
@@ -162,7 +165,7 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, i
 }
 
 
-void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
+void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {	
 	hmac_sha256_ctx hmac;
 	int b, l, r;
@@ -305,11 +308,11 @@ void hmac_sha512
 	burn (key, sizeof(key));
 }
 
-static void derive_u_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, int b, hmac_sha512_ctx* hmac)
+static void derive_u_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
 {
 	char* k = hmac->k;
 	char* u = hmac->u;
-	int c, i;
+	uint32 c, i;
 
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
@@ -332,7 +335,7 @@ static void derive_u_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, i
 }
 
 
-void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
+void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {
 	hmac_sha512_ctx hmac;
 	int b, l, r;
@@ -471,7 +474,7 @@ void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
 #endif
 
 
-static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, int b, hmac_ripemd160_ctx* hmac)
+static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_ripemd160_ctx* hmac)
 {
 	char* k = hmac->k;
 	char* u = hmac->u;
@@ -479,13 +482,16 @@ static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len
 	int i;
 
 #ifdef TC_WINDOWS_BOOT
-	/* In bootloader, iterations is a boolean : TRUE for boot derivation mode, FALSE otherwise 
+	/* In bootloader mode, least significant bit of iterations is a boolean (TRUE for boot derivation mode, FALSE otherwise)
+	 * and the most significant 16 bits hold the pin value
 	 * This enables us to save code space needed for implementing other features.
 	 */
-	if (iterations)
-		c = 327661;
+	c = iterations >> 16;
+	i = ((int) iterations) & 0x01;
+	if (i)
+		c = (c == 0)? 327661 : c << 11;
 	else
-		c = 655331;
+		c = (c == 0)? 655331 : 15000 + c * 1000;
 #else
 	c  = iterations;
 #endif
@@ -512,7 +518,7 @@ static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len
 	}
 }
 
-void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
+void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {	
 	int b, l, r;
 	hmac_ripemd160_ctx hmac;
@@ -651,11 +657,11 @@ void hmac_whirlpool
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, int b, hmac_whirlpool_ctx* hmac)
+static void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
 {
 	char* u = hmac->u;
 	char* k = hmac->k;
-	int c, i;
+	uint32 c, i;
 
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
@@ -677,7 +683,7 @@ static void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len
 	}
 }
 
-void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, int iterations, char *dk, int dklen)
+void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {
 	hmac_whirlpool_ctx hmac;
 	char key[WHIRLPOOL_DIGESTSIZE];
@@ -751,28 +757,43 @@ char *get_pkcs5_prf_name (int pkcs5_prf_id)
 
 
 
-int get_pkcs5_iteration_count (int pkcs5_prf_id, BOOL truecryptMode, BOOL bBoot)
+int get_pkcs5_iteration_count (int pkcs5_prf_id, int pin, BOOL truecryptMode, BOOL bBoot)
 {
+	if (	(pin < 0)
+		|| (truecryptMode && pin > 0) /* No PIN for TrueCrypt mode */
+		)
+	{
+		return 0;
+	}
+
 	switch (pkcs5_prf_id)
 	{
 
 	case RIPEMD160:	
 		if (truecryptMode)
 			return bBoot ? 1000 : 2000;
-		else
+		else if (pin == 0)
 			return bBoot? 327661 : 655331;
+		else
+		{
+			return bBoot? pin * 2048 : 15000 + pin * 1000;
+		}
 
 	case SHA512:	
-		return truecryptMode? 1000 : 500000;
+		return truecryptMode? 1000 : ((pin == 0)? 500000 : 15000 + pin * 1000);
 
 	case WHIRLPOOL:	
-		return truecryptMode? 1000 : 500000;
+		return truecryptMode? 1000 : ((pin == 0)? 500000 : 15000 + pin * 1000);
 
 	case SHA256:
 		if (truecryptMode)
 			return 0; // SHA-256 not supported by TrueCrypt
-		else
+		else if (pin == 0)
 			return bBoot? 200000 : 500000;
+		else
+		{
+			return bBoot? pin * 2048 : 15000 + pin * 1000;
+		}
 
 	default:		
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID

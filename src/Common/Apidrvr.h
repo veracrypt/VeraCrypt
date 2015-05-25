@@ -104,6 +104,8 @@ typedef struct
 	int ProtectedHidVolPkcs5Prf;
 	BOOL bTrueCryptMode;
 	uint32 BytesPerPhysicalSector;
+	int VolumePin;
+	int ProtectedHidVolPin;
 } MOUNT_STRUCT;
 
 typedef struct
@@ -241,6 +243,7 @@ typedef struct
 {
 	Password VolumePassword;
 	int pkcs5_prf;
+	int pin;
 } ReopenBootVolumeHeaderRequest;
 
 
