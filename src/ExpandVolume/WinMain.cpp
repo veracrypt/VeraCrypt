@@ -447,14 +447,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
 
-			if (*pin >= 0)
-			{
-				/* display the given PIN */
-				char szTmp[MAX_PIN + 1];
-				StringCbPrintfA(szTmp, sizeof(szTmp), "%d", *pin);
-
-				SetDlgItemText (hwndDlg, IDC_PIN, szTmp);
-			}
+			SetPin (hwndDlg, IDC_PIN, *pin);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
@@ -554,14 +547,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), FALSE);
 
-			if (*pin >= 0)
-			{
-				/* display the given PIN */
-				char szTmp[MAX_PIN + 1];
-				StringCbPrintfA(szTmp, sizeof(szTmp), "%d", *pin);
-
-				SetDlgItemText (hwndDlg, IDC_PIN, szTmp);
-			}
+			SetPin (hwndDlg, IDC_PIN, *pin);
 
 			bPrebootPasswordDlgMode = TRUE;
 		}

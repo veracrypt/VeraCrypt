@@ -2390,14 +2390,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
 
-			if (*pin > 0)
-			{
-				/* display the given PIN */
-				char szTmp[MAX_PIN + 1];
-				StringCbPrintfA(szTmp, sizeof(szTmp), "%d", *pin);
-
-				SetDlgItemText (hwndDlg, IDC_PIN, szTmp);
-			}
+			SetPin (hwndDlg, IDC_PIN, *pin);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
@@ -2499,14 +2492,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES), FALSE);
 
-			if (*pin >= 0)
-			{
-				/* display the given PIN */
-				char szTmp[MAX_PIN + 1];
-				StringCbPrintfA(szTmp, sizeof(szTmp), "%d", *pin);
-
-				SetDlgItemText (hwndDlg, IDC_PIN, szTmp);
-			}
+			SetPin (hwndDlg, IDC_PIN, *pin);
 
 			bPrebootPasswordDlgMode = TRUE;
 		}
@@ -3026,13 +3012,19 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), protect);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT, hidVolProtKeyFilesParam.EnableKeyFiles);
 
 			SendDlgItemMessage (hwndDlg, IDC_PASSWORD_PROT_HIDVOL, EM_LIMITTEXT, MAX_PASSWORD, 0);
+			SendDlgItemMessage (hwndDlg, IDC_PIN, EM_LIMITTEXT, MAX_PIN, 0);
 
 			if (mountOptions->ProtectedHidVolPassword.Length > 0)
 				SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), (LPSTR) mountOptions->ProtectedHidVolPassword.Text);	
+
+			SetPin (hwndDlg, IDC_PIN, mountOptions->ProtectedHidVolPin);
 			
 			ToHyperlink (hwndDlg, IDC_LINK_HIDVOL_PROTECTION_INFO);
 
@@ -3127,6 +3119,8 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				mountOptions->ProtectedHidVolPkcs5Prf = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
+
+				mountOptions->ProtectedHidVolPin = GetPin (hwndDlg, IDC_PIN);
 			}
 
 			// Cleanup
@@ -3165,6 +3159,9 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), protect);
 
 			return 1;
 		}

@@ -86,6 +86,8 @@
     <control lang="en" key="IDT_PARTIAL_POOL_CONTENTS">Current pool content (partial)</control>
     <control lang="en" key="IDT_PASS">Pass</control>
     <control lang="en" key="IDT_PASSWORD">Password:</control>
+    <control lang="en" key="IDT_PIN">Volume PIN:</control>
+    <control lang="en" key="IDT_OLD_PIN">Volume PIN:</control>
     <control lang="en" key="IDT_PROGRESS">Progress:</control>
     <control lang="en" key="IDT_RANDOM_POOL">Random Pool: </control>
     <control lang="en" key="IDT_SINGLE_BOOT">Select this option if there is only one operating system installed on this computer (even if it has multiple users).</control>
@@ -143,6 +145,8 @@
     <control lang="en" key="IDC_MOUNT_OPTIONS">Mount Opti&amp;ons...</control>
     <control lang="en" key="IDC_MOUNT_READONLY">Mount volume as read-&amp;only</control>
     <control lang="en" key="IDC_NEW_KEYFILES">Keyfiles...</control>
+    <control lang="en" key="IDC_OLD_PIN_HELP">(Empty or 0 for default iterations)</control>
+    <control lang="en" key="IDC_PIN_HELP">(Empty or 0 for default iterations)</control>	  
     <control lang="en" key="IDC_PREF_BKG_TASK_ENABLE">Enabled</control>
     <control lang="en" key="IDC_PREF_CACHE_PASSWORDS">Cache passwords in driver memory</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_INACTIVE">Auto-dismount volume after no data has been read/written to it for</control>

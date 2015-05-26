@@ -984,6 +984,11 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			// Version
 			SendMessage (GetDlgItem (hwndDlg, IDT_ABOUT_VERSION), WM_SETFONT, (WPARAM) hUserBoldFont, 0);
 			StringCbPrintfA (szTmp, sizeof(szTmp), "VeraCrypt %s", VERSION_STRING);
+#ifdef _WIN64
+			StringCbCatA (szTmp, sizeof(szTmp), "  (64-bit)");
+#else
+			StringCbCatA (szTmp, sizeof(szTmp), "  (32-bit)");
+#endif
 #if (defined(_DEBUG) || defined(DEBUG))
 			StringCbCatA (szTmp, sizeof(szTmp), "  (debug)");
 #endif
@@ -10716,3 +10721,16 @@ int GetPin (HWND hwndDlg, UINT ctrlId)
 	}
 	return pin;
 }
+
+void SetPin (HWND hwndDlg, UINT ctrlId, int pin)
+{
+	if (pin > 0)
+	{
+		char szTmp[MAX_PIN + 1];
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%d", pin);
+		SetDlgItemText (hwndDlg, ctrlId, szTmp);
+	}
+	else
+		SetDlgItemText (hwndDlg, ctrlId, "");
+}
+

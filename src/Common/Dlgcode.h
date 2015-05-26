@@ -481,6 +481,7 @@ BOOL IsWindowsIsoBurnerAvailable ();
 BOOL LaunchWindowsIsoBurner (HWND hwnd, const char *isoPath);
 BOOL IsApplicationInstalled (const char *appName);
 int GetPin (HWND hwndDlg, UINT ctrlId);
+void SetPin (HWND hwndDlg, UINT ctrlId, int pin);
 
 #ifdef __cplusplus
 }

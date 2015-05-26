@@ -140,10 +140,6 @@
 #define IDC_DEVICE_TRANSFORM_MODE_INPLACE 1102
 #define IDC_DRIVE_LETTER_LIST           1103
 #define IDT_DRIVE_LETTER                1104
-#define IDT_PIN                         1105
-#define IDC_PIN                         1106
-#define IDC_PIN_HELP                    1107
-#define IDC_EDIT1                       1108
 
 // Next default values for new objects
 // 
@@ -152,7 +148,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        133
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1109
+#define _APS_NEXT_CONTROL_VALUE         1105
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

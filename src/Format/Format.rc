@@ -123,7 +123,7 @@ BEGIN
     RTEXT           "Password:",IDT_PASSWORD,1,6,50,8
     RTEXT           "&Confirm:",IDT_CONFIRM,1,23,50,8
     LTEXT           "",IDC_BOX_HELP,0,79,225,89
-    RTEXT           "Volume Pin:",IDT_PIN,1,38,50,8
+    RTEXT           "Volume PIN:",IDT_PIN,1,38,50,8
     LTEXT           "(Empty or 0 for default iterations)",IDC_PIN_HELP,97,38,126,8
 END
 
