@@ -45,7 +45,17 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		*tmp = 0;
 
-		StringCbCopyA (tmp, 8192, "Command line options:\n\n");
+		StringCbCopyA (tmp, 8192, "VeraCrypt " VERSION_STRING);
+#ifdef _WIN64
+		StringCbCatA (tmp, 8192, "  (64-bit)");
+#else
+		StringCbCatA (tmp, 8192, "  (32-bit)");
+#endif
+#if (defined(_DEBUG) || defined(DEBUG))
+		StringCbCatA (tmp, 8192, "  (debug)");
+#endif
+
+		StringCbCatA (tmp, 8192, "\n\nCommand line options:\n\n");
 		for (i = 0; i < as->arg_cnt; i ++)
 		{
 			if (!as->args[i].Internal)
