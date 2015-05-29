@@ -641,7 +641,7 @@ error:
 
 		if (retCode != TRUE)
 		{
-			if (!UnmountVolume (volParams->hwndDlg, driveNo, FALSE))
+			if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo))
 				MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 
 			if (dataAreaSize <= TC_MAX_FAT_SECTOR_COUNT * FormatSectorSize)
@@ -663,7 +663,7 @@ error:
 			goto fv_end;
 		}
 
-		if (!UnmountVolume (volParams->hwndDlg, driveNo, FALSE))
+		if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo))
 			MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 	}
 
@@ -836,7 +836,7 @@ BOOL FormatNtfs (int driveNo, int clusterSize)
 	}
 
 	// The device may be referenced for some time after FormatEx() returns
-	Sleep (2000);
+	Sleep (4000);
 
 	FreeLibrary (hModule);
 	return FormatExResult;

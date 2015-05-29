@@ -6889,12 +6889,12 @@ retry:
 	return 1;
 }
 
-
-BOOL UnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forceUnmount)
+static BOOL UnmountVolumeBase (HWND hwndDlg, int nDosDriveNo, BOOL forceUnmount, BOOL ntfsFormatCase)
 {
 	int result;
 	BOOL forced = forceUnmount;
-	int dismountMaxRetries = UNMOUNT_MAX_AUTO_RETRIES;
+	int dismountMaxRetries = ntfsFormatCase? 5 : UNMOUNT_MAX_AUTO_RETRIES;
+	DWORD retryDelay = ntfsFormatCase? 2000: UNMOUNT_AUTO_RETRY_DELAY;
 
 retry:
 	BroadcastDeviceChange (DBT_DEVICEREMOVEPENDING, nDosDriveNo, 0);
@@ -6904,7 +6904,7 @@ retry:
 		result = DriverUnmountVolume (hwndDlg, nDosDriveNo, forced);
 
 		if (result == ERR_FILES_OPEN)
-			Sleep (UNMOUNT_AUTO_RETRY_DELAY);
+			Sleep (retryDelay);
 		else
 			break;
 
@@ -6938,6 +6938,16 @@ retry:
 	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, nDosDriveNo, 0);
 
 	return TRUE;
+}
+
+BOOL UnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forceUnmount)
+{
+	return UnmountVolumeBase (hwndDlg, nDosDriveNo, forceUnmount, FALSE);
+}
+
+BOOL UnmountVolumeAfterFormatExCall (HWND hwndDlg, int nDosDriveNo)
+{
+	return UnmountVolumeBase (hwndDlg, nDosDriveNo, FALSE, TRUE);
 }
 
 

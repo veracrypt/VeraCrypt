@@ -334,6 +334,7 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced);
 void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap);
 int MountVolume (HWND hwndDlg, int driveNo, char *volumePath, Password *password, int pkcs5, int pin, BOOL truecryptMode, BOOL cachePassword, BOOL sharedAccess,  const MountOptions* const mountOptions, BOOL quiet, BOOL bReportWrongPassword);
 BOOL UnmountVolume (HWND hwndDlg , int nDosDriveNo, BOOL forceUnmount);
+BOOL UnmountVolumeAfterFormatExCall (HWND hwndDlg, int nDosDriveNo);
 BOOL IsPasswordCacheEmpty (void);
 BOOL IsMountedVolume (const char *volname);
 int GetMountedVolumeDriveNo (char *volname);
