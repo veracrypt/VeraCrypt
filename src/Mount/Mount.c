@@ -7487,20 +7487,20 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				{ CommandDismount,				"/dismount",		"/d", FALSE },
 				{ OptionExplore,				"/explore",			"/e", FALSE },
 				{ OptionForce,					"/force",			"/f", FALSE },
+				{ OptionPkcs5,					"/hash",			NULL , FALSE },
 				{ CommandHelp,					"/help",			"/?", FALSE },
 				{ OptionHistory,				"/history",			"/h", FALSE },
 				{ OptionKeyfile,				"/keyfile",			"/k", FALSE },
 				{ OptionLetter,					"/letter",			"/l", FALSE },
 				{ OptionMountOption,			"/mountoption",		"/m", FALSE },
 				{ OptionPassword,				"/password",		"/p", FALSE },
+				{ OptionPin,					"/pin",				NULL, FALSE },
 				{ OptionQuit,					"/quit",			"/q", FALSE },
 				{ OptionSilent,					"/silent",			"/s", FALSE },
 				{ OptionTokenLib,				"/tokenlib",		NULL, FALSE },
+				{ OptionTrueCryptMode,			"/truecrypt",			"/tc", FALSE },
 				{ OptionVolume,					"/volume",			"/v", FALSE },
 				{ CommandWipeCache,				"/wipecache",		"/w", FALSE },
-				{ OptionPkcs5,					"/hash",		NULL , FALSE },
-				{ OptionTrueCryptMode,		"/truecrypt",		"/tc", FALSE },
-				{ OptionPin,					"/pin",		NULL, FALSE },
 			};
 
 			argumentspec as;
