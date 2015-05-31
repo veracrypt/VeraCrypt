@@ -87,7 +87,7 @@ static char *MapNextLanguageFile ()
 	if (find.nFileSizeHigh != 0) return NULL;
 
 	if (LanguageFileBuffer != NULL) free (LanguageFileBuffer);
-	LanguageFileBuffer = malloc(find.nFileSizeLow);
+	LanguageFileBuffer = malloc(find.nFileSizeLow + 1);
 	if (LanguageFileBuffer == NULL) return NULL;
 
 	GetModuleFileNameW (NULL, f, sizeof (f) / sizeof(f[0]));
@@ -115,6 +115,8 @@ static char *MapNextLanguageFile ()
 		free(LanguageFileBuffer);
 		return NULL;
 	}
+
+	LanguageFileBuffer [find.nFileSizeLow] = 0; // we have allocated (find.nFileSizeLow + 1) bytes
 
 	return LanguageFileBuffer;
 }
