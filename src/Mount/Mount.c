@@ -1785,6 +1785,7 @@ void CALLBACK RestoreHeaderWaitThreadProc(void* pArg, HWND hwndDlg)
 BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static KeyFilesDlgParam newKeyFilesParam;
+	static BOOL PinValueChangedWarning = FALSE;
 
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
@@ -1798,6 +1799,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			int i;
 			WipeAlgorithmId headerWipeMode = TC_WIPE_3_DOD_5220;
 
+			PinValueChangedWarning = FALSE;
+
 			ZeroMemory (&newKeyFilesParam, sizeof (newKeyFilesParam));
 
 			SetWindowTextW (hwndDlg, GetString ("IDD_PASSWORDCHANGE_DLG"));
@@ -1806,6 +1809,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage (GetDlgItem (hwndDlg, IDC_OLD_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_VERIFY), EM_LIMITTEXT, MAX_PASSWORD, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_OLD_PIN), EM_LIMITTEXT, MAX_PIN, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
 			EnableWindow (GetDlgItem (hwndDlg, IDOK), FALSE);
 
 			SetCheckBox (hwndDlg, IDC_ENABLE_KEYFILES, KeyFilesEnable);
@@ -1854,7 +1859,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				LocalizeDialog (hwndDlg, "IDD_PCDM_CHANGE_PKCS5_PRF");
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
@@ -1868,7 +1875,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				newKeyFilesParam.EnableKeyFiles = TRUE;
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
@@ -1886,7 +1895,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_KEYFILES), TRUE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
@@ -2018,6 +2029,20 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		return 0;
 
+	case WM_CTLCOLORSTATIC:
+		{
+			if (PinValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIN_HELP)) )
+			{
+				// we're about to draw the static
+				// set the text colour in (HDC)lParam
+				SetBkMode((HDC)wParam,TRANSPARENT);
+				SetTextColor((HDC)wParam, RGB(255,0,0));
+				// NOTE: per documentation as pointed out by selbie, GetSolidBrush would leak a GDI handle.
+				return (BOOL)GetSysColorBrush(COLOR_MENU);
+			}
+		}
+		return 0;
+
 	case WM_COMMAND:
 		if (lw == IDCANCEL)
 		{
@@ -2040,7 +2065,28 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				IDC_OLD_PASSWORD,
 				KeyFilesEnable && FirstKeyFile != NULL,
 				IDC_PASSWORD, IDC_VERIFY, 
-				newKeyFilesParam.EnableKeyFiles && newKeyFilesParam.FirstKeyFile != NULL);		
+				newKeyFilesParam.EnableKeyFiles && newKeyFilesParam.FirstKeyFile != NULL);	
+
+			if ((lw == IDC_OLD_PIN) && IsWindowEnabled (GetDlgItem (hwndDlg, IDC_PIN)))
+			{
+				char tmp[MAX_PIN+1] = {0};
+				GetDlgItemText (hwndDlg, IDC_OLD_PIN, tmp, MAX_PIN + 1);
+				SetDlgItemText (hwndDlg, IDC_PIN, tmp);
+			}
+
+			if (lw == IDC_PIN)
+			{
+				if(GetPin (hwndDlg, IDC_OLD_PIN) != GetPin (hwndDlg, IDC_PIN))
+				{
+					PinValueChangedWarning = TRUE;
+					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, GetString (bSysEncPwdChangeDlgMode? "PIN_SYSENC_CHANGE_WARNING" : "PIN_CHANGE_WARNING"));
+				}
+				else
+				{
+					PinValueChangedWarning = FALSE;
+					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIN_HELP));
+				}
+			}
 
 			return 1;
 		}
@@ -2152,6 +2198,14 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			return 1;
 
+		}
+
+		if (lw == IDC_TRUECRYPT_MODE)
+		{
+			BOOL bEnablePin = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE) ? FALSE: TRUE;
+			EnableWindow (GetDlgItem (hwndDlg, IDT_OLD_PIN), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_OLD_PIN), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_OLD_PIN_HELP), bEnablePin);
 		}
 
 		if (lw == IDC_SHOW_PASSWORD_CHPWD_ORI)
@@ -2567,6 +2621,14 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
+		if (lw == IDC_TRUECRYPT_MODE)
+		{
+			BOOL bEnablePin = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE) ? FALSE: TRUE;
+			EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), bEnablePin);
+		}
+
 		if (lw == IDC_KEY_FILES)
 		{
 			KeyFilesDlgParam param;
@@ -2609,11 +2671,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 				*truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
-				GetWindowText (GetDlgItem (hwndDlg, IDC_PIN), tmp, MAX_PIN + 1);
-				if (strlen(tmp))
-					*pin = (int) strtol(tmp, NULL, 10); /* IDC_PIN is configured to accept only numbers */
-				else
-					*pin = 0;
+				*pin = GetPin (hwndDlg, IDC_PIN);
 
 				/* SHA-256 is not supported by TrueCrypt */
 				if (	(*truecryptMode) 
@@ -3443,7 +3501,13 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			// PKCS 5 PRF
 			ListItemAddW (list, i, GetString ("PKCS5_PRF"));
-			ListSubItemSet (list, i++, 1, get_pkcs5_prf_name (prop.pkcs5));
+			if (prop.volumePin == 0)
+				ListSubItemSet (list, i++, 1, get_pkcs5_prf_name (prop.pkcs5));
+			else
+			{
+				StringCbPrintfA (szTmp, sizeof(szTmp), "%s (Dynamic)", get_pkcs5_prf_name (prop.pkcs5));
+				ListSubItemSet (list, i++, 1, szTmp);
+			}
 
 #if 0
 			// PCKS 5 iterations
@@ -3966,12 +4030,13 @@ static int AskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int 
 
 // GUI actions
 
-static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
+static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pin)
 {
 	BOOL status = FALSE;
 	char fileName[MAX_PATH];
 	int mounted = 0, EffectiveVolumePkcs5 = CmdVolumePkcs5;
 	BOOL EffectiveVolumeTrueCryptMode = CmdVolumeTrueCryptMode;
+	int EffectiveVolumePin = (pin < 0)? CmdVolumePin : pin;
 
 	/* Priority is given to command line parameters 
 	 * Default values used only when nothing specified in command line
@@ -4027,10 +4092,11 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 	// First try cached passwords and if they fail ask user for a new one
 	WaitCursor ();
 
-	// try TrueCrypt mode first since it is quick
-	mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+	// try TrueCrypt mode first since it is quick, only if pin = 0
+	if (EffectiveVolumePin == 0)
+		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 	if (!mounted)
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, EffectiveVolumePin, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 	
 	// If keyfiles are enabled, test empty password first
 	if (!mounted && KeyFilesEnable && FirstKeyFile)
@@ -4039,10 +4105,11 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 		emptyPassword.Length = 0;
 
 		KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile);
-		// try TrueCrypt mode first since it is quick
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+		// try TrueCrypt mode first since it is quick, only if pin = 0
+		if (EffectiveVolumePin == 0)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 		if (!mounted)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, EffectiveVolumePin, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 		
 		burn (&emptyPassword, sizeof (emptyPassword));
 	}
@@ -4050,10 +4117,11 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 	// Test password and/or keyfiles used for the previous volume
 	if (!mounted && bCacheDuringMultipleMount && MultipleMountOperationInProgress && VolumePassword.Length != 0)
 	{
-		// try TrueCrypt mode first as it is quick
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+		// try TrueCrypt mode first as it is quick, only if pin = 0
+		if (EffectiveVolumePin == 0)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 		if (!mounted)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, 0, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, EffectiveVolumePin, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 	}
 
 	NormalCursor ();
@@ -4073,13 +4141,13 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName)
 			VolumePassword = CmdVolumePassword;
 			VolumePkcs5 = EffectiveVolumePkcs5;
 			VolumeTrueCryptMode = EffectiveVolumeTrueCryptMode;
-			VolumePin = CmdVolumePin;
+			VolumePin = EffectiveVolumePin;
 		}
 		else if (!Silent)
 		{
 			int GuiPkcs5 = EffectiveVolumePkcs5;
 			BOOL GuiTrueCryptMode = EffectiveVolumeTrueCryptMode;
-			int GuiPin = CmdVolumePin;
+			int GuiPin = EffectiveVolumePin;
 			StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume), szFileName);
 
 			if (!AskVolumePassword (hwndDlg, &VolumePassword, &GuiPkcs5, &GuiPin, &GuiTrueCryptMode, NULL, TRUE))
@@ -4206,7 +4274,7 @@ void __cdecl mountThreadFunction (void *hwndDlgArg)
 	EnableWindow(hwndDlg, FALSE);
 	finally_do_arg (HWND, hwndDlg, { EnableWindow(finally_arg, TRUE); });
 
-	Mount (hwndDlg, 0, 0);	
+	Mount (hwndDlg, 0, 0, -1);	
 }
 
 static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dismountMaxRetries, int dismountAutoRetryDelay)
@@ -8097,6 +8165,7 @@ void DismountIdleVolumes ()
 					&& prop.pkcs5 >= FIRST_PRF_ID && prop.pkcs5 <= LAST_PRF_ID 
 					&& prop.pkcs5Iterations > 0
 					&& prop.hiddenVolProtection >= 0 && prop.volFormatVersion >= 0
+					&& prop.volumePin >= 0
 					)
 				)
 			{
@@ -8237,7 +8306,7 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 
 			BOOL prevReadOnly = mountOptions.ReadOnly;
 
-			if (!Mount (MainDlg, drive, (char *) favorite.Path.c_str()))
+			if (!Mount (MainDlg, drive, (char *) favorite.Path.c_str(), favorite.Pin))
 				status = FALSE;
 
 			if (status && mountOptions.ReadOnly != prevReadOnly)

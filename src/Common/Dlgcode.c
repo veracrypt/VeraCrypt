@@ -4353,6 +4353,22 @@ string GetUserFriendlyVersionString (int version)
 	return (versionString);
 }
 
+string IntToString (int val)
+{
+	char szTmp [64];
+	StringCbPrintfA (szTmp, sizeof(szTmp), "%d", val);
+
+	return szTmp;
+}
+
+wstring IntToWideString (int val)
+{
+	wchar_t szTmp [64];
+	StringCbPrintfW (szTmp, sizeof(szTmp), L"%d", val);
+
+	return szTmp;
+}
+
 void GetSizeString (unsigned __int64 size, wchar_t *str, size_t cbStr)
 {
 	static wchar_t *b, *kb, *mb, *gb, *tb, *pb;
@@ -10720,14 +10736,16 @@ std::string FindLatestFileOrDirectory (const std::string &directory, const char 
 int GetPin (HWND hwndDlg, UINT ctrlId)
 {
 	int pin = 0;
-	char szTmp[MAX_PIN + 1] = {0};
-	GetDlgItemText (hwndDlg, ctrlId, szTmp, MAX_PIN + 1);
-	if (strlen(szTmp))
+	if (IsWindowEnabled (GetDlgItem (hwndDlg, ctrlId)))
 	{
-		char* endPtr = NULL;
-		pin = strtol(szTmp, &endPtr, 0);
-		if (pin < 0 || endPtr == szTmp || !endPtr || *endPtr != '\0')
-			pin = 0;
+		char szTmp[MAX_PIN + 1] = {0};
+		if (GetDlgItemText (hwndDlg, ctrlId, szTmp, MAX_PIN + 1) > 0)
+		{
+			char* endPtr = NULL;
+			pin = strtol(szTmp, &endPtr, 10);
+			if (pin < 0 || endPtr == szTmp || !endPtr || *endPtr != '\0')
+				pin = 0;
+		}
 	}
 	return pin;
 }

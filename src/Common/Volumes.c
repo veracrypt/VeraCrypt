@@ -494,6 +494,7 @@ KeyReady:	;
 						cryptoInfo->pkcs5 = pkcs5_prf;
 						cryptoInfo->noIterations = keyInfo.noIterations;
 						cryptoInfo->bTrueCryptMode = truecryptMode;
+						cryptoInfo->volumePin = pin;
 						goto ret;
 					}
 
@@ -516,6 +517,7 @@ KeyReady:	;
 				cryptoInfo->pkcs5 = pkcs5_prf;
 				cryptoInfo->noIterations = keyInfo.noIterations;
 				cryptoInfo->bTrueCryptMode = truecryptMode;
+				cryptoInfo->volumePin = pin;
 
 				// Init the cipher with the decrypted master key
 				status = EAInit (cryptoInfo->ea, keyInfo.master_keydata + primaryKeyOffset, cryptoInfo->ks);
@@ -805,6 +807,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	// User selected PRF
 	cryptoInfo->pkcs5 = pkcs5_prf;
 	cryptoInfo->bTrueCryptMode = FALSE;
+	cryptoInfo->noIterations = keyInfo.noIterations;
+	cryptoInfo->volumePin = pin;
 
 	// Mode of operation
 	cryptoInfo->mode = mode;

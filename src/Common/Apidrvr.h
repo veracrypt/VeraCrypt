@@ -145,6 +145,7 @@ typedef struct
 	unsigned __int64 totalBytesWritten;
 	int hiddenVolProtection;	/* Hidden volume protection status (e.g. HIDVOL_PROT_STATUS_NONE, HIDVOL_PROT_STATUS_ACTIVE, etc.) */
 	int volFormatVersion;
+	int volumePin;
 } VOLUME_PROPERTIES_STRUCT;
 
 typedef struct

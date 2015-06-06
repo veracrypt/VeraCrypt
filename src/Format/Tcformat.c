@@ -3479,12 +3479,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 {
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
+	static BOOL PinValueChangedWarning = FALSE;
 
 	hCurPage = hwndDlg;
 
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
+		PinValueChangedWarning = FALSE;
 		LocalizeDialog (hwndDlg, "IDD_VOL_CREATION_WIZARD_DLG");
 
 		UpdateLastDialogId ();
@@ -4154,6 +4156,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					char szTmp[MAX_PIN + 1];
 					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePin);
 					SetWindowText (GetDlgItem (hwndDlg, IDC_PIN), szTmp);
+
+					PinValueChangedWarning = TRUE;
+					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, GetString (SysEncInEffect ()? "PIN_SYSENC_CHANGE_WARNING" : "PIN_CHANGE_WARNING"));
 				}
 
 				SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable && !SysEncInEffect());
@@ -4913,6 +4918,20 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		AfterSysEncProgressWMInitTasks (hwndDlg);
 		return 1;
 
+	case WM_CTLCOLORSTATIC:
+		{
+			if (PinValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIN_HELP)) )
+			{
+				// we're about to draw the static
+				// set the text colour in (HDC)lParam
+				SetBkMode((HDC)wParam,TRANSPARENT);
+				SetTextColor((HDC)wParam, RGB(255,0,0));
+				// NOTE: per documentation as pointed out by selbie, GetSolidBrush would leak a GDI handle.
+				return (BOOL)GetSysColorBrush(COLOR_MENU);
+			}
+		}
+		return 0;
+
 	case WM_COMMAND:
 
 		if (nCurPageNo == INTRO_PAGE)
@@ -5292,6 +5311,20 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				NULL,
 				KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
 			volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
+
+			if (lw == IDC_PIN)
+			{
+				if(GetPin (hwndDlg, IDC_PIN) != 0)
+				{
+					PinValueChangedWarning = TRUE;
+					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, GetString (SysEncInEffect ()? "PIN_SYSENC_CHANGE_WARNING" : "PIN_CHANGE_WARNING"));
+				}
+				else
+				{
+					PinValueChangedWarning = FALSE;
+					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIN_HELP));
+				}
+			}
 
 			return 1;
 		}

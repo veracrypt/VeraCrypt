@@ -811,6 +811,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		BootDriveFilterExtension->Queue.CryptoInfo->header_creation_time = BootDriveFilterExtension->HeaderCryptoInfo->header_creation_time;
 		BootDriveFilterExtension->Queue.CryptoInfo->pkcs5 = BootDriveFilterExtension->HeaderCryptoInfo->pkcs5;
 		BootDriveFilterExtension->Queue.CryptoInfo->noIterations = BootDriveFilterExtension->HeaderCryptoInfo->noIterations;
+		BootDriveFilterExtension->Queue.CryptoInfo->volumePin = BootDriveFilterExtension->HeaderCryptoInfo->volumePin;
 
 		irp->IoStatus.Status = STATUS_SUCCESS;
 	}
@@ -1584,6 +1585,7 @@ void GetBootDriveVolumeProperties (PIRP irp, PIO_STACK_LOCATION irpSp)
 			prop->mode = Extension->Queue.CryptoInfo->mode;
 			prop->pkcs5 = Extension->Queue.CryptoInfo->pkcs5;
 			prop->pkcs5Iterations = Extension->Queue.CryptoInfo->noIterations;
+			prop->volumePin = Extension->Queue.CryptoInfo->volumePin;
 #if 0
 			prop->volumeCreationTime = Extension->Queue.CryptoInfo->volume_creation_time;
 			prop->headerCreationTime = Extension->Queue.CryptoInfo->header_creation_time;

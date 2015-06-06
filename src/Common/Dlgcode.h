@@ -548,6 +548,8 @@ std::string VolumeGuidPathToDevicePath (std::string volumeGuidPath);
 std::string HarddiskVolumePathToPartitionPath (const std::string &harddiskVolumePath);
 std::string FindLatestFileOrDirectory (const std::string &directory, const char *namePattern, bool findDirectory, bool findFile);
 std::string GetUserFriendlyVersionString (int version);
+std::string IntToString (int val);
+std::wstring IntToWideString (int val);
 
 // Display a wait dialog while calling the provided callback with the given parameter
 typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);

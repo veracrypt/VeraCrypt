@@ -1227,6 +1227,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 					prop->mode = ListExtension->cryptoInfo->mode;
 					prop->pkcs5 = ListExtension->cryptoInfo->pkcs5;
 					prop->pkcs5Iterations = ListExtension->cryptoInfo->noIterations;
+					prop->volumePin = ListExtension->cryptoInfo->volumePin;
 #if 0
 					prop->volumeCreationTime = ListExtension->cryptoInfo->volume_creation_time;
 					prop->headerCreationTime = ListExtension->cryptoInfo->header_creation_time;
@@ -1424,6 +1425,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			burn (&mount->VolumePin, sizeof (mount->VolumePin));
 			burn (&mount->bTrueCryptMode, sizeof (mount->bTrueCryptMode));
 			burn (&mount->ProtectedHidVolPkcs5Prf, sizeof (mount->ProtectedHidVolPkcs5Prf));
+			burn (&mount->ProtectedHidVolPin, sizeof (mount->ProtectedHidVolPin));
 		}
 		break;
 
