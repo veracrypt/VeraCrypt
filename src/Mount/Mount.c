@@ -83,6 +83,7 @@ char commandLineDrive = 0;
 BOOL bCacheInDriver = FALSE;		/* Cache any passwords we see */
 BOOL bCacheInDriverDefault = FALSE;
 BOOL bCacheDuringMultipleMount = FALSE;
+BOOL bCmdCacheDuringMultipleMount = FALSE;
 BOOL bHistoryCmdLine = FALSE;		/* History control is always disabled */
 BOOL bUseDifferentTrayIconIfVolMounted = TRUE;
 BOOL bCloseDismountedWindows=TRUE;	/* Close all open explorer windows of dismounted volume */
@@ -4037,6 +4038,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pin)
 	int mounted = 0, EffectiveVolumePkcs5 = CmdVolumePkcs5;
 	BOOL EffectiveVolumeTrueCryptMode = CmdVolumeTrueCryptMode;
 	int EffectiveVolumePin = (pin < 0)? CmdVolumePin : pin;
+	BOOL bEffectiveCacheDuringMultipleMount = bCmdCacheDuringMultipleMount? TRUE: bCacheDuringMultipleMount;
 
 	/* Priority is given to command line parameters 
 	 * Default values used only when nothing specified in command line
@@ -4115,7 +4117,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pin)
 	}
 
 	// Test password and/or keyfiles used for the previous volume
-	if (!mounted && bCacheDuringMultipleMount && MultipleMountOperationInProgress && VolumePassword.Length != 0)
+	if (!mounted && bEffectiveCacheDuringMultipleMount && MultipleMountOperationInProgress && VolumePassword.Length != 0)
 	{
 		// try TrueCrypt mode first as it is quick, only if pin = 0
 		if (EffectiveVolumePin == 0)
@@ -7604,7 +7606,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			case OptionCache:
 				{
-					char szTmp[8] = {0};
+					char szTmp[16] = {0};
 					bCacheInDriver = TRUE;
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
@@ -7613,7 +7615,12 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 						if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
 							bCacheInDriver = FALSE;
 						else if (!_stricmp(szTmp,"y") || !_stricmp(szTmp,"yes"))
+							bCacheInDriver = TRUE;
+						else if (!_stricmp(szTmp,"f") || !_stricmp(szTmp,"favorites"))
+						{
 							bCacheInDriver = FALSE;
+							bCmdCacheDuringMultipleMount = TRUE;
+						}
 						else
 							AbortProcess ("COMMAND_LINE_ERROR");
 					}
