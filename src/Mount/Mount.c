@@ -1810,8 +1810,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage (GetDlgItem (hwndDlg, IDC_OLD_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_VERIFY), EM_LIMITTEXT, MAX_PASSWORD, 0);
-			SendMessage (GetDlgItem (hwndDlg, IDC_OLD_PIN), EM_LIMITTEXT, MAX_PIN, 0);
-			SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_OLD_PIM), EM_LIMITTEXT, MAX_PIM, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
 			EnableWindow (GetDlgItem (hwndDlg, IDOK), FALSE);
 
 			SetCheckBox (hwndDlg, IDC_ENABLE_KEYFILES, KeyFilesEnable);
@@ -1860,9 +1860,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				LocalizeDialog (hwndDlg, "IDD_PCDM_CHANGE_PKCS5_PRF");
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
@@ -1876,9 +1876,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				newKeyFilesParam.EnableKeyFiles = TRUE;
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
@@ -1896,9 +1896,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_KEYFILES), TRUE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
@@ -2032,7 +2032,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_CTLCOLORSTATIC:
 		{
-			if (PinValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIN_HELP)) )
+			if (PinValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIM_HELP)) )
 			{
 				// we're about to draw the static
 				// set the text colour in (HDC)lParam
@@ -2068,24 +2068,24 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				IDC_PASSWORD, IDC_VERIFY, 
 				newKeyFilesParam.EnableKeyFiles && newKeyFilesParam.FirstKeyFile != NULL);	
 
-			if ((lw == IDC_OLD_PIN) && IsWindowEnabled (GetDlgItem (hwndDlg, IDC_PIN)))
+			if ((lw == IDC_OLD_PIM) && IsWindowEnabled (GetDlgItem (hwndDlg, IDC_PIM)))
 			{
-				char tmp[MAX_PIN+1] = {0};
-				GetDlgItemText (hwndDlg, IDC_OLD_PIN, tmp, MAX_PIN + 1);
-				SetDlgItemText (hwndDlg, IDC_PIN, tmp);
+				char tmp[MAX_PIM+1] = {0};
+				GetDlgItemText (hwndDlg, IDC_OLD_PIM, tmp, MAX_PIM + 1);
+				SetDlgItemText (hwndDlg, IDC_PIM, tmp);
 			}
 
-			if (lw == IDC_PIN)
+			if (lw == IDC_PIM)
 			{
-				if(GetPin (hwndDlg, IDC_OLD_PIN) != GetPin (hwndDlg, IDC_PIN))
+				if(GetPin (hwndDlg, IDC_OLD_PIM) != GetPin (hwndDlg, IDC_PIM))
 				{
 					PinValueChangedWarning = TRUE;
-					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, GetString (bSysEncPwdChangeDlgMode? "PIN_SYSENC_CHANGE_WARNING" : "PIN_CHANGE_WARNING"));
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (bSysEncPwdChangeDlgMode? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
 				}
 				else
 				{
 					PinValueChangedWarning = FALSE;
-					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIN_HELP));
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
 				}
 			}
 
@@ -2204,9 +2204,9 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (lw == IDC_TRUECRYPT_MODE)
 		{
 			BOOL bEnablePin = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE) ? FALSE: TRUE;
-			EnableWindow (GetDlgItem (hwndDlg, IDT_OLD_PIN), bEnablePin);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_OLD_PIN), bEnablePin);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_OLD_PIN_HELP), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_OLD_PIM), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_OLD_PIM), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_OLD_PIM_HELP), bEnablePin);
 		}
 
 		if (lw == IDC_SHOW_PASSWORD_CHPWD_ORI)
@@ -2251,8 +2251,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 			BOOL truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
-			int old_pin = GetPin (hwndDlg, IDC_OLD_PIN);
-			int pin = GetPin (hwndDlg, IDC_PIN);
+			int old_pin = GetPin (hwndDlg, IDC_OLD_PIM);
+			int pin = GetPin (hwndDlg, IDC_PIM);
 
 			if (truecryptMode && (old_pkcs5 == SHA256))
 			{
@@ -2261,7 +2261,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			else if (truecryptMode && (old_pin != 0))
 			{
-				Error ("PIN_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
+				Error ("PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
 				return 1;
 			}
 
@@ -2271,10 +2271,10 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return 1;
 			}
 
-			if (bSysEncPwdChangeDlgMode && (pin > MAX_BOOT_PIN_VALUE))
+			if (bSysEncPwdChangeDlgMode && (pin > MAX_BOOT_PIM_VALUE))
 			{
-				SetFocus (GetDlgItem(hwndDlg, IDC_PIN));
-				Error ("PIN_SYSENC_TOO_BIG", hwndDlg);
+				SetFocus (GetDlgItem(hwndDlg, IDC_PIM));
+				Error ("PIM_SYSENC_TOO_BIG", hwndDlg);
 				return 1;
 			}
 
@@ -2443,9 +2443,9 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
 
-			SetPin (hwndDlg, IDC_PIN, *pin);
+			SetPin (hwndDlg, IDC_PIM, *pin);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
@@ -2547,7 +2547,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES), FALSE);
 
-			SetPin (hwndDlg, IDC_PIN, *pin);
+			SetPin (hwndDlg, IDC_PIM, *pin);
 
 			bPrebootPasswordDlgMode = TRUE;
 		}
@@ -2625,9 +2625,9 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_TRUECRYPT_MODE)
 		{
 			BOOL bEnablePin = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE) ? FALSE: TRUE;
-			EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), bEnablePin);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), bEnablePin);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), bEnablePin);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), bEnablePin);
 		}
 
 		if (lw == IDC_KEY_FILES)
@@ -2672,7 +2672,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 				*truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
-				*pin = GetPin (hwndDlg, IDC_PIN);
+				*pin = GetPin (hwndDlg, IDC_PIM);
 
 				/* SHA-256 is not supported by TrueCrypt */
 				if (	(*truecryptMode) 
@@ -2687,7 +2687,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					&&	(*pin != 0)
 					)
 				{
-					Error ("PIN_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
+					Error ("PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
 					return 1;
 				}
 			}
@@ -3071,19 +3071,19 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), protect);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT, hidVolProtKeyFilesParam.EnableKeyFiles);
 
 			SendDlgItemMessage (hwndDlg, IDC_PASSWORD_PROT_HIDVOL, EM_LIMITTEXT, MAX_PASSWORD, 0);
-			SendDlgItemMessage (hwndDlg, IDC_PIN, EM_LIMITTEXT, MAX_PIN, 0);
+			SendDlgItemMessage (hwndDlg, IDC_PIM, EM_LIMITTEXT, MAX_PIM, 0);
 
 			if (mountOptions->ProtectedHidVolPassword.Length > 0)
 				SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), (LPSTR) mountOptions->ProtectedHidVolPassword.Text);	
 
-			SetPin (hwndDlg, IDC_PIN, mountOptions->ProtectedHidVolPin);
+			SetPin (hwndDlg, IDC_PIM, mountOptions->ProtectedHidVolPin);
 			
 			ToHyperlink (hwndDlg, IDC_LINK_HIDVOL_PROTECTION_INFO);
 
@@ -3179,7 +3179,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				mountOptions->ProtectedHidVolPkcs5Prf = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
-				mountOptions->ProtectedHidVolPin = GetPin (hwndDlg, IDC_PIN);
+				mountOptions->ProtectedHidVolPin = GetPin (hwndDlg, IDC_PIM);
 			}
 
 			// Cleanup
@@ -3218,9 +3218,9 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), protect);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), protect);
 
 			return 1;
 		}

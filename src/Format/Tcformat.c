@@ -4068,12 +4068,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD_DIRECT));
 
-				SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
+				SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
 				if (volumePin > 0)
 				{
-					char szTmp[MAX_PIN + 1];
+					char szTmp[MAX_PIM + 1];
 					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePin);
-					SetWindowText (GetDlgItem (hwndDlg, IDC_PIN), szTmp);
+					SetWindowText (GetDlgItem (hwndDlg, IDC_PIM), szTmp);
 				}
 
 				SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
@@ -4150,15 +4150,15 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
 
-				SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, SysEncInEffect()? MAX_BOOT_PIN: MAX_PIN, 0);
+				SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, SysEncInEffect()? MAX_BOOT_PIM: MAX_PIM, 0);
 				if (volumePin > 0)
 				{
-					char szTmp[MAX_PIN + 1];
+					char szTmp[MAX_PIM + 1];
 					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePin);
-					SetWindowText (GetDlgItem (hwndDlg, IDC_PIN), szTmp);
+					SetWindowText (GetDlgItem (hwndDlg, IDC_PIM), szTmp);
 
 					PinValueChangedWarning = TRUE;
-					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, GetString (SysEncInEffect ()? "PIN_SYSENC_CHANGE_WARNING" : "PIN_CHANGE_WARNING"));
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
 				}
 
 				SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable && !SysEncInEffect());
@@ -4920,7 +4920,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case WM_CTLCOLORSTATIC:
 		{
-			if (PinValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIN_HELP)) )
+			if (PinValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIM_HELP)) )
 			{
 				// we're about to draw the static
 				// set the text colour in (HDC)lParam
@@ -5312,17 +5312,17 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
 			volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
-			if (lw == IDC_PIN)
+			if (lw == IDC_PIM)
 			{
-				if(GetPin (hwndDlg, IDC_PIN) != 0)
+				if(GetPin (hwndDlg, IDC_PIM) != 0)
 				{
 					PinValueChangedWarning = TRUE;
-					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, GetString (SysEncInEffect ()? "PIN_SYSENC_CHANGE_WARNING" : "PIN_CHANGE_WARNING"));
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
 				}
 				else
 				{
 					PinValueChangedWarning = FALSE;
-					SetDlgItemTextW (hwndDlg, IDC_PIN_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIN_HELP));
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
 				}
 			}
 
@@ -6993,7 +6993,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
-				volumePin = GetPin (hCurPage, IDC_PIN);
+				volumePin = GetPin (hCurPage, IDC_PIM);
 
 				if (volumePassword.Length > 0)
 				{	
@@ -7003,10 +7003,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						Error ("UNSUPPORTED_CHARS_IN_PWD", hwndDlg);
 						return 1;
 					}
-					else if (SysEncInEffect() && (volumePin > MAX_BOOT_PIN_VALUE))
+					else if (SysEncInEffect() && (volumePin > MAX_BOOT_PIM_VALUE))
 					{
-						SetFocus (GetDlgItem(hCurPage, IDC_PIN));
-						Error ("PIN_SYSENC_TOO_BIG", hwndDlg);
+						SetFocus (GetDlgItem(hCurPage, IDC_PIM));
+						Error ("PIM_SYSENC_TOO_BIG", hwndDlg);
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
@@ -7073,7 +7073,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				hash_algo = (int) SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
-				volumePin = GetPin (hCurPage, IDC_PIN);
+				volumePin = GetPin (hCurPage, IDC_PIM);
 
 				// Store the password in case we need to restore it after keyfile is applied to it
 				GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD_DIRECT), szRawPassword, sizeof (szRawPassword));
@@ -8158,7 +8158,7 @@ ovf_end:
 
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
-				volumePin = GetPin (hCurPage, IDC_PIN);
+				volumePin = GetPin (hCurPage, IDC_PIM);
 
 				nNewPageNo = SIZE_PAGE + 1;		// Skip the hidden volume host password page
 

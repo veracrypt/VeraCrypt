@@ -775,12 +775,12 @@ namespace VeraCrypt
 	{
 		if (favorite.Pin > 0)
 		{
-			char szTmp[MAX_PIN + 1];
+			char szTmp[MAX_PIM + 1];
 			StringCbPrintfA (szTmp, sizeof(szTmp), "%d", favorite.Pin);
-			SetDlgItemText (hwndDlg, IDC_PIN, szTmp);
+			SetDlgItemText (hwndDlg, IDC_PIM, szTmp);
 		}
 		else
-			SetDlgItemText (hwndDlg, IDC_PIN, "");
+			SetDlgItemText (hwndDlg, IDC_PIM, "");
 		SetDlgItemTextW (hwndDlg, IDC_FAVORITE_LABEL, favorite.Label.c_str());
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_LOGON, favorite.MountOnLogOn);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_ARRIVAL, favorite.MountOnArrival);
@@ -806,9 +806,9 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_UP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_DOWN), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_REMOVE), enable);
-		EnableWindow (GetDlgItem (hwndDlg, IDT_PIN), enable);
-		EnableWindow (GetDlgItem (hwndDlg, IDC_PIN), enable);
-		EnableWindow (GetDlgItem (hwndDlg, IDC_PIN_HELP), enable);
+		EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), enable);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), enable);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_FAVORITE_LABEL), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_LABEL), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOUNT_ON_LOGON), enable && !systemFavoritesMode);
@@ -836,7 +836,7 @@ namespace VeraCrypt
 		else
 			favorite.Label.clear();
 
-		favorite.Pin = GetPin (hwndDlg, IDC_PIN);
+		favorite.Pin = GetPin (hwndDlg, IDC_PIM);
 
 		favorite.ReadOnly = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_READONLY) != 0);
 		favorite.Removable = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE) != 0);

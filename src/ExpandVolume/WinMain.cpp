@@ -445,9 +445,9 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
-			SendMessage (GetDlgItem (hwndDlg, IDC_PIN), EM_LIMITTEXT, MAX_PIN, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
 
-			SetPin (hwndDlg, IDC_PIN, *pin);
+			SetPin (hwndDlg, IDC_PIM, *pin);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
@@ -547,7 +547,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), FALSE);
 
-			SetPin (hwndDlg, IDC_PIN, *pin);
+			SetPin (hwndDlg, IDC_PIM, *pin);
 
 			bPrebootPasswordDlgMode = TRUE;
 		}
@@ -659,9 +659,9 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 				*truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
-				GetWindowText (GetDlgItem (hwndDlg, IDC_PIN), tmp, MAX_PIN + 1);
+				GetWindowText (GetDlgItem (hwndDlg, IDC_PIM), tmp, MAX_PIM + 1);
 				if (strlen(tmp))
-					*pin = (int) strtol(tmp, NULL, 10); /* IDC_PIN is configured to accept only numbers */
+					*pin = (int) strtol(tmp, NULL, 10); /* IDC_PIM is configured to accept only numbers */
 				else
 					*pin = 0;
 
@@ -678,7 +678,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					&&	(*pin != 0)
 					)
 				{
-					Error ("PIN_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
+					Error ("PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
 					return 1;
 				}
 			}

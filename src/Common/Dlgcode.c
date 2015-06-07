@@ -10738,8 +10738,8 @@ int GetPin (HWND hwndDlg, UINT ctrlId)
 	int pin = 0;
 	if (IsWindowEnabled (GetDlgItem (hwndDlg, ctrlId)))
 	{
-		char szTmp[MAX_PIN + 1] = {0};
-		if (GetDlgItemText (hwndDlg, ctrlId, szTmp, MAX_PIN + 1) > 0)
+		char szTmp[MAX_PIM + 1] = {0};
+		if (GetDlgItemText (hwndDlg, ctrlId, szTmp, MAX_PIM + 1) > 0)
 		{
 			char* endPtr = NULL;
 			pin = strtol(szTmp, &endPtr, 10);
@@ -10754,7 +10754,7 @@ void SetPin (HWND hwndDlg, UINT ctrlId, int pin)
 {
 	if (pin > 0)
 	{
-		char szTmp[MAX_PIN + 1];
+		char szTmp[MAX_PIM + 1];
 		StringCbPrintfA (szTmp, sizeof(szTmp), "%d", pin);
 		SetDlgItemText (hwndDlg, ctrlId, szTmp);
 	}

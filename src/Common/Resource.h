@@ -188,9 +188,9 @@
 #define IDC_WAIT_PROGRESS_BAR           5126
 #define IDC_PKCS5_PRF_ID                5127
 #define IDT_PKCS5_PRF                   5128
-#define IDT_PIN                         5129
-#define IDC_PIN                         5130
-#define IDC_PIN_HELP                    5131
+#define IDT_PIM                         5129
+#define IDC_PIM                         5130
+#define IDC_PIM_HELP                    5131
 
 // Next default values for new objects
 // 

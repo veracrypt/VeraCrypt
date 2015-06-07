@@ -86,8 +86,8 @@
     <control lang="en" key="IDT_PARTIAL_POOL_CONTENTS">Current pool content (partial)</control>
     <control lang="en" key="IDT_PASS">Pass</control>
     <control lang="en" key="IDT_PASSWORD">Password:</control>
-    <control lang="en" key="IDT_PIN">Volume PIN:</control>
-    <control lang="en" key="IDT_OLD_PIN">Volume PIN:</control>
+    <control lang="en" key="IDT_PIM">Volume PIM:</control>
+    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="en" key="IDT_PROGRESS">Progress:</control>
     <control lang="en" key="IDT_RANDOM_POOL">Random Pool: </control>
     <control lang="en" key="IDT_SINGLE_BOOT">Select this option if there is only one operating system installed on this computer (even if it has multiple users).</control>
@@ -145,8 +145,8 @@
     <control lang="en" key="IDC_MOUNT_OPTIONS">Mount Opti&amp;ons...</control>
     <control lang="en" key="IDC_MOUNT_READONLY">Mount volume as read-&amp;only</control>
     <control lang="en" key="IDC_NEW_KEYFILES">Keyfiles...</control>
-    <control lang="en" key="IDC_OLD_PIN_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIN_HELP">(Empty or 0 for default iterations)</control>	  
+    <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	  
     <control lang="en" key="IDC_PREF_BKG_TASK_ENABLE">Enabled</control>
     <control lang="en" key="IDC_PREF_CACHE_PASSWORDS">Cache passwords in driver memory</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_INACTIVE">Auto-dismount volume after no data has been read/written to it for</control>
@@ -609,17 +609,17 @@
     <string lang="en" key="PASSWORD_HIDDEN_OS_TITLE">Password for Hidden Operating System</string>
     <string lang="en" key="PASSWORD_LENGTH_WARNING">WARNING: Short passwords are easy to crack using brute force techniques!\n\nWe recommend choosing a password consisting of 20 or more characters. Are you sure you want to use a short password?</string>
     <string lang="en" key="PASSWORD_TITLE">Volume Password</string>
-    <string lang="en" key="PASSWORD_WRONG">Incorrect password/PRF or not a valid volume.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Incorrect keyfile(s) and/or password/PRF or not a valid volume.</string>
-    <string lang="en" key="PASSWORD_OR_MODE_WRONG">Wrong mount mode, incorrect password/PRF, or not a valid volume.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Wrong mount mode, incorrect keyfile(s) and/or password/PRF, or not a valid volume.</string>
-    <string lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Incorrect password/PRF or no valid volume found.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Incorrect keyfile(s)/password/PRF or no valid volume found.</string>
+    <string lang="en" key="PASSWORD_WRONG">Operation failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</string>
+    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Operation failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</string>
+    <string lang="en" key="PASSWORD_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</string>
+    <string lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</string>
+    <string lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</string>
+    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</string>
     <string lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</string>
-    <string lang="en" key="PIN_CHANGE_WARNING">Remember Number to Mount Volume</string>
-    <string lang="en" key="PIN_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
-    <string lang="en" key="PIN_SMALL_WARNING">You have chosen a Personal Iteration Number (PIN) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
-    <string lang="en" key="PIN_SYSENC_TOO_BIG">Personal Iteration Number (PIN) maximum value for system encryption is 65535.</string>
+    <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
+    <string lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
+    <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
+    <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
     <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer > Organize > 'Folder and search options' > View).</string>
     <string lang="en" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">If you are attempting to protect a hidden volume containing a hidden system, please make sure you are using the standard US keyboard layout when typing the password for the hidden volume. This is required due to the fact that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available.</string>
     <string lang="en" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt has not found any volume where the process of encryption/decryption of a non-system volume has been interrupted and where the volume header can be deciphered using the supplied password and/or keyfile(s).\n\nPlease make sure the password and/or keyfile(s) are correct and that the partition/volume is not being used by the system or applications (including antivirus software).</string>
@@ -1070,9 +1070,9 @@
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">This algorithm is currently not supported for system encryption.</string>
 	 <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIN_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIN (Personal Iteration Number) not supported for TrueCrypt mode.</string>	  
-    <string lang="en" key="PIN_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIN.\nShorter passwords can only be used if the PIN is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIN_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIN.\nShorter passwords can only be used if the PIN is 98 or greater.</string>
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="en" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warning: VeraCrypt could not restore the original keyboard layout. This may cause you to enter a password incorrectly.</string>
     <string lang="en" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: Cannot set the keyboard layout for VeraCrypt to the standard US keyboard layout.\n\nNote that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available. Therefore, the password must always be typed using the standard US keyboard layout.</string>

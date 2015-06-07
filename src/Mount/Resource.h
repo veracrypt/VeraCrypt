@@ -163,9 +163,9 @@
 #define IDC_PKCS5_OLD_PRF_ID            1139
 #define IDC_TRUECRYPT_MODE              1140
 #define IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT 1141
-#define IDT_OLD_PIN                     1142
-#define IDC_OLD_PIN                     1143
-#define IDC_OLD_PIN_HELP                1144
+#define IDT_OLD_PIM                     1142
+#define IDC_OLD_PIM                     1143
+#define IDC_OLD_PIM_HELP                1144
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003

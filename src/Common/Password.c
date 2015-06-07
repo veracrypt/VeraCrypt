@@ -114,7 +114,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem, int pin, BOOL bForBoot)
 	{
 		if (bCustomPinSmall)
 		{
-			Error (bForBoot? "BOOT_PIN_REQUIRE_LONG_PASSWORD": "PIN_REQUIRE_LONG_PASSWORD", hwndDlg);
+			Error (bForBoot? "BOOT_PIM_REQUIRE_LONG_PASSWORD": "PIM_REQUIRE_LONG_PASSWORD", hwndDlg);
 			return FALSE;						
 		}
 
@@ -126,7 +126,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem, int pin, BOOL bForBoot)
 #ifndef _DEBUG
 	else if (bCustomPinSmall)
 	{
-		if (MessageBoxW (hwndDlg, GetString ("PIN_SMALL_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES)
+		if (MessageBoxW (hwndDlg, GetString ("PIM_SMALL_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES)
 			return FALSE;
 	}
 #endif

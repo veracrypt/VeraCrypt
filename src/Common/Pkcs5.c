@@ -760,7 +760,7 @@ char *get_pkcs5_prf_name (int pkcs5_prf_id)
 int get_pkcs5_iteration_count (int pkcs5_prf_id, int pin, BOOL truecryptMode, BOOL bBoot)
 {
 	if (	(pin < 0)
-		|| (truecryptMode && pin > 0) /* No PIN for TrueCrypt mode */
+		|| (truecryptMode && pin > 0) /* No PIM for TrueCrypt mode */
 		)
 	{
 		return 0;

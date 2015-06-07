@@ -215,7 +215,7 @@ static byte AskPassword (Password &password, int& pin)
 	}
 
 	pos = 0;
-	Print ("PIN: ");
+	Print ("PIM: ");
 
 	while (true)
 	{
@@ -232,7 +232,7 @@ static byte AskPassword (Password &password, int& pin)
 		case TC_BIOS_KEY_BACKSPACE:
 			if (pos > 0)
 			{
-				if (pos < MAX_PIN)
+				if (pos < MAX_PIM)
 					PrintBackspace();
 				else
 					PrintCharAtCursor (' ');
@@ -253,7 +253,7 @@ static byte AskPassword (Password &password, int& pin)
 			}
 		}
 
-		if (!IsDigit (asciiCode) || pos == MAX_PIN)
+		if (!IsDigit (asciiCode) || pos == MAX_PIM)
 		{
 			Beep();
 			continue;
@@ -262,7 +262,7 @@ static byte AskPassword (Password &password, int& pin)
 		pin = 10*pin + (asciiCode - '0');
 		pos++;
 
-		if (pos < MAX_PIN)
+		if (pos < MAX_PIM)
 			PrintChar (asciiCode);
 		else
 			PrintCharAtCursor (asciiCode);

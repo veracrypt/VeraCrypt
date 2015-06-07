@@ -15,9 +15,9 @@
 // User text input limits
 #define MIN_PASSWORD			1		// Minimum possible password length
 #define MAX_PASSWORD			64		// Maximum possible password length
-#define MAX_PIN				10		// Maximum allowed digits in a PIN (enough for 32-bit value)
-#define MAX_BOOT_PIN			5		// Maximum allowed digits in a PIN for boot (enough for 16-bit value)
-#define MAX_BOOT_PIN_VALUE	65535
+#define MAX_PIM				10		// Maximum allowed digits in a PIM (enough for 32-bit value)
+#define MAX_BOOT_PIM			5		// Maximum allowed digits in a PIM for boot (enough for 16-bit value)
+#define MAX_BOOT_PIM_VALUE	65535
 
 #define PASSWORD_LEN_WARNING	20		// Display a warning when a password is shorter than this
 
