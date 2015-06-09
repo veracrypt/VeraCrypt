@@ -4415,9 +4415,9 @@ retry:
 	return status;
 }
 
-static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
+static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 {
-	HWND driveList = GetDlgItem (hwndDlg, IDC_DRIVELIST);
+	HWND driveList = GetDlgItem (MainDlg, IDC_DRIVELIST);
 	int selDrive = ListView_GetSelectionMark (driveList);
 	BOOL shared = FALSE, status = FALSE, bHeaderBakRetry = FALSE;
 	int mountedVolCount = 0;
@@ -4536,7 +4536,7 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 						if (mounted == 2)
 							shared = TRUE;
 
-						LoadDriveLetters (hwndDlg, driveList, (HIWORD (GetItemLong (GetDlgItem (hwndDlg, IDC_DRIVELIST), selDrive))));
+						LoadDriveLetters (hwndDlg, driveList, (HIWORD (GetItemLong (GetDlgItem (MainDlg, IDC_DRIVELIST), selDrive))));
 						selDrive++;
 
 						if (bExplore)
@@ -4656,11 +4656,36 @@ ret:
 	if (UsePreferences)
 		bCacheInDriver = bCacheInDriverDefault;
 
-	EnableDisableButtons (hwndDlg);
+	EnableDisableButtons (MainDlg);
 
 	NormalCursor();
 
 	return status;
+}
+
+typedef struct
+{
+	BOOL bPasswordPrompt;
+	BOOL bRet;
+} MountAllDevicesThreadParam;
+
+void CALLBACK mountAllDevicesThreadProc(void* pArg, HWND hwndDlg)
+{
+	MountAllDevicesThreadParam* threadParam =(MountAllDevicesThreadParam*) pArg;
+	BOOL bPasswordPrompt = threadParam->bPasswordPrompt;
+	
+	threadParam->bRet = MountAllDevicesThreadCode (hwndDlg, bPasswordPrompt);
+}
+
+static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
+{
+	MountAllDevicesThreadParam param;
+	param.bPasswordPrompt = bPasswordPrompt;
+	param.bRet = FALSE;
+
+	ShowWaitDialog (hwndDlg, TRUE, mountAllDevicesThreadProc, &param);
+
+	return param.bRet;
 }
 
 static void ChangePassword (HWND hwndDlg)
