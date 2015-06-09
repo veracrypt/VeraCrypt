@@ -7520,18 +7520,47 @@ BOOL TCCopyFile (char *sourceFileName, char *destinationFile)
 
 // If bAppend is TRUE, the buffer is appended to an existing file. If bAppend is FALSE, any existing file 
 // is replaced. If an error occurs, the incomplete file is deleted (provided that bAppend is FALSE).
-BOOL SaveBufferToFile (const char *inputBuffer, const char *destinationFile, DWORD inputLength, BOOL bAppend)
+BOOL SaveBufferToFile (const char *inputBuffer, const char *destinationFile, DWORD inputLength, BOOL bAppend, BOOL bRenameIfFailed)
 {
 	HANDLE dst;
 	DWORD bytesWritten;
 	BOOL res = TRUE;
+	DWORD dwLastError = 0;
 
 	dst = CreateFile (destinationFile,
 		GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, bAppend ? OPEN_EXISTING : CREATE_ALWAYS, 0, NULL);
 
+	dwLastError = GetLastError();
+	if (!bAppend && bRenameIfFailed && (dst == INVALID_HANDLE_VALUE) && (GetLastError () == ERROR_SHARING_VIOLATION))
+	{
+		char renamedPath[TC_MAX_PATH + 1];
+		StringCbCopyA (renamedPath, sizeof(renamedPath), destinationFile);
+		StringCbCatA  (renamedPath, sizeof(renamedPath), VC_FILENAME_RENAMED_SUFFIX);
+
+		/* rename the locked file in order to be able to create a new one */
+		if (MoveFileEx (destinationFile, renamedPath, MOVEFILE_REPLACE_EXISTING))
+		{
+			dst = CreateFile (destinationFile,
+					GENERIC_WRITE,
+					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, bAppend ? OPEN_EXISTING : CREATE_ALWAYS, 0, NULL);
+			dwLastError = GetLastError();
+			if (dst == INVALID_HANDLE_VALUE)
+			{
+				/* restore the original file name */
+				MoveFileEx (renamedPath, destinationFile, MOVEFILE_REPLACE_EXISTING);
+			}
+			else
+			{
+				/* delete the renamed file when the machine reboots */
+				MoveFileEx (renamedPath, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+			}
+		}
+	}
+	
 	if (dst == INVALID_HANDLE_VALUE)
 	{
+		SetLastError (dwLastError);
 		handleWin32Error (MainDlg);
 		return FALSE;
 	}
@@ -7603,14 +7632,14 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, size_t textByteLen)
 	}
 
 	// Write the Unicode signature
-	if (!SaveBufferToFile ("\xFF\xFE", path, 2, FALSE))
+	if (!SaveBufferToFile ("\xFF\xFE", path, 2, FALSE, FALSE))
 	{
 		remove (path);
 		return FALSE;
 	}
 
 	// Write the actual text
-	if (!SaveBufferToFile ((char *) text, path, (DWORD) textByteLen, TRUE))
+	if (!SaveBufferToFile ((char *) text, path, (DWORD) textByteLen, TRUE, FALSE))
 	{
 		remove (path);
 		return FALSE;
@@ -10068,7 +10097,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 
 								finally_do_arg (vector <byte> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
 
-								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE))
+								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE, FALSE))
 									throw SystemException ();
 							}
 

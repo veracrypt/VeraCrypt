@@ -123,7 +123,7 @@ static char *szCompressedFiles[]=
 #define NBR_COMPRESSED_FILES (sizeof(szCompressedFiles) / sizeof(szCompressedFiles[0]))
 
 void localcleanup (void);
-BOOL StatDeleteFile ( char *lpszFile );
+BOOL StatDeleteFile ( char *lpszFile, BOOL bCheckForOldFile );
 BOOL StatRemoveDirectory ( char *lpszDir );
 HRESULT CreateLink ( char *lpszPathObj , char *lpszArguments , char *lpszPathLink );
 void GetProgramPath ( HWND hwndDlg , char *path );

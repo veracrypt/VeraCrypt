@@ -77,6 +77,8 @@ enum
 #define TC_APPD_FILENAME_POST_INSTALL_TASK_TUTORIAL			"Post-Install Task - Tutorial"
 #define TC_APPD_FILENAME_POST_INSTALL_TASK_RELEASE_NOTES	"Post-Install Task - Release Notes"
 
+#define VC_FILENAME_RENAMED_SUFFIX				"_old"
+
 #ifndef USER_DEFAULT_SCREEN_DPI
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
@@ -351,7 +353,7 @@ int64 FindString (const char *buf, const char *str, int64 bufLen, int64 strLen, 
 BOOL FileExists (const char *filePathPtr);
 __int64 FindStringInFile (const char *filePath, const char *str, int strLen);
 BOOL TCCopyFile (char *sourceFileName, char *destinationFile);
-BOOL SaveBufferToFile (const char *inputBuffer, const char *destinationFile, DWORD inputLength, BOOL bAppend);
+BOOL SaveBufferToFile (const char *inputBuffer, const char *destinationFile, DWORD inputLength, BOOL bAppend, BOOL bRenameIfFailed);
 BOOL TCFlushFile (FILE *f);
 BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, size_t byteLen);
 void GetSpeedString (unsigned __int64 speed, wchar_t *str, size_t cbStr);

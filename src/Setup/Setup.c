@@ -86,9 +86,19 @@ void localcleanup (void)
 	CloseAppSetupMutex ();
 }
 
-BOOL StatDeleteFile (char *lpszFile)
+BOOL StatDeleteFile (char *lpszFile, BOOL bCheckForOldFile)
 {
 	struct __stat64 st;
+
+	if (bCheckForOldFile)
+	{
+		char szOldPath[MAX_PATH + 1];
+		StringCbCopyA (szOldPath, sizeof(szOldPath), lpszFile);
+		StringCbCatA  (szOldPath, sizeof(szOldPath), VC_FILENAME_RENAMED_SUFFIX);
+
+		if (_stat64 (szOldPath, &st) == 0)
+			DeleteFile (szOldPath);
+	}
 
 	if (_stat64 (lpszFile, &st) == 0)
 		return DeleteFile (lpszFile);
@@ -725,7 +735,8 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 								(char *) Decompressed_Files[fileNo].fileContent,
 								szTmp,
 								Decompressed_Files[fileNo].fileLength, 
-								FALSE);
+								FALSE,
+								TRUE);
 
 							if (driver64)
 							{
@@ -769,7 +780,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 		}
 		else
 		{
-			bResult = StatDeleteFile (szTmp);
+			bResult = StatDeleteFile (szTmp, TRUE);
 		}
 
 err:
@@ -1022,27 +1033,27 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	// Delete favorite volumes file
 	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_FAVORITE_VOLUMES);
 	RemoveMessage (hwndDlg, path2);
-	StatDeleteFile (path2);
+	StatDeleteFile (path2, FALSE);
 
 	// Delete keyfile defaults
 	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_DEFAULT_KEYFILES);
 	RemoveMessage (hwndDlg, path2);
-	StatDeleteFile (path2);
+	StatDeleteFile (path2, FALSE);
 
 	// Delete history file
 	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_HISTORY);
 	RemoveMessage (hwndDlg, path2);
-	StatDeleteFile (path2);
+	StatDeleteFile (path2, FALSE);
 	
 	// Delete configuration file
 	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_CONFIGURATION);
 	RemoveMessage (hwndDlg, path2);
-	StatDeleteFile (path2);
+	StatDeleteFile (path2, FALSE);
 
 	// Delete system encryption configuration file
 	StringCbPrintfA (path2, sizeof(path2), "%s%s", path, TC_APPD_FILENAME_SYSTEM_ENCRYPTION);
 	RemoveMessage (hwndDlg, path2);
-	StatDeleteFile (path2);
+	StatDeleteFile (path2, FALSE);
 
 	SHGetFolderPath (NULL, CSIDL_APPDATA, NULL, 0, path);
 	StringCbCatA (path, sizeof(path), "\\VeraCrypt");
@@ -1491,22 +1502,22 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 	// Start menu entries
 	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
-	if (StatDeleteFile (szTmp2) == FALSE)
+	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 
 	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCryptExpander.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
-	if (StatDeleteFile (szTmp2) == FALSE)
+	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 
 	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt Website.url");
 	RemoveMessage (hwndDlg, szTmp2);
-	if (StatDeleteFile (szTmp2) == FALSE)
+	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 
 	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\Uninstall VeraCrypt.lnk");
 	RemoveMessage (hwndDlg, szTmp2);
-	if (StatDeleteFile (szTmp2) == FALSE)
+	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 	
 	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt User's Guide.lnk");
@@ -1527,7 +1538,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 	StringCbPrintfA (szTmp2, sizeof(szTmp2), "%s%s", szLinkDir, "\\VeraCrypt.lnk");
 
 	RemoveMessage (hwndDlg, szTmp2);
-	if (StatDeleteFile (szTmp2) == FALSE)
+	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 
 	bOK = TRUE;
