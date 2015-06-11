@@ -1070,6 +1070,13 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 {
 	char regk [64];
+	typedef LSTATUS (WINAPI *RegDeleteKeyExAFn) (HKEY hKey,LPCSTR lpSubKey,REGSAM samDesired,WORD Reserved);
+	RegDeleteKeyExAFn RegDeleteKeyExAPtr = NULL;
+	HMODULE hAdvapiDll = LoadLibrary ("Advapi32.dll");
+	if (hAdvapiDll)
+	{
+		RegDeleteKeyExAPtr = (RegDeleteKeyExAFn) GetProcAddress(hAdvapiDll, "RegDeleteKeyExA");
+	}
 
 	// Unregister COM servers
 	if (!bRemoveDeprecated && IsOSAtLeast (WIN_VISTA))
@@ -1081,14 +1088,22 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 	if (!bRemoveDeprecated)
 		StatusMessage (hwndDlg, "REMOVING_REG");
 
-	RegDeleteKeyEx (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", KEY_WOW64_32KEY, 0);
+	if (RegDeleteKeyExAPtr)
+	{
+		RegDeleteKeyExAPtr (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", KEY_WOW64_32KEY, 0);
+		RegDeleteKeyExAPtr (HKEY_CURRENT_USER, "Software\\VeraCrypt", KEY_WOW64_32KEY, 0);
+	}
+	else
+	{
+		RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt");
+		RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\VeraCrypt");
+	}
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell\\open\\command");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell\\open");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\Shell");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume\\DefaultIcon");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, "Software\\Classes\\VeraCryptVolume");
-	RegDeleteKeyEx (HKEY_CURRENT_USER, "Software\\VeraCrypt", KEY_WOW64_32KEY, 0);	
-
+		
 	if (!bRemoveDeprecated)
 	{
 		HKEY hKey;
@@ -1120,6 +1135,9 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 
 		SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	}
+	
+	if (hAdvapiDll)
+		FreeLibrary (hAdvapiDll);
 
 	return TRUE;
 }
