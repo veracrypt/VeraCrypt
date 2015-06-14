@@ -659,7 +659,7 @@ namespace VeraCrypt
 	}
 
 
-	static bool SaveFavoriteVolumes (HWND hwndDlg, const vector <FavoriteVolume> &favorites, bool systemFavorites)
+	bool SaveFavoriteVolumes (HWND hwndDlg, const vector <FavoriteVolume> &favorites, bool systemFavorites)
 	{
 		FILE *f;
 		int cnt = 0;

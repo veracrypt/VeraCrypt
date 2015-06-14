@@ -1787,6 +1787,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	static KeyFilesDlgParam newKeyFilesParam;
 	static BOOL PinValueChangedWarning = FALSE;
+	static int* NewPimValuePtr = NULL;
 
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
@@ -1799,6 +1800,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID);
 			int i;
 			WipeAlgorithmId headerWipeMode = TC_WIPE_3_DOD_5220;
+
+			NewPimValuePtr = (int*) lParam;
 
 			PinValueChangedWarning = FALSE;
 
@@ -2337,6 +2340,15 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ShowWaitDialog(hwndDlg, TRUE, ChangePwdWaitThreadProc, &changePwdParam);
 
 err:
+			// notify the caller in case the PIM has changed
+			if (NewPimValuePtr)
+			{
+				if (pin != old_pin)
+					*NewPimValuePtr = pin;
+				else
+					*NewPimValuePtr = -1;
+			}
+
 			burn (&oldPassword, sizeof (oldPassword));
 			burn (&newPassword, sizeof (newPassword));
 			burn (&old_pin, sizeof(old_pin));
@@ -4691,6 +4703,7 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 static void ChangePassword (HWND hwndDlg)
 {
 	INT_PTR result;
+	int newPimValue = -1;
 	
 	GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, sizeof (szFileName));
 	if (IsMountedVolume (szFileName))
@@ -4707,8 +4720,8 @@ static void ChangePassword (HWND hwndDlg)
 
 	bSysEncPwdChangeDlgMode = FALSE;
 
-	result = DialogBoxW (hInst, MAKEINTRESOURCEW (IDD_PASSWORDCHANGE_DLG), hwndDlg,
-		(DLGPROC) PasswordChangeDlgProc);
+	result = DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_PASSWORDCHANGE_DLG), hwndDlg,
+		(DLGPROC) PasswordChangeDlgProc, (LPARAM) &newPimValue);
 
 	if (result == IDOK)
 	{
@@ -4725,7 +4738,44 @@ static void ChangePassword (HWND hwndDlg)
 
 		case PCDM_CHANGE_PASSWORD:
 		default:
-			Info ("PASSWORD_CHANGED", hwndDlg);
+			{
+				Info ("PASSWORD_CHANGED", hwndDlg);
+				if (newPimValue != -1)
+				{
+					// update the encoded volue in favorite XML if found
+					bool bFavoriteFound = false;
+					for (vector <FavoriteVolume>::iterator favorite = FavoriteVolumes.begin();
+						favorite != FavoriteVolumes.end(); favorite++)
+					{
+						if (favorite->Path == szFileName)
+						{
+							bFavoriteFound = true;
+							favorite->Pin = newPimValue;
+							SaveFavoriteVolumes (hwndDlg, FavoriteVolumes, false);
+							break;
+						}
+					}
+
+					if (!bFavoriteFound)
+					{
+						for (vector <FavoriteVolume>::iterator favorite = SystemFavoriteVolumes.begin();
+							favorite != SystemFavoriteVolumes.end(); favorite++)
+						{
+							if (favorite->Path == szFileName)
+							{
+								bFavoriteFound = true;
+								favorite->Pin = newPimValue;
+								
+								if (AskYesNo("FAVORITE_PIM_CHANGED", hwndDlg) == IDYES)
+								{
+									SaveFavoriteVolumes (hwndDlg, SystemFavoriteVolumes, true);
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
