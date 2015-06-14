@@ -549,7 +549,12 @@ namespace VeraCrypt
 			XmlGetAttributeText (xml, "label", label, sizeof (label));
 			favorite.Label = Utf8StringToWide (label);
 
-			XmlGetAttributeText (xml, "pin", label, sizeof (label));
+			XmlGetAttributeText (xml, "pim", label, sizeof (label));
+			if (strlen(label) == 0)
+			{
+				/* support old attribute name before it was changed to PIM*/
+				XmlGetAttributeText (xml, "pin", label, sizeof (label));
+			}
 			favorite.Pin = strtol (label, NULL, 10);
 			if (favorite.Pin < 0)
 				favorite.Pin = 0;
@@ -684,7 +689,7 @@ namespace VeraCrypt
 				s += L" label=\"" + favorite.Label + L"\"";
 
 			if (favorite.Pin > 0)
-				s += L" pin=\"" + IntToWideString(favorite.Pin) + L"\"";
+				s += L" pim=\"" + IntToWideString(favorite.Pin) + L"\"";
 
 			if (favorite.ReadOnly)
 				s += L" readonly=\"1\"";
