@@ -381,6 +381,7 @@ static void WipePasswordsAndKeyfiles (void)
 	burn (&szVerify[0], sizeof (szVerify));
 	burn (&volumePassword, sizeof (volumePassword));
 	burn (&szRawPassword[0], sizeof (szRawPassword));
+	burn (&volumePin, sizeof (volumePin));
 
 	SetWindowText (hPasswordInputField, "");
 	SetWindowText (hVerifyPasswordInputField, "");
@@ -2694,6 +2695,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				// Clear the outer volume password
 				memset(&szVerify[0], 0, sizeof (szVerify));
 				memset(&szRawPassword[0], 0, sizeof (szRawPassword));
+				memset(&volumePin, 0, sizeof (volumePin));
 
 				MessageBeep (MB_OK);
 			}
@@ -9469,6 +9471,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	VirtualLock (&volumePassword, sizeof(volumePassword));
 	VirtualLock (szVerify, sizeof(szVerify));
 	VirtualLock (szRawPassword, sizeof(szRawPassword));
+	VirtualLock (&volumePin, sizeof(volumePin));
 
 	VirtualLock (MasterKeyGUIView, sizeof(MasterKeyGUIView));
 	VirtualLock (HeaderKeyGUIView, sizeof(HeaderKeyGUIView));
