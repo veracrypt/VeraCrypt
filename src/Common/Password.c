@@ -107,10 +107,10 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 }
 
 
-BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem, int pin, BOOL bForBoot)
+BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pin, BOOL bForBoot, BOOL bSkipPasswordWarning)
 {
 	BOOL bCustomPinSmall = ((pin != 0) && (pin < (bForBoot? 98 : 485)))? TRUE : FALSE;
-	if (GetWindowTextLength (hwndItem) < PASSWORD_LEN_WARNING)
+	if (passwordLength < PASSWORD_LEN_WARNING)
 	{
 		if (bCustomPinSmall)
 		{
@@ -119,7 +119,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, HWND hwndItem, int pin, BOOL bForBoot)
 		}
 
 #ifndef _DEBUG
-		if (MessageBoxW (hwndDlg, GetString ("PASSWORD_LENGTH_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES)
+		if (!bSkipPasswordWarning && (MessageBoxW (hwndDlg, GetString ("PASSWORD_LENGTH_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES))
 			return FALSE;
 #endif
 	}

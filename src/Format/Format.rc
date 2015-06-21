@@ -116,15 +116,12 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWORD,53,3,163,14,ES_PASSWORD | ES_AUTOHSCROLL
     EDITTEXT        IDC_VERIFY,53,19,163,14,ES_PASSWORD | ES_AUTOHSCROLL
-    EDITTEXT        IDC_PIM,53,35,42,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,53,65,95,11,WS_EX_TRANSPARENT
-    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,53,55,95,10
-    PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,152,56,64,14,WS_DISABLED
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,53,45,95,11,WS_EX_TRANSPARENT
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,53,35,95,10
+    PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,152,36,64,14,WS_DISABLED
     RTEXT           "Password:",IDT_PASSWORD,1,6,50,8
     RTEXT           "&Confirm:",IDT_CONFIRM,1,23,50,8
     LTEXT           "",IDC_BOX_HELP,0,79,225,89
-    RTEXT           "Volume PIM:",IDT_PIM,1,38,50,8
-    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,97,38,126,8
 END
 
 IDD_SIZE_PAGE_DLG DIALOGEX 0, 0, 226, 172
@@ -434,6 +431,16 @@ BEGIN
     RTEXT           "Drive letter:",IDT_DRIVE_LETTER,5,17,86,8
 END
 
+IDD_PIM_PAGE_DLG DIALOGEX 0, 0, 226, 172
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_PIM,53,8,42,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "",IDC_BOX_HELP,0,33,225,110
+    RTEXT           "Volume PIM:",IDT_PIM,1,11,50,8
+    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,97,11,126,8
+END
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -684,6 +691,12 @@ BEGIN
         RIGHTMARGIN, 219
         TOPMARGIN, 7
         BOTTOMMARGIN, 165
+    END
+
+    IDD_PIM_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 223
+        BOTTOMMARGIN, 143
     END
 END
 #endif    // APSTUDIO_INVOKED

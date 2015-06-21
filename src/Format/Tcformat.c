@@ -80,6 +80,7 @@ enum wizard_pages
 	SIZE_PAGE,
 				HIDDEN_VOL_HOST_PASSWORD_PAGE,
 	PASSWORD_PAGE,
+	PIM_PAGE,
 		FILESYS_PAGE,
 			SYSENC_COLLECTING_RANDOM_DATA_PAGE,
 			SYSENC_KEYS_GEN_PAGE,
@@ -2899,6 +2900,10 @@ static void LoadPage (HWND hwndDlg, int nPageNo)
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_PASSWORD_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
 		break;
+	case PIM_PAGE:
+		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_PIM_PAGE_DLG), hwndDlg,
+					 (DLGPROC) PageDialogProc);
+		break;
 	case FILESYS_PAGE:
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_UNIVERSAL_DUAL_CHOICE_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
@@ -4152,17 +4157,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
 
-				SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, SysEncInEffect()? MAX_BOOT_PIM: MAX_PIM, 0);
-				if (volumePin > 0)
-				{
-					char szTmp[MAX_PIM + 1];
-					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePin);
-					SetWindowText (GetDlgItem (hwndDlg, IDC_PIM), szTmp);
-
-					PinValueChangedWarning = TRUE;
-					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
-				}
-
 				SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable && !SysEncInEffect());
 				EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), KeyFilesEnable);
 
@@ -4190,6 +4184,40 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							  KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
+			}
+			break;
+
+		case PIM_PAGE:
+			{
+				SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, SysEncInEffect()? MAX_BOOT_PIM: MAX_PIM, 0);
+				if (volumePin > 0)
+				{
+					char szTmp[MAX_PIM + 1];
+					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePin);
+					SetWindowText (GetDlgItem (hwndDlg, IDC_PIM), szTmp);
+
+					PinValueChangedWarning = TRUE;
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
+				}
+
+				SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
+
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect ()? "PIM_SYSENC_HELP" : "PIM_HELP"));
+
+				if (CreatingHiddenSysVol())
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("PIM_HIDDEN_OS_TITLE"));
+				else if (bHiddenVol)
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString (bHiddenVolHost ? "PIM_HIDVOL_HOST_TITLE" : "PIM_HIDVOL_TITLE"));
+				else if (WizardMode == WIZARD_MODE_SYS_DEVICE)
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("PIM"));
+				else
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("PIM_TITLE"));
+
+				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
+				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
+
+				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
+				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
 			}
 			break;
 
@@ -5314,6 +5342,25 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
 			volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
+			if (lw == IDC_PIM)
+			{
+				if(GetPin (hwndDlg, IDC_PIM) != 0)
+				{
+					PinValueChangedWarning = TRUE;
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
+				}
+				else
+				{
+					PinValueChangedWarning = FALSE;
+					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
+				}
+			}
+
+			return 1;
+		}
+
+		if (hw == EN_CHANGE && nCurPageNo == PIM_PAGE)
+		{
 			if (lw == IDC_PIM)
 			{
 				if(GetPin (hwndDlg, IDC_PIM) != 0)
@@ -6995,8 +7042,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
-				volumePin = GetPin (hCurPage, IDC_PIM);
-
 				if (volumePassword.Length > 0)
 				{	
 					// Password character encoding
@@ -7005,14 +7050,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						Error ("UNSUPPORTED_CHARS_IN_PWD", hwndDlg);
 						return 1;
 					}
-					else if (SysEncInEffect() && (volumePin > MAX_BOOT_PIM_VALUE))
-					{
-						SetFocus (GetDlgItem(hCurPage, IDC_PIM));
-						Error ("PIM_SYSENC_TOO_BIG", hwndDlg);
-						return 1;
-					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, GetDlgItem (hCurPage, IDC_PASSWORD), volumePin, SysEncInEffect()))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), FALSE))
 					{
 						return 1;
 					}
@@ -7049,6 +7088,32 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						else
 							bKeyboardLayoutChanged = FALSE;
 					}
+
+				}
+			}
+
+			else if (nCurPageNo == PIM_PAGE)
+			{
+				volumePin = GetPin (hCurPage, IDC_PIM);
+
+				if (volumePassword.Length > 0)
+				{	
+					// Password character encoding
+					if (SysEncInEffect() && (volumePin > MAX_BOOT_PIM_VALUE))
+					{
+						SetFocus (GetDlgItem(hCurPage, IDC_PIM));
+						Error ("PIM_SYSENC_TOO_BIG", hwndDlg);
+						return 1;
+					}
+					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePin, SysEncInEffect(), TRUE))
+					{
+						return 1;
+					}
+				}
+
+				if (SysEncInEffect ()) 
+				{
 
 					nNewPageNo = SYSENC_COLLECTING_RANDOM_DATA_PAGE - 1;	// Skip irrelevant pages
 				}
@@ -8160,7 +8225,6 @@ ovf_end:
 
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
-				volumePin = GetPin (hCurPage, IDC_PIM);
 
 				nNewPageNo = SIZE_PAGE + 1;		// Skip the hidden volume host password page
 
@@ -8181,6 +8245,11 @@ ovf_end:
 				}
 				else if (bInPlaceEncNonSys)
 					nNewPageNo = CIPHER_PAGE + 1;
+			}
+
+			else if (nCurPageNo == PIM_PAGE)
+			{
+				volumePin = GetPin (hCurPage, IDC_PIM);
 			}
 
 			else if (nCurPageNo == HIDDEN_VOL_HOST_PASSWORD_PAGE
@@ -8208,7 +8277,7 @@ ovf_end:
 				tmp [sizeof(tmp)-1] = 0;
 				SetWindowText (hRandPoolSys, tmp);
 
-				nNewPageNo = PASSWORD_PAGE + 1;		// Skip irrelevant pages
+				nNewPageNo = PIM_PAGE + 1;		// Skip irrelevant pages
 			}
 
 			else if (nCurPageNo == SYSENC_KEYS_GEN_PAGE)
@@ -8252,7 +8321,7 @@ ovf_end:
 						nNewPageNo = FILESYS_PAGE + 1;
 					}
 					else
-						nNewPageNo = PASSWORD_PAGE + 1;		
+						nNewPageNo = PIM_PAGE + 1;		
 				}
 			}
 
