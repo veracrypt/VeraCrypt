@@ -57,7 +57,10 @@ namespace VeraCrypt
 
 		AppendToList ("BLOCK_SIZE", blockSize.str() + L" " + LangString ["BITS"]);
 		AppendToList ("MODE_OF_OPERATION", volumeInfo.EncryptionModeName);
-		AppendToList ("PKCS5_PRF", volumeInfo.Pkcs5PrfName);
+		if (volumeInfo.Pim <= 0)
+			AppendToList ("PKCS5_PRF", volumeInfo.Pkcs5PrfName);
+		else
+			AppendToList ("PKCS5_PRF", StringFormatter (L"{0} (Dynamic)", volumeInfo.Pkcs5PrfName));
 
 #if 0
 		AppendToList ("PKCS5_ITERATIONS", StringConverter::FromNumber (volumeInfo.Pkcs5IterationCount));

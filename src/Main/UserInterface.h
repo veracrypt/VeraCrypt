@@ -29,7 +29,7 @@ namespace VeraCrypt
 		virtual bool AskYesNo (const wxString &message, bool defaultYes = false, bool warning = false) const = 0;
 		virtual void BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const = 0;
 		virtual void BeginBusyState () const = 0;
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), shared_ptr <Hash> currentHash = shared_ptr <Hash>(), bool truecryptMode = false, shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const = 0;
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Hash> currentHash = shared_ptr <Hash>(), bool truecryptMode = false, shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const = 0;
 		virtual void CheckRequirementsForMountingVolume () const;
 		virtual void CloseExplorerWindows (shared_ptr <VolumeInfo> mountedVolume) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const = 0;

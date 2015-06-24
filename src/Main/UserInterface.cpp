@@ -898,6 +898,7 @@ namespace VeraCrypt
 				cmdLine.ArgMountOptions.Path = cmdLine.ArgVolumePath;
 				cmdLine.ArgMountOptions.MountPoint = cmdLine.ArgMountPoint;
 				cmdLine.ArgMountOptions.Password = cmdLine.ArgPassword;
+				cmdLine.ArgMountOptions.Pim = cmdLine.ArgPim;
 				cmdLine.ArgMountOptions.Keyfiles = cmdLine.ArgKeyfiles;
 				cmdLine.ArgMountOptions.SharedAccessAllowed = cmdLine.ArgForce;
 				cmdLine.ArgMountOptions.TrueCryptMode = cmdLine.ArgTrueCryptMode;
@@ -988,7 +989,7 @@ namespace VeraCrypt
 			return true;
 
 		case CommandId::ChangePassword:
-			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgCurrentHash, cmdLine.ArgTrueCryptMode, cmdLine.ArgKeyfiles, cmdLine.ArgNewPassword, cmdLine.ArgNewKeyfiles, cmdLine.ArgHash);
+			ChangePassword (cmdLine.ArgVolumePath, cmdLine.ArgPassword, cmdLine.ArgPim, cmdLine.ArgCurrentHash, cmdLine.ArgTrueCryptMode, cmdLine.ArgKeyfiles, cmdLine.ArgNewPassword, cmdLine.ArgNewPim, cmdLine.ArgNewKeyfiles, cmdLine.ArgHash);
 			return true;
 
 		case CommandId::CreateKeyfile:
@@ -1009,6 +1010,7 @@ namespace VeraCrypt
 				options->Filesystem = cmdLine.ArgFilesystem;
 				options->Keyfiles = cmdLine.ArgKeyfiles;
 				options->Password = cmdLine.ArgPassword;
+				options->Pim = cmdLine.ArgPim;
 				options->Quick = cmdLine.ArgQuick;
 				options->Size = cmdLine.ArgSize;
 				options->Type = cmdLine.ArgVolumeType;

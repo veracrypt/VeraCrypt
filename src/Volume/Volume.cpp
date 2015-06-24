@@ -24,7 +24,8 @@ namespace VeraCrypt
 		TopWriteOffset (0),
 		TotalDataRead (0),
 		TotalDataWritten (0),
-		TrueCryptMode (false)
+		TrueCryptMode (false),
+		Pim (0)
 	{
 	}
 
@@ -63,7 +64,7 @@ namespace VeraCrypt
 		return EA->GetMode();
 	}
 
-	void Volume::Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr <Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
+	void Volume::Open (const VolumePath &volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr <Pkcs5Kdf> protectionKdf, shared_ptr <KeyfileList> protectionKeyfiles, bool sharedAccessAllowed, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
 	{
 		make_shared_auto (File, file);
 
@@ -94,10 +95,10 @@ namespace VeraCrypt
 				throw;
 		}
 
-		return Open (file, password, kdf, truecryptMode, keyfiles, protection, protectionPassword, protectionKdf,protectionKeyfiles, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
+		return Open (file, password, pim, kdf, truecryptMode, keyfiles, protection, protectionPassword, protectionPim, protectionKdf,protectionKeyfiles, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
 	}
 
-	void Volume::Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, shared_ptr <Pkcs5Kdf> protectionKdf,shared_ptr <KeyfileList> protectionKeyfiles, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
+	void Volume::Open (shared_ptr <File> volumeFile, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, VolumeProtection::Enum protection, shared_ptr <VolumePassword> protectionPassword, int protectionPim, shared_ptr <Pkcs5Kdf> protectionKdf,shared_ptr <KeyfileList> protectionKeyfiles, VolumeType::Enum volumeType, bool useBackupHeaders, bool partitionInSystemEncryptionScope)
 	{
 		if (!volumeFile)
 			throw ParameterIncorrect (SRC_POS);
@@ -187,7 +188,7 @@ namespace VeraCrypt
 
 				shared_ptr <VolumeHeader> header = layout->GetHeader();
 
-				if (header->Decrypt (headerBuffer, *passwordKey, kdf, truecryptMode, layout->GetSupportedKeyDerivationFunctions(truecryptMode), layoutEncryptionAlgorithms, layoutEncryptionModes))
+				if (header->Decrypt (headerBuffer, *passwordKey, pim, kdf, truecryptMode, layout->GetSupportedKeyDerivationFunctions(truecryptMode), layoutEncryptionAlgorithms, layoutEncryptionModes))
 				{
 					// Header decrypted
 
@@ -200,6 +201,7 @@ namespace VeraCrypt
 					}
 
 					TrueCryptMode = truecryptMode;
+					Pim = pim;
 					Type = layout->GetType();
 					SectorSize = header->GetSectorSize();
 
@@ -237,9 +239,9 @@ namespace VeraCrypt
 								Volume protectedVolume;
 
 								protectedVolume.Open (VolumeFile,
-									protectionPassword, protectionKdf, truecryptMode, protectionKeyfiles,
+									protectionPassword, protectionPim, protectionKdf, truecryptMode, protectionKeyfiles,
 									VolumeProtection::ReadOnly,
-									shared_ptr <VolumePassword> (), shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
+									shared_ptr <VolumePassword> (), 0, shared_ptr <Pkcs5Kdf> (),shared_ptr <KeyfileList> (),
 									VolumeType::Hidden,
 									useBackupHeaders);
 

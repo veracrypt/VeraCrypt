@@ -54,6 +54,9 @@ namespace VeraCrypt
 		PasswordStaticText->Show (enablePassword);
 		PasswordTextCtrl->Show (enablePassword);
 		DisplayPasswordCheckBox->Show (enablePassword);
+		
+		VolumePimTextCtrl->Show (enablePassword);
+		VolumePinHelpStaticText->Show (enablePassword);
 
 		ConfirmPasswordStaticText->Show (enableConfirmation);
 		ConfirmPasswordTextCtrl->Show (enableConfirmation);
@@ -213,6 +216,18 @@ namespace VeraCrypt
 		}
 	}
 	
+	int VolumePasswordPanel::GetVolumePim () const
+	{
+		wxString pinStr (VolumePimTextCtrl->GetValue());
+		long pin = 0;
+		if (pinStr.IsEmpty())
+			return 0;
+		if (pinStr.ToLong (&pin))
+			return (int) pin;
+		else
+			return -1;
+	}
+	
 	bool VolumePasswordPanel::GetTrueCryptMode () const
 	{
 		return TrueCryptModeCheckBox->GetValue ();
@@ -351,5 +366,22 @@ namespace VeraCrypt
 	{
 		textCtrl->SetValue (wxString (L'X', textCtrl->GetLineLength(0)));
 		GetPassword (textCtrl);
+	}
+	
+	void VolumePasswordPanel::OnPimChanged  (wxCommandEvent& event)
+	{ 
+		if (ConfirmPasswordTextCtrl->IsShown())
+		{
+			if (GetVolumePim() != 0)
+			{
+				VolumePinHelpStaticText->SetForegroundColour(*wxRED);
+				VolumePinHelpStaticText->SetLabel(LangString["PIM_CHANGE_WARNING"]);
+			}
+			else
+			{
+				VolumePinHelpStaticText->SetForegroundColour(*wxBLACK);
+				VolumePinHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
+			}			
+		}
 	}
 }

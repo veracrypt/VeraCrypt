@@ -25,9 +25,11 @@ namespace VeraCrypt
 			NoFilesystem (false),
 			NoHardwareCrypto (false),
 			NoKernelCrypto (false),
+			Pim (-1),
 			PartitionInSystemEncryptionScope (false),
 			PreserveTimestamps (true),
 			Protection (VolumeProtection::None),
+			ProtectionPim (-1),
 			Removable (false),
 			SharedAccessAllowed (false),
 			SlotNumber (0),
@@ -52,12 +54,14 @@ namespace VeraCrypt
 		bool NoHardwareCrypto;
 		bool NoKernelCrypto;
 		shared_ptr <VolumePassword> Password;
+		int Pim;
 		shared_ptr <Pkcs5Kdf> Kdf;
 		bool PartitionInSystemEncryptionScope;
 		shared_ptr <VolumePath> Path;
 		bool PreserveTimestamps;
 		VolumeProtection::Enum Protection;
 		shared_ptr <VolumePassword> ProtectionPassword;
+		int ProtectionPim;
 		shared_ptr <Pkcs5Kdf> ProtectionKdf;
 		shared_ptr <KeyfileList> ProtectionKeyfiles;
 		bool Removable;

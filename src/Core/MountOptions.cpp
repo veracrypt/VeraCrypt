@@ -26,6 +26,7 @@ namespace VeraCrypt
 		TC_CLONE (NoHardwareCrypto);
 		TC_CLONE (NoKernelCrypto);
 		TC_CLONE_SHARED (VolumePassword, Password);
+		TC_CLONE (Pim);
 		if (other.Kdf)
 		{
 			Kdf.reset(other.Kdf->Clone());
@@ -37,6 +38,7 @@ namespace VeraCrypt
 		TC_CLONE (PreserveTimestamps);
 		TC_CLONE (Protection);
 		TC_CLONE_SHARED (VolumePassword, ProtectionPassword);
+		TC_CLONE (ProtectionPim);
 		if (other.ProtectionKdf)
 			ProtectionKdf.reset(other.ProtectionKdf->Clone());
 		else
@@ -116,6 +118,9 @@ namespace VeraCrypt
 			}
 		}
 		catch(...) {}
+		
+		sr.Deserialize ("Pim", Pim);
+		sr.Deserialize ("ProtectionPim", ProtectionPim);
 	}
 
 	void MountOptions::Serialize (shared_ptr <Stream> stream) const
@@ -167,6 +172,9 @@ namespace VeraCrypt
 		sr.Serialize ("ProtectionKdfNull", ProtectionKdf == nullptr);
 		if (ProtectionKdf)
 			sr.Serialize ("ProtectionKdf", ProtectionKdf->GetName());
+		
+		sr.Serialize ("Pim", Pim);
+		sr.Serialize ("ProtectionPim", ProtectionPim);
 	}
 
 	TC_SERIALIZER_FACTORY_ADD_CLASS (MountOptions);

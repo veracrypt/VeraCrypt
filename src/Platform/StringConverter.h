@@ -33,8 +33,12 @@ namespace VeraCrypt
 		static string ToLower (const string &str);
 		static uint32 ToUInt32 (const string &str);
 		static uint32 ToUInt32 (const wstring &str);
+		static int32  ToInt32 (const string &str);
+		static int32  ToInt32 (const wstring &str);
 		static uint64 ToUInt64 (const string &str);
 		static uint64 ToUInt64 (const wstring &str);
+		static int64  ToInt64 (const string &str);
+		static int64  ToInt64 (const wstring &str);
 		static string ToSingle (double number) { return ToSingle (FromNumber (number)); }
 		static string ToSingle (int32 number) { return ToSingle (FromNumber (number)); }
 		static string ToSingle (uint32 number) { return ToSingle (FromNumber (number)); }

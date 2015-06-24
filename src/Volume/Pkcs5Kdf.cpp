@@ -20,9 +20,9 @@ namespace VeraCrypt
 	{
 	}
 
-	void Pkcs5Kdf::DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt) const
+	void Pkcs5Kdf::DeriveKey (const BufferPtr &key, const VolumePassword &password, int pim, const ConstBufferPtr &salt) const
 	{
-		DeriveKey (key, password, salt, GetIterationCount());
+		DeriveKey (key, password, salt, GetIterationCount(pim));
 	}
 	
 	shared_ptr <Pkcs5Kdf> Pkcs5Kdf::GetAlgorithm (const wstring &name, bool truecryptMode)

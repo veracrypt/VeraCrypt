@@ -24,13 +24,14 @@ namespace VeraCrypt
 		virtual FilePath AskFilePath (const wxString &message = wxEmptyString) const;
 		virtual shared_ptr <KeyfileList> AskKeyfiles (const wxString &message = L"") const;
 		virtual shared_ptr <VolumePassword> AskPassword (const wxString &message = L"", bool verify = false) const;
+		virtual int AskPim (const wxString &message = L"") const;
 		virtual ssize_t AskSelection (ssize_t optionCount, ssize_t defaultOption = -1) const;
 		virtual wstring AskString (const wxString &message = wxEmptyString) const;
 		virtual shared_ptr <VolumePath> AskVolumePath (const wxString &message = L"") const;
 		virtual bool AskYesNo (const wxString &message, bool defaultYes = false, bool warning = false) const;
 		virtual void BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const;
 		virtual void BeginBusyState () const { }
-		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), shared_ptr <Hash> currentHash = shared_ptr <Hash>(), bool truecryptMode = false, shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const;
+		virtual void ChangePassword (shared_ptr <VolumePath> volumePath = shared_ptr <VolumePath>(), shared_ptr <VolumePassword> password = shared_ptr <VolumePassword>(), int pim = 0, shared_ptr <Hash> currentHash = shared_ptr <Hash>(), bool truecryptMode = false, shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList>(), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword>(), int newPim = 0, shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList>(), shared_ptr <Hash> newHash = shared_ptr <Hash>()) const;
 		virtual void CreateKeyfile (shared_ptr <FilePath> keyfilePath = shared_ptr <FilePath>()) const;
 		virtual void CreateVolume (shared_ptr <VolumeCreationOptions> options) const;
 		virtual void DeleteSecurityTokenKeyfiles () const;

@@ -136,7 +136,7 @@ namespace VeraCrypt
 				SecureBuffer backupHeaderSalt (VolumeHeader::GetSaltSize());
 				RandomNumberGenerator::GetData (backupHeaderSalt);
 
-				Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, backupHeaderSalt);
+				Options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, Options->Pim, backupHeaderSalt);
 
 				Layout->GetHeader()->EncryptNew (backupHeader, backupHeaderSalt, HeaderKey, Options->VolumeHeaderKdf);
 
@@ -276,7 +276,7 @@ namespace VeraCrypt
 			// Header key
 			HeaderKey.Allocate (VolumeHeader::GetLargestSerializedKeySize());
 			PasswordKey = Keyfile::ApplyListToPassword (options->Keyfiles, options->Password);
-			options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, salt);
+			options->VolumeHeaderKdf->DeriveKey (HeaderKey, *PasswordKey, options->Pim, salt);
 			headerOptions.HeaderKey = HeaderKey;
 
 			header->Create (headerBuffer, headerOptions);

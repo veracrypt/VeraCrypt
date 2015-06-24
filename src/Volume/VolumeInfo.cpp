@@ -51,6 +51,7 @@ namespace VeraCrypt
 		VirtualDevice = sr.DeserializeWString ("VirtualDevice");
 		sr.Deserialize ("VolumeCreationTime", VolumeCreationTime);
 		sr.Deserialize ("TrueCryptMode", TrueCryptMode);
+		sr.Deserialize ("Pim", Pim);
 	}
 
 	bool VolumeInfo::FirstVolumeMountedAfterSecond (shared_ptr <VolumeInfo> first, shared_ptr <VolumeInfo> second)
@@ -91,6 +92,7 @@ namespace VeraCrypt
 		sr.Serialize ("VirtualDevice", wstring (VirtualDevice));
 		sr.Serialize ("VolumeCreationTime", VolumeCreationTime);
 		sr.Serialize ("TrueCryptMode", TrueCryptMode);
+		sr.Serialize ("Pim", Pim);
 	}
 
 	void VolumeInfo::Set (const Volume &volume)
@@ -105,7 +107,7 @@ namespace VeraCrypt
 		HiddenVolumeProtectionTriggered = volume.IsHiddenVolumeProtectionTriggered();
 		MinRequiredProgramVersion = volume.GetHeader()->GetRequiredMinProgramVersion();
 		Path = volume.GetPath();
-		Pkcs5IterationCount = volume.GetPkcs5Kdf()->GetIterationCount();
+		Pkcs5IterationCount = volume.GetPkcs5Kdf()->GetIterationCount(volume.GetPim ());
 		Pkcs5PrfName = volume.GetPkcs5Kdf()->GetName();
 		Protection = volume.GetProtectionType();
 		Size = volume.GetSize();
@@ -115,6 +117,7 @@ namespace VeraCrypt
 		TotalDataRead = volume.GetTotalDataRead();
 		TotalDataWritten = volume.GetTotalDataWritten();
 		TrueCryptMode = volume.GetTrueCryptMode();
+		Pim = volume.GetPim ();
 	}
 
 	TC_SERIALIZER_FACTORY_ADD_CLASS (VolumeInfo);

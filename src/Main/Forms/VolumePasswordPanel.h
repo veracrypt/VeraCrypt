@@ -25,10 +25,12 @@ namespace VeraCrypt
 		shared_ptr <KeyfileList> GetKeyfiles () const { return UseKeyfilesCheckBox->IsChecked() ? Keyfiles : shared_ptr <KeyfileList> (); }
 		shared_ptr <VolumePassword> GetPassword () const;
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
+		int GetVolumePim () const;
 		bool GetTrueCryptMode () const;
 		int GetHeaderWipeCount () const;
 		void SetCacheCheckBoxValidator (const wxGenericValidator &validator) { CacheCheckBox->SetValidator (validator); }
 		void SetFocusToPasswordTextCtrl () { PasswordTextCtrl->SetSelection (-1, -1); PasswordTextCtrl->SetFocus(); }
+		void SetFocusToPimTextCtrl () { VolumePimTextCtrl->SetSelection (-1, -1); VolumePimTextCtrl->SetFocus(); }
 		bool PasswordsMatch () const;
 
 		Event UpdateEvent;
@@ -44,6 +46,7 @@ namespace VeraCrypt
 		void OnKeyfilesButtonRightClick (wxMouseEvent& event);
 		void OnKeyfilesButtonRightDown (wxMouseEvent& event);
 		void OnTextChanged (wxCommandEvent& event) { OnUpdate(); }
+		void OnPimChanged  (wxCommandEvent& event);
 		void OnUpdate () { UpdateEvent.Raise(); }
 		void OnUseKeyfilesCheckBoxClick (wxCommandEvent& event) { OnUpdate(); }
 		void WipeTextCtrl (wxTextCtrl *textCtrl);

@@ -3206,50 +3206,62 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	
 	GridBagSizer->Add( ConfirmPasswordTextCtrl, wxGBPosition( 2, 1 ), wxGBSpan( 1, 2 ), wxBOTTOM|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
+	VolumePimStaticText = new wxStaticText( this, wxID_ANY, _("Volume PIM:"), wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimStaticText->Wrap( -1 );
+	GridBagSizer->Add( VolumePimStaticText, wxGBPosition( 3, 0 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	
+	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimTextCtrl->SetMaxLength( 10 ); 
+	GridBagSizer->Add( VolumePimTextCtrl, wxGBPosition( 3, 1 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxEXPAND, 5 );
+	
+	VolumePinHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePinHelpStaticText->Wrap( -1 );
+	GridBagSizer->Add( VolumePinHelpStaticText, wxGBPosition( 3, 2 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	
 	CacheCheckBox = new wxCheckBox( this, wxID_ANY, _("Cach&e passwords and keyfiles in memory "), wxDefaultPosition, wxDefaultSize, 0 );
-	GridBagSizer->Add( CacheCheckBox, wxGBPosition( 3, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxBOTTOM|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
+	GridBagSizer->Add( CacheCheckBox, wxGBPosition( 4, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxBOTTOM|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	DisplayPasswordCheckBox = new wxCheckBox( this, wxID_ANY, _("&Display password"), wxDefaultPosition, wxDefaultSize, 0 );
-	GridBagSizer->Add( DisplayPasswordCheckBox, wxGBPosition( 4, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxBOTTOM|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
+	GridBagSizer->Add( DisplayPasswordCheckBox, wxGBPosition( 5, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxBOTTOM|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	UseKeyfilesCheckBox = new wxCheckBox( this, wxID_ANY, _("U&se keyfiles"), wxDefaultPosition, wxDefaultSize, 0 );
-	GridBagSizer->Add( UseKeyfilesCheckBox, wxGBPosition( 5, 1 ), wxGBSpan( 1, 1 ), wxTOP|wxRIGHT|wxLEFT, 5 );
+	GridBagSizer->Add( UseKeyfilesCheckBox, wxGBPosition( 6, 1 ), wxGBSpan( 1, 1 ), wxTOP|wxRIGHT|wxLEFT, 5 );
 	
 	KeyfilesButton = new wxButton( this, wxID_ANY, _("&Keyfiles..."), wxDefaultPosition, wxDefaultSize, 0 );
-	GridBagSizer->Add( KeyfilesButton, wxGBPosition( 5, 2 ), wxGBSpan( 1, 1 ), wxALIGN_RIGHT|wxALIGN_BOTTOM|wxLEFT, 5 );
+	GridBagSizer->Add( KeyfilesButton, wxGBPosition( 6, 2 ), wxGBSpan( 1, 1 ), wxALIGN_RIGHT|wxALIGN_BOTTOM|wxLEFT, 5 );
 	
 	Pkcs5PrfSizer = new wxBoxSizer( wxVERTICAL );
 	
 	
-	GridBagSizer->Add( Pkcs5PrfSizer, wxGBPosition( 6, 1 ), wxGBSpan( 1, 1 ), wxEXPAND|wxTOP|wxBOTTOM, 5 );
+	GridBagSizer->Add( Pkcs5PrfSizer, wxGBPosition( 7, 1 ), wxGBSpan( 1, 1 ), wxEXPAND|wxTOP|wxBOTTOM, 5 );
 	
 	Pkcs5PrfStaticText = new wxStaticText( this, wxID_ANY, _("PKCS-5 PRF:"), wxDefaultPosition, wxDefaultSize, 0 );
 	Pkcs5PrfStaticText->Wrap( -1 );
-	GridBagSizer->Add( Pkcs5PrfStaticText, wxGBPosition( 7, 0 ), wxGBSpan( 1, 1 ), wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT, 5 );
+	GridBagSizer->Add( Pkcs5PrfStaticText, wxGBPosition( 8, 0 ), wxGBSpan( 1, 1 ), wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT, 5 );
 	
 	wxString Pkcs5PrfChoiceChoices[] = { _("Unchanged") };
 	int Pkcs5PrfChoiceNChoices = sizeof( Pkcs5PrfChoiceChoices ) / sizeof( wxString );
 	Pkcs5PrfChoice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, Pkcs5PrfChoiceNChoices, Pkcs5PrfChoiceChoices, 0 );
 	Pkcs5PrfChoice->SetSelection( 0 );
-	GridBagSizer->Add( Pkcs5PrfChoice, wxGBPosition( 7, 1 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
+	GridBagSizer->Add( Pkcs5PrfChoice, wxGBPosition( 8, 1 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
 	
 	TrueCryptModeCheckBox = new wxCheckBox( this, wxID_ANY, _("TrueCrypt Mode"), wxDefaultPosition, wxDefaultSize, 0 );
-	GridBagSizer->Add( TrueCryptModeCheckBox, wxGBPosition( 7, 2 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
+	GridBagSizer->Add( TrueCryptModeCheckBox, wxGBPosition( 8, 2 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
 	
 	HeaderWipeCountText = new wxStaticText( this, wxID_ANY, _("Header Wipe:"), wxDefaultPosition, wxDefaultSize, 0 );
 	HeaderWipeCountText->Wrap( -1 );
-	GridBagSizer->Add( HeaderWipeCountText, wxGBPosition( 8, 0 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxRIGHT, 5 );
+	GridBagSizer->Add( HeaderWipeCountText, wxGBPosition( 9, 0 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxRIGHT, 5 );
 	
 	wxString HeaderWipeCountChoices[] = { _("1-pass"), _("3-pass"), _("7-pass"), _("35-pass"), _("256-pass") };
 	int HeaderWipeCountNChoices = sizeof( HeaderWipeCountChoices ) / sizeof( wxString );
 	HeaderWipeCount = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, HeaderWipeCountNChoices, HeaderWipeCountChoices, 0 );
 	HeaderWipeCount->SetSelection( 1 );
-	GridBagSizer->Add( HeaderWipeCount, wxGBPosition( 8, 1 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	GridBagSizer->Add( HeaderWipeCount, wxGBPosition( 9, 1 ), wxGBSpan( 1, 1 ), wxALL, 5 );
 	
 	PasswordPlaceholderSizer = new wxBoxSizer( wxVERTICAL );
 	
 	
-	GridBagSizer->Add( PasswordPlaceholderSizer, wxGBPosition( 9, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxEXPAND, 5 );
+	GridBagSizer->Add( PasswordPlaceholderSizer, wxGBPosition( 10, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxEXPAND, 5 );
 	
 	
 	GridBagSizer->AddGrowableCol( 1 );
@@ -3264,6 +3276,7 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	// Connect Events
 	PasswordTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePasswordPanelBase::OnTextChanged ), NULL, this );
 	ConfirmPasswordTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePasswordPanelBase::OnTextChanged ), NULL, this );
+	VolumePimTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePasswordPanelBase::OnPimChanged ), NULL, this );
 	DisplayPasswordCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnDisplayPasswordCheckBoxClick ), NULL, this );
 	UseKeyfilesCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnUseKeyfilesCheckBoxClick ), NULL, this );
 	KeyfilesButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonClick ), NULL, this );
@@ -3276,6 +3289,7 @@ VolumePasswordPanelBase::~VolumePasswordPanelBase()
 	// Disconnect Events
 	PasswordTextCtrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePasswordPanelBase::OnTextChanged ), NULL, this );
 	ConfirmPasswordTextCtrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePasswordPanelBase::OnTextChanged ), NULL, this );
+	VolumePimTextCtrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePasswordPanelBase::OnPimChanged ), NULL, this );
 	DisplayPasswordCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnDisplayPasswordCheckBoxClick ), NULL, this );
 	UseKeyfilesCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnUseKeyfilesCheckBoxClick ), NULL, this );
 	KeyfilesButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VolumePasswordPanelBase::OnKeyfilesButtonClick ), NULL, this );

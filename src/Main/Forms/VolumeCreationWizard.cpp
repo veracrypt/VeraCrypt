@@ -276,6 +276,7 @@ namespace VeraCrypt
 				MountOptions mountOptions;
 				mountOptions.Keyfiles = Keyfiles;
 				mountOptions.Password = Password;
+				mountOptions.Pim = Pim;
 				mountOptions.Path = make_shared <VolumePath> (SelectedVolumePath);
 
 				try
@@ -436,6 +437,7 @@ namespace VeraCrypt
 					mountOptions.NoFilesystem = true;
 					mountOptions.Protection = VolumeProtection::None;
 					mountOptions.Password = Password;
+					mountOptions.Pim = Pim;
 					mountOptions.Keyfiles = Keyfiles;
 					mountOptions.Kdf = Kdf;
 					mountOptions.TrueCryptMode = false;
@@ -706,6 +708,7 @@ namespace VeraCrypt
 			{
 				VolumePasswordWizardPage *page = dynamic_cast <VolumePasswordWizardPage *> (GetCurrentPage());
 				Password = page->GetPassword();
+				Pim = page->GetVolumePim();
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
 
@@ -721,12 +724,28 @@ namespace VeraCrypt
 						return GetCurrentStep();
 					}
 
-					if (Password->Size() < VolumePassword::WarningSizeThreshold
-						&& !Gui->AskYesNo (LangString["PASSWORD_LENGTH_WARNING"], false, true))
+					if (Password->Size() < VolumePassword::WarningSizeThreshold)
 					{
-						return GetCurrentStep();
+						if (Pim < 485)
+						{
+							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
+							return GetCurrentStep();							
+						}
+						
+						if (!Gui->AskYesNo (LangString["PASSWORD_LENGTH_WARNING"], false, true))
+						{
+							return GetCurrentStep();
+						}
+					}
+					else if (Pim < 485)
+					{
+						if (!Gui->AskYesNo (LangString["PIM_SMALL_WARNING"], false, true))
+						{
+							return GetCurrentStep();
+						}
 					}
 				}
+				
 
 				if (forward && OuterVolume)
 				{
@@ -864,6 +883,7 @@ namespace VeraCrypt
 						options->SectorSize = SectorSize;
 						options->EA = SelectedEncryptionAlgorithm;
 						options->Password = Password;
+						options->Pim = Pim;
 						options->Keyfiles = Keyfiles;
 						options->Path = SelectedVolumePath;
 						options->Quick = QuickFormatEnabled;
@@ -946,7 +966,7 @@ namespace VeraCrypt
 				});
 #endif
 
-				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Kdf, false, Keyfiles, VolumeProtection::ReadOnly);
+				shared_ptr <Volume> outerVolume = Core->OpenVolume (make_shared <VolumePath> (SelectedVolumePath), true, Password, Pim, Kdf, false, Keyfiles, VolumeProtection::ReadOnly);
 				MaxHiddenVolumeSize = Core->GetMaxHiddenVolumeSize (outerVolume);
 
 				// Add a reserve (in case the user mounts the outer volume and creates new files

@@ -57,6 +57,7 @@ namespace VeraCrypt
 		DevicePath VirtualDevice;
 		VolumeTime VolumeCreationTime;
 		bool TrueCryptMode;
+		int Pim;
 
 	private:
 		VolumeInfo (const VolumeInfo &);

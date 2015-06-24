@@ -20,7 +20,9 @@ namespace VeraCrypt
 	CommandLineInterface::CommandLineInterface (int argc, wchar_t** argv, UserInterfaceType::Enum interfaceType) :
 		ArgCommand (CommandId::None),
 		ArgFilesystem (VolumeCreationOptions::FilesystemType::Unknown),
+		ArgNewPim (-1),
 		ArgNoHiddenVolumeProtection (false),
+		ArgPim (-1),
 		ArgSize (0),
 		ArgVolumeType (VolumeType::Unknown),
 		ArgTrueCryptMode (false),
@@ -63,12 +65,15 @@ namespace VeraCrypt
 		parser.AddOption (L"m", L"mount-options",		_("VeraCrypt volume mount options"));
 		parser.AddOption (L"",	L"new-keyfiles",		_("New keyfiles"));
 		parser.AddOption (L"",	L"new-password",		_("New password"));
+		parser.AddOption (L"",	L"new-pim",				_("New PIM"));
 		parser.AddSwitch (L"",	L"non-interactive",		_("Do not interact with user"));
 		parser.AddOption (L"p", L"password",			_("Password"));
+		parser.AddOption (L"",  L"pim",					_("PIM"));
 		parser.AddOption (L"",	L"protect-hidden",		_("Protect hidden volume"));
 		parser.AddOption (L"",	L"protection-hash",		_("Hash algorithm for protected hidden volume"));
 		parser.AddOption (L"",	L"protection-keyfiles",	_("Keyfiles for protected hidden volume"));
 		parser.AddOption (L"",	L"protection-password",	_("Password for protected hidden volume"));
+		parser.AddOption (L"",	L"protection-pim",		_("PIM for protected hidden volume"));
 		parser.AddOption (L"",	L"random-source",		_("Use file as source of random data"));
 		parser.AddSwitch (L"",  L"restore-headers",		_("Restore volume headers"));
 		parser.AddSwitch (L"",	L"save-preferences",	_("Save user preferences"));
@@ -368,6 +373,20 @@ namespace VeraCrypt
 		if (parser.Found (L"new-password", &str))
 			ArgNewPassword.reset (new VolumePassword (wstring (str)));
 		
+		if (parser.Found (L"new-pim", &str))
+		{
+			try
+			{
+				ArgNewPim = StringConverter::ToInt32 (wstring (str));
+				if (ArgNewPim < 0)
+					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			}
+			catch (...)
+			{
+				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			}
+		}
+		
 		if (parser.Found (L"non-interactive"))
 		{
 			if (interfaceType != UserInterfaceType::Text)
@@ -378,6 +397,20 @@ namespace VeraCrypt
 
 		if (parser.Found (L"password", &str))
 			ArgPassword.reset (new VolumePassword (wstring (str)));
+		
+		if (parser.Found (L"pim", &str))
+		{
+			try
+			{
+				ArgPim = StringConverter::ToInt32 (wstring (str));
+				if (ArgPim < 0)
+					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			}
+			catch (...)
+			{
+				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			}
+		}
 
 		if (parser.Found (L"protect-hidden", &str))
 		{
@@ -401,6 +434,23 @@ namespace VeraCrypt
 		if (parser.Found (L"protection-password", &str))
 		{
 			ArgMountOptions.ProtectionPassword.reset (new VolumePassword (wstring (str)));
+			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
+		}
+		
+		if (parser.Found (L"protection-pim", &str))
+		{
+			int pim = -1;
+			try
+			{
+				pim = StringConverter::ToInt32 (wstring (str));
+				if (pim < 0)
+					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			}
+			catch (...)
+			{
+				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			}
+			ArgMountOptions.ProtectionPim = pim;
 			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
 

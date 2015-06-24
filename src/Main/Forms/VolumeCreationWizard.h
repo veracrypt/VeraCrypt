@@ -73,6 +73,7 @@ namespace VeraCrypt
 		VolumeHostType::Enum SelectedVolumeHostType;
 		VolumeType::Enum SelectedVolumeType;
 		shared_ptr <VolumePassword> Password;
+		int Pim;
 		shared_ptr <Pkcs5Kdf> Kdf;
 		uint32 SectorSize;
 		shared_ptr <Hash> SelectedHash;

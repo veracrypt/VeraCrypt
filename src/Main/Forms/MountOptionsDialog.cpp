@@ -85,6 +85,7 @@ namespace VeraCrypt
 		TransferDataFromWindow();
 
 		Options.Password = PasswordPanel->GetPassword();
+		Options.Pim = PasswordPanel->GetVolumePim();
 		Options.Kdf = PasswordPanel->GetPkcs5Kdf();
 		Options.TrueCryptMode = PasswordPanel->GetTrueCryptMode();
 		Options.Keyfiles = PasswordPanel->GetKeyfiles();
@@ -97,6 +98,7 @@ namespace VeraCrypt
 		{
 			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;
 			Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword();
+			Options.ProtectionPim = ProtectionPasswordPanel->GetVolumePim();
 			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf();
 			Options.ProtectionKeyfiles = ProtectionPasswordPanel->GetKeyfiles();
 		}

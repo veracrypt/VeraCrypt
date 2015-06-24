@@ -22,6 +22,7 @@ namespace VeraCrypt
 		VolumeType::Enum Type;
 		uint64 Size;
 		shared_ptr <VolumePassword> Password;
+		int Pim;
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <Pkcs5Kdf> VolumeHeaderKdf;
 		shared_ptr <EncryptionAlgorithm> EA;

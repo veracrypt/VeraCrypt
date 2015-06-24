@@ -262,6 +262,30 @@ namespace VeraCrypt
 		return n;
 	}
 
+	int32 StringConverter::ToInt32 (const string &str)
+	{
+		int32 n;
+		stringstream ss (str);
+
+		ss >> n;
+		if (ss.fail() || n == 0x7fffFFFF || n == -0x7fffFFFF)
+			throw ParameterIncorrect (SRC_POS);
+
+		return n;
+	}
+
+	int32 StringConverter::ToInt32 (const wstring &str)
+	{
+		int32 n;
+		wstringstream ss (str);
+
+		ss >> n;
+		if (ss.fail() || n == 0x7fffFFFF || n == -0x7fffFFFF)
+			throw ParameterIncorrect (SRC_POS);
+
+		return n;
+	}
+
 	uint64 StringConverter::ToUInt64 (const string &str)
 	{
 		uint64 n;
@@ -281,6 +305,30 @@ namespace VeraCrypt
 
 		ss >> n;
 		if (ss.fail() || n == 0xffffFFFFffffFFFFULL)
+			throw ParameterIncorrect (SRC_POS);
+
+		return n;
+	}
+
+	int64 StringConverter::ToInt64 (const string &str)
+	{
+		int64 n;
+		stringstream ss (str);
+
+		ss >> n;
+		if (ss.fail() || n == 0x7fffFFFFffffFFFFLL || n == -0x7fffFFFFffffFFFFLL)
+			throw ParameterIncorrect (SRC_POS);
+
+		return n;
+	}
+
+	int64 StringConverter::ToInt64 (const wstring &str)
+	{
+		int64 n;
+		wstringstream ss (str);
+
+		ss >> n;
+		if (ss.fail() || n == 0x7fffFFFFffffFFFFLL || n == -0x7fffFFFFffffFFFFLL)
 			throw ParameterIncorrect (SRC_POS);
 
 		return n;

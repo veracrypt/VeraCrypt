@@ -22,6 +22,7 @@ namespace VeraCrypt
 
 		shared_ptr <KeyfileList> GetKeyfiles () const { return PasswordPanel->GetKeyfiles(); }
 		shared_ptr <VolumePassword> GetPassword () const { return PasswordPanel->GetPassword(); }
+		int GetVolumePim () const { return PasswordPanel->GetVolumePim(); }
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const { return PasswordPanel->GetPkcs5Kdf(); }
 		bool IsValid ();
 		void SetMaxStaticTextWidth (int width) { InfoStaticText->Wrap (width); }

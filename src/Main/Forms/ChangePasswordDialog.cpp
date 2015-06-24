@@ -90,20 +90,44 @@ namespace VeraCrypt
 			}
 			
 			shared_ptr <VolumePassword> newPassword;
+			int newPim = 0;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 			{
 				newPassword = NewPasswordPanel->GetPassword();
+				newPim = NewPasswordPanel->GetVolumePim();
 				newPassword->CheckPortability();
 
-				if (newPassword->Size() > 0 && newPassword->Size() < VolumePassword::WarningSizeThreshold
-					&& !Gui->AskYesNo (LangString ["PASSWORD_LENGTH_WARNING"], false, true))
+				if (newPassword->Size() > 0)
 				{
-					NewPasswordPanel->SetFocusToPasswordTextCtrl();
-					return;
+					if (newPassword->Size() < VolumePassword::WarningSizeThreshold)
+					{
+						if (newPim < 485)
+						{
+							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");						
+							return;
+						}
+
+						if (!Gui->AskYesNo (LangString ["PASSWORD_LENGTH_WARNING"], false, true))
+						{
+							NewPasswordPanel->SetFocusToPasswordTextCtrl();
+							return;
+						}
+					}
+					else if (newPim < 485)
+					{
+						if (!Gui->AskYesNo (LangString ["PIM_SMALL_WARNING"], false, true))
+						{
+							NewPasswordPanel->SetFocusToPimTextCtrl();
+							return;
+						}
+					}
 				}
 			}
 			else
+			{
 				newPassword = CurrentPasswordPanel->GetPassword();
+				newPim = CurrentPasswordPanel->GetVolumePim();
+			}
 
 			shared_ptr <KeyfileList> newKeyfiles;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles)
@@ -134,8 +158,8 @@ namespace VeraCrypt
 #endif
 				wxBusyCursor busy;
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
-					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
-					newPassword, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
+					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
+					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
 				Gui->ExecuteWaitThreadRoutine (this, &routine);
 			}
 

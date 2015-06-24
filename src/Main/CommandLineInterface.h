@@ -67,8 +67,10 @@ namespace VeraCrypt
 		shared_ptr <DirectoryPath> ArgMountPoint;
 		shared_ptr <KeyfileList> ArgNewKeyfiles;
 		shared_ptr <VolumePassword> ArgNewPassword;
+		int ArgNewPim;
 		bool ArgNoHiddenVolumeProtection;
 		shared_ptr <VolumePassword> ArgPassword;
+		int ArgPim;
 		bool ArgQuick;
 		FilesystemPath ArgRandomSourcePath;
 		uint64 ArgSize;

@@ -56,7 +56,7 @@ namespace VeraCrypt
 		virtual ~VolumeHeader ();
 
 		void Create (const BufferPtr &headerBuffer, VolumeHeaderCreationOptions &options);
-		bool Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes);
+		bool Decrypt (const ConstBufferPtr &encryptedData, const VolumePassword &password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, const Pkcs5KdfList &keyDerivationFunctions, const EncryptionAlgorithmList &encryptionAlgorithms, const EncryptionModeList &encryptionModes);
 		void EncryptNew (const BufferPtr &newHeaderBuffer, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf);
 		uint64 GetEncryptedAreaStart () const { return EncryptedAreaStart; }
 		uint64 GetEncryptedAreaLength () const { return EncryptedAreaLength; }
