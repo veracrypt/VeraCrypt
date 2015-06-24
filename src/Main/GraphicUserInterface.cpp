@@ -728,7 +728,7 @@ namespace VeraCrypt
 				options.Keyfiles = make_shared <KeyfileList> (GetPreferences().DefaultKeyfiles);
 
 			if ((options.Password && !options.Password->IsEmpty())
-				|| (options.Keyfiles && !options.Keyfiles->empty()))
+				|| (options.Keyfiles && !options.Keyfiles->empty() && (options.TrueCryptMode || options.Password)))
 			{
 				try
 				{
