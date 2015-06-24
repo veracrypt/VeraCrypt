@@ -182,5 +182,6 @@ namespace VeraCrypt
 
 		Fit();
 		Layout();
+		MainSizer->Fit( this );
 	}
 }

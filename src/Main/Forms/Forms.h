@@ -463,6 +463,7 @@ namespace VeraCrypt
 		private:
 		
 		protected:
+			wxBoxSizer* MainSizer;
 			wxBoxSizer* PasswordSizer;
 			wxButton* OKButton;
 			wxButton* CancelButton;

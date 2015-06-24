@@ -531,7 +531,7 @@ MainFrameBase::~MainFrameBase()
 
 WizardFrameBase::WizardFrameBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 750,450 ), wxDefaultSize );
+	this->SetSizeHints( wxSize( 800,500 ), wxDefaultSize );
 	
 	MainSizer = new wxBoxSizer( wxVERTICAL );
 	
@@ -1505,8 +1505,7 @@ MountOptionsDialogBase::MountOptionsDialogBase( wxWindow* parent, wxWindowID id,
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
 	
-	wxBoxSizer* bSizer5;
-	bSizer5 = new wxBoxSizer( wxVERTICAL );
+	MainSizer = new wxBoxSizer( wxVERTICAL );
 	
 	wxBoxSizer* bSizer19;
 	bSizer19 = new wxBoxSizer( wxVERTICAL );
@@ -1653,12 +1652,12 @@ MountOptionsDialogBase::MountOptionsDialogBase( wxWindow* parent, wxWindowID id,
 	bSizer19->Add( bSizer6, 0, wxEXPAND, 5 );
 	
 	
-	bSizer5->Add( bSizer19, 1, wxEXPAND, 5 );
+	MainSizer->Add( bSizer19, 1, wxEXPAND, 5 );
 	
 	
-	this->SetSizer( bSizer5 );
+	this->SetSizer( MainSizer );
 	this->Layout();
-	bSizer5->Fit( this );
+	MainSizer->Fit( this );
 	
 	this->Centre( wxBOTH );
 	
