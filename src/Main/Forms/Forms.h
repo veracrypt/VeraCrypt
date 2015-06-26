@@ -983,6 +983,7 @@ namespace VeraCrypt
 			virtual void OnKeyfilesButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightDown( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonRightClick( wxMouseEvent& event ) { event.Skip(); }
+			virtual void OnTrueCryptModeChecked( wxCommandEvent& event ) { event.Skip(); }
 			
 		
 		public:

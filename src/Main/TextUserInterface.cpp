@@ -444,7 +444,7 @@ namespace VeraCrypt
 			}
 			
 			// current PIM
-			if (!Preferences.NonInteractive && (pim < 0))
+			if (!truecryptMode && !Preferences.NonInteractive && (pim < 0))
 			{
 				pim = AskPim (_("Enter current PIM"));
 			}
@@ -1120,7 +1120,7 @@ namespace VeraCrypt
 			if (!options.Password)
 				options.Password = AskPassword();
 			
-			if (options.Pim < 0)
+			if (!options.TrueCryptMode && (options.Pim < 0))
 				options.Pim = AskPim (_("Enter PIM"));
 
 			if (!options.Keyfiles)
@@ -1198,7 +1198,7 @@ namespace VeraCrypt
 				}
 			}
 			
-			if (options.Pim < 0)
+			if (!options.TrueCryptMode && (options.Pim < 0))
 			{
 				options.Pim = AskPim (StringFormatter (_("Enter PIM for {0}"), wstring (*options.Path)));
 			}
@@ -1217,7 +1217,7 @@ namespace VeraCrypt
 			{
 				if (!options.ProtectionPassword)
 					options.ProtectionPassword = AskPassword (_("Enter password for hidden volume"));
-				if (options.ProtectionPim < 0)
+				if (!options.TrueCryptMode && (options.ProtectionPim < 0))
 					options.ProtectionPim = AskPim (_("Enter PIM for hidden volume"));
 				if (!options.ProtectionKeyfiles)
 					options.ProtectionKeyfiles = AskKeyfiles (_("Enter keyfile for hidden volume"));

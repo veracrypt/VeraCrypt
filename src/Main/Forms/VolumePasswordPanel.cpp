@@ -73,6 +73,12 @@ namespace VeraCrypt
 		if (options && !disableTruecryptMode)
 		{
 			TrueCryptModeCheckBox->SetValue (options->TrueCryptMode);
+			if (options->TrueCryptMode)
+			{
+				VolumePimStaticText->Enable (false);
+				VolumePimTextCtrl->Enable (false);
+				VolumePinHelpStaticText->Enable (false);
+			}
 		}
 
 		if (enablePkcs5Prf)
@@ -218,15 +224,20 @@ namespace VeraCrypt
 	
 	int VolumePasswordPanel::GetVolumePim () const
 	{
-		wxString pinStr (VolumePimTextCtrl->GetValue());
-		long pin = 0;
-		if (pinStr.IsEmpty())
-			return 0;
-		if (pinStr.ToLong (&pin))
-			return (int) pin;
+		if (VolumePimTextCtrl->IsEnabled ())
+		{
+			wxString pinStr (VolumePimTextCtrl->GetValue());
+			long pin = 0;
+			if (pinStr.IsEmpty())
+				return 0;
+			if (pinStr.ToLong (&pin))
+				return (int) pin;
+			else
+				return -1;
+		}
 		else
-			return -1;
-	}
+			return 0;
+	}	
 	
 	bool VolumePasswordPanel::GetTrueCryptMode () const
 	{
@@ -383,5 +394,13 @@ namespace VeraCrypt
 				VolumePinHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
 			}			
 		}
+	}
+	
+	void VolumePasswordPanel::OnTrueCryptModeChecked( wxCommandEvent& event )
+	{
+		bool bEnablePIM = !GetTrueCryptMode ();
+		VolumePimStaticText->Enable (bEnablePIM);
+		VolumePimTextCtrl->Enable (bEnablePIM);
+		VolumePinHelpStaticText->Enable (bEnablePIM);
 	}
 }
