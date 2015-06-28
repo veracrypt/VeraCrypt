@@ -55,8 +55,9 @@ namespace VeraCrypt
 		PasswordTextCtrl->Show (enablePassword);
 		DisplayPasswordCheckBox->Show (enablePassword);
 		
-		VolumePimTextCtrl->Show (enablePassword);
-		VolumePinHelpStaticText->Show (enablePassword);
+		VolumePimStaticText->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
+		VolumePimTextCtrl->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
+		VolumePinHelpStaticText->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
 
 		ConfirmPasswordStaticText->Show (enableConfirmation);
 		ConfirmPasswordTextCtrl->Show (enableConfirmation);

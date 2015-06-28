@@ -1012,6 +1012,32 @@ namespace VeraCrypt
 	};
 	
 	///////////////////////////////////////////////////////////////////////////////
+	/// Class VolumePimWizardPageBase
+	///////////////////////////////////////////////////////////////////////////////
+	class VolumePimWizardPageBase : public WizardPage
+	{
+		private:
+		
+		protected:
+			wxBoxSizer* PimPanelSizer;
+			wxBoxSizer* PimSizer;
+			wxStaticText* VolumePimStaticText;
+			wxTextCtrl* VolumePimTextCtrl;
+			wxStaticText* VolumePinHelpStaticText;
+			wxStaticText* InfoStaticText;
+			
+			// Virtual event handlers, overide them in your derived class
+			virtual void OnPimChanged( wxCommandEvent& event ) { event.Skip(); }
+			
+		
+		public:
+			
+			VolumePimWizardPageBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+			~VolumePimWizardPageBase();
+		
+	};
+	
+	///////////////////////////////////////////////////////////////////////////////
 	/// Class VolumeSizeWizardPageBase
 	///////////////////////////////////////////////////////////////////////////////
 	class VolumeSizeWizardPageBase : public WizardPage

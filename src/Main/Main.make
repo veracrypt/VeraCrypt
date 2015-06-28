@@ -51,6 +51,7 @@ OBJS += Forms/VolumeCreationWizard.o
 OBJS += Forms/VolumeFormatOptionsWizardPage.o
 OBJS += Forms/VolumeLocationWizardPage.o
 OBJS += Forms/VolumePasswordWizardPage.o
+OBJS += Forms/VolumePimWizardPage.o
 OBJS += Forms/VolumeSizeWizardPage.o
 OBJS += Forms/WaitDialog.o
 OBJS += Forms/WizardFrame.o

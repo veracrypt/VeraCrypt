@@ -3329,6 +3329,59 @@ VolumePasswordWizardPageBase::~VolumePasswordWizardPageBase()
 {
 }
 
+VolumePimWizardPageBase::VolumePimWizardPageBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : WizardPage( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer101;
+	bSizer101 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer102;
+	bSizer102 = new wxBoxSizer( wxVERTICAL );
+	
+	PimPanelSizer = new wxBoxSizer( wxVERTICAL );
+	
+	PimSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	VolumePimStaticText = new wxStaticText( this, wxID_ANY, _("Volume PIM:"), wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimStaticText->Wrap( -1 );
+	PimSizer->Add( VolumePimStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimTextCtrl->SetMaxLength( 10 ); 
+	PimSizer->Add( VolumePimTextCtrl, 0, wxALL, 5 );
+	
+	VolumePinHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePinHelpStaticText->Wrap( -1 );
+	PimSizer->Add( VolumePinHelpStaticText, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	
+	PimPanelSizer->Add( PimSizer, 1, wxEXPAND, 5 );
+	
+	
+	bSizer102->Add( PimPanelSizer, 0, wxEXPAND, 5 );
+	
+	InfoStaticText = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	InfoStaticText->Wrap( -1 );
+	bSizer102->Add( InfoStaticText, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer101->Add( bSizer102, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer101 );
+	this->Layout();
+	bSizer101->Fit( this );
+	
+	// Connect Events
+	VolumePimTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePimWizardPageBase::OnPimChanged ), NULL, this );
+}
+
+VolumePimWizardPageBase::~VolumePimWizardPageBase()
+{
+	// Disconnect Events
+	VolumePimTextCtrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePimWizardPageBase::OnPimChanged ), NULL, this );
+	
+}
+
 VolumeSizeWizardPageBase::VolumeSizeWizardPageBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : WizardPage( parent, id, pos, size, style )
 {
 	wxBoxSizer* bSizer98;

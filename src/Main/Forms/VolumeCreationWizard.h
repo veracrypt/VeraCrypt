@@ -31,6 +31,7 @@ namespace VeraCrypt
 				EncryptionOptions,
 				VolumeSize,
 				VolumePassword,
+				VolumePim,
 				LargeFilesSupport,
 				FormatOptions,
 				CrossPlatformSupport,

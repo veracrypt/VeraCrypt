@@ -26,6 +26,7 @@
 #include "VolumeFormatOptionsWizardPage.h"
 #include "VolumeLocationWizardPage.h"
 #include "VolumePasswordWizardPage.h"
+#include "VolumePimWizardPage.h"
 #include "VolumeSizeWizardPage.h"
 #include "WaitDialog.h"
 
@@ -194,6 +195,21 @@ namespace VeraCrypt
 					page->SetPageTitle (LangString["PASSWORD_TITLE"]);
 				
 				page->SetPageText (LangString[OuterVolume ? "PASSWORD_HIDDENVOL_HOST_HELP" : "PASSWORD_HELP"]);
+				return page;
+			}
+			
+		case Step::VolumePim:
+			{
+				VolumePimWizardPage *page = new VolumePimWizardPage (GetPageParent());
+				
+				if (OuterVolume)
+					page->SetPageTitle (LangString["PIM_HIDVOL_HOST_TITLE"]);
+				else if (SelectedVolumeType == VolumeType::Hidden)
+					page->SetPageTitle (LangString["PIM_HIDVOL_TITLE"]);
+				else
+					page->SetPageTitle (LangString["PIM_TITLE"]);
+				
+				page->SetPageText (LangString["PIM_HELP"]);
 				return page;
 			}
 
@@ -708,7 +724,6 @@ namespace VeraCrypt
 			{
 				VolumePasswordWizardPage *page = dynamic_cast <VolumePasswordWizardPage *> (GetCurrentPage());
 				Password = page->GetPassword();
-				Pim = page->GetVolumePim();
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
 
@@ -726,18 +741,32 @@ namespace VeraCrypt
 
 					if (Password->Size() < VolumePassword::WarningSizeThreshold)
 					{
-						if (Pim < 485)
-						{
-							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
-							return GetCurrentStep();							
-						}
-						
 						if (!Gui->AskYesNo (LangString["PASSWORD_LENGTH_WARNING"], false, true))
 						{
 							return GetCurrentStep();
 						}
 					}
-					else if (Pim < 485)
+				}
+
+				return Step::VolumePim;
+			}
+
+		case Step::VolumePim:
+			{
+				VolumePimWizardPage *page = dynamic_cast <VolumePimWizardPage *> (GetCurrentPage());
+				Pim = page->GetVolumePim();
+
+				if (forward && Password && !Password->IsEmpty())
+				{
+					if (Password->Size() < VolumePassword::WarningSizeThreshold)
+					{
+						if (Pim > 0 && Pim < 485)
+						{
+							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
+							return GetCurrentStep();							
+						}
+					}
+					else if (Pim > 0 && Pim < 485)
 					{
 						if (!Gui->AskYesNo (LangString["PIM_SMALL_WARNING"], false, true))
 						{
