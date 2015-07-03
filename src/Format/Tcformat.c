@@ -712,32 +712,69 @@ static BOOL CreatingHiddenSysVol (void)
 		&& bHiddenVol && !bHiddenVolHost);
 }
 
-static void LoadSettings (HWND hwndDlg)
+static void ConfigReadCompareInt(char *configKey, int defaultValue, int* pOutputValue, BOOL bOnlyCheckModified, BOOL* pbModified)
 {
-	EnableHwEncryption ((ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
+	int intValue = ConfigReadInt (configKey, defaultValue);
+	if (pOutputValue)
+	{
+		if (pbModified && (*pOutputValue != intValue))
+			*pbModified = TRUE;
+		if (!bOnlyCheckModified)
+			*pOutputValue = intValue;
+	}
+}
+
+static void ConfigReadCompareString (char *configKey, char *defaultValue, char *str, int maxLen, BOOL bOnlyCheckModified, BOOL *pbModified)
+{
+	char *strValue = (char*) malloc (maxLen);
+	memcpy (strValue, str, maxLen);
+
+	ConfigReadString (configKey, defaultValue, strValue, maxLen);
+
+	if (pbModified && strcmp (str, strValue))
+		*pbModified = TRUE;
+	if (!bOnlyCheckModified)
+		memcpy(str, strValue, maxLen);
+
+	free (strValue);
+}
+
+static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* pbSettingsModified, BOOL* pbHistoryModified)
+{
+	if (!bOnlyCheckModified)
+		EnableHwEncryption ((ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
 
 	WipeAlgorithmId savedWipeAlgorithm = TC_WIPE_NONE;
 
-	LoadSysEncSettings (hwndDlg);
+	if (!bOnlyCheckModified)
+		LoadSysEncSettings (hwndDlg);
 
-	if (LoadNonSysInPlaceEncSettings (&savedWipeAlgorithm) != 0)
+	if (!bOnlyCheckModified && LoadNonSysInPlaceEncSettings (&savedWipeAlgorithm) != 0)
 		bInPlaceEncNonSysPending = TRUE;
 
-	defaultKeyFilesParam.EnableKeyFiles = FALSE;
+	if (!bOnlyCheckModified)
+		defaultKeyFilesParam.EnableKeyFiles = FALSE;
 
-	bStartOnLogon =	ConfigReadInt ("StartOnLogon", FALSE);
+	ConfigReadCompareInt ("StartOnLogon", FALSE, &bStartOnLogon, bOnlyCheckModified, pbSettingsModified);
 
-	HiddenSectorDetectionStatus = ConfigReadInt ("HiddenSectorDetectionStatus", 0);
+	ConfigReadCompareInt ("HiddenSectorDetectionStatus", 0, &HiddenSectorDetectionStatus, bOnlyCheckModified, pbSettingsModified);
 
-	bHistory = ConfigReadInt ("SaveVolumeHistory", FALSE);
+	ConfigReadCompareInt ("SaveVolumeHistory", FALSE, &bHistory, bOnlyCheckModified, pbSettingsModified);
 
-	ConfigReadString ("SecurityTokenLibrary", "", SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath) - 1);
-	if (SecurityTokenLibraryPath[0])
+	ConfigReadCompareString ("SecurityTokenLibrary", "", SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath) - 1, bOnlyCheckModified, pbSettingsModified);
+	if (!bOnlyCheckModified && SecurityTokenLibraryPath[0])
 		InitSecurityTokenLibrary(hwndDlg);
+
+	if (bOnlyCheckModified)
+	{
+		char langid[6] = {0};
+		StringCbCopyA (langid, sizeof(langid), GetPreferredLangId ());
+		ConfigReadCompareString ("Language", "", langid, sizeof (langid), TRUE, pbSettingsModified);
+	}
 
 	if (hwndDlg != NULL)
 	{
-		LoadCombo (GetDlgItem (hwndDlg, IDC_COMBO_BOX));
+		LoadCombo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), bHistory, bOnlyCheckModified, pbHistoryModified);
 		return;
 	}
 
@@ -745,24 +782,39 @@ static void LoadSettings (HWND hwndDlg)
 		return;
 }
 
+static void LoadSettings (HWND hwndDlg)
+{
+	LoadSettingsAndCheckModified (hwndDlg, FALSE, NULL, NULL);
+}
+
 static void SaveSettings (HWND hwndDlg)
 {
 	WaitCursor ();
 
-	if (hwndDlg != NULL)
+	// Check first if modifications ocurred before writing to the settings and history files
+	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing setttings or history
+	BOOL bSettingsChanged = FALSE;
+	BOOL bHistoryChanged = FALSE;
+
+	LoadSettingsAndCheckModified (hwndDlg, TRUE, &bSettingsChanged, &bHistoryChanged);
+
+	if (bHistoryChanged && hwndDlg != NULL)
 		DumpCombo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), !bHistory);
 
-	ConfigWriteBegin ();
+	if (bSettingsChanged)
+	{
+		ConfigWriteBegin ();
 
-	ConfigWriteInt ("StartOnLogon",	bStartOnLogon);
-	ConfigWriteInt ("HiddenSectorDetectionStatus", HiddenSectorDetectionStatus);
-	ConfigWriteInt ("SaveVolumeHistory", bHistory);
-	ConfigWriteString ("SecurityTokenLibrary", SecurityTokenLibraryPath[0] ? SecurityTokenLibraryPath : "");
+		ConfigWriteInt ("StartOnLogon",	bStartOnLogon);
+		ConfigWriteInt ("HiddenSectorDetectionStatus", HiddenSectorDetectionStatus);
+		ConfigWriteInt ("SaveVolumeHistory", bHistory);
+		ConfigWriteString ("SecurityTokenLibrary", SecurityTokenLibraryPath[0] ? SecurityTokenLibraryPath : "");
 
-	if (GetPreferredLangId () != NULL)
-		ConfigWriteString ("Language", GetPreferredLangId ());
+		if (GetPreferredLangId () != NULL)
+			ConfigWriteString ("Language", GetPreferredLangId ());
 
-	ConfigWriteEnd (hwndDlg);
+		ConfigWriteEnd (hwndDlg);
+	}
 
 	NormalCursor ();
 }
@@ -3783,7 +3835,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_LIMITTEXT, TC_MAX_PATH, 0);
 
-				LoadCombo (GetDlgItem (hwndDlg, IDC_COMBO_BOX));
+				LoadCombo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), bHistory, FALSE, NULL);
 
 				SendMessage (GetDlgItem (hwndDlg, IDC_NO_HISTORY), BM_SETCHECK, bHistory ? BST_UNCHECKED : BST_CHECKED, 0);
 

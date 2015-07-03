@@ -634,16 +634,57 @@ static string ResolveAmbiguousSelection (HWND hwndDlg, int *driveNoPtr)
 	return retPath;
 }
 
-
-void LoadSettings (HWND hwndDlg)
+static void ConfigReadCompareInt(char *configKey, int defaultValue, int* pOutputValue, BOOL bOnlyCheckModified, BOOL* pbModified)
 {
-	EnableHwEncryption ((ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
+	int intValue = ConfigReadInt (configKey, defaultValue);
+	if (pOutputValue)
+	{
+		if (pbModified && (*pOutputValue != intValue))
+			*pbModified = TRUE;
+		if (!bOnlyCheckModified)
+			*pOutputValue = intValue;
+	}
+}
+
+static void ConfigReadCompareString (char *configKey, char *defaultValue, char *str, int maxLen, BOOL bOnlyCheckModified, BOOL *pbModified)
+{
+	char *strValue = (char*) malloc (maxLen);
+	if (strValue)
+	{
+		memcpy (strValue, str, maxLen);
+
+		ConfigReadString (configKey, defaultValue, strValue, maxLen);
+
+		if (pbModified && strcmp (str, strValue))
+			*pbModified = TRUE;
+		if (!bOnlyCheckModified)
+			memcpy(str, strValue, maxLen);
+
+		free (strValue);
+	}
+	else
+	{
+		/* allocation failed. Suppose that value changed */
+		if (pbModified)
+			*pbModified = TRUE;
+		if (!bOnlyCheckModified)
+			ConfigReadString (configKey, defaultValue, str, maxLen);
+		
+	}
+}
+
+void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* pbSettingsModified, BOOL* pbHistoryModified)
+{
+	char langid[6] = {0};
+	if (!bOnlyCheckModified)
+	   EnableHwEncryption ((ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
 
 	WipeAlgorithmId savedWipeAlgorithm = TC_WIPE_NONE;
 
-	LoadSysEncSettings (hwndDlg);
+	if (!bOnlyCheckModified)
+		LoadSysEncSettings (hwndDlg);
 
-	if (LoadNonSysInPlaceEncSettings (&savedWipeAlgorithm) != 0)
+	if (!bOnlyCheckModified && LoadNonSysInPlaceEncSettings (&savedWipeAlgorithm) != 0)
 		bInPlaceEncNonSysPending = TRUE;
 
 	// If the config file has already been loaded during this session
@@ -654,188 +695,231 @@ void LoadSettings (HWND hwndDlg)
 	}
 
 	// Options
-	bExplore =						ConfigReadInt ("OpenExplorerWindowAfterMount", FALSE);
-	bUseDifferentTrayIconIfVolMounted =	ConfigReadInt ("UseDifferentTrayIconIfVolumesMounted", TRUE);
+	ConfigReadCompareInt ("OpenExplorerWindowAfterMount", FALSE, &bExplore, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("UseDifferentTrayIconIfVolumesMounted", TRUE, &bUseDifferentTrayIconIfVolMounted, bOnlyCheckModified, pbSettingsModified);
 
-	bHistory =						ConfigReadInt ("SaveVolumeHistory", FALSE);
+	ConfigReadCompareInt ("SaveVolumeHistory", FALSE, &bHistory, bOnlyCheckModified, pbSettingsModified);
 
-	bCacheInDriverDefault = bCacheInDriver = ConfigReadInt ("CachePasswords", FALSE);
-	bCacheDuringMultipleMount =	ConfigReadInt ("CachePasswordDuringMultipleMount", FALSE);
-	bWipeCacheOnExit =				ConfigReadInt ("WipePasswordCacheOnExit", FALSE);
-	bWipeCacheOnAutoDismount =		ConfigReadInt ("WipeCacheOnAutoDismount", TRUE);
+	ConfigReadCompareInt ("CachePasswords", FALSE, &bCacheInDriverDefault, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("CachePasswordDuringMultipleMount", FALSE, &bCacheDuringMultipleMount, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("WipePasswordCacheOnExit", FALSE, &bWipeCacheOnExit, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("WipeCacheOnAutoDismount", TRUE, &bWipeCacheOnAutoDismount, bOnlyCheckModified, pbSettingsModified);
 
-	bStartOnLogon =					ConfigReadInt ("StartOnLogon", FALSE);
-	bMountDevicesOnLogon =			ConfigReadInt ("MountDevicesOnLogon", FALSE);
-	bMountFavoritesOnLogon =		ConfigReadInt ("MountFavoritesOnLogon", FALSE);
+	ConfigReadCompareInt ("StartOnLogon", FALSE, &bStartOnLogon, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("MountDevicesOnLogon", FALSE, &bMountDevicesOnLogon, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("MountFavoritesOnLogon", FALSE, &bMountFavoritesOnLogon, bOnlyCheckModified, pbSettingsModified);
 
-	bEnableBkgTask =				ConfigReadInt ("EnableBackgroundTask", TRUE);
-	bCloseBkgTaskWhenNoVolumes =	ConfigReadInt ("CloseBackgroundTaskOnNoVolumes", FALSE);
+	ConfigReadCompareInt ("EnableBackgroundTask", TRUE, &bEnableBkgTask, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("CloseBackgroundTaskOnNoVolumes", FALSE, &bCloseBkgTaskWhenNoVolumes, bOnlyCheckModified, pbSettingsModified);
 
-	bDismountOnLogOff =				ConfigReadInt ("DismountOnLogOff", !(IsServerOS() && IsAdmin()));
-	bDismountOnSessionLocked =		ConfigReadInt ("DismountOnSessionLocked", FALSE);
-	bDismountOnPowerSaving =		ConfigReadInt ("DismountOnPowerSaving", FALSE);
-	bDismountOnScreenSaver =		ConfigReadInt ("DismountOnScreenSaver", FALSE);
-	bForceAutoDismount =			ConfigReadInt ("ForceAutoDismount", TRUE);
-	MaxVolumeIdleTime =				ConfigReadInt ("MaxVolumeIdleTime", -60);
+	ConfigReadCompareInt ("DismountOnLogOff", !(IsServerOS() && IsAdmin()), &bDismountOnLogOff, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("DismountOnSessionLocked", FALSE, &bDismountOnSessionLocked, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("DismountOnPowerSaving", FALSE, &bDismountOnPowerSaving, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("DismountOnScreenSaver", FALSE, &bDismountOnScreenSaver, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("ForceAutoDismount", TRUE, &bForceAutoDismount, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("MaxVolumeIdleTime", -60, &MaxVolumeIdleTime, bOnlyCheckModified, pbSettingsModified);
 
-	HiddenSectorDetectionStatus =	ConfigReadInt ("HiddenSectorDetectionStatus", 0);
+	ConfigReadCompareInt ("HiddenSectorDetectionStatus", 0, &HiddenSectorDetectionStatus, bOnlyCheckModified, pbSettingsModified);
 
-	defaultKeyFilesParam.EnableKeyFiles = ConfigReadInt ("UseKeyfiles", FALSE);
+	ConfigReadCompareInt ("UseKeyfiles", FALSE, &defaultKeyFilesParam.EnableKeyFiles, bOnlyCheckModified, pbSettingsModified);
 
-	bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = ConfigReadInt ("PreserveTimestamps", TRUE);
-	defaultMountOptions.Removable =	ConfigReadInt ("MountVolumesRemovable", FALSE);
-	defaultMountOptions.ReadOnly =	ConfigReadInt ("MountVolumesReadOnly", FALSE);
-	defaultMountOptions.ProtectHiddenVolume = FALSE;
-	defaultMountOptions.ProtectedHidVolPkcs5Prf = 0;
-	defaultMountOptions.ProtectedHidVolPin = 0;
-	defaultMountOptions.PartitionInInactiveSysEncScope = FALSE;
-	defaultMountOptions.RecoveryMode = FALSE;
-	defaultMountOptions.UseBackupHeader =  FALSE;
+	ConfigReadCompareInt ("PreserveTimestamps", TRUE, &defaultMountOptions.PreserveTimestamp, bOnlyCheckModified, pbSettingsModified);
+	if (!bOnlyCheckModified)
+		bPreserveTimestamp = defaultMountOptions.PreserveTimestamp;
 
-	mountOptions = defaultMountOptions;
+	ConfigReadCompareInt ("MountVolumesRemovable", FALSE, &defaultMountOptions.Removable, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("MountVolumesReadOnly", FALSE, &defaultMountOptions.ReadOnly, bOnlyCheckModified, pbSettingsModified);
 
-	CloseSecurityTokenSessionsAfterMount = ConfigReadInt ("CloseSecurityTokenSessionsAfterMount", 0);
+	if (!bOnlyCheckModified)
+	{
+		defaultMountOptions.ProtectHiddenVolume = FALSE;
+		defaultMountOptions.ProtectedHidVolPkcs5Prf = 0;
+		defaultMountOptions.ProtectedHidVolPin = 0;
+		defaultMountOptions.PartitionInInactiveSysEncScope = FALSE;
+		defaultMountOptions.RecoveryMode = FALSE;
+		defaultMountOptions.UseBackupHeader =  FALSE;
+
+		mountOptions = defaultMountOptions;
+	}
+
+	ConfigReadCompareInt ("CloseSecurityTokenSessionsAfterMount", 0, &CloseSecurityTokenSessionsAfterMount, bOnlyCheckModified, pbSettingsModified);
 
 	if (IsHiddenOSRunning())
-		HiddenSysLeakProtectionNotificationStatus =	ConfigReadInt ("HiddenSystemLeakProtNotifStatus", TC_HIDDEN_OS_READ_ONLY_NOTIF_MODE_NONE);
+		ConfigReadCompareInt ("HiddenSystemLeakProtNotifStatus", TC_HIDDEN_OS_READ_ONLY_NOTIF_MODE_NONE, &HiddenSysLeakProtectionNotificationStatus, bOnlyCheckModified, pbSettingsModified);
 
 	// Drive letter - command line arg overrides registry
-	if (szDriveLetter[0] == 0)
+	if (!bOnlyCheckModified && szDriveLetter[0] == 0)
 		ConfigReadString ("LastSelectedDrive", "", szDriveLetter, sizeof (szDriveLetter));
+	if (bHistory && pbSettingsModified)
+	{
+		// only check for last drive modification if history enabled
+		char szTmp[32] = {0};
+		LPARAM lLetter;
+		lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
+		if (LOWORD (lLetter) != 0xffff)
+			StringCbPrintfA (szTmp, sizeof(szTmp), "%c:", (char) HIWORD (lLetter));
 
-	ConfigReadString ("SecurityTokenLibrary", "", SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath) - 1);
-	if (SecurityTokenLibraryPath[0])
+		ConfigReadCompareString ("LastSelectedDrive", "", szDriveLetter, sizeof (szDriveLetter), bOnlyCheckModified, pbSettingsModified);
+	}
+
+	ConfigReadCompareString ("SecurityTokenLibrary", "", SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath) - 1, bOnlyCheckModified, pbSettingsModified);
+	if (!bOnlyCheckModified && SecurityTokenLibraryPath[0])
 		InitSecurityTokenLibrary(hwndDlg);
 
 	// Hotkeys
-	bPlaySoundOnSuccessfulHkDismount							= ConfigReadInt ("PlaySoundOnHotkeyMountDismount", TRUE);
-	bDisplayBalloonOnSuccessfulHkDismount					= ConfigReadInt ("DisplayMsgBoxOnHotkeyDismount", TRUE);
-	Hotkeys [HK_AUTOMOUNT_DEVICES].vKeyModifiers					= ConfigReadInt ("HotkeyModAutoMountDevices", 0);
-	Hotkeys [HK_AUTOMOUNT_DEVICES].vKeyCode							= ConfigReadInt ("HotkeyCodeAutoMountDevices", 0);
-	Hotkeys [HK_DISMOUNT_ALL].vKeyModifiers							= ConfigReadInt ("HotkeyModDismountAll", 0);
-	Hotkeys [HK_DISMOUNT_ALL].vKeyCode								= ConfigReadInt ("HotkeyCodeDismountAll", 0);
-	Hotkeys [HK_WIPE_CACHE].vKeyModifiers							= ConfigReadInt ("HotkeyModWipeCache", 0);
-	Hotkeys [HK_WIPE_CACHE].vKeyCode								= ConfigReadInt ("HotkeyCodeWipeCache", 0);
-	Hotkeys [HK_DISMOUNT_ALL_AND_WIPE].vKeyModifiers				= ConfigReadInt ("HotkeyModDismountAllWipe", 0);
-	Hotkeys [HK_DISMOUNT_ALL_AND_WIPE].vKeyCode						= ConfigReadInt ("HotkeyCodeDismountAllWipe", 0);
-	Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyModifiers			= ConfigReadInt ("HotkeyModForceDismountAllWipe", 0);
-	Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyCode				= ConfigReadInt ("HotkeyCodeForceDismountAllWipe", 0);
-	Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers	= ConfigReadInt ("HotkeyModForceDismountAllWipeExit", 0);
-	Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode		= ConfigReadInt ("HotkeyCodeForceDismountAllWipeExit", 0);
-	Hotkeys [HK_MOUNT_FAVORITE_VOLUMES].vKeyModifiers				= ConfigReadInt ("HotkeyModMountFavoriteVolumes", 0);
-	Hotkeys [HK_MOUNT_FAVORITE_VOLUMES].vKeyCode					= ConfigReadInt ("HotkeyCodeMountFavoriteVolumes", 0);
-	Hotkeys [HK_SHOW_HIDE_MAIN_WINDOW].vKeyModifiers				= ConfigReadInt ("HotkeyModShowHideMainWindow", 0);
-	Hotkeys [HK_SHOW_HIDE_MAIN_WINDOW].vKeyCode						= ConfigReadInt ("HotkeyCodeShowHideMainWindow", 0);
-	Hotkeys [HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyModifiers		= ConfigReadInt ("HotkeyModCloseSecurityTokenSessions", 0);
-	Hotkeys [HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyCode				= ConfigReadInt ("HotkeyCodeCloseSecurityTokenSessions", 0);
+	ConfigReadCompareInt ("PlaySoundOnHotkeyMountDismount", TRUE, &bPlaySoundOnSuccessfulHkDismount, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("DisplayMsgBoxOnHotkeyDismount", TRUE, &bDisplayBalloonOnSuccessfulHkDismount, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModAutoMountDevices", 0, (int*) &Hotkeys [HK_AUTOMOUNT_DEVICES].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeAutoMountDevices", 0, (int*) &Hotkeys [HK_AUTOMOUNT_DEVICES].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModDismountAll", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeDismountAll", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModWipeCache", 0, (int*) &Hotkeys [HK_WIPE_CACHE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeWipeCache", 0, (int*) &Hotkeys [HK_WIPE_CACHE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModDismountAllWipe", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL_AND_WIPE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeDismountAllWipe", 0, (int*) &Hotkeys [HK_DISMOUNT_ALL_AND_WIPE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModForceDismountAllWipe", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeForceDismountAllWipe", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModForceDismountAllWipeExit", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeForceDismountAllWipeExit", 0, (int*) &Hotkeys [HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModMountFavoriteVolumes", 0, (int*) &Hotkeys [HK_MOUNT_FAVORITE_VOLUMES].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeMountFavoriteVolumes", 0, (int*) &Hotkeys [HK_MOUNT_FAVORITE_VOLUMES].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModShowHideMainWindow", 0, (int*) &Hotkeys [HK_SHOW_HIDE_MAIN_WINDOW].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeShowHideMainWindow", 0, (int*) &Hotkeys [HK_SHOW_HIDE_MAIN_WINDOW].vKeyCode, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyModCloseSecurityTokenSessions", 0, (int*) &Hotkeys [HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyModifiers, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("HotkeyCodeCloseSecurityTokenSessions", 0, (int*) &Hotkeys [HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyCode, bOnlyCheckModified, pbSettingsModified);
 
 	// History
 	if (bHistoryCmdLine != TRUE)
 	{
-		LoadCombo (GetDlgItem (hwndDlg, IDC_VOLUME));
-		if (CmdLineVolumeSpecified)
+		LoadCombo (GetDlgItem (hwndDlg, IDC_VOLUME), bHistory, bOnlyCheckModified, pbHistoryModified);
+		if (!bOnlyCheckModified && CmdLineVolumeSpecified)
 			SetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName);
 	}
 
 	// Mount Options
-	DefaultVolumePkcs5 = ConfigReadInt ("DefaultPRF", 0);
-	DefaultVolumeTrueCryptMode = ConfigReadInt ("DefaultTrueCryptMode", FALSE);
+	ConfigReadCompareInt ("DefaultPRF", 0, &DefaultVolumePkcs5, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("DefaultTrueCryptMode", FALSE, &DefaultVolumeTrueCryptMode, bOnlyCheckModified, pbSettingsModified);
+
+	if (bOnlyCheckModified)
+	{
+		StringCbCopyA (langid, sizeof(langid), GetPreferredLangId ());
+		ConfigReadCompareString ("Language", "", langid, sizeof (langid), TRUE, pbSettingsModified);
+	}
 
 	if (DefaultVolumePkcs5 < 0 || DefaultVolumePkcs5 > LAST_PRF_ID)
 		DefaultVolumePkcs5 = 0;
 	if (DefaultVolumeTrueCryptMode != TRUE && DefaultVolumeTrueCryptMode != FALSE)
 		DefaultVolumeTrueCryptMode = FALSE;
+
+}
+
+void LoadSettings ( HWND hwndDlg )
+{
+	LoadSettingsAndCheckModified (hwndDlg, FALSE, NULL, NULL);
 }
 
 void SaveSettings (HWND hwndDlg)
 {
 	WaitCursor ();
 
-	char szTmp[32] = {0};
-	LPARAM lLetter;
+	// Check first if modifications ocurred before writing to the settings and history files
+	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing setttings or history
+	BOOL bSettingsChanged = FALSE;
+	BOOL bHistoryChanged = FALSE;
 
-	// Options
-	ConfigWriteBegin ();
+	LoadSettingsAndCheckModified (hwndDlg, TRUE, &bSettingsChanged, &bHistoryChanged);
 
-	ConfigWriteInt ("OpenExplorerWindowAfterMount",		bExplore);
-	ConfigWriteInt ("UseDifferentTrayIconIfVolumesMounted",	bUseDifferentTrayIconIfVolMounted);
-	ConfigWriteInt ("SaveVolumeHistory",				!IsButtonChecked (GetDlgItem (hwndDlg, IDC_NO_HISTORY)));
+	if (bSettingsChanged)
+	{
+		char szTmp[32] = {0};
+		LPARAM lLetter;
 
-	ConfigWriteInt ("CachePasswords",					bCacheInDriverDefault);
-	ConfigWriteInt ("CachePasswordDuringMultipleMount",	bCacheDuringMultipleMount);
-	ConfigWriteInt ("WipePasswordCacheOnExit",			bWipeCacheOnExit);
-	ConfigWriteInt ("WipeCacheOnAutoDismount",			bWipeCacheOnAutoDismount);
+		// Options
+		ConfigWriteBegin ();
 
-	ConfigWriteInt ("StartOnLogon",						bStartOnLogon);
-	ConfigWriteInt ("MountDevicesOnLogon",				bMountDevicesOnLogon);
-	ConfigWriteInt ("MountFavoritesOnLogon",			bMountFavoritesOnLogon);
+		ConfigWriteInt ("OpenExplorerWindowAfterMount",		bExplore);
+		ConfigWriteInt ("UseDifferentTrayIconIfVolumesMounted",	bUseDifferentTrayIconIfVolMounted);
+		ConfigWriteInt ("SaveVolumeHistory",				!IsButtonChecked (GetDlgItem (hwndDlg, IDC_NO_HISTORY)));
 
-	ConfigWriteInt ("MountVolumesReadOnly",				defaultMountOptions.ReadOnly);
-	ConfigWriteInt ("MountVolumesRemovable",			defaultMountOptions.Removable);
-	ConfigWriteInt ("PreserveTimestamps",				defaultMountOptions.PreserveTimestamp);
+		ConfigWriteInt ("CachePasswords",					bCacheInDriverDefault);
+		ConfigWriteInt ("CachePasswordDuringMultipleMount",	bCacheDuringMultipleMount);
+		ConfigWriteInt ("WipePasswordCacheOnExit",			bWipeCacheOnExit);
+		ConfigWriteInt ("WipeCacheOnAutoDismount",			bWipeCacheOnAutoDismount);
 
-	ConfigWriteInt ("EnableBackgroundTask",				bEnableBkgTask);
-	ConfigWriteInt ("CloseBackgroundTaskOnNoVolumes",	bCloseBkgTaskWhenNoVolumes);
+		ConfigWriteInt ("StartOnLogon",						bStartOnLogon);
+		ConfigWriteInt ("MountDevicesOnLogon",				bMountDevicesOnLogon);
+		ConfigWriteInt ("MountFavoritesOnLogon",			bMountFavoritesOnLogon);
 
-	ConfigWriteInt ("DismountOnLogOff",					bDismountOnLogOff);
-	ConfigWriteInt ("DismountOnSessionLocked",			bDismountOnSessionLocked);
-	ConfigWriteInt ("DismountOnPowerSaving",			bDismountOnPowerSaving);
-	ConfigWriteInt ("DismountOnScreenSaver",			bDismountOnScreenSaver);
-	ConfigWriteInt ("ForceAutoDismount",				bForceAutoDismount);
-	ConfigWriteInt ("MaxVolumeIdleTime",				MaxVolumeIdleTime);
+		ConfigWriteInt ("MountVolumesReadOnly",				defaultMountOptions.ReadOnly);
+		ConfigWriteInt ("MountVolumesRemovable",			defaultMountOptions.Removable);
+		ConfigWriteInt ("PreserveTimestamps",				defaultMountOptions.PreserveTimestamp);
 
-	ConfigWriteInt ("HiddenSectorDetectionStatus",				HiddenSectorDetectionStatus);
+		ConfigWriteInt ("EnableBackgroundTask",				bEnableBkgTask);
+		ConfigWriteInt ("CloseBackgroundTaskOnNoVolumes",	bCloseBkgTaskWhenNoVolumes);
 
-	ConfigWriteInt ("UseKeyfiles",						defaultKeyFilesParam.EnableKeyFiles);
+		ConfigWriteInt ("DismountOnLogOff",					bDismountOnLogOff);
+		ConfigWriteInt ("DismountOnSessionLocked",			bDismountOnSessionLocked);
+		ConfigWriteInt ("DismountOnPowerSaving",			bDismountOnPowerSaving);
+		ConfigWriteInt ("DismountOnScreenSaver",			bDismountOnScreenSaver);
+		ConfigWriteInt ("ForceAutoDismount",				bForceAutoDismount);
+		ConfigWriteInt ("MaxVolumeIdleTime",				MaxVolumeIdleTime);
 
-	if (IsHiddenOSRunning())
-		ConfigWriteInt ("HiddenSystemLeakProtNotifStatus", HiddenSysLeakProtectionNotificationStatus);
+		ConfigWriteInt ("HiddenSectorDetectionStatus",				HiddenSectorDetectionStatus);
 
-	// Drive Letter
-	lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
-	if (LOWORD (lLetter) != 0xffff)
-		StringCbPrintfA (szTmp, sizeof(szTmp), "%c:", (char) HIWORD (lLetter));
-	ConfigWriteString ("LastSelectedDrive", szTmp);
+		ConfigWriteInt ("UseKeyfiles",						defaultKeyFilesParam.EnableKeyFiles);
 
-	ConfigWriteInt ("CloseSecurityTokenSessionsAfterMount",	CloseSecurityTokenSessionsAfterMount);
+		if (IsHiddenOSRunning())
+			ConfigWriteInt ("HiddenSystemLeakProtNotifStatus", HiddenSysLeakProtectionNotificationStatus);
 
-	// Hotkeys
-	ConfigWriteInt ("HotkeyModAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyCode);
-	ConfigWriteInt ("HotkeyModDismountAll",						Hotkeys[HK_DISMOUNT_ALL].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeDismountAll",					Hotkeys[HK_DISMOUNT_ALL].vKeyCode);
-	ConfigWriteInt ("HotkeyModWipeCache",						Hotkeys[HK_WIPE_CACHE].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeWipeCache",						Hotkeys[HK_WIPE_CACHE].vKeyCode);
-	ConfigWriteInt ("HotkeyModDismountAllWipe",					Hotkeys[HK_DISMOUNT_ALL_AND_WIPE].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeDismountAllWipe",				Hotkeys[HK_DISMOUNT_ALL_AND_WIPE].vKeyCode);
-	ConfigWriteInt ("HotkeyModForceDismountAllWipe",			Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeForceDismountAllWipe",			Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyCode);
-	ConfigWriteInt ("HotkeyModForceDismountAllWipeExit",		Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeForceDismountAllWipeExit",		Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode);
-	ConfigWriteInt ("HotkeyModMountFavoriteVolumes",			Hotkeys[HK_MOUNT_FAVORITE_VOLUMES].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeMountFavoriteVolumes",			Hotkeys[HK_MOUNT_FAVORITE_VOLUMES].vKeyCode);
-	ConfigWriteInt ("HotkeyModShowHideMainWindow",				Hotkeys[HK_SHOW_HIDE_MAIN_WINDOW].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeShowHideMainWindow",				Hotkeys[HK_SHOW_HIDE_MAIN_WINDOW].vKeyCode);
-	ConfigWriteInt ("HotkeyModCloseSecurityTokenSessions",		Hotkeys[HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyModifiers);
-	ConfigWriteInt ("HotkeyCodeCloseSecurityTokenSessions",		Hotkeys[HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyCode);
-	ConfigWriteInt ("PlaySoundOnHotkeyMountDismount",			bPlaySoundOnSuccessfulHkDismount);
-	ConfigWriteInt ("DisplayMsgBoxOnHotkeyDismount",			bDisplayBalloonOnSuccessfulHkDismount);
+		// Drive Letter
+		lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
+		if (LOWORD (lLetter) != 0xffff)
+			StringCbPrintfA (szTmp, sizeof(szTmp), "%c:", (char) HIWORD (lLetter));
+		ConfigWriteString ("LastSelectedDrive", szTmp);
 
-	// Language
-	if (GetPreferredLangId () != NULL)
-		ConfigWriteString ("Language", GetPreferredLangId ());
+		ConfigWriteInt ("CloseSecurityTokenSessionsAfterMount",	CloseSecurityTokenSessionsAfterMount);
 
-	// PKCS#11 Library Path
-	ConfigWriteString ("SecurityTokenLibrary", SecurityTokenLibraryPath[0] ? SecurityTokenLibraryPath : "");
+		// Hotkeys
+		ConfigWriteInt ("HotkeyModAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeAutoMountDevices",				Hotkeys[HK_AUTOMOUNT_DEVICES].vKeyCode);
+		ConfigWriteInt ("HotkeyModDismountAll",						Hotkeys[HK_DISMOUNT_ALL].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeDismountAll",					Hotkeys[HK_DISMOUNT_ALL].vKeyCode);
+		ConfigWriteInt ("HotkeyModWipeCache",						Hotkeys[HK_WIPE_CACHE].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeWipeCache",						Hotkeys[HK_WIPE_CACHE].vKeyCode);
+		ConfigWriteInt ("HotkeyModDismountAllWipe",					Hotkeys[HK_DISMOUNT_ALL_AND_WIPE].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeDismountAllWipe",				Hotkeys[HK_DISMOUNT_ALL_AND_WIPE].vKeyCode);
+		ConfigWriteInt ("HotkeyModForceDismountAllWipe",			Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeForceDismountAllWipe",			Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE].vKeyCode);
+		ConfigWriteInt ("HotkeyModForceDismountAllWipeExit",		Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeForceDismountAllWipeExit",		Hotkeys[HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT].vKeyCode);
+		ConfigWriteInt ("HotkeyModMountFavoriteVolumes",			Hotkeys[HK_MOUNT_FAVORITE_VOLUMES].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeMountFavoriteVolumes",			Hotkeys[HK_MOUNT_FAVORITE_VOLUMES].vKeyCode);
+		ConfigWriteInt ("HotkeyModShowHideMainWindow",				Hotkeys[HK_SHOW_HIDE_MAIN_WINDOW].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeShowHideMainWindow",				Hotkeys[HK_SHOW_HIDE_MAIN_WINDOW].vKeyCode);
+		ConfigWriteInt ("HotkeyModCloseSecurityTokenSessions",		Hotkeys[HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyModifiers);
+		ConfigWriteInt ("HotkeyCodeCloseSecurityTokenSessions",		Hotkeys[HK_CLOSE_SECURITY_TOKEN_SESSIONS].vKeyCode);
+		ConfigWriteInt ("PlaySoundOnHotkeyMountDismount",			bPlaySoundOnSuccessfulHkDismount);
+		ConfigWriteInt ("DisplayMsgBoxOnHotkeyDismount",			bDisplayBalloonOnSuccessfulHkDismount);
 
-	// Mount Options
-	ConfigWriteInt ("DefaultPRF", DefaultVolumePkcs5);
-	ConfigWriteInt ("DefaultTrueCryptMode", DefaultVolumeTrueCryptMode);
+		// Language
+		if (GetPreferredLangId () != NULL)
+			ConfigWriteString ("Language", GetPreferredLangId ());
 
-	ConfigWriteEnd (hwndDlg);
+		// PKCS#11 Library Path
+		ConfigWriteString ("SecurityTokenLibrary", SecurityTokenLibraryPath[0] ? SecurityTokenLibraryPath : "");
 
-	// History
-	DumpCombo (GetDlgItem (hwndDlg, IDC_VOLUME), IsButtonChecked (GetDlgItem (hwndDlg, IDC_NO_HISTORY)));
+		// Mount Options
+		ConfigWriteInt ("DefaultPRF", DefaultVolumePkcs5);
+		ConfigWriteInt ("DefaultTrueCryptMode", DefaultVolumeTrueCryptMode);
+
+		ConfigWriteEnd (hwndDlg);
+	}
+
+	if (bHistoryChanged)
+	{
+		// History
+		DumpCombo (GetDlgItem (hwndDlg, IDC_VOLUME), IsButtonChecked (GetDlgItem (hwndDlg, IDC_NO_HISTORY)));
+	}
 
 	NormalCursor ();
 }
