@@ -61,6 +61,31 @@ namespace VeraCrypt
 		{
 			Process::Execute ("xterm", args, 1000);
 		} catch (TimeOut&) { }
+#ifdef TC_LINUX
+		catch (SystemException&)
+		{
+			// xterm not available. Try with KDE konsole if it exists
+			struct stat sb;
+			if (stat("/usr/bin/konsole", &sb) == 0)
+			{
+				args.clear ();
+				args.push_back ("--title");
+				args.push_back ("fsck");
+				args.push_back ("--caption");
+				args.push_back ("fsck");
+				args.push_back ("-e");				
+				args.push_back ("sh");				
+				args.push_back ("-c");				
+				args.push_back (xargs);
+				try
+				{
+					Process::Execute ("konsole", args, 1000);
+				} catch (TimeOut&) { }
+			}
+			else
+				throw;
+		}
+#endif
 	}
 
 	void CoreUnix::DismountFilesystem (const DirectoryPath &mountPoint, bool force) const
