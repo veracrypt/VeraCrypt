@@ -793,13 +793,64 @@ fail:
 }
 
 
-volatile BOOLEAN FormatExResult;
+volatile BOOLEAN FormatExError;
 
 BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID parameter)
 {
-	if (command == FMIFS_DONE)
-		FormatExResult = *(BOOLEAN *) parameter;
-	return TRUE;
+	if (FormatExError)
+		return FALSE;
+
+	switch(command) {
+	case FMIFS_PROGRESS:
+		break;
+	case FMIFS_STRUCTURE_PROGRESS:
+		break;
+	case FMIFS_DONE:
+		if(*(BOOLEAN*)parameter == FALSE) {
+			FormatExError = TRUE;
+		}
+		break;
+	case FMIFS_DONE_WITH_STRUCTURE:
+		break;
+	case FMIFS_INCOMPATIBLE_FILE_SYSTEM:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_ACCESS_DENIED:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_MEDIA_WRITE_PROTECTED:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_VOLUME_IN_USE:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_DEVICE_NOT_READY:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_CANT_QUICK_FORMAT:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_BAD_LABEL:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_OUTPUT:
+		break;
+	case FMIFS_CLUSTER_SIZE_TOO_BIG:
+	case FMIFS_CLUSTER_SIZE_TOO_SMALL:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_VOLUME_TOO_BIG:
+	case FMIFS_VOLUME_TOO_SMALL:
+		FormatExError = TRUE;
+		break;
+	case FMIFS_NO_MEDIA_IN_DRIVE:
+		FormatExError = TRUE;
+		break;
+	default:
+		FormatExError = TRUE;
+		break;
+	}
+	return (FormatExError? FALSE : TRUE);
 }
 
 BOOL FormatNtfs (int driveNo, int clusterSize)
@@ -830,12 +881,13 @@ BOOL FormatNtfs (int driveNo, int clusterSize)
 
 	StringCbCatW (dir, sizeof(dir), L":\\");
 
-	FormatExResult = FALSE;
-
+	FormatExError = TRUE;
+	
 	// Windows sometimes fails to format a volume (hosted on a removable medium) as NTFS.
 	// It often helps to retry several times.
-	for (i = 0; i < 50 && FormatExResult != TRUE; i++)
+	for (i = 0; i < 50 && FormatExError; i++)
 	{
+		FormatExError = FALSE;
 		FormatEx (dir, FMIFS_HARDDISK, L"NTFS", L"", TRUE, clusterSize * FormatSectorSize, FormatExCallback);
 	}
 
@@ -843,7 +895,7 @@ BOOL FormatNtfs (int driveNo, int clusterSize)
 	Sleep (4000);
 
 	FreeLibrary (hModule);
-	return FormatExResult;
+	return FormatExError? FALSE : TRUE;
 }
 
 
