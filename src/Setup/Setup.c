@@ -726,7 +726,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 							// Dump filter driver cannot be installed to SysWOW64 directory
 							if (driver64 && !EnableWow64FsRedirection (FALSE))
 							{
-								handleWin32Error (hwndDlg);
+								handleWin32Error (hwndDlg, SRC_POS);
 								bResult = FALSE;
 								goto err;
 							}
@@ -742,7 +742,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 							{
 								if (!EnableWow64FsRedirection (TRUE))
 								{
-									handleWin32Error (hwndDlg);
+									handleWin32Error (hwndDlg, SRC_POS);
 									bResult = FALSE;
 									goto err;
 								}
@@ -1002,7 +1002,7 @@ error:
 
 	if (bOK == FALSE)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		Error ("REG_INSTALL_FAILED", hwndDlg);
 	}
 	
@@ -1060,7 +1060,7 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	RemoveMessage (hwndDlg, path);
 	if (!StatRemoveDirectory (path))
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		bOK = FALSE;
 	}
 
@@ -1274,7 +1274,7 @@ error:
 
 	if (bOK == FALSE && GetLastError ()!= ERROR_SERVICE_DOES_NOT_EXIST)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		MessageBoxW (hwndDlg, GetString ("DRIVER_UINSTALL_FAILED"), lpszTitle, MB_ICONHAND);
 	}
 	else
@@ -1300,13 +1300,13 @@ BOOL DoDriverUnload (HWND hwndDlg)
 	{
 		if (status == ERR_OS_ERROR && GetLastError () != ERROR_FILE_NOT_FOUND)
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			AbortProcess ("NODRIVER");
 		}
 
 		if (status != ERR_OS_ERROR)
 		{
-			handleError (NULL, status);
+			handleError (NULL, status, SRC_POS);
 			AbortProcess ("NODRIVER");
 		}
 	}
@@ -1401,7 +1401,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 			else
 			{
 				bOK = FALSE;
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 			}
 		}
 
@@ -1544,7 +1544,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir)
 	// Start menu group
 	RemoveMessage ((HWND) hwndDlg, szLinkDir);
 	if (StatRemoveDirectory (szLinkDir) == FALSE)
-		handleWin32Error ((HWND) hwndDlg);
+		handleWin32Error ((HWND) hwndDlg, SRC_POS);
 
 	// Desktop icon
 
@@ -1613,7 +1613,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, char *szDestDir, BOOL bProgGroup, BOOL bD
 			{
 				wchar_t szTmpW[TC_MAX_PATH];
 
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 				StringCbPrintfW (szTmpW, sizeof(szTmpW), GetString ("CANT_CREATE_FOLDER"), szLinkDir);
 				MessageBoxW (hwndDlg, szTmpW, lpszTitle, MB_ICONHAND);
 				goto error;
@@ -1895,7 +1895,7 @@ void DoInstall (void *arg)
 		{
 			wchar_t szTmp[TC_MAX_PATH];
 
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CANT_CREATE_FOLDER"), InstallationPath);
 			MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONHAND);
 			Error ("INSTALL_FAILED", hwndDlg);
@@ -1938,7 +1938,7 @@ void DoInstall (void *arg)
 	{
 		if (!DisablePagingFile())
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("FAILED_TO_DISABLE_PAGING_FILES", hwndDlg);
 		}
 		else

@@ -26,7 +26,7 @@ namespace VeraCrypt
 		File (string path,bool readOnly = false, bool create = false);
 		virtual ~File () { Close(); }
 
-		void CheckOpened () { if (!FileOpen) { SetLastError (LastError); throw SystemException ();} }
+		void CheckOpened (const char* srcPos) { if (!FileOpen) { SetLastError (LastError); throw SystemException (srcPos);} }
 		void Close ();
 		DWORD Read (byte *buffer, DWORD size);
 		void Write (byte *buffer, DWORD size);

@@ -20,6 +20,10 @@
 #include "Resource.h"
 #include <Strsafe.h>
 
+#ifndef SRC_POS
+#define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
+#endif
+
 #define OutputPackageFile "VeraCrypt Setup " VERSION_STRING ".exe"
 
 #define MAG_START_MARKER	"TCINSTRT"
@@ -252,7 +256,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 
 	if (!TCCopyFile (inputFile, outputFile))
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		PkgError ("Cannot copy 'VeraCrypt Setup.exe' to the package");
 		goto err;
 	}
@@ -435,7 +439,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, char *szDestDir)
 
 		if (tmpBuffer == NULL)
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			if (remove (outputFile))
 				PkgError ("Cannot load the package to compute CRC.\nFailed also to delete package file");
 			else
@@ -720,7 +724,7 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 		{
 			wchar_t szTmp[TC_MAX_PATH];
 
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CANT_CREATE_FOLDER"), DestExtractPath);
 			MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONHAND);
 			bSuccess = FALSE;

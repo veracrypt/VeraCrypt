@@ -66,6 +66,10 @@ void RandAddInt64 (unsigned __int64 x)
 #include <tlhelp32.h>
 #include "Dlgcode.h"
 
+#ifndef SRC_POS
+#define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
+#endif
+
 HHOOK hMouse = NULL;		/* Mouse hook for the random number generator */
 HHOOK hKeyboard = NULL;		/* Keyboard hook for the random number generator */
 
@@ -112,12 +116,12 @@ int Randinit ()
 	}
 
 	hKeyboard = SetWindowsHookEx (WH_KEYBOARD, (HOOKPROC)&KeyboardProc, NULL, GetCurrentThreadId ());
-	if (hKeyboard == 0) handleWin32Error (0);
+	if (hKeyboard == 0) handleWin32Error (0, SRC_POS);
 
 	hMouse = SetWindowsHookEx (WH_MOUSE, (HOOKPROC)&MouseProc, NULL, GetCurrentThreadId ());
 	if (hMouse == 0)
 	{
-		handleWin32Error (0);
+		handleWin32Error (0, SRC_POS);
 		goto error;
 	}
 	
@@ -388,7 +392,7 @@ BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceS
 	{
 		if (!SlowPoll ())
 		{
-			handleError ((HWND) hwndDlg, ERR_CAPI_INIT_FAILED);
+			handleError ((HWND) hwndDlg, ERR_CAPI_INIT_FAILED, SRC_POS);
 			ret = FALSE;
 		}
 		else
@@ -397,7 +401,7 @@ BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceS
 
 	if (!FastPoll ())
 	{
-		handleError ((HWND) hwndDlg, ERR_CAPI_INIT_FAILED);
+		handleError ((HWND) hwndDlg, ERR_CAPI_INIT_FAILED, SRC_POS);
 		ret = FALSE;
 	}
 

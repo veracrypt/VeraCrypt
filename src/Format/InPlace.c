@@ -79,7 +79,7 @@ static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const char *devicePath, in
 		NULL))
 	{
 		if (!silent)
-			handleWin32Error (MainDlg);
+			handleWin32Error (MainDlg, SRC_POS);
 
 		return -1;
 	}
@@ -90,7 +90,7 @@ static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const char *devicePath, in
 	{
 		SetLastError (ERROR_INTERNAL_ERROR);
 		if (!silent)
-			handleWin32Error (MainDlg);
+			handleWin32Error (MainDlg, SRC_POS);
 
 		return -1;
 	}	
@@ -189,7 +189,7 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath,
 	{
 		if (!silent)
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL", hwndDlg);
 		}
 		return FALSE;
@@ -458,7 +458,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		&dwResult,
 		NULL))
 	{
-		handleWin32Error (MainDlg);
+		handleWin32Error (MainDlg, SRC_POS);
 		ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
 		nStatus = ERR_DONT_REPORT; 
 		goto closing_seq;
@@ -496,7 +496,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		&dwResult,
 		NULL))
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "CANNOT_RESIZE_FILESYS", TRUE);
 		nStatus = ERR_DONT_REPORT; 
 		goto closing_seq;
@@ -523,11 +523,11 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 						continue;
 					}
 
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 				}
 			}
 			else
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 
 			ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "CANNOT_RESIZE_FILESYS", TRUE);
 			nStatus = ERR_DONT_REPORT; 
@@ -1237,7 +1237,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 		if (driveLetter == -1
 			|| !UnmountVolume (hwndDlg, driveLetter, TRUE))
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			AbortProcess ("CANT_DISMOUNT_VOLUME");
 		}
 	}
@@ -1797,7 +1797,7 @@ static HANDLE OpenPartitionVolume (HWND hwndDlg, const char *devName,
 		{
 			if (!bSilent)
 			{
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 
 				if (bShowAlternativeSteps)
 					ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);
@@ -1823,7 +1823,7 @@ static HANDLE OpenPartitionVolume (HWND hwndDlg, const char *devName,
 		{
 			if (!bSilent)
 			{
-				handleWin32Error (MainDlg);
+				handleWin32Error (MainDlg, SRC_POS);
 
 				if (bShowAlternativeSteps)
 					ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT", TRUE);

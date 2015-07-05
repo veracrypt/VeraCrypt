@@ -11,6 +11,7 @@
 
 #include "Platform/PlatformBase.h"
 #include "Dlgcode.h"
+#include "Language.h"
 #include <strsafe.h>
 
 namespace VeraCrypt
@@ -22,30 +23,32 @@ namespace VeraCrypt
 
 	struct SystemException : public Exception
 	{
-		SystemException () : ErrorCode (GetLastError()) { }
+		SystemException (const char *srcPos) : ErrorCode (GetLastError()), SrcPos (srcPos) { }
 
 		void Show (HWND parent) const
 		{
 			SetLastError (ErrorCode);
-			handleWin32Error (parent);
+			handleWin32Error (parent, SrcPos);
 		}
 
 		DWORD ErrorCode;
+		const char *SrcPos;
 	};
 
 	struct ErrorException : public Exception
 	{
-		ErrorException (char *langId) : ErrLangId (langId) { }
-		ErrorException (const wstring &errMsg) : ErrLangId(NULL), ErrMsg (errMsg) { }
+		ErrorException (char *langId, const char *srcPos) : SrcPos (srcPos), ErrLangId (langId) { }
+		ErrorException (const wstring &errMsg, const char *srcPos) : SrcPos (srcPos), ErrLangId(NULL), ErrMsg (errMsg) { }
 
 		void Show (HWND parent) const
 		{
 			if (ErrMsg.empty())
-				::Error (ErrLangId? ErrLangId : "", parent);
+				::ErrorDirect (AppendSrcPos (GetString (ErrLangId? ErrLangId : ""), SrcPos).c_str (), parent);
 			else
-				::ErrorDirect (ErrMsg.c_str(), parent);
+				::ErrorDirect (AppendSrcPos (ErrMsg.c_str(), SrcPos).c_str (), parent);
 		}
 
+		const char *SrcPos;
 		char *ErrLangId;
 		wstring ErrMsg;
 	};
@@ -97,8 +100,10 @@ namespace VeraCrypt
 
 	struct TimeOut : public Exception
 	{
-		TimeOut (const char *srcPos) { }
-		void Show (HWND parent) const { ErrorDirect (L"Timeout", parent); }
+		TimeOut (const char *srcPos) : SrcPos (srcPos) { }
+		void Show (HWND parent) const { ErrorDirect (AppendSrcPos (L"Timeout", SrcPos).c_str (), parent); }
+
+		const char *SrcPos;
 	};
 
 	struct UserAbort : public Exception
@@ -108,7 +113,7 @@ namespace VeraCrypt
 	};
 }
 
-#define throw_sys_if(condition) do { if (condition) throw SystemException(); } while (false)
+#define throw_sys_if(condition) do { if (condition) throw SystemException( SRC_POS ); } while (false)
 
 
 #endif // TC_HEADER_Common_Exception

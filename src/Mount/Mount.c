@@ -1325,7 +1325,7 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 
 		if (!CreateProcess (NULL, (LPSTR) t, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi))
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 		}
 		else
 		{
@@ -1352,7 +1352,7 @@ static void LaunchVolExpander (HWND hwndDlg)
 			Error ("VOL_EXPANDER_NOT_FOUND", hwndDlg);	// Display a user-friendly error message and advise what to do
 		else if (((int)ShellExecuteA (NULL, (!IsAdmin() && IsUacSupported()) ? "runas" : "open", t, NULL, NULL, SW_SHOW)) <= 32)
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 		}
 	}
 }
@@ -1408,7 +1408,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 	if (bResult == FALSE)
 	{
 		KillTimer (MainDlg, TIMER_ID_MAIN);
-		handleWin32Error (hTree);
+		handleWin32Error (hTree, SRC_POS);
 		AbortProcessSilent();
 	}
 
@@ -3882,7 +3882,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 				goto stop;
 			}
 
@@ -3893,7 +3893,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
 				if (!TCCopyFile (srcPath, dstPath))
 				{
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					goto stop;
 				}
 			}
@@ -3903,7 +3903,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\veracrypt.sys", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 				goto stop;
 			}
 
@@ -3912,7 +3912,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 				goto stop;
 			}
 
@@ -4179,7 +4179,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pin)
 	if (!VolumePathExists (szFileName))
 	{
 		if (!MultipleMountOperationInProgress)
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 
 		status = FALSE;
 		goto ret;
@@ -4431,7 +4431,7 @@ retry:
 		if (bResult == FALSE)
 		{
 			NormalCursor();
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			return FALSE;
 		}
 
@@ -4798,7 +4798,7 @@ static void ChangePassword (HWND hwndDlg)
 
 	if (!VolumePathExists (szFileName))
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		return;
 	}
 
@@ -5119,7 +5119,7 @@ static void DecryptNonSysDevice (HWND hwndDlg, BOOL bResolveAmbiguousSelection, 
 
 			if (!DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &bytesReturned, NULL))
 			{
-				handleWin32Error (MainDlg);
+				handleWin32Error (MainDlg, SRC_POS);
 				return;
 			}
 
@@ -5446,7 +5446,7 @@ static void WipeCache (HWND hwndDlg, BOOL silent)
 		return;
 
 	if (bResult == FALSE)
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 	else
 	{
 		EnableDisableButtons (hwndDlg);
@@ -5716,7 +5716,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (!ComServerMain ())
 				{
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					exit (1);
 				}
 				exit (0);
@@ -5785,7 +5785,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (!VolumePathExists (szFileName))
 					{
-						handleWin32Error (hwndDlg);
+						handleWin32Error (hwndDlg, SRC_POS);
 					}
 					else
 					{
@@ -8190,9 +8190,9 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	if (status != 0)
 	{
 		if (status == ERR_OS_ERROR)
-			handleWin32Error (NULL);
+			handleWin32Error (NULL, SRC_POS);
 		else
-			handleError (NULL, status);
+			handleError (NULL, status, SRC_POS);
 
 		AbortProcess ("NODRIVER");
 	}
@@ -8560,7 +8560,7 @@ static void SaveDefaultKeyFilesParam (HWND hwnd)
 		f = fopen (GetConfigPath (TC_APPD_FILENAME_DEFAULT_KEYFILES), "w");
 		if (f == NULL)
 		{
-			handleWin32Error (MainDlg);
+			handleWin32Error (MainDlg, SRC_POS);
 			return;
 		}
 
@@ -8729,7 +8729,7 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lps
    if (!lpszVolume)
    {
       nStatus = ERR_OUTOFMEMORY;
-      handleError (hwndDlg, nStatus);
+      handleError (hwndDlg, nStatus, SRC_POS);
       return nStatus;
    }
 
@@ -8754,7 +8754,7 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lps
 
 	if (!VolumePathExists (lpszVolume))
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		goto ret;
 	}
 
@@ -8794,7 +8794,7 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lps
 					|| (type == TC_VOLUME_TYPE_HIDDEN && !askVol->CryptoInfo->hiddenVolume))
 				{
 					CloseVolume (askVol);
-					handleError (hwndDlg, ERR_PASSWORD_WRONG);
+					handleError (hwndDlg, ERR_PASSWORD_WRONG, SRC_POS);
 					continue;
 				}
 
@@ -8823,7 +8823,7 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lps
 			if (nStatus != ERR_PASSWORD_WRONG)
 				goto error;
 
-			handleError (hwndDlg, nStatus);
+			handleError (hwndDlg, nStatus, SRC_POS);
 		}
 	}
 noHidden:
@@ -8937,7 +8937,7 @@ error:
 
 	SetLastError (dwError);
 	if (nStatus != 0)
-		handleError (hwndDlg, nStatus);
+		handleError (hwndDlg, nStatus, SRC_POS);
 
 	burn (&VolumePassword, sizeof (VolumePassword));
 	burn (&VolumePkcs5, sizeof (VolumePkcs5));
@@ -8977,7 +8977,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
    if (!lpszVolume)
    {
       nStatus = ERR_OUTOFMEMORY;
-      handleError (hwndDlg, nStatus);
+      handleError (hwndDlg, nStatus, SRC_POS);
       return nStatus;
    }
 
@@ -9008,7 +9008,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 
 	if (!VolumePathExists (lpszVolume))
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		return 0;
 	}
 
@@ -9065,7 +9065,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 			if (nStatus != ERR_PASSWORD_WRONG)
 				goto error;
 
-			handleError (hwndDlg, nStatus);
+			handleError (hwndDlg, nStatus, SRC_POS);
 		}
 
 		if (volume.CryptoInfo->LegacyVolume)
@@ -9273,7 +9273,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 			if (nStatus != ERR_PASSWORD_WRONG)
 				goto error;
 
-			handleError (hwndDlg, nStatus);
+			handleError (hwndDlg, nStatus, SRC_POS);
 		}
 
 		BOOL hiddenVol = restoredCryptoInfo->hiddenVolume;
@@ -9363,7 +9363,7 @@ error:
 
 	SetLastError (dwError);
 	if (nStatus != 0)
-		handleError (hwndDlg, nStatus);
+		handleError (hwndDlg, nStatus, SRC_POS);
 
 	burn (&VolumePassword, sizeof (VolumePassword));
 	burn (&VolumePkcs5, sizeof (VolumePkcs5));
@@ -9486,7 +9486,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 
 					DWORD bytesReturned;
 					if (!DeviceIoControl (hDriver, TC_IOCTL_REREAD_DRIVER_CONFIG, NULL, 0, NULL, 0, &bytesReturned, NULL))
-						handleWin32Error (hwndDlg);
+						handleWin32Error (hwndDlg, SRC_POS);
 
 					EnableHwEncryption (!disableHW);
 

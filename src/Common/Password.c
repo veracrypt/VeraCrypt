@@ -22,6 +22,10 @@
 
 #include <io.h>
 
+#ifndef SRC_POS
+#define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
+#endif
+
 void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 			 HWND hVerify, unsigned char *szPassword,
 			 char *szVerify,
@@ -160,14 +164,14 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int
 	if ((wipePassCount <= 0) || (truecryptMode && (old_pkcs5 == SHA256)))
 	{
       nStatus = ERR_PARAMETER_INCORRECT;
-      handleError (hwndDlg, nStatus);
+      handleError (hwndDlg, nStatus, SRC_POS);
       return nStatus;
 	}
 
    if (!lpszVolume)
    {
       nStatus = ERR_OUTOFMEMORY;
-      handleError (hwndDlg, nStatus);
+      handleError (hwndDlg, nStatus, SRC_POS);
       return nStatus;
    }
 
@@ -451,7 +455,7 @@ error:
 		return nStatus;
 
 	if (nStatus != 0)
-		handleError (hwndDlg, nStatus);
+		handleError (hwndDlg, nStatus, SRC_POS);
 
 	return nStatus;
 }

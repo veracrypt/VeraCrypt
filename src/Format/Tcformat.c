@@ -308,7 +308,7 @@ void CALLBACK ResumeInPlaceEncWaitThreadProc(void* pArg, HWND hwndDlg)
 				}
 				else
 				{
-					handleError(hwndDlg, status);
+					handleError(hwndDlg, status, SRC_POS);
 				}
 
 				break;
@@ -524,7 +524,7 @@ static BOOL SaveSysEncSettings (HWND hwndDlg)
 	if (f == NULL)
 	{
 		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS", hwndDlg);
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		return FALSE;
 	}
 
@@ -540,7 +540,7 @@ static BOOL SaveSysEncSettings (HWND hwndDlg)
 
 	|| XmlWriteFooter (f) < 0)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		fclose (f);
 		Error ("CANNOT_SAVE_SYS_ENCRYPTION_SETTINGS", hwndDlg);
 		return FALSE;
@@ -2662,7 +2662,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 
 			wchar_t szMsg[8192];
 
-			handleError (hwndDlg, nStatus);
+			handleError (hwndDlg, nStatus, SRC_POS);
 
 			if (bInPlaceEncNonSys)
 			{
@@ -3292,7 +3292,7 @@ BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display)
 
 		if (!GetVolumePathName (szFileName, root, sizeof (root)))
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			return FALSE;
 		}
 
@@ -5226,7 +5226,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					nVolumeSize = GetDeviceSize (szDiskFile);
 					if (nVolumeSize == -1)
 					{
-						handleWin32Error (MainDlg);
+						handleWin32Error (MainDlg, SRC_POS);
 						return 1;
 					}
 
@@ -5846,7 +5846,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (!ComServerFormat ())
 				{
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					exit (1);
 				}
 				exit (0);
@@ -6993,7 +6993,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (nVolumeSize == -1)
 					{
-						handleWin32Error (MainDlg);
+						handleWin32Error (MainDlg, SRC_POS);
 						return 1;
 					}
 
@@ -7353,7 +7353,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						nVolumeSize = GetDeviceSize (szDiskFile);
 						if (nVolumeSize == -1)
 						{
-							handleWin32Error (MainDlg);
+							handleWin32Error (MainDlg, SRC_POS);
 							NormalCursor();
 							return 1;
 						}
@@ -7380,7 +7380,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (driveNo == -1
 							|| !UnmountVolume (hwndDlg, driveNo, TRUE))
 						{
-							handleWin32Error (MainDlg);
+							handleWin32Error (MainDlg, SRC_POS);
 							AbortProcess ("CANT_DISMOUNT_VOLUME");
 						}
 					}
@@ -7413,7 +7413,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						volProp.driveNo = driveNo;
 						if (!DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &volProp, sizeof (volProp), &volProp, sizeof (volProp), &dwResult, NULL) || dwResult == 0)
 						{
-							handleWin32Error (hwndDlg);
+							handleWin32Error (hwndDlg, SRC_POS);
 							UnmountVolume (hwndDlg, driveNo, TRUE);
 							AbortProcess ("CANT_GET_VOL_INFO");
 						}
@@ -7435,7 +7435,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (!UnmountVolume (hwndDlg, driveNo, TRUE))
 					{
-						handleWin32Error (MainDlg);
+						handleWin32Error (MainDlg, SRC_POS);
 						AbortProcess ("CANT_DISMOUNT_VOLUME");
 					}
 
@@ -7449,7 +7449,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					if (!UnmountVolume (hwndDlg, driveNo, TRUE))
 					{
-						handleWin32Error (MainDlg);
+						handleWin32Error (MainDlg, SRC_POS);
 						AbortProcess ("CANT_DISMOUNT_VOLUME");
 					}
 
@@ -7460,7 +7460,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					nVolumeSize = GetDeviceSize (szDiskFile);
 					if (nVolumeSize == -1)
 					{
-						handleWin32Error (MainDlg);
+						handleWin32Error (MainDlg, SRC_POS);
 						AbortProcessSilent ();
 					}
 
@@ -8745,7 +8745,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 	volProp.driveNo = *driveNo;
 	if (!DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &volProp, sizeof (volProp), &volProp, sizeof (volProp), &dwResult, NULL) || dwResult == 0)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		Error ("CANT_ACCESS_OUTER_VOL", hwndDlg);
 		goto efsf_error;
 	}
@@ -8783,7 +8783,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 
 	if (SetFilePointerEx (hDevice, offset, &offsetNew, FILE_BEGIN) == 0)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		goto efs_error;
 	}
 
@@ -8791,7 +8791,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 
 	if (result == 0)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		MessageBoxW (hwndDlg, GetString ("CANT_ACCESS_OUTER_VOL"), lpszTitle, ICON_HAND);
 		goto efs_error;
 	}
@@ -8842,7 +8842,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 			&dwNumberOfFreeClusters, 
 			&dwTotalNumberOfClusters))
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("CANT_GET_OUTER_VOL_INFO", hwndDlg);
 			return -1;
 		};
@@ -8955,7 +8955,7 @@ int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int
 		&lBytesReturned,
 		NULL))
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		MessageBoxW (hwndDlg, GetString ("CANT_GET_CLUSTER_BITMAP"), lpszTitle, ICON_HAND);
 
 		goto vcm_error;
@@ -9649,9 +9649,9 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	if (status != 0)
 	{
 		if (status == ERR_OS_ERROR)
-			handleWin32Error (NULL);
+			handleWin32Error (NULL, SRC_POS);
 		else
-			handleError (NULL, status);
+			handleError (NULL, status, SRC_POS);
 
 		AbortProcess ("NODRIVER");
 	}
@@ -9677,7 +9677,7 @@ static int GetFormatSectorSize ()
 
 	if (!GetDriveGeometry (szDiskFile, &geometry))
 	{
-		handleWin32Error (MainDlg);
+		handleWin32Error (MainDlg, SRC_POS);
 		AbortProcessSilent();
 	}
 

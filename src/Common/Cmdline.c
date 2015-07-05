@@ -22,6 +22,10 @@
 #include "Language.h"
 #include <Strsafe.h>
 
+#ifndef SRC_POS
+#define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
+#endif
+
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
    not. - see DialogProc */
@@ -92,7 +96,7 @@ int Win32CommandLine (char *lpszCommandLine, char ***lpszArgs)
 	LPWSTR *arguments = CommandLineToArgvW (GetCommandLineW(), &argumentCount);
 	if (!arguments)
 	{
-		handleWin32Error (NULL);
+		handleWin32Error (NULL, SRC_POS);
 		return 0;
 	}
 
@@ -120,7 +124,7 @@ int Win32CommandLine (char *lpszCommandLine, char ***lpszArgs)
 			int len = WideCharToMultiByte (CP_ACP, 0, arguments[i + 1], -1, arg, (int) argLen + 1, NULL, NULL);
 			if (len == 0)
 			{
-				handleWin32Error (NULL);
+				handleWin32Error (NULL, SRC_POS);
 				AbortProcessSilent();
 			}
 		}

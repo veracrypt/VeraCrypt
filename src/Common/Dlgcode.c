@@ -548,10 +548,10 @@ BOOL IsDiskError (DWORD error)
 }
 
 
-DWORD handleWin32Error (HWND hwndDlg)
+DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
 {
 	PWSTR lpMsgBuf;
-	DWORD dwError = GetLastError ();
+	DWORD dwError = GetLastError ();	
 
 	if (Silent || dwError == 0 || dwError == ERROR_INVALID_WINDOW_HANDLE)
 		return dwError;
@@ -559,7 +559,7 @@ DWORD handleWin32Error (HWND hwndDlg)
 	// Access denied
 	if (dwError == ERROR_ACCESS_DENIED && !IsAdmin ())
 	{
-		Error ("ERR_ACCESS_DENIED", hwndDlg);
+		ErrorDirect ( AppendSrcPos (GetString ("ERR_ACCESS_DENIED"), srcPos).c_str (), hwndDlg);
 		SetLastError (dwError);		// Preserve the original error code
 		return dwError;
 	}
@@ -574,7 +574,7 @@ DWORD handleWin32Error (HWND hwndDlg)
 			      NULL
 	    );
 
-	MessageBoxW (hwndDlg, lpMsgBuf, lpszTitle, ICON_HAND);
+	MessageBoxW (hwndDlg, AppendSrcPos (lpMsgBuf, srcPos).c_str (), lpszTitle, ICON_HAND);
 	LocalFree (lpMsgBuf);
 
 	// User-friendly hardware error explanation
@@ -1265,7 +1265,7 @@ void InitDialog (HWND hwndDlg)
 	hFixedDigitFont = CreateFontIndirectW (&lf);
 	if (hFixedDigitFont == NULL)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		AbortProcess ("NOFONT");
 	}
 
@@ -1279,7 +1279,7 @@ void InitDialog (HWND hwndDlg)
 	hBoldFont = CreateFontIndirectW (&lf);
 	if (hBoldFont == NULL)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		AbortProcess ("NOFONT");
 	}
 
@@ -1293,7 +1293,7 @@ void InitDialog (HWND hwndDlg)
 	hTitleFont = CreateFontIndirectW (&lf);
 	if (hTitleFont == NULL)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		AbortProcess ("NOFONT");
 	}
 
@@ -1318,7 +1318,7 @@ void InitDialog (HWND hwndDlg)
 	hFixedFont = CreateFontIndirectW (&lf);
 	if (hFixedFont == NULL)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		AbortProcess ("NOFONT");
 	}
 
@@ -2525,7 +2525,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	/* Get the attributes for the standard dialog class */
 	if ((GetClassInfo (hInst, WINDOWS_DIALOG_CLASS, &wc)) == 0)
 	{
-		handleWin32Error (NULL);
+		handleWin32Error (NULL, SRC_POS);
 		AbortProcess ("INIT_REGISTER");
 	}
 
@@ -2543,7 +2543,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	hDlgClass = RegisterClass (&wc);
 	if (hDlgClass == 0)
 	{
-		handleWin32Error (NULL);
+		handleWin32Error (NULL, SRC_POS);
 		AbortProcess ("INIT_REGISTER");
 	}
 
@@ -2555,7 +2555,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	hSplashClass = RegisterClass (&wc);
 	if (hSplashClass == 0)
 	{
-		handleWin32Error (NULL);
+		handleWin32Error (NULL, SRC_POS);
 		AbortProcess ("INIT_REGISTER");
 	}
 	
@@ -2567,7 +2567,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	if ((hRichEditDll = LoadLibrary(dllPath)) == NULL)
 	{
 		// This error is fatal e.g. because legal notices could not be displayed
-		handleWin32Error (NULL);
+		handleWin32Error (NULL, SRC_POS);
 		AbortProcess ("INIT_RICHEDIT");	
 	}
 
@@ -2580,7 +2580,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 #ifndef SETUP
 	if (!EncryptionThreadPoolStart (ReadEncryptionThreadPoolFreeCpuCountLimit()))
 	{
-		handleWin32Error (NULL);
+		handleWin32Error (NULL, SRC_POS);
 		if (hRichEditDll)
 		{
 			FreeLibrary (hRichEditDll);
@@ -3470,7 +3470,7 @@ BOOL DoDriverInstall (HWND hwndDlg)
 error:
 	if (bOK == FALSE && GetLastError () != ERROR_SERVICE_ALREADY_RUNNING)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		MessageBoxW (hwndDlg, GetString ("DRIVER_INSTALL_FAILED"), lpszTitle, MB_ICONHAND);
 	}
 	else
@@ -4091,7 +4091,7 @@ std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg)
 }
 
 
-void handleError (HWND hwndDlg, int code)
+void handleError (HWND hwndDlg, int code, const char* srcPos)
 {
 	WCHAR szTmp[4096];
 
@@ -4100,57 +4100,57 @@ void handleError (HWND hwndDlg, int code)
 	switch (code & 0x0000FFFF)
 	{
 	case ERR_OS_ERROR:
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, srcPos);
 		break;
 	case ERR_OUTOFMEMORY:
-		MessageBoxW (hwndDlg, GetString ("OUTOFMEMORY"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("OUTOFMEMORY"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 
 	case ERR_PASSWORD_WRONG:
-		MessageBoxW (hwndDlg, GetWrongPasswordErrorMessage (hwndDlg).c_str(), lpszTitle, MB_ICONWARNING);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetWrongPasswordErrorMessage (hwndDlg).c_str(), srcPos).c_str(), lpszTitle, MB_ICONWARNING);
 		break;
 
 	case ERR_DRIVE_NOT_FOUND:
-		MessageBoxW (hwndDlg, GetString ("NOT_FOUND"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("NOT_FOUND"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_FILES_OPEN:
-		MessageBoxW (hwndDlg, GetString ("OPENFILES_DRIVER"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("OPENFILES_DRIVER"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_FILES_OPEN_LOCK:
-		MessageBoxW (hwndDlg, GetString ("OPENFILES_LOCK"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("OPENFILES_LOCK"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_VOL_SIZE_WRONG:
-		MessageBoxW (hwndDlg, GetString ("VOL_SIZE_WRONG"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("VOL_SIZE_WRONG"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_COMPRESSION_NOT_SUPPORTED:
-		MessageBoxW (hwndDlg, GetString ("COMPRESSION_NOT_SUPPORTED"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("COMPRESSION_NOT_SUPPORTED"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_PASSWORD_CHANGE_VOL_TYPE:
-		MessageBoxW (hwndDlg, GetString ("WRONG_VOL_TYPE"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("WRONG_VOL_TYPE"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_VOL_SEEKING:
-		MessageBoxW (hwndDlg, GetString ("VOL_SEEKING"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("VOL_SEEKING"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_CIPHER_INIT_FAILURE:
-		MessageBoxW (hwndDlg, GetString ("ERR_CIPHER_INIT_FAILURE"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("ERR_CIPHER_INIT_FAILURE"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_CIPHER_INIT_WEAK_KEY:
-		MessageBoxW (hwndDlg, GetString ("ERR_CIPHER_INIT_WEAK_KEY"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("ERR_CIPHER_INIT_WEAK_KEY"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_VOL_ALREADY_MOUNTED:
-		MessageBoxW (hwndDlg, GetString ("VOL_ALREADY_MOUNTED"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("VOL_ALREADY_MOUNTED"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_FILE_OPEN_FAILED:
-		MessageBoxW (hwndDlg, GetString ("FILE_OPEN_FAILED"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("FILE_OPEN_FAILED"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_VOL_MOUNT_FAILED:
-		MessageBoxW (hwndDlg, GetString  ("VOL_MOUNT_FAILED"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString  ("VOL_MOUNT_FAILED"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_NO_FREE_DRIVES:
-		MessageBoxW (hwndDlg, GetString ("NO_FREE_DRIVES"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("NO_FREE_DRIVES"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 	case ERR_ACCESS_DENIED:
-		MessageBoxW (hwndDlg, GetString ("ACCESS_DENIED"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("ACCESS_DENIED"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 
 	case ERR_DRIVER_VERSION:
@@ -4158,7 +4158,7 @@ void handleError (HWND hwndDlg, int code)
 		break;
 
 	case ERR_NEW_VERSION_REQUIRED:
-		MessageBoxW (hwndDlg, GetString ("NEW_VERSION_REQUIRED"), lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (GetString ("NEW_VERSION_REQUIRED"), srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 
 	case ERR_SELF_TESTS_FAILED:
@@ -4192,24 +4192,24 @@ void handleError (HWND hwndDlg, int code)
 
 	case ERR_UNSUPPORTED_TRUECRYPT_FORMAT:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("UNSUPPORTED_TRUECRYPT_FORMAT"), (code >> 24), (code >> 16) & 0x000000FF);
-		MessageBoxW (hwndDlg, szTmp, lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, ICON_HAND);
 		break;
 
 #ifndef SETUP
 	case ERR_RAND_INIT_FAILED:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("INIT_RAND"), SRC_POS, GetLastError ());
-		MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR);
+		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, MB_ICONERROR);
 		break;
 
 	case ERR_CAPI_INIT_FAILED:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("CAPI_RAND"), SRC_POS, CryptoAPILastError);
-		MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_ICONERROR);
+		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, MB_ICONERROR);
 		break;
 #endif
 
 	default:
 		StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("ERR_UNKNOWN"), code);
-		MessageBoxW (hwndDlg, szTmp, lpszTitle, ICON_HAND);
+		MessageBoxW (hwndDlg, AppendSrcPos (szTmp, srcPos).c_str(), lpszTitle, ICON_HAND);
 	}
 }
 
@@ -5210,7 +5210,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 #ifndef VOLFORMAT			
 			if (Randinit ()) 
 			{
-				handleError (hwndDlg, (CryptoAPILastError == ERROR_SUCCESS)? ERR_RAND_INIT_FAILED : ERR_CAPI_INIT_FAILED);
+				handleError (hwndDlg, (CryptoAPILastError == ERROR_SUCCESS)? ERR_RAND_INIT_FAILED : ERR_CAPI_INIT_FAILED, SRC_POS);
 				EndDialog (hwndDlg, IDCLOSE);
 			}
 #endif
@@ -5410,7 +5410,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					TCfree(keyfile);
 					NormalCursor();
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					return 1;
 				}
 
@@ -5452,7 +5452,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					TCfree(keyfile);
 					NormalCursor();
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					return 1;
 				}				
 			}
@@ -5776,7 +5776,7 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 					if ((tmpRetVal = EAInit (ci->ea, (unsigned char *) key, ci->ks)) != ERR_SUCCESS)
 					{
-						handleError (hwndDlg, tmpRetVal);
+						handleError (hwndDlg, tmpRetVal, SRC_POS);
 						crypto_close (ci);
 						return 1;
 					}
@@ -6271,7 +6271,7 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced)
 
 	if (bResult == FALSE)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		return 1;
 	}
 
@@ -6778,7 +6778,7 @@ retry:
 		}
 
 		if (!quiet && (!MultipleMountOperationInProgress || GetLastError() != ERROR_NOT_READY))
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 
 		return -1;
 	}
@@ -6816,18 +6816,18 @@ retry:
 						if (DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST, &openTestStruct, sizeof (OPEN_TEST_STRUCT), &openTestStruct, sizeof (OPEN_TEST_STRUCT), &dwResult, NULL) && openTestStruct.TCBootLoaderDetected)
 							WarningDirect ((GetWrongPasswordErrorMessage (hwndDlg) + L"\n\n" + GetString ("HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT")).c_str(), hwndDlg);
 						else
-							handleError (hwndDlg, mount.nReturnCode);
+							handleError (hwndDlg, mount.nReturnCode, SRC_POS);
 					}
 				}
 				else
-					handleError (hwndDlg, mount.nReturnCode);
+					handleError (hwndDlg, mount.nReturnCode, SRC_POS);
 			}
 
 			return 0;
 		}
 
 		if (!quiet)
-			handleError (hwndDlg, mount.nReturnCode);
+			handleError (hwndDlg, mount.nReturnCode, SRC_POS);
 
 		return 0;
 	}
@@ -7234,7 +7234,7 @@ __int64 GetStatsFreeSpaceOnPartition (const char *devicePath, float *percentFree
 	{
 		if (!silent)
 		{
-			handleWin32Error (MainDlg);
+			handleWin32Error (MainDlg, SRC_POS);
 			Error ("CANNOT_CALC_SPACE", MainDlg);
 		}
 
@@ -7252,7 +7252,7 @@ __int64 GetStatsFreeSpaceOnPartition (const char *devicePath, float *percentFree
 		{
 			if (!silent)
 			{
-				handleWin32Error (MainDlg);
+				handleWin32Error (MainDlg, SRC_POS);
 				Error ("CANT_GET_VOLSIZE", MainDlg);
 			}
 			return -1;
@@ -7561,7 +7561,7 @@ BOOL SaveBufferToFile (const char *inputBuffer, const char *destinationFile, DWO
 	if (dst == INVALID_HANDLE_VALUE)
 	{
 		SetLastError (dwLastError);
-		handleWin32Error (MainDlg);
+		handleWin32Error (MainDlg, SRC_POS);
 		return FALSE;
 	}
 
@@ -7579,7 +7579,7 @@ BOOL SaveBufferToFile (const char *inputBuffer, const char *destinationFile, DWO
 		// If CREATE_ALWAYS is used, ERROR_ALREADY_EXISTS is returned after successful overwrite
 		// of an existing file (it's not an error)
 		if (! (GetLastError() == ERROR_ALREADY_EXISTS && !bAppend) )	
-			handleWin32Error (MainDlg);
+			handleWin32Error (MainDlg, SRC_POS);
 	}
 
 	CloseHandle (dst);
@@ -9739,7 +9739,7 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 
 				if (GetWindowTextW (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD), passwordWide, SecurityToken::MaxPasswordLength + 1) == 0)
 				{
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					break;
 				}
 
@@ -10020,7 +10020,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 						byte *keyfileData = (byte *) LoadFile (keyfilePath, &keyfileSize);
 						if (!keyfileData)
 						{
-							handleWin32Error (hwndDlg);
+							handleWin32Error (hwndDlg, SRC_POS);
 							return 1;
 						}
 
@@ -10059,7 +10059,7 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 						else
 						{
 							SetLastError (ERROR_HANDLE_EOF);
-							handleWin32Error (hwndDlg);
+							handleWin32Error (hwndDlg, SRC_POS);
 						}
 
 						burn (keyfileData, keyfileSize);
@@ -10091,14 +10091,14 @@ BOOL CALLBACK SecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam
 								if (keyfileData.empty())
 								{
 									SetLastError (ERROR_HANDLE_EOF);
-									handleWin32Error (hwndDlg);
+									handleWin32Error (hwndDlg, SRC_POS);
 									return 1;
 								}
 
 								finally_do_arg (vector <byte> *, &keyfileData, { burn (&finally_arg->front(), finally_arg->size()); });
 
 								if (!SaveBufferToFile ((char *) &keyfileData.front(), keyfilePath, (DWORD) keyfileData.size(), FALSE, FALSE))
-									throw SystemException ();
+									throw SystemException (SRC_POS);
 							}
 
 							Info ("KEYFILE_EXPORTED", hwndDlg);
@@ -10481,7 +10481,7 @@ BOOL RemoveDeviceWriteProtection (HWND hwndDlg, char *devicePath)
 	FILE *f = fopen (cmdBatch, "w");
 	if (!f)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		return FALSE;
 	}
 
@@ -10493,7 +10493,7 @@ BOOL RemoveDeviceWriteProtection (HWND hwndDlg, char *devicePath)
 	f = fopen (diskpartScript, "w");
 	if (!f)
 	{
-		handleWin32Error (hwndDlg);
+		handleWin32Error (hwndDlg, SRC_POS);
 		DeleteFile (cmdBatch);
 		return FALSE;
 	}
@@ -10631,7 +10631,7 @@ BOOL LaunchWindowsIsoBurner (HWND hwnd, const char *isoPath)
 	if (r <= 32)
 	{
 		SetLastError (r);
-		handleWin32Error (hwnd);
+		handleWin32Error (hwnd, SRC_POS);
 
 		return FALSE;
 	}

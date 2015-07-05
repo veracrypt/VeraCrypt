@@ -6,6 +6,8 @@
  packages.
 */
 
+#pragma once
+
 #include <windows.h>
 
 #ifdef __cplusplus

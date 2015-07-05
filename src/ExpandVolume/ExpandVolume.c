@@ -56,6 +56,10 @@ Original legal notice of the TrueCrypt source files:
 #include "ExpandVolume.h"
 #include "Resource.h"
 
+#ifndef SRC_POS
+#define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
+#endif
+
 #define DEBUG_EXPAND_VOLUME
 
 #ifdef DEBUG_EXPAND_VOLUME
@@ -987,7 +991,7 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 		pParam->VolumePkcs5, pParam->VolumePin, pParam->newSize, pParam->bInitFreeSpace );
 
 	if (nStatus!=ERR_SUCCESS && nStatus!=ERR_USER_ABORT)
-			handleError (hwndDlg, nStatus);
+			handleError (hwndDlg, nStatus, SRC_POS);
 
 	bVolTransformThreadCancel = FALSE;
 

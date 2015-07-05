@@ -15,6 +15,10 @@
 
 #include <Strsafe.h>
 
+#ifndef SRC_POS
+#define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
+#endif
+
 #define MAX_KEY_COMB_NAME_LEN	260
 
 TCHOTKEY	Hotkeys [NBR_HOTKEYS];
@@ -422,13 +426,13 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (!bOwnActiveShortcut
 					&& !RegisterHotKey (hwndDlg, nSelectedHotkeyId, modifiers, currentVKeyCode))
 				{
-					handleWin32Error(hwndDlg);
+					handleWin32Error(hwndDlg, SRC_POS);
 					return 1;
 				}
 				else
 				{
 					if (!bOwnActiveShortcut && !UnregisterHotKey (hwndDlg, nSelectedHotkeyId))
-						handleWin32Error(hwndDlg);
+						handleWin32Error(hwndDlg, SRC_POS);
 
 					tmpHotkeys[nSelectedHotkeyId].vKeyCode = currentVKeyCode;
 					tmpHotkeys[nSelectedHotkeyId].vKeyModifiers = modifiers;

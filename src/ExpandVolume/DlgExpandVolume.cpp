@@ -385,7 +385,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				pProgressDlgParam->hwndDlg = hwndDlg;
 				if ( _beginthread (volTransformThreadFunction, 0, pProgressDlgParam) == -1L )
 				{
-					handleError (hwndDlg, ERR_OS_ERROR);
+					handleError (hwndDlg, ERR_OS_ERROR, SRC_POS);
 					EndDialog (hwndDlg, lw);
 				}
 				WaitCursor();
@@ -572,7 +572,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 
 		NormalCursor();
 
-		handleError (hwndDlg, nStatus);
+		handleError (hwndDlg, nStatus, SRC_POS);
 	}
 
 	WaitCursor();
@@ -722,7 +722,7 @@ ret:
 error:
 
 	if (nStatus != 0)
-		handleError (hwndDlg, nStatus);
+		handleError (hwndDlg, nStatus, SRC_POS);
 
 	burn (&VolumePassword, sizeof (VolumePassword));
 

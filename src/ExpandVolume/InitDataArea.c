@@ -59,6 +59,10 @@ Original legal notice of the TrueCrypt source:
 
 #include "InitDataArea.h"
 
+#ifndef SRC_POS
+#define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
+#endif
+
 int FormatWriteBufferSize = 1024 * 1024;
 static uint32 FormatSectorSize = 0;
 
@@ -226,7 +230,7 @@ static void __cdecl FormatWriteThreadProc (void *arg)
 	{
 		if (WaitForSingleObject (WriteBufferFullEvent, INFINITE) == WAIT_FAILED)
 		{
-			handleWin32Error (NULL);
+			handleWin32Error (NULL, SRC_POS);
 			break;
 		}
 
@@ -240,7 +244,7 @@ static void __cdecl FormatWriteThreadProc (void *arg)
 
 		if (!SetEvent (WriteBufferEmptyEvent))
 		{
-			handleWin32Error (NULL);
+			handleWin32Error (NULL, SRC_POS);
 			break;
 		}
 	}

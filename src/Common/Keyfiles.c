@@ -252,7 +252,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 				if (keyfileData.empty())
 				{
 					SetLastError (ERROR_HANDLE_EOF); 
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
 					continue;
@@ -291,7 +291,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 		// Determine whether it's a path or a file
 		if (stat (kf->FileName, &statStruct) != 0)
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 			status = FALSE;
 			continue;
@@ -305,7 +305,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 			StringCbPrintfA (searchPath, sizeof (searchPath), "%s\\*.*", kf->FileName);
 			if ((searchHandle = _findfirst (searchPath, &fBuf)) == -1)
 			{
-				handleWin32Error (hwndDlg);
+				handleWin32Error (hwndDlg, SRC_POS);
 				Error ("ERR_PROCESS_KEYFILE_PATH", hwndDlg);
 				status = FALSE;
 				continue;
@@ -323,7 +323,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 				// Determine whether it's a path or a file
 				if (stat (kfSub->FileName, &statStruct) != 0)
 				{
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
 					continue;
@@ -347,7 +347,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 				// Apply keyfile to the pool
 				if (!KeyFileProcess (keyPool, kfSub))
 				{
-					handleWin32Error (hwndDlg);
+					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
 				}
@@ -366,7 +366,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 		// Apply keyfile to the pool
 		else if (!KeyFileProcess (keyPool, kf))
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 			status = FALSE;
 		}

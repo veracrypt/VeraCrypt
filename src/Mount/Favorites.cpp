@@ -39,7 +39,7 @@ namespace VeraCrypt
 
 		if (!DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &bytesReturned, NULL))
 		{
-			handleWin32Error (hwndDlg);
+			handleWin32Error (hwndDlg, SRC_POS);
 			return FALSE;
 		}
 
@@ -137,7 +137,7 @@ namespace VeraCrypt
 						BootEncryptionStatus bootEncStatus = BootEncryption (hwndDlg).GetStatus();
 
 						if (!bootEncStatus.DriveMounted)
-							throw ErrorException ("SYS_FAVORITES_REQUIRE_PBA");
+							throw ErrorException ("SYS_FAVORITES_REQUIRE_PBA", SRC_POS);
 
 						ShowWindow (GetDlgItem(hwndDlg, IDC_FAVORITE_MOUNT_ON_LOGON), SW_HIDE);
 						ShowWindow (GetDlgItem(hwndDlg, IDC_FAVORITE_MOUNT_ON_ARRIVAL), SW_HIDE);
@@ -667,7 +667,7 @@ namespace VeraCrypt
 		f = fopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), "w,ccs=UTF-8");
 		if (f == NULL)
 		{
-			handleWin32Error (MainDlg);
+			handleWin32Error (MainDlg, SRC_POS);
 			return false;
 		}
 

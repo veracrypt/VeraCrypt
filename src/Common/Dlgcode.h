@@ -237,7 +237,7 @@ void AbortProcess ( char *stringId );
 void AbortProcessSilent ( void );
 void *err_malloc ( size_t size );
 char *err_strdup ( char *lpszText );
-DWORD handleWin32Error ( HWND hwndDlg );
+DWORD handleWin32Error ( HWND hwndDlg, const char* srcPos );
 BOOL IsDiskReadError (DWORD error);
 BOOL IsDiskWriteError (DWORD error);
 BOOL IsDiskError (DWORD error);
@@ -317,7 +317,7 @@ void ResetCipherTest ( HWND hwndDlg , int idTestCipher );
 void ResetCurrentDirectory ();
 BOOL BrowseFiles (HWND hwndDlg, char *stringId, char *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter);
 BOOL BrowseDirectories (HWND hWnd, char *lpszTitle, char *dirName);
-void handleError ( HWND hwndDlg , int code );
+void handleError ( HWND hwndDlg , int code, const char* srcPos );
 BOOL CheckFileStreamWriteErrors (HWND hwndDlg, FILE *file, const char *fileName);
 void LocalizeDialog ( HWND hwnd, char *stringId );
 void OpenVolumeExplorerWindow (int driveNo);
@@ -552,6 +552,10 @@ std::string FindLatestFileOrDirectory (const std::string &directory, const char 
 std::string GetUserFriendlyVersionString (int version);
 std::string IntToString (int val);
 std::wstring IntToWideString (int val);
+inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
+{
+	return std::wstring (msg) + L"\n\nSource: " + SingleStringToWide (srcPos);
+}
 
 // Display a wait dialog while calling the provided callback with the given parameter
 typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);
