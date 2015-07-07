@@ -339,6 +339,9 @@ static void InitMainDialog (HWND hwndDlg)
 		SetMenuItemInfoW (GetMenu (hwndDlg), i, TRUE,  &info); 
 	}
 
+	// Disable menu item for changing system header key derivation algorithm until it's implemented
+	EnableMenuItem (GetMenu (hwndDlg), IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO, MF_GRAYED);
+
 	try
 	{
 		LoadFavoriteVolumes();
@@ -1090,7 +1093,7 @@ static void PopulateSysEncContextMenu (HMENU popup, BOOL bToolsOnly)
 	}
 
 	AppendMenuW (popup, MF_STRING, IDM_CHANGE_SYS_PASSWORD, GetString ("IDM_CHANGE_SYS_PASSWORD"));
-	AppendMenuW (popup, MF_STRING, IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO, GetString ("IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO"));
+	// AppendMenuW (popup, MF_STRING, IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO, GetString ("IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO"));
 
 	AppendMenu (popup, MF_SEPARATOR, 0, "");
 	AppendMenuW (popup, MF_STRING, IDM_SYS_ENC_SETTINGS, GetString ("IDM_SYS_ENC_SETTINGS"));
