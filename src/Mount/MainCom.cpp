@@ -302,6 +302,8 @@ extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pk
 	CComPtr<ITrueCryptMainCom> tc;
 	int r;
 
+	CoInitialize (NULL);
+
 	if (ComGetInstance (hwndDlg, &tc))
 	{
 		WaitCursor ();
@@ -319,6 +321,8 @@ extern "C" int UacChangePwd (char *lpszVolume, Password *oldPassword, int old_pk
 	}
 	else
 		r = -1;
+
+	CoUninitialize ();
 
 	return r;
 }
