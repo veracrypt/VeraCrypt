@@ -7649,6 +7649,20 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		EndMainDlg (hwndDlg);
 		return 1;
 
+	case WM_INITMENUPOPUP:
+		{
+			// disable "Set Header Key Derivation Algorithm" entry in "Volumes" menu
+			// "Volumes" menu is the first (index 0) submenu of the main menu
+			if ((HMENU) wParam == GetSubMenu (GetMenu (hwndDlg), 0))
+			{
+				if (ActiveSysEncDeviceSelected ())
+					EnableMenuItem (GetMenu (hwndDlg), IDM_CHANGE_HEADER_KEY_DERIV_ALGO, MF_GRAYED);
+				else
+					EnableMenuItem (GetMenu (hwndDlg), IDM_CHANGE_HEADER_KEY_DERIV_ALGO, MF_ENABLED);
+			}
+		}
+		return 1;
+
 	default:
 		// Recreate tray icon if Explorer restarted
 		if (taskBarCreatedMsg != 0 && uMsg == taskBarCreatedMsg && TaskBarIconMutex != NULL)
