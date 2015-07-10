@@ -80,6 +80,7 @@ ifneq "$(origin VERBOSE)" "command line"
 endif
 
 ifeq "$(origin WXSTATIC)" "command line"
+	export VC_WX_STATIC := 1
 	WX_CONFIG = $(WX_BUILD_DIR)/wx-config
 	WX_CONFIG_ARGS += --static
 endif
