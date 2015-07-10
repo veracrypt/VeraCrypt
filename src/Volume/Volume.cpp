@@ -119,9 +119,6 @@ namespace VeraCrypt
 			bool skipLayoutV1Normal = false;
 
 			bool deviceHosted = GetPath().IsDevice();
-			size_t hostDeviceSectorSize = 0;
-			if (deviceHosted)
-				hostDeviceSectorSize = volumeFile->GetDeviceSectorSize();
 
 			// Test volume layouts
 			foreach (shared_ptr <VolumeLayout> layout, VolumeLayout::GetAvailableLayouts (volumeType))

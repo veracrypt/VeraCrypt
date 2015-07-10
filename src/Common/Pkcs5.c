@@ -401,7 +401,7 @@ typedef struct hmac_ripemd160_ctx_struct
 void hmac_ripemd160_internal (char *key, int keylen, char *input_digest, int len, hmac_ripemd160_ctx* hmac)
 {
 	RMD160_CTX* context = &(hmac->context);
-   unsigned char* k_pad = hmac->k_pad;  /* inner/outer padding - key XORd with ipad */
+   unsigned char* k_pad = (unsigned char*) hmac->k_pad;  /* inner/outer padding - key XORd with ipad */
    int i;
 
 	/*
