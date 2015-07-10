@@ -229,7 +229,7 @@ Password volumePassword;			/* User password */
 char szVerify[MAX_PASSWORD + 1];	/* Tmp password buffer */
 char szRawPassword[MAX_PASSWORD + 1];	/* Password before keyfile was applied to it */
 
-int volumePin = 0;
+int volumePim = 0;
 
 BOOL bHistoryCmdLine = FALSE; /* History control is always disabled */
 BOOL ComServerMode = FALSE;
@@ -280,7 +280,7 @@ void CALLBACK ResumeInPlaceEncWaitThreadProc(void* pArg, HWND hwndDlg)
 			if (device.Path == szDevicePath)
 			{
 				OpenVolumeContext volume;
-				int status = OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePin, FALSE, FALSE, FALSE, TRUE);
+				int status = OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePim, FALSE, FALSE, FALSE, TRUE);
 
 				if ( status == ERR_SUCCESS)
 				{
@@ -326,7 +326,7 @@ void CALLBACK ResumeInPlaceEncWaitThreadProc(void* pArg, HWND hwndDlg)
 
 				OpenVolumeContext volume;
 
-				if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePin, FALSE, FALSE, FALSE, TRUE) == ERR_SUCCESS)
+				if (OpenVolume (&volume, device.Path.c_str(), &volumePassword, hash_algo, volumePim, FALSE, FALSE, FALSE, TRUE) == ERR_SUCCESS)
 				{
 					if ((volume.CryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
 						&& volume.CryptoInfo->EncryptedAreaLength.Value != volume.CryptoInfo->VolumeSize.Value)
@@ -382,7 +382,7 @@ static void WipePasswordsAndKeyfiles (void)
 	burn (&szVerify[0], sizeof (szVerify));
 	burn (&volumePassword, sizeof (volumePassword));
 	burn (&szRawPassword[0], sizeof (szRawPassword));
-	burn (&volumePin, sizeof (volumePin));
+	burn (&volumePim, sizeof (volumePim));
 
 	SetWindowText (hPasswordInputField, "");
 	SetWindowText (hVerifyPasswordInputField, "");
@@ -2555,7 +2555,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	volParams->sectorSize = GetFormatSectorSize();
 	volParams->realClusterSize = &realClusterSize;
 	volParams->password = &volumePassword;
-	volParams->pin = volumePin;
+	volParams->pim = volumePim;
 	volParams->hwndDlg = hwndDlg;
 
 	if (bInPlaceDecNonSys)
@@ -2627,7 +2627,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	if (bHiddenVolHost && !bVolTransformThreadCancel && nStatus == 0)
 	{
 		/* Auto mount the newly created hidden volume host */
-		switch (MountHiddenVolHost (hwndDlg, szDiskFile, &hiddenVolHostDriveNo, &volumePassword, hash_algo, volumePin, FALSE))
+		switch (MountHiddenVolHost (hwndDlg, szDiskFile, &hiddenVolHostDriveNo, &volumePassword, hash_algo, volumePim, FALSE))
 		{
 		case ERR_NO_FREE_DRIVES:
 			MessageBoxW (hwndDlg, GetString ("NO_FREE_DRIVE_FOR_OUTER_VOL"), lpszTitle, ICON_HAND);
@@ -2748,7 +2748,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				// Clear the outer volume password
 				memset(&szVerify[0], 0, sizeof (szVerify));
 				memset(&szRawPassword[0], 0, sizeof (szRawPassword));
-				memset(&volumePin, 0, sizeof (volumePin));
+				memset(&volumePim, 0, sizeof (volumePim));
 
 				MessageBeep (MB_OK);
 			}
@@ -3538,14 +3538,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 {
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
-	static BOOL PinValueChangedWarning = FALSE;
+	static BOOL PimValueChangedWarning = FALSE;
 
 	hCurPage = hwndDlg;
 
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
-		PinValueChangedWarning = FALSE;
+		PimValueChangedWarning = FALSE;
 		LocalizeDialog (hwndDlg, "IDD_VOL_CREATION_WIZARD_DLG");
 
 		UpdateLastDialogId ();
@@ -4128,10 +4128,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD_DIRECT));
 
 				SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
-				if (volumePin > 0)
+				if (volumePim > 0)
 				{
 					char szTmp[MAX_PIM + 1];
-					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePin);
+					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePim);
 					SetWindowText (GetDlgItem (hwndDlg, IDC_PIM), szTmp);
 				}
 
@@ -4242,13 +4242,13 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		case PIM_PAGE:
 			{
 				SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, SysEncInEffect()? MAX_BOOT_PIM: MAX_PIM, 0);
-				if (volumePin > 0)
+				if (volumePim > 0)
 				{
 					char szTmp[MAX_PIM + 1];
-					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePin);
+					StringCbPrintfA(szTmp, sizeof(szTmp), "%d", volumePim);
 					SetWindowText (GetDlgItem (hwndDlg, IDC_PIM), szTmp);
 
-					PinValueChangedWarning = TRUE;
+					PimValueChangedWarning = TRUE;
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
 				}
 
@@ -5002,7 +5002,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case WM_CTLCOLORSTATIC:
 		{
-			if (PinValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIM_HELP)) )
+			if (PimValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIM_HELP)) )
 			{
 				// we're about to draw the static
 				// set the text colour in (HDC)lParam
@@ -5396,14 +5396,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (lw == IDC_PIM)
 			{
-				if(GetPin (hwndDlg, IDC_PIM) != 0)
+				if(GetPim (hwndDlg, IDC_PIM) != 0)
 				{
-					PinValueChangedWarning = TRUE;
+					PimValueChangedWarning = TRUE;
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
 				}
 				else
 				{
-					PinValueChangedWarning = FALSE;
+					PimValueChangedWarning = FALSE;
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
 				}
 			}
@@ -5415,14 +5415,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (lw == IDC_PIM)
 			{
-				if(GetPin (hwndDlg, IDC_PIM) != 0)
+				if(GetPim (hwndDlg, IDC_PIM) != 0)
 				{
-					PinValueChangedWarning = TRUE;
+					PimValueChangedWarning = TRUE;
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
 				}
 				else
 				{
-					PinValueChangedWarning = FALSE;
+					PimValueChangedWarning = FALSE;
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
 				}
 			}
@@ -7146,19 +7146,19 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			else if (nCurPageNo == PIM_PAGE)
 			{
-				volumePin = GetPin (hCurPage, IDC_PIM);
+				volumePim = GetPim (hCurPage, IDC_PIM);
 
 				if (volumePassword.Length > 0)
 				{	
 					// Password character encoding
-					if (SysEncInEffect() && (volumePin > MAX_BOOT_PIM_VALUE))
+					if (SysEncInEffect() && (volumePim > MAX_BOOT_PIM_VALUE))
 					{
 						SetFocus (GetDlgItem(hCurPage, IDC_PIM));
 						Error ("PIM_SYSENC_TOO_BIG", hwndDlg);
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePin, SysEncInEffect(), TRUE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), TRUE))
 					{
 						return 1;
 					}
@@ -7192,7 +7192,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				hash_algo = (int) SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
-				volumePin = GetPin (hCurPage, IDC_PIM);
+				volumePim = GetPim (hCurPage, IDC_PIM);
 
 				// Store the password in case we need to restore it after keyfile is applied to it
 				GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD_DIRECT), szRawPassword, sizeof (szRawPassword));
@@ -7231,7 +7231,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 						// Mount the hidden volume host as read-only (to ensure consistent and secure
 						// results of the volume bitmap scanning)
-						switch (MountHiddenVolHost (hwndDlg, szDiskFile, &hiddenVolHostDriveNo, &volumePassword, hash_algo, volumePin, TRUE))
+						switch (MountHiddenVolHost (hwndDlg, szDiskFile, &hiddenVolHostDriveNo, &volumePassword, hash_algo, volumePim, TRUE))
 						{
 						case ERR_NO_FREE_DRIVES:
 							NormalCursor ();
@@ -7399,7 +7399,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					// Check that it is not a hidden or legacy volume
 
-					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePin, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
+					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePim, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
 					{
 						NormalCursor();
 						return 1;
@@ -7441,7 +7441,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					mountOptions.UseBackupHeader = TRUE;	// This must be TRUE at this point (we won't be using the regular header, which will be lost soon after the decryption process starts)
 
-					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePin, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
+					if (MountVolume (hwndDlg, driveNo, szFileName, &volumePassword, hash_algo, volumePim, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
 					{
 						NormalCursor();
 						return 1;
@@ -7507,7 +7507,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					try
 					{
 						WaitCursor();
-						BootEncObj->PrepareInstallation (!bWholeSysDrive, volumePassword, nVolumeEA, FIRST_MODE_OF_OPERATION_ID, hash_algo, volumePin, "");
+						BootEncObj->PrepareInstallation (!bWholeSysDrive, volumePassword, nVolumeEA, FIRST_MODE_OF_OPERATION_ID, hash_algo, volumePim, "");
 					}
 					catch (Exception &e)
 					{
@@ -8053,7 +8053,7 @@ retryCDDriveCheck:
 					{
 						// Remount the hidden volume host as read-only (to ensure consistent and secure
 						// results of the volume bitmap scanning)
-						switch (MountHiddenVolHost (hwndDlg, szDiskFile, &hiddenVolHostDriveNo, &volumePassword, hash_algo, volumePin, TRUE))
+						switch (MountHiddenVolHost (hwndDlg, szDiskFile, &hiddenVolHostDriveNo, &volumePassword, hash_algo, volumePim, TRUE))
 						{
 						case ERR_NO_FREE_DRIVES:
 							MessageBoxW (hwndDlg, GetString ("NO_FREE_DRIVE_FOR_OUTER_VOL"), lpszTitle, ICON_HAND);
@@ -8301,7 +8301,7 @@ ovf_end:
 
 			else if (nCurPageNo == PIM_PAGE)
 			{
-				volumePin = GetPin (hCurPage, IDC_PIM);
+				volumePim = GetPim (hCurPage, IDC_PIM);
 			}
 
 			else if (nCurPageNo == HIDDEN_VOL_HOST_PASSWORD_PAGE
@@ -8878,7 +8878,7 @@ efsf_error:
 
 
 // Mounts a volume within which the user intends to create a hidden volume
-int MountHiddenVolHost (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5_prf, int pin, BOOL bReadOnly)
+int MountHiddenVolHost (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5_prf, int pim, BOOL bReadOnly)
 {
 	MountOptions mountOptions;
 	ZeroMemory (&mountOptions, sizeof (mountOptions));
@@ -8898,7 +8898,7 @@ int MountHiddenVolHost (HWND hwndDlg, char *volumePath, int *driveNo, Password *
 	mountOptions.PartitionInInactiveSysEncScope = FALSE;
 	mountOptions.UseBackupHeader = FALSE;
 
-	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5_prf, pin, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
+	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5_prf, pim, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
 	{
 		*driveNo = -3;
 		return ERR_VOL_MOUNT_FAILED;
@@ -9592,7 +9592,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 	VirtualLock (&volumePassword, sizeof(volumePassword));
 	VirtualLock (szVerify, sizeof(szVerify));
 	VirtualLock (szRawPassword, sizeof(szRawPassword));
-	VirtualLock (&volumePin, sizeof(volumePin));
+	VirtualLock (&volumePim, sizeof(volumePim));
 
 	VirtualLock (MasterKeyGUIView, sizeof(MasterKeyGUIView));
 	VirtualLock (HeaderKeyGUIView, sizeof(HeaderKeyGUIView));

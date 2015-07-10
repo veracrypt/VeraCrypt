@@ -145,14 +145,14 @@ static int AskSelection (const char *options[], size_t optionCount)
 }
 
 
-static byte AskPassword (Password &password, int& pin)
+static byte AskPassword (Password &password, int& pim)
 {
 	size_t pos = 0;
 	byte scanCode;
 	byte asciiCode;
 	byte hidePassword = 1;
 
-	pin = 0;
+	pim = 0;
 
 	Print ("Enter password");
 	Print (PreventNormalSystemBoot ? " for hidden system:\r\n" : ": ");
@@ -238,7 +238,7 @@ static byte AskPassword (Password &password, int& pin)
 					PrintCharAtCursor (' ');
 
 				--pos;
-				pin /= 10;
+				pim /= 10;
 			}
 			continue;
 
@@ -259,7 +259,7 @@ static byte AskPassword (Password &password, int& pin)
 			continue;
 		}
 
-		pin = 10*pin + (asciiCode - '0');
+		pim = 10*pim + (asciiCode - '0');
 		pos++;
 
 		if (pos < MAX_PIM)
@@ -296,7 +296,7 @@ static void ExecuteBootSector (byte drive, byte *sectorBuffer)
 }
 
 
-static bool OpenVolume (byte drive, Password &password, int pin, CRYPTO_INFO **cryptoInfo, uint32 *headerSaltCrc32, bool skipNormal, bool skipHidden)
+static bool OpenVolume (byte drive, Password &password, int pim, CRYPTO_INFO **cryptoInfo, uint32 *headerSaltCrc32, bool skipNormal, bool skipHidden)
 {
 	int volumeType;
 	bool hiddenVolume;
@@ -327,7 +327,7 @@ static bool OpenVolume (byte drive, Password &password, int pin, CRYPTO_INFO **c
 		if (ReadSectors (SectorBuffer, drive, headerSec, 1) != BiosResultSuccess)
 			continue;
 
-		if (ReadVolumeHeader (!hiddenVolume, (char *) SectorBuffer, &password, pin, cryptoInfo, nullptr) == ERR_SUCCESS)
+		if (ReadVolumeHeader (!hiddenVolume, (char *) SectorBuffer, &password, pim, cryptoInfo, nullptr) == ERR_SUCCESS)
 		{
 			// Prevent opening a non-system hidden volume
 			if (hiddenVolume && !((*cryptoInfo)->HeaderFlags & TC_HEADER_FLAG_ENCRYPTED_SYSTEM))
@@ -381,21 +381,21 @@ static bool CheckMemoryRequirements ()
 static bool MountVolume (byte drive, byte &exitKey, bool skipNormal, bool skipHidden)
 {
 	BootArguments *bootArguments = (BootArguments *) TC_BOOT_LOADER_ARGS_OFFSET;
-	int incorrectPasswordCount = 0, pin = 0;
+	int incorrectPasswordCount = 0, pim = 0;
 
 	EraseMemory (bootArguments, sizeof (*bootArguments));
 
 	// Open volume header
 	while (true)
 	{
-		exitKey = AskPassword (bootArguments->BootPassword, pin);
+		exitKey = AskPassword (bootArguments->BootPassword, pim);
 
 		if (exitKey != TC_BIOS_KEY_ENTER)
 			return false;
 
 		Print ("Verifying password...");
 
-		if (OpenVolume (BootDrive, bootArguments->BootPassword, pin, &BootCryptoInfo, &bootArguments->HeaderSaltCrc32, skipNormal, skipHidden))
+		if (OpenVolume (BootDrive, bootArguments->BootPassword, pim, &BootCryptoInfo, &bootArguments->HeaderSaltCrc32, skipNormal, skipHidden))
 		{
 			Print ("OK\r\n");
 			break;
@@ -421,7 +421,7 @@ static bool MountVolume (byte drive, byte &exitKey, bool skipNormal, bool skipHi
 	bootArguments->BootLoaderVersion = VERSION_NUM;
 	bootArguments->CryptoInfoOffset = (uint16) BootCryptoInfo;
 	bootArguments->CryptoInfoLength = sizeof (*BootCryptoInfo);
-	bootArguments->Flags = (((uint32)pin) << 16);
+	bootArguments->Flags = (((uint32)pim) << 16);
 
 	if (BootCryptoInfo->hiddenVolume)
 		bootArguments->HiddenSystemPartitionStart = PartitionFollowingActive.StartSector << TC_LB_SIZE_BIT_SHIFT_DIVISOR;
@@ -1023,8 +1023,8 @@ static void RepairMenu ()
 						uint32 masterKeyScheduleCrc;
 
 						Password password;
-						int pin;
-						byte exitKey = AskPassword (password, pin);
+						int pim;
+						byte exitKey = AskPassword (password, pim);
 
 						if (exitKey != TC_BIOS_KEY_ENTER)
 							goto abort;
@@ -1035,7 +1035,7 @@ static void RepairMenu ()
 						ReleaseSectorBuffer();
 
 						// Restore volume header only if the current one cannot be used
-						if (OpenVolume (TC_FIRST_BIOS_DRIVE, password, pin, &cryptoInfo, nullptr, false, true))
+						if (OpenVolume (TC_FIRST_BIOS_DRIVE, password, pim, &cryptoInfo, nullptr, false, true))
 						{
 							validHeaderPresent = true;
 							masterKeyScheduleCrc = GetCrc32 (cryptoInfo->ks, sizeof (cryptoInfo->ks));
@@ -1045,7 +1045,7 @@ static void RepairMenu ()
 						AcquireSectorBuffer();
 						CopyMemory (TC_BOOT_LOADER_BUFFER_SEGMENT, 0, SectorBuffer, TC_LB_SIZE);
 
-						if (ReadVolumeHeader (TRUE, (char *) SectorBuffer, &password, pin, &cryptoInfo, nullptr) == 0)
+						if (ReadVolumeHeader (TRUE, (char *) SectorBuffer, &password, pim, &cryptoInfo, nullptr) == 0)
 						{
 							if (validHeaderPresent)
 							{

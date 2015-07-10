@@ -570,7 +570,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 			FIRST_MODE_OF_OPERATION_ID,
 			volParams->password,
 			volParams->pkcs5,
-			volParams->pin,
+			volParams->pim,
 			wipePass == 0 ? NULL : (char *) cryptoInfo->master_keydata,
 			&cryptoInfo,
 			dataAreaSize,
@@ -610,7 +610,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	/* Now we will try to decrypt the backup header to verify it has been correctly written. */
 
-	nStatus = OpenBackupHeader (dev, volParams->volumePath, volParams->password, volParams->pkcs5, volParams->pin, &cryptoInfo2, NULL, deviceSize);
+	nStatus = OpenBackupHeader (dev, volParams->volumePath, volParams->password, volParams->pkcs5, volParams->pim, &cryptoInfo2, NULL, deviceSize);
 
 	if (nStatus != ERR_SUCCESS
 		|| cryptoInfo->EncryptedAreaStart.Value != cryptoInfo2->EncryptedAreaStart.Value
@@ -726,7 +726,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	char *devicePath = volParams->volumePath;
 	Password *password = volParams->password;
 	int pkcs5_prf = volParams->pkcs5;
-	int pin = volParams->pin;
+	int pim = volParams->pim;
 	DISK_GEOMETRY driveGeometry;
 	HWND hwndDlg = volParams->hwndDlg;
 
@@ -820,7 +820,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	sectorSize = driveGeometry.BytesPerSector;
 
 
-	nStatus = OpenBackupHeader (dev, devicePath, password, pkcs5_prf, pin, &masterCryptoInfo, headerCryptoInfo, deviceSize);
+	nStatus = OpenBackupHeader (dev, devicePath, password, pkcs5_prf, pim, &masterCryptoInfo, headerCryptoInfo, deviceSize);
 
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
@@ -1050,7 +1050,7 @@ inplace_enc_read:
 				headerCryptoInfo->mode,
 				password,
 				masterCryptoInfo->pkcs5,
-				pin,
+				pim,
 				(char *) masterCryptoInfo->master_keydata,
 				&tmpCryptoInfo,
 				masterCryptoInfo->VolumeSize.Value,
@@ -1201,7 +1201,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	Password *password = volParams->password;
 	HWND hwndDlg = volParams->hwndDlg;
 	int pkcs5_prf = volParams->pkcs5;
-	int pin = volParams->pin;
+	int pim = volParams->pim;
 	DISK_GEOMETRY driveGeometry;
 
 
@@ -1295,7 +1295,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	}
 
 
-	nStatus = OpenBackupHeader (dev, devicePath, password, pkcs5_prf, pin, &masterCryptoInfo, headerCryptoInfo, deviceSize);
+	nStatus = OpenBackupHeader (dev, devicePath, password, pkcs5_prf, pim, &masterCryptoInfo, headerCryptoInfo, deviceSize);
 
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
@@ -2085,7 +2085,7 @@ closing_seq:
 }
 
 
-static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *password, int pkcs5, int pin, PCRYPTO_INFO *retMasterCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize)
+static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *password, int pkcs5, int pim, PCRYPTO_INFO *retMasterCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize)
 {
 	LARGE_INTEGER offset;
 	DWORD n;
@@ -2111,7 +2111,7 @@ static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *passw
 	}
 
 
-	nStatus = ReadVolumeHeader (FALSE, header, password, pkcs5, pin, FALSE, retMasterCryptoInfo, headerCryptoInfo);
+	nStatus = ReadVolumeHeader (FALSE, header, password, pkcs5, pim, FALSE, retMasterCryptoInfo, headerCryptoInfo);
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
 

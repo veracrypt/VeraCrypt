@@ -224,7 +224,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 	NTSTATUS status;
 	LARGE_INTEGER offset;
 	char *header;
-	int pkcs5_prf = 0, pin = 0;
+	int pkcs5_prf = 0, pim = 0;
 	byte *mappedCryptoInfo = NULL;
 
 	Dump ("MountDrive pdo=%p\n", Extension->Pdo);
@@ -295,9 +295,9 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		}
 	}
 
-	pin = (int) (BootArgs.Flags >> 16);
+	pim = (int) (BootArgs.Flags >> 16);
 
-	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, pin, FALSE, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
+	if (ReadVolumeHeader (!hiddenVolume, header, password, pkcs5_prf, pim, FALSE, &Extension->Queue.CryptoInfo, Extension->HeaderCryptoInfo) == 0)
 	{
 		// Header decrypted
 		status = STATUS_SUCCESS;
@@ -777,8 +777,8 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		|| request->VolumePassword.Length > MAX_PASSWORD
 		|| request->pkcs5_prf < 0
 		|| request->pkcs5_prf > LAST_PRF_ID
-		|| request->pin < 0
-		|| request->pin > 65535
+		|| request->pim < 0
+		|| request->pim > 65535
 		)
 	{
 		irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
@@ -804,14 +804,14 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		goto ret;
 	}
 
-	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, request->pin, FALSE, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
+	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, request->pim, FALSE, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
 	{
 		Dump ("Header reopened\n");
 		
 		BootDriveFilterExtension->Queue.CryptoInfo->header_creation_time = BootDriveFilterExtension->HeaderCryptoInfo->header_creation_time;
 		BootDriveFilterExtension->Queue.CryptoInfo->pkcs5 = BootDriveFilterExtension->HeaderCryptoInfo->pkcs5;
 		BootDriveFilterExtension->Queue.CryptoInfo->noIterations = BootDriveFilterExtension->HeaderCryptoInfo->noIterations;
-		BootDriveFilterExtension->Queue.CryptoInfo->volumePin = BootDriveFilterExtension->HeaderCryptoInfo->volumePin;
+		BootDriveFilterExtension->Queue.CryptoInfo->volumePim = BootDriveFilterExtension->HeaderCryptoInfo->volumePim;
 
 		irp->IoStatus.Status = STATUS_SUCCESS;
 	}
@@ -1585,7 +1585,7 @@ void GetBootDriveVolumeProperties (PIRP irp, PIO_STACK_LOCATION irpSp)
 			prop->mode = Extension->Queue.CryptoInfo->mode;
 			prop->pkcs5 = Extension->Queue.CryptoInfo->pkcs5;
 			prop->pkcs5Iterations = Extension->Queue.CryptoInfo->noIterations;
-			prop->volumePin = Extension->Queue.CryptoInfo->volumePin;
+			prop->volumePim = Extension->Queue.CryptoInfo->volumePim;
 #if 0
 			prop->volumeCreationTime = Extension->Queue.CryptoInfo->volume_creation_time;
 			prop->headerCreationTime = Extension->Queue.CryptoInfo->header_creation_time;

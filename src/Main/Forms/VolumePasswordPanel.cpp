@@ -57,7 +57,7 @@ namespace VeraCrypt
 		
 		VolumePimStaticText->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
 		VolumePimTextCtrl->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
-		VolumePinHelpStaticText->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
+		VolumePimHelpStaticText->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
 
 		ConfirmPasswordStaticText->Show (enableConfirmation);
 		ConfirmPasswordTextCtrl->Show (enableConfirmation);
@@ -78,7 +78,7 @@ namespace VeraCrypt
 			{
 				VolumePimStaticText->Enable (false);
 				VolumePimTextCtrl->Enable (false);
-				VolumePinHelpStaticText->Enable (false);
+				VolumePimHelpStaticText->Enable (false);
 			}
 		}
 
@@ -227,12 +227,12 @@ namespace VeraCrypt
 	{
 		if (VolumePimTextCtrl->IsEnabled ())
 		{
-			wxString pinStr (VolumePimTextCtrl->GetValue());
-			long pin = 0;
-			if (pinStr.IsEmpty())
+			wxString pimStr (VolumePimTextCtrl->GetValue());
+			long pim = 0;
+			if (pimStr.IsEmpty())
 				return 0;
-			if (pinStr.ToLong (&pin))
-				return (int) pin;
+			if (pimStr.ToLong (&pim))
+				return (int) pim;
 			else
 				return -1;
 		}
@@ -386,13 +386,13 @@ namespace VeraCrypt
 		{
 			if (GetVolumePim() != 0)
 			{
-				VolumePinHelpStaticText->SetForegroundColour(*wxRED);
-				VolumePinHelpStaticText->SetLabel(LangString["PIM_CHANGE_WARNING"]);
+				VolumePimHelpStaticText->SetForegroundColour(*wxRED);
+				VolumePimHelpStaticText->SetLabel(LangString["PIM_CHANGE_WARNING"]);
 			}
 			else
 			{
-				VolumePinHelpStaticText->SetForegroundColour(*wxBLACK);
-				VolumePinHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
+				VolumePimHelpStaticText->SetForegroundColour(*wxBLACK);
+				VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
 			}			
 		}
 	}
@@ -402,6 +402,6 @@ namespace VeraCrypt
 		bool bEnablePIM = !GetTrueCryptMode ();
 		VolumePimStaticText->Enable (bEnablePIM);
 		VolumePimTextCtrl->Enable (bEnablePIM);
-		VolumePinHelpStaticText->Enable (bEnablePIM);
+		VolumePimHelpStaticText->Enable (bEnablePIM);
 	}
 }

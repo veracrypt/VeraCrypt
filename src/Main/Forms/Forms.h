@@ -962,7 +962,7 @@ namespace VeraCrypt
 			wxTextCtrl* ConfirmPasswordTextCtrl;
 			wxStaticText* VolumePimStaticText;
 			wxTextCtrl* VolumePimTextCtrl;
-			wxStaticText* VolumePinHelpStaticText;
+			wxStaticText* VolumePimHelpStaticText;
 			wxCheckBox* CacheCheckBox;
 			wxCheckBox* DisplayPasswordCheckBox;
 			wxCheckBox* UseKeyfilesCheckBox;
@@ -1023,7 +1023,7 @@ namespace VeraCrypt
 			wxBoxSizer* PimSizer;
 			wxStaticText* VolumePimStaticText;
 			wxTextCtrl* VolumePimTextCtrl;
-			wxStaticText* VolumePinHelpStaticText;
+			wxStaticText* VolumePimHelpStaticText;
 			wxStaticText* InfoStaticText;
 			
 			// Virtual event handlers, overide them in your derived class

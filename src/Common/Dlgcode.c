@@ -6543,7 +6543,7 @@ int MountVolume (HWND hwndDlg,
 				 char *volumePath,
 				 Password *password,
 				 int pkcs5,
-				 int pin,
+				 int pim,
 				 BOOL truecryptMode,
 				 BOOL cachePassword,
 				 BOOL sharedAccess,
@@ -6606,7 +6606,7 @@ retry:
 		mount.ProtectedHidVolPassword = mountOptions->ProtectedHidVolPassword;
 		mount.bProtectHiddenVolume = TRUE;
 		mount.ProtectedHidVolPkcs5Prf = mountOptions->ProtectedHidVolPkcs5Prf;
-		mount.ProtectedHidVolPin = mountOptions->ProtectedHidVolPin;
+		mount.ProtectedHidVolPim = mountOptions->ProtectedHidVolPim;
 	}
 	else
 		mount.bProtectHiddenVolume = FALSE;
@@ -6618,7 +6618,7 @@ retry:
 	mount.bMountManager = TRUE;
 	mount.pkcs5_prf = pkcs5;
 	mount.bTrueCryptMode = truecryptMode;
-	mount.VolumePin = pin;
+	mount.VolumePim = pim;
 
 	// Windows 2000 mount manager causes problems with remounted volumes
 	if (CurrentOSMajor == 5 && CurrentOSMinor == 0)
@@ -9314,7 +9314,7 @@ void ReportUnexpectedState (char *techInfo)
 
 #ifndef SETUP
 
-int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, int pkcs5_prf, int pin, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
+int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, BOOL write, BOOL preserveTimestamps, BOOL useBackupHeader)
 {
 	int status = ERR_PARAMETER_INCORRECT;
 	int volumeType;
@@ -9464,7 +9464,7 @@ int OpenVolume (OpenVolumeContext *context, const char *volumePath, Password *pa
 		}
 
 		// Decrypt volume header
-		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pin, truecryptMode, &context->CryptoInfo, NULL);
+		status = ReadVolumeHeader (FALSE, buffer, password, pkcs5_prf, pim, truecryptMode, &context->CryptoInfo, NULL);
 
 		if (status == ERR_PASSWORD_WRONG)
 			continue;		// Try next volume type
@@ -9509,7 +9509,7 @@ void CloseVolume (OpenVolumeContext *context)
 }
 
 
-int ReEncryptVolumeHeader (HWND hwndDlg, char *buffer, BOOL bBoot, CRYPTO_INFO *cryptoInfo, Password *password, int pin, BOOL wipeMode)
+int ReEncryptVolumeHeader (HWND hwndDlg, char *buffer, BOOL bBoot, CRYPTO_INFO *cryptoInfo, Password *password, int pim, BOOL wipeMode)
 {
 	CRYPTO_INFO *newCryptoInfo = NULL;
 	
@@ -9531,7 +9531,7 @@ int ReEncryptVolumeHeader (HWND hwndDlg, char *buffer, BOOL bBoot, CRYPTO_INFO *
 		cryptoInfo->mode,
 		password,
 		cryptoInfo->pkcs5,
-		pin,
+		pim,
 		(char *) cryptoInfo->master_keydata,
 		&newCryptoInfo,
 		cryptoInfo->VolumeSize.Value,
@@ -10762,29 +10762,29 @@ std::string FindLatestFileOrDirectory (const std::string &directory, const char 
 	return string (directory) + "\\" + name;
 }
 
-int GetPin (HWND hwndDlg, UINT ctrlId)
+int GetPim (HWND hwndDlg, UINT ctrlId)
 {
-	int pin = 0;
+	int pim = 0;
 	if (IsWindowEnabled (GetDlgItem (hwndDlg, ctrlId)))
 	{
 		char szTmp[MAX_PIM + 1] = {0};
 		if (GetDlgItemText (hwndDlg, ctrlId, szTmp, MAX_PIM + 1) > 0)
 		{
 			char* endPtr = NULL;
-			pin = strtol(szTmp, &endPtr, 10);
-			if (pin < 0 || endPtr == szTmp || !endPtr || *endPtr != '\0')
-				pin = 0;
+			pim = strtol(szTmp, &endPtr, 10);
+			if (pim < 0 || endPtr == szTmp || !endPtr || *endPtr != '\0')
+				pim = 0;
 		}
 	}
-	return pin;
+	return pim;
 }
 
-void SetPin (HWND hwndDlg, UINT ctrlId, int pin)
+void SetPim (HWND hwndDlg, UINT ctrlId, int pim)
 {
-	if (pin > 0)
+	if (pim > 0)
 	{
 		char szTmp[MAX_PIM + 1];
-		StringCbPrintfA (szTmp, sizeof(szTmp), "%d", pin);
+		StringCbPrintfA (szTmp, sizeof(szTmp), "%d", pim);
 		SetDlgItemText (hwndDlg, ctrlId, szTmp);
 	}
 	else

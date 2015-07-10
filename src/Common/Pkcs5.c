@@ -129,7 +129,7 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, u
 
 #ifdef TC_WINDOWS_BOOT
 	/* In bootloader mode, least significant bit of iterations is a boolean (TRUE for boot derivation mode, FALSE otherwise)
-	 * and the most significant 16 bits hold the pin value
+	 * and the most significant 16 bits hold the pim value
 	 * This enables us to save code space needed for implementing other features.
 	 */
 	c = iterations >> 16;
@@ -483,7 +483,7 @@ static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len
 
 #ifdef TC_WINDOWS_BOOT
 	/* In bootloader mode, least significant bit of iterations is a boolean (TRUE for boot derivation mode, FALSE otherwise)
-	 * and the most significant 16 bits hold the pin value
+	 * and the most significant 16 bits hold the pim value
 	 * This enables us to save code space needed for implementing other features.
 	 */
 	c = iterations >> 16;
@@ -757,10 +757,10 @@ char *get_pkcs5_prf_name (int pkcs5_prf_id)
 
 
 
-int get_pkcs5_iteration_count (int pkcs5_prf_id, int pin, BOOL truecryptMode, BOOL bBoot)
+int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BOOL bBoot)
 {
-	if (	(pin < 0)
-		|| (truecryptMode && pin > 0) /* No PIM for TrueCrypt mode */
+	if (	(pim < 0)
+		|| (truecryptMode && pim > 0) /* No PIM for TrueCrypt mode */
 		)
 	{
 		return 0;
@@ -772,27 +772,27 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pin, BOOL truecryptMode, BO
 	case RIPEMD160:	
 		if (truecryptMode)
 			return bBoot ? 1000 : 2000;
-		else if (pin == 0)
+		else if (pim == 0)
 			return bBoot? 327661 : 655331;
 		else
 		{
-			return bBoot? pin * 2048 : 15000 + pin * 1000;
+			return bBoot? pim * 2048 : 15000 + pim * 1000;
 		}
 
 	case SHA512:	
-		return truecryptMode? 1000 : ((pin == 0)? 500000 : 15000 + pin * 1000);
+		return truecryptMode? 1000 : ((pim == 0)? 500000 : 15000 + pim * 1000);
 
 	case WHIRLPOOL:	
-		return truecryptMode? 1000 : ((pin == 0)? 500000 : 15000 + pin * 1000);
+		return truecryptMode? 1000 : ((pim == 0)? 500000 : 15000 + pim * 1000);
 
 	case SHA256:
 		if (truecryptMode)
 			return 0; // SHA-256 not supported by TrueCrypt
-		else if (pin == 0)
+		else if (pim == 0)
 			return bBoot? 200000 : 500000;
 		else
 		{
-			return bBoot? pin * 2048 : 15000 + pin * 1000;
+			return bBoot? pim * 2048 : 15000 + pim * 1000;
 		}
 
 	default:		

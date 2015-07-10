@@ -111,12 +111,12 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 }
 
 
-BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pin, BOOL bForBoot, BOOL bSkipPasswordWarning)
+BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim, BOOL bForBoot, BOOL bSkipPasswordWarning)
 {
-	BOOL bCustomPinSmall = ((pin != 0) && (pin < (bForBoot? 98 : 485)))? TRUE : FALSE;
+	BOOL bCustomPimSmall = ((pim != 0) && (pim < (bForBoot? 98 : 485)))? TRUE : FALSE;
 	if (passwordLength < PASSWORD_LEN_WARNING)
 	{
-		if (bCustomPinSmall)
+		if (bCustomPimSmall)
 		{
 			Error (bForBoot? "BOOT_PIM_REQUIRE_LONG_PASSWORD": "PIM_REQUIRE_LONG_PASSWORD", hwndDlg);
 			return FALSE;						
@@ -128,7 +128,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pin
 #endif
 	}
 #ifndef _DEBUG
-	else if (bCustomPinSmall)
+	else if (bCustomPimSmall)
 	{
 		if (MessageBoxW (hwndDlg, GetString ("PIM_SMALL_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES)
 			return FALSE;
@@ -137,7 +137,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pin
 	return TRUE;
 }
 
-int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pin, BOOL truecryptMode, Password *newPassword, int pkcs5, int pin, int wipePassCount, HWND hwndDlg)
+int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
 	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
@@ -305,7 +305,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int
 
 		/* Try to decrypt the header */
 
-		nStatus = ReadVolumeHeader (FALSE, buffer, oldPassword, old_pkcs5, old_pin, truecryptMode, &cryptoInfo, NULL);
+		nStatus = ReadVolumeHeader (FALSE, buffer, oldPassword, old_pkcs5, old_pim, truecryptMode, &cryptoInfo, NULL);
 		if (nStatus == ERR_CIPHER_INIT_WEAK_KEY)
 			nStatus = 0;	// We can ignore this error here
 
@@ -371,7 +371,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int
 				cryptoInfo->mode,
 				newPassword,
 				cryptoInfo->pkcs5,
-				pin,
+				pim,
 				cryptoInfo->master_keydata,
 				&ci,
 				cryptoInfo->VolumeSize.Value,

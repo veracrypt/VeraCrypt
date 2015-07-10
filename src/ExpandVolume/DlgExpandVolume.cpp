@@ -72,7 +72,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 namespace VeraCryptExpander
 {
 /* defined in WinMain.c, referenced by ExpandVolumeWizard() */
-int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *pin, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions);
+int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions);
 }
 
 
@@ -406,7 +406,7 @@ typedef struct
 	const char *volumePath;
 	Password *password;
 	int pkcs5_prf;
-	int pin;
+	int pim;
 	BOOL truecryptMode;
 	BOOL write;
 	BOOL preserveTimestamps;
@@ -419,7 +419,7 @@ void CALLBACK OpenVolumeWaitThreadProc(void* pArg, HWND hwndDlg)
 	OpenVolumeThreadParam* pThreadParam = (OpenVolumeThreadParam*) pArg;
 
 	*(pThreadParam)->nStatus = OpenVolume(pThreadParam->context, pThreadParam->volumePath, pThreadParam->password, pThreadParam->pkcs5_prf,
-		pThreadParam->pin, pThreadParam->truecryptMode, pThreadParam->write, pThreadParam->preserveTimestamps, pThreadParam->useBackupHeader);
+		pThreadParam->pim, pThreadParam->truecryptMode, pThreadParam->write, pThreadParam->preserveTimestamps, pThreadParam->useBackupHeader);
 }
 
 /*
@@ -445,7 +445,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 	int nStatus = ERR_OS_ERROR;
 	wchar_t szTmp[4096];
 	Password VolumePassword;
-	int VolumePkcs5 = 0, VolumePin = -1;
+	int VolumePkcs5 = 0, VolumePim = -1;
 	uint64 hostSize, volSize, hostSizeFree, maxSizeFS;
 	BOOL bIsDevice, bIsLegacy;
 	DWORD dwError;
@@ -513,7 +513,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 		OpenVolumeContext expandVol;
 		BOOL truecryptMode = FALSE;
 
-		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, &VolumePassword, &VolumePkcs5, &VolumePin, &truecryptMode, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
+		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, &VolumePassword, &VolumePkcs5, &VolumePim, &truecryptMode, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
 		{
 			goto ret;
 		}
@@ -531,7 +531,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 		threadParam.volumePath = lpszVolume;
 		threadParam.password = &VolumePassword;
 		threadParam.pkcs5_prf = VolumePkcs5;
-		threadParam.pin = VolumePin;
+		threadParam.pim = VolumePim;
 		threadParam.truecryptMode = FALSE;
 		threadParam.write = FALSE;
 		threadParam.preserveTimestamps = bPreserveTimestamp;
@@ -578,7 +578,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 	WaitCursor();
 
 	// auto mount the volume to check the file system type
-	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, &VolumePassword, VolumePkcs5, VolumePin);
+	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, &VolumePassword, VolumePkcs5, VolumePim);
 
 	if (nStatus != ERR_SUCCESS)
 		goto error;
@@ -653,7 +653,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 	VolExpandParam.FileSystem = volFSType;
 	VolExpandParam.pVolumePassword = &VolumePassword;
 	VolExpandParam.VolumePkcs5 = VolumePkcs5;
-	VolExpandParam.VolumePin = VolumePin;
+	VolExpandParam.VolumePim = VolumePim;
 	VolExpandParam.bIsDevice = bIsDevice;
 	VolExpandParam.bIsLegacy = bIsLegacy;
 	VolExpandParam.oldSize = bIsDevice ? volSize : hostSize;

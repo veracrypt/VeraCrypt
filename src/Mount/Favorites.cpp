@@ -87,7 +87,7 @@ namespace VeraCrypt
 		favorite.Removable = prop.removable ? true : false;
 		favorite.SystemEncryption = prop.partitionInInactiveSysEncScope ? true : false;
 		favorite.OpenExplorerWindow = (bExplore == TRUE);
-		favorite.Pin = prop.volumePin;
+		favorite.Pim = prop.volumePim;
 
 		if (favorite.VolumePathId.empty()
 			&& IsVolumeDeviceHosted (favorite.Path.c_str())
@@ -555,9 +555,9 @@ namespace VeraCrypt
 				/* support old attribute name before it was changed to PIM*/
 				XmlGetAttributeText (xml, "pin", label, sizeof (label));
 			}
-			favorite.Pin = strtol (label, NULL, 10);
-			if (favorite.Pin < 0)
-				favorite.Pin = 0;
+			favorite.Pim = strtol (label, NULL, 10);
+			if (favorite.Pim < 0)
+				favorite.Pim = 0;
 
 			char boolVal[2];
 			XmlGetAttributeText (xml, "readonly", boolVal, sizeof (boolVal));
@@ -688,8 +688,8 @@ namespace VeraCrypt
 			if (!favorite.Label.empty())
 				s += L" label=\"" + favorite.Label + L"\"";
 
-			if (favorite.Pin > 0)
-				s += L" pim=\"" + IntToWideString(favorite.Pin) + L"\"";
+			if (favorite.Pim > 0)
+				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
 
 			if (favorite.ReadOnly)
 				s += L" readonly=\"1\"";
@@ -778,10 +778,10 @@ namespace VeraCrypt
 
 	static void SetControls (HWND hwndDlg, const FavoriteVolume &favorite, bool systemFavoritesMode, bool enable)
 	{
-		if (favorite.Pin > 0)
+		if (favorite.Pim > 0)
 		{
 			char szTmp[MAX_PIM + 1];
-			StringCbPrintfA (szTmp, sizeof(szTmp), "%d", favorite.Pin);
+			StringCbPrintfA (szTmp, sizeof(szTmp), "%d", favorite.Pim);
 			SetDlgItemText (hwndDlg, IDC_PIM, szTmp);
 		}
 		else
@@ -841,7 +841,7 @@ namespace VeraCrypt
 		else
 			favorite.Label.clear();
 
-		favorite.Pin = GetPin (hwndDlg, IDC_PIM);
+		favorite.Pim = GetPim (hwndDlg, IDC_PIM);
 
 		favorite.ReadOnly = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_READONLY) != 0);
 		favorite.Removable = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE) != 0);

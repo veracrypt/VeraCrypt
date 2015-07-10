@@ -104,8 +104,8 @@ typedef struct
 	int ProtectedHidVolPkcs5Prf;
 	BOOL bTrueCryptMode;
 	uint32 BytesPerPhysicalSector;
-	int VolumePin;
-	int ProtectedHidVolPin;
+	int VolumePim;
+	int ProtectedHidVolPim;
 } MOUNT_STRUCT;
 
 typedef struct
@@ -145,7 +145,7 @@ typedef struct
 	unsigned __int64 totalBytesWritten;
 	int hiddenVolProtection;	/* Hidden volume protection status (e.g. HIDVOL_PROT_STATUS_NONE, HIDVOL_PROT_STATUS_ACTIVE, etc.) */
 	int volFormatVersion;
-	int volumePin;
+	int volumePim;
 } VOLUME_PROPERTIES_STRUCT;
 
 typedef struct
@@ -244,7 +244,7 @@ typedef struct
 {
 	Password VolumePassword;
 	int pkcs5_prf;
-	int pin;
+	int pim;
 } ReopenBootVolumeHeaderRequest;
 
 

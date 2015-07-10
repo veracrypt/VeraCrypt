@@ -163,7 +163,7 @@ typedef struct
 
 BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 
-int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pin, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
 	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	KEY_INFO keyInfo;
@@ -274,7 +274,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 
 						EncryptionThreadPoolBeginKeyDerivation (&keyDerivationCompletedEvent, &noOutstandingWorkItemEvent,
 							&item->KeyReady, &outstandingWorkItemCount, enqPkcs5Prf, keyInfo.userKey,
-							keyInfo.keyLength, keyInfo.salt, get_pkcs5_iteration_count (enqPkcs5Prf, pin, truecryptMode, bBoot), item->DerivedKey);
+							keyInfo.keyLength, keyInfo.salt, get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot), item->DerivedKey);
 						
 						++queuedWorkItems;
 						break;
@@ -296,7 +296,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 					if (!item->Free && InterlockedExchangeAdd (&item->KeyReady, 0) == TRUE)
 					{
 						pkcs5_prf = item->Pkcs5Prf;
-						keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pin, truecryptMode, bBoot);
+						keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, truecryptMode, bBoot);
 						memcpy (dk, item->DerivedKey, sizeof (dk));
 
 						item->Free = TRUE;
@@ -314,7 +314,7 @@ KeyReady:	;
 		else
 		{
 			pkcs5_prf = enqPkcs5Prf;
-			keyInfo.noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, pin, truecryptMode, bBoot);
+			keyInfo.noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot);
 
 			switch (pkcs5_prf)
 			{
@@ -494,7 +494,7 @@ KeyReady:	;
 						cryptoInfo->pkcs5 = pkcs5_prf;
 						cryptoInfo->noIterations = keyInfo.noIterations;
 						cryptoInfo->bTrueCryptMode = truecryptMode;
-						cryptoInfo->volumePin = pin;
+						cryptoInfo->volumePim = pim;
 						goto ret;
 					}
 
@@ -517,7 +517,7 @@ KeyReady:	;
 				cryptoInfo->pkcs5 = pkcs5_prf;
 				cryptoInfo->noIterations = keyInfo.noIterations;
 				cryptoInfo->bTrueCryptMode = truecryptMode;
-				cryptoInfo->volumePin = pin;
+				cryptoInfo->volumePim = pim;
 
 				// Init the cipher with the decrypted master key
 				status = EAInit (cryptoInfo->ea, keyInfo.master_keydata + primaryKeyOffset, cryptoInfo->ks);
@@ -580,7 +580,7 @@ ret:
 
 #else // TC_WINDOWS_BOOT
 
-int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pin, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
+int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
 #ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
 	char dk[32 * 2];			// 2 * 256-bit key
@@ -590,7 +590,7 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pin, PCR
 
 	PCRYPTO_INFO cryptoInfo;
 	int status = ERR_SUCCESS;
-	uint32 iterations = pin;
+	uint32 iterations = pim;
 	iterations <<= 16;
 	iterations |= bBoot;
 
@@ -750,7 +750,7 @@ ret:
 
 // Creates a volume header in memory
 int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, int mode, Password *password,
-		   int pkcs5_prf, int pin, char *masterKeydata, PCRYPTO_INFO *retInfo,
+		   int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo,
 		   unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize,
 		   unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode)
 {
@@ -799,7 +799,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	// User key 
 	memcpy (keyInfo.userKey, password->Text, nUserKeyLen);
 	keyInfo.keyLength = nUserKeyLen;
-	keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pin, FALSE, bBoot);
+	keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, FALSE, bBoot);
 
 	// User selected encryption algorithm
 	cryptoInfo->ea = ea;
@@ -808,7 +808,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	cryptoInfo->pkcs5 = pkcs5_prf;
 	cryptoInfo->bTrueCryptMode = FALSE;
 	cryptoInfo->noIterations = keyInfo.noIterations;
-	cryptoInfo->volumePin = pin;
+	cryptoInfo->volumePim = pim;
 
 	// Mode of operation
 	cryptoInfo->mode = mode;

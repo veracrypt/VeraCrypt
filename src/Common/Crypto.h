@@ -213,7 +213,7 @@ typedef struct CRYPTO_INFO_t
 	unsigned __int8 salt[PKCS5_SALT_SIZE];
 	int noIterations;	
 	BOOL bTrueCryptMode;
-	int volumePin;
+	int volumePim;
 
 	uint64 volume_creation_time;	// Legacy
 	uint64 header_creation_time;	// Legacy

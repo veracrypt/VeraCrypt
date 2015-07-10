@@ -392,7 +392,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	WORD lw = LOWORD (wParam);
 	static Password *szXPwd;
 	static int *pkcs5;
-	static int *pin;
+	static int *pim;
 	static BOOL* truecryptMode;
 
 	switch (msg)
@@ -402,7 +402,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			int i, nIndex;
 			szXPwd = ((PasswordDlgParam *) lParam) -> password;
 			pkcs5 = ((PasswordDlgParam *) lParam) -> pkcs5;
-			pin = ((PasswordDlgParam *) lParam) -> pin;
+			pim = ((PasswordDlgParam *) lParam) -> pim;
 			truecryptMode = ((PasswordDlgParam *) lParam) -> truecryptMode;
 			LocalizeDialog (hwndDlg, "IDD_PASSWORD_DLG");
 			DragAcceptFiles (hwndDlg, TRUE);
@@ -447,7 +447,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendMessage (GetDlgItem (hwndDlg, IDC_CACHE), BM_SETCHECK, bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
 			SendMessage (GetDlgItem (hwndDlg, IDC_PIM), EM_LIMITTEXT, MAX_PIM, 0);
 
-			SetPin (hwndDlg, IDC_PIM, *pin);
+			SetPim (hwndDlg, IDC_PIM, *pim);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
@@ -547,7 +547,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), FALSE);
 
-			SetPin (hwndDlg, IDC_PIM, *pin);
+			SetPim (hwndDlg, IDC_PIM, *pim);
 
 			bPrebootPasswordDlgMode = TRUE;
 		}
@@ -661,9 +661,9 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				GetWindowText (GetDlgItem (hwndDlg, IDC_PIM), tmp, MAX_PIM + 1);
 				if (strlen(tmp))
-					*pin = (int) strtol(tmp, NULL, 10); /* IDC_PIM is configured to accept only numbers */
+					*pim = (int) strtol(tmp, NULL, 10); /* IDC_PIM is configured to accept only numbers */
 				else
-					*pin = 0;
+					*pim = 0;
 
 				/* SHA-256 is not supported by TrueCrypt */
 				if (	(*truecryptMode) 
@@ -675,7 +675,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 
 				if (	(*truecryptMode) 
-					&&	(*pin != 0)
+					&&	(*pim != 0)
 					)
 				{
 					Error ("PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
@@ -779,7 +779,7 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 	return 0;
 }
 
-int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *pin, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
+int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
 {
 	int result;
 	PasswordDlgParam dlgParam;
@@ -789,7 +789,7 @@ int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *p
 
 	dlgParam.password = password;
 	dlgParam.pkcs5 = pkcs5;
-	dlgParam.pin = pin;
+	dlgParam.pim = pim;
 	dlgParam.truecryptMode = truecryptMode;
 
 	result = DialogBoxParamW (hInst, 
@@ -800,7 +800,7 @@ int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *p
 	{
 		password->Length = 0;
 		*pkcs5 = 0;
-		*pin = 0;
+		*pim = 0;
 		*truecryptMode = FALSE;
 		burn (&mountOptions.ProtectedHidVolPassword, sizeof (mountOptions.ProtectedHidVolPassword));
 		burn (&mountOptions.ProtectedHidVolPkcs5Prf, sizeof (mountOptions.ProtectedHidVolPkcs5Prf));

@@ -3213,9 +3213,9 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	VolumePimTextCtrl->SetMaxLength( 10 ); 
 	GridBagSizer->Add( VolumePimTextCtrl, wxGBPosition( 3, 1 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxEXPAND, 5 );
 	
-	VolumePinHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );
-	VolumePinHelpStaticText->Wrap( -1 );
-	GridBagSizer->Add( VolumePinHelpStaticText, wxGBPosition( 3, 2 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	VolumePimHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimHelpStaticText->Wrap( -1 );
+	GridBagSizer->Add( VolumePimHelpStaticText, wxGBPosition( 3, 2 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxBOTTOM|wxLEFT|wxRIGHT, 5 );
 	
 	CacheCheckBox = new wxCheckBox( this, wxID_ANY, _("Cach&e passwords and keyfiles in memory "), wxDefaultPosition, wxDefaultSize, 0 );
 	GridBagSizer->Add( CacheCheckBox, wxGBPosition( 4, 1 ), wxGBSpan( 1, 2 ), wxTOP|wxBOTTOM|wxLEFT|wxALIGN_CENTER_VERTICAL, 5 );
@@ -3349,9 +3349,9 @@ VolumePimWizardPageBase::VolumePimWizardPageBase( wxWindow* parent, wxWindowID i
 	VolumePimTextCtrl->SetMaxLength( 10 ); 
 	PimSizer->Add( VolumePimTextCtrl, 0, wxALL, 5 );
 	
-	VolumePinHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );
-	VolumePinHelpStaticText->Wrap( -1 );
-	PimSizer->Add( VolumePinHelpStaticText, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	VolumePimHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimHelpStaticText->Wrap( -1 );
+	PimSizer->Add( VolumePimHelpStaticText, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	
 	PimPanelSizer->Add( PimSizer, 1, wxEXPAND, 5 );

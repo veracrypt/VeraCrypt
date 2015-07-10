@@ -36,9 +36,9 @@ typedef struct
 #if defined(_WIN32) && !defined(TC_WINDOWS_DRIVER)
 
 void VerifyPasswordAndUpdate ( HWND hwndDlg , HWND hButton , HWND hPassword , HWND hVerify , unsigned char *szPassword , char *szVerify, BOOL keyFilesEnabled );
-BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pin, BOOL bForBoot, BOOL bSkipPasswordWarning);		
+BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim, BOOL bForBoot, BOOL bSkipPasswordWarning);		
 BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw);			
-int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pin, BOOL truecryptMode, Password *newPassword, int pkcs5, int pin, int wipePassCount, HWND hwndDlg);
+int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg);
 
 #endif	// defined(_WIN32) && !defined(TC_WINDOWS_DRIVER)
 

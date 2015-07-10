@@ -17,7 +17,7 @@ namespace VeraCrypt
 	{
 		FavoriteVolume()
 			:	
-			Pin (0),
+			Pim (0),
 			DisableHotkeyMount (false),
 			DisconnectedDevice (false),
 			MountOnLogOn (false),
@@ -33,7 +33,7 @@ namespace VeraCrypt
 		string MountPoint;
 		string VolumePathId;
 		wstring Label;
-		int Pin;
+		int Pim;
 
 		bool DisableHotkeyMount;
 		bool DisconnectedDevice;
