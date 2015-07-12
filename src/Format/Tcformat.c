@@ -2746,9 +2746,8 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				nHiddenVolHostSize = nVolumeSize;
 
 				// Clear the outer volume password
-				memset(&szVerify[0], 0, sizeof (szVerify));
-				memset(&szRawPassword[0], 0, sizeof (szRawPassword));
-				memset(&volumePim, 0, sizeof (volumePim));
+				burn(&szVerify[0], sizeof (szVerify));
+				burn(&szRawPassword[0], sizeof (szRawPassword));
 
 				MessageBeep (MB_OK);
 			}
