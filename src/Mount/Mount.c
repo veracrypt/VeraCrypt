@@ -8096,6 +8096,19 @@ static void SystemFavoritesServiceLogError (const string &errorMessage)
 	}
 }
 
+static void SystemFavoritesServiceLogInfo (const string &errorMessage)
+{ 
+	HANDLE eventSource = RegisterEventSource (NULL, TC_SYSTEM_FAVORITES_SERVICE_NAME);
+
+	if (eventSource)
+	{
+		LPCTSTR strings[] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, errorMessage.c_str() };
+		ReportEvent (eventSource, EVENTLOG_INFORMATION_TYPE, 0, 0xC0000002, NULL, array_capacity (strings), 0, strings, NULL);
+
+		DeregisterEventSource (eventSource);
+	}
+}
+
 
 static void SystemFavoritesServiceSetStatus (DWORD status, DWORD waitHint = 0)
 {
@@ -8118,6 +8131,7 @@ static VOID WINAPI SystemFavoritesServiceCtrlHandler (DWORD control)
 
 static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 {
+	BOOL status = FALSE;
 	memset (&SystemFavoritesServiceStatus, 0, sizeof (SystemFavoritesServiceStatus));
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
 
@@ -8125,13 +8139,24 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	if (!SystemFavoritesServiceStatusHandle)
 		return;
 
-	SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 60000);
+	SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
+
+	SystemFavoritesServiceLogInfo (string ("Starting System Favorites mounting process"));
 
 	try
 	{
-		MountFavoriteVolumes (TRUE);
+		status = MountFavoriteVolumes (TRUE);
 	}
 	catch (...) { }
+
+	if (status)
+	{
+		SystemFavoritesServiceLogInfo (string ("System Favorites mounting process finished"));
+	}
+	else
+	{
+		SystemFavoritesServiceLogError (string ("System Favorites mounting process failed."));
+	}
 
 	SystemFavoritesServiceSetStatus (SERVICE_RUNNING);
 	SystemFavoritesServiceSetStatus (SERVICE_STOPPED);
@@ -8391,9 +8416,16 @@ void DismountIdleVolumes ()
 
 BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
 {
-	BOOL status = TRUE;
+	BOOL bRet = TRUE;
 	BOOL lastbExplore;
 	BOOL userForcedReadOnly = FALSE;
+
+	if (ServiceMode)
+	{
+		// in service case, intialize some global variable here.
+		LastKnownMountList.ulMountedDrives = 0;
+		LoadDriveLetters (MainDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
+	}
 
 	mountOptions = defaultMountOptions;
 
@@ -8406,10 +8438,21 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 	{
 		try
 		{
+			if (ServiceMode)
+				SystemFavoritesServiceLogInfo (string ("Reading System Favorites XML file"));
 			LoadFavoriteVolumes (favorites, true);
+
+			if (ServiceMode)
+			{
+				char szTmp[32];
+				StringCbPrintf (szTmp, sizeof(szTmp), "%d", (int) favorites.size());
+				SystemFavoritesServiceLogInfo (string ("Loaded %d favorites from the file") + szTmp);
+			}
 		}
 		catch (...)
 		{
+			if (ServiceMode)
+				SystemFavoritesServiceLogError (string ("An error occured while reading System Favorites XML file"));
 			return false;
 		}
 	}
@@ -8420,6 +8463,11 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 
 	foreach (const FavoriteVolume &favorite, favorites)
 	{
+		if (ServiceMode && systemFavorites && favorite.DisconnectedDevice)
+		{
+			SystemFavoritesServiceLogError (string ("Favorite \"") + favorite.Path + "\" is disconnected. It will be ignored.");
+		}
+
 		if (favorite.DisconnectedDevice
 			|| (logOnMount && !favorite.MountOnLogOn)
 			|| (hotKeyMount && favorite.DisableHotkeyMount))
@@ -8427,9 +8475,10 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 			continue;
 		}
 
+		BOOL status = TRUE;
 		int drive;
 		drive = toupper (favorite.MountPoint[0]) - 'A';
-
+		
 		mountOptions.ReadOnly = favorite.ReadOnly || userForcedReadOnly;
 		mountOptions.Removable = favorite.Removable;
 
@@ -8489,8 +8538,25 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 
 			BOOL prevReadOnly = mountOptions.ReadOnly;
 
-			if (!Mount (MainDlg, drive, (char *) favorite.Path.c_str(), favorite.Pim))
-				status = FALSE;
+			if (ServiceMode)
+				SystemFavoritesServiceLogInfo (string ("Mounting system favorite \"") + favorite.Path + "\"");
+
+			status = Mount (MainDlg, drive, (char *) favorite.Path.c_str(), favorite.Pim);
+
+			if (ServiceMode)
+			{
+				if (status)
+				{
+					SystemFavoritesServiceLogInfo (string ("Favorite \"") + favorite.Path + string ("\" mounted successfully as ") + (char) (drive + 'A') + ":");
+				}
+				else
+				{
+					SystemFavoritesServiceLogError (string ("Favorite \"") + favorite.Path + "\" failed to mount");
+					// Update the service status to avoid being killed
+					SystemFavoritesServiceStatus.dwCheckPoint++;
+					SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
+				}
+			}
 
 			if (status && mountOptions.ReadOnly != prevReadOnly)
 				userForcedReadOnly = mountOptions.ReadOnly;
@@ -8524,9 +8590,16 @@ skipMount:
 
 				SystemFavoritesServiceLogError (string ("The filesystem of the volume mounted as ") + (char) (drive + 'A') + ": was not cleanly dismounted and needs to be checked for errors.");
 			}
+
+			if (!status)
+				bRet = FALSE;
 		}
 		else if (!systemFavorites && !favoriteVolumeToMount.Path.empty())
 			Error ("DRIVE_LETTER_UNAVAILABLE", MainDlg);
+		else if (ServiceMode && systemFavorites)
+		{
+			SystemFavoritesServiceLogError (string ("The drive letter ") + (char) (drive + 'A') + string (" used by favorite \"") + favorite.Path + "\" is already taken.\nThis system favorite will not be mounted");
+		}
 	}
 
 	MultipleMountOperationInProgress = FALSE;
@@ -8535,10 +8608,10 @@ skipMount:
 	burn (&VolumePim, sizeof (VolumePim));
 	burn (&VolumeTrueCryptMode, sizeof (VolumeTrueCryptMode));
 
-	if (status && CloseSecurityTokenSessionsAfterMount)
+	if (bRet && CloseSecurityTokenSessionsAfterMount)
 		SecurityToken::CloseAllSessions();
 
-	return status;
+	return bRet;
 }
 
 void __cdecl mountFavoriteVolumeThreadFunction (void *pArg)
