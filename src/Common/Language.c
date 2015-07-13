@@ -32,12 +32,14 @@ BOOL LocalizationActive;
 int LocalizationSerialNo;
 
 wchar_t UnknownString[1024];
-static char *LanguageFileBuffer;
+static char *LanguageFileBuffer = NULL;
 static HANDLE LanguageFileFindHandle = INVALID_HANDLE_VALUE;
 static char PreferredLangId[6];
-static char *LanguageResource;
-static char *HeaderResource[2];
-static char ActiveLangPackVersion[6];
+static char *LanguageResource = NULL;
+static DWORD LanguageResourceSize = 0;
+static char *HeaderResource[2] = {NULL, NULL};
+static DWORD HeaderResourceSize[2] = {0, 0};
+static char ActiveLangPackVersion[6] = {0};
 
 static char *MapFirstLanguageFile ()
 {
@@ -47,14 +49,31 @@ static char *MapFirstLanguageFile ()
 		LanguageFileFindHandle = INVALID_HANDLE_VALUE;
 	}
 
+	if (LanguageFileBuffer != NULL)
+	{
+		free (LanguageFileBuffer);
+		LanguageFileBuffer = NULL;
+	}
+
 	if (LanguageResource == NULL)
 	{
 		DWORD size;
 		LanguageResource = MapResource ("Xml", IDR_LANGUAGE, &size);
-		LanguageResource[size - 1] = 0;
+		if (LanguageResource)
+			LanguageResourceSize = size;
 	}
 
-	return LanguageResource;
+	if (LanguageResource)
+	{
+		LanguageFileBuffer = malloc(LanguageResourceSize + 1);
+		if (LanguageFileBuffer)
+		{
+			memcpy (LanguageFileBuffer, LanguageResource, LanguageResourceSize);
+			LanguageFileBuffer[LanguageResourceSize] = 0;
+		}
+	}
+
+	return LanguageFileBuffer;
 }
 
 
@@ -65,6 +84,13 @@ static char *MapNextLanguageFile ()
 	HANDLE file;
 	DWORD read;
 	BOOL bStatus;
+
+	/* free memory here to avoid leaks */
+	if (LanguageFileBuffer != NULL)
+	{
+		free (LanguageFileBuffer);
+		LanguageFileBuffer = NULL;
+	}
 
 	if (LanguageFileFindHandle == INVALID_HANDLE_VALUE)
 	{
@@ -84,9 +110,9 @@ static char *MapNextLanguageFile ()
 		return NULL;
 	}
 
+	if (LanguageFileFindHandle == INVALID_HANDLE_VALUE) return NULL;
 	if (find.nFileSizeHigh != 0) return NULL;
 
-	if (LanguageFileBuffer != NULL) free (LanguageFileBuffer);
 	LanguageFileBuffer = malloc(find.nFileSizeLow + 1);
 	if (LanguageFileBuffer == NULL) return NULL;
 
@@ -95,6 +121,7 @@ static char *MapNextLanguageFile ()
 	if (t == NULL)
 	{
 		free(LanguageFileBuffer);
+		LanguageFileBuffer = NULL;
 		return NULL;
 	}
 
@@ -105,6 +132,7 @@ static char *MapNextLanguageFile ()
 	if (file == INVALID_HANDLE_VALUE)
 	{
 		free(LanguageFileBuffer);
+		LanguageFileBuffer = NULL;
 		return NULL;
 	}
 
@@ -113,6 +141,7 @@ static char *MapNextLanguageFile ()
 	if (!bStatus || (read != find.nFileSizeLow))
 	{
 		free(LanguageFileBuffer);
+		LanguageFileBuffer = NULL;
 		return NULL;
 	}
 
@@ -126,7 +155,7 @@ BOOL LoadLanguageFile ()
 {
 	DWORD size;
 	BYTE *res;
-	char *xml, *header;
+	char *xml, *header, *headerPtr;
 	char langId[6] = "en", attr[32768], key[128];
 	BOOL defaultLangParsed = FALSE, langFound = FALSE;
 	WCHAR wattr[32768];
@@ -311,10 +340,22 @@ BOOL LoadLanguageFile ()
 		if (HeaderResource[i] == NULL)
 		{
 			HeaderResource[i] = MapResource ("Header", headers[i], &size);
-			*(HeaderResource[i] + size - 1) = 0;
+			if (HeaderResource[i])
+				HeaderResourceSize[i] = size;
 		}
 
-		header = HeaderResource[i];
+		headerPtr = NULL;
+		if (HeaderResource[i])
+		{
+			headerPtr = (char*) malloc (HeaderResourceSize[i] + 1);
+			if (headerPtr)
+			{
+				memcpy (headerPtr, HeaderResource[i], HeaderResourceSize[i]);
+				headerPtr [HeaderResourceSize[i]] = 0;
+			}
+		}
+
+		header = headerPtr;
 		if (header == NULL) return FALSE;
 
 		do
@@ -328,6 +369,8 @@ BOOL LoadLanguageFile ()
 			}
 
 		} while ((header = strchr (header, '\n') + 1) != (char *) 1);
+
+		free (headerPtr);
 	}
 
 	return TRUE;
