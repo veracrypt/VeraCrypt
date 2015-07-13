@@ -503,7 +503,7 @@ namespace VeraCrypt
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation)
 	{
 		favorites.clear();
-		string favoritesFilePath = systemFavorites ? GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES) : GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES);
+		string favoritesFilePath = systemFavorites ? GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false) : GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES);
 
 		if (systemFavorites && !IsAdmin() && !noUacElevation)
 		{
@@ -512,7 +512,7 @@ namespace VeraCrypt
 			try
 			{
 				BootEncryption bootEnc (MainDlg);
-				bootEnc.CopyFileAdmin (GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES).c_str(), favoritesFilePath.c_str());
+				bootEnc.CopyFileAdmin (GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false).c_str(), favoritesFilePath.c_str());
 			}
 			catch (SystemException &e)
 			{
@@ -737,7 +737,7 @@ namespace VeraCrypt
 
 			try
 			{
-				bootEnc.DeleteFileAdmin (GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES).c_str());
+				bootEnc.DeleteFileAdmin (GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false).c_str());
 			}
 			catch (UserAbort&) { return false; }
 			catch (...) { }
@@ -746,7 +746,7 @@ namespace VeraCrypt
 			{
 				if (cnt != 0)
 				{
-					bootEnc.CopyFileAdmin (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES), GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES).c_str());
+					bootEnc.CopyFileAdmin (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES), GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false).c_str());
 
 					if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
 						Info ("SYS_FAVORITE_VOLUMES_SAVED", hwndDlg);
@@ -764,7 +764,7 @@ namespace VeraCrypt
 			{
 				try
 				{
-					bootEnc.DeleteFileAdmin (GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES).c_str());
+					bootEnc.DeleteFileAdmin (GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false).c_str());
 				}
 				catch (...) { }
 			}

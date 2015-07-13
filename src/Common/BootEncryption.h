@@ -177,6 +177,7 @@ namespace VeraCrypt
 		void RegisterBootDriver (bool hiddenSystem);
 		void RegisterFilterDriver (bool registerDriver, FilterType filterType);
 		void RegisterSystemFavoritesService (BOOL registerService);
+		void RegisterSystemFavoritesService (BOOL registerService, BOOL noFileHandling);
 		void RenameDeprecatedSystemLoaderBackup ();
 		bool RestartComputer (void);
 		void InitialSecurityChecksForHiddenOS ();

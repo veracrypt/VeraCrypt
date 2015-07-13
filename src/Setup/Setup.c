@@ -769,12 +769,51 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 
 				if (bResult && strcmp (szFiles[i], "AVeraCrypt.exe") == 0)
 				{
-					string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe");
+					if (Is64BitOs ())
+						EnableWow64FsRedirection (FALSE);
+
+					string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe", false);
+					string serviceLegacyPath = GetServiceConfigPath (TC_APP_NAME ".exe", true);
+
 					if (FileExists (servicePath.c_str()))
 					{
 						CopyMessage (hwndDlg, (char *) servicePath.c_str());
 						bResult = CopyFile (szTmp, servicePath.c_str(), FALSE);
 					}
+					else if (Is64BitOs () && FileExists (serviceLegacyPath.c_str()))
+					{
+						string favoritesFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false);
+						string favoritesLegacyFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, true);
+
+						// delete files from legacy path
+						RemoveMessage (hwndDlg, (char *) serviceLegacyPath.c_str());
+						DeleteFile (serviceLegacyPath.c_str());
+
+						CopyMessage (hwndDlg, (char *) servicePath.c_str());
+						bResult = CopyFile (szTmp, servicePath.c_str(), FALSE);	
+
+						if (bResult && FileExists (favoritesLegacyFile.c_str()))
+						{
+							// copy the favorites XML file to the native system directory
+							bResult = CopyFile (favoritesLegacyFile.c_str(), favoritesFile.c_str(), FALSE);
+							if (bResult)
+								DeleteFile (favoritesLegacyFile.c_str());
+
+							BootEncryption BootEncObj (hwndDlg);
+
+							try
+							{
+								if (BootEncObj.GetStatus().DriveMounted)
+								{
+									BootEncObj.RegisterSystemFavoritesService (TRUE, TRUE);
+								}
+							}
+							catch (...) {}
+						}
+					}
+
+					if (Is64BitOs ())
+						EnableWow64FsRedirection (TRUE);
 				}
 			}
 		}

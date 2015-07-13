@@ -1960,33 +1960,29 @@ namespace VeraCrypt
 		}
 	}
 
-#ifndef SETUP
-
-	void BootEncryption::RegisterSystemFavoritesService (BOOL registerService)
+	void BootEncryption::RegisterSystemFavoritesService (BOOL registerService, BOOL noFileHandling)
 	{
-		if (!IsAdmin() && IsUacSupported())
-		{
-			Elevator::RegisterSystemFavoritesService (registerService);
-			return;
-		}
-
 		SC_HANDLE scm = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 		throw_sys_if (!scm);
 
-		string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe");
+		string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe", false);
+		string serviceLegacyPath = GetServiceConfigPath (TC_APP_NAME ".exe", true);
 
 		if (registerService)
 		{
 			try
 			{
-				RegisterSystemFavoritesService (FALSE);
+				RegisterSystemFavoritesService (FALSE, noFileHandling);
 			}
 			catch (...) { }
 
-			char appPath[TC_MAX_PATH];
-			throw_sys_if (!GetModuleFileName (NULL, appPath, sizeof (appPath)));
+			if (!noFileHandling)
+			{
+				char appPath[TC_MAX_PATH];
+				throw_sys_if (!GetModuleFileName (NULL, appPath, sizeof (appPath)));
 
-			throw_sys_if (!CopyFile (appPath, servicePath.c_str(), FALSE));
+				throw_sys_if (!CopyFile (appPath, servicePath.c_str(), FALSE));
+			}
 
 			SC_HANDLE service = CreateService (scm,
 				TC_SYSTEM_FAVORITES_SERVICE_NAME,
@@ -2021,7 +2017,7 @@ namespace VeraCrypt
 			{
 				try
 				{
-					RegisterSystemFavoritesService (false);
+					RegisterSystemFavoritesService (FALSE, noFileHandling);
 				}
 				catch (...) { }
 
@@ -2041,8 +2037,41 @@ namespace VeraCrypt
 			throw_sys_if (!DeleteService (service));
 			CloseServiceHandle (service);
 
-			DeleteFile (servicePath.c_str());
+			if (!noFileHandling)
+			{
+				DeleteFile (servicePath.c_str());
+				if (serviceLegacyPath != servicePath)
+					DeleteFile (serviceLegacyPath.c_str());
+			}
 		}
+	}
+
+	void BootEncryption::SetDriverConfigurationFlag (uint32 flag, bool state)
+	{
+		DWORD configMap = ReadDriverConfigurationFlags();
+
+		if (state)
+			configMap |= flag;
+		else
+			configMap &= ~flag;
+#ifdef SETUP
+		WriteLocalMachineRegistryDword ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, configMap);
+#else
+		WriteLocalMachineRegistryDwordValue ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, configMap);
+#endif
+	}
+
+#ifndef SETUP
+
+	void BootEncryption::RegisterSystemFavoritesService (BOOL registerService)
+	{
+		if (!IsAdmin() && IsUacSupported())
+		{
+			Elevator::RegisterSystemFavoritesService (registerService);
+			return;
+		}
+
+		RegisterSystemFavoritesService (registerService, FALSE);
 	}
 
 	void BootEncryption::CheckRequirements ()
@@ -2529,18 +2558,6 @@ namespace VeraCrypt
 		}
 
 		throw_sys_if (!WriteLocalMachineRegistryDword (keyPath, valueName, value));
-	}
-
-	void BootEncryption::SetDriverConfigurationFlag (uint32 flag, bool state)
-	{
-		DWORD configMap = ReadDriverConfigurationFlags();
-
-		if (state)
-			configMap |= flag;
-		else
-			configMap &= ~flag;
-
-		WriteLocalMachineRegistryDwordValue ("SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, configMap);
 	}
 
 	void BootEncryption::StartDecryption (BOOL discardUnreadableEncryptedSectors)

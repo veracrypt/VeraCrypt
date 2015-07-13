@@ -8264,11 +8264,11 @@ char *GetProgramConfigPath (char *fileName)
 }
 
 
-std::string GetServiceConfigPath (const char *fileName)
+std::string GetServiceConfigPath (const char *fileName, bool useLegacy)
 {
 	char sysPath[TC_MAX_PATH];
 	
-	if (Is64BitOs())
+	if (Is64BitOs() && useLegacy)
 	{
 		typedef UINT (WINAPI *GetSystemWow64Directory_t) (LPTSTR lpBuffer, UINT uSize);
 

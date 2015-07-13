@@ -546,7 +546,7 @@ std::string ToUpperCase (const std::string &str);
 std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg);
 std::string GetWindowsEdition ();
 std::string FitPathInGfxWidth (HWND hwnd, HFONT hFont, LONG width, const std::string &path);
-std::string GetServiceConfigPath (const char *fileName);
+std::string GetServiceConfigPath (const char *fileName, bool useLegacy);
 std::string VolumeGuidPathToDevicePath (std::string volumeGuidPath);
 std::string HarddiskVolumePathToPartitionPath (const std::string &harddiskVolumePath);
 std::string FindLatestFileOrDirectory (const std::string &directory, const char *namePattern, bool findDirectory, bool findFile);
