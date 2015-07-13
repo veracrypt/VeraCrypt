@@ -48,6 +48,7 @@
     <control lang="en" key="IDC_KEY_FILES">&amp;Keyfiles...</control>
     <control lang="en" key="IDC_LINK_HASH_INFO">Information on hash algorithms</control>
     <control lang="en" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">More information</control>
+    <control lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</control>
     <control lang="en" key="IDC_MB">&amp;MB</control>
     <control lang="en" key="IDC_MORE_INFO_ON_CONTAINERS">More information</control>
     <control lang="en" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">More information about system encryption</control>
@@ -57,6 +58,7 @@
     <control lang="en" key="IDC_NO_HISTORY">&amp;Never save history</control>
     <control lang="en" key="IDC_OPEN_OUTER_VOLUME">Open Outer Volume</control>
     <control lang="en" key="IDC_PAUSE">&amp;Pause</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
     <control lang="en" key="IDC_QUICKFORMAT">Quick Format</control>
     <control lang="en" key="IDC_SHOW_PASSWORD">&amp;Display password</control>
     <control lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</control>
@@ -617,14 +619,15 @@
     <string lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</string>
     <string lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</string>
     <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</string>
-    <string lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</string>
+    <string lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</string>    
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
     <string lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</string>
-    <string lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\n\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA small PIM value will lead to a quicker mount but it can reduce security if the password is not strong enough.</string>
-    <string lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\n\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA small PIM value will lead to a quicker boot but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</string>
     <string lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
+    <string lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</string>
     <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
     <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
     <string lang="en" key="PIM_TITLE">Volume PIM</string>

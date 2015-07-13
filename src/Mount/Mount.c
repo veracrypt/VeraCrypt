@@ -1953,6 +1953,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
@@ -1969,6 +1970,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
@@ -1989,6 +1991,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
@@ -2178,6 +2181,37 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
 				}
 			}
+
+			return 1;
+		}
+
+		if (lw == IDC_PIM_ENABLE)
+		{
+			ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+			ShowWindow (GetDlgItem( hwndDlg, IDT_OLD_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_OLD_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_OLD_PIM_HELP), SW_SHOW);
+
+			// check also the "Use PIM" for the new password if it is enabled
+			if (IsWindowEnabled (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE)))
+			{
+				SetCheckBox (hwndDlg, IDC_NEW_PIM_ENABLE, TRUE);
+
+				ShowWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+			}
+
+			return 1;
+		}
+
+		if (lw == IDC_NEW_PIM_ENABLE)
+		{
+			ShowWindow (GetDlgItem (hwndDlg, IDC_NEW_PIM_ENABLE), SW_HIDE);
+			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
 
 			return 1;
 		}
@@ -2546,6 +2580,16 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SetPim (hwndDlg, IDC_PIM, *pim);
 
+			/* make PIM field visible if a PIM value has been explicitely specified */
+			if (*pim > 0)
+			{
+				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, TRUE);
+				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+			}
+
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
 			mountOptions.PartitionInInactiveSysEncScope = bPrebootPasswordDlgMode;
@@ -2708,6 +2752,15 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (!bPrebootPasswordDlgMode && mountOptions.PartitionInInactiveSysEncScope)
 				SendMessage (hwndDlg, TC_APPMSG_PREBOOT_PASSWORD_MODE, 0, 0);
 
+			return 1;
+		}
+
+		if (lw == IDC_PIM_ENABLE)
+		{
+			ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
 			return 1;
 		}
 
@@ -3173,6 +3226,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), protect);
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE_HIDVOL_PROT, hidVolProtKeyFilesParam.EnableKeyFiles);
 
@@ -3183,6 +3237,16 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), (LPSTR) mountOptions->ProtectedHidVolPassword.Text);	
 
 			SetPim (hwndDlg, IDC_PIM, mountOptions->ProtectedHidVolPim);
+
+			/* make PIM field visible if a PIM value has been explicitely specified */
+			if (mountOptions->ProtectedHidVolPim > 0)
+			{
+				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, TRUE);
+				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+			}
 			
 			ToHyperlink (hwndDlg, IDC_LINK_HIDVOL_PROTECTION_INFO);
 
@@ -3236,6 +3300,15 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD_MO) ? 0 : '*',
 						0);
 			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), NULL, TRUE);
+			return 1;
+		}
+
+		if (lw == IDC_PIM_ENABLE)
+		{
+			ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
 			return 1;
 		}
 
@@ -3320,6 +3393,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), protect);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), protect);
 
 			return 1;
 		}

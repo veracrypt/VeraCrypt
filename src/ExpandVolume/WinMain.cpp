@@ -449,6 +449,15 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SetPim (hwndDlg, IDC_PIM, *pim);
 
+			/* make PIM field visible if a PIM value has been explicitely specified */
+			if (*pim > 0)
+			{
+				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+			}
+
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
 			mountOptions.PartitionInInactiveSysEncScope = bPrebootPasswordDlgMode;
@@ -607,6 +616,15 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			return 1;
 		}
 
+		if (lw == IDC_PIM_ENABLE)
+		{
+			ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
+			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+			return 1;
+		}
+
 		if (lw == IDC_SHOW_PASSWORD)
 		{
 			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD),
@@ -659,11 +677,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 				*truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
-				GetWindowText (GetDlgItem (hwndDlg, IDC_PIM), tmp, MAX_PIM + 1);
-				if (strlen(tmp))
-					*pim = (int) strtol(tmp, NULL, 10); /* IDC_PIM is configured to accept only numbers */
-				else
-					*pim = 0;
+				*pim = GetPim (hwndDlg, IDC_PIM);
 
 				/* SHA-256 is not supported by TrueCrypt */
 				if (	(*truecryptMode) 

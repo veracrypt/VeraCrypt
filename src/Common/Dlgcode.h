@@ -137,6 +137,7 @@ extern char bCachedSysDevicePathsValid;
 extern BOOL bHyperLinkBeingTracked;
 extern BOOL bInPlaceEncNonSysPending;
 
+extern BOOL PimEnable;
 extern BOOL	KeyFilesEnable;
 extern KeyFile	*FirstKeyFile;
 extern KeyFilesDlgParam		defaultKeyFilesParam;

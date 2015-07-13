@@ -73,26 +73,27 @@ BEGIN
     CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,11,194,10
     CONTROL         "Mount volume as removable &medium",IDC_MOUNT_REMOVABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,25,195,10
+    CONTROL         "Use backup header embedded in &volume if available",IDC_USE_EMBEDDED_HEADER_BAK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,257,11
     CONTROL         "Mount partition &using system encryption without pre-boot authentication",IDC_MOUNT_SYSENC_PART_WITHOUT_PBA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,259,11
     CONTROL         "&Protect hidden volume against damage caused by writing to outer volume",IDC_PROTECT_HIDDEN_VOL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,86,252,10
     EDITTEXT        IDC_PASSWORD_PROT_HIDVOL,112,104,151,14,ES_PASSWORD | ES_AUTOHSCROLL
+    COMBOBOX        IDC_PKCS5_PRF_ID,112,125,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
+    EDITTEXT        IDC_PIM,112,145,42,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,158,148,112,8,NOT WS_VISIBLE
     CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,165,90,10
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,178,90,10
-    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,203,167,60,14
-    LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,193,247,10,SS_NOTIFY
+    PUSHBUTTON      "&Keyfiles...",IDC_KEYFILES_HIDVOL_PROT,204,174,60,14
     DEFPUSHBUTTON   "OK",IDOK,211,7,60,14
     PUSHBUTTON      "Cancel",IDCANCEL,211,24,60,14
+    LTEXT           "What is hidden volume protection?",IDC_LINK_HIDVOL_PROTECTION_INFO,16,193,247,10,SS_NOTIFY
     RTEXT           "P&assword to hidden volume:\n(if empty, cache is used)",IDT_HIDDEN_PROT_PASSWD,15,103,91,17,0,WS_EX_RIGHT
     GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,72,265,139
-    CONTROL         "Use backup header embedded in &volume if available",IDC_USE_EMBEDDED_HEADER_BAK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,257,11
-    COMBOBOX        IDC_PKCS5_PRF_ID,112,125,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
     RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,15,126,91,17
-    EDITTEXT        IDC_PIM,112,145,42,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    RTEXT           "Volume PIM:",IDT_PIM,15,148,91,17
-    LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,158,148,112,8
+    RTEXT           "Volume PIM:",IDT_PIM,15,148,91,17,NOT WS_VISIBLE
+    CONTROL         "Use PIM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,152,97,10
 END
 
 IDD_KEYFILES DIALOGEX 0, 0, 345, 237

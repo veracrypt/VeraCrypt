@@ -191,6 +191,7 @@
 #define IDT_PIM                         5129
 #define IDC_PIM                         5130
 #define IDC_PIM_HELP                    5131
+#define IDC_PIM_ENABLE                  5132
 
 // Next default values for new objects
 // 
@@ -199,7 +200,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        542
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5132
+#define _APS_NEXT_CONTROL_VALUE         5133
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

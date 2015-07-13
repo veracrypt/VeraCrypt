@@ -118,6 +118,7 @@ BOOL bPortableModeConfirmed = FALSE;		// TRUE if it is certain that the instance
 BOOL bInPlaceEncNonSysPending = FALSE;		// TRUE if the non-system in-place encryption config file indicates that one or more partitions are scheduled to be encrypted. This flag is set only when config files are loaded during app startup.
 
 /* Globals used by Mount and Format (separately per instance) */ 
+BOOL PimEnable = FALSE;
 BOOL KeyFilesEnable = FALSE;
 KeyFile	*FirstKeyFile = NULL;
 KeyFilesDlgParam		defaultKeyFilesParam;
@@ -9185,6 +9186,10 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 	{
 		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Contact");
 	}
+	else if (strcmp(dest, "pim") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Personal%20Iterations%20Multiplier%20%28PIM%29");
+	}
 	else
 	{
 		StringCbCopyA (url, sizeof (url),TC_APPLINK);
@@ -10765,7 +10770,8 @@ std::string FindLatestFileOrDirectory (const std::string &directory, const char 
 int GetPim (HWND hwndDlg, UINT ctrlId)
 {
 	int pim = 0;
-	if (IsWindowEnabled (GetDlgItem (hwndDlg, ctrlId)))
+	HWND hCtrl = GetDlgItem (hwndDlg, ctrlId);
+	if (IsWindowEnabled (hCtrl) && IsWindowVisible (hCtrl))
 	{
 		char szTmp[MAX_PIM + 1] = {0};
 		if (GetDlgItemText (hwndDlg, ctrlId, szTmp, MAX_PIM + 1) > 0)

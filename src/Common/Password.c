@@ -134,6 +134,13 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim
 			return FALSE;
 	}
 #endif
+
+	if ((pim != 0) && (pim > (bForBoot? 98 : 485)))
+	{
+		// warn that mount/boot will take more time
+		MessageBoxW (hwndDlg, GetString ("PIM_LARGE_WARNING"), lpszTitle, MB_OK|MB_ICONWARNING);
+
+	}
 	return TRUE;
 }
 

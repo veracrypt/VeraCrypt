@@ -2700,6 +2700,8 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 
 			RestoreDefaultKeyFilesParam ();
 
+			PimEnable = FALSE;
+
 			if (bDevice && !bInPlaceEncNonSys)
 			{
 				// Handle assigned drive letter (if any)
@@ -4134,6 +4136,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SetWindowText (GetDlgItem (hwndDlg, IDC_PIM), szTmp);
 				}
 
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_ENABLE), PimEnable? SW_HIDE : SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), PimEnable? SW_SHOW : SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), PimEnable? SW_SHOW : SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), PimEnable? SW_SHOW : SW_HIDE);
+
 				SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable);
 
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (bInPlaceEncNonSys ? (bInPlaceEncNonSysResumed ? "NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP" : "NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP") : "PASSWORD_HIDDENVOL_HOST_DIRECT_HELP"));
@@ -4207,6 +4214,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetWindowText (GetDlgItem (hwndDlg, IDC_VERIFY), szVerify);
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
+				
+				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, PimEnable);
 
 				SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable && !SysEncInEffect());
 				EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), KeyFilesEnable);
@@ -4254,6 +4263,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
 
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect ()? "PIM_SYSENC_HELP" : "PIM_HELP"));
+
+				ToHyperlink (hwndDlg, IDC_LINK_PIM_INFO);
 
 				if (CreatingHiddenSysVol())
 					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("PIM_HIDDEN_OS_TITLE"));
@@ -5348,6 +5359,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
+		if (lw == IDC_LINK_PIM_INFO && nCurPageNo == PIM_PAGE)
+		{
+			Applink ("pim", TRUE, "");
+			return 1;
+		}
+
 		if (hw == CBN_EDITCHANGE && nCurPageNo == VOLUME_LOCATION_PAGE)
 		{
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), 
@@ -5393,20 +5410,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
 			volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
-			if (lw == IDC_PIM)
-			{
-				if(GetPim (hwndDlg, IDC_PIM) != 0)
-				{
-					PimValueChangedWarning = TRUE;
-					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
-				}
-				else
-				{
-					PimValueChangedWarning = FALSE;
-					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, (wchar_t *) GetDictionaryValueByInt (IDC_PIM_HELP));
-				}
-			}
-
 			return 1;
 		}
 
@@ -5441,6 +5444,23 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						0);
 			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
 			InvalidateRect (GetDlgItem (hwndDlg, IDC_VERIFY), NULL, TRUE);
+			return 1;
+		}
+
+		if (lw == IDC_PIM_ENABLE)
+		{
+			PimEnable = GetCheckBox (hwndDlg, IDC_PIM_ENABLE);
+			if (!PimEnable)
+				volumePim = 0;
+			if (nCurPageNo == HIDDEN_VOL_HOST_PASSWORD_PAGE
+				|| nCurPageNo == NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE
+				)
+			{
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_ENABLE), PimEnable? SW_HIDE : SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), PimEnable? SW_SHOW : SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), PimEnable? SW_SHOW : SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), PimEnable? SW_SHOW : SW_HIDE);
+			}
 			return 1;
 		}
 		
@@ -7141,6 +7161,31 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 				}
+
+				if (!PimEnable)
+				{
+					// PIM not activated. Skip PIM page
+					volumePim = 0;
+
+					if (SysEncInEffect ()) 
+					{
+						nNewPageNo = SYSENC_COLLECTING_RANDOM_DATA_PAGE - 1;	// Skip irrelevant pages
+					}
+
+					if (bInPlaceEncNonSys)
+					{
+						nNewPageNo = NONSYS_INPLACE_ENC_RAND_DATA_PAGE - 1;		// Skip irrelevant pages
+					}
+					else if (WizardMode != WIZARD_MODE_SYS_DEVICE
+						&& !FileSize4GBLimitQuestionNeeded () 
+						|| CreatingHiddenSysVol())		// If we're creating a hidden volume for a hidden OS, we don't need to format it with any filesystem (the entire OS will be copied to the hidden volume sector by sector).
+					{
+						nNewPageNo = FORMAT_PAGE - 1;				// Skip irrelevant pages
+					}
+					else
+						nNewPageNo = PIM_PAGE; // Skip PIM page
+
+				}
 			}
 
 			else if (nCurPageNo == PIM_PAGE)
@@ -8328,7 +8373,7 @@ ovf_end:
 				tmp [sizeof(tmp)-1] = 0;
 				SetWindowText (hRandPoolSys, tmp);
 
-				nNewPageNo = PIM_PAGE + 1;		// Skip irrelevant pages
+				nNewPageNo = (PimEnable? PIM_PAGE : PASSWORD_PAGE) + 1;		// Skip irrelevant pages
 			}
 
 			else if (nCurPageNo == SYSENC_KEYS_GEN_PAGE)
@@ -8372,7 +8417,7 @@ ovf_end:
 						nNewPageNo = FILESYS_PAGE + 1;
 					}
 					else
-						nNewPageNo = PIM_PAGE + 1;		
+						nNewPageNo = (PimEnable? PIM_PAGE : PASSWORD_PAGE) + 1;		
 				}
 			}
 
