@@ -8156,31 +8156,32 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 static SERVICE_STATUS SystemFavoritesServiceStatus;
 static SERVICE_STATUS_HANDLE SystemFavoritesServiceStatusHandle;
 
-
-static void SystemFavoritesServiceLogError (const string &errorMessage)
+static void SystemFavoritesServiceLogMessage (const string &errorMessage, WORD wType)
 { 
 	HANDLE eventSource = RegisterEventSource (NULL, TC_SYSTEM_FAVORITES_SERVICE_NAME);
 
 	if (eventSource)
 	{
 		LPCTSTR strings[] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, errorMessage.c_str() };
-		ReportEvent (eventSource, EVENTLOG_ERROR_TYPE, 0, 0xC0000001, NULL, array_capacity (strings), 0, strings, NULL);
+		ReportEvent (eventSource, wType, 0, 0xC0000000 + wType, NULL, array_capacity (strings), 0, strings, NULL);
 
 		DeregisterEventSource (eventSource);
 	}
 }
 
-static void SystemFavoritesServiceLogInfo (const string &errorMessage)
+static void SystemFavoritesServiceLogError (const string &errorMessage)
 { 
-	HANDLE eventSource = RegisterEventSource (NULL, TC_SYSTEM_FAVORITES_SERVICE_NAME);
+	SystemFavoritesServiceLogMessage (errorMessage, EVENTLOG_ERROR_TYPE);
+}
 
-	if (eventSource)
-	{
-		LPCTSTR strings[] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, errorMessage.c_str() };
-		ReportEvent (eventSource, EVENTLOG_INFORMATION_TYPE, 0, 0xC0000002, NULL, array_capacity (strings), 0, strings, NULL);
+static void SystemFavoritesServiceLogWarning (const string &warningMessage)
+{ 
+	SystemFavoritesServiceLogMessage (warningMessage, EVENTLOG_WARNING_TYPE);
+}
 
-		DeregisterEventSource (eventSource);
-	}
+static void SystemFavoritesServiceLogInfo (const string &infoMessage)
+{ 
+	SystemFavoritesServiceLogMessage (infoMessage, EVENTLOG_INFORMATION_TYPE);
 }
 
 
@@ -8487,10 +8488,139 @@ void DismountIdleVolumes ()
 	}
 }
 
+static BOOL MountFavoriteVolumeBase (const FavoriteVolume &favorite, BOOL& lastbExplore, BOOL& userForcedReadOnly, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
+{
+	BOOL status = TRUE;
+	int drive;
+	drive = toupper (favorite.MountPoint[0]) - 'A';
+	
+	mountOptions.ReadOnly = favorite.ReadOnly || userForcedReadOnly;
+	mountOptions.Removable = favorite.Removable;
+
+	if (favorite.SystemEncryption)
+	{
+		mountOptions.PartitionInInactiveSysEncScope = TRUE;
+		bPrebootPasswordDlgMode = TRUE;
+	}
+	else
+	{
+		mountOptions.PartitionInInactiveSysEncScope = FALSE;
+		bPrebootPasswordDlgMode = FALSE;
+	}
+
+	if ((LastKnownMountList.ulMountedDrives & (1 << drive)) == 0)
+	{
+		MountVolumesAsSystemFavorite = systemFavorites;
+
+		string mountPoint = (char) (drive + 'A') + string (":\\");
+		char prevVolumeAtMountPoint[MAX_PATH] = { 0 };
+
+		if (systemFavorites)
+		{
+			// Partitions of new drives are assigned free drive letters by Windows on boot. Make sure this does not prevent system favorite volumes
+			// from being mounted. Each partition (using the same drive letter as a system favorite volume) is assigned another free drive letter.
+
+			if (GetVolumeNameForVolumeMountPoint (mountPoint.c_str(), prevVolumeAtMountPoint, sizeof (prevVolumeAtMountPoint)))
+				DeleteVolumeMountPoint (mountPoint.c_str());
+			else
+				prevVolumeAtMountPoint[0] = 0;
+		}
+
+		lastbExplore = bExplore;
+
+		bExplore = (BOOL) favorite.OpenExplorerWindow;
+
+		if (!systemFavorites
+			&& !logOnMount
+			&& !hotKeyMount
+			&& !favoriteVolumeToMount.Path.empty()
+			&& GetAsyncKeyState (VK_CONTROL) < 0)
+		{
+			/* Priority is given to command line parameters 
+			 * Default values used only when nothing specified in command line
+			 */
+			if (CmdVolumePkcs5 == 0)
+				mountOptions.ProtectedHidVolPkcs5Prf = DefaultVolumePkcs5;
+			else
+				mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
+			mountOptions.ProtectedHidVolPim = CmdVolumePim;
+			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), MainDlg, (DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
+			{
+				status = FALSE;
+				goto skipMount;
+			}
+		}
+
+		BOOL prevReadOnly = mountOptions.ReadOnly;
+
+		if (ServiceMode)
+			SystemFavoritesServiceLogInfo (string ("Mounting system favorite \"") + favorite.Path + "\"");
+
+		status = Mount (MainDlg, drive, (char *) favorite.Path.c_str(), favorite.Pim);
+
+		if (ServiceMode)
+		{
+			// Update the service status to avoid being killed
+			SystemFavoritesServiceStatus.dwCheckPoint++;
+			SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
+
+			if (status)
+			{
+				SystemFavoritesServiceLogInfo (string ("Favorite \"") + favorite.Path + string ("\" mounted successfully as ") + (char) (drive + 'A') + ":");
+			}
+			else
+			{
+				SystemFavoritesServiceLogError (string ("Favorite \"") + favorite.Path + "\" failed to mount");
+			}
+		}
+
+		if (status && mountOptions.ReadOnly != prevReadOnly)
+			userForcedReadOnly = mountOptions.ReadOnly;
+
+skipMount:
+		bExplore = lastbExplore;
+
+		if (systemFavorites && prevVolumeAtMountPoint[0])
+		{
+			if (status)
+			{
+				int freeDrive = GetFirstAvailableDrive();
+				if (freeDrive != -1)
+				{
+					mountPoint[0] = (char) (freeDrive + 'A');
+					SetVolumeMountPoint (mountPoint.c_str(), prevVolumeAtMountPoint);
+				}
+			}
+			else
+				SetVolumeMountPoint (mountPoint.c_str(), prevVolumeAtMountPoint);
+		}
+
+		LoadDriveLetters (MainDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
+
+		MountVolumesAsSystemFavorite = FALSE;
+
+		if (ServiceMode && LastMountedVolumeDirty)
+		{
+			DWORD bytesOut;
+			DeviceIoControl (hDriver, TC_IOCTL_SET_SYSTEM_FAVORITE_VOLUME_DIRTY, NULL, 0, NULL, 0, &bytesOut, NULL);
+
+			SystemFavoritesServiceLogError (string ("The filesystem of the volume mounted as ") + (char) (drive + 'A') + ": was not cleanly dismounted and needs to be checked for errors.");
+		}
+	}
+	else if (!systemFavorites && !favoriteVolumeToMount.Path.empty())
+		Error ("DRIVE_LETTER_UNAVAILABLE", MainDlg);
+	else if (ServiceMode && systemFavorites)
+	{
+		SystemFavoritesServiceLogError (string ("The drive letter ") + (char) (drive + 'A') + string (" used by favorite \"") + favorite.Path + "\" is already taken.\nThis system favorite will not be mounted");
+	}
+
+	return status;
+}
+
 
 BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
 {
-	BOOL bRet = TRUE;
+	BOOL bRet = TRUE, status = TRUE;
 	BOOL lastbExplore;
 	BOOL userForcedReadOnly = FALSE;
 
@@ -8506,7 +8636,7 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 	VolumePassword.Length = 0;
 	MultipleMountOperationInProgress = (favoriteVolumeToMount.Path.empty() || FavoriteMountOnArrivalInProgress);
 
-	vector <FavoriteVolume> favorites;
+	vector <FavoriteVolume> favorites, skippedSystemFavorites;
 
 	if (systemFavorites)
 	{
@@ -8539,7 +8669,8 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 	{
 		if (ServiceMode && systemFavorites && favorite.DisconnectedDevice)
 		{
-			SystemFavoritesServiceLogError (string ("Favorite \"") + favorite.Path + "\" is disconnected. It will be ignored.");
+			skippedSystemFavorites.push_back (favorite);
+			SystemFavoritesServiceLogWarning (string ("Favorite \"") + favorite.Path + "\" is disconnected. It will be ignored.");
 		}
 
 		if (favorite.DisconnectedDevice
@@ -8549,130 +8680,60 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 			continue;
 		}
 
-		BOOL status = TRUE;
-		int drive;
-		drive = toupper (favorite.MountPoint[0]) - 'A';
-		
-		mountOptions.ReadOnly = favorite.ReadOnly || userForcedReadOnly;
-		mountOptions.Removable = favorite.Removable;
+		status = MountFavoriteVolumeBase (favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount);
+		if (!status)
+			bRet = FALSE;
+	}
 
-		if (favorite.SystemEncryption)
+	if (systemFavorites && ServiceMode && !skippedSystemFavorites.empty())
+	{
+		// Some drives need more time to initialize correctly.
+		// We retry 4 times after sleeping 5 seconds 
+		int retryCounter = 0;
+		size_t remainingFavorites = skippedSystemFavorites.size();
+		while ((remainingFavorites > 0) && (retryCounter++ < 4))
 		{
-			mountOptions.PartitionInInactiveSysEncScope = TRUE;
-			bPrebootPasswordDlgMode = TRUE;
-		}
-		else
-		{
-			mountOptions.PartitionInInactiveSysEncScope = FALSE;
-			bPrebootPasswordDlgMode = FALSE;
-		}
+			Sleep (5000);
 
-		if ((LastKnownMountList.ulMountedDrives & (1 << drive)) == 0)
-		{
-			MountVolumesAsSystemFavorite = systemFavorites;
+			SystemFavoritesServiceLogInfo (string ("Trying to mount skipped system favorites"));
 
-			string mountPoint = (char) (drive + 'A') + string (":\\");
-			char prevVolumeAtMountPoint[MAX_PATH] = { 0 };
+			// Update the service status to avoid being killed
+			SystemFavoritesServiceStatus.dwCheckPoint++;
+			SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
 
-			if (systemFavorites)
+			for (vector <FavoriteVolume>::iterator favorite = skippedSystemFavorites.begin(); 
+					favorite != skippedSystemFavorites.end(); favorite++)
 			{
-				// Partitions of new drives are assigned free drive letters by Windows on boot. Make sure this does not prevent system favorite volumes
-				// from being mounted. Each partition (using the same drive letter as a system favorite volume) is assigned another free drive letter.
-
-				if (GetVolumeNameForVolumeMountPoint (mountPoint.c_str(), prevVolumeAtMountPoint, sizeof (prevVolumeAtMountPoint)))
-					DeleteVolumeMountPoint (mountPoint.c_str());
-				else
-					prevVolumeAtMountPoint[0] = 0;
-			}
-
-			lastbExplore = bExplore;
-
-			bExplore = (BOOL) favorite.OpenExplorerWindow;
-
-			if (!systemFavorites
-				&& !logOnMount
-				&& !hotKeyMount
-				&& !favoriteVolumeToMount.Path.empty()
-				&& GetAsyncKeyState (VK_CONTROL) < 0)
-			{
-				/* Priority is given to command line parameters 
-				 * Default values used only when nothing specified in command line
-				 */
-				if (CmdVolumePkcs5 == 0)
-					mountOptions.ProtectedHidVolPkcs5Prf = DefaultVolumePkcs5;
-				else
-					mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
-				mountOptions.ProtectedHidVolPim = CmdVolumePim;
-				if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), MainDlg, (DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
+				if (favorite->DisconnectedDevice)
 				{
-					status = FALSE;
-					goto skipMount;
-				}
-			}
-
-			BOOL prevReadOnly = mountOptions.ReadOnly;
-
-			if (ServiceMode)
-				SystemFavoritesServiceLogInfo (string ("Mounting system favorite \"") + favorite.Path + "\"");
-
-			status = Mount (MainDlg, drive, (char *) favorite.Path.c_str(), favorite.Pim);
-
-			if (ServiceMode)
-			{
-				if (status)
-				{
-					SystemFavoritesServiceLogInfo (string ("Favorite \"") + favorite.Path + string ("\" mounted successfully as ") + (char) (drive + 'A') + ":");
-				}
-				else
-				{
-					SystemFavoritesServiceLogError (string ("Favorite \"") + favorite.Path + "\" failed to mount");
-					// Update the service status to avoid being killed
-					SystemFavoritesServiceStatus.dwCheckPoint++;
-					SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
-				}
-			}
-
-			if (status && mountOptions.ReadOnly != prevReadOnly)
-				userForcedReadOnly = mountOptions.ReadOnly;
-
-skipMount:
-			bExplore = lastbExplore;
-
-			if (systemFavorites && prevVolumeAtMountPoint[0])
-			{
-				if (status)
-				{
-					int freeDrive = GetFirstAvailableDrive();
-					if (freeDrive != -1)
+					// check if the favorite is here and get its path
+					string resolvedPath = VolumeGuidPathToDevicePath (favorite->Path);
+					if (!resolvedPath.empty())
 					{
-						mountPoint[0] = (char) (freeDrive + 'A');
-						SetVolumeMountPoint (mountPoint.c_str(), prevVolumeAtMountPoint);
+						favorite->DisconnectedDevice = false;
+						favorite->VolumePathId = favorite->Path;
+						favorite->Path = resolvedPath;
+
+						remainingFavorites--;
+
+						// favorite OK. 
+						SystemFavoritesServiceLogInfo (string ("Favorite \"") + favorite->VolumePathId + "\" is connected. Performing mount.");
+
+						status = MountFavoriteVolumeBase (*favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount);
+						if (!status)
+							bRet = FALSE;
 					}
 				}
-				else
-					SetVolumeMountPoint (mountPoint.c_str(), prevVolumeAtMountPoint);
 			}
 
-			LoadDriveLetters (MainDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
-
-			MountVolumesAsSystemFavorite = FALSE;
-
-			if (ServiceMode && LastMountedVolumeDirty)
+			if (remainingFavorites == 0)
+				SystemFavoritesServiceLogInfo (string ("All skipped system favorites have been processed"));
+			else
 			{
-				DWORD bytesOut;
-				DeviceIoControl (hDriver, TC_IOCTL_SET_SYSTEM_FAVORITE_VOLUME_DIRTY, NULL, 0, NULL, 0, &bytesOut, NULL);
-
-				SystemFavoritesServiceLogError (string ("The filesystem of the volume mounted as ") + (char) (drive + 'A') + ": was not cleanly dismounted and needs to be checked for errors.");
+				char szTmp[32];
+				StringCbPrintfA (szTmp, sizeof(szTmp), "%d", (int) remainingFavorites);
+				SystemFavoritesServiceLogWarning (string ("Number of unprocessed system favorites is ") + szTmp);
 			}
-
-			if (!status)
-				bRet = FALSE;
-		}
-		else if (!systemFavorites && !favoriteVolumeToMount.Path.empty())
-			Error ("DRIVE_LETTER_UNAVAILABLE", MainDlg);
-		else if (ServiceMode && systemFavorites)
-		{
-			SystemFavoritesServiceLogError (string ("The drive letter ") + (char) (drive + 'A') + string (" used by favorite \"") + favorite.Path + "\" is already taken.\nThis system favorite will not be mounted");
 		}
 	}
 
