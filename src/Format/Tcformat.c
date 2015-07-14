@@ -8304,6 +8304,8 @@ ovf_end:
 					fileSystem = FILESYS_NONE;	// The user may have gone back and changed the answer, so default file system must be reselected
 	
 				nNeedToStoreFilesOver4GB = Get2RadButtonPageAnswer();
+
+				nNewPageNo = (PimEnable? PIM_PAGE : PASSWORD_PAGE) + 1; // Skip PIM page if it is not enabled
 			}
 
 			else if (nCurPageNo == PASSWORD_PAGE)
