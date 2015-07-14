@@ -7165,6 +7165,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (!PimEnable)
 				{
 					// PIM not activated. Skip PIM page
+					nNewPageNo = PIM_PAGE;
 					volumePim = 0;
 
 					if (SysEncInEffect ()) 
@@ -7182,8 +7183,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						nNewPageNo = FORMAT_PAGE - 1;				// Skip irrelevant pages
 					}
-					else
-						nNewPageNo = PIM_PAGE; // Skip PIM page
 
 				}
 			}
