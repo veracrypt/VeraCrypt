@@ -42,7 +42,6 @@ namespace VeraCrypt
 		parser.AddSwitch (L"C", L"change",				_("Change password or keyfiles"));
 		parser.AddSwitch (L"c", L"create",				_("Create new volume"));
 		parser.AddSwitch (L"",	L"create-keyfile",		_("Create new keyfile"));
-		parser.AddOption (L"",	L"current-hash",		_("Current hash algorithm for change password/keyfiles operation"));
 		parser.AddSwitch (L"",	L"delete-token-keyfiles", _("Delete security token keyfiles"));
 		parser.AddSwitch (L"d", L"dismount",			_("Dismount volume"));
 		parser.AddSwitch (L"",	L"display-password",	_("Display password while typing"));
@@ -63,6 +62,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"load-preferences",	_("Load user preferences"));
 		parser.AddSwitch (L"",	L"mount",				_("Mount volume interactively"));
 		parser.AddOption (L"m", L"mount-options",		_("VeraCrypt volume mount options"));
+		parser.AddOption (L"",	L"new-hash",			_("New hash algorithm"));
 		parser.AddOption (L"",	L"new-keyfiles",		_("New keyfiles"));
 		parser.AddOption (L"",	L"new-password",		_("New password"));
 		parser.AddOption (L"",	L"new-pim",				_("New PIM"));
@@ -322,19 +322,19 @@ namespace VeraCrypt
 				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
 		}
 
-		if (parser.Found (L"current-hash", &str))
+		if (parser.Found (L"new-hash", &str))
 		{
-			ArgCurrentHash.reset();
+			ArgNewHash.reset();
 
 			foreach (shared_ptr <Hash> hash, Hash::GetAvailableAlgorithms())
 			{
 				wxString hashName (hash->GetName());
 				wxString hashAltName (hash->GetAltName());
 				if (hashName.IsSameAs (str, false) || hashAltName.IsSameAs (str, false))
-					ArgCurrentHash = hash;
+					ArgNewHash = hash;
 			}
 
-			if (!ArgCurrentHash)
+			if (!ArgNewHash)
 				throw_err (LangString["UNKNOWN_OPTION"] + L": " + str);
 		}
 

@@ -61,10 +61,10 @@ namespace VeraCrypt
 		VolumeCreationOptions::FilesystemType::Enum ArgFilesystem;
 		bool ArgForce;
 		shared_ptr <Hash> ArgHash;
-		shared_ptr <Hash> ArgCurrentHash;
 		shared_ptr <KeyfileList> ArgKeyfiles;
 		MountOptions ArgMountOptions;
 		shared_ptr <DirectoryPath> ArgMountPoint;
+		shared_ptr <Hash> ArgNewHash;
 		shared_ptr <KeyfileList> ArgNewKeyfiles;
 		shared_ptr <VolumePassword> ArgNewPassword;
 		int ArgNewPim;
