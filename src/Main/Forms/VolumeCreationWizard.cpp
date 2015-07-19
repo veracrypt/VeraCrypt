@@ -42,6 +42,7 @@ namespace VeraCrypt
 		SelectedFilesystemType (VolumeCreationOptions::FilesystemType::FAT),
 		SelectedVolumeHostType (VolumeHostType::File),
 		SelectedVolumeType (VolumeType::Normal),
+		Pim (0),
 		SectorSize (0),
 		VolumeSize (0)
 	{
@@ -85,6 +86,7 @@ namespace VeraCrypt
 				OuterVolume = false;
 				LargeFilesSupport = false;
 				QuickFormatEnabled = false;
+				Pim = 0;
 
 				SingleChoiceWizardPage <VolumeHostType::Enum> *page = new SingleChoiceWizardPage <VolumeHostType::Enum> (GetPageParent(), wxEmptyString, true);
 				page->SetMinSize (wxSize (Gui->GetCharWidth (this) * 58, Gui->GetCharHeight (this) * 18 + 5));
@@ -186,6 +188,8 @@ namespace VeraCrypt
 		case Step::VolumePassword:
 			{
 				VolumePasswordWizardPage *page = new VolumePasswordWizardPage (GetPageParent(), Password, Keyfiles);
+				page->EnableUsePim (); // force displaying "Use PIM"
+				page->SetPimSelected (Pim > 0);
 				
 				if (OuterVolume)
 					page->SetPageTitle (LangString["PASSWORD_HIDVOL_HOST_TITLE"]);
@@ -210,6 +214,7 @@ namespace VeraCrypt
 					page->SetPageTitle (LangString["PIM_TITLE"]);
 				
 				page->SetPageText (LangString["PIM_HELP"]);
+				page->SetVolumePim (Pim);
 				return page;
 			}
 
@@ -339,6 +344,7 @@ namespace VeraCrypt
 				ClearHistory();
 				OuterVolume = false;
 				LargeFilesSupport = false;
+				Pim = 0;
 
 				InfoWizardPage *page = new InfoWizardPage (GetPageParent());
 				page->SetPageTitle (LangString["HIDVOL_PRE_CIPHER_TITLE"]);
@@ -747,8 +753,33 @@ namespace VeraCrypt
 						}
 					}
 				}
+				
+				if (page->IsPimSelected ())
+					return Step::VolumePim;
+				else
+				{
+					// Clear PIM
+					Pim = 0;
 
-				return Step::VolumePim;
+					// Skip PIM 
+					if (forward && OuterVolume)
+					{
+						// Use FAT to prevent problems with free space
+						QuickFormatEnabled = false;
+						SelectedFilesystemType = VolumeCreationOptions::FilesystemType::FAT;
+						return Step::CreationProgress;
+					}
+
+					if (VolumeSize > 4 * BYTES_PER_GB)
+					{
+						if (VolumeSize <= TC_MAX_FAT_SECTOR_COUNT * SectorSize)
+							return Step::LargeFilesSupport;
+						else
+							SelectedFilesystemType = VolumeCreationOptions::FilesystemType::GetPlatformNative();
+					}
+
+					return Step::FormatOptions;
+				}
 			}
 
 		case Step::VolumePim:

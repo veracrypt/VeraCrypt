@@ -378,13 +378,16 @@ namespace VeraCrypt
 			try
 			{
 				ArgNewPim = StringConverter::ToInt32 (wstring (str));
-				if (ArgNewPim < 0)
-					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
 			catch (...)
 			{
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
+
+			if (ArgNewPim < 0)
+				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			else if (ArgNewPim > 0 && ArgTrueCryptMode)
+				throw_err (LangString["PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 		}
 		
 		if (parser.Found (L"non-interactive"))
@@ -403,13 +406,16 @@ namespace VeraCrypt
 			try
 			{
 				ArgPim = StringConverter::ToInt32 (wstring (str));
-				if (ArgPim < 0)
-					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
 			catch (...)
 			{
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
+
+			if (ArgPim < 0)
+				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			else if (ArgPim > 0 && ArgTrueCryptMode)
+				throw_err (LangString["PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 		}
 
 		if (parser.Found (L"protect-hidden", &str))

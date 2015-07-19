@@ -638,6 +638,10 @@ namespace VeraCrypt
 			{
 				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
 			}
+			if (CmdLine->ArgPim > 0)
+			{
+				mountOptions.Pim = CmdLine->ArgPim;
+			}
 
 			if (SlotListCtrl->GetSelectedItemCount() == 1)
 				mountOptions.SlotNumber = SelectedSlotNumber;
@@ -663,6 +667,11 @@ namespace VeraCrypt
 			{
 				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
 			}
+			if (CmdLine->ArgPim > 0)
+			{
+				mountOptions.Pim = CmdLine->ArgPim;
+			}
+
 			Gui->MountAllFavoriteVolumes (mountOptions);
 		}
 		catch (exception &e)
@@ -692,6 +701,10 @@ namespace VeraCrypt
 		if (CmdLine->ArgHash)
 		{
 			mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+		}
+		if (CmdLine->ArgPim > 0)
+		{
+			mountOptions.Pim = CmdLine->ArgPim;
 		}
 
 		try
@@ -944,6 +957,10 @@ namespace VeraCrypt
 			if (CmdLine->ArgHash)
 			{
 				mountOptions.Kdf = Pkcs5Kdf::GetAlgorithm (*CmdLine->ArgHash, mountOptions.TrueCryptMode);
+			}
+			if (CmdLine->ArgPim > 0)
+			{
+				mountOptions.Pim = CmdLine->ArgPim;
 			}
 			favorite.ToMountOptions (mountOptions);
 

@@ -963,6 +963,7 @@ namespace VeraCrypt
 			wxStaticText* VolumePimStaticText;
 			wxTextCtrl* VolumePimTextCtrl;
 			wxStaticText* VolumePimHelpStaticText;
+			wxCheckBox* PimCheckBox;
 			wxCheckBox* CacheCheckBox;
 			wxCheckBox* DisplayPasswordCheckBox;
 			wxCheckBox* UseKeyfilesCheckBox;
@@ -978,6 +979,7 @@ namespace VeraCrypt
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnPimChanged( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnUsePimCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDisplayPasswordCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnUseKeyfilesCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnKeyfilesButtonClick( wxCommandEvent& event ) { event.Skip(); }

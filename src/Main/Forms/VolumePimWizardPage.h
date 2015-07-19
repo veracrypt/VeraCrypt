@@ -28,12 +28,14 @@ namespace VeraCrypt
 		~VolumePimWizardPage ();
 
 		int GetVolumePim () const;
+		void SetVolumePim (int pim);
 		bool IsValid ();
 		void SetMaxStaticTextWidth (int width) { InfoStaticText->Wrap (width); }
 		void SetPageText (const wxString &text) { InfoStaticText->SetLabel (text); }
 		
 	protected:
 		void OnPimChanged  (wxCommandEvent& event);
+		void OnPimChanged  (int pim);
 	};
 }
 

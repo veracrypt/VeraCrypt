@@ -30,8 +30,13 @@ namespace VeraCrypt
 		int GetHeaderWipeCount () const;
 		void SetCacheCheckBoxValidator (const wxGenericValidator &validator) { CacheCheckBox->SetValidator (validator); }
 		void SetFocusToPasswordTextCtrl () { PasswordTextCtrl->SetSelection (-1, -1); PasswordTextCtrl->SetFocus(); }
-		void SetFocusToPimTextCtrl () { VolumePimTextCtrl->SetSelection (-1, -1); VolumePimTextCtrl->SetFocus(); }
+		void SetFocusToPimTextCtrl () { VolumePimTextCtrl->SetSelection (-1, -1); VolumePimTextCtrl->SetFocus(); }	
+		void SetVolumePim (int pim);
 		bool PasswordsMatch () const;
+		void EnableUsePim () { PimCheckBox->Enable (true); PimCheckBox->Show (true); }
+		bool IsUsePimChecked () const { return PimCheckBox->GetValue (); }
+		void SetUsePimChecked (bool checked) const { PimCheckBox->SetValue (checked); }
+		bool UpdatePimHelpText (bool pimChanged);
 
 		Event UpdateEvent;
 
@@ -46,7 +51,8 @@ namespace VeraCrypt
 		void OnKeyfilesButtonRightClick (wxMouseEvent& event);
 		void OnKeyfilesButtonRightDown (wxMouseEvent& event);
 		void OnTextChanged (wxCommandEvent& event) { OnUpdate(); }
-		void OnPimChanged  (wxCommandEvent& event);
+		void OnPimChanged  (wxCommandEvent& event) { OnUpdate(); }
+		void OnUsePimCheckBoxClick( wxCommandEvent& event );
 		void OnUpdate () { UpdateEvent.Raise(); }
 		void OnUseKeyfilesCheckBoxClick (wxCommandEvent& event) { OnUpdate(); }
 		void WipeTextCtrl (wxTextCtrl *textCtrl);
@@ -54,6 +60,7 @@ namespace VeraCrypt
 
 		shared_ptr <KeyfileList> Keyfiles;
 		shared_ptr <Functor> UpdateCallback;
+		bool EnablePimEntry;
 	};
 }
 

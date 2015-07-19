@@ -23,6 +23,10 @@ namespace VeraCrypt
 	VolumePimWizardPage::VolumePimWizardPage (wxPanel* parent)
 		: VolumePimWizardPageBase (parent)
 	{
+		wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);  // wxFILTER_NUMERIC does not exclude - . , etc.
+		const wxChar *valArr[] = { L"0", L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9" };
+		validator.SetIncludes (wxArrayString (array_capacity (valArr), (const wxChar **) &valArr));
+		VolumePimTextCtrl->SetValidator (validator);
 	}
 
 	VolumePimWizardPage::~VolumePimWizardPage ()
@@ -46,6 +50,20 @@ namespace VeraCrypt
 			return 0;
 	}
 
+	void VolumePimWizardPage::SetVolumePim (int pim)
+	{
+		if (pim > 0)
+		{
+			VolumePimTextCtrl->SetValue (StringConverter::FromNumber (pim));
+		}
+		else
+		{
+			VolumePimTextCtrl->SetValue (wxT(""));
+		}
+
+		OnPimChanged (pim);
+	}
+
 	bool VolumePimWizardPage::IsValid ()
 	{
 		return true;
@@ -53,7 +71,12 @@ namespace VeraCrypt
 	
 	void VolumePimWizardPage::OnPimChanged  (wxCommandEvent& event)
 	{
-		if (GetVolumePim() != 0)
+		OnPimChanged (GetVolumePim ());
+	}
+
+	void VolumePimWizardPage::OnPimChanged  (int pim)
+	{
+		if (pim > 0)
 		{
 			VolumePimHelpStaticText->SetForegroundColour(*wxRED);
 			VolumePimHelpStaticText->SetLabel(LangString["PIM_CHANGE_WARNING"]);

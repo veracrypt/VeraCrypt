@@ -227,5 +227,12 @@ namespace VeraCrypt
 		}
 
 		OKButton->Enable (ok);
+		
+		if (DialogMode == Mode::ChangePasswordAndKeyfiles)
+		{
+			bool pimChanged = (CurrentPasswordPanel->GetVolumePim() != NewPasswordPanel->GetVolumePim());
+			NewPasswordPanel->UpdatePimHelpText(pimChanged);
+		}
+		
 	}
 }

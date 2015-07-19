@@ -15,7 +15,7 @@
 namespace VeraCrypt
 {
 	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, MountOptions* options, shared_ptr <VolumePassword> password, bool disableTruecryptMode, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
-		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList)
+		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList), EnablePimEntry (true)
 	{
 		if (keyfiles)
 		{
@@ -55,9 +55,17 @@ namespace VeraCrypt
 		PasswordTextCtrl->Show (enablePassword);
 		DisplayPasswordCheckBox->Show (enablePassword);
 		
-		VolumePimStaticText->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
-		VolumePimTextCtrl->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
-		VolumePimHelpStaticText->Show (enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword)));
+		
+		EnablePimEntry = enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword));
+		PimCheckBox->Show (EnablePimEntry);
+		VolumePimStaticText->Show (false);
+		VolumePimTextCtrl->Show (false);
+		VolumePimHelpStaticText->Show (false);
+
+		wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);  // wxFILTER_NUMERIC does not exclude - . , etc.
+		const wxChar *valArr[] = { L"0", L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9" };
+		validator.SetIncludes (wxArrayString (array_capacity (valArr), (const wxChar **) &valArr));
+		VolumePimTextCtrl->SetValidator (validator);
 
 		ConfirmPasswordStaticText->Show (enableConfirmation);
 		ConfirmPasswordTextCtrl->Show (enableConfirmation);
@@ -76,10 +84,21 @@ namespace VeraCrypt
 			TrueCryptModeCheckBox->SetValue (options->TrueCryptMode);
 			if (options->TrueCryptMode)
 			{
+				PimCheckBox->Enable (false);
 				VolumePimStaticText->Enable (false);
 				VolumePimTextCtrl->Enable (false);
 				VolumePimHelpStaticText->Enable (false);
 			}
+		}
+
+		if (EnablePimEntry && options && options->Pim > 0)
+		{
+			PimCheckBox->SetValue (true);
+			PimCheckBox->Show (false);
+			VolumePimStaticText->Show (true);
+			VolumePimTextCtrl->Show (true);
+			VolumePimHelpStaticText->Show (true);
+			SetVolumePim (options->Pim);
 		}
 
 		if (enablePkcs5Prf)
@@ -225,7 +244,7 @@ namespace VeraCrypt
 	
 	int VolumePasswordPanel::GetVolumePim () const
 	{
-		if (VolumePimTextCtrl->IsEnabled ())
+		if (VolumePimTextCtrl->IsEnabled () && VolumePimTextCtrl->IsShown ())
 		{
 			wxString pimStr (VolumePimTextCtrl->GetValue());
 			long pim = 0;
@@ -239,7 +258,19 @@ namespace VeraCrypt
 		else
 			return 0;
 	}	
-	
+
+	void VolumePasswordPanel::SetVolumePim (int pim)
+	{
+		if (pim > 0)
+		{
+			VolumePimTextCtrl->SetValue (StringConverter::FromNumber (pim));
+		}
+		else
+		{
+			VolumePimTextCtrl->SetValue (wxT(""));
+		}
+	}
+
 	bool VolumePasswordPanel::GetTrueCryptMode () const
 	{
 		return TrueCryptModeCheckBox->GetValue ();
@@ -379,27 +410,53 @@ namespace VeraCrypt
 		textCtrl->SetValue (wxString (L'X', textCtrl->GetLineLength(0)));
 		GetPassword (textCtrl);
 	}
-	
-	void VolumePasswordPanel::OnPimChanged  (wxCommandEvent& event)
-	{ 
-		if (ConfirmPasswordTextCtrl->IsShown())
+
+	bool VolumePasswordPanel::UpdatePimHelpText (bool pimChanged)
+	{
+		bool guiUpdated = false;
+		if (pimChanged && VolumePimHelpStaticText->GetForegroundColour() != *wxRED)
 		{
-			if (GetVolumePim() != 0)
-			{
-				VolumePimHelpStaticText->SetForegroundColour(*wxRED);
-				VolumePimHelpStaticText->SetLabel(LangString["PIM_CHANGE_WARNING"]);
-			}
-			else
-			{
-				VolumePimHelpStaticText->SetForegroundColour(*wxBLACK);
-				VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
-			}			
+			VolumePimHelpStaticText->SetForegroundColour(*wxRED);
+			VolumePimHelpStaticText->SetLabel(LangString["PIM_CHANGE_WARNING"]);
+			guiUpdated = true;
+		}
+		if (!pimChanged && VolumePimHelpStaticText->GetForegroundColour() != *wxBLACK)
+		{
+			VolumePimHelpStaticText->SetForegroundColour(*wxBLACK);
+			VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
+			guiUpdated = true;
+		}
+		
+		if (guiUpdated)
+		{
+			Layout();
+			Fit();
+			GetParent()->Layout();
+			GetParent()->Fit();
+		}
+		return guiUpdated;
+	}
+
+	void VolumePasswordPanel::OnUsePimCheckBoxClick( wxCommandEvent& event )
+	{
+		if (EnablePimEntry)
+		{
+			PimCheckBox->Show (false);
+			VolumePimStaticText->Show (true);
+			VolumePimTextCtrl->Show (true);
+			VolumePimHelpStaticText->Show (true);	
+		
+			Layout();
+			Fit();
+			GetParent()->Layout();
+			GetParent()->Fit();
 		}
 	}
 	
 	void VolumePasswordPanel::OnTrueCryptModeChecked( wxCommandEvent& event )
 	{
 		bool bEnablePIM = !GetTrueCryptMode ();
+		PimCheckBox->Enable (bEnablePIM);
 		VolumePimStaticText->Enable (bEnablePIM);
 		VolumePimTextCtrl->Enable (bEnablePIM);
 		VolumePimHelpStaticText->Enable (bEnablePIM);
