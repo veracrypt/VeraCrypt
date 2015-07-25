@@ -118,8 +118,6 @@ namespace VeraCrypt
 
 			bool skipLayoutV1Normal = false;
 
-			bool deviceHosted = GetPath().IsDevice();
-
 			// Test volume layouts
 			foreach (shared_ptr <VolumeLayout> layout, VolumeLayout::GetAvailableLayouts (volumeType))
 			{
