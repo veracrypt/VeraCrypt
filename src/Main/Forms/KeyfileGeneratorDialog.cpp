@@ -132,7 +132,7 @@ namespace VeraCrypt
 				}
 
 				{
-					FilePath keyfilePath((const wchar_t*) keyfileName.GetFullPath());
+					FilePath keyfilePath((const wchar_t*) keyfileName.GetFullPath().c_str());
 					File keyfile;
 					keyfile.Open (keyfilePath, File::CreateWrite);
 					keyfile.Write (keyfileBuffer);
