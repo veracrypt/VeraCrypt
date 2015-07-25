@@ -48,6 +48,7 @@
     <control lang="ar" key="IDC_KEY_FILES">‮الملفات ال&amp;مفاتيح…</control>
     <control lang="ar" key="IDC_LINK_HASH_INFO">‮معلومات حوْل خوازميات التلبيد </control>
     <control lang="ar" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">المزيد من المعلومات</control>
+    <control lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</control>
     <control lang="ar" key="IDC_MB">‮&amp;ميجابايت</control>
     <control lang="ar" key="IDC_MORE_INFO_ON_CONTAINERS">‮مزيد من المعلومات</control>
     <control lang="ar" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">‮مزيد من المعلومات عن تعمية النظام</control>
@@ -57,6 +58,7 @@
     <control lang="ar" key="IDC_NO_HISTORY">‮لا &amp;تحفظ التأريخ أبدًا</control>
     <control lang="ar" key="IDC_OPEN_OUTER_VOLUME">‮أوصل مجلدا خارجيا</control>
     <control lang="ar" key="IDC_PAUSE">‮&amp;جمِّد</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
     <control lang="ar" key="IDC_QUICKFORMAT">‮تهيئة سريعة</control>
     <control lang="ar" key="IDC_SHOW_PASSWORD">‮أ&amp;ظهر كلمة السر</control>
     <control lang="ar" key="IDC_SHOW_PASSWORD_SINGLE">‮أ&amp;ظهر كلمة السر</control>
@@ -72,7 +74,7 @@
     <control lang="ar" key="IDT_COLLECTING_RANDOM_DATA_NOTE">‮هام: حرّك الفأرة عشوائيا بقدر الإمكان في إطار هذه النافذة، كلما طال تحريكك لها كان ذلك أفضل؛ هذا يزيد بشدة من القوة التعموية لمفاتيح التعمية. ثم انقر 'اللاحق' للمواصلة.</control>
     <control lang="ar" key="IDT_CONFIRM">‮أ&amp;كِّد:</control>
     <control lang="ar" key="IDT_DONE">‮تمّ </control>
-	<control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
+    <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="ar" key="IDT_ENCRYPTION_ALGO">‮خوارزميّة التعمية</control>
     <control lang="ar" key="IDT_FILESYSTEM">‮نظام الملفات </control>
     <control lang="ar" key="IDT_FILE_CONTAINER">‮ينشئ قرصا افتراضيا معمى في ملف. مُحبَّذٌ للمستخدمين غير الخبراء.</control>
@@ -86,6 +88,8 @@
     <control lang="ar" key="IDT_PARTIAL_POOL_CONTENTS">‮محتويات المجمع الحالية (جزئيا)</control>
     <control lang="ar" key="IDT_PASS">‮مرّة</control>
     <control lang="ar" key="IDT_PASSWORD">‮كلمة السر:</control>
+    <control lang="en" key="IDT_PIM">Volume PIM:</control>
+    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="ar" key="IDT_PROGRESS">‮الإنجاز:</control>
     <control lang="ar" key="IDT_RANDOM_POOL">‮مجمّع عشوائي: </control>
     <control lang="ar" key="IDT_SINGLE_BOOT">‮اختر هذا إن كان يوجد نظام تشغيل واحد فقط منصَّب على هذا الحاسوب (حتى لو كان له عدة مستخدمين).</control>
@@ -143,6 +147,8 @@
     <control lang="ar" key="IDC_MOUNT_OPTIONS">‮خ&amp;يارات الوصل…</control>
     <control lang="ar" key="IDC_MOUNT_READONLY">‮أوصل المجلد &amp;للقراءة فقط</control>
     <control lang="ar" key="IDC_NEW_KEYFILES">‮الملفات المفاتيح…</control>
+    <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
     <control lang="ar" key="IDC_PREF_BKG_TASK_ENABLE">‮مُفعّل</control>
     <control lang="ar" key="IDC_PREF_CACHE_PASSWORDS">‮خزّن كلمات السرّ مؤقتا في ذاكرة المُشغِّل</control>
     <control lang="ar" key="IDC_PREF_DISMOUNT_INACTIVE">‮افصل المجلد تلقائيا عندما لا تُكتب/تُقرأ بيانات منه</control>
@@ -203,7 +209,7 @@
     <control lang="ar" key="IDM_CREATE_HIDDEN_OS">‮أنشئ نظام تشغيل مخفي…</control>
     <control lang="ar" key="IDM_CREATE_RESCUE_DISK">‮أنشئ قرص إنقاذ…</control>
     <control lang="ar" key="IDM_CREATE_VOLUME">‮أنشئ مجلدا جديدا…</control>
-	<control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>	
+    <control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>	
     <control lang="ar" key="IDM_DEFAULT_KEYFILES">‮الملفات المفاتيح المبدئية…</control>
     <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDM_DONATE">Donate now...</control>
@@ -491,7 +497,7 @@
     <string lang="ar" key="FORMAT_FINISHED_HELP">\nn‮ ‮أُنشئ مجلد تروكرِبت و هو جاهز للاستخدام. إذا أردت إنشاء مجلد آخر انقر 'اللاحق' و إلا فانقر 'اخرج'.</string>
     <string lang="ar" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\nn‮ ‮مجلد تروكربت المخفي تم إنشاؤه بنجاح (سيوجد نظام التشغيل المخفي داخل هذا المجلد المخفي). ‮ ‮انقر 'اللاحق' للمواصلة.</string>
     <string lang="ar" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">‮تمت تعمية المجلد بكامله</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
     <string lang="ar" key="NONSYS_INPLACE_ENC_FINISHED_INFO">‮هام: لوصل مجلد تروكربت الجديد هذا و للنفاذ إلى البيانات المحفوظة فيه انقر 'أوصل النبائط تلقائيا' في نافذة تروكربت الرئيسية. بعد إدخال كلمة السر الصحيحة (و\\أو تقديم الملفات المفاتيح) فإن المجلد سيوصل بحرف السواقة الذي تختاره من القائمة في نافذة تروكربت الرئيسية (و سيكون بوسعك النفاذ إلى البيانات المعماة عبر حرف السواقة المختار). ‮ ‮تذكَّر أو اكتب الخطوات السابقة إذ أنه ينبغي اتباعها كلما أردت وصل المجلد و النفاذ إلى البيانات المحفوظة فيه. عوضا عن هذا فاختر 'اختر نبيطة' في نافذة تروكربت الرئيسية ثم اختر هذا القسم\\النبيطة و انقر 'أوصل'. ‮ ‮القسم\\المجلد تمت عمي بنجاح (و هو يحوي مجلد تروكربت معمى كامل الآن) و جاهز للاستخدام.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
@@ -554,7 +560,7 @@
     <string lang="ar" key="NODRIVER">‮تعذّر الاتصال بمشغل تروكربت. لا يستطيع تروكربت العمل إن لم يكن المشغل عاملا. ‮ ‮رجاءً لاحظ أنه بسبب مشكلات في ويندوز فقد يلزم أن تخرج من حسابك أو تعيد تشغيل النظام ليمكن تحميل المشغّل.</string>
     <string lang="ar" key="NOFONT">‮حدث عُطل أثناء تحميل/إعداد الخطوط.</string>
     <string lang="ar" key="NOT_FOUND">‮حرف السواقة لم يعثر عليه أو لم يُعيَّن حرف سواقة.</string>
-	<string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
+    <string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
     <string lang="ar" key="DRIVE_LETTER_UNAVAILABLE">‮حرف السواقة غير متاح.</string>
     <string lang="ar" key="NO_FILE_SELECTED">‮لم تختر ملفا!</string>
     <string lang="ar" key="NO_FREE_DRIVES">‮لا توجد أية أحرف سواقات متاحة.</string>
@@ -581,10 +587,12 @@
     <string lang="ar" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">‮تحذير: القسم المختار يحوي قدرا كبيرا من البيانات! كل الملفات المخزنة في القسم ستمحى و تفقد (لن تعمى)!</string>
     <string lang="ar" key="ERASE_FILES_BY_CREATING_VOLUME">‮امح أية ملفات مخزنة في القسم بإنشاء مجلد تروكربت فيه</string>
     <string lang="ar" key="PASSWORD">‮كلمة السّر</string>
+    <string lang="en" key="PIM">PIM</string>
     <string lang="ar" key="IDD_PCDM_CHANGE_PKCS5_PRF">ضبط خوارزمية اشتقاق مفتاح الترويسة</string>
     <string lang="ar" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">‮أضف/احذف الملفات المفاتيح من/إلى المجلد</string>
     <string lang="ar" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">‮احذف كل الملفات المفاتيح من المجلد</string>
-    <string lang="en" key="PASSWORD_CHANGED">Password and/or keyfile(s) successfully changed.\n\nIMPORTANT: Please make sure you have read the section 'Changing Passwords and Keyfiles' in the chapter 'Security Requirements and Precautions' in the VeraCrypt User Guide.</string>
+    <string lang="en" key="PASSWORD_CHANGED">Password, PIM and/or keyfile(s) successfully changed.\n\nIMPORTANT: Please make sure you have read the section 'Changing Passwords and Keyfiles' in the chapter 'Security Requirements and Precautions' in the VeraCrypt User Guide.</string>
+    <string lang="en" key="FAVORITE_PIM_CHANGED">This volume is registered as a System Favorite and its PIM was changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</string>
     <string lang="ar" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">‮هام: إذا لم تدمر قرص إنقاذ تروكربت فإنه يمكن تظهير قسم\\نبيطة النظام باستخدام كلمة السر العتيقة (بإقلاع قرص إنقاذ تروكربت و إدخال كلمة السر العتيقة). لذا ينبغي إنشاء قرص إنقاذ تروكربت حديث ثم إتلاف العتيق. ‮ ‮أتريد إنشاء قرص تروكربت حديث؟</string>
     <string lang="ar" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">‮لاحظ أن قرص تروكربت لازال يستخدم الخوارزمية السابقة. إن كنت تعد الخوارزمية السابقة غير آمنة فينبغي لك أن تنشئ قرص إنقاذ تروكربت جديد ثم تدمر العتيق. ‮ ‮أتريد إنشاء قرص إنقاذ تروكربت جديد؟</string>
     <string lang="en" key="KEYFILES_NOTE">Any kind of file (for example, .mp3, .jpg, .zip, .avi) may be used as a VeraCrypt keyfile. Note that VeraCrypt never modifies the keyfile contents. You can select more than one keyfile (the order does not matter). If you add a folder, all non-hidden files found in it will be used as keyfiles. Click 'Add Token Files' to select keyfiles stored on security tokens or smart cards (or to import keyfiles to security tokens or smart cards).</string>
@@ -593,7 +601,7 @@
     <string lang="ar" key="PKCS5_PRF_CHANGED">‮تم ضبط خوارزمية اشتقاق مفتاح الترويسة بنجاح.</string>
     <string lang="ar" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">‮أدخل كلمة السر و\\أو ملفات المفاتيح للمجلد الذي لغير نظام التشغيل الذي تريد معاودة صيرورة تعميته في موضعه. ‮ ‮ملاحظة: بعد أن تنقر 'اللاحق' فإن تروكربت سيحاول إيجاد المجلدات التي لغير النظام التي قوطعت صيرورة تعميتها و التي يمكن تظهير ترويستها باستخدام كلمة السر و\\أو الملفات المفاتيح المعطاة. إن وجد أكثر من مجلد بهذه الصفة فسيكون عليك أن تختار أحدها في الخطوة التالية.</string>
     <string lang="ar" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">‮أدخل أحد المجلدات المدرجة. تحوي القائمة كل مجلدات غير النظام التي يمكن النفاذ إليها و التي قوطعت صيرورة تعميتها و التي أمكن تظهير ترويستها باستخدام كلمة السر و\\أو الملفات المفاتيح المعطاة.</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="ar" key="PASSWORD_HELP">‮من المهم أن تضع كلمة سر جيدة. تجنب وضع كلمة سر تحوي كلمات من المعجم (أو توافيق من كلمتين أو ثلاثة أو أربعة)، كما أنها ينبغي ألا تحوي أية أسماء أو تواريخ ميلاد؛ فيجب ألا يَسهُل تخمينها. كلمة السر الجيدة تتألف من توفيقة عشوائية من الأحرف و الأرقام و المحارف الخاصة، مثل @ ^ = $ * + إلخ. نوصي بوضع كلمة سر تتألف من أكثر من 20 خانة (كلما طالت كان أفضل). الطول الأقصى المسموح به هو 64 خانة.</string>
     <string lang="ar" key="PASSWORD_HIDDENVOL_HELP">‮اختر كلمة سر للمجلد المخفي. </string>
     <string lang="ar" key="PASSWORD_HIDDEN_OS_HELP">‮ضع كلمة سر لنظام التشغيل المخفي (أي للمجلد المخفي).</string>
@@ -613,6 +621,17 @@
     <string lang="ar" key="PASSWORD_WRONG_AUTOMOUNT">‮كلمة سر غير صحيحة أو لا يوجد مجلد تروكرِبت.</string>
     <string lang="ar" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">‮ملفات مفتاح/كلمة سر غير صحيحة أو لا يوجد مجلد تروكرِبت.</string>
     <string lang="ar" key="PASSWORD_WRONG_CAPSLOCK_ON">\nn‮ ‮تنبيه: مفتاح ‪Caps Lock‬ مفعَّل. قد يُسبب هذا أن تُدخلَ كلمة السر على نحو غير صحيح.</string>
+    <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
+    <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
+    <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
+    <string lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</string>
+    <string lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
+    <string lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</string>
+    <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
+    <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
+    <string lang="en" key="PIM_TITLE">Volume PIM</string>
     <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
     <string lang="en" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">If you are attempting to protect a hidden volume containing a hidden system, please make sure you are using the standard US keyboard layout when typing the password for the hidden volume. This is required due to the fact that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available.</string>
     <string lang="ar" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">‮لم يجد تروكربت أي مجلدات لغير النظام و قد قوطعت تعميتها و أمكن تظهير ترويستها باستخدام كلمة السر و\\أو الملفات المفاتح المعطاة. ‮ ‮تحقق من أن كلمة السر و\\أو ملفات المفاتيح صحيحة و أن القسم\\المجلد ليس قيد الاستخدام من قبل النظام أو تطبيقات (بما في ذلك مضادات الفيروسات).</string>
@@ -727,12 +746,12 @@
     <string lang="en" key="VOL_CONTAINS_NO_HIDDEN_VOL">The volume does not contain any hidden volume. Proceed.</string>
     <string lang="en" key="VOL_CONTAINS_A_HIDDEN_VOL">The volume contains a hidden volume. Cancel.</string>
     <string lang="ar" key="CANT_ACCESS_VOL">‮عُطل: تعذَّر النفاذ إلى للمجلد! ‮ ‮تحقق من أن المجلد المختار موجود، و أنه ليس موصولا أو يستخدمه النظام أو تطبيق ما، وأنك تملك صلاحيات القراءة\\الكتابة للمجلد، وأنه ليس محميا من الكتابة.</string>
-	<string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
+    <string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
     <string lang="ar" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">‮عطل: تعذَّر النفاذ إلى المجلد و\\أو إيجاد معلومات عنه. ‮ ‮تحقق من وجود المجلد المختار، و أنه ليس قيد الاستخدام بواسطة النزام أو تطبيقات، و أن لديك صلاحية القراءة\\الكتابة فيه، و أنه ليس محميا من الكتابة.</string>
     <string lang="ar" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">‮عطل: تعذَّر النفاذ إلى المجلد و\\أو إيجاد معلومات عنه. ‮ ‮تحقق من وجود المجلد المختار، و أنه ليس قيد الاستخدام بواسطة النزام أو تطبيقات، و أن لديك صلاحية القراءة\\الكتابة فيه، و أنه ليس محميا من الكتابة. ‮ ‮إن لم تنحل المشكلة	فقد يفيد اتباع الخطوات التالية.</string>
     <string lang="ar" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">‮منع عطلٌ تروركبت من تعمية القسم. حاول إصلاح الأعطال المقررة مسبقا ثم حاول مجدا. إن تكررت المشكلة يفيد اتِّباع الخطوات التالية.</string>
     <string lang="ar" key="INPLACE_ENC_GENERIC_ERR_RESUME">‮منع عطلُ تروكربت من معاودة صيرورة تعمية القسم. ‮ ‮حاول إصلاح المشكلات المقررة مسبقا ثم حاول مجددا معاودة الصيرورة. لاحظ أن المجلد لا يمكن وصله حتى تمام تعميته.</string>
-	<string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
+    <string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
     <string lang="ar" key="CANT_DISMOUNT_OUTER_VOL">‮عُطل: تعذَّر فصل المجلد الخارجي! ‮ ‮لا يمكن فصل المجلد إذا حوى ملفات أو أدلة يستخدمها تطبيق أو النظام. ‮ ‮أغلق كل البرمجيات التي قد تكون مستخدمة ملفات أو أدلة على المجلد ثم انقر 'حاول مجددا'.</string>
     <string lang="ar" key="CANT_GET_OUTER_VOL_INFO">‮عطل: تعذّر جلب معلومات عن المجلد الخارجي! لا تمكن مواصلة إنشاء المجلد.</string>
     <string lang="ar" key="CANT_ACCESS_OUTER_VOL">‮عُطل: تعذَّر النفاذ للمجلد الخارجي! لا يمكن متابعة إنشاء المجلد.</string>
@@ -1004,7 +1023,7 @@
     <string lang="ar" key="CONFIRM_EXIT_UNIVERSAL">‮أخرج؟</string>
     <string lang="ar" key="CHOOSE_ENCRYPT_OR_DECRYPT">‮ليس لدى تروكربت معلومات تكفي لتحديد ما إن كان المطلوب التعمية أو التظهير.</string>
     <string lang="ar" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">‮ليس لدى تروكربت معلومات تكفي لتحديد ما إن كان المطلوب التعمية أو التظهير. ‮ ‮ملاحظة: إن ظهّرت قسم\\نبيطة النظام في بيئة ما قبل الإقلاع فإن قد تحتاج إلى إتمام الصيرورة بنقر 'ظهّر'.</string>
-	<string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
     <string lang="ar" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">‮أتريد مقاطعة و تأجيل صيرورة تعمية القسم\\المجلد؟ ‮ ‮ملاحظة: راع أنه لا يمكن وصل المجلد حتى تمام تعميته. سيطون بوسعك معاودة صيرورة التعمية من حيث توقفت. يمكنك عمل ذلك باختيار 'مجلدات' &gt; 'عاود الصيرورة المقاطعة' من القائمة في نافذة تروكربت الرئيسية.</string>
     <string lang="ar" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">‮أتريد مقاطعة و تأجيل صيرورة تعمية قسم\\نبيطة النظام؟ ‮ ‮ملاحظة: سيكون بوسعك معاودة الصيرورة و ستواصل من حيث توقفت. يمكنك عمل ذلك باختيار 'نظام' &gt; 'عاود الصيرورة المقاطعة' من قائمة نافذة تروكربت الرئيسية. إن كنت تريد إنهاء أو عكس صيرورة التعمية فاختر 'نظام' &gt; 'ظهّر نهائيا قسم\\نبيطة النظام'.</string>
     <string lang="ar" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">‮أتريد مقاطعة و تأجيل صيرورة تظهير قسم\\نبيطة النظام؟ ‮ ‮ملاحظة: سيكون بوسعك معاودة الصيرورة و ستواصل من حيث توقفت. يمكنك عمل ذلك باختيار 'نظام' &gt; 'عاود الصيرورة المقاطعة' من قائمة نافذة تروكربت الرئيسية. إن كنت تريد عكس صيرورة التظهير (أي بدء التعمية) فاختر 'نظام' &gt; 'عمِّ قسم\\نبيطة النظام'.</string>
@@ -1014,7 +1033,7 @@
     <string lang="ar" key="FAILED_TO_START_WIPING">‮عطل: تعذَّر بدء صيرورة المحو.</string>
     <string lang="ar" key="INCONSISTENCY_RESOLVED">‮تم حل عدم الاتساق. ‮ ‮ ‮(إن أبلغت عن علة بهذا الشأن فرجاءً ضمِّن البيانات التقنية التالية في البلاغ: ‪%hs‬)</string>
     <string lang="ar" key="UNEXPECTED_STATE">‮عطل: حالة غير متوقعة. ‮ ‮ ‮(إن أبلغت عن علة ذات علاقة بهذا فرجاء ضمِّن التقرير البيانات التقنية التالية: ‮‪%hs‬)</string>
-	<string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
+    <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ar" key="NOTHING_TO_RESUME">‮لا توجد صيرورة/مهمة لمعاودتها.</string>
     <string lang="ar" key="HIDVOL_PROT_BKG_TASK_WARNING">‮تحذير: عُطِّلت مهمة تروكرِبت الخلفية. بعد أن تغلق تروكرِبت لن تُبلغ إن أحيل دون تلف في مجلد مخفي ‮ ‮ملاحظة: يمكنك إغلاق المهمة الخلفية في أي وقت بالنقر باليمين على أيقونة تروكرِبت في اللوحة و اختيار 'اخرج'. ‮ ‮أأفعِّل مهمة تروكرِبت الخلفية؟</string>
     <string lang="ar" key="LANG_PACK_VERSION">‮إصدارة حزمة اللغة:	‪%s‬</string>
@@ -1064,6 +1083,9 @@
     <string lang="ar" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">‮تحذير: توجد مساحة غير مخصصة بين قسم النظام و القسم الذي يليه. بعد إنشاء نظام التشغيل المخفي ينبغي ألا تنشئ أية أقسام جديدة في هذه المساحة غير المخصصة و إلا فلن يمكن إقلاع نظام التشغيل (حتى تحذف تلك الأقسام المنشأة حديثا).</string>
     <string lang="ar" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">‮هذه الخوارزمية ليست مدعومة حاليا لتعمية النظام.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="ar" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">‮لا يمكن حاليا استخدام الملفات المفاتيح عند تعمية النظام.</string>
     <string lang="ar" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">تنبيه: تعذَّر على تروكربت استعادة النسق الأصلي للوحة المفاتيح مما قد يؤدي إلى أن تُدخلَ كلمة السر على نحو غير صحيح.</string>
@@ -1149,7 +1171,7 @@
     <string lang="ar" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">‮تم الاختبار المبدئي بنجاح. ‮ ‮تحذير: لاحظ أنه إذا انقطعت الطاقة أثناء تعمية البيانات في موضعها أو إذا انهار نظام التشغيل بسبب عطل برمجي أو عتادي أثناء عمل تروكربت على تعمية بيانات في موضعها فإن بعضا من البيانات ستتلف أو تُفقد. لذا فقبل البدء بالتعمية تحقق من أن لديك نسخة احتياطية من الملفات التي ستعميها، و إذا ما كانت لديك فاتِّخذ نسخة احتياطية الآن (يمكنك نقر 'أرجئ' و نسخ الملفات ثم تشغيل تروكربت مجددا في أي وقت و اختيار 'نظام' &gt; 'عاود الصيرورة المقاطعة' لبدء التعمية). ‮ ‮عندما تكون جاهزا اضغط 'عمِّ' لبدء التعمية.</string>
     <string lang="en" key="SYSENC_ENCRYPTION_PAGE_INFO">You can click Pause or Defer anytime to interrupt the process of encryption or decryption, exit this wizard, restart or shut down your computer, and then resume the process, which will continue from the point it was stopped. To prevent slowdown when the system or applications write or read data from the system drive, VeraCrypt automatically waits until the data is written or read (see Status above) and then automatically continues encrypting or decrypting.</string>
     <string lang="ar" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\nn‮ ‮يمكنك أن تضغط 'جمِّد' أو 'أرجئ' في أي وقت لمقاطعة صيرورة التعمية، ثم تصرف المرشد، ثم تعيد تشغيل الحاسوب أو تطفئه، ثم معاودة الصيرورة التي ستواصل من حيث توقفت. لاحظ أن المجلد لا يمكن وصله حتى تمام تعميته.</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
     <string lang="ar" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">‮اشتغل النظام المخفي</string>
     <string lang="ar" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">‮النظام الأصلي</string>
     <string lang="ar" key="SYSENC_HIDDEN_OS_WIPE_INFO">‮ينشئ ويندوز (عادة دون استشارتك) ملفات سجلات عديدة، و ملفات مؤقتة و غيرها في قسم ويندوز، كما يحفظ محتويات ذاكرة RAM عند السُبات و كذلك في ملف المبادلة الذي عادة ما يوجد في قسم النظام. لذا، إن تمكن خصم من تحليل الملفات المخزنة في القسم الذي يوجد فيه النظام ااصلي (و الذي استنسخ منه النظام المخفي) فإنه قد يعرف أنك استخدمت مرشد تروكربت في طور إنشاء نظام مخفي (و هو ما قد يدل على وجود نظام تشغيل مخفي في حاسوبك). ‮ ‮للحول دون مثل هذه الملابسات فإن تروكربت في الخطوات التالية سيمحو محوا آمنا كل محتوى القسم الذي كان يوجد فيه النظام الاصلي. بعدها، و لأجل تحقيق حجية الإنكار يتوجب ليك تثبيت نظام تشغيل جديد في القسم ثم تعميته، و بهذا يصير لديك نظام تمويه و بهذا تتم صيرورة إنشاء نظام التشغيل المخفي.</string>
@@ -1206,7 +1228,7 @@
     <string lang="en" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">You have selected the system partition/drive (or the boot partition), but the wizard mode you selected is suitable only for non-system partitions/drives.\n\nDo you want to set up pre-boot authentication (which means that you will need to enter your password each time before Windows boots/starts) and encrypt the system partition/drive?</string>
     <string lang="ar" key="CONFIRM_DECRYPT_SYS_DEVICE">‮أمتأكد أنك تريد تظهير قسم\\سواقة النظام نهائيا؟</string>
     <string lang="ar" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">‮تنبيه: إن ظهَّرت قسم\\سواقة النظام نهائيا فإن بيانات غير معماة ستكتب عليها. ‮ ‮أتريد حقا تظهير قسم\\سواقة النظام نهائيا؟</string>
-	<string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
+    <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
     <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">CAUTION: If you permanently decrypt the VeraCrypt volume, unencrypted data will be written to the disk.\n\nAre you really sure you want to permanently decrypt the selected volume?</string>
     <string lang="en" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">Warning: If you use a cascade of ciphers for system encryption, you may encounter the following issues:\n\n1) The VeraCrypt Boot Loader is larger than normal and, therefore, there is not enough space in the first drive track for a backup of the VeraCrypt Boot Loader. Hence, whenever it gets damaged (which often happens, for example, during inappropriately designed anti-piracy activation procedures of certain programs), you will need to use the VeraCrypt Rescue Disk to boot or to repair the VeraCrypt Boot Loader.\n\n2) On some computers, resuming from hibernation takes longer.\n\nThese potential issues can be prevented by choosing a non-cascade encryption algorithm (e.g. AES).\n\nAre you sure you want to use a cascade of ciphers?</string>
     <string lang="ar" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">‮إن واجهتك أي من المشكلات سابقة الذكر فظهِّر قسم\\سواقة النظام (إن كانت معمّاة) و حاول تعميتها مجددا باستخدام خوارزمية تعمية غير متوالية (مثل ‪AES‬).</string>
@@ -1223,7 +1245,7 @@
     <string lang="en" key="ENABLE_BAD_SECTOR_ZEROING">Error: Content of one or more sectors on the disk cannot be read (probably due to a physical defect).\n\nThe process of in-place encryption can continue only when the sectors have been made readable again. VeraCrypt can attempt to make these sectors readable by writing zeros to the sectors (subsequently such all-zero blocks would be encrypted). However, note that any data stored in the unreadable sectors will be lost. If you want to avoid that, you can attempt to recover portions of the corrupted data using appropriate third-party tools.\n\nNote: In case of physically damaged sectors (as opposed to mere data corruption and checksum errors) most types of storage devices internally reallocate the sectors when data is attempted to be written to them (so the existing data in the damaged sectors may remain unencrypted on the drive).\n\nDo you want VeraCrypt to write zeroes to unreadable sectors?</string>
     <string lang="en" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">Error: Content of one or more sectors on the disk cannot be read (probably due to a physical defect).\n\nTo be able to proceed with decryption, VeraCrypt will have to discard the content of the unreadable sectors (the content will be replaced with pseudorandom data). Please note that, before proceeding, you can attempt to recover portions of any corrupted data using appropriate third-party tools.\n\nDo you want VeraCrypt to discard data in the unreadable sectors now?</string>
     <string lang="ar" key="ZEROED_BAD_SECTOR_COUNT">‮ملاحظة: استبدل تروركبت محتوى ‪%I64d‬ قطاعا(ت) غير مقروء(ة) (‪%s‬) بكتل من صريحة الأصفار المعماة.</string>
-	<string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
+    <string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
     <string lang="ar" key="ENTER_TOKEN_PASSWORD">‮أدخل كلمة السر\\رقم التعريف للأمارة '‪%s‬':</string>
     <string lang="ar" key="PKCS11_LIB_LOCATION_HELP">‮لتمكين تروكربت من النفاذ إلى أمارة أمان أو بطاقة ذكية ينبغي أولا تنصيب مكتبة ‪PKCS #11‬ البرمجية الخاصة بالأمارة أو البطاقة. مثل تلك المكتبة قد تكون مضمنة مع الجهاز أو قد تكون متاحة للتنزيل من موقع الصانع على الوب أو من أطراف آخرين. ‮ ‮بعد تنصيب المكتبة يمكنك إما أن تختارها يدويا بنقر 'اختر مكتبة' أو أن تدع تروكربت ليجدها و يختارها تلقائيا بنقر 'تحسس المكتبة تلقائيا' (لن يبحث سوى في دليل نظام ويندوز).</string>
     <string lang="ar" key="SELECT_PKCS11_MODULE_HELP">‮ملاحظة: فيما يخص اسم و موضع ملف مكتبة ‪PKCS #11‬ المنصبة لأمارة الأمان أو البطاقة الذاتية التي تستخدمها ارجع للوثائق المصاحبة للأمارة أو البطاقة أو البرمجيات الخارجية. ‮ ‮انقر 'موافق' لتختار المسا رو اسم الملف.</string>

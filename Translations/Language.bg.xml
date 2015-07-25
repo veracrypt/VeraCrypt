@@ -48,6 +48,7 @@
     <control lang="bg" key="IDC_KEY_FILES">&amp;Ключ-файлове..</control>
     <control lang="bg" key="IDC_LINK_HASH_INFO">Информация за хеш алгоритми</control>
     <control lang="bg" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Повече информация</control>
+    <control lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</control>
     <control lang="bg" key="IDC_MB">&amp;MB</control>
     <control lang="bg" key="IDC_MORE_INFO_ON_CONTAINERS">Повече информация</control>
     <control lang="bg" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Повече информация за криптиране на системата</control>
@@ -57,6 +58,7 @@
     <control lang="bg" key="IDC_NO_HISTORY">Историята да не &amp;се запазва</control>
     <control lang="bg" key="IDC_OPEN_OUTER_VOLUME">Отваряне на външен том</control>
     <control lang="bg" key="IDC_PAUSE">&amp;Пауза</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
     <control lang="bg" key="IDC_QUICKFORMAT">Бърз формат</control>
     <control lang="bg" key="IDC_SHOW_PASSWORD">Видима &amp;парола</control>
     <control lang="bg" key="IDC_SHOW_PASSWORD_SINGLE">Видима &amp;парола</control>
@@ -72,7 +74,7 @@
     <control lang="bg" key="IDT_COLLECTING_RANDOM_DATA_NOTE">ВАЖНО: Движете мишкта в този прозорец колкото се може по-случайно. Колкото по-дълго я движите, толкова по-добре. Това значително повишава криптографската сила на ключ-файла. След това натиснете Напред за да продължите.</control>
     <control lang="bg" key="IDT_CONFIRM">&amp;Парола пак:</control>
     <control lang="bg" key="IDT_DONE">Готов</control>
-	<control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
+    <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="bg" key="IDT_ENCRYPTION_ALGO">Криптиращ алгоритъм</control>
     <control lang="bg" key="IDT_FILESYSTEM">ФС </control>
     <control lang="bg" key="IDT_FILE_CONTAINER">Създаване на виртуален криптиран диск във файл. Препоръчва се за начинаещи потребители.</control>
@@ -86,6 +88,8 @@
     <control lang="bg" key="IDT_PARTIAL_POOL_CONTENTS">Съдържание на текущия запас (частично)</control>
     <control lang="bg" key="IDT_PASS">Пас</control>
     <control lang="bg" key="IDT_PASSWORD">Парола:</control>
+    <control lang="en" key="IDT_PIM">Volume PIM:</control>
+    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="bg" key="IDT_PROGRESS">Прогрес:</control>
     <control lang="bg" key="IDT_RANDOM_POOL">Случайност: </control>
     <control lang="bg" key="IDT_SINGLE_BOOT">Изберете тази опция, ако на този компютър има инсталирана само една операционна система (дори тя да има много потребители).</control>
@@ -143,6 +147,8 @@
     <control lang="bg" key="IDC_MOUNT_OPTIONS">&amp;Опции...</control>
     <control lang="bg" key="IDC_MOUNT_READONLY">Монтиране като "сам&amp;о за четене"</control>
     <control lang="bg" key="IDC_NEW_KEYFILES">Ключ-файлове...</control>
+    <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
     <control lang="bg" key="IDC_PREF_BKG_TASK_ENABLE">Разрешен</control>
     <control lang="bg" key="IDC_PREF_CACHE_PASSWORDS">Кеширане на пароли в паметта</control>
     <control lang="bg" key="IDC_PREF_DISMOUNT_INACTIVE">Авто-демонтиране след като няма четене/запис в продължение на</control>
@@ -203,7 +209,7 @@
     <control lang="bg" key="IDM_CREATE_HIDDEN_OS">Създаване на Скрита Операционна Система...</control>
     <control lang="bg" key="IDM_CREATE_RESCUE_DISK">Създаване на Спасителен Диск...</control>
     <control lang="bg" key="IDM_CREATE_VOLUME">Създаване на нов том...</control>
-	<control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
+    <control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
     <control lang="bg" key="IDM_DEFAULT_KEYFILES">Ключ-файлове по подразбиране...</control>
     <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="en" key="IDC_DONATE">Donate now...</control>
@@ -491,7 +497,7 @@
     <string lang="bg" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt томът е създаден и е готов за употреба. За да създадете друг VeraCrypt том, натиснете Напред. В противен случай, натиснете Изход.</string>
     <string lang="bg" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nСкритият VeraCrypt том е създаден успешно (скритата операционна система ще се намира в този скрит том).\n\nНатиснете Напред за да продължите.</string>
     <string lang="bg" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Тома е напълно криптиран</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
     <string lang="bg" key="NONSYS_INPLACE_ENC_FINISHED_INFO">ВАЖНО: ЗА ДА МОНТИРАТЕ ТОЗИ НОВОСЪЗДАДЕН VERACRYPT ТОМ И ДА ДОСТЪПВАТЕ ДАННИТЕ В НЕГО, НАТИСНЕТЕ 'Авто-монтиране на устройствата' В ГЛАВНИЯ ПРОЗОРЕЦ НА VERACRYPT. След като въведете правилната парола (и/или предоставите правилните ключ-файлове), томът ще бъде монтиран на буквата, която ще изберете от списъка в главния прозорец на VeraCrypt (и ще можете да достъпвате криптираните данни чрез избраната буква).\n\nМОЛЯ, ЗАПОМНЕТЕ ИЛИ СИ ЗАПИШЕТЕ ПО-ГОРНИТЕ СТЪПКИ. ТРЯБВА ДА ГИ СЛЕДВАТЕ ВИНАГИ КОГАТО ИСКАТЕ ДА МОНТИРАТЕ ТОМА И ДА ДОСТЪПИТЕ ДАННИТЕ В НЕГО. Алтернативно, в главния прозорец на VeraCrypt, натиснете 'Избор на Устройство', след това изберете този дял/устройство, и натиснете 'Монтиране'.\n\nДялът/устройството е криптиран успешно (сега съдържа напълно криптиран VeraCrypt том) и е готов за употреба.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
@@ -554,7 +560,7 @@
     <string lang="bg" key="NODRIVER">Връзката с VeraCrypt драйвера е невъзможна. VeraCrypt не може да работи, ако драйвера не е стартиран.</string>
     <string lang="bg" key="NOFONT">Грешка при зареждането/подготовката на шрифтове.</string>
     <string lang="bg" key="NOT_FOUND">Зададената от вас буква за устройство не е намерена или не е задедан буква за устройство.</string>
-	<string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
+    <string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
     <string lang="bg" key="DRIVE_LETTER_UNAVAILABLE">Буквата за устройство не е достъпна.</string>
     <string lang="bg" key="NO_FILE_SELECTED">Няма избран файл!</string>
     <string lang="bg" key="NO_FREE_DRIVES">Няма налична буква за устройство.</string>
@@ -581,10 +587,12 @@
     <string lang="bg" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">ВНИМАНИЕ: ИЗБРАНИЯТ ДЯЛ СЪДЪРЖА ГОЛЯМ ОБЕМ ДАННИ! Всякакви файлове съхранени на дяла ще бъдат изтрити и изгубени (няма да бъдат криптирани)!</string>
     <string lang="bg" key="ERASE_FILES_BY_CREATING_VOLUME">Изтриване на всякакви файлове съхранени на дяла чрез създаване на VeraCrypt том в него</string>
     <string lang="bg" key="PASSWORD">Парола</string>
+    <string lang="en" key="PIM">PIM</string>
     <string lang="bg" key="IDD_PCDM_CHANGE_PKCS5_PRF">Задаване на алгоритъмът за деривация на ключа на заглавната част</string>
     <string lang="bg" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Добавяне/Премахване на ключ-файлове на том</string>
     <string lang="bg" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Премахване на всички ключ-файлове от том</string>
-    <string lang="en" key="PASSWORD_CHANGED">Password and/or keyfile(s) successfully changed.\n\nIMPORTANT: Please make sure you have read the section 'Changing Passwords and Keyfiles' in the chapter 'Security Requirements and Precautions' in the VeraCrypt User Guide.</string>
+    <string lang="en" key="PASSWORD_CHANGED">Password, PIM and/or keyfile(s) successfully changed.\n\nIMPORTANT: Please make sure you have read the section 'Changing Passwords and Keyfiles' in the chapter 'Security Requirements and Precautions' in the VeraCrypt User Guide.</string>
+    <string lang="en" key="FAVORITE_PIM_CHANGED">This volume is registered as a System Favorite and its PIM was changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</string>
     <string lang="bg" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">ВАЖНО: Ако не сте унищожили вашия VeraCrypt Спасителен Диск, вашият системен дял/устойство все още може да бъде декриптиран с помощта на старата парола (като стартирате от VeraCrypt Спасителния Диск и въведете старата парола). Би трябвало да създадете нов VeraCrypt Спасителен Диск и след това да унищожите стария.\n\nЖелаете ли да създадете нов VeraCrypt Спасителен Диск?</string>
     <string lang="bg" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">Обърнете внимание на това, че вашият VeraCrypt Спасителен Диск все още използва предишният алгоритъм. Ако смятате, че предишният алгоритъм е несигурен, би трябвало да създадете нов VeraCrypt Спасителен Диск и след това да унищожите стария.\n\nЖелаете ли да създадете нов VeraCrypt Спасителен Диск?</string>
     <string lang="en" key="KEYFILES_NOTE">Any kind of file (for example, .mp3, .jpg, .zip, .avi) may be used as a VeraCrypt keyfile. Note that VeraCrypt never modifies the keyfile contents. You can select more than one keyfile (the order does not matter). If you add a folder, all non-hidden files found in it will be used as keyfiles. Click 'Add Token Files' to select keyfiles stored on security tokens or smart cards (or to import keyfiles to security tokens or smart cards).</string>
@@ -593,7 +601,7 @@
     <string lang="bg" key="PKCS5_PRF_CHANGED">Алгоритъмът за деривация на ключа на заглавната част е зададен успешно.</string>
     <string lang="bg" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">Моля, въведете паролата и/или ключ-файла(овете) за несистемния том, за който желаете да продължите процеса на криптиране на място.\n\n\nЗабележка: След като натиснете Напред, VeraCrypt ще опита ад намери всички несистемни томове, за които има прекъснат процес на криптиране и където VeraCrypt заглавната част на тома може да бъде декриптирана с помощта на зададените парола и/или ключ-файл(ове). Ако са открити повече от един такъв том, ще трябва да изберете един от тях на следващата стъпка.</string>
     <string lang="bg" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Моля, изберете един от изброените томове. Списъкът съдържа всички достъпни несистемни томове, за които има прекъснат процес на криптиране и чиито заглавни части могат да бъдат декриптирани с помощта на зададените парола и/или ключ-файл(ове).</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="bg" key="PASSWORD_HELP">Много е важно да изберете добра парола. Трябва да избягвате пароли, които се състоят от една единствена дума, която може да бъде намерена в речник (или комбинация от 2, 3, или 4 такива думи). Не трябва да съдържа имена или дати на раждане. Не трябва да бъде лесна за познаване. Добра парола е случайна комбинация от главни и малки букви, цифри, и специални символи като @ ^ = $ * + и т.н. Препоръчваме избор на парола състояща се от повече от 20 знака (колкото по-дълга, толкова по-добре). Максималната възможна дължина е 64 знака.</string>
     <string lang="bg" key="PASSWORD_HIDDENVOL_HELP">Моля, изберете парола за скрития том. </string>
     <string lang="bg" key="PASSWORD_HIDDEN_OS_HELP">Моля, изберете парола за скритата операционна система (т.е. за скрития том). </string>
@@ -613,6 +621,17 @@
     <string lang="bg" key="PASSWORD_WRONG_AUTOMOUNT">Грешна парола или не е намерен VeraCrypt том.</string>
     <string lang="bg" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Грешен ключ-файл(ове)/парола или не е намерен VeraCrypt том.</string>
     <string lang="bg" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nВнимание: Caps Lock е включен. Възможно е да въведете паролата си грешно заради това.</string>
+    <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
+    <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
+    <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
+    <string lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</string>
+    <string lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
+    <string lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</string>
+    <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
+    <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
+    <string lang="en" key="PIM_TITLE">Volume PIM</string>
     <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
     <string lang="bg" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Ако се опитвате да защитите скрит том съдържащ скрита система, моля, уверете се, че използвате стандартната US клавишна подредба, когато въвеждате паролата за скрития том. Това се изисква въпреки факта, че паролата трябва да бъде въведена в средата преди стартиране (преди да стартира Windows), където не-US Windows клавишна подредба не е достъпна.</string>
     <string lang="bg" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt не намира том, където има прекъснато несистемно криптиране и където заглавната част на тома може да бъде декриптирана с помощта на зададените парола и/или ключ-файл(ове).\n\nМоля, уверете се, че паролата и/или ключ-файла(овете) са правилни и че дялът/томът не се използва от системата или от приложение (включително антивирусен софтуер).</string>
@@ -727,12 +746,12 @@
     <string lang="en" key="VOL_CONTAINS_NO_HIDDEN_VOL">The volume does not contain any hidden volume. Proceed.</string>
     <string lang="en" key="VOL_CONTAINS_A_HIDDEN_VOL">The volume contains a hidden volume. Cancel.</string>
     <string lang="bg" key="CANT_ACCESS_VOL">Грешка: Томът не може да бъде достъпен!\n\nУбедете се, че избраният том съществува, не е монтиран или използван от системата или приложение, имате права за четене/запис за тома и, че не е защитен срещу запис.</string>
-	<string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
+    <string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
     <string lang="bg" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">Грешка: Не може да се достъпи тома и/или да се получи информация за тома.\n\nУверете се, че избраният том съществува, че не се използва от системата или от приложение, че имате права за четене/запис за тома, и че тома не е защитен от запис.</string>
     <string lang="bg" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">Грешка:Не може да се достъпи тома и/или да се получи информация за тома. Уверете се, че избраният том съществува, че не се използва от системата или от приложение, че имате права за четене/запис за тома, и че тома не е защитен от запис.\n\nАко проблемът не се реши, следните стъпки може да помогнат.</string>
     <string lang="bg" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">VeraCrypt не може да криптира дяла поради грешка. Моля, опитайте да разрешите всички проблеми появили се до момента и опитайте отново. Ако проблемът не се реши, следните стъпки може да помогнат.</string>
     <string lang="bg" key="INPLACE_ENC_GENERIC_ERR_RESUME">VeraCrypt не може да продължи процеса на криптиране на дяла поради грешка.\n\nМоля, опитайте да разрешите всички проблеми появили се до момента и опитайте отново. Имайте предвид, че томът не може да бъде монтиран докато не е криптиран напълно.</string>
-	<string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
+    <string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
     <string lang="bg" key="CANT_DISMOUNT_OUTER_VOL">Грешка: Външният том не може да бъде демонтиран!\n\nТом не може да бъде демонтиран, ако съдържа файлове или директории, които се използват от приложение или от системата.\n\nМоля, затворете всяка програма, която би могла да използва файлове или директории на тома и натиснете Опитай пак.</string>
     <string lang="bg" key="CANT_GET_OUTER_VOL_INFO">Грешка: Не може да се получи информация за външния том! Създаването на том не може да продължи.</string>
     <string lang="bg" key="CANT_ACCESS_OUTER_VOL">Грешка: Външният том не може да бъде достъпен! Създаването на том не може да продължи.</string>
@@ -1004,7 +1023,7 @@
     <string lang="bg" key="CONFIRM_EXIT_UNIVERSAL">Изход?</string>
     <string lang="bg" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt няма достатъчно информация за да реши дали да криптира или декриптира.</string>
     <string lang="bg" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt няма достатъчно информация за да реши дали да криптира или декриптира.\n\nЗабележка: Ако сте декриптирали системния дял/устройство в pre-boot средата, може да трябва да завършите процеса като изберете Декриптиране.</string>
-	<string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
     <string lang="bg" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">Желаете ли да прекъснете и отложите процеса на криптиране на дяла/тома?\n\nЗабележка: Помнете, че томът не може да бъде монтиран докато не е криптиран напълно. Ще можете да продължите процеса на криптиране и той ще продължи от мястото, където е бил спрян. Можете да направите това, например като изберете 'Томове' &gt; 'Продължаване на прекъснат процес' от менюто на главния прозорец на VeraCrypt.</string>
     <string lang="bg" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">Желаете ли да прекъснете и отложите процеса на криптиране на системният дял/устройство?\n\nЗабележка: Ще можете да продължите процеса и той ще продължи от точката, в която е бил прекъснат. Можете да направите това, например, като изберете 'Система' &gt; 'Продължаване на прекъснат процес' от менюто на главния прозорец на VeraCrypt. Ако желаете за постоянно да прекратите или да върнете процеса на криптиране, изберете 'Система' &gt; 'Декриптиране на системния дял/устройство за постоянно'.</string>
     <string lang="bg" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">Желаете ли да прекъснете и отложите процеса на декриптиране на системният дял/устройство?\n\nЗабележка: Ще можете да продължите процеса и той ще продължи от точката, в която е бил прекъснат. Можете да направите това, например, като изберете 'Система' &gt; 'Продължаване на прекъснат процес' от менюто на главния прозорец на VeraCrypt. Ако желаете да върнете процеса на декриптиране (и да започнете да криптирате), изберете 'Система' &gt; 'Криптиране на системен дял/устройство'.</string>
@@ -1014,7 +1033,7 @@
     <string lang="bg" key="FAILED_TO_START_WIPING">Грешка: Неуспешен опит за стартиране на процеса на заличаване.</string>
     <string lang="bg" key="INCONSISTENCY_RESOLVED">Проблем с неконсистентност е решен.\n\n\n(Ако докладвате бъг във връзка с това, моля включете следната техническа информация в доклада за бъга: %hs)</string>
     <string lang="bg" key="UNEXPECTED_STATE">Грешка: Неочаквано състояние.\n\n\n(Ако докладвате за проблем във връзка с това, моля включете следната техническа информация в доклада:\n%hs)</string>
-	<string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
+    <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="bg" key="NOTHING_TO_RESUME">Няма процес/задача за продължаване.</string>
     <string lang="bg" key="HIDVOL_PROT_BKG_TASK_WARNING">ВНИМАНИЕ: Фоновият процес на VeraCrypt е забранен. След като затворите VeraCrypt, няма да има нотификация в случай, че е предовратена повреда в скрития том.\n\nЗабележка: Можете да спрете фоновата задача по всяко време като натиснете десен бутон върху VeraCrypt системната иконата и изберете 'Изход'.\n\nДа се включи ли  фоновият процес на VeraCrypt?</string>
     <string lang="bg" key="LANG_PACK_VERSION">Версия на езиковия пакет:  %s</string>
@@ -1064,6 +1083,9 @@
     <string lang="bg" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Внимание: Има неразпределено пространство между системния дял и първия дял след него. След като създадете скритата операционна система, не трябва да създавате нови дялове в това неразпределено пространство. В противен случай, няма да бъде възможно да се стартира скритата операционна система (докато не изтриете такива новосъздадени дялове).</string>
     <string lang="bg" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">За момента този алгоритъм не се поддържа з системно криптиране.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="bg" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">За сега ключ-файлове не се поддържат за системно криптиране.</string>
     <string lang="bg" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Внимание: VeraCrypt не може да възстанови оригиналната подредба на клавиатурата. Заради това може да въведете някоя парола грешно.</string>
@@ -1149,7 +1171,7 @@
     <string lang="en" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">The pretest has been successfully completed.\n\nWARNING: Please note that if power supply is suddenly interrupted while encrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting, please make sure that you have backup copies of the files you want to encrypt. If you do not, please back up the files now (you can click Defer, back up the files, then run VeraCrypt again anytime, and select 'System' &gt; 'Resume Interrupted Process' to start encrypting).\n\nWhen ready, click Encrypt to start encrypting.</string>
     <string lang="en" key="SYSENC_ENCRYPTION_PAGE_INFO">You can click Pause or Defer anytime to interrupt the process of encryption or decryption, exit this wizard, restart or shut down your computer, and then resume the process, which will continue from the point it was stopped. To prevent slowdown when the system or applications write or read data from the system drive, VeraCrypt automatically waits until the data is written or read (see Status above) and then automatically continues encrypting or decrypting.</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of encryption, exit this wizard, restart or shut down your computer, and then resume the process, which will continue from the point it was stopped. Note that the volume cannot be mounted until it has been fully encrypted.</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
     <string lang="en" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">Hidden System Started</string>
     <string lang="en" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">Original System</string>
     <string lang="en" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows creates (typically, without your knowledge or consent) various log files, temporary files, etc., on the system partition. It also saves the content of RAM to hibernation and paging files located on the system partition. Therefore, if an adversary analyzed files stored on the partition where the original system (of which the hidden system is a clone) resides, he might find out, for example, that you used the VeraCrypt wizard in the hidden-system-creation mode (which might indicate the existence of a hidden operating system on your computer).\n\nTo prevent such issues, VeraCrypt will, in the next steps, securely erase the entire content of the partition where the original system resides. Afterwards, in order to achieve plausible deniability, you will need to install a new system on the partition and encrypt it. Thus you will create the decoy system and the whole process of creation of the hidden operating system will be completed.</string>
@@ -1206,7 +1228,7 @@
     <string lang="en" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">You have selected the system partition/drive (or the boot partition), but the wizard mode you selected is suitable only for non-system partitions/drives.\n\nDo you want to set up pre-boot authentication (which means that you will need to enter your password each time before Windows boots/starts) and encrypt the system partition/drive?</string>
     <string lang="bg" key="CONFIRM_DECRYPT_SYS_DEVICE">Сигурни ли сте, че желаете да декриптирате системният дял/устройство за постоянно?</string>
     <string lang="bg" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">ВНИМАНИЕ: Ако декриптирате системният дял/устройство за постоянно, некриптирани данни ще бъдат записани върху него.\n\nНаистина лис те сигурни, че желаете да декриптирате системният дял/устройство за постоянно?</string>
-	<string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
+    <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
     <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">CAUTION: If you permanently decrypt the VeraCrypt volume, unencrypted data will be written to the disk.\n\nAre you really sure you want to permanently decrypt the selected volume?</string>
     <string lang="en" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">Warning: If you use a cascade of ciphers for system encryption, you may encounter the following issues:\n\n1) The VeraCrypt Boot Loader is larger than normal and, therefore, there is not enough space in the first drive track for a backup of the VeraCrypt Boot Loader. Hence, whenever it gets damaged (which often happens, for example, during inappropriately designed anti-piracy activation procedures of certain programs), you will need to use the VeraCrypt Rescue Disk to boot or to repair the VeraCrypt Boot Loader.\n\n2) On some computers, resuming from hibernation takes longer.\n\nThese potential issues can be prevented by choosing a non-cascade encryption algorithm (e.g. AES).\n\nAre you sure you want to use a cascade of ciphers?</string>
     <string lang="bg" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">Ако ви се случат някои от вече описаните проблеми, декриптирайте дяла/устройството (ако е криптиран) и и опитайте да го криптирате отново, каот използвате не-каскаден криптиращ алгоритъм (т.е. AES).</string>
@@ -1223,7 +1245,7 @@
     <string lang="en" key="ENABLE_BAD_SECTOR_ZEROING">Error: Content of one or more sectors on the disk cannot be read (probably due to a physical defect).\n\nThe process of in-place encryption can continue only when the sectors have been made readable again. VeraCrypt can attempt to make these sectors readable by writing zeros to the sectors (subsequently such all-zero blocks would be encrypted). However, note that any data stored in the unreadable sectors will be lost. If you want to avoid that, you can attempt to recover portions of the corrupted data using appropriate third-party tools.\n\nNote: In case of physically damaged sectors (as opposed to mere data corruption and checksum errors) most types of storage devices internally reallocate the sectors when data is attempted to be written to them (so the existing data in the damaged sectors may remain unencrypted on the drive).\n\nDo you want VeraCrypt to write zeroes to unreadable sectors?</string>
     <string lang="en" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">Error: Content of one or more sectors on the disk cannot be read (probably due to a physical defect).\n\nTo be able to proceed with decryption, VeraCrypt will have to discard the content of the unreadable sectors (the content will be replaced with pseudorandom data). Please note that, before proceeding, you can attempt to recover portions of any corrupted data using appropriate third-party tools.\n\nDo you want VeraCrypt to discard data in the unreadable sectors now?</string>
     <string lang="en" key="ZEROED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with encrypted all-zero plaintext blocks.</string>
-	<string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
+    <string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
     <string lang="en" key="ENTER_TOKEN_PASSWORD">Enter password/PIN for token '%s':</string>
     <string lang="en" key="PKCS11_LIB_LOCATION_HELP">In order to allow VeraCrypt to access a security token or smart card, you need to install a PKCS #11 software library for the token or smart card first. Such a library may be supplied with the device or it may be available for download from the website of the vendor or other third parties.\n\nAfter you install the library, you can either select it manually by clicking 'Select Library' or you can let VeraCrypt find and select it automatically by clicking 'Auto-Detect Library' (only the Windows system directory will be searched).</string>
     <string lang="en" key="SELECT_PKCS11_MODULE_HELP">Note: For the filename and location of the PKCS #11 library installed for your security token or smart card, please refer to the documentation supplied with the token, card, or third-party software.\n\nClick 'OK' to select the path and filename.</string>

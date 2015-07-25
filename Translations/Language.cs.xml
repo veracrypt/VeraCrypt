@@ -48,6 +48,7 @@
     <control lang="cs" key="IDC_KEY_FILES">Souborové &amp;klíče…</control>
     <control lang="cs" key="IDC_LINK_HASH_INFO">Informace o hash. algoritmech</control>
     <control lang="cs" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Více informací</control>
+    <control lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</control>
     <control lang="cs" key="IDC_MB">&amp;MB</control>
     <control lang="cs" key="IDC_MORE_INFO_ON_CONTAINERS">Více informací</control>
     <control lang="cs" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Více informací o zašifrování systému</control>
@@ -57,6 +58,7 @@
     <control lang="cs" key="IDC_NO_HISTORY">Neukládat &amp;historii</control>
     <control lang="cs" key="IDC_OPEN_OUTER_VOLUME">Otevřít vnější svazek</control>
     <control lang="cs" key="IDC_PAUSE">&amp;Pauza</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
     <control lang="cs" key="IDC_QUICKFORMAT">Rychle zformátovat</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD">&amp;Ukázat heslo</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Zobrazit heslo</control>
@@ -72,7 +74,7 @@
     <control lang="cs" key="IDT_COLLECTING_RANDOM_DATA_NOTE">DŮLEŽITÉ: Pohybujte s myší v tomto okně co nejnáhodněji. Čím déle s ní budete hýbat, tím lépe. Kryptografická síla šifrovacích klíčů se tím výrazně zvýší. Pro pokračování klikněte na Další.</control>
     <control lang="cs" key="IDT_CONFIRM">&amp;Potvrdit:</control>
     <control lang="cs" key="IDT_DONE">Hotovo</control>
-	<control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
+    <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="cs" key="IDT_ENCRYPTION_ALGO">Šifrovací algoritmus</control>
     <control lang="cs" key="IDT_FILESYSTEM">Systém souborů</control>
     <control lang="cs" key="IDT_FILE_CONTAINER">Vytvoří virtuální zašifrovaný disk uvnitř souboru. Doporučené pro nezkušené uživatele.</control>
@@ -86,6 +88,8 @@
     <control lang="cs" key="IDT_PARTIAL_POOL_CONTENTS">Momentálně generovaný obsah (částečný)</control>
     <control lang="cs" key="IDT_PASS">Schváleno</control>
     <control lang="cs" key="IDT_PASSWORD">Heslo:</control>
+    <control lang="en" key="IDT_PIM">Volume PIM:</control>
+    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="cs" key="IDT_PROGRESS">Průběh:</control>
     <control lang="cs" key="IDT_RANDOM_POOL">Náhodný výběr:</control>
     <control lang="cs" key="IDT_SINGLE_BOOT">Vyberte tuto volbu, pokud je na tomto počítači nainstalován pouze jeden operační systém (i v případě, že má více uživatelů).</control>
@@ -143,6 +147,8 @@
     <control lang="cs" key="IDC_MOUNT_OPTIONS">Volby připojení</control>
     <control lang="cs" key="IDC_MOUNT_READONLY">Připojit svazek jen &amp;pro čtení</control>
     <control lang="cs" key="IDC_NEW_KEYFILES">Soubor. klíče…</control>
+    <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
     <control lang="cs" key="IDC_PREF_BKG_TASK_ENABLE">Povoleno</control>
     <control lang="cs" key="IDC_PREF_CACHE_PASSWORDS">Ukládat hesla do paměti ovladače</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_INACTIVE">Autom. odpojit svazek pokud z/do něj nebylo čteno/zapisováno</control>
@@ -203,7 +209,7 @@
     <control lang="cs" key="IDM_CREATE_HIDDEN_OS">Vytvořit skrytý operační systém...</control>
     <control lang="cs" key="IDM_CREATE_RESCUE_DISK">Vytvořit záchranný disk…</control>
     <control lang="cs" key="IDM_CREATE_VOLUME">Vytvořit nový svazek…</control>
-	<control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
+    <control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
     <control lang="cs" key="IDM_DEFAULT_KEYFILES">Výchozí souborové klíče…</control>
     <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
     <control lang="cs" key="IDM_DONATE">Podpořte nás...</control>
@@ -491,7 +497,7 @@
     <string lang="cs" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt svazek byl vytvořen a je připraven k použití. Pokud chcete vytvořit další svazek VeraCrypt, klikněte Další. Jinak klikněte Konec.</string>
     <string lang="cs" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nSkrytý svazek VeraCrypt byl úspěšně vytvořen (skrytý operační systém bude umístěn v tomto skrytém svazku).\n\nKlikněte na Další pro pokračování.</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Svazek plně zašifrován</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_FINISHED_INFO">DŮLEŽITÉ: PRO PŘIPOJENÍ TOHOTO NOVĚ VYTVOŘENÉHO SVAZKU VERACRYPT A PRO PŘÍSTUP K DATŮM NA NĚM, KLIKNĚTE NA 'Autom. připojit zařízení' V HLAVNÍM OKNĚ VERACRYPT. Jakmile zadáte správné heslo (a/nebo přiložíte správný souborový klíč/e), svazek bude připojen k písmenu jednotky, které jste vybrali v seznamu v hlavním okně VeraCryptu (a budete moci přistupovat k zašifrovaným datům přes toto vybrané písmeno jednotky).\n\nZAPAMATUJTE SI PROSÍM, NEBO ZAPIŠTE, VÝŠE UVEDENÉ KROKY. TĚMITO KROKY SE MUSÍTE ŘÍDIT KDYKOLIV, KDYŽ BUDETE CHTÍT SVAZEK PŘIPOJIT A PŘISTUPOVAT K DATŮM NA NĚM. Případně můžete v hlavním okně VeraCryptu kliknout na 'Vybrat zařízení', pak vybrat tento oddíl/svazek a kliknout na 'Připojit'.\n\nOddíl/svazek byl úspěšně zašifrován (obsahuje nyní úplně zašifrovaný svazek VeraCrypt) a je připraven k použití.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
@@ -554,7 +560,7 @@
     <string lang="cs" key="NODRIVER">Nelze připojit k ovladači zařízení VeraCrypt. VeraCrypt nemůže pracovat, pokud ovladač zařízení neběží.\n\nKvůli architektuře Windows bude pravděpodobně nutné se odhlásit nebo restartovat systém, aby mohl být ovladač zařízení načten.</string>
     <string lang="cs" key="NOFONT">Nastala chyba při nahrávání/připravování fontů.</string>
     <string lang="cs" key="NOT_FOUND">Písmeno disku nebylo nalezeno nebo nebylo specifikováno.</string>
-	<string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
+    <string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
     <string lang="cs" key="DRIVE_LETTER_UNAVAILABLE">Písmeno jednotky není k dispozici.</string>
     <string lang="cs" key="NO_FILE_SELECTED">Nebyl vybrán žádný soubor!</string>
     <string lang="cs" key="NO_FREE_DRIVES">Žádné písmeno disku není k dispozici.</string>
@@ -581,10 +587,12 @@
     <string lang="cs" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">VAROVÁNÍ: VYBRANÝ ODDÍL OBSAHUJE VELKÉ MNOŽSTVÍ DAT! Všechny soubory uložené na tomto oddílu budou smazány a ztraceny (NEBUDOU zašifrovány)!</string>
     <string lang="cs" key="ERASE_FILES_BY_CREATING_VOLUME">Smaž všechny soubory uložené na oddílu tím, že se uvnitř vytvoří svazek VeraCrypt</string>
     <string lang="cs" key="PASSWORD">Heslo</string>
+    <string lang="en" key="PIM">PIM</string>
     <string lang="cs" key="IDD_PCDM_CHANGE_PKCS5_PRF">Zadejte hlavičku klíče derivačního algoritmu</string>
     <string lang="cs" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Přidat/Odebrat souborové klíče do/ze svazku</string>
     <string lang="cs" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Odstranit všechny souborové klíče ze svazku</string>
     <string lang="cs" key="PASSWORD_CHANGED">Heslo a souborový klíč/e byly úspěšně změněny.\n\nDŮLEŽITÉ: Ujistěte se, prosím, že jste si přečetli sekci 'Změna hesel a souborových klíčů' v kapitole  'Bezpečnostní požadavky a opatření' v uživatelské příručce VeraCryptu.</string>
+    <string lang="en" key="FAVORITE_PIM_CHANGED">This volume is registered as a System Favorite and its PIM was changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</string>
     <string lang="cs" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">DŮLEŽITÉ: Pokud jste nezničili váš Záchranný disk VeraCrypt, váš systémový oddíl/disk může být stále dešifrován použitím starého hesla (nabootováním Záchranného disku VeraCrypt a zadáním starého hesla). Měli byste vytvořit nový Záchranný disk VeraCrypt a pak zničit starý.\n\nChcete vytvořit nový Záchranný disk VeraCrypt?</string>
     <string lang="cs" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">Záchranný disk VeraCrypt stále používá předchozí algoritmus. Považujete-li předchozí algoritmus za nedostatečně bezpečný, měli byste vytvořit nový záchranný disk VeraCrypt a pak starý zničit.\n\nChcete vytvořit nový Záchranný disk VeraCrypt?</string>
     <string lang="cs" key="KEYFILES_NOTE">Jakýkoliv typ souboru (například .mp3, .jpg, .zip, .avi) může být použit jako souborový klíč VeraCryptu. Vězte, že VeraCrypt nikdy nemění obsah souborového klíče. Můžete vybrat více než jen jeden souborový klíč (na pořadí nezáleží). Pokud zadáte adresář, všechny neskryté soubory nalezené uvnitř, budou použity jako souborové klíče. Klikněte na 'Přidat soubory tokenu' a vyberte souborové klíče uložené na bezpečnostních tokenech nebo smart kartách (nebo k importu souborových klíčů na bezpečnostní tokeny nebo na smart karty).</string>
@@ -593,7 +601,7 @@
     <string lang="cs" key="PKCS5_PRF_CHANGED">Klíč hlavičky derivačního algoritmu byl úspěšně zadán.</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">Zadejte prosím heslo a/nebo souborový klíč/e k nesystémovému svazku, u kterého chcete pokračovat v procesu šifrování za běhu.\n\n\nPoznámka: Až kliknete na Další, VeraCrypt se pokusí najít všechny nesystémové svazky, u kterých byl přerušen proces šifrování a u kterých může být VeraCrypt hlavička dešifrována použitím uvedeného hesla a/nebo souborového klíče/ů. Pokud bude nalezeno více než jeden svazek, budete muset v příštím kroku vybrat jeden z nich.</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Vyberte, prosím, jeden svazek ze seznamu. Seznam obsahuje všechny přístupné ne-systémové svazky, kde byl přerušen proces šifrování a jejichž hlavičky mohou být dešifrovány s použitím použitého hesla a souborového klíče.</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="cs" key="PASSWORD_HELP">Je velmi důležité, abyste zadali dobré heslo. Měli byste se vyvarovat takového hesla, které obsahuje jen jedno slovo nebo může být nalezeno ve slovníku (nebo kombinace 2, 3 nebo 4 takovýchto slov). Nemělo by obsahovat žádná jména nebo data narození. Nemělo by být lehce uhodnutelné. Dobré heslo se skládá z kombinace různých velkých a malých písmen, čísel a speciálních znaků jako např. @ ^ = $ * + atd. Doporučujeme zvolit heslo skládající se z 20 znaků a více (čím delší, tím lepší). Maximální možná délka je 64 znaků.</string>
     <string lang="cs" key="PASSWORD_HIDDENVOL_HELP">Zadejte heslo pro skrytý svazek. </string>
     <string lang="cs" key="PASSWORD_HIDDEN_OS_HELP">Zadejte, prosím, heslo pro skrytý operační systém (např. pro skrytý svazek). </string>
@@ -613,6 +621,17 @@
     <string lang="cs" key="PASSWORD_WRONG_AUTOMOUNT">Špatné heslo nebo nebyl nalezen žádný svazek VeraCrypt.</string>
     <string lang="cs" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Špatný souborový klíč/heslo nebo nebyl nalezen žádný svazek VeraCrypt.</string>
     <string lang="cs" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nUpozornění: Caps Lock je zapnutý. Tím můžete špatně zadat heslo.</string>
+    <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
+    <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
+    <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
+    <string lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</string>
+    <string lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</string>
+    <string lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
+    <string lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</string>
+    <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
+    <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
+    <string lang="en" key="PIM_TITLE">Volume PIM</string>
     <string lang="cs" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nVAROVÁNÍ: V cestě k souborovým klíčům byl nalezen skrytý soubor/y. Tyto skryté soubory nemohou být použity jako souborové klíče. Pokud je potřebujete použít jako souborové klíče, odstraňte jejich 'Skrytý' atribut (pravým tlačítkem myši na něj klikněte, vyberte 'Vlastnosti', odškrtněte 'Skrytý' a potvrďte OK). Poznámka: Skryté soubory jsou viditelné jen tehdy, pokud je daná volba zapnuta (Ovládací panely &gt; 'Možnosti složky' &gt; Zobrazit).</string>
     <string lang="cs" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Pokud se snažíte ochránit skrytý svazek, který obsahuje skrytý systém, ujistěte se, že používáte při zadávání hesla ke skrytému svazku standardní US rozložení klávesnice. Je to nutné vzhledem k tomu, že hesla musí být zadávána v před-bootovacím prostředí (než se spustí Windows), kde nejsou ne-US rozložení klávesnice k dispozici.</string>
     <string lang="cs" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt nenašel žádný svazek, kde by bylo přerušeno nesystémové šifrování a kde by bylo možné dešifrovat hlavičku svazku s pomocí dodaného hesla a/nebo souborového klíče/ů.\n\nUjistěte se, prosím, že heslo a/nebo souborový klíč/e jsou správné a že oddíl/svazek není používán systémem nebo aplikacemi (včetně antivirového programu).</string>
@@ -727,12 +746,12 @@
     <string lang="en" key="VOL_CONTAINS_NO_HIDDEN_VOL">The volume does not contain any hidden volume. Proceed.</string>
     <string lang="en" key="VOL_CONTAINS_A_HIDDEN_VOL">The volume contains a hidden volume. Cancel.</string>
     <string lang="cs" key="CANT_ACCESS_VOL">Chyba: Ke svazku nelze přistoupit!\n\nUjistěte se, že vybraný svazek existuje, že není připojený používaný systémem nebo aplikací, že máte práva pro čtení/zápis ke svazku a že svazek není chráněn proti zápisu.</string>
-	<string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
+    <string lang="en" key="CANT_GET_VOL_INFO">Error: Cannot obtain volume properties.</string>
     <string lang="cs" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">Chyba: Ke svazku se nelze připojit a/nebo o něm nelze zjistit informace.\n\nUjistěte se, že vámi vybraný svazek existuje, že není používán systémem nebo aplikacemi a že máte práva pro čtení/zapisování ke svazku a že není chráněn proti zápisu.</string>
     <string lang="cs" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">Chyba: Ke svazku se nelze připojit a/nebo o něm nelze zjistit informace. Ujistěte se, že vámi vybraný svazek existuje, že není používán systémem nebo aplikacemi a že máte práva pro čtení/zapisování ke svazku a že není chráněn proti zápisu.\n\nPokud problém přetrvává, mohou vám pomoci kroky uvedené níže.</string>
     <string lang="cs" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">Svazek nemohl být VeraCryptem zašifrován, protože nastala nějaká chyba. Zkuste, prosím, nejdříve opravit všechny předešlé ohlášené chyby, a pak to zkuste znovu. Pokud problém přetrvává, mohou vám pomoci kroky uvedené níže.</string>
     <string lang="cs" key="INPLACE_ENC_GENERIC_ERR_RESUME">VeraCrypt nemohl pokračovat v šifrování oddílu, protože nastala nějaká chyba.\n\nZkuste, prosím, nejdříve opravit všechny předešlé ohlášené chyby, a pak zkuste v procesu pokračovat. Svazek nelze připojit, dokud nebude úplně zašifrován.</string>
-	<string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
+    <string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
     <string lang="cs" key="CANT_DISMOUNT_OUTER_VOL">Chyba: Vnější svazek nelze odpojit!\n\nSvazek nemůže být odpojen, pokud obsahuje soubory nebo složky používané programem nebo systémem.\n\nZavřete prosím jakýkoliv program, který by mohl soubory nebo adresáře na svazku používat a klikněte Znovu.</string>
     <string lang="cs" key="CANT_GET_OUTER_VOL_INFO">Chyba: Nelze získat informace o vnějším svazku! Vytváření svazku nemůže pokračovat.</string>
     <string lang="cs" key="CANT_ACCESS_OUTER_VOL">Chyba: Nelze přistupovat na vnější svazek! Vytváření svazku nelze dokončit.</string>
@@ -1004,7 +1023,7 @@
     <string lang="cs" key="CONFIRM_EXIT_UNIVERSAL">Ukončit?</string>
     <string lang="cs" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt nemá dostatek informací, aby určil, zda má šifrovat nebo dešifrovat.</string>
     <string lang="cs" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt nemá dostatečné informace pro stanovení, zda šifrovat nebo dešifrovat.\n\nPoznámka: Pokud jste dešifrovali systémový oddíl/disk v před-bootovacím prostředí, bude možná nutné dokončit proces kliknutím na Dešifrovat.</string>
-	<string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
+    <string lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">Chcete přerušit a odložit proces šifrování oddílu/svazku?\n\nPoznámka: Vězte, že svazek nemůže být připojen, dokud nebude úplně zašifrován. Proces šifrování budete moci obnovit, naváže tam, kde naposledy skončil. Můžete tak učinit přes lištu v hlavním okně VeraCryptu - 'Svazky' &gt; 'Obnovit přerušený proces'.</string>
     <string lang="cs" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">Chcete přerušit a odložit proces šifrování systémového oddílu/disku?\n\nV procesu budete moci pokračovat z místa, kde byl zastaven. Můžete tak učinit kliknutím na 'Systém' &gt; 'Obnovit přerušený proces' z hlavního menu v okně programu VeraCrypt. Chcete-li trvale ukončit nebo vrátit proces šifrování, vyberte 'Systém' &gt; 'Trvale dešifrovat systémový oddíl/disk'.</string>
     <string lang="cs" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">Chcete přerušit a odložit proces dešifrování systémového oddílu/disku?\n\nV procesu budete moci pokračovat z místa, kde byl zastaven. Můžete tak učinit kliknutím na 'Systém' &gt; 'Obnovit přerušený proces' z hlavního menu v okně programu VeraCrypt. Chcete-li zvrátit proces dešifrování (a začít šifrovat) vyberte 'Systém' &gt; 'Zašifrovat systémový oddíl/disk'.</string>
@@ -1014,7 +1033,7 @@
     <string lang="cs" key="FAILED_TO_START_WIPING">Chyba: Nepodařilo se spustit proces čištění.</string>
     <string lang="cs" key="INCONSISTENCY_RESOLVED">Nekonzistence vyřešena.\n\n\n(Pokud chcete ohlásit chybu ve spojitosti s touto událostí, přiložte prosím tuto technickou informaci do zprávy o chybě: %hs)</string>
     <string lang="cs" key="UNEXPECTED_STATE">Chyba: Neočekávaný stav.\n\n\n(Pokud budete chtít nahlásit chybu spojenou s tímto problémem, nezapomeňte do zprávy přiložit následující technické informace:\n%hs)</string>
-	<string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
+    <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="cs" key="NOTHING_TO_RESUME">Není žádný proces/úkol k obnovení.</string>
     <string lang="cs" key="HIDVOL_PROT_BKG_TASK_WARNING">UPOZORNĚNÍ: VeraCrypt služba na pozadí je vypnuta. Po ukončení programu VeraCrypt nebudete upozorněni, zda bylo zabráněno poškození skrytého svazku.\n\nPoznámka: Službu na pozadí můžete kdykoliv zavřít kliknutím pravého tlačítka myši na ikonu programu VeraCrypt v pravém dolním rohu a vyberte 'Konec'.\n\nPovolit VeraCrypt službu na pozadí?</string>
     <string lang="cs" key="LANG_PACK_VERSION">Verze jazykového balíčku:  %s</string>
@@ -1064,6 +1083,9 @@
     <string lang="cs" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varování: Mezi systémovým oddílem a prvním oddílem za ním je nealokované místo. Po vytvoření skrytého operačního systému nesmíte vytvořit žádné nové oddíly v tomto nealokovaném prostoru. Jinak nebude možné spustit skrytý operační systém (dokud nesmažete takto nově vytvořené oddíly).</string>
     <string lang="cs" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Systémové šifrování momentálně nepodporuje tento algoritmus.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="cs" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Souborové klíče aktuálně nejsou podporovány pro šifrování systémů.</string>
     <string lang="cs" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varování: VeraCrypt nemohl obnovit původní nastavení klávesnice. To může způsobit, že heslo bude zadáno nesprávně.</string>
@@ -1148,7 +1170,7 @@
     <string lang="cs" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">Předtest byl úspěšně dokončen.\n\nVAROVÁNÍ: Vězte, že pokud dojde během šifrování dat za běhu k výpadku proudu, nebo pokud operační systém selže kvůli softwarové chybě nebo hardwarovému selhání, část dat bude poškozena nebo ztracena. Proto než začnete zašifrovávat, ujistěte se, že máte záložní kopie souborů, které chcete zašifrovat. Pokud je nemáte, zazálohujte je nyní (můžete kliknout na Odložit, zazálohovat soubory a pak znovu kdykoliv spustit VeraCrypt. Vyberte 'Systém' &gt; 'Obnovit přerušený proces' pro spuštění šifrování).\n\nAž budete připraveni, klikněte na Zašifrovat.</string>
     <string lang="cs" key="SYSENC_ENCRYPTION_PAGE_INFO">Kdykoliv můžete kliknout na Pauzu nebo Odložit pro přerušení procesu šifrování nebo dešifrování. Můžete také opustit tohoto průvodce, restartovat nebo vypnout váš počítač a pak proces obnovit. Bude pokračovat z bodu, kde naposledy skončil. Aby nedošlo ke zpomalení, když systém nebo aplikace čtou nebo zapisují z/do systémového oddílu, VeraCrypt automaticky čeká, dokud nejsou data zapsána nebo přečtena (viz Status dole) a pak automaticky pokračuje v šifrování nebo dešifrování.</string>
     <string lang="cs" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\nKdykoliv můžete kliknout na Pauzu nebo Odložit pro přerušení procesu šifrování nebo dešifrování. Můžete také opustit tohoto průvodce, restartovat nebo vypnout váš počítač a pak proces obnovit. Bude pokračovat z bodu, kde naposledy skončil. Svazek nemůže být připojen, dokud nebude úplně zašifrován.</string>
-	<string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</string>
     <string lang="cs" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">Skrytý systém byl spuštěn</string>
     <string lang="cs" key="SYSENC_HIDDEN_OS_WIPE_INFO_TITLE">Původní systém</string>
     <string lang="cs" key="SYSENC_HIDDEN_OS_WIPE_INFO">Windows vytváří na systémovém oddílu (většinou bez toho, aniž byste to věděli nebo odsouhlasili) různé soubory s logy, dočasné soubory apod. Také ukládá aktuální obsah RAM paměti do hibernačního a stránkovacího souboru, který je uložen na systémovém oddílu. Pokud by protivník analyzoval soubory uložené na oddílu, kde je původní systém (kde je skrytý systém klonem) uložen, mohl by například zjistit, že jste použili průvodce VeraCryptu pro vytvoření skrytého systémého svazku (což může naznačit existenci skrytého operačního systému na vašem počítači).\n\nAbyste předešli těmto problémům, VeraCrypt v příštích krocích bezpečně vymaže celý obsah oddílu, kde je uložen původní systém. A poté, aby bylo dosaženo hodnověrného popření, budete muset nainstalovat na tento oddíl nový systém a zašifrovat ho. Takto vytvoříte klamný systém a celý proces vytvoření skrytého operačního systému bude dokončen.</string>
@@ -1205,7 +1227,7 @@
     <string lang="cs" key="CONFIRM_SYSTEM_ENCRYPTION_MODE">Vybrali jste systémový oddíl/jednotku (nebo bootovací oddíl), ale průvodce, kterého jste vybrali, je vhodný pouze pro nesystémové oddíly/jednotky.\n\nChcete nastavit před-bootovací autentifikaci (což znamená, že budete muset zadávat heslo při každém startu Windows) a zašifrovat systémový oddíl/jednotku?</string>
     <string lang="cs" key="CONFIRM_DECRYPT_SYS_DEVICE">Jste si jisti, že chcete trvale dešifrovat systémový oddíl/disk?</string>
     <string lang="cs" key="CONFIRM_DECRYPT_SYS_DEVICE_CAUTION">VAROVÁNÍ: Pokud trvale dešifrujete systémový oddíl/disk, budou na něj zapsána nezašifrovaná data.\n\nJste si opravdu jisti, že chcete trvale dešifrovat systémový oddíl/disk?</string>
-	<string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
+    <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE">Are you sure you want to permanently decrypt the following volume?</string>
     <string lang="en" key="CONFIRM_DECRYPT_NON_SYS_DEVICE_CAUTION">CAUTION: If you permanently decrypt the VeraCrypt volume, unencrypted data will be written to the disk.\n\nAre you really sure you want to permanently decrypt the selected volume?</string>
     <string lang="cs" key="CONFIRM_CASCADE_FOR_SYS_ENCRYPTION">Varování: Použijete-li k zašifrování systému kaskádu šifer, můžete zaznamenat následující problémy:\n\n1) Bootovací zavaděč VeraCryptu je větší než obvykle, a proto není v prvním stopě disku dostatek místa pro zálohu bootovacího zavaděče VeraCryptu. Proto, pokud dojde k jeho poškození, (což se stává často, například při nevhodně navržené aktivaci protipirátské ochrany určitých programů), budete muset použít Záchranný disk VeraCrypt pro nabootování a opravě bootovacího zavaděče VeraCryptu.\n\n2) Na některých počítačích trvá obnovení z hibernace delší dobu.\n\nTěmto případným problémům můžete předejít, pokud vyberete nekaskádový šifrovací algoritmus (např. AES).\n\nJste si jisti, že chcete použít kaskádu šifer?</string>
     <string lang="cs" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">Zaznamenáte-li některé z popisovaných problémů, dešifrujte oddíl/disk (pokud je zašifrovaný) a pak jej zkuste zašifrovat znovu použitím ne-kaskádového šifrovacího algoritmu (např. AES).</string>
@@ -1222,7 +1244,7 @@
     <string lang="cs" key="ENABLE_BAD_SECTOR_ZEROING">Chyba: Obsah jednoho nebo více sektorů na disku nemůže být přečten (pravděpodobně kvůli fyzickému poškození).\n\nProces okamžitého zašifrování může pokračovat pouze tehdy, když budou sektory opět čitelné. VeraCrypt se může pokusit změnit jejich čitelnost tím, že do nich zapíše nuly (následně všechny nulové bloky budou zašifrovány). Všechna data uložená v nečitelných sektorech tím ale budou ztracena. Pokud se tomu chcete vyhnout, můžete se pokusit opravit části poškozených dat použitím nástroje někoho jiného.\n\nPoznámka: V případě fyzického poškození sektorů (oproti obyčejnému poškození dat a chybě kontrolních součtů) se většina zařízení snaží interně přemístit tyto sektory, pokud je učiněn pokus o zápis do nich (aby existující data v poškozených sektorech zůstala nezašifrována).\n\nChcete, aby VeraCrypt zapsal nuly do nečitelných sektorů?</string>
     <string lang="cs" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">Chyba: Obsah jednoho nebo více sektorů na disku nemůže být přečten (pravděpodobně kvůli fyzickému poškození).\n\nAbyste mohli pokračovat s dešifrováním, VeraCrypt bude muset zničit obsah nečitelných sektorů (obsah bude vyplněn náhodnými daty). Mějte prosím na paměti, že před pokračováním se můžete ještě pokusit opravit části poškozených dat pomocí nějakého nástroje třetí strany.\n\nChcete, aby VeraCrypt nyní zničil data v nečitelných sektorech?</string>
     <string lang="cs" key="ZEROED_BAD_SECTOR_COUNT">Poznámka: VeraCrypt nahradil obsah %I64d nečitelných sektorů (%s) šifrovanými nulovými bloky s nešifrovaným textem.</string>
-	<string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
+    <string lang="en" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</string>
     <string lang="cs" key="ENTER_TOKEN_PASSWORD">Zadejte heslo/PIN pro token '%s':</string>
     <string lang="cs" key="PKCS11_LIB_LOCATION_HELP">Aby mohl VeraCrypt přistupovat k bezpečnostnímu tokenu nebo smart kartě, potřebujete nejdříve pro token/smart kartu vybrat softwarovou knihovnu PKCS #11. Tato knihovna může být dodávána se zařízením nebo může být k dispozici ke stažení na stránkách výrobce nebo třetí strany.\n\nJakmile knihovnu nainstalujete, můžete ji vybrat buď manuálně přes 'Vybrat knihovnu' nebo nechte VeraCrypt, ať ji nalezne sám, a to s pomocí 'Autodetekce knihovny' (bude prohledán pouze systémový adresář Windows).</string>
     <string lang="cs" key="SELECT_PKCS11_MODULE_HELP">Poznámka: Název souboru a umístění vaší nainstalované knihovny PKCS #11 k bezpečnostnímu tokenu/smart kartě naleznete v dokumentaci dodané k tokenu/smart kartě.\n\nKlikněte na 'OK' a vyberte cestu a jméno souboru.</string>
