@@ -35,6 +35,7 @@
 
 #ifdef _WIN32
 #include <Strsafe.h>
+#include "../Boot/Windows/BootCommon.h"
 #endif
 
 /* Volume header v5 structure (used since TrueCrypt 7.0): */
@@ -577,6 +578,42 @@ ret:
 
 	return status;
 }
+
+#ifdef _WIN32
+void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderSize, byte* fingerprint)
+{
+	// compute Whirlpool+SHA512 fingerprint of bootloader including MBR
+	// we skip user configuration fields:
+	// TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET = 402
+	//  => TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_SIZE = 4
+	// TC_BOOT_SECTOR_USER_MESSAGE_OFFSET     = 406
+	//  => TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH = 24
+	// TC_BOOT_SECTOR_USER_CONFIG_OFFSET      = 438
+	//
+	// we have: TC_BOOT_SECTOR_USER_MESSAGE_OFFSET = TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET + TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_SIZE
+
+	WHIRLPOOL_CTX whirlpool;
+	sha512_ctx sha2;
+	
+	WHIRLPOOL_init (&whirlpool);
+	sha512_begin (&sha2);
+
+	WHIRLPOOL_add (bootLoaderBuf, TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET * 8, &whirlpool);
+	sha512_hash (bootLoaderBuf, TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET, &sha2);
+
+	WHIRLPOOL_add (bootLoaderBuf + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, (TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)) * 8, &whirlpool);
+	sha512_hash (bootLoaderBuf + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, (TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)), &sha2);
+
+	WHIRLPOOL_add (bootLoaderBuf + TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1, (TC_MAX_MBR_BOOT_CODE_SIZE - (TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1)) * 8, &whirlpool);
+	sha512_hash (bootLoaderBuf + TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1, (TC_MAX_MBR_BOOT_CODE_SIZE - (TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1)), &sha2);
+
+	WHIRLPOOL_add (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, (bootLoaderSize - TC_SECTOR_SIZE_BIOS) * 8, &whirlpool);
+	sha512_hash (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, (bootLoaderSize - TC_SECTOR_SIZE_BIOS), &sha2);
+
+	WHIRLPOOL_finalize (&whirlpool, fingerprint);
+	sha512_end (&fingerprint [WHIRLPOOL_DIGESTSIZE], &sha2);
+}
+#endif
 
 #else // TC_WINDOWS_BOOT
 

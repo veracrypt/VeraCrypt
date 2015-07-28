@@ -62,6 +62,7 @@
 #define TC_IOCTL_SET_SYSTEM_FAVORITE_VOLUME_DIRTY		TC_IOCTL (36)
 #define TC_IOCTL_REREAD_DRIVER_CONFIG					TC_IOCTL (37)
 #define TC_IOCTL_GET_SYSTEM_DRIVE_DUMP_CONFIG			TC_IOCTL (38)
+#define VC_IOCTL_GET_BOOT_LOADER_FINGERPRINT			TC_IOCTL (39)
 
 // Legacy IOCTLs used before version 5.0
 #define TC_IOCTL_LEGACY_GET_DRIVER_VERSION		466968
@@ -253,6 +254,11 @@ typedef struct
 	char BootEncryptionAlgorithmName[256];
 	char BootPrfAlgorithmName[256];
 } GetBootEncryptionAlgorithmNameRequest;
+
+typedef struct
+{
+	byte Fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
+} BootLoaderFingerprintRequest;
 
 typedef struct
 {

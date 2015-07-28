@@ -140,6 +140,7 @@ namespace VeraCrypt
 			DumpFilter
 		};
 
+		void SetParentWindow (HWND parent) { ParentWindow = parent; }
 		void AbortDecoyOSWipe ();
 		void AbortSetup ();
 		void AbortSetupWait ();
@@ -157,6 +158,7 @@ namespace VeraCrypt
 		DWORD GetDriverServiceStartType ();
 		unsigned int GetHiddenOSCreationPhase ();
 		uint16 GetInstalledBootLoaderVersion ();
+		void GetInstalledBootLoaderFingerprint (byte fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE]);
 		Partition GetPartitionForHiddenOS ();
 		bool IsBootLoaderOnDrive (char *devicePath);
 		BootEncryptionStatus GetStatus ();
@@ -164,7 +166,9 @@ namespace VeraCrypt
 		void GetVolumeProperties (VOLUME_PROPERTIES_STRUCT *properties);
 		SystemDriveConfiguration GetSystemDriveConfiguration ();
 		void Install (bool hiddenSystem);
+		void InstallBootLoader (Device& device, bool preserveUserConfig = false, bool hiddenOSCreation = false);
 		void InstallBootLoader (bool preserveUserConfig = false, bool hiddenOSCreation = false);
+		bool CheckBootloaderFingerprint (bool bSilent = false);
 		void InvalidateCachedSysDriveProperties ();
 		bool IsCDDrivePresent ();
 		bool IsHiddenSystemRunning ();

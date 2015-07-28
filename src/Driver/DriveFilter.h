@@ -59,6 +59,7 @@ void GetBootDriveVolumeProperties (PIRP irp, PIO_STACK_LOCATION irpSp);
 void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp);
 void GetBootEncryptionStatus (PIRP irp, PIO_STACK_LOCATION irpSp);
 void GetBootLoaderVersion (PIRP irp, PIO_STACK_LOCATION irpSp);
+void GetBootLoaderFingerprint (PIRP irp, PIO_STACK_LOCATION irpSp);
 NTSTATUS GetSetupResult ();
 DriveFilterExtension *GetBootDriveFilterExtension ();
 CRYPTO_INFO *GetSystemDriveCryptoInfo ();

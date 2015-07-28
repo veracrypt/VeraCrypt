@@ -130,6 +130,9 @@ UINT64_STRUCT GetHeaderField64 (byte *header, int offset);
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
 #else
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
+#ifdef _WIN32
+void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderSize, byte* fingerprint);
+#endif
 #endif
 
 #if !defined (DEVICE_DRIVER) && !defined (TC_WINDOWS_BOOT)

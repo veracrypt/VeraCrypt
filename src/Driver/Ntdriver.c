@@ -1029,7 +1029,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			IO_STATUS_BLOCK IoStatus;
 			LARGE_INTEGER offset;
 			byte readBuffer [TC_SECTOR_SIZE_BIOS];
-
+				
 			if (!ValidateIOBufferSize (Irp, sizeof (GetSystemDriveConfigurationRequest), ValidateInputOutput))
 				break;
 
@@ -1491,6 +1491,10 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 	case TC_IOCTL_REOPEN_BOOT_VOLUME_HEADER:
 		ReopenBootVolumeHeader (Irp, irpSp);
+		break;
+
+	case VC_IOCTL_GET_BOOT_LOADER_FINGERPRINT:
+		GetBootLoaderFingerprint (Irp, irpSp);
 		break;
 
 	case TC_IOCTL_GET_BOOT_ENCRYPTION_ALGORITHM_NAME:

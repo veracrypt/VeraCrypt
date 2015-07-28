@@ -826,6 +826,12 @@ namespace VeraCrypt
 		return version;
 	}
 
+	void BootEncryption::GetInstalledBootLoaderFingerprint (byte fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE])
+	{
+		BootLoaderFingerprintRequest request;
+		CallDriver (VC_IOCTL_GET_BOOT_LOADER_FINGERPRINT, NULL, 0, &request, sizeof (request));
+		memcpy (fingerprint, request.Fingerprint, sizeof (request.Fingerprint));
+	}
 
 	// Note that this does not require admin rights (it just requires the driver to be running)
 	bool BootEncryption::IsBootLoaderOnDrive (char *devicePath)
@@ -1492,12 +1498,18 @@ namespace VeraCrypt
 
 	void BootEncryption::InstallBootLoader (bool preserveUserConfig, bool hiddenOSCreation)
 	{
-		byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];
+		Device device (GetSystemDriveConfiguration().DevicePath);
+		device.CheckOpened (SRC_POS);
+
+		InstallBootLoader (device, preserveUserConfig, hiddenOSCreation);
+	}
+
+	void BootEncryption::InstallBootLoader (Device& device, bool preserveUserConfig, bool hiddenOSCreation)
+	{
+		byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
 		CreateBootLoaderInMemory (bootLoaderBuf, sizeof (bootLoaderBuf), false, hiddenOSCreation);
 
 		// Write MBR
-		Device device (GetSystemDriveConfiguration().DevicePath);
-		device.CheckOpened (SRC_POS);
 		byte mbr[TC_SECTOR_SIZE_BIOS];
 
 		device.SeekAt (0);
@@ -1530,6 +1542,38 @@ namespace VeraCrypt
 		device.Write (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, sizeof (bootLoaderBuf) - TC_SECTOR_SIZE_BIOS);
 	}
 
+#ifndef SETUP
+	bool BootEncryption::CheckBootloaderFingerprint (bool bSilent)
+	{
+		byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
+		byte fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
+		byte expectedFingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
+		bool bRet = false;
+
+		try
+		{
+			// read bootloader fingerprint
+			GetInstalledBootLoaderFingerprint (fingerprint);
+
+			// compute expected fingerprint
+			CreateBootLoaderInMemory (bootLoaderBuf, sizeof (bootLoaderBuf), false, false);
+			::ComputeBootloaderFingerprint (bootLoaderBuf, sizeof (bootLoaderBuf), expectedFingerprint);
+
+			// compare values
+			if (0 == memcmp (fingerprint, expectedFingerprint, sizeof (expectedFingerprint)))
+			{
+				bRet = true;
+			}
+		}
+		catch (Exception& e)
+		{
+			if (!bSilent)
+				e.Show (ParentWindow);
+		}
+
+		return bRet;
+	}
+#endif
 
 	string BootEncryption::GetSystemLoaderBackupPath ()
 	{
@@ -2414,6 +2458,15 @@ namespace VeraCrypt
 			reopenRequest.pkcs5_prf = cryptoInfo->pkcs5;
 			reopenRequest.pim = pim;
 			finally_do_arg (ReopenBootVolumeHeaderRequest*, &reopenRequest, { burn (finally_arg, sizeof (*finally_arg)); });
+
+			try
+			{
+				// force update of bootloader if fingerprint doesn't match
+				if (!CheckBootloaderFingerprint (true))
+					InstallBootLoader (device, true);
+			}
+			catch (...)
+			{}
 
 			CallDriver (TC_IOCTL_REOPEN_BOOT_VOLUME_HEADER, &reopenRequest, sizeof (reopenRequest));
 		}

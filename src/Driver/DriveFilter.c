@@ -35,6 +35,7 @@ static KMUTEX MountMutex;
 static volatile BOOL BootDriveFound = FALSE;
 static DriveFilterExtension *BootDriveFilterExtension = NULL;
 static LARGE_INTEGER BootDriveLength;
+static byte BootLoaderFingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE];
 
 static BOOL CrashDumpEnabled = FALSE;
 static BOOL HibernationEnabled = FALSE;
@@ -120,6 +121,9 @@ NTSTATUS LoadBootArguments ()
 
 				if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
 					AddPasswordToCache (&BootArgs.BootPassword);
+
+				// clear fingerprint
+				burn (BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
 
 				status = STATUS_SUCCESS;
 			}
@@ -216,6 +220,77 @@ static void DismountDrive (DriveFilterExtension *Extension, BOOL stopIoQueue)
 	Extension->DriveMounted = FALSE;
 }
 
+static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte* ioBuffer /* ioBuffer must be at least 512 bytes long */)
+{
+	NTSTATUS status;
+	LARGE_INTEGER offset;
+	WHIRLPOOL_CTX whirlpool;
+	sha512_ctx sha2;
+	ULONG bytesToRead, remainingBytes, bootloaderTotalSize = TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE;
+
+	// clear fingerprint
+	burn (BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
+
+	// compute Whirlpool+SHA512 fingerprint of bootloader including MBR
+	// we skip user configuration fields:
+	// TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET = 402
+	//  => TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_SIZE = 4
+	// TC_BOOT_SECTOR_USER_MESSAGE_OFFSET     = 406
+	//  => TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH = 24
+	// TC_BOOT_SECTOR_USER_CONFIG_OFFSET      = 438
+	//
+	// we have: TC_BOOT_SECTOR_USER_MESSAGE_OFFSET = TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET + TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_SIZE
+	
+	WHIRLPOOL_init (&whirlpool);
+	sha512_begin (&sha2);
+	// read the first 512 bytes
+	offset.QuadPart = 0;
+
+	status = TCReadDevice (LowerDeviceObject, ioBuffer, offset, TC_SECTOR_SIZE_BIOS);
+	if (NT_SUCCESS (status))
+	{
+		WHIRLPOOL_add (ioBuffer, TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET * 8, &whirlpool);
+		WHIRLPOOL_add (ioBuffer + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, (TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)) * 8, &whirlpool);
+		WHIRLPOOL_add (ioBuffer + TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1, (TC_MAX_MBR_BOOT_CODE_SIZE - (TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1)) * 8, &whirlpool);
+
+		sha512_hash (ioBuffer, TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET, &sha2);
+		sha512_hash (ioBuffer + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, (TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)), &sha2);
+		sha512_hash (ioBuffer + TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1, (TC_MAX_MBR_BOOT_CODE_SIZE - (TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1)), &sha2);
+
+		// we has the reste of the bootloader, 512 bytes at a time
+		offset.QuadPart = TC_SECTOR_SIZE_BIOS;
+		remainingBytes = bootloaderTotalSize - TC_SECTOR_SIZE_BIOS;
+
+		while (NT_SUCCESS (status) && (remainingBytes > 0))
+		{
+			bytesToRead = (remainingBytes >= TC_SECTOR_SIZE_BIOS)? TC_SECTOR_SIZE_BIOS : remainingBytes;
+			status = TCReadDevice (LowerDeviceObject, ioBuffer, offset, bytesToRead);
+			if (NT_SUCCESS (status))
+			{
+				remainingBytes -= bytesToRead;
+				offset.QuadPart += bytesToRead;
+				WHIRLPOOL_add (ioBuffer, bytesToRead * 8, &whirlpool);
+				sha512_hash (ioBuffer, bytesToRead, &sha2);
+			}
+			else
+			{
+				Dump ("TCReadDevice error %x during ComputeBootLoaderFingerprint call\n", status);
+				break;
+			}
+		}
+
+		if (NT_SUCCESS (status))
+		{
+			WHIRLPOOL_finalize (&whirlpool, BootLoaderFingerprint);
+			sha512_end (&BootLoaderFingerprint [WHIRLPOOL_DIGESTSIZE], &sha2);
+		}
+	}
+	else
+	{
+		Dump ("TCReadDevice error %x during ComputeBootLoaderFingerprint call\n", status);
+	}
+}
+
 
 static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password, uint32 *headerSaltCrc32)
 {
@@ -302,6 +377,9 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		// Header decrypted
 		status = STATUS_SUCCESS;
 		Dump ("Header decrypted\n");
+
+		// calculate Fingerprint
+		ComputeBootLoaderFingerprint (Extension->LowerDeviceObject, header);
 			
 		if (Extension->Queue.CryptoInfo->hiddenVolume)
 		{
@@ -807,6 +885,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, request->pim, FALSE, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
 	{
 		Dump ("Header reopened\n");
+		ComputeBootLoaderFingerprint (BootDriveFilterExtension->LowerDeviceObject, header);
 		
 		BootDriveFilterExtension->Queue.CryptoInfo->header_creation_time = BootDriveFilterExtension->HeaderCryptoInfo->header_creation_time;
 		BootDriveFilterExtension->Queue.CryptoInfo->pkcs5 = BootDriveFilterExtension->HeaderCryptoInfo->pkcs5;
@@ -1681,6 +1760,24 @@ void GetBootLoaderVersion (PIRP irp, PIO_STACK_LOCATION irpSp)
 	}
 }
 
+void GetBootLoaderFingerprint (PIRP irp, PIO_STACK_LOCATION irpSp)
+{
+	if (ValidateIOBufferSize (irp, sizeof (BootLoaderFingerprintRequest), ValidateOutput))
+	{
+		if (BootArgsValid)
+		{
+			BootLoaderFingerprintRequest *bootLoaderFingerprint = (BootLoaderFingerprintRequest *) irp->AssociatedIrp.SystemBuffer;
+			memcpy (bootLoaderFingerprint->Fingerprint, BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
+			irp->IoStatus.Information = sizeof (BootLoaderFingerprintRequest);
+			irp->IoStatus.Status = STATUS_SUCCESS;
+		}
+		else
+		{
+			irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+			irp->IoStatus.Information = 0;
+		}
+	}
+}
 
 void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp)
 {

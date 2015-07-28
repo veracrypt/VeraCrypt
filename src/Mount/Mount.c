@@ -5769,6 +5769,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			try
 			{
+				BootEncObj->SetParentWindow (hwndDlg);
 				BootEncStatus = BootEncObj->GetStatus();
 				RecentBootEncStatus = BootEncStatus;
 			}
@@ -5808,13 +5809,19 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				if (IsHiddenOSRunning())
 				{
-					if (BootEncObj->GetInstalledBootLoaderVersion() > VERSION_NUM)
+					if (BootEncObj->GetInstalledBootLoaderVersion() != VERSION_NUM)
 						Warning ("UPDATE_TC_IN_HIDDEN_OS_TOO", hwndDlg);
+					if (!BootEncObj->CheckBootloaderFingerprint ())
+						Warning ("BOOT_LOADER_FINGERPRINT_CHECK_FAILED", hwndDlg);
 				}
-				else if (SysDriveOrPartitionFullyEncrypted (TRUE)
-					&& BootEncObj->GetInstalledBootLoaderVersion() != VERSION_NUM)
+				else if (SysDriveOrPartitionFullyEncrypted (TRUE))
 				{
-					Warning ("BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION", hwndDlg);
+					if (BootEncObj->GetInstalledBootLoaderVersion() != VERSION_NUM)
+					{
+						Warning ("BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION", hwndDlg);
+					}
+					if (!BootEncObj->CheckBootloaderFingerprint ())
+						Warning ("BOOT_LOADER_FINGERPRINT_CHECK_FAILED", hwndDlg);
 				}
 			} 
 			catch (...) { }
