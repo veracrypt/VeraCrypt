@@ -48,7 +48,7 @@
     <control lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien…</control>
     <control lang="de" key="IDC_LINK_HASH_INFO">Infos über Hash-Algorithmen</control>
     <control lang="de" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Weitere Informationen</control>
-    <control lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</control>
+    <control lang="de" key="IDC_LINK_PIM_INFO">Informationen zu PIM</control>
     <control lang="de" key="IDC_MB">&amp;MB</control>
     <control lang="de" key="IDC_MORE_INFO_ON_CONTAINERS">Mehr Informationen</control>
     <control lang="de" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Mehr Informationen über die Systemverschlüsselung</control>
@@ -58,7 +58,7 @@
     <control lang="de" key="IDC_NO_HISTORY">Verlauf &amp;nicht speichern</control>
     <control lang="de" key="IDC_OPEN_OUTER_VOLUME">Äußeres Volumen öffnen</control>
     <control lang="de" key="IDC_PAUSE">&amp;Pause</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="de" key="IDC_PIM_ENABLE">PIM verwenden</control>
     <control lang="de" key="IDC_QUICKFORMAT">Schnell-Formatierung</control>
     <control lang="de" key="IDC_SHOW_PASSWORD">Kennwort an&amp;zeigen</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Passwort anzeigen</control>
@@ -74,7 +74,7 @@
     <control lang="de" key="IDT_COLLECTING_RANDOM_DATA_NOTE">Wichtig: Den Mauszeiger in diesem Fenster zufällig hin und her bewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen, desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei. Klicken Sie dann auf 'Weiter' um fortzufahren.</control>
     <control lang="de" key="IDT_CONFIRM">&amp;Bestätigung:</control>
     <control lang="de" key="IDT_DONE">Fertig</control>
-    <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
+    <control lang="de" key="IDT_DRIVE_LETTER">Laufwerksbuchstabe:</control>
     <control lang="de" key="IDT_ENCRYPTION_ALGO">Verschlüsselungsalgorithmus</control>
     <control lang="de" key="IDT_FILESYSTEM">Dateisystem</control>
     <control lang="de" key="IDT_FILE_CONTAINER">Erstellt ein Verschlüsseltes virtuelles Laufwerk, welches als Datei gespeichert wird. Für Anfänger empfohlen.</control>
@@ -88,8 +88,8 @@
     <control lang="de" key="IDT_PARTIAL_POOL_CONTENTS">Aktueller Inhalte-Pool (teilweise)</control>
     <control lang="de" key="IDT_PASS">Durchgang</control>
     <control lang="de" key="IDT_PASSWORD">&amp;Kennwort:</control>
-    <control lang="en" key="IDT_PIM">Volume PIM:</control>
-    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
+    <control lang="de" key="IDT_PIM">Volumen PIM:</control>
+    <control lang="de" key="IDT_OLD_PIM">Volumen PIM:</control>
     <control lang="de" key="IDT_PROGRESS">Fortschritt:</control>
     <control lang="de" key="IDT_RANDOM_POOL">Zufallswerte:</control>
     <control lang="de" key="IDT_SINGLE_BOOT">Diese Option wählen wenn sich nur ein Betriebssystem auf dem Computer befindet (auch bei mehreren Benutzern).</control>
@@ -147,8 +147,8 @@
     <control lang="de" key="IDC_MOUNT_OPTIONS">&amp;Optionen…</control>
     <control lang="de" key="IDC_MOUNT_READONLY">Als schreib&amp;geschütztes Laufwerk einbinden</control>
     <control lang="de" key="IDC_NEW_KEYFILES">Schlüssel&amp;dat…</control>
-    <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="de" key="IDC_OLD_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</control>
+    <control lang="de" key="IDC_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</control>	
     <control lang="de" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiv</control>
     <control lang="de" key="IDC_PREF_CACHE_PASSWORDS">Kennwörter im &amp;Cache halten</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_INACTIVE">Bei ausbleibendem Lese-/Schreibzugriff aut&amp;omatisch trennen nach</control>
@@ -162,7 +162,7 @@
     <control lang="de" key="IDC_PREF_MOUNT_READONLY">Nur&amp; Schreibgeschützt einbinden</control>
     <control lang="de" key="IDC_PREF_MOUNT_REMOVABLE">Als &amp;Wechselmedium einbinden</control>
     <control lang="de" key="IDC_PREF_OPEN_EXPLORER">Explo&amp;rer-Fenster für erfolgreich eingebundenes Volumen öffnen</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporäres Cache Kennwort während Operationen zum "Volumen-Favoriten einbinden"</control>
+    <control lang="de" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporäres Cache Kennwort während Operationen zum "Volumen-Favoriten einbinden"</control>
     <control lang="de" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Ein anderes Taskleistensymbol benutzen wenn Volumen eingebunden sind</control>
     <control lang="de" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Kennwörter im Cache beim auto&amp;matischen Trennen sicher löschen</control>
     <control lang="de" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Cache beim Beenden sicher &amp;löschen</control>
@@ -209,7 +209,7 @@
     <control lang="de" key="IDM_CREATE_HIDDEN_OS">Verstecktes Betriebssystem erstellen...</control>
     <control lang="de" key="IDM_CREATE_RESCUE_DISK">Rettungsdatenträger erstellen...</control>
     <control lang="de" key="IDM_CREATE_VOLUME">&amp;Neues Volumen erstellen...</control>
-    <control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
+    <control lang="de" key="IDM_DECRYPT_NONSYS_VOL">Dauerhaft entschlüsseln...</control>
     <control lang="de" key="IDM_DEFAULT_KEYFILES">&amp;Standardschlüsseldateien...</control>
     <control lang="de" key="IDM_DEFAULT_MOUNT_PARAMETERS">Standardparameter beim Einbinden...</control>
     <control lang="de" key="IDM_DONATE">Jetzt spenden....</control>
@@ -499,9 +499,9 @@
     <string lang="de" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volumen Vollständig Verschlüsselt</string>
     <string lang="de" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volumen Vollständig Entschlüsselt</string>
     <string lang="de" key="NONSYS_INPLACE_ENC_FINISHED_INFO">WICHTIG: UM DIESES NEU ERSTELLTE VERACRYPT VOLUMEN EINZUBINDEN UND UM AUF DIE DATEN DARAUF ZU ZUGREIFEN, KLICKEN SIE AUF 'Alle Datentr. einbinden' IM VERACRYPT HAUPTBILDSCHIRM. Nachdem Sie das richtige Passwort eingegeben haben (und/ oder die korrekten Schlüsseldateien angegeben haben), wird das Volumen unter dem Laufwerksbuchstaben den Sie aus der Liste im VeraCrypt Hauptbildschirm wählen eingebunden (und Sie können auf die verschlüsselten Daten über den gewählten Laufwerksbuchstabe zugreifen).\n\nBITTE MERKEN SIE SICH ODER SCHREIBEN SIE SICH DIE OBEN GENANNTEN SCHRITTE AUF. SIE MÜSSEN DIESE JEDES MAL BEFOLGEN, WENN SIE DAS VOLUMEN EINBINDEN UND AUF DARAUF BEFINDLICHE DATEN ZUGREIFEN MÖCHTEN. Alternativ klicken Sie im VeraCrypt Hauptbildschirm auf 'Datenträger...', dann wählen Sie diese(s) Partition/ Volumen und klicken auf 'Einbinden'.\n\nDie Partition/ das Volumen wurde erfolgreich verschlüsselt (es enthält jetzt ein voll-verschlüsseltes VeraCrypt Volumen und ist einsatzbereit.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</string>
+    <string lang="de" key="NONSYS_INPLACE_DEC_FINISHED_INFO">Das VeraCrypt-Volume wurde erfolgreich entschlüsselt.</string>
+    <string lang="de" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">Das VeraCrypt-Volume wurde erfolgreich entschlüsselt.\n\nBitte wähle einen Laufwerksbuchstaben aus, welches dem entschlüsselten Laufwerk zugewiesen werden soll und klicke auf Fertigstellen.\n\nWICHTIG: Solange dem entschlüsselten Laufwerk kein Laufwerksbuchstabe zugewiesen wurde, kann nicht auf die darauf vorhandenen Daten zugegriffen werden.</string>
+    <string lang="de" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warnung: Um auf die entschlüsselten Daten zugreifen zu können muss dem entschlüsselten Laufwerk ein Laufwerksbuchstabe zugewiesen werden, jedoch steht momentan kein freier Laufwerksbuchstabe zur Verfügung.\n\nBitte einen verwendeten Laufwerksbuchstaben freigeben (z.B. durch Abziehen eines USB-Sticks oder anderer externen Laufwerke) und dann mit OK bestätigen.</string>
     <string lang="de" key="FORMAT_FINISHED_INFO">Das VeraCrypt-Volumen wurde erfolgreich erstellt.</string>
     <string lang="de" key="FORMAT_FINISHED_TITLE">Volumen wurde erstellt</string>
     <string lang="de" key="FORMAT_HELP">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin und her bewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei. Klicken Sie auf Formatieren um mit der Erstellung fortzufahren.</string>
