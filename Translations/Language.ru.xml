@@ -58,7 +58,7 @@
     <control lang="ru" key="IDC_NO_HISTORY">&amp;Не сохранять историю</control>
     <control lang="ru" key="IDC_OPEN_OUTER_VOLUME">Открыть внешний том</control>
     <control lang="ru" key="IDC_PAUSE">&amp;Пауза</control>
-    <control lang="ru" key="IDC_PIM_ENABLE">Исполь PIM</control>
+    <control lang="ru" key="IDC_PIM_ENABLE">Использовать PIM</control>
     <control lang="ru" key="IDC_QUICKFORMAT">Быстрое форматир.</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD">&amp;Показ пароля</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Показ пароля</control>
