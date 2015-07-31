@@ -44,11 +44,11 @@
     <control lang="ru" key="IDC_HIDVOL_WIZ_MODE_FULL">Обычный режим</control>
     <control lang="ru" key="IDC_KB">&amp;КБ</control>
     <control lang="ru" key="IDC_KEYFILES_ENABLE">Кл&amp;юч. файлы</control>
-    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
+    <control lang="ru" key="IDC_KEYFILES_RANDOM_SIZE">Случайный размер ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ru" key="IDC_KEY_FILES">Клю&amp;ч. файлы...</control>
     <control lang="ru" key="IDC_LINK_HASH_INFO">Сведения о хеш-алгоритмах</control>
     <control lang="ru" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Подробнее</control>
-    <control lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</control>
+    <control lang="ru" key="IDC_LINK_PIM_INFO">Информация на PIM</control>
     <control lang="ru" key="IDC_MB">&amp;МБ</control>
     <control lang="ru" key="IDC_MORE_INFO_ON_CONTAINERS">Подробнее</control>
     <control lang="ru" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Подробнее о шифровании системы</control>
@@ -58,7 +58,7 @@
     <control lang="ru" key="IDC_NO_HISTORY">&amp;Не сохранять историю</control>
     <control lang="ru" key="IDC_OPEN_OUTER_VOLUME">Открыть внешний том</control>
     <control lang="ru" key="IDC_PAUSE">&amp;Пауза</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="ru" key="IDC_PIM_ENABLE">Исполь PIM</control>
     <control lang="ru" key="IDC_QUICKFORMAT">Быстрое форматир.</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD">&amp;Показ пароля</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Показ пароля</control>
@@ -74,7 +74,7 @@
     <control lang="ru" key="IDT_COLLECTING_RANDOM_DATA_NOTE">ВАЖНО: Хаотично перемещайте мышь внутри этого окна (чем дольше, тем лучше) - это значительно увеличит криптостойкость ключей шифрования. Затем нажмите 'Далее' для продолжения.</control>
     <control lang="ru" key="IDT_CONFIRM">&amp;Подтвердите:</control>
     <control lang="ru" key="IDT_DONE">Уже</control>
-    <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
+    <control lang="ru" key="IDT_DRIVE_LETTER">Буква диска:</control>
     <control lang="ru" key="IDT_ENCRYPTION_ALGO">Алгоритм шифрования</control>
     <control lang="ru" key="IDT_FILESYSTEM">Файл.сист.</control>
     <control lang="ru" key="IDT_FILE_CONTAINER">Создать виртуальный зашифрованный диск внутри файла. Рекомендуется неопытным пользователям.</control>
@@ -88,8 +88,8 @@
     <control lang="ru" key="IDT_PARTIAL_POOL_CONTENTS">Текущее содержимое пула (часть)</control>
     <control lang="ru" key="IDT_PASS">Пароль</control>
     <control lang="ru" key="IDT_PASSWORD">Пароль:</control>
-    <control lang="en" key="IDT_PIM">Volume PIM:</control>
-    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
+    <control lang="ru" key="IDT_PIM">PIM тома:</control>
+    <control lang="ru" key="IDT_OLD_PIM">PIM тома:</control>
     <control lang="ru" key="IDT_PROGRESS">Ход операции:</control>
     <control lang="ru" key="IDT_RANDOM_POOL">Случайн. пул: </control>
     <control lang="ru" key="IDT_SINGLE_BOOT">Выберите эту опцию, если в ПК установлена только одна ОС (даже если она с несколькими пользователями).</control>
@@ -147,13 +147,13 @@
     <control lang="ru" key="IDC_MOUNT_OPTIONS">Параметр&amp;ы...</control>
     <control lang="ru" key="IDC_MOUNT_READONLY">Монтировать как том только для &amp;чтения</control>
     <control lang="ru" key="IDC_NEW_KEYFILES">Ключ.файлы...</control>
-    <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="ru" key="IDC_OLD_PIM_HELP">(Пустой или 0 для итераций по умолчанию)</control>
+    <control lang="ru" key="IDC_PIM_HELP">(Пустой или 0 для итераций по умолчанию)</control>	
     <control lang="ru" key="IDC_PREF_BKG_TASK_ENABLE">Включено</control>
     <control lang="ru" key="IDC_PREF_CACHE_PASSWORDS">Кэшировать пароли в памяти драйвера</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_INACTIVE">Автоматически размонтировать тома при неактивности в течение</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_LOGOFF">завершении сеансов</control>
-    <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
+    <control lang="ru" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Сессия пользователя заблокирована</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_POWERSAVING">входе в энергосбережение</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_SCREENSAVER">старте экранной заставки</control>
     <control lang="ru" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Автоматически размонтировать тома даже при открытых файлах/папках</control>
@@ -162,7 +162,7 @@
     <control lang="ru" key="IDC_PREF_MOUNT_READONLY">Монтировать как тома\nтолько для чтения</control>
     <control lang="ru" key="IDC_PREF_MOUNT_REMOVABLE">Монтировать тома как сменные носители</control>
     <control lang="ru" key="IDC_PREF_OPEN_EXPLORER">Открывать окно Проводника для успешно смонтированного тома</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="ru" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Временный пароль кэша в течение операций "Смонтировать избранные тома"</control>
     <control lang="ru" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Другой значок в системном лотке, если есть смонтированные тома</control>
     <control lang="ru" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Очищать кэш паролей при авторазмонтировании</control>
     <control lang="ru" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Очищать кэш паролей при выходе</control>
@@ -175,12 +175,12 @@
     <control lang="ru" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Показ пароля</control>
     <control lang="ru" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Открыть смонтированный том в окне Проводника</control>
     <control lang="ru" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Кэшировать пароль в памяти драйвера</control>
-    <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
+    <control lang="ru" key="IDC_TRUECRYPT_MODE">Режим TrueCrypt</control>
     <control lang="ru" key="IDC_UNMOUNTALL">&amp;Размонтировать все</control>
     <control lang="ru" key="IDC_VOLUME_PROPERTIES">Сво&amp;йства тома...</control>
     <control lang="ru" key="IDC_VOLUME_TOOLS">О&amp;перации с томами</control>
     <control lang="ru" key="IDC_WIPE_CACHE">О&amp;чистить кэш</control>
-    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
+    <control lang="ru" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Параметры Монтирования</control>
     <control lang="ru" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Избранные тома</control>
     <control lang="ru" key="IDD_HOTKEYS_DLG">VeraCrypt - Общесистемные горячие клавиши</control>
     <control lang="ru" key="IDD_MOUNT_DLG">VeraCrypt</control>
@@ -209,9 +209,9 @@
     <control lang="ru" key="IDM_CREATE_HIDDEN_OS">Создать скрытую ОС...</control>
     <control lang="ru" key="IDM_CREATE_RESCUE_DISK">Создать диск восстановления...</control>
     <control lang="ru" key="IDM_CREATE_VOLUME">Создать новый том...</control>
-    <control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
+    <control lang="ru" key="IDM_DECRYPT_NONSYS_VOL">Постоянно Расшифровывать...</control>
     <control lang="ru" key="IDM_DEFAULT_KEYFILES">Ключевые файлы по умолчанию...</control>
-    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
+    <control lang="ru" key="IDM_DEFAULT_MOUNT_PARAMETERS">Параметры Монтирования по-умолчанию...</control>
     <control lang="ru" key="IDM_DONATE">Помочь...</control>
     <control lang="ru" key="IDM_ENCRYPT_SYSTEM_DEVICE">Зашифровать системный раздел/диск...</control>
     <control lang="ru" key="IDM_FAQ">Часто задаваемые вопросы</control>
@@ -254,7 +254,7 @@
     <control lang="ru" key="IDM_UNMOUNT_VOLUME">Размонтировать том</control>
     <control lang="ru" key="IDM_VERIFY_RESCUE_DISK">Проверить диск восстановления</control>
     <control lang="ru" key="IDM_VERSION_HISTORY">История версий</control>
-    <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
+    <control lang="ru" key="IDM_VOLUME_EXPANDER">Расширитель Томов</control>
     <control lang="ru" key="IDM_VOLUME_PROPERTIES">Свойства тома</control>
     <control lang="ru" key="IDM_VOLUME_WIZARD">Мастер создания томов</control>
     <control lang="ru" key="IDM_WEBSITE">Сайт VeraCrypt</control>
@@ -347,9 +347,9 @@
     <control lang="ru" key="IDT_KEYFILE_GENERATOR_NOTE">ВАЖНО: Хаотично перемещайте мышь внутри этого окна (чем дольше, тем лучше). Это значительно увеличит криптостойкость ключевого файла.</control>
     <control lang="ru" key="IDT_KEYFILE_WARNING">!!! При утере ключевого файла или повреждении его первых 1024 килобайт монтирование использующих этот файл томов невозможно!</control>
     <control lang="ru" key="IDT_KEY_UNIT">бит</control>
-    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
-    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
-    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
+    <control lang="ru" key="IDT_NUMBER_KEYFILES">Число ключевых файлов:</control>
+    <control lang="ru" key="IDT_KEYFILES_SIZE">Размер ключевых файлов (в Байтах):</control>
+    <control lang="ru" key="IDT_KEYFILES_BASE_NAME">Имя ключевых файлов:</control>
     <control lang="ru" key="IDT_LANGPACK_AUTHORS">Автор перевода:</control>
     <control lang="ru" key="IDT_PLAINTEXT">Размер:</control>
     <control lang="ru" key="IDT_PLAINTEXT_SIZE_UNIT">бит</control>
@@ -360,7 +360,7 @@
     <control lang="ru" key="IDT_SECURITY_TOKEN">Токен:</control>
     <control lang="ru" key="IDT_SORT_METHOD">Сортировка:</control>
     <control lang="ru" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Этот процесс может занять много времени, подождите...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="ru" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Пожалуйста, подождите...\nЭтот процесс может занять долгое время и может перестать реагировать на запросы.</control>
     <control lang="ru" key="IDT_TEST_BLOCK_NUMBER">Число блоков:</control>
     <control lang="ru" key="IDT_TEST_CIPHERTEXT">Зашифрованный текст (16-ричное)</control>
     <control lang="ru" key="IDT_TEST_DATA_UNIT_NUMBER">Число единиц с данными (64-бит 16-ричное, размер единицы с данными - 512 байт)</control>
@@ -497,10 +497,10 @@
     <string lang="ru" key="FORMAT_FINISHED_HELP">\n\nТом VeraCrypt создан и готов к использованию.\n\nЕсли вы хотите создать ещё один том VeraCrypt, нажмите кнопку 'Далее'. Иначе нажмите 'Выход'.</string>
     <string lang="ru" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nСкрытый том VeraCrypt успешно создан (внутри него будет находиться скрытая операционная система).\n\nНажмите 'Далее' для продолжения.</string>
     <string lang="ru" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Том полностью зашифрован</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
+    <string lang="ru" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Том полностью расшифрован</string>
     <string lang="ru" key="NONSYS_INPLACE_ENC_FINISHED_INFO">ВАЖНО: ДЛЯ МОНТИРОВАНИЯ ЭТОГО ТОМА VERACRYPT И ДОСТУПА К СОДЕРЖАЩИМСЯ В НЁМ ДАННЫМ НАЖМИТЕ 'Автомонтирование' В ГЛАВНОМ ОКНЕ VERACRYPT. После ввода правильного пароля (и/или ключевых файлов) том будет смонтирован на букву диска, выбранную вами в главном окне VeraCrypt (доступ к зашифрованным данным будет по этой букве диска).\n\nЗАПОМНИТЕ ИЛИ ЗАПИШИТЕ ЭТАПЫ ВЫШЕ. ВЫ ДОЛЖНЫ ИМ СЛЕДОВАТЬ ДЛЯ МОНТИРОВАНИЯ ТОМА И ДОСТУПА К ЕГО ДАННЫМ. Другой способ: нажмите кнопку 'Устройство' в главном окне VeraCrypt, выберите этот раздел/том и нажмите 'Смонтировать'.\n\nРаздел/том успешно зашифрован (сейчас он содержит полностью зашифрованный том VeraCrypt) и готов к использованию.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
+    <string lang="ru" key="NONSYS_INPLACE_DEC_FINISHED_INFO">Том Veracrypt был успешно расшифрован.</string>
+    <string lang="ru" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">Том Veracrypt был успешно расшифрован.\n\nПожалуйста, выберите букву диска, которая будет закреплена за расшифрованным томом и нажмите Готово.\n\nВАЖНО: Пока за томом не будет закреплена буква, у вас не будет возможности получить доступ к данным на нём.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</string>
     <string lang="ru" key="FORMAT_FINISHED_INFO">Том VeraCrypt успешно создан.</string>
     <string lang="ru" key="FORMAT_FINISHED_TITLE">Том создан</string>
@@ -621,10 +621,10 @@
     <string lang="ru" key="PASSWORD_WRONG_AUTOMOUNT">Неверный пароль или не найден том VeraCrypt.</string>
     <string lang="ru" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Неверные ключевые файлы/пароль, либо не найден том VeraCrypt.</string>
     <string lang="ru" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nВнимание! Нажата клавиша Caps Lock. Это может привести к неправильному вводу пароля.</string>
-    <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
-    <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
-    <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
-    <string lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</string>
+    <string lang="ru" key="PIM_CHANGE_WARNING">Запомнить номер монтирования тома</string>
+    <string lang="ru" key="PIM_HIDVOL_HOST_TITLE">Внешний PIM тома</string>
+    <string lang="ru" key="PIM_HIDVOL_TITLE">Скрытый PIM тома</string>
+    <string lang="ru" key="PIM_HIDDEN_OS_TITLE">PIM для скрытых Операционных Систем</string>
     <string lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</string>
     <string lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</string>
     <string lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
@@ -647,7 +647,7 @@
     <string lang="ru" key="SELECT_DEST_DIR">Выберите папку назначения</string>
     <string lang="ru" key="SELECT_KEYFILE">Выберите ключевой файл</string>
     <string lang="ru" key="SELECT_KEYFILE_PATH">Выберите путь поиска ключевых файлов. ВНИМАНИЕ: Запоминается только путь, но не имена файлов.</string>
-    <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="ru" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Выбрать директорию хранения ключевых файлов.</string>
     <string lang="ru" key="SERPENT_HELP">Авторы: Ross Anderson, Eli Biham и Lars Knudsen. Опубликован в 1998 г. 256-бит ключ, 128-бит блок. Режим работы: XTS. Алгоритм Serpent - один из финалистов AES.</string>
     <string lang="ru" key="SIZE_HELP">Укажите размер создаваемого контейнера.\n\nПри создании динамического ('растягивающегося' по мере заполнения) контейнера, этот параметр определяет его максимальный размер.\n\nМинимальный объём для тома FAT: 292 КБ, для тома NTFS: 3792 КБ.</string>
     <string lang="ru" key="SIZE_HELP_HIDDEN_HOST_VOL">Укажите размер нового внешнего тома (сначала создаётся внешний том, а затем внутри него - скрытый). Минимально возможный размер тома, предназначенного для создания скрытого тома, составляет 340 КБ.</string>
@@ -1061,7 +1061,7 @@
     <string lang="ru" key="SYS_LOADER_RESTORE_FAILED">Ошибка восстановления исходного загрузчика системы.\n\nИспользуйте диск восстановления VeraCrypt ('Repair Options' &gt; 'Restore original system loader') или установочный диск Windows, чтобы заменить загрузчик VeraCrypt системным загрузчиком Windows.</string>
     <string lang="ru" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Исходный системный загрузчик не будет сохранён на диске восстановления (возможная причина: нет файла с резервной копией).</string>
     <string lang="ru" key="ERROR_MBR_PROTECTED">Ошибка записи сектора MBR.\n\nBIOS в вашем ПК может быть настроена на защиту сектора MBR. Проверьте в настройках BIOS (нажмите клавишу F2, Delete или Esc сразу после включения компьютера), не включена ли антивирусная/MBR защита.</string>
-    <string lang="en" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">WARNING: The verification of VeraCrypt bootloader fingerprint failed!\nYour disk may have been tampered with by an attacker ("Evil Maid" attack).\n\nThis warning can also be triggered if you restored VeraCrypt boot loader using an Rescue Disk generated using a different VeraCrypt version.\n\nYou are advised to change your password immediately which will also restore the correct VeraCrypt bootloader. It is recommended to reinstall VeraCrypt and to take measures to avoid access to this machine by untrusted entities.</string>
+    <string lang="ru" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">ВНИМАНИЕ:Ошибка проверки контрольной суммы загрузчика Veracrypt!\nВозможно, была попытка подделки информации на вашем диске ("Evil Maid" атака).\n\nЭто предупреждение также может появиться, если вы восстановили загрузчик VeraCrypt, с помощью Rescue Disk (диска восстановления), сгенерированный другой версией Veracrypt.\n\nРекомендуем немедленно изменить пароль, что одновременно восстановит нормальный загрузчик Veracrypt. Также стоит переустановить VeraCrypt и принять меры ограничения доступа к этой машине нежелательных лиц.</string>
     <string lang="ru" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">Загрузчик VeraCrypt (Boot Loader) нужной версии сейчас не установлен. Это может препятствовать сохранению ряда установок.</string>
     <string lang="ru" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">Примечание: иногда бывает нужно, чтобы посторонний (неприятель), наблюдающий за стартом ПК, не знал, что вы пользуетесь VeraCrypt. Эти параметры позволяют изменить экран загрузки VeraCrypt. Если включить первую опцию, экран загрузчика будет пустым (даже при вводе неправильного пароля). При вводе пароля ПК будет выглядеть "зависшим". Кроме того, чтобы ввести неприятеля в заблуждение, можно включить вывод своего сообщения. Например, отображать ложные сообщения об ошибках вроде "Missing operating system" (обычно это выводит загрузчик Windows, когда не может найти загрузочный раздел Windows). Важно, однако, помнить, что если неприятель сможет проанализировать содержимое жёсткого диска, то он сумеет найти на нём загрузчик VeraCrypt.</string>
     <string lang="ru" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">ВНИМАНИЕ: Если вы включите эту опцию, загрузчик VeraCrypt не будет выводить на экран никаких сообщений (даже если вы укажете неправильный пароль). При вводе пароля компьютер будет выглядеть "зависшим" (не реагирующим), курсор НЕ будет перемещаться, а нажатия клавиш НЕ будут сопровождаться показом звёздочек.\n\nВы действительно хотите включить эту опцию?</string>
