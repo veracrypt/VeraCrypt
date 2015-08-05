@@ -30,6 +30,7 @@
 */
 
 /* Adapted for TrueCrypt */
+/* Adapted for VeraCrypt */
 
 
 #ifdef TC_WINDOWS_BOOT

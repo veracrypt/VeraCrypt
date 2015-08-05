@@ -23,6 +23,7 @@
 */
 
 /* Adapted for TrueCrypt */
+/* Adapted for VeraCrypt */
 
 
 #define local static            /* for local function definitions */

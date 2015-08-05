@@ -1,9 +1,9 @@
 /*
- Copyright (c) 2014 IDRIX. All rights reserved.
+ Copyright (c) 2013-2015 IDRIX. All rights reserved.
 
- Governed by the VeraCrypt License the full text of which is contained in
- the file License.txt included in VeraCrypt binary and source code distribution
- packages.
+ Governed by the Apache License 2.0 the full text of which is
+ contained in the file License.txt included in VeraCrypt binary and source
+ code distribution packages.
 */
 
 #include "System.h"

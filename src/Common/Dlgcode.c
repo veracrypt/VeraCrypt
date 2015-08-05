@@ -1,12 +1,14 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of Encryption for the Masses 2.02a, which is
- Copyright (c) 1998-2000 Paul Le Roux and which is governed by the 'License
- Agreement for Encryption for the Masses'. Modifications and additions to
- the original source code (contained in this file) and all other portions
- of this file are Copyright (c) 2003-2012 TrueCrypt Developers Association
- and are governed by the TrueCrypt License 3.0 the full text of which is
- contained in the file License.txt included in TrueCrypt binary and source
+ derived from the source code of TrueCrypt 7.1a, which is 
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ governed by the TrueCrypt License 3.0, also from the source code of
+ Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
+ and which is governed by the 'License Agreement for Encryption for the Masses' 
+ Modifications and additions to the original source code (contained in this file) 
+ and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ and are governed by the Apache License 2.0 the full text of which is
+ contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
 
 #include "Tcdefs.h"
@@ -1004,16 +1006,17 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 	case WM_APP:
 		SetWindowText (GetDlgItem (hwndDlg, IDC_ABOUT_CREDITS),
-			"Based on TrueCrypt, freely available at http://www.truecrypt.org/ .\r\n\r\n"
+			"Based on TrueCrypt 7.1a, freely available at http://www.truecrypt.org/ .\r\n\r\n"
 
 			"Portions of this software:\r\n"
+			"Copyright \xA9 2013-2015 IDRIX. All rights reserved.\r\n"
 			"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
 			"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\r\n"
 			"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\r\n"
 			"Copyright \xA9 2002-2004 Mark Adler. All Rights Reserved.\r\n\r\n"
 
 			"This software as a whole:\r\n"
-			"Copyright \xA9 2013 IDRIX. All rights reserved.\r\n\r\n"
+			"Copyright \xA9 2013-2015 IDRIX. All rights reserved.\r\n\r\n"
 
 			"An IDRIX Release");
 
