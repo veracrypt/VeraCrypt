@@ -1764,17 +1764,40 @@ void GetBootLoaderFingerprint (PIRP irp, PIO_STACK_LOCATION irpSp)
 {
 	if (ValidateIOBufferSize (irp, sizeof (BootLoaderFingerprintRequest), ValidateOutput))
 	{
-		if (BootArgsValid)
+		irp->IoStatus.Information = 0;
+		if (BootArgsValid && BootDriveFound && BootDriveFilterExtension && BootDriveFilterExtension->DriveMounted && BootDriveFilterExtension->HeaderCryptoInfo)
 		{
-			BootLoaderFingerprintRequest *bootLoaderFingerprint = (BootLoaderFingerprintRequest *) irp->AssociatedIrp.SystemBuffer;
-			memcpy (bootLoaderFingerprint->Fingerprint, BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
-			irp->IoStatus.Information = sizeof (BootLoaderFingerprintRequest);
-			irp->IoStatus.Status = STATUS_SUCCESS;
+			BootLoaderFingerprintRequest *bootLoaderFingerprint = (BootLoaderFingerprintRequest *) irp->AssociatedIrp.SystemBuffer;			
+
+			/* compute the fingerprint again and check if it is the same as the one retrieved during boot */
+			char *header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+			if (!header)
+			{
+				irp->IoStatus.Status = STATUS_INSUFFICIENT_RESOURCES;
+			}
+			else
+			{
+				memcpy (bootLoaderFingerprint->Fingerprint, BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
+				ComputeBootLoaderFingerprint (BootDriveFilterExtension->LowerDeviceObject, header);
+
+				burn (header, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+				TCfree (header);
+
+				if (0 == memcmp (bootLoaderFingerprint->Fingerprint, BootLoaderFingerprint, sizeof (BootLoaderFingerprint)))
+				{
+					irp->IoStatus.Information = sizeof (BootLoaderFingerprintRequest);
+					irp->IoStatus.Status = STATUS_SUCCESS;
+				}
+				else
+				{
+					/* fingerprint mismatch.*/
+					irp->IoStatus.Status = STATUS_INVALID_IMAGE_HASH;
+				}
+			}
 		}
 		else
 		{
-			irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
-			irp->IoStatus.Information = 0;
+			irp->IoStatus.Status = STATUS_INVALID_PARAMETER;			
 		}
 	}
 }

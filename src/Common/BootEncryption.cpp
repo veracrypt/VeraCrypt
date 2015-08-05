@@ -1565,6 +1565,11 @@ namespace VeraCrypt
 				bRet = true;
 			}
 		}
+		catch (SystemException &e)
+		{
+			if (!bSilent && (GetLastError () != ERROR_INVALID_IMAGE_HASH))
+				e.Show (ParentWindow);
+		}
 		catch (Exception& e)
 		{
 			if (!bSilent)
