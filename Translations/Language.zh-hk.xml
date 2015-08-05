@@ -581,7 +581,6 @@
     <string lang="zh-hk" key="OVERWRITEPROMPT_DEVICE">務必小心：當前存儲在選擇的 %s '%hs'%s 上的所有資料將會丟失（它們並不會被加密）！\n\n您一定要繼續格式化嗎？</string>
     <string lang="zh-hk" key="NONSYS_INPLACE_ENC_CONFIRM">警告：您在加密卷完全加密前不能載入此加密卷或者訪問存儲於該卷上的任何檔。\n\n您確認要開始加密選擇的 %s '%hs'%s 嗎？</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%hs'%s?</string>
-    <string lang="en" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">WARNING: Please note that if power supply is suddenly interrupted while encrypting/decrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting/decrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting/decrypting, please make sure that you have backup copies of the files you want to encrypt/decrypt.\n\nDo you have such a backup?</string>
     <string lang="zh-hk" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：請注意如果在就地加密現有資料時突然斷電，或者在 VeraCrypt 就地加密現有資料時由於軟硬體故障而導致系統當機，有些資料可能會損壞或丟失。因此，在您開始加密前，請確認您已經備份了要加密的資料。\n\n您確認已經有這樣的備份了嗎？</string>
     <string lang="zh-hk" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">小心：任何存在於分區 '%hs'%s（即位於系統分區後面的第一個分區）的檔將會因被擦除而丟失。（這些檔並不會被加密）！\n\n您確認要繼續格式化嗎？</string>
     <string lang="zh-hk" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：選定的分區包含大量的資料！！！任何存儲於此分區上的檔將會被擦除（他們並不會被加密）！</string>
