@@ -495,7 +495,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.6.3</string>
+				<string>1.12.22</string>
 			</dict>
 			<key>UUID</key>
 			<string>B14381D9-EC5F-43E4-B971-82AB3D132A64</string>
@@ -1051,7 +1051,7 @@ Merci de ré-installer OSXFUSE et de cocher l'option de compatibilité MacFUSE d
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>VeraCrypt 1.0f-2</string>
+			<string>VeraCrypt 1.12</string>
 		</dict>
 	</dict>
 	<key>SHARED_GLOBAL_DATA</key>
