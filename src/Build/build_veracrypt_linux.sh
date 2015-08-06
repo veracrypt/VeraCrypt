@@ -24,13 +24,24 @@ fi
 export WX_ROOT=$PARENTDIR/wxWidgets-3.0.2
 echo "Using wxWidgets sources in $WX_ROOT"
 
-# this will be the temporary wxWidgets directory
-export WX_BUILD_DIR=$PARENTDIR/wxBuild
-
 cd $SOURCEPATH
 
 echo "Building GUI version of VeraCrypt"
+
+# this will be the temporary wxWidgets directory
+export WX_BUILD_DIR=$PARENTDIR/wxBuildGui
+
 make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1
 
+# Uncomment below and comment line above to reuse existing wxWidgets build
+# make WXSTATIC=1 clean && make WXSTATIC=1
+
 echo "Building console version of VeraCrypt"
+
+# this will be the temporary wxWidgets directory
+export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
+
 make WXSTATIC=1 NOGUI=1 wxbuild && make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1
+
+# Uncomment below and comment line above to reuse existing wxWidgets build
+# make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1
