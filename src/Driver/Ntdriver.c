@@ -636,6 +636,10 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			PSTORAGE_PROPERTY_QUERY pStoragePropQuery = (PSTORAGE_PROPERTY_QUERY) Irp->AssociatedIrp.SystemBuffer;
 			STORAGE_QUERY_TYPE type = pStoragePropQuery->QueryType;
 
+			/* return error if an unsupported type is encountered */
+			Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+			Irp->IoStatus.Information = 0;
+
 			if (type == PropertyExistsQuery)
 			{
 				if (pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
