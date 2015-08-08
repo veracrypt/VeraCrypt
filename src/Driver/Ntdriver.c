@@ -637,7 +637,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			STORAGE_QUERY_TYPE type = pStoragePropQuery->QueryType;
 
 			/* return error if an unsupported type is encountered */
-			Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 			Irp->IoStatus.Information = 0;
 
 			if (type == PropertyExistsQuery)
