@@ -24,6 +24,6 @@ del *.xml
 
 cd "..\..\Signing"
 
-signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_TestRootCA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.12.exe"
+signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac TestCertificate\idrix_TestRootCA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.13.exe"
 
 pause
