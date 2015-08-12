@@ -71,6 +71,7 @@ namespace VeraCrypt
 		parser.AddOption (L"",	L"new-password",		_("New password"));
 		parser.AddOption (L"",	L"new-pim",				_("New PIM"));
 		parser.AddSwitch (L"",	L"non-interactive",		_("Do not interact with user"));
+		parser.AddSwitch (L"",  L"stdin",				_("Read password from standard input"));
 		parser.AddOption (L"p", L"password",			_("Password"));
 		parser.AddOption (L"",  L"pim",					_("PIM"));
 		parser.AddOption (L"",	L"protect-hidden",		_("Protect hidden volume"));
@@ -402,9 +403,21 @@ namespace VeraCrypt
 			Preferences.NonInteractive = true;
 		}
 
+		if (parser.Found (L"stdin"))
+		{
+			if (!Preferences.NonInteractive)
+				throw_err (L"--stdin is supported only in non-interactive mode");
+
+			Preferences.UseStandardInput = true;
+		}
+
 		if (parser.Found (L"password", &str))
+		{
+			if (Preferences.UseStandardInput)
+				throw_err (L"--password cannot be used with --stdin");
 			ArgPassword.reset (new VolumePassword (wstring (str)));
-		
+		}
+
 		if (parser.Found (L"pim", &str))
 		{
 			try

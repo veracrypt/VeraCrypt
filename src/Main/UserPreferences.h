@@ -43,6 +43,7 @@ namespace VeraCrypt
 			MountDevicesOnLogon (false),
 			MountFavoritesOnLogon (false),
 			NonInteractive (false),
+			UseStandardInput (false),
 			OpenExplorerWindowAfterMount (false),
 			SaveHistory (false),
 			StartOnLogon (false),
@@ -83,6 +84,7 @@ namespace VeraCrypt
 		bool MountDevicesOnLogon;
 		bool MountFavoritesOnLogon;
 		bool NonInteractive;
+		bool UseStandardInput;
 		bool OpenExplorerWindowAfterMount;
 		bool SaveHistory;
 		FilePath SecurityTokenModule;
