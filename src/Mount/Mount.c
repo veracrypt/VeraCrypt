@@ -706,6 +706,9 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	ConfigReadCompareInt ("SaveVolumeHistory", FALSE, &bHistory, bOnlyCheckModified, pbSettingsModified);
 
 	ConfigReadCompareInt ("CachePasswords", FALSE, &bCacheInDriverDefault, bOnlyCheckModified, pbSettingsModified);
+	if (!bOnlyCheckModified)
+		bCacheInDriver = bCacheInDriverDefault;
+
 	ConfigReadCompareInt ("CachePasswordDuringMultipleMount", FALSE, &bCacheDuringMultipleMount, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("WipePasswordCacheOnExit", FALSE, &bWipeCacheOnExit, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("WipeCacheOnAutoDismount", TRUE, &bWipeCacheOnAutoDismount, bOnlyCheckModified, pbSettingsModified);
