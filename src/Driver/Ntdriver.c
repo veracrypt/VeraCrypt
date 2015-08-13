@@ -640,29 +640,50 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 			Irp->IoStatus.Information = 0;
 
-			if (type == PropertyExistsQuery)
+			if (	(pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
+				||	(pStoragePropQuery->PropertyId == StorageDeviceProperty)
+				)
 			{
-				if (pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
+				if (type == PropertyExistsQuery)
 				{
 					Irp->IoStatus.Status = STATUS_SUCCESS;
 					Irp->IoStatus.Information = 0;
 				}
-			}
-			else if (type == PropertyStandardQuery)
-			{
-				if (pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
+				else if (type == PropertyStandardQuery)
 				{
-					if (ValidateIOBufferSize (Irp, sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR), ValidateOutput))
+					switch (pStoragePropQuery->PropertyId)
 					{
-						PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR outputBuffer = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+						case StorageDeviceProperty:
+							{
+								if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_DESCRIPTOR), ValidateOutput))
+								{
+									PSTORAGE_DEVICE_DESCRIPTOR outputBuffer = (PSTORAGE_DEVICE_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
 
-						outputBuffer->Version = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
-						outputBuffer->Size = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
-						outputBuffer->BytesPerLogicalSector = Extension->BytesPerSector;
-						outputBuffer->BytesPerPhysicalSector = Extension->HostBytesPerPhysicalSector;
-						outputBuffer->BytesOffsetForSectorAlignment = Extension->BytesOffsetForSectorAlignment;
-						Irp->IoStatus.Status = STATUS_SUCCESS;
-						Irp->IoStatus.Information = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+									outputBuffer->Version = sizeof(STORAGE_DEVICE_DESCRIPTOR);
+									outputBuffer->Size = sizeof(STORAGE_DEVICE_DESCRIPTOR);
+									outputBuffer->DeviceType = FILE_DEVICE_DISK;
+									outputBuffer->RemovableMedia = Extension->bRemovable? TRUE : FALSE;
+									Irp->IoStatus.Status = STATUS_SUCCESS;
+									Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+								}
+							}
+							break;
+						case StorageAccessAlignmentProperty:
+							{
+								if (ValidateIOBufferSize (Irp, sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR), ValidateOutput))
+								{
+									PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR outputBuffer = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+
+									outputBuffer->Version = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+									outputBuffer->Size = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+									outputBuffer->BytesPerLogicalSector = Extension->BytesPerSector;
+									outputBuffer->BytesPerPhysicalSector = Extension->HostBytesPerPhysicalSector;
+									outputBuffer->BytesOffsetForSectorAlignment = Extension->BytesOffsetForSectorAlignment;
+									Irp->IoStatus.Status = STATUS_SUCCESS;
+									Irp->IoStatus.Information = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+								}
+							}
+							break;
 					}
 				}
 			}
