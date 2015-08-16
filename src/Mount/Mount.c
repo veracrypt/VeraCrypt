@@ -1940,7 +1940,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PKCS5_PRF), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), FALSE);
 				break;
 
@@ -1963,7 +1963,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow (GetDlgItem (hwndDlg, IDC_NEW_KEYFILES), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PASSWORD), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDT_CONFIRM_PASSWORD), FALSE);
-				EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), FALSE);
+				EnableWindow (GetDlgItem (hwndDlg, IDT_NEW_PKCS5_PRF), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), FALSE);
 				break;
 
