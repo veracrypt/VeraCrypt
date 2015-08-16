@@ -425,6 +425,8 @@ BOOL ConfigWriteString (char *configKey, char *configValue);
 BOOL ConfigWriteInt (char *configKey, int configValue);
 int ConfigReadInt (char *configKey, int defaultValue);
 char *ConfigReadString (char *configKey, char *defaultValue, char *str, int maxLen);
+void ConfigReadCompareInt(char *configKey, int defaultValue, int* pOutputValue, BOOL bOnlyCheckModified, BOOL* pbModified);
+void ConfigReadCompareString (char *configKey, char *defaultValue, char *str, int maxLen, BOOL bOnlyCheckModified, BOOL *pbModified);
 void RestoreDefaultKeyFilesParam (void);
 BOOL LoadDefaultKeyFilesParam (void);
 void Debug (char *format, ...);

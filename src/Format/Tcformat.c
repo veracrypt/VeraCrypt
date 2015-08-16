@@ -714,33 +714,6 @@ static BOOL CreatingHiddenSysVol (void)
 		&& bHiddenVol && !bHiddenVolHost);
 }
 
-static void ConfigReadCompareInt(char *configKey, int defaultValue, int* pOutputValue, BOOL bOnlyCheckModified, BOOL* pbModified)
-{
-	int intValue = ConfigReadInt (configKey, defaultValue);
-	if (pOutputValue)
-	{
-		if (pbModified && (*pOutputValue != intValue))
-			*pbModified = TRUE;
-		if (!bOnlyCheckModified)
-			*pOutputValue = intValue;
-	}
-}
-
-static void ConfigReadCompareString (char *configKey, char *defaultValue, char *str, int maxLen, BOOL bOnlyCheckModified, BOOL *pbModified)
-{
-	char *strValue = (char*) malloc (maxLen);
-	memcpy (strValue, str, maxLen);
-
-	ConfigReadString (configKey, defaultValue, strValue, maxLen);
-
-	if (pbModified && strcmp (str, strValue))
-		*pbModified = TRUE;
-	if (!bOnlyCheckModified)
-		memcpy(str, strValue, maxLen);
-
-	free (strValue);
-}
-
 static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* pbSettingsModified, BOOL* pbHistoryModified)
 {
 	if (!bOnlyCheckModified)

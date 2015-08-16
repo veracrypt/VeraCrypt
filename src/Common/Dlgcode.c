@@ -8713,9 +8713,50 @@ char *ConfigReadString (char *configKey, char *defaultValue, char *str, int maxL
 	if (ConfigRead (configKey, str, maxLen))
 		return str;
 	else
+	{
+		StringCbCopyA (str, maxLen, defaultValue);
 		return defaultValue;
+	}
 }
 
+void ConfigReadCompareInt(char *configKey, int defaultValue, int* pOutputValue, BOOL bOnlyCheckModified, BOOL* pbModified)
+{
+	int intValue = ConfigReadInt (configKey, defaultValue);
+	if (pOutputValue)
+	{
+		if (pbModified && (*pOutputValue != intValue))
+			*pbModified = TRUE;
+		if (!bOnlyCheckModified)
+			*pOutputValue = intValue;
+	}
+}
+
+void ConfigReadCompareString (char *configKey, char *defaultValue, char *str, int maxLen, BOOL bOnlyCheckModified, BOOL *pbModified)
+{
+	char *strValue = (char*) malloc (maxLen);
+	if (strValue)
+	{
+		memcpy (strValue, str, maxLen);
+
+		ConfigReadString (configKey, defaultValue, strValue, maxLen);
+
+		if (pbModified && strcmp (str, strValue))
+			*pbModified = TRUE;
+		if (!bOnlyCheckModified)
+			memcpy(str, strValue, maxLen);
+
+		free (strValue);
+	}
+	else
+	{
+		/* allocation failed. Suppose that value changed */
+		if (pbModified)
+			*pbModified = TRUE;
+		if (!bOnlyCheckModified)
+			ConfigReadString (configKey, defaultValue, str, maxLen);
+		
+	}
+}
 
 void OpenPageHelp (HWND hwndDlg, int nPage)
 {
