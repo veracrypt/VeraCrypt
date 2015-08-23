@@ -7112,7 +7112,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						WaitCursor ();
 
-						if (!KeyFilesApply (hwndDlg, &volumePassword, FirstKeyFile))
+						if (!KeyFilesApply (hwndDlg, &volumePassword, FirstKeyFile, NULL))
 						{
 							NormalCursor ();
 							return 1;
@@ -7217,7 +7217,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (KeyFilesEnable)
 				{
-					KeyFilesApply (hwndDlg, &volumePassword, FirstKeyFile);
+					KeyFilesApply (hwndDlg, &volumePassword, FirstKeyFile, NULL);
 				}
 			
 				if (!bInPlaceEncNonSys)

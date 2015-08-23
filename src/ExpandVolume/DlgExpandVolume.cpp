@@ -59,7 +59,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 namespace VeraCryptExpander
 {
 /* defined in WinMain.c, referenced by ExpandVolumeWizard() */
-int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions);
+int ExtcvAskVolumePassword (HWND hwndDlg, const char* fileName, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions);
 }
 
 
@@ -500,7 +500,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 		OpenVolumeContext expandVol;
 		BOOL truecryptMode = FALSE;
 
-		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, &VolumePassword, &VolumePkcs5, &VolumePim, &truecryptMode, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
+		if (!VeraCryptExpander::ExtcvAskVolumePassword (hwndDlg, lpszVolume, &VolumePassword, &VolumePkcs5, &VolumePim, &truecryptMode, "ENTER_NORMAL_VOL_PASSWORD", FALSE))
 		{
 			goto ret;
 		}
@@ -509,7 +509,7 @@ void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume)
 		WaitCursor();
 
 		if (KeyFilesEnable && FirstKeyFile)
-			KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+			KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, lpszVolume);
 
 		WaitCursor ();
 

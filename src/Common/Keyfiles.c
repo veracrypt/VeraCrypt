@@ -222,7 +222,7 @@ close:
 }
 
 
-BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
+BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, const char* volumeFileName)
 {
 	BOOL status = TRUE;
 	KeyFile kfSubStruct;
@@ -322,7 +322,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 				StringCbPrintfA (kfSub->FileName, sizeof(kfSub->FileName), "%s%c%s", kf->FileName,
 					'\\',
 					fBuf.name
-					);
+					);				
 
 				// Determine whether it's a path or a file
 				if (stat (kfSub->FileName, &statStruct) != 0)
@@ -344,6 +344,13 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile)
 				{
 					HiddenFilesPresentInKeyfilePath = TRUE;
 					continue;	 
+				}
+
+				CorrectFileName (kfSub->FileName);
+				if (volumeFileName && (_stricmp (volumeFileName, kfSub->FileName) == 0))
+				{
+					// skip if it is the current container file name
+					continue;
 				}
 
 				++keyfileCount;
@@ -474,13 +481,25 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				if (SelectMultipleFiles (hwndDlg, "SELECT_KEYFILE", kf->FileName, sizeof(kf->FileName),bHistory))
 				{
+					bool containerFileSkipped = false;
 					do
 					{
-						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-						LoadKeyList (hwndDlg, param->FirstKeyFile);
+						CorrectFileName (kf->FileName);
+						if (_stricmp (param->VolumeFileName, kf->FileName) == 0)
+							containerFileSkipped = true;
+						else
+						{
+							param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+							LoadKeyList (hwndDlg, param->FirstKeyFile);
 
-						kf = (KeyFile *) malloc (sizeof (KeyFile));
+							kf = (KeyFile *) malloc (sizeof (KeyFile));
+						}
 					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
+
+					if (containerFileSkipped)
+					{
+						Warning ("SELECTED_KEYFILE_IS_CONTAINER_FILE", hwndDlg);
+					}
 				}
 
 				free (kf);

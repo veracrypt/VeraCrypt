@@ -429,6 +429,12 @@ BOOL VolumeSelected (HWND hwndDlg)
 	return (GetWindowTextLength (GetDlgItem (hwndDlg, IDC_VOLUME)) > 0);
 }
 
+void GetVolumePath (HWND hwndDlg, LPSTR szPath, int nMaxCount)
+{
+	GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), szPath, nMaxCount);
+	CorrectFileName (szPath);
+}
+
 /* Returns TRUE if the last partition/drive selected via the Select Device dialog box was the system 
 partition/drive and if it is encrypted. 
          WARNING: This function is very fast but not always reliable (for example, if the user manually types
@@ -447,7 +453,7 @@ BOOL ActiveSysEncDeviceSelected (void)
 		{
 			int retCode = 0;
 
-			GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), szFileName, sizeof (szFileName));
+			GetVolumePath (MainDlg, szFileName, sizeof (szFileName));
 
 			retCode = IsSystemDevicePath (szFileName, MainDlg, FALSE);
 
@@ -496,7 +502,7 @@ static string ResolveAmbiguousSelection (HWND hwndDlg, int *driveNoPtr)
 	if (VolumeSelected (MainDlg))
 	{
 		// volPathInputField will contain the volume path (if any) from the input field below the drive list 
-		GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), volPathInputField, sizeof (volPathInputField));
+		GetVolumePath (MainDlg, volPathInputField, sizeof (volPathInputField));
 
 		if (!ambig)
 			retPath = (string) volPathInputField;
@@ -1096,7 +1102,7 @@ BOOL CheckSysEncMountWithoutPBA (HWND hwndDlg, const char *devicePath, BOOL quie
 
 	if (strlen (devicePath) < 2)
 	{
-		GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), szDevicePath, sizeof (szDevicePath));
+		GetVolumePath (MainDlg, szDevicePath, sizeof (szDevicePath));
 		CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), szDevicePath, &tmpbDevice);
 
 		if (!tmpbDevice)
@@ -1859,6 +1865,13 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			PimValueChangedWarning = FALSE;
 
 			ZeroMemory (&newKeyFilesParam, sizeof (newKeyFilesParam));
+			if (NewPimValuePtr)
+			{
+				/* we are in the case of a volume. Store its name to use it in the key file dialog
+				 * this will help avoid using the current container file as a key file
+				 */
+				StringCbCopyA (newKeyFilesParam.VolumeFileName, sizeof (newKeyFilesParam.VolumeFileName), szFileName);
+			}
 
 			SetWindowTextW (hwndDlg, GetString ("IDD_PASSWORDCHANGE_DLG"));
 			LocalizeDialog (hwndDlg, "IDD_PASSWORDCHANGE_DLG");
@@ -2379,7 +2392,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					return 1;
 			}
 
-			GetWindowText (GetDlgItem (hParent, IDC_VOLUME), szFileName, sizeof (szFileName));
+			GetVolumePath (hParent, szFileName, sizeof (szFileName));
 
 			GetWindowText (GetDlgItem (hwndDlg, IDC_OLD_PASSWORD), (LPSTR) oldPassword.Text, sizeof (oldPassword.Text));
 			oldPassword.Length = (unsigned __int32) strlen ((char *) oldPassword.Text);
@@ -2402,11 +2415,11 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			WaitCursor ();
 
 			if (KeyFilesEnable)
-				KeyFilesApply (hwndDlg, &oldPassword, FirstKeyFile);
+				KeyFilesApply (hwndDlg, &oldPassword, FirstKeyFile, szFileName);
 
 			if (newKeyFilesParam.EnableKeyFiles)
 			{
-				if (!KeyFilesApply (hwndDlg, &newPassword, pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF ? FirstKeyFile : newKeyFilesParam.FirstKeyFile))
+				if (!KeyFilesApply (hwndDlg, &newPassword, pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF ? FirstKeyFile : newKeyFilesParam.FirstKeyFile, szFileName))
 				{
 					nStatus = ERR_DONT_REPORT;
 					goto err;
@@ -2781,7 +2794,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (lw == IDOK)
 			{
 				if (mountOptions.ProtectHiddenVolume && hidVolProtKeyFilesParam.EnableKeyFiles)
-					KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile);
+					KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile, strlen (PasswordDlgVolume) > 0 ? PasswordDlgVolume : NULL);
 
 				GetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), (LPSTR) szXPwd->Text, MAX_PASSWORD + 1);
 				szXPwd->Length = (unsigned __int32) strlen ((char *) szXPwd->Text);
@@ -4202,7 +4215,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 
 	if (szFileName == NULL)
 	{
-		GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), fileName, sizeof (fileName));
+		GetVolumePath (hwndDlg, fileName, sizeof (fileName));
 		szFileName = fileName;
 	}
 
@@ -4245,7 +4258,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 		Password emptyPassword;
 		emptyPassword.Length = 0;
 
-		KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile);
+		KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile, szFileName);
 		// try TrueCrypt mode first since it is quick, only if pim = 0
 		if (EffectiveVolumePim == 0)
 			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
@@ -4307,7 +4320,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 		WaitCursor ();
 
 		if (KeyFilesEnable)
-			KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+			KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, szFileName);
 
 		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, !Silent);
 		NormalCursor ();
@@ -4617,9 +4630,9 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 			WaitCursor();
 
 			if (FirstCmdKeyFile)
-				KeyFilesApply (hwndDlg, &VolumePassword, FirstCmdKeyFile);
+				KeyFilesApply (hwndDlg, &VolumePassword, FirstCmdKeyFile, NULL);
 			else if (KeyFilesEnable)
-				KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+				KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, NULL);
 
 		}
 
@@ -4832,7 +4845,7 @@ static void ChangePassword (HWND hwndDlg)
 	INT_PTR result;
 	int newPimValue = -1;
 	
-	GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, sizeof (szFileName));
+	GetVolumePath (hwndDlg, szFileName, sizeof (szFileName));
 	if (IsMountedVolume (szFileName))
 	{
 		Warning (pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF ? "MOUNTED_NO_PKCS5_PRF_CHANGE" : "MOUNTED_NOPWCHANGE", hwndDlg);
@@ -5177,7 +5190,7 @@ static void DecryptNonSysDevice (HWND hwndDlg, BOOL bResolveAmbiguousSelection, 
 
 		char volPath [TC_MAX_PATH];
 
-		GetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), volPath, sizeof (volPath));
+		GetVolumePath (MainDlg, volPath, sizeof (volPath));
 
 		scPath = volPath;
 	}
@@ -5856,7 +5869,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							BOOL reportBadPasswd = CmdVolumePassword.Length > 0;
 
 							if (FirstCmdKeyFile)
-								KeyFilesApply (hwndDlg, &CmdVolumePassword, FirstCmdKeyFile);
+								KeyFilesApply (hwndDlg, &CmdVolumePassword, FirstCmdKeyFile, szFileName);
 
 							mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A',
 								szFileName, &CmdVolumePassword, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount,
@@ -5895,7 +5908,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							WaitCursor ();
 
 							if (KeyFilesEnable && FirstKeyFile)
-								KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+								KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, szFileName);
 
 							mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A', szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, FALSE, TRUE);
 
@@ -6629,7 +6642,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							return 1;
 
 						if (mountOptions.ProtectHiddenVolume && hidVolProtKeyFilesParam.EnableKeyFiles)
-							KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile);
+						{
+							char selectedVolume [TC_MAX_PATH + 1];
+							GetVolumePath (hwndDlg, selectedVolume, sizeof (selectedVolume));
+							KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile, selectedVolume);
+						}
 					}
 
 					if (CheckMountList (hwndDlg, FALSE))
@@ -7024,7 +7041,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else
 				{
-					GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), volPath, sizeof (volPath));
+					GetVolumePath (hwndDlg, volPath, sizeof (volPath));
 
 					WaitCursor ();
 
@@ -7047,7 +7064,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else
 				{
-					GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), volPath, sizeof (volPath));
+					GetVolumePath (hwndDlg, volPath, sizeof (volPath));
 
 					WaitCursor ();
 
@@ -7323,7 +7340,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			wchar_t volPathLowerW[TC_MAX_PATH];
 
 			// volPathLower will contain the volume path (if any) from the input field below the drive list 
-			GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), volPathLower, sizeof (volPathLower));
+			GetVolumePath (hwndDlg, volPathLower, sizeof (volPathLower));
 
 			if (LOWORD (selectedDrive) != TC_MLIST_ITEM_NONSYS_VOL
 				&& !(VolumeSelected (hwndDlg) && IsMountedVolume (volPathLower)))
@@ -7469,7 +7486,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				char volPath[TC_MAX_PATH];		/* Volume to mount */
 
-				GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), volPath, sizeof (volPath));
+				GetVolumePath (hwndDlg, volPath, sizeof (volPath));
 
 				WaitCursor ();
 
@@ -7496,7 +7513,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				char volPath[TC_MAX_PATH];		/* Volume to mount */
 
-				GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), volPath, sizeof (volPath));
+				GetVolumePath (hwndDlg, volPath, sizeof (volPath));
 
 				WaitCursor ();
 
@@ -8980,7 +8997,7 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lps
 			WaitCursor();
 
 			if (KeyFilesEnable && FirstKeyFile)
-				KeyFilesApply (hwndDlg, askPassword, FirstKeyFile);
+				KeyFilesApply (hwndDlg, askPassword, FirstKeyFile, lpszVolume);
 
 			nStatus = OpenVolume (askVol, lpszVolume, askPassword, *askPkcs5, *askPim, VolumeTrueCryptMode, FALSE, bPreserveTimestamp, FALSE);
 
@@ -9251,7 +9268,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 			WaitCursor();
 
 			if (KeyFilesEnable && FirstKeyFile)
-				KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+				KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, lpszVolume);
 
 			nStatus = OpenVolume (&volume, lpszVolume, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode,TRUE, bPreserveTimestamp, TRUE);
 
@@ -9451,7 +9468,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 			}
 
 			if (KeyFilesEnable && FirstKeyFile)
-				KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile);
+				KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, bDevice? NULL : lpszVolume);
 
 			// Decrypt volume header
 			headerOffsetBackupFile = 0;
@@ -10133,7 +10150,11 @@ void MountSelectedVolume (HWND hwndDlg, BOOL mountWithOptions)
 				return;
 
 			if (mountOptions.ProtectHiddenVolume && hidVolProtKeyFilesParam.EnableKeyFiles)
-				KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile);
+			{
+				char selectedVolume [TC_MAX_PATH + 1];
+				GetVolumePath (hwndDlg, selectedVolume, sizeof (selectedVolume));
+				KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile, selectedVolume);
+			}
 		}
 
 		if (CheckMountList (hwndDlg, FALSE))

@@ -367,7 +367,7 @@ GetItemLong (HWND hTree, int itemNo)
 		return item.lParam;
 }
 
-static char PasswordDlgVolume[MAX_PATH + 1];
+static char PasswordDlgVolume[MAX_PATH + 1] = {0};
 static BOOL PasswordDialogDisableMountOptions;
 static char *PasswordDialogTitleStringId;
 
@@ -655,7 +655,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (lw == IDOK)
 			{
 				if (mountOptions.ProtectHiddenVolume && hidVolProtKeyFilesParam.EnableKeyFiles)
-					KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile);
+					KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile, PasswordDlgVolume);
 
 				GetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), (LPSTR) szXPwd->Text, MAX_PASSWORD + 1);
 				szXPwd->Length = strlen ((char *) szXPwd->Text);
@@ -780,7 +780,7 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 	return 0;
 }
 
-int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
+int ExtcvAskVolumePassword (HWND hwndDlg, const char* fileName, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
 {
 	int result;
 	PasswordDlgParam dlgParam;
@@ -792,6 +792,8 @@ int ExtcvAskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int *p
 	dlgParam.pkcs5 = pkcs5;
 	dlgParam.pim = pim;
 	dlgParam.truecryptMode = truecryptMode;
+
+	StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume), fileName);
 
 	result = DialogBoxParamW (hInst, 
 		MAKEINTRESOURCEW (IDD_PASSWORD_DLG), hwndDlg,

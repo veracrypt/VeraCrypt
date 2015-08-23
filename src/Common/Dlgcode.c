@@ -6184,6 +6184,16 @@ BOOL CheckFileExtension (char *fileName)
 	return FALSE;
 }
 
+void CorrectFileName (char* fileName)
+{
+	/* replace '/' by '\' */
+	size_t i, len = strlen (fileName);
+	for (i = 0; i < len; i++)
+	{
+		if (fileName [i] == '/')
+			fileName [i] = '\\';
+	}
+}
 
 void IncreaseWrongPwdRetryCount (int count)
 {
