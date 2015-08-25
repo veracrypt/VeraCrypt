@@ -156,6 +156,8 @@ BOOL DirectNonSysInplaceDecStartMode = FALSE;
 BOOL DirectNonSysInplaceEncResumeMode = FALSE;
 BOOL DirectNonSysInplaceDecResumeMode = FALSE;
 BOOL DirectPromptNonSysInplaceEncResumeMode = FALSE;
+BOOL DirectCreationMode = FALSE;
+
 volatile BOOL bInPlaceEncNonSys = FALSE;		/* If TRUE, existing data on a non-system partition/volume are to be encrypted (or decrypted if bInPlaceDecNonSys is TRUE) in place (for system encryption, this flag is ignored) */
 volatile BOOL bInPlaceDecNonSys = FALSE;		/* If TRUE, existing data on a non-system partition/volume are to be decrypted in place (for system encryption, this flag is ignored) */
 volatile BOOL bInPlaceEncNonSysResumed = FALSE;	/* If TRUE, the wizard is supposed to resume (or has resumed) process of non-system in-place encryption/decryption. */
@@ -235,6 +237,21 @@ int volumePim = 0;
 
 BOOL bHistoryCmdLine = FALSE; /* History control is always disabled */
 BOOL ComServerMode = FALSE;
+
+
+Password CmdVolumePassword = {0}; /* Password passed from command line */
+int CmdVolumeEA = 0;
+int CmdVolumePkcs5 = 0;
+int CmdVolumePim = 0;
+int CmdVolumeFilesystem = FILESYS_NONE;
+unsigned __int64 CmdVolumeFileSize = 0;
+BOOL CmdSparseFileSwitch = FALSE;
+
+BOOL bForceOperation = FALSE;
+
+BOOL bOperationSuccess = FALSE;
+
+BOOL bGuiMode = TRUE;
 
 int nPbar = 0;			/* Control ID of progress bar:- for format code */
 
@@ -385,6 +402,8 @@ static void WipePasswordsAndKeyfiles (void)
 	burn (&volumePassword, sizeof (volumePassword));
 	burn (&szRawPassword[0], sizeof (szRawPassword));
 	burn (&volumePim, sizeof (volumePim));
+	burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
+	burn (&CmdVolumePim, sizeof (CmdVolumePim));
 
 	SetWindowText (hPasswordInputField, "");
 	SetWindowText (hVerifyPasswordInputField, "");
@@ -1458,7 +1477,7 @@ static void VerifySizeAndUpdate (HWND hwndDlg, BOOL bUpdate)
 		i = nMultiplier;
 		lTmp = _atoi64 (szTmp);
 
-		int sectorSize = GetFormatSectorSize();
+		DWORD sectorSize = GetFormatSectorSize();
 		uint32 sectorSizeRem = (lTmp * nMultiplier) % sectorSize;
 
 		if (sectorSizeRem != 0)
@@ -2452,7 +2471,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	int nStatus;
 	DWORD dwWin32FormatError;
 	BOOL bHidden;
-	HWND hwndDlg = (HWND) hwndDlgArg;
+	HWND hwndDlg = (HWND) hwndDlgArg;	
 	volatile FORMAT_VOL_PARAMETERS *volParams = (FORMAT_VOL_PARAMETERS *) malloc (sizeof(FORMAT_VOL_PARAMETERS));
 
 	if (volParams == NULL)
@@ -2460,20 +2479,25 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 
 	VirtualLock ((LPVOID) volParams, sizeof(FORMAT_VOL_PARAMETERS));
 
-	bVolTransformThreadRunning = TRUE;
-	bVolTransformThreadToRun = FALSE;
+	bOperationSuccess = FALSE;
+
+	if (bGuiMode)
+	{
+		bVolTransformThreadRunning = TRUE;
+		bVolTransformThreadToRun = FALSE;
+	}
 
 	// Check administrator privileges
 	if (!IsAdmin () && !IsUacSupported ())
 	{
 		if (fileSystem == FILESYS_NTFS)
 		{
-			if (MessageBoxW (hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_NTFS"), lpszTitle, MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2) == IDCANCEL)
+			if (Silent || (MessageBoxW (hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_NTFS"), lpszTitle, MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2) == IDCANCEL))
 				goto cancel;
 		}
 		if (bDevice)
 		{
-			if (MessageBoxW (hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_DEVICES"), lpszTitle, MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2) == IDCANCEL)
+			if (Silent || (MessageBoxW (hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_DEVICES"), lpszTitle, MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2) == IDCANCEL))
 				goto cancel;
 		}
 	}
@@ -2487,13 +2511,13 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 			{
 				wchar_t szTmp[512];
 
-				if (! ((bHiddenVol && !bHiddenVolHost) && errno != EACCES))	// Only ask ask for permission to overwrite an existing volume if we're not creating a hidden volume
+				if (!bForceOperation && !((bHiddenVol && !bHiddenVolHost) && errno != EACCES))	// Only ask ask for permission to overwrite an existing volume if we're not creating a hidden volume
 				{
 					StringCbPrintfW (szTmp, sizeof szTmp,
 						GetString (errno == EACCES ? "READONLYPROMPT" : "OVERWRITEPROMPT"),
 						szDiskFile);
 
-					x = MessageBoxW (hwndDlg, szTmp, lpszTitle, YES_NO|MB_ICONWARNING|MB_DEFBUTTON2);
+					x = Silent? IDNO : MessageBoxW (hwndDlg, szTmp, lpszTitle, YES_NO|MB_ICONWARNING|MB_DEFBUTTON2);
 
 					if (x != IDYES)
 						goto cancel;
@@ -2506,7 +2530,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				{
 					if (_chmod (szDiskFile, _S_IREAD | _S_IWRITE) != 0)
 					{
-						MessageBoxW (hwndDlg, GetString ("ACCESSMODEFAIL"), lpszTitle, ICON_HAND);
+						if (!Silent) MessageBoxW (hwndDlg, GetString ("ACCESSMODEFAIL"), lpszTitle, ICON_HAND);
 						goto cancel;
 					}
 				}
@@ -2544,6 +2568,8 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	volParams->password = &volumePassword;
 	volParams->pim = volumePim;
 	volParams->hwndDlg = hwndDlg;
+	volParams->bForceOperation = bForceOperation;
+	volParams->bGuiMode = bGuiMode;
 
 	if (bInPlaceDecNonSys)
 	{
@@ -2587,7 +2613,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	{
 		// Format-encryption
 
-		InitProgressBar (GetVolumeDataAreaSize (bHidden, nVolumeSize), 0, FALSE, FALSE, FALSE, TRUE);
+		if (hwndDlg && bGuiMode) InitProgressBar (GetVolumeDataAreaSize (bHidden, nVolumeSize), 0, FALSE, FALSE, FALSE, TRUE);
 
 		nStatus = TCFormatVolume (volParams);
 	}
@@ -2611,19 +2637,19 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 
 	dwWin32FormatError = GetLastError ();
 
-	if (bHiddenVolHost && !bVolTransformThreadCancel && nStatus == 0)
+	if (bHiddenVolHost && (!bGuiMode || !bVolTransformThreadCancel) && nStatus == 0)
 	{
 		/* Auto mount the newly created hidden volume host */
 		switch (MountHiddenVolHost (hwndDlg, szDiskFile, &hiddenVolHostDriveNo, &volumePassword, hash_algo, volumePim, FALSE))
 		{
 		case ERR_NO_FREE_DRIVES:
-			MessageBoxW (hwndDlg, GetString ("NO_FREE_DRIVE_FOR_OUTER_VOL"), lpszTitle, ICON_HAND);
-			bVolTransformThreadCancel = TRUE;
+			if (!Silent) MessageBoxW (hwndDlg, GetString ("NO_FREE_DRIVE_FOR_OUTER_VOL"), lpszTitle, ICON_HAND);
+			if (bGuiMode) bVolTransformThreadCancel = TRUE;
 			break;
 		case ERR_VOL_MOUNT_FAILED:
 		case ERR_PASSWORD_WRONG:
-			MessageBoxW (hwndDlg, GetString ("CANT_MOUNT_OUTER_VOL"), lpszTitle, ICON_HAND);
-			bVolTransformThreadCancel = TRUE;
+			if (!Silent) MessageBoxW (hwndDlg, GetString ("CANT_MOUNT_OUTER_VOL"), lpszTitle, ICON_HAND);
+			if (bGuiMode) bVolTransformThreadCancel = TRUE;
 			break;
 		}
 	}
@@ -2668,7 +2694,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 						ShowInPlaceEncErrMsgWAltSteps (hwndDlg, "INPLACE_ENC_GENERIC_ERR_ALT_STEPS", TRUE);
 				}
 			}
-			else if (!(bHiddenVolHost && hiddenVolHostDriveNo < 0))  // If the error was not that the hidden volume host could not be mounted (this error has already been reported to the user)
+			else if (!Silent && !(bHiddenVolHost && hiddenVolHostDriveNo < 0))  // If the error was not that the hidden volume host could not be mounted (this error has already been reported to the user)
 			{
 				StringCbPrintfW (szMsg, sizeof(szMsg), GetString ("CREATE_FAILED"), szDiskFile);
 				MessageBoxW (hwndDlg, szMsg, lpszTitle, ICON_HAND);
@@ -2688,6 +2714,8 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 			RestoreDefaultKeyFilesParam ();
 
 			PimEnable = FALSE;
+
+			bOperationSuccess = TRUE;
 
 			if (bDevice && !bInPlaceEncNonSys)
 			{
@@ -2738,10 +2766,10 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				burn(&szVerify[0], sizeof (szVerify));
 				burn(&szRawPassword[0], sizeof (szRawPassword));
 
-				MessageBeep (MB_OK);
+				if (!Silent) MessageBeep (MB_OK);
 			}
 
-			if (!bInPlaceEncNonSys)
+			if (!bInPlaceEncNonSys && hwndDlg && bGuiMode)
 				SetTimer (hwndDlg, TIMER_ID_RANDVIEW, TIMER_INTERVAL_RANDVIEW, NULL);
 
 
@@ -2751,13 +2779,16 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 			free ((LPVOID) volParams);
 			volParams = NULL;
 
-			bVolTransformThreadRunning = FALSE;
-			bVolTransformThreadCancel = FALSE;
+			if (bGuiMode)
+			{
+				bVolTransformThreadRunning = FALSE;
+				bVolTransformThreadCancel = FALSE;
+			}
 
-			PostMessage (hwndDlg, bInPlaceEncNonSys ? TC_APPMSG_NONSYS_INPLACE_ENC_FINISHED : TC_APPMSG_FORMAT_FINISHED, 0, 0);
+			if (hwndDlg && bGuiMode) PostMessage (hwndDlg, bInPlaceEncNonSys ? TC_APPMSG_NONSYS_INPLACE_ENC_FINISHED : TC_APPMSG_FORMAT_FINISHED, 0, 0);
 
 			LastDialogId = "FORMAT_FINISHED";
-			_endthread ();
+			if (bGuiMode) _endthread ();
 		}
 	}
 
@@ -2765,7 +2796,7 @@ cancel:
 
 	LastDialogId = (bInPlaceEncNonSys ? "NONSYS_INPLACE_ENC_CANCELED" : "FORMAT_CANCELED");
 
-	if (!bInPlaceEncNonSys)
+	if (!bInPlaceEncNonSys && hwndDlg && bGuiMode)
 		SetTimer (hwndDlg, TIMER_ID_RANDVIEW, TIMER_INTERVAL_RANDVIEW, NULL);
 
 	if (volParams != NULL)
@@ -2776,18 +2807,21 @@ cancel:
 		volParams = NULL;
 	}
 
-	bVolTransformThreadRunning = FALSE;
-	bVolTransformThreadCancel = FALSE;
+	if (bGuiMode)
+	{
+		bVolTransformThreadRunning = FALSE;
+		bVolTransformThreadCancel = FALSE;
+	}
 
 	// Allow the OS to enter Sleep mode when idle
 	SetThreadExecutionState (ES_CONTINUOUS);
 
-	PostMessage (hwndDlg, TC_APPMSG_VOL_TRANSFORM_THREAD_ENDED, 0, 0);
+	if (hwndDlg) PostMessage (hwndDlg, TC_APPMSG_VOL_TRANSFORM_THREAD_ENDED, 0, 0);
 
 	if (bHiddenVolHost && hiddenVolHostDriveNo < -1 && !bVolTransformThreadCancel)	// If hidden volume host could not be mounted
 		AbortProcessSilent ();
 
-	_endthread ();
+	if (bGuiMode) _endthread ();
 }
 
 static void LoadPage (HWND hwndDlg, int nPageNo)
@@ -3321,7 +3355,7 @@ BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display)
 			return FALSE;
 		}
 
-		int sectorSize = GetFormatSectorSize();
+		DWORD sectorSize = GetFormatSectorSize();
 
 		if (sectorSize < TC_MIN_VOLUME_SECTOR_SIZE
 			|| sectorSize > TC_MAX_VOLUME_SECTOR_SIZE
@@ -3381,7 +3415,7 @@ static BOOL FinalPreTransformPrompts (void)
 
 	driveNo = GetDiskDeviceDriveLetter (deviceName);
 
-	if (!(bHiddenVol && !bHiddenVolHost))	// Do not ask for permission to overwrite an existing volume if we're creating a hidden volume within it
+	if (!bForceOperation && !(bHiddenVol && !bHiddenVolHost))	// Do not ask for permission to overwrite an existing volume if we're creating a hidden volume within it
 	{
 		wchar_t drive[128];
 		wchar_t volumeLabel[128];
@@ -3408,8 +3442,11 @@ static BOOL FinalPreTransformPrompts (void)
 		else
 			StringCbPrintfW (szTmp, sizeof(szTmp), GetString (bInPlaceEncNonSys ? (bInPlaceDecNonSys ? "NONSYS_INPLACE_DEC_CONFIRM" : "NONSYS_INPLACE_ENC_CONFIRM") : "OVERWRITEPROMPT_DEVICE"), type, szFileName, drive);
 
+		if (bInPlaceEncNonSys)
+			x = AskWarnYesNoString (szTmp, MainDlg);
+		else
+			x = AskWarnNoYesString (szTmp, MainDlg);
 
-		x = MessageBoxW (MainDlg, szTmp, lpszTitle, YES_NO | MB_ICONWARNING | (bInPlaceEncNonSys ? MB_DEFBUTTON1 : MB_DEFBUTTON2));
 		if (x != IDYES)
 			return FALSE;
 
@@ -3495,7 +3532,7 @@ void HandleOldAssignedDriveLetter (void)
 		ToUNICODE ((char *)deviceName, sizeof(deviceName));
 		driveLetter = GetDiskDeviceDriveLetter (deviceName);
 
-		if (!bHiddenVolHost
+		if (!Silent && !bHiddenVolHost
 			&& !bHiddenOS
 			&& driveLetter > 1)		// If a drive letter is assigned to the device, but not A: or B:
 		{
@@ -4748,7 +4785,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				for (int i = 1; i <= 128; i *= 2)
 				{
 					wstringstream s;
-					int size = GetFormatSectorSize() * i;
+					DWORD size = GetFormatSectorSize() * i;
 
 					if (size > TC_MAX_FAT_CLUSTER_SIZE)
 						break;
@@ -5849,6 +5886,167 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					exit (1);
 				}
 				exit (0);
+			}
+
+			if (DirectCreationMode)
+			{
+				char root[TC_MAX_PATH];
+				DWORD fileSystemFlags = 0;
+				uint64 dataAreaSize;
+				char szFileSystemNameBuffer[256];
+				ULARGE_INTEGER free;
+
+				showKeys = FALSE;
+				bGuiMode = FALSE;
+
+				if (CmdVolumePassword.Length == 0)
+					AbortProcess ("ERR_PASSWORD_MISSING");
+				
+				if (CmdVolumeFileSize == 0)
+					AbortProcess ("ERR_SIZE_MISSING");
+
+				CreateFullVolumePath (szDiskFile, sizeof(szDiskFile), szFileName, &bDevice);
+
+				if (bDevice)
+					AbortProcess ("ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED");
+
+				volumePassword = CmdVolumePassword;
+				volumePim = CmdVolumePim;
+
+				if (CmdVolumeEA > 0)
+					nVolumeEA = CmdVolumeEA;
+
+				if (CmdVolumePkcs5 > 0)
+					hash_algo = CmdVolumePkcs5;
+
+				if (CmdVolumeFilesystem > 0)
+					fileSystem = CmdVolumeFilesystem;
+				else
+					fileSystem = FILESYS_NTFS;
+
+				nVolumeSize = CmdVolumeFileSize;
+
+				// correct volume size to be multiple of sector size
+				if (bDevice && !(bHiddenVol && !bHiddenVolHost))	// If raw device but not a hidden volume
+				{
+					// do nothing. no correction is needed
+				}
+				else
+				{
+					unsigned __int64 sectorSize = (unsigned __int64) GetFormatSectorSize();
+					unsigned __int64 sectorSizeRem = nVolumeSize % sectorSize;
+
+					if (sectorSizeRem != 0)
+						nVolumeSize = nVolumeSize + (sectorSize - sectorSizeRem);
+				}
+
+				if (nVolumeSize < (bHiddenVolHost ? TC_MIN_HIDDEN_VOLUME_HOST_SIZE : (bHiddenVol ? TC_MIN_HIDDEN_VOLUME_SIZE : TC_MIN_VOLUME_SIZE)))
+					AbortProcess ("ERR_VOLUME_SIZE_TOO_SMALL");
+
+				if (	((!bHiddenVolHost && bHiddenVol) && (nVolumeSize > nMaximumHiddenVolSize))
+					||	(nVolumeSize > (bHiddenVolHost ? TC_MAX_HIDDEN_VOLUME_HOST_SIZE : TC_MAX_VOLUME_SIZE))
+					)
+				{
+					AbortProcess ("ERR_VOLUME_SIZE_TOO_BIG");
+				}
+
+				if (!GetVolumePathName (szFileName, root, sizeof (root)))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+					exit (1);
+				}
+		
+				if (CmdSparseFileSwitch)
+				{
+					/* Check if the host file system supports sparse files */
+					GetVolumeInformation (root, NULL, 0, NULL, NULL, &fileSystemFlags, NULL, 0);
+					bSparseFileSwitch = fileSystemFlags & FILE_SUPPORTS_SPARSE_FILES;
+
+					if (!bSparseFileSwitch)
+					{
+						AbortProcess ("ERR_DYNAMIC_NOT_SUPPORTED");
+					}
+				}
+
+				quickFormat = TRUE;
+
+				if (!GetDiskFreeSpaceEx (root, &free, 0, 0))
+				{
+					wchar_t szTmp[1024];
+
+					if (translateWin32Error (szTmp, sizeof (szTmp) / sizeof(szTmp[0])))
+					{
+						wchar_t szTmp2[1024];
+						StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s\n%s", GetString ("CANNOT_CALC_SPACE"), szTmp);
+						AbortProcessDirect (szTmp2);
+					}
+					else
+					{
+						handleWin32Error (hwndDlg, SRC_POS);
+					}
+
+					exit (1);
+				}
+				else
+				{
+					if (!bSparseFileSwitch && (nVolumeSize > free.QuadPart))
+					{
+						AbortProcess ("ERR_CONTAINER_SIZE_TOO_BIG");
+					}
+				}
+
+				dataAreaSize = GetVolumeDataAreaSize (bHiddenVol && !bHiddenVolHost, nVolumeSize);
+
+				if (	(fileSystem == FILESYS_NTFS) && 
+						(dataAreaSize < TC_MIN_NTFS_FS_SIZE || dataAreaSize > TC_MAX_NTFS_FS_SIZE)
+					)
+				{
+					AbortProcess ("ERR_NTFS_INVALID_VOLUME_SIZE");
+				}
+
+				if (	(fileSystem == FILESYS_FAT) && 
+						(dataAreaSize < TC_MIN_FAT_FS_SIZE || dataAreaSize > (TC_MAX_FAT_SECTOR_COUNT * GetFormatSectorSize()))
+					)
+				{
+					AbortProcess ("ERR_FAT_INVALID_VOLUME_SIZE");
+				}
+
+				/* Verify that the volume would not be too large for the host file system */
+				if (GetVolumePathName (szDiskFile, root, sizeof (root))
+					&& GetVolumeInformation (root, NULL, 0, NULL, NULL, NULL, szFileSystemNameBuffer, sizeof(szFileSystemNameBuffer))
+					&& !strncmp (szFileSystemNameBuffer, "FAT32", 5))
+				{
+					// The host file system is FAT32
+					if (nVolumeSize >= 4 * BYTES_PER_GB)
+					{
+						AbortProcess ("VOLUME_TOO_LARGE_FOR_FAT32");
+					}
+				}
+
+				/* Verify that the volume would not be too large for the operating system */
+				if (!IsOSAtLeast (WIN_VISTA)
+					&& nVolumeSize > 2 * BYTES_PER_TB)
+				{
+					AbortProcess ("VOLUME_TOO_LARGE_FOR_WINXP");
+				}
+
+				if (volumePassword.Length > 0)
+				{	
+					// Password character encoding
+					if (!CheckPasswordCharEncoding (NULL, &volumePassword))
+					{
+						AbortProcess ("UNSUPPORTED_CHARS_IN_PWD");
+					}
+					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
+					else if (!CheckPasswordLength (NULL, volumePassword.Length, volumePim, FALSE, Silent, Silent))
+					{
+						exit (1);
+					}
+				}
+
+				volTransformThreadFunction (hwndDlg);
+
+				exit (bOperationSuccess? 0 : 1);
 			}
 
 			SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, szRescueDiskISO);
@@ -7102,7 +7300,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), FALSE, FALSE))
 					{
 						return 1;
 					}
@@ -7181,7 +7379,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), TRUE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), TRUE, FALSE))
 					{
 						return 1;
 					}
@@ -8458,6 +8656,16 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				CommandInplaceDec,
 				CommandResumeInplaceDec,
 				CommandResumeInplace,
+				OptionEncryption,
+				OptionFilesystem,
+				OptionPkcs5,
+				OptionPassword,
+				OptionPim,
+				OptionSize,
+				OptionCreate,
+				OptionSilent,
+				OptionDynamic,
+				OptionForce,
 			};
 
 			argument args[]=
@@ -8467,6 +8675,16 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				{ OptionNoIsoCheck,				"/noisocheck",		"/n", FALSE },
 				{ OptionTokenLib,				"/tokenlib",		NULL, FALSE },
 				{ OptionQuit,					"/quit",			"/q", FALSE },
+				{ OptionEncryption,			"/encryption",			NULL , FALSE },
+				{ OptionFilesystem,			"/filesystem",			NULL , FALSE },
+				{ OptionPkcs5,					"/hash",			NULL , FALSE },
+				{ OptionPassword,				"/password",		NULL, FALSE },
+				{ OptionPim,					"/pim",				NULL, FALSE },
+				{ OptionSize,					"/size",				NULL, FALSE },
+				{ OptionCreate,				"/create",			NULL, FALSE },
+				{ OptionSilent,				"/silent",			NULL, FALSE },
+				{ OptionDynamic,				"/dynamic",			NULL, FALSE },
+				{ OptionForce,					"/force",			NULL, FALSE },
 
 				// Internal 
 				{ CommandResumeSysEncLogOn,		"/acsysenc",		"/a", TRUE },
@@ -8496,6 +8714,160 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			switch (x)
 			{
+			case OptionCreate:
+				{
+					DirectCreationMode = TRUE;
+
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szFileName, sizeof (szFileName)))
+					{
+						RelativePath2Absolute (szFileName);
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+				}
+				break;
+			case OptionEncryption:
+				{
+					char szTmp[64] = {0};
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+					{
+						CmdVolumeEA = EAGetByName (szTmp);
+						if (CmdVolumeEA == 0)
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				break;
+			case OptionFilesystem:
+				{
+					char szTmp[8] = {0};
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+					{
+						if (_stricmp(szTmp, "NONE") == 0)
+							CmdVolumeFilesystem = FILESYS_NONE;
+						else if (_stricmp(szTmp, "FAT32") == 0 || _stricmp(szTmp, "FAT") == 0)
+							CmdVolumeFilesystem = FILESYS_FAT;
+						else if (_stricmp(szTmp, "NTFS") == 0)
+							CmdVolumeFilesystem = FILESYS_NTFS;
+						else
+						{
+							AbortProcess ("COMMAND_LINE_ERROR");
+						}
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				break;
+			case OptionPassword:
+				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     (char *) CmdVolumePassword.Text, sizeof (CmdVolumePassword.Text)))
+				{
+					CmdVolumePassword.Length = (unsigned __int32) strlen ((char *) CmdVolumePassword.Text);
+				}
+				else
+					AbortProcess ("COMMAND_LINE_ERROR");
+				break;
+			case OptionPkcs5:
+				{
+					char szTmp[32] = {0};
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+					{
+						if (_stricmp(szTmp, "sha512") == 0 || _stricmp(szTmp, "sha-512") == 0)
+							CmdVolumePkcs5 = SHA512;
+						else if (_stricmp(szTmp, "whirlpool") == 0)
+							CmdVolumePkcs5 = WHIRLPOOL;
+						else if (_stricmp(szTmp, "sha256") == 0 || _stricmp(szTmp, "sha-256") == 0)
+							CmdVolumePkcs5 = SHA256;
+						else if (_stricmp(szTmp, "ripemd160") == 0 || _stricmp(szTmp, "ripemd-160") == 0)
+							CmdVolumePkcs5 = RIPEMD160;
+						else
+						{
+							CmdVolumePkcs5 = 0;
+							AbortProcess ("COMMAND_LINE_ERROR");
+						}
+
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+				}
+				break;
+
+			case OptionPim:
+				{
+					char szTmp[32] = {0};
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
+						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+					{
+						char* endPtr = NULL;
+						CmdVolumePim = (int) strtol(szTmp, &endPtr, 0);
+						if (CmdVolumePim < 0 || endPtr == szTmp || *endPtr != '\0')
+						{
+							CmdVolumePim = 0;
+							AbortProcess ("COMMAND_LINE_ERROR");
+						}
+
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+				}
+				break;
+			case OptionSilent:
+				Silent = TRUE;
+				break;
+			case OptionDynamic:
+				CmdSparseFileSwitch = TRUE;
+				break;
+			case OptionForce:
+				bForceOperation = TRUE;
+				break;
+			case OptionSize:
+				{
+					char szTmp[32] = {0};
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
+									&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)) 
+						 && (strlen (szTmp) >= 2)
+						)
+					{
+						/* size can be expressed in bytes or with suffixes K, M,G or T
+						 * to indicate the unit to use
+						 */
+						unsigned __int64 multiplier;
+						char* endPtr = NULL;
+						char lastChar = szTmp [strlen (szTmp) - 1];
+						if (lastChar >= '0' && lastChar <= '9')
+							multiplier = 1;
+						else if (lastChar == 'K' || lastChar == 'k')
+							multiplier = BYTES_PER_KB;
+						else if (lastChar == 'M' || lastChar == 'm')
+							multiplier = BYTES_PER_MB;
+						else if (lastChar == 'G' || lastChar == 'g')
+							multiplier = BYTES_PER_GB;
+						else if (lastChar == 'T' || lastChar == 't')
+							multiplier = BYTES_PER_TB;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+
+						if (multiplier != 1)
+							szTmp [strlen (szTmp) - 1] = 0;
+
+						CmdVolumeFileSize = _strtoui64(szTmp, &endPtr, 0);
+						if (CmdVolumeFileSize == 0 || CmdVolumeFileSize == _UI64_MAX 
+							|| endPtr == szTmp || *endPtr != '\0')
+						{
+							AbortProcess ("COMMAND_LINE_ERROR");
+						}
+
+						CmdVolumeFileSize *= multiplier;
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+				}
+				break;
 			case CommandSysEnc:
 				// Encrypt system partition/drive (passed by Mount if system encryption hasn't started or to reverse decryption)
 
@@ -9693,7 +10065,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 }
 
 
-static int GetFormatSectorSize ()
+static DWORD GetFormatSectorSize ()
 {
 	if (!bDevice)
 		return TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;

@@ -284,7 +284,7 @@ begin_format:
 				dev = CreateFile (devName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 				if (dev != INVALID_HANDLE_VALUE)
 				{
-					if (IDNO == MessageBoxW (volParams->hwndDlg, GetString ("DEVICE_IN_USE_FORMAT"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2))
+					if (!volParams->bForceOperation && (Silent || (IDNO == MessageBoxW (volParams->hwndDlg, GetString ("DEVICE_IN_USE_FORMAT"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2))))
 					{
 						nStatus = ERR_DONT_REPORT; 
 						goto error;
@@ -381,7 +381,7 @@ begin_format:
 			bTimeStampValid = TRUE;
 	}
 
-	KillTimer (volParams->hwndDlg, TIMER_ID_RANDVIEW);
+	if (volParams->hwndDlg && volParams->bGuiMode) KillTimer (volParams->hwndDlg, TIMER_ID_RANDVIEW);
 
 	/* Volume header */
 
@@ -618,8 +618,11 @@ error:
 
 		if (driveNo == -1)
 		{
-			MessageBoxW (volParams->hwndDlg, GetString ("NO_FREE_DRIVES"), lpszTitle, ICON_HAND);
-			MessageBoxW (volParams->hwndDlg, GetString ("FORMAT_NTFS_STOP"), lpszTitle, ICON_HAND);
+			if (!Silent)
+			{
+				MessageBoxW (volParams->hwndDlg, GetString ("NO_FREE_DRIVES"), lpszTitle, ICON_HAND);
+				MessageBoxW (volParams->hwndDlg, GetString ("FORMAT_NTFS_STOP"), lpszTitle, ICON_HAND);
+			}
 
 			nStatus = ERR_NO_FREE_DRIVES;
 			goto fv_end;
@@ -634,20 +637,23 @@ error:
 
 		if (MountVolume (volParams->hwndDlg, driveNo, volParams->volumePath, volParams->password, volParams->pkcs5, volParams->pim, FALSE, FALSE, TRUE, &mountOptions, FALSE, TRUE) < 1)
 		{
-			MessageBoxW (volParams->hwndDlg, GetString ("CANT_MOUNT_VOLUME"), lpszTitle, ICON_HAND);
-			MessageBoxW (volParams->hwndDlg, GetString ("FORMAT_NTFS_STOP"), lpszTitle, ICON_HAND);
+			if (!Silent)
+			{
+				MessageBoxW (volParams->hwndDlg, GetString ("CANT_MOUNT_VOLUME"), lpszTitle, ICON_HAND);
+				MessageBoxW (volParams->hwndDlg, GetString ("FORMAT_NTFS_STOP"), lpszTitle, ICON_HAND);
+			}
 			nStatus = ERR_VOL_MOUNT_FAILED;
 			goto fv_end;
 		}
 
-		if (!IsAdmin () && IsUacSupported ())
+		if (!Silent && !IsAdmin () && IsUacSupported ())
 			retCode = UacFormatNtfs (volParams->hwndDlg, driveNo, volParams->clusterSize);
 		else
 			retCode = FormatNtfs (driveNo, volParams->clusterSize);
 
 		if (retCode != TRUE)
 		{
-			if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo))
+			if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo) && !Silent)
 				MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 
 			if (dataAreaSize <= TC_MAX_FAT_SECTOR_COUNT * FormatSectorSize)
@@ -669,7 +675,7 @@ error:
 			goto fv_end;
 		}
 
-		if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo))
+		if (!UnmountVolumeAfterFormatExCall (volParams->hwndDlg, driveNo) && !Silent)
 			MessageBoxW (volParams->hwndDlg, GetString ("CANT_DISMOUNT_VOLUME"), lpszTitle, ICON_HAND);
 	}
 

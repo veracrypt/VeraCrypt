@@ -38,11 +38,13 @@ typedef struct
 	unsigned int clusterSize;
 	BOOL sparseFileSwitch;
 	BOOL quickFormat;
-	int sectorSize;
+	DWORD sectorSize;
 	int *realClusterSize;
 	Password *password;
 	int pim;
 	HWND hwndDlg;
+	BOOL bForceOperation;
+	BOOL bGuiMode;
 }
 FORMAT_VOL_PARAMETERS;
 

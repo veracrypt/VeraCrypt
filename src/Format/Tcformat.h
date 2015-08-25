@@ -78,7 +78,7 @@ static void WipeAbort (void);
 static void UpdateWipeProgressBar (void);
 static void InitWipeProgressBar (void);
 static void UpdateWipeControls (void);
-static int GetFormatSectorSize ();
+static DWORD GetFormatSectorSize ();
 
 extern BOOL showKeys;
 extern volatile HWND hMasterKey;

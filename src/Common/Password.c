@@ -113,7 +113,7 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 }
 
 
-BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim, BOOL bForBoot, BOOL bSkipPasswordWarning)
+BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim, BOOL bForBoot, BOOL bSkipPasswordWarning, BOOL bSkipPimWarning)
 {
 	BOOL bCustomPimSmall = ((pim != 0) && (pim < (bForBoot? 98 : 485)))? TRUE : FALSE;
 	if (passwordLength < PASSWORD_LEN_WARNING)
@@ -132,7 +132,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim
 #ifndef _DEBUG
 	else if (bCustomPimSmall)
 	{
-		if (MessageBoxW (hwndDlg, GetString ("PIM_SMALL_WARNING"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2) != IDYES)
+		if (!bSkipPimWarning && AskWarnNoYes ("PIM_SMALL_WARNING", hwndDlg) != IDYES)
 			return FALSE;
 	}
 #endif
@@ -140,7 +140,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim
 	if ((pim != 0) && (pim > (bForBoot? 98 : 485)))
 	{
 		// warn that mount/boot will take more time
-		MessageBoxW (hwndDlg, GetString ("PIM_LARGE_WARNING"), lpszTitle, MB_OK|MB_ICONWARNING);
+		Warning ("PIM_LARGE_WARNING", hwndDlg);
 
 	}
 	return TRUE;

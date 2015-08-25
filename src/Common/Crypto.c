@@ -450,8 +450,8 @@ int EAGetByName (char *name)
 
 	do
 	{
-		EAGetName (n, ea, 0);
-		if (strcmp (n, name) == 0)
+		EAGetName (n, ea, 1);
+		if (_stricmp (n, name) == 0)
 			return ea;
 	}
 	while (ea = EAGetNext (ea));
