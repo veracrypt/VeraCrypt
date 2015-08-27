@@ -62,6 +62,7 @@
     <control lang="en" key="IDC_QUICKFORMAT">Quick Format</control>
     <control lang="en" key="IDC_SHOW_PASSWORD">&amp;Display password</control>
     <control lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="en" key="IDC_SINGLE_BOOT">Single-boot</control>
     <control lang="en" key="IDC_STD_VOL">Standard VeraCrypt volume</control>
     <control lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</control>

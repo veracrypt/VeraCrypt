@@ -5413,6 +5413,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 1;
 		}
 
+		if (lw == IDC_SHOW_PIM && nCurPageNo == PIM_PAGE)
+		{
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PIM, IDC_PIM, 0);
+			return 1;
+		}
+
 		if (lw == IDC_PIM_ENABLE)
 		{
 			PimEnable = GetCheckBox (hwndDlg, IDC_PIM_ENABLE);
@@ -5500,7 +5506,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (lw == IDC_SHOW_PASSWORD_SINGLE)
 			{
-				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_SINGLE, IDC_PASSWORD_DIRECT, 0);
+				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_SINGLE, IDC_PASSWORD_DIRECT, IDC_PIM);
 				return 1;
 			}
 		}

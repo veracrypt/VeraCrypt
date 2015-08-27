@@ -2314,13 +2314,14 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		if (lw == IDC_SHOW_PASSWORD_CHPWD_ORI)
 		{
-			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_ORI, IDC_OLD_PASSWORD, 0);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_ORI, IDC_OLD_PASSWORD, IDC_OLD_PIM);
 			return 1;
 		}
 
 		if (lw == IDC_SHOW_PASSWORD_CHPWD_NEW)
 		{
 			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW, IDC_PASSWORD, IDC_VERIFY);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW, IDC_PIM, 0);
 			return 1;
 		}
 
@@ -2652,7 +2653,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				// simulate hiding password
 				SetCheckBox (hwndDlg, IDC_SHOW_PASSWORD, FALSE);
 
-				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, 0);
+				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, IDC_PIM);
 			}
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, FALSE);
@@ -2735,7 +2736,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_SHOW_PASSWORD)
 		{
-			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, 0);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, IDC_PIM);
 			return 1;
 		}
 
@@ -3260,7 +3261,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		if (lw == IDC_SHOW_PASSWORD_MO)
 		{
-			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_MO, IDC_PASSWORD_PROT_HIDVOL, 0);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_MO, IDC_PASSWORD_PROT_HIDVOL, IDC_PIM);
 			return 1;
 		}
 
