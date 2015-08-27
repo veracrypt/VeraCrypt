@@ -5409,16 +5409,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_SHOW_PASSWORD && nCurPageNo == PASSWORD_PAGE)
 		{
-			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD) ? 0 : '*',
-						0);
-			SendMessage (GetDlgItem (hwndDlg, IDC_VERIFY),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD) ? 0 : '*',
-						0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_VERIFY), NULL, TRUE);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, IDC_VERIFY);
 			return 1;
 		}
 
@@ -5509,11 +5500,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (lw == IDC_SHOW_PASSWORD_SINGLE)
 			{
-				SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD_DIRECT),
-					EM_SETPASSWORDCHAR,
-					GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD_SINGLE) ? 0 : '*',
-					0);
-				InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD_DIRECT), NULL, TRUE);
+				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_SINGLE, IDC_PASSWORD_DIRECT, 0);
 				return 1;
 			}
 		}

@@ -2314,26 +2314,13 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		if (lw == IDC_SHOW_PASSWORD_CHPWD_ORI)
 		{
-			SendMessage (GetDlgItem (hwndDlg, IDC_OLD_PASSWORD),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_ORI) ? 0 : '*',
-						0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_OLD_PASSWORD), NULL, TRUE);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_ORI, IDC_OLD_PASSWORD, 0);
 			return 1;
 		}
 
 		if (lw == IDC_SHOW_PASSWORD_CHPWD_NEW)
 		{
-			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW) ? 0 : '*',
-						0);
-			SendMessage (GetDlgItem (hwndDlg, IDC_VERIFY),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW) ? 0 : '*',
-						0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_VERIFY), NULL, TRUE);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_CHPWD_NEW, IDC_PASSWORD, IDC_VERIFY);
 			return 1;
 		}
 
@@ -2660,10 +2647,13 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 
-			SetCheckBox (hwndDlg, IDC_SHOW_PASSWORD, FALSE);
+			if (GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD))
+			{
+				// simulate hiding password
+				SetCheckBox (hwndDlg, IDC_SHOW_PASSWORD, FALSE);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_SETPASSWORDCHAR, '*', 0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
+				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, 0);
+			}
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
@@ -2745,11 +2735,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_SHOW_PASSWORD)
 		{
-			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD) ? 0 : '*',
-						0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, 0);
 			return 1;
 		}
 
@@ -3274,11 +3260,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		if (lw == IDC_SHOW_PASSWORD_MO)
 		{
-			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD_MO) ? 0 : '*',
-						0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), NULL, TRUE);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD_MO, IDC_PASSWORD_PROT_HIDVOL, 0);
 			return 1;
 		}
 

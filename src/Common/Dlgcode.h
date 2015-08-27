@@ -491,6 +491,7 @@ BOOL LaunchWindowsIsoBurner (HWND hwnd, const char *isoPath);
 BOOL IsApplicationInstalled (const char *appName);
 int GetPim (HWND hwndDlg, UINT ctrlId);
 void SetPim (HWND hwndDlg, UINT ctrlId, int pim);
+void HandleShowPasswordFieldAction (HWND hwndDlg, UINT checkBoxId, UINT edit1Id, UINT edit2Id);
 
 #ifdef __cplusplus
 }

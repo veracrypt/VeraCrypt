@@ -534,10 +534,13 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				return 1;
 			}
 
-			SetCheckBox (hwndDlg, IDC_SHOW_PASSWORD, FALSE);
+			if (GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD))
+			{
+				// simulate hiding password
+				SetCheckBox (hwndDlg, IDC_SHOW_PASSWORD, FALSE);
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_SETPASSWORDCHAR, '*', 0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
+				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, 0);
+			}
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
@@ -614,11 +617,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		if (lw == IDC_SHOW_PASSWORD)
 		{
-			SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD),
-						EM_SETPASSWORDCHAR,
-						GetCheckBox (hwndDlg, IDC_SHOW_PASSWORD) ? 0 : '*',
-						0);
-			InvalidateRect (GetDlgItem (hwndDlg, IDC_PASSWORD), NULL, TRUE);
+			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, 0);
 			return 1;
 		}
 

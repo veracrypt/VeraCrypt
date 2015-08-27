@@ -88,6 +88,8 @@ HFONT hUserUnderlineBoldFont = NULL;
 
 HFONT WindowTitleBarFont;
 
+WCHAR EditPasswordChar = 0;
+
 int ScreenDPI = USER_DEFAULT_SCREEN_DPI;
 double DPIScaleFactorX = 1;
 double DPIScaleFactorY = 1;
@@ -873,7 +875,7 @@ static LRESULT CALLBACK BootPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam
 		return 1;
 	}
 
-	return CallWindowProc (wp, hwnd, message, wParam, lParam);
+	return CallWindowProcW (wp, hwnd, message, wParam, lParam);
 }
 
 
@@ -884,8 +886,8 @@ void ToBootPwdField (HWND hwndDlg, UINT ctrlId)
 {
 	HWND hwndCtrl = GetDlgItem (hwndDlg, ctrlId);
 
-	SetWindowLongPtr (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtr (hwndCtrl, GWLP_WNDPROC));
-	SetWindowLongPtr (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) BootPwdFieldProc);
+	SetWindowLongPtrW (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC));
+	SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) BootPwdFieldProc);
 }
 
 
@@ -10851,3 +10853,25 @@ void SetPim (HWND hwndDlg, UINT ctrlId, int pim)
 		SetDlgItemText (hwndDlg, ctrlId, "");
 }
 
+void HandleShowPasswordFieldAction (HWND hwndDlg, UINT checkBoxId, UINT edit1Id, UINT edit2Id)
+{
+	if ((EditPasswordChar == 0) && GetCheckBox (hwndDlg, checkBoxId))
+	{
+		EditPasswordChar = (WCHAR) SendMessageW (GetDlgItem (hwndDlg, edit1Id), EM_GETPASSWORDCHAR, 0, 0);
+	}
+
+	SendMessageW (GetDlgItem (hwndDlg, edit1Id),
+		EM_SETPASSWORDCHAR,
+		GetCheckBox (hwndDlg, checkBoxId) ? 0 : EditPasswordChar,
+		0);
+	InvalidateRect (GetDlgItem (hwndDlg, edit1Id), NULL, TRUE);
+
+	if (edit2Id)
+	{
+		SendMessageW (GetDlgItem (hwndDlg, edit2Id),
+			EM_SETPASSWORDCHAR,
+			GetCheckBox (hwndDlg, checkBoxId) ? 0 : EditPasswordChar,
+			0);
+		InvalidateRect (GetDlgItem (hwndDlg, edit2Id), NULL, TRUE);
+	}
+}
