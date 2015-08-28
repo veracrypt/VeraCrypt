@@ -3225,6 +3225,11 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				item.iItem = line++;   
 			}
 
+			SendMessageW(hList, LVM_SETCOLUMNWIDTH, 0, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
+			SendMessageW(hList, LVM_SETCOLUMNWIDTH, 1, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
+			SendMessageW(hList, LVM_SETCOLUMNWIDTH, 2, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
+			SendMessageW(hList, LVM_SETCOLUMNWIDTH, 3, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
+
 			lpszFileName = pDlgParam->pszFileName;
 
 #ifdef VOLFORMAT
@@ -4549,6 +4554,9 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 	}
 
 	SendMessageW(hList, LVM_SETCOLUMNWIDTH, 0, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
+	SendMessageW(hList, LVM_SETCOLUMNWIDTH, 1, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
+	SendMessageW(hList, LVM_SETCOLUMNWIDTH, 2, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
+	SendMessageW(hList, LVM_SETCOLUMNWIDTH, 3, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
 }
 
 // specific implementation for support of benchmark operation in wait dialog mechanism
