@@ -64,7 +64,7 @@ static void PrintMainMenu ()
 		return;
 
 	Print ("    Keyboard Controls:\r\n");
-	Print ("    [F5]   Hide/Show Password\r\n");
+	Print ("    [F5]   Hide/Show Password and PIM\r\n");
 	Print ("    [Esc]  ");
 
 #ifndef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
@@ -246,6 +246,10 @@ static byte AskPassword (Password &password, int& pim)
 			}
 			continue;
 
+		case TC_BIOS_KEY_F5:
+			hidePassword ^= 0x01;
+			continue;
+
 		default:
 			if (scanCode == TC_BIOS_KEY_ESC || IsMenuKey (scanCode))
 			{
@@ -265,7 +269,8 @@ static byte AskPassword (Password &password, int& pim)
 
 		pim = 10*pim + (asciiCode - '0');
 		pos++;
-
+		
+		if (hidePassword) asciiCode = '*';
 		if (pos < MAX_PIM)
 			PrintChar (asciiCode);
 		else
