@@ -2653,6 +2653,7 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 		PACCESS_TOKEN accessToken;
 
 		SeCaptureSubjectContext (&subContext);
+		SeLockSubjectContext(&subContext);
 		accessToken = SeQuerySubjectContextToken (&subContext);
 
 		if (!accessToken)
@@ -2678,6 +2679,7 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 			}
 		}
 
+		SeUnlockSubjectContext(&subContext);
 		SeReleaseSubjectContext (&subContext);
 
 		if (NT_SUCCESS (ntStatus))
