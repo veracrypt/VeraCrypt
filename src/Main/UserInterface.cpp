@@ -889,11 +889,19 @@ namespace VeraCrypt
 	{
 		CommandLineInterface &cmdLine = *CmdLine;
 
-		switch (cmdLine.ArgCommand)
-		{
-		case CommandId::None:
+		if (cmdLine.ArgCommand == CommandId::None)
 			return false;
 
+		if (Preferences.UseStandardInput)
+		{
+			wstring pwdInput;
+			wcin >> pwdInput;
+
+			cmdLine.ArgPassword = make_shared<VolumePassword> (pwdInput);
+		}
+
+		switch (cmdLine.ArgCommand)
+		{
 		case CommandId::AutoMountDevices:
 		case CommandId::AutoMountFavorites:
 		case CommandId::AutoMountDevicesFavorites:
