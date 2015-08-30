@@ -1199,6 +1199,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 				{
 					list->ulMountedDrives |= (1 << ListExtension->nDosDriveNo);
 					RtlStringCbCopyW (list->wszVolume[ListExtension->nDosDriveNo], sizeof(list->wszVolume[ListExtension->nDosDriveNo]),ListExtension->wszVolume);
+					RtlStringCbCopyW (list->wszLabel[ListExtension->nDosDriveNo], sizeof(list->wszLabel[ListExtension->nDosDriveNo]),ListExtension->wszLabel);
 					list->diskLength[ListExtension->nDosDriveNo] = ListExtension->DiskLength;
 					list->ea[ListExtension->nDosDriveNo] = ListExtension->cryptoInfo->ea;
 					if (ListExtension->cryptoInfo->hiddenVolume)
@@ -1249,6 +1250,8 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 				{
 					prop->uniqueId = ListExtension->UniqueVolumeId;
 					RtlStringCbCopyW (prop->wszVolume, sizeof(prop->wszVolume),ListExtension->wszVolume);
+					RtlStringCbCopyW (prop->wszLabel, sizeof(prop->wszLabel),ListExtension->wszLabel);
+					prop->bDriverSetLabel = ListExtension->bDriverSetLabel;
 					prop->diskLength = ListExtension->DiskLength;
 					prop->ea = ListExtension->cryptoInfo->ea;
 					prop->mode = ListExtension->cryptoInfo->mode;
@@ -1442,6 +1445,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			}
 
 			EnsureNullTerminatedString (mount->wszVolume, sizeof (mount->wszVolume));
+			EnsureNullTerminatedString (mount->wszLabel, sizeof (mount->wszLabel));
 
 			Irp->IoStatus.Information = sizeof (MOUNT_STRUCT);
 			Irp->IoStatus.Status = MountDevice (DeviceObject, mount);
@@ -2697,6 +2701,9 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 			{
 				HANDLE volumeHandle;
 				PFILE_OBJECT volumeFileObject;
+				ULONG labelLen = (ULONG) wcslen (mount->wszLabel);
+				BOOL bIsNTFS = FALSE;
+				ULONG labelMaxLen, labelEffectiveLen;
 
 				Dump ("Mount SUCCESS TC code = 0x%08x READ-ONLY = %d\n", mount->nReturnCode, NewExtension->bReadOnly);
 
@@ -2735,6 +2742,59 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 						mount->FilesystemDirty = TRUE;
 					}
 
+					// detect if the filesystem is NTFS or FAT
+					__try
+					{
+						NTFS_VOLUME_DATA_BUFFER ntfsData;
+						if (NT_SUCCESS (TCFsctlCall (volumeFileObject, FSCTL_GET_NTFS_VOLUME_DATA, NULL, 0, &ntfsData, sizeof (ntfsData))))
+						{
+							bIsNTFS = TRUE;
+						}
+					}
+					__except (EXCEPTION_EXECUTE_HANDLER)
+					{
+						bIsNTFS = FALSE;
+					}
+
+					NewExtension->bIsNTFS = bIsNTFS;
+					mount->bIsNTFS = bIsNTFS;
+
+					if (labelLen > 0)
+					{
+						if (bIsNTFS)
+							labelMaxLen = 32; // NTFS maximum label length
+						else
+							labelMaxLen = 11; // FAT maximum label length
+
+						// calculate label effective length
+						labelEffectiveLen = labelLen > labelMaxLen? labelMaxLen : labelLen;
+
+						// correct the label in the device
+						memset (&NewExtension->wszLabel[labelEffectiveLen], 0, 33 - labelEffectiveLen);
+						memcpy (mount->wszLabel, NewExtension->wszLabel, 33);
+
+						// set the volume label
+						__try
+						{
+							IO_STATUS_BLOCK ioblock;
+							ULONG labelInfoSize = sizeof(FILE_FS_LABEL_INFORMATION) + (labelEffectiveLen * sizeof(WCHAR));
+							FILE_FS_LABEL_INFORMATION* labelInfo = (FILE_FS_LABEL_INFORMATION*) TCalloc (labelInfoSize);
+							labelInfo->VolumeLabelLength = labelEffectiveLen * sizeof(WCHAR);
+							memcpy (labelInfo->VolumeLabel, mount->wszLabel, labelInfo->VolumeLabelLength);
+									
+							if (STATUS_SUCCESS == ZwSetVolumeInformationFile (volumeHandle, &ioblock, labelInfo, labelInfoSize, FileFsLabelInformation))
+							{
+								mount->bDriverSetLabel = TRUE;
+								NewExtension->bDriverSetLabel = TRUE;
+							}
+
+							TCfree(labelInfo);
+						}
+						__except (EXCEPTION_EXECUTE_HANDLER)
+						{
+
+						}
+					}
 
 					TCCloseFsVolume (volumeHandle, volumeFileObject);
 				}

@@ -669,6 +669,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				{
 					RtlStringCbCopyW (Extension->wszVolume, sizeof(Extension->wszVolume),pwszMountVolume);
 				}
+
+				memset (Extension->wszLabel, 0, sizeof (Extension->wszLabel));
+				RtlStringCbCopyW (Extension->wszLabel, sizeof(Extension->wszLabel), mount->wszLabel);
 			}
 
 			// If we are to protect a hidden volume we cannot exit yet, for we must also

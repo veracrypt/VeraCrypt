@@ -55,6 +55,12 @@ namespace VeraCrypt
 		if (favorite.Path.find ("\\??\\") == 0)
 			favorite.Path = favorite.Path.substr (4);
 
+		if (wcslen (prop.wszLabel))
+		{
+			favorite.Label = prop.wszLabel;
+			favorite.UseLabelInExplorer = true;
+		}
+
 		if (IsVolumeDeviceHosted (favorite.Path.c_str()))
 		{
 			// Get GUID path
@@ -373,6 +379,9 @@ namespace VeraCrypt
 			case IDC_FAVORITES_HELP_LINK:
 				Applink (SystemFavoritesMode ? "sysfavorites" : "favorites", TRUE, "");
 				return 1;
+			case IDC_SHOW_PIM:
+				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PIM, IDC_PIM, 0);
+				return 1;
 			}
 
 			return 0;
@@ -472,20 +481,27 @@ namespace VeraCrypt
 	}
 
 
-	wstring GetFavoriteVolumeLabel (const string &volumePath)
+	wstring GetFavoriteVolumeLabel (const string &volumePath, bool& useInExplorer)
 	{
 		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
 		{
 			if (favorite.Path == volumePath)
+			{
+				useInExplorer = favorite.UseLabelInExplorer;
 				return favorite.Label;
+			}
 		}
 
 		foreach (const FavoriteVolume &favorite, SystemFavoriteVolumes)
 		{
 			if (favorite.Path == volumePath)
+			{
+				useInExplorer = favorite.UseLabelInExplorer;
 				return favorite.Label;
+			}
 		}
 
+		useInExplorer = false;
 		return wstring();
 	}
 
@@ -591,6 +607,10 @@ namespace VeraCrypt
 			XmlGetAttributeText (xml, "mountOnLogOn", boolVal, sizeof (boolVal));
 			if (boolVal[0])
 				favorite.MountOnLogOn = (boolVal[0] == '1');
+
+			XmlGetAttributeText (xml, "useLabelInExplorer", boolVal, sizeof (boolVal));
+			if (boolVal[0])
+				favorite.UseLabelInExplorer = (boolVal[0] == '1') && !favorite.ReadOnly;
 
 			if (favorite.Path.find ("\\\\?\\Volume{") == 0 && favorite.Path.rfind ("}\\") == favorite.Path.size() - 2)
 			{
@@ -716,6 +736,9 @@ namespace VeraCrypt
 			if (favorite.OpenExplorerWindow)
 				s += L" openExplorerWindow=\"1\"";
 
+			if (favorite.UseLabelInExplorer && !favorite.ReadOnly)
+				s += L" useLabelInExplorer=\"1\"";
+
 			s += L">" + SingleStringToWide (tq) + L"</volume>";
 
 			fwprintf (f, L"%ws", s.c_str());
@@ -791,6 +814,7 @@ namespace VeraCrypt
 		else
 			SetDlgItemText (hwndDlg, IDC_PIM, "");
 		SetDlgItemTextW (hwndDlg, IDC_FAVORITE_LABEL, favorite.Label.c_str());
+		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER, favorite.UseLabelInExplorer);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_LOGON, favorite.MountOnLogOn);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_ARRIVAL, favorite.MountOnArrival);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_READONLY, favorite.ReadOnly);
@@ -820,6 +844,7 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_FAVORITE_LABEL), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_LABEL), enable);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOUNT_ON_LOGON), enable && !systemFavoritesMode);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOUNT_ON_ARRIVAL), enable && !systemFavoritesMode);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOUNT_READONLY), enable);
@@ -846,6 +871,7 @@ namespace VeraCrypt
 			favorite.Label.clear();
 
 		favorite.Pim = GetPim (hwndDlg, IDC_PIM);
+		favorite.UseLabelInExplorer = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER) != 0);
 
 		favorite.ReadOnly = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_READONLY) != 0);
 		favorite.Removable = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE) != 0);

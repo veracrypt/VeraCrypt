@@ -1589,7 +1589,11 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 
 				listItem.iSubItem = 1;
 
-				wstring label = GetFavoriteVolumeLabel (path);
+				// first check label used for mounting. If empty, look for it in favorites.
+				bool useInExplorer = false;
+				wstring label = (wchar_t *) driver.wszLabel[i];
+				if (label.empty())
+					label = GetFavoriteVolumeLabel (path, useInExplorer);
 				if (!label.empty())
 					ListSubItemSetW (hTree, listItem.iItem, 1, (wchar_t *) label.c_str());
 				else
@@ -2509,10 +2513,13 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				RECT rect;
 				GetWindowRect (hwndDlg, &rect);
 
-				wstring label = GetFavoriteVolumeLabel (PasswordDlgVolume);
+				bool useInExplorer = false;
+				wstring label = GetFavoriteVolumeLabel (PasswordDlgVolume, useInExplorer);
 				if (!label.empty())
 				{
 					StringCbPrintfW (s, sizeof(s), GetString ("ENTER_PASSWORD_FOR_LABEL"), label.c_str());
+					if (useInExplorer)
+						StringCbCopyW (mountOptions.Label, sizeof (mountOptions.Label), label.c_str());
 				}
 				else
 				{
@@ -3160,6 +3167,9 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			
 			EnableWindow (GetDlgItem (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA), !bPrebootPasswordDlgMode);
 
+			SetDlgItemTextW (hwndDlg, IDC_VOLUME_LABEL, mountOptions->Label);
+			SendDlgItemMessage (hwndDlg, IDC_VOLUME_LABEL, EM_LIMITTEXT, 32, 0); // 32 is the maximum possible length for a drive label in Windows
+
 			/* Add PRF algorithm list for hidden volume password */
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
 			SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
@@ -3301,6 +3311,8 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			mountOptions->ProtectHiddenVolume = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL));
 			mountOptions->PartitionInInactiveSysEncScope = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA));
 			mountOptions->UseBackupHeader = IsButtonChecked (GetDlgItem (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK));
+
+			GetDlgItemTextW (hwndDlg, IDC_VOLUME_LABEL, mountOptions->Label, sizeof (mountOptions->Label) /sizeof (wchar_t));
 			
 			if (mountOptions->ProtectHiddenVolume)
 			{
@@ -4421,7 +4433,7 @@ static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dis
 	DWORD dwResult;
 	UNMOUNT_STRUCT unmount = {0};
 	BOOL bResult;
-	unsigned __int32 prevMountedDrives = 0;
+	MOUNT_LIST_STRUCT prevMountList = {0};
 	int i;
 
 retry:
@@ -4437,7 +4449,7 @@ retry:
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVEPENDING, 0, mountList.ulMountedDrives);
 
-	prevMountedDrives = mountList.ulMountedDrives;
+	memcpy (&prevMountList, &mountList, sizeof (mountList));
 
 	for (i = 0; i < 26; i++)
 	{
@@ -4498,7 +4510,17 @@ retry:
 
 	memset (&mountList, 0, sizeof (mountList));
 	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL);
-	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, prevMountedDrives & ~mountList.ulMountedDrives);
+
+	// remove any custom label from registry
+	for (i = 0; i < 26; i++)
+	{
+		if ((prevMountList.ulMountedDrives & (1 << i)) && (!(mountList.ulMountedDrives & (1 << i))) && wcslen (prevMountList.wszLabel[i]))
+		{
+			UpdateDriveCustomLabel (i, prevMountList.wszLabel[i], FALSE);
+		}
+	}
+
+	BroadcastDeviceChange (DBT_DEVICEREMOVECOMPLETE, 0, prevMountList.ulMountedDrives & ~mountList.ulMountedDrives);
 
 	RefreshMainDlg (hwndDlg);
 
@@ -6395,7 +6417,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 								if (wcsstr (vol, L"\\??\\")) vol += 4;
 
-								wstring label = GetFavoriteVolumeLabel (WideToSingleString (vol));
+								// first check label used for mounting. If empty, look for it in favorites.
+								bool useInExplorer = false;
+								wstring label = (wchar_t *) LastKnownMountList.wszLabel[i];
+								if (label.empty())
+									label = GetFavoriteVolumeLabel (WideToSingleString (vol), useInExplorer);
 
 								StringCbPrintfW (s, sizeof(s), L"%s %c: (%s)",
 									GetString (n==0 ? "OPEN" : "DISMOUNT"),
@@ -7940,7 +7966,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			case OptionMountOption:
 				{
-					char szTmp[16] = {0};
+					char szTmp[64] = {0};
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
 						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
 					{
@@ -7961,7 +7987,12 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 						else if (!_stricmp (szTmp, "recovery"))
 							mountOptions.RecoveryMode = TRUE;
-
+						else if ((strlen(szTmp) > 6) && (strlen(szTmp) <= 38) && !_strnicmp (szTmp, "label=", 6))
+						{
+							// get the label
+							memmove (szTmp, &szTmp[6], (strlen(szTmp) - 6) + 1);
+							MultiByteToWideChar (CP_ACP, 0, szTmp, -1, mountOptions.Label, sizeof (mountOptions.Label) / sizeof(wchar_t));
+						}
 						else
 							AbortProcess ("COMMAND_LINE_ERROR");
 
@@ -8469,6 +8500,10 @@ static BOOL MountFavoriteVolumeBase (const FavoriteVolume &favorite, BOOL& lastb
 	
 	mountOptions.ReadOnly = favorite.ReadOnly || userForcedReadOnly;
 	mountOptions.Removable = favorite.Removable;
+	if (favorite.UseLabelInExplorer && !favorite.Label.empty())
+		StringCbCopyW (mountOptions.Label, sizeof (mountOptions.Label), favorite.Label.c_str());
+	else
+		ZeroMemory (mountOptions.Label, sizeof (mountOptions.Label));
 
 	if (favorite.SystemEncryption)
 	{

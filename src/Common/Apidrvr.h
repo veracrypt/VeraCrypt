@@ -109,6 +109,9 @@ typedef struct
 	uint32 BytesPerPhysicalSector;
 	int VolumePim;
 	int ProtectedHidVolPim;
+	wchar_t wszLabel[33]; // maximum label length is 32 for NTFS and 11 for FAT32
+	BOOL bIsNTFS; // output only
+	BOOL bDriverSetLabel;
 } MOUNT_STRUCT;
 
 typedef struct
@@ -123,6 +126,7 @@ typedef struct
 {
 	unsigned __int32 ulMountedDrives;	/* Bitfield of all mounted drive letters */
 	wchar_t wszVolume[26][TC_MAX_PATH];	/* Volume names of mounted volumes */
+	wchar_t wszLabel[26][33];	/* Labels of mounted volumes */
 	unsigned __int64 diskLength[26];
 	int ea[26];
 	int volumeType[26];	/* Volume type (e.g. PROP_VOL_TYPE_OUTER, PROP_VOL_TYPE_OUTER_VOL_WRITE_PREVENTED, etc.) */
@@ -149,6 +153,8 @@ typedef struct
 	int hiddenVolProtection;	/* Hidden volume protection status (e.g. HIDVOL_PROT_STATUS_NONE, HIDVOL_PROT_STATUS_ACTIVE, etc.) */
 	int volFormatVersion;
 	int volumePim;
+	wchar_t wszLabel[33];
+	BOOL bDriverSetLabel;
 } VOLUME_PROPERTIES_STRUCT;
 
 typedef struct

@@ -29,7 +29,8 @@ namespace VeraCrypt
 			OpenExplorerWindow (false),
 			ReadOnly (false),
 			Removable (false),
-			SystemEncryption (false)
+			SystemEncryption (false),
+			UseLabelInExplorer (false)
 		{
 		}
 
@@ -47,6 +48,7 @@ namespace VeraCrypt
 		bool ReadOnly;
 		bool Removable;
 		bool SystemEncryption;
+		bool UseLabelInExplorer;
 	};
 
 	struct FavoriteVolumesDlgProcArguments
@@ -67,7 +69,7 @@ namespace VeraCrypt
 	static void FillFavoriteVolumesMenu ();
 	static void FillListControl (HWND favoriteListControl, vector <FavoriteVolume> &favorites);
 	static void FillListControlSubItems (HWND favoriteListControl, int line, const FavoriteVolume &favorite);
-	wstring GetFavoriteVolumeLabel (const string &volumePath);
+	wstring GetFavoriteVolumeLabel (const string &volumePath, bool& useInExplorer);
 	void LoadFavoriteVolumes ();
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation = false);
 	static void OnFavoriteVolumesUpdated ();

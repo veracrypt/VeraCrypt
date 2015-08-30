@@ -3216,7 +3216,8 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 #ifdef TCMOUNT
 				else
 				{
-					wstring favoriteLabel = GetFavoriteVolumeLabel (device.Path);
+					bool useInExplorer = false;
+					wstring favoriteLabel = GetFavoriteVolumeLabel (device.Path, useInExplorer);
 					if (!favoriteLabel.empty())
 						ListSubItemSetW (hList, item.iItem, 3, (wchar_t *) favoriteLabel.c_str());
 				}
@@ -4347,6 +4348,58 @@ BOOL CloseVolumeExplorerWindows (HWND hwnd, int driveNo)
 	}
 
 	return explorerCloseSent;
+}
+
+BOOL UpdateDriveCustomLabel (int driveNo, wchar_t* effectiveLabel, BOOL bSetValue)
+{
+	wchar_t wszRegPath[MAX_PATH];
+	wchar_t driveStr[] = {L'A' + (wchar_t) driveNo, 0};
+	HKEY hKey;
+	LSTATUS lStatus;
+	DWORD cbLabelLen = (DWORD) ((wcslen (effectiveLabel) + 1) * sizeof (wchar_t));
+	BOOL bToBeDeleted = FALSE;
+
+	StringCbPrintfW (wszRegPath, sizeof (wszRegPath), L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\DriveIcons\\%s\\DefaultLabel", driveStr);	
+	
+	if (bSetValue)
+		lStatus = RegCreateKeyExW (HKEY_CURRENT_USER, wszRegPath, NULL, NULL, 0, 
+			KEY_READ | KEY_WRITE | KEY_SET_VALUE, NULL, &hKey, NULL);
+	else
+		lStatus = RegOpenKeyExW (HKEY_CURRENT_USER, wszRegPath, 0, KEY_READ | KEY_WRITE | KEY_SET_VALUE, &hKey);
+	if (ERROR_SUCCESS == lStatus)
+	{
+		if (bSetValue)
+			lStatus = RegSetValueExW (hKey, NULL, NULL, REG_SZ, (LPCBYTE) effectiveLabel, cbLabelLen);
+		else
+		{
+			wchar_t storedLabel[34] = {0};
+			DWORD cbStoredLen = sizeof (storedLabel) - 1, dwType;
+			lStatus = RegQueryValueExW (hKey, NULL, NULL, &dwType, (LPBYTE) storedLabel, &cbStoredLen);
+			if ((ERROR_SUCCESS == lStatus) && (REG_SZ == dwType) && (0 == wcscmp(storedLabel, effectiveLabel)))
+			{
+				// same label stored. mark key for deletion
+				bToBeDeleted = TRUE;
+			}
+		}
+		RegCloseKey (hKey);
+	}
+
+	if (bToBeDeleted)
+	{
+		StringCbPrintfW (wszRegPath, sizeof (wszRegPath), L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\DriveIcons\\%s", driveStr);	
+		lStatus = RegOpenKeyExW (HKEY_CURRENT_USER, wszRegPath, 0, KEY_READ | KEY_WRITE | KEY_SET_VALUE, &hKey);
+		if (ERROR_SUCCESS == lStatus)
+		{
+			lStatus = RegDeleteKeyExW (hKey, L"DefaultLabel", 0, NULL);
+			RegCloseKey (hKey);
+		}
+
+		// delete drive letter of nothing else is present under it
+		RegDeleteKeyExW (HKEY_CURRENT_USER, wszRegPath, 0, NULL);
+
+	}
+
+	return (ERROR_SUCCESS == lStatus)? TRUE : FALSE;
 }
 
 string GetUserFriendlyVersionString (int version)
@@ -6284,8 +6337,21 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced)
 {
 	UNMOUNT_STRUCT unmount;
 	DWORD dwResult;
-
+	VOLUME_PROPERTIES_STRUCT prop;
 	BOOL bResult;
+	WCHAR wszLabel[33] = {0};
+	BOOL bDriverSetLabel = FALSE;
+
+	memset (&prop, 0, sizeof(prop));
+	prop.driveNo = nDosDriveNo;
+
+	if (	DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &dwResult, NULL)
+		&&	prop.driveNo == nDosDriveNo
+		)
+	{
+		memcpy (wszLabel, prop.wszLabel, sizeof (wszLabel));
+		bDriverSetLabel = prop.bDriverSetLabel;
+	}
 	
 	unmount.nDosDriveNo = nDosDriveNo;
 	unmount.ignoreOpenFiles = forced;
@@ -6298,6 +6364,8 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced)
 		handleWin32Error (hwndDlg, SRC_POS);
 		return 1;
 	}
+	else if ((unmount.nReturnCode == ERR_SUCCESS) && bDriverSetLabel && wszLabel[0])
+		UpdateDriveCustomLabel (nDosDriveNo, wszLabel, FALSE);
 
 #ifdef TCMOUNT
 
@@ -6613,6 +6681,7 @@ int MountVolume (HWND hwndDlg,
 	mount.SystemFavorite = MountVolumesAsSystemFavorite;
 	mount.UseBackupHeader =  mountOptions->UseBackupHeader;
 	mount.RecoveryMode = mountOptions->RecoveryMode;
+	StringCbCopyW (mount.wszLabel, sizeof (mount.wszLabel), mountOptions->Label);
 
 retry:
 	mount.nDosDriveNo = driveNo;
@@ -6917,6 +6986,12 @@ retry:
 		{
 			RemoveDeviceWriteProtection (hwndDlg, volumePath);
 		}
+	}
+
+	if (mount.wszLabel[0] && !mount.bDriverSetLabel)
+	{
+		// try setting the drive label on user-mode using registry
+		UpdateDriveCustomLabel (driveNo, mount.wszLabel, TRUE);
 	}
 
 	ResetWrongPwdRetryCount ();

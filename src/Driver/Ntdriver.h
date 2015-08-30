@@ -77,6 +77,9 @@ typedef struct EXTENSION
 	BOOL SystemFavorite;
 
 	WCHAR wszVolume[TC_MAX_PATH];	/*  DONT change this size without also changing MOUNT_LIST_STRUCT! */
+	WCHAR wszLabel[33];
+	BOOL bIsNTFS;
+	BOOL bDriverSetLabel;
 
 	LARGE_INTEGER fileCreationTime;
 	LARGE_INTEGER fileLastAccessTime;
