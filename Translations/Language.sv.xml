@@ -62,6 +62,7 @@
     <control lang="sv" key="IDC_QUICKFORMAT">Snabb- formatering</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD">&amp;Visa lösenord</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Visa lösenord</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="sv" key="IDC_SINGLE_BOOT">&amp;Envalsstart</control>
     <control lang="sv" key="IDC_STD_VOL">&amp;Synlig VeraCrypt-volym</control>
     <control lang="sv" key="IDC_SYSENC_HIDDEN">&amp;Dold</control>
@@ -98,6 +99,7 @@
     <control lang="sv" key="IDT_SYSENC_KEYS_GEN_INFO">Nycklarna, saltet och andra data har genererats utan fel. Klicka på Föregående och sedan Nästa för att generera nya nycklar eller klicka på Nästa för att fortsätta.</control>
     <control lang="sv" key="IDT_SYS_DEVICE">Krypterar hela partitionen eller enheten där Windows är installerat. Alla som vill använda systemet, t.ex. läsa och skriva filer, kommer att behöva ange ett lösenord varje gång Windows startas. Systemet kan göras synligt eller dolt.</control>
     <control lang="sv" key="IDT_SYS_PARTITION">Välj detta alternativ för att kryptera den partition där aktuellt operativsystem (Windows) är installerat.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="sv" key="IDT_WIPE_MODE">Överskrivning:</control>
     <control lang="sv" key="IDCLOSE">Stäng</control>
     <control lang="sv" key="IDC_ALLOW_ESC_PBA_BYPASS">Tillåt att förstarts&amp;autentiseringen förbigås genom att trycka på Esc (aktiverar starthanteraren)</control>
@@ -647,6 +649,7 @@
     <string lang="sv" key="SELECT_KEYFILE">Välj nyckelfil</string>
     <string lang="sv" key="SELECT_KEYFILE_PATH">Välj en nyckelfilssökväg. VARNING: Observera att endast sökvägen lagras, inte filnamnen!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="sv" key="SERPENT_HELP">Utvecklad av Ross Anderson, Eli Biham och Lars Knudsen. Publicerad 1998. 256-bitars nyckel, 128-bitars block. Arbetsläget är XTS. Serpent var en av AES-finalisterna.</string>
     <string lang="sv" key="SIZE_HELP">Ange storleken på den volymbehållare du vill skapa.\n\nOm du skapar en dynamisk volymbehållare (sparse-fil), kommer volymbehållarens maximala storlek att vara värdet du anger.\n\nObservera att den minsta möjliga storleken på en FAT-volym är 292 kB. Den minsta möjliga storleken på en NTFS-volym är 3 792 kB.</string>
     <string lang="sv" key="SIZE_HELP_HIDDEN_HOST_VOL">Ange storleken på den yttre volym som ska skapas. (Du kommer först att skapa den yttre volymen och sedan en dold volym inuti den.) Den minsta möjliga storleken på en volym inuti vilken en dold volym ska skapas är 340 kB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="sv" key="INCONSISTENCY_RESOLVED">En inkonsekvens har lösts.\n\n\n(Om du i samband med detta rapporterar ett fel, se till att felrapporten innehåller följande tekniska information:\n%hs)</string>
     <string lang="sv" key="UNEXPECTED_STATE">Fel: Oväntat tillstånd.\n\n\n(Om du i samband med detta skickar en felrapport, inkludera då följande tekniska information i rapporten:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="sv" key="NOTHING_TO_RESUME">Det finns ingen process eller uppgift att återuppta.</string>
     <string lang="sv" key="HIDVOL_PROT_BKG_TASK_WARNING">VARNING: VeraCrypts bakgrundsaktivitet är inaktiverad. Efter att du avslutat VeraCrypt kommer du inte att bli meddelad om en skada av en dold volym förhindrats.\n\nObservera: Du kan stänga av bakgrundsaktiviteten när som helst genom att högerklicka på VeraCrypts meddelandefältsikon och välja ”Avsluta”.\n\nVill du aktivera VeraCrypts bakgrundsaktivitet?</string>
     <string lang="sv" key="LANG_PACK_VERSION">Språkpaketsversion: %s</string>
     <string lang="sv" key="CHECKING_FS">Kontrollerar filsystemet på VeraCrypt-volymen monterad som %hs …</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="sv" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Nyckelfiler stöds för närvarande inte vid systemkryptering.</string>
     <string lang="sv" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varning: VeraCrypt kunde inte återställa den ursprungliga tangentbordslayouten. Detta kan orsaka att du anger ett felaktigt lösenord.</string>
     <string lang="sv" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fel: Det går inte att ange amerikansk tangentbordslayout som tangentbordslayout för VeraCrypt.\n\nObservera att lösenordet måste anges i förstartsmiljön (innan Windows startas), där inga andra tangentbordslayouter än den amerikanska finns tillgängliga. Därför måste amerikansk tangentbordslayout alltid användas när du anger lösenordet.</string>
@@ -1290,6 +1291,7 @@
     <string lang="sv" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">VARNING: Denna inställning kan ge försämrade prestanda.\n\nÄr du säker på att du vill använda denna inställning?</string>
     <string lang="sv" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Varning: VeraCrypt-volym automatiskt demonterad</string>
     <string lang="sv" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Innan du fysiskt tar bort eller stänger av en enhet som innehåller en VeraCrypt-volym, bör du alltid demontera den i VeraCrypt.\n\nOväntade demonteringar orsakas oftast av en trasig kabel eller enhet (diskkabinett) etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="sv" key="TEST">Testa</string>
     <string lang="sv" key="KEYFILE">Nyckelfil</string>
     <string lang="sv" key="VKEY_08">Backsteg</string>

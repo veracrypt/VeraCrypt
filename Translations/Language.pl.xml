@@ -62,6 +62,7 @@
     <control lang="pl" key="IDC_QUICKFORMAT">Szybkie formatowanie</control>
     <control lang="pl" key="IDC_SHOW_PASSWORD">&amp;Wyświetl hasło</control>
     <control lang="pl" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Wyświetl hasło</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="pl" key="IDC_SINGLE_BOOT">Jeden system</control>
     <control lang="pl" key="IDC_STD_VOL">Standardowy wolumen VeraCrypt</control>
     <control lang="pl" key="IDC_SYSENC_HIDDEN">Uk&amp;ryty</control>
@@ -98,6 +99,7 @@
     <control lang="pl" key="IDT_SYSENC_KEYS_GEN_INFO">Klucze, ciągi zaburzające (salt) i inne dane zostały pomyślnie wygenerowane. Jeśli chcesz generować nowe klucze, kliknij przycisk Wstecz a następnie Dalej. W przeciwnym wypadku kliknij przycisk Dalej, aby kontynuować.</control>
     <control lang="pl" key="IDT_SYS_DEVICE">Zaszyfruj partycję lub dysk, na którym zainstalowany jest Windows. Każdy kto będzie chciał uzyskać dostęp do systemu, czytać i zapisywać pliki, itd., będą musieli wpisać poprawne hasło za każdym razem, gdy będzie uruchamiany Windows.</control>
     <control lang="pl" key="IDT_SYS_PARTITION">Wybierz tą opcję, aby zaszyfrować partycję, gdzie obecnie jest zainstalowany i uruchomiony Windows.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="pl" key="IDT_WIPE_MODE">Wymaż</control>
     <control lang="pl" key="IDCLOSE">Zamknij</control>
     <control lang="pl" key="IDC_ALLOW_ESC_PBA_BYPASS">Pozwól ominąć &amp;autoryzację podczas startowania przez naciśnięcie klawisza Esc (boot manager)</control>
@@ -647,6 +649,7 @@
     <string lang="pl" key="SELECT_KEYFILE">Wybierz plik-klucz</string>
     <string lang="pl" key="SELECT_KEYFILE_PATH">Wskaż ścieżkę wyszukiwania pliku-klucza. UWAGA: Zapisana będzie tylko ścieżka a nie nazwy plików!</string>
     <string lang="pl" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Wybierz katalog do przechowywania plików-kluczy.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="pl" key="SERPENT_HELP">Zaprojektowany przez Rossa Andersona, Eli Bihama i Larsa Knudsena. Opublikowany w 1998. 256-bitowy klucz, 128-bitowy blok. Tryb szyfrowania: XTS. Algorytm Serpent był jednym z finalistów konkursu na algorytm AES.</string>
     <string lang="pl" key="SIZE_HELP">Wskaż rozmiar kontenera do utworzenia.\n\nJeśli tworzysz dynamiczny (sparse-file) kontener, ten parametr wskazuje maksymalny możliwy rozmiar.\n\nZauważ, że minimalny możliwy rozmiar woluminu FAT wynosi 292 KB. Minimalny możliwy rozmiar wolumenu NTFS to 3792 KB.</string>
     <string lang="pl" key="SIZE_HELP_HIDDEN_HOST_VOL">Wskaż rozmiar zewnętrznego wolumenu do utworzenia (na początku zostanie utworzony wolumen zewnętrzny a następnie wolumen ukryty wewnątrz niego). Minimalny możliwy rozmiar wolumenu, wewnątrz którego tworzony jest wolumen ukryty wynosi 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="pl" key="INCONSISTENCY_RESOLVED">Wykryto i usunięto niespójność.\n\n\n(Jeśli będziesz zgłaszać związany z tym błąd, umieść w raporcie błędu następujące informacje techniczne: %hs)</string>
     <string lang="pl" key="UNEXPECTED_STATE">BŁĄD: Stan nieoznaczony.\n\n\n(Jeżeli będziesz wykonywał raport z błędem, proszę dołącz te techniczne informacje: %hs)</string>
     <string lang="pl" key="NO_SYS_ENC_PROCESS_TO_RESUME">Nie ma przerwanego procesu szyfrowania lub deszyfrowania partycji systemowej lub napędu do wznowienia.\n\nZawuaż: Jeżeli chcesz wznowić przerwany proces szyfrowania lub deszyfrowania partycji lub wolumenu niesystemowego, wybierz 'Wolumeny' &gt; 'Kontynuuj przerwany proces'.</string>
-    <string lang="pl" key="NOTHING_TO_RESUME">Nie ma procesu ani zadania do wznowienia.</string>
     <string lang="pl" key="HIDVOL_PROT_BKG_TASK_WARNING">OSTRZEŻENIE: Proces VeraCrypt uruchamiany w tle jest wyłączony. Po zakończeniu pracy programu VeraCrypt nie będą generowane ostrzeżenia o podjęciu działań zabezpieczających przed uszkodzeniem wolumenów ukrytych.\n\nProces uruchamiany w tle można zamknąć w dowolnym momencie, klikając prawym przyciskiem myszy ikonę VeraCrypt w zasobniku i wybierając opcję 'Wyjście'.\n\nUruchomić proces programu VeraCrypt w tle?</string>
     <string lang="pl" key="LANG_PACK_VERSION">Wersja pakietu językowego: %s</string>
     <string lang="pl" key="CHECKING_FS">Sprawdzanie systemu plików w wolumenie VeraCrypt podłączonym jako %hs...</string>
@@ -1085,8 +1087,7 @@
     <string lang="pl" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Ten algorytm nie jest obsługiwany w trybie TrueCrypt.</string>
     <string lang="pl" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">MOI (Mnożnik Osobistych Iteracji) nie obsługuje trybu TrueCrypt.</string>
     <string lang="pl" key="PIM_REQUIRE_LONG_PASSWORD">Hasło musi zawierać przynajmniej 20 albo więcej znaków, aby móc używać określonego MOI.\nKrótsze hasła mogą być używane tylko wtedy, gdy MOI wynosi 485 albo więcej.</string>
-    <string lang="pl" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Hasło uwierzytelniania przed uruchomieniem musi zawierać 20 albo więcej znaków, aby móc używać określonego MOI.\nKrótsze hasła mogą być używane tylko wtedy, gdy MOI wynosi 98 albo więcej.</string>
-    <string lang="pl" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ten wolumen został stworzony w TrueCrypt %x.%x, ale VeraCrypt obsługuje jedynie wolumeny TrueCrypt stworzone w serii TrueCrypt 6.x/7.x</string>
+    <string lang="pl" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Hasło uwierzytelniania przed uruchomieniem musi zawierać 20 albo więcej znaków, aby móc używać określonego MOI.\nKrótsze hasła mogą być używane tylko wtedy, gdy MOI wynosi 98 albo więcej.</string>    
     <string lang="pl" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Pliki-klucze nie są obecnie obsługiwane/wspierane do szyfrowania systemu.</string>
     <string lang="pl" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Ostrzeżenie: Program VeraCrypt nie mógł odtworzyć oryginalnych ustawień klawiatury. To może spowodować błędne wprowadzenie hasła.</string>
     <string lang="pl" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Błąd: Nie można ustawić trybu klawiatury dla VeraCrypt na układ USA.\n\nHasło będzie wprowadzane w środowisku PRZED uruchomieniem systemu Windows, gdzie inne niż standardowy układy klawiatury nie są dostępne. Dlatego, hasło MUSI być zawsze wprowadzane przy użyciu standardowego układu klawiatury USA.</string>
@@ -1291,6 +1292,7 @@ płyty ratunkowej VeraCrypt, włóż ją do napędu CD/DVD i uruchom ponownie ko
     <string lang="pl" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">UWAGA: Takie ustawienie może zmniejszyć wydajność.\n\nNa pewno wprowadzić to ustawienie?</string>
     <string lang="pl" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Ostrzeżenie: Wolumen VeraCrypt automatycznie odłączony</string>
     <string lang="pl" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Zanim fizycznie usuniesz lub wyłączysz nośnik zawierający podłączony wolumen, musisz najpierw zawsze odłączyć wolumen VeraCrypt.\n\nNieoczekiwane spontaniczne odłączenie jest często spowodowane sporadycznie rozłączający się przewód, napęd (obudowa), itp.</string>
+    <string lang="pl" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ten wolumen został stworzony w TrueCrypt %x.%x, ale VeraCrypt obsługuje jedynie wolumeny TrueCrypt stworzone w serii TrueCrypt 6.x/7.x</string>
     <string lang="pl" key="TEST">Test</string>
     <string lang="pl" key="KEYFILE">Plik-klucz</string>
     <string lang="pl" key="VKEY_08">Backspace</string>

@@ -62,6 +62,7 @@
     <control lang="cs" key="IDC_QUICKFORMAT">Rychle zformátovat</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD">&amp;Ukázat heslo</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Zobrazit heslo</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="cs" key="IDC_SINGLE_BOOT">Jednoduché bootování</control>
     <control lang="cs" key="IDC_STD_VOL">Standardní svazek VeraCrypt</control>
     <control lang="cs" key="IDC_SYSENC_HIDDEN">S&amp;krytý</control>
@@ -98,6 +99,7 @@
     <control lang="cs" key="IDT_SYSENC_KEYS_GEN_INFO">Klíče, sůl (=náhodná data), a další data byla úspěšně vygenerována. Chcete-li vygenerovat nové klíče, vyberte Zpět a poté Další. Jinak klikněte na Další pro pokračování.</control>
     <control lang="cs" key="IDT_SYS_DEVICE">Zašifruje oddíl/disk, kde jsou nainstalovány Windows. Kdokoliv kdo bude chtít získat přístup a používat systém, číst a zapisovat soubory atd., musí zadat správné heslo před každým naběhnutím Windows. Volitelně lze vytvořit skrytý systém.</control>
     <control lang="cs" key="IDT_SYS_PARTITION">Zvolte tuto možnost pro zašifrování oddílu, kde je aktuálně nainstalován operační systém Windows.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="cs" key="IDT_WIPE_MODE">Čistící mód:</control>
     <control lang="cs" key="IDCLOSE">Zavřít</control>
     <control lang="cs" key="IDC_ALLOW_ESC_PBA_BYPASS">Povolit přeskočení před-bootovací &amp;autentifikace stisknutím klávesy Esc (zapne boot manažera)</control>
@@ -647,6 +649,7 @@
     <string lang="cs" key="SELECT_KEYFILE">Vyberte souborový klíč</string>
     <string lang="cs" key="SELECT_KEYFILE_PATH">Zvolte cestu pro hledání souborového klíče. UPOZORNĚNÍ: Zapamatována bude pouze cesta, nikoliv název souboru!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="cs" key="SERPENT_HELP">Navrhnuta Rossem Andersonem, Elim Bihamem a Larsem Knudsenem. Zveřejněna v roce 1998. 256-bitový klíč, 128-bitové bloky. Operační mód je XTS. Serpent byla jedním z finalistů AES.</string>
     <string lang="cs" key="SIZE_HELP">Definujte, prosím, velikost svazku, který chcete vytvořit.\n\nVytvoříte-li dynamický (rozptýlený soubor) svaze, tento parametr určí jeho maximální možnou velikost.\n\nMinimální možná velikost FAT svazku je 292 KB. Minimální možná velikost NTFS svazku je 3792 KB.</string>
     <string lang="cs" key="SIZE_HELP_HIDDEN_HOST_VOL">Definujte, prosím, velikost vnějšího svazku, který se má vytvořit (nejdříve vytvoříte vnější svazek a pak skrytý uvnitř něj). Minimální možná velikost svazku, v němž má být vytvořen svazek skrytý, je 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="cs" key="INCONSISTENCY_RESOLVED">Nekonzistence vyřešena.\n\n\n(Pokud chcete ohlásit chybu ve spojitosti s touto událostí, přiložte prosím tuto technickou informaci do zprávy o chybě: %hs)</string>
     <string lang="cs" key="UNEXPECTED_STATE">Chyba: Neočekávaný stav.\n\n\n(Pokud budete chtít nahlásit chybu spojenou s tímto problémem, nezapomeňte do zprávy přiložit následující technické informace:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="cs" key="NOTHING_TO_RESUME">Není žádný proces/úkol k obnovení.</string>
     <string lang="cs" key="HIDVOL_PROT_BKG_TASK_WARNING">UPOZORNĚNÍ: VeraCrypt služba na pozadí je vypnuta. Po ukončení programu VeraCrypt nebudete upozorněni, zda bylo zabráněno poškození skrytého svazku.\n\nPoznámka: Službu na pozadí můžete kdykoliv zavřít kliknutím pravého tlačítka myši na ikonu programu VeraCrypt v pravém dolním rohu a vyberte 'Konec'.\n\nPovolit VeraCrypt službu na pozadí?</string>
     <string lang="cs" key="LANG_PACK_VERSION">Verze jazykového balíčku:  %s</string>
     <string lang="cs" key="CHECKING_FS">Kontroluji systém souborů na svazku VeraCrypt připojeném jako %hs…</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="cs" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Souborové klíče aktuálně nejsou podporovány pro šifrování systémů.</string>
     <string lang="cs" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varování: VeraCrypt nemohl obnovit původní nastavení klávesnice. To může způsobit, že heslo bude zadáno nesprávně.</string>
     <string lang="cs" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Chyba: Nelze nastavit rozvržení klávesnice na typickou americkou klávesnici.\n\nHeslo musí být nastaveno v před-bootovacím prostředí (před startem Windows), kde nejsou ne-americké klávesnice k dispozici. Proto musí být heslo vždy nastaveno s použitím rozvržení kláves jako na americké klávesnici.</string>
@@ -1289,6 +1290,7 @@
     <string lang="cs" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">VAROVÁNÍ: Tato volba může ovlivnit výkonnost.\n\nJste si jisti, že chcete použít toto nastavení?</string>
     <string lang="cs" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Varování: Svazek VeraCrypt byl automaticky odpojen</string>
     <string lang="cs" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Před tím, než fyzicky odpojíte nebo vypnete zařízení, které obsahuje připojený svazek, měli byste tento svazek nejdříve odpojit v VeraCryptu.\n\nNeočekávané a nenadále odpojení je většinou způsobeno náhle selhávajícím kabelem, diskem (šuplíkem) apod.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="cs" key="TEST">Test</string>
     <string lang="cs" key="KEYFILE">Souborový klíč</string>
     <string lang="cs" key="VKEY_08">Backspace</string>

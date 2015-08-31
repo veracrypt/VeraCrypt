@@ -62,6 +62,7 @@
     <control lang="zh-cn" key="IDC_QUICKFORMAT">快速格式化</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD">显示密码(&amp;D)</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD_SINGLE">显示密码(&amp;D)</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="zh-cn" key="IDC_SINGLE_BOOT">单系统</control>
     <control lang="zh-cn" key="IDC_STD_VOL">标准 VeraCrypt 加密卷</control>
     <control lang="zh-cn" key="IDC_SYSENC_HIDDEN">隐藏(&amp;D)</control>
@@ -98,6 +99,7 @@
     <control lang="zh-cn" key="IDT_SYSENC_KEYS_GEN_INFO">已成功生成密钥、要素、以及其它数据。如果您希望生成新的密钥，请点击〖后退〗然后点击〖下一步〗按钮。否则点击〖下一步〗按钮继续。</control>
     <control lang="zh-cn" key="IDT_SYS_DEVICE">加密 Windows 系统所在的 分区/驱动器。加密后，任何人想要访问和使用此加密系统、读写此系统盘下的文件等，都需每次在 Windows 启动前输入正确的密码。也可以选择创建一个隐形的操作系统。</control>
     <control lang="zh-cn" key="IDT_SYS_PARTITION">选择此选项，以加密您当前 Windows 操作系统所安装的分区。</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="zh-cn" key="IDT_WIPE_MODE">擦除模式：</control>
     <control lang="zh-cn" key="IDCLOSE">关闭</control>
     <control lang="zh-cn" key="IDC_ALLOW_ESC_PBA_BYPASS">允许按下 Esc 按键跳过启动验证（启用启动管理器）(&amp;A)</control>
@@ -647,6 +649,7 @@
     <string lang="zh-cn" key="SELECT_KEYFILE">选择密钥文件</string>
     <string lang="zh-cn" key="SELECT_KEYFILE_PATH">选择密钥文件的搜索路径。警告：注意，记忆的只是路径，而不会记忆文件名！</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="zh-cn" key="SERPENT_HELP">Serpent 为与 AES 竞争算法中的一种。设计者为 Ross Anderson、Eli Biham、和 Lars Knudsen。发表于 1998 年。256 位密钥，128 位数据块，操作模式为 XTS。</string>
     <string lang="zh-cn" key="SIZE_HELP">请指定要创建的加密卷的大小。\n\n如果您打算创建一个动态的（稀疏文件）容器，该参数对应于该容器的最大尺寸。\n\n注意：最小的 FAT 加密卷大小为 292 KB。最小的 NTFS 加密卷大小为 3792 KB。</string>
     <string lang="zh-cn" key="SIZE_HELP_HIDDEN_HOST_VOL">请指定要创建的外层加密卷的大小（随后将在其内创建隐藏加密卷）。包含隐藏卷的外层加密卷最小可能大小为 340 KB。</string>
@@ -1033,7 +1036,6 @@
     <string lang="zh-cn" key="INCONSISTENCY_RESOLVED">发现不一致性。\n\n\n（如果您使用此链接报告这个错误，请在报告中包含下面信息： %hs）</string>
     <string lang="zh-cn" key="UNEXPECTED_STATE">错误：未知状态。\n\n\n（如果您报告与之相关的 BUG，请在错误报告里面包含下面的技术信息： %hs）</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="zh-cn" key="NOTHING_TO_RESUME">没有可以继续的进程/任务。</string>
     <string lang="zh-cn" key="HIDVOL_PROT_BKG_TASK_WARNING">警告： VeraCrypt 后台任务已禁用。在您退出 VeraCrypt 后，如果设置了阻止损坏隐藏加密卷，您也将无法得到提示。\n\n注意：您可以随时在通过右键单击 VeraCrypt 通知栏图标并 选择〖退出〗来停止后台任务。\n\n\n您要启用 VeraCrypt 后台任务吗？</string>
     <string lang="zh-cn" key="LANG_PACK_VERSION">语言包版本： %s</string>
     <string lang="zh-cn" key="CHECKING_FS">正在检测加载为 %hs 的 VeraCrypt 加密卷的文件系统...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="zh-cn" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密钥文件当前不支持用在系统加密中。</string>
     <string lang="zh-cn" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCrypt 不能存储原始键盘布局。这可能导致您无法正确输入密码。</string>
     <string lang="zh-cn" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">错误：不能设置 VeraCrypt 键盘布局为标准的美国键盘布局。\n\n说明：在 Windows 启动前的启动验证里需要输入密码，此时非美国标准键盘布局不可用。因此，密码必须使用标准的美国键盘布局输入。</string>
@@ -1290,6 +1291,7 @@
     <string lang="zh-cn" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：此设置可能会降低性能。\n\n您确认要使用该设置吗？</string>
     <string lang="zh-cn" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告：VeraCrypt 加密卷已自动卸载</string>
     <string lang="zh-cn" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">在您物理卸载或关闭连接到已加载的加密卷前，您应当总是先在 VeraCrypt 中卸载它。\n\n意外发生的卸载通常是由于线缆、驱动器（附件）等导致的。</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="zh-cn" key="TEST">测试</string>
     <string lang="zh-cn" key="KEYFILE">密钥文件</string>
     <string lang="zh-cn" key="VKEY_08">Backspace</string>

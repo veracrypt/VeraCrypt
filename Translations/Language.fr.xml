@@ -62,6 +62,7 @@
     <control lang="fr" key="IDC_QUICKFORMAT">Formatage rapide</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD">Afficher le mot de passe</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Afficher le mot de passe</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Afficher le PIM</control>
     <control lang="fr" key="IDC_SINGLE_BOOT">Amorçage</control>
     <control lang="fr" key="IDC_STD_VOL">Volume VeraCrypt standard</control>
     <control lang="fr" key="IDC_SYSENC_HIDDEN">Caché</control>
@@ -98,6 +99,7 @@
     <control lang="fr" key="IDT_SYSENC_KEYS_GEN_INFO">Les clés, le sel et d'autres données ont été générés avec succès. Si vous désirez générer de nouvelles clés, cliquez sur 'Précédent' puis 'Suivant'. Sinon cliquez sur 'Suivant' pour poursuivre.</control>
     <control lang="fr" key="IDT_SYS_DEVICE">Chiffre la partition/le disque où est installé Windows. Qui veut accéder au système, lire/écrire des fichiers, etc., devra entrer le bon mot de passe à chaque fois que Windows démarre. Crée un système caché (optionnel).</control>
     <control lang="fr" key="IDT_SYS_PARTITION">Sélectionnez cette option pour chiffrer la partition où le système d'exploitation Windows en cours d'utilisation est installé.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Label du volume dans Windows:</control>
     <control lang="fr" key="IDT_WIPE_MODE">Mode de nettoyage :</control>
     <control lang="fr" key="IDCLOSE">Fermer</control>
     <control lang="fr" key="IDC_ALLOW_ESC_PBA_BYPASS">Permet de contourner l'&amp;authentification de pré-amorçage en appuyant sur la touche Esc (active le gestionnaire de démarrage)</control>
@@ -647,6 +649,7 @@
     <string lang="fr" key="SELECT_KEYFILE">Sélectionner un fichier clé</string>
     <string lang="fr" key="SELECT_KEYFILE_PATH">Sélectionnez un chemin de recherche pour le fichier clé. AVERTISSEMENT : Notez que seul l'emplacement sera retenu, pas les noms de fichier.</string>
     <string lang="fr" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Sélectionnez un répertorie où les fichiers clé seront créés.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">Le conteneur courant a été sélectionné comme fichier clé. Il va être ignoré comme tel.</string>
     <string lang="fr" key="SERPENT_HELP">Conçu par Ross Anderson, Eli Biham et Lars Knudsen. Publié en 1998. Clé de 256 bits, bloc de 128 bits. Le mode opératoire est XTS. Serpent était l'un des finalistes de AES.</string>
     <string lang="fr" key="SIZE_HELP">Veuillez spécifier la taille du conteneur que vous voulez créer.\n\nSi vous créez un conteneur (fichier fragmenté) dynamique, ce paramètre représente la taille maximale possible.\n\nNotez que la taille minimum d'un volume FAT est 292 Ko. La taille minimum d'un volume NTFS est 3792 Ko</string>
     <string lang="fr" key="SIZE_HELP_HIDDEN_HOST_VOL">Veuillez spécifier la taille du volume extérieur à créer (vous allez tout d'abord créer le volume extérieur, puis un volume caché dedans). La taille minimum d'un volume dans lequel un volume caché est créé est 340 Ko.</string>
@@ -1033,7 +1036,6 @@
     <string lang="fr" key="INCONSISTENCY_RESOLVED">Incohérence résolue.\n\n\n(Si vous avez rapporté un bogue en rapport avec cette incohérence, n'oubliez pas d'inclure les informations techniques suivantes dans le rapport de bogue : %hs)</string>
     <string lang="fr" key="UNEXPECTED_STATE">Erreur : État inattendu.\n\n\n (si vous signalez un bogue à cet effet, veuillez inclure les informations techniques suivantes dans le raport :\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="fr" key="NOTHING_TO_RESUME">Il n'y a aucun processus/aucune tâche à reprendre.</string>
     <string lang="fr" key="HIDVOL_PROT_BKG_TASK_WARNING">AVERTISSEMENT : La tâche de fond VeraCrypt est désactivée. Après avoir quitté VeraCrypt, vous ne serez pas notifié si des dommages sur le volume caché sont évités.\n\nNote : Vous pouvez fermer la tâche de fond à tout moment en cliquant droit sur l'icône VeraCrypt et en sélectionnant 'Quitter'.\n\nActiver la tâche de fond VeraCrypt ?</string>
     <string lang="fr" key="LANG_PACK_VERSION">Version du fichier de langue : %s</string>
     <string lang="fr" key="CHECKING_FS">Vérification du système de fichiers sur le volume VeraCrypt monté sous %hs...</string>
@@ -1085,8 +1087,7 @@
     <string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Cet algorithme n'est pas supporté pour le mode TrueCrypt.</string>
     <string lang="fr" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Le PIM n'est pas supporté pour le mode TrueCrypt.</string>	  
     <string lang="fr" key="PIM_REQUIRE_LONG_PASSWORD">Mot de passe doit contenir au moins 20 caractères pour pouvoir utiliser cette valeur de PIM.\nLes mots de passe plus courts ne peuvent être utilisés que si la PIM est égal à 485 ou supérieur.</string>
-    <string lang="fr" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Le mot de passe de pré-amorçage doit contenir au moins 20 caractères pour pouvoir utiliser cette valeur de PIM.\nLes mots de passe plus courts ne peuvent être utilisés que si la PIM est égal à 98 ou supérieur.</string>
-    <string lang="fr" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ce volume a été créé par TrueCrypt %x.%x mais VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 6.x/7.x de TrueCrypt</string>
+    <string lang="fr" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Le mot de passe de pré-amorçage doit contenir au moins 20 caractères pour pouvoir utiliser cette valeur de PIM.\nLes mots de passe plus courts ne peuvent être utilisés que si la PIM est égal à 98 ou supérieur.</string>    
     <string lang="fr" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Les fichiers clés ne sont actuellement pas pris en charge pour le chiffrement du système.</string>
     <string lang="fr" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Avertissement : VeraCrypt n'a pas pu restaurer la disposition originale du clavier. Cela peut vous faire saisir votre mot de passe de manière erronée .</string>
     <string lang="fr" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Erreur : Impossible de paramétrer la disposition du clavier pour VeraCrypt en clavier Américain standard.\n\nNotez que le mot de passe doit être saisi dans un environnement de pré-amorçage (avant que Windows ne démarre) où seul le clavier américain est disponible. Aussi le mot de passe doit toujours être saisi en utilisant la disposition du clavier américain.</string>
@@ -1290,6 +1291,7 @@
     <string lang="fr" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">AVERTISSEMENT : Ce paramètre peut nuire aux performances.\n\nÊtes-vous certain de vouloir utiliser ce paramètre ?</string>
     <string lang="fr" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">AVERTISSEMENT: Volume VeraCrypt auto-démonté</string>
     <string lang="fr" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Avant de retirer physiquement ou d'éteindre un appareil contenant un volume monté, vous devriez d'abord toujours démonter le volume dans VeraCrypt.\n\nLe démontage spontané inattendue est habituellement causé par un câble se déconnectant par intermittence, disques (rack), etc.</string>
+    <string lang="fr" key="UNSUPPORTED_TRUECRYPT_FORMAT">Ce volume a été créé par TrueCrypt %x.%x mais VeraCrypt supporte seulement les volumes TrueCrypt créés avec les version 6.x/7.x de TrueCrypt</string>
     <string lang="fr" key="TEST">Test</string>
     <string lang="fr" key="KEYFILE">Fichier clé</string>
     <string lang="fr" key="VKEY_08">Retour arrière</string>

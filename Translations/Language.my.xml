@@ -62,6 +62,7 @@
     <control lang="my" key="IDC_QUICKFORMAT">အမြန် မော်မက်ချရန်</control>
     <control lang="my" key="IDC_SHOW_PASSWORD">စကားဝှက်ကို ပြရန်</control>
     <control lang="my" key="IDC_SHOW_PASSWORD_SINGLE">စကားဝှက်ကို ပြရန်</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="my" key="IDC_SINGLE_BOOT">Single-boot</control>
     <control lang="my" key="IDC_STD_VOL">သာမန် VeraCrypt volume</control>
     <control lang="my" key="IDC_SYSENC_HIDDEN">လျှို့ဝှက်</control>
@@ -98,6 +99,7 @@
     <control lang="my" key="IDT_SYSENC_KEYS_GEN_INFO">ကီး salt နှင့် အခြား ဒေတာများကို အောင်မြင်စွာ ထုတ်လုပ်လိုက်ပြီ။ ကီးအသစ် ထပ်လုပ်လိုပါက နောက်သို့ ခလုတ်ကို နှိပ်ပြီး ရှေ့သို့ ခလုတ်ကို ပြန်နှိပ်ပါ။ ဒါမှမဟုတ်၊ ဆက်လက် လုပ်ဆောင်ရန် ရှေ့သို့ ခလုတ်ကို နှိပ်ပါ။</control>
     <control lang="my" key="IDT_SYS_DEVICE">၀င်းဒိုးစနစ် ထည့်သွင်းထားသော အခန်းကန့်/drive ကို စာဝှက်ပါ။ ၀င်းဒိုးစနစ် မပိတ်မီ စက်ထဲ ၀င်၍ ဖိုင်များကို ဖတ်ရှုလို၊ စာရေးလိုသူ မည်သူမဆို အကြိမ်တိုင်း စကားဝှက် အမှန် ရေးထည့်ပေးရမည် ဖြစ်သည်။ လိုအပ်လျှင်၊ လျှို့ဝှက် ကွန်ပျူတာ စနစ် တစ်ခုကို ဖန်တီးပါ။</control>
     <control lang="my" key="IDT_SYS_PARTITION">လက်ရှိ အသုံးပြုနေသော ဝင်းဒိုး OS ထည့်သွင်းထားသည့် ​အခန်းကန့်ကို စာဝှက်ရန် ဒီရွေးစရာကို ရွေးပါ။</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="my" key="IDT_WIPE_MODE">ရှင်းလင်းသည့် စနစ် -</control>
     <control lang="my" key="IDCLOSE">ပိတ်ရန်</control>
     <control lang="my" key="IDC_ALLOW_ESC_PBA_BYPASS">ရှောင်ကွင်းရမည့် စက်မတက်မီ စစ်ဆေးမှု ပြုလုပ်ရန် Esc ကီး(စက်အတက် မန်နေဂျာကို ဖွင့်ထားရန်၏) ကို နှိပ်ပါ</control>
@@ -649,6 +651,7 @@
     <string lang="my" key="SELECT_KEYFILE">ကီးဖိုင် ရွေးရန်</string>
     <string lang="my" key="SELECT_KEYFILE_PATH">ကီးဖိုင် ရှာဖွေရေး လမ်းကြောင်း တစ်ခုကို ရွေးပါ။ သတိပေးချက် - ဖိုင်အမည်များ မပါပဲ၊ ဖိုင်လမ်းကြောင်းကိုသာ မှတ်သားမည် ဖြစ်သည်။</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="my" key="SERPENT_HELP">Ross Anderson, , Eli Biham နှင့် Lars Knudsen တို့မှ ဒီဇိုင်းဆွဲသည်။ ၁၉၉၈ ခုနှစ်၌ ပုံနှိပ်ထုတ်ဝေသည်။ 256-bit key, 128-bit block ရှိသည်။ လုပ်ဆောင်သည့် စနစ်မှာ XTS ဖြစ်သည်။ Serpent သည် AES ၏ နောက်ဆုံး ရွေးချယ်စာရင်းထဲမှ တစ်ခု ဖြစ်သည်။</string>
     <string lang="my" key="SIZE_HELP">သင် ဖန်တီးလိုသော သိမ်းဆည်းခန်း၏ အရွယ်အစားကို သတ်မှတ်ပါ။\n\nအကယ်၍ တက်ကြွ (sparse-file) သိမ်းဆည်းခန်း တစ်ခုကို သင် ဖန်တီးပါက၊ ဒီပါရာမီတာသည် ၄င်း၏ အများဆုံး အရွယ်အစားကို သတ်မှတ်ပေးမည် ဖြစ်သည်။\n\nFAT volume ၏ အနည်းဆုံး အရွယ်အစားသည် 292 KB ဖြစ်သည်။ NTFS volume ၏ အနည်းဆုံး အရွယ်အစားမှာ 3792 KB ဖြစ်သည်။</string>
     <string lang="my" key="SIZE_HELP_HIDDEN_HOST_VOL">သင် ဖန်တီးမည့် ပြင်ပ volume  ၏ အရွယ်အစားကို သတ်မှတ်ပါ (ပြင်ပ volume ကို သင် အရင် ဖန်တီးပြီး၊ ၄င်းအထဲ၌ လျှို့ဝှက် volume တစ်ခု ဖန်တီးရမည် ဖြစ်သည်)။ လျှို့ဝှက် volume  တည်ရှိသော volume ၏ အနည်းဆုံး အရွယ်အစားမှာ340 KB ဖြစ်သည်။</string>
@@ -1035,7 +1038,6 @@
     <string lang="my" key="INCONSISTENCY_RESOLVED">မကိုက်ညီသော ဖြေရှင်းချက်။\n\n\n(ဤအကြောင်းနှင့် ပါတ်သက်၍ ပရိုဂရမ် အမှား တစ်ခုကို သတင်းပို့မည် ဆိုလျှင်၊ ပရိုဂရမ် အမှား သတင်းပေးပို့ချက်၌ အောက်ပါ နည်းပညာဆိုင်ရာ အချက်အလက်များကို ထည့်သွင်းပါ -\n%hs)</string>
     <string lang="my" key="UNEXPECTED_STATE">ချို့ယွင်းချက် - မျော်လင့်မထားသော အ​ခြေအနေ။\n\n\n(ဤအကြောင်းနှင့် ပါတ်သက်၍ ပရိုဂရမ် အမှား တစ်ခုကို သတင်းပို့မည် ဆိုလျှင်၊ ပရိုဂရမ် အမှား သတင်းပေးပို့ချက်၌ အောက်ပါ နည်းပညာဆိုင်ရာ အချက်အလက်များကို ထည့်သွင်းပါ -\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="my" key="NOTHING_TO_RESUME">ပြန်လည် လုပ်ဆောင်မည့် လုပ်ငန်းစဉ်/လုပ်ငန်း မရှိပါ။</string>
     <string lang="my" key="HIDVOL_PROT_BKG_TASK_WARNING">သတိပေးချက် - VeraCrypt နောက်ခံ လုပ်ဆောင်ချက်ကို ပိတ်ထားသည်။ VeraCrypt မှ ထွက်ပြီးပါက၊ လျှို့ဝှက် volume ထဲမှ ပျက်စီးမှုကို တားဆီးထားလျှင် သင့်ကို အချက်ပေးမည် မဟုတ်ပါ။\n\nမှတ်ချက် - VeraCrypt အမှိုက်ပုံး အိုင်ကွန်ကို ညာဖက် နှိပ်၊ 'ထွက်ရန်' ကို ရွေးပြီး နောက်ခံ လုပ်ဆောင်ချက်ကို သင် အချိန်မရွေး ပိတ်နိုင်သည်။\n\nVeraCrypt နောက်ခံ လုပ်ဆောင်ချက်ကို ဖွင့်လိုသလား?</string>
     <string lang="my" key="LANG_PACK_VERSION">ဘာသာစကား အထုပ် ဗားရှင်း - %s</string>
     <string lang="my" key="CHECKING_FS">%hs အနေဖြင့် အစပျိုးထားသော VeraCrypt volume မှ ဖိုင်စနစ်ကို စစ်ဆေးနေသည်...</string>
@@ -1087,8 +1089,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="my" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ကီးဖိုင်များသည် လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။​</string>
     <string lang="my" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">သတိပေးချက် - VeraCrypt သည် မူရင်း ​ကီးဘုတ် လေးအောက်ကို နဂိုအတိုင်း ပြန်မထားနိုင်ပါ။ ဤအချက်ကြောင့် စကားဝှက်ကို မှားယွင်းစွာ ရေးထည့်မိနိုင်သည်။</string>
     <string lang="my" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ချို့ယွင်းချက် - VeraCrypt အတွက် ကီးဘုတ် လေးအောက်ကို standard US ကီးဘုတ် လေးအောက် အဖြစ် သတ်မှတ်၍ မရပါ။\n\n US စနစ် မဟုတ်သော ဝင်းဒိုး ကီးဘုတ် လေးအောက် မရနိုင်သည့် နေရာ၌ စက်မတက်ခင် အခြေအနေ (ကွန်ပျူတာ မတက်မီ) တွင် စကားဝှက်ကို ရေးထည့်ရန် လိုအပ်သည်။ ထို့ကြာင့်၊ စကားဝှက်ကို  ဝှက်စာကို standard US ကီးဘုတ် လေးအောက် သုံးပြီး အမြဲတမ်း ရေးထည့်ရမည်။</string>
@@ -1292,6 +1293,7 @@
     <string lang="my" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">သတိပေးချက် - ဤချိန်ညှိချက်သည် စွမ်းဆောင်ရည်ကို နိမ့်ကျစေနိုင်သည်။\n\nဤချိန်ညှိချက်ကို သင်တကယ် အသုံးပြုလိုသလား?</string>
     <string lang="my" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">သတိပေးချက် - VeraCrypt volume ကို အလိုလို-အဆုံးသတ်ထားသည်</string>
     <string lang="my" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">အစပျိုးထားသော volume တစ်ခုပါသော device တစ်ခုကို ရုပ်ပိုင်းဆိုင်ရာ မဖယ်ရှားမီ (သို့)  စက်မပိတ်မီ၊ VeraCrypt ဖြင့် volume ကို ပထမဦးဆုံး အမြဲတမ်း အဆုံးသတ်ရမည် ဖြစ်သည်။\n\nကေဘယ်ကြိုး၊ drive (enclosure) တို့ ပြတ်တောင်းပြတ်တောင်း ဖြစ်နေမှုကြောင့် မမျှော်လင့်သော အလိုလို အဆုံးသတ်မှု ဖြစ်ပွားနေသည်။</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="my" key="TEST">စမ်းသပ်ရန်</string>
     <string lang="my" key="KEYFILE">ကီးဖိုင်</string>
     <string lang="my" key="VKEY_08">နောက်ပြန်ခလုတ်</string>

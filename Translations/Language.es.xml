@@ -62,6 +62,7 @@
     <control lang="es" key="IDC_QUICKFORMAT">Formato Rápido</control>
     <control lang="es" key="IDC_SHOW_PASSWORD">&amp;Mostrar contraseña </control>
     <control lang="es" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Mostrar contraseña</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="es" key="IDC_SINGLE_BOOT">Arranque simple</control>
     <control lang="es" key="IDC_STD_VOL">Volumen VeraCrypt común</control>
     <control lang="es" key="IDC_SYSENC_HIDDEN">&amp;Oculto</control>
@@ -98,6 +99,7 @@
     <control lang="es" key="IDT_SYSENC_KEYS_GEN_INFO">Las claves, sal y otros datos han sido generados con éxito. Si quiere generar nuevas claves, presione Volver y luego Siguiente. Si no, presione Siguiente para continuar.</control>
     <control lang="es" key="IDT_SYS_DEVICE">Cifra la partición/unidad donde Windows está instalado. Cualquiera que quiera acceder al sistema, leer y escribir archivos, etc. tendrá que introducir la contraseña antes de arrancar Windows. Opcionalmente, crea un sistema oculto.</control>
     <control lang="es" key="IDT_SYS_PARTITION">Seleccione esta opción para cifrar la partición donde está instalado el sistema operativo Windows que hay ahora mismo en ejecución.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="es" key="IDT_WIPE_MODE">Modo de borrado seguro:</control>
     <control lang="es" key="IDCLOSE">Cerrar</control>
     <control lang="es" key="IDC_ALLOW_ESC_PBA_BYPASS">Permitir esquivar &amp;autenticación de pre-arranque pulsando Esc (habilita el administrador de arranque)</control>
@@ -647,6 +649,7 @@
     <string lang="es" key="SELECT_KEYFILE">Seleccione Archivo-llave</string>
     <string lang="es" key="SELECT_KEYFILE_PATH">Seleccione ruta de búsqueda de archivos-llave. AVISO: ¡Sólo se recordará la ruta, no el nombre de los archivos!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="es" key="SERPENT_HELP">Diseñado por Ross Anderson, Eli Biham, y Lars Knudsen. Publicado en 1998. Clave de 256-bit, bloque de 128-bit. Modo de operación XTS. Serpent fue uno de los finalistas AES.</string>
     <string lang="es" key="SIZE_HELP">Especifique el tamaño del contenedor que desea crear.\n\nSi crea un contenedor dinámico (archivo disperso), este parámetro especificará su máximo tamaño posible.\n\nTenga en cuenta que el mínimo tamaño posible de un volumen FAT es 292 KB. De un volumen NTFS, el mínimo es 3792 KB.</string>
     <string lang="es" key="SIZE_HELP_HIDDEN_HOST_VOL">Especifique el tamaño del volumen externo (primero creará un volumen externo y luego un volumen oculto en su interior). El mínimo tamaño posible para un volumen en el que se pretenda crear un volumen oculto es 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="es" key="INCONSISTENCY_RESOLVED">Inconsistencia resuelta.\n\n\n(Si reporta un error relacionado con esto, incluya en el reporte la siguiente información técnica:\n%hs)</string>
     <string lang="es" key="UNEXPECTED_STATE">Error: Estado inesperado.\n\n\n(Si reporta un error relacionado con esto, incluya en el reporte la siguiente información técnica:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="es" key="NOTHING_TO_RESUME">No hay ningún proceso/tarea por retomar.</string>
     <string lang="es" key="HIDVOL_PROT_BKG_TASK_WARNING">AVISO: VeraCrypt en Segundo Plano está deshabilitado. Tras cerrar VeraCrypt, no será notificado si se impiden daños en el volumen oculto.\n\nNota: Puede cerrar el Segundo Plano en cualquier momento haciendo click derecho en el icono de VeraCrypt en el área de notificación y seleccionando 'Salir'.\n\n¿Habilitar VeraCrypt en Segundo Plano?</string>
     <string lang="es" key="LANG_PACK_VERSION">Versión del paquete: %s</string>
     <string lang="es" key="CHECKING_FS">Comprobando el sistema de archivos del volumen VeraCrypt montado como %hs...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="es" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Los archivos-llave no están soportados actualmente para el cifrado del sistema.</string>
     <string lang="es" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Aviso: VeraCrypt no pudo restaurar la disposición de teclado original. Esto puede hacer que ud. introduzca incorrectamente la contraseña.</string>
     <string lang="es" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: No se puede establecer la disposición del teclado para VeraCrypt al estándar de EEUU.\n\nRecuerde que la contraseña necesita ser escrita en el entorno de pre-arranque (antes de que Windows se inicie) donde no están disponibles disposiciones de teclado distintas a la de EEUU. Por tanto, la contraseña debe ser escrita siempre usando la disposición de teclado EEUU estándar.</string>
@@ -1290,6 +1291,7 @@
     <string lang="es" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">AVISO: Esta configuración puede perjudicar el rendimiento.\n\n¿Seguro que desea aplicarla?</string>
     <string lang="es" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Aviso: volumen VeraCrypt auto-desmontado</string>
     <string lang="es" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Antes de eliminar o desactivar un dispositivo que contenga un volumen montado, debería desmontar el volumen en VeraCrypt primero.\n\nLos desmontajes espontáneos inesperados a menudo son causados por cables que fallan intermitentemente, carcasas defectuosas, etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="es" key="TEST">Probar</string>
     <string lang="es" key="KEYFILE">Archivo-llave</string>
     <string lang="es" key="VKEY_08">Retroceso</string>

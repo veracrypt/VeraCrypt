@@ -62,6 +62,7 @@
     <control lang="bg" key="IDC_QUICKFORMAT">Бърз формат</control>
     <control lang="bg" key="IDC_SHOW_PASSWORD">Видима &amp;парола</control>
     <control lang="bg" key="IDC_SHOW_PASSWORD_SINGLE">Видима &amp;парола</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="bg" key="IDC_SINGLE_BOOT">Една ОС (Single-boot)</control>
     <control lang="bg" key="IDC_STD_VOL">Стандартен VeraCrypt том</control>
     <control lang="bg" key="IDC_SYSENC_HIDDEN">Скри&amp;т</control>
@@ -98,6 +99,7 @@
     <control lang="bg" key="IDT_SYSENC_KEYS_GEN_INFO">Ключовете, солта, и други данни са генерирани успешно. Ако желаете да генерирате нови ключове, натиснете Назад и след това Напред. В противен случай, натиснете Напред за да продължите.</control>
     <control lang="bg" key="IDT_SYS_DEVICE">Криптиране на дяла/устройството където Windows е инсталиран. Всеки, който иска да  получи достъп и да използва системата, да чете и записва файлове, и т.н., ще трябва да въведе правилната парола всеки път преди Windows да стартира. Може да създава скрит том.</control>
     <control lang="en" key="IDT_SYS_PARTITION">Select this option to encrypt the partition where the currently running Windows operating system is installed.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="bg" key="IDT_WIPE_MODE">Изчистващ режим:</control>
     <control lang="bg" key="IDCLOSE">Затваряне</control>
     <control lang="bg" key="IDC_ALLOW_ESC_PBA_BYPASS">Позволява pre-boot &amp;автентикацията да бъде прескочена при натискане на клавиш Esc (активира boot мениджъра)</control>
@@ -647,6 +649,7 @@
     <string lang="bg" key="SELECT_KEYFILE">Изберете ключ-файл</string>
     <string lang="bg" key="SELECT_KEYFILE_PATH">Изберете път за търсене на ключ-файлове. ВНИМАНИЕ: Имайте предвид, че само пътят ще бъде запомнен, не и имената на файловете в него!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="bg" key="SERPENT_HELP">Разработен от Ross Anderson, Eli Biham, и Lars Knudsen. Публикуван през 1998. 256-битов ключ, 128-битов блок. Режима на работа е XTS. Serpent е един от финалистите на AES.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="bg" key="INCONSISTENCY_RESOLVED">Проблем с неконсистентност е решен.\n\n\n(Ако докладвате бъг във връзка с това, моля включете следната техническа информация в доклада за бъга: %hs)</string>
     <string lang="bg" key="UNEXPECTED_STATE">Грешка: Неочаквано състояние.\n\n\n(Ако докладвате за проблем във връзка с това, моля включете следната техническа информация в доклада:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="bg" key="NOTHING_TO_RESUME">Няма процес/задача за продължаване.</string>
     <string lang="bg" key="HIDVOL_PROT_BKG_TASK_WARNING">ВНИМАНИЕ: Фоновият процес на VeraCrypt е забранен. След като затворите VeraCrypt, няма да има нотификация в случай, че е предовратена повреда в скрития том.\n\nЗабележка: Можете да спрете фоновата задача по всяко време като натиснете десен бутон върху VeraCrypt системната иконата и изберете 'Изход'.\n\nДа се включи ли  фоновият процес на VeraCrypt?</string>
     <string lang="bg" key="LANG_PACK_VERSION">Версия на езиковия пакет:  %s</string>
     <string lang="bg" key="CHECKING_FS">Проверка на файловата система на VeraCrypt тома монтиран като %hs...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="bg" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">За сега ключ-файлове не се поддържат за системно криптиране.</string>
     <string lang="bg" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Внимание: VeraCrypt не може да възстанови оригиналната подредба на клавиатурата. Заради това може да въведете някоя парола грешно.</string>
     <string lang="bg" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Грешка: Подредбата на клавиатурата за VeraCrypt не може да се зададе да бъде стандартна US клавиатурна подредба.\n\nЗабележете, че паролата трябва да бъде въведена в pre-boot средата (преди стартирането на Windows), където не-US Windows клавиатурни подредби не са достъпни. Поради тази причина, паролата винаги трябва да бъде въвеждана, като се използва стандартна US клавиатурна подредба.</string>
@@ -1290,6 +1291,7 @@
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="bg" key="TEST">Тест</string>
     <string lang="bg" key="KEYFILE">Ключ-файл (КФ)</string>
     <string lang="bg" key="VKEY_08">Backspace</string>

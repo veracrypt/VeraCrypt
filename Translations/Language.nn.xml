@@ -62,6 +62,7 @@
     <control lang="nn" key="IDC_QUICKFORMAT">Rask Formatering</control>
     <control lang="nn" key="IDC_SHOW_PASSWORD">&amp;Vis passord</control>
     <control lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="en" key="IDC_SINGLE_BOOT">Single-boot</control>
     <control lang="en" key="IDC_STD_VOL">Standard VeraCrypt volume</control>
     <control lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</control>
@@ -98,6 +99,7 @@
     <control lang="en" key="IDT_SYSENC_KEYS_GEN_INFO">The keys, salt, and other data have been successfully generated. If you want to generate new keys, click Back and then Next. Otherwise, click Next to continue.</control>
     <control lang="en" key="IDT_SYS_DEVICE">Encrypts the partition/drive where Windows is installed. Anyone who wants to gain access and use the system, read and write files, etc., will need to enter the correct password each time before Windows boots. Optionally, creates a hidden system.</control>
     <control lang="en" key="IDT_SYS_PARTITION">Select this option to encrypt the partition where the currently running Windows operating system is installed.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="en" key="IDT_WIPE_MODE">Wipe mode:</control>
     <control lang="nn" key="IDCLOSE">Avslutt</control>
     <control lang="en" key="IDC_ALLOW_ESC_PBA_BYPASS">Allow pre-boot &amp;authentication to be bypassed by pressing the Esc key (enables boot manager)</control>
@@ -647,6 +649,7 @@
     <string lang="nn" key="SELECT_KEYFILE">Vel Nøkkelfil</string>
     <string lang="nn" key="SELECT_KEYFILE_PATH">Vel ei nøkkelfil søke sti. ADVARSEL: merk att det er berre stien som vert hugsa, ikkje filnamna!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="en" key="SERPENT_HELP">Designed by Ross Anderson, Eli Biham, and Lars Knudsen. Published in 1998. 256-bit key, 128-bit block. Mode of operation is XTS. Serpent was one of the AES finalists.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="en" key="INCONSISTENCY_RESOLVED">Inconsistency resolved.\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs)</string>
     <string lang="en" key="UNEXPECTED_STATE">Error: Unexpected state.\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="en" key="NOTHING_TO_RESUME">There is no process/task to resume.</string>
     <string lang="nn" key="HIDVOL_PROT_BKG_TASK_WARNING">ADVARSEL: VeraCrypt Bakgrunns oppgåve er deaktivert. Etter att du avsluttar VeraCrypt, vil du ikkje lenger få melding om skade på skjult volum er ungått.\n\nMerk: Du kan og slå av bakgrunns oppgåva kor tid som helst ved å høgre klikka på VeraCrypt systemstatus felt ikonet og vel 'Avslutt'.\n\n\nAktivera VeraCrypt bakgrunns oppgåve?</string>
     <string lang="nn" key="LANG_PACK_VERSION">Språk pakke versjon:  %s</string>
     <string lang="nn" key="CHECKING_FS">Sjekkar filsystemet på VeraCrypt volumet montert som %hs...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="en" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warning: VeraCrypt could not restore the original keyboard layout. This may cause you to enter a password incorrectly.</string>
     <string lang="en" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: Cannot set the keyboard layout for VeraCrypt to the standard US keyboard layout.\n\nNote that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available. Therefore, the password must always be typed using the standard US keyboard layout.</string>
@@ -1290,6 +1291,7 @@
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="en" key="TEST">Test</string>
     <string lang="nn" key="KEYFILE">Nøkkelfil</string>
     <string lang="nn" key="VKEY_08">Backspace</string>

@@ -62,6 +62,7 @@
     <control lang="de" key="IDC_QUICKFORMAT">Schnell-Formatierung</control>
     <control lang="de" key="IDC_SHOW_PASSWORD">Kennwort an&amp;zeigen</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Passwort anzeigen</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="de" key="IDC_SINGLE_BOOT">Ein Betriebssystem</control>
     <control lang="de" key="IDC_STD_VOL">Standard VeraCrypt-Volume</control>
     <control lang="de" key="IDC_SYSENC_HIDDEN">V&amp;ersteckt</control>
@@ -98,6 +99,7 @@
     <control lang="de" key="IDT_SYSENC_KEYS_GEN_INFO">Die Schlüssel, Salt-Wert, und andere Daten wurden erfolgreich erstellt. Wenn Sie neue Schlüssel erstellen möchten, klicken Sie auf 'Zurück' und dann auf 'Weiter'. Andernfalls klicken Sie auf 'Weiter'.</control>
     <control lang="de" key="IDT_SYS_DEVICE">Partition/ Laufwerk verschlüsseln auf dem Windows installiert ist. Jeder der Zugang zum System erlangen möchte, muss das korrekte Kennwort bei jedem Start von Windows eingeben. Eine Alternative dazu ist das Erstellen eines versteckten Systems.</control>
     <control lang="de" key="IDT_SYS_PARTITION">Wählen Sie diese Option um die Partition zu verschlüsseln auf der das derzeit laufende Windows installiert ist.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="de" key="IDT_WIPE_MODE">Lösch-Modus:</control>
     <control lang="de" key="IDCLOSE">Schließen</control>
     <control lang="de" key="IDC_ALLOW_ESC_PBA_BYPASS">Erlauben, die Pre-Boot &amp;Authentifikation durch drücken v. Esc zu überspringen (aktiviert Boot-Manager)</control>
@@ -647,6 +649,7 @@
     <string lang="de" key="SELECT_KEYFILE">Schlüsseldatei auswählen</string>
     <string lang="de" key="SELECT_KEYFILE_PATH">Suchpfad für Schlüsseldatei auswählen. WARNUNG: Es wird lediglich der Pfad nicht aber die Dateinamen berücksichtigt!</string>
     <string lang="de" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Wählen Sie den Ordner, in den die Schlüsseldateien gespeichert werden sollen.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="de" key="SERPENT_HELP">Entwickelt von Ross Anderson, Eli Biham, und Lars Knudsen. 1998 herausgegeben. 256-bit Schlüssellänge, 128-bit Blockgröße. Arbeitet im XTS-Modus. Serpent war einer der AES Finalisten.</string>
     <string lang="de" key="SIZE_HELP">Bitte geben Sie die Größe des zu erstellenden Containers an.\n\nWenn sie einen dynamischen (Sparse-Datei) Container erstellen, dann gibt dieser Wert seine maximal mögliche Größe an.\n\nHinweis: die Mindestgröße eines FAT Volume ist 292 KB. Die Mindestgröße eines NTFS Volume ist 3792 KB.</string>
     <string lang="de" key="SIZE_HELP_HIDDEN_HOST_VOL">Bitte geben Sie die Größe des zu erstellenden äußeren Volumes (Sie erstellen erst ein äußeres Volume und dann darin ein Verstecktes Volume). Die Mindestgröße eines Volume innerhalb welchem ein verstecktes Volume erstellt werden kann ist 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="de" key="INCONSISTENCY_RESOLVED">Inkonsistenz aufgelöst.\n\n\n(Sollten Sie in diesem Zusammenhang  einen Fehler melden, so bitten wir Sie folgende techn. Informationen im Fehlerbericht zu berücksichtigen: %hs)</string>
     <string lang="de" key="UNEXPECTED_STATE">Fehler: unerwarteter Zustand.\n\n\nWenn Sie einen Fehler in Zusammenhang mit diesem melden, dann beziehen Sie die folgenden technischen Informationen mit in den Fehlerbericht ein: %hs)</string>
     <string lang="de" key="NO_SYS_ENC_PROCESS_TO_RESUME">Es gibt keinen unterbrochenen Ver-/Entschlüsselungsprozess der Systempartition/Laufwerk, der fortgesetzt werden kann.\n\nHinweis: Falls Sie einen unterbrochenen Ver-/Entschlüsselungsprozess einer Nicht-System Partition fortsetzen möchten, wählen Sie 'Volume' &gt; 'Unterbrochenen Prozess fortsetzen'.</string>
-    <string lang="de" key="NOTHING_TO_RESUME">Es ist kein Prozess/Task zum Fortsetzen vorhanden.</string>
     <string lang="de" key="HIDVOL_PROT_BKG_TASK_WARNING">WARNUNG: Der VeraCrypt-Hintergrunddienst ist deaktiviert. Nach dem Beenden von VeraCrypt werden Sie nicht benachrichtigt sobald eine Beschädigung eines versteckten Volume verhindert werden konnte.\n\nHinweis: Sie können den Hintergrunddienst jederzeit mit einen Klick der rechten Maus- taste auf das VeraCrypt-Symbol im Infobereich (= Systemtray), und durch Auswählen von "Beenden" beenden.\n\nSoll der VeraCrypt-Hintergrunddienst aktiviert werden?</string>
     <string lang="de" key="LANG_PACK_VERSION">Sprachpaket-Version:  %s</string>
     <string lang="de" key="CHECKING_FS">Es wird das Dateisystem des als %hs eingebundenen VeraCrypt-Volume überprüft...</string>
@@ -1085,8 +1087,7 @@
     <string lang="de" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Dieser Algorithmus ist im TrueCrypt Modus nicht vothanden.</string>
     <string lang="de" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) wird nicht im TrueCrypt Modus unterstützt.</string>	  
     <string lang="de" key="PIM_REQUIRE_LONG_PASSWORD">Das Passwort muss 20 oder mehr Zeichen haben, um den festgelegten PIM verwenden zu können.\nKürzere Passwörter können nur verwendet werden, wenn der PIM Wert 485 oder größer ist.</string>
-    <string lang="de" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Das Pre-boot authentication Passwort muss 20 oder mehr Zeichen haben, um den festgelegten PIM verwenden zu können.\n Kürzere Passwörter können nur verwendet werden, wenn der PIM Wert 98 oder größer ist.</string>
-    <string lang="de" key="UNSUPPORTED_TRUECRYPT_FORMAT">Das Volume wurde mit TrueCrypt %x.%x erstellt, aber VeraCrypt unterstützt nur TrueCrypt Volume, die mit TrueCrypt 6.x/7x erstellt wurden.</string>
+    <string lang="de" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Das Pre-boot authentication Passwort muss 20 oder mehr Zeichen haben, um den festgelegten PIM verwenden zu können.\n Kürzere Passwörter können nur verwendet werden, wenn der PIM Wert 98 oder größer ist.</string>    
     <string lang="de" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Schlüsseldateien werden derzeit nicht für die Systemverschlüsselung unterstützt.</string>
     <string lang="de" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warnung: VeraCrypt konnte das ursprüngliche Tastaturlayout nicht wiederherstellen. Dadurch könnten Sie das Passwort falsch eingeben.</string>
     <string lang="de" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fehler: Es kann das Tastaturlayout für VeraCrypt nicht auf das Standard-US-Tastaturlayout festgelegt werden.\n\nBeachten Sie, dass das Kennwort in der Pre-Boot Umgebung eingegeben werden muss (bevor Windows startet), wo Nicht-US Windows Tastaturlayouts nicht verfügbar sind. Daher muss das Kennwort immer unter Verwendung des Standard-US-Tastaturlayout eingegeben werden.</string>
@@ -1290,6 +1291,7 @@
     <string lang="de" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNUNG: Diese Einstellung kann die Leistung verringern.\n\nSind Sie Sicher, dass Sie diese Einstellungen vornehmen möchten?</string>
     <string lang="de" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">WARNUNG: VeraCrypt-Volume wurde automatisch getrennt.</string>
     <string lang="de" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Bevor Sie ein Gerät mit einem eingebundenen VeraCrypt Volume entfernen oder ausschalten sollten Sie immer zuerst das VeraCrypt Volume trennen.\n\nEine unerwartete plötzliche Trennung wird normalerweise durch versagende Kabel, Festplatten usw. verursacht.</string>
+    <string lang="de" key="UNSUPPORTED_TRUECRYPT_FORMAT">Das Volume wurde mit TrueCrypt %x.%x erstellt, aber VeraCrypt unterstützt nur TrueCrypt Volume, die mit TrueCrypt 6.x/7x erstellt wurden.</string>
     <string lang="de" key="TEST">Test</string>
     <string lang="de" key="KEYFILE">Schlüsseldatei</string>
     <string lang="de" key="VKEY_08">Rücktaste</string>

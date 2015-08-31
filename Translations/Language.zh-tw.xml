@@ -62,6 +62,7 @@
     <control lang="zh-tw" key="IDC_QUICKFORMAT">快速格式化</control>
     <control lang="zh-tw" key="IDC_SHOW_PASSWORD">顯示密碼(&amp;D)</control>
     <control lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="zh-tw" key="IDC_SINGLE_BOOT">單一系統開機</control>
     <control lang="zh-tw" key="IDC_STD_VOL">標準 VeraCrypt 加密區</control>
     <control lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</control>
@@ -96,6 +97,7 @@
     <control lang="zh-tw" key="IDT_SYSENC_KEYS_GEN_INFO">金鑰、salt 值、以及其他資料已經成功產生。如果您希望產生新的金鑰，請點 '上一步' 然後點 '下一步' 。否則點 '下一步' 繼續。</control>
     <control lang="en" key="IDT_SYS_DEVICE">Encrypts the partition/drive where Windows is installed. Anyone who wants to gain access and use the system, read and write files, etc., will need to enter the correct password each time before Windows boots. Optionally, creates a hidden system.</control>
     <control lang="en" key="IDT_SYS_PARTITION">Select this option to encrypt the partition where the currently running Windows operating system is installed.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="zh-tw" key="IDT_WIPE_MODE">清除模式：</control>
     <control lang="zh-tw" key="IDCLOSE">關閉</control>
     <control lang="en" key="IDC_ALLOW_ESC_PBA_BYPASS">Allow pre-boot &amp;authentication to be bypassed by pressing the Esc key (enables boot manager)</control>
@@ -645,6 +647,7 @@
     <string lang="zh-tw" key="SELECT_KEYFILE">選擇金鑰檔</string>
     <string lang="zh-tw" key="SELECT_KEYFILE_PATH">選擇金鑰檔的搜索路徑。警告：要注意記憶的只是路徑，而不會記憶檔案名！</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="zh-tw" key="SERPENT_HELP">設計者為 Ross Anderson、Eli Biham、和 Lars Knudsen。發表於 1998 年。256 位金鑰，128 位元資料塊。操作模式為 XTS。Serpent 為與 AES 候選演算法中的一種。</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -1031,7 +1034,6 @@
     <string lang="zh-tw" key="INCONSISTENCY_RESOLVED">解決不一致性。\n\n\n(如果您報告錯誤與這個有關，請在報告中包含下面技術訊息： %hs)</string>
     <string lang="en" key="UNEXPECTED_STATE">Error: Unexpected state.\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="zh-tw" key="NOTHING_TO_RESUME">沒有可以恢復的操作/工作。</string>
     <string lang="zh-tw" key="HIDVOL_PROT_BKG_TASK_WARNING">警告：VeraCrypt 背景工作已停用。在您結束 VeraCrypt 後，如果對隱藏加密區的損壞被阻止時，您也將無法得到提示。\n\n注意：您可以隨時在 VeraCrypt 的圖示按右鍵並選擇 "結束" 來停止背景工作。\n\n\n您要啟用 VeraCrypt 背景工作嗎？</string>
     <string lang="zh-tw" key="LANG_PACK_VERSION">語言檔案版本： %s</string>
     <string lang="zh-tw" key="CHECKING_FS">正在檢測掛載為 %hs 的 VeraCrypt 加密區的檔案系統...</string>
@@ -1083,8 +1085,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
     <string lang="zh-tw" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">&gt;警告：VeraCrypt 不能回復原始鍵盤配置。這可能導致您輸入不正確的密碼。</string>
     <string lang="zh-tw" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設定 VeraCrypt 鍵盤配置為標準美式鍵盤配置。\n\n要注意在啟動前置環境(Windows 啟動前)需要輸入密碼，這時非標準美式鍵盤配置是無法使用的。因此，密碼必須總是使用標準美式鍵盤配置輸入。</string>
@@ -1288,6 +1289,7 @@
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="zh-tw" key="TEST">測試</string>
     <string lang="zh-tw" key="KEYFILE">金鑰檔案</string>
     <string lang="zh-tw" key="VKEY_08">Backspace</string>

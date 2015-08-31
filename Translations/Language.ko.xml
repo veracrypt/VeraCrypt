@@ -62,6 +62,7 @@
     <control lang="ko" key="IDC_QUICKFORMAT">빠른 포맷</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD">비밀번호 표시(&amp;D)</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD_SINGLE">비밀번호 표시(&amp;D)</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="ko" key="IDC_SINGLE_BOOT">싱글-부트</control>
     <control lang="ko" key="IDC_STD_VOL">표준 VeraCrypt 볼륨</control>
     <control lang="ko" key="IDC_SYSENC_HIDDEN">숨김(&amp;D)</control>
@@ -98,6 +99,7 @@
     <control lang="ko" key="IDT_SYSENC_KEYS_GEN_INFO">키, 소금(→ 패스워드 보호에서 패스워드 해시를 변환하는 데 사용되는 무작위 문자열) 및 기타 데이터를 성공적으로 생성했습니다. 새로운 키를 생성하려면 “뒤로”를 클릭한 후 “다음”을 누르세요. 계속하려면 “다음”을 클릭하세요.</control>
     <control lang="ko" key="IDT_SYS_DEVICE">윈도우가 설치되어 있는 파티션/드라이브를 암호화합니다. 시스템에 접근해서 사용하고, 파일을 읽고 쓰는 등의 작업을 하려는 사람은 윈도우가 부팅할 때마다 올바른 비밀번호를 입력해야 합니다. 숨긴 시스템을 선택적으로 만들 수 있습니다.</control>
     <control lang="ko" key="IDT_SYS_PARTITION">현재 실행 중인 윈도우 운영체제가 설치된 파티션을 암호화하려면 이 옵션을 선택합니다.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="ko" key="IDT_WIPE_MODE">지움 방식:</control>
     <control lang="ko" key="IDCLOSE">닫기</control>
     <control lang="ko" key="IDC_ALLOW_ESC_PBA_BYPASS">Esc 키를 눌러 부팅-전 인증을 건너뛸 수 있습니다(* 부트 관리자 사용)(&amp;A)</control>
@@ -647,6 +649,7 @@
     <string lang="ko" key="SELECT_KEYFILE">키파일 선택</string>
     <string lang="ko" key="SELECT_KEYFILE_PATH">키파일 찾기 경로를 선택하세요. 주의: 경로만 기억되고, 파일 이름은 기억되지 않습니다!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="ko" key="SERPENT_HELP">Ross Anderson, Eli Biham, 및 Lars Knudsen에 의해 디자인됨. 1998년 발표됨. 256-비트 키, 128-비트 블록. 작업 모드는 XTS입니다. Serpent는 AES 결선작 중의 하나였습니다.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결되었습니다.\n\n\n이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs</string>
     <string lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="ko" key="NOTHING_TO_RESUME">다시 시작할 진행/작업이 없습니다.</string>
     <string lang="ko" key="HIDVOL_PROT_BKG_TASK_WARNING">주의: VeraCrypt 백그라운드 작업의 사용이 해제되었습니다. 프로그램을 종료하면, 숨긴 볼륨의 손상이 방지된 경우에도 그 알림을 통보받지 못합니다.\n\n참고: 언제라도 VeraCrypt 트레이 아이콘을 오른쪽 클릭하고 “종료”를 선택해서 백그라운드 작업을 종료할 수 있습니다.\n\nVeraCrypt 백그라운드 작업을 지금 사용가능하게 할까요?</string>
     <string lang="ko" key="LANG_PACK_VERSION">언어팩 버전:  %s</string>
     <string lang="ko" key="CHECKING_FS">%hs로 삽입된 VeraCrypt 볼륨에 대한 파일 시스템을 체크하는 중...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="ko" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">키파일이 현재 시스템 암호화에서 지원되지 않습니다.</string>
     <string lang="ko" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">주의: VeraCrypt가 원래의 키보드 레이아웃을 복구할 수 없습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
     <string lang="ko" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">오류: VeraCrypt 키보드 레이아웃을 표준 US 키보드 레이아웃에 설정할 수 없습니다.\n\n(윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅-전 환경에서 비밀번호를 입력할 필요가 있다는 것을 참고하세요. 그래서 표준 US 키보드 레이아웃을 사용해서 항상 비밀번호를 입력해야 합니다.</string>
@@ -1290,6 +1291,7 @@
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="ko" key="TEST">테스트</string>
     <string lang="ko" key="KEYFILE">키파일</string>
     <string lang="ko" key="VKEY_08">Backspace</string>

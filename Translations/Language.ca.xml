@@ -62,6 +62,7 @@
     <control lang="ca" key="IDC_QUICKFORMAT">Format ràpid</control>
     <control lang="ca" key="IDC_SHOW_PASSWORD">&amp;Veure contrasenya</control>
     <control lang="ca" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Veure contrasenya</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="ca" key="IDC_SINGLE_BOOT">Arrencada simple</control>
     <control lang="ca" key="IDC_STD_VOL">Volum normal</control>
     <control lang="ca" key="IDC_SYSENC_HIDDEN">&amp;Ocult</control>
@@ -98,6 +99,7 @@
     <control lang="ca" key="IDT_SYSENC_KEYS_GEN_INFO">Les claus i la resta de dades s'han generat satisfactòriament. Si vol generar unes noves claus, faci clic a Enrere i després a Següent. Si no, faci clic a Següent per continuar.</control>
     <control lang="ca" key="IDT_SYS_DEVICE">Xifrar la partició/unitat on hi ha el sistema operatiu instal·lat. Tothom que vulgui accedir i utilitzar el sistema, llegir i escriure fitxers, etc., haurà d'introduïr la contrasenya cada vegada que s'inicii el Windows. Opcionalment, crea un sistema ocult.</control>
     <control lang="ca" key="IDT_SYS_PARTITION">Seleccioni aquesta opció per xifrar la partició on hi ha instal·lat el sistema operatiu Windows actual.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="ca" key="IDT_WIPE_MODE">Tipus de neteja:</control>
     <control lang="ca" key="IDCLOSE">Tancar</control>
     <control lang="ca" key="IDC_ALLOW_ESC_PBA_BYPASS">Permet saltar-se l'&amp;autenticació abans d'arrencar prement la tecla Esc (activa el gestor d'arrencada)</control>
@@ -647,6 +649,7 @@
     <string lang="ca" key="SELECT_KEYFILE">Seleccioni fitxers de claus</string>
     <string lang="ca" key="SELECT_KEYFILE_PATH">Seleccioni la ruta de cerca dels fitxers de claus. ATENCIÓ: Només es guardarà la ruta, no els noms dels fitxers!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="ca" key="SERPENT_HELP">Dissenyat per Ross Anderson, Eli Biham i Lars Knudsen. Publicat el 1998. Clau de 256 bits, bloc de 128 bits. Mode XTS. Va ser un dels finalistes d'AES.</string>
     <string lang="ca" key="SIZE_HELP">Si us plau, especifiqui la mida del nou contenidor.\n\nSi crea un contenidor dinàmic (fitxer ampliable), aquest paràmetre ha d'especificat la seva mida màxima.\n\nTingui en compte que la mida mínima d'un volum FAT és de 292 KB. La mida mínima possible d'un volum NTFS és de 3792 KB.</string>
     <string lang="ca" key="SIZE_HELP_HIDDEN_HOST_VOL">Si us plau, especifiqui la mida del volum exterior a crear (primer es crea el volum exterior i després el volum ocult a dins). La mida mínima possible d'un volum que hagi de contenir un volum ocult és de 340KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="ca" key="INCONSISTENCY_RESOLVED">S'ha resolt la inconsistència.\n\n\n(Si reporta un error relacionat amb això, si us plau inclogui la següent informació tècnica:\n%hs)</string>
     <string lang="ca" key="UNEXPECTED_STATE">Estat inesperat.\n\n\n(Si reporta un error relacionat amb això, si us plau inclogui la següent informació tècnica:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="ca" key="NOTHING_TO_RESUME">No hi ha cap procés o tasca per continuar.</string>
     <string lang="ca" key="HIDVOL_PROT_BKG_TASK_WARNING">ATENCIÓ: La tasca en segon pla del VeraCrypt està desactivada. Després de sortir del VeraCrypt, no rebrà notificacions si s'evita el dany a un volum ocult.\n\nNota: Es pot aturar la tasca en segon pla del VeraCrypt fent clic amb el botó dret a l'icona a la safata i seleccionant 'Sortir'.\n\nVol activar la tasca en segon pla del VeraCrypt?</string>
     <string lang="ca" key="LANG_PACK_VERSION">Versió del paquet d'idioma:  %s</string>
     <string lang="ca" key="CHECKING_FS">Comprovant el sistema de fitxers del volum VeraCrypt muntat com %hs...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="ca" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Els fitxers de claus no estan suportats per al xifrat del sistema.</string>
     <string lang="ca" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">ATENCIÓ: El VeraCrypt no ha pogut restaurar la disposició de teclat orignal. Això pot provocar que introdueixi la contrasenya incorrectament.</string>
     <string lang="ca" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: No s'ha pogut establir la disposició de teclat estàndard als EUA pel VeraCrypt.\n\nTingui en compte que la contrasenya s'haurà d'esciure a l'entorn de prearrencada (abans que arrenqui el windows) on no hi haurà altres disposicions de teclat disponibles. Per tant, la contrasenya s'ha d'escriure sempre amb la disposició de teclat estàndard als EUA.</string>
@@ -1290,6 +1291,7 @@
     <string lang="ca" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">ATENCIÓ: Aquesta configuració pot afectar al rendiment.\n\n Segur que vol utilitzar-la?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="ca" key="TEST">Prova</string>
     <string lang="ca" key="KEYFILE">Fitxer de claus</string>
     <string lang="ca" key="VKEY_08">Retrocés</string>

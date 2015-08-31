@@ -62,6 +62,7 @@
     <control lang="ja" key="IDC_QUICKFORMAT">クイックフォーマット</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD">パスワード表示(&amp;D)</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD_SINGLE">パスワードを表示(&amp;D)</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="ja" key="IDC_SINGLE_BOOT">シングルブート</control>
     <control lang="ja" key="IDC_STD_VOL">VeraCrypt標準ボリューム</control>
     <control lang="ja" key="IDC_SYSENC_HIDDEN">隠し(&amp;d)</control>
@@ -98,6 +99,7 @@
     <control lang="ja" key="IDT_SYSENC_KEYS_GEN_INFO">暗号鍵、ソルト、その他のデータの生成に成功しました。新しい暗号鍵を生成したい場合は「戻る」をクリックして「次へ」をクリックしてください。それ以外は「次へ」をクリックしてください。</control>
     <control lang="ja" key="IDT_SYS_DEVICE">Windowsがインストールされているパーティションあるいはドライブを暗号化します。このシステム上のファイルを読み書きするためには、Windowsを起動するたびに正しいパスワードを入力しなければならなくなります。隠しシステムを作ることもできます。</control>
     <control lang="ja" key="IDT_SYS_PARTITION">現在起動中のWindowsがインストールされているパーティションを暗号化する場合はこのオプションを選択してください。</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="ja" key="IDT_WIPE_MODE">ワイプモード:</control>
     <control lang="ja" key="IDCLOSE">閉じる</control>
     <control lang="ja" key="IDC_ALLOW_ESC_PBA_BYPASS">Escキーによる起動前認証のスキップを許可(ブートマネージャを有効化)(&amp;a)</control>
@@ -647,6 +649,7 @@
     <string lang="ja" key="SELECT_KEYFILE">キーファイルの選択</string>
     <string lang="ja" key="SELECT_KEYFILE_PATH">キーファイルを探すフォルダを選択してください。 警告：記憶されるのはフォルダであり、ファイル名ではありません！</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="ja" key="SERPENT_HELP">Ross Anderson、Eli Biham、Lars Knudsenによって開発され1998年に公開されました。256ビットキー、128ビットブロックを使用します。動作モードはXTSです。SerpentはAES制定時の最終候補の一つでした。</string>
     <string lang="ja" key="SIZE_HELP">作成するコンテナのサイズを指定してください。\n\nもしダイナミック（スパースファイル）コンテナを作成するのであれば、このパラメータは上限サイズの指定になります。\n\n下限サイズはFATボリュームの場合で292KB、NTFSボリュームの場合で3792KB となります。</string>
     <string lang="ja" key="SIZE_HELP_HIDDEN_HOST_VOL">新しい外殻ボリュームのサイズを指定してください（中に入れる隠しボリュームは後で作成します）。中に隠しボリュームを作成できる下限サイズは340KBです。</string>
@@ -1033,7 +1036,6 @@
     <string lang="ja" key="INCONSISTENCY_RESOLVED">不整合状態を解決しました。\n\n\n（もしこの問題についてバグ報告をしてくださるなら、以下の技術的情報を付け加えてくださるようお願いします： %hs）</string>
     <string lang="ja" key="UNEXPECTED_STATE">エラー：予期しない状態です。\n\n\n（この状態をバグ報告する場合、次の情報も報告に含めるようお願いいたします。: %hs）</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="ja" key="NOTHING_TO_RESUME">再開される処理/タスクはありません。</string>
     <string lang="ja" key="HIDVOL_PROT_BKG_TASK_WARNING">警告：VeraCryptの常駐は無効になっています。VeraCryptの終了後は、隠しボリュームの保護機能が働いても告知されません。\n\n注：VeraCryptのトレイアイコンを右クリックして終了を選べば、いつでも常駐を終了できます。\n\nVeraCryptの常駐を有効にしますか？</string>
     <string lang="ja" key="LANG_PACK_VERSION">言語パックのバージョン： %s</string>
     <string lang="ja" key="CHECKING_FS">%hs ドライブとしてマウントされた VeraCryptボリュームのファイルシステムをチェック中です...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="ja" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">現在、システムの暗号化でのキーファイル使用には対応していません。</string>
     <string lang="ja" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCryptは元のキーボードレイアウトを復元できませんでした。そのためパスワードを正確に入力できないおそれがあります。</string>
     <string lang="ja" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">エラー：キーボードのレイアウトを標準USキーボードとして設定できません。\n\nシステム起動前に必要なパスワードがUS Windowsレイアウト以外のキーボードで入力されても無効となります。したがってパスワードは常に標準USレイアウトのキーボードで入力される必要があります。</string>
@@ -1290,6 +1291,7 @@
     <string lang="ja" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：この設定はパフォーマンスを低下させます。\n\n本当にこの設定を使用しますか？</string>
     <string lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告：VeraCryptボリュームの自動的アンマウント</string>
     <string lang="ja" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">マウント中のボリュームが存在するデバイスを物理的に取り外したり電源を切ったりする先に、常にまずVeraCryptボリュームをアンマウントすべきです。\n\n想定外に勝手にアンマウントされるのは、ケーブルやドライブ等が断続的につながらなくなっているのが大抵の原因です。</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="ja" key="TEST">テスト</string>
     <string lang="ja" key="KEYFILE">キーファイル</string>
     <string lang="ja" key="VKEY_08">Backspace</string>

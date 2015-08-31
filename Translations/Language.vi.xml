@@ -62,6 +62,7 @@
     <control lang="vi" key="IDC_QUICKFORMAT">Định dạng nhanh</control>
     <control lang="vi" key="IDC_SHOW_PASSWORD">&amp;Hiển thị mật mã</control>
     <control lang="vi" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Hiển thị mật mã</control>
+    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="vi" key="IDC_SINGLE_BOOT">Khởi động đơn hệ</control>
     <control lang="vi" key="IDC_STD_VOL">Tập đĩa VeraCrypt chuẩn</control>
     <control lang="vi" key="IDC_SYSENC_HIDDEN">Ẩ&amp;n</control>
@@ -98,6 +99,7 @@
     <control lang="vi" key="IDT_SYSENC_KEYS_GEN_INFO">Các khóa, muối, và những dữ liệu khác đã được tạo ra. Nếu bạn muốn tạo ra khóa mới thì nhấn Ngược lại và sau đó nhấn Kế tiếp. Không thôi thì nhấn Kế tiếp để tiếp tục.</control>
     <control lang="vi" key="IDT_SYS_DEVICE">Mã hóa phân vùng/ổ đĩa nơi mà Windows được cài đặt. Bất cứ ai muốn đưọc truy cập và sử dụng hệ thống, đọc và viết tập tin, v.v. sẽ cần nhập đúng mật mã mỗi lần trước khi Windows khởi động. Cũng có thể cấu tạo một hệ thống dấu được.</control>
     <control lang="vi" key="IDT_SYS_PARTITION">Chọn tùy chọn này để mã hóa phân vùng nơi mà hệ điều hành Windows đang chạy hiện tại được cài đặt.</control>
+    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
     <control lang="vi" key="IDT_WIPE_MODE">Phương thức tẩy:</control>
     <control lang="vi" key="IDCLOSE">Đóng</control>
     <control lang="vi" key="IDC_ALLOW_ESC_PBA_BYPASS">Cho phép bỏ qua &amp;chứng thực tiền khởi động bằng cách bấm phím Esc (bật quản lý khởi động lên)</control>
@@ -647,6 +649,7 @@
     <string lang="vi" key="SELECT_KEYFILE">Chọn Tập tin khóa</string>
     <string lang="vi" key="SELECT_KEYFILE_PATH">Chọn một đường dẫn kiếm của tập tin. CẢNH BÁO: Lưu ý là chỉ có đường dẫn sẽ được nhớ chứ tên tập tin thì không!</string>
     <string lang="en" key="SELECT_KEYFILE_GENERATION_DIRECTORY">Select a directory where to store the keyfiles.</string>
+    <string lang="en" key="SELECTED_KEYFILE_IS_CONTAINER_FILE">The current container file was selected as a keyfile. It will be skipped.</string>
     <string lang="vi" key="SERPENT_HELP">Thiết kế bởi Ross Anderson, Eli Biham, và Lars Knudsen. Phát hành năm 1998. 256-bit key, 128-bit block. Phương thức của thao tác là XTS. Serpent đã vào các vòng kết của AES.</string>
     <string lang="en" key="SIZE_HELP">Please specify the size of the container you want to create.\n\nIf you create a dynamic (sparse-file) container, this parameter will specify its maximum possible size.\n\nNote that the minimum possible size of a FAT volume is 292 KB. The minimum possible size of an NTFS volume is 3792 KB.</string>
     <string lang="en" key="SIZE_HELP_HIDDEN_HOST_VOL">Please specify the size of the outer volume to be created (you will first create the outer volume and then a hidden volume within it). The minimum possible size of a volume within which a hidden volume is intended to be created is 340 KB.</string>
@@ -1033,7 +1036,6 @@
     <string lang="vi" key="INCONSISTENCY_RESOLVED">Mâu thuẫn đã được giải quyết.\n\n\n(Nếu bạn báo một lỗi liên quan đến chuyện này, xin bao gồm tin tức kỹ thuật sau đây trong phần báo lỗi:\n%hs)</string>
     <string lang="vi" key="UNEXPECTED_STATE">Lỗi: Trạng thái bất thường.\n\n\n(Nếu bạn báo một lỗi liên quan đến chuyện này, xin bao gồm tin tức kỹ thuật sau đây trong phần báo lỗi:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
-    <string lang="vi" key="NOTHING_TO_RESUME">Không có quá trình/tác vụ nào để tiếp tục lại.</string>
     <string lang="vi" key="HIDVOL_PROT_BKG_TASK_WARNING">CẢNH BÁO: Tác vụ Phụ của VeraCrypt bị tắt. Sau khi bạn ra khỏi VeraCrypt, bạn sẽ không được thông báo nếu tổn hại cho tập đĩa ẩn được ngăn cản.\n\nLưu ý: Bạn có thể tắt Tác vụ Phụ bất cứ lúc nào bằng cách nhấn phải biểu tượng khay và chọn 'Thoát ra'.\n\nBật Tác vụ Phụ của VeraCrypt lên không?</string>
     <string lang="vi" key="LANG_PACK_VERSION">Phiên bản của bộ ngôn ngữ:  %s</string>
     <string lang="vi" key="CHECKING_FS">Đang kiểm soát hệ thống tập tin trong tập đĩa VeraCrypt được nạp như %hs...</string>
@@ -1085,8 +1087,7 @@
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
-    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
     <string lang="vi" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Các tập tin khóa hiện không được hỗ trợ cho việc mã hóa hệ thống.</string>
     <string lang="vi" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Cảnh báo: VeraCrypt không thể hồi phục bố trí bàn phím gốc được. Chuyện này có thể làm cho bạn đánh mật mã không đúng vào.</string>
     <string lang="vi" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Lỗi: Không thể thiết đặt bố trí bàn phím cho VeraCrypt thành bố trí bàn phím căn bản của Mỹ được.\n\nLưu ý là mật mã cần được đánh vào trong môi trường tiền khởi động (trước khi Windows bắt đầu) lúc mà bố trí bàn phím Windows không phải của Mỹ không có sẵn. Vì vậy, mật mã phải luôn luôn được đánh vào dùng bố trí bàn phím căn bản của Mỹ.</string>
@@ -1290,6 +1291,7 @@
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
+    <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
     <string lang="vi" key="TEST">Thử nghiệm</string>
     <string lang="vi" key="KEYFILE">Tập tin Khóa</string>
     <string lang="vi" key="VKEY_08">Backspace</string>
