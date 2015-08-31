@@ -53,7 +53,7 @@
     <control lang="en" key="IDC_MORE_INFO_ON_CONTAINERS">More information</control>
     <control lang="en" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">More information about system encryption</control>
     <control lang="en" key="IDC_MORE_INFO_SYS_ENCRYPTION">More information</control>
-    <control lang="en" key="IDC_MULTI_BOOT">Multi-boot</control>
+    <control lang="en" key="IDC_MULTI_BOOT">Multi-Boot</control>
     <control lang="en" key="IDC_NONSYS_DEVICE">Encrypt a non-system partition/drive</control>
     <control lang="en" key="IDC_NO_HISTORY">&amp;Never save history</control>
     <control lang="en" key="IDC_OPEN_OUTER_VOLUME">Open Outer Volume</control>
@@ -768,7 +768,7 @@
     <string lang="en" key="DRIVE">Drive</string>
     <string lang="en" key="SIZE">Size</string>
     <string lang="en" key="ENCRYPTION_ALGORITHM">Encryption Algorithm</string>
-    <string lang="en" key="ENCRYPTION_ALGORITHM_LV">Encryption algorithm</string>
+    <string lang="en" key="ENCRYPTION_ALGORITHM_LV">Encryption Algorithm</string>
     <string lang="en" key="TYPE">Type</string>
     <string lang="en" key="VALUE">Value</string>
     <string lang="en" key="PROPERTY">Property</string>

@@ -11,25 +11,25 @@
     <!-- Controls -->
     <control lang="fr" key="IDCANCEL">Annuler</control>
     <control lang="fr" key="IDC_ALL_USERS">Installer pour tous les utilisateurs</control>
-    <control lang="fr" key="IDC_BROWSE">Parcourir...</control>
+    <control lang="fr" key="IDC_BROWSE">&amp;Parcourir...</control>
     <control lang="fr" key="IDC_DESKTOP_ICON">Icône de VeraCrypt sur le Bureau</control>
     <control lang="fr" key="IDC_DONATE">Faire un don...</control>
     <control lang="fr" key="IDC_FILE_TYPE">Associer l'extension '.tc' à VeraCrypt</control>
     <control lang="fr" key="IDC_OPEN_CONTAINING_FOLDER">Ouvrir le dossier de destination après l'installation</control>
     <control lang="fr" key="IDC_PROG_GROUP">Ajouter VeraCrypt au menu Démarrer</control>
     <control lang="fr" key="IDC_SYSTEM_RESTORE">Créer un point de restauration système</control>
-    <control lang="fr" key="IDC_UNINSTALL">Désinstaller</control>
-    <control lang="fr" key="IDC_WIZARD_MODE_EXTRACT_ONLY">Extraire</control>
-    <control lang="fr" key="IDC_WIZARD_MODE_INSTALL">Installer</control>
+    <control lang="fr" key="IDC_UNINSTALL">&amp;Désinstaller</control>
+    <control lang="fr" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Extraire</control>
+    <control lang="fr" key="IDC_WIZARD_MODE_INSTALL">&amp;Installer</control>
     <control lang="fr" key="IDD_INSTL_DLG">Assistant d'installation de VeraCrypt</control>
     <control lang="fr" key="IDD_UNINSTALL">Désinstaller VeraCrypt</control>
-    <control lang="fr" key="IDHELP">Aide</control>
+    <control lang="fr" key="IDHELP">&amp;Aide</control>
     <control lang="fr" key="IDT_EXTRACT_DESTINATION">Sélectionner ou saisir l'emplacement où vous désirez extraire les fichiers :</control>
     <control lang="fr" key="IDT_INSTALL_DESTINATION">Sélectionner ou saisir l'emplacement où vous désirez installer le programme VeraCrypt. Si le dossier spécifié n'existe pas, il sera automatiquement créé.</control>
     <control lang="fr" key="IDT_UNINSTALL_DIR">Cliquer sur 'Désinstaller' pour supprimer VeraCrypt de votre système.</control>
     <control lang="fr" key="IDC_ABORT_BUTTON">Arrêter</control>
     <control lang="fr" key="IDC_BENCHMARK">&amp;Benchmark</control>
-    <control lang="fr" key="IDC_CIPHER_TEST">Tester</control>
+    <control lang="fr" key="IDC_CIPHER_TEST">&amp;Tester</control>
     <control lang="fr" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Créer un volume chiffré et le formater</control>
     <control lang="fr" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Chiffrer la partition en place</control>
     <control lang="fr" key="IDC_DISPLAY_KEYS">Afficher les clés générées (une partie)</control>
@@ -38,34 +38,34 @@
     <control lang="fr" key="IDC_FILE_CONTAINER">Créer un fichier conteneur chiffré</control>
     <control lang="fr" key="IDC_GB">&amp;Go</control>
     <control lang="fr" key="IDC_HIDDEN_SYSENC_INFO_LINK">Plus d'infos</control>
-    <control lang="fr" key="IDC_HIDDEN_VOL">Volume VeraCrypt caché </control>
+    <control lang="fr" key="IDC_HIDDEN_VOL">Volume VeraCrypt &amp;caché </control>
     <control lang="fr" key="IDC_HIDDEN_VOL_HELP">Plus d'infos sur les volumes cachés</control>
     <control lang="fr" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Mode direct</control>
     <control lang="fr" key="IDC_HIDVOL_WIZ_MODE_FULL">Mode normal</control>
-    <control lang="fr" key="IDC_KB">Ko</control>
-    <control lang="fr" key="IDC_KEYFILES_ENABLE">Fichiers clés</control>
+    <control lang="fr" key="IDC_KB">&amp;Ko</control>
+    <control lang="fr" key="IDC_KEYFILES_ENABLE">&amp;Utiliser fichiers clés</control>
     <control lang="fr" key="IDC_KEYFILES_RANDOM_SIZE">Taille aléatoire ( 64 &lt;-&gt; 1048576 )</control>
-    <control lang="fr" key="IDC_KEY_FILES">Fichiers clés...</control>
+    <control lang="fr" key="IDC_KEY_FILES">&amp;Fichiers clés...</control>
     <control lang="fr" key="IDC_LINK_HASH_INFO">Infos : algorithmes de hachage</control>
     <control lang="fr" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Plus d'infos</control>
     <control lang="fr" key="IDC_LINK_PIM_INFO">Plus d'info sur le PIM</control>
-    <control lang="fr" key="IDC_MB">Mo</control>
+    <control lang="fr" key="IDC_MB">&amp;Mo</control>
     <control lang="fr" key="IDC_MORE_INFO_ON_CONTAINERS">Plus d'infos</control>
     <control lang="fr" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Plus d'infos sur le système de chiffrement</control>
     <control lang="fr" key="IDC_MORE_INFO_SYS_ENCRYPTION">Plus d'infos</control>
     <control lang="fr" key="IDC_MULTI_BOOT">Amorçage multiple</control>
     <control lang="fr" key="IDC_NONSYS_DEVICE">Chiffrer une partition/un disque non système</control>
-    <control lang="fr" key="IDC_NO_HISTORY">Ne jamais enregistrer l'historique</control>
+    <control lang="fr" key="IDC_NO_HISTORY">&amp;Ne jamais enregistrer l'historique</control>
     <control lang="fr" key="IDC_OPEN_OUTER_VOLUME">Ouvrir le volume externe</control>
     <control lang="fr" key="IDC_PAUSE">&amp;Pause</control>
     <control lang="fr" key="IDC_PIM_ENABLE">Saisir un PIM</control>
     <control lang="fr" key="IDC_QUICKFORMAT">Formatage rapide</control>
-    <control lang="fr" key="IDC_SHOW_PASSWORD">Afficher le mot de passe</control>
+    <control lang="fr" key="IDC_SHOW_PASSWORD">&amp;Afficher le mot de passe</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Afficher le mot de passe</control>
     <control lang="en" key="IDC_SHOW_PIM">&amp;Afficher le PIM</control>
     <control lang="fr" key="IDC_SINGLE_BOOT">Amorçage</control>
     <control lang="fr" key="IDC_STD_VOL">Volume VeraCrypt standard</control>
-    <control lang="fr" key="IDC_SYSENC_HIDDEN">Caché</control>
+    <control lang="fr" key="IDC_SYSENC_HIDDEN">&amp;Caché</control>
     <control lang="fr" key="IDC_SYSENC_NORMAL">Normal</control>
     <control lang="fr" key="IDC_SYS_DEVICE">Chiffrer la partition ou l'intégralité du disque système</control>
     <control lang="fr" key="IDC_SYS_PARTITION">Chiffrer la partition système Windows</control>
@@ -73,7 +73,7 @@
     <control lang="fr" key="IDD_VOL_CREATION_WIZARD_DLG">Assistant de création de volume VeraCrypt</control>
     <control lang="fr" key="IDT_CLUSTER">Cluster </control>
     <control lang="fr" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANT : Déplacez votre souris dans cette fenêtre aussi aléatoirement que possible. Plus longtemps vous la bougez, mieux c'est. Cela accroît significativement la force cryptographique des clés de chiffrement. Cliquez sur 'Suivant' pour poursuivre.</control>
-    <control lang="fr" key="IDT_CONFIRM">Confirmer :</control>
+    <control lang="fr" key="IDT_CONFIRM">&amp;Confirmer :</control>
     <control lang="fr" key="IDT_DONE">Fait à</control>
     <control lang="fr" key="IDT_DRIVE_LETTER">Lettre de lecteur :</control>
     <control lang="fr" key="IDT_ENCRYPTION_ALGO">Algorithme de chiffrement</control>
@@ -104,8 +104,8 @@
     <control lang="fr" key="IDCLOSE">Fermer</control>
     <control lang="fr" key="IDC_ALLOW_ESC_PBA_BYPASS">Permet de contourner l'&amp;authentification de pré-amorçage en appuyant sur la touche Esc (active le gestionnaire de démarrage)</control>
     <control lang="fr" key="IDC_AUTORUN_DISABLE">Ne rien faire</control>
-    <control lang="fr" key="IDC_AUTORUN_MOUNT">Montage automatique d'un volume VeraCrypt (ci-dessous)</control>
-    <control lang="fr" key="IDC_AUTORUN_START">Exécuter VeraCrypt</control>
+    <control lang="fr" key="IDC_AUTORUN_MOUNT">&amp;Montage automatique d'un volume VeraCrypt (ci-dessous)</control>
+    <control lang="fr" key="IDC_AUTORUN_START">&amp;Exécuter VeraCrypt</control>
     <control lang="fr" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Détecter bibliothèque</control>
     <control lang="fr" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache du mot de passe d'authentification de pré-amorçage dans le pilote mémoire (pour le montage de volumes non-système)</control>
     <control lang="fr" key="IDC_BROWSE_DIRS">Parcourir...</control>
@@ -120,7 +120,7 @@
     <control lang="fr" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accélérer le chiffrement/déchiffrement AES en utilisant les instructions AES du processeur (si disponible)</control>
     <control lang="fr" key="IDC_ENABLE_KEYFILES">Fichiers clés</control>
     <control lang="fr" key="IDC_ENABLE_NEW_KEYFILES">Fichiers clés</control>
-    <control lang="fr" key="IDC_EXIT">Quitter</control>
+    <control lang="fr" key="IDC_EXIT">&amp;Quitter</control>
     <control lang="fr" key="IDC_FAVORITES_HELP_LINK">Aide sur les volumes favoris</control>
     <control lang="fr" key="IDC_FAVORITE_DISABLE_HOTKEY">Ne pas monter le volume sélectionné quand le &amp;raccourci de "Monter les volumes favoris" est pressé</control>
     <control lang="fr" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Monter le volume sélectionné quand son appareil hôte est &amp;connecté</control>
@@ -139,15 +139,15 @@
     <control lang="fr" key="IDC_HK_MOD_SHIFT">Maj</control>
     <control lang="fr" key="IDC_HK_MOD_WIN">Win</control>
     <control lang="fr" key="IDC_HOTKEY_ASSIGN">Affecter</control>
-    <control lang="fr" key="IDC_HOTKEY_REMOVE">Supprimer</control>
+    <control lang="fr" key="IDC_HOTKEY_REMOVE">Enlever</control>
     <control lang="fr" key="IDC_KEYFILES">Fichiers clés...</control>
     <control lang="fr" key="IDC_LIMIT_ENC_THREAD_POOL">Ne pas utiliser le nombre de processeurs suivant pour le chiffrement/déchiffrement :</control>
-    <control lang="fr" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Plus d'informations</control>
-    <control lang="fr" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Plus d'informations</control>
+    <control lang="fr" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Plus d'infos</control>
+    <control lang="fr" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Plus d'infos</control>
     <control lang="fr" key="IDC_MORE_SETTINGS">Plus de paramètres...</control>
-    <control lang="fr" key="IDC_MOUNTALL">Montage automatique</control>
-    <control lang="fr" key="IDC_MOUNT_OPTIONS">Options...</control>
-    <control lang="fr" key="IDC_MOUNT_READONLY">Monter le volume en lecture seule</control>
+    <control lang="fr" key="IDC_MOUNTALL">Montage &amp;automatique</control>
+    <control lang="fr" key="IDC_MOUNT_OPTIONS">Opti&amp;ons...</control>
+    <control lang="fr" key="IDC_MOUNT_READONLY">Monter le volume en lecture &amp;seule</control>
     <control lang="fr" key="IDC_NEW_KEYFILES">Fichiers clés...</control>
     <control lang="fr" key="IDC_OLD_PIM_HELP">(Vide or 0 pour valeur par défaut)</control>
     <control lang="fr" key="IDC_PIM_HELP">(Vide or 0 pour valeur par défaut)</control>	
@@ -170,18 +170,18 @@
     <control lang="fr" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Vider le cache des mots de passe en quittant</control>
     <control lang="fr" key="IDC_PRESERVE_TIMESTAMPS">Preserve les modifications d'horodatage des conteneurs de fichiers</control>
     <control lang="fr" key="IDC_RESET_HOTKEYS">Réinitialiser</control>
-    <control lang="fr" key="IDC_SELECT_DEVICE">Périphérique...</control>
-    <control lang="fr" key="IDC_SELECT_FILE">Fichier...</control>
-    <control lang="fr" key="IDC_SELECT_PKCS11_MODULE">Bibliothèque...</control>
+    <control lang="fr" key="IDC_SELECT_DEVICE">&amp;Périphérique...</control>
+    <control lang="fr" key="IDC_SELECT_FILE">&amp;Fichier...</control>
+    <control lang="fr" key="IDC_SELECT_PKCS11_MODULE">&amp;Bibliothèque...</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Afficher mot de passe</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Afficher mot de passe</control>
-    <control lang="fr" key="IDC_TRAVEL_OPEN_EXPLORER">Ouvrir l'Explorateur pour le volume monté</control>
-    <control lang="fr" key="IDC_TRAV_CACHE_PASSWORDS">Mot de passe en cache</control>
+    <control lang="fr" key="IDC_TRAVEL_OPEN_EXPLORER">Ouvrir l'&amp;Explorateur pour le volume monté</control>
+    <control lang="fr" key="IDC_TRAV_CACHE_PASSWORDS">Mot de passe en &amp;cache</control>
     <control lang="fr" key="IDC_TRUECRYPT_MODE">Mode TrueCrypt</control>
-    <control lang="fr" key="IDC_UNMOUNTALL">Tout démonter</control>
-    <control lang="fr" key="IDC_VOLUME_PROPERTIES">Propriétés du volume</control>
-    <control lang="fr" key="IDC_VOLUME_TOOLS">Outils pour le volume</control>
-    <control lang="fr" key="IDC_WIPE_CACHE">Vider le cache</control>
+    <control lang="fr" key="IDC_UNMOUNTALL">&amp;Tout démonter</control>
+    <control lang="fr" key="IDC_VOLUME_PROPERTIES">&amp;Propriétés du volume</control>
+    <control lang="fr" key="IDC_VOLUME_TOOLS">&amp;Outils pour le volume</control>
+    <control lang="fr" key="IDC_WIPE_CACHE">&amp;Vider le cache</control>
     <control lang="fr" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Paramèters montage</control>
     <control lang="fr" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Volumes favoris</control>
     <control lang="fr" key="IDD_HOTKEYS_DLG">VeraCrypt - Raccourcis système</control>
@@ -218,7 +218,7 @@
     <control lang="fr" key="IDM_ENCRYPT_SYSTEM_DEVICE">Chiffrer la partition/le disque système...</control>
     <control lang="fr" key="IDM_FAQ">Foire aux questions</control>
     <control lang="fr" key="IDM_HELP">Guide de l'utilisateur</control>
-    <control lang="fr" key="IDM_HOMEPAGE">Site web </control>
+    <control lang="fr" key="IDM_HOMEPAGE">&amp;Site web </control>
     <control lang="fr" key="IDM_HOTKEY_SETTINGS">Raccourcis...</control>
     <control lang="fr" key="IDM_KEYFILE_GENERATOR">Générateur de fichier clé</control>
     <control lang="fr" key="IDM_LANGUAGE">Langue...</control>
@@ -295,33 +295,33 @@
     <control lang="fr" key="IDT_TRAVEL_ROOT">Créer des fichiers pour le disque nomade sur (racine du disque nomade) :</control>
     <control lang="fr" key="IDT_VOLUME">Volume</control>
     <control lang="fr" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
-    <control lang="fr" key="IDC_ADD_KEYFILE_PATH">Ajouter un chemin</control>
-    <control lang="fr" key="IDC_AUTO">Auto-tests</control>
+    <control lang="fr" key="IDC_ADD_KEYFILE_PATH">Ajouter un &amp;chemin</control>
+    <control lang="fr" key="IDC_AUTO">&amp;Auto-tests</control>
     <control lang="fr" key="IDC_CONTINUE">&amp;Continuer</control>
-    <control lang="fr" key="IDC_DECRYPT">Déchiffrer</control>
+    <control lang="fr" key="IDC_DECRYPT">&amp;Déchiffrer</control>
     <control lang="fr" key="IDC_DELETE">&amp;Effacer</control>
-    <control lang="fr" key="IDC_ENCRYPT">Chiffrer</control>
+    <control lang="fr" key="IDC_ENCRYPT">&amp;Chiffrer</control>
     <control lang="fr" key="IDC_EXPORT">&amp;Exporter...</control>
     <control lang="fr" key="IDC_GENERATE_AND_SAVE_KEYFILE">Générer et sauvegarder le fichier clé...</control>
-    <control lang="fr" key="IDC_GENERATE_KEYFILE">Générer aléatoirement un fichier clé</control>
+    <control lang="fr" key="IDC_GENERATE_KEYFILE">&amp;Générer aléatoirement un fichier clé</control>
     <control lang="fr" key="IDC_GET_LANG_PACKS">Télécharger un fichier de langue</control>
     <control lang="fr" key="IDC_HW_AES_LABEL_LINK">AES accéléré matériellement :</control>
     <control lang="fr" key="IDC_IMPORT_KEYFILE">&amp;Importer un fichier clé dans un jeton...</control>
     <control lang="fr" key="IDC_KEYADD">Ajouter &amp;fichiers...</control>
-    <control lang="fr" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Utiliser les fichiers clés</control>
-    <control lang="fr" key="IDC_KEYFILES_HIDVOL_PROT">Fichiers clés...</control>
-    <control lang="fr" key="IDC_KEYREMOVE">Supprimer</control>
-    <control lang="fr" key="IDC_KEYREMOVEALL">Tout supprimer</control>
+    <control lang="fr" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">&amp;Utiliser les fichiers clés</control>
+    <control lang="fr" key="IDC_KEYFILES_HIDVOL_PROT">Fichiers &amp;clés...</control>
+    <control lang="fr" key="IDC_KEYREMOVE">&amp;Supprimer</control>
+    <control lang="fr" key="IDC_KEYREMOVEALL">&amp;Tout supprimer</control>
     <control lang="fr" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Qu'est-ce que la protection d'un volume caché ?</control>
     <control lang="fr" key="IDC_LINK_KEYFILES_INFO">Plus d'infos sur les fichiers clés</control>
-    <control lang="fr" key="IDC_MOUNT_REMOVABLE">Monter le volume comme un média amovible</control>
-    <control lang="fr" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Monter la partition avec chiffr. syst. sans authentification au pré-amorçage</control>
+    <control lang="fr" key="IDC_MOUNT_REMOVABLE">Monter le volume comme un &amp;média amovible</control>
+    <control lang="fr" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Monter la partition &amp;avec chiffr. syst. sans authentification au pré-amorçage</control>
     <control lang="fr" key="IDC_PARALLELIZATION_LABEL_LINK">Parallélisation :</control>
-    <control lang="fr" key="IDC_PERFORM_BENCHMARK">Test</control>
+    <control lang="fr" key="IDC_PERFORM_BENCHMARK">Évaluer</control>
     <control lang="fr" key="IDC_PRINT">&amp;Imprimer </control>
-    <control lang="fr" key="IDC_PROTECT_HIDDEN_VOL">Empêcher les dommages causés en écrivant dans le volume externe</control>
-    <control lang="fr" key="IDC_RESET">Réinitialiser</control>
-    <control lang="fr" key="IDC_SHOW_PASSWORD_MO">Afficher mot de passe</control>
+    <control lang="fr" key="IDC_PROTECT_HIDDEN_VOL">&amp;Empêcher les dommages causés en écrivant dans le volume externe</control>
+    <control lang="fr" key="IDC_RESET">&amp;Réinitialiser</control>
+    <control lang="fr" key="IDC_SHOW_PASSWORD_MO">&amp;Afficher mot de passe</control>
     <control lang="fr" key="IDC_TOKEN_FILES_ADD">Ajouter &amp;Fichiers jeton...</control>
     <control lang="fr" key="IDC_USE_EMBEDDED_HEADER_BAK">Utiliser l'en-tête de sauvegarde incorporé dans le &amp;volume s'il est disponible</control>
     <control lang="fr" key="IDC_XTS_MODE_ENABLED">Mode XTS</control>
@@ -343,7 +343,7 @@
     <control lang="fr" key="IDT_BOX_BENCHMARK_INFO">La vitesse est affectée par la charge du CPU ainsi que par les caractéristiques du périphérique de stockage.\n\nCes tests ont lieu en RAM.</control>
     <control lang="fr" key="IDT_BUFFER_SIZE">Tampon :</control>
     <control lang="fr" key="IDT_CIPHER">Chiffrement :</control>
-    <control lang="fr" key="IDT_HIDDEN_PROT_PASSWD">Mot de passe du volume caché :\n(s'il est vide, celui en cache sera utilisé)</control>
+    <control lang="fr" key="IDT_HIDDEN_PROT_PASSWD">&amp;Mot de passe du volume caché :\n(s'il est vide, celui en cache sera utilisé)</control>
     <control lang="fr" key="IDT_HIDDEN_VOL_PROTECTION">Protection du volume caché</control>
     <control lang="fr" key="IDT_KEY">Taille de la clé :</control>
     <control lang="fr" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANT : Déplacez aléatoirement la souris dans cette fenêtre. Plus longtemps vous le faites, mieux c'est. Cela accroît significativement la force cryptographique du fichier clé.</control>
@@ -353,7 +353,7 @@
     <control lang="fr" key="IDT_KEYFILES_SIZE">Taille fichiers clé (en Octets):</control>
     <control lang="fr" key="IDT_KEYFILES_BASE_NAME">Nom de base fichiers clé:</control>
     <control lang="fr" key="IDT_LANGPACK_AUTHORS">Traduit par :</control>
-    <control lang="fr" key="IDT_PLAINTEXT">Taille :</control>
+    <control lang="fr" key="IDT_PLAINTEXT">Taille text en clair :</control>
     <control lang="fr" key="IDT_PLAINTEXT_SIZE_UNIT">bits</control>
     <control lang="fr" key="IDT_POOL_CONTENTS">Réserve de nombres aléatoires</control>
     <control lang="fr" key="IDT_PRF">Mélange PRF :</control>
@@ -378,7 +378,7 @@
     <control lang="fr" key="MENU_HELP">&amp;Aide</control>
     <control lang="fr" key="MENU_WEBSITE">   &amp;Site Web   </control>
     <!-- Strings -->
-    <string lang="fr" key="ABOUTBOX">À propos...</string>
+    <string lang="fr" key="ABOUTBOX">À &amp;propos...</string>
     <string lang="fr" key="ACCESSMODEFAIL">L'attribut lecture seule sur votre ancien volume n'a pas pû être changé. Vérifiez les permissions d'accès.</string>
     <string lang="fr" key="ACCESS_DENIED">Erreur : Accès refusé.\n\nLa partition à laquelle vous essayez d'accéder fait soit zéro secteur de long, soit il s'agit du périphérique d'amorçage.</string>
     <string lang="fr" key="ADMINISTRATOR">Administrateur</string>
@@ -551,11 +551,11 @@
     <string lang="fr" key="MAX_HIDVOL_SIZE_GB">Taille maximale du volume caché pour ce volume : %.2f Go.</string>
     <string lang="fr" key="MOUNTED_NOPWCHANGE">Le mot de passe/le fichier clé du volume ne peut pas être changé quand celui-ci est monté. Démontez le volume en premier.</string>
     <string lang="fr" key="MOUNTED_NO_PKCS5_PRF_CHANGE">L'algorithme de dérivation de la clé d'en-tête ne peut pas être changé quand le volume est monté. Démontez le volume en premier.</string>
-    <string lang="fr" key="MOUNT_BUTTON">Monter</string>
+    <string lang="fr" key="MOUNT_BUTTON">&amp;Monter</string>
     <string lang="fr" key="NEW_VERSION_REQUIRED">Ce volume nécessite une nouvelle version de VeraCrypt.</string>
     <string lang="fr" key="VOL_CREATION_WIZARD_NOT_FOUND">Erreur : Assistant de création de volume introuvable.\n\nAssurez-vous que le fichier 'VeraCrypt Format.exe' est dans le répertoire duquel a été exécuté 'VeraCrypt.exe'. S'il n'y est pas, réinstallez VeraCrypt ou localisez 'VeraCrypt Format.exe' sur votre disque et exécutez-le.</string>
     <string lang="en" key="VOL_EXPANDER_NOT_FOUND">Erreur : Programme d'agrandissement de volume introuvable.\n\nAssurez-vous que le fichier 'VeraCryptExpander.exe' est dans le répertoire duquel a été exécuté 'VeraCrypt.exe'. S'il n'y est pas, réinstallez VeraCrypt ou localisez 'VeraCryptExpander.exe' sur votre disque et exécutez-le.</string>
-    <string lang="fr" key="NEXT">Suivant &gt;</string>
+    <string lang="fr" key="NEXT">&amp;Suivant &gt;</string>
     <string lang="fr" key="FINALIZE">&amp;Terminer</string>
     <string lang="fr" key="INSTALL">&amp;Installer</string>
     <string lang="fr" key="EXTRACT">E&amp;xtraire</string>
@@ -678,7 +678,7 @@
     <string lang="fr" key="UNKNOWN">Inconnu</string>
     <string lang="fr" key="ERR_UNKNOWN">Une erreur non spécifiée ou inconnue est survenue (%d).</string>
     <string lang="fr" key="UNMOUNTALL_LOCK_FAILED">Certains volumes contiennent des fichiers ou des dossiers en cours d'utilisation par une application ou par le système.\n\nForcer le démontage ?</string>
-    <string lang="fr" key="UNMOUNT_BUTTON">Démonter</string>
+    <string lang="fr" key="UNMOUNT_BUTTON">&amp;Démonter</string>
     <string lang="fr" key="UNMOUNT_FAILED">Le démontage a échoué !</string>
     <string lang="fr" key="UNMOUNT_LOCK_FAILED">Le volume contient des fichiers ou des dossiers utilisés par des applications ou par le système.\n\nForcer le démontage ?</string>
     <string lang="fr" key="NO_VOLUME_MOUNTED_TO_DRIVE">Aucun volume n'est monté sur l'unité logique spécifiée.</string>
@@ -899,10 +899,10 @@
     <string lang="fr" key="PROGRESS_STATUS_WAITING">En attente</string>
     <string lang="fr" key="PROGRESS_STATUS_PREPARING">Préparation</string>
     <string lang="fr" key="PROGRESS_STATUS_RESIZING">Redimensionnement</string>
-    <string lang="fr" key="PROGRESS_STATUS_ENCRYPTING">Chiffrement</string>
-    <string lang="fr" key="PROGRESS_STATUS_DECRYPTING">Déchiffrement</string>
+    <string lang="fr" key="PROGRESS_STATUS_ENCRYPTING">Cryptage</string>
+    <string lang="fr" key="PROGRESS_STATUS_DECRYPTING">Décryptage</string>
     <string lang="fr" key="PROGRESS_STATUS_FINALIZING">Finalisation</string>
-    <string lang="fr" key="PROGRESS_STATUS_PAUSED">Pause</string>
+    <string lang="fr" key="PROGRESS_STATUS_PAUSED">En pause</string>
     <string lang="fr" key="PROGRESS_STATUS_FINISHED">Terminé</string>
     <string lang="fr" key="PROGRESS_STATUS_ERROR">Erreur</string>
     <string lang="fr" key="FAVORITE_DISCONNECTED_DEV">Périphérique déconnecté</string>
@@ -1263,7 +1263,7 @@
     <string lang="fr" key="CKR_DEVICE_MEMORY">Le jeton de sécurité n'a pas assez de mémoire, d'espace pour effectuer l'opération demandée.\n\nSi vous essayez d'importer un fichier de clé, vous devez sélectionner un fichier plus petit ou utiliser un fichier clé généré par VeraCrypt (sélectionnez « Outils » &gt; « Générateur de fichier clé »).</string>
     <string lang="fr" key="ALL_TOKEN_SESSIONS_CLOSED">Toutes les sessions de jeton de sécurité ouvertes ont été fermées.</string>
     <string lang="fr" key="SELECT_TOKEN_KEYFILES">Sélectionnez les fichiers clés du jeton de sécurité</string>
-    <string lang="fr" key="TOKEN_SLOT_ID">Emplacement</string>
+    <string lang="fr" key="TOKEN_SLOT_ID">Connecteur</string>
     <string lang="fr" key="TOKEN_NAME">Nom du jeton</string>
     <string lang="fr" key="TOKEN_DATA_OBJECT_LABEL">Nom du fichier</string>
     <string lang="fr" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">IMPORTANT : Veuillez noter que le mot de passe pour l'authentification de pré-amorçage est toujours tapé à l'aide de la disposition du clavier américain standard. Par conséquent, un volume qui utilise un mot de passe tapé à l'aide de toute autre type de clavier peut être impossible à monter à l'aide d'un mot de passe d'authentification de pré-amorçage (Notez que ce n'est pas un bug dans VeraCrypt). Pour permettre un tel volume de monter à l'aide d'un mot de passe d'authentification de pré-amorçage, procédez comme suit :\n1) Cliquez sur "Selectionner un fichier" ou "Sélectionner un périphérique" et sélectionnez le volume.\n2) Sélectionnez « Volume » &gt; « Modifier le mot de passe de volume ».\n3) Entrez le mot de passe actuel pour le volume.\n4) Modifier la disposition du clavier à anglais (États-Unis) en cliquant sur l'icône de barre de langue dans la barre des tâches Windows et en sélectionnant « EN anglais (États-Unis) ».\n5) Dans VeraCrypt, dans le champ pour le nouveau mot de passe, tapez le mot de passe d'authentification de pré-amorçage.\n6) Confirmez le nouveau mot de passe en le retapant dans le champ de confirmation, puis cliquez sur 'OK'.\nAVERTISSEMENT : Gardez à l'esprit que si vous suivez ces étapes, le mot de passe de volume devra toujours être tapé à l'aide de la disposition du clavier américain (qui est automatiquement activé uniquement dans l'environnement de pré-amorçage).</string>
@@ -1331,7 +1331,7 @@
     <string lang="fr" key="VKEY_AF">Volume +</string>
     <string lang="fr" key="VKEY_B0">Piste suivante</string>
     <string lang="fr" key="VKEY_B1">Piste précédente</string>
-    <string lang="fr" key="VKEY_B2">Arrêter</string>
+    <string lang="fr" key="VKEY_B2">Arrêter Média</string>
     <string lang="fr" key="VKEY_B3">Jouer/Pause</string>
     <string lang="fr" key="VKEY_B4">Touche démarrer courriel</string>
     <string lang="fr" key="VKEY_B5">Sélectionner touche Média</string>
@@ -1344,7 +1344,7 @@
     <string lang="fr" key="VKEY_FB">Zoom</string>
     <string lang="fr" key="VK_NUMPAD">Pavé num.</string>
     <string lang="fr" key="VK_SHIFT">Maj</string>
-    <string lang="fr" key="VK_CONTROL">Ctrl</string>
+    <string lang="fr" key="VK_CONTROL">Contrôle</string>
     <string lang="fr" key="VK_ALT">Alt</string>
     <string lang="fr" key="VK_WIN">Win</string>
     <string lang="fr" key="BYTE">o</string>
