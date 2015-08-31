@@ -182,7 +182,7 @@ BEGIN
     RTEXT           "",IDC_TESTS_MESSAGE,50,213,178,10
     CONTROL         "",IDC_REDTICK,"VCREDTICK",0x0,234,214,10,8
     RTEXT           "Key size:",IDT_KEY,8,57,56,8
-    RTEXT           "Plaintext size:",IDT_PLAINTEXT,190,153,63,8
+    RTEXT           "Plaintext size:",IDT_PLAINTEXT,174,153,79,8
     LTEXT           "bits",IDT_KEY_UNIT,114,57,45,8
     RTEXT           "Cipher:",IDT_CIPHER,38,13,68,8
     LTEXT           "bits",IDT_PLAINTEXT_SIZE_UNIT,298,153,22,8
