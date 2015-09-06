@@ -723,7 +723,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 		ConfigReadCompareInt ("HiddenSystemLeakProtNotifStatus", TC_HIDDEN_OS_READ_ONLY_NOTIF_MODE_NONE, &HiddenSysLeakProtectionNotificationStatus, bOnlyCheckModified, pbSettingsModified);
 
 	// Drive letter - command line arg overrides registry
-	if (!bOnlyCheckModified && szDriveLetter[0] == 0)
+	if (!bOnlyCheckModified && bHistory && szDriveLetter[0] == 0)
 		ConfigReadString ("LastSelectedDrive", "", szDriveLetter, sizeof (szDriveLetter));
 	if (bHistory && pbSettingsModified)
 	{
@@ -846,11 +846,15 @@ void SaveSettings (HWND hwndDlg)
 		if (IsHiddenOSRunning())
 			ConfigWriteInt ("HiddenSystemLeakProtNotifStatus", HiddenSysLeakProtectionNotificationStatus);
 
-		// Drive Letter
-		lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
-		if (LOWORD (lLetter) != 0xffff)
-			StringCbPrintfA (szTmp, sizeof(szTmp), "%c:", (char) HIWORD (lLetter));
-		ConfigWriteString ("LastSelectedDrive", szTmp);
+		// save last selected drive only when history enabled
+		if (bHistory)
+		{
+			// Drive Letter
+			lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
+			if (LOWORD (lLetter) != 0xffff)
+				StringCbPrintfA (szTmp, sizeof(szTmp), "%c:", (char) HIWORD (lLetter));
+			ConfigWriteString ("LastSelectedDrive", szTmp);
+		}
 
 		ConfigWriteInt ("CloseSecurityTokenSessionsAfterMount",	CloseSecurityTokenSessionsAfterMount);
 
