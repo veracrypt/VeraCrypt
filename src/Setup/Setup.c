@@ -776,52 +776,103 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 
 					string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe", false);
 					string serviceLegacyPath = GetServiceConfigPath (TC_APP_NAME ".exe", true);
+					string favoritesFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false);
+					string favoritesLegacyFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, true);
 
-					if (FileExists (servicePath.c_str()))
+					if (	FileExists (servicePath.c_str())
+						||	(Is64BitOs () && FileExists (serviceLegacyPath.c_str()))
+						)
 					{
 						CopyMessage (hwndDlg, (char *) servicePath.c_str());
 						bResult = CopyFile (szTmp, servicePath.c_str(), FALSE);
 					}
-					else if (Is64BitOs () && FileExists (serviceLegacyPath.c_str()))
+
+					if (bResult && Is64BitOs () 
+						&& FileExists (favoritesLegacyFile.c_str()) 
+						&& !FileExists (favoritesFile.c_str()))
 					{
-						string favoritesFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false);
-						string favoritesLegacyFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, true);
+						// copy the favorites XML file to the native system directory
+						bResult = CopyFile (favoritesLegacyFile.c_str(), favoritesFile.c_str(), FALSE);
+					}
 
-						// delete files from legacy path
-						RemoveMessage (hwndDlg, (char *) serviceLegacyPath.c_str());
-						DeleteFile (serviceLegacyPath.c_str());
+					if (bResult && Is64BitOs () && FileExists (favoritesFile.c_str()) && FileExists (servicePath.c_str()))
+					{
+						// Update the path of the service
+						BootEncryption BootEncObj (hwndDlg);
 
-						CopyMessage (hwndDlg, (char *) servicePath.c_str());
-						bResult = CopyFile (szTmp, servicePath.c_str(), FALSE);	
-
-						if (bResult && FileExists (favoritesLegacyFile.c_str()))
+						try
 						{
-							// copy the favorites XML file to the native system directory
-							bResult = CopyFile (favoritesLegacyFile.c_str(), favoritesFile.c_str(), FALSE);
-							if (bResult)
-								DeleteFile (favoritesLegacyFile.c_str());
-
-							BootEncryption BootEncObj (hwndDlg);
-
-							try
+							if (BootEncObj.GetStatus().DriveMounted)
 							{
-								if (BootEncObj.GetStatus().DriveMounted)
-								{
-									BootEncObj.RegisterSystemFavoritesService (TRUE, TRUE);
-								}
+								BootEncObj.UpdateSystemFavoritesService ();
 							}
-							catch (...) {}
 						}
+						catch (...) {}
 					}
 
 					if (Is64BitOs ())
+					{
+						// delete files from legacy path
+						if (FileExists (favoritesLegacyFile.c_str()))
+						{
+							RemoveMessage (hwndDlg, (char *) favoritesLegacyFile.c_str());
+							DeleteFile (favoritesLegacyFile.c_str());
+						}
+
+						if (FileExists (serviceLegacyPath.c_str()))
+						{
+							RemoveMessage (hwndDlg, (char *) serviceLegacyPath.c_str());
+							DeleteFile (serviceLegacyPath.c_str());
+						}
+
 						EnableWow64FsRedirection (TRUE);
+					}
 				}
 			}
 		}
 		else
 		{
 			bResult = StatDeleteFile (szTmp, TRUE);
+			if (bResult && strcmp (szFiles[i], "AVeraCrypt.exe") == 0)
+			{
+				if (Is64BitOs ())
+					EnableWow64FsRedirection (FALSE);
+
+				string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe", false);
+				string serviceLegacyPath = GetServiceConfigPath (TC_APP_NAME ".exe", true);
+				string favoritesFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false);
+				string favoritesLegacyFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, true);
+
+				// delete all files related to system favorites service
+				if (FileExists (favoritesFile.c_str()))
+				{
+					RemoveMessage (hwndDlg, (char *) favoritesFile.c_str());
+					DeleteFile (favoritesFile.c_str());
+				}
+
+				if (FileExists (servicePath.c_str()))
+				{
+					RemoveMessage (hwndDlg, (char *) servicePath.c_str());
+					DeleteFile (servicePath.c_str());
+				}
+
+				if (Is64BitOs ())
+				{
+					if (FileExists (favoritesLegacyFile.c_str()))
+					{
+						RemoveMessage (hwndDlg, (char *) favoritesLegacyFile.c_str());
+						DeleteFile (favoritesLegacyFile.c_str());
+					}
+
+					if (FileExists (serviceLegacyPath.c_str()))
+					{
+						RemoveMessage (hwndDlg, (char *) serviceLegacyPath.c_str());
+						DeleteFile (serviceLegacyPath.c_str());
+					}
+
+					EnableWow64FsRedirection (TRUE);
+				}
+			}
 		}
 
 err:
@@ -1104,6 +1155,22 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 		handleWin32Error (hwndDlg, SRC_POS);
 		bOK = FALSE;
 	}
+
+	// remove VeraCrypt under common appdata
+	if (SUCCEEDED (SHGetFolderPath (NULL, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, path)))
+	{
+		StringCbCatA (path, sizeof(path), "\\VeraCrypt");
+
+		// Delete original bootloader
+		StringCbPrintfA (path2, sizeof(path2), "%s\\%s", path, TC_SYS_BOOT_LOADER_BACKUP_NAME);
+		RemoveMessage (hwndDlg, path2);
+		StatDeleteFile (path2, FALSE);
+
+		// remove VeraCrypt folder
+		RemoveMessage (hwndDlg, path);
+		StatRemoveDirectory (path);
+	}
+
 
 	return bOK;
 }

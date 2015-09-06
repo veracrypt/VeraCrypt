@@ -2017,6 +2017,7 @@ namespace VeraCrypt
 	{
 		SC_HANDLE scm = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
 		throw_sys_if (!scm);
+		finally_do_arg (SC_HANDLE, scm, { CloseServiceHandle (finally_arg); });
 
 		string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe", false);
 		string serviceLegacyPath = GetServiceConfigPath (TC_APP_NAME ".exe", true);
@@ -2096,6 +2097,39 @@ namespace VeraCrypt
 				if (serviceLegacyPath != servicePath)
 					DeleteFile (serviceLegacyPath.c_str());
 			}
+		}
+	}
+
+	void BootEncryption::UpdateSystemFavoritesService ()
+	{
+		SC_HANDLE scm = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
+		throw_sys_if (!scm);
+
+		finally_do_arg (SC_HANDLE, scm, { CloseServiceHandle (finally_arg); });
+
+		string servicePath = GetServiceConfigPath (TC_APP_NAME ".exe", false);
+
+		// check if service exists
+		SC_HANDLE service = OpenService (scm, TC_SYSTEM_FAVORITES_SERVICE_NAME, SERVICE_ALL_ACCESS);
+		if (service)
+		{
+			// ensure that its parameters are correct
+			throw_sys_if (!ChangeServiceConfig (service,
+				SERVICE_WIN32_OWN_PROCESS,
+				SERVICE_AUTO_START,
+				SERVICE_ERROR_NORMAL,
+				(string ("\"") + servicePath + "\" " TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION).c_str(),
+				TC_SYSTEM_FAVORITES_SERVICE_LOAD_ORDER_GROUP,
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				TC_APP_NAME " System Favorites"));
+
+		}
+		else
+		{
+			RegisterSystemFavoritesService (TRUE, TRUE);
 		}
 	}
 
