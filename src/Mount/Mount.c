@@ -1288,10 +1288,25 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 	{
 		STARTUPINFO si;
 		PROCESS_INFORMATION pi;
+		char formatExeName[64];
+		char* suffix = NULL;
 		ZeroMemory (&si, sizeof (si));
 
+		StringCbCopyA (formatExeName, sizeof (formatExeName), "\\VeraCrypt Format");
+
+		// check if there is a suffix in VeraCrypt file name
+		// in order to use the same for "VeraCrypt Format"
+		suffix = strrchr (tmp + 1, '-');
+		if (suffix)
+		{
+			StringCbCatA (formatExeName, sizeof (formatExeName), suffix);
+			StringCbCatA (formatExeName, sizeof (formatExeName), "\"");
+		}
+		else
+			StringCbCatA (formatExeName, sizeof (formatExeName), ".exe\"");
+
 		*tmp = 0;
-		StringCbCatA (t, sizeof(t), "\\VeraCrypt Format.exe\"");
+		StringCbCatA (t, sizeof(t), formatExeName);
 
 		if (!FileExists(t))
 			Error ("VOL_CREATION_WIZARD_NOT_FOUND", hwndDlg);	// Display a user-friendly error message and advise what to do
@@ -1316,7 +1331,7 @@ static void LaunchVolCreationWizard (HWND hwndDlg, const char *arg)
 
 static void LaunchVolExpander (HWND hwndDlg)
 {
-	char t[TC_MAX_PATH] = {'"',0};
+	char t[TC_MAX_PATH + TC_MAX_PATH] = {'"',0};
 	char *tmp;
 
 	GetModuleFileName (NULL, t+1, sizeof(t)-1);
@@ -1324,8 +1339,24 @@ static void LaunchVolExpander (HWND hwndDlg)
 	tmp = strrchr (t, '\\');
 	if (tmp)
 	{
+		char expanderExeName[64];
+		char* suffix = NULL;
+
+		StringCbCopyA (expanderExeName, sizeof (expanderExeName), "\\VeraCryptExpander");
+
+		// check if there is a suffix in VeraCrypt file name
+		// in order to use the same for "VeraCrypt Format"
+		suffix = strrchr (tmp + 1, '-');
+		if (suffix)
+		{
+			StringCbCatA (expanderExeName, sizeof (expanderExeName), suffix);
+			StringCbCatA (expanderExeName, sizeof (expanderExeName), "\"");
+		}
+		else
+			StringCbCatA (expanderExeName, sizeof (expanderExeName), ".exe\"");
+
 		*tmp = 0;
-		StringCbCatA (t, sizeof(t), "\\VeraCryptExpander.exe\"");
+		StringCbCatA (t, sizeof(t), expanderExeName);
 
 		if (!FileExists(t))
 			Error ("VOL_EXPANDER_NOT_FOUND", hwndDlg);	// Display a user-friendly error message and advise what to do
