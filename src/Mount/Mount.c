@@ -3932,9 +3932,24 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt", dstDir);
 			CreateDirectory (dstPath, NULL);
 
-			// Main app
-			StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt.exe", appDir);
+			// Main app 32-bit
+			if (Is64BitOs ())
+				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt-x86.exe", appDir);
+			else
+				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt.exe", appDir);
 			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
+			if (!TCCopyFile (srcPath, dstPath))
+			{
+				handleWin32Error (hwndDlg, SRC_POS);
+				goto stop;
+			}
+
+			// Main app 64-bit
+			if (Is64BitOs ())
+				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt.exe", appDir);
+			else
+				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt-x64.exe", appDir);
+			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
 			if (!TCCopyFile (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg, SRC_POS);
@@ -3944,8 +3959,24 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// Wizard
 			if (copyWizard)
 			{
-				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format.exe", appDir);
+				// Wizard 32-bit
+				if (Is64BitOs ())
+					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format-x86.exe", appDir);
+				else
+					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format.exe", appDir);
 				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
+				if (!TCCopyFile (srcPath, dstPath))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+					goto stop;
+				}
+
+				// Wizard 64-bit
+				if (Is64BitOs ())
+					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format.exe", appDir);
+				else
+					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format-x64.exe", appDir);
+				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
 				if (!TCCopyFile (srcPath, dstPath))
 				{
 					handleWin32Error (hwndDlg, SRC_POS);

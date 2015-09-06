@@ -641,6 +641,18 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 				continue;	// Destination = target
 		}
 
+		// skip files that don't apply to the current architecture
+		if (	(Is64BitOs () && (strcmp (szFiles[i], "AVeraCrypt-x64.exe") == 0))
+			|| (Is64BitOs () && (strcmp (szFiles[i], "AVeraCryptExpander-x64.exe") == 0))
+			|| (Is64BitOs () && (strcmp (szFiles[i], "AVeraCrypt Format-x64.exe") == 0))
+			||	(!Is64BitOs () && (strcmp (szFiles[i], "AVeraCrypt-x86.exe") == 0))
+			||	(!Is64BitOs () && (strcmp (szFiles[i], "AVeraCryptExpander-x86.exe") == 0))
+			||	(!Is64BitOs () && (strcmp (szFiles[i], "AVeraCrypt Format-x86.exe") == 0))
+			)
+		{
+			continue;
+		}
+
 		if (*szFiles[i] == 'A')
 			StringCbCopyA (szDir, sizeof(szDir), szDestDir);
 		else if (*szFiles[i] == 'D')
@@ -700,15 +712,33 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 				}
 
 				if (Is64BitOs ()
+					&& strcmp (szFiles[i], "AVeraCrypt-x86.exe") == 0)
+				{
+					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCrypt.exe", sizeof ("VeraCrypt.exe"));
+				}
+
+				if (Is64BitOs ()
 					&& strcmp (szFiles[i], "AVeraCryptExpander.exe") == 0)
 				{
 					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCryptExpander-x64.exe", sizeof ("VeraCryptExpander-x64.exe"));
 				}
 
 				if (Is64BitOs ()
+					&& strcmp (szFiles[i], "AVeraCryptExpander-x86.exe") == 0)
+				{
+					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCryptExpander.exe", sizeof ("VeraCryptExpander.exe"));
+				}
+
+				if (Is64BitOs ()
 					&& strcmp (szFiles[i], "AVeraCrypt Format.exe") == 0)
 				{
 					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCrypt Format-x64.exe", sizeof ("VeraCrypt Format-x64.exe"));
+				}
+
+				if (Is64BitOs ()
+					&& strcmp (szFiles[i], "AVeraCrypt Format-x86.exe") == 0)
+				{
+					StringCbCopyNA (curFileName, sizeof(curFileName), "VeraCrypt Format.exe", sizeof ("VeraCrypt Format.exe"));
 				}
 
 				if (!bDevm)
