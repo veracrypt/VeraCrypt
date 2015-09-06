@@ -1863,10 +1863,21 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	{
 	case WM_INITDIALOG:
 		{
-			LPARAM nIndex;
+			LPARAM nIndex, nSelectedIndex = 0;
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_OLD_PRF_ID);
 			int i;
 			WipeAlgorithmId headerWipeMode = TC_WIPE_3_DOD_5220;
+			int EffectiveVolumePkcs5 = CmdVolumePkcs5;
+			BOOL EffectiveVolumeTrueCryptMode = CmdVolumeTrueCryptMode;
+			int EffectiveVolumePim = CmdVolumePim;
+
+			/* Priority is given to command line parameters 
+			 * Default values used only when nothing specified in command line
+			 */
+			if (EffectiveVolumePkcs5 == 0)
+				EffectiveVolumePkcs5 = DefaultVolumePkcs5;
+			if (!EffectiveVolumeTrueCryptMode)
+				EffectiveVolumeTrueCryptMode = DefaultVolumeTrueCryptMode;
 
 			NewPimValuePtr = (int*) lParam;
 
@@ -1905,9 +1916,27 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 				nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
+				if (i == EffectiveVolumePkcs5)
+				{
+					nSelectedIndex = nIndex;
+				}
 			}
 
-			SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
+			SendMessage (hComboBox, CB_SETCURSEL, nSelectedIndex, 0);
+
+			/* check TrueCrypt Mode if it was set as default*/
+			SetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE, EffectiveVolumeTrueCryptMode);
+
+			/* set default PIM if set in the command line*/
+			if (EffectiveVolumePim > 0)
+			{
+				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, TRUE);
+				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+				ShowWindow (GetDlgItem( hwndDlg, IDT_OLD_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_OLD_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem( hwndDlg, IDC_OLD_PIM_HELP), SW_SHOW);
+				SetPim (hwndDlg, IDC_OLD_PIM, EffectiveVolumePim);
+			}
 
 			/* Add PRF algorithm list for new password */
 			hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
@@ -8993,6 +9022,14 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lps
 	int hiddenVolPkcs5 = 0, hiddenVolPim = 0;
 	byte temporaryKey[MASTER_KEYDATA_SIZE];
 	byte originalK2[MASTER_KEYDATA_SIZE];
+	int EffectiveVolumePkcs5 = CmdVolumePkcs5;
+	int EffectiveVolumePim = CmdVolumePim;
+
+	/* Priority is given to command line parameters 
+	 * Default values used only when nothing specified in command line
+	 */
+	if (EffectiveVolumePkcs5 == 0)
+		EffectiveVolumePkcs5 = DefaultVolumePkcs5;
 
    if (!lpszVolume)
    {
@@ -9041,10 +9078,19 @@ int BackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, const char *lps
 
 		while (TRUE)
 		{
-			if (!AskVolumePassword (hwndDlg, askPassword, askPkcs5, askPim, &VolumeTrueCryptMode, type == TC_VOLUME_TYPE_HIDDEN ? "ENTER_HIDDEN_VOL_PASSWORD" : "ENTER_NORMAL_VOL_PASSWORD", FALSE))
+			int GuiPkcs5 = ((EffectiveVolumePkcs5 > 0) && (*askPkcs5 == 0))? EffectiveVolumePkcs5 : *askPkcs5;
+			int GuiPim = ((EffectiveVolumePim > 0) && (*askPim <= 0))? EffectiveVolumePim : *askPim;
+			if (!AskVolumePassword (hwndDlg, askPassword, &GuiPkcs5, &GuiPim, &VolumeTrueCryptMode, type == TC_VOLUME_TYPE_HIDDEN ? "ENTER_HIDDEN_VOL_PASSWORD" : "ENTER_NORMAL_VOL_PASSWORD", FALSE))
 			{
 				nStatus = ERR_SUCCESS;
 				goto ret;
+			}
+			else
+			{
+				*askPkcs5 = GuiPkcs5;
+				*askPim = GuiPim;
+				burn (&GuiPkcs5, sizeof (GuiPkcs5));
+				burn (&GuiPim, sizeof (GuiPim));
 			}
 
 			WaitCursor();
@@ -9241,6 +9287,14 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 	HANDLE fBackup = INVALID_HANDLE_VALUE;
 	LARGE_INTEGER headerOffset;
 	CRYPTO_INFO *restoredCryptoInfo = NULL;
+	int EffectiveVolumePkcs5 = CmdVolumePkcs5;
+	int EffectiveVolumePim = CmdVolumePim;
+
+	/* Priority is given to command line parameters 
+	 * Default values used only when nothing specified in command line
+	 */
+	if (EffectiveVolumePkcs5 == 0)
+		EffectiveVolumePkcs5 = DefaultVolumePkcs5;
 
    if (!lpszVolume)
    {
@@ -9311,11 +9365,20 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 		// Open the volume using backup header
 		while (TRUE)
 		{
+			int GuiPkcs5 = ((EffectiveVolumePkcs5 > 0) && (VolumePkcs5 == 0))? EffectiveVolumePkcs5 : VolumePkcs5;
+			int GuiPim = ((EffectiveVolumePim > 0) && (VolumePim <= 0))? EffectiveVolumePim : VolumePim;
 			StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume), lpszVolume);
-			if (!AskVolumePassword (hwndDlg, &VolumePassword, &VolumePkcs5, &VolumePim, &VolumeTrueCryptMode, NULL, FALSE))
+			if (!AskVolumePassword (hwndDlg, &VolumePassword, &GuiPkcs5, &GuiPim, &VolumeTrueCryptMode, NULL, FALSE))
 			{
 				nStatus = ERR_SUCCESS;
 				goto ret;
+			}
+			else
+			{
+				VolumePkcs5 = GuiPkcs5;
+				VolumePim = GuiPim;
+				burn (&GuiPkcs5, sizeof (GuiPkcs5));
+				burn (&GuiPim, sizeof (GuiPim));
 			}
 
 			WaitCursor();
@@ -9514,10 +9577,19 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 		// Open the header
 		while (TRUE)
 		{
+			int GuiPkcs5 = ((EffectiveVolumePkcs5 > 0) && (VolumePkcs5 == 0))? EffectiveVolumePkcs5 : VolumePkcs5;
+			int GuiPim = ((EffectiveVolumePim > 0) && (VolumePim <= 0))? EffectiveVolumePim : VolumePim;
 			if (!AskVolumePassword (hwndDlg, &VolumePassword, &VolumePkcs5, &VolumePim, &VolumeTrueCryptMode, "ENTER_HEADER_BACKUP_PASSWORD", FALSE))
 			{
 				nStatus = ERR_SUCCESS;
 				goto ret;
+			}
+			else
+			{
+				VolumePkcs5 = GuiPkcs5;
+				VolumePim = GuiPim;
+				burn (&GuiPkcs5, sizeof (GuiPkcs5));
+				burn (&GuiPim, sizeof (GuiPim));
 			}
 
 			if (KeyFilesEnable && FirstKeyFile)
