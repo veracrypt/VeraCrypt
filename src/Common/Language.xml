@@ -113,6 +113,7 @@
     <control lang="en" key="IDC_CACHE">Cache passwords and keyfil&amp;es in memory</control>
     <control lang="en" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Exit when there are no mounted volumes</control>
     <control lang="en" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Close token session (log out) after a volume is successfully mounted</control>
+    <control lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</control>
     <control lang="en" key="IDC_COPY_WIZARD">Include VeraCrypt Volume Creation Wizard</control>
     <control lang="en" key="IDC_CREATE">Create</control>
     <control lang="en" key="IDC_CREATE_VOLUME">&amp;Create Volume</control>

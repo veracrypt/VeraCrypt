@@ -7558,30 +7558,12 @@ fsif_end:
 
 // System CopyFile() copies source file attributes (like FILE_ATTRIBUTE_ENCRYPTED)
 // so we need to use our own copy function
-BOOL TCCopyFile (char *sourceFileName, char *destinationFile)
+BOOL TCCopyFileBase (HANDLE src, HANDLE dst)
 {
 	__int8 *buffer;
-	HANDLE src, dst;
 	FILETIME fileTime;
 	DWORD bytesRead, bytesWritten;
 	BOOL res;
-
-	src = CreateFile (sourceFileName,
-		GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-
-	if (src == INVALID_HANDLE_VALUE)
-		return FALSE;
-
-	dst = CreateFile (destinationFile,
-		GENERIC_WRITE,
-		0, NULL, CREATE_ALWAYS, 0, NULL);
-
-	if (dst == INVALID_HANDLE_VALUE)
-	{
-		CloseHandle (src);
-		return FALSE;
-	}
 
 	buffer = (char *) malloc (64 * 1024);
 	if (!buffer)
@@ -7615,6 +7597,54 @@ BOOL TCCopyFile (char *sourceFileName, char *destinationFile)
 
 	free (buffer);
 	return res != 0;
+}
+
+BOOL TCCopyFile (char *sourceFileName, char *destinationFile)
+{
+	HANDLE src, dst;
+
+	src = CreateFile (sourceFileName,
+		GENERIC_READ,
+		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	if (src == INVALID_HANDLE_VALUE)
+		return FALSE;
+
+	dst = CreateFile (destinationFile,
+		GENERIC_WRITE,
+		0, NULL, CREATE_ALWAYS, 0, NULL);
+
+	if (dst == INVALID_HANDLE_VALUE)
+	{
+		CloseHandle (src);
+		return FALSE;
+	}
+
+	return TCCopyFileBase (src, dst);
+}
+
+BOOL TCCopyFileW (wchar_t *sourceFileName, wchar_t *destinationFile)
+{
+	HANDLE src, dst;
+
+	src = CreateFileW (sourceFileName,
+		GENERIC_READ,
+		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+
+	if (src == INVALID_HANDLE_VALUE)
+		return FALSE;
+
+	dst = CreateFileW (destinationFile,
+		GENERIC_WRITE,
+		0, NULL, CREATE_ALWAYS, 0, NULL);
+
+	if (dst == INVALID_HANDLE_VALUE)
+	{
+		CloseHandle (src);
+		return FALSE;
+	}
+
+	return TCCopyFileBase (src, dst);
 }
 
 // If bAppend is TRUE, the buffer is appended to an existing file. If bAppend is FALSE, any existing file 

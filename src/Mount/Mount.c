@@ -3844,13 +3844,16 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	{
 	case WM_INITDIALOG:
 		{
-			char i;
+			WCHAR i;
 			int index;
-			char drive[] = { 0, ':', 0 };
+			WCHAR drive[] = { 0, L':', 0 };
 
 			LocalizeDialog (hwndDlg, "IDD_TRAVELER_DLG");
 
 			SendDlgItemMessage (hwndDlg, IDC_COPY_WIZARD, BM_SETCHECK, 
+						BST_CHECKED, 0);
+
+			SendDlgItemMessage (hwndDlg, IDC_COPY_EXPANDER, BM_SETCHECK, 
 						BST_CHECKED, 0);
 
 			SendDlgItemMessage (hwndDlg, IDC_TRAVEL_OPEN_EXPLORER, BM_SETCHECK, 
@@ -3864,18 +3867,33 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			index = (int) SendDlgItemMessageW (hwndDlg, IDC_DRIVELIST, CB_ADDSTRING, 0, (LPARAM) GetString ("FIRST_AVAILABLE"));
 			SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_SETITEMDATA, index, (LPARAM) 0);
 
-			for (i = 'D'; i <= 'Z'; i++)
+			for (i = L'A'; i <= L'Z'; i++)
 			{
+				if (i == L'C')
+					continue;
 				drive[0] = i;
-				index = (int) SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_ADDSTRING, 0, (LPARAM) drive);
-				SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_SETITEMDATA, index, (LPARAM) i);
+				index = (int) SendDlgItemMessageW (hwndDlg, IDC_DRIVELIST, CB_ADDSTRING, 0, (LPARAM) drive);
+				SendDlgItemMessageW (hwndDlg, IDC_DRIVELIST, CB_SETITEMDATA, index, (LPARAM) i);
 			}
 		
-			SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_SETCURSEL, 0, 0);
+			SendDlgItemMessageW (hwndDlg, IDC_DRIVELIST, CB_SETCURSEL, 0, 0);
 
 			return 0;
 		}
 
+	case WM_CTLCOLORSTATIC:
+		{
+			HDC hdc = (HDC)	wParam;
+			HWND hw = (HWND) lParam;
+			if (hw == GetDlgItem(hwndDlg, IDC_DIRECTORY))
+			{
+				// This the directory field. Make its background like normal edit
+				HBRUSH hbr = GetSysColorBrush (COLOR_WINDOW);
+				::SelectObject(hdc, hbr);
+				return (BOOL) hbr;
+			}
+		}
+		return 0;
 
 	case WM_COMMAND:
 
@@ -3937,24 +3955,24 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_CREATE)
 		{
 
-			BOOL copyWizard, bExplore, bCacheInDriver, bAutoRun, bAutoMount, bMountReadOnly;
-			char dstDir[MAX_PATH];
-			char srcPath[MAX_PATH * 2];
-			char dstPath[MAX_PATH * 2];
-			char appDir[MAX_PATH];
-			char sysDir[MAX_PATH];
-			char volName[MAX_PATH];
+			BOOL copyWizard, copyExpander, bExplore, bCacheInDriver, bAutoRun, bAutoMount, bMountReadOnly;
+			WCHAR dstDir[MAX_PATH + 1];
+			WCHAR srcPath[1024 + MAX_PATH + 1];
+			WCHAR dstPath[2*MAX_PATH + 1];
+			WCHAR appDir[1024];
+			WCHAR volName[MAX_PATH + 2];
 			int drive;
-			char* ptr;
+			WCHAR* ptr;
 
-			GetDlgItemText (hwndDlg, IDC_DIRECTORY, dstDir, sizeof dstDir);
+			GetDlgItemTextW (hwndDlg, IDC_DIRECTORY, dstDir, array_capacity (dstDir));
 			volName[0] = 0;
-			GetDlgItemText (hwndDlg, IDC_VOLUME_NAME, volName + 1, (sizeof volName) - 1);
+			GetDlgItemTextW (hwndDlg, IDC_VOLUME_NAME, volName + 1, (array_capacity (volName)) - 1);
 			
 			drive = (int) SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETCURSEL, 0, 0);
 			drive = (int) SendDlgItemMessage (hwndDlg, IDC_DRIVELIST, CB_GETITEMDATA, drive, 0);
 
 			copyWizard = IsButtonChecked (GetDlgItem (hwndDlg, IDC_COPY_WIZARD));
+			copyExpander = IsButtonChecked (GetDlgItem (hwndDlg, IDC_COPY_EXPANDER));
 			bExplore = IsButtonChecked (GetDlgItem (hwndDlg, IDC_TRAVEL_OPEN_EXPLORER));
 			bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_TRAV_CACHE_PASSWORDS));
 			bMountReadOnly = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY));
@@ -3978,27 +3996,30 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			if (volName[1] != 0)
 			{
-				volName[0] = '"';
-				StringCbCatA (volName, sizeof(volName), "\"");
+				volName[0] = L'"';
+				StringCbCatW (volName, sizeof(volName), L"\"");
 			}
 
-			GetModuleFileName (NULL, appDir, sizeof (appDir));
-			if (ptr = strrchr (appDir, '\\'))
+			GetModuleFileNameW (NULL, appDir, array_capacity (appDir));
+			if (ptr = wcsrchr (appDir, L'\\'))
 				ptr[0] = 0;
 
 			WaitCursor ();
-			GetSystemDirectory (sysDir, sizeof (sysDir));
 
-			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt", dstDir);
-			CreateDirectory (dstPath, NULL);
+			StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt", dstDir);
+			if (!CreateDirectoryW (dstPath, NULL))
+			{
+				handleWin32Error (hwndDlg, SRC_POS);
+				goto stop;
+			}
 
 			// Main app 32-bit
 			if (Is64BitOs ())
-				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt-x86.exe", appDir);
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt-x86.exe", appDir);
 			else
-				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt.exe", appDir);
-			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
-			if (!TCCopyFile (srcPath, dstPath))
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt.exe", appDir);
+			StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt.exe", dstDir);
+			if (!TCCopyFileW (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg, SRC_POS);
 				goto stop;
@@ -4006,11 +4027,11 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			// Main app 64-bit
 			if (Is64BitOs ())
-				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt.exe", appDir);
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt.exe", appDir);
 			else
-				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt-x64.exe", appDir);
-			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
-			if (!TCCopyFile (srcPath, dstPath))
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt-x64.exe", appDir);
+			StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
+			if (!TCCopyFileW (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg, SRC_POS);
 				goto stop;
@@ -4021,11 +4042,11 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				// Wizard 32-bit
 				if (Is64BitOs ())
-					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format-x86.exe", appDir);
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format-x86.exe", appDir);
 				else
-					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format.exe", appDir);
-				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
-				if (!TCCopyFile (srcPath, dstPath))
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format.exe", appDir);
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format.exe", dstDir);
+				if (!TCCopyFileW (srcPath, dstPath))
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
 					goto stop;
@@ -4033,11 +4054,39 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 				// Wizard 64-bit
 				if (Is64BitOs ())
-					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format.exe", appDir);
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format.exe", appDir);
 				else
-					StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\VeraCrypt Format-x64.exe", appDir);
-				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
-				if (!TCCopyFile (srcPath, dstPath))
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format-x64.exe", appDir);
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
+				if (!TCCopyFileW (srcPath, dstPath))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+					goto stop;
+				}
+			}
+
+			// Expander
+			if (copyExpander)
+			{
+				// Expander 32-bit
+				if (Is64BitOs ())
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander-x86.exe", appDir);
+				else
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander.exe", appDir);
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander.exe", dstDir);
+				if (!TCCopyFileW (srcPath, dstPath))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+					goto stop;
+				}
+
+				// Expander 64-bit
+				if (Is64BitOs ())
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander.exe", appDir);
+				else
+					StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander-x64.exe", appDir);
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-x64.exe", dstDir);
+				if (!TCCopyFileW (srcPath, dstPath))
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
 					goto stop;
@@ -4045,18 +4094,18 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			// Driver
-			StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\veracrypt.sys", appDir);
-			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\veracrypt.sys", dstDir);
-			if (!TCCopyFile (srcPath, dstPath))
+			StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\veracrypt.sys", appDir);
+			StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt.sys", dstDir);
+			if (!TCCopyFileW (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg, SRC_POS);
 				goto stop;
 			}
 
 			// Driver x64
-			StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\veracrypt-x64.sys", appDir);
-			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
-			if (!TCCopyFile (srcPath, dstPath))
+			StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\veracrypt-x64.sys", appDir);
+			StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
+			if (!TCCopyFileW (srcPath, dstPath))
 			{
 				handleWin32Error (hwndDlg, SRC_POS);
 				goto stop;
@@ -4065,21 +4114,21 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (GetPreferredLangId () && strcmp (GetPreferredLangId (), "en") != 0)
 			{
 				// Language pack
-				StringCbPrintfA (srcPath, sizeof(srcPath), "%s\\Language.%s.xml", appDir, GetPreferredLangId ());
-				StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\VeraCrypt\\Language.%s.xml", dstDir, GetPreferredLangId ());
-				TCCopyFile (srcPath, dstPath);
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\Language.%s.xml", appDir, GetPreferredLangId ());
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\Language.%s.xml", dstDir, GetPreferredLangId ());
+				TCCopyFileW (srcPath, dstPath);
 			}
 
 			// AutoRun
-			StringCbPrintfA (dstPath, sizeof(dstPath), "%s\\autorun.inf", dstDir);
-			DeleteFile (dstPath);
+			StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\autorun.inf", dstDir);
+			DeleteFileW (dstPath);
 			if (bAutoRun)
 			{
 				FILE *af;
-				char autoMount[100];
-				char driveLetter[] = { ' ', '/', 'l', (char) drive, 0 };
+				wchar_t autoMount[2*MAX_PATH + 2];
+				wchar_t driveLetter[] = { L' ', L'/', L'l', L' ', (wchar_t) drive, 0 };
 
-				af = fopen (dstPath, "w,ccs=UNICODE");
+				af = _wfopen (dstPath, L"w,ccs=UNICODE");
 
 				if (af == NULL)
 				{
@@ -4087,20 +4136,21 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					goto stop;
 				}
 
-				StringCbPrintfA (autoMount, sizeof(autoMount), "VeraCrypt\\VeraCrypt.exe /q background%s%s%s%s /m rm /v %s",
-					drive > 0 ? driveLetter : "",
-					bExplore ? " /e" : "",
-					bCacheInDriver ? " /c y" : "",
-					bMountReadOnly ? " /m ro" : "",
+				StringCbPrintfW (autoMount, sizeof(autoMount), L"VeraCrypt\\VeraCrypt.exe /q background%s%s%s%s /m rm /v %s",
+					drive > 0 ? driveLetter : L"",
+					bExplore ? L" /e" : L"",
+					bCacheInDriver ? L" /c y" : L"",
+					bMountReadOnly ? L" /m ro" : L"",
 					volName);
 
 				fwprintf (af, L"[autorun]\nlabel=%s\nicon=VeraCrypt\\VeraCrypt.exe\n", GetString ("TC_TRAVELER_DISK"));
 				fwprintf (af, L"action=%s\n", bAutoMount ? GetString ("MOUNT_TC_VOLUME") : GetString ("IDC_PREF_LOGON_START"));
-				fwprintf (af, L"open=%hs\n", bAutoMount ? autoMount : "VeraCrypt\\VeraCrypt.exe");
+				fwprintf (af, L"open=%s\n", bAutoMount ? autoMount : L"VeraCrypt\\VeraCrypt.exe");
 				fwprintf (af, L"shell\\start=%s\nshell\\start\\command=VeraCrypt\\VeraCrypt.exe\n", GetString ("IDC_PREF_LOGON_START"));
 				fwprintf (af, L"shell\\dismount=%s\nshell\\dismount\\command=VeraCrypt\\VeraCrypt.exe /q /d\n", GetString ("DISMOUNT_ALL_TC_VOLUMES"));
 
-				CheckFileStreamWriteErrors (hwndDlg, af, dstPath);
+				ToSBCS (dstPath, sizeof (dstPath));
+				CheckFileStreamWriteErrors (hwndDlg, af, (char*) dstPath);
 				fclose (af);
 			}
 			MessageBoxW (hwndDlg, GetString ("TRAVELER_DISK_CREATED"), lpszTitle, MB_ICONINFORMATION);

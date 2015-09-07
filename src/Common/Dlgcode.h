@@ -358,6 +358,7 @@ int64 FindString (const char *buf, const char *str, int64 bufLen, int64 strLen, 
 BOOL FileExists (const char *filePathPtr);
 __int64 FindStringInFile (const char *filePath, const char *str, int strLen);
 BOOL TCCopyFile (char *sourceFileName, char *destinationFile);
+BOOL TCCopyFileW (wchar_t *sourceFileName, wchar_t *destinationFile);
 BOOL SaveBufferToFile (const char *inputBuffer, const char *destinationFile, DWORD inputLength, BOOL bAppend, BOOL bRenameIfFailed);
 BOOL TCFlushFile (FILE *f);
 BOOL PrintHardCopyTextUTF16 (wchar_t *text, char *title, size_t byteLen);

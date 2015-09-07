@@ -198,36 +198,38 @@ BEGIN
     RTEXT           "Volume PIM:",IDT_PIM,0,46,65,8,NOT WS_VISIBLE
 END
 
-IDD_TRAVELER_DLG DIALOGEX 0, 0, 300, 269
+IDD_TRAVELER_DLG DIALOGEX 0, 0, 300, 287
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt Traveler Disk Setup"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_DIRECTORY,17,29,205,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DIRECTORY,17,29,205,13,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "Browse...",IDC_BROWSE_DIRS,228,28,57,14
     CONTROL         "Include VeraCrypt Volume Creation Wizard",IDC_COPY_WIZARD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,48,258,10
-    CONTROL         "Do nothing",IDC_AUTORUN_DISABLE,"Button",BS_AUTORADIOBUTTON,15,97,262,10
-    CONTROL         "&Start VeraCrypt",IDC_AUTORUN_START,"Button",BS_AUTORADIOBUTTON,15,108,262,11
+    CONTROL         "Do nothing",IDC_AUTORUN_DISABLE,"Button",BS_AUTORADIOBUTTON,15,115,262,10
+    CONTROL         "&Start VeraCrypt",IDC_AUTORUN_START,"Button",BS_AUTORADIOBUTTON,15,126,262,11
     CONTROL         "&Auto-mount VeraCrypt volume (specified below)",IDC_AUTORUN_MOUNT,
-                    "Button",BS_AUTORADIOBUTTON,15,120,262,11
-    EDITTEXT        IDC_VOLUME_NAME,21,157,194,13,ES_AUTOHSCROLL | WS_DISABLED
-    PUSHBUTTON      "Browse...",IDC_BROWSE_FILES,221,156,57,14,WS_DISABLED
-    COMBOBOX        IDC_DRIVELIST,120,175,96,69,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTORADIOBUTTON,15,138,262,11
+    EDITTEXT        IDC_VOLUME_NAME,21,175,194,13,ES_AUTOHSCROLL | WS_DISABLED
+    PUSHBUTTON      "Browse...",IDC_BROWSE_FILES,221,174,57,14,WS_DISABLED
+    COMBOBOX        IDC_DRIVELIST,120,193,96,69,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Open &Explorer window for mounted volume",IDC_TRAVEL_OPEN_EXPLORER,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,193,256,10
-    CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,206,256,10
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,211,256,10
+    CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,224,256,10
     CONTROL         "&Cache password in driver memory",IDC_TRAV_CACHE_PASSWORDS,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,219,256,10
-    DEFPUSHBUTTON   "Create",IDC_CREATE,173,249,57,14
-    PUSHBUTTON      "Close",IDCLOSE,236,249,57,14
-    GROUPBOX        "File Settings",IDT_FILE_SETTINGS,6,7,287,59
-    GROUPBOX        "AutoRun Configuration (autorun.inf)",IDT_AUTORUN,5,70,288,172
-    LTEXT           "VeraCrypt volume to mount (relative to traveler disk root):",IDT_TRAVELER_MOUNT,21,147,248,8,WS_DISABLED
-    RTEXT           "Mount volume as drive letter:",IDT_MOUNT_LETTER,18,177,99,8,WS_DISABLED
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,237,256,10
+    DEFPUSHBUTTON   "Create",IDC_CREATE,173,267,57,14
+    PUSHBUTTON      "Close",IDCLOSE,236,267,57,14
+    GROUPBOX        "File Settings",IDT_FILE_SETTINGS,6,7,287,71
+    GROUPBOX        "AutoRun Configuration (autorun.inf)",IDT_AUTORUN,5,88,288,172
+    LTEXT           "VeraCrypt volume to mount (relative to traveler disk root):",IDT_TRAVELER_MOUNT,21,165,248,8,WS_DISABLED
+    RTEXT           "Mount volume as drive letter:",IDT_MOUNT_LETTER,18,195,99,8,WS_DISABLED
     LTEXT           "Create traveler disk files at (traveler disk root directory):",IDT_TRAVEL_ROOT,18,19,259,8
-    GROUPBOX        "Mount Settings",IDT_MOUNT_SETTINGS,13,134,272,100,WS_DISABLED
-    LTEXT           "Upon insertion of traveler disk: ",IDT_TRAVEL_INSERTION,13,84,263,8
+    GROUPBOX        "Mount Settings",IDT_MOUNT_SETTINGS,13,152,272,100,WS_DISABLED
+    LTEXT           "Upon insertion of traveler disk: ",IDT_TRAVEL_INSERTION,13,102,263,8
+    CONTROL         "Include VeraCrypt Volume Expander",IDC_COPY_EXPANDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,62,258,10
 END
 
 IDD_HOTKEYS_DLG DIALOGEX 0, 0, 389, 257
@@ -413,7 +415,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 293
         TOPMARGIN, 7
-        BOTTOMMARGIN, 262
+        BOTTOMMARGIN, 280
     END
 
     IDD_HOTKEYS_DLG, DIALOG
