@@ -4390,12 +4390,12 @@ BOOL UpdateDriveCustomLabel (int driveNo, wchar_t* effectiveLabel, BOOL bSetValu
 		lStatus = RegOpenKeyExW (HKEY_CURRENT_USER, wszRegPath, 0, KEY_READ | KEY_WRITE | KEY_SET_VALUE, &hKey);
 		if (ERROR_SUCCESS == lStatus)
 		{
-			lStatus = RegDeleteKeyExW (hKey, L"DefaultLabel", 0, NULL);
+			lStatus = RegDeleteKeyW (hKey, L"DefaultLabel");
 			RegCloseKey (hKey);
 		}
 
 		// delete drive letter of nothing else is present under it
-		RegDeleteKeyExW (HKEY_CURRENT_USER, wszRegPath, 0, NULL);
+		RegDeleteKeyW (HKEY_CURRENT_USER, wszRegPath);
 
 	}
 
