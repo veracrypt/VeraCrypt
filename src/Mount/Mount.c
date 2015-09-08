@@ -776,9 +776,23 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	ConfigReadCompareInt ("DefaultTrueCryptMode", FALSE, &DefaultVolumeTrueCryptMode, bOnlyCheckModified, pbSettingsModified);
 
 	if (bOnlyCheckModified)
-	{
-		StringCbCopyA (langid, sizeof(langid), GetPreferredLangId ());
-		ConfigReadCompareString ("Language", "", langid, sizeof (langid), TRUE, pbSettingsModified);
+	{		
+		if (!IsNonInstallMode ())
+		{
+			ConfigReadString ("Language", "", langid, sizeof (langid));
+			// when installed, if no preferred language set by user, English is set default
+			// 
+			if (langid [0] == 0)
+				StringCbCopyA (langid, sizeof(langid), "en");
+
+			if (pbSettingsModified && strcmp (langid, GetPreferredLangId ()))
+				*pbSettingsModified = TRUE;
+		}
+		else
+		{
+			StringCbCopyA (langid, sizeof(langid), GetPreferredLangId ());
+			ConfigReadCompareString ("Language", "", langid, sizeof (langid), TRUE, pbSettingsModified);
+		}
 	}
 
 	if (DefaultVolumePkcs5 < 0 || DefaultVolumePkcs5 > LAST_PRF_ID)
@@ -881,8 +895,7 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("DisplayMsgBoxOnHotkeyDismount",			bDisplayBalloonOnSuccessfulHkDismount);
 
 		// Language
-		if (GetPreferredLangId () != NULL)
-			ConfigWriteString ("Language", GetPreferredLangId ());
+		ConfigWriteString ("Language", GetPreferredLangId ());
 
 		// PKCS#11 Library Path
 		ConfigWriteString ("SecurityTokenLibrary", SecurityTokenLibraryPath[0] ? SecurityTokenLibraryPath : "");
@@ -4111,11 +4124,11 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				goto stop;
 			}
 
-			if (GetPreferredLangId () && strcmp (GetPreferredLangId (), "en") != 0)
+			if (strcmp (GetPreferredLangId (), "en") != 0)
 			{
 				// Language pack
-				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\Language.%s.xml", appDir, GetPreferredLangId ());
-				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\Language.%s.xml", dstDir, GetPreferredLangId ());
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\Language.%hs.xml", appDir, GetPreferredLangId ());
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\Language.%hs.xml", dstDir, GetPreferredLangId ());
 				TCCopyFileW (srcPath, dstPath);
 			}
 

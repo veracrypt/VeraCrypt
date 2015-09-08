@@ -2421,8 +2421,21 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	SetPreferredLangId (ConfigReadString ("Language", "", langId, sizeof (langId)));
 	
 	if (langId[0] == 0)
-		DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_LANGUAGE), NULL,
-			(DLGPROC) LanguageDlgProc, (LPARAM) 1);
+	{
+		if (IsNonInstallMode ())
+		{
+			// only support automatic use of a language file in portable mode
+			// this is achieved by placing a unique language XML file in the same
+			// place as portable VeraCrypt binaries.
+			DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_LANGUAGE), NULL,
+				(DLGPROC) LanguageDlgProc, (LPARAM) 1);
+		}
+		else
+		{
+			// when installed, force using English as default language
+			SetPreferredLangId ("en");
+		}
+	}
 
 	LoadLanguageFile ();
 

@@ -743,8 +743,21 @@ static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified,
 	if (bOnlyCheckModified)
 	{
 		char langid[6] = {0};
-		StringCbCopyA (langid, sizeof(langid), GetPreferredLangId ());
-		ConfigReadCompareString ("Language", "", langid, sizeof (langid), TRUE, pbSettingsModified);
+		if (!IsNonInstallMode ())
+		{
+			ConfigReadString ("Language", "", langid, sizeof (langid));
+			// when installed, if no preferred language set by user, English is selected default
+			if (langid [0] == 0)
+				StringCbCopyA (langid, sizeof(langid), "en");
+
+			if (pbSettingsModified && strcmp (langid, GetPreferredLangId ()))
+				*pbSettingsModified = TRUE;	
+		}
+		else
+		{
+			StringCbCopyA (langid, sizeof(langid), GetPreferredLangId ());
+			ConfigReadCompareString ("Language", "", langid, sizeof (langid), TRUE, pbSettingsModified);
+		}
 	}
 
 	if (hwndDlg != NULL)
@@ -785,8 +798,7 @@ static void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("SaveVolumeHistory", bHistory);
 		ConfigWriteString ("SecurityTokenLibrary", SecurityTokenLibraryPath[0] ? SecurityTokenLibraryPath : "");
 
-		if (GetPreferredLangId () != NULL)
-			ConfigWriteString ("Language", GetPreferredLangId ());
+		ConfigWriteString ("Language", GetPreferredLangId ());
 
 		ConfigWriteEnd (hwndDlg);
 	}

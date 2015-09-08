@@ -35,10 +35,10 @@
 BOOL LocalizationActive;
 int LocalizationSerialNo;
 
-wchar_t UnknownString[1024];
+wchar_t UnknownString[1024]  = {0};
 static char *LanguageFileBuffer = NULL;
 static HANDLE LanguageFileFindHandle = INVALID_HANDLE_VALUE;
-static char PreferredLangId[6];
+static char PreferredLangId[6] = {0};
 static char *LanguageResource = NULL;
 static DWORD LanguageResourceSize = 0;
 static char *HeaderResource[2] = {NULL, NULL};
