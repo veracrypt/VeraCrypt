@@ -134,6 +134,8 @@ BOOL MountVolumesAsSystemFavorite = FALSE;
 BOOL FavoriteMountOnArrivalInProgress = FALSE;
 BOOL MultipleMountOperationInProgress = FALSE;
 
+BOOL WaitDialogDisplaying = FALSE;
+
 /* Handle to the device driver */
 HANDLE hDriver = INVALID_HANDLE_VALUE;
 
@@ -6596,15 +6598,26 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 	WaitThreadParam threadParam;
 	threadParam.callback = callback;
 	threadParam.pArg = pArg;
-	
-	DialogBoxParamW (hInst,
-				MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hParent,
-				(DLGPROC) WaitDlgProc, (LPARAM) &threadParam);
 
-	if (hwnd && IsWindowVisible(hwnd) && !bUseHwndAsParent)
+	if (WaitDialogDisplaying)
 	{
-		SetForegroundWindow(hwnd);
-		BringWindowToTop(hwnd);
+		callback (pArg, hwnd);
+	}
+	else
+	{
+		WaitDialogDisplaying = TRUE;
+
+		DialogBoxParamW (hInst,
+					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hParent,
+					(DLGPROC) WaitDlgProc, (LPARAM) &threadParam);
+
+		WaitDialogDisplaying = FALSE;
+
+		if (hwnd && IsWindowVisible(hwnd) && !bUseHwndAsParent)
+		{
+			SetForegroundWindow(hwnd);
+			BringWindowToTop(hwnd);
+		}
 	}
 }
 

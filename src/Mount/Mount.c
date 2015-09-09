@@ -4356,7 +4356,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 	bPrebootPasswordDlgMode = mountOptions.PartitionInInactiveSysEncScope;
 
 	if (nDosDriveNo == 0)
-		nDosDriveNo = HIWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))) - 'A';
+		nDosDriveNo = HIWORD (GetSelectedLong (GetDlgItem (MainDlg, IDC_DRIVELIST))) - 'A';
 
 	if (!MultipleMountOperationInProgress)
 	{
@@ -4508,7 +4508,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 		if (bBeep)
 			MessageBeep (0xFFFFFFFF);
 
-		RefreshMainDlg(hwndDlg);
+		RefreshMainDlg(MainDlg);
 
 		if (bExplore)
 		{	
@@ -6526,7 +6526,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (!mountedAndNotDisconnected)
 						{
 							FavoriteMountOnArrivalInProgress = TRUE;
-							MountFavoriteVolumes (FALSE, FALSE, FALSE, favorite);
+							MountFavoriteVolumes (hwndDlg, FALSE, FALSE, FALSE, favorite);
 							FavoriteMountOnArrivalInProgress = FALSE;
 
 							FavoritesMountedOnArrivalStillConnected.push_back (favorite);
@@ -7801,7 +7801,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_MOUNT_FAVORITE_VOLUMES)
 		{
-			_beginthread(mountFavoriteVolumeThreadFunction, 0, NULL);
+			ShowWaitDialog (hwndDlg, TRUE, mountFavoriteVolumeThreadFunction, NULL);
 			return 1;
 		}
 
@@ -7875,13 +7875,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else
 				{
-					mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
-					pParam->systemFavorites = FALSE;
-					pParam->logOnMount = FALSE;
-					pParam->hotKeyMount = FALSE;
-					pParam->favoriteVolumeToMount = &FavoriteVolumes[favoriteIndex];
+					mountFavoriteVolumeThreadParam param;
+					param.systemFavorites = FALSE;
+					param.logOnMount = FALSE;
+					param.hotKeyMount = FALSE;
+					param.favoriteVolumeToMount = &FavoriteVolumes[favoriteIndex];
 
-					_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+					ShowWaitDialog (hwndDlg, TRUE, mountFavoriteVolumeThreadFunction, &param);
 				}
 			}
 
@@ -8435,7 +8435,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 
 	try
 	{
-		status = MountFavoriteVolumes (TRUE);
+		status = MountFavoriteVolumes (NULL, TRUE);
 	}
 	catch (...) { }
 
@@ -8703,7 +8703,7 @@ void DismountIdleVolumes ()
 	}
 }
 
-static BOOL MountFavoriteVolumeBase (const FavoriteVolume &favorite, BOOL& lastbExplore, BOOL& userForcedReadOnly, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
+static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, BOOL& lastbExplore, BOOL& userForcedReadOnly, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
 {
 	BOOL status = TRUE;
 	int drive;
@@ -8763,7 +8763,7 @@ static BOOL MountFavoriteVolumeBase (const FavoriteVolume &favorite, BOOL& lastb
 			else
 				mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
 			mountOptions.ProtectedHidVolPim = CmdVolumePim;
-			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), MainDlg, (DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
+			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwnd, (DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
 			{
 				status = FALSE;
 				goto skipMount;
@@ -8775,7 +8775,7 @@ static BOOL MountFavoriteVolumeBase (const FavoriteVolume &favorite, BOOL& lastb
 		if (ServiceMode)
 			SystemFavoritesServiceLogInfo (string ("Mounting system favorite \"") + favorite.Path + "\"");
 
-		status = Mount (MainDlg, drive, (char *) favorite.Path.c_str(), favorite.Pim);
+		status = Mount (hwnd, drive, (char *) favorite.Path.c_str(), favorite.Pim);
 
 		if (ServiceMode)
 		{
@@ -8837,7 +8837,7 @@ skipMount:
 }
 
 
-BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
+BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMount, const FavoriteVolume &favoriteVolumeToMount)
 {
 	BOOL bRet = TRUE, status = TRUE;
 	BOOL lastbExplore;
@@ -8899,7 +8899,7 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 			continue;
 		}
 
-		status = MountFavoriteVolumeBase (favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount);
+		status = MountFavoriteVolumeBase (hwnd, favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount);
 		if (!status)
 			bRet = FALSE;
 	}
@@ -8938,7 +8938,7 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 						// favorite OK. 
 						SystemFavoritesServiceLogInfo (string ("Favorite \"") + favorite->VolumePathId + "\" is connected. Performing mount.");
 
-						status = MountFavoriteVolumeBase (*favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount);
+						status = MountFavoriteVolumeBase (hwnd, *favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount);
 						if (!status)
 							bRet = FALSE;
 					}
@@ -8968,24 +8968,19 @@ BOOL MountFavoriteVolumes (BOOL systemFavorites, BOOL logOnMount, BOOL hotKeyMou
 	return bRet;
 }
 
-void __cdecl mountFavoriteVolumeThreadFunction (void *pArg)
+void CALLBACK mountFavoriteVolumeThreadFunction (void *pArg, HWND hwnd)
 {
 	mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) pArg;
-	// Disable main dialog during processing to avoid user interaction
-	EnableWindow(MainDlg, FALSE);
-	finally_do ({ EnableWindow(MainDlg, TRUE); });
 
 	if (pParam)
 	{
 		if (pParam->favoriteVolumeToMount)
-			MountFavoriteVolumes (pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount, *(pParam->favoriteVolumeToMount));
+			MountFavoriteVolumes (hwnd, pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount, *(pParam->favoriteVolumeToMount));
 		else
-			MountFavoriteVolumes (pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount);
-
-		free(pParam);
+			MountFavoriteVolumes (hwnd, pParam->systemFavorites, pParam->logOnMount, pParam->hotKeyMount);
 	}
 	else
-		MountFavoriteVolumes ();
+		MountFavoriteVolumes (hwnd);
 }
 
 
@@ -9121,12 +9116,13 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 
 	case HK_MOUNT_FAVORITE_VOLUMES:
 		{
-			mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
-			pParam->systemFavorites = FALSE;
-			pParam->logOnMount = FALSE;
-			pParam->hotKeyMount = TRUE;
+			mountFavoriteVolumeThreadParam param;
+			param.systemFavorites = FALSE;
+			param.logOnMount = FALSE;
+			param.hotKeyMount = TRUE;
+			param.favoriteVolumeToMount = NULL;
 
-			_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+			ShowWaitDialog (hwndDlg, TRUE, mountFavoriteVolumeThreadFunction, &param);
 		}
 		break;
 
