@@ -4584,6 +4584,81 @@ void __cdecl mountThreadFunction (void *hwndDlgArg)
 	Mount (hwndDlg, 0, 0, -1);	
 }
 
+typedef struct
+{
+	UNMOUNT_STRUCT* punmount;
+	BOOL interact;
+	int dismountMaxRetries;
+	int dismountAutoRetryDelay;
+	BOOL* pbResult;
+	DWORD* pdwResult;
+	DWORD dwLastError;
+	BOOL bReturn;
+} DismountAllThreadParam;
+
+void CALLBACK DismountAllThreadProc(void* pArg, HWND hwndDlg)
+{
+	DismountAllThreadParam* pThreadParam = (DismountAllThreadParam*) pArg;
+	UNMOUNT_STRUCT* punmount = pThreadParam->punmount;
+	BOOL* pbResult = pThreadParam->pbResult;
+	DWORD* pdwResult = pThreadParam->pdwResult;
+	int dismountMaxRetries = pThreadParam->dismountMaxRetries;
+	int dismountAutoRetryDelay = pThreadParam->dismountAutoRetryDelay;
+
+	do
+	{
+		*pbResult = DeviceIoControl (hDriver, TC_IOCTL_DISMOUNT_ALL_VOLUMES, punmount,
+			sizeof (UNMOUNT_STRUCT), punmount, sizeof (UNMOUNT_STRUCT), pdwResult, NULL);
+
+		if (	punmount->nDosDriveNo < 0 || punmount->nDosDriveNo > 25 
+				|| (punmount->ignoreOpenFiles != TRUE && punmount->ignoreOpenFiles != FALSE)
+				||	(punmount->HiddenVolumeProtectionTriggered != TRUE && punmount->HiddenVolumeProtectionTriggered != FALSE)
+				||	(punmount->nReturnCode < 0)
+			)
+		{
+			if (*pbResult)
+				SetLastError (ERROR_INTERNAL_ERROR);
+			*pbResult = FALSE;
+		}
+
+		if (*pbResult == FALSE)
+		{
+			NormalCursor();
+			handleWin32Error (hwndDlg, SRC_POS);
+			pThreadParam->dwLastError = GetLastError ();
+			pThreadParam->bReturn = FALSE;
+			return;
+		}
+
+		if (punmount->nReturnCode == ERR_SUCCESS
+			&& punmount->HiddenVolumeProtectionTriggered
+			&& !VolumeNotificationsList.bHidVolDamagePrevReported [punmount->nDosDriveNo]
+			&& pThreadParam->interact
+			&& !Silent)
+		{
+			wchar_t msg[4096];
+
+			VolumeNotificationsList.bHidVolDamagePrevReported [punmount->nDosDriveNo] = TRUE;
+				
+			StringCbPrintfW (msg, sizeof(msg), GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), punmount->nDosDriveNo + 'A');
+			SetForegroundWindow (hwndDlg);
+			MessageBoxW (hwndDlg, msg, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
+
+			punmount->HiddenVolumeProtectionTriggered = FALSE;
+			continue;
+		}
+
+		if (punmount->nReturnCode == ERR_FILES_OPEN)
+			Sleep (dismountAutoRetryDelay);
+		else
+			break;
+
+	} while (--dismountMaxRetries > 0);
+
+	pThreadParam->dwLastError = GetLastError ();
+	pThreadParam->bReturn = TRUE;
+}
+
 static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dismountMaxRetries, int dismountAutoRetryDelay)
 {
 	BOOL status = TRUE;
@@ -4593,6 +4668,7 @@ static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dis
 	BOOL bResult;
 	MOUNT_LIST_STRUCT prevMountList = {0};
 	int i;
+	DismountAllThreadParam dismountAllThreadParam;
 
 retry:
 	WaitCursor();
@@ -4620,51 +4696,28 @@ retry:
 
 	unmount.nDosDriveNo = 0;
 	unmount.ignoreOpenFiles = forceUnmount;
+	
+	dismountAllThreadParam.punmount = &unmount;
+	dismountAllThreadParam.interact = interact;
+	dismountAllThreadParam.dismountMaxRetries = dismountMaxRetries;
+	dismountAllThreadParam.dismountAutoRetryDelay = dismountAutoRetryDelay;
+	dismountAllThreadParam.pbResult = &bResult;
+	dismountAllThreadParam.pdwResult = &dwResult;
+	dismountAllThreadParam.dwLastError = ERROR_SUCCESS;
+	dismountAllThreadParam.bReturn = TRUE;
 
-	do
+	if (interact && !Silent)
 	{
-		bResult = DeviceIoControl (hDriver, TC_IOCTL_DISMOUNT_ALL_VOLUMES, &unmount,
-			sizeof (unmount), &unmount, sizeof (unmount), &dwResult, NULL);
 
-		if (	unmount.nDosDriveNo < 0 || unmount.nDosDriveNo > 25 
-				|| (unmount.ignoreOpenFiles != TRUE && unmount.ignoreOpenFiles != FALSE)
-				||	(unmount.HiddenVolumeProtectionTriggered != TRUE && unmount.HiddenVolumeProtectionTriggered != FALSE)
-				||	(unmount.nReturnCode < 0)
-			)
-		{
-			if (bResult)
-				SetLastError (ERROR_INTERNAL_ERROR);
-			bResult = FALSE;			
-		}
+		ShowWaitDialog (hwndDlg, TRUE, DismountAllThreadProc, &dismountAllThreadParam);			
+	}
+	else
+		DismountAllThreadProc (&dismountAllThreadParam, hwndDlg);
 
-		if (bResult == FALSE)
-		{
-			NormalCursor();
-			handleWin32Error (hwndDlg, SRC_POS);
-			return FALSE;
-		}
+	SetLastError (dismountAllThreadParam.dwLastError);
 
-		if (unmount.nReturnCode == ERR_SUCCESS
-			&& unmount.HiddenVolumeProtectionTriggered
-			&& !VolumeNotificationsList.bHidVolDamagePrevReported [unmount.nDosDriveNo])
-		{
-			wchar_t msg[4096];
-
-			VolumeNotificationsList.bHidVolDamagePrevReported [unmount.nDosDriveNo] = TRUE;
-			StringCbPrintfW (msg, sizeof(msg), GetString ("DAMAGE_TO_HIDDEN_VOLUME_PREVENTED"), unmount.nDosDriveNo + 'A');
-			SetForegroundWindow (hwndDlg);
-			MessageBoxW (hwndDlg, msg, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-
-			unmount.HiddenVolumeProtectionTriggered = FALSE;
-			continue;
-		}
-
-		if (unmount.nReturnCode == ERR_FILES_OPEN)
-			Sleep (dismountAutoRetryDelay);
-		else
-			break;
-
-	} while (--dismountMaxRetries > 0);
+	if (!dismountAllThreadParam.bReturn)
+		return FALSE;
 
 	memset (&mountList, 0, sizeof (mountList));
 	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL);

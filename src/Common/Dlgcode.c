@@ -6370,7 +6370,7 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced)
 	unmount.ignoreOpenFiles = forced;
 
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_DISMOUNT_VOLUME, &unmount,
-		sizeof (unmount), &unmount, sizeof (unmount), &dwResult, NULL);
+			sizeof (unmount), &unmount, sizeof (unmount), &dwResult, NULL);
 
 	if (bResult == FALSE)
 	{
@@ -6384,7 +6384,8 @@ int DriverUnmountVolume (HWND hwndDlg, int nDosDriveNo, BOOL forced)
 
 	if (unmount.nReturnCode == ERR_SUCCESS
 		&& unmount.HiddenVolumeProtectionTriggered
-		&& !VolumeNotificationsList.bHidVolDamagePrevReported [nDosDriveNo])
+		&& !VolumeNotificationsList.bHidVolDamagePrevReported [nDosDriveNo]
+		&& !Silent)
 	{
 		wchar_t msg[4096];
 
@@ -7017,26 +7018,63 @@ retry:
 	return 1;
 }
 
+typedef struct
+{
+	int nDosDriveNo;
+	BOOL forced;
+	int dismountMaxRetries;
+	DWORD retryDelay;
+	int* presult;
+	DWORD dwLastError;
+} UnmountThreadParam;
+
+void CALLBACK UnmountWaitThreadProc(void* pArg, HWND hwnd)
+{
+	UnmountThreadParam* pThreadParam = (UnmountThreadParam*) pArg;
+	int dismountMaxRetries = pThreadParam->dismountMaxRetries;
+	DWORD retryDelay = pThreadParam->retryDelay;
+
+	do
+	{
+		*pThreadParam->presult = DriverUnmountVolume (hwnd, pThreadParam->nDosDriveNo, pThreadParam->forced);
+
+		if (*pThreadParam->presult == ERR_FILES_OPEN)
+			Sleep (retryDelay);
+		else
+			break;
+
+	} while (--dismountMaxRetries > 0);
+
+	pThreadParam->dwLastError = GetLastError ();
+}
+
 static BOOL UnmountVolumeBase (HWND hwndDlg, int nDosDriveNo, BOOL forceUnmount, BOOL ntfsFormatCase)
 {
 	int result;
 	BOOL forced = forceUnmount;
 	int dismountMaxRetries = ntfsFormatCase? 5 : UNMOUNT_MAX_AUTO_RETRIES;
 	DWORD retryDelay = ntfsFormatCase? 2000: UNMOUNT_AUTO_RETRY_DELAY;
+	UnmountThreadParam param;
 
 retry:
 	BroadcastDeviceChange (DBT_DEVICEREMOVEPENDING, nDosDriveNo, 0);
 
-	do
+	param.nDosDriveNo = nDosDriveNo;
+	param.forced = forced;
+	param.dismountMaxRetries = dismountMaxRetries;
+	param.retryDelay = retryDelay;
+	param.presult = &result;
+
+	if (Silent)
 	{
-		result = DriverUnmountVolume (hwndDlg, nDosDriveNo, forced);
+		UnmountWaitThreadProc (&param, hwndDlg);
+	}
+	else
+	{
+		ShowWaitDialog (hwndDlg, TRUE, UnmountWaitThreadProc, &param);		
+	}
 
-		if (result == ERR_FILES_OPEN)
-			Sleep (retryDelay);
-		else
-			break;
-
-	} while (--dismountMaxRetries > 0);
+	SetLastError (param.dwLastError);
 
 	if (result != 0)
 	{
