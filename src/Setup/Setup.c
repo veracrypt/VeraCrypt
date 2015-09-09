@@ -490,6 +490,39 @@ HRESULT CreateLink (char *lpszPathObj, char *lpszArguments,
 	return hres;
 }
 
+BOOL IsSystemRestoreEnabled ()
+{
+	BOOL bEnabled = FALSE;
+	HKEY hKey;
+	DWORD dwValue = 0, cbValue = sizeof (DWORD);
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore", 0, KEY_READ | KEY_WOW64_64KEY, &hKey) == ERROR_SUCCESS)
+	{	
+		if (IsOSAtLeast (WIN_VISTA))
+		{
+			if (	(ERROR_SUCCESS == RegQueryValueEx (hKey, "RPSessionInterval", NULL, NULL, (LPBYTE) &dwValue, &cbValue))
+				&&	(dwValue == 1)
+				)
+			{
+				bEnabled = TRUE;
+			}
+		}
+		else
+		{
+			if (	(ERROR_SUCCESS == RegQueryValueEx (hKey, "DisableSR", NULL, NULL, (LPBYTE) &dwValue, &cbValue))
+				&&	(dwValue == 0)
+				)
+			{
+				bEnabled = TRUE;
+			}
+		}
+
+		
+		RegCloseKey (hKey);
+	}
+
+	return bEnabled;
+}
+
 void GetProgramPath (HWND hwndDlg, char *path)
 {
 	ITEMIDLIST *i;
@@ -2554,14 +2587,19 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszComm
 		}
 
 		// System Restore
-		char dllPath[MAX_PATH];
-		if (GetSystemDirectory (dllPath, MAX_PATH))
+		if (IsSystemRestoreEnabled ())
 		{
-			StringCbCatA(dllPath, sizeof(dllPath), "\\srclient.dll");
+			char dllPath[MAX_PATH];
+			if (GetSystemDirectory (dllPath, MAX_PATH))
+			{
+				StringCbCatA(dllPath, sizeof(dllPath), "\\srclient.dll");
+			}
+			else
+				StringCbCopyA(dllPath, sizeof(dllPath), "C:\\Windows\\System32\\srclient.dll");
+			SystemRestoreDll = LoadLibrary (dllPath);
 		}
 		else
-			StringCbCopyA(dllPath, sizeof(dllPath), "C:\\Windows\\System32\\srclient.dll");
-		SystemRestoreDll = LoadLibrary (dllPath);
+			SystemRestoreDll = 0;
 
 		if (!bUninstall)
 		{
