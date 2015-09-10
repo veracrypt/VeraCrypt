@@ -6606,6 +6606,11 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 	else
 	{
 		WaitDialogDisplaying = TRUE;
+		if (hwnd)
+			EnableWindow (hwnd, FALSE);
+		else
+			EnableWindow (MainDlg, FALSE);
+		finally_do_arg (HWND, hwnd, { if (finally_arg) EnableWindow(finally_arg, TRUE); else EnableWindow (MainDlg, TRUE);});
 
 		DialogBoxParamW (hInst,
 					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hParent,
@@ -7084,7 +7089,7 @@ retry:
 	}
 	else
 	{
-		ShowWaitDialog (hwndDlg, TRUE, UnmountWaitThreadProc, &param);		
+		ShowWaitDialog (hwndDlg, FALSE, UnmountWaitThreadProc, &param);		
 	}
 
 	SetLastError (param.dwLastError);

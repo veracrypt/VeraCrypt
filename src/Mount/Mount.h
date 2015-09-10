@@ -127,6 +127,6 @@ typedef struct
 
 void SetDriverConfigurationFlag (uint32 flag, BOOL state);
 BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites = FALSE, BOOL logOnMount = FALSE, BOOL hotKeyMount = FALSE, const VeraCrypt::FavoriteVolume &favoriteVolumeToMount = VeraCrypt::FavoriteVolume());
-void CALLBACK mountFavoriteVolumeThreadFunction (void *pArg, HWND hwnd);
+void __cdecl mountFavoriteVolumeThreadFunction (void *pArg);
 
 #endif
