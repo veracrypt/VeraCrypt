@@ -51,6 +51,7 @@ Requirements for Building VeraCrypt for Windows:
   header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20)
 - NASM assembler 2.08 or compatible
 - gzip compressor
+- upx packer (available at http://upx.sourceforge.net/)
 
 IMPORTANT:
 
