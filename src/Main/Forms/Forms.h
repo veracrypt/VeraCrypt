@@ -1026,10 +1026,12 @@ namespace VeraCrypt
 			wxStaticText* VolumePimStaticText;
 			wxTextCtrl* VolumePimTextCtrl;
 			wxStaticText* VolumePimHelpStaticText;
+			wxCheckBox* DisplayPimCheckBox;
 			wxStaticText* InfoStaticText;
 			
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnPimChanged( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnDisplayPimCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			
 		
 		public:

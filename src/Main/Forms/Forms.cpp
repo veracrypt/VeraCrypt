@@ -3209,7 +3209,7 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	VolumePimStaticText->Wrap( -1 );
 	GridBagSizer->Add( VolumePimStaticText, wxGBPosition( 3, 0 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
 	
-	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	VolumePimTextCtrl->SetMaxLength( 10 ); 
 	GridBagSizer->Add( VolumePimTextCtrl, wxGBPosition( 3, 1 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxEXPAND, 5 );
 	
@@ -3350,7 +3350,7 @@ VolumePimWizardPageBase::VolumePimWizardPageBase( wxWindow* parent, wxWindowID i
 	VolumePimStaticText->Wrap( -1 );
 	PimSizer->Add( VolumePimStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	VolumePimTextCtrl->SetMaxLength( 10 ); 
 	PimSizer->Add( VolumePimTextCtrl, 0, wxALL, 5 );
 	
@@ -3360,6 +3360,15 @@ VolumePimWizardPageBase::VolumePimWizardPageBase( wxWindow* parent, wxWindowID i
 	
 	
 	PimPanelSizer->Add( PimSizer, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer166;
+	bSizer166 = new wxBoxSizer( wxHORIZONTAL );
+	
+	DisplayPimCheckBox = new wxCheckBox( this, wxID_ANY, _("&Display PIM"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer166->Add( DisplayPimCheckBox, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	PimPanelSizer->Add( bSizer166, 1, wxEXPAND, 5 );
 	
 	
 	bSizer102->Add( PimPanelSizer, 0, wxEXPAND, 5 );
@@ -3378,12 +3387,14 @@ VolumePimWizardPageBase::VolumePimWizardPageBase( wxWindow* parent, wxWindowID i
 	
 	// Connect Events
 	VolumePimTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePimWizardPageBase::OnPimChanged ), NULL, this );
+	DisplayPimCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumePimWizardPageBase::OnDisplayPimCheckBoxClick ), NULL, this );
 }
 
 VolumePimWizardPageBase::~VolumePimWizardPageBase()
 {
 	// Disconnect Events
 	VolumePimTextCtrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumePimWizardPageBase::OnPimChanged ), NULL, this );
+	DisplayPimCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumePimWizardPageBase::OnDisplayPimCheckBoxClick ), NULL, this );
 	
 }
 

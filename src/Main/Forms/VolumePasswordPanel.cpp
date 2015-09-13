@@ -66,10 +66,7 @@ namespace VeraCrypt
 		VolumePimTextCtrl->Show (false);
 		VolumePimHelpStaticText->Show (false);
 
-		wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);  // wxFILTER_NUMERIC does not exclude - . , etc.
-		const wxChar *valArr[] = { L"0", L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9" };
-		validator.SetIncludes (wxArrayString (array_capacity (valArr), (const wxChar **) &valArr));
-		VolumePimTextCtrl->SetValidator (validator);
+		SetPimValidator ();
 
 		ConfirmPasswordStaticText->Show (enableConfirmation);
 		ConfirmPasswordTextCtrl->Show (enableConfirmation);
@@ -186,17 +183,27 @@ namespace VeraCrypt
 		UseKeyfilesCheckBox->SetValue (true);
 	}
 
+	void VolumePasswordPanel::SetPimValidator ()
+	{
+		wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);  // wxFILTER_NUMERIC does not exclude - . , etc.
+		const wxChar *valArr[] = { L"0", L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9" };
+		validator.SetIncludes (wxArrayString (array_capacity (valArr), (const wxChar **) &valArr));
+		VolumePimTextCtrl->SetValidator (validator);
+	}
+
 	void VolumePasswordPanel::DisplayPassword (bool display, wxTextCtrl **textCtrl, int row)
 	{
 		FreezeScope freeze (this);
+		bool isPim = (*textCtrl == VolumePimTextCtrl);
+		int colspan = isPim? 1 : 2;
 
 		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
-		newTextCtrl->SetMaxLength (VolumePassword::MaxSize); 
+		newTextCtrl->SetMaxLength (isPim? 10 : VolumePassword::MaxSize); 
 		newTextCtrl->SetValue ((*textCtrl)->GetValue());
 		newTextCtrl->SetMinSize ((*textCtrl)->GetSize());
 
 		GridBagSizer->Detach ((*textCtrl));
-		GridBagSizer->Add (newTextCtrl, wxGBPosition (row, 1), wxGBSpan (1, 2), wxEXPAND|wxBOTTOM|wxALIGN_CENTER_VERTICAL, 5);
+		GridBagSizer->Add (newTextCtrl, wxGBPosition (row, 1), wxGBSpan (1, colspan), wxEXPAND|wxBOTTOM|wxALIGN_CENTER_VERTICAL, 5);
 		(*textCtrl)->Show (false);
 		WipeTextCtrl (*textCtrl);
 
@@ -204,8 +211,11 @@ namespace VeraCrypt
 		Layout();
 		newTextCtrl->SetMinSize ((*textCtrl)->GetMinSize());
 
-		newTextCtrl->Connect (wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (VolumePasswordPanel::OnTextChanged), nullptr, this);
+		newTextCtrl->Connect (wxEVT_COMMAND_TEXT_UPDATED, isPim? wxCommandEventHandler (VolumePasswordPanel::OnPimChanged): wxCommandEventHandler (VolumePasswordPanel::OnTextChanged), nullptr, this);
+		delete *textCtrl;
 		*textCtrl = newTextCtrl;
+		if (isPim)
+			SetPimValidator ();
 	}
 
 	shared_ptr <VolumePassword> VolumePasswordPanel::GetPassword () const
@@ -369,6 +379,9 @@ namespace VeraCrypt
 		
 		if (ConfirmPasswordTextCtrl->IsShown())
 			DisplayPassword (event.IsChecked(), &ConfirmPasswordTextCtrl, 2);
+		
+		if (VolumePimTextCtrl->IsShown())
+			DisplayPassword (event.IsChecked(), &VolumePimTextCtrl, 3);
 
 		OnUpdate();
 	}
@@ -449,9 +462,15 @@ namespace VeraCrypt
 			VolumePimStaticText->Show (true);
 			VolumePimTextCtrl->Show (true);
 			VolumePimHelpStaticText->Show (true);	
-		
-			Layout();
-			Fit();
+			
+			if (DisplayPasswordCheckBox->IsChecked ())
+				DisplayPassword (true, &VolumePimTextCtrl, 3);
+			else
+			{
+				Layout();
+				Fit();
+			}
+			
 			GetParent()->Layout();
 			GetParent()->Fit();
 		}

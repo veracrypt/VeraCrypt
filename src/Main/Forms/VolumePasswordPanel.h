@@ -45,6 +45,7 @@ namespace VeraCrypt
 		Event UpdateEvent;
 
 	protected:
+		void SetPimValidator ();
 		void DisplayPassword (bool display, wxTextCtrl **textCtrl, int row);
 		shared_ptr <VolumePassword> GetPassword (wxTextCtrl *textCtrl) const;
 		void OnAddKeyfileDirMenuItemSelected (wxCommandEvent& event);

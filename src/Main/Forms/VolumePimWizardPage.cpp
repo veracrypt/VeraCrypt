@@ -23,10 +23,7 @@ namespace VeraCrypt
 	VolumePimWizardPage::VolumePimWizardPage (wxPanel* parent)
 		: VolumePimWizardPageBase (parent)
 	{
-		wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);  // wxFILTER_NUMERIC does not exclude - . , etc.
-		const wxChar *valArr[] = { L"0", L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9" };
-		validator.SetIncludes (wxArrayString (array_capacity (valArr), (const wxChar **) &valArr));
-		VolumePimTextCtrl->SetValidator (validator);
+		SetPimValidator ();
 	}
 
 	VolumePimWizardPage::~VolumePimWizardPage ()
@@ -85,6 +82,43 @@ namespace VeraCrypt
 		{
 			VolumePimHelpStaticText->SetForegroundColour(*wxBLACK);
 			VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
-		}			
+		}	
+		Fit();
+		Layout();
+	}
+
+	void VolumePimWizardPage::SetPimValidator ()
+	{
+		wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);  // wxFILTER_NUMERIC does not exclude - . , etc.
+		const wxChar *valArr[] = { L"0", L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9" };
+		validator.SetIncludes (wxArrayString (array_capacity (valArr), (const wxChar **) &valArr));
+		VolumePimTextCtrl->SetValidator (validator);
+	}
+
+	void VolumePimWizardPage::OnDisplayPimCheckBoxClick( wxCommandEvent& event )
+	{
+		FreezeScope freeze (this);
+		
+		bool display = event.IsChecked ();
+
+		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
+		newTextCtrl->SetMaxLength (10); 
+		newTextCtrl->SetValue (VolumePimTextCtrl->GetValue());
+		newTextCtrl->SetMinSize (VolumePimTextCtrl->GetSize());
+
+		PimSizer->Replace (VolumePimTextCtrl, newTextCtrl);		
+		VolumePimTextCtrl->Show (false);
+		VolumePimTextCtrl->SetValue (wxString (L'X', VolumePimTextCtrl->GetLineLength(0)));
+		GetVolumePim ();
+
+		Fit();
+		Layout();
+		newTextCtrl->SetMinSize (VolumePimTextCtrl->GetMinSize());
+
+		newTextCtrl->Connect (wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler (VolumePimWizardPage::OnPimChanged), nullptr, this);
+		delete VolumePimTextCtrl;
+		VolumePimTextCtrl = newTextCtrl;
+		SetPimValidator ();
+		OnPimChanged (GetVolumePim ());
 	}
 }
