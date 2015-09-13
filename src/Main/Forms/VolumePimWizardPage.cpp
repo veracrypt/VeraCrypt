@@ -58,7 +58,7 @@ namespace VeraCrypt
 			VolumePimTextCtrl->SetValue (wxT(""));
 		}
 
-		OnPimChanged (pim);
+		OnPimValueChanged (pim);
 	}
 
 	bool VolumePimWizardPage::IsValid ()
@@ -68,10 +68,10 @@ namespace VeraCrypt
 	
 	void VolumePimWizardPage::OnPimChanged  (wxCommandEvent& event)
 	{
-		OnPimChanged (GetVolumePim ());
+		OnPimValueChanged (GetVolumePim ());
 	}
 
-	void VolumePimWizardPage::OnPimChanged  (int pim)
+	void VolumePimWizardPage::OnPimValueChanged  (int pim)
 	{
 		if (pim > 0)
 		{
@@ -119,6 +119,6 @@ namespace VeraCrypt
 		delete VolumePimTextCtrl;
 		VolumePimTextCtrl = newTextCtrl;
 		SetPimValidator ();
-		OnPimChanged (GetVolumePim ());
+		OnPimValueChanged (GetVolumePim ());
 	}
 }

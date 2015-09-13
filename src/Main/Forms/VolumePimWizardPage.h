@@ -37,7 +37,7 @@ namespace VeraCrypt
 	protected:
 		void SetPimValidator ();
 		void OnPimChanged  (wxCommandEvent& event);
-		void OnPimChanged  (int pim);
+		void OnPimValueChanged  (int pim);
 	};
 }
 
