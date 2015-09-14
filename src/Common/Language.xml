@@ -274,6 +274,8 @@
     <control lang="en" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Display this custom message in the pre-boot authentication screen (24 characters maximum):</control>
     <control lang="en" key="IDT_DEFAULT_MOUNT_OPTIONS">Default Mount Options</control>
     <control lang="en" key="IDT_DISMOUNT_ACTION">Hot Key Options</control>
+    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
+    <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</control>
     <control lang="en" key="IDT_FILE_SETTINGS">File Settings</control>
     <control lang="en" key="IDT_HOTKEY_KEY">Key to assign:</control>

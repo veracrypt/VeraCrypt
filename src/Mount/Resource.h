@@ -170,6 +170,8 @@
 #define IDC_SHOW_PIM                    1146
 #define IDC_FAVORITE_USE_LABEL_IN_EXPLORER 1147
 #define IDC_COPY_EXPANDER               1148
+#define IDT_DRIVER_OPTIONS              1149
+#define IDC_ENABLE_EXTENDED_IOCTL_SUPPORT 1150
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -245,7 +247,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40068
-#define _APS_NEXT_CONTROL_VALUE         1149
+#define _APS_NEXT_CONTROL_VALUE         1151
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

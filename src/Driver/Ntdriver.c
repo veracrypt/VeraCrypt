@@ -58,6 +58,7 @@ BOOL NonAdminSystemFavoritesAccessDisabled = FALSE;
 static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
 static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
+static BOOL EnableExtendedIoctlSupport = FALSE;
 
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
 
@@ -631,63 +632,68 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_STORAGE_QUERY_PROPERTY:
-		if (ValidateIOBufferSize (Irp, sizeof (STORAGE_PROPERTY_QUERY), ValidateInput))
-		{			
-			PSTORAGE_PROPERTY_QUERY pStoragePropQuery = (PSTORAGE_PROPERTY_QUERY) Irp->AssociatedIrp.SystemBuffer;
-			STORAGE_QUERY_TYPE type = pStoragePropQuery->QueryType;
+		if (EnableExtendedIoctlSupport)
+		{
+			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_PROPERTY_QUERY), ValidateInput))
+			{			
+				PSTORAGE_PROPERTY_QUERY pStoragePropQuery = (PSTORAGE_PROPERTY_QUERY) Irp->AssociatedIrp.SystemBuffer;
+				STORAGE_QUERY_TYPE type = pStoragePropQuery->QueryType;
 
-			/* return error if an unsupported type is encountered */
-			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
-			Irp->IoStatus.Information = 0;
+				/* return error if an unsupported type is encountered */
+				Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+				Irp->IoStatus.Information = 0;
 
-			if (	(pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
-				||	(pStoragePropQuery->PropertyId == StorageDeviceProperty)
-				)
-			{
-				if (type == PropertyExistsQuery)
+				if (	(pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
+					||	(pStoragePropQuery->PropertyId == StorageDeviceProperty)
+					)
 				{
-					Irp->IoStatus.Status = STATUS_SUCCESS;
-					Irp->IoStatus.Information = 0;
-				}
-				else if (type == PropertyStandardQuery)
-				{
-					switch (pStoragePropQuery->PropertyId)
+					if (type == PropertyExistsQuery)
 					{
-						case StorageDeviceProperty:
-							{
-								if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_DESCRIPTOR), ValidateOutput))
+						Irp->IoStatus.Status = STATUS_SUCCESS;
+						Irp->IoStatus.Information = 0;
+					}
+					else if (type == PropertyStandardQuery)
+					{
+						switch (pStoragePropQuery->PropertyId)
+						{
+							case StorageDeviceProperty:
 								{
-									PSTORAGE_DEVICE_DESCRIPTOR outputBuffer = (PSTORAGE_DEVICE_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+									if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_DESCRIPTOR), ValidateOutput))
+									{
+										PSTORAGE_DEVICE_DESCRIPTOR outputBuffer = (PSTORAGE_DEVICE_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
 
-									outputBuffer->Version = sizeof(STORAGE_DEVICE_DESCRIPTOR);
-									outputBuffer->Size = sizeof(STORAGE_DEVICE_DESCRIPTOR);
-									outputBuffer->DeviceType = FILE_DEVICE_DISK;
-									outputBuffer->RemovableMedia = Extension->bRemovable? TRUE : FALSE;
-									Irp->IoStatus.Status = STATUS_SUCCESS;
-									Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->Version = sizeof(STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->Size = sizeof(STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->DeviceType = FILE_DEVICE_DISK;
+										outputBuffer->RemovableMedia = Extension->bRemovable? TRUE : FALSE;
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+									}
 								}
-							}
-							break;
-						case StorageAccessAlignmentProperty:
-							{
-								if (ValidateIOBufferSize (Irp, sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR), ValidateOutput))
+								break;
+							case StorageAccessAlignmentProperty:
 								{
-									PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR outputBuffer = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+									if (ValidateIOBufferSize (Irp, sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR), ValidateOutput))
+									{
+										PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR outputBuffer = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
 
-									outputBuffer->Version = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
-									outputBuffer->Size = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
-									outputBuffer->BytesPerLogicalSector = Extension->BytesPerSector;
-									outputBuffer->BytesPerPhysicalSector = Extension->HostBytesPerPhysicalSector;
-									outputBuffer->BytesOffsetForSectorAlignment = Extension->BytesOffsetForSectorAlignment;
-									Irp->IoStatus.Status = STATUS_SUCCESS;
-									Irp->IoStatus.Information = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+										outputBuffer->Version = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+										outputBuffer->Size = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+										outputBuffer->BytesPerLogicalSector = Extension->BytesPerSector;
+										outputBuffer->BytesPerPhysicalSector = Extension->HostBytesPerPhysicalSector;
+										outputBuffer->BytesOffsetForSectorAlignment = Extension->BytesOffsetForSectorAlignment;
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+									}
 								}
-							}
-							break;
+								break;
+						}
 					}
 				}
 			}
 		}
+		else
+			return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
 		
 		break;
 
@@ -3266,6 +3272,8 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			}
 
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
+			
+			EnableExtendedIoctlSupport = (flags & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL)? TRUE : FALSE;
 		}
 		else
 			status = STATUS_INVALID_PARAMETER;
