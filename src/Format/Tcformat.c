@@ -7779,7 +7779,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 retryCDDriveCheck:
-				if (!bDontVerifyRescueDisk && !BootEncObj->IsCDDrivePresent())
+				if (!bDontVerifyRescueDisk && !BootEncObj->IsCDRecorderPresent())
 				{
 					char *multiChoiceStr[] = { 0, "CD_BURNER_NOT_PRESENT",
 						"CD_BURNER_NOT_PRESENT_WILL_STORE_ISO",

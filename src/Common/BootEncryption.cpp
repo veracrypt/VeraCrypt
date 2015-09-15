@@ -1742,18 +1742,20 @@ namespace VeraCrypt
 #endif
 
 
-	bool BootEncryption::IsCDDrivePresent ()
+	bool BootEncryption::IsCDRecorderPresent ()
 	{
-		for (char drive = 'Z'; drive >= 'C'; --drive)
+		ICDBurn* pICDBurn;
+		BOOL bHasRecorder = FALSE;
+
+		if (SUCCEEDED( CoCreateInstance (CLSID_CDBurn, NULL,CLSCTX_INPROC_SERVER,IID_ICDBurn,(LPVOID*)&pICDBurn)))
 		{
-			string path = "X:\\";
-			path[0] = drive;
-
-			if (GetDriveType (path.c_str()) == DRIVE_CDROM)
-				return true;
+			if (pICDBurn->HasRecordableDrive (&bHasRecorder) != S_OK)
+			{
+				bHasRecorder = FALSE;
+			}
+			pICDBurn->Release();
 		}
-
-		return false;
+		return bHasRecorder? true : false;
 	}
 
 
@@ -1766,20 +1768,26 @@ namespace VeraCrypt
 		{
 			try
 			{
-				string path = "X:";
-				path[0] = drive;
+				char rootPath[4] = { drive, ':', '\\', 0};
+				UINT driveType = GetDriveTypeA (rootPath);
+				// check that it is a CD/DVD drive or a removable media in case a bootable
+				// USB key was created from the rescue disk ISO file
+				if ((DRIVE_CDROM == driveType) || (DRIVE_REMOVABLE == driveType)) 
+				{
+					rootPath[2] = 0; // remove trailing backslash
 
-				Device driveDevice (path, true);
-				driveDevice.CheckOpened (SRC_POS);
-				size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
-				Buffer buffer ((verifiedSectorCount + 1) * 2048);
+					Device driveDevice (rootPath, true);
+					driveDevice.CheckOpened (SRC_POS);
+					size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
+					Buffer buffer ((verifiedSectorCount + 1) * 2048);
 
-				DWORD bytesRead = driveDevice.Read (buffer.Ptr(), (DWORD) buffer.Size());
-				if (bytesRead != buffer.Size())
-					continue;
+					DWORD bytesRead = driveDevice.Read (buffer.Ptr(), (DWORD) buffer.Size());
+					if (bytesRead != buffer.Size())
+						continue;
 
-				if (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
-					return true;
+					if (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
+						return true;
+				}
 			}
 			catch (...) { }
 		}

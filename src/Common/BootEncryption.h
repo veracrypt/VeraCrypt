@@ -174,7 +174,7 @@ namespace VeraCrypt
 		void InstallBootLoader (bool preserveUserConfig = false, bool hiddenOSCreation = false);
 		bool CheckBootloaderFingerprint (bool bSilent = false);
 		void InvalidateCachedSysDriveProperties ();
-		bool IsCDDrivePresent ();
+		bool IsCDRecorderPresent ();
 		bool IsHiddenSystemRunning ();
 		bool IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly);
 		void PrepareHiddenOSCreation (int ea, int mode, int pkcs5);
