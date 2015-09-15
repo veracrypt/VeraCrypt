@@ -1092,6 +1092,7 @@ static void PopulateSysEncContextMenu (HMENU popup, BOOL bToolsOnly)
 		AppendMenu (popup, MF_SEPARATOR, 0, "");
 		AppendMenuW (popup, MF_STRING, IDM_CREATE_RESCUE_DISK, GetString ("IDM_CREATE_RESCUE_DISK"));
 		AppendMenuW (popup, MF_STRING, IDM_VERIFY_RESCUE_DISK, GetString ("IDM_VERIFY_RESCUE_DISK"));
+		AppendMenuW (popup, MF_STRING, IDM_VERIFY_RESCUE_DISK_ISO, GetString ("IDM_VERIFY_RESCUE_DISK_ISO"));
 	}
 
 	if (!bToolsOnly)
@@ -5567,7 +5568,7 @@ void CreateRescueDisk (HWND hwndDlg)
 		Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 }
 
-static void VerifyRescueDisk (HWND hwndDlg)
+static void VerifyRescueDisk (HWND hwndDlg, bool checkIsoFile)
 {
 	try
 	{
@@ -5598,7 +5599,7 @@ static void VerifyRescueDisk (HWND hwndDlg)
 	{
 		try
 		{
-			if (AskOkCancel ("RESCUE_DISK_NON_WIZARD_CHECK_INSERT", hwndDlg) != IDOK)
+			if (!checkIsoFile && (AskOkCancel ("RESCUE_DISK_NON_WIZARD_CHECK_INSERT", hwndDlg) != IDOK))
 			{		
 				CloseSysEncMutex ();
 				return;
@@ -5607,11 +5608,33 @@ static void VerifyRescueDisk (HWND hwndDlg)
 			// Create a temporary up-to-date rescue disk image in RAM (with it the CD/DVD content will be compared)
 			BootEncObj->CreateRescueIsoImage (false, "");
 
-			WaitCursor();
-			if (!BootEncObj->VerifyRescueDisk ())
-				Error ("RESCUE_DISK_NON_WIZARD_CHECK_FAILED", hwndDlg);
+			
+			if (checkIsoFile)
+			{
+				char szRescueDiskISO [TC_MAX_PATH+1];
+				char initialDir[MAX_PATH];
+				SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, initialDir);
+
+				if (!BrowseFilesInDir (hwndDlg, "OPEN_TITLE", initialDir, szRescueDiskISO, FALSE, FALSE, NULL, L"VeraCrypt Rescue Disk.iso", L"iso"))
+				{		
+					CloseSysEncMutex ();
+					return;
+				}
+
+				WaitCursor();
+				if (!BootEncObj->VerifyRescueDiskIsoImage (szRescueDiskISO))
+					Error ("RESCUE_DISK_ISO_IMAGE_CHECK_FAILED", hwndDlg);
+				else
+					Info ("RESCUE_DISK_ISO_IMAGE_CHECK_PASSED", hwndDlg);	
+			}
 			else
-				Info ("RESCUE_DISK_NON_WIZARD_CHECK_PASSED", hwndDlg);
+			{
+				WaitCursor();
+				if (!BootEncObj->VerifyRescueDisk ())
+					Error ("RESCUE_DISK_NON_WIZARD_CHECK_FAILED", hwndDlg);
+				else
+					Info ("RESCUE_DISK_NON_WIZARD_CHECK_PASSED", hwndDlg);
+			}
 		}
 		catch (Exception &e)
 		{
@@ -7136,7 +7159,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			CreateRescueDisk (hwndDlg);
 			break;
 		case IDM_VERIFY_RESCUE_DISK:
-			VerifyRescueDisk (hwndDlg);
+			VerifyRescueDisk (hwndDlg, false);
+			break;
+		case IDM_VERIFY_RESCUE_DISK_ISO:
+			VerifyRescueDisk (hwndDlg, true);
 			break;
 		case IDM_MOUNT_SYSENC_PART_WITHOUT_PBA:
 

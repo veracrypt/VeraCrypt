@@ -1795,6 +1795,31 @@ namespace VeraCrypt
 		return false;
 	}
 
+	bool BootEncryption::VerifyRescueDiskIsoImage (const char* imageFile)
+	{
+		if (!RescueIsoImage)
+			throw ParameterIncorrect (SRC_POS);
+
+		try
+		{
+			File isoFile (imageFile, true);
+			isoFile.CheckOpened (SRC_POS);
+			size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
+			Buffer buffer ((verifiedSectorCount + 1) * 2048);
+
+			DWORD bytesRead = isoFile.Read (buffer.Ptr(), (DWORD) buffer.Size());
+			if (	(bytesRead == buffer.Size()) 
+				&& (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
+				)
+			{
+				return true;
+			}
+		}
+		catch (...) { }
+
+		return false;
+	}
+
 
 #ifndef SETUP
 

@@ -239,6 +239,7 @@
 #define IDM_VOLUME_EXPANDER             40065
 #define IDM_DEFAULT_MOUNT_PARAMETERS    40066
 #define IDM_DECRYPT_NONSYS_VOL          40067
+#define IDM_VERIFY_RESCUE_DISK_ISO      40068
 
 // Next default values for new objects
 // 
@@ -246,7 +247,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
-#define _APS_NEXT_COMMAND_VALUE         40068
+#define _APS_NEXT_COMMAND_VALUE         40069
 #define _APS_NEXT_CONTROL_VALUE         1151
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -203,6 +203,7 @@ namespace VeraCrypt
 		bool SystemPartitionCoversWholeDrive ();
 		bool SystemDriveIsDynamic ();
 		bool VerifyRescueDisk ();
+		bool VerifyRescueDiskIsoImage (const char* imageFile);
 		void WipeHiddenOSCreationConfig ();
 		void WriteBootDriveSector (uint64 offset, byte *data);
 		void WriteBootSectorConfig (const byte newConfig[]);
