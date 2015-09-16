@@ -113,6 +113,7 @@
     <control lang="zh-hk" key="IDC_CACHE">在記憶體中緩存密碼和密鑰檔(&amp;A)</control>
     <control lang="zh-hk" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">沒有加密卷被載入時退出</control>
     <control lang="zh-hk" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">在有加密卷成功載入後關閉口權杖會話（登出）(&amp;C)</control>
+    <control lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</control>
     <control lang="zh-hk" key="IDC_COPY_WIZARD">包含 VeraCrypt 加密卷創建嚮導</control>
     <control lang="zh-hk" key="IDC_CREATE">創建</control>
     <control lang="zh-hk" key="IDC_CREATE_VOLUME">創建加密卷(&amp;C)</control>
@@ -273,6 +274,8 @@
     <control lang="zh-hk" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">在啟動驗證螢幕顯示下面自定義資訊（最多 24 個字元）：</control>
     <control lang="zh-hk" key="IDT_DEFAULT_MOUNT_OPTIONS">默認載入選項</control>
     <control lang="zh-hk" key="IDT_DISMOUNT_ACTION">熱鍵設置</control>
+    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
+    <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="zh-hk" key="IDT_FAVORITE_LABEL">所選收藏加密卷的標籤:</control>
     <control lang="zh-hk" key="IDT_FILE_SETTINGS">檔選項</control>
     <control lang="zh-hk" key="IDT_HOTKEY_KEY">要分配的熱鍵：</control>
@@ -539,6 +542,15 @@
     <string lang="zh-hk" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">注意：如果您要安全的從迷惑作業系統向隱形作業系統中傳送檔，請遵循以下步驟： 1）啟動迷惑作業系統。 2）保存這些檔到未加密的卷或者是 VeraCrypt 外層/常規加密卷。 3）啟動隱形作業系統。 4）如果是把檔保存到 VeraCrypt 加密卷，則載入這個加密卷（該加密卷會自動以唯讀模式載入）。 5）複製這些檔到隱行作業系統的分區或者是其他隱藏加密卷。</string>
     <string lang="zh-hk" key="CONFIRM_RESTART">您的電腦必須重啟。\n\n您希望現在重啟電腦嗎？</string>
     <string lang="zh-hk" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">獲取系統加密狀態時出錯。</string>
+    <string lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</string>
+    <string lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</string>
+    <string lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</string>
+    <string lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</string>
+    <string lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="zh-hk" key="INIT_SYS_ENC">不能初始化用於系統加密的程式元件。</string>
     <string lang="zh-hk" key="INIT_RAND">初始化亂數據生成器失敗！</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>

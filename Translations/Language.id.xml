@@ -113,6 +113,7 @@
     <control lang="id" key="IDC_CACHE">Simpan password dan fil&amp;e kunci di memory</control>
     <control lang="id" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Keluar jika tidak ada volume tersambung</control>
     <control lang="en" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Close token session (log out) after a volume is successfully mounted</control>
+    <control lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</control>
     <control lang="id" key="IDC_COPY_WIZARD">Termasuk panduan pembuat volume VeraCrypt</control>
     <control lang="id" key="IDC_CREATE">Buat</control>
     <control lang="id" key="IDC_CREATE_VOLUME">&amp;Buat Volume Baru</control>
@@ -273,6 +274,8 @@
     <control lang="en" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Display this custom message in the pre-boot authentication screen (24 characters maximum):</control>
     <control lang="id" key="IDT_DEFAULT_MOUNT_OPTIONS">Pilihan sambungan dasar</control>
     <control lang="id" key="IDT_DISMOUNT_ACTION">Pengaturan Kunci Pintas</control>
+    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
+    <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</control>
     <control lang="id" key="IDT_FILE_SETTINGS">Pengaturan File</control>
     <control lang="id" key="IDT_HOTKEY_KEY">Kunci ditetapkan untuk:</control>
@@ -539,6 +542,15 @@
     <string lang="en" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">Note: If you need to securely transfer files from the decoy system to the hidden system, follow these steps:\n1) Start the decoy system.\n2) Save the files to an unencrypted volume or to an outer/normal VeraCrypt volume.\n3) Start the hidden system.\n4) If you saved the files to a VeraCrypt volume, mount it (it will be automatically mounted as read-only).\n5) Copy the files to the hidden system partition or to another hidden volume.</string>
     <string lang="en" key="CONFIRM_RESTART">Your computer must be restarted.\n\nDo you want to restart it now?</string>
     <string lang="en" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">An error occurred when obtaining the system encryption status.</string>
+    <string lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</string>
+    <string lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</string>
+    <string lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</string>
+    <string lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</string>
+    <string lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="en" key="INIT_SYS_ENC">Cannot initialize application components for system encryption.</string>
     <string lang="en" key="INIT_RAND">Failed to initialize the random number generator!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>

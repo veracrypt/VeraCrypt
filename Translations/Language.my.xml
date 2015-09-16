@@ -113,6 +113,7 @@
     <control lang="my" key="IDC_CACHE">စကားဝှက်များနှင့် ကီးဖိုင်များကို မှတ်ဉာဏ်ထဲတွင် ခေတ္တ သိမ်းဆည်းရန်</control>
     <control lang="my" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">အစပျိုးထာသော volumes မရှိသည့်အခါ ထွက်ပါ</control>
     <control lang="my" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">Volume တစ်ခုကို အောင်မြင်စွာ အစပျိုးပြီးသောအခါ တိုကင်ဖြင့် ဝင်ရောက်မှုကို ပိတ်ပါ</control>
+    <control lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</control>
     <control lang="my" key="IDC_COPY_WIZARD">VeraCrypt Volume ဖန်တီးမှု အညွှန်းကို ထည့်သွင်းရန်</control>
     <control lang="my" key="IDC_CREATE">ဖန်တီးရန်</control>
     <control lang="my" key="IDC_CREATE_VOLUME">Volume ဖန်တီးရန်</control>
@@ -273,6 +274,8 @@
     <control lang="my" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">စက်မတက်မီ စစ်ဆေးမှု မျက်နှာပြင်တွင် ဤစိတ်ကြိုက် စာတမ်းကို ပြရန် (စာလုံးရေ အများဆုံး ၂၄ လုံးသာ) -</control>
     <control lang="my" key="IDT_DEFAULT_MOUNT_OPTIONS">မူလ အစပျိုး ရွေးစရာများ</control>
     <control lang="my" key="IDT_DISMOUNT_ACTION">အထူး ကီး ရွေးစရာများ</control>
+    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
+    <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="my" key="IDT_FAVORITE_LABEL">ရွေးချယ်ထားသော စိတ်ကြိုက် volume အညွှန်း -</control>
     <control lang="my" key="IDT_FILE_SETTINGS">ဖိုင် ချိန်ညှိချက်များ</control>
     <control lang="my" key="IDT_HOTKEY_KEY">သတ်မှတ်ရမည့် ကီး -</control>
@@ -540,6 +543,15 @@
     <string lang="my" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">မှတ်ချက် - အကယ်၍ မျက်လှည့် ကွန်ပျူတာစနစ်ထဲမှ ဖိုင်များကို လျှို့ဝှက် ကွန်ပျူတာစနစ်ထဲ လုံခြုံစွာ ပြောင်းရွှေ့လိုက်ပါက၊ အောက်ပါ အဆင့်များကို လိုက်နာပါ -\n၁) မျက်လှည့် ကွန်ပျူတာစနစ်ကို စဖွင့်ပါ။\n၂) ဖိုင်များကို စာဝှက်မထားသော volume တစ်ခုထဲ သိမ်းဆည်းပါ (သို့) ပြင်ပ/ပုံမှန် VeraCrypt volume တစ်ခုထဲ သိမ်းဆည်းပါ။\n၃) လျှို့ဝှက် ကွန်ပျူတာစနစ်ကို စတင်ပါ။\n၄) အကယ်၍ ဖိုင်များကို VeraCrypt volume တစ်ခုထဲ သိမ်းဆည်းထားပါက၊ ၄င်းကို အစပျိုးပါ (၎င်းကို ဖတ်ရှုရန်သက်သက်အဖြစ် အလိုအလျောက် အစပျိုးလာမည် ဖြစ်သည်)\n၅) ဖိုင်များကို လျှို့ဝှက် ကွန်ပျူတာစနစ် အခန်းကန့်ထဲ (သို့) အခြား လျှို့ဝှက် volume ထဲ ကော်ပီးကူးလိုက်ပါ။</string>
     <string lang="my" key="CONFIRM_RESTART">သင့် ကွန်ပျူတာကို ပြန်ဖွင့်ဖို့ လိုအပ်သည်။\n\nကွန်ပျူတာကို ယခု ပြန်ဖွင့်လိုသလား?</string>
     <string lang="my" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">ကွန်ပျူတာစနစ်၏ စာဝှက်ခြင်း အနေအထားကို ရယူနေစဉ် ချို့ယွင်းချက် တစ်ခု ဖြစ်ပေါ်နေသည်။</string>
+    <string lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</string>
+    <string lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</string>
+    <string lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</string>
+    <string lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</string>
+    <string lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="my" key="INIT_SYS_ENC">ကွန်ပျူတာစနစ် စာဝှက်ရန်အတွက် အပ္ပလီကေးရှင်း အစိတ်အပိုင်းများကို အစပြု၍ မရပါ။</string>
     <string lang="my" key="INIT_RAND">ကျပန်း နံပါတ် ထုတ်စနစ်ကို အစပြု၍ မရပါ။</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>

@@ -113,6 +113,7 @@
     <control lang="ko" key="IDC_CACHE">메모리에 비밀번호 및 키파일 보관</control>
     <control lang="ko" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">삽입된 볼륨이 없을 때 종료</control>
     <control lang="ko" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">볼륨이 성공적으로 삽입된 후 토큰 세션 닫기(* 로그 아웃)(&amp;C)</control>
+    <control lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</control>
     <control lang="ko" key="IDC_COPY_WIZARD">VeraCrypt 볼륨 만들기 마법사 포함</control>
     <control lang="ko" key="IDC_CREATE">만들기</control>
     <control lang="ko" key="IDC_CREATE_VOLUME">볼륨 만들기(&amp;C)</control>
@@ -273,6 +274,8 @@
     <control lang="ko" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">부팅-전 인증 화면에 사용자 메시지 표시(* 최대 문자수는 24개):</control>
     <control lang="ko" key="IDT_DEFAULT_MOUNT_OPTIONS">기본 삽입 옵션</control>
     <control lang="ko" key="IDT_DISMOUNT_ACTION">단축키 옵션</control>
+    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
+    <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</control>
     <control lang="ko" key="IDT_FILE_SETTINGS">파일 설정</control>
     <control lang="ko" key="IDT_HOTKEY_KEY">할당할 키:</control>
@@ -539,6 +542,15 @@
     <string lang="ko" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">참고: 미끼용 시스템에서 숨긴 시스템으로 파일을 안전하게 전송할 필요가 있는 경우에는 다음 단계를 따릅니다. 1) 미끼용 시스템을 시작합니다. 2) 암호화되지 않은 볼륨 또는 외부/표준 VeraCrypt 볼륨에 파일을 저장합니다. 3) 숨긴 시스템을 시작합니다. 4) VeraCrypt 볼륨에 파일을 저장한 경우, 이 볼륨을 삽입합니다(→ 읽기-전용으로 자동으로 삽입됩니다). 5) 파일을 ① 숨긴 시스템 파티션 또는 ② 다른 숨긴 볼륨에 복사합니다.</string>
     <string lang="ko" key="CONFIRM_RESTART">컴퓨터를 다시 시작해야 합니다.\n\n지금 다시 시작하시겠습니까?</string>
     <string lang="ko" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">시스템 암호 상태를 얻는 동안 오류가 발생했습니다.</string>
+    <string lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</string>
+    <string lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</string>
+    <string lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</string>
+    <string lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</string>
+    <string lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="ko" key="INIT_SYS_ENC">시스템 암호화를 위한 프로그램 구성요소를 초기화하지 못했습니다.</string>
     <string lang="ko" key="INIT_RAND">무작위 숫자 생성기를 초기화하는데 실패했습니다!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>

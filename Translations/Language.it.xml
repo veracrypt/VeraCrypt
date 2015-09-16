@@ -113,6 +113,7 @@
     <control lang="it" key="IDC_CACHE">Mantieni password e file chiave nella cache</control>
     <control lang="it" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Chiudi quando non ci sono volumi montati</control>
     <control lang="it" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Chiudi la sessione in corso (log out) dopo che il volume è stato montato</control>
+    <control lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</control>
     <control lang="it" key="IDC_COPY_WIZARD">Includi la creazione guidata volume VeraCrypt</control>
     <control lang="it" key="IDC_CREATE">Crea</control>
     <control lang="it" key="IDC_CREATE_VOLUME">Crea un volume...</control>
@@ -273,6 +274,8 @@
     <control lang="it" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Mostra il messaggio utente nello schermo di autenticazione di per-avvio (massimo 24 caratteri):</control>
     <control lang="it" key="IDT_DEFAULT_MOUNT_OPTIONS">Opzioni di montaggio predefinite</control>
     <control lang="it" key="IDT_DISMOUNT_ACTION">Opzioni tasti rapidi</control>
+    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
+    <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="it" key="IDT_FAVORITE_LABEL">Etichetta del volume preferito selezionato:</control>
     <control lang="it" key="IDT_FILE_SETTINGS">Impostazioni file</control>
     <control lang="it" key="IDT_HOTKEY_KEY">Tasto:</control>
@@ -539,6 +542,15 @@
     <string lang="it" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">Nota: Se volete trasferire sicuramente i file dal sistema operativo di richiamo al sistema nascosto, seguite questi passi: 1) Avviare il sistema di richiamo. 2) Salvare i file in un volume decriptato oppure in un volume VeraCrypt normale o esterno. 3) Avviare il sistema nascosto. 4) Se voi salvate i file in un volume VeraCrypt, montarlo (sarà montato automaticamente in sola lettura). 5) Copiare i file nella partizione di sistema nascosto oppure un altro volume nascosto.</string>
     <string lang="it" key="CONFIRM_RESTART">Il vostro computer deve essere riavviato.\n\nVolete riavviarlo ora?</string>
     <string lang="it" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">Si è verificato un errore nel dare lo stato di codifica del sistema.</string>
+    <string lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</string>
+    <string lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</string>
+    <string lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</string>
+    <string lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</string>
+    <string lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</string>
+    <string lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</string>
+    <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="it" key="INIT_SYS_ENC">Impossibile inizializzare i componenti dell’applicazione per la codifica del sistema.</string>
     <string lang="it" key="INIT_RAND">Inizializzazione del generatore di numeri casuali fallita!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
