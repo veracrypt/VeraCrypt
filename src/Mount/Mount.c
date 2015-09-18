@@ -6075,7 +6075,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						defaultKeyFilesParam.FirstKeyFile = KeyFileCloneAll (FirstCmdKeyFile);
 					}
 
-					if (!MountFavoriteVolumes (FALSE, LogOn))
+					if (!MountFavoriteVolumes (hwndDlg, FALSE, LogOn))
 						exitCode = 1;
 				}
 
