@@ -2264,6 +2264,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
 			}
 
+			SetFocus (GetDlgItem (hwndDlg, IDC_OLD_PIM));
+
 			return 1;
 		}
 
@@ -2273,6 +2275,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+
+			SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
 
 			return 1;
 		}
@@ -2816,6 +2820,8 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+
+			SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
 			return 1;
 		}
 
@@ -3359,6 +3365,8 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+
+			SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
 			return 1;
 		}
 

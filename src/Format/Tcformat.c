@@ -5481,6 +5481,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), PimEnable? SW_SHOW : SW_HIDE);
 				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), PimEnable? SW_SHOW : SW_HIDE);
 				ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), PimEnable? SW_SHOW : SW_HIDE);
+				if (PimEnable)
+				{
+					SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
+				}
 			}
 			return 1;
 		}

@@ -612,6 +612,8 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ShowWindow (GetDlgItem( hwndDlg, IDT_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM), SW_SHOW);
 			ShowWindow (GetDlgItem( hwndDlg, IDC_PIM_HELP), SW_SHOW);
+
+			SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
 			return 1;
 		}
 
