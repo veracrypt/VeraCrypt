@@ -7346,10 +7346,12 @@ int GetDiskDeviceDriveLetter (PWSTR deviceName)
 		StringCchCopyW (link, MAX_PATH, L"\\DosDevices\\");
 		StringCchCatW (link, MAX_PATH, drive);
 
-		ResolveSymbolicLink (link, target, sizeof(target));
-
-		if (wcscmp (device, target) == 0)
+		if (	ResolveSymbolicLink (link, target, sizeof(target))
+			&& (wcscmp (device, target) == 0)
+			)
+		{
 			return i;
+		}
 	}
 
 	return -1;
