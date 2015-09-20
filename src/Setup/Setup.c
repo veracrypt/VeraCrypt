@@ -865,7 +865,7 @@ BOOL DoFilesInstall (HWND hwndDlg, char *szDestDir)
 
 						try
 						{
-							if (BootEncObj.GetStatus().DriveMounted)
+							if (BootEncObj.GetDriverServiceStartType() == SERVICE_BOOT_START)
 							{
 								BootEncObj.UpdateSystemFavoritesService ();
 							}
@@ -2086,7 +2086,14 @@ void DoInstall (void *arg)
 
 	if (bUpgrade
 		&& (IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME ".exe")
+			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME "-x86.exe")
+			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME "-x64.exe")
 			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME " Format.exe")
+			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME " Format-x86.exe")
+			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME " Format-x64.exe")
+			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME "Expander.exe")
+			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME "Expander-x86.exe")
+			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME "Expander-x64.exe")
 			|| IsFileInUse (string (InstallationPath) + '\\' + TC_APP_NAME " Setup.exe")
 			)
 		)
