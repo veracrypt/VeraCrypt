@@ -154,13 +154,13 @@ extern "C" BOOL ComServerFormat ()
 		return FALSE;
 
 	MSG msg;
-	while (int r = GetMessage (&msg, NULL, 0, 0))
+	while (int r = GetMessageW (&msg, NULL, 0, 0))
 	{
 		if (r == -1)
 			return FALSE;
 
 		TranslateMessage (&msg);
-		DispatchMessage (&msg);
+		DispatchMessageW (&msg);
 
 		if (msg.message == WM_APP
 			&& ObjectCount < 1

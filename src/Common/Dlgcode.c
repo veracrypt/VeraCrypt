@@ -192,11 +192,11 @@ DWORD SystemFileSelectorCallerThreadId;
 HMODULE hRichEditDll = NULL;
 
 /* Windows dialog class */
-#define WINDOWS_DIALOG_CLASS "#32770"
+#define WINDOWS_DIALOG_CLASS L"#32770"
 
 /* Custom class names */
-#define TC_DLG_CLASS "VeraCryptCustomDlg"
-#define TC_SPLASH_CLASS "VeraCryptSplashDlg"
+#define TC_DLG_CLASS L"VeraCryptCustomDlg"
+#define TC_SPLASH_CLASS L"VeraCryptSplashDlg"
 
 /* Benchmarks */
 
@@ -265,9 +265,9 @@ void cleanup ()
 
 	/* Cleanup our dialog class */
 	if (hDlgClass)
-		UnregisterClass (TC_DLG_CLASS, hInst);
+		UnregisterClassW (TC_DLG_CLASS, hInst);
 	if (hSplashClass)
-		UnregisterClass (TC_SPLASH_CLASS, hInst);
+		UnregisterClassW (TC_SPLASH_CLASS, hInst);
 
 	/* Close the device driver handle */
 	if (hDriver != INVALID_HANDLE_VALUE)
@@ -726,7 +726,7 @@ std::string FitPathInGfxWidth (HWND hwnd, HFONT hFont, LONG width, const std::st
 
 static LRESULT CALLBACK HyperlinkProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	WNDPROC wp = (WNDPROC) GetWindowLongPtr (hwnd, GWLP_USERDATA);
+	WNDPROC wp = (WNDPROC) GetWindowLongPtrW (hwnd, GWLP_USERDATA);
 
 	switch (message)
 	{
@@ -751,7 +751,7 @@ static LRESULT CALLBACK HyperlinkProc (HWND hwnd, UINT message, WPARAM wParam, L
 		return 0;
 	}
 
-	return CallWindowProc (wp, hwnd, message, wParam, lParam);
+	return CallWindowProcW (wp, hwnd, message, wParam, lParam);
 }
 
 
@@ -765,10 +765,10 @@ BOOL ToCustHyperlink (HWND hwndDlg, UINT ctrlId, HFONT hFont)
 {
 	HWND hwndCtrl = GetDlgItem (hwndDlg, ctrlId);
 
-	SendMessage (hwndCtrl, WM_SETFONT, (WPARAM) hFont, 0);
+	SendMessageW (hwndCtrl, WM_SETFONT, (WPARAM) hFont, 0);
 
-	SetWindowLongPtr (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtr (hwndCtrl, GWLP_WNDPROC));
-	SetWindowLongPtr (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) HyperlinkProc);
+	SetWindowLongPtrW (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC));
+	SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) HyperlinkProc);
 
 	// Resize the field according to its actual size in pixels and move it if centered or right-aligned.
 	// This should be done again if the link text changes.
@@ -790,7 +790,7 @@ void AccommodateTextField (HWND hwndDlg, UINT ctrlId, BOOL bFirstUpdate, HFONT h
 	int horizSubOffset, vertSubOffset, vertOffset, alignPosDiff = 0;
 	wchar_t text [MAX_URL_LENGTH];
 	WINDOWINFO windowInfo;
-	BOOL bBorderlessWindow = !(GetWindowLongPtr (hwndDlg, GWL_STYLE) & (WS_BORDER | WS_DLGFRAME));
+	BOOL bBorderlessWindow = !(GetWindowLongPtrW (hwndDlg, GWL_STYLE) & (WS_BORDER | WS_DLGFRAME));
 
 	// Resize the field according to its length and font size and move if centered or right-aligned
 
@@ -869,7 +869,7 @@ void EnableCloseButton (HWND hwndDlg)
 // Protects an input field from having its content updated by a Paste action (call ToBootPwdField() to use this).
 static LRESULT CALLBACK BootPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	WNDPROC wp = (WNDPROC) GetWindowLongPtr (hwnd, GWLP_USERDATA);
+	WNDPROC wp = (WNDPROC) GetWindowLongPtrW (hwnd, GWLP_USERDATA);
 
 	switch (message)
 	{
@@ -1347,9 +1347,9 @@ void ProcessPaintMessages (HWND hwnd, int maxMessagesToProcess)
 	MSG paintMsg;
 	int msgCounter = maxMessagesToProcess;	
 
-	while (PeekMessage (&paintMsg, hwnd, 0, 0, PM_REMOVE | PM_QS_PAINT) != 0 && msgCounter-- > 0)
+	while (PeekMessageW (&paintMsg, hwnd, 0, 0, PM_REMOVE | PM_QS_PAINT) != 0 && msgCounter-- > 0)
 	{
-		DispatchMessage (&paintMsg);
+		DispatchMessageW (&paintMsg);
 	}
 }
 
@@ -1506,7 +1506,7 @@ RedTick (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			hDC = BeginPaint (hwnd, &tmp);
 			bEndPaint = TRUE;
 			if (hDC == NULL)
-				return DefWindowProc (hwnd, uMsg, wParam, lParam);
+				return DefWindowProcW (hwnd, uMsg, wParam, lParam);
 		}
 		else
 		{
@@ -1541,13 +1541,13 @@ RedTick (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 
-	return DefWindowProc (hwnd, uMsg, wParam, lParam);
+	return DefWindowProcW (hwnd, uMsg, wParam, lParam);
 }
 
 BOOL
 RegisterRedTick (HINSTANCE hInstance)
 {
-  WNDCLASS wc;
+  WNDCLASSW wc;
   ULONG rc;
 
   memset(&wc, 0 , sizeof wc);
@@ -1559,10 +1559,10 @@ RegisterRedTick (HINSTANCE hInstance)
   wc.hIcon = LoadIcon (NULL, IDI_APPLICATION);
   wc.hCursor = NULL;
   wc.hbrBackground = (HBRUSH) GetStockObject (LTGRAY_BRUSH);
-  wc.lpszClassName = "VCREDTICK";
+  wc.lpszClassName = L"VCREDTICK";
   wc.lpfnWndProc = &RedTick; 
   
-  rc = (ULONG) RegisterClass (&wc);
+  rc = (ULONG) RegisterClassW (&wc);
 
   return rc == 0 ? FALSE : TRUE;
 }
@@ -1570,13 +1570,13 @@ RegisterRedTick (HINSTANCE hInstance)
 BOOL
 UnregisterRedTick (HINSTANCE hInstance)
 {
-  return UnregisterClass ("VCREDTICK", hInstance);
+  return UnregisterClassW (L"VCREDTICK", hInstance);
 }
 
 LRESULT CALLBACK
 SplashDlgProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	return DefDlgProc (hwnd, uMsg, wParam, lParam);
+	return DefDlgProcW (hwnd, uMsg, wParam, lParam);
 }
 
 void
@@ -1737,7 +1737,7 @@ LRESULT CALLBACK CustomDlgProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 	}
 
-	return DefDlgProc (hwnd, uMsg, wParam, lParam);
+	return DefDlgProcW (hwnd, uMsg, wParam, lParam);
 }
 
 /*
@@ -2002,7 +2002,7 @@ void InvalidParameterHandler (const wchar_t *expression, const wchar_t *function
 
 static LRESULT CALLBACK NonInstallUacWndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return DefWindowProc (hWnd, message, wParam, lParam);
+	return DefWindowProcW (hWnd, message, wParam, lParam);
 }
 
 
@@ -2397,7 +2397,7 @@ void InitOSVersionInfo ()
    applications WinMain function, but before the main dialog has been created */
 void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 {
-	WNDCLASS wc;
+	WNDCLASSW wc;
 	char langId[6];
 	char dllPath[MAX_PATH];
 
@@ -2447,7 +2447,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	if (IsNonInstallMode () && !IsAdmin () && IsUacSupported ())
 	{
 		char modPath[MAX_PATH], newCmdLine[4096];
-		WNDCLASSEX wcex;
+		WNDCLASSEXW wcex;
 		HWND hWnd;
 
 		if (strstr (lpszCommandLine, "/q UAC ") == lpszCommandLine)
@@ -2460,12 +2460,12 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 		wcex.cbSize = sizeof(WNDCLASSEX); 
 		wcex.lpfnWndProc = (WNDPROC) NonInstallUacWndProc;
 		wcex.hInstance = hInstance;
-		wcex.lpszClassName = "VeraCrypt";
-		RegisterClassEx (&wcex);
+		wcex.lpszClassName = L"VeraCrypt";
+		RegisterClassExW (&wcex);
 
 		// A small transparent window is necessary to bring the new instance to foreground
-		hWnd = CreateWindowEx (WS_EX_TOOLWINDOW | WS_EX_LAYERED,
-			"VeraCrypt", "VeraCrypt", 0,
+		hWnd = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED,
+			L"VeraCrypt", L"VeraCrypt", 0,
 			GetSystemMetrics (SM_CXSCREEN)/2,
 			GetSystemMetrics (SM_CYSCREEN)/2,
 			1, 1, NULL, NULL, hInstance, NULL);
@@ -2544,7 +2544,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	}
 	
 	/* Get the attributes for the standard dialog class */
-	if ((GetClassInfo (hInst, WINDOWS_DIALOG_CLASS, &wc)) == 0)
+	if ((GetClassInfoW (hInst, WINDOWS_DIALOG_CLASS, &wc)) == 0)
 	{
 		handleWin32Error (NULL, SRC_POS);
 		AbortProcess ("INIT_REGISTER");
@@ -2561,7 +2561,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	wc.hCursor = LoadCursor (NULL, IDC_ARROW);
 	wc.cbWndExtra = DLGWINDOWEXTRA;
 
-	hDlgClass = RegisterClass (&wc);
+	hDlgClass = RegisterClassW (&wc);
 	if (hDlgClass == 0)
 	{
 		handleWin32Error (NULL, SRC_POS);
@@ -2573,7 +2573,7 @@ void InitApp (HINSTANCE hInstance, char *lpszCommandLine)
 	wc.hCursor = LoadCursor (NULL, IDC_ARROW);
 	wc.cbWndExtra = DLGWINDOWEXTRA;
 
-	hSplashClass = RegisterClass (&wc);
+	hSplashClass = RegisterClassW (&wc);
 	if (hSplashClass == 0)
 	{
 		handleWin32Error (NULL, SRC_POS);
@@ -4265,10 +4265,10 @@ static BOOL CALLBACK LocalizeDialogEnum( HWND hwnd, LPARAM font)
 		int ctrlId = GetDlgCtrlID (hwnd);
 		if (ctrlId != 0)
 		{
-			char name[10] = { 0 };
-			GetClassName (hwnd, name, sizeof (name));
+			WCHAR name[10] = { 0 };
+			GetClassNameW (hwnd, name, array_capacity (name));
 
-			if (_stricmp (name, "Button") == 0 || _stricmp (name, "Static") == 0)
+			if (_wcsicmp (name, L"Button") == 0 || _wcsicmp (name, L"Static") == 0)
 			{
 				wchar_t *str = (wchar_t *) GetDictionaryValueByInt (ctrlId);
 				if (str != NULL)
@@ -4278,7 +4278,7 @@ static BOOL CALLBACK LocalizeDialogEnum( HWND hwnd, LPARAM font)
 	}
 
 	// Font
-	SendMessage (hwnd, WM_SETFONT, (WPARAM) font, 0);
+	SendMessageW (hwnd, WM_SETFONT, (WPARAM) font, 0);
 	
 	return TRUE;
 }
@@ -4286,11 +4286,11 @@ static BOOL CALLBACK LocalizeDialogEnum( HWND hwnd, LPARAM font)
 void LocalizeDialog (HWND hwnd, char *stringId)
 {
 	LastDialogId = stringId;
-	SetWindowLongPtr (hwnd, GWLP_USERDATA, (LONG_PTR) 'VERA');
-	SendMessage (hwnd, WM_SETFONT, (WPARAM) hUserFont, 0);
+	SetWindowLongPtrW (hwnd, GWLP_USERDATA, (LONG_PTR) 'VERA');
+	SendMessageW (hwnd, WM_SETFONT, (WPARAM) hUserFont, 0);
 
 	if (stringId == NULL)
-		SetWindowText (hwnd, "VeraCrypt");
+		SetWindowTextW (hwnd, L"VeraCrypt");
 	else
 		SetWindowTextW (hwnd, GetString (stringId));
 	
@@ -4316,12 +4316,12 @@ static HWND explorerTopLevelWindow;
 
 static BOOL CALLBACK CloseVolumeExplorerWindowsChildEnum (HWND hwnd, LPARAM driveStr)
 {
-	char s[MAX_PATH];
-	SendMessage (hwnd, WM_GETTEXT, sizeof (s), (LPARAM) s);
+	WCHAR s[MAX_PATH];
+	SendMessageW (hwnd, WM_GETTEXT, array_capacity (s), (LPARAM) s);
 
-	if (strstr (s, (char *) driveStr) != NULL)
+	if (wcsstr (s, (WCHAR *) driveStr) != NULL)
 	{
-		PostMessage (explorerTopLevelWindow, WM_CLOSE, 0, 0);
+		PostMessageW (explorerTopLevelWindow, WM_CLOSE, 0, 0);
 		explorerCloseSent = TRUE;
 		return FALSE;
 	}
@@ -4331,18 +4331,18 @@ static BOOL CALLBACK CloseVolumeExplorerWindowsChildEnum (HWND hwnd, LPARAM driv
 
 static BOOL CALLBACK CloseVolumeExplorerWindowsEnum (HWND hwnd, LPARAM driveNo)
 {
-	char driveStr[10];
-	char s[MAX_PATH];
+	WCHAR driveStr[10];
+	WCHAR s[MAX_PATH];
 
-	StringCbPrintfA (driveStr, sizeof(driveStr), "%c:\\", driveNo + 'A');
+	StringCbPrintfW (driveStr, sizeof(driveStr), L"%c:\\", driveNo + L'A');
 
-	GetClassName (hwnd, s, sizeof s);
-	if (strcmp (s, "CabinetWClass") == 0)
+	GetClassNameW (hwnd, s, array_capacity (s));
+	if (wcscmp (s, L"CabinetWClass") == 0)
 	{
-		GetWindowText (hwnd, s, sizeof s);
-		if (strstr (s, driveStr) != NULL)
+		GetWindowTextW (hwnd, s, array_capacity (s));
+		if (wcsstr (s, driveStr) != NULL)
 		{
-			PostMessage (hwnd, WM_CLOSE, 0, 0);
+			PostMessageW (hwnd, WM_CLOSE, 0, 0);
 			explorerCloseSent = TRUE;
 			return TRUE;
 		}
@@ -6549,8 +6549,8 @@ BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			HWND hProgress = GetDlgItem (hwndDlg, IDC_WAIT_PROGRESS_BAR);
 			if (hProgress)
 			{
-				SetWindowLongPtr (hProgress, GWL_STYLE, PBS_MARQUEE | GetWindowLongPtr (hProgress, GWL_STYLE));
-				::SendMessage(hProgress, PBM_SETMARQUEE, (WPARAM) TRUE, (LPARAM) 0);
+				SetWindowLongPtrW (hProgress, GWL_STYLE, PBS_MARQUEE | GetWindowLongPtrW (hProgress, GWL_STYLE));
+				::SendMessageW(hProgress, PBM_SETMARQUEE, (WPARAM) TRUE, (LPARAM) 0);
 			}
 			
 			thParam->hwnd = hwndDlg; 
@@ -9486,7 +9486,7 @@ void HandleDriveNotReadyError (HWND hwnd)
 
 BOOL CALLBACK CloseTCWindowsEnum (HWND hwnd, LPARAM lParam)
 {
-	LONG_PTR userDataVal = GetWindowLongPtr (hwnd, GWLP_USERDATA);
+	LONG_PTR userDataVal = GetWindowLongPtrW (hwnd, GWLP_USERDATA);
 	if ((userDataVal == (LONG_PTR) 'VERA') || (userDataVal == (LONG_PTR) 'TRUE')) // Prior to 1.0e, 'TRUE' was used for VeraCrypt dialogs
 	{
 		char name[1024] = { 0 };
@@ -9509,7 +9509,7 @@ BOOL CALLBACK FindTCWindowEnum (HWND hwnd, LPARAM lParam)
 	if (*(HWND *)lParam == hwnd)
 		return TRUE;
 
-	LONG_PTR userDataVal = GetWindowLongPtr (hwnd, GWLP_USERDATA);
+	LONG_PTR userDataVal = GetWindowLongPtrW (hwnd, GWLP_USERDATA);
 	if ((userDataVal == (LONG_PTR) 'VERA') || (userDataVal == (LONG_PTR) 'TRUE')) // Prior to 1.0e, 'TRUE' was used for VeraCrypt dialogs
 	{
 		char name[32] = { 0 };
@@ -10761,7 +10761,7 @@ BOOL RemoveDeviceWriteProtection (HWND hwndDlg, char *devicePath)
 
 static LRESULT CALLBACK EnableElevatedCursorChangeWndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return DefWindowProc (hWnd, message, wParam, lParam);
+	return DefWindowProcW (hWnd, message, wParam, lParam);
 }
 
 
@@ -10770,8 +10770,8 @@ void EnableElevatedCursorChange (HWND parent)
 	// Create a transparent window to work around a UAC issue preventing change of the cursor
 	if (UacElevated)
 	{
-		const char *className = "VeraCryptEnableElevatedCursorChange";
-		WNDCLASSEX winClass;
+		const wchar_t *className = L"VeraCryptEnableElevatedCursorChange";
+		WNDCLASSEXW winClass;
 		HWND hWnd;
 
 		memset (&winClass, 0, sizeof (winClass));
@@ -10779,9 +10779,9 @@ void EnableElevatedCursorChange (HWND parent)
 		winClass.lpfnWndProc = (WNDPROC) EnableElevatedCursorChangeWndProc;
 		winClass.hInstance = hInst;
 		winClass.lpszClassName = className;
-		RegisterClassEx (&winClass);
+		RegisterClassExW (&winClass);
 
-		hWnd = CreateWindowEx (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, "VeraCrypt UAC", 0, 0, 0, GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN), parent, NULL, hInst, NULL);
+		hWnd = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt UAC", 0, 0, 0, GetSystemMetrics (SM_CXSCREEN), GetSystemMetrics (SM_CYSCREEN), parent, NULL, hInst, NULL);
 		if (hWnd)
 		{
 			SetLayeredWindowAttributes (hWnd, 0, 1, LWA_ALPHA);
@@ -10789,7 +10789,7 @@ void EnableElevatedCursorChange (HWND parent)
 
 			DestroyWindow (hWnd);
 		}
-		UnregisterClass (className, hInst);
+		UnregisterClassW (className, hInst);
 	}
 }
 
