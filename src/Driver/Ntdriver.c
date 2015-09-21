@@ -2664,7 +2664,10 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 
 		SeCaptureSubjectContext (&subContext);
 		SeLockSubjectContext(&subContext);
-		accessToken = SeQuerySubjectContextToken (&subContext);
+		if (subContext.ClientToken && subContext.ImpersonationLevel >= SecurityImpersonation)
+			accessToken = subContext.ClientToken;
+		else
+			accessToken = subContext.PrimaryToken;
 
 		if (!accessToken)
 		{
@@ -3403,7 +3406,11 @@ BOOL IsVolumeAccessibleByCurrentUser (PEXTENSION volumeDeviceExtension)
 	}
 
 	SeCaptureSubjectContext (&subContext);
-	accessToken = SeQuerySubjectContextToken (&subContext);
+	SeLockSubjectContext(&subContext);
+	if (subContext.ClientToken && subContext.ImpersonationLevel >= SecurityImpersonation)
+		accessToken = subContext.ClientToken;
+	else
+		accessToken = subContext.PrimaryToken;
 
 	if (!accessToken)
 		goto ret;
@@ -3421,6 +3428,7 @@ BOOL IsVolumeAccessibleByCurrentUser (PEXTENSION volumeDeviceExtension)
 	ExFreePool (tokenUser);		// Documented in newer versions of WDK
 
 ret:
+	SeUnlockSubjectContext(&subContext);
 	SeReleaseSubjectContext (&subContext);
 	return result;
 }
