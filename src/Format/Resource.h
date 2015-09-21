@@ -143,6 +143,7 @@
 #define IDT_DRIVE_LETTER                1104
 #define IDC_LINK_PIM_INFO               1105
 #define IDC_SHOW_PIM                    1106
+#define IDC_TB                          1107
 
 // Next default values for new objects
 // 
@@ -151,7 +152,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1107
+#define _APS_NEXT_CONTROL_VALUE         1108
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

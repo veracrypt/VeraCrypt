@@ -39,7 +39,7 @@ static void VerifySizeAndUpdate ( HWND hwndDlg , BOOL bUpdate );
 static void __cdecl sysEncDriveAnalysisThread (void *hwndDlgArg);
 static void __cdecl volTransformThreadFunction ( void *hwndDlg );
 static void LoadPage ( HWND hwndDlg , int nPageNo );
-int PrintFreeSpace ( HWND hwndTextBox , char *lpszDrive , PLARGE_INTEGER lDiskFree );
+__int64 PrintFreeSpace ( HWND hwndTextBox , char *lpszDrive , PLARGE_INTEGER lDiskFree );
 void DisplaySizingErrorText ( HWND hwndTextBox );
 void EnableDisableFileNext ( HWND hComboBox , HWND hMainButton );
 BOOL QueryFreeSpace ( HWND hwndDlg , HWND hwndTextBox , BOOL display );

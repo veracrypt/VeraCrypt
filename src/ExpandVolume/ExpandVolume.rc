@@ -14,11 +14,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
+// English (U.S.) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 #ifdef _WIN32
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
 
@@ -35,7 +35,7 @@ BEGIN
     EDITTEXT        IDC_SIZEBOX,30,102,109,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "&KB",IDC_KB,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,169,105,38,10
     CONTROL         "&MB",IDC_MB,"Button",BS_AUTORADIOBUTTON,209,105,38,10
-    CONTROL         "&GB",IDC_GB,"Button",BS_AUTORADIOBUTTON,247,105,38,10
+    CONTROL         "&GB",IDC_GB,"Button",BS_AUTORADIOBUTTON,248,105,38,10
     CONTROL         "Fill new space with random data",IDC_INIT_NEWSPACE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,127,118,10
     DEFPUSHBUTTON   "Continue",IDOK,15,238,84,18
@@ -51,45 +51,8 @@ BEGIN
     CONTROL         "",IDC_EXPAND_VOLUME_NAME,"Static",SS_SIMPLE | WS_GROUP,80,18,275,8,WS_EX_TRANSPARENT
     RTEXT           "File system: ",IDT_FILE_SYS,31,30,42,8
     CONTROL         "",IDC_EXPAND_FILE_SYSTEM,"Static",SS_SIMPLE | WS_GROUP,80,30,275,8,WS_EX_TRANSPARENT
+    CONTROL         "&TB",IDC_TB,"Button",BS_AUTORADIOBUTTON,288,105,38,10
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
-BEGIN
-    IDD_SIZE_DIALOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 15
-        RIGHTMARGIN, 361
-        VERTGUIDE, 30
-        TOPMARGIN, 14
-        BOTTOMMARGIN, 256
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // German (Germany) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
 
 IDD_MOUNT_DLG DIALOGEX 0, 0, 376, 271
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -178,6 +141,15 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO 
 BEGIN
+    IDD_SIZE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 15
+        RIGHTMARGIN, 361
+        VERTGUIDE, 30
+        TOPMARGIN, 14
+        BOTTOMMARGIN, 256
+    END
+
     IDD_MOUNT_DLG, DIALOG
     BEGIN
         RIGHTMARGIN, 369

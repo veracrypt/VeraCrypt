@@ -90,8 +90,8 @@ int GetSpaceString(char *dest, size_t maxlen, uint64 size, BOOL bDevice)
 
 void SetCurrentVolSize(HWND hwndDlg, uint64 size)
 {
-	const uint64 Muliplier[] = {BYTES_PER_KB, BYTES_PER_MB, BYTES_PER_GB};
-	const int IdRadioBtn[] = {IDC_KB, IDC_MB, IDC_GB};
+	const uint64 Muliplier[] = {BYTES_PER_KB, BYTES_PER_MB, BYTES_PER_GB, BYTES_PER_TB};
+	const int IdRadioBtn[] = {IDC_KB, IDC_MB, IDC_GB, IDC_TB};
 	const int nMaxSuffix = sizeof(Muliplier)/sizeof(uint64) - 1;
 	int i;
 	char szTemp[256];
@@ -107,8 +107,8 @@ void SetCurrentVolSize(HWND hwndDlg, uint64 size)
 
 uint64 GetSizeBoxMultiplier(HWND hwndDlg)
 {
-	const uint64 Muliplier[] = {BYTES_PER_KB, BYTES_PER_MB, BYTES_PER_GB};
-	const int IdRadioBtn[] = {IDC_KB, IDC_MB, IDC_GB};
+	const uint64 Muliplier[] = {BYTES_PER_KB, BYTES_PER_MB, BYTES_PER_GB, BYTES_PER_TB};
+	const int IdRadioBtn[] = {IDC_KB, IDC_MB, IDC_GB, IDC_TB};
 	const int nMaxSuffix = sizeof(Muliplier)/sizeof(uint64) - 1;
 	int i;
 
@@ -135,6 +135,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KB), !pVolExpandParam->bIsDevice);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_MB), !pVolExpandParam->bIsDevice);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_GB), !pVolExpandParam->bIsDevice);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_TB), !pVolExpandParam->bIsDevice);
 
 			EnableWindow (GetDlgItem (hwndDlg, IDC_INIT_NEWSPACE),
 				!(pVolExpandParam->bIsLegacy && pVolExpandParam->bIsDevice));

@@ -37,6 +37,7 @@
     <control lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Download CD/DVD recording software</control>
     <control lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</control>
     <control lang="en" key="IDC_GB">&amp;GB</control>
+    <control lang="en" key="IDC_TB">&amp;TB</control>
     <control lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</control>
     <control lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden VeraCrypt volume </control>
     <control lang="en" key="IDC_HIDDEN_VOL_HELP">More information about hidden volumes</control>
@@ -562,6 +563,7 @@
     <string lang="en" key="MAX_HIDVOL_SIZE_KB">Maximum possible hidden volume size for this volume is %.2f KB.</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_MB">Maximum possible hidden volume size for this volume is %.2f MB.</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_GB">Maximum possible hidden volume size for this volume is %.2f GB.</string>
+    <string lang="en" key="MAX_HIDVOL_SIZE_TB">Maximum possible hidden volume size for this volume is %.2f TB.</string>
     <string lang="en" key="MOUNTED_NOPWCHANGE">Volume password/keyfiles cannot be changed while the volume is mounted. Please dismount the volume first.</string>
     <string lang="en" key="MOUNTED_NO_PKCS5_PRF_CHANGE">The header key derivation algorithm cannot be changed while the volume is mounted. Please dismount the volume first.</string>
     <string lang="en" key="MOUNT_BUTTON">&amp;Mount</string>

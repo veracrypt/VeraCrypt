@@ -20,6 +20,7 @@
 #define IDC_MB                          1013
 #define IDC_PROGRESS_BAR                1014
 #define IDC_GB                          1015
+#define IDC_TB                          1016
 #define IDC_EXPAND_VOLUME_OLDSIZE       1017
 #define IDC_EXPAND_VOLUME_NEWSIZE       1019
 #define IDC_EXPAND_VOLUME_NAME          1020
@@ -69,6 +70,7 @@
 #define IDT_OLD_PIM                     1142
 #define IDC_OLD_PIM                     1143
 #define IDC_OLD_PIM_HELP                1144
+#define ID_HOMEPAGE                     1145
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -131,7 +133,6 @@
 #define IDM_SYSENC_SETTINGS             40060
 #define IDM_RESUME_INTERRUPTED_PROC     40061
 #define IDM_MANAGE_TOKEN_KEYFILES       40062
-#define ID_HOMEPAGE                     40063
 
 // Next default values for new objects
 // 
@@ -140,7 +141,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40064
-#define _APS_NEXT_CONTROL_VALUE         1145
+#define _APS_NEXT_CONTROL_VALUE         1146
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
