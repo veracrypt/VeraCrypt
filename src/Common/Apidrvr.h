@@ -322,7 +322,7 @@ typedef struct
 
 #define NT_MOUNT_PREFIX DRIVER_STR("\\Device\\VeraCryptVolume")
 #define NT_ROOT_PREFIX DRIVER_STR("\\Device\\VeraCrypt")
-#define DOS_MOUNT_PREFIX DRIVER_STR("\\DosDevices\\")
+#define DOS_MOUNT_PREFIX DRIVER_STR("\\GLOBAL??\\") // Explicitely use Global MS-DOS device names to avoid security issues
 #define DOS_ROOT_PREFIX DRIVER_STR("\\DosDevices\\VeraCrypt")
 #define WIN32_ROOT_PREFIX DRIVER_STR("\\\\.\\VeraCrypt")
 
