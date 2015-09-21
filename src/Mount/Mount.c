@@ -5961,6 +5961,166 @@ static BOOL CheckMountList (HWND hwndDlg, BOOL bForceTaskBarUpdate)
 }
 
 
+void DisplayDriveListContextMenu (HWND hwndDlg, LPARAM lParam)
+{
+	/* Drive list context menu */
+	DWORD mPos;
+	int menuItem;
+	HMENU popup = CreatePopupMenu ();
+	HWND hList = GetDlgItem (hwndDlg, IDC_DRIVELIST);
+
+	SetFocus (hList);
+
+	switch (LOWORD (GetSelectedLong (hList)))
+	{
+	case TC_MLIST_ITEM_FREE:
+
+		// No mounted volume at this drive letter
+
+		AppendMenuW (popup, MF_STRING, IDM_MOUNT_VOLUME, GetString ("IDM_MOUNT_VOLUME"));
+		AppendMenu (popup, MF_SEPARATOR, 0, "");
+		AppendMenuW (popup, MF_STRING, IDPM_SELECT_FILE_AND_MOUNT, GetString ("SELECT_FILE_AND_MOUNT"));
+		AppendMenuW (popup, MF_STRING, IDPM_SELECT_DEVICE_AND_MOUNT, GetString ("SELECT_DEVICE_AND_MOUNT"));
+		break;
+
+	case TC_MLIST_ITEM_NONSYS_VOL:
+
+		// There's a mounted non-system volume at this drive letter
+
+		AppendMenuW (popup, MF_STRING, IDM_UNMOUNT_VOLUME, GetString ("DISMOUNT"));
+		AppendMenuW (popup, MF_STRING, IDPM_OPEN_VOLUME, GetString ("OPEN"));
+		AppendMenu (popup, MF_SEPARATOR, 0, "");
+		AppendMenuW (popup, MF_STRING, IDPM_CHECK_FILESYS, GetString ("IDPM_CHECK_FILESYS"));
+		AppendMenuW (popup, MF_STRING, IDPM_REPAIR_FILESYS, GetString ("IDPM_REPAIR_FILESYS"));
+		AppendMenu (popup, MF_SEPARATOR, 0, "");
+		AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_FAVORITES, GetString ("IDPM_ADD_TO_FAVORITES"));
+		AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_SYSTEM_FAVORITES, GetString ("IDPM_ADD_TO_SYSTEM_FAVORITES"));
+		AppendMenu (popup, MF_SEPARATOR, 0, "");
+		AppendMenuW (popup, MF_STRING, IDM_DECRYPT_NONSYS_VOL, GetString ("IDM_DECRYPT_NONSYS_VOL"));
+		AppendMenu (popup, MF_SEPARATOR, 0, "");
+		AppendMenuW (popup, MF_STRING, IDM_VOLUME_PROPERTIES, GetString ("IDPM_PROPERTIES"));
+		break;
+
+	case TC_MLIST_ITEM_SYS_PARTITION:
+	case TC_MLIST_ITEM_SYS_DRIVE:
+
+		// System partition/drive
+
+		PopulateSysEncContextMenu (popup, FALSE);
+		break;
+	}
+
+	if (lParam)
+	{
+		mPos=GetMessagePos();
+	}
+	else
+	{
+		POINT pt = {0};
+		if (ListView_GetItemPosition (hList, nSelectedDriveIndex, &pt))
+		{
+			pt.x += 2 + ::GetSystemMetrics(SM_CXICON);
+			pt.y += 2;
+			ClientToScreen (hList, &pt);
+			mPos  = MAKELONG (pt.x, pt.y);
+		}
+	}
+
+	menuItem = TrackPopupMenu (popup,
+		TPM_RETURNCMD | TPM_LEFTBUTTON,
+		GET_X_LPARAM(mPos),
+		GET_Y_LPARAM(mPos),
+		0,
+		hwndDlg,
+		NULL);
+
+	DestroyMenu (popup);
+
+	switch (menuItem)
+	{
+	case IDPM_SELECT_FILE_AND_MOUNT:
+		if (SelectContainer (hwndDlg))
+			MountSelectedVolume (hwndDlg, FALSE);
+		break;
+
+	case IDPM_SELECT_DEVICE_AND_MOUNT:
+		if (SelectPartition (hwndDlg))
+			MountSelectedVolume (hwndDlg, FALSE);
+		break;
+
+	case IDPM_CHECK_FILESYS:
+	case IDPM_REPAIR_FILESYS:
+		{
+			LPARAM lLetter = GetSelectedLong (hList);
+
+			if (LOWORD (lLetter) != 0xffff)
+				CheckFilesystem (hwndDlg, (char) HIWORD (lLetter) - 'A', menuItem == IDPM_REPAIR_FILESYS);
+		}
+		break;
+
+	case IDM_UNMOUNT_VOLUME:
+		if (CheckMountList (hwndDlg, FALSE))
+			Dismount (hwndDlg, -2);
+		break;
+
+	case IDM_DECRYPT_NONSYS_VOL:
+		if (CheckMountList (hwndDlg, FALSE))
+			DecryptNonSysDevice (hwndDlg, FALSE, TRUE);
+		break;
+
+	case IDPM_OPEN_VOLUME:
+		{
+			LPARAM state;
+			if (lParam)
+				nSelectedDriveIndex = ((LPNMITEMACTIVATE)lParam)->iItem;
+			else
+				nSelectedDriveIndex = ListView_GetSelectionMark (hList);
+			state = GetItemLong (hList, nSelectedDriveIndex );
+
+			WaitCursor ();
+			OpenVolumeExplorerWindow (HIWORD(state) - 'A');
+			NormalCursor ();
+		}
+		break;
+
+	case IDM_VOLUME_PROPERTIES:
+		DialogBoxParamW (hInst, 
+			MAKEINTRESOURCEW (IDD_VOLUME_PROPERTIES), hwndDlg,
+			(DLGPROC) VolumePropertiesDlgProc, (LPARAM) FALSE);
+		break;
+
+	case IDM_MOUNT_VOLUME:
+		if (!VolumeSelected(hwndDlg))
+		{
+			Warning ("NO_VOLUME_SELECTED", hwndDlg);
+		}
+		else
+		{
+			mountOptions = defaultMountOptions;
+			bPrebootPasswordDlgMode = FALSE;
+
+			if (CheckMountList (hwndDlg, FALSE))
+				_beginthread(mountThreadFunction, 0, hwndDlg);
+		}
+		break;
+
+	case IDPM_ADD_TO_FAVORITES:
+	case IDPM_ADD_TO_SYSTEM_FAVORITES:
+		{
+			LPARAM selectedDrive = GetSelectedLong (hList);
+
+			if (LOWORD (selectedDrive) == TC_MLIST_ITEM_NONSYS_VOL)
+				AddMountedVolumeToFavorites (hwndDlg, HIWORD (selectedDrive) - 'A', menuItem == IDPM_ADD_TO_SYSTEM_FAVORITES);
+		}
+		break;
+
+	default:
+		SendMessage (MainDlg, WM_COMMAND, menuItem, NULL);
+		break;
+	}
+}
+
+
 /* Except in response to the WM_INITDIALOG and WM_ENDSESSION messages, the dialog box procedure
    should return nonzero if it processes a message, and zero if it does not. */
 BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -5968,7 +6128,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	static UINT taskBarCreatedMsg;
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
-	DWORD mPos;
 
 	switch (uMsg)
 	{
@@ -6362,6 +6521,26 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		
 	case WM_MOUSEWHEEL:
 		return HandleDriveListMouseWheelEvent (uMsg, wParam, lParam, FALSE);
+
+	case WM_CONTEXTMENU:
+		{
+			HWND hList = GetDlgItem (hwndDlg, IDC_DRIVELIST);
+			// only handle if it is coming from keyboard and if the drive
+			// list has focus. The other cases are handled elsewhere
+			if (   (-1 == GET_X_LPARAM(lParam)) 
+				&& (-1 == GET_Y_LPARAM(lParam))
+				&& (GetFocus () == hList) 
+				)
+			{
+				INT item = ListView_GetSelectionMark (hList);
+				if (item >= 0)
+				{
+					nSelectedDriveIndex = item;
+					DisplayDriveListContextMenu (hwndDlg, NULL);
+				}
+			}
+		}
+		break;
 
 	case WM_WINDOWPOSCHANGING:
 		if (MainWindowHidden)
@@ -6916,143 +7095,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				not open, because drag&drop operation would be initiated. Therefore, we're handling
 				RMB drag-and-drop operations as well. */
 				{
-
-					/* Drive list context menu */
-
-					int menuItem;
-					HMENU popup = CreatePopupMenu ();
-
-					SetFocus (GetDlgItem (hwndDlg, IDC_DRIVELIST));
-
-					switch (LOWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))))
-					{
-					case TC_MLIST_ITEM_FREE:
 					
-						// No mounted volume at this drive letter
+					DisplayDriveListContextMenu (hwndDlg, lParam);
 
-						AppendMenuW (popup, MF_STRING, IDM_MOUNT_VOLUME, GetString ("IDM_MOUNT_VOLUME"));
-						AppendMenu (popup, MF_SEPARATOR, 0, "");
-						AppendMenuW (popup, MF_STRING, IDPM_SELECT_FILE_AND_MOUNT, GetString ("SELECT_FILE_AND_MOUNT"));
-						AppendMenuW (popup, MF_STRING, IDPM_SELECT_DEVICE_AND_MOUNT, GetString ("SELECT_DEVICE_AND_MOUNT"));
-						break;
-
-					case TC_MLIST_ITEM_NONSYS_VOL:
-
-						// There's a mounted non-system volume at this drive letter
-
-						AppendMenuW (popup, MF_STRING, IDM_UNMOUNT_VOLUME, GetString ("DISMOUNT"));
-						AppendMenuW (popup, MF_STRING, IDPM_OPEN_VOLUME, GetString ("OPEN"));
-						AppendMenu (popup, MF_SEPARATOR, 0, "");
-						AppendMenuW (popup, MF_STRING, IDPM_CHECK_FILESYS, GetString ("IDPM_CHECK_FILESYS"));
-						AppendMenuW (popup, MF_STRING, IDPM_REPAIR_FILESYS, GetString ("IDPM_REPAIR_FILESYS"));
-						AppendMenu (popup, MF_SEPARATOR, 0, "");
-						AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_FAVORITES, GetString ("IDPM_ADD_TO_FAVORITES"));
-						AppendMenuW (popup, MF_STRING, IDPM_ADD_TO_SYSTEM_FAVORITES, GetString ("IDPM_ADD_TO_SYSTEM_FAVORITES"));
-						AppendMenu (popup, MF_SEPARATOR, 0, "");
-						AppendMenuW (popup, MF_STRING, IDM_DECRYPT_NONSYS_VOL, GetString ("IDM_DECRYPT_NONSYS_VOL"));
-						AppendMenu (popup, MF_SEPARATOR, 0, "");
-						AppendMenuW (popup, MF_STRING, IDM_VOLUME_PROPERTIES, GetString ("IDPM_PROPERTIES"));
-						break;
-
-					case TC_MLIST_ITEM_SYS_PARTITION:
-					case TC_MLIST_ITEM_SYS_DRIVE:
-
-						// System partition/drive
-
-						PopulateSysEncContextMenu (popup, FALSE);
-						break;
-					}
-
-					mPos=GetMessagePos();
-
-					menuItem = TrackPopupMenu (popup,
-						TPM_RETURNCMD | TPM_LEFTBUTTON,
-						GET_X_LPARAM(mPos),
-						GET_Y_LPARAM(mPos),
-						0,
-						hwndDlg,
-						NULL);
-
-					DestroyMenu (popup);
-
-					switch (menuItem)
-					{
-					case IDPM_SELECT_FILE_AND_MOUNT:
-						if (SelectContainer (hwndDlg))
-							MountSelectedVolume (hwndDlg, FALSE);
-						break;
-
-					case IDPM_SELECT_DEVICE_AND_MOUNT:
-						if (SelectPartition (hwndDlg))
-							MountSelectedVolume (hwndDlg, FALSE);
-						break;
-
-					case IDPM_CHECK_FILESYS:
-					case IDPM_REPAIR_FILESYS:
-						{
-							LPARAM lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
-
-							if (LOWORD (lLetter) != 0xffff)
-								CheckFilesystem (hwndDlg, (char) HIWORD (lLetter) - 'A', menuItem == IDPM_REPAIR_FILESYS);
-						}
-						break;
-
-					case IDM_UNMOUNT_VOLUME:
-						if (CheckMountList (hwndDlg, FALSE))
-							Dismount (hwndDlg, -2);
-						break;
-
-					case IDM_DECRYPT_NONSYS_VOL:
-						if (CheckMountList (hwndDlg, FALSE))
-							DecryptNonSysDevice (hwndDlg, FALSE, TRUE);
-						break;
-
-					case IDPM_OPEN_VOLUME:
-						{
-							LPARAM state = GetItemLong(GetDlgItem (hwndDlg, IDC_DRIVELIST), ((LPNMITEMACTIVATE)lParam)->iItem );
-							nSelectedDriveIndex = ((LPNMITEMACTIVATE)lParam)->iItem;
-
-							WaitCursor ();
-							OpenVolumeExplorerWindow (HIWORD(state) - 'A');
-							NormalCursor ();
-						}
-						break;
-
-					case IDM_VOLUME_PROPERTIES:
-						DialogBoxParamW (hInst, 
-							MAKEINTRESOURCEW (IDD_VOLUME_PROPERTIES), hwndDlg,
-							(DLGPROC) VolumePropertiesDlgProc, (LPARAM) FALSE);
-						break;
-
-					case IDM_MOUNT_VOLUME:
-						if (!VolumeSelected(hwndDlg))
-						{
-							Warning ("NO_VOLUME_SELECTED", hwndDlg);
-						}
-						else
-						{
-							mountOptions = defaultMountOptions;
-							bPrebootPasswordDlgMode = FALSE;
-
-							if (CheckMountList (hwndDlg, FALSE))
-								_beginthread(mountThreadFunction, 0, hwndDlg);
-						}
-						break;
-
-					case IDPM_ADD_TO_FAVORITES:
-					case IDPM_ADD_TO_SYSTEM_FAVORITES:
-						{
-							LPARAM selectedDrive = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
-
-							if (LOWORD (selectedDrive) == TC_MLIST_ITEM_NONSYS_VOL)
-								AddMountedVolumeToFavorites (hwndDlg, HIWORD (selectedDrive) - 'A', menuItem == IDPM_ADD_TO_SYSTEM_FAVORITES);
-						}
-						break;
-
-					default:
-						SendMessage (MainDlg, WM_COMMAND, menuItem, NULL);
-						break;
-					}
 					return 1;
 				}
 			}
