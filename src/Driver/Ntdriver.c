@@ -2573,7 +2573,6 @@ NTSTATUS MountManagerMount (MOUNT_STRUCT *mount)
 	char buf[200];
 	PMOUNTMGR_TARGET_NAME in = (PMOUNTMGR_TARGET_NAME) buf;
 	PMOUNTMGR_CREATE_POINT_INPUT point = (PMOUNTMGR_CREATE_POINT_INPUT) buf;
-	UNICODE_STRING symName, devName;
 
 	TCGetNTNameFromNumber (arrVolume, sizeof(arrVolume),mount->nDosDriveNo);
 	in->DeviceNameLength = (USHORT) wcslen (arrVolume) * 2;
@@ -2588,13 +2587,9 @@ NTSTATUS MountManagerMount (MOUNT_STRUCT *mount)
 	point->SymbolicLinkNameOffset = sizeof (MOUNTMGR_CREATE_POINT_INPUT);
 	point->SymbolicLinkNameLength = (USHORT) wcslen ((PWSTR) &point[1]) * 2;
 
-	RtlInitUnicodeString(&symName, (PWSTR) (buf + point->SymbolicLinkNameOffset));
-
 	point->DeviceNameOffset = point->SymbolicLinkNameOffset + point->SymbolicLinkNameLength;
 	TCGetNTNameFromNumber ((PWSTR) (buf + point->DeviceNameOffset), sizeof(buf) - point->DeviceNameOffset,mount->nDosDriveNo);
 	point->DeviceNameLength = (USHORT) wcslen ((PWSTR) (buf + point->DeviceNameOffset)) * 2;
-
-	RtlInitUnicodeString(&devName, (PWSTR) (buf + point->DeviceNameOffset));
 
 	ntStatus = TCDeviceIoControl (MOUNTMGR_DEVICE_NAME, IOCTL_MOUNTMGR_CREATE_POINT, point,
 		point->DeviceNameOffset + point->DeviceNameLength, 0, 0);
