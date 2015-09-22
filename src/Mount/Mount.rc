@@ -638,7 +638,7 @@ BEGIN
         MENUITEM "System Encryption...",        IDM_SYSENC_SETTINGS
         MENUITEM "System Favorite Volumes...",  IDM_SYS_FAVORITES_SETTINGS
         MENUITEM SEPARATOR
-        MENUITEM "Performance...",              IDM_PERFORMANCE_SETTINGS
+        MENUITEM "Performance/Driver Configuration", IDM_PERFORMANCE_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "Default Keyfiles...",         IDM_DEFAULT_KEYFILES
         MENUITEM "Default Mount Parameters...", IDM_DEFAULT_MOUNT_PARAMETERS
