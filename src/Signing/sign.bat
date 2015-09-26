@@ -21,6 +21,6 @@ del *.xml
 
 cd "..\..\Signing"
 
-signtool sign /v /a /n IDRIX /ac Thawt_CodeSigning_CA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.14.exe"
+signtool sign /v /a /n IDRIX /ac Thawt_CodeSigning_CA.crt /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.15.exe"
 
 pause
