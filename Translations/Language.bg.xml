@@ -37,6 +37,7 @@
     <control lang="bg" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Сваляне на софтуер за запис на CD/DVD</control>
     <control lang="bg" key="IDC_FILE_CONTAINER">Създаване на криптиран контейнер-файл</control>
     <control lang="bg" key="IDC_GB">&amp;GB</control>
+    <control lang="bg" key="IDC_TB">&amp;TB</control>
     <control lang="bg" key="IDC_HIDDEN_SYSENC_INFO_LINK">Повече информация</control>
     <control lang="bg" key="IDC_HIDDEN_VOL">Ск&amp;рит VeraCrypt том </control>
     <control lang="bg" key="IDC_HIDDEN_VOL_HELP">Повече информация за скрити томове</control>
@@ -189,7 +190,7 @@
     <control lang="bg" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="bg" key="IDD_PASSWORDCHANGE_DLG">Смяна на паролата или ключ-файловете</control>
     <control lang="bg" key="IDD_PASSWORD_DLG">Въведете парола за VeraCrypt тома</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="bg" key="IDD_PREFERENCES_DLG">VeraCrypt - Предпочитания</control>
     <control lang="bg" key="IDD_SYSENC_SETTINGS">VeraCrypt - Настройки на системното криптиране</control>
     <control lang="en" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Security Token Preferences</control>
@@ -235,7 +236,7 @@
     <control lang="bg" key="IDM_ONLINE_TUTORIAL">Напътствия за начинаещи</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="bg" key="IDM_PERMANENTLY_DECRYPT_SYS">Декриптиране на системния дял/устройство за постоянно</control>
     <control lang="bg" key="IDM_PREFERENCES">Предпочитания...</control>
     <control lang="bg" key="IDM_REFRESH_DRIVE_LETTERS">Опресняване на буквите за устройства</control>
@@ -561,6 +562,7 @@
     <string lang="bg" key="MAX_HIDVOL_SIZE_KB">Максималния възможен размер на скрития том за този том е %.2f KB.</string>
     <string lang="bg" key="MAX_HIDVOL_SIZE_MB">Максималния възможен размер на скрития том за този том е %.2f MB.</string>
     <string lang="bg" key="MAX_HIDVOL_SIZE_GB">Максималния възможен размер на скрития том за този том е %.2f GB.</string>
+    <string lang="bg" key="MAX_HIDVOL_SIZE_TB">Максималния възможен размер на скрития том за този том е %.2f TB.</string>
     <string lang="bg" key="MOUNTED_NOPWCHANGE">Паролата/ключ-файловете на тома не могат да бъдат сменяни докато тома е монтиран. Моля, най-напред демонтирайте тома.</string>
     <string lang="bg" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Алгоритъмът за деривация на ключа на заглавната част не може да бъде сменян докато тома е монтиран. Моля, най-напред демонтирайте тома.</string>
     <string lang="bg" key="MOUNT_BUTTON">&amp;Монтиране</string>

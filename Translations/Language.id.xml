@@ -37,6 +37,7 @@
     <control lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Download CD/DVD recording software</control>
     <control lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</control>
     <control lang="en" key="IDC_GB">&amp;GB</control>
+    <control lang="en" key="IDC_TB">&amp;TB</control>
     <control lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</control>
     <control lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden VeraCrypt volume </control>
     <control lang="en" key="IDC_HIDDEN_VOL_HELP">More information about hidden volumes</control>
@@ -189,7 +190,7 @@
     <control lang="id" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="en" key="IDD_PASSWORDCHANGE_DLG">Change Password or Keyfiles</control>
     <control lang="id" key="IDD_PASSWORD_DLG">Masukkan password VeraCrypt Volume</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="id" key="IDD_PREFERENCES_DLG">Pengaturan - VeraCrypt</control>
     <control lang="en" key="IDD_SYSENC_SETTINGS">VeraCrypt - System Encryption Settings</control>
     <control lang="en" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Security Token Preferences</control>
@@ -235,7 +236,7 @@
     <control lang="id" key="IDM_ONLINE_TUTORIAL">Petunjuk untuk pemula</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="en" key="IDM_PERMANENTLY_DECRYPT_SYS">Permanently Decrypt System Partition/Drive</control>
     <control lang="id" key="IDM_PREFERENCES">Pengaturan...</control>
     <control lang="id" key="IDM_REFRESH_DRIVE_LETTERS">Tampilkan Daftar Huruf Drive terbaru</control>
@@ -561,6 +562,7 @@
     <string lang="en" key="MAX_HIDVOL_SIZE_KB">Maximum possible hidden volume size for this volume is %.2f KB.</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_MB">Maximum possible hidden volume size for this volume is %.2f MB.</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_GB">Maximum possible hidden volume size for this volume is %.2f GB.</string>
+    <string lang="en" key="MAX_HIDVOL_SIZE_TB">Maximum possible hidden volume size for this volume is %.2f TB.</string>
     <string lang="en" key="MOUNTED_NOPWCHANGE">Volume password/keyfiles cannot be changed while the volume is mounted. Please dismount the volume first.</string>
     <string lang="en" key="MOUNTED_NO_PKCS5_PRF_CHANGE">The header key derivation algorithm cannot be changed while the volume is mounted. Please dismount the volume first.</string>
     <string lang="id" key="MOUNT_BUTTON">Sa&amp;mbung</string>

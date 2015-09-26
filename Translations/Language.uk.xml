@@ -37,6 +37,7 @@
     <control lang="uk" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Завантажити ПЗ для запису CD/DVD</control>
     <control lang="uk" key="IDC_FILE_CONTAINER">Створити зашифрований файловий контейнер</control>
     <control lang="uk" key="IDC_GB">&amp;Гб</control>
+    <control lang="uk" key="IDC_TB">&amp;ТБ</control>
     <control lang="uk" key="IDC_HIDDEN_SYSENC_INFO_LINK">Детальніше</control>
     <control lang="uk" key="IDC_HIDDEN_VOL">&amp;Прихований том VeraCrypt </control>
     <control lang="uk" key="IDC_HIDDEN_VOL_HELP">Що таке 'прихований том'?</control>
@@ -561,6 +562,7 @@
     <string lang="uk" key="MAX_HIDVOL_SIZE_KB">Максимальний розмір прихованого тому для цього тому дорівнює %.2f Кб</string>
     <string lang="uk" key="MAX_HIDVOL_SIZE_MB">Максимальний розмір прихованого тому для цього тому дорівнює %.2f Мб</string>
     <string lang="uk" key="MAX_HIDVOL_SIZE_GB">Максимальний розмір прихованого тому для цього тому дорівнює %.2f Гб.</string>
+    <string lang="uk" key="MAX_HIDVOL_SIZE_TB">Максимальний розмір прихованого тому для цього тому дорівнює %.2f Tб.</string>
     <string lang="uk" key="MOUNTED_NOPWCHANGE">Поки том змонтований, змінити пароль/файл-ключі цього тому неможливо. Будь ласка, перш розмонтуйте том.</string>
     <string lang="uk" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Поки том змонтований, змінити алгоритм деривації ключа заголовку цього тому неможливо. Будь ласка, перш розмонтуйте том.</string>
     <string lang="uk" key="MOUNT_BUTTON">&amp;Монтувати</string>

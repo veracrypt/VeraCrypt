@@ -37,6 +37,7 @@
     <control lang="pt-br" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Baixar software de gravação de CD/DVD</control>
     <control lang="pt-br" key="IDC_FILE_CONTAINER">Crie um recipiente de arquivo criptografado</control>
     <control lang="pt-br" key="IDC_GB">&amp; GB</control>
+    <control lang="pt-br" key="IDC_TB">&amp; TB</control>
     <control lang="pt-br" key="IDC_HIDDEN_SYSENC_INFO_LINK">Mais informações</control>
     <control lang="pt-br" key="IDC_HIDDEN_VOL">Volume o&amp;culto VeraCrypt  </control>
     <control lang="pt-br" key="IDC_HIDDEN_VOL_HELP">Mais informações sobre volumes ocultos</control>
@@ -189,7 +190,7 @@
     <control lang="pt-br" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="pt-br" key="IDD_PASSWORDCHANGE_DLG">Mudar Senha ou Arquivos-Chaves</control>
     <control lang="pt-br" key="IDD_PASSWORD_DLG">Digitar a Senha do Volume VeraCrypt</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="pt-br" key="IDD_PREFERENCES_DLG">VeraCrypt - Preferências</control>
     <control lang="pt-br" key="IDD_SYSENC_SETTINGS">VeraCrypt - Configurações de Criptografia de Sistema</control>
     <control lang="pt-br" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Preferências de Token de Segurança</control>
@@ -235,7 +236,7 @@
     <control lang="pt-br" key="IDM_ONLINE_TUTORIAL">Tutorial Para Iniciantes</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="pt-br" key="IDM_PERMANENTLY_DECRYPT_SYS">Descriptografar Unidade/Partição de Sistema Permanentemente</control>
     <control lang="pt-br" key="IDM_PREFERENCES">Preferências...</control>
     <control lang="pt-br" key="IDM_REFRESH_DRIVE_LETTERS">Atualizar Letras de Unidade</control>
@@ -561,6 +562,7 @@
     <string lang="pt-br" key="MAX_HIDVOL_SIZE_KB">O tamanho máximo de um volume oculto para este disco é %.2f KB.</string>
     <string lang="pt-br" key="MAX_HIDVOL_SIZE_MB">O tamanho máximo de um volume oculto para este disco é %.2f MB.</string>
     <string lang="pt-br" key="MAX_HIDVOL_SIZE_GB">O tamanho máximo de um volume oculto para este disco é %.2f GB.</string>
+    <string lang="pt-br" key="MAX_HIDVOL_SIZE_TB">O tamanho máximo de um volume oculto para este disco é %.2f TB.</string>
     <string lang="pt-br" key="MOUNTED_NOPWCHANGE">A senha ou arquivo-chave não podem ser alterados enquanto o disco estiver montado. Favor desmontar o disco primeiro.</string>
     <string lang="pt-br" key="MOUNTED_NO_PKCS5_PRF_CHANGE">O algoritmo de derivação da chave não pode ser trocado enquanto o volume está montado. Favor desmontar o disco primeiro.</string>
     <string lang="pt-br" key="MOUNT_BUTTON">&amp;Montar</string>

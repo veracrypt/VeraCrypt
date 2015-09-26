@@ -37,6 +37,7 @@
     <control lang="ru" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Загрузить ПО для записи CD/DVD</control>
     <control lang="ru" key="IDC_FILE_CONTAINER">Создать зашифрованный файловый контейнер</control>
     <control lang="ru" key="IDC_GB">&amp;ГБ</control>
+    <control lang="ru" key="IDC_TB">&amp;ТБ</control>
     <control lang="ru" key="IDC_HIDDEN_SYSENC_INFO_LINK">Подробнее</control>
     <control lang="ru" key="IDC_HIDDEN_VOL">&amp;Скрытый том VeraCrypt </control>
     <control lang="ru" key="IDC_HIDDEN_VOL_HELP">Что такое 'скрытый том'?</control>
@@ -561,6 +562,7 @@
     <string lang="ru" key="MAX_HIDVOL_SIZE_KB">Максимальный размер скрытого тома для этого тома: %.2f КБ</string>
     <string lang="ru" key="MAX_HIDVOL_SIZE_MB">Максимальный размер скрытого тома для этого тома: %.2f МБ</string>
     <string lang="ru" key="MAX_HIDVOL_SIZE_GB">Максимальный размер скрытого тома для этого тома: %.2f ГБ.</string>
+    <string lang="ru" key="MAX_HIDVOL_SIZE_TB">Максимальный размер скрытого тома для этого тома: %.2f TБ.</string>
     <string lang="ru" key="MOUNTED_NOPWCHANGE">Пока том смонтирован, изменять пароль/ключевые файлы этого тома невозможно. Сначала необходимо размонтировать том.</string>
     <string lang="ru" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Пока том смонтирован, изменять алгоритм деривации ключа заголовка этого тома невозможно. Сначала необходимо размонтировать том.</string>
     <string lang="ru" key="MOUNT_BUTTON">С&amp;монтировать</string>

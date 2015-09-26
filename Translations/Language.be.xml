@@ -37,6 +37,7 @@
     <control lang="be" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Спампаваць ПЗ для запісу CD/DVD</control>
     <control lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</control>
     <control lang="en" key="IDC_GB">&amp;GB</control>
+    <control lang="en" key="IDC_TB">&amp;TB</control>
     <control lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</control>
     <control lang="be" key="IDC_HIDDEN_VOL">Схаваны том VeraCrypt </control>
     <control lang="be" key="IDC_HIDDEN_VOL_HELP">Што такое 'Схаваны том'?</control>
@@ -189,7 +190,7 @@
     <control lang="be" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="be" key="IDD_PASSWORDCHANGE_DLG">Змена пароля ці ключавых файлаў</control>
     <control lang="be" key="IDD_PASSWORD_DLG">Увядзіце пароль для тома</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="be" key="IDD_PREFERENCES_DLG">VeraCrypt - Налады</control>
     <control lang="en" key="IDD_SYSENC_SETTINGS">VeraCrypt - System Encryption Settings</control>
     <control lang="en" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Security Token Preferences</control>
@@ -235,7 +236,7 @@
     <control lang="be" key="IDM_ONLINE_TUTORIAL">Падручнік для пачаткоўцаў</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="be" key="IDM_PERMANENTLY_DECRYPT_SYS">Назаўсёды расшыфраваць сістэмны падзел/дыск</control>
     <control lang="be" key="IDM_PREFERENCES">Налады...</control>
     <control lang="be" key="IDM_REFRESH_DRIVE_LETTERS">Абнавіць літары дыскаў</control>
@@ -561,6 +562,7 @@
     <string lang="be" key="MAX_HIDVOL_SIZE_KB">Найбольшы магчымы памер для гэтага ўтоенага тому - %.2f Кб</string>
     <string lang="be" key="MAX_HIDVOL_SIZE_MB">Найбольшы магчымы памер для гэтага ўтоенага тому - %.2f Мб</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_GB">Maximum possible hidden volume size for this volume is %.2f GB.</string>
+    <string lang="en" key="MAX_HIDVOL_SIZE_TB">Maximum possible hidden volume size for this volume is %.2f TB.</string>
     <string lang="be" key="MOUNTED_NOPWCHANGE">Пакуль том змантаваны, змяняць пароль/ключавыя файлы гэтага тома немагчыма. Спачатку неабходна размантаваць том.</string>
     <string lang="be" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Пакуль том змантаваны, змяняць алгарытм вылічэння ключа загалоўка гэтага тома немагчыма. Спачатку неабходна размантаваць том.</string>
     <string lang="be" key="MOUNT_BUTTON">Змантаваць</string>

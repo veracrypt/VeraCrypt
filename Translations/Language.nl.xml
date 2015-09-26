@@ -37,6 +37,7 @@
     <control lang="nl" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Download CD/DVD brandersoftware</control>
     <control lang="nl" key="IDC_FILE_CONTAINER">Maak een gecodeerde bestandscontainer</control>
     <control lang="nl" key="IDC_GB">&amp;GB</control>
+    <control lang="nl" key="IDC_TB">&amp;TB</control>
     <control lang="nl" key="IDC_HIDDEN_SYSENC_INFO_LINK">Meer informatie</control>
     <control lang="nl" key="IDC_HIDDEN_VOL">Ve&amp;rborgen VeraCrypt volume </control>
     <control lang="nl" key="IDC_HIDDEN_VOL_HELP">Meer informatie over Verborgen Volumes</control>
@@ -189,7 +190,7 @@
     <control lang="nl" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="nl" key="IDD_PASSWORDCHANGE_DLG">Verander Wachtwoord of Sleutelbestanden</control>
     <control lang="nl" key="IDD_PASSWORD_DLG">Voer VeraCrypt Volume Wachtwoord In</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="nl" key="IDD_PREFERENCES_DLG">VeraCrypt - Voorkeuren</control>
     <control lang="nl" key="IDD_SYSENC_SETTINGS">VeraCrypt - Systeem Codeer Instellingen</control>
     <control lang="nl" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Security Token Voorkeuren</control>
@@ -235,7 +236,7 @@
     <control lang="nl" key="IDM_ONLINE_TUTORIAL">Beginners Tutorial</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="nl" key="IDM_PERMANENTLY_DECRYPT_SYS">Permanent Decoderen Systeem Partitie/Schijf</control>
     <control lang="nl" key="IDM_PREFERENCES">Voorkeuren</control>
     <control lang="nl" key="IDM_REFRESH_DRIVE_LETTERS">Lees Station Letters opnieuw in</control>
@@ -561,6 +562,7 @@
     <string lang="nl" key="MAX_HIDVOL_SIZE_KB">De maximaal mogelijke grootte voor dit Verborgen Volume is %.2f KB.</string>
     <string lang="nl" key="MAX_HIDVOL_SIZE_MB">De maximaal mogelijke grootte voor dit Verborgen Volume is %.2f MB.</string>
     <string lang="nl" key="MAX_HIDVOL_SIZE_GB">De Maximaal mogelijke grootte voor dit Verborgen Volume is %.2f GB.</string>
+    <string lang="nl" key="MAX_HIDVOL_SIZE_TB">De Maximaal mogelijke grootte voor dit Verborgen Volume is %.2f TB.</string>
     <string lang="nl" key="MOUNTED_NOPWCHANGE">Volume wachtwoord/sleutelbestanden kunnen niet worden gewijzigd als het volume is gekoppeld. A.u.b. eerst het volume ontkoppelen.</string>
     <string lang="nl" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Het Header Key Afleidingsalgoritme kan niet worden gewijzigd als het volume gekoppeld is. A.u.b. eerst het volume ontkoppelen.</string>
     <string lang="nl" key="MOUNT_BUTTON">Koppe&amp;l</string>

@@ -37,6 +37,7 @@
     <control lang="es" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Descargar software de grabación de CD/DVD</control>
     <control lang="es" key="IDC_FILE_CONTAINER">Crear un contenedor de archivos cifrado</control>
     <control lang="es" key="IDC_GB">&amp;GB</control>
+    <control lang="es" key="IDC_TB">&amp;TB</control>
     <control lang="es" key="IDC_HIDDEN_SYSENC_INFO_LINK">Más información</control>
     <control lang="es" key="IDC_HIDDEN_VOL">Volumen VeraCrypt o&amp;culto</control>
     <control lang="es" key="IDC_HIDDEN_VOL_HELP">Más información acerca de volúmenes ocultos</control>
@@ -189,7 +190,7 @@
     <control lang="es" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="es" key="IDD_PASSWORDCHANGE_DLG">Cambiar contraseña o archivo-llave</control>
     <control lang="es" key="IDD_PASSWORD_DLG">Introducir Contraseña de Volumen VeraCrypt</control>
-    <control lang="es" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Opciones de Rendimiento</control>
+    <control lang="es" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Opciones de Rendimiento y controladores</control>
     <control lang="es" key="IDD_PREFERENCES_DLG">VeraCrypt - Preferencias</control>
     <control lang="es" key="IDD_SYSENC_SETTINGS">VeraCrypt - Opciones de cifrado del sistema</control>
     <control lang="es" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Preferencias de token de seguridad</control>
@@ -235,7 +236,7 @@
     <control lang="es" key="IDM_ONLINE_TUTORIAL">Tutorial del principiante</control>
     <control lang="es" key="IDM_ORGANIZE_FAVORITES">Organizar Volúmenes Favoritos</control>
     <control lang="es" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organizar Volúmenes Favoritos del Sistema</control>
-    <control lang="es" key="IDM_PERFORMANCE_SETTINGS">Rendimiento</control>
+    <control lang="es" key="IDM_PERFORMANCE_SETTINGS">Rendimiento/Configuración del controlador</control>
     <control lang="es" key="IDM_PERMANENTLY_DECRYPT_SYS">Descifrar Permanentemente la Partición/Unidad del Sistema</control>
     <control lang="es" key="IDM_PREFERENCES">Preferencias</control>
     <control lang="es" key="IDM_REFRESH_DRIVE_LETTERS">Actualizar Letras de Unidad</control>
@@ -274,7 +275,7 @@
     <control lang="es" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Mostrar este mensaje personalizado en la pantalla de pre-arranque (24 caracteres max.):</control>
     <control lang="es" key="IDT_DEFAULT_MOUNT_OPTIONS">Opciones de Montaje Predeterminadas</control>
     <control lang="es" key="IDT_DISMOUNT_ACTION">Opciones de Atajos de Teclado</control>
-    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
+    <control lang="en" key="IDT_DRIVER_OPTIONS">Configuración del controlador</control>
     <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="es" key="IDT_FAVORITE_LABEL">Etiqueta del volumen favorito seleccionado:</control>
     <control lang="es" key="IDT_FILE_SETTINGS">Opciones del Archivo</control>
@@ -561,6 +562,7 @@
     <string lang="es" key="MAX_HIDVOL_SIZE_KB">El tamaño máximo posible de volumen oculto para este volumen es %.2f KB.</string>
     <string lang="es" key="MAX_HIDVOL_SIZE_MB">El tamaño máximo posible de volumen oculto para este volumen es %.2f MB.</string>
     <string lang="es" key="MAX_HIDVOL_SIZE_GB">El tamaño máximo posible de volumen oculto para este volumen es %.2f GB.</string>
+    <string lang="es" key="MAX_HIDVOL_SIZE_TB">El tamaño máximo posible de volumen oculto para este volumen es %.2f TB.</string>
     <string lang="es" key="MOUNTED_NOPWCHANGE">La contraseña/archivo-llave del volumen no puede cambiarse mientras el volumen está montado. Desmonte el volumen primero.</string>
     <string lang="es" key="MOUNTED_NO_PKCS5_PRF_CHANGE">El algoritmo de derivación de clave de cabecera no puede ser cambiado mientras el volumen está montado. Desmonte el volumen primero.</string>
     <string lang="es" key="MOUNT_BUTTON">&amp;Montar</string>

@@ -37,6 +37,7 @@
     <control lang="my" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">စီဒီ/ဒီဗွီဒီ မှတ်တမ်းတင် ဆော့ဗ်ဝဲကို ဒေါင်းလုဒ် ဆွဲရန်</control>
     <control lang="my" key="IDC_FILE_CONTAINER">စာဝှက်ထားသော ဖိုင် သိမ်းဆည်းခန်း တစ်ခု ဖန်တီးရန်</control>
     <control lang="my" key="IDC_GB">&amp;GB</control>
+    <control lang="my" key="IDC_TB">&amp;TB</control>
     <control lang="my" key="IDC_HIDDEN_SYSENC_INFO_LINK">နောက်ထပ် အချက်အလက်</control>
     <control lang="my" key="IDC_HIDDEN_VOL">လျှို့ဝှက် VeraCrypt volume</control>
     <control lang="my" key="IDC_HIDDEN_VOL_HELP">လျှို့ဝှက် volumes များအကြောင်း နောက်ထပ် အ​ချက်အလက်များ</control>
@@ -562,6 +563,7 @@
     <string lang="my" key="MAX_HIDVOL_SIZE_KB">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f KB ဖြစ်သည်။</string>
     <string lang="my" key="MAX_HIDVOL_SIZE_MB">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f MB ဖြစ်သည်။</string>
     <string lang="my" key="MAX_HIDVOL_SIZE_GB">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f GB ဖြစ်သည်။</string>
+    <string lang="my" key="MAX_HIDVOL_SIZE_TB">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f TB ဖြစ်သည်။</string>
     <string lang="my" key="MOUNTED_NOPWCHANGE">ဤ volume ကို အစပျိုးထားစဉ် volume စကားဝှက်/ကီးဖိုင်များကို ပြောင်းလဲ၍ မရပါ။ ဤ volume ကို အရင် အဆုံးသတ်လိုက်ပါ။</string>
     <string lang="my" key="MOUNTED_NO_PKCS5_PRF_CHANGE">ဤ volume ကို အစပျိုးနေစဉ် ခေါင်းစီး ဆင်းသက်ပုံ အယ်လဂိုရီသမ်ကို ပြောင်း၍ မရပါ။ ဤ volume ကို အရင် အဆုံးသတ်ပါ။</string>
     <string lang="my" key="MOUNT_BUTTON">&amp;အစပျိုးပါ</string>

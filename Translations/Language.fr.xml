@@ -37,6 +37,7 @@
     <control lang="fr" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Télécharger le logiciel de gravure de CD/DVD</control>
     <control lang="fr" key="IDC_FILE_CONTAINER">Créer un fichier conteneur chiffré</control>
     <control lang="fr" key="IDC_GB">&amp;Go</control>
+    <control lang="fr" key="IDC_TB">&amp;To</control>
     <control lang="fr" key="IDC_HIDDEN_SYSENC_INFO_LINK">Plus d'infos</control>
     <control lang="fr" key="IDC_HIDDEN_VOL">Volume VeraCrypt &amp;caché </control>
     <control lang="fr" key="IDC_HIDDEN_VOL_HELP">Plus d'infos sur les volumes cachés</control>
@@ -189,7 +190,7 @@
     <control lang="fr" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="fr" key="IDD_PASSWORDCHANGE_DLG">Modifier le mot de passe ou les fichiers clés</control>
     <control lang="fr" key="IDD_PASSWORD_DLG">Entrer le mot de passe du volume VeraCrypt</control>
-    <control lang="fr" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Options de performance</control>
+    <control lang="fr" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Options de performance et configuration du pilote</control>
     <control lang="fr" key="IDD_PREFERENCES_DLG">VeraCrypt - Préférences</control>
     <control lang="fr" key="IDD_SYSENC_SETTINGS">VeraCrypt - Paramètres de chiffrement du système</control>
     <control lang="fr" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Jeton de sécurité - Préférences</control>
@@ -235,7 +236,7 @@
     <control lang="fr" key="IDM_ONLINE_TUTORIAL">Didactitiel pour débuter</control>
     <control lang="fr" key="IDM_ORGANIZE_FAVORITES">Organiser les volumes favoris...</control>
     <control lang="fr" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organiser les volumes système favoris...</control>
-    <control lang="fr" key="IDM_PERFORMANCE_SETTINGS">Performances...</control>
+    <control lang="fr" key="IDM_PERFORMANCE_SETTINGS">Performances et Configuration du pilote</control>
     <control lang="fr" key="IDM_PERMANENTLY_DECRYPT_SYS">Déchiffrer définitivement la partition/le disque système</control>
     <control lang="fr" key="IDM_PREFERENCES">Préférences...</control>
     <control lang="fr" key="IDM_REFRESH_DRIVE_LETTERS">Actualiser les lettres de lecteur</control>
@@ -561,6 +562,7 @@
     <string lang="fr" key="MAX_HIDVOL_SIZE_KB">Taille maximale du volume caché pour ce volume : %.2f Ko.</string>
     <string lang="fr" key="MAX_HIDVOL_SIZE_MB">Taille maximale du volume caché pour ce volume : %.2f Mo.</string>
     <string lang="fr" key="MAX_HIDVOL_SIZE_GB">Taille maximale du volume caché pour ce volume : %.2f Go.</string>
+    <string lang="fr" key="MAX_HIDVOL_SIZE_TB">Taille maximale du volume caché pour ce volume : %.2f To.</string>
     <string lang="fr" key="MOUNTED_NOPWCHANGE">Le mot de passe/le fichier clé du volume ne peut pas être changé quand celui-ci est monté. Démontez le volume en premier.</string>
     <string lang="fr" key="MOUNTED_NO_PKCS5_PRF_CHANGE">L'algorithme de dérivation de la clé d'en-tête ne peut pas être changé quand le volume est monté. Démontez le volume en premier.</string>
     <string lang="fr" key="MOUNT_BUTTON">&amp;Monter</string>

@@ -37,6 +37,7 @@
     <control lang="vi" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Tải nhu liệu thâu CD/DVD xuống</control>
     <control lang="vi" key="IDC_FILE_CONTAINER">Cấu tạo một bộ chứa tập tin được mã hóa</control>
     <control lang="vi" key="IDC_GB">&amp;GB</control>
+    <control lang="vi" key="IDC_TB">&amp;TB</control>
     <control lang="vi" key="IDC_HIDDEN_SYSENC_INFO_LINK">Thêm thông tin</control>
     <control lang="vi" key="IDC_HIDDEN_VOL">Tập đĩa VeraCrypt được &amp;ẩn</control>
     <control lang="vi" key="IDC_HIDDEN_VOL_HELP">Thêm thông tin về tập đĩa được ẩn</control>
@@ -189,7 +190,7 @@
     <control lang="vi" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="vi" key="IDD_PASSWORDCHANGE_DLG">Thay đổi Mật mã hoặc Tập tin khóa</control>
     <control lang="vi" key="IDD_PASSWORD_DLG">Nhập vào Mật mã của Tập đĩa VeraCrypt</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="vi" key="IDD_PREFERENCES_DLG">VeraCrypt - Tùy thích</control>
     <control lang="vi" key="IDD_SYSENC_SETTINGS">VeraCrypt - Thiết lập Mã hóa Hệ thống</control>
     <control lang="vi" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Các tùy thích của Hiệu bài Bảo mật</control>
@@ -235,7 +236,7 @@
     <control lang="vi" key="IDM_ONLINE_TUTORIAL">Bài học cho người bắt đầu</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="vi" key="IDM_PERMANENTLY_DECRYPT_SYS">Giải mã vĩnh viễn Phân vùng Hệ thống/Ổ đĩa</control>
     <control lang="vi" key="IDM_PREFERENCES">Sở thích...</control>
     <control lang="vi" key="IDM_REFRESH_DRIVE_LETTERS">Cập nhật các Chữ hiệu Ổ đĩa</control>
@@ -561,6 +562,7 @@
     <string lang="vi" key="MAX_HIDVOL_SIZE_KB">Kích cỡ tối đa có thể xài được cho tập đĩa ẩn trong tập đĩa này là %.2f KB.</string>
     <string lang="vi" key="MAX_HIDVOL_SIZE_MB">Kích cỡ tối đa có thể xài được cho tập đĩa ẩn trong tập đĩa này là %.2f MB.</string>
     <string lang="vi" key="MAX_HIDVOL_SIZE_GB">Kích cỡ tối đa có thể xài được cho tập đĩa ẩn trong tập đĩa này là %.2f GB.</string>
+    <string lang="vi" key="MAX_HIDVOL_SIZE_TB">Kích cỡ tối đa có thể xài được cho tập đĩa ẩn trong tập đĩa này là %.2f TB.</string>
     <string lang="vi" key="MOUNTED_NOPWCHANGE">Mật mã/tập tin khóa không thể được thay đổi trong lúc tập đĩa đang được nạp lên. Xin tháo tập đĩa xuống trước.</string>
     <string lang="vi" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Khóa đầu của thuật toán chuyển hóa không thể được thay đổi trong lúc tập đĩa đang được nạp lên. Xin tháo tập đĩa xuống trước.</string>
     <string lang="vi" key="MOUNT_BUTTON">&amp;Nạp lên</string>

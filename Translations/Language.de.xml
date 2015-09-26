@@ -37,6 +37,7 @@
     <control lang="de" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Download einer CD/DVD Brennsoftware</control>
     <control lang="de" key="IDC_FILE_CONTAINER">Eine verschlüsselte Containerdatei erstellen</control>
     <control lang="de" key="IDC_GB">&amp;GB</control>
+    <control lang="de" key="IDC_TB">&amp;TB</control>
     <control lang="de" key="IDC_HIDDEN_SYSENC_INFO_LINK">Mehr Informationen</control>
     <control lang="de" key="IDC_HIDDEN_VOL">Ver&amp;steckes VeraCrypt-Volume </control>
     <control lang="de" key="IDC_HIDDEN_VOL_HELP">Mehr Informationen über Versteckte Volume</control>
@@ -189,7 +190,7 @@
     <control lang="de" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="de" key="IDD_PASSWORDCHANGE_DLG">Kennwort oder Schlüsseldateien ändern</control>
     <control lang="de" key="IDD_PASSWORD_DLG">Kennwort für VeraCrypt-Volume eingeben</control>
-    <control lang="de" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Leistungseinstellungen</control>
+    <control lang="de" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Leistungseinstellungen und Treibereinstellungen</control>
     <control lang="de" key="IDD_PREFERENCES_DLG">VeraCrypt – Voreinstellungen</control>
     <control lang="de" key="IDD_SYSENC_SETTINGS">VeraCrypt - Einstellungen der Systemverschl.</control>
     <control lang="de" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Security-Token Einstellungen</control>
@@ -235,7 +236,7 @@
     <control lang="de" key="IDM_ONLINE_TUTORIAL">&amp;Anleitung für Anfänger</control>
     <control lang="de" key="IDM_ORGANIZE_FAVORITES">Favoriten-Volume Einstellungen...</control>
     <control lang="de" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Systemfavoriten-Volume Einstellungen...</control>
-    <control lang="de" key="IDM_PERFORMANCE_SETTINGS">Leistung...</control>
+    <control lang="de" key="IDM_PERFORMANCE_SETTINGS">Leistung/Treiberkonfiguration</control>
     <control lang="de" key="IDM_PERMANENTLY_DECRYPT_SYS">System-Partition/Laufwerk dauerhaft entschlüsseln</control>
     <control lang="de" key="IDM_PREFERENCES">&amp;Voreinstellungen…</control>
     <control lang="de" key="IDM_REFRESH_DRIVE_LETTERS">&amp;Laufwerksbuchstaben aktualisieren</control>
@@ -561,6 +562,7 @@
     <string lang="de" key="MAX_HIDVOL_SIZE_KB">Die maximal mögliche Größe für ein verstecktes Volume innerhalb diesem Volume ist %.2f KB.</string>
     <string lang="de" key="MAX_HIDVOL_SIZE_MB">Die maximal mögliche Größe für ein verstecktes Volume innerhalb diesem Volume ist %.2f MB.</string>
     <string lang="de" key="MAX_HIDVOL_SIZE_GB">Die maximal mögliche Größe für ein verstecktes Volume innerhalb diesem Volume ist %.2f GB.</string>
+    <string lang="de" key="MAX_HIDVOL_SIZE_TB">Die maximal mögliche Größe für ein verstecktes Volume innerhalb diesem Volume ist %.2f TB.</string>
     <string lang="de" key="MOUNTED_NOPWCHANGE">Volume-Kennwort/Schlüsseldateien können nicht geändert werden solange das Volume eingebunden ist. Trennen Sie bitte zuvor das Volume.</string>
     <string lang="de" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Der Algorithmus für die Headerschlüsselberechnung kann nicht geändert werden solange das Volume eingebunden ist. Trennen Sie bitte zuvor das Volume.</string>
     <string lang="de" key="MOUNT_BUTTON">E&amp;inbinden</string>

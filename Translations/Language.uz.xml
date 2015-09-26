@@ -37,6 +37,7 @@
     <control lang="uz" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD ёзиш учун Дастурни ишга тушириш</control>
     <control lang="uz" key="IDC_FILE_CONTAINER">Шифрланган файл контейнерини яратиш</control>
     <control lang="uz" key="IDC_GB">&amp;Гб</control>
+    <control lang="uz" key="IDC_TB">&amp;ТБ</control>
     <control lang="uz" key="IDC_HIDDEN_SYSENC_INFO_LINK">Тўлиқрок</control>
     <control lang="uz" key="IDC_HIDDEN_VOL">&amp;Яширилган VeraCrypt томи</control>
     <control lang="uz" key="IDC_HIDDEN_VOL_HELP">'Яширилган том' узи нима?</control>
@@ -189,7 +190,7 @@
     <control lang="uz" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="uz" key="IDD_PASSWORDCHANGE_DLG">Изменение пароля или ключевых файлов</control>
     <control lang="uz" key="IDD_PASSWORD_DLG">Введите пароль тома VeraCrypt</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="uz" key="IDD_PREFERENCES_DLG">VeraCrypt - Настройки</control>
     <control lang="uz" key="IDD_SYSENC_SETTINGS">VeraCrypt - Настройки шифрования системы</control>
     <control lang="uz" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Настройки токена безопасности</control>
@@ -235,7 +236,7 @@
     <control lang="uz" key="IDM_ONLINE_TUTORIAL">Руководство для начинающих</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="uz" key="IDM_PERMANENTLY_DECRYPT_SYS">Перманентно расшифровать системный раздел/диск</control>
     <control lang="uz" key="IDM_PREFERENCES">Настройки...</control>
     <control lang="uz" key="IDM_REFRESH_DRIVE_LETTERS">Обновить буквы дисков</control>
@@ -561,6 +562,7 @@
     <string lang="uz" key="MAX_HIDVOL_SIZE_KB">Максимальный размер скрытого тома для этого тома: %.2f Кб</string>
     <string lang="uz" key="MAX_HIDVOL_SIZE_MB">Максимальный размер скрытого тома для этого тома: %.2f Мб</string>
     <string lang="uz" key="MAX_HIDVOL_SIZE_GB">Максимальный размер скрытого тома для этого тома: %.2f Гб.</string>
+    <string lang="uz" key="MAX_HIDVOL_SIZE_TB">Максимальный размер скрытого тома для этого тома: %.2f Tб.</string>
     <string lang="uz" key="MOUNTED_NOPWCHANGE">Пока том смонтирован, изменять пароль/ключевые файлы этого тома невозможно. Сначала необходимо размонтировать том.</string>
     <string lang="uz" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Пока том смонтирован, изменять алгоритм деривации ключа заголовка этого тома невозможно. Сначала необходимо размонтировать том.</string>
     <string lang="uz" key="MOUNT_BUTTON">У&amp;ламоқ</string>

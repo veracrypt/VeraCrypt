@@ -37,6 +37,7 @@
     <control lang="eu" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD -ak grabatzeko softwarea jaitsi</control>
     <control lang="eu" key="IDC_FILE_CONTAINER">Fitxategiak edukitzeko zifratutako fitxategia sortu</control>
     <control lang="eu" key="IDC_GB">&amp;GB</control>
+    <control lang="eu" key="IDC_TB">&amp;TB</control>
     <control lang="eu" key="IDC_HIDDEN_SYSENC_INFO_LINK">Informazio gehiago</control>
     <control lang="eu" key="IDC_HIDDEN_VOL">VeraCrypt-en &amp;ezkututako bolumena</control>
     <control lang="eu" key="IDC_HIDDEN_VOL_HELP">Ezkutuko bolumeni buruzko informazio gehiago</control>
@@ -563,6 +564,7 @@
     <string lang="eu" key="MAX_HIDVOL_SIZE_KB">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f KB-etakoa da.</string>
     <string lang="eu" key="MAX_HIDVOL_SIZE_MB">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f MB-etakoa da.</string>
     <string lang="eu" key="MAX_HIDVOL_SIZE_GB">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f GB-etakoa da.</string>
+    <string lang="eu" key="MAX_HIDVOL_SIZE_TB">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f TB-etakoa da.</string>
     <string lang="eu" key="MOUNTED_NOPWCHANGE">Bolumenaren pasahitza/gako-fitxategiak ezin dira aldatu bolumena muntatuta dagoen bitartean. Mesedez, lehendabizi bolumena desmuntatu ezazu.</string>
     <string lang="eu" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Goiburuaren deribazio algoritmoa ezin da aldatu bolumena muntatuta dagoen bitartean. Mesedez, hori baino lehen bolumena desmuntatu ezazu.</string>
     <string lang="eu" key="MOUNT_BUTTON">&amp;Muntatu</string>

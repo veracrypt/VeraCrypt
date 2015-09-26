@@ -37,6 +37,7 @@
     <control lang="ca" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Descarregar un programa de gravació de CD/DVD</control>
     <control lang="ca" key="IDC_FILE_CONTAINER">Crear un contenidor de fitxers xifrats</control>
     <control lang="ca" key="IDC_GB">&amp;GB</control>
+    <control lang="ca" key="IDC_TB">&amp;TB</control>
     <control lang="ca" key="IDC_HIDDEN_SYSENC_INFO_LINK">Més informació</control>
     <control lang="ca" key="IDC_HIDDEN_VOL">Volum &amp;ocult</control>
     <control lang="ca" key="IDC_HIDDEN_VOL_HELP">Més informació sobre els volums ocults</control>
@@ -561,6 +562,7 @@
     <string lang="ca" key="MAX_HIDVOL_SIZE_KB">El màxim que pot ocupar aquest volum és %.2f KB.</string>
     <string lang="ca" key="MAX_HIDVOL_SIZE_MB">El màxim que pot ocupar aquest volum és %.2f MB.</string>
     <string lang="ca" key="MAX_HIDVOL_SIZE_GB">El màxim que pot ocupar aquest volum és %.2f GB.</string>
+    <string lang="ca" key="MAX_HIDVOL_SIZE_TB">El màxim que pot ocupar aquest volum és %.2f TB.</string>
     <string lang="ca" key="MOUNTED_NOPWCHANGE">Les contrasenyes/fitxers de claus no es poden canviar amb el volum muntat. Si us plau, desmunti el volum abans.</string>
     <string lang="ca" key="MOUNTED_NO_PKCS5_PRF_CHANGE">L'algorisme de derivació de la clau de capçalera no es pot canviar mentre el volum estigui muntat. Si us plau, desmunti primer el volum.</string>
     <string lang="ca" key="MOUNT_BUTTON">&amp;Muntar</string>

@@ -37,6 +37,7 @@
     <control lang="pl" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Pobierz oprogramowanie do zapisu CD/DVD</control>
     <control lang="pl" key="IDC_FILE_CONTAINER">Stwórz zaszyfrowany plik (magazyn)</control>
     <control lang="pl" key="IDC_GB">&amp;GB</control>
+    <control lang="pl" key="IDC_TB">&amp;TB</control>
     <control lang="pl" key="IDC_HIDDEN_SYSENC_INFO_LINK">Więcej informacji</control>
     <control lang="pl" key="IDC_HIDDEN_VOL">&amp;Ukryty wolumen VeraCrypt </control>
     <control lang="pl" key="IDC_HIDDEN_VOL_HELP">Więcej informacji o wolumenach ukrytych</control>
@@ -561,6 +562,7 @@
     <string lang="pl" key="MAX_HIDVOL_SIZE_KB">Maksymalna możliwa wielkość wolumenu ukrytego dla tego wolumenu (w kilobajtach): %.2f.</string>
     <string lang="pl" key="MAX_HIDVOL_SIZE_MB">Maksymalna możliwa wielkość wolumenu ukrytego dla tego wolumenu (w megabajtach): %.2f.</string>
     <string lang="pl" key="MAX_HIDVOL_SIZE_GB">Maksymalna możliwa wielkość wolumenu ukrytego dal tego wolumenu (w gigabajtach): %.2f.</string>
+    <string lang="pl" key="MAX_HIDVOL_SIZE_TB">Maksymalna możliwa wielkość wolumenu ukrytego dal tego wolumenu (w terabajtach): %.2f.</string>
     <string lang="pl" key="MOUNTED_NOPWCHANGE">Nie można zmienić hasła/pliku-klucza dla podłączonego wolumenu. Najpierw należy odłączyć ten wolumen. </string>
     <string lang="pl" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Nie można zmienić algorytmu klucza nagłówka dla podłączonego wolumenu. Najpierw należy odłączyć ten wolumen.</string>
     <string lang="pl" key="MOUNT_BUTTON">&amp;Podłącz</string>

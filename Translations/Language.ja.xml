@@ -37,6 +37,7 @@
     <control lang="ja" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVDライティングソフトをダウンロード</control>
     <control lang="ja" key="IDC_FILE_CONTAINER">暗号化されたファイルコンテナを作成</control>
     <control lang="ja" key="IDC_GB">&amp;GB</control>
+    <control lang="ja" key="IDC_TB">&amp;TB</control>
     <control lang="ja" key="IDC_HIDDEN_SYSENC_INFO_LINK">詳細情報</control>
     <control lang="ja" key="IDC_HIDDEN_VOL">VeraCrypt隠しボリューム(&amp;d)</control>
     <control lang="ja" key="IDC_HIDDEN_VOL_HELP">隠しボリュームについて</control>
@@ -561,6 +562,7 @@
     <string lang="ja" key="MAX_HIDVOL_SIZE_KB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f KB です。</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_MB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f MB です。</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_GB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f GB です。</string>
+    <string lang="ja" key="MAX_HIDVOL_SIZE_TB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f TB です。</string>
     <string lang="ja" key="MOUNTED_NOPWCHANGE">ボリュームのマウント中には、そのパスワードやキーファイルを変更できません。 まず先にそのボリュームをアンマウントしてください。</string>
     <string lang="ja" key="MOUNTED_NO_PKCS5_PRF_CHANGE">ボリュームのマウント中には、そのヘッダキー導出アルゴリズムを変更できません。 まず先にそのボリュームをアンマウントしてください。</string>
     <string lang="ja" key="MOUNT_BUTTON">マウント(&amp;M)</string>

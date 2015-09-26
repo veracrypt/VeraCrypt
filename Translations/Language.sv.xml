@@ -37,6 +37,7 @@
     <control lang="sv" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Ladda ned programvara för CD/DVD-bränning</control>
     <control lang="sv" key="IDC_FILE_CONTAINER">Skapa en krypterad volym&amp;behållare</control>
     <control lang="sv" key="IDC_GB">&amp;GB</control>
+    <control lang="sv" key="IDC_TB">&amp;TB</control>
     <control lang="sv" key="IDC_HIDDEN_SYSENC_INFO_LINK">Ytterligare information</control>
     <control lang="sv" key="IDC_HIDDEN_VOL">&amp;Dold VeraCrypt-volym</control>
     <control lang="sv" key="IDC_HIDDEN_VOL_HELP">Ytterligare information om dolda volymer</control>
@@ -561,6 +562,7 @@
     <string lang="sv" key="MAX_HIDVOL_SIZE_KB">Maximalt möjliga utrymme för den dolda volymen är %.2f kB.</string>
     <string lang="sv" key="MAX_HIDVOL_SIZE_MB">Maximalt möjliga utrymme för den dolda volymen är %.2f MB.</string>
     <string lang="sv" key="MAX_HIDVOL_SIZE_GB">Maximalt möjliga utrymme för den dolda volymen är %.2f GB.</string>
+    <string lang="sv" key="MAX_HIDVOL_SIZE_TB">Maximalt möjliga utrymme för den dolda volymen är %.2f TB.</string>
     <string lang="sv" key="MOUNTED_NOPWCHANGE">Volymlösenord eller -nyckelfiler kan inte ändras medan volymen är monterad. Volymen måste demonteras först.</string>
     <string lang="sv" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Härledningsalgoritmen för volymhuvudets nyckel kan inte ändras medan volymen är monterad. Demontera volymen först.</string>
     <string lang="sv" key="MOUNT_BUTTON">&amp;Montera</string>

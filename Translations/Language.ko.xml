@@ -37,6 +37,7 @@
     <control lang="ko" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD 리코딩 소프트웨어 다운로드</control>
     <control lang="ko" key="IDC_FILE_CONTAINER">암호화된 파일 보관소 만들기</control>
     <control lang="ko" key="IDC_GB">GB(&amp;G)</control>
+    <control lang="ko" key="IDC_TB">TB(&amp;T)</control>
     <control lang="ko" key="IDC_HIDDEN_SYSENC_INFO_LINK">추가 정보</control>
     <control lang="ko" key="IDC_HIDDEN_VOL">숨긴 VeraCrypt 볼륨(&amp;D) </control>
     <control lang="ko" key="IDC_HIDDEN_VOL_HELP">숨긴 볼륨에 대한 추가 정보</control>
@@ -189,7 +190,7 @@
     <control lang="ko" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="ko" key="IDD_PASSWORDCHANGE_DLG">비밀번호 또는 키파일 변경</control>
     <control lang="ko" key="IDD_PASSWORD_DLG">VeraCrypt 볼륨 비밀번호 입력</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="ko" key="IDD_PREFERENCES_DLG">VeraCrypt - 옵션</control>
     <control lang="ko" key="IDD_SYSENC_SETTINGS">VeraCrypt - 시스템 암호화 설정</control>
     <control lang="ko" key="IDD_TOKEN_PREFERENCES">VeraCrypt - 보안 토큰 설정</control>
@@ -235,7 +236,7 @@
     <control lang="ko" key="IDM_ONLINE_TUTORIAL">초보자 안내서</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="ko" key="IDM_PERMANENTLY_DECRYPT_SYS">시스템 파티션/드라이브 영구적 암호해제...</control>
     <control lang="ko" key="IDM_PREFERENCES">설정...</control>
     <control lang="ko" key="IDM_REFRESH_DRIVE_LETTERS">드라이브 문자 새로 고침</control>
@@ -561,6 +562,7 @@
     <string lang="ko" key="MAX_HIDVOL_SIZE_KB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f KB</string>
     <string lang="ko" key="MAX_HIDVOL_SIZE_MB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f MB</string>
     <string lang="ko" key="MAX_HIDVOL_SIZE_GB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f GB</string>
+    <string lang="ko" key="MAX_HIDVOL_SIZE_TB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f TB</string>
     <string lang="ko" key="MOUNTED_NOPWCHANGE">볼륨이 삽입된 상태에서 “비밀번호/키파일”을 변경할 수 없습니다. 먼저 볼륨을 꺼내야 합니다.</string>
     <string lang="ko" key="MOUNTED_NO_PKCS5_PRF_CHANGE">볼륨이 삽입된 상태에서 “헤더 키 도출 알고리듬”을 변경할 수 없습니다. 먼저 볼륨을 꺼내야 합니다.</string>
     <string lang="ko" key="MOUNT_BUTTON">삽입(&amp;M)</string>

@@ -37,6 +37,7 @@
     <control lang="zh-hk" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">下載 CD/DVD 刻錄軟體（聯網）</control>
     <control lang="zh-hk" key="IDC_FILE_CONTAINER">創建檔型加密卷</control>
     <control lang="zh-hk" key="IDC_GB">GB(&amp;G)</control>
+    <control lang="zh-hk" key="IDC_TB">TB(&amp;T)</control>
     <control lang="zh-hk" key="IDC_HIDDEN_SYSENC_INFO_LINK">更多資訊（聯網）</control>
     <control lang="zh-hk" key="IDC_HIDDEN_VOL">隱藏的 VeraCrypt 加密卷(&amp;D) </control>
     <control lang="zh-hk" key="IDC_HIDDEN_VOL_HELP">關於隱藏加密卷的更多資訊（聯網）</control>
@@ -560,7 +561,8 @@
     <string lang="zh-hk" key="MAX_HIDVOL_SIZE_BYTES">該卷能創建的最大隱藏加密卷大小為 %.2f 位元組。</string>
     <string lang="zh-hk" key="MAX_HIDVOL_SIZE_KB">該卷能創建的最大隱藏加密卷大小為 %.2f KB。</string>
     <string lang="zh-hk" key="MAX_HIDVOL_SIZE_MB">該卷能創建的最大隱藏加密卷大小為 %.2f MB。</string>
-    <string lang="zh-hk" key="MAX_HIDVOL_SIZE_GB">該卷能創建的最大隱藏加密卷大小為 %.2f GB.</string>
+    <string lang="zh-hk" key="MAX_HIDVOL_SIZE_GB">該卷能創建的最大隱藏加密卷大小為 %.2f GB。</string>
+    <string lang="zh-hk" key="MAX_HIDVOL_SIZE_TB">該卷能創建的最大隱藏加密卷大小為 %.2f TB。</string>
     <string lang="zh-hk" key="MOUNTED_NOPWCHANGE">當此加密卷被載入時，加密卷密碼/密鑰檔無法被更改。 請首先卸載此加密卷。</string>
     <string lang="zh-hk" key="MOUNTED_NO_PKCS5_PRF_CHANGE">當加密卷被載入時不能修改首密鑰衍生演算法。 請首先卸載加密卷。</string>
     <string lang="zh-hk" key="MOUNT_BUTTON">載入(&amp;M)</string>

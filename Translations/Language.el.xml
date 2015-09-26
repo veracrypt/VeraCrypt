@@ -37,6 +37,7 @@
     <control lang="el" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Κατέβασμα λογισμικού εγγραφής CD/DVD</control>
     <control lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</control>
     <control lang="en" key="IDC_GB">&amp;GB</control>
+    <control lang="en" key="IDC_TB">&amp;TB</control>
     <control lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</control>
     <control lang="el" key="IDC_HIDDEN_VOL">Κρυ&amp;φός τόμος VeraCrypt</control>
     <control lang="el" key="IDC_HIDDEN_VOL_HELP">Περισσότερες πληροφορίες για κρυφούς τόμους</control>
@@ -189,7 +190,7 @@
     <control lang="el" key="IDD_MOUNT_DLG">VeraCrypt</control>
     <control lang="el" key="IDD_PASSWORDCHANGE_DLG">Αλλαγή κωδικού ή αρχείων-κλειδιών</control>
     <control lang="el" key="IDD_PASSWORD_DLG">Εισαγωγή κωδικού τόμου VeraCrypt</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance Options</control>
+    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
     <control lang="el" key="IDD_PREFERENCES_DLG">VeraCrypt - Επιλογές</control>
     <control lang="en" key="IDD_SYSENC_SETTINGS">VeraCrypt - System Encryption Settings</control>
     <control lang="en" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Security Token Preferences</control>
@@ -235,7 +236,7 @@
     <control lang="el" key="IDM_ONLINE_TUTORIAL">Οδηγός αρχαρίων</control>
     <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
     <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance...</control>
+    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
     <control lang="el" key="IDM_PERMANENTLY_DECRYPT_SYS">Μόνιμη αποκρυπτογράφηση διαμερίσματος/οδηγού συστήματος</control>
     <control lang="el" key="IDM_PREFERENCES">Επιλογές...</control>
     <control lang="el" key="IDM_REFRESH_DRIVE_LETTERS">Επανέλεγχος γραμμάτων οδηγών</control>
@@ -561,6 +562,7 @@
     <string lang="el" key="MAX_HIDVOL_SIZE_KB">Το μέγιστο δυνατό μέγεθος κρυφού τόμου για αυτόν τον τόμο είναι %.2fKB.</string>
     <string lang="el" key="MAX_HIDVOL_SIZE_MB">Το μέγιστο δυνατό μέγεθος κρυφού τόμου για αυτόν τον τόμο είναι %.2f MB.</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_GB">Maximum possible hidden volume size for this volume is %.2f GB.</string>
+    <string lang="en" key="MAX_HIDVOL_SIZE_TB">Maximum possible hidden volume size for this volume is %.2f TB.</string>
     <string lang="el" key="MOUNTED_NOPWCHANGE">Ο κωδικός/αρχεία-κλειδιά του τόμου δεν μπορούν να αλλαχθούν όσο αυτός είναι φορτωμένος. Παρακαλώ εκφορτώστε πρώτα τον τόμο.</string>
     <string lang="el" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Ο αλγόριθμος του κλειδιού δημιουργίας header δεν μπορεί να αλλαχθεί όσο ο τόμος είναι φορτωμένος. Παρακαλώ εκφορτώστε πρώτα τον τόμο.</string>
     <string lang="el" key="MOUNT_BUTTON">&amp;Φόρτωση</string>

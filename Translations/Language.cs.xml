@@ -37,6 +37,7 @@
     <control lang="cs" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Stáhnout software pro vypalování CD/DVD</control>
     <control lang="cs" key="IDC_FILE_CONTAINER">Vytvořit zašifrovaný souborový svazek</control>
     <control lang="cs" key="IDC_GB">&amp;GB</control>
+    <control lang="cs" key="IDC_TB">&amp;TB</control>
     <control lang="cs" key="IDC_HIDDEN_SYSENC_INFO_LINK">Více informací</control>
     <control lang="cs" key="IDC_HIDDEN_VOL">S&amp;krytý svazek VeraCrypt</control>
     <control lang="cs" key="IDC_HIDDEN_VOL_HELP">Více informací o skrytých svazcích</control>
@@ -561,6 +562,7 @@
     <string lang="cs" key="MAX_HIDVOL_SIZE_KB">Maximální možná velikost skrytého svazku pro tento svazek je %.2f KB.</string>
     <string lang="cs" key="MAX_HIDVOL_SIZE_MB">Maximální možná velikost skrytého svazku pro tento svazek je %.2f MB.</string>
     <string lang="cs" key="MAX_HIDVOL_SIZE_GB">Maximální možná velikost skrytého svazku pro tento svazek je %.2f GB.</string>
+    <string lang="cs" key="MAX_HIDVOL_SIZE_TB">Maximální možná velikost skrytého svazku pro tento svazek je %.2f TB.</string>
     <string lang="cs" key="MOUNTED_NOPWCHANGE">Heslo/souborový klíč svazku nemůže být změněn během jeho připojení. Svazek nejdříve odpojte.</string>
     <string lang="cs" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Derivační algoritmus pro klíč hlavičky nemůže být změněn během připojování svazku. Svazek nejdříve odpojte.</string>
     <string lang="cs" key="MOUNT_BUTTON">&amp;Připojit</string>
