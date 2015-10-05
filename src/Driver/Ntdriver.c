@@ -586,7 +586,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				break; 
 			}
 
-			TCGetDosNameFromNumber (ntName, sizeof(ntName),Extension->nDosDriveNo);
+			TCGetDosNameFromNumber (ntName, sizeof(ntName),Extension->nDosDriveNo, DeviceNamespaceDefault);
 			RtlInitUnicodeString (&ntUnicodeString, ntName);
 
 			outLength = FIELD_OFFSET(MOUNTDEV_SUGGESTED_LINK_NAME,Name) + ntUnicodeString.Length;
@@ -1965,14 +1965,23 @@ void TCGetNTNameFromNumber (LPWSTR ntname, int cbNtName, int nDriveNo)
 	RtlStringCbCatW (ntname, cbNtName, tmp);
 }
 
-void TCGetDosNameFromNumber (LPWSTR dosname,int cbDosName, int nDriveNo)
+void TCGetDosNameFromNumber (LPWSTR dosname,int cbDosName, int nDriveNo, DeviceNamespaceType namespaceType)
 {
 	WCHAR tmp[3] =
 	{0, ':', 0};
 	int j = nDriveNo + (WCHAR) 'A';
 
 	tmp[0] = (short) j;
-	RtlStringCbCopyW (dosname, cbDosName, (LPWSTR) DOS_MOUNT_PREFIX);
+
+	if (DeviceNamespaceGlobal == namespaceType)
+	{
+		RtlStringCbCopyW (dosname, cbDosName, (LPWSTR) DOS_MOUNT_PREFIX_GLOBAL);
+	}
+	else
+	{
+		RtlStringCbCopyW (dosname, cbDosName, (LPWSTR) DOS_MOUNT_PREFIX_DEFAULT);
+	}
+
 	RtlStringCbCatW (dosname, cbDosName, tmp);
 }
 
@@ -2538,7 +2547,7 @@ NTSTATUS CreateDriveLink (int nDosDriveNo)
 	NTSTATUS ntStatus;
 
 	TCGetNTNameFromNumber (dev, sizeof(dev),nDosDriveNo);
-	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo);
+	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo, DeviceNamespaceDefault);
 
 	RtlInitUnicodeString (&deviceName, dev);
 	RtlInitUnicodeString (&symLink, link);
@@ -2555,7 +2564,7 @@ NTSTATUS RemoveDriveLink (int nDosDriveNo)
 	UNICODE_STRING symLink;
 	NTSTATUS ntStatus;
 
-	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo);
+	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo, DeviceNamespaceDefault);
 	RtlInitUnicodeString (&symLink, link);
 
 	ntStatus = IoDeleteSymbolicLink (&symLink);
@@ -2580,7 +2589,7 @@ NTSTATUS MountManagerMount (MOUNT_STRUCT *mount)
 		in, (ULONG) (sizeof (in->DeviceNameLength) + wcslen (arrVolume) * 2), 0, 0);
 
 	memset (buf, 0, sizeof buf);
-	TCGetDosNameFromNumber ((PWSTR) &point[1], sizeof(buf) - sizeof(MOUNTMGR_CREATE_POINT_INPUT),mount->nDosDriveNo);
+	TCGetDosNameFromNumber ((PWSTR) &point[1], sizeof(buf) - sizeof(MOUNTMGR_CREATE_POINT_INPUT),mount->nDosDriveNo, DeviceNamespaceDefault);
 
 	point->SymbolicLinkNameOffset = sizeof (MOUNTMGR_CREATE_POINT_INPUT);
 	point->SymbolicLinkNameLength = (USHORT) wcslen ((PWSTR) &point[1]) * 2;
@@ -2590,7 +2599,7 @@ NTSTATUS MountManagerMount (MOUNT_STRUCT *mount)
 	point->DeviceNameLength = (USHORT) wcslen ((PWSTR) (buf + point->DeviceNameOffset)) * 2;
 
 	ntStatus = TCDeviceIoControl (MOUNTMGR_DEVICE_NAME, IOCTL_MOUNTMGR_CREATE_POINT, point,
-		point->DeviceNameOffset + point->DeviceNameLength, 0, 0);
+			point->DeviceNameOffset + point->DeviceNameLength, 0, 0);
 
 	return ntStatus;
 }
@@ -2604,7 +2613,7 @@ NTSTATUS MountManagerUnmount (int nDosDriveNo)
 
 	memset (buf, 0, sizeof buf);
 
-	TCGetDosNameFromNumber ((PWSTR) &in[1], sizeof(buf) - sizeof(MOUNTMGR_MOUNT_POINT),nDosDriveNo);
+	TCGetDosNameFromNumber ((PWSTR) &in[1], sizeof(buf) - sizeof(MOUNTMGR_MOUNT_POINT),nDosDriveNo, DeviceNamespaceDefault);
 
 	// Only symbolic link can be deleted with IOCTL_MOUNTMGR_DELETE_POINTS. If any other entry is specified, the mount manager will ignore subsequent IOCTL_MOUNTMGR_VOLUME_ARRIVAL_NOTIFICATION for the same volume ID.
 	in->SymbolicLinkNameOffset = sizeof (MOUNTMGR_MOUNT_POINT);
@@ -2622,10 +2631,13 @@ NTSTATUS MountManagerUnmount (int nDosDriveNo)
 NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 {
 	PDEVICE_OBJECT NewDeviceObject;
-	NTSTATUS ntStatus;
+	NTSTATUS ntStatus;	
 
 	// Make sure the user is asking for a reasonable nDosDriveNo
-	if (mount->nDosDriveNo >= 0 && mount->nDosDriveNo <= 25 && IsDriveLetterAvailable (mount->nDosDriveNo))
+	if (mount->nDosDriveNo >= 0 && mount->nDosDriveNo <= 25 
+		&& IsDriveLetterAvailable (mount->nDosDriveNo, DeviceNamespaceDefault) // drive letter must not exist both locally and globally
+		&& IsDriveLetterAvailable (mount->nDosDriveNo, DeviceNamespaceGlobal)
+		)
 	{
 		Dump ("Mount request looks valid\n");
 	}
@@ -2715,6 +2727,16 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 				NewDeviceObject->Flags &= ~DO_DEVICE_INITIALIZING;
 
 				NewExtension->UniqueVolumeId = LastUniqueVolumeId++;
+
+				// check again that the drive letter is available globally and locally
+				if (	!IsDriveLetterAvailable (mount->nDosDriveNo, DeviceNamespaceDefault)
+					|| !IsDriveLetterAvailable (mount->nDosDriveNo, DeviceNamespaceGlobal)
+					)
+				{
+						TCDeleteDeviceObject (NewDeviceObject, NewExtension);
+						mount->nReturnCode = ERR_DRIVE_NOT_FOUND;
+						return ERR_DRIVE_NOT_FOUND;
+				}
 
 				if (mount->bMountManager)
 					MountManagerMount (mount);
@@ -3049,8 +3071,7 @@ BOOL UserCanAccessDriveDevice ()
 	return IsAccessibleByUser (&name, FALSE);
 }
 
-
-BOOL IsDriveLetterAvailable (int nDosDriveNo)
+BOOL IsDriveLetterAvailable (int nDosDriveNo, DeviceNamespaceType namespaceType)
 {
 	OBJECT_ATTRIBUTES objectAttributes;
 	UNICODE_STRING objectName;
@@ -3058,7 +3079,7 @@ BOOL IsDriveLetterAvailable (int nDosDriveNo)
 	HANDLE handle;
 	NTSTATUS ntStatus;
 
-	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo);
+	TCGetDosNameFromNumber (link, sizeof(link),nDosDriveNo, namespaceType);
 	RtlInitUnicodeString (&objectName, link);
 	InitializeObjectAttributes (&objectAttributes, &objectName, OBJ_KERNEL_HANDLE | OBJ_CASE_INSENSITIVE, NULL, NULL);
 

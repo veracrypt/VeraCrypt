@@ -101,6 +101,11 @@ typedef enum
 	ValidateInputOutput
 } ValidateIOBufferSizeType;
 
+typedef enum
+{
+	DeviceNamespaceDefault,
+	DeviceNamespaceGlobal,
+} DeviceNamespaceType;
 
 extern PDRIVER_OBJECT TCDriverObject;
 extern PDEVICE_OBJECT RootDeviceObject;
@@ -133,7 +138,7 @@ void TCStopVolumeThread (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension);
 VOID VolumeThreadProc (PVOID Context);
 void TCSleep (int milliSeconds);
 void TCGetNTNameFromNumber (LPWSTR ntname, int cbNtName, int nDriveNo);
-void TCGetDosNameFromNumber (LPWSTR dosname, int cbDosName, int nDriveNo);
+void TCGetDosNameFromNumber (LPWSTR dosname, int cbDosName, int nDriveNo, DeviceNamespaceType namespaceType);
 LPWSTR TCTranslateCode (ULONG ulCode);
 void TCDeleteDeviceObject (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension);
 VOID TCUnloadDriver (PDRIVER_OBJECT DriverObject);
@@ -161,7 +166,7 @@ BOOL UserCanAccessDriveDevice ();
 size_t GetCpuCount ();
 void EnsureNullTerminatedString (wchar_t *str, size_t maxSizeInBytes);
 void *AllocateMemoryWithTimeout (size_t size, int retryDelay, int timeout);
-BOOL IsDriveLetterAvailable (int nDosDriveNo);
+BOOL IsDriveLetterAvailable (int nDosDriveNo, DeviceNamespaceType namespaceType);
 NTSTATUS TCReadRegistryKey (PUNICODE_STRING keyPath, wchar_t *keyValueName, PKEY_VALUE_PARTIAL_INFORMATION *keyData);
 NTSTATUS TCWriteRegistryKey (PUNICODE_STRING keyPath, wchar_t *keyValueName, ULONG keyValueType, void *valueData, ULONG valueSize);
 BOOL IsVolumeClassFilterRegistered ();
