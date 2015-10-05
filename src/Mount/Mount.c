@@ -9807,7 +9807,7 @@ int RestoreVolumeHeader (HWND hwndDlg, const char *lpszVolume)
 		{
 			int GuiPkcs5 = ((EffectiveVolumePkcs5 > 0) && (VolumePkcs5 == 0))? EffectiveVolumePkcs5 : VolumePkcs5;
 			int GuiPim = ((EffectiveVolumePim > 0) && (VolumePim <= 0))? EffectiveVolumePim : VolumePim;
-			if (!AskVolumePassword (hwndDlg, &VolumePassword, &VolumePkcs5, &VolumePim, &VolumeTrueCryptMode, "ENTER_HEADER_BACKUP_PASSWORD", FALSE))
+			if (!AskVolumePassword (hwndDlg, &VolumePassword, &GuiPkcs5, &GuiPim, &VolumeTrueCryptMode, "ENTER_HEADER_BACKUP_PASSWORD", FALSE))
 			{
 				nStatus = ERR_SUCCESS;
 				goto ret;
