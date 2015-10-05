@@ -416,8 +416,8 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 		       PDEVICE_OBJECT * ppDeviceObject,
 		       MOUNT_STRUCT * mount)
 {
-	UNICODE_STRING Win32NameString, ntUnicodeString;
-	WCHAR dosname[32], ntname[32];
+	UNICODE_STRING ntUnicodeString;
+	WCHAR ntname[32];
 	PEXTENSION Extension;
 	NTSTATUS ntStatus;
 	ULONG devChars = 0;
@@ -425,10 +425,8 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 	Dump ("TCCreateDeviceObject BEGIN\n");
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
-	TCGetDosNameFromNumber (dosname, sizeof(dosname),mount->nDosDriveNo);
 	TCGetNTNameFromNumber (ntname, sizeof(ntname),mount->nDosDriveNo);
 	RtlInitUnicodeString (&ntUnicodeString, ntname);
-	RtlInitUnicodeString (&Win32NameString, dosname);
 
 	devChars = FILE_DEVICE_SECURE_OPEN;
 	devChars |= mount->bMountReadOnly ? FILE_READ_ONLY_DEVICE : 0;
