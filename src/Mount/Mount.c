@@ -86,6 +86,9 @@ BOOL bCacheInDriver = FALSE;		/* Cache any passwords we see */
 BOOL bCacheInDriverDefault = FALSE;
 BOOL bCacheDuringMultipleMount = FALSE;
 BOOL bCmdCacheDuringMultipleMount = FALSE;
+BOOL bTryEmptyPasswordWhenKeyfileUsed = FALSE;
+BOOL bCmdTryEmptyPasswordWhenKeyfileUsed = FALSE;
+BOOL bCmdTryEmptyPasswordWhenKeyfileUsedValid = FALSE;
 BOOL bHistoryCmdLine = FALSE;		/* History control is always disabled */
 BOOL bUseDifferentTrayIconIfVolMounted = TRUE;
 BOOL bCloseDismountedWindows=TRUE;	/* Close all open explorer windows of dismounted volume */
@@ -680,6 +683,8 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	ConfigReadCompareInt ("WipePasswordCacheOnExit", FALSE, &bWipeCacheOnExit, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("WipeCacheOnAutoDismount", TRUE, &bWipeCacheOnAutoDismount, bOnlyCheckModified, pbSettingsModified);
 
+	ConfigReadCompareInt ("TryEmptyPasswordWhenKeyfileUsed",FALSE, &bTryEmptyPasswordWhenKeyfileUsed, bOnlyCheckModified, pbSettingsModified);
+
 	ConfigReadCompareInt ("StartOnLogon", FALSE, &bStartOnLogon, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("MountDevicesOnLogon", FALSE, &bMountDevicesOnLogon, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("MountFavoritesOnLogon", FALSE, &bMountFavoritesOnLogon, bOnlyCheckModified, pbSettingsModified);
@@ -834,6 +839,8 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("CachePasswordDuringMultipleMount",	bCacheDuringMultipleMount);
 		ConfigWriteInt ("WipePasswordCacheOnExit",			bWipeCacheOnExit);
 		ConfigWriteInt ("WipeCacheOnAutoDismount",			bWipeCacheOnAutoDismount);
+
+		ConfigWriteInt ("TryEmptyPasswordWhenKeyfileUsed",	bTryEmptyPasswordWhenKeyfileUsed);
 
 		ConfigWriteInt ("StartOnLogon",						bStartOnLogon);
 		ConfigWriteInt ("MountDevicesOnLogon",				bMountDevicesOnLogon);
@@ -4353,6 +4360,8 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 	BOOL EffectiveVolumeTrueCryptMode = CmdVolumeTrueCryptMode;
 	int EffectiveVolumePim = (pim < 0)? CmdVolumePim : pim;
 	BOOL bEffectiveCacheDuringMultipleMount = bCmdCacheDuringMultipleMount? TRUE: bCacheDuringMultipleMount;
+	BOOL bEffectiveTryEmptyPasswordWhenKeyfileUsed = bCmdTryEmptyPasswordWhenKeyfileUsedValid? bCmdTryEmptyPasswordWhenKeyfileUsed : bTryEmptyPasswordWhenKeyfileUsed;
+	BOOL bUseCmdVolumePassword = CmdVolumePasswordValid && ((CmdVolumePassword.Length > 0) || (KeyFilesEnable && FirstKeyFile));
 
 	/* Priority is given to command line parameters 
 	 * Default values used only when nothing specified in command line
@@ -4405,29 +4414,32 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 
 	ResetWrongPwdRetryCount ();
 
-	// First try cached passwords and if they fail ask user for a new one
 	WaitCursor ();
 
-	// try TrueCrypt mode first since it is quick, only if pim = 0
-	if (EffectiveVolumePim == 0)
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
-	if (!mounted)
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
-	
-	// If keyfiles are enabled, test empty password first
-	if (!mounted && KeyFilesEnable && FirstKeyFile)
+	if (!bUseCmdVolumePassword)
 	{
-		Password emptyPassword;
-		emptyPassword.Length = 0;
-
-		KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile, szFileName);
+		// First try cached passwords and if they fail ask user for a new one
 		// try TrueCrypt mode first since it is quick, only if pim = 0
 		if (EffectiveVolumePim == 0)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 		if (!mounted)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 		
-		burn (&emptyPassword, sizeof (emptyPassword));
+		// If keyfiles are enabled, test empty password first
+		if (!mounted && KeyFilesEnable && FirstKeyFile && bEffectiveTryEmptyPasswordWhenKeyfileUsed)
+		{
+			Password emptyPassword;
+			emptyPassword.Length = 0;
+
+			KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile, szFileName);
+			// try TrueCrypt mode first since it is quick, only if pim = 0
+			if (EffectiveVolumePim == 0)
+				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			if (!mounted)
+				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			
+			burn (&emptyPassword, sizeof (emptyPassword));
+		}
 	}
 
 	// Test password and/or keyfiles used for the previous volume
@@ -4452,7 +4464,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, char *szFileName, int pim)
 
 	while (mounted == 0)
 	{		
-		if (CmdVolumePassword.Length > 0)
+		if (bUseCmdVolumePassword)
 		{
 			VolumePassword = CmdVolumePassword;
 			VolumePkcs5 = EffectiveVolumePkcs5;
@@ -6251,6 +6263,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					BOOL mounted = FALSE;
 					int EffectiveVolumePkcs5 = CmdVolumePkcs5;
 					BOOL EffectiveVolumeTrueCryptMode = CmdVolumeTrueCryptMode;
+					BOOL bEffectiveTryEmptyPasswordWhenKeyfileUsed = bCmdTryEmptyPasswordWhenKeyfileUsedValid? bCmdTryEmptyPasswordWhenKeyfileUsed : bTryEmptyPasswordWhenKeyfileUsed;
 
 					if (!VolumePathExists (szFileName))
 					{
@@ -6270,7 +6283,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						mounted = MountVolume (hwndDlg, szDriveLetter[0] - 'A', szFileName, NULL, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
 
 						// Command line password or keyfiles
-						if (!mounted && (CmdVolumePassword.Length != 0 || FirstCmdKeyFile))
+						if (!mounted && (CmdVolumePassword.Length != 0 || (FirstCmdKeyFile && (CmdVolumePasswordValid || bEffectiveTryEmptyPasswordWhenKeyfileUsed))))
 						{
 							BOOL reportBadPasswd = CmdVolumePassword.Length > 0;
 
@@ -8086,6 +8099,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				OptionPkcs5,
 				OptionTrueCryptMode,
 				OptionPim,
+				OptionTryEmptyPassword,
 			};
 
 			argument args[]=
@@ -8110,6 +8124,7 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 				{ OptionTrueCryptMode,			"/truecrypt",			"/tc", FALSE },
 				{ OptionVolume,					"/volume",			"/v", FALSE },
 				{ CommandWipeCache,				"/wipecache",		"/w", FALSE },
+				{ OptionTryEmptyPassword,		"/tryemptypass",	NULL, FALSE },
 			};
 
 			argumentspec as;
@@ -8141,6 +8156,25 @@ void ExtractCommandLine (HWND hwndDlg, char *lpszCommandLine)
 
 			case OptionBeep:
 				bBeep = TRUE;
+				break;
+
+			case OptionTryEmptyPassword:
+				{
+					char szTmp[16] = {0};
+					bCmdTryEmptyPasswordWhenKeyfileUsed = TRUE;
+					bCmdTryEmptyPasswordWhenKeyfileUsedValid = TRUE;
+
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, sizeof (szTmp)))
+					{
+						if (!_stricmp(szTmp,"n") || !_stricmp(szTmp,"no"))
+							bCmdTryEmptyPasswordWhenKeyfileUsed = FALSE;
+						else if (!_stricmp(szTmp,"y") || !_stricmp(szTmp,"yes"))
+							bCmdTryEmptyPasswordWhenKeyfileUsed = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				}
 				break;
 
 			case OptionCache:

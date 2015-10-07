@@ -26,6 +26,9 @@
 #include "Common/resource.h"
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
+#ifdef TCMOUNT
+#include "Mount/Mount.h"
+#endif
 
 #include <Strsafe.h>
 
@@ -465,6 +468,17 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			LoadKeyList (hwndDlg, param->FirstKeyFile);
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, param->EnableKeyFiles);
+			
+#ifdef TCMOUNT
+			if (	(origParam.EnableKeyFiles == defaultKeyFilesParam.EnableKeyFiles)
+				&&	(origParam.FirstKeyFile == defaultKeyFilesParam.FirstKeyFile)
+				)
+			{
+				/* default keyfile dialog case */
+				SetCheckBox (hwndDlg, IDC_KEYFILES_TRY_EMPTY_PASSWORD, bTryEmptyPasswordWhenKeyfileUsed);
+				ShowWindow(GetDlgItem(hwndDlg, IDC_KEYFILES_TRY_EMPTY_PASSWORD), SW_SHOW);
+			}
+#endif
 
 			SetWindowTextW(GetDlgItem(hwndDlg, IDT_KEYFILES_NOTE), GetString ("KEYFILES_NOTE"));
 
@@ -586,6 +600,17 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDOK)
 		{
 			param->EnableKeyFiles = IsButtonChecked (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE));
+
+#ifdef TCMOUNT
+			if (IsWindowVisible (GetDlgItem (hwndDlg, IDC_KEYFILES_TRY_EMPTY_PASSWORD)))
+			{
+				bTryEmptyPasswordWhenKeyfileUsed = IsButtonChecked (GetDlgItem (hwndDlg, IDC_KEYFILES_TRY_EMPTY_PASSWORD));
+
+				WaitCursor ();
+				SaveSettings (hwndDlg);
+				NormalCursor ();
+			}
+#endif
 			EndDialog (hwndDlg, IDOK);
 			return 1;
 		}

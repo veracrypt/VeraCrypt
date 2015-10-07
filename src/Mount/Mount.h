@@ -65,6 +65,7 @@ extern BOOL bCloseBkgTaskWhenNoVolumes;
 extern BOOL bPlaySoundOnSuccessfulHkDismount;
 extern BOOL bDisplayBalloonOnSuccessfulHkDismount;
 extern BOOL bExplore;
+extern BOOL bTryEmptyPasswordWhenKeyfileUsed;
 
 static void localcleanup ( void );
 void EndMainDlg ( HWND hwndDlg );
