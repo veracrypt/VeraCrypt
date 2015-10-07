@@ -275,7 +275,7 @@ BEGIN
     LTEXT           "",IDT_PKCS11_LIB_HELP,16,63,286,65
 END
 
-IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 242
+IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 261
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -287,12 +287,14 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,178,339,10
     CONTROL         "Allow pre-boot &authentication to be bypassed by pressing the Esc key (enables boot manager)",IDC_ALLOW_ESC_PBA_BYPASS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,193,340,10
-    DEFPUSHBUTTON   "OK",IDOK,257,220,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,220,50,14
+    DEFPUSHBUTTON   "OK",IDOK,257,233,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,313,233,50,14
     LTEXT           "Display this custom message in the pre-boot authentication screen (24 characters maximum):",IDT_CUSTOM_BOOT_LOADER_MESSAGE,18,41,337,8
     GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,150
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,163,355,49
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,163,355,62
     LTEXT           "",IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP,18,74,337,73
+    CONTROL         "Disable ""Evil Maid"" attack detection",IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,208,340,10
 END
 
 IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 370, 248
@@ -442,6 +444,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 363
         TOPMARGIN, 7
+        BOTTOMMARGIN, 247
     END
 
     IDD_PERFORMANCE_SETTINGS, DIALOG
@@ -588,7 +591,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Create Rescue Disk...",       IDM_CREATE_RESCUE_DISK
         MENUITEM "Verify Rescue Disk",          IDM_VERIFY_RESCUE_DISK
-        MENUITEM "Verify Rescue Disk ISO Image",IDM_VERIFY_RESCUE_DISK_ISO
+        MENUITEM "Verify Rescue Disk ISO Image", IDM_VERIFY_RESCUE_DISK_ISO
         MENUITEM SEPARATOR
         MENUITEM "Mount Without Pre-Boot &Authentication...", IDM_MOUNT_SYSENC_PART_WITHOUT_PBA
         MENUITEM SEPARATOR

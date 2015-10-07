@@ -6206,18 +6206,22 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				if (IsHiddenOSRunning())
 				{
+					uint32 driverConfig = ReadDriverConfigurationFlags();
 					if (BootEncObj->GetInstalledBootLoaderVersion() != VERSION_NUM)
 						Warning ("UPDATE_TC_IN_HIDDEN_OS_TOO", hwndDlg);
-					if (!BootEncObj->CheckBootloaderFingerprint ())
+					if (	!(driverConfig & TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION)
+						&&	!BootEncObj->CheckBootloaderFingerprint ())
 						Warning ("BOOT_LOADER_FINGERPRINT_CHECK_FAILED", hwndDlg);
 				}
 				else if (SysDriveOrPartitionFullyEncrypted (TRUE))
 				{
+					uint32 driverConfig = ReadDriverConfigurationFlags();
 					if (BootEncObj->GetInstalledBootLoaderVersion() != VERSION_NUM)
 					{
 						Warning ("BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION", hwndDlg);
 					}
-					if (!BootEncObj->CheckBootloaderFingerprint ())
+					if (	!(driverConfig & TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION)
+						&&	!BootEncObj->CheckBootloaderFingerprint ())
 						Warning ("BOOT_LOADER_FINGERPRINT_CHECK_FAILED", hwndDlg);
 				}
 			} 
@@ -10424,6 +10428,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_OUTPUT, (userConfig & TC_BOOT_USER_CFG_FLAG_SILENT_MODE) ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton (hwndDlg, IDC_ALLOW_ESC_PBA_BYPASS, (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_ESC) ? BST_UNCHECKED : BST_CHECKED);
 				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD, (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION, (driverConfig & TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION) ? BST_CHECKED : BST_UNCHECKED);
 
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP), GetString("CUSTOM_BOOT_LOADER_MESSAGE_HELP"));
 			}
@@ -10480,6 +10485,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				{
 					BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD));
+					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
 				}
 				catch (Exception &e)
 				{

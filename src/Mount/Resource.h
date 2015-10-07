@@ -172,6 +172,7 @@
 #define IDC_COPY_EXPANDER               1148
 #define IDT_DRIVER_OPTIONS              1149
 #define IDC_ENABLE_EXTENDED_IOCTL_SUPPORT 1150
+#define IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION 1151
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -248,7 +249,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1151
+#define _APS_NEXT_CONTROL_VALUE         1152
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
