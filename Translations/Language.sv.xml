@@ -45,6 +45,7 @@
     <control lang="sv" key="IDC_HIDVOL_WIZ_MODE_FULL">N&amp;ormalläge</control>
     <control lang="sv" key="IDC_KB">&amp;kB</control>
     <control lang="sv" key="IDC_KEYFILES_ENABLE">&amp;Använd nyckelfiler</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="sv" key="IDC_KEY_FILES">N&amp;yckelfiler …</control>
     <control lang="sv" key="IDC_LINK_HASH_INFO">Information om hashalgoritmer</control>
@@ -119,6 +120,7 @@
     <control lang="sv" key="IDC_CREATE">Skapa</control>
     <control lang="sv" key="IDC_CREATE_VOLUME">S&amp;kapa volym</control>
     <control lang="sv" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">&amp;Visa inte någon text vid förstartsautentiseringen (förutom det anpassade meddelandet)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="sv" key="IDC_ENABLE_HARDWARE_ENCRYPTION">&amp;Snabba upp AES-kryptering och -dekryptering genom att använda processorns AES-instruktioner</control>
     <control lang="sv" key="IDC_ENABLE_KEYFILES">&amp;Använd nyckelfiler</control>
     <control lang="sv" key="IDC_ENABLE_NEW_KEYFILES">A&amp;nvänd nyckelfiler</control>

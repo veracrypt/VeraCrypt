@@ -45,6 +45,7 @@
     <control lang="fr" key="IDC_HIDVOL_WIZ_MODE_FULL">Mode normal</control>
     <control lang="fr" key="IDC_KB">&amp;Ko</control>
     <control lang="fr" key="IDC_KEYFILES_ENABLE">&amp;Utiliser fichiers clés</control>
+    <control lang="fr" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Essayer d'abords de monter avec un mot de passe vide</control>
     <control lang="fr" key="IDC_KEYFILES_RANDOM_SIZE">Taille aléatoire ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="fr" key="IDC_KEY_FILES">&amp;Fichiers clés...</control>
     <control lang="fr" key="IDC_LINK_HASH_INFO">Infos : algorithmes de hachage</control>
@@ -119,6 +120,7 @@
     <control lang="fr" key="IDC_CREATE">Créer</control>
     <control lang="fr" key="IDC_CREATE_VOLUME">Créer un volume</control>
     <control lang="fr" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Ne &amp;montrer aucun texte dans l'écran d'authentification de pré-amorçage (excepté le message ci-dessous)</control>
+    <control lang="fr" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Désactiver la détection des attaques de type "Evil Maid"</control>
     <control lang="fr" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accélérer le chiffrement/déchiffrement AES en utilisant les instructions AES du processeur (si disponible)</control>
     <control lang="fr" key="IDC_ENABLE_KEYFILES">Fichiers clés</control>
     <control lang="fr" key="IDC_ENABLE_NEW_KEYFILES">Fichiers clés</control>

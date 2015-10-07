@@ -45,6 +45,7 @@
     <control lang="zh-cn" key="IDC_HIDVOL_WIZ_MODE_FULL">常规模式</control>
     <control lang="zh-cn" key="IDC_KB">KB(&amp;K)</control>
     <control lang="zh-cn" key="IDC_KEYFILES_ENABLE">使用密钥文件(&amp;S)</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="zh-cn" key="IDC_KEY_FILES">密钥文件(&amp;K)..</control>
     <control lang="zh-cn" key="IDC_LINK_HASH_INFO">混杂算法的更多信息（联网）</control>
@@ -119,6 +120,7 @@
     <control lang="zh-cn" key="IDC_CREATE">创建</control>
     <control lang="zh-cn" key="IDC_CREATE_VOLUME">创建加密卷(&amp;C)</control>
     <control lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">在启动验证屏幕不显示任何文本（仅显示下面自定义的信息）(&amp;S)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="zh-cn" key="IDC_ENABLE_HARDWARE_ENCRYPTION">使用处理器指令加速 AES 加解密（如果功能可用）</control>
     <control lang="zh-cn" key="IDC_ENABLE_KEYFILES">使用密钥文件</control>
     <control lang="zh-cn" key="IDC_ENABLE_NEW_KEYFILES">使用密钥文件</control>

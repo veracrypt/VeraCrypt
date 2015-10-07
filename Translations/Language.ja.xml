@@ -45,6 +45,7 @@
     <control lang="ja" key="IDC_HIDVOL_WIZ_MODE_FULL">通常モード</control>
     <control lang="ja" key="IDC_KB">&amp;KB</control>
     <control lang="ja" key="IDC_KEYFILES_ENABLE">キーファイルを使用(&amp;S)</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ja" key="IDC_KEY_FILES">キーファイル(&amp;K)</control>
     <control lang="ja" key="IDC_LINK_HASH_INFO">ハッシュアルゴリズムについて</control>
@@ -119,6 +120,7 @@
     <control lang="ja" key="IDC_CREATE">作成</control>
     <control lang="ja" key="IDC_CREATE_VOLUME">ボリュームの作成(&amp;C)</control>
     <control lang="ja" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">起動前認証画面で一切の文字を表示しない(以下のカスタムメッセージを除く)(&amp;s)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="ja" key="IDC_ENABLE_HARDWARE_ENCRYPTION">可能ならCPUのAES処理命令セットを利用してAESによる暗号化/復号処理を高速化する</control>
     <control lang="ja" key="IDC_ENABLE_KEYFILES">キーファイルを使用</control>
     <control lang="ja" key="IDC_ENABLE_NEW_KEYFILES">キーファイルを使用</control>

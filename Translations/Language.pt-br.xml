@@ -45,6 +45,7 @@
     <control lang="pt-br" key="IDC_HIDVOL_WIZ_MODE_FULL">Modo normal</control>
     <control lang="pt-br" key="IDC_KB">&amp;KB</control>
     <control lang="pt-br" key="IDC_KEYFILES_ENABLE">U&amp;sar arquivos-chave</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="pt-br" key="IDC_KEY_FILES">&amp;Arquivos-chave...</control>
     <control lang="pt-br" key="IDC_LINK_HASH_INFO">Informação sobre algoritmos hash</control>
@@ -119,6 +120,7 @@
     <control lang="pt-br" key="IDC_CREATE">Criar</control>
     <control lang="pt-br" key="IDC_CREATE_VOLUME">&amp;Criar Volume</control>
     <control lang="pt-br" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Não mo&amp;strar quaisquer textos na tela de autenticação pré-boot (exceto a mensagem personalizada abaixo)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="pt-br" key="IDC_ENABLE_KEYFILES">Usar arquivos-chave</control>
     <control lang="pt-br" key="IDC_ENABLE_NEW_KEYFILES">Usar arquivos-chave</control>

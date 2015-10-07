@@ -45,6 +45,7 @@
     <control lang="ca" key="IDC_HIDVOL_WIZ_MODE_FULL">Mètode normal</control>
     <control lang="ca" key="IDC_KB">&amp;KB</control>
     <control lang="ca" key="IDC_KEYFILES_ENABLE">&amp;Usar fitxers de claus</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ca" key="IDC_KEY_FILES">Fitxers de &amp;claus...</control>
     <control lang="ca" key="IDC_LINK_HASH_INFO">Més informació</control>
@@ -119,6 +120,7 @@
     <control lang="ca" key="IDC_CREATE">Crear</control>
     <control lang="ca" key="IDC_CREATE_VOLUME">C&amp;rear un volum</control>
     <control lang="ca" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">No &amp;mostris cap text a la pantalla d'autenticació abans d'arrencar (excepte el missatge personalitzat de sota)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="ca" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerar les operacions de xifratge fent servir les instruccions del processador (si és possible)</control>
     <control lang="ca" key="IDC_ENABLE_KEYFILES">Utilitzar fitxers de claus</control>
     <control lang="ca" key="IDC_ENABLE_NEW_KEYFILES">Utilitzar fitxers de claus</control>

@@ -45,6 +45,7 @@
     <control lang="de" key="IDC_HIDVOL_WIZ_MODE_FULL">Kompletter Modus</control>
     <control lang="de" key="IDC_KB">&amp;KB</control>
     <control lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;t. verwenden</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="de" key="IDC_KEYFILES_RANDOM_SIZE">Zufällige Größe ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien…</control>
     <control lang="de" key="IDC_LINK_HASH_INFO">Infos über Hash-Algorithmen</control>
@@ -119,6 +120,7 @@
     <control lang="de" key="IDC_CREATE">Erstellen</control>
     <control lang="de" key="IDC_CREATE_VOLUME">Volume &amp;erstellen</control>
     <control lang="de" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Keine Texte im Pre-Boot Authentifikations-Bildschirm &amp;anzeigen (außer die unten definierte Nachricht)</control>
+    <control lang="de" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Deaktivieren Erkennung von "Evil Maid" Angriffe</control>
     <control lang="de" key="IDC_ENABLE_HARDWARE_ENCRYPTION">AES-Verschlüsselung durch Nutzung der AES-Befehle des Prozessors (falls unterstützt) beschleunigen</control>
     <control lang="de" key="IDC_ENABLE_KEYFILES">Sch&amp;lüsseldateien verw.</control>
     <control lang="de" key="IDC_ENABLE_NEW_KEYFILES">Schlüsselda&amp;teien verw.</control>

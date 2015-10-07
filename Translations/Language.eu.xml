@@ -45,6 +45,7 @@
     <control lang="eu" key="IDC_HIDVOL_WIZ_MODE_FULL">Modu Normala</control>
     <control lang="eu" key="IDC_KB">&amp;KB</control>
     <control lang="eu" key="IDC_KEYFILES_ENABLE">Gako-artxiboa &amp;erabili</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="eu" key="IDC_KEY_FILES">&amp;Gako-artxiboa..</control>
     <control lang="eu" key="IDC_LINK_HASH_INFO">Hash algoritmoei buruzko informazioa</control>
@@ -119,6 +120,7 @@
     <control lang="eu" key="IDC_CREATE">Sortu</control>
     <control lang="eu" key="IDC_CREATE_VOLUME">&amp;Bolumena Sortu</control>
     <control lang="eu" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">&amp;Ez erakutsi inolako testurik hasieraketa aurreko kautotze pantailan (beheko mezu pertsonala izan ezik)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="eu" key="IDC_ENABLE_HARDWARE_ENCRYPTION">AES zifratze/argitze prozesua azeleratu prozesadorearen AES instrukzioak erabiliz (baldin badaude).</control>
     <control lang="eu" key="IDC_ENABLE_KEYFILES">Gako-fitxategiak erabili</control>
     <control lang="eu" key="IDC_ENABLE_NEW_KEYFILES">Gako-fitxategiak erabili</control>

@@ -45,6 +45,7 @@
     <control lang="fi" key="IDC_HIDVOL_WIZ_MODE_FULL">Normaalitila</control>
     <control lang="fi" key="IDC_KB">&amp;KB</control>
     <control lang="fi" key="IDC_KEYFILES_ENABLE">Käytä &amp;Avaintiedostoja</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="fi" key="IDC_KEY_FILES">&amp;Avaintiedostot..</control>
     <control lang="fi" key="IDC_LINK_HASH_INFO">Tietoa hash algoritmeista</control>
@@ -119,6 +120,7 @@
     <control lang="fi" key="IDC_CREATE">Luo</control>
     <control lang="fi" key="IDC_CREATE_VOLUME">L&amp;uo Taltio</control>
     <control lang="fi" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">älä &amp;näytä tekstiä esikäynnistys autentikointi ikkunassa (paitsi alapuolinen käyttäjän viesti)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="fi" key="IDC_ENABLE_KEYFILES">Käytä Avaintiedostoa</control>
     <control lang="fi" key="IDC_ENABLE_NEW_KEYFILES">Käytä Avaintiedostoa</control>

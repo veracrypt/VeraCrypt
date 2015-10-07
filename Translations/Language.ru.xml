@@ -45,6 +45,7 @@
     <control lang="ru" key="IDC_HIDVOL_WIZ_MODE_FULL">Обычный режим</control>
     <control lang="ru" key="IDC_KB">&amp;КБ</control>
     <control lang="ru" key="IDC_KEYFILES_ENABLE">Кл&amp;юч. файлы</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="ru" key="IDC_KEYFILES_RANDOM_SIZE">Случайный размер ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ru" key="IDC_KEY_FILES">Клю&amp;ч. файлы...</control>
     <control lang="ru" key="IDC_LINK_HASH_INFO">Сведения о хеш-алгоритмах</control>
@@ -119,6 +120,7 @@
     <control lang="ru" key="IDC_CREATE">Создать</control>
     <control lang="ru" key="IDC_CREATE_VOLUME">С&amp;оздать том</control>
     <control lang="ru" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Пусто&amp;й экран аутентификации (только указанный ниже текст)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="ru" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Ускорять (де)шифрование AES с помощью AES-инструкций процессора (если возможно)</control>
     <control lang="ru" key="IDC_ENABLE_KEYFILES">Ключ. файлы</control>
     <control lang="ru" key="IDC_ENABLE_NEW_KEYFILES">Ключ. файлы</control>

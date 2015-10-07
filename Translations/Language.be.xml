@@ -45,6 +45,7 @@
     <control lang="be" key="IDC_HIDVOL_WIZ_MODE_FULL">Звычайны рэжым</control>
     <control lang="be" key="IDC_KB">&amp;Кб</control>
     <control lang="be" key="IDC_KEYFILES_ENABLE">Ключавыя файлы</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="be" key="IDC_KEY_FILES">Файлы...</control>
     <control lang="be" key="IDC_LINK_HASH_INFO">Звесткі пра хэш-алгарытмы</control>
@@ -119,6 +120,7 @@
     <control lang="be" key="IDC_CREATE">Стварыць</control>
     <control lang="be" key="IDC_CREATE_VOLUME">Стварыць том</control>
     <control lang="en" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Do not &amp;show any texts in the pre-boot authentication screen (except the below custom message)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="be" key="IDC_ENABLE_KEYFILES">Выкарыстоўваць ключавыя файлы</control>
     <control lang="be" key="IDC_ENABLE_NEW_KEYFILES">Выкарыстоўваць ключавыя файлы</control>

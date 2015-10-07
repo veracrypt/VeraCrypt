@@ -45,6 +45,7 @@
     <control lang="es" key="IDC_HIDVOL_WIZ_MODE_FULL">Modo Normal</control>
     <control lang="es" key="IDC_KB">&amp;KB</control>
     <control lang="es" key="IDC_KEYFILES_ENABLE">U&amp;sar archivo-llave</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="es" key="IDC_KEY_FILES">A&amp;rchivos-llave</control>
     <control lang="es" key="IDC_LINK_HASH_INFO">Información de algoritmos hash</control>
@@ -119,6 +120,7 @@
     <control lang="es" key="IDC_CREATE">Crear</control>
     <control lang="es" key="IDC_CREATE_VOLUME">&amp;Crear Volumen</control>
     <control lang="es" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">No mo&amp;strar texto en la pantalla de autenticación de pre-arranque (excepto el siguiente mensaje)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="es" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Acelerar cifrado/descifrado AES usando instrucciones AES del procesador (si es posible)</control>
     <control lang="es" key="IDC_ENABLE_KEYFILES">Usar Archivo-llave</control>
     <control lang="es" key="IDC_ENABLE_NEW_KEYFILES">Usar Archivo-llave</control>

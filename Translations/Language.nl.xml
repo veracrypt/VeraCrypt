@@ -45,6 +45,7 @@
     <control lang="nl" key="IDC_HIDVOL_WIZ_MODE_FULL">Normale modus</control>
     <control lang="nl" key="IDC_KB">&amp;KB</control>
     <control lang="nl" key="IDC_KEYFILES_ENABLE">G&amp;ebruik Sleutel Best.</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="nl" key="IDC_KEY_FILES">&amp;Sleutelbestanden</control>
     <control lang="nl" key="IDC_LINK_HASH_INFO">Informatie over hash algoritmes</control>
@@ -119,6 +120,7 @@
     <control lang="nl" key="IDC_CREATE">Maak aan</control>
     <control lang="nl" key="IDC_CREATE_VOLUME">Maa&amp;k Volume</control>
     <control lang="nl" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Laat geen &amp;tekst zien in het pre-boot authenticatie scherm (behalve de onderstaande aangepaste boodschap)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="nl" key="IDC_ENABLE_KEYFILES">Gebruik Sleutel Best.</control>
     <control lang="nl" key="IDC_ENABLE_NEW_KEYFILES">Gebruik Sleutel Best.</control>

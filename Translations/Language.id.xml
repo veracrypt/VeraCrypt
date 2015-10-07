@@ -45,6 +45,7 @@
     <control lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</control>
     <control lang="id" key="IDC_KB">&amp;KB</control>
     <control lang="id" key="IDC_KEYFILES_ENABLE">Gu&amp;nakan file kunci</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="id" key="IDC_KEY_FILES">&amp;File kunci..</control>
     <control lang="en" key="IDC_LINK_HASH_INFO">Information on hash algorithms</control>
@@ -119,6 +120,7 @@
     <control lang="id" key="IDC_CREATE">Buat</control>
     <control lang="id" key="IDC_CREATE_VOLUME">&amp;Buat Volume Baru</control>
     <control lang="en" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Do not &amp;show any texts in the pre-boot authentication screen (except the below custom message)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="id" key="IDC_ENABLE_KEYFILES">Gunakan file kunci</control>
     <control lang="id" key="IDC_ENABLE_NEW_KEYFILES">Gunakan file kunci baru</control>

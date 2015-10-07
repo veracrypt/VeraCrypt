@@ -45,6 +45,7 @@
     <control lang="my" key="IDC_HIDVOL_WIZ_MODE_FULL">ပုံမှန် နည်းစနစ်</control>
     <control lang="my" key="IDC_KB">&amp;KB</control>
     <control lang="my" key="IDC_KEYFILES_ENABLE">ကီးဖိုင်ကို သုံးရန်</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="my" key="IDC_KEY_FILES">ကီးဖိုင်များ...</control>
     <control lang="my" key="IDC_LINK_HASH_INFO">H​ash အယ်လဂိုရီသမ်များ၏ အချက်အလက်များ</control>
@@ -119,6 +120,7 @@
     <control lang="my" key="IDC_CREATE">ဖန်တီးရန်</control>
     <control lang="my" key="IDC_CREATE_VOLUME">Volume ဖန်တီးရန်</control>
     <control lang="my" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">စက်မတက်မီ စစ်ဆေးမှုပြ မျက်နှာပြင်တွင် မည်သည့်စာသားမျှ မပြပါနှင့်(အောက်ဖေါ်ပြပါ စိတ်ကြိုက် စာတမ်းမှ လွဲ၍)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="my" key="IDC_ENABLE_HARDWARE_ENCRYPTION">ပရိုဆက်ဆာ၏ AES လမ်းညွှန်မှုကိုအသုံးပြု၍ AES ဝှက်စာခြင်း/စာဝှက်ဖေါ်ခြင်းကို အရိုန်မြှင့်ပါ (အကယ်၍ ရနိုင်ပါက)</control>
     <control lang="my" key="IDC_ENABLE_KEYFILES">ကီးဖိုင် သုံးရန်</control>
     <control lang="my" key="IDC_ENABLE_NEW_KEYFILES">ကီးဖိုင် သုံးရန်</control>

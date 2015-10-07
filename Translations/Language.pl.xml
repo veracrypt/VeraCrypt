@@ -45,6 +45,7 @@
     <control lang="pl" key="IDC_HIDVOL_WIZ_MODE_FULL">Tryb zwykły</control>
     <control lang="pl" key="IDC_KB">&amp;kB</control>
     <control lang="pl" key="IDC_KEYFILES_ENABLE">Użyj plików-&amp;kluczy</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="pl" key="IDC_KEYFILES_RANDOM_SIZE">Losowy rozmiar ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="pl" key="IDC_KEY_FILES">Pliki-kl&amp;ucze...</control>
     <control lang="pl" key="IDC_LINK_HASH_INFO">Informacja o algorytmach mieszających</control>
@@ -119,6 +120,7 @@
     <control lang="pl" key="IDC_CREATE">Utwórz</control>
     <control lang="pl" key="IDC_CREATE_VOLUME">&amp;Utwórz wolumen</control>
     <control lang="pl" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Nie wyś&amp;wietlaj żadnego tekstu podczas autoryzacji przy starcie (z wyjątkiem poniższego tekstu)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="pl" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Przyspiesz szyfrowanie/deszyfrowanie AES przy użyciu instrukcji AES procesora (jeśli dostępne)</control>
     <control lang="pl" key="IDC_ENABLE_KEYFILES">Użyj plików-kluczy</control>
     <control lang="pl" key="IDC_ENABLE_NEW_KEYFILES">Użyj nowych plików-kluczy</control>

@@ -45,6 +45,7 @@
     <control lang="bg" key="IDC_HIDVOL_WIZ_MODE_FULL">Нормален режим</control>
     <control lang="bg" key="IDC_KB">&amp;KB</control>
     <control lang="bg" key="IDC_KEYFILES_ENABLE">&amp;Ключ-файлове</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="bg" key="IDC_KEY_FILES">&amp;Ключ-файлове..</control>
     <control lang="bg" key="IDC_LINK_HASH_INFO">Информация за хеш алгоритми</control>
@@ -119,6 +120,7 @@
     <control lang="bg" key="IDC_CREATE">Създаване</control>
     <control lang="bg" key="IDC_CREATE_VOLUME">&amp;Създаване на том</control>
     <control lang="bg" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Да не се &amp;показват никакви текстове в екрана за pre-boot автентикация (с изключение на по-долу зададеното съобщение)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="bg" key="IDC_ENABLE_KEYFILES">Ключ-файлове</control>
     <control lang="bg" key="IDC_ENABLE_NEW_KEYFILES">Ключ-файлове</control>

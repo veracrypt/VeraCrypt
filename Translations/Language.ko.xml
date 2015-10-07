@@ -45,6 +45,7 @@
     <control lang="ko" key="IDC_HIDVOL_WIZ_MODE_FULL">표준 방식</control>
     <control lang="ko" key="IDC_KB">KB(&amp;K)</control>
     <control lang="ko" key="IDC_KEYFILES_ENABLE">키파일 사용(&amp;S)</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="ko" key="IDC_KEY_FILES">키파일(&amp;K)...</control>
     <control lang="ko" key="IDC_LINK_HASH_INFO">해시 알고리듬에 대한 정보</control>
@@ -119,6 +120,7 @@
     <control lang="ko" key="IDC_CREATE">만들기</control>
     <control lang="ko" key="IDC_CREATE_VOLUME">볼륨 만들기(&amp;C)</control>
     <control lang="ko" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">부팅-전 인증 화면에 어떠한 텍스트도 표시 안함(* 하단의 사용자 메시지는 제외)(&amp;S)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="ko" key="IDC_ENABLE_KEYFILES">키파일 사용</control>
     <control lang="ko" key="IDC_ENABLE_NEW_KEYFILES">키파일 사용</control>
