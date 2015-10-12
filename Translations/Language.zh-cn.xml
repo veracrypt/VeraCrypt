@@ -64,7 +64,7 @@
     <control lang="zh-cn" key="IDC_QUICKFORMAT">快速格式化</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD">显示密码(&amp;D)</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD_SINGLE">显示密码(&amp;D)</control>
-    <control lang="zh-cn" key="IDC_SHOW_PIM">&amp;Display PIM</control>
+    <control lang="zh-cn" key="IDC_SHOW_PIM">&amp;显示 PIM</control>
     <control lang="zh-cn" key="IDC_SINGLE_BOOT">单系统</control>
     <control lang="zh-cn" key="IDC_STD_VOL">标准 VeraCrypt 加密卷</control>
     <control lang="zh-cn" key="IDC_SYSENC_HIDDEN">隐藏(&amp;D)</control>
@@ -824,7 +824,7 @@
     <string lang="zh-cn" key="REMOVABLE_DISK">移动硬盘</string>
     <string lang="zh-cn" key="HARDDISK">硬盘</string>
     <string lang="zh-cn" key="UNCHANGED">不改变</string>
-    <string lang="zh-cn" key="AUTODETECTION">Autodetection</string>
+    <string lang="zh-cn" key="AUTODETECTION">自动检测</string>
     <string lang="zh-cn" key="SETUP_MODE_TITLE">向导模式</string>
     <string lang="zh-cn" key="SETUP_MODE_INFO">请选择一种安装模式，如果不确认，请使用默认模式。</string>
     <string lang="zh-cn" key="SETUP_MODE_HELP_INSTALL">如果您想安装 VeraCrypt 到当前系统，请选择此选项。</string>
@@ -1389,7 +1389,7 @@
                   <xs:complexType>
                     <xs:attribute name="langid" type="xs:string" use="required" />
                     <xs:attribute name="name" type="xs:string" use="required" />
-                    <xs:attribute name="zh-cn-name" type="xs:string" use="required" />
+                    <xs:attribute name="en-name" type="xs:string" use="required" />
                     <xs:attribute name="version" type="xs:string" use="required" />
                     <xs:attribute name="translators" type="xs:string" use="required" />
                   </xs:complexType>
