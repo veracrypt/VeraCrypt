@@ -4600,7 +4600,7 @@ void __cdecl mountThreadFunction (void *hwndDlgArg)
 	HWND hwndDlg =(HWND) hwndDlgArg;
 	// Disable parent dialog during processing to avoid user interaction
 	EnableWindow(hwndDlg, FALSE);
-	finally_do_arg (HWND, hwndDlg, { EnableWindow(finally_arg, TRUE); });
+	finally_do_arg (HWND, hwndDlg, { EnableWindow(finally_arg, TRUE); bPrebootPasswordDlgMode = FALSE;});
 
 	Mount (hwndDlg, 0, 0, -1);	
 }
@@ -7243,9 +7243,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bPrebootPasswordDlgMode = TRUE;
 
 				if (CheckMountList (hwndDlg, FALSE))
-					_beginthread(mountThreadFunction, 0, hwndDlg);
-
-				bPrebootPasswordDlgMode = FALSE;
+					_beginthread(mountThreadFunction, 0, hwndDlg);				
 			}
 			break;
 		}
