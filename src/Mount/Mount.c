@@ -2754,7 +2754,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, FALSE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), FALSE);
-			EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES), FALSE);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), FALSE);
 
 			SetPim (hwndDlg, IDC_PIM, *pim);
 
