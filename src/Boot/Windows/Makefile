@@ -193,8 +193,8 @@ $(LIBS)
 	$(LD) $(LFLAGS) @$(PROJ).crf
 	del $(PROJ).crf $(PROJ).crf2
 
-# Compress the Rescue Disk botloader for Cascades and SHA2 since it is too big (size > 31232 bytes)
-!if DEFINED(RESCUE_DISK) && !DEFINED (SINGLE_CIPHER) && "$(SINGLE_PRF)" == "SHA2"
+# Compress the Rescue Disk botloader for Cascades and Serpent since it is too big (size > 31232 bytes)
+!if DEFINED(RESCUE_DISK) && (!DEFINED (SINGLE_CIPHER) || ("$(SINGLE_CIPHER)" == "SERPENT"))
 	upx $(PROJ).$(TARGETEXT)
 !endif
 	gzip.exe -c -n --best $(PROJ).$(TARGETEXT) >$(PROJ).$(TARGETEXT).gz
