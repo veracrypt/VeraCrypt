@@ -168,10 +168,19 @@ static byte AskPassword (Password &password, int& pim)
 		switch (scanCode)
 		{
 		case TC_BIOS_KEY_ENTER:
+			password.Length = pos;
+			if (hidePassword)
+			{
+				while (pos < MAX_PASSWORD)
+				{
+					PrintChar ('*');
+					pos++;
+				}
+			}
+
 			ClearBiosKeystrokeBuffer();
 			PrintEndl();
-
-			password.Length = pos;
+			
 			break;
 
 		case TC_BIOS_KEY_BACKSPACE:
@@ -228,9 +237,18 @@ static byte AskPassword (Password &password, int& pim)
 		switch (scanCode)
 		{
 		case TC_BIOS_KEY_ENTER:
+			if (hidePassword)
+			{
+				while (pos < MAX_PIM)
+				{
+					PrintChar ('*');
+					pos++;
+				}
+			}
+
 			ClearBiosKeystrokeBuffer();
 			PrintEndl();
-
+			
 			return TC_BIOS_KEY_ENTER;
 
 		case TC_BIOS_KEY_BACKSPACE:
