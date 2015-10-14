@@ -6592,6 +6592,43 @@ BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
+
+void BringToForeground(HWND hWnd)
+{
+	if(!::IsWindow(hWnd)) return;
+ 
+	DWORD lockTimeOut = 0;
+	HWND  hCurrWnd = ::GetForegroundWindow();
+	DWORD dwThisTID = ::GetCurrentThreadId(),
+	      dwCurrTID = ::GetWindowThreadProcessId(hCurrWnd,0);
+ 
+	if(dwThisTID != dwCurrTID)
+	{
+		::AttachThreadInput(dwThisTID, dwCurrTID, TRUE);
+ 
+		::SystemParametersInfo(SPI_GETFOREGROUNDLOCKTIMEOUT,0,&lockTimeOut,0);
+		::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,0,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
+ 
+		::AllowSetForegroundWindow(ASFW_ANY);
+	}
+ 
+	::SetForegroundWindow(hWnd);
+ 
+	if(dwThisTID != dwCurrTID)
+	{
+		::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,(PVOID)lockTimeOut,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
+		::AttachThreadInput(dwThisTID, dwCurrTID, FALSE);
+	}
+
+#ifdef TCMOUNT
+	if (hWnd == MainDlg)
+	{
+		SetFocus (hWnd);
+		::SendMessage(hWnd, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hWnd, IDC_DRIVELIST), 1L);
+	}
+#endif
+}
+
 void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg)
 {
 	HWND hParent = (hwnd && bUseHwndAsParent)? hwnd : GetDesktopWindow();
@@ -6605,24 +6642,23 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 	}
 	else
 	{
+		BOOL bIsForeground = FALSE;
 		WaitDialogDisplaying = TRUE;
 		if (hwnd)
+		{
+			if (GetForegroundWindow () == hwnd)
+				bIsForeground = TRUE;
 			EnableWindow (hwnd, FALSE);
+		}
 		else
 			EnableWindow (MainDlg, FALSE);
-		finally_do_arg (HWND, hwnd, { if (finally_arg) EnableWindow(finally_arg, TRUE); else EnableWindow (MainDlg, TRUE);});
+		finally_do_arg2 (HWND, hwnd, BOOL, bIsForeground, { if (finally_arg) {EnableWindow(finally_arg, TRUE); if (finally_arg2) BringToForeground (finally_arg);} else EnableWindow (MainDlg, TRUE);});
 
 		DialogBoxParamW (hInst,
 					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hParent,
 					(DLGPROC) WaitDlgProc, (LPARAM) &threadParam);
 
 		WaitDialogDisplaying = FALSE;
-
-		if (hwnd && IsWindowVisible(hwnd) && !bUseHwndAsParent)
-		{
-			SetForegroundWindow(hwnd);
-			BringWindowToTop(hwnd);
-		}
 	}
 }
 

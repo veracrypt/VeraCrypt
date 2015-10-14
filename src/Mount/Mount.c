@@ -4598,9 +4598,10 @@ static BOOL Dismount (HWND hwndDlg, int nDosDriveNo)
 void __cdecl mountThreadFunction (void *hwndDlgArg)
 {
 	HWND hwndDlg =(HWND) hwndDlgArg;
+	BOOL bIsForeground = (GetForegroundWindow () == hwndDlg)? TRUE : FALSE;
 	// Disable parent dialog during processing to avoid user interaction
 	EnableWindow(hwndDlg, FALSE);
-	finally_do_arg (HWND, hwndDlg, { EnableWindow(finally_arg, TRUE); bPrebootPasswordDlgMode = FALSE;});
+	finally_do_arg2 (HWND, hwndDlg, BOOL, bIsForeground, { EnableWindow(finally_arg, TRUE);  if (finally_arg2) BringToForeground (finally_arg); bPrebootPasswordDlgMode = FALSE;});
 
 	Mount (hwndDlg, 0, 0, -1);	
 }
@@ -9102,7 +9103,7 @@ void CALLBACK mountFavoriteVolumeCallbackFunction (void *pArg, HWND hwnd)
 
 void __cdecl mountFavoriteVolumeThreadFunction (void *pArg)
 {
-	ShowWaitDialog (NULL, FALSE, mountFavoriteVolumeCallbackFunction, pArg);
+	ShowWaitDialog (MainDlg, FALSE, mountFavoriteVolumeCallbackFunction, pArg);
 }
 
 static void SaveDefaultKeyFilesParam (HWND hwnd)

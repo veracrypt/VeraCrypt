@@ -568,6 +568,7 @@ inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 
 // Display a wait dialog while calling the provided callback with the given parameter
 typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);
+void BringToForeground(HWND hWnd);
 void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg);
 
 #endif // __cplusplus
