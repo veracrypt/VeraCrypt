@@ -1056,7 +1056,6 @@
     <string lang="ja" key="LANG_PACK_VERSION">言語パックのバージョン： %s</string>
     <string lang="ja" key="CHECKING_FS">%hs ドライブとしてマウントされた VeraCryptボリュームのファイルシステムをチェック中です...</string>
     <string lang="ja" key="REPAIRING_FS">%hs ドライブとしてマウントされた VeraCryptボリュームのファイルシステム修復を試みています...</string>
-    <string lang="ja" key="WARN_CBC_MODE">警告：このボリュームはCBCモードで暗号化されています。セキュリティ上の問題によりCBCモードはバージョン4.1以降は非推奨となっています。\n\nこの新しいバージョンのVeraCryptで新しいボリュームを作成し、現在のボリュームからデータを移動するように強く推奨します。データの移動後は古いボリュームは抹消あるいは破壊すべきです。詳しい情報については、ユーザーズガイドのバージョン履歴や、VeraCrypt4.1以降のリリースノートをご覧ください。</string>
     <string lang="ja" key="WARN_64_BIT_BLOCK_CIPHER">警告：このボリュームは旧式の暗号化アルゴリズムで暗号化されています。\n\nすべての64ビットブロックの暗号化アルゴリズム(例：Blowfish, CAST-128, Triple DES)は非推奨です。VeraCryptの将来のバージョンでも、このボリュームをマウントすることはできるでしょう。ただしこれら旧式の暗号化アルゴリズムの実装については今後の拡張予定はありません。128ビットブロックの暗号化アルゴリズム(AES, Serpent, Twofish など)を使ったVeraCryptボリュームを新しく作成し、今のこのボリュームにあるすべてのファイルを、新しいボリュームに移すことをお勧めします。</string>
     <string lang="ja" key="SYS_AUTOMOUNT_DISABLED">このシステムは新しいボリュームの自動マウントができるようには設定されていません。 このことによりデバイス型のVeraCryptボリュームのマウントは不可能でしょう。 次のコマンドを実行してから再起動することで、自動マウントを有効にできます。\n\nmountvol.exe /E</string>
     <string lang="ja" key="SYS_ASSIGN_DRIVE_LETTER">作業を進める前に、先にパーティションあるいはデバイスにドライブレターを割り当ててください（Vistaならコントロールパネルから「システムとメンテナンス」→「管理ツール」とたどり、「ハードディスクパーティションの作成とフォーマット」を開きます）。\n\n注：これはオペレーティングシステム側の要請です。</string>

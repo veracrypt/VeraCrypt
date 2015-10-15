@@ -1056,7 +1056,6 @@
     <string lang="zh-hk" key="LANG_PACK_VERSION">語言包版本： %s</string>
     <string lang="zh-hk" key="CHECKING_FS">正在檢測載入為 %hs 的 VeraCrypt 加密卷的檔系統...</string>
     <string lang="zh-hk" key="REPAIRING_FS">正在試圖修復載入為 %hs 的 VeraCrypt 加密卷的檔系統...</string>
-    <string lang="zh-hk" key="WARN_CBC_MODE">警告：該加密卷以 CBC 模式加密。由於安全原因，CBC 模式自從 VeraCrypt 4.1 以後已不再推薦。\n\n我們強烈建議您把原來的資料移動到使用此版本 VeraCrypt 創建的加密卷裏面。在執行此操作後，您應當安全的擦除或銷毀早期的加密盤。要獲取更多資訊，請參考軟體文檔中的版本歷史或者 VeraCrypt 4.1 或以後版本的發佈說明。</string>
     <string lang="zh-hk" key="WARN_64_BIT_BLOCK_CIPHER">警告：該加密卷使用了已被廢棄的加密演算法。\n\n所有 64-位元塊加密演算法（Blowfish，CAST-128，和 Triple DES）已經逐漸不再被使用了。該加密卷在以後版本的 VeraCrypt 可能會被打開。然而以後則不會針對這些廢棄演算法採取一些改善措施。我們推薦您創建一個使用 128-位元塊加密演算法的 Veracrypt 加密卷（如：AES，Serpent，Twofish，等等）並把使用舊演算法的加密卷裏面的檔移動到新的加密卷裏面去。</string>
     <string lang="zh-hk" key="SYS_AUTOMOUNT_DISABLED">您的系統未被配置為自動載入新加密卷。 因此也不可能載入設備類的加密卷。自動卸載 可以在執行下列命令後重啟系統來啟用。\n\n\nmountvol.exe /E</string>
     <string lang="zh-hk" key="SYS_ASSIGN_DRIVE_LETTER">請在繼續前為該設備/分區分配一個盤符（'控制面板' &gt; '系統和維護' &gt; '管理工具' - '創建和格式化分區'）。\n\n這些是作業系統所要求的。</string>

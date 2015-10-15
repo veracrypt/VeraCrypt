@@ -1054,7 +1054,6 @@
     <string lang="zh-tw" key="LANG_PACK_VERSION">語言檔案版本： %s</string>
     <string lang="zh-tw" key="CHECKING_FS">正在檢測掛載為 %hs 的 VeraCrypt 加密區的檔案系統...</string>
     <string lang="zh-tw" key="REPAIRING_FS">正在試圖修正掛載為 %hs 的 VeraCrypt 加密區的檔案系統...</string>
-    <string lang="zh-tw" key="WARN_CBC_MODE">警告：這個加密區是加密成 CBC 模式。因為安全性的問題，CBC 模式自從 VeraCrypt 4.1 版已經廢棄。\n\n我們強烈建議您將資料從這個 VeraCrypt 加密區移到這版 VeraCrypt 製成的新加密區。完成之後，您應該安全的消除或毀滅舊的加密區。要取得更多資訊，請參考文件裏的版本歷史或 VeraCrypt 4.1 或更新版的發行說明。</string>
     <string lang="zh-tw" key="WARN_64_BIT_BLOCK_CIPHER">警告：該加密區使用了被保留的加密演算法。\n\n所有 64 位元區塊加密演算法(Blowfish，CAST-128 和 Triple DES)已經逐漸不再被使用了。雖然該加密區在以後版本的 VeraCrypt 可能會被掛載。然而以後不會針對這些被保留演算法採取一些改善措施。我們建議您建立一個使用 128 位元區塊加密演算法的 Veracrypt 加密區(如：AES，Serpent，Twofish，等等)並把使用舊演算法的加密區裡面的檔案移動到新的加密區裡面去。</string>
     <string lang="zh-tw" key="SYS_AUTOMOUNT_DISABLED">您的系統未被設置為自動掛載新加密區。因此也不可能掛載磁碟機類型的加密區。自動卸載可以在執行下列命令後重啟系統來啟用。\n\n\nmountvol.exe /E</string>
     <string lang="zh-tw" key="SYS_ASSIGN_DRIVE_LETTER">請在繼續前為該磁碟機/磁碟分割區指定一個代號("控制台" &gt; "系統和維護" &gt; "管理工具" - "建立和格式化磁碟分割區")。\n\n要注意這些是作業系統所需要的。</string>
