@@ -61,6 +61,7 @@
     <control lang="nl" key="IDC_OPEN_OUTER_VOLUME">Buiten-volume</control>
     <control lang="nl" key="IDC_PAUSE">&amp;Pauze</control>
     <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="nl" key="IDC_QUICKFORMAT">Snel Formatteren</control>
     <control lang="nl" key="IDC_SHOW_PASSWORD">&amp;Laat wachtwoord zien</control>
     <control lang="nl" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Toon wachtwoord</control>
@@ -135,6 +136,7 @@
     <control lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</control>
     <control lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</control>
     <control lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</control>
+    <control lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</control>
     <control lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</control>
     <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
     <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>
@@ -259,6 +261,7 @@
     <control lang="nl" key="IDM_UNMOUNTALL">Ontkoppel alle Gekoppelde Volumes</control>
     <control lang="nl" key="IDM_UNMOUNT_VOLUME">Ontkoppel Volume</control>
     <control lang="nl" key="IDM_VERIFY_RESCUE_DISK">Controleer Reddingsschijf</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
     <control lang="nl" key="IDM_VERSION_HISTORY">Versie Geschiedenis</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="nl" key="IDM_VOLUME_PROPERTIES">Volume Eigenschappen</control>
@@ -965,6 +968,8 @@
     <string lang="nl" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Breng uw VeraCrypt Reddingsschijf aan in het CD/DVD station en klik op OK om deze te controleren.</string>
     <string lang="nl" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">De VeraCrypt Reddingsschijf is met succes gecontroleerd.</string>
     <string lang="nl" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Kan niet controleren of de Reddingsschijf foutloos is gebrand.\n\nIndien u de Reddingsschijf heeft gebrand, haal de CD/DVD uit het station en breng hem opnieuw aan; daarna opnieuw controleren. Indien dit niet helpt, probeert u a.u.b. een ander brandprogramma en/of andere CD/DVD.\n\nIndien u probeerde een VeraCrypt Reddingsschijf te controleren die is aangemaakt voor een andere Hoofdsleutel, wachtwoord, salt, etc., merk dan op dat een dergelijke Reddingsschijf altijd zal falen in deze controle. Om een nieuwe reddingsschijf aan te maken die volledig compatibel is met uw huidige configuratie, selecteer 'Systeem' &gt; 'Maak Reddingsschijf Aan'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="nl" key="ERROR_CREATING_RESCUE_DISK">Fout bij het aanmaken van de VeraCrypt Reddingsschijf.</string>
     <string lang="nl" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt Reddingsschijf kan niet gemaakt worden als een verborgen operating system draait.\n\nOm een Reddingsschijf te maken, start op van het lokvogel operating syteem en selecteer 'System' &gt; 'Create Rescue Disk'.</string>
     <string lang="en" key="RESCUE_DISK_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly burned.\n\nIf you have burned the Rescue Disk, please eject and reinsert the CD/DVD; then click Next to try again. If this does not help, please try another medium%s.\n\nIf you have not burned the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to burn the newly generated Rescue Disk.</string>

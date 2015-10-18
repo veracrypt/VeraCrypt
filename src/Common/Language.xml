@@ -61,6 +61,7 @@
     <control lang="en" key="IDC_OPEN_OUTER_VOLUME">Open Outer Volume</control>
     <control lang="en" key="IDC_PAUSE">&amp;Pause</control>
     <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="en" key="IDC_QUICKFORMAT">Quick Format</control>
     <control lang="en" key="IDC_SHOW_PASSWORD">&amp;Display password</control>
     <control lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</control>
@@ -135,6 +136,7 @@
     <control lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</control>
     <control lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</control>
     <control lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</control>
+    <control lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</control>
     <control lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</control>
     <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
     <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>

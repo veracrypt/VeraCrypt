@@ -61,6 +61,7 @@
     <control lang="ar" key="IDC_OPEN_OUTER_VOLUME">‮أوصل مجلدا خارجيا</control>
     <control lang="ar" key="IDC_PAUSE">‮&amp;جمِّد</control>
     <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="ar" key="IDC_QUICKFORMAT">‮تهيئة سريعة</control>
     <control lang="ar" key="IDC_SHOW_PASSWORD">‮أ&amp;ظهر كلمة السر</control>
     <control lang="ar" key="IDC_SHOW_PASSWORD_SINGLE">‮أ&amp;ظهر كلمة السر</control>
@@ -135,6 +136,7 @@
     <control lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</control>
     <control lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</control>
     <control lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</control>
+    <control lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</control>
     <control lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</control>
     <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
     <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>
@@ -259,6 +261,7 @@
     <control lang="ar" key="IDM_UNMOUNTALL">‮افصل كل المجلدات الموصولة</control>
     <control lang="ar" key="IDM_UNMOUNT_VOLUME">‮افصل المجلد</control>
     <control lang="ar" key="IDM_VERIFY_RESCUE_DISK">‮اختبر قرص الإنقاذ</control>
+    <control lang="ar" key="IDM_VERIFY_RESCUE_DISK_ISO">اختبر صورة لقرص الإنقاذ</control>
     <control lang="ar" key="IDM_VERSION_HISTORY">‮تأريخ الإصدارات</control>
     <control lang="ar" key="IDM_VOLUME_EXPANDER">توسعة المجلد</control>
     <control lang="ar" key="IDM_VOLUME_PROPERTIES">‮خصائص المجلد</control>
@@ -965,6 +968,8 @@
     <string lang="ar" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">‮أدخل قرص إنقاذ ڤيراكربت في سواقة أقراص سي‌دي/دي‌ڤي‌دي و انقر 'موافق' لفحصه.</string>
     <string lang="ar" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">‮تم بنجاح التحقق من سلامة قرص إنقاذ ڤيراكربت.</string>
     <string lang="ar" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">‮تعذّر توكيد أن قرص إنقاذ ڤيراكربت قد تم تسجيله كما ينبغي. ‮ ‮إن كنت أتممت التسجيل على هذا القرص فأخرجه من السواقة ثم أعد إدخاله و اختبره مجددا. إن لم تنحل المشكلة فجرب برمجية تسجيل أقراص أخرى أو/و قرصا آخر. ‮ ‮إن كنت تحاول فحص قرص إنقاذ ڤيراكربت أُنشئ لأجل مفتاح رئيسي آخر أو بكلمة سر أو بذرة مختلفة، إلخ، فاعلم أن هذا القرص سيفشل دوما في هذا الفحص. لتنشئ قرص إنقاذ جديد متوافق مع إعداداتك الحالية اختر 'نظام' &gt; 'أنشئ قرص إنقاذ'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="ar" key="ERROR_CREATING_RESCUE_DISK">‮عطل إثناء إنشاء قرص إنقاذ ڤيراكربت.</string>
     <string lang="ar" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">‮لا يمكن إنشاء قرص إنقاذ ڤيراكربت في نظام تشغيل مخفي عامل. ‮ ‮لإنشاء قرص إنقاذ ڤيراكربت أقلع نظام التشغيل التمويهي ثم اختر 'نظام' &gt; 'أنشئ قرص إنقاذ'.</string>
     <string lang="en" key="RESCUE_DISK_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly burned.\n\nIf you have burned the Rescue Disk, please eject and reinsert the CD/DVD; then click Next to try again. If this does not help, please try another medium%s.\n\nIf you have not burned the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to burn the newly generated Rescue Disk.</string>

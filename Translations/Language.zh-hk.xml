@@ -61,6 +61,7 @@
     <control lang="zh-hk" key="IDC_OPEN_OUTER_VOLUME">打開外層加密卷</control>
     <control lang="zh-hk" key="IDC_PAUSE">暫停(&amp;P)</control>
     <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="zh-hk" key="IDC_QUICKFORMAT">快速格式化</control>
     <control lang="zh-hk" key="IDC_SHOW_PASSWORD">顯示密碼(&amp;D)</control>
     <control lang="zh-hk" key="IDC_SHOW_PASSWORD_SINGLE">顯示密碼(&amp;D)</control>
@@ -135,6 +136,7 @@
     <control lang="zh-hk" key="IDC_FAVORITE_MOVE_UP">上移(&amp;U)</control>
     <control lang="zh-hk" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">當成功載入選定加密卷後，為其打開資源管理器視窗(&amp;E)</control>
     <control lang="zh-hk" key="IDC_FAVORITE_REMOVE">移除(&amp;R)</control>
+    <control lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</control>
     <control lang="zh-hk" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">全局設置</control>
     <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
     <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>
@@ -259,6 +261,7 @@
     <control lang="zh-hk" key="IDM_UNMOUNTALL">卸載全部載入的加密卷</control>
     <control lang="zh-hk" key="IDM_UNMOUNT_VOLUME">卸載所選加密卷</control>
     <control lang="zh-hk" key="IDM_VERIFY_RESCUE_DISK">驗證應急盤</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
     <control lang="zh-hk" key="IDM_VERSION_HISTORY">版本歷史（聯網）</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="zh-hk" key="IDM_VOLUME_PROPERTIES">加密卷屬性</control>
@@ -965,6 +968,8 @@
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">請插入 VeraCrypt 應急盤到 CD/DVD 光碟機並點“確定”按鈕開始驗證。</string>
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 應急盤已經被成功驗證。</string>
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">應急盤驗證失敗。\n\n如果您已經刻錄了應急盤，請彈出後重新插入應急盤到 CD/DVD，之後再試一次。如果仍然無效，請嘗試使用其他 CD/DVD 刻錄軟體或刻錄盤。\n\n如果您嘗試驗證一個為不同的主密鑰、密碼、元素等創建的 VeraCrypt 應急盤，請注意這樣的應急盤會無法通過驗證。要創建一個新的和當前配置完全相容的應急盤，請選擇 '系統' &gt; '創建應急盤'。</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="zh-hk" key="ERROR_CREATING_RESCUE_DISK">創建 VeraCrypt 應急盤時失敗。</string>
     <string lang="zh-hk" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 應急盤在隱形作業系統運行時無法創建。\n\n要創建 VeraCrypt 應急盤，請啟動到迷惑作業系統之後選擇 '系統' &gt; '創建應急盤'。</string>
     <string lang="zh-hk" key="RESCUE_DISK_CHECK_FAILED">不能確定應急盤是否刻錄成功。\n\n如果您已經刻錄了應急盤，請彈出後重新插入應急盤到 CD/DVD，之後再嘗試驗證一次。如果仍然無效，請嘗試使用其他 %s 。\n\n如果您還沒有創建應急盤，請首先創建一個，然後再點 '下一步' 按鈕。\n\n如果您嘗試驗證一個運行加密盤創建嚮導以前創建的應急盤，則這樣的應急盤是無法用於當前系統的，這是因為它是使用了不同的主密鑰創建的。您需要刻錄和創建一個新的應急盤。</string>
