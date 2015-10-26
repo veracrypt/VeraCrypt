@@ -105,13 +105,11 @@
 #define IDC_SHOW_PASSWORD_CHPWD_ORI     1083
 #define IDC_HK_DISMOUNT_PLAY_SOUND      1084
 #define IDC_HOTKEY_ASSIGN               1085
-#define IDC_WIPE_MODE                   1085
 #define IDC_HOTKEY_REMOVE               1086
 #define IDC_HOTKEY_KEY                  1087
 #define IDT_HOTKEY_KEY                  1088
 #define IDC_HOTKEY_LIST                 1089
 #define IDC_RESET_HOTKEYS               1090
-#define IDT_WIPE_MODE                   1090
 #define IDT_DISMOUNT_ACTION             1091
 #define IDT_ASSIGN_HOTKEY               1092
 #define IDC_HK_MOD_SHIFT                1093
@@ -173,6 +171,8 @@
 #define IDT_DRIVER_OPTIONS              1149
 #define IDC_ENABLE_EXTENDED_IOCTL_SUPPORT 1150
 #define IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION 1151
+#define IDC_WIPE_MODE                   1152
+#define IDT_WIPE_MODE                   1153
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -249,7 +249,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1152
+#define _APS_NEXT_CONTROL_VALUE         1154
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
