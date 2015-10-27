@@ -31,6 +31,7 @@ BOOL WriteRegistryBytes (char *path, char *name, char *str, DWORD size);
 BOOL DeleteLocalMachineRegistryKey (char *parentKey, char *subKeyToDelete);
 void DeleteRegistryValue (char *subKey, char *name);
 void GetStartupRegKeyName (char *regk, size_t cbRegk);
+void GetRestorePointRegKeyName (char *regk, size_t cbRegk);
 
 #ifdef  __cplusplus
 }

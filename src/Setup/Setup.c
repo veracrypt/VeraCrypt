@@ -495,7 +495,9 @@ BOOL IsSystemRestoreEnabled ()
 	BOOL bEnabled = FALSE;
 	HKEY hKey;
 	DWORD dwValue = 0, cbValue = sizeof (DWORD);
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore", 0, KEY_READ | KEY_WOW64_64KEY, &hKey) == ERROR_SUCCESS)
+	char szRegPath[MAX_PATH];
+	GetRestorePointRegKeyName (szRegPath, sizeof (szRegPath));
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, szRegPath, 0, KEY_READ | KEY_WOW64_64KEY, &hKey) == ERROR_SUCCESS)
 	{	
 		if (IsOSAtLeast (WIN_VISTA))
 		{
