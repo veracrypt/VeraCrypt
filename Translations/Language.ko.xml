@@ -261,7 +261,7 @@
     <control lang="ko" key="IDM_UNMOUNTALL">삽입된 모든 볼륨 꺼내기</control>
     <control lang="ko" key="IDM_UNMOUNT_VOLUME">볼륨 꺼내기</control>
     <control lang="ko" key="IDM_VERIFY_RESCUE_DISK">응급복구 디스크 검증</control>
-    <control lang="ko" key="IDM_VERIFY_RESCUE_DISK_ISO">응급복구 디스크 ISO 완전성 검증</control>
+    <control lang="ko" key="IDM_VERIFY_RESCUE_DISK_ISO">응급복구 디스크 ISO 검증</control>
     <control lang="ko" key="IDM_VERSION_HISTORY">버전 히스토리</control>
     <control lang="ko" key="IDM_VOLUME_EXPANDER">볼륨확장기</control>
     <control lang="ko" key="IDM_VOLUME_PROPERTIES">볼륨 속성</control>
@@ -358,9 +358,9 @@
     <control lang="ko" key="IDT_KEYFILE_GENERATOR_NOTE">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 키파일의 암호력을 상당히 증대시킵니다.</control>
     <control lang="ko" key="IDT_KEYFILE_WARNING">주의: 키파일을 분실하거나 키파일의 첫번째 1024KB가 변경되면, 키파일을 이용해서 볼륨을 삽입할 수 없게 됩니다!</control>
     <control lang="ko" key="IDT_KEY_UNIT">비트</control>
-    <control lang="ko" key="IDT_NUMBER_KEYFILES">키파일의 수:</control>
-    <control lang="ko" key="IDT_KEYFILES_SIZE">키파일의 사이즈 (Bytes):</control>
-    <control lang="ko" key="IDT_KEYFILES_BASE_NAME">키파일의 배이스 이름:</control>
+    <control lang="ko" key="IDT_NUMBER_KEYFILES">키파일 수:</control>
+    <control lang="ko" key="IDT_KEYFILES_SIZE">키파일 사이즈 (Byte):</control>
+    <control lang="ko" key="IDT_KEYFILES_BASE_NAME">키파일 배이스 이름:</control>
     <control lang="ko" key="IDT_LANGPACK_AUTHORS">번역자:</control>
     <control lang="ko" key="IDT_PLAINTEXT">단순텍스트 크기:</control>
     <control lang="ko" key="IDT_PLAINTEXT_SIZE_UNIT">비트</control>
@@ -540,8 +540,8 @@
     <string lang="ko" key="HIDVOL_PROT_WARN_AFTER_MOUNT">이제 외부 볼륨을 꺼내기 전에는 숨긴 볼륨이 손상으로부터 보호됩니다.\n\n주의: 만약 어떤 데이터를 숨긴 볼륨 영역에 쓰고자 시도한다면, 볼륨이 꺼내지기 전까지 VeraCrypt는 전체 볼륨(외부/숨긴 볼륨)을 쓰기금지로 보호합니다. 이는 외부 볼륨에 대한 파일시스템 손상으로 이어질 수 있습니다. 또한 이것이 반복되면 “숨긴 볼륨의 효과적인 거부방법”에 악영향을 미치게 됩니다. 그러므로 여러분은 숨긴 볼륨 영역에의 쓰기작업을 피하기 위해 노력을 해야만 합니다. 숨긴 볼륨 영역에 저장되어 있는 데이터는 저장되지도 않고 손실되지도 않습니다. 윈도우는 이를 “쓰기 오류”로 보고하게 됩니다(“지연된 쓰기 실패” 또는 “변수가 올바르지 않습니다”).</string>
     <string lang="ko" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">이제 새로 삽입된 볼륨의 내부에 위치한 각 숨긴 볼륨은 꺼내지기 전까지는 손상으로부터 보호됩니다.\n\n주의: 만약 어떤 데이터를 보호된 숨긴 볼륨 영역에 쓰고자 시도한다면, 볼륨이 꺼내지기 전까지 VeraCrypt는 전체 볼륨(외부/숨긴 볼륨)을 쓰기금지로 보호합니다. 이는 외부 볼륨에 대한 파일시스템 손상으로 이어질 수 있습니다. 또한 이것이 반복되면 “숨긴 볼륨의 효과적인 거부방법”에 악영향을 미치게 됩니다. 그러므로 여러분은 숨긴 볼륨 영역에의 쓰기작업을 피하기 위해 노력을 해야만 합니다. 보호된 숨긴 볼륨 영역에 저장되어 있는 데이터는 저장되지도 않고 손실되지도 않습니다. 윈도우는 이를 “쓰기 오류”로 보고하게 됩니다(“지연된 쓰기 실패” 또는 “변수가 올바르지 않습니다”).</string>
     <string lang="ko" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">주의: %c:로서 삽입된 볼륨의 숨긴 볼륨 영역에 데이터를 저장되는 작업이 시도되고 있습니다! 숨긴 볼륨을 보호하기 위해 VeraCrypt가 이러한 데이터 저장 작업을 방지했습니다. 이는 외부 볼륨에 대한 파일 시스템 손상을 초래할 수 있고, 윈도우는 이를 “쓰기 오류”로 보고하게 됩니다(“지연된 쓰기 실패” 또는 “변수가 올바르지 않습니다”). 볼륨이 꺼내지기 전까지 VeraCrypt는 전체 볼륨(외부 및 숨긴 볼륨)을 쓰기금지로 보호합니다. 만약 VeraCrypt가 이 볼륨의 숨긴 볼륨 영역에 데이터를 저장하는 작업을 방해한 것이 처음이 아니라면, 숨긴 볼륨의 그럴싸한 거부방법은 악영향을 받았을 수도 있습니다(→ 외부 볼륨 파일 시스템 내에서의 특이하게 관련된 불일치가 원인일 수 있음). 그러므로 새로운 VeraCrypt 볼륨을 (빠른 포맷을 사용하지 않고) 만들고, 이 볼륨의 파일들을 새 볼륨으로 이동시키는 것을 고려해 봐야 합니다. 이 볼륨은 안전하게 (외부 및 숨긴 부분 둘다) 지워져야 합니다. 지금 운영체제를 다시 시작할 것을 적극권장합니다.</string>
-    <string lang="en" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">You have indicated intent to store files larger than 4 GB on the volume. This requires the volume to be formatted as NTFS, which, however, will not be possible.</string>
-    <string lang="en" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">Please note that when a hidden operating system is running, non-hidden VeraCrypt volumes cannot be formatted as NTFS. The reason is that the volume would need to be temporarily mounted without write protection in order to allow the operating system to format it as NTFS (whereas formatting as FAT is performed by VeraCrypt, not by the operating system, and without mounting the volume). For further technical details, see below. You can create a non-hidden NTFS volume from within the decoy operating system.</string>
+    <string lang="ko" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">볼륨에 4GB 이상의 파일을 저장할려는 위도를 발견햇습니다. 이상의 파일을 저장을 할려면 지정된 볼륨은 NTFS로 포맷이 필요합니다. 하지만 지금은 불가능 합니다.</string>
+    <string lang="ko" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">참고: 숨긴 운영체제가 실행 중인 경우, 숨긴 볼륨이 아는 볼륨은 NTFS로 포맷을 할수 없습니다 (* 왜냐하면 외부 볼륨은 일시적으로 쓰기 보호 없이 삽입이 되서 운영체제가 볼륨을 NTFS로 포맷이 가능할수있기 때문입니다 - 하지만 FAT은 운영체제가 아닌 VeraCrypt로 포멧이 가능합니다). 더 기술적인 자세한 내용은 아래를 참조하십시오.</string>
     <string lang="ko" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">보안상의 이유로 숨긴 운영체제가 실행 중인 경우, 숨긴 볼륨은 “직접” 모드에서만 만들어질 수 있습니다(* 왜냐하면 외부 볼륨은 항상 읽기-전용으로만 삽입되기 때문입니다). 숨긴 볼륨을 안전하게 만드려면, 다음 지침을 따릅니다:\n\n1) 미끼용 시스템을 부팅합니다.\n\n2) 표준 VeraCrypt 볼륨을 만들고 이 볼륨 안에 민감한 파일처럼 보이지만 실제로는 숨기고 싶지 않은 일부 파일들을 복사합니다. 이 볼륨은 외부 볼륨이 됩니다.\n\n3) 숨긴 시스템을 부팅한 후 “VeraCrypt 볼륨 만들기 마법사”를 시작합니다. 파일-기반의 볼륨인 경우, 이 볼륨을 시스템 파티션 또는 다른 숨겨진 볼륨으로 이동시킵니다. 그렇지 않으면 새롭게 생성된 숨긴 볼륨이 읽기-전용으로 삽입되거나 이를 포맷할 수 없게 됩니다. 마법사의 지침에서 숨긴 볼륨 만들기 “직접 방식”을 선택합니다.\n\n4) 마법사의 2단계에서 여러분이 만든 볼륨을 선택한 다음 이 안에 “숨긴 볼륨”을 만들도록 지침을 따릅니다.</string>
     <string lang="ko" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">보안상의 이유로, 숨긴 운영체제가 실행 중일 때, ① 암호화되지 않은 로컬 파일 시스템 및 ② 숨긴 볼륨이 아닌 VeraCrypt 볼륨은 읽기-전용으로 삽입됩니다. 어떠한 데이터도 그러한 파일 시스템 또는 VeraCrypt 볼륨에 쓰여질 수 없습니다.\n\n데이터는 숨긴 VeraCrypt 볼륨 내에 있는 파일 시스템에 쓰여지도록 되어 있습니다(* 숨긴 볼륨이 암호화되지 않은 파일시스템 또는 다른 읽기-전용 파일시스템에 저장되어 있는 보관소에 위치하지 않은 경우에 한함).</string>
     <string lang="ko" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">이러한 대응책이 만들어진 주요한 3가지 이유가 있습니다:\n\n- 숨긴 VeraCrypt 볼륨의 삽입에 대한 안전한 플랫폼의 생성을 가능하게 합니다. 우리는 공식적으로 숨긴 운영 시스템이 실행 중일 때만 “숨긴 볼륨을 삽입할 것”을 권장하고 있습니다. (더 자세한 정보는 문서의 “Security Requirements and Precautions Pertaining to Hidden Volumes” 부분을 참고하세요.\n\n- 가끔 ① 특정 파일 시스템이 특정 운영 시스템에서는 삽입되지 않거나 ② 파일 시스템의 특정 파일이 특정 시스템에서 저장되지 않거나 접근할 수 없는 경우를 발견할 수 있습니다. 이는 컴퓨터에 “숨긴 운영체제”가 설치되어 있다는 것을 나타냅니다. 대응책은 이러한 문제점을 방지합니다.\n\n- 이를 통해 데이터 손상을 방지하고 최대 절전 모드로 안전하게 진입할 수 있게 합니다. 최대 절전 모드에서 윈도우가 다시 시작될 때, 윈도우는 (삽입된 모든 파일 시스템들이) 최대 절전 모드에 들어갈 때의 상태와 동일한 상태에 있다고 가정을 합니다. VeraCrypt는 미끼용 및 숨겨진 시스템 내에 접근가능한 파일 시스템의 쓰기를 금지합니다. 이러한 보호책이 없는 경우, 다른 시스템이 최대 절전 모드 상태로 진입하는 동안 또다른 시스템이 삽입(mount)될 때 파일 시스템이 손상될 수 있습니다.</string>
@@ -743,7 +743,7 @@
     <string lang="ko" key="VOLUME">볼륨</string>
     <string lang="ko" key="VOLUME_LOWER_CASE">볼륨</string>
     <string lang="ko" key="VOLUME_UPPER_CASE">볼륨</string>
-    <string lang="en" key="LABEL">Label</string>
+    <string lang="ko" key="LABEL">레이블</string>
     <string lang="ko" key="CLUSTER_TOO_SMALL">선택한 클러스터 크기는 이 볼륨 크기에 비해 너무 작습니다. 대신 더 큰 클러스터 크기가 사용될 것입니다.</string>
     <string lang="ko" key="CANT_GET_VOLSIZE">오류: 볼륨 크기를 가져올 수 없습니다!\n\n선택한 볼륨이 시스템이나 프로그램에 의해 사용 중인지 확인해 주세요.</string>
     <string lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</string>
@@ -992,7 +992,7 @@
     <string lang="ko" key="DIGIT_ONE">1</string>
     <string lang="ko" key="TWO_OR_MORE">2 또는 그 이상</string>
     <string lang="ko" key="MODE_OF_OPERATION">작업 모드</string>
-    <string lang="ko" key="LABEL_ITEM">라벨: </string>
+    <string lang="ko" key="LABEL_ITEM">레이블: </string>
     <string lang="ko" key="SIZE_ITEM">크기: </string>
     <string lang="ko" key="PATH_ITEM">경로: </string>
     <string lang="ko" key="DRIVE_LETTER_ITEM">드라이브 문자: </string>
@@ -1285,7 +1285,7 @@
     <string lang="ko" key="SELECT_TOKEN_KEYFILES">보안 토큰 키파일 선택</string>
     <string lang="ko" key="TOKEN_SLOT_ID">슬롯</string>
     <string lang="ko" key="TOKEN_NAME">토큰 이름</string>
-    <string lang="ko" key="TOKEN_DATA_OBJECT_LABEL">파일 이름</string>
+    <string lang="ko" key="TOKEN_DATA_OBJECT_LABEL">토큰 레이블</string>
     <string lang="ko" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">중요: 부팅-전 인증 비밀번호를 입력할 때는 항상 “표준 US 키보드 레이아웃”을 사용해야 합니다. 그러므로 다른 키보드 레이아웃을 사용해서 입력된 비밀번호를 사용하는 볼륨은 “캐시로 보관된 부팅-전 인증 비밀번호”를 사용해서 삽입될 수 없습니다(* 이는 VeraCrypt의 버그가 아닙니다). 이러한 볼륨을 부팅-전 인증 비밀번호를 사용해서 삽입하려면, 다음 지침을 따릅니다:\n\n1) “파일 선택” 또는 “장치 선택”을 클릭한 후 볼륨을 선택합니다. 2) “볼륨” ▶ “볼륨 비밀번호 변경”을 선택합니다. 3) 볼륨을 위한 현재 비밀번호를 입력합니다. 4) 키보드 레이아웃을 English (US)로 변경합니다(* 윈도우 작업 표시줄의 언어 바 아이콘을 클릭한 후 “EN English (United States)” 선택) 5) Truerypt의 새 비밀번호 필드에 부팅-전 인증 비밀번호를 입력합니다. 6) 비밀번호 재입력 필드에 새 비밀번호를 다시 입력한 후 “확인”을 클릭합니다. 주의: 이러한 단계들을 따른 경우, 볼륨 비밀번호는 항상 US 키보드 레이아웃을 이용해서 입력되어야 합니다(* 부팅-전 환경에서는 자동으로 이 레이아웃이 사용됩니다).</string>
     <string lang="ko" key="SYS_FAVORITES_KEYBOARD_WARNING">시스템 즐겨찾기 볼륨은 부팅-전 인증 비밀번호를 이용해서 삽입됩니다. 특정 시스템 즐겨찾기 볼륨이 다른 비밀번호를 사용하는 경우, 이 볼륨은 삽입되지 않습니다.</string>
     <string lang="en" key="SYS_FAVORITES_ADMIN_ONLY_INFO">Please note that if you need to prevent normal VeraCrypt volume actions (such as 'Dismount All', auto-dismount, etc.) from affecting system favorite volumes, you should enable the option 'Allow only administrators to view and dismount system favorite volumes in VeraCrypt'. In addition, when VeraCrypt is run without administrator privileges (the default on Windows Vista and later), system favorite volumes will not be displayed in the drive letter list in the main VeraCrypt application window.</string>
