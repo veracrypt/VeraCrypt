@@ -2,7 +2,7 @@
 <VeraCrypt>
   <localization prog-version="1.16">
     <!-- Languages -->
-    <language langid="ko" name="한국어" en-name="Korean" version="0.1.1" translators="Kim Young, initbar" />
+    <language langid="ko" name="한국어" en-name="Korean" version="0.1.1" translators="Kim Young, Herbert Shin" />
     <!-- Fonts -->
     <font lang="ko" class="normal" size="11" face="default" />
     <font lang="ko" class="bold" size="13" face="Arial" />
