@@ -80,7 +80,7 @@
     <control lang="fi" key="IDT_DONE">Valmis</control>
     <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="fi" key="IDT_ENCRYPTION_ALGO">Salausalgoritmi</control>
-    <control lang="fi" key="IDT_FILESYSTEM">Järjestelmä</control>
+    <control lang="fi" key="IDT_FILESYSTEM">Järjestelmä </control>
     <control lang="fi" key="IDT_FILE_CONTAINER">Luo virtuaalisesti salattu levy tiedoston sisälle. Tämä valinta on suositeltava aloittelijalle.</control>
     <control lang="fi" key="IDT_FORMAT_OPTIONS">Valinnat</control>
     <control lang="fi" key="IDT_HASH_ALGO">Hash algoritmi</control>
@@ -300,7 +300,7 @@
     <control lang="fi" key="IDT_SECURITY_OPTIONS">Salausvalinnat</control>
     <control lang="fi" key="IDT_TASKBAR_ICON">VeraCrypt Taustatehtävä</control>
     <control lang="fi" key="IDT_TRAVELER_MOUNT">VeraCrypt taltion yhteys (liittyy liikutettavan levyn juureen):</control>
-    <control lang="fi" key="IDT_TRAVEL_INSERTION">Liikutettavan levyn sisällyttäminen:</control>
+    <control lang="fi" key="IDT_TRAVEL_INSERTION">Liikutettavan levyn sisällyttäminen: </control>
     <control lang="fi" key="IDT_TRAVEL_ROOT">Luo liikutettava levytiedosto (Liikutettavan levyjuuri hakemisto):</control>
     <control lang="fi" key="IDT_VOLUME">Taltio</control>
     <control lang="fi" key="IDT_WINDOWS_RELATED_SETTING">Ikkuna</control>
@@ -345,7 +345,7 @@
     <control lang="fi" key="IDD_NEW_TOKEN_KEYFILE">Uuden Turvallisuustunniste Avaintiedoston Ominaisuudet</control>
     <control lang="fi" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - Satunnainen poolin Rikastus</control>
     <control lang="fi" key="IDD_RAWDEVICES_DLG">Valitse Osio tai Laite</control>
-    <control lang="en" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
+    <control lang="fi" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
     <control lang="fi" key="IDD_TOKEN_KEYFILES">Turvallisuustunniste Avaintiedostot</control>
     <control lang="fi" key="IDD_TOKEN_PASSWORD">Turvallisuustunniste salasana/PIN vaaditaan</control>
     <control lang="fi" key="IDT_ACTIVE_LANG_PACK">Aktiivinen kielipaketti</control>
@@ -623,7 +623,7 @@
     <string lang="fi" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Ole hyvä ja valitse yksi listatuista taltioista. Lista sisältää jokaisen helppopääsyisen ei-järjestelmätaltion missä salauksen prosessi on keskeytynyt ja jonka otsikko voi olla salaus purettuna käyttäen saatavana olevaa salasanaa ja/tai avaintiedostoa(t).</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="fi" key="PASSWORD_HELP">On erittäin tärkeää että valitset hyvän salasanan. Sinun tulee välttää sellaisia jotka sisältävät vain yhden sanan joka voidaan löytää sanakirjasta (tai yhdistelmää 2, 3, tai 4 vastaavia sanoja). Sen ei pidä sisältää mitään nimeä tai syntymäpäivää. Ei pidä olla helposti arvattavissa. Hyvä salasana on satunnainen yhdistelmä isoja ja pieniä kirjaimia, numeroita, ja erikoismerkkejä kuten @ ^ = $ * + jne. Suosittelemme valitsemaan salasanaan useamman kuin 20 merkkiä (mitä pitempi sitä parempi). Maksimi pituus on 64 merkkiä.</string>
-    <string lang="fi" key="PASSWORD_HIDDENVOL_HELP">Valitse salasana piilotetulle taltiolle.</string>
+    <string lang="fi" key="PASSWORD_HIDDENVOL_HELP">Valitse salasana piilotetulle taltiolle. </string>
     <string lang="fi" key="PASSWORD_HIDDEN_OS_HELP">Valitse salasana piilotetulle käyttöjärjestelmälle (esim. piilotetulle taltiolle). </string>
     <string lang="fi" key="PASSWORD_HIDDEN_OS_NOTE">TÄRKEÄÄ: Salasana jonka valitsit piilotetulle käyttöjärjestelmälle tässä kohtaa tulee olla erilainen kuin toiset kaksi salasanaa (näitä ovat ulkoisen taltion salasana ja houkutuslintuna olevan käyttöjärjestelmän salasana).</string>
     <string lang="fi" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">Anna taltiolle salasana jonka haluat luoda piilotetun taltion sisälle.\n\nPaina Seuraavaksi, VeraCrypt yrittää yhdistää taltion. Hetki kun taltio on yhdistetty, ryhmä bittikartta tutkitaan läpi määritelläkseen vapaan tilan keskeytys alueella (jos on joitakin) mikä loppuu sovitettuun taltion loppuun. Tämä alue sijaitsee piilotetulla taltiolla ja siksi sillä on rajoitettu koko. Ryhmä bittikartan tutkiminen on tarpeen varmistaakseen ettei ulkoisella taltiolla olevaa dataa ylikirjoiteta piilotetun taltion toimesta.</string>
@@ -1114,7 +1114,7 @@
     <string lang="fi" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">Kuten VeraCrypt väliaikaisesti muutettu näppäimistä mallia vakion US näppäimistä malliksi, ei ole mahdollista kirjoittaa kirjaimia kun oikea Alt näppäin on alhaalla. Kuitenkin, voit kirjoittaa useimpia kirjaimia painamalla jotain kirjaimia Vaihto näppäin alhaalla.</string>
     <string lang="fi" key="KEYB_LAYOUT_CHANGE_PREVENTED">VeraCrypt torjuu näppäimistön ulkoasu muutokset.</string>
     <string lang="fi" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">Huomioi: Salasana täytyy olla kirjoitettu esikäynnistys ympäristössä (ennen kuin Windows käynnistyy) jossa ei-US Windows näppäimistö ulkoasu ole saatavana. Siksi, salasana täytyy aina kirjoittaa käyttäen standardia US näppäimistö ulkoasua. Kuitenkin, on tärkeää huomioida että ET tarvitse oikeaa US näppäimistöä. VeraCrypt automaattisesti varmistaa voit turvallisesti kirjoittaa salasanan (juuri nyt ja esikäynnistys ympäristössä) vaikka sinulla EI ole oikeaa US näppäimistöä.</string>
-    <string lang="fi" key="RESCUE_DISK_INFO">Ennen kuin voit salata osion tai aseman, sinun täytyy luoda VeraCrypt Pelastuslevy (TPL), joka palvelee seuraavissa tarkoituksissa:\n\n- Jos VeraCrypt Käynnistyslataaja , Pääavain, tai muu kriittinen data tuhoutuu, TPL sallii sinun palauttaa se (huomioi, kuitenkin, kun sinä tulee edelleen antaa oikea salasana).\n\n- Jos Windows tuhoutuu ja et voi käynnistää sitä, TPL sallii sinun pysyvästi purkaa salaus osiolta tai asemalta ennekuin Windows käynnistyy.\n\n- TPL sisältää varmistuksen nykyisestä aseman ensimmäisestä raidan sisällöstä (joka tyypillisesti sisältää järjestelmälataajan tai käynnistyksen hallintaohjelman) ja sallii sinun palauttaa sen jos tarpeen.\n\nVeraCrypt Pelastuslevy ISO imagen luonti määritellään alla. </string>
+    <string lang="fi" key="RESCUE_DISK_INFO">Ennen kuin voit salata osion tai aseman, sinun täytyy luoda VeraCrypt Pelastuslevy (TPL), joka palvelee seuraavissa tarkoituksissa:\n\n- Jos VeraCrypt Käynnistyslataaja , Pääavain, tai muu kriittinen data tuhoutuu, TPL sallii sinun palauttaa se (huomioi, kuitenkin, kun sinä tulee edelleen antaa oikea salasana).\n\n- Jos Windows tuhoutuu ja et voi käynnistää sitä, TPL sallii sinun pysyvästi purkaa salaus osiolta tai asemalta ennekuin Windows käynnistyy.\n\n- TPL sisältää varmistuksen nykyisestä aseman ensimmäisestä raidan sisällöstä (joka tyypillisesti sisältää järjestelmälataajan tai käynnistyksen hallintaohjelman) ja sallii sinun palauttaa sen jos tarpeen.\n\nVeraCrypt Pelastuslevy ISO imagen luonti määritellään alla.</string>
     <string lang="fi" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">Sen jälkeen kun olet painanut OK, Microsoft Windows Levyimage poltto käynnistetään. Käytä sitä polttaaksesi VeraCrypt Pelastuslevyn ISO image CD/DVD:lle.\n\nSen jälkeen, palaa VeraCrypt Opastettuun Taltion Luontiin ja seuraa ohjeita.</string>
     <string lang="fi" key="RESCUE_DISK_BURN_INFO">Pelastuslevy image on luotu ja talletettu tiedostoon: %hs\n\nNyt sinun tulee polttaa se Pelastuslevy CD tai DVD:lle.\n\n%lsPelastuslevyn polton jälkeen, paina Seuraava varmistaaksesi että Pelastuslevy on poltettu oikein.</string>
     <string lang="fi" key="RESCUE_DISK_BURN_INFO_NO_CHECK">Pelastuslevy image on luotu ja tallennettu tiedostoon: %hs\n\nNyt sinun tulee joko polttaa Pelastuslevyt CD/DVD:lle tai siirtää se varmaan paikkaan myöhempää käyttöä varten.\n\n%lsPaina Seuraava jatkaaksesi.</string>
