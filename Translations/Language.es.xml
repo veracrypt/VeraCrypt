@@ -14,7 +14,7 @@
     <control lang="es" key="IDC_BROWSE">Exa&amp;minar...</control>
     <control lang="es" key="IDC_DESKTOP_ICON">Añadir icono de VeraCrypt al e&amp;scritorio</control>
     <control lang="es" key="IDC_DONATE">Donar ahora...</control>
-    <control lang="es" key="IDC_FILE_TYPE">Asociar los archivos .tc &amp;con VeraCrypt</control>
+    <control lang="es" key="IDC_FILE_TYPE">Asociar los archivos .hc &amp;con VeraCrypt</control>
     <control lang="es" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Abrir ubicación de destino al terminar</control>
     <control lang="es" key="IDC_PROG_GROUP">Añadir VeraCrypt al Menú &amp;Inicio</control>
     <control lang="es" key="IDC_SYSTEM_RESTORE">Crear Punto de &amp;Restauración de Sistema</control>
@@ -39,7 +39,7 @@
     <control lang="es" key="IDC_GB">&amp;GB</control>
     <control lang="es" key="IDC_TB">&amp;TB</control>
     <control lang="es" key="IDC_HIDDEN_SYSENC_INFO_LINK">Más información</control>
-    <control lang="es" key="IDC_HIDDEN_VOL">Volumen VeraCrypt o&amp;culto</control>
+    <control lang="es" key="IDC_HIDDEN_VOL">Volumen VeraCrypt o&amp;culto </control>
     <control lang="es" key="IDC_HIDDEN_VOL_HELP">Más información acerca de volúmenes ocultos</control>
     <control lang="es" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Modo Directo</control>
     <control lang="es" key="IDC_HIDVOL_WIZ_MODE_FULL">Modo Normal</control>
@@ -63,7 +63,7 @@
     <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="es" key="IDC_QUICKFORMAT">Formato Rápido</control>
-    <control lang="es" key="IDC_SHOW_PASSWORD">&amp;Mostrar contraseña </control>
+    <control lang="es" key="IDC_SHOW_PASSWORD">&amp;Mostrar contraseña</control>
     <control lang="es" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Mostrar contraseña</control>
     <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
     <control lang="es" key="IDC_SINGLE_BOOT">Arranque simple</control>
@@ -77,7 +77,7 @@
     <control lang="es" key="IDT_CLUSTER">Cluster </control>
     <control lang="es" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANTE: Mueva el ratón al azar todo lo posible dentro de esta ventana. Cuanto más lo mueva, mejor. Esto incrementa significativamente la fuerza criptográfica de las claves de cifrado. Luego presione Siguiente para continuar.</control>
     <control lang="es" key="IDT_CONFIRM">&amp;Confirmar:</control>
-    <control lang="es" key="IDT_DONE">Hecho </control>
+    <control lang="es" key="IDT_DONE">Hecho</control>
     <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="es" key="IDT_ENCRYPTION_ALGO">Algoritmo de Cifrado</control>
     <control lang="es" key="IDT_FILESYSTEM">Sistema de archivos. </control>
@@ -85,7 +85,7 @@
     <control lang="es" key="IDT_FORMAT_OPTIONS">Opciones</control>
     <control lang="es" key="IDT_HASH_ALGO">Algoritmo Hash</control>
     <control lang="es" key="IDT_HEADER_KEY">Clave Cabecera: </control>
-    <control lang="es" key="IDT_LEFT">Quedan </control>
+    <control lang="es" key="IDT_LEFT">Quedan</control>
     <control lang="es" key="IDT_MASTER_KEY">Clave Maestra: </control>
     <control lang="es" key="IDT_MULTI_BOOT">Seleccione esta opción si hay dos o más sistemas operativos instalados en este ordenador.\n\nPor ejemplo:\n- Windows XP y Windows XP\n- Windows XP y Windows Vista\n- Windows y Mac OS X\n- Windows y Linux\n- Windows, Linux y Mac OS X</control>
     <control lang="es" key="IDT_NON_SYS_DEVICE">Cifra una partición en cualquier unidad interna o externa (ej: unidad flash). Opcionalmente, crea un volúmen oculto.</control>
@@ -97,7 +97,7 @@
     <control lang="es" key="IDT_PROGRESS">Progreso:</control>
     <control lang="es" key="IDT_RANDOM_POOL">Pool Aleatorio: </control>
     <control lang="es" key="IDT_SINGLE_BOOT">Seleccione esta opción si hay solo un sistema operativo instalado en este ordenador (aunque tenga varios usuarios).</control>
-    <control lang="es" key="IDT_SPEED">Velocidad </control>
+    <control lang="es" key="IDT_SPEED">Velocidad</control>
     <control lang="es" key="IDT_STATUS">Estado</control>
     <control lang="es" key="IDT_SYSENC_KEYS_GEN_INFO">Las claves, sal y otros datos han sido generados con éxito. Si quiere generar nuevas claves, presione Volver y luego Siguiente. Si no, presione Siguiente para continuar.</control>
     <control lang="es" key="IDT_SYS_DEVICE">Cifra la partición/unidad donde Windows está instalado. Cualquiera que quiera acceder al sistema, leer y escribir archivos, etc. tendrá que introducir la contraseña antes de arrancar Windows. Opcionalmente, crea un sistema oculto.</control>
@@ -139,7 +139,7 @@
     <control lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</control>
     <control lang="es" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Configuración global</control>
     <control lang="es" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Mostrar mensaje emergente tras desmontar con éxito usando atajos de teclado</control>
-    <control lang="es" key="IDC_HK_DISMOUNT_PLAY_SOUND">Reproducir notificación sonora tras desmontar con éxito usando atajos de teclado </control>
+    <control lang="es" key="IDC_HK_DISMOUNT_PLAY_SOUND">Reproducir notificación sonora tras desmontar con éxito usando atajos de teclado</control>
     <control lang="es" key="IDC_HK_MOD_ALT">Alt</control>
     <control lang="es" key="IDC_HK_MOD_CTRL">Ctrl</control>
     <control lang="es" key="IDC_HK_MOD_SHIFT">Mayus.</control>
@@ -156,7 +156,7 @@
     <control lang="es" key="IDC_MOUNT_READONLY">Montar volumen como sól&amp;o lectura</control>
     <control lang="es" key="IDC_NEW_KEYFILES">Archivos-llave</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="es" key="IDC_PREF_BKG_TASK_ENABLE">Activado</control>
     <control lang="es" key="IDC_PREF_CACHE_PASSWORDS">Guardar contraseñas en caché</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_INACTIVE">Desmontar volumen autom. cuando dejen de leerse/escribirse datos</control>
@@ -280,7 +280,7 @@
     <control lang="es" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Mostrar este mensaje personalizado en la pantalla de pre-arranque (24 caracteres max.):</control>
     <control lang="es" key="IDT_DEFAULT_MOUNT_OPTIONS">Opciones de Montaje Predeterminadas</control>
     <control lang="es" key="IDT_DISMOUNT_ACTION">Opciones de Atajos de Teclado</control>
-    <control lang="en" key="IDT_DRIVER_OPTIONS">Configuración del controlador</control>
+    <control lang="es" key="IDT_DRIVER_OPTIONS">Configuración del controlador</control>
     <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
     <control lang="es" key="IDT_FAVORITE_LABEL">Etiqueta del volumen favorito seleccionado:</control>
     <control lang="es" key="IDT_FILE_SETTINGS">Opciones del Archivo</control>
@@ -295,12 +295,12 @@
     <control lang="es" key="IDT_PARALLELIZATION_OPTIONS">Paralelización basada en hilos</control>
     <control lang="es" key="IDT_PKCS11_LIB_PATH">Ruta de Librería PKCS #11</control>
     <control lang="es" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
-    <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
+    <control lang="es" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="es" key="IDT_PW_CACHE_OPTIONS">Caché de Contraseñas</control>
     <control lang="es" key="IDT_SECURITY_OPTIONS">Opciones de seguridad</control>
     <control lang="es" key="IDT_TASKBAR_ICON">VeraCrypt en Segundo Plano</control>
     <control lang="es" key="IDT_TRAVELER_MOUNT">Volumen VeraCrypt a montar (relativo a raíz del disco viajero):</control>
-    <control lang="es" key="IDT_TRAVEL_INSERTION">Tras la inserción del disco viajero:</control>
+    <control lang="es" key="IDT_TRAVEL_INSERTION">Tras la inserción del disco viajero: </control>
     <control lang="es" key="IDT_TRAVEL_ROOT">Crear archivos del disco viajero en (directorio raíz del disco viajero):</control>
     <control lang="es" key="IDT_VOLUME">Volumen</control>
     <control lang="es" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
@@ -371,7 +371,7 @@
     <control lang="es" key="IDT_SECURITY_TOKEN">Token de seguridad:</control>
     <control lang="es" key="IDT_SORT_METHOD">Orden:</control>
     <control lang="es" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Por favor espere. Este proceso puede llevar mucho tiempo...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="es" key="IDT_TEST_BLOCK_NUMBER">Número de bloque:</control>
     <control lang="es" key="IDT_TEST_CIPHERTEXT">Texto cifrado (hexadecimal)</control>
     <control lang="es" key="IDT_TEST_DATA_UNIT_NUMBER">Datos de la unidad (64-bit hexadecimal, tamaño de la unidad de datos es 512 bytes)</control>
@@ -385,7 +385,7 @@
     <control lang="es" key="MENU_TOOLS">&amp;Herramientas</control>
     <control lang="es" key="MENU_SETTINGS">Confi&amp;guración</control>
     <control lang="es" key="MENU_HELP">A&amp;yuda</control>
-    <control lang="es" key="MENU_WEBSITE">Página &amp;Web</control>
+    <control lang="es" key="MENU_WEBSITE">   Página &amp;Web   </control>
     <!-- Strings -->
     <string lang="es" key="ABOUTBOX">&amp;Acerca de...</string>
     <string lang="es" key="ACCESSMODEFAIL">No se ha podido cambiar el atributo 'sólo lectura' de su antiguo volumen. Compruebe los permisos de acceso del archivo.</string>
@@ -464,7 +464,7 @@
     <string lang="es" key="SYSTEM_CRASH_ANALYSIS_INFO">Después de pulsar Aceptar, VeraCrypt analizará el fallo del sistema. Esto podría durar varios minutos.</string>
     <string lang="es" key="DEBUGGER_NOT_FOUND">Asegúrese de que la variable de entorno 'PATH' incluye la ruta a 'kd.exe' (Depurador del Núcleo).</string>
     <string lang="es" key="SYSTEM_CRASH_NO_VERACRYPT">Parece que lo más probable es que VeraCrypt no causara el fallo del sistema. Hay muchas razones potenciales por las que el sistema podría haber fallado (por ejemplo, un componente hardware defectuoso, un error en un controlador de dispositivo, etc.)</string>
-    <string lang="es" key="SYSTEM_CRASH_UPDATE_DRIVER">Los resultados del análisis indican que actualizar el siguiente controlador podría resolver este problema:</string>
+    <string lang="es" key="SYSTEM_CRASH_UPDATE_DRIVER">Los resultados del análisis indican que actualizar el siguiente controlador podría resolver este problema: </string>
     <string lang="es" key="SYSTEM_CRASH_REPORT">Para ayudarnos a determinar si hay un error (bug) en VeraCrypt o no, puede enviarnos un informe de errores generado automáticamente conteniendo los siguientes datos:\n\n- Versión del programa\n- Versión del sistema operativo\n- Tipo de CPU\n- Categoría del error\n- Nombre y versión del controlador\n- Pila de llamadas del sistema\n\nSi selecciona 'Sí', la siguiente URL (que contiene el informe completo del error) se abrirá en su explorador de Internet predeterminado.</string>
     <string lang="es" key="ASK_SEND_ERROR_REPORT">¿Desea enviarnos dicho informe de errores?</string>
     <string lang="es" key="ENCRYPT">&amp;Cifrar</string>
@@ -483,7 +483,7 @@
     <string lang="es" key="FILE_OPEN_FAILED">No se pudo abrir el archivo.</string>
     <string lang="es" key="FILE_TITLE">Ubicación del volumen</string>
     <string lang="es" key="FILESYS_PAGE_TITLE">Archivos grandes</string>
-    <string lang="es" key="FILESYS_PAGE_HELP_QUESTION">¿Tiene intención de almacenar archivos de más de 4 GB en este volumen VeraCrypt? </string>
+    <string lang="es" key="FILESYS_PAGE_HELP_QUESTION">¿Tiene intención de almacenar archivos de más de 4 GB en este volumen VeraCrypt?</string>
     <string lang="es" key="FILESYS_PAGE_HELP_EXPLANATION">Dependiendo de su elección, VeraCrypt elegirá un sistema de archivos adecuado para el volumen VeraCrypt (pero lo podrá cambiar en el siguiente paso).</string>
     <string lang="es" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">Como ud. está creando un volumen externo, debería considerar elegir 'No'. Si elige 'Sí', el sistema de archivos por defecto será NTFS, que no es tan adecuado como FAT para volúmenes externos (p.e., el máximo tamaño posible para el volumen oculto será mayor si el volumen externo es FAT). Normalmente, FAT es predeterminado para ambos volúmenes (por eso los volúmenes FAT no son sospechosos). Sin embargo, si el usuario planea almacenar archivos mayores de 4 GB (no permitidos en ese sistema de archivos), entonces FAT no será predeterminado.</string>
     <string lang="es" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">¿Seguro que desea elegir 'Sí'?</string>
@@ -624,7 +624,7 @@
     <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="es" key="PASSWORD_HELP">Es muy importante que elija una buena contraseña. Debería evitar elegir una que contenga sólo una palabra que se pueda encontrar en un diccionario (o una combinación de 2, 3, o 4 de estas palabras). No debería contener nombres ni fechas de nacimiento. No debería ser fácil de adivinar. Una buena contraseña es una combinación aleatoria de letras mayúsculas y minúsculas, números, y caracteres especiales como @ ^ = $ * + etc. Recomendamos la elección de una contraseña que consista en más de 20 caracteres (cuanto más larga, mejor). La máxima longitud posible es 64 caracteres.</string>
     <string lang="es" key="PASSWORD_HIDDENVOL_HELP">Elija una contraseña para el volumen oculto. </string>
-    <string lang="es" key="PASSWORD_HIDDEN_OS_HELP">Elija una contraseña para el sistema operativo oculto (es decir, para el volumen oculto).</string>
+    <string lang="es" key="PASSWORD_HIDDEN_OS_HELP">Elija una contraseña para el sistema operativo oculto (es decir, para el volumen oculto). </string>
     <string lang="es" key="PASSWORD_HIDDEN_OS_NOTE">IMPORTANTE: La contraseña que elija para el sistema operativo oculto en este paso debe ser sustancialmente diferente de las otras dos contraseñas (es decir, de la contraseña para el volumen externo y de la del sistema operativo señuelo).</string>
     <string lang="es" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">Introduzca la contraseña para el volumen en el que desea crear un volumen oculto.\n\nTras pulsar Siguiente, VeraCrypt intentará montar el volumen. Tan pronto como el volumen sea montado, el mapa de bits del cluster será examinado para determinar el tamaño del área ininterrumpida de espacio libre (si la hay) cuyo final coincide con el final del volumen. Este área alojará el volumen oculto y por tanto limitará su máximo tamaño posible. La exploración del mapa de cluster es necesario para asegurar que ningún dato del volumen externo sea sobreescrito por el volumen oculto.</string>
     <string lang="es" key="PASSWORD_HIDDENVOL_HOST_HELP">\nElija una contraseña para el volumen externo. Esta será la contraseña que ud. podrá revelar a un enemigo si es obligado a hacerlo.\n\nIMPORTANTE: La contraseña debe ser sustancialmente diferente de la que elegirá para el volumen oculto.\n\nNota: La longitud máxima posible de la contraseña es 64 caracteres.</string>
@@ -701,7 +701,7 @@
     <string lang="es" key="UNMOUNT_FAILED">¡Fallo al desmontar!</string>
     <string lang="es" key="UNMOUNT_LOCK_FAILED">El volumen contiene carpetas o archivos en uso por el sistema o alguna aplicación.\n\n¿Forzar el desmontaje?</string>
     <string lang="es" key="NO_VOLUME_MOUNTED_TO_DRIVE">No hay ningún volumen montado en la letra de unidad especificada.</string>
-    <string lang="es" key="VOL_ALREADY_MOUNTED">El volumen que trata de montar ya está montado.</string>
+    <string lang="es" key="VOL_ALREADY_MOUNTED">El volumen que trata de montar ya está montado. </string>
     <string lang="es" key="VOL_MOUNT_FAILED">Ocurrió un error al intentar montar el volumen.</string>
     <string lang="es" key="VOL_SEEKING">Error al buscar la ubicación dentro del volumen.</string>
     <string lang="es" key="VOL_SIZE_WRONG">Error: Tamaño incorrecto del volumen.</string>
@@ -998,8 +998,8 @@
     <string lang="es" key="DRIVE_LETTER_ITEM">Letra de unidad:   </string>
     <string lang="es" key="UNSUPPORTED_CHARS_IN_PWD">Error: La contraseña debe contener solamente caracteres ASCII.\n\nIntroducir otros caracteres en la contraseña puede hacer que sea imposible montar el volumen si la configuración de su sistema cambia.\n\nLos  siguientes caracteres están permitidos:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="es" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Aviso: La contraseña contiene caracteres ajenos a ASCII. Esto puede causar que sea imposible montar el volumen si la configuración de su sistema cambia.\n\nDebe sustituir todos los caracteres no-ASCII en la contraseña por caracteres ASCII. Haga click  en 'Volúmenes' -&gt;  'Cambiar Contraseña del Volumen'.\n\nLos siguientes  caracteres son ASCII:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="es" key="EXE_FILE_EXTENSION_CONFIRM">AVISO: Recomendamos que evite extensiones de archivo que son usadas para archivos ejecutables (como .exe, .sys o .dll) y otras extensiones problemáticas similares. Usar estas extensiones hace que Windows y el software antivirus interfiera con el contenedor, lo que afecta negativamente el rendimiento del volumen y puede causar problemas serios.\n\nEs muy recomendable que elimine la extensión del archivo o la cambie (por ejemplo, a '.tc').\n\n¿Seguro que desea usar la extensión problemática?</string>
-    <string lang="es" key="EXE_FILE_EXTENSION_MOUNT_WARNING">AVISO: Este contenedor tiene una extensión que es usada por archivos ejecutables (como .exe, .sys o .dll) o alguna otra extensión que es igualmente problemática. Esto probablemente hará que Windows y el software antivirus interfiera con el contenedor, lo que afectará negativamente el rendimiento del volumen y puede causar otros problemas serios.\n\nEs muy recomendable que elimine la extensión del archivo del contenedor o la cambie (por ejemplo, a '.tc' después de desmontar el volumen.</string>
+    <string lang="es" key="EXE_FILE_EXTENSION_CONFIRM">AVISO: Recomendamos que evite extensiones de archivo que son usadas para archivos ejecutables (como .exe, .sys o .dll) y otras extensiones problemáticas similares. Usar estas extensiones hace que Windows y el software antivirus interfiera con el contenedor, lo que afecta negativamente el rendimiento del volumen y puede causar problemas serios.\n\nEs muy recomendable que elimine la extensión del archivo o la cambie (por ejemplo, a '.hc').\n\n¿Seguro que desea usar la extensión problemática?</string>
+    <string lang="es" key="EXE_FILE_EXTENSION_MOUNT_WARNING">AVISO: Este contenedor tiene una extensión que es usada por archivos ejecutables (como .exe, .sys o .dll) o alguna otra extensión que es igualmente problemática. Esto probablemente hará que Windows y el software antivirus interfiera con el contenedor, lo que afectará negativamente el rendimiento del volumen y puede causar otros problemas serios.\n\nEs muy recomendable que elimine la extensión del archivo del contenedor o la cambie (por ejemplo, a '.hc' después de desmontar el volumen.</string>
     <string lang="es" key="HOMEPAGE">Página Inicial</string>
     <string lang="es" key="LARGE_IDE_WARNING_XP">AVISO: Parece que no ha aplicado ningún Service Pack a su instalación Windows. ¡No debería escribir en discos IDE mayores de 128 GB bajo un Windows XP sin Service Pack 1 o posterior! Si lo hace, los datos del disco (no importa si se trata de un volumen VeraCrypt o no) podrían resultar corruptos. Tenga en cuenta que esto es una limitación de Windows, no un error de VeraCrypt.</string>
     <string lang="es" key="LARGE_IDE_WARNING_2K">AVISO: Parece que no ha aplicado Service Pack 3 o posterior a su instalación Windows. ¡No debería escribir en discos IDE mayores de 128 GB bajo un Windows 2000 sin Service Pack 3 o posterior! Si lo hace, los datos del disco (no importa si se trata de un volumen VeraCrypt o no) podrían resultar corruptos. Tenga en cuenta que esto es una limitación de Windows, no un error de VeraCrypt.\n\nNota: Podría necesitar habilitar el soporte LBA 48-bit en el registro: para más información, vea http://support.microsoft.com/kb/305098/EN-US</string>
@@ -1105,9 +1105,9 @@
     <string lang="es" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Aviso: Hay espacio no asignado entre la partición del sistema y la primera partición tras ella. Después de crear el sistema operativo oculto, no debe crear ninguna partición nueva en ese espacio sin asignar. De lo contrario, podría ser iposible arrancar el sistema operativo oculto (hasta que elimine esas particiones nuevas).</string>
     <string lang="es" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Este algoritmo no está soportado actualmente para el cifrado del sistema.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="es" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Los archivos-llave no están soportados actualmente para el cifrado del sistema.</string>
     <string lang="es" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Aviso: VeraCrypt no pudo restaurar la disposición de teclado original. Esto puede hacer que ud. introduzca incorrectamente la contraseña.</string>
     <string lang="es" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: No se puede establecer la disposición del teclado para VeraCrypt al estándar de EEUU.\n\nRecuerde que la contraseña necesita ser escrita en el entorno de pre-arranque (antes de que Windows se inicie) donde no están disponibles disposiciones de teclado distintas a la de EEUU. Por tanto, la contraseña debe ser escrita siempre usando la disposición de teclado EEUU estándar.</string>

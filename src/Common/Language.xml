@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.0a">
+  <localization prog-version="1.16">
     <!-- Languages -->
-    <language langid="en" name="English" en-name="English" version="0.0.0" translators="" />
+    <language langid="en" name="English" en-name="English" version="0.0.0" translators="TrueCrypt/VeraCrypt Teams" />
     <!-- Fonts -->
     <font lang="en" class="normal" size="11" face="default" />
     <font lang="en" class="bold" size="13" face="Arial" />
@@ -156,7 +156,7 @@
     <control lang="en" key="IDC_MOUNT_READONLY">Mount volume as read-&amp;only</control>
     <control lang="en" key="IDC_NEW_KEYFILES">Keyfiles...</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	  
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="en" key="IDC_PREF_BKG_TASK_ENABLE">Enabled</control>
     <control lang="en" key="IDC_PREF_CACHE_PASSWORDS">Cache passwords in driver memory</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_INACTIVE">Auto-dismount volume after no data has been read/written to it for</control>
@@ -183,7 +183,7 @@
     <control lang="en" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Display password</control>
     <control lang="en" key="IDC_TRAVEL_OPEN_EXPLORER">Open &amp;Explorer window for mounted volume</control>
     <control lang="en" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Cache password in driver memory</control>
-	 <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
+    <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
     <control lang="en" key="IDC_UNMOUNTALL">Di&amp;smount All</control>
     <control lang="en" key="IDC_VOLUME_PROPERTIES">&amp;Volume Properties...</control>
     <control lang="en" key="IDC_VOLUME_TOOLS">Volume &amp;Tools...</control>
@@ -220,7 +220,7 @@
     <control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
     <control lang="en" key="IDM_DEFAULT_KEYFILES">Default Keyfiles...</control>
     <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
-	 <control lang="en" key="IDM_DONATE">Donate now...</control>
+    <control lang="en" key="IDM_DONATE">Donate now...</control>
     <control lang="en" key="IDM_ENCRYPT_SYSTEM_DEVICE">Encrypt System Partition/Drive...</control>
     <control lang="en" key="IDM_FAQ">Frequently Asked Questions</control>
     <control lang="en" key="IDM_HELP">User's Guide</control>
@@ -530,7 +530,7 @@
     <string lang="en" key="HIDVOL_HOST_FILLING_HELP_SYSENC">The outer volume has been created and mounted as drive %hc:. To this outer volume you should now copy some sensitive-looking files that you actually do NOT want to hide. They will be there for anyone forcing you to disclose the password for the first partition behind the system partition, where both the outer volume and the hidden volume (containing the hidden operating system) will reside. You will be able to reveal the password for this outer volume, and the existence of the hidden volume (and of the hidden operating system) will remain secret.\n\nIMPORTANT: The files you copy to the outer volume should not occupy more than %s. Otherwise, there may not be enough free space on the outer volume for the hidden volume (and you will not be able to continue). After you finish copying, click Next (do not dismount the volume).</string>
     <string lang="en" key="HIDVOL_HOST_FILLING_HELP">Outer volume has been successfully created and mounted as drive %hc:. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, cluster bitmap of the outer volume will be scanned to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. Cluster bitmap scanning ensures that no data on the outer volume are overwritten by the hidden volume.</string>
     <string lang="en" key="HIDVOL_HOST_FILLING_TITLE">Outer Volume Contents</string>
-    <string lang="en" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\nIn the next steps, you will set the options for the outer volume (within which the hidden volume will be created later on). </string>
+    <string lang="en" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\nIn the next steps, you will set the options for the outer volume (within which the hidden volume will be created later on).</string>
     <string lang="en" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\nIn the next steps, you will create a so-called outer VeraCrypt volume within the first partition behind the system partition (as was explained in one of the previous steps).</string>
     <string lang="en" key="HIDVOL_HOST_PRE_CIPHER_TITLE">Outer Volume</string>
     <string lang="en" key="HIDDEN_OS_PRE_CIPHER_HELP">In the following steps, you will set the options and password for the hidden volume, which will contain the hidden operating system.\n\nRemark: The cluster bitmap of the outer volume has been scanned in order to determine the size of uninterrupted area of free space whose end is aligned with the end of the outer volume. This area will accommodate the hidden volume, so it limits its maximum possible size. The maximum possible size of the hidden volume has been determined and confirmed to be greater than the size of the system partition (which is required, because the entire content of the system partition will need to be copied to the hidden volume). This ensures that no data currently stored on the outer volume will be overwritten by data written to the area of the hidden volume.</string>
@@ -554,10 +554,10 @@
     <string lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</string>
     <string lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</string>
     <string lang="en" key="ERR_DEVICE_CLI_CREATE_NOT_SUPPORTED">Only container files can be created through the command line.</string>
-	 <string lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</string>
+    <string lang="en" key="ERR_CONTAINER_SIZE_TOO_BIG">The container file size specified in the command line is greater than the available disk free space. Volume can't be created.</string>
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</string>
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
-	 <string lang="en" key="INIT_SYS_ENC">Cannot initialize application components for system encryption.</string>
+    <string lang="en" key="INIT_SYS_ENC">Cannot initialize application components for system encryption.</string>
     <string lang="en" key="INIT_RAND">Failed to initialize the random number generator!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="en" key="INIT_REGISTER">Unable to initialize the application. Failed to register the Dialog class.</string>
@@ -640,7 +640,7 @@
     <string lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</string>
     <string lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</string>
     <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</string>
-    <string lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</string>    
+    <string lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -725,7 +725,7 @@
     <string lang="en" key="ERR_VOL_FORMAT_BAD">Error: Bad volume format.</string>
     <string lang="en" key="ERR_HIDDEN_NOT_NORMAL_VOLUME">Error: You supplied a password for a hidden volume (not for a normal volume).</string>
     <string lang="en" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">For security reasons, a hidden volume cannot be created within a VeraCrypt volume containing a filesystem that has been encrypted in place (because the free space on the volume has not been filled with random data).</string>
-    <string lang="en" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - Legal Notices</string>    
+    <string lang="en" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - Legal Notices</string>
     <string lang="en" key="ALL_FILES">All Files</string>
     <string lang="en" key="TC_VOLUMES">VeraCrypt Volumes</string>
     <string lang="en" key="DLL_FILES">Library Modules</string>
@@ -771,8 +771,8 @@
     <string lang="en" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">Error: Cannot access the volume and/or obtain information about the volume.\n\nMake sure that the selected volume exists, that it is not being used by the system or applications, that you have read/write permission for the volume, and that it is not write-protected.</string>
     <string lang="en" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">Error: Cannot access the volume and/or obtain information about the volume. Make sure that the selected volume exists, that it is not being used by the system or applications, that you have read/write permission for the volume, and that it is not write-protected.\n\nIf the problem persists, it might help to follow the below steps.</string>
     <string lang="en" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">An error prevented VeraCrypt from encrypting the partition. Please try fixing any previously reported problems and then try again. If the problems persist, it might help to follow the below steps.</string>
-    <string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
     <string lang="en" key="INPLACE_ENC_GENERIC_ERR_RESUME">An error prevented VeraCrypt from resuming the process of encryption/decryption of the partition/volume.\n\nPlease try fixing any previously reported problems and then try resuming the process again if possible. Note that the volume cannot be mounted until it has been fully encrypted or fully decrypted.</string>
+    <string lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</string>
     <string lang="en" key="CANT_DISMOUNT_OUTER_VOL">Error: Cannot dismount the outer volume!\n\nVolume cannot be dismounted if it contains files or folders being used by a program or the system.\n\nPlease close any program that might be using files or directories on the volume and click Retry.</string>
     <string lang="en" key="CANT_GET_OUTER_VOL_INFO">Error: Cannot obtain information about the outer volume!\nVolume creation cannot continue.</string>
     <string lang="en" key="CANT_ACCESS_OUTER_VOL">Error: Cannot access the outer volume! Volume creation cannot continue.</string>
@@ -1104,8 +1104,8 @@
     <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' > 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="en" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Warning: There is unallocated space between the system partition and the first partition behind it. After you create the hidden operating system, you must not create any new partitions in that unallocated space. Otherwise, the hidden operating system will be impossible to boot (until you delete such newly created partitions).</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">This algorithm is currently not supported for system encryption.</string>
-	 <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
     <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</string>
@@ -1312,7 +1312,7 @@
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
     <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
-	<string lang="en" key="TEST">Test</string>
+    <string lang="en" key="TEST">Test</string>
     <string lang="en" key="KEYFILE">Keyfile</string>
     <string lang="en" key="VKEY_08">Backspace</string>
     <string lang="en" key="VKEY_09">Tab</string>

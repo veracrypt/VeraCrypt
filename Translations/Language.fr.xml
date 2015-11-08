@@ -14,7 +14,7 @@
     <control lang="fr" key="IDC_BROWSE">&amp;Parcourir...</control>
     <control lang="fr" key="IDC_DESKTOP_ICON">Icône de VeraCrypt sur le Bureau</control>
     <control lang="fr" key="IDC_DONATE">Faire un don...</control>
-    <control lang="fr" key="IDC_FILE_TYPE">Associer l'extension '.tc' à VeraCrypt</control>
+    <control lang="fr" key="IDC_FILE_TYPE">Associer l'extension '.hc' à VeraCrypt</control>
     <control lang="fr" key="IDC_OPEN_CONTAINING_FOLDER">Ouvrir le dossier de destination après l'installation</control>
     <control lang="fr" key="IDC_PROG_GROUP">Ajouter VeraCrypt au menu Démarrer</control>
     <control lang="fr" key="IDC_SYSTEM_RESTORE">Créer un point de restauration système</control>
@@ -85,7 +85,7 @@
     <control lang="fr" key="IDT_FORMAT_OPTIONS">Options</control>
     <control lang="fr" key="IDT_HASH_ALGO">Algorithme de hachage</control>
     <control lang="fr" key="IDT_HEADER_KEY">Clé d'en-tête : </control>
-    <control lang="fr" key="IDT_LEFT">Reste </control>
+    <control lang="fr" key="IDT_LEFT">Reste</control>
     <control lang="fr" key="IDT_MASTER_KEY">Clé principale : </control>
     <control lang="fr" key="IDT_MULTI_BOOT">Sélectionner cette option s'il y a au moins deux systèmes d'exploitation installés sur cet ordinateur.\n\nPar exemple :\n- Windows 2000 et Windows XP\n- Windows XP et Windows Vista\n- Windows et Mac OS X\n- Windows et Linux\n- Windows, Linux et Mac OS X</control>
     <control lang="fr" key="IDT_NON_SYS_DEVICE">Chiffre une partition non système sur tout disque interne ou externe (ex : clé USB). Optionnellement, crée un volume caché.</control>
@@ -97,7 +97,7 @@
     <control lang="fr" key="IDT_PROGRESS">Progression :</control>
     <control lang="fr" key="IDT_RANDOM_POOL">Nb aléatoire : </control>
     <control lang="fr" key="IDT_SINGLE_BOOT">Sélectionner cette option s'il n'y a qu'un seul système d'exploitation installé sur cette machine (même s'il y a plusieurs utilisateurs).</control>
-    <control lang="fr" key="IDT_SPEED">Vitesse </control>
+    <control lang="fr" key="IDT_SPEED">Vitesse</control>
     <control lang="fr" key="IDT_STATUS">État</control>
     <control lang="fr" key="IDT_SYSENC_KEYS_GEN_INFO">Les clés, le sel et d'autres données ont été générés avec succès. Si vous désirez générer de nouvelles clés, cliquez sur 'Précédent' puis 'Suivant'. Sinon cliquez sur 'Suivant' pour poursuivre.</control>
     <control lang="fr" key="IDT_SYS_DEVICE">Chiffre la partition/le disque où est installé Windows. Qui veut accéder au système, lire/écrire des fichiers, etc., devra entrer le bon mot de passe à chaque fois que Windows démarre. Crée un système caché (optionnel).</control>
@@ -156,7 +156,7 @@
     <control lang="fr" key="IDC_MOUNT_READONLY">Monter le volume en lecture &amp;seule</control>
     <control lang="fr" key="IDC_NEW_KEYFILES">Fichiers clés...</control>
     <control lang="fr" key="IDC_OLD_PIM_HELP">(Vide or 0 pour valeur par défaut)</control>
-    <control lang="fr" key="IDC_PIM_HELP">(Vide or 0 pour valeur par défaut)</control>	
+    <control lang="fr" key="IDC_PIM_HELP">(Vide or 0 pour valeur par défaut)</control>
     <control lang="fr" key="IDC_PREF_BKG_TASK_ENABLE">Activer</control>
     <control lang="fr" key="IDC_PREF_CACHE_PASSWORDS">Mots de passe en cache</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_INACTIVE">Démontage automatique quand aucune donnée n'a été lue/écrite durant</control>
@@ -216,7 +216,7 @@
     <control lang="fr" key="IDM_CONTACT">Contact...</control>
     <control lang="fr" key="IDM_CREATE_HIDDEN_OS">Créer un système d'exploitation caché...</control>
     <control lang="fr" key="IDM_CREATE_RESCUE_DISK">Créer un disque de secours...</control>
-    <control lang="fr" key="IDM_CREATE_VOLUME">Créer un nouveau volume...</control>	
+    <control lang="fr" key="IDM_CREATE_VOLUME">Créer un nouveau volume...</control>
     <control lang="fr" key="IDM_DECRYPT_NONSYS_VOL">Déchiffrer définitivement...</control>
     <control lang="fr" key="IDM_DEFAULT_KEYFILES">Fichiers clés par défaut...</control>
     <control lang="fr" key="IDM_DEFAULT_MOUNT_PARAMETERS">Paramètres de montage par défaut...</control>
@@ -327,7 +327,7 @@
     <control lang="fr" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Monter la partition &amp;avec chiffr. syst. sans authentification au pré-amorçage</control>
     <control lang="fr" key="IDC_PARALLELIZATION_LABEL_LINK">Parallélisation :</control>
     <control lang="fr" key="IDC_PERFORM_BENCHMARK">Évaluer</control>
-    <control lang="fr" key="IDC_PRINT">&amp;Imprimer </control>
+    <control lang="fr" key="IDC_PRINT">&amp;Imprimer</control>
     <control lang="fr" key="IDC_PROTECT_HIDDEN_VOL">&amp;Empêcher les dommages causés en écrivant dans le volume externe</control>
     <control lang="fr" key="IDC_RESET">&amp;Réinitialiser</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_MO">&amp;Afficher mot de passe</control>
@@ -377,7 +377,7 @@
     <control lang="fr" key="IDT_TEST_DATA_UNIT_NUMBER">Nombre d'unité de données (hexadécimal de 64 bits, taille d'une unité = 512 octets)</control>
     <control lang="fr" key="IDT_TEST_KEY">Clé (hexadécimal)</control>
     <control lang="fr" key="IDT_TEST_PLAINTEXT">Texte en clair (hexadecimal)</control>
-    <control lang="fr" key="IDT_TOKEN_KEYFILE_NAME">Nom du fichier clé : </control>
+    <control lang="fr" key="IDT_TOKEN_KEYFILE_NAME">Nom du fichier clé :</control>
     <control lang="fr" key="IDT_XTS_MODE">Mode XTS</control>
     <control lang="fr" key="MENU_SYSTEM_ENCRYPTION">S&amp;ystème</control>
     <control lang="fr" key="MENU_VOLUMES">&amp;Volumes</control>
@@ -464,7 +464,7 @@
     <string lang="fr" key="SYSTEM_CRASH_ANALYSIS_INFO">Après que vous ayez cliqué sur OK, VeraCrypt analisera la panne système. Cela peut prendre plusieurs minutes.</string>
     <string lang="fr" key="DEBUGGER_NOT_FOUND">Assurez-vous que la variable d'environnement 'PATH' inclus le chemin d'accès à 'kd.exe' (debugger du noyau).</string>
     <string lang="fr" key="SYSTEM_CRASH_NO_VERACRYPT">Il semble que VeraCrypt n'a probablement pas causé l'arrêt inattendu du système. Plusieurs autres raisons sont possibles (par exemple, un panne d'un  composant matériel, un bug dans un pilote de périphérique, etc.)</string>
-    <string lang="fr" key="SYSTEM_CRASH_UPDATE_DRIVER">Les résultats de l'analyse indiquent que la mise à jour du pilote suivant pourrait résoudre ce problème :</string>
+    <string lang="fr" key="SYSTEM_CRASH_UPDATE_DRIVER">Les résultats de l'analyse indiquent que la mise à jour du pilote suivant pourrait résoudre ce problème : </string>
     <string lang="fr" key="SYSTEM_CRASH_REPORT">Pour nous aider à déterminer s'il y a un bug dans VeraCrypt, vous pouvez nous envoyer un rapport d'erreur généré automatiquement contenant les éléments suivants : \n\n- La version du programme\n- La version du système d'exploitation\n- Le type de CPU\n - Le nom du composant VeraCrypt\n- La somme de contrôle de l'exécutable VeraCrypt\n- Le nom symbolique de la fenêtre de dialogue\n- La catégorie d'erreur\n- L'adresse de l'erreur\n- La pile d'exécution VeraCrypt\n\nSi vous sélectionnez « Oui », l'URL suivante (qui contient le rapport d'erreur entier) s'ouvrira dans votre navigateur internet par défaut.</string>
     <string lang="fr" key="ASK_SEND_ERROR_REPORT">Voulez-vous nous faire parvenir le rapport d'erreur ci-dessus ?</string>
     <string lang="fr" key="ENCRYPT">&amp;Chiffrer</string>
@@ -998,8 +998,8 @@
     <string lang="fr" key="DRIVE_LETTER_ITEM">Unité logique :   </string>
     <string lang="fr" key="UNSUPPORTED_CHARS_IN_PWD">Erreur : Le mot de passe ne doit contenir que des caractères ASCII.\n\nLes caractères non-ASCII peuvent empêcher le volume d'être montés si la configuration de votre système change.\n\nLes caractères suivants sont autorisés :\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="fr" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Avertissement : Le mot de passe contient certains caractères non-ASCII. Cela peut empêcher le montage du volume si la configuration de votre système change.\n\nVous devriez remplacer les caractères non-ASCII du mot de passe par des caractères ASCII. Pour cela cliquez sur 'Volumes' -&gt; 'Modifier le mot de passe du volume'.\n\nLes caractères ASCII sont les suivants :\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="fr" key="EXE_FILE_EXTENSION_CONFIRM">AVERTISSEMENT : Nous recommandons fortement que vous évitiez les extensions de fichiers qui sont utilisées pour les fichiers exécutables (tels que .exe, .sys ou .dll) et d'autres extensions de fichiers de même teneur. En utilisant ces extensions de fichier, Windows et les logiciels antivirus provoquent des interférences avec le conteneur, ce qui compromet les performances du volume et peut également causer d'autres graves problems.\n\nNous recommandons fortement que vous supprimiez l'extension de fichier ou la modifiez (par exemple, à '.tc').\n\nÊtes-vous sûr que vous souhaitez utiliser cette extension de fichier ?</string>
-    <string lang="fr" key="EXE_FILE_EXTENSION_MOUNT_WARNING">AVERTISSEMENT : Nous recommandons fortement que vous évitiez les extensions de fichiers qui sont utilisées pour les fichiers exécutables (tels que .exe, .sys ou .dll) et d'autres extensions de fichiers de même teneur. En utilisant ces extensions de fichier, Windows et les logiciels antivirus provoquent des interférences avec le conteneur, ce qui compromet les performances du volume et peut également causer d'autres graves problems.\n\nNous recommandons fortement que vous supprimiez l'extension de fichier ou la modifiez (par exemple, à '.tc') après avoir démonter le volume.</string>
+    <string lang="fr" key="EXE_FILE_EXTENSION_CONFIRM">AVERTISSEMENT : Nous recommandons fortement que vous évitiez les extensions de fichiers qui sont utilisées pour les fichiers exécutables (tels que .exe, .sys ou .dll) et d'autres extensions de fichiers de même teneur. En utilisant ces extensions de fichier, Windows et les logiciels antivirus provoquent des interférences avec le conteneur, ce qui compromet les performances du volume et peut également causer d'autres graves problems.\n\nNous recommandons fortement que vous supprimiez l'extension de fichier ou la modifiez (par exemple, à '.hc').\n\nÊtes-vous sûr que vous souhaitez utiliser cette extension de fichier ?</string>
+    <string lang="fr" key="EXE_FILE_EXTENSION_MOUNT_WARNING">AVERTISSEMENT : Nous recommandons fortement que vous évitiez les extensions de fichiers qui sont utilisées pour les fichiers exécutables (tels que .exe, .sys ou .dll) et d'autres extensions de fichiers de même teneur. En utilisant ces extensions de fichier, Windows et les logiciels antivirus provoquent des interférences avec le conteneur, ce qui compromet les performances du volume et peut également causer d'autres graves problems.\n\nNous recommandons fortement que vous supprimiez l'extension de fichier ou la modifiez (par exemple, à '.hc') après avoir démonter le volume.</string>
     <string lang="fr" key="HOMEPAGE">Site Web</string>
     <string lang="fr" key="LARGE_IDE_WARNING_XP">AVERTISSEMENT : Il semble que vous n'avez pas appliqué de Service Pack à votre installation Windows. Vous ne devriez pas écrire sur des disques IDE plus grands que 128 Go sous Windows XP où le Service Pack 1 ou ultérieur n'est pas installé ! Si vous le faites, les données du disque (quelles qu'elles soient) peuvent être corrompues. Notez qu'il s'agit d'une limitation de Windows et non un bogue de VeraCrypt.</string>
     <string lang="fr" key="LARGE_IDE_WARNING_2K">AVERTISSEMENT : Il semble que vous n'avez pas appliqué le Service Pack 3 ou ultérieur à votre installation Windows. Vous ne devriez pas écrire sur des disques IDE plus grands que 128 Go sous Windows 2000 où le Service Pack 3 ou ultérieur n'est pas installé ! Si vous le faites, les données du disque (quelles qu'elles soient) peuvent être corrompues. Notez qu'il s'agit d'une limitation de Windows et non un bogue de VeraCrypt.\n\nNote : Vous pouvez avoir besoin d'activer le support LBA 48 bits dans la base de registre. Pour plus d'informations, consultez http://support.microsoft.com/kb/305098/fr</string>
@@ -1105,9 +1105,9 @@
     <string lang="fr" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Avertissement : Il existe un espace non alloué entre la partition système et la première partition après celle-ci. Après la création du système d'exploitation caché, vous ne devez pas créer de nouvelles partitions dans cet espace non alloué. Dans le cas contraire, le système d'exploitation caché serait impossible à amorcer (jusqu'à la suppression des nouvelles partitions créées).</string>
     <string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Cet algorithme n'est pas encore supporté pour le chiffrement système.</string>
     <string lang="fr" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Cet algorithme n'est pas supporté pour le mode TrueCrypt.</string>
-    <string lang="fr" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Le PIM n'est pas supporté pour le mode TrueCrypt.</string>	  
+    <string lang="fr" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Le PIM n'est pas supporté pour le mode TrueCrypt.</string>
     <string lang="fr" key="PIM_REQUIRE_LONG_PASSWORD">Mot de passe doit contenir au moins 20 caractères pour pouvoir utiliser cette valeur de PIM.\nLes mots de passe plus courts ne peuvent être utilisés que si la PIM est égal à 485 ou supérieur.</string>
-    <string lang="fr" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Le mot de passe de pré-amorçage doit contenir au moins 20 caractères pour pouvoir utiliser cette valeur de PIM.\nLes mots de passe plus courts ne peuvent être utilisés que si la PIM est égal à 98 ou supérieur.</string>    
+    <string lang="fr" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Le mot de passe de pré-amorçage doit contenir au moins 20 caractères pour pouvoir utiliser cette valeur de PIM.\nLes mots de passe plus courts ne peuvent être utilisés que si la PIM est égal à 98 ou supérieur.</string>
     <string lang="fr" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Les fichiers clés ne sont actuellement pas pris en charge pour le chiffrement du système.</string>
     <string lang="fr" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Avertissement : VeraCrypt n'a pas pu restaurer la disposition originale du clavier. Cela peut vous faire saisir votre mot de passe de manière erronée .</string>
     <string lang="fr" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Erreur : Impossible de paramétrer la disposition du clavier pour VeraCrypt en clavier Américain standard.\n\nNotez que le mot de passe doit être saisi dans un environnement de pré-amorçage (avant que Windows ne démarre) où seul le clavier américain est disponible. Aussi le mot de passe doit toujours être saisi en utilisant la disposition du clavier américain.</string>

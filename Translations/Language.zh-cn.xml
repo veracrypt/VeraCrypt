@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.16">
     <!-- Languages -->
@@ -14,7 +14,7 @@
     <control lang="zh-cn" key="IDC_BROWSE">浏览(&amp;W)...</control>
     <control lang="zh-cn" key="IDC_DESKTOP_ICON">在桌面添加 VeraCrypt 图标(&amp;D)</control>
     <control lang="zh-cn" key="IDC_DONATE">现在捐助...</control>
-    <control lang="zh-cn" key="IDC_FILE_TYPE">关联 .tc 文件到 VeraCrypt(&amp;E) </control>
+    <control lang="zh-cn" key="IDC_FILE_TYPE">关联 .hc 文件到 VeraCrypt(&amp;E)</control>
     <control lang="zh-cn" key="IDC_OPEN_CONTAINING_FOLDER">完成后打开目标位置(&amp;O)</control>
     <control lang="zh-cn" key="IDC_PROG_GROUP">创建 VeraCrypt 开始菜单项目(&amp;S)</control>
     <control lang="zh-cn" key="IDC_SYSTEM_RESTORE">创建系统还原点(&amp;R)</control>
@@ -74,19 +74,19 @@
     <control lang="zh-cn" key="IDC_SYS_PARTITION">加密 Windows 系统分区</control>
     <control lang="zh-cn" key="IDC_WHOLE_SYS_DRIVE">加密整个硬盘驱动器</control>
     <control lang="zh-cn" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt 加密卷创建向导</control>
-    <control lang="zh-cn" key="IDT_CLUSTER">簇</control>
+    <control lang="zh-cn" key="IDT_CLUSTER">簇 </control>
     <control lang="zh-cn" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：在窗口范围内尽量任意移动鼠标。移动时间越长越好。这将会极大的增强密钥的加密强度。之后点击〖下一步〗按钮继续。</control>
     <control lang="zh-cn" key="IDT_CONFIRM">确认(&amp;C)：</control>
-    <control lang="zh-cn" key="IDT_DONE">完成 </control>
+    <control lang="zh-cn" key="IDT_DONE">完成</control>
     <control lang="zh-cn" key="IDT_DRIVE_LETTER">卷标:</control>
     <control lang="zh-cn" key="IDT_ENCRYPTION_ALGO">加密算法</control>
     <control lang="zh-cn" key="IDT_FILESYSTEM">文件系统 </control>
     <control lang="zh-cn" key="IDT_FILE_CONTAINER">创建一个文件类型的加密盘，推荐入门用户使用。</control>
     <control lang="zh-cn" key="IDT_FORMAT_OPTIONS">选项</control>
     <control lang="zh-cn" key="IDT_HASH_ALGO">哈希算法</control>
-    <control lang="zh-cn" key="IDT_HEADER_KEY">首密钥：</control>
-    <control lang="zh-cn" key="IDT_LEFT">剩余 </control>
-    <control lang="zh-cn" key="IDT_MASTER_KEY">主密钥：</control>
+    <control lang="zh-cn" key="IDT_HEADER_KEY">首密钥： </control>
+    <control lang="zh-cn" key="IDT_LEFT">剩余</control>
+    <control lang="zh-cn" key="IDT_MASTER_KEY">主密钥： </control>
     <control lang="zh-cn" key="IDT_MULTI_BOOT">如果此计算机上安装了两个或多个操作系统请选择此项。\n\n例如：\n- Windows XP 和 Windows XP\n- Windows XP 和 Windows Vista\n- Windows 和 Mac OS X\n- Windows 和 Linux\n- Windows，Linux 和 Mac OS X</control>
     <control lang="zh-cn" key="IDT_NON_SYS_DEVICE">加密一个内部或者外部驱动器上的非系统分区（例如：优盘）。也可以创建一个隐藏的加密卷。</control>
     <control lang="zh-cn" key="IDT_PARTIAL_POOL_CONTENTS">当前缓存内容（部分）</control>
@@ -95,9 +95,9 @@
     <control lang="zh-cn" key="IDT_PIM">新的卷 PIM:</control>
     <control lang="zh-cn" key="IDT_OLD_PIM">旧的卷 PIM:</control>
     <control lang="zh-cn" key="IDT_PROGRESS">进程：</control>
-    <control lang="zh-cn" key="IDT_RANDOM_POOL">随机缓冲：</control>
+    <control lang="zh-cn" key="IDT_RANDOM_POOL">随机缓冲： </control>
     <control lang="zh-cn" key="IDT_SINGLE_BOOT">如果计算机上只安装了一个操作系统请选择此项（尽管该操作系统下可能有多个用户）。</control>
-    <control lang="zh-cn" key="IDT_SPEED">速度 </control>
+    <control lang="zh-cn" key="IDT_SPEED">速度</control>
     <control lang="zh-cn" key="IDT_STATUS">状态</control>
     <control lang="zh-cn" key="IDT_SYSENC_KEYS_GEN_INFO">已成功生成密钥、要素、以及其它数据。如果您希望生成新的密钥，请点击〖后退〗然后点击〖下一步〗按钮。否则点击〖下一步〗按钮继续。</control>
     <control lang="zh-cn" key="IDT_SYS_DEVICE">加密 Windows 系统所在的 分区/驱动器。加密后，任何人想要访问和使用此加密系统、读写此系统盘下的文件等，都需每次在 Windows 启动前输入正确的密码。也可以选择创建一个隐形的操作系统。</control>
@@ -156,7 +156,7 @@
     <control lang="zh-cn" key="IDC_MOUNT_READONLY">以只读模式加载加密卷(&amp;O)</control>
     <control lang="zh-cn" key="IDC_NEW_KEYFILES">密钥文件...</control>
     <control lang="zh-cn" key="IDC_OLD_PIM_HELP">(留空或输入0以使用默认迭代参数)</control>
-    <control lang="zh-cn" key="IDC_PIM_HELP">(留空或输入0以使用默认迭代参数)</control>	
+    <control lang="zh-cn" key="IDC_PIM_HELP">(留空或输入0以使用默认迭代参数)</control>
     <control lang="zh-cn" key="IDC_PREF_BKG_TASK_ENABLE">启用</control>
     <control lang="zh-cn" key="IDC_PREF_CACHE_PASSWORDS">在驱动内存中缓存密码</control>
     <control lang="zh-cn" key="IDC_PREF_DISMOUNT_INACTIVE">自动卸载加密卷，在无数据读写动作下面时间后</control>
@@ -300,7 +300,7 @@
     <control lang="zh-cn" key="IDT_SECURITY_OPTIONS">安全选项</control>
     <control lang="zh-cn" key="IDT_TASKBAR_ICON">VeraCrypt 后台任务</control>
     <control lang="zh-cn" key="IDT_TRAVELER_MOUNT">要加载的 VeraCrypt 加密卷（相对于便携磁盘的根目录）：</control>
-    <control lang="zh-cn" key="IDT_TRAVEL_INSERTION">在插入便携磁盘时：</control>
+    <control lang="zh-cn" key="IDT_TRAVEL_INSERTION">在插入便携磁盘时： </control>
     <control lang="zh-cn" key="IDT_TRAVEL_ROOT">创建便携磁盘文件于（便携磁盘根目录）：</control>
     <control lang="zh-cn" key="IDT_VOLUME">加密卷</control>
     <control lang="zh-cn" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
@@ -464,7 +464,7 @@
     <string lang="zh-cn" key="SYSTEM_CRASH_ANALYSIS_INFO">点击〖确定〗按钮之后，VeraCrypt 将会分析系统崩溃原因，这可能需要几分钟时间。</string>
     <string lang="zh-cn" key="DEBUGGER_NOT_FOUND">请确认环境变量“PATH”包含“kd.exe”（内核调试器）的路径。</string>
     <string lang="zh-cn" key="SYSTEM_CRASH_NO_VERACRYPT">看起来VeraCrypt并未导致系统崩溃。系统崩溃是其它原因导致的（例如，硬件故障，设备驱动BUG等等）</string>
-    <string lang="zh-cn" key="SYSTEM_CRASH_UPDATE_DRIVER">分析结果表明更新以下驱动可能会解决问题：</string>
+    <string lang="zh-cn" key="SYSTEM_CRASH_UPDATE_DRIVER">分析结果表明更新以下驱动可能会解决问题： </string>
     <string lang="zh-cn" key="SYSTEM_CRASH_REPORT">要协助我们确认这是否为 Veracrypt 的错误，您可以向我们提交软件自动生成的错误报告，错误报告包括下面内容：\n- 程序版本\n- 操作系统版本\n- CPU类型\n- 错误类型\n- 驱动名称和版本\n- 系统调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在您的默认浏览器中打开。</string>
     <string lang="zh-cn" key="ASK_SEND_ERROR_REPORT">您希望向我们提交此错误报告吗？</string>
     <string lang="zh-cn" key="ENCRYPT">加密(&amp;E)</string>
@@ -624,7 +624,7 @@
     <string lang="zh-cn" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">请输入用于解密非系统加密卷的密码和(或)提供密钥文件。</string>
     <string lang="zh-cn" key="PASSWORD_HELP">选择一个安全的密码非常重要。您应该避免选取能够在字典中查到的简单词汇（或是2、3、4 这类字符组合）作为密码，也不应包含任何名字或生日，同时也不应该容易被猜到。安全的密码应当包含随机的大小写字母、数字、以及类似 @ ^ = $ * + 这样的特殊字符。我们推荐使用大于 20 个字符的密码（越长越好）。最大的密码长度为 64 个字符。</string>
     <string lang="zh-cn" key="PASSWORD_HIDDENVOL_HELP">请为隐藏加密卷选择一个密码。 </string>
-    <string lang="zh-cn" key="PASSWORD_HIDDEN_OS_HELP">请为隐形操作系统设置一个密码（即隐藏加密卷的密码）。</string>
+    <string lang="zh-cn" key="PASSWORD_HIDDEN_OS_HELP">请为隐形操作系统设置一个密码（即隐藏加密卷的密码）。 </string>
     <string lang="zh-cn" key="PASSWORD_HIDDEN_OS_NOTE">重要：您在本步骤中为隐形操作系统设置的密码必须绝对不同于其它的两个密码（也就是要不同于外层加密卷的密码和迷惑操作系统的密码）。</string>
     <string lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">请输入外层加密卷的密码（您将在该加密卷中创建隐藏加密卷）。\n\n在单击〖下一步〗后，VeraCrypt 会尝试加载此加密卷。一旦加密卷被加载，将进行簇状图扫描来确定连续的自由空间大小（如果有的话），此空间的尾部与加密卷尾部一致。该区域将提供给隐藏加密卷并因此会限制它的最大可能大小。簇状图扫描是必要的，这可以确保外层加密卷的数据不会被隐藏加密卷覆盖。</string>
     <string lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_HELP">\n请选择外层加密卷的密码。在您被攻击者强迫说出启动验证密码的情况下，这个密码可以告诉攻击者。\n\n重要：您为外层加密卷选择的密码必须不同于隐藏加密卷的密码。\n\n说明：密码的最大长度为 64 个字符。</string>
@@ -701,7 +701,7 @@
     <string lang="zh-cn" key="UNMOUNT_FAILED">卸载失败！</string>
     <string lang="zh-cn" key="UNMOUNT_LOCK_FAILED">加密卷包含的文件或文件夹 被应用程序或系统使用。\n\n强行卸载吗？</string>
     <string lang="zh-cn" key="NO_VOLUME_MOUNTED_TO_DRIVE">没有加密卷被加载到您所指定的盘符。</string>
-    <string lang="zh-cn" key="VOL_ALREADY_MOUNTED">您试图要加载的加密卷早已加载。</string>
+    <string lang="zh-cn" key="VOL_ALREADY_MOUNTED">您试图要加载的加密卷早已加载。 </string>
     <string lang="zh-cn" key="VOL_MOUNT_FAILED">试图加载加密卷时出错。</string>
     <string lang="zh-cn" key="VOL_SEEKING">在加密卷里寻址时出错。</string>
     <string lang="zh-cn" key="VOL_SIZE_WRONG">错误：错误的加密卷大小。</string>
@@ -819,7 +819,7 @@
     <string lang="zh-cn" key="PKCS5_ITERATIONS">PKCS-5 迭代次数</string>
     <string lang="zh-cn" key="VOLUME_CREATE_DATE">加密卷创建时间</string>
     <string lang="zh-cn" key="VOLUME_HEADER_DATE">头信息上次修改时间</string>
-    <string lang="zh-cn" key="VOLUME_HEADER_DAYS">（%I64d 天前）</string>
+    <string lang="zh-cn" key="VOLUME_HEADER_DAYS"> （%I64d 天前）</string>
     <string lang="zh-cn" key="VOLUME_FORMAT_VERSION">加密卷格式版本</string>
     <string lang="zh-cn" key="BACKUP_HEADER">内嵌的备份头信息</string>
     <string lang="zh-cn" key="VC_BOOT_LOADER_VERSION">VeraCrypt 启动管理器版本</string>
@@ -839,7 +839,7 @@
     <string lang="zh-cn" key="SETUP_PROGRESS_INFO">VeraCrypt 正在安装，请稍候。</string>
     <string lang="zh-cn" key="SETUP_FINISHED_TITLE_DON">VeraCrypt 已经成功安装</string>
     <string lang="zh-cn" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCrypt 已经成功更新</string>
-    <string lang="zh-cn" key="SETUP_FINISHED_INFO_DON">请考虑给予捐助。您可在任何时间点击〖完成〗按钮关闭安装程序。 </string>
+    <string lang="zh-cn" key="SETUP_FINISHED_INFO_DON">请考虑给予捐助。您可在任何时间点击〖完成〗按钮关闭安装程序。</string>
     <string lang="zh-cn" key="EXTRACTION_OPTIONS_TITLE">释放选项</string>
     <string lang="zh-cn" key="EXTRACTION_OPTIONS_INFO">您可以在这里设置控制释放过程的不同选项。</string>
     <string lang="zh-cn" key="EXTRACTION_PROGRESS_INFO">正在释放文件，请稍候。</string>
@@ -882,7 +882,7 @@
     <string lang="zh-cn" key="INSTALL_OF_FAILED">安装 '%hs' 失败。 %hs 您想要继续安装吗？</string>
     <string lang="zh-cn" key="UNINSTALL_OF_FAILED">卸载 '%hs' 失败。 %hs 您想要继续卸载吗？</string>
     <string lang="zh-cn" key="INSTALL_COMPLETED">安装完毕。</string>
-    <string lang="zh-cn" key="CANT_CREATE_FOLDER">无法创建文件夹 '%hs' </string>
+    <string lang="zh-cn" key="CANT_CREATE_FOLDER">无法创建文件夹 '%hs'</string>
     <string lang="zh-cn" key="CLOSE_TC_FIRST">不能卸载 VeraCrypt 设备驱动。\n\n请首先关闭所有打开的 VeraCrypt 窗口。如果这样仍然不起作用，请重启计算机然后再试一次。</string>
     <string lang="zh-cn" key="DISMOUNT_ALL_FIRST">在安装或者卸载 VeraCrypt 之前必须先要卸载所有的 VeraCrypt 加密卷。</string>
     <string lang="zh-cn" key="UNINSTALL_OLD_VERSION_FIRST">当前系统已经安装了老版本的 VeraCrypt。在安装新版本前需要卸载旧版本的 VeraCrypt。\n\n在您关闭此对话框之后，将会加载旧版本的卸载程序。在卸载的过程中将不会执行任何加密分区的解密操作。在卸载旧版本的 VeraCrypt 之后，请再次运行新版 VeraCrypt 安装程序。</string>
@@ -969,7 +969,7 @@
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 应急盘已经被成功验证。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">应急盘验证失败。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再试一次。如果仍然无效，请尝试使用其它 CD/DVD 刻录软件或刻录盘。\n\n如果您尝试验证一个为不同的主密钥、密码、元素等创建的 VeraCrypt 应急盘，请注意这样的应急盘会无法通过验证。要创建一个新的和当前配置完全兼容的应急盘，请选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
     <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 应急盘ISO镜像已经被成功验证。</string>
-	<string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘ISO镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘ISO镜像，请选择 "系统" > "创建应急盘" 。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘ISO镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘ISO镜像，请选择 "系统" > "创建应急盘" 。</string>
     <string lang="zh-cn" key="ERROR_CREATING_RESCUE_DISK">创建 VeraCrypt 应急盘时失败。</string>
     <string lang="zh-cn" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 应急盘在隐形操作系统运行时无法创建。\n\n要创建 VeraCrypt 应急盘，请启动到迷惑操作系统之后选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
     <string lang="zh-cn" key="RESCUE_DISK_CHECK_FAILED">不能确定应急盘是否刻录成功。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再尝试验证一次。如果仍然无效，请尝试使用其它 %s 。\n\n如果您还没有创建应急盘，请首先创建一个，然后再点〖下一步〗按钮。\n\n如果您尝试验证一个运行加密盘创建向导以前创建的应急盘，则这样的应急盘是无法用于当前系统的，这是因为它是使用了不同的主密钥创建的。您需要刻录和创建一个新的应急盘。</string>
@@ -1085,7 +1085,7 @@
     <string lang="zh-cn" key="BOOT_LOADER_FINGERPRINT_CHECK_FAILED">警告: 验证VeraCrypt 启动管理器的指纹失败!\n你的磁盘可能已被攻击者篡改("Evil Maid" 攻击)。\n\n如果你使用急救盘恢复了VeraCrypt 启动管理器或者使用了一个不同版本的VeraCrypt，也可能出现此错误消息。\n\n建议你立即更新密码并还原成原来的VeraCrypt 启动管理器。推荐重新安装VeraCrypt并采取措施阻止非信任的用户访问设备。</string>
     <string lang="zh-cn" key="BOOT_LOADER_VERSION_INCORRECT_PREFERENCES">所要求版本的 VeraCrypt 启动管理器当前没有安装。这可能导致某些设置无法保存。</string>
     <string lang="zh-cn" key="CUSTOM_BOOT_LOADER_MESSAGE_HELP">提示：在某些环境，您可能希望避免外人（攻击者）在您启动计算机时看到您使用 VeraCrypt 加密了系统。上面的选项允许您自定义 VeraCrypt 启动管理器屏幕比避免此类事情发生。如果您启用了第一个选项，在启动验证屏幕不会显示任何文本（即时输入错误密码也不会提示）。在输入密码的时候计算机看起来就像被冻结的一样。此外，也可以显示自定义的信息来误导攻击者。例如，例如“Missing operating system”之类的英文信息（这个信息在 Windows 启动管理器未发现启动分区的时候显示）。然而，必须要提醒的是，如果攻击者分析硬盘的内容，他仍然可以发现硬盘上存在 VeraCrypt 启动管理器。</string>
-    <string lang="zh-cn" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">警告：请记住，如果您启用此选项，VeraCrypt 启动管理器不会显示任何文本（即便是输错密码也不会显示任何文本）。计算机在够输入密码的时候计算机看起来就像被冻结（没有响应）一样（光标不会移动并且在按下按键的时候也不会显示掩码）。\n\n您确认要启用此选项吗？ </string>
+    <string lang="zh-cn" key="CUSTOM_BOOT_LOADER_MESSAGE_PROMPT">警告：请记住，如果您启用此选项，VeraCrypt 启动管理器不会显示任何文本（即便是输错密码也不会显示任何文本）。计算机在够输入密码的时候计算机看起来就像被冻结（没有响应）一样（光标不会移动并且在按下按键的时候也不会显示掩码）。\n\n您确认要启用此选项吗？</string>
     <string lang="zh-cn" key="SYS_PARTITION_OR_DRIVE_APPEARS_FULLY_ENCRYPTED">您的系统分区/驱动器看起来已经完全加密了。</string>
     <string lang="zh-cn" key="SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK">VeraCrypt 不支持加密已经转换为动态磁盘的系统驱动器。</string>
     <string lang="zh-cn" key="WDE_UNSUPPORTED_FOR_EXTENDED_PARTITIONS">该系统驱动器包含扩展（逻辑）分区。\n\n 您只能在 Windows Vista 或以后版本中加密包含扩展（逻辑）分区的整个系统驱动器。而在 Windows XP 系统中，您只可以加密仅含有一个主分区的整个系统驱动器。\n\n请注意：您仍然可以加密系统分区，来取代加密整个驱动器（并且，有别于加密整个驱动器，您可以在驱动器上的任何非系统分区创建分区类型的 VeraCrypt 加密卷）。</string>
@@ -1105,9 +1105,9 @@
     <string lang="zh-cn" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系统分区和其后的第一个分区之间存在未分配空间。在您创建隐形操作系统之后，您必须不能在此未分配空间上创建任何新的分区，否则，隐形操作系统将无法启动（直到删除了这个新创建的分区）。</string>
     <string lang="zh-cn" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此算法当前不支持系统加密。</string>
     <string lang="zh-cn" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">当使用TrueCrypt模式时不能使用这个算法。</string>
-    <string lang="zh-cn" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">当使用TrueCrypt模式时不能使用PIM 。</string>	  
+    <string lang="zh-cn" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">当使用TrueCrypt模式时不能使用PIM 。</string>
     <string lang="zh-cn" key="PIM_REQUIRE_LONG_PASSWORD">要使用这个PIM数值，你的密码必须大于20个字符。\n如果密码小于20个字符，只能使用485以上的PIM。</string>
-    <string lang="zh-cn" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">要使用这个PIM数值，你的启动验证密码必须大于20个字符。\n如果密码小于20个字符，只能使用98以上的PIM。</string>    
+    <string lang="zh-cn" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">要使用这个PIM数值，你的启动验证密码必须大于20个字符。\n如果密码小于20个字符，只能使用98以上的PIM。</string>
     <string lang="zh-cn" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密钥文件当前不支持用在系统加密中。</string>
     <string lang="zh-cn" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCrypt 不能存储原始键盘布局。这可能导致您无法正确输入密码。</string>
     <string lang="zh-cn" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">错误：不能设置 VeraCrypt 键盘布局为标准的美国键盘布局。\n\n说明：在 Windows 启动前的启动验证里需要输入密码，此时非美国标准键盘布局不可用。因此，密码必须使用标准的美国键盘布局输入。</string>

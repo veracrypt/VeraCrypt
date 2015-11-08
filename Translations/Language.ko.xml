@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.16">
     <!-- Languages -->
@@ -14,7 +14,7 @@
     <control lang="ko" key="IDC_BROWSE">탐색(&amp;W)...</control>
     <control lang="ko" key="IDC_DESKTOP_ICON">바탕화면에 VeraCrypt 아이콘 추가</control>
     <control lang="ko" key="IDC_DONATE">기부하기...</control>
-    <control lang="ko" key="IDC_FILE_TYPE">VeraCrypt와 “.tc” 파일 확장자를 연결</control>
+    <control lang="ko" key="IDC_FILE_TYPE">VeraCrypt와 “.hc” 파일 확장자를 연결</control>
     <control lang="ko" key="IDC_OPEN_CONTAINING_FOLDER">완료시 타겟 위치 열기(&amp;O)</control>
     <control lang="ko" key="IDC_PROG_GROUP">시작 메뉴에 VeraCrypt 추가</control>
     <control lang="ko" key="IDC_SYSTEM_RESTORE">시스템 복구 시점 만들기</control>
@@ -74,19 +74,19 @@
     <control lang="ko" key="IDC_SYS_PARTITION">윈도우 시스템 파티션 암호화</control>
     <control lang="ko" key="IDC_WHOLE_SYS_DRIVE">전체 드라이브 암호화</control>
     <control lang="ko" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt 볼륨 만들기 마법사</control>
-    <control lang="ko" key="IDT_CLUSTER">클러스터</control>
+    <control lang="ko" key="IDT_CLUSTER">클러스터 </control>
     <control lang="ko" key="IDT_COLLECTING_RANDOM_DATA_NOTE">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 암호키의 암호력을 상당히 증대시킵니다. 계속하려면 "다음"을 클릭하세요.</control>
     <control lang="ko" key="IDT_CONFIRM">확인(&amp;C):</control>
     <control lang="ko" key="IDT_DONE">완료</control>
     <control lang="ko" key="IDT_DRIVE_LETTER">드라이브 문자:</control>
     <control lang="ko" key="IDT_ENCRYPTION_ALGO">암호 알고리듬</control>
-    <control lang="ko" key="IDT_FILESYSTEM">파일시스템</control>
+    <control lang="ko" key="IDT_FILESYSTEM">파일시스템 </control>
     <control lang="ko" key="IDT_FILE_CONTAINER">파일 안에 가상의 암호화된 디스크를 만듭니다. 경험 없는 사용자에게 권장합니다.</control>
     <control lang="ko" key="IDT_FORMAT_OPTIONS">옵션</control>
     <control lang="ko" key="IDT_HASH_ALGO">해시 알고리듬</control>
-    <control lang="ko" key="IDT_HEADER_KEY">헤더 키:</control>
+    <control lang="ko" key="IDT_HEADER_KEY">헤더 키: </control>
     <control lang="ko" key="IDT_LEFT">남음</control>
-    <control lang="ko" key="IDT_MASTER_KEY">마스터 키:</control>
+    <control lang="ko" key="IDT_MASTER_KEY">마스터 키: </control>
     <control lang="ko" key="IDT_MULTI_BOOT">컴퓨터에 두 개 또는 그 이상의 운영체제가 설치되어 있는 경우에 이 옵션을 선택합니다.\n\n예:\n- Windows XP 및 Windows XP\n- Windows XP 및 Windows Vista\n- Windows 및 Mac OS X\n- Windows 및 Linux\n- Windows, Linux 및 Mac OS X</control>
     <control lang="ko" key="IDT_NON_SYS_DEVICE">내부 또는 외부 드라이브(예: 플래시 드라이브)에 시스템이 아닌 파티션을 암호화합니다. 숨긴 볼륨을 선택적으로 만들 수 있습니다.</control>
     <control lang="ko" key="IDT_PARTIAL_POOL_CONTENTS">현재의 풀(Pool) 내용 (부분)</control>
@@ -95,7 +95,7 @@
     <control lang="ko" key="IDT_PIM">볼륨 PIM:</control>
     <control lang="ko" key="IDT_OLD_PIM">볼륨 PIM:</control>
     <control lang="ko" key="IDT_PROGRESS">진행:</control>
-    <control lang="ko" key="IDT_RANDOM_POOL">무작위 풀:</control>
+    <control lang="ko" key="IDT_RANDOM_POOL">무작위 풀: </control>
     <control lang="ko" key="IDT_SINGLE_BOOT">현재 컴퓨터에 설치된 운영체제가 한 개인 경우 (비록 사용자가 여럿 있는 경우라 하더라도) 이 옵션을 선택합니다.</control>
     <control lang="ko" key="IDT_SPEED">속도</control>
     <control lang="ko" key="IDT_STATUS">상태</control>
@@ -300,7 +300,7 @@
     <control lang="ko" key="IDT_SECURITY_OPTIONS">보안 옵션</control>
     <control lang="ko" key="IDT_TASKBAR_ICON">VeraCrypt 백그라운드 작업</control>
     <control lang="ko" key="IDT_TRAVELER_MOUNT">삽입할 VeraCrypt 볼륨 (휴대용 디스크 루트에 상대적임):</control>
-    <control lang="ko" key="IDT_TRAVEL_INSERTION">휴대용 디스크 삽입시:</control>
+    <control lang="ko" key="IDT_TRAVEL_INSERTION">휴대용 디스크 삽입시: </control>
     <control lang="ko" key="IDT_TRAVEL_ROOT">휴대용 디스크 파일을 만들 위치 (휴대용 디스크 루트 디렉토리):</control>
     <control lang="ko" key="IDT_VOLUME">볼륨</control>
     <control lang="ko" key="IDT_WINDOWS_RELATED_SETTING">창</control>
@@ -332,7 +332,7 @@
     <control lang="ko" key="IDC_RESET">초기화(&amp;R)</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD_MO">비밀번호 표시(&amp;D)</control>
     <control lang="ko" key="IDC_TOKEN_FILES_ADD">토큰 파일 추가(&amp;T)...</control>
-    <control lang="ko" key="IDC_USE_EMBEDDED_HEADER_BAK">볼륨에 내장된 백업 헤더 사용 (가능한 경우)(&amp;V) </control>
+    <control lang="ko" key="IDC_USE_EMBEDDED_HEADER_BAK">볼륨에 내장된 백업 헤더 사용 (가능한 경우)(&amp;V)</control>
     <control lang="ko" key="IDC_XTS_MODE_ENABLED">XTS 모드</control>
     <control lang="ko" key="IDD_ABOUT_DLG">VeraCrypt 정보</control>
     <control lang="ko" key="IDD_BENCHMARK_DLG">VeraCrypt - 암호 알고리듬 벤치마크</control>
@@ -345,7 +345,7 @@
     <control lang="ko" key="IDD_NEW_TOKEN_KEYFILE">새 보안 토큰 키파일 속성</control>
     <control lang="ko" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - 무작위 풀 향상</control>
     <control lang="ko" key="IDD_RAWDEVICES_DLG">파티션 또는 장치 선택</control>
-    <control lang="en" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
+    <control lang="ko" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
     <control lang="ko" key="IDD_TOKEN_KEYFILES">보안 토큰 키파일</control>
     <control lang="ko" key="IDD_TOKEN_PASSWORD">보안 토큰 비밀번호/PIN이 요구됨</control>
     <control lang="ko" key="IDT_ACTIVE_LANG_PACK">현재의 언어팩</control>
@@ -385,7 +385,7 @@
     <control lang="ko" key="MENU_TOOLS">도구(&amp;O)</control>
     <control lang="ko" key="MENU_SETTINGS">설정(&amp;G)</control>
     <control lang="ko" key="MENU_HELP">도움말(&amp;H)</control>
-    <control lang="ko" key="MENU_WEBSITE">홈페이지(&amp;P)</control>
+    <control lang="ko" key="MENU_WEBSITE">   홈페이지(&amp;P)   </control>
     <!-- Strings -->
     <string lang="ko" key="ABOUTBOX">정보(&amp;A)...</string>
     <string lang="ko" key="ACCESSMODEFAIL">이전 볼륨의 읽기전용 속성을 변경할 수 없습니다. 파일 접근 권한을 확인해 주세요.</string>
@@ -464,7 +464,7 @@
     <string lang="ko" key="SYSTEM_CRASH_ANALYSIS_INFO">OK를 클릭하시면 VeraCrypt의 시스템분석이 시작됩니다. 몇분이 될수있으니 기다려주세요.</string>
     <string lang="ko" key="DEBUGGER_NOT_FOUND">시스템 패스(PATH)가 커넬디버거를 (kd.exe, Kernel Debugger) 포함한것을 체크해주세요.</string>
     <string lang="ko" key="SYSTEM_CRASH_NO_VERACRYPT">시스템 충돌을 검사한 결과 VeraCrypt가 아닌 다른원인의 가능성이 있습니다 (예: 하드웨어의 오류, 장치 드라이버, etc.)</string>
-    <string lang="ko" key="SYSTEM_CRASH_UPDATE_DRIVER">시스템 충돌을 검사한 결과 다음의 드라이버들을 업데이트를 한후 다시 시도하세요:</string>
+    <string lang="ko" key="SYSTEM_CRASH_UPDATE_DRIVER">시스템 충돌을 검사한 결과 다음의 드라이버들을 업데이트를 한후 다시 시도하세요: </string>
     <string lang="ko" key="SYSTEM_CRASH_REPORT">버그가 있슴을 확인을 결정하기 위해서 VeraCrypt에 자동으로 생성된 에러보고서를 보고서를 보네겟습니까? 보고서에는 다음과 같은 정보가 포함이 되어있습니다:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\n만약 'YES'를 클릭하시면 다음과같은 URL이 열립니다.</string>
     <string lang="ko" key="ASK_SEND_ERROR_REPORT">위에 보이는 에러보고서를 VeraCrypt에게 보내고 싶습니까?</string>
     <string lang="ko" key="ENCRYPT">암호화(&amp;E)</string>
@@ -475,8 +475,8 @@
     <string lang="ko" key="FILE_HELP">(하드 디스크, USB 플래시 드라이브 등에 위치할 수 있는) VeraCrypt 보관소로 불리는 파일 안에 VeraCrypt 볼륨을 둘 수 있습니다. VeraCrypt 보관소는 일반의 보통 파일과 같습니다(* 예컨대 보통의 파일처럼 이동 또는 삭제가 가능합니다). 보관소를 위한 파일이름을 선택하고, 보관소가 만들어질 위치를 선택하려면 “파일 선택”을 클릭합니다.\n\n주의: 만약 기존의 파일을 선택하게 되면, VeraCrypt는 이 파일을 암호화하지 않습니다. 또한 이 파일은 삭제되고 “새롭게 생성된 VeraCrypt 보관소”로 교체됩니다. 기존의 파일을, 지금 만들려고 하는 VeraCrypt 보관소로 (나중에) 이동시켜서, 암호화할 수 있습니다.</string>
     <string lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL">생성될 외부 볼륨의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\nVeraCrypt 볼륨은 하드 디스크, USB 플래시 드라이브 등에 위치할 수 있는 파일(→ VeraCrypt 보관소) 안에 둘 수 있습니다. VeraCrypt 보관소는 보통의 파일처럼 이동 또는 삭제가 가능합니다. 보관소를 위한 파일이름을 선택하고, 보관소가 만들어질 위치를 선택하려면 “파일 선택”을 클릭합니다. 만약 기존의 파일을 선택하게 되면, VeraCrypt는 이 파일을 암호화하지 않습니다. 또한 이 파일은 삭제되고 새롭게 생성된 VeraCrypt 보관소로 교체됩니다. 기존의 파일을, 지금 만들려고 하는 VeraCrypt 보관소로 (나중에) 이동시켜서, 암호화할 수 있습니다.</string>
     <string lang="ko" key="DEVICE_HELP">암호화된 장치-기반의 VeraCrypt 볼륨은 ① 하드 디스크의 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 또한 파티션 자체를 암호화할 수도 있습니다.\n\n게다가 암호화된 장치-기반의 VeraCrypt 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n참고: 파티션을 포함하고 있는 장치 자체를 (단 한 개의 키로써) 완전히 암호화할 수 있습니다. 다만 윈도우가 설치되어 있고 그곳에서 부팅이 가능한 드라이브인 경우에 가능합니다.</string>
-    <string lang="ko" key="DEVICE_HELP_NO_INPLACE">장치-기반의 VeraCrypt 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 저장 장치 안에 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다. </string>
-    <string lang="ko" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n생성될 “외부 볼륨”의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\n외부 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 외부 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다. </string>
+    <string lang="ko" key="DEVICE_HELP_NO_INPLACE">장치-기반의 VeraCrypt 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 저장 장치 안에 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다.</string>
+    <string lang="ko" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n생성될 “외부 볼륨”의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\n외부 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 외부 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다.</string>
     <string lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\n숨긴 볼륨을 생성할 VeraCrypt 외부 볼륨의 위치를 선택해 주세요.</string>
     <string lang="ko" key="FILE_IN_USE">주의: 호스트 파일/장치가 이미 사용 중입니다!\n\n이것을 무시하면 시스템 불안정 등의 원하지 않는 결과를 초래할 수 있습니다. 호스트 파일/장치를 사용하는 모든 프로그램(예: 안티바이러스 또는 백업 프로그램)을 “볼륨이 삽입하기 전”에 닫아야 합니다.\n\n그래도 계속 하시겠습니까?</string>
     <string lang="ko" key="FILE_IN_USE_FAILED">오류: 볼륨을 삽입할 수 없습니다. 호스트 파일/장치가 이미 사용 중입니다. 접근권한 없는 삽입의 시도는 실패했습니다.</string>
@@ -490,7 +490,7 @@
     <string lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">볼륨 생성 모드</string>
     <string lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">이 방법은 파티션-기반 또는 장치-기반의 VeraCrypt 볼륨을 만드는 가장 빠른 방법입니다(* 다른 옵션인 “자체 암호화”는 각 섹터의 내용을 먼저 읽고, 암호화해서 쓰기 때문에 비교적 느립니다). 선택한 파티션/장치에 현재 저장되어 있는 모든 데이터는 잃게 됩니다(* 데이터는 암호화되지 않고 무작위 데이터로 덮어쓰기됩니다). 파티션에 있는 기존 데이터를 암호화하려면, 다른 옵션을 선택합니다.</string>
     <string lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">선택한 전체 파티션 및 이곳에 저장된 모든 데이터는 자체(in place) 암호화됩니다. 파티션이 비어 있는 경우, 다른 옵션을 선택해야 합니다(* 볼륨이 훨씬 더 빠르게 생성됩니다).</string>
-    <string lang="ko" key="NOTE_BEGINNING">참고:</string>
+    <string lang="ko" key="NOTE_BEGINNING">참고: </string>
     <string lang="ko" key="RESUME">다시 시작(&amp;R)</string>
     <string lang="ko" key="DEFER">연기(&amp;D)</string>
     <string lang="ko" key="START">시작(&amp;S)</string>
@@ -503,7 +503,7 @@
     <string lang="ko" key="WIPE_FINISHED">파티션/장치의 내용을 성공적으로 지웠습니다.</string>
     <string lang="ko" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">원래의 시스템(* 이 시스템의 숨겨진 시스템은 복제된 것임)이 존재했던 파티션의 내용을 성공적으로 지웠습니다.</string>
     <string lang="ko" key="DECOY_OS_VERSION_WARNING">(지워진 파티션에) 설치하려는 윈도우 버전이 현재 실행 중인 윈도우 버전과 동일한 것인가를 확인해 주세요. 이 작업은 두 시스템이 부트 파티션을 공통으로 공유하기 때문에 필요합니다.</string>
-    <string lang="en" key="SYSTEM_ENCRYPTION_FINISHED">The system partition/drive has been successfully encrypted.\n\nNote: If there are non-system VeraCrypt volumes that you need to have mounted automatically every time Windows starts, you can set it up by mounting each of them and selecting 'Favorites' &gt; 'Add Mounted Volume to System Favorites').</string>
+    <string lang="en" key="SYSTEM_ENCRYPTION_FINISHED">The system partition/drive has been successfully encrypted.\n\nNote: If there are non-system VeraCrypt volumes that you need to have mounted automatically every time Windows starts, you can set it up by mounting each of them and selecting 'Favorites' > 'Add Mounted Volume to System Favorites').</string>
     <string lang="ko" key="SYSTEM_DECRYPTION_FINISHED">시스템 파티션/드라이브를 성공적으로 암호해제했습니다.</string>
     <string lang="ko" key="FORMAT_FINISHED_HELP">\n\n볼륨이 성공적으로 만들어졌고, 사용할 준비가 되었습니다. 또 다른 VeraCrypt 볼륨을 만들려면 “다음”을 클릭하세요. 마법사를 끝내려면 “종료”를 클릭하세요.</string>
     <string lang="ko" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n숨겨진 VeraCrypt 볼륨을 성공적으로 만들었습니다(* 숨겨진 운영체제는 이 숨겨진 볼륨에 존재하게 됩니다).\n\n계속하려면 “다음”을 클릭합니다.</string>
@@ -530,7 +530,7 @@
     <string lang="ko" key="HIDVOL_HOST_FILLING_HELP_SYSENC">외부 볼륨이 만들어졌고, 드라이브 %hc:에 삽입되었습니다:. 실제로는 숨기고 싶지 않지만 겉으로 보기에 상당히 민감하게 보이는 파일들을 이 외부 볼륨에 지금 복사해야 합니다. 이러한 파일들은 노출을 강요하는 자에게 공개되어도 상관이 없는 “시스템 파티션 뒤의 첫번째 파티션에 대한 비밀번호용”입니다. 시스템 파티션에는 ① 외부 볼륨 및 ② 숨긴 볼륨(→ 숨긴 운영체제 포함)이 자리잡고 있습니다. 이러한 외부 볼륨용 비밀번호는 공개될 수 있지만, 숨긴 볼륨 (및 숨긴 운영체제)의 존재는 여전히 비밀로 남습니다.\n\n중요: 외부 볼륨에 복사한 파일이 %s 이상을 차지해선 안됩니다. 그렇지 않으면 외부 볼륨에 “숨긴 볼륨을 위한 충분한 공간”이 확보되지 않기 때문입니다. 이런 경우 계속 진행할 수 없게 됩니다. 복사 작업을 마친 후 “다음”을 클릭합니다(→ 볼륨을 꺼내지 마세요).</string>
     <string lang="ko" key="HIDVOL_HOST_FILLING_HELP">외부 볼륨이 성공적으로 만들어졌고, 드라이브 %hc:에 삽입되었습니다. 실제로는 숨기고 싶지 않지만 겉으로 보기에 상당히 민감한 파일을 이 볼륨에 지금 복사해야 합니다. 강요에 의해 비밀번호를 노출해야만 하는 경우, 거기에 있는 파일들이 표시됩니다. 외부 볼륨에 대한 비밀번호만 노출될 뿐, 숨긴 볼륨은 안전합니다. 나중에 만들어질 “숨긴 볼륨”에 진짜 소중한 파일을 저장하면 됩니다. 복사 작업이 끝나면 “다음”을 클릭하세요. 볼륨을 꺼내지 마세요.\n\n참고: “다음”을 클릭하면, 여유 공간(이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에, 숨긴 볼륨의 가능한 최대 크기를 제한하게 됩니다. 클러스터 비트맵 스캔은 “숨긴 볼륨”이 외부 볼륨을 데이터로 덮어쓰지 못하도록 하는 것입니다.</string>
     <string lang="ko" key="HIDVOL_HOST_FILLING_TITLE">외부 볼륨 내용</string>
-    <string lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n다음 단계에서 외부 볼륨에 대한 옵션을 설정하게 됩니다(→ 외부 볼륨 안에 숨긴 볼륨이 나중에 만들어집니다). </string>
+    <string lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n다음 단계에서 외부 볼륨에 대한 옵션을 설정하게 됩니다(→ 외부 볼륨 안에 숨긴 볼륨이 나중에 만들어집니다).</string>
     <string lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n다음 단계에서, (이전 단계에서 설명했듯이) 시스템 파티션 뒤의 첫번째 파티션 안에 이른바 “외부 VeraCrypt 볼륨”을 만들게 됩니다.</string>
     <string lang="ko" key="HIDVOL_HOST_PRE_CIPHER_TITLE">외부 볼륨</string>
     <string lang="ko" key="HIDDEN_OS_PRE_CIPHER_HELP">다음 단계에서 (숨긴 운영체제를 포함하고 있는) 숨긴 볼륨에 대한 옵션 및 비밀번호를 설정하게 됩니다.\n\n참고: 여유 공간(→ 이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에 “숨긴 볼륨의 가능한 최대 크기”를 제한하게 됩니다. 숨긴 볼륨의 가능한 최대 크기는 시스템 파티션의 것보다 더 크게 정해지게 됩니다. 이는 시스템 파티션의 전체 내용이 숨긴 볼륨에 복사될 필요가 있기 때문입니다. 이를 통해 숨긴 볼륨 영역에 쓰여진 데이터가 “외부 볼륨에 현재 저장되어 있는 데이터”를 덮어쓰지 못하도록 방지합니다.</string>
@@ -652,7 +652,7 @@
     <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
     <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
     <string lang="en" key="PIM_TITLE">Volume PIM</string>
-    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
+    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer > Organize > 'Folder and search options' > View).</string>
     <string lang="ko" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">숨긴 시스템을 포함하고 있는 숨긴 볼륨을 보호하려는 경우, 숨긴 볼륨에 대한 비밀번호를 입력할 때 “표준 US 키보드 레이아웃”을 사용하고 있는지 확인해 주십시오. (윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅 전 환경에서 비밀번호를 입력할 필요가 있기 때문입니다.</string>
     <string lang="ko" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">① 암호화 과정이 중단된 곳에서의 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 VeraCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 비-시스템 볼륨을 찾지 못했습니다.\n\n비밀번호/키파일이 올바른지 확인해 주시고, 파티션/볼륨이 시스템 또는 프로그램(* 안티바이러스 소프트웨어 포함)에 의해 사용되고 있는지를 확인해 주십시오.</string>
     <string lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</string>
@@ -713,7 +713,7 @@
     <string lang="ko" key="WRONG_VOL_TYPE">외계 볼륨에 대해 비밀번호를 변경할 수 없습니다.</string>
     <string lang="ko" key="SELECT_FREE_DRIVE">비어 있는 드라이브 문자를 목록에서 선택해 주세요.</string>
     <string lang="ko" key="SELECT_A_MOUNTED_VOLUME">드라이브 문자 목록에서 삽입된 볼륨을 선택해 주세요.</string>
-    <string lang="en" key="AMBIGUOUS_VOL_SELECTION">Two different mounted volumes are currently selected (one in the drive letter list and the other in the input field below the list).\n\nPlease choose the volume you wanted to select:</string>
+    <string lang="en" key="AMBIGUOUS_VOL_SELECTION">Warning: Two different volumes/devices are currently selected (the first is selected in the drive letter list and the second is selected in the input field below the drive letter list).\n\nPlease confirm your choice:</string>
     <string lang="ko" key="CANT_CREATE_AUTORUN">오류: autorun.inf를 만들 수 없습니다.</string>
     <string lang="ko" key="ERR_PROCESS_KEYFILE">키파일을 처리하는 동안 오류가 발생했습니다!</string>
     <string lang="ko" key="ERR_PROCESS_KEYFILE_PATH">키파일 경로를 처리하는 동안 오류가 발생했습니다!</string>
@@ -848,7 +848,7 @@
     <string lang="ko" key="AUTO_FOLDER_CREATION">지정한 폴더가 존재하지 않는 경우, 자동으로 폴더가 생성됩니다.</string>
     <string lang="ko" key="SETUP_UPGRADE_DESTINATION">VeraCrypt가 설치된 위치에서 VeraCrypt 프로그램 파일들이 업그레이드됩니다. 다른 위치를 선택할 필요가 있는 경우, 먼저 VeraCrypt를 제거해 주십시오.</string>
     <string lang="ko" key="AFTER_UPGRADE_RELEASE_NOTES">VeraCrypt 최신 버전의 배포 정보를 보시겠습니까?</string>
-    <string lang="ko" key="AFTER_INSTALL_TUTORIAL">이전에 VeraCrypt를 사용해 본 적이 없는 경우, VeraCrypt 사용자 안내서에서 Beginner’s Tutorial을 읽어볼 것을 권장합니다. 지금 읽어 보시겠습니까? </string>
+    <string lang="ko" key="AFTER_INSTALL_TUTORIAL">이전에 VeraCrypt를 사용해 본 적이 없는 경우, VeraCrypt 사용자 안내서에서 Beginner’s Tutorial을 읽어볼 것을 권장합니다. 지금 읽어 보시겠습니까?</string>
     <string lang="ko" key="SELECT_AN_ACTION">아래에서 실행한 동작을 선택해 주세요:</string>
     <string lang="ko" key="REPAIR_REINSTALL">수리/재설치</string>
     <string lang="ko" key="UPGRADE">업그레이드</string>
@@ -867,7 +867,7 @@
     <string lang="ko" key="INSTALL_OK">VeraCrypt를 성공적으로 설치했습니다.</string>
     <string lang="ko" key="SETUP_UPDATE_OK">VeraCrypt를 성공적으로 업데이트했습니다.</string>
     <string lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</string>
-    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu &gt; All programs &gt; Accessories &gt; System Tools &gt; System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
+    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu > All programs > Accessories > System Tools > System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
     <string lang="ko" key="UNINSTALL_OK">VeraCrypt를 성공적으로 제거했습니다.\n\nVeraCrypt 설치기와 %hs 폴더를 제거하려면 “마침”을 클릭하세요. VeraCrypt 설치기에 의해 설치되거나 VeraCrypt에 의해 생성된 것이 아닌 파일을 포함하고 있는 폴더는 제거되지 않는다는 것을 참고하세요.</string>
     <string lang="ko" key="REMOVING_REG">VeraCrypt 레지스트리 항목을 제거하는 중</string>
     <string lang="ko" key="ADDING_REG">레지스트리 항목 추가 중</string>
@@ -928,7 +928,7 @@
     <string lang="ko" key="SYS_FAVORITE_VOLUMES_SAVED">시스템 즐겨찾기 볼륨이 저장되었습니다.\n\n시스템이 시작될 때 “시스템 즐겨찾기 볼륨”이 삽입되게 하려면, “설정” &gt; “시스템 즐겨찾기 볼륨” &gt; “윈도우 시작시 시스템 볼륨 삽입”을 선택해 주십시오.</string>
     <string lang="en" key="FAVORITE_ADD_DRIVE_DEV_WARNING">The volume you are adding to favorites is neither a partition nor a dynamic volume. Therefore, VeraCrypt will be unable to mount this favorite volume if the device number changes.</string>
     <string lang="en" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">The volume you are adding to favorites is a partition not recognized by Windows.\n\nVeraCrypt will be unable to mount this favorite volume if the device number changes. Please set the type of the partition to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then add the partition to favorites again.</string>
-    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">VeraCrypt Background Task is disabled or it is configured to exit when there are no mounted volumes (or VeraCrypt is running in portable mode). This may prevent your favorite volumes from being automatically mounted when devices hosting them get connected.\n\nNote: To enable the VeraCrypt Background Task, select Settings &gt; Preferences and check the 'Enabled' checkbox in the section 'VeraCrypt Background Task'.</string>
+    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">VeraCrypt Background Task is disabled or it is configured to exit when there are no mounted volumes (or VeraCrypt is running in portable mode). This may prevent your favorite volumes from being automatically mounted when devices hosting them get connected.\n\nNote: To enable the VeraCrypt Background Task, select Settings > Preferences and check the 'Enabled' checkbox in the section 'VeraCrypt Background Task'.</string>
     <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR">A container stored in a remote filesystem shared over a network cannot be automatically mounted when its host device gets connected.</string>
     <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, the volume hosted on the device cannot be automatically mounted when the device gets connected.</string>
     <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable the volume hosted on the device to be automatically mounted when the device gets connected.</string>
@@ -948,7 +948,7 @@
     <string lang="ko" key="KEYFILE_ALREADY_EXISTS">키파일 '%s'가 이미 존재합니다.\n덮어 쓰시겠습니까? 'No'일경우 생성 과정은 중지됩니다</string>
     <string lang="ko" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">주의: 이 볼륨의 헤더가 손상되었습니다! VeraCrypt는 볼륨에 포함된 볼륨 헤더의 백업을 자동으로 사용했습니다.\n\n“도구” ▶ “볼륨 헤더 복구”를 선택해서 볼륨 헤더를 수리해야 합니다.</string>
     <string lang="ko" key="VOL_HEADER_BACKED_UP">볼륨 헤더 백업을 성공적으로 만들었습니다.\n\n중요: 이 백업을 이용해서 볼륨 헤더를 복구하게 되면 볼륨의 현재 비밀번호도 같이 복구합니다. 또한 볼륨을 삽입하는데 키파일이 필요한 경우, 볼륨 헤더가 복구되었을 때 볼륨을 다시 삽입하려면 동일한 키파일이 필요합니다.\n\n주의: 이 볼륨 헤더 백업은 현재의 특정 볼륨의 헤더만 복구하는 데 사용됩니다. 만약 이 헤더 백업으로 다른 볼륨의 헤더를 복구할 경우에 그 볼륨을 삽입할 수는 있지만, (그 볼륨의 마스터 키가 변경되기 때문에) 볼륨에 저장된 데이터의 암호해제는 할 수 없습니다.</string>
-    <string lang="ko" key="VOL_HEADER_RESTORED">볼륨 헤더가 성공적으로 복구되었습니다.\n\n중요: 이전 비밀번호도 같이 복구되었다는 것을 참고하세요. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨을 다시 삽입하고자 할 때도 동일한 키파일이 필요합니다. </string>
+    <string lang="ko" key="VOL_HEADER_RESTORED">볼륨 헤더가 성공적으로 복구되었습니다.\n\n중요: 이전 비밀번호도 같이 복구되었다는 것을 참고하세요. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨을 다시 삽입하고자 할 때도 동일한 키파일이 필요합니다.</string>
     <string lang="ko" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">보안상의 이유로 볼륨에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다.\n\n참고: 볼륨에 숨긴 볼륨이 있는 경우, 먼저 “외부 볼륨”에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다. 나중에 숨긴 볼륨 헤더의 백업을 선택한 경우, “숨긴 볼륨”에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다.</string>
     <string lang="ko" key="CONFIRM_VOL_HEADER_BAK">%hs에 대한 볼륨 헤더 백업을 만드시겠습니까?\n\n“예”를 클릭하면, 헤더 백업의 파일 이름을 묻게 됩니다.\n\n참고: 새로운 소금(→ 무작위 문자열)을 이용해서 ① 표준 볼륨 헤더 및 ② 숨긴 볼륨 헤더는 재암호화되고 백업 파일에 저장됩니다. 현재 볼륨 안에 “숨긴 볼륨”이 없을지라도, 백업 파일에 있는 숨긴 볼륨 헤더를 위해 남겨진 공간은 무작위 데이터로 채워지게 됩니다(→ 숨긴 볼륨의 효과적인 방법방법). 백업 파일에서 볼륨 헤더를 복구할 때, 볼륨 헤더 백업이 생성된 당시에 타당했던 ① 올바른 비밀번호 입력 또는 ② 올바른 키파일을 제공해야 합니다. 또한 비밀번호(또는 키파일)은 복구할 볼륨 헤더의 형식(→ 표준 또는 숨김)을 자동을 결정합니다. VeraCrypt는 시행착오를 거쳐 그 형식을 결정하게 됩니다.</string>
     <string lang="ko" key="CONFIRM_VOL_HEADER_RESTORE">%hs의 볼륨 헤더를 복구하시겠습니까?\n\n주의: 볼륨 헤더의 복구는 “백업이 만들어졌을 당시의 볼륨 비밀번호”도 동시에 복구합니다. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨 헤더가 복구된 후 다시 볼륨을 삽입하고자 할 때도 동일한 키파일이 필요합니다.\n\n“예”를 클릭하면, 헤더 백업 파일을 선택할 수 있습니다.</string>
@@ -992,14 +992,14 @@
     <string lang="ko" key="DIGIT_ONE">1</string>
     <string lang="ko" key="TWO_OR_MORE">2 또는 그 이상</string>
     <string lang="ko" key="MODE_OF_OPERATION">작업 모드</string>
-    <string lang="ko" key="LABEL_ITEM">레이블: </string>
-    <string lang="ko" key="SIZE_ITEM">크기: </string>
-    <string lang="ko" key="PATH_ITEM">경로: </string>
-    <string lang="ko" key="DRIVE_LETTER_ITEM">드라이브 문자: </string>
+    <string lang="ko" key="LABEL_ITEM">레이블:   </string>
+    <string lang="ko" key="SIZE_ITEM">크기:   </string>
+    <string lang="ko" key="PATH_ITEM">경로:   </string>
+    <string lang="ko" key="DRIVE_LETTER_ITEM">드라이브 문자:   </string>
     <string lang="ko" key="UNSUPPORTED_CHARS_IN_PWD">오류: 비밀번호는 ASCII 문자만을 포함해야 합니다.\n\n비밀번호에 ASCII 아닌 문자가 있는 경우, 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\n다음 문자는 허용됩니다:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="ko" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">주의: 비밀번호에 ASCII 아닌 문자가 포함되어 있습니다. 이 경우 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\nASCII 아닌 문자를 ASCII 문자로 모두 교체해야 합니다. 이렇게 하려면, “볼륨” ▶ “볼륨 비밀번호 변경”을 클릭하세요.\n\n다음은 ASCII 문자입니다:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="ko" key="EXE_FILE_EXTENSION_CONFIRM">주의: 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 및 문제를 일으키는 유사한 파일 확장자는 사용하지 않길 권장합니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n파일 확장자를 제거하거나 (예컨대 “.tc”) 등으로 변경할 것을 적극권장합니다.\n\n문제가 될 만한 파일 확장자를 정말로 사용하시겠습니까?</string>
-    <string lang="ko" key="EXE_FILE_EXTENSION_MOUNT_WARNING">주의: 이 보관소는 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 또는 유사한 문제를 일으킬 수 있는 파일 확장자를 가지고 있습니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n(볼륨을 꺼낸 후에) 보관소의 확장자를 변경(예: “.tc”)하거나 제거할 것을 권장합니다.</string>
+    <string lang="ko" key="EXE_FILE_EXTENSION_CONFIRM">주의: 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 및 문제를 일으키는 유사한 파일 확장자는 사용하지 않길 권장합니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n파일 확장자를 제거하거나 (예컨대 “.hc”) 등으로 변경할 것을 적극권장합니다.\n\n문제가 될 만한 파일 확장자를 정말로 사용하시겠습니까?</string>
+    <string lang="ko" key="EXE_FILE_EXTENSION_MOUNT_WARNING">주의: 이 보관소는 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 또는 유사한 문제를 일으킬 수 있는 파일 확장자를 가지고 있습니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n(볼륨을 꺼낸 후에) 보관소의 확장자를 변경(예: “.hc”)하거나 제거할 것을 권장합니다.</string>
     <string lang="ko" key="HOMEPAGE">홈페이지</string>
     <string lang="ko" key="LARGE_IDE_WARNING_XP">주의: 윈도우 설치에 서비스팩을 적용하지 않은 것으로 보입니다. 서비스팩 1 또는 그 이상을 적용하지 않은 Windows XP를 사용하는 경우, 128 GB보다 큰 IDE 디스크에 데이터를 쓰면 안됩니다! 만약 그 디스크(VeraCrypt 볼륨인지 여부에 상관없음)에 데이터를 쓰게 되면, 데이터가 손상될 수도 있습니다. 이는 윈도우의 버그이지, VeraCrypt의 버그가 아닙니다.</string>
     <string lang="ko" key="LARGE_IDE_WARNING_2K">주의: 윈도우 설치에 서비스팩 3 또는 그 이상을 적용하지 않은 것으로 보입니다. 서비스팩 3 또는 그 이상을 적용하지 않은 Windows 2000을 사용하는 경우, 128 GB보다 큰 IDE 디스크에 데이터를 쓰면 안됩니다! 만약 그 디스크(VeraCrypt 볼륨인지 여부에 상관없음)에 데이터를 쓰게 되면, 데이터가 손상될 수도 있습니다. 이는 윈도우의 제한이지, VeraCrypt의 버그가 아닙니다.\n\n참고: 레지스트리에서 48-비트 LBA 지원을 사용가능하게 해야 할지도 모릅니다. 추가정보 → http://support.microsoft.com/kb/305098/EN-US</string>
@@ -1101,7 +1101,7 @@
     <string lang="en" key="DECOY_OS_REINSTALL_WARNING">WARNING: During the process of creation of the hidden operating system, you will be required to fully reinstall the currently running system (in order to create a decoy system securely).\n\nNote: The currently running operating system and the entire content of the system partition will be copied to the hidden volume (in order to create the hidden system).\n\n\nAre you sure you will be able to install Windows using a Windows Setup medium (or using a service partition)?</string>
     <string lang="ko" key="DECOY_OS_REQUIREMENTS">보안상의 이유로, 현재 실행 중인 운영체제가 인증을 요구할 경우, 진행하기 전에 인증을 해야 합니다. 왜냐하면 “숨긴 운영체제”는 시스템 파티션의 내용을 숨긴 볼륨에 복사함으로써 생성되기 때문입니다. 만약 이러한 운영체제가 인증되지 않은 경우에는 숨긴 운영체제 또한 인증되지 않습니다. 더 자세한 정보를 보려면 VeraCrypt 사용자 안내서의 “Security Requirements and Precautions Pertaning to Hidden Volumes” 장을 참고하시기 바랍니다.\n\n중요: 진행하기 전에 VeraCrypt 사용자 안내서에 있는 “Security Requirements and Precautions Pertaining to Hidden Volumes”(숨긴 볼륨에 관련된 보안 지침)의 내용을 읽어보시길 권장합니다.\n\n\n현재 운영체제가 위 조건들을 충족시키고 있습니까?</string>
     <string lang="ko" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">사용자의 시스템이 별도의 부트 파티션을 사용하고 있습니다. VeraCrypt는 별도의 부트 파티션을 사용하는 숨겨진 운영체제에서의 최대 절전 모드를 지원하지 않습니다(* 미끼용 시스템에서는 별 문제없이 최대 절전 모드 기능을 사용할 수 있습니다).\n\n부트 파티션이 미끼용 및 숨겨진 시스템에 의해 공유되는 것은 아닌지 확인해 주십시오. 그래서 최대 절전 모드 상태에서 깨어날 때 데이터 누수 및 문제점을 방지하기 위해, VeraCrypt는 숨겨진 시스템이 공유된 부트 파티션에 쓰는 것을 방지하고 또한 이 시스템이 최대 절전 모드로 진입하는 것을 막게 되는 것입니다.\n\n계속하시겠습니까? “아니오”를 선택하면, 별도의 부트 파티션을 제거하기 위한 지침이 표시됩니다.</string>
-    <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
+    <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' > 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="ko" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">주의: 시스템 파티션과 그 뒤에 있는 첫번쩨 파티션 사이에 할당되지 않은 공간이 있습니다. 숨긴 운영체제를 생성한 후에, 이러한 미할당 공간에 새로운 파티션을 만들어선 안됩니다. 그렇지 않으면 (새롭게 만들어진 파티션을 제거하기 전까지는) 숨긴 운영체제로 부팅을 할 수 없게 됩니다.</string>
     <string lang="ko" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">이 알고리듬은 현재 시스템 암호화에 지원되지 않습니다.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
@@ -1255,7 +1255,7 @@
     <string lang="ko" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">이전에 설명된 문제점을 만날 경우, (암호화된 경우라면) 파티션/드라이브를 암호해제한 다음 비-층계적 암호 알고리듬(예: AES)을 사용해서 다시 암호화를 시도합니다.</string>
     <string lang="en" key="UPDATE_TC_IN_DECOY_OS_FIRST">WARNING: For safety and security reasons, you should update VeraCrypt on the decoy operating system before you update it on the hidden operating system.\n\nTo do so, boot the decoy system and run the VeraCrypt installer from within it. Then boot the hidden system and run the installer from within it as well.\n\nNote: The decoy system and the hidden system share a single boot loader. If you upgraded VeraCrypt only on the hidden system (but not on the decoy system), the decoy system would contain a VeraCrypt driver and VeraCrypt applications whose version numbers are different from the version number of the VeraCrypt Boot Loader. Such a discrepancy might indicate that there is a hidden operating system on this computer.\n\n\nDo you want to continue?</string>
     <string lang="ko" key="UPDATE_TC_IN_HIDDEN_OS_TOO">현재 운영체제를 부팅시켰던 VeraCrypt 부트 로더의 버전 번호는 “현재 시스템에 설치된 VeraCrypt 드라이버 및 VeraCrypt 프로그램의 버전 번호”와 서로 다릅니다.\n\n현재 운영체제에 있는 VeraCrypt를 업데이트하려면 (버전 번호가 VeraCrypt 부트 로더의 것과 동일한) VeraCrypt 설치기를 실행해야 합니다.</string>
-    <string lang="en" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">The version number of the VeraCrypt Boot Loader that booted this operating system is different from the version number of the VeraCrypt driver (and of the VeraCrypt applications) installed on this system. Note that older versions may contain bugs fixed in later versions.\n\nIf you did not boot from the VeraCrypt Rescue Disk, you should reinstall VeraCrypt or upgrade it to the latest stable version (the boot loader will be updated too).\n\nIf you booted from the VeraCrypt Rescue Disk, you should update it ('System' &gt; 'Create Rescue Disk').</string>
+    <string lang="en" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">The version number of the VeraCrypt Boot Loader that booted this operating system is different from the version number of the VeraCrypt driver (and of the VeraCrypt applications) installed on this system. Note that older versions may contain bugs fixed in later versions.\n\nIf you did not boot from the VeraCrypt Rescue Disk, you should reinstall VeraCrypt or upgrade it to the latest stable version (the boot loader will be updated too).\n\nIf you booted from the VeraCrypt Rescue Disk, you should update it ('System' > 'Create Rescue Disk').</string>
     <string lang="ko" key="BOOT_LOADER_UPGRADE_OK">VeraCrypt 부트 로더가 업그레이드되었습니다.\n\n(VeraCrypt 부트 로더의 새 버전을 포함할) 새로운 VeraCrypt 응급복구 디스크를 만들 것을 권장합니다(→ 컴퓨터를 다시 시작한 다음 “시스템” ▶ “응급복구 디스크 만들기” 선택).</string>
     <string lang="ko" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">VeraCrypt 부트 로더가 업그레이드되었습니다.\n\n미끼용 운영체제로 부팅한 다음 “시스템” ▶ “응급복구 디스크 만들기” 선택해서 (VeraCrypt 부트 로더의 새 버전을 포함할) 새로운 VeraCrypt 응급복구 디스크를 만들 것을 권장합니다.</string>
     <string lang="ko" key="BOOT_LOADER_UPGRADE_FAILED">VeraCrypt 부트 로더를 업그레이드하는 데 실패했습니다.</string>
@@ -1305,8 +1305,8 @@
     <string lang="ko" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">운영체제가 호스트 장치를 쓰기-금지로 보고했기 때문에 “%s” 볼륨이 읽기-전용으로 삽입되었습니다.\n\n일부 사용자 칩셉 드라이버는 쓰기-허용된 미디어를 쓰기-금지된 것으로 잘못 표시한다는 보고가 있음을 참고해 주십시오. 이 문제는 VeraCrypt에 의해 야기된 것이 아닙니다. 현재 시스템에 설치되어 있는 (* Microsoft가 아닌) 사용자 칩셉 드라이버를 업데이트하거나 제거해서 해결될 수 있습니다.</string>
     <string lang="en" key="LIMIT_ENC_THREAD_POOL_NOTE">Note that the Hyper-Threading technology provides multiple logical cores per a single physical core. When Hyper Threading is enabled, the number selected above represents the number of logical processors/cores.</string>
     <string lang="en" key="NUMBER_OF_THREADS">%d threads</string>
-    <string lang="en" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Note that hardware-accelerated AES is disabled, which will affect benchmark results (worse performance).\n\nTo enable hardware acceleration, select 'Settings' &gt; 'Performance' and enable the corresponding option.</string>
-    <string lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' &gt; 'Performance' and disable the corresponding option.</string>
+    <string lang="en" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Note that hardware-accelerated AES is disabled, which will affect benchmark results (worse performance).\n\nTo enable hardware acceleration, select 'Settings' > 'Performance' and enable the corresponding option.</string>
+    <string lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' > 'Performance' and disable the corresponding option.</string>
     <string lang="ko" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">VeraCrypt를 이용해서 파티션/드라이브의 쓰기-금지를 제거해 보시겠습니까?</string>
     <string lang="ko" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">경고: 이 설정은 성능이 저하 될수 있습니다.\n\n이설정을 사용 하시겠습니까??</string>
     <string lang="ko" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">경고: VeraCrypt볼륨이 자동으로 마운트 해재가 되었습니다.</string>
@@ -1363,9 +1363,9 @@
     <string lang="en" key="VKEY_FA">Play</string>
     <string lang="en" key="VKEY_FB">Zoom</string>
     <string lang="en" key="VK_NUMPAD">NumPad</string>
-    <string lang="en" key="VK_SHIFT">SHIFT</string>
+    <string lang="en" key="VK_SHIFT">Shift</string>
     <string lang="en" key="VK_CONTROL">Control</string>
-    <string lang="en" key="VK_ALT">ALT</string>
+    <string lang="en" key="VK_ALT">Alt</string>
     <string lang="en" key="VK_WIN">Win</string>
     <string lang="en" key="BYTE">B</string>
     <string lang="en" key="KB">KB</string>

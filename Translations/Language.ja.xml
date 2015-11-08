@@ -14,7 +14,7 @@
     <control lang="ja" key="IDC_BROWSE">参照(&amp;w)...</control>
     <control lang="ja" key="IDC_DESKTOP_ICON">VeraCryptアイコンをデスクトップに作成する(&amp;D)</control>
     <control lang="ja" key="IDC_DONATE">寄付する...</control>
-    <control lang="ja" key="IDC_FILE_TYPE">拡張子「.tc」をVeraCryptに関連づける(&amp;e)</control>
+    <control lang="ja" key="IDC_FILE_TYPE">拡張子「.hc」をVeraCryptに関連づける(&amp;e)</control>
     <control lang="ja" key="IDC_OPEN_CONTAINING_FOLDER">完了時にフォルダを開く(&amp;O)</control>
     <control lang="ja" key="IDC_PROG_GROUP">VeraCryptをスタートメニューに追加(&amp;S)</control>
     <control lang="ja" key="IDC_SYSTEM_RESTORE">システム復元ポイントの作成(&amp;R)</control>
@@ -39,7 +39,7 @@
     <control lang="ja" key="IDC_GB">&amp;GB</control>
     <control lang="ja" key="IDC_TB">&amp;TB</control>
     <control lang="ja" key="IDC_HIDDEN_SYSENC_INFO_LINK">詳細情報</control>
-    <control lang="ja" key="IDC_HIDDEN_VOL">VeraCrypt隠しボリューム(&amp;d)</control>
+    <control lang="ja" key="IDC_HIDDEN_VOL">VeraCrypt隠しボリューム(&amp;d) </control>
     <control lang="ja" key="IDC_HIDDEN_VOL_HELP">隠しボリュームについて</control>
     <control lang="ja" key="IDC_HIDVOL_WIZ_MODE_DIRECT">ダイレクトモード</control>
     <control lang="ja" key="IDC_HIDVOL_WIZ_MODE_FULL">通常モード</control>
@@ -74,19 +74,19 @@
     <control lang="ja" key="IDC_SYS_PARTITION">Windowsシステムパーティションを暗号化</control>
     <control lang="ja" key="IDC_WHOLE_SYS_DRIVE">ドライブ全体の暗号化</control>
     <control lang="ja" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCryptボリューム作成ウィザード</control>
-    <control lang="ja" key="IDT_CLUSTER">クラスター</control>
+    <control lang="ja" key="IDT_CLUSTER">クラスター </control>
     <control lang="ja" key="IDT_COLLECTING_RANDOM_DATA_NOTE">重要：このウィンドウ内にてできるかぎりランダムにマウスを動かしてください。これにより暗号鍵の強度を大幅に上げられます。長く動かすほど良い結果を得られます。終わったら「次へ」をクリックしてください。</control>
     <control lang="ja" key="IDT_CONFIRM">確認入力(&amp;C)：</control>
-    <control lang="ja" key="IDT_DONE">完了 </control>
+    <control lang="ja" key="IDT_DONE">完了</control>
     <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="ja" key="IDT_ENCRYPTION_ALGO">暗号化アルゴリズム</control>
-    <control lang="ja" key="IDT_FILESYSTEM">ファイルシステム</control>
+    <control lang="ja" key="IDT_FILESYSTEM">ファイルシステム </control>
     <control lang="ja" key="IDT_FILE_CONTAINER">ファイルとして仮想暗号化ディスクを作成します。\n初心者にはこちらを推奨します。</control>
     <control lang="ja" key="IDT_FORMAT_OPTIONS">オプション</control>
     <control lang="ja" key="IDT_HASH_ALGO">ハッシュアルゴリズム</control>
-    <control lang="ja" key="IDT_HEADER_KEY">ヘッダーキー：</control>
-    <control lang="ja" key="IDT_LEFT">残り </control>
-    <control lang="ja" key="IDT_MASTER_KEY">マスターキー：</control>
+    <control lang="ja" key="IDT_HEADER_KEY">ヘッダーキー： </control>
+    <control lang="ja" key="IDT_LEFT">残り</control>
+    <control lang="ja" key="IDT_MASTER_KEY">マスターキー： </control>
     <control lang="ja" key="IDT_MULTI_BOOT">このマシンに複数のOSがインストールされている場合はこのオプションを選択してください。\n\n例：\n- Windows XP + Windows XP\n- Windows XP + Windows Vista\n- Windows + Mac OS X\n- Windows + Linux\n- Windows + Linux + Mac OS X</control>
     <control lang="ja" key="IDT_NON_SYS_DEVICE">内蔵あるいは外付けの、システムを含まないパーティション（例：フラッシュドライブ）を暗号化します。隠しボリュームも作れます。</control>
     <control lang="ja" key="IDT_PARTIAL_POOL_CONTENTS">カレントプールの内容（部分）</control>
@@ -95,9 +95,9 @@
     <control lang="en" key="IDT_PIM">Volume PIM:</control>
     <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="ja" key="IDT_PROGRESS">進行状況:</control>
-    <control lang="ja" key="IDT_RANDOM_POOL">ランダムプール：</control>
+    <control lang="ja" key="IDT_RANDOM_POOL">ランダムプール： </control>
     <control lang="ja" key="IDT_SINGLE_BOOT">このマシンにインストールされたOSが一つだけの場合はこのオプションを選択してください（複数ユーザーで使っていても同様）。</control>
-    <control lang="ja" key="IDT_SPEED">スピード </control>
+    <control lang="ja" key="IDT_SPEED">スピード</control>
     <control lang="ja" key="IDT_STATUS">ステータス</control>
     <control lang="ja" key="IDT_SYSENC_KEYS_GEN_INFO">暗号鍵、ソルト、その他のデータの生成に成功しました。新しい暗号鍵を生成したい場合は「戻る」をクリックして「次へ」をクリックしてください。それ以外は「次へ」をクリックしてください。</control>
     <control lang="ja" key="IDT_SYS_DEVICE">Windowsがインストールされているパーティションあるいはドライブを暗号化します。このシステム上のファイルを読み書きするためには、Windowsを起動するたびに正しいパスワードを入力しなければならなくなります。隠しシステムを作ることもできます。</control>
@@ -156,7 +156,7 @@
     <control lang="ja" key="IDC_MOUNT_READONLY">ボリュームを読み取り専用でマウント(&amp;O)</control>
     <control lang="ja" key="IDC_NEW_KEYFILES">キーファイル...</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="ja" key="IDC_PREF_BKG_TASK_ENABLE">常駐する</control>
     <control lang="ja" key="IDC_PREF_CACHE_PASSWORDS">パスワードをドライバのメモリに記憶する</control>
     <control lang="ja" key="IDC_PREF_DISMOUNT_INACTIVE">右に示す時間内に読み書きがなければ自動的にアンマウント</control>
@@ -224,7 +224,7 @@
     <control lang="ja" key="IDM_ENCRYPT_SYSTEM_DEVICE">システムパーティション/ドライブの暗号化...</control>
     <control lang="ja" key="IDM_FAQ">よくある質問と答え</control>
     <control lang="ja" key="IDM_HELP">ユーザーズガイド</control>
-    <control lang="ja" key="IDM_HOMEPAGE">ホームページ(&amp;H)</control>
+    <control lang="ja" key="IDM_HOMEPAGE">ホームページ(&amp;H) </control>
     <control lang="ja" key="IDM_HOTKEY_SETTINGS">ホットキー...</control>
     <control lang="ja" key="IDM_KEYFILE_GENERATOR">キーファイル生成</control>
     <control lang="ja" key="IDM_LANGUAGE">言語...</control>
@@ -371,7 +371,7 @@
     <control lang="ja" key="IDT_SECURITY_TOKEN">セキュリティトークン:</control>
     <control lang="ja" key="IDT_SORT_METHOD">並び替え：</control>
     <control lang="ja" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">このままお待ちください。長時間かかるものと思われます。</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="ja" key="IDT_TEST_BLOCK_NUMBER">ブロック番号:</control>
     <control lang="ja" key="IDT_TEST_CIPHERTEXT">暗号文(16進)</control>
     <control lang="ja" key="IDT_TEST_DATA_UNIT_NUMBER">データユニット番号(64ビット16進, データユニットサイズ:512バイト)</control>
@@ -385,7 +385,7 @@
     <control lang="ja" key="MENU_TOOLS">ツール(&amp;O)</control>
     <control lang="ja" key="MENU_SETTINGS">設定(&amp;g)</control>
     <control lang="ja" key="MENU_HELP">ヘルプ(&amp;H)</control>
-    <control lang="ja" key="MENU_WEBSITE">ホームページ(&amp;P)</control>
+    <control lang="ja" key="MENU_WEBSITE">   ホームページ(&amp;P)   </control>
     <!-- Strings -->
     <string lang="ja" key="ABOUTBOX">バージョン情報(&amp;A)...</string>
     <string lang="ja" key="ACCESSMODEFAIL">古いボリュームの読み取り専用属性を変更できません。ファイルのアクセス許可を確認してください。</string>
@@ -464,7 +464,7 @@
     <string lang="ja" key="SYSTEM_CRASH_ANALYSIS_INFO">「OK」をクリックするとシステムクラッシュの解析を始めます。これには数分かかる見込みです。</string>
     <string lang="ja" key="DEBUGGER_NOT_FOUND">環境変数「PATH」に 'kd.exe' (Kernel Debugger) へのパスが含まれているか確認してください。</string>
     <string lang="ja" key="SYSTEM_CRASH_NO_VERACRYPT">十中八九、VeraCryptはシステムクラッシュの原因ではないようです。システムがクラッシュした理由には様々な原因が考えられます。例えばハードウェアの故障、デバイスドライバのバグなどです。</string>
-    <string lang="ja" key="SYSTEM_CRASH_UPDATE_DRIVER">解析結果によると、以下のドライバーをアップデートすることで問題が解決するかもしれません：</string>
+    <string lang="ja" key="SYSTEM_CRASH_UPDATE_DRIVER">解析結果によると、以下のドライバーをアップデートすることで問題が解決するかもしれません： </string>
     <string lang="ja" key="SYSTEM_CRASH_REPORT">私たちがVeraCryptにバグがあるのかを確認できるよう、以下の事項が含まれた自動生成のエラーレポートを送信することができます。\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- エラーのカテゴリー\n- ドライバーの名前とバージョン\n- システムコールスタック\n\nもし「はい」を選択すると、下記のURL(エラーレポートの全項目が含まれる)がデフォルトのインターネットブラウザーで開かれます。</string>
     <string lang="ja" key="ASK_SEND_ERROR_REPORT">上記のエラーレポートを送信しますか？</string>
     <string lang="ja" key="ENCRYPT">暗号化(&amp;E)</string>
@@ -490,7 +490,7 @@
     <string lang="ja" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">ボリューム作成モード</string>
     <string lang="ja" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">これがパーティション型あるいはデバイス型のVeraCryptボリュームを作成するための最速の方法です（別オプションのその場での暗号化は、セクタごとに読み込み、暗号化し、書き込みを行うためにより時間がかかります）。選択されたパーティション/デバイス上の既存のデータはすべて削除されます（既存データは暗号化されるわけではなくランダムなデータで上書きされます）。このパーティション上の既存データを暗号化したいのであれば、別のオプションを選択してください。</string>
     <string lang="ja" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">選択されたパーティション上の全データがその場で暗号化されます。もしパーティションが空なら別のオプションを選択すべきです（より速くボリュームが作成されます）。</string>
-    <string lang="ja" key="NOTE_BEGINNING">注：</string>
+    <string lang="ja" key="NOTE_BEGINNING">注： </string>
     <string lang="ja" key="RESUME">レジューム(&amp;R)</string>
     <string lang="ja" key="DEFER">保留(&amp;D)</string>
     <string lang="ja" key="START">開始(&amp;S)</string>
@@ -530,7 +530,7 @@
     <string lang="ja" key="HIDVOL_HOST_FILLING_HELP_SYSENC">外殻ボリュームが作成され、%hc: ドライブとしてマウントされました。この外殻ボリュームには、本当は隠す必要はないが、一見、秘密のように見えるファイルをいくつかコピーしてください。これは、システムパーティションのすぐ後にあるパーティション（外殻ボリュームと隠しボリュームを含んでいる）のパスワードの開示を強要されたときのためのものです。外殻ボリューム用のパスワードが漏れても、隠しボリューム（とその中の隠しOS）の存在は隠されたままです。\n\n重要：外殻ボリュームにコピーするファイルの総サイズは %s を越えてはいけません。さもなければ隠しボリュームのために十分な領域を確保できなくなり、その後の処理が継続できなくなるでしょう。ファイルのコピーが終了したら「次へ」をクリックしてください。外殻ボリュームはアンマウントしないでください。</string>
     <string lang="ja" key="HIDVOL_HOST_FILLING_HELP">外殻ボリュームが %hc:ドライブに無事に作成されました。このボリュームには、本当は隠す必要はないが、見た目は他人に隠したいように見えるファイルをいくつかコピーしておくべきです。それらのファイルは誰かがあなたにパスワードを明かすよう強要してきたときのためにあります。外殻ボリュームのパスワードは明かしても構いませんが、隠しボリュームのパスワードを明かしてはいけません。本当に大事なファイルは、この後、隠しボリュームを作ってからそこに入れてください。外殻ボリュームへのコピーが終わったら「次へ」をクリックしてください。このボリュームはアンマウントしないでください。\n\n注：「次へ」がクリックされると、ボリュームの終端まで連続する空き領域のサイズを調べるために外殻ボリュームのクラスタービットマップをスキャンします。その領域に隠しボリュームが置かれるため、そのサイズが隠しボリュームの最大サイズとなります。クラスタービットマップをスキャンすることで、外殻ボリュームのデータが隠しボリュームを上書きしないことを保証します。</string>
     <string lang="ja" key="HIDVOL_HOST_FILLING_TITLE">外殻ボリュームの内容</string>
-    <string lang="ja" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n次のステップで、まず外殻ボリュームのオプションを設定します（中に入れる隠しボリュームは後で作成されます）。 </string>
+    <string lang="ja" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n次のステップで、まず外殻ボリュームのオプションを設定します（中に入れる隠しボリュームは後で作成されます）。</string>
     <string lang="ja" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n次のステップで、外殻ボリュームと呼ばれるものを作成します。前のステップで説明したとおり、これはシステムパーティションのすぐ次のパーティションに作成されます。</string>
     <string lang="ja" key="HIDVOL_HOST_PRE_CIPHER_TITLE">外殻ボリューム</string>
     <string lang="ja" key="HIDDEN_OS_PRE_CIPHER_HELP">次の手順で隠しOSを格納する隠しボリュームのパスワードとオプションを設定してください。\n\n注：外殻ボリュームのクラスタービットマップが、外殻ボリュームの終端から連続した空き領域のサイズを調べるために走査されます。この空き領域が隠しボリューム用になるため、その容量が隠しボリュームとして可能な最大サイズとなります。また隠しボリュームのサイズは、システムパーティションより大きくなるように決定されます（システムパーティションの内容全体を隠しボリュームにコピーする必要があるからです）。この確認によって、隠しボリュームのデータで外殻ボリューム上のデータが上書きされないようにしています。</string>
@@ -623,8 +623,8 @@
     <string lang="ja" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">ボリュームリストから一つ選択してください。このリストには、暗号化処理が中断されていて、与えられたパスワードあるいはキーファイルで復号できるすべての非システムボリュームが含まれています。</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="ja" key="PASSWORD_HELP">質の良いパスワードにすることが非常に重要です。辞書に載っているような単語一つだけにしたり、あるいはそれを三つ四つ組み合わせた程度のものは避けるべきです。また何らかの名前や誕生日なども含ませるべきではありません。それは簡単に推測されてしまいます。 良いパスワードとは、大文字や小文字、数字や記号（ @ ^ = $ * + など）をランダムに組み合わせたものです。またパスワードの長さは20文字以上を推奨します（長い方がより良いです）。設定可能な最大長は64文字です。</string>
-    <string lang="ja" key="PASSWORD_HIDDENVOL_HELP">隠しボリューム用のパスワードを入力してください</string>
-    <string lang="ja" key="PASSWORD_HIDDEN_OS_HELP">隠しOS用のパスワードを入力してください（つまり隠しボリューム用です）。</string>
+    <string lang="ja" key="PASSWORD_HIDDENVOL_HELP">隠しボリューム用のパスワードを入力してください </string>
+    <string lang="ja" key="PASSWORD_HIDDEN_OS_HELP">隠しOS用のパスワードを入力してください（つまり隠しボリューム用です）。 </string>
     <string lang="ja" key="PASSWORD_HIDDEN_OS_NOTE">重要：このステップで設定される隠しOS用のパスワードは、他の二つのパスワード（つまり外殻ボリュームおよび囮OS用のもの）とは大幅に変えておく必要があります。</string>
     <string lang="ja" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">隠しボリュームを作って入れたいボリュームのパスワードを入力してください。\n\n「次へ」をクリックすると、VeraCryptはそのボリュームのマウントを試みます。ボリュームがマウントされるとすぐにクラスタービットマップが走査され、ボリューム終端からどれだけ連続した空き領域があるのかが測定されます。その領域は隠しボリュームの格納場所であり、これによって隠しボリュームの上限サイズが決まります。クラスターマップの走査は、隠しボリュームによって外殻ボリュームのデータが上書きされてしまわないために必要です。</string>
     <string lang="ja" key="PASSWORD_HIDDENVOL_HOST_HELP">\n外殻ボリューム用のパスワードを入力してください。これはあなたが誰かにパスワードを明かすよう強要されたときなどのためのものです。\n\n重要：このパスワードは隠しボリューム用のものとは大幅に変えておく必要があります。\n\n注：パスワードの最大文字数は64文字です。</string>
@@ -701,7 +701,7 @@
     <string lang="ja" key="UNMOUNT_FAILED">アンマウントに失敗しました！</string>
     <string lang="ja" key="UNMOUNT_LOCK_FAILED">ボリュームに、アプリケーションかシステムが使用中のファイルあるいはフォルダがあります。\n\n強制的にアンマウントしますか？</string>
     <string lang="ja" key="NO_VOLUME_MOUNTED_TO_DRIVE">指定されたドライブレターにはボリュームがマウントされませんでした。</string>
-    <string lang="ja" key="VOL_ALREADY_MOUNTED">マウントしようとしたボリュームはすでにマウントされています。</string>
+    <string lang="ja" key="VOL_ALREADY_MOUNTED">マウントしようとしたボリュームはすでにマウントされています。 </string>
     <string lang="ja" key="VOL_MOUNT_FAILED">ボリュームのマウント中にエラーが発生しました。</string>
     <string lang="ja" key="VOL_SEEKING">ボリューム内のシーク中にエラーが発生しました。</string>
     <string lang="ja" key="VOL_SIZE_WRONG">エラー：ボリュームのサイズが正しくありません。</string>
@@ -819,7 +819,7 @@
     <string lang="ja" key="PKCS5_ITERATIONS">PKCS#5 反復回数</string>
     <string lang="ja" key="VOLUME_CREATE_DATE">ボリューム作成日時</string>
     <string lang="ja" key="VOLUME_HEADER_DATE">ヘッダ最終更新日時</string>
-    <string lang="ja" key="VOLUME_HEADER_DAYS">（%I64d 日前）</string>
+    <string lang="ja" key="VOLUME_HEADER_DAYS"> （%I64d 日前）</string>
     <string lang="ja" key="VOLUME_FORMAT_VERSION">ボリュームフォーマットバージョン</string>
     <string lang="ja" key="BACKUP_HEADER">埋込バックアップヘッダ</string>
     <string lang="ja" key="VC_BOOT_LOADER_VERSION">VeraCryptブートローダーバージョン</string>
@@ -973,7 +973,7 @@
     <string lang="ja" key="ERROR_CREATING_RESCUE_DISK">VeraCryptレスキューディスクの作成中にエラーが発生しました。</string>
     <string lang="ja" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">隠しOSの起動中はVeraCryptレスキューディスクを作成することができません。\n\nレスキューディスクを作成するためには、囮用OSを起動し、[システム]-[レスキューディスク作成]を選択してください。</string>
     <string lang="ja" key="RESCUE_DISK_CHECK_FAILED">レスキューディスクが正しく作成されているか検証できませんでした。\n\nもしレスキューディスクを作成したばかりであれば、CD/DVDをいったん排出してから再度挿入し「次へ」をクリックしてみてください。もしこの方法でダメなら、他のメディア%sを使ってみてください。\n\nもしまだレスキューディスクを作成していないのであれば、作成してから「次へ」をクリックしてください。\n\nもしこのウィザードを開始する前に作成されたVeraCryptレスキューディスクを検証しようとしているのであれば、そのようなディスクは使えません。それは異なるマスターキーのために作成されたものだからです。この場合は新たにレスキューディスクを作成する必要があります。</string>
-    <string lang="ja" key="RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX">（あるいは他のレコーディングソフト）</string>
+    <string lang="ja" key="RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"> （あるいは他のレコーディングソフト）</string>
     <string lang="ja" key="SYSTEM_FAVORITES_DLG_TITLE">VeraCrypt - システムお気に入りボリューム</string>
     <string lang="ja" key="SYS_FAVORITES_HELP_LINK">システムお気に入りボリュームとは？</string>
     <string lang="ja" key="SYS_FAVORITES_REQUIRE_PBA">システムパーティション/ドライブは暗号化されてないようです。\n\nシステムお気に入りボリュームは起動前認証用のパスワードでのみマウントできます。したがって、システムお気に入りボリュームを使用するためには、先にシステムパーティション/ドライブを暗号化しておく必要があります。</string>
@@ -992,14 +992,14 @@
     <string lang="ja" key="DIGIT_ONE">1</string>
     <string lang="ja" key="TWO_OR_MORE">2以上</string>
     <string lang="ja" key="MODE_OF_OPERATION">動作モード</string>
-    <string lang="ja" key="LABEL_ITEM">ラベル: </string>
-    <string lang="ja" key="SIZE_ITEM">サイズ: </string>
-    <string lang="ja" key="PATH_ITEM">PATH: </string>
-    <string lang="ja" key="DRIVE_LETTER_ITEM">ドライブレター: </string>
+    <string lang="ja" key="LABEL_ITEM">ラベル:   </string>
+    <string lang="ja" key="SIZE_ITEM">サイズ:   </string>
+    <string lang="ja" key="PATH_ITEM">PATH:   </string>
+    <string lang="ja" key="DRIVE_LETTER_ITEM">ドライブレター:   </string>
     <string lang="ja" key="UNSUPPORTED_CHARS_IN_PWD">エラー：パスワードにはASCII文字しか使えません。\n\nASCII文字以外を使うと、システムの設定が変更されたときにボリュームがマウントできなくなる可能性があります。\n\n次の文字を使うことができます：\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="ja" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">警告：パスワードにASCII文字以外の文字が含まれています。このことによって、システムの設定が変更されたときに、ボリュームのマウントが不可能になる可能性があります。\n\n全ての非ASCII文字をASCII文字に置き換えてください。 そのためには、[ボリューム]-[パスワードの変更]とクリックしてください。\n\n次の文字を使うことができます：\n\n! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="ja" key="EXE_FILE_EXTENSION_CONFIRM">警告：ファイル名の拡張子として、実行可能なもの（例：.exe, .sys, .dll）や、その他問題を起こしそうなものを使わないように強く推奨します。そのような拡張子のファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのような拡張子は消すかあるいは変更する（例えば .tc へ）ことを強く推奨します。\n\nこのような問題となりうる拡張子を本当に使用しますか？</string>
-    <string lang="ja" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告；このコンテナファイルには、実行可能（例：.exe, .sys, .dll）あるいは、同様に問題を引き起こしそうな種類の拡張子が使われています。そのような拡張子のコンテナファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのボリュームをアンマウントした後、このような拡張子を消すかあるいは変更する（例えば .tc へ）ことを強く推奨します。</string>
+    <string lang="ja" key="EXE_FILE_EXTENSION_CONFIRM">警告：ファイル名の拡張子として、実行可能なもの（例：.exe, .sys, .dll）や、その他問題を起こしそうなものを使わないように強く推奨します。そのような拡張子のファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのような拡張子は消すかあるいは変更する（例えば .hc へ）ことを強く推奨します。\n\nこのような問題となりうる拡張子を本当に使用しますか？</string>
+    <string lang="ja" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告；このコンテナファイルには、実行可能（例：.exe, .sys, .dll）あるいは、同様に問題を引き起こしそうな種類の拡張子が使われています。そのような拡張子のコンテナファイルはWindowsやアンチウィルスソフトのチェック対象になるため、パフォーマンスを悪化させたり、その他深刻な問題を引き起こす要因となります。\n\nこのボリュームをアンマウントした後、このような拡張子を消すかあるいは変更する（例えば .hc へ）ことを強く推奨します。</string>
     <string lang="ja" key="HOMEPAGE">ホームページ</string>
     <string lang="ja" key="LARGE_IDE_WARNING_XP">警告：この Windows にはサービスパックが適用されていません。 サービスパック１以降が適用されていない WindowsXP では、128 GB を超えるサイズの IDE ハードディスクに書き込みができません！ もし書き込もうとすると（VeraCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、VeraCryptのバグではありません。</string>
     <string lang="ja" key="LARGE_IDE_WARNING_2K">警告：この Windows にはサービスパック３以降が適用されていません。 サービスパック３以降が適用されていない Windows2000 では、128 GB を超えるサイズの IDE ハードディスクに書き込みができません！ もし書き込もうとすると（VeraCryptボリュームであろうとなかろうと）ディスク上のデータが壊れてしまうでしょう。なお、これは Windows 自体の制限であって、VeraCryptのバグではありません。\n\n注：レジストリの設定で 48ビットLBAを扱えるようにする必要があります。詳しくは http://support.microsoft.com/kb/305098/JA を参照してください。</string>
@@ -1097,7 +1097,7 @@
     <string lang="ja" key="USER_PROFILE_NOT_ON_SYS_PARTITION">ユーザープロファイルがシステムパーティションに置かれていません。\n\nユーザープロファイルはシステムパーティションにのみ置いてください。</string>
     <string lang="ja" key="PAGING_FILE_NOT_ON_SYS_PARTITION">ページングファイルが非システムパーティションに置かれています。\n\nページングファイルはシステムパーティションにのみ置いてください。</string>
     <string lang="ja" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">Windowsのページングファイルを、Windowsのパーティション上のみに作成するよう設定を変更しますか？\n\n「はい」をクリックするとコンピュータは再起動されます。その後VeraCryptを起動し、隠しOSをもう一度作成してください。</string>
-    <string lang="ja" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION">さもなければ、隠しOSに対する「みせかけの拒否」に影響を及ぼすでしょう。\n\n注：もし敵対者が非システムパーティションにあるページングファイルを解析したなら、あなたがこのウィザードを隠しシステム作成モードで使用したことが判明し、それはすなわちこのコンピュータに隠しシステムがあることを示してしまうことになります。そのためVeraCryptは、システムパーティション上のすべてのファイルについて、隠しOSの作成中に安全に抹消します。</string>
+    <string lang="ja" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"> さもなければ、隠しOSに対する「みせかけの拒否」に影響を及ぼすでしょう。\n\n注：もし敵対者が非システムパーティションにあるページングファイルを解析したなら、あなたがこのウィザードを隠しシステム作成モードで使用したことが判明し、それはすなわちこのコンピュータに隠しシステムがあることを示してしまうことになります。そのためVeraCryptは、システムパーティション上のすべてのファイルについて、隠しOSの作成中に安全に抹消します。</string>
     <string lang="ja" key="DECOY_OS_REINSTALL_WARNING">警告：隠しOSの作成処理中、囮OSを安全に作成するために、現在起動中のシステムを再インストールする必要があります。\n\n注：隠しシステムを作成するために、現在起動中のシステムおよびシステムパーティション上のすべてのファイルは、隠しボリュームにコピーされます。\n\n\nWindowsをインストール可能なインストール用メディア（あるいはサービスパーティション）はお手元にありますか？</string>
     <string lang="ja" key="DECOY_OS_REQUIREMENTS">セキュリティ上の理由により、現在起動中のシステムにアクティベーションが必要な場合、処理を進める前にアクティベーションを済ませておく必要があります。隠しOSはシステムパーティションから隠しボリュームへファイルをコピーして作成されることに注意してください。現在起動中のシステムが未アクティベーションであるなら、隠しOSも同様に未アクティベーションとなります。より詳細な情報はユーザーズガイドの「隠しボリュームの安全に関する必要事項と予防策」をご覧ください。\n\n重要：処理を進める前に「隠しボリュームの安全に関する必要事項と予防策」をよくお読みください。\n\n\n現在起動中のシステムは上記の条件を満たしていますか？</string>
     <string lang="ja" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">このシステムは追加のブートパーティションを使用しています。VeraCryptは追加のブートパーティションを利用する隠しOSでの休止状態をサポートしていません（囮システムではそのような問題なく休止状態に入れます）。\n\nブートパーティションは囮と隠しの両システムで共用されることに留意してください。データの漏出防止と休止状態からの復帰時の問題に対処するため、VeraCryptは隠しシステムについて共用ブートパーティションへの書き込みおよびシステム休止を禁止する必要があるのです。\n\n\n処理を続けますか？ 「いいえ」を選択した場合、追加ブートパーティションを消去する手順が表示されます。</string>
@@ -1105,9 +1105,9 @@
     <string lang="ja" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：システムパーティションとその次のパーティションの間に未割り当ての領域が存在しています。隠しOSを作成した後は、この未割り当ての領域に新たにパーティションを作成してはいけません。さもなければ（新たに作成したパーティションを削除するまで）隠しOSが起動できなくなります。</string>
     <string lang="ja" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">このアルゴリズムはシステムの暗号化には現在対応していません。</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="ja" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">現在、システムの暗号化でのキーファイル使用には対応していません。</string>
     <string lang="ja" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCryptは元のキーボードレイアウトを復元できませんでした。そのためパスワードを正確に入力できないおそれがあります。</string>
     <string lang="ja" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">エラー：キーボードのレイアウトを標準USキーボードとして設定できません。\n\nシステム起動前に必要なパスワードがUS Windowsレイアウト以外のキーボードで入力されても無効となります。したがってパスワードは常に標準USレイアウトのキーボードで入力される必要があります。</string>

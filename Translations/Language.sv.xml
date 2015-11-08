@@ -14,7 +14,7 @@
     <control lang="sv" key="IDC_BROWSE">&amp;Bläddra …</control>
     <control lang="sv" key="IDC_DESKTOP_ICON">Skapa en genväg till VeraCrypt på skri&amp;vbordet</control>
     <control lang="sv" key="IDC_DONATE">Donera nu …</control>
-    <control lang="sv" key="IDC_FILE_TYPE">Associera filnamns&amp;tillägget .tc med VeraCrypt</control>
+    <control lang="sv" key="IDC_FILE_TYPE">Associera filnamns&amp;tillägget .hc med VeraCrypt</control>
     <control lang="sv" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Öppna målmappen efter slutförd uppackning</control>
     <control lang="sv" key="IDC_PROG_GROUP">Lägg till VeraCrypt till &amp;Start-menyn</control>
     <control lang="sv" key="IDC_SYSTEM_RESTORE">Skapa en system&amp;återställningspunkt</control>
@@ -156,7 +156,7 @@
     <control lang="sv" key="IDC_MOUNT_READONLY">Montera volym som &amp;skrivskyddad</control>
     <control lang="sv" key="IDC_NEW_KEYFILES">Ny&amp;ckelfiler …</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="sv" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiverad</control>
     <control lang="sv" key="IDC_PREF_CACHE_PASSWORDS">La&amp;gra lösenord i drivrutinens minnescache</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_INACTIVE">&amp;Demontera automatiskt volymer där inga data har skrivits eller lästs på</control>
@@ -371,7 +371,7 @@
     <control lang="sv" key="IDT_SECURITY_TOKEN">Säkerhetstoken:</control>
     <control lang="sv" key="IDT_SORT_METHOD">Sortering:</control>
     <control lang="sv" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Vänta. Denna process kan ta lång tid …</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="sv" key="IDT_TEST_BLOCK_NUMBER">Blocknummer:</control>
     <control lang="sv" key="IDT_TEST_CIPHERTEXT">Krypterad text (hexadecimalt)</control>
     <control lang="sv" key="IDT_TEST_DATA_UNIT_NUMBER">Dataenhetsnummer (64 bitar hexadecimalt, dataenhetsstorleken är 512 byte)</control>
@@ -998,8 +998,8 @@
     <string lang="sv" key="DRIVE_LETTER_ITEM">Enhetsbeteckning:   </string>
     <string lang="sv" key="UNSUPPORTED_CHARS_IN_PWD">Fel: Lösenord får endast innehålla ASCII-tecken.\n\nIcke-ASCII-tecken i lösenord kan orsaka att volymen blir omöjlig att montera när din systemkonfiguration ändras.\n\nFöljande tecken är tillåtna:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="sv" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Varning: Lösenordet innehåller icke-ASCII-tecken. Detta kan orsaka att volymen blir omöjlig att montera när din systemkonfiguration ändras.\n\nDu bör ersätta alla icke-ASCII-tecken i lösenordet med ASCII-tecken. För att göra det, välj ”Ändra volymlösenord” under ”Volymer” i rullgardinsmenyn.\n\nFöljande tecken är ASCII-tecken:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="sv" key="EXE_FILE_EXTENSION_CONFIRM">VARNING: Du rekommenderas att undvika filnamnstillägg som används av körbara filer (som exempelvis .exe, .sys och .dll) och andra liknande problematiska filnamnstillägg. Användning av sådana filnamnstillägg kan medföra att Windows och antivirusprogramvaror stör volymbehållaren, vilket har en avsevärd påverkan på volymens prestanda och även kan orsaka andra allvarliga problem.\n\nDu rekommenderas att ta bort filnamnstillägget eller ändra det (till exempelvis ”.tc”).\n\nÄr du säker på att du vill använda det problematiska filnamnstillägget?</string>
-    <string lang="sv" key="EXE_FILE_EXTENSION_MOUNT_WARNING">VARNING: Denna volymbehållare har ett filnamnstillägg som används av körbara filer (som exempelvis .exe, .sys och .dll) eller ett annat problematiskt filnamnstillägg. Det är mycket troligt att det kommer att medföra att Windows och antivirusprogramvaror stör volymbehållaren, vilket har en avsevärd påverkan på volymens prestanda och även kan orsaka andra allvarliga problem.\n\nDu rekommenderas att ta bort filnamnstillägget eller ändra det (till exempelvis ”.tc”) efter att du har demonterat volymen.</string>
+    <string lang="sv" key="EXE_FILE_EXTENSION_CONFIRM">VARNING: Du rekommenderas att undvika filnamnstillägg som används av körbara filer (som exempelvis .exe, .sys och .dll) och andra liknande problematiska filnamnstillägg. Användning av sådana filnamnstillägg kan medföra att Windows och antivirusprogramvaror stör volymbehållaren, vilket har en avsevärd påverkan på volymens prestanda och även kan orsaka andra allvarliga problem.\n\nDu rekommenderas att ta bort filnamnstillägget eller ändra det (till exempelvis ”.hc”).\n\nÄr du säker på att du vill använda det problematiska filnamnstillägget?</string>
+    <string lang="sv" key="EXE_FILE_EXTENSION_MOUNT_WARNING">VARNING: Denna volymbehållare har ett filnamnstillägg som används av körbara filer (som exempelvis .exe, .sys och .dll) eller ett annat problematiskt filnamnstillägg. Det är mycket troligt att det kommer att medföra att Windows och antivirusprogramvaror stör volymbehållaren, vilket har en avsevärd påverkan på volymens prestanda och även kan orsaka andra allvarliga problem.\n\nDu rekommenderas att ta bort filnamnstillägget eller ändra det (till exempelvis ”.hc”) efter att du har demonterat volymen.</string>
     <string lang="sv" key="HOMEPAGE">Webbplats</string>
     <string lang="sv" key="LARGE_IDE_WARNING_XP">VARNING: Det verkar som att du inte har installerat något servicepaket för Windows. Du bör inte skriva till IDE-diskar större än 128 GB i ett Windows XP som inte har uppdaterats med servicepaket 1 eller nyare! Om du gör det, kan data bli skadade (vare sig det handlar om en VeraCrypt-volym eller ej). Observera att detta beror på en begränsning i Windows, inte ett fel på VeraCrypt.</string>
     <string lang="sv" key="LARGE_IDE_WARNING_2K">VARNING: Det verkar som att du inte har installerat servicepaket 3 eller nyare för Windows. Du bör inte skriva till IDE-diskar större än 128 GB i ett Windows 2000 som inte har uppdaterats med servicepaket 3 eller nyare! Om du gör det, kan data bli skadade (vare sig det handlar om en VeraCrypt-volym eller ej). Observera att detta beror på en begränsning i Windows, inte ett fel på VeraCrypt.\n\nObservera: Du kan komma att behöva aktivera 48-bitars LBA-stöd i registret; läs mer om detta på sidan http://support.microsoft.com/kb/305098/EN-US</string>
@@ -1105,9 +1105,9 @@
     <string lang="sv" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Varning: Det finns oallokerat utrymme mellan systempartitionen och den första partitionen efter den. Efter att du skapat det dolda operativsystemet, får du inte skapa några nya partitioner i det oallokerade utrymmet. I så fall kommer det dolda operativsystemet att vara omöjligt att starta (tills du tar bort de nyskapade partitionerna).</string>
     <string lang="sv" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Denna algoritm stöds för närvarande inte vid systemkryptering.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="sv" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Nyckelfiler stöds för närvarande inte vid systemkryptering.</string>
     <string lang="sv" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Varning: VeraCrypt kunde inte återställa den ursprungliga tangentbordslayouten. Detta kan orsaka att du anger ett felaktigt lösenord.</string>
     <string lang="sv" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Fel: Det går inte att ange amerikansk tangentbordslayout som tangentbordslayout för VeraCrypt.\n\nObservera att lösenordet måste anges i förstartsmiljön (innan Windows startas), där inga andra tangentbordslayouter än den amerikanska finns tillgängliga. Därför måste amerikansk tangentbordslayout alltid användas när du anger lösenordet.</string>

@@ -14,7 +14,7 @@
     <control lang="eu" key="IDC_BROWSE">Na&amp;bigatu...</control>
     <control lang="eu" key="IDC_DESKTOP_ICON">VeraCrypt-en ikonoa idazmahian sortu</control>
     <control lang="eu" key="IDC_DONATE">Orain eman...</control>
-    <control lang="eu" key="IDC_FILE_TYPE">.tc &amp;luzapena VeraCrypt-i lotu</control>
+    <control lang="eu" key="IDC_FILE_TYPE">.hc &amp;luzapena VeraCrypt-i lotu</control>
     <control lang="eu" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Bukatzerakoan helbidea ireki</control>
     <control lang="eu" key="IDC_PROG_GROUP">VeraCrypt &amp;Hasiera menuan erantsi</control>
     <control lang="eu" key="IDC_SYSTEM_RESTORE">&amp;Sistemaren Berreskuratze puntu bat sortu</control>
@@ -156,7 +156,7 @@
     <control lang="eu" key="IDC_MOUNT_READONLY">Bolumenak &amp;irakurtzeko bakarrik muntatu</control>
     <control lang="eu" key="IDC_NEW_KEYFILES">Gako-fitxategiak...</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="eu" key="IDC_PREF_BKG_TASK_ENABLE">Gaituta</control>
     <control lang="eu" key="IDC_PREF_CACHE_PASSWORDS">Pasahitzak gorde gailuaren memorian</control>
     <control lang="eu" key="IDC_PREF_DISMOUNT_INACTIVE">Bolumena auto-desmuntatu daturik ez bada idatzi/irakurri</control>
@@ -373,7 +373,7 @@
     <control lang="eu" key="IDT_SECURITY_TOKEN">Sekurtasun agiria:</control>
     <control lang="eu" key="IDT_SORT_METHOD">Sailkatze Modua:</control>
     <control lang="eu" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Mesedez itxaron. Prozesu honek denbora asko iraun dezake...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="eu" key="IDT_TEST_BLOCK_NUMBER">Blokearen Zenbakia:</control>
     <control lang="eu" key="IDT_TEST_CIPHERTEXT">Zifratutako Testua (hamaseitarra)</control>
     <control lang="eu" key="IDT_TEST_DATA_UNIT_NUMBER">Datu unitatearen zenbakia (64-bit hamaseitar, datu unitatearen tamaina 512 byte-takoa da)</control>
@@ -1000,8 +1000,8 @@
     <string lang="eu" key="DRIVE_LETTER_ITEM">Unitatearen Letra:   </string>
     <string lang="eu" key="UNSUPPORTED_CHARS_IN_PWD">Errorea: Pasahitzak ASCII karaktereak bakarrik izan ditzake.\n\nSistemaren konfigurazioa aldatzen bada pasahitzan dauden ASCII ez diren karaktereak muntaketa eragotzi dezakete.\n\nHurrengo karaktereak erabili daitezke:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="eu" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Kontuz: Pasahitzak ASCII ez diren karaktereak ditu. Honek bolumena ezin muntatzea eragin dezake zure sistemaren konfigurazioa aldatzen bada.\n\nPasahitzan dituzun ASCII ez diren karaktereak ASCII karaktereen ordez aldatu beharko zenituzke. Hau egiteko, 'Volumenak' -&gt; 'Change Volume Password' sakatu ezazu. Ondorengo hauek ASCII karaktereak dira:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="eu" key="EXE_FILE_EXTENSION_CONFIRM">KONTUZ: Gogor gomendatzen dugu fitxategi exekutagarrien fitxategi luzapenak (adibidez, .exe, .sys, edo .dll) eta bestelako arazodun fitxategi luzapenak ez erabiltzea. Fitxategi luzapen hauek erabiltzeak Windows eta antibirusek edukiontzietan oztopatzea ekartzen du, honek bolumenaren abiaduran eragin okerra dauka eta beste arazo garrantzitsuak sortu ditzake.\n\nGogor gomendatzen dugu fitxategiaren luzapena kentzea edo aldatzea (adibidez '.tc'-ra).\n\nZiur zaude arazoak ematen dituen fitxategi luzapena erabili nahi duzula?</string>
-    <string lang="eu" key="EXE_FILE_EXTENSION_MOUNT_WARNING">KONTUZ: Edukiontziak fitxategi exekutagarrientzako erabiltzen den luzapena dauka (adibidez, .exe, .sys, edo .dll) edo arazoak sortu ditzaken antzeko luzapen bat. Fitxategi luzapen hauek erabiltzeak Windows eta antibirusek edukiontzietan oztopatzea ekartzen du, honek bolumenaren abiaduran eragin okerra dauka eta beste arazo garrantzitsuak sortu ditzake.\n\nGogor gomendatzen dugu fitxategiaren luzapena kentzea edo aldatzea (adibidez '.tc'-ra) bolumena desmuntatu eta gero.</string>
+    <string lang="eu" key="EXE_FILE_EXTENSION_CONFIRM">KONTUZ: Gogor gomendatzen dugu fitxategi exekutagarrien fitxategi luzapenak (adibidez, .exe, .sys, edo .dll) eta bestelako arazodun fitxategi luzapenak ez erabiltzea. Fitxategi luzapen hauek erabiltzeak Windows eta antibirusek edukiontzietan oztopatzea ekartzen du, honek bolumenaren abiaduran eragin okerra dauka eta beste arazo garrantzitsuak sortu ditzake.\n\nGogor gomendatzen dugu fitxategiaren luzapena kentzea edo aldatzea (adibidez '.hc'-ra).\n\nZiur zaude arazoak ematen dituen fitxategi luzapena erabili nahi duzula?</string>
+    <string lang="eu" key="EXE_FILE_EXTENSION_MOUNT_WARNING">KONTUZ: Edukiontziak fitxategi exekutagarrientzako erabiltzen den luzapena dauka (adibidez, .exe, .sys, edo .dll) edo arazoak sortu ditzaken antzeko luzapen bat. Fitxategi luzapen hauek erabiltzeak Windows eta antibirusek edukiontzietan oztopatzea ekartzen du, honek bolumenaren abiaduran eragin okerra dauka eta beste arazo garrantzitsuak sortu ditzake.\n\nGogor gomendatzen dugu fitxategiaren luzapena kentzea edo aldatzea (adibidez '.hc'-ra) bolumena desmuntatu eta gero.</string>
     <string lang="eu" key="HOMEPAGE">Horri-Nagusia</string>
     <string lang="eu" key="LARGE_IDE_WARNING_XP">KONTUZ: Badirudi ez diozula Service Pack-ik instalatu zure Windowseko instalazioari. Ez zenuke idatzi behar 128GB baino gehiago dituzten IDE diskoetan Service Pack 1 edo gehiago ez duten Windows XP-tan! Egiten baduzu, diskan dauden datuak (berdin dio VeraCrypt bolumen bat den edo ez) hondatu daitezke. Ohartu zaitez hau Windowsen muga bat dela, ez VeraCrypt-en akats bat.</string>
     <string lang="eu" key="LARGE_IDE_WARNING_2K">KONTUZ: Badirudi ez diozula Service Pack edo ondorengorik jarri zure Windows instalazioari. Ez zenuke idatzi behar 128GB baino gehiago dituzten IDE diskoetan Service Pack 3 edo gehiago ez duten Windows 2000-tan! Egiten baduzu, diskan dauden datuak (berdin dio VeraCrypt bolumen bat den edo ez) hondatu daitezke. Ohartu zaitez hau Windowsen muga bat dela, ez VeraCrypt-en akats bat.\n\nOharra: Horretaz gain, agian 48 bit-eko LBA onartzea gaitu beharko duzu erregistroan; informazio gehiago nahi baduzu, http://support.microsoft.com/kb/305098/EN-US begiratu ezazu.</string>
@@ -1107,9 +1107,9 @@
     <string lang="eu" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Kontuz: Alokatu gabeko tarte bat dago sistemaren partizioa eta haren hurrengo partizioaren artean. Ezkutuko sistema eragilea sortu eta gero ezin izango duzu tarte horretan partizio berririk egin. Bestela, ezin izango da ezkutuko sistema eragilea hasieratu (partizio berri horiek ezabatu arte).</string>
     <string lang="eu" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Algoritmo honek momentuz ez du balio sistema zifratzeko .</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="eu" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Momentuz ezin dira gako-fitxategiak erabili sistema zifratzeko.</string>
     <string lang="eu" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Kontuz: VeraCrypt-ek ezin izan du teklatua diseinu originaera leheneratu. Honek pasahitza gaizki sartzea ekar dezake.</string>
     <string lang="eu" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Errorea: Ezin da VeraCrypt-entzat teklatuaren diseinua aldatu EB teklatu estandar diseinura.\n\nOhartu zaitez pasahitza hasieraketa aurreko ingurunean (Windows hasi aurretik) sartu behar dela eta bertan EB-etako teklatu diseinuak ez daudela eskuragarri. Horregatik, pasahitza beti sartu behar da EB-etako teklatu estandarraren diseinuarekin.</string>

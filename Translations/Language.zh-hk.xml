@@ -14,7 +14,7 @@
     <control lang="zh-hk" key="IDC_BROWSE">流覽(&amp;W)...</control>
     <control lang="zh-hk" key="IDC_DESKTOP_ICON">在桌面添加 VeraCrypt 圖示(&amp;D)</control>
     <control lang="en" key="IDC_DONATE">Donate now...</control>
-    <control lang="zh-hk" key="IDC_FILE_TYPE">關聯 .tc 文件到 VeraCrypt(&amp;E) </control>
+    <control lang="zh-hk" key="IDC_FILE_TYPE">關聯 .hc 文件到 VeraCrypt(&amp;E) </control>
     <control lang="zh-hk" key="IDC_OPEN_CONTAINING_FOLDER">完成後打開目標位置(&amp;O)</control>
     <control lang="zh-hk" key="IDC_PROG_GROUP">創建 VeraCrypt 的開始菜單項(&amp;S)</control>
     <control lang="zh-hk" key="IDC_SYSTEM_RESTORE">創建系統還原點(&amp;R)</control>
@@ -156,7 +156,7 @@
     <control lang="zh-hk" key="IDC_MOUNT_READONLY">以唯讀模式載入加密卷(&amp;O)</control>
     <control lang="zh-hk" key="IDC_NEW_KEYFILES">密鑰文件...</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="zh-hk" key="IDC_PREF_BKG_TASK_ENABLE">啟用</control>
     <control lang="zh-hk" key="IDC_PREF_CACHE_PASSWORDS">在驅動記憶體中緩存密碼</control>
     <control lang="zh-hk" key="IDC_PREF_DISMOUNT_INACTIVE">自動卸載加密卷，在無數據讀寫動作下面時間後</control>
@@ -371,7 +371,7 @@
     <control lang="zh-hk" key="IDT_SECURITY_TOKEN">安全口權杖：</control>
     <control lang="zh-hk" key="IDT_SORT_METHOD">排序方式：</control>
     <control lang="zh-hk" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">請耐心等待，此過程可能需要較長時間...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="zh-hk" key="IDT_TEST_BLOCK_NUMBER">塊數值：</control>
     <control lang="zh-hk" key="IDT_TEST_CIPHERTEXT">加密文本（十六進位）</control>
     <control lang="zh-hk" key="IDT_TEST_DATA_UNIT_NUMBER">資料單元數值（64-位元十六進位，資料單元大小為 512 位元組）</control>
@@ -449,7 +449,7 @@
     <string lang="zh-hk" key="DISK_FREE_PB">驅動器 %hs 的自由空間大小為 %.2f PB</string>
     <string lang="zh-hk" key="DRIVELETTERS">無法得到可用的驅動器盤符。</string>
     <string lang="zh-hk" key="DRIVER_NOT_FOUND">錯誤：未發現 VeraCrypt 驅動程式！\n\n請複製“veracrypt.sys”和“veracrypt-x64.sys”文件到 VeraCrypt.exe 程式所在的目錄。</string>
-    <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' &gt; Computer &gt; 'Uninstall or change a program' &gt; VeraCrypt &gt; Uninstall; on Windows XP, select 'Start Menu' &gt; Settings &gt; 'Control Panel' &gt; 'Add Or Remove Programs' &gt; VeraCrypt &gt; Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
+    <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' > Computer > 'Uninstall or change a program' > VeraCrypt > Uninstall; on Windows XP, select 'Start Menu' > Settings > 'Control Panel' > 'Add Or Remove Programs' > VeraCrypt > Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
     <string lang="zh-hk" key="ERR_CIPHER_INIT_FAILURE">錯誤：密碼初始化失敗。</string>
     <string lang="zh-hk" key="ERR_CIPHER_INIT_WEAK_KEY">錯誤：檢測到弱強度密鑰！ 密鑰將被廢棄。請重試。</string>
     <string lang="zh-hk" key="EXCEPTION_REPORT">發生了關鍵性錯誤，VeraCrypt 必須被終止。如果該錯誤是 VeraCrypt 的缺陷導致的，我們可能會修正它。要協助我們完善軟體，您可以把 Veracrypt 自動生成的錯誤報告發送給我們，報告包括下面內容：\n\n- 程式版本\n- 作業系統版本\n- CPU類型\n- VeraCrypt 元件名稱\n- VeraCrypt 執行程式的校驗值\n- 對話方塊視窗的符號標記\n- 錯誤分類\n- 錯誤位址資訊\n- VeraCrypt 調用堆疊\n\n如果您選擇“是”，下面的 URL 網址（包含錯誤報告）將會在您的默認流覽器中打開。\n\n%hs\n\n您希望發送給我們上述錯誤報告嗎？</string>
@@ -652,7 +652,7 @@
     <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
     <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
     <string lang="en" key="PIM_TITLE">Volume PIM</string>
-    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
+    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer > Organize > 'Folder and search options' > View).</string>
     <string lang="zh-hk" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">如果您試圖保護包含隱形系統的隱藏加密卷，請確認輸入隱藏加密卷密碼時您正在使用標準的美國鍵盤佈局。這是因為這些密碼實在啟動驗證環境中輸入的，而此時非美國鍵盤佈局將無法使用。</string>
     <string lang="zh-hk" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt 未發現加密過程被中斷的，同時頭資訊可以使用提供的密碼 和/或 密鑰檔解密的非系統分區。\n\n請確認密碼 和/或 密鑰檔是正確的，並且確認此 分區/卷 並未被作業系統或其他程式（也包含殺毒軟體）佔用。</string>
     <string lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</string>
@@ -867,7 +867,7 @@
     <string lang="zh-hk" key="INSTALL_OK">VeraCrypt 已成功安裝。</string>
     <string lang="zh-hk" key="SETUP_UPDATE_OK">VeraCrypt 已經成功更新。</string>
     <string lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</string>
-    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu &gt; All programs &gt; Accessories &gt; System Tools &gt; System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
+    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu > All programs > Accessories > System Tools > System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
     <string lang="zh-hk" key="UNINSTALL_OK">VeraCrypt 已成功卸載。\n\n單擊 '完成' 按鈕來移除 VeraCrypt 安裝程式和檔夾 %hs。注意：如果該檔夾中含有非安裝程式創建的檔，則該檔夾不會被移除。</string>
     <string lang="zh-hk" key="REMOVING_REG">正在移除 VeraCrypt 註冊表專案。</string>
     <string lang="zh-hk" key="ADDING_REG">正在添加註冊表專案</string>
@@ -1105,9 +1105,9 @@
     <string lang="zh-hk" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">警告：在系統分區和其後的第一個分區之間存在未分配空間。在您創建隱形作業系統之後，您必須不能在此未分配空間上創建任何新的分區，否則，隱形作業系統將無法啟動（直到刪除了這個新創建的分區）。</string>
     <string lang="zh-hk" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">此演算法當前不支援系統加密。</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="zh-hk" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">密鑰檔當前不支援用在系統加密中。</string>
     <string lang="zh-hk" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">警告：VeraCrypt 不能存儲原始鍵盤佈局。這可能導致您無法正確輸入密碼。</string>
     <string lang="zh-hk" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">錯誤：不能設置 VeraCrypt 鍵盤佈局為標準的美國鍵盤佈局。\n\n說明：在 Windows 啟動前的啟動驗證裏需要輸入密碼，此時非美國標準鍵盤佈局不可用。因此，密碼必須使用標準的美國鍵盤佈局輸入。</string>

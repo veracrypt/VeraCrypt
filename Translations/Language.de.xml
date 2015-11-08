@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.16">
     <!-- Languages -->
@@ -14,7 +14,7 @@
     <control lang="de" key="IDC_BROWSE">Su&amp;chen...</control>
     <control lang="de" key="IDC_DESKTOP_ICON">VeraCrypt-Symbol auf dem &amp;Desktop erstellen</control>
     <control lang="de" key="IDC_DONATE">Jetzt spenden...</control>
-    <control lang="de" key="IDC_FILE_TYPE">Verknüpft die .tc &amp;Dateierweiterung mit VeraCrypt</control>
+    <control lang="de" key="IDC_FILE_TYPE">Verknüpft die .hc &amp;Dateierweiterung mit VeraCrypt</control>
     <control lang="de" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Den Speicherort nach dem Beenden öffnen</control>
     <control lang="de" key="IDC_PROG_GROUP">VeraCrypt ins &amp;Startmenü eintragen</control>
     <control lang="de" key="IDC_SYSTEM_RESTORE">&amp;Wiederherstellungspunkt erstellen</control>
@@ -39,7 +39,7 @@
     <control lang="de" key="IDC_GB">&amp;GB</control>
     <control lang="de" key="IDC_TB">&amp;TB</control>
     <control lang="de" key="IDC_HIDDEN_SYSENC_INFO_LINK">Mehr Informationen</control>
-    <control lang="de" key="IDC_HIDDEN_VOL">Ver&amp;stecktes VeraCrypt-Volume</control>
+    <control lang="de" key="IDC_HIDDEN_VOL">Ver&amp;stecktes VeraCrypt-Volume </control>
     <control lang="de" key="IDC_HIDDEN_VOL_HELP">Mehr Informationen über Versteckte Volumes</control>
     <control lang="de" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direkter Modus</control>
     <control lang="de" key="IDC_HIDVOL_WIZ_MODE_FULL">Kompletter Modus</control>
@@ -74,19 +74,19 @@
     <control lang="de" key="IDC_SYS_PARTITION">Die Windows System-Partition verschlüsseln</control>
     <control lang="de" key="IDC_WHOLE_SYS_DRIVE">Gesamtes Laufwerk verschlüsseln</control>
     <control lang="de" key="IDD_VOL_CREATION_WIZARD_DLG">Assistent zum Erstellen eines VeraCrypt-Volumes</control>
-    <control lang="de" key="IDT_CLUSTER">Cluster</control>
+    <control lang="de" key="IDT_CLUSTER">Cluster </control>
     <control lang="de" key="IDT_COLLECTING_RANDOM_DATA_NOTE">WICHTIG: Den Mauszeiger in diesem Fenster zufällig hin und her bewegen. Je länger (min. 30 Sek.) Sie die Maus bewegen, desto besser. Dies trägt zu einer verbesserten Verschlüsselung bei. Klicken Sie dann auf 'Weiter' um fortzufahren.</control>
     <control lang="de" key="IDT_CONFIRM">&amp;Bestätigung:</control>
     <control lang="de" key="IDT_DONE">Fertig</control>
     <control lang="de" key="IDT_DRIVE_LETTER">Laufwerksbuchstabe:</control>
     <control lang="de" key="IDT_ENCRYPTION_ALGO">Verschlüsselungsalgorithmus</control>
-    <control lang="de" key="IDT_FILESYSTEM">Dateisystem</control>
+    <control lang="de" key="IDT_FILESYSTEM">Dateisystem </control>
     <control lang="de" key="IDT_FILE_CONTAINER">Erstellt ein Verschlüsseltes virtuelles Laufwerk, welches als Datei gespeichert wird. Für Anfänger empfohlen.</control>
     <control lang="de" key="IDT_FORMAT_OPTIONS">Optionen</control>
     <control lang="de" key="IDT_HASH_ALGO">Hash-Algorithmus</control>
-    <control lang="de" key="IDT_HEADER_KEY">Headerschlüssel:</control>
+    <control lang="de" key="IDT_HEADER_KEY">Headerschlüssel: </control>
     <control lang="de" key="IDT_LEFT">Rest</control>
-    <control lang="de" key="IDT_MASTER_KEY">Hauptschlüssel:</control>
+    <control lang="de" key="IDT_MASTER_KEY">Hauptschlüssel: </control>
     <control lang="de" key="IDT_MULTI_BOOT">Diese Option wählen, falls zwei oder mehrere Betriebssysteme auf diesem System installiert sind.\n\nZum Beispiel:\n- Windows 8 und Windows 8\n- Windows 8 und Windows 10\n- Windows und Mac OS X\n- Windows und Linux\n- Windows, Linux und Mac OS X</control>
     <control lang="de" key="IDT_NON_SYS_DEVICE">Verschlüsselt eine Nicht-Systempartition auf internen oder externen Laufwerken (als normales oder verstecktes Volume).</control>
     <control lang="de" key="IDT_PARTIAL_POOL_CONTENTS">Aktueller Inhalte-Pool (teilweise)</control>
@@ -95,7 +95,7 @@
     <control lang="de" key="IDT_PIM">Volume PIM:</control>
     <control lang="de" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="de" key="IDT_PROGRESS">Fortschritt:</control>
-    <control lang="de" key="IDT_RANDOM_POOL">Zufallswerte:</control>
+    <control lang="de" key="IDT_RANDOM_POOL">Zufallswerte: </control>
     <control lang="de" key="IDT_SINGLE_BOOT">Diese Option wählen wenn sich nur ein Betriebssystem auf dem Computer befindet (auch bei mehreren Benutzern).</control>
     <control lang="de" key="IDT_SPEED">Geschw.</control>
     <control lang="de" key="IDT_STATUS">Status</control>
@@ -224,7 +224,7 @@
     <control lang="de" key="IDM_ENCRYPT_SYSTEM_DEVICE">System-Partition/Laufwerk verschlüsseln...</control>
     <control lang="de" key="IDM_FAQ">Häufig gestellte &amp;Fragen (FAQ)</control>
     <control lang="de" key="IDM_HELP">&amp;Benutzerhandbuch</control>
-    <control lang="de" key="IDM_HOMEPAGE">Homepage</control>
+    <control lang="de" key="IDM_HOMEPAGE">Homepage </control>
     <control lang="de" key="IDM_HOTKEY_SETTINGS">&amp;Tastenkombinationen...</control>
     <control lang="de" key="IDM_KEYFILE_GENERATOR">&amp;Schlüsseldatei(en) generieren</control>
     <control lang="de" key="IDM_LANGUAGE">&amp;Sprache...</control>
@@ -300,7 +300,7 @@
     <control lang="de" key="IDT_SECURITY_OPTIONS">Sicherheitsoptionen</control>
     <control lang="de" key="IDT_TASKBAR_ICON">VeraCrypt Hintergrunddienst</control>
     <control lang="de" key="IDT_TRAVELER_MOUNT">VeraCrypt-Volume einbinden (relativ zum Traveler-Disk Verz.):</control>
-    <control lang="de" key="IDT_TRAVEL_INSERTION">Beim Anschließen einer Traveler Disk:</control>
+    <control lang="de" key="IDT_TRAVEL_INSERTION">Beim Anschließen einer Traveler Disk: </control>
     <control lang="de" key="IDT_TRAVEL_ROOT">Erstelle die Traveler Disk Dateien in (Traveler Disk Stammverzeichnis):</control>
     <control lang="de" key="IDT_VOLUME">Volume</control>
     <control lang="de" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
@@ -385,7 +385,7 @@
     <control lang="de" key="MENU_TOOLS">E&amp;xtras</control>
     <control lang="de" key="MENU_SETTINGS">Einstellun&amp;gen</control>
     <control lang="de" key="MENU_HELP">&amp;Hilfe</control>
-    <control lang="de" key="MENU_WEBSITE">Home&amp;page</control>
+    <control lang="de" key="MENU_WEBSITE">   Home&amp;page   </control>
     <!-- Strings -->
     <string lang="de" key="ABOUTBOX">&amp;Über VeraCrypt...</string>
     <string lang="de" key="ACCESSMODEFAIL">Das Schreibschutzattribut des alten Volumes konnte nicht geändert werden. Überprüfen Sie bitte die Dateizugriffsrechte.</string>
@@ -464,7 +464,7 @@
     <string lang="de" key="SYSTEM_CRASH_ANALYSIS_INFO">Nachdem Sie OK klicken analysiert VeraCrypt den Systemabsturz. Dies kann mehrere Minuten dauern.</string>
     <string lang="de" key="DEBUGGER_NOT_FOUND">Bitte stellen Sie sicher, dass die Umgebungsvariable "PATH" den Pfad zu "kd.exe" (Kernel Debugger) enthält ("Systemsteuerung" &gt; "System" &gt; "Erweiterte Systemeinstellungen" &gt; "Erweitert" &gt; "Umgebungsvariablen").</string>
     <string lang="de" key="SYSTEM_CRASH_NO_VERACRYPT">Es scheint als ob VeraCrypt sehr wahrscheinlich den Systemabsturz nicht verursacht hat. Es gibt viele mögliche Gründe für einen Systemabsturz (z.B. Fehler in einer Hardwarekomponente, fehlerhafte Treiber usw.).</string>
-    <string lang="de" key="SYSTEM_CRASH_UPDATE_DRIVER">Die Ergebnisse der Analyse deuten darauf hin, dass die Aktualisierung folgender Treiber das Problem beheben könnte:</string>
+    <string lang="de" key="SYSTEM_CRASH_UPDATE_DRIVER">Die Ergebnisse der Analyse deuten darauf hin, dass die Aktualisierung folgender Treiber das Problem beheben könnte: </string>
     <string lang="de" key="SYSTEM_CRASH_REPORT">Damit wir herausfinden können ob ein Fehler in VeraCrypt existiert, können Sie uns einen automatisch erstellten Bericht senden der die folgenden Punkte enthält:\n- Programmversion\n- Version des Betriebssystems\n- CPU-Typ\n- Fehlerkategorie\n- Treibername und -Version\n- System call stack\n\nWenn Sie "Ja" wählen wird die folgende URL (die den gesamten Fehlerbericht enthält) in Ihrem Browser geöffnet.</string>
     <string lang="de" key="ASK_SEND_ERROR_REPORT">Möchten Sie uns den obigen Fehlerbericht senden?</string>
     <string lang="de" key="ENCRYPT">&amp;Verschlüsseln</string>
@@ -623,8 +623,8 @@
     <string lang="de" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Bitte wählen Sie eines der aufgelisteten Volumes. Die Liste enthält jedes zugängliche Nicht-System Volume, bei dem der Verschlüsselungsprozess unterbrochen wurde und wo mithilfe des Passwortes und/oder der Schlüsseldatei(en) der Header entschlüsselt werden konnte.</string>
     <string lang="de" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Bitte geben Sie das Passwort und/oder die Schlüsseldatei(en) für das Nicht-System Volume an, welches Sie entschlüsseln wollen.</string>
     <string lang="de" key="PASSWORD_HELP">Es wird dringend empfohlen ein gutes Kennwort zu wählen. Kennwörter die in einem Wörterbuch zu finden sind (und ebenso Kombinationen aus 2, 3 oder 4 solcher Wörter) sollten nicht verwendet werden. Das Kennwort sollte keine Namen oder Geburtstage enthalten, und nicht leicht zu erraten sein. Ein gutes Kennwort ist eine zufällige Kombination aus Groß- und Kleinbuchstaben, Zahlen, und Sonderzeichen wie @ ^ = $ * + etc. Es ist zudem empfehlenswert ein Kennwort mit mehr als 20 Zeichen zu wählen (je länger umso besser). Die mögliche Länge ist auf 64 Zeichen beschränkt.</string>
-    <string lang="de" key="PASSWORD_HIDDENVOL_HELP">Wählen Sie bitte ein Kennwort für das versteckte Volume.</string>
-    <string lang="de" key="PASSWORD_HIDDEN_OS_HELP">Wählen Sie ein Kennwort für das versteckte Betriebssystem (d.h. für das versteckte Volume).</string>
+    <string lang="de" key="PASSWORD_HIDDENVOL_HELP">Wählen Sie bitte ein Kennwort für das versteckte Volume. </string>
+    <string lang="de" key="PASSWORD_HIDDEN_OS_HELP">Wählen Sie ein Kennwort für das versteckte Betriebssystem (d.h. für das versteckte Volume). </string>
     <string lang="de" key="PASSWORD_HIDDEN_OS_NOTE">WICHTIG: Das Passwort, dass Sie in diesem Schritt für das versteckte Betriebssystem auswählen, muss sich erheblich von den zwei anderen Passwörtern unterscheiden (d.h. von dem Passwort für das äußere Volume und von dem Passwort für das Köder-Betriebssystem).</string>
     <string lang="de" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">Geben Sie bitte das Kennwort für das Volume ein, innerhalb welchem das versteckte Volume erstellt werden soll. Nachdem Sie "Weiter" angeklickt haben, wird VeraCrypt versuchen das Volume einzubinden. Sobald das Volume eingebunden ist, wird dessen Clusterbelegung analysiert um festzustellen, wie viel freier zusammenhängender Speicher vom Ende des Volumes aus verfügbar ist. Der gefundene Bereich wird für die Unterbringung des versteckten Volumes verwendet. Dessen Größe legt zugleich auch die maximale Größe des versteckten Volumes festlegt. Das Analysieren der Clusterbelegung ist notwendig, um sicherzustellen, dass keine Daten des äußeren Volumes durch das versteckte Volume überschrieben werden.</string>
     <string lang="de" key="PASSWORD_HIDDENVOL_HOST_HELP">\nWählen Sie ein Kennwort für das äußere Volume. Das Kennwort wird das sein, welches Sie einem Angreifer aushändigen können, wenn Sie dazu aufgefordert oder gezwungen werden.\n\nWICHTIG: Das Kennwort muss sich erheblich von dem unterscheiden, welches Sie für das versteckte Volume auswählen werden.\n\nHinweis: Die maximal mögliche Kennwortlänge beträgt 64 Zeichen.</string>
@@ -701,7 +701,7 @@
     <string lang="de" key="UNMOUNT_FAILED">Fehler beim Trennen!</string>
     <string lang="de" key="UNMOUNT_LOCK_FAILED">Das Volume enthält Dateien oder Verzeichnisse die von Anwendungen oder dem System verwendet werden.\n\nTrennen erzwingen?</string>
     <string lang="de" key="NO_VOLUME_MOUNTED_TO_DRIVE">Kein Volume ist am zugewiesenen Laufwerksbuchstaben eingebunden.</string>
-    <string lang="de" key="VOL_ALREADY_MOUNTED">Das Volume ist bereits eingebunden.</string>
+    <string lang="de" key="VOL_ALREADY_MOUNTED">Das Volume ist bereits eingebunden. </string>
     <string lang="de" key="VOL_MOUNT_FAILED">Beim Versuch das Volume einzubinden ist ein Fehler aufgetreten.</string>
     <string lang="de" key="VOL_SEEKING">Fehler beim Suchen des Start Sektors innerhalb des Volumes.</string>
     <string lang="de" key="VOL_SIZE_WRONG">Fehler: Falsche Volume-Größe.</string>
@@ -822,7 +822,7 @@
     <string lang="de" key="VOLUME_HEADER_DAYS"> (vor %I64d Tagen)</string>
     <string lang="de" key="VOLUME_FORMAT_VERSION">Volume-Formatversion</string>
     <string lang="de" key="BACKUP_HEADER">Eingebettete Header-Sicherung</string>
-    <string lang="de" key="TC_BOOT_LOADER_VERSION">VeraCrypt Bootloader Version</string>
+    <string lang="de" key="VC_BOOT_LOADER_VERSION">VeraCrypt Bootloader Version</string>
     <string lang="de" key="FIRST_AVAILABLE">erster verfügbarer</string>
     <string lang="de" key="REMOVABLE_DISK">Wechseldatenträger</string>
     <string lang="de" key="HARDDISK">Festplatte</string>
@@ -998,8 +998,8 @@
     <string lang="de" key="DRIVE_LETTER_ITEM">Laufw.buchstabe:   </string>
     <string lang="de" key="UNSUPPORTED_CHARS_IN_PWD">Fehler: Das Kennwort darf nur ASCII-Zeichen enthalten.\n\nNicht-ASCII-Zeichen im Kennwort könnten dazu führen, dass das Volume nach einer Änderung der Systemkonfiguration nicht eingebunden werden kann. Folgende Zeichen sind zulässig:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
     <string lang="de" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">WARNUNG: Das Kennwort enthält Nicht-ASCII-Zeichen. Dies kann nach einer Änderung der Systemkonfiguration dazu führen, dass das Volume nicht eingebunden werden kann.\n\nAlle Nicht-ASCII-Zeichen des Kennwortes sollten durch ASCII-Zeichen ersetzt werden ("Volume" -&gt; "Volume-Kennwort ändern...").\n\nFolgende Zeichen sind ASCII-Zeichen:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
-    <string lang="de" key="EXE_FILE_EXTENSION_CONFIRM">WARNUNG: Wir empfehlen Ihnen dringend, dass Sie keine Dateierweiterungen für ausführbare Dateien (wie .exe, .sys oder .dll) oder ähnliche Endungen verwenden. Diese Endungen können Windows und Virenscanner dazu bringen, mit dem Container zu interagieren, was wiederum die Leistung des Volumes beeinträchtigt und außerdem zu ernsthaften Problemen führen kann.\n\nWir empfehlen Ihnen, dass Sie die Endung entfernen oder ändern (z.B. auf '.tc').\n\nSind Sie sicher, dass Sie diese problematische Dateiendung behalten wollen?</string>
-    <string lang="de" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNUNG: Dieser Container hat eine Dateiendung welche von Windows für ausführbare Dateien verwendet wird (unter anderem .exe, .sys oder .dll) oder eine andere, problematische Dateiendung. Dies wird sehr wahrscheinlich Probleme mit Windows und Virenscannern machen, da diese mit dem Container interagieren möchten. Dies wird die Leistung beeinflussen und kann zu anderen, schwerwiegenden Problemen führen.\n\nWir empfehlen Ihnen deshalb, die Endung entweder zu entfernen, oder zu ändern (z.B. in '.tc') nachdem Sie den Container wieder entfernt haben.</string>
+    <string lang="de" key="EXE_FILE_EXTENSION_CONFIRM">WARNUNG: Wir empfehlen Ihnen dringend, dass Sie keine Dateierweiterungen für ausführbare Dateien (wie .exe, .sys oder .dll) oder ähnliche Endungen verwenden. Diese Endungen können Windows und Virenscanner dazu bringen, mit dem Container zu interagieren, was wiederum die Leistung des Volumes beeinträchtigt und außerdem zu ernsthaften Problemen führen kann.\n\nWir empfehlen Ihnen, dass Sie die Endung entfernen oder ändern (z.B. auf '.hc').\n\nSind Sie sicher, dass Sie diese problematische Dateiendung behalten wollen?</string>
+    <string lang="de" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNUNG: Dieser Container hat eine Dateiendung welche von Windows für ausführbare Dateien verwendet wird (unter anderem .exe, .sys oder .dll) oder eine andere, problematische Dateiendung. Dies wird sehr wahrscheinlich Probleme mit Windows und Virenscannern machen, da diese mit dem Container interagieren möchten. Dies wird die Leistung beeinflussen und kann zu anderen, schwerwiegenden Problemen führen.\n\nWir empfehlen Ihnen deshalb, die Endung entweder zu entfernen, oder zu ändern (z.B. in '.hc') nachdem Sie den Container wieder entfernt haben.</string>
     <string lang="de" key="HOMEPAGE">Homepage</string>
     <string lang="de" key="LARGE_IDE_WARNING_XP">WARNUNG: Anscheinend wurde noch kein Windows Service Pack aufgespielt. IDE-Festplatten mit einer Kapazität von mehr als 128 GB sollten unter Windows XP nicht beschrieben werden solange nicht Service Pack 1 (oder neuer) aufgespielt worden ist! Anderenfalls können Daten auf der Festplatte zerstört werden (unabhängig davon ob es sich um ein VeraCrypt-Volume handelt). Dies ist eine Windows-Einschränkung und kein Fehler von VeraCrypt.</string>
     <string lang="de" key="LARGE_IDE_WARNING_2K">WARNUNG: Anscheinend wurde das Windows Service Pack 3 (oder neuer) nicht aufgespielt. IDE-Festplatten mit einer Kapazität von mehr als 128 GB sollten unter Windows 2000 nicht beschrieben werden, solange nicht Service Pack 3 (oder neuer) aufgespielt worden ist! Anderenfalls können Daten auf der Festplatte zerstört werden (unabhängig davon ob es sich um ein VeraCrypt-Volume handelt). Dies ist eine Windows-Einschränkung und kein Fehler von VeraCrypt.\n\nHinweis: Unter Umständen muss zusätzlich noch die 48-Bit-LBA-Unterstützung in der Windows-Registrierung aktiviert werden; weitere Informationen siehe http://support.microsoft.com/kb/305098/EN-US</string>
@@ -1078,7 +1078,7 @@
     <string lang="de" key="FEATURE_REQUIRES_INSTALLATION">Fehler: Zur Nutzung dieser Option muss VeraCrypt auf dem System installiert sein (Sie nutzen VeraCrypt derzeit im mobilen Modus).\n\nBitte installieren Sie VeraCrypt und versuchen Sie es dann erneut.</string>
     <string lang="de" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">WARNUNG: Windows scheint nicht auf dem Laufwerk installiert zu sein von dem es startet. Dieser Zustand wird nicht unterstützt.\n\nSie sollten nur fortfahren wenn Sie sicher sind, dass Windows auf dem Laufwerk installiert ist von dem es startet.\n\nMöchten Sie fortfahren?\n\n</string>
     <string lang="de" key="GPT_BOOT_DRIVE_UNSUPPORTED">Das Systemlaufwerk hat eine GUID-Partitionstabelle (GPT). Derzeit werden nur Laufwerke mit einer MBR-Partitionstabelle unterstützt.</string>
-    <string lang="de" key="VC_BOOT_LOADER_ALREADY_INSTALLED">ACHTUNG: Der VeraCrypt Bootloader ist bereits auf Ihrem Systemlaufwerk installiert!\n\nEs ist möglich, dass ein anderes Betriebssystem auf Ihrem Computer bereits verschlüsselt ist.\n\nWARNUNG: DAS VERSCHLÜSSELN DES AKTUELLEN SYSTEMS KANN VERHINDERN DAS (EIN) ANDERE(S) SYSTEM(E) STARTEN UND AUF BENÖTIGTE DATEIEN ZUGEGRIFFEN WERDEN KANN.\n\nMöchten Sie wirklich fortfahren?</string>
+    <string lang="de" key="TC_BOOT_LOADER_ALREADY_INSTALLED">ACHTUNG: Der VeraCrypt Bootloader ist bereits auf Ihrem Systemlaufwerk installiert!\n\nEs ist möglich, dass ein anderes Betriebssystem auf Ihrem Computer bereits verschlüsselt ist.\n\nWARNUNG: DAS VERSCHLÜSSELN DES AKTUELLEN SYSTEMS KANN VERHINDERN DAS (EIN) ANDERE(S) SYSTEM(E) STARTEN UND AUF BENÖTIGTE DATEIEN ZUGEGRIFFEN WERDEN KANN.\n\nMöchten Sie wirklich fortfahren?</string>
     <string lang="de" key="SYS_LOADER_RESTORE_FAILED">Der Original Systemstarter konnte nicht wiederhergestellt werden.\n\nBitte verwenden Sie Ihre VeraCrypt Rettungs-CD ('Repair Options' &gt; 'Restore original system loader') oder Ihre Windows Installations-CD um den VeraCrypt-Bootloader mit dem Windows-Starter zu überschreiben.</string>
     <string lang="de" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Der originale System Loader wurde nicht auf dem Rettungsdatenträger gespeichert (Grund: Fehlende Backup Datei).</string>
     <string lang="de" key="ERROR_MBR_PROTECTED">Fehler beim Schreiben des MBR Sektors.\n\nIhr BIOS ist wahrscheinlich darauf eingestellt den MBR zu schützen. Überprüfen Sie Ihre BIOS Einstellungen (Drücken Sie F2, Entf, oder ESC nach dem Einschalten des Computers) auf MBR/Antivirus Schutz.</string>
@@ -1097,7 +1097,7 @@
     <string lang="de" key="USER_PROFILE_NOT_ON_SYS_PARTITION">Ihre Benutzerprofildateien sind nicht auf der Systempartition gespeichert.\n\nBenutzerprofildateien werden normalerweise nur auf einer Systempartition gespeichert.</string>
     <string lang="de" key="PAGING_FILE_NOT_ON_SYS_PARTITION">Es ist eine/sind Auslagerungsdatei(en) auf (einer) Nicht-Systempartition(en) vorhanden.\n\nAuslagerungsdateien befinden sich eigentlich nur auf System-Partitionen.</string>
     <string lang="de" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">Wollen Sie Windows nun so einstellen, dass die Auslagerungsdateien nur auf der Windowspartition erstellt werden?\n\nBeachten Sie dabei bitte, falls Sie auf 'Ja' klicken, wird Ihr PC neu gestartet. Danach starten Sie VeraCrypt bitte erneut und versuchen die Erstellung eines versteckten Betriebssystems erneut.</string>
-    <string lang="de" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION">Andernfalls kann die glaubhafte Leugnung des Versteckten Betriebssystems nachteilig beeinflusst werden.\n\nHinweis: Wenn ein Gegner den Inhalt solcher Dateien analysiert (befinden sich auf einer Nicht-Systempartition), dann könnte er herausfinden das Sie diesen Assistenten im "Verstecktes-System erstellen"-Modus verwendet haben (welcher auf die Existenz eines Versteckten Systems auf Ihrem Computer hindeuten kann). Beachten Sie auch, dass alle diese Dateien auf der Systempartition während der Erstellung des Versteckten Betriebssystems sicher von VeraCrypt gelöscht werden.</string>
+    <string lang="de" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"> Andernfalls kann die glaubhafte Leugnung des Versteckten Betriebssystems nachteilig beeinflusst werden.\n\nHinweis: Wenn ein Gegner den Inhalt solcher Dateien analysiert (befinden sich auf einer Nicht-Systempartition), dann könnte er herausfinden das Sie diesen Assistenten im "Verstecktes-System erstellen"-Modus verwendet haben (welcher auf die Existenz eines Versteckten Systems auf Ihrem Computer hindeuten kann). Beachten Sie auch, dass alle diese Dateien auf der Systempartition während der Erstellung des Versteckten Betriebssystems sicher von VeraCrypt gelöscht werden.</string>
     <string lang="de" key="DECOY_OS_REINSTALL_WARNING">ACHTUNG: Während der Erstellung des Versteckten Betriebssystems werden Sie das derzeit laufende System komplett neu installieren müssen (um ein Köder-System sicher zu erstellen).\n\nHinweis: das derzeit laufende Betriebssystem und der gesamte Inhalt der Systempartition wird in das versteckte Volume kopiert werden (um das versteckte Betriebssystem zu erstellen).\n\n\nSind Sie sicher, dass Sie in der Lage sind Windows mit Hilfe eines Windows Installationsmediums (oder einer Service-Partition) zu installieren?</string>
     <string lang="de" key="DECOY_OS_REQUIREMENTS">Aus Sicherheitsgründen muss das derzeitige Betriebssystem aktiviert werden bevor sie fortfahren, sofern es eine Aktivierung (zu irgendeinem Zeitpunkt) benötigt. Bitte beachten Sie, dass das versteckte Betriebssystem erstellt wird indem der Inhalt der Systempartition in ein verstecktes Volume kopiert wird (wenn dieses Betriebssystem nicht aktiviert ist wird das versteckte Betriebssystem deshalb ebenfalls nicht aktiviert sein). Für mehr Informationen, siehe Abschnitt "Security Requirements and Precautions Pertaining to Hidden Volumes" im VeraCrypt Benutzerhandbuch.\n\nWICHTIG: Bevor sie fortfahren, stellen Sie sicher, dass Sie den Abschnitt "Security Requirements and Precautions Pertaining to Hidden Volumes" im VeraCrypt Benutzerhandbuch gelesen haben.\n\nEntspricht Ihr derzeit installiertes Betriebssystem den genannten Bedingungen?</string>
     <string lang="de" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">Ihr Betriebssystem benutzt eine extra Bootpartition. VeraCrypt unterstützt den Ruhezustand von versteckten Betriebssystemen mit extra Bootpartition nicht (Köder-Systeme können problemlos in den Ruhezustand wechseln).\n\nBitte beachten Sie, dass die Bootpartition vom Köder-System und dem versteckten Betriebssystem geteilt werden würde. Um Datenlecks und Probleme während dem Aufwachen aus dem Ruhezustand zu verhindern muss VeraCrypt deshalb das versteckte System daran hindern auf die geteilte Bootpartition zu schreiben oder in den Ruhestand zu wechseln.\n\nMöchten Sie fortfahren? Wenn Sie "Nein" wählen werden Anweisungen für das Entfernen der extra Bootpartition angezeigt.</string>

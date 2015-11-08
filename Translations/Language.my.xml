@@ -14,7 +14,7 @@
     <control lang="my" key="IDC_BROWSE">ဖွင့်ကြည့်ရန်...</control>
     <control lang="my" key="IDC_DESKTOP_ICON">VeraCrypt အိုင်ကွန်ပုံကို &amp;Desktop ထဲ ထည့်သွင်းရန်</control>
     <control lang="my" key="IDC_DONATE">ယခု လှူဒါန်းရန်...</control>
-    <control lang="my" key="IDC_FILE_TYPE">.tc ဖိုင် &amp;extension ကို VeraCrypt ဖြင့် တွဲဖက်ရန်</control>
+    <control lang="my" key="IDC_FILE_TYPE">.hc ဖိုင် &amp;extension ကို VeraCrypt ဖြင့် တွဲဖက်ရန်</control>
     <control lang="my" key="IDC_OPEN_CONTAINING_FOLDER">ပြီးစီးသည့်အခါ ထားရှိမည့် နေရာကို ဖွင့်ရန်</control>
     <control lang="my" key="IDC_PROG_GROUP">VeraCrypt ကို &amp;Start မီနူးထဲ ထည့်သွင်းရန်</control>
     <control lang="my" key="IDC_SYSTEM_RESTORE">စက်လည်ပတ်မှုစနစ် ပြန်ရယူနိုင်သည့် အချိန်တစ်ခုခု သတ်မှတ်ရန်</control>
@@ -156,7 +156,7 @@
     <control lang="my" key="IDC_MOUNT_READONLY">Volume ကို ဖတ်ရှုရန်အတွက်သာ အစပျိုးရန်</control>
     <control lang="my" key="IDC_NEW_KEYFILES">ကီးဖိုင်များ...</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="my" key="IDC_PREF_BKG_TASK_ENABLE">ဖွင့်ထားသည်</control>
     <control lang="my" key="IDC_PREF_CACHE_PASSWORDS">စကားဝှက်ကို ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲ၌ ခေတ္တ သိမ်းဆည်းရန်</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_INACTIVE">ဒေတာများကို ဖတ်ရှုခြင်း/ရေးသားခြင်း မပြုသည့်အခါ volume ကို အလိုအလျောက် အဆုံးသတ်ပါ</control>
@@ -371,7 +371,7 @@
     <control lang="my" key="IDT_SECURITY_TOKEN">လုံခြုံရေး တိုကင် -</control>
     <control lang="my" key="IDT_SORT_METHOD">မျိုးတူစုနည်း -</control>
     <control lang="my" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">ကျေးဇူးပြု၍ စောင့်ပါ။ ဤလုပ်ငန်းစဉ်သည် အတော် ကြာနိုင်ပါသည်...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="my" key="IDT_TEST_BLOCK_NUMBER">နံပါတ် အစု -</control>
     <control lang="my" key="IDT_TEST_CIPHERTEXT">ဝှက်စာ စာသား (hexadecimal)</control>
     <control lang="my" key="IDT_TEST_DATA_UNIT_NUMBER">ဒေတာ ယူနစ် နံပါတ် (64-bit hexadecimal, ဒေတာ ယူနစ် အရွယ်သည် 512 bytes ဖြစ်သည်)</control>
@@ -1000,8 +1000,8 @@
     <string lang="my" key="DRIVE_LETTER_ITEM">Drive အက္ခရာ -</string>
     <string lang="my" key="UNSUPPORTED_CHARS_IN_PWD">ချို့ယွင်းချက် - စကားဝှက်၌ ASCII အက္ခရာ စာလုံးများသာ ပါ၀င်ရမည်။\n\nစကားဝှက်တွင် ASCII အက္ခရာ စာလုံးများ မဟုတ်သော စာလုံးများ ရှိပါက၊ သင့် ကွန်ပျူတာစနစ် ပြုပြင်ဖန်တီးမှု ပြောင်းသွားသောအခါ volume ကို ဖွင့်နိုင်မည် မဟုတ်ပါ။\n\nအောက်ပါ အက္ခရာ စာလုံးများကို ခွင့်ပြုထားသည် -\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="my" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">သတိပေးချက် - စကားဝှက်၌ ASCII မဟုတ်သော အက္ခရာစာလုံးများ ပါရှိနေသည်။ ဤအချက်ကြောင့် သင့် ကွန်ပျူတာစနစ် ပြုပြင်ဖန်တီးမှု ပြောင်းသွားသောအခါ volume ကို ဖွင့်နိုင်မည် မဟုတ်ပါ။\n\n စကားဝှက်၌ ပါသော ASCII မဟုတ်သော စကားဝှက်များကို ASCII အက္ခရာများနှင့် အစားထိုးပါ။ ထိုသို့ ပြုလုပ်ရန် 'Volumes' -&gt; 'Volume စကားဝှက် ပြောင်းရန်' ကို နှိပ်ပါ။\n\n ASCII အက္ခရာစာလုံးများကို အောက်ပါအတိုင်း ဖေါ်ပြထားသည် -\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="my" key="EXE_FILE_EXTENSION_CONFIRM">သတိပေးချက် - ဖိုင် extensions များ (such as .exe, .sys, or .dll) နှင့် အခြား အလားတူ ပြဿနာ ရှိနိုင်သော ဖိုင် extensions များကို ရှောင်ရန် အထူး တိုက်တွန်းလိုသည်။ ယင်းကဲ့သို့ ဖိုင် extensions များကို သုံးစွဲခြင်းဖြင့် ဝင်းဒိုးနှင့် ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲတို့သည် သိမ်းဆည်းခန်းနှင့် အနှောင့်အယှက် ဖြစ်လာနိုင်သည်။ ၄င်းကြောင့် volume ၏ စွမ်းဆောင်ရည်ကို ထိ​ခိုက်စေပြီး အခြား ပြင်းထန်သော ပြဿနာများ ပေါ်ပေါက်စေနိုင်သည်။\n \nဖိုင် extension ကို ဖယ်ရှားပြီး ​အမည်ပြောင်းရန် အထူး အကြံပြုလိုသည် (ဥပမာ - '.tc' စသဖြင့်)။\n \nဤပြဿနာများ ဖြစ်စေနိုင်သည့် ဖိုင် extension ကို အသုံးပြုရန် သေချာသလား?</string>
-    <string lang="my" key="EXE_FILE_EXTENSION_MOUNT_WARNING">သတိပေးချက် - ဤသိမ်းဆည်းခန်း၌ ဖိုင် extensions များ (such as .exe, .sys, or .dll) နှင့် အခြား အလားတူ ပြဿနာ ရှိနိုင်သော ဖိုင် extensions များ၌ သုံးစွဲသော ဖိုင် extension တစ်ခု ရှိနေသည်။ ယင်းကြောင့် ဝင်းဒိုးနှင့် ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲတို့သည် သိမ်းဆည်းခန်းနှင့် အနှောင့်အယှက် ဖြစ်လာနိုင်ပြီး volume ၏ စွမ်းဆောင်ရည်ကို ထိ​ခိုက်စေပြီး အခြား ပြင်းထန်သော ပြဿနာများ ပေါ်ပေါက်စေနိုင်သည်။\n\n Volume ကို အဆုံးသတ်ပြီးနောက် ဖိုင် extension ကို ဖယ်ရှားပြီး ​(ဥပမာ - '.tc' စသဖြင့်) အမည်ပြောင်းရန် အထူး အကြံပြုလိုသည်။</string>
+    <string lang="my" key="EXE_FILE_EXTENSION_CONFIRM">သတိပေးချက် - ဖိုင် extensions များ (such as .exe, .sys, or .dll) နှင့် အခြား အလားတူ ပြဿနာ ရှိနိုင်သော ဖိုင် extensions များကို ရှောင်ရန် အထူး တိုက်တွန်းလိုသည်။ ယင်းကဲ့သို့ ဖိုင် extensions များကို သုံးစွဲခြင်းဖြင့် ဝင်းဒိုးနှင့် ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲတို့သည် သိမ်းဆည်းခန်းနှင့် အနှောင့်အယှက် ဖြစ်လာနိုင်သည်။ ၄င်းကြောင့် volume ၏ စွမ်းဆောင်ရည်ကို ထိ​ခိုက်စေပြီး အခြား ပြင်းထန်သော ပြဿနာများ ပေါ်ပေါက်စေနိုင်သည်။\n \nဖိုင် extension ကို ဖယ်ရှားပြီး ​အမည်ပြောင်းရန် အထူး အကြံပြုလိုသည် (ဥပမာ - '.hc' စသဖြင့်)။\n \nဤပြဿနာများ ဖြစ်စေနိုင်သည့် ဖိုင် extension ကို အသုံးပြုရန် သေချာသလား?</string>
+    <string lang="my" key="EXE_FILE_EXTENSION_MOUNT_WARNING">သတိပေးချက် - ဤသိမ်းဆည်းခန်း၌ ဖိုင် extensions များ (such as .exe, .sys, or .dll) နှင့် အခြား အလားတူ ပြဿနာ ရှိနိုင်သော ဖိုင် extensions များ၌ သုံးစွဲသော ဖိုင် extension တစ်ခု ရှိနေသည်။ ယင်းကြောင့် ဝင်းဒိုးနှင့် ဗိုင်းရပ်စ်သတ် ဆော့ဗ်ဝဲတို့သည် သိမ်းဆည်းခန်းနှင့် အနှောင့်အယှက် ဖြစ်လာနိုင်ပြီး volume ၏ စွမ်းဆောင်ရည်ကို ထိ​ခိုက်စေပြီး အခြား ပြင်းထန်သော ပြဿနာများ ပေါ်ပေါက်စေနိုင်သည်။\n\n Volume ကို အဆုံးသတ်ပြီးနောက် ဖိုင် extension ကို ဖယ်ရှားပြီး ​(ဥပမာ - '.hc' စသဖြင့်) အမည်ပြောင်းရန် အထူး အကြံပြုလိုသည်။</string>
     <string lang="my" key="HOMEPAGE">ပင်မ စာမျက်နှာ</string>
     <string lang="my" key="LARGE_IDE_WARNING_XP">သတိပေးချက် - ဝင်းဒိုး ထည့်သွင်းရာ၌ မည်သည့် Service Pack ကိုမျှ သုံးစွဲထားပုံ မပေါ်ပါ။ Service Pack 1 (သို့) နောက်ဆုံးထွက်ကို သုံးစွဲမထားသော Windows XP ထဲ၌ 128GB ထက် ကြီးသော IDE disks များကို ရေးသားခြင်း မပြုရ။ အကယ်၍ ပြုလုပ်ပါက၊ disk ပေါ်ရှိ (VeraCrypt volume ဟုတ်သည် ဖြစ်စေ၊ မဟုတ်သည် ဖြစ်စေ) ဒေတာများ ပျက်စီးနိုင်သည်။ ၎င်းမှာ ဝင်းဒိုး၏ ကန့်သတ်ချက် ဖြစ်ပြီး၊ VeraCrypt ၏ ပရိုဂရမ်အမှား မဟုတ်ပါ။</string>
     <string lang="my" key="LARGE_IDE_WARNING_2K">သတိပေးချက် - ဝင်းဒိုး ထည့်သွင်းရာ၌ Service Pack 3 နှင့် နောက်ဆုံးထွက်ကို သင် သုံးစွဲထားပုံ မပေါ်ပါ။  Service Pack 3 (သို့) နောက်ဆုံးထွက်ကို သုံးစွဲမထားသော Windows 2000 ထဲ၌ 128GB ထက် ကြီးသော IDE disks များကို ရေးသားခြင်း မပြုရ။ အကယ်၍ ပြုလုပ်ပါက၊ disk ပေါ်ရှိ (VeraCrypt volume ဟုတ်သည် ဖြစ်စေ၊ မဟုတ်သည် ဖြစ်စေ) ဒေတာများ ပျက်စီးနိုင်သည်။ ၎င်းမှာ ဝင်းဒိုး၏ ကန့်သတ်ချက် ဖြစ်ပြီး၊ VeraCrypt ၏ ပရိုဂရမ်အမှား မဟုတ်ပါ။\n\nမှတ်ချက် - Registry ထဲ၌ 48-bit LBA အထောက်အပံ့ကို ဖွင့်ထားရန် လိုအပ်နိုင်သည်။ အသေးစိတ် အချက်အလက်ကို http://support.microsoft.com/kb/305098/EN-US ၌ လေ့လာပါ။</string>
@@ -1107,9 +1107,9 @@
     <string lang="my" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">သတိပေးချက် - ကွန်ပျူတာစနစ် အခန်းကန့်နှင့် ပထမ အခန်းကန့်တို့ အကြား၌ မသတ်မှတ်ရသေးသော နေရာရှိသည်။ လျှို့ဝှက် OS စနစ်ကို ဖန်တီးပြီးသောအခါ၊ ယင်း မသတ်မှတ်ရသေးသော နေရာ၌ အခန်းကန့်အသစ် မဖန်တီးရ။ သို့မဟုတ်ပါက၊ (ယင်းကဲ့သို့ အသစ် ဖန်တီးလိုက်သော အခန်းကန့်များကို မဖျက်မချင်း) လျှို့ဝှက် OS စနစ်ကို ဖွင့်၍ မရ ဖြစ်သွားနိုင်သည်။</string>
     <string lang="my" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ဤအယ်လဂိုရီသမ်၌ လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="my" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">ကီးဖိုင်များသည် လောလောဆယ် ကွန်ပျူတာစနစ် စာဝှက်ခြင်းအတွက် ထောက်ပံ့မပေးပါ။​</string>
     <string lang="my" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">သတိပေးချက် - VeraCrypt သည် မူရင်း ​ကီးဘုတ် လေးအောက်ကို နဂိုအတိုင်း ပြန်မထားနိုင်ပါ။ ဤအချက်ကြောင့် စကားဝှက်ကို မှားယွင်းစွာ ရေးထည့်မိနိုင်သည်။</string>
     <string lang="my" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ချို့ယွင်းချက် - VeraCrypt အတွက် ကီးဘုတ် လေးအောက်ကို standard US ကီးဘုတ် လေးအောက် အဖြစ် သတ်မှတ်၍ မရပါ။\n\n US စနစ် မဟုတ်သော ဝင်းဒိုး ကီးဘုတ် လေးအောက် မရနိုင်သည့် နေရာ၌ စက်မတက်ခင် အခြေအနေ (ကွန်ပျူတာ မတက်မီ) တွင် စကားဝှက်ကို ရေးထည့်ရန် လိုအပ်သည်။ ထို့ကြာင့်၊ စကားဝှက်ကို  ဝှက်စာကို standard US ကီးဘုတ် လေးအောက် သုံးပြီး အမြဲတမ်း ရေးထည့်ရမည်။</string>

@@ -14,7 +14,7 @@
     <control lang="it" key="IDC_BROWSE">Sfo&amp;glia...</control>
     <control lang="it" key="IDC_DESKTOP_ICON">Aggiungi icona di VeraCrypt al &amp;desktop</control>
     <control lang="it" key="IDC_DONATE">Donazione...</control>
-    <control lang="it" key="IDC_FILE_TYPE">Associa i file con estensione .tc &amp; con VeraCrypt</control>
+    <control lang="it" key="IDC_FILE_TYPE">Associa i file con estensione .hc &amp; con VeraCrypt</control>
     <control lang="it" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Apri la posizione di destinazione quando terminato</control>
     <control lang="it" key="IDC_PROG_GROUP">Aggiungi VeraCrypt al menu &amp;di avvio</control>
     <control lang="it" key="IDC_SYSTEM_RESTORE">Crea punto di &amp;ripristino del sistema</control>
@@ -156,7 +156,7 @@
     <control lang="it" key="IDC_MOUNT_READONLY">Monta il volume in sola lettura</control>
     <control lang="it" key="IDC_NEW_KEYFILES">File chiave...</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="it" key="IDC_PREF_BKG_TASK_ENABLE">Attiva</control>
     <control lang="it" key="IDC_PREF_CACHE_PASSWORDS">Mantieni le password nella cache</control>
     <control lang="it" key="IDC_PREF_DISMOUNT_INACTIVE">Smontaggio automatico del volume in mancanza di attività successive</control>
@@ -371,7 +371,7 @@
     <control lang="it" key="IDT_SECURITY_TOKEN">Misura di sicurezza:</control>
     <control lang="it" key="IDT_SORT_METHOD">Ordinamento:</control>
     <control lang="it" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Attendere. Questo processo può richiedere molto tempo...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="it" key="IDT_TEST_BLOCK_NUMBER">Numero blocchi:</control>
     <control lang="it" key="IDT_TEST_CIPHERTEXT">Testo criptato (esadecimale)</control>
     <control lang="it" key="IDT_TEST_DATA_UNIT_NUMBER">Numero unità dati (64-bit esadecimale, dimensione unità dati=512 byte)</control>
@@ -998,8 +998,8 @@
     <string lang="it" key="DRIVE_LETTER_ITEM">Lettera unità:</string>
     <string lang="it" key="UNSUPPORTED_CHARS_IN_PWD">ERRORE: la password deve contenere solo caratteri ASCII.\n\nCaratteri non ASCII nella password possono causare l'impossibilità di montare il volume qualora la configurazione del sistema dovesse cambiare.\n\nSono consentiti i seguenti caratteri:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
     <string lang="it" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">ATTENZIONE: la password contiene caratteri non ASCII. Ciò può portare all'impossibilità di montare il volume qualora la configurazione del sistema dovesse cambiare.\n\nE' opportuno sostituire tutti i caratteri non ASCII nella password con caratteri ASCII. Per fare ciò, cliccare su 'Volumi' -&gt; 'Modifica password del volume'.\n\nI seguenti sono caratteri ASCII:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="it" key="EXE_FILE_EXTENSION_CONFIRM">ATTENZIONE: Vi raccomandiamo strettamente di evitare le estensioni dei file che vengono usate per i file eseguibili (come .exe, .sys, o .dll) oppure altre estensioni file problematiche simili. L'uso di queste estensioni causano a Windows ed ai software antivirus di interferire con il file contenitore, che hanno effetto dannoso nelle prestazioni del volume e possono anche causare altri problemi seri.\n\nVi raccomandiamo strettamente di rimuovere l'estensione al file oppure modificarla (ad esempio, a '.tc').\n\nVolete comunque usare le estensioni file problematiche descritte prima?</string>
-    <string lang="it" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: Questo contenitore ha un'estensione file usata per file eseguibile (come .exe, .sys o .dll) oppure un'altra estensione file problematica simile. Essa molto probabilmente causa a Windows ed al software antivirus l'interferenza con il file contenitore, e questa ha effetto dannoso nelle prestazioni del volume e puòo anche causare altri problemi seri.\n\nVi raccomandiamo strettamente di rimuovere l'estensione al file oppure modificarla (ad esempio, a '.tc') dopo che voi avete smontato il volume.</string>
+    <string lang="it" key="EXE_FILE_EXTENSION_CONFIRM">ATTENZIONE: Vi raccomandiamo strettamente di evitare le estensioni dei file che vengono usate per i file eseguibili (come .exe, .sys, o .dll) oppure altre estensioni file problematiche simili. L'uso di queste estensioni causano a Windows ed ai software antivirus di interferire con il file contenitore, che hanno effetto dannoso nelle prestazioni del volume e possono anche causare altri problemi seri.\n\nVi raccomandiamo strettamente di rimuovere l'estensione al file oppure modificarla (ad esempio, a '.hc').\n\nVolete comunque usare le estensioni file problematiche descritte prima?</string>
+    <string lang="it" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: Questo contenitore ha un'estensione file usata per file eseguibile (come .exe, .sys o .dll) oppure un'altra estensione file problematica simile. Essa molto probabilmente causa a Windows ed al software antivirus l'interferenza con il file contenitore, e questa ha effetto dannoso nelle prestazioni del volume e puòo anche causare altri problemi seri.\n\nVi raccomandiamo strettamente di rimuovere l'estensione al file oppure modificarla (ad esempio, a '.hc') dopo che voi avete smontato il volume.</string>
     <string lang="it" key="HOMEPAGE">Sito Web</string>
     <string lang="it" key="LARGE_IDE_WARNING_XP">ATTENZIONE: sembra che questa versione di Windows sia priva di Service Pack. E' sconsigliato scrivere su dischi IDE più grandi di 128 GB in Windows XP se non è stato installato il Service Pack 1 o superiore! In caso contrario, i dati sul disco (non importa se si tratta di un volume VeraCrypt oppure no) potrebbero essere corrotti. Questa è una limitazione di Windows, non un difetto di VeraCrypt.</string>
     <string lang="it" key="LARGE_IDE_WARNING_2K">ATTENZIONE: sembra che questa versione di Windows sia priva di Service Pack 3 o superiore. E' sconsigliato scrivere su dischi IDE più grandi di 128 GB in Windows 2000 se non è stato installato il Service Pack 3 o superiore! In caso contrario, i dati sul disco (non importa se si tratta di un volume VeraCrypt oppure no) potrebbero essere corrotti. Questa è una limitazione di Windows, non un bug di di VeraCrypt.\n\nNota: può essere necessario attivare anche il supporto LBA a 48 bit nel registro; per maggiori informazioni si veda http://support.microsoft.com/kb/305098/EN-US</string>
@@ -1105,9 +1105,9 @@
     <string lang="it" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">AVVERTENZA: C’è uno spazio non allocato tra la partizione di sistema e la prima partizione dietro di essa. Dopo aver creato il sistema operativo nascosto, non dovete creare nessuna nuova partizione in questo spazio non allocato. Diversamente sarà impossibile avviare il sistema operativo nascosto (finché voi eliminate tali nuove partizioni create).</string>
     <string lang="it" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Questo algoritmo non è attualmente supportato per la codifica del sistema.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="it" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">I file chiave sono attualmente non supportate dalla codifica di sistema.</string>
     <string lang="it" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">AVVERTENZA: VeraCrypt non può ripristinare la configurazione originale della tastiera. Questo può causare la digitazione errata della password.</string>
     <string lang="it" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">ERRORE: Impossibile impostare la configurazione della tastiera per VeraCrypt nel layout standard tastiera USA.\n\nNotare che la password necessita di essere digitata in ambiente di pre-boot (prima dell’avvio di Windows) dove la configurazione delle tastiere Windows non americane non sono disponibili. Pertanto, la password deve essere sempre digitata usando il layout tastiera standard USA.</string>
