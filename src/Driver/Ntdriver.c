@@ -421,12 +421,18 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 	PEXTENSION Extension;
 	NTSTATUS ntStatus;
 	ULONG devChars = 0;
+#if defined (DEBUG)
+	WCHAR dosname[32];
+#endif
 
 	Dump ("TCCreateDeviceObject BEGIN\n");
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
 	TCGetNTNameFromNumber (ntname, sizeof(ntname),mount->nDosDriveNo);
 	RtlInitUnicodeString (&ntUnicodeString, ntname);
+#if defined (DEBUG)
+	TCGetDosNameFromNumber (dosname, sizeof(dosname),mount->nDosDriveNo, DeviceNamespaceDefault);
+#endif
 
 	devChars = FILE_DEVICE_SECURE_OPEN;
 	devChars |= mount->bMountReadOnly ? FILE_READ_ONLY_DEVICE : 0;
