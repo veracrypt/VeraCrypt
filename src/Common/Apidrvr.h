@@ -311,11 +311,7 @@ typedef struct
 
 #pragma pack (pop)
 
-#ifdef TC_WINDOWS_DRIVER
 #define DRIVER_STR WIDE
-#else
-#define DRIVER_STR
-#endif
 
 #define TC_UNIQUE_ID_PREFIX "VeraCryptVolume"
 #define TC_MOUNT_PREFIX L"\\Device\\VeraCryptVolume"

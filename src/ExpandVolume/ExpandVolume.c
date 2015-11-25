@@ -56,8 +56,8 @@ int nPbar;			/* Control ID of progress bar (used by FormatNoFs) */
 volatile BOOL bVolTransformThreadCancel = FALSE; /* TRUE if the user cancels/pauses volume expansion */
 
 // internal functions
-static int UpdateVolumeHeaderHostSize (char *lpszVolume, Password *pVolumePassword, HWND hwndDlg, uint64 newHostSize, uint64 *pDataSize, BOOL initFreeSpace);
-static int FsctlExtendVolume(char * szVolume, LONGLONG nTotalSectors );
+static int UpdateVolumeHeaderHostSize (wchar_t *lpszVolume, Password *pVolumePassword, HWND hwndDlg, uint64 newHostSize, uint64 *pDataSize, BOOL initFreeSpace);
+static int FsctlExtendVolume(wchar_t * szVolume, LONGLONG nTotalSectors );
 
 
 /*
@@ -84,7 +84,7 @@ static int FsctlExtendVolume(char * szVolume, LONGLONG nTotalSectors );
 		int with Truecrypt error code (ERR_SUCCESS on success)
 
 */
-int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5, int pim)
+int MountVolTemp (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Password *password, int pkcs5, int pim)
 {
 	MountOptions mountOptions;
 	ZeroMemory (&mountOptions, sizeof (mountOptions));
@@ -133,7 +133,7 @@ int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *passwo
 	Remarks: only supported by NTFS and RAW file systems
 
 */
-static int FsctlExtendVolume(char * szVolume, LONGLONG nTotalSectors )
+static int FsctlExtendVolume(wchar_t * szVolume, LONGLONG nTotalSectors )
 {
 	HANDLE hDevice;   // handle to the volume to be extended
 	BOOL bResult;     // results flag
@@ -176,21 +176,21 @@ error:
 }
 
 
-BOOL GetFileSystemType(const char *szFileName, enum EV_FileSystem *pFS)
+BOOL GetFileSystemType(const wchar_t *szFileName, enum EV_FileSystem *pFS)
 {
-	char szFS[256];
-	char root[MAX_PATH];
+	wchar_t szFS[256];
+	wchar_t root[MAX_PATH];
 
 	*pFS = EV_FS_TYPE_RAW;
 
-	if (!GetVolumePathName (szFileName, root, sizeof (root)))
+	if (!GetVolumePathName (szFileName, root, ARRAYSIZE (root)))
 		return FALSE;
 
-	if ( GetVolumeInformation (root, NULL, 0, NULL, NULL, NULL, szFS, sizeof(szFS)) )
+	if ( GetVolumeInformation (root, NULL, 0, NULL, NULL, NULL, szFS, ARRAYSIZE(szFS)) )
 	{
-		if (!strncmp (szFS, "NTFS", 4))
+		if (!wcsncmp (szFS, L"NTFS", 4))
 			*pFS = EV_FS_TYPE_NTFS;
-		else if (!strncmp (szFS, "FAT", 3)) // FAT16, FAT32
+		else if (!wcsncmp (szFS, L"FAT", 3)) // FAT16, FAT32
 			*pFS = EV_FS_TYPE_FAT;
 		else
 			*pFS = EV_FS_TYPE_RAW;
@@ -227,10 +227,10 @@ BOOL GetFileSystemType(const char *szFileName, enum EV_FileSystem *pFS)
 		int with TrueCrypt error code (ERR_SUCCESS on success)
 
 */
-int QueryVolumeInfo (HWND hwndDlg, const char *lpszVolume, uint64 * pHostSizeFree, uint64 * pSizeLimitFS )
+int QueryVolumeInfo (HWND hwndDlg, const wchar_t *lpszVolume, uint64 * pHostSizeFree, uint64 * pSizeLimitFS )
 {
 	int nStatus = ERR_OS_ERROR;
-	char szDiskFile[TC_MAX_PATH], root[MAX_PATH];
+	wchar_t szDiskFile[TC_MAX_PATH], root[MAX_PATH];
 	BOOL bDevice;
 	enum EV_FileSystem fs;
 
@@ -244,7 +244,7 @@ int QueryVolumeInfo (HWND hwndDlg, const char *lpszVolume, uint64 * pHostSizeFre
 		return ERR_SUCCESS;
 	}
 
-	if (!GetVolumePathName (szDiskFile, root, sizeof (root)))
+	if (!GetVolumePathName (szDiskFile, root, ARRAYSIZE (root)))
 	{
 		nStatus = ERR_OS_ERROR;
 		goto error;
@@ -286,26 +286,26 @@ error:
 	return nStatus;
 }
 
-BOOL GetNtfsNumberOfSectors(char * rootPath, uint64 * pNumberOfSectors, DWORD *pBytesPerSector)
+BOOL GetNtfsNumberOfSectors(wchar_t * rootPath, uint64 * pNumberOfSectors, DWORD *pBytesPerSector)
 {
 	HANDLE hDevice;
 	BOOL bResult;
 	DWORD nbytes, dwError;
 	size_t len;
 	NTFS_VOLUME_DATA_BUFFER ntfsvdb;
-	char szVolumeGUID[128];
+	wchar_t szVolumeGUID[128];
 
 	// get volume name
-	if (!GetVolumeNameForVolumeMountPoint(rootPath,szVolumeGUID,sizeof(szVolumeGUID)))
+	if (!GetVolumeNameForVolumeMountPoint(rootPath,szVolumeGUID,ARRAYSIZE(szVolumeGUID)))
 	{
 		return FALSE;
 	}
 
 	// strip trailing backslash from volume GUID (otherwise it means root dir)
-	len = strlen(szVolumeGUID);
+	len = wcslen(szVolumeGUID);
 	if (len>0)
 		--len;
-	if (szVolumeGUID[len]=='\\')
+	if (szVolumeGUID[len]==L'\\')
 		szVolumeGUID[len]=0;
 
 	hDevice = CreateFile(szVolumeGUID,
@@ -371,11 +371,11 @@ uint64 GetVolumeSizeByDataAreaSize (uint64 dataAreaSize, BOOL legacyVolume)
 }
 
 
-int ExtendFileSystem (HWND hwndDlg , char *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePim, uint64 newDataAreaSize)
+int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePim, uint64 newDataAreaSize)
 {
-	char szVolumeGUID[128];
+	wchar_t szVolumeGUID[128];
 	int driveNo = -1;
-	char rootPath[] = "A:\\";
+	wchar_t rootPath[] = L"A:\\";
 	enum EV_FileSystem fs;
 	DWORD dwError;
 	int nStatus = ERR_SUCCESS;
@@ -415,7 +415,7 @@ int ExtendFileSystem (HWND hwndDlg , char *lpszVolume, Password *pVolumePassword
 	}
 
 	// Get volume GUID
-	if (!GetVolumeNameForVolumeMountPoint(rootPath,szVolumeGUID,sizeof(szVolumeGUID)))
+	if (!GetVolumeNameForVolumeMountPoint(rootPath,szVolumeGUID,ARRAYSIZE(szVolumeGUID)))
 	{
 		nStatus = ERR_OS_ERROR;
 		goto error;
@@ -423,9 +423,9 @@ int ExtendFileSystem (HWND hwndDlg , char *lpszVolume, Password *pVolumePassword
 	else
 	{
 		// strip trailing backslash from volume GUID (otherwise it means root dir)
-		size_t len = strlen(szVolumeGUID);
+		size_t len = wcslen(szVolumeGUID);
 		if (len>0) --len;
-		if (szVolumeGUID[len]=='\\') szVolumeGUID[len]=0;
+		if (szVolumeGUID[len]==L'\\') szVolumeGUID[len]=0;
 	}
 
 	// Get Sector Size
@@ -486,11 +486,11 @@ error:
 	Remarks: a lot of code is from TrueCrypt 'Common\Password.c' :: ChangePwd()
 
 */
-static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePim, uint64 newHostSize, BOOL initFreeSpace)
+static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePassword, int VolumePkcs5, int VolumePim, uint64 newHostSize, BOOL initFreeSpace)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
-	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
-	char szDosDevice[TC_MAX_PATH];
+	wchar_t szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
+	wchar_t szDosDevice[TC_MAX_PATH];
 	char buffer[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	PCRYPTO_INFO cryptoInfo = NULL, ci = NULL;
 	void *dev = INVALID_HANDLE_VALUE;
@@ -515,7 +515,7 @@ static int ExpandVolume (HWND hwndDlg, char *lpszVolume, Password *pVolumePasswo
 
 	if (bDevice == FALSE)
 	{
-		strcpy (szCFDevice, szDiskFile);
+		wcscpy (szCFDevice, szDiskFile);
 	}
 	else
 	{
@@ -969,7 +969,7 @@ void __cdecl volTransformThreadFunction (void *pExpandDlgParam)
 	EXPAND_VOL_THREAD_PARAMS *pParam=(EXPAND_VOL_THREAD_PARAMS *)pExpandDlgParam;
 	HWND hwndDlg = (HWND) pParam->hwndDlg;
 
-	nStatus = ExpandVolume (hwndDlg, (char*)pParam->szVolumeName, pParam->pVolumePassword,
+	nStatus = ExpandVolume (hwndDlg, (wchar_t*)pParam->szVolumeName, pParam->pVolumePassword,
 		pParam->VolumePkcs5, pParam->VolumePim, pParam->newSize, pParam->bInitFreeSpace );
 
 	if (nStatus!=ERR_SUCCESS && nStatus!=ERR_USER_ABORT)

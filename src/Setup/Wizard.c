@@ -23,6 +23,7 @@
 #include "Common/Resource.h"
 #include "Resource.h"
 #include "Setup.h"
+#include <tchar.h>
 #include <Strsafe.h>
 
 using namespace std;
@@ -40,9 +41,9 @@ enum wizard_pages
 
 HWND hCurPage = NULL;		/* Handle to current wizard page */
 int nCurPageNo = -1;		/* The current wizard page */
-char WizardDestInstallPath [TC_MAX_PATH];
-char WizardDestExtractPath [TC_MAX_PATH];
-char SelfFile [TC_MAX_PATH];
+wchar_t WizardDestInstallPath [TC_MAX_PATH];
+wchar_t WizardDestExtractPath [TC_MAX_PATH];
+wchar_t SelfFile [TC_MAX_PATH];
 
 HBITMAP hbmWizardBitmapRescaled = NULL;
 
@@ -92,12 +93,12 @@ void localcleanupwiz (void)
 
 static void InitWizardDestInstallPath (void)
 {
-	if (strlen (WizardDestInstallPath) < 2)
+	if (wcslen (WizardDestInstallPath) < 2)
 	{
-		StringCbCopyA (WizardDestInstallPath, sizeof(WizardDestInstallPath), InstallationPath);
-		if (WizardDestInstallPath [strlen (WizardDestInstallPath) - 1] != '\\')
+		StringCbCopyW (WizardDestInstallPath, sizeof(WizardDestInstallPath), InstallationPath);
+		if (WizardDestInstallPath [wcslen (WizardDestInstallPath) - 1] != L'\\')
 		{
-			StringCbCatA (WizardDestInstallPath, sizeof(WizardDestInstallPath), "\\");
+			StringCbCatW (WizardDestInstallPath, sizeof(WizardDestInstallPath), L"\\");
 		}
 	}
 }
@@ -228,7 +229,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				licenseText = GetLegalNotices ();
 				if (licenseText != NULL)
 				{
-					SetWindowText (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), licenseText);
+					SetWindowTextA (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), licenseText);
 					free (licenseText);
 				}
 				else
@@ -308,10 +309,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		case EXTRACTION_OPTIONS_PAGE:
 
-			if (strlen(WizardDestExtractPath) < 2)
+			if (wcslen(WizardDestExtractPath) < 2)
 			{ 
-				StringCbCopyA (WizardDestExtractPath, sizeof(WizardDestExtractPath), SetupFilesDir);
-				StringCbCatNA (WizardDestExtractPath, sizeof(WizardDestExtractPath), "VeraCrypt\\", sizeof (WizardDestExtractPath) - strlen (WizardDestExtractPath) - 1);
+				StringCbCopyW (WizardDestExtractPath, sizeof(WizardDestExtractPath), SetupFilesDir);
+				StringCbCatNW (WizardDestExtractPath, sizeof(WizardDestExtractPath), L"VeraCrypt\\", ARRAYSIZE (WizardDestExtractPath) - wcslen (WizardDestExtractPath) - 1);
 			}
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_DESTINATION), EM_LIMITTEXT, TC_MAX_PATH - 1, 0);
@@ -353,10 +354,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDHELP), FALSE);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), FALSE);
 
-				if (WizardDestExtractPath [strlen(WizardDestExtractPath)-1] != '\\')
-					StringCbCatA (WizardDestExtractPath, sizeof(WizardDestExtractPath), "\\");
+				if (WizardDestExtractPath [wcslen(WizardDestExtractPath)-1] != L'\\')
+					StringCbCatW (WizardDestExtractPath, sizeof(WizardDestExtractPath), L"\\");
 
-				StringCbCopyA (DestExtractPath, sizeof(DestExtractPath), WizardDestExtractPath);
+				StringCbCopyW (DestExtractPath, sizeof(DestExtractPath), WizardDestExtractPath);
 
 				InitProgressBar ();
 
@@ -406,9 +407,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					EnableWindow (GetDlgItem (hwndDlg, IDC_BROWSE), FALSE);
 					EnableWindow (GetDlgItem (hwndDlg, IDC_ALL_USERS), FALSE);
 
-					char path[MAX_PATH];
+					wchar_t path[MAX_PATH];
 					SHGetSpecialFolderPath (hwndDlg, path, CSIDL_COMMON_PROGRAMS, 0);
-					bForAllUsers = (_access ((string (path) + "\\" TC_APP_NAME).c_str(), 0) == 0);
+					bForAllUsers = (_waccess ((wstring (path) + L"\\" _T(TC_APP_NAME)).c_str(), 0) == 0);
 				}
 
 				// System Restore
@@ -456,10 +457,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				InitProgressBar ();
 
-				if (WizardDestInstallPath [strlen(WizardDestInstallPath)-1] != '\\')
-					StringCbCatA (WizardDestInstallPath, sizeof(WizardDestInstallPath), "\\");
+				if (WizardDestInstallPath [wcslen(WizardDestInstallPath)-1] != L'\\')
+					StringCbCatW (WizardDestInstallPath, sizeof(WizardDestInstallPath), L"\\");
 
-				StringCbCopyA (InstallationPath, sizeof(InstallationPath), WizardDestInstallPath);
+				StringCbCopyW (InstallationPath, sizeof(InstallationPath), WizardDestInstallPath);
 
 				WaitCursor ();
 
@@ -627,9 +628,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			case IDC_BROWSE:
 				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestExtractPath))
 				{
-					if (WizardDestExtractPath [strlen(WizardDestExtractPath)-1] != '\\')
+					if (WizardDestExtractPath [wcslen(WizardDestExtractPath)-1] != L'\\')
 					{
-						StringCbCatA (WizardDestExtractPath, sizeof(WizardDestExtractPath), "\\");
+						StringCbCatW (WizardDestExtractPath, sizeof(WizardDestExtractPath), L"\\");
 					}
 					SetDlgItemText (hwndDlg, IDC_DESTINATION, WizardDestExtractPath);
 				}
@@ -648,9 +649,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			case IDC_BROWSE:
 				if (BrowseDirectories (hwndDlg, "SELECT_DEST_DIR", WizardDestInstallPath))
 				{
-					if (WizardDestInstallPath [strlen(WizardDestInstallPath)-1] != '\\')
+					if (WizardDestInstallPath [wcslen(WizardDestInstallPath)-1] != L'\\')
 					{
-						StringCbCatA (WizardDestInstallPath, sizeof(WizardDestInstallPath), "\\");
+						StringCbCatW (WizardDestInstallPath, sizeof(WizardDestInstallPath), L"\\");
 					}
 					SetDlgItemText (hwndDlg, IDC_DESTINATION, WizardDestInstallPath);
 				}
@@ -803,7 +804,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			RECT rec;
 
-			GetModuleFileName (NULL, SelfFile, sizeof (SelfFile));
+			GetModuleFileName (NULL, SelfFile, ARRAYSIZE (SelfFile));
 
 			MainDlg = hwndDlg;
 
@@ -829,7 +830,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 
-			SetWindowText (hwndDlg, "VeraCrypt Setup " VERSION_STRING);
+			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING));
 
 			DonColorSchemeId = GetDonVal (2, 9);
 
@@ -899,7 +900,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					HKEY hkey;
 
-					if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Updates\\Windows 2000\\SP5\\Update Rollup 1", 0, KEY_READ, &hkey) != ERROR_SUCCESS)
+					if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Updates\\Windows 2000\\SP5\\Update Rollup 1", 0, KEY_READ, &hkey) != ERROR_SUCCESS)
 					{
 						ErrorDirect (L"VeraCrypt requires Update Rollup 1 for Windows 2000 SP4 to be installed.\n\nFor more information, see http://support.microsoft.com/kb/891861", hwndDlg);
 						AbortProcessSilent ();
@@ -928,14 +929,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
-				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, sizeof (WizardDestExtractPath));
+				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
 
 				bStartExtraction = TRUE;
 			}
 
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
-				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, sizeof (WizardDestInstallPath));
+				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
 
 				bStartInstall = TRUE;
 			}
@@ -975,13 +976,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
-				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, sizeof (WizardDestExtractPath));
+				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
 				nCurPageNo = WIZARD_MODE_PAGE + 1;
 			}
 
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
-				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, sizeof (WizardDestInstallPath));
+				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
 			}
 
 			LoadPage (hwndDlg, --nCurPageNo);
@@ -1156,7 +1157,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (bOpenContainingFolder && bExtractOnly && bExtractionSuccessful)
 			{
-				ShellExecute (NULL, "open", WizardDestExtractPath, NULL, NULL, SW_SHOWNORMAL);
+				ShellExecute (NULL, L"open", WizardDestExtractPath, NULL, NULL, SW_SHOWNORMAL);
 			}
 			else
 			{

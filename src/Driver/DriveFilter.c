@@ -13,6 +13,7 @@
 #include "TCdefs.h"
 #include <ntddk.h>
 #include <ntddvol.h>
+#include <Ntstrsafe.h>
 #include "Cache.h"
 #include "Crc.h"
 #include "Crypto.h"
@@ -1812,9 +1813,14 @@ void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp)
 	{
 		if (BootDriveFilterExtension && BootDriveFilterExtension->DriveMounted)
 		{
+			wchar_t BootEncryptionAlgorithmNameW[256];
+			wchar_t BootPrfAlgorithmNameW[256];
 			GetBootEncryptionAlgorithmNameRequest *request = (GetBootEncryptionAlgorithmNameRequest *) irp->AssociatedIrp.SystemBuffer;
-			EAGetName (request->BootEncryptionAlgorithmName, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
-			HashGetName2 (request->BootPrfAlgorithmName, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
+			EAGetName (BootEncryptionAlgorithmNameW, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
+			HashGetName2 (BootPrfAlgorithmNameW, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
+
+			RtlStringCbPrintfA (request->BootEncryptionAlgorithmName, sizeof (request->BootEncryptionAlgorithmName), "%S", BootEncryptionAlgorithmNameW);
+			RtlStringCbPrintfA (request->BootPrfAlgorithmName, sizeof (request->BootPrfAlgorithmName), "%S", BootPrfAlgorithmNameW);
 
 			irp->IoStatus.Information = sizeof (GetBootEncryptionAlgorithmNameRequest);
 			irp->IoStatus.Status = STATUS_SUCCESS;

@@ -24,13 +24,13 @@ extern "C" {
 
 typedef struct KeyFileStruct
 {
-	char FileName[MAX_PATH + 1];
+	wchar_t FileName[MAX_PATH + 1];
 	struct KeyFileStruct *Next;
 } KeyFile;
 
 typedef struct
 {
-	char VolumeFileName[MAX_PATH + 1];
+	wchar_t VolumeFileName[MAX_PATH + 1];
 	BOOL EnableKeyFiles;
 	KeyFile *FirstKeyFile;
 } KeyFilesDlgParam;
@@ -39,7 +39,7 @@ KeyFile *KeyFileAdd (KeyFile *firstKeyFile, KeyFile *keyFile);
 void KeyFileRemoveAll (KeyFile **firstKeyFile);
 KeyFile *KeyFileClone (KeyFile *keyFile);
 KeyFile *KeyFileCloneAll (KeyFile *firstKeyFile);
-BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFilem, const char* volumeFileName);
+BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFilem, const wchar_t* volumeFileName);
 
 BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *dialogParam);

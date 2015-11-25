@@ -34,9 +34,9 @@ namespace VeraCrypt
 		{
 		}
 
-		string Path;
-		string MountPoint;
-		string VolumePathId;
+		wstring Path;
+		wstring MountPoint;
+		wstring VolumePathId;
 		wstring Label;
 		int Pim;
 
@@ -69,7 +69,7 @@ namespace VeraCrypt
 	static void FillFavoriteVolumesMenu ();
 	static void FillListControl (HWND favoriteListControl, vector <FavoriteVolume> &favorites);
 	static void FillListControlSubItems (HWND favoriteListControl, int line, const FavoriteVolume &favorite);
-	wstring GetFavoriteVolumeLabel (const string &volumePath, bool& useInExplorer);
+	wstring GetFavoriteVolumeLabel (const wstring &volumePath, bool& useInExplorer);
 	void LoadFavoriteVolumes ();
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation = false);
 	static void OnFavoriteVolumesUpdated ();

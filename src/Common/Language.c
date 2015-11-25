@@ -62,7 +62,7 @@ static char *MapFirstLanguageFile ()
 	if (LanguageResource == NULL)
 	{
 		DWORD size;
-		LanguageResource = MapResource ("Xml", IDR_LANGUAGE, &size);
+		LanguageResource = MapResource (L"Xml", IDR_LANGUAGE, &size);
 		if (LanguageResource)
 			LanguageResourceSize = size;
 	}
@@ -287,7 +287,7 @@ BOOL LoadLanguageFile ()
 									case 't': *out++ = '\t'; break;
 									case 'n': *out++ = 13; *out++ = 10; break;
 									default:
-										MessageBox (0, key, "VeraCrypt: Unknown '\\' escape sequence in string", MB_ICONERROR);
+										MessageBoxA (0, key, "VeraCrypt: Unknown '\\' escape sequence in string", MB_ICONERROR);
 										return FALSE;
 									}
 								}
@@ -301,7 +301,7 @@ BOOL LoadLanguageFile ()
 						len = MultiByteToWideChar (CP_UTF8, 0, attr, -1, wattr, sizeof (wattr) / sizeof(wattr[0]));
 						if (len == 0)
 						{
-							MessageBox (0, key, "VeraCrypt: Error while decoding UTF-8 string", MB_ICONERROR);
+							MessageBoxA (0, key, "VeraCrypt: Error while decoding UTF-8 string", MB_ICONERROR);
 							return FALSE;
 						}
 
@@ -343,7 +343,7 @@ BOOL LoadLanguageFile ()
 	{
 		if (HeaderResource[i] == NULL)
 		{
-			HeaderResource[i] = MapResource ("Header", headers[i], &size);
+			HeaderResource[i] = MapResource (L"Header", headers[i], &size);
 			if (HeaderResource[i])
 				HeaderResourceSize[i] = size;
 		}

@@ -175,6 +175,7 @@ typedef int BOOL;
 #include <process.h>		/* Process control */
 #include <winioctl.h>
 #include <stdio.h>		/* For sprintf */
+#include <tchar.h>
 
 #endif				/* _WIN32 */
 
@@ -254,7 +255,7 @@ void EraseMemory (void *memory, int size);
 #define TC_MAX_PATH		260	/* Includes the null terminator */
 #endif
 
-#define TC_STR_RELEASED_BY "Released by IDRIX on " TC_STR_RELEASE_DATE
+#define TC_STR_RELEASED_BY L"Released by IDRIX on " TC_STR_RELEASE_DATE
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 

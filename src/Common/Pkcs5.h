@@ -20,24 +20,26 @@
 extern "C"
 {
 #endif
+/* output written to input_digest which must be at lease 20 bytes long */
+void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len);
+void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen);
+
 /* output written to d which must be at lease 32 bytes long */
 void hmac_sha256 (char *k, int lk, char *d, int ld);
 void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen);
 
+#ifndef TC_WINDOWS_BOOT
 /* output written to d which must be at lease 64 bytes long */
 void hmac_sha512 (char *k, int lk, char *d, int ld);
 void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen);
-
-/* output written to input_digest which must be at lease 20 bytes long */
-void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len);
-void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen);
 
 /* output written to d which must be at lease 64 bytes long */
 void hmac_whirlpool (char *k, int lk, char *d, int ld);
 void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen);
 
 int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BOOL bBoot);
-char *get_pkcs5_prf_name (int pkcs5_prf_id);
+wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id);
+#endif
 
 #if defined(__cplusplus)
 }

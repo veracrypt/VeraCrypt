@@ -736,24 +736,24 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 }
 
 
-char *get_pkcs5_prf_name (int pkcs5_prf_id)
+wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 {
 	switch (pkcs5_prf_id)
 	{
 	case SHA512:	
-		return "HMAC-SHA-512";
+		return L"HMAC-SHA-512";
 
 	case SHA256:	
-		return "HMAC-SHA-256";
+		return L"HMAC-SHA-256";
 
 	case RIPEMD160:	
-		return "HMAC-RIPEMD-160";
+		return L"HMAC-RIPEMD-160";
 
 	case WHIRLPOOL:	
-		return "HMAC-Whirlpool";
+		return L"HMAC-Whirlpool";
 
 	default:		
-		return "(Unknown)";
+		return L"(Unknown)";
 	}
 }
 

@@ -27,7 +27,7 @@ namespace VeraCrypt
 	{
 	public:
 		File () : Elevated (false), FileOpen (false), FilePointerPosition(0), Handle(INVALID_HANDLE_VALUE), IsDevice(false), LastError(0) { }
-		File (string path,bool readOnly = false, bool create = false);
+		File (wstring path,bool readOnly = false, bool create = false);
 		virtual ~File () { Close(); }
 
 		void CheckOpened (const char* srcPos) { if (!FileOpen) { SetLastError (LastError); throw SystemException (srcPos);} }
@@ -42,7 +42,7 @@ namespace VeraCrypt
 		uint64 FilePointerPosition;
 		HANDLE Handle;
 		bool IsDevice;
-		string Path;
+		wstring Path;
 		DWORD LastError;
 	};
 
@@ -50,7 +50,7 @@ namespace VeraCrypt
 	class Device : public File
 	{
 	public:
-		Device (string path,bool readOnly = false);
+		Device (wstring path,bool readOnly = false);
 		virtual ~Device () {}
 	};
 
@@ -77,9 +77,9 @@ namespace VeraCrypt
 
 	struct Partition
 	{
-		string DevicePath;
+		wstring DevicePath;
 		PARTITION_INFORMATION Info;
-		string MountPoint;
+		wstring MountPoint;
 		size_t Number;
 		BOOL IsGPT;
 		wstring VolumeNameId;
@@ -119,8 +119,8 @@ namespace VeraCrypt
 
 	struct SystemDriveConfiguration
 	{
-		string DeviceKernelPath;
-		string DevicePath;
+		wstring DeviceKernelPath;
+		wstring DevicePath;
 		int DriveNumber;
 		Partition DrivePartition;
 		bool ExtraBootPartitionPresent;
@@ -154,19 +154,19 @@ namespace VeraCrypt
 		void CheckEncryptionSetupResult ();
 		void CheckRequirements ();
 		void CheckRequirementsHiddenOS ();
-		void CopyFileAdmin (const string &sourceFile, const string &destinationFile);
-		void CreateRescueIsoImage (bool initialSetup, const string &isoImagePath);
+		void CopyFileAdmin (const wstring &sourceFile, const wstring &destinationFile);
+		void CreateRescueIsoImage (bool initialSetup, const wstring &isoImagePath);
 		void Deinstall (bool displayWaitDialog = false);
-		void DeleteFileAdmin (const string &file);
+		void DeleteFileAdmin (const wstring &file);
 		DecoySystemWipeStatus GetDecoyOSWipeStatus ();
 		DWORD GetDriverServiceStartType ();
 		unsigned int GetHiddenOSCreationPhase ();
 		uint16 GetInstalledBootLoaderVersion ();
 		void GetInstalledBootLoaderFingerprint (byte fingerprint[WHIRLPOOL_DIGESTSIZE + SHA512_DIGESTSIZE]);
 		Partition GetPartitionForHiddenOS ();
-		bool IsBootLoaderOnDrive (char *devicePath);
+		bool IsBootLoaderOnDrive (wchar_t *devicePath);
 		BootEncryptionStatus GetStatus ();
-		string GetTempPath ();
+		wstring GetTempPath ();
 		void GetVolumeProperties (VOLUME_PROPERTIES_STRUCT *properties);
 		SystemDriveConfiguration GetSystemDriveConfiguration ();
 		void Install (bool hiddenSystem);
@@ -178,7 +178,7 @@ namespace VeraCrypt
 		bool IsHiddenSystemRunning ();
 		bool IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly);
 		void PrepareHiddenOSCreation (int ea, int mode, int pkcs5);
-		void PrepareInstallation (bool systemPartitionOnly, Password &password, int ea, int mode, int pkcs5, int pim, const string &rescueIsoImagePath);
+		void PrepareInstallation (bool systemPartitionOnly, Password &password, int ea, int mode, int pkcs5, int pim, const wstring &rescueIsoImagePath);
 		void ProbeRealSystemDriveSize ();
 		void ReadBootSectorConfig (byte *config, size_t bufLength, byte *userConfig = nullptr, string *customUserMessage = nullptr, uint16 *bootLoaderVersion = nullptr);
 		uint32 ReadDriverConfigurationFlags ();
@@ -203,12 +203,12 @@ namespace VeraCrypt
 		bool SystemPartitionCoversWholeDrive ();
 		bool SystemDriveIsDynamic ();
 		bool VerifyRescueDisk ();
-		bool VerifyRescueDiskIsoImage (const char* imageFile);
+		bool VerifyRescueDiskIsoImage (const wchar_t* imageFile);
 		void WipeHiddenOSCreationConfig ();
 		void WriteBootDriveSector (uint64 offset, byte *data);
 		void WriteBootSectorConfig (const byte newConfig[]);
 		void WriteBootSectorUserConfig (byte userConfig, const string &customUserMessage);
-		void WriteLocalMachineRegistryDwordValue (char *keyPath, char *valueName, DWORD value);
+		void WriteLocalMachineRegistryDwordValue (wchar_t *keyPath, wchar_t *valueName, DWORD value);
 
 	protected:
 		static const uint32 RescueIsoImageSize = 1835008; // Size of ISO9660 image with bootable emulated 1.44MB floppy disk image
@@ -216,12 +216,12 @@ namespace VeraCrypt
 		void BackupSystemLoader ();
 		void CreateBootLoaderInMemory (byte *buffer, size_t bufferSize, bool rescueDisk, bool hiddenOSCreation = false);
 		void CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5, int pim);
-		string GetSystemLoaderBackupPath ();
+		wstring GetSystemLoaderBackupPath ();
 		uint32 GetChecksum (byte *data, size_t size);
 		DISK_GEOMETRY GetDriveGeometry (int driveNumber);
 		PartitionList GetDrivePartitions (int driveNumber);
 		wstring GetRemarksOnHiddenOS ();
-		string GetWindowsDirectory ();
+		wstring GetWindowsDirectory ();
 		void RegisterFilter (bool registerFilter, FilterType filterType, const GUID *deviceClassGuid = nullptr);
 		void RestoreSystemLoader ();
 		void InstallVolumeHeader ();
@@ -246,11 +246,11 @@ namespace VeraCrypt
 #define MIN_HIDDENOS_DECOY_PARTITION_SIZE_RATIO_NTFS	2.1
 #define MIN_HIDDENOS_DECOY_PARTITION_SIZE_RATIO_FAT		1.05
 
-#define TC_SYS_BOOT_LOADER_BACKUP_NAME			"Original System Loader"
-#define TC_SYS_BOOT_LOADER_BACKUP_NAME_LEGACY	"Original System Loader.bak"	// Deprecated to prevent removal by some "cleaners"
+#define TC_SYS_BOOT_LOADER_BACKUP_NAME			L"Original System Loader"
+#define TC_SYS_BOOT_LOADER_BACKUP_NAME_LEGACY	L"Original System Loader.bak"	// Deprecated to prevent removal by some "cleaners"
 
-#define TC_SYSTEM_FAVORITES_SERVICE_NAME				TC_APP_NAME "SystemFavorites"
-#define	TC_SYSTEM_FAVORITES_SERVICE_LOAD_ORDER_GROUP	"Event Log"
-#define TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION		"/systemFavoritesService"
+#define TC_SYSTEM_FAVORITES_SERVICE_NAME				_T(TC_APP_NAME) L"SystemFavorites"
+#define	TC_SYSTEM_FAVORITES_SERVICE_LOAD_ORDER_GROUP	L"Event Log"
+#define TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION		L"/systemFavoritesService"
 
 #endif // TC_HEADER_Common_BootEncryption

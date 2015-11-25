@@ -25,33 +25,33 @@
 
 /* create full directory tree. returns 0 for success, -1 if failure */
 int
-mkfulldir (char *oriPath, BOOL bCheckonly)
+mkfulldir (wchar_t *oriPath, BOOL bCheckonly)
 {
 	struct _stat st;
-	char *uniq_file;
-	char path [TC_MAX_PATH];
+	wchar_t *uniq_file;
+	wchar_t path [TC_MAX_PATH];
 
-	StringCbCopyA (path, TC_MAX_PATH, oriPath);
+	StringCbCopyW (path, TC_MAX_PATH, oriPath);
 
-	if (strlen (path) == 3 && path[1] == ':')
+	if (wcslen (path) == 3 && path[1] == L':')
 		goto is_root;	/* keep final slash in root if present */
 
 	/* strip final forward or backslash if we have one! */
-	uniq_file = strrchr (path, '\\');
-	if (uniq_file && uniq_file[1] == '\0')
-		uniq_file[0] = '\0';
+	uniq_file = wcsrchr (path, L'\\');
+	if (uniq_file && uniq_file[1] == L'\0')
+		uniq_file[0] = L'\0';
 	else
 	{
-		uniq_file = strrchr (path, '/');
-		if (uniq_file && uniq_file[1] == '\0')
-			uniq_file[0] = '\0';
+		uniq_file = wcsrchr (path, L'/');
+		if (uniq_file && uniq_file[1] == L'\0')
+			uniq_file[0] = L'\0';
 	}
 
       is_root:
 	if (bCheckonly)
-		return _stat (path, &st);
+		return _wstat (path, &st);
 
-	if (_stat (path, &st))
+	if (_wstat (path, &st))
 		return mkfulldir_internal (path);
 	else
 		return 0;
@@ -59,52 +59,52 @@ mkfulldir (char *oriPath, BOOL bCheckonly)
 
 
 int
-mkfulldir_internal (char *path)
+mkfulldir_internal (wchar_t *path)
 {
-	char *token;
+	wchar_t *token;
 	struct _stat st;
-	static char tokpath[_MAX_PATH];
-	static char trail[_MAX_PATH];
+	static wchar_t tokpath[_MAX_PATH];
+	static wchar_t trail[_MAX_PATH];
 
-	StringCbCopyA (tokpath, _MAX_PATH, path);
-	trail[0] = '\0';
+	StringCbCopyW (tokpath, _MAX_PATH, path);
+	trail[0] = L'\0';
 
-	token = strtok (tokpath, "\\/");
+	token = wcstok (tokpath, L"\\/");
 
-	if (tokpath[0] == '\\' && tokpath[1] == '\\')
+	if (tokpath[0] == L'\\' && tokpath[1] == L'\\')
 	{			/* unc */
 		trail[0] = tokpath[0];
 		trail[1] = tokpath[1];
-		trail[2] = '\0';
+		trail[2] = L'\0';
 		if (token)
 		{
-			StringCbCatA (trail, _MAX_PATH, token);
-			StringCbCatA (trail, _MAX_PATH, "\\");
-			token = strtok (NULL, "\\/");
+			StringCbCatW (trail, _MAX_PATH, token);
+			StringCbCatW (trail, _MAX_PATH, L"\\");
+			token = wcstok (NULL, L"\\/");
 			if (token)
 			{		/* get share name */
-				StringCbCatA (trail, _MAX_PATH, token);
-				StringCbCatA (trail, _MAX_PATH, "\\");
+				StringCbCatW (trail, _MAX_PATH, token);
+				StringCbCatW (trail, _MAX_PATH, L"\\");
 			}
-			token = strtok (NULL, "\\/");
+			token = wcstok (NULL, L"\\/");
 		}
 	}
 
-	if (tokpath[1] == ':')
+	if (tokpath[1] == L':')
 	{			/* drive letter */
-		StringCbCatA (trail, _MAX_PATH, tokpath);
-		StringCbCatA (trail, _MAX_PATH, "\\");
-		token = strtok (NULL, "\\/");
+		StringCbCatW (trail, _MAX_PATH, tokpath);
+		StringCbCatW (trail, _MAX_PATH, L"\\");
+		token = wcstok (NULL, L"\\/");
 	}
 
 	while (token != NULL)
 	{
 		int x;
-		StringCbCatA (trail, _MAX_PATH, token);
-		x = _mkdir (trail);
-		StringCbCatA (trail, _MAX_PATH, "\\");
-		token = strtok (NULL, "\\/");
+		StringCbCatW (trail, _MAX_PATH, token);
+		x = _wmkdir (trail);
+		StringCbCatW (trail, _MAX_PATH, L"\\");
+		token = wcstok (NULL, L"\\/");
 	}
 
-	return _stat (path, &st);
+	return _wstat (path, &st);
 }

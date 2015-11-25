@@ -189,7 +189,11 @@ namespace VeraCrypt
 		static void GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <byte> &keyfileData);
 		static list <SecurityTokenInfo> GetAvailableTokens ();
 		static SecurityTokenInfo GetTokenInfo (CK_SLOT_ID slotId);
+#ifdef TC_WINDOWS
+		static void InitLibrary (const wstring &pkcs11LibraryPath, auto_ptr <GetPinFunctor> pinCallback, auto_ptr <SendExceptionFunctor> warningCallback);
+#else
 		static void InitLibrary (const string &pkcs11LibraryPath, auto_ptr <GetPinFunctor> pinCallback, auto_ptr <SendExceptionFunctor> warningCallback);
+#endif
 		static bool IsInitialized () { return Initialized; }
 		static bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath);
 	

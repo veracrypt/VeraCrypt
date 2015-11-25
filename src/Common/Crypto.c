@@ -44,9 +44,15 @@ static Cipher Ciphers[] =
 {
 //								Block Size	Key Size	Key Schedule Size
 //	  ID		Name			(Bytes)		(Bytes)		(Bytes)
+#ifdef TC_WINDOWS_BOOT
 	{ AES,		"AES",			16,			32,			AES_KS				},
 	{ SERPENT,	"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	"Twofish",		16,			32,			TWOFISH_KS			},
+#else
+	{ AES,		L"AES",			16,			32,			AES_KS				},
+	{ SERPENT,	L"Serpent",		16,			32,			140*4				},
+	{ TWOFISH,	L"Twofish",		16,			32,			TWOFISH_KS			},
+#endif
 	{ 0,		0,				0,			0,			0					}
 };
 
@@ -88,18 +94,17 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 };
 
 
-
+#ifndef TC_WINDOWS_BOOT
 // Hash algorithms
 static Hash Hashes[] =
 {	// ID			Name			Deprecated		System Encryption
-#ifndef TC_WINDOWS_BOOT
-	{ SHA512,		"SHA-512",		FALSE,			FALSE },
-	{ WHIRLPOOL,	"Whirlpool",	FALSE,			FALSE },
-#endif
-	{ SHA256,		"SHA-256",		FALSE,			TRUE },
-	{ RIPEMD160,	"RIPEMD-160",	TRUE,			TRUE },
+	{ SHA512,		L"SHA-512",		FALSE,			FALSE },
+	{ WHIRLPOOL,	L"Whirlpool",	FALSE,			FALSE },
+	{ SHA256,		L"SHA-256",		FALSE,			TRUE },
+	{ RIPEMD160,	L"RIPEMD-160",	TRUE,			TRUE },
 	{ 0, 0, 0 }
 };
+#endif
 
 /* Return values: 0 = success, ERR_CIPHER_INIT_FAILURE (fatal), ERR_CIPHER_INIT_WEAK_KEY (non-fatal) */
 int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
@@ -279,17 +284,12 @@ Cipher *CipherGet (int id)
 }
 
 #ifndef TC_WINDOWS_BOOT
-const
-#endif
-char *CipherGetName (int cipherId)
+const wchar_t *CipherGetName (int cipherId)
 {
-#ifdef TC_WINDOWS_BOOT
-	return CipherGet (cipherId) -> Name;
-#else
    Cipher* pCipher = CipherGet (cipherId);
-   return  pCipher? pCipher -> Name : "";
-#endif
+   return  pCipher? pCipher -> Name : L"";
 }
+#endif
 
 int CipherGetBlockSize (int cipherId)
 {
@@ -410,19 +410,19 @@ BOOL EAInitMode (PCRYPTO_INFO ci)
 	return TRUE;
 }
 
-static void EAGetDisplayName(char *buf, int ea, int i)
+static void EAGetDisplayName(wchar_t *buf, int ea, int i)
 {
-	strcpy (buf, CipherGetName (i));
+	wcscpy (buf, CipherGetName (i));
 	if (i = EAGetPreviousCipher(ea, i))
 	{
-		strcat (buf, "(");
-		EAGetDisplayName (&buf[strlen(buf)], ea, i);
-		strcat (buf, ")");
+		wcscat (buf, L"(");
+		EAGetDisplayName (&buf[wcslen(buf)], ea, i);
+		wcscat (buf, L")");
 	}
 }
 
 // Returns name of EA, cascaded cipher names are separated by hyphens
-char *EAGetName (char *buf, int ea, int guiDisplay)
+wchar_t *EAGetName (wchar_t *buf, int ea, int guiDisplay)
 {
 	if (guiDisplay)
 	{
@@ -431,27 +431,27 @@ char *EAGetName (char *buf, int ea, int guiDisplay)
 	else
 	{
 		int i = EAGetLastCipher(ea);
-		strcpy (buf, (i != 0) ? CipherGetName (i) : "?");
+		wcscpy (buf, (i != 0) ? CipherGetName (i) : L"?");
 
 		while (i = EAGetPreviousCipher(ea, i))
 		{
-			strcat (buf, "-");
-			strcat (buf, CipherGetName (i));
+			wcscat (buf, L"-");
+			wcscat (buf, CipherGetName (i));
 		}
 	}
 	return buf;
 }
 
 
-int EAGetByName (char *name)
+int EAGetByName (wchar_t *name)
 {
 	int ea = EAGetFirst ();
-	char n[128];
+	wchar_t n[128];
 
 	do
 	{
 		EAGetName (n, ea, 1);
-		if (_stricmp (n, name) == 0)
+		if (_wcsicmp (n, name) == 0)
 			return ea;
 	}
 	while (ea = EAGetNext (ea));
@@ -499,16 +499,16 @@ int EAGetNextMode (int ea, int previousModeId)
 #ifndef TC_WINDOWS_BOOT
 
 // Returns the name of the mode of operation of the whole EA
-char *EAGetModeName (int ea, int mode, BOOL capitalLetters)
+wchar_t *EAGetModeName (int ea, int mode, BOOL capitalLetters)
 {
 	switch (mode)
 	{
 	case XTS:
 
-		return "XTS";
+		return L"XTS";
 
 	}
-	return "[unknown]";
+	return L"[unknown]";
 }
 
 #endif // TC_WINDOWS_BOOT
@@ -635,7 +635,7 @@ BOOL EAIsModeSupported (int ea, int testedMode)
 	return FALSE;
 }
 
-
+#ifndef TC_WINDOWS_BOOT
 Hash *HashGet (int id)
 {
 	int i;
@@ -647,37 +647,29 @@ Hash *HashGet (int id)
 }
 
 
-int HashGetIdByName (char *name)
+int HashGetIdByName (wchar_t *name)
 {
 	int i;
 	for (i = 0; Hashes[i].Id != 0; i++)
-		if (strcmp (Hashes[i].Name, name) == 0)
+		if (wcscmp (Hashes[i].Name, name) == 0)
 			return Hashes[i].Id;
 
 	return 0;
 }
 
-#ifndef TC_WINDOWS_BOOT
-const
-#endif
-char *HashGetName (int hashId)
+const wchar_t *HashGetName (int hashId)
 {
-#ifdef TC_WINDOWS_BOOT
-	return HashGet(hashId) -> Name;
-#else
    Hash* pHash = HashGet(hashId);
-   return pHash? pHash -> Name : "";
-#endif
+   return pHash? pHash -> Name : L"";
 }
 
-#ifndef TC_WINDOWS_BOOT
-void HashGetName2 (char *buf, int hashId)
+void HashGetName2 (wchar_t *buf, int hashId)
 {
    Hash* pHash = HashGet(hashId);
    if (pHash)
-		strcpy(buf, pHash -> Name);
+		wcscpy(buf, pHash -> Name);
 	else
-		buf[0] = '\0';
+		buf[0] = L'\0';
 }
 
 BOOL HashIsDeprecated (int hashId)

@@ -112,7 +112,7 @@ KeyFile *KeyFileClone (KeyFile *keyFile)
 	clone = (KeyFile *) malloc (sizeof (KeyFile));
 	if (clone)
 	{
-		StringCbCopyA (clone->FileName, sizeof(clone->FileName), keyFile->FileName);
+		StringCbCopyW (clone->FileName, sizeof(clone->FileName), keyFile->FileName);
 		clone->Next = NULL;
 	}
 	return clone;
@@ -170,7 +170,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 			CloseHandle (finally_arg);
 	});
 
-	f = fopen (keyFile->FileName, "rb");
+	f = _wfopen (keyFile->FileName, L"rb");
 	if (f == NULL) return FALSE;
 
 	while ((bytesRead = fread (buffer, 1, sizeof (buffer), f)) > 0)
@@ -225,7 +225,7 @@ close:
 }
 
 
-BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, const char* volumeFileName)
+BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, const wchar_t* volumeFileName)
 {
 	BOOL status = TRUE;
 	KeyFile kfSubStruct;
@@ -234,8 +234,8 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 	static unsigned __int8 keyPool [KEYFILE_POOL_SIZE];
 	size_t i;
 	struct stat statStruct;
-	char searchPath [TC_MAX_PATH*2];
-	struct _finddata_t fBuf;
+	wchar_t searchPath [TC_MAX_PATH*2];
+	struct _wfinddata_t fBuf;
 	intptr_t searchHandle;
 
 	HiddenFilesPresentInKeyfilePath = FALSE;
@@ -250,11 +250,12 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		// Determine whether it's a security token path
 		try
 		{
-			if (SecurityToken::IsKeyfilePathValid (SingleStringToWide (kf->FileName)))
+			if (SecurityToken::IsKeyfilePathValid (kf->FileName))
 			{
 				// Apply security token keyfile
 				vector <byte> keyfileData;
-				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (SingleStringToWide (kf->FileName)), keyfileData);
+				SecurityTokenKeyfilePath secPath (kf->FileName);
+				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (secPath), keyfileData);
 
 				if (keyfileData.empty())
 				{
@@ -296,7 +297,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 		}
 
 		// Determine whether it's a path or a file
-		if (stat (kf->FileName, &statStruct) != 0)
+		if (_wstat (kf->FileName, &statStruct) != 0)
 		{
 			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -309,8 +310,8 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			/* Find and process all keyfiles in the directory */
 			int keyfileCount = 0;
 
-			StringCbPrintfA (searchPath, sizeof (searchPath), "%s\\*.*", kf->FileName);
-			if ((searchHandle = _findfirst (searchPath, &fBuf)) == -1)
+			StringCbPrintfW (searchPath, sizeof (searchPath), L"%s\\*.*", kf->FileName);
+			if ((searchHandle = _wfindfirst (searchPath, &fBuf)) == -1)
 			{
 				handleWin32Error (hwndDlg, SRC_POS);
 				Error ("ERR_PROCESS_KEYFILE_PATH", hwndDlg);
@@ -322,13 +323,13 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			{
 				WIN32_FILE_ATTRIBUTE_DATA fileAttributes;
 
-				StringCbPrintfA (kfSub->FileName, sizeof(kfSub->FileName), "%s%c%s", kf->FileName,
-					'\\',
+				StringCbPrintfW (kfSub->FileName, sizeof(kfSub->FileName), L"%s%c%s", kf->FileName,
+					L'\\',
 					fBuf.name
 					);				
 
 				// Determine whether it's a path or a file
-				if (stat (kfSub->FileName, &statStruct) != 0)
+				if (_wstat (kfSub->FileName, &statStruct) != 0)
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -342,7 +343,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				}
 
 				// Skip hidden files
-				if (GetFileAttributesEx (kfSub->FileName, GetFileExInfoStandard, &fileAttributes)
+				if (GetFileAttributesExW (kfSub->FileName, GetFileExInfoStandard, &fileAttributes)
 					&& (fileAttributes.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) != 0)
 				{
 					HiddenFilesPresentInKeyfilePath = TRUE;
@@ -350,7 +351,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				}
 
 				CorrectFileName (kfSub->FileName);
-				if (volumeFileName && (_stricmp (volumeFileName, kfSub->FileName) == 0))
+				if (volumeFileName && (_wcsicmp (volumeFileName, kfSub->FileName) == 0))
 				{
 					// skip if it is the current container file name
 					continue;
@@ -366,14 +367,14 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 					status = FALSE;
 				}
 
-			} while (_findnext (searchHandle, &fBuf) != -1);
+			} while (_wfindnext (searchHandle, &fBuf) != -1);
 			_findclose (searchHandle);
 
 			burn (&kfSubStruct, sizeof (kfSubStruct));
 
 			if (keyfileCount == 0)
 			{
-				ErrorDirect ((wstring (GetString ("ERR_KEYFILE_PATH_EMPTY")) + L"\n\n" + SingleStringToWide (kf->FileName)).c_str(), hwndDlg);
+				ErrorDirect ((wstring (GetString ("ERR_KEYFILE_PATH_EMPTY")) + L"\n\n" + wstring (kf->FileName)).c_str(), hwndDlg);
 				status = FALSE;
 			}
 		}
@@ -499,7 +500,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					do
 					{
 						CorrectFileName (kf->FileName);
-						if (_stricmp (param->VolumeFileName, kf->FileName) == 0)
+						if (_wcsicmp (param->VolumeFileName, kf->FileName) == 0)
 							containerFileSkipped = true;
 						else
 						{
@@ -547,7 +548,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
 					{
-						strcpy_s (kf->FileName, sizeof (kf->FileName), WideToSingleString (keyPath).c_str());
+						StringCbCopyW (kf->FileName, sizeof (kf->FileName), wstring(keyPath).c_str ());
 
 						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 						LoadKeyList (hwndDlg, param->FirstKeyFile);
@@ -741,7 +742,7 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 					KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
 					{
-						strcpy_s (kf->FileName, sizeof (kf->FileName), WideToSingleString (keyPath).c_str());
+						StringCbCopyW (kf->FileName, sizeof (kf->FileName), wstring (keyPath).c_str());
 
 						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 						param->EnableKeyFiles = TRUE;

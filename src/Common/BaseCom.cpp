@@ -128,16 +128,9 @@ BOOL BaseCom::IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly)
 
 DWORD BaseCom::ReadWriteFile (BOOL write, BOOL device, BSTR filePath, BSTR *bufferBstr, unsigned __int64 offset, unsigned __int32 size, DWORD *sizeDone)
 {
-	USES_CONVERSION;
-	CW2A szFilePathA(filePath);
-	if (!szFilePathA.m_psz)
-	{
-		return ERROR_NOT_ENOUGH_MEMORY;
-	}
-
 	try
 	{
-		auto_ptr <File> file (device ? new Device (string (szFilePathA.m_psz), !write) : new File (string (szFilePathA.m_psz), !write));
+		auto_ptr <File> file (device ? new Device (filePath, !write) : new File (filePath, !write));
 		file->CheckOpened (SRC_POS);
 		file->SeekAt (offset);
 
@@ -246,7 +239,7 @@ DWORD BaseCom::SetDriverServiceStartType (DWORD startType)
 
 DWORD BaseCom::WriteLocalMachineRegistryDwordValue (BSTR keyPath, BSTR valueName, DWORD value)
 {
-	if (!::WriteLocalMachineRegistryDwordW (keyPath, valueName, value))
+	if (!::WriteLocalMachineRegistryDword (keyPath, valueName, value))
 		return GetLastError();
 
 	return ERROR_SUCCESS;

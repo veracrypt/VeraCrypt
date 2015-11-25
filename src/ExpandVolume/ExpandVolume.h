@@ -27,14 +27,14 @@ enum EV_FileSystem
 	EV_FS_TYPE_NTFS = 2,
 };
 
-extern const char * szFileSystemStr[3];
+extern const wchar_t * szFileSystemStr[3];
 
 typedef struct
 {
 	uint64 oldSize;
 	uint64 newSize;
 	uint64 hostSizeFree;
-	const char *szVolumeName;
+	const wchar_t *szVolumeName;
 	enum EV_FileSystem FileSystem;
 	BOOL bIsDevice;
 	BOOL bIsLegacy;
@@ -56,10 +56,10 @@ extern volatile BOOL bVolTransformThreadCancel; /* TRUE if the user cancels/paus
 /* defined in ExpandVolume.c */
 uint64 GetVolumeDataAreaSize (uint64 volumeSize, BOOL legacyVolume);
 uint64 GetVolumeSizeByDataAreaSize (uint64 dataSize, BOOL legacyVolume);
-int QueryVolumeInfo (HWND hwndDlg, const char *lpszVolume, uint64 * pHostSizeFree, uint64 * pSizeLimitFS );
-int MountVolTemp (HWND hwndDlg, char *volumePath, int *driveNo, Password *password, int pkcs5, int pim);
-BOOL GetFileSystemType(const char *szFileName, enum EV_FileSystem *pFS);
-BOOL GetNtfsNumberOfSectors(char *rootPath, uint64 *pNumberOfSectors, DWORD *pBytesPerSector);
+int QueryVolumeInfo (HWND hwndDlg, const wchar_t *lpszVolume, uint64 * pHostSizeFree, uint64 * pSizeLimitFS );
+int MountVolTemp (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Password *password, int pkcs5, int pim);
+BOOL GetFileSystemType(const wchar_t *szFileName, enum EV_FileSystem *pFS);
+BOOL GetNtfsNumberOfSectors(wchar_t *rootPath, uint64 *pNumberOfSectors, DWORD *pBytesPerSector);
 void __cdecl volTransformThreadFunction (void *hwndDlgArg);
 
 /* defined in DlgExpandVolume.cpp */
@@ -71,7 +71,7 @@ void SetProgressDlgStatus(HWND hwndDlg, const char* szText);
 #endif
 
 /* defined in DlgExpandVolume.cpp */
-void ExpandVolumeWizard (HWND hwndDlg, char *lpszVolume);
+void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume);
 
 
 #endif /* TC_HEADER_ExpandVolume */

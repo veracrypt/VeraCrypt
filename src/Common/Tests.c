@@ -265,7 +265,7 @@ BOOL XTSAesTest (PCRYPTO_INFO ci)
 
 	for (i = 0; i < XTS_TEST_COUNT; i++)
 	{
-		ci->ea = EAGetByName ("AES");
+		ci->ea = EAGetByName (L"AES");
 		if (ci->ea == 0)
 			return FALSE;
 
@@ -476,7 +476,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 {
 	unsigned char buf [ENCRYPTION_DATA_UNIT_SIZE * 4];
 	unsigned int i;
-	char name[64];
+	wchar_t name[64];
 	unsigned __int32 crc;
 	UINT64_STRUCT unitNo;
 	uint32 nbrUnits;
@@ -538,7 +538,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 
 			crc = GetCrc32 (buf, sizeof (buf));
 
-			if (strcmp (name, "AES") == 0)
+			if (wcscmp (name, L"AES") == 0)
 			{
 				// Verify the ciphertext of the "moving" data unit using the IEEE test vector #14
 				if (memcmp (XTS_vectors[XTS_TEST_COUNT-1].ciphertext,
@@ -573,7 +573,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (strcmp (name, "Serpent") == 0)
+			else if (wcscmp (name, L"Serpent") == 0)
 			{
 				switch (testCase)
 				{
@@ -599,7 +599,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (strcmp (name, "Twofish") == 0)
+			else if (wcscmp (name, L"Twofish") == 0)
 			{
 				switch (testCase)
 				{
@@ -625,7 +625,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (strcmp (name, "AES-Twofish") == 0)
+			else if (wcscmp (name, L"AES-Twofish") == 0)
 			{
 				switch (testCase)
 				{
@@ -651,7 +651,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (strcmp (name, "AES-Twofish-Serpent") == 0)
+			else if (wcscmp (name, L"AES-Twofish-Serpent") == 0)
 			{
 				switch (testCase)
 				{
@@ -677,7 +677,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (strcmp (name, "Serpent-AES") == 0)
+			else if (wcscmp (name, L"Serpent-AES") == 0)
 			{
 				switch (testCase)
 				{
@@ -703,7 +703,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (strcmp (name, "Serpent-Twofish-AES") == 0)
+			else if (wcscmp (name, L"Serpent-Twofish-AES") == 0)
 			{
 				switch (testCase)
 				{
@@ -729,7 +729,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
-			else if (strcmp (name, "Twofish-Serpent") == 0)
+			else if (wcscmp (name, L"Twofish-Serpent") == 0)
 			{
 				switch (testCase)
 				{
@@ -801,49 +801,49 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 
 		crc = GetCrc32 (buf, sizeof (buf));
 
-		if (strcmp (name, "AES") == 0)
+		if (wcscmp (name, L"AES") == 0)
 		{
 			if (crc != 0x33b91fab)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (strcmp (name, "Serpent") == 0)
+		else if (wcscmp (name, L"Serpent") == 0)
 		{
 			if (crc != 0x3494d480)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (strcmp (name, "Twofish") == 0)
+		else if (wcscmp (name, L"Twofish") == 0)
 		{
 			if (crc != 0xc4d65b46)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (strcmp (name, "AES-Twofish") == 0)
+		else if (wcscmp (name, L"AES-Twofish") == 0)
 		{
 			if (crc != 0x14ce7385)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (strcmp (name, "AES-Twofish-Serpent") == 0)
+		else if (wcscmp (name, L"AES-Twofish-Serpent") == 0)
 		{
 			if (crc != 0x0ec81bf7)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (strcmp (name, "Serpent-AES") == 0)
+		else if (wcscmp (name, L"Serpent-AES") == 0)
 		{
 			if (crc != 0x42f919ad)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (strcmp (name, "Serpent-Twofish-AES") == 0)
+		else if (wcscmp (name, L"Serpent-Twofish-AES") == 0)
 		{
 			if (crc != 0x208d5c58)
 				return FALSE;
 			nTestsPerformed++;
 		}
-		else if (strcmp (name, "Twofish-Serpent") == 0)
+		else if (wcscmp (name, L"Twofish-Serpent") == 0)
 		{
 			if (crc != 0xbe78cec1)
 				return FALSE;

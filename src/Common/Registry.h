@@ -14,24 +14,23 @@
 extern "C" {
 #endif
 
-BOOL ReadLocalMachineRegistryDword (char *subKey, char *name, DWORD *value);
-BOOL ReadLocalMachineRegistryMultiString (char *subKey, char *name, char *value, DWORD *size);
-BOOL ReadLocalMachineRegistryString (const char *subKey, char *name, char *value, DWORD *size);
-BOOL ReadLocalMachineRegistryStringNonReflected (const char *subKey, char *name, char *str, DWORD *size, BOOL b32bitApp);
-int ReadRegistryInt (char *subKey, char *name, int defaultValue);
-char *ReadRegistryString (char *subKey, char *name, char *defaultValue, char *str, int maxLen);
-DWORD ReadRegistryBytes (char *path, char *name, char *value, int maxLen);
-void WriteRegistryInt (char *subKey, char *name, int value);
-BOOL WriteLocalMachineRegistryDword (char *subKey, char *name, DWORD value);
-BOOL WriteLocalMachineRegistryDwordW (WCHAR *subKey, WCHAR *name, DWORD value);
-BOOL WriteLocalMachineRegistryMultiString (char *subKey, char *name, char *multiString, DWORD size);
-BOOL WriteLocalMachineRegistryString (char *subKey, char *name, char *str, BOOL expandable);
-void WriteRegistryString (char *subKey, char *name, char *str);
-BOOL WriteRegistryBytes (char *path, char *name, char *str, DWORD size);
-BOOL DeleteLocalMachineRegistryKey (char *parentKey, char *subKeyToDelete);
-void DeleteRegistryValue (char *subKey, char *name);
-void GetStartupRegKeyName (char *regk, size_t cbRegk);
-void GetRestorePointRegKeyName (char *regk, size_t cbRegk);
+BOOL ReadLocalMachineRegistryDword (wchar_t *subKey, wchar_t *name, DWORD *value);
+BOOL ReadLocalMachineRegistryMultiString (wchar_t *subKey, wchar_t *name, wchar_t *value, DWORD *size);
+BOOL ReadLocalMachineRegistryString (const wchar_t *subKey, wchar_t *name, wchar_t *value, DWORD *size);
+BOOL ReadLocalMachineRegistryStringNonReflected (const wchar_t *subKey, wchar_t *name, wchar_t *str, DWORD *size, BOOL b32bitApp);
+int ReadRegistryInt (wchar_t *subKey, wchar_t *name, int defaultValue);
+wchar_t *ReadRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *defaultValue, wchar_t *str, int maxLen);
+DWORD ReadRegistryBytes (wchar_t *path, wchar_t *name, char *value, int maxLen);
+void WriteRegistryInt (wchar_t *subKey, wchar_t *name, int value);
+BOOL WriteLocalMachineRegistryDword (wchar_t *subKey, wchar_t *name, DWORD value);
+BOOL WriteLocalMachineRegistryMultiString (wchar_t *subKey, wchar_t *name, wchar_t *multiString, DWORD size);
+BOOL WriteLocalMachineRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *str, BOOL expandable);
+void WriteRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *str);
+BOOL WriteRegistryBytes (wchar_t *path, wchar_t *name, char *str, DWORD size);
+BOOL DeleteLocalMachineRegistryKey (wchar_t *parentKey, wchar_t *subKeyToDelete);
+void DeleteRegistryValue (wchar_t *subKey, wchar_t *name);
+void GetStartupRegKeyName (wchar_t *regk, size_t cbRegk);
+void GetRestorePointRegKeyName (wchar_t *regk, size_t cbRegk);
 
 #ifdef  __cplusplus
 }

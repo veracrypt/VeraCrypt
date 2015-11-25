@@ -47,7 +47,7 @@ namespace VeraCrypt
 		SlotId = slotId;
 
 		size_t keyIdPos = pathStr.find (L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/");
-		if (keyIdPos == string::npos)
+		if (keyIdPos == wstring::npos)
 			throw InvalidSecurityTokenKeyfilePath();
 
 		Id = pathStr.substr (keyIdPos + wstring (L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/").size());
@@ -510,13 +510,17 @@ namespace VeraCrypt
 		}
 	}
 
+#ifdef TC_WINDOWS
+	void SecurityToken::InitLibrary (const wstring &pkcs11LibraryPath, auto_ptr <GetPinFunctor> pinCallback, auto_ptr <SendExceptionFunctor> warningCallback)
+#else
 	void SecurityToken::InitLibrary (const string &pkcs11LibraryPath, auto_ptr <GetPinFunctor> pinCallback, auto_ptr <SendExceptionFunctor> warningCallback)
+#endif
 	{
 		if (Initialized)
 			CloseLibrary();
 
 #ifdef TC_WINDOWS
-		Pkcs11LibraryHandle = LoadLibraryA (pkcs11LibraryPath.c_str());
+		Pkcs11LibraryHandle = LoadLibraryW (pkcs11LibraryPath.c_str());
 #else
 		Pkcs11LibraryHandle = dlopen (pkcs11LibraryPath.c_str(), RTLD_NOW | RTLD_LOCAL);
 #endif

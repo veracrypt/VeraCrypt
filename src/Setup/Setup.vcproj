@@ -22,7 +22,7 @@
 			IntermediateDirectory="Debug"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -108,7 +108,7 @@
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -374,11 +374,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resource.h"
+				RelativePath="..\Common\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Common\Resource.h"
+				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File

@@ -14,7 +14,7 @@
 #include "Registry.h"
 #include <Strsafe.h>
 
-BOOL ReadLocalMachineRegistryDword (char *subKey, char *name, DWORD *value)
+BOOL ReadLocalMachineRegistryDword (wchar_t *subKey, wchar_t *name, DWORD *value)
 {
 	HKEY hkey = 0;
 	DWORD size = sizeof (*value);
@@ -33,7 +33,7 @@ BOOL ReadLocalMachineRegistryDword (char *subKey, char *name, DWORD *value)
 	return type == REG_DWORD;
 }
 
-BOOL ReadLocalMachineRegistryMultiString (char *subKey, char *name, char *value, DWORD *size)
+BOOL ReadLocalMachineRegistryMultiString (wchar_t *subKey, wchar_t *name, wchar_t *value, DWORD *size)
 {
 	HKEY hkey = 0;
 	DWORD type;
@@ -51,7 +51,7 @@ BOOL ReadLocalMachineRegistryMultiString (char *subKey, char *name, char *value,
 	return type == REG_MULTI_SZ;
 }
 
-BOOL ReadLocalMachineRegistryString (const char *subKey, char *name, char *str, DWORD *size)
+BOOL ReadLocalMachineRegistryString (const wchar_t *subKey, wchar_t *name, wchar_t *str, DWORD *size)
 {
 	HKEY hkey = 0;
 	DWORD type;
@@ -69,7 +69,7 @@ BOOL ReadLocalMachineRegistryString (const char *subKey, char *name, char *str, 
 	return type == REG_SZ;
 }
 
-BOOL ReadLocalMachineRegistryStringNonReflected (const char *subKey, char *name, char *str, DWORD *size, BOOL b32bitApp)
+BOOL ReadLocalMachineRegistryStringNonReflected (const wchar_t *subKey, wchar_t *name, wchar_t *str, DWORD *size, BOOL b32bitApp)
 {
 	HKEY hkey = 0;
 	DWORD type;
@@ -87,7 +87,7 @@ BOOL ReadLocalMachineRegistryStringNonReflected (const char *subKey, char *name,
 	return type == REG_SZ;
 }
 
-int ReadRegistryInt (char *subKey, char *name, int defaultValue)
+int ReadRegistryInt (wchar_t *subKey, wchar_t *name, int defaultValue)
 {
 	HKEY hkey = 0;
 	DWORD value, size = sizeof (DWORD);
@@ -103,27 +103,27 @@ int ReadRegistryInt (char *subKey, char *name, int defaultValue)
 	return value;
 }
 
-char *ReadRegistryString (char *subKey, char *name, char *defaultValue, char *str, int maxLen)
+wchar_t *ReadRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *defaultValue, wchar_t *str, int maxLen)
 {
 	HKEY hkey = 0;
-	char value[MAX_PATH*4];
+	wchar_t value[MAX_PATH*4];
 	DWORD size = sizeof (value);
 
-   str[maxLen-1] = 0;
-	StringCbCopyA (str, maxLen, defaultValue);
+   str[maxLen/2-1] = 0;
+	StringCbCopyW (str, maxLen, defaultValue);
 
 	ZeroMemory (value, sizeof value);
 	if (RegOpenKeyEx (HKEY_CURRENT_USER, subKey,
 		0, KEY_READ, &hkey) == ERROR_SUCCESS)
 		if (RegQueryValueEx (hkey, name, 0,	0, (LPBYTE) value,	&size) == ERROR_SUCCESS)
-			StringCbCopyA (str, maxLen,value);
+			StringCbCopyW (str, maxLen,value);
 
 	if (hkey)
 		RegCloseKey (hkey);
 	return str;
 }
 
-DWORD ReadRegistryBytes (char *path, char *name, char *value, int maxLen)
+DWORD ReadRegistryBytes (wchar_t *path, wchar_t *name, char *value, int maxLen)
 {
 	HKEY hkey = 0;
 	DWORD size = maxLen;
@@ -138,7 +138,7 @@ DWORD ReadRegistryBytes (char *path, char *name, char *value, int maxLen)
 	return success ? size : 0;
 }
 
-void WriteRegistryInt (char *subKey, char *name, int value)
+void WriteRegistryInt (wchar_t *subKey, wchar_t *name, int value)
 {
 	HKEY hkey = 0;
 	DWORD disp;
@@ -151,7 +151,7 @@ void WriteRegistryInt (char *subKey, char *name, int value)
 	RegCloseKey (hkey);
 }
 
-BOOL WriteLocalMachineRegistryDword (char *subKey, char *name, DWORD value)
+BOOL WriteLocalMachineRegistryDword (wchar_t *subKey, wchar_t *name, DWORD value)
 {
 	HKEY hkey = 0;
 	DWORD disp;
@@ -175,31 +175,7 @@ BOOL WriteLocalMachineRegistryDword (char *subKey, char *name, DWORD value)
 	return TRUE;
 }
 
-BOOL WriteLocalMachineRegistryDwordW (WCHAR *subKey, WCHAR *name, DWORD value)
-{
-	HKEY hkey = 0;
-	DWORD disp;
-	LONG status;
-
-	if ((status = RegCreateKeyExW (HKEY_LOCAL_MACHINE, subKey,
-		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &disp)) != ERROR_SUCCESS)
-	{
-		SetLastError (status);
-		return FALSE;
-	}
-
-	if ((status = RegSetValueExW (hkey, name, 0, REG_DWORD, (BYTE *) &value, sizeof value)) != ERROR_SUCCESS)
-	{
-		RegCloseKey (hkey);
-		SetLastError (status);
-		return FALSE;
-	}
-
-	RegCloseKey (hkey);
-	return TRUE;
-}
-
-BOOL WriteLocalMachineRegistryMultiString (char *subKey, char *name, char *multiString, DWORD size)
+BOOL WriteLocalMachineRegistryMultiString (wchar_t *subKey, wchar_t *name, wchar_t *multiString, DWORD size)
 {
 	HKEY hkey = 0;
 	DWORD disp;
@@ -223,7 +199,7 @@ BOOL WriteLocalMachineRegistryMultiString (char *subKey, char *name, char *multi
 	return TRUE;
 }
 
-BOOL WriteLocalMachineRegistryString (char *subKey, char *name, char *str, BOOL expandable)
+BOOL WriteLocalMachineRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *str, BOOL expandable)
 {
 	HKEY hkey = 0;
 	DWORD disp;
@@ -236,7 +212,7 @@ BOOL WriteLocalMachineRegistryString (char *subKey, char *name, char *str, BOOL 
 		return FALSE;
 	}
 
-	if ((status = RegSetValueEx (hkey, name, 0, expandable ? REG_EXPAND_SZ : REG_SZ, (BYTE *) str, (DWORD) strlen (str) + 1)) != ERROR_SUCCESS)
+	if ((status = RegSetValueEx (hkey, name, 0, expandable ? REG_EXPAND_SZ : REG_SZ, (BYTE *) str, (DWORD) (wcslen (str) + 1) * sizeof (wchar_t))) != ERROR_SUCCESS)
 	{
 		RegCloseKey (hkey);
 		SetLastError (status);
@@ -247,7 +223,7 @@ BOOL WriteLocalMachineRegistryString (char *subKey, char *name, char *str, BOOL 
 	return TRUE;
 }
 
-void WriteRegistryString (char *subKey, char *name, char *str)
+void WriteRegistryString (wchar_t *subKey, wchar_t *name, wchar_t *str)
 {
 	HKEY hkey = 0;
 	DWORD disp;
@@ -256,11 +232,11 @@ void WriteRegistryString (char *subKey, char *name, char *str)
 		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hkey, &disp) != ERROR_SUCCESS)
 		return;
 
-	RegSetValueEx (hkey, name, 0, REG_SZ, (BYTE *) str, (DWORD) strlen (str) + 1);
+	RegSetValueEx (hkey, name, 0, REG_SZ, (BYTE *) str, (DWORD) (wcslen (str) + 1) * sizeof (wchar_t));
 	RegCloseKey (hkey);
 }
 
-BOOL WriteRegistryBytes (char *path, char *name, char *str, DWORD size)
+BOOL WriteRegistryBytes (wchar_t *path, wchar_t *name, char *str, DWORD size)
 {
 	HKEY hkey = 0;
 	DWORD disp;
@@ -275,7 +251,7 @@ BOOL WriteRegistryBytes (char *path, char *name, char *str, DWORD size)
 	return res == ERROR_SUCCESS;
 }
 
-BOOL DeleteLocalMachineRegistryKey (char *parentKey, char *subKeyToDelete)
+BOOL DeleteLocalMachineRegistryKey (wchar_t *parentKey, wchar_t *subKeyToDelete)
 {
 	LONG status;
 	HKEY hkey = 0;
@@ -297,7 +273,7 @@ BOOL DeleteLocalMachineRegistryKey (char *parentKey, char *subKeyToDelete)
 	return TRUE;
 }
 
-void DeleteRegistryValue (char *subKey, char *name)
+void DeleteRegistryValue (wchar_t *subKey, wchar_t *name)
 {
 	HKEY hkey = 0;
 
@@ -309,16 +285,16 @@ void DeleteRegistryValue (char *subKey, char *name)
 }
 
 
-void GetStartupRegKeyName (char *regk, size_t cbRegk)
+void GetStartupRegKeyName (wchar_t *regk, size_t cbRegk)
 {
 	// The string is split in order to prevent some antivirus packages from falsely reporting  
 	// VeraCrypt.exe to contain a possible Trojan horse because of this string (heuristic scan).
-	StringCbPrintfA (regk, cbRegk,"%s%s", "Software\\Microsoft\\Windows\\Curren", "tVersion\\Run");
+	StringCbPrintfW (regk, cbRegk,L"%s%s", L"Software\\Microsoft\\Windows\\Curren", L"tVersion\\Run");
 }
 
-void GetRestorePointRegKeyName (char *regk, size_t cbRegk)
+void GetRestorePointRegKeyName (wchar_t *regk, size_t cbRegk)
 {
 	// The string is split in order to prevent some antivirus packages from falsely reporting  
 	// VeraCrypt.exe to contain a possible Trojan horse because of this string (heuristic scan).
-	StringCbPrintfA (regk, cbRegk,"%s%s%s%s", "Software\\Microsoft\\Windows", " NT\\Curren", "tVersion\\Sy", "stemRestore");
+	StringCbPrintfW (regk, cbRegk,L"%s%s%s%s", L"Software\\Microsoft\\Windows", L" NT\\Curren", L"tVersion\\Sy", L"stemRestore");
 }

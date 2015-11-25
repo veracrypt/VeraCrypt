@@ -19,146 +19,144 @@ extern "C" {
 #endif
 
 // Specifies what files to install, where (determined by the prefix), and in what order
-static char *szFiles[]=
+static wchar_t *szFiles[]=
 {
-	"AVeraCrypt User Guide.pdf",
-	"ALicense.txt",
-	"ALICENSE",
-	"ANOTICE",
-	"AVeraCrypt.exe",
-	"AVeraCryptExpander.exe",
-	"AVeraCrypt Format.exe",
-	"AVeraCrypt-x86.exe",
-	"AVeraCryptExpander-x86.exe",
-	"AVeraCrypt Format-x86.exe",
-	"AVeraCrypt-x64.exe",
-	"AVeraCryptExpander-x64.exe",
-	"AVeraCrypt Format-x64.exe",
-	"Averacrypt.sys",
-	"Averacrypt-x64.sys",
-	"Dveracrypt.sys",
-	"AVeraCrypt Setup.exe",
-	"ALanguage.ar.xml",
-	"ALanguage.be.xml",
-	"ALanguage.bg.xml",
-	"ALanguage.ca.xml",
-	"ALanguage.cs.xml",
-	"ALanguage.da.xml",
-	"ALanguage.de.xml",
-	"ALanguage.el.xml",
-	"ALanguage.es.xml",
-	"ALanguage.et.xml",
-	"ALanguage.eu.xml",
-	"ALanguage.fa.xml",
-	"ALanguage.fi.xml",
-	"ALanguage.fr.xml",
-	"ALanguage.hu.xml",
-	"ALanguage.id.xml",
-	"ALanguage.it.xml",
-	"ALanguage.ja.xml",
-	"ALanguage.ka.xml",
-	"ALanguage.ko.xml",
-	"ALanguage.lv.xml",
-	"ALanguage.my.xml",
-	"ALanguage.nl.xml",
-	"ALanguage.nn.xml",
-	"ALanguage.pl.xml",
-	"ALanguage.pt-br.xml",
-	"ALanguage.ru.xml",
-	"ALanguage.sk.xml",
-	"ALanguage.sl.xml",
-	"ALanguage.sv.xml",
-	"ALanguage.tr.xml",
-	"ALanguage.uk.xml",
-	"ALanguage.uz.xml",
-	"ALanguage.vi.xml",
-	"ALanguage.zh-cn.xml",
-	"ALanguage.zh-hk.xml",
-	"ALanguage.zh-tw.xml"
+	L"AVeraCrypt User Guide.pdf",
+	L"ALicense.txt",
+	L"ALICENSE",
+	L"ANOTICE",
+	L"AVeraCrypt.exe",
+	L"AVeraCryptExpander.exe",
+	L"AVeraCrypt Format.exe",
+	L"AVeraCrypt-x86.exe",
+	L"AVeraCryptExpander-x86.exe",
+	L"AVeraCrypt Format-x86.exe",
+	L"AVeraCrypt-x64.exe",
+	L"AVeraCryptExpander-x64.exe",
+	L"AVeraCrypt Format-x64.exe",
+	L"Averacrypt.sys",
+	L"Averacrypt-x64.sys",
+	L"Dveracrypt.sys",
+	L"AVeraCrypt Setup.exe",
+	L"ALanguage.ar.xml",
+	L"ALanguage.be.xml",
+	L"ALanguage.bg.xml",
+	L"ALanguage.ca.xml",
+	L"ALanguage.cs.xml",
+	L"ALanguage.da.xml",
+	L"ALanguage.de.xml",
+	L"ALanguage.el.xml",
+	L"ALanguage.es.xml",
+	L"ALanguage.et.xml",
+	L"ALanguage.eu.xml",
+	L"ALanguage.fa.xml",
+	L"ALanguage.fi.xml",
+	L"ALanguage.fr.xml",
+	L"ALanguage.hu.xml",
+	L"ALanguage.id.xml",
+	L"ALanguage.it.xml",
+	L"ALanguage.ja.xml",
+	L"ALanguage.ka.xml",
+	L"ALanguage.ko.xml",
+	L"ALanguage.lv.xml",
+	L"ALanguage.my.xml",
+	L"ALanguage.nl.xml",
+	L"ALanguage.nn.xml",
+	L"ALanguage.pl.xml",
+	L"ALanguage.pt-br.xml",
+	L"ALanguage.ru.xml",
+	L"ALanguage.sk.xml",
+	L"ALanguage.sl.xml",
+	L"ALanguage.sv.xml",
+	L"ALanguage.tr.xml",
+	L"ALanguage.uk.xml",
+	L"ALanguage.uz.xml",
+	L"ALanguage.vi.xml",
+	L"ALanguage.zh-cn.xml",
+	L"ALanguage.zh-hk.xml",
+	L"ALanguage.zh-tw.xml"
 };
 
 // Specifies what files are included in self-extracting packages (no other files will be packaged or extracted).
-static char *szCompressedFiles[]=
+static wchar_t *szCompressedFiles[]=
 {
-	"VeraCrypt User Guide.pdf",
-	"License.txt",
-	"LICENSE",
-	"NOTICE",
-	"VeraCrypt.exe",
-	"VeraCryptExpander.exe",
-	"VeraCrypt Format.exe",
-	"VeraCrypt-x64.exe",
-	"VeraCryptExpander-x64.exe",
-	"VeraCrypt Format-x64.exe",
-	"veracrypt.sys",
-	"veracrypt-x64.sys",
-	"Language.ar.xml",
-	"Language.be.xml",
-	"Language.bg.xml",
-	"Language.ca.xml",
-	"Language.cs.xml",
-	"Language.da.xml",
-	"Language.de.xml",
-	"Language.el.xml",
-	"Language.es.xml",
-	"Language.et.xml",
-	"Language.eu.xml",
-	"Language.fa.xml",
-	"Language.fi.xml",
-	"Language.fr.xml",
-	"Language.hu.xml",
-	"Language.id.xml",
-	"Language.it.xml",
-	"Language.ja.xml",
-	"Language.ka.xml",
-	"Language.ko.xml",
-	"Language.lv.xml",
-	"Language.my.xml",
-	"Language.nl.xml",
-	"Language.nn.xml",
-	"Language.pl.xml",
-	"Language.pt-br.xml",
-	"Language.ru.xml",
-	"Language.sk.xml",
-	"Language.sl.xml",
-	"Language.sv.xml",
-	"Language.tr.xml",
-	"Language.uk.xml",
-	"Language.uz.xml",
-	"Language.vi.xml",
-	"Language.zh-cn.xml",
-	"Language.zh-hk.xml",
-	"Language.zh-tw.xml"
+	L"VeraCrypt User Guide.pdf",
+	L"License.txt",
+	L"LICENSE",
+	L"NOTICE",
+	L"VeraCrypt.exe",
+	L"VeraCryptExpander.exe",
+	L"VeraCrypt Format.exe",
+	L"VeraCrypt-x64.exe",
+	L"VeraCryptExpander-x64.exe",
+	L"VeraCrypt Format-x64.exe",
+	L"veracrypt.sys",
+	L"veracrypt-x64.sys",
+	L"Language.ar.xml",
+	L"Language.be.xml",
+	L"Language.bg.xml",
+	L"Language.ca.xml",
+	L"Language.cs.xml",
+	L"Language.da.xml",
+	L"Language.de.xml",
+	L"Language.el.xml",
+	L"Language.es.xml",
+	L"Language.et.xml",
+	L"Language.eu.xml",
+	L"Language.fa.xml",
+	L"Language.fi.xml",
+	L"Language.fr.xml",
+	L"Language.hu.xml",
+	L"Language.id.xml",
+	L"Language.it.xml",
+	L"Language.ja.xml",
+	L"Language.ka.xml",
+	L"Language.ko.xml",
+	L"Language.lv.xml",
+	L"Language.my.xml",
+	L"Language.nl.xml",
+	L"Language.nn.xml",
+	L"Language.pl.xml",
+	L"Language.pt-br.xml",
+	L"Language.ru.xml",
+	L"Language.sk.xml",
+	L"Language.sl.xml",
+	L"Language.sv.xml",
+	L"Language.tr.xml",
+	L"Language.uk.xml",
+	L"Language.uz.xml",
+	L"Language.vi.xml",
+	L"Language.zh-cn.xml",
+	L"Language.zh-hk.xml",
+	L"Language.zh-tw.xml"
 };
 
-#define FILENAME_64BIT_DRIVER	"veracrypt-x64.sys"
+#define FILENAME_64BIT_DRIVER	L"veracrypt-x64.sys"
 #define NBR_COMPRESSED_FILES (sizeof(szCompressedFiles) / sizeof(szCompressedFiles[0]))
 
 void localcleanup (void);
-BOOL StatDeleteFile ( char *lpszFile, BOOL bCheckForOldFile );
-BOOL StatRemoveDirectory ( char *lpszDir );
-HRESULT CreateLink ( char *lpszPathObj , char *lpszArguments , char *lpszPathLink );
-void GetProgramPath ( HWND hwndDlg , char *path );
+BOOL StatDeleteFile ( wchar_t *lpszFile, BOOL bCheckForOldFile );
+BOOL StatRemoveDirectory ( wchar_t *lpszDir );
+HRESULT CreateLink ( wchar_t *lpszPathObj , wchar_t *lpszArguments , wchar_t *lpszPathLink );
+void GetProgramPath ( HWND hwndDlg , wchar_t *path );
 void StatusMessage (HWND hwndDlg, char *stringId);
-void StatusMessageParam (HWND hwndDlg, char *stringId, char *param);
+void StatusMessageParam (HWND hwndDlg, char *stringId, wchar_t *param);
 void ClearLogWindow (HWND hwndDlg);
-void StatusMessage ( HWND hwndDlg , char *stringId );
-void StatusMessageParam ( HWND hwndDlg , char *stringId , char *param );
-void RegMessage ( HWND hwndDlg , char *txt );
-void RegRemoveMessage (HWND hwndDlg, char *txt);
-void CopyMessage ( HWND hwndDlg , char *txt );
-void RemoveMessage ( HWND hwndDlg , char *txt );
-void IconMessage ( HWND hwndDlg , char *txt );
+void RegMessage ( HWND hwndDlg , wchar_t *txt );
+void RegRemoveMessage (HWND hwndDlg, wchar_t *txt);
+void CopyMessage ( HWND hwndDlg , wchar_t *txt );
+void RemoveMessage ( HWND hwndDlg , wchar_t *txt );
+void IconMessage ( HWND hwndDlg , wchar_t *txt );
 static int CALLBACK BrowseCallbackProc ( HWND hwnd , UINT uMsg , LPARAM lp , LPARAM pData );
 void LoadLicense ( HWND hwndDlg );
 void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersionPtr);
-BOOL DoFilesInstall ( HWND hwndDlg , char *szDestDir );
-BOOL DoRegInstall ( HWND hwndDlg , char *szDestDir , BOOL bInstallType );
+BOOL DoFilesInstall ( HWND hwndDlg , wchar_t *szDestDir );
+BOOL DoRegInstall ( HWND hwndDlg , wchar_t *szDestDir , BOOL bInstallType );
 BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated);
-BOOL DoServiceUninstall ( HWND hwndDlg , char *lpszService );
+BOOL DoServiceUninstall ( HWND hwndDlg , wchar_t *lpszService );
 BOOL DoDriverUnload ( HWND hwndDlg );
-BOOL DoShortcutsInstall ( HWND hwndDlg , char *szDestDir , BOOL bProgGroup, BOOL bDesktopIcon );
-BOOL DoShortcutsUninstall (HWND hwndDlg, char *szDestDir);
+BOOL DoShortcutsInstall ( HWND hwndDlg , wchar_t *szDestDir , BOOL bProgGroup, BOOL bDesktopIcon );
+BOOL DoShortcutsUninstall (HWND hwndDlg, wchar_t *szDestDir);
 void OutcomePrompt ( HWND hwndDlg , BOOL bOK );
 void DoUninstall ( void *hwndDlg );
 void DoInstall ( void *hwndDlg );
@@ -182,8 +180,8 @@ extern BOOL bDesktopIconStatusDetermined;
 extern BOOL SystemEncryptionUpdate;
 extern BOOL bRestartRequired;
 extern HMODULE volatile SystemRestoreDll;
-extern char InstallationPath[TC_MAX_PATH];
-extern char SetupFilesDir[TC_MAX_PATH];
+extern wchar_t InstallationPath[TC_MAX_PATH];
+extern wchar_t SetupFilesDir[TC_MAX_PATH];
 
 #ifdef __cplusplus
 }
