@@ -941,9 +941,11 @@ err:
 			LPVOID lpMsgBuf;
 			DWORD dwError = GetLastError ();
 			wchar_t szTmp2[700];
+			wchar_t szErrorValue[16];
+			wchar_t* pszDesc;
 
 			FormatMessage (
-					      FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+					      FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 					      NULL,
 					      dwError,
 				 MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),	/* Default language */
@@ -952,13 +954,20 @@ err:
 					      NULL
 				);
 
+			if (lpMsgBuf)
+				pszDesc = (wchar_t*) lpMsgBuf;
+			else
+			{
+				StringCbPrintfW (szErrorValue, sizeof (szErrorValue), L"0x%.8X", dwError);
+				pszDesc = szErrorValue;
+			}
 
 			if (bUninstall == FALSE)
-				StringCbPrintfW (szTmp2, sizeof(szTmp2), GetString ("INSTALL_OF_FAILED"), szTmp, lpMsgBuf);
+				StringCbPrintfW (szTmp2, sizeof(szTmp2), GetString ("INSTALL_OF_FAILED"), szTmp, pszDesc);
 			else
-				StringCbPrintfW (szTmp2, sizeof(szTmp2), GetString ("UNINSTALL_OF_FAILED"), szTmp, lpMsgBuf);
+				StringCbPrintfW (szTmp2, sizeof(szTmp2), GetString ("UNINSTALL_OF_FAILED"), szTmp, pszDesc);
 
-			LocalFree (lpMsgBuf);
+			if (lpMsgBuf) LocalFree (lpMsgBuf);
 
 			if (!Silent && MessageBoxW (hwndDlg, szTmp2, lpszTitle, MB_YESNO | MB_ICONHAND) != IDYES)
 				return FALSE;

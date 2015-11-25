@@ -562,7 +562,7 @@ std::string IntToString (int val);
 std::wstring IntToWideString (int val);
 inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 {
-	return std::wstring (msg) + L"\n\nSource: " + SingleStringToWide (srcPos);
+	return std::wstring (msg? msg : L"") + L"\n\nSource: " + SingleStringToWide (srcPos);
 }
 
 // Display a wait dialog while calling the provided callback with the given parameter

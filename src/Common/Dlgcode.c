@@ -570,6 +570,8 @@ DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
 {
 	PWSTR lpMsgBuf;
 	DWORD dwError = GetLastError ();	
+	wchar_t szErrorValue[32];
+	wchar_t* pszDesc;
 
 	if (Silent || dwError == 0 || dwError == ERROR_INVALID_WINDOW_HANDLE)
 		return dwError;
@@ -583,7 +585,7 @@ DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
 	}
 
 	FormatMessageW (
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			      NULL,
 			      dwError,
 			      MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),	/* Default language */
@@ -592,8 +594,16 @@ DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
 			      NULL
 	    );
 
-	MessageBoxW (hwndDlg, AppendSrcPos (lpMsgBuf, srcPos).c_str (), lpszTitle, ICON_HAND);
-	LocalFree (lpMsgBuf);
+	if (lpMsgBuf)
+		pszDesc = (wchar_t*) lpMsgBuf;
+	else
+	{
+		StringCbPrintfW (szErrorValue, sizeof (szErrorValue), L"Error 0x%.8X", dwError);
+		pszDesc = szErrorValue;
+	}
+
+	MessageBoxW (hwndDlg, AppendSrcPos (pszDesc, srcPos).c_str (), lpszTitle, ICON_HAND);
+	if (lpMsgBuf) LocalFree (lpMsgBuf);
 
 	// User-friendly hardware error explanation
 	if (IsDiskError (dwError))
@@ -612,7 +622,7 @@ BOOL translateWin32Error (wchar_t *lpszMsgBuf, int nWSizeOfBuf)
 {
 	DWORD dwError = GetLastError ();
 
-	if (FormatMessageW (FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError,
+	if (FormatMessageW (FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, dwError,
 			   MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),	/* Default language */
 			   lpszMsgBuf, nWSizeOfBuf, NULL))
 	{
