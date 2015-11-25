@@ -173,8 +173,11 @@ static byte AskPassword (Password &password, int& pim)
 			{
 				while (pos < MAX_PASSWORD)
 				{
-					PrintChar ('*');
 					pos++;
+					if (pos < MAX_PASSWORD)
+						PrintChar ('*');
+					else
+						PrintCharAtCursor ('*');
 				}
 			}
 
