@@ -51,7 +51,7 @@ BOOL CALLBACK PageDialogProc ( HWND hwndDlg , UINT uMsg , WPARAM wParam , LPARAM
 BOOL CALLBACK MainDialogProc ( HWND hwndDlg , UINT uMsg , WPARAM wParam , LPARAM lParam );
 void ExtractCommandLine ( HWND hwndDlg , wchar_t *lpszCommandLine );
 void DisplayRandPool (HWND hwndDlg, HWND hPoolDisplay, BOOL bShow);
-void DisplayPortionsOfKeys (HWND headerKeyHandle, HWND masterKeyHandle, char *headerKeyStr, char *masterKeyStr, BOOL hideKeys);
+void DisplayPortionsOfKeys (HWND headerKeyHandle, HWND masterKeyHandle, wchar_t *headerKeyStr, wchar_t *masterKeyStr, BOOL hideKeys);
 int DetermineMaxHiddenVolSize (HWND hwndDlg);
 BOOL IsSparseFile (HWND hwndDlg);
 BOOL GetFileVolSize (HWND hwndDlg, unsigned __int64 *size);
@@ -100,8 +100,8 @@ extern int nPbar;
 extern volatile int WizardMode;
 extern volatile BOOL bInPlaceEncNonSysResumed;
 
-extern char HeaderKeyGUIView [KEY_GUI_VIEW_SIZE];
-extern char MasterKeyGUIView [KEY_GUI_VIEW_SIZE];
+extern wchar_t HeaderKeyGUIView [KEY_GUI_VIEW_SIZE];
+extern wchar_t MasterKeyGUIView [KEY_GUI_VIEW_SIZE];
 extern volatile int NonSysInplaceEncStatus;
 
 #ifdef __cplusplus

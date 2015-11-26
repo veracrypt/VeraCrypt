@@ -10029,7 +10029,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 
 			for (uint32 i = 1; i < sysInfo.dwNumberOfProcessors; ++i)
 			{
-				stringstream s;
+				wstringstream s;
 				s << i;
 				AddComboPair (freeCpuCombo, s.str().c_str(), i);
 			}

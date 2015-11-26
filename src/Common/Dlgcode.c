@@ -351,17 +351,6 @@ void UpperCaseCopy (wchar_t *lpszDest, size_t cbDest, const wchar_t *lpszSource)
 }
 
 
-std::string ToUpperCase (const std::string &str)
-{
-	string u;
-	foreach (char c, str)
-	{
-		u += (char) toupper (c);
-	}
-
-	return u;
-}
-
 std::wstring ToUpperCase (const std::wstring &str)
 {
 	wstring u;
@@ -1588,20 +1577,11 @@ void HandCursor ()
 }
 
 void
-AddComboPair (HWND hComboBox, const char *lpszItem, int value)
+AddComboPair (HWND hComboBox, const wchar_t *lpszItem, int value)
 {
 	LPARAM nIndex;
 
 	nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) lpszItem);
-	nIndex = SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) value);
-}
-
-void
-AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value)
-{
-	LPARAM nIndex;
-
-	nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) lpszItem);
 	nIndex = SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) value);
 }
 
@@ -1634,22 +1614,22 @@ void PopulateWipeModeCombo (HWND hComboBox, BOOL bNA, BOOL bInPlaceEncryption, B
 {
 	if (bNA)
 	{
-		AddComboPairW (hComboBox, GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE"), TC_WIPE_NONE);
+		AddComboPair (hComboBox, GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE"), TC_WIPE_NONE);
 	}
 	else
 	{
 		if (!bHeaderWipe)
 		{
-			AddComboPairW (hComboBox, GetString ("WIPE_MODE_NONE"), TC_WIPE_NONE);				
+			AddComboPair (hComboBox, GetString ("WIPE_MODE_NONE"), TC_WIPE_NONE);				
 		}
 
-		AddComboPairW (hComboBox, GetString ("WIPE_MODE_1_RAND"), TC_WIPE_1_RAND);
-		AddComboPairW (hComboBox, GetString ("WIPE_MODE_3_DOD_5220"), TC_WIPE_3_DOD_5220);
-		AddComboPairW (hComboBox, GetString ("WIPE_MODE_7_DOD_5220"), TC_WIPE_7_DOD_5220);
-		AddComboPairW (hComboBox, GetString ("WIPE_MODE_35_GUTMANN"), TC_WIPE_35_GUTMANN);
+		AddComboPair (hComboBox, GetString ("WIPE_MODE_1_RAND"), TC_WIPE_1_RAND);
+		AddComboPair (hComboBox, GetString ("WIPE_MODE_3_DOD_5220"), TC_WIPE_3_DOD_5220);
+		AddComboPair (hComboBox, GetString ("WIPE_MODE_7_DOD_5220"), TC_WIPE_7_DOD_5220);
+		AddComboPair (hComboBox, GetString ("WIPE_MODE_35_GUTMANN"), TC_WIPE_35_GUTMANN);
 
 		if (bHeaderWipe)
-			AddComboPairW (hComboBox, GetString ("WIPE_MODE_256"), TC_WIPE_256); // paranoid wipe for volume header
+			AddComboPair (hComboBox, GetString ("WIPE_MODE_256"), TC_WIPE_256); // paranoid wipe for volume header
 	}
 }
 
@@ -4389,14 +4369,6 @@ wstring GetUserFriendlyVersionString (int version)
 	return (versionString);
 }
 
-string IntToString (int val)
-{
-	char szTmp [64];
-	StringCbPrintfA (szTmp, sizeof(szTmp), "%d", val);
-
-	return szTmp;
-}
-
 wstring IntToWideString (int val)
 {
 	wchar_t szTmp [64];
@@ -5092,7 +5064,7 @@ static BOOL CALLBACK RandomPoolEnrichementDlgProc (HWND hwndDlg, UINT msg, WPARA
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 			{
 				if (!HashIsDeprecated (hid))
-					AddComboPairW (hComboBox, HashGetName(hid), hid);
+					AddComboPair (hComboBox, HashGetName(hid), hid);
 			}
 			SelectAlgo (hComboBox, &hash_algo);
 
@@ -5240,7 +5212,7 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 			{
 				if (!HashIsDeprecated (hid))
-					AddComboPairW (hComboBox, HashGetName(hid), hid);
+					AddComboPair (hComboBox, HashGetName(hid), hid);
 			}
 			SelectAlgo (hComboBox, &hash_algo);
 
@@ -5581,7 +5553,7 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 			{
 				if (EAGetCipherCount (ea) == 1 && EAIsFormatEnabled (ea))
-					AddComboPairW (GetDlgItem (hwndDlg, IDC_CIPHER), EAGetName (buf, ea, 1), EAGetFirstCipher (ea));
+					AddComboPair (GetDlgItem (hwndDlg, IDC_CIPHER), EAGetName (buf, ea, 1), EAGetFirstCipher (ea));
 			}
 
 			ResetCipherTest(hwndDlg, idTestCipher);
@@ -5900,15 +5872,15 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 	SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_RESETCONTENT, 0,0);
 	SendMessage (GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_RESETCONTENT, 0,0);
 
-	ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_ADDSTRING, 0,(LPARAM) "64");
+	ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_ADDSTRING, 0,(LPARAM) L"64");
 	SendMessage(GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 8);
 	SendMessage(GetDlgItem(hwndDlg, IDC_PLAINTEXT_SIZE), CB_SETCURSEL, ndx,0);
 
 	for (ndx = 0; ndx < BLOCKS_PER_XTS_DATA_UNIT; ndx++)
 	{
-		char tmpStr [16];
+		wchar_t tmpStr [16];
 
-		StringCbPrintfA (tmpStr, sizeof(tmpStr), "%d", ndx);
+		StringCbPrintfW (tmpStr, sizeof(tmpStr), L"%d", ndx);
 
 		ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_ADDSTRING, 0,(LPARAM) tmpStr);
 		SendMessage(GetDlgItem(hwndDlg, IDC_TEST_BLOCK_NUMBER), CB_SETITEMDATA, ndx,(LPARAM) ndx);
@@ -9873,28 +9845,6 @@ std::string WideToUtf8String (const std::wstring &wideString)
 }
 
 
-std::string WideToSingleString (const std::wstring &wideString)
-{
-	if (wideString.empty())
-		return std::string();
-
-	char buf[65536];
-	int len = WideCharToMultiByte (CP_ACP, 0, wideString.c_str(), -1, buf, array_capacity (buf) - 1, NULL, NULL);
-	throw_sys_if (len == 0);
-
-	buf[len] = 0;
-	return buf;
-}
-
-
-std::string StringToUpperCase (const std::string &str)
-{
-	string upperCase (str);
-	_strupr ((char *) upperCase.c_str());
-	return upperCase;
-}
-
-
 #ifndef SETUP
 
 BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -10003,7 +9953,7 @@ static BOOL CALLBACK NewSecurityTokenKeyfileDlgProc (HWND hwndDlg, UINT msg, WPA
 				wstringstream tokenLabel;
 				tokenLabel << L"[" << token.SlotId << L"] " << token.Label;
 
-				AddComboPairW (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token.SlotId);
+				AddComboPair (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), tokenLabel.str().c_str(), token.SlotId);
 			}
 
 			ComboBox_SetCurSel (GetDlgItem (hwndDlg, IDC_SELECTED_TOKEN), 0);

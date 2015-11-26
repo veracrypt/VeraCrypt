@@ -264,8 +264,7 @@ void WaitCursor ( void );
 void NormalCursor ( void );
 void ArrowWaitCursor ( void );
 void HandCursor ();
-void AddComboPair (HWND hComboBox, const char *lpszItem, int value);
-void AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value);
+void AddComboPair (HWND hComboBox, const wchar_t *lpszItem, int value);
 void SelectAlgo ( HWND hComboBox , int *nCipher );
 void PopulateWipeModeCombo (HWND hComboBox, BOOL bNA, BOOL bInPlaceEncryption, BOOL bHeaderWipe);
 wchar_t *GetWipeModeName (WipeAlgorithmId modeId);
@@ -544,11 +543,8 @@ struct RawDevicesDlgParam
 BOOL BrowseFilesInDir (HWND hwndDlg, char *stringId, wchar_t *initialDir, wchar_t *lpszFileName, BOOL keepHistory, BOOL saveMode, wchar_t *browseFilter, const wchar_t *initialFileName = NULL, const wchar_t *defaultExtension = NULL);
 std::wstring SingleStringToWide (const std::string &singleString);
 std::wstring Utf8StringToWide (const std::string &utf8String);
-std::string WideToSingleString (const std::wstring &wideString);
 std::string WideToUtf8String (const std::wstring &wideString);
-std::string StringToUpperCase (const std::string &str);
 std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties = false, bool singleList = false, bool noFloppy = true, bool detectUnencryptedFilesystems = false);
-std::string ToUpperCase (const std::string &str);
 std::wstring ToUpperCase (const std::wstring &str);
 std::wstring GetWrongPasswordErrorMessage (HWND hwndDlg);
 std::wstring GetWindowsEdition ();
@@ -558,7 +554,6 @@ std::wstring VolumeGuidPathToDevicePath (std::wstring volumeGuidPath);
 std::wstring HarddiskVolumePathToPartitionPath (const std::wstring &harddiskVolumePath);
 std::wstring FindLatestFileOrDirectory (const std::wstring &directory, const wchar_t *namePattern, bool findDirectory, bool findFile);
 std::wstring GetUserFriendlyVersionString (int version);
-std::string IntToString (int val);
 std::wstring IntToWideString (int val);
 inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 {
