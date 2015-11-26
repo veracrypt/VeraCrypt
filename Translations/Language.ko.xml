@@ -416,13 +416,13 @@
     <string lang="ko" key="CIPHER_TITLE">암호 옵션</string>
     <string lang="ko" key="CLEAN_WINMRU_FAILED">주의: (파일 선택기에 의해 기억된) 선택한 볼륨/키파일의 최근 경로를 삭제하는 데 실패했습니다!</string>
     <string lang="ko" key="COMPRESSION_NOT_SUPPORTED">오류: 보관소가 파일 시스템 레벨로 압축되어 있습니다. VeraCrypt는 압축된 보관소를 지원하지 않습니다(→ 암호화된 데이터 압축은 비효율적이고 중복되기만 합니다).\n\n다음 단계에 따라 보관소의 압축을 해제합니다: 1) (VeraCrypt가 아닌) 윈도우 탐색기에서 보관소를 오른쪽 클릭합니다. 2) “속성”을 선택합니다. 3) “속성” 대화창에서 “고급”을 클릭합니다. 4) “고급 속성” 대화창에서, “드라이브를 압축하여 디스크 공간 절약” 옵션을 체크해제하고 “확인”을 클릭합니다. 5) “속성” 대화창에서 “확인”을 클릭합니다.</string>
-    <string lang="ko" key="CREATE_FAILED">%hs 볼륨을 만드는데 실패했습니다.</string>
-    <string lang="ko" key="DEVICE_FREE_BYTES">드라이브 %hs의 크기 ▷ %.2f bytes</string>
-    <string lang="ko" key="DEVICE_FREE_KB">드라이브 %hs의 크기 ▷ %.2f KB</string>
-    <string lang="ko" key="DEVICE_FREE_MB">드라이브 %hs의 크기 ▷ %.2f MB</string>
-    <string lang="ko" key="DEVICE_FREE_GB">드라이브 %hs의 크기 ▷ %.2f GB</string>
-    <string lang="ko" key="DEVICE_FREE_TB">드라이브 %hs의 크기 ▷ %.2f TB</string>
-    <string lang="ko" key="DEVICE_FREE_PB">드라이브 %hs의 크기 ▷ %.2f PB</string>
+    <string lang="ko" key="CREATE_FAILED">%s 볼륨을 만드는데 실패했습니다.</string>
+    <string lang="ko" key="DEVICE_FREE_BYTES">드라이브 %s의 크기 ▷ %.2f bytes</string>
+    <string lang="ko" key="DEVICE_FREE_KB">드라이브 %s의 크기 ▷ %.2f KB</string>
+    <string lang="ko" key="DEVICE_FREE_MB">드라이브 %s의 크기 ▷ %.2f MB</string>
+    <string lang="ko" key="DEVICE_FREE_GB">드라이브 %s의 크기 ▷ %.2f GB</string>
+    <string lang="ko" key="DEVICE_FREE_TB">드라이브 %s의 크기 ▷ %.2f TB</string>
+    <string lang="ko" key="DEVICE_FREE_PB">드라이브 %s의 크기 ▷ %.2f PB</string>
     <string lang="ko" key="DEVICE_IN_USE_FORMAT">주의: 장치/파티션이 운영체제나 프로그램에 의해 사용 중입니다. 장치/파티션을 포맷하면 데이터 손실 또는 시스템 불안정 등을 초래할 수 있습니다.\n\n계속하시겠습니까?</string>
     <string lang="ko" key="DEVICE_IN_USE_INPLACE_ENC">주의: 파티션이 운영체제나 프로그램에 의해 사용 중입니다. 파티션을 사용 중인 프로그램(* 안티바이러스 소프트웨어 포함)을 종료해야 합니다.\n\n계속하시겠습니까?</string>
     <string lang="ko" key="FORMAT_CANT_DISMOUNT_FILESYS">오류: 장치/파티션에 꺼낼 수 없는 파일 시스템이 있습니다. 파일 시스템이 운영체제에 의해 사용 중일 수도 있습니다. 장치/파티션을 포맷하면 데이터 손실 또는 시스템 불안정의 결과를 초래할 수도 있습니다.\n\n이 문제점의 해결책으로 먼저 파티션을 삭제하고, 포맷하지 않은 상태에서 파티션을 다시 만들 것을 권장합니다. 다음 단계를 따라야 합니다. 1) “시작 메뉴”에서 “내 컴퓨터”를 오른쪽 클릭한 다음 “관리”를 선택합니다. “컴퓨터 관리”창이 뜰 것입니다. 2) “컴퓨터 관리” 창에서 “저장소” ▶ “디스크 관리”를 선택합니다. 3) 암호화할 파티션을 오른쪽 클릭한 다음 “파티션 삭제”, “볼륨 삭제” 또는 “논리 드라이브 삭제” 중 하나를 선택합니다. 4) “예”를 클릭합니다. 윈도우가 컴퓨터를 재시작할 것인지 물으면 그렇게 해야 합니다. 그런 다음 1단계와 2단계를 반복한 후 5단계부터 계속합니다. 5) 빈 공간 영역(“할당 안됨”으로 표시됨)을 오른쪽 클릭한 다음 “새 파티션”, “새 단순 볼륨” 또는 “새 논리 드라이브”를 선택합니다. 6) “새 파티션 마법사” 또는 “새 단순 볼륨 마법사” 창이 뜨면 거기의 지침을 따릅니다. “파티션 포맷”이란 제목이 붙은 마법사에서, “현재 파티션 포맷 안함” 또는 “현재 볼륨 포맷 안함” 중 하나를 선택합니다. 동일한 마법사에서 “다음”을 클릭하고 “마침”을 클릭합니다. 7) VeraCrypt에서 선택했던 장치 경로가 지금은 틀릴 수도 있습니다. 이제 VeraCrypt 볼륨 만들기 마법사가 실행 중이라면 종료하고 다시 시작합니다. 8) VeraCrypt에서 장치/파티션 암호화를 다시 시도합니다.\n\n장치/파티션 암호화에 계속 실패할 경우, 암호화 대신에 “파일 보관소”를 만들 것을 고려해 봐야 합니다.</string>
@@ -441,18 +441,18 @@
     <string lang="ko" key="INPLACE_ENC_INVALID_PATH">오류: VeraCrypt는 파티션, 동적(dynamic) 볼륨 또는 전체 시스템 드라이브만을 자체 암호화할 수 있습니다. 지정한 경로가 올바른지 확인해 주십시오.</string>
     <string lang="ko" key="CANNOT_RESIZE_FILESYS">오류: 파일시스템의 크기를 줄일 수 없습니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).\n\n가능한 원인 및 해결책:\n\n- 볼륨에 충분한 여유 공간이 없음. 다른 프로그램이 파일시스템에 작성을 하고 있는 것은 아닌지 확인해 주시기 바랍니다.\n\n- 손상된 파일 시스템. 시스템을 검사해서 오류를 바로 잡습니다(* “컴퓨터” 목록에 있는 해당 드라이브 문자를 오른쪽-클릭한 후 속성 &gt; 도구 &gt; “지금 검사”를 선택한 해서 “파일 시스템 오류 자동 수정” 옵션을 체크한 후 “시작”을 클릭합니다).\n\n이렇게 해도 도움이 되지 않는 경우, 아래 단계를 따라주시기 바랍니다.</string>
     <string lang="ko" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">오류: 볼륨에 충분한 여유 공간이 없고 파일시스템을 줄일 수 없습니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).\n\n중복되는 파일들을 삭제하고 휴지통을 비워서 적어도 256KB의 여유 공간을 만든 후 다시 시도해 주십시오. 윈도우의 문제점으로 인해, 운영체제를 다시 시작하기 전에는 여유 공간의 양을 윈도우 탐색기에서 올바르지 않게 보고할 수 있습니다. 시스템을 다시 시작해도 도움이 되지 않는 경우, 파일 시스템이 손상되었을 수도 있습니다. 시스템을 검사해서 오류를 바로 잡습니다(* “컴퓨터” 목록에 있는 해당 드라이브 문자를 오른쪽-클릭한 후 속성 &gt; 도구 &gt; “지금 검사”를 선택한 해서 “파일 시스템 오류 자동 수정” 옵션을 체크한 후 “시작”을 클릭합니다).\n\n이렇게 해도 도움이 되지 않는 경우, 아래 단계를 따라주시기 바랍니다.</string>
-    <string lang="ko" key="DISK_FREE_BYTES">드라이브 %hs의 여유 공간 ▷ %.2f bytes</string>
-    <string lang="ko" key="DISK_FREE_KB">드라이브 %hs의 여유 공간 ▷ %.2f KB</string>
-    <string lang="ko" key="DISK_FREE_MB">드라이브 %hs의 여유 공간 ▷ %.2f MB</string>
-    <string lang="ko" key="DISK_FREE_GB">드라이브 %hs의 여유 공간 ▷ %.2f GB</string>
-    <string lang="ko" key="DISK_FREE_TB">드라이브 %hs의 여유 공간 ▷ %.2f TB</string>
-    <string lang="ko" key="DISK_FREE_PB">드라이브 %hs의 여유 공간 ▷ %.2f PB</string>
+    <string lang="ko" key="DISK_FREE_BYTES">드라이브 %s의 여유 공간 ▷ %.2f bytes</string>
+    <string lang="ko" key="DISK_FREE_KB">드라이브 %s의 여유 공간 ▷ %.2f KB</string>
+    <string lang="ko" key="DISK_FREE_MB">드라이브 %s의 여유 공간 ▷ %.2f MB</string>
+    <string lang="ko" key="DISK_FREE_GB">드라이브 %s의 여유 공간 ▷ %.2f GB</string>
+    <string lang="ko" key="DISK_FREE_TB">드라이브 %s의 여유 공간 ▷ %.2f TB</string>
+    <string lang="ko" key="DISK_FREE_PB">드라이브 %s의 여유 공간 ▷ %.2f PB</string>
     <string lang="ko" key="DRIVELETTERS">이용가능한 드라이브 문자가 없습니다.</string>
     <string lang="ko" key="DRIVER_NOT_FOUND">오류: VeraCrypt 드라이버를 찾을 수 없습니다!\n\n프로그램(VeraCrypt.exe)이 위치한 디렉토리에 “veracrypt.sys” 및 “turecrypt-x64.sys” 파일을 복사해 주세요.</string>
     <string lang="ko" key="DRIVER_VERSION">오류: 호환되지 않는 VeraCrypt 드라이버 버전이 실행되고 있습니다.\n\n만약에 VeraCrypt를 휴대용 모드 (예: 설치하지않은 상태), 다른 버전의 VeraCrypt가 이미 설치가 되었으면, 먼저 제거 (아니면 VeraCrypt의 업데이트 옵션으로 업그레이드) 할 필요가 있습니다. 제거 할경우, 다음과 같은 단계를 따르세요: Windows Vista 그리고 후의 버전들은, 시작 메뉴 &gt; 나의 컴퓨터 &gt; '프로그램 밋 제거' &gt; VeraCrypt &gt; 제거; Windows XP는, 시작 메뉴 &gt; 설정 &gt; '제어판' &gt; '프로그램 밋 제거' &gt; VeraCrypt &gt; 제거.\n\n비슷한 방식으로, 휴대용으로 사용한 결과 (그리고 다른 버전이 설치된후) 컴퓨터를 재시작후 새로운 최근버전의 VeraCrypt로 실행하세요.</string>
     <string lang="ko" key="ERR_CIPHER_INIT_FAILURE">오류: 암호를 초기화하는데 실패했습니다.</string>
     <string lang="ko" key="ERR_CIPHER_INIT_WEAK_KEY">오류: 강력하지 않은 키가 탐지되었습니다. 이 키는 무시되었습니다. 다시 시도하세요.</string>
-    <string lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 VeraCrypt를 종료해야 합니다. 만약 원인이 VeraCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- VeraCrypt 콤포넌트 이름\n- VeraCrypt 실행파일 체크섬\n- VeraCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- VeraCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%hs\n\n오류 보고서를 저희에게 보내시겠습니까?</string>
+    <string lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 VeraCrypt를 종료해야 합니다. 만약 원인이 VeraCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- VeraCrypt 콤포넌트 이름\n- VeraCrypt 실행파일 체크섬\n- VeraCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- VeraCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%s\n\n오류 보고서를 저희에게 보내시겠습니까?</string>
     <string lang="ko" key="EXCEPTION_REPORT_EXT">VeraCrypt를 종료해야만 하는 치명적인 오류가 시스템에 발생했습니다.\n\n이 오류는 VeraCrypt에 의해 발생된 것이 아닙니다(그래서 VeraCrypt의 개발자가 고칠 수는 없습니다). 여러분의 시스템을 체크해 주세요(예: 시스템 설정, 네트워크 연결, 하드웨어 콤포넌트 실패 등).</string>
     <string lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</string>
     <string lang="ko" key="EXCEPTION_REPORT_TITLE">VeraCrypt 치명적 오류</string>
@@ -559,7 +559,7 @@
     <string lang="ko" key="ERR_VOLUME_SIZE_TOO_BIG">오류: 명령 프롬프트에 지정된 볼륨 사이즈는 최고갚 보다 큽니다. 볼륨을 만들 수 없습니다.</string>
     <string lang="ko" key="INIT_SYS_ENC">시스템 암호화를 위한 프로그램 구성요소를 초기화하지 못했습니다.</string>
     <string lang="ko" key="INIT_RAND">무작위 숫자 생성기를 초기화하는데 실패했습니다!</string>
-    <string lang="ko" key="CAPI_RAND">윈도우의 암호화 API가 실패했습니다!\n\n\n(만약 버그보고를 보낼경우 다음과 같은 내용을 포함하십시오:\n%hs, Last Error = 0x%.8X)</string>
+    <string lang="ko" key="CAPI_RAND">윈도우의 암호화 API가 실패했습니다!\n\n\n(만약 버그보고를 보낼경우 다음과 같은 내용을 포함하십시오:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ko" key="INIT_REGISTER">프로그램을 초기화할 수 없습니다. 다이얼로그 클래스 등록에 실패했습니다.</string>
     <string lang="ko" key="INIT_RICHEDIT">오류: Rich Edit 시스템 라이브러리를 로드하는데 실패했습니다.</string>
     <string lang="ko" key="INTRO_TITLE">VeraCrypt 볼륨 만들기 마법사</string>
@@ -598,12 +598,12 @@
     <string lang="ko" key="SELECT_PKCS11_MODULE">PKCS #11 라이브러리 선택</string>
     <string lang="ko" key="OUTOFMEMORY">메모리 부족</string>
     <string lang="ko" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">중요: 경험이 없는 사용자는 모든 장치/파티션을 암호화하는 대신에 선택한 장치/파티션에 “VeraCrypt 파일 보관소”를 만들 것을 권장합니다.\n\nVeraCrypt 파일 보관소를 만들게 되면 수많은 파일을 파괴할지도 모르는 위험을 피할 수 있습니다. VeraCrypt 파일 보관소는 (비록 가상의 암호화된 디스크를 포함할지라도) 실제로 보통 파일과 같습니다. 추가 정보를 보려면, VeraCrypt 사용자 안내서에서 Beginner´s Tutorial을 읽어보세요.\n\n정말로 모든 장치/파티션을 암호화하시겠습니까?</string>
-    <string lang="ko" key="OVERWRITEPROMPT">주의: “%hs” 파일이 이미 존재합니다! 중요: VeraCrypt는 파일을 암호화하지 않고, 삭제합니다. 파일을 삭제하고, 그 파일을 새로운 VeraCrypt 보관소로 교체하시겠습니까?</string>
-    <string lang="ko" key="OVERWRITEPROMPT_DEVICE">주의: 선택한 %s “%hs”%s에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
-    <string lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM">주의: 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입하거나 볼륨에 저장된 파일에 접근할 수 없습니다.\n\n선택한 %s “%hs”%s의 암호화 작업을 시작하시겠습니까?</string>
-    <string lang="ko" key="NONSYS_INPLACE_DEC_CONFIRM">주의: 볼륨이 완전히 암호화해독되기 전에는 이 볼륨을 삽입하거나 볼륨에 저장된 파일에 접근할 수 없습니다.\n\n선택한 %s “%hs”%s의 암호화 작업을 시작하시겠습니까?</string>
+    <string lang="ko" key="OVERWRITEPROMPT">주의: “%s” 파일이 이미 존재합니다! 중요: VeraCrypt는 파일을 암호화하지 않고, 삭제합니다. 파일을 삭제하고, 그 파일을 새로운 VeraCrypt 보관소로 교체하시겠습니까?</string>
+    <string lang="ko" key="OVERWRITEPROMPT_DEVICE">주의: 선택한 %s “%s”%s에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
+    <string lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM">주의: 볼륨이 완전히 암호화되기 전에는 이 볼륨을 삽입하거나 볼륨에 저장된 파일에 접근할 수 없습니다.\n\n선택한 %s “%s”%s의 암호화 작업을 시작하시겠습니까?</string>
+    <string lang="ko" key="NONSYS_INPLACE_DEC_CONFIRM">주의: 볼륨이 완전히 암호화해독되기 전에는 이 볼륨을 삽입하거나 볼륨에 저장된 파일에 접근할 수 없습니다.\n\n선택한 %s “%s”%s의 암호화 작업을 시작하시겠습니까?</string>
     <string lang="ko" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">주의: 기존의 자체 데이터를 암호화하는 동안 ① 전력 공급이 갑자기 중단되거나 ② 소프트웨어 또는 하드웨어의 문제때문에 운영체제가 충돌을 일으키면, 일부 데이터가 손상되거나 유실될 수 있습니다. 그러므로 암호화 작업을 시작하기 전에 암호화하고자 하는 파일의 복사본을 백업해 두었는지 확인해야 합니다.\n\n파일의 백업이 있습니까?</string>
-    <string lang="ko" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">주의: “%hs”%s 파티션(→ 예: 시스템 파티션 뒤에 있는 첫번째 파티션)에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
+    <string lang="ko" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">주의: “%s”%s 파티션(→ 예: 시스템 파티션 뒤에 있는 첫번째 파티션)에 현재 저장되어 있는 모든 파일이 삭제되고 사라지게 됩니다(이 파일들은 암호화되지 않습니다)!\n\n정말로 포맷을 계속 진행하시겠습니까?</string>
     <string lang="ko" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">주의: 선택한 파티션에 큰 규모의 데이터가 포함되어 있습니다! 파티션에 저장되어 있는 파일들은 지워지고 손실됩니다(* 이들은 암호화되지 않습니다)!</string>
     <string lang="ko" key="ERASE_FILES_BY_CREATING_VOLUME">VeraCrypt 볼륨을 파티션 내에 만들면서 이 파티션에 저장되어 있는 파일들은 지워집니다.</string>
     <string lang="ko" key="PASSWORD">비밀번호</string>
@@ -641,6 +641,8 @@
     <string lang="ko" key="PASSWORD_WRONG_AUTOMOUNT">올바르지 못한 비밀번호이거나 VeraCrypt 볼륨을 찾을 수 없습니다.</string>
     <string lang="ko" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">올바르지 못한 키파일 또는 비밀번호이거나 VeraCrypt 볼륨을 찾을 수 없습니다.</string>
     <string lang="ko" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n주의: Caps Lock이 켜져 있습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -663,7 +665,7 @@
     <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</string>
     <string lang="ko" key="PREV">&lt; 뒤로(&amp;B)</string>
     <string lang="ko" key="RAWDEVICES">시스템에 설치된 RAW 장치를 나열할 수 없습니다!</string>
-    <string lang="ko" key="READONLYPROMPT">“%hs” 볼륨이 존재하고, 읽기전용 상태입니다. 그래도 교체하시겠습니까?</string>
+    <string lang="ko" key="READONLYPROMPT">“%s” 볼륨이 존재하고, 읽기전용 상태입니다. 그래도 교체하시겠습니까?</string>
     <string lang="ko" key="SELECT_DEST_DIR">대상 디렉토리 선택</string>
     <string lang="ko" key="SELECT_KEYFILE">키파일 선택</string>
     <string lang="ko" key="SELECT_KEYFILE_PATH">키파일 찾기 경로를 선택하세요. 주의: 경로만 기억되고, 파일 이름은 기억되지 않습니다!</string>
@@ -687,13 +689,13 @@
     <string lang="ko" key="TEST_CIPHERTEXT_SIZE">제공한 테스트 암호가 너무 길거나 짧습니다.</string>
     <string lang="ko" key="TEST_KEY_SIZE">제공한 테스트 키가 너무 길거나 짧습니다.</string>
     <string lang="ko" key="TEST_PLAINTEXT_SIZE">제공한 “테스트 단순텍스트”가 너무 길거나 짧습니다.</string>
-    <string lang="ko" key="TWO_LAYER_CASCADE_HELP">2개의 암호가 층계적으로 XTS 모드에서 작동. 각 블록은 처음에 %hs (%d-비트 키)로 암호화되고, 이어서 %hs (%d-비트 키)로 암호화됩니다. 각 암호는 각각의 키를 사용합니다. 모든 키는 상호 독립적입니다.</string>
-    <string lang="ko" key="THREE_LAYER_CASCADE_HELP">3개의 암호가 층계적으로 XTS 모드에서 작동. 각 블록은 처음에 %hs (%d-비트 키)로 암호화되고, 이어서 %hs (%d-비트 키)로 암호화됩니다. 마지막으로 %hs (%d-비트 키)로 암호화됩니다. 각 암호는 각각의 키를 사용합니다. 모든 키는 상호 독립적입니다.</string>
+    <string lang="ko" key="TWO_LAYER_CASCADE_HELP">2개의 암호가 층계적으로 XTS 모드에서 작동. 각 블록은 처음에 %s (%d-비트 키)로 암호화되고, 이어서 %s (%d-비트 키)로 암호화됩니다. 각 암호는 각각의 키를 사용합니다. 모든 키는 상호 독립적입니다.</string>
+    <string lang="ko" key="THREE_LAYER_CASCADE_HELP">3개의 암호가 층계적으로 XTS 모드에서 작동. 각 블록은 처음에 %s (%d-비트 키)로 암호화되고, 이어서 %s (%d-비트 키)로 암호화됩니다. 마지막으로 %s (%d-비트 키)로 암호화됩니다. 각 암호는 각각의 키를 사용합니다. 모든 키는 상호 독립적입니다.</string>
     <string lang="ko" key="AUTORUN_MAY_NOT_ALWAYS_WORK">운영체제의 설정에 의존하는 이러한 자동-실행 및 자동-삽입 기능은 “휴대용 디스크 파일”이 작성이 불가능한 CD/DVD 같은 매체에 생성될 경우에만 작동된다는 것을 참고해 주십시오. 이는 윈도우의 제한사항이지, VeraCrypt의 버그가 아닙니다.</string>
     <string lang="ko" key="TRAVELER_DISK_CREATED">VeraCrypt 휴대용 디스크가 성공적으로 만들어졌습니다.\n\n휴대용 모드에서 VeraCrypt를 실행하려면 관리자(administrator) 권한이 필요합니다. 레지스트리 파일을 검사한 후에, 비록 휴대용 모드로 실행될지라도 VeraCrypt가 윈도우 시스템에서 실행된 것으로 간주될 수도 있다는 것을 참고하세요.</string>
     <string lang="ko" key="TC_TRAVELER_DISK">VeraCrypt 휴대용 디스크</string>
     <string lang="ko" key="TWOFISH_HELP">Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall, 및 Niels Ferguson에 의해 디자인됨. 1998년 발표됨. 256-비트 키, 128-비트 블록. 작업 모드는 XTS입니다. Twofish는 AES 결선작 중의 하나였습니다.</string>
-    <string lang="ko" key="MORE_INFO_ABOUT">%hs에 대한 추가 정보</string>
+    <string lang="ko" key="MORE_INFO_ABOUT">%s에 대한 추가 정보</string>
     <string lang="ko" key="UNKNOWN">알 수 없음</string>
     <string lang="en" key="ERR_UNKNOWN">An unspecified or unknown error occurred (%d).</string>
     <string lang="ko" key="UNMOUNTALL_LOCK_FAILED">일부 볼륨은 “프로그램 또는 시스템에 의해 사용되는” 파일 또는 폴더를 포함하고 있습니다.\n\n강제로 꺼내시겠습니까?</string>
@@ -858,7 +860,7 @@
     <string lang="ko" key="INSTALL_FAILED">설치 실패.</string>
     <string lang="ko" key="UNINSTALL_FAILED">제거 실패.</string>
     <string lang="ko" key="DIST_PACKAGE_CORRUPTED">배포 패키지가 손상되었습니다. 다시 다운로드해 보시기 바랍니다(VeraCrypt 공식 웹사이트 - https://veracrypt.codeplex.com).</string>
-    <string lang="ko" key="CANNOT_WRITE_FILE_X">%hs 파일을 쓸 수 없습니다.</string>
+    <string lang="ko" key="CANNOT_WRITE_FILE_X">%s 파일을 쓸 수 없습니다.</string>
     <string lang="ko" key="EXTRACTING_VERB">추출 중</string>
     <string lang="ko" key="CANNOT_READ_FROM_PACKAGE">패키지에서 데이터를 읽을 수 없습니다.</string>
     <string lang="ko" key="CANT_VERIFY_PACKAGE_INTEGRITY">현재 배포 패키지의 완전성(무결성)을 검증할 수 없습니다.</string>
@@ -868,7 +870,7 @@
     <string lang="ko" key="SETUP_UPDATE_OK">VeraCrypt를 성공적으로 업데이트했습니다.</string>
     <string lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</string>
     <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu > All programs > Accessories > System Tools > System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
-    <string lang="ko" key="UNINSTALL_OK">VeraCrypt를 성공적으로 제거했습니다.\n\nVeraCrypt 설치기와 %hs 폴더를 제거하려면 “마침”을 클릭하세요. VeraCrypt 설치기에 의해 설치되거나 VeraCrypt에 의해 생성된 것이 아닌 파일을 포함하고 있는 폴더는 제거되지 않는다는 것을 참고하세요.</string>
+    <string lang="ko" key="UNINSTALL_OK">VeraCrypt를 성공적으로 제거했습니다.\n\nVeraCrypt 설치기와 %s 폴더를 제거하려면 “마침”을 클릭하세요. VeraCrypt 설치기에 의해 설치되거나 VeraCrypt에 의해 생성된 것이 아닌 파일을 포함하고 있는 폴더는 제거되지 않는다는 것을 참고하세요.</string>
     <string lang="ko" key="REMOVING_REG">VeraCrypt 레지스트리 항목을 제거하는 중</string>
     <string lang="ko" key="ADDING_REG">레지스트리 항목 추가 중</string>
     <string lang="ko" key="REMOVING_APPDATA">지정된 프로그램 데이터 제거 중</string>
@@ -879,10 +881,10 @@
     <string lang="ko" key="CREATING_SYS_RESTORE">시스템 복구 시점 만들기</string>
     <string lang="ko" key="FAILED_SYS_RESTORE">시스템 복원 시점을 만들 수 없습니다!</string>
     <string lang="ko" key="INSTALLER_UPDATING_BOOT_LOADER">부트 로더를 업데이트하는 중</string>
-    <string lang="ko" key="INSTALL_OF_FAILED">“%hs”을(를) 설치하는 데 실패했습니다. %hs 설치를 계속하시겠습니까?</string>
-    <string lang="ko" key="UNINSTALL_OF_FAILED">“%hs”을(를) 제거하는 데 실패했습니다. %hs 제거 작업을 계속하시겠습니까?</string>
+    <string lang="ko" key="INSTALL_OF_FAILED">“%s”을(를) 설치하는 데 실패했습니다. %s 설치를 계속하시겠습니까?</string>
+    <string lang="ko" key="UNINSTALL_OF_FAILED">“%s”을(를) 제거하는 데 실패했습니다. %s 제거 작업을 계속하시겠습니까?</string>
     <string lang="ko" key="INSTALL_COMPLETED">설치를 마쳤습니다.</string>
-    <string lang="ko" key="CANT_CREATE_FOLDER">“%hs” 폴더를 만들 수 없습니다.</string>
+    <string lang="ko" key="CANT_CREATE_FOLDER">“%s” 폴더를 만들 수 없습니다.</string>
     <string lang="ko" key="CLOSE_TC_FIRST">VeraCrypt 장치 드라이버를 언로드할 수 없습니다.\n\n먼저 열려 있는 VeraCrypt 창을 모두 닫아 주세요. 창을 닫아도 도움이 되지 않으면, 윈도우를 다시 시작해 보세요.</string>
     <string lang="ko" key="DISMOUNT_ALL_FIRST">설치 또는 제거를 계속하려면 모든 VeraCrypt 볼륨을 먼저 꺼내야 합니다.</string>
     <string lang="en" key="UNINSTALL_OLD_VERSION_FIRST">An obsolete version of VeraCrypt is currently installed on this system. It needs to be uninstalled before you can install this new version of VeraCrypt.\n\nAs soon as you close this message box, the uninstaller of the old version will be launched. Note that no volume will be decrypted when you uninstall VeraCrypt. After you uninstall the old version of VeraCrypt, run the installer of the new version of VeraCrypt again.</string>
@@ -935,7 +937,7 @@
     <string lang="en" key="FAVORITE_LABEL_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, no label can be assigned to it.</string>
     <string lang="en" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable VeraCrypt to assign a label to the partition.</string>
     <string lang="en" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">Due to a Windows limitation, a container stored in a remote filesystem shared over a network cannot be mounted as a system favorite volume (however, it can be mounted as a non-system favorite volume when a user logs on).</string>
-    <string lang="ko" key="ENTER_PASSWORD_FOR">비밀번호 입력▷ %hs</string>
+    <string lang="ko" key="ENTER_PASSWORD_FOR">비밀번호 입력▷ %s</string>
     <string lang="ko" key="ENTER_PASSWORD_FOR_LABEL">'%s'의 비밀번호 입력</string>
     <string lang="ko" key="ENTER_NORMAL_VOL_PASSWORD">표준/외부 볼륨을 위한 비밀번호 입력</string>
     <string lang="ko" key="ENTER_HIDDEN_VOL_PASSWORD">숨긴 볼륨을 위한 비밀번호 입력</string>
@@ -950,8 +952,8 @@
     <string lang="ko" key="VOL_HEADER_BACKED_UP">볼륨 헤더 백업을 성공적으로 만들었습니다.\n\n중요: 이 백업을 이용해서 볼륨 헤더를 복구하게 되면 볼륨의 현재 비밀번호도 같이 복구합니다. 또한 볼륨을 삽입하는데 키파일이 필요한 경우, 볼륨 헤더가 복구되었을 때 볼륨을 다시 삽입하려면 동일한 키파일이 필요합니다.\n\n주의: 이 볼륨 헤더 백업은 현재의 특정 볼륨의 헤더만 복구하는 데 사용됩니다. 만약 이 헤더 백업으로 다른 볼륨의 헤더를 복구할 경우에 그 볼륨을 삽입할 수는 있지만, (그 볼륨의 마스터 키가 변경되기 때문에) 볼륨에 저장된 데이터의 암호해제는 할 수 없습니다.</string>
     <string lang="ko" key="VOL_HEADER_RESTORED">볼륨 헤더가 성공적으로 복구되었습니다.\n\n중요: 이전 비밀번호도 같이 복구되었다는 것을 참고하세요. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨을 다시 삽입하고자 할 때도 동일한 키파일이 필요합니다.</string>
     <string lang="ko" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">보안상의 이유로 볼륨에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다.\n\n참고: 볼륨에 숨긴 볼륨이 있는 경우, 먼저 “외부 볼륨”에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다. 나중에 숨긴 볼륨 헤더의 백업을 선택한 경우, “숨긴 볼륨”에 대한 올바른 비밀번호(또는 올바른 키파일)을 입력 또는 제공해야 합니다.</string>
-    <string lang="ko" key="CONFIRM_VOL_HEADER_BAK">%hs에 대한 볼륨 헤더 백업을 만드시겠습니까?\n\n“예”를 클릭하면, 헤더 백업의 파일 이름을 묻게 됩니다.\n\n참고: 새로운 소금(→ 무작위 문자열)을 이용해서 ① 표준 볼륨 헤더 및 ② 숨긴 볼륨 헤더는 재암호화되고 백업 파일에 저장됩니다. 현재 볼륨 안에 “숨긴 볼륨”이 없을지라도, 백업 파일에 있는 숨긴 볼륨 헤더를 위해 남겨진 공간은 무작위 데이터로 채워지게 됩니다(→ 숨긴 볼륨의 효과적인 방법방법). 백업 파일에서 볼륨 헤더를 복구할 때, 볼륨 헤더 백업이 생성된 당시에 타당했던 ① 올바른 비밀번호 입력 또는 ② 올바른 키파일을 제공해야 합니다. 또한 비밀번호(또는 키파일)은 복구할 볼륨 헤더의 형식(→ 표준 또는 숨김)을 자동을 결정합니다. VeraCrypt는 시행착오를 거쳐 그 형식을 결정하게 됩니다.</string>
-    <string lang="ko" key="CONFIRM_VOL_HEADER_RESTORE">%hs의 볼륨 헤더를 복구하시겠습니까?\n\n주의: 볼륨 헤더의 복구는 “백업이 만들어졌을 당시의 볼륨 비밀번호”도 동시에 복구합니다. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨 헤더가 복구된 후 다시 볼륨을 삽입하고자 할 때도 동일한 키파일이 필요합니다.\n\n“예”를 클릭하면, 헤더 백업 파일을 선택할 수 있습니다.</string>
+    <string lang="ko" key="CONFIRM_VOL_HEADER_BAK">%s에 대한 볼륨 헤더 백업을 만드시겠습니까?\n\n“예”를 클릭하면, 헤더 백업의 파일 이름을 묻게 됩니다.\n\n참고: 새로운 소금(→ 무작위 문자열)을 이용해서 ① 표준 볼륨 헤더 및 ② 숨긴 볼륨 헤더는 재암호화되고 백업 파일에 저장됩니다. 현재 볼륨 안에 “숨긴 볼륨”이 없을지라도, 백업 파일에 있는 숨긴 볼륨 헤더를 위해 남겨진 공간은 무작위 데이터로 채워지게 됩니다(→ 숨긴 볼륨의 효과적인 방법방법). 백업 파일에서 볼륨 헤더를 복구할 때, 볼륨 헤더 백업이 생성된 당시에 타당했던 ① 올바른 비밀번호 입력 또는 ② 올바른 키파일을 제공해야 합니다. 또한 비밀번호(또는 키파일)은 복구할 볼륨 헤더의 형식(→ 표준 또는 숨김)을 자동을 결정합니다. VeraCrypt는 시행착오를 거쳐 그 형식을 결정하게 됩니다.</string>
+    <string lang="ko" key="CONFIRM_VOL_HEADER_RESTORE">%s의 볼륨 헤더를 복구하시겠습니까?\n\n주의: 볼륨 헤더의 복구는 “백업이 만들어졌을 당시의 볼륨 비밀번호”도 동시에 복구합니다. 또한 백업이 만들어졌을 당시 볼륨을 삽입하는데 키파일이 필요했다면, 볼륨 헤더가 복구된 후 다시 볼륨을 삽입하고자 할 때도 동일한 키파일이 필요합니다.\n\n“예”를 클릭하면, 헤더 백업 파일을 선택할 수 있습니다.</string>
     <string lang="ko" key="DOES_VOLUME_CONTAIN_HIDDEN">볼륨에 “숨긴 볼륨”이 포함되어 있습니까?</string>
     <string lang="ko" key="VOLUME_CONTAINS_HIDDEN">볼륨에 “숨긴 볼륨”이 포함되어 있습니다.</string>
     <string lang="ko" key="VOLUME_DOES_NOT_CONTAIN_HIDDEN">볼륨에 “숨긴 볼륨”이 포함되어 있지 않습니다.</string>
@@ -963,8 +965,8 @@
     <string lang="ko" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">사용자가 시스템 파티션/드라이브의 헤더를 백업하려고 합니다. 이것은 허용되지 않습니다. 시스템 파티션/드라이브에 관계된 백업/복구 작업은 VeraCrypt 응급복구 디스크를 사용해서만 실행될 수 있습니다.\n\nVeraCrypt 응급복구 디스크를 만드시겠습니까?</string>
     <string lang="ko" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">사용자가 가상의 VeraCrypt 볼륨 헤더를 복구하려고 시도하면서 시스템 파티션/드라이브를 선택했습니다. 이것은 허용되지 않습니다. 시스템 파티션/드라이브에 관계된 백업/복구 작업은 VeraCrypt 응급복구 디스크를 사용해서만 실행될 수 있습니다.\n\nVeraCrypt 응급복구 디스크를 만드시겠습니까?</string>
     <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">확인을 클릭한 다음, 새로운 VeraCrypt 응급복구 디스크 ISO 이미지를 위한 파일 이름 및 그 파일을 둘 위치를 선택하게 됩니다.</string>
-    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 응급복구 디스크를 CD 또는 DVD에 구울 필요가 있습니다.\n\n중요: 파일은 (개별 파일이 아닌) ISO 디스크 이미지로 CD/DVD에 구워져야 합니다. 작업 방법에 대한 자세한 정보는 CD/DVD 리코딩 소프트웨어의 문서를 참고하세요.\n\n응급복구 디스크를 구운 후에 “시스템 ▶ 응급복구 디스크 검증”을 선택해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
-    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 응급복구 디스크를 CD 또는 DVD에 구울 필요가 있습니다.\n\n지금 Microsoft Windows Disc Image Burner를 실행하시겠습니까?\n\n참고: 응급복구 디스크를 구운 후에 “시스템 ▶ 응급복구 디스크 검증”을 선택해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %s\n\n이제 응급복구 디스크를 CD 또는 DVD에 구울 필요가 있습니다.\n\n중요: 파일은 (개별 파일이 아닌) ISO 디스크 이미지로 CD/DVD에 구워져야 합니다. 작업 방법에 대한 자세한 정보는 CD/DVD 리코딩 소프트웨어의 문서를 참고하세요.\n\n응급복구 디스크를 구운 후에 “시스템 ▶ 응급복구 디스크 검증”을 선택해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %s\n\n이제 응급복구 디스크를 CD 또는 DVD에 구울 필요가 있습니다.\n\n지금 Microsoft Windows Disc Image Burner를 실행하시겠습니까?\n\n참고: 응급복구 디스크를 구운 후에 “시스템 ▶ 응급복구 디스크 검증”을 선택해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
     <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">검증하려면 VeraCrypt 응급복구 디스크를 CD/DVD 드라이브에 삽입한 다음 “확인”을 클릭하세요.</string>
     <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 응급복구 디스크를 성공적으로 검증했습니다.</string>
     <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">응급복구 디스크가 올바르게 구워졌는지를 검증할 수 없습니다.\n\n응급복구 디스크를 구웠다면, CD/DVD를 꺼내서 다시 삽입한 다음 다시 시도해 주세요. 이것이 도움이 되지 않는 경우, 다른 CD/DVD 리코딩 소프트웨어 및 매체로 시도해 주세요.\n\n다른 마스터 키, 비밀번호, 소금 등을 위해 생성된 응급복구 디스크를 검증하려고 하는 경우, 그러한 응급복구 디스크는 항상 검증작업에 실패하게 됩니다. 현재 설정과 완전히 호환되는 새로운 응급복구 디스크를 만들려면, “시스템” ▶ “응급복구 디스크 만들기”를 선택하세요.</string>
@@ -1054,13 +1056,13 @@
     <string lang="ko" key="FAILED_TO_INTERRUPT_WIPING">오류: 지우기 진행을 중단하는데 실패했습니다.</string>
     <string lang="ko" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">오류: 시스템 파티션/드라이브의 암호화 또는 암호해제 진행을 다시 시작하는데 실패했습니다.</string>
     <string lang="ko" key="FAILED_TO_START_WIPING">오류: 지우기 진행을 시작하는데 실패했습니다.</string>
-    <string lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결되었습니다.\n\n\n이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs</string>
-    <string lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs)</string>
+    <string lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결되었습니다.\n\n\n이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %s</string>
+    <string lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %s)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ko" key="HIDVOL_PROT_BKG_TASK_WARNING">주의: VeraCrypt 백그라운드 작업의 사용이 해제되었습니다. 프로그램을 종료하면, 숨긴 볼륨의 손상이 방지된 경우에도 그 알림을 통보받지 못합니다.\n\n참고: 언제라도 VeraCrypt 트레이 아이콘을 오른쪽 클릭하고 “종료”를 선택해서 백그라운드 작업을 종료할 수 있습니다.\n\nVeraCrypt 백그라운드 작업을 지금 사용가능하게 할까요?</string>
     <string lang="ko" key="LANG_PACK_VERSION">언어팩 버전:  %s</string>
-    <string lang="ko" key="CHECKING_FS">%hs로 삽입된 VeraCrypt 볼륨에 대한 파일 시스템을 체크하는 중...</string>
-    <string lang="ko" key="REPAIRING_FS">%hs로 삽입된 VeraCrypt 볼륨에 대한 파일 시스템의 수리를 시도하는 중...</string>
+    <string lang="ko" key="CHECKING_FS">%s로 삽입된 VeraCrypt 볼륨에 대한 파일 시스템을 체크하는 중...</string>
+    <string lang="ko" key="REPAIRING_FS">%s로 삽입된 VeraCrypt 볼륨에 대한 파일 시스템의 수리를 시도하는 중...</string>
     <string lang="ko" key="WARN_64_BIT_BLOCK_CIPHER">주의: 이 볼륨은 64-비트-블록 레거시 알고리듬으로 암호화되어 있습니다.\n\n모든 64-비트-블록 알고리듬(Blowfish, CAST-128, 및 Triple DES)은 비난받고 있습니다. 앞으로 나올 VeraCrypt 버전으로 이 볼륨을 삽입할 수 있을 것입니다. 그러나 이러한 레거시 암호화 알고리듬의 구현에 전혀 향상이 없는 상태입니다. 128-비트-블록 알고리듬(예: AES, Serpent, Twofish)으로 새로운 VeraCrypt 볼륨을 만들고, 모든 파일을 이 볼륨에서 새로운 볼륨으로 옮길 것을 권장합니다.</string>
     <string lang="ko" key="SYS_AUTOMOUNT_DISABLED">새 볼륨을 자동으로 삽입하도록 시스템 설정이 되어 있지 않습니다. 장치-기반의 VeraCrypt 볼륨을 삽입할 수 없습니다. “자동삽입”은 다음 명령을 실행하고 시스템을 다시 시작하면 사용할 수 있습니다.\n\nmountvol.exe /E</string>
     <string lang="ko" key="SYS_ASSIGN_DRIVE_LETTER">계속하기 전에 드라이브 문자를 파티션/장치에 할당해 주세요 (제어판 → 시스템 관리 → 관리자 도구 - 하드 디스크 파티션 생성 및 포맷)\n\n이것은 운영체제의 요구사항입니다.</string>
@@ -1116,8 +1118,8 @@
     <string lang="ko" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">참고: (윈도우 시작 전에) US가 아닌 윈도우 키보드 레이아웃을 사용할 수 없는 부팅-전 환경에서 비밀번호를 입력할 필요가 있다는 것을 참고하세요. 그래서 표준 US 키보드 레이아웃을 사용해서 항상 비밀번호를 입력해야 합니다. 그러나 실제 US 키보드가 필요하지 않다는 사실을 명심하세요. 실제 US 키보드가 없는 경우일지라도, VeraCrypt는 (현재 및 부팅-전 환경에서) 사용자가 안전하게 비밀번호를 입력했는지를 자동으로 확인합니다.</string>
     <string lang="ko" key="RESCUE_DISK_INFO">사용자가 파티션/드라이브를 암호화하기 전에, VeraCrypt 응급복구 디스크(VRD)를 먼저 만들어야 합니다. 그 목적은 다음과 같습니다:\n\n- 만약 VeraCrypt 부트 로더, 마스터 키 또는 다른 중요한 데이터가 손상된 경우, VRD를 이용해서 복구할 수 있습니다(그러나 여전히 올바른 비밀번호를 입력해야 합니다).\n\n- 만약 윈도우가 손상되어 시작이 되지 않는다면, VRD를 이용해서 윈도우의 시작 전에 파티션/드라이브를 영구적으로 암호해제할 수 있습니다.\n\n- VRD는 첫번째 드라이브 트랙(* 보통 시스템 로더나 부트 관리자를 포함하고 있음)의 내용에 대한 백업을 포함하고 있으므로 이를 이용해서 필요한 경우 복구할 수 있습니다.\n\nVeraCrypt 응급복구 디스크 ISO 이미지는 아래의 지정된 위치에서 생성됩니다.</string>
     <string lang="ko" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">“확인”을 클릭하면 Microsoft Windows Disc Image Burner가 실행됩니다. 이를 이용해서 VeraCrypt 응급복구 디스크 ISO 이미지를 CD 또는 DVD에 굽습니다.\n\n이 작업을 마친 후에 VeraCrypt 볼륨 만들기 마법사로 돌아가서 그 지침을 따릅니다.</string>
-    <string lang="ko" key="RESCUE_DISK_BURN_INFO">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 이미지를 CD 또는 DVD에 구울 필요가 있습니다.\n\n%ls응급복구 디스크를 구운 후, “다음”을 클릭해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
-    <string lang="ko" key="RESCUE_DISK_BURN_INFO_NO_CHECK">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %hs\n\n이제 응급복구 디스크를 CD/DVD에 굽거나 나중에 사용하기 위해 안전한 위치에 ISO 이미지를 이동해야 합니다.\n\n%ls계속하려면 “다음”을 클릭합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_BURN_INFO">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %s\n\n이제 이미지를 CD 또는 DVD에 구울 필요가 있습니다.\n\n%ls응급복구 디스크를 구운 후, “다음”을 클릭해서 응급복구 디스크가 올바르게 구워졌는지를 확인합니다.</string>
+    <string lang="ko" key="RESCUE_DISK_BURN_INFO_NO_CHECK">응급복구 디스크 이미지가 생성되어 다음 파일에 저장되었습니다: %s\n\n이제 응급복구 디스크를 CD/DVD에 굽거나 나중에 사용하기 위해 안전한 위치에 ISO 이미지를 이동해야 합니다.\n\n%ls계속하려면 “다음”을 클릭합니다.</string>
     <string lang="ko" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">중요: 파일은 (개별 파일이 아닌) ISO 디스크 이미지로 CD/DVD에 구워져야 합니다. 굽기 작업에 대한 정보는 CD/DVD 리코딩 소프트웨어에 대한 문서를 참고해 주세요. ISO 디스크 이미지를 CD/DVD에 작성할 리코딩 소프트웨어가 없는 경우, 아래 링크를 클릭해서 무료 소프트웨어를 다운로드합니다.\n\n</string>
     <string lang="ko" key="LAUNCH_WIN_ISOBURN">Microsoft Windows Disc Image Burner 실행</string>
     <string lang="ko" key="RESCUE_DISK_BURN_NO_CHECK_WARN">주의: 과거에 VeraCrypt 응급복구 디스크를 이미 만든 경우, 이 디스크를 현재 시스템 파티션/드라이브에 다시 사용할 수 없습니다. 왜냐하면 서로 다른 마스터 키로 디스크가 생성되었기 때문입니다. 시스템 파티션/드라이브를 암호화할 때마다, 비록 동일한 비밀번호를 사용할지라도, 새로운 VeraCrypt 응급복구 디스크를 만들어야 합니다.</string>

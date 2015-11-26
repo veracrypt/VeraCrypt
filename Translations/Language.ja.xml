@@ -416,13 +416,13 @@
     <string lang="ja" key="CIPHER_TITLE">暗号化オプション</string>
     <string lang="ja" key="CLEAN_WINMRU_FAILED">警告：(ファイル選択ダイアログが記憶している)最後に選択したボリュームあるいはキーファイルの場所の消去に失敗しました！</string>
     <string lang="ja" key="COMPRESSION_NOT_SUPPORTED">エラー：このコンテナはファイルシステムレベルで圧縮されています。VeraCryptは圧縮されたコンテナには対応していません（暗号化されたデータを圧縮するのは冗長であり、効果がありません）。\n\n次の方法で圧縮を解除してください。\n\n1) エクスプローラ上で(VeraCrypt上ではありません)コンテナを右クリック\n\n2) プロパティを選択\n\n3) プロパティダイアログで「詳細設定」をクリック\n\n4) 属性の詳細ダイアログで「内容を圧縮してディスク領域を節約する」のチェックを外し「OK」をクリック\n\n5) プロパティダイアログに戻るので「OK」をクリック</string>
-    <string lang="ja" key="CREATE_FAILED">ボリューム %hs の作成に失敗しました</string>
-    <string lang="ja" key="DEVICE_FREE_BYTES">%hs のサイズは %.2f バイト</string>
-    <string lang="ja" key="DEVICE_FREE_KB">%hs のサイズは %.2f KB</string>
-    <string lang="ja" key="DEVICE_FREE_MB">%hs のサイズは %.2f MB</string>
-    <string lang="ja" key="DEVICE_FREE_GB">%hs のサイズは %.2f GB</string>
-    <string lang="ja" key="DEVICE_FREE_TB">%hs のサイズは %.2f TB</string>
-    <string lang="ja" key="DEVICE_FREE_PB">%hs のサイズは %.2f PB</string>
+    <string lang="ja" key="CREATE_FAILED">ボリューム %s の作成に失敗しました</string>
+    <string lang="ja" key="DEVICE_FREE_BYTES">%s のサイズは %.2f バイト</string>
+    <string lang="ja" key="DEVICE_FREE_KB">%s のサイズは %.2f KB</string>
+    <string lang="ja" key="DEVICE_FREE_MB">%s のサイズは %.2f MB</string>
+    <string lang="ja" key="DEVICE_FREE_GB">%s のサイズは %.2f GB</string>
+    <string lang="ja" key="DEVICE_FREE_TB">%s のサイズは %.2f TB</string>
+    <string lang="ja" key="DEVICE_FREE_PB">%s のサイズは %.2f PB</string>
     <string lang="ja" key="DEVICE_IN_USE_FORMAT">警告：指定されたデバイスあるいはパーティションは、OSあるいはアプリケーションで使用されています。このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になるかもしれません。\n\nフォーマットを続けますか？</string>
     <string lang="ja" key="DEVICE_IN_USE_INPLACE_ENC">警告：そのパーティションはOSかアプリケーションで使用中です。まず使用されているパーティション上のすべてのアプリケーションを終了してください(アンチウィルスソフトも含みます)。\n\n続けますか？</string>
     <string lang="ja" key="FORMAT_CANT_DISMOUNT_FILESYS">エラー：指定されたデバイスあるいはパーティションに、アンマウントできないファイルシステムが含まれています。このファイルシステムはおそらくOSで使用されており、このデバイスあるいはパーティションをフォーマットすると、そのデータが破壊されてシステムが不安定になる可能性が高いです。\n\nこの問題を解決するためには、まず最初にパーティションを削除し、フォーマットをせずにパーティションを再作成することをお勧めします。そのためには以下の手順を行ってください。\n\n1) コンピュータ（マイコンピュータ）アイコンを右クリックして「管理」を選択し、「コンピュータの管理」画面を開く。 2) 「記憶域」＞「ディスクの管理」を選択。 3) 暗号化したいパーティションを選んで右クリックし、「パーティションの削除」「ボリュームの削除」「論理ドライブの削除」のいずれかを選択。 4) 「はい」をクリック。もし再起動を要求されたら再起動し、手順(1)と(2)を行い(5)に進む。 5) 空き領域／未割り当て領域を右クリックし、「新しいパーティション」「新しいシンプルボリューム」「新しい論理ドライブ」のいずれかを選択。 6) 「新しいパーティションウィザード」か「新しいシンプルボリュームウィザード」が開くので、表示された内容に従って進める。ウィザードが「パーティションのフォーマット」まで進んだら、「このパーティションをフォーマットしない」「このボリュームをフォーマットしない」のいずれかを選択する。続いて「次へ」をクリックし、最後に「終了」をクリック。 7)この時点でVeraCryptで指定されているデバイスの位置がずれていると思われるので、（もしまだ実行中なら）VeraCryptボリューム作成ウィザードをいったん終了し、再び実行する。 8) VeraCryptに戻って、再びデバイスあるいはパーティションの暗号化を試す。\n\nもしVeraCryptが再度暗号化に失敗したときは、代わりにコンテナファイルの作成を検討してください。</string>
@@ -441,18 +441,18 @@
     <string lang="ja" key="INPLACE_ENC_INVALID_PATH">エラー：その場での暗号化が可能なのは、パーティション、ダイナミックボリューム、あるいはシステムドライブ全体を暗号化するときに限られます。指定されたパスが有効かどうか確認してください。</string>
     <string lang="ja" key="CANNOT_RESIZE_FILESYS">エラー：ファイルシステムを縮小できません。ファイルシステムを縮小するためにはボリュームヘッダとバックアップヘッダのための領域が必要です。\n\n想定される原因と解決方法は次のとおりです。\n\n- ボリュームに十分な空きスペースがありません。他のアプリケーションがファイルを書き込んでいないか確認してください。\n\n- ファイルシステムが壊れています。次の方法でエラーをチェックし修復してみてください（該当ドライブを右クリックして「プロパティ」を選択→「ツール」タブを選び「チェックする」をクリック→「ファイルシステムエラーを自動的に修復する」オプションにチェックを入れて「開始」）。\n\nもし上記の手順でうまくいかなければ、以下の手順に従ってください。</string>
     <string lang="ja" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">エラー：このボリュームに充分な空き容量がないため、ファイルシステムを縮小できません。ファイルシステムを縮小するためにはボリュームヘッダとバックアップヘッダのための領域が必要です。\n\n不要なファイルを削除したり「ごみ箱」を空にしたりして、空き容量を少なくとも256KBは確保した上でもう一度試してみてください。なおWindows自体の問題により、OSを再起動するまでエクスプローラは正しくない空き容量を報告してくることに注意してください。再起動してもうまくいかない場合は、ファイルシステムが壊れているものと思われます。次の方法でエラーをチェックし修復してみてください（該当ドライブを右クリックして「プロパティ」を選択→「ツール」タブを選び「チェックする」をクリック→「ファイルシステムエラーを自動的に修復する」オプションにチェックを入れて「開始」）。\n\nもし上記の手順でうまくいかなければ、以下の手順に従ってください。</string>
-    <string lang="ja" key="DISK_FREE_BYTES">ドライブ %hs の空き容量は %.2f バイトです。</string>
-    <string lang="ja" key="DISK_FREE_KB">ドライブ %hs の空き容量は %.2f KB</string>
-    <string lang="ja" key="DISK_FREE_MB">ドライブ %hs の空き容量は %.2f MB</string>
-    <string lang="ja" key="DISK_FREE_GB">ドライブ %hs の空き容量は %.2f GB</string>
-    <string lang="ja" key="DISK_FREE_TB">ドライブ %hs の空き容量は %.2f TB</string>
-    <string lang="ja" key="DISK_FREE_PB">ドライブ %hs の空き容量は %.2f PB</string>
+    <string lang="ja" key="DISK_FREE_BYTES">ドライブ %s の空き容量は %.2f バイトです。</string>
+    <string lang="ja" key="DISK_FREE_KB">ドライブ %s の空き容量は %.2f KB</string>
+    <string lang="ja" key="DISK_FREE_MB">ドライブ %s の空き容量は %.2f MB</string>
+    <string lang="ja" key="DISK_FREE_GB">ドライブ %s の空き容量は %.2f GB</string>
+    <string lang="ja" key="DISK_FREE_TB">ドライブ %s の空き容量は %.2f TB</string>
+    <string lang="ja" key="DISK_FREE_PB">ドライブ %s の空き容量は %.2f PB</string>
     <string lang="ja" key="DRIVELETTERS">有効なドライブ名を取得できませんでした。</string>
     <string lang="ja" key="DRIVER_NOT_FOUND">エラー：VeraCryptのドライバが見つかりません。\n\nVeraCrypt.exeと同じフォルダに、'veracrypt.sys' および 'veracrypt-x64.sys' ファイルをコピーしてください。</string>
     <string lang="ja" key="DRIVER_VERSION">エラー：違うバージョンのVeraCryptデバイスドライバが作動中です。\n\nもしVeraCryptをポータブルモードで動作させようとしており、かつ違うバージョンのVeraCryptが既にインストールされているのであれば、先にそれをアンインストール（あるいはインストーラーでアップグレード）する必要があります。VeraCryptのアンインストールは次の手順で行ってください：[Vista以降] スタートメニュー→コンピュータ→プログラムのアンインストールと変更→VeraCrypt→アンインストール [Win XP] スタートメニュー→設定→コントロールパネル→プログラムの追加と削除→VeraCrypt→削除\n\n同じように、もしVeraCryptをポータブルモードで動作させようとしていて、すでに違うバージョンのVeraCryptがポータブルモードで起動しているのであれば、まずシステムを再起動した後に新しいバージョンのみを起動してください。</string>
     <string lang="ja" key="ERR_CIPHER_INIT_FAILURE">エラー：暗号処理の初期化に失敗しました。</string>
     <string lang="ja" key="ERR_CIPHER_INIT_WEAK_KEY">エラー：強度の弱い鍵が検出されました！ この鍵は廃棄されます。やり直してください。</string>
-    <string lang="ja" key="EXCEPTION_REPORT">致命的なエラーが発生したためVeraCryptを終了しました。もしこれがVeraCryptのバグに起因するものなら修正したいと思います。そのためにも、自動生成されたエラーレポートをお送りください。このレポートには次の情報が含まれています。\n\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- VeraCryptコンポーネント名\n- VeraCrypt実行ファイルのチェックサム\n- ダイアログウィンドウのシンボリックネーム\n- エラーのカテゴリ\n- エラーアドレス\n- VeraCryptのコールスタック\n\n「はい」を選択すると、次のURL(上記のエラー情報をすべて含んでいます)をデフォルトのインターネットブラウザを開いて呼び出します。\n\n%hs\n\n上記のエラーレポートを我々に送って良いですか？</string>
+    <string lang="ja" key="EXCEPTION_REPORT">致命的なエラーが発生したためVeraCryptを終了しました。もしこれがVeraCryptのバグに起因するものなら修正したいと思います。そのためにも、自動生成されたエラーレポートをお送りください。このレポートには次の情報が含まれています。\n\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- VeraCryptコンポーネント名\n- VeraCrypt実行ファイルのチェックサム\n- ダイアログウィンドウのシンボリックネーム\n- エラーのカテゴリ\n- エラーアドレス\n- VeraCryptのコールスタック\n\n「はい」を選択すると、次のURL(上記のエラー情報をすべて含んでいます)をデフォルトのインターネットブラウザを開いて呼び出します。\n\n%s\n\n上記のエラーレポートを我々に送って良いですか？</string>
     <string lang="ja" key="EXCEPTION_REPORT_EXT">システムで致命的なエラーが発生したため、VeraCryptが終了させられました。\n\nこれはVeraCryptに起因するエラーではありません。したがってVeraCryptの開発者はこの問題には対処できません。システム上に何か問題がないか確認してください(例：システムの設定、ネットワークの接続状況、ハードウェアエラーなど)。</string>
     <string lang="ja" key="EXCEPTION_REPORT_EXT_FILESEL">システムに致命的なエラーが発生し、VeraCryptは強制終了させられました。\n\nもしこの問題が続くようであれば、原因となり得るアプリケーションを無効にするかアンインストールする必要があるかもしれません。例としては、アンチウィルスやインターネットセキュリティソフト、その他、システムを拡張したり最適化したりなどといったシステムの深部を操作するようなものが挙げられます。もしそうしても問題が解決しないのであればOSを再インストールしてみてください。この問題はマルウェアに起因する可能性もあります。</string>
     <string lang="ja" key="EXCEPTION_REPORT_TITLE">VeraCrypt 致命的なエラー</string>
@@ -559,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="ja" key="INIT_SYS_ENC">システムを暗号化するアプリケーションコンポーネントを初期化できませんでした。</string>
     <string lang="ja" key="INIT_RAND">乱数生成機構の初期化に失敗しました！</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</string>
     <string lang="ja" key="INIT_RICHEDIT">エラー：リッチエディットシステムライブラリの読込に失敗しました。</string>
     <string lang="ja" key="INTRO_TITLE">VeraCryptボリューム作成ウィザード</string>
@@ -598,12 +598,12 @@
     <string lang="ja" key="SELECT_PKCS11_MODULE">PKCS #11 ライブラリを選択</string>
     <string lang="ja" key="OUTOFMEMORY">メモリ不足</string>
     <string lang="ja" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">重要：慣れていない方は、デバイスあるいはパーティション全体を暗号化しようとするのではなく、選択されたパーティションあるいはデバイス上にVeraCryptコンテナファイルを作成することを強く推奨します。\n\nデバイスあるいはパーティション全体を暗号化する方法に対し、コンテナファイルを作成する方法は、たとえば大量のファイルを破壊してしまうような危険性がありません。VeraCryptコンテナファイルは、これは仮想的な暗号化ディスクでありながら、それ自体は普通のファイルと変わりありません。より詳しい情報は「ユーザーズガイド」の「初心者のためのチュートリアル」をご覧ください。\n\n本当にデバイスあるいはパーティション全体を暗号化しますか？</string>
-    <string lang="ja" key="OVERWRITEPROMPT">警告：そのファイル '%hs' はすでに存在しています！\n\n重要：VeraCryptはそのファイル自体を暗号化するのではなく、消去して上書きします。 本当にそのファイルを消去して新しいVeraCryptコンテナで置き換えますか？</string>
-    <string lang="ja" key="OVERWRITEPROMPT_DEVICE">注意：選択された %s '%hs'%s に存在しているすべてのファイルは消去され失われます（暗号化されるのではありません）！\n\n本当にフォーマットを続けてよいですか？</string>
-    <string lang="ja" key="NONSYS_INPLACE_ENC_CONFIRM">警告：暗号化が完全に終了するまで、このボリューム上のファイルにはアクセスできなくなります。\n\n選択された %s '%hs'%s の暗号化を開始して良いですか？</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%hs'%s?</string>
+    <string lang="ja" key="OVERWRITEPROMPT">警告：そのファイル '%s' はすでに存在しています！\n\n重要：VeraCryptはそのファイル自体を暗号化するのではなく、消去して上書きします。 本当にそのファイルを消去して新しいVeraCryptコンテナで置き換えますか？</string>
+    <string lang="ja" key="OVERWRITEPROMPT_DEVICE">注意：選択された %s '%s'%s に存在しているすべてのファイルは消去され失われます（暗号化されるのではありません）！\n\n本当にフォーマットを続けてよいですか？</string>
+    <string lang="ja" key="NONSYS_INPLACE_ENC_CONFIRM">警告：暗号化が完全に終了するまで、このボリューム上のファイルにはアクセスできなくなります。\n\n選択された %s '%s'%s の暗号化を開始して良いですか？</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%s'%s?</string>
     <string lang="ja" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：既存データをその場で暗号化している最中に、電源が突然落ちたり、ソフトウェアエラーやハードウェア障害等によってOSがクラッシュした場合、データの一部が壊れたり失われたりする可能性があります。そのため、暗号化を開始する前に、必ず暗号化したいファイルのバックアップがあるかを確認してください。\n\nそのようなバックアップがありますか？</string>
-    <string lang="ja" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">注意：このパーティション '%hs'%s （つまりシステムパーティションのすぐ次のパーティション）上に存在するすべてのファイルが削除され、失われます（暗号化されるわけではありません）！。\n\nこのままフォーマットを進めて良いですか？</string>
+    <string lang="ja" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">注意：このパーティション '%s'%s （つまりシステムパーティションのすぐ次のパーティション）上に存在するすべてのファイルが削除され、失われます（暗号化されるわけではありません）！。\n\nこのままフォーマットを進めて良いですか？</string>
     <string lang="ja" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：選択されたパーティションには大量のデータがあります！ そのパーティションにあるすべてのデータが削除され、失われます。それらのファイルは暗号化されません！</string>
     <string lang="ja" key="ERASE_FILES_BY_CREATING_VOLUME">このパーティションにVeraCryptボリュームを作成して、既存データすべてを削除する</string>
     <string lang="ja" key="PASSWORD">パスワード</string>
@@ -641,6 +641,8 @@
     <string lang="ja" key="PASSWORD_WRONG_AUTOMOUNT">パスワードが正しくないか、VeraCryptボリュームが見つかりません。</string>
     <string lang="ja" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">キーファイルあるいはパスワードが正しくないか、VeraCryptのボリュームが見つかりません。</string>
     <string lang="ja" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock がオンになっています。 そのためにパスワードの入力を誤るかもしれません。</string>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -663,7 +665,7 @@
     <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</string>
     <string lang="ja" key="PREV">&lt; 戻る(&amp;B)</string>
     <string lang="ja" key="RAWDEVICES">このシステムのデバイスを列挙できません！</string>
-    <string lang="ja" key="READONLYPROMPT">ボリューム '%hs' は読み取り専用としてすでに存在しています。本当に置き換えますか？</string>
+    <string lang="ja" key="READONLYPROMPT">ボリューム '%s' は読み取り専用としてすでに存在しています。本当に置き換えますか？</string>
     <string lang="ja" key="SELECT_DEST_DIR">フォルダの選択</string>
     <string lang="ja" key="SELECT_KEYFILE">キーファイルの選択</string>
     <string lang="ja" key="SELECT_KEYFILE_PATH">キーファイルを探すフォルダを選択してください。 警告：記憶されるのはフォルダであり、ファイル名ではありません！</string>
@@ -687,13 +689,13 @@
     <string lang="ja" key="TEST_CIPHERTEXT_SIZE">入力されたテスト用暗号文は長すぎるか、あるいは短すぎます。</string>
     <string lang="ja" key="TEST_KEY_SIZE">入力されたテスト用キーは長すぎるか、あるいは短すぎます。</string>
     <string lang="ja" key="TEST_PLAINTEXT_SIZE">入力されたテスト用平文は長すぎるか、あるいは短すぎます。</string>
-    <string lang="ja" key="TWO_LAYER_CASCADE_HELP">暗号化がXTSモードの二段のカスケードで実行されます。いずれのブロックも最初に %hs（%d-bit key）で、次に %hs（%d-bit key）で暗号化されます。いずれの暗号化でもそれ自身の鍵が使われ、全ての鍵が互いに独立しています。</string>
-    <string lang="ja" key="THREE_LAYER_CASCADE_HELP">暗号化がXTSモードの三段のカスケードで実行されます。いずれのブロックも最初に %hs（%d-bit key）で、次に %hs（%d-bit key）で、そして最後に %hs（%d-bit key）で暗号化されます。いずれの暗号化でもそれ自身の鍵が使われ、全ての鍵が互いに独立しています。</string>
+    <string lang="ja" key="TWO_LAYER_CASCADE_HELP">暗号化がXTSモードの二段のカスケードで実行されます。いずれのブロックも最初に %s（%d-bit key）で、次に %s（%d-bit key）で暗号化されます。いずれの暗号化でもそれ自身の鍵が使われ、全ての鍵が互いに独立しています。</string>
+    <string lang="ja" key="THREE_LAYER_CASCADE_HELP">暗号化がXTSモードの三段のカスケードで実行されます。いずれのブロックも最初に %s（%d-bit key）で、次に %s（%d-bit key）で、そして最後に %s（%d-bit key）で暗号化されます。いずれの暗号化でもそれ自身の鍵が使われ、全ての鍵が互いに独立しています。</string>
     <string lang="ja" key="AUTORUN_MAY_NOT_ALWAYS_WORK">OSの設定によっては、これらのオートランあるいはオートマウントの機能が、書き込みのできないCDやDVDのようなメディア上にトラベラーディスクのファイルがあるときにしか働かないことに注意してください。これはVeraCryptのバグではなく、Windowsの制限です。</string>
     <string lang="ja" key="TRAVELER_DISK_CREATED">VeraCryptトラベラーディスクは無事が作成されました。\n\nVeraCryptをポータブルモードで動作させるためには管理者権限が必要であることに注意してください。 また、たとえポータブルモードで動作させたとしても、 レジストリファイルを調べられると、そのWindowsでVeraCryptが動作したことがあると判ってしまうでしょう。</string>
     <string lang="ja" key="TC_TRAVELER_DISK">VeraCryptトラベラーディスク</string>
     <string lang="ja" key="TWOFISH_HELP">Bruce Schneier、John Kelsey、Doug Whiting、David Wagner、Chris Hall、そしてNiels Fergusonによって開発され、1998年に公開されました。256ビットキー、128ビットブロックを使用します。動作モードはXTSです。Twofishは、AES制定時の最終候補の一つでした。</string>
-    <string lang="ja" key="MORE_INFO_ABOUT">%hsについての詳細</string>
+    <string lang="ja" key="MORE_INFO_ABOUT">%sについての詳細</string>
     <string lang="ja" key="UNKNOWN">未知</string>
     <string lang="ja" key="ERR_UNKNOWN">詳細不明あるいは未知のエラーが発生しました。(%d)</string>
     <string lang="ja" key="UNMOUNTALL_LOCK_FAILED">いくつかのボリュームに、アプリケーションかシステムが使用中のファイルあるいはフォルダがあります。\n\n強制的にアンマウントしますか？</string>
@@ -858,7 +860,7 @@
     <string lang="ja" key="INSTALL_FAILED">インストールに失敗しました。</string>
     <string lang="ja" key="UNINSTALL_FAILED">アンインストールに失敗しました。</string>
     <string lang="ja" key="DIST_PACKAGE_CORRUPTED">この配布パッケージは破損しています。（なるべくVeraCryptの公式サイト https://veracrypt.codeplex.com から）もう一度ダウンロードしてみてください。</string>
-    <string lang="ja" key="CANNOT_WRITE_FILE_X">ファイル %hs を書き込めません。</string>
+    <string lang="ja" key="CANNOT_WRITE_FILE_X">ファイル %s を書き込めません。</string>
     <string lang="ja" key="EXTRACTING_VERB">展開</string>
     <string lang="ja" key="CANNOT_READ_FROM_PACKAGE">パッケージからデータを読み込めません。</string>
     <string lang="ja" key="CANT_VERIFY_PACKAGE_INTEGRITY">この配布パッケージの完全性を検証できません。</string>
@@ -868,7 +870,7 @@
     <string lang="ja" key="SETUP_UPDATE_OK">VeraCryptの更新に成功しました。</string>
     <string lang="ja" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCryptのアップグレードに成功しました。ただし使用を開始するためにはコンピュータを再起動する必要があります。\n\nすぐに再起動しますか？</string>
     <string lang="ja" key="SYS_ENC_UPGRADE_FAILED">VeraCryptのアップグレードに失敗しました！\n\n重要：システムをシャットダウンあるいは再起動する前に、システムの復元（スタート→すべてのプログラム→アクセサリ→システムツール→システムの復元）で「VeraCrypt installation」と名付けられた復元ポイントまでシステムをリストアすることを強くお勧めします。もし「システムの復元」が使えない場合は、代わりにVeraCryptの元の（あるいは新しい）バージョンの再インストールを、システムをシャットダウンあるいは再起動する前に行ってみてください。</string>
-    <string lang="ja" key="UNINSTALL_OK">VeraCryptのアンインストールに成功しました。\n\n「終了」をクリックするとVeraCryptのインストーラーおよび %hs フォルダが削除されます。ただしこのフォルダの中に「VeraCryptが作成したファイル」あるいは「VeraCryptインストーラーが入れたものではないファイル」があった場合は削除されません。</string>
+    <string lang="ja" key="UNINSTALL_OK">VeraCryptのアンインストールに成功しました。\n\n「終了」をクリックするとVeraCryptのインストーラーおよび %s フォルダが削除されます。ただしこのフォルダの中に「VeraCryptが作成したファイル」あるいは「VeraCryptインストーラーが入れたものではないファイル」があった場合は削除されません。</string>
     <string lang="ja" key="REMOVING_REG">VeraCryptのレジストリエントリを削除しています</string>
     <string lang="ja" key="ADDING_REG">レジストリにエントリを追加しています</string>
     <string lang="ja" key="REMOVING_APPDATA">アプリケーションに固有のデータを削除しています</string>
@@ -879,10 +881,10 @@
     <string lang="ja" key="CREATING_SYS_RESTORE">システム復元ポイントを作成しています</string>
     <string lang="ja" key="FAILED_SYS_RESTORE">システム復元ポイントの作成に失敗しました！</string>
     <string lang="ja" key="INSTALLER_UPDATING_BOOT_LOADER">ブートローダーを更新しました</string>
-    <string lang="ja" key="INSTALL_OF_FAILED">'%hs'. %hs へのインストールに失敗しました。 インストール作業を続けますか？</string>
-    <string lang="ja" key="UNINSTALL_OF_FAILED">'%hs'. %hs からのアンインストールに失敗しました。 アンインストール作業を続けますか？</string>
+    <string lang="ja" key="INSTALL_OF_FAILED">'%s'. %s へのインストールに失敗しました。 インストール作業を続けますか？</string>
+    <string lang="ja" key="UNINSTALL_OF_FAILED">'%s'. %s からのアンインストールに失敗しました。 アンインストール作業を続けますか？</string>
     <string lang="ja" key="INSTALL_COMPLETED">インストールが完了しました。</string>
-    <string lang="ja" key="CANT_CREATE_FOLDER">フォルダ '%hs' を作成できませんでした</string>
+    <string lang="ja" key="CANT_CREATE_FOLDER">フォルダ '%s' を作成できませんでした</string>
     <string lang="ja" key="CLOSE_TC_FIRST">VeraCryptのデバイスドライバをメモリ上から解放できませんでした。\n\nまず先にVeraCryptのウィンドウをすべて閉じてください。うまくいかないようでしたら、Windowsを再起動してからもう一度試してみてください。</string>
     <string lang="ja" key="DISMOUNT_ALL_FIRST">インストールあるいはアンインストールを続ける前に、VeraCryptのすべてのボリュームをアンマウントしなくてはなりません。</string>
     <string lang="ja" key="UNINSTALL_OLD_VERSION_FIRST">VeraCryptの古いバージョンがこのシステムにインストールされています。VeraCryptの新しいバージョンをインストールする前に古いバージョンをアンインストールする必要があります。\n\nこのメッセージウィンドウを閉じると、古いバージョンのアンインストーラーがすぐに起動します。なおVeraCryptのアンインストール中に暗号化ボリュームが復号されることはありません。古いVeraCryptをアンインストールしてから、再びこの新しいバージョンのVeraCryptインストーラーを実行してください。</string>
@@ -935,7 +937,7 @@
     <string lang="ja" key="FAVORITE_LABEL_DEVICE_PATH_ERR">以下に表示されているデバイスはパーティションでも非ダイナミックボリュームでもありません。したがってラベルを割り当てることはできません。</string>
     <string lang="ja" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">まず以下に表示されているパーティションのタイプをWindowsが認識できるタイプに設定してください（Windowsの 'diskpart' ツールでSETIDコマンドを使ってください）。その後、そのパーティションをお気に入りから削除し、追加しなおしてください。これによってそのパーティションにラベルを設定できるようになります。</string>
     <string lang="ja" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">Windowsの制限により、ネットワーク越しに共有されているリモートファイルシステム上のコンテナはシステムお気に入りボリュームとしてマウントはできません。ただしユーザーがログオンすれば普通のお気に入りボリュームとしてマウントできます。</string>
-    <string lang="ja" key="ENTER_PASSWORD_FOR">%hs のパスワードを入力してください。</string>
+    <string lang="ja" key="ENTER_PASSWORD_FOR">%s のパスワードを入力してください。</string>
     <string lang="ja" key="ENTER_PASSWORD_FOR_LABEL">'%s' のパスワードを入力してください。</string>
     <string lang="ja" key="ENTER_NORMAL_VOL_PASSWORD">標準/外殻ボリュームのパスワードを入力してください。</string>
     <string lang="ja" key="ENTER_HIDDEN_VOL_PASSWORD">隠しボリュームのパスワードを入力してください。</string>
@@ -950,8 +952,8 @@
     <string lang="ja" key="VOL_HEADER_BACKED_UP">ボリュームヘッダのバックアップを無事に作成しました。\n\n重要：このバックアップを使ってボリュームヘッダをリストアすることは、現在のボリュームのパスワードも同様に復元します。さらに、もしこのボリュームのマウントにキーファイルが必要だったのなら、同じキーファイルがこのボリュームのマウントのために必要です。\n\n警告：このボリュームヘッダのバックアップは、このボリュームにのみリストアできます。もし他のボリュームにこのヘッダのバックアップをリストアした場合、そのボリュームのマウントはできますが、格納されていたデータの復号化ができなくなります（マスターキーを変更したため）。</string>
     <string lang="ja" key="VOL_HEADER_RESTORED">ボリュームヘッダのリストアに成功しました。\n\n重要：古いパスワードも同様に復元されました。さらに、もしこのボリュームのマウントにキーファイルが必要だったのなら、同じキーファイルがこのボリュームのマウントのために必要です。</string>
     <string lang="ja" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">セキュリティ上の理由により、このボリュームの正しいパスワードを入力する必要があります（キーファイルがあるならそれも正しく指定してください）。\n\n注：もしこのボリュームに隠しボリュームが含まれているなら、まず外殻ボリュームのパスワードを先に入力してください（キーファイルも同様）。隠しボリュームのヘッダをバックアップするのであれば、その後に、隠しボリュームの正しいパスワードを入力する必要があります（キーファイルも同様）。</string>
-    <string lang="ja" key="CONFIRM_VOL_HEADER_BAK">ボリューム %hs のボリュームヘッダを本当にバックアップしますか？\n\n「はい」をクリックすると、ヘッダのバックアップを保存するファイル名を尋ねられます。\n\n注：標準および隠しのボリュームヘッダが新しいソルトによって再暗号化されてバックアップファイルに保存されます。もし隠しボリュームが存在していなくても、見せかけの拒否を守るため、バックアップファイルには隠しボリューム用の領域が確保されて、その領域はランダムなデータで充填されます。ボリュームヘッダをリストアするときには、ボリュームヘッダのバックアップを作成した時点の正しいパスワードを入力（および正しいキーファイルを指定）する必要があります。VeraCryptは入力されたパスワードによって、自動的に標準か隠しかどちらのボリュームヘッダをリストアするのかを決定します。</string>
-    <string lang="ja" key="CONFIRM_VOL_HEADER_RESTORE">ボリューム %hs のボリュームヘッダを本当にリストアしますか？\n\n警告：ボリュームヘッダをリストアすると、パスワードもバックアップ作成時のものに復元されます。また、もしこのバックアップを作成した時点でこのボリュームのマウントにキーファイルが必要だったのなら、リストア後には同じキーファイルがマウントのために必要になります。\n\n「はい」をクリックした後、ヘッダのバックアップを選択してください。</string>
+    <string lang="ja" key="CONFIRM_VOL_HEADER_BAK">ボリューム %s のボリュームヘッダを本当にバックアップしますか？\n\n「はい」をクリックすると、ヘッダのバックアップを保存するファイル名を尋ねられます。\n\n注：標準および隠しのボリュームヘッダが新しいソルトによって再暗号化されてバックアップファイルに保存されます。もし隠しボリュームが存在していなくても、見せかけの拒否を守るため、バックアップファイルには隠しボリューム用の領域が確保されて、その領域はランダムなデータで充填されます。ボリュームヘッダをリストアするときには、ボリュームヘッダのバックアップを作成した時点の正しいパスワードを入力（および正しいキーファイルを指定）する必要があります。VeraCryptは入力されたパスワードによって、自動的に標準か隠しかどちらのボリュームヘッダをリストアするのかを決定します。</string>
+    <string lang="ja" key="CONFIRM_VOL_HEADER_RESTORE">ボリューム %s のボリュームヘッダを本当にリストアしますか？\n\n警告：ボリュームヘッダをリストアすると、パスワードもバックアップ作成時のものに復元されます。また、もしこのバックアップを作成した時点でこのボリュームのマウントにキーファイルが必要だったのなら、リストア後には同じキーファイルがマウントのために必要になります。\n\n「はい」をクリックした後、ヘッダのバックアップを選択してください。</string>
     <string lang="ja" key="DOES_VOLUME_CONTAIN_HIDDEN">このボリュームは隠しボリュームを含んでいますか？</string>
     <string lang="ja" key="VOLUME_CONTAINS_HIDDEN">このボリュームは隠しボリュームを含んでいます。</string>
     <string lang="ja" key="VOLUME_DOES_NOT_CONTAIN_HIDDEN">このボリュームは隠しボリュームを含んでいません。</string>
@@ -963,8 +965,8 @@
     <string lang="ja" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">システムパーティション/ドライブのヘッダのバックアップは拒否されました。システムパーティション/ドライブに関するバックアップおよびリストアの操作は、VeraCryptレスキューディスクを使用したときのみ可能です。\n\nVeraCryptレスキューディスクを作成しますか？</string>
     <string lang="ja" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">VeraCrypt仮想ボリュームのヘッダをシステムパーティション/ドライブにリストアしようとしましたが拒否されました。システムパーティション/ドライブに関するバックアップおよびリストアの操作は、VeraCryptレスキューディスクを使用したときのみ可能です。\n\nVeraCryptレスキューディスクを作成しますか？</string>
     <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">「OK」をクリックして、VeraCryptレスキューディスクのISOイメージの新しいファイル名、および保存場所を指定してください。</string>
-    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">レスキューディスクのイメージファイルが次の名前で作成されました： %hs\n\n次にレスキューディスクをCDかDVDに書き込む必要があります。\n\n重要：このファイルは個別のファイルとしてではなく、ISOディスクイメージとしてCD/DVDに書き込まなければなりません。具体的な方法はお使いのレコーディングソフトのマニュアルを参照してください。\n\nレスキューディスクを作成後、メニューから[システム]-[レスキューディスクの検証]を選択し、正しく作成されたかを検証してください。</string>
-    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">レスキューディスクのイメージファイルが次の名前で作成されました： %hs\n\n次にレスキューディスクをCDかDVDに書き込む必要があります。\n\nWindowsディスクイメージ書き込みツールを起動しますか？\n\n注：レスキューディスクを作成後、メニューから[システム]-[レスキューディスクの検証]を選択し、正しく作成されたかを検証してください。</string>
+    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">レスキューディスクのイメージファイルが次の名前で作成されました： %s\n\n次にレスキューディスクをCDかDVDに書き込む必要があります。\n\n重要：このファイルは個別のファイルとしてではなく、ISOディスクイメージとしてCD/DVDに書き込まなければなりません。具体的な方法はお使いのレコーディングソフトのマニュアルを参照してください。\n\nレスキューディスクを作成後、メニューから[システム]-[レスキューディスクの検証]を選択し、正しく作成されたかを検証してください。</string>
+    <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">レスキューディスクのイメージファイルが次の名前で作成されました： %s\n\n次にレスキューディスクをCDかDVDに書き込む必要があります。\n\nWindowsディスクイメージ書き込みツールを起動しますか？\n\n注：レスキューディスクを作成後、メニューから[システム]-[レスキューディスクの検証]を選択し、正しく作成されたかを検証してください。</string>
     <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">VeraCryptレスキューディスクをCD/DVDドライブに挿入してから「OK」を押すと検証します。</string>
     <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCryptレスキューディスクの検証に成功しました。</string>
     <string lang="ja" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">レスキューディスクが正しく作成されているか検証できませんでした。\n\nレスキューディスクをお持ちなら、CD/DVDをいったん排出してから再度挿入してみてください。もしこの方法でダメなら、他のレコーディングソフトあるいはメディアを使ってみてください。\n\nもし別のマスターキー、パスワード、ソルトを設定して作られたレスキューディスクを検証しようとしているのであれば、これは常に検証に失敗します。現在の設定に適合したレスキューディスクを作成するには、メニューから[システム]-[レスキューディスクの作成]を選択してください。</string>
@@ -1054,13 +1056,13 @@
     <string lang="ja" key="FAILED_TO_INTERRUPT_WIPING">エラー：ワイプ処理の中断に失敗しました。</string>
     <string lang="ja" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">エラー：システムパーティション/ドライブの暗号化/復号処理の再開に失敗しました。</string>
     <string lang="ja" key="FAILED_TO_START_WIPING">エラー：ワイプ処理の開始に失敗しました。</string>
-    <string lang="ja" key="INCONSISTENCY_RESOLVED">不整合状態を解決しました。\n\n\n（もしこの問題についてバグ報告をしてくださるなら、以下の技術的情報を付け加えてくださるようお願いします： %hs）</string>
-    <string lang="ja" key="UNEXPECTED_STATE">エラー：予期しない状態です。\n\n\n（この状態をバグ報告する場合、次の情報も報告に含めるようお願いいたします。: %hs）</string>
+    <string lang="ja" key="INCONSISTENCY_RESOLVED">不整合状態を解決しました。\n\n\n（もしこの問題についてバグ報告をしてくださるなら、以下の技術的情報を付け加えてくださるようお願いします： %s）</string>
+    <string lang="ja" key="UNEXPECTED_STATE">エラー：予期しない状態です。\n\n\n（この状態をバグ報告する場合、次の情報も報告に含めるようお願いいたします。: %s）</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ja" key="HIDVOL_PROT_BKG_TASK_WARNING">警告：VeraCryptの常駐は無効になっています。VeraCryptの終了後は、隠しボリュームの保護機能が働いても告知されません。\n\n注：VeraCryptのトレイアイコンを右クリックして終了を選べば、いつでも常駐を終了できます。\n\nVeraCryptの常駐を有効にしますか？</string>
     <string lang="ja" key="LANG_PACK_VERSION">言語パックのバージョン： %s</string>
-    <string lang="ja" key="CHECKING_FS">%hs ドライブとしてマウントされた VeraCryptボリュームのファイルシステムをチェック中です...</string>
-    <string lang="ja" key="REPAIRING_FS">%hs ドライブとしてマウントされた VeraCryptボリュームのファイルシステム修復を試みています...</string>
+    <string lang="ja" key="CHECKING_FS">%s ドライブとしてマウントされた VeraCryptボリュームのファイルシステムをチェック中です...</string>
+    <string lang="ja" key="REPAIRING_FS">%s ドライブとしてマウントされた VeraCryptボリュームのファイルシステム修復を試みています...</string>
     <string lang="ja" key="WARN_64_BIT_BLOCK_CIPHER">警告：このボリュームは旧式の暗号化アルゴリズムで暗号化されています。\n\nすべての64ビットブロックの暗号化アルゴリズム(例：Blowfish, CAST-128, Triple DES)は非推奨です。VeraCryptの将来のバージョンでも、このボリュームをマウントすることはできるでしょう。ただしこれら旧式の暗号化アルゴリズムの実装については今後の拡張予定はありません。128ビットブロックの暗号化アルゴリズム(AES, Serpent, Twofish など)を使ったVeraCryptボリュームを新しく作成し、今のこのボリュームにあるすべてのファイルを、新しいボリュームに移すことをお勧めします。</string>
     <string lang="ja" key="SYS_AUTOMOUNT_DISABLED">このシステムは新しいボリュームの自動マウントができるようには設定されていません。 このことによりデバイス型のVeraCryptボリュームのマウントは不可能でしょう。 次のコマンドを実行してから再起動することで、自動マウントを有効にできます。\n\nmountvol.exe /E</string>
     <string lang="ja" key="SYS_ASSIGN_DRIVE_LETTER">作業を進める前に、先にパーティションあるいはデバイスにドライブレターを割り当ててください（Vistaならコントロールパネルから「システムとメンテナンス」→「管理ツール」とたどり、「ハードディスクパーティションの作成とフォーマット」を開きます）。\n\n注：これはオペレーティングシステム側の要請です。</string>
@@ -1116,8 +1118,8 @@
     <string lang="ja" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">注：起動前の環境下（Windowsの起動前）では、US-Windows以外のキーボードレイアウトが必要なパスワードは無効です。そのため、パスワードは常に標準USキーボードレイアウトで入力される必要があります。ただし、これは物理的にUSキーボードが必要という意味では*ありません*。VeraCryptはたとえ物理的にUSキーボードではない環境であっても、今現在でも起動前環境下でも、自動的に正しくパスワードが入力できるようにします。</string>
     <string lang="ja" key="RESCUE_DISK_INFO">このパーティション/ドライブを暗号化する前にVeraCryptレスキューディスク(VRD)を作成する必要があります。VRDには以下の目的があります。：\n\n- VeraCryptブートローダーやマスターキー、その他重要なデータが破損した場合、VRDで復旧できます（ただし正しいパスワードの入力が必要なことには変わりありません）。\n\n- Windowsが破損して起動不能になった場合、Windowsの起動前にVRDでシステムドライブ/パーティションの暗号化を解除できます。\n\n- VRDは最初のドライブトラックに記録されていた情報をバックアップし、必要であればリストアできます。通常この部分にはシステムローダーあるいはブートマネージャーが含まれています。\n\nVeraCryptレスキューディスクのISOイメージは下記に示された場所に作成されます。</string>
     <string lang="ja" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">OKをクリックすると、Windowsディスクイメージ書き込みツールが起動します。このツールでVeraCryptレスキューディスクのISOイメージをCDやDVDに書き込んでください。\n\n書き込み後、VeraCryptボリューム作成ウィザードに戻って、以下の手順に従ってください。</string>
-    <string lang="ja" key="RESCUE_DISK_BURN_INFO">レスキューディスクのイメージファイルが次の場所に作成されました: %hs\n\nこれをCDやDVDに書き込んでください。\n\n%ls レスキューディスクの作成後、「次へ」をクリックして正しく作成されたかを確認してください。</string>
-    <string lang="ja" key="RESCUE_DISK_BURN_INFO_NO_CHECK">レスキューディスクのイメージファイルが次の場所に作成されました: %hs\n\nこのディスクイメージをCDやDVDに書き込むか、後で利用するために安全な場所に移動してください。\n\n%ls「次へ」で処理を続けます。</string>
+    <string lang="ja" key="RESCUE_DISK_BURN_INFO">レスキューディスクのイメージファイルが次の場所に作成されました: %s\n\nこれをCDやDVDに書き込んでください。\n\n%ls レスキューディスクの作成後、「次へ」をクリックして正しく作成されたかを確認してください。</string>
+    <string lang="ja" key="RESCUE_DISK_BURN_INFO_NO_CHECK">レスキューディスクのイメージファイルが次の場所に作成されました: %s\n\nこのディスクイメージをCDやDVDに書き込むか、後で利用するために安全な場所に移動してください。\n\n%ls「次へ」で処理を続けます。</string>
     <string lang="ja" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">重要：このファイルは個別のファイルではなくISOイメージとしてCD/DVDに書き込む必要があります。詳しい方法についてはご使用中のレコーディングソフトのマニュアルを参照してください。もしISOイメージとして書き込めるCD/DVDレコーディングソフトをお持ちでない場合は、以下のリンク先からフリーソフトをダウンロードできます。\n\n</string>
     <string lang="ja" key="LAUNCH_WIN_ISOBURN">Windowsディスクイメージ書き込みツールを起動</string>
     <string lang="ja" key="RESCUE_DISK_BURN_NO_CHECK_WARN">警告：もし以前にVeraCryptレスキューディスクをすでに作成していたのであれば、異なるマスターキーが作成されたため、このシステムパーティション/ドライブ用には使えなくなります！ システムパーティション/ドライブを暗号化するときは常に、たとえ以前と同じパスワードを使うのであっても、新しいVeraCryptレスキューディスクを作成する必要があります。</string>

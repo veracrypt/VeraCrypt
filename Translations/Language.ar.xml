@@ -416,13 +416,13 @@
     <string lang="ar" key="CIPHER_TITLE">‮خيارات التعمية</string>
     <string lang="ar" key="CLEAN_WINMRU_FAILED">‮تنبيه: فشل محو مسار آخر مجلد\\ملف مفتاح اخترته (مما يتذكّره مُنتقي الملفات)!</string>
     <string lang="ar" key="COMPRESSION_NOT_SUPPORTED">‮عُطل: ضُغطت الحاوية على مستوى نظام الملفات. لا يدعم ڤيراكربت الحاويات المضغوطة (لاحظ أن ضغط البيانات المعمَّاة غير مُجدٍ وبلا فائدة). ‮ ‮ من فضلك عطّل ضغط الحاوية باتباع هذه الخطوات: 1) انقر باليمين على الحاوية في إكسبلورر ويندوز (وليس في ڤيراكربت). 2) اختر 'خصائص'. 3) في صندوق الحوار 'خصائص'،	انقر 'متقدم' . 4) في صندوق الحوار 'الصفات المتقدمة' عطّل الخيار 'اضغط المحتويات لتوفر	مساحة القرص' ثم انقر 'موافق'. 5) انقر 'موافق في صندوق الحوار 'خصائص'.</string>
-    <string lang="ar" key="CREATE_FAILED">‮فشل إنشاء المجلد ‪%hs‬</string>
-    <string lang="ar" key="DEVICE_FREE_BYTES">‮حجم ‪%hs‬ هو ‪%.2f‬ بايت</string>
-    <string lang="ar" key="DEVICE_FREE_KB">‮حجم ‪%hs‬ هو ‪%.2f‬ كيلوبايت</string>
-    <string lang="ar" key="DEVICE_FREE_MB">‮حجم ‪%hs‬ هو ‪%.2f‬ ميجابايت</string>
-    <string lang="ar" key="DEVICE_FREE_GB">‮حجم ‪%hs‬ هو ‪%.2f‬ جيجابايت</string>
-    <string lang="ar" key="DEVICE_FREE_TB">‮حجم ‪%hs‬ هو ‪%.2f‬ ت.بايت</string>
-    <string lang="ar" key="DEVICE_FREE_PB">‮حجم ‪%hs‬ هو ‪%.2f‬ ب.بايت</string>
+    <string lang="ar" key="CREATE_FAILED">‮فشل إنشاء المجلد ‪%s‬</string>
+    <string lang="ar" key="DEVICE_FREE_BYTES">‮حجم ‪%s‬ هو ‪%.2f‬ بايت</string>
+    <string lang="ar" key="DEVICE_FREE_KB">‮حجم ‪%s‬ هو ‪%.2f‬ كيلوبايت</string>
+    <string lang="ar" key="DEVICE_FREE_MB">‮حجم ‪%s‬ هو ‪%.2f‬ ميجابايت</string>
+    <string lang="ar" key="DEVICE_FREE_GB">‮حجم ‪%s‬ هو ‪%.2f‬ جيجابايت</string>
+    <string lang="ar" key="DEVICE_FREE_TB">‮حجم ‪%s‬ هو ‪%.2f‬ ت.بايت</string>
+    <string lang="ar" key="DEVICE_FREE_PB">‮حجم ‪%s‬ هو ‪%.2f‬ ب.بايت</string>
     <string lang="ar" key="DEVICE_IN_USE_FORMAT">‮تحذير: النبيطة\\القسم قيد الاستخدام بواسطة نظام التشغيل أو تطبيق ما. قد تسبب تهيئة النبيطة\\القسم فساد البيانات وعدم استقرار النظام. ‮ ‮أأواصل؟</string>
     <string lang="ar" key="DEVICE_IN_USE_INPLACE_ENC">‮تحذير: هذا القسم قيد الاستخدام بواسطة نظام التشغيل أو تطبيق ما. ينبغي أن تغلق كل التطبيقات التي يمكن أن تكون مستخدمة القسم (بما في ذلك مضادات الفيروسات). ‮ ‮أأواصل؟</string>
     <string lang="ar" key="FORMAT_CANT_DISMOUNT_FILESYS">‮عُطل: تحتوي النبيطة\\القسم على نظام ملفات تعذَّر فصله. ربما يستخدم نظامُ التشغيل نظامَ الملفات. ستسبب تهيئة النبيطة\\القسم تلف البيانات وعدم استقرار النظام. ‮ ‮ لحل هذه المشكلة ننصحك بأن تحذف القسم أولًا ثم تعيد إنشاءه دون تهيئة. لفعل هذا اتبع	الخطوات التالية: 1) انقر باليمين أيقونة 'الحاسوب' (أو 'حاسوبي') في 'قائمة ابدأ' واختر 'أدر'. ستظهر نافذة 'إدارة الحاسوب'. 2) من نافذة 'إدارة الحاسوب' اختر 'تخزين' &gt; 'إدارة القرص'. 3) انقر باليمين على القسم الذي تريد تعميته واختر إمَّا 'احذف القسم' أو 'احذف المجلد'، أو'احذف المجلد المنطقي'. 4) انقر 'نعم'. إذا سألك ويندوز إعادة تشغيل الحاسوب فافعل ذلك. ثم أعد الخطوتين 1 و 2 وواصل من الخطوة 5. 5) انقر باليمين على المساحة غير المخصصة\\الشاغرة ثم اختر إما 'قسم جديد'، أو 'مجلد جديد بسيط' أو 'مجلد منطقي جديد'. 6) ستظهر الآن نافذة 'مرشد القسم الجديد' أو 'مرشد المجلد البسيط الجديد'، اتبع التعليمات. في صفحة المعالج المعنونة 'هيّء القسم'، اختر إما 'لا تهيء هذا القسم' أو 'لا تهيء هذا المجلد'. في المرشد ذاته انقر 'اللاحق' ثم 'أنه'. 7) لاحظ أن مسار النبيطة التي كنت قد اخترتها في المرشد ربما أضحى غير صحيح الآن. لذا اخرج من مرشد إنشاء مجلد ڤيراكربت (إذا كان لا يزال يعمل) ثم ابدأه مجددا. 8) جرب تعمية النبيطة\\القسم مجددا. ‮ ‮ إذا تكرر فشل ڤيراكربت في تعمية المجلد فقد ترى إنشاء ملفٍ حاوٍ بدلا من هذا.</string>
@@ -441,18 +441,18 @@
     <string lang="ar" key="INPLACE_ENC_INVALID_PATH">‮عطل: ڤيراكربت يمكنه أن يعمي في الموضع حصرا الأقسام أو المجلدات الدينامية أو سواقة النظام بكاملها. تحقق من صحة المسار المختار.</string>
     <string lang="en" key="CANNOT_RESIZE_FILESYS">Error: Cannot shrink the filesystem (the filesystem needs to be shrunk to make space for the volume header and backup header).\n\nPossible causes and solutions:\n\n- Not enough free space on the volume. Please make sure no other application is writing to the filesystem.\n\n- Corrupted file system. Try to check it and fix any errors (right-click the corresponding drive letter in the 'Computer' list, then select Properties > Tools > 'Check Now', make sure the option 'Automatically fix file system errors' is enabled and click Start).\n\nIf the above steps do not help, please follow the below steps.</string>
     <string lang="en" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">Error: There is not enough free space on the volume and so the filesystem cannot be shrunk (the filesystem needs to be shrunk to make space for the volume header and backup header).\n\nPlease delete any redundant files and empty the Recycle Bin so as to free at least 256 KB of space and then try again. Note that due to a Windows issue, the amount of free space reported by the Windows Explorer may be incorrect until the operating system is restarted. If restarting the system does not help, the file system may be corrupted. Try to check it and fix any errors (right-click the corresponding drive letter in the 'Computer' list, then select Properties > Tools > 'Check Now', make sure the option 'Automatically fix file system errors' is enabled and click Start).\n\nIf the above steps do not help, please follow the below steps.</string>
-    <string lang="ar" key="DISK_FREE_BYTES">‮المساحة الشاغرة على السواقة ‪%hs‬ هي ‪%.2f‬ بايت.</string>
-    <string lang="ar" key="DISK_FREE_KB">‮المساحة الشاغرة على السواقة ‪%hs‬ هي ‪%.2f‬ كيلوبايت.</string>
-    <string lang="ar" key="DISK_FREE_MB">‮المساحة الشاغرة على السواقة ‪%hs‬ هي ‪%.2f‬ م.بايت.</string>
-    <string lang="ar" key="DISK_FREE_GB">‮المساحة الشاغرة على السواقة ‪%hs‬ هي ‪%.2f‬ جيجابايت.</string>
-    <string lang="ar" key="DISK_FREE_TB">‮المساحة الشاغرة على السواقة ‪%hs‬ هي ‪%.2f‬ ت.بايت.</string>
-    <string lang="ar" key="DISK_FREE_PB">‮المساحة الشاغرة على السواقة ‪%hs‬ هي ‪%.2f‬ ب.بايت.</string>
+    <string lang="ar" key="DISK_FREE_BYTES">‮المساحة الشاغرة على السواقة ‪%s‬ هي ‪%.2f‬ بايت.</string>
+    <string lang="ar" key="DISK_FREE_KB">‮المساحة الشاغرة على السواقة ‪%s‬ هي ‪%.2f‬ كيلوبايت.</string>
+    <string lang="ar" key="DISK_FREE_MB">‮المساحة الشاغرة على السواقة ‪%s‬ هي ‪%.2f‬ م.بايت.</string>
+    <string lang="ar" key="DISK_FREE_GB">‮المساحة الشاغرة على السواقة ‪%s‬ هي ‪%.2f‬ جيجابايت.</string>
+    <string lang="ar" key="DISK_FREE_TB">‮المساحة الشاغرة على السواقة ‪%s‬ هي ‪%.2f‬ ت.بايت.</string>
+    <string lang="ar" key="DISK_FREE_PB">‮المساحة الشاغرة على السواقة ‪%s‬ هي ‪%.2f‬ ب.بايت.</string>
     <string lang="ar" key="DRIVELETTERS">‮تعذَّر جلب أحرف السواقات المتوفرة.</string>
     <string lang="ar" key="DRIVER_NOT_FOUND">‮عطل: تعذّر إيجاد مشغل ڤيراكربت. ‮ ‮انسخ الملفات ‪'veracrypt.sys'‬ و ‪'veracrypt-x64'‬ إلى الدليل الذي فيه ملف تطبيق ڤيراكربت ‪'VeraCrypt.exe'‬.</string>
     <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' > Computer > 'Uninstall or change a program' > VeraCrypt > Uninstall; on Windows XP, select 'Start Menu' > Settings > 'Control Panel' > 'Add Or Remove Programs' > VeraCrypt > Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
     <string lang="ar" key="ERR_CIPHER_INIT_FAILURE">‮عُطل: فشل استبداء الشفرة.</string>
     <string lang="ar" key="ERR_CIPHER_INIT_WEAK_KEY">‮عُطل: اكتُشِف مفتاح ضعيف أو محتمل الضعف. سيُغفل المفتاح. من فضلك حاول مجددا.</string>
-    <string lang="en" key="EXCEPTION_REPORT">A critical error has occurred and VeraCrypt must be terminated. If this is caused by a bug in VeraCrypt, we would like to fix it. To help us, you can send us an automatically generated error report containing the following items:\n\n- Program version\n- Operating system version\n- Type of CPU\n- VeraCrypt component name\n- Checksum of VeraCrypt executable\n- Symbolic name of dialog window\n- Error category\n- Error address\n- VeraCrypt call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.\n\n%hs\n\nDo you want to send us the above error report?</string>
+    <string lang="en" key="EXCEPTION_REPORT">A critical error has occurred and VeraCrypt must be terminated. If this is caused by a bug in VeraCrypt, we would like to fix it. To help us, you can send us an automatically generated error report containing the following items:\n\n- Program version\n- Operating system version\n- Type of CPU\n- VeraCrypt component name\n- Checksum of VeraCrypt executable\n- Symbolic name of dialog window\n- Error category\n- Error address\n- VeraCrypt call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.\n\n%s\n\nDo you want to send us the above error report?</string>
     <string lang="ar" key="EXCEPTION_REPORT_EXT">‮حدث عطل حرج و ينبغي إغلاق ڤيراكربت. لاحظ أن هذا العطل لم يسببه ڤيراكربت (لذا فإن مطوري ڤيراكربت ليس بوسعهم علاجه). افحص نظامك بحثا عن مشكلات (مثلا، إعدادات النظام، الاتصال بالشبكة، العتاد المعطل).</string>
     <string lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</string>
     <string lang="ar" key="EXCEPTION_REPORT_TITLE">‮عُطل حرج في ڤيراكربت</string>
@@ -559,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="ar" key="INIT_SYS_ENC">‮تعذّر استبداء مكونات التطبيق لتعمية النظام.</string>
     <string lang="ar" key="INIT_RAND">‮فشل استبداء مُولِّد الأرقام العشوائيّة!</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ar" key="INIT_REGISTER">‮تعذَّر استبداء التطبيق. فشل تسجيل فئة الحوار.</string>
     <string lang="ar" key="INIT_RICHEDIT">‮عطل: تعذَّر تحميل مكتبة التحرير الغني.</string>
     <string lang="ar" key="INTRO_TITLE">‮مرشِد ڤيراكربت لإنشاء المجلدات</string>
@@ -598,12 +598,12 @@
     <string lang="ar" key="SELECT_PKCS11_MODULE">‮اختر مكتبة ‪PKCS #11‬</string>
     <string lang="ar" key="OUTOFMEMORY">‮نفذت الذّاكرة</string>
     <string lang="en" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANT: We strongly recommend that inexperienced users create a VeraCrypt file container on the selected device/partition, instead of attempting to encrypt the entire device/partition.\n\nWhen you create a VeraCrypt file container (as opposed to encrypting a device or partition) there is, for example, no risk of destroying a large number of files. Note that a VeraCrypt file container (even though it contains a virtual encrypted disk) is actually just like any normal file. For more information, see the chapter Beginner's Tutorial in the VeraCrypt User Guide.\n\nAre you sure you want to encrypt the entire device/partition?</string>
-    <string lang="ar" key="OVERWRITEPROMPT">‮تحذير: الملف '‪%hs‬' موجود بالفعل! ‮ ‮هام: لن يعمي ڤيراكربت الملف بل سيحذفه. أمتأكد أنك تريد حذف الملف و استبداله بحاوية ڤيراكربت جديدة؟</string>
-    <string lang="ar" key="OVERWRITEPROMPT_DEVICE">‮تنبيه: كل الملفات المخزنة حاليا على ‪%s‬ '‪%hs‬'‪%s‬ المختار ستحذف و تضيع محتوياتها (لن تتم تعميتها)! ‮ ‮أمتأكد أنك تريد مواصلة التهيئة؟</string>
-    <string lang="ar" key="NONSYS_INPLACE_ENC_CONFIRM">‮تحذير: لن يكون بوسعك وصل المجلد أو النفاذ إلى الملفات المحفوظة فيه حتى تتم تعميته بكامله. ‮ ‮أمتأكد أنك تريد البدء بتعمية ‪%s‬ المختار '‪%hs‬'‪%s‬؟</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%hs'%s?</string>
+    <string lang="ar" key="OVERWRITEPROMPT">‮تحذير: الملف '‪%s‬' موجود بالفعل! ‮ ‮هام: لن يعمي ڤيراكربت الملف بل سيحذفه. أمتأكد أنك تريد حذف الملف و استبداله بحاوية ڤيراكربت جديدة؟</string>
+    <string lang="ar" key="OVERWRITEPROMPT_DEVICE">‮تنبيه: كل الملفات المخزنة حاليا على ‪%s‬ '‪%s‬'‪%s‬ المختار ستحذف و تضيع محتوياتها (لن تتم تعميتها)! ‮ ‮أمتأكد أنك تريد مواصلة التهيئة؟</string>
+    <string lang="ar" key="NONSYS_INPLACE_ENC_CONFIRM">‮تحذير: لن يكون بوسعك وصل المجلد أو النفاذ إلى الملفات المحفوظة فيه حتى تتم تعميته بكامله. ‮ ‮أمتأكد أنك تريد البدء بتعمية ‪%s‬ المختار '‪%s‬'‪%s‬؟</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%s'%s?</string>
     <string lang="ar" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">‮تحذير: لاحظ أنه إن انقطعت الطاقة فجأة أثناء تعمية البيانات في موضعها، أو إن انهار نظام التشغيل بسبب علات في البرمجيات أو قصور العتاد أثناء إجراء ڤيراكربت لتعمية البيانات في موضعها فإن بعضا من البيانات ستتلف أو تضيع. لذا فقبل أن تشرع في التعمية تثَبَّت من أن لديك نسخة احتياطية من الملفات التي تريد تعميتها. ‮ ‮هل لديك نسخة احتياطية؟</string>
-    <string lang="ar" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">‮تحذير: كل الملفات المخزنة في القسم '‪%hs‬'‪%s‬ (أول قسم يلي قسم النظام) ستمحى و تفقد (لن تعمّى)! ‮ ‮أمتأكد أنك تريد الشروع في التهيئة؟</string>
+    <string lang="ar" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">‮تحذير: كل الملفات المخزنة في القسم '‪%s‬'‪%s‬ (أول قسم يلي قسم النظام) ستمحى و تفقد (لن تعمّى)! ‮ ‮أمتأكد أنك تريد الشروع في التهيئة؟</string>
     <string lang="ar" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">‮تحذير: القسم المختار يحوي قدرا كبيرا من البيانات! كل الملفات المخزنة في القسم ستمحى و تفقد (لن تعمى)!</string>
     <string lang="ar" key="ERASE_FILES_BY_CREATING_VOLUME">‮امح أية ملفات مخزنة في القسم بإنشاء مجلد ڤيراكربت فيه</string>
     <string lang="ar" key="PASSWORD">‮كلمة السّر</string>
@@ -641,6 +641,8 @@
     <string lang="ar" key="PASSWORD_WRONG_AUTOMOUNT">‮كلمة سر غير صحيحة أو لا يوجد مجلد ڤيراكربت.</string>
     <string lang="ar" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">‮ملفات مفتاح/كلمة سر غير صحيحة أو لا يوجد مجلد ڤيراكربت.</string>
     <string lang="ar" key="PASSWORD_WRONG_CAPSLOCK_ON">\nn‮ ‮تنبيه: مفتاح ‪Caps Lock‬ مفعَّل. قد يُسبب هذا أن تُدخلَ كلمة السر على نحو غير صحيح.</string>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -663,7 +665,7 @@
     <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</string>
     <string lang="ar" key="PREV">‮&lt; السا&amp;بق</string>
     <string lang="ar" key="RAWDEVICES">‮تعذَّر سرد النبائط الخام المنصّبة على نظامك.</string>
-    <string lang="ar" key="READONLYPROMPT">‮المجلد '‪%hs‬' موجود و مسموح فقط بالقراءة منه. أمتأكد أنك ترغب في استبداله؟</string>
+    <string lang="ar" key="READONLYPROMPT">‮المجلد '‪%s‬' موجود و مسموح فقط بالقراءة منه. أمتأكد أنك ترغب في استبداله؟</string>
     <string lang="ar" key="SELECT_DEST_DIR">‮اختر الدليل الوجهة</string>
     <string lang="ar" key="SELECT_KEYFILE">‮اختر الملف المفتاح</string>
     <string lang="ar" key="SELECT_KEYFILE_PATH">‮اختر مسار البحث عن الملفات المفتاح. تنبيه: لاحظ المسار و حسب هو ما سيُحفظ و ليس أسماء الملفات.</string>
@@ -687,13 +689,13 @@
     <string lang="ar" key="TEST_CIPHERTEXT_SIZE">‮النص المُعمّى الاختباريّ الذي أدخلته إما طويل جدا أو قصير جدا.</string>
     <string lang="ar" key="TEST_KEY_SIZE">‮المفتاح الاختباري الذي عيَّنته إما طويل جدا أو قصير جدًا.</string>
     <string lang="ar" key="TEST_PLAINTEXT_SIZE">‮النص الصريح الاختباريّ الذي أدخلته إما طويل جدا أو قصير جدًا.</string>
-    <string lang="ar" key="TWO_LAYER_CASCADE_HELP">‮شفرتان تعملان بالتتابع في طور ‪XST‬. كل كتلة تعمى أولا باستخدام ‪%hs‬ (مفتاح ‪%d‬ بتة) ثم باستخدام ‪%hs‬ (مفتاح ‪%d‬ بتة). لكل شفرة مفتاحها الخاص، و كلا المفتاحين مستقل عن الآخر.</string>
-    <string lang="ar" key="THREE_LAYER_CASCADE_HELP">‮ثلاث شفرات تعمل بالتتابع في طور ‪XST‬. كل كتلة تعمى أولا باستخدام ‪%hs‬ (مفتاح ‪%d‬ بتة) ثم باستخدام ‪%hs‬ (مفتاح ‪%d‬ بتة) و أخيرا باستخدام ‪%hs‬ (مفتاح ‪%d‬ بتة). لكل شفرة مفتاحها الخاص، و كل مفتاح مستقل عن غيره.</string>
+    <string lang="ar" key="TWO_LAYER_CASCADE_HELP">‮شفرتان تعملان بالتتابع في طور ‪XST‬. كل كتلة تعمى أولا باستخدام ‪%s‬ (مفتاح ‪%d‬ بتة) ثم باستخدام ‪%s‬ (مفتاح ‪%d‬ بتة). لكل شفرة مفتاحها الخاص، و كلا المفتاحين مستقل عن الآخر.</string>
+    <string lang="ar" key="THREE_LAYER_CASCADE_HELP">‮ثلاث شفرات تعمل بالتتابع في طور ‪XST‬. كل كتلة تعمى أولا باستخدام ‪%s‬ (مفتاح ‪%d‬ بتة) ثم باستخدام ‪%s‬ (مفتاح ‪%d‬ بتة) و أخيرا باستخدام ‪%s‬ (مفتاح ‪%d‬ بتة). لكل شفرة مفتاحها الخاص، و كل مفتاح مستقل عن غيره.</string>
     <string lang="en" key="AUTORUN_MAY_NOT_ALWAYS_WORK">Note that, depending on the operating system configuration, these auto-run and auto-mount features may work only when the traveler disk files are created on a non-writable CD/DVD-like medium. Also note that this is not a bug in VeraCrypt (it is a limitation of Windows).</string>
     <string lang="en" key="TRAVELER_DISK_CREATED">VeraCrypt traveler disk has been successfully created.\n\nNote that you need administrator privileges to run VeraCrypt in portable mode. Also note that, after examining the registry file, it may be possible to tell that VeraCrypt was run on a Windows system even if it is run in portable mode.</string>
     <string lang="ar" key="TC_TRAVELER_DISK">‮قرص ڤيراكربت الجوال</string>
     <string lang="ar" key="TWOFISH_HELP">‮صممها بروس شنايَر و جون كِلسِي و دوجلاس وَيتِنج و ديفيد فاجْنَر و كريستوفر هُول و نيلز فِرجِسُن، و نشرت في ‪1998‬. مفتاح بطول ‪256‬ بتة؛ كتلة ‪128‬ بتة؛ تعمل في طور ‪XTS‬. كان ‪Twofish‬ أحد الواصلين لنهائيات ‪AES‬.</string>
-    <string lang="ar" key="MORE_INFO_ABOUT">المزيد من المعلومات عن %hs</string>
+    <string lang="ar" key="MORE_INFO_ABOUT">المزيد من المعلومات عن %s</string>
     <string lang="ar" key="UNKNOWN">‮غير معلوم</string>
     <string lang="en" key="ERR_UNKNOWN">An unspecified or unknown error occurred (%d).</string>
     <string lang="ar" key="UNMOUNTALL_LOCK_FAILED">‮تحوي بعض المجلدات ملفات أو أدلة تستخدمها التطبيقات أو النظام. ‮ ‮أأجبر الفصل؟</string>
@@ -858,7 +860,7 @@
     <string lang="ar" key="INSTALL_FAILED">‮فشل التنصيب.</string>
     <string lang="ar" key="UNINSTALL_FAILED">‮فشلت الإزالة.</string>
     <string lang="ar" key="DIST_PACKAGE_CORRUPTED">‮حزمة التوزيع هذه معطوبة. حاول تنزيلها مجددا (يستحسن من موقع ڤيراكربت الرسمي في ‪https://veracrypt.codeplex.com‬).</string>
-    <string lang="ar" key="CANNOT_WRITE_FILE_X">‮تعذّرت كتابة الملف ‪%hs‬</string>
+    <string lang="ar" key="CANNOT_WRITE_FILE_X">‮تعذّرت كتابة الملف ‪%s‬</string>
     <string lang="ar" key="EXTRACTING_VERB">‮يجري الاستحراج</string>
     <string lang="ar" key="CANNOT_READ_FROM_PACKAGE">‮تعذّرت قراءة البيانات من الحزمة.</string>
     <string lang="ar" key="CANT_VERIFY_PACKAGE_INTEGRITY">‮تعذّر التحقق من سلامة حزمة التوزيع هذه.</string>
@@ -868,7 +870,7 @@
     <string lang="ar" key="SETUP_UPDATE_OK">‮تم بنجاح تحديث ڤيراكربت.</string>
     <string lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</string>
     <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu > All programs > Accessories > System Tools > System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
-    <string lang="ar" key="UNINSTALL_OK">‮أُزيل ڤيراكربت بنجاح. ‮ ‮انقر 'انهِ' لتحذف مُنصِّب ڤيراكربت و الدليل ‪%hs‬. لاحظ أن الدليل لن يُحذف إذا كان يحوي أية ملفات لم يثَبِّتها مُنصِّب ڤيراكربت أو لم يُنشئها ڤيراكربت.</string>
+    <string lang="ar" key="UNINSTALL_OK">‮أُزيل ڤيراكربت بنجاح. ‮ ‮انقر 'انهِ' لتحذف مُنصِّب ڤيراكربت و الدليل ‪%s‬. لاحظ أن الدليل لن يُحذف إذا كان يحوي أية ملفات لم يثَبِّتها مُنصِّب ڤيراكربت أو لم يُنشئها ڤيراكربت.</string>
     <string lang="ar" key="REMOVING_REG">‮تجري إزالة مدخلات تسجيل ڤيراكربت</string>
     <string lang="ar" key="ADDING_REG">‮تجري إضافة مدخلة تسجيل</string>
     <string lang="ar" key="REMOVING_APPDATA">‮تجري إزالة بيانات خاصة بالتطبيق</string>
@@ -879,10 +881,10 @@
     <string lang="ar" key="CREATING_SYS_RESTORE">‮يجري إنشاء نقطة استرجاع للنظام</string>
     <string lang="ar" key="FAILED_SYS_RESTORE">‮فشل إنشاء نقطة استعادة للنظام!</string>
     <string lang="ar" key="INSTALLER_UPDATING_BOOT_LOADER">‮يجري تحديث مُحمِّل الإقلاع</string>
-    <string lang="ar" key="INSTALL_OF_FAILED">‮فشل تنصيب ‪'‪%hs‬'‬. ‪%hs‬ أتريد مواصلة التنصيب؟</string>
-    <string lang="ar" key="UNINSTALL_OF_FAILED">‮فشلت إزالة ‪'‪%hs‬'‬. ‪%hs‬ أتريد مواصلة الإزالة؟</string>
+    <string lang="ar" key="INSTALL_OF_FAILED">‮فشل تنصيب ‪'‪%s‬'‬. ‪%s‬ أتريد مواصلة التنصيب؟</string>
+    <string lang="ar" key="UNINSTALL_OF_FAILED">‮فشلت إزالة ‪'‪%s‬'‬. ‪%s‬ أتريد مواصلة الإزالة؟</string>
     <string lang="ar" key="INSTALL_COMPLETED">‮تم التنصيب.</string>
-    <string lang="ar" key="CANT_CREATE_FOLDER">‮تعذَّر إنشاء الدليل '‪%hs‬'</string>
+    <string lang="ar" key="CANT_CREATE_FOLDER">‮تعذَّر إنشاء الدليل '‪%s‬'</string>
     <string lang="ar" key="CLOSE_TC_FIRST">‮تعذَّر إفراغ مُشغِّل ڤيراكربت. ‮ ‮أغلق كل نوافذ ڤيراكربت المفتوحة أولا. إذا لم ينجح هذا أعد تشغيل ويندوز و حاول مجددا.</string>
     <string lang="ar" key="DISMOUNT_ALL_FIRST">‮يجب أن تُفصل كل مجلدات ڤيراكربت قبل تنصيب ‌أو إزالة ڤيراكربت.</string>
     <string lang="en" key="UNINSTALL_OLD_VERSION_FIRST">An obsolete version of VeraCrypt is currently installed on this system. It needs to be uninstalled before you can install this new version of VeraCrypt.\n\nAs soon as you close this message box, the uninstaller of the old version will be launched. Note that no volume will be decrypted when you uninstall VeraCrypt. After you uninstall the old version of VeraCrypt, run the installer of the new version of VeraCrypt again.</string>
@@ -935,7 +937,7 @@
     <string lang="en" key="FAVORITE_LABEL_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, no label can be assigned to it.</string>
     <string lang="en" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable VeraCrypt to assign a label to the partition.</string>
     <string lang="en" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">Due to a Windows limitation, a container stored in a remote filesystem shared over a network cannot be mounted as a system favorite volume (however, it can be mounted as a non-system favorite volume when a user logs on).</string>
-    <string lang="ar" key="ENTER_PASSWORD_FOR">‮أدخل كلمة سرّ ‪%hs‬</string>
+    <string lang="ar" key="ENTER_PASSWORD_FOR">‮أدخل كلمة سرّ ‪%s‬</string>
     <string lang="en" key="ENTER_PASSWORD_FOR_LABEL">Enter password for '%s'</string>
     <string lang="ar" key="ENTER_NORMAL_VOL_PASSWORD">‮أدخل كلمة سرِّ المجلد العادي\\الخارجيّ</string>
     <string lang="ar" key="ENTER_HIDDEN_VOL_PASSWORD">‮أدخل كلمة سرِّ المجلد المخفي</string>
@@ -950,8 +952,8 @@
     <string lang="ar" key="VOL_HEADER_BACKED_UP">‮أُنشئت نسخة احتياطية من ترويسة المجلد بنجاح. ‮ ‮هام: استرجاع ترويسة الحجم من النسخة الاختياطية سيستعيد كذلك كلمة سر المجلد الحالية. إضافة إلى ذلك، إذا تطلب وصل المجلد ملفات مفاتيح، فإن ذات الملفات المفاتيح ستكون مطلوبة لوصل المجلد بعد استعادة ترويسته. ‮ ‮تنبيه:لا يمكن استخدام نسخة ترويسة المجلد الاحتياطية هذه إلا لاسترجاع ترويسة هذا المجلد بعينه. إذا استخدمتها لاستعادة ترويسة مجلد آخر فسيمكنك وصله إلا أنه لن يمكنك تظهير أية بيانات مخزنة فيه (لأنك ستكون قد غيّرت مفتاحه الرئيسي).</string>
     <string lang="ar" key="VOL_HEADER_RESTORED">‮استرجعت ترويسة المجلد بنجاح. ‮ ‮هام: لاحظ أنه قد تكون استعيدت كلمة سر سابقة كذلك. إضافة إلى ذلك، إذا تطلّب وصل المجلد ملفات مفاتيح فإن ذات الملفات المفاتيح ستكون مطلوبة لوصل المجلد حاليا.</string>
     <string lang="ar" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">‮لدواعي الأمان سيكون عليك إدخال كلمة السر الصحيحة (و\\أو تقديم الملفات المفاتيح) التي تخصُّ. ‮ ‮ملاحظة: إن كان المجلد يحوي مجلدا مخفيا سيكون عليك أن تدخل كلمة السر الصحيحة (و\\أو تقديم الملفات المفاتيح) للمجلد الخارجي أولا. بعدها إن أردت حفظ نسخة احتياطية من ترويسة المجلد المخفي فسيكون عليك إدخال كلمة السر (و\\أو تقديم الملفات المفاتيح) للمجلد المخفي.</string>
-    <string lang="ar" key="CONFIRM_VOL_HEADER_BAK">‮أمتأكد أنك تريد حفظ نسخة احتياطية من ترويسة ‪%hs‬؟ ‮ ‮بعد أن تنقر 'نعم' سيطلب من اسم ملف للترويسة الاحتياطية. ‮ ‮ملاحظة: كل من الترويستين العادية و المخفية سيعاد تعميتهما باستخدام بادئ جديد و حفظها في الملف. إن كان لا يوجد مجلد مخفي في هذا المجلد فإن المنطقة المخصصة لترويسة المجلد المخفي في الملف الاحتياطي ستملأ ببيانات عشوائية (لضمان حجية الإنكار). عند استعادة ترويسة مجلد من نسخة احتياطية فسيكون عليك إدخال كلمة السر الصحيحة (و\\أو تقديم الملفات المفاتيح) التي كانت صحيحة عندما حفظت الترويسة الاحتياطية. كلمة السر (و\\أو الملفات المفاتيح) هي ما سيحدد أي ترويسة يجب استرجاعها، اي العادية أو المخفية (لاحظ أن ڤيراكربت يكتشف ذلك عن طريق التجربة و الخطأ).</string>
-    <string lang="ar" key="CONFIRM_VOL_HEADER_RESTORE">‮أمتأكد أنك تريد استعادة ترويسة المجلد ‪%hs‬؟ ‮ ‮تنبيه: استعادة ترويسة المجلد تستعيد كذلك كلمات السر التي كانت سارية عند إنشاء النسخة الاحتياطيّة. إضافة إلى ذلك، فإنه إن كان وصل المجلد - عندما أخذت النسخة الاحتياطية - يتطلب ملفات مفاتيح فإن ذات الملفات المفاتيح ستكون مطلوبة لوصل المجلد بعد استعادة ترويسته. ‮ ‮بعد أن تنقر 'نعم' ستختار ملف نسخة الترويسة الاحتياطية.</string>
+    <string lang="ar" key="CONFIRM_VOL_HEADER_BAK">‮أمتأكد أنك تريد حفظ نسخة احتياطية من ترويسة ‪%s‬؟ ‮ ‮بعد أن تنقر 'نعم' سيطلب من اسم ملف للترويسة الاحتياطية. ‮ ‮ملاحظة: كل من الترويستين العادية و المخفية سيعاد تعميتهما باستخدام بادئ جديد و حفظها في الملف. إن كان لا يوجد مجلد مخفي في هذا المجلد فإن المنطقة المخصصة لترويسة المجلد المخفي في الملف الاحتياطي ستملأ ببيانات عشوائية (لضمان حجية الإنكار). عند استعادة ترويسة مجلد من نسخة احتياطية فسيكون عليك إدخال كلمة السر الصحيحة (و\\أو تقديم الملفات المفاتيح) التي كانت صحيحة عندما حفظت الترويسة الاحتياطية. كلمة السر (و\\أو الملفات المفاتيح) هي ما سيحدد أي ترويسة يجب استرجاعها، اي العادية أو المخفية (لاحظ أن ڤيراكربت يكتشف ذلك عن طريق التجربة و الخطأ).</string>
+    <string lang="ar" key="CONFIRM_VOL_HEADER_RESTORE">‮أمتأكد أنك تريد استعادة ترويسة المجلد ‪%s‬؟ ‮ ‮تنبيه: استعادة ترويسة المجلد تستعيد كذلك كلمات السر التي كانت سارية عند إنشاء النسخة الاحتياطيّة. إضافة إلى ذلك، فإنه إن كان وصل المجلد - عندما أخذت النسخة الاحتياطية - يتطلب ملفات مفاتيح فإن ذات الملفات المفاتيح ستكون مطلوبة لوصل المجلد بعد استعادة ترويسته. ‮ ‮بعد أن تنقر 'نعم' ستختار ملف نسخة الترويسة الاحتياطية.</string>
     <string lang="ar" key="DOES_VOLUME_CONTAIN_HIDDEN">‮هل يحوي المجلد مجلدا مخفيا؟</string>
     <string lang="ar" key="VOLUME_CONTAINS_HIDDEN">‮المجلد يحوي مجلدا مخفيا</string>
     <string lang="ar" key="VOLUME_DOES_NOT_CONTAIN_HIDDEN">‮المجلد لا يحوي مجلدا مخفيا</string>
@@ -963,8 +965,8 @@
     <string lang="ar" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">‮تحاول حفظ ترويسة قسم\\نبيطة النظام؛ و هذا غير مسموح به. عمليات الحفظ\\الاسترجاع المتعلقة بقسم\\نبيطة النظام لا يمكن أداؤها إلا باستخدام قرص إنقاذ ڤيراكربت. ‮ ‮أتريد إنشاء قرص إنقاذ ڤيراكربت؟</string>
     <string lang="ar" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">‮تحاول استرجاع ترويسة مجلد ڤيراكربت افتراضي إلا أنك اخترت قسم\\نبيطة النظام؛ و هذا غير مسموح به. عمليات الحفظ\\الاسترجاع المتعلقة بقسم\\نبيطة النظام لا يمكن أداؤها إلا باستخدام قرص إنقاذ ڤيراكربت. ‮ ‮أتريد إنشاء قرص إنقاذ ڤيراكربت؟</string>
     <string lang="ar" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">‮بعد أن تنقر 'موافق' فستختار اسم ملف لصورة ‪ISO‬ الجديدة لقرص إنقاذ ڤيراكربت و موضع حفظها.</string>
-    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nIMPORTANT: Note that the file must be written to the CD/DVD as an ISO disk image (not as an individual file). For information on how to do so, please refer to the documentation of your CD/DVD recording software.\n\nAfter you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
-    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nDo you want to launch the Microsoft Windows Disc Image Burner now?\n\nNote: After you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
+    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nIMPORTANT: Note that the file must be written to the CD/DVD as an ISO disk image (not as an individual file). For information on how to do so, please refer to the documentation of your CD/DVD recording software.\n\nAfter you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
+    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nDo you want to launch the Microsoft Windows Disc Image Burner now?\n\nNote: After you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
     <string lang="ar" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">‮أدخل قرص إنقاذ ڤيراكربت في سواقة أقراص سي‌دي/دي‌ڤي‌دي و انقر 'موافق' لفحصه.</string>
     <string lang="ar" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">‮تم بنجاح التحقق من سلامة قرص إنقاذ ڤيراكربت.</string>
     <string lang="ar" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">‮تعذّر توكيد أن قرص إنقاذ ڤيراكربت قد تم تسجيله كما ينبغي. ‮ ‮إن كنت أتممت التسجيل على هذا القرص فأخرجه من السواقة ثم أعد إدخاله و اختبره مجددا. إن لم تنحل المشكلة فجرب برمجية تسجيل أقراص أخرى أو/و قرصا آخر. ‮ ‮إن كنت تحاول فحص قرص إنقاذ ڤيراكربت أُنشئ لأجل مفتاح رئيسي آخر أو بكلمة سر أو بذرة مختلفة، إلخ، فاعلم أن هذا القرص سيفشل دوما في هذا الفحص. لتنشئ قرص إنقاذ جديد متوافق مع إعداداتك الحالية اختر 'نظام' &gt; 'أنشئ قرص إنقاذ'.</string>
@@ -1054,13 +1056,13 @@
     <string lang="ar" key="FAILED_TO_INTERRUPT_WIPING">‮عطل: تعذَّرت مقاطعة صيرورة المحو.</string>
     <string lang="ar" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">‮عطل: تعذّرت معاودة صيرورة تعمية/تظهير قسم\\سواقة النظام.</string>
     <string lang="ar" key="FAILED_TO_START_WIPING">‮عطل: تعذَّر بدء صيرورة المحو.</string>
-    <string lang="ar" key="INCONSISTENCY_RESOLVED">‮تم حل عدم الاتساق. ‮ ‮ ‮(إن أبلغت عن علة بهذا الشأن فرجاءً ضمِّن البيانات التقنية التالية في البلاغ: ‪%hs‬)</string>
-    <string lang="ar" key="UNEXPECTED_STATE">‮عطل: حالة غير متوقعة. ‮ ‮ ‮(إن أبلغت عن علة ذات علاقة بهذا فرجاء ضمِّن التقرير البيانات التقنية التالية: ‮‪%hs‬)</string>
+    <string lang="ar" key="INCONSISTENCY_RESOLVED">‮تم حل عدم الاتساق. ‮ ‮ ‮(إن أبلغت عن علة بهذا الشأن فرجاءً ضمِّن البيانات التقنية التالية في البلاغ: ‪%s‬)</string>
+    <string lang="ar" key="UNEXPECTED_STATE">‮عطل: حالة غير متوقعة. ‮ ‮ ‮(إن أبلغت عن علة ذات علاقة بهذا فرجاء ضمِّن التقرير البيانات التقنية التالية: ‮‪%s‬)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ar" key="HIDVOL_PROT_BKG_TASK_WARNING">‮تحذير: عُطِّلت مهمة ڤيراكربت الخلفية. بعد أن تغلق ڤيراكربت لن تُبلغ إن أحيل دون تلف في مجلد مخفي ‮ ‮ملاحظة: يمكنك إغلاق المهمة الخلفية في أي وقت بالنقر باليمين على أيقونة ڤيراكربت في اللوحة و اختيار 'اخرج'. ‮ ‮أأفعِّل مهمة ڤيراكربت الخلفية؟</string>
     <string lang="ar" key="LANG_PACK_VERSION">‮إصدارة حزمة اللغة:	‪%s‬</string>
-    <string lang="ar" key="CHECKING_FS">‮يجري فحص نظام الملفات في مجلد ڤيراكربت الموصول معرفا بالحرف ‪%hs‬…</string>
-    <string lang="ar" key="REPAIRING_FS">‮تجري محاولة إصلاح نظام الملفات في قسم ڤيراكربت الموصول معرفا بالحرف ‪%hs‬…</string>
+    <string lang="ar" key="CHECKING_FS">‮يجري فحص نظام الملفات في مجلد ڤيراكربت الموصول معرفا بالحرف ‪%s‬…</string>
+    <string lang="ar" key="REPAIRING_FS">‮تجري محاولة إصلاح نظام الملفات في قسم ڤيراكربت الموصول معرفا بالحرف ‪%s‬…</string>
     <string lang="ar" key="WARN_64_BIT_BLOCK_CIPHER">‮تحذير: عُمِّي هذا المجلد بخوارزمية تعمية عتيقة. ‮ ‮كل خوارزميات التعمية لكتل ‪64‬ بتة (مثل ‪Blowfish‬، و ‪CAST-128‬، و ‪Triple DES‬) قد ألغيت. سيظل من الممكن وصل هذا المجلد باستخدام الإصدارات المستقبلية من ڤيراكربت لكن لن تكون هناك أية تحسينات في تطبيق تلك الخوارزميات العتيقة. ننصحك بأن تنشئ مجلد ڤيراكربت جديد مُعمّى بخوارزمية كتلة ‪128‬ بتة (مثل ‪AES‬، و ‪Serpent‬، و ‪Twofish‬، الخ…) و أن تنقل كل الملفات من هذا المجلد إلى المجلد الجديد.</string>
     <string lang="ar" key="SYS_AUTOMOUNT_DISABLED">‮نظامك ليس مضبوطا ليوصِّل المجلدات الجديدة تلقائيا. قد يتعذَّر وصل مجلدات ڤيراكربت المستضافة في نبائط. يمكن تفعيل الوصل الآلي بتنفيذ الأمر التالي ثم إعادة تشغيل النظام. ‮ ‮‪mountvol.exe /E‬</string>
     <string lang="ar" key="SYS_ASSIGN_DRIVE_LETTER">‮خصِّص حرفا للقسم\\النبيطة قبل المواصلة ('لوحة التحكم' &gt; 'النظام و الإدارة' &gt; 'أدوات الإدارة' - 'أنشئ و هيء أقسام القرص الصلب'). ‮ ‮لاحظ أن هذا من متطلبات النظام.</string>
@@ -1116,8 +1118,8 @@
     <string lang="ar" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">‮ملاحظة: ستحتاج إلى أن تدخل كلمة السر في بيئة ما قبل الإقلاع (قبل أن يبدأ ويندوز) حيث لا يتاح سوى لوحات مفاتيح ويندوز الولايات المتحدة. لذا يجب أن تدخل كلمة السر دوما باستخدام هيئة لوحة مفاتيح الولايات المتحدة القياسية. لكن لاحظ أنك لا تحتاج إلى لوحة مفاتيح حقيقية على هيئة الولايات المتحدة إذا أن ڤيراكربت يتحقق من أن كلمة السر يمكن إدخالها كما ينبغي (الآن و في بيئة قبل الإقلاع) حتى لو لم تكن لديك لوحة مفاتيح حقيقية على هيئة الولايات المتحدة.</string>
     <string lang="en" key="RESCUE_DISK_INFO">Before you can encrypt the partition/drive, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition/drive before Windows starts.\n\n- The VRD will contain a backup of the present content of the first drive track (which typically contains a system loader or boot manager) and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ISO image will be created in the location specified below.</string>
     <string lang="en" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">After you click OK, Microsoft Windows Disc Image Burner will be launched. Please use it to burn the VeraCrypt Rescue Disk ISO image to a CD or DVD.\n\nAfter you do so, return to the VeraCrypt Volume Creation Wizard and follow its instructions.</string>
-    <string lang="en" key="RESCUE_DISK_BURN_INFO">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you need to burn it to a CD or DVD.\n\n%lsAfter you burn the Rescue Disk, click Next to verify that it has been correctly burned.</string>
-    <string lang="en" key="RESCUE_DISK_BURN_INFO_NO_CHECK">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you should either burn the image to a CD/DVD or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_BURN_INFO">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to burn it to a CD or DVD.\n\n%lsAfter you burn the Rescue Disk, click Next to verify that it has been correctly burned.</string>
+    <string lang="en" key="RESCUE_DISK_BURN_INFO_NO_CHECK">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you should either burn the image to a CD/DVD or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
     <string lang="en" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">IMPORTANT: Note that the file must be written to the CD/DVD as an ISO disk image (not as an individual file). For information on how to do so, please refer to the documentation of your CD/DVD recording software. If you do not have any CD/DVD recording software that can write the ISO disk image to a CD/DVD, click the link below to download such free software.\n\n</string>
     <string lang="en" key="LAUNCH_WIN_ISOBURN">Launch Microsoft Windows Disc Image Burner</string>
     <string lang="ar" key="RESCUE_DISK_BURN_NO_CHECK_WARN">‮تحذير: إن كنت أنشأت بالفعل قرص إنقاذ ڤيراكربت فيما مضى فاعلم أنه لا يمكن استخدامه لقسم\\سواقة النظام هذه لأنه أنشئ لمفتاح رئيسي مختلف! في كل مرة تعمّي قسم\\سواقة نظام ينبغي إنشاء قرص إنقاذ ڤيراكربت حديث لها حتى إذا استخدمت كلمة السر ذاتها.</string>
