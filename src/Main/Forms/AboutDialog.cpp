@@ -28,7 +28,7 @@ namespace VeraCrypt
 		VersionStaticText->SetFont (versionStaticTextFont);
 
 		VersionStaticText->SetLabel (Application::GetName() + L" " + StringConverter::ToWide (Version::String()));
-		CopyrightStaticText->SetLabel (StringConverter::ToWide (TC_STR_RELEASED_BY));
+		CopyrightStaticText->SetLabel (TC_STR_RELEASED_BY);
 		WebsiteHyperlink->SetLabel (L"www.idrix.fr");
 
 		CreditsTextCtrl->SetMinSize (wxSize (

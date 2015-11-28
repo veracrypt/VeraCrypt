@@ -14,6 +14,7 @@
 #include "Tcdefs.h"
 
 #include <memory.h>
+#include <stdlib.h>
 #include "Rmd160.h"
 #ifndef TC_WINDOWS_BOOT
 #include "Sha2.h"
