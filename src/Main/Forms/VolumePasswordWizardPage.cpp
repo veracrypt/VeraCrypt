@@ -35,9 +35,16 @@ namespace VeraCrypt
 		if (ConfirmationMode && !PasswordPanel->PasswordsMatch())
 			return false;
 
-		shared_ptr <KeyfileList> keyfiles (GetKeyfiles());
-		shared_ptr <VolumePassword> password (GetPassword());
+		try
+		{
+			shared_ptr <KeyfileList> keyfiles (GetKeyfiles());
+			shared_ptr <VolumePassword> password (GetPassword());
 
-		return (password && !GetPassword()->IsEmpty()) || (keyfiles && !keyfiles->empty());
+			return (password && !GetPassword()->IsEmpty()) || (keyfiles && !keyfiles->empty());
+		}
+		catch (PasswordException&)
+		{
+			return false;
+		}
 	}
 }

@@ -28,7 +28,8 @@ namespace VeraCrypt
 		void AddKeyfile (shared_ptr <Keyfile> keyfile);
 		shared_ptr <KeyfileList> GetKeyfiles () const { return UseKeyfilesCheckBox->IsChecked() ? Keyfiles : shared_ptr <KeyfileList> (); }
 		shared_ptr <VolumePassword> GetPassword () const;
-		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf () const;
+		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf (bool &bUnsupportedKdf) const;
+		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf (bool bTrueCryptMode, bool &bUnsupportedKdf) const;
 		int GetVolumePim () const;
 		bool GetTrueCryptMode () const;
 		int GetHeaderWipeCount () const;

@@ -733,22 +733,21 @@ namespace VeraCrypt
 		case Step::VolumePassword:
 			{
 				VolumePasswordWizardPage *page = dynamic_cast <VolumePasswordWizardPage *> (GetCurrentPage());
-				Password = page->GetPassword();
+				try
+				{
+					Password = page->GetPassword();
+				}
+				catch (PasswordException& e)
+				{
+					Gui->ShowWarning (e);
+					return GetCurrentStep();
+				}
+				
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
 
 				if (forward && Password && !Password->IsEmpty())
 				{
-					try
-					{
-						Password->CheckPortability();
-					}
-					catch (UnportablePassword &e)
-					{
-						Gui->ShowError (e);
-						return GetCurrentStep();
-					}
-
 					if (Password->Size() < VolumePassword::WarningSizeThreshold)
 					{
 						if (!Gui->AskYesNo (LangString["PASSWORD_LENGTH_WARNING"], false, true))

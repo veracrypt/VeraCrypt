@@ -376,7 +376,7 @@ namespace VeraCrypt
 			ArgNewKeyfiles = ToKeyfileList (str);
 
 		if (parser.Found (L"new-password", &str))
-			ArgNewPassword.reset (new VolumePassword (wstring (str)));
+			ArgNewPassword = ToUTF8Password (str);
 		
 		if (parser.Found (L"new-pim", &str))
 		{
@@ -415,7 +415,7 @@ namespace VeraCrypt
 		{
 			if (Preferences.UseStandardInput)
 				throw_err (L"--password cannot be used with --stdin");
-			ArgPassword.reset (new VolumePassword (wstring (str)));
+			ArgPassword = ToUTF8Password (str);
 		}
 
 		if (parser.Found (L"pim", &str))
@@ -456,7 +456,7 @@ namespace VeraCrypt
 		
 		if (parser.Found (L"protection-password", &str))
 		{
-			ArgMountOptions.ProtectionPassword.reset (new VolumePassword (wstring (str)));
+			ArgMountOptions.ProtectionPassword = ToUTF8Password (str);
 			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
 		
@@ -711,6 +711,42 @@ namespace VeraCrypt
 			throw_err (_("No such volume is mounted."));
 
 		return filteredVolumes;
+	}
+
+	shared_ptr<VolumePassword> ToUTF8Password (const wchar_t* str, size_t charCount)
+	{
+		if (charCount > 0)
+		{
+			shared_ptr<SecureBuffer> utf8Buffer = ToUTF8Buffer (str, charCount);
+			return shared_ptr<VolumePassword>(new VolumePassword (*utf8Buffer));
+		}
+		else
+			return shared_ptr<VolumePassword>(new VolumePassword ());
+	}
+
+	shared_ptr<SecureBuffer> ToUTF8Buffer (const wchar_t* str, size_t charCount)
+	{
+		if (charCount == (size_t) -1)
+			charCount = wcslen (str);
+
+		if (charCount > 0)
+		{
+			wxMBConvUTF8 utf8;
+			size_t ulen = utf8.FromWChar (NULL, 0, str, charCount);
+			if (wxCONV_FAILED == ulen)
+				throw PasswordUTF8Invalid (SRC_POS);
+			SecureBuffer passwordBuf(ulen);
+			ulen = utf8.FromWChar ((char*) (byte*) passwordBuf, ulen, str, charCount);
+			if (wxCONV_FAILED == ulen)
+				throw PasswordUTF8Invalid (SRC_POS);
+			if (ulen > VolumePassword::MaxSize)
+				throw PasswordUTF8TooLong (SRC_POS);
+
+			ConstBufferPtr utf8Buffer ((byte*) passwordBuf, ulen);
+			return shared_ptr<SecureBuffer>(new SecureBuffer (utf8Buffer));
+		}
+		else
+			return shared_ptr<SecureBuffer>(new SecureBuffer ());
 	}
 
 	auto_ptr <CommandLineInterface> CmdLine;

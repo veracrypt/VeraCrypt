@@ -58,11 +58,15 @@ namespace VeraCrypt
 	void Buffer::CopyFrom (const ConstBufferPtr &bufferPtr)
 	{
 		if (!IsAllocated ())
-			Allocate (bufferPtr.Size());
+		{
+			if (bufferPtr.Size())
+				Allocate (bufferPtr.Size());
+		}
 		else if (bufferPtr.Size() > DataSize)
 			throw ParameterTooLarge (SRC_POS);
 
-		Memory::Copy (DataPtr, bufferPtr.Get(), bufferPtr.Size());
+		if (bufferPtr.Size())
+			Memory::Copy (DataPtr, bufferPtr.Get(), bufferPtr.Size());
 	}
 
 	void Buffer::Erase ()

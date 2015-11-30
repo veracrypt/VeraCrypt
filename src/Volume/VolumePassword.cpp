@@ -16,29 +16,9 @@
 
 namespace VeraCrypt
 {
-	VolumePassword::VolumePassword () : PasswordSize (0), Unportable (false)
+	VolumePassword::VolumePassword () : PasswordSize (0)
 	{
 		AllocateBuffer ();
-	}
-
-	VolumePassword::VolumePassword (const char *password, size_t size)
-	{
-		Set ((const byte *) password, size);
-	}
-
-	VolumePassword::VolumePassword (const byte *password, size_t size)
-	{
-		Set (password, size);
-	}
-
-	VolumePassword::VolumePassword (const wchar_t *password, size_t charCount)
-	{
-		Set (password, charCount);
-	}
-
-	VolumePassword::VolumePassword (const wstring &password)
-	{
-		Set (password.c_str(), password.size());
 	}
 
 	VolumePassword::~VolumePassword ()
@@ -51,12 +31,6 @@ namespace VeraCrypt
 			PasswordBuffer.Allocate (MaxSize);
 	}
 
-	void VolumePassword::CheckPortability () const
-	{
-		if (Unportable || !IsPortable())
-			throw UnportablePassword (SRC_POS);
-	}
-
 	void VolumePassword::Deserialize (shared_ptr <Stream> stream)
 	{
 		Serializer sr (stream);
@@ -67,16 +41,6 @@ namespace VeraCrypt
 		
 		Buffer wipeBuffer (128 * 1024);
 		sr.Deserialize ("WipeData", wipeBuffer);
-	}
-
-	bool VolumePassword::IsPortable () const
-	{
-		for (size_t i = 0; i < PasswordSize; i++)
-		{
-			if (PasswordBuffer[i] >= 0x7f || PasswordBuffer[i] < 0x20)
-				return false;
-		}
-		return true;
 	}
 
 	void VolumePassword::Serialize (shared_ptr <Stream> stream) const
@@ -98,62 +62,12 @@ namespace VeraCrypt
 		
 		if (size > MaxSize)
 			throw PasswordTooLong (SRC_POS);
-		
-		PasswordBuffer.CopyFrom (ConstBufferPtr (password, size));
+
+		PasswordBuffer.Erase ();
+		if (size > 0)
+			PasswordBuffer.CopyFrom (ConstBufferPtr (password, size));
+
 		PasswordSize = size;
-
-		Unportable = !IsPortable();
-	}
-	
-	void VolumePassword::Set (const wchar_t *password, size_t charCount)
-	{
-		if (charCount > MaxSize)
-			throw PasswordTooLong (SRC_POS);
-
-		union Conv
-		{
-			byte b[sizeof (wchar_t)];
-			wchar_t c;
-		};
-
-		Conv conv;
-		conv.c = L'A';
-		
-		int lsbPos = -1;
-		for (size_t i = 0; i < sizeof (conv.b); ++i)
-		{
-			if (conv.b[i] == L'A')
-			{
-				lsbPos = i;
-				break;
-			}
-		}
-
-		if (lsbPos == -1)
-			throw ParameterIncorrect (SRC_POS);
-
-		bool unportable = false;
-		byte passwordBuf[MaxSize];
-		for (size_t i = 0; i < charCount; ++i)
-		{
-			conv.c = password[i];
-			passwordBuf[i] = conv.b[lsbPos];
-			for (int j = 0; j < (int) sizeof (wchar_t); ++j)
-			{
-				if (j != lsbPos && conv.b[j] != 0)
-					unportable = true;
-			}
-		}
-		
-		Set (passwordBuf, charCount);
-		
-		if (unportable)
-			Unportable = true;
-	}
-
-	void VolumePassword::Set (const ConstBufferPtr &password)
-	{
-		Set (password, password.Size());
 	}
 	
 	void VolumePassword::Set (const VolumePassword &password)

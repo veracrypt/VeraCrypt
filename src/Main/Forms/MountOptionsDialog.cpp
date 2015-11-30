@@ -85,12 +85,26 @@ namespace VeraCrypt
 	}
 
 	void MountOptionsDialog::OnOKButtonClick (wxCommandEvent& event)
-	{
+	{	
+		bool bUnsupportedKdf = false;
 		TransferDataFromWindow();
 
-		Options.Password = PasswordPanel->GetPassword();
+		try
+		{
+			Options.Password = PasswordPanel->GetPassword();
+		}
+		catch (PasswordException& e)
+		{
+			Gui->ShowWarning (e);
+			return;
+		}
 		Options.Pim = PasswordPanel->GetVolumePim();
-		Options.Kdf = PasswordPanel->GetPkcs5Kdf();
+		Options.Kdf = PasswordPanel->GetPkcs5Kdf(bUnsupportedKdf);
+		if (bUnsupportedKdf)
+		{
+			Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
+			return;
+		}
 		Options.TrueCryptMode = PasswordPanel->GetTrueCryptMode();
 		Options.Keyfiles = PasswordPanel->GetKeyfiles();
 
@@ -100,10 +114,23 @@ namespace VeraCrypt
 		}
 		else if (ProtectionCheckBox->IsChecked())
 		{
-			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;
-			Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword();
+			try
+			{
+				Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword();
+			}
+			catch (PasswordException& e)
+			{
+				Gui->ShowWarning (e);
+				return;
+			}
+			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;			
 			Options.ProtectionPim = ProtectionPasswordPanel->GetVolumePim();
-			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf();
+			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf(Options.TrueCryptMode, bUnsupportedKdf);
+			if (bUnsupportedKdf)
+			{
+				Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
+				return;
+			}
 			Options.ProtectionKeyfiles = ProtectionPasswordPanel->GetKeyfiles();
 		}
 		else
@@ -116,23 +143,6 @@ namespace VeraCrypt
 			Options.MountPoint = make_shared <DirectoryPath> (mountPoint);
 
 		Options.FilesystemOptions = FilesystemOptionsTextCtrl->GetValue();
-
-		try
-		{
-			if (Options.Password)
-				Options.Password->CheckPortability();
-		}
-		catch (UnportablePassword &)
-		{
-			Gui->ShowWarning (LangString ["UNSUPPORTED_CHARS_IN_PWD_RECOM"]);
-		}
-		
-		if (Options.TrueCryptMode && Options.Kdf && (Options.Kdf->GetName() == L"HMAC-SHA-256"))
-		{
-			Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
-			event.Skip();
-			return;
-		}
 
 		EndModal (wxID_OK);
 	}

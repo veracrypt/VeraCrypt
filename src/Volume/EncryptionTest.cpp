@@ -790,7 +790,7 @@ namespace VeraCrypt
 
 	void EncryptionTest::TestPkcs5 ()
 	{
-		VolumePassword password ("password", 8);
+		VolumePassword password ((byte*) "password", 8);
 		static const byte saltData[] = { 0x12, 0x34, 0x56, 0x78 };
 		ConstBufferPtr salt (saltData, sizeof (saltData));
 		Buffer derivedKey (4);
