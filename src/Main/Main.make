@@ -194,7 +194,7 @@ ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifndef TC_NO_GUI
 	mkdir -p $(PWD)/Setup/Linux/usr/share/applications
 	mkdir -p $(PWD)/Setup/Linux/usr/share/pixmaps
-	cp $(PWD)/Resources/Icons/VeraCrypt-48x48.xpm $(PWD)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
+	cp $(PWD)/Resources/Icons/VeraCrypt-256x256.xpm $(PWD)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
 	cp $(PWD)/Setup/Linux/$(APPNAME).desktop $(PWD)/Setup/Linux/usr/share/applications/$(APPNAME).desktop
 endif
 
