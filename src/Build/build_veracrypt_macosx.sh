@@ -29,3 +29,5 @@ cd $SOURCEPATH
 echo "Building VeraCrypt"
 make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1
 
+# Uncomment below and comment line above to reuse existing wxWidgets build
+# make WXSTATIC=1 clean && make WXSTATIC=1
