@@ -890,6 +890,8 @@ askBadSectorSkip:
 
 	if (headerUpdateRequired)
 	{
+		Print ("\rUpdating header...");
+
 		AcquireSectorBuffer();
 		uint64 headerSector;
 		headerSector.HighPart = 0;
@@ -927,6 +929,8 @@ askBadSectorSkip:
 
 		while (WriteSectors (SectorBuffer, drive, headerSector, 1) != BiosResultSuccess);
 		ReleaseSectorBuffer();
+
+		Print ("Done!\r\n");
 	}
 
 	if (sectorsRemaining.HighPart == 0 && sectorsRemaining.LowPart == 0)
