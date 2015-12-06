@@ -178,8 +178,19 @@ endif
 	/usr/local/bin/packagesbuild $(PWD)/Setup/MacOSX/veracrypt.pkgproj
 	productsign --sign "Developer ID Installer: Mounir IDRASSI" "$(PWD)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_$(TC_VERSION).dmg
-	hdiutil create -srcfolder $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg -volname "VeraCrypt $(TC_VERSION) for Mac OS X $(VC_OSX_TARGET) and later" $(APPNAME)_$(TC_VERSION).dmg
+	rm -f "$(PWD)/Setup/MacOSX/template.dmg"
+	rm -fr "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
+	mkdir -p "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
+	bunzip2 -k -f "$(PWD)/Setup/MacOSX/template.dmg.bz2"
+	hdiutil attach "$(PWD)/Setup/MacOSX/template.dmg" -noautoopen -quiet -mountpoint "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
+	cp "$(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg" "$(PWD)/Setup/MacOSX/VeraCrypt_dmg/VeraCrypt_Installer.pkg"
+	hdiutil detach "$(PWD)/Setup/MacOSX/VeraCrypt_dmg" -quiet -force
+	hdiutil convert "$(PWD)/Setup/MacOSX/template.dmg" -quiet -format UDZO -imagekey zlib-level=9 -o $(APPNAME)_$(TC_VERSION).dmg
+	rm -f "$(PWD)/Setup/MacOSX/template.dmg"
+	rm -fr "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
 endif
+
+
 
 ifeq "$(PLATFORM)" "Linux"	
 ifeq "$(TC_BUILD_CONFIG)" "Release"
