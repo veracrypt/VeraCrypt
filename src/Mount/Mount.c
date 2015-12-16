@@ -4399,7 +4399,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 
 	bPrebootPasswordDlgMode = mountOptions.PartitionInInactiveSysEncScope;
 
-	if (nDosDriveNo == 0)
+	if (nDosDriveNo == -1)
 		nDosDriveNo = HIWORD (GetSelectedLong (GetDlgItem (MainDlg, IDC_DRIVELIST))) - L'A';
 
 	if (!MultipleMountOperationInProgress)
@@ -4625,7 +4625,7 @@ void __cdecl mountThreadFunction (void *hwndDlgArg)
 	EnableWindow(hwndDlg, FALSE);
 	finally_do_arg2 (HWND, hwndDlg, BOOL, bIsForeground, { EnableWindow(finally_arg, TRUE);  if (finally_arg2) BringToForeground (finally_arg); bPrebootPasswordDlgMode = FALSE;});
 
-	Mount (hwndDlg, 0, 0, -1);	
+	Mount (hwndDlg, -1, 0, -1);	
 }
 
 typedef struct
