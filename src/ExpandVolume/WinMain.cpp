@@ -53,8 +53,8 @@
 
 using namespace VeraCrypt;
 
-const char szExpandVolumeInfo[] =
-":: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\n\
+const wchar_t szExpandVolumeInfo[] =
+L":: VeraCrypt Expander ::\n\nExpand a VeraCrypt volume on the fly without reformatting\n\n\n\
 All kind of volumes (container files, disks and partitions) formatted with \
 NTFS are supported. The only condition is that there must be enough free \
 space on the host drive or host device of the VeraCrypt volume.\n\n\
@@ -83,9 +83,9 @@ namespace VeraCryptExpander
 
 BOOL bExplore = FALSE;				/* Display explorer window after mount */
 BOOL bBeep = FALSE;					/* Donot beep after mount */
-char szFileName[TC_MAX_PATH+1];		/* Volume to mount */
-char szDriveLetter[3];				/* Drive Letter to mount */
-char commandLineDrive = 0;
+wchar_t szFileName[TC_MAX_PATH+1];		/* Volume to mount */
+wchar_t szDriveLetter[3];				/* Drive Letter to mount */
+wchar_t commandLineDrive = 0;
 BOOL bCacheInDriver = FALSE;		/* Cache any passwords we see */
 BOOL bCacheInDriverDefault = FALSE;
 BOOL bHistoryCmdLine = FALSE;		/* History control is always disabled */
@@ -130,7 +130,7 @@ MountOptions defaultMountOptions;
 KeyFile *FirstCmdKeyFile;
 
 HBITMAP hbmLogoBitmapRescaled = NULL;
-char OrigKeyboardLayout [8+1] = "00000409";
+wchar_t OrigKeyboardLayout [8+1] = L"00000409";
 BOOL bKeyboardLayoutChanged = FALSE;		/* TRUE if the keyboard layout was changed to the standard US keyboard layout (from any other layout). */
 BOOL bKeybLayoutAltKeyWarningShown = FALSE;	/* TRUE if the user has been informed that it is not possible to type characters by pressing keys while the right Alt key is held down. */
 
@@ -173,7 +173,7 @@ void EndMainDlg (HWND hwndDlg)
 {
 	if (!bHistory)
 	{
-		SetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), "");
+		SetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), L"");
 	}
 
 	EndDialog (hwndDlg, 0);
@@ -292,15 +292,21 @@ void LoadSettings (HWND hwndDlg)
 
 	CloseSecurityTokenSessionsAfterMount = ConfigReadInt ("CloseSecurityTokenSessionsAfterMount", 0);
 
-	ConfigReadString ("SecurityTokenLibrary", "", SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath) - 1);
-	if (SecurityTokenLibraryPath[0])
-		InitSecurityTokenLibrary(hwndDlg);
+	{
+		char szTmp[TC_MAX_PATH] = {0};
+		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, sizeof (szTmp), NULL, NULL);
+		ConfigReadString ("SecurityTokenLibrary", "", szTmp, sizeof (szTmp) - 1);
+		MultiByteToWideChar (CP_UTF8, 0, szTmp, -1, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath));
+
+		if (SecurityTokenLibraryPath[0])
+			InitSecurityTokenLibrary(hwndDlg);
+	}
 
 	/* we don't load the history */
 }
 
 
-BOOL SelectItem (HWND hTree, char nLetter)
+BOOL SelectItem (HWND hTree, wchar_t nLetter)
 {
 	int i;
 	LVITEM item;
@@ -367,7 +373,7 @@ GetItemLong (HWND hTree, int itemNo)
 		return item.lParam;
 }
 
-static char PasswordDlgVolume[MAX_PATH + 1] = {0};
+static wchar_t PasswordDlgVolume[MAX_PATH + 1] = {0};
 static BOOL PasswordDialogDisableMountOptions;
 static char *PasswordDialogTitleStringId;
 
@@ -398,15 +404,15 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				SetWindowTextW (hwndDlg, GetString (PasswordDialogTitleStringId));
 			}
-			else if (strlen (PasswordDlgVolume) > 0)
+			else if (wcslen (PasswordDlgVolume) > 0)
 			{
 				wchar_t s[1024];
 				const int maxVisibleLen = 40;
 
-				if (strlen (PasswordDlgVolume) > maxVisibleLen)
+				if (wcslen (PasswordDlgVolume) > maxVisibleLen)
 				{
-					string volStr = PasswordDlgVolume;
-					StringCbPrintfW (s, sizeof(s), GetString ("ENTER_PASSWORD_FOR"), ("..." + volStr.substr (volStr.size() - maxVisibleLen - 1)).c_str());
+					wstring volStr = PasswordDlgVolume;
+					StringCbPrintfW (s, sizeof(s), GetString ("ENTER_PASSWORD_FOR"), (L"..." + volStr.substr (volStr.size() - maxVisibleLen - 1)).c_str());
 				}
 				else
 					StringCbPrintfW (s, sizeof(s), GetString ("ENTER_PASSWORD_FOR"), PasswordDlgVolume);
@@ -510,15 +516,15 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ToBootPwdField (hwndDlg, IDC_PASSWORD);
 
 			// Attempt to wipe the password stored in the input field buffer
-			char tmp[MAX_PASSWORD+1];
-			memset (tmp, 'X', MAX_PASSWORD);
+			wchar_t tmp[MAX_PASSWORD+1];
+			wmemset (tmp, L'X', MAX_PASSWORD);
 			tmp [MAX_PASSWORD] = 0;
 			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), tmp);
-			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), "");
+			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), L"");
 
-			StringCbPrintfA (OrigKeyboardLayout, sizeof(OrigKeyboardLayout),"%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
+			StringCbPrintfW (OrigKeyboardLayout, sizeof(OrigKeyboardLayout),L"%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
 
-			DWORD keybLayout = (DWORD) LoadKeyboardLayout ("00000409", KLF_ACTIVATE);
+			DWORD keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 			if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 			{
@@ -565,13 +571,13 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					// Keyboard layout is not standard US
 
 					// Attempt to wipe the password stored in the input field buffer
-					char tmp[MAX_PASSWORD+1];
-					memset (tmp, 'X', MAX_PASSWORD);
+					wchar_t tmp[MAX_PASSWORD+1];
+					wmemset (tmp, L'X', MAX_PASSWORD);
 					tmp [MAX_PASSWORD] = 0;
 					SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), tmp);
-					SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), "");
+					SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), L"");
 
-					keybLayout = (DWORD) LoadKeyboardLayout ("00000409", KLF_ACTIVATE);
+					keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
 					if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 					{
@@ -651,15 +657,17 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		if (lw == IDCANCEL || lw == IDOK)
 		{
-			char tmp[MAX_PASSWORD+1];
-			
+			wchar_t tmp[MAX_PASSWORD+1];
+
 			if (lw == IDOK)
 			{
 				if (mountOptions.ProtectHiddenVolume && hidVolProtKeyFilesParam.EnableKeyFiles)
 					KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile, PasswordDlgVolume);
 
-				GetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), (LPSTR) szXPwd->Text, MAX_PASSWORD + 1);
-				szXPwd->Length = strlen ((char *) szXPwd->Text);
+				if (GetPassword (hwndDlg, IDC_PASSWORD, (LPSTR) szXPwd->Text, MAX_PASSWORD + 1, TRUE))
+					szXPwd->Length = strlen ((char *) szXPwd->Text);
+				else
+					return 1;			
 
 				bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_CACHE));	 
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
@@ -686,10 +694,10 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 
 			// Attempt to wipe password stored in the input field buffer
-			memset (tmp, 'X', MAX_PASSWORD);
+			wmemset (tmp, L'X', MAX_PASSWORD);
 			tmp[MAX_PASSWORD] = 0;
 			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD), tmp);	
-			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), tmp);	
+			SetWindowText (GetDlgItem (hwndDlg, IDC_PASSWORD_PROT_HIDVOL), tmp);			
 
 			if (hidVolProtKeyFilesParam.FirstKeyFile != NULL)
 			{
@@ -781,7 +789,7 @@ int RestoreVolumeHeader (HWND hwndDlg, char *lpszVolume)
 	return 0;
 }
 
-int ExtcvAskVolumePassword (HWND hwndDlg, const char* fileName, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
+int ExtcvAskVolumePassword (HWND hwndDlg, const wchar_t* fileName, Password *password, int *pkcs5, int *pim, BOOL* truecryptMode, char *titleStringId, BOOL enableMountOptions)
 {
 	int result;
 	PasswordDlgParam dlgParam;
@@ -794,7 +802,7 @@ int ExtcvAskVolumePassword (HWND hwndDlg, const char* fileName, Password *passwo
 	dlgParam.pim = pim;
 	dlgParam.truecryptMode = truecryptMode;
 
-	StringCbCopyA (PasswordDlgVolume, sizeof(PasswordDlgVolume), fileName);
+	StringCbCopyW (PasswordDlgVolume, sizeof(PasswordDlgVolume), fileName);
 
 	result = DialogBoxParamW (hInst, 
 		MAKEINTRESOURCEW (IDD_PASSWORD_DLG), hwndDlg,
@@ -914,9 +922,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			else
 			{
-				char fileName[MAX_PATH];
-				GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), fileName, sizeof (fileName));
-				ExpandVolumeWizard(hwndDlg, (char*)fileName);
+				wchar_t fileName[MAX_PATH];
+				GetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), fileName, ARRAYSIZE (fileName));
+				ExpandVolumeWizard(hwndDlg, fileName);
 			}
 			return 1;
 		}
@@ -930,7 +938,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if (lw == IDM_HOMEPAGE )
 		{
 			ArrowWaitCursor ();
-			ShellExecute (NULL, "open", "https://veracrypt.codeplex.com", NULL, NULL, SW_SHOWNORMAL);
+			ShellExecute (NULL, L"open", L"https://veracrypt.codeplex.com", NULL, NULL, SW_SHOWNORMAL);
 			Sleep (200);
 			NormalCursor ();
 
@@ -965,7 +973,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 }
 
 
-int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, char *lpszCommandLine, int nCmdShow)
+int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
 {
 	int status;
 	atexit (VeraCryptExpander::localcleanup);

@@ -62,7 +62,7 @@ static char *MapFirstLanguageFile ()
 	if (LanguageResource == NULL)
 	{
 		DWORD size;
-		LanguageResource = MapResource ("Xml", IDR_LANGUAGE, &size);
+		LanguageResource = MapResource (L"Xml", IDR_LANGUAGE, &size);
 		if (LanguageResource)
 			LanguageResourceSize = size;
 	}
@@ -287,7 +287,7 @@ BOOL LoadLanguageFile ()
 									case 't': *out++ = '\t'; break;
 									case 'n': *out++ = 13; *out++ = 10; break;
 									default:
-										MessageBox (0, key, "VeraCrypt: Unknown '\\' escape sequence in string", MB_ICONERROR);
+										MessageBoxA (0, key, "VeraCrypt: Unknown '\\' escape sequence in string", MB_ICONERROR);
 										return FALSE;
 									}
 								}
@@ -299,9 +299,9 @@ BOOL LoadLanguageFile ()
 
 						// UTF8 => wide char
 						len = MultiByteToWideChar (CP_UTF8, 0, attr, -1, wattr, sizeof (wattr) / sizeof(wattr[0]));
-						if (len == 0 || len == ERROR_NO_UNICODE_TRANSLATION)
+						if (len == 0)
 						{
-							MessageBox (0, key, "VeraCrypt: Error while decoding UTF-8 string", MB_ICONERROR);
+							MessageBoxA (0, key, "VeraCrypt: Error while decoding UTF-8 string", MB_ICONERROR);
 							return FALSE;
 						}
 
@@ -343,7 +343,7 @@ BOOL LoadLanguageFile ()
 	{
 		if (HeaderResource[i] == NULL)
 		{
-			HeaderResource[i] = MapResource ("Header", headers[i], &size);
+			HeaderResource[i] = MapResource (L"Header", headers[i], &size);
 			if (HeaderResource[i])
 				HeaderResourceSize[i] = size;
 		}
@@ -408,7 +408,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					XmlGetAttributeText (xml, "name", attr, sizeof (attr));
 					len = MultiByteToWideChar (CP_UTF8, 0, attr, -1, wattr, sizeof (wattr) / sizeof(wattr[0]));
 
-					if (len != 0 && len != ERROR_NO_UNICODE_TRANSLATION
+					if (len != 0
 						&& (!defaultLangFound || wcscmp (wattr, L"English") != 0))
 					{
 						int i = (int) SendDlgItemMessageW (hwndDlg, IDC_LANGLIST, LB_ADDSTRING, 0, (LPARAM)wattr);
@@ -448,7 +448,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 								else
 								{
 									nLen = MultiByteToWideChar (CP_UTF8, 0, ActiveLangPackVersion, -1, wversion, sizeof (wversion) / sizeof(wversion[0]));
-									if (nLen != 0 && nLen != ERROR_NO_UNICODE_TRANSLATION)
+									if (nLen != 0)
 										StringCbPrintfW (szVers, sizeof(szVers),GetString("LANG_PACK_VERSION"), wversion);
 								}
 								SetWindowTextW (GetDlgItem (hwndDlg, IDC_LANGPACK_VERSION), szVers);
@@ -456,7 +456,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 								// Translator credits
 								XmlGetAttributeText (xml, "translators", credits, sizeof (credits));
 								nLen = MultiByteToWideChar (CP_UTF8, 0, credits, -1, wcredits, sizeof (wcredits) / sizeof(wcredits[0]));
-								if (nLen != 0 && nLen != ERROR_NO_UNICODE_TRANSLATION)
+								if (nLen != 0)
 								{
 									SetWindowTextW (GetDlgItem (hwndDlg, IDC_LANGPACK_CREDITS), wcredits);
 								}

@@ -231,7 +231,7 @@ namespace VeraCrypt
 
 #ifdef TC_WINDOWS
 		int len = GetWindowText (static_cast <HWND> (textCtrl->GetHandle()), passwordBuf, VolumePassword::MaxSize + 1);
-		password.reset (new VolumePassword (passwordBuf, len));
+		password = ToUTF8Password (passwordBuf, len);
 #else
 		wxString passwordStr (textCtrl->GetValue());	// A copy of the password is created here by wxWidgets, which cannot be erased
 		for (size_t i = 0; i < passwordStr.size() && i < VolumePassword::MaxSize; ++i)
@@ -239,19 +239,33 @@ namespace VeraCrypt
 			passwordBuf[i] = (wchar_t) passwordStr[i];
 			passwordStr[i] = L'X';
 		}
-		password.reset (new VolumePassword (passwordBuf, passwordStr.size() <= VolumePassword::MaxSize ? passwordStr.size() : VolumePassword::MaxSize));
+		password = ToUTF8Password (passwordBuf, passwordStr.size() <= VolumePassword::MaxSize ? passwordStr.size() : VolumePassword::MaxSize);
 #endif
 		return password;
 	}
 
-	shared_ptr <Pkcs5Kdf> VolumePasswordPanel::GetPkcs5Kdf () const
+	shared_ptr <Pkcs5Kdf> VolumePasswordPanel::GetPkcs5Kdf (bool &bUnsupportedKdf) const
 	{
+		return GetPkcs5Kdf (GetTrueCryptMode(), bUnsupportedKdf);
+	}
+
+	shared_ptr <Pkcs5Kdf> VolumePasswordPanel::GetPkcs5Kdf (bool bTrueCryptMode, bool &bUnsupportedKdf) const
+	{
+		bUnsupportedKdf = false;
 		try
 		{
-			return Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection()), GetTrueCryptMode());
+			int index = Pkcs5PrfChoice->GetSelection ();
+			if ((wxNOT_FOUND == index) || (0 == index))
+			{
+				// auto-detection
+				return shared_ptr <Pkcs5Kdf> ();
+			}
+			else
+				return Pkcs5Kdf::GetAlgorithm (wstring (Pkcs5PrfChoice->GetStringSelection()), bTrueCryptMode);
 		}
 		catch (ParameterIncorrect&)
 		{
+			bUnsupportedKdf = true;
 			return shared_ptr <Pkcs5Kdf> ();
 		}
 	}
@@ -419,7 +433,14 @@ namespace VeraCrypt
 	bool VolumePasswordPanel::PasswordsMatch () const
 	{
 		assert (ConfirmPasswordStaticText->IsShown());
-		return *GetPassword (PasswordTextCtrl) == *GetPassword (ConfirmPasswordTextCtrl);
+		try
+		{
+			return *GetPassword (PasswordTextCtrl) == *GetPassword (ConfirmPasswordTextCtrl);
+		}
+		catch (PasswordException&)
+		{
+			return false;
+		}
 	}
 
 	void VolumePasswordPanel::WipeTextCtrl (wxTextCtrl *textCtrl)

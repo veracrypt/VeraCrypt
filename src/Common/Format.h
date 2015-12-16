@@ -28,7 +28,7 @@ typedef struct
 {
 	BOOL bDevice;
 	BOOL hiddenVol;
-	char *volumePath;
+	wchar_t *volumePath;
 	unsigned __int64 size;
 	unsigned __int64 hiddenVolHostSize;
 	int ea;

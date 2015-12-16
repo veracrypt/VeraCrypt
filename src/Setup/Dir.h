@@ -15,8 +15,8 @@
 extern "C" {
 #endif
 
-int mkfulldir ( char *path , BOOL bCheckonly );
-int mkfulldir_internal ( char *path );
+int mkfulldir ( wchar_t *path , BOOL bCheckonly );
+int mkfulldir_internal ( wchar_t *path );
 
 #ifdef __cplusplus
 }

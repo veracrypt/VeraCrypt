@@ -92,8 +92,8 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 	FILETIME ftLastAccessTime;
 	BOOL bTimeStampValid = FALSE;
 	BOOL bInstantRetryOtherFilesys = FALSE;
-	char dosDev[TC_MAX_PATH] = { 0 };
-	char devName[MAX_PATH] = { 0 };
+	WCHAR dosDev[TC_MAX_PATH] = { 0 };
+	WCHAR devName[MAX_PATH] = { 0 };
 	int driveLetter = -1;
 	WCHAR deviceName[MAX_PATH];
 	uint64 dataOffset, dataAreaSize;
@@ -138,8 +138,7 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 
 	if (volParams->bDevice)
 	{
-		StringCbCopyA ((char *)deviceName, sizeof(deviceName), volParams->volumePath);
-		ToUNICODE ((char *)deviceName, sizeof(deviceName));
+		StringCbCopyW (deviceName, sizeof(deviceName), volParams->volumePath);
 
 		driveLetter = GetDiskDeviceDriveLetter (deviceName);
 	}
@@ -213,9 +212,9 @@ begin_format:
 			// to which no drive letter has been assigned under the system. This problem can be worked
 			// around by assigning a drive letter to the partition temporarily.
 
-			char szDriveLetter[] = { 'A', ':', 0 };
-			char rootPath[] = { 'A', ':', '\\', 0 };
-			char uniqVolName[MAX_PATH+1] = { 0 };
+			wchar_t szDriveLetter[] = { L'A', L':', 0 };
+			wchar_t rootPath[] = { L'A', L':', L'\\', 0 };
+			wchar_t uniqVolName[MAX_PATH+1] = { 0 };
 			int tmpDriveLetter = -1;
 			BOOL bResult = FALSE;
 
@@ -223,8 +222,8 @@ begin_format:
  
 			if (tmpDriveLetter != -1)
 			{
-				rootPath[0] += (char) tmpDriveLetter;
-				szDriveLetter[0] += (char) tmpDriveLetter;
+				rootPath[0] += (wchar_t) tmpDriveLetter;
+				szDriveLetter[0] += (wchar_t) tmpDriveLetter;
 
 				if (DefineDosDevice (DDD_RAW_TARGET_PATH, szDriveLetter, volParams->volumePath))
 				{
@@ -863,25 +862,25 @@ BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID paramet
 
 BOOL FormatNtfs (int driveNo, int clusterSize)
 {
-	char dllPath[MAX_PATH] = {0};
-	WCHAR dir[8] = { (WCHAR) driveNo + 'A', 0 };
+	wchar_t dllPath[MAX_PATH] = {0};
+	WCHAR dir[8] = { (WCHAR) driveNo + L'A', 0 };
 	PFORMATEX FormatEx;
 	HMODULE hModule;
 	int i;
 	
 	if (GetSystemDirectory (dllPath, MAX_PATH))
 	{
-		StringCbCatA(dllPath, sizeof(dllPath), "\\fmifs.dll");
+		StringCbCatW(dllPath, sizeof(dllPath), L"\\fmifs.dll");
 	}
 	else
-		StringCbCopyA(dllPath, sizeof(dllPath), "C:\\Windows\\System32\\fmifs.dll");
+		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32\\fmifs.dll");
 	
 	hModule = LoadLibrary (dllPath);
 
 	if (hModule == NULL)
 		return FALSE;
 
-	if (!(FormatEx = (PFORMATEX) GetProcAddress (GetModuleHandle ("fmifs.dll"), "FormatEx")))
+	if (!(FormatEx = (PFORMATEX) GetProcAddress (GetModuleHandle (L"fmifs.dll"), "FormatEx")))
 	{
 		FreeLibrary (hModule);
 		return FALSE;

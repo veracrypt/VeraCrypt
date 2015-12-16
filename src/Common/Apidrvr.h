@@ -311,18 +311,15 @@ typedef struct
 
 #pragma pack (pop)
 
-#ifdef TC_WINDOWS_DRIVER
 #define DRIVER_STR WIDE
-#else
-#define DRIVER_STR
-#endif
 
 #define TC_UNIQUE_ID_PREFIX "VeraCryptVolume"
 #define TC_MOUNT_PREFIX L"\\Device\\VeraCryptVolume"
 
 #define NT_MOUNT_PREFIX DRIVER_STR("\\Device\\VeraCryptVolume")
 #define NT_ROOT_PREFIX DRIVER_STR("\\Device\\VeraCrypt")
-#define DOS_MOUNT_PREFIX DRIVER_STR("\\GLOBAL??\\") // Explicitely use Global MS-DOS device names to avoid security issues
+#define DOS_MOUNT_PREFIX_DEFAULT DRIVER_STR("\\DosDevices\\")
+#define DOS_MOUNT_PREFIX_GLOBAL DRIVER_STR("\\GLOBAL??\\") // Use Global MS-DOS device names for sanity checks on drive letters
 #define DOS_ROOT_PREFIX DRIVER_STR("\\DosDevices\\VeraCrypt")
 #define WIN32_ROOT_PREFIX DRIVER_STR("\\\\.\\VeraCrypt")
 
@@ -335,5 +332,6 @@ typedef struct
 #define TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS		0x4
 #define TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION				0x8
 #define TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL						0x10
+#define TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION			0x20
 
 #endif		/* _WIN32 */

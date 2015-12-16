@@ -20,7 +20,7 @@
 
 #define SIZEOF_MRU_LIST 20
 
-void AddComboItem (HWND hComboBox, char *lpszFileName, BOOL saveHistory)
+void AddComboItem (HWND hComboBox, const wchar_t *lpszFileName, BOOL saveHistory)
 {
 	LPARAM nIndex;
 
@@ -53,19 +53,19 @@ void AddComboItem (HWND hComboBox, char *lpszFileName, BOOL saveHistory)
 
 LPARAM MoveEditToCombo (HWND hComboBox, BOOL saveHistory)
 {
-	char szTmp[TC_MAX_PATH] = {0};
+	wchar_t szTmp[TC_MAX_PATH] = {0};
 
 	if (!saveHistory)
 	{
-		GetWindowText (hComboBox, szTmp, sizeof (szTmp));
+		GetWindowText (hComboBox, szTmp, ARRAYSIZE (szTmp));
 		SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
 		SetWindowText (hComboBox, szTmp);
 		return 0;
 	}
 
-	GetWindowText (hComboBox, szTmp, sizeof (szTmp));
+	GetWindowText (hComboBox, szTmp, ARRAYSIZE (szTmp));
 
-	if (strlen (szTmp) > 0)
+	if (wcslen (szTmp) > 0)
 	{
 		LPARAM nIndex = SendMessage (hComboBox, CB_FINDSTRINGEXACT, (WPARAM) - 1,
 					     (LPARAM) & szTmp[0]);
@@ -169,19 +169,22 @@ void LoadCombo (HWND hComboBox, BOOL bEnabled, BOOL bOnlyCheckModified, BOOL *pb
 	i = 0;
 	while (xml = XmlFindElement (xml, "volume"))
 	{
-		char szTmp[MAX_PATH] = { 0 };
+		wchar_t szTmp[MAX_PATH] = { 0 };
+		wchar_t wszVolume[MAX_PATH] = {0};
 		 
 		if (i < count)
 		{
-			if (SendMessage (hComboBox, CB_GETLBTEXTLEN, nComboIdx[i], 0) < sizeof (szTmp))
+			if (SendMessage (hComboBox, CB_GETLBTEXTLEN, nComboIdx[i], 0) < ARRAYSIZE (szTmp))
 				SendMessage (hComboBox, CB_GETLBTEXT, nComboIdx[i], (LPARAM) & szTmp[0]);
 		}
 
 		XmlGetNodeText (xml, volume, sizeof (volume));
+		if (0 == MultiByteToWideChar (CP_UTF8, 0, volume, -1, wszVolume, MAX_PATH))
+			wszVolume [0] = 0;
 		if (!bOnlyCheckModified)
-			AddComboItem (hComboBox, volume, TRUE);
+			AddComboItem (hComboBox, wszVolume, TRUE);
 
-		if (pbModified && strcmp (volume, szTmp))
+		if (pbModified && wcscmp (wszVolume, szTmp))
 			*pbModified = TRUE;
 
 		xml++;
@@ -208,11 +211,11 @@ void DumpCombo (HWND hComboBox, int bClear)
 		return;
 	}
 
-	f = fopen (GetConfigPath (TC_APPD_FILENAME_HISTORY), "w");
+	f = _wfopen (GetConfigPath (TC_APPD_FILENAME_HISTORY), L"w,ccs=UTF-8");
 	if (f == NULL) return;
 
 	XmlWriteHeader (f);
-	fputs ("\n\t<history>", f);
+	fputws (L"\n\t<history>", f);
 
 	/* combo list part:- get mru items */
 	for (i = 0; i < SIZEOF_MRU_LIST; i++)
@@ -221,21 +224,21 @@ void DumpCombo (HWND hComboBox, int bClear)
 	/* combo list part:- write out mru items */
 	for (i = 0; i < SIZEOF_MRU_LIST; i++)
 	{
-		char szTmp[MAX_PATH] = { 0 };
+		wchar_t szTmp[MAX_PATH] = { 0 };
 		 
-		if (SendMessage (hComboBox, CB_GETLBTEXTLEN, nComboIdx[i], 0) < sizeof (szTmp))
+		if (SendMessage (hComboBox, CB_GETLBTEXTLEN, nComboIdx[i], 0) < ARRAYSIZE (szTmp))
 			SendMessage (hComboBox, CB_GETLBTEXT, nComboIdx[i], (LPARAM) & szTmp[0]);
 
 		if (szTmp[0] != 0)
 		{
-			char q[MAX_PATH * 2] = { 0 };
-			XmlQuoteText (szTmp, q, sizeof (q));
+			wchar_t q[MAX_PATH * 2] = { 0 };
+			XmlQuoteTextW (szTmp, q, sizeof (q));
 
-			fprintf (f, "\n\t\t<volume>%s</volume>", q);
+			fwprintf (f, L"\n\t\t<volume>%s</volume>", q);
 		}
 	}
 
-	fputs ("\n\t</history>", f);
+	fputws (L"\n\t</history>", f);
 	XmlWriteFooter (f);
 	fclose (f);
 }

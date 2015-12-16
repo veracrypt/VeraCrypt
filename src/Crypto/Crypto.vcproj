@@ -25,7 +25,7 @@
 			IntermediateDirectory="Debug"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -86,12 +86,79 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..&quot;;&quot;$(ProjectDir)\..\Common&quot;"
+				PreprocessorDefinitions="WIN32;DEBUG;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="false"
+				UsePrecompiledHeader="0"
+				WarningLevel="4"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4100;4127;4201"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)/Crypto.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -154,79 +221,12 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="3"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..&quot;;&quot;$(ProjectDir)\..\Common&quot;"
-				PreprocessorDefinitions="WIN32;DEBUG;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="0"
-				RuntimeLibrary="1"
-				BufferSecurityCheck="false"
-				UsePrecompiledHeader="0"
-				WarningLevel="4"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4100;4127;4201"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/Crypto.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -311,20 +311,20 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win32 -Ox --prefix _ -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(TargetDir)\$(InputName).obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win64 -Ox -g -o &quot;$(TargetDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(TargetDir)\$(InputName).obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win32 -Ox --prefix _ -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(TargetDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -350,6 +350,15 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win64 -Ox -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(TargetDir)\$(InputName).obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
@@ -358,20 +367,11 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win64 -Ox -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;"
-						Outputs="$(TargetDir)\$(InputName).obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win64 -Ox -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;"
+						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win64 -Ox -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(TargetDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -389,21 +389,21 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win32 -Ox --prefix _ -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(TargetDir)\$(InputName).obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win32 -Ox -g --prefix _ -o &quot;$(TargetDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(TargetDir)\$(InputName).obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win32 -Ox --prefix _ -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(TargetDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>

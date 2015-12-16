@@ -168,10 +168,22 @@ static byte AskPassword (Password &password, int& pim)
 		switch (scanCode)
 		{
 		case TC_BIOS_KEY_ENTER:
+			password.Length = pos;
+			if (hidePassword)
+			{
+				while (pos < MAX_PASSWORD)
+				{
+					pos++;
+					if (pos < MAX_PASSWORD)
+						PrintChar ('*');
+					else
+						PrintCharAtCursor ('*');
+				}
+			}
+
 			ClearBiosKeystrokeBuffer();
 			PrintEndl();
-
-			password.Length = pos;
+			
 			break;
 
 		case TC_BIOS_KEY_BACKSPACE:
@@ -228,9 +240,18 @@ static byte AskPassword (Password &password, int& pim)
 		switch (scanCode)
 		{
 		case TC_BIOS_KEY_ENTER:
+			if (hidePassword)
+			{
+				while (pos < MAX_PIM)
+				{
+					PrintChar ('*');
+					pos++;
+				}
+			}
+
 			ClearBiosKeystrokeBuffer();
 			PrintEndl();
-
+			
 			return TC_BIOS_KEY_ENTER;
 
 		case TC_BIOS_KEY_BACKSPACE:
@@ -869,6 +890,8 @@ askBadSectorSkip:
 
 	if (headerUpdateRequired)
 	{
+		Print ("\rUpdating header...");
+
 		AcquireSectorBuffer();
 		uint64 headerSector;
 		headerSector.HighPart = 0;
@@ -906,6 +929,8 @@ askBadSectorSkip:
 
 		while (WriteSectors (SectorBuffer, drive, headerSector, 1) != BiosResultSuccess);
 		ReleaseSectorBuffer();
+
+		Print ("Done!\r\n");
 	}
 
 	if (sectorsRemaining.HighPart == 0 && sectorsRemaining.LowPart == 0)

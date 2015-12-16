@@ -33,17 +33,25 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 			 char *szVerify,
 			 BOOL keyFilesEnabled)
 {
-	char szTmp1[MAX_PASSWORD + 1];
-	char szTmp2[MAX_PASSWORD + 1];
+	wchar_t szTmp1[MAX_PASSWORD + 1];
+	wchar_t szTmp2[MAX_PASSWORD + 1];
+	char szTmp1Utf8[MAX_PASSWORD + 1];
+	char szTmp2Utf8[MAX_PASSWORD + 1];
 	int k = GetWindowTextLength (hPassword);
 	BOOL bEnable = FALSE;
+	int utf8Len1, utf8Len2;
 
 	UNREFERENCED_PARAMETER (hwndDlg);		/* Remove warning */
 
 	GetWindowText (hPassword, szTmp1, sizeof (szTmp1));
 	GetWindowText (hVerify, szTmp2, sizeof (szTmp2));
 
-	if (strcmp (szTmp1, szTmp2) != 0)
+	utf8Len1 = WideCharToMultiByte (CP_UTF8, 0, szTmp1, -1, szTmp1Utf8, MAX_PASSWORD + 1, NULL, NULL);
+	utf8Len2 = WideCharToMultiByte (CP_UTF8, 0, szTmp2, -1, szTmp2Utf8, MAX_PASSWORD + 1, NULL, NULL);
+
+	if (wcscmp (szTmp1, szTmp2) != 0)
+		bEnable = FALSE;
+	else if (utf8Len1 <= 0)
 		bEnable = FALSE;
 	else
 	{
@@ -54,13 +62,25 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 	}
 
 	if (szPassword != NULL)
-		memcpy (szPassword, szTmp1, sizeof (szTmp1));
+	{
+		if (utf8Len1 > 0)
+			memcpy (szPassword, szTmp1Utf8, sizeof (szTmp1Utf8));
+		else
+			szPassword [0] = 0;
+	}
 
 	if (szVerify != NULL)
-		memcpy (szVerify, szTmp2, sizeof (szTmp2));
+	{
+		if (utf8Len2 > 0)
+			memcpy (szVerify, szTmp2Utf8, sizeof (szTmp2Utf8));
+		else
+			szVerify [0] = 0;
+	}
 
 	burn (szTmp1, sizeof (szTmp1));
 	burn (szTmp2, sizeof (szTmp2));
+	burn (szTmp1Utf8, sizeof (szTmp1Utf8));
+	burn (szTmp2Utf8, sizeof (szTmp2Utf8));
 
 	EnableWindow (hButton, bEnable);
 }
@@ -146,11 +166,11 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim
 	return TRUE;
 }
 
-int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg)
+int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, HWND hwndDlg)
 {
 	int nDosLinkCreated = 1, nStatus = ERR_OS_ERROR;
-	char szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
-	char szDosDevice[TC_MAX_PATH];
+	wchar_t szDiskFile[TC_MAX_PATH], szCFDevice[TC_MAX_PATH];
+	wchar_t szDosDevice[TC_MAX_PATH];
 	char buffer[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	PCRYPTO_INFO cryptoInfo = NULL, ci = NULL;
 	void *dev = INVALID_HANDLE_VALUE;
@@ -190,7 +210,7 @@ int ChangePwd (const char *lpszVolume, Password *oldPassword, int old_pkcs5, int
 
 	if (bDevice == FALSE)
 	{
-		strcpy (szCFDevice, szDiskFile);
+		wcscpy (szCFDevice, szDiskFile);
 	}
 	else
 	{

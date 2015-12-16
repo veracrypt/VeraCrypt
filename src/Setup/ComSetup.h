@@ -14,8 +14,8 @@
 extern "C" {
 #endif
 
-BOOL RegisterComServers (char *modulePath);
-BOOL UnregisterComServers (char *modulePath);
+BOOL RegisterComServers (wchar_t *modulePath);
+BOOL UnregisterComServers (wchar_t *modulePath);
 
 #ifdef __cplusplus
 }

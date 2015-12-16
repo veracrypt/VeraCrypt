@@ -17,15 +17,15 @@
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.15"
+#define VERSION_STRING					"1.16"
 
 // Version number to compare against driver
-#define VERSION_NUM						0x0115
+#define VERSION_NUM						0x0116
 
 // Release date
-#define TC_STR_RELEASE_DATE			"Septembre 26th, 2015"
+#define TC_STR_RELEASE_DATE			"October 7th, 2015"
 #define TC_RELEASE_DATE_YEAR			2015
-#define TC_RELEASE_DATE_MONTH			09
+#define TC_RELEASE_DATE_MONTH			10
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -175,6 +175,7 @@ typedef int BOOL;
 #include <process.h>		/* Process control */
 #include <winioctl.h>
 #include <stdio.h>		/* For sprintf */
+#include <tchar.h>
 
 #endif				/* _WIN32 */
 
@@ -254,7 +255,7 @@ void EraseMemory (void *memory, int size);
 #define TC_MAX_PATH		260	/* Includes the null terminator */
 #endif
 
-#define TC_STR_RELEASED_BY "Released by IDRIX on " TC_STR_RELEASE_DATE
+#define TC_STR_RELEASED_BY L"Released by IDRIX on " TC_STR_RELEASE_DATE
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 

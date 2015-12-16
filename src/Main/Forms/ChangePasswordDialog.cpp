@@ -85,11 +85,11 @@ namespace VeraCrypt
 
 		try
 		{
-			shared_ptr <Pkcs5Kdf> currentKdf = CurrentPasswordPanel->GetPkcs5Kdf();
-			if (currentKdf && CurrentPasswordPanel->GetTrueCryptMode() && (currentKdf->GetName() == L"HMAC-SHA-256"))
+			bool bUnsupportedKdf = false;
+			shared_ptr <Pkcs5Kdf> currentKdf = CurrentPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf);
+			if (bUnsupportedKdf)
 			{
 				Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
-				event.Skip();
 				return;
 			}
 			
@@ -97,15 +97,23 @@ namespace VeraCrypt
 			int newPim = 0;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 			{
-				newPassword = NewPasswordPanel->GetPassword();
+				try
+				{
+					newPassword = NewPasswordPanel->GetPassword();
+				}
+				catch (PasswordException& e)
+				{
+					Gui->ShowWarning (e);
+					NewPasswordPanel->SetFocusToPasswordTextCtrl();				
+					return;
+				}
 				newPim = NewPasswordPanel->GetVolumePim();
-				newPassword->CheckPortability();
 
 				if (newPassword->Size() > 0)
 				{
 					if (newPassword->Size() < VolumePassword::WarningSizeThreshold)
 					{
-						if (newPim < 485)
+						if (newPim > 0 && newPim < 485)
 						{
 							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");						
 							return;
@@ -117,7 +125,7 @@ namespace VeraCrypt
 							return;
 						}
 					}
-					else if (newPim < 485)
+					else if (newPim > 0 && newPim < 485)
 					{
 						if (!Gui->AskYesNo (LangString ["PIM_SMALL_WARNING"], false, true))
 						{
@@ -141,7 +149,7 @@ namespace VeraCrypt
 
 			/* force the display of the random enriching interface */
 			RandomNumberGenerator::SetEnrichedByUserStatus (false);
-			Gui->UserEnrichRandomPool (this, NewPasswordPanel->GetPkcs5Kdf() ? NewPasswordPanel->GetPkcs5Kdf()->GetHash() : shared_ptr <Hash>());
+			Gui->UserEnrichRandomPool (this, NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf) ? NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf)->GetHash() : shared_ptr <Hash>());
 
 			{
 #ifdef TC_UNIX
@@ -162,8 +170,8 @@ namespace VeraCrypt
 #endif
 				wxBusyCursor busy;
 				ChangePasswordThreadRoutine routine(Path,	Gui->GetPreferences().DefaultMountOptions.PreserveTimestamps,
-					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
-					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(), NewPasswordPanel->GetHeaderWipeCount());
+					CurrentPasswordPanel->GetPassword(), CurrentPasswordPanel->GetVolumePim(), CurrentPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf), CurrentPasswordPanel->GetTrueCryptMode(),CurrentPasswordPanel->GetKeyfiles(),
+					newPassword, newPim, newKeyfiles, NewPasswordPanel->GetPkcs5Kdf(bUnsupportedKdf), NewPasswordPanel->GetHeaderWipeCount());
 				Gui->ExecuteWaitThreadRoutine (this, &routine);
 			}
 
@@ -208,26 +216,34 @@ namespace VeraCrypt
 	{
 		bool ok = true;
 
-		bool passwordEmpty = CurrentPasswordPanel->GetPassword()->IsEmpty();
-		bool keyfilesEmpty = !CurrentPasswordPanel->GetKeyfiles() || CurrentPasswordPanel->GetKeyfiles()->empty();
-
-		if (passwordEmpty && keyfilesEmpty)
-			ok = false;
-
-		if (DialogMode == Mode::RemoveAllKeyfiles && (passwordEmpty || keyfilesEmpty))
-			ok = false;
-
-		if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles)
+		try
 		{
-			bool newKeyfilesEmpty = !NewPasswordPanel->GetKeyfiles() || NewPasswordPanel->GetKeyfiles()->empty();
 
-			if (DialogMode == Mode::ChangeKeyfiles
-				&& ((passwordEmpty && newKeyfilesEmpty) || (keyfilesEmpty && newKeyfilesEmpty)))
+			bool passwordEmpty = CurrentPasswordPanel->GetPassword()->IsEmpty();
+			bool keyfilesEmpty = !CurrentPasswordPanel->GetKeyfiles() || CurrentPasswordPanel->GetKeyfiles()->empty();
+
+			if (passwordEmpty && keyfilesEmpty)
 				ok = false;
 
-			if (DialogMode == Mode::ChangePasswordAndKeyfiles
-				&& ((NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty) || !NewPasswordPanel->PasswordsMatch()))
+			if (DialogMode == Mode::RemoveAllKeyfiles && (passwordEmpty || keyfilesEmpty))
 				ok = false;
+
+			if (DialogMode == Mode::ChangePasswordAndKeyfiles || DialogMode == Mode::ChangeKeyfiles)
+			{
+				bool newKeyfilesEmpty = !NewPasswordPanel->GetKeyfiles() || NewPasswordPanel->GetKeyfiles()->empty();
+
+				if (DialogMode == Mode::ChangeKeyfiles
+					&& ((passwordEmpty && newKeyfilesEmpty) || (keyfilesEmpty && newKeyfilesEmpty)))
+					ok = false;
+
+				if (DialogMode == Mode::ChangePasswordAndKeyfiles
+					&& ((NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty) || !NewPasswordPanel->PasswordsMatch()))
+					ok = false;
+			}
+		}
+		catch (PasswordException&)
+		{
+			ok = false;
 		}
 
 		OKButton->Enable (ok);

@@ -40,8 +40,8 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	{
 	case WM_INITDIALOG:
 		{
-		char * tmp = err_malloc(8192);
-		char tmp2[MAX_PATH * 2];
+		wchar_t * tmp = err_malloc(8192 * sizeof (wchar_t));
+		wchar_t tmp2[MAX_PATH * 2];
 		argumentspec *as;
 		int i;
 
@@ -51,29 +51,29 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		*tmp = 0;
 
-		StringCbCopyA (tmp, 8192, "VeraCrypt " VERSION_STRING);
+		StringCchCopyW (tmp, 8192, L"VeraCrypt " _T(VERSION_STRING));
 #ifdef _WIN64
-		StringCbCatA (tmp, 8192, "  (64-bit)");
+		StringCchCatW (tmp, 8192, L"  (64-bit)");
 #else
-		StringCbCatA (tmp, 8192, "  (32-bit)");
+		StringCchCatW (tmp, 8192, L"  (32-bit)");
 #endif
 #if (defined(_DEBUG) || defined(DEBUG))
-		StringCbCatA (tmp, 8192, "  (debug)");
+		StringCchCatW (tmp, 8192, L"  (debug)");
 #endif
 
-		StringCbCatA (tmp, 8192, "\n\nCommand line options:\n\n");
+		StringCchCatW (tmp, 8192, L"\n\nCommand line options:\n\n");
 		for (i = 0; i < as->arg_cnt; i ++)
 		{
 			if (!as->args[i].Internal)
 			{
-				StringCchPrintf(tmp2, MAX_PATH * 2, "%s\t%s\n", as->args[i].short_name, as->args[i].long_name);
-				StringCchCat(tmp, 8192, tmp2);
+				StringCchPrintfW(tmp2, MAX_PATH * 2, L"%s\t%s\n", as->args[i].short_name, as->args[i].long_name);
+				StringCchCatW(tmp, 8192, tmp2);
 			}
 		}
 
-		StringCbCatA (tmp, 8192, "\nExamples:\n\nMount a volume as X:\tveracrypt.exe /q /v volume.hc /l X\nDismount a volume X:\tveracrypt.exe /q /d X");
+		StringCchCatW (tmp, 8192, L"\nExamples:\n\nMount a volume as X:\tveracrypt.exe /q /v volume.hc /l X\nDismount a volume X:\tveracrypt.exe /q /d X");
 
-		SetWindowText (GetDlgItem (hwndDlg, IDC_COMMANDHELP_TEXT), (char*) tmp);
+		SetWindowTextW (GetDlgItem (hwndDlg, IDC_COMMANDHELP_TEXT), tmp);
 		
 		TCfree(tmp);
 		return 1;
@@ -90,7 +90,7 @@ BOOL CALLBACK CommandHelpDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return 0;
 }
 
-int Win32CommandLine (char *lpszCommandLine, char ***lpszArgs)
+int Win32CommandLine (wchar_t ***lpszArgs)
 {
 	int argumentCount;
 	int i;
@@ -109,29 +109,15 @@ int Win32CommandLine (char *lpszCommandLine, char ***lpszArgs)
 		return 0;
 	}
 
-	*lpszArgs = malloc (sizeof (char *) * argumentCount);
+	*lpszArgs = malloc (sizeof (wchar_t *) * argumentCount);
 	if (!*lpszArgs)
 		AbortProcess ("OUTOFMEMORY");
 
 	for (i = 0; i < argumentCount; ++i)
 	{
-		size_t argLen = wcslen (arguments[i + 1]);
-
-		char *arg = malloc (argLen + 1);
+		wchar_t *arg = _wcsdup (arguments[i + 1]);
 		if (!arg)
 			AbortProcess ("OUTOFMEMORY");
-
-		if (argLen > 0)
-		{
-			int len = WideCharToMultiByte (CP_ACP, 0, arguments[i + 1], -1, arg, (int) argLen + 1, NULL, NULL);
-			if (len == 0)
-			{
-				handleWin32Error (NULL, SRC_POS);
-				AbortProcessSilent();
-			}
-		}
-		else
-			arg[0] = 0;
 
 		(*lpszArgs)[i] = arg;
 	}
@@ -140,21 +126,21 @@ int Win32CommandLine (char *lpszCommandLine, char ***lpszArgs)
 	return argumentCount;
 }
 
-int GetArgSepPosOffset (char *lpszArgument)
+int GetArgSepPosOffset (wchar_t *lpszArgument)
 {
-	if (lpszArgument[0] == '/')
+	if (lpszArgument[0] == L'/')
 		return 1;
 
 	return 0;
 }
 
-int GetArgumentID (argumentspec *as, char *lpszArgument)
+int GetArgumentID (argumentspec *as, wchar_t *lpszArgument)
 {
 	int i;
 
 	for (i = 0; i < as->arg_cnt; i++)
 	{
-		if (_stricmp (as->args[i].long_name, lpszArgument) == 0)
+		if (_wcsicmp (as->args[i].long_name, lpszArgument) == 0)
 		{
 			return as->args[i].Id;
 		}
@@ -165,7 +151,7 @@ int GetArgumentID (argumentspec *as, char *lpszArgument)
 		if (as->args[i].short_name[0] == 0)
 			continue;
 
-		if (_stricmp (as->args[i].short_name, lpszArgument) == 0)
+		if (_wcsicmp (as->args[i].short_name, lpszArgument) == 0)
 		{
 			return as->args[i].Id;
 		}
@@ -175,8 +161,8 @@ int GetArgumentID (argumentspec *as, char *lpszArgument)
 	return -1;
 }
 
-int GetArgumentValue (char **lpszCommandLineArgs, int *nArgIdx,
-		  int nNoCommandLineArgs, char *lpszValue, int nValueSize)
+int GetArgumentValue (wchar_t **lpszCommandLineArgs, int *nArgIdx,
+		  int nNoCommandLineArgs, wchar_t *lpszValue, int nValueSize)
 {
 	*lpszValue = 0;
 
@@ -187,7 +173,7 @@ int GetArgumentValue (char **lpszCommandLineArgs, int *nArgIdx,
 		{
 			/* Handles the case of space between parameter code
 			   and value */
-			StringCbCopyA (lpszValue, nValueSize, lpszCommandLineArgs[*nArgIdx + 1]);
+			StringCbCopyW (lpszValue, nValueSize, lpszCommandLineArgs[*nArgIdx + 1]);
 			lpszValue[nValueSize - 1] = 0;
 			(*nArgIdx)++;
 			return HAS_ARGUMENT;

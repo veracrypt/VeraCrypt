@@ -65,7 +65,7 @@ using namespace VeraCrypt;
 
 // If the returned value is greater than 0, it is the desired volume size in NTFS sectors (not in bytes) 
 // after shrinking has been performed. If there's any error, returns -1.
-static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const char *devicePath, int64 *totalClusterCount, DWORD *bytesPerCluster, BOOL silent)
+static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const wchar_t *devicePath, int64 *totalClusterCount, DWORD *bytesPerCluster, BOOL silent)
 {
 	NTFS_VOLUME_DATA_BUFFER ntfsVolData;
 	DWORD nBytesReturned;
@@ -115,17 +115,17 @@ static __int64 NewFileSysSizeAfterShrink (HANDLE dev, const char *devicePath, in
 }
 
 
-BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath, BOOL silent)
+BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const wchar_t *devicePath, BOOL silent)
 {
 	NTFS_VOLUME_DATA_BUFFER ntfsVolData;
 	DWORD nBytesReturned;
 	HANDLE dev;
-	char szFileSysName [256];
+	WCHAR szFileSysName [256];
 	WCHAR devPath [MAX_PATH];
-	char dosDev [TC_MAX_PATH] = {0};
-	char devName [MAX_PATH] = {0};
+	WCHAR dosDev [TC_MAX_PATH] = {0};
+	WCHAR devName [MAX_PATH] = {0};
 	int driveLetterNo = -1;
-	char szRootPath[4] = {0, ':', '\\', 0};
+	WCHAR szRootPath[4] = {0, L':', L'\\', 0};
 	__int64 deviceSize;
 	int partitionNumber = -1, driveNumber = -1;
 
@@ -146,8 +146,8 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath,
 
 	/* Volume type (must be a partition or a dynamic volume) */
 
-	if (sscanf (devicePath, "\\Device\\HarddiskVolume%d", &partitionNumber) != 1
-		&& sscanf (devicePath, "\\Device\\Harddisk%d\\Partition%d", &driveNumber, &partitionNumber) != 2)
+	if (swscanf (devicePath, L"\\Device\\HarddiskVolume%d", &partitionNumber) != 1
+		&& swscanf (devicePath, L"\\Device\\Harddisk%d\\Partition%d", &driveNumber, &partitionNumber) != 2)
 	{
 		if (!silent)
 			Error ("INPLACE_ENC_INVALID_PATH", hwndDlg);
@@ -181,13 +181,12 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath,
 
 	/* Access to the partition */
 
-	StringCbCopyA ((char *) devPath, sizeof(devPath), devicePath);
-	ToUNICODE ((char *) devPath, sizeof(devPath));
+	StringCbCopyW (devPath, sizeof(devPath), devicePath);
 
 	driveLetterNo = GetDiskDeviceDriveLetter (devPath);
 
 	if (driveLetterNo >= 0)
-		szRootPath[0] = (char) driveLetterNo + 'A';
+		szRootPath[0] = (wchar_t) driveLetterNo + L'A';
 
 	if (FakeDosNameForDevice (devicePath, dosDev, sizeof(dosDev), devName, sizeof(devName),FALSE) != 0)
 	{
@@ -212,9 +211,9 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath,
 
 	/* File system type */
 
-	GetVolumeInformation (szRootPath, NULL, 0, NULL, NULL, NULL, szFileSysName, sizeof(szFileSysName));
+	GetVolumeInformation (szRootPath, NULL, 0, NULL, NULL, NULL, szFileSysName, ARRAYSIZE (szFileSysName));
 
-	if (strncmp (szFileSysName, "NTFS", 4))
+	if (wcsncmp (szFileSysName, L"NTFS", 4))
 	{
 		// The previous filesystem type detection method failed (or it's not NTFS) -- try an alternative method
 
@@ -328,15 +327,15 @@ BOOL CheckRequirementsForNonSysInPlaceEnc (HWND hwndDlg, const char *devicePath,
 	return TRUE;
 }
 
-BOOL CheckRequirementsForNonSysInPlaceDec (HWND hwndDlg, const char *devicePath, BOOL silent)
+BOOL CheckRequirementsForNonSysInPlaceDec (HWND hwndDlg, const wchar_t *devicePath, BOOL silent)
 {
 	int partitionNumber = -1, driveNumber = -1;
 
 	/* ---------- Checks that do not require admin rights ----------- */
 
 	/* Volume type (must be a partition or a dynamic volume) */
-	if ((sscanf (devicePath, "\\Device\\HarddiskVolume%d", &partitionNumber) != 1
-		&& sscanf (devicePath, "\\Device\\Harddisk%d\\Partition%d", &driveNumber, &partitionNumber) != 2)
+	if ((swscanf (devicePath, L"\\Device\\HarddiskVolume%d", &partitionNumber) != 1
+		&& swscanf (devicePath, L"\\Device\\Harddisk%d\\Partition%d", &driveNumber, &partitionNumber) != 2)
 		|| partitionNumber == 0)
 	{
 		if (!silent)
@@ -375,8 +374,8 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	HANDLE dev = INVALID_HANDLE_VALUE;
 	DWORD dwError;
 	char *header;
-	char dosDev[TC_MAX_PATH] = {0};
-	char devName[MAX_PATH] = {0};
+	WCHAR dosDev[TC_MAX_PATH] = {0};
+	WCHAR devName[MAX_PATH] = {0};
 	int driveLetter = -1;
 	WCHAR deviceName[MAX_PATH];
 	uint64 dataAreaSize;
@@ -415,8 +414,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	dataAreaSize = GetVolumeDataAreaSize (volParams->hiddenVol, deviceSize);
 
-	StringCbCopyA ((char *)deviceName, sizeof(deviceName), volParams->volumePath);
-	ToUNICODE ((char *)deviceName, sizeof(deviceName));
+	StringCbCopyW (deviceName, sizeof(deviceName), volParams->volumePath);
 
 	driveLetter = GetDiskDeviceDriveLetter (deviceName);
 
@@ -665,7 +663,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	// Add the wizard to the system startup sequence if appropriate
 
 	if (!IsNonInstallMode ())
-		ManageStartupSeqWiz (FALSE, "/prinplace");
+		ManageStartupSeqWiz (FALSE, L"/prinplace");
 
 
 	nStatus = ERR_SUCCESS;
@@ -714,8 +712,8 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	byte *wipeBuffer = NULL;
 	byte wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
 	byte wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
-	char dosDev[TC_MAX_PATH] = {0};
-	char devName[MAX_PATH] = {0};
+	WCHAR dosDev[TC_MAX_PATH] = {0};
+	WCHAR devName[MAX_PATH] = {0};
 	WCHAR deviceName[MAX_PATH];
 	int nStatus = ERR_SUCCESS;
 	__int64 deviceSize;
@@ -727,7 +725,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	int sectorSize;
 	int i;
 	DWORD n;
-	char *devicePath = volParams->volumePath;
+	WCHAR *devicePath = volParams->volumePath;
 	Password *password = volParams->password;
 	int pkcs5_prf = volParams->pkcs5;
 	int pim = volParams->pim;
@@ -781,8 +779,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 
 	if (dev == INVALID_HANDLE_VALUE)
 	{
-		StringCbCopyA ((char *)deviceName, sizeof(deviceName), devicePath);
-		ToUNICODE ((char *)deviceName, sizeof(deviceName));
+		StringCbCopyW (deviceName, sizeof(deviceName), devicePath);
 
 		if (FakeDosNameForDevice (devicePath, dosDev, sizeof(dosDev),devName, sizeof(devName),FALSE) != 0)
 		{
@@ -1188,8 +1185,8 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	UINT64_STRUCT unitNo;
 	char *buf = NULL;
 	byte *tmpSectorBuf = NULL;
-	char dosDev[TC_MAX_PATH] = {0};
-	char devName[MAX_PATH] = {0};
+	WCHAR dosDev[TC_MAX_PATH] = {0};
+	WCHAR devName[MAX_PATH] = {0};
 	WCHAR deviceName[MAX_PATH];
 	int nStatus = ERR_SUCCESS;
 	__int64 deviceSize;
@@ -1201,7 +1198,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	int sectorSize;
 	int i;
 	DWORD n;
-	char *devicePath = volParams->volumePath;
+	WCHAR *devicePath = volParams->volumePath;
 	Password *password = volParams->password;
 	HWND hwndDlg = volParams->hwndDlg;
 	int pkcs5_prf = volParams->pkcs5;
@@ -1247,8 +1244,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	}
 
 
-	StringCbCopyA ((char *)deviceName, sizeof(deviceName), devicePath);
-	ToUNICODE ((char *)deviceName, sizeof(deviceName));
+	StringCbCopyW (deviceName, sizeof(deviceName), devicePath);
 
 	if (FakeDosNameForDevice (devicePath, dosDev, sizeof(dosDev), devName, sizeof(devName), FALSE) != 0)
 	{
@@ -1355,7 +1351,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 
 		// Add the wizard to the system startup sequence if appropriate
 		if (!IsNonInstallMode ())
-			ManageStartupSeqWiz (FALSE, "/prinplace");
+			ManageStartupSeqWiz (FALSE, L"/prinplace");
 	}
 
 
@@ -1769,7 +1765,7 @@ closing_seq:
 }
 
 
-static HANDLE OpenPartitionVolume (HWND hwndDlg, const char *devName,
+static HANDLE OpenPartitionVolume (HWND hwndDlg, const wchar_t *devName,
 							 BOOL bExclusiveRequired,
 							 BOOL bSharedRequired,
 							 BOOL bSharedRequiresConfirmation,
@@ -2015,7 +2011,7 @@ BOOL SaveNonSysInPlaceEncSettings (int delta, WipeAlgorithmId newWipeAlgorithm, 
 		} 
 		else if (FileExists (GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE)))
 		{
-			remove (GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE));
+			_wremove (GetConfigPath (TC_APPD_FILENAME_NONSYS_INPLACE_ENC_WIPE));
 		}
 	}
 	
@@ -2089,7 +2085,7 @@ closing_seq:
 }
 
 
-static int OpenBackupHeader (HANDLE dev, const char *devicePath, Password *password, int pkcs5, int pim, PCRYPTO_INFO *retMasterCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize)
+static int OpenBackupHeader (HANDLE dev, const wchar_t *devicePath, Password *password, int pkcs5, int pim, PCRYPTO_INFO *retMasterCryptoInfo, CRYPTO_INFO *headerCryptoInfo, __int64 deviceSize)
 {
 	LARGE_INTEGER offset;
 	DWORD n;

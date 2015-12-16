@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.15">
+  <localization prog-version="1.16">
     <!-- Languages -->
     <language langid="pt-br" name="Português-Brasil" en-name="Portuguese (Brazil)" version="0.1.0" translators="Thiago C. L. Mendes, Lecidio S. Alencar , Lucas C. Ferreira" />
     <!-- Fonts -->
@@ -14,7 +14,7 @@
     <control lang="pt-br" key="IDC_BROWSE">Pro&amp;curar...</control>
     <control lang="pt-br" key="IDC_DESKTOP_ICON">Adicionar ícone à área de &amp;trabalho</control>
     <control lang="en" key="IDC_DONATE">Donate now...</control>
-    <control lang="pt-br" key="IDC_FILE_TYPE">Associar a &amp;extensão .tc ao VeraCrypt</control>
+    <control lang="pt-br" key="IDC_FILE_TYPE">Associar a &amp;extensão .hc ao VeraCrypt</control>
     <control lang="pt-br" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Abrir o local de destino quando concluído</control>
     <control lang="pt-br" key="IDC_PROG_GROUP">Incluir o Veracrypt no menu &amp;Iniciar</control>
     <control lang="pt-br" key="IDC_SYSTEM_RESTORE">Criar um ponto de &amp;restauração do sistema</control>
@@ -39,12 +39,13 @@
     <control lang="pt-br" key="IDC_GB">&amp; GB</control>
     <control lang="pt-br" key="IDC_TB">&amp; TB</control>
     <control lang="pt-br" key="IDC_HIDDEN_SYSENC_INFO_LINK">Mais informações</control>
-    <control lang="pt-br" key="IDC_HIDDEN_VOL">Volume o&amp;culto VeraCrypt  </control>
+    <control lang="pt-br" key="IDC_HIDDEN_VOL">Volume o&amp;culto VeraCrypt </control>
     <control lang="pt-br" key="IDC_HIDDEN_VOL_HELP">Mais informações sobre volumes ocultos</control>
     <control lang="pt-br" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Modo direto</control>
     <control lang="pt-br" key="IDC_HIDVOL_WIZ_MODE_FULL">Modo normal</control>
     <control lang="pt-br" key="IDC_KB">&amp;KB</control>
     <control lang="pt-br" key="IDC_KEYFILES_ENABLE">U&amp;sar arquivos-chave</control>
+    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="pt-br" key="IDC_KEY_FILES">&amp;Arquivos-chave...</control>
     <control lang="pt-br" key="IDC_LINK_HASH_INFO">Informação sobre algoritmos hash</control>
@@ -60,6 +61,7 @@
     <control lang="pt-br" key="IDC_OPEN_OUTER_VOLUME">Abrir volume externo</control>
     <control lang="pt-br" key="IDC_PAUSE">&amp;Pausar</control>
     <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="pt-br" key="IDC_QUICKFORMAT">Formatação rápida</control>
     <control lang="pt-br" key="IDC_SHOW_PASSWORD">&amp;Mostrar senha</control>
     <control lang="pt-br" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Mostrar senha</control>
@@ -72,19 +74,19 @@
     <control lang="pt-br" key="IDC_SYS_PARTITION">Criptografar a partição de sistema do Windows</control>
     <control lang="pt-br" key="IDC_WHOLE_SYS_DRIVE">Criptografar a unidade inteira</control>
     <control lang="pt-br" key="IDD_VOL_CREATION_WIZARD_DLG">Assistente de Criação de Volume VeraCrypt</control>
-    <control lang="pt-br" key="IDT_CLUSTER">Cluster</control>
+    <control lang="pt-br" key="IDT_CLUSTER">Cluster </control>
     <control lang="pt-br" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANTE: Mova seu mouse tão aleatoriamente quanto possível nesta janela. Quanto mais você demorar movendo-o, melhor. Isto aumenta significativamente a força de criptografia das chaves. Depois clique em Avançar para continuar.</control>
     <control lang="pt-br" key="IDT_CONFIRM">&amp;Confirmar:</control>
     <control lang="pt-br" key="IDT_DONE">Concl.</control>
     <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
     <control lang="pt-br" key="IDT_ENCRYPTION_ALGO">Algoritmo de Criptografia</control>
-    <control lang="pt-br" key="IDT_FILESYSTEM">Sistema de arquivos</control>
+    <control lang="pt-br" key="IDT_FILESYSTEM">Sistema de arquivos </control>
     <control lang="pt-br" key="IDT_FILE_CONTAINER">Cria um disco virtual criptografado em um arquivo. Recomendado para usuários inexperientes.</control>
     <control lang="pt-br" key="IDT_FORMAT_OPTIONS">Opções</control>
     <control lang="pt-br" key="IDT_HASH_ALGO">Algoritmo de hash</control>
-    <control lang="pt-br" key="IDT_HEADER_KEY">Chave do cabeçalho:</control>
+    <control lang="pt-br" key="IDT_HEADER_KEY">Chave do cabeçalho: </control>
     <control lang="pt-br" key="IDT_LEFT">Faltam</control>
-    <control lang="pt-br" key="IDT_MASTER_KEY">Chave mestra:</control>
+    <control lang="pt-br" key="IDT_MASTER_KEY">Chave mestra: </control>
     <control lang="pt-br" key="IDT_MULTI_BOOT">Selecione esta opção se houver dois ou mais sistemas operacionais instalados neste computador.\n\nPor exemplo:\n- Windows XP e Windows XP\n- Windows XP e Windows Vista\n- Windows e Mac OS X\n- Windows e Linux\n- Windows, Linux e Mac OS X</control>
     <control lang="pt-br" key="IDT_NON_SYS_DEVICE">Criptografa uma partição não-sistema em qualquer unidade interna ou externa (por exemplo, um pendrive). Opcionalmente, cria um volume oculto.</control>
     <control lang="pt-br" key="IDT_PARTIAL_POOL_CONTENTS">Conteúdo atual do pool (parcial)</control>
@@ -93,7 +95,7 @@
     <control lang="en" key="IDT_PIM">Volume PIM:</control>
     <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="pt-br" key="IDT_PROGRESS">Progresso:</control>
-    <control lang="pt-br" key="IDT_RANDOM_POOL">Pool aleatório:</control>
+    <control lang="pt-br" key="IDT_RANDOM_POOL">Pool aleatório: </control>
     <control lang="pt-br" key="IDT_SINGLE_BOOT">Selecione esta opção se houver apenas um sistema operacional instalado neste computador(mesmo se ele tiver vários usuários).</control>
     <control lang="pt-br" key="IDT_SPEED">Velocid</control>
     <control lang="pt-br" key="IDT_STATUS">Status</control>
@@ -119,6 +121,7 @@
     <control lang="pt-br" key="IDC_CREATE">Criar</control>
     <control lang="pt-br" key="IDC_CREATE_VOLUME">&amp;Criar Volume</control>
     <control lang="pt-br" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Não mo&amp;strar quaisquer textos na tela de autenticação pré-boot (exceto a mensagem personalizada abaixo)</control>
+    <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
     <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
     <control lang="pt-br" key="IDC_ENABLE_KEYFILES">Usar arquivos-chave</control>
     <control lang="pt-br" key="IDC_ENABLE_NEW_KEYFILES">Usar arquivos-chave</control>
@@ -133,11 +136,12 @@
     <control lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</control>
     <control lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</control>
     <control lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</control>
+    <control lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</control>
     <control lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</control>
     <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
     <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>
     <control lang="pt-br" key="IDC_HK_MOD_ALT">Alt</control>
-    <control lang="en" key="IDC_HK_MOD_CTRL">Ctrl</control>
+    <control lang="pt-br" key="IDC_HK_MOD_CTRL">Ctrl</control>
     <control lang="pt-br" key="IDC_HK_MOD_SHIFT">Shift</control>
     <control lang="pt-br" key="IDC_HK_MOD_WIN">Win</control>
     <control lang="pt-br" key="IDC_HOTKEY_ASSIGN">Atribuir</control>
@@ -152,7 +156,7 @@
     <control lang="pt-br" key="IDC_MOUNT_READONLY">Montar v&amp;olume apenas para leitura</control>
     <control lang="pt-br" key="IDC_NEW_KEYFILES">Arquivos-chave...</control>
     <control lang="en" key="IDC_OLD_PIM_HELP">(Empty or 0 for default iterations)</control>
-    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>	
+    <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="pt-br" key="IDC_PREF_BKG_TASK_ENABLE">Ativado</control>
     <control lang="pt-br" key="IDC_PREF_CACHE_PASSWORDS">Manter as senhas na memória do driver</control>
     <control lang="pt-br" key="IDC_PREF_DISMOUNT_INACTIVE">Desmontar volume automaticamente se nenhum dado for lido/escrito por</control>
@@ -220,7 +224,7 @@
     <control lang="pt-br" key="IDM_ENCRYPT_SYSTEM_DEVICE">Criptografar Unidade/Partição de Sistema...</control>
     <control lang="pt-br" key="IDM_FAQ">Perguntas Frequentes</control>
     <control lang="pt-br" key="IDM_HELP">Guia do Usuário</control>
-    <control lang="pt-br" key="IDM_HOMEPAGE">&amp;Site na Internet</control>
+    <control lang="pt-br" key="IDM_HOMEPAGE">&amp;Site na Internet </control>
     <control lang="pt-br" key="IDM_HOTKEY_SETTINGS">Atalhos...</control>
     <control lang="pt-br" key="IDM_KEYFILE_GENERATOR">Gerador de arquivo-chave</control>
     <control lang="pt-br" key="IDM_LANGUAGE">Idioma...</control>
@@ -257,6 +261,7 @@
     <control lang="pt-br" key="IDM_UNMOUNTALL">Desmontar Todos os Volumes Montados</control>
     <control lang="pt-br" key="IDM_UNMOUNT_VOLUME">Desmontar Volume</control>
     <control lang="pt-br" key="IDM_VERIFY_RESCUE_DISK">Verificar Disco de Emergência</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
     <control lang="pt-br" key="IDM_VERSION_HISTORY">Histórico de Versões</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="pt-br" key="IDM_VOLUME_PROPERTIES">Propriedades do Volume</control>
@@ -295,7 +300,7 @@
     <control lang="pt-br" key="IDT_SECURITY_OPTIONS">Opções de Segurança</control>
     <control lang="pt-br" key="IDT_TASKBAR_ICON">Execução em Segundo Plano</control>
     <control lang="pt-br" key="IDT_TRAVELER_MOUNT">Volume VeraCrypt a montar (em relação à raiz do disco removível):</control>
-    <control lang="pt-br" key="IDT_TRAVEL_INSERTION">Ao inserir o disco removível:</control>
+    <control lang="pt-br" key="IDT_TRAVEL_INSERTION">Ao inserir o disco removível: </control>
     <control lang="pt-br" key="IDT_TRAVEL_ROOT">Criar arquivos de disco removível em (diretório raiz do disco removível):</control>
     <control lang="pt-br" key="IDT_VOLUME">Disco</control>
     <control lang="pt-br" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
@@ -340,7 +345,7 @@
     <control lang="pt-br" key="IDD_NEW_TOKEN_KEYFILE">Propriedades de Novo Arquivo-Chave de Token de Segurança</control>
     <control lang="pt-br" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - Melhoramento do Pool Aleatório</control>
     <control lang="pt-br" key="IDD_RAWDEVICES_DLG">Selecione uma partição ou dispositivo</control>
-    <control lang="en" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
+    <control lang="pt-br" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
     <control lang="pt-br" key="IDD_TOKEN_KEYFILES">Arquivos-Chave de Token de Segurança</control>
     <control lang="pt-br" key="IDD_TOKEN_PASSWORD">Senha/PIN do Token de Segurança Exigida</control>
     <control lang="pt-br" key="IDT_ACTIVE_LANG_PACK">Pacote de Idioma Ativo</control>
@@ -366,7 +371,7 @@
     <control lang="pt-br" key="IDT_SECURITY_TOKEN">Token de Segurança:</control>
     <control lang="pt-br" key="IDT_SORT_METHOD">Ordenar por:</control>
     <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may become unresponsive.</control>
+    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
     <control lang="pt-br" key="IDT_TEST_BLOCK_NUMBER">Número do Bloco:</control>
     <control lang="pt-br" key="IDT_TEST_CIPHERTEXT">Texto cifrado (hexadecimal)</control>
     <control lang="pt-br" key="IDT_TEST_DATA_UNIT_NUMBER">Número de unidade de dados (hexadecimal de 64 bits, tamanho da unidade de dados: 512 bytes)</control>
@@ -380,7 +385,7 @@
     <control lang="pt-br" key="MENU_TOOLS">&amp;Ferramentas</control>
     <control lang="pt-br" key="MENU_SETTINGS">Confi&amp;gurações</control>
     <control lang="pt-br" key="MENU_HELP">A&amp;juda</control>
-    <control lang="pt-br" key="MENU_WEBSITE">Homepage</control>
+    <control lang="pt-br" key="MENU_WEBSITE">   Site na Internet   </control>
     <!-- Strings -->
     <string lang="pt-br" key="ABOUTBOX">&amp;Sobre...</string>
     <string lang="pt-br" key="ACCESSMODEFAIL">O atributo de somente-leitura de seu disco antigo não pôde ser alterado. Por favor verifique as permissões de acesso ao arquivo.</string>
@@ -411,13 +416,13 @@
     <string lang="pt-br" key="CIPHER_TITLE">Opções de Criptografia</string>
     <string lang="pt-br" key="CLEAN_WINMRU_FAILED">AVISO: Falha ao limpar o caminho do último disco/arquivo-chave selecionado (mantido via 'seletor de arquivos')!</string>
     <string lang="pt-br" key="COMPRESSION_NOT_SUPPORTED">Erro: O recipiente foi compactado a nível de sistema de arquivo. O VeraCrypt não suporta recipientes compactados (observe que compressão de dados criptografados é ineficiente e redundante).\n\nPor favor, desative a compressão do recipiente através dos seguintes passos: 1) Clique com o botão direito no arquivo recipiente no Windows Explorer (não no VeraCrypt). 2) Selecione 'Propriedades'. 3) Na caixa de diálogo 'Propriedades', clique 'Avançado'. 4) Em 'Atributos Avançados', desative a opção 'Compactar conteúdo para economizar espaço em disco' e clique 'OK'. 5) Na caixa de diálogo 'Propriedades', clique 'OK'.</string>
-    <string lang="pt-br" key="CREATE_FAILED">Falha ao criar volumes %hs</string>
-    <string lang="pt-br" key="DEVICE_FREE_BYTES">Tamanho de %hs é %.2f bytes</string>
-    <string lang="pt-br" key="DEVICE_FREE_KB">Tamanho de %hs é %.2f KB</string>
-    <string lang="pt-br" key="DEVICE_FREE_MB">Tamanho de %hs é %.2f MB</string>
-    <string lang="pt-br" key="DEVICE_FREE_GB">Tamanho de %hs é %.2f GB</string>
-    <string lang="pt-br" key="DEVICE_FREE_TB">Tamanho de %hs é %.2f TB</string>
-    <string lang="pt-br" key="DEVICE_FREE_PB">Tamanho de %hs é %.2f PB</string>
+    <string lang="pt-br" key="CREATE_FAILED">Falha ao criar volumes %s</string>
+    <string lang="pt-br" key="DEVICE_FREE_BYTES">Tamanho de %s é %.2f bytes</string>
+    <string lang="pt-br" key="DEVICE_FREE_KB">Tamanho de %s é %.2f KB</string>
+    <string lang="pt-br" key="DEVICE_FREE_MB">Tamanho de %s é %.2f MB</string>
+    <string lang="pt-br" key="DEVICE_FREE_GB">Tamanho de %s é %.2f GB</string>
+    <string lang="pt-br" key="DEVICE_FREE_TB">Tamanho de %s é %.2f TB</string>
+    <string lang="pt-br" key="DEVICE_FREE_PB">Tamanho de %s é %.2f PB</string>
     <string lang="pt-br" key="DEVICE_IN_USE_FORMAT">AVISO: O dispositivo/partição está em uso pelo sistema operacional ou por programas. Formatar o dispositivo/partição pode causar corrupção de dados e instabilidade do sistema.\n\nDeseja continuar?</string>
     <string lang="pt-br" key="DEVICE_IN_USE_INPLACE_ENC">Aviso: A partição está em uso pelo sistema operacional ou aplicações. Você deve fechar todas as aplicações que possam estar utilizando a partição (incluindo software antivírus) .\n\nContinuar?</string>
     <string lang="pt-br" key="FORMAT_CANT_DISMOUNT_FILESYS">Erro: O dispositivo/partição contém um sistema de arquivo que não pôde ser desmontado. O sistema de arquivo pode estar em uso pelo sistema operacional. Formatar o dispositivo/partição provavelmente causaria corrupção de dados e instabilidade do sistema.\n\nPara resolver esse problema, recomendamos que você primeiro exclua a partição e depois a recrie sem formatar. Para isso, siga os seguintes passos: 1) Clique com o botão direito no ícone 'Meu Computador' no 'Menu Iniciar' e selecione 'Gerenciar'. A janela 'Gerenciamento do Computador' deverá aparecer. 2) Na janela 'Gerenciamento do Computador', selecione 'Armazenamento' e 'Gerenciamento de Disco'. 3) Clique na partição que você deseja criptografar e selecione 'Excluir Partição', 'Excluir Volume', ou 'Excluir Unidade Lógica'. 4) Clique 'Sim'. Se o Windows solicitar, reinicie o computador. Depois, repita os passos 1 e 2 e continue a partir do 5. 5) Clique no espaço não-alocado/livre e selecione 'Nova Partição', 'Novo Volume Simples', ou 'Nova Unidade Logica'. 6) O 'Assistente para Novas Partições' ou 'Assistente para Novo Volume' deverá aparecer agora; siga as instruções. Na página 'Formatar Partição', selecione 'Não formatar esta partição' ou 'Não formatar este volume'. No mesmo assistente, clique em 'Avançar' e em 'Concluir'. 7) Observe que o caminho de dispositivo que você selecionou no VeraCrypt pode estar errado agora. Por isso, saia do Assistente de Criação de Volume do VeraCrypt (se ainda estiver aberto) e abra novamente. 8) Tente criptografar o dispositivo/partição novamente.\n\nSe o VeraCrypt nao conseguir criptografar o dispositivo/partição novamente, você pode tentar criar um arquivo recipiente.</string>
@@ -436,18 +441,18 @@
     <string lang="pt-br" key="INPLACE_ENC_INVALID_PATH">Erro: O VeraCrypt pode criptografar no local apenas uma partição, um volume dinâmico, ou toda uma unidade de sistema. Verifique se o caminho especificado é válido.</string>
     <string lang="pt-br" key="CANNOT_RESIZE_FILESYS">Erro: Não é possível compactar o sistema de arquivos (o sistema de arquivos precisa ser compactado para criar espaço para o cabeçalho de volume e o cabeçalho de backup).\n\nPossíveis causas e soluções:\n\n- Espaço livre insuficiente no volume. Certifique-se que nenhuma outra aplicação está gravando no sistema de arquivos.\n\n- Sistema de arquivos corrompido. Tente verificar e corrigir eventuais erros (clique com o botão direito na letra do drive correspondente na lista do 'Meu Computador', depois selecione Propriedades &gt; Ferramentas &gt; 'Verificar agora', certifique-se que a opção 'Corrigir automaticamente erros no sistema de arquivos' está ativada e clique em Iniciar).\n\nSe as etapas acima não ajudarem, por favor, siga os passos abaixo.</string>
     <string lang="pt-br" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">Erro: Não há espaço livre suficiente no volume e, portanto, o sistema de arquivos não pode ser compactado (o sistema de arquivos precisa ser compactado para criar espaço para o cabeçalho de volume e o cabeçalho de backup).\n\nPor favor, exclua quaisquer arquivos redundantes e esvazie a lixeira a fim de liberar pelo menos 256 KB de espaço e então tente novamente. Note que devido a um problema do Windows, a quantidade de espaço livre indicada pelo Windows Explorer pode estar incorreta até o sistema operacional ser reiniciado. Se reiniciar o sistema não funcionar, o sistema de arquivos pode estar corrompido. Tente checá-lo e corrigir quaisquer erros (clique com o botão direito na letra do drive correspondente na lista do 'Meu Computador', depois selecione Propriedades &gt; Ferramentas &gt; 'Verificar agora', certifique-se que a opção 'Corrigir automaticamente erros no sistema de arquivos' está ativada e clique em Iniciar).\n\nSe as etapas acima não ajudarem, por favor, siga os passos abaixo.</string>
-    <string lang="pt-br" key="DISK_FREE_BYTES">Espaço livre na unidade %hs é %.2f bytes</string>
-    <string lang="pt-br" key="DISK_FREE_KB">Espaço livre na unidade %hs é %.2f KB</string>
-    <string lang="pt-br" key="DISK_FREE_MB">Espaço livre na unidade %hs é %.2f MB</string>
-    <string lang="pt-br" key="DISK_FREE_GB">Espaço livre na unidade %hs é %.2f GB</string>
-    <string lang="pt-br" key="DISK_FREE_TB">Espaço livre na unidade %hs é %.2f TB</string>
-    <string lang="pt-br" key="DISK_FREE_PB">Espaço livre na unidade %hs é %.2f PB</string>
+    <string lang="pt-br" key="DISK_FREE_BYTES">Espaço livre na unidade %s é %.2f bytes</string>
+    <string lang="pt-br" key="DISK_FREE_KB">Espaço livre na unidade %s é %.2f KB</string>
+    <string lang="pt-br" key="DISK_FREE_MB">Espaço livre na unidade %s é %.2f MB</string>
+    <string lang="pt-br" key="DISK_FREE_GB">Espaço livre na unidade %s é %.2f GB</string>
+    <string lang="pt-br" key="DISK_FREE_TB">Espaço livre na unidade %s é %.2f TB</string>
+    <string lang="pt-br" key="DISK_FREE_PB">Espaço livre na unidade %s é %.2f PB</string>
     <string lang="pt-br" key="DRIVELETTERS">Não foi possível obter letras de drive disponíveis.</string>
     <string lang="pt-br" key="DRIVER_NOT_FOUND">Erro: Driver do VeraCrypt não encontrado.\n\nFavor copiar os arquivos 'veracrypt.sys' e 'veracrypt-x64.sys' para a pasta onde o programa principal do VeraCrypt (VeraCrypt.exe) está localizado.</string>
-    <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' &gt; Computer &gt; 'Uninstall or change a program' &gt; VeraCrypt &gt; Uninstall; on Windows XP, select 'Start Menu' &gt; Settings &gt; 'Control Panel' &gt; 'Add Or Remove Programs' &gt; VeraCrypt &gt; Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
+    <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' > Computer > 'Uninstall or change a program' > VeraCrypt > Uninstall; on Windows XP, select 'Start Menu' > Settings > 'Control Panel' > 'Add Or Remove Programs' > VeraCrypt > Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
     <string lang="pt-br" key="ERR_CIPHER_INIT_FAILURE">Erro: Falha ao iniciar a cifra.</string>
     <string lang="pt-br" key="ERR_CIPHER_INIT_WEAK_KEY">Erro: Uma chave fraca ou potencialmente fraca foi detectada. A chave será descartada. Favor tentar novamente.</string>
-    <string lang="pt-br" key="EXCEPTION_REPORT">Um erro crítico ocorreu e o VeraCrypt deve ser encerrado. Se isto for causado por um bug no VeraCrypt, gostaríamos de corrigí-lo. Para nos ajudar, você pode nos enviar um relatório de erro gerado automaticamente contendo os seguintes itens:\n\n- Versão do programa\n- Versão do sistema operacional\n- Tipo de CPU\n- Nome do componente VeraCrypt\n- Checksum do executável do VeraCrypt\n- Nome simbólico da janela\n- Categoria do erro\n- Endereço do erro\n- Chamada de pilha do VeraCrypt\n\nSe você selecionar 'Sim', a seguinte URL (que contém todo o relatório de erro) será aberta no seu navegador de Internet padrão.\n\n%hs\n\nVocê deseja nos enviar o relatório de erro acima?</string>
+    <string lang="pt-br" key="EXCEPTION_REPORT">Um erro crítico ocorreu e o VeraCrypt deve ser encerrado. Se isto for causado por um bug no VeraCrypt, gostaríamos de corrigí-lo. Para nos ajudar, você pode nos enviar um relatório de erro gerado automaticamente contendo os seguintes itens:\n\n- Versão do programa\n- Versão do sistema operacional\n- Tipo de CPU\n- Nome do componente VeraCrypt\n- Checksum do executável do VeraCrypt\n- Nome simbólico da janela\n- Categoria do erro\n- Endereço do erro\n- Chamada de pilha do VeraCrypt\n\nSe você selecionar 'Sim', a seguinte URL (que contém todo o relatório de erro) será aberta no seu navegador de Internet padrão.\n\n%s\n\nVocê deseja nos enviar o relatório de erro acima?</string>
     <string lang="pt-br" key="EXCEPTION_REPORT_EXT">Um erro crítico ocorreu e o VeraCrypt deve ser encerrado.\n\nNote que este erro não foi causado pelo VeraCrypt (por isso seus desenvolvedores não pode corrigí-lo). Por favor, verifique o seu sistema para possíveis problemas (por exemplo, configuração de sistema, conexões de rede, falha em componentes de hardware).</string>
     <string lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</string>
     <string lang="pt-br" key="EXCEPTION_REPORT_TITLE">Erro Crítico do VeraCrypt</string>
@@ -485,7 +490,7 @@
     <string lang="pt-br" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Modo de Criação de Volume</string>
     <string lang="pt-br" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">Este é o caminho mais rápido para criar uma volume VeraCrypt armazenado numa partição ou dispositivo (criptografia no local, que é a outra opção, é mais lenta porque o conteúdo de cada setor tem que ser primeiro lido, criptografado e depois, escrito). Os dados atualmente armazenados na partição/dispositivo selecionado(a) serão perdido (os dados NÃO serão criptografados e serão sobrescritos com dados aleatórios). Se você quiser criptografar os dados existentes em uma partição, escolha a outra opção.</string>
     <string lang="pt-br" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">Toda a partição selecionada e todos os dados armazenados nela serão criptografados no local. Se a partição estiver vazia, você deve escolher a outra opção (o volume será criado muito mais rápido).</string>
-    <string lang="pt-br" key="NOTE_BEGINNING">Nota:</string>
+    <string lang="pt-br" key="NOTE_BEGINNING">Nota: </string>
     <string lang="pt-br" key="RESUME">Continua&amp;r</string>
     <string lang="pt-br" key="DEFER">&amp;Adiar</string>
     <string lang="pt-br" key="START">&amp;Iniciar</string>
@@ -498,7 +503,7 @@
     <string lang="pt-br" key="WIPE_FINISHED">O conteúdo da partição/dispositivo foi apagado com sucesso.</string>
     <string lang="pt-br" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">O conteúdo da partição onde o sistema operacional (do qual o sistema oculta é um clone) está instalado foi apagado com sucesso.</string>
     <string lang="en" key="DECOY_OS_VERSION_WARNING">Please make sure the version of Windows you are going to install (on the wiped partition) is the same as the version of Windows you are currently running. This is required due to the fact that both systems will share a common boot partition.</string>
-    <string lang="en" key="SYSTEM_ENCRYPTION_FINISHED">The system partition/drive has been successfully encrypted.\n\nNote: If there are non-system VeraCrypt volumes that you need to have mounted automatically every time Windows starts, you can set it up by mounting each of them and selecting 'Favorites' &gt; 'Add Mounted Volume to System Favorites').</string>
+    <string lang="en" key="SYSTEM_ENCRYPTION_FINISHED">The system partition/drive has been successfully encrypted.\n\nNote: If there are non-system VeraCrypt volumes that you need to have mounted automatically every time Windows starts, you can set it up by mounting each of them and selecting 'Favorites' > 'Add Mounted Volume to System Favorites').</string>
     <string lang="pt-br" key="SYSTEM_DECRYPTION_FINISHED">O dispositivo/partição de sistema foi descriptografado com sucesso.</string>
     <string lang="pt-br" key="FORMAT_FINISHED_HELP">\n\nO volume VeraCrypt foi criado e está pronto para uso. Se você deseja criar outro volume VeraCrypt, clique em Avançar. Caso contrário, clique em Sair.</string>
     <string lang="pt-br" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nO volume VeraCrypt oculto foi criado com sucesso (o sistema operacional oculto residirá dentro deste volume oculto).\n\nClique em Avançar para continuar.</string>
@@ -554,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="pt-br" key="INIT_SYS_ENC">Não foi possível iniciar componentes do programa de criptografia do sistema.</string>
     <string lang="pt-br" key="INIT_RAND">Falha ao iniciar o gerador de números aleatórios!</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="pt-br" key="INIT_REGISTER">Não foi possível iniciar a aplicação. Falha ao registrar a classe 'Dialog'.</string>
     <string lang="pt-br" key="INIT_RICHEDIT">Erro: Falha ao carregar a biblioteca de sistema Rich Edit.</string>
     <string lang="pt-br" key="INTRO_TITLE">Criação de Volume VeraCrypt</string>
@@ -593,12 +598,12 @@
     <string lang="pt-br" key="SELECT_PKCS11_MODULE">Selecione a biblioteca PKCS #11</string>
     <string lang="pt-br" key="OUTOFMEMORY">Memória Esgotada</string>
     <string lang="en" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">IMPORTANT: We strongly recommend that inexperienced users create a VeraCrypt file container on the selected device/partition, instead of attempting to encrypt the entire device/partition.\n\nWhen you create a VeraCrypt file container (as opposed to encrypting a device or partition) there is, for example, no risk of destroying a large number of files. Note that a VeraCrypt file container (even though it contains a virtual encrypted disk) is actually just like any normal file. For more information, see the chapter Beginner's Tutorial in the VeraCrypt User Guide.\n\nAre you sure you want to encrypt the entire device/partition?</string>
-    <string lang="pt-br" key="OVERWRITEPROMPT">AVISO: O arquivo '%hs' ja existe!\n\nIMPORTANTE: O VERACRYPT NÃO IRÁ CRIPTOGRAFAR O ARQUIVO, MAS APAGÁ-LO. Você tem certeza de que deseja apagar o arquivo e substituí-lo com um novo recipiente VeraCrypt?</string>
-    <string lang="pt-br" key="OVERWRITEPROMPT_DEVICE">CUIDADO: TODOS OS ARQUIVOS ARMAZENADOS NO %s '%hs'%s SELECIONADO SERÃO APAGADOS E PERDIDOS (NÃO CRIPTOGRAFADOS)!\n\nVocê tem certeza de que deseja continuar e formatar?</string>
-    <string lang="pt-br" key="NONSYS_INPLACE_ENC_CONFIRM">AVISO: Você não será capaz de montar o volume ou acessar quaisquer arquivos armazenados nele até que ele tenha sido totalmente criptografado.\n\nTem certeza de que deseja iniciar a criptografia do %s '%hs'%s selecionado?</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%hs'%s?</string>
+    <string lang="pt-br" key="OVERWRITEPROMPT">AVISO: O arquivo '%s' ja existe!\n\nIMPORTANTE: O VERACRYPT NÃO IRÁ CRIPTOGRAFAR O ARQUIVO, MAS APAGÁ-LO. Você tem certeza de que deseja apagar o arquivo e substituí-lo com um novo recipiente VeraCrypt?</string>
+    <string lang="pt-br" key="OVERWRITEPROMPT_DEVICE">CUIDADO: TODOS OS ARQUIVOS ARMAZENADOS NO %s '%s'%s SELECIONADO SERÃO APAGADOS E PERDIDOS (NÃO CRIPTOGRAFADOS)!\n\nVocê tem certeza de que deseja continuar e formatar?</string>
+    <string lang="pt-br" key="NONSYS_INPLACE_ENC_CONFIRM">AVISO: Você não será capaz de montar o volume ou acessar quaisquer arquivos armazenados nele até que ele tenha sido totalmente criptografado.\n\nTem certeza de que deseja iniciar a criptografia do %s '%s'%s selecionado?</string>
+    <string lang="en" key="NONSYS_INPLACE_DEC_CONFIRM">WARNING: You will not be able to mount the volume or access any files stored on it until it has been fully decrypted.\n\nAre you sure you want to start decrypting the selected %s '%s'%s?</string>
     <string lang="pt-br" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">AVISO: Por favor, note que se o fornecimento de energia for interrompido de repente durante a criptografia dos dados existentes no local, ou quando o sistema operacional falhar devido a um erro de software ou hardware defeituoso enquanto o VeraCrypt estiver criptografando os dados existentes no local, porções dos dados serão corrompidos ou perdidos. Portanto, antes de começar a criptografia, certifique-se de possuir cópias de backup dos arquivos que você deseja criptografar.\n\nVocê tem um backup desses?</string>
-    <string lang="pt-br" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">CUIDADO: OS ARQUIVOS ATUALMENTE ARMAZENADOS NA PARTIÇÃO '%hs'%s (OU SEJA, A PRIMEIRA PARTIÇÃO ATRÁS DA PARTIÇÃO DO SISTEMA) SERÃO APAGADOS E PERDIDOS (ELES NÃO SERÃO CRIPTOGRAFADOS)!\n\nTem certeza que deseja prosseguir com o formato?</string>
+    <string lang="pt-br" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">CUIDADO: OS ARQUIVOS ATUALMENTE ARMAZENADOS NA PARTIÇÃO '%s'%s (OU SEJA, A PRIMEIRA PARTIÇÃO ATRÁS DA PARTIÇÃO DO SISTEMA) SERÃO APAGADOS E PERDIDOS (ELES NÃO SERÃO CRIPTOGRAFADOS)!\n\nTem certeza que deseja prosseguir com o formato?</string>
     <string lang="pt-br" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">AVISO: A PARTIÇÃO SELECIONADA CONTÉM UMA GRANDE QUANTIDADE DE DADOS! Todos os arquivos armazenados na partição serão apagados e perdidos (eles não serão criptografados)!</string>
     <string lang="pt-br" key="ERASE_FILES_BY_CREATING_VOLUME">Apague todos os arquivos armazenados na partição, criando um volume VeraCrypt dentro dele</string>
     <string lang="pt-br" key="PASSWORD">Senha</string>
@@ -618,8 +623,8 @@
     <string lang="pt-br" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Selecione um dos volumes listados. A lista contém todos os volumes não-sistema acessíveis em que o processo de criptografia tenha sido interrompido e cujo cabeçalho poderia ser descriptografado usando a senha e/ou arquivo(s)-chave fornecidos.</string>
     <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
     <string lang="pt-br" key="PASSWORD_HELP">É muito importante que você escolha uma boa senha. Evite escolher uma que contenha apenas uma única palavra que pode ser encontrada em um dicionário (ou uma combinação de 2, 3 ou 4 palavras assim). A senha não deve conter quaisquer nomes ou datas de nascimento. Não deve ser fácil de adivinhar. Uma boa senha é uma combinação aleatória de letras maiúsculas e minúsculas, números e caracteres especiais, como @ ^ = $ * + etc. Recomendamos escolher uma senha com mais de 20 caracteres (quanto mais longo, melhor). O comprimento máximo é 64 caracteres.</string>
-    <string lang="pt-br" key="PASSWORD_HIDDENVOL_HELP">Escolha uma senha para o volume oculto.</string>
-    <string lang="pt-br" key="PASSWORD_HIDDEN_OS_HELP">Por favor, escolha uma senha para o sistema operacional oculto (ou seja, para o volume oculto).</string>
+    <string lang="pt-br" key="PASSWORD_HIDDENVOL_HELP">Escolha uma senha para o volume oculto. </string>
+    <string lang="pt-br" key="PASSWORD_HIDDEN_OS_HELP">Por favor, escolha uma senha para o sistema operacional oculto (ou seja, para o volume oculto). </string>
     <string lang="pt-br" key="PASSWORD_HIDDEN_OS_NOTE">IMPORTANTE: A senha que você escolher para o sistema operacional oculto nesta etapa deve ser substancialmente diferente das outras duas senhas (ou seja, da senha do volume externo e da senha do sistema operacional isca).</string>
     <string lang="pt-br" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">Favor digitar a senha para o disco que você dentro do qual você deseja criar o volume oculto.\n\nDepois de clicar 'Próximo', o VeraCrypt vai tentar montar o disco. Assim que o disco estiver montado, seu bitmap de cluster será varrido para determinar o tamanho da área livre ininterrupta (se houver) cujo final está alinhado com o final do disco. Esta área irá acomodar o volume oculto e irá limitar seu tamanho máximo. A varredura do mapa de clusters é necessária para garantir que nenhum dado do volume externo será sobrescrito pelo volume oculto.</string>
     <string lang="pt-br" key="PASSWORD_HIDDENVOL_HOST_HELP">\nPor favor escolha uma senha para o volume externo. Esta será a senha que você poderá revelar a um adversário se lhe for pedido ou forçado a fazê-lo.\n\nIMPORTANTE: A senha deve ser substancialmente diferente da que você vai escolher para o volume oculto.\n\nNota: O comprimento máximo possível da senha é 64 caracteres.</string>
@@ -636,6 +641,8 @@
     <string lang="pt-br" key="PASSWORD_WRONG_AUTOMOUNT">Senha incorreta ou nenhum volume VeraCrypt encontrado.</string>
     <string lang="pt-br" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Senha e/ou arquivo-chave incorretos ou nenhum volume VeraCrypt encontrado.</string>
     <string lang="pt-br" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nAVISO: A função Caps Lock está ligada. Isto pode levar a uma digitação incorreta da senha.</string>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -647,7 +654,7 @@
     <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
     <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
     <string lang="en" key="PIM_TITLE">Volume PIM</string>
-    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer &gt; Organize &gt; 'Folder and search options' &gt; View).</string>
+    <string lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer > Organize > 'Folder and search options' > View).</string>
     <string lang="pt-br" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">Se você está tentando proteger um volume oculto contendo um sistema oculto, certifique-se de estar usando uma configuração de teclado padrão US quando digitar a senha do volume oculto. Isto porque tal senha precisará ser digitada no ambiente pré-boot (antes do Windows iniciar) onde configurações diferentes do padrão US de teclado não estão disponíveis.</string>
     <string lang="pt-br" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">O VeraCrypt não encontrou nenhum volume onde a criptografia não-sistema tenha sido interrompida e onde o cabeçalho do volume pode ser descriptografado usando a senha e/ou arquivo(s)-chave fornecidos.\n\nPor favor, certifique-se que a senha e/ou arquivo(s)-chave estão corretos e que a partição/volume não está sendo usada pelo sistema ou aplicativos (incluindo software antivírus).</string>
     <string lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</string>
@@ -658,7 +665,7 @@
     <string lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</string>
     <string lang="pt-br" key="PREV">&lt; &amp;Voltar</string>
     <string lang="pt-br" key="RAWDEVICES">Não foi possível listar os dispositivos instalados em seu sistema!</string>
-    <string lang="pt-br" key="READONLYPROMPT">O disco '%hs' já existe e está protegido contra gravação. Tem certeza que deseja substituí-lo?</string>
+    <string lang="pt-br" key="READONLYPROMPT">O disco '%s' já existe e está protegido contra gravação. Tem certeza que deseja substituí-lo?</string>
     <string lang="pt-br" key="SELECT_DEST_DIR">Selecione o Diretório de Destino</string>
     <string lang="pt-br" key="SELECT_KEYFILE">Selecione o Arquivo-chave</string>
     <string lang="pt-br" key="SELECT_KEYFILE_PATH">Selecione o caminho do arquivo-chave. AVISO: Lembre que apenas o caminho sera lembrado, não os nomes dos arquivos!</string>
@@ -682,13 +689,13 @@
     <string lang="pt-br" key="TEST_CIPHERTEXT_SIZE">O texto cifrado de teste que você escolheu é muito curto ou muito longo.</string>
     <string lang="pt-br" key="TEST_KEY_SIZE">A chave de teste que você escolheu é muito curta ou muito longa.</string>
     <string lang="pt-br" key="TEST_PLAINTEXT_SIZE">O texto em claro de teste que você escolheu é muito curto ou muito longo.</string>
-    <string lang="pt-br" key="TWO_LAYER_CASCADE_HELP">Duas cifras operando em modo XTS em cascata. Cada bloco é criptografado primeiro com %hs (chave de %d bits) e depois com %hs (chave de %d bits). Cada cifra utiliza sua própria chave. Todas as chaves são independentes das outras.</string>
-    <string lang="pt-br" key="THREE_LAYER_CASCADE_HELP">Três cifras operando em modo XTS em cascata. Cada bloco é criptografado primeiro com %hs (chave de %d bits), depois com %hs (chave de %d bits) e, finalmente, com %hs (chave de %d bits). Cada cifra utiliza sua própria chave. Todas as chaves são independentes das outras.</string>
+    <string lang="pt-br" key="TWO_LAYER_CASCADE_HELP">Duas cifras operando em modo XTS em cascata. Cada bloco é criptografado primeiro com %s (chave de %d bits) e depois com %s (chave de %d bits). Cada cifra utiliza sua própria chave. Todas as chaves são independentes das outras.</string>
+    <string lang="pt-br" key="THREE_LAYER_CASCADE_HELP">Três cifras operando em modo XTS em cascata. Cada bloco é criptografado primeiro com %s (chave de %d bits), depois com %s (chave de %d bits) e, finalmente, com %s (chave de %d bits). Cada cifra utiliza sua própria chave. Todas as chaves são independentes das outras.</string>
     <string lang="pt-br" key="AUTORUN_MAY_NOT_ALWAYS_WORK">Note que, dependendo da configuração do sistema operacional, os recursos de auto-executar e auto-montar podem funcionar só quando os arquivos do disco removível estiverem criados em uma mídia de CD/DVD não-regravável. Note também que este não é um bug do VeraCrypt (é uma limitação do Windows).</string>
     <string lang="en" key="TRAVELER_DISK_CREATED">VeraCrypt traveler disk has been successfully created.\n\nNote that you need administrator privileges to run VeraCrypt in portable mode. Also note that, after examining the registry file, it may be possible to tell that VeraCrypt was run on a Windows system even if it is run in portable mode.</string>
     <string lang="pt-br" key="TC_TRAVELER_DISK">Disco Removível VeraCrypt</string>
     <string lang="pt-br" key="TWOFISH_HELP">Criado por Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall e Niels Ferguson. Publicado em 1998. chave de 256 bits, bloco de 128 bits. Modo de operação XTS. O Twofish foi um dos finalistas para o AES.</string>
-    <string lang="pt-br" key="MORE_INFO_ABOUT">Mais informações sobre %hs</string>
+    <string lang="pt-br" key="MORE_INFO_ABOUT">Mais informações sobre %s</string>
     <string lang="pt-br" key="UNKNOWN">Desconhecido</string>
     <string lang="en" key="ERR_UNKNOWN">An unspecified or unknown error occurred (%d).</string>
     <string lang="pt-br" key="UNMOUNTALL_LOCK_FAILED">Alguns discos contem arquivos ou pastas que estão sendo usadas.\n\nDesmontar forçadamente?</string>
@@ -696,7 +703,7 @@
     <string lang="pt-br" key="UNMOUNT_FAILED">Falha ao desmontar!</string>
     <string lang="pt-br" key="UNMOUNT_LOCK_FAILED">Disco contém arquivos ou pastas que estão sendo usadas.\n\nDesmontar forçadamente?</string>
     <string lang="en" key="NO_VOLUME_MOUNTED_TO_DRIVE">No volume is mounted to the specified drive letter.</string>
-    <string lang="pt-br" key="VOL_ALREADY_MOUNTED">O disco que voce está tebntando montar já está montado.</string>
+    <string lang="pt-br" key="VOL_ALREADY_MOUNTED">O disco que voce está tebntando montar já está montado. </string>
     <string lang="pt-br" key="VOL_MOUNT_FAILED">Um erro ocorreu ao tentar montar o disco.</string>
     <string lang="pt-br" key="VOL_SEEKING">Erro ao procurar a localização dentro do disco.</string>
     <string lang="pt-br" key="VOL_SIZE_WRONG">Erro: Tamanho do disco incorreto.</string>
@@ -708,7 +715,7 @@
     <string lang="pt-br" key="WRONG_VOL_TYPE">O VeraCrypt não pode mudar a senha de um volume externo.</string>
     <string lang="pt-br" key="SELECT_FREE_DRIVE">Favor selecionar uma letra de drive na lista.</string>
     <string lang="pt-br" key="SELECT_A_MOUNTED_VOLUME">Favor selecionar um disco montado na lista de letras de drive.</string>
-    <string lang="en" key="AMBIGUOUS_VOL_SELECTION">Two different mounted volumes are currently selected (one in the drive letter list and the other in the input field below the list).\n\nPlease choose the volume you wanted to select:</string>
+    <string lang="en" key="AMBIGUOUS_VOL_SELECTION">Warning: Two different volumes/devices are currently selected (the first is selected in the drive letter list and the second is selected in the input field below the drive letter list).\n\nPlease confirm your choice:</string>
     <string lang="pt-br" key="CANT_CREATE_AUTORUN">Erro: Não foi possível criar autorun.inf</string>
     <string lang="pt-br" key="ERR_PROCESS_KEYFILE">Erro enquanto processava o arquivo-chave!</string>
     <string lang="pt-br" key="ERR_PROCESS_KEYFILE_PATH">Erro enquanto processava o caminho de arquivos-chave!</string>
@@ -814,7 +821,7 @@
     <string lang="pt-br" key="PKCS5_ITERATIONS">Contagem de Iterações do PKCS-5</string>
     <string lang="pt-br" key="VOLUME_CREATE_DATE">Disco Criado</string>
     <string lang="pt-br" key="VOLUME_HEADER_DATE">Última modificação do cabeçalho</string>
-    <string lang="pt-br" key="VOLUME_HEADER_DAYS">(%I64d dias atrás)</string>
+    <string lang="pt-br" key="VOLUME_HEADER_DAYS"> (%I64d dias atrás)</string>
     <string lang="pt-br" key="VOLUME_FORMAT_VERSION">Versão de Formatação do Volume</string>
     <string lang="pt-br" key="BACKUP_HEADER">Cabeçalho de Backup Embutido</string>
     <string lang="en" key="VC_BOOT_LOADER_VERSION">VeraCrypt Boot Loader Version</string>
@@ -853,7 +860,7 @@
     <string lang="pt-br" key="INSTALL_FAILED">A instalação falhou.</string>
     <string lang="pt-br" key="UNINSTALL_FAILED">A desinstalação falhou.</string>
     <string lang="pt-br" key="DIST_PACKAGE_CORRUPTED">Este pacote de distribuição parece estar danificado. Tente baixá-lo novamente (de preferência a partir do nosso site oficial https://veracrypt.codeplex.com).</string>
-    <string lang="pt-br" key="CANNOT_WRITE_FILE_X">Não foi possível gravr o arquivoe %hs</string>
+    <string lang="pt-br" key="CANNOT_WRITE_FILE_X">Não foi possível gravr o arquivoe %s</string>
     <string lang="pt-br" key="EXTRACTING_VERB">Extraindo</string>
     <string lang="pt-br" key="CANNOT_READ_FROM_PACKAGE">Não foi possível ler alguns dados do pacote de instalação.</string>
     <string lang="pt-br" key="CANT_VERIFY_PACKAGE_INTEGRITY">Não foi possível verificar a integridade do pacote de instalação.</string>
@@ -862,8 +869,8 @@
     <string lang="pt-br" key="INSTALL_OK">O VeraCrypt foi instalado com sucesso.</string>
     <string lang="pt-br" key="SETUP_UPDATE_OK">O VeraCrypt foi atualizado com sucesso.</string>
     <string lang="en" key="UPGRADE_OK_REBOOT_REQUIRED">VeraCrypt has been successfully upgraded. However, before you can start using it, the computer must be restarted.\n\nDo you want to restart it now?</string>
-    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu &gt; All programs &gt; Accessories &gt; System Tools &gt; System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
-    <string lang="pt-br" key="UNINSTALL_OK">O VeraCrypt foi desinstalado com sucesso.\n\nClique em 'Concluir' para remover o instalador do VeraCrypt e a pasta %hs. Observe que a pasta não será removida se ela contiver algum arquivo que não tenha sido criado pelo VeraCrypt ou instalado pelo seu instalador.</string>
+    <string lang="en" key="SYS_ENC_UPGRADE_FAILED">Failed to upgrade VeraCrypt!\n\nIMPORTANT: Before you shut down or restart the system, we strongly recommend that you use System Restore (Windows Start menu > All programs > Accessories > System Tools > System Restore) to restore your system to the restore point named 'VeraCrypt installation'. If System Restore is not available, you should try installing the original or the new version of VeraCrypt again before you shut down or restart the system.</string>
+    <string lang="pt-br" key="UNINSTALL_OK">O VeraCrypt foi desinstalado com sucesso.\n\nClique em 'Concluir' para remover o instalador do VeraCrypt e a pasta %s. Observe que a pasta não será removida se ela contiver algum arquivo que não tenha sido criado pelo VeraCrypt ou instalado pelo seu instalador.</string>
     <string lang="pt-br" key="REMOVING_REG">Removendo entradas do VeraCrypt do registro</string>
     <string lang="pt-br" key="ADDING_REG">Adicionando entrada no registro</string>
     <string lang="pt-br" key="REMOVING_APPDATA">Removendo dados específicos da aplicação</string>
@@ -874,10 +881,10 @@
     <string lang="pt-br" key="CREATING_SYS_RESTORE">Criando ponto de restauração do sistema</string>
     <string lang="pt-br" key="FAILED_SYS_RESTORE">Falha ao criar o ponto de restauração do sistema!</string>
     <string lang="pt-br" key="INSTALLER_UPDATING_BOOT_LOADER">Atualizando gerenciador de boot</string>
-    <string lang="pt-br" key="INSTALL_OF_FAILED">Não foi possível instalar '%hs'. %hs Você deseja continuar instalando?</string>
-    <string lang="pt-br" key="UNINSTALL_OF_FAILED">Não foi possível desinstalar '%hs'. %hs Você deseja continuar desinstalando?</string>
+    <string lang="pt-br" key="INSTALL_OF_FAILED">Não foi possível instalar '%s'. %s Você deseja continuar instalando?</string>
+    <string lang="pt-br" key="UNINSTALL_OF_FAILED">Não foi possível desinstalar '%s'. %s Você deseja continuar desinstalando?</string>
     <string lang="pt-br" key="INSTALL_COMPLETED">Instalação concluída.</string>
-    <string lang="pt-br" key="CANT_CREATE_FOLDER">A pasta '%hs' não pode ser criada</string>
+    <string lang="pt-br" key="CANT_CREATE_FOLDER">A pasta '%s' não pode ser criada</string>
     <string lang="pt-br" key="CLOSE_TC_FIRST">O driver de dispositivo do VeraCrypt não pôde ser encerrado.\n\nFavor fechar todas as janelas do VeraCrypt primeiro. Se não adiantar, reinicie o Windows e tente novamente.</string>
     <string lang="pt-br" key="DISMOUNT_ALL_FIRST">Todos os volumes VeraCrypt precisam ser fechados antes de instalar ou desinstalar o VeraCrypt.</string>
     <string lang="en" key="UNINSTALL_OLD_VERSION_FIRST">An obsolete version of VeraCrypt is currently installed on this system. It needs to be uninstalled before you can install this new version of VeraCrypt.\n\nAs soon as you close this message box, the uninstaller of the old version will be launched. Note that no volume will be decrypted when you uninstall VeraCrypt. After you uninstall the old version of VeraCrypt, run the installer of the new version of VeraCrypt again.</string>
@@ -923,14 +930,14 @@
     <string lang="en" key="SYS_FAVORITE_VOLUMES_SAVED">System favorite volumes saved.\n\nTo enable mounting of system favorite volumes when the system starts, please select 'Settings' &gt; 'System Favorite Volumes' &gt; 'Mount system favorite volumes when Windows starts'.</string>
     <string lang="en" key="FAVORITE_ADD_DRIVE_DEV_WARNING">The volume you are adding to favorites is neither a partition nor a dynamic volume. Therefore, VeraCrypt will be unable to mount this favorite volume if the device number changes.</string>
     <string lang="en" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">The volume you are adding to favorites is a partition not recognized by Windows.\n\nVeraCrypt will be unable to mount this favorite volume if the device number changes. Please set the type of the partition to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then add the partition to favorites again.</string>
-    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">VeraCrypt Background Task is disabled or it is configured to exit when there are no mounted volumes (or VeraCrypt is running in portable mode). This may prevent your favorite volumes from being automatically mounted when devices hosting them get connected.\n\nNote: To enable the VeraCrypt Background Task, select Settings &gt; Preferences and check the 'Enabled' checkbox in the section 'VeraCrypt Background Task'.</string>
+    <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">VeraCrypt Background Task is disabled or it is configured to exit when there are no mounted volumes (or VeraCrypt is running in portable mode). This may prevent your favorite volumes from being automatically mounted when devices hosting them get connected.\n\nNote: To enable the VeraCrypt Background Task, select Settings > Preferences and check the 'Enabled' checkbox in the section 'VeraCrypt Background Task'.</string>
     <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR">A container stored in a remote filesystem shared over a network cannot be automatically mounted when its host device gets connected.</string>
     <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, the volume hosted on the device cannot be automatically mounted when the device gets connected.</string>
     <string lang="en" key="FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable the volume hosted on the device to be automatically mounted when the device gets connected.</string>
     <string lang="en" key="FAVORITE_LABEL_DEVICE_PATH_ERR">The device displayed below is neither a partition nor a dynamic volume. Therefore, no label can be assigned to it.</string>
     <string lang="en" key="FAVORITE_LABEL_PARTITION_TYPE_ERR">Please set the type of the partition displayed below to a type recognized by Windows (use the SETID command of the Windows 'diskpart' tool). Then remove the partition from favorites and add it again. This will enable VeraCrypt to assign a label to the partition.</string>
     <string lang="en" key="SYSTEM_FAVORITE_NETWORK_PATH_ERR">Due to a Windows limitation, a container stored in a remote filesystem shared over a network cannot be mounted as a system favorite volume (however, it can be mounted as a non-system favorite volume when a user logs on).</string>
-    <string lang="pt-br" key="ENTER_PASSWORD_FOR">Entre senha para %hs</string>
+    <string lang="pt-br" key="ENTER_PASSWORD_FOR">Entre senha para %s</string>
     <string lang="en" key="ENTER_PASSWORD_FOR_LABEL">Enter password for '%s'</string>
     <string lang="pt-br" key="ENTER_NORMAL_VOL_PASSWORD">Digite a senha para o volume normal/externo</string>
     <string lang="pt-br" key="ENTER_HIDDEN_VOL_PASSWORD">Digite a senha para o volume oculto</string>
@@ -945,8 +952,8 @@
     <string lang="pt-br" key="VOL_HEADER_BACKED_UP">O cabeçalho do volume foi copiado com sucesso.\n\nIMPORTANTE: Restaurar o cabeçalho do volume usando essa cópia também irá restaurar a senha do volume. Além disso, se algum(s) arquivo(s)-chave for(em) necessário(s) para montar este volume, o(s) mesmo(s) arquivo(s)-chave será(ão) necessário(s) para montar o volume de novo quando seu cabeçalho for restaurado.\n\nAVISO: Esta cópia so poderá ser usada para restaurar o cabeçalho DESTE volume. Se você utilizar esta cópia para restaurar o cabeçalho de outro volume, ainda será possível montá-lo, mas não descriptografar qualquer dado nele (porque você irá mudar a chave mestra).</string>
     <string lang="pt-br" key="VOL_HEADER_RESTORED">O cabeçalho do volume foi restaurado com sucesso.\n\nIMPORTANTE: Lembre que as senhas antigas foram restauras também. Além disto, se eram necessários arquivos-chave para montar o disco, os mesmos arquivos serão necessários novamente.</string>
     <string lang="pt-br" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">Por motivos de segurança, você terá que digitar a senha correta (e/ou fornecer o arquivo-chave correto) para o volume.\n\nNota: Se o volume contém um volume oculto, você terá que digitar a senha correta (e/ou fornecer o arquivo-chave correto) para o volume externo primeiro. Depois, se você optar por fazer um backup do cabeçalho do volume oculto, você terá de digitar a senha correta (e/ou fornecer o arquivo-chave correto) para o volume oculto.</string>
-    <string lang="pt-br" key="CONFIRM_VOL_HEADER_BAK">Tem certeza de que deseja criar um backup do cabeçalho do volume para %hs?\n\nDepois de clicar em Sim, você será perguntado por um nome de arquivo para o backup.\n\nNota: Ambos os cabeçalhos do volume normal e do oculto serão re-criptografados usando um novo salt e armazenados no arquivo de backup. Se não existir um volume oculto dentro deste volume, a área reservada para o cabeçalho do volume oculto no arquivo de backup será preenchida com dados aleatórios (para preservar a camuflagem de informação). Ao restaurar um cabeçalho de volume do arquivo de backup, você precisará digitar a senha correta (e/ou fornecer os arquivos-chave corretos) que era válida quando o backup do cabeçalho foi criado. A senha (e/ou arquivos-chave) também determinará automaticamente o tipo de cabeçalho de volume para restaurar, ou seja, normal ou oculto (note que o VeraCrypt determina o tipo através do processo de tentativa e erro).</string>
-    <string lang="pt-br" key="CONFIRM_VOL_HEADER_RESTORE">Tem certeza que deseja restaurar o cabeçalho do disco %hs?\n\nAVISO: Ao restaurar o cabeçalho de um disco, também é restaurada a senha que era válida no momento em que o cabeçalho foi copiado. Além disto, se eram necessários arquivos-chave para montar o disco, os mesmos arquivos serão necessários novamente.\n\nSe voce clicar 'Sim', voce deverá selecionar o arquivo com a cópia do cabeçalho.</string>
+    <string lang="pt-br" key="CONFIRM_VOL_HEADER_BAK">Tem certeza de que deseja criar um backup do cabeçalho do volume para %s?\n\nDepois de clicar em Sim, você será perguntado por um nome de arquivo para o backup.\n\nNota: Ambos os cabeçalhos do volume normal e do oculto serão re-criptografados usando um novo salt e armazenados no arquivo de backup. Se não existir um volume oculto dentro deste volume, a área reservada para o cabeçalho do volume oculto no arquivo de backup será preenchida com dados aleatórios (para preservar a camuflagem de informação). Ao restaurar um cabeçalho de volume do arquivo de backup, você precisará digitar a senha correta (e/ou fornecer os arquivos-chave corretos) que era válida quando o backup do cabeçalho foi criado. A senha (e/ou arquivos-chave) também determinará automaticamente o tipo de cabeçalho de volume para restaurar, ou seja, normal ou oculto (note que o VeraCrypt determina o tipo através do processo de tentativa e erro).</string>
+    <string lang="pt-br" key="CONFIRM_VOL_HEADER_RESTORE">Tem certeza que deseja restaurar o cabeçalho do disco %s?\n\nAVISO: Ao restaurar o cabeçalho de um disco, também é restaurada a senha que era válida no momento em que o cabeçalho foi copiado. Além disto, se eram necessários arquivos-chave para montar o disco, os mesmos arquivos serão necessários novamente.\n\nSe voce clicar 'Sim', voce deverá selecionar o arquivo com a cópia do cabeçalho.</string>
     <string lang="pt-br" key="DOES_VOLUME_CONTAIN_HIDDEN">O volume contém um volume oculto?</string>
     <string lang="pt-br" key="VOLUME_CONTAINS_HIDDEN">O volume contém um volume oculto</string>
     <string lang="pt-br" key="VOLUME_DOES_NOT_CONTAIN_HIDDEN">O volume não contém um volume oculto</string>
@@ -958,11 +965,13 @@
     <string lang="pt-br" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Você está tentando fazer back up do cabeçalho do dispositivo/partição de sistema. Isto não é permitido. Operações de backup e restauração com o dispositivo/partição de sistema só podem ser realizadas utilizando o Disco de Emergência VeraCrypt.\n\nVocê deseja criar um Disco de Emergência VeraCrypt?</string>
     <string lang="pt-br" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Você está tentando restaurar o cabeçalho do dispositivo/partição de sistema. Isto não é permitido. Operações de backup e restauração com o dispositivo/partição de sistema só podem ser realizadas utilizando o Disco de Emergência VeraCrypt.\n\nVocê deseja criar um Disco de Emergência VeraCrypt?</string>
     <string lang="pt-br" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Depois de clicar em OK, você irá selecionar um nome para o arquivo da imagem ISO do novo Disco de Emergência VeraCrypt e o local onde você deseja salvá-lo.</string>
-    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nIMPORTANT: Note that the file must be written to the CD/DVD as an ISO disk image (not as an individual file). For information on how to do so, please refer to the documentation of your CD/DVD recording software.\n\nAfter you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
-    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nDo you want to launch the Microsoft Windows Disc Image Burner now?\n\nNote: After you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
+    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nIMPORTANT: Note that the file must be written to the CD/DVD as an ISO disk image (not as an individual file). For information on how to do so, please refer to the documentation of your CD/DVD recording software.\n\nAfter you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
+    <string lang="en" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to burn the Rescue Disk image to a CD or DVD.\n\nDo you want to launch the Microsoft Windows Disc Image Burner now?\n\nNote: After you burn the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly burned.</string>
     <string lang="pt-br" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Insira seu Disco de Emergência VeraCrypt no drive de CD/DVD e clique em OK para verificá-lo.</string>
     <string lang="pt-br" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">O Disco de Emergência VeraCrypt foi verificado com sucesso.</string>
     <string lang="pt-br" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Não foi possível verificar se o Disco de Emergência foi gravado corretamente.\n\nSe você ja gravou o Disco de Emergência, remova o CD/DVD, coloque-o novamente e tente novamente. Se isto não andiantar, tente utilisar outro programa para gravar o CD/DVD ou outro CD/DVD.\n\nSe você tentou verificar um Disco de Emergência VeraCrypt criado para uma chave mestra, senha, salt, etc. diferente, lembre que esse Disco de Emergência will vai sempre causar erro nesta verificação. Para criar um novo Disco de Emergência compatível com esta configuração, clique em 'Sistema' &gt; 'Criar Disco de Emergência'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="pt-br" key="ERROR_CREATING_RESCUE_DISK">Erro ao criar o Disco de Emergência VeraCrypt.</string>
     <string lang="pt-br" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">O Disco de Emergência VeraCrypt não pode ser criado quando um sistema operacional oculto está sendo executado.\n\nPara criar um Disco de Emergência VeraCrypt, inicialize o sistema operacional isca e então selecione 'Sistema' &gt; 'Criar Disco de Emergência'.</string>
     <string lang="en" key="RESCUE_DISK_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly burned.\n\nIf you have burned the Rescue Disk, please eject and reinsert the CD/DVD; then click Next to try again. If this does not help, please try another medium%s.\n\nIf you have not burned the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to burn the newly generated Rescue Disk.</string>
@@ -985,14 +994,14 @@
     <string lang="pt-br" key="DIGIT_ONE">1</string>
     <string lang="pt-br" key="TWO_OR_MORE">2 ou mais</string>
     <string lang="pt-br" key="MODE_OF_OPERATION">Modo de Operação</string>
-    <string lang="pt-br" key="LABEL_ITEM">Etiqueta:</string>
-    <string lang="pt-br" key="SIZE_ITEM">Tamanho:</string>
-    <string lang="pt-br" key="PATH_ITEM">Caminho:</string>
-    <string lang="pt-br" key="DRIVE_LETTER_ITEM">Letra da Unidade:</string>
+    <string lang="pt-br" key="LABEL_ITEM">Etiqueta:   </string>
+    <string lang="pt-br" key="SIZE_ITEM">Tamanho:   </string>
+    <string lang="pt-br" key="PATH_ITEM">Caminho:   </string>
+    <string lang="pt-br" key="DRIVE_LETTER_ITEM">Letra da Unidade:   </string>
     <string lang="pt-br" key="UNSUPPORTED_CHARS_IN_PWD">Erro: A senha deve conter apenas caracteres ASCII.\n\nCaracteres diferentes podem impossibilitar a montagem dos disco  quando as configurações do seus sistema forem alteradas.\n\nOs seguinte caracteres são permitidos:\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
     <string lang="pt-br" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">AVISO: A senha contém caracteres não-ASCII. Isto pode impossibilitar a montagem do volume quando as configurações do seus sistema mudarem.\n\nVoce deveria substituir todos os caracteres não-ASCII na senha por caracteres ASCII. Para faze-lo, clique em 'Discos' -&gt; 'Alterar a Senha do Disco'.\n\nOs caracteres ASCII são:\n\n ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</string>
-    <string lang="pt-br" key="EXE_FILE_EXTENSION_CONFIRM">AVISO: Recomendamos que você evite extensões usadas para arquivos executáveis (como .exe, .sys ou .dll) ou outra extensão igualmente problemática. É muito provável que usar essa extensão faça o Windows e programas antivírus interferirem nesse recipiente, o que pode afetar o desempenho do volume além de causar outros problemas sérios.\n\nRecomendamos que você remova ou mude a extensão do recipiente (por exemplo, para .tc).\n\nVocê tem certeza de que deseja usar essa extensão problemática?</string>
-    <string lang="pt-br" key="EXE_FILE_EXTENSION_MOUNT_WARNING">AVISO: Este recipiente tem uma extensão usada para arquivos executáveis (como .exe, .sys ou .dll) ou outra extensão igualmente problemática. É muito provável que usar essa extensão faça o Windows e programas antivírus interferirem nesse recipiente, o que pode afetar o desempenho do volume além de causar outros problemas sérios.\n\nRecomendamos que você remova ou mude a extensão do recipiente (por exemplo, para .tc) após desmontar o volume.</string>
+    <string lang="pt-br" key="EXE_FILE_EXTENSION_CONFIRM">AVISO: Recomendamos que você evite extensões usadas para arquivos executáveis (como .exe, .sys ou .dll) ou outra extensão igualmente problemática. É muito provável que usar essa extensão faça o Windows e programas antivírus interferirem nesse recipiente, o que pode afetar o desempenho do volume além de causar outros problemas sérios.\n\nRecomendamos que você remova ou mude a extensão do recipiente (por exemplo, para .hc).\n\nVocê tem certeza de que deseja usar essa extensão problemática?</string>
+    <string lang="pt-br" key="EXE_FILE_EXTENSION_MOUNT_WARNING">AVISO: Este recipiente tem uma extensão usada para arquivos executáveis (como .exe, .sys ou .dll) ou outra extensão igualmente problemática. É muito provável que usar essa extensão faça o Windows e programas antivírus interferirem nesse recipiente, o que pode afetar o desempenho do volume além de causar outros problemas sérios.\n\nRecomendamos que você remova ou mude a extensão do recipiente (por exemplo, para .hc) após desmontar o volume.</string>
     <string lang="pt-br" key="HOMEPAGE">Site na Internet</string>
     <string lang="pt-br" key="LARGE_IDE_WARNING_XP">AVISO: Parece que voce não aplicou os Service Packs no Windows. Voce não deve gravar em discos IDE maiores que 128 GB em um Windows XP sem o Service Pack 1 ou superior! Se você o fizer, os dados no disco podem ser corrompidos. Lembre que esta é uma limitação do Windows, não um bug no VeraCrypt.</string>
     <string lang="pt-br" key="LARGE_IDE_WARNING_2K">AVISO: Parece que voce não aplicou o Service Pack 3 ou superior no seu Windows. Voce não deve grevar em discos IDE maiores que 128 GB em um Windows 2000 sem o Service Pack 3 ou superior! Se você o fizer, os dados no disco podem ser corrompidos. Lembre que esta é uma limitação do windows, não um bug no VeraCrypt.\n\nObs: Voce pode ter de habilitar o LBA de 48 bits no regsitro do Windows; para mais informações, veja http://support.microsoft.com/kb/305098/EN-US</string>
@@ -1047,14 +1056,13 @@
     <string lang="pt-br" key="FAILED_TO_INTERRUPT_WIPING">Erro: Falha ao interromper o processo de limpeza.</string>
     <string lang="pt-br" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">Erro: Não foi possível continuar o processo de criptografia/descriptografia do dispositivo/partição de sistema.</string>
     <string lang="pt-br" key="FAILED_TO_START_WIPING">Erro: Falha ao iniciar o processo de limpeza.</string>
-    <string lang="pt-br" key="INCONSISTENCY_RESOLVED">Inconsistência resolvida.\n\n\n(Se você relatar um bug devido a isso, favor incluir a seguinte informação técnica no relatório: %hs)</string>
-    <string lang="pt-br" key="UNEXPECTED_STATE">Erro: Estado inesperado.\n\n\n(Se você relatar um bug relacionado a isto, por favor inclua as seguintes informações técnicas no relatório de erros: %hs)</string>
+    <string lang="pt-br" key="INCONSISTENCY_RESOLVED">Inconsistência resolvida.\n\n\n(Se você relatar um bug devido a isso, favor incluir a seguinte informação técnica no relatório: %s)</string>
+    <string lang="pt-br" key="UNEXPECTED_STATE">Erro: Estado inesperado.\n\n\n(Se você relatar um bug relacionado a isto, por favor inclua as seguintes informações técnicas no relatório de erros: %s)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="pt-br" key="HIDVOL_PROT_BKG_TASK_WARNING">AVISO: A tarefa em Background do VeraCrypt está desabilitada. Depois de sair do VeraCrypt, voce não será notificado se algum dano a um arquivo escondido for evitado.\n\nObs: Voce pode parar a tarefa em Background a qualquer momento clicando com o botão direito no ícone do VeraCrypt na bandeja do sistema e selecionando 'Sair'.\n\nHabilitar a execução do VeraCrypt em Segundo Plano?</string>
     <string lang="pt-br" key="LANG_PACK_VERSION">Versão da Tradução: %s</string>
-    <string lang="pt-br" key="CHECKING_FS">Verificando o sistema de arquivos do volume VeraCrypt montado como %hs...</string>
-    <string lang="pt-br" key="REPAIRING_FS">Tentando reparar o sistema de arquivos do volume VeraCrypt montado como %hs...</string>
-    <string lang="pt-br" key="WARN_CBC_MODE">Aviso: Este volume está criptografado no modo CBC. Devido a questões de segurança, o modo CBC foi abandonado desde o VeraCrypt 4.1.\n\nRecomendamos que você mova seus dados deste volume VeraCrypt para um novo volume criado por esta versão do VeraCrypt. Depois de fazê-lo, você deve apagar com segurança ou destruir o volume antigo. Para mais informações, veja o Histórico de Versões na documentação ou as notas de versão distribuídas com o VeraCrypt 4.1 ou posterior.</string>
+    <string lang="pt-br" key="CHECKING_FS">Verificando o sistema de arquivos do volume VeraCrypt montado como %s...</string>
+    <string lang="pt-br" key="REPAIRING_FS">Tentando reparar o sistema de arquivos do volume VeraCrypt montado como %s...</string>
     <string lang="pt-br" key="WARN_64_BIT_BLOCK_CIPHER">AVISO: este volume está criptografado com um algoritmo legacy.\n\nTodos os algoritmos de blocos de 64 bits (como Blowfish, CAST-128 e Triple DES) estão obsoletos. Ainda será possível montar este volume usando futuras versões do VeraCrypt. Mas não haverá mais melhoramentos na implementação desses algoritmos legacy. Recomendamos que você crie um novo volume VeraCrypt criptografado com um algoritmo de bloco de 128 bits (como AES, Serpent, Twofish, etc.)e mova todos os arquivos deste volume para o novo.</string>
     <string lang="pt-br" key="SYS_AUTOMOUNT_DISABLED">Seu sistema não está configurado para auto-montar novos volumes. Pode não ser possível montar um volume VeraCrypt baseado em dispositivo. A opção de auto-montar pode ser habilitada com a execução do seguinte comando e uma reinicialização do sistema.\n\nmountvol.exe /E</string>
     <string lang="pt-br" key="SYS_ASSIGN_DRIVE_LETTER">Favor atribuir uma letra de unidade ao dispositivo/partição antes de continuar ('Painel de Controle' &gt; 'Sistema e Manutenção' &gt; 'Ferramentas Administrativas' - 'Criar e formatar partitições').\n\nIsto é uma exigência do sistema operacional.</string>
@@ -1091,17 +1099,17 @@
     <string lang="pt-br" key="USER_PROFILE_NOT_ON_SYS_PARTITION">Seus arquivos do perfil de usuário não estão armazenados na partição do sistema.\n\nArquivos do perfil de usuário podem ser armazenados somente na partição do sistema.</string>
     <string lang="pt-br" key="PAGING_FILE_NOT_ON_SYS_PARTITION">Existe(m) arquivo(s) de paginação em partições não-sistema.\n\nArquivos de paginação podem estar localizados somente na partição do sistema.</string>
     <string lang="pt-br" key="RESTRICT_PAGING_FILES_TO_SYS_PARTITION">Deseja configurar o Windows para criar arquivos de paginação na partição do Windows agora?\n\nNote que se você selecionar 'Sim', o computador será reiniciado. Depois disso, inicie o VeraCrypt e tente criar o SO oculto novamente.</string>
-    <string lang="pt-br" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION">Caso contrário, a camuflagem de informação do sistema operacional oculto poderia ser adversamente afetada.\n\nNota: Se um adversário analisasse o conteúdo de tais arquivos (residido numa partição não-sistema), ele poderia descobrir que você usou este assistente modo de criação de sistema oculto (que pode indicar a existência de um sistema operacional oculto no seu computador). Observe também que todos esses arquivos armazenados na partição do sistema serão apagados com segurança pelo VeraCrypt durante o processo de criação do sistema operacional oculto.</string>
+    <string lang="pt-br" key="LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"> Caso contrário, a camuflagem de informação do sistema operacional oculto poderia ser adversamente afetada.\n\nNota: Se um adversário analisasse o conteúdo de tais arquivos (residido numa partição não-sistema), ele poderia descobrir que você usou este assistente modo de criação de sistema oculto (que pode indicar a existência de um sistema operacional oculto no seu computador). Observe também que todos esses arquivos armazenados na partição do sistema serão apagados com segurança pelo VeraCrypt durante o processo de criação do sistema operacional oculto.</string>
     <string lang="en" key="DECOY_OS_REINSTALL_WARNING">WARNING: During the process of creation of the hidden operating system, you will be required to fully reinstall the currently running system (in order to create a decoy system securely).\n\nNote: The currently running operating system and the entire content of the system partition will be copied to the hidden volume (in order to create the hidden system).\n\n\nAre you sure you will be able to install Windows using a Windows Setup medium (or using a service partition)?</string>
     <string lang="en" key="DECOY_OS_REQUIREMENTS">For security reasons, if the currently running operating system requires activation, it must be activated before proceeding. Note that the hidden operating system will be created by copying the content of the system partition to a hidden volume (so if this operating system is not activated, the hidden operating system will not be activated either). For more information, see the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide.\n\nImportant: Before proceeding, please make sure you have read the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide.\n\n\nDoes the currently running operating system meet the above condition?</string>
     <string lang="en" key="CONFIRM_HIDDEN_OS_EXTRA_BOOT_PARTITION">Your system uses an extra boot partition. VeraCrypt does not support hibernation on hidden operating systems that use an extra boot partition (decoy systems can be hibernated without any problems).\n\nPlease note that the boot partition would be shared by both the decoy and the hidden system. Therefore, in order to prevent data leaks and problems while resuming from hibernation, VeraCrypt has to prevent the hidden system from writing to the shared boot partition and from hibernating.\n\n\nDo you want to continue? If you select 'No', instructions for removing the extra boot partition will be displayed.</string>
-    <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' &gt; 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
+    <string lang="en" key="EXTRA_BOOT_PARTITION_REMOVAL_INSTRUCTIONS">\nThe extra boot partition can be removed before installing Windows. To do so, follow these steps:\n\n1) Boot your Windows installation disc.\n\n2) In the Windows installer screen, click 'Install now' > 'Custom (advanced)'.\n\n3) Click 'Drive Options'.\n\n4) Select the main system partition and delete it by clicking 'Delete' and 'OK'.\n\n5) Select the 'System Reserved' partition, click 'Extend', and increase its size so that the operating system can be installed to it.\n\n6) Click 'Apply' and 'OK'.\n\n7) Install Windows on the 'System Reserved' partition.\n\n\nShould an attacker ask why you removed the extra boot partition, you can answer that you wanted to prevent any possible data leaks to the unencrypted boot partition.\n\nNote: You can print this text by clicking the 'Print' button below. If you save a copy of this text or print it (strongly recommended, unless your printer stores copies of documents it prints on its internal drive), you should destroy any copies of it after removing the extra boot partition (otherwise, if such a copy was found, it might indicate that there is a hidden operating system on this computer).</string>
     <string lang="pt-br" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Aviso: Há espaço não alocado entre a partição de sistema e a primeira partição depois dela. Depois de criar o sistema operacional oculto, você não deve criar novas partições nesse espaço não alocado. Caso contrário, o sistema operacional oculto será impossibilitado de inicializar (até você excluir essas recém-criadas partições).</string>
     <string lang="pt-br" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Este algoritmo não é suportado para criptografia de sistema.</string>
     <string lang="en" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">This algorithm is not supported for TrueCrypt mode.</string>
-    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>	  
+    <string lang="en" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">PIM (Personal Iterations Multiplier) not supported for TrueCrypt mode.</string>
     <string lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</string>
-    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>    
+    <string lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</string>
     <string lang="pt-br" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Arquivos-chave atualmente não são suportados para criptografia do sistema.</string>
     <string lang="pt-br" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Aviso: O VeraCrypt não conseguiu restaurar o layout original do teclado. Isto poderá fazê-lo digitar a senha incorretamente.</string>
     <string lang="pt-br" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Erro: Não foi possível configurar o layout do teclado para o VeraCrypt como layout Estados Unidos (Internacional).\n\nLembre que a senha precisa ser digitada em ambiente pré-boot (antes de o Windows iniciar) onde layouts não-Windows Estados Unidos (Internacional) não estão disponíveis. Por isso, a senha deve ser digitada sempre usando o layout Estados Unidos (Internacional).</string>
@@ -1110,8 +1118,8 @@
     <string lang="pt-br" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">Lembre: A senha precisará ser digitada no ambiente pré-inicialização (antes de iniciar o Windows) onde layouts não-Estados Unidos (Internacional) não estão disponíveis. Por isso, a senha precisa ser digitada sempre usando o layout Estados Unidos (Internacional). Mesmo assim, é importante lembrar que você NÃO precisa de um teclado Estados Unidos (Internacional) real. O VeraCrypt certifica-se automaticamente de que você pode digitar a senha com segurança (tanto agora quanto no ambiente pré-inicialização) mesmo se você NÃO possuir um teclado Estados Unidos (Internacional).</string>
     <string lang="en" key="RESCUE_DISK_INFO">Before you can encrypt the partition/drive, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition/drive before Windows starts.\n\n- The VRD will contain a backup of the present content of the first drive track (which typically contains a system loader or boot manager) and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ISO image will be created in the location specified below.</string>
     <string lang="en" key="RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE">After you click OK, Microsoft Windows Disc Image Burner will be launched. Please use it to burn the VeraCrypt Rescue Disk ISO image to a CD or DVD.\n\nAfter you do so, return to the VeraCrypt Volume Creation Wizard and follow its instructions.</string>
-    <string lang="en" key="RESCUE_DISK_BURN_INFO">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you need to burn it to a CD or DVD.\n\n%lsAfter you burn the Rescue Disk, click Next to verify that it has been correctly burned.</string>
-    <string lang="en" key="RESCUE_DISK_BURN_INFO_NO_CHECK">The Rescue Disk image has been created and stored in this file:\n%hs\n\nNow you should either burn the image to a CD/DVD or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_BURN_INFO">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to burn it to a CD or DVD.\n\n%lsAfter you burn the Rescue Disk, click Next to verify that it has been correctly burned.</string>
+    <string lang="en" key="RESCUE_DISK_BURN_INFO_NO_CHECK">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you should either burn the image to a CD/DVD or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
     <string lang="en" key="RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER">IMPORTANT: Note that the file must be written to the CD/DVD as an ISO disk image (not as an individual file). For information on how to do so, please refer to the documentation of your CD/DVD recording software. If you do not have any CD/DVD recording software that can write the ISO disk image to a CD/DVD, click the link below to download such free software.\n\n</string>
     <string lang="en" key="LAUNCH_WIN_ISOBURN">Launch Microsoft Windows Disc Image Burner</string>
     <string lang="pt-br" key="RESCUE_DISK_BURN_NO_CHECK_WARN">ATENÇÃO: Se você já criou um Disco de Emergência VeraCrypt no passado, ele não pode ser reutilizado para esta partição/unidade de sistema, porque ele foi criado para uma chave mestra diferente! Cada vez que criptografar uma partição/unidade de sistema você deve criar um novo Disco de Emergência VeraCrypt para ela, mesmo se usar a mesma senha.</string>
@@ -1249,7 +1257,7 @@
     <string lang="pt-br" key="NOTE_CASCADE_FOR_SYS_ENCRYPTION">Se você tiver algum dos problemas descritos acima, descriptografe o disco/partição (se ele estiver criptografado) e tente criptografá-lo novamente usando um algoritmo não sequencial (como o AES).</string>
     <string lang="en" key="UPDATE_TC_IN_DECOY_OS_FIRST">WARNING: For safety and security reasons, you should update VeraCrypt on the decoy operating system before you update it on the hidden operating system.\n\nTo do so, boot the decoy system and run the VeraCrypt installer from within it. Then boot the hidden system and run the installer from within it as well.\n\nNote: The decoy system and the hidden system share a single boot loader. If you upgraded VeraCrypt only on the hidden system (but not on the decoy system), the decoy system would contain a VeraCrypt driver and VeraCrypt applications whose version numbers are different from the version number of the VeraCrypt Boot Loader. Such a discrepancy might indicate that there is a hidden operating system on this computer.\n\n\nDo you want to continue?</string>
     <string lang="pt-br" key="UPDATE_TC_IN_HIDDEN_OS_TOO">O número da versão do Gerenciador de Boot do VeraCrypt que inicializou esse sistema operacional é diferente do número da versão do driver do VeraCrypt (e do aplicativo do VeraCrypt) instalados no sistema.\n\nVocê deve executar o instalador do VeraCrypt (cujo número de versão é o mesmo do Gerenciador de Boot) para atualizar o VeraCrypt neste sistema operacional.</string>
-    <string lang="en" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">The version number of the VeraCrypt Boot Loader that booted this operating system is different from the version number of the VeraCrypt driver (and of the VeraCrypt applications) installed on this system. Note that older versions may contain bugs fixed in later versions.\n\nIf you did not boot from the VeraCrypt Rescue Disk, you should reinstall VeraCrypt or upgrade it to the latest stable version (the boot loader will be updated too).\n\nIf you booted from the VeraCrypt Rescue Disk, you should update it ('System' &gt; 'Create Rescue Disk').</string>
+    <string lang="en" key="BOOT_LOADER_VERSION_DIFFERENT_FROM_DRIVER_VERSION">The version number of the VeraCrypt Boot Loader that booted this operating system is different from the version number of the VeraCrypt driver (and of the VeraCrypt applications) installed on this system. Note that older versions may contain bugs fixed in later versions.\n\nIf you did not boot from the VeraCrypt Rescue Disk, you should reinstall VeraCrypt or upgrade it to the latest stable version (the boot loader will be updated too).\n\nIf you booted from the VeraCrypt Rescue Disk, you should update it ('System' > 'Create Rescue Disk').</string>
     <string lang="pt-br" key="BOOT_LOADER_UPGRADE_OK">O VeraCrypt Boot Loader foi atualizado.\n\nÉ fortemente recomendável que você crie um novo Disco de Emergência VeraCrypt (que conterá a nova versão do VeraCrypt Boot Loader) selecionando 'Sistema' &gt; 'Criar Disco de Emergência' depois que você reiniciar o seu computador.</string>
     <string lang="pt-br" key="BOOT_LOADER_UPGRADE_OK_HIDDEN_OS">O Gerenciador de Boot do VeraCrypt foi atualizado.\n\nÉ altamente recomendado que você inicie o sistema operacional isca e então crie um novo Disco de Emergência VeraCrypt (que incluirá a nova versão do Gerenciador de Boot do VeraCrypt), selecionando 'Sistema' &gt; 'Criar Disco de Emergência'.</string>
     <string lang="pt-br" key="BOOT_LOADER_UPGRADE_FAILED">Não foi possível atualizar o VeraCrypt Boot Loader.</string>
@@ -1274,7 +1282,7 @@
     <string lang="pt-br" key="INVALID_TOKEN_KEYFILE_PATH">O caminho do arquivo-chave do token de segurança é inválido.</string>
     <string lang="pt-br" key="SECURITY_TOKEN_ERROR">Erro no token de segurança</string>
     <string lang="pt-br" key="CKR_PIN_INCORRECT">A senha para o token de segurança está incorreta.</string>
-    <string lang="en" key="CKR_DEVICE_MEMORY">The security token does not have enough memory/space to perform the requested operation.\n\nIf you are attempting to import a keyfile, you should select a smaller file or use a keyfile generated by VeraCrypt (select 'Tools' &gt; 'Keyfile Generator').</string>
+    <string lang="en" key="CKR_DEVICE_MEMORY">The security token does not have enough memory/space to perform the requested operation.\n\nIf you are attempting to import a keyfile, you should select a smaller file or use a keyfile generated by VeraCrypt (select 'Tools' > 'Keyfile Generator').</string>
     <string lang="pt-br" key="ALL_TOKEN_SESSIONS_CLOSED">Todas as sessões abertas de tokens de segurança foram fechadas.</string>
     <string lang="pt-br" key="SELECT_TOKEN_KEYFILES">Selecione os Arquivos-Chave do Token de Segurança</string>
     <string lang="pt-br" key="TOKEN_SLOT_ID">Slot</string>
@@ -1299,8 +1307,8 @@
     <string lang="pt-br" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">O volume '%s' foi montado como somente-leitura porque o sistema operacional informa que o dispositivo principal está protegido contra gravação.\n\nNote que alguns drivers personalizados de chipset causam o falso reconhecimento de mídias graváveis como protegidas contra gravação. Este problema não é causado pelo VeraCrypt. É possível resolvê-lo atualizando ou desinstalando qualquer driver personalizado de chipset que esteja atualmente instalado em seu sistema.</string>
     <string lang="en" key="LIMIT_ENC_THREAD_POOL_NOTE">Note that the Hyper-Threading technology provides multiple logical cores per a single physical core. When Hyper Threading is enabled, the number selected above represents the number of logical processors/cores.</string>
     <string lang="en" key="NUMBER_OF_THREADS">%d threads</string>
-    <string lang="en" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Note that hardware-accelerated AES is disabled, which will affect benchmark results (worse performance).\n\nTo enable hardware acceleration, select 'Settings' &gt; 'Performance' and enable the corresponding option.</string>
-    <string lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' &gt; 'Performance' and disable the corresponding option.</string>
+    <string lang="en" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">Note that hardware-accelerated AES is disabled, which will affect benchmark results (worse performance).\n\nTo enable hardware acceleration, select 'Settings' > 'Performance' and enable the corresponding option.</string>
+    <string lang="en" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">Note that the number of threads is currently limited, which will affect benchmark results (worse performance).\n\nTo utilize the full potential of the processor(s), select 'Settings' > 'Performance' and disable the corresponding option.</string>
     <string lang="pt-br" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">Você deseja que o VeraCrypt tente desabilitar a proteção contra gravação do(a) dispositivo/partição?</string>
     <string lang="en" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">WARNING: This setting may degrade performance.\n\nAre you sure you want to use this setting?</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>

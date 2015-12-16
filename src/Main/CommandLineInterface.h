@@ -95,6 +95,9 @@ namespace VeraCrypt
 		CommandLineInterface (const CommandLineInterface &);
 		CommandLineInterface &operator= (const CommandLineInterface &);
 	};
+	
+	shared_ptr<VolumePassword> ToUTF8Password (const wchar_t* str, size_t charCount = (size_t) -1);
+	shared_ptr<SecureBuffer> ToUTF8Buffer (const wchar_t* str, size_t charCount = (size_t) -1);
 
 	extern auto_ptr <CommandLineInterface> CmdLine;
 }

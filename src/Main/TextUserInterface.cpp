@@ -97,7 +97,7 @@ namespace VeraCrypt
 		wchar_t passwordBuf[4096];
 		finally_do_arg (BufferPtr, BufferPtr (reinterpret_cast <byte *> (passwordBuf), sizeof (passwordBuf)), { finally_arg.Erase(); });
 
-		make_shared_auto (VolumePassword, password);
+		shared_ptr<VolumePassword> password;
 
 		bool verPhase = false;
 		while (true)
@@ -113,8 +113,7 @@ namespace VeraCrypt
 
 			if (!verPhase && length < 1)
 			{
-				password->Set (passwordBuf, 0);
-				return password;
+				return shared_ptr <VolumePassword>(new VolumePassword ());
 			}
 
 			for (size_t i = 0; i < length && i < VolumePassword::MaxSize; ++i)
@@ -125,8 +124,7 @@ namespace VeraCrypt
 
 			if (verify && verPhase)
 			{
-				make_shared_auto (VolumePassword, verPassword);
-				verPassword->Set (passwordBuf, length);
+				shared_ptr <VolumePassword> verPassword = ToUTF8Password (passwordBuf, length);
 
 				if (*password != *verPassword)
 				{
@@ -137,26 +135,10 @@ namespace VeraCrypt
 				}
 			}
 
-			password->Set (passwordBuf, length);
+			password = ToUTF8Password (passwordBuf, length);
 
 			if (!verPhase)
 			{
-				try
-				{
-					password->CheckPortability();
-				}
-				catch (UnportablePassword &e)
-				{
-					if (verify)
-					{
-						ShowError (e);
-						verPhase = false;
-						continue;
-					}
-
-					ShowWarning ("UNSUPPORTED_CHARS_IN_PWD_RECOM");
-				}
-
 				if (verify)
 				{
 					if (password->Size() < VolumePassword::WarningSizeThreshold)
@@ -433,14 +415,7 @@ namespace VeraCrypt
 			// Current password
 			if (!passwordInteractive)
 			{
-				try
-				{
-					password->CheckPortability();
-				}
-				catch (UnportablePassword &)
-				{
-					ShowWarning ("UNSUPPORTED_CHARS_IN_PWD_RECOM");
-				}
+
 			}
 			else if (!Preferences.NonInteractive)
 			{
@@ -487,9 +462,7 @@ namespace VeraCrypt
 		}
 
 		// New password
-		if (newPassword.get())
-			newPassword->CheckPortability();
-		else if (!Preferences.NonInteractive)
+		if (!newPassword.get() && !Preferences.NonInteractive)
 			newPassword = AskPassword (_("Enter new password"), true);
 		
 		// New PIM
@@ -789,9 +762,6 @@ namespace VeraCrypt
 			ShowString (L"\n");
 			options->Password = AskPassword (_("Enter password"), true);
 		}
-
-		if (options->Password)
-			options->Password->CheckPortability();
 		
 		// PIM
 		if ((options->Pim < 0) && !Preferences.NonInteractive)
@@ -1188,18 +1158,6 @@ namespace VeraCrypt
 			if (!options.Password)
 			{
 				options.Password = AskPassword (StringFormatter (_("Enter password for {0}"), wstring (*options.Path)));
-			}
-			else
-			{
-				try
-				{
-					if (options.Password)
-						options.Password->CheckPortability();
-				}
-				catch (UnportablePassword &)
-				{
-					ShowWarning ("UNSUPPORTED_CHARS_IN_PWD_RECOM");
-				}
 			}
 			
 			if (!options.TrueCryptMode && (options.Pim < 0))

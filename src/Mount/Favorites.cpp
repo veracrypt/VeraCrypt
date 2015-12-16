@@ -48,11 +48,11 @@ namespace VeraCrypt
 		}
 
 		FavoriteVolume favorite;
-		favorite.MountPoint = "X:\\";
-		favorite.MountPoint[0] = (char) (prop.driveNo + 'A');
+		favorite.MountPoint = L"X:\\";
+		favorite.MountPoint[0] = (wchar_t) (prop.driveNo + L'A');
 
-		favorite.Path = WideToSingleString ((wchar_t *) prop.wszVolume);
-		if (favorite.Path.find ("\\??\\") == 0)
+		favorite.Path = prop.wszVolume;
+		if (favorite.Path.find (L"\\??\\") == 0)
 			favorite.Path = favorite.Path.substr (4);
 
 		if (wcslen (prop.wszLabel))
@@ -64,30 +64,30 @@ namespace VeraCrypt
 		if (IsVolumeDeviceHosted (favorite.Path.c_str()))
 		{
 			// Get GUID path
-			string volumeDevPath = favorite.Path;
+			wstring volumeDevPath = favorite.Path;
 
 			wchar_t resolvedVolumeDevPath[TC_MAX_PATH];
-			if (ResolveSymbolicLink (SingleStringToWide (volumeDevPath).c_str(), resolvedVolumeDevPath, sizeof(resolvedVolumeDevPath)))
-				volumeDevPath = WideToSingleString (resolvedVolumeDevPath);
+			if (ResolveSymbolicLink (volumeDevPath.c_str(), resolvedVolumeDevPath, sizeof(resolvedVolumeDevPath)))
+				volumeDevPath = resolvedVolumeDevPath;
 
-			char volumeName[TC_MAX_PATH];
-			HANDLE find = FindFirstVolume (volumeName, sizeof (volumeName));
+			wchar_t volumeName[TC_MAX_PATH];
+			HANDLE find = FindFirstVolume (volumeName, ARRAYSIZE (volumeName));
 
 			if (find != INVALID_HANDLE_VALUE)
 			{
 				do
 				{
-					char findVolumeDevPath[TC_MAX_PATH];
-					string vn = volumeName;
+					wchar_t findVolumeDevPath[TC_MAX_PATH];
+					wstring vn = volumeName;
 
-					if (QueryDosDevice (vn.substr (4, vn.size() - 5).c_str(), findVolumeDevPath, sizeof (findVolumeDevPath)) != 0
+					if (QueryDosDevice (vn.substr (4, vn.size() - 5).c_str(), findVolumeDevPath, ARRAYSIZE (findVolumeDevPath)) != 0
 						&& volumeDevPath == findVolumeDevPath)
 					{
 						favorite.VolumePathId = volumeName;
 						break;
 					}
 
-				} while (FindNextVolume (find, volumeName, sizeof (volumeName)));
+				} while (FindNextVolume (find, volumeName, ARRAYSIZE (volumeName)));
 
 				FindVolumeClose (find);
 			}
@@ -101,9 +101,9 @@ namespace VeraCrypt
 
 		if (favorite.VolumePathId.empty()
 			&& IsVolumeDeviceHosted (favorite.Path.c_str())
-			&& favorite.Path.find ("\\\\?\\Volume{") != 0)
+			&& favorite.Path.find (L"\\\\?\\Volume{") != 0)
 		{
-			Warning (favorite.Path.find ("\\Partition0") == string::npos ? "FAVORITE_ADD_PARTITION_TYPE_WARNING" : "FAVORITE_ADD_DRIVE_DEV_WARNING", hwndDlg);
+			Warning (favorite.Path.find (L"\\Partition0") == wstring::npos ? "FAVORITE_ADD_PARTITION_TYPE_WARNING" : "FAVORITE_ADD_DRIVE_DEV_WARNING", hwndDlg);
 		}
 
 		return OrganizeFavoriteVolumes (hwndDlg, systemFavorites, favorite);
@@ -429,7 +429,7 @@ namespace VeraCrypt
 		if (FavoriteVolumes.empty())
 			return;
 
-		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, "");
+		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, L"");
 		
 		int i = 0;
 		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
@@ -439,7 +439,7 @@ namespace VeraCrypt
 			if (favorite.DisconnectedDevice)
 				flags |= MF_GRAYED;
 
-			wstring menuText = SingleStringToWide (favorite.Path);
+			wstring menuText = favorite.Path;
 			if (favorite.DisconnectedDevice)
 				menuText = favorite.Label.empty() ? wstring (L"(") + GetString ("FAVORITE_DISCONNECTED_DEV") + L")" : L"";
 
@@ -452,7 +452,7 @@ namespace VeraCrypt
 			}
 
 			AppendMenuW (FavoriteVolumesMenu, flags, TC_FAVORITE_MENU_CMD_ID_OFFSET + i++,
-				(menuText + L"\t" + SingleStringToWide (favorite.MountPoint).substr (0, 2)).c_str());
+				(menuText + L"\t" + favorite.MountPoint.substr (0, 2)).c_str());
 		}
 	}
 
@@ -464,7 +464,7 @@ namespace VeraCrypt
 		int line = 0;
 		foreach (const FavoriteVolume favorite, favorites)
 		{
-			ListItemAdd (favoriteListControl, line, (char *) favorite.MountPoint.substr (0, 2).c_str());
+			ListItemAdd (favoriteListControl, line, (wchar_t *) favorite.MountPoint.substr (0, 2).c_str());
 			FillListControlSubItems (favoriteListControl, line++, favorite);
 		}
 	}
@@ -472,16 +472,16 @@ namespace VeraCrypt
 
 	static void FillListControlSubItems (HWND FavoriteListControl, int line, const FavoriteVolume &favorite)
 	{
-		ListSubItemSetW (FavoriteListControl, line, 1, (wchar_t *) favorite.Label.c_str());
+		ListSubItemSet (FavoriteListControl, line, 1, (wchar_t *) favorite.Label.c_str());
 
 		if (favorite.DisconnectedDevice)
-			ListSubItemSetW (FavoriteListControl, line, 2, (wchar_t *) (wstring (L"(") + GetString ("FAVORITE_DISCONNECTED_DEV") + L")").c_str());
+			ListSubItemSet (FavoriteListControl, line, 2, (wchar_t *) (wstring (L"(") + GetString ("FAVORITE_DISCONNECTED_DEV") + L")").c_str());
 		else
-			ListSubItemSet (FavoriteListControl, line, 2, (char *) favorite.Path.c_str());
+			ListSubItemSet (FavoriteListControl, line, 2, (wchar_t *) favorite.Path.c_str());
 	}
 
 
-	wstring GetFavoriteVolumeLabel (const string &volumePath, bool& useInExplorer)
+	wstring GetFavoriteVolumeLabel (const wstring &volumePath, bool& useInExplorer)
 	{
 		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
 		{
@@ -523,7 +523,7 @@ namespace VeraCrypt
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation)
 	{
 		favorites.clear();
-		string favoritesFilePath = systemFavorites ? GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false) : GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES);
+		wstring favoritesFilePath = systemFavorites ? GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false) : GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES);
 
 		if (systemFavorites && !IsAdmin() && !noUacElevation)
 		{
@@ -560,10 +560,10 @@ namespace VeraCrypt
 			FavoriteVolume favorite;
 
 			XmlGetAttributeText (xml, "mountpoint", mountPoint, sizeof (mountPoint));
-			favorite.MountPoint = mountPoint;
+			favorite.MountPoint = Utf8StringToWide (mountPoint);
 
 			XmlGetNodeText (xml, volume, sizeof (volume));
-			favorite.Path = WideToSingleString (Utf8StringToWide (volume));
+			favorite.Path = Utf8StringToWide (volume);
 
 			char label[1024];
 			XmlGetAttributeText (xml, "label", label, sizeof (label));
@@ -612,9 +612,9 @@ namespace VeraCrypt
 			if (boolVal[0])
 				favorite.UseLabelInExplorer = (boolVal[0] == '1') && !favorite.ReadOnly;
 
-			if (favorite.Path.find ("\\\\?\\Volume{") == 0 && favorite.Path.rfind ("}\\") == favorite.Path.size() - 2)
+			if (favorite.Path.find (L"\\\\?\\Volume{") == 0 && favorite.Path.rfind (L"}\\") == favorite.Path.size() - 2)
 			{
-				string resolvedPath = VolumeGuidPathToDevicePath (favorite.Path);
+				wstring resolvedPath = VolumeGuidPathToDevicePath (favorite.Path);
 				if (!resolvedPath.empty())
 				{
 					favorite.DisconnectedDevice = false;
@@ -688,26 +688,26 @@ namespace VeraCrypt
 		FILE *f;
 		int cnt = 0;
 
-		f = fopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), "w,ccs=UTF-8");
+		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"w,ccs=UTF-8");
 		if (f == NULL)
 		{
 			handleWin32Error (MainDlg, SRC_POS);
 			return false;
 		}
 
-		XmlWriteHeaderW (f);
+		XmlWriteHeader (f);
 		fputws (L"\n\t<favorites>", f);
 
 		foreach (const FavoriteVolume &favorite, favorites)
 		{
-			char tq[2048];
+			wchar_t tq[2048];
 
-			if (systemFavorites && favorite.Path.find ("\\\\") == 0 && favorite.Path.find ("Volume{") == string::npos)
+			if (systemFavorites && favorite.Path.find (L"\\\\") == 0 && favorite.Path.find (L"Volume{") == wstring::npos)
 				Warning ("SYSTEM_FAVORITE_NETWORK_PATH_ERR", hwndDlg);
 
-			XmlQuoteText (!favorite.VolumePathId.empty() ? favorite.VolumePathId.c_str() : favorite.Path.c_str(), tq, sizeof (tq));
+			XmlQuoteTextW (!favorite.VolumePathId.empty() ? favorite.VolumePathId.c_str() : favorite.Path.c_str(), tq, ARRAYSIZE (tq));
 
-			wstring s = L"\n\t\t<volume mountpoint=\"" + SingleStringToWide (favorite.MountPoint) + L"\"";
+			wstring s = L"\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
 
 			if (!favorite.Label.empty())
 				s += L" label=\"" + favorite.Label + L"\"";
@@ -739,14 +739,14 @@ namespace VeraCrypt
 			if (favorite.UseLabelInExplorer && !favorite.ReadOnly)
 				s += L" useLabelInExplorer=\"1\"";
 
-			s += L">" + SingleStringToWide (tq) + L"</volume>";
+			s += L">" + wstring (tq) + L"</volume>";
 
 			fwprintf (f, L"%ws", s.c_str());
 			cnt++;
 		}
 
 		fputws (L"\n\t</favorites>", f);
-		XmlWriteFooterW (f);
+		XmlWriteFooter (f);
 
 		if (!CheckFileStreamWriteErrors (hwndDlg, f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
 		{
@@ -760,7 +760,7 @@ namespace VeraCrypt
 
 		if (systemFavorites)
 		{
-			finally_do ({ remove (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES)); });
+			finally_do ({ _wremove (GetConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES)); });
 
 			try
 			{
@@ -796,7 +796,7 @@ namespace VeraCrypt
 				catch (...) { }
 			}
 			else
-				remove (GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES));
+				_wremove (GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES));
 		}
 
 		return true;
@@ -807,12 +807,12 @@ namespace VeraCrypt
 	{
 		if (favorite.Pim > 0)
 		{
-			char szTmp[MAX_PIM + 1];
-			StringCbPrintfA (szTmp, sizeof(szTmp), "%d", favorite.Pim);
+			wchar_t szTmp[MAX_PIM + 1];
+			StringCbPrintfW (szTmp, sizeof(szTmp), L"%d", favorite.Pim);
 			SetDlgItemText (hwndDlg, IDC_PIM, szTmp);
 		}
 		else
-			SetDlgItemText (hwndDlg, IDC_PIM, "");
+			SetDlgItemText (hwndDlg, IDC_PIM, L"");
 		SetDlgItemTextW (hwndDlg, IDC_FAVORITE_LABEL, favorite.Label.c_str());
 		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER, favorite.UseLabelInExplorer);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_LOGON, favorite.MountOnLogOn);
@@ -886,24 +886,24 @@ namespace VeraCrypt
 
 		if (favorite.VolumePathId.empty()
 			&& IsVolumeDeviceHosted (favorite.Path.c_str())
-			&& favorite.Path.find ("\\\\?\\Volume{") != 0)
+			&& favorite.Path.find (L"\\\\?\\Volume{") != 0)
 		{
-			bool partition = (favorite.Path.find ("\\Partition0") == string::npos);
+			bool partition = (favorite.Path.find (L"\\Partition0") == wstring::npos);
 
 			if (!favorite.Label.empty())
 			{
-				ErrorDirect ((GetString (partition ? "FAVORITE_LABEL_PARTITION_TYPE_ERR" : "FAVORITE_LABEL_DEVICE_PATH_ERR") + wstring (L"\n\n") + SingleStringToWide (favorite.Path)).c_str(), hwndDlg);
+				ErrorDirect ((GetString (partition ? "FAVORITE_LABEL_PARTITION_TYPE_ERR" : "FAVORITE_LABEL_DEVICE_PATH_ERR") + wstring (L"\n\n") + favorite.Path).c_str(), hwndDlg);
 				favorite.Label.clear();
 			}
 
 			if (favorite.MountOnArrival)
 			{
-				ErrorDirect ((GetString (partition ? "FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR" : "FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR") + wstring (L"\n\n") + SingleStringToWide (favorite.Path)).c_str(), hwndDlg);
+				ErrorDirect ((GetString (partition ? "FAVORITE_ARRIVAL_MOUNT_PARTITION_TYPE_ERR" : "FAVORITE_ARRIVAL_MOUNT_DEVICE_PATH_ERR") + wstring (L"\n\n") + favorite.Path).c_str(), hwndDlg);
 				favorite.MountOnArrival = false;
 			}
 		}
 
-		if (favorite.MountOnArrival && favorite.Path.find ("\\\\") == 0 && favorite.Path.find ("Volume{") == string::npos)
+		if (favorite.MountOnArrival && favorite.Path.find (L"\\\\") == 0 && favorite.Path.find (L"Volume{") == wstring::npos)
 		{
 			Error ("FAVORITE_ARRIVAL_MOUNT_NETWORK_PATH_ERR", hwndDlg);
 			favorite.MountOnArrival = false;

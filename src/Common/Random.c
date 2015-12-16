@@ -631,17 +631,17 @@ BOOL SlowPoll (void)
 		HKEY hKey;
 
 		if (RegOpenKeyEx (HKEY_LOCAL_MACHINE,
-		       "SYSTEM\\CurrentControlSet\\Control\\ProductOptions",
+		       L"SYSTEM\\CurrentControlSet\\Control\\ProductOptions",
 				  0, KEY_READ, &hKey) == ERROR_SUCCESS)
 		{
-			unsigned char szValue[32];
+			wchar_t szValue[32];
 			dwSize = sizeof (szValue);
 
 			isWorkstation = TRUE;
-			status = RegQueryValueEx (hKey, "ProductType", 0, NULL,
-						  szValue, &dwSize);
+			status = RegQueryValueEx (hKey, L"ProductType", 0, NULL,
+						  (LPBYTE) szValue, &dwSize);
 
-			if (status == ERROR_SUCCESS && _stricmp ((char *) szValue, "WinNT"))
+			if (status == ERROR_SUCCESS && _wcsicmp (szValue, L"WinNT"))
 				/* Note: There are (at least) three cases for
 				   ProductType: WinNT = NT Workstation,
 				   ServerNT = NT Server, LanmanNT = NT Server
@@ -656,13 +656,13 @@ BOOL SlowPoll (void)
 	{
 		/* Obtain a handle to the module containing the Lan Manager
 		   functions */
-		char dllPath[MAX_PATH];
+		wchar_t dllPath[MAX_PATH];
 		if (GetSystemDirectory (dllPath, MAX_PATH))
 		{
-			StringCbCatA(dllPath, sizeof(dllPath), "\\NETAPI32.DLL");
+			StringCbCatW(dllPath, sizeof(dllPath), L"\\NETAPI32.DLL");
 		}
 		else
-			StringCbCopyA(dllPath, sizeof(dllPath), "C:\\Windows\\System32\\NETAPI32.DLL");
+			StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32\\NETAPI32.DLL");
 
 		hNetAPI32 = LoadLibrary (dllPath);
 		if (hNetAPI32 != NULL)
@@ -710,10 +710,10 @@ BOOL SlowPoll (void)
 	for (nDrive = 0;; nDrive++)
 	{
 		DISK_PERFORMANCE diskPerformance;
-		char szDevice[24];
+		wchar_t szDevice[24];
 
 		/* Check whether we can access this device */
-		StringCbPrintfA (szDevice, sizeof(szDevice), "\\\\.\\PhysicalDrive%d", nDrive);
+		StringCbPrintfW (szDevice, sizeof(szDevice), L"\\\\.\\PhysicalDrive%d", nDrive);
 		hDevice = CreateFile (szDevice, 0, FILE_SHARE_READ | FILE_SHARE_WRITE,
 				      NULL, OPEN_EXISTING, 0, NULL);
 		if (hDevice == INVALID_HANDLE_VALUE)

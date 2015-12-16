@@ -64,7 +64,7 @@ namespace VeraCrypt
 		void Show (HWND parent) const
 		{
 			string msgBody = "Parameter incorrect.\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n" + string (SrcPos) + ")";
-			MessageBox (parent, msgBody.c_str(), "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND);
+			MessageBoxA (parent, msgBody.c_str(), "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND);
 		}
 
 		const char *SrcPos;
@@ -77,9 +77,9 @@ namespace VeraCrypt
 		void Show (HWND parent) const
 		{
 			char szErrCode[16];
-			StringCbPrintf (szErrCode, sizeof(szErrCode), "0x%.8X", LastError);
+			StringCbPrintfA (szErrCode, sizeof(szErrCode), "0x%.8X", LastError);
 			string msgBody = "The Random Generator initialization failed.\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n" + string (SrcPos) + "\nLast Error = " + string (szErrCode) + ")";
-			MessageBox (parent, msgBody.c_str(), "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND);
+			MessageBoxA (parent, msgBody.c_str(), "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND);
 		}
 
 		const char *SrcPos;
@@ -93,9 +93,9 @@ namespace VeraCrypt
 		void Show (HWND parent) const
 		{
 			char szErrCode[16];
-			StringCbPrintf (szErrCode, sizeof(szErrCode), "0x%.8X", LastError);
+			StringCbPrintfA (szErrCode, sizeof(szErrCode), "0x%.8X", LastError);
 			string msgBody = "Windows Crypto API failed.\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n" + string (SrcPos) + "\nLast Error = " + string (szErrCode) + ")";
-			MessageBox (parent, msgBody.c_str(), "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND);
+			MessageBoxA (parent, msgBody.c_str(), "VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND);
 		}
 
 		const char *SrcPos;

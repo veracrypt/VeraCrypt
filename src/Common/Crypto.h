@@ -112,7 +112,11 @@ enum
 typedef struct
 {
 	int Id;					// Cipher ID
+#ifdef TC_WINDOWS_BOOT
 	char *Name;				// Name
+#else
+	wchar_t *Name;			// Name
+#endif
 	int BlockSize;			// Block size (bytes)
 	int KeySize;			// Key size (bytes)
 	int KeyScheduleSize;	// Scheduled key size (bytes)
@@ -125,13 +129,15 @@ typedef struct
 	int FormatEnabled;
 } EncryptionAlgorithm;
 
+#ifndef TC_WINDOWS_BOOT
 typedef struct
 {
 	int Id;					// Hash ID
-	char *Name;				// Name
+	wchar_t *Name;				// Name
 	BOOL Deprecated;
 	BOOL SystemEncryption;	// Available for system encryption
 } Hash;
+#endif
 
 // Maxium length of scheduled key
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_AES)
@@ -276,9 +282,8 @@ int CipherGetKeyScheduleSize (int cipher);
 BOOL CipherSupportsIntraDataUnitParallelization (int cipher);
 
 #ifndef TC_WINDOWS_BOOT
-const
+const wchar_t * CipherGetName (int cipher);
 #endif
-char * CipherGetName (int cipher);
 
 int CipherInit (int cipher, unsigned char *key, unsigned char *ks);
 #ifndef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
@@ -297,12 +302,16 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount);
 int EAGetFirst ();
 int EAGetCount (void);
 int EAGetNext (int previousEA);
-char * EAGetName (char *buf, int ea, int guiDisplay);
-int EAGetByName (char *name);
+#ifndef TC_WINDOWS_BOOT
+wchar_t * EAGetName (wchar_t *buf, int ea, int guiDisplay);
+int EAGetByName (wchar_t *name);
+#endif
 int EAGetKeySize (int ea);
 int EAGetFirstMode (int ea);
 int EAGetNextMode (int ea, int previousModeId);
-char * EAGetModeName (int ea, int mode, BOOL capitalLetters);
+#ifndef TC_WINDOWS_BOOT
+wchar_t * EAGetModeName (int ea, int mode, BOOL capitalLetters);
+#endif
 int EAGetKeyScheduleSize (int ea);
 int EAGetLargestKey ();
 int EAGetLargestKeyForMode (int mode);
@@ -317,13 +326,10 @@ BOOL EAIsModeSupported (int ea, int testedMode);
 
 
 #ifndef TC_WINDOWS_BOOT
-const
-#endif
-char *HashGetName (int hash_algo_id);
+const wchar_t *HashGetName (int hash_algo_id);
 
-#ifndef TC_WINDOWS_BOOT
 Hash *HashGet (int id);
-void HashGetName2 (char *buf, int hashId);
+void HashGetName2 (wchar_t *buf, int hashId);
 BOOL HashIsDeprecated (int hashId);
 BOOL HashForSystemEncryption (int hashId);
 int GetMaxPkcs5OutSize (void);

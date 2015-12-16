@@ -22,10 +22,8 @@ namespace VeraCrypt
 	{
 	public:
 		VolumePassword ();
-		VolumePassword (const byte *password, size_t size);   
-		VolumePassword (const char *password, size_t size);
-		VolumePassword (const wchar_t *password, size_t charCount);
-		VolumePassword (const wstring &password);
+		VolumePassword (const byte *password, size_t size) { Set (password, size); }
+		VolumePassword (const SecureBuffer &password) { Set (password.Ptr (), password.Size ()); }
 		VolumePassword (const VolumePassword &password) { Set (password); }
 		virtual ~VolumePassword ();
 
@@ -35,13 +33,10 @@ namespace VeraCrypt
 
 		operator BufferPtr () const { return BufferPtr (PasswordBuffer); }
 
-		void CheckPortability () const;
 		byte *DataPtr () const { return PasswordBuffer; }
 		bool IsEmpty () const { return PasswordSize == 0; }
 		size_t Size () const { return PasswordSize; }
 		void Set (const byte *password, size_t size);
-		void Set (const wchar_t *password, size_t charCount);
-		void Set (const ConstBufferPtr &password);
 		void Set (const VolumePassword &password);
 
 		TC_SERIALIZABLE (VolumePassword);
@@ -51,12 +46,10 @@ namespace VeraCrypt
 
 	protected:
 		void AllocateBuffer ();
-		bool IsPortable () const;
 
 		SecureBuffer PasswordBuffer;
 
 		size_t PasswordSize;
-		bool Unportable;
 	};
 
 	struct PasswordException : public Exception
@@ -86,6 +79,8 @@ namespace VeraCrypt
 	TC_EXCEPTION_NODECL (ProtectionPasswordKeyfilesIncorrect); \
 	TC_EXCEPTION (PasswordEmpty); \
 	TC_EXCEPTION (PasswordTooLong); \
+	TC_EXCEPTION (PasswordUTF8TooLong); \
+	TC_EXCEPTION (PasswordUTF8Invalid); \
 	TC_EXCEPTION (UnportablePassword);
 
 	TC_EXCEPTION_SET;

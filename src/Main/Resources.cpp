@@ -155,8 +155,8 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 		return wxIcon (L"IDI_TRUECRYPT_ICON", wxBITMAP_TYPE_ICO_RESOURCE, 16, 16);
 #else
-#		include "Resources/Icons/VeraCrypt-16x16.xpm"
-		return wxIcon (VeraCryptIcon16x16);
+#		include "Resources/Icons/VeraCrypt-256x256.xpm"
+		return wxIcon (VeraCryptIcon256x256);
 #endif
 	}
 

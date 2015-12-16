@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-void AddComboItem (HWND hComboBox, char *lpszFileName, BOOL saveHistory);
+void AddComboItem (HWND hComboBox, const wchar_t *lpszFileName, BOOL saveHistory);
 LPARAM MoveEditToCombo (HWND hComboBox, BOOL saveHistory);
 int GetOrderComboIdx ( HWND hComboBox , int *nIdxList , int nElems );
 LPARAM UpdateComboOrder ( HWND hComboBox );

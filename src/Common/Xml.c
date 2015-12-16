@@ -210,26 +210,59 @@ char *XmlQuoteText (const char *textSrc, char *textDst, int textDstMaxSize)
 	return textDst;
 }
 
-
-int XmlWriteHeader (FILE *file)
+wchar_t *XmlQuoteTextW (const wchar_t *textSrc, wchar_t *textDst, int textDstMaxSize)
 {
-	return fputs ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VeraCrypt>", file);
+	wchar_t *textDstLast = textDst + textDstMaxSize - 1;
+
+	if (textDstMaxSize == 0)
+		return NULL;
+
+	while (*textSrc != 0 && textDst <= textDstLast) 
+	{
+		wchar_t c = *textSrc++;
+		switch (c)
+		{
+		case L'&':
+			if (textDst + 6 > textDstLast)
+				return NULL;
+			wcscpy (textDst, L"&amp;");
+			textDst += 5;
+			continue;
+
+		case L'>':
+			if (textDst + 5 > textDstLast)
+				return NULL;
+			wcscpy (textDst, L"&gt;");
+			textDst += 4;
+			continue;
+
+		case L'<':
+			if (textDst + 5 > textDstLast)
+				return NULL;
+			wcscpy (textDst, L"&lt;");
+			textDst += 4;
+			continue;
+
+		default:
+			*textDst++ = c;
+		}
+	}
+
+	if (textDst > textDstLast)
+		return NULL;
+
+	*textDst = 0;
+	return textDst;
 }
 
 
-int XmlWriteHeaderW (FILE *file)
+int XmlWriteHeader (FILE *file)
 {
 	return fputws (L"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VeraCrypt>", file);
 }
 
 
 int XmlWriteFooter (FILE *file)
-{
-	return fputs ("\n</VeraCrypt>", file);
-}
-
-
-int XmlWriteFooterW (FILE *file)
 {
 	return fputws (L"\n</VeraCrypt>", file);
 }
