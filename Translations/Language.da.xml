@@ -111,6 +111,7 @@
     <control lang="da" key="IDC_AUTORUN_START">&amp;Start VeraCrypt</control>
     <control lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</control>
     <control lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="da" key="IDC_BROWSE_DIRS">Gennemse...</control>
     <control lang="da" key="IDC_BROWSE_FILES">Gennemse...</control>
     <control lang="da" key="IDC_CACHE">Gem kodeord og nøgl&amp;efiler i hukommelsen</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="da" key="IDC_PREF_BKG_TASK_ENABLE">Tilsluttet</control>
     <control lang="da" key="IDC_PREF_CACHE_PASSWORDS">Gem kodeord i driverhukommelse</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="da" key="IDC_PREF_DISMOUNT_INACTIVE">Auto-afbryd bind efter der ikke har været læst/skrevet til det i</control>
     <control lang="da" key="IDC_PREF_DISMOUNT_LOGOFF">Brugeren logger af</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

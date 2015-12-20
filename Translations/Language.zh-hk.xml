@@ -111,6 +111,7 @@
     <control lang="zh-hk" key="IDC_AUTORUN_START">運行 VeraCrypt(&amp;S)</control>
     <control lang="zh-hk" key="IDC_AUTO_DETECT_PKCS11_MODULE">自動檢測運行庫(&amp;D)</control>
     <control lang="zh-hk" key="IDC_BOOT_LOADER_CACHE_PASSWORD">緩存啟動驗證密碼到驅動記憶體（用來載入非系統加密卷）(&amp;C)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="zh-hk" key="IDC_BROWSE_DIRS">流覽...</control>
     <control lang="zh-hk" key="IDC_BROWSE_FILES">流覽...</control>
     <control lang="zh-hk" key="IDC_CACHE">在記憶體中緩存密碼和密鑰檔(&amp;A)</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="zh-hk" key="IDC_PREF_BKG_TASK_ENABLE">啟用</control>
     <control lang="zh-hk" key="IDC_PREF_CACHE_PASSWORDS">在驅動記憶體中緩存密碼</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="zh-hk" key="IDC_PREF_DISMOUNT_INACTIVE">自動卸載加密卷，在無數據讀寫動作下面時間後</control>
     <control lang="zh-hk" key="IDC_PREF_DISMOUNT_LOGOFF">用戶註銷時</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

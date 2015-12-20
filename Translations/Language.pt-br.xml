@@ -111,6 +111,7 @@
     <control lang="pt-br" key="IDC_AUTORUN_START">&amp;Iniciar o VeraCrypt</control>
     <control lang="pt-br" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detectar Biblioteca</control>
     <control lang="pt-br" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Armazenar temporariamente a senha de autenticação pré-boot na memória do driver (para a montagem de volumes sem sistema)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="pt-br" key="IDC_BROWSE_DIRS">Explorar...</control>
     <control lang="pt-br" key="IDC_BROWSE_FILES">Explorar...</control>
     <control lang="pt-br" key="IDC_CACHE">Mant&amp;er senhas e arquivos-chave na memória</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="pt-br" key="IDC_PREF_BKG_TASK_ENABLE">Ativado</control>
     <control lang="pt-br" key="IDC_PREF_CACHE_PASSWORDS">Manter as senhas na memória do driver</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="pt-br" key="IDC_PREF_DISMOUNT_INACTIVE">Desmontar volume automaticamente se nenhum dado for lido/escrito por</control>
     <control lang="pt-br" key="IDC_PREF_DISMOUNT_LOGOFF">Usuário fizer log-off</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

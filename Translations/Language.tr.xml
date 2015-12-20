@@ -111,6 +111,7 @@
     <control lang="tr" key="IDC_AUTORUN_START">&amp;VeraCrypt'i başlat</control>
     <control lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</control>
     <control lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="tr" key="IDC_BROWSE_DIRS">Araştır...</control>
     <control lang="tr" key="IDC_BROWSE_FILES">Araştır...</control>
     <control lang="tr" key="IDC_CACHE">Parolaları ve anahtar dos&amp;yaları önbelleğe al</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="tr" key="IDC_PREF_BKG_TASK_ENABLE">Etkin</control>
     <control lang="tr" key="IDC_PREF_CACHE_PASSWORDS">Parolaları sürücü belleğinde önbelleğe al</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="tr" key="IDC_PREF_DISMOUNT_INACTIVE">Birimden bu sürede veri okunmaz/yazılmazsa bağlantısını otomatik kes:</control>
     <control lang="tr" key="IDC_PREF_DISMOUNT_LOGOFF">Kullanıcı oturumu kapattığında</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

@@ -111,6 +111,7 @@
     <control lang="uk" key="IDC_AUTORUN_START">&amp;Запуск VeraCrypt</control>
     <control lang="uk" key="IDC_AUTO_DETECT_PKCS11_MODULE">Автовизначення &amp;бібліотеки</control>
     <control lang="uk" key="IDC_BOOT_LOADER_CACHE_PASSWORD">К&amp;ешувати пароль предзагрузочної аутентифікації в памяті драйвера (для монтування несистемных томів)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="uk" key="IDC_BROWSE_DIRS">Огляд...</control>
     <control lang="uk" key="IDC_BROWSE_FILES">Огляд...</control>
     <control lang="uk" key="IDC_CACHE">К&amp;ешувати паролі і ключеві файли</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="uk" key="IDC_PREF_BKG_TASK_ENABLE">Включено</control>
     <control lang="uk" key="IDC_PREF_CACHE_PASSWORDS">Кешувати пароль в памяті</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="uk" key="IDC_PREF_DISMOUNT_INACTIVE">Автоматично розмонтувати томи при неактивності протягом</control>
     <control lang="uk" key="IDC_PREF_DISMOUNT_LOGOFF">завершення сеансів</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

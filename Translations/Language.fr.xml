@@ -111,6 +111,7 @@
     <control lang="fr" key="IDC_AUTORUN_START">&amp;Exécuter VeraCrypt</control>
     <control lang="fr" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Détecter bibliothèque</control>
     <control lang="fr" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache du mot de passe d'authentification de pré-amorçage dans le pilote mémoire (pour le montage de volumes non-système)</control>
+    <control lang="fr" key="IDC_BOOT_LOADER_CACHE_PIM">Inclure le &amp;PIM quand le mot de passe d'authentification de pré-amorçage est mis en cache</control>
     <control lang="fr" key="IDC_BROWSE_DIRS">Parcourir...</control>
     <control lang="fr" key="IDC_BROWSE_FILES">Parcourir...</control>
     <control lang="fr" key="IDC_CACHE">Mots de passe et fichiers clés en cache</control>
@@ -159,6 +160,7 @@
     <control lang="fr" key="IDC_PIM_HELP">(Vide or 0 pour valeur par défaut)</control>
     <control lang="fr" key="IDC_PREF_BKG_TASK_ENABLE">Activer</control>
     <control lang="fr" key="IDC_PREF_CACHE_PASSWORDS">Mots de passe en cache</control>
+    <control lang="fr" key="IDC_PREF_CACHE_PIM">Inclure le PIM quand le mot de passe est mis en cache</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_INACTIVE">Démontage automatique quand aucune donnée n'a été lue/écrite durant</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_LOGOFF">L'utilisateur se déconnecte</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">L'utilisateur verrouille la session</control>

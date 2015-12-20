@@ -111,6 +111,7 @@
     <control lang="ca" key="IDC_AUTORUN_START">&amp;Engegar VeraCrypt</control>
     <control lang="ca" key="IDC_AUTO_DETECT_PKCS11_MODULE">Dectectar automàticament</control>
     <control lang="ca" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Guardar la contrasenya de prearrencada a la memòria del controlador (per muntar volums simples)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="ca" key="IDC_BROWSE_DIRS">Examinar...</control>
     <control lang="ca" key="IDC_BROWSE_FILES">Examinar...</control>
     <control lang="ca" key="IDC_CACHE">&amp;Recordar contrasenyes i fitxers de claus</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="ca" key="IDC_PREF_BKG_TASK_ENABLE">Activat</control>
     <control lang="ca" key="IDC_PREF_CACHE_PASSWORDS">Guardar contrasenyes al controlador</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_INACTIVE">Desmuntar el volum automàticament quan no s'hi llegeixi/escrigui durant</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_LOGOFF">L'usuari tanqui la sessió</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

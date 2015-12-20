@@ -111,6 +111,7 @@
     <control lang="cs" key="IDC_AUTORUN_START">&amp;Spustit VeraCrypt</control>
     <control lang="cs" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Detekovat knihovny automaticky</control>
     <control lang="cs" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Ukládat před-bootovací autentifikační heslo v mezipaměti ovladače (pro připojení nesystémových svazků)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="cs" key="IDC_BROWSE_DIRS">Procházet…</control>
     <control lang="cs" key="IDC_BROWSE_FILES">Procházet…</control>
     <control lang="cs" key="IDC_CACHE">Ukládat &amp;hesla a soub. klíče do mezipaměti</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="cs" key="IDC_PREF_BKG_TASK_ENABLE">Povoleno</control>
     <control lang="cs" key="IDC_PREF_CACHE_PASSWORDS">Ukládat hesla do paměti ovladače</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_INACTIVE">Autom. odpojit svazek pokud z/do něj nebylo čteno/zapisováno</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_LOGOFF">Uživatel se odhlašuje</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

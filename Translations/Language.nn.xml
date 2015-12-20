@@ -111,6 +111,7 @@
     <control lang="en" key="IDC_AUTORUN_START">&amp;Start VeraCrypt</control>
     <control lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</control>
     <control lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="nn" key="IDC_BROWSE_DIRS">Bla gjennom...</control>
     <control lang="nn" key="IDC_BROWSE_FILES">Bla gjennom...</control>
     <control lang="nn" key="IDC_CACHE">Hurtiglagra passord og &amp;nøkkelfiler i minne</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="nn" key="IDC_PREF_BKG_TASK_ENABLE">Aktivert</control>
     <control lang="nn" key="IDC_PREF_CACHE_PASSWORDS">Snøgglagra passord i drivar minne</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="nn" key="IDC_PREF_DISMOUNT_INACTIVE">Auto avmonter volum vist det ikkje er skrive/lese data til det på</control>
     <control lang="nn" key="IDC_PREF_DISMOUNT_LOGOFF">Brukar loggar av</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

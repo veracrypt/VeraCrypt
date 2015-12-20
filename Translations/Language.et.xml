@@ -111,6 +111,7 @@
     <control lang="et" key="IDC_AUTORUN_START">Käivita VeraCrypt</control>
     <control lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</control>
     <control lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="et" key="IDC_BROWSE_DIRS">Sirvi...</control>
     <control lang="et" key="IDC_BROWSE_FILES">Sirvi...</control>
     <control lang="et" key="IDC_CACHE">Hoia salasõnu ja võtmefaile mälus</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="et" key="IDC_PREF_BKG_TASK_ENABLE">Lubatud</control>
     <control lang="et" key="IDC_PREF_CACHE_PASSWORDS">Hoia salasõna tüüreli mälus</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="et" key="IDC_PREF_DISMOUNT_INACTIVE">Auto-haagi lahti konteiner peale mitte kirjutamist/lugemist</control>
     <control lang="et" key="IDC_PREF_DISMOUNT_LOGOFF">Kasutaja logib välja</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

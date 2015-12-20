@@ -111,6 +111,7 @@
     <control lang="fa" key="IDC_AUTORUN_START">&amp;نمايش و اجراي برنامه</control>
     <control lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</control>
     <control lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="fa" key="IDC_BROWSE_DIRS">...پويش</control>
     <control lang="fa" key="IDC_BROWSE_FILES">...پويش</control>
     <control lang="fa" key="IDC_CACHE">كليدفايل و كلمه عبور را در حافظه نگه دارد</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="fa" key="IDC_PREF_BKG_TASK_ENABLE">فعال است</control>
     <control lang="fa" key="IDC_PREF_CACHE_PASSWORDS">كلمه عبور را در حافظه درايور ذخيره كند</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="fa" key="IDC_PREF_DISMOUNT_INACTIVE">اگر اطلاعاتي خوانده و يا نوشته نشد فايل سيستم را اتوماتيك ببند</control>
     <control lang="fa" key="IDC_PREF_DISMOUNT_LOGOFF">لاگ آف</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

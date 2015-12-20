@@ -111,6 +111,7 @@
     <control lang="sk" key="IDC_AUTORUN_START">&amp;Spustiť VeraCrypt</control>
     <control lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</control>
     <control lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="sk" key="IDC_BROWSE_DIRS">Prechádzať...</control>
     <control lang="sk" key="IDC_BROWSE_FILES">Prechádzať...</control>
     <control lang="sk" key="IDC_CACHE">Ukladať &amp;hesla a súborové kľúče do medzipamäte</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="sk" key="IDC_PREF_BKG_TASK_ENABLE">Povolené</control>
     <control lang="sk" key="IDC_PREF_CACHE_PASSWORDS">Ukladať hesla do pamäti ovládača</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="sk" key="IDC_PREF_DISMOUNT_INACTIVE">Autom. odpojiť zväzok pokiaľ z/do neho nebolo čítané/zapisované</control>
     <control lang="sk" key="IDC_PREF_DISMOUNT_LOGOFF">Užívateľ sa odhlasuje</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

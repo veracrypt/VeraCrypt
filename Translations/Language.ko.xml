@@ -111,6 +111,7 @@
     <control lang="ko" key="IDC_AUTORUN_START">VeraCrypt 시작(&amp;S)</control>
     <control lang="ko" key="IDC_AUTO_DETECT_PKCS11_MODULE">라이브러리 자동-탐지(&amp;D)</control>
     <control lang="ko" key="IDC_BOOT_LOADER_CACHE_PASSWORD">부팅-전-인증 암호를 드라이버 메모리에 캐시(* 시스템 아닌 볼륨의 삽입 목적)(&amp;C)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="ko" key="IDC_BROWSE_DIRS">탐색...</control>
     <control lang="ko" key="IDC_BROWSE_FILES">탐색...</control>
     <control lang="ko" key="IDC_CACHE">메모리에 비밀번호 및 키파일 보관</control>
@@ -159,6 +160,7 @@
     <control lang="ko" key="IDC_PIM_HELP">(빈값 아니면 0은 기본 반복갚을 사용함)</control>
     <control lang="ko" key="IDC_PREF_BKG_TASK_ENABLE">사용</control>
     <control lang="ko" key="IDC_PREF_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="ko" key="IDC_PREF_DISMOUNT_INACTIVE">어떤 데이터가 읽기/쓰기된 후 볼륨 자동 꺼내기</control>
     <control lang="ko" key="IDC_PREF_DISMOUNT_LOGOFF">사용자 로그오프할 때</control>
     <control lang="ko" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">사용자 세션이 잠겨있을 때</control>

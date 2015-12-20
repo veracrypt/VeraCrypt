@@ -111,6 +111,7 @@
     <control lang="pl" key="IDC_AUTORUN_START">&amp;Uruchom VeraCrypt</control>
     <control lang="pl" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto&amp;wykrywanie biblioteki</control>
     <control lang="pl" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Przechowywanie autoryzacji (hasła) podczas bootowania w pamięci dysku</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="pl" key="IDC_BROWSE_DIRS">Przeglądaj...</control>
     <control lang="pl" key="IDC_BROWSE_FILES">Przeglądaj...</control>
     <control lang="pl" key="IDC_CACHE">Przechowuj w pamięci hasła i pliki-&amp;klucze</control>
@@ -159,6 +160,7 @@
     <control lang="pl" key="IDC_PIM_HELP">(Puste albo 0 dla domyślnych iteracji)</control>
     <control lang="pl" key="IDC_PREF_BKG_TASK_ENABLE">Aktywny</control>
     <control lang="pl" key="IDC_PREF_CACHE_PASSWORDS">Przechowuj hasła w pamięci sterownika</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_INACTIVE">Automatycznie odłącz wolumen, jeśli nie był używany przez</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_LOGOFF">Użytkownik się wylogował</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Zablokowano sesję użytkownika</control>

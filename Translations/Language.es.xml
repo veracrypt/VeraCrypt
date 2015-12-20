@@ -111,6 +111,7 @@
     <control lang="es" key="IDC_AUTORUN_START">&amp;Iniciar VeraCrypt</control>
     <control lang="es" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Detección automática</control>
     <control lang="es" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Guardar contraseña de autenticación de pre-arranque en &amp;caché (para montar volúmenes secundarios)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="es" key="IDC_BROWSE_DIRS">Explorar...</control>
     <control lang="es" key="IDC_BROWSE_FILES">Explorar...</control>
     <control lang="es" key="IDC_CACHE">Guardar contras&amp;eñas y archivos en caché</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="es" key="IDC_PREF_BKG_TASK_ENABLE">Activado</control>
     <control lang="es" key="IDC_PREF_CACHE_PASSWORDS">Guardar contraseñas en caché</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_INACTIVE">Desmontar volumen autom. cuando dejen de leerse/escribirse datos</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_LOGOFF">Si el usuario cierra sesión</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

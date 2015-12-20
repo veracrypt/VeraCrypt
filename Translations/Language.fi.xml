@@ -111,6 +111,7 @@
     <control lang="fi" key="IDC_AUTORUN_START">&amp;Aloita VeraCrypt</control>
     <control lang="fi" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;tunnista Kirjasto</control>
     <control lang="fi" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Välimuisti esikäynnistys autentikoinnin salasanalle aseman muistissa (ei-järjestelmätaltion kytkemiseksi)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="fi" key="IDC_BROWSE_DIRS">Selaa..</control>
     <control lang="fi" key="IDC_BROWSE_FILES">Selaa..</control>
     <control lang="fi" key="IDC_CACHE">Välimuisti salasanat ja avaintie&amp;dostot muistissa</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="fi" key="IDC_PREF_BKG_TASK_ENABLE">Päällä</control>
     <control lang="fi" key="IDC_PREF_CACHE_PASSWORDS">Salasanat Ohjaimen Välimuistiin</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="fi" key="IDC_PREF_DISMOUNT_INACTIVE">Automaattinen yhteyden poisto taltiolle kun dataa ei ole luettu/kirjoitettu sille</control>
     <control lang="fi" key="IDC_PREF_DISMOUNT_LOGOFF">Käyttäjän ulos kirjautuessa</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

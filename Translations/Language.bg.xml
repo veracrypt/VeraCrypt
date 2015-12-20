@@ -111,6 +111,7 @@
     <control lang="bg" key="IDC_AUTORUN_START">&amp;Стартиране на VeraCrypt</control>
     <control lang="bg" key="IDC_AUTO_DETECT_PKCS11_MODULE">Автоматично &amp;намиране на библиотека</control>
     <control lang="bg" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Кеширане на паролата за pre-boot автентикация в паметта на драйвера (за монтиране на несистемни томове)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="bg" key="IDC_BROWSE_DIRS">Избор...</control>
     <control lang="bg" key="IDC_BROWSE_FILES">Избор...</control>
     <control lang="bg" key="IDC_CACHE">Кеширане на паролите и ключ-файлов&amp;ете в паметта</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="bg" key="IDC_PREF_BKG_TASK_ENABLE">Разрешен</control>
     <control lang="bg" key="IDC_PREF_CACHE_PASSWORDS">Кеширане на пароли в паметта</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="bg" key="IDC_PREF_DISMOUNT_INACTIVE">Авто-демонтиране след като няма четене/запис в продължение на</control>
     <control lang="bg" key="IDC_PREF_DISMOUNT_LOGOFF">Потребителят се изключи</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

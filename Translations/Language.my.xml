@@ -111,6 +111,7 @@
     <control lang="my" key="IDC_AUTORUN_START">VeraCrypt ကို စဖွင့်ရန်</control>
     <control lang="my" key="IDC_AUTO_DETECT_PKCS11_MODULE">လိုင်ဘရာရီကို အလိုအလျောက် ရှာဖွေရန်</control>
     <control lang="my" key="IDC_BOOT_LOADER_CACHE_PASSWORD">စက်မတက်မီ စစ်ဆေး အတည်ပြု စကားဝှက်ကို (ကွန်ပျူတာ စနစ်မဟုတ်သော volumes များကို အစပျိုးရန်) ဒရိုင်ဘာ မှတ်ဉာဏ်၌ ခေတ္တ မှတ်ထားရန် </control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="my" key="IDC_BROWSE_DIRS">ဖွင့်ကြည့်ရန်...</control>
     <control lang="my" key="IDC_BROWSE_FILES">ဖွင့်ကြည့်ရန်...</control>
     <control lang="my" key="IDC_CACHE">စကားဝှက်များနှင့် ကီးဖိုင်များကို မှတ်ဉာဏ်ထဲတွင် ခေတ္တ သိမ်းဆည်းရန်</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="my" key="IDC_PREF_BKG_TASK_ENABLE">ဖွင့်ထားသည်</control>
     <control lang="my" key="IDC_PREF_CACHE_PASSWORDS">စကားဝှက်ကို ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲ၌ ခေတ္တ သိမ်းဆည်းရန်</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_INACTIVE">ဒေတာများကို ဖတ်ရှုခြင်း/ရေးသားခြင်း မပြုသည့်အခါ volume ကို အလိုအလျောက် အဆုံးသတ်ပါ</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_LOGOFF">သုံးစွဲသူ ထွက်ရန်</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

@@ -111,6 +111,7 @@
     <control lang="ar" key="IDC_AUTORUN_START">‮&amp;شغِّل ڤيراكربت</control>
     <control lang="ar" key="IDC_AUTO_DETECT_PKCS11_MODULE">‮&amp;تحسس المكتبة ذاتيا</control>
     <control lang="ar" key="IDC_BOOT_LOADER_CACHE_PASSWORD">‮&amp;احفظ كلمة سر استيثاق ما قبل الإقلاع في في ذاكرة المشغل (لوصل مجلدات غير النظام)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="ar" key="IDC_BROWSE_DIRS">‮تصفح…</control>
     <control lang="ar" key="IDC_BROWSE_FILES">‮تصفح…</control>
     <control lang="ar" key="IDC_CACHE">‮خزِّن كلمات السر و الم&amp;لفات المفاتيح مؤقتا في الذاكرة</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="ar" key="IDC_PREF_BKG_TASK_ENABLE">‮مُفعّل</control>
     <control lang="ar" key="IDC_PREF_CACHE_PASSWORDS">‮خزّن كلمات السرّ مؤقتا في ذاكرة المُشغِّل</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="ar" key="IDC_PREF_DISMOUNT_INACTIVE">‮افصل المجلد تلقائيا عندما لا تُكتب/تُقرأ بيانات منه</control>
     <control lang="ar" key="IDC_PREF_DISMOUNT_LOGOFF">‮خروج المستخدم</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

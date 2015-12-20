@@ -111,6 +111,7 @@
     <control lang="de" key="IDC_AUTORUN_START">&amp;VeraCrypt starten</control>
     <control lang="de" key="IDC_AUTO_DETECT_PKCS11_MODULE">Bibliothek auto&amp;matisch erkennen</control>
     <control lang="de" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Pre-Boot Authentifikations-Passwort in Treiber-Speicher schr. (zum einbinden v. Nicht-System Volume)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="de" key="IDC_BROWSE_DIRS">Durchsuchen...</control>
     <control lang="de" key="IDC_BROWSE_FILES">Durchsuchen...</control>
     <control lang="de" key="IDC_CACHE">Passwort u. Schlüsseldat. im &amp;Cache halten</control>
@@ -159,6 +160,7 @@
     <control lang="de" key="IDC_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</control>
     <control lang="de" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiv</control>
     <control lang="de" key="IDC_PREF_CACHE_PASSWORDS">Passwörter im &amp;Cache halten</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_INACTIVE">Bei ausbleibendem Lese-/Schreibzugriff aut&amp;omatisch trennen nach</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_LOGOFF">Benutzerabmel&amp;dung</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Benutzersitzung gesperrt</control>

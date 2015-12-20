@@ -111,6 +111,7 @@
     <control lang="vi" key="IDC_AUTORUN_START">&amp;Bắt đầu VeraCrypt</control>
     <control lang="vi" key="IDC_AUTO_DETECT_PKCS11_MODULE">Tự-&amp;Phát hiện Thư viện</control>
     <control lang="vi" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Tạm trữ mật mã chứng thực tiền khởi động trong bộ nhớ của trình điều khiển (để nạp các tập đĩa vô hệ lên)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="vi" key="IDC_BROWSE_DIRS">Duyệt...</control>
     <control lang="vi" key="IDC_BROWSE_FILES">Duyệt...</control>
     <control lang="vi" key="IDC_CACHE">Tạm trữ các mật mã và tập &amp;tin khóa trong bộ nhớ</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="vi" key="IDC_PREF_BKG_TASK_ENABLE">Được bật lên</control>
     <control lang="vi" key="IDC_PREF_CACHE_PASSWORDS">Tạm trữ mật mã trong bộ nhớ của trình điều khiển</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="vi" key="IDC_PREF_DISMOUNT_INACTIVE">Tự-tháo tập đĩa xuống sau khi không có dữ liệu nào được đọc/viết vào nó trong</control>
     <control lang="vi" key="IDC_PREF_DISMOUNT_LOGOFF">Người dùng đăng xuất</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>

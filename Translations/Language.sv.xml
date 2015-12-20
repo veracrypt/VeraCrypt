@@ -111,6 +111,7 @@
     <control lang="sv" key="IDC_AUTORUN_START">Starta &amp;VeraCrypt</control>
     <control lang="sv" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Identifiera bibliotek automatiskt</control>
     <control lang="sv" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Lagra lösenordet till förstartsautentiseringen i &amp;cacheminnet (för montering av icke-systemvolymer)</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="sv" key="IDC_BROWSE_DIRS">&amp;Bläddra …</control>
     <control lang="sv" key="IDC_BROWSE_FILES">Bl&amp;äddra …</control>
     <control lang="sv" key="IDC_CACHE">Lagra lösenord och nyckelfiler i &amp;cacheminnet</control>
@@ -159,6 +160,7 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="sv" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiverad</control>
     <control lang="sv" key="IDC_PREF_CACHE_PASSWORDS">La&amp;gra lösenord i drivrutinens minnescache</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_INACTIVE">&amp;Demontera automatiskt volymer där inga data har skrivits eller lästs på</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_LOGOFF">Användaren &amp;loggar ut</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
