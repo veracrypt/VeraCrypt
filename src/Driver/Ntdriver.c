@@ -54,6 +54,7 @@ BOOL DriverUnloadDisabled = FALSE;
 BOOL PortableMode = FALSE;
 BOOL VolumeClassFilterRegistered = FALSE;
 BOOL CacheBootPassword = FALSE;
+BOOL CacheBootPim = FALSE;
 BOOL NonAdminSystemFavoritesAccessDisabled = FALSE;
 static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
 static BOOL SystemFavoriteVolumeDirty = FALSE;
@@ -1444,7 +1445,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 			if (mount->VolumePassword.Length > MAX_PASSWORD || mount->ProtectedHidVolPassword.Length > MAX_PASSWORD
 				||	mount->pkcs5_prf < 0 || mount->pkcs5_prf > LAST_PRF_ID 
-				||	mount->VolumePim < 0 || mount->VolumePim == INT_MAX
+				||	mount->VolumePim < -1 || mount->VolumePim == INT_MAX
 				|| mount->ProtectedHidVolPkcs5Prf < 0 || mount->ProtectedHidVolPkcs5Prf > LAST_PRF_ID 
 				|| (mount->bTrueCryptMode != FALSE && mount->bTrueCryptMode != TRUE)
 				)
@@ -3293,6 +3294,9 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 
 				if (flags & TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS)
 					NonAdminSystemFavoritesAccessDisabled = TRUE;
+
+				if (flags & TC_DRIVER_CONFIG_CACHE_BOOT_PIM)
+					CacheBootPim = TRUE;
 			}
 
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);

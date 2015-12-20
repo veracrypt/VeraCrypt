@@ -86,6 +86,7 @@ BOOL bCacheInDriver = FALSE;		/* Cache any passwords we see */
 BOOL bCacheInDriverDefault = FALSE;
 BOOL bCacheDuringMultipleMount = FALSE;
 BOOL bCmdCacheDuringMultipleMount = FALSE;
+BOOL bIncludePimInCache = FALSE;
 BOOL bTryEmptyPasswordWhenKeyfileUsed = FALSE;
 BOOL bCmdTryEmptyPasswordWhenKeyfileUsed = FALSE;
 BOOL bCmdTryEmptyPasswordWhenKeyfileUsedValid = FALSE;
@@ -129,8 +130,8 @@ Password VolumePassword;			/* Password used for mounting volumes */
 Password CmdVolumePassword;			/* Password passed from command line */
 int VolumePkcs5 = 0;
 int CmdVolumePkcs5 = 0;
-int VolumePim = 0;
-int CmdVolumePim = 0;
+int VolumePim = -1;
+int CmdVolumePim = -1;
 int DefaultVolumePkcs5 = 0;
 BOOL VolumeTrueCryptMode = FALSE;
 BOOL CmdVolumeTrueCryptMode = FALSE;
@@ -677,6 +678,8 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	ConfigReadCompareInt ("WipePasswordCacheOnExit", FALSE, &bWipeCacheOnExit, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("WipeCacheOnAutoDismount", TRUE, &bWipeCacheOnAutoDismount, bOnlyCheckModified, pbSettingsModified);
 
+	ConfigReadCompareInt ("IncludePimInCache", FALSE, &bIncludePimInCache, bOnlyCheckModified, pbSettingsModified);
+
 	ConfigReadCompareInt ("TryEmptyPasswordWhenKeyfileUsed",FALSE, &bTryEmptyPasswordWhenKeyfileUsed, bOnlyCheckModified, pbSettingsModified);
 
 	ConfigReadCompareInt ("StartOnLogon", FALSE, &bStartOnLogon, bOnlyCheckModified, pbSettingsModified);
@@ -844,6 +847,8 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("CachePasswordDuringMultipleMount",	bCacheDuringMultipleMount);
 		ConfigWriteInt ("WipePasswordCacheOnExit",			bWipeCacheOnExit);
 		ConfigWriteInt ("WipeCacheOnAutoDismount",			bWipeCacheOnAutoDismount);
+
+		ConfigWriteInt ("IncludePimInCache",				bIncludePimInCache);
 
 		ConfigWriteInt ("TryEmptyPasswordWhenKeyfileUsed",	bTryEmptyPasswordWhenKeyfileUsed);
 
@@ -3075,6 +3080,9 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PASSWORDS), BM_SETCHECK, 
 						bCacheInDriver ? BST_CHECKED:BST_UNCHECKED, 0);
+
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PIM), BM_SETCHECK, 
+						bIncludePimInCache? BST_CHECKED:BST_UNCHECKED, 0);
 			
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_MOUNT_READONLY), BM_SETCHECK, 
 						defaultMountOptions.ReadOnly ? BST_CHECKED:BST_UNCHECKED, 0);
@@ -3178,6 +3186,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bWipeCacheOnExit				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT));
 			bWipeCacheOnAutoDismount		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT));
 			bCacheInDriverDefault = bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PASSWORDS));	 
+			bIncludePimInCache = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PIM));
 			defaultMountOptions.ReadOnly	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_MOUNT_READONLY));
 			defaultMountOptions.Removable	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_MOUNT_REMOVABLE));
 			bEnableBkgTask				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_BKG_TASK_ENABLE));
@@ -3962,6 +3971,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_NAME), enabled);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_TRAVEL_OPEN_EXPLORER), enabled);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_TRAV_CACHE_PASSWORDS), enabled);
+			EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PIM), enabled);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY), enabled);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_DRIVELIST), enabled);
 			EnableWindow (GetDlgItem (hwndDlg, IDT_TRAVELER_MOUNT), enabled);
@@ -4011,7 +4021,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_CREATE)
 		{
 
-			BOOL copyWizard, copyExpander, bExplore, bCacheInDriver, bAutoRun, bAutoMount, bMountReadOnly;
+			BOOL copyWizard, copyExpander, bExplore, bCacheInDriver, bIncludePimInCache, bAutoRun, bAutoMount, bMountReadOnly;
 			WCHAR dstDir[MAX_PATH + 1];
 			WCHAR srcPath[1024 + MAX_PATH + 1];
 			WCHAR dstPath[2*MAX_PATH + 1];
@@ -4031,6 +4041,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			copyExpander = IsButtonChecked (GetDlgItem (hwndDlg, IDC_COPY_EXPANDER));
 			bExplore = IsButtonChecked (GetDlgItem (hwndDlg, IDC_TRAVEL_OPEN_EXPLORER));
 			bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_TRAV_CACHE_PASSWORDS));
+			bIncludePimInCache = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_CACHE_PIM));
 			bMountReadOnly = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY));
 			bAutoRun = !IsButtonChecked (GetDlgItem (hwndDlg, IDC_AUTORUN_DISABLE));
 			bAutoMount = IsButtonChecked (GetDlgItem (hwndDlg, IDC_AUTORUN_MOUNT));
@@ -4195,7 +4206,7 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				StringCbPrintfW (autoMount, sizeof(autoMount), L"VeraCrypt\\VeraCrypt.exe /q background%s%s%s%s /m rm /v %s",
 					drive > 0 ? driveLetter : L"",
 					bExplore ? L" /e" : L"",
-					bCacheInDriver ? L" /c y" : L"",
+					bCacheInDriver ? (bIncludePimInCache? L" /c p" : L" /c y") : L"",
 					bMountReadOnly ? L" /m ro" : L"",
 					volName);
 
@@ -4367,7 +4378,7 @@ static int AskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int 
 	{
 		password->Length = 0;
 		*pkcs5 = 0;
-		*pim = 0;
+		*pim = -1;
 		*truecryptMode = FALSE;
 		burn (&mountOptions.ProtectedHidVolPassword, sizeof (mountOptions.ProtectedHidVolPassword));
 		burn (&mountOptions.ProtectedHidVolPkcs5Prf, sizeof (mountOptions.ProtectedHidVolPkcs5Prf));
@@ -4407,7 +4418,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 		VolumePassword.Length = 0;
 		VolumePkcs5 = 0;
 		VolumeTrueCryptMode = FALSE;
-		VolumePim = 0;
+		VolumePim = -1;
 	}
 
 	if (szFileName == NULL)
@@ -4445,11 +4456,11 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 	if (!bUseCmdVolumePassword)
 	{
 		// First try cached passwords and if they fail ask user for a new one
-		// try TrueCrypt mode first since it is quick, only if pim = 0
-		if (EffectiveVolumePim == 0)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+		// try TrueCrypt mode first since it is quick, only if no custom pim specified
+		if (EffectiveVolumePim <= 0)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 		if (!mounted)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 		
 		// If keyfiles are enabled, test empty password first
 		if (!mounted && KeyFilesEnable && FirstKeyFile && bEffectiveTryEmptyPasswordWhenKeyfileUsed)
@@ -4458,11 +4469,11 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 			emptyPassword.Length = 0;
 
 			KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile, szFileName);
-			// try TrueCrypt mode first since it is quick, only if pim = 0
-			if (EffectiveVolumePim == 0)
-				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			// try TrueCrypt mode first since it is quick, only if no custom pim specified
+			if (EffectiveVolumePim <= 0)
+				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 			if (!mounted)
-				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 			
 			burn (&emptyPassword, sizeof (emptyPassword));
 		}
@@ -4471,11 +4482,11 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 	// Test password and/or keyfiles used for the previous volume
 	if (!mounted && bEffectiveCacheDuringMultipleMount && MultipleMountOperationInProgress && VolumePassword.Length != 0)
 	{
-		// try TrueCrypt mode first as it is quick, only if pim = 0
-		if (EffectiveVolumePim == 0)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, 0, TRUE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+		// try TrueCrypt mode first as it is quick, only if no custom pim specified
+		if (EffectiveVolumePim <= 0)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 		if (!mounted)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 	}
 
 	NormalCursor ();
@@ -4522,7 +4533,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 		if (KeyFilesEnable)
 			KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, szFileName);
 
-		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, !Silent);
+		mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, !Silent);
 		NormalCursor ();
 
 		// Check for problematic file extensions (exe, dll, sys)
@@ -4848,6 +4859,7 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 	VolumePassword.Length = 0;
 	mountOptions = defaultMountOptions;
 	bPrebootPasswordDlgMode = FALSE;
+	VolumePim = -1;
 
 	if (selDrive == -1) 
 		selDrive = 0;
@@ -4938,8 +4950,8 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 						goto ret;
 
 					// First try user password then cached passwords
-					if ((mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, TRUE, FALSE)) > 0
-						|| (mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, TRUE, FALSE)) > 0)
+					if ((mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, TRUE, FALSE)) > 0
+						|| ((VolumePassword.Length > 0) && ((mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, TRUE, FALSE)) > 0)))
 					{
 						// A volume has been successfully mounted
 
@@ -6300,7 +6312,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							EffectiveVolumeTrueCryptMode = DefaultVolumeTrueCryptMode;
 
 						// Cached password
-						mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A', szFileName, NULL, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, Silent, FALSE);
+						mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A', szFileName, NULL, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 
 						// Command line password or keyfiles
 						if (!mounted && (CmdVolumePassword.Length != 0 || (FirstCmdKeyFile && (CmdVolumePasswordValid || bEffectiveTryEmptyPasswordWhenKeyfileUsed))))
@@ -6311,7 +6323,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								KeyFilesApply (hwndDlg, &CmdVolumePassword, FirstCmdKeyFile, szFileName);
 
 							mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A',
-								szFileName, &CmdVolumePassword, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bForceMount,
+								szFileName, &CmdVolumePassword, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount,
 								&mountOptions, Silent, reportBadPasswd);
 
 							burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
@@ -6349,7 +6361,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							if (KeyFilesEnable && FirstKeyFile)
 								KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, szFileName);
 
-							mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A', szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bForceMount, &mountOptions, FALSE, TRUE);
+							mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A', szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, FALSE, TRUE);
 
 							burn (&VolumePassword, sizeof (VolumePassword));
 							burn (&VolumePkcs5, sizeof (VolumePkcs5));
@@ -8191,6 +8203,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{
 					wchar_t szTmp[16] = {0};
 					bCacheInDriver = TRUE;
+					bIncludePimInCache = FALSE;
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
 						     szTmp, sizeof (szTmp)))
@@ -8199,6 +8212,11 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							bCacheInDriver = FALSE;
 						else if (!_wcsicmp(szTmp,L"y") || !_wcsicmp(szTmp,L"yes"))
 							bCacheInDriver = TRUE;
+						else if (!_wcsicmp(szTmp,L"p") || !_wcsicmp(szTmp,L"pim"))
+						{
+							bCacheInDriver = TRUE;
+							bIncludePimInCache = TRUE;
+						}
 						else if (!_wcsicmp(szTmp,L"f") || !_wcsicmp(szTmp,L"favorites"))
 						{
 							bCacheInDriver = FALSE;
@@ -10431,6 +10449,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				byte userConfig;
 				string customUserMessage;
 				uint16 bootLoaderVersion;
+				BOOL bPasswordCacheEnabled = (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD)? TRUE : FALSE;
+				BOOL bPimCacheEnabled = (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PIM)? TRUE : FALSE;
 
 				BootEncObj->ReadBootSectorConfig (nullptr, 0, &userConfig, &customUserMessage, &bootLoaderVersion);
 
@@ -10442,8 +10462,10 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 				CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_OUTPUT, (userConfig & TC_BOOT_USER_CFG_FLAG_SILENT_MODE) ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton (hwndDlg, IDC_ALLOW_ESC_PBA_BYPASS, (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_ESC) ? BST_UNCHECKED : BST_CHECKED);
-				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD, (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD, bPasswordCacheEnabled ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION, (driverConfig & TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION) ? BST_CHECKED : BST_UNCHECKED);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM), bPasswordCacheEnabled);
+				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? BST_CHECKED : BST_UNCHECKED);
 
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP), GetString("CUSTOM_BOOT_LOADER_MESSAGE_HELP"));
 			}
@@ -10498,8 +10520,11 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 				try
 				{
+					BOOL bPasswordCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD);
+					BOOL bPimCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM);
 					BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage);
-					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD));
+					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, bPasswordCacheEnabled);
+					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
 				}
 				catch (Exception &e)
@@ -10523,7 +10548,14 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 		case IDC_BOOT_LOADER_CACHE_PASSWORD:
 			if (IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD))
+			{
 				Warning ("BOOT_PASSWORD_CACHE_KEYBOARD_WARNING", hwndDlg);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM), TRUE);
+			}
+			else
+			{
+				EnableWindow (GetDlgItem (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM), FALSE);
+			}
 
 			break;
 		}

@@ -187,6 +187,10 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	LONG outstandingWorkItemCount = 0;
 	int i;
 
+	// if no PIM specified, use default value
+	if (pim < 0)
+		pim = 0;
+
 	if (truecryptMode)
 	{
 		// SHA-256 not supported in TrueCrypt mode
@@ -805,6 +809,10 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 
 	if (cryptoInfo == NULL)
 		return ERR_OUTOFMEMORY;
+
+	// if no PIM specified, use default value
+	if (pim < 0)
+		pim = 0;
 
 	memset (header, 0, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 

@@ -112,6 +112,7 @@ typedef struct
 	wchar_t wszLabel[33]; // maximum label length is 32 for NTFS and 11 for FAT32
 	BOOL bIsNTFS; // output only
 	BOOL bDriverSetLabel;
+	BOOL bCachePim;
 } MOUNT_STRUCT;
 
 typedef struct
@@ -333,5 +334,6 @@ typedef struct
 #define TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION				0x8
 #define TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL						0x10
 #define TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION			0x20
+#define TC_DRIVER_CONFIG_CACHE_BOOT_PIM								0x40
 
 #endif		/* _WIN32 */

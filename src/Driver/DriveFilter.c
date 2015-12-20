@@ -125,7 +125,10 @@ NTSTATUS LoadBootArguments ()
 				Dump ("BootArgumentsCrc32 = %x\n", BootArgs.BootArgumentsCrc32);
 
 				if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
-					AddPasswordToCache (&BootArgs.BootPassword);
+				{
+					int pim = CacheBootPim? (int) (BootArgs.Flags >> 16) : 0;
+					AddPasswordToCache (&BootArgs.BootPassword, pim);
+				}
 
 				// clear fingerprint
 				burn (BootLoaderFingerprint, sizeof (BootLoaderFingerprint));

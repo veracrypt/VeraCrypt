@@ -6622,6 +6622,7 @@ int MountVolume (HWND hwndDlg,
 				 int pim,
 				 BOOL truecryptMode,
 				 BOOL cachePassword,
+				 BOOL cachePim,
 				 BOOL sharedAccess,
 				 const MountOptions* const mountOptions,
 				 BOOL quiet,
@@ -6670,6 +6671,7 @@ int MountVolume (HWND hwndDlg,
 retry:
 	mount.nDosDriveNo = driveNo;
 	mount.bCache = cachePassword;
+	mount.bCachePim = cachePim;
 
 	mount.bPartitionInInactiveSysEncScope = FALSE;
 

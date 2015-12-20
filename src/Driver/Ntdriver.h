@@ -114,6 +114,7 @@ extern ULONG OsMajorVersion;
 extern ULONG OsMinorVersion;
 extern BOOL VolumeClassFilterRegistered;
 extern BOOL CacheBootPassword;
+extern BOOL CacheBootPim;
 
 /* Helper macro returning x seconds in units of 100 nanoseconds */
 #define WAIT_SECONDS(x) ((x)*10000000)

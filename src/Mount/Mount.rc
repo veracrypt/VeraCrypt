@@ -41,7 +41,7 @@ IDR_MOUNT_TLB           TYPELIB                 "Mount.tlb"
 // Dialog
 //
 
-IDD_PREFERENCES_DLG DIALOGEX 0, 0, 336, 291
+IDD_PREFERENCES_DLG DIALOGEX 0, 0, 336, 305
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -78,22 +78,24 @@ BEGIN
     CONTROL         "Wipe cached passwords on exit",IDC_PREF_WIPE_CACHE_ON_EXIT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,227,165,11
     CONTROL         "Wipe cached passwords on auto-dismount",IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,254,296,11
-    PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,5,275,85,14
-    DEFPUSHBUTTON   "OK",IDOK,225,275,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,281,275,50,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,255,296,11
+    PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,5,289,85,14
+    DEFPUSHBUTTON   "OK",IDOK,225,289,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,281,289,50,14
     GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,52
     GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,4,3,328,26
     GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
     GROUPBOX        "Auto-Dismount",IDT_AUTO_DISMOUNT,4,94,328,62
     LTEXT           "minutes",IDT_MINUTES,289,129,39,10
     LTEXT           "Dismount all when:",IDT_AUTO_DISMOUNT_ON,9,110,71,17
-    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,216,328,54
+    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,216,328,68
     GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,4,63,328,28
     CONTROL         "User session locked",IDC_PREF_DISMOUNT_SESSION_LOCKED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,105,130,11
     CONTROL         "Temporary Cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,241,294,11
+    CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,269,151,10
 END
 
 IDD_VOLUME_PROPERTIES DIALOGEX 60, 30, 284, 224
@@ -198,7 +200,7 @@ BEGIN
     RTEXT           "Volume PIM:",IDT_PIM,0,46,65,8,NOT WS_VISIBLE
 END
 
-IDD_TRAVELER_DLG DIALOGEX 0, 0, 300, 287
+IDD_TRAVELER_DLG DIALOGEX 0, 0, 300, 299
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt Traveler Disk Setup"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -219,17 +221,19 @@ BEGIN
     CONTROL         "Mount volume as read-&only",IDC_MOUNT_READONLY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,224,256,10
     CONTROL         "&Cache password in driver memory",IDC_TRAV_CACHE_PASSWORDS,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,237,256,10
-    DEFPUSHBUTTON   "Create",IDC_CREATE,173,267,57,14
-    PUSHBUTTON      "Close",IDCLOSE,236,267,57,14
+    DEFPUSHBUTTON   "Create",IDC_CREATE,173,278,57,14
+    PUSHBUTTON      "Close",IDCLOSE,236,278,57,14
     GROUPBOX        "File Settings",IDT_FILE_SETTINGS,6,7,287,71
-    GROUPBOX        "AutoRun Configuration (autorun.inf)",IDT_AUTORUN,5,88,288,172
+    GROUPBOX        "AutoRun Configuration (autorun.inf)",IDT_AUTORUN,5,88,288,185
     LTEXT           "VeraCrypt volume to mount (relative to traveler disk root):",IDT_TRAVELER_MOUNT,21,165,248,8,WS_DISABLED
     RTEXT           "Mount volume as drive letter:",IDT_MOUNT_LETTER,18,195,99,8,WS_DISABLED
     LTEXT           "Create traveler disk files at (traveler disk root directory):",IDT_TRAVEL_ROOT,18,19,259,8
-    GROUPBOX        "Mount Settings",IDT_MOUNT_SETTINGS,13,152,272,100,WS_DISABLED
+    GROUPBOX        "Mount Settings",IDT_MOUNT_SETTINGS,13,152,272,114,WS_DISABLED
     LTEXT           "Upon insertion of traveler disk: ",IDT_TRAVEL_INSERTION,13,102,263,8
     CONTROL         "Include VeraCrypt Volume Expander",IDC_COPY_EXPANDER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,62,258,10
+    CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,22,250,256,10
 END
 
 IDD_HOTKEYS_DLG DIALOGEX 0, 0, 389, 257
@@ -275,7 +279,7 @@ BEGIN
     LTEXT           "",IDT_PKCS11_LIB_HELP,16,63,286,65
 END
 
-IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 261
+IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 272
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -286,15 +290,17 @@ BEGIN
     CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,178,339,10
     CONTROL         "Allow pre-boot &authentication to be bypassed by pressing the Esc key (enables boot manager)",IDC_ALLOW_ESC_PBA_BYPASS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,193,340,10
-    DEFPUSHBUTTON   "OK",IDOK,257,233,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,233,50,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,208,340,10
+    DEFPUSHBUTTON   "OK",IDOK,257,244,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,313,244,50,14
     LTEXT           "Display this custom message in the pre-boot authentication screen (24 characters maximum):",IDT_CUSTOM_BOOT_LOADER_MESSAGE,18,41,337,8
     GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,150
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,163,355,62
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,163,355,75
     LTEXT           "",IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP,18,74,337,73
     CONTROL         "Disable ""Evil Maid"" attack detection",IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,208,340,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,223,340,10
+    CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,18,193,340,10
 END
 
 IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 370, 248
@@ -384,7 +390,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 329
         TOPMARGIN, 7
-        BOTTOMMARGIN, 289
+        BOTTOMMARGIN, 303
     END
 
     IDD_VOLUME_PROPERTIES, DIALOG
@@ -420,7 +426,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 293
         TOPMARGIN, 7
-        BOTTOMMARGIN, 280
+        BOTTOMMARGIN, 292
     END
 
     IDD_HOTKEYS_DLG, DIALOG
@@ -444,7 +450,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 363
         TOPMARGIN, 7
-        BOTTOMMARGIN, 247
+        BOTTOMMARGIN, 258
     END
 
     IDD_PERFORMANCE_SETTINGS, DIALOG
