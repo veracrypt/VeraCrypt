@@ -109,6 +109,7 @@ void AddPasswordToCache (Password *password, int pim)
 void WipeCache ()
 {
 	burn (CachedPasswords, sizeof (CachedPasswords));
+	burn (CachedPim, sizeof (CachedPim));
 	nPasswordIdx = 0;
 	cacheEmpty = 1;
 }
