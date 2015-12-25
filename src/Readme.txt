@@ -17,14 +17,14 @@ called 'TrueCrypt' or 'VeraCrypt'
 Contents
 ========
 
-I. Windows
-	Requirements for Building VeraCrypt for Windows
-	Instructions for Building VeraCrypt for Windows
+I. Windows  
+   Requirements for Building VeraCrypt for Windows  
+   Instructions for Building VeraCrypt for Windows  
 	Instructions for Signing and Packaging VeraCrypt for Windows
 
-II. Linux and Mac OS X
-	Requirements for Building VeraCrypt for Linux and Mac OS X
-	Instructions for Building VeraCrypt for Linux and Mac OS X
+II. Linux and Mac OS X  
+    Requirements for Building VeraCrypt for Linux and Mac OS X  
+    Instructions for Building VeraCrypt for Linux and Mac OS X  
 	Mac OS X specifics
 	
 III. FreeBSD and OpenSolaris
@@ -60,11 +60,12 @@ some cases (e.g. playback of HD DVD content) also the 32-bit editions, do not
 allow the VeraCrypt driver to run without an appropriate digital signature.
 Therefore, all .sys files in official VeraCrypt binary packages are digitally
 signed with the digital certificate of the IDRIX, which was
-issued by Thawt certification authority. At the end of each official .exe and
+issued by Thawte certification authority. At the end of each official .exe and
 .sys file, there are embedded digital signatures and all related certificates
 (i.e. all certificates in the relevant certification chain, such as the
 certification authority certificates, CA-MS cross-certificate, and the
-IDRIX certificate). Keep this in mind if you compile VeraCrypt
+IDRIX certificate).  
+Keep this in mind if you compile VeraCrypt
 and compare your binaries with the official binaries. If your binaries are
 unsigned, the sizes of the official binaries will usually be approximately
 10 KB greater than sizes of your binaries (there may be further differences
@@ -101,8 +102,8 @@ Instructions for Building VeraCrypt for Windows:
 7) If successful, there should be newly built VeraCrypt binaries in the
    'Release' folder.
 
-Instructions for Signing VeraCrypt for Windows:
-------------------------------------------------
+Instructions for Signing and Packaging VeraCrypt for Windows:
+-------------------------------------------------------------
 
 The folder "Signing" contains a batch file (sign.bat) that will sign all 
 VeraCrypt components using a code signing certificate present on the 
@@ -175,7 +176,7 @@ Mac OS X specifics:
 -----------------------------------------------------------
    
 Under MacOSX, the SDK for OSX 10.7 is used by default. To use another version
-of the SDK (e.i. 10.6), you can export the environment variable VC_OSX_TARGET :
+of the SDK (i.e. 10.6), you can export the environment variable VC_OSX_TARGET:
 	
 	$ export VC_OSX_TARGET=10.6
 
@@ -194,7 +195,7 @@ https://osxfuse.github.io/ (MacFUSE compatibility layer must selected)
 The script build_veracrypt_macosx.sh available under "src/Build" performs the 
 full build of VeraCrypt including the creation of the installer pkg. It expects
 to find the wxWidgets 3.0.2 sources at the same level as where you put 
-VeraCrypt sources (e.i. if "src" path is "/Users/joe/Projects/VeraCrypt/src" 
+VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
 then wxWidgets should be at "/Users/joe/Projects/wxWidgets-wxWidgets-3.0.2")
 
 The build process uses Code Signing certificates whose ID is specified in
@@ -220,8 +221,8 @@ IV. Third-Party Developers (Contributors)
 If you intend to implement a feature, please contact us first to make sure:
 
 1) That the feature has not been implemented (we may have already implemented
-   it, but haven't released the code yet).
-2) That the feature is acceptable.
+   it, but haven't released the code yet).  
+2) That the feature is acceptable.  
 3) Whether we need help of third-party developers with implementing the feature.
 
 Information on how to contact us can be found at:
