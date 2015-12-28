@@ -10,6 +10,8 @@ goto :exit
 echo Using drive letter %mydriveletter%: for our tests
 echo.
 
+IF NOT EXIST test.sha512.hc GOTO :whirlpool
+
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
    set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
@@ -62,6 +64,10 @@ echo SHA-512 (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
+
+:whirlpool
+
+IF NOT EXIST test.whirlpool.hc GOTO :sha256
 
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -116,6 +122,10 @@ echo.
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
+:sha256
+
+IF NOT EXIST test.sha256.hc GOTO :ripemd160
+
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
    set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
@@ -168,6 +178,10 @@ echo SHA-256 (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
+
+:ripemd160
+
+IF NOT EXIST test.ripemd160.hc GOTO :autodetect
 
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -222,13 +236,19 @@ echo.
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
 
+:autodetect
+
+call :availablevolume testvolume && goto :contautodetect
+goto :exit
+:contautodetect
+
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
    set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
 )
 
 rem Try to mount with a wrong password and PRF autodetection
-"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.sha512.hc /l %mydriveletter% /password wrongpassword /q /silent /m ro
+"c:\Program Files\VeraCrypt\veracrypt.exe" /volume %testvolume% /l %mydriveletter% /password wrongpassword /q /silent /m ro
 
 rem Get end time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -282,5 +302,20 @@ set exitcode=1
 set drive=
 :freedrive0
 endlocal & set "%output_var%=%drive%" & exit /b %exitcode%
+
+:availablevolume
+setlocal EnableDelayedExpansion
+set exitcode=0
+set "output_var=%~1"
+for %%i in (test.sha512.hc,test.sha256.hc,test.whirlpool.hc,test.ripemd160.hc) do (
+    if exist %%i (
+        set "volume=%%i"
+        goto :availablevolume0
+    )
+)
+set exitcode=1
+set volume=
+:availablevolume0
+endlocal & set "%output_var%=%volume%" & exit /b %exitcode%
 
 :exit
