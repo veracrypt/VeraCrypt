@@ -427,6 +427,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\cpu.c"
+				>
+			</File>
+			<File
 				RelativePath=".\Rmd160.c"
 				>
 			</File>
@@ -466,6 +470,18 @@
 			</File>
 			<File
 				RelativePath=".\Aestab.h"
+				>
+			</File>
+			<File
+				RelativePath=".\config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\cpu.h"
+				>
+			</File>
+			<File
+				RelativePath=".\misc.h"
 				>
 			</File>
 			<File

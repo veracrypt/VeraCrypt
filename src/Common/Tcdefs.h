@@ -52,6 +52,7 @@ typedef unsigned __int32	TC_LARGEST_COMPILER_UINT;
 typedef unsigned __int64	TC_LARGEST_COMPILER_UINT;
 typedef __int64 int64;
 typedef unsigned __int64 uint64;
+#define LL(x) x##ui64
 #endif
 
 #else // !_MSC_VER
@@ -67,6 +68,8 @@ typedef uint8_t byte;
 typedef uint16_t uint16;
 typedef uint32_t uint32;
 typedef uint64_t uint64;
+
+#define LL(x) x##ULL
 
 #if UCHAR_MAX != 0xffU
 #error UCHAR_MAX != 0xff

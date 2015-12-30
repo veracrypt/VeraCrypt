@@ -15,6 +15,7 @@
 #include <typeinfo>
 #include <wx/apptrait.h>
 #include <wx/cmdline.h>
+#include "Crypto/cpu.h"
 #include "Platform/PlatformTest.h"
 #ifdef TC_UNIX
 #include <errno.h>
@@ -504,6 +505,9 @@ namespace VeraCrypt
 		SetAppName (Application::GetName());
 		SetClassName (Application::GetName());
 
+#ifdef CRYPTOPP_CPUID_AVAILABLE
+		DetectX86Features ();
+#endif
 		LangString.Init();
 		Core->Init();
 		
@@ -834,10 +838,8 @@ namespace VeraCrypt
 #else
 		// MIME handler for directory seems to be unavailable through wxWidgets
 		wxString desktop = GetTraits()->GetDesktopEnvironment();
-		bool xdgOpenPresent = wxFileName::IsFileExecutable (wxT("/usr/bin/xdg-open"));
-		bool nautilusPresent = wxFileName::IsFileExecutable (wxT("/usr/bin/nautilus"));
 
-		if (desktop == L"GNOME" || (desktop.empty() && !xdgOpenPresent && nautilusPresent))
+		if (desktop == L"GNOME")
 		{
 			args.push_back ("--no-default-window");
 			args.push_back ("--no-desktop");
@@ -870,7 +872,7 @@ namespace VeraCrypt
 				catch (exception &e) { ShowError (e); }
 			}
 		}
-		else if (xdgOpenPresent)
+		else if (wxFileName::IsFileExecutable (wxT("/usr/bin/xdg-open")))
 		{
 			// Fallback on the standard xdg-open command 
 			// which is not always available by default

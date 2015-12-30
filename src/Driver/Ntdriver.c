@@ -16,6 +16,7 @@
 #include "Crypto.h"
 #include "Fat.h"
 #include "Tests.h"
+#include "cpu.h"
 
 #include "Apidrvr.h"
 #include "Boot/Windows/BootDefs.h"
@@ -71,6 +72,8 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	int i;
 
 	Dump ("DriverEntry " TC_APP_NAME " " VERSION_STRING "\n");
+
+	DetectX86Features ();
 
 	PsGetVersion (&OsMajorVersion, &OsMinorVersion, NULL, NULL);
 

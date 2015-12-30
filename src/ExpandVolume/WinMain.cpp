@@ -15,6 +15,7 @@
  code distribution packages. */
 
 #include "Tcdefs.h"
+#include "cpu.h"
 
 #include <time.h>
 #include <math.h>
@@ -990,6 +991,8 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 	/* application title */
 	lpszTitle = L"VeraCrypt Expander";
+
+	DetectX86Features ();
 
 	status = DriverAttach ();
 	if (status != 0)

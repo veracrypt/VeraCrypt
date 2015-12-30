@@ -581,8 +581,8 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 typedef struct hmac_whirlpool_ctx_struct
 {
 	WHIRLPOOL_CTX ctx;
-	char buf[WHIRLPOOL_BLOCKSIZE];
-	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Whirlpool hash */
+	CRYPTOPP_ALIGN_DATA(16) char buf[WHIRLPOOL_BLOCKSIZE];
+	CRYPTOPP_ALIGN_DATA(16) char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Whirlpool hash */
 	char u[WHIRLPOOL_DIGESTSIZE];
 } hmac_whirlpool_ctx;
 

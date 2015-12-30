@@ -69,6 +69,7 @@
 */
 
 #include "Common/Endian.h"
+#include "Crypto/misc.h"
 #define PLATFORM_BYTE_ORDER BYTE_ORDER
 #define IS_LITTLE_ENDIAN LITTLE_ENDIAN
 
@@ -87,18 +88,6 @@ extern "C"
 
 #if defined( _MSC_VER ) && ( _MSC_VER > 800 )
 #pragma intrinsic(memcpy)
-#endif
-
-#if 0 && defined(_MSC_VER)
-#define rotl32 _lrotl
-#define rotr32 _lrotr
-#else
-#define rotl32(x,n)   (((x) << n) | ((x) >> (32 - n)))
-#define rotr32(x,n)   (((x) >> n) | ((x) << (32 - n)))
-#endif
-
-#if !defined(bswap_32)
-#define bswap_32(x) ((rotr32((x), 24) & 0x00ff00ff) | (rotr32((x), 8) & 0xff00ff00))
 #endif
 
 #if (PLATFORM_BYTE_ORDER == IS_LITTLE_ENDIAN)
@@ -426,12 +415,6 @@ VOID_RETURN sha256(unsigned char hval[], const unsigned char data[], unsigned lo
 #if defined(SHA_384) || defined(SHA_512)
 
 #define SHA512_MASK (SHA512_BLOCK_SIZE - 1)
-
-#define rotr64(x,n)   (((x) >> n) | ((x) << (64 - n)))
-
-#if !defined(bswap_64)
-#define bswap_64(x) (((uint_64t)(bswap_32((uint_32t)(x)))) << 32 | bswap_32((uint_32t)((x) >> 32)))
-#endif
 
 #if defined(SWAP_BYTES)
 #define bsw_64(p,n) \

@@ -12,6 +12,7 @@ SOURCES = \
 	Aes_hw_cpu.asm \
 	Aeskey.c \
 	Aestab.c \
+	cpu.c \
 	Rmd160.c \
 	Serpent.c \
 	Sha2.c \
