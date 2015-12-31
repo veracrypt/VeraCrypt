@@ -685,7 +685,7 @@ static uint64 HashMultipleBlocks(WHIRLPOOL_CTX * const ctx, const uint64 *input,
 	do
 	{
 #if BYTE_ORDER == BIG_ENDIAN
-		Whirlpool::Transform(this->m_state, input);
+		WhirlpoolTransform(ctx->state, input);
 #else
 		CorrectEndianess(dataBuf, input, 64);
 		WhirlpoolTransform(ctx->state, dataBuf);
