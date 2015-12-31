@@ -191,14 +191,21 @@ typedef struct
 #include "GfMul.h"
 #include "Password.h"
 
+#ifndef TC_WINDOWS_BOOT
+
+#include "config.h"
+
 typedef struct keyInfo_t
 {
 	int noIterations;					/* Number of times to iterate (PKCS-5) */
 	int keyLength;						/* Length of the key */
-	__int8 userKey[MAX_PASSWORD];		/* Password (to which keyfiles may have been applied). WITHOUT +1 for the null terminator. */
+	uint64 dummy;						/* Dummy field to ensure 16-byte alignment of this structure */
 	__int8 salt[PKCS5_SALT_SIZE];		/* PKCS-5 salt */
 	__int8 master_keydata[MASTER_KEYDATA_SIZE];		/* Concatenated master primary and secondary key(s) (XTS mode). For LRW (deprecated/legacy), it contains the tweak key before the master key(s). For CBC (deprecated/legacy), it contains the IV seed before the master key(s). */
+	CRYPTOPP_ALIGN_DATA(16) __int8 userKey[MAX_PASSWORD];		/* Password (to which keyfiles may have been applied). WITHOUT +1 for the null terminator. */
 } KEY_INFO, *PKEY_INFO;
+
+#endif
 
 typedef struct CRYPTO_INFO_t
 {
@@ -273,7 +280,9 @@ typedef struct BOOT_CRYPTO_HEADER_t
 #endif
 
 PCRYPTO_INFO crypto_open (void);
+#ifndef TC_WINDOWS_BOOT
 void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen);
+#endif
 void crypto_close (PCRYPTO_INFO cryptoInfo);
 
 int CipherGetBlockSize (int cipher);

@@ -739,12 +739,14 @@ PCRYPTO_INFO crypto_open ()
 #endif // TC_WINDOWS_BOOT
 }
 
+#ifndef TC_WINDOWS_BOOT
 void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen)
 {
 	keyInfo->keyLength = nUserKeyLen;
 	burn (keyInfo->userKey, sizeof (keyInfo->userKey));
 	memcpy (keyInfo->userKey, lpszUserKey, nUserKeyLen);
 }
+#endif
 
 void crypto_close (PCRYPTO_INFO cryptoInfo)
 {

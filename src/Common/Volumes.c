@@ -169,7 +169,7 @@ BOOL ReadVolumeHeaderRecoveryMode = FALSE;
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int selected_pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo)
 {
 	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
-	KEY_INFO keyInfo;
+	CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
 	PCRYPTO_INFO cryptoInfo;
 	char dk[MASTER_KEYDATA_SIZE];
 	int enqPkcs5Prf, pkcs5_prf;
@@ -798,7 +798,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 		   unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode)
 {
 	unsigned char *p = (unsigned char *) header;
-	static KEY_INFO keyInfo;
+	static CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
 
 	int nUserKeyLen = password->Length;
 	PCRYPTO_INFO cryptoInfo = crypto_open ();
