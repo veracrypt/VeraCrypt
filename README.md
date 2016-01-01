@@ -20,12 +20,12 @@ Contents
 I. Windows  
    Requirements for Building VeraCrypt for Windows  
    Instructions for Building VeraCrypt for Windows  
-   Instructions for Signing and Packaging VeraCrypt for Windows
+	Instructions for Signing and Packaging VeraCrypt for Windows
 
 II. Linux and Mac OS X  
     Requirements for Building VeraCrypt for Linux and Mac OS X  
     Instructions for Building VeraCrypt for Linux and Mac OS X  
-    Mac OS X specifics
+	Mac OS X specifics
 	
 III. FreeBSD and OpenSolaris
 
@@ -46,6 +46,7 @@ Requirements for Building VeraCrypt for Windows:
 - Microsoft Visual C++ 2008 SP1 (Professional Edition or compatible)
 - Microsoft Visual C++ 1.52 (available from MSDN Subscriber Downloads)
 - Microsoft Windows SDK for Windows 7 (configured for Visual C++)
+- Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
   header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20)
@@ -105,6 +106,8 @@ Instructions for Building VeraCrypt for Windows:
 Instructions for Signing and Packaging VeraCrypt for Windows:
 -------------------------------------------------------------
 
+First, create an environment variable 'WSDK81' pointing to the Windows SDK
+for Windows 8.1 installation directory.
 The folder "Signing" contains a batch file (sign.bat) that will sign all 
 VeraCrypt components using a code signing certificate present on the 
 certificate store and also build the final installation setup.
@@ -145,7 +148,7 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
    command to configure the wxWidgets static library for VeraCrypt and to
    build it: 
 
-	$ make WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+   $ make WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
 
    The variable WX_ROOT must point to the location of the source code of the
    wxWidgets library. Output files will be placed in the './wxrelease/'
@@ -153,11 +156,11 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
 
 3) To build VeraCrypt, run the following command:
 
-	$ make
+   $ make
 
    or if you have no wxWidgets shared library installed:
    
-	$ make WXSTATIC=1
+   $ make WXSTATIC=1
 
 4) If successful, the VeraCrypt executable should be located in the directory
    'Main'.
@@ -167,8 +170,8 @@ interface (through the switch --text) is built.
 On Linux, a console-only executable, which requires no GUI library, can be
 built using the 'NOGUI' parameter:
 
-	$ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
-	$ make NOGUI=1 WXSTATIC=1
+   $ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+   $ make NOGUI=1 WXSTATIC=1
    
 On MacOSX, building a console-only executable is not supported.
 
@@ -259,4 +262,3 @@ VI. Further Information
 =======================
 
 http://www.veracrypt.fr
-
