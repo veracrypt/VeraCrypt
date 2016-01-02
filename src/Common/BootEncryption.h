@@ -166,7 +166,6 @@ namespace VeraCrypt
 		Partition GetPartitionForHiddenOS ();
 		bool IsBootLoaderOnDrive (wchar_t *devicePath);
 		BootEncryptionStatus GetStatus ();
-		wstring GetTempPath ();
 		void GetVolumeProperties (VOLUME_PROPERTIES_STRUCT *properties);
 		SystemDriveConfiguration GetSystemDriveConfiguration ();
 		void Install (bool hiddenSystem);

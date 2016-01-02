@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib setupapi.lib ..\Crypto\Debug\crypto.lib"
+				AdditionalDependencies="..\Crypto\Debug\crypto.lib"
 				OutputFile="$(OutDir)/VeraCryptFormat.exe"
 				LinkIncremental="2"
 				GenerateManifest="false"
@@ -154,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib setupapi.lib ..\Crypto\x64\Debug\crypto.lib"
+				AdditionalDependencies="..\Crypto\x64\Debug\crypto.lib"
 				OutputFile="$(OutDir)/VeraCryptFormat.exe"
 				LinkIncremental="2"
 				GenerateManifest="false"
@@ -240,7 +240,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib setupapi.lib ..\Crypto\Release\crypto.lib"
+				AdditionalDependencies="..\Crypto\Release\crypto.lib"
 				OutputFile="$(OutDir)/VeraCryptFormat.exe"
 				LinkIncremental="1"
 				GenerateManifest="false"
@@ -329,7 +329,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib setupapi.lib ..\Crypto\x64\Release\crypto.lib"
+				AdditionalDependencies="..\Crypto\x64\Release\crypto.lib"
 				OutputFile="$(OutDir)/VeraCryptFormat.exe"
 				LinkIncremental="1"
 				GenerateManifest="false"

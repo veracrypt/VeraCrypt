@@ -986,7 +986,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	VirtualLock (&VeraCryptExpander::defaultMountOptions, sizeof (VeraCryptExpander::defaultMountOptions));
 	VirtualLock (&VeraCryptExpander::szFileName, sizeof(VeraCryptExpander::szFileName));
 
-	InitCommonControls ();
 	InitApp (hInstance, lpszCommandLine);
 
 	/* application title */

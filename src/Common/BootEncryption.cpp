@@ -13,7 +13,6 @@
 #include "Tcdefs.h"
 #include "Platform/Finally.h"
 #include "Platform/ForEach.h"
-#include <Setupapi.h>
 #include <devguid.h>
 #include <io.h>
 #include <shlobj.h>
@@ -809,16 +808,6 @@ namespace VeraCrypt
 		return wstring (buf);
 	}
 
-
-	wstring BootEncryption::GetTempPath ()
-	{
-		wchar_t tempPath[MAX_PATH];
-		DWORD tempLen = ::GetTempPath (ARRAYSIZE (tempPath), tempPath);
-		if (tempLen == 0 || tempLen > ARRAYSIZE (tempPath))
-			throw ParameterIncorrect (SRC_POS);
-
-		return wstring (tempPath);
-	}
 
 
 	uint16 BootEncryption::GetInstalledBootLoaderVersion ()
@@ -1953,7 +1942,7 @@ namespace VeraCrypt
 		case VolumeFilter:
 			filter = "veracrypt";
 			filterReg = "UpperFilters";
-			regKey = SetupDiOpenClassRegKey (deviceClassGuid, KEY_READ | KEY_WRITE);
+			regKey = OpenDeviceClassRegKey (deviceClassGuid);
 			throw_sys_if (regKey == INVALID_HANDLE_VALUE);
 
 			break;
@@ -1994,24 +1983,7 @@ namespace VeraCrypt
 		}
 		else
 		{
-			wstring infFileName = GetTempPath() + L"\\veracrypt_driver_setup.inf";
-
-			File infFile (infFileName, false, true);
-			finally_do_arg (wstring, infFileName, { DeleteFile (finally_arg.c_str()); });
-
-			string infTxt = "[veracrypt]\r\n"
-							+ string (registerFilter ? "Add" : "Del") + "Reg=veracrypt_reg\r\n\r\n"
-							"[veracrypt_reg]\r\n"
-							"HKR,,\"" + filterReg + "\",0x0001" + string (registerFilter ? "0008" : "8002") + ",\"" + filter + "\"\r\n";
-
-			infFile.Write ((byte *) infTxt.c_str(), (DWORD) infTxt.size());
-			infFile.Close();
-
-			HINF hInf = SetupOpenInfFile (infFileName.c_str(), NULL, INF_STYLE_OLDNT | INF_STYLE_WIN4, NULL);
-			throw_sys_if (hInf == INVALID_HANDLE_VALUE);
-			finally_do_arg (HINF, hInf, { SetupCloseInfFile (finally_arg); });
-
-			throw_sys_if (!SetupInstallFromInfSection (ParentWindow, hInf, L"veracrypt", SPINST_REGISTRY, regKey, NULL, 0, NULL, NULL, NULL, NULL));
+			RegisterDriverInf (registerFilter, filter, filterReg, ParentWindow, regKey);
 		}
 	}
 
@@ -2304,7 +2276,7 @@ namespace VeraCrypt
 		}
 
 		// Temporary files
-		if (towupper (GetTempPath()[0]) != windowsDrive)
+		if (towupper (GetTempPathString()[0]) != windowsDrive)
 		{
 			throw ErrorException (wstring (GetString ("TEMP_NOT_ON_SYS_PARTITION")) 
 				+ GetString ("LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"), SRC_POS);

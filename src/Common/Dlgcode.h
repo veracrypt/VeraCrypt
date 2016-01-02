@@ -491,6 +491,11 @@ void SetPim (HWND hwndDlg, UINT ctrlId, int pim);
 BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL bShowError);
 void SetPassword (HWND hwndDlg, UINT ctrlID, char* passValue);
 void HandleShowPasswordFieldAction (HWND hwndDlg, UINT checkBoxId, UINT edit1Id, UINT edit2Id);
+HKEY OpenDeviceClassRegKey (const GUID *deviceClassGuid);
+LSTATUS DeleteRegistryKey (HKEY, LPCTSTR);
+HIMAGELIST  CreateImageList(int cx, int cy, UINT flags, int cInitial, int cGrow);
+int AddBitmapToImageList(HIMAGELIST himl, HBITMAP hbmImage, HBITMAP hbmMask);
+HRESULT VCStrDupW(LPCWSTR psz, LPWSTR *ppwsz);
 
 #ifdef __cplusplus
 }
@@ -555,6 +560,8 @@ std::wstring HarddiskVolumePathToPartitionPath (const std::wstring &harddiskVolu
 std::wstring FindLatestFileOrDirectory (const std::wstring &directory, const wchar_t *namePattern, bool findDirectory, bool findFile);
 std::wstring GetUserFriendlyVersionString (int version);
 std::wstring IntToWideString (int val);
+void RegisterDriverInf (bool registerFilter, const std::string& filter, const std::string& filterReg, HWND ParentWindow, HKEY regKey);
+std::wstring GetTempPathString ();
 inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 {
 	return std::wstring (msg? msg : L"") + L"\n\nSource: " + SingleStringToWide (srcPos);

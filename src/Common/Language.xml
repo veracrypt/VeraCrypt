@@ -563,7 +563,7 @@
     <string lang="en" key="INIT_RAND">Failed to initialize the random number generator!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="en" key="INIT_REGISTER">Unable to initialize the application. Failed to register the Dialog class.</string>
-    <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="en" key="INTRO_TITLE">VeraCrypt Volume Creation Wizard</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_BYTES">Maximum possible hidden volume size for this volume is %.2f bytes.</string>
     <string lang="en" key="MAX_HIDVOL_SIZE_KB">Maximum possible hidden volume size for this volume is %.2f KB.</string>

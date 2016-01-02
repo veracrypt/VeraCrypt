@@ -329,13 +329,13 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const wchar_t *subKey, const w
 		// if the string to search for is empty, delete the sub key, otherwise, look for matching value and delete them
 		if (subStringLength == 0)
 		{
-			if (ERROR_ACCESS_DENIED == SHDeleteKeyW (hKey, ItSubKey->c_str()))
+			if (ERROR_ACCESS_DENIED == DeleteRegistryKey (hKey, ItSubKey->c_str()))
 			{
 				// grant permission to delete
 				AllowKeyAccess (hKey, ItSubKey->c_str());
 
 				// try again
-				SHDeleteKeyW (hKey, ItSubKey->c_str());
+				DeleteRegistryKey (hKey, ItSubKey->c_str());
 			}
 		}
 		else
@@ -427,6 +427,22 @@ BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 	return bStatus;
 }
 
+/*
+ * Creates a VT_LPWSTR propvariant.
+ * we use our own implementation to use SHStrDupW function pointer
+ * that we retreive ourselves to avoid dll hijacking attacks
+ */
+inline HRESULT VCInitPropVariantFromString(__in PCWSTR psz, __out PROPVARIANT *ppropvar)
+{
+    ppropvar->vt = VT_LPWSTR;
+    HRESULT hr = VCStrDupW(psz, &ppropvar->pwszVal);
+    if (FAILED(hr))
+    {
+        PropVariantInit(ppropvar);
+    }
+    return hr;
+}
+
 HRESULT CreateLink (wchar_t *lpszPathObj, wchar_t *lpszArguments,
 	    wchar_t *lpszPathLink, const wchar_t* iconFile, int iconIndex)
 {
@@ -457,7 +473,7 @@ HRESULT CreateLink (wchar_t *lpszPathObj, wchar_t *lpszArguments,
 			if (SUCCEEDED (psl->QueryInterface (IID_PPV_ARGS (&propStore))))
 			{
 				PROPVARIANT propVariant;
-				if (SUCCEEDED (InitPropVariantFromString (TC_APPLICATION_ID, &propVariant)))
+				if (SUCCEEDED (VCInitPropVariantFromString (TC_APPLICATION_ID, &propVariant)))
 				{
 					if (SUCCEEDED (propStore->SetValue (PKEY_AppUserModel_ID, propVariant)))
 						propStore->Commit();
@@ -1287,7 +1303,7 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 		GetStartupRegKeyName (regk, sizeof(regk));
 		DeleteRegistryValue (regk, L"VeraCrypt");
 
-		SHDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\.hc");
+		DeleteRegistryKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\.hc");
 
 		// enable the SE_TAKE_OWNERSHIP_NAME privilege for this operation
 		SetPrivilege (SE_TAKE_OWNERSHIP_NAME, TRUE);
@@ -2446,8 +2462,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	SelfExtractStartupInit();
 
 	lpszTitle = L"VeraCrypt Setup";
-
-	InitCommonControls ();
 
 	/* Call InitApp to initialize the common code */
 	InitApp (hInstance, NULL);

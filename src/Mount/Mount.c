@@ -4286,8 +4286,8 @@ void BuildTree (HWND hwndDlg, HWND hTree)
 		return;
 	hBitmapMask = LoadBitmap (hInst, MAKEINTRESOURCE (IDB_DRIVEICON_MASK));
 
-	hList = ImageList_Create (16, 12, ILC_COLOR8|ILC_MASK, 2, 2);
-	if (ImageList_Add (hList, hBitmap, hBitmapMask) == -1)
+	hList = CreateImageList (16, 12, ILC_COLOR8|ILC_MASK, 2, 2);
+	if (AddBitmapToImageList (hList, hBitmap, hBitmapMask) == -1)
 	{
 		DeleteObject (hBitmap);
 		DeleteObject (hBitmapMask);
@@ -4306,7 +4306,7 @@ void BuildTree (HWND hwndDlg, HWND hTree)
 		return;
 	hBitmapMask = LoadBitmap (hInst, MAKEINTRESOURCE (IDB_SYS_DRIVEICON_MASK));
 
-	if (ImageList_Add (hList, hBitmap, hBitmapMask) == -1)
+	if (AddBitmapToImageList (hList, hBitmap, hBitmapMask) == -1)
 	{
 		DeleteObject (hBitmap);
 		DeleteObject (hBitmapMask);
@@ -8663,7 +8663,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	if (BootEncObj == NULL)
 		AbortProcess ("INIT_SYS_ENC");
 
-	InitCommonControls ();
 	InitApp (hInstance, lpszCommandLine);
 
 	RegisterRedTick(hInstance);

@@ -16,6 +16,7 @@
 #include <windowsx.h>
 #include <dbghelp.h>
 #include <dbt.h>
+#include <Setupapi.h>
 #include <fcntl.h>
 #include <io.h>
 #include <math.h>
@@ -190,6 +191,34 @@ DWORD SystemFileSelectorCallerThreadId;
 #define RANDPOOL_DISPLAY_COLUMNS 20
 
 HMODULE hRichEditDll = NULL;
+HMODULE hComctl32Dll = NULL;
+HMODULE hSetupDll = NULL;
+HMODULE hShlwapiDll = NULL;
+
+#define FREE_DLL(h)	if (h) { FreeLibrary (h); h = NULL;}
+
+typedef void (WINAPI *InitCommonControlsPtr)(void);
+typedef HIMAGELIST  (WINAPI *ImageList_CreatePtr)(int cx, int cy, UINT flags, int cInitial, int cGrow);
+typedef int         (WINAPI *ImageList_AddPtr)(HIMAGELIST himl, HBITMAP hbmImage, HBITMAP hbmMask);
+
+typedef VOID (WINAPI *SetupCloseInfFilePtr)(HINF InfHandle);
+typedef HKEY (WINAPI *SetupDiOpenClassRegKeyPtr)(CONST GUID *ClassGuid,REGSAM samDesired);
+typedef BOOL (WINAPI *SetupInstallFromInfSectionWPtr)(HWND,HINF,PCWSTR,UINT,HKEY,PCWSTR,UINT,PSP_FILE_CALLBACK_W,PVOID,HDEVINFO,PSP_DEVINFO_DATA);
+typedef HINF (WINAPI *SetupOpenInfFileWPtr)(PCWSTR FileName,PCWSTR InfClass,DWORD InfStyle,PUINT ErrorLine);
+
+typedef LSTATUS (STDAPICALLTYPE *SHDeleteKeyWPtr)(HKEY hkey, LPCWSTR pszSubKey);
+
+typedef HRESULT (STDAPICALLTYPE *SHStrDupWPtr)(LPCWSTR psz, LPWSTR *ppwsz);
+
+ImageList_CreatePtr ImageList_CreateFn = NULL;
+ImageList_AddPtr ImageList_AddFn = NULL;
+
+SetupCloseInfFilePtr SetupCloseInfFileFn = NULL;
+SetupDiOpenClassRegKeyPtr SetupDiOpenClassRegKeyFn = NULL;
+SetupInstallFromInfSectionWPtr SetupInstallFromInfSectionWFn = NULL;
+SetupOpenInfFileWPtr SetupOpenInfFileWFn = NULL;
+SHDeleteKeyWPtr SHDeleteKeyWFn = NULL;
+SHStrDupWPtr SHStrDupWFn = NULL;
 
 /* Windows dialog class */
 #define WINDOWS_DIALOG_CLASS L"#32770"
@@ -476,11 +505,11 @@ void AbortProcessDirect (wchar_t *abortMsg)
 	// Note that this function also causes localcleanup() to be called (see atexit())
 	MessageBeep (MB_ICONEXCLAMATION);
 	MessageBoxW (NULL, abortMsg, lpszTitle, ICON_HAND);
-	if (hRichEditDll)
-	{
-		FreeLibrary (hRichEditDll);
-		hRichEditDll = NULL;
-	}
+	FREE_DLL (hRichEditDll);
+	FREE_DLL (hComctl32Dll);
+	FREE_DLL (hSetupDll);
+	FREE_DLL (hShlwapiDll);
+
 	exit (1);
 }
 
@@ -492,11 +521,10 @@ void AbortProcess (char *stringId)
 
 void AbortProcessSilent (void)
 {
-	if (hRichEditDll)
-	{
-		FreeLibrary (hRichEditDll);
-		hRichEditDll = NULL;
-	}
+	FREE_DLL (hRichEditDll);
+	FREE_DLL (hComctl32Dll);
+	FREE_DLL (hSetupDll);
+	FREE_DLL (hShlwapiDll);
 	// Note that this function also causes localcleanup() to be called (see atexit())
 	exit (1);
 }
@@ -2288,10 +2316,10 @@ void DoPostInstallTasks (HWND hwndDlg)
 
 void InitOSVersionInfo ()
 {
-	OSVERSIONINFO os;
-	os.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
+	OSVERSIONINFOW os;
+	os.dwOSVersionInfoSize = sizeof (OSVERSIONINFOW);
 
-	if (GetVersionEx (&os) == FALSE)
+	if (GetVersionExW (&os) == FALSE)
 		AbortProcess ("NO_OS_VER");
 
 	CurrentOSMajor = os.dwMajorVersion;
@@ -2303,10 +2331,10 @@ void InitOSVersionInfo ()
 		nCurrentOS = WIN_XP;
 	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 2)
 	{
-		OSVERSIONINFOEX osEx;
+		OSVERSIONINFOEXW osEx;
 
-		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEX);
-		GetVersionEx ((LPOSVERSIONINFOW) &osEx);
+		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
+		GetVersionExW ((LPOSVERSIONINFOW) &osEx);
 
 		if (osEx.wProductType == VER_NT_SERVER || osEx.wProductType == VER_NT_DOMAIN_CONTROLLER)
 			nCurrentOS = WIN_SERVER_2003;
@@ -2315,10 +2343,10 @@ void InitOSVersionInfo ()
 	}
 	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 0)
 	{
-		OSVERSIONINFOEX osEx;
+		OSVERSIONINFOEXW osEx;
 
-		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEX);
-		GetVersionEx ((LPOSVERSIONINFOW) &osEx);
+		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
+		GetVersionExW ((LPOSVERSIONINFOW) &osEx);
 
 		if (osEx.wProductType == VER_NT_SERVER || osEx.wProductType == VER_NT_DOMAIN_CONTROLLER)
 			nCurrentOS = WIN_SERVER_2008;
@@ -2341,14 +2369,64 @@ void InitOSVersionInfo ()
 		nCurrentOS = WIN_UNKNOWN;
 }
 
+static void LoadSystemDll (LPCTSTR szModuleName, HMODULE *pHandle)
+{
+	wchar_t dllPath[MAX_PATH];
+
+	/* Load dll explictely from System32 to avoid Dll hijacking attacks*/
+	if (!GetSystemDirectory(dllPath, MAX_PATH))
+		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32");
+
+	StringCbCatW(dllPath, sizeof(dllPath), L"\\");
+	StringCbCatW(dllPath, sizeof(dllPath), szModuleName);
+
+	if ((*pHandle = LoadLibrary(dllPath)) == NULL)
+	{
+		// This error is fatal
+		handleWin32Error (NULL, SRC_POS);
+		AbortProcess ("INIT_DLL");
+	}
+}
 
 /* InitApp - initialize the application, this function is called once in the
    applications WinMain function, but before the main dialog has been created */
 void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 {
 	WNDCLASSW wc;
-	char langId[6];
-	wchar_t dllPath[MAX_PATH];
+	char langId[6];	
+	InitCommonControlsPtr InitCommonControlsFn = NULL;	
+
+	LoadSystemDll (L"COMCTL32.DLL", &hComctl32Dll);
+	LoadSystemDll (L"Riched20.dll", &hRichEditDll);
+	LoadSystemDll (L"SETUPAPI.DLL", &hSetupDll);
+	LoadSystemDll (L"SHLWAPI.DLL", &hShlwapiDll);
+
+	// call InitCommonControls function
+	InitCommonControlsFn = (InitCommonControlsPtr) GetProcAddress (hComctl32Dll, "InitCommonControls");
+	ImageList_AddFn = (ImageList_AddPtr) GetProcAddress (hComctl32Dll, "ImageList_Add");
+	ImageList_CreateFn = (ImageList_CreatePtr) GetProcAddress (hComctl32Dll, "ImageList_Create");
+
+	if (InitCommonControlsFn && ImageList_AddFn && ImageList_CreateFn)
+	{
+		InitCommonControlsFn();
+	}
+	else
+		AbortProcess ("INIT_DLL");
+
+	// Get SetupAPI functions pointers
+	SetupCloseInfFileFn = (SetupCloseInfFilePtr) GetProcAddress (hSetupDll, "SetupCloseInfFile");
+	SetupDiOpenClassRegKeyFn = (SetupDiOpenClassRegKeyPtr) GetProcAddress (hSetupDll, "SetupDiOpenClassRegKey");
+	SetupInstallFromInfSectionWFn = (SetupInstallFromInfSectionWPtr) GetProcAddress (hSetupDll, "SetupInstallFromInfSectionW");
+	SetupOpenInfFileWFn = (SetupOpenInfFileWPtr) GetProcAddress (hSetupDll, "SetupOpenInfFileW");
+
+	if (!SetupCloseInfFileFn || !SetupDiOpenClassRegKeyFn || !SetupInstallFromInfSectionWFn || !SetupOpenInfFileWFn)
+		AbortProcess ("INIT_DLL");
+
+	// Get SHDeleteKeyW function pointer
+	SHDeleteKeyWFn = (SHDeleteKeyWPtr) GetProcAddress (hShlwapiDll, "SHDeleteKeyW");
+	SHStrDupWFn = (SHStrDupWPtr) GetProcAddress (hShlwapiDll, "SHStrDupW");
+	if (!SHDeleteKeyWFn || !SHStrDupWFn)
+		AbortProcess ("INIT_DLL");
 
 	/* Save the instance handle for later */
 	hInst = hInstance;
@@ -2448,11 +2526,11 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	}
 	else
 	{
-		OSVERSIONINFOEX osEx;
+		OSVERSIONINFOEXW osEx;
 
 		// Service pack check & warnings about critical MS issues
-		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEX);
-		if (GetVersionEx ((LPOSVERSIONINFOW) &osEx) != 0)
+		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
+		if (GetVersionExW ((LPOSVERSIONINFOW) &osEx) != 0)
 		{
 			CurrentOSServicePack = osEx.wServicePackMajor;
 			switch (nCurrentOS)
@@ -2528,18 +2606,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		handleWin32Error (NULL, SRC_POS);
 		AbortProcess ("INIT_REGISTER");
 	}
-	
-	if (GetSystemDirectory(dllPath, MAX_PATH))
-		StringCbCatW(dllPath, sizeof(dllPath), L"\\Riched20.dll");
-	else
-		StringCbCopyW(dllPath, sizeof(dllPath), L"c:\\Windows\\System32\\Riched20.dll");
-	// Required for RichEdit text fields to work
-	if ((hRichEditDll = LoadLibrary(dllPath)) == NULL)
-	{
-		// This error is fatal e.g. because legal notices could not be displayed
-		handleWin32Error (NULL, SRC_POS);
-		AbortProcess ("INIT_RICHEDIT");	
-	}
 
 	// DPI and GUI aspect ratio
 	DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_AUXILIARY_DLG), NULL,
@@ -2551,11 +2617,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	if (!EncryptionThreadPoolStart (ReadEncryptionThreadPoolFreeCpuCountLimit()))
 	{
 		handleWin32Error (NULL, SRC_POS);
-		if (hRichEditDll)
-		{
-			FreeLibrary (hRichEditDll);
-			hRichEditDll = NULL;
-		}
+		FREE_DLL (hRichEditDll);
+		FREE_DLL (hComctl32Dll);
+		FREE_DLL (hSetupDll);
+		FREE_DLL (hShlwapiDll);
 		exit (1);
 	}
 #endif
@@ -2563,11 +2628,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 void FinalizeApp (void)
 {
-	if (hRichEditDll)
-	{
-		FreeLibrary (hRichEditDll);
-		hRichEditDll = NULL;
-	}
+	FREE_DLL (hRichEditDll);
+	FREE_DLL (hComctl32Dll);
+	FREE_DLL (hSetupDll);
+	FREE_DLL (hShlwapiDll);
 }
 
 void InitHelpFileName (void)
@@ -4375,6 +4439,16 @@ wstring IntToWideString (int val)
 	StringCbPrintfW (szTmp, sizeof(szTmp), L"%d", val);
 
 	return szTmp;
+}
+
+wstring GetTempPathString ()
+{
+	wchar_t tempPath[MAX_PATH];
+	DWORD tempLen = ::GetTempPath (ARRAYSIZE (tempPath), tempPath);
+	if (tempLen == 0 || tempLen > ARRAYSIZE (tempPath))
+		throw ParameterIncorrect (SRC_POS);
+
+	return wstring (tempPath);
 }
 
 void GetSizeString (unsigned __int64 size, wchar_t *str, size_t cbStr)
@@ -9051,9 +9125,9 @@ BOOL Is64BitOs ()
 
 BOOL IsServerOS ()
 {
-	OSVERSIONINFOEXA osVer;
-	osVer.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXA);
-	GetVersionExA ((LPOSVERSIONINFOA) &osVer);
+	OSVERSIONINFOEXW osVer;
+	osVer.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
+	GetVersionExW ((LPOSVERSIONINFOW) &osVer);
 
 	return (osVer.wProductType == VER_NT_SERVER || osVer.wProductType == VER_NT_DOMAIN_CONTROLLER);
 }
@@ -9134,7 +9208,7 @@ std::wstring GetWindowsEdition ()
 	wstring osname = L"win";
 
 	OSVERSIONINFOEXW osVer;
-	osVer.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXA);
+	osVer.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
 	GetVersionExW ((LPOSVERSIONINFOW) &osVer);
 
 	BOOL home = (osVer.wSuiteMask & VER_SUITE_PERSONAL);
@@ -10986,4 +11060,51 @@ void HandleShowPasswordFieldAction (HWND hwndDlg, UINT checkBoxId, UINT edit1Id,
 			0);
 		InvalidateRect (GetDlgItem (hwndDlg, edit2Id), NULL, TRUE);
 	}
+}
+
+void RegisterDriverInf (bool registerFilter, const string& filter, const string& filterReg, HWND ParentWindow, HKEY regKey)
+{
+	wstring infFileName = GetTempPathString() + L"\\veracrypt_driver_setup.inf";
+
+	File infFile (infFileName, false, true);
+	finally_do_arg (wstring, infFileName, { DeleteFile (finally_arg.c_str()); });
+
+	string infTxt = "[veracrypt]\r\n"
+					+ string (registerFilter ? "Add" : "Del") + "Reg=veracrypt_reg\r\n\r\n"
+					"[veracrypt_reg]\r\n"
+					"HKR,,\"" + filterReg + "\",0x0001" + string (registerFilter ? "0008" : "8002") + ",\"" + filter + "\"\r\n";
+
+	infFile.Write ((byte *) infTxt.c_str(), (DWORD) infTxt.size());
+	infFile.Close();
+
+	HINF hInf = SetupOpenInfFileWFn (infFileName.c_str(), NULL, INF_STYLE_OLDNT | INF_STYLE_WIN4, NULL);
+	throw_sys_if (hInf == INVALID_HANDLE_VALUE);
+	finally_do_arg (HINF, hInf, { SetupCloseInfFileFn (finally_arg); });
+
+	throw_sys_if (!SetupInstallFromInfSectionWFn (ParentWindow, hInf, L"veracrypt", SPINST_REGISTRY, regKey, NULL, 0, NULL, NULL, NULL, NULL));
+}
+
+HKEY OpenDeviceClassRegKey (const GUID *deviceClassGuid)
+{
+	return SetupDiOpenClassRegKeyFn (deviceClassGuid, KEY_READ | KEY_WRITE);
+}
+
+LSTATUS DeleteRegistryKey (HKEY hKey, LPCTSTR keyName)
+{
+	return SHDeleteKeyWFn(hKey, keyName);
+}
+
+HIMAGELIST  CreateImageList(int cx, int cy, UINT flags, int cInitial, int cGrow)
+{
+	return ImageList_CreateFn(cx, cy, flags, cInitial, cGrow);
+}
+
+int AddBitmapToImageList(HIMAGELIST himl, HBITMAP hbmImage, HBITMAP hbmMask)
+{
+	return ImageList_AddFn(himl, hbmImage, hbmMask);
+}
+
+HRESULT VCStrDupW(LPCWSTR psz, LPWSTR *ppwsz)
+{
+	return SHStrDupWFn (psz, ppwsz);
 }
