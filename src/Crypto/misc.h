@@ -33,8 +33,13 @@
 	#define CRYPTOPP_FAST_ROTATE(x) 0
 #endif
 
+#if defined( _MSC_VER ) && ( _MSC_VER > 800 )
+#pragma intrinsic(memcpy,memset)
+#endif
+
 #if _MSC_VER >= 1300 && !defined(__INTEL_COMPILER)
 // Intel C++ Compiler 10.0 calls a function instead of using the rotate instruction when using these instructions
+#pragma intrinsic(_rotr,_rotl,_rotr64,_rotl64)
 
 #define rotr32(x,n)	_rotr(x, n)
 #define rotl32(x,n)	_rotl(x, n)
@@ -62,7 +67,9 @@
 #else
 #define bswap_32(x)	(rotl32((((x) & 0xFF00FF00) >> 8) | (((x) & 0x00FF00FF) << 8), 16U))
 #endif
+#ifndef TC_NO_COMPILER_INT64
 #define bswap_64(x)	rotl64(((((((value & LL(0xFF00FF00FF00FF00)) >> 8) | ((value & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | (((((value & LL(0xFF00FF00FF00FF00)) >> 8) | ((value & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
+#endif
 #endif
 
 VC_INLINE uint32 ByteReverseWord32 (uint32 value)
@@ -85,6 +92,8 @@ VC_INLINE uint32 ByteReverseWord32 (uint32 value)
 	return rotl32(value, 16U);
 #endif
 }
+
+#ifndef TC_NO_COMPILER_INT64
 
 VC_INLINE uint64 ByteReverseWord64(uint64 value)
 {
@@ -110,6 +119,7 @@ VC_INLINE void CorrectEndianess(uint64 *out, const uint64 *in, size_t byteCount)
 		out[i] = ByteReverseWord64(in[i]);
 }
 
+#endif
 
 #ifdef CRYPTOPP_ALLOW_UNALIGNED_DATA_ACCESS
 	#define GetAlignmentOf(T) 1
