@@ -1966,8 +1966,8 @@ VOID VolumeThreadProc (PVOID Context)
 
 void TCGetNTNameFromNumber (LPWSTR ntname, int cbNtName, int nDriveNo)
 {
-	WCHAR tmp[3] =
-	{0, ':', 0};
+	WCHAR tmp[2] =
+	{0, 0};
 	int j = nDriveNo + (WCHAR) 'A';
 
 	tmp[0] = (short) j;
