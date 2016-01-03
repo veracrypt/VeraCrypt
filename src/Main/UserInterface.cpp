@@ -838,8 +838,10 @@ namespace VeraCrypt
 #else
 		// MIME handler for directory seems to be unavailable through wxWidgets
 		wxString desktop = GetTraits()->GetDesktopEnvironment();
+		bool xdgOpenPresent = wxFileName::IsFileExecutable (wxT("/usr/bin/xdg-open"));
+		bool nautilusPresent = wxFileName::IsFileExecutable (wxT("/usr/bin/nautilus"));
 
-		if (desktop == L"GNOME")
+		if (desktop == L"GNOME" || (desktop.empty() && !xdgOpenPresent && nautilusPresent))
 		{
 			args.push_back ("--no-default-window");
 			args.push_back ("--no-desktop");
@@ -872,7 +874,7 @@ namespace VeraCrypt
 				catch (exception &e) { ShowError (e); }
 			}
 		}
-		else if (wxFileName::IsFileExecutable (wxT("/usr/bin/xdg-open")))
+		else if (xdgOpenPresent)
 		{
 			// Fallback on the standard xdg-open command 
 			// which is not always available by default
