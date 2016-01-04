@@ -60,7 +60,7 @@
     <control lang="en" key="IDC_NO_HISTORY">&amp;Never save history</control>
     <control lang="en" key="IDC_OPEN_OUTER_VOLUME">Open Outer Volume</control>
     <control lang="en" key="IDC_PAUSE">&amp;Pause</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="en" key="IDC_QUICKFORMAT">Quick Format</control>
     <control lang="en" key="IDC_SHOW_PASSWORD">&amp;Display password</control>
