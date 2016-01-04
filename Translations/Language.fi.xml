@@ -60,7 +60,7 @@
     <control lang="fi" key="IDC_NO_HISTORY">&amp;Älä tallenna historiatietoja</control>
     <control lang="fi" key="IDC_OPEN_OUTER_VOLUME">Avaa Ulkopuolinen Taltio</control>
     <control lang="fi" key="IDC_PAUSE">&amp;Tauko</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="fi" key="IDC_QUICKFORMAT">Nopea Alustus</control>
     <control lang="fi" key="IDC_SHOW_PASSWORD">&amp;Näytä Salasana</control>
@@ -563,7 +563,7 @@
     <string lang="fi" key="INIT_RAND">Satunnaisnumeron luonnin alustus epäonnistui!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="fi" key="INIT_REGISTER">Sovellusta ei pystytä alustamaan. Viestiruudun ikkunan rekisteröinti epäonnistui.</string>
-    <string lang="fi" key="INIT_RICHEDIT">Virhe: Virhe ladattaessa Rich edit järjestelmä kirjastoa.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="fi" key="INTRO_TITLE">Opastettu VeraCrypt Taltion Luonti</string>
     <string lang="fi" key="MAX_HIDVOL_SIZE_BYTES">Suurin mahdollinen piilotettu taltion koko tälle taltiolle on %.2f byteä.</string>
     <string lang="fi" key="MAX_HIDVOL_SIZE_KB">Suurin mahdollinen piilotettu taltion koko tälle taltiolle on %.2f KB.</string>

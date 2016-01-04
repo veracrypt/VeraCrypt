@@ -60,7 +60,7 @@
     <control lang="ja" key="IDC_NO_HISTORY">履歴を保存しない(&amp;N)</control>
     <control lang="ja" key="IDC_OPEN_OUTER_VOLUME">外殻ボリュームを開く</control>
     <control lang="ja" key="IDC_PAUSE">ポーズ(&amp;P)</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="ja" key="IDC_QUICKFORMAT">クイックフォーマット</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD">パスワード表示(&amp;D)</control>
@@ -563,7 +563,7 @@
     <string lang="ja" key="INIT_RAND">乱数生成機構の初期化に失敗しました！</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</string>
-    <string lang="ja" key="INIT_RICHEDIT">エラー：リッチエディットシステムライブラリの読込に失敗しました。</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="ja" key="INTRO_TITLE">VeraCryptボリューム作成ウィザード</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_BYTES">このボリュームに格納できる隠しボリュームの最大サイズは %.2f バイトです。</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_KB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f KB です。</string>

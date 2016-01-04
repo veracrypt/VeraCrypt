@@ -60,7 +60,7 @@
     <control lang="el" key="IDC_NO_HISTORY">Όχι απο&amp;θήκευση ιστορικού</control>
     <control lang="el" key="IDC_OPEN_OUTER_VOLUME">Άνοιγμα εξωτερ. τόμου</control>
     <control lang="el" key="IDC_PAUSE">&amp;Παύση</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="el" key="IDC_QUICKFORMAT">Γρήγορη διαμόρφωση</control>
     <control lang="el" key="IDC_SHOW_PASSWORD">Εμφάνιση &amp;κωδικού</control>
@@ -563,7 +563,7 @@
     <string lang="el" key="INIT_RAND">Αποτυχία αρχικοποίησης της γεννήτριας τυχαίων αριθμών!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="el" key="INIT_REGISTER">Αδυναμία αρχικοποίησης της εφαρμογής. Αποτυχία καταχώρησης της τάξης διαλόγου.</string>
-    <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="el" key="INTRO_TITLE">Οδηγός δημιουργίας τόμου VeraCrypt</string>
     <string lang="el" key="MAX_HIDVOL_SIZE_BYTES">Το μέγιστο δυνατό μέγεθος κρυφού τόμου για αυτόν τον τόμο είναι %.2f bytes.</string>
     <string lang="el" key="MAX_HIDVOL_SIZE_KB">Το μέγιστο δυνατό μέγεθος κρυφού τόμου για αυτόν τον τόμο είναι %.2fKB.</string>

@@ -60,7 +60,7 @@
     <control lang="sv" key="IDC_NO_HISTORY">Spara inte &amp;historik</control>
     <control lang="sv" key="IDC_OPEN_OUTER_VOLUME">Öppna yttre volym</control>
     <control lang="sv" key="IDC_PAUSE">&amp;Pausa</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="sv" key="IDC_QUICKFORMAT">Snabb- formatering</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD">&amp;Visa lösenord</control>
@@ -563,7 +563,7 @@
     <string lang="sv" key="INIT_RAND">Initieringen av slumptalsgeneratorn misslyckades!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="sv" key="INIT_REGISTER">Det gick inte att initiera applikationen. Registreringen av dialogruteklassen misslyckades.</string>
-    <string lang="sv" key="INIT_RICHEDIT">Fel: Det gick inte att ladda systembiblioteket för ”Rich Edit”.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="sv" key="INTRO_TITLE">Guiden Skapa VeraCrypt-volym</string>
     <string lang="sv" key="MAX_HIDVOL_SIZE_BYTES">Maximalt möjliga utrymme för den dolda volymen är %.2f byte.</string>
     <string lang="sv" key="MAX_HIDVOL_SIZE_KB">Maximalt möjliga utrymme för den dolda volymen är %.2f kB.</string>

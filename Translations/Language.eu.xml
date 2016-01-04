@@ -60,7 +60,7 @@
     <control lang="eu" key="IDC_NO_HISTORY">&amp;Ez gorde inoiz historia</control>
     <control lang="eu" key="IDC_OPEN_OUTER_VOLUME">Kanpoko liburukia ireki</control>
     <control lang="eu" key="IDC_PAUSE">&amp;Eten</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="eu" key="IDC_QUICKFORMAT">Formatu Azkarra</control>
     <control lang="eu" key="IDC_SHOW_PASSWORD">&amp;Pasahitza erakutsi</control>
@@ -565,7 +565,7 @@
     <string lang="eu" key="INIT_RAND">Ausazko zenbakien sortzailea hasieratzerakoan hutse egin du!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="eu" key="INIT_REGISTER">Ezin izan da aplikazioa hasieratu. 'Dialog Class'-a erregistratzerakoan huts egin du.</string>
-    <string lang="eu" key="INIT_RICHEDIT">Errorea: Ezin izan da Rich Edit sistemaren liburutegia kargatu.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="eu" key="INTRO_TITLE">VeraCrypt Bolumenak Sortzeko Laguntzailea</string>
     <string lang="eu" key="MAX_HIDVOL_SIZE_BYTES">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f bytetakoa da.</string>
     <string lang="eu" key="MAX_HIDVOL_SIZE_KB">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f KB-etakoa da.</string>

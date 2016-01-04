@@ -60,7 +60,7 @@
     <control lang="uk" key="IDC_NO_HISTORY">&amp;Не зберігати історію</control>
     <control lang="uk" key="IDC_OPEN_OUTER_VOLUME">Відкрити зовнішній том</control>
     <control lang="uk" key="IDC_PAUSE">&amp;Павза</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="uk" key="IDC_QUICKFORMAT">Швидке форматування.</control>
     <control lang="uk" key="IDC_SHOW_PASSWORD">&amp;Показ пароля</control>
@@ -563,7 +563,7 @@
     <string lang="uk" key="INIT_RAND">Невдала ініціалізація генератора випадкових чисел!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="uk" key="INIT_REGISTER">Неможливо ініціалізувати застосунок. Невдала реєстрація класу Dialog.</string>
-    <string lang="uk" key="INIT_RICHEDIT">Помилка завантаження системної бібліотеки Rich Edit.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="uk" key="INTRO_TITLE">Майстер створення тому VeraCrypt</string>
     <string lang="uk" key="MAX_HIDVOL_SIZE_BYTES">Максимальний розмір прихованого тому для цього тому дорівнює %.2f байт</string>
     <string lang="uk" key="MAX_HIDVOL_SIZE_KB">Максимальний розмір прихованого тому для цього тому дорівнює %.2f Кб</string>

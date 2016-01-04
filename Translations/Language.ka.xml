@@ -60,7 +60,7 @@
     <control lang="ka" key="IDC_NO_HISTORY">არ იქნას შენახული ისტორია</control>
     <control lang="ka" key="IDC_OPEN_OUTER_VOLUME">გარე ტომის გახსნა</control>
     <control lang="ka" key="IDC_PAUSE">პაუზა</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="ka" key="IDC_QUICKFORMAT">სწრაფი ფორმატირება</control>
     <control lang="ka" key="IDC_SHOW_PASSWORD">პაროლის ჩვენება</control>
@@ -563,7 +563,7 @@
     <string lang="ka" key="INIT_RAND">შემთხვევითი რიცხვების გენერატორის ინიციალიზაციის შეცდომა.</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ka" key="INIT_REGISTER">პროგრამის ინიციალიზაციის შეცდომა. Dialog კლასის რეგისტრირება შეუძლებელია.</string>
-    <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="ka" key="INTRO_TITLE">VeraCrypt-ის ტომების შექმნის ოსტატი</string>
     <string lang="ka" key="MAX_HIDVOL_SIZE_BYTES">ამ ტომზე ფარული ტომის მაქსიმალური ზომა შეადგენს %.2f ბაიტს</string>
     <string lang="ka" key="MAX_HIDVOL_SIZE_KB">ამ ტომზე ფარული ტომის მაქსიმალური ზომა შეადგენს %.2f კბ-ს</string>

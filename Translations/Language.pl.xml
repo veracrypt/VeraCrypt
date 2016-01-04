@@ -60,7 +60,7 @@
     <control lang="pl" key="IDC_NO_HISTORY">Nigdy nie zapisuj &amp;historii</control>
     <control lang="pl" key="IDC_OPEN_OUTER_VOLUME">Otwórz wolumen zewn.</control>
     <control lang="pl" key="IDC_PAUSE">W&amp;strzymaj</control>
-    <control lang="pl" key="IDC_PIM_ENABLE">Użyj MOI</control>
+    <control lang="pl" key="IDC_PIM_ENABLE">Użyj MO&amp;I</control>
     <control lang="pl" key="IDC_NEW_PIM_ENABLE">Użyj MOI</control>
     <control lang="pl" key="IDC_QUICKFORMAT">Szybkie formatowanie</control>
     <control lang="pl" key="IDC_SHOW_PASSWORD">Wyświetl ha&amp;sło</control>
@@ -111,7 +111,7 @@
     <control lang="pl" key="IDC_AUTORUN_START">&amp;Uruchom VeraCrypt</control>
     <control lang="pl" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto&amp;wykrywanie biblioteki</control>
     <control lang="pl" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Przechowywanie autoryzacji (hasła) podczas bootowania w pamięci dysku</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="pl" key="IDC_BOOT_LOADER_CACHE_PIM">Dołączaj &amp;MOI w trakcie przechowywania hasła uwierzytelniania rozruchu wstępnego</control>
     <control lang="pl" key="IDC_BROWSE_DIRS">Przeglądaj...</control>
     <control lang="pl" key="IDC_BROWSE_FILES">Przeglądaj...</control>
     <control lang="pl" key="IDC_CACHE">Przechowuj w pamięci hasła i pliki-&amp;klucze</control>
@@ -160,7 +160,7 @@
     <control lang="pl" key="IDC_PIM_HELP">(Puste albo 0 dla domyślnych iteracji)</control>
     <control lang="pl" key="IDC_PREF_BKG_TASK_ENABLE">Aktywny</control>
     <control lang="pl" key="IDC_PREF_CACHE_PASSWORDS">Przechowuj hasła w pamięci sterownika</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="pl" key="IDC_PREF_CACHE_PIM">Dołączaj MOI w trakcie przechowywania hasła w pamięci</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_INACTIVE">Automatycznie odłącz wolumen, jeśli nie był używany przez</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_LOGOFF">Użytkownik się wylogował</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Zablokowano sesję użytkownika</control>
@@ -563,7 +563,7 @@
     <string lang="pl" key="INIT_RAND">Błąd inicjowania generatora liczb losowych!</string>
     <string lang="pl" key="CAPI_RAND">Błąd API Windows Crypto!\n\n\n(Jeżeli zgłosisz powiązany z tym błąd, proszę dołączyć następujące informacje techniczne w raporcie błędu:\n%s, Last Error = 0x%.8X)</string>
     <string lang="pl" key="INIT_REGISTER">Nie można zainicjować aplikacji. Błąd rejestracji klasy okna dialogowego.</string>
-    <string lang="pl" key="INIT_RICHEDIT">BŁĄD: Nie można załadować systemowej biblioteki edytora Rich Edit.</string>
+    <string lang="pl" key="INIT_DLL">Błąd: Nie można załadować biblioteki systemowej.</string>
     <string lang="pl" key="INTRO_TITLE">Kreator tworzenia wolumenów VeraCrypt</string>
     <string lang="pl" key="MAX_HIDVOL_SIZE_BYTES">Maksymalna możliwa wielkość wolumenu ukrytego dla tego wolumenu (w bajtach): %.2f.</string>
     <string lang="pl" key="MAX_HIDVOL_SIZE_KB">Maksymalna możliwa wielkość wolumenu ukrytego dla tego wolumenu (w kilobajtach): %.2f.</string>

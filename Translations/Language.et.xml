@@ -60,7 +60,7 @@
     <control lang="et" key="IDC_NO_HISTORY">Ära salvesta ajalukku</control>
     <control lang="et" key="IDC_OPEN_OUTER_VOLUME">Ava välimine konteiner</control>
     <control lang="en" key="IDC_PAUSE">&amp;Pause</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="et" key="IDC_QUICKFORMAT">Kiire formaatimine</control>
     <control lang="et" key="IDC_SHOW_PASSWORD">Kuva salasõna</control>
@@ -563,7 +563,7 @@
     <string lang="et" key="INIT_RAND">Juhunumbri generaatori initsialiseerimine ebaõnnestus!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="et" key="INIT_REGISTER">Võimetu rakendust initsialiseerima. Dialoogi klassi registreerimine ebaõnnestus.</string>
-    <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="et" key="INTRO_TITLE">VeraCrypt konteineri loomise nõustaja</string>
     <string lang="et" key="MAX_HIDVOL_SIZE_BYTES">Maksimaalne võimalik peidetud konteineri suurus sellel konteineril on %.2f baiti.</string>
     <string lang="et" key="MAX_HIDVOL_SIZE_KB">Maksimaalne võimalik peidetud konteineri suurus sellel konteineril on %.2f KB.</string>

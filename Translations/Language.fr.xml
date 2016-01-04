@@ -60,7 +60,7 @@
     <control lang="fr" key="IDC_NO_HISTORY">&amp;Ne jamais enregistrer l'historique</control>
     <control lang="fr" key="IDC_OPEN_OUTER_VOLUME">Ouvrir le volume externe</control>
     <control lang="fr" key="IDC_PAUSE">&amp;Pause</control>
-    <control lang="fr" key="IDC_PIM_ENABLE">Saisir un PIM</control>
+    <control lang="fr" key="IDC_PIM_ENABLE">Saisir un P&amp;IM</control>
     <control lang="fr" key="IDC_NEW_PIM_ENABLE">Saisir un PIM</control>
     <control lang="fr" key="IDC_QUICKFORMAT">Formatage rapide</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD">&amp;Afficher le mot de passe</control>
@@ -563,7 +563,7 @@
     <string lang="fr" key="INIT_RAND">L'initialisation du générateur de nombre aléatoire a échoué !\n\n\n(Si vous rapportez un bogue en rapport à cela, n'oubliez pas d'inclure les informations techniques suivantes dans le rapport de bogue : %s, code d'erreur : 0x%.8X)</string>
     <string lang="fr" key="CAPI_RAND">L'API Crypto Windows a échoué !\n\n\n(Si vous rapportez un bogue en rapport à cela, n'oubliez pas d'inclure les informations techniques suivantes dans le rapport de bogue : %s, code d'erreur : 0x%.8X)</string>
     <string lang="fr" key="INIT_REGISTER">Impossible d'initialiser l'application. L'enregistrement de la classe Dialog a échoué.</string>
-    <string lang="fr" key="INIT_RICHEDIT">Erreur : Echec de chargement de la librairie système Rich Edit.</string>
+    <string lang="fr" key="INIT_DLL">Erreur : Echec de chargement d'une librairie système.</string>
     <string lang="fr" key="INTRO_TITLE">Assistant de création de volume</string>
     <string lang="fr" key="MAX_HIDVOL_SIZE_BYTES">Taille maximale du volume caché pour ce volume : %.2f octets.</string>
     <string lang="fr" key="MAX_HIDVOL_SIZE_KB">Taille maximale du volume caché pour ce volume : %.2f Ko.</string>

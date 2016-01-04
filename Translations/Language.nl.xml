@@ -60,7 +60,7 @@
     <control lang="nl" key="IDC_NO_HISTORY">Nooit &amp;geschiedenis opslaan</control>
     <control lang="nl" key="IDC_OPEN_OUTER_VOLUME">Buiten-volume</control>
     <control lang="nl" key="IDC_PAUSE">&amp;Pauze</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="nl" key="IDC_QUICKFORMAT">Snel Formatteren</control>
     <control lang="nl" key="IDC_SHOW_PASSWORD">&amp;Laat wachtwoord zien</control>
@@ -563,7 +563,7 @@
     <string lang="nl" key="INIT_RAND">Het programma heeft de initialisatie van de random nummer generator niet kunnen voltooien!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="nl" key="INIT_REGISTER">Het programma heeft de initialisatie niet kunnen voltooien. Het registreren van de 'Dialog Class' is mislukt.</string>
-    <string lang="nl" key="INIT_RICHEDIT">Fout: Laden van Rich Edit systeem library mislukt.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="nl" key="INTRO_TITLE">VeraCrypt Volume Aanmaak Wizard</string>
     <string lang="nl" key="MAX_HIDVOL_SIZE_BYTES">De maximaal mogelijke grootte voor dit Verborgen Volume is %.2f bytes.</string>
     <string lang="nl" key="MAX_HIDVOL_SIZE_KB">De maximaal mogelijke grootte voor dit Verborgen Volume is %.2f KB.</string>

@@ -60,7 +60,7 @@
     <control lang="zh-hk" key="IDC_NO_HISTORY">從不保留歷史記錄(&amp;S)</control>
     <control lang="zh-hk" key="IDC_OPEN_OUTER_VOLUME">打開外層加密卷</control>
     <control lang="zh-hk" key="IDC_PAUSE">暫停(&amp;P)</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="zh-hk" key="IDC_QUICKFORMAT">快速格式化</control>
     <control lang="zh-hk" key="IDC_SHOW_PASSWORD">顯示密碼(&amp;D)</control>
@@ -563,7 +563,7 @@
     <string lang="zh-hk" key="INIT_RAND">初始化亂數據生成器失敗！</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="zh-hk" key="INIT_REGISTER">無法初始化應用程式。註冊對話方塊類失敗。</string>
-    <string lang="zh-hk" key="INIT_RICHEDIT">錯誤：載入富文本編輯系統運行庫失敗。</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="zh-hk" key="INTRO_TITLE">VeraCrypt 加密卷創建嚮導</string>
     <string lang="zh-hk" key="MAX_HIDVOL_SIZE_BYTES">該卷能創建的最大隱藏加密卷大小為 %.2f 位元組。</string>
     <string lang="zh-hk" key="MAX_HIDVOL_SIZE_KB">該卷能創建的最大隱藏加密卷大小為 %.2f KB。</string>

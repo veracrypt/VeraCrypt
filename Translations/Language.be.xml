@@ -60,7 +60,7 @@
     <control lang="be" key="IDC_NO_HISTORY">Не захоўваць гісторыю</control>
     <control lang="be" key="IDC_OPEN_OUTER_VOLUME">Адкрыць вонкавы том</control>
     <control lang="be" key="IDC_PAUSE">Паўза</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="be" key="IDC_QUICKFORMAT">Хуткае фарматаванне</control>
     <control lang="be" key="IDC_SHOW_PASSWORD">Паказаць пароль</control>
@@ -563,7 +563,7 @@
     <string lang="be" key="INIT_RAND">Памылка ініцыялізацыі генератара выпадковых лікаў.</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="be" key="INIT_REGISTER">Памылка ініцыялізацыі прыкладання. Немагчыма зарэгістраваць клас Dialog.</string>
-    <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="be" key="INTRO_TITLE">Майстар стварэння шыфраванага тома</string>
     <string lang="be" key="MAX_HIDVOL_SIZE_BYTES">Найбольшы магчымы памер для гэтага ўтоенага тому - %.2f байт</string>
     <string lang="be" key="MAX_HIDVOL_SIZE_KB">Найбольшы магчымы памер для гэтага ўтоенага тому - %.2f Кб</string>

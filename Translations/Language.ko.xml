@@ -60,7 +60,7 @@
     <control lang="ko" key="IDC_NO_HISTORY">히스토리 저장 안함</control>
     <control lang="ko" key="IDC_OPEN_OUTER_VOLUME">외부 볼륨 열기</control>
     <control lang="ko" key="IDC_PAUSE">정지(&amp;P)</control>
-    <control lang="ko" key="IDC_PIM_ENABLE">PIM 사용하기</control>
+    <control lang="ko" key="IDC_PIM_ENABLE">P&amp;IM 사용하기</control>
     <control lang="ko" key="IDC_NEW_PIM_ENABLE">PIM 사용하기</control>
     <control lang="ko" key="IDC_QUICKFORMAT">빠른 포맷</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD">비밀번호 표시(&amp;D)</control>
@@ -563,7 +563,7 @@
     <string lang="ko" key="INIT_RAND">무작위 숫자 생성기를 초기화하는데 실패했습니다!</string>
     <string lang="ko" key="CAPI_RAND">윈도우의 암호화 API가 실패했습니다!\n\n\n(만약 버그보고를 보낼경우 다음과 같은 내용을 포함하십시오:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ko" key="INIT_REGISTER">프로그램을 초기화할 수 없습니다. 다이얼로그 클래스 등록에 실패했습니다.</string>
-    <string lang="ko" key="INIT_RICHEDIT">오류: Rich Edit 시스템 라이브러리를 로드하는데 실패했습니다.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="ko" key="INTRO_TITLE">VeraCrypt 볼륨 만들기 마법사</string>
     <string lang="ko" key="MAX_HIDVOL_SIZE_BYTES">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f bytes</string>
     <string lang="ko" key="MAX_HIDVOL_SIZE_KB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f KB</string>

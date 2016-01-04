@@ -60,7 +60,7 @@
     <control lang="vi" key="IDC_NO_HISTORY">Đừng bao giờ &amp;lưu lược sử</control>
     <control lang="vi" key="IDC_OPEN_OUTER_VOLUME">Mở tập đĩa bên ngoài</control>
     <control lang="vi" key="IDC_PAUSE">&amp;Tạm dừng</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="vi" key="IDC_QUICKFORMAT">Định dạng nhanh</control>
     <control lang="vi" key="IDC_SHOW_PASSWORD">&amp;Hiển thị mật mã</control>
@@ -563,7 +563,7 @@
     <string lang="vi" key="INIT_RAND">Không sơ khởi hàm tạo ra các số ngẫu nhiên được!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="vi" key="INIT_REGISTER">Không thể sơ khởi ứng dụng được. Không đăng ký hạng Hộp thoại được.</string>
-    <string lang="vi" key="INIT_RICHEDIT">Lỗi: Không nạp thư viện hệ thống Rich Edit được.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="vi" key="INTRO_TITLE">Trợ lý Cấu tạo Tập đĩa VeraCrypt</string>
     <string lang="vi" key="MAX_HIDVOL_SIZE_BYTES">Kích cỡ tối đa có thể xài được cho tập đĩa ẩn trong tập đĩa này là %.2f bytes.</string>
     <string lang="vi" key="MAX_HIDVOL_SIZE_KB">Kích cỡ tối đa có thể xài được cho tập đĩa ẩn trong tập đĩa này là %.2f KB.</string>

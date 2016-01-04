@@ -60,7 +60,7 @@
     <control lang="sk" key="IDC_NO_HISTORY">Neukladať &amp;históriu</control>
     <control lang="sk" key="IDC_OPEN_OUTER_VOLUME">Otvoriť externý zväzok</control>
     <control lang="en" key="IDC_PAUSE">&amp;Pause</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="sk" key="IDC_QUICKFORMAT">Rýchlo sformátovať</control>
     <control lang="sk" key="IDC_SHOW_PASSWORD">&amp;Ukázať heslo</control>
@@ -563,7 +563,7 @@
     <string lang="sk" key="INIT_RAND">Zlyhala inicializácia generátora náhodných čísel!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="sk" key="INIT_REGISTER">Aplikácia nemohla byť inicializovaná. Zlyhala registrácia dialógovej triedy.</string>
-    <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="sk" key="INTRO_TITLE">Sprievodca vytvorením zväzku VeraCrypt</string>
     <string lang="sk" key="MAX_HIDVOL_SIZE_BYTES">Maximálna možná veľkosť skrytého zväzku pre tento zväzok je %.2f bytov.</string>
     <string lang="sk" key="MAX_HIDVOL_SIZE_KB">Maximálna možná veľkosť skrytého zväzku pre tento zväzok je %.2f KB.</string>

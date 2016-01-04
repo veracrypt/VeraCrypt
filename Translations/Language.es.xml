@@ -60,7 +60,7 @@
     <control lang="es" key="IDC_NO_HISTORY">No &amp;guardar nunca historial</control>
     <control lang="es" key="IDC_OPEN_OUTER_VOLUME">Abrir Volumen Externo</control>
     <control lang="es" key="IDC_PAUSE">&amp;Pausa</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="es" key="IDC_QUICKFORMAT">Formato Rápido</control>
     <control lang="es" key="IDC_SHOW_PASSWORD">&amp;Mostrar contraseña</control>
@@ -563,7 +563,7 @@
     <string lang="es" key="INIT_RAND">¡Fallo al inicializar el generador de números aleatorios!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="es" key="INIT_REGISTER">No se pudo iniciar la aplicación. Fallo al registrar la clase Dialog.</string>
-    <string lang="es" key="INIT_RICHEDIT">Error: Fallo al cargar la librería de sistema Rich Edit.</string>
+    <string lang="es" key="INIT_DLL">Error: Fallo al cargar una librería de sistema.</string>
     <string lang="es" key="INTRO_TITLE">Asistente de Creación de Volúmenes VeraCrypt</string>
     <string lang="es" key="MAX_HIDVOL_SIZE_BYTES">El tamaño máximo posible de volumen oculto para este volumen es %.2f bytes.</string>
     <string lang="es" key="MAX_HIDVOL_SIZE_KB">El tamaño máximo posible de volumen oculto para este volumen es %.2f KB.</string>

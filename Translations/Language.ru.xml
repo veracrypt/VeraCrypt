@@ -60,7 +60,7 @@
     <control lang="ru" key="IDC_NO_HISTORY">&amp;Не сохранять историю</control>
     <control lang="ru" key="IDC_OPEN_OUTER_VOLUME">Открыть внешний том</control>
     <control lang="ru" key="IDC_PAUSE">&amp;Пауза</control>
-    <control lang="ru" key="IDC_PIM_ENABLE">Использовать PIM</control>
+    <control lang="ru" key="IDC_PIM_ENABLE">Использовать P&amp;IM</control>
     <control lang="ru" key="IDC_NEW_PIM_ENABLE">Использовать PIM</control>
     <control lang="ru" key="IDC_QUICKFORMAT">Быстрое форматир.</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD">&amp;Показ пароля</control>
@@ -563,7 +563,7 @@
     <string lang="ru" key="INIT_RAND">Ошибка инициализации генератора случайных чисел.</string>
     <string lang="ru" key="CAPI_RAND">Сбой интерфейса CryptoAPI Windows!\n\n\n(Если вы хотите сообщить о связанной с этим ошибке, включите в отчёт следующую техническую информацию:\n%s, Последняя ошибка = 0x%.8X)</string>
     <string lang="ru" key="INIT_REGISTER">Ошибка инициализации приложения. Невозможно зарегистрировать класс Dialog.</string>
-    <string lang="ru" key="INIT_RICHEDIT">Ошибка загрузки системной библиотеки Rich Edit.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="ru" key="INTRO_TITLE">Мастер создания томов VeraCrypt</string>
     <string lang="ru" key="MAX_HIDVOL_SIZE_BYTES">Максимальный размер скрытого тома для этого тома: %.2f байт</string>
     <string lang="ru" key="MAX_HIDVOL_SIZE_KB">Максимальный размер скрытого тома для этого тома: %.2f КБ</string>

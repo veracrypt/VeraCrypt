@@ -563,7 +563,7 @@
     <string lang="de" key="INIT_RAND">Der Zufallszahlengenerator konnte nicht initialisiert werden!\n\n\n(Sollten Sie in diesem Zusammenhang einen Fehler melden, so bitten wir Sie folgende technische Informationen dem Fehlerbericht hinzuzufügen: %s, Letzter Fehler = 0x%.8X)</string>
     <string lang="de" key="CAPI_RAND">Windows Crypto API ist fehlgeschlagen!\n\n\n(Sollten Sie in diesem Zusammenhang einen Fehler melden, so bitten wir Sie folgende technische Informationen dem Fehlerbericht hinzuzufügen: %s, Letzter Fehler = 0x%.8X)</string>
     <string lang="de" key="INIT_REGISTER">Die Anwendung konnte nicht initialisiert werden. Die Registrierung der Dialogklasse ist fehlgeschlagen.</string>
-    <string lang="de" key="INIT_RICHEDIT">Fehler: Kann die 'RichEdit' Systembibliothek nicht laden.</string>
+    <string lang="de" key="INIT_DLL">Fehler: Kann ein Systembibliothek nicht laden.</string>
     <string lang="de" key="INTRO_TITLE">VeraCrypt-Volume erstellen</string>
     <string lang="de" key="MAX_HIDVOL_SIZE_BYTES">Die maximal mögliche Größe für ein verstecktes Volume innerhalb dieses Volume ist %.2f Byte.</string>
     <string lang="de" key="MAX_HIDVOL_SIZE_KB">Die maximal mögliche Größe für ein verstecktes Volume innerhalb diesem Volume ist %.2f KB.</string>

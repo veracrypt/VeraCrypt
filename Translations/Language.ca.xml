@@ -60,7 +60,7 @@
     <control lang="ca" key="IDC_NO_HISTORY">&amp;No guardar l'historial</control>
     <control lang="ca" key="IDC_OPEN_OUTER_VOLUME">Obrir el volum extern</control>
     <control lang="ca" key="IDC_PAUSE">&amp;Pausar</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="ca" key="IDC_QUICKFORMAT">Format ràpid</control>
     <control lang="ca" key="IDC_SHOW_PASSWORD">&amp;Veure contrasenya</control>
@@ -563,7 +563,7 @@
     <string lang="ca" key="INIT_RAND">No s'ha pogut inicialitzar el generador de números aleatòris!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ca" key="INIT_REGISTER">No es pot inicialitzar l'aplicació. No es pot registrar la classe Dialog.</string>
-    <string lang="ca" key="INIT_RICHEDIT">Error: no s'ha pogut carregar la biblioteca d'edició enriquida del sistema.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="ca" key="INTRO_TITLE">Assistent de creació de volums</string>
     <string lang="ca" key="MAX_HIDVOL_SIZE_BYTES">El màxim que pot ocupar aquest volum és %.2f bytes.</string>
     <string lang="ca" key="MAX_HIDVOL_SIZE_KB">El màxim que pot ocupar aquest volum és %.2f KB.</string>

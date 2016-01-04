@@ -60,7 +60,7 @@
     <control lang="my" key="IDC_NO_HISTORY">မှတ်တမ်း လုံး၀ မတင်ရန်</control>
     <control lang="my" key="IDC_OPEN_OUTER_VOLUME">ပြင်ပ volume ကို ဖွင့်ရန်</control>
     <control lang="my" key="IDC_PAUSE">ခေတ္တရပ်နားရန်</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="my" key="IDC_QUICKFORMAT">အမြန် မော်မက်ချရန်</control>
     <control lang="my" key="IDC_SHOW_PASSWORD">စကားဝှက်ကို ပြရန်</control>
@@ -564,7 +564,7 @@
     <string lang="my" key="INIT_RAND">ကျပန်း နံပါတ် ထုတ်စနစ်ကို အစပြု၍ မရပါ။</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="my" key="INIT_REGISTER">အပ္ပလီကေးရှင်းကို အစပြု၍ မရပါ။ Dialog class ကို မှတ်ပုံတင်ရန် မအောင်မြင်ပါ။</string>
-    <string lang="my" key="INIT_RICHEDIT">ချို့ယွင်းချက် - Rich Edit စနစ် လိုင်ဘရာရီကို ဖွင့်မရပါ။</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="my" key="INTRO_TITLE">VeraCrypt Volume ဖန်တီးမှု အညွှန်း</string>
     <string lang="my" key="MAX_HIDVOL_SIZE_BYTES">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f bytes ဖြစ်သည်။</string>
     <string lang="my" key="MAX_HIDVOL_SIZE_KB">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f KB ဖြစ်သည်။</string>

@@ -60,7 +60,7 @@
     <control lang="bg" key="IDC_NO_HISTORY">Историята да не &amp;се запазва</control>
     <control lang="bg" key="IDC_OPEN_OUTER_VOLUME">Отваряне на външен том</control>
     <control lang="bg" key="IDC_PAUSE">&amp;Пауза</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="bg" key="IDC_QUICKFORMAT">Бърз формат</control>
     <control lang="bg" key="IDC_SHOW_PASSWORD">Видима &amp;парола</control>
@@ -563,7 +563,7 @@
     <string lang="bg" key="INIT_RAND">Неуспешно инициализиране на генератора за случайни числа!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="bg" key="INIT_REGISTER">Инициализацията на приложението е невъзможна. Деуспешно регистриране на Dialog класа.</string>
-    <string lang="bg" key="INIT_RICHEDIT">Грешка: Не може да се зареди Rich Edit системната библиотека.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="bg" key="INTRO_TITLE">VeraCrypt помощник за създаване на томове</string>
     <string lang="bg" key="MAX_HIDVOL_SIZE_BYTES">Максималния възможен размер на скрития том за този том е %.2f байта.</string>
     <string lang="bg" key="MAX_HIDVOL_SIZE_KB">Максималния възможен размер на скрития том за този том е %.2f KB.</string>

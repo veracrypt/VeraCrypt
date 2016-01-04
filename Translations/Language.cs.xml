@@ -60,7 +60,7 @@
     <control lang="cs" key="IDC_NO_HISTORY">Neukládat &amp;historii</control>
     <control lang="cs" key="IDC_OPEN_OUTER_VOLUME">Otevřít vnější svazek</control>
     <control lang="cs" key="IDC_PAUSE">&amp;Pauza</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="cs" key="IDC_QUICKFORMAT">Rychle zformátovat</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD">&amp;Ukázat heslo</control>
@@ -563,7 +563,7 @@
     <string lang="cs" key="INIT_RAND">Selhala inicializace generátoru náhodných čísel!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="cs" key="INIT_REGISTER">Aplikace nemohla být inicializována. Selhala registrace Dialogové třídy.</string>
-    <string lang="cs" key="INIT_RICHEDIT">Chyba: Systémová knihovna Rich Edit nemohla být načtena.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="cs" key="INTRO_TITLE">Průvodce vytvořením svazku VeraCrypt</string>
     <string lang="cs" key="MAX_HIDVOL_SIZE_BYTES">Maximální možná velikost skrytého svazku pro tento svazek je %.2f bytů.</string>
     <string lang="cs" key="MAX_HIDVOL_SIZE_KB">Maximální možná velikost skrytého svazku pro tento svazek je %.2f KB.</string>

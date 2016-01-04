@@ -60,7 +60,7 @@
     <control lang="ar" key="IDC_NO_HISTORY">‮لا &amp;تحفظ التأريخ أبدًا</control>
     <control lang="ar" key="IDC_OPEN_OUTER_VOLUME">‮أوصل مجلدا خارجيا</control>
     <control lang="ar" key="IDC_PAUSE">‮&amp;جمِّد</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="ar" key="IDC_QUICKFORMAT">‮تهيئة سريعة</control>
     <control lang="ar" key="IDC_SHOW_PASSWORD">‮أ&amp;ظهر كلمة السر</control>
@@ -563,7 +563,7 @@
     <string lang="ar" key="INIT_RAND">‮فشل استبداء مُولِّد الأرقام العشوائيّة!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ar" key="INIT_REGISTER">‮تعذَّر استبداء التطبيق. فشل تسجيل فئة الحوار.</string>
-    <string lang="ar" key="INIT_RICHEDIT">‮عطل: تعذَّر تحميل مكتبة التحرير الغني.</string>
+    <string lang="ar" key="INIT_DLL">‮عطل: تعذَّر تحميل مكتبة النظام.</string>
     <string lang="ar" key="INTRO_TITLE">‮مرشِد ڤيراكربت لإنشاء المجلدات</string>
     <string lang="ar" key="MAX_HIDVOL_SIZE_BYTES">‮أقصى حجم للمجلد المخفي لهذا المجلد هو ‪%.2f‬ بايت.</string>
     <string lang="ar" key="MAX_HIDVOL_SIZE_KB">‮أقصى حجم للمجلد المخفي لهذا المجلد هو ‪%.2f‬ كيلوبايت.</string>

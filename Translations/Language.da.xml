@@ -60,7 +60,7 @@
     <control lang="da" key="IDC_NO_HISTORY">Gem aldrig hi&amp;storik</control>
     <control lang="da" key="IDC_OPEN_OUTER_VOLUME">Åben Ydre Bind</control>
     <control lang="da" key="IDC_PAUSE">&amp;Pause</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="da" key="IDC_QUICKFORMAT">Ekspres Formatering</control>
     <control lang="da" key="IDC_SHOW_PASSWORD">&amp;Vis kodeord</control>
@@ -563,7 +563,7 @@
     <string lang="da" key="INIT_RAND">Kunne ikke initialisere tilfældigheds nummergenerator!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="da" key="INIT_REGISTER">Kunne ikke initialisere applikationen. Fejl i registrering af Dialog class.</string>
-    <string lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="da" key="INTRO_TITLE">VeraCrypt Bind Oprettelsesguide</string>
     <string lang="da" key="MAX_HIDVOL_SIZE_BYTES">Den maksimale skjulte bind størrelse for dette bind er %.2f bytes.</string>
     <string lang="da" key="MAX_HIDVOL_SIZE_KB">Den maksimale skjulte bind størrelse for dette bind er %.2f KB.</string>
