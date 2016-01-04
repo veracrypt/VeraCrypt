@@ -95,7 +95,7 @@ BEGIN
     CONTROL         "Temporary Cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,241,294,11
     CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,269,151,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,269,296,10
 END
 
 IDD_VOLUME_PROPERTIES DIALOGEX 60, 30, 284, 224
