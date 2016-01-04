@@ -40,6 +40,12 @@ typedef enum
 	WIN_SERVER_2008,
 	WIN_7,
 	WIN_SERVER_2008_R2,
+	WIN_8,
+	WIN_SERVER_2012,
+	WIN_8_1,
+	WIN_SERVER_2012_R2,
+	WIN_10,
+	WIN_SERVER_2016
 } OSVersionEnum;
 
 /* Volume types */

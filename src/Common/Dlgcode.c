@@ -194,6 +194,37 @@ HMODULE hRichEditDll = NULL;
 HMODULE hComctl32Dll = NULL;
 HMODULE hSetupDll = NULL;
 HMODULE hShlwapiDll = NULL;
+HMODULE hProfApiDll = NULL;
+HMODULE hUsp10Dll = NULL;
+HMODULE hCryptSpDll = NULL;
+HMODULE hUXThemeDll = NULL;
+HMODULE hUserenvDll = NULL;
+HMODULE hRsaenhDll = NULL;
+HMODULE himm32dll = NULL;
+HMODULE hMSCTFdll = NULL;
+HMODULE hfltlibdll = NULL;
+HMODULE hframedyndll = NULL;
+HMODULE hpsapidll = NULL;
+HMODULE hsecur32dll = NULL;
+HMODULE hnetapi32dll = NULL;
+HMODULE hauthzdll = NULL;
+HMODULE hxmllitedll = NULL;
+HMODULE hmprdll = NULL;
+HMODULE hsppdll = NULL;
+HMODULE vssapidll = NULL;
+HMODULE hvsstracedll = NULL;
+HMODULE hcfgmgr32dll = NULL;
+HMODULE hdevobjdll = NULL;
+HMODULE hpowrprofdll = NULL;
+HMODULE hsspiclidll = NULL;
+HMODULE hcryptbasedll = NULL;
+HMODULE hdwmapidll = NULL;
+HMODULE hmsasn1dll = NULL;
+HMODULE hcrypt32dll = NULL;
+HMODULE hbcryptdll = NULL;
+HMODULE hbcryptprimitivesdll = NULL;
+HMODULE hMsls31 = NULL;
+HMODULE hntmartadll = NULL;
 
 #define FREE_DLL(h)	if (h) { FreeLibrary (h); h = NULL;}
 
@@ -509,6 +540,38 @@ void AbortProcessDirect (wchar_t *abortMsg)
 	FREE_DLL (hComctl32Dll);
 	FREE_DLL (hSetupDll);
 	FREE_DLL (hShlwapiDll);
+	FREE_DLL (hProfApiDll);
+	FREE_DLL (hUsp10Dll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hUXThemeDll);
+	FREE_DLL (hUserenvDll);
+	FREE_DLL (hRsaenhDll);
+	FREE_DLL (himm32dll);
+	FREE_DLL (hMSCTFdll);
+	FREE_DLL (hfltlibdll);
+	FREE_DLL (hframedyndll);
+	FREE_DLL (hpsapidll);
+	FREE_DLL (hsecur32dll);
+	FREE_DLL (hnetapi32dll);
+	FREE_DLL (hauthzdll);
+	FREE_DLL (hxmllitedll);
+	FREE_DLL (hmprdll);
+	FREE_DLL (hsppdll);
+	FREE_DLL (vssapidll);
+	FREE_DLL (hvsstracedll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hcfgmgr32dll);
+	FREE_DLL (hdevobjdll);
+	FREE_DLL (hpowrprofdll);
+	FREE_DLL (hsspiclidll);
+	FREE_DLL (hcryptbasedll);
+	FREE_DLL (hdwmapidll);
+	FREE_DLL (hmsasn1dll);
+	FREE_DLL (hcrypt32dll);
+	FREE_DLL (hbcryptdll);
+	FREE_DLL (hbcryptprimitivesdll);
+	FREE_DLL (hMsls31);
+	FREE_DLL (hntmartadll);
 
 	exit (1);
 }
@@ -525,6 +588,39 @@ void AbortProcessSilent (void)
 	FREE_DLL (hComctl32Dll);
 	FREE_DLL (hSetupDll);
 	FREE_DLL (hShlwapiDll);
+	FREE_DLL (hProfApiDll);
+	FREE_DLL (hUsp10Dll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hUXThemeDll);
+	FREE_DLL (hUserenvDll);
+	FREE_DLL (hRsaenhDll);
+	FREE_DLL (himm32dll);
+	FREE_DLL (hMSCTFdll);
+	FREE_DLL (hfltlibdll);
+	FREE_DLL (hframedyndll);
+	FREE_DLL (hpsapidll);
+	FREE_DLL (hsecur32dll);
+	FREE_DLL (hnetapi32dll);
+	FREE_DLL (hauthzdll);
+	FREE_DLL (hxmllitedll);
+	FREE_DLL (hmprdll);
+	FREE_DLL (hsppdll);
+	FREE_DLL (vssapidll);
+	FREE_DLL (hvsstracedll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hcfgmgr32dll);
+	FREE_DLL (hdevobjdll);
+	FREE_DLL (hpowrprofdll);
+	FREE_DLL (hsspiclidll);
+	FREE_DLL (hcryptbasedll);
+	FREE_DLL (hdwmapidll);
+	FREE_DLL (hmsasn1dll);
+	FREE_DLL (hcrypt32dll);
+	FREE_DLL (hbcryptdll);
+	FREE_DLL (hbcryptprimitivesdll);
+	FREE_DLL (hMsls31);
+	FREE_DLL (hntmartadll);
+
 	// Note that this function also causes localcleanup() to be called (see atexit())
 	exit (1);
 }
@@ -2316,14 +2412,15 @@ void DoPostInstallTasks (HWND hwndDlg)
 
 void InitOSVersionInfo ()
 {
-	OSVERSIONINFOW os;
-	os.dwOSVersionInfoSize = sizeof (OSVERSIONINFOW);
+	OSVERSIONINFOEXW os;
+	os.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
 
-	if (GetVersionExW (&os) == FALSE)
+	if (GetVersionExW ((LPOSVERSIONINFOW) &os) == FALSE)
 		AbortProcess ("NO_OS_VER");
 
 	CurrentOSMajor = os.dwMajorVersion;
 	CurrentOSMinor = os.dwMinorVersion;
+	CurrentOSServicePack = os.wServicePackMajor;
 
 	if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 0)
 		nCurrentOS = WIN_2000;
@@ -2331,30 +2428,26 @@ void InitOSVersionInfo ()
 		nCurrentOS = WIN_XP;
 	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 2)
 	{
-		OSVERSIONINFOEXW osEx;
-
-		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
-		GetVersionExW ((LPOSVERSIONINFOW) &osEx);
-
-		if (osEx.wProductType == VER_NT_SERVER || osEx.wProductType == VER_NT_DOMAIN_CONTROLLER)
+		if (os.wProductType == VER_NT_SERVER || os.wProductType == VER_NT_DOMAIN_CONTROLLER)
 			nCurrentOS = WIN_SERVER_2003;
 		else
 			nCurrentOS = WIN_XP64;
 	}
 	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 0)
 	{
-		OSVERSIONINFOEXW osEx;
-
-		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
-		GetVersionExW ((LPOSVERSIONINFOW) &osEx);
-
-		if (osEx.wProductType == VER_NT_SERVER || osEx.wProductType == VER_NT_DOMAIN_CONTROLLER)
+		if (os.wProductType !=  VER_NT_WORKSTATION)
 			nCurrentOS = WIN_SERVER_2008;
 		else
 			nCurrentOS = WIN_VISTA;
 	}
 	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 1)
-		nCurrentOS = (IsServerOS() ? WIN_SERVER_2008_R2 : WIN_7);
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2008_R2 : WIN_7);
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 2)
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2012 : WIN_8);
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 6 && CurrentOSMinor == 3)
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2012_R2 : WIN_8_1);
+	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 10 && CurrentOSMinor == 0)
+		nCurrentOS = ((os.wProductType !=  VER_NT_WORKSTATION) ? WIN_SERVER_2016 : WIN_10);
 	else if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 4)
 		nCurrentOS = WIN_NT4;
 	else if (os.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && os.dwMajorVersion == 4 && os.dwMinorVersion == 0)
@@ -2369,7 +2462,7 @@ void InitOSVersionInfo ()
 		nCurrentOS = WIN_UNKNOWN;
 }
 
-static void LoadSystemDll (LPCTSTR szModuleName, HMODULE *pHandle)
+static void LoadSystemDll (LPCTSTR szModuleName, HMODULE *pHandle, BOOL bIgnoreError, const char* srcPos)
 {
 	wchar_t dllPath[MAX_PATH];
 
@@ -2380,10 +2473,10 @@ static void LoadSystemDll (LPCTSTR szModuleName, HMODULE *pHandle)
 	StringCbCatW(dllPath, sizeof(dllPath), L"\\");
 	StringCbCatW(dllPath, sizeof(dllPath), szModuleName);
 
-	if ((*pHandle = LoadLibrary(dllPath)) == NULL)
+	if (((*pHandle = LoadLibrary(dllPath)) == NULL) && !bIgnoreError)
 	{
 		// This error is fatal
-		handleWin32Error (NULL, SRC_POS);
+		handleWin32Error (NULL, srcPos);
 		AbortProcess ("INIT_DLL");
 	}
 }
@@ -2396,11 +2489,76 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	char langId[6];	
 	InitCommonControlsPtr InitCommonControlsFn = NULL;	
 
-	LoadSystemDll (L"COMCTL32.DLL", &hComctl32Dll);
-	LoadSystemDll (L"Riched20.dll", &hRichEditDll);
-	LoadSystemDll (L"SETUPAPI.DLL", &hSetupDll);
-	LoadSystemDll (L"SHLWAPI.DLL", &hShlwapiDll);
+	InitOSVersionInfo();
 
+	LoadSystemDll (L"ntmarta.dll", &hntmartadll, TRUE, SRC_POS);
+#ifdef SETUP
+	if (IsOSAtLeast (WIN_7))
+	{
+		LoadSystemDll (L"ProfApi.DLL", &hProfApiDll, TRUE, SRC_POS);
+		LoadSystemDll (L"cryptbase.dll", &hcryptbasedll, TRUE, SRC_POS);
+		LoadSystemDll (L"sspicli.dll", &hsspiclidll, TRUE, SRC_POS);
+	}
+#endif
+	LoadSystemDll (L"psapi.dll", &hpsapidll, TRUE, SRC_POS);
+	LoadSystemDll (L"secur32.dll", &hsecur32dll, TRUE, SRC_POS);
+	LoadSystemDll (L"msasn1.dll", &hmsasn1dll, TRUE, SRC_POS);
+	LoadSystemDll (L"Usp10.DLL", &hUsp10Dll, TRUE, SRC_POS);
+	LoadSystemDll (L"UXTheme.dll", &hUXThemeDll, TRUE, SRC_POS);
+
+	LoadSystemDll (L"msls31.dll", &hMsls31, TRUE, SRC_POS);	
+	LoadSystemDll (L"SETUPAPI.DLL", &hSetupDll, FALSE, SRC_POS);
+	LoadSystemDll (L"SHLWAPI.DLL", &hShlwapiDll, FALSE, SRC_POS);	
+
+	LoadSystemDll (L"userenv.dll", &hUserenvDll, TRUE, SRC_POS);
+	LoadSystemDll (L"rsaenh.dll", &hRsaenhDll, TRUE, SRC_POS);
+
+#ifdef SETUP
+	if (nCurrentOS < WIN_7)
+	{
+		if (nCurrentOS == WIN_XP)
+		{
+			LoadSystemDll (L"imm32.dll", &himm32dll, TRUE, SRC_POS);
+			LoadSystemDll (L"MSCTF.dll", &hMSCTFdll, TRUE, SRC_POS);
+			LoadSystemDll (L"fltlib.dll", &hfltlibdll, TRUE, SRC_POS);
+			LoadSystemDll (L"wbem\\framedyn.dll", &hframedyndll, TRUE, SRC_POS);
+		}
+
+		if (IsOSAtLeast (WIN_VISTA))
+		{					
+			LoadSystemDll (L"netapi32.dll", &hnetapi32dll, TRUE, SRC_POS);
+			LoadSystemDll (L"authz.dll", &hauthzdll, TRUE, SRC_POS);
+			LoadSystemDll (L"xmllite.dll", &hxmllitedll, TRUE, SRC_POS);
+			LoadSystemDll (L"mpr.dll", &hmprdll, TRUE, SRC_POS);						
+		}
+	}
+
+	if (IsOSAtLeast (WIN_VISTA))
+	{					
+		LoadSystemDll (L"spp.dll", &hsppdll, TRUE, SRC_POS);
+		LoadSystemDll (L"vssapi.dll", &vssapidll, TRUE, SRC_POS);
+		LoadSystemDll (L"vsstrace.dll", &hvsstracedll, TRUE, SRC_POS);
+
+		if (IsOSAtLeast (WIN_7))
+		{
+			LoadSystemDll (L"CryptSP.dll", &hCryptSpDll, TRUE, SRC_POS);
+
+			LoadSystemDll (L"cfgmgr32.dll", &hcfgmgr32dll, TRUE, SRC_POS);
+			LoadSystemDll (L"devobj.dll", &hdevobjdll, TRUE, SRC_POS);
+			LoadSystemDll (L"powrprof.dll", &hpowrprofdll, TRUE, SRC_POS);
+			
+			LoadSystemDll (L"dwmapi.dll", &hdwmapidll, TRUE, SRC_POS);
+			
+			LoadSystemDll (L"crypt32.dll", &hcrypt32dll, TRUE, SRC_POS);
+
+			LoadSystemDll (L"bcrypt.dll", &hbcryptdll, TRUE, SRC_POS);
+			LoadSystemDll (L"bcryptprimitives.dll", &hbcryptprimitivesdll, TRUE, SRC_POS);								
+		}
+	}	
+#endif
+
+	LoadSystemDll (L"COMCTL32.DLL", &hComctl32Dll, FALSE, SRC_POS);
+	
 	// call InitCommonControls function
 	InitCommonControlsFn = (InitCommonControlsPtr) GetProcAddress (hComctl32Dll, "InitCommonControls");
 	ImageList_AddFn = (ImageList_AddPtr) GetProcAddress (hComctl32Dll, "ImageList_Add");
@@ -2412,6 +2570,8 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	}
 	else
 		AbortProcess ("INIT_DLL");
+
+	LoadSystemDll (L"Riched20.dll", &hRichEditDll, FALSE, SRC_POS);
 
 	// Get SetupAPI functions pointers
 	SetupCloseInfFileFn = (SetupCloseInfFilePtr) GetProcAddress (hSetupDll, "SetupCloseInfFile");
@@ -2430,8 +2590,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	/* Save the instance handle for later */
 	hInst = hInstance;
-
-	InitOSVersionInfo();
 
 	SetErrorMode (SetErrorMode (0) | SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX);
 	CoInitialize (NULL);
@@ -2526,47 +2684,40 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	}
 	else
 	{
-		OSVERSIONINFOEXW osEx;
-
 		// Service pack check & warnings about critical MS issues
-		osEx.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
-		if (GetVersionExW ((LPOSVERSIONINFOW) &osEx) != 0)
+		switch (nCurrentOS)
 		{
-			CurrentOSServicePack = osEx.wServicePackMajor;
-			switch (nCurrentOS)
+		case WIN_2000:
+			if (CurrentOSServicePack < 3)
+				Warning ("LARGE_IDE_WARNING_2K", NULL);
+			else
 			{
-			case WIN_2000:
-				if (osEx.wServicePackMajor < 3)
-					Warning ("LARGE_IDE_WARNING_2K", NULL);
-				else
-				{
-					DWORD val = 0, size = sizeof(val);
-					HKEY hkey;
+				DWORD val = 0, size = sizeof(val);
+				HKEY hkey;
 
-					if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Services\\Atapi\\Parameters", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
+				if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Services\\Atapi\\Parameters", 0, KEY_READ, &hkey) == ERROR_SUCCESS)
+				{
+					if (RegQueryValueExW (hkey, L"EnableBigLba", 0, 0, (LPBYTE) &val, &size) != ERROR_SUCCESS
+							|| val != 1)
 					{
-						if (RegQueryValueExW (hkey, L"EnableBigLba", 0, 0, (LPBYTE) &val, &size) != ERROR_SUCCESS
-								|| val != 1)
-						{
-							Warning ("LARGE_IDE_WARNING_2K_REGISTRY", NULL);
-						}
-						RegCloseKey (hkey);
+						Warning ("LARGE_IDE_WARNING_2K_REGISTRY", NULL);
 					}
+					RegCloseKey (hkey);
 				}
-				break;
-
-			case WIN_XP:
-				if (osEx.wServicePackMajor < 1)
-				{
-					HKEY k;
-					// PE environment does not report version of SP
-					if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, L"System\\CurrentControlSet\\Control\\minint", 0, KEY_READ, &k) != ERROR_SUCCESS)
-						Warning ("LARGE_IDE_WARNING_XP", NULL);
-					else
-						RegCloseKey (k);
-				}
-				break;
 			}
+			break;
+
+		case WIN_XP:
+			if (CurrentOSServicePack < 1)
+			{
+				HKEY k;
+				// PE environment does not report version of SP
+				if (RegOpenKeyExW (HKEY_LOCAL_MACHINE, L"System\\CurrentControlSet\\Control\\minint", 0, KEY_READ, &k) != ERROR_SUCCESS)
+					Warning ("LARGE_IDE_WARNING_XP", NULL);
+				else
+					RegCloseKey (k);
+			}
+			break;
 		}
 	}
 	
@@ -2621,6 +2772,38 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		FREE_DLL (hComctl32Dll);
 		FREE_DLL (hSetupDll);
 		FREE_DLL (hShlwapiDll);
+		FREE_DLL (hProfApiDll);
+		FREE_DLL (hUsp10Dll);
+		FREE_DLL (hCryptSpDll);
+		FREE_DLL (hUXThemeDll);
+		FREE_DLL (hUserenvDll);
+		FREE_DLL (hRsaenhDll);
+		FREE_DLL (himm32dll);
+		FREE_DLL (hMSCTFdll);
+		FREE_DLL (hfltlibdll);
+		FREE_DLL (hframedyndll);
+		FREE_DLL (hpsapidll);
+		FREE_DLL (hsecur32dll);
+		FREE_DLL (hnetapi32dll);
+		FREE_DLL (hauthzdll);
+		FREE_DLL (hxmllitedll);
+		FREE_DLL (hmprdll);
+		FREE_DLL (hsppdll);
+		FREE_DLL (vssapidll);
+		FREE_DLL (hvsstracedll);
+		FREE_DLL (hCryptSpDll);
+		FREE_DLL (hcfgmgr32dll);
+		FREE_DLL (hdevobjdll);
+		FREE_DLL (hpowrprofdll);
+		FREE_DLL (hsspiclidll);
+		FREE_DLL (hcryptbasedll);
+		FREE_DLL (hdwmapidll);
+		FREE_DLL (hmsasn1dll);
+		FREE_DLL (hcrypt32dll);
+		FREE_DLL (hbcryptdll);
+		FREE_DLL (hbcryptprimitivesdll);
+		FREE_DLL (hMsls31);
+		FREE_DLL (hntmartadll);
 		exit (1);
 	}
 #endif
@@ -2632,6 +2815,38 @@ void FinalizeApp (void)
 	FREE_DLL (hComctl32Dll);
 	FREE_DLL (hSetupDll);
 	FREE_DLL (hShlwapiDll);
+	FREE_DLL (hProfApiDll);
+	FREE_DLL (hUsp10Dll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hUXThemeDll);
+	FREE_DLL (hUserenvDll);
+	FREE_DLL (hRsaenhDll);
+	FREE_DLL (himm32dll);
+	FREE_DLL (hMSCTFdll);
+	FREE_DLL (hfltlibdll);
+	FREE_DLL (hframedyndll);
+	FREE_DLL (hpsapidll);
+	FREE_DLL (hsecur32dll);
+	FREE_DLL (hnetapi32dll);
+	FREE_DLL (hauthzdll);
+	FREE_DLL (hxmllitedll);
+	FREE_DLL (hmprdll);
+	FREE_DLL (hsppdll);
+	FREE_DLL (vssapidll);
+	FREE_DLL (hvsstracedll);
+	FREE_DLL (hCryptSpDll);
+	FREE_DLL (hcfgmgr32dll);
+	FREE_DLL (hdevobjdll);
+	FREE_DLL (hpowrprofdll);
+	FREE_DLL (hsspiclidll);
+	FREE_DLL (hcryptbasedll);
+	FREE_DLL (hdwmapidll);
+	FREE_DLL (hmsasn1dll);
+	FREE_DLL (hcrypt32dll);
+	FREE_DLL (hbcryptdll);
+	FREE_DLL (hbcryptprimitivesdll);
+	FREE_DLL (hMsls31);
+	FREE_DLL (hntmartadll);
 }
 
 void InitHelpFileName (void)
@@ -9087,6 +9302,9 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 	case WIN_SERVER_2003:	major = 5; minor = 2; break;
 	case WIN_VISTA:			major = 6; minor = 0; break;
 	case WIN_7:				major = 6; minor = 1; break;
+	case WIN_8:				major = 6; minor = 2; break;
+	case WIN_8_1:			major = 6; minor = 3; break;
+	case WIN_10:			major = 10; minor = 0; break;
 
 	default:
 		TC_THROW_FATAL_EXCEPTION;
