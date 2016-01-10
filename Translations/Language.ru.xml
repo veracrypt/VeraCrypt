@@ -181,6 +181,7 @@
     <control lang="ru" key="IDC_SELECT_DEVICE">&amp;Устройство...</control>
     <control lang="ru" key="IDC_SELECT_FILE">&amp;Файл...</control>
     <control lang="ru" key="IDC_SELECT_PKCS11_MODULE">&amp;Библиотека...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Показ пароля</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Показ пароля</control>
     <control lang="ru" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Открыть смонтированный том в окне Проводника</control>

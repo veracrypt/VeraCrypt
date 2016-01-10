@@ -181,6 +181,7 @@
     <control lang="ca" key="IDC_SELECT_DEVICE">Triar &amp;dispositiu...</control>
     <control lang="ca" key="IDC_SELECT_FILE">&amp;Triar fitxer...</control>
     <control lang="ca" key="IDC_SELECT_PKCS11_MODULE">Buscar &amp;biblioteca...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ca" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Veure contrasenya</control>
     <control lang="ca" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Veure contrasenya</control>
     <control lang="ca" key="IDC_TRAVEL_OPEN_EXPLORER">Obrir una finestra de l'&amp;exporador pel volum muntat</control>

@@ -181,6 +181,7 @@
     <control lang="nl" key="IDC_SELECT_DEVICE">Selecteer A&amp;pparaat</control>
     <control lang="nl" key="IDC_SELECT_FILE">Selecteer &amp;Bestand</control>
     <control lang="nl" key="IDC_SELECT_PKCS11_MODULE">Selecteer &amp;Library</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="nl" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Toon wachtwoord</control>
     <control lang="nl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Toon wachtwoord</control>
     <control lang="nl" key="IDC_TRAVEL_OPEN_EXPLORER">Open &amp;Explorer venster voor gekoppeld volume</control>

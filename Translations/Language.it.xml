@@ -181,6 +181,7 @@
     <control lang="it" key="IDC_SELECT_DEVICE">Seleziona unità...</control>
     <control lang="it" key="IDC_SELECT_FILE">Seleziona file...</control>
     <control lang="it" key="IDC_SELECT_PKCS11_MODULE">Seleziona &amp;libreria...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="it" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Mostra password</control>
     <control lang="it" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Mostra password</control>
     <control lang="it" key="IDC_TRAVEL_OPEN_EXPLORER">Apri la finestra di Esplora risorse per il volume montato</control>

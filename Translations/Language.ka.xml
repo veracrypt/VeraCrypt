@@ -181,6 +181,7 @@
     <control lang="ka" key="IDC_SELECT_DEVICE">მოწყობილობა</control>
     <control lang="ka" key="IDC_SELECT_FILE">ფაილი</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ka" key="IDC_SHOW_PASSWORD_CHPWD_NEW">პაროლის ჩვენება</control>
     <control lang="ka" key="IDC_SHOW_PASSWORD_CHPWD_ORI">პაროლის ჩვენება</control>
     <control lang="ka" key="IDC_TRAVEL_OPEN_EXPLORER">მიერთებული ტომის Explorer-ის ფანჯარაში გახსნა</control>

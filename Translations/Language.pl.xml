@@ -181,6 +181,7 @@
     <control lang="pl" key="IDC_SELECT_DEVICE">Wybierz &amp;urządzenie...</control>
     <control lang="pl" key="IDC_SELECT_FILE">Wy&amp;bierz plik...</control>
     <control lang="pl" key="IDC_SELECT_PKCS11_MODULE">Wybierz &amp;bibliotekę...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="pl" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Wyświetl hasło</control>
     <control lang="pl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Wyświetl hasło</control>
     <control lang="pl" key="IDC_TRAVEL_OPEN_EXPLORER">Otwórz okno &amp;Eksploratora dla podłączonego wolumenu</control>

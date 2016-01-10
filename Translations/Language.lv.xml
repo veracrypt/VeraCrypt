@@ -181,6 +181,7 @@
     <control lang="lv" key="IDC_SELECT_DEVICE">Izvēlēties ierīci...</control>
     <control lang="lv" key="IDC_SELECT_FILE">Izvēlēties datni...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="en" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Display password</control>
     <control lang="en" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Display password</control>
     <control lang="lv" key="IDC_TRAVEL_OPEN_EXPLORER">Atvērt uzstādīto apgabalu Explorer logā</control>

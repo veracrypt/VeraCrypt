@@ -181,6 +181,7 @@
     <control lang="ja" key="IDC_SELECT_DEVICE">デバイスの選択(&amp;E)</control>
     <control lang="ja" key="IDC_SELECT_FILE">ファイルの選択(&amp;F)</control>
     <control lang="ja" key="IDC_SELECT_PKCS11_MODULE">ライブラリの選択(&amp;L)...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD_CHPWD_NEW">パスワードを表示</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD_CHPWD_ORI">パスワードを表示</control>
     <control lang="ja" key="IDC_TRAVEL_OPEN_EXPLORER">マウントされたボリュームのウィンドウを開く(&amp;E)</control>

@@ -181,6 +181,7 @@
     <control lang="cs" key="IDC_SELECT_DEVICE">Vybrat &amp;zařízení…</control>
     <control lang="cs" key="IDC_SELECT_FILE">Vybrat &amp;soubor…</control>
     <control lang="cs" key="IDC_SELECT_PKCS11_MODULE">Vybrat &amp;knihovnu...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Zobrazit heslo</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Zobrazit heslo</control>
     <control lang="cs" key="IDC_TRAVEL_OPEN_EXPLORER">Otevřít okno &amp;Průzkumníka pro připojený svazek</control>

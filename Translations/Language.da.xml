@@ -181,6 +181,7 @@
     <control lang="da" key="IDC_SELECT_DEVICE">Vælg &amp;Enhed...</control>
     <control lang="da" key="IDC_SELECT_FILE">Vælg &amp;Fil...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="da" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Vis kodeord</control>
     <control lang="da" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Vis kodeord</control>
     <control lang="da" key="IDC_TRAVEL_OPEN_EXPLORER">Åben &amp;Explorer vindue for tilsluttet bind</control>

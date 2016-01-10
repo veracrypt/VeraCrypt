@@ -181,6 +181,7 @@
     <control lang="fi" key="IDC_SELECT_DEVICE">&amp;Valitse Laite..</control>
     <control lang="fi" key="IDC_SELECT_FILE">Valitse T&amp;iedosto..</control>
     <control lang="fi" key="IDC_SELECT_PKCS11_MODULE">Valitse &amp;Kirjasto..</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="fi" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Näytä Salasana</control>
     <control lang="fi" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Näytä Salasana</control>
     <control lang="fi" key="IDC_TRAVEL_OPEN_EXPLORER">Avaa &amp;Tutkinta Ikkuna Yhdistetyille taltioille</control>

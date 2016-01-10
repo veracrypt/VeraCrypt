@@ -181,6 +181,7 @@
     <control lang="ko" key="IDC_SELECT_DEVICE">장치 선택(&amp;E)...</control>
     <control lang="ko" key="IDC_SELECT_FILE">파일 선택(&amp;F)...</control>
     <control lang="ko" key="IDC_SELECT_PKCS11_MODULE">라이브러리 선택(&amp;L)...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_NEW">비밀번호 표시</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_ORI">비밀번호 표시</control>
     <control lang="ko" key="IDC_TRAVEL_OPEN_EXPLORER">삽입된 볼륨을 위한 탐색기 창 열기</control>

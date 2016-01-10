@@ -181,6 +181,7 @@
     <control lang="eu" key="IDC_SELECT_DEVICE">&amp;Gailua aukeratu...</control>
     <control lang="eu" key="IDC_SELECT_FILE">&amp;Fitxategia aukeratu...</control>
     <control lang="eu" key="IDC_SELECT_PKCS11_MODULE">&amp;Liburutegia aukeratu...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="eu" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Pasahitza erakutsi</control>
     <control lang="eu" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Pasahitza erakutsi</control>
     <control lang="eu" key="IDC_TRAVEL_OPEN_EXPLORER">Muntatutako Bolumenak &amp;Explorer-aren lehioak ireki</control>

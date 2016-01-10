@@ -181,6 +181,7 @@
     <control lang="nn" key="IDC_SELECT_DEVICE">Vel &amp;Eining...</control>
     <control lang="nn" key="IDC_SELECT_FILE">Vel &amp;Fil...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="nn" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Vis passord</control>
     <control lang="nn" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Vis passord</control>
     <control lang="nn" key="IDC_TRAVEL_OPEN_EXPLORER">Opne &amp;Utforskar vindauga for montert volum</control>

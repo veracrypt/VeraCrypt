@@ -181,6 +181,7 @@
     <control lang="bg" key="IDC_SELECT_DEVICE">У&amp;стройство...</control>
     <control lang="bg" key="IDC_SELECT_FILE">&amp;Файл...</control>
     <control lang="bg" key="IDC_SELECT_PKCS11_MODULE">Избор на биб&amp;лиотека...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="bg" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Видима парола</control>
     <control lang="bg" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Видима парола</control>
     <control lang="bg" key="IDC_TRAVEL_OPEN_EXPLORER">Отваряне на &amp;Explorer прозорец за монтирания том</control>

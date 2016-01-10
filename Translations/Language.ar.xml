@@ -181,6 +181,7 @@
     <control lang="ar" key="IDC_SELECT_DEVICE">‮اختر &amp;نبيطة…</control>
     <control lang="ar" key="IDC_SELECT_FILE">‮اختر &amp;ملفا…</control>
     <control lang="ar" key="IDC_SELECT_PKCS11_MODULE">‮ا&amp;ختر مكتبة…</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ar" key="IDC_SHOW_PASSWORD_CHPWD_NEW">‮أظهر كلمة السر</control>
     <control lang="ar" key="IDC_SHOW_PASSWORD_CHPWD_ORI">‮أظهر كلمة السر</control>
     <control lang="ar" key="IDC_TRAVEL_OPEN_EXPLORER">‮افتح &amp;نافذة إكسبلورر للمجلدات الموصولة</control>

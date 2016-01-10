@@ -181,6 +181,7 @@
     <control lang="zh-cn" key="IDC_SELECT_DEVICE">选择设备(&amp;E)...</control>
     <control lang="zh-cn" key="IDC_SELECT_FILE">选择文件(&amp;F)...</control>
     <control lang="zh-cn" key="IDC_SELECT_PKCS11_MODULE">选择运行库(&amp;L)...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD_CHPWD_NEW">显示密码</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD_CHPWD_ORI">显示密码</control>
     <control lang="zh-cn" key="IDC_TRAVEL_OPEN_EXPLORER">为加载的加密卷打开资源管理器窗口(&amp;E)</control>

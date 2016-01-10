@@ -181,6 +181,7 @@
     <control lang="sv" key="IDC_SELECT_DEVICE">Välj enhe&amp;t …</control>
     <control lang="sv" key="IDC_SELECT_FILE">Välj fi&amp;l …</control>
     <control lang="sv" key="IDC_SELECT_PKCS11_MODULE">Välj &amp;bibliotek …</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_NEW">V&amp;isa lösenord</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_ORI">&amp;Visa lösenord</control>
     <control lang="sv" key="IDC_TRAVEL_OPEN_EXPLORER">Öppna &amp;Utforskaren efter montering</control>

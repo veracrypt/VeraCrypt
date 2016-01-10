@@ -181,6 +181,7 @@
     <control lang="vi" key="IDC_SELECT_DEVICE">Chọn Thiết bị...</control>
     <control lang="vi" key="IDC_SELECT_FILE">Chọn Tập tin...</control>
     <control lang="vi" key="IDC_SELECT_PKCS11_MODULE">Chọn &amp;Thư viện...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="vi" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Hiển thị mật mã</control>
     <control lang="vi" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Hiển thị mật mã</control>
     <control lang="vi" key="IDC_TRAVEL_OPEN_EXPLORER">Mở cửa sổ &amp;Explorer cho tập đĩa được nạp lên</control>

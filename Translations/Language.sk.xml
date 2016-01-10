@@ -181,6 +181,7 @@
     <control lang="sk" key="IDC_SELECT_DEVICE">Vybrať &amp;zariadenie...</control>
     <control lang="sk" key="IDC_SELECT_FILE">Vybrať &amp;súbor...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="sk" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Zobraziť heslo</control>
     <control lang="sk" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Zobraziť heslo</control>
     <control lang="sk" key="IDC_TRAVEL_OPEN_EXPLORER">Otvoriť okno &amp;Prieskumníka pre pripojený zväzok</control>

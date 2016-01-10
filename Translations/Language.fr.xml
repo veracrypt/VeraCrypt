@@ -181,6 +181,7 @@
     <control lang="fr" key="IDC_SELECT_DEVICE">&amp;Périphérique...</control>
     <control lang="fr" key="IDC_SELECT_FILE">&amp;Fichier...</control>
     <control lang="fr" key="IDC_SELECT_PKCS11_MODULE">&amp;Bibliothèque...</control>
+    <control lang="fr" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Permettre d'utiliser les lecteurs réseaux déconnectés comme point de montage</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Afficher mot de passe</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Afficher mot de passe</control>
     <control lang="fr" key="IDC_TRAVEL_OPEN_EXPLORER">Ouvrir l'&amp;Explorateur pour le volume monté</control>

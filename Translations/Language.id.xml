@@ -181,6 +181,7 @@
     <control lang="id" key="IDC_SELECT_DEVICE">Pilih T&amp;empat...</control>
     <control lang="id" key="IDC_SELECT_FILE">Pilih &amp;File...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="id" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Tampilkan password</control>
     <control lang="id" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Tampilkan password</control>
     <control lang="id" key="IDC_TRAVEL_OPEN_EXPLORER">Buka jendela &amp;Explorer untuk volume yang tersambung</control>

@@ -181,6 +181,7 @@
     <control lang="sl" key="IDC_SELECT_DEVICE">&amp;Izberi napravo...</control>
     <control lang="sl" key="IDC_SELECT_FILE">&amp;Izberi datoteko...</control>
     <control lang="sl" key="IDC_SELECT_PKCS11_MODULE">&amp;Izberi knjižico...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="sl" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Prikaži geslo</control>
     <control lang="sl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Prikaži geslo</control>
     <control lang="sl" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Odpri okno Raziskovalca za priklopljeni zbirnik</control>

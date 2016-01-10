@@ -181,6 +181,7 @@
     <control lang="et" key="IDC_SELECT_DEVICE">Vali seade...</control>
     <control lang="et" key="IDC_SELECT_FILE">Vali fail...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="et" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Kuva salasõna</control>
     <control lang="et" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Kuva salasõna</control>
     <control lang="et" key="IDC_TRAVEL_OPEN_EXPLORER">Ava haagitud konteiner &amp;Exploreri aknas</control>

@@ -181,6 +181,7 @@
     <control lang="es" key="IDC_SELECT_DEVICE">Seleccionar D&amp;ispositivo</control>
     <control lang="es" key="IDC_SELECT_FILE">Seleccionar A&amp;rchivo</control>
     <control lang="es" key="IDC_SELECT_PKCS11_MODULE">Seleccionar &amp;Librería</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="es" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Mostrar contraseña</control>
     <control lang="es" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Mostrar contraseña</control>
     <control lang="es" key="IDC_TRAVEL_OPEN_EXPLORER">Abrir en el &amp;explorador el volumen montado</control>

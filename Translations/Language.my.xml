@@ -181,6 +181,7 @@
     <control lang="my" key="IDC_SELECT_DEVICE">စက်ပစ္စည်း ရွေးချယ်ရန်...</control>
     <control lang="my" key="IDC_SELECT_FILE">ဖိုင် ရွေးချယ်ရန်</control>
     <control lang="my" key="IDC_SELECT_PKCS11_MODULE">လိုင်ဘရာရီ ရွေးချယ်ရန်...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="my" key="IDC_SHOW_PASSWORD_CHPWD_NEW">စကားဝှက် ပြရန်</control>
     <control lang="my" key="IDC_SHOW_PASSWORD_CHPWD_ORI">စကားဝှက် ပြရန်</control>
     <control lang="my" key="IDC_TRAVEL_OPEN_EXPLORER">အစပျိုးထားသော volume အတွက် Explorer ၀င်းဒိုး ဖွင့်ရန်</control>

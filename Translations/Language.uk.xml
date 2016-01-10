@@ -181,6 +181,7 @@
     <control lang="uk" key="IDC_SELECT_DEVICE">Пристр&amp;ій...</control>
     <control lang="uk" key="IDC_SELECT_FILE">&amp;Файл...</control>
     <control lang="uk" key="IDC_SELECT_PKCS11_MODULE">&amp;Бібліотека...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="uk" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Показати пароль</control>
     <control lang="uk" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Показати пароль</control>
     <control lang="uk" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Відкрити змонтований том в вікні Провідника</control>

@@ -181,6 +181,7 @@
     <control lang="tr" key="IDC_SELECT_DEVICE">Ay&amp;gıt seç...</control>
     <control lang="tr" key="IDC_SELECT_FILE">Dosya &amp;seç...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="tr" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Parolayı göster</control>
     <control lang="tr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Parolayı göster</control>
     <control lang="tr" key="IDC_TRAVEL_OPEN_EXPLORER">Bağlanan &amp;birim için Gezgin penceresini aç</control>

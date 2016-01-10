@@ -181,6 +181,7 @@
     <control lang="el" key="IDC_SELECT_DEVICE">Επιλογή σ&amp;υσκευής</control>
     <control lang="el" key="IDC_SELECT_FILE">Επιλογή αρχε&amp;ίου</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="el" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Εμφάνιση κωδικού</control>
     <control lang="el" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Εμφάνιση κωδικού</control>
     <control lang="el" key="IDC_TRAVEL_OPEN_EXPLORER">Άνοιγμα &amp;Explorer για φορτωμένους τόμους</control>

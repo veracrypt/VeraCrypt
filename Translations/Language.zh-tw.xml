@@ -179,6 +179,7 @@
     <control lang="zh-tw" key="IDC_SELECT_DEVICE">選擇磁碟機(&amp;E)...</control>
     <control lang="zh-tw" key="IDC_SELECT_FILE">選擇檔案(&amp;F)...</control>
     <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="zh-tw" key="IDC_SHOW_PASSWORD_CHPWD_NEW">顯示密碼</control>
     <control lang="zh-tw" key="IDC_SHOW_PASSWORD_CHPWD_ORI">顯示密碼</control>
     <control lang="zh-tw" key="IDC_TRAVEL_OPEN_EXPLORER">為掛載的加密區打開檔案總管視窗(&amp;E)</control>

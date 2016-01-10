@@ -181,6 +181,7 @@
     <control lang="pt-br" key="IDC_SELECT_DEVICE">Dis&amp;positivo...</control>
     <control lang="pt-br" key="IDC_SELECT_FILE">Ar&amp;quivo...</control>
     <control lang="pt-br" key="IDC_SELECT_PKCS11_MODULE">Selecionar Bib&amp;lioteca...</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="pt-br" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Mostrar senha</control>
     <control lang="pt-br" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Mostrar senha</control>
     <control lang="pt-br" key="IDC_TRAVEL_OPEN_EXPLORER">Abrir janela do &amp;Explorer para os volumes montados</control>
