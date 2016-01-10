@@ -653,7 +653,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	WipeAlgorithmId savedWipeAlgorithm = TC_WIPE_NONE;
 
 	if (!bOnlyCheckModified)
-		LoadSysEncSettings (hwndDlg);
+		LoadSysEncSettings ();
 
 	if (!bOnlyCheckModified && LoadNonSysInPlaceEncSettings (&savedWipeAlgorithm) != 0)
 		bInPlaceEncNonSysPending = TRUE;
@@ -739,7 +739,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 		// only check for last drive modification if history enabled
 		char szTmp[32] = {0};
 		LPARAM lLetter;
-		lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
+		lLetter = GetSelectedLong (GetDlgItem (MainDlg, IDC_DRIVELIST));
 		if (LOWORD (lLetter) != 0xffff)
 			StringCbPrintfA (szTmp, sizeof(szTmp), "%lc:", (wchar_t) HIWORD (lLetter));
 
@@ -782,9 +782,9 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	// History
 	if (bHistoryCmdLine != TRUE)
 	{
-		LoadCombo (GetDlgItem (hwndDlg, IDC_VOLUME), bHistory, bOnlyCheckModified, pbHistoryModified);
+		LoadCombo (GetDlgItem (MainDlg, IDC_VOLUME), bHistory, bOnlyCheckModified, pbHistoryModified);
 		if (!bOnlyCheckModified && CmdLineVolumeSpecified)
-			SetWindowText (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName);
+			SetWindowText (GetDlgItem (MainDlg, IDC_VOLUME), szFileName);
 	}
 
 	// Mount Options
@@ -885,7 +885,7 @@ void SaveSettings (HWND hwndDlg)
 		if (bHistory)
 		{
 			// Drive Letter
-			lLetter = GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST));
+			lLetter = GetSelectedLong (GetDlgItem (MainDlg, IDC_DRIVELIST));
 			if (LOWORD (lLetter) != 0xffff)
 				StringCbPrintfA (szTmp, sizeof(szTmp), "%lc:", (wchar_t) HIWORD (lLetter));
 			ConfigWriteString ("LastSelectedDrive", szTmp);
@@ -931,7 +931,7 @@ void SaveSettings (HWND hwndDlg)
 	if (bHistoryChanged)
 	{
 		// History
-		DumpCombo (GetDlgItem (hwndDlg, IDC_VOLUME), IsButtonChecked (GetDlgItem (hwndDlg, IDC_NO_HISTORY)));
+		DumpCombo (GetDlgItem (MainDlg, IDC_VOLUME), IsButtonChecked (GetDlgItem (MainDlg, IDC_NO_HISTORY)));
 	}
 
 	NormalCursor ();
@@ -6989,7 +6989,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return 1;
 
 	case TC_APPMSG_SYSENC_CONFIG_UPDATE:
-		LoadSysEncSettings (hwndDlg);
+		LoadSysEncSettings ();
 
 		// The wizard added VeraCrypt.exe to the system startup sequence or performed other operations that 
 		// require us to update our cached settings.

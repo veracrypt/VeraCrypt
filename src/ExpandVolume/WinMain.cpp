@@ -242,7 +242,7 @@ void LoadSettings (HWND hwndDlg)
 {
 	WipeAlgorithmId savedWipeAlgorithm = TC_WIPE_NONE;
 
-	LoadSysEncSettings (hwndDlg);
+	LoadSysEncSettings ();
 
 	if (LoadNonSysInPlaceEncSettings (&savedWipeAlgorithm) != 0)
 		bInPlaceEncNonSysPending = TRUE;

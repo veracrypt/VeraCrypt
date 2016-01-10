@@ -2251,7 +2251,7 @@ uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ()
 }
 
 
-BOOL LoadSysEncSettings (HWND hwndDlg)
+BOOL LoadSysEncSettings ()
 {
 	BOOL status = TRUE;
 	DWORD size = 0;
@@ -3947,7 +3947,7 @@ start:
 	{
 #ifndef SETUP
 
-		LoadSysEncSettings (NULL);
+		LoadSysEncSettings ();
 
 		if (!CreateDriverSetupMutex ())
 		{
@@ -10657,7 +10657,7 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 
 	try
 	{
-		SecurityToken::InitLibrary (SecurityTokenLibraryPath, auto_ptr <GetPinFunctor> (new PinRequestHandler(hwndDlg)), auto_ptr <SendExceptionFunctor> (new WarningHandler(hwndDlg)));
+		SecurityToken::InitLibrary (SecurityTokenLibraryPath, auto_ptr <GetPinFunctor> (new PinRequestHandler(MainDlg)), auto_ptr <SendExceptionFunctor> (new WarningHandler(MainDlg)));
 	}
 	catch (Exception &e)
 	{

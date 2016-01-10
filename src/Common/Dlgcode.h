@@ -289,7 +289,7 @@ void CloseAppSetupMutex (void);
 BOOL IsTrueCryptInstallerRunning (void);
 uint32 ReadDriverConfigurationFlags ();
 uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ();
-BOOL LoadSysEncSettings (HWND hwndDlg);
+BOOL LoadSysEncSettings ();
 int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm);
 void RemoveNonSysInPlaceEncNotifications (void);
 void SavePostInstallTasksSettings (int command);
