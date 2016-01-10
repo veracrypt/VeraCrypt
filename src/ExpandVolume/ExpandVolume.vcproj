@@ -75,11 +75,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\Crypto\Debug\crypto.lib"
+				AdditionalDependencies="..\Crypto\Debug\crypto.lib mpr.lib"
 				OutputFile="$(OutDir)/VeraCryptExpander.exe"
 				LinkIncremental="2"
 				GenerateManifest="false"
 				IgnoreAllDefaultLibraries="false"
+				DelayLoadDLLs="mpr.dll"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/ExpandVolume.pdb"
 				SubSystem="2"
@@ -168,11 +169,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\Crypto\x64\Debug\crypto.lib"
+				AdditionalDependencies="..\Crypto\x64\Debug\crypto.lib mpr.lib"
 				OutputFile="$(OutDir)/VeraCryptExpander.exe"
 				LinkIncremental="2"
 				GenerateManifest="false"
 				IgnoreAllDefaultLibraries="false"
+				DelayLoadDLLs="mpr.dll"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/ExpandVolume.pdb"
 				SubSystem="2"
@@ -256,11 +258,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\Crypto\Release\crypto.lib"
+				AdditionalDependencies="..\Crypto\Release\crypto.lib mpr.lib"
 				OutputFile="$(OutDir)/VeraCryptExpander.exe"
 				LinkIncremental="1"
 				GenerateManifest="false"
 				IgnoreAllDefaultLibraries="false"
+				DelayLoadDLLs="mpr.dll"
 				GenerateDebugInformation="false"
 				GenerateMapFile="true"
 				SubSystem="2"
@@ -347,11 +350,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\Crypto\x64\Release\crypto.lib"
+				AdditionalDependencies="..\Crypto\x64\Release\crypto.lib mpr.lib"
 				OutputFile="$(OutDir)/VeraCryptExpander.exe"
 				LinkIncremental="1"
 				GenerateManifest="false"
 				IgnoreAllDefaultLibraries="false"
+				DelayLoadDLLs="mpr.dll"
 				GenerateDebugInformation="false"
 				GenerateMapFile="true"
 				SubSystem="2"

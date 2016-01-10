@@ -705,6 +705,8 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	if (!bOnlyCheckModified)
 		bPreserveTimestamp = defaultMountOptions.PreserveTimestamp;
 
+	ConfigReadCompareInt ("ShowDisconnectedNetworkDrives", FALSE, &bShowDisconnectedNetworkDrives, bOnlyCheckModified, pbSettingsModified);
+
 	ConfigReadCompareInt ("MountVolumesRemovable", FALSE, &defaultMountOptions.Removable, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("MountVolumesReadOnly", FALSE, &defaultMountOptions.ReadOnly, bOnlyCheckModified, pbSettingsModified);
 
@@ -860,6 +862,7 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("MountVolumesReadOnly",				defaultMountOptions.ReadOnly);
 		ConfigWriteInt ("MountVolumesRemovable",			defaultMountOptions.Removable);
 		ConfigWriteInt ("PreserveTimestamps",				defaultMountOptions.PreserveTimestamp);
+		ConfigWriteInt ("ShowDisconnectedNetworkDrives",bShowDisconnectedNetworkDrives);
 
 		ConfigWriteInt ("EnableBackgroundTask",				bEnableBkgTask);
 		ConfigWriteInt ("CloseBackgroundTaskOnNoVolumes",	bCloseBkgTaskWhenNoVolumes);
@@ -1454,7 +1457,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 		AbortProcessSilent();
 	}
 
-	LastKnownLogicalDrives = dwUsedDrives = GetLogicalDrives ();
+	LastKnownLogicalDrives = dwUsedDrives = GetUsedLogicalDrives ();
 	if (dwUsedDrives == 0)
 			Warning ("DRIVELETTERS", hwndDlg);
 
@@ -3069,6 +3072,9 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			
 			SendMessage (GetDlgItem (hwndDlg, IDC_PRESERVE_TIMESTAMPS), BM_SETCHECK, 
 						defaultMountOptions.PreserveTimestamp ? BST_CHECKED:BST_UNCHECKED, 0);
+
+			SendMessage (GetDlgItem (hwndDlg, IDC_SHOW_DISCONNECTED_NETWORK_DRIVES), BM_SETCHECK, 
+				bShowDisconnectedNetworkDrives ? BST_CHECKED:BST_UNCHECKED, 0);
 			
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT), BM_SETCHECK, 
 						bCacheDuringMultipleMount ? BST_CHECKED:BST_UNCHECKED, 0);
@@ -3183,6 +3189,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bExplore						= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_OPEN_EXPLORER));	 
 			bUseDifferentTrayIconIfVolMounted = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED));	 
 			bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PRESERVE_TIMESTAMPS));	 
+			bShowDisconnectedNetworkDrives = IsButtonChecked (GetDlgItem (hwndDlg, IDC_SHOW_DISCONNECTED_NETWORK_DRIVES));	 
 			bCacheDuringMultipleMount	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT));
 			bWipeCacheOnExit				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT));
 			bWipeCacheOnAutoDismount		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT));
@@ -5830,7 +5837,7 @@ static BOOL CheckMountList (HWND hwndDlg, BOOL bForceTaskBarUpdate)
 		return TRUE;
 	}
 
-	if (LastKnownLogicalDrives != GetLogicalDrives()
+	if (LastKnownLogicalDrives != GetUsedLogicalDrives()
 		|| memcmp (&LastKnownMountList, &current, sizeof (current)) != 0)
 	{
 		wchar_t selDrive;
@@ -6188,6 +6195,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// Set critical default options in case UsePreferences is false
 			bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = TRUE;
+			bShowDisconnectedNetworkDrives = FALSE;
 
 			ResetWrongPwdRetryCount ();
 
@@ -7006,7 +7014,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				for (i = 0; i < 26; i++)
 				{
-					if ((vol->dbcv_unitmask & (1 << i)) && !(GetLogicalDrives() & (1 << i)))
+					if ((vol->dbcv_unitmask & (1 << i)) && !(GetUsedLogicalDrives() & (1 << i)))
 					{
 						for (m = 0; m < 26; m++)
 						{
@@ -7891,7 +7899,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_REFRESH_DRIVE_LETTERS)
 		{
-			DWORD driveMap = GetLogicalDrives ();
+			DWORD driveMap = GetUsedLogicalDrives ();
 			
 			WaitCursor ();
 

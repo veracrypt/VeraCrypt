@@ -175,6 +175,7 @@
 #define IDT_WIPE_MODE                   1153
 #define IDC_PREF_CACHE_PIM              1154
 #define IDC_BOOT_LOADER_CACHE_PIM       1155
+#define IDC_SHOW_DISCONNECTED_NETWORK_DRIVES 1156
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -251,7 +252,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1156
+#define _APS_NEXT_CONTROL_VALUE         1157
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

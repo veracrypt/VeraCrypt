@@ -101,6 +101,7 @@ wchar_t *lpszTitle = NULL;
 
 BOOL Silent = FALSE;
 BOOL bPreserveTimestamp = TRUE;
+BOOL bShowDisconnectedNetworkDrives = FALSE;
 BOOL bStartOnLogon = FALSE;
 BOOL bMountDevicesOnLogon = FALSE;
 BOOL bMountFavoritesOnLogon = FALSE;
@@ -225,6 +226,7 @@ HMODULE hbcryptdll = NULL;
 HMODULE hbcryptprimitivesdll = NULL;
 HMODULE hMsls31 = NULL;
 HMODULE hntmartadll = NULL;
+HMODULE hwinscarddll = NULL;
 
 #define FREE_DLL(h)	if (h) { FreeLibrary (h); h = NULL;}
 
@@ -572,6 +574,7 @@ void AbortProcessDirect (wchar_t *abortMsg)
 	FREE_DLL (hbcryptprimitivesdll);
 	FREE_DLL (hMsls31);
 	FREE_DLL (hntmartadll);
+	FREE_DLL (hwinscarddll);
 
 	exit (1);
 }
@@ -620,6 +623,7 @@ void AbortProcessSilent (void)
 	FREE_DLL (hbcryptprimitivesdll);
 	FREE_DLL (hMsls31);
 	FREE_DLL (hntmartadll);
+	FREE_DLL (hwinscarddll);
 
 	// Note that this function also causes localcleanup() to be called (see atexit())
 	exit (1);
@@ -2492,6 +2496,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	InitOSVersionInfo();
 
 	LoadSystemDll (L"ntmarta.dll", &hntmartadll, TRUE, SRC_POS);
+	LoadSystemDll (L"MPR.DLL", &hmprdll, TRUE, SRC_POS);
 #ifdef SETUP
 	if (IsOSAtLeast (WIN_7))
 	{
@@ -2529,7 +2534,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 			LoadSystemDll (L"netapi32.dll", &hnetapi32dll, TRUE, SRC_POS);
 			LoadSystemDll (L"authz.dll", &hauthzdll, TRUE, SRC_POS);
 			LoadSystemDll (L"xmllite.dll", &hxmllitedll, TRUE, SRC_POS);
-			LoadSystemDll (L"mpr.dll", &hmprdll, TRUE, SRC_POS);						
 		}
 	}
 
@@ -2555,6 +2559,8 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 			LoadSystemDll (L"bcryptprimitives.dll", &hbcryptprimitivesdll, TRUE, SRC_POS);								
 		}
 	}	
+#else
+	LoadSystemDll (L"WINSCARD.DLL", &hwinscarddll, TRUE, SRC_POS);
 #endif
 
 	LoadSystemDll (L"COMCTL32.DLL", &hComctl32Dll, FALSE, SRC_POS);
@@ -2804,6 +2810,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		FREE_DLL (hbcryptprimitivesdll);
 		FREE_DLL (hMsls31);
 		FREE_DLL (hntmartadll);
+		FREE_DLL (hwinscarddll);
 		exit (1);
 	}
 #endif
@@ -2847,6 +2854,7 @@ void FinalizeApp (void)
 	FREE_DLL (hbcryptprimitivesdll);
 	FREE_DLL (hMsls31);
 	FREE_DLL (hntmartadll);
+	FREE_DLL (hwinscarddll);
 }
 
 void InitHelpFileName (void)
@@ -6506,10 +6514,40 @@ BOOL WrongPwdRetryCountOverLimit (void)
 	return (WrongPwdRetryCounter > TC_TRY_HEADER_BAK_AFTER_NBR_WRONG_PWD_TRIES);
 }
 
+DWORD GetUsedLogicalDrives (void)
+{
+	DWORD dwUsedDrives = GetLogicalDrives();
+	if (!bShowDisconnectedNetworkDrives)
+	{
+		/* detect disconnected mapped network shares and removed
+		 * their associated drives from the list
+		 */
+		WCHAR remotePath[512];
+		WCHAR drive[3] = {L'A', L':', 0};
+		DWORD dwLen, status;
+		for (WCHAR i = 0; i <= MAX_MOUNTED_VOLUME_DRIVE_NUMBER; i++)
+		{
+			if ((dwUsedDrives & (1 << i)) == 0)
+			{
+				drive[0] = L'A' + i;
+				dwLen = ARRAYSIZE (remotePath);
+				status =  WNetGetConnection (drive, remotePath, &dwLen);
+				if ((NO_ERROR == status) || (status == ERROR_CONNECTION_UNAVAIL))
+				{
+					/* this is a mapped network share, mark it as used */
+					dwUsedDrives |= (1 << i);
+				}
+			}
+		}
+	}
+
+	return dwUsedDrives;
+}
+
 
 int GetFirstAvailableDrive ()
 {
-	DWORD dwUsedDrives = GetLogicalDrives();
+	DWORD dwUsedDrives = GetUsedLogicalDrives();
 	int i;
 
 	for (i = 0; i < 26; i++)
@@ -6524,7 +6562,7 @@ int GetFirstAvailableDrive ()
 
 int GetLastAvailableDrive ()
 {
-	DWORD dwUsedDrives = GetLogicalDrives();
+	DWORD dwUsedDrives = GetUsedLogicalDrives();
 	int i;
 
 	for (i = 25; i >= 0; i--)
@@ -6539,7 +6577,7 @@ int GetLastAvailableDrive ()
 
 BOOL IsDriveAvailable (int driveNo)
 {
-	return (GetLogicalDrives() & (1 << driveNo)) == 0;
+	return (GetUsedLogicalDrives() & (1 << driveNo)) == 0;
 }
 
 
