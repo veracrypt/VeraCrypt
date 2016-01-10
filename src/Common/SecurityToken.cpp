@@ -521,10 +521,12 @@ namespace VeraCrypt
 
 #ifdef TC_WINDOWS
 		Pkcs11LibraryHandle = LoadLibraryW (pkcs11LibraryPath.c_str());
+		throw_sys_if (!Pkcs11LibraryHandle);
 #else
 		Pkcs11LibraryHandle = dlopen (pkcs11LibraryPath.c_str(), RTLD_NOW | RTLD_LOCAL);
+		throw_sys_sub_if (!Pkcs11LibraryHandle, dlerror());
 #endif
-		throw_sys_if (!Pkcs11LibraryHandle);
+		
 
 		typedef CK_RV (*C_GetFunctionList_t) (CK_FUNCTION_LIST_PTR_PTR ppFunctionList);
 #ifdef TC_WINDOWS
