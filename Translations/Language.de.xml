@@ -181,7 +181,7 @@
     <control lang="de" key="IDC_SELECT_DEVICE">Datent&amp;räger...</control>
     <control lang="de" key="IDC_SELECT_FILE">&amp;Datei...</control>
     <control lang="de" key="IDC_SELECT_PKCS11_MODULE">Wähle &amp;Bibliothek...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <control lang="de" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Getrennte Netzlaufwerke zum Einhängen verfügbar machen</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Passwort anze&amp;igen</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Passwort an&amp;zeigen</control>
     <control lang="de" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer-Fenster für eingebundenes Volume öffnen</control>
