@@ -19,7 +19,16 @@
 #ifndef TC_WINDOWS_BOOT
 #include "Sha2.h"
 #include "Whirlpool.h"
+#include "misc.h"
 #else
+#pragma optimize ("t", on)
+#include <string.h>
+#if defined( _MSC_VER )
+#  ifndef DEBUG
+#    pragma intrinsic( memcpy )
+#    pragma intrinsic( memset )
+#  endif
+#endif
 #include "Sha2Small.h"
 #endif
 #include "Pkcs5.h"
@@ -42,7 +51,8 @@ void hmac_truncate
 typedef struct hmac_sha256_ctx_struct
 {
 	sha256_ctx ctx;
-	char buf[SHA256_BLOCKSIZE];
+	sha256_ctx inner_digest_ctx; /*pre-computed inner digest context */
+	sha256_ctx outer_digest_ctx; /*pre-computed outer digest context */
 	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the SHA256 hash */
 	char u[SHA256_DIGESTSIZE];
 } hmac_sha256_ctx;
@@ -56,35 +66,20 @@ void hmac_sha256_internal
 	  hmac_sha256_ctx* hmac /* HMAC-SHA256 context which holds temporary variables */
 )
 {
-	int i;
 	sha256_ctx* ctx = &(hmac->ctx);
-	char* buf = hmac->buf;
 
-	/**** Inner Digest ****/
+	/**** Restore Precomputed Inner Digest Context ****/
 
-	sha256_begin (ctx);
+	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (sha256_ctx));
 
-	/* Pad the key for inner digest */
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x36);
-	for (i = lk; i < SHA256_BLOCKSIZE; ++i)
-		buf[i] = 0x36;
-
-	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
 	sha256_hash ((unsigned char *) d, ld, ctx);
 
 	sha256_end ((unsigned char *) d, ctx); /* d = inner digest */
 
-	/**** Outer Digest ****/
+	/**** Restore Precomputed Outer Digest Context ****/
 
-	sha256_begin (ctx);
+	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (sha256_ctx));
 
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x5C);
-	for (i = lk; i < SHA256_BLOCKSIZE; ++i)
-		buf[i] = 0x5C;
-
-	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
 	sha256_hash ((unsigned char *) d, SHA256_DIGESTSIZE, ctx);
 
 	sha256_end ((unsigned char *) d, ctx); /* d = outer digest */
@@ -100,6 +95,9 @@ void hmac_sha256
 )
 {
 	hmac_sha256_ctx hmac;
+	sha256_ctx* ctx;
+	char* buf = hmac.k;
+	int b;
 	char key[SHA256_DIGESTSIZE];
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha256(key), as per HMAC specifications. */
@@ -116,6 +114,30 @@ void hmac_sha256
 
 		burn (&tctx, sizeof(tctx));		// Prevent leaks
 	}
+
+	/**** Precompute HMAC Inner Digest ****/
+
+	ctx = &(hmac.inner_digest_ctx);
+	sha256_begin (ctx);
+
+	/* Pad the key for inner digest */
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x36);
+	memset (&buf[lk], 0x36, SHA256_BLOCKSIZE - lk);
+
+	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+
+	/**** Precompute HMAC Outer Digest ****/
+
+	ctx = &(hmac.outer_digest_ctx);
+	sha256_begin (ctx);
+
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x5C);
+	memset (&buf[lk], 0x5C, SHA256_BLOCKSIZE - lk);
+
+	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+
 	hmac_sha256_internal(k, lk, d, ld, &hmac);
 	/* Prevent leaks */
 	burn(&hmac, sizeof(hmac));
@@ -171,6 +193,8 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, u
 void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {	
 	hmac_sha256_ctx hmac;
+	sha256_ctx* ctx;
+	char* buf = hmac.k;
 	int b, l, r;
 #ifndef TC_WINDOWS_BOOT
 	char key[SHA256_DIGESTSIZE];
@@ -202,6 +226,29 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 
 	r = dklen - (l - 1) * SHA256_DIGESTSIZE;
 
+	/**** Precompute HMAC Inner Digest ****/
+
+	ctx = &(hmac.inner_digest_ctx);
+	sha256_begin (ctx);
+
+	/* Pad the key for inner digest */
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x36);
+	memset (&buf[pwd_len], 0x36, SHA256_BLOCKSIZE - pwd_len);
+
+	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+
+	/**** Precompute HMAC Outer Digest ****/
+
+	ctx = &(hmac.outer_digest_ctx);
+	sha256_begin (ctx);
+
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x5C);
+	memset (&buf[pwd_len], 0x5C, SHA256_BLOCKSIZE - pwd_len);
+
+	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
+
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
@@ -229,7 +276,8 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 typedef struct hmac_sha512_ctx_struct
 {
 	sha512_ctx ctx;
-	char buf[SHA512_BLOCKSIZE];
+	sha512_ctx inner_digest_ctx; /*pre-computed inner digest context */
+	sha512_ctx outer_digest_ctx; /*pre-computed outer digest context */
 	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the SHA512 hash */
 	char u[SHA512_DIGESTSIZE];
 } hmac_sha512_ctx;
@@ -244,34 +292,19 @@ void hmac_sha512_internal
 )
 {
 	sha512_ctx* ctx = &(hmac->ctx);
-	char* buf = hmac->buf;
-	int i;
 
-	/**** Inner Digest ****/
+	/**** Restore Precomputed Inner Digest Context ****/
 
-	sha512_begin (ctx);
+	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (sha512_ctx));
 
-	/* Pad the key for inner digest */
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x36);
-	for (i = lk; i < SHA512_BLOCKSIZE; ++i)
-		buf[i] = 0x36;
-
-	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
 	sha512_hash ((unsigned char *) d, ld, ctx);
 
 	sha512_end ((unsigned char *) d, ctx);
 
-	/**** Outer Digest ****/
+	/**** Restore Precomputed Outer Digest Context ****/
 
-	sha512_begin (ctx);
+	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (sha512_ctx));
 
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x5C);
-	for (i = lk; i < SHA512_BLOCKSIZE; ++i)
-		buf[i] = 0x5C;
-
-	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
 	sha512_hash ((unsigned char *) d, SHA512_DIGESTSIZE, ctx);
 
 	sha512_end ((unsigned char *) d, ctx);
@@ -286,6 +319,11 @@ void hmac_sha512
 )
 {
 	hmac_sha512_ctx hmac;
+	sha512_ctx* ctx;
+	char* buf = hmac.k; /* there is enough space to hold SHA512_BLOCKSIZE (128) bytes
+							   * because k is followed by u in hmac_sha512_ctx
+								*/
+	int b;
 	char key[SHA512_DIGESTSIZE];
 
     /* If the key is longer than the hash algorithm block size,
@@ -303,6 +341,29 @@ void hmac_sha512
 
 		burn (&tctx, sizeof(tctx));		// Prevent leaks
 	}
+
+	/**** Precompute HMAC Inner Digest ****/
+
+	ctx = &(hmac.inner_digest_ctx);
+	sha512_begin (ctx);
+
+	/* Pad the key for inner digest */
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x36);
+	memset (&buf[lk], 0x36, SHA512_BLOCKSIZE - lk);
+
+	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
+
+	/**** Precompute HMAC Outer Digest ****/
+
+	ctx = &(hmac.outer_digest_ctx);
+	sha512_begin (ctx);
+
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x5C);
+	memset (&buf[lk], 0x5C, SHA512_BLOCKSIZE - lk);
+
+	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
 
 	hmac_sha512_internal (k, lk, d, ld, &hmac);
 
@@ -341,6 +402,10 @@ static void derive_u_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, u
 void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {
 	hmac_sha512_ctx hmac;
+	sha512_ctx* ctx;
+	char* buf = hmac.k; /* there is enough space to hold SHA512_BLOCKSIZE (128) bytes
+							   * because k is followed by u in hmac_sha512_ctx
+								*/
 	int b, l, r;
 	char key[SHA512_DIGESTSIZE];
 
@@ -371,6 +436,29 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 
 	r = dklen - (l - 1) * SHA512_DIGESTSIZE;
 
+	/**** Precompute HMAC Inner Digest ****/
+
+	ctx = &(hmac.inner_digest_ctx);
+	sha512_begin (ctx);
+
+	/* Pad the key for inner digest */
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x36);
+	memset (&buf[pwd_len], 0x36, SHA512_BLOCKSIZE - pwd_len);
+
+	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
+
+	/**** Precompute HMAC Outer Digest ****/
+
+	ctx = &(hmac.outer_digest_ctx);
+	sha512_begin (ctx);
+
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x5C);
+	memset (&buf[pwd_len], 0x5C, SHA512_BLOCKSIZE - pwd_len);
+
+	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
+
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
@@ -396,7 +484,8 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 typedef struct hmac_ripemd160_ctx_struct
 {
 	RMD160_CTX context;
-	char k_pad[65];
+	RMD160_CTX inner_digest_ctx; /*pre-computed inner digest context */
+	RMD160_CTX outer_digest_ctx; /*pre-computed outer digest context */
 	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the RIPEMD-160 hash */
 	char u[RIPEMD160_DIGESTSIZE];
 } hmac_ripemd160_ctx;
@@ -404,70 +493,71 @@ typedef struct hmac_ripemd160_ctx_struct
 void hmac_ripemd160_internal (char *key, int keylen, char *input_digest, int len, hmac_ripemd160_ctx* hmac)
 {
 	RMD160_CTX* context = &(hmac->context);
-   unsigned char* k_pad = (unsigned char*) hmac->k_pad;  /* inner/outer padding - key XORd with ipad */
-   int i;
 
-	/*
+	/**** Restore Precomputed Inner Digest Context ****/
 
-	RMD160(K XOR opad, RMD160(K XOR ipad, text))
+	memcpy (context, &(hmac->inner_digest_ctx), sizeof (RMD160_CTX));
 
-	where K is an n byte key
-	ipad is the byte 0x36 repeated RIPEMD160_BLOCKSIZE times
-	opad is the byte 0x5c repeated RIPEMD160_BLOCKSIZE times
-	and text is the data being protected */
+	RMD160Update(context, (const unsigned char *) input_digest, len); /* then text of datagram */
+	RMD160Final((unsigned char *) input_digest, context);         /* finish up 1st pass */
 
+	/**** Restore Precomputed Outer Digest Context ****/
 
-	/* start out by storing key in pads */
-	memset(k_pad, 0x36, 65);
+	memcpy (context, &(hmac->outer_digest_ctx), sizeof (RMD160_CTX));
 
-    /* XOR key with ipad and opad values */
-    for (i=0; i<keylen; i++) 
-	{
-        k_pad[i] ^= key[i];
-    }
-
-    /* perform inner RIPEMD-160 */
-
-    RMD160Init(context);           /* init context for 1st pass */
-    RMD160Update(context, k_pad, RIPEMD160_BLOCKSIZE);  /* start with inner pad */
-    RMD160Update(context, (const unsigned char *) input_digest, len); /* then text of datagram */
-    RMD160Final((unsigned char *) input_digest, context);         /* finish up 1st pass */
-
-    /* perform outer RIPEMD-160 */
-    memset(k_pad, 0x5c, 65);
-    for (i=0; i<keylen; i++) 
-	 {
-        k_pad[i] ^= key[i];
-    }
-
-    RMD160Init(context);           /* init context for 2nd pass */
-    RMD160Update(context, k_pad, RIPEMD160_BLOCKSIZE);  /* start with outer pad */
-    /* results of 1st hash */
-    RMD160Update(context, (const unsigned char *) input_digest, RIPEMD160_DIGESTSIZE);
-    RMD160Final((unsigned char *) input_digest, context);         /* finish up 2nd pass */
+	/* results of 1st hash */
+	RMD160Update(context, (const unsigned char *) input_digest, RIPEMD160_DIGESTSIZE);
+	RMD160Final((unsigned char *) input_digest, context);         /* finish up 2nd pass */
 }
 
 #ifndef TC_WINDOWS_BOOT
 void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
 {
 	hmac_ripemd160_ctx hmac;
+	RMD160_CTX* ctx;
+	unsigned char* k_pad = (unsigned char*) hmac.k;  /* inner/outer padding - key XORd with ipad */
 	unsigned char tk[RIPEMD160_DIGESTSIZE];
+	int i;
 
-    /* If the key is longer than the hash algorithm block size,
-	   let key = ripemd160(key), as per HMAC specifications. */
-    if (keylen > RIPEMD160_BLOCKSIZE) 
+	/* If the key is longer than the hash algorithm block size,
+	let key = ripemd160(key), as per HMAC specifications. */
+	if (keylen > RIPEMD160_BLOCKSIZE) 
 	{
-        RMD160_CTX      tctx;
+		RMD160_CTX      tctx;
 
-        RMD160Init(&tctx);
-        RMD160Update(&tctx, (const unsigned char *) key, keylen);
-        RMD160Final(tk, &tctx);
+		RMD160Init(&tctx);
+		RMD160Update(&tctx, (const unsigned char *) key, keylen);
+		RMD160Final(tk, &tctx);
 
-        key = (char *) tk;
-        keylen = RIPEMD160_DIGESTSIZE;
+		key = (char *) tk;
+		keylen = RIPEMD160_DIGESTSIZE;
 
 		burn (&tctx, sizeof(tctx));	// Prevent leaks
-    }
+	}   
+
+	/* perform inner RIPEMD-160 */
+	ctx = &(hmac.inner_digest_ctx);
+	/* start out by storing key in pads */
+	memset(k_pad, 0x36, 64);
+	/* XOR key with ipad and opad values */
+	for (i=0; i<keylen; i++) 
+	{
+		k_pad[i] ^= key[i];
+	}
+
+	RMD160Init(ctx);           /* init context for 1st pass */
+	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with inner pad */
+
+	/* perform outer RIPEMD-160 */
+	ctx = &(hmac.outer_digest_ctx);
+	memset(k_pad, 0x5c, 64);
+	for (i=0; i<keylen; i++) 
+	{
+		k_pad[i] ^= key[i];
+	}
+
+	RMD160Init(ctx);           /* init context for 2nd pass */
+	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with outer pad */
 
 	hmac_ripemd160_internal (key, keylen, input_digest, len, &hmac);
 
@@ -525,6 +615,8 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 {	
 	int b, l, r;
 	hmac_ripemd160_ctx hmac;
+	RMD160_CTX* ctx;
+	unsigned char* k_pad = (unsigned char*) hmac.k;
 #ifndef TC_WINDOWS_BOOT
 	unsigned char tk[RIPEMD160_DIGESTSIZE];
     /* If the password is longer than the hash algorithm block size,
@@ -555,6 +647,30 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 
 	r = dklen - (l - 1) * RIPEMD160_DIGESTSIZE;
 
+	/* perform inner RIPEMD-160 */
+	ctx = &(hmac.inner_digest_ctx);
+	/* start out by storing key in pads */
+	memset(k_pad, 0x36, 64);
+	/* XOR key with ipad and opad values */
+	for (b=0; b<pwd_len; b++) 
+	{
+		k_pad[b] ^= pwd[b];
+	}
+
+	RMD160Init(ctx);           /* init context for 1st pass */
+	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with inner pad */
+
+	/* perform outer RIPEMD-160 */
+	ctx = &(hmac.outer_digest_ctx);
+	memset(k_pad, 0x5c, 64);
+	for (b=0; b<pwd_len; b++) 
+	{
+		k_pad[b] ^= pwd[b];
+	}
+
+	RMD160Init(ctx);           /* init context for 2nd pass */
+	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with outer pad */
+
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
@@ -581,7 +697,8 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 typedef struct hmac_whirlpool_ctx_struct
 {
 	WHIRLPOOL_CTX ctx;
-	CRYPTOPP_ALIGN_DATA(16) char buf[WHIRLPOOL_BLOCKSIZE];
+	WHIRLPOOL_CTX inner_digest_ctx; /*pre-computed inner digest context */
+	WHIRLPOOL_CTX outer_digest_ctx; /*pre-computed outer digest context */
 	CRYPTOPP_ALIGN_DATA(16) char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the Whirlpool hash */
 	char u[WHIRLPOOL_DIGESTSIZE];
 } hmac_whirlpool_ctx;
@@ -596,34 +713,19 @@ void hmac_whirlpool_internal
 )
 {
 	WHIRLPOOL_CTX* ctx = &(hmac->ctx);
-	char* buf = hmac->buf;
-	int i;
 
-	/**** Inner Digest ****/
+	/**** Restore Precomputed Inner Digest Context ****/
 
-	WHIRLPOOL_init (ctx);
+	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (WHIRLPOOL_CTX));
 
-	/* Pad the key for inner digest */
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x36);
-	for (i = lk; i < WHIRLPOOL_BLOCKSIZE; ++i)
-		buf[i] = 0x36;
-
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
 	WHIRLPOOL_add ((unsigned char *) d, ld * 8, ctx);
 
 	WHIRLPOOL_finalize (ctx, (unsigned char *) d);
 
-	/**** Outer Digest ****/
+	/**** Restore Precomputed Outer Digest Context ****/
 
-	WHIRLPOOL_init (ctx);
+	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (WHIRLPOOL_CTX));
 
-	for (i = 0; i < lk; ++i)
-		buf[i] = (char) (k[i] ^ 0x5C);
-	for (i = lk; i < WHIRLPOOL_BLOCKSIZE; ++i)
-		buf[i] = 0x5C;
-
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
 	WHIRLPOOL_add ((unsigned char *) d, WHIRLPOOL_DIGESTSIZE * 8, ctx);
 
 	WHIRLPOOL_finalize (ctx, (unsigned char *) d);
@@ -638,6 +740,9 @@ void hmac_whirlpool
 )
 {
 	hmac_whirlpool_ctx hmac;
+	WHIRLPOOL_CTX* ctx;
+	char* buf = hmac.k;
+	int b;
 	char key[WHIRLPOOL_DIGESTSIZE];
     /* If the key is longer than the hash algorithm block size,
 	   let key = whirlpool(key), as per HMAC specifications. */
@@ -654,6 +759,29 @@ void hmac_whirlpool
 
 		burn (&tctx, sizeof(tctx));		// Prevent leaks
 	}
+
+	/**** Precompute HMAC Inner Digest ****/
+
+	ctx = &(hmac.inner_digest_ctx);
+	WHIRLPOOL_init (ctx);
+
+	/* Pad the key for inner digest */
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x36);
+	memset (&buf[lk], 0x36, WHIRLPOOL_BLOCKSIZE - lk);
+
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
+
+	/**** Precompute HMAC Outer Digest ****/
+
+	ctx = &(hmac.outer_digest_ctx);
+	WHIRLPOOL_init (ctx);
+
+	for (b = 0; b < lk; ++b)
+		buf[b] = (char) (k[b] ^ 0x5C);
+	memset (&buf[lk], 0x5C, WHIRLPOOL_BLOCKSIZE - lk);
+
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
 
 	hmac_whirlpool_internal(k, lk, d, ld, &hmac);
 	/* Prevent leaks */
@@ -689,6 +817,8 @@ static void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len
 void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
 {
 	hmac_whirlpool_ctx hmac;
+	WHIRLPOOL_CTX* ctx;
+	char* buf = hmac.k;
 	char key[WHIRLPOOL_DIGESTSIZE];
 	int b, l, r;
     /* If the password is longer than the hash algorithm block size,
@@ -717,6 +847,29 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	}
 
 	r = dklen - (l - 1) * WHIRLPOOL_DIGESTSIZE;
+
+	/**** Precompute HMAC Inner Digest ****/
+
+	ctx = &(hmac.inner_digest_ctx);
+	WHIRLPOOL_init (ctx);
+
+	/* Pad the key for inner digest */
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x36);
+	memset (&buf[pwd_len], 0x36, WHIRLPOOL_BLOCKSIZE - pwd_len);
+
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
+
+	/**** Precompute HMAC Outer Digest ****/
+
+	ctx = &(hmac.outer_digest_ctx);
+	WHIRLPOOL_init (ctx);
+
+	for (b = 0; b < pwd_len; ++b)
+		buf[b] = (char) (pwd[b] ^ 0x5C);
+	memset (&buf[pwd_len], 0x5C, WHIRLPOOL_BLOCKSIZE - pwd_len);
+
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
