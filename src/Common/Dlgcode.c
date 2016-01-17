@@ -4160,6 +4160,7 @@ BOOL SelectMultipleFiles (HWND hwndDlg, const char *stringId, wchar_t *lpszFileN
 
 	ZeroMemory (&ofn, sizeof (ofn));
 
+	SelectMultipleFilesPath[0] = 0;
 	*lpszFileName = 0;
 	ofn.lStructSize				= sizeof (ofn);
 	ofn.hwndOwner				= hwndDlg;
@@ -4192,6 +4193,7 @@ BOOL SelectMultipleFiles (HWND hwndDlg, const char *stringId, wchar_t *lpszFileN
 		// Single file selected
 		StringCbCopyW (lpszFileName, cbFileName, SelectMultipleFilesPath);
 		SelectMultipleFilesOffset = 0;
+		SecureZeroMemory (SelectMultipleFilesPath, sizeof (SelectMultipleFilesPath));
 	}
 	else
 	{
@@ -4229,7 +4231,10 @@ BOOL SelectMultipleFilesNext (wchar_t *lpszFileName, size_t cbFileName)
 
 	SelectMultipleFilesOffset += (int) wcslen (SelectMultipleFilesPath + SelectMultipleFilesOffset) + 1;
 	if (SelectMultipleFilesPath[SelectMultipleFilesOffset] == 0)
+	{
 		SelectMultipleFilesOffset = 0;
+		SecureZeroMemory (SelectMultipleFilesPath, sizeof (SelectMultipleFilesPath));
+	}
 
 	return TRUE;
 }
