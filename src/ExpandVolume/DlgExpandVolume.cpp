@@ -214,7 +214,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 }
 
 
-extern "C" void AddProgressDlgStatus(HWND hwndDlg, const char* szText)
+extern "C" void AddProgressDlgStatus(HWND hwndDlg, const wchar_t* szText)
 {
 	HWND hwndCtrl;
 
@@ -224,7 +224,7 @@ extern "C" void AddProgressDlgStatus(HWND hwndDlg, const char* szText)
 }
 
 
-extern "C" void SetProgressDlgStatus(HWND hwndDlg, const char* szText)
+extern "C" void SetProgressDlgStatus(HWND hwndDlg, const wchar_t* szText)
 {
 	HWND hwndCtrl;
 
@@ -294,13 +294,13 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (nStatus != 0)
 			{
 				if ( nStatus != ERR_USER_ABORT )
-					AddProgressDlgStatus (hwndDlg, "Error: volume expansion failed.");
+					AddProgressDlgStatus (hwndDlg, L"Error: volume expansion failed.");
 				else
-					AddProgressDlgStatus (hwndDlg, "Error: operation aborted by user.");
+					AddProgressDlgStatus (hwndDlg, L"Error: operation aborted by user.");
 			}
 			else
 			{
-				AddProgressDlgStatus (hwndDlg, "Finished. Volume successfully expanded.");
+				AddProgressDlgStatus (hwndDlg, L"Finished. Volume successfully expanded.");
 			}
 
 			SetWindowText (GetDlgItem (hwndDlg, IDOK), L"Exit");
@@ -368,7 +368,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				KillTimer (hwndDlg, TIMER_ID_RANDVIEW);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDOK), FALSE);
-				SetProgressDlgStatus (hwndDlg, "Starting volume expansion ...\r\n");
+				SetProgressDlgStatus (hwndDlg, L"Starting volume expansion ...\r\n");
 				bVolTransformStarted = TRUE;
 				pProgressDlgParam->hwndDlg = hwndDlg;
 				if ( _beginthread (volTransformThreadFunction, 0, pProgressDlgParam) == -1L )

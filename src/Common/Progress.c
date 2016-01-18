@@ -82,7 +82,7 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 		else
 			StringCbPrintfW (text, sizeof text, GetString ("PROCESSED_PORTION_X_PERCENT"), perc);
 
-		StringCbCatW (speed, sizeof(speed), L" ");
+		StringCbCatW (text, sizeof(speed), L" ");
 	}
 	else
 	{

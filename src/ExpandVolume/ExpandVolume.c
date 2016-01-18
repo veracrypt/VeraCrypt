@@ -383,7 +383,7 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 
 	// mount and resize file system
 
-	DebugAddProgressDlgStatus (hwndDlg, "Mounting volume ...\r\n");
+	DebugAddProgressDlgStatus (hwndDlg, L"Mounting volume ...\r\n");
 
 	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, pVolumePassword, VolumePkcs5, VolumePim);
 	if (nStatus!=ERR_SUCCESS)
@@ -435,7 +435,7 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 		goto error;
 	}
 
-	DebugAddProgressDlgStatus (hwndDlg, "Extending file system ...\r\n");
+	DebugAddProgressDlgStatus (hwndDlg, L"Extending file system ...\r\n");
 
 	// extend volume
 	nStatus = FsctlExtendVolume(szVolumeGUID, newDataAreaSize/BytesPerSector );
@@ -446,7 +446,7 @@ error:
 
 	if (driveNo>=0)
 	{
-		DebugAddProgressDlgStatus (hwndDlg, "Unmounting volume ...\r\n");
+		DebugAddProgressDlgStatus (hwndDlg, L"Unmounting volume ...\r\n");
 		UnmountVolume (hwndDlg, driveNo, TRUE);
 	}
 
@@ -736,7 +736,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, "Writing random data to new space ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, L"Writing random data to new space ...\r\n");
 
 		SetFormatSectorSize(HostSectorSize);
 		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, FALSE);
@@ -753,14 +753,14 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	if (nStatus != ERR_SUCCESS)
 	{
 		dwError = GetLastError();
-		DebugAddProgressDlgStatus(hwndDlg, "Error: failed to write random data ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, L"Error: failed to write random data ...\r\n");
 		if ( !bDevice ) {
 			// restore original size of the container file
 			LARGE_INTEGER liOldSize;
 			liOldSize.QuadPart=(LONGLONG)hostSize;
 			if (!SetFilePointerEx (dev, liOldSize, NULL, FILE_BEGIN) || !SetEndOfFile (dev))
 			{
-				DebugAddProgressDlgStatus(hwndDlg, "Warning: failed to restore original size of the container file\r\n");
+				DebugAddProgressDlgStatus(hwndDlg, L"Warning: failed to restore original size of the container file\r\n");
 			}
 		}
 		SetLastError (dwError);
@@ -777,9 +777,9 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	while ( !cryptoInfo->LegacyVolume )
 	{
 		if (backupHeader)
-			DebugAddProgressDlgStatus(hwndDlg, "Writing re-encrypted backup header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted backup header ...\r\n");
 		else
-			DebugAddProgressDlgStatus(hwndDlg, "Writing re-encrypted primary header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted primary header ...\r\n");
 
 		// Prepare new volume header
 		nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
@@ -828,7 +828,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 				&& (cryptoInfo->HeaderFlags & ~TC_HEADER_FLAG_NONSYS_INPLACE_ENC) == 0 )
 			)
 		{
-			//DebugAddProgressDlgStatus(hwndDlg, "WriteRandomDataToReservedHeaderAreas() ...\r\n");
+			//DebugAddProgressDlgStatus(hwndDlg, L"WriteRandomDataToReservedHeaderAreas() ...\r\n");
 			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader);
 			if (nStatus != ERR_SUCCESS)
 				goto error;
@@ -870,7 +870,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, "Wiping old backup header ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, L"Wiping old backup header ...\r\n");
 
 		wipeBuffer = (byte *) TCalloc (workChunkSize);
 		if (!wipeBuffer)
@@ -901,7 +901,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 				)
 			{
 				// Write error
-				DebugAddProgressDlgStatus(hwndDlg, "Warning: Failed to wipe old backup header\r\n");
+				DebugAddProgressDlgStatus(hwndDlg, L"Warning: Failed to wipe old backup header\r\n");
 				MessageBoxW (hwndDlg, L"WARNING: Failed to wipe old backup header!\n\nIt may be possible to use the current volume password to decrypt the old backup header even after a future password change.\n", lpszTitle, MB_OK | MB_ICONEXCLAMATION);
 				if (wipePass == 1)
 					continue; // retry once

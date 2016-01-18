@@ -63,8 +63,8 @@ BOOL GetNtfsNumberOfSectors(wchar_t *rootPath, uint64 *pNumberOfSectors, DWORD *
 void __cdecl volTransformThreadFunction (void *hwndDlgArg);
 
 /* defined in DlgExpandVolume.cpp */
-void AddProgressDlgStatus(HWND hwndDlg, const char* szText);
-void SetProgressDlgStatus(HWND hwndDlg, const char* szText);
+void AddProgressDlgStatus(HWND hwndDlg, const wchar_t* szText);
+void SetProgressDlgStatus(HWND hwndDlg, const wchar_t* szText);
 
 #ifdef __cplusplus
 }
