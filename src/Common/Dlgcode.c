@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <tchar.h>
+#include <Richedit.h>
 
 #include "Resource.h"
 
@@ -3271,7 +3272,12 @@ BOOL CALLBACK TextInfoDialogBoxDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				r = GetLegalNotices ();
 				if (r != NULL)
 				{
-					SetWindowTextA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), r);
+					SETTEXTEX TextInfo = {0};
+
+					TextInfo.flags = ST_SELECTION;
+					TextInfo.codepage = CP_ACP;
+
+					SendMessage(GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), EM_SETTEXTEX, (WPARAM)&TextInfo, (LPARAM)r);
 					free (r);
 				}
 				break;
