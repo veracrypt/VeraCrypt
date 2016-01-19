@@ -903,7 +903,7 @@ namespace VeraCrypt
 		if (Preferences.UseStandardInput)
 		{
 			wstring pwdInput;
-			wcin >> pwdInput;
+			getline(wcin, pwdInput);
 
 			cmdLine.ArgPassword = ToUTF8Password ( pwdInput.c_str (), pwdInput.size ());				
 		}
