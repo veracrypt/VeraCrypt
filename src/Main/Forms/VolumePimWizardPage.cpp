@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015 Mounir IDRASSI for the VeraCrypt project.
+ Copyright (c) 2015-2016 Mounir IDRASSI for the VeraCrypt project.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
