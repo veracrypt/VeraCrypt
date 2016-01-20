@@ -131,7 +131,7 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - makeself (Linux only)
 - wxWidgets 3.0 shared library and header files installed or
   wxWidgets 3.0 library source code (available at http://www.wxwidgets.org)
-- FUSE library and header files (available at http://fuse.sourceforge.net
+- FUSE library and header files (available at https://github.com/libfuse/libfuse
   and https://osxfuse.github.io/)
 - RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
   header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20).
