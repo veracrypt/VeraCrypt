@@ -44,15 +44,18 @@ Requirements for Building VeraCrypt for Windows:
 ------------------------------------------------
 
 - Microsoft Visual C++ 2008 SP1 (Professional Edition or compatible)
-- Microsoft Visual C++ 1.52 (available from MSDN Subscriber Downloads)
+- Microsoft Visual C++ 1.52  
+  available from MSDN Subscriber Downloads
 - Microsoft Windows SDK for Windows 7 (configured for Visual C++)
 - Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
-  header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20)
+  header files  
+  available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20
 - NASM assembler 2.08 or compatible
 - gzip compressor
-- upx packer (available at http://upx.sourceforge.net/)
+- upx packer  
+  available at http://upx.sourceforge.net/
 
 
 IMPORTANT:
@@ -131,11 +134,14 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - pkg-config
 - makeself (Linux only)
 - wxWidgets 3.0 shared library and header files installed or
-  wxWidgets 3.0 library source code (available at http://www.wxwidgets.org)
-- FUSE library and header files (available at https://github.com/libfuse/libfuse
-  and https://osxfuse.github.io/)
+  wxWidgets 3.0 library source code  
+  available at http://www.wxwidgets.org
+- FUSE library and header files  
+  available at https://github.com/libfuse/libfuse
+  and https://osxfuse.github.io/
 - RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
-  header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20).
+  header files  
+  available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20  
   They are already included in the source tree under the directory PKCS11 but 
   it is possible to override it using the environment variable `PKCS11_INC`. 
 
