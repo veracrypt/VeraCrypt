@@ -112,7 +112,7 @@ for Windows 8.1 installation directory.
 The folder "Signing" contains a batch file (sign.bat) that will sign all 
 VeraCrypt components using a code signing certificate present on the 
 certificate store and also build the final installation setup.
-The batch file suppose that the code signing certificate is issued by Thawt.
+The batch file suppose that the code signing certificate is issued by Thawte.
 This is the case for IDRIX's certificate. If yours is issued by another CA, 
 then you should put the Root and Intermediate certificates in the "Signing" 
 folder and then modify sign.bat accordingly.
@@ -187,7 +187,7 @@ of the SDK (i.e. 10.6), you can export the environment variable VC_OSX_TARGET:
 
 Before building under MacOSX, pkg-config must be installed if not yet available.
 Get it from http://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
-compile using the following commands : 
+compile using the following commands: 
 
 	$ ./configure --with-internal-glib
 	$ make
