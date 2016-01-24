@@ -528,9 +528,36 @@ namespace VeraCrypt
 
 		if (parser.Found (L"size", &str))
 		{
+			uint64 multiplier;
+			wxChar lastChar = str [str.Length () - 1];
+			if (lastChar >= wxT('0') && lastChar <= wxT('9'))
+				multiplier = 1;
+			else if (lastChar == wxT('K') || lastChar == wxT('k'))
+				multiplier = BYTES_PER_KB;
+			else if (lastChar == wxT('M') || lastChar == wxT('m'))
+				multiplier = BYTES_PER_MB;
+			else if (lastChar == wxT('G') || lastChar == wxT('g'))
+				multiplier = BYTES_PER_GB;
+			else if (lastChar == wxT('T') || lastChar == wxT('t'))
+				multiplier = BYTES_PER_TB;
+			else
+				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+
+			// remove suffix if present
+			if (multiplier != 1)
+				str.RemoveLast ();
+			// check that we only have digits in the string
+			size_t index = str.find_first_not_of (wxT("0123456789"));
+			if (index != (size_t) wxNOT_FOUND)
+			{
+				// restore last characater for error display
+				if (multiplier != 1)
+					str += lastChar;
+				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
+			}
 			try
 			{
-				ArgSize = StringConverter::ToUInt64 (wstring (str));
+				ArgSize = multiplier * StringConverter::ToUInt64 (wstring (str));
 			}
 			catch (...)
 			{
