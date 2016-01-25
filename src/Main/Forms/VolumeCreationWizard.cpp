@@ -930,7 +930,7 @@ namespace VeraCrypt
 							wxString confirmMsg = LangString["OVERWRITEPROMPT"];
 							confirmMsg.Replace (L"%hs", L"%s");
 
-							if (!Gui->AskYesNo (wxString::Format (confirmMsg, wstring (SelectedVolumePath).c_str(), false, true)))
+							if (!Gui->AskYesNo (wxString::Format (confirmMsg, wstring (SelectedVolumePath).c_str()), false, true))
 								return GetCurrentStep();
 						}
 					}
