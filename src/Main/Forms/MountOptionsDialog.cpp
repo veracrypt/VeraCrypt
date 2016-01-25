@@ -87,6 +87,25 @@ namespace VeraCrypt
 	void MountOptionsDialog::OnOKButtonClick (wxCommandEvent& event)
 	{	
 		bool bUnsupportedKdf = false;
+		
+		/* verify that PIM values are valid before continuing*/
+		int Pim = PasswordPanel->GetVolumePim();
+		int ProtectionPim = (!ReadOnlyCheckBox->IsChecked() && ProtectionCheckBox->IsChecked())?
+			ProtectionPasswordPanel->GetVolumePim() : 0;
+			
+		/* invalid PIM: set focus to PIM field and stop processing */
+		if (-1 == Pim)
+		{
+			PasswordPanel->SetFocusToPimTextCtrl();
+			return;
+		}
+		
+		if (-1 == ProtectionPim)
+		{
+			ProtectionPasswordPanel->SetFocusToPimTextCtrl();
+			return;
+		}
+
 		TransferDataFromWindow();
 
 		try
@@ -98,7 +117,7 @@ namespace VeraCrypt
 			Gui->ShowWarning (e);
 			return;
 		}
-		Options.Pim = PasswordPanel->GetVolumePim();
+		Options.Pim = Pim;
 		Options.Kdf = PasswordPanel->GetPkcs5Kdf(bUnsupportedKdf);
 		if (bUnsupportedKdf)
 		{
@@ -124,7 +143,7 @@ namespace VeraCrypt
 				return;
 			}
 			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;			
-			Options.ProtectionPim = ProtectionPasswordPanel->GetVolumePim();
+			Options.ProtectionPim = ProtectionPim;
 			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf(Options.TrueCryptMode, bUnsupportedKdf);
 			if (bUnsupportedKdf)
 			{

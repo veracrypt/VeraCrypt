@@ -92,6 +92,12 @@ namespace VeraCrypt
 				Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 				return;
 			}
+			int currentPim = CurrentPasswordPanel->GetVolumePim();
+			if (-1 == currentPim)
+			{
+				CurrentPasswordPanel->SetFocusToPimTextCtrl();
+				return;
+			}
 			
 			shared_ptr <VolumePassword> newPassword;
 			int newPim = 0;
@@ -108,6 +114,11 @@ namespace VeraCrypt
 					return;
 				}
 				newPim = NewPasswordPanel->GetVolumePim();
+				if (-1 == newPim)
+				{
+					NewPasswordPanel->SetFocusToPimTextCtrl();
+					return;
+				}
 
 				if (newPassword->Size() > 0)
 				{
@@ -224,6 +235,9 @@ namespace VeraCrypt
 
 			if (passwordEmpty && keyfilesEmpty)
 				ok = false;
+			
+			if (CurrentPasswordPanel->GetVolumePim () == -1)
+				ok = false;
 
 			if (DialogMode == Mode::RemoveAllKeyfiles && (passwordEmpty || keyfilesEmpty))
 				ok = false;
@@ -237,7 +251,11 @@ namespace VeraCrypt
 					ok = false;
 
 				if (DialogMode == Mode::ChangePasswordAndKeyfiles
-					&& ((NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty) || !NewPasswordPanel->PasswordsMatch()))
+					&& (	(NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty) 
+						|| 	!NewPasswordPanel->PasswordsMatch()
+						|| 	(NewPasswordPanel->GetVolumePim() == -1)
+						)
+					)
 					ok = false;
 			}
 		}

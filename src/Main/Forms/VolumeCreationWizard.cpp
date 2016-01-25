@@ -792,6 +792,12 @@ namespace VeraCrypt
 
 				if (forward && Password && !Password->IsEmpty())
 				{
+					if (-1 == Pim)
+					{
+						// PIM invalid: don't go anywhere
+						return GetCurrentStep();
+					}
+
 					if (Password->Size() < VolumePassword::WarningSizeThreshold)
 					{
 						if (Pim > 0 && Pim < 485)
