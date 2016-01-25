@@ -920,7 +920,6 @@ namespace VeraCrypt
 						if (SelectedVolumePath.IsDevice())
 						{
 							wxString confirmMsg = LangString["OVERWRITEPROMPT_DEVICE"];
-							confirmMsg.Replace (L"%hs", L"%s");
 
 							if (!Gui->AskYesNo (wxString::Format (confirmMsg, wxString (_("DEVICE")).c_str(), wstring (SelectedVolumePath).c_str(), L""), false, true))
 								return GetCurrentStep();
@@ -928,7 +927,6 @@ namespace VeraCrypt
 						else if (FilesystemPath (wstring (SelectedVolumePath)).IsFile())
 						{
 							wxString confirmMsg = LangString["OVERWRITEPROMPT"];
-							confirmMsg.Replace (L"%hs", L"%s");
 
 							if (!Gui->AskYesNo (wxString::Format (confirmMsg, wstring (SelectedVolumePath).c_str()), false, true))
 								return GetCurrentStep();

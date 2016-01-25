@@ -252,7 +252,6 @@ namespace VeraCrypt
 
 		// Ask user to select backup file path
 		wxString confirmMsg = LangString["CONFIRM_VOL_HEADER_BAK"];
-		confirmMsg.Replace (L"%hs", L"%s");
 
 		if (!AskYesNo (wxString::Format (confirmMsg, wstring (*volumePath).c_str()), true))
 			return;
@@ -1384,7 +1383,6 @@ namespace VeraCrypt
 			// Restore header from an external backup
 
 			wxString confirmMsg = LangString["CONFIRM_VOL_HEADER_RESTORE"];
-			confirmMsg.Replace (L"%hs", L"%s");
 
 			if (!AskYesNo (wxString::Format (confirmMsg, wstring (*volumePath).c_str()), true, true))
 				return;
