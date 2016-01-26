@@ -883,6 +883,10 @@ namespace VeraCrypt
 			if (options->Filesystem == VolumeCreationOptions::FilesystemType::MacOsExt && options->Size >= 10 * BYTES_PER_MB)
 				args.push_back ("-J");
 
+			// Perform a quick NTFS formatting
+			if (options->Filesystem == VolumeCreationOptions::FilesystemType::NTFS)
+				args.push_back ("-f");
+
 			args.push_back (string (virtualDevice));
 
 			Process::Execute (fsFormatter, args);

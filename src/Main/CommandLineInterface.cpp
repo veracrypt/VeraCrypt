@@ -297,6 +297,27 @@ namespace VeraCrypt
 				
 				if (str.IsSameAs (L"FAT", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::FAT;
+#ifdef TC_LINUX
+				else if (str.IsSameAs (L"Ext2", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::Ext2;
+				else if (str.IsSameAs (L"Ext3", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::Ext3;
+				else if (str.IsSameAs (L"Ext4", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::Ext4;
+				else if (str.IsSameAs (L"NTFS", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::NTFS;
+#elif defined (TC_MACOSX)
+				else if (	str.IsSameAs (L"HFS", false) 
+						|| 	str.IsSameAs (L"HFS+", false)
+						||	str.IsSameAs (L"MacOsExt", false)
+						)
+				{
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::MacOsExt;
+				}
+#elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
+				else if (str.IsSameAs (L"UFS", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::UFS;
+#endif
 				else
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::None;
 			}
