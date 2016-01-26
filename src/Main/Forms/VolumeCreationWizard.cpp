@@ -451,6 +451,7 @@ namespace VeraCrypt
 				case VolumeCreationOptions::FilesystemType::MacOsExt:	fsFormatter = "newfs_hfs"; break;
 				case VolumeCreationOptions::FilesystemType::UFS:		fsFormatter = "newfs" ; break;
 				case VolumeCreationOptions::FilesystemType::NTFS:		fsFormatter = "mkfs.ntfs" ; break;
+				case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "mkfs.exfat" ; break;
 				default: break;
 				}
 

@@ -30,11 +30,13 @@ namespace VeraCrypt
 
 #ifdef TC_WINDOWS
 		FilesystemTypeChoice->Append (L"NTFS",				(void *) VolumeCreationOptions::FilesystemType::NTFS);
+		FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
 #elif defined (TC_LINUX)
 		FilesystemTypeChoice->Append (L"Linux Ext2",		(void *) VolumeCreationOptions::FilesystemType::Ext2);
 		FilesystemTypeChoice->Append (L"Linux Ext3",		(void *) VolumeCreationOptions::FilesystemType::Ext3);
 		FilesystemTypeChoice->Append (L"Linux Ext4",		(void *) VolumeCreationOptions::FilesystemType::Ext4);
 		FilesystemTypeChoice->Append (L"NTFS",				(void *) VolumeCreationOptions::FilesystemType::NTFS);
+		FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
 #elif defined (TC_MACOSX)
 		FilesystemTypeChoice->Append (L"Mac OS Extended",	(void *) VolumeCreationOptions::FilesystemType::MacOsExt);
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
@@ -72,6 +74,7 @@ namespace VeraCrypt
 		{
 		case VolumeCreationOptions::FilesystemType::None:		FilesystemTypeChoice->SetStringSelection (LangString["NONE"]); break;
 		case VolumeCreationOptions::FilesystemType::FAT:		FilesystemTypeChoice->SetStringSelection (L"FAT"); break;
+		case VolumeCreationOptions::FilesystemType::exFAT:		FilesystemTypeChoice->SetStringSelection (L"exFAT"); break;
 		case VolumeCreationOptions::FilesystemType::NTFS:		FilesystemTypeChoice->SetStringSelection (L"NTFS"); break;
 		case VolumeCreationOptions::FilesystemType::Ext2:		FilesystemTypeChoice->SetStringSelection (L"Linux Ext2"); break;
 		case VolumeCreationOptions::FilesystemType::Ext3:		FilesystemTypeChoice->SetStringSelection (L"Linux Ext3"); break;

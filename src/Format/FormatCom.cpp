@@ -132,6 +132,11 @@ public:
 		return BaseCom::WriteLocalMachineRegistryDwordValue (keyPath, valueName, value);
 	}
 
+	virtual BOOL STDMETHODCALLTYPE FormatFs (int driveNo, int clusterSize, int fsType)
+	{
+		return ::FormatFs (driveNo, clusterSize, fsType);
+	}
+
 protected:
 	DWORD MessageThreadId;
 	LONG RefCount;
@@ -199,6 +204,23 @@ extern "C" int UacFormatNtfs (HWND hWnd, int driveNo, int clusterSize)
 
 	if (ComGetInstance (hWnd, &tc))
 		r = tc->FormatNtfs (driveNo, clusterSize);
+	else
+		r = 0;
+
+	CoUninitialize ();
+
+	return r;
+}
+
+extern "C" int UacFormatFs (HWND hWnd, int driveNo, int clusterSize, int fsType)
+{
+	CComPtr<ITrueCryptFormatCom> tc;
+	int r;
+
+	CoInitialize (NULL);
+
+	if (ComGetInstance (hWnd, &tc))
+		r = tc->FormatFs (driveNo, clusterSize, fsType);
 	else
 		r = 0;
 

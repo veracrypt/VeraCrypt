@@ -39,6 +39,7 @@ namespace VeraCrypt
 				Unknown = 0,
 				None,
 				FAT,
+				exFAT,
 				NTFS,
 				Ext2,
 				Ext3,

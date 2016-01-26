@@ -14,7 +14,7 @@
 #define TC_MAIN_COM_VERSION_MINOR 7
 
 #define TC_FORMAT_COM_VERSION_MAJOR 2
-#define TC_FORMAT_COM_VERSION_MINOR 4
+#define TC_FORMAT_COM_VERSION_MINOR 5
 
 #include <atlbase.h>
 #include <comdef.h>
@@ -42,6 +42,7 @@ extern "C" BOOL RegisterComServers (wchar_t *modulePath)
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-3, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-2, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-1, 0, SYS_WIN32);
+	UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR-1, 0, SYS_WIN32);
 
 	wchar_t setupModule[MAX_PATH];
 	GetModuleFileNameW (NULL, setupModule, sizeof (setupModule) / sizeof (setupModule[0]));
@@ -80,6 +81,7 @@ extern "C" BOOL UnregisterComServers (wchar_t *modulePath)
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-3, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-2, 0, SYS_WIN32);
 	UnRegisterTypeLib (LIBID_TrueCryptMainCom, TC_MAIN_COM_VERSION_MAJOR, TC_MAIN_COM_VERSION_MINOR-1, 0, SYS_WIN32);
+	UnRegisterTypeLib (LIBID_TrueCryptFormatCom, TC_FORMAT_COM_VERSION_MAJOR, TC_FORMAT_COM_VERSION_MINOR-1, 0, SYS_WIN32);
 
 	wchar_t module[1024];
 	CRegObject ro;

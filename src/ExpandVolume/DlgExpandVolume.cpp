@@ -50,7 +50,7 @@
 #define TIMER_INTERVAL_RANDVIEW							50
 
 // see definition of enum EV_FileSystem
-const wchar_t * szFileSystemStr[3] = {L"RAW",L"FAT",L"NTFS"};
+const wchar_t * szFileSystemStr[4] = {L"RAW",L"FAT",L"NTFS",L"EXFAT"};
 
 // prototypes for internal functions
 BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -625,6 +625,11 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		break;
 	case EV_FS_TYPE_FAT:
 		if (MessageBoxW (hwndDlg,L"Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?",
+			lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
+			goto ret;
+		break;
+	case EV_FS_TYPE_EXFAT:
+		if (MessageBoxW (hwndDlg,L"Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?",
 			lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
 			goto ret;
 		break;

@@ -474,6 +474,7 @@ begin_format:
 	{
 	case FILESYS_NONE:
 	case FILESYS_NTFS:
+	case FILESYS_EXFAT:
 
 		if (volParams->bDevice && !StartFormatWriteThread())
 		{
@@ -572,7 +573,7 @@ begin_format:
 	}
 
 #ifndef DEBUG
-	if (volParams->quickFormat && volParams->fileSystem != FILESYS_NTFS)
+	if (volParams->quickFormat && volParams->fileSystem != FILESYS_NTFS && volParams->fileSystem != FILESYS_EXFAT)
 		Sleep (500);	// User-friendly GUI
 #endif
 
@@ -606,12 +607,13 @@ error:
 		goto fv_end;
 	}
 
-	if (volParams->fileSystem == FILESYS_NTFS)
+	if (volParams->fileSystem == FILESYS_NTFS || volParams->fileSystem == FILESYS_EXFAT)
 	{
 		// Quick-format volume as NTFS
 		int driveNo = GetLastAvailableDrive ();
 		MountOptions mountOptions;
 		int retCode;
+		int fsType = (volParams->fileSystem == FILESYS_EXFAT)? FILESYS_EXFAT: FILESYS_NTFS;
 
 		ZeroMemory (&mountOptions, sizeof (mountOptions));
 
@@ -646,9 +648,9 @@ error:
 		}
 
 		if (!Silent && !IsAdmin () && IsUacSupported ())
-			retCode = UacFormatNtfs (volParams->hwndDlg, driveNo, volParams->clusterSize);
+			retCode = UacFormatFs (volParams->hwndDlg, driveNo, volParams->clusterSize, fsType);
 		else
-			retCode = FormatNtfs (driveNo, volParams->clusterSize);
+			retCode = FormatFs (driveNo, volParams->clusterSize, fsType);
 
 		if (retCode != TRUE)
 		{
@@ -860,13 +862,27 @@ BOOLEAN __stdcall FormatExCallback (int command, DWORD subCommand, PVOID paramet
 	return (FormatExError? FALSE : TRUE);
 }
 
-BOOL FormatNtfs (int driveNo, int clusterSize)
+BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 {
 	wchar_t dllPath[MAX_PATH] = {0};
 	WCHAR dir[8] = { (WCHAR) driveNo + L'A', 0 };
 	PFORMATEX FormatEx;
 	HMODULE hModule;
 	int i;
+	WCHAR szFsFormat[16];
+	WCHAR szLabel[2] = {0};
+	switch (fsType)
+	{
+		case FILESYS_NTFS:
+			StringCbCopyW (szFsFormat, sizeof (szFsFormat),L"NTFS");
+			break;
+		case FILESYS_EXFAT:
+			StringCbCopyW (szFsFormat, sizeof (szFsFormat),L"EXFAT");
+			break;
+		default:
+			return FALSE;
+	}
+
 	
 	if (GetSystemDirectory (dllPath, MAX_PATH))
 	{
@@ -895,7 +911,7 @@ BOOL FormatNtfs (int driveNo, int clusterSize)
 	for (i = 0; i < 50 && FormatExError; i++)
 	{
 		FormatExError = FALSE;
-		FormatEx (dir, FMIFS_HARDDISK, L"NTFS", L"", TRUE, clusterSize * FormatSectorSize, FormatExCallback);
+		FormatEx (dir, FMIFS_HARDDISK, szFsFormat, szLabel, TRUE, clusterSize * FormatSectorSize, FormatExCallback);
 	}
 
 	// The device may be referenced for some time after FormatEx() returns
@@ -905,6 +921,10 @@ BOOL FormatNtfs (int driveNo, int clusterSize)
 	return FormatExError? FALSE : TRUE;
 }
 
+BOOL FormatNtfs (int driveNo, int clusterSize)
+{
+	return FormatFs (driveNo, clusterSize, FILESYS_NTFS);
+}
 
 BOOL WriteSector (void *dev, char *sector,
 	     char *write_buf, int *write_buf_cnt,

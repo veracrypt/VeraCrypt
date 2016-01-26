@@ -25,9 +25,10 @@ enum EV_FileSystem
 	EV_FS_TYPE_RAW = 0,
 	EV_FS_TYPE_FAT = 1,
 	EV_FS_TYPE_NTFS = 2,
+	EV_FS_TYPE_EXFAT = 3,
 };
 
-extern const wchar_t * szFileSystemStr[3];
+extern const wchar_t * szFileSystemStr[4];
 
 typedef struct
 {

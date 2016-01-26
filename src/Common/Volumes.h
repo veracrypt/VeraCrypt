@@ -75,6 +75,8 @@ extern "C" {
 #define TC_MIN_NTFS_FS_SIZE				(884 * TC_MAX_VOLUME_SECTOR_SIZE)
 #define TC_MAX_NTFS_FS_SIZE				(128LL * BYTES_PER_TB)	// NTFS volume can theoretically be up to 16 exabytes, but Windows XP and 2003 limit the size to that addressable with 32-bit clusters, i.e. max size is 128 TB (if 64-KB clusters are used).
 #define TC_MAX_FAT_CLUSTER_SIZE			(256 * BYTES_PER_KB)	// Windows XP/Vista may crash when writing to a filesystem using clusters larger than 256 KB
+#define TC_MIN_EXFAT_FS_SIZE			(42 * TC_MAX_VOLUME_SECTOR_SIZE)
+#define TC_MAX_EXFAT_FS_SIZE			(128LL * BYTES_PER_PB)
 
 // Volume size limits
 #define TC_MIN_VOLUME_SIZE				(TC_TOTAL_VOLUME_HEADERS_SIZE + TC_MIN_FAT_FS_SIZE)

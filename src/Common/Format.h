@@ -74,6 +74,7 @@ extern int FormatWriteBufferSize;
 
 int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams);
 BOOL FormatNtfs (int driveNo, int clusterSize);
+BOOL FormatFs (int driveNo, int clusterSize, int fsType);
 uint64 GetVolumeDataAreaSize (BOOL hiddenVolume, uint64 volumeSize);
 int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors, void *dev, PCRYPTO_INFO cryptoInfo, BOOL quickFormat);
 BOOL WriteSector ( void *dev , char *sector , char *write_buf , int *write_buf_cnt , __int64 *nSecNo , PCRYPTO_INFO cryptoInfo );
@@ -84,6 +85,7 @@ static void StopFormatWriteThread ();
 #define FILESYS_NONE	0
 #define FILESYS_FAT		1
 #define FILESYS_NTFS	2
+#define FILESYS_EXFAT	3
 
 #ifdef __cplusplus
 }

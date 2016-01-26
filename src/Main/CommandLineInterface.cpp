@@ -306,6 +306,8 @@ namespace VeraCrypt
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::Ext4;
 				else if (str.IsSameAs (L"NTFS", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::NTFS;
+				else if (str.IsSameAs (L"exFAT", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
 #elif defined (TC_MACOSX)
 				else if (	str.IsSameAs (L"HFS", false) 
 						|| 	str.IsSameAs (L"HFS+", false)
