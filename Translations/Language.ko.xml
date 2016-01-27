@@ -111,7 +111,6 @@
     <control lang="ko" key="IDC_AUTORUN_START">VeraCrypt 시작(&amp;S)</control>
     <control lang="ko" key="IDC_AUTO_DETECT_PKCS11_MODULE">라이브러리 자동-탐지(&amp;D)</control>
     <control lang="ko" key="IDC_BOOT_LOADER_CACHE_PASSWORD">부팅-전-인증 암호를 드라이버 메모리에 캐시(* 시스템 아닌 볼륨의 삽입 목적)(&amp;C)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="ko" key="IDC_BROWSE_DIRS">탐색...</control>
     <control lang="ko" key="IDC_BROWSE_FILES">탐색...</control>
     <control lang="ko" key="IDC_CACHE">메모리에 비밀번호 및 키파일 보관</control>
@@ -160,7 +159,6 @@
     <control lang="ko" key="IDC_PIM_HELP">(빈값 아니면 0은 기본 반복갚을 사용함)</control>
     <control lang="ko" key="IDC_PREF_BKG_TASK_ENABLE">사용</control>
     <control lang="ko" key="IDC_PREF_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="ko" key="IDC_PREF_DISMOUNT_INACTIVE">어떤 데이터가 읽기/쓰기된 후 볼륨 자동 꺼내기</control>
     <control lang="ko" key="IDC_PREF_DISMOUNT_LOGOFF">사용자 로그오프할 때</control>
     <control lang="ko" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">사용자 세션이 잠겨있을 때</control>
@@ -181,7 +179,6 @@
     <control lang="ko" key="IDC_SELECT_DEVICE">장치 선택(&amp;E)...</control>
     <control lang="ko" key="IDC_SELECT_FILE">파일 선택(&amp;F)...</control>
     <control lang="ko" key="IDC_SELECT_PKCS11_MODULE">라이브러리 선택(&amp;L)...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_NEW">비밀번호 표시</control>
     <control lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_ORI">비밀번호 표시</control>
     <control lang="ko" key="IDC_TRAVEL_OPEN_EXPLORER">삽입된 볼륨을 위한 탐색기 창 열기</control>
@@ -564,7 +561,7 @@
     <string lang="ko" key="INIT_RAND">무작위 숫자 생성기를 초기화하는데 실패했습니다!</string>
     <string lang="ko" key="CAPI_RAND">윈도우의 암호화 API가 실패했습니다!\n\n\n(만약 버그보고를 보낼경우 다음과 같은 내용을 포함하십시오:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ko" key="INIT_REGISTER">프로그램을 초기화할 수 없습니다. 다이얼로그 클래스 등록에 실패했습니다.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="ko" key="INIT_RICHEDIT">오류: Rich Edit 시스템 라이브러리를 로드하는데 실패했습니다.</string>
     <string lang="ko" key="INTRO_TITLE">VeraCrypt 볼륨 만들기 마법사</string>
     <string lang="ko" key="MAX_HIDVOL_SIZE_BYTES">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f bytes</string>
     <string lang="ko" key="MAX_HIDVOL_SIZE_KB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f KB</string>
@@ -644,8 +641,6 @@
     <string lang="ko" key="PASSWORD_WRONG_AUTOMOUNT">올바르지 못한 비밀번호이거나 VeraCrypt 볼륨을 찾을 수 없습니다.</string>
     <string lang="ko" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">올바르지 못한 키파일 또는 비밀번호이거나 VeraCrypt 볼륨을 찾을 수 없습니다.</string>
     <string lang="ko" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n주의: Caps Lock이 켜져 있습니다. 이 경우 비밀번호를 올바르게 입력할 수 없을지도 모릅니다.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1385,6 +1380,13 @@
     <string lang="en" key="TB_PER_SEC">TB/s</string>
     <string lang="en" key="PB_PER_SEC">PB/s</string>
     <string lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

@@ -111,7 +111,6 @@
     <control lang="ca" key="IDC_AUTORUN_START">&amp;Engegar VeraCrypt</control>
     <control lang="ca" key="IDC_AUTO_DETECT_PKCS11_MODULE">Dectectar automàticament</control>
     <control lang="ca" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Guardar la contrasenya de prearrencada a la memòria del controlador (per muntar volums simples)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="ca" key="IDC_BROWSE_DIRS">Examinar...</control>
     <control lang="ca" key="IDC_BROWSE_FILES">Examinar...</control>
     <control lang="ca" key="IDC_CACHE">&amp;Recordar contrasenyes i fitxers de claus</control>
@@ -160,7 +159,6 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="ca" key="IDC_PREF_BKG_TASK_ENABLE">Activat</control>
     <control lang="ca" key="IDC_PREF_CACHE_PASSWORDS">Guardar contrasenyes al controlador</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_INACTIVE">Desmuntar el volum automàticament quan no s'hi llegeixi/escrigui durant</control>
     <control lang="ca" key="IDC_PREF_DISMOUNT_LOGOFF">L'usuari tanqui la sessió</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
@@ -181,7 +179,6 @@
     <control lang="ca" key="IDC_SELECT_DEVICE">Triar &amp;dispositiu...</control>
     <control lang="ca" key="IDC_SELECT_FILE">&amp;Triar fitxer...</control>
     <control lang="ca" key="IDC_SELECT_PKCS11_MODULE">Buscar &amp;biblioteca...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ca" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Veure contrasenya</control>
     <control lang="ca" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Veure contrasenya</control>
     <control lang="ca" key="IDC_TRAVEL_OPEN_EXPLORER">Obrir una finestra de l'&amp;exporador pel volum muntat</control>
@@ -564,7 +561,7 @@
     <string lang="ca" key="INIT_RAND">No s'ha pogut inicialitzar el generador de números aleatòris!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ca" key="INIT_REGISTER">No es pot inicialitzar l'aplicació. No es pot registrar la classe Dialog.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="ca" key="INIT_RICHEDIT">Error: no s'ha pogut carregar la biblioteca d'edició enriquida del sistema.</string>
     <string lang="ca" key="INTRO_TITLE">Assistent de creació de volums</string>
     <string lang="ca" key="MAX_HIDVOL_SIZE_BYTES">El màxim que pot ocupar aquest volum és %.2f bytes.</string>
     <string lang="ca" key="MAX_HIDVOL_SIZE_KB">El màxim que pot ocupar aquest volum és %.2f KB.</string>
@@ -644,8 +641,6 @@
     <string lang="ca" key="PASSWORD_WRONG_AUTOMOUNT">La contrassenya és incorrecte o no és un volum VeraCrypt.</string>
     <string lang="ca" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">El(s) fitxer(s) de claus i/o la contrassenya són incorrectes, o no és un volum VeraCrypt.</string>
     <string lang="ca" key="PASSWORD_WRONG_CAPSLOCK_ON">ATENCIÓ: Hi ha el bloqueig de majúscules activat. Això pot fer que introdueixi la contressenya incorrectament.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1385,6 +1380,13 @@
     <string lang="ca" key="TB_PER_SEC">TB/s</string>
     <string lang="ca" key="PB_PER_SEC">PB/s</string>
     <string lang="ca" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

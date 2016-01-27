@@ -111,7 +111,6 @@
     <control lang="eu" key="IDC_AUTORUN_START">&amp;VeraCrypt Hasi</control>
     <control lang="eu" key="IDC_AUTO_DETECT_PKCS11_MODULE">Liburutegia Auto-&amp;Detektatu</control>
     <control lang="eu" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Hasieraketa aurreko kautotze pasahitza unitatearen memorian gorde (sistemakoak ez diren bolumenak muntatzeko)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="eu" key="IDC_BROWSE_DIRS">Nabigatu...</control>
     <control lang="eu" key="IDC_BROWSE_FILES">Nabigatu...</control>
     <control lang="eu" key="IDC_CACHE">Pasahitzak eta gako-fitxategiak memorian &amp;Katxeatu</control>
@@ -160,7 +159,6 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="eu" key="IDC_PREF_BKG_TASK_ENABLE">Gaituta</control>
     <control lang="eu" key="IDC_PREF_CACHE_PASSWORDS">Pasahitzak gorde gailuaren memorian</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="eu" key="IDC_PREF_DISMOUNT_INACTIVE">Bolumena auto-desmuntatu daturik ez bada idatzi/irakurri</control>
     <control lang="eu" key="IDC_PREF_DISMOUNT_LOGOFF">Erabiltzailea saioa amaitzen du</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
@@ -181,7 +179,6 @@
     <control lang="eu" key="IDC_SELECT_DEVICE">&amp;Gailua aukeratu...</control>
     <control lang="eu" key="IDC_SELECT_FILE">&amp;Fitxategia aukeratu...</control>
     <control lang="eu" key="IDC_SELECT_PKCS11_MODULE">&amp;Liburutegia aukeratu...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="eu" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Pasahitza erakutsi</control>
     <control lang="eu" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Pasahitza erakutsi</control>
     <control lang="eu" key="IDC_TRAVEL_OPEN_EXPLORER">Muntatutako Bolumenak &amp;Explorer-aren lehioak ireki</control>
@@ -566,7 +563,7 @@
     <string lang="eu" key="INIT_RAND">Ausazko zenbakien sortzailea hasieratzerakoan hutse egin du!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="eu" key="INIT_REGISTER">Ezin izan da aplikazioa hasieratu. 'Dialog Class'-a erregistratzerakoan huts egin du.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="eu" key="INIT_RICHEDIT">Errorea: Ezin izan da Rich Edit sistemaren liburutegia kargatu.</string>
     <string lang="eu" key="INTRO_TITLE">VeraCrypt Bolumenak Sortzeko Laguntzailea</string>
     <string lang="eu" key="MAX_HIDVOL_SIZE_BYTES">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f bytetakoa da.</string>
     <string lang="eu" key="MAX_HIDVOL_SIZE_KB">Bolumen honentzat, ezkutuko bolumenaren tamaina gehienezkoa %.2f KB-etakoa da.</string>
@@ -646,8 +643,6 @@
     <string lang="eu" key="PASSWORD_WRONG_AUTOMOUNT">Pasahitz okerra edo ez da VeraCrypt bolumenik aurkitu.</string>
     <string lang="eu" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Gako-fitxategi/pasahitz ez zuzena edo ez da VeraCrypt bolumena aurkitu.</string>
     <string lang="eu" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nKontuz: Caps Lock gaituta dago. Honek pasahitza gaizki sartzea eragin dezake.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1387,6 +1382,13 @@
     <string lang="eu" key="TB_PER_SEC">TB/s</string>
     <string lang="eu" key="PB_PER_SEC">PB/s</string>
     <string lang="eu" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

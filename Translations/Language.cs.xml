@@ -111,7 +111,6 @@
     <control lang="cs" key="IDC_AUTORUN_START">&amp;Spustit VeraCrypt</control>
     <control lang="cs" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Detekovat knihovny automaticky</control>
     <control lang="cs" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Ukládat před-bootovací autentifikační heslo v mezipaměti ovladače (pro připojení nesystémových svazků)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="cs" key="IDC_BROWSE_DIRS">Procházet…</control>
     <control lang="cs" key="IDC_BROWSE_FILES">Procházet…</control>
     <control lang="cs" key="IDC_CACHE">Ukládat &amp;hesla a soub. klíče do mezipaměti</control>
@@ -160,7 +159,6 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="cs" key="IDC_PREF_BKG_TASK_ENABLE">Povoleno</control>
     <control lang="cs" key="IDC_PREF_CACHE_PASSWORDS">Ukládat hesla do paměti ovladače</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_INACTIVE">Autom. odpojit svazek pokud z/do něj nebylo čteno/zapisováno</control>
     <control lang="cs" key="IDC_PREF_DISMOUNT_LOGOFF">Uživatel se odhlašuje</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
@@ -181,7 +179,6 @@
     <control lang="cs" key="IDC_SELECT_DEVICE">Vybrat &amp;zařízení…</control>
     <control lang="cs" key="IDC_SELECT_FILE">Vybrat &amp;soubor…</control>
     <control lang="cs" key="IDC_SELECT_PKCS11_MODULE">Vybrat &amp;knihovnu...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Zobrazit heslo</control>
     <control lang="cs" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Zobrazit heslo</control>
     <control lang="cs" key="IDC_TRAVEL_OPEN_EXPLORER">Otevřít okno &amp;Průzkumníka pro připojený svazek</control>
@@ -564,7 +561,7 @@
     <string lang="cs" key="INIT_RAND">Selhala inicializace generátoru náhodných čísel!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="cs" key="INIT_REGISTER">Aplikace nemohla být inicializována. Selhala registrace Dialogové třídy.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="cs" key="INIT_RICHEDIT">Chyba: Systémová knihovna Rich Edit nemohla být načtena.</string>
     <string lang="cs" key="INTRO_TITLE">Průvodce vytvořením svazku VeraCrypt</string>
     <string lang="cs" key="MAX_HIDVOL_SIZE_BYTES">Maximální možná velikost skrytého svazku pro tento svazek je %.2f bytů.</string>
     <string lang="cs" key="MAX_HIDVOL_SIZE_KB">Maximální možná velikost skrytého svazku pro tento svazek je %.2f KB.</string>
@@ -644,8 +641,6 @@
     <string lang="cs" key="PASSWORD_WRONG_AUTOMOUNT">Špatné heslo nebo nebyl nalezen žádný svazek VeraCrypt.</string>
     <string lang="cs" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Špatný souborový klíč/heslo nebo nebyl nalezen žádný svazek VeraCrypt.</string>
     <string lang="cs" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nUpozornění: Caps Lock je zapnutý. Tím můžete špatně zadat heslo.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1385,6 +1380,13 @@
     <string lang="cs" key="TB_PER_SEC">TB/s</string>
     <string lang="cs" key="PB_PER_SEC">PB/s</string>
     <string lang="cs" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

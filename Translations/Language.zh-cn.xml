@@ -111,7 +111,6 @@
     <control lang="zh-cn" key="IDC_AUTORUN_START">运行 VeraCrypt(&amp;S)</control>
     <control lang="zh-cn" key="IDC_AUTO_DETECT_PKCS11_MODULE">自动检测运行库(&amp;D)</control>
     <control lang="zh-cn" key="IDC_BOOT_LOADER_CACHE_PASSWORD">缓存启动验证密码到驱动内存（用来加载非系统加密卷）(&amp;C)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="zh-cn" key="IDC_BROWSE_DIRS">浏览...</control>
     <control lang="zh-cn" key="IDC_BROWSE_FILES">浏览...</control>
     <control lang="zh-cn" key="IDC_CACHE">在内存中缓存密码和密钥文件(&amp;A)</control>
@@ -160,7 +159,6 @@
     <control lang="zh-cn" key="IDC_PIM_HELP">(留空或输入0以使用默认迭代参数)</control>
     <control lang="zh-cn" key="IDC_PREF_BKG_TASK_ENABLE">启用</control>
     <control lang="zh-cn" key="IDC_PREF_CACHE_PASSWORDS">在驱动内存中缓存密码</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="zh-cn" key="IDC_PREF_DISMOUNT_INACTIVE">自动卸载加密卷，在无数据读写动作下面时间后</control>
     <control lang="zh-cn" key="IDC_PREF_DISMOUNT_LOGOFF">用户注销时</control>
     <control lang="zh-cn" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">用户锁定会话时</control>
@@ -181,7 +179,6 @@
     <control lang="zh-cn" key="IDC_SELECT_DEVICE">选择设备(&amp;E)...</control>
     <control lang="zh-cn" key="IDC_SELECT_FILE">选择文件(&amp;F)...</control>
     <control lang="zh-cn" key="IDC_SELECT_PKCS11_MODULE">选择运行库(&amp;L)...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD_CHPWD_NEW">显示密码</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD_CHPWD_ORI">显示密码</control>
     <control lang="zh-cn" key="IDC_TRAVEL_OPEN_EXPLORER">为加载的加密卷打开资源管理器窗口(&amp;E)</control>
@@ -564,7 +561,7 @@
     <string lang="zh-cn" key="INIT_RAND">初始化随机数据生成器失败！</string>
     <string lang="zh-cn" key="CAPI_RAND">Windows Crypto API 调用失败!\n\n\n(如果你要提交一个关于此的错误报告，请附上下面的技术信息: bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="zh-cn" key="INIT_REGISTER">无法初始化应用程序。注册对话框类失败。</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="zh-cn" key="INIT_RICHEDIT">错误：加载富文本编辑系统运行库失败。</string>
     <string lang="zh-cn" key="INTRO_TITLE">VeraCrypt 加密卷创建向导</string>
     <string lang="zh-cn" key="MAX_HIDVOL_SIZE_BYTES">该加密卷能创建的最大隐藏加密卷大小为 %.2f 字节。</string>
     <string lang="zh-cn" key="MAX_HIDVOL_SIZE_KB">该加密卷能创建的最大隐藏加密卷大小为 %.2f KB。</string>
@@ -644,8 +641,6 @@
     <string lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">密码不正确或不是 VeraCrypt 加密卷。</string>
     <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">密钥 和/或 密码不正确或不是 VeraCrypt 加密卷</string>
     <string lang="zh-cn" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock 已经开启。 这可能导致您密码输入错误。</string>
-    <string lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节。</string>
-    <string lang="zh-cn" key="PASSWORD_UTF8_INVALID">键入的密码中包含无法转换为UTF-8编码的Unicode字符。</string>
     <string lang="zh-cn" key="PIM_CHANGE_WARNING">记住所挂载的卷的PIM</string>
     <string lang="zh-cn" key="PIM_HIDVOL_HOST_TITLE">外层卷 PIM</string>
     <string lang="zh-cn" key="PIM_HIDVOL_TITLE">隐藏卷 PIM</string>
@@ -1385,6 +1380,13 @@
     <string lang="zh-cn" key="TB_PER_SEC">TB/s</string>
     <string lang="zh-cn" key="PB_PER_SEC">PB/s</string>
     <string lang="zh-cn" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节。</string>
+    <string lang="zh-cn" key="PASSWORD_UTF8_INVALID">键入的密码中包含无法转换为UTF-8编码的Unicode字符。</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

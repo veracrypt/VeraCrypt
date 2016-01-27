@@ -111,7 +111,6 @@
     <control lang="my" key="IDC_AUTORUN_START">VeraCrypt ကို စဖွင့်ရန်</control>
     <control lang="my" key="IDC_AUTO_DETECT_PKCS11_MODULE">လိုင်ဘရာရီကို အလိုအလျောက် ရှာဖွေရန်</control>
     <control lang="my" key="IDC_BOOT_LOADER_CACHE_PASSWORD">စက်မတက်မီ စစ်ဆေး အတည်ပြု စကားဝှက်ကို (ကွန်ပျူတာ စနစ်မဟုတ်သော volumes များကို အစပျိုးရန်) ဒရိုင်ဘာ မှတ်ဉာဏ်၌ ခေတ္တ မှတ်ထားရန် </control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="my" key="IDC_BROWSE_DIRS">ဖွင့်ကြည့်ရန်...</control>
     <control lang="my" key="IDC_BROWSE_FILES">ဖွင့်ကြည့်ရန်...</control>
     <control lang="my" key="IDC_CACHE">စကားဝှက်များနှင့် ကီးဖိုင်များကို မှတ်ဉာဏ်ထဲတွင် ခေတ္တ သိမ်းဆည်းရန်</control>
@@ -160,7 +159,6 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="my" key="IDC_PREF_BKG_TASK_ENABLE">ဖွင့်ထားသည်</control>
     <control lang="my" key="IDC_PREF_CACHE_PASSWORDS">စကားဝှက်ကို ဒရိုင်ဘာ မှတ်ဉာဏ်ထဲ၌ ခေတ္တ သိမ်းဆည်းရန်</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_INACTIVE">ဒေတာများကို ဖတ်ရှုခြင်း/ရေးသားခြင်း မပြုသည့်အခါ volume ကို အလိုအလျောက် အဆုံးသတ်ပါ</control>
     <control lang="my" key="IDC_PREF_DISMOUNT_LOGOFF">သုံးစွဲသူ ထွက်ရန်</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
@@ -181,7 +179,6 @@
     <control lang="my" key="IDC_SELECT_DEVICE">စက်ပစ္စည်း ရွေးချယ်ရန်...</control>
     <control lang="my" key="IDC_SELECT_FILE">ဖိုင် ရွေးချယ်ရန်</control>
     <control lang="my" key="IDC_SELECT_PKCS11_MODULE">လိုင်ဘရာရီ ရွေးချယ်ရန်...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="my" key="IDC_SHOW_PASSWORD_CHPWD_NEW">စကားဝှက် ပြရန်</control>
     <control lang="my" key="IDC_SHOW_PASSWORD_CHPWD_ORI">စကားဝှက် ပြရန်</control>
     <control lang="my" key="IDC_TRAVEL_OPEN_EXPLORER">အစပျိုးထားသော volume အတွက် Explorer ၀င်းဒိုး ဖွင့်ရန်</control>
@@ -565,7 +562,7 @@
     <string lang="my" key="INIT_RAND">ကျပန်း နံပါတ် ထုတ်စနစ်ကို အစပြု၍ မရပါ။</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="my" key="INIT_REGISTER">အပ္ပလီကေးရှင်းကို အစပြု၍ မရပါ။ Dialog class ကို မှတ်ပုံတင်ရန် မအောင်မြင်ပါ။</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="my" key="INIT_RICHEDIT">ချို့ယွင်းချက် - Rich Edit စနစ် လိုင်ဘရာရီကို ဖွင့်မရပါ။</string>
     <string lang="my" key="INTRO_TITLE">VeraCrypt Volume ဖန်တီးမှု အညွှန်း</string>
     <string lang="my" key="MAX_HIDVOL_SIZE_BYTES">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f bytes ဖြစ်သည်။</string>
     <string lang="my" key="MAX_HIDVOL_SIZE_KB">ဤ volume အတွက် လျှို့ဝှက် volume ၏ အများဆုံး အရွယ်အစားမှာ %.2f KB ဖြစ်သည်။</string>
@@ -646,8 +643,6 @@
     <string lang="my" key="PASSWORD_WRONG_AUTOMOUNT">စကားဝှက် မမှန်ပါ (သို့) VeraCrypt volume မရှိပါ။</string>
     <string lang="my" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">ကီးဖိုင်(များ)/စကားဝှက် မမှန်ပါ (သို့) VeraCrypt volume မရှိပါ။</string>
     <string lang="my" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nသတိပေးချက် - Caps Lock ဖွင့်နေသည်။ ဤအချက်ကြောင့် စကားဝှက် အမှား ရေးမိနိုင်သည်။</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1387,6 +1382,13 @@
     <string lang="my" key="TB_PER_SEC">တယ်ရာဘိုက်/စက္ကန့်</string>
     <string lang="my" key="PB_PER_SEC">ပီတာဘိုက်/စက္ကန့်</string>
     <string lang="my" key="TRIPLE_DOT_GLYPH_ELLIPSIS">...</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

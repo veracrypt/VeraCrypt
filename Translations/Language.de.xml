@@ -111,7 +111,6 @@
     <control lang="de" key="IDC_AUTORUN_START">&amp;VeraCrypt starten</control>
     <control lang="de" key="IDC_AUTO_DETECT_PKCS11_MODULE">Bibliothek auto&amp;matisch erkennen</control>
     <control lang="de" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Pre-Boot Authentifikations-Passwort in Treiber-Speicher schr. (zum einbinden v. Nicht-System Volume)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="de" key="IDC_BROWSE_DIRS">Durchsuchen...</control>
     <control lang="de" key="IDC_BROWSE_FILES">Durchsuchen...</control>
     <control lang="de" key="IDC_CACHE">Passwort u. Schlüsseldat. im &amp;Cache halten</control>
@@ -160,7 +159,6 @@
     <control lang="de" key="IDC_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</control>
     <control lang="de" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiv</control>
     <control lang="de" key="IDC_PREF_CACHE_PASSWORDS">Passwörter im &amp;Cache halten</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_INACTIVE">Bei ausbleibendem Lese-/Schreibzugriff aut&amp;omatisch trennen nach</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_LOGOFF">Benutzerabmel&amp;dung</control>
     <control lang="de" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Benutzersitzung gesperrt</control>
@@ -181,7 +179,6 @@
     <control lang="de" key="IDC_SELECT_DEVICE">Datent&amp;räger...</control>
     <control lang="de" key="IDC_SELECT_FILE">&amp;Datei...</control>
     <control lang="de" key="IDC_SELECT_PKCS11_MODULE">Wähle &amp;Bibliothek...</control>
-    <control lang="de" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Getrennte Netzlaufwerke zum Einhängen verfügbar machen</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Passwort anze&amp;igen</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Passwort an&amp;zeigen</control>
     <control lang="de" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer-Fenster für eingebundenes Volume öffnen</control>
@@ -564,7 +561,7 @@
     <string lang="de" key="INIT_RAND">Der Zufallszahlengenerator konnte nicht initialisiert werden!\n\n\n(Sollten Sie in diesem Zusammenhang einen Fehler melden, so bitten wir Sie folgende technische Informationen dem Fehlerbericht hinzuzufügen: %s, Letzter Fehler = 0x%.8X)</string>
     <string lang="de" key="CAPI_RAND">Windows Crypto API ist fehlgeschlagen!\n\n\n(Sollten Sie in diesem Zusammenhang einen Fehler melden, so bitten wir Sie folgende technische Informationen dem Fehlerbericht hinzuzufügen: %s, Letzter Fehler = 0x%.8X)</string>
     <string lang="de" key="INIT_REGISTER">Die Anwendung konnte nicht initialisiert werden. Die Registrierung der Dialogklasse ist fehlgeschlagen.</string>
-    <string lang="de" key="INIT_DLL">Fehler: Kann ein Systembibliothek nicht laden.</string>
+    <string lang="de" key="INIT_RICHEDIT">Fehler: Kann die 'RichEdit' Systembibliothek nicht laden.</string>
     <string lang="de" key="INTRO_TITLE">VeraCrypt-Volume erstellen</string>
     <string lang="de" key="MAX_HIDVOL_SIZE_BYTES">Die maximal mögliche Größe für ein verstecktes Volume innerhalb dieses Volume ist %.2f Byte.</string>
     <string lang="de" key="MAX_HIDVOL_SIZE_KB">Die maximal mögliche Größe für ein verstecktes Volume innerhalb diesem Volume ist %.2f KB.</string>
@@ -644,8 +641,6 @@
     <string lang="de" key="PASSWORD_WRONG_AUTOMOUNT">Falsches Passwort oder es wurde kein VeraCrypt-Volume gefunden.</string>
     <string lang="de" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Falsche Schlüsseldatei(en) und/oder falsches Passwort oder es wurde kein VeraCrypt-Volume gefunden.</string>
     <string lang="de" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWARNUNG: Die Feststelltaste ist aktiviert. Dies führt möglicherweise zu einer falschen Passworteingabe.</string>
-    <string lang="de" key="PASSWORD_UTF8_TOO_LONG">Das eingegebene Passwort ist zu lang: Kodiert mit UTF-8 überschreitet es 64 Byte.</string>
-    <string lang="de" key="PASSWORD_UTF8_INVALID">Das eingegebene Passwort enthält Unicode-Zeichen, die nicht mit UTF-8 kodiert werden können.</string>
     <string lang="de" key="PIM_CHANGE_WARNING">MERKEN! Für Volume-Einbindung</string>
     <string lang="de" key="PIM_HIDVOL_HOST_TITLE">PIM des äußeren Volumes</string>
     <string lang="de" key="PIM_HIDVOL_TITLE">PIM des versteckten Volumes</string>
@@ -1385,6 +1380,13 @@
     <string lang="de" key="TB_PER_SEC">TB/s</string>
     <string lang="de" key="PB_PER_SEC">PB/s</string>
     <string lang="de" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="de" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Getrennte Netzlaufwerke zum Einhängen verfügbar machen</control>
+    <string lang="de" key="PASSWORD_UTF8_TOO_LONG">Das eingegebene Passwort ist zu lang: Kodiert mit UTF-8 überschreitet es 64 Byte.</string>
+    <string lang="de" key="PASSWORD_UTF8_INVALID">Das eingegebene Passwort enthält Unicode-Zeichen, die nicht mit UTF-8 kodiert werden können.</string>
+    <string lang="de" key="INIT_DLL">Fehler: Kann ein Systembibliothek nicht laden.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

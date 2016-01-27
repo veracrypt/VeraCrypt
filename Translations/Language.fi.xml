@@ -111,7 +111,6 @@
     <control lang="fi" key="IDC_AUTORUN_START">&amp;Aloita VeraCrypt</control>
     <control lang="fi" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;tunnista Kirjasto</control>
     <control lang="fi" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Välimuisti esikäynnistys autentikoinnin salasanalle aseman muistissa (ei-järjestelmätaltion kytkemiseksi)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="fi" key="IDC_BROWSE_DIRS">Selaa..</control>
     <control lang="fi" key="IDC_BROWSE_FILES">Selaa..</control>
     <control lang="fi" key="IDC_CACHE">Välimuisti salasanat ja avaintie&amp;dostot muistissa</control>
@@ -160,7 +159,6 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="fi" key="IDC_PREF_BKG_TASK_ENABLE">Päällä</control>
     <control lang="fi" key="IDC_PREF_CACHE_PASSWORDS">Salasanat Ohjaimen Välimuistiin</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="fi" key="IDC_PREF_DISMOUNT_INACTIVE">Automaattinen yhteyden poisto taltiolle kun dataa ei ole luettu/kirjoitettu sille</control>
     <control lang="fi" key="IDC_PREF_DISMOUNT_LOGOFF">Käyttäjän ulos kirjautuessa</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
@@ -181,7 +179,6 @@
     <control lang="fi" key="IDC_SELECT_DEVICE">&amp;Valitse Laite..</control>
     <control lang="fi" key="IDC_SELECT_FILE">Valitse T&amp;iedosto..</control>
     <control lang="fi" key="IDC_SELECT_PKCS11_MODULE">Valitse &amp;Kirjasto..</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="fi" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Näytä Salasana</control>
     <control lang="fi" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Näytä Salasana</control>
     <control lang="fi" key="IDC_TRAVEL_OPEN_EXPLORER">Avaa &amp;Tutkinta Ikkuna Yhdistetyille taltioille</control>
@@ -564,7 +561,7 @@
     <string lang="fi" key="INIT_RAND">Satunnaisnumeron luonnin alustus epäonnistui!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="fi" key="INIT_REGISTER">Sovellusta ei pystytä alustamaan. Viestiruudun ikkunan rekisteröinti epäonnistui.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="fi" key="INIT_RICHEDIT">Virhe: Virhe ladattaessa Rich edit järjestelmä kirjastoa.</string>
     <string lang="fi" key="INTRO_TITLE">Opastettu VeraCrypt Taltion Luonti</string>
     <string lang="fi" key="MAX_HIDVOL_SIZE_BYTES">Suurin mahdollinen piilotettu taltion koko tälle taltiolle on %.2f byteä.</string>
     <string lang="fi" key="MAX_HIDVOL_SIZE_KB">Suurin mahdollinen piilotettu taltion koko tälle taltiolle on %.2f KB.</string>
@@ -644,8 +641,6 @@
     <string lang="fi" key="PASSWORD_WRONG_AUTOMOUNT">Väärä salasana tai VeraCrypt taltiota ei löydetty.</string>
     <string lang="fi" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Väärä avaintiedosto(t)/salasana tai VeraCrypt taltiota ei löydetty.</string>
     <string lang="fi" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nVaroitus: Caps Lock on päällä. Tämä saattaa johtaa siihen että salasanasi on virheellinen.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1385,6 +1380,13 @@
     <string lang="fi" key="TB_PER_SEC">TB/s</string>
     <string lang="fi" key="PB_PER_SEC">PB/s</string>
     <string lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

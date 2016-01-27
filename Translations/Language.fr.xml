@@ -111,7 +111,6 @@
     <control lang="fr" key="IDC_AUTORUN_START">&amp;Exécuter VeraCrypt</control>
     <control lang="fr" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Détecter bibliothèque</control>
     <control lang="fr" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache du mot de passe d'authentification de pré-amorçage dans le pilote mémoire (pour le montage de volumes non-système)</control>
-    <control lang="fr" key="IDC_BOOT_LOADER_CACHE_PIM">Inclure le &amp;PIM quand le mot de passe d'authentification de pré-amorçage est mis en cache</control>
     <control lang="fr" key="IDC_BROWSE_DIRS">Parcourir...</control>
     <control lang="fr" key="IDC_BROWSE_FILES">Parcourir...</control>
     <control lang="fr" key="IDC_CACHE">Mots de passe et fichiers clés en cache</control>
@@ -160,7 +159,6 @@
     <control lang="fr" key="IDC_PIM_HELP">(Vide or 0 pour valeur par défaut)</control>
     <control lang="fr" key="IDC_PREF_BKG_TASK_ENABLE">Activer</control>
     <control lang="fr" key="IDC_PREF_CACHE_PASSWORDS">Mots de passe en cache</control>
-    <control lang="fr" key="IDC_PREF_CACHE_PIM">Inclure le PIM quand le mot de passe est mis en cache</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_INACTIVE">Démontage automatique quand aucune donnée n'a été lue/écrite durant</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_LOGOFF">L'utilisateur se déconnecte</control>
     <control lang="fr" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">L'utilisateur verrouille la session</control>
@@ -181,7 +179,6 @@
     <control lang="fr" key="IDC_SELECT_DEVICE">&amp;Périphérique...</control>
     <control lang="fr" key="IDC_SELECT_FILE">&amp;Fichier...</control>
     <control lang="fr" key="IDC_SELECT_PKCS11_MODULE">&amp;Bibliothèque...</control>
-    <control lang="fr" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Permettre d'utiliser les lecteurs réseaux déconnectés comme point de montage</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Afficher mot de passe</control>
     <control lang="fr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Afficher mot de passe</control>
     <control lang="fr" key="IDC_TRAVEL_OPEN_EXPLORER">Ouvrir l'&amp;Explorateur pour le volume monté</control>
@@ -564,7 +561,7 @@
     <string lang="fr" key="INIT_RAND">L'initialisation du générateur de nombre aléatoire a échoué !\n\n\n(Si vous rapportez un bogue en rapport à cela, n'oubliez pas d'inclure les informations techniques suivantes dans le rapport de bogue : %s, code d'erreur : 0x%.8X)</string>
     <string lang="fr" key="CAPI_RAND">L'API Crypto Windows a échoué !\n\n\n(Si vous rapportez un bogue en rapport à cela, n'oubliez pas d'inclure les informations techniques suivantes dans le rapport de bogue : %s, code d'erreur : 0x%.8X)</string>
     <string lang="fr" key="INIT_REGISTER">Impossible d'initialiser l'application. L'enregistrement de la classe Dialog a échoué.</string>
-    <string lang="fr" key="INIT_DLL">Erreur : Echec de chargement d'une librairie système.</string>
+    <string lang="fr" key="INIT_RICHEDIT">Erreur : Echec de chargement de la librairie système Rich Edit.</string>
     <string lang="fr" key="INTRO_TITLE">Assistant de création de volume</string>
     <string lang="fr" key="MAX_HIDVOL_SIZE_BYTES">Taille maximale du volume caché pour ce volume : %.2f octets.</string>
     <string lang="fr" key="MAX_HIDVOL_SIZE_KB">Taille maximale du volume caché pour ce volume : %.2f Ko.</string>
@@ -644,8 +641,6 @@
     <string lang="fr" key="PASSWORD_WRONG_AUTOMOUNT">Le montage automatique a échoué à cause d'un ou plusieurs des éléments suivants:\n - Mot de passe incorrect\n - Valeur de PIM incorrecte\n - PRF (hash) incorrect\n - Aucun volume VeraCrypt trouvé.</string>
     <string lang="fr" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Le montage automatique a échoué à cause d'un ou plusieurs des éléments suivants:\n - Fichier(s) clé incorrect(s)\n - Mot de passe incorrect\n - Valeur de PIM incorrecte\n - PRF (hash) incorrect\n - Aucun volume VeraCrypt trouvé.</string>
     <string lang="fr" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nAvertissement : Majuscules activées. Ceci peut vous empêcher de saisir correctement votre mot de passe.</string>
-    <string lang="fr" key="PASSWORD_UTF8_TOO_LONG">Le mot de passe saisi est trop long: sa representation UTF-8 dépasse 64 octets.</string>
-    <string lang="fr" key="PASSWORD_UTF8_INVALID">Le mot de passe saisi contient des caractères Unicode qui n'ont pas pu être converti en UTF-8.</string>
     <string lang="fr" key="PIM_CHANGE_WARNING">Veuillez mémoriser cette valeur</string>
     <string lang="fr" key="PIM_HIDVOL_HOST_TITLE">PIM du volume externe</string>
     <string lang="fr" key="PIM_HIDVOL_TITLE">PIM du volume caché</string>
@@ -1385,6 +1380,13 @@
     <string lang="fr" key="TB_PER_SEC">To/s</string>
     <string lang="fr" key="PB_PER_SEC">Po/s</string>
     <string lang="fr" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="fr" key="IDC_BOOT_LOADER_CACHE_PIM">Inclure le &amp;PIM quand le mot de passe d'authentification de pré-amorçage est mis en cache</control>
+    <control lang="fr" key="IDC_PREF_CACHE_PIM">Inclure le PIM quand le mot de passe est mis en cache</control>
+    <control lang="fr" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Permettre d'utiliser les lecteurs réseaux déconnectés comme point de montage</control>
+    <string lang="fr" key="PASSWORD_UTF8_TOO_LONG">Le mot de passe saisi est trop long: sa representation UTF-8 dépasse 64 octets.</string>
+    <string lang="fr" key="PASSWORD_UTF8_INVALID">Le mot de passe saisi contient des caractères Unicode qui n'ont pas pu être converti en UTF-8.</string>
+    <string lang="fr" key="INIT_DLL">Erreur : Echec de chargement d'une librairie système.</string>
+    <string lang="fr" key="ERR_EXFAT_INVALID_VOLUME_SIZE">La taille du volume spécifiée en ligne de commande n'est pas compatible avec exFAT.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

@@ -111,7 +111,6 @@
     <control lang="ja" key="IDC_AUTORUN_START">VeraCryptの起動(&amp;S)</control>
     <control lang="ja" key="IDC_AUTO_DETECT_PKCS11_MODULE">ライブラリ自動検出(&amp;D)</control>
     <control lang="ja" key="IDC_BOOT_LOADER_CACHE_PASSWORD">メモリー上に起動前認証パスワードを(非システムボリュームのマウント用に)キャッシュする(&amp;C)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="ja" key="IDC_BROWSE_DIRS">参照...</control>
     <control lang="ja" key="IDC_BROWSE_FILES">参照...</control>
     <control lang="ja" key="IDC_CACHE">パスワードやキーファイルをメモリに記憶する(&amp;E)</control>
@@ -160,7 +159,6 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="ja" key="IDC_PREF_BKG_TASK_ENABLE">常駐する</control>
     <control lang="ja" key="IDC_PREF_CACHE_PASSWORDS">パスワードをドライバのメモリに記憶する</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="ja" key="IDC_PREF_DISMOUNT_INACTIVE">右に示す時間内に読み書きがなければ自動的にアンマウント</control>
     <control lang="ja" key="IDC_PREF_DISMOUNT_LOGOFF">ユーザがログオフしたとき</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
@@ -181,7 +179,6 @@
     <control lang="ja" key="IDC_SELECT_DEVICE">デバイスの選択(&amp;E)</control>
     <control lang="ja" key="IDC_SELECT_FILE">ファイルの選択(&amp;F)</control>
     <control lang="ja" key="IDC_SELECT_PKCS11_MODULE">ライブラリの選択(&amp;L)...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD_CHPWD_NEW">パスワードを表示</control>
     <control lang="ja" key="IDC_SHOW_PASSWORD_CHPWD_ORI">パスワードを表示</control>
     <control lang="ja" key="IDC_TRAVEL_OPEN_EXPLORER">マウントされたボリュームのウィンドウを開く(&amp;E)</control>
@@ -564,7 +561,7 @@
     <string lang="ja" key="INIT_RAND">乱数生成機構の初期化に失敗しました！</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="ja" key="INIT_RICHEDIT">エラー：リッチエディットシステムライブラリの読込に失敗しました。</string>
     <string lang="ja" key="INTRO_TITLE">VeraCryptボリューム作成ウィザード</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_BYTES">このボリュームに格納できる隠しボリュームの最大サイズは %.2f バイトです。</string>
     <string lang="ja" key="MAX_HIDVOL_SIZE_KB">このボリュームに格納できる隠しボリュームの最大サイズは %.2f KB です。</string>
@@ -644,8 +641,6 @@
     <string lang="ja" key="PASSWORD_WRONG_AUTOMOUNT">パスワードが正しくないか、VeraCryptボリュームが見つかりません。</string>
     <string lang="ja" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">キーファイルあるいはパスワードが正しくないか、VeraCryptのボリュームが見つかりません。</string>
     <string lang="ja" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock がオンになっています。 そのためにパスワードの入力を誤るかもしれません。</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1385,6 +1380,13 @@
     <string lang="ja" key="TB_PER_SEC">TB/s</string>
     <string lang="ja" key="PB_PER_SEC">PB/s</string>
     <string lang="ja" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

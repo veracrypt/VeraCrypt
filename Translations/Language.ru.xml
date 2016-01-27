@@ -111,7 +111,6 @@
     <control lang="ru" key="IDC_AUTORUN_START">&amp;Запуск VeraCrypt</control>
     <control lang="ru" key="IDC_AUTO_DETECT_PKCS11_MODULE">Автоопределение &amp;библиотеки</control>
     <control lang="ru" key="IDC_BOOT_LOADER_CACHE_PASSWORD">К&amp;эшировать пароль дозагрузочной аутентификации (для монтирования несистемных томов)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="ru" key="IDC_BROWSE_DIRS">Обзор...</control>
     <control lang="ru" key="IDC_BROWSE_FILES">Обзор...</control>
     <control lang="ru" key="IDC_CACHE">К&amp;эшировать пароли и ключевые файлы</control>
@@ -160,7 +159,6 @@
     <control lang="ru" key="IDC_PIM_HELP">(Пустой или 0 для итераций по умолчанию)</control>
     <control lang="ru" key="IDC_PREF_BKG_TASK_ENABLE">Включено</control>
     <control lang="ru" key="IDC_PREF_CACHE_PASSWORDS">Кэшировать пароли в памяти драйвера</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_INACTIVE">Автоматически размонтировать тома при неактивности в течение</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_LOGOFF">завершении сеансов</control>
     <control lang="ru" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">блокировке сеанса пользователя</control>
@@ -181,7 +179,6 @@
     <control lang="ru" key="IDC_SELECT_DEVICE">&amp;Устройство...</control>
     <control lang="ru" key="IDC_SELECT_FILE">&amp;Файл...</control>
     <control lang="ru" key="IDC_SELECT_PKCS11_MODULE">&amp;Библиотека...</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Показ пароля</control>
     <control lang="ru" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Показ пароля</control>
     <control lang="ru" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Открыть смонтированный том в окне Проводника</control>
@@ -564,7 +561,7 @@
     <string lang="ru" key="INIT_RAND">Ошибка инициализации генератора случайных чисел.</string>
     <string lang="ru" key="CAPI_RAND">Сбой интерфейса CryptoAPI Windows!\n\n\n(Если вы хотите сообщить о связанной с этим ошибке, включите в отчёт следующую техническую информацию:\n%s, Последняя ошибка = 0x%.8X)</string>
     <string lang="ru" key="INIT_REGISTER">Ошибка инициализации приложения. Невозможно зарегистрировать класс Dialog.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="ru" key="INIT_RICHEDIT">Ошибка загрузки системной библиотеки Rich Edit.</string>
     <string lang="ru" key="INTRO_TITLE">Мастер создания томов VeraCrypt</string>
     <string lang="ru" key="MAX_HIDVOL_SIZE_BYTES">Максимальный размер скрытого тома для этого тома: %.2f байт</string>
     <string lang="ru" key="MAX_HIDVOL_SIZE_KB">Максимальный размер скрытого тома для этого тома: %.2f КБ</string>
@@ -644,8 +641,6 @@
     <string lang="ru" key="PASSWORD_WRONG_AUTOMOUNT">Неверный пароль или не найден том VeraCrypt.</string>
     <string lang="ru" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Неверные ключевые файлы/пароль, либо не найден том VeraCrypt.</string>
     <string lang="ru" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nВнимание! Нажата клавиша Caps Lock. Это может привести к неправильному вводу пароля.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="ru" key="PIM_CHANGE_WARNING">Запомнить номер монтирования тома</string>
     <string lang="ru" key="PIM_HIDVOL_HOST_TITLE">Внешний PIM тома</string>
     <string lang="ru" key="PIM_HIDVOL_TITLE">Скрытый PIM тома</string>
@@ -1385,6 +1380,13 @@
     <string lang="ru" key="TB_PER_SEC">ТБ/с</string>
     <string lang="ru" key="PB_PER_SEC">ПБ/с</string>
     <string lang="ru" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

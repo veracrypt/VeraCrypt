@@ -111,7 +111,6 @@
     <control lang="sv" key="IDC_AUTORUN_START">Starta &amp;VeraCrypt</control>
     <control lang="sv" key="IDC_AUTO_DETECT_PKCS11_MODULE">&amp;Identifiera bibliotek automatiskt</control>
     <control lang="sv" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Lagra lösenordet till förstartsautentiseringen i &amp;cacheminnet (för montering av icke-systemvolymer)</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="sv" key="IDC_BROWSE_DIRS">&amp;Bläddra …</control>
     <control lang="sv" key="IDC_BROWSE_FILES">Bl&amp;äddra …</control>
     <control lang="sv" key="IDC_CACHE">Lagra lösenord och nyckelfiler i &amp;cacheminnet</control>
@@ -160,7 +159,6 @@
     <control lang="en" key="IDC_PIM_HELP">(Empty or 0 for default iterations)</control>
     <control lang="sv" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiverad</control>
     <control lang="sv" key="IDC_PREF_CACHE_PASSWORDS">La&amp;gra lösenord i drivrutinens minnescache</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_INACTIVE">&amp;Demontera automatiskt volymer där inga data har skrivits eller lästs på</control>
     <control lang="sv" key="IDC_PREF_DISMOUNT_LOGOFF">Användaren &amp;loggar ut</control>
     <control lang="en" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">User session locked</control>
@@ -181,7 +179,6 @@
     <control lang="sv" key="IDC_SELECT_DEVICE">Välj enhe&amp;t …</control>
     <control lang="sv" key="IDC_SELECT_FILE">Välj fi&amp;l …</control>
     <control lang="sv" key="IDC_SELECT_PKCS11_MODULE">Välj &amp;bibliotek …</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_NEW">V&amp;isa lösenord</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD_CHPWD_ORI">&amp;Visa lösenord</control>
     <control lang="sv" key="IDC_TRAVEL_OPEN_EXPLORER">Öppna &amp;Utforskaren efter montering</control>
@@ -564,7 +561,7 @@
     <string lang="sv" key="INIT_RAND">Initieringen av slumptalsgeneratorn misslyckades!</string>
     <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
     <string lang="sv" key="INIT_REGISTER">Det gick inte att initiera applikationen. Registreringen av dialogruteklassen misslyckades.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="sv" key="INIT_RICHEDIT">Fel: Det gick inte att ladda systembiblioteket för ”Rich Edit”.</string>
     <string lang="sv" key="INTRO_TITLE">Guiden Skapa VeraCrypt-volym</string>
     <string lang="sv" key="MAX_HIDVOL_SIZE_BYTES">Maximalt möjliga utrymme för den dolda volymen är %.2f byte.</string>
     <string lang="sv" key="MAX_HIDVOL_SIZE_KB">Maximalt möjliga utrymme för den dolda volymen är %.2f kB.</string>
@@ -644,8 +641,6 @@
     <string lang="sv" key="PASSWORD_WRONG_AUTOMOUNT">Antingen är det angivna lösenordet fel, eller så hittades inte någon VeraCrypt-volym.</string>
     <string lang="sv" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Antingen har fel nyckelfil(er) och/eller fel lösenord angetts, eller så hittades inte någon VeraCrypt-volym.</string>
     <string lang="sv" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nVarning: Caps Lock är på. Detta kan orsaka att ditt lösenod blir felaktigt angett.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -1385,6 +1380,13 @@
     <string lang="sv" key="TB_PER_SEC">TB/s</string>
     <string lang="sv" key="PB_PER_SEC">PB/s</string>
     <string lang="sv" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

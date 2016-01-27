@@ -111,7 +111,6 @@
     <control lang="pl" key="IDC_AUTORUN_START">&amp;Uruchom VeraCrypt</control>
     <control lang="pl" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto&amp;wykrywanie biblioteki</control>
     <control lang="pl" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Przechowuj w pamięci hasło uwierzytelniania rozruchu wstępnego (bezsystemowe wolumeny)</control>
-    <control lang="pl" key="IDC_BOOT_LOADER_CACHE_PIM">Dołączaj &amp;MOI w trakcie przechowywania hasła uwierzytelniania rozruchu wstępnego</control>
     <control lang="pl" key="IDC_BROWSE_DIRS">Przeglądaj...</control>
     <control lang="pl" key="IDC_BROWSE_FILES">Przeglądaj...</control>
     <control lang="pl" key="IDC_CACHE">Przechowuj w pamięci hasła i pliki-&amp;klucze</control>
@@ -160,7 +159,6 @@
     <control lang="pl" key="IDC_PIM_HELP">(Puste albo 0 dla domyślnych iteracji)</control>
     <control lang="pl" key="IDC_PREF_BKG_TASK_ENABLE">Aktywny</control>
     <control lang="pl" key="IDC_PREF_CACHE_PASSWORDS">Przechowuj hasła w pamięci sterownika</control>
-    <control lang="pl" key="IDC_PREF_CACHE_PIM">Dołączaj MOI w trakcie przechowywania hasła w pamięci</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_INACTIVE">Automatycznie odłącz wolumen, jeśli nie był używany przez</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_LOGOFF">Użytkownik się wylogował</control>
     <control lang="pl" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Zablokowano sesję użytkownika</control>
@@ -181,7 +179,6 @@
     <control lang="pl" key="IDC_SELECT_DEVICE">Wybierz &amp;urządzenie...</control>
     <control lang="pl" key="IDC_SELECT_FILE">Wy&amp;bierz plik...</control>
     <control lang="pl" key="IDC_SELECT_PKCS11_MODULE">Wybierz &amp;bibliotekę...</control>
-    <control lang="pl" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Uczyń odłączone napędy sieciowe dostępnymi do montowania</control>
     <control lang="pl" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Wyświetl hasło</control>
     <control lang="pl" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Wyświetl hasło</control>
     <control lang="pl" key="IDC_TRAVEL_OPEN_EXPLORER">Otwórz okno &amp;Eksploratora dla podłączonego wolumenu</control>
@@ -564,7 +561,7 @@
     <string lang="pl" key="INIT_RAND">Błąd inicjowania generatora liczb losowych!</string>
     <string lang="pl" key="CAPI_RAND">Błąd API Windows Crypto!\n\n\n(Jeżeli zgłosisz powiązany z tym błąd, proszę dołączyć następujące informacje techniczne w raporcie błędu:\n%s, Last Error = 0x%.8X)</string>
     <string lang="pl" key="INIT_REGISTER">Nie można zainicjować aplikacji. Błąd rejestracji klasy okna dialogowego.</string>
-    <string lang="pl" key="INIT_DLL">Błąd: Nie można załadować biblioteki systemowej.</string>
+    <string lang="pl" key="INIT_RICHEDIT">BŁĄD: Nie można załadować systemowej biblioteki edytora Rich Edit.</string>
     <string lang="pl" key="INTRO_TITLE">Kreator tworzenia wolumenów VeraCrypt</string>
     <string lang="pl" key="MAX_HIDVOL_SIZE_BYTES">Maksymalna możliwa wielkość wolumenu ukrytego dla tego wolumenu (w bajtach): %.2f.</string>
     <string lang="pl" key="MAX_HIDVOL_SIZE_KB">Maksymalna możliwa wielkość wolumenu ukrytego dla tego wolumenu (w kilobajtach): %.2f.</string>
@@ -644,8 +641,6 @@
     <string lang="pl" key="PASSWORD_WRONG_AUTOMOUNT">Niepoprawne hasło lub nie znaleziono wolumenu VeraCrypt.</string>
     <string lang="pl" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Niepoprawne pliki-klucze/hasło lub nie znaleziono wolumenu VeraCrypt.</string>
     <string lang="pl" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nOstrzeżenie: Tryb Caps Lock (wielkie litery) jest włączony. Może to spowodować niepoprawne wprowadzenie hasła.</string>
-    <string lang="pl" key="PASSWORD_UTF8_TOO_LONG">Wpisane hasło jest zbyt długie: jego reprezentacja UTF-8 przekracza 64 bajty.</string>
-    <string lang="pl" key="PASSWORD_UTF8_INVALID">Wpisane hasło zawiera znaki Unicode, które nie mogą zostać przekonwertowane do reprezentacji UTF-8.</string>
     <string lang="pl" key="PIM_CHANGE_WARNING">Zapamietaj liczbę, aby zamontować wolumen</string>
     <string lang="pl" key="PIM_HIDVOL_HOST_TITLE">MOI zewnętrznego wolumenu</string>
     <string lang="pl" key="PIM_HIDVOL_TITLE">MOI ukrytego wolumenu</string>
@@ -1386,6 +1381,13 @@ płyty ratunkowej VeraCrypt, włóż ją do napędu CD/DVD i uruchom ponownie ko
     <string lang="pl" key="TB_PER_SEC">TB/s</string>
     <string lang="pl" key="PB_PER_SEC">PB/s</string>
     <string lang="pl" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="pl" key="IDC_BOOT_LOADER_CACHE_PIM">Dołączaj &amp;MOI w trakcie przechowywania hasła uwierzytelniania rozruchu wstępnego</control>
+    <control lang="pl" key="IDC_PREF_CACHE_PIM">Dołączaj MOI w trakcie przechowywania hasła w pamięci</control>
+    <control lang="pl" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Uczyń odłączone napędy sieciowe dostępnymi do montowania</control>
+    <string lang="pl" key="PASSWORD_UTF8_TOO_LONG">Wpisane hasło jest zbyt długie: jego reprezentacja UTF-8 przekracza 64 bajty.</string>
+    <string lang="pl" key="PASSWORD_UTF8_INVALID">Wpisane hasło zawiera znaki Unicode, które nie mogą zostać przekonwertowane do reprezentacji UTF-8.</string>
+    <string lang="pl" key="INIT_DLL">Błąd: Nie można załadować biblioteki systemowej.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
