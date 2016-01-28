@@ -1387,7 +1387,7 @@ płyty ratunkowej VeraCrypt, włóż ją do napędu CD/DVD i uruchom ponownie ko
     <string lang="pl" key="PASSWORD_UTF8_TOO_LONG">Wpisane hasło jest zbyt długie: jego reprezentacja UTF-8 przekracza 64 bajty.</string>
     <string lang="pl" key="PASSWORD_UTF8_INVALID">Wpisane hasło zawiera znaki Unicode, które nie mogą zostać przekonwertowane do reprezentacji UTF-8.</string>
     <string lang="pl" key="INIT_DLL">Błąd: Nie można załadować biblioteki systemowej.</string>
-    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
+    <string lang="pl" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Rozmiar pliku wolumenu, który określono w wierszu poleceń, jest niekompatybilny z wybranym systemem plików exFAT.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
