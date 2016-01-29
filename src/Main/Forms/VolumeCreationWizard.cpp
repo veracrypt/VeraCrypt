@@ -445,13 +445,18 @@ namespace VeraCrypt
 
 				switch (SelectedFilesystemType)
 				{
+#if defined (TC_LINUX)
 				case VolumeCreationOptions::FilesystemType::Ext2:		fsFormatter = "mkfs.ext2"; break;
 				case VolumeCreationOptions::FilesystemType::Ext3:		fsFormatter = "mkfs.ext3"; break;
 				case VolumeCreationOptions::FilesystemType::Ext4:		fsFormatter = "mkfs.ext4"; break;
+				case VolumeCreationOptions::FilesystemType::NTFS:		fsFormatter = "mkfs.ntfs"; break;
+				case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "mkfs.exfat"; break;
+#elif defined (TC_MACOSX)
 				case VolumeCreationOptions::FilesystemType::MacOsExt:	fsFormatter = "newfs_hfs"; break;
+				case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "newfs_exfat"; break;
+#elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 				case VolumeCreationOptions::FilesystemType::UFS:		fsFormatter = "newfs" ; break;
-				case VolumeCreationOptions::FilesystemType::NTFS:		fsFormatter = "mkfs.ntfs" ; break;
-				case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "mkfs.exfat" ; break;
+#endif
 				default: break;
 				}
 

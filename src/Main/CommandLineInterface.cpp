@@ -316,6 +316,8 @@ namespace VeraCrypt
 				{
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::MacOsExt;
 				}
+				else if (str.IsSameAs (L"exFAT", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 				else if (str.IsSameAs (L"UFS", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::UFS;

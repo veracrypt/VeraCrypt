@@ -39,6 +39,7 @@ namespace VeraCrypt
 		FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
 #elif defined (TC_MACOSX)
 		FilesystemTypeChoice->Append (L"Mac OS Extended",	(void *) VolumeCreationOptions::FilesystemType::MacOsExt);
+		FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 		FilesystemTypeChoice->Append (L"UFS",				(void *) VolumeCreationOptions::FilesystemType::UFS);
 #endif
