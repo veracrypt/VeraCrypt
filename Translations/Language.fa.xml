@@ -1380,13 +1380,14 @@
     <string lang="en" key="TB_PER_SEC">TB/s</string>
     <string lang="en" key="PB_PER_SEC">PB/s</string>
     <string lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
-	<control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
     <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
     <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
     <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
+    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

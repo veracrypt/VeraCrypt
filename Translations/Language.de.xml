@@ -1387,6 +1387,7 @@
     <string lang="de" key="PASSWORD_UTF8_INVALID">Das eingegebene Passwort enthält Unicode-Zeichen, die nicht mit UTF-8 kodiert werden können.</string>
     <string lang="de" key="INIT_DLL">Fehler: Kann ein Systembibliothek nicht laden.</string>
     <string lang="de" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Unzulässige Volume-Größe auf der Kommandozeile angegeben in Verbindung mit dem exFAT-Dateisystem.</string>
+    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

@@ -1387,6 +1387,7 @@
     <string lang="fr" key="PASSWORD_UTF8_INVALID">Le mot de passe saisi contient des caractères Unicode qui n'ont pas pu être converti en UTF-8.</string>
     <string lang="fr" key="INIT_DLL">Erreur : Echec de chargement d'une librairie système.</string>
     <string lang="fr" key="ERR_EXFAT_INVALID_VOLUME_SIZE">La taille du volume spécifiée en ligne de commande n'est pas compatible avec exFAT.</string>
+    <control lang="fr" key="IDT_ENTROPY_BAR">Données aléatoires récoltées grâce aux mouvements de la souris</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
