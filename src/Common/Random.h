@@ -45,7 +45,7 @@ BOOL Randmix ( void );
 void RandaddBuf ( void *buf , int len );
 BOOL FastPoll ( void );
 BOOL SlowPoll ( void );
-BOOL RandpeekBytes ( void* hwndDlg, unsigned char *buf , int len );
+BOOL RandpeekBytes ( void* hwndDlg, unsigned char *buf , int len, DWORD* mouseCounter );
 
 /* Get len random bytes from the pool (max. RNG_POOL_SIZE bytes per a single call) */
 BOOL RandgetBytes ( void* hwndDlg, unsigned char *buf , int len, BOOL forceSlowPoll );
@@ -61,6 +61,7 @@ BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceS
 extern BOOL volatile bFastPollEnabled;
 extern BOOL volatile bRandmixEnabled;
 extern DWORD CryptoAPILastError;
+extern DWORD ProcessedMouseEventsCounter;
 
 void RandAddInt64 ( unsigned __int64 x );
 

@@ -74,6 +74,7 @@ void RandAddInt64 (unsigned __int64 x)
 
 HHOOK hMouse = NULL;		/* Mouse hook for the random number generator */
 HHOOK hKeyboard = NULL;		/* Keyboard hook for the random number generator */
+DWORD ProcessedMouseEventsCounter = 0;
 
 /* Variables for thread control, the thread is used to gather up info about
    the system in in the background */
@@ -103,6 +104,7 @@ int Randinit ()
 
 	bRandDidInit = TRUE;
 	CryptoAPILastError = ERROR_SUCCESS;
+	ProcessedMouseEventsCounter = 0;
 
 	if (pRandPool == NULL)
 	{
@@ -351,7 +353,7 @@ void RandaddBuf (void *buf, int len)
 	}
 }
 
-BOOL RandpeekBytes (void* hwndDlg, unsigned char *buf, int len)
+BOOL RandpeekBytes (void* hwndDlg, unsigned char *buf, int len, DWORD* mouseCounter)
 {
 	if (!bRandDidInit)
 		return FALSE;
@@ -363,6 +365,7 @@ BOOL RandpeekBytes (void* hwndDlg, unsigned char *buf, int len)
 	}
 
 	EnterCriticalSection (&critRandProt);
+	*mouseCounter = ProcessedMouseEventsCounter;
 	memcpy (buf, pRandPool, len);
 	LeaveCriticalSection (&critRandProt);
 
@@ -476,6 +479,7 @@ LRESULT CALLBACK MouseProc (int nCode, WPARAM wParam, LPARAM lParam)
 {
 	static DWORD dwLastTimer;
 	static unsigned __int32 lastCrc, lastCrc2;
+	static POINT lastPoint;
 	MOUSEHOOKSTRUCT *lpMouse = (MOUSEHOOKSTRUCT *) lParam;
 
 	if (nCode < 0)
@@ -486,6 +490,7 @@ LRESULT CALLBACK MouseProc (int nCode, WPARAM wParam, LPARAM lParam)
 		DWORD j = dwLastTimer - dwTimer;
 		unsigned __int32 crc = 0L;
 		int i;
+		POINT pt = lpMouse->pt;
 
 		dwLastTimer = dwTimer;
 
@@ -509,6 +514,13 @@ LRESULT CALLBACK MouseProc (int nCode, WPARAM wParam, LPARAM lParam)
 			}
 
 			EnterCriticalSection (&critRandProt);
+			/* only count real mouse messages in entropy estimation */
+			if (	(nCode == HC_ACTION) && (wParam == WM_MOUSEMOVE) 
+				&& ((pt.x != lastPoint.x) || (pt.y != lastPoint.y)))
+			{
+				ProcessedMouseEventsCounter++;
+				lastPoint = pt;
+			}
 			RandaddInt32 ((unsigned __int32) (crc + timeCrc));
 			LeaveCriticalSection (&critRandProt);
 		}

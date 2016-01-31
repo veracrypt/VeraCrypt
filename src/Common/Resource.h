@@ -195,15 +195,17 @@
 #define IDC_VOLUME_LABEL                5133
 #define IDT_VOLUME_LABEL                5134
 #define IDC_KEYFILES_TRY_EMPTY_PASSWORD 5135
+#define IDC_ENTROPY_BAR                 5136
+#define IDT_ENTROPY_BAR                 5137
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        542
+#define _APS_NEXT_RESOURCE_VALUE        558
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5136
+#define _APS_NEXT_CONTROL_VALUE         5138
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

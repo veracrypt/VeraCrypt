@@ -5350,8 +5350,15 @@ static BOOL CALLBACK RandomPoolEnrichementDlgProc (HWND hwndDlg, UINT msg, WPARA
 	WORD hw = HIWORD (wParam);
 	static unsigned char randPool [RNG_POOL_SIZE];
 	static unsigned char lastRandPool [RNG_POOL_SIZE];
+	static unsigned char maskRandPool [RNG_POOL_SIZE];
+	static BOOL bUseMask = FALSE;
+	static DWORD mouseEntropyGathered = 0xFFFFFFFF;
+	static DWORD mouseEventsInitialCount = 0;
+	/* max value of entropy needed to fill all random pool = 8 * RNG_POOL_SIZE = 2560 bits */
+	static const DWORD maxEntropyLevel = RNG_POOL_SIZE * 8;
+	static HWND hEntropyBar = NULL;
 	static wchar_t outputDispBuffer [RNG_POOL_SIZE * 3 + RANDPOOL_DISPLAY_ROWS + 2];
-	static BOOL bDisplayPoolContents = TRUE;
+	static BOOL bDisplayPoolContents = FALSE;
 	static BOOL bRandPoolDispAscii = FALSE;
 	int hash_algo = RandGetHashFunction();
 	int hid;
@@ -5361,10 +5368,24 @@ static BOOL CALLBACK RandomPoolEnrichementDlgProc (HWND hwndDlg, UINT msg, WPARA
 	case WM_INITDIALOG:
 		{
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PRF_ID);
+			HCRYPTPROV hRngProv = NULL;
 
 			VirtualLock (randPool, sizeof(randPool));
 			VirtualLock (lastRandPool, sizeof(lastRandPool));
 			VirtualLock (outputDispBuffer, sizeof(outputDispBuffer));
+			VirtualLock (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
+			VirtualLock (&mouseEventsInitialCount, sizeof(mouseEventsInitialCount));
+			VirtualLock (maskRandPool, sizeof(maskRandPool));
+
+			mouseEntropyGathered = 0xFFFFFFFF;
+			mouseEventsInitialCount = 0;
+			bUseMask = FALSE;
+			if (CryptAcquireContext (&hRngProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
+			{
+				if (CryptGenRandom (hRngProv, sizeof (maskRandPool), maskRandPool))
+					bUseMask = TRUE;
+				CryptReleaseContext (hRngProv, 0);
+			}
 
 			LocalizeDialog (hwndDlg, "IDD_RANDOM_POOL_ENRICHMENT");
 
@@ -5380,6 +5401,10 @@ static BOOL CALLBACK RandomPoolEnrichementDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 			SetTimer (hwndDlg, 0xfd, RANDPOOL_DISPLAY_REFRESH_INTERVAL, NULL);
 			SendMessage (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), WM_SETFONT, (WPARAM) hFixedDigitFont, (LPARAM) TRUE);
+			
+			hEntropyBar = GetDlgItem (hwndDlg, IDC_ENTROPY_BAR);
+			SendMessage (hEntropyBar, PBM_SETRANGE32, 0, maxEntropyLevel);
+			SendMessage (hEntropyBar, PBM_SETSTEP, 1, 0);
 			return 1;
 		}
 
@@ -5388,30 +5413,67 @@ static BOOL CALLBACK RandomPoolEnrichementDlgProc (HWND hwndDlg, UINT msg, WPARA
 			wchar_t tmp[4];
 			unsigned char tmpByte;
 			int col, row;
+			DWORD mouseEventsCounter;
 
-			if (bDisplayPoolContents)
+			RandpeekBytes (hwndDlg, randPool, sizeof (randPool), &mouseEventsCounter);
+
+			/* conservative estimate: 1 mouse move event brings 1 bit of entropy
+			 * https://security.stackexchange.com/questions/32844/for-how-much-time-should-i-randomly-move-the-mouse-for-generating-encryption-key/32848#32848
+			 */
+			if (mouseEntropyGathered == 0xFFFFFFFF)
 			{
-				RandpeekBytes (hwndDlg, randPool, sizeof (randPool));
+				mouseEventsInitialCount = mouseEventsCounter;
+				mouseEntropyGathered = 0;
+			}
+			else
+			{
+				if (	mouseEntropyGathered < maxEntropyLevel 
+					&& (mouseEventsCounter >= mouseEventsInitialCount) 
+					&& (mouseEventsCounter - mouseEventsInitialCount) <= maxEntropyLevel)
+					mouseEntropyGathered = mouseEventsCounter - mouseEventsInitialCount;
+				else
+					mouseEntropyGathered = maxEntropyLevel;
 
-				if (memcmp (lastRandPool, randPool, sizeof(lastRandPool)) != 0)
+				SendMessage (hEntropyBar, PBM_SETPOS, 
+				(WPARAM) (mouseEntropyGathered),
+				0);
+			}
+
+			if (memcmp (lastRandPool, randPool, sizeof(lastRandPool)) != 0)
+			{
+				outputDispBuffer[0] = 0;
+
+				for (row = 0; row < RANDPOOL_DISPLAY_ROWS; row++)
 				{
-					outputDispBuffer[0] = 0;
-
-					for (row = 0; row < RANDPOOL_DISPLAY_ROWS; row++)
+					for (col = 0; col < RANDPOOL_DISPLAY_COLUMNS; col++)
 					{
-						for (col = 0; col < RANDPOOL_DISPLAY_COLUMNS; col++)
+						if (bDisplayPoolContents)
 						{
 							tmpByte = randPool[row * RANDPOOL_DISPLAY_COLUMNS + col];
-
 							StringCbPrintfW (tmp, sizeof(tmp), bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != L'&') ? L" %c " : L" . ") : L"%02X ", tmpByte);
-							StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), tmp);
 						}
-						StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), L"\n");
-					}
-					SetWindowText (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), outputDispBuffer);
+						else if (bUseMask)
+						{
+							/* use mask to compute a randomized ascii representation */
+							tmpByte = (randPool[row * RANDPOOL_DISPLAY_COLUMNS + col] - 
+										 lastRandPool[row * RANDPOOL_DISPLAY_COLUMNS + col]) ^ maskRandPool [row * RANDPOOL_DISPLAY_COLUMNS + col];
+							tmp[0] = (wchar_t) (((tmpByte >> 4) % 6) + L'*');
+							tmp[1] = (wchar_t) (((tmpByte & 0x0F) % 6) + L'*');
+							tmp[2] = L' ';
+							tmp[3] = 0;
+						}
+						else
+						{
+							StringCbCopyW (tmp, sizeof(tmp), L"** ");
+						}
 
-					memcpy (lastRandPool, randPool, sizeof(lastRandPool));
+						StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), tmp);
+					}
+					StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), L"\n");
 				}
+				SetWindowText (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), outputDispBuffer);
+
+				memcpy (lastRandPool, randPool, sizeof(lastRandPool));
 			}
 			return 1;
 		}
@@ -5458,6 +5520,9 @@ exit:
 			burn (randPool, sizeof(randPool));
 			burn (lastRandPool, sizeof(lastRandPool));
 			burn (outputDispBuffer, sizeof(outputDispBuffer));
+			burn (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
+			burn (&mouseEventsInitialCount, sizeof(mouseEventsInitialCount));
+			burn (maskRandPool, sizeof(maskRandPool));
 
 			// Attempt to wipe the pool contents in the GUI text area
 			wmemset (tmp, L' ', RNG_POOL_SIZE);
@@ -5498,8 +5563,15 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	WORD hw = HIWORD (wParam);
 	static unsigned char randPool [RNG_POOL_SIZE];
 	static unsigned char lastRandPool [RNG_POOL_SIZE];
+	static unsigned char maskRandPool [RNG_POOL_SIZE];
+	static BOOL bUseMask = FALSE;
+	static DWORD mouseEntropyGathered = 0xFFFFFFFF;
+	static DWORD mouseEventsInitialCount = 0;
+	/* max value of entropy needed to fill all random pool = 8 * RNG_POOL_SIZE = 2560 bits */
+	static const DWORD maxEntropyLevel = RNG_POOL_SIZE * 8;
+	static HWND hEntropyBar = NULL;
 	static wchar_t outputDispBuffer [RNG_POOL_SIZE * 3 + RANDPOOL_DISPLAY_ROWS + 2];
-	static BOOL bDisplayPoolContents = TRUE;
+	static BOOL bDisplayPoolContents = FALSE;
 	static BOOL bRandPoolDispAscii = FALSE;
 	int hash_algo = RandGetHashFunction();
 	int hid;
@@ -5509,10 +5581,24 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		{
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PRF_ID);
+			HCRYPTPROV hRngProv = NULL;
 
 			VirtualLock (randPool, sizeof(randPool));
 			VirtualLock (lastRandPool, sizeof(lastRandPool));
 			VirtualLock (outputDispBuffer, sizeof(outputDispBuffer));
+			VirtualLock (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
+			VirtualLock (&mouseEventsInitialCount, sizeof(mouseEventsInitialCount));
+			VirtualLock (maskRandPool, sizeof(maskRandPool));
+
+			mouseEntropyGathered = 0xFFFFFFFF;
+			mouseEventsInitialCount = 0;
+			bUseMask = FALSE;
+			if (CryptAcquireContext (&hRngProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
+			{
+				if (CryptGenRandom (hRngProv, sizeof (maskRandPool), maskRandPool))
+					bUseMask = TRUE;
+				CryptReleaseContext (hRngProv, 0);
+			}
 
 			LocalizeDialog (hwndDlg, "IDD_KEYFILE_GENERATOR");
 
@@ -5525,6 +5611,9 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SelectAlgo (hComboBox, &hash_algo);
 
 			SetCheckBox (hwndDlg, IDC_DISPLAY_POOL_CONTENTS, bDisplayPoolContents);
+			hEntropyBar = GetDlgItem (hwndDlg, IDC_ENTROPY_BAR);
+			SendMessage (hEntropyBar, PBM_SETRANGE32, 0, maxEntropyLevel);
+			SendMessage (hEntropyBar, PBM_SETSTEP, 1, 0);
 
 #ifndef VOLFORMAT			
 			if (Randinit ()) 
@@ -5551,30 +5640,67 @@ BOOL CALLBACK KeyfileGeneratorDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			wchar_t tmp[4];
 			unsigned char tmpByte;
 			int col, row;
+			DWORD mouseEventsCounter;
 
-			if (bDisplayPoolContents)
+			RandpeekBytes (hwndDlg, randPool, sizeof (randPool), &mouseEventsCounter);
+
+			/* conservative estimate: 1 mouse move event brings 1 bit of entropy
+			 * https://security.stackexchange.com/questions/32844/for-how-much-time-should-i-randomly-move-the-mouse-for-generating-encryption-key/32848#32848
+			 */
+			if (mouseEntropyGathered == 0xFFFFFFFF)
 			{
-				RandpeekBytes (hwndDlg, randPool, sizeof (randPool));
+				mouseEventsInitialCount = mouseEventsCounter;
+				mouseEntropyGathered = 0;
+			}
+			else
+			{
+				if (	mouseEntropyGathered < maxEntropyLevel 
+					&& (mouseEventsCounter >= mouseEventsInitialCount) 
+					&& (mouseEventsCounter - mouseEventsInitialCount) <= maxEntropyLevel)
+					mouseEntropyGathered = mouseEventsCounter - mouseEventsInitialCount;
+				else
+					mouseEntropyGathered = maxEntropyLevel;
 
-				if (memcmp (lastRandPool, randPool, sizeof(lastRandPool)) != 0)
+				SendMessage (hEntropyBar, PBM_SETPOS, 
+				(WPARAM) (mouseEntropyGathered),
+				0);
+			}
+
+			if (memcmp (lastRandPool, randPool, sizeof(lastRandPool)) != 0)
+			{
+				outputDispBuffer[0] = 0;
+
+				for (row = 0; row < RANDPOOL_DISPLAY_ROWS; row++)
 				{
-					outputDispBuffer[0] = 0;
-
-					for (row = 0; row < RANDPOOL_DISPLAY_ROWS; row++)
+					for (col = 0; col < RANDPOOL_DISPLAY_COLUMNS; col++)
 					{
-						for (col = 0; col < RANDPOOL_DISPLAY_COLUMNS; col++)
+						if (bDisplayPoolContents)
 						{
 							tmpByte = randPool[row * RANDPOOL_DISPLAY_COLUMNS + col];
-
 							StringCbPrintfW (tmp, sizeof(tmp), bRandPoolDispAscii ? ((tmpByte >= 32 && tmpByte < 255 && tmpByte != L'&') ? L" %c " : L" . ") : L"%02X ", tmpByte);
-							StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), tmp);
 						}
-						StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), L"\n");
-					}
-					SetWindowText (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), outputDispBuffer);
+						else if (bUseMask)
+						{
+							/* use mask to compute a randomized ASCII representation */
+							tmpByte = (randPool[row * RANDPOOL_DISPLAY_COLUMNS + col] - 
+										 lastRandPool[row * RANDPOOL_DISPLAY_COLUMNS + col]) ^ maskRandPool [row * RANDPOOL_DISPLAY_COLUMNS + col];
+							tmp[0] = (wchar_t) (((tmpByte >> 4) % 6) + L'*');
+							tmp[1] = (wchar_t) (((tmpByte & 0x0F) % 6) + L'*');
+							tmp[2] = L' ';
+							tmp[3] = 0;
+						}
+						else
+						{
+							StringCbCopyW (tmp, sizeof(tmp), L"** ");
+						}
 
-					memcpy (lastRandPool, randPool, sizeof(lastRandPool));
+						StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), tmp);
+					}
+					StringCbCatW (outputDispBuffer, sizeof(outputDispBuffer), L"\n");
 				}
+				SetWindowText (GetDlgItem (hwndDlg, IDC_POOL_CONTENTS), outputDispBuffer);
+
+				memcpy (lastRandPool, randPool, sizeof(lastRandPool));
 			}
 			return 1;
 		}
@@ -5797,6 +5923,9 @@ exit:
 			burn (randPool, sizeof(randPool));
 			burn (lastRandPool, sizeof(lastRandPool));
 			burn (outputDispBuffer, sizeof(outputDispBuffer));
+			burn (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
+			burn (&mouseEventsInitialCount, sizeof(mouseEventsInitialCount));
+			burn (maskRandPool, sizeof(maskRandPool));
 
 			// Attempt to wipe the pool contents in the GUI text area
 			wmemset (tmp, L' ', RNG_POOL_SIZE);

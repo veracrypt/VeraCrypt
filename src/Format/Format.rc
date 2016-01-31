@@ -176,6 +176,8 @@ BEGIN
     RTEXT           "Random Pool: ",IDT_RANDOM_POOL,2,39,54,8
     GROUPBOX        "",IDC_STATIC,0,32,225,35
     CONTROL         "",IDC_RANDOM_BYTES,"Static",SS_SIMPLE | WS_GROUP,57,38,155,8,WS_EX_TRANSPARENT
+    GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,0,153,224,18
+    CONTROL         "",IDC_ENTROPY_BAR,"msctls_progress32",WS_BORDER,11,162,202,6
 END
 
 IDD_INTRO_PAGE_DLG DIALOGEX 0, 0, 226, 172
@@ -277,6 +279,8 @@ BEGIN
     CONTROL         "",IDC_SYS_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,8,14,205,72,WS_EX_TRANSPARENT
     LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.",IDT_COLLECTING_RANDOM_DATA_NOTE,1,112,224,40
     GROUPBOX        "Current pool content (partial)",IDT_PARTIAL_POOL_CONTENTS,0,5,222,88
+    GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,0,154,224,18
+    CONTROL         "",IDC_ENTROPY_BAR,"msctls_progress32",WS_BORDER,11,163,202,6
 END
 
 IDD_SYSENC_MULTI_BOOT_MODE_PAGE_DLG DIALOGEX 0, 0, 226, 172
