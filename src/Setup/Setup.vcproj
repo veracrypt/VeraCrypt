@@ -65,7 +65,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMTD"
-				AdditionalDependencies="libcmtd.lib mpr.lib"
+				AdditionalDependencies="libcmtd.lib atlsd.lib mpr.lib"
 				OutputFile="$(OutDir)/VeraCryptSetup.exe"
 				LinkIncremental="2"
 				GenerateManifest="false"
