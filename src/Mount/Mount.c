@@ -6320,11 +6320,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (!EffectiveVolumeTrueCryptMode)
 							EffectiveVolumeTrueCryptMode = DefaultVolumeTrueCryptMode;
 
-						// Cached password
-						mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A', szFileName, NULL, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
-
 						// Command line password or keyfiles
-						if (!mounted && (CmdVolumePassword.Length != 0 || (FirstCmdKeyFile && (CmdVolumePasswordValid || bEffectiveTryEmptyPasswordWhenKeyfileUsed))))
+						if (CmdVolumePassword.Length != 0 || (FirstCmdKeyFile && (CmdVolumePasswordValid || bEffectiveTryEmptyPasswordWhenKeyfileUsed)))
 						{
 							BOOL reportBadPasswd = CmdVolumePassword.Length > 0;
 
@@ -6336,6 +6333,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								&mountOptions, Silent, reportBadPasswd);
 
 							burn (&CmdVolumePassword, sizeof (CmdVolumePassword));
+						}
+						else
+						{
+							// Cached password
+							mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A', szFileName, NULL, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 						}
 
 						if (FirstCmdKeyFile)
