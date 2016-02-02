@@ -1388,7 +1388,7 @@ płyty ratunkowej VeraCrypt, włóż ją do napędu CD/DVD i uruchom ponownie ko
     <string lang="pl" key="PASSWORD_UTF8_INVALID">Wpisane hasło zawiera znaki Unicode, które nie mogą zostać przekonwertowane do reprezentacji UTF-8.</string>
     <string lang="pl" key="INIT_DLL">Błąd: Nie można załadować biblioteki systemowej.</string>
     <string lang="pl" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Rozmiar pliku wolumenu, który określono w wierszu poleceń, jest niekompatybilny z wybranym systemem plików exFAT.</string>
-    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
+    <control lang="pl" key="IDT_ENTROPY_BAR">Losowość zebrana z ruchów myszką</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
