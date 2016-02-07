@@ -176,7 +176,7 @@ static int CompressBuffer (char *out, char *in, int len)
 	startupInfo.hStdError = hChildStdoutWrite;
 	startupInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
 
-	StringCbCopyW (szGzipCmd, sizeof (szGzipCmd), L"gzip --best");
+	StringCchCopyW (szGzipCmd, ARRAYSIZE (szGzipCmd), L"gzip --best");
 	if (!CreateProcess (NULL, szGzipCmd, NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &procInfo))
 	{
 		PkgError (L"Error: Cannot run gzip.\n\nBefore you can create a self-extracting VeraCrypt package, you need to have the open-source 'gzip' compression tool placed in any directory in the search path for executable files (for example, in 'C:\\Windows\\').\n\nNote: gzip can be freely downloaded e.g. from www.gzip.org");
@@ -256,8 +256,8 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 
 	GetModuleFileName (NULL, inputFile, ARRAYSIZE (inputFile));
 
-	StringCbCopyW (outputFile, sizeof(outputFile), szDestDir);
-	StringCbCatW (outputFile, sizeof(outputFile), OutputPackageFile);
+	StringCchCopyW (outputFile, ARRAYSIZE(outputFile), szDestDir);
+	StringCchCatW (outputFile, ARRAYSIZE(outputFile), OutputPackageFile);
 
 	// Clone 'VeraCrypt Setup.exe' to create the base of the new self-extracting archive
 
@@ -377,6 +377,16 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	}
 
 	// Compress all the files and meta data in the buffer to create a solid archive
+
+	// Test to make Coverity happy. It will always be false
+	if (uncompressedDataLen >= (INT_MAX - 524288))
+	{
+		if (_wremove (outputFile))
+			PkgError (L"Cannot allocate memory for compressed data.\nFailed also to delete package file");
+		else
+			PkgError (L"Cannot allocate memory for compressed data");
+		goto err;
+	}
 
 	compressedBuffer = malloc (uncompressedDataLen + 524288);	// + 512K reserve
 	if (compressedBuffer == NULL)
@@ -745,8 +755,8 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 
 		// Filename
 		StringCchCopyNW (fileName, ARRAYSIZE(fileName), Decompressed_Files[fileNo].fileName, Decompressed_Files[fileNo].fileNameLength);
-		StringCbCopyW (filePath, sizeof(filePath), DestExtractPath);
-		StringCbCatW (filePath, sizeof(filePath), fileName);
+		StringCchCopyW (filePath, ARRAYSIZE(filePath), DestExtractPath);
+		StringCchCatW (filePath, ARRAYSIZE(filePath), fileName);
 
 		StatusMessageParam (hwndDlg, "EXTRACTING_VERB", filePath);
 

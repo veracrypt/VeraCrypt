@@ -1552,7 +1552,15 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 			GetSizeString (GetSysEncDeviceSize(TRUE), szTmpW, sizeof(szTmpW));
 			ListSubItemSet (hTree, listItem.iItem, 2, szTmpW);
 
-			EAGetName (szTmp, propSysEnc.ea, 1);
+			if (propSysEnc.ea >= EAGetFirst() && propSysEnc.ea <= EAGetCount())
+			{
+				EAGetName (szTmp, propSysEnc.ea, 1);
+			}
+			else
+			{
+				szTmp[0] = L'?';
+				szTmp[1] = 0;
+			}
 			listItem.iSubItem = 3;
 			ListView_SetItem (hTree, &listItem);
 
@@ -3002,7 +3010,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 				if (kf)
 				{
-					DragQueryFile (hdrop, i++, kf->FileName, sizeof (kf->FileName));
+					DragQueryFile (hdrop, i++, kf->FileName, ARRAYSIZE (kf->FileName));
 					FirstKeyFile = KeyFileAdd (FirstKeyFile, kf);
 					KeyFilesEnable = TRUE;
 				}
@@ -3744,7 +3752,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			// Encryption algorithm
 			ListItemAdd (list, i, GetString ("ENCRYPTION_ALGORITHM"));
 
-			if (prop.ea == 0 || prop.ea > EAGetCount ())
+			if (prop.ea < EAGetFirst() || prop.ea > EAGetCount ())
 			{
 				ListSubItemSet (list, i, 1, L"?");
 				return 1;
@@ -5849,13 +5857,13 @@ static BOOL CheckMountList (HWND hwndDlg, BOOL bForceTaskBarUpdate)
 		LoadDriveLetters (hwndDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
 		NormalCursor ();
 
-		if (selDrive != -1 && (current.ulMountedDrives & (1 << (selDrive - L'A'))) == 0 && !IsDriveAvailable (selDrive - L'A'))
+		if (selDrive != ((wchar_t) 0xFFFF) && (current.ulMountedDrives & (1 << (selDrive - L'A'))) == 0 && !IsDriveAvailable (selDrive - L'A'))
 		{
 			nSelectedDriveIndex = -1;
 			return FALSE;
 		}
 
-		if (selDrive != -1)
+		if (selDrive != ((wchar_t) 0xFFFF))
 			SelectItem (GetDlgItem (MainDlg, IDC_DRIVELIST),selDrive);
 	}
 
@@ -5900,12 +5908,12 @@ static BOOL CheckMountList (HWND hwndDlg, BOOL bForceTaskBarUpdate)
 
 			RecentBootEncStatus = newBootEncStatus;
 
-			if (selDrive != -1 && (current.ulMountedDrives & (1 << (selDrive - L'A'))) == 0 && !IsDriveAvailable (selDrive - L'A'))
+			if (selDrive != ((wchar_t) 0xFFFF) && (current.ulMountedDrives & (1 << (selDrive - L'A'))) == 0 && !IsDriveAvailable (selDrive - L'A'))
 			{
 				nSelectedDriveIndex = -1;
 			}
 
-			if (selDrive != -1)
+			if (selDrive != ((wchar_t) 0xFFFF))
 			{
 				SelectItem (GetDlgItem (MainDlg, IDC_DRIVELIST),selDrive);
 			}
@@ -6069,9 +6077,9 @@ void DisplayDriveListContextMenu (HWND hwndDlg, LPARAM lParam)
 		{
 			pt.x += 2 + ::GetSystemMetrics(SM_CXICON);
 			pt.y += 2;
-			ClientToScreen (hList, &pt);
-			mPos  = MAKELONG (pt.x, pt.y);
 		}
+		ClientToScreen (hList, &pt);
+		mPos  = MAKELONG (pt.x, pt.y);
 	}
 
 	menuItem = TrackPopupMenu (popup,
@@ -6277,8 +6285,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (FirstCmdKeyFile)
 					{
 						KeyFilesEnable = defaultKeyFilesParam.EnableKeyFiles = TRUE;
-						FirstKeyFile = KeyFileCloneAll (FirstCmdKeyFile);
-						defaultKeyFilesParam.FirstKeyFile = KeyFileCloneAll (FirstCmdKeyFile);
+						KeyFileCloneAll (FirstCmdKeyFile, &FirstKeyFile);
+						KeyFileCloneAll (FirstCmdKeyFile, &defaultKeyFilesParam.FirstKeyFile);
 					}
 
 					if (!MountAllDevices (hwndDlg, !Silent && !CmdVolumePasswordValid && IsPasswordCacheEmpty()))
@@ -6291,8 +6299,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (FirstCmdKeyFile)
 					{
 						KeyFilesEnable = defaultKeyFilesParam.EnableKeyFiles = TRUE;
-						FirstKeyFile = KeyFileCloneAll (FirstCmdKeyFile);
-						defaultKeyFilesParam.FirstKeyFile = KeyFileCloneAll (FirstCmdKeyFile);
+						KeyFileCloneAll (FirstCmdKeyFile, &FirstKeyFile);
+						KeyFileCloneAll (FirstCmdKeyFile, &defaultKeyFilesParam.FirstKeyFile);
 					}
 
 					if (!MountFavoriteVolumes (hwndDlg, FALSE, LogOn))
@@ -6342,6 +6350,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 						if (FirstCmdKeyFile)
 						{
+							KeyFileRemoveAll (&FirstKeyFile);
 							FirstKeyFile = FirstCmdKeyFile;
 							KeyFilesEnable = TRUE;
 						}
@@ -7414,7 +7423,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else
 				{
-					GetVolumePath (hwndDlg, volPath, sizeof (volPath));
+					GetVolumePath (hwndDlg, volPath, ARRAYSIZE (volPath));
 
 					WaitCursor ();
 
@@ -8018,7 +8027,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_DROPFILES:
 		{
 			HDROP hdrop = (HDROP) wParam;
-			DragQueryFile (hdrop, 0, szFileName, sizeof szFileName);
+			DragQueryFile (hdrop, 0, szFileName, ARRAYSIZE (szFileName));
 			DragFinish (hdrop);
 
 			AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
@@ -8173,7 +8182,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					bAuto = TRUE;
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)))
 					{
 						if (!_wcsicmp (szTmp, L"devices"))
 							bAutoMountDevices = TRUE;
@@ -8198,7 +8207,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					bCmdTryEmptyPasswordWhenKeyfileUsedValid = TRUE;
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
-						     szTmp, sizeof (szTmp)))
+						     szTmp, ARRAYSIZE (szTmp)))
 					{
 						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
 							bCmdTryEmptyPasswordWhenKeyfileUsed = FALSE;
@@ -8217,7 +8226,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					bIncludePimInCache = FALSE;
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
-						     szTmp, sizeof (szTmp)))
+						     szTmp, ARRAYSIZE (szTmp)))
 					{
 						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
 							bCacheInDriver = FALSE;
@@ -8242,7 +8251,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 			case CommandDismount:
 
 				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
-				     szDriveLetter, sizeof (szDriveLetter)))
+				     szDriveLetter, ARRAYSIZE (szDriveLetter)))
 				{
 					if (	(wcslen(szDriveLetter) == 1)
 						|| (wcslen(szDriveLetter) == 2 && szDriveLetter[1] == L':')
@@ -8272,14 +8281,14 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionKeyfile:
 				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i,
-					nNoCommandLineArgs, tmpPath, sizeof (tmpPath)))
+					nNoCommandLineArgs, tmpPath, ARRAYSIZE (tmpPath)))
 				{
 					KeyFile *kf;
 					RelativePath2Absolute (tmpPath);
 					kf = (KeyFile *) malloc (sizeof (KeyFile));
 					if (kf)
 					{
-						StringCbCopyW (kf->FileName, sizeof(kf->FileName), tmpPath);
+						StringCchCopyW (kf->FileName, ARRAYSIZE(kf->FileName), tmpPath);
 						FirstCmdKeyFile = KeyFileAdd (FirstCmdKeyFile, kf);
 					}
 				}
@@ -8290,7 +8299,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionLetter:
 				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
-					szDriveLetter, sizeof (szDriveLetter)))
+					szDriveLetter, ARRAYSIZE (szDriveLetter)))
 				{
 					if (	(wcslen(szDriveLetter) == 1)
 						|| (wcslen(szDriveLetter) == 2 && szDriveLetter[1] == L':')
@@ -8315,7 +8324,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					bHistory = bHistoryCmdLine = TRUE;
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
-						     szTmp, sizeof (szTmp)))
+						     szTmp, ARRAYSIZE (szTmp)))
 					{
 						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
 							bHistory = FALSE;
@@ -8331,7 +8340,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{
 					wchar_t szTmp[64] = {0};
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)))
 					{
 						if (!_wcsicmp (szTmp, L"ro") || !_wcsicmp (szTmp, L"readonly"))
 							mountOptions.ReadOnly = TRUE;
@@ -8370,7 +8379,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{
 					wchar_t szTmp[MAX_PASSWORD + 1];
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
-								  szTmp, sizeof (szTmp)))
+								  szTmp, ARRAYSIZE (szTmp)))
 					{
 						int iLen = WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, (char*) CmdVolumePassword.Text, MAX_PASSWORD + 1, NULL, NULL);
 						burn (szTmp, sizeof (szTmp));	
@@ -8389,7 +8398,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionVolume:
 				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i,
-								      nNoCommandLineArgs, szFileName, sizeof (szFileName)))
+								      nNoCommandLineArgs, szFileName, ARRAYSIZE (szFileName)))
 				{
 					RelativePath2Absolute (szFileName);
 					AddComboItem (GetDlgItem (hwndDlg, IDC_VOLUME), szFileName, bHistory);
@@ -8404,7 +8413,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					wchar_t szTmp[32] = {0};
 
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)))
 					{
 						if (!_wcsicmp (szTmp, L"UAC")) // Used to indicate non-install elevation
 							break;
@@ -8433,7 +8442,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				break;
 
 			case OptionTokenLib:
-				if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, SecurityTokenLibraryPath, sizeof (SecurityTokenLibraryPath)) == HAS_ARGUMENT)
+				if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, SecurityTokenLibraryPath, ARRAYSIZE (SecurityTokenLibraryPath)) == HAS_ARGUMENT)
 					InitSecurityTokenLibrary(hwndDlg);
 				else
 					AbortProcess ("COMMAND_LINE_ERROR");
@@ -8454,7 +8463,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{
 					wchar_t szTmp[32] = {0};
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)))
 					{
 						if (_wcsicmp(szTmp, L"sha512") == 0 || _wcsicmp(szTmp, L"sha-512") == 0)
 							CmdVolumePkcs5 = SHA512;
@@ -8480,7 +8489,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{
 					wchar_t szTmp[32] = {0};
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
-						&i, nNoCommandLineArgs, szTmp, sizeof (szTmp)))
+						&i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)))
 					{
 						wchar_t* endPtr = NULL;
 						CmdVolumePim = (int) wcstol(szTmp, &endPtr, 0);
@@ -8870,6 +8879,17 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 	BOOL status = TRUE;
 	int drive;
 	drive = towupper (favorite.MountPoint[0]) - L'A';
+
+	if ((drive < MIN_MOUNTED_VOLUME_DRIVE_NUMBER) || (drive > MAX_MOUNTED_VOLUME_DRIVE_NUMBER))
+	{
+		if (!systemFavorites)
+			Error ("DRIVE_LETTER_UNAVAILABLE", MainDlg);
+		else if (ServiceMode && systemFavorites)
+		{
+			SystemFavoritesServiceLogError (wstring (L"The drive letter ") + (wchar_t) (drive + L'A') + wstring (L" used by favorite \"") + favorite.Path + L"\" is invalid.\nThis system favorite will not be mounted");
+		}
+		return FALSE;
+	}
 	
 	mountOptions.ReadOnly = favorite.ReadOnly || userForcedReadOnly;
 	mountOptions.Removable = favorite.Removable;

@@ -712,7 +712,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 			StringCbCatW (szDir, sizeof(szDir), L"Drivers\\");
 		}
 		else if (*szFiles[i] == L'W')
-			GetWindowsDirectory (szDir, sizeof (szDir));
+			GetWindowsDirectory (szDir, ARRAYSIZE (szDir));
 
 		if (*szFiles[i] == L'I')
 			continue;

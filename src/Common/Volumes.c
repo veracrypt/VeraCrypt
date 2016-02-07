@@ -1022,16 +1022,16 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 		for (i = 0; i < j; i++)
 		{
 			wchar_t tmp2[8] = {0};
-			StringCbPrintfW (tmp2, sizeof(tmp2), L"%02X", (int) (unsigned char) keyInfo.master_keydata[i + primaryKeyOffset]);
-			StringCbCatW (MasterKeyGUIView, sizeof(MasterKeyGUIView), tmp2);
+			StringCchPrintfW (tmp2, ARRAYSIZE(tmp2), L"%02X", (int) (unsigned char) keyInfo.master_keydata[i + primaryKeyOffset]);
+			StringCchCatW (MasterKeyGUIView, ARRAYSIZE(MasterKeyGUIView), tmp2);
 		}
 
 		HeaderKeyGUIView[0] = 0;
 		for (i = 0; i < NBR_KEY_BYTES_TO_DISPLAY; i++)
 		{
 			wchar_t tmp2[8];
-			StringCbPrintfW (tmp2, sizeof(tmp2), L"%02X", (int) (unsigned char) dk[primaryKeyOffset + i]);
-			StringCbCatW (HeaderKeyGUIView, sizeof(HeaderKeyGUIView), tmp2);
+			StringCchPrintfW (tmp2, ARRAYSIZE(tmp2), L"%02X", (int) (unsigned char) dk[primaryKeyOffset + i]);
+			StringCchCatW (HeaderKeyGUIView, ARRAYSIZE(HeaderKeyGUIView), tmp2);
 		}
 
 		if (dots3)

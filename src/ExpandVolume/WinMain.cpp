@@ -759,7 +759,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 				if (kf)
 				{
-					DragQueryFile (hdrop, i++, kf->FileName, sizeof (kf->FileName));
+					DragQueryFile (hdrop, i++, kf->FileName, ARRAYSIZE (kf->FileName));
 					FirstKeyFile = KeyFileAdd (FirstKeyFile, kf);
 					KeyFilesEnable = TRUE;
 				}

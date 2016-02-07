@@ -414,7 +414,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 	dataAreaSize = GetVolumeDataAreaSize (volParams->hiddenVol, deviceSize);
 
-	StringCbCopyW (deviceName, sizeof(deviceName), volParams->volumePath);
+	StringCchCopyW (deviceName, ARRAYSIZE(deviceName), volParams->volumePath);
 
 	driveLetter = GetDiskDeviceDriveLetter (deviceName);
 
@@ -1281,6 +1281,16 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
 	{
 		nStatus = ERR_OS_ERROR;
+		goto closing_seq;
+	}
+
+	if (	(driveGeometry.BytesPerSector == 0)
+		||	(driveGeometry.BytesPerSector > TC_MAX_VOLUME_SECTOR_SIZE)
+		|| (driveGeometry.BytesPerSector % ENCRYPTION_DATA_UNIT_SIZE != 0)
+		)
+	{
+		Error ("SECTOR_SIZE_UNSUPPORTED", hwndDlg);
+		nStatus = ERR_DONT_REPORT;
 		goto closing_seq;
 	}
 

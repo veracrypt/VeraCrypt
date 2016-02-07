@@ -691,7 +691,7 @@ namespace VeraCrypt
 		GetSystemDriveConfiguration();
 
 		ProbeRealDriveSizeRequest request;
-		StringCbCopyW (request.DeviceName, sizeof (request.DeviceName), DriveConfig.DrivePartition.DevicePath.c_str());
+		StringCchCopyW (request.DeviceName, ARRAYSIZE (request.DeviceName), DriveConfig.DrivePartition.DevicePath.c_str());
 		
 		CallDriver (TC_IOCTL_PROBE_REAL_DRIVE_SIZE, &request, sizeof (request), &request, sizeof (request));
 		DriveConfig.DrivePartition.Info.PartitionLength = request.RealDriveSize;
@@ -720,7 +720,7 @@ namespace VeraCrypt
 			partPath << L"\\Device\\Harddisk" << driveNumber << L"\\Partition" << partNumber;
 
 			DISK_PARTITION_INFO_STRUCT diskPartInfo = {0};
-			StringCbCopyW (diskPartInfo.deviceName, sizeof (diskPartInfo.deviceName), partPath.str().c_str());
+			StringCchCopyW (diskPartInfo.deviceName, ARRAYSIZE (diskPartInfo.deviceName), partPath.str().c_str());
 
 			try
 			{
@@ -833,7 +833,7 @@ namespace VeraCrypt
 			memset (&openTestStruct, 0, sizeof (openTestStruct));
 			DWORD dwResult;
 
-			StringCbCopyW (&openTestStruct.wszFileName[0], sizeof(openTestStruct.wszFileName),devicePath);
+			StringCchCopyW (&openTestStruct.wszFileName[0], ARRAYSIZE(openTestStruct.wszFileName),devicePath);
 
 			openTestStruct.bDetectTCBootLoader = TRUE;
 
@@ -935,7 +935,7 @@ namespace VeraCrypt
 	bool BootEncryption::SystemDriveIsDynamic ()
 	{
 		GetSystemDriveConfigurationRequest request;
-		StringCbCopyW (request.DevicePath, sizeof (request.DevicePath), GetSystemDriveConfiguration().DeviceKernelPath.c_str());
+		StringCchCopyW (request.DevicePath, ARRAYSIZE (request.DevicePath), GetSystemDriveConfiguration().DeviceKernelPath.c_str());
 
 		CallDriver (TC_IOCTL_GET_SYSTEM_DRIVE_CONFIG, &request, sizeof (request), &request, sizeof (request));
 		return request.DriveIsDynamic ? true : false;
@@ -1240,7 +1240,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		GetSystemDriveConfigurationRequest request;
-		StringCbCopyW (request.DevicePath, sizeof (request.DevicePath), GetSystemDriveConfiguration().DeviceKernelPath.c_str());
+		StringCchCopyW (request.DevicePath, ARRAYSIZE (request.DevicePath), GetSystemDriveConfiguration().DeviceKernelPath.c_str());
 
 		try
 		{
@@ -1973,7 +1973,7 @@ namespace VeraCrypt
 			DWORD size = (DWORD) (sizeof (regKeyBuf) - strSize);
 
 			// SetupInstallFromInfSection() does not support prepending of values so we have to modify the registry directly
-			StringCbCopyA ((char *) regKeyBuf, sizeof(regKeyBuf), filter.c_str());
+			StringCchCopyA ((char *) regKeyBuf, ARRAYSIZE(regKeyBuf), filter.c_str());
 
 			if (RegQueryValueExA (regKey, filterReg.c_str(), NULL, NULL, regKeyBuf + strSize, &size) != ERROR_SUCCESS)
 				size = 1;
@@ -2115,6 +2115,7 @@ namespace VeraCrypt
 		SC_HANDLE service = OpenService (scm, TC_SYSTEM_FAVORITES_SERVICE_NAME, SERVICE_ALL_ACCESS);
 		if (service)
 		{
+			finally_do_arg (SC_HANDLE, service, { CloseServiceHandle (finally_arg); });
 			// ensure that its parameters are correct
 			throw_sys_if (!ChangeServiceConfig (service,
 				SERVICE_WIN32_OWN_PROCESS,
@@ -2585,23 +2586,26 @@ namespace VeraCrypt
 		if (!systemPartitionOnly)
 		{
 			DISK_GEOMETRY geometry = GetDriveGeometry (config.DriveNumber);
-			Buffer sector (geometry.BytesPerSector);
-
-			Device device (config.DevicePath);
-			device.CheckOpened (SRC_POS);
-
-			try
+			if ((geometry.BytesPerSector > 0) && (geometry.BytesPerSector < TC_MAX_VOLUME_SECTOR_SIZE))
 			{
-				device.SeekAt (config.DrivePartition.Info.PartitionLength.QuadPart - geometry.BytesPerSector);
-				device.Read (sector.Ptr(), (DWORD) sector.Size());
-			}
-			catch (SystemException &e)
-			{
-				if (e.ErrorCode != ERROR_CRC)
+				Buffer sector (geometry.BytesPerSector);
+
+				Device device (config.DevicePath);
+				device.CheckOpened (SRC_POS);
+
+				try
 				{
-					e.Show (ParentWindow);
-					Error ("WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS", ParentWindow);
-					throw UserAbort (SRC_POS);
+					device.SeekAt (config.DrivePartition.Info.PartitionLength.QuadPart - geometry.BytesPerSector);
+					device.Read (sector.Ptr(), (DWORD) sector.Size());
+				}
+				catch (SystemException &e)
+				{
+					if (e.ErrorCode != ERROR_CRC)
+					{
+						e.Show (ParentWindow);
+						Error ("WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS", ParentWindow);
+						throw UserAbort (SRC_POS);
+					}
 				}
 			}
 		}
@@ -2641,7 +2645,7 @@ namespace VeraCrypt
 	void BootEncryption::RestrictPagingFilesToSystemPartition ()
 	{
 		wchar_t pagingFiles[128] = {0};
-		StringCbCopyW (pagingFiles, sizeof(pagingFiles), L"X:\\pagefile.sys 0 0");
+		StringCchCopyW (pagingFiles, ARRAYSIZE(pagingFiles), L"X:\\pagefile.sys 0 0");
 		pagingFiles[0] = GetWindowsDirectory()[0];
 
 		throw_sys_if (!WriteLocalMachineRegistryMultiString (L"System\\CurrentControlSet\\Control\\Session Manager\\Memory Management", L"PagingFiles", pagingFiles, (DWORD) (wcslen (pagingFiles) + 2) * sizeof (wchar_t)));

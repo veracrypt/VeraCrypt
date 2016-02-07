@@ -280,8 +280,9 @@ extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old
 
 	if (ComGetInstance (hwndDlg, &tc))
 	{
+		CComBSTR bstrVolume (lpszVolume);
 		WaitCursor ();
-		r = tc->ChangePasswordEx3 (lpszVolume, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (LONG_PTR) hwndDlg);
+		r = tc->ChangePasswordEx3 (bstrVolume, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (LONG_PTR) hwndDlg);
 		NormalCursor ();
 	}
 	else

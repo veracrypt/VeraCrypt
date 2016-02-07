@@ -568,6 +568,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 	uint64 s[8];	// the cipher state
 	uint64 k[8];	// the round key
 	int r;
+	uint64 w0 = 0, w1 = 0, w2 = 0, w3 = 0, w4 = 0, w5 = 0, w6 = 0, w7 = 0;	// temporary storage
 
 	// Compute and apply K^0 to the cipher state
 	// Also apply part of the Miyaguchi-Preneel compression function
@@ -627,7 +628,6 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 	r=0;
 	while (1)
 	{
-		uint64 w0, w1, w2, w3, w4, w5, w6, w7;	// temporary storage
 		uint32 t;
 
 		KSL(0, 4, 3, 2, 1, 0)

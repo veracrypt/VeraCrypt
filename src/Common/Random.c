@@ -671,10 +671,10 @@ BOOL SlowPoll (void)
 		wchar_t dllPath[MAX_PATH];
 		if (GetSystemDirectory (dllPath, MAX_PATH))
 		{
-			StringCbCatW(dllPath, sizeof(dllPath), L"\\NETAPI32.DLL");
+			StringCchCatW(dllPath, ARRAYSIZE(dllPath), L"\\NETAPI32.DLL");
 		}
 		else
-			StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32\\NETAPI32.DLL");
+			StringCchCopyW(dllPath, ARRAYSIZE(dllPath), L"C:\\Windows\\System32\\NETAPI32.DLL");
 
 		hNetAPI32 = LoadLibrary (dllPath);
 		if (hNetAPI32 != NULL)
@@ -725,7 +725,7 @@ BOOL SlowPoll (void)
 		wchar_t szDevice[24];
 
 		/* Check whether we can access this device */
-		StringCbPrintfW (szDevice, sizeof(szDevice), L"\\\\.\\PhysicalDrive%d", nDrive);
+		StringCchPrintfW (szDevice, ARRAYSIZE(szDevice), L"\\\\.\\PhysicalDrive%d", nDrive);
 		hDevice = CreateFile (szDevice, 0, FILE_SHARE_READ | FILE_SHARE_WRITE,
 				      NULL, OPEN_EXISTING, 0, NULL);
 		if (hDevice == INVALID_HANDLE_VALUE)

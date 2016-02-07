@@ -119,20 +119,26 @@ KeyFile *KeyFileClone (KeyFile *keyFile)
 }
 
 
-KeyFile *KeyFileCloneAll (KeyFile *firstKeyFile)
+void KeyFileCloneAll (KeyFile *firstKeyFile, KeyFile **outputKeyFile)
 {
-	KeyFile *cloneFirstKeyFile = KeyFileClone (firstKeyFile);
-	KeyFile *kf;
-
-	if (firstKeyFile == NULL) return NULL;
-	kf = firstKeyFile->Next;
-	while (kf != NULL)
+	if (outputKeyFile)
 	{
-		KeyFileAdd (cloneFirstKeyFile, KeyFileClone (kf));
-		kf = kf->Next;
-	}
+		KeyFile *cloneFirstKeyFile = KeyFileClone (firstKeyFile);
+		KeyFile *kf;
 
-	return cloneFirstKeyFile;
+		KeyFileRemoveAll (outputKeyFile);
+		if (firstKeyFile)
+		{
+			kf = firstKeyFile->Next;
+			while (kf != NULL)
+			{
+				KeyFileAdd (cloneFirstKeyFile, KeyFileClone (kf));
+				kf = kf->Next;
+			}
+
+			*outputKeyFile = cloneFirstKeyFile;
+		}
+	}
 }
 
 
@@ -451,7 +457,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			param = (KeyFilesDlgParam *) lParam;
 			origParam = *(KeyFilesDlgParam *) lParam;
 
-			param->FirstKeyFile = KeyFileCloneAll (param->FirstKeyFile);
+			KeyFileCloneAll (param->FirstKeyFile, &param->FirstKeyFile);
 
 			LocalizeDialog (hwndDlg, "IDD_KEYFILES");
 			DragAcceptFiles (hwndDlg, TRUE);
@@ -637,7 +643,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
 				if (kf)
 				{
-					DragQueryFile (hdrop, i++, kf->FileName, sizeof (kf->FileName));
+					DragQueryFile (hdrop, i++, kf->FileName, ARRAYSIZE (kf->FileName));
 					param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 					LoadKeyList (hwndDlg, param->FirstKeyFile);
 				}

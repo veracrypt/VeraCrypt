@@ -38,7 +38,7 @@ typedef struct
 KeyFile *KeyFileAdd (KeyFile *firstKeyFile, KeyFile *keyFile);
 void KeyFileRemoveAll (KeyFile **firstKeyFile);
 KeyFile *KeyFileClone (KeyFile *keyFile);
-KeyFile *KeyFileCloneAll (KeyFile *firstKeyFile);
+void KeyFileCloneAll (KeyFile *firstKeyFile, KeyFile **outputKeyFile);
 BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFilem, const wchar_t* volumeFileName);
 
 BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

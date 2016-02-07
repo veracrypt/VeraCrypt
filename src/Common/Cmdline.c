@@ -173,7 +173,7 @@ int GetArgumentValue (wchar_t **lpszCommandLineArgs, int *nArgIdx,
 		{
 			/* Handles the case of space between parameter code
 			   and value */
-			StringCbCopyW (lpszValue, nValueSize, lpszCommandLineArgs[*nArgIdx + 1]);
+			StringCchCopyW (lpszValue, nValueSize, lpszCommandLineArgs[*nArgIdx + 1]);
 			lpszValue[nValueSize - 1] = 0;
 			(*nArgIdx)++;
 			return HAS_ARGUMENT;

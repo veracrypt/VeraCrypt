@@ -138,7 +138,7 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 
 	if (volParams->bDevice)
 	{
-		StringCbCopyW (deviceName, sizeof(deviceName), volParams->volumePath);
+		StringCchCopyW (deviceName, ARRAYSIZE(deviceName), volParams->volumePath);
 
 		driveLetter = GetDiskDeviceDriveLetter (deviceName);
 	}
@@ -874,10 +874,10 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 	switch (fsType)
 	{
 		case FILESYS_NTFS:
-			StringCbCopyW (szFsFormat, sizeof (szFsFormat),L"NTFS");
+			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"NTFS");
 			break;
 		case FILESYS_EXFAT:
-			StringCbCopyW (szFsFormat, sizeof (szFsFormat),L"EXFAT");
+			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"EXFAT");
 			break;
 		default:
 			return FALSE;
@@ -886,10 +886,10 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 	
 	if (GetSystemDirectory (dllPath, MAX_PATH))
 	{
-		StringCbCatW(dllPath, sizeof(dllPath), L"\\fmifs.dll");
+		StringCchCatW(dllPath, ARRAYSIZE(dllPath), L"\\fmifs.dll");
 	}
 	else
-		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32\\fmifs.dll");
+		StringCchCopyW(dllPath, ARRAYSIZE(dllPath), L"C:\\Windows\\System32\\fmifs.dll");
 	
 	hModule = LoadLibrary (dllPath);
 
@@ -902,7 +902,7 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 		return FALSE;
 	}
 
-	StringCbCatW (dir, sizeof(dir), L":\\");
+	StringCchCatW (dir, ARRAYSIZE(dir), L":\\");
 
 	FormatExError = TRUE;
 	

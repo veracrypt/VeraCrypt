@@ -43,8 +43,8 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 
 	UNREFERENCED_PARAMETER (hwndDlg);		/* Remove warning */
 
-	GetWindowText (hPassword, szTmp1, sizeof (szTmp1));
-	GetWindowText (hVerify, szTmp2, sizeof (szTmp2));
+	GetWindowText (hPassword, szTmp1, ARRAYSIZE (szTmp1));
+	GetWindowText (hVerify, szTmp2, ARRAYSIZE (szTmp2));
 
 	utf8Len1 = WideCharToMultiByte (CP_UTF8, 0, szTmp1, -1, szTmp1Utf8, MAX_PASSWORD + 1, NULL, NULL);
 	utf8Len2 = WideCharToMultiByte (CP_UTF8, 0, szTmp2, -1, szTmp2Utf8, MAX_PASSWORD + 1, NULL, NULL);

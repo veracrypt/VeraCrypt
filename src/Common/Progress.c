@@ -78,23 +78,23 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 		double perc = (double) (100.0 * (bProgressBarReverse ? ((double) (TotalSize - byteOffset)) : ((double) byteOffset)) / (TotalSize == 0 ? 0.0001 : ((double) TotalSize)));
 
 		if (perc > 99.999999999)
-			StringCbCopyW (text,sizeof(text),  GetString ("PROCESSED_PORTION_100_PERCENT"));
+			StringCchCopyW (text,ARRAYSIZE(text),  GetString ("PROCESSED_PORTION_100_PERCENT"));
 		else
-			StringCbPrintfW (text, sizeof text, GetString ("PROCESSED_PORTION_X_PERCENT"), perc);
+			StringCchPrintfW (text, ARRAYSIZE (text), GetString ("PROCESSED_PORTION_X_PERCENT"), perc);
 
-		StringCbCatW (text, sizeof(speed), L" ");
+		StringCchCatW (text, ARRAYSIZE(text), L" ");
 	}
 	else
 	{
 		GetSizeString (bytesDone, text, sizeof(text));
 		if (bytesDone < (unsigned __int64) BYTES_PER_MB * 1000000)
-			StringCbPrintfW(text, sizeof(text), L"%I64d %s ", bytesDone / BYTES_PER_MB, GetString ("MB"));
+			StringCchPrintfW(text, ARRAYSIZE(text), L"%I64d %s ", bytesDone / BYTES_PER_MB, GetString ("MB"));
 		else if (bytesDone < (unsigned __int64) BYTES_PER_GB * 1000000)
-			StringCbPrintfW(text, sizeof(text), L"%I64d %s ", bytesDone / BYTES_PER_GB, GetString ("GB"));
+			StringCchPrintfW(text, ARRAYSIZE(text), L"%I64d %s ", bytesDone / BYTES_PER_GB, GetString ("GB"));
 		else if (bytesDone < (unsigned __int64) BYTES_PER_TB * 1000000)
-			StringCbPrintfW(text, sizeof(text), L"%I64d %s ", bytesDone / BYTES_PER_TB, GetString ("TB"));
+			StringCchPrintfW(text, ARRAYSIZE(text), L"%I64d %s ", bytesDone / BYTES_PER_TB, GetString ("TB"));
 		else
-			StringCbPrintfW(text, sizeof(text), L"%I64d %s ", bytesDone / BYTES_PER_PB, GetString ("PB"));
+			StringCchPrintfW(text, ARRAYSIZE(text), L"%I64d %s ", bytesDone / BYTES_PER_PB, GetString ("PB"));
 	}
 
 	SetWindowTextW (GetDlgItem (hCurPage, IDC_BYTESWRITTEN), text);
@@ -102,7 +102,7 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 	if (!bShowStatus)
 	{
 		GetSpeedString (bRWThroughput ? bytesPerSec*2 : bytesPerSec, speed, sizeof(speed));
-		StringCbCatW (speed, sizeof(speed), L" ");
+		StringCchCatW (speed, ARRAYSIZE(speed), L" ");
 		SetWindowTextW (GetDlgItem (hCurPage, IDC_WRITESPEED), speed);
 	}
 
@@ -111,15 +111,15 @@ BOOL UpdateProgressBarProc (__int64 byteOffset)
 		int64 sec = (int64) ((bProgressBarReverse ? byteOffset : (TotalSize - byteOffset)) / (bytesPerSec == 0 ? 0.001 : bytesPerSec));
 
 		if (bytesPerSec == 0 || sec > 60 * 60 * 24 * 999)
-			StringCbPrintfW (text, sizeof(text), L"%s ", GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE"));
+			StringCchPrintfW (text, ARRAYSIZE(text), L"%s ", GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE"));
 		else if (sec >= 60 * 60 * 24 * 2)
-			StringCbPrintfW (text, sizeof(text), L"%I64d %s ", sec / (60 * 24 * 60), days);
+			StringCchPrintfW (text, ARRAYSIZE(text), L"%I64d %s ", sec / (60 * 24 * 60), days);
 		else if (sec >= 120 * 60)
-			StringCbPrintfW (text, sizeof(text), L"%I64d %s ", sec / (60 * 60), hours);
+			StringCchPrintfW (text, ARRAYSIZE(text), L"%I64d %s ", sec / (60 * 60), hours);
 		else if (sec >= 120)
-			StringCbPrintfW (text, sizeof(text), L"%I64d %s ", sec / 60, minutes);
+			StringCchPrintfW (text, ARRAYSIZE(text), L"%I64d %s ", sec / 60, minutes);
 		else
-			StringCbPrintfW (text, sizeof(text), L"%I64d %s ", sec, seconds);
+			StringCchPrintfW (text, ARRAYSIZE(text), L"%I64d %s ", sec, seconds);
 
 		SetWindowTextW (GetDlgItem (hCurPage, IDC_TIMEREMAIN), text);
 	}

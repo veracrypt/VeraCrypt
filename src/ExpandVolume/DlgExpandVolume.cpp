@@ -305,7 +305,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetDlgItemText(hwndDlg, IDC_BOX_STATUS, L"IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.");
 			}
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), BM_SETCHECK, showRandPool ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), BM_SETCHECK, BST_UNCHECKED, 0);
 			hEntropyBar = GetDlgItem (hwndDlg, IDC_ENTROPY_BAR);
 			SendMessage (hEntropyBar, PBM_SETRANGE32, 0, maxEntropyLevel);
 			SendMessage (hEntropyBar, PBM_SETSTEP, 1, 0);

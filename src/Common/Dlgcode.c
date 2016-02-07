@@ -716,7 +716,7 @@ DWORD handleWin32Error (HWND hwndDlg, const char* srcPos)
 		pszDesc = (wchar_t*) lpMsgBuf;
 	else
 	{
-		StringCbPrintfW (szErrorValue, sizeof (szErrorValue), L"Error 0x%.8X", dwError);
+		StringCchPrintfW (szErrorValue, ARRAYSIZE (szErrorValue), L"Error 0x%.8X", dwError);
 		pszDesc = szErrorValue;
 	}
 
@@ -853,7 +853,7 @@ std::wstring FitPathInGfxWidth (HWND hwnd, HFONT hFont, LONG width, const std::w
 	SelectObject (hdc, (HGDIOBJ) hFont);
 
 	wchar_t pathBuf[TC_MAX_PATH];
-	StringCbCopyW (pathBuf, sizeof (pathBuf), path.c_str());
+	StringCchCopyW (pathBuf, ARRAYSIZE (pathBuf), path.c_str());
 
 	if (DrawText (hdc, pathBuf, (int) path.size(), &rect, DT_CALCRECT | DT_MODIFYSTRING | DT_PATH_ELLIPSIS | DT_SINGLELINE) != 0)
 		newPath = pathBuf;
@@ -4898,6 +4898,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 	if (QueryPerformanceFrequency (&benchmarkPerformanceFrequency) == 0)
 	{
+		if (ci)
+			crypto_close (ci);
 		MessageBoxW (hwndDlg, GetString ("ERR_PERF_COUNTER"), lpszTitle, ICON_HAND);
 		return FALSE;
 	}
@@ -4905,6 +4907,8 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 	lpTestBuffer = (BYTE *) malloc(benchmarkBufferSize - (benchmarkBufferSize % 16));
 	if (lpTestBuffer == NULL)
 	{
+		if (ci)
+			crypto_close (ci);
 		MessageBoxW (hwndDlg, GetString ("ERR_MEM_ALLOC"), lpszTitle, ICON_HAND);
 		return FALSE;
 	}
@@ -8132,7 +8136,7 @@ BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, 
 		{
 			dst = CreateFile (destinationFile,
 					GENERIC_WRITE,
-					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, bAppend ? OPEN_EXISTING : CREATE_ALWAYS, 0, NULL);
+					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, 0, NULL);
 			dwLastError = GetLastError();
 			if (dst == INVALID_HANDLE_VALUE)
 			{
@@ -9372,7 +9376,7 @@ void RestoreDefaultKeyFilesParam (void)
 	KeyFileRemoveAll (&FirstKeyFile);
 	if (defaultKeyFilesParam.FirstKeyFile != NULL)
 	{
-		FirstKeyFile = KeyFileCloneAll (defaultKeyFilesParam.FirstKeyFile);
+		KeyFileCloneAll (defaultKeyFilesParam.FirstKeyFile, &FirstKeyFile);
 		KeyFilesEnable = defaultKeyFilesParam.EnableKeyFiles;
 	}
 	else
@@ -11295,7 +11299,7 @@ BOOL IsApplicationInstalled (const wchar_t *appName, BOOL b32bitApp)
 	const wchar_t *uninstallRegName = L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
 	BOOL installed = FALSE;
 	HKEY unistallKey;
-	LONG res = RegOpenKeyEx (HKEY_LOCAL_MACHINE, uninstallRegName, 0, KEY_READ | b32bitApp? KEY_WOW64_32KEY: KEY_WOW64_64KEY, &unistallKey);
+	LONG res = RegOpenKeyEx (HKEY_LOCAL_MACHINE, uninstallRegName, 0, KEY_READ | (b32bitApp? KEY_WOW64_32KEY: KEY_WOW64_64KEY), &unistallKey);
 	if (res != ERROR_SUCCESS)
 	{
 		SetLastError (res);

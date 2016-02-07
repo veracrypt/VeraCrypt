@@ -232,7 +232,7 @@ void DumpCombo (HWND hComboBox, int bClear)
 		if (szTmp[0] != 0)
 		{
 			wchar_t q[MAX_PATH * 2] = { 0 };
-			XmlQuoteTextW (szTmp, q, sizeof (q));
+			XmlQuoteTextW (szTmp, q, ARRAYSIZE (q));
 
 			fwprintf (f, L"\n\t\t<volume>%s</volume>", q);
 		}

@@ -389,7 +389,12 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			DisplayHotkeyList(hwndDlg);
 			
-			SetTimer (hwndDlg, 0xfe, 10, NULL);
+			if (SetTimer (hwndDlg, 0xfe, 10, NULL) == 0)
+			{
+				Error ("CANNOT_SET_TIMER", MainDlg);
+				EndDialog (hwndDlg, IDCANCEL);
+				return 1;
+			}
 			return 1;
 		}
 
