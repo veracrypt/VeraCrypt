@@ -844,7 +844,7 @@ void SaveSettings (HWND hwndDlg)
 
 		ConfigWriteInt ("OpenExplorerWindowAfterMount",		bExplore);
 		ConfigWriteInt ("UseDifferentTrayIconIfVolumesMounted",	bUseDifferentTrayIconIfVolMounted);
-		ConfigWriteInt ("SaveVolumeHistory",				!IsButtonChecked (GetDlgItem (hwndDlg, IDC_NO_HISTORY)));
+		ConfigWriteInt ("SaveVolumeHistory",				bHistory);
 
 		ConfigWriteInt ("CachePasswords",					bCacheInDriverDefault);
 		ConfigWriteInt ("CachePasswordDuringMultipleMount",	bCacheDuringMultipleMount);
