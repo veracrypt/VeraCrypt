@@ -1545,9 +1545,11 @@ static VOID SetupThreadProc (PVOID threadArg)
 		{
 			status = SaveDriveVolumeHeader (Extension);
 			ASSERT (NT_SUCCESS (status));
-
-			headerUpdateRequired = FALSE;
-			bytesWrittenSinceHeaderUpdate = 0;
+			if (NT_SUCCESS (status))
+			{
+				headerUpdateRequired = FALSE;
+				bytesWrittenSinceHeaderUpdate = 0;
+			}
 		}
 	}
 
