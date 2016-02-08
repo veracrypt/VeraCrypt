@@ -39,9 +39,9 @@ class WizardPage;
 #include <wx/textctrl.h>
 #include <wx/dialog.h>
 #include <wx/choice.h>
+#include <wx/gauge.h>
 #include <wx/spinctrl.h>
 #include <wx/notebook.h>
-#include <wx/gauge.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -411,6 +411,7 @@ namespace VeraCrypt
 			wxChoice* HashChoice;
 			wxStaticText* RandomPoolStaticText;
 			wxCheckBox* ShowRandomPoolCheckBox;
+			wxGauge* CollectedEntropy;
 			wxStaticText* MouseStaticText;
 			wxStaticText* m_staticText60;
 			wxSpinCtrl* NumberOfKeyfiles;
@@ -639,6 +640,7 @@ namespace VeraCrypt
 			wxChoice* HashChoice;
 			wxStaticText* RandomPoolStaticText;
 			wxCheckBox* ShowRandomPoolCheckBox;
+			wxGauge* CollectedEntropy;
 			wxStaticText* MouseStaticText;
 			wxButton* ContinueButton;
 			

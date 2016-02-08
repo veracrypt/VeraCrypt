@@ -31,8 +31,10 @@ namespace VeraCrypt
 		void OnShowRandomPoolCheckBoxClicked (wxCommandEvent& event);
 		void OnRandomSizeCheckBoxClicked( wxCommandEvent& event );
 		void ShowBytes (wxStaticText *textCtrl, const ConstBufferPtr &buffer, bool appendDots = true);
+		void HideBytes (wxStaticText *textCtrl, size_t len);
 		
 		HashList Hashes;
+		int	MouseEventsCounter;
 	};
 }
 

@@ -31,7 +31,7 @@ namespace VeraCrypt
 		HashChoice->Select (0);
 		RandomNumberGenerator::SetHash (Gui->GetSelectedData <Hash> (HashChoice)->GetNew());
 
-		ShowBytes (RandomPoolStaticText, RandomNumberGenerator::PeekPool().GetRange (0, 24));
+		HideBytes (RandomPoolStaticText, 24);
 		MouseStaticText->Wrap (Gui->GetCharWidth (MouseStaticText) * 70);
 
 		MainSizer->SetMinSize (wxSize (-1, Gui->GetCharHeight (this) * 24));
@@ -39,6 +39,8 @@ namespace VeraCrypt
 		Layout();
 		Fit();
 		Center();
+		
+		MouseEventsCounter = 0;
 
 		foreach (wxWindow *c, this->GetChildren())
 			c->Connect (wxEVT_MOTION, wxMouseEventHandler (KeyfileGeneratorDialog::OnMouseMotion), nullptr, this);
@@ -169,12 +171,20 @@ namespace VeraCrypt
 
 		if (ShowRandomPoolCheckBox->IsChecked())
 			ShowBytes (RandomPoolStaticText, RandomNumberGenerator::PeekPool().GetRange (0, 24));
+		else
+			HideBytes (RandomPoolStaticText, 24);
+		
+		/* conservative estimate: 1 mouse move event brings 1 bit of entropy
+		 * https://security.stackexchange.com/questions/32844/for-how-much-time-should-i-randomly-move-the-mouse-for-generating-encryption-key/32848#32848
+		 */
+		if (MouseEventsCounter < 2560)
+			CollectedEntropy->SetValue (++MouseEventsCounter);
 	}
 	
 	void KeyfileGeneratorDialog::OnShowRandomPoolCheckBoxClicked (wxCommandEvent& event)
 	{
 		if (!event.IsChecked())
-			RandomPoolStaticText->SetLabel (L"");
+			HideBytes (RandomPoolStaticText, 24);
 	}
 
 	void KeyfileGeneratorDialog::OnRandomSizeCheckBoxClicked (wxCommandEvent& event)
@@ -203,5 +213,17 @@ namespace VeraCrypt
 		{
 			str[i] = L'X';
 		}
+	}
+	
+	void KeyfileGeneratorDialog::HideBytes (wxStaticText *textCtrl, size_t len)
+	{
+		wxString str;
+
+		for (size_t i = 0; i < len + 1; ++i)
+		{
+			str += L"**";
+		}
+
+		textCtrl->SetLabel (str.c_str());
 	}
 }

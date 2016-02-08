@@ -1362,11 +1362,23 @@ KeyfileGeneratorDialogBase::KeyfileGeneratorDialogBase( wxWindow* parent, wxWind
 	bSizer147->Add( RandomPoolStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	ShowRandomPoolCheckBox = new wxCheckBox( this, wxID_ANY, _("Show"), wxDefaultPosition, wxDefaultSize, 0 );
-	ShowRandomPoolCheckBox->SetValue(true); 
 	bSizer147->Add( ShowRandomPoolCheckBox, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	sbSizer43->Add( bSizer147, 0, wxEXPAND|wxTOP, 5 );
+	
+	
+	sbSizer43->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizer45;
+	sbSizer45 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Randomness Collected From Mouse Movements") ), wxVERTICAL );
+	
+	CollectedEntropy = new wxGauge( this, wxID_ANY, 2560, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL|wxGA_SMOOTH );
+	CollectedEntropy->SetValue( 0 ); 
+	sbSizer45->Add( CollectedEntropy, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	sbSizer43->Add( sbSizer45, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
 	
 	
 	sbSizer43->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -2315,11 +2327,23 @@ RandomPoolEnrichmentDialogBase::RandomPoolEnrichmentDialogBase( wxWindow* parent
 	bSizer147->Add( RandomPoolStaticText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	ShowRandomPoolCheckBox = new wxCheckBox( this, wxID_ANY, _("Show"), wxDefaultPosition, wxDefaultSize, 0 );
-	ShowRandomPoolCheckBox->SetValue(true); 
 	bSizer147->Add( ShowRandomPoolCheckBox, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	sbSizer43->Add( bSizer147, 0, wxEXPAND|wxTOP, 5 );
+	
+	
+	sbSizer43->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizer45;
+	sbSizer45 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Randomness Collected From Mouse Movements") ), wxVERTICAL );
+	
+	CollectedEntropy = new wxGauge( this, wxID_ANY, 2560, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL|wxGA_SMOOTH );
+	CollectedEntropy->SetValue( 0 ); 
+	sbSizer45->Add( CollectedEntropy, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	sbSizer43->Add( sbSizer45, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
 	
 	
 	sbSizer43->Add( 0, 0, 1, wxEXPAND, 5 );
