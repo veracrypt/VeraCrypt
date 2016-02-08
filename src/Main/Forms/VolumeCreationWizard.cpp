@@ -39,7 +39,7 @@ namespace VeraCrypt
 	VolumeCreationWizard::VolumeCreationWizard (wxWindow* parent)
 		: WizardFrame (parent),
 		CrossPlatformSupport (true),
-		DisplayKeyInfo (true),
+		DisplayKeyInfo (false),
 		LargeFilesSupport (false),
 		QuickFormatEnabled (false),
 		SelectedFilesystemClusterSize (0),
@@ -378,6 +378,12 @@ namespace VeraCrypt
 			RandomNumberGenerator::AddToPool (ConstBufferPtr (reinterpret_cast <byte *> (&coord), sizeof (coord)));
 			coord = event.GetY();
 			RandomNumberGenerator::AddToPool (ConstBufferPtr (reinterpret_cast <byte *> (&coord), sizeof (coord)));
+			
+			VolumeCreationProgressWizardPage *page = dynamic_cast <VolumeCreationProgressWizardPage *> (GetCurrentPage());
+			if (page)
+			{
+				page->IncrementEntropyProgress ();
+			}
 		}
 	}
 	

@@ -34,6 +34,7 @@ namespace VeraCrypt
 		void SetProgressRange (uint64 progressBarRange);
 		void SetProgressValue (uint64 value);
 		void SetProgressState (bool volumeCreatorRunning);
+		void IncrementEntropyProgress ();
 
 		Event AbortEvent;
 
@@ -51,6 +52,8 @@ namespace VeraCrypt
 		int RealProgressBarRange;
 		wxLongLong StartTime;
 		bool VolumeCreatorRunning;
+		int MouseEventsCounter;
+		Mutex AccessMutex;
 	};
 }
 

@@ -871,6 +871,7 @@ namespace VeraCrypt
 			wxCheckBox* DisplayKeysCheckBox;
 			wxStaticText* HeaderKeySampleStaticText;
 			wxStaticText* MasterKeySampleStaticText;
+			wxGauge* CollectedEntropy;
 			wxGauge* ProgressGauge;
 			wxButton* AbortButton;
 			wxStaticText* m_staticText31;

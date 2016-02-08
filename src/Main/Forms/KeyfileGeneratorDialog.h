@@ -35,6 +35,7 @@ namespace VeraCrypt
 		
 		HashList Hashes;
 		int	MouseEventsCounter;
+		Mutex AccessMutex;
 	};
 }
 

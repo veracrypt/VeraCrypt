@@ -33,6 +33,8 @@ namespace VeraCrypt
 
 		HideBytes (RandomPoolStaticText, 24);
 		MouseStaticText->Wrap (Gui->GetCharWidth (MouseStaticText) * 70);
+		
+		CollectedEntropy->SetRange (RNG_POOL_SIZE * 8);
 
 		MainSizer->SetMinSize (wxSize (-1, Gui->GetCharHeight (this) * 24));
 
@@ -177,7 +179,8 @@ namespace VeraCrypt
 		/* conservative estimate: 1 mouse move event brings 1 bit of entropy
 		 * https://security.stackexchange.com/questions/32844/for-how-much-time-should-i-randomly-move-the-mouse-for-generating-encryption-key/32848#32848
 		 */
-		if (MouseEventsCounter < 2560)
+		ScopeLock lock (AccessMutex);
+		if (MouseEventsCounter < (RNG_POOL_SIZE * 8))
 			CollectedEntropy->SetValue (++MouseEventsCounter);
 	}
 	
