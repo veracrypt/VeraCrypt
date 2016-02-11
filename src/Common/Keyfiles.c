@@ -40,6 +40,9 @@ using namespace VeraCrypt;
 
 BOOL HiddenFilesPresentInKeyfilePath = FALSE;
 
+#ifdef TCMOUNT
+extern BOOL UsePreferences;
+#endif
 
 KeyFile *KeyFileAdd (KeyFile *firstKeyFile, KeyFile *keyFile)
 {
@@ -613,9 +616,12 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			{
 				bTryEmptyPasswordWhenKeyfileUsed = IsButtonChecked (GetDlgItem (hwndDlg, IDC_KEYFILES_TRY_EMPTY_PASSWORD));
 
-				WaitCursor ();
-				SaveSettings (hwndDlg);
-				NormalCursor ();
+				if (UsePreferences)
+				{
+					WaitCursor ();
+					SaveSettings (hwndDlg);
+					NormalCursor ();
+				}
 			}
 #endif
 			EndDialog (hwndDlg, IDOK);
