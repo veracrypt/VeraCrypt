@@ -129,7 +129,9 @@ void KeyFileCloneAll (KeyFile *firstKeyFile, KeyFile **outputKeyFile)
 		KeyFile *cloneFirstKeyFile = KeyFileClone (firstKeyFile);
 		KeyFile *kf;
 
-		KeyFileRemoveAll (outputKeyFile);
+		// free output only if different from input
+		if (*outputKeyFile != firstKeyFile)
+			KeyFileRemoveAll (outputKeyFile);
 		if (firstKeyFile)
 		{
 			kf = firstKeyFile->Next;
