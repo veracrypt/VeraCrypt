@@ -346,27 +346,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				RandpeekBytes (hwndDlg, randPool, sizeof (randPool),&mouseEventsCounter);
 
-				/* conservative estimate: 1 mouse move event brings 1 bit of entropy
-				 * https://security.stackexchange.com/questions/32844/for-how-much-time-should-i-randomly-move-the-mouse-for-generating-encryption-key/32848#32848
-				 */
-				if (mouseEntropyGathered == 0xFFFFFFFF)
-				{
-					mouseEventsInitialCount = mouseEventsCounter;
-					mouseEntropyGathered = 0;
-				}
-				else
-				{
-					if (	mouseEntropyGathered < maxEntropyLevel 
-						&& (mouseEventsCounter >= mouseEventsInitialCount) 
-						&& (mouseEventsCounter - mouseEventsInitialCount) <= maxEntropyLevel)
-						mouseEntropyGathered = mouseEventsCounter - mouseEventsInitialCount;
-					else
-						mouseEntropyGathered = maxEntropyLevel;
-
-					SendMessage (hEntropyBar, PBM_SETPOS, 
-					(WPARAM) (mouseEntropyGathered),
-					0);
-				}
+				ProcessEntropyEstimate (hEntropyBar, &mouseEventsInitialCount, mouseEventsCounter, maxEntropyLevel, &mouseEntropyGathered);
 
 				if (showRandPool)
 					StringCbPrintfW (szRndPool, sizeof(szRndPool), L"%08X%08X%08X%08X", 
