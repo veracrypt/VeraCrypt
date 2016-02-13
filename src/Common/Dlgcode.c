@@ -3422,7 +3422,9 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				// Path
 				if (!device.IsPartition || device.DynamicVolume)
 				{
-					if (!device.Floppy && device.Size == 0)
+					if (!device.Floppy && (device.Size == 0) 
+						&& (device.IsPartition || device.Partitions.empty() || device.Partitions[0].Size == 0)
+						)
 						continue;
 
 					if (line > 1)
@@ -7709,6 +7711,33 @@ BOOL GetDriveGeometry (const wchar_t *deviceName, PDISK_GEOMETRY diskGeometry)
 		return FALSE;
 }
 
+BOOL GetPhysicalDriveGeometry (int driveNumber, PDISK_GEOMETRY diskGeometry)
+{
+	HANDLE hDev;
+	BOOL bResult = FALSE;
+	TCHAR devicePath[MAX_PATH];
+
+	StringCchPrintfW (devicePath, ARRAYSIZE (devicePath), L"\\\\.\\PhysicalDrive%d", driveNumber);
+
+	if ((hDev = CreateFileW (devicePath, 0, 0, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
+	{
+		DWORD bytesRead = 0;
+
+		ZeroMemory (diskGeometry, sizeof (DISK_GEOMETRY));
+
+		if (	DeviceIoControl (hDev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, diskGeometry, sizeof (DISK_GEOMETRY), &bytesRead, NULL)
+			&& (bytesRead == sizeof (DISK_GEOMETRY)) 
+			&& diskGeometry->BytesPerSector)
+		{
+			bResult = TRUE;
+		}
+
+		CloseHandle (hDev);
+	}
+
+	return bResult;
+}
+
 
 // Returns drive letter number assigned to device (-1 if none)
 int GetDiskDeviceDriveLetter (PWSTR deviceName)
@@ -10811,6 +10840,18 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 			{
 				device.Bootable = partInfo.BootIndicator ? true : false;
 				device.Size = partInfo.PartitionLength.QuadPart;
+			}
+			else
+			{
+				// retrieve size using DISK_GEOMETRY
+				DISK_GEOMETRY deviceGeometry = {0};
+				if (	GetDriveGeometry (devPath, &deviceGeometry)
+						||	((partNumber == 0) && GetPhysicalDriveGeometry (devNumber, &deviceGeometry))
+					)
+				{
+					device.Size = deviceGeometry.Cylinders.QuadPart * (LONGLONG) deviceGeometry.BytesPerSector 
+						* (LONGLONG) deviceGeometry.SectorsPerTrack * (LONGLONG) deviceGeometry.TracksPerCylinder;
+				}
 			}
 
 			device.HasUnencryptedFilesystem = (detectUnencryptedFilesystems && openTest.FilesystemDetected) ? true : false;
