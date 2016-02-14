@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.16">
+  <localization prog-version="1.17">
     <!-- Languages -->
     <language langid="ru" name="Русский" en-name="Russian" version="0.0.1" translators="Dmitry Yerokhin" />
     <!-- Fonts -->
