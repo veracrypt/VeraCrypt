@@ -779,9 +779,9 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 
 	if (dev == INVALID_HANDLE_VALUE)
 	{
-		StringCbCopyW (deviceName, sizeof(deviceName), devicePath);
+		StringCchCopyW (deviceName, ARRAYSIZE(deviceName), devicePath);
 
-		if (FakeDosNameForDevice (devicePath, dosDev, sizeof(dosDev),devName, sizeof(devName),FALSE) != 0)
+		if (FakeDosNameForDevice (deviceName, dosDev, sizeof(dosDev),devName, sizeof(devName),FALSE) != 0)
 		{
 			nStatus = ERR_OS_ERROR;
 			goto closing_seq;
@@ -1244,9 +1244,9 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	}
 
 
-	StringCbCopyW (deviceName, sizeof(deviceName), devicePath);
+	StringCchCopyW (deviceName, ARRAYSIZE(deviceName), devicePath);
 
-	if (FakeDosNameForDevice (devicePath, dosDev, sizeof(dosDev), devName, sizeof(devName), FALSE) != 0)
+	if (FakeDosNameForDevice (deviceName, dosDev, sizeof(dosDev), devName, sizeof(devName), FALSE) != 0)
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
