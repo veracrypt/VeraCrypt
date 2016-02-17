@@ -89,6 +89,17 @@ void localcleanup (void)
 	CloseAppSetupMutex ();
 }
 
+BOOL ForceDeleteFile (LPCWSTR szFileName)
+{
+	if (!DeleteFile (szFileName))
+	{
+		/* delete the renamed file when the machine reboots */
+		return MoveFileEx (szFileName, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+	}
+	else
+		return TRUE;
+}
+
 BOOL StatDeleteFile (wchar_t *lpszFile, BOOL bCheckForOldFile)
 {
 	struct __stat64 st;
@@ -100,11 +111,13 @@ BOOL StatDeleteFile (wchar_t *lpszFile, BOOL bCheckForOldFile)
 		StringCbCatW  (szOldPath, sizeof(szOldPath), VC_FILENAME_RENAMED_SUFFIX);
 
 		if (_wstat64 (szOldPath, &st) == 0)
-			DeleteFile (szOldPath);
+		{
+			ForceDeleteFile (szOldPath);
+		}
 	}
 
 	if (_wstat64 (lpszFile, &st) == 0)
-		return DeleteFile (lpszFile);
+		return ForceDeleteFile (lpszFile);
 	else
 		return TRUE;
 }
@@ -675,7 +688,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 	for (i = 0; i < sizeof (szFiles) / sizeof (szFiles[0]); i++)
 	{
-		BOOL bResult;
+		BOOL bResult, driver64 = FALSE;
 		wchar_t szDir[TC_MAX_PATH];
 
 		if (wcsstr (szFiles[i], L"VeraCrypt Setup") != 0)
@@ -703,6 +716,9 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 			StringCbCopyW (szDir, sizeof(szDir), szDestDir);
 		else if (*szFiles[i] == L'D')
 		{
+			if (Is64BitOs ())
+				driver64 = TRUE;
+
 			GetSystemDirectory (szDir, ARRAYSIZE (szDir));
 
 			x = wcslen (szDir);
@@ -739,15 +755,12 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 			}
 			else
 			{
-				BOOL driver64 = FALSE;
-
 				StringCchCopyNW (curFileName, ARRAYSIZE(curFileName), szFiles[i] + 1, wcslen (szFiles[i]) - 1);
 				curFileName [wcslen (szFiles[i]) - 1] = 0;
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"Dveracrypt.sys") == 0)
 				{
-					driver64 = TRUE;
 					StringCbCopyNW (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
 				}
 
@@ -892,13 +905,13 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 						if (FileExists (favoritesLegacyFile.c_str()))
 						{
 							RemoveMessage (hwndDlg, (wchar_t *) favoritesLegacyFile.c_str());
-							DeleteFile (favoritesLegacyFile.c_str());
+							ForceDeleteFile (favoritesLegacyFile.c_str());
 						}
 
 						if (FileExists (serviceLegacyPath.c_str()))
 						{
 							RemoveMessage (hwndDlg, (wchar_t *) serviceLegacyPath.c_str());
-							DeleteFile (serviceLegacyPath.c_str());
+							ForceDeleteFile (serviceLegacyPath.c_str());
 						}
 
 						EnableWow64FsRedirection (TRUE);
@@ -908,7 +921,12 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		}
 		else
 		{
+			if (driver64)
+				EnableWow64FsRedirection (FALSE);
 			bResult = StatDeleteFile (szTmp, TRUE);
+			if (driver64)
+				EnableWow64FsRedirection (TRUE);
+
 			if (bResult && wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
 			{
 				if (Is64BitOs ())
@@ -923,13 +941,13 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				if (FileExists (favoritesFile.c_str()))
 				{
 					RemoveMessage (hwndDlg, (wchar_t *) favoritesFile.c_str());
-					DeleteFile (favoritesFile.c_str());
+					ForceDeleteFile (favoritesFile.c_str());
 				}
 
 				if (FileExists (servicePath.c_str()))
 				{
 					RemoveMessage (hwndDlg, (wchar_t *) servicePath.c_str());
-					DeleteFile (servicePath.c_str());
+					ForceDeleteFile (servicePath.c_str());
 				}
 
 				if (Is64BitOs ())
@@ -937,13 +955,13 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 					if (FileExists (favoritesLegacyFile.c_str()))
 					{
 						RemoveMessage (hwndDlg, (wchar_t *) favoritesLegacyFile.c_str());
-						DeleteFile (favoritesLegacyFile.c_str());
+						ForceDeleteFile (favoritesLegacyFile.c_str());
 					}
 
 					if (FileExists (serviceLegacyPath.c_str()))
 					{
 						RemoveMessage (hwndDlg, (wchar_t *) serviceLegacyPath.c_str());
-						DeleteFile (serviceLegacyPath.c_str());
+						ForceDeleteFile (serviceLegacyPath.c_str());
 					}
 
 					EnableWow64FsRedirection (TRUE);
@@ -1732,7 +1750,7 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, wchar_t *szDestDir)
 		goto error;
 	
 	StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt User's Guide.lnk");
-	DeleteFile (szTmp2);
+	StatDeleteFile (szTmp2, FALSE);
 
 	// Start menu group
 	RemoveMessage ((HWND) hwndDlg, szLinkDir);
@@ -1854,7 +1872,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 			goto error;
 
 		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt User's Guide.lnk");
-		DeleteFile (szTmp2);
+		StatDeleteFile (szTmp2, FALSE);
 	}
 
 	if (bDesktopIcon)
@@ -2159,7 +2177,7 @@ void DoInstall (void *arg)
 
 	GetWindowsDirectory (path, ARRAYSIZE (path));
 	StringCbCatW (path, sizeof (path), L"\\VeraCrypt Setup.exe");
-	DeleteFile (path);
+	StatDeleteFile (path, FALSE);
 
 	if (UpdateProgressBarProc(63) && UnloadDriver && DoServiceUninstall (hwndDlg, L"veracrypt") == FALSE)
 	{
