@@ -64,7 +64,7 @@ BEGIN
     COMBOBOX        IDC_VOLUME,56,192,212,74,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Select &File...",IDC_SELECT_FILE,276,192,84,14
     PUSHBUTTON      "Select D&evice...",IDC_SELECT_DEVICE,276,211,84,14
-    DEFPUSHBUTTON   "Start",IDOK,8,243,84,18,WS_GROUP
+    DEFPUSHBUTTON   "Mount",IDOK,8,243,84,18,WS_GROUP
     PUSHBUTTON      "E&xit",IDC_EXIT,284,243,84,18,WS_GROUP
     CONTROL         112,IDC_LOGO,"Static",SS_BITMAP | SS_NOTIFY | WS_BORDER,16,192,27,31
     GROUPBOX        "Volume",IDT_VOLUME,8,179,360,53
@@ -72,7 +72,7 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,282,238,88,24
     GROUPBOX        "",IDC_STATIC,6,238,88,24
     GROUPBOX        "",IDC_STATIC,1,147,373,123,BS_CENTER
-    LTEXT           "1. Select the VeraCrypt volume to be expanded\n2. Click the 'Start' button",IDC_STATIC,15,156,293,21
+    LTEXT           "1. Select the VeraCrypt volume to be expanded\n2. Click the 'Mount' button",IDC_STATIC,15,156,293,21
     LTEXT           "Static",IDC_INFOEXPAND,8,6,361,134,SS_NOPREFIX | SS_SUNKEN,WS_EX_STATICEDGE
 END
 
