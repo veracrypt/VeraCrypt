@@ -27,7 +27,7 @@
 #elif (defined(__MWERKS__) && TARGET_CPU_PPC) || \
 	(defined(__GNUC__) && (defined(_ARCH_PWR2) || defined(_ARCH_PWR) || defined(_ARCH_PPC) || defined(_ARCH_PPC64) || defined(_ARCH_COM)))
 	#define CRYPTOPP_FAST_ROTATE(x) ((x) == 32)
-#elif defined(__GNUC__) && (CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X86)	// depend on GCC's peephole optimization to generate rotate instructions
+#elif defined(__GNUC__) && (CRYPTOPP_BOOL_X64 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X86)	// depend on GCC's peephole optimization to generate rotate instructions
 	#define CRYPTOPP_FAST_ROTATE(x) 1
 #else
 	#define CRYPTOPP_FAST_ROTATE(x) 0

@@ -381,7 +381,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 	#endif
 	__asm__ __volatile__
 	(
-		".intel_syntax noprefix;"
+		INTEL_NOPREFIX
 		AS_PUSH_IF86(	bx)
 		AS2(	mov		AS_REG_6, WORD_REG(ax))
 #else
@@ -392,14 +392,19 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 		AS2(	mov		WORD_REG(cx), digest)
 		AS2(	mov		WORD_REG(dx), block)
 #endif
-#if CRYPTOPP_BOOL_X86
+#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
 		AS2(	mov		eax, esp)
 		AS2(	and		esp, -16)
 		AS2(	sub		esp, 16*8)
-		AS1(	push	eax)
-	#define SSE2_workspace	esp+WORD_SZ
+		AS_PUSH_IF86( ax)
+     
+    #if CRYPTOPP_BOOL_X86
+        #define SSE2_workspace	esp+WORD_SZ
+    #elif CRYPTOPP_BOOL_X32
+        #define SSE2_workspace	esp+(WORD_SZ*2)
+    #endif
 #else
-	#define SSE2_workspace	%3
+    #define SSE2_workspace	%3
 #endif
 		AS2(	xor		esi, esi)
 		ASL(0)
@@ -549,7 +554,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 		AS_POP_IF86(	bx)
 #endif
 #ifdef __GNUC__
-		".att_syntax prefix;"
+		ATT_PREFIX
 			:
 			: "a" (Whirlpool_C), "c" (digest), "d" (block)
 	#if CRYPTOPP_BOOL_X64
@@ -628,7 +633,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 	r=0;
 	while (1)
 	{
-		uint32 t;
+		uint32 t = 0;
 
 		KSL(0, 4, 3, 2, 1, 0)
 		KSL(0, 0, 7, 6, 5, 4)

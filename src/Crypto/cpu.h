@@ -2,6 +2,7 @@
 #define CRYPTOPP_CPU_H
 
 #include "Common/Tcdefs.h"
+#include "config.h"
 
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 
@@ -10,8 +11,6 @@
 #define CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE 1
 
 #else
-
-#include "config.h"
 
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
 #include <emmintrin.h>
@@ -51,7 +50,7 @@ extern __m128i _mm_aesdeclast_si128(__m128i v, __m128i rkey);
 #endif
 #endif
 
-#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
 
 #define CRYPTOPP_CPUID_AVAILABLE
 
@@ -125,25 +124,55 @@ extern int g_hasMMX;
 	#define AS_HEX(y) 0x##y
 #else
 	#define CRYPTOPP_GNU_STYLE_INLINE_ASSEMBLY
-	// define these in two steps to allow arguments to be expanded
-	#define GNU_AS1(x) #x ";"
-	#define GNU_AS2(x, y) #x ", " #y ";"
-	#define GNU_AS3(x, y, z) #x ", " #y ", " #z ";"
-	#define GNU_ASL(x) "\n" #x ":"
-	#define GNU_ASJ(x, y, z) #x " " #y #z ";"
-	#define AS1(x) GNU_AS1(x)
-	#define AS2(x, y) GNU_AS2(x, y)
-	#define AS3(x, y, z) GNU_AS3(x, y, z)
-	#define ASS(x, y, a, b, c, d) #x ", " #y ", " #a "*64+" #b "*16+" #c "*4+" #d ";"
-	#define ASL(x) GNU_ASL(x)
-	#define ASJ(x, y, z) GNU_ASJ(x, y, z)
-	#define ASC(x, y) #x " " #y ";"
-	#define CRYPTOPP_NAKED
-	#define AS_HEX(y) 0x##y
+
+    #if defined(CRYPTOPP_CLANG_VERSION) || defined(CRYPTOPP_APPLE_CLANG_VERSION)
+        #define NEW_LINE "\n"
+        #define INTEL_PREFIX ".intel_syntax;"
+        #define INTEL_NOPREFIX ".intel_syntax;"
+        #define ATT_PREFIX ".att_syntax;"
+        #define ATT_NOPREFIX ".att_syntax;"
+    #else
+        #define NEW_LINE
+        #define INTEL_PREFIX ".intel_syntax prefix;"
+        #define INTEL_NOPREFIX ".intel_syntax noprefix;"
+        #define ATT_PREFIX ".att_syntax prefix;"
+        #define ATT_NOPREFIX ".att_syntax noprefix;"
+        #endif
+
+    // define these in two steps to allow arguments to be expanded
+    #define GNU_AS1(x) #x ";" NEW_LINE
+    #define GNU_AS2(x, y) #x ", " #y ";" NEW_LINE
+    #define GNU_AS3(x, y, z) #x ", " #y ", " #z ";" NEW_LINE
+    #define GNU_ASL(x) "\n" #x ":" NEW_LINE
+    #define GNU_ASJ(x, y, z) #x " " #y #z ";" NEW_LINE
+    #define AS1(x) GNU_AS1(x)
+    #define AS2(x, y) GNU_AS2(x, y)
+    #define AS3(x, y, z) GNU_AS3(x, y, z)
+    #define ASS(x, y, a, b, c, d) #x ", " #y ", " #a "*64+" #b "*16+" #c "*4+" #d ";"
+    #define ASL(x) GNU_ASL(x)
+    #define ASJ(x, y, z) GNU_ASJ(x, y, z)
+    #define ASC(x, y) #x " " #y ";"
+    #define CRYPTOPP_NAKED
+    #define AS_HEX(y) 0x##y
 #endif
 
 #define IF0(y)
 #define IF1(y) y
+
+// Should be confined to GCC, but its used to help manage Clang 3.4 compiler error.
+//   Also see LLVM Bug 24232, http://llvm.org/bugs/show_bug.cgi?id=24232 .
+#ifndef INTEL_PREFIX
+#define INTEL_PREFIX
+#endif
+#ifndef INTEL_NOPREFIX
+#define INTEL_NOPREFIX
+#endif
+#ifndef ATT_PREFIX
+#define ATT_PREFIX
+#endif
+#ifndef ATT_NOPREFIX
+#define ATT_NOPREFIX
+#endif
 
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 #define ASM_MOD(x, y) ((x) MOD (y))
@@ -176,6 +205,27 @@ extern int g_hasMMX;
 	#define AS_PUSH_IF86(x) AS1(push e##x)
 	#define AS_POP_IF86(x) AS1(pop e##x)
 	#define AS_JCXZ jecxz
+#elif CRYPTOPP_BOOL_X32
+    #define AS_REG_1 ecx
+    #define AS_REG_2 edx
+    #define AS_REG_3 r8d
+    #define AS_REG_4 r9d
+    #define AS_REG_5 eax
+    #define AS_REG_6 r10d
+    #define AS_REG_7 r11d
+    #define AS_REG_1d ecx
+    #define AS_REG_2d edx
+    #define AS_REG_3d r8d
+    #define AS_REG_4d r9d
+    #define AS_REG_5d eax
+    #define AS_REG_6d r10d
+    #define AS_REG_7d r11d
+    #define WORD_SZ 4
+    #define WORD_REG(x)	e##x
+    #define WORD_PTR DWORD PTR
+    #define AS_PUSH_IF86(x) AS1(push r##x)
+    #define AS_POP_IF86(x) AS1(pop r##x)
+    #define AS_JCXZ jecxz
 #elif CRYPTOPP_BOOL_X64
 	#ifdef CRYPTOPP_GENERATE_X64_MASM
 		#define AS_REG_1 rcx
