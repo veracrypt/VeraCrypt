@@ -119,6 +119,10 @@ typedef union
 
 } UINT64_STRUCT;
 
+#ifndef __has_builtin       // Optional of course
+#define __has_builtin(x) 0  // Compatibility with non-clang compilers
+#endif
+
 #ifdef TC_WINDOWS_BOOT
 
 #	ifdef  __cplusplus
@@ -129,6 +133,10 @@ void ThrowFatalException (int line);
 #	define TC_THROW_FATAL_EXCEPTION	ThrowFatalException (__LINE__)
 #elif defined (TC_WINDOWS_DRIVER)
 #	define TC_THROW_FATAL_EXCEPTION KeBugCheckEx (SECURITY_SYSTEM, __LINE__, 0, 0, 'VC')
+#elif (defined(__clang__) && __has_builtin(__builtin_trap)) \
+    || (defined(__GNUC__ ) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3))) \
+    || (__has_builtin(__builtin_trap))
+#   define TC_THROW_FATAL_EXCEPTION __builtin_trap()
 #else
 #	define TC_THROW_FATAL_EXCEPTION	*(char *) 0 = 0
 #endif
