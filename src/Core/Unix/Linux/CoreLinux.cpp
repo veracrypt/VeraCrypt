@@ -41,6 +41,17 @@ namespace VeraCrypt
 		loopPaths.push_back ("/dev/loop");
 		loopPaths.push_back ("/dev/loop/");
 		loopPaths.push_back ("/dev/.static/dev/loop");
+		
+		// On Fedora 23,"losetup -f" must be called first to create a default loop device
+		list <string> args;
+		args.push_back ("-f");
+
+		try
+		{
+			Process::Execute ("losetup", args);
+			break;
+		}
+		catch (...) { }
 
 		for (int devIndex = 0; devIndex < 256; devIndex++)
 		{
