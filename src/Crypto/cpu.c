@@ -167,7 +167,7 @@ int g_x86DetectionDone = 0;
 int g_hasISSE = 0, g_hasSSE2 = 0, g_hasSSSE3 = 0, g_hasMMX = 0, g_hasAESNI = 0, g_hasCLMUL = 0, g_isP4 = 0;
 uint32 g_cacheLineSize = CRYPTOPP_L1_CACHE_LINE_SIZE;
 
-static inline int IsIntel(const uint32 output[4])
+VC_INLINE int IsIntel(const uint32 output[4])
 {
 	// This is the "GenuineIntel" string
 	return (output[1] /*EBX*/ == 0x756e6547) &&
@@ -175,7 +175,7 @@ static inline int IsIntel(const uint32 output[4])
     (output[3] /*EDX*/ == 0x49656e69);
 }
 
-static inline int IsAMD(const uint32 output[4])
+VC_INLINE int IsAMD(const uint32 output[4])
 {
 	// This is the "AuthenticAMD" string
 	return (output[1] /*EBX*/ == 0x68747541) &&
