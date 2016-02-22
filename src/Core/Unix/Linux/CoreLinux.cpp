@@ -49,7 +49,6 @@ namespace VeraCrypt
 		try
 		{
 			Process::Execute ("losetup", args);
-			break;
 		}
 		catch (...) { }
 
