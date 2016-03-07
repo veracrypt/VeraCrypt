@@ -452,7 +452,7 @@
     <string lang="zh-cn" key="DRIVER_VERSION">错误：正在运行不兼容版本的 VeraCrypt 设备驱动。\n\n如果您想在便携模式下运行 VeraCrypt（即不安装它）但是却安装了不同版本的 VeraCrypt，您必须先卸载已安装版本（或使用 VeraCrypt 安装程序升级）。要卸载 VeraCrypt，请按如下步骤进行：在 Windows Vista 或其后版本中，选择〖开始〗菜单 -&gt; 计算机 -&gt;〖卸载或更改程序〗-&gt; VeraCrypt -&gt; 卸载；在 Windows XP 中，选择〖开始〗菜单 -&gt; 〖设置〗 -&gt; 〖控制面板〗 -&gt; 〖添加或删除程序〗 -&gt; VeraCrypt -&gt; 删除\n\n与此相似，如果您尝试以便携版运行 VeraCrypt 但是却已经运行了其它版本的便携 VeraCrypt，您必须重启电脑之后再运行新的版本。</string>
     <string lang="zh-cn" key="ERR_CIPHER_INIT_FAILURE">错误：密码初始化失败。</string>
     <string lang="zh-cn" key="ERR_CIPHER_INIT_WEAK_KEY">错误：检测到弱强度密钥！ 密钥将被废弃。请重试。</string>
-    <string lang="zh-cn" key="EXCEPTION_REPORT">发生了关键性错误，VeraCrypt 必须被终止。如果该错误是 VeraCrypt 的缺陷导致的，我们可能会修正它。要协助我们完善软件，您可以把 Veracrypt 自动生成的错误报告发送给我们，报告包括下面内容：\n\n- 程序版本\n- 操作系统版本\n- CPU类型\n- VeraCrypt 组件名称\n- VeraCrypt 执行程序的校验值\n- 对话框窗口的符号标记\n- 错误分类\n- 错误地址信息\n- VeraCrypt 调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在默认浏览器中打开。\n\n%s\n\n您希望发送给我们上述错误报告吗？</string>
+    <string lang="zh-cn" key="EXCEPTION_REPORT">发生了关键性错误，VeraCrypt 必须被终止。如果该错误是 VeraCrypt 的缺陷导致的，我们可能会修正它。要协助我们完善软件，您可以把 Veracrypt 自动生成的错误报告发送给我们，报告包括下面内容：\n\n- 程序版本\n- 操作系统版本\n- CPU类型\n- VeraCrypt 组件名称\n- VeraCrypt 执行程序的校验值\n- 对话框窗口的符号标记\n- 错误分类\n- 错误地址信息\n- VeraCrypt 调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在默认浏览器中打开。\n\n%hs\n\n您希望发送给我们上述错误报告吗？</string>
     <string lang="zh-cn" key="EXCEPTION_REPORT_EXT">您的系统发生了关键性错误，该错误会终止 VeraCrypt。\n\n需要注意的是此错误并非由 VeraCrypt 导致（因此 VeraCrypt 开发者并不会修复这个错误）。请检查您的系统查找可能的原因（例如：系统配置、网络连接、失效的硬件组件等）。</string>
     <string lang="zh-cn" key="EXCEPTION_REPORT_EXT_FILESEL">系统遇到关键性错误，需要终止 VeraCrypt。\n\n如果此错误仍然存在，您可能需要尝试禁用或卸载可能导致此问题的应用程序，例如防病毒或防火墙软件，系统性能提升、优化或系统设置软件等等。如果仍然无法解决问题，您可能需要尝试从新安装您的操作系统（此问题也可能由恶意软件导致）。</string>
     <string lang="zh-cn" key="EXCEPTION_REPORT_TITLE">VeraCrypt 关键性错误</string>
@@ -559,7 +559,7 @@
     <string lang="zh-cn" key="ERR_VOLUME_SIZE_TOO_BIG">不能创建加密卷，因为所输入的加密卷的大小太大。</string>
     <string lang="zh-cn" key="INIT_SYS_ENC">不能初始化用于系统加密的程序组件。</string>
     <string lang="zh-cn" key="INIT_RAND">初始化随机数据生成器失败！</string>
-    <string lang="zh-cn" key="CAPI_RAND">Windows Crypto API 调用失败!\n\n\n(如果你要提交一个关于此的错误报告，请附上下面的技术信息: bug report:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="zh-cn" key="CAPI_RAND">Windows Crypto API 调用失败!\n\n\n(如果你要提交一个关于此的错误报告，请附上下面的技术信息: bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="zh-cn" key="INIT_REGISTER">无法初始化应用程序。注册对话框类失败。</string>
     <string lang="zh-cn" key="INIT_RICHEDIT">错误：加载富文本编辑系统运行库失败。</string>
     <string lang="zh-cn" key="INTRO_TITLE">VeraCrypt 加密卷创建向导</string>
@@ -1054,8 +1054,8 @@
     <string lang="zh-cn" key="FAILED_TO_INTERRUPT_WIPING">错误：中断擦除过程时失败。</string>
     <string lang="zh-cn" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">错误：继续加密/解密系统分区或驱动器的操作失败。</string>
     <string lang="zh-cn" key="FAILED_TO_START_WIPING">错误：启动擦除过程时失败。</string>
-    <string lang="zh-cn" key="INCONSISTENCY_RESOLVED">发现不一致性。\n\n\n（如果您使用此链接报告这个错误，请在报告中包含下面信息： %s）</string>
-    <string lang="zh-cn" key="UNEXPECTED_STATE">错误：未知状态。\n\n\n（如果您报告与之相关的 BUG，请在错误报告里面包含下面的技术信息： %s）</string>
+    <string lang="zh-cn" key="INCONSISTENCY_RESOLVED">发现不一致性。\n\n\n（如果您使用此链接报告这个错误，请在报告中包含下面信息： %hs）</string>
+    <string lang="zh-cn" key="UNEXPECTED_STATE">错误：未知状态。\n\n\n（如果您报告与之相关的 BUG，请在错误报告里面包含下面的技术信息： %hs）</string>
     <string lang="zh-cn" key="NO_SYS_ENC_PROCESS_TO_RESUME">没有要恢复的系统分区加密/解密进程。\n\n提示: 要恢复非系统分区加密/解密进程，选择"加密卷" -&gt; "继续被中断的过程"。</string>
     <string lang="zh-cn" key="HIDVOL_PROT_BKG_TASK_WARNING">警告： VeraCrypt 后台任务已禁用。在您退出 VeraCrypt 后，如果设置了阻止损坏隐藏加密卷，您也将无法得到提示。\n\n注意：您可以随时在通过右键单击 VeraCrypt 通知栏图标并 选择〖退出〗来停止后台任务。\n\n\n您要启用 VeraCrypt 后台任务吗？</string>
     <string lang="zh-cn" key="LANG_PACK_VERSION">语言包版本： %s</string>

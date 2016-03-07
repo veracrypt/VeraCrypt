@@ -452,7 +452,7 @@
     <string lang="ja" key="DRIVER_VERSION">エラー：違うバージョンのVeraCryptデバイスドライバが作動中です。\n\nもしVeraCryptをポータブルモードで動作させようとしており、かつ違うバージョンのVeraCryptが既にインストールされているのであれば、先にそれをアンインストール（あるいはインストーラーでアップグレード）する必要があります。VeraCryptのアンインストールは次の手順で行ってください：[Vista以降] スタートメニュー→コンピュータ→プログラムのアンインストールと変更→VeraCrypt→アンインストール [Win XP] スタートメニュー→設定→コントロールパネル→プログラムの追加と削除→VeraCrypt→削除\n\n同じように、もしVeraCryptをポータブルモードで動作させようとしていて、すでに違うバージョンのVeraCryptがポータブルモードで起動しているのであれば、まずシステムを再起動した後に新しいバージョンのみを起動してください。</string>
     <string lang="ja" key="ERR_CIPHER_INIT_FAILURE">エラー：暗号処理の初期化に失敗しました。</string>
     <string lang="ja" key="ERR_CIPHER_INIT_WEAK_KEY">エラー：強度の弱い鍵が検出されました！ この鍵は廃棄されます。やり直してください。</string>
-    <string lang="ja" key="EXCEPTION_REPORT">致命的なエラーが発生したためVeraCryptを終了しました。もしこれがVeraCryptのバグに起因するものなら修正したいと思います。そのためにも、自動生成されたエラーレポートをお送りください。このレポートには次の情報が含まれています。\n\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- VeraCryptコンポーネント名\n- VeraCrypt実行ファイルのチェックサム\n- ダイアログウィンドウのシンボリックネーム\n- エラーのカテゴリ\n- エラーアドレス\n- VeraCryptのコールスタック\n\n「はい」を選択すると、次のURL(上記のエラー情報をすべて含んでいます)をデフォルトのインターネットブラウザを開いて呼び出します。\n\n%s\n\n上記のエラーレポートを我々に送って良いですか？</string>
+    <string lang="ja" key="EXCEPTION_REPORT">致命的なエラーが発生したためVeraCryptを終了しました。もしこれがVeraCryptのバグに起因するものなら修正したいと思います。そのためにも、自動生成されたエラーレポートをお送りください。このレポートには次の情報が含まれています。\n\n- プログラムのバージョン\n- OSのバージョン\n- CPUの種類\n- VeraCryptコンポーネント名\n- VeraCrypt実行ファイルのチェックサム\n- ダイアログウィンドウのシンボリックネーム\n- エラーのカテゴリ\n- エラーアドレス\n- VeraCryptのコールスタック\n\n「はい」を選択すると、次のURL(上記のエラー情報をすべて含んでいます)をデフォルトのインターネットブラウザを開いて呼び出します。\n\n%hs\n\n上記のエラーレポートを我々に送って良いですか？</string>
     <string lang="ja" key="EXCEPTION_REPORT_EXT">システムで致命的なエラーが発生したため、VeraCryptが終了させられました。\n\nこれはVeraCryptに起因するエラーではありません。したがってVeraCryptの開発者はこの問題には対処できません。システム上に何か問題がないか確認してください(例：システムの設定、ネットワークの接続状況、ハードウェアエラーなど)。</string>
     <string lang="ja" key="EXCEPTION_REPORT_EXT_FILESEL">システムに致命的なエラーが発生し、VeraCryptは強制終了させられました。\n\nもしこの問題が続くようであれば、原因となり得るアプリケーションを無効にするかアンインストールする必要があるかもしれません。例としては、アンチウィルスやインターネットセキュリティソフト、その他、システムを拡張したり最適化したりなどといったシステムの深部を操作するようなものが挙げられます。もしそうしても問題が解決しないのであればOSを再インストールしてみてください。この問題はマルウェアに起因する可能性もあります。</string>
     <string lang="ja" key="EXCEPTION_REPORT_TITLE">VeraCrypt 致命的なエラー</string>
@@ -559,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="ja" key="INIT_SYS_ENC">システムを暗号化するアプリケーションコンポーネントを初期化できませんでした。</string>
     <string lang="ja" key="INIT_RAND">乱数生成機構の初期化に失敗しました！</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="ja" key="INIT_REGISTER">アプリケーションを初期化できません。ダイアログクラスの登録に失敗しました。</string>
     <string lang="ja" key="INIT_RICHEDIT">エラー：リッチエディットシステムライブラリの読込に失敗しました。</string>
     <string lang="ja" key="INTRO_TITLE">VeraCryptボリューム作成ウィザード</string>
@@ -1054,8 +1054,8 @@
     <string lang="ja" key="FAILED_TO_INTERRUPT_WIPING">エラー：ワイプ処理の中断に失敗しました。</string>
     <string lang="ja" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">エラー：システムパーティション/ドライブの暗号化/復号処理の再開に失敗しました。</string>
     <string lang="ja" key="FAILED_TO_START_WIPING">エラー：ワイプ処理の開始に失敗しました。</string>
-    <string lang="ja" key="INCONSISTENCY_RESOLVED">不整合状態を解決しました。\n\n\n（もしこの問題についてバグ報告をしてくださるなら、以下の技術的情報を付け加えてくださるようお願いします： %s）</string>
-    <string lang="ja" key="UNEXPECTED_STATE">エラー：予期しない状態です。\n\n\n（この状態をバグ報告する場合、次の情報も報告に含めるようお願いいたします。: %s）</string>
+    <string lang="ja" key="INCONSISTENCY_RESOLVED">不整合状態を解決しました。\n\n\n（もしこの問題についてバグ報告をしてくださるなら、以下の技術的情報を付け加えてくださるようお願いします： %hs）</string>
+    <string lang="ja" key="UNEXPECTED_STATE">エラー：予期しない状態です。\n\n\n（この状態をバグ報告する場合、次の情報も報告に含めるようお願いいたします。: %hs）</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ja" key="HIDVOL_PROT_BKG_TASK_WARNING">警告：VeraCryptの常駐は無効になっています。VeraCryptの終了後は、隠しボリュームの保護機能が働いても告知されません。\n\n注：VeraCryptのトレイアイコンを右クリックして終了を選べば、いつでも常駐を終了できます。\n\nVeraCryptの常駐を有効にしますか？</string>
     <string lang="ja" key="LANG_PACK_VERSION">言語パックのバージョン： %s</string>

@@ -452,7 +452,7 @@
     <string lang="ko" key="DRIVER_VERSION">오류: 호환되지 않는 VeraCrypt 드라이버 버전이 실행되고 있습니다.\n\n만약에 VeraCrypt를 휴대용 모드 (예: 설치하지않은 상태), 다른 버전의 VeraCrypt가 이미 설치가 되었으면, 먼저 제거 (아니면 VeraCrypt의 업데이트 옵션으로 업그레이드) 할 필요가 있습니다. 제거 할경우, 다음과 같은 단계를 따르세요: Windows Vista 그리고 후의 버전들은, 시작 메뉴 &gt; 나의 컴퓨터 &gt; '프로그램 밋 제거' &gt; VeraCrypt &gt; 제거; Windows XP는, 시작 메뉴 &gt; 설정 &gt; '제어판' &gt; '프로그램 밋 제거' &gt; VeraCrypt &gt; 제거.\n\n비슷한 방식으로, 휴대용으로 사용한 결과 (그리고 다른 버전이 설치된후) 컴퓨터를 재시작후 새로운 최근버전의 VeraCrypt로 실행하세요.</string>
     <string lang="ko" key="ERR_CIPHER_INIT_FAILURE">오류: 암호를 초기화하는데 실패했습니다.</string>
     <string lang="ko" key="ERR_CIPHER_INIT_WEAK_KEY">오류: 강력하지 않은 키가 탐지되었습니다. 이 키는 무시되었습니다. 다시 시도하세요.</string>
-    <string lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 VeraCrypt를 종료해야 합니다. 만약 원인이 VeraCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- VeraCrypt 콤포넌트 이름\n- VeraCrypt 실행파일 체크섬\n- VeraCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- VeraCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%s\n\n오류 보고서를 저희에게 보내시겠습니까?</string>
+    <string lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 VeraCrypt를 종료해야 합니다. 만약 원인이 VeraCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- VeraCrypt 콤포넌트 이름\n- VeraCrypt 실행파일 체크섬\n- VeraCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- VeraCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%hs\n\n오류 보고서를 저희에게 보내시겠습니까?</string>
     <string lang="ko" key="EXCEPTION_REPORT_EXT">VeraCrypt를 종료해야만 하는 치명적인 오류가 시스템에 발생했습니다.\n\n이 오류는 VeraCrypt에 의해 발생된 것이 아닙니다(그래서 VeraCrypt의 개발자가 고칠 수는 없습니다). 여러분의 시스템을 체크해 주세요(예: 시스템 설정, 네트워크 연결, 하드웨어 콤포넌트 실패 등).</string>
     <string lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</string>
     <string lang="ko" key="EXCEPTION_REPORT_TITLE">VeraCrypt 치명적 오류</string>
@@ -559,7 +559,7 @@
     <string lang="ko" key="ERR_VOLUME_SIZE_TOO_BIG">오류: 명령 프롬프트에 지정된 볼륨 사이즈는 최고갚 보다 큽니다. 볼륨을 만들 수 없습니다.</string>
     <string lang="ko" key="INIT_SYS_ENC">시스템 암호화를 위한 프로그램 구성요소를 초기화하지 못했습니다.</string>
     <string lang="ko" key="INIT_RAND">무작위 숫자 생성기를 초기화하는데 실패했습니다!</string>
-    <string lang="ko" key="CAPI_RAND">윈도우의 암호화 API가 실패했습니다!\n\n\n(만약 버그보고를 보낼경우 다음과 같은 내용을 포함하십시오:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="ko" key="CAPI_RAND">윈도우의 암호화 API가 실패했습니다!\n\n\n(만약 버그보고를 보낼경우 다음과 같은 내용을 포함하십시오:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="ko" key="INIT_REGISTER">프로그램을 초기화할 수 없습니다. 다이얼로그 클래스 등록에 실패했습니다.</string>
     <string lang="ko" key="INIT_RICHEDIT">오류: Rich Edit 시스템 라이브러리를 로드하는데 실패했습니다.</string>
     <string lang="ko" key="INTRO_TITLE">VeraCrypt 볼륨 만들기 마법사</string>
@@ -1054,8 +1054,8 @@
     <string lang="ko" key="FAILED_TO_INTERRUPT_WIPING">오류: 지우기 진행을 중단하는데 실패했습니다.</string>
     <string lang="ko" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">오류: 시스템 파티션/드라이브의 암호화 또는 암호해제 진행을 다시 시작하는데 실패했습니다.</string>
     <string lang="ko" key="FAILED_TO_START_WIPING">오류: 지우기 진행을 시작하는데 실패했습니다.</string>
-    <string lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결되었습니다.\n\n\n이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %s</string>
-    <string lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %s)</string>
+    <string lang="ko" key="INCONSISTENCY_RESOLVED">불일치가 해결되었습니다.\n\n\n이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs</string>
+    <string lang="ko" key="UNEXPECTED_STATE">오류: 예기치 않은 상태.\n\n\n(이와 관련된 버그를 보고하려면, 버그 보고서에 다음과 같은 기술 정보를 포함해 주세요: %hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="ko" key="HIDVOL_PROT_BKG_TASK_WARNING">주의: VeraCrypt 백그라운드 작업의 사용이 해제되었습니다. 프로그램을 종료하면, 숨긴 볼륨의 손상이 방지된 경우에도 그 알림을 통보받지 못합니다.\n\n참고: 언제라도 VeraCrypt 트레이 아이콘을 오른쪽 클릭하고 “종료”를 선택해서 백그라운드 작업을 종료할 수 있습니다.\n\nVeraCrypt 백그라운드 작업을 지금 사용가능하게 할까요?</string>
     <string lang="ko" key="LANG_PACK_VERSION">언어팩 버전:  %s</string>
