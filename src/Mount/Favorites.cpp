@@ -841,6 +841,7 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_REMOVE), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), enable);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM_HELP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDT_FAVORITE_LABEL), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_LABEL), enable);
