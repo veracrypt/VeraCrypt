@@ -175,6 +175,12 @@ ifeq "$(shell uname -s)" "Linux"
 	
 	ifneq "$(origin WXSTATIC)" "command line"
 		LFLAGS += -ldl
+	else
+		GCC5USED := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 5)
+		ifeq "$(GCC5USED)" "1"
+			CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
+			WXCONFIG_CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
+		endif
 	endif
 
 endif
