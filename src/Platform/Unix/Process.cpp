@@ -53,13 +53,33 @@ namespace VeraCrypt
 				try
 				{
 					int argIndex = 0;
+					/* Workaround for gcc 5.X issue related to the use of STL (string and list) with muliple fork calls. 
+					 * 
+					 * The char* pointers retrieved from the elements of parameter "arguments" are no longer valid after
+					 * a second fork is called. "arguments" was created in the parent of the current child process.
+					 * 
+					 * The only solution is to copy the elements of "arguments" parameter in a local string array on this 
+					 * child process and then use char* pointers retrieved from this local copies before calling fork. 
+					 * 
+					 * gcc 4.x doesn't suffer from this issue.
+					 * 
+					 */
+					string argsCopy[array_capacity (args)];
 					if (!execFunctor)
-						args[argIndex++] = const_cast <char*> (processName.c_str());
+					{
+						argsCopy[argIndex++] = processName;
+					}
 
 					foreach (const string &arg, arguments)
 					{
-						args[argIndex++] = const_cast <char*> (arg.c_str());
+						argsCopy[argIndex++] = arg;
 					}
+					
+					for (int i = 0; i < argIndex; i++)
+					{
+						args[i] = const_cast <char*> (argsCopy[i].c_str());
+					}
+
 					args[argIndex] = nullptr;
 
 					if (inputData)
