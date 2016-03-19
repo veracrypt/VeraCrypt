@@ -401,7 +401,7 @@ namespace VeraCrypt
 			ArgNewKeyfiles = ToKeyfileList (str);
 
 		if (parser.Found (L"new-password", &str))
-			ArgNewPassword = ToUTF8Password (str);
+			ArgNewPassword = ToUTF8Password (str.c_str());
 		
 		if (parser.Found (L"new-pim", &str))
 		{
@@ -440,7 +440,7 @@ namespace VeraCrypt
 		{
 			if (Preferences.UseStandardInput)
 				throw_err (L"--password cannot be used with --stdin");
-			ArgPassword = ToUTF8Password (str);
+			ArgPassword = ToUTF8Password (str.c_str());
 		}
 
 		if (parser.Found (L"pim", &str))
@@ -481,7 +481,7 @@ namespace VeraCrypt
 		
 		if (parser.Found (L"protection-password", &str))
 		{
-			ArgMountOptions.ProtectionPassword = ToUTF8Password (str);
+			ArgMountOptions.ProtectionPassword = ToUTF8Password (str.c_str());
 			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
 		
