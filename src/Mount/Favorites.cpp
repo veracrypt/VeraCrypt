@@ -166,7 +166,7 @@ namespace VeraCrypt
 
 						SetWindowPos (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), 0, 0, 0,
 							rec.right,
-							rec.bottom - CompensateYDPI (90),
+							rec.bottom - CompensateYDPI (95),
 							SWP_NOMOVE | SWP_NOZORDER);
 
 						InvalidateRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), NULL, TRUE);
