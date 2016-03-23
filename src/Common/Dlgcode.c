@@ -6954,22 +6954,25 @@ void BringToForeground(HWND hWnd)
 	DWORD dwThisTID = ::GetCurrentThreadId(),
 	      dwCurrTID = ::GetWindowThreadProcessId(hCurrWnd,0);
  
-	if(dwThisTID != dwCurrTID)
+	if (hCurrWnd != hWnd)
 	{
-		::AttachThreadInput(dwThisTID, dwCurrTID, TRUE);
- 
-		::SystemParametersInfo(SPI_GETFOREGROUNDLOCKTIMEOUT,0,&lockTimeOut,0);
-		::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,0,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
- 
-		::AllowSetForegroundWindow(ASFW_ANY);
-	}
- 
-	::SetForegroundWindow(hWnd);
- 
-	if(dwThisTID != dwCurrTID)
-	{
-		::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,(PVOID)lockTimeOut,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
-		::AttachThreadInput(dwThisTID, dwCurrTID, FALSE);
+		if(dwThisTID != dwCurrTID)
+		{
+			::AttachThreadInput(dwThisTID, dwCurrTID, TRUE);
+	 
+			::SystemParametersInfo(SPI_GETFOREGROUNDLOCKTIMEOUT,0,&lockTimeOut,0);
+			::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,0,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
+	 
+			::AllowSetForegroundWindow(ASFW_ANY);
+		}
+	 
+		::SetForegroundWindow(hWnd);
+	 
+		if(dwThisTID != dwCurrTID)
+		{
+			::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,(PVOID)lockTimeOut,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
+			::AttachThreadInput(dwThisTID, dwCurrTID, FALSE);
+		}
 	}
 
 #ifdef TCMOUNT
