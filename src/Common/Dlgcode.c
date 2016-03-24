@@ -158,6 +158,9 @@ volatile HANDLE hDriverSetupMutex = NULL;
 of the TrueCrypt installer is running (which is also useful for enforcing restart before the apps can be used). */
 volatile HANDLE hAppSetupMutex = NULL;
 
+/* Critical section used to protect access to global variables used in WNetGetConnection calls */
+CRITICAL_SECTION csWNetCalls;
+
 HINSTANCE hInst = NULL;
 HCURSOR hCursor = NULL;
 
@@ -382,6 +385,8 @@ void cleanup ()
 
 	EncryptionThreadPoolStop();
 #endif
+
+	DeleteCriticalSection (&csWNetCalls);
 }
 
 
@@ -2496,6 +2501,8 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	InitCommonControlsPtr InitCommonControlsFn = NULL;	
 
 	InitOSVersionInfo();
+
+	InitializeCriticalSection (&csWNetCalls);
 
 	LoadSystemDll (L"ntmarta.dll", &hntmartadll, TRUE, SRC_POS);
 	LoadSystemDll (L"MPR.DLL", &hmprdll, TRUE, SRC_POS);
@@ -6628,26 +6635,42 @@ DWORD GetUsedLogicalDrives (void)
 	DWORD dwUsedDrives = GetLogicalDrives();
 	if (!bShowDisconnectedNetworkDrives)
 	{
-		/* detect disconnected mapped network shares and removed
-		 * their associated drives from the list
-		 */
-		WCHAR remotePath[512];
-		WCHAR drive[3] = {L'A', L':', 0};
-		DWORD dwLen, status;
-		for (WCHAR i = 0; i <= MAX_MOUNTED_VOLUME_DRIVE_NUMBER; i++)
+		static DWORD g_dwLastMappedDrives = 0;
+		static time_t g_lastCallTime = 0;
+
+		EnterCriticalSection (&csWNetCalls);
+
+		finally_do ({ LeaveCriticalSection (&csWNetCalls); });
+
+		/* update values every 2 seconds to reduce CPU consumption */
+		if ((time (NULL) - g_lastCallTime) > 2)
 		{
-			if ((dwUsedDrives & (1 << i)) == 0)
+			/* detect disconnected mapped network shares and removed
+			 * their associated drives from the list
+			 */
+			WCHAR remotePath[512];
+			WCHAR drive[3] = {L'A', L':', 0};
+			DWORD dwLen, status;
+			g_dwLastMappedDrives = 0;
+			for (WCHAR i = 0; i <= MAX_MOUNTED_VOLUME_DRIVE_NUMBER; i++)
 			{
-				drive[0] = L'A' + i;
-				dwLen = ARRAYSIZE (remotePath);
-				status =  WNetGetConnection (drive, remotePath, &dwLen);
-				if ((NO_ERROR == status) || (status == ERROR_CONNECTION_UNAVAIL))
+				if ((dwUsedDrives & (1 << i)) == 0)
 				{
-					/* this is a mapped network share, mark it as used */
-					dwUsedDrives |= (1 << i);
+					drive[0] = L'A' + i;
+					dwLen = ARRAYSIZE (remotePath);
+					status =  WNetGetConnection (drive, remotePath, &dwLen);
+					if ((NO_ERROR == status) || (status == ERROR_CONNECTION_UNAVAIL))
+					{
+						/* this is a mapped network share, mark it as used */
+						g_dwLastMappedDrives |= (1 << i);
+					}
 				}
 			}
+
+			g_lastCallTime = time (NULL);
 		}
+
+		dwUsedDrives |= g_dwLastMappedDrives;
 	}
 
 	return dwUsedDrives;
