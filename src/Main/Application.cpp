@@ -22,6 +22,59 @@
 
 namespace VeraCrypt
 {
+	namespace
+	{
+		void EnsureEndsWithPathSeparator( wxString &s )
+		{
+			const wxUniChar pathSeparator = wxFileName::GetPathSeparator();
+			if (s[s.size() - 1] != pathSeparator)
+				s.append(pathSeparator);
+		}
+
+		wxString *GetXdgConfigPath ()
+		{
+			wxString *configDir;
+
+			#ifdef TC_WINDOWS
+				const wchar_t *xdgConfig = ::_wgetenv(L"XDG_CONFIG_HOME");
+			#else
+				const char *xdgConfig = ::getenv("XDG_CONFIG_HOME");
+			#endif
+
+			if (xdgConfig && *xdgConfig)
+			{
+				configDir = new wxString (xdgConfig);
+				//wcerr << L"XDG_CONFIG_HOME=" << *configDir << endl;
+				EnsureEndsWithPathSeparator(*configDir);
+				configDir->append(Application::GetName());
+			}
+			else
+			{
+				#if !defined(TC_UNIX) || defined(TC_MACOSX) // Windows, OS X:
+					configDir =
+						new wxString (wxStandardPaths::Get().GetUserDataDir());
+				#else // Linux, FreeBSD, Solaris:
+					configDir = new wxString (wxFileName::GetHomeDir());
+					configDir->append(wxT("/.config/"));
+					configDir->append(Application::GetName());
+
+					if (!wxDirExists(*configDir))
+					{
+						wxString legacyConfigDir = wxStandardPaths::Get().GetUserDataDir();
+						//wcerr << L"Legacy config dir: " << legacyConfigDir << endl;
+						if (wxDirExists(legacyConfigDir))
+						{
+							configDir->swap(legacyConfigDir);
+						}
+					}
+				#endif
+			}
+
+			//wcerr << L"Config dir: " << *configDir << endl;
+			return configDir;
+		}
+	}
+
 	wxApp* Application::CreateConsoleApp ()
 	{
 		mUserInterface = new TextUserInterface;
@@ -40,27 +93,44 @@ namespace VeraCrypt
 
 	FilePath Application::GetConfigFilePath (const wxString &configFileName, bool createConfigDir)
 	{
-		DirectoryPath configDir;
-		
-		if (!Core->IsInPortableMode())
+		static const wxString *configDirC = NULL;
+		static bool configDirExists = false;
+
+		if (!configDirExists)
 		{
-#ifdef TC_MACOSX
-			wxFileName configPath (L"~/Library/Application Support/VeraCrypt");
-			configPath.Normalize();
-			configDir = wstring (configPath.GetFullPath());
-#else
-			wxStandardPaths& stdPaths = wxStandardPaths::Get();
-			configDir = wstring (stdPaths.GetUserDataDir());
-#endif
+			if (!configDirC)
+			{
+				wxString *configDir;
+
+				if (Core->IsInPortableMode())
+				{
+					configDir = new wxString (
+						wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
+				}
+				else
+				{
+					configDir = GetXdgConfigPath();
+				}
+
+				EnsureEndsWithPathSeparator(*configDir);
+				configDirC = configDir;
+			}
+
+			if (createConfigDir)
+			{
+				if (!wxDirExists(*configDirC))
+				{
+					//wcerr << L"Creating config dir »" << *configDirC << L"« ..." << endl;
+					throw_sys_sub_if(
+						!wxMkdir(*configDirC, wxS_IRUSR | wxS_IWUSR | wxS_IXUSR),
+						configDirC->ToStdWstring());
+				}
+				configDirExists = true;
+				//wcerr << L"Config directory »" << *configDirC << L"« exists now" << endl;
+			}
 		}
-		else
-			configDir = GetExecutableDirectory();
 
-		if (createConfigDir && !configDir.IsDirectory())
-			Directory::Create (configDir);
-
-		FilePath filePath = wstring (wxFileName (wstring (configDir), configFileName).GetFullPath());
-		return filePath;
+		return FilePath((*configDirC + configFileName).ToStdWstring());
 	}
 
 	DirectoryPath Application::GetExecutableDirectory ()
