@@ -33,15 +33,10 @@ namespace VeraCrypt
 
 		wxString *GetXdgConfigPath ()
 		{
+			const wxChar *xdgConfig = wxGetenv(wxT("XDG_CONFIG_HOME"));
 			wxString *configDir;
 
-			#ifdef TC_WINDOWS
-				const wchar_t *xdgConfig = ::_wgetenv(L"XDG_CONFIG_HOME");
-			#else
-				const char *xdgConfig = ::getenv("XDG_CONFIG_HOME");
-			#endif
-
-			if (xdgConfig && *xdgConfig)
+			if (!wxIsEmpty(xdgConfig))
 			{
 				configDir = new wxString (xdgConfig);
 				//wcerr << L"XDG_CONFIG_HOME=" << *configDir << endl;
