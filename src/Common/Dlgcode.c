@@ -248,6 +248,9 @@ typedef LSTATUS (STDAPICALLTYPE *SHDeleteKeyWPtr)(HKEY hkey, LPCWSTR pszSubKey);
 
 typedef HRESULT (STDAPICALLTYPE *SHStrDupWPtr)(LPCWSTR psz, LPWSTR *ppwsz);
 
+// ChangeWindowMessageFilter
+typedef BOOL (WINAPI *ChangeWindowMessageFilterPtr) (UINT, DWORD);
+
 ImageList_CreatePtr ImageList_CreateFn = NULL;
 ImageList_AddPtr ImageList_AddFn = NULL;
 
@@ -257,6 +260,7 @@ SetupInstallFromInfSectionWPtr SetupInstallFromInfSectionWFn = NULL;
 SetupOpenInfFileWPtr SetupOpenInfFileWFn = NULL;
 SHDeleteKeyWPtr SHDeleteKeyWFn = NULL;
 SHStrDupWPtr SHStrDupWFn = NULL;
+ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
 
 /* Windows dialog class */
 #define WINDOWS_DIALOG_CLASS L"#32770"
@@ -264,6 +268,16 @@ SHStrDupWPtr SHStrDupWFn = NULL;
 /* Custom class names */
 #define TC_DLG_CLASS L"VeraCryptCustomDlg"
 #define TC_SPLASH_CLASS L"VeraCryptSplashDlg"
+
+/* constant used by ChangeWindowMessageFilter calls */
+#ifndef MSGFLT_ADD
+#define MSGFLT_ADD	1
+#endif
+
+/* undocumented message sent during drag-n-drop */
+#ifndef WM_COPYGLOBALDATA
+#define WM_COPYGLOBALDATA 0x0049
+#endif
 
 /* Benchmarks */
 
@@ -2602,6 +2616,19 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	SHStrDupWFn = (SHStrDupWPtr) GetProcAddress (hShlwapiDll, "SHStrDupW");
 	if (!SHDeleteKeyWFn || !SHStrDupWFn)
 		AbortProcess ("INIT_DLL");
+
+	if (IsOSAtLeast (WIN_VISTA))
+	{
+		/* Get ChangeWindowMessageFilter used to enable some messages bypasss UIPI (User Interface Privilege Isolation) */
+		ChangeWindowMessageFilterFn = (ChangeWindowMessageFilterPtr) GetProcAddress (GetModuleHandle (L"user32.dll"), "ChangeWindowMessageFilter");
+
+#ifndef SETUP
+		/* enable drag-n-drop when we are running elevated */
+		AllowMessageInUIPI (WM_DROPFILES);
+		AllowMessageInUIPI (WM_COPYDATA);
+		AllowMessageInUIPI (WM_COPYGLOBALDATA);
+#endif
+	}
 
 	/* Save the instance handle for later */
 	hInst = hInstance;
@@ -11573,5 +11600,13 @@ void ProcessEntropyEstimate (HWND hProgress, DWORD* pdwInitialValue, DWORD dwCou
 		SendMessage (hProgress, PBM_SETPOS, 
 		(WPARAM) (*pdwEntropy),
 		0);
+	}
+}
+
+void AllowMessageInUIPI (UINT msg)
+{
+	if (ChangeWindowMessageFilterFn)
+	{
+		ChangeWindowMessageFilterFn (msg, MSGFLT_ADD);
 	}
 }

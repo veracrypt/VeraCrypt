@@ -6547,6 +6547,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			taskBarCreatedMsg = RegisterWindowMessage (L"TaskbarCreated");
 
+			AllowMessageInUIPI (taskBarCreatedMsg);
+
 			SetFocus (GetDlgItem (hwndDlg, IDC_DRIVELIST));
 
 			/* Check system encryption status */

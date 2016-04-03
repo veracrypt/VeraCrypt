@@ -500,6 +500,7 @@ HIMAGELIST  CreateImageList(int cx, int cy, UINT flags, int cInitial, int cGrow)
 int AddBitmapToImageList(HIMAGELIST himl, HBITMAP hbmImage, HBITMAP hbmMask);
 HRESULT VCStrDupW(LPCWSTR psz, LPWSTR *ppwsz);
 void ProcessEntropyEstimate (HWND hProgress, DWORD* pdwInitialValue, DWORD dwCounter, DWORD dwMaxLevel, DWORD* pdwEntropy);
+void AllowMessageInUIPI (UINT msg);
 
 #ifdef __cplusplus
 }
