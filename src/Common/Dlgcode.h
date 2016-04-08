@@ -298,7 +298,7 @@ void InitOSVersionInfo ();
 void InitApp ( HINSTANCE hInstance, wchar_t *lpszCommandLine );
 void FinalizeApp (void);
 void InitHelpFileName (void);
-BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem);
+BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL matchVolumeID, BYTE* pbVolumeID);
 void NotifyDriverOfPortableMode (void);
 int GetAvailableFixedDisks ( HWND hComboBox , char *lpszRootPath );
 int GetAvailableRemovables ( HWND hComboBox , char *lpszRootPath );
@@ -501,6 +501,7 @@ int AddBitmapToImageList(HIMAGELIST himl, HBITMAP hbmImage, HBITMAP hbmMask);
 HRESULT VCStrDupW(LPCWSTR psz, LPWSTR *ppwsz);
 void ProcessEntropyEstimate (HWND hProgress, DWORD* pdwInitialValue, DWORD dwCounter, DWORD dwMaxLevel, DWORD* pdwEntropy);
 void AllowMessageInUIPI (UINT msg);
+BOOL IsRepeatedByteArray (byte value, const byte* buffer, size_t bufferSize);
 
 #ifdef __cplusplus
 }
@@ -565,6 +566,9 @@ std::wstring HarddiskVolumePathToPartitionPath (const std::wstring &harddiskVolu
 std::wstring FindLatestFileOrDirectory (const std::wstring &directory, const wchar_t *namePattern, bool findDirectory, bool findFile);
 std::wstring GetUserFriendlyVersionString (int version);
 std::wstring IntToWideString (int val);
+std::wstring ArrayToHexWideString (const unsigned char* pbData, int cbData);
+bool HexWideStringToArray (const wchar_t* hexStr, std::vector<byte>& arr);
+std::wstring FindDeviceByVolumeID (BYTE volumeID [SHA512_DIGEST_SIZE]);
 void RegisterDriverInf (bool registerFilter, const std::string& filter, const std::string& filterReg, HWND ParentWindow, HKEY regKey);
 std::wstring GetTempPathString ();
 inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)

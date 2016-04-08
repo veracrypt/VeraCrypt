@@ -7065,7 +7065,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						OPEN_TEST_STRUCT ots = {0};
 
-						if (!OpenDevice (vol, &ots, FALSE))
+						if (!OpenDevice (vol, &ots, FALSE, FALSE, NULL))
 						{
 							UnmountVolume (hwndDlg, m, TRUE);
 							WarningBalloon ("HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_DISMOUNT_WARN", hwndDlg);
@@ -8899,6 +8899,7 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 {
 	BOOL status = TRUE;
 	int drive;
+	std::wstring effectiveVolumePath;
 	drive = towupper (favorite.MountPoint[0]) - L'A';
 
 	if ((drive < MIN_MOUNTED_VOLUME_DRIVE_NUMBER) || (drive > MAX_MOUNTED_VOLUME_DRIVE_NUMBER))
@@ -8918,6 +8919,11 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 		StringCbCopyW (mountOptions.Label, sizeof (mountOptions.Label), favorite.Label.c_str());
 	else
 		ZeroMemory (mountOptions.Label, sizeof (mountOptions.Label));
+
+	if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE))
+		effectiveVolumePath = L"ID:" + ArrayToHexWideString (favorite.VolumeID, SHA512_DIGEST_SIZE);
+	else
+		effectiveVolumePath = favorite.Path;
 
 	if (favorite.SystemEncryption)
 	{
@@ -8978,7 +8984,7 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 		if (ServiceMode)
 			SystemFavoritesServiceLogInfo (wstring (L"Mounting system favorite \"") + favorite.Path + L"\"");
 
-		status = Mount (hwnd, drive, (wchar_t *) favorite.Path.c_str(), favorite.Pim);
+		status = Mount (hwnd, drive, (wchar_t *) effectiveVolumePath.c_str(), favorite.Pim);
 
 		if (ServiceMode)
 		{

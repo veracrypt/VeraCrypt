@@ -81,6 +81,8 @@ typedef struct EXTENSION
 	BOOL bIsNTFS;
 	BOOL bDriverSetLabel;
 
+	unsigned char volumeID[SHA512_DIGESTSIZE];
+
 	LARGE_INTEGER fileCreationTime;
 	LARGE_INTEGER fileLastAccessTime;
 	LARGE_INTEGER fileLastWriteTime;

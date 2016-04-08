@@ -98,6 +98,7 @@ namespace VeraCrypt
 		favorite.SystemEncryption = prop.partitionInInactiveSysEncScope ? true : false;
 		favorite.OpenExplorerWindow = (bExplore == TRUE);
 		favorite.Pim = prop.volumePim;
+		memcpy (favorite.VolumeID, prop.volumeID, SHA512_DIGESTSIZE);
 
 		if (favorite.VolumePathId.empty()
 			&& IsVolumeDeviceHosted (favorite.Path.c_str())
@@ -416,6 +417,19 @@ namespace VeraCrypt
 		case WM_CLOSE:
 			EndDialog (hwndDlg, IDCLOSE);
 			return 1;
+		case WM_CTLCOLORSTATIC:
+			{
+				HDC hdc = (HDC)	wParam;
+				HWND hw = (HWND) lParam;
+				if (hw == GetDlgItem(hwndDlg, IDC_FAVORITE_ID))
+				{
+					// This the favorite ID field. Make its background like normal edit
+					HBRUSH hbr = GetSysColorBrush (COLOR_WINDOW);
+					::SelectObject(hdc, hbr);
+					return (BOOL) hbr;
+				}
+			}
+			break;
 		}
 
 		return 0;
@@ -566,6 +580,17 @@ namespace VeraCrypt
 			favorite.Path = Utf8StringToWide (volume);
 
 			char label[1024];
+
+			XmlGetAttributeText (xml, "ID", label, sizeof (label));
+			if (strlen (label) == 128)
+			{
+				std::vector<byte> arr;
+				if (HexWideStringToArray (Utf8StringToWide (label).c_str(), arr) && arr.size() == SHA512_DIGEST_SIZE)
+				{
+					memcpy (favorite.VolumeID, &arr[0], SHA512_DIGEST_SIZE);
+				}
+			}
+
 			XmlGetAttributeText (xml, "label", label, sizeof (label));
 			favorite.Label = Utf8StringToWide (label);
 
@@ -611,6 +636,10 @@ namespace VeraCrypt
 			XmlGetAttributeText (xml, "useLabelInExplorer", boolVal, sizeof (boolVal));
 			if (boolVal[0])
 				favorite.UseLabelInExplorer = (boolVal[0] == '1') && !favorite.ReadOnly;
+
+			XmlGetAttributeText (xml, "useVolumeID", boolVal, sizeof (boolVal));
+			if (boolVal[0])
+				favorite.UseVolumeID = (boolVal[0] == '1') && !IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE);
 
 			if (favorite.Path.find (L"\\\\?\\Volume{") == 0 && favorite.Path.rfind (L"}\\") == favorite.Path.size() - 2)
 			{
@@ -709,6 +738,9 @@ namespace VeraCrypt
 
 			wstring s = L"\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
 
+			if (!IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE))
+				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, SHA512_DIGEST_SIZE) + L"\"";
+
 			if (!favorite.Label.empty())
 				s += L" label=\"" + favorite.Label + L"\"";
 
@@ -738,6 +770,9 @@ namespace VeraCrypt
 
 			if (favorite.UseLabelInExplorer && !favorite.ReadOnly)
 				s += L" useLabelInExplorer=\"1\"";
+
+			if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE))
+				s += L" useVolumeID=\"1\"";
 
 			s += L">" + wstring (tq) + L"</volume>";
 
@@ -819,6 +854,12 @@ namespace VeraCrypt
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_ARRIVAL, favorite.MountOnArrival);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_READONLY, favorite.ReadOnly);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE, favorite.Removable);
+		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID, favorite.UseVolumeID);
+
+		if (!IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGESTSIZE))
+		{
+			SetDlgItemText (hwndDlg, IDC_FAVORITE_ID, ArrayToHexWideString (favorite.VolumeID, SHA512_DIGESTSIZE).c_str());
+		}
 
 		if (systemFavoritesMode)
 		{
@@ -873,6 +914,7 @@ namespace VeraCrypt
 
 		favorite.Pim = GetPim (hwndDlg, IDC_PIM);
 		favorite.UseLabelInExplorer = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER) != 0);
+		favorite.UseVolumeID = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID) != 0);
 
 		favorite.ReadOnly = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_READONLY) != 0);
 		favorite.Removable = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE) != 0);

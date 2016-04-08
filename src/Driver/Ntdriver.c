@@ -975,7 +975,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 			InitializeObjectAttributes (&ObjectAttributes, &FullFileName, OBJ_CASE_INSENSITIVE | OBJ_KERNEL_HANDLE, NULL, NULL);
 
-			if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem)
+			if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem || opentest->bMatchVolumeID)
 				access |= FILE_READ_DATA;
 
 			ntStatus = ZwCreateFile (&NtFileHandle,
@@ -986,8 +986,9 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			{
 				opentest->TCBootLoaderDetected = FALSE;
 				opentest->FilesystemDetected = FALSE;
+				opentest->VolumeIDMatched = FALSE;
 
-				if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem)
+				if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem || opentest->bMatchVolumeID)
 				{
 					byte *readBuffer = TCalloc (TC_MAX_VOLUME_SECTOR_SIZE);
 					if (!readBuffer)
@@ -996,48 +997,98 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 					}
 					else
 					{
-						// Determine if the first sector contains a portion of the VeraCrypt Boot Loader
-
-						offset.QuadPart = 0;
-
-						ntStatus = ZwReadFile (NtFileHandle,
-							NULL,
-							NULL,
-							NULL,
-							&IoStatus,
-							readBuffer,
-							TC_MAX_VOLUME_SECTOR_SIZE,
-							&offset,
-							NULL);
-
-						if (NT_SUCCESS (ntStatus))
+						if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem)
 						{
-							size_t i;
+							// Determine if the first sector contains a portion of the VeraCrypt Boot Loader
 
-							if (opentest->bDetectTCBootLoader && IoStatus.Information >= TC_SECTOR_SIZE_BIOS)
+							offset.QuadPart = 0;
+
+							ntStatus = ZwReadFile (NtFileHandle,
+								NULL,
+								NULL,
+								NULL,
+								&IoStatus,
+								readBuffer,
+								TC_MAX_VOLUME_SECTOR_SIZE,
+								&offset,
+								NULL);
+
+							if (NT_SUCCESS (ntStatus))
 							{
-								// Search for the string "VeraCrypt"
-								for (i = 0; i < TC_SECTOR_SIZE_BIOS - strlen (TC_APP_NAME); ++i)
+								size_t i;
+
+								if (opentest->bDetectTCBootLoader && IoStatus.Information >= TC_SECTOR_SIZE_BIOS)
 								{
-									if (memcmp (readBuffer + i, TC_APP_NAME, strlen (TC_APP_NAME)) == 0)
+									// Search for the string "VeraCrypt"
+									for (i = 0; i < TC_SECTOR_SIZE_BIOS - strlen (TC_APP_NAME); ++i)
 									{
-										opentest->TCBootLoaderDetected = TRUE;
+										if (memcmp (readBuffer + i, TC_APP_NAME, strlen (TC_APP_NAME)) == 0)
+										{
+											opentest->TCBootLoaderDetected = TRUE;
+											break;
+										}
+									}
+								}
+
+								if (opentest->DetectFilesystem && IoStatus.Information >= sizeof (int64))
+								{
+									switch (BE64 (*(uint64 *) readBuffer))
+									{
+									case 0xEB52904E54465320: // NTFS
+									case 0xEB3C904D53444F53: // FAT16
+									case 0xEB58904D53444F53: // FAT32
+									case 0xEB76904558464154: // exFAT
+
+										opentest->FilesystemDetected = TRUE;
 										break;
 									}
 								}
 							}
+						}
 
-							if (opentest->DetectFilesystem && IoStatus.Information >= sizeof (int64))
+						if (opentest->bMatchVolumeID)
+						{
+							int volumeType;
+							BYTE volumeID[SHA512_DIGEST_SIZE];
+
+							// Go through all volume types (e.g., normal, hidden)
+							for (volumeType = TC_VOLUME_TYPE_NORMAL;
+								volumeType < TC_VOLUME_TYPE_COUNT;
+								volumeType++)	
 							{
-								switch (BE64 (*(uint64 *) readBuffer))
+								/* Read the volume header */
+								switch (volumeType)
 								{
-								case 0xEB52904E54465320: // NTFS
-								case 0xEB3C904D53444F53: // FAT16
-								case 0xEB58904D53444F53: // FAT32
-								case 0xEB76904558464154: // exFAT
-
-									opentest->FilesystemDetected = TRUE;
+								case TC_VOLUME_TYPE_NORMAL:
+									offset.QuadPart = TC_VOLUME_HEADER_OFFSET;
 									break;
+
+								case TC_VOLUME_TYPE_HIDDEN:
+
+									offset.QuadPart = TC_HIDDEN_VOLUME_HEADER_OFFSET;
+									break;
+								}
+
+								ntStatus = ZwReadFile (Extension->hDeviceFile,
+								NULL,
+								NULL,
+								NULL,
+								&IoStatus,
+								readBuffer,
+								TC_MAX_VOLUME_SECTOR_SIZE,
+								&offset,
+								NULL);
+
+								if (NT_SUCCESS (ntStatus))
+								{
+									/* compute the ID of this volume: SHA-512 of the effective header */
+									sha512 (volumeID, readBuffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+
+									if (0 == memcmp (volumeID, opentest->volumeID, SHA512_DIGEST_SIZE))
+									{
+										opentest->VolumeIDMatched = TRUE;
+										break;
+									}
 								}
 							}
 						}
@@ -1214,6 +1265,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 					list->ulMountedDrives |= (1 << ListExtension->nDosDriveNo);
 					RtlStringCbCopyW (list->wszVolume[ListExtension->nDosDriveNo], sizeof(list->wszVolume[ListExtension->nDosDriveNo]),ListExtension->wszVolume);
 					RtlStringCbCopyW (list->wszLabel[ListExtension->nDosDriveNo], sizeof(list->wszLabel[ListExtension->nDosDriveNo]),ListExtension->wszLabel);
+					memcpy (list->volumeID[ListExtension->nDosDriveNo], ListExtension->volumeID, SHA512_DIGEST_SIZE);
 					list->diskLength[ListExtension->nDosDriveNo] = ListExtension->DiskLength;
 					list->ea[ListExtension->nDosDriveNo] = ListExtension->cryptoInfo->ea;
 					if (ListExtension->cryptoInfo->hiddenVolume)
@@ -1265,6 +1317,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 					prop->uniqueId = ListExtension->UniqueVolumeId;
 					RtlStringCbCopyW (prop->wszVolume, sizeof(prop->wszVolume),ListExtension->wszVolume);
 					RtlStringCbCopyW (prop->wszLabel, sizeof(prop->wszLabel),ListExtension->wszLabel);
+					memcpy (prop->volumeID, ListExtension->volumeID, SHA512_DIGEST_SIZE);
 					prop->bDriverSetLabel = ListExtension->bDriverSetLabel;
 					prop->diskLength = ListExtension->DiskLength;
 					prop->ea = ListExtension->cryptoInfo->ea;

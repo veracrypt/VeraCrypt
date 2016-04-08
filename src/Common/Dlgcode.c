@@ -2930,7 +2930,7 @@ void InitHelpFileName (void)
 	}
 }
 
-BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem)
+BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL matchVolumeID, BYTE* pbVolumeID)
 {
 	DWORD dwResult;
 	BOOL bResult;
@@ -2943,6 +2943,9 @@ BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectF
 
 	driver->bDetectTCBootLoader = FALSE;
 	driver->DetectFilesystem = detectFilesystem;
+	driver->bMatchVolumeID = matchVolumeID;
+	if (matchVolumeID && pbVolumeID)
+		memcpy (driver->volumeID, pbVolumeID, SHA512_DIGEST_SIZE);
 
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST,
 				   driver, sizeof (OPEN_TEST_STRUCT),
@@ -4710,6 +4713,55 @@ wstring IntToWideString (int val)
 	StringCbPrintfW (szTmp, sizeof(szTmp), L"%d", val);
 
 	return szTmp;
+}
+
+wstring ArrayToHexWideString (const unsigned char* pbData, int cbData)
+{
+	static wchar_t* hexChar = L"0123456789ABCDEF";
+	wstring result;
+	if (pbData)
+	{
+		for (int i = 0; i < cbData; i++)
+		{
+			result += hexChar[pbData[i] >> 4];
+			result += hexChar[pbData[i] & 0x0F];
+		}
+	}
+
+	return result;
+}
+
+bool HexToByte (wchar_t c, byte& b)
+{
+	bool bRet = true;
+	if (c >= L'0' && c <= L'9')
+		b = (byte) (c - L'0');
+	else if (c >= L'a' && c <= L'z')
+		b = (byte) (c - L'a' + 10);
+	else if (c >= L'A' && c <= L'Z')
+		b = (byte) (c - L'A' + 10);
+	else
+		bRet = false;
+
+	return bRet;
+}
+
+bool HexWideStringToArray (const wchar_t* hexStr, std::vector<byte>& arr)
+{
+	byte b1, b2;
+	size_t i, len = wcslen (hexStr);
+
+	arr.clear();
+	if (len %2)
+		return false;
+	
+	for (i = 0; i < len/2; i++)
+	{
+		if (!HexToByte (*hexStr++, b1) || !HexToByte (*hexStr++, b2))
+			return false;
+		arr.push_back (b1 << 4 | b2);
+	}
+	return true;
 }
 
 wstring GetTempPathString ()
@@ -7069,12 +7121,37 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 
 /************************************************************************/
 
+static BOOL PerformMountIoctl (MOUNT_STRUCT* pmount, LPDWORD pdwResult, BOOL useVolumeID, BYTE volumeID[SHA512_DIGEST_SIZE])
+{
+	if (useVolumeID)
+	{
+		wstring devicePath = FindDeviceByVolumeID (volumeID);
+		if (devicePath == L"")
+		{
+			if (pdwResult)
+				*pdwResult = 0;
+			SetLastError (ERROR_PATH_NOT_FOUND);
+			return FALSE;
+		}
+		else
+		{
+			BOOL bDevice = FALSE;
+			CreateFullVolumePath (pmount->wszVolume, sizeof(pmount->wszVolume), devicePath.c_str(), &bDevice);
+		}
+	}
+	
+	return DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, pmount,
+			sizeof (MOUNT_STRUCT), pmount, sizeof (MOUNT_STRUCT), pdwResult, NULL);
+}
+
 // specific definitions and implementation for support of mount operation 
 // in wait dialog mechanism
 
 typedef struct
 {
 	MOUNT_STRUCT* pmount;
+	BOOL useVolumeID;
+	BYTE volumeID[SHA512_DIGEST_SIZE];
 	BOOL* pbResult;
 	DWORD* pdwResult;
 	DWORD dwLastError;
@@ -7084,8 +7161,7 @@ void CALLBACK MountWaitThreadProc(void* pArg, HWND )
 {
 	MountThreadParam* pThreadParam = (MountThreadParam*) pArg;
 
-	*(pThreadParam->pbResult) = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, pThreadParam->pmount,
-		sizeof (MOUNT_STRUCT),pThreadParam->pmount, sizeof (MOUNT_STRUCT), pThreadParam->pdwResult, NULL);
+	*(pThreadParam->pbResult) = PerformMountIoctl (pThreadParam->pmount, pThreadParam->pdwResult, pThreadParam->useVolumeID, pThreadParam->volumeID);
 
 	pThreadParam->dwLastError = GetLastError ();
 }
@@ -7122,6 +7198,8 @@ int MountVolume (HWND hwndDlg,
 	BOOL bResult, bDevice;
 	wchar_t root[MAX_PATH];
 	int favoriteMountOnArrivalRetryCount = 0;
+	BOOL useVolumeID = FALSE;
+	BYTE volumeID[SHA512_DIGEST_SIZE] = {0};
 
 #ifdef TCMOUNT
 	if (mountOptions->PartitionInInactiveSysEncScope)
@@ -7208,7 +7286,29 @@ retry:
 			StringCchCopyW (volumePath, TC_MAX_PATH, resolvedPath.c_str());
 	}
 
-	CreateFullVolumePath (mount.wszVolume, sizeof(mount.wszVolume), volumePath, &bDevice);
+	if ((path.length () >= 3) && (_wcsnicmp (path.c_str(), L"ID:", 3) == 0))
+	{
+		std::vector<byte> arr;
+		if (	(path.length() == (3 + 2*SHA512_DIGEST_SIZE)) 
+			&& HexWideStringToArray (path.c_str() + 3, arr)
+			&& (arr.size() == SHA512_DIGEST_SIZE)
+			)
+		{
+			useVolumeID = TRUE;
+			bDevice = TRUE;
+			memcpy (volumeID, &arr[0], SHA512_DIGEST_SIZE);
+		}
+		else
+		{
+			if (!quiet)
+				Error ("VOLUME_ID_INVALID", hwndDlg);
+
+			SetLastError (ERROR_INVALID_PARAMETER);
+			return -1;
+		}
+	}
+	else
+		CreateFullVolumePath (mount.wszVolume, sizeof(mount.wszVolume), volumePath, &bDevice);
 
 	if (!bDevice)
 	{
@@ -7284,6 +7384,8 @@ retry:
 	{
 		MountThreadParam mountThreadParam;
 		mountThreadParam.pmount = &mount;
+		mountThreadParam.useVolumeID = useVolumeID;
+		memcpy (mountThreadParam.volumeID, volumeID, SHA512_DIGESTSIZE);
 		mountThreadParam.pbResult = &bResult;
 		mountThreadParam.pdwResult = &dwResult;
 		mountThreadParam.dwLastError = ERROR_SUCCESS;
@@ -7294,8 +7396,8 @@ retry:
 	}
 	else
 	{
-		bResult = DeviceIoControl (hDriver, TC_IOCTL_MOUNT_VOLUME, &mount,
-				sizeof (mount), &mount, sizeof (mount), &dwResult, NULL);
+		bResult = PerformMountIoctl (&mount, &dwResult, useVolumeID, volumeID);
+
 		dwLastError = GetLastError ();
 	}
 
@@ -7588,25 +7690,40 @@ BOOL IsMountedVolume (const wchar_t *volname)
 	MOUNT_LIST_STRUCT mlist;
 	DWORD dwResult;
 	int i;
-	wchar_t volume[TC_MAX_PATH*2+16];
-
-	StringCbCopyW (volume, sizeof(volume), volname);
-
-	if (wcsstr (volname, L"\\Device\\") != volname)
-		StringCbPrintfW(volume, sizeof(volume), L"\\??\\%s", volname);
-
-	wstring resolvedPath = VolumeGuidPathToDevicePath (volname);
-	if (!resolvedPath.empty())
-		StringCbCopyW (volume, sizeof (volume), resolvedPath.c_str());
 
 	memset (&mlist, 0, sizeof (mlist));
 	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mlist,
 		sizeof (mlist), &mlist, sizeof (mlist), &dwResult,
 		NULL);
 
-	for (i=0 ; i<26; i++)
-		if (0 == _wcsicmp ((wchar_t *) mlist.wszVolume[i], volume))
-			return TRUE;
+	if ((wcslen (volname) == (3 + 2*SHA512_DIGEST_SIZE)) && _wcsnicmp (volname, L"ID:", 3) == 0)
+	{
+		/* Volume ID specified. Use it for matching mounted volumes. */
+		std::vector<byte> arr;
+		if (HexWideStringToArray (&volname[3], arr) && (arr.size() == SHA512_DIGEST_SIZE))
+		{
+			for (i=0 ; i<26; i++)
+				if (0 == memcmp (mlist.volumeID[i], &arr[0], SHA512_DIGEST_SIZE))
+					return TRUE;
+		}
+	}
+	else
+	{
+		wchar_t volume[TC_MAX_PATH*2+16];
+
+		StringCbCopyW (volume, sizeof(volume), volname);
+
+		if (wcsstr (volname, L"\\Device\\") != volname)
+			StringCbPrintfW(volume, sizeof(volume), L"\\??\\%s", volname);
+
+		wstring resolvedPath = VolumeGuidPathToDevicePath (volname);
+		if (!resolvedPath.empty())
+			StringCbCopyW (volume, sizeof (volume), resolvedPath.c_str());
+
+		for (i=0 ; i<26; i++)
+			if (0 == _wcsicmp ((wchar_t *) mlist.wszVolume[i], volume))
+				return TRUE;
+	}
 
 	return FALSE;
 }
@@ -10875,7 +10992,7 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 			const wchar_t *devPath = devPathStr.c_str();
 
 			OPEN_TEST_STRUCT openTest = {0};
-			if (!OpenDevice (devPath, &openTest, detectUnencryptedFilesystems && partNumber != 0))
+			if (!OpenDevice (devPath, &openTest, detectUnencryptedFilesystems && partNumber != 0, FALSE, NULL))
 			{
 				if (partNumber == 0)
 					break;
@@ -10980,7 +11097,7 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 			const wchar_t *devPath = devPathStr.c_str();
 
 			OPEN_TEST_STRUCT openTest = {0};
-			if (!OpenDevice (devPath, &openTest, detectUnencryptedFilesystems))
+			if (!OpenDevice (devPath, &openTest, detectUnencryptedFilesystems, FALSE, NULL))
 				continue;
 
 			DISK_PARTITION_INFO_STRUCT info;
@@ -11020,6 +11137,30 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 	return devices;
 }
 
+wstring FindDeviceByVolumeID (BYTE volumeID [SHA512_DIGEST_SIZE])
+{
+	for (int devNumber = 0; devNumber < MAX_HOST_DRIVE_NUMBER; devNumber++)
+	{
+		for (int partNumber = 0; partNumber < MAX_HOST_PARTITION_NUMBER; partNumber++)
+		{
+			wstringstream strm;
+			strm << L"\\Device\\Harddisk" << devNumber << L"\\Partition" << partNumber;
+			wstring devPathStr (strm.str());
+			const wchar_t *devPath = devPathStr.c_str();
+
+			OPEN_TEST_STRUCT openTest = {0};
+			if (!OpenDevice (devPath, &openTest, FALSE, TRUE, volumeID))
+			{
+				continue;
+			}
+
+			if (openTest.VolumeIDMatched)
+				return devPath;
+		}
+	}
+
+	return L"";
+}
 
 BOOL FileHasReadOnlyAttribute (const wchar_t *path)
 {
@@ -11241,8 +11382,25 @@ BOOL VolumePathExists (const wchar_t *volumePath)
 
 	UpperCaseCopy (upperCasePath, sizeof(upperCasePath), volumePath);
 
+	if (wcsstr (upperCasePath, L"ID:") == upperCasePath)
+	{
+		std::vector<byte> arr;
+		if (	(wcslen (upperCasePath) == (3 + 2*SHA512_DIGEST_SIZE)) 
+			&&	HexWideStringToArray (&upperCasePath[3], arr)
+			&& (arr.size() == SHA512_DIGEST_SIZE)
+			)
+		{
+			if (FindDeviceByVolumeID (&arr[0]).length() > 0)
+				return TRUE;
+			else
+				return FALSE;
+		}
+		else
+			return FALSE;
+	}
+
 	if (wcsstr (upperCasePath, L"\\DEVICE\\") == upperCasePath)
-		return OpenDevice (volumePath, &openTest, FALSE);
+		return OpenDevice (volumePath, &openTest, FALSE, FALSE, NULL);
 
 	wstring path = volumePath;
 	if (path.find (L"\\\\?\\Volume{") == 0 && path.rfind (L"}\\") == path.size() - 2)
@@ -11610,3 +11768,20 @@ void AllowMessageInUIPI (UINT msg)
 		ChangeWindowMessageFilterFn (msg, MSGFLT_ADD);
 	}
 }
+
+BOOL IsRepeatedByteArray (byte value, const byte* buffer, size_t bufferSize)
+{
+	if (buffer && bufferSize)
+	{
+		size_t i;
+		for (i = 0; i < bufferSize; i++)
+		{
+			if (*buffer++ != value)
+				return FALSE;
+		}
+		return TRUE;
+	}
+	else
+		return FALSE;
+}
+

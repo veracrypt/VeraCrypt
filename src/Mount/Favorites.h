@@ -30,8 +30,10 @@ namespace VeraCrypt
 			ReadOnly (false),
 			Removable (false),
 			SystemEncryption (false),
-			UseLabelInExplorer (false)
+			UseLabelInExplorer (false),
+			UseVolumeID (false)
 		{
+			memset (VolumeID, 0, SHA512_DIGESTSIZE);
 		}
 
 		wstring Path;
@@ -39,6 +41,7 @@ namespace VeraCrypt
 		wstring VolumePathId;
 		wstring Label;
 		int Pim;
+		BYTE VolumeID[SHA512_DIGESTSIZE];
 
 		bool DisableHotkeyMount;
 		bool DisconnectedDevice;
@@ -49,6 +52,7 @@ namespace VeraCrypt
 		bool Removable;
 		bool SystemEncryption;
 		bool UseLabelInExplorer;
+		bool UseVolumeID;
 	};
 
 	struct FavoriteVolumesDlgProcArguments
