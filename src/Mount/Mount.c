@@ -1900,6 +1900,7 @@ typedef struct
 {
 	BOOL bRequireConfirmation;
 	wchar_t *lpszVolume;
+	size_t cchVolume;
 	int* iResult;
 } BackupHeaderThreadParam;
 
@@ -1907,10 +1908,15 @@ void CALLBACK BackupHeaderWaitThreadProc(void* pArg, HWND hwndDlg)
 {
 	BackupHeaderThreadParam* pThreadParam = (BackupHeaderThreadParam*) pArg;
 
-	if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (pThreadParam->lpszVolume))
-		*(pThreadParam->iResult) = UacBackupVolumeHeader (hwndDlg, pThreadParam->bRequireConfirmation, pThreadParam->lpszVolume);
+	if (TranslateVolumeID (hwndDlg, pThreadParam->lpszVolume, pThreadParam->cchVolume))
+	{
+		if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (pThreadParam->lpszVolume))
+			*(pThreadParam->iResult) = UacBackupVolumeHeader (hwndDlg, pThreadParam->bRequireConfirmation, pThreadParam->lpszVolume);
+		else
+			*(pThreadParam->iResult) = BackupVolumeHeader (hwndDlg, pThreadParam->bRequireConfirmation, pThreadParam->lpszVolume);
+	}
 	else
-		*(pThreadParam->iResult) = BackupVolumeHeader (hwndDlg, pThreadParam->bRequireConfirmation, pThreadParam->lpszVolume);
+		*(pThreadParam->iResult) = ERR_OS_ERROR;
 }
 
 // implementation for support of restoring header operation in wait dialog mechanism
@@ -1918,6 +1924,7 @@ void CALLBACK BackupHeaderWaitThreadProc(void* pArg, HWND hwndDlg)
 typedef struct
 {
 	wchar_t *lpszVolume;
+	size_t cchVolume;
 	int* iResult;
 } RestoreHeaderThreadParam;
 
@@ -1925,10 +1932,15 @@ void CALLBACK RestoreHeaderWaitThreadProc(void* pArg, HWND hwndDlg)
 {
 	RestoreHeaderThreadParam* pThreadParam = (RestoreHeaderThreadParam*) pArg;
 
-	if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (pThreadParam->lpszVolume))
-		*(pThreadParam->iResult) = UacRestoreVolumeHeader (hwndDlg, pThreadParam->lpszVolume);
+	if (TranslateVolumeID (hwndDlg, pThreadParam->lpszVolume, pThreadParam->cchVolume))
+	{
+		if (!IsAdmin () && IsUacSupported () && IsVolumeDeviceHosted (pThreadParam->lpszVolume))
+			*(pThreadParam->iResult) = UacRestoreVolumeHeader (hwndDlg, pThreadParam->lpszVolume);
+		else
+			*(pThreadParam->iResult) = RestoreVolumeHeader (hwndDlg, pThreadParam->lpszVolume);
+	}
 	else
-		*(pThreadParam->iResult) = RestoreVolumeHeader (hwndDlg, pThreadParam->lpszVolume);
+		*(pThreadParam->iResult) = ERR_OS_ERROR;
 }
 
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
@@ -3584,6 +3596,60 @@ int GetModeOfOperationByDriveNo (int nDosDriveNo)
 	return 0;
 }
 
+void DisplayVolumePropertiesListContextMenu (HWND hwndDlg, LPARAM lParam)
+{
+	/* Volume Properties list context menu */
+	DWORD mPos;
+	int menuItem;
+	HWND hList = GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES_LIST);
+	int hItem = ListView_GetSelectionMark (hList);
+
+	SetFocus (hList);
+
+	if (hItem >= 0)
+	{
+		HMENU popup = CreatePopupMenu ();
+		AppendMenuW (popup, MF_STRING, IDPM_COPY_VALUE_TO_CLIPBOARD, GetString ("IDPM_COPY_VALUE_TO_CLIPBOARD"));
+
+		if (lParam)
+		{
+			mPos=GetMessagePos();
+		}
+		else
+		{
+			POINT pt = {0};
+			if (ListView_GetItemPosition (hList, hItem, &pt))
+			{
+				pt.x += 2 + ::GetSystemMetrics(SM_CXICON);
+				pt.y += 2;
+			}
+			ClientToScreen (hList, &pt);
+			mPos  = MAKELONG (pt.x, pt.y);
+		}
+
+		menuItem = TrackPopupMenu (popup,
+			TPM_RETURNCMD | TPM_LEFTBUTTON,
+			GET_X_LPARAM(mPos),
+			GET_Y_LPARAM(mPos),
+			0,
+			hwndDlg,
+			NULL);
+
+		DestroyMenu (popup);
+
+		switch (menuItem)
+		{
+		case IDPM_COPY_VALUE_TO_CLIPBOARD:
+			{
+				wchar_t valueText[256] = {0};
+				ListView_GetItemText (hList, hItem, 1, valueText, ARRAYSIZE (valueText));
+				CopyTextToClipboard (valueText);
+			}
+			break;
+		}
+	}
+}
+
 
 BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -3700,6 +3766,16 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ListSubItemSet (list, i++, 1, GetString (bSysEncWholeDrive ? "SYSTEM_DRIVE" : IsHiddenOSRunning() ? "HIDDEN_SYSTEM_PARTITION" : "SYSTEM_PARTITION"));
 			else
 				ListSubItemSet (list, i++, 1, (wchar_t *) (prop.wszVolume[1] != L'?' ? prop.wszVolume : prop.wszVolume + 4));
+
+			if (!bSysEnc && IsVolumeDeviceHosted ((wchar_t *) (prop.wszVolume[1] != L'?' ? prop.wszVolume : prop.wszVolume + 4)))
+			{
+				// Volume ID
+				std::wstring hexID = ArrayToHexWideString (prop.volumeID, sizeof (prop.volumeID));
+				ListItemAdd (list, i, GetString ("VOLUME_ID"));
+
+				ListSubItemSet (list, i++, 1, hexID.c_str());
+			}
+
 
 			// Size
 			ListItemAdd (list, i, GetString ("SIZE"));
@@ -3900,6 +3976,44 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			return 0;
 		}
+
+	case WM_NOTIFY:
+
+		if(wParam == IDC_VOLUME_PROPERTIES_LIST)
+		{
+			/* Right click */
+
+			switch (((NM_LISTVIEW *) lParam)->hdr.code)
+			{
+			case NM_RCLICK:
+			case LVN_BEGINRDRAG:
+				/* If the mouse was moving while the right mouse button is pressed, popup menu would
+				not open, because drag&drop operation would be initiated. Therefore, we're handling
+				RMB drag-and-drop operations as well. */
+				{
+					
+					DisplayVolumePropertiesListContextMenu (hwndDlg, lParam);
+
+					return 1;
+				}
+			}
+		}
+		return 0;
+
+	case WM_CONTEXTMENU:
+		{
+			HWND hList = GetDlgItem (hwndDlg, IDC_VOLUME_PROPERTIES_LIST);
+			// only handle if it is coming from keyboard and if the drive
+			// list has focus. The other cases are handled elsewhere
+			if (   (-1 == GET_X_LPARAM(lParam)) 
+				&& (-1 == GET_Y_LPARAM(lParam))
+				&& (GetFocus () == hList) 
+				)
+			{
+				DisplayVolumePropertiesListContextMenu (hwndDlg, NULL);
+			}
+		}
+		return 0;
 
 	case WM_COMMAND:
 		if (lw == IDOK)
@@ -4442,14 +4556,23 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 	if (szFileName == NULL)
 	{
 		GetVolumePath (hwndDlg, fileName, ARRAYSIZE (fileName));
-		szFileName = fileName;
 	}
+	else
+		StringCchCopyW (fileName, ARRAYSIZE (fileName), szFileName);
 
-	if (wcslen(szFileName) == 0)
+	if (wcslen(fileName) == 0)
 	{
 		status = FALSE;
 		goto ret;
 	}
+
+	if (!TranslateVolumeID (hwndDlg, fileName, ARRAYSIZE (fileName)))
+	{
+		status = FALSE;
+		goto ret;
+	}
+
+	szFileName = fileName;
 
 	if (IsMountedVolume (szFileName))
 	{
@@ -5129,6 +5252,12 @@ static void ChangePassword (HWND hwndDlg)
 	int newPimValue = -1;
 	
 	GetVolumePath (hwndDlg, szFileName, ARRAYSIZE (szFileName));
+
+	if (!TranslateVolumeID (hwndDlg, szFileName, ARRAYSIZE (szFileName)))
+	{
+		return;
+	}
+
 	if (IsMountedVolume (szFileName))
 	{
 		Warning (pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF ? "MOUNTED_NO_PKCS5_PRF_CHANGE" : "MOUNTED_NOPWCHANGE", hwndDlg);
@@ -6309,7 +6438,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						exitCode = 1;
 				}
 
-				if (szFileName[0] != 0 && !IsMountedVolume (szFileName))
+				if (szFileName[0] != 0 && !TranslateVolumeID (hwndDlg, szFileName, ARRAYSIZE (szFileName)))
+				{
+					exitCode = 1;
+				}
+				else if (szFileName[0] != 0 && !IsMountedVolume (szFileName))
 				{
 					BOOL mounted = FALSE;
 					int EffectiveVolumePkcs5 = CmdVolumePkcs5;
@@ -6759,7 +6892,21 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					foreach (FavoriteVolume favorite, FavoritesOnArrivalMountRequired)
 					{
-						if (!favorite.VolumePathId.empty())
+						if (favorite.UseVolumeID)
+						{
+							if (IsMountedVolumeID (favorite.VolumeID))
+								continue;
+
+							std::wstring volDevPath = FindDeviceByVolumeID (favorite.VolumeID);
+							if (volDevPath.length() > 0)
+							{
+								favorite.Path = volDevPath;
+								favorite.DisconnectedDevice = false;
+							}
+							else
+								continue;
+						}
+						else if (!favorite.VolumePathId.empty())
 						{
 							if (IsMountedVolume (favorite.Path.c_str()))
 								continue;
@@ -6833,6 +6980,16 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							&& QueryDosDevice (favorite->VolumePathId.substr (4, favorite->VolumePathId.size() - 5).c_str(), volDevPath, TC_MAX_PATH) != 0)
 						{
 							continue;
+						}
+
+						// set DisconnectedDevice field on FavoritesOnArrivalMountRequired element
+						foreach (FavoriteVolume onArrivalFavorite, FavoritesOnArrivalMountRequired)
+						{
+							if (onArrivalFavorite.Path == favorite->Path)
+							{
+								onArrivalFavorite.DisconnectedDevice = true;
+								break;
+							}
 						}
 
 						favorite = FavoritesMountedOnArrivalStillConnected.erase (favorite);
@@ -7412,6 +7569,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					BackupHeaderThreadParam threadParam;
 					threadParam.bRequireConfirmation = TRUE;
 					threadParam.lpszVolume = volPath;
+					threadParam.cchVolume = ARRAYSIZE (volPath);
 					threadParam.iResult = &iStatus;
 
 					ShowWaitDialog (hwndDlg, TRUE, BackupHeaderWaitThreadProc, &threadParam);
@@ -7434,6 +7592,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					int iStatus = 0;
 					RestoreHeaderThreadParam threadParam;
 					threadParam.lpszVolume = volPath;
+					threadParam.cchVolume = ARRAYSIZE (volPath);
 					threadParam.iResult = &iStatus;
 
 					ShowWaitDialog(hwndDlg, TRUE, RestoreHeaderWaitThreadProc, &threadParam);
@@ -7717,6 +7876,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (VolumeSelected (hwndDlg)
 				&& IsMountedVolume (volPathLower))
 			{
+				TranslateVolumeID (hwndDlg, volPathLower, ARRAYSIZE (volPathLower));
+
 				if (LOWORD (selectedDrive) != TC_MLIST_ITEM_NONSYS_VOL)
 				{
 					driveNo = GetMountedVolumeDriveNo (volPathLower);
@@ -7852,6 +8013,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				BackupHeaderThreadParam threadParam;
 				threadParam.bRequireConfirmation = TRUE;
 				threadParam.lpszVolume = volPath;
+				threadParam.cchVolume = ARRAYSIZE (volPath);
 				threadParam.iResult = &iStatus;
 
 				ShowWaitDialog (hwndDlg, TRUE, BackupHeaderWaitThreadProc, &threadParam);
@@ -7878,6 +8040,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				int iStatus = 0;
 				RestoreHeaderThreadParam threadParam;
 				threadParam.lpszVolume = volPath;
+				threadParam.cchVolume = ARRAYSIZE (volPath);
 				threadParam.iResult = &iStatus;
 
 				ShowWaitDialog(hwndDlg, TRUE, RestoreHeaderWaitThreadProc, &threadParam);
@@ -8005,9 +8168,16 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (favoriteIndex < FavoriteVolumes.size())
 			{
-				if (IsMountedVolume (FavoriteVolumes[favoriteIndex].Path.c_str()))
+				if ((FavoriteVolumes[favoriteIndex].UseVolumeID && IsMountedVolumeID (FavoriteVolumes[favoriteIndex].VolumeID))
+					|| (!FavoriteVolumes[favoriteIndex].UseVolumeID  && IsMountedVolume (FavoriteVolumes[favoriteIndex].Path.c_str()))
+					)
 				{
+					std::wstring volName;
 					WaitCursor();
+					if (FavoriteVolumes[favoriteIndex].UseVolumeID)
+						volName = FindDeviceByVolumeID (FavoriteVolumes[favoriteIndex].VolumeID);
+					else
+						volName = FavoriteVolumes[favoriteIndex].Path;
 					OpenVolumeExplorerWindow (GetMountedVolumeDriveNo ((wchar_t*) FavoriteVolumes[favoriteIndex].Path.c_str()));
 					NormalCursor();
 				}
@@ -8648,6 +8818,7 @@ static BOOL StartSystemFavoritesService ()
 	ServiceMode = TRUE;
 	Silent = TRUE;
 	DeviceChangeBroadcastDisabled = TRUE;
+	bShowDisconnectedNetworkDrives = TRUE;
 
 	InitOSVersionInfo();
 
@@ -8920,8 +9091,10 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 	else
 		ZeroMemory (mountOptions.Label, sizeof (mountOptions.Label));
 
-	if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE))
-		effectiveVolumePath = L"ID:" + ArrayToHexWideString (favorite.VolumeID, SHA512_DIGEST_SIZE);
+	if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
+	{
+		effectiveVolumePath = FindDeviceByVolumeID (favorite.VolumeID);
+	}
 	else
 		effectiveVolumePath = favorite.Path;
 
@@ -8982,7 +9155,7 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 		BOOL prevReadOnly = mountOptions.ReadOnly;
 
 		if (ServiceMode)
-			SystemFavoritesServiceLogInfo (wstring (L"Mounting system favorite \"") + favorite.Path + L"\"");
+			SystemFavoritesServiceLogInfo (wstring (L"Mounting system favorite \"") + effectiveVolumePath + L"\"");
 
 		status = Mount (hwnd, drive, (wchar_t *) effectiveVolumePath.c_str(), favorite.Pim);
 
@@ -8994,11 +9167,11 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 
 			if (status)
 			{
-				SystemFavoritesServiceLogInfo (wstring (L"Favorite \"") + favorite.Path + wstring (L"\" mounted successfully as ") + (wchar_t) (drive + L'A') + L":");
+				SystemFavoritesServiceLogInfo (wstring (L"Favorite \"") + effectiveVolumePath + wstring (L"\" mounted successfully as ") + (wchar_t) (drive + L'A') + L":");
 			}
 			else
 			{
-				SystemFavoritesServiceLogError (wstring (L"Favorite \"") + favorite.Path + L"\" failed to mount");
+				SystemFavoritesServiceLogError (wstring (L"Favorite \"") + effectiveVolumePath + L"\" failed to mount");
 			}
 		}
 
@@ -9039,7 +9212,7 @@ skipMount:
 		Error ("DRIVE_LETTER_UNAVAILABLE", MainDlg);
 	else if (ServiceMode && systemFavorites)
 	{
-		SystemFavoritesServiceLogError (wstring (L"The drive letter ") + (wchar_t) (drive + L'A') + wstring (L" used by favorite \"") + favorite.Path + L"\" is already taken.\nThis system favorite will not be mounted");
+		SystemFavoritesServiceLogError (wstring (L"The drive letter ") + (wchar_t) (drive + L'A') + wstring (L" used by favorite \"") + effectiveVolumePath + L"\" is already taken.\nThis system favorite will not be mounted");
 	}
 
 	return status;
@@ -9079,6 +9252,26 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 				wchar_t szTmp[32];
 				StringCbPrintf (szTmp, sizeof(szTmp), L"%d", (int) favorites.size());
 				SystemFavoritesServiceLogInfo (wstring (L"Loaded ") + szTmp + wstring (L" favorites from the file"));
+
+				/* correct set the connected state of the system favorites */
+				for (vector <FavoriteVolume>::iterator favorite = favorites.begin(); 
+					favorite != favorites.end(); favorite++)
+				{
+					if (favorite->UseVolumeID)
+					{
+						std::wstring path = FindDeviceByVolumeID (favorite->VolumeID);
+						if (path.empty ())
+						{
+							favorite->DisconnectedDevice = true;
+						}
+						else
+						{
+							favorite->DisconnectedDevice = false;
+							favorite->Path = path;
+							favorite->UseVolumeID = false; /* force the use of real path to avoid calling FindDeviceByVolumeID again */
+						}
+					}
+				}
 			}
 		}
 		catch (...)
@@ -9098,7 +9291,10 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 		if (ServiceMode && systemFavorites && favorite.DisconnectedDevice)
 		{
 			skippedSystemFavorites.push_back (favorite);
-			SystemFavoritesServiceLogWarning (wstring (L"Favorite \"") + favorite.Path + L"\" is disconnected. It will be ignored.");
+			if (favorite.UseVolumeID)
+				SystemFavoritesServiceLogWarning (wstring (L"Favorite \"ID:") + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\" is disconnected. It will be ignored.");
+			else
+				SystemFavoritesServiceLogWarning (wstring (L"Favorite \"") + favorite.Path + L"\" is disconnected. It will be ignored.");
 		}
 
 		if (favorite.DisconnectedDevice
@@ -9135,7 +9331,13 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 				if (favorite->DisconnectedDevice)
 				{
 					// check if the favorite is here and get its path
-					wstring resolvedPath = VolumeGuidPathToDevicePath (favorite->Path);
+					wstring resolvedPath;
+					if (favorite->UseVolumeID)
+					{
+						resolvedPath = FindDeviceByVolumeID (favorite->VolumeID);
+					}
+					else
+						resolvedPath = VolumeGuidPathToDevicePath (favorite->Path);
 					if (!resolvedPath.empty())
 					{
 						favorite->DisconnectedDevice = false;
@@ -9145,7 +9347,10 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 						remainingFavorites--;
 
 						// favorite OK. 
-						SystemFavoritesServiceLogInfo (wstring (L"Favorite \"") + favorite->VolumePathId + L"\" is connected. Performing mount.");
+						if (favorite->UseVolumeID)
+							SystemFavoritesServiceLogInfo (wstring (L"Favorite \"ID:") + ArrayToHexWideString (favorite->VolumeID, sizeof (favorite->VolumeID)) + L"\" is connected. Performing mount.");
+						else
+							SystemFavoritesServiceLogInfo (wstring (L"Favorite \"") + favorite->VolumePathId + L"\" is connected. Performing mount.");
 
 						status = MountFavoriteVolumeBase (hwnd, *favorite, lastbExplore, userForcedReadOnly, systemFavorites, logOnMount, hotKeyMount, favoriteVolumeToMount);
 						if (!status)

@@ -176,8 +176,8 @@
 #define IDC_PREF_CACHE_PIM              1154
 #define IDC_BOOT_LOADER_CACHE_PIM       1155
 #define IDC_SHOW_DISCONNECTED_NETWORK_DRIVES 1156
-#define IDT_FAVORITE_ID                 1157
-#define IDC_FAVORITE_ID                 1158
+#define IDT_VOLUME_ID                   1157
+#define IDC_FAVORITE_VOLUME_ID          1158
 #define IDC_FAVORITE_USE_VOLUME_ID      1159
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002

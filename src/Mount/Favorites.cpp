@@ -98,7 +98,7 @@ namespace VeraCrypt
 		favorite.SystemEncryption = prop.partitionInInactiveSysEncScope ? true : false;
 		favorite.OpenExplorerWindow = (bExplore == TRUE);
 		favorite.Pim = prop.volumePim;
-		memcpy (favorite.VolumeID, prop.volumeID, SHA512_DIGESTSIZE);
+		memcpy (favorite.VolumeID, prop.volumeID, VOLUME_ID_SIZE);
 
 		if (favorite.VolumePathId.empty()
 			&& IsVolumeDeviceHosted (favorite.Path.c_str())
@@ -421,7 +421,7 @@ namespace VeraCrypt
 			{
 				HDC hdc = (HDC)	wParam;
 				HWND hw = (HWND) lParam;
-				if (hw == GetDlgItem(hwndDlg, IDC_FAVORITE_ID))
+				if (hw == GetDlgItem(hwndDlg, IDC_FAVORITE_VOLUME_ID))
 				{
 					// This the favorite ID field. Make its background like normal edit
 					HBRUSH hbr = GetSysColorBrush (COLOR_WINDOW);
@@ -582,12 +582,12 @@ namespace VeraCrypt
 			char label[1024];
 
 			XmlGetAttributeText (xml, "ID", label, sizeof (label));
-			if (strlen (label) == 128)
+			if (strlen (label) == (2*VOLUME_ID_SIZE))
 			{
 				std::vector<byte> arr;
-				if (HexWideStringToArray (Utf8StringToWide (label).c_str(), arr) && arr.size() == SHA512_DIGEST_SIZE)
+				if (HexWideStringToArray (Utf8StringToWide (label).c_str(), arr) && arr.size() == VOLUME_ID_SIZE)
 				{
-					memcpy (favorite.VolumeID, &arr[0], SHA512_DIGEST_SIZE);
+					memcpy (favorite.VolumeID, &arr[0], VOLUME_ID_SIZE);
 				}
 			}
 
@@ -639,7 +639,7 @@ namespace VeraCrypt
 
 			XmlGetAttributeText (xml, "useVolumeID", boolVal, sizeof (boolVal));
 			if (boolVal[0])
-				favorite.UseVolumeID = (boolVal[0] == '1') && !IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE);
+				favorite.UseVolumeID = (boolVal[0] == '1') && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID));
 
 			if (favorite.Path.find (L"\\\\?\\Volume{") == 0 && favorite.Path.rfind (L"}\\") == favorite.Path.size() - 2)
 			{
@@ -738,8 +738,8 @@ namespace VeraCrypt
 
 			wstring s = L"\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
 
-			if (!IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE))
-				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, SHA512_DIGEST_SIZE) + L"\"";
+			if (!IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
+				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\"";
 
 			if (!favorite.Label.empty())
 				s += L" label=\"" + favorite.Label + L"\"";
@@ -771,7 +771,7 @@ namespace VeraCrypt
 			if (favorite.UseLabelInExplorer && !favorite.ReadOnly)
 				s += L" useLabelInExplorer=\"1\"";
 
-			if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGEST_SIZE))
+			if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
 				s += L" useVolumeID=\"1\"";
 
 			s += L">" + wstring (tq) + L"</volume>";
@@ -840,6 +840,7 @@ namespace VeraCrypt
 
 	static void SetControls (HWND hwndDlg, const FavoriteVolume &favorite, bool systemFavoritesMode, bool enable)
 	{
+		BOOL bIsDevice = IsVolumeDeviceHosted (favorite.Path.c_str()) || !enable;
 		if (favorite.Pim > 0)
 		{
 			wchar_t szTmp[MAX_PIM + 1];
@@ -854,12 +855,14 @@ namespace VeraCrypt
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_ARRIVAL, favorite.MountOnArrival);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_READONLY, favorite.ReadOnly);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE, favorite.Removable);
-		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID, favorite.UseVolumeID);
+		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID, favorite.UseVolumeID && bIsDevice);
 
-		if (!IsRepeatedByteArray (0, favorite.VolumeID, SHA512_DIGESTSIZE))
+		if (IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)) || !bIsDevice)
 		{
-			SetDlgItemText (hwndDlg, IDC_FAVORITE_ID, ArrayToHexWideString (favorite.VolumeID, SHA512_DIGESTSIZE).c_str());
+			SetDlgItemText (hwndDlg, IDC_FAVORITE_VOLUME_ID, L"");
 		}
+		else
+			SetDlgItemText (hwndDlg, IDC_FAVORITE_VOLUME_ID, ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)).c_str());
 
 		if (systemFavoritesMode)
 		{
@@ -893,6 +896,44 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT), enable || systemFavoritesMode);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY), enable || systemFavoritesMode);
+		EnableWindow (GetDlgItem (hwndDlg, IDT_VOLUME_ID), enable && bIsDevice);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_VOLUME_ID), enable && bIsDevice);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID), enable && bIsDevice && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)));
+
+		ShowWindow (GetDlgItem (hwndDlg, IDT_VOLUME_ID), bIsDevice? SW_SHOW : SW_HIDE);
+		ShowWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_VOLUME_ID), bIsDevice? SW_SHOW : SW_HIDE);
+		ShowWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID), bIsDevice? SW_SHOW : SW_HIDE);
+
+		// Group box
+		RECT boxRect, checkRect, labelRect;
+
+		GetWindowRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), &boxRect);
+		GetWindowRect (GetDlgItem (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID), &checkRect);
+		GetWindowRect (GetDlgItem (hwndDlg, IDT_VOLUME_ID), &labelRect);
+
+		if (!bIsDevice && (boxRect.top < checkRect.top))
+		{
+			POINT pt = {boxRect.left, checkRect.bottom};
+			ScreenToClient (hwndDlg, &pt);
+			SetWindowPos (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), 0, pt.x, pt.y,
+				boxRect.right - boxRect.left,
+				boxRect.bottom - checkRect.bottom,
+				SWP_NOZORDER);
+
+			InvalidateRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), NULL, TRUE);
+		}
+
+		if (bIsDevice && (boxRect.top >= checkRect.top))
+		{
+			POINT pt = {boxRect.left, labelRect.top - CompensateYDPI (10)};
+			ScreenToClient (hwndDlg, &pt);
+			SetWindowPos (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), 0, pt.x, pt.y,
+				boxRect.right - boxRect.left,
+				boxRect.bottom - labelRect.top + CompensateYDPI (10),
+				SWP_NOZORDER);
+
+			InvalidateRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), NULL, TRUE);
+		}
 	}
 
 

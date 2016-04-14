@@ -518,7 +518,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			Extension->cryptoInfo->bPartitionInInactiveSysEncScope = mount->bPartitionInInactiveSysEncScope;
 
 			/* compute the ID of this volume: SHA-512 of the effective header */
-			sha512 (Extension->volumeID, readBuffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+			sha256 (Extension->volumeID, readBuffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 
 			if (volumeType == TC_VOLUME_TYPE_NORMAL)
 			{

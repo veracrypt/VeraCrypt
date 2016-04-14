@@ -128,7 +128,7 @@ typedef struct
 	unsigned __int32 ulMountedDrives;	/* Bitfield of all mounted drive letters */
 	wchar_t wszVolume[26][TC_MAX_PATH];	/* Volume names of mounted volumes */
 	wchar_t wszLabel[26][33];	/* Labels of mounted volumes */
-	wchar_t volumeID[26][SHA512_DIGEST_SIZE];	/* IDs of mounted volumes */
+	wchar_t volumeID[26][VOLUME_ID_SIZE];	/* IDs of mounted volumes */
 	unsigned __int64 diskLength[26];
 	int ea[26];
 	int volumeType[26];	/* Volume type (e.g. PROP_VOL_TYPE_OUTER, PROP_VOL_TYPE_OUTER_VOL_WRITE_PREVENTED, etc.) */
@@ -157,7 +157,7 @@ typedef struct
 	int volumePim;
 	wchar_t wszLabel[33];
 	BOOL bDriverSetLabel;
-	unsigned char volumeID[SHA512_DIGESTSIZE];
+	unsigned char volumeID[VOLUME_ID_SIZE];
 } VOLUME_PROPERTIES_STRUCT;
 
 typedef struct
@@ -197,7 +197,7 @@ typedef struct
 	BOOL DetectFilesystem;
 	BOOL FilesystemDetected;
 	BOOL bMatchVolumeID;
-	unsigned char volumeID[SHA512_DIGEST_SIZE];
+	unsigned char volumeID[VOLUME_ID_SIZE];
 	BOOL VolumeIDMatched;
 } OPEN_TEST_STRUCT;
 

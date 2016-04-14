@@ -2930,7 +2930,7 @@ void InitHelpFileName (void)
 	}
 }
 
-BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL matchVolumeID, BYTE* pbVolumeID)
+BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL matchVolumeID, const BYTE* pbVolumeID)
 {
 	DWORD dwResult;
 	BOOL bResult;
@@ -2945,7 +2945,7 @@ BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectF
 	driver->DetectFilesystem = detectFilesystem;
 	driver->bMatchVolumeID = matchVolumeID;
 	if (matchVolumeID && pbVolumeID)
-		memcpy (driver->volumeID, pbVolumeID, SHA512_DIGEST_SIZE);
+		memcpy (driver->volumeID, pbVolumeID, VOLUME_ID_SIZE);
 
 	bResult = DeviceIoControl (hDriver, TC_IOCTL_OPEN_TEST,
 				   driver, sizeof (OPEN_TEST_STRUCT),
@@ -2973,6 +2973,7 @@ BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectF
 		{
 			driver->TCBootLoaderDetected = FALSE;
 			driver->FilesystemDetected = FALSE;
+			driver->VolumeIDMatched = FALSE;
 			return TRUE;
 		}
 		else
@@ -7121,7 +7122,7 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 
 /************************************************************************/
 
-static BOOL PerformMountIoctl (MOUNT_STRUCT* pmount, LPDWORD pdwResult, BOOL useVolumeID, BYTE volumeID[SHA512_DIGEST_SIZE])
+static BOOL PerformMountIoctl (MOUNT_STRUCT* pmount, LPDWORD pdwResult, BOOL useVolumeID, BYTE volumeID[VOLUME_ID_SIZE])
 {
 	if (useVolumeID)
 	{
@@ -7151,7 +7152,7 @@ typedef struct
 {
 	MOUNT_STRUCT* pmount;
 	BOOL useVolumeID;
-	BYTE volumeID[SHA512_DIGEST_SIZE];
+	BYTE volumeID[VOLUME_ID_SIZE];
 	BOOL* pbResult;
 	DWORD* pdwResult;
 	DWORD dwLastError;
@@ -7199,7 +7200,7 @@ int MountVolume (HWND hwndDlg,
 	wchar_t root[MAX_PATH];
 	int favoriteMountOnArrivalRetryCount = 0;
 	BOOL useVolumeID = FALSE;
-	BYTE volumeID[SHA512_DIGEST_SIZE] = {0};
+	BYTE volumeID[VOLUME_ID_SIZE] = {0};
 
 #ifdef TCMOUNT
 	if (mountOptions->PartitionInInactiveSysEncScope)
@@ -7289,14 +7290,14 @@ retry:
 	if ((path.length () >= 3) && (_wcsnicmp (path.c_str(), L"ID:", 3) == 0))
 	{
 		std::vector<byte> arr;
-		if (	(path.length() == (3 + 2*SHA512_DIGEST_SIZE)) 
+		if (	(path.length() == (3 + 2*VOLUME_ID_SIZE)) 
 			&& HexWideStringToArray (path.c_str() + 3, arr)
-			&& (arr.size() == SHA512_DIGEST_SIZE)
+			&& (arr.size() == VOLUME_ID_SIZE)
 			)
 		{
 			useVolumeID = TRUE;
 			bDevice = TRUE;
-			memcpy (volumeID, &arr[0], SHA512_DIGEST_SIZE);
+			memcpy (volumeID, &arr[0], VOLUME_ID_SIZE);
 		}
 		else
 		{
@@ -7385,7 +7386,7 @@ retry:
 		MountThreadParam mountThreadParam;
 		mountThreadParam.pmount = &mount;
 		mountThreadParam.useVolumeID = useVolumeID;
-		memcpy (mountThreadParam.volumeID, volumeID, SHA512_DIGESTSIZE);
+		memcpy (mountThreadParam.volumeID, volumeID, VOLUME_ID_SIZE);
 		mountThreadParam.pbResult = &bResult;
 		mountThreadParam.pdwResult = &dwResult;
 		mountThreadParam.dwLastError = ERROR_SUCCESS;
@@ -7684,8 +7685,7 @@ BOOL IsPasswordCacheEmpty (void)
 	return !DeviceIoControl (hDriver, TC_IOCTL_GET_PASSWORD_CACHE_STATUS, 0, 0, 0, 0, &dw, 0);
 }
 
-
-BOOL IsMountedVolume (const wchar_t *volname)
+BOOL IsMountedVolumeID (BYTE volumeID[VOLUME_ID_SIZE])
 {
 	MOUNT_LIST_STRUCT mlist;
 	DWORD dwResult;
@@ -7696,19 +7696,29 @@ BOOL IsMountedVolume (const wchar_t *volname)
 		sizeof (mlist), &mlist, sizeof (mlist), &dwResult,
 		NULL);
 
-	if ((wcslen (volname) == (3 + 2*SHA512_DIGEST_SIZE)) && _wcsnicmp (volname, L"ID:", 3) == 0)
+	for (i=0 ; i<26; i++)
+		if (0 == memcmp (mlist.volumeID[i], volumeID, VOLUME_ID_SIZE))
+			return TRUE;
+
+	return FALSE;
+}
+
+BOOL IsMountedVolume (const wchar_t *volname)
+{
+	if ((wcslen (volname) == (3 + 2*VOLUME_ID_SIZE)) && _wcsnicmp (volname, L"ID:", 3) == 0)
 	{
 		/* Volume ID specified. Use it for matching mounted volumes. */
 		std::vector<byte> arr;
-		if (HexWideStringToArray (&volname[3], arr) && (arr.size() == SHA512_DIGEST_SIZE))
+		if (HexWideStringToArray (&volname[3], arr) && (arr.size() == VOLUME_ID_SIZE))
 		{
-			for (i=0 ; i<26; i++)
-				if (0 == memcmp (mlist.volumeID[i], &arr[0], SHA512_DIGEST_SIZE))
-					return TRUE;
+			return IsMountedVolumeID (&arr[0]);
 		}
 	}
 	else
 	{
+		MOUNT_LIST_STRUCT mlist;
+		DWORD dwResult;
+		int i;
 		wchar_t volume[TC_MAX_PATH*2+16];
 
 		StringCbCopyW (volume, sizeof(volume), volname);
@@ -7719,6 +7729,11 @@ BOOL IsMountedVolume (const wchar_t *volname)
 		wstring resolvedPath = VolumeGuidPathToDevicePath (volname);
 		if (!resolvedPath.empty())
 			StringCbCopyW (volume, sizeof (volume), resolvedPath.c_str());
+
+		memset (&mlist, 0, sizeof (mlist));
+		DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mlist,
+			sizeof (mlist), &mlist, sizeof (mlist), &dwResult,
+			NULL);
 
 		for (i=0 ; i<26; i++)
 			if (0 == _wcsicmp ((wchar_t *) mlist.wszVolume[i], volume))
@@ -11137,8 +11152,24 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 	return devices;
 }
 
-wstring FindDeviceByVolumeID (BYTE volumeID [SHA512_DIGEST_SIZE])
+wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE])
 {
+	/* if it is already mounted, get the real path name used for mounting */
+	MOUNT_LIST_STRUCT mlist;
+	DWORD dwResult;
+
+	memset (&mlist, 0, sizeof (mlist));
+	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mlist,
+		sizeof (mlist), &mlist, sizeof (mlist), &dwResult,
+		NULL);
+
+	for (int i=0 ; i < 26; i++)
+	{
+		if (0 == memcmp (mlist.volumeID[i], volumeID, VOLUME_ID_SIZE))
+			return mlist.wszVolume[i];
+	}
+
+	/* not mounted. Look for it in the local drives*/
 	for (int devNumber = 0; devNumber < MAX_HOST_DRIVE_NUMBER; devNumber++)
 	{
 		for (int partNumber = 0; partNumber < MAX_HOST_PARTITION_NUMBER; partNumber++)
@@ -11381,23 +11412,6 @@ BOOL VolumePathExists (const wchar_t *volumePath)
 	wchar_t upperCasePath[TC_MAX_PATH + 1];
 
 	UpperCaseCopy (upperCasePath, sizeof(upperCasePath), volumePath);
-
-	if (wcsstr (upperCasePath, L"ID:") == upperCasePath)
-	{
-		std::vector<byte> arr;
-		if (	(wcslen (upperCasePath) == (3 + 2*SHA512_DIGEST_SIZE)) 
-			&&	HexWideStringToArray (&upperCasePath[3], arr)
-			&& (arr.size() == SHA512_DIGEST_SIZE)
-			)
-		{
-			if (FindDeviceByVolumeID (&arr[0]).length() > 0)
-				return TRUE;
-			else
-				return FALSE;
-		}
-		else
-			return FALSE;
-	}
 
 	if (wcsstr (upperCasePath, L"\\DEVICE\\") == upperCasePath)
 		return OpenDevice (volumePath, &openTest, FALSE, FALSE, NULL);
@@ -11785,3 +11799,64 @@ BOOL IsRepeatedByteArray (byte value, const byte* buffer, size_t bufferSize)
 		return FALSE;
 }
 
+BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue)
+{
+	BOOL bRet = TRUE;
+	size_t pathLen = pathValue? wcslen (pathValue) : 0;
+	if ((pathLen >= 3) && (_wcsnicmp (pathValue, L"ID:", 3) == 0))
+	{
+		std::vector<byte> arr;
+		if (	(pathLen == (3 + 2*VOLUME_ID_SIZE)) 
+			&& HexWideStringToArray (pathValue + 3, arr)
+			&& (arr.size() == VOLUME_ID_SIZE)
+			)
+		{
+			std::wstring devicePath = FindDeviceByVolumeID (&arr[0]);
+			if (devicePath.length() > 0)
+				StringCchCopyW (pathValue, cchPathValue, devicePath.c_str());
+			else
+			{
+				if (!Silent && !MultipleMountOperationInProgress)
+					Error ("VOLUME_ID_NOT_FOUND", hwndDlg);
+				SetLastError (ERROR_PATH_NOT_FOUND);
+				bRet = FALSE;
+			}
+		}
+		else
+		{
+			if (!Silent)
+				Error ("VOLUME_ID_INVALID", hwndDlg);
+
+			SetLastError (ERROR_INVALID_PARAMETER);
+			bRet = FALSE;
+		}
+	}
+	
+	return bRet;
+}
+
+BOOL CopyTextToClipboard (LPCWSTR txtValue)
+{
+	size_t txtLen = wcslen(txtValue);
+	HGLOBAL hdst;
+	LPWSTR dst;
+	BOOL bRet = FALSE;
+
+	// Allocate string for cwd
+	hdst = GlobalAlloc(GMEM_MOVEABLE, (txtLen + 1) * sizeof(WCHAR));
+	if (hdst)
+	{
+		dst = (LPWSTR)GlobalLock(hdst);
+		wmemcpy(dst, txtValue, txtLen + 1);
+		GlobalUnlock(hdst);
+
+		if (OpenClipboard(NULL))
+		{
+			EmptyClipboard();
+			SetClipboardData(CF_UNICODETEXT, hdst);
+			CloseClipboard();
+		}
+	}
+
+	return bRet;
+}

@@ -34,7 +34,8 @@ enum dynamic_gui_element_ids
 	IDPM_ADD_TO_FAVORITES,
 	IDPM_ADD_TO_SYSTEM_FAVORITES,
 	IDM_SHOW_HIDE,
-	IDM_HOMEPAGE_SYSTRAY
+	IDM_HOMEPAGE_SYSTRAY,
+	IDPM_COPY_VALUE_TO_CLIPBOARD
 };
 
 enum
@@ -298,7 +299,7 @@ void InitOSVersionInfo ();
 void InitApp ( HINSTANCE hInstance, wchar_t *lpszCommandLine );
 void FinalizeApp (void);
 void InitHelpFileName (void);
-BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL matchVolumeID, BYTE* pbVolumeID);
+BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL matchVolumeID, const BYTE* pbVolumeID);
 void NotifyDriverOfPortableMode (void);
 int GetAvailableFixedDisks ( HWND hComboBox , char *lpszRootPath );
 int GetAvailableRemovables ( HWND hComboBox , char *lpszRootPath );
@@ -342,6 +343,7 @@ int MountVolume (HWND hwndDlg, int driveNo, wchar_t *volumePath, Password *passw
 BOOL UnmountVolume (HWND hwndDlg , int nDosDriveNo, BOOL forceUnmount);
 BOOL UnmountVolumeAfterFormatExCall (HWND hwndDlg, int nDosDriveNo);
 BOOL IsPasswordCacheEmpty (void);
+BOOL IsMountedVolumeID (BYTE volumeID[VOLUME_ID_SIZE]);
 BOOL IsMountedVolume (const wchar_t *volname);
 int GetMountedVolumeDriveNo (wchar_t *volname);
 BOOL IsAdmin (void);
@@ -502,6 +504,8 @@ HRESULT VCStrDupW(LPCWSTR psz, LPWSTR *ppwsz);
 void ProcessEntropyEstimate (HWND hProgress, DWORD* pdwInitialValue, DWORD dwCounter, DWORD dwMaxLevel, DWORD* pdwEntropy);
 void AllowMessageInUIPI (UINT msg);
 BOOL IsRepeatedByteArray (byte value, const byte* buffer, size_t bufferSize);
+BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue);
+BOOL CopyTextToClipboard (const wchar_t* txtValue);
 
 #ifdef __cplusplus
 }
@@ -568,7 +572,7 @@ std::wstring GetUserFriendlyVersionString (int version);
 std::wstring IntToWideString (int val);
 std::wstring ArrayToHexWideString (const unsigned char* pbData, int cbData);
 bool HexWideStringToArray (const wchar_t* hexStr, std::vector<byte>& arr);
-std::wstring FindDeviceByVolumeID (BYTE volumeID [SHA512_DIGEST_SIZE]);
+std::wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE]);
 void RegisterDriverInf (bool registerFilter, const std::string& filter, const std::string& filterReg, HWND ParentWindow, HKEY regKey);
 std::wstring GetTempPathString ();
 inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)

@@ -21,6 +21,8 @@
 #define MAX_HOST_DRIVE_NUMBER 64
 #define MAX_HOST_PARTITION_NUMBER 32
 
+#define VOLUME_ID_SIZE	SHA256_DIGESTSIZE
+
 typedef enum
 {
 	// IMPORTANT: If you add a new item here, update IsOSVersionAtLeast().

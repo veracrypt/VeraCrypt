@@ -33,7 +33,7 @@ namespace VeraCrypt
 			UseLabelInExplorer (false),
 			UseVolumeID (false)
 		{
-			memset (VolumeID, 0, SHA512_DIGESTSIZE);
+			memset (VolumeID, 0, VOLUME_ID_SIZE);
 		}
 
 		wstring Path;
@@ -41,7 +41,7 @@ namespace VeraCrypt
 		wstring VolumePathId;
 		wstring Label;
 		int Pim;
-		BYTE VolumeID[SHA512_DIGESTSIZE];
+		BYTE VolumeID[VOLUME_ID_SIZE];
 
 		bool DisableHotkeyMount;
 		bool DisconnectedDevice;
