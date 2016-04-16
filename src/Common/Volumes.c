@@ -1005,7 +1005,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 
 
 #ifdef VOLFORMAT
-	if (showKeys && !bInPlaceEncNonSys)
+	if (!bInPlaceEncNonSys && (showKeys || (bBoot && !masterKeydata)))
 	{
 		BOOL dots3 = FALSE;
 		int i, j;
