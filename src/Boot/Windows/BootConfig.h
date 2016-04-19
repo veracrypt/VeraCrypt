@@ -36,7 +36,7 @@ extern Partition EncryptedVirtualPartition;
 extern Partition ActivePartition;
 extern Partition PartitionFollowingActive;
 extern bool ExtraBootPartitionPresent;
-extern uint64 HiddenVolumeStartUnitNo;
+extern uint64 PimValueOrHiddenVolumeStartUnitNo; // reuse this variable for stored PIM value to reduce memory usage
 extern uint64 HiddenVolumeStartSector;
 
 

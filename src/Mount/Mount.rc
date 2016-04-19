@@ -281,28 +281,30 @@ BEGIN
     LTEXT           "",IDT_PKCS11_LIB_HELP,16,63,286,65
 END
 
-IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 272
+IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 286
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Do not &show any texts in the pre-boot authentication screen (except the below custom message)",IDC_DISABLE_BOOT_LOADER_OUTPUT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,22,339,9
-    EDITTEXT        IDC_CUSTOM_BOOT_LOADER_MESSAGE,18,52,216,14,ES_AUTOHSCROLL
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,37,339,9
+    EDITTEXT        IDC_CUSTOM_BOOT_LOADER_MESSAGE,18,67,216,14,ES_AUTOHSCROLL
     CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,178,339,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,192,339,10
     CONTROL         "Allow pre-boot &authentication to be bypassed by pressing the Esc key (enables boot manager)",IDC_ALLOW_ESC_PBA_BYPASS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,208,340,10
-    DEFPUSHBUTTON   "OK",IDOK,257,244,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,244,50,14
-    LTEXT           "Display this custom message in the pre-boot authentication screen (24 characters maximum):",IDT_CUSTOM_BOOT_LOADER_MESSAGE,18,41,337,8
-    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,150
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,163,355,75
-    LTEXT           "",IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP,18,74,337,73
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,222,340,10
+    DEFPUSHBUTTON   "OK",IDOK,257,262,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,313,262,50,14
+    LTEXT           "Display this custom message in the pre-boot authentication screen (24 characters maximum):",IDT_CUSTOM_BOOT_LOADER_MESSAGE,18,56,337,8
+    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,165
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,177,355,75
+    LTEXT           "",IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP,18,89,337,73
     CONTROL         "Disable ""Evil Maid"" attack detection",IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,223,340,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,237,340,10
     CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,18,193,340,10
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,18,207,340,10
+    CONTROL         "Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)",IDC_DISABLE_BOOT_LOADER_PIM_PROMPT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,20,339,9
 END
 
 IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 370, 248
@@ -456,7 +458,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 363
         TOPMARGIN, 7
-        BOTTOMMARGIN, 258
+        BOTTOMMARGIN, 276
     END
 
     IDD_PERFORMANCE_SETTINGS, DIALOG

@@ -231,71 +231,83 @@ static byte AskPassword (Password &password, int& pim)
 			PrintCharAtCursor (asciiCode);
 	}
 
-	pos = 0;
-	Print ("PIM: ");
-
-	while (true)
+#ifndef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
+	if (PimValueOrHiddenVolumeStartUnitNo.LowPart != -1)
 	{
-		asciiCode = GetKeyboardChar (&scanCode);
+		pim = (int) PimValueOrHiddenVolumeStartUnitNo.LowPart;
+		// reset stored PIM value to allow requesting PIM next time in case the stored value is wrong
+		PimValueOrHiddenVolumeStartUnitNo.LowPart = -1;
+		return TC_BIOS_KEY_ENTER;
+	}
+	else
+#endif
+	{
+		pos = 0;
+		Print ("PIM: ");
 
-		switch (scanCode)
+		while (true)
 		{
-		case TC_BIOS_KEY_ENTER:
-			Print ("\rPIM: ");
-			pos =0;
-			while (pos < MAX_PIM)
+			asciiCode = GetKeyboardChar (&scanCode);
+
+			switch (scanCode)
 			{
-				PrintChar ('*');
-				pos++;
-			}
+			case TC_BIOS_KEY_ENTER:
+				Print ("\rPIM: ");
+				pos =0;
+				while (pos < MAX_PIM)
+				{
+					PrintChar ('*');
+					pos++;
+				}
 
-			ClearBiosKeystrokeBuffer();
-			PrintEndl();
-			
-			return TC_BIOS_KEY_ENTER;
-
-		case TC_BIOS_KEY_BACKSPACE:
-			if (pos > 0)
-			{
-				if (pos < MAX_PIM)
-					PrintBackspace();
-				else
-					PrintCharAtCursor (' ');
-
-				--pos;
-				pim /= 10;
-			}
-			continue;
-
-		case TC_BIOS_KEY_F5:
-			hidePassword ^= 0x01;
-			continue;
-
-		default:
-			if (scanCode == TC_BIOS_KEY_ESC || IsMenuKey (scanCode))
-			{
-				burn (password.Text, sizeof (password.Text));
 				ClearBiosKeystrokeBuffer();
-
 				PrintEndl();
-				return scanCode;
+				
+				return TC_BIOS_KEY_ENTER;
+
+			case TC_BIOS_KEY_BACKSPACE:
+				if (pos > 0)
+				{
+					if (pos < MAX_PIM)
+						PrintBackspace();
+					else
+						PrintCharAtCursor (' ');
+
+					--pos;
+					pim /= 10;
+				}
+				continue;
+
+			case TC_BIOS_KEY_F5:
+				hidePassword ^= 0x01;
+				continue;
+
+			default:
+				if (scanCode == TC_BIOS_KEY_ESC || IsMenuKey (scanCode))
+				{
+					burn (password.Text, sizeof (password.Text));
+					ClearBiosKeystrokeBuffer();
+
+					PrintEndl();
+					return scanCode;
+				}
 			}
-		}
 
-		if (!IsDigit (asciiCode) || pos == MAX_PIM)
-		{
-			Beep();
-			continue;
-		}
+			if (!IsDigit (asciiCode) || pos == MAX_PIM)
+			{
+				Beep();
+				continue;
+			}
 
-		pim = 10*pim + (asciiCode - '0');
-		pos++;
-		
-		if (hidePassword) asciiCode = '*';
-		if (pos < MAX_PIM)
-			PrintChar (asciiCode);
-		else
-			PrintCharAtCursor (asciiCode);
+			pim = 10*pim + (asciiCode - '0');
+			pos++;
+			
+			if (hidePassword) asciiCode = '*';
+			if (pos < MAX_PIM)
+				PrintChar (asciiCode);
+			else
+				PrintCharAtCursor (asciiCode);
+		}
 	}
 }
 
@@ -468,7 +480,7 @@ static bool MountVolume (byte drive, byte &exitKey, bool skipNormal, bool skipHi
 
 		EncryptedVirtualPartition.StartSector = BootCryptoInfo->EncryptedAreaStart >> TC_LB_SIZE_BIT_SHIFT_DIVISOR;
 		
-		HiddenVolumeStartUnitNo = EncryptedVirtualPartition.StartSector;
+		PimValueOrHiddenVolumeStartUnitNo = EncryptedVirtualPartition.StartSector;
 		HiddenVolumeStartSector = PartitionFollowingActive.StartSector;
 		HiddenVolumeStartSector += EncryptedVirtualPartition.StartSector;
 
@@ -749,7 +761,7 @@ static bool CopySystemPartitionToHiddenVolume (byte drive, byte &exitKey)
 		{
 			CopyMemory (TC_BOOT_LOADER_BUFFER_SEGMENT, i * TC_LB_SIZE, SectorBuffer, TC_LB_SIZE);
 
-			uint64 s = HiddenVolumeStartUnitNo + sectorOffset + i;
+			uint64 s = PimValueOrHiddenVolumeStartUnitNo + sectorOffset + i;
 			EncryptDataUnits (SectorBuffer, &s, 1, BootCryptoInfo);
 
 			CopyMemory (SectorBuffer, TC_BOOT_LOADER_BUFFER_SEGMENT, i * TC_LB_SIZE, TC_LB_SIZE);

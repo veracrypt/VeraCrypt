@@ -1300,7 +1300,7 @@ namespace VeraCrypt
 	}
 
 
-	void BootEncryption::WriteBootSectorUserConfig (byte userConfig, const string &customUserMessage)
+	void BootEncryption::WriteBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim)
 	{
 		Device device (GetSystemDriveConfiguration().DevicePath);
 		device.CheckOpened (SRC_POS);
@@ -1326,6 +1326,15 @@ namespace VeraCrypt
 
 			memcpy (mbr + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, customUserMessage.c_str(), customUserMessage.size());
 		}
+		
+		if (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
+		{
+			// PIM for pre-boot authentication can be encoded on two bytes since its maximum
+			// value is 65535 (0xFFFF)
+			memcpy (mbr + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, &pim, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
+		}
+		else
+			memset (mbr + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, 0, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
 
 		device.SeekAt (0);
 		device.Write (mbr, sizeof (mbr));
@@ -1494,7 +1503,7 @@ namespace VeraCrypt
 		InstallBootLoader (device, preserveUserConfig, hiddenOSCreation);
 	}
 
-	void BootEncryption::InstallBootLoader (Device& device, bool preserveUserConfig, bool hiddenOSCreation)
+	void BootEncryption::InstallBootLoader (Device& device, bool preserveUserConfig, bool hiddenOSCreation, int pim)
 	{
 		byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
 		CreateBootLoaderInMemory (bootLoaderBuf, sizeof (bootLoaderBuf), false, hiddenOSCreation);
@@ -1512,6 +1521,16 @@ namespace VeraCrypt
 			{
 				bootLoaderBuf[TC_BOOT_SECTOR_USER_CONFIG_OFFSET] = mbr[TC_BOOT_SECTOR_USER_CONFIG_OFFSET];
 				memcpy (bootLoaderBuf + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, mbr + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH);
+
+				if (bootLoaderBuf[TC_BOOT_SECTOR_USER_CONFIG_OFFSET] & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
+				{
+					if (pim >= 0)
+					{
+						memcpy (bootLoaderBuf + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, &pim, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
+					}
+					else
+						memcpy (bootLoaderBuf + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, mbr + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
+				}
 			}
 		}
 
@@ -2499,17 +2518,32 @@ namespace VeraCrypt
 
 		if (headerUpdated)
 		{
+			bool storedPimUpdateNeeded = false;
 			ReopenBootVolumeHeaderRequest reopenRequest;
 			reopenRequest.VolumePassword = *newPassword;
 			reopenRequest.pkcs5_prf = cryptoInfo->pkcs5;
 			reopenRequest.pim = pim;
 			finally_do_arg (ReopenBootVolumeHeaderRequest*, &reopenRequest, { burn (finally_arg, sizeof (*finally_arg)); });
 
+			if (old_pim != pim)
+			{
+				try
+				{
+					// check if PIM is stored in MBR
+					byte userConfig;
+					ReadBootSectorConfig (nullptr, 0, &userConfig);
+					if (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
+						storedPimUpdateNeeded = true;
+				}
+				catch (...)
+				{}
+			}
+
 			try
 			{
-				// force update of bootloader if fingerprint doesn't match
-				if (!CheckBootloaderFingerprint (true))
-					InstallBootLoader (device, true);
+				// force update of bootloader if fingerprint doesn't match or if the stored PIM changed
+				if (storedPimUpdateNeeded || !CheckBootloaderFingerprint (true))
+					InstallBootLoader (device, true, false, pim);
 			}
 			catch (...)
 			{}

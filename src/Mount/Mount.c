@@ -10359,9 +10359,11 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 
 				try
 				{
+					VOLUME_PROPERTIES_STRUCT prop;
 					try
 					{
 						BootEncStatus = BootEncObj->GetStatus();
+						BootEncObj->GetVolumeProperties (&prop);
 					}
 					catch (...)
 					{
@@ -10384,7 +10386,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 						else
 							userConfig &= ~TC_BOOT_USER_CFG_FLAG_DISABLE_HW_ENCRYPTION;
 
-						BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage);
+						BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage, prop.volumePim);
 					}
 
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION, disableHW);
@@ -10724,6 +10726,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				SendMessage (GetDlgItem (hwndDlg, IDC_CUSTOM_BOOT_LOADER_MESSAGE), EM_LIMITTEXT, TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, 0);
 				SetDlgItemTextA (hwndDlg, IDC_CUSTOM_BOOT_LOADER_MESSAGE, customUserMessage.c_str());
 
+				CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_PIM_PROMPT, (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM) ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_OUTPUT, (userConfig & TC_BOOT_USER_CFG_FLAG_SILENT_MODE) ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton (hwndDlg, IDC_ALLOW_ESC_PBA_BYPASS, (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_ESC) ? BST_UNCHECKED : BST_CHECKED);
 				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD, bPasswordCacheEnabled ? BST_CHECKED : BST_UNCHECKED);
@@ -10752,8 +10755,21 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 		case IDOK:
 			{
+				VOLUME_PROPERTIES_STRUCT prop;
+
 				if (!BootEncObj->GetStatus().DriveMounted)
 				{
+					EndDialog (hwndDlg, IDCANCEL);
+					return 1;
+				}
+
+				try
+				{
+					BootEncObj->GetVolumeProperties (&prop);
+				}
+				catch (Exception &e)
+				{
+					e.Show (hwndDlg);
 					EndDialog (hwndDlg, IDCANCEL);
 					return 1;
 				}
@@ -10772,6 +10788,11 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					return 1;
 				}
 
+				if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_PIM_PROMPT))
+					userConfig |= TC_BOOT_USER_CFG_FLAG_DISABLE_PIM;
+				else
+					userConfig &= ~TC_BOOT_USER_CFG_FLAG_DISABLE_PIM;
+
 				if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_OUTPUT))
 					userConfig |= TC_BOOT_USER_CFG_FLAG_SILENT_MODE;
 				else
@@ -10786,7 +10807,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				{
 					BOOL bPasswordCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD);
 					BOOL bPimCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM);
-					BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage);
+					BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage, prop.volumePim);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, bPasswordCacheEnabled);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
@@ -10799,6 +10820,13 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 				EndDialog (hwndDlg, lw);
 				return 1;
+			}
+
+		case IDC_DISABLE_BOOT_LOADER_PIM_PROMPT:
+			if ((IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_PIM_PROMPT))
+				&& AskWarnYesNo ("DISABLE_BOOT_LOADER_PIM_PROMPT", hwndDlg) == IDNO)
+			{
+				CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_PIM_PROMPT, BST_UNCHECKED);
 			}
 
 		case IDC_DISABLE_BOOT_LOADER_OUTPUT:

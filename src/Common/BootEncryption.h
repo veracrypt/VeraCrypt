@@ -169,7 +169,7 @@ namespace VeraCrypt
 		void GetVolumeProperties (VOLUME_PROPERTIES_STRUCT *properties);
 		SystemDriveConfiguration GetSystemDriveConfiguration ();
 		void Install (bool hiddenSystem);
-		void InstallBootLoader (Device& device, bool preserveUserConfig = false, bool hiddenOSCreation = false);
+		void InstallBootLoader (Device& device, bool preserveUserConfig = false, bool hiddenOSCreation = false, int pim = -1);
 		void InstallBootLoader (bool preserveUserConfig = false, bool hiddenOSCreation = false);
 		bool CheckBootloaderFingerprint (bool bSilent = false);
 		void InvalidateCachedSysDriveProperties ();
@@ -206,7 +206,7 @@ namespace VeraCrypt
 		void WipeHiddenOSCreationConfig ();
 		void WriteBootDriveSector (uint64 offset, byte *data);
 		void WriteBootSectorConfig (const byte newConfig[]);
-		void WriteBootSectorUserConfig (byte userConfig, const string &customUserMessage);
+		void WriteBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim);
 		void WriteLocalMachineRegistryDwordValue (wchar_t *keyPath, wchar_t *valueName, DWORD value);
 
 	protected:

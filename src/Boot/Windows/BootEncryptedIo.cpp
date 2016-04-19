@@ -48,7 +48,7 @@ BiosResult ReadEncryptedSectors (uint16 destSegment, uint16 destOffset, byte dri
 	{
 		// Convert sector number to data unit number of the hidden volume
 		sector -= HiddenVolumeStartSector;
-		sector += HiddenVolumeStartUnitNo;
+		sector += PimValueOrHiddenVolumeStartUnitNo;
 	}
 
 	if (drive == EncryptedVirtualPartition.Drive)
@@ -96,7 +96,7 @@ BiosResult WriteEncryptedSectors (uint16 sourceSegment, uint16 sourceOffset, byt
 		writeOffset = HiddenVolumeStartSector;
 		writeOffset -= EncryptedVirtualPartition.StartSector;
 		dataUnitNo -= EncryptedVirtualPartition.StartSector;
-		dataUnitNo += HiddenVolumeStartUnitNo;
+		dataUnitNo += PimValueOrHiddenVolumeStartUnitNo;
 	}
 
 	while (sectorCount-- > 0)
