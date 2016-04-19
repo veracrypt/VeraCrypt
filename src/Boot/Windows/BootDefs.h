@@ -14,11 +14,7 @@
 #define TC_HEADER_Boot_BootDefs
 
 // Total memory required (CODE + DATA + BSS + STACK + 0x100) in KBytes - determined from linker map.
-#ifdef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
-	#define TC__BOOT_MEMORY_REQUIRED	44
-#else
-	#define TC__BOOT_MEMORY_REQUIRED	43
-#endif
+#define TC__BOOT_MEMORY_REQUIRED	43
 
 #ifdef TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
 #	undef TC__BOOT_MEMORY_REQUIRED
