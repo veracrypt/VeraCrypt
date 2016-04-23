@@ -840,7 +840,7 @@ namespace VeraCrypt
 
 	static void SetControls (HWND hwndDlg, const FavoriteVolume &favorite, bool systemFavoritesMode, bool enable)
 	{
-		BOOL bIsDevice = IsVolumeDeviceHosted (favorite.Path.c_str()) || !enable;
+		BOOL bIsDevice = favorite.DisconnectedDevice || IsVolumeDeviceHosted (favorite.Path.c_str()) || !enable;
 		if (favorite.Pim > 0)
 		{
 			wchar_t szTmp[MAX_PIM + 1];
