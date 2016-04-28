@@ -5075,6 +5075,7 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 				if (!mounted)
 				{	
 					int nDosDriveNo;
+					int driveAItem = -1, driveBItem = -1;
 
 					while (LOWORD (GetItemLong (driveList, selDrive)) != 0xffff)
 					{
@@ -5084,11 +5085,39 @@ static BOOL MountAllDevicesThreadCode (HWND hwndDlg, BOOL bPasswordPrompt)
 							continue;
 						}
 						nDosDriveNo = HIWORD(GetItemLong (driveList, selDrive)) - L'A';
+
+						/* don't use drives A: and B: for now until no other free drive found */
+						if (nDosDriveNo == 0)
+						{
+							driveAItem = selDrive;
+							selDrive++;							
+							continue;
+						}
+						if (nDosDriveNo == 1)
+						{
+							driveBItem = selDrive;
+							selDrive++;
+							continue;
+						}
 						break;
 					}
 
 					if (LOWORD (GetItemLong (driveList, selDrive)) == 0xffff)
-						goto ret;
+					{
+						/* use A: or B: if available as a last resort */
+						if (driveAItem >= 0)
+						{
+							nDosDriveNo = 0;
+							selDrive = driveAItem;
+						}
+						else if (driveBItem >= 0)
+						{
+							nDosDriveNo = 1;
+							selDrive = driveBItem;
+						}
+						else
+							goto ret;
+					}
 
 					// First try user password then cached passwords
 					if ((mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, TRUE, FALSE)) > 0

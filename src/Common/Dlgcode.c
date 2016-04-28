@@ -6760,11 +6760,13 @@ DWORD GetUsedLogicalDrives (void)
 int GetFirstAvailableDrive ()
 {
 	DWORD dwUsedDrives = GetUsedLogicalDrives();
-	int i;
+	int i, drive;
 
-	for (i = 0; i < 26; i++)
+	/* let A: and B: be used as last resort since they can introduce side effects */
+	for (i = 2; i < 28; i++)
 	{
-		if (!(dwUsedDrives & 1 << i))
+		drive = (i < 26) ? i : (i - 26);
+		if (!(dwUsedDrives & 1 << drive))
 			return i;
 	}
 
