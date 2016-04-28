@@ -1388,6 +1388,14 @@
     <string lang="ru" key="INIT_DLL">ОШИБКА: Не удалось загрузить системную библиотеку.</string>
     <string lang="ru" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Указанный в командной строке размер файла тома несовместим с выбранной файловой системой exFAT.</string>
     <control lang="ru" key="IDT_ENTROPY_BAR">Хаотично из перемещений мыши</control>
+    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
+    <string lang="en" key="VOLUME_ID">Volume ID</string>
+    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
+    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
+    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
+    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
+    <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
