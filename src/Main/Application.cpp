@@ -88,7 +88,7 @@ namespace VeraCrypt
 
 	FilePath Application::GetConfigFilePath (const wxString &configFileName, bool createConfigDir)
 	{
-		static const wxString *configDirC = NULL;
+		static wxScopedPtr<const wxString> configDirC;
 		static bool configDirExists = false;
 
 		if (!configDirExists)
@@ -108,7 +108,7 @@ namespace VeraCrypt
 				}
 
 				EnsureEndsWithPathSeparator(*configDir);
-				configDirC = configDir;
+				configDirC.reset(configDir);
 			}
 
 			if (createConfigDir)
