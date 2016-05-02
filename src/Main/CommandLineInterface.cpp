@@ -414,7 +414,7 @@ namespace VeraCrypt
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
 
-			if (ArgNewPim < 0)
+			if (ArgNewPim < 0 || ArgNewPim > (ArgMountOptions.PartitionInSystemEncryptionScope? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			else if (ArgNewPim > 0 && ArgTrueCryptMode)
 				throw_err (LangString["PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
@@ -454,7 +454,7 @@ namespace VeraCrypt
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
 
-			if (ArgPim < 0)
+			if (ArgPim < 0 || ArgPim > (ArgMountOptions.PartitionInSystemEncryptionScope? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
 				throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			else if (ArgPim > 0 && ArgTrueCryptMode)
 				throw_err (LangString["PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
@@ -491,7 +491,7 @@ namespace VeraCrypt
 			try
 			{
 				pim = StringConverter::ToInt32 (wstring (str));
-				if (pim < 0)
+				if (pim < 0 || pim > (ArgMountOptions.PartitionInSystemEncryptionScope? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
 					throw_err (LangString["PARAMETER_INCORRECT"] + L": " + str);
 			}
 			catch (...)

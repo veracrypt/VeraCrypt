@@ -2506,6 +2506,13 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return 1;
 			}
 
+			if (!bSysEncPwdChangeDlgMode && (pim > MAX_PIM_VALUE))
+			{
+				SetFocus (GetDlgItem(hwndDlg, IDC_PIM));
+				Error ("PIM_TOO_BIG", hwndDlg);
+				return 1;
+			}
+
 			if (pwdChangeDlgMode == PCDM_CHANGE_PKCS5_PRF)
 			{
 				newKeyFilesParam.EnableKeyFiles = KeyFilesEnable;
@@ -8712,7 +8719,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					{
 						wchar_t* endPtr = NULL;
 						CmdVolumePim = (int) wcstol(szTmp, &endPtr, 0);
-						if (CmdVolumePim < 0 || endPtr == szTmp || *endPtr != L'\0')
+						if (CmdVolumePim < 0 || CmdVolumePim > MAX_PIM_VALUE || endPtr == szTmp || *endPtr != L'\0')
 						{
 							CmdVolumePim = 0;
 							AbortProcess ("COMMAND_LINE_ERROR");

@@ -63,6 +63,7 @@ namespace VeraCrypt
 		EnablePimEntry = enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword));
 		PimCheckBox->Show (EnablePimEntry);
 		VolumePimStaticText->Show (false);
+		VolumePimTextCtrl->SetMaxLength (MAX_PIM_DIGITS);
 		VolumePimTextCtrl->Show (false);
 		VolumePimHelpStaticText->Show (false);
 
@@ -198,7 +199,7 @@ namespace VeraCrypt
 		int colspan = isPim? 1 : 2;
 
 		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
-		newTextCtrl->SetMaxLength (isPim? 10 : VolumePassword::MaxSize); 
+		newTextCtrl->SetMaxLength (isPim? MAX_PIM_DIGITS : VolumePassword::MaxSize); 
 		newTextCtrl->SetValue ((*textCtrl)->GetValue());
 		newTextCtrl->SetMinSize ((*textCtrl)->GetSize());
 
@@ -279,7 +280,8 @@ namespace VeraCrypt
 			if (pimStr.IsEmpty())
 				return 0;
 			if (((size_t) wxNOT_FOUND == pimStr.find_first_not_of (wxT("0123456789"))) 
-				&& pimStr.ToLong (&pim))
+				&& pimStr.ToLong (&pim)
+				&& pim <= MAX_PIM_VALUE)
 				return (int) pim;
 			else
 				return -1;

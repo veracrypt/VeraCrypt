@@ -103,7 +103,7 @@ namespace VeraCrypt
 		bool display = event.IsChecked ();
 
 		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
-		newTextCtrl->SetMaxLength (10); 
+		newTextCtrl->SetMaxLength (MAX_PIM_DIGITS); 
 		newTextCtrl->SetValue (VolumePimTextCtrl->GetValue());
 		newTextCtrl->SetMinSize (VolumePimTextCtrl->GetSize());
 

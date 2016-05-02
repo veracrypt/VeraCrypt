@@ -18,4 +18,9 @@
 #include "Core/Core.h"
 #include "Main/StringFormatter.h"
 
+#define MAX_PIM_DIGITS			7		// Maximum allowed digits in a PIM (enough for maximum value)
+#define MAX_PIM_VALUE		2147468 // Maximum value to have a positive 32-bit result for formula 15000 + (PIM x 1000)
+#define MAX_BOOT_PIM_DIGITS		5		// Maximum allowed digits in a PIM for boot (enough for 16-bit value)
+#define MAX_BOOT_PIM_VALUE	65535
+
 #endif // TC_HEADER_Main_Main

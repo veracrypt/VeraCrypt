@@ -3240,7 +3240,7 @@ VolumePasswordPanelBase::VolumePasswordPanelBase( wxWindow* parent, wxWindowID i
 	GridBagSizer->Add( VolumePimStaticText, wxGBPosition( 3, 0 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
 	
 	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	VolumePimTextCtrl->SetMaxLength( 10 ); 
+	VolumePimTextCtrl->SetMaxLength( 7 ); 
 	GridBagSizer->Add( VolumePimTextCtrl, wxGBPosition( 3, 1 ), wxGBSpan( 1, 1 ), wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxEXPAND, 5 );
 	
 	VolumePimHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -3381,7 +3381,7 @@ VolumePimWizardPageBase::VolumePimWizardPageBase( wxWindow* parent, wxWindowID i
 	PimSizer->Add( VolumePimStaticText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	VolumePimTextCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-	VolumePimTextCtrl->SetMaxLength( 10 ); 
+	VolumePimTextCtrl->SetMaxLength( 7 ); 
 	PimSizer->Add( VolumePimTextCtrl, 0, wxALL, 5 );
 	
 	VolumePimHelpStaticText = new wxStaticText( this, wxID_ANY, _("(Empty or 0 for default iterations)"), wxDefaultPosition, wxDefaultSize, 0 );

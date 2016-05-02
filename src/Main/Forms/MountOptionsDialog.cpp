@@ -94,13 +94,13 @@ namespace VeraCrypt
 			ProtectionPasswordPanel->GetVolumePim() : 0;
 			
 		/* invalid PIM: set focus to PIM field and stop processing */
-		if (-1 == Pim)
+		if (-1 == Pim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && Pim > MAX_BOOT_PIM_VALUE))
 		{
 			PasswordPanel->SetFocusToPimTextCtrl();
 			return;
 		}
 		
-		if (-1 == ProtectionPim)
+		if (-1 == ProtectionPim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && ProtectionPim > MAX_BOOT_PIM_VALUE))
 		{
 			ProtectionPasswordPanel->SetFocusToPimTextCtrl();
 			return;

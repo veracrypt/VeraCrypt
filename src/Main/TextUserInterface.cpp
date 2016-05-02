@@ -182,6 +182,12 @@ namespace VeraCrypt
 				try
 				{
 					pim = (int) StringConverter::ToUInt32 (pimStr);
+					if (pim > MAX_PIM_VALUE)
+					{
+						pim = -1;
+						ShowError ("PIM_TOO_BIG");
+						continue;
+					}
 				}
 				catch (...)
 				{

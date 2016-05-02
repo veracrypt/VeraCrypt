@@ -1398,6 +1398,7 @@
     <string lang="de" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Wert in die Zwischenablage kopieren...</string>
     <control lang="de" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Im Prä-Boot-Authentifikationsbildschirm keinen PIM abfragen</control>
     <string lang="de" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNUNG: Sie sollten nicht vergessen, dass, wenn Sie diese Option aktivieren, der PIM-Wert unverschlüsselt auf der Festplatte gespeichert wird.\n\nSind Sie sicher, dass Sie diese Option aktivieren möchten?</string>
+    <string lang="de" key="PIM_TOO_BIG">Der größtmögliche Wert für den PIM (Personal Iterations Multiplier) ist 2147468.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
