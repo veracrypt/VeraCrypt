@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -22,12 +22,60 @@
 
 namespace VeraCrypt
 {
+	namespace
+	{
+		void EnsureEndsWithPathSeparator( wxString &s )
+		{
+			const wxUniChar pathSeparator = wxFileName::GetPathSeparator();
+			if (s[s.size() - 1] != pathSeparator)
+				s.append(pathSeparator);
+		}
+
+		wxString *GetXdgConfigPath ()
+		{
+			const wxChar *xdgConfig = wxGetenv(wxT("XDG_CONFIG_HOME"));
+			wxString *configDir;
+
+			if (!wxIsEmpty(xdgConfig))
+			{
+				configDir = new wxString (xdgConfig);
+				//wcerr << L"XDG_CONFIG_HOME=" << *configDir << endl;
+				EnsureEndsWithPathSeparator(*configDir);
+				configDir->append(Application::GetName());
+			}
+			else
+			{
+				#if !defined(TC_UNIX) || defined(TC_MACOSX) // Windows, OS X:
+					configDir =
+						new wxString (wxStandardPaths::Get().GetUserDataDir());
+				#else // Linux, FreeBSD, Solaris:
+					configDir = new wxString (wxFileName::GetHomeDir());
+					configDir->append(wxT("/.config/"));
+					configDir->append(Application::GetName());
+
+					if (!wxDirExists(*configDir))
+					{
+						wxString legacyConfigDir = wxStandardPaths::Get().GetUserDataDir();
+						//wcerr << L"Legacy config dir: " << legacyConfigDir << endl;
+						if (wxDirExists(legacyConfigDir))
+						{
+							configDir->swap(legacyConfigDir);
+						}
+					}
+				#endif
+			}
+
+			//wcerr << L"Config dir: " << *configDir << endl;
+			return configDir;
+		}
+	}
+
 	wxApp* Application::CreateConsoleApp ()
 	{
 		mUserInterface = new TextUserInterface;
 		mUserInterfaceType = UserInterfaceType::Text;
 		return mUserInterface;
-	} 
+	}
 
 #ifndef TC_NO_GUI
 	wxApp* Application::CreateGuiApp ()
@@ -35,32 +83,49 @@ namespace VeraCrypt
 		mUserInterface = new GraphicUserInterface;
 		mUserInterfaceType = UserInterfaceType::Graphic;
 		return mUserInterface;
-	} 
+	}
 #endif
 
 	FilePath Application::GetConfigFilePath (const wxString &configFileName, bool createConfigDir)
 	{
-		DirectoryPath configDir;
-		
-		if (!Core->IsInPortableMode())
+		static wxScopedPtr<const wxString> configDirC;
+		static bool configDirExists = false;
+
+		if (!configDirExists)
 		{
-#ifdef TC_MACOSX
-			wxFileName configPath (L"~/Library/Application Support/VeraCrypt");
-			configPath.Normalize();
-			configDir = wstring (configPath.GetFullPath());
-#else
-			wxStandardPaths& stdPaths = wxStandardPaths::Get();
-			configDir = wstring (stdPaths.GetUserDataDir());
-#endif
+			if (!configDirC)
+			{
+				wxString *configDir;
+
+				if (Core->IsInPortableMode())
+				{
+					configDir = new wxString (
+						wxPathOnly(wxStandardPaths::Get().GetExecutablePath()));
+				}
+				else
+				{
+					configDir = GetXdgConfigPath();
+				}
+
+				EnsureEndsWithPathSeparator(*configDir);
+				configDirC.reset(configDir);
+			}
+
+			if (createConfigDir)
+			{
+				if (!wxDirExists(*configDirC))
+				{
+					//wcerr << L"Creating config dir »" << *configDirC << L"« ..." << endl;
+					throw_sys_sub_if(
+						!wxMkdir(*configDirC, wxS_IRUSR | wxS_IWUSR | wxS_IXUSR),
+						configDirC->ToStdWstring());
+				}
+				configDirExists = true;
+				//wcerr << L"Config directory »" << *configDirC << L"« exists now" << endl;
+			}
 		}
-		else
-			configDir = GetExecutableDirectory();
 
-		if (createConfigDir && !configDir.IsDirectory())
-			Directory::Create (configDir);
-
-		FilePath filePath = wstring (wxFileName (wstring (configDir), configFileName).GetFullPath());
-		return filePath;
+		return FilePath((*configDirC + configFileName).ToStdWstring());
 	}
 
 	DirectoryPath Application::GetExecutableDirectory ()
