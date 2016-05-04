@@ -123,6 +123,7 @@ namespace VeraCrypt
 		*/
 
 		WORD lw = LOWORD (wParam);
+		WORD hw = HIWORD (wParam);
 		static bool SystemFavoritesMode;
 		static vector <FavoriteVolume> Favorites;
 		static int SelectedItem;
@@ -615,7 +616,7 @@ namespace VeraCrypt
 				XmlGetAttributeText (xml, "pin", label, sizeof (label));
 			}
 			favorite.Pim = strtol (label, NULL, 10);
-			if (favorite.Pim < 0 || favorite.Pim > (systemFavorite? MAX_BOOT_PIM_VALUE : MAX_PIM_VALUE))
+			if (favorite.Pim < 0 || favorite.Pim > (systemFavorites? MAX_BOOT_PIM_VALUE : MAX_PIM_VALUE))
 				favorite.Pim = 0;
 
 			char boolVal[2];
