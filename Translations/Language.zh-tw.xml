@@ -1396,6 +1396,7 @@
     <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
+    <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

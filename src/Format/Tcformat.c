@@ -766,6 +766,8 @@ static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified,
 
 	ConfigReadCompareInt ("ShowDisconnectedNetworkDrives", FALSE, &bShowDisconnectedNetworkDrives, bOnlyCheckModified, pbSettingsModified);
 
+	ConfigReadCompareInt ("HideWaitingDialog", FALSE, &bHideWaitingDialog, bOnlyCheckModified, pbSettingsModified);
+
 	ConfigReadCompareInt ("SaveVolumeHistory", FALSE, &bHistory, bOnlyCheckModified, pbSettingsModified);
 
 	{

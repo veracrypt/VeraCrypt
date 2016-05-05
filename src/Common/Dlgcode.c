@@ -104,6 +104,9 @@ wchar_t *lpszTitle = NULL;
 BOOL Silent = FALSE;
 BOOL bPreserveTimestamp = TRUE;
 BOOL bShowDisconnectedNetworkDrives = FALSE;
+BOOL bHideWaitingDialog = FALSE;
+BOOL bCmdHideWaitingDialog = FALSE;
+BOOL bCmdHideWaitingDialogValid = FALSE;
 BOOL bStartOnLogon = FALSE;
 BOOL bMountDevicesOnLogon = FALSE;
 BOOL bMountFavoritesOnLogon = FALSE;
@@ -1686,14 +1689,21 @@ SplashDlgProc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefDlgProcW (hwnd, uMsg, wParam, lParam);
 }
 
+static int g_waitCursorCounter = 0;
+
 void
 WaitCursor ()
 {
 	static HCURSOR hcWait;
 	if (hcWait == NULL)
 		hcWait = LoadCursor (NULL, IDC_WAIT);
-	SetCursor (hcWait);
-	hCursor = hcWait;
+
+	if ((g_waitCursorCounter == 0) || (hCursor != hcWait))
+	{
+		SetCursor (hcWait);
+		hCursor = hcWait;
+	}
+	g_waitCursorCounter++;
 }
 
 void
@@ -1702,8 +1712,13 @@ NormalCursor ()
 	static HCURSOR hcArrow;
 	if (hcArrow == NULL)
 		hcArrow = LoadCursor (NULL, IDC_ARROW);
-	SetCursor (hcArrow);
-	hCursor = NULL;
+	if (g_waitCursorCounter > 0)
+		g_waitCursorCounter--;
+	if (g_waitCursorCounter == 0)
+	{
+		SetCursor (hcArrow);
+		hCursor = NULL;
+	}
 }
 
 void
@@ -1712,8 +1727,12 @@ ArrowWaitCursor ()
 	static HCURSOR hcArrowWait;
 	if (hcArrowWait == NULL)
 		hcArrowWait = LoadCursor (NULL, IDC_APPSTARTING);
-	SetCursor (hcArrowWait);
-	hCursor = hcArrowWait;
+	if ((g_waitCursorCounter == 0) || (hCursor != hcArrowWait))
+	{
+		SetCursor (hcArrowWait);
+		hCursor = hcArrowWait;
+	}
+	g_waitCursorCounter++;
 }
 
 void HandCursor ()
@@ -5399,7 +5418,11 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			threadParam.hBenchDlg = hwndDlg;
 			threadParam.bStatus = FALSE;
 
+			WaitCursor ();
+
 			ShowWaitDialog (hwndDlg, TRUE, BenchmarkThreadProc, &threadParam);
+
+			NormalCursor ();
 
 			if (threadParam.bStatus == FALSE)
 			{
@@ -7092,13 +7115,16 @@ void BringToForeground(HWND hWnd)
 void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg)
 {
 	HWND hParent = (hwnd && bUseHwndAsParent)? hwnd : GetDesktopWindow();
+	BOOL bEffectiveHideWaitingDialog = bCmdHideWaitingDialogValid? bCmdHideWaitingDialog : bHideWaitingDialog;
 	WaitThreadParam threadParam;
 	threadParam.callback = callback;
 	threadParam.pArg = pArg;
 
-	if (WaitDialogDisplaying)
+	if (WaitDialogDisplaying || bEffectiveHideWaitingDialog)
 	{
+		if (!WaitDialogDisplaying) WaitCursor ();
 		callback (pArg, hwnd);
+		if (!WaitDialogDisplaying) NormalCursor ();
 	}
 	else
 	{

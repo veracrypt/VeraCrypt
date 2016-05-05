@@ -180,6 +180,7 @@
 #define IDC_FAVORITE_VOLUME_ID          1158
 #define IDC_FAVORITE_USE_VOLUME_ID      1159
 #define IDC_DISABLE_BOOT_LOADER_PIM_PROMPT     1160
+#define IDC_HIDE_WAITING_DIALOG         1161
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -256,7 +257,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1161
+#define _APS_NEXT_CONTROL_VALUE         1162
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

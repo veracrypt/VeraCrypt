@@ -1398,6 +1398,7 @@
     <string lang="fr" key="DISABLE_BOOT_LOADER_PIM_PROMPT">AVERTISSEMENT : Gardez à l'esprit que si vous activez cette option, la valeur du PIM sera écrite non chiffrée sur le disk.\n\nÊtes-vous sûr que vous souhaitez activer cette option ?</string>
     <string lang="fr" key="PIM_TOO_BIG">La valeur maximale du PIM est 2147468.</string>
     <control lang="fr" key="IDC_SKIP_RESCUE_VERIFICATION">Ne pas vérifier le disque de secours</control>
+    <control lang="fr" key="IDC_HIDE_WAITING_DIALOG">Ne pas afficher la fenêtre d'attente lors de l'exécution des opérations</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
