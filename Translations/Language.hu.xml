@@ -10,41 +10,41 @@
     <font lang="hu" class="title" size="21" face="Times New Roman" />
     <!-- Controls -->
     <control lang="hu" key="IDCANCEL">Mégsem</control>
-    <control lang="en" key="IDC_ALL_USERS">Install &amp;for all users</control>
-    <control lang="en" key="IDC_BROWSE">Bro&amp;wse...</control>
-    <control lang="en" key="IDC_DESKTOP_ICON">Add VeraCrypt icon to &amp;desktop</control>
-    <control lang="en" key="IDC_DONATE">Donate now...</control>
+    <control lang="en" key="IDC_ALL_USERS">Telepítés &amp;minden felhasználónak</control>
+    <control lang="en" key="IDC_BROWSE">&amp;Tallóz...</control>
+    <control lang="en" key="IDC_DESKTOP_ICON">VeraCrypt ikon hozzáadása az &amp;asztalhoz</control>
+    <control lang="en" key="IDC_DONATE">Támogasd most...</control>
     <control lang="en" key="IDC_FILE_TYPE">Associate the .hc file &amp;extension with VeraCrypt</control>
-    <control lang="en" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Open the destination location when finished</control>
+    <control lang="en" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Cél megytása a művelet befejezése után</control>
     <control lang="hu" key="IDC_PROG_GROUP">VeraCrypt hozzáadása a &amp;Start menühöz</control>
     <control lang="hu" key="IDC_SYSTEM_RESTORE">Rendszer visszaállítási pont létrehozása</control>
     <control lang="hu" key="IDC_UNINSTALL">&amp;Program eltávolítása</control>
-    <control lang="en" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Extract</control>
-    <control lang="en" key="IDC_WIZARD_MODE_INSTALL">&amp;Install</control>
-    <control lang="en" key="IDD_INSTL_DLG">VeraCrypt Setup Wizard</control>
+    <control lang="en" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Kibontás</control>
+    <control lang="en" key="IDC_WIZARD_MODE_INSTALL">&amp;Telepítés</control>
+    <control lang="en" key="IDD_INSTL_DLG">VeraCrypt Telepítő Varázsló</control>
     <control lang="hu" key="IDD_UNINSTALL">VeraCrypt eltávolítása</control>
     <control lang="hu" key="IDHELP">&amp;Súgó</control>
     <control lang="en" key="IDT_EXTRACT_DESTINATION">Please select or type the location where you want to place the extracted files:</control>
     <control lang="en" key="IDT_INSTALL_DESTINATION">Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.</control>
     <control lang="en" key="IDT_UNINSTALL_DIR">Click Uninstall to remove VeraCrypt from this system.</control>
     <control lang="hu" key="IDC_ABORT_BUTTON">Megszakít</control>
-    <control lang="en" key="IDC_BENCHMARK">&amp;Benchmark</control>
+    <control lang="en" key="IDC_BENCHMARK">&amp;Sebességteszt</control>
     <control lang="hu" key="IDC_CIPHER_TEST">&amp;Teszt</control>
-    <control lang="en" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Create encrypted volume and format it</control>
-    <control lang="en" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Encrypt partition in place</control>
-    <control lang="en" key="IDC_DISPLAY_KEYS">Display generated keys (their portions)</control>
+    <control lang="en" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Titkosított kötet létrehozás és formázás</control>
+    <control lang="en" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Partíció titkosítás helyben</control>
+    <control lang="en" key="IDC_DISPLAY_KEYS">Generált kulcsok megjelenítése (részletek)</control>
     <control lang="en" key="IDC_DISPLAY_POOL_CONTENTS">Display pool content</control>
     <control lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Download CD/DVD recording software</control>
     <control lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</control>
     <control lang="en" key="IDC_GB">&amp;GB</control>
     <control lang="en" key="IDC_TB">&amp;TB</control>
-    <control lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</control>
-    <control lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden VeraCrypt volume </control>
-    <control lang="en" key="IDC_HIDDEN_VOL_HELP">More information about hidden volumes</control>
-    <control lang="en" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direct mode</control>
-    <control lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</control>
+    <control lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">További információ</control>
+    <control lang="en" key="IDC_HIDDEN_VOL">&amp;Rejtett VeraCrypt kötet</control>
+    <control lang="en" key="IDC_HIDDEN_VOL_HELP">További információ a rejtett kötetekről</control>
+    <control lang="en" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direkt mód</control>
+    <control lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normál mód</control>
     <control lang="hu" key="IDC_KB">&amp;KB</control>
-    <control lang="en" key="IDC_KEYFILES_ENABLE">U&amp;se keyfiles</control>
+    <control lang="en" key="IDC_KEYFILES_ENABLE">&amp;Kulcsfájlok használata</control>
     <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
     <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
     <control lang="en" key="IDC_KEY_FILES">&amp;Keyfiles...</control>
