@@ -287,7 +287,6 @@
     <control lang="eu" key="IDT_HOTKEY_KEY">Esleitzeko Gakoa:</control>
     <control lang="eu" key="IDT_HW_AES_SUPPORTED_BY_CPU">Ordenagailu honetako prozesadoreak (CPU-ak) AES algoritmoa hardware bidez azelerazea onartzen du:</control>
     <control lang="eu" key="IDT_LOGON">Windowsen sartzean egiteko zereginak</control>
-
     <control lang="eu" key="IDT_MINUTES">minutu</control>
     <control lang="eu" key="IDT_MOUNT_LETTER">Bolumena muntatu diska letra honekin:</control>
     <control lang="eu" key="IDT_MOUNT_SETTINGS">Muntaketaren Aukerak</control>
@@ -335,7 +334,6 @@
     <control lang="eu" key="IDC_TOKEN_FILES_ADD">&amp;Artxibo agiriak gehitu...</control>
     <control lang="eu" key="IDC_USE_EMBEDDED_HEADER_BAK">Bolumenean goiburuaren integratutako &amp;babeskopia badago, erabili</control>
     <control lang="eu" key="IDC_XTS_MODE_ENABLED">XTS modua</control>
-
     <control lang="eu" key="IDD_ABOUT_DLG">VeraCrypt-i buruz</control>
     <control lang="eu" key="IDD_BENCHMARK_DLG">VeraCrypt - Zifratzeko Algoritmoaren Proba-Bankua</control>
     <control lang="eu" key="IDD_CIPHER_TEST_DLG">VeraCrypt - Bektoreak Frogatu</control>

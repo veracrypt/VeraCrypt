@@ -92,6 +92,8 @@
     <control lang="zh-tw" key="IDT_PARTIAL_POOL_CONTENTS">目前集區內容(部分)</control>
     <control lang="en" key="IDT_PASS">Pass</control>
     <control lang="zh-tw" key="IDT_PASSWORD">密碼：</control>
+    <control lang="en" key="IDT_PIM">Volume PIM:</control>
+    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
     <control lang="zh-tw" key="IDT_PROGRESS">進度：</control>
     <control lang="zh-tw" key="IDT_RANDOM_POOL">隨機集區： </control>
     <control lang="zh-tw" key="IDT_SINGLE_BOOT">如果只在這台電腦上裝了一個作業系統的請選擇此項(即使該系統可能有多個使用者)。</control>
