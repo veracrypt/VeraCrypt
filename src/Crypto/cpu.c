@@ -76,7 +76,7 @@ int CpuId(uint32 input, uint32 output[4])
 	{
 		return 0;
     }
-    
+
 	// function 0 returns the highest basic function understood in EAX
 	if(input == 0)
         return !!output[0]? 1 : 0;

@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -110,7 +110,7 @@ extern "C"
 	  ( ( unsigned __int32 ) memPtr[ -2 ] << 8 ) | ( unsigned __int32 ) memPtr[ -1 ] )
 
 #define mgetWord(memPtr) 		\
-	( memPtr += 2, ((( unsigned short ) memPtr[ -2 ] << 8 ) | ( ( unsigned short ) memPtr[ -1 ] )) ) 
+	( memPtr += 2, ((( unsigned short ) memPtr[ -2 ] << 8 ) | ( ( unsigned short ) memPtr[ -1 ] )) )
 
 #define mgetByte(memPtr)		\
 	( ( unsigned char ) *memPtr++ )
@@ -139,7 +139,7 @@ unsigned __int16 MirrorBytes16 (unsigned __int16 x);
 unsigned __int32 MirrorBytes32 (unsigned __int32 x);
 #ifndef TC_NO_COMPILER_INT64
 uint64 MirrorBytes64 (uint64 x);
-#endif 
+#endif
 void LongReverse ( unsigned __int32 *buffer , unsigned byteCount );
 
 #if defined(__cplusplus)

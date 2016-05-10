@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -60,7 +60,7 @@ uint64 GetVolumeDataAreaSize (BOOL hiddenVolume, uint64 volumeSize)
 #if TC_HIDDEN_VOLUME_HOST_FS_RESERVED_END_AREA_SIZE_HIGH < TC_MAX_VOLUME_SECTOR_SIZE
 #	error	TC_HIDDEN_VOLUME_HOST_FS_RESERVED_END_AREA_SIZE_HIGH too small.
 #endif
-		
+
 		if (volumeSize < TC_VOLUME_SMALL_SIZE_THRESHOLD)
 			reservedSize = TC_HIDDEN_VOLUME_HOST_FS_RESERVED_END_AREA_SIZE;
 		else
@@ -108,16 +108,16 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 		|| FormatSectorSize % ENCRYPTION_DATA_UNIT_SIZE != 0)
 	{
 		Error ("SECTOR_SIZE_UNSUPPORTED", hwndDlg);
-		return ERR_DONT_REPORT; 
+		return ERR_DONT_REPORT;
 	}
 
 	/* WARNING: Note that if Windows fails to format the volume as NTFS and the volume size is
 	less than the maximum FAT size, the user is asked within this function whether he wants to instantly
 	retry FAT format instead (to avoid having to re-create the whole container again). If the user
-	answers yes, some of the input parameters are modified, the code below 'begin_format' is re-executed 
-	and some destructive operations that were performed during the first attempt must be (and are) skipped. 
+	answers yes, some of the input parameters are modified, the code below 'begin_format' is re-executed
+	and some destructive operations that were performed during the first attempt must be (and are) skipped.
 	Therefore, whenever adding or modifying any potentially destructive operations below 'begin_format',
-	determine whether they (or their portions) need to be skipped during such a second attempt; if so, 
+	determine whether they (or their portions) need to be skipped during such a second attempt; if so,
 	use the 'bInstantRetryOtherFilesys' flag to skip them. */
 
 	if (volParams->hiddenVol)
@@ -187,17 +187,17 @@ begin_format:
 			if ((dev = DismountDrive (devName, volParams->volumePath)) == INVALID_HANDLE_VALUE)
 			{
 				Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
-				nStatus = ERR_DONT_REPORT; 
+				nStatus = ERR_DONT_REPORT;
 				goto error;
 			}
 
-			/* Gain "raw" access to the partition (it contains a live filesystem and the filesystem driver 
+			/* Gain "raw" access to the partition (it contains a live filesystem and the filesystem driver
 			would otherwise prevent us from writing to hidden sectors). */
 
 			if (!DeviceIoControl (dev,
 				FSCTL_ALLOW_EXTENDED_DASD_IO,
 				NULL,
-				0,   
+				0,
 				NULL,
 				0,
 				&dwResult,
@@ -208,7 +208,7 @@ begin_format:
 		}
 		else if (IsOSAtLeast (WIN_VISTA) && driveLetter == -1)
 		{
-			// Windows Vista doesn't allow overwriting sectors belonging to an unformatted partition 
+			// Windows Vista doesn't allow overwriting sectors belonging to an unformatted partition
 			// to which no drive letter has been assigned under the system. This problem can be worked
 			// around by assigning a drive letter to the partition temporarily.
 
@@ -219,7 +219,7 @@ begin_format:
 			BOOL bResult = FALSE;
 
 			tmpDriveLetter = GetFirstAvailableDrive ();
- 
+
 			if (tmpDriveLetter != -1)
 			{
 				rootPath[0] += (wchar_t) tmpDriveLetter;
@@ -233,7 +233,7 @@ begin_format:
 						szDriveLetter,
 						volParams->volumePath);
 
-					if (bResult 
+					if (bResult
 						&& SetVolumeMountPoint (rootPath, uniqVolName))
 					{
 						// The drive letter can be removed now
@@ -245,21 +245,21 @@ begin_format:
 
 		// For extra safety, we will try to gain "raw" access to the partition. Note that this should actually be
 		// redundant because if the filesystem was mounted, we already tried to obtain DASD above. If we failed,
-		// bFailedRequiredDASD was set to TRUE and therefore we will perform pseudo "quick format" below. However, 
+		// bFailedRequiredDASD was set to TRUE and therefore we will perform pseudo "quick format" below. However,
 		// for extra safety, in case IsDeviceMounted() failed to detect a live filesystem, we will blindly
 		// send FSCTL_ALLOW_EXTENDED_DASD_IO (possibly for a second time) without checking the result.
 
 		DeviceIoControl (dev,
 			FSCTL_ALLOW_EXTENDED_DASD_IO,
 			NULL,
-			0,   
+			0,
 			NULL,
 			0,
 			&dwResult,
 			NULL);
 
 
-		// If DASD is needed but we failed to obtain it, perform open - 'quick format' - close - open 
+		// If DASD is needed but we failed to obtain it, perform open - 'quick format' - close - open
 		// so that the filesystem driver does not prevent us from formatting hidden sectors.
 		for (nPass = (bFailedRequiredDASD ? 0 : 1); nPass < 2; nPass++)
 		{
@@ -285,7 +285,7 @@ begin_format:
 				{
 					if (!volParams->bForceOperation && (Silent || (IDNO == MessageBoxW (volParams->hwndDlg, GetString ("DEVICE_IN_USE_FORMAT"), lpszTitle, MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2))))
 					{
-						nStatus = ERR_DONT_REPORT; 
+						nStatus = ERR_DONT_REPORT;
 						goto error;
 					}
 				}
@@ -293,7 +293,7 @@ begin_format:
 				{
 					handleWin32Error (volParams->hwndDlg, SRC_POS);
 					Error ("CANT_ACCESS_VOL", hwndDlg);
-					nStatus = ERR_DONT_REPORT; 
+					nStatus = ERR_DONT_REPORT;
 					goto error;
 				}
 			}
@@ -306,13 +306,13 @@ begin_format:
 				char buf [2 * TC_MAX_VOLUME_SECTOR_SIZE];
 				DWORD bw;
 
-				// Perform pseudo "quick format" so that the filesystem driver does not prevent us from 
+				// Perform pseudo "quick format" so that the filesystem driver does not prevent us from
 				// formatting hidden sectors
 				memset (buf, 0, sizeof (buf));
 
 				if (!WriteFile (dev, buf, sizeof (buf), &bw, NULL))
 				{
-					nStatus = ERR_OS_ERROR; 
+					nStatus = ERR_OS_ERROR;
 					goto error;
 				}
 
@@ -325,7 +325,7 @@ begin_format:
 		if (DeviceIoControl (dev, FSCTL_IS_VOLUME_MOUNTED, NULL, 0, NULL, 0, &dwResult, NULL))
 		{
 			Error ("FORMAT_CANT_DISMOUNT_FILESYS", hwndDlg);
-			nStatus = ERR_DONT_REPORT; 
+			nStatus = ERR_DONT_REPORT;
 			goto error;
 		}
 	}
@@ -339,7 +339,7 @@ begin_format:
 
 		if (dev == INVALID_HANDLE_VALUE)
 		{
-			nStatus = ERR_OS_ERROR; 
+			nStatus = ERR_OS_ERROR;
 			goto error;
 		}
 
@@ -356,7 +356,7 @@ begin_format:
 				DWORD tmp;
 				if (!DeviceIoControl (dev, FSCTL_SET_SPARSE, NULL, 0, NULL, 0, &tmp, NULL))
 				{
-					nStatus = ERR_OS_ERROR; 
+					nStatus = ERR_OS_ERROR;
 					goto error;
 				}
 			}
@@ -391,13 +391,13 @@ begin_format:
 
 		// Check hidden volume size
 		if (volParams->hiddenVolHostSize < TC_MIN_HIDDEN_VOLUME_HOST_SIZE || volParams->hiddenVolHostSize > TC_MAX_HIDDEN_VOLUME_HOST_SIZE)
-		{		
+		{
 			nStatus = ERR_VOL_SIZE_WRONG;
 			goto error;
 		}
 
 		// Seek to hidden volume header location
-		
+
 		headerOffset.QuadPart = TC_HIDDEN_VOLUME_HEADER_OFFSET;
 
 		if (!SetFilePointerEx ((HANDLE) dev, headerOffset, NULL, FILE_BEGIN))
@@ -458,7 +458,7 @@ begin_format:
 		// Validate the offset
 		if (dataOffset % FormatSectorSize != 0)
 		{
-			nStatus = ERR_VOL_SIZE_WRONG; 
+			nStatus = ERR_VOL_SIZE_WRONG;
 			goto error;
 		}
 
@@ -478,7 +478,7 @@ begin_format:
 
 		if (volParams->bDevice && !StartFormatWriteThread())
 		{
-			nStatus = ERR_OS_ERROR; 
+			nStatus = ERR_OS_ERROR;
 			goto error;
 		}
 
@@ -488,11 +488,11 @@ begin_format:
 			StopFormatWriteThread();
 
 		break;
-		
+
 	case FILESYS_FAT:
 		if (num_sectors > 0xFFFFffff)
 		{
-			nStatus = ERR_VOL_SIZE_WRONG; 
+			nStatus = ERR_VOL_SIZE_WRONG;
 			goto error;
 		}
 
@@ -506,12 +506,12 @@ begin_format:
 		ft.sector_size = (uint16) FormatSectorSize;
 		ft.cluster_size = volParams->clusterSize;
 		memcpy (ft.volume_name, "NO NAME    ", 11);
-		GetFatParams (&ft); 
+		GetFatParams (&ft);
 		*(volParams->realClusterSize) = ft.cluster_size * FormatSectorSize;
 
 		if (volParams->bDevice && !StartFormatWriteThread())
 		{
-			nStatus = ERR_OS_ERROR; 
+			nStatus = ERR_OS_ERROR;
 			goto error;
 		}
 
@@ -523,7 +523,7 @@ begin_format:
 		break;
 
 	default:
-		nStatus = ERR_PARAMETER_INCORRECT; 
+		nStatus = ERR_PARAMETER_INCORRECT;
 		goto error;
 	}
 
@@ -883,14 +883,14 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 			return FALSE;
 	}
 
-	
+
 	if (GetSystemDirectory (dllPath, MAX_PATH))
 	{
 		StringCchCatW(dllPath, ARRAYSIZE(dllPath), L"\\fmifs.dll");
 	}
 	else
 		StringCchCopyW(dllPath, ARRAYSIZE(dllPath), L"C:\\Windows\\System32\\fmifs.dll");
-	
+
 	hModule = LoadLibrary (dllPath);
 
 	if (hModule == NULL)
@@ -905,7 +905,7 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 	StringCchCatW (dir, ARRAYSIZE(dir), L":\\");
 
 	FormatExError = TRUE;
-	
+
 	// Windows sometimes fails to format a volume (hosted on a removable medium) as NTFS.
 	// It often helps to retry several times.
 	for (i = 0; i < 50 && FormatExError; i++)
@@ -939,7 +939,7 @@ BOOL WriteSector (void *dev, char *sector,
 
 	if (*write_buf_cnt == FormatWriteBufferSize && !FlushFormatWriteBuffer (dev, write_buf, write_buf_cnt, nSecNo, cryptoInfo))
 		return FALSE;
-	
+
 	if (GetTickCount () - updateTime > 25)
 	{
 		if (UpdateProgressBar (*nSecNo * FormatSectorSize))
@@ -962,7 +962,7 @@ static HANDLE WriteBufferEmptyEvent;
 static HANDLE WriteBufferFullEvent;
 
 static volatile HANDLE WriteRequestHandle;
-static volatile int WriteRequestSize; 
+static volatile int WriteRequestSize;
 static volatile DWORD WriteRequestResult;
 
 
@@ -985,7 +985,7 @@ static void __cdecl FormatWriteThreadProc (void *arg)
 
 		if (!WriteFile (WriteRequestHandle, WriteThreadBuffer, WriteRequestSize, &bytesWritten, NULL))
 			WriteRequestResult = GetLastError();
-		else		
+		else
 			WriteRequestResult = ERROR_SUCCESS;
 
 		if (!SetEvent (WriteBufferEmptyEvent))
@@ -1082,7 +1082,7 @@ BOOL FlushFormatWriteBuffer (void *dev, char *write_buf, int *write_buf_cnt, __i
 	{
 		if (WaitForSingleObject (WriteBufferEmptyEvent, INFINITE) == WAIT_FAILED)
 			return FALSE;
-		
+
 		if (WriteRequestResult != ERROR_SUCCESS)
 		{
 			SetEvent (WriteBufferEmptyEvent);

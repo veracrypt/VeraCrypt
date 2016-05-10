@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -60,12 +60,12 @@ BOOL GetKeyName (UINT vKey, wchar_t *keyName)
 {
 	BOOL result = TRUE;
 
-	if (vKey >= 0x30 && vKey <= 0x5a)	
+	if (vKey >= 0x30 && vKey <= 0x5a)
 	{
 		// ASCII characters
 		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%hc", (char) vKey);
 	}
-	else if (vKey >= 0xE9 && vKey <= 0xF5)	
+	else if (vKey >= 0xE9 && vKey <= 0xF5)
 	{
 		// OEM-specific
 		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"OEM-%d", vKey);
@@ -128,7 +128,7 @@ BOOL GetKeyName (UINT vKey, wchar_t *keyName)
 	else if (vKey >= VK_NUMPAD0 && vKey <= VK_NUMPAD9)
 	{
 		// Numpad numbers
-		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s %d", GetString ("VK_NUMPAD"), vKey - VK_NUMPAD0); 
+		StringCbPrintfW (keyName, MAX_KEY_COMB_NAME_LEN, L"%s %d", GetString ("VK_NUMPAD"), vKey - VK_NUMPAD0);
 	}
 	else
 	{
@@ -249,36 +249,36 @@ static void DisplayHotkeyList (HWND hwndDlg)
 
 		switch (i)
 		{
-			
-		case HK_AUTOMOUNT_DEVICES:	
+
+		case HK_AUTOMOUNT_DEVICES:
 			item.pszText = GetString ("HK_AUTOMOUNT_DEVICES");
 			break;
 
-		case HK_DISMOUNT_ALL:	
+		case HK_DISMOUNT_ALL:
 			item.pszText = GetString ("HK_DISMOUNT_ALL");
 			break;
 
-		case HK_WIPE_CACHE:	
+		case HK_WIPE_CACHE:
 			item.pszText = GetString ("HK_WIPE_CACHE");
 			break;
 
-		case HK_DISMOUNT_ALL_AND_WIPE:	
+		case HK_DISMOUNT_ALL_AND_WIPE:
 			item.pszText = GetString ("HK_DISMOUNT_ALL_AND_WIPE");
 			break;
 
-		case HK_FORCE_DISMOUNT_ALL_AND_WIPE:	
+		case HK_FORCE_DISMOUNT_ALL_AND_WIPE:
 			item.pszText = GetString ("HK_FORCE_DISMOUNT_ALL_AND_WIPE");
 			break;
 
-		case HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT:	
+		case HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT:
 			item.pszText = GetString ("HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT");
 			break;
 
-		case HK_MOUNT_FAVORITE_VOLUMES:	
+		case HK_MOUNT_FAVORITE_VOLUMES:
 			item.pszText = GetString ("HK_MOUNT_FAVORITE_VOLUMES");
 			break;
 
-		case HK_SHOW_HIDE_MAIN_WINDOW:	
+		case HK_SHOW_HIDE_MAIN_WINDOW:
 			item.pszText = GetString ("HK_SHOW_HIDE_MAIN_WINDOW");
 			break;
 
@@ -286,7 +286,7 @@ static void DisplayHotkeyList (HWND hwndDlg)
 			item.pszText = GetString ("IDM_CLOSE_ALL_TOKEN_SESSIONS");
 			break;
 
-		default:		
+		default:
 			item.pszText = L"[?]";
 		}
 
@@ -328,14 +328,14 @@ static void DisplayHotkeyList (HWND hwndDlg)
 		else
 			item.pszText = L"";
 
-		SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&item); 
+		SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&item);
 	}
 }
 
 
 
 BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{	
+{
 	WORD lw = LOWORD (wParam);
 	WORD hw = HIWORD (wParam);
 	static BOOL bKeyScanOn;
@@ -356,18 +356,18 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			memset (vkeysDown, 0, sizeof(vkeysDown));
 
 			SendMessageW (hList,LVM_SETEXTENDEDLISTVIEWSTYLE,0,
-				LVS_EX_FULLROWSELECT|LVS_EX_HEADERDRAGDROP|LVS_EX_LABELTIP 
-				); 
+				LVS_EX_FULLROWSELECT|LVS_EX_HEADERDRAGDROP|LVS_EX_LABELTIP
+				);
 
-			memset (&col,0,sizeof(col));               
-			col.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;  
-			col.pszText = GetString ("ACTION");                           
+			memset (&col,0,sizeof(col));
+			col.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;
+			col.pszText = GetString ("ACTION");
 			col.cx = CompensateXDPI (341);
 			col.fmt = LVCFMT_LEFT;
 			SendMessageW (hList,LVM_INSERTCOLUMNW,0,(LPARAM)&col);
 
-			col.pszText = GetString ("SHORTCUT");  
-			col.cx = CompensateXDPI (190);           
+			col.pszText = GetString ("SHORTCUT");
+			col.cx = CompensateXDPI (190);
 			col.fmt = LVCFMT_LEFT;
 			SendMessageW (hList,LVM_INSERTCOLUMNW,1,(LPARAM)&col);
 
@@ -388,7 +388,7 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			EnableWindow (GetDlgItem (hwndDlg, IDC_HOTKEY_REMOVE), FALSE);
 
 			DisplayHotkeyList(hwndDlg);
-			
+
 			if (SetTimer (hwndDlg, 0xfe, 10, NULL) == 0)
 			{
 				Error ("CANNOT_SET_TIMER", MainDlg);
@@ -459,7 +459,7 @@ BOOL CALLBACK HotkeysDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			if (nSelectedHotkeyId >= 0 && currentVKeyCode != 0)
 			{
-				UINT modifiers = 0; 
+				UINT modifiers = 0;
 				if (GetCheckBox (hwndDlg, IDC_HK_MOD_CTRL))
 					modifiers = MOD_CONTROL;
 

@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -84,7 +84,7 @@ void Print (uint32 number)
 		number /= 10;
 	}
 	str[pos] = (char) (number % 10) + '0';
-	
+
 	while (pos >= 0)
 		PrintChar (str[pos--]);
 }
@@ -251,7 +251,7 @@ byte GetKeyboardChar (byte *scanCode)
 		mov asciiCode, al
 		mov scan, ah
 	}
-	
+
 	if (scanCode)
 		*scanCode = scan;
 
@@ -327,7 +327,7 @@ int GetString (char *buffer, size_t bufferSize)
 
 		if (scanCode == TC_BIOS_KEY_ENTER)
 			break;
-		
+
 		if (scanCode == TC_BIOS_KEY_ESC)
 			return 0;
 

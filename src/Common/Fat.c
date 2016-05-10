@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -58,7 +58,7 @@ GetFatParams (fatparams * ft)
 			clusterSize = 512;
 
 		ft->cluster_size = clusterSize / ft->sector_size;
-		
+
 		if (ft->cluster_size == 0)
 			ft->cluster_size = 1;
 
@@ -73,8 +73,8 @@ GetFatParams (fatparams * ft)
 		ft->cluster_size = 1;
 
 	// Geometry always set to SECTORS/1/1
-	ft->secs_track = 1; 
-	ft->heads = 1; 
+	ft->secs_track = 1;
+	ft->heads = 1;
 
 	ft->dir_entries = 512;
 	ft->fats = 2;
@@ -98,7 +98,7 @@ GetFatParams (fatparams * ft)
 		ft->cluster_count = (int) (((__int64) fatsecs * ft->sector_size) / (ft->cluster_size * ft->sector_size));
 		ft->fat_length = (ft->cluster_count * 2 + ft->sector_size - 1) / ft->sector_size;
 	}
-	
+
 	if(ft->cluster_count >= 65525) // FAT32
 	{
 		ft->size_fat = 32;
@@ -165,13 +165,13 @@ PutBoot (fatparams * ft, unsigned char *boot)
 	cnt += 2;
 	boot[cnt++] = (__int8) ft->media;					/* media byte */
 
-	if(ft->size_fat == 32)	
+	if(ft->size_fat == 32)
 	{
 		boot[cnt++] = 0x00;
 		boot[cnt++] = 0x00;
 	}
-	else 
-	{ 
+	else
+	{
 		*(__int16 *)(boot + cnt) = LE16((uint16) ft->fat_length);	/* fat size */
 		cnt += 2;
 	}
@@ -233,13 +233,13 @@ static void PutFSInfo (unsigned char *sector, fatparams *ft)
 {
 	memset (sector, 0, ft->sector_size);
 	sector[3]=0x41; /* LeadSig */
-	sector[2]=0x61; 
-	sector[1]=0x52; 
-	sector[0]=0x52; 
+	sector[2]=0x61;
+	sector[1]=0x52;
+	sector[0]=0x52;
 	sector[484+3]=0x61; /* StrucSig */
-	sector[484+2]=0x41; 
-	sector[484+1]=0x72; 
-	sector[484+0]=0x72; 
+	sector[484+2]=0x41;
+	sector[484+1]=0x72;
+	sector[484+0]=0x72;
 
 	// Free cluster count
 	*(uint32 *)(sector + 488) = LE32 (ft->cluster_count - ft->size_root_dir / ft->sector_size / ft->cluster_size);
@@ -293,7 +293,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		goto fail;
 
 	/* fat32 boot area */
-	if (ft->size_fat == 32)				
+	if (ft->size_fat == 32)
 	{
 		/* fsinfo */
 		PutFSInfo((unsigned char *) sector, ft);
@@ -311,7 +311,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 				cryptoInfo) == FALSE)
 				goto fail;
 		}
-		
+
 		/* bootsector backup */
 		memset (sector, 0, ft->sector_size);
 		PutBoot (ft, (unsigned char *) sector);
@@ -354,7 +354,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 					fat_sig[8] = fat_sig[9] = fat_sig[10] = 0xff;
 					fat_sig[11] = 0x0f;
 					memcpy (sector, fat_sig, 12);
-				}				
+				}
 				else if (ft->size_fat == 16)
 				{
 					fat_sig[0] = (unsigned char) ft->media;
@@ -407,7 +407,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			goto fail;
 
 		// Temporary secondary key (XTS mode)
-		if (!RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))		
+		if (!RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))
 			goto fail;
 
 		retVal = EAInit (cryptoInfo->ea, temporaryKey, cryptoInfo->ks);

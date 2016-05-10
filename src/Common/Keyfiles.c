@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -218,7 +218,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 	else if (totalRead == 0)
 	{
 		status = FALSE;
-		SetLastError (ERROR_HANDLE_EOF); 
+		SetLastError (ERROR_HANDLE_EOF);
 	}
 
 close:
@@ -275,7 +275,7 @@ BOOL KeyFilesApplyWithPin (HWND hwndDlg, Password *password, char* pin, KeyFile 
 
 				if (keyfileData.empty())
 				{
-					SetLastError (ERROR_HANDLE_EOF); 
+					SetLastError (ERROR_HANDLE_EOF);
 					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
@@ -342,7 +342,7 @@ BOOL KeyFilesApplyWithPin (HWND hwndDlg, Password *password, char* pin, KeyFile 
 				StringCbPrintfW (kfSub->FileName, sizeof(kfSub->FileName), L"%s%c%s", kf->FileName,
 					L'\\',
 					fBuf.name
-					);				
+					);
 
 				// Determine whether it's a path or a file
 				if (_wstat (kfSub->FileName, &statStruct) != 0)
@@ -355,7 +355,7 @@ BOOL KeyFilesApplyWithPin (HWND hwndDlg, Password *password, char* pin, KeyFile 
 				else if (statStruct.st_mode & S_IFDIR)		// If it's a directory
 				{
 					// Prevent recursive folder scanning
-					continue;	 
+					continue;
 				}
 
 				// Skip hidden files
@@ -363,7 +363,7 @@ BOOL KeyFilesApplyWithPin (HWND hwndDlg, Password *password, char* pin, KeyFile 
 					&& (fileAttributes.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) != 0)
 				{
 					HiddenFilesPresentInKeyfilePath = TRUE;
-					continue;	 
+					continue;
 				}
 
 				CorrectFileName (kfSub->FileName);
@@ -474,18 +474,18 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SendMessageW (hList,LVM_SETEXTENDEDLISTVIEWSTYLE,0,
 				LVS_EX_FULLROWSELECT|LVS_EX_HEADERDRAGDROP
-				); 
+				);
 
-			memset (&LvCol,0,sizeof(LvCol));               
-			LvCol.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;  
-			LvCol.pszText = GetString ("KEYFILE");                           
+			memset (&LvCol,0,sizeof(LvCol));
+			LvCol.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;
+			LvCol.pszText = GetString ("KEYFILE");
 			LvCol.cx = CompensateXDPI (374);
 			LvCol.fmt = LVCFMT_LEFT;
 			SendMessageW (hList, LVM_INSERTCOLUMNW, 0, (LPARAM)&LvCol);
 
 			LoadKeyList (hwndDlg, param->FirstKeyFile);
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, param->EnableKeyFiles);
-			
+
 #ifdef TCMOUNT
 			if (	(origParam.EnableKeyFiles == defaultKeyFilesParam.EnableKeyFiles)
 				&&	(origParam.FirstKeyFile == defaultKeyFilesParam.FirstKeyFile)
@@ -580,15 +580,15 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			HWND list = GetDlgItem (hwndDlg, IDC_KEYLIST);
 			LVITEM LvItem;
 			memset (&LvItem, 0, sizeof(LvItem));
-			LvItem.mask = LVIF_PARAM;   
+			LvItem.mask = LVIF_PARAM;
 			LvItem.iItem = -1;
 
 			while (-1 != (LvItem.iItem = ListView_GetNextItem (list, LvItem.iItem, LVIS_SELECTED)))
 			{
 				ListView_GetItem (list, &LvItem);
 				param->FirstKeyFile = KeyFileRemove (param->FirstKeyFile, (KeyFile *) LvItem.lParam);
-			} 
-			
+			}
+
 			LoadKeyList (hwndDlg, param->FirstKeyFile);
  			return 1;
 		}
@@ -602,7 +602,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_GENERATE_KEYFILE)
 		{
-			DialogBoxParamW (hInst, 
+			DialogBoxParamW (hInst,
 				MAKEINTRESOURCEW (IDD_KEYFILE_GENERATOR), hwndDlg,
 				(DLGPROC) KeyfileGeneratorDlgProc, (LPARAM) 0);
 			return 1;

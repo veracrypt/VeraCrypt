@@ -8,16 +8,16 @@ BOUND BY ALL TERMS AND CONDITIONS OF THIS LICENSE. IF YOU DO NOT
 ACCEPT THEM, DO NOT USE, COPY, MODIFY, NOR (RE)DISTRIBUTE THE
 SOFTWARE, NOR ANY PART(S) THEREOF.
 
-VeraCrypt is multi-licensed under Apache License 2.0 and 
-the TrueCrypt License version 3.0, a verbatim copy of both 
+VeraCrypt is multi-licensed under Apache License 2.0 and
+the TrueCrypt License version 3.0, a verbatim copy of both
 licenses can be found below.
 
-This license does not grant you rights to use any 
-contributors' name, logo, or trademarks, including IDRIX, 
+This license does not grant you rights to use any
+contributors' name, logo, or trademarks, including IDRIX,
 VeraCrypt and all derivative names.
-For example, the following names are not allowed: VeraCrypt, 
-VeraCrypt+, VeraCrypt Professional, iVeraCrypt, etc. Nor any 
-other names confusingly similar to the name VeraCrypt (e.g., 
+For example, the following names are not allowed: VeraCrypt,
+VeraCrypt+, VeraCrypt Professional, iVeraCrypt, etc. Nor any
+other names confusingly similar to the name VeraCrypt (e.g.,
 Vera-Crypt, Vera Crypt, VerKrypt, etc.)
 ____________________________________________________________
 

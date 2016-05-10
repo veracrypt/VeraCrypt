@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -16,7 +16,7 @@
 
 #define TC_APP_NAME						"VeraCrypt"
 
-// Version displayed to user 
+// Version displayed to user
 #define VERSION_STRING					"1.17"
 
 // Version number to compare against driver
@@ -106,9 +106,9 @@ typedef unsigned __int32 uint_32t;
 typedef uint64 uint_64t;
 #endif
 
-typedef union 
+typedef union
 {
-	struct 
+	struct
 	{
 		unsigned __int32 LowPart;
 		unsigned __int32 HighPart;
@@ -276,9 +276,9 @@ void EraseMemory (void *memory, int size);
 
 enum
 {
-	/* WARNING: ADD ANY NEW CODES AT THE END (DO NOT INSERT THEM BETWEEN EXISTING). DO *NOT* DELETE ANY 
+	/* WARNING: ADD ANY NEW CODES AT THE END (DO NOT INSERT THEM BETWEEN EXISTING). DO *NOT* DELETE ANY
 	EXISTING CODES! Changing these values or their meanings may cause incompatibility with other versions
-	(for example, if a new version of the TrueCrypt installer receives an error code from an installed 
+	(for example, if a new version of the TrueCrypt installer receives an error code from an installed
 	driver whose version is lower, it will report and interpret the error incorrectly). */
 
 	ERR_SUCCESS								= 0,

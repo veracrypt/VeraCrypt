@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -58,7 +58,7 @@ namespace VeraCrypt
 		the shift of the highest byte results in a carry, 135 is XORed into the lowest byte. The value 135 is
 		derived from the modulus of the Galois Field (x^128+x^7+x^2+x+1). */
 
-		// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+		// Convert the 64-bit data unit number into a little-endian 16-byte array.
 		// Note that as we are converting a 64-bit number into a 16-byte array we can always zero the last 8 bytes.
 		dataUnitNo = startDataUnitNo;
 		*((uint64 *) byteBufUnitNo) = Endian::Little (dataUnitNo);
@@ -80,7 +80,7 @@ namespace VeraCrypt
 			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
 			whiteningValuePtr64 = (uint64 *) whiteningValue;
 
-			// Encrypt the data unit number using the secondary key (in order to generate the first 
+			// Encrypt the data unit number using the secondary key (in order to generate the first
 			// whitening value for this data unit)
 			*whiteningValuePtr64 = *((uint64 *) byteBufUnitNo);
 			*(whiteningValuePtr64 + 1) = 0;
@@ -104,21 +104,21 @@ namespace VeraCrypt
 
 				// Little-endian platforms
 
-				finalCarry = 
+				finalCarry =
 					(*whiteningValuePtr64 & 0x8000000000000000ULL) ?
 					135 : 0;
 
 				*whiteningValuePtr64-- <<= 1;
 
 				if (*whiteningValuePtr64 & 0x8000000000000000ULL)
-					*(whiteningValuePtr64 + 1) |= 1;	
+					*(whiteningValuePtr64 + 1) |= 1;
 
 				*whiteningValuePtr64 <<= 1;
 #else
 
 				// Big-endian platforms
 
-				finalCarry = 
+				finalCarry =
 					(*whiteningValuePtr64 & 0x80) ?
 					135 : 0;
 
@@ -127,7 +127,7 @@ namespace VeraCrypt
 				whiteningValuePtr64--;
 
 				if (*whiteningValuePtr64 & 0x80)
-					*(whiteningValuePtr64 + 1) |= 0x0100000000000000ULL;	
+					*(whiteningValuePtr64 + 1) |= 0x0100000000000000ULL;
 
 				*whiteningValuePtr64 = Endian::Little (Endian::Little (*whiteningValuePtr64) << 1);
 #endif
@@ -174,12 +174,12 @@ namespace VeraCrypt
 	{
 		EncryptBuffer (data, sectorCount * sectorSize, sectorIndex * sectorSize / ENCRYPTION_DATA_UNIT_SIZE);
 	}
-	
+
 	size_t EncryptionModeXTS::GetKeySize () const
 	{
 		if (Ciphers.empty())
 			throw NotInitialized (SRC_POS);
-		
+
 		size_t keySize = 0;
 		foreach_ref (const Cipher &cipher, SecondaryCiphers)
 		{
@@ -225,7 +225,7 @@ namespace VeraCrypt
 
 		startDataUnitNo += SectorOffset;
 
-		// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+		// Convert the 64-bit data unit number into a little-endian 16-byte array.
 		// Note that as we are converting a 64-bit number into a 16-byte array we can always zero the last 8 bytes.
 		dataUnitNo = startDataUnitNo;
 		*((uint64 *) byteBufUnitNo) = Endian::Little (dataUnitNo);
@@ -247,7 +247,7 @@ namespace VeraCrypt
 			whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
 			whiteningValuePtr64 = (uint64 *) whiteningValue;
 
-			// Encrypt the data unit number using the secondary key (in order to generate the first 
+			// Encrypt the data unit number using the secondary key (in order to generate the first
 			// whitening value for this data unit)
 			*whiteningValuePtr64 = *((uint64 *) byteBufUnitNo);
 			*(whiteningValuePtr64 + 1) = 0;
@@ -271,21 +271,21 @@ namespace VeraCrypt
 
 				// Little-endian platforms
 
-				finalCarry = 
+				finalCarry =
 					(*whiteningValuePtr64 & 0x8000000000000000ULL) ?
 					135 : 0;
 
 				*whiteningValuePtr64-- <<= 1;
 
 				if (*whiteningValuePtr64 & 0x8000000000000000ULL)
-					*(whiteningValuePtr64 + 1) |= 1;	
+					*(whiteningValuePtr64 + 1) |= 1;
 
 				*whiteningValuePtr64 <<= 1;
 
 #else
 				// Big-endian platforms
 
-				finalCarry = 
+				finalCarry =
 					(*whiteningValuePtr64 & 0x80) ?
 					135 : 0;
 
@@ -294,7 +294,7 @@ namespace VeraCrypt
 				whiteningValuePtr64--;
 
 				if (*whiteningValuePtr64 & 0x80)
-					*(whiteningValuePtr64 + 1) |= 0x0100000000000000ULL;	
+					*(whiteningValuePtr64 + 1) |= 0x0100000000000000ULL;
 
 				*whiteningValuePtr64 = Endian::Little (Endian::Little (*whiteningValuePtr64) << 1);
 #endif
@@ -363,7 +363,7 @@ namespace VeraCrypt
 		if (!SecondaryCiphers.empty())
 			SetSecondaryCipherKeys();
 	}
-	
+
 	void EncryptionModeXTS::SetSecondaryCipherKeys ()
 	{
 		size_t keyOffset = 0;

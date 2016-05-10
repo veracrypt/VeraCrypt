@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -167,7 +167,7 @@ NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 	Extension = (DriveFilterExtension *) filterDeviceObject->DeviceExtension;
 	memset (Extension, 0, sizeof (DriveFilterExtension));
 
-	status = IoAttachDeviceToDeviceStackSafe (filterDeviceObject, pdo, &(Extension->LowerDeviceObject)); 
+	status = IoAttachDeviceToDeviceStackSafe (filterDeviceObject, pdo, &(Extension->LowerDeviceObject));
 	if (!NT_SUCCESS (status))
 	{
 		goto err;
@@ -182,7 +182,7 @@ NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 	Extension->IsDriveFilterDevice = Extension->Queue.IsFilterDevice = TRUE;
 	Extension->DeviceObject = Extension->Queue.DeviceObject = filterDeviceObject;
 	Extension->Pdo = pdo;
-	
+
 	Extension->Queue.LowerDeviceObject = Extension->LowerDeviceObject;
 	IoInitializeRemoveLock (&Extension->Queue.RemoveLock, 'LRCV', 0, 0);
 
@@ -215,7 +215,7 @@ static void DismountDrive (DriveFilterExtension *Extension, BOOL stopIoQueue)
 {
 	Dump ("Dismounting drive\n");
 	ASSERT (Extension->DriveMounted);
-	
+
 	if (stopIoQueue && EncryptedIoQueueIsRunning (&Extension->Queue))
 		EncryptedIoQueueStop (&Extension->Queue);
 
@@ -249,7 +249,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 	// TC_BOOT_SECTOR_USER_CONFIG_OFFSET      = 438
 	//
 	// we have: TC_BOOT_SECTOR_USER_MESSAGE_OFFSET = TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET + TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_SIZE
-	
+
 	WHIRLPOOL_init (&whirlpool);
 	sha512_begin (&sha2);
 	// read the first 512 bytes
@@ -362,8 +362,8 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 
 	if (BootArgs.CryptoInfoLength > 0)
 	{
-		PHYSICAL_ADDRESS cryptoInfoAddress;		
-		
+		PHYSICAL_ADDRESS cryptoInfoAddress;
+
 		cryptoInfoAddress.QuadPart = (BootLoaderSegment << 4) + BootArgs.CryptoInfoOffset;
 #ifdef DEBUG
 		Dump ("Wiping memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
@@ -389,20 +389,20 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 
 		// calculate Fingerprint
 		ComputeBootLoaderFingerprint (Extension->LowerDeviceObject, header);
-			
+
 		if (Extension->Queue.CryptoInfo->hiddenVolume)
 		{
 			int64 hiddenPartitionOffset = BootArgs.HiddenSystemPartitionStart;
 			Dump ("Hidden volume start offset = %I64d\n", Extension->Queue.CryptoInfo->EncryptedAreaStart.Value + hiddenPartitionOffset);
-			
+
 			Extension->HiddenSystem = TRUE;
 
 			Extension->Queue.RemapEncryptedArea = TRUE;
 			Extension->Queue.RemappedAreaOffset = hiddenPartitionOffset + Extension->Queue.CryptoInfo->EncryptedAreaStart.Value - BootArgs.DecoySystemPartitionStart;
 			Extension->Queue.RemappedAreaDataUnitOffset = Extension->Queue.CryptoInfo->EncryptedAreaStart.Value / ENCRYPTION_DATA_UNIT_SIZE - BootArgs.DecoySystemPartitionStart / ENCRYPTION_DATA_UNIT_SIZE;
-			
+
 			Extension->Queue.CryptoInfo->EncryptedAreaStart.Value = BootArgs.DecoySystemPartitionStart;
-			
+
 			if (Extension->Queue.CryptoInfo->VolumeSize.Value > hiddenPartitionOffset - BootArgs.DecoySystemPartitionStart)
 				TC_THROW_FATAL_EXCEPTION;
 
@@ -461,7 +461,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		}
 
 		status = SendDeviceIoControlRequest (Extension->LowerDeviceObject, IOCTL_DISK_GET_LENGTH_INFO, NULL, 0, &BootDriveLength, sizeof (BootDriveLength));
-		
+
 		if (!NT_SUCCESS (status))
 		{
 			Dump ("Failed to get drive length - error %x\n", status);
@@ -470,7 +470,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		}
 		else
 			Extension->Queue.MaxReadAheadOffset = BootDriveLength;
-		
+
 		status = EncryptedIoQueueStart (&Extension->Queue);
 		if (!NT_SUCCESS (status))
 			TC_BUG_CHECK (status);
@@ -526,7 +526,7 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 
 	Dump ("Saving: ConfiguredEncryptedAreaStart=%I64d (%I64d)  ConfiguredEncryptedAreaEnd=%I64d (%I64d)\n", Extension->ConfiguredEncryptedAreaStart / 1024 / 1024, Extension->ConfiguredEncryptedAreaStart, Extension->ConfiguredEncryptedAreaEnd / 1024 / 1024, Extension->ConfiguredEncryptedAreaEnd);
 	Dump ("Saving: EncryptedAreaStart=%I64d (%I64d)  EncryptedAreaEnd=%I64d (%I64d)\n", Extension->Queue.EncryptedAreaStart / 1024 / 1024, Extension->Queue.EncryptedAreaStart, Extension->Queue.EncryptedAreaEnd / 1024 / 1024, Extension->Queue.EncryptedAreaEnd);
-	
+
 	if (Extension->Queue.EncryptedAreaStart == -1 || Extension->Queue.EncryptedAreaEnd == -1
 		|| Extension->Queue.EncryptedAreaEnd <= Extension->Queue.EncryptedAreaStart)
 	{
@@ -678,7 +678,7 @@ static NTSTATUS OnStartDeviceCompleted (PDEVICE_OBJECT filterDeviceObject, PIRP 
 		}
 
 		KeInitializeEvent (&Extension->MountWorkItemCompletedEvent, SynchronizationEvent, FALSE);
-		IoQueueWorkItem (workItem, MountDriveWorkItemRoutine, DelayedWorkQueue, Extension); 
+		IoQueueWorkItem (workItem, MountDriveWorkItemRoutine, DelayedWorkQueue, Extension);
 
 		KeWaitForSingleObject (&Extension->MountWorkItemCompletedEvent, Executive, KernelMode, FALSE, NULL);
 		IoFreeWorkItem (workItem);
@@ -817,7 +817,7 @@ NTSTATUS DriveFilterDispatchIrp (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 		if (Extension->BootDrive)
 		{
 			status = EncryptedIoQueueAddIrp (&Extension->Queue, Irp);
-			
+
 			if (status != STATUS_PENDING)
 				TCCompleteDiskIrp (Irp, status, 0);
 
@@ -895,7 +895,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 	{
 		Dump ("Header reopened\n");
 		ComputeBootLoaderFingerprint (BootDriveFilterExtension->LowerDeviceObject, header);
-		
+
 		BootDriveFilterExtension->Queue.CryptoInfo->header_creation_time = BootDriveFilterExtension->HeaderCryptoInfo->header_creation_time;
 		BootDriveFilterExtension->Queue.CryptoInfo->pkcs5 = BootDriveFilterExtension->HeaderCryptoInfo->pkcs5;
 		BootDriveFilterExtension->Queue.CryptoInfo->noIterations = BootDriveFilterExtension->HeaderCryptoInfo->noIterations;
@@ -1025,7 +1025,7 @@ static NTSTATUS HiberDriverWriteFunctionFilter (int filterNumber, PLARGE_INTEGER
 
 	if (writeB)
 		return (*OriginalHiberDriverWriteFunctionsB[filterNumber]) (writeOffset, encryptedDataMdl);
-	
+
 	return (*OriginalHiberDriverWriteFunctionsA[filterNumber]) (arg0WriteA, writeOffset, encryptedDataMdl, arg3WriteA);
 }
 
@@ -1269,11 +1269,11 @@ static VOID SetupThreadProc (PVOID threadArg)
 	byte *wipeBuffer = NULL;
 	byte wipeRandChars[TC_WIPE_RAND_CHAR_COUNT];
 	byte wipeRandCharsUpdate[TC_WIPE_RAND_CHAR_COUNT];
-	
+
 	KIRQL irql;
 	NTSTATUS status;
 
-	// generate real random values for wipeRandChars and 
+	// generate real random values for wipeRandChars and
 	// wipeRandCharsUpdate instead of relying on uninitialized stack memory
 	LARGE_INTEGER iSeed;
 	KeQuerySystemTime( &iSeed );
@@ -1300,7 +1300,7 @@ static VOID SetupThreadProc (PVOID threadArg)
 		burn (digest, SHA512_DIGESTSIZE);
 		burn (&tctx, sizeof (tctx));
 	}
-	
+
 	burn (&iSeed, sizeof(iSeed));
 
 	SetupResult = STATUS_UNSUCCESSFUL;
@@ -1376,7 +1376,7 @@ static VOID SetupThreadProc (PVOID threadArg)
 	}
 
 	EncryptedIoQueueResumeFromHold (&Extension->Queue);
-		
+
 	Dump ("EncryptedAreaStart=%I64d\n", Extension->Queue.EncryptedAreaStart);
 	Dump ("EncryptedAreaEnd=%I64d\n", Extension->Queue.EncryptedAreaEnd);
 	Dump ("ConfiguredEncryptedAreaStart=%I64d\n", Extension->ConfiguredEncryptedAreaStart);
@@ -1485,7 +1485,7 @@ static VOID SetupThreadProc (PVOID threadArg)
 						}
 
 						EncryptDataUnits (wipeBuffer, &dataUnit, setupBlockSize / ENCRYPTION_DATA_UNIT_SIZE, Extension->Queue.CryptoInfo);
-						memcpy (wipeRandCharsUpdate, wipeBuffer, sizeof (wipeRandCharsUpdate)); 
+						memcpy (wipeRandCharsUpdate, wipeBuffer, sizeof (wipeRandCharsUpdate));
 					}
 
 					status = TCWriteDevice (BootDriveFilterExtension->LowerDeviceObject, wipeBuffer, offset, setupBlockSize);
@@ -1500,7 +1500,7 @@ static VOID SetupThreadProc (PVOID threadArg)
 					}
 				}
 
-				memcpy (wipeRandChars, wipeRandCharsUpdate, sizeof (wipeRandCharsUpdate)); 
+				memcpy (wipeRandChars, wipeRandCharsUpdate, sizeof (wipeRandCharsUpdate));
 			}
 		}
 		else
@@ -1646,7 +1646,7 @@ NTSTATUS StartBootEncryptionSetup (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_ST
 
 	SetupInProgress = TRUE;
 	status = TCStartThread (SetupThreadProc, DeviceObject, &EncryptionSetupThread);
-	
+
 	if (!NT_SUCCESS (status))
 		SetupInProgress = FALSE;
 
@@ -1742,7 +1742,7 @@ void GetBootEncryptionStatus (PIRP irp, PIO_STACK_LOCATION irpSp)
 			bootEncStatus->HiddenSysLeakProtectionCount = HiddenSysLeakProtectionCount;
 
 			bootEncStatus->HiddenSystem = Extension->HiddenSystem;
-			
+
 			if (Extension->HiddenSystem)
 				bootEncStatus->HiddenSystemPartitionStart = BootArgs.HiddenSystemPartitionStart;
 		}
@@ -1778,7 +1778,7 @@ void GetBootLoaderFingerprint (PIRP irp, PIO_STACK_LOCATION irpSp)
 		irp->IoStatus.Information = 0;
 		if (BootArgsValid && BootDriveFound && BootDriveFilterExtension && BootDriveFilterExtension->DriveMounted && BootDriveFilterExtension->HeaderCryptoInfo)
 		{
-			BootLoaderFingerprintRequest *bootLoaderFingerprint = (BootLoaderFingerprintRequest *) irp->AssociatedIrp.SystemBuffer;			
+			BootLoaderFingerprintRequest *bootLoaderFingerprint = (BootLoaderFingerprintRequest *) irp->AssociatedIrp.SystemBuffer;
 
 			/* compute the fingerprint again and check if it is the same as the one retrieved during boot */
 			char *header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
@@ -1808,7 +1808,7 @@ void GetBootLoaderFingerprint (PIRP irp, PIO_STACK_LOCATION irpSp)
 		}
 		else
 		{
-			irp->IoStatus.Status = STATUS_INVALID_PARAMETER;			
+			irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
 		}
 	}
 }
@@ -1919,7 +1919,7 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 		DecoySystemWipeResult = STATUS_INSUFFICIENT_RESOURCES;
 		goto ret;
 	}
-	
+
 	wipeRandBuffer = TCalloc (TC_ENCRYPTION_SETUP_IO_BLOCK_SIZE);
 	if (!wipeRandBuffer)
 	{
@@ -1944,7 +1944,7 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 	}
 
 	memcpy (wipeCryptoInfo->k2, WipeDecoyRequest.WipeKey + EAGetKeySize (ea), EAGetKeySize (ea));
-	
+
 	if (!EAInitMode (wipeCryptoInfo))
 	{
 		DecoySystemWipeResult = STATUS_INVALID_PARAMETER;
@@ -1957,7 +1957,7 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 	burn (WipeDecoyRequest.WipeKey, sizeof (WipeDecoyRequest.WipeKey));
 
 	offset.QuadPart = Extension->ConfiguredEncryptedAreaStart;
-		
+
 	Dump ("Wiping decoy system:  start offset = %I64d\n", offset.QuadPart);
 
 	while (!DecoySystemWipeThreadAbortRequested)
@@ -2061,7 +2061,7 @@ NTSTATUS StartDecoySystemWipe (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_
 
 	DecoySystemWipeInProgress = TRUE;
 	status = TCStartThread (DecoySystemWipeThreadProc, DeviceObject, &DecoySystemWipeThread);
-	
+
 	if (!NT_SUCCESS (status))
 		DecoySystemWipeInProgress = FALSE;
 
@@ -2100,7 +2100,7 @@ void GetDecoySystemWipeStatus (PIRP irp, PIO_STACK_LOCATION irpSp)
 			}
 			else
 				wipeStatus->WipedAreaEnd = DecoySystemWipedAreaEnd;
-			
+
 			irp->IoStatus.Information = sizeof (DecoySystemWipeStatus);
 			irp->IoStatus.Status = STATUS_SUCCESS;
 		}

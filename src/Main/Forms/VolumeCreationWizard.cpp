@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -69,7 +69,7 @@ namespace VeraCrypt
 			}
 
 			VolumeCreationWizard *Wizard;
-		}; 
+		};
 
 		RandomPoolUpdateTimer.reset (dynamic_cast <wxTimer *> (new Timer (this)));
 		RandomPoolUpdateTimer->Start (200);
@@ -129,11 +129,11 @@ namespace VeraCrypt
 				page->SetVolumePath (SelectedVolumePath);
 				return page;
 			}
-			
+
 		case Step::EncryptionOptions:
 			{
 				EncryptionOptionsWizardPage *page = new EncryptionOptionsWizardPage (GetPageParent());
-				
+
 				if (OuterVolume)
 					page->SetPageTitle (LangString["CIPHER_HIDVOL_HOST_TITLE"]);
 				else if (SelectedVolumeType == VolumeType::Hidden)
@@ -170,10 +170,10 @@ namespace VeraCrypt
 				}
 
 				VolumeSizeWizardPage *page = new VolumeSizeWizardPage (GetPageParent(), SelectedVolumePath, SectorSize, freeSpaceText);
-				
+
 				page->SetPageTitle (pageTitle);
 				page->SetPageText (pageText);
-				
+
 				if (!OuterVolume && SelectedVolumeType == VolumeType::Hidden)
 					page->SetMaxVolumeSize (MaxHiddenVolumeSize);
 				else
@@ -194,29 +194,29 @@ namespace VeraCrypt
 				VolumePasswordWizardPage *page = new VolumePasswordWizardPage (GetPageParent(), Password, Keyfiles);
 				page->EnableUsePim (); // force displaying "Use PIM"
 				page->SetPimSelected (Pim > 0);
-				
+
 				if (OuterVolume)
 					page->SetPageTitle (LangString["PASSWORD_HIDVOL_HOST_TITLE"]);
 				else if (SelectedVolumeType == VolumeType::Hidden)
 					page->SetPageTitle (LangString["PASSWORD_HIDVOL_TITLE"]);
 				else
 					page->SetPageTitle (LangString["PASSWORD_TITLE"]);
-				
+
 				page->SetPageText (LangString[OuterVolume ? "PASSWORD_HIDDENVOL_HOST_HELP" : "PASSWORD_HELP"]);
 				return page;
 			}
-			
+
 		case Step::VolumePim:
 			{
 				VolumePimWizardPage *page = new VolumePimWizardPage (GetPageParent());
-				
+
 				if (OuterVolume)
 					page->SetPageTitle (LangString["PIM_HIDVOL_HOST_TITLE"]);
 				else if (SelectedVolumeType == VolumeType::Hidden)
 					page->SetPageTitle (LangString["PIM_HIDVOL_TITLE"]);
 				else
 					page->SetPageTitle (LangString["PIM_TITLE"]);
-				
+
 				page->SetPageText (LangString["PIM_HELP"]);
 				page->SetVolumePim (Pim);
 				return page;
@@ -244,14 +244,14 @@ namespace VeraCrypt
 
 				page->SetPageTitle (_("Format Options"));
 				page->SetFilesystemType (SelectedFilesystemType);
-				
+
 				if (!OuterVolume && SelectedVolumeType == VolumeType::Hidden)
 					QuickFormatEnabled = true;
 				page->SetQuickFormat (QuickFormatEnabled);
 
 				return page;
 			}
-			
+
 		case Step::CrossPlatformSupport:
 			{
 				SingleChoiceWizardPage <bool> *page = new SingleChoiceWizardPage <bool> (GetPageParent(), wxEmptyString, true);
@@ -289,7 +289,7 @@ namespace VeraCrypt
 				InfoWizardPage *page = new InfoWizardPage (GetPageParent());
 				page->SetPageTitle (LangString["FORMAT_FINISHED_TITLE"]);
 				page->SetPageText (LangString["FORMAT_FINISHED_HELP"]);
-				
+
 				SetCancelButtonText (_("Exit"));
 				return page;
 			}
@@ -318,16 +318,16 @@ namespace VeraCrypt
 					Close();
 					return new InfoWizardPage (GetPageParent());
 				}
-				
+
 				struct OpenOuterVolumeFunctor : public Functor
 				{
 					OpenOuterVolumeFunctor (const DirectoryPath &outerVolumeMountPoint) : OuterVolumeMountPoint (outerVolumeMountPoint) { }
-					
+
 					virtual void operator() ()
 					{
 						Gui->OpenExplorerWindow (OuterVolumeMountPoint);
 					}
-					
+
 					DirectoryPath OuterVolumeMountPoint;
 				};
 
@@ -335,11 +335,11 @@ namespace VeraCrypt
 					shared_ptr <Functor> (new OpenOuterVolumeFunctor (MountedOuterVolume->MountPoint)));
 
 				page->SetPageTitle (LangString["HIDVOL_HOST_FILLING_TITLE"]);
-				
+
 				page->SetPageText (StringFormatter (
 					_("Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume."),
 					wstring (MountedOuterVolume->MountPoint)));
-				
+
 				return page;
 			}
 
@@ -373,12 +373,12 @@ namespace VeraCrypt
 		if (!IsWorkInProgress() && RandomNumberGenerator::IsRunning())
 		{
 			RandomNumberGenerator::AddToPool (ConstBufferPtr (reinterpret_cast <byte *> (&event), sizeof (event)));
-			
+
 			long coord = event.GetX();
 			RandomNumberGenerator::AddToPool (ConstBufferPtr (reinterpret_cast <byte *> (&coord), sizeof (coord)));
 			coord = event.GetY();
 			RandomNumberGenerator::AddToPool (ConstBufferPtr (reinterpret_cast <byte *> (&coord), sizeof (coord)));
-			
+
 			VolumeCreationProgressWizardPage *page = dynamic_cast <VolumeCreationProgressWizardPage *> (GetCurrentPage());
 			if (page)
 			{
@@ -386,7 +386,7 @@ namespace VeraCrypt
 			}
 		}
 	}
-	
+
 	void VolumeCreationWizard::OnProgressTimer ()
 	{
 		if (!IsWorkInProgress())
@@ -408,7 +408,7 @@ namespace VeraCrypt
 		}
 
 		VolumeCreator::ProgressInfo progress = Creator->GetProgressInfo();
-		
+
 		VolumeCreationProgressWizardPage *page = dynamic_cast <VolumeCreationProgressWizardPage *> (GetCurrentPage());
 		page->SetProgressValue (progress.SizeDone);
 
@@ -418,9 +418,9 @@ namespace VeraCrypt
 			OnVolumeCreatorFinished ();
 		}
 	}
-	
+
 	void VolumeCreationWizard::OnRandomPoolUpdateTimer ()
-	{	
+	{
 		if (!IsWorkInProgress())
 		{
 			wxLongLong time = wxGetLocalTimeMillis();
@@ -519,7 +519,7 @@ namespace VeraCrypt
 
 					if (SelectedFilesystemType == VolumeCreationOptions::FilesystemType::MacOsExt && VolumeSize >= 10 * BYTES_PER_MB)
 						args.push_back ("-J");
-					
+
 					// Perform a quick NTFS formatting
 					if (SelectedFilesystemType == VolumeCreationOptions::FilesystemType::NTFS)
 						args.push_back ("-f");
@@ -566,7 +566,7 @@ namespace VeraCrypt
 		case Step::VolumeHostType:
 			{
 				SingleChoiceWizardPage <VolumeHostType::Enum> *page = dynamic_cast <SingleChoiceWizardPage <VolumeHostType::Enum> *> (GetCurrentPage());
-				
+
 				try
 				{
 					SelectedVolumeHostType = page->GetSelection();
@@ -657,7 +657,7 @@ namespace VeraCrypt
 						try
 						{
 							mountPoint = Core->GetDeviceMountPoint (SelectedVolumePath);
-							
+
 							if (!mountPoint.IsEmpty())
 							{
 								if (mountPoint == "/")
@@ -689,7 +689,7 @@ namespace VeraCrypt
 
 				return Step::EncryptionOptions;
 			}
-			
+
 		case Step::EncryptionOptions:
 			{
 				EncryptionOptionsWizardPage *page = dynamic_cast <EncryptionOptionsWizardPage *> (GetCurrentPage());
@@ -704,7 +704,7 @@ namespace VeraCrypt
 				else
 					return Step::VolumeSize;
 			}
-			
+
 		case Step::VolumeSize:
 			{
 				VolumeSizeWizardPage *page = dynamic_cast <VolumeSizeWizardPage *> (GetCurrentPage());
@@ -754,7 +754,7 @@ namespace VeraCrypt
 					Gui->ShowWarning (e);
 					return GetCurrentStep();
 				}
-				
+
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
 
@@ -768,7 +768,7 @@ namespace VeraCrypt
 						}
 					}
 				}
-				
+
 				if (page->IsPimSelected ())
 					return Step::VolumePim;
 				else
@@ -776,7 +776,7 @@ namespace VeraCrypt
 					// Clear PIM
 					Pim = 0;
 
-					// Skip PIM 
+					// Skip PIM
 					if (forward && OuterVolume)
 					{
 						// Use FAT to prevent problems with free space
@@ -815,7 +815,7 @@ namespace VeraCrypt
 						if (Pim > 0 && Pim < 485)
 						{
 							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
-							return GetCurrentStep();							
+							return GetCurrentStep();
 						}
 					}
 					else if (Pim > 0 && Pim < 485)
@@ -826,7 +826,7 @@ namespace VeraCrypt
 						}
 					}
 				}
-				
+
 
 				if (forward && OuterVolume)
 				{
@@ -895,7 +895,7 @@ namespace VeraCrypt
 				}
 
 				if (forward && CrossPlatformSupport)
-					Gui->ShowWarning (StringFormatter (_("Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume."), SystemInfo::GetPlatformName())); 
+					Gui->ShowWarning (StringFormatter (_("Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume."), SystemInfo::GetPlatformName()));
 
 				return Step::CreationProgress;
 			}
@@ -987,7 +987,7 @@ namespace VeraCrypt
 							}
 
 							VolumeCreationWizard *Wizard;
-						}; 
+						};
 
 						page->SetProgressRange (options->Size);
 						page->SetProgressState (true);
@@ -1055,7 +1055,7 @@ namespace VeraCrypt
 				uint64 reservedSize = outerVolume->GetSize() / 200;
 				if (reservedSize > 10 * BYTES_PER_MB)
 					reservedSize = 10 * BYTES_PER_MB;
-	
+
 				if (MaxHiddenVolumeSize < reservedSize)
 					MaxHiddenVolumeSize = 0;
 				else

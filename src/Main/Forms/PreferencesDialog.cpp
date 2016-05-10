@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -52,16 +52,16 @@ namespace VeraCrypt
 		MountRemovableCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.Removable));
 
 		FilesystemOptionsTextCtrl->SetValue (Preferences.DefaultMountOptions.FilesystemOptions);
-		
+
 		TrueCryptModeCheckBox->SetValidator (wxGenericValidator (&Preferences.DefaultMountOptions.TrueCryptMode));
-		
+
 		int index, prfInitialIndex = 0;
-		Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);		
+		Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);
 
 		foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms(false))
 		{
 			index = Pkcs5PrfChoice->Append (kdf.GetName());
-			if (Preferences.DefaultMountOptions.Kdf 
+			if (Preferences.DefaultMountOptions.Kdf
 				&& (Preferences.DefaultMountOptions.Kdf->GetName() == kdf.GetName())
 				)
 			{
@@ -157,7 +157,7 @@ namespace VeraCrypt
 		colPermilles.push_back (358);
 
 		vector <wstring> fields (HotkeyListCtrl->GetColumnCount());
-		
+
 		UnregisteredHotkeys = Preferences.Hotkeys;
 		Hotkey::UnregisterList (Gui->GetMainFrame(), UnregisteredHotkeys);
 
@@ -363,7 +363,7 @@ namespace VeraCrypt
 #endif
 		if (!Validate())
 			return;
-			
+
 		shared_ptr <Pkcs5Kdf> selectedKdf;
 		if (Pkcs5PrfChoice->GetSelection () != 0)
 		{
@@ -383,7 +383,7 @@ namespace VeraCrypt
 		Preferences.DefaultMountOptions.Protection = MountReadOnlyCheckBox->IsChecked() ? VolumeProtection::ReadOnly : VolumeProtection::None;
 		Preferences.DefaultMountOptions.FilesystemOptions = FilesystemOptionsTextCtrl->GetValue();
 		Preferences.DefaultKeyfiles = *DefaultKeyfilesPanel->GetKeyfiles();
-		
+
 		Preferences.DefaultMountOptions.Kdf = selectedKdf;
 		Preferences.DefaultMountOptions.ProtectionKdf = selectedKdf;
 
@@ -403,7 +403,7 @@ namespace VeraCrypt
 				}
 				else
 				{
-					Gui->InitSecurityTokenLibrary(); 
+					Gui->InitSecurityTokenLibrary();
 				}
 			}
 		}
@@ -419,7 +419,7 @@ namespace VeraCrypt
 
 		EndModal (wxID_OK);
 	}
-	
+
 	void PreferencesDialog::OnPreserveTimestampsCheckBoxClick (wxCommandEvent& event)
 	{
 #ifdef TC_LINUX
@@ -504,7 +504,7 @@ namespace VeraCrypt
 					HotkeyAltCheckBox->SetValue (alt);
 					HotkeyWinCheckBox->SetValue (win);
 
-					HotkeyTextCtrl->ChangeValue (Hotkey::GetVirtualKeyCodeString (LastVirtualKeyPressed)); 
+					HotkeyTextCtrl->ChangeValue (Hotkey::GetVirtualKeyCodeString (LastVirtualKeyPressed));
 					UpdateHotkeyButtons();
 					return;
 				}

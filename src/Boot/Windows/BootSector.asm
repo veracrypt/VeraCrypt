@@ -3,7 +3,7 @@
 ; Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 ; by the TrueCrypt License 3.0.
 ;
-; Modifications and additions to the original source code (contained in this file) 
+; Modifications and additions to the original source code (contained in this file)
 ; and all other portions of this file are Copyright (c) 2013-2016 IDRIX
 ; and are governed by the Apache License 2.0 the full text of which is
 ; contained in the file License.txt included in VeraCrypt binary and source
@@ -26,9 +26,9 @@ start:
 
 loader_name_msg:
 	db ' VeraCrypt Boot Loader', 13, 10, 0
-	
+
 main:
-	cli	
+	cli
 	xor ax, ax
 	mov ds, ax
 	mov ss, ax
@@ -49,12 +49,12 @@ skip_loader_name_msg:
 	; Check available memory
 	cmp word ptr [ds:413h], TC_BOOT_LOADER_SEGMENT / 1024 * 16 + TC_BOOT_MEMORY_REQUIRED
 	jge memory_ok
-	
+
 	mov ax, TC_BOOT_LOADER_SEGMENT_LOW
-	
+
 	cmp word ptr [ds:413h], TC_BOOT_LOADER_SEGMENT_LOW / 1024 * 16 + TC_BOOT_MEMORY_REQUIRED
 	jge memory_ok
-	
+
 	; Insufficient memory
 	mov ax, TC_BOOT_LOADER_LOWMEM_SEGMENT
 
@@ -67,11 +67,11 @@ memory_ok:
 	mov cx, TC_BOOT_MEMORY_REQUIRED * 1024 - TC_COM_EXECUTABLE_OFFSET - 1
 	cld
 	rep stosb
-	
+
 	mov ax, es
 	sub ax, TC_BOOT_LOADER_DECOMPRESSOR_MEMORY_SIZE / 16	; Decompressor segment
 	mov es, ax
-	
+
 	; Load decompressor
 	mov cl, TC_BOOT_LOADER_DECOMPRESSOR_START_SECTOR
 retry_backup:
@@ -85,17 +85,17 @@ retry_backup:
 	mov cx, TC_BOOT_LOADER_DECOMPRESSOR_SECTOR_COUNT * TC_LB_SIZE
 	call checksum
 	push ebx
-	
+
 	; Load compressed boot loader
 	mov bx, TC_BOOT_LOADER_COMPRESSED_BUFFER_OFFSET
 	mov cl, TC_BOOT_LOADER_START_SECTOR
 	mov al, TC_MAX_BOOT_LOADER_SECTOR_COUNT
-	
+
 	test backup_loader_used, 1
 	jz non_backup
 	mov al, TC_BOOT_LOADER_BACKUP_SECTOR_COUNT - TC_BOOT_LOADER_DECOMPRESSOR_SECTOR_COUNT
 	mov cl, TC_BOOT_LOADER_START_SECTOR + TC_BOOT_LOADER_BACKUP_SECTOR_COUNT
-	
+
 non_backup:
 	call read_sectors
 
@@ -104,21 +104,21 @@ non_backup:
 	mov si, TC_BOOT_LOADER_COMPRESSED_BUFFER_OFFSET
 	mov cx, word ptr [start + TC_BOOT_SECTOR_LOADER_LENGTH_OFFSET]
 	call checksum
-	
+
 	; Verify checksum
-	cmp ebx, dword ptr [start + TC_BOOT_SECTOR_LOADER_CHECKSUM_OFFSET]	
+	cmp ebx, dword ptr [start + TC_BOOT_SECTOR_LOADER_CHECKSUM_OFFSET]
 	je checksum_ok
 
 	; Checksum incorrect - try using backup if available
 	test backup_loader_used, 1
 	jnz loader_damaged
-	
+
 	mov backup_loader_used, 1
 	mov cl, TC_BOOT_LOADER_DECOMPRESSOR_START_SECTOR + TC_BOOT_LOADER_BACKUP_SECTOR_COUNT
-	
+
 	test TC_BOOT_CFG_FLAG_BACKUP_LOADER_AVAILABLE, byte ptr [start + TC_BOOT_SECTOR_CONFIG_OFFSET]
 	jnz retry_backup
-	
+
 loader_damaged:
 	lea si, loader_damaged_msg
 	call print
@@ -134,9 +134,9 @@ checksum_ok:
 	mov ss, ax
 	mov sp, TC_BOOT_LOADER_DECOMPRESSOR_MEMORY_SIZE
 	sti
-	
+
 	push dx
-	
+
 	; Decompress boot loader
 	mov cx, word ptr [start + TC_BOOT_SECTOR_LOADER_LENGTH_OFFSET]
 	sub cx, TC_GZIP_HEADER_SIZE
@@ -154,7 +154,7 @@ decompressor_ret:
 
 	add sp, 8
 	pop dx
-	
+
 	; Restore boot sector segment
 	push cs
 	pop ds
@@ -170,7 +170,7 @@ decompression_ok:
 
 	; DH = boot sector flags
 	mov dh, byte ptr [start + TC_BOOT_SECTOR_CONFIG_OFFSET]
-	
+
 	; Set up boot loader segment
 	mov ax, es
 	add ax, TC_BOOT_LOADER_DECOMPRESSOR_MEMORY_SIZE / 16
@@ -185,17 +185,17 @@ decompression_ok:
 	push es
 	push TC_COM_EXECUTABLE_OFFSET
 	retf
-	
+
 	; Print string
 print:
 	xor bx, bx
 	mov ah, 0eh
 	cld
-	
+
 @@:	lodsb
 	test al, al
 	jz print_end
-	
+
 	int 10h
 	jmp @B
 
@@ -210,12 +210,12 @@ read_sectors:
 	mov ah, 2
 	int 13h
 	jnc read_ok
-	
+
 	lea si, disk_error_msg
 	call print
 read_ok:
 	ret
-	
+
 	; Calculate checksum
 checksum:
 	push ds
@@ -223,17 +223,17 @@ checksum:
 	pop ds
 	xor eax, eax
 	cld
-	
+
 @@:	lodsb
 	add ebx, eax
 	rol ebx, 1
 	loop @B
-	
+
 	pop ds
 	ret
 
 backup_loader_used		db 0
-	
+
 disk_error_msg			db 'Disk error', 13, 10, 7, 0
 loader_damaged_msg		db 7, 'Loader damaged! Repair with Rescue Disk', 0
 

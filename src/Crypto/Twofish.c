@@ -63,26 +63,26 @@ static u1byte  tab_ef[4] = { 0, (G_M >> 1) ^ (G_M >> 2), G_M >> 1, G_M >> 2 };
 static u1byte ror4[16] = { 0, 8, 1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15 };
 static u1byte ashx[16] = { 0, 9, 2, 11, 4, 13, 6, 15, 8, 1, 10, 3, 12, 5, 14, 7 };
 
-static u1byte qt0[2][16] = 
+static u1byte qt0[2][16] =
 {   { 8, 1, 7, 13, 6, 15, 3, 2, 0, 11, 5, 9, 14, 12, 10, 4 },
     { 2, 8, 11, 13, 15, 7, 6, 14, 3, 1, 9, 4, 0, 10, 12, 5 }
 };
 
 static u1byte qt1[2][16] =
-{   { 14, 12, 11, 8, 1, 2, 3, 5, 15, 4, 10, 6, 7, 0, 9, 13 }, 
+{   { 14, 12, 11, 8, 1, 2, 3, 5, 15, 4, 10, 6, 7, 0, 9, 13 },
     { 1, 14, 2, 11, 4, 12, 3, 7, 6, 13, 10, 5, 15, 9, 0, 8 }
 };
 
-static u1byte qt2[2][16] = 
+static u1byte qt2[2][16] =
 {   { 11, 10, 5, 14, 6, 13, 9, 0, 12, 8, 15, 3, 2, 4, 7, 1 },
     { 4, 12, 7, 5, 1, 6, 9, 10, 0, 14, 13, 8, 2, 11, 3, 15 }
 };
 
-static u1byte qt3[2][16] = 
+static u1byte qt3[2][16] =
 {   { 13, 7, 15, 4, 1, 2, 6, 14, 9, 11, 3, 0, 8, 5, 12, 10 },
     { 11, 9, 5, 1, 12, 3, 13, 14, 6, 4, 7, 15, 2, 0, 8, 10 }
 };
- 
+
 static u1byte qp(const u4byte n, const u1byte x)
 {   u1byte  a0, a1, a2, a3, a4, b0, b1, b2, b3, b4;
 
@@ -105,7 +105,7 @@ static void gen_qtab(void)
 {   u4byte  i;
 
     for(i = 0; i < 256; ++i)
-    {       
+    {
         q(0,i) = qp(0, (u1byte)i);
         q(1,i) = qp(1, (u1byte)i);
     }
@@ -124,7 +124,7 @@ static u4byte  m_tab[4][256];
 
 static void gen_mtab(void)
 {   u4byte  i, f01, f5b, fef;
-    
+
     for(i = 0; i < 256; ++i)
     {
         f01 = q(1,i); f5b = ffm_5b(f01); fef = ffm_ef(f01);
@@ -254,12 +254,12 @@ static void gen_mk_tab(TwofishInstance *instance, u4byte key[])
                 mk_tab[0 + 4*i] = mds(0, q20(by)); mk_tab[1 + 4*i] = mds(1, q21(by));
                 mk_tab[2 + 4*i] = mds(2, q22(by)); mk_tab[3 + 4*i] = mds(3, q23(by));
 #else
-                sb[0][i] = q20(by); sb[1][i] = q21(by); 
+                sb[0][i] = q20(by); sb[1][i] = q21(by);
                 sb[2][i] = q22(by); sb[3][i] = q23(by);
 #endif
             }
             break;
-    
+
     case 3: for(i = 0; i < 256; ++i)
             {
                 by = (u1byte)i;
@@ -267,12 +267,12 @@ static void gen_mk_tab(TwofishInstance *instance, u4byte key[])
                 mk_tab[0 + 4*i] = mds(0, q30(by)); mk_tab[1 + 4*i] = mds(1, q31(by));
                 mk_tab[2 + 4*i] = mds(2, q32(by)); mk_tab[3 + 4*i] = mds(3, q33(by));
 #else
-                sb[0][i] = q30(by); sb[1][i] = q31(by); 
+                sb[0][i] = q30(by); sb[1][i] = q31(by);
                 sb[2][i] = q32(by); sb[3][i] = q33(by);
 #endif
             }
             break;
-    
+
     case 4: for(i = 0; i < 256; ++i)
             {
                 by = (u1byte)i;
@@ -280,7 +280,7 @@ static void gen_mk_tab(TwofishInstance *instance, u4byte key[])
                 mk_tab[0 + 4*i] = mds(0, q40(by)); mk_tab[1 + 4*i] = mds(1, q41(by));
                 mk_tab[2 + 4*i] = mds(2, q42(by)); mk_tab[3 + 4*i] = mds(3, q43(by));
 #else
-                sb[0][i] = q40(by); sb[1][i] = q41(by); 
+                sb[0][i] = q40(by); sb[1][i] = q41(by);
                 sb[2][i] = q42(by); sb[3][i] = q43(by);
 #endif
             }
@@ -315,22 +315,22 @@ static void gen_mk_tab(TwofishInstance *instance, u4byte key[])
 where the coefficients are in the finite field GF(2^8) with a
 modular polynomial a^8 + a^6 + a^3 + a^2 + 1. To generate the
 remainder we have to start with a 12th order polynomial with our
-eight input bytes as the coefficients of the 4th to 11th terms. 
+eight input bytes as the coefficients of the 4th to 11th terms.
 That is:
 
   m[7] * x^11 + m[6] * x^10 ... + m[0] * x^4 + 0 * x^3 +... + 0
-  
+
 We then multiply the generator polynomial by m[7] * x^7 and subtract
-it - xor in GF(2^8) - from the above to eliminate the x^7 term (the 
-artihmetic on the coefficients is done in GF(2^8). We then multiply 
+it - xor in GF(2^8) - from the above to eliminate the x^7 term (the
+artihmetic on the coefficients is done in GF(2^8). We then multiply
 the generator polynomial by x^6 * coeff(x^10) and use this to remove
 the x^10 term. We carry on in this way until the x^4 term is removed
 so that we are left with:
 
   r[3] * x^3 + r[2] * x^2 + r[1] 8 x^1 + r[0]
 
-which give the resulting 4 bytes of the remainder. This is equivalent 
-to the matrix multiplication in the Twofish description but much faster 
+which give the resulting 4 bytes of the remainder. This is equivalent
+to the matrix multiplication in the Twofish description but much faster
 to implement.
 
 */
@@ -343,23 +343,23 @@ static u4byte mds_rem(u4byte p0, u4byte p1)
     for(i = 0; i < 8; ++i)
     {
         t = p1 >> 24;   // get most significant coefficient
-        
+
         p1 = (p1 << 8) | (p0 >> 24); p0 <<= 8;  // shift others up
-            
+
         // multiply t by a (the primitive element - i.e. left shift)
 
-        u = (t << 1); 
-        
+        u = (t << 1);
+
         if(t & 0x80)            // subtract modular polynomial on overflow
-        
-            u ^= G_MOD; 
 
-        p1 ^= t ^ (u << 16);    // remove t * (a * x^2 + 1)  
+            u ^= G_MOD;
 
-        u ^= (t >> 1);          // form u = a * t + t / a = t * (a + 1 / a); 
-        
+        p1 ^= t ^ (u << 16);    // remove t * (a * x^2 + 1)
+
+        u ^= (t >> 1);          // form u = a * t + t / a = t * (a + 1 / a);
+
         if(t & 0x01)            // add the modular polynomial on underflow
-        
+
             u ^= G_MOD >> 1;
 
         p1 ^= (u << 24) | (u << 8); // remove t * (a + 1/a) * (x^3 + x)
@@ -445,7 +445,7 @@ void twofish_encrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte o
     out_blk[0] = LE32(blk[2] ^ l_key[4]);
     out_blk[1] = LE32(blk[3] ^ l_key[5]);
     out_blk[2] = LE32(blk[0] ^ l_key[6]);
-    out_blk[3] = LE32(blk[1] ^ l_key[7]); 
+    out_blk[3] = LE32(blk[1] ^ l_key[7]);
 };
 
 #else // TC_MINIMIZE_CODE_SIZE
@@ -477,7 +477,7 @@ void twofish_encrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte o
     out_blk[0] = LE32(blk[2] ^ l_key[4]);
     out_blk[1] = LE32(blk[3] ^ l_key[5]);
     out_blk[2] = LE32(blk[0] ^ l_key[6]);
-    out_blk[3] = LE32(blk[1] ^ l_key[7]); 
+    out_blk[3] = LE32(blk[1] ^ l_key[7]);
 };
 
 #endif // TC_MINIMIZE_CODE_SIZE
@@ -511,7 +511,7 @@ void twofish_decrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte o
     out_blk[0] = LE32(blk[2] ^ l_key[0]);
     out_blk[1] = LE32(blk[3] ^ l_key[1]);
     out_blk[2] = LE32(blk[0] ^ l_key[2]);
-    out_blk[3] = LE32(blk[1] ^ l_key[3]); 
+    out_blk[3] = LE32(blk[1] ^ l_key[3]);
 };
 
 #else // TC_MINIMIZE_CODE_SIZE
@@ -543,7 +543,7 @@ void twofish_decrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte o
     out_blk[0] = LE32(blk[2] ^ l_key[0]);
     out_blk[1] = LE32(blk[3] ^ l_key[1]);
     out_blk[2] = LE32(blk[0] ^ l_key[2]);
-    out_blk[3] = LE32(blk[1] ^ l_key[3]); 
+    out_blk[3] = LE32(blk[1] ^ l_key[3]);
 };
 
 #endif // TC_MINIMIZE_CODE_SIZE

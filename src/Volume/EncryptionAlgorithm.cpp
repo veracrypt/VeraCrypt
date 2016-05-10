@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -60,7 +60,7 @@ namespace VeraCrypt
 	EncryptionAlgorithmList EncryptionAlgorithm::GetAvailableAlgorithms ()
 	{
 		EncryptionAlgorithmList l;
-		
+
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Serpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Twofish ()));
@@ -98,7 +98,7 @@ namespace VeraCrypt
 
 		return keySize;
 	}
-	
+
 	size_t EncryptionAlgorithm::GetMaxBlockSize () const
 	{
 		size_t blockSize = 0;
@@ -148,10 +148,10 @@ namespace VeraCrypt
 					name += wstring (L"(");
 				else
 					name += wstring (L"-");
-				name += c.GetName();				
+				name += c.GetName();
 			}
 		}
-		
+
 		if (forGuiDisplay && depth)
 		{
 			for (int i = 0; i < depth; i++)
@@ -177,7 +177,7 @@ namespace VeraCrypt
 		return supported;
 	}
 
-	
+
 	bool EncryptionAlgorithm::IsModeSupported (const shared_ptr <EncryptionMode> mode) const
 	{
 		return IsModeSupported (*mode);
@@ -191,7 +191,7 @@ namespace VeraCrypt
 		mode->SetCiphers (Ciphers);
 		Mode = mode;
 	}
-	
+
 	void EncryptionAlgorithm::SetKey (const ConstBufferPtr &key)
 	{
 		if (Ciphers.size() < 1)

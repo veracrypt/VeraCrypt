@@ -3,14 +3,14 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
 
-/* If native 64-bit data types are not available, define TC_NO_COMPILER_INT64. 
+/* If native 64-bit data types are not available, define TC_NO_COMPILER_INT64.
 
 For big-endian platforms define BYTE_ORDER as BIG_ENDIAN. */
 
@@ -37,7 +37,7 @@ For big-endian platforms define BYTE_ORDER as BIG_ENDIAN. */
 // ks2: the secondary key schedule
 // startDataUnitNo: The sequential number of the data unit with which the buffer starts.
 // startCipherBlockNo: The sequential number of the first plaintext block to encrypt inside the data unit startDataUnitNo.
-//                     When encrypting the data unit from its first block, startCipherBlockNo is 0. 
+//                     When encrypting the data unit from its first block, startCipherBlockNo is 0.
 //                     The startCipherBlockNo value applies only to the first data unit in the buffer; each successive
 //                     data unit is encrypted from its first block. The start of the buffer does not have to be
 //                     aligned with the start of a data unit. If it is aligned, startCipherBlockNo must be 0; if it
@@ -85,7 +85,7 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 	the shift of the highest byte results in a carry, 135 is XORed into the lowest byte. The value 135 is
 	derived from the modulus of the Galois Field (x^128+x^7+x^2+x+1). */
 
-	// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+	// Convert the 64-bit data unit number into a little-endian 16-byte array.
 	// Note that as we are converting a 64-bit number into a 16-byte array we can always zero the last 8 bytes.
 	dataUnitNo = startDataUnitNo->Value;
 	*((unsigned __int64 *) byteBufUnitNo) = LE64 (dataUnitNo);
@@ -107,7 +107,7 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
 		whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 
-		// Encrypt the data unit number using the secondary key (in order to generate the first 
+		// Encrypt the data unit number using the secondary key (in order to generate the first
 		// whitening value for this data unit)
 		*whiteningValuePtr64 = *((unsigned __int64 *) byteBufUnitNo);
 		*(whiteningValuePtr64 + 1) = 0;
@@ -131,21 +131,21 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 
 			// Little-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x8000000000000000) ?
 				135 : 0;
 
 			*whiteningValuePtr64-- <<= 1;
 
 			if (*whiteningValuePtr64 & 0x8000000000000000)
-				*(whiteningValuePtr64 + 1) |= 1;	
+				*(whiteningValuePtr64 + 1) |= 1;
 
 			*whiteningValuePtr64 <<= 1;
 #else
 
 			// Big-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x80) ?
 				135 : 0;
 
@@ -154,7 +154,7 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 			whiteningValuePtr64--;
 
 			if (*whiteningValuePtr64 & 0x80)
-				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;	
+				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;
 
 			*whiteningValuePtr64 = LE64 (LE64 (*whiteningValuePtr64) << 1);
 #endif
@@ -176,7 +176,7 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 
 		// Actual encryption
 		EncipherBlocks (cipher, dataUnitBufPtr, ks, endBlock - startBlock);
-		
+
 		bufPtr = dataUnitBufPtr;
 		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
 
@@ -222,7 +222,7 @@ static void EncryptBufferXTSNonParallel (unsigned __int8 *buffer,
 	the shift of the highest byte results in a carry, 135 is XORed into the lowest byte. The value 135 is
 	derived from the modulus of the Galois Field (x^128+x^7+x^2+x+1). */
 
-	// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+	// Convert the 64-bit data unit number into a little-endian 16-byte array.
 	// Note that as we are converting a 64-bit number into a 16-byte array we can always zero the last 8 bytes.
 	dataUnitNo = startDataUnitNo->Value;
 	*((unsigned __int64 *) byteBufUnitNo) = LE64 (dataUnitNo);
@@ -243,7 +243,7 @@ static void EncryptBufferXTSNonParallel (unsigned __int8 *buffer,
 
 		whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 
-		// Encrypt the data unit number using the secondary key (in order to generate the first 
+		// Encrypt the data unit number using the secondary key (in order to generate the first
 		// whitening value for this data unit)
 		*whiteningValuePtr64 = *((unsigned __int64 *) byteBufUnitNo);
 		*(whiteningValuePtr64 + 1) = 0;
@@ -275,21 +275,21 @@ static void EncryptBufferXTSNonParallel (unsigned __int8 *buffer,
 
 			// Little-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x8000000000000000) ?
 				135 : 0;
 
 			*whiteningValuePtr64-- <<= 1;
 
 			if (*whiteningValuePtr64 & 0x8000000000000000)
-				*(whiteningValuePtr64 + 1) |= 1;	
+				*(whiteningValuePtr64 + 1) |= 1;
 
 			*whiteningValuePtr64 <<= 1;
 #else
 
 			// Big-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x80) ?
 				135 : 0;
 
@@ -298,7 +298,7 @@ static void EncryptBufferXTSNonParallel (unsigned __int8 *buffer,
 			whiteningValuePtr64--;
 
 			if (*whiteningValuePtr64 & 0x80)
-				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;	
+				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;
 
 			*whiteningValuePtr64 = LE64 (LE64 (*whiteningValuePtr64) << 1);
 #endif
@@ -353,7 +353,7 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 	unsigned __int64 *const finalInt64WhiteningValuesPtr = whiteningValuesPtr64 + sizeof (whiteningValues) / sizeof (*whiteningValuesPtr64) - 1;
 	TC_LARGEST_COMPILER_UINT blockCount, dataUnitNo;
 
-	// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+	// Convert the 64-bit data unit number into a little-endian 16-byte array.
 	// Note that as we are converting a 64-bit number into a 16-byte array we can always zero the last 8 bytes.
 	dataUnitNo = startDataUnitNo->Value;
 	*((unsigned __int64 *) byteBufUnitNo) = LE64 (dataUnitNo);
@@ -375,7 +375,7 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
 		whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 
-		// Encrypt the data unit number using the secondary key (in order to generate the first 
+		// Encrypt the data unit number using the secondary key (in order to generate the first
 		// whitening value for this data unit)
 		*whiteningValuePtr64 = *((unsigned __int64 *) byteBufUnitNo);
 		*(whiteningValuePtr64 + 1) = 0;
@@ -399,21 +399,21 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 
 			// Little-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x8000000000000000) ?
 				135 : 0;
 
 			*whiteningValuePtr64-- <<= 1;
 
 			if (*whiteningValuePtr64 & 0x8000000000000000)
-				*(whiteningValuePtr64 + 1) |= 1;	
+				*(whiteningValuePtr64 + 1) |= 1;
 
 			*whiteningValuePtr64 <<= 1;
 
 #else
 			// Big-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x80) ?
 				135 : 0;
 
@@ -422,7 +422,7 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 			whiteningValuePtr64--;
 
 			if (*whiteningValuePtr64 & 0x80)
-				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;	
+				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;
 
 			*whiteningValuePtr64 = LE64 (LE64 (*whiteningValuePtr64) << 1);
 #endif
@@ -481,7 +481,7 @@ static void DecryptBufferXTSNonParallel (unsigned __int8 *buffer,
 	unsigned int startBlock = startCipherBlockNo, endBlock, block;
 	TC_LARGEST_COMPILER_UINT blockCount, dataUnitNo;
 
-	// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+	// Convert the 64-bit data unit number into a little-endian 16-byte array.
 	// Note that as we are converting a 64-bit number into a 16-byte array we can always zero the last 8 bytes.
 	dataUnitNo = startDataUnitNo->Value;
 	*((unsigned __int64 *) byteBufUnitNo) = LE64 (dataUnitNo);
@@ -502,7 +502,7 @@ static void DecryptBufferXTSNonParallel (unsigned __int8 *buffer,
 
 		whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 
-		// Encrypt the data unit number using the secondary key (in order to generate the first 
+		// Encrypt the data unit number using the secondary key (in order to generate the first
 		// whitening value for this data unit)
 		*whiteningValuePtr64 = *((unsigned __int64 *) byteBufUnitNo);
 		*(whiteningValuePtr64 + 1) = 0;
@@ -534,21 +534,21 @@ static void DecryptBufferXTSNonParallel (unsigned __int8 *buffer,
 
 			// Little-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x8000000000000000) ?
 				135 : 0;
 
 			*whiteningValuePtr64-- <<= 1;
 
 			if (*whiteningValuePtr64 & 0x8000000000000000)
-				*(whiteningValuePtr64 + 1) |= 1;	
+				*(whiteningValuePtr64 + 1) |= 1;
 
 			*whiteningValuePtr64 <<= 1;
 
 #else
 			// Big-endian platforms
 
-			finalCarry = 
+			finalCarry =
 				(*whiteningValuePtr64 & 0x80) ?
 				135 : 0;
 
@@ -557,7 +557,7 @@ static void DecryptBufferXTSNonParallel (unsigned __int8 *buffer,
 			whiteningValuePtr64--;
 
 			if (*whiteningValuePtr64 & 0x80)
-				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;	
+				*(whiteningValuePtr64 + 1) |= 0x0100000000000000;
 
 			*whiteningValuePtr64 = LE64 (LE64 (*whiteningValuePtr64) << 1);
 #endif
@@ -581,7 +581,7 @@ static void DecryptBufferXTSNonParallel (unsigned __int8 *buffer,
 
 #if BYTE_ORDER == BIG_ENDIAN
 #error The TC_NO_COMPILER_INT64 version of the XTS code is not compatible with big-endian platforms
-#endif 
+#endif
 
 
 // Converts a 64-bit unsigned integer (passed as two 32-bit integers for compatibility with non-64-bit
@@ -627,7 +627,7 @@ static void EncryptDecryptBufferXTS32 (const unsigned __int8 *buffer,
 
 	blockCount = length / BYTES_PER_XTS_BLOCK;
 
-	// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+	// Convert the 64-bit data unit number into a little-endian 16-byte array.
 	// (Passed as two 32-bit integers for compatibility with non-64-bit environments/platforms.)
 	Uint64ToLE16ByteArray (byteBufUnitNo, dataUnitNo.HighPart, dataUnitNo.LowPart);
 
@@ -639,7 +639,7 @@ static void EncryptDecryptBufferXTS32 (const unsigned __int8 *buffer,
 		else
 			endBlock = BLOCKS_PER_XTS_DATA_UNIT;
 
-		// Encrypt the data unit number using the secondary key (in order to generate the first 
+		// Encrypt the data unit number using the secondary key (in order to generate the first
 		// whitening value for this data unit)
 		memcpy (whiteningValue, byteBufUnitNo, BYTES_PER_XTS_BLOCK);
 		EncipherBlock (cipher, whiteningValue, ks2);
@@ -690,7 +690,7 @@ static void EncryptDecryptBufferXTS32 (const unsigned __int8 *buffer,
 						// A regular carry
 						*(whiteningValuePtr32 + 1) |= 1;
 					}
-					else 
+					else
 					{
 						// The highest byte shift will result in a carry
 						finalCarry = 135;
@@ -712,7 +712,7 @@ static void EncryptDecryptBufferXTS32 (const unsigned __int8 *buffer,
 			dataUnitNo.HighPart++;
 		}
 
-		// Convert the 64-bit data unit number into a little-endian 16-byte array. 
+		// Convert the 64-bit data unit number into a little-endian 16-byte array.
 		Uint64ToLE16ByteArray (byteBufUnitNo, dataUnitNo.HighPart, dataUnitNo.LowPart);
 	}
 

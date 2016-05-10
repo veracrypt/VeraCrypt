@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -68,7 +68,7 @@ namespace VeraCrypt
 
 		wxBusyCursor busy;
 		Buffer buffer ((size_t) Gui->GetSelectedData <size_t> (BufferSizeChoice));
-			
+
 		BenchmarkThreadRoutine routine(this, results, buffer);
 		Gui->ExecuteWaitThreadRoutine (this, &routine);
 
@@ -77,7 +77,7 @@ namespace VeraCrypt
 		foreach (const BenchmarkResult &result, results)
 		{
 			vector <wstring> fields (BenchmarkListCtrl->GetColumnCount());
-					
+
 			fields[ColumnAlgorithm] = result.AlgorithmName;
 			fields[ColumnEncryption] = Gui->SpeedToString (result.EncryptionSpeed);
 			fields[ColumnDecryption] = Gui->SpeedToString (result.DecryptionSpeed);
@@ -85,10 +85,10 @@ namespace VeraCrypt
 
 			Gui->AppendToListCtrl (BenchmarkListCtrl, fields);
 		}
-		
+
 		BenchmarkListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 	}
-	
+
 	void BenchmarkDialog::DoBenchmark (list<BenchmarkResult>& results, Buffer& buffer)
 	{
 		try

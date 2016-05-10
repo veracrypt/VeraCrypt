@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -208,7 +208,7 @@ namespace VeraCrypt
 				wstring args = StringFormatter (repair ? L"/C echo {0} & chkdsk {1} /F /X & pause" : L"/C echo {0} & chkdsk {1} & pause",
 					StringFormatter (LangString[repair ? "REPAIRING_FS" : "CHECKING_FS"], mountPoint), mountPoint);
 
-				ShellExecute (static_cast <HWND> (GetHandle()), 
+				ShellExecute (static_cast <HWND> (GetHandle()),
 					L"runas",
 					L"cmd.exe", args.c_str(), nullptr, SW_SHOW);
 #else
@@ -260,7 +260,7 @@ namespace VeraCrypt
 	void MainFrame::InitControls ()
 	{
 		LogoBitmap->SetBitmap (Resources::GetLogoBitmap());
-		
+
 		list <int> colPermilles;
 
 #ifndef TC_WINDOWS
@@ -280,7 +280,7 @@ namespace VeraCrypt
 		MountAllDevicesButton->SetLabel (_("Mount All Devices"));
 #endif
 
-#ifdef TC_WINDOWS		 
+#ifdef TC_WINDOWS
 		SlotListCtrl->InsertColumn (ColumnSlot, LangString["DRIVE"], wxLIST_FORMAT_LEFT, 1);
 		colPermilles.push_back (75);
 #else
@@ -289,20 +289,20 @@ namespace VeraCrypt
 #endif
 
 		SlotListCtrl->InsertColumn (ColumnPath, LangString["VOLUME"], wxLIST_FORMAT_LEFT, 1);
-#ifdef TC_WINDOWS		 
+#ifdef TC_WINDOWS
 		colPermilles.push_back (487);
 #else
 		colPermilles.push_back (429);
 #endif
 
 		SlotListCtrl->InsertColumn (ColumnSize, LangString["SIZE"], wxLIST_FORMAT_RIGHT, 1);
-#ifdef TC_WINDOWS		 
+#ifdef TC_WINDOWS
 		colPermilles.push_back (126);
 #else
 		colPermilles.push_back (130);
 #endif
 
-#ifdef TC_WINDOWS		 
+#ifdef TC_WINDOWS
 		SlotListCtrl->InsertColumn (ColumnEA, LangString["ENCRYPTION_ALGORITHM_LV"], wxLIST_FORMAT_LEFT, 1);
 		colPermilles.push_back (233);
 #else
@@ -323,7 +323,7 @@ namespace VeraCrypt
 
 #ifndef TC_WINDOWS
 		int screenHeight = wxSystemSettings::GetMetric (wxSYS_SCREEN_Y);
-		
+
 		if (screenHeight < 480)
 			slotListRowCount = 1;
 		else if (screenHeight <= 600)
@@ -355,7 +355,7 @@ namespace VeraCrypt
 		SetMaxSize (GetSize());
 
 		Gui->SetListCtrlColumnWidths (SlotListCtrl, colPermilles);
-		
+
 		UpdateVolumeList();
 		UpdateWipeCacheButton();
 	}
@@ -434,7 +434,7 @@ namespace VeraCrypt
 		{
 			MainFrame *frame = dynamic_cast <MainFrame *> (Gui->GetMainFrame());
 			PDEV_BROADCAST_HDR hdr = (PDEV_BROADCAST_HDR) lParam;
-			
+
 			if (wParam == DBT_DEVICEREMOVECOMPLETE && hdr->dbch_devicetype == DBT_DEVTYP_VOLUME)
 			{
 				PDEV_BROADCAST_VOLUME vol = (PDEV_BROADCAST_VOLUME) lParam;
@@ -504,15 +504,15 @@ namespace VeraCrypt
 			}
 
 			wxMenu *CreatePopupMenu ()
-			{ 
+			{
 				auto_ptr <wxMenu> popup (new wxMenu);
 
 				Gui->AppendToMenu (*popup, LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"], this, wxCommandEventHandler (TaskBarIcon::OnShowHideMenuItemSelected));
-				
+
 				popup->AppendSeparator();
 				Gui->AppendToMenu (*popup, _("Mount All Favorite Volumes"), this, wxCommandEventHandler (TaskBarIcon::OnMountAllFavoritesMenuItemSelected))->Enable (!Busy);
 				Gui->AppendToMenu (*popup, _("Dismount All Mounted Volumes"), this, wxCommandEventHandler (TaskBarIcon::OnDismountAllMenuItemSelected))->Enable (!Busy);
-				
+
 				// Favorite volumes
 				if (Gui->GetPreferences().BackgroundTaskMenuMountItemsEnabled && !Frame->FavoriteVolumesMenuMap.empty())
 				{
@@ -628,7 +628,7 @@ namespace VeraCrypt
 		Gui->SetPreferences (prefs);
 		NoHistoryCheckBox->SetValue (!prefs.SaveHistory);
 	}
-	
+
 	void MainFrame::MountAllDevices ()
 	{
 		try
@@ -891,7 +891,7 @@ namespace VeraCrypt
 	}
 
 	void MainFrame::OnDefaultMountParametersMenuItemSelected(wxCommandEvent& event)
-	{ 
+	{
 #ifdef TC_MACOSX
 		if (Gui->IsInBackgroundMode())
 			Gui->SetBackgroundMode (false);
@@ -921,7 +921,7 @@ namespace VeraCrypt
 			if (volume->Path.IsDevice() && !Core->IsDevicePresent (volume->Path))
 				removedVolumes.push_back (volume);
 		}
-		
+
 		if (!removedVolumes.empty())
 			Gui->AutoDismountVolumes (removedVolumes, true);
 	}
@@ -1035,7 +1035,7 @@ namespace VeraCrypt
 		case Hotkey::Id::MountAllFavorites:
 			{
 				size_t mountedCount = Core->GetMountedVolumes().size();
-				
+
 				if (event.GetId() == Hotkey::Id::MountAllDevices)
 					MountAllDevices();
 				else
@@ -1102,7 +1102,7 @@ namespace VeraCrypt
 		if (SelectedItemIndex > itemIndex)
 			--SelectedItemIndex;
 	}
-	
+
 	void MainFrame::OnListItemDeselected (wxListEvent& event)
 	{
 		OnListItemSelectionChanged();
@@ -1155,7 +1155,7 @@ namespace VeraCrypt
 		else if (IsFreeSlotSelected())
 		{
 			Gui->AppendToMenu (popup, _("Mount Volume"), this, wxCommandEventHandler (MainFrame::OnMountVolumeMenuItemSelected));
-			
+
 			popup.AppendSeparator();
 
 			Gui->AppendToMenu (popup, LangString["SELECT_FILE_AND_MOUNT"], this, wxCommandEventHandler (MainFrame::OnSelectFileAndMountMenuItemSelected));
@@ -1174,12 +1174,12 @@ namespace VeraCrypt
 		SelectedItemIndex = event.GetIndex();
 		OnListItemSelectionChanged();
 	}
-			
+
 	void MainFrame::OnListItemSelectionChanged ()
 	{
 		if (SlotListCtrl->GetSelectedItemCount() < 1)
 			SelectedItemIndex = -1;
-		
+
 		if (SelectedItemIndex >= 0)
 			SelectedSlotNumber = (VolumeSlotNumber) SlotListCtrl->GetItemData (SelectedItemIndex);
 		else
@@ -1187,7 +1187,7 @@ namespace VeraCrypt
 
 		UpdateControls();
 	}
-	
+
 	void MainFrame::OnManageSecurityTokenKeyfilesMenuItemSelected (wxCommandEvent& event)
 	{
 		try
@@ -1280,7 +1280,7 @@ namespace VeraCrypt
 
 		SavePreferences();
 	}
-	
+
 	void MainFrame::OnRestoreVolumeHeaderMenuItemSelected (wxCommandEvent& event)
 	{
 		if (!CheckVolumePathNotEmpty ())
@@ -1307,7 +1307,7 @@ namespace VeraCrypt
 		dialog.ShowModal();
 	}
 
-	
+
 	void MainFrame::OnSelectDeviceAndMountMenuItemSelected (wxCommandEvent& event)
 	{
 		DevicePath path = Gui->SelectDevice (this);
@@ -1344,7 +1344,7 @@ namespace VeraCrypt
 		if (!path.IsEmpty())
 			SetVolumePath (path);
 	}
-	
+
 	void MainFrame::OnTimer ()
 	{
 		try
@@ -1502,7 +1502,7 @@ namespace VeraCrypt
 		WipeCache();
 		Gui->ShowInfo ("PASSWORD_CACHE_WIPED");
 	}
-	
+
 	void MainFrame::OpenSelectedVolume () const
 	{
 		shared_ptr <VolumeInfo> selectedVolume = GetSelectedVolume();
@@ -1577,7 +1577,7 @@ namespace VeraCrypt
 		}
 		return -1;
 	}
-	
+
 	void MainFrame::UpdateControls ()
 	{
 		bool mounted = IsMountedSlotSelected();
@@ -1585,7 +1585,7 @@ namespace VeraCrypt
 		VolumeButton->SetLabel (mounted ? LangString["DISMOUNT"] : wxString (_("Mount")));
 		VolumePropertiesButton->Enable (mounted);
 
-		DismountVolumeMenuItem->Enable (mounted); 
+		DismountVolumeMenuItem->Enable (mounted);
 		MountVolumeMenuItem->Enable (!mounted);
 		VolumePropertiesMenuItem->Enable (mounted);
 		AddToFavoritesMenuItem->Enable (mounted);
@@ -1601,7 +1601,7 @@ namespace VeraCrypt
 		bool listChanged = false;
 
 		MountedVolumes = Core->GetMountedVolumes();
-		
+
 		map < VolumeSlotNumber, shared_ptr <VolumeInfo> > mountedVolumesMap;
 		foreach (shared_ptr <VolumeInfo> volume, MountedVolumes)
 		{
@@ -1632,7 +1632,7 @@ namespace VeraCrypt
 				fields[ColumnPath] = volume->Path;
 				fields[ColumnSize] = Gui->SizeToString (volume->Size);
 				fields[ColumnType] = Gui->VolumeTypeToString (volume->Type, volume->TrueCryptMode, volume->Protection);
-				
+
 				if (volume->HiddenVolumeProtectionTriggered)
 				{
 					fields[ColumnType] += L"(!)";
@@ -1667,7 +1667,7 @@ namespace VeraCrypt
 #else
 				fields[ColumnSlot] = StringConverter::FromNumber (slotNumber);
 #endif
-				
+
 #ifdef TC_WINDOWS
 				if (Core->IsMountPointAvailable (fields[ColumnSlot]))
 #else

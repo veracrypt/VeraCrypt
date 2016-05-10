@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -50,13 +50,13 @@ namespace VeraCrypt
 
 		if (VirtualKeyModifiers & wxMOD_SHIFT)
 			str += LangString["VK_SHIFT"] + L"+";
-		
+
 		if (VirtualKeyModifiers & wxMOD_CONTROL)
 			str += LangString["VK_CONTROL"] + L"+";
-		
+
 		if (VirtualKeyModifiers & wxMOD_ALT)
 			str += LangString["VK_ALT"] + L"+";
-		
+
 		if (VirtualKeyModifiers & wxMOD_WIN )
 			str += LangString["VK_WIN"] + L"+";
 
@@ -67,11 +67,11 @@ namespace VeraCrypt
 	{
 #ifdef TC_WINDOWS
 		// ASCII characters
-		if (virtualKeyCode >= 0x30 && virtualKeyCode <= 0x5a)	
+		if (virtualKeyCode >= 0x30 && virtualKeyCode <= 0x5a)
 			return StringFormatter (L"{0}", char (virtualKeyCode));
 
 		// OEM-specific
-		if (virtualKeyCode >= 0xE9 && virtualKeyCode <= 0xF5)	
+		if (virtualKeyCode >= 0xE9 && virtualKeyCode <= 0xF5)
 			return StringFormatter (L"OEM-{0}", virtualKeyCode);
 
 		// F1-F24
@@ -147,7 +147,7 @@ namespace VeraCrypt
 					{
 						hotkey->VirtualKeyCode = StringConverter::ToUInt32 (wstring (node.Attributes[L"vkeycode"]));
 						hotkey->VirtualKeyModifiers = 0;
-						
+
 						if (node.Attributes[L"modshift"] == L"1")
 							hotkey->VirtualKeyModifiers |= wxMOD_SHIFT;
 

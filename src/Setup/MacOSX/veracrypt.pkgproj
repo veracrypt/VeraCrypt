@@ -791,7 +791,7 @@
 							<string></string>
 							<key>VALUE</key>
 							<string>OSXFuse seems to be missing on your machine. VeraCrypt requires OSXFuse 2.3 or above.
-Please download the latest OSXFuse version from  : 
+Please download the latest OSXFuse version from  :
 https://osxfuse.github.io/</string>
 						</dict>
 						<dict>

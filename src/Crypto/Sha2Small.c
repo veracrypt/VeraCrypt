@@ -52,7 +52,7 @@ static const uint32 K[64] = {
 	Various logical functions
  */
 #define Ch(x,y,z)			(z ^ (x & (y ^ z)))
-#define Maj(x,y,z)		(((x | y) & z) | (x & y)) 
+#define Maj(x,y,z)		(((x | y) & z) | (x & y))
 #define S(x, n)			RORc((x),(n))
 #define R(x, n)			((x)>>(n))
 #define Sigma0(x)			(S(x, 2) ^ S(x, 13) ^ S(x, 22))
@@ -119,7 +119,7 @@ static void sha256_compress(sha256_ctx * ctx, unsigned char *buf)
 
 	for (i = 0; i < 64; ++i) {
 		RND(S[0],S[1],S[2],S[3],S[4],S[5],S[6],S[7],i);
-		t = S[7]; S[7] = S[6]; S[6] = S[5]; S[5] = S[4]; 
+		t = S[7]; S[7] = S[6]; S[6] = S[5]; S[5] = S[4];
 		S[4] = S[3]; S[3] = S[2]; S[2] = S[1]; S[1] = S[0]; S[0] = t;
 	}
 
@@ -154,7 +154,7 @@ VOID_RETURN sha256_hash(unsigned char* data, unsigned int len, sha256_ctx* ctx)
 {
 	uint32 n;
 	while (len > 0) {
-		if (ctx->curlen == 0 && len >= 64) {			
+		if (ctx->curlen == 0 && len >= 64) {
 			sha256_compress(ctx, (unsigned char *)data);
 
 			n = ctx->lowLength + 512;
@@ -178,7 +178,7 @@ VOID_RETURN sha256_hash(unsigned char* data, unsigned int len, sha256_ctx* ctx)
 				if (n < ctx->lowLength) {
 					ctx->highLength++;
 				}
-				ctx->lowLength = n;		
+				ctx->lowLength = n;
 				ctx->curlen	= 0;
 			}
 		}
@@ -232,7 +232,7 @@ VOID_RETURN sha256_end(unsigned char* hval, sha256_ctx* ctx)
 
 	STORE32H(ctx->highLength, ctx->buf, 56);
 	STORE32H(ctx->lowLength, ctx->buf, 60);
-	
+
 	sha256_compress(ctx, ctx->buf);
 
 /*

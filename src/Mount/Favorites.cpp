@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -113,7 +113,7 @@ namespace VeraCrypt
 
 	static BOOL CALLBACK FavoriteVolumesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		/* This dialog is used both for System Favorites and non-system Favorites. 
+		/* This dialog is used both for System Favorites and non-system Favorites.
 
 		The following options have different meaning in System Favorites mode:
 
@@ -157,14 +157,14 @@ namespace VeraCrypt
 						// MOUNT_SYSTEM_FAVORITES_ON_BOOT
 
 						SetWindowTextW (GetDlgItem (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT), GetString ("MOUNT_SYSTEM_FAVORITES_ON_BOOT"));
-						
+
 						// DISABLE_NONADMIN_SYS_FAVORITES_ACCESS
 
 						SetWindowTextW (GetDlgItem (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY), GetString ("DISABLE_NONADMIN_SYS_FAVORITES_ACCESS"));
 
 						// Group box
 
-						GetClientRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), &rec);		
+						GetClientRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), &rec);
 
 						SetWindowPos (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), 0, 0, 0,
 							rec.right,
@@ -181,7 +181,7 @@ namespace VeraCrypt
 					Favorites.clear();
 
 					LVCOLUMNW column;
-					SendMessageW (FavoriteListControl, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT); 
+					SendMessageW (FavoriteListControl, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
 					memset (&column, 0, sizeof (column));
 					column.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;
@@ -459,7 +459,7 @@ namespace VeraCrypt
 			return;
 
 		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, L"");
-		
+
 		int i = 0;
 		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
 		{
@@ -764,7 +764,7 @@ namespace VeraCrypt
 
 			if (favorite.ReadOnly)
 				s += L" readonly=\"1\"";
-			
+
 			if (favorite.Removable)
 				s += L" removable=\"1\"";
 
@@ -776,7 +776,7 @@ namespace VeraCrypt
 
 			if (favorite.MountOnLogOn)
 				s += L" mountOnLogOn=\"1\"";
-			
+
 			if (favorite.DisableHotkeyMount)
 				s += L" noHotKeyMount=\"1\"";
 

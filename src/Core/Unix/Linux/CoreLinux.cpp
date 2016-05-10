@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -41,7 +41,7 @@ namespace VeraCrypt
 		loopPaths.push_back ("/dev/loop");
 		loopPaths.push_back ("/dev/loop/");
 		loopPaths.push_back ("/dev/.static/dev/loop");
-		
+
 		// On Fedora 23,"losetup -f" must be called first to create a default loop device
 		list <string> args;
 		args.push_back ("-f");
@@ -171,7 +171,7 @@ namespace VeraCrypt
 		while (tr.ReadLine (line))
 		{
 			vector <string> fields = StringConverter::Split (line);
-			
+
 			if (fields.size() != 4
 				|| fields[3].find ("loop") == 0	// skip loop devices
 				|| fields[3].find ("cloop") == 0
@@ -390,10 +390,10 @@ namespace VeraCrypt
 
 				stringstream nativeDevName;
 				nativeDevName << "veracrypt" << options.SlotNumber;
-				
+
 				if (nativeDevCount != cipherCount - 1)
 					nativeDevName << "_" << cipherCount - nativeDevCount - 2;
-				
+
 				nativeDevPath = "/dev/mapper/" + nativeDevName.str();
 
 				execArgs.clear();
@@ -401,7 +401,7 @@ namespace VeraCrypt
 				execArgs.push_back (nativeDevName.str());
 
 				Process::Execute ("dmsetup", execArgs, -1, nullptr, &dmCreateArgsBuf);
-				
+
 				// Wait for the device to be created
 				for (int t = 0; true; t++)
 				{

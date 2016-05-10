@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -52,7 +52,7 @@ namespace VeraCrypt
 	{
 		if (VolumeFile.get() == nullptr)
 			throw NotInitialized (SRC_POS);
-		
+
 		VolumeFile.reset();
 	}
 
@@ -83,7 +83,7 @@ namespace VeraCrypt
 		}
 		catch (SystemException &e)
 		{
-			if (e.GetErrorCode() == 
+			if (e.GetErrorCode() ==
 #ifdef TC_WINDOWS
 				ERROR_SHARING_VIOLATION)
 #else
@@ -109,7 +109,7 @@ namespace VeraCrypt
 
 		// TrueCrypt doesn't support SHA-256
 		if (kdf && truecryptMode && (kdf->GetName() == L"HMAC-SHA-256"))
-			throw UnsupportedAlgoInTrueCryptMode (SRC_POS);	
+			throw UnsupportedAlgoInTrueCryptMode (SRC_POS);
 
 		Protection = protection;
 		VolumeFile = volumeFile;
@@ -272,7 +272,7 @@ namespace VeraCrypt
 				{
 					File driveDevice;
 					driveDevice.Open (DevicePath (wstring (GetPath())).ToHostDriveOfPartition());
-					
+
 					Buffer mbr (VolumeFile->GetDeviceSectorSize());
 					driveDevice.ReadAt (mbr, 0);
 
@@ -321,12 +321,12 @@ namespace VeraCrypt
 	void Volume::ReEncryptHeader (bool backupHeader, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf)
 	{
 		if_debug (ValidateState ());
-		
+
 		if (Protection == VolumeProtection::ReadOnly)
 			throw VolumeReadOnly (SRC_POS);
 
 		SecureBuffer newHeaderBuffer (Layout->GetHeaderSize());
-		
+
 		Header->EncryptNew (newHeaderBuffer, newSalt, newHeaderKey, newPkcs5Kdf);
 
 		int headerOffset = backupHeader ? Layout->GetBackupHeaderOffset() : Layout->GetHeaderOffset();
@@ -373,7 +373,7 @@ namespace VeraCrypt
 		VolumeFile->WriteAt (encBuf, hostOffset);
 
 		TotalDataWritten += length;
-		
+
 		uint64 writeEndOffset = byteOffset + buffer.Size();
 		if (writeEndOffset > TopWriteOffset)
 			TopWriteOffset = writeEndOffset;

@@ -64,7 +64,7 @@
 #define afterI1(f) f(1,a,b,c,e,d)
 #define afterI0(f) f(0,a,d,b,e,c)
 
-// The instruction sequences for the S-box functions 
+// The instruction sequences for the S-box functions
 // come from Dag Arne Osvik's paper "Speeding up Serpent".
 
 #define S0(i, r0, r1, r2, r3, r4) \
@@ -462,9 +462,9 @@ static void S0f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 }
 
 static void S1f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r2, unsigned __int32 *r3, unsigned __int32 *r4)
-{        
-    *r0 = ~*r0;   
-    *r2 = ~*r2;   
+{
+    *r0 = ~*r0;
+    *r2 = ~*r2;
     *r4 = *r0;
     *r0 &= *r1;
     *r2 ^= *r0;
@@ -484,7 +484,7 @@ static void S1f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 }
 
 static void S2f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r2, unsigned __int32 *r3, unsigned __int32 *r4)
-{        
+{
 	*r4 = *r0;
 	*r0 &= *r2;
 	*r0 ^= *r3;
@@ -500,11 +500,11 @@ static void S2f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 	*r4 ^= *r0;
 	*r1 ^= *r3;
 	*r1 ^= *r4;
-	*r4 = ~*r4;   
+	*r4 = ~*r4;
 }
 
 static void S3f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r2, unsigned __int32 *r3, unsigned __int32 *r4)
-{        
+{
 	*r4 = *r0;
 	*r0 |= *r3;
 	*r3 ^= *r1;
@@ -527,9 +527,9 @@ static void S3f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 }
 
 static void S4f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r2, unsigned __int32 *r3, unsigned __int32 *r4)
-{        
+{
 	*r1 ^= *r3;
-	*r3 = ~*r3;   
+	*r3 = ~*r3;
 	*r2 ^= *r3;
 	*r3 ^= *r0;
 	*r4 = *r1;
@@ -546,15 +546,15 @@ static void S4f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 	*r0 |= *r3;
 	*r0 ^= *r2;
 	*r2 &= *r3;
-	*r0 = ~*r0;   
+	*r0 = ~*r0;
 	*r4 ^= *r2;
 }
 
 static void S5f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r2, unsigned __int32 *r3, unsigned __int32 *r4)
-{        
+{
 	*r0 ^= *r1;
 	*r1 ^= *r3;
-	*r3 = ~*r3;   
+	*r3 = ~*r3;
 	*r4 = *r1;
 	*r1 &= *r0;
 	*r2 ^= *r3;
@@ -567,15 +567,15 @@ static void S5f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 	*r4 ^= *r2;
 	*r2 ^= *r0;
 	*r0 &= *r3;
-	*r2 = ~*r2;   
+	*r2 = ~*r2;
 	*r0 ^= *r4;
 	*r4 |= *r3;
 	*r2 ^= *r4;
 }
 
 static void S6f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r2, unsigned __int32 *r3, unsigned __int32 *r4)
-{        
-	*r2 = ~*r2;   
+{
+	*r2 = ~*r2;
 	*r4 = *r3;
 	*r3 &= *r0;
 	*r0 ^= *r4;
@@ -590,13 +590,13 @@ static void S6f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 	*r0 ^= *r2;
 	*r4 ^= *r3;
 	*r4 ^= *r0;
-	*r3 = ~*r3;   
+	*r3 = ~*r3;
 	*r2 &= *r4;
 	*r2 ^= *r3;
 }
 
 static void S7f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r2, unsigned __int32 *r3, unsigned __int32 *r4)
-{        
+{
 	*r4 = *r2;
 	*r2 &= *r1;
 	*r2 ^= *r3;
@@ -612,7 +612,7 @@ static void S7f (unsigned __int32 *r0, unsigned __int32 *r1, unsigned __int32 *r
 	*r3 ^= *r4;
 	*r4 ^= *r2;
 	*r2 &= *r0;
-	*r4 = ~*r4;   
+	*r4 = ~*r4;
 	*r2 ^= *r4;
 	*r4 &= *r0;
 	*r1 ^= *r3;
@@ -767,7 +767,7 @@ void serpent_encrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, 
 	while (1);
 
 	afterS7(KX);
-	
+
     out[0] = LE32(d);
 	out[1] = LE32(e);
 	out[2] = LE32(b);
@@ -827,7 +827,7 @@ void serpent_encrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, 
 	while (1);
 
 	KXf (k, 32, &d, &e, &b, &a);
-	
+
     out[0] = LE32(d);
 	out[1] = LE32(e);
 	out[2] = LE32(b);
@@ -862,17 +862,17 @@ void serpent_decrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, 
 		k -= 32;
 		beforeI7(ILT);
 start:
-		beforeI7(I7); afterI7(KX); 
-		afterI7(ILT); afterI7(I6); afterI6(KX); 
-		afterI6(ILT); afterI6(I5); afterI5(KX); 
-		afterI5(ILT); afterI5(I4); afterI4(KX); 
-		afterI4(ILT); afterI4(I3); afterI3(KX); 
-		afterI3(ILT); afterI3(I2); afterI2(KX); 
-		afterI2(ILT); afterI2(I1); afterI1(KX); 
+		beforeI7(I7); afterI7(KX);
+		afterI7(ILT); afterI7(I6); afterI6(KX);
+		afterI6(ILT); afterI6(I5); afterI5(KX);
+		afterI5(ILT); afterI5(I4); afterI4(KX);
+		afterI4(ILT); afterI4(I3); afterI3(KX);
+		afterI3(ILT); afterI3(I2); afterI2(KX);
+		afterI2(ILT); afterI2(I1); afterI1(KX);
 		afterI1(ILT); afterI1(I0); afterI0(KX);
 	}
 	while (--i != 0);
-	
+
     out[0] = LE32(a);
 	out[1] = LE32(d);
 	out[2] = LE32(b);
@@ -882,7 +882,7 @@ start:
 #else // TC_MINIMIZE_CODE_SIZE
 
 static void ILTf (uint32 *a, uint32 *b, uint32 *c, uint32 *d)
-{ 
+{
 	*c = rotrFixed(*c, 22);
 	*a = rotrFixed(*a, 5);
 	*c ^= *d ^ (*b << 7);
@@ -919,16 +919,16 @@ void serpent_decrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, 
 		beforeI7(ILT);
 start:
 		beforeI7(I7); KXf (k, 28, &d, &a, &b, &e);
-		ILTf (&d, &a, &b, &e); afterI7(I6); KXf (k, 24, &a, &b, &c, &e); 
-		ILTf (&a, &b, &c, &e); afterI6(I5); KXf (k, 20, &b, &d, &e, &c); 
-		ILTf (&b, &d, &e, &c); afterI5(I4); KXf (k, 16, &b, &c, &e, &a); 
+		ILTf (&d, &a, &b, &e); afterI7(I6); KXf (k, 24, &a, &b, &c, &e);
+		ILTf (&a, &b, &c, &e); afterI6(I5); KXf (k, 20, &b, &d, &e, &c);
+		ILTf (&b, &d, &e, &c); afterI5(I4); KXf (k, 16, &b, &c, &e, &a);
 		ILTf (&b, &c, &e, &a); afterI4(I3); KXf (k, 12, &a, &b, &e, &c);
 		ILTf (&a, &b, &e, &c); afterI3(I2); KXf (k, 8,  &b, &d, &e, &c);
 		ILTf (&b, &d, &e, &c); afterI2(I1); KXf (k, 4,  &a, &b, &c, &e);
 		ILTf (&a, &b, &c, &e); afterI1(I0); KXf (k, 0,  &a, &d, &b, &e);
 	}
 	while (--i != 0);
-	
+
     out[0] = LE32(a);
 	out[1] = LE32(d);
 	out[2] = LE32(b);

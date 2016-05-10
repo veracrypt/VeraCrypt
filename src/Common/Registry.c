@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -287,14 +287,14 @@ void DeleteRegistryValue (wchar_t *subKey, wchar_t *name)
 
 void GetStartupRegKeyName (wchar_t *regk, size_t cbRegk)
 {
-	// The string is split in order to prevent some antivirus packages from falsely reporting  
+	// The string is split in order to prevent some antivirus packages from falsely reporting
 	// VeraCrypt.exe to contain a possible Trojan horse because of this string (heuristic scan).
 	StringCbPrintfW (regk, cbRegk,L"%s%s", L"Software\\Microsoft\\Windows\\Curren", L"tVersion\\Run");
 }
 
 void GetRestorePointRegKeyName (wchar_t *regk, size_t cbRegk)
 {
-	// The string is split in order to prevent some antivirus packages from falsely reporting  
+	// The string is split in order to prevent some antivirus packages from falsely reporting
 	// VeraCrypt.exe to contain a possible Trojan horse because of this string (heuristic scan).
 	StringCbPrintfW (regk, cbRegk,L"%s%s%s%s", L"Software\\Microsoft\\Windows", L" NT\\Curren", L"tVersion\\Sy", L"stemRestore");
 }

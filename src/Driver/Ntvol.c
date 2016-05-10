@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -82,7 +82,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		PARTITION_INFORMATION pi;
 		PARTITION_INFORMATION_EX pix;
 		LARGE_INTEGER diskLengthInfo;
-		DISK_GEOMETRY dg;    
+		DISK_GEOMETRY dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
 		STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR storageDescriptor = {0};
 
@@ -105,8 +105,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		storagePropertyQuery.QueryType = PropertyStandardQuery;
 
 		/* IOCTL_STORAGE_QUERY_PROPERTY supported only on Vista and above */
-		if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY, 
-			(char*) &storagePropertyQuery, sizeof(storagePropertyQuery), 
+		if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+			(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
 			(char *) &storageDescriptor, sizeof (storageDescriptor))))
 		{
 			Extension->HostBytesPerPhysicalSector = storageDescriptor.BytesPerPhysicalSector;
@@ -300,8 +300,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	}
 	else
 	{
-		// Try to gain "raw" access to the partition in case there is a live filesystem on it (otherwise, 
-		// the NTFS driver guards hidden sectors and prevents mounting using a backup header e.g. after the user 
+		// Try to gain "raw" access to the partition in case there is a live filesystem on it (otherwise,
+		// the NTFS driver guards hidden sectors and prevents mounting using a backup header e.g. after the user
 		// accidentally quick-formats a dismounted partition-hosted TrueCrypt volume as NTFS).
 
 		PFILE_OBJECT pfoTmpDeviceFile = NULL;
@@ -335,7 +335,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	// Go through all volume types (e.g., normal, hidden)
 	for (volumeType = TC_VOLUME_TYPE_NORMAL;
 		volumeType < TC_VOLUME_TYPE_COUNT;
-		volumeType++)	
+		volumeType++)
 	{
 		Dump ("Trying to open volume type %d\n", volumeType);
 
@@ -451,7 +451,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			Dump ("Read didn't read enough data\n");
 
 			// If FSCTL_ALLOW_EXTENDED_DASD_IO failed and there is a live filesystem on the partition, then the
-			// filesystem driver may report EOF when we are reading hidden sectors (when the filesystem is 
+			// filesystem driver may report EOF when we are reading hidden sectors (when the filesystem is
 			// shorter than the partition). This can happen for example after the user quick-formats a dismounted
 			// partition-hosted TrueCrypt volume and then tries to mount the volume using the embedded backup header.
 			memset (readBuffer, 0, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
@@ -610,7 +610,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				}
 
 				// If we are supposed to actually mount the hidden volume (not just to protect it)
-				if (!mount->bProtectHiddenVolume)	
+				if (!mount->bProtectHiddenVolume)
 				{
 					Extension->DiskLength = cryptoInfoPtr->hiddenVolumeSize;
 					Extension->cryptoInfo->hiddenVolume = TRUE;
@@ -621,7 +621,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 					// Hidden volume protection
 					Extension->cryptoInfo->hiddenVolume = FALSE;
 					Extension->cryptoInfo->bProtectHiddenVolume = TRUE;
-					
+
 					Extension->cryptoInfo->hiddenVolumeProtectedSize = tmpCryptoInfo->hiddenVolumeSize;
 
 					Dump ("Hidden volume protection active: %I64d-%I64d (%I64d)\n", Extension->cryptoInfo->hiddenVolumeOffset, Extension->cryptoInfo->hiddenVolumeProtectedSize + Extension->cryptoInfo->hiddenVolumeOffset - 1, Extension->cryptoInfo->hiddenVolumeProtectedSize);
@@ -642,7 +642,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 			// If this is a hidden volume, make sure we are supposed to actually
 			// mount it (i.e. not just to protect it)
-			if (volumeType == TC_VOLUME_TYPE_NORMAL || !mount->bProtectHiddenVolume)	
+			if (volumeType == TC_VOLUME_TYPE_NORMAL || !mount->bProtectHiddenVolume)
 			{
 				// Validate sector size
 				if (bRawDevice && Extension->cryptoInfo->SectorSize != Extension->HostBytesPerSector)
@@ -660,7 +660,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				Extension->PartitionType = 0;
 
 				Extension->bRawDevice = bRawDevice;
-				
+
 				memset (Extension->wszVolume, 0, sizeof (Extension->wszVolume));
 				if (wcsstr (pwszMountVolume, WIDE ("\\??\\UNC\\")) == pwszMountVolume)
 				{
@@ -690,7 +690,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 					crypto_close (tmpCryptoInfo);
 					tmpCryptoInfo = NULL;
 				}
-				
+
 				return STATUS_SUCCESS;
 			}
 		}
@@ -698,7 +698,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			  || mount->nReturnCode != ERR_PASSWORD_WRONG)
 		{
 			 /* If we are not supposed to protect a hidden volume, the only error that is
-				tolerated is ERR_PASSWORD_WRONG (to allow mounting a possible hidden volume). 
+				tolerated is ERR_PASSWORD_WRONG (to allow mounting a possible hidden volume).
 
 				If we _are_ supposed to protect a hidden volume, we do not tolerate any error
 				(both volume headers must be successfully decrypted). */
@@ -863,8 +863,8 @@ static void RestoreTimeStamp (PEXTENSION Extension)
 	FILE_BASIC_INFORMATION FileBasicInfo;
 	IO_STATUS_BLOCK IoStatusBlock;
 
-	if (Extension->hDeviceFile != NULL 
-		&& Extension->bRawDevice == FALSE 
+	if (Extension->hDeviceFile != NULL
+		&& Extension->bRawDevice == FALSE
 		&& Extension->bReadOnly == FALSE
 		&& Extension->bTimeStampValid)
 	{
@@ -872,7 +872,7 @@ static void RestoreTimeStamp (PEXTENSION Extension)
 			&IoStatusBlock,
 			&FileBasicInfo,
 			sizeof (FileBasicInfo),
-			FileBasicInformation); 
+			FileBasicInformation);
 
 		if (!NT_SUCCESS (ntStatus))
 		{
@@ -891,7 +891,7 @@ static void RestoreTimeStamp (PEXTENSION Extension)
 				&IoStatusBlock,
 				&FileBasicInfo,
 				sizeof (FileBasicInfo),
-				FileBasicInformation); 
+				FileBasicInformation);
 
 			if (!NT_SUCCESS (ntStatus))
 				Dump ("ZwSetInformationFile failed in RestoreTimeStamp: NTSTATUS 0x%08x\n",ntStatus);

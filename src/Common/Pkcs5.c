@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -150,7 +150,7 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, u
 	char* k = hmac->k;
 	char* u = hmac->u;
 	uint32 c;
-	int i;	
+	int i;
 
 #ifdef TC_WINDOWS_BOOT
 	/* In bootloader mode, least significant bit of iterations is a boolean (TRUE for boot derivation mode, FALSE otherwise)
@@ -169,7 +169,7 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, u
 
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
-	
+
 	/* big-endian block number */
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
@@ -191,7 +191,7 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, u
 
 
 void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
-{	
+{
 	hmac_sha256_ctx hmac;
 	sha256_ctx* ctx;
 	char* buf = hmac.k;
@@ -315,7 +315,7 @@ void hmac_sha512
 	  char *k,		/* secret key */
 	  int lk,		/* length of the key in bytes */
 	  char *d,		/* data and also output buffer of at least 64 bytes */
-	  int ld			/* length of data in bytes */	  
+	  int ld			/* length of data in bytes */
 )
 {
 	hmac_sha512_ctx hmac;
@@ -521,7 +521,7 @@ void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
 
 	/* If the key is longer than the hash algorithm block size,
 	let key = ripemd160(key), as per HMAC specifications. */
-	if (keylen > RIPEMD160_BLOCKSIZE) 
+	if (keylen > RIPEMD160_BLOCKSIZE)
 	{
 		RMD160_CTX      tctx;
 
@@ -533,14 +533,14 @@ void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
 		keylen = RIPEMD160_DIGESTSIZE;
 
 		burn (&tctx, sizeof(tctx));	// Prevent leaks
-	}   
+	}
 
 	/* perform inner RIPEMD-160 */
 	ctx = &(hmac.inner_digest_ctx);
 	/* start out by storing key in pads */
 	memset(k_pad, 0x36, 64);
 	/* XOR key with ipad and opad values */
-	for (i=0; i<keylen; i++) 
+	for (i=0; i<keylen; i++)
 	{
 		k_pad[i] ^= key[i];
 	}
@@ -551,7 +551,7 @@ void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
 	/* perform outer RIPEMD-160 */
 	ctx = &(hmac.outer_digest_ctx);
 	memset(k_pad, 0x5c, 64);
-	for (i=0; i<keylen; i++) 
+	for (i=0; i<keylen; i++)
 	{
 		k_pad[i] ^= key[i];
 	}
@@ -591,7 +591,7 @@ static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len
 
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
-	
+
 	/* big-endian block number */
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
@@ -612,7 +612,7 @@ static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len
 }
 
 void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen)
-{	
+{
 	int b, l, r;
 	hmac_ripemd160_ctx hmac;
 	RMD160_CTX* ctx;
@@ -621,7 +621,7 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	unsigned char tk[RIPEMD160_DIGESTSIZE];
     /* If the password is longer than the hash algorithm block size,
 	   let password = ripemd160(password), as per HMAC specifications. */
-	if (pwd_len > RIPEMD160_BLOCKSIZE) 
+	if (pwd_len > RIPEMD160_BLOCKSIZE)
 	{
         RMD160_CTX      tctx;
 
@@ -652,7 +652,7 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	/* start out by storing key in pads */
 	memset(k_pad, 0x36, 64);
 	/* XOR key with ipad and opad values */
-	for (b=0; b<pwd_len; b++) 
+	for (b=0; b<pwd_len; b++)
 	{
 		k_pad[b] ^= pwd[b];
 	}
@@ -663,7 +663,7 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	/* perform outer RIPEMD-160 */
 	ctx = &(hmac.outer_digest_ctx);
 	memset(k_pad, 0x5c, 64);
-	for (b=0; b<pwd_len; b++) 
+	for (b=0; b<pwd_len; b++)
 	{
 		k_pad[b] ^= pwd[b];
 	}
@@ -797,7 +797,7 @@ static void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-	memset (&k[salt_len], 0, 3);	
+	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
 
 	hmac_whirlpool_internal (pwd, pwd_len, k, salt_len + 4, hmac);
@@ -894,19 +894,19 @@ wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id)
 {
 	switch (pkcs5_prf_id)
 	{
-	case SHA512:	
+	case SHA512:
 		return L"HMAC-SHA-512";
 
-	case SHA256:	
+	case SHA256:
 		return L"HMAC-SHA-256";
 
-	case RIPEMD160:	
+	case RIPEMD160:
 		return L"HMAC-RIPEMD-160";
 
-	case WHIRLPOOL:	
+	case WHIRLPOOL:
 		return L"HMAC-Whirlpool";
 
-	default:		
+	default:
 		return L"(Unknown)";
 	}
 }
@@ -925,7 +925,7 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 	switch (pkcs5_prf_id)
 	{
 
-	case RIPEMD160:	
+	case RIPEMD160:
 		if (truecryptMode)
 			return bBoot ? 1000 : 2000;
 		else if (pim == 0)
@@ -935,10 +935,10 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 			return bBoot? pim * 2048 : 15000 + pim * 1000;
 		}
 
-	case SHA512:	
+	case SHA512:
 		return truecryptMode? 1000 : ((pim == 0)? 500000 : 15000 + pim * 1000);
 
-	case WHIRLPOOL:	
+	case WHIRLPOOL:
 		return truecryptMode? 1000 : ((pim == 0)? 500000 : 15000 + pim * 1000);
 
 	case SHA256:
@@ -951,7 +951,7 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 			return bBoot? pim * 2048 : 15000 + pim * 1000;
 		}
 
-	default:		
+	default:
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
 	return 0;

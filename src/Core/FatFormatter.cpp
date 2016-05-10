@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -89,8 +89,8 @@ namespace VeraCrypt
 			ft->cluster_size = 1;
 
 		// Geometry always set to SECTORS/1/1
-		ft->secs_track = 1; 
-		ft->heads = 1; 
+		ft->secs_track = 1;
+		ft->heads = 1;
 
 		ft->dir_entries = 512;
 		ft->fats = 2;
@@ -180,13 +180,13 @@ namespace VeraCrypt
 		cnt += 2;
 		boot[cnt++] = (int8) ft->media;					/* media byte */
 
-		if(ft->size_fat == 32)	
+		if(ft->size_fat == 32)
 		{
 			boot[cnt++] = 0x00;
 			boot[cnt++] = 0x00;
 		}
-		else 
-		{ 
+		else
+		{
 			*(uint16 *)(boot + cnt) = Endian::Little ((uint16) ft->fat_length);	/* fat size */
 			cnt += 2;
 		}
@@ -248,13 +248,13 @@ namespace VeraCrypt
 	{
 		memset (sector, 0, ft->sector_size);
 		sector[3] = 0x41; /* LeadSig */
-		sector[2] = 0x61; 
-		sector[1] = 0x52; 
-		sector[0] = 0x52; 
+		sector[2] = 0x61;
+		sector[1] = 0x52;
+		sector[0] = 0x52;
 		sector[484+3] = 0x61; /* StrucSig */
-		sector[484+2] = 0x41; 
-		sector[484+1] = 0x72; 
-		sector[484+0] = 0x72; 
+		sector[484+2] = 0x41;
+		sector[484+1] = 0x72;
+		sector[484+0] = 0x72;
 
 		// Free cluster count
 		*(uint32 *)(sector + 488) = Endian::Little (ft->cluster_count - ft->size_root_dir / ft->sector_size / ft->cluster_size);
@@ -283,7 +283,7 @@ namespace VeraCrypt
 		fatParams.num_sectors = (uint32) (deviceSize / fatParams.sector_size);
 		fatParams.cluster_size = clusterSize / fatParams.sector_size;
 		memcpy (fatParams.volume_name, "NO NAME    ", 11);
-		GetFatParams (&fatParams); 
+		GetFatParams (&fatParams);
 		fatparams *ft = &fatParams;
 
 		SecureBuffer sector (ft->sector_size);
@@ -300,7 +300,7 @@ namespace VeraCrypt
 		writeSector (sector); ++sectorNumber;
 
 		/* fat32 boot area */
-		if (ft->size_fat == 32)				
+		if (ft->size_fat == 32)
 		{
 			/* fsinfo */
 			PutFSInfo((byte *) sector, ft);
@@ -351,7 +351,7 @@ namespace VeraCrypt
 						fat_sig[8] = fat_sig[9] = fat_sig[10] = 0xff;
 						fat_sig[11] = 0x0f;
 						memcpy (sector, fat_sig, 12);
-					}				
+					}
 					else if (ft->size_fat == 16)
 					{
 						fat_sig[0] = (byte) ft->media;

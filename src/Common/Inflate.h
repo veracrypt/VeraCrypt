@@ -10,17 +10,17 @@ typedef unsigned char	uch;
 typedef unsigned short	ush;
 typedef void			zvoid;
 
-typedef struct huft 
+typedef struct huft
 {
 	uch b, e;
-	union 
+	union
 	{
 		ush n;
 		struct huft *t;
 	}v;
 };
 
-typedef struct 
+typedef struct
 {
 	uch		*inptr, *outbufptr;
 	int		incnt;

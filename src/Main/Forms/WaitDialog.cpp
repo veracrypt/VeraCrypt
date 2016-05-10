@@ -20,7 +20,7 @@ namespace VeraCrypt
 	DEFINE_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOG_SHOW_MSG)
 
 	wxThread::ExitCode WaitThread::Entry()
-	{	
+	{
 		m_pRoutine->Execute();
 		wxQueueEvent (m_pHandler, new wxCommandEvent( wxEVT_COMMAND_WAITDIALOGTHREAD_COMPLETED,0));
 		return (wxThread::ExitCode)0; // success
@@ -59,7 +59,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (UserInterfaceException);
 		VC_CONVERT_EXCEPTION (MissingArgument);
 		VC_CONVERT_EXCEPTION (NoItemSelected);
-		VC_CONVERT_EXCEPTION (StringFormatterException);	
+		VC_CONVERT_EXCEPTION (StringFormatterException);
 		VC_CONVERT_EXCEPTION (ExecutedProcessFailed);
 		VC_CONVERT_EXCEPTION (AlreadyInitialized);
 		VC_CONVERT_EXCEPTION (AssertionFailed);
@@ -77,7 +77,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (UnknownException);
 		VC_CONVERT_EXCEPTION (UserAbort)
 		VC_CONVERT_EXCEPTION (CipherInitError);
-		VC_CONVERT_EXCEPTION (WeakKeyDetected);	
+		VC_CONVERT_EXCEPTION (WeakKeyDetected);
 		VC_CONVERT_EXCEPTION (HigherVersionRequired);
 		VC_CONVERT_EXCEPTION (KeyfilePathEmpty);
 		VC_CONVERT_EXCEPTION (MissingVolumeData);
@@ -92,7 +92,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (SecurityTokenLibraryNotInitialized);
 		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileAlreadyExists);
 		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileNotFound);
-		VC_CONVERT_EXCEPTION (UnsupportedAlgoInTrueCryptMode);	
+		VC_CONVERT_EXCEPTION (UnsupportedAlgoInTrueCryptMode);
 		VC_CONVERT_EXCEPTION (UnsupportedTrueCryptFormat);
 		VC_CONVERT_EXCEPTION (SystemException);
 		VC_CONVERT_EXCEPTION (CipherException);

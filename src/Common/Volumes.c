@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -243,7 +243,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 		}
 #endif
 	}
-		
+
 #ifndef DEVICE_DRIVER
 	VirtualLock (&keyInfo, sizeof (keyInfo));
 	VirtualLock (&dk, sizeof (dk));
@@ -256,7 +256,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 
 	// Test all available PKCS5 PRFs
 	for (enqPkcs5Prf = FIRST_PRF_ID; enqPkcs5Prf <= LAST_PRF_ID || queuedWorkItems > 0; ++enqPkcs5Prf)
-	{	
+	{
 		// if a PRF is specified, we skip all other PRFs
 		if (selected_pkcs5_prf != 0 && enqPkcs5Prf != selected_pkcs5_prf)
 			continue;
@@ -282,7 +282,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 						EncryptionThreadPoolBeginKeyDerivation (&keyDerivationCompletedEvent, &noOutstandingWorkItemEvent,
 							&item->KeyReady, &outstandingWorkItemCount, enqPkcs5Prf, keyInfo.userKey,
 							keyInfo.keyLength, keyInfo.salt, get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot), item->DerivedKey);
-						
+
 						++queuedWorkItems;
 						break;
 					}
@@ -345,10 +345,10 @@ KeyReady:	;
 					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
-			default:		
+			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
-			} 
+			}
 		}
 
 		// Test all available modes of operation
@@ -401,7 +401,7 @@ KeyReady:	;
 				// Copy the header for decryption
 				memcpy (header, encryptedHeader, sizeof (header));
 
-				// Try to decrypt header 
+				// Try to decrypt header
 
 				DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
 
@@ -413,7 +413,7 @@ KeyReady:	;
 
 				// Header version
 				headerVersion = GetHeaderField16 (header, TC_HEADER_OFFSET_VERSION);
-				
+
 				if (headerVersion > VOLUME_HEADER_VERSION)
 				{
 					status = ERR_NEW_VERSION_REQUIRED;
@@ -471,7 +471,7 @@ KeyReady:	;
 
 				// Volume size
 				cryptoInfo->VolumeSize = GetHeaderField64 (header, TC_HEADER_OFFSET_VOLUME_SIZE);
-				
+
 				// Encrypted area size and length
 				cryptoInfo->EncryptedAreaStart = GetHeaderField64 (header, TC_HEADER_OFFSET_ENCRYPTED_AREA_START);
 				cryptoInfo->EncryptedAreaLength = GetHeaderField64 (header, TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH);
@@ -493,7 +493,7 @@ KeyReady:	;
 					goto err;
 				}
 
-				// Preserve scheduled header keys if requested			
+				// Preserve scheduled header keys if requested
 				if (retHeaderCryptoInfo)
 				{
 					if (retInfo == NULL)
@@ -557,7 +557,7 @@ err:
 	if (cryptoInfo != retHeaderCryptoInfo)
 	{
 		crypto_close(cryptoInfo);
-		*retInfo = NULL; 
+		*retInfo = NULL;
 	}
 
 ret:
@@ -601,7 +601,7 @@ void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderS
 
 	WHIRLPOOL_CTX whirlpool;
 	sha512_ctx sha2;
-	
+
 	WHIRLPOOL_init (&whirlpool);
 	sha512_begin (&sha2);
 
@@ -690,9 +690,9 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 		EAInit (cryptoInfo->ea, dk + EAGetKeySize (cryptoInfo->ea), cryptoInfo->ks2);
 #endif
 
-		// Try to decrypt header 
+		// Try to decrypt header
 		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, cryptoInfo);
-		
+
 		// Check magic 'VERA' and CRC-32 of header fields and master keydata
 		if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241
 			|| (GetHeaderField16 (header, TC_HEADER_OFFSET_VERSION) >= 4 && GetHeaderField32 (header, TC_HEADER_OFFSET_HEADER_CRC) != GetCrc32 (header + TC_HEADER_OFFSET_MAGIC, TC_HEADER_OFFSET_HEADER_CRC - TC_HEADER_OFFSET_MAGIC))
@@ -774,7 +774,7 @@ err:
 	if (cryptoInfo != retHeaderCryptoInfo)
 	{
 		crypto_close(cryptoInfo);
-		*retInfo = NULL; 
+		*retInfo = NULL;
 	}
 
 ret:
@@ -844,7 +844,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 		memcpy (keyInfo.master_keydata, masterKeydata, MASTER_KEYDATA_SIZE);
 	}
 
-	// User key 
+	// User key
 	memcpy (keyInfo.userKey, password->Text, nUserKeyLen);
 	keyInfo.keyLength = nUserKeyLen;
 	keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, FALSE, bBoot);
@@ -863,7 +863,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 
 	// Salt for header key derivation
 	if (!RandgetBytes (hwndDlg, keyInfo.salt, PKCS5_SALT_SIZE, !bWipeMode))
-		return ERR_CIPHER_INIT_WEAK_KEY; 
+		return ERR_CIPHER_INIT_WEAK_KEY;
 
 	// PBKDF2 (PKCS5) is used to derive primary header key(s) and secondary header key(s) (XTS) from the password/keyfiles
 	switch (pkcs5_prf)
@@ -888,15 +888,15 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 		break;
 
-	default:		
+	default:
 		// Unknown/wrong ID
 		TC_THROW_FATAL_EXCEPTION;
-	} 
+	}
 
 	/* Header setup */
 
 	// Salt
-	mputBytes (p, keyInfo.salt, PKCS5_SALT_SIZE);	
+	mputBytes (p, keyInfo.salt, PKCS5_SALT_SIZE);
 
 	// Magic
 	mputLong (p, 0x56455241);
@@ -985,7 +985,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 
 	/* cryptoInfo setup for further use (disk format) */
 
-	// Init with the master key(s) 
+	// Init with the master key(s)
 	retVal = EAInit (cryptoInfo->ea, keyInfo.master_keydata + primaryKeyOffset, cryptoInfo->ks);
 	if (retVal != ERR_SUCCESS)
 		return retVal;
@@ -1080,7 +1080,7 @@ BOOL ReadEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header, DW
 		return FALSE;
 
 	memcpy (header, sectorBuffer, min (*bytesRead, TC_VOLUME_HEADER_EFFECTIVE_SIZE));
-	
+
 	if (*bytesRead > TC_VOLUME_HEADER_EFFECTIVE_SIZE)
 		*bytesRead = TC_VOLUME_HEADER_EFFECTIVE_SIZE;
 
@@ -1181,7 +1181,7 @@ int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO 
 		if (!RandgetBytes (hwndDlg, temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE)
 			|| !RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof (cryptoInfo->k2), FALSE))
 		{
-			nStatus = ERR_PARAMETER_INCORRECT; 
+			nStatus = ERR_PARAMETER_INCORRECT;
 			goto final_seq;
 		}
 

@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -51,8 +51,8 @@ void SelfExtractStartupInit (void)
 }
 
 
-// The end marker must be included in the self-extracting exe only once, not twice (used e.g. 
-// by IsSelfExtractingPackage()) and that's why MAG_END_MARKER_OBFUSCATED is obfuscated and  
+// The end marker must be included in the self-extracting exe only once, not twice (used e.g.
+// by IsSelfExtractingPackage()) and that's why MAG_END_MARKER_OBFUSCATED is obfuscated and
 // needs to be deobfuscated using this function at startup.
 static void DeobfuscateMagEndMarker (void)
 {
@@ -90,27 +90,27 @@ static int DecompressBuffer (char *out, char *in, int len)
 }
 
 
-static void __cdecl PipeWriteThread (void *len) 
+static void __cdecl PipeWriteThread (void *len)
 {
 	int sendBufSize = PIPE_BUFFER_LEN, bytesSent = 0;
 	int bytesToSend = *((int *) len), bytesSentTotal = 0;
 
 	if (PipeWriteBuf == NULL || (HANDLE) hChildStdinWrite == INVALID_HANDLE_VALUE)
 	{
-		PkgError (L"Failed sending data to the STDIN pipe"); 
+		PkgError (L"Failed sending data to the STDIN pipe");
 		return;
 	}
 
-	while (bytesToSend > 0) 
-	{ 
+	while (bytesToSend > 0)
+	{
 		if (bytesToSend < PIPE_BUFFER_LEN)
 			sendBufSize = bytesToSend;
 
-		if (!WriteFile ((HANDLE) hChildStdinWrite, (char *) PipeWriteBuf + bytesSentTotal, sendBufSize, &bytesSent, NULL) 
+		if (!WriteFile ((HANDLE) hChildStdinWrite, (char *) PipeWriteBuf + bytesSentTotal, sendBufSize, &bytesSent, NULL)
 			|| bytesSent == 0
-			|| bytesSent != sendBufSize) 
+			|| bytesSent != sendBufSize)
 		{
-			PkgError (L"Failed sending data to the STDIN pipe"); 
+			PkgError (L"Failed sending data to the STDIN pipe");
 			return;
 		}
 
@@ -122,23 +122,23 @@ static void __cdecl PipeWriteThread (void *len)
 
 	if (!CloseHandle (hChildStdinWrite))
 	{
-		PkgError (L"Cannot close pipe"); 
+		PkgError (L"Cannot close pipe");
 		return;
 	}
 }
 
 
-// Returns 0 if compression fails or, if successful, the size of the compressed data 
+// Returns 0 if compression fails or, if successful, the size of the compressed data
 static int CompressBuffer (char *out, char *in, int len)
 {
-	SECURITY_ATTRIBUTES securityAttrib; 
+	SECURITY_ATTRIBUTES securityAttrib;
 	DWORD bytesReceived = 0;
 	HANDLE hChildStdoutWrite = INVALID_HANDLE_VALUE;
 	HANDLE hChildStdoutRead = INVALID_HANDLE_VALUE;
 	HANDLE hChildStdinRead = INVALID_HANDLE_VALUE;
 	STARTUPINFO startupInfo;
-	PROCESS_INFORMATION procInfo; 
-	char pipeBuffer [PIPE_BUFFER_LEN]; 
+	PROCESS_INFORMATION procInfo;
+	char pipeBuffer [PIPE_BUFFER_LEN];
 	int res_len = 0;
 	BOOL bGzipHeaderRead = FALSE;
 	wchar_t szGzipCmd[64];
@@ -147,13 +147,13 @@ static int CompressBuffer (char *out, char *in, int len)
 	ZeroMemory (&procInfo, sizeof (procInfo));
 
 	// Pipe handle inheritance
-	securityAttrib.bInheritHandle = TRUE; 
-	securityAttrib.nLength = sizeof (securityAttrib); 
-	securityAttrib.lpSecurityDescriptor = NULL; 
+	securityAttrib.bInheritHandle = TRUE;
+	securityAttrib.nLength = sizeof (securityAttrib);
+	securityAttrib.lpSecurityDescriptor = NULL;
 
 	if (!CreatePipe (&hChildStdoutRead, &hChildStdoutWrite, &securityAttrib, 0))
 	{
-		PkgError (L"Cannot create STDOUT pipe."); 
+		PkgError (L"Cannot create STDOUT pipe.");
 		return 0;
 	}
 	SetHandleInformation (hChildStdoutRead, HANDLE_FLAG_INHERIT, 0);
@@ -172,7 +172,7 @@ static int CompressBuffer (char *out, char *in, int len)
 	startupInfo.wShowWindow = SW_HIDE;
 	startupInfo.hStdInput = hChildStdinRead;
 	startupInfo.hStdOutput = hChildStdoutWrite;
-	startupInfo.cb = sizeof (startupInfo); 
+	startupInfo.cb = sizeof (startupInfo);
 	startupInfo.hStdError = hChildStdoutWrite;
 	startupInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
 
@@ -196,7 +196,7 @@ static int CompressBuffer (char *out, char *in, int len)
 
 	if (!CloseHandle (hChildStdoutWrite))
 	{
-		PkgError (L"Cannot close STDOUT write"); 
+		PkgError (L"Cannot close STDOUT write");
 		CloseHandle(hChildStdoutRead);
 		CloseHandle(hChildStdinRead);
 		return 0;
@@ -205,10 +205,10 @@ static int CompressBuffer (char *out, char *in, int len)
 	bGzipHeaderRead = FALSE;
 
 	// Read the compressed data from the pipe (sent by the child process to STDOUT)
-	while (TRUE) 
-	{ 
-		if (!ReadFile (hChildStdoutRead, pipeBuffer, bGzipHeaderRead ? PIPE_BUFFER_LEN : 10, &bytesReceived, NULL)) 
-			break; 
+	while (TRUE)
+	{
+		if (!ReadFile (hChildStdoutRead, pipeBuffer, bGzipHeaderRead ? PIPE_BUFFER_LEN : 10, &bytesReceived, NULL))
+			break;
 
 		if (bGzipHeaderRead)
 		{
@@ -217,7 +217,7 @@ static int CompressBuffer (char *out, char *in, int len)
 		}
 		else
 			bGzipHeaderRead = TRUE;	// Skip the 10-byte gzip header
-	} 
+	}
 
 	CloseHandle(hChildStdoutRead);
 	CloseHandle(hChildStdinRead);
@@ -225,7 +225,7 @@ static int CompressBuffer (char *out, char *in, int len)
 }
 
 
-// Clears all bytes that change when an exe file is digitally signed, except the data that are appended. 
+// Clears all bytes that change when an exe file is digitally signed, except the data that are appended.
 // If those bytes weren't cleared, CRC-32 checks would fail after signing.
 static void WipeSignatureAreas (char *buffer)
 {
@@ -295,7 +295,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 		bufLen += 4;					// 32-bit file length
 	}
 
-	buffer = malloc (bufLen + 524288);	// + 512K reserve 
+	buffer = malloc (bufLen + 524288);	// + 512K reserve
 	if (buffer == NULL)
 	{
 		PkgError (L"Cannot allocate memory for uncompressed data");
@@ -309,7 +309,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 
 	// Write the start marker
 	if (!SaveBufferToFile (MAG_START_MARKER, outputFile, strlen (MAG_START_MARKER), TRUE, FALSE))
-	{		
+	{
 		if (_wremove (outputFile))
 			PkgError (L"Cannot write the start marker\nFailed also to delete package file");
 		else
@@ -645,7 +645,7 @@ BOOL SelfExtractInMemory (wchar_t *path)
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 	}
 
-	DecompressedData = malloc (uncompressedLen + 524288);	// + 512K reserve 
+	DecompressedData = malloc (uncompressedLen + 524288);	// + 512K reserve
 	if (DecompressedData == NULL)
 	{
 		Error ("ERR_MEM_ALLOC", NULL);
@@ -693,7 +693,7 @@ BOOL SelfExtractInMemory (wchar_t *path)
 		bufPos += Decompressed_Files[fileNo].fileLength;
 
 		// Verify CRC-32 of the file (to verify that it didn't get corrupted while creating the solid archive).
-		if (Decompressed_Files[fileNo].crc 
+		if (Decompressed_Files[fileNo].crc
 			!= GetCrc32 (Decompressed_Files[fileNo].fileContent, Decompressed_Files[fileNo].fileLength))
 		{
 			Error ("DIST_PACKAGE_CORRUPTED", NULL);
