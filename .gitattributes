@@ -1,29 +1,30 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
-*	text=auto eol=lf
+*	text=auto
 
-# Explicitly declare text files you want to always be normalized and converted
-# to native line endings on checkout.
-*.[ch]	text diff=cpp
-*.[ch]pp	text diff=cpp
-*.asm	text
-Makefile	text
-*.make	text
-*.mk	text
-*.inc	text
-*.md	text
-*.xml	text
-*.xpm	text -diff -merge
-*.pem	text -diff -merge
-*.cer	text -diff -merge
-*.manifest	text
-*.sh	text
-*.txt	text
-*.html	text diff=html
-*.idl	text
-*.fbp	text
-*.rgs	text
-*.pkgproj	text
-Sources	text
+# Explicitly declare text files that could be normalized and converted
+# to native line endings on checkout. However, as per the policy they're
+# supposed to have LF endings on all platforms.
+*.[ch]	text diff=cpp eol=lf
+*.[ch]pp	text diff=cpp eol=lf
+*.asm	text eol=lf
+Makefile	text eol=lf
+*.make	text eol=lf
+*.mk	text eol=lf
+*.inc	text eol=lf
+*.md	text eol=lf
+*.xml	text eol=lf
+*.xpm	text -diff -merge eol=lf
+*.pem	text -diff -merge eol=lf
+*.cer	text -diff -merge eol=lf
+*.manifest	text eol=lf
+*.sh	text eol=lf
+*.txt	text eol=lf
+*.html	text diff=html eol=lf
+*.idl	text eol=lf
+*.fbp	text eol=lf
+*.rgs	text eol=lf
+*.pkgproj	text eol=lf
+Sources	text eol=lf
 
 # Declare files that will always have LF line endings on checkout.
 *.desktop	text eol=lf
