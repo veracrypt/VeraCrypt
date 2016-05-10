@@ -3200,7 +3200,7 @@ __int64 PrintFreeSpace (HWND hwndTextBox, wchar_t *lpszDrive, PLARGE_INTEGER lDi
 		else
 			nResourceString = "DISK_FREE_GB";
 	}
- 	else
+	else
 	{
 		if (bHiddenVol && !bHiddenVolHost)	// If it's a hidden volume
 			nResourceString = "MAX_HIDVOL_SIZE_TB";
@@ -9476,7 +9476,7 @@ int ScanVolClusterBitmap (HWND hwndDlg, int *driveNo, __int64 nbrClusters, __int
 		goto vcmf_error;
 	}
 
- 	bufLen = (DWORD) (nbrClusters / 8 + 2 * sizeof(LARGE_INTEGER));
+	bufLen = (DWORD) (nbrClusters / 8 + 2 * sizeof(LARGE_INTEGER));
 	bufLen += 100000 + bufLen/10;	// Add reserve
 
 	lpOutBuffer = (PVOLUME_BITMAP_BUFFER) malloc (bufLen);

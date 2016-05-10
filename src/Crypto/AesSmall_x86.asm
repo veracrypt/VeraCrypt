@@ -946,7 +946,7 @@ dec_round:
     restore ebp,1
     xor     eax,[ebp]
     xor     ebx,[ebp+4]
-   	add		sp, 2
+    add		sp, 2
     ret
 
 %else

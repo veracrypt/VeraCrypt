@@ -8965,7 +8965,7 @@ char *LoadFileBlock (const wchar_t *fileName, __int64 fileOffset, DWORD count)
 // Returns -1 if there is an error, or the size of the file.
 __int64 GetFileSize64 (const wchar_t *path)
 {
-  	HANDLE h = CreateFile (path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE h = CreateFile (path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	LARGE_INTEGER size;
 	__int64 retSize = -1;
 

@@ -475,7 +475,7 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, 
 		workItem->Encryption.UnitCount = unitsPerFragment;
 		workItem->Encryption.StartUnitNo.Value = fragmentStartUnitNo;
 
- 		fragmentData += unitsPerFragment * ENCRYPTION_DATA_UNIT_SIZE;
+		fragmentData += unitsPerFragment * ENCRYPTION_DATA_UNIT_SIZE;
 		fragmentStartUnitNo += unitsPerFragment;
 
 		if (remainder > 0 && --remainder == 0)

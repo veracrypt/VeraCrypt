@@ -590,7 +590,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			LoadKeyList (hwndDlg, param->FirstKeyFile);
- 			return 1;
+			return 1;
 		}
 
 		if (lw == IDC_KEYREMOVEALL)
