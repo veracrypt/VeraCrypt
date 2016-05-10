@@ -3,7 +3,7 @@
 # Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 # by the TrueCrypt License 3.0.
 #
-# Modifications and additions to the original source code (contained in this file) 
+# Modifications and additions to the original source code (contained in this file)
 # and all other portions of this file are Copyright (c) 2013-2016 IDRIX
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
@@ -152,7 +152,7 @@ ifeq "$(PLATFORM)" "MacOSX"
 	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources
 	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)
 	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
-	
+
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifdef TC_NO_GUI
 	cp $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
@@ -171,7 +171,7 @@ endif
 
 	cp $(PWD)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
 	cp "$(PWD)/Release/Setup Files/VeraCrypt User Guide.pdf" $(APPNAME).app/Contents/Resources
-	
+
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 	codesign -s "Developer ID Application: Mounir IDRASSI" --timestamp $(APPNAME).app
@@ -192,7 +192,7 @@ endif
 
 
 
-ifeq "$(PLATFORM)" "Linux"	
+ifeq "$(PLATFORM)" "Linux"
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 	mkdir -p $(PWD)/Setup/Linux/usr/bin
 	mkdir -p $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc
@@ -211,7 +211,7 @@ endif
 
 
 	tar cfz $(PWD)/Setup/Linux/$(PACKAGE_NAME) --directory $(PWD)/Setup/Linux usr
-	
+
 	@rm -fr $(INTERNAL_INSTALLER_NAME)
 	@echo "#!/bin/sh" > $(INTERNAL_INSTALLER_NAME)
 	@echo "VERSION=$(TC_VERSION)" >> $(INTERNAL_INSTALLER_NAME)
@@ -219,7 +219,7 @@ endif
 	@echo "PACKAGE_NAME=$(PACKAGE_NAME)" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "PACKAGE_START=1107" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
-	
+
 	@cat $(PWD)/Setup/Linux/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
 	@cat $(PWD)/Setup/Linux/$(PACKAGE_NAME) >> $(INTERNAL_INSTALLER_NAME)
 	chmod +x $(INTERNAL_INSTALLER_NAME)

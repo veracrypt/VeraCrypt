@@ -15,7 +15,7 @@
 #include "Common/Endian.h"
 #include "Rmd160.h"
 
-#define F(x, y, z)    (x ^ y ^ z) 
+#define F(x, y, z)    (x ^ y ^ z)
 #define G(x, y, z)    (z ^ (x & (y^z)))
 #define H(x, y, z)    (z ^ (x | ~y))
 #define I(x, y, z)    (y ^ (z & (x^y)))
@@ -300,7 +300,7 @@ void RMD160Transform (unsigned __int32 *digest, const unsigned __int32 *data)
 	Subround(J, b2, c2, d2, e2, a2, X[ 3], 12, k5);
 	Subround(J, a2, b2, c2, d2, e2, X[12],  6, k5);
 
-	Subround(I, e2, a2, b2, c2, d2, X[ 6],  9, k6); 
+	Subround(I, e2, a2, b2, c2, d2, X[ 6],  9, k6);
 	Subround(I, d2, e2, a2, b2, c2, X[11], 13, k6);
 	Subround(I, c2, d2, e2, a2, b2, X[ 3], 15, k6);
 	Subround(I, b2, c2, d2, e2, a2, X[ 7],  7, k6);
@@ -383,7 +383,7 @@ void RMD160Transform (unsigned __int32 *digest, const unsigned __int32 *data)
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -454,7 +454,7 @@ void RMD160Transform (unsigned __int32 *state, const unsigned __int32 *data)
 	for (pos = 0; pos < 160; ++pos)
 	{
 		tmp = a + data[OrderTab[pos]] + KTab[pos >> 4];
-		
+
 		switch (pos >> 4)
 		{
 		case 0: case 9: tmp += F (b, c, d); break;

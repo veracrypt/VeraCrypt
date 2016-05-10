@@ -20,7 +20,7 @@ HKCR
 			LocalServer32 = s '"%MAIN_MODULE%"'
 
 			TypeLib = s '{9ACF6176-5FC4-4690-A025-B3306A50EB6A}'
-			
+
 			Elevation
             {
 				val Enabled = d 1
@@ -38,13 +38,13 @@ HKCR
 		{
 			val AccessPermission = b 010004803000000040000000000000001400000002001c000100000000001400070000000101000000000005040000000102000000000005200000002002000001020000000000052000000020020000
 		}
-		
+
 		ForceRemove VeraCrypt.exe
 		{
 			val AppId = s '{FE8B3B95-C80C-41f7-830F-FBA271C26F7E}'
 		}
 	}
-	
+
 	ForceRemove VeraCryptFormat.1 = s 'VeraCryptFormat class'
 	{
 		CLSID = s '{A96D3797-9F31-49f4-A0CE-9657392CF789}'
@@ -55,7 +55,7 @@ HKCR
 		CLSID = s '{A96D3797-9F31-49f4-A0CE-9657392CF789}'
 		CurVer = s 'VeraCryptFormat.1'
 	}
-	
+
 	NoRemove CLSID
 	{
 		ForceRemove {A96D3797-9F31-49f4-A0CE-9657392CF789} = s 'VeraCryptFormat class'
@@ -65,7 +65,7 @@ HKCR
 			LocalServer32 = s '"%FORMAT_MODULE%"'
 
 			TypeLib = s '{56327DDA-F1A7-4e13-B128-520D129BDEF6}'
-			
+
 			Elevation
             {
 				val Enabled = d 1
@@ -76,14 +76,14 @@ HKCR
             val LocalizedString = s '@%FORMAT_MODULE%,-112'
 		}
 	}
-	
+
 	NoRemove AppId
 	{
 		ForceRemove {A96D3797-9F31-49f4-A0CE-9657392CF789} = s 'VeraCryptFormat class'
 		{
 			val AccessPermission = b 010004803000000040000000000000001400000002001c000100000000001400070000000101000000000005040000000102000000000005200000002002000001020000000000052000000020020000
 		}
-		
+
 		ForceRemove 'VeraCrypt Format.exe'
 		{
 			val AppId = s '{A96D3797-9F31-49f4-A0CE-9657392CF789}'

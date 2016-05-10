@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -132,7 +132,7 @@ extern int CurrentOSServicePack;
 extern BOOL RemoteSession;
 extern HANDLE hDriver;
 extern HINSTANCE hInst;
-extern int SystemEncryptionStatus;	
+extern int SystemEncryptionStatus;
 extern WipeAlgorithmId nWipeMode;
 extern BOOL bSysPartitionSelected;
 extern BOOL bSysDriveSelected;
@@ -170,11 +170,11 @@ enum tc_app_msg_ids
 	TC_APPMSG_SYSENC_CONFIG_UPDATE =				WM_APP + 101,
 	TC_APPMSG_TASKBAR_ICON =						WM_APP + 102,
 	TC_APPMSG_LOAD_TEXT_BOX_CONTENT =				WM_APP + 103,
-	// Mount									
+	// Mount
 	TC_APPMSG_MOUNT_ENABLE_DISABLE_CONTROLS =		WM_APP + 201,
 	TC_APPMSG_MOUNT_SHOW_WINDOW =					WM_APP + 202,
 	TC_APPMSG_PREBOOT_PASSWORD_MODE =				WM_APP + 203,
-	// Format									
+	// Format
 	TC_APPMSG_VOL_TRANSFORM_THREAD_ENDED =			WM_APP + 301,
 	TC_APPMSG_FORMAT_FINISHED =						WM_APP + 302,
 	TC_APPMSG_FORMAT_USER_QUIT =					WM_APP + 303,

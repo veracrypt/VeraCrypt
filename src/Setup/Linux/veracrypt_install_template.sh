@@ -3,7 +3,7 @@
 # Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 # by the TrueCrypt License 3.0.
 #
-# Modifications and additions to the original source code (contained in this file) 
+# Modifications and additions to the original source code (contained in this file)
 # and all other portions of this file are Copyright (c) 2013-2016 IDRIX
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
@@ -49,13 +49,13 @@ fi
 if [ $TTY -eq 0 ]
 then
 	[ $GUI -eq 0 ] && echo 'Error: Terminal required' >&2 && exit 1
-	
+
 	if [ $XMESSAGE -eq 0 ] || ([ $XTERM -eq 0 ] && [ $GTERM -eq 0 ] && [ $KTERM -eq 0 ])
 	then
 		which gnome-terminal && exec gnome-terminal -e "$0"
 		which konsole && exec konsole -e "$0"
 		which xterm && exec xterm -e "$0"
-		
+
 		[ $XMESSAGE -eq 1 ] && show_exit_message 'Error: Terminal required'
 		exit 1
 	fi
@@ -107,7 +107,7 @@ show_message()
 show_exit_message()
 {
 	show_message "$*"
-	
+
 	if [ $XMESSAGE -eq 0 ]
 	then
 		printf 'Press Enter to exit... '
@@ -131,16 +131,16 @@ BOUND BY ALL TERMS AND CONDITIONS OF THIS LICENSE. IF YOU DO NOT
 ACCEPT THEM, DO NOT USE, COPY, MODIFY, NOR (RE)DISTRIBUTE THE
 SOFTWARE, NOR ANY PART(S) THEREOF.
 
-VeraCrypt is multi-licensed under Apache License 2.0 and 
-the TrueCrypt License version 3.0, a verbatim copy of both 
+VeraCrypt is multi-licensed under Apache License 2.0 and
+the TrueCrypt License version 3.0, a verbatim copy of both
 licenses can be found below.
 
-This license does not grant you rights to use any 
-contributors' name, logo, or trademarks, including IDRIX, 
+This license does not grant you rights to use any
+contributors' name, logo, or trademarks, including IDRIX,
 VeraCrypt and all derivative names.
-For example, the following names are not allowed: VeraCrypt, 
-VeraCrypt+, VeraCrypt Professional, iVeraCrypt, etc. Nor any 
-other names confusingly similar to the name VeraCrypt (e.g., 
+For example, the following names are not allowed: VeraCrypt,
+VeraCrypt+, VeraCrypt Professional, iVeraCrypt, etc. Nor any
+other names confusingly similar to the name VeraCrypt (e.g.,
 Vera-Crypt, Vera Crypt, VerKrypt, etc.)
 ____________________________________________________________
 
@@ -172,7 +172,7 @@ of such entity.
 exercising permissions granted by this License.
 
 "Source" form shall mean the preferred form for making
-modifications, including but not limited to software source 
+modifications, including but not limited to software source
 code, documentation source, and configuration files.
 
 "Object" form shall mean any form resulting from mechanical
@@ -200,7 +200,7 @@ additions to that Work or Derivative Works thereof, that is
 intentionally submitted to Licensor for inclusion in the Work by
 the copyright owner or by an individual or Legal Entity
 authorized to submit on behalf of the copyright owner. For the
-purposes of this definition, "submitted" means any form 
+purposes of this definition, "submitted" means any form
 of electronic, verbal, or written communication sent to the
 Licensor or its representatives, including but not limited to
 communication on electronic mailing lists, source code control
@@ -222,18 +222,18 @@ prepare Derivative Works of, publicly display, publicly perform,
 sublicense, and distribute the Work and such Derivative Works
 in Source or Object form.
 
-3. Grant of Patent License. Subject to the terms and conditions 
+3. Grant of Patent License. Subject to the terms and conditions
 of this License, each Contributor hereby grants to You a
 perpetual, worldwide, non-exclusive, no-charge, royalty-free,
-irrevocable(except as stated in this section) patent license 
-to make, have made, use, offer to sell, sell, import, and 
-otherwise transfer the Work, where such license applies only 
+irrevocable(except as stated in this section) patent license
+to make, have made, use, offer to sell, sell, import, and
+otherwise transfer the Work, where such license applies only
 to those patent claims licensable by such Contributor that are
-necessarily infringed by their Contribution(s) alone or by 
+necessarily infringed by their Contribution(s) alone or by
 combination of their Contribution(s) with the Work to which such
 Contribution(s) was submitted. If You institute patent
-litigation against any entity (including a cross-claim or 
-counterclaim in a lawsuit) alleging that the Work or a 
+litigation against any entity (including a cross-claim or
+counterclaim in a lawsuit) alleging that the Work or a
 Contribution incorporated within the Work constitutes direct or
 contributory patent infringement, then any patent licenses
 granted to You under this License for that Work shall terminate
@@ -273,7 +273,7 @@ that You meet the following conditions:
 
 You may add Your own copyright statement to Your modifications
 and may provide additional or different license terms
-and conditions for use, reproduction, or distribution of 
+and conditions for use, reproduction, or distribution of
 Your modifications, or for any such Derivative Works as a whole,
 provided Your use, reproduction, and distribution of the Work
 otherwise complies with the conditions stated in this License.
@@ -298,7 +298,7 @@ agreed to in writing, Licensor provides the Work (and each
 Contributor provides its Contributions) on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 implied, including, without limitation, any warranties or
-conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, 
+conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY,
 or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible
 for determining the appropriateness of using or redistributing
 the Work and assume any risks associated with Your exercise of
@@ -311,7 +311,7 @@ deliberate and grossly negligent acts) or agreed to in writing,
 shall any Contributor be liable to You for damages, including
 any direct, indirect, special, incidental, or consequential
 damages of any character arising as a result of this License or
-out of the use or inability to use the Work (including but not 
+out of the use or inability to use the Work (including but not
 limited to damages for loss of goodwill, work stoppage, computer
 failure or malfunction, or any and all other commercial damages
 or losses), even if such Contributor has been advised of the
@@ -320,7 +320,7 @@ possibility of such damages.
 9. Accepting Warranty or Additional Liability. While
 redistributing the Work or Derivative Works thereof, You may
 choose to offer, and charge a fee for, acceptance of support,
-warranty, indemnity, or other liability obligations and/or 
+warranty, indemnity, or other liability obligations and/or
 rights consistent with this License. However, in accepting such
 obligations, You may act only on Your own behalf and on Your
 sole responsibility, not on behalf of any other Contributor,
@@ -848,7 +848,7 @@ then
 	cat <<_END | xmessage -center -file - -buttons "Exit:1,Extract .$PACKAGE_TYPE Package File:20,Install VeraCrypt:10" -default 'Install VeraCrypt'
 VeraCrypt $VERSION Setup
 ====================
- VeraCrypt is a free disk encryption software brought to you by IDRIX 
+ VeraCrypt is a free disk encryption software brought to you by IDRIX
  (http://www.idrix.fr) and that is based on TrueCrypt.
  It is a software system for establishing and maintaining an
  on-the-fly-encrypted volume (data storage device). On-the-fly encryption
@@ -864,7 +864,7 @@ Please select one of the below options:
 _END
 
 	SEL=$?
-	
+
 	case $SEL in
 		1)	exit 1
 			;;
@@ -892,10 +892,10 @@ Installation options:
 _MENU_END
 
 		printf 'To select, enter 1 or 2: '
-		
+
 		read SEL
 		[ -z "$SEL" ] && SEL=1
-		
+
 		case $SEL in
 			1)	INSTALL=1
 				;;
@@ -948,14 +948,14 @@ Press Page Down key or use the scroll bar to see the rest of the license.
 _END
 
 	SEL=$?
-	
+
 	rm -f $LICENSE
 	if [ $SEL -ne 10 ]
 	then
 		show_exit_message 'Installation/extraction aborted'
 		exit 1
 	fi
-	
+
 else
 
 # Console license agreement
@@ -1001,9 +1001,9 @@ _END
 	while [ $ACCEPTED -eq 0 ]
 	do
 		printf '\n\nDo you accept and agree to be bound by the license terms? (yes/no): '
-		
+
 		read SEL
-		
+
 		case $SEL in
 			y|Y|yes|YES)
 				ACCEPTED=1
@@ -1080,7 +1080,7 @@ then
 	else
 		echo 'Installing package...'
 		$SUDO $PACKAGE_INSTALLER $PACKAGE_INSTALLER_OPTS $PACKAGE && INSTALLED=1
-		
+
 		if [ $INSTALLED -eq 1 ]
 		then
 			show_exit_message ''

@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -104,7 +104,7 @@ namespace VeraCrypt
 
 		if (parser.Parse () > 0)
 			throw_err (_("Incorrect command line specified."));
-		
+
 		if (parser.Found (L"help"))
 		{
 			ArgCommand = CommandId::Help;
@@ -192,7 +192,7 @@ namespace VeraCrypt
 			ArgCommand = CommandId::CreateKeyfile;
 			param1IsFile = true;
 		}
-			
+
 		if (parser.Found (L"delete-token-keyfiles"))
 		{
 			CheckCommandSingle();
@@ -205,7 +205,7 @@ namespace VeraCrypt
 			ArgCommand = CommandId::DismountVolumes;
 			param1IsMountedVolumeSpec = true;
 		}
-		
+
 		if (parser.Found (L"export-token-keyfile"))
 		{
 			CheckCommandSingle();
@@ -294,7 +294,7 @@ namespace VeraCrypt
 			else
 			{
 				ArgMountOptions.FilesystemType = wstring (str);
-				
+
 				if (str.IsSameAs (L"FAT", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::FAT;
 #ifdef TC_LINUX
@@ -309,7 +309,7 @@ namespace VeraCrypt
 				else if (str.IsSameAs (L"exFAT", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
 #elif defined (TC_MACOSX)
-				else if (	str.IsSameAs (L"HFS", false) 
+				else if (	str.IsSameAs (L"HFS", false)
 						|| 	str.IsSameAs (L"HFS+", false)
 						||	str.IsSameAs (L"MacOsExt", false)
 						)
@@ -328,7 +328,7 @@ namespace VeraCrypt
 		}
 
 		ArgForce = parser.Found (L"force");
-		
+
 		ArgTrueCryptMode = parser.Found (L"truecrypt");
 
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
@@ -402,7 +402,7 @@ namespace VeraCrypt
 
 		if (parser.Found (L"new-password", &str))
 			ArgNewPassword = ToUTF8Password (str.c_str());
-		
+
 		if (parser.Found (L"new-pim", &str))
 		{
 			try
@@ -419,7 +419,7 @@ namespace VeraCrypt
 			else if (ArgNewPim > 0 && ArgTrueCryptMode)
 				throw_err (LangString["PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 		}
-		
+
 		if (parser.Found (L"non-interactive"))
 		{
 			if (interfaceType != UserInterfaceType::Text)
@@ -478,13 +478,13 @@ namespace VeraCrypt
 			ArgMountOptions.ProtectionKeyfiles = ToKeyfileList (str);
 			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
-		
+
 		if (parser.Found (L"protection-password", &str))
 		{
 			ArgMountOptions.ProtectionPassword = ToUTF8Password (str.c_str());
 			ArgMountOptions.Protection = VolumeProtection::HiddenVolumeReadOnly;
 		}
-		
+
 		if (parser.Found (L"protection-pim", &str))
 		{
 			int pim = -1;
@@ -609,7 +609,7 @@ namespace VeraCrypt
 		// Parameters
 		if (parser.GetParamCount() > 0)
 		{
-			// in case of GUI interface, we load the preference when only 
+			// in case of GUI interface, we load the preference when only
 			// specifying volume path without any option/switch
 			if (Application::GetUserInterfaceType() != UserInterfaceType::Text)
 			{
@@ -634,7 +634,7 @@ namespace VeraCrypt
 			if (param1IsVolume)
 			{
 				wxFileName volPath (parser.GetParam (0));
-				
+
 #ifdef TC_WINDOWS
 				if (!parser.GetParam (0).StartsWith (L"\\Device\\"))
 #endif
@@ -699,7 +699,7 @@ namespace VeraCrypt
 					continue;
 				}
 			}
-			
+
 			if (token.empty() && !tokenizer.HasMoreTokens())
 				break;
 
@@ -758,7 +758,7 @@ namespace VeraCrypt
 				filteredVolumes.push_back (volume);
 			}
 		}
-		
+
 		if (!mountedVolumeSpec.IsEmpty() && filteredVolumes.size() < 1)
 			throw_err (_("No such volume is mounted."));
 

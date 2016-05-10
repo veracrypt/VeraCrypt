@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -19,7 +19,7 @@
 
 /* CRC polynomial 0x04c11db7 */
 unsigned __int32 crc_32_tab[]=
-{				
+{
 	0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
 	0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
 	0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de, 0x1adad47d, 0x6ddde4eb, 0xf4d4b551, 0x83d385c7,

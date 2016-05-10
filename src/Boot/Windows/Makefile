@@ -3,7 +3,7 @@
 # Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 # by the TrueCrypt License 3.0.
 #
-# Modifications and additions to the original source code (contained in this file) 
+# Modifications and additions to the original source code (contained in this file)
 # and all other portions of this file are Copyright (c) 2013-2016 IDRIX
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
@@ -111,7 +111,7 @@ env:
 	set INCLUDE=.
 	set LIB=.
 	set LIBPATH=.
-	
+
 clean:
 	-del /q /s $(OBJDIR) >NUL:
 
@@ -133,7 +133,7 @@ clean:
 	$(CC) $(CFLAGS) /c "$(SRCDIR)\$<"
 	set PATH=$(ENVPATH)
 	cd ..
-	
+
 {..\..\Common}.c{$(OUTDIR)}.obj:
 	cd $(OBJDIR)
 	set PATH=.
@@ -147,7 +147,7 @@ clean:
 	$(CC) $(CFLAGS) /c "$(SRCDIR)\$<"
 	set PATH=$(ENVPATH)
 	cd ..
-			
+
 .cpp{$(OUTDIR)}.obj:
 	cd $(OBJDIR)
 	set PATH=.
@@ -161,7 +161,7 @@ $(OUTDIR)\BootDefs.i: BootDefs.h
 	$(CC) $(CFLAGS) /D TC_ASM_PREPROCESS /P /EP "$(SRCDIR)\BootDefs.h"
 	set PATH=$(ENVPATH)
 	cd ..
-	
+
 $(OUTDIR)\BootSector.bin: $(OUTDIR)\BootSector.obj
 	cd $(OBJDIR)
 	$(LD) $(LFLAGS) BootSector.obj,BootSector.bin,,,, >NUL:
@@ -177,7 +177,7 @@ $(OUTDIR)\Decompressor.com: $(OUTDIR)\BootCrt.obj $(OUTDIR)\Decompressor.obj
 $(OUTDIR)\$(PROJ).$(TARGETEXT): $(OBJS)
 	@echo Linking...
 	cd $(OBJDIR)
-	
+
 	echo >NUL: @<<$(PROJ).crf2
 
 $(PROJ).$(TARGETEXT)
@@ -189,7 +189,7 @@ $(LIBS)
 	del $(PROJ).crf >NUL: 2>NUL:
 	for %F in ($(**F)) do @echo %F + >>$(PROJ).crf
 	type $(PROJ).crf2 >>$(PROJ).crf
-	
+
 	$(LD) $(LFLAGS) @$(PROJ).crf
 	del $(PROJ).crf $(PROJ).crf2
 

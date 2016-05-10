@@ -1,14 +1,14 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
  and also from the source code of extcv, which is Copyright (c) 2009-2010 Kih-Oskh
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -198,7 +198,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			pVolExpandParam->bInitFreeSpace = IsButtonChecked (GetDlgItem (hwndDlg, IDC_INIT_NEWSPACE));
 			if (!pVolExpandParam->bIsDevice) // for devices new size is set by calling function
-			{				
+			{
 				GetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTemp, ARRAYSIZE (szTemp));
 				pVolExpandParam->newSize = _wtoi64(szTemp) * GetSizeBoxMultiplier(hwndDlg);
 			}
@@ -349,7 +349,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				ProcessEntropyEstimate (hEntropyBar, &mouseEventsInitialCount, mouseEventsCounter, maxEntropyLevel, &mouseEntropyGathered);
 
 				if (showRandPool)
-					StringCbPrintfW (szRndPool, sizeof(szRndPool), L"%08X%08X%08X%08X", 
+					StringCbPrintfW (szRndPool, sizeof(szRndPool), L"%08X%08X%08X%08X",
 						*((DWORD*) (randPool + 12)), *((DWORD*) (randPool + 8)), *((DWORD*) (randPool + 4)), *((DWORD*) (randPool)));
 				else if (bUseMask)
 				{
@@ -585,11 +585,11 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		{
 			bIsDevice = expandVol.IsDevice;
 			bIsLegacy = expandVol.CryptoInfo->LegacyVolume;
-			hostSize = expandVol.HostSize;			
+			hostSize = expandVol.HostSize;
 			VolumePkcs5 = expandVol.CryptoInfo->pkcs5;
 			if ( bIsLegacy )
 			{
-				if ( bIsDevice ) 
+				if ( bIsDevice )
 					volSize = 0; // updated later
 				else
 					volSize = hostSize;
@@ -629,7 +629,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	{
 		uint64 NumberOfSectors;
 		DWORD BytesPerSector;
-		
+
 		if ( !GetNtfsNumberOfSectors(rootPath, &NumberOfSectors, &BytesPerSector) )
 			nStatus = ERR_OS_ERROR;
 

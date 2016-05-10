@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -22,7 +22,7 @@ namespace VeraCrypt
 	{
 		uint64 size;
 		DataStream->ReadCompleteBuffer (BufferPtr ((byte *) &size, sizeof (size)));
-		
+
 		if (Endian::Big (size) != sizeof (T))
 			throw ParameterIncorrect (SRC_POS);
 
@@ -49,7 +49,7 @@ namespace VeraCrypt
 		ValidateName (name);
 		data = (int32) Deserialize <uint32> ();
 	}
-	
+
 	void Serializer::Deserialize (const string &name, int64 &data)
 	{
 		ValidateName (name);
@@ -200,18 +200,18 @@ namespace VeraCrypt
 		SerializeString (name);
 		Serialize (data);
 	}
-	
+
 	void Serializer::Serialize (const string &name, const char *data)
 	{
 		Serialize (name, string (data));
 	}
-	
+
 	void Serializer::Serialize (const string &name, int32 data)
 	{
 		SerializeString (name);
 		Serialize ((uint32) data);
 	}
-		
+
 	void Serializer::Serialize (const string &name, int64 data)
 	{
 		SerializeString (name);
@@ -246,11 +246,11 @@ namespace VeraCrypt
 		SerializeString (name);
 		SerializeWString (data);
 	}
-	
+
 	void Serializer::Serialize (const string &name, const list <string> &stringList)
 	{
 		SerializeString (name);
-		
+
 		uint64 listSize = stringList.size();
 		Serialize (listSize);
 
@@ -261,7 +261,7 @@ namespace VeraCrypt
 	void Serializer::Serialize (const string &name, const list <wstring> &stringList)
 	{
 		SerializeString (name);
-		
+
 		uint64 listSize = stringList.size();
 		Serialize (listSize);
 

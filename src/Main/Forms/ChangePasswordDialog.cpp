@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -59,7 +59,7 @@ namespace VeraCrypt
 		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, true, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
-		
+
 		if (mode == Mode::RemoveAllKeyfiles)
 			NewSizer->Show (false);
 
@@ -98,7 +98,7 @@ namespace VeraCrypt
 				CurrentPasswordPanel->SetFocusToPimTextCtrl();
 				return;
 			}
-			
+
 			shared_ptr <VolumePassword> newPassword;
 			int newPim = 0;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
@@ -110,7 +110,7 @@ namespace VeraCrypt
 				catch (PasswordException& e)
 				{
 					Gui->ShowWarning (e);
-					NewPasswordPanel->SetFocusToPasswordTextCtrl();				
+					NewPasswordPanel->SetFocusToPasswordTextCtrl();
 					return;
 				}
 				newPim = NewPasswordPanel->GetVolumePim();
@@ -126,7 +126,7 @@ namespace VeraCrypt
 					{
 						if (newPim > 0 && newPim < 485)
 						{
-							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");						
+							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
 							return;
 						}
 
@@ -235,7 +235,7 @@ namespace VeraCrypt
 
 			if (passwordEmpty && keyfilesEmpty)
 				ok = false;
-			
+
 			if (CurrentPasswordPanel->GetVolumePim () == -1)
 				ok = false;
 
@@ -251,7 +251,7 @@ namespace VeraCrypt
 					ok = false;
 
 				if (DialogMode == Mode::ChangePasswordAndKeyfiles
-					&& (	(NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty) 
+					&& (	(NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty)
 						|| 	!NewPasswordPanel->PasswordsMatch()
 						|| 	(NewPasswordPanel->GetVolumePim() == -1)
 						)
@@ -265,12 +265,12 @@ namespace VeraCrypt
 		}
 
 		OKButton->Enable (ok);
-		
+
 		if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 		{
 			bool pimChanged = (CurrentPasswordPanel->GetVolumePim() != NewPasswordPanel->GetVolumePim());
 			NewPasswordPanel->UpdatePimHelpText(pimChanged);
 		}
-		
+
 	}
 }

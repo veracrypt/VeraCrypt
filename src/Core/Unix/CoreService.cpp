@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -30,7 +30,7 @@ namespace VeraCrypt
 	auto_ptr <T> CoreService::GetResponse ()
 	{
 		auto_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream));
-		
+
 		Exception *deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
 		if (deserializedException)
 			deserializedException->Throw();
@@ -60,11 +60,11 @@ namespace VeraCrypt
 					throw_sys_if (read (STDIN_FILENO, &b, 1) != 1);
 					if (b != 0x00)
 						continue;
-					
+
 					throw_sys_if (read (STDIN_FILENO, &b, 1) != 1);
 					if (b != 0x11)
 						continue;
-					
+
 					throw_sys_if (read (STDIN_FILENO, &b, 1) != 1);
 					if (b == 0x22)
 						break;
@@ -113,7 +113,7 @@ namespace VeraCrypt
 						if (!ElevatedServiceAvailable)
 						{
 							finally_do_arg (string *, &request->AdminPassword, { StringConverter::Erase (*finally_arg); });
-							
+
 							CoreService::StartElevated (*request);
 							ElevatedServiceAvailable = true;
 						}
@@ -128,7 +128,7 @@ namespace VeraCrypt
 					if (checkRequest)
 					{
 						Core->CheckFilesystem (checkRequest->MountedVolumeInfo, checkRequest->Repair);
-						
+
 						CheckFilesystemResponse().Serialize (outputStream);
 						continue;
 					}
@@ -263,7 +263,7 @@ namespace VeraCrypt
 		GetHostDevicesRequest request (pathListOnly);
 		return SendRequest <GetHostDevicesResponse> (request)->HostDevices;
 	}
-	
+
 	shared_ptr <VolumeInfo> CoreService::RequestMountVolume (MountOptions &options)
 	{
 		MountVolumeRequest request (&options);
@@ -456,7 +456,7 @@ namespace VeraCrypt
 				inPipe->Close();
 				outPipe->Close();
 				errPipe.Close();
-				
+
 				if (request.FastElevation)
 				{
 					// Prevent defunct process
@@ -532,7 +532,7 @@ namespace VeraCrypt
 		ExitRequest exitRequest;
 		exitRequest.Serialize (ServiceInputStream);
 	}
-	
+
 	shared_ptr <GetStringFunctor> CoreService::AdminPasswordCallback;
 
 	auto_ptr <Pipe> CoreService::AdminInputPipe;

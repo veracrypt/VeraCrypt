@@ -1,23 +1,23 @@
 
 ; ---------------------------------------------------------------------------
 ; Copyright (c) 1998-2007, Brian Gladman, Worcester, UK. All rights reserved.
-; 
+;
 ; LICENSE TERMS
-; 
+;
 ; The free distribution and use of this software is allowed (with or without
 ; changes) provided that:
-; 
+;
 ;  1. source code distributions include the above copyright notice, this
 ;     list of conditions and the following disclaimer;
-; 
+;
 ;  2. binary distributions include the above copyright notice, this list
 ;     of conditions and the following disclaimer in their documentation;
-; 
+;
 ;  3. the name of the copyright holder is not used to endorse products
 ;     built using this software without specific written permission.
-; 
+;
 ; DISCLAIMER
-; 
+;
 ; This software is provided 'as is' with no explicit or implied warranties
 ; in respect of its properties, including, but not limited to, correctness
 ; and/or fitness for purpose.
@@ -367,7 +367,7 @@ extern _aes_enc_tab
 ; Apply S-Box to the 4 bytes in a 32-bit word and rotate byte positions
 
 %ifdef REDUCE_CODE_SIZE
-    
+
 l3s_col:
     movzx   ecx,al              ; in      eax
     movzx   ecx, etab_b(ecx)    ; out     eax
@@ -413,7 +413,7 @@ l3s_col:
 %endmacro
 
 %endif
-    
+
 ; offsets to parameters
 
 in_blk  equ     2   ; input byte array address parameter
@@ -444,7 +444,7 @@ enc_round:
     xor     ebx,[ebp+4]
 	add		sp, 2
     ret
-    
+
 %else
 
 %macro enc_round 0
@@ -724,7 +724,7 @@ enc_round:
 
 	mov		ax, sp
 	movzx	esp, ax
-	
+
     push    ebp
     push    ebx
     push    esi
@@ -946,7 +946,7 @@ dec_round:
     restore ebp,1
     xor     eax,[ebp]
     xor     ebx,[ebp+4]
-   	add		sp, 2
+    add		sp, 2
     ret
 
 %else
@@ -1000,7 +1000,7 @@ dec_round:
 ; AES Decryption Subroutine
 
     do_name _aes_decrypt,12
-    
+
 	mov		ax, sp
 	movzx	esp, ax
 
@@ -1095,7 +1095,7 @@ inv_mix_col:
 
 %else
 
-%macro  inv_mix_col 0   
+%macro  inv_mix_col 0
 
     movzx   ecx,dl          ; input  eax, edx
     movzx   ecx,etab_b(ecx) ; output eax
@@ -1243,14 +1243,14 @@ inv_mix_col:
 %endif
 
     do_name _aes_decrypt_key256,8
-    
+
     mov		ax, sp
 	movzx	esp, ax
     push    ebp
     push    ebx
     push    esi
     push    edi
-    
+
     movzx   eax, word [esp+20] ; ks
     movzx   edx, word [esp+18] ; key
     push    ax

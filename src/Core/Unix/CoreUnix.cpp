@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -27,7 +27,7 @@ namespace VeraCrypt
 	CoreUnix::CoreUnix ()
 	{
 		signal (SIGPIPE, SIG_IGN);
-		
+
 		char *loc = setlocale (LC_ALL, "");
 		if (!loc || string (loc) == "C")
 			setlocale (LC_ALL, "en_US.UTF-8");
@@ -36,7 +36,7 @@ namespace VeraCrypt
 	CoreUnix::~CoreUnix ()
 	{
 	}
-	
+
 	void CoreUnix::CheckFilesystem (shared_ptr <VolumeInfo> mountedVolume, bool repair) const
 	{
 		if (!mountedVolume->MountPoint.IsEmpty())
@@ -77,9 +77,9 @@ namespace VeraCrypt
 				args.push_back ("fsck");
 				args.push_back ("--caption");
 				args.push_back ("fsck");
-				args.push_back ("-e");				
-				args.push_back ("sh");				
-				args.push_back ("-c");				
+				args.push_back ("-e");
+				args.push_back ("sh");
+				args.push_back ("-c");
 				args.push_back (xargs);
 				try
 				{
@@ -176,7 +176,7 @@ namespace VeraCrypt
 	{
 		string path = filePath;
 		size_t pos;
-		
+
 		while ((pos = path.find_last_of ('/')) != string::npos)
 		{
 			path = path.substr (0, pos);
@@ -224,7 +224,7 @@ namespace VeraCrypt
 		device.SeekAt (0);
 		device.ReadCompleteBuffer (bootSector);
 
-		byte *b = bootSector.Ptr(); 
+		byte *b = bootSector.Ptr();
 
 		return memcmp (b + 3,  "NTFS", 4) != 0
 			&& memcmp (b + 54, "FAT", 3) != 0
@@ -237,13 +237,13 @@ namespace VeraCrypt
 		const char *envPrefix = getenv ("VERACRYPT_MOUNT_PREFIX");
 		if (envPrefix && !string (envPrefix).empty())
 			return envPrefix;
-		
+
 		if (FilesystemPath ("/media").IsDirectory())
 			return "/media/veracrypt";
-		
+
 		if (FilesystemPath ("/mnt").IsDirectory())
 			return "/mnt/veracrypt";
-		
+
 		return GetTempDirectory() + "/veracrypt_mnt";
 	}
 
@@ -298,7 +298,7 @@ namespace VeraCrypt
 			{
 				continue;
 			}
-			
+
 			if (!volumePath.IsEmpty() && wstring (mountedVol->Path).compare (volumePath) != 0)
 				continue;
 
@@ -320,7 +320,7 @@ namespace VeraCrypt
 
 		return volumes;
 	}
-	
+
 	gid_t CoreUnix::GetRealGroupId () const
 	{
 		const char *env = getenv ("SUDO_GID");
@@ -352,7 +352,7 @@ namespace VeraCrypt
 
 		return getuid();
 	}
-	
+
 	string CoreUnix::GetTempDirectory () const
 	{
 		char *envDir = getenv ("TMPDIR");
@@ -583,7 +583,7 @@ namespace VeraCrypt
 				throw;
 			}
 
-#ifndef TC_MACOSX			
+#ifndef TC_MACOSX
 			// set again correct ownership of the mount point to avoid any issues
 			if (!options.NoFilesystem && options.MountPoint)
 			{

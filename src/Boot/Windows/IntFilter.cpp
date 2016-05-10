@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -98,7 +98,7 @@ bool Int13Filter ()
 			if (ReEntryCount == 0 && drive == EncryptedVirtualPartition.Drive)
 			{
 				BiosResult result;
-				
+
 				if (function == 0x3)
 					result = WriteEncryptedSectors (regs.ES, regs.BX, drive, sector, sectorCount);
 				else
@@ -126,7 +126,7 @@ bool Int13Filter ()
 	case 0x43: // Write sectors LBA
 		{
 			byte drive = (byte) regs.DX;
-			
+
 			BiosLbaPacket lba;
 			CopyMemory (regs.DS, regs.SI, (byte *) &lba, sizeof (lba));
 
@@ -141,7 +141,7 @@ bool Int13Filter ()
 			if (ReEntryCount == 0 && drive == EncryptedVirtualPartition.Drive)
 			{
 				BiosResult result;
-				
+
 				uint16 segment = (uint16) (lba.Buffer >> 16);
 				uint16 offset = (uint16) lba.Buffer;
 
@@ -524,7 +524,7 @@ void IntFilterEntry ()
 		popf
 		leave
 		add sp, 2
-		jmp cs:OriginalInt13Handler	
+		jmp cs:OriginalInt13Handler
 
 	pass15:
 		popad
@@ -554,7 +554,7 @@ static void Int15FilterEntry ()
 		pushf
 		cmp ax, 0xe820 // Get system memory map
 		je filter
-		
+
 		popf
 		leave
 		jmp cs:OriginalInt15Handler
@@ -600,7 +600,7 @@ bool InstallInterruptFilters ()
 		// Save original INT 13 handler
 		xor ax, ax
 		mov es, ax
-		
+
 		mov si, 0x13 * 4
 		lea di, OriginalInt13Handler
 
@@ -608,14 +608,14 @@ bool InstallInterruptFilters ()
 		mov [di], ax
 		mov ax, es:[si + 2]
 		mov [di + 2], ax
-		
+
 		// Install INT 13 filter
 		lea ax, Int13FilterEntry
 		mov es:[si], ax
 		mov es:[si + 2], cs
 
 		// Save original INT 15 handler
-		mov si, 0x15 * 4	
+		mov si, 0x15 * 4
 		lea di, OriginalInt15Handler
 
 		mov ax, es:[si]

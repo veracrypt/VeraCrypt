@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -320,7 +320,7 @@ namespace VeraCrypt
 	{
 		return fuse_get_context()->uid == 0 || fuse_get_context()->uid == UserId;
 	}
-	
+
 	void FuseService::CloseMountedVolume ()
 	{
 		if (MountedVolume)
@@ -403,7 +403,7 @@ namespace VeraCrypt
 
 		return outBuf;
 	}
-	
+
 	const char *FuseService::GetVolumeImagePath ()
 	{
 #ifdef TC_MACOSX
@@ -439,7 +439,7 @@ namespace VeraCrypt
 			args.push_back ("-o");
 			args.push_back ("allow_other");
 		}
-		
+
 		ExecFunctor execFunctor (openVolume, slotNumber);
 		Process::Execute ("fuse", args, -1, &execFunctor);
 
@@ -498,13 +498,13 @@ namespace VeraCrypt
 
 		MountedVolume->WriteSectors (buffer, byteOffset);
 	}
-	
+
 	void FuseService::OnSignal (int signal)
 	{
 		try
 		{
 			shared_ptr <VolumeInfo> volume = Core->GetMountedVolume (SlotNumber);
-			
+
 			if (volume)
 				Core->DismountVolume (volume, true);
 		}

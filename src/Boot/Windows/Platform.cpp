@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -83,7 +83,7 @@ uint64 operator>> (const uint64 &a, int shiftCount)
 	while (shiftCount--)
 	{
 		r.LowPart >>= 1;
-		
+
 		if ((byte) r.HighPart & 1)
 			r.LowPart |= 0x80000000UL;
 
@@ -96,7 +96,7 @@ uint64 operator>> (const uint64 &a, int shiftCount)
 uint64 operator<< (const uint64 &a, int shiftCount)
 {
 	uint64 r = a;
-	
+
 	while (shiftCount--)
 		r += r;
 
@@ -148,9 +148,9 @@ bool TestInt64 ()
 
 	a += b;
 	a -= b;
-	
+
 	++a;
-	
+
 	b = b + (uint32) 1UL;
 
 	c = (a - ((a + b) >> 32) - (uint32) 1UL);
@@ -214,11 +214,11 @@ bool RegionsIntersect (const uint64 &start1, uint32 length1, const uint64 &start
 {
 	uint64 end1 = start1 + length1 - 1UL;
 	uint64 intersectEnd = (end1 <= end2) ? end1 : end2;
-	
+
 	uint64 intersectStart = (start1 >= start2) ? start1 : start2;
 	if (intersectStart > intersectEnd)
 		return false;
-		
+
 	return (intersectEnd + 1UL - intersectStart).LowPart != 0;
 }
 

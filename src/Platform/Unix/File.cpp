@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -73,7 +73,7 @@ namespace VeraCrypt
 				}
 				catch (...) // Suppress errors to allow using read-only files
 				{
-#ifdef DEBUG 
+#ifdef DEBUG
 					throw;
 #endif
 				}
@@ -132,7 +132,7 @@ namespace VeraCrypt
 
 		// HDIO_GETGEO ioctl is limited by the size of long
 		TextReader tr ("/sys/block/" + string (Path.ToHostDriveOfPartition().ToBaseName()) + "/" + string (Path.ToBaseName()) + "/start");
-		
+
 		string line;
 		tr.ReadLine (line);
 		return StringConverter::ToUInt64 (line) * GetDeviceSectorSize();
@@ -199,7 +199,7 @@ namespace VeraCrypt
 		case CreateReadWrite:
 			sysFlags |= O_CREAT | O_TRUNC | O_RDWR;
 			break;
-				
+
 		case CreateWrite:
 			sysFlags |= O_CREAT | O_TRUNC | O_WRONLY;
 			break;
@@ -262,7 +262,7 @@ namespace VeraCrypt
 					throw SystemException (SRC_POS, wstring (path));
 				}
 				break;
-			
+
 			case ShareReadWriteIgnoreLock:
 				break;
 
@@ -339,7 +339,7 @@ namespace VeraCrypt
 #endif
 		throw_sys_sub_if (write (FileHandle, buffer, buffer.Size()) != (ssize_t) buffer.Size(), wstring (Path));
 	}
-	
+
 	void File::WriteAt (const ConstBufferPtr &buffer, uint64 position) const
 	{
 		if_debug (ValidateState());

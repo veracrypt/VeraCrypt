@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -19,7 +19,7 @@ extern "C" {
 #endif
 
 // Volume header version
-#define VOLUME_HEADER_VERSION					0x0005 
+#define VOLUME_HEADER_VERSION					0x0005
 
 // Version number written to volume header during format;
 // specifies the minimum program version required to mount the volume
@@ -101,7 +101,7 @@ extern "C" {
 #define	HEADER_SALT_OFFSET					0
 #define HEADER_ENCRYPTED_DATA_OFFSET		PKCS5_SALT_SIZE
 #define	HEADER_MASTER_KEYDATA_OFFSET		256
-	
+
 #define TC_HEADER_OFFSET_MAGIC					64
 #define TC_HEADER_OFFSET_VERSION				68
 #define TC_HEADER_OFFSET_REQUIRED_VERSION		70

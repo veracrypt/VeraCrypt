@@ -280,7 +280,7 @@ AES_RETURN aes_init(void)
 		return EXIT_SUCCESS;
 
     for (i = 0; i < 256; ++i)
-    { 
+    {
         uint_8t x = fwd_affine(fi((uint_8t)i));
 		aes_enc_tab[i][0] = 0;
 		aes_enc_tab[i][1] = x;

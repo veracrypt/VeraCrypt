@@ -254,7 +254,7 @@
 
 		cmp ax, 0
 		jl .decrypt
-		
+
 		aesenc xmm1, xmm0
 		jmp .2
 	.decrypt:
@@ -264,7 +264,7 @@
 
 		add si, ax
 		movdqu xmm0, [si]
-		
+
 		cmp ax, 0
 		jl .decrypt_last
 

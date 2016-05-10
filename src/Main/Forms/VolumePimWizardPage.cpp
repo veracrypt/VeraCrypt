@@ -10,8 +10,8 @@
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and 
- limitations under the License. 
+ See the License for the specific language governing permissions and
+ limitations under the License.
 */
 
 #include "System.h"
@@ -29,7 +29,7 @@ namespace VeraCrypt
 	VolumePimWizardPage::~VolumePimWizardPage ()
 	{
 	}
-	
+
 	int VolumePimWizardPage::GetVolumePim () const
 	{
 		if (VolumePimTextCtrl->IsEnabled ())
@@ -38,7 +38,7 @@ namespace VeraCrypt
 			long pim = 0;
 			if (pimStr.IsEmpty())
 				return 0;
-			if (((size_t) wxNOT_FOUND == pimStr.find_first_not_of (wxT("0123456789"))) 
+			if (((size_t) wxNOT_FOUND == pimStr.find_first_not_of (wxT("0123456789")))
 				&& pimStr.ToLong (&pim))
 				return (int) pim;
 			else
@@ -66,7 +66,7 @@ namespace VeraCrypt
 	{
 		return true;
 	}
-	
+
 	void VolumePimWizardPage::OnPimChanged  (wxCommandEvent& event)
 	{
 		OnPimValueChanged (GetVolumePim ());
@@ -83,7 +83,7 @@ namespace VeraCrypt
 		{
 			VolumePimHelpStaticText->SetForegroundColour(*wxBLACK);
 			VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
-		}	
+		}
 		Fit();
 		Layout();
 	}
@@ -99,15 +99,15 @@ namespace VeraCrypt
 	void VolumePimWizardPage::OnDisplayPimCheckBoxClick( wxCommandEvent& event )
 	{
 		FreezeScope freeze (this);
-		
+
 		bool display = event.IsChecked ();
 
 		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
-		newTextCtrl->SetMaxLength (MAX_PIM_DIGITS); 
+		newTextCtrl->SetMaxLength (MAX_PIM_DIGITS);
 		newTextCtrl->SetValue (VolumePimTextCtrl->GetValue());
 		newTextCtrl->SetMinSize (VolumePimTextCtrl->GetSize());
 
-		PimSizer->Replace (VolumePimTextCtrl, newTextCtrl);		
+		PimSizer->Replace (VolumePimTextCtrl, newTextCtrl);
 		VolumePimTextCtrl->Show (false);
 		VolumePimTextCtrl->SetValue (wxString (L'X', VolumePimTextCtrl->GetLineLength(0)));
 		GetVolumePim ();

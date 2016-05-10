@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -85,21 +85,21 @@ namespace VeraCrypt
 	}
 
 	void MountOptionsDialog::OnOKButtonClick (wxCommandEvent& event)
-	{	
+	{
 		bool bUnsupportedKdf = false;
-		
+
 		/* verify that PIM values are valid before continuing*/
 		int Pim = PasswordPanel->GetVolumePim();
 		int ProtectionPim = (!ReadOnlyCheckBox->IsChecked() && ProtectionCheckBox->IsChecked())?
 			ProtectionPasswordPanel->GetVolumePim() : 0;
-			
+
 		/* invalid PIM: set focus to PIM field and stop processing */
 		if (-1 == Pim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && Pim > MAX_BOOT_PIM_VALUE))
 		{
 			PasswordPanel->SetFocusToPimTextCtrl();
 			return;
 		}
-		
+
 		if (-1 == ProtectionPim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && ProtectionPim > MAX_BOOT_PIM_VALUE))
 		{
 			ProtectionPasswordPanel->SetFocusToPimTextCtrl();
@@ -142,7 +142,7 @@ namespace VeraCrypt
 				Gui->ShowWarning (e);
 				return;
 			}
-			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;			
+			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;
 			Options.ProtectionPim = ProtectionPim;
 			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf(Options.TrueCryptMode, bUnsupportedKdf);
 			if (bUnsupportedKdf)

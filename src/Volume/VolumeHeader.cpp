@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -111,7 +111,7 @@ namespace VeraCrypt
 					if (typeid (*mode) == typeid (EncryptionModeXTS))
 					{
 						ea->SetKey (headerKey.GetRange (0, ea->GetKeySize()));
-						
+
 						mode = mode->GetNew();
 						mode->SetKey (headerKey.GetRange (ea->GetKeySize(), ea->GetKeySize()));
 					}
@@ -172,7 +172,7 @@ namespace VeraCrypt
 		}
 
 		RequiredMinProgramVersion = DeserializeEntry <uint16> (header, offset);
-		
+
 		if (!truecryptMode && (RequiredMinProgramVersion > Version::Number()))
 			throw HigherVersionRequired (SRC_POS);
 
@@ -215,10 +215,10 @@ namespace VeraCrypt
 			return false;
 
 		DataAreaKey.CopyFrom (header.GetRange (offset, DataKeyAreaMaxSize));
-		
+
 		ea = ea->GetNew();
 		mode = mode->GetNew();
-		
+
 		if (typeid (*mode) == typeid (EncryptionModeXTS))
 		{
 			ea->SetKey (header.GetRange (offset, ea->GetKeySize()));
@@ -289,7 +289,7 @@ namespace VeraCrypt
 	size_t VolumeHeader::GetLargestSerializedKeySize ()
 	{
 		size_t largestKey = EncryptionAlgorithm::GetLargestKeySize (EncryptionAlgorithm::GetAvailableAlgorithms());
-		
+
 		// XTS mode requires the same key size as the encryption algorithm.
 		// Legacy modes may require larger key than XTS.
 		if (LegacyEncryptionModeKeyAreaSize + largestKey > largestKey * 2)

@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -61,7 +61,7 @@ namespace VeraCrypt
 		Gui->SetActiveFrame (this);
 		event.Skip();
 	}
-	
+
 	void WizardFrame::OnClose (wxCloseEvent& event)
 	{
 		if (WorkInProgress)
@@ -97,12 +97,12 @@ namespace VeraCrypt
 			SetStep (prevStep, false);
 		}
 	}
-	
+
 	void WizardFrame::SetCancelButtonText (const wxString &text)
 	{
 		CancelButton->SetLabel (text.empty() ? wxString (_("Cancel")) : text);
 	}
-	
+
 	void WizardFrame::SetImage (const wxBitmap &bitmap)
 	{
 		WizardBitmap->SetBitmap (bitmap);
@@ -143,7 +143,7 @@ namespace VeraCrypt
 		CurrentPage = GetPage (newStep);
 
 		CurrentPage->PageUpdatedEvent.Connect (EventConnector <WizardFrame> (this, &WizardFrame::OnPageUpdated));
-		
+
 		CurrentPage->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);
 		foreach (wxWindow *c, CurrentPage->GetChildren())
 			c->Connect (wxEVT_MOTION, wxMouseEventHandler (WizardFrame::OnMouseMotion), nullptr, this);

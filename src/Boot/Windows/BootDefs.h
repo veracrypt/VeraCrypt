@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -42,9 +42,9 @@
 #define TC__BOOT_LOADER_SEGMENT			TC_HEX (9000)	// Some buggy BIOS routines fail if CS bits 0-10 are not zero
 
 #if TC__BOOT_MEMORY_REQUIRED <= 32
-#	define TC__BOOT_LOADER_SEGMENT_LOW	(TC__BOOT_LOADER_SEGMENT - 32 * 1024 / 16)	
+#	define TC__BOOT_LOADER_SEGMENT_LOW	(TC__BOOT_LOADER_SEGMENT - 32 * 1024 / 16)
 #else
-#	define TC__BOOT_LOADER_SEGMENT_LOW	(TC__BOOT_LOADER_SEGMENT - 64 * 1024 / 16)	
+#	define TC__BOOT_LOADER_SEGMENT_LOW	(TC__BOOT_LOADER_SEGMENT - 64 * 1024 / 16)
 #endif
 
 #define TC__COM_EXECUTABLE_OFFSET		TC_HEX (100)

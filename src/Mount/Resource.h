@@ -251,7 +251,7 @@
 #define IDM_VERIFY_RESCUE_DISK_ISO      40068
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1

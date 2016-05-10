@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -79,7 +79,7 @@ namespace VeraCrypt
 			backupHeader = true;
 		}
 	}
-		
+
 	void CoreBase::ChangePassword (shared_ptr <VolumePath> volumePath, bool preserveTimestamps, shared_ptr <VolumePassword> password, int pim, shared_ptr <Pkcs5Kdf> kdf, bool truecryptMode, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, int newPim, shared_ptr <KeyfileList> newKeyfiles, shared_ptr <Pkcs5Kdf> newPkcs5Kdf, int wipeCount) const
 	{
 		shared_ptr <Volume> volume = OpenVolume (volumePath, preserveTimestamps, password, pim, kdf, truecryptMode, keyfiles);
@@ -147,7 +147,7 @@ namespace VeraCrypt
 		outerVolume->ReadSectors (bootSectorBuffer, 0);
 
 		int fatType;
-		byte *bootSector = bootSectorBuffer.Ptr(); 
+		byte *bootSector = bootSectorBuffer.Ptr();
 
 		if (memcmp (bootSector + 54, "FAT12", 5) == 0)
 			fatType = 12;
@@ -260,7 +260,7 @@ namespace VeraCrypt
 		volume->Open (*volumePath, preserveTimestamps, password, pim, kdf, truecryptMode, keyfiles, protection, protectionPassword, protectionPim, protectionKdf, protectionKeyfiles, sharedAccessAllowed, volumeType, useBackupHeaders, partitionInSystemEncryptionScope);
 		return volume;
 	}
-	
+
 	void CoreBase::RandomizeEncryptionAlgorithmKey (shared_ptr <EncryptionAlgorithm> encryptionAlgorithm) const
 	{
 		SecureBuffer eaKey (encryptionAlgorithm->GetKeySize());

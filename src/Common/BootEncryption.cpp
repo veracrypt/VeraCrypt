@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -44,7 +44,7 @@ namespace VeraCrypt
 	class Elevator
 	{
 	public:
-		
+
 		static void AddReference ()
 		{
 			++ReferenceCount;
@@ -193,7 +193,7 @@ namespace VeraCrypt
 			{
 				result = ERROR_OUTOFMEMORY;
 			}
-		
+
 			if (result != ERROR_SUCCESS)
 			{
 				SetLastError (result);
@@ -263,7 +263,7 @@ namespace VeraCrypt
 				ElevatedComInstanceThreadId = GetCurrentThreadId();
 			}
 		}
-		
+
 #if defined (TCMOUNT)
 		static ITrueCryptMainCom *ElevatedComInstance;
 #elif defined (VOLFORMAT)
@@ -282,7 +282,7 @@ namespace VeraCrypt
 	int Elevator::ReferenceCount = 0;
 
 #else // SETUP
-	
+
 	class Elevator
 	{
 	public:
@@ -308,7 +308,7 @@ namespace VeraCrypt
 		{
 			FileOpen = true;
 		}
-		else 
+		else
 		{
 			LastError = GetLastError();
 			if (LastError == ERROR_ACCESS_DENIED && IsUacSupported())
@@ -436,7 +436,7 @@ namespace VeraCrypt
 		{
 			FileOpen = true;
 		}
-		else 
+		else
 		{
 			LastError = GetLastError ();
 			if (LastError == ERROR_ACCESS_DENIED && IsUacSupported())
@@ -477,7 +477,7 @@ namespace VeraCrypt
 	{
 		if (RescueIsoImage)
 			delete[] RescueIsoImage;
-				
+
 		Elevator::Release();
 	}
 
@@ -516,7 +516,7 @@ namespace VeraCrypt
 		if (config.SystemPartition.IsGPT)
 			throw ParameterIncorrect (SRC_POS);	// It is assumed that CheckRequirements() had been called
 
-		// Find the first active partition on the system drive 
+		// Find the first active partition on the system drive
 		foreach (const Partition &partition, config.Partitions)
 		{
 			if (partition.Info.BootIndicator)
@@ -558,11 +558,11 @@ namespace VeraCrypt
 		}
 
 		/* WARNING: Note that the partition number at the end of a device path (\Device\HarddiskY\PartitionX) must
-		NOT be used to find the first partition physically located behind the active one. The reason is that the 
-		user may have deleted and created partitions during this session and e.g. the second partition could have 
+		NOT be used to find the first partition physically located behind the active one. The reason is that the
+		user may have deleted and created partitions during this session and e.g. the second partition could have
 		a higer number than the third one. */
 
-		
+
 		// Find the first partition physically located behind the active partition
 		if (activePartitionFound)
 		{
@@ -692,7 +692,7 @@ namespace VeraCrypt
 
 		ProbeRealDriveSizeRequest request;
 		StringCchCopyW (request.DeviceName, ARRAYSIZE (request.DeviceName), DriveConfig.DrivePartition.DevicePath.c_str());
-		
+
 		CallDriver (TC_IOCTL_PROBE_REAL_DRIVE_SIZE, &request, sizeof (request), &request, sizeof (request));
 		DriveConfig.DrivePartition.Info.PartitionLength = request.RealDriveSize;
 
@@ -787,7 +787,7 @@ namespace VeraCrypt
 
 		return partList;
 	}
-	
+
 
 	DISK_GEOMETRY BootEncryption::GetDriveGeometry (int driveNumber)
 	{
@@ -799,12 +799,12 @@ namespace VeraCrypt
 		return geometry;
 	}
 
-	
+
 	wstring BootEncryption::GetWindowsDirectory ()
 	{
 		wchar_t buf[MAX_PATH];
 		throw_sys_if (GetSystemDirectory (buf, ARRAYSIZE (buf)) == 0);
-		
+
 		return wstring (buf);
 	}
 
@@ -827,7 +827,7 @@ namespace VeraCrypt
 	// Note that this does not require admin rights (it just requires the driver to be running)
 	bool BootEncryption::IsBootLoaderOnDrive (wchar_t *devicePath)
 	{
-		try 
+		try
 		{
 			OPEN_TEST_STRUCT openTestStruct;
 			memset (&openTestStruct, 0, sizeof (openTestStruct));
@@ -871,7 +871,7 @@ namespace VeraCrypt
 	bool BootEncryption::IsHiddenSystemRunning ()
 	{
 		int hiddenSystemStatus;
-		
+
 		CallDriver (TC_IOCTL_IS_HIDDEN_SYSTEM_RUNNING, nullptr, 0, &hiddenSystemStatus, sizeof (hiddenSystemStatus));
 		return hiddenSystemStatus != 0;
 	}
@@ -1250,7 +1250,7 @@ namespace VeraCrypt
 
 			if (userConfig)
 				*userConfig = request.UserConfiguration;
-			
+
 			if (customUserMessage)
 			{
 				request.CustomUserMessage[TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH] = 0;
@@ -1267,7 +1267,7 @@ namespace VeraCrypt
 
 			if (userConfig)
 				*userConfig = 0;
-			
+
 			if (customUserMessage)
 				customUserMessage->clear();
 
@@ -1326,7 +1326,7 @@ namespace VeraCrypt
 
 			memcpy (mbr + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, customUserMessage.c_str(), customUserMessage.size());
 		}
-		
+
 		if (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
 		{
 			// PIM for pre-boot authentication can be encoded on two bytes since its maximum
@@ -1386,7 +1386,7 @@ namespace VeraCrypt
 		ZeroMemory (&request, sizeof (request));
 
 		request.WipeAlgorithm = wipeAlgorithm;
-		
+
 		if (Randinit() != ERR_SUCCESS)
 		{
 			if (CryptoAPILastError == ERROR_SUCCESS)
@@ -1414,7 +1414,7 @@ namespace VeraCrypt
 		CallDriver (TC_IOCTL_ABORT_DECOY_SYSTEM_WIPE);
 	}
 
-	
+
 	DecoySystemWipeStatus BootEncryption::GetDecoyOSWipeStatus ()
 	{
 		DecoySystemWipeStatus status;
@@ -1448,7 +1448,7 @@ namespace VeraCrypt
 
 		device.SeekAt (0);
 		device.Read (mbr, sizeof (mbr));
-		
+
 		finally_do_arg (BootEncryption *, this,
 		{
 			try
@@ -1594,7 +1594,7 @@ namespace VeraCrypt
 		WCHAR pathBuf[MAX_PATH];
 
 		throw_sys_if (!SUCCEEDED (SHGetFolderPath (NULL, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, pathBuf)));
-		
+
 		wstring path = wstring (pathBuf) + L"\\" _T(TC_APP_NAME);
 		CreateDirectory (path.c_str(), NULL);
 
@@ -1624,7 +1624,7 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		Buffer imageBuf (RescueIsoImageSize);
-		
+
 		byte *image = imageBuf.Ptr();
 		memset (image, 0, RescueIsoImageSize);
 
@@ -1721,7 +1721,7 @@ namespace VeraCrypt
 			File sysBakFile (GetSystemLoaderBackupPath(), true);
 			sysBakFile.CheckOpened (SRC_POS);
 			sysBakFile.Read (image + TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE);
-			
+
 			image[TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_SECTOR_CONFIG_OFFSET] |= TC_BOOT_CFG_FLAG_RESCUE_DISK_ORIG_SYS_LOADER;
 		}
 		catch (Exception &e)
@@ -1729,7 +1729,7 @@ namespace VeraCrypt
 			e.Show (ParentWindow);
 			Warning ("SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK", ParentWindow);
 		}
-		
+
 		// Boot loader backup
 		CreateBootLoaderInMemory (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_LOADER_BACKUP_RESCUE_DISK_SECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE, false);
 
@@ -1777,7 +1777,7 @@ namespace VeraCrypt
 				UINT driveType = GetDriveType (rootPath);
 				// check that it is a CD/DVD drive or a removable media in case a bootable
 				// USB key was created from the rescue disk ISO file
-				if ((DRIVE_CDROM == driveType) || (DRIVE_REMOVABLE == driveType)) 
+				if ((DRIVE_CDROM == driveType) || (DRIVE_REMOVABLE == driveType))
 				{
 					rootPath[2] = 0; // remove trailing backslash
 
@@ -1813,7 +1813,7 @@ namespace VeraCrypt
 			Buffer buffer ((verifiedSectorCount + 1) * 2048);
 
 			DWORD bytesRead = isoFile.Read (buffer.Ptr(), (DWORD) buffer.Size());
-			if (	(bytesRead == buffer.Size()) 
+			if (	(bytesRead == buffer.Size())
 				&& (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
 				)
 			{
@@ -2187,7 +2187,7 @@ namespace VeraCrypt
 	{
 		if (nCurrentOS == WIN_2000)
 			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
- 
+
 		if (CurrentOSMajor == 6 && CurrentOSMinor == 0 && CurrentOSServicePack < 1)
 			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0", SRC_POS);
 
@@ -2272,7 +2272,7 @@ namespace VeraCrypt
 
 		if (!pagingFilesOk)
 		{
-			if (AskWarnYesNoString ((wchar_t *) (wstring (GetString ("PAGING_FILE_NOT_ON_SYS_PARTITION")) 
+			if (AskWarnYesNoString ((wchar_t *) (wstring (GetString ("PAGING_FILE_NOT_ON_SYS_PARTITION"))
 				+ GetString ("LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION")
 				+ L"\n\n\n"
 				+ GetString ("RESTRICT_PAGING_FILES_TO_SYS_PARTITION")
@@ -2283,7 +2283,7 @@ namespace VeraCrypt
 				AbortProcessSilent();
 			}
 
-			throw ErrorException (wstring (GetString ("PAGING_FILE_NOT_ON_SYS_PARTITION")) 
+			throw ErrorException (wstring (GetString ("PAGING_FILE_NOT_ON_SYS_PARTITION"))
 				+ GetString ("LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"), SRC_POS);
 		}
 
@@ -2291,14 +2291,14 @@ namespace VeraCrypt
 		wchar_t *configPath = GetConfigPath (L"dummy");
 		if (configPath && towupper (configPath[0]) != windowsDrive)
 		{
-			throw ErrorException (wstring (GetString ("USER_PROFILE_NOT_ON_SYS_PARTITION")) 
+			throw ErrorException (wstring (GetString ("USER_PROFILE_NOT_ON_SYS_PARTITION"))
 				+ GetString ("LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"), SRC_POS);
 		}
 
 		// Temporary files
 		if (towupper (GetTempPathString()[0]) != windowsDrive)
 		{
-			throw ErrorException (wstring (GetString ("TEMP_NOT_ON_SYS_PARTITION")) 
+			throw ErrorException (wstring (GetString ("TEMP_NOT_ON_SYS_PARTITION"))
 				+ GetString ("LEAKS_OUTSIDE_SYSPART_UNIVERSAL_EXPLANATION"), SRC_POS);
 		}
 	}
@@ -2414,7 +2414,7 @@ namespace VeraCrypt
 		device.Read ((byte *) header, sizeof (header));
 
 		PCRYPTO_INFO cryptoInfo = NULL;
-		
+
 		int status = ReadVolumeHeader (!encStatus.HiddenSystem, header, oldPassword, old_pkcs5, old_pim, FALSE, &cryptoInfo, NULL);
 		finally_do_arg (PCRYPTO_INFO, cryptoInfo, { if (finally_arg) crypto_close (finally_arg); });
 
@@ -2447,7 +2447,7 @@ namespace VeraCrypt
 		UserEnrichRandomPool (hwndDlg);
 		WaitCursor();
 
-		/* The header will be re-encrypted wipePassCount times to prevent adversaries from using 
+		/* The header will be re-encrypted wipePassCount times to prevent adversaries from using
 		techniques such as magnetic force microscopy or magnetic force scanning tunnelling microscopy
 		to recover the overwritten header. According to Peter Gutmann, data should be overwritten 22
 		times (ideally, 35 times) using non-random patterns and pseudorandom data. However, as users might
@@ -2663,7 +2663,7 @@ namespace VeraCrypt
 		SelectedEncryptionAlgorithmId = ea;
 		SelectedPrfAlgorithmId = pkcs5;
 		CreateVolumeHeader (volumeSize, encryptedAreaStart, &password, ea, mode, pkcs5, pim);
-		
+
 		if (!rescueIsoImagePath.empty())
 			CreateRescueIsoImage (true, rescueIsoImagePath);
 	}
@@ -2705,7 +2705,7 @@ namespace VeraCrypt
 
 		BootEncryptionSetupRequest request;
 		ZeroMemory (&request, sizeof (request));
-		
+
 		request.SetupMode = SetupDecryption;
 		request.DiscardUnreadableEncryptedSectors = discardUnreadableEncryptedSectors;
 
@@ -2721,7 +2721,7 @@ namespace VeraCrypt
 
 		BootEncryptionSetupRequest request;
 		ZeroMemory (&request, sizeof (request));
-		
+
 		request.SetupMode = SetupEncryption;
 		request.WipeAlgorithm = wipeAlgorithm;
 		request.ZeroUnreadableSectors = zeroUnreadableSectors;

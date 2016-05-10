@@ -36,7 +36,7 @@ extern __m128i _mm_insert_epi32(__m128i dst, int s, const int ndx);
 
 #if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER)
 #ifdef TC_WINDOWS_DRIVER
-extern __m128i _mm_clmulepi64_si128(__m128i v1, __m128i v2, 
+extern __m128i _mm_clmulepi64_si128(__m128i v1, __m128i v2,
 					    const int imm8);
 extern __m128i _mm_aeskeygenassist_si128(__m128i ckey, const int rcon);
 extern __m128i _mm_aesimc_si128(__m128i v);

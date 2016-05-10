@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -73,7 +73,7 @@ namespace VeraCrypt
 			static BOOL CALLBACK ChildWindows (HWND hwnd, LPARAM argsLP)
 			{
 				Args *args = reinterpret_cast <Args *> (argsLP);
-				
+
 				char s[4096];
 				SendMessageA (hwnd, WM_GETTEXT, sizeof (s), (LPARAM) s);
 
@@ -116,7 +116,7 @@ namespace VeraCrypt
 			return;
 
 		args.DriveRootPath = string() + mountPoint[0] + string (":\\");
-		
+
 		EnumWindows (Enumerator::TopLevelWindows, (LPARAM) &args);
 #endif
 	}
@@ -237,7 +237,7 @@ namespace VeraCrypt
 		if (Preferences.Verbose && !message.IsEmpty())
 			ShowInfo (message);
 	}
-		
+
 	void UserInterface::DisplayVolumeProperties (const VolumeInfoList &volumes) const
 	{
 		if (volumes.size() < 1)
@@ -281,7 +281,7 @@ namespace VeraCrypt
 			prop << LangString["BLOCK_SIZE"] << L": " << blockSize.str() + L" " + LangString ["BITS"] << L'\n';
 			prop << LangString["MODE_OF_OPERATION"] << L": " << volume.EncryptionModeName << L'\n';
 			prop << LangString["PKCS5_PRF"] << L": " << volume.Pkcs5PrfName << L'\n';
-	
+
 			prop << LangString["VOLUME_FORMAT_VERSION"] << L": " << (volume.MinRequiredProgramVersion < 0x10b ? 1 : 2) << L'\n';
 			prop << LangString["BACKUP_HEADER"] << L": " << LangString[volume.MinRequiredProgramVersion >= 0x10b ? "UISTR_YES" : "UISTR_NO"] << L'\n';
 
@@ -294,7 +294,7 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 			}
 #endif
-		
+
 			prop << L'\n';
 		}
 
@@ -304,7 +304,7 @@ namespace VeraCrypt
 	wxString UserInterface::ExceptionToMessage (const exception &ex)
 	{
 		wxString message;
-		
+
 		const Exception *e = dynamic_cast <const Exception *> (&ex);
 		if (e)
 		{
@@ -394,7 +394,7 @@ namespace VeraCrypt
 			return wxString (errOutput).Trim (true);
 		}
 
-		// PasswordIncorrect 
+		// PasswordIncorrect
 		if (dynamic_cast <const PasswordException *> (&ex))
 		{
 			wxString message = ExceptionTypeToString (typeid (ex));
@@ -419,7 +419,7 @@ namespace VeraCrypt
 		if (dynamic_cast <const Pkcs11Exception *> (&ex))
 		{
 			string errorString = string (dynamic_cast <const Pkcs11Exception &> (ex));
-			
+
 			if (LangString.Exists (errorString))
 				return LangString[errorString];
 
@@ -510,7 +510,7 @@ namespace VeraCrypt
 #endif
 		LangString.Init();
 		Core->Init();
-		
+
 		CmdLine.reset (new CommandLineInterface (argc, argv, InterfaceType));
 		SetPreferences (CmdLine->Preferences);
 
@@ -551,7 +551,7 @@ namespace VeraCrypt
 			}
 		}
 	}
-	
+
 	void UserInterface::ListMountedVolumes (const VolumeInfoList &volumes) const
 	{
 		if (volumes.size() < 1)
@@ -683,7 +683,7 @@ namespace VeraCrypt
 	VolumeInfoList UserInterface::MountAllFavoriteVolumes (MountOptions &options)
 	{
 		BusyScope busy (this);
-		
+
 		VolumeInfoList newMountedVolumes;
 		foreach_ref (const FavoriteVolume &favorite, FavoriteVolume::LoadList())
 		{
@@ -805,7 +805,7 @@ namespace VeraCrypt
 		if (Preferences.OpenExplorerWindowAfterMount && !mountedVolume->MountPoint.IsEmpty())
 			OpenExplorerWindow (mountedVolume->MountPoint);
 	}
-	
+
 	void UserInterface::OnWarning (EventArgs &args)
 	{
 		ExceptionEventArgs &e = dynamic_cast <ExceptionEventArgs &> (args);
@@ -876,7 +876,7 @@ namespace VeraCrypt
 		}
 		else if (xdgOpenPresent)
 		{
-			// Fallback on the standard xdg-open command 
+			// Fallback on the standard xdg-open command
 			// which is not always available by default
 			args.push_back (string (path));
 			try
@@ -905,7 +905,7 @@ namespace VeraCrypt
 			wstring pwdInput;
 			getline(wcin, pwdInput);
 
-			cmdLine.ArgPassword = ToUTF8Password ( pwdInput.c_str (), pwdInput.size ());				
+			cmdLine.ArgPassword = ToUTF8Password ( pwdInput.c_str (), pwdInput.size ());
 		}
 
 		switch (cmdLine.ArgCommand)
@@ -1025,7 +1025,7 @@ namespace VeraCrypt
 					options->VolumeHeaderKdf = Pkcs5Kdf::GetAlgorithm (*cmdLine.ArgHash, false);
 					RandomNumberGenerator::SetHash (cmdLine.ArgHash);
 				}
-				
+
 				options->EA = cmdLine.ArgEncryptionAlgorithm;
 				options->Filesystem = cmdLine.ArgFilesystem;
 				options->Keyfiles = cmdLine.ArgKeyfiles;
@@ -1494,7 +1494,7 @@ namespace VeraCrypt
 
 		return s.str();
 	}
-	
+
 	bool UserInterface::VolumeHasUnrecommendedExtension (const VolumePath &path) const
 	{
 		wxString ext = wxFileName (wxString (wstring (path)).Lower()).GetExt();
@@ -1580,7 +1580,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (UserInterfaceException);
 		VC_CONVERT_EXCEPTION (MissingArgument);
 		VC_CONVERT_EXCEPTION (NoItemSelected);
-		VC_CONVERT_EXCEPTION (StringFormatterException);	
+		VC_CONVERT_EXCEPTION (StringFormatterException);
 		VC_CONVERT_EXCEPTION (ExecutedProcessFailed);
 		VC_CONVERT_EXCEPTION (AlreadyInitialized);
 		VC_CONVERT_EXCEPTION (AssertionFailed);
@@ -1598,7 +1598,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (UnknownException);
 		VC_CONVERT_EXCEPTION (UserAbort)
 		VC_CONVERT_EXCEPTION (CipherInitError);
-		VC_CONVERT_EXCEPTION (WeakKeyDetected);	
+		VC_CONVERT_EXCEPTION (WeakKeyDetected);
 		VC_CONVERT_EXCEPTION (HigherVersionRequired);
 		VC_CONVERT_EXCEPTION (KeyfilePathEmpty);
 		VC_CONVERT_EXCEPTION (MissingVolumeData);
@@ -1613,7 +1613,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (SecurityTokenLibraryNotInitialized);
 		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileAlreadyExists);
 		VC_CONVERT_EXCEPTION (SecurityTokenKeyfileNotFound);
-		VC_CONVERT_EXCEPTION (UnsupportedAlgoInTrueCryptMode);	
+		VC_CONVERT_EXCEPTION (UnsupportedAlgoInTrueCryptMode);
 		VC_CONVERT_EXCEPTION (UnsupportedTrueCryptFormat);
 		VC_CONVERT_EXCEPTION (SystemException);
 		VC_CONVERT_EXCEPTION (CipherException);

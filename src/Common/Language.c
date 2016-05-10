@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -101,7 +101,7 @@ static char *MapNextLanguageFile ()
 		GetModuleFileNameW (NULL, f, sizeof (f) / sizeof (f[0]));
 		t = wcsrchr (f, L'\\');
 		if (t == NULL) return NULL;
-		
+
 		*t = 0;
 		StringCbCatW (f, sizeof(f), L"\\Language*.xml");
 
@@ -236,10 +236,10 @@ BOOL LoadLanguageFile ()
 				memset (&font, 0, sizeof (font));
 
 				XmlGetAttributeText (xml, "face", attr, sizeof (attr));
-			
+
 				len = MultiByteToWideChar (CP_UTF8, 0, attr, -1, wattr, sizeof (wattr) / sizeof(wattr[0]));
 				font.FaceName = AddPoolData ((void *) wattr, len * 2);
-				
+
 				XmlGetAttributeText (xml, "size", attr, sizeof (attr));
 				sscanf (attr, "%d", &font.Size);
 
@@ -332,7 +332,7 @@ BOOL LoadLanguageFile ()
 	LocalizationSerialNo++;
 
 	// Create control ID dictionary
-	
+
 	// Default controls
 	AddDictionaryEntry (NULL, 1, GetString ("IDOK"));
 	AddDictionaryEntry (NULL, 2, GetString ("IDCANCEL"));
@@ -440,7 +440,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 								SendDlgItemMessage (hwndDlg, IDC_LANGLIST, LB_SETCURSEL, i, 0);
 
-								// Language pack version 
+								// Language pack version
 								if (!ActiveLangPackVersion[0] || memcmp (ActiveLangPackVersion, "0.0.0", 5) == 0)
 								{
 									StringCbPrintfW (szVers, sizeof(szVers), GetString("LANG_PACK_VERSION"), L"--");
@@ -474,12 +474,12 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (lParam == 1)
 			{
 				// Auto mode
-				if (langCount < 2) 
+				if (langCount < 2)
 					EndDialog (hwndDlg, IDCANCEL);
 
 				if (langCount == 2)
 					StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), lastLangId);
-				
+
 				EndDialog (hwndDlg, IDOK);
 			}
 
@@ -511,8 +511,8 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 						l[3] = (char) (id >> 16);
 						l[4] = id >> 24;
 						l[5] = 0;
-					}	
-		
+					}
+
 					if (SendDlgItemMessage (hwndDlg, IDC_LANGLIST, LB_GETCOUNT, 0, 0) > 1)
 						StringCbCopyA (PreferredLangId, sizeof(PreferredLangId), l);
 				}

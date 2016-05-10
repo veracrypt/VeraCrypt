@@ -147,7 +147,7 @@
 #define IDC_SKIP_RESCUE_VERIFICATION    1108
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1

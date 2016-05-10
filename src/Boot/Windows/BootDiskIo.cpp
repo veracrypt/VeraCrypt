@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -201,7 +201,7 @@ static BiosResult ReadWriteSectors (bool write, BiosLbaPacket &dapPacket, byte d
 	dapPacket.Sector = sector;
 
 	byte function = write ? 0x43 : 0x42;
-	
+
 	BiosResult result;
 	byte tryCount = TC_MAX_BIOS_DISK_IO_RETRIES;
 
@@ -261,7 +261,7 @@ BiosResult ReadSectors (byte *buffer, byte drive, const uint64 &sector, uint16 s
 	BiosResult result;
 	uint16 codeSeg;
 	__asm mov codeSeg, cs
-	
+
 	result = ReadSectors (BootStarted ? codeSeg : TC_BOOT_LOADER_ALT_SEGMENT, (uint16) buffer, drive, sector, sectorCount, silent);
 
 	// Alternative segment is used to prevent memory corruption caused by buggy BIOSes
@@ -389,13 +389,13 @@ BiosResult GetDrivePartitions (byte drive, Partition *partitionArray, size_t par
 	PartitionEntryMBR mbrPartitions[4];
 	memcpy (mbrPartitions, mbr->Partitions, sizeof (mbrPartitions));
 	size_t partitionArrayPos = 0, partitionNumber;
-	
+
 	for (partitionNumber = 0;
 		partitionNumber < array_capacity (mbrPartitions) && partitionArrayPos < partitionArrayCapacity;
 		++partitionNumber)
 	{
 		const PartitionEntryMBR &partEntry = mbrPartitions[partitionNumber];
-		
+
 		if (partEntry.SectorCountLBA > 0)
 		{
 			Partition &partition = partitionArray[partitionArrayPos];
@@ -486,6 +486,6 @@ bool GetActivePartition (byte drive)
 		PrintError (TC_BOOT_STR_NO_BOOT_PARTITION);
 		return false;
 	}
-	
+
 	return true;
 }
