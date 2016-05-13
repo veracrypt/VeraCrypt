@@ -454,11 +454,11 @@ namespace VeraCrypt
 		libExtension = wxDynamicLibrary::CanonicalizeName (L"x");
 
 #ifdef TC_MACOSX
-		extensions.push_back (make_pair (L"dylib", LangString["DLL_FILES"]));
+		extensions.push_back (make_pair (L"dylib", LangString["DLL_FILES"].ToStdWstring()));
 #endif
 		if (!libExtension.empty())
 		{
-			extensions.push_back (make_pair (libExtension.Mid (libExtension.find (L'.') + 1), LangString["DLL_FILES"]));
+			extensions.push_back (make_pair (libExtension.Mid (libExtension.find (L'.') + 1).ToStdWstring(), LangString["DLL_FILES"].ToStdWstring()));
 			extensions.push_back (make_pair (L"*", L""));
 		}
 

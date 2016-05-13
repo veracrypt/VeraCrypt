@@ -49,13 +49,13 @@ namespace VeraCrypt
 		strBuf.CopyFrom (res);
 		return string (reinterpret_cast <char *> (strBuf.Ptr()));
 #else
-		static const char LanguageXml[] =
+		static byte LanguageXml[] =
 		{
 #			include "Common/Language.xml.h"
 			, 0
 		};
 
-		return string (LanguageXml);
+		return string ((const char*) LanguageXml);
 #endif
 	}
 
@@ -68,13 +68,13 @@ namespace VeraCrypt
 		strBuf.CopyFrom (res);
 		return string (reinterpret_cast <char *> (strBuf.Ptr()));
 #else
-		static const char License[] =
+		static byte License[] =
 		{
 #			include "License.txt.h"
 			, 0
 		};
 
-		return string (License);
+		return string ((const char*) License);
 #endif
 	}
 
