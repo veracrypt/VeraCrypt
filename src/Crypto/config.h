@@ -38,6 +38,10 @@
 	#endif
 #endif
 
+#if defined(_MSC_VER) && (_MSC_VER > 1200)
+	#define CRYPTOPP_MSVC6PP_OR_LATER
+#endif
+
 #ifndef CRYPTOPP_ALIGN_DATA
 	#if defined(_MSC_VER)
 		#define CRYPTOPP_ALIGN_DATA(x) __declspec(align(x))
