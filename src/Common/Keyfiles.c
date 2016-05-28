@@ -238,11 +238,6 @@ close:
 
 BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, const wchar_t* volumeFileName)
 {
-	return KeyFilesApplyWithPin (hwndDlg, password, nullptr, firstKeyFile, volumeFileName);
-}
-
-BOOL KeyFilesApplyWithPin (HWND hwndDlg, Password *password, char* pin, KeyFile *firstKeyFile, const wchar_t* volumeFileName)
-{
 	BOOL status = TRUE;
 	KeyFile kfSubStruct;
 	KeyFile *kf;
@@ -271,7 +266,7 @@ BOOL KeyFilesApplyWithPin (HWND hwndDlg, Password *password, char* pin, KeyFile 
 				// Apply security token keyfile
 				vector <byte> keyfileData;
 				SecurityTokenKeyfilePath secPath (kf->FileName);
-				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (secPath, pin), pin, keyfileData);
+				SecurityToken::GetKeyfileData (SecurityTokenKeyfile (secPath), keyfileData);
 
 				if (keyfileData.empty())
 				{

@@ -74,7 +74,7 @@ namespace VeraCrypt
 	struct SecurityTokenKeyfile
 	{
 		SecurityTokenKeyfile () : Handle(CK_INVALID_HANDLE), SlotId(CK_UNAVAILABLE_INFORMATION) { Token.SlotId = CK_UNAVAILABLE_INFORMATION; Token.Flags = 0; }
-		SecurityTokenKeyfile (const SecurityTokenKeyfilePath &path, char* pin = nullptr);
+		SecurityTokenKeyfile (const SecurityTokenKeyfilePath &path);
 
 		operator SecurityTokenKeyfilePath () const;
 
@@ -186,9 +186,8 @@ namespace VeraCrypt
 		static void CloseLibrary ();
 		static void CreateKeyfile (CK_SLOT_ID slotId, vector <byte> &keyfileData, const string &name);
 		static void DeleteKeyfile (const SecurityTokenKeyfile &keyfile);
-		static vector <SecurityTokenKeyfile> GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring(), char* pin = nullptr);
+		static vector <SecurityTokenKeyfile> GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter = nullptr, const wstring keyfileIdFilter = wstring());
 		static void GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <byte> &keyfileData);
-		static void GetKeyfileData (const SecurityTokenKeyfile &keyfile, char* pin, vector <byte> &keyfileData);
 		static list <SecurityTokenInfo> GetAvailableTokens ();
 		static SecurityTokenInfo GetTokenInfo (CK_SLOT_ID slotId);
 #ifdef TC_WINDOWS
@@ -207,7 +206,7 @@ namespace VeraCrypt
 		static void GetObjectAttribute (CK_SLOT_ID slotId, CK_OBJECT_HANDLE tokenObject, CK_ATTRIBUTE_TYPE attributeType, vector <byte> &attributeValue);
 		static list <CK_SLOT_ID> GetTokenSlots ();
 		static void Login (CK_SLOT_ID slotId, const char* pin);
-		static void LoginUserIfRequired (CK_SLOT_ID slotId, char* cmdPin = nullptr);
+		static void LoginUserIfRequired (CK_SLOT_ID slotId);
 		static void OpenSession (CK_SLOT_ID slotId);
 		static void CheckLibraryStatus ();
 

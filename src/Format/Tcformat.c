@@ -51,6 +51,7 @@
 #include "Volumes.h"
 #include "Wipe.h"
 #include "Xml.h"
+#include "SecurityToken.h"
 
 #include <Strsafe.h>
 
@@ -8777,6 +8778,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionNoIsoCheck,
 				OptionQuit,
 				OptionTokenLib,
+				OptionTokenPin,
 				CommandResumeSysEncLogOn,
 				CommandResumeSysEnc,
 				CommandDecryptSysEnc,
@@ -8806,6 +8808,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionHistory,				L"/history",			L"/h", FALSE },
 				{ OptionNoIsoCheck,				L"/noisocheck",		L"/n", FALSE },
 				{ OptionTokenLib,				L"/tokenlib",		NULL, FALSE },
+				{ OptionTokenPin,				L"/tokenpin",		NULL, FALSE },
 				{ OptionQuit,					L"/quit",			L"/q", FALSE },
 				{ OptionEncryption,			L"/encryption",			NULL , FALSE },
 				{ OptionFilesystem,			L"/filesystem",			NULL , FALSE },
@@ -9187,6 +9190,20 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					InitSecurityTokenLibrary(hwndDlg);
 				else
 					AbortProcess ("COMMAND_LINE_ERROR");
+
+				break;
+
+			case OptionTokenPin:
+				{
+					wchar_t szTmp[SecurityToken::MaxPasswordLength + 1] = {0};
+					if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)) == HAS_ARGUMENT)
+					{
+						if (0 == WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, CmdTokenPin, TC_MAX_PATH, nullptr, nullptr))
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+				}
 
 				break;
 

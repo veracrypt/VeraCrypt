@@ -78,6 +78,7 @@ char *LastDialogId;
 wchar_t szHelpFile[TC_MAX_PATH];
 wchar_t szHelpFile2[TC_MAX_PATH];
 wchar_t SecurityTokenLibraryPath[TC_MAX_PATH];
+char CmdTokenPin [TC_MAX_PATH] = {0};
 
 HFONT hFixedDigitFont = NULL;
 HFONT hBoldFont = NULL;
@@ -329,6 +330,8 @@ typedef struct
 
 void cleanup ()
 {
+	burn (&CmdTokenPin, sizeof (CmdTokenPin));
+
 	/* Cleanup the GDI fonts */
 	if (hFixedFont != NULL)
 		DeleteObject (hFixedFont);
@@ -2534,6 +2537,8 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	InitCommonControlsPtr InitCommonControlsFn = NULL;
 
 	InitOSVersionInfo();
+
+	VirtualLock (&CmdTokenPin, sizeof (CmdTokenPin));
 
 	InitializeCriticalSection (&csWNetCalls);
 
@@ -10980,14 +10985,26 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 		PinRequestHandler(HWND hwnd) : m_hwnd(hwnd) {}
 		virtual void operator() (string &str)
 		{
-			HWND hParent = IsWindow (m_hwnd)? m_hwnd : GetActiveWindow();
-			if (!hParent)
-				hParent = GetForegroundWindow ();
-			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PASSWORD), hParent, (DLGPROC) SecurityTokenPasswordDlgProc, (LPARAM) &str) == IDCANCEL)
-				throw UserAbort (SRC_POS);
-
+			if (CmdTokenPin[0])
+			{
+				str = CmdTokenPin;
+			}
+			else
+			{
+				HWND hParent = IsWindow (m_hwnd)? m_hwnd : GetActiveWindow();
+				if (!hParent)
+					hParent = GetForegroundWindow ();
+				if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PASSWORD), hParent, (DLGPROC) SecurityTokenPasswordDlgProc, (LPARAM) &str) == IDCANCEL)
+					throw UserAbort (SRC_POS);
+			}
 			if (hCursor != NULL)
 				SetCursor (hCursor);
+		}
+
+		virtual void notifyIncorrectPin ()
+		{
+			// clear wrong PIN
+			burn (&CmdTokenPin, sizeof (CmdTokenPin));
 		}
 	};
 

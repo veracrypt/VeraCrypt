@@ -36,7 +36,7 @@ using namespace std;
 
 namespace VeraCrypt
 {
-	SecurityTokenKeyfile::SecurityTokenKeyfile (const SecurityTokenKeyfilePath &path, char* pin)
+	SecurityTokenKeyfile::SecurityTokenKeyfile (const SecurityTokenKeyfilePath &path)
 	{
 		wstring pathStr = path;
 		unsigned long slotId;
@@ -52,7 +52,7 @@ namespace VeraCrypt
 
 		Id = pathStr.substr (keyIdPos + wstring (L"/" TC_SECURITY_TOKEN_KEYFILE_URL_FILE L"/").size());
 
-		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles (&SlotId, Id, pin);
+		vector <SecurityTokenKeyfile> keyfiles = SecurityToken::GetAvailableKeyfiles (&SlotId, Id);
 
 		if (keyfiles.empty())
 			throw SecurityTokenKeyfileNotFound();
@@ -180,7 +180,7 @@ namespace VeraCrypt
 			throw Pkcs11Exception (status);
 	}
 
-	vector <SecurityTokenKeyfile> SecurityToken::GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter, const wstring keyfileIdFilter, char* pin)
+	vector <SecurityTokenKeyfile> SecurityToken::GetAvailableKeyfiles (CK_SLOT_ID *slotIdFilter, const wstring keyfileIdFilter)
 	{
 		bool unrecognizedTokenPresent = false;
 		vector <SecurityTokenKeyfile> keyfiles;
@@ -194,7 +194,7 @@ namespace VeraCrypt
 
 			try
 			{
-				LoginUserIfRequired (slotId, pin);
+				LoginUserIfRequired (slotId);
 				token = GetTokenInfo (slotId);
 			}
 			catch (UserAbort &)
@@ -314,12 +314,7 @@ namespace VeraCrypt
 
 	void SecurityToken::GetKeyfileData (const SecurityTokenKeyfile &keyfile, vector <byte> &keyfileData)
 	{
-		GetKeyfileData (keyfile, nullptr, keyfileData);
-	}
-
-	void SecurityToken::GetKeyfileData (const SecurityTokenKeyfile &keyfile, char* pin, vector <byte> &keyfileData)
-	{
-		LoginUserIfRequired (keyfile.SlotId, pin);
+		LoginUserIfRequired (keyfile.SlotId);
 		GetObjectAttribute (keyfile.SlotId, keyfile.Handle, CKA_VALUE, keyfileData);
 	}
 
@@ -438,7 +433,7 @@ namespace VeraCrypt
 		Sessions[slotId].UserLoggedIn = true;
 	}
 
-	void SecurityToken::LoginUserIfRequired (CK_SLOT_ID slotId, char* cmdPin)
+	void SecurityToken::LoginUserIfRequired (CK_SLOT_ID slotId)
 	{
 		CheckLibraryStatus();
 		CK_RV status;
@@ -479,10 +474,6 @@ namespace VeraCrypt
 					if (status != CKR_OK)
 						throw Pkcs11Exception (status);
 				}
-				else if (cmdPin && cmdPin [0])
-				{
-					Login (slotId, cmdPin);
-				}
 				else
 				{
 					string pin = tokenInfo.LabelUtf8;
@@ -511,12 +502,6 @@ namespace VeraCrypt
 				}
 				else if (error == CKR_PIN_INCORRECT && !(tokenInfo.Flags & CKF_PROTECTED_AUTHENTICATION_PATH))
 				{
-					if (cmdPin && cmdPin [0])
-					{
-						// clear wrong PIN
-						size_t cmdPinLen = strlen (cmdPin);
-						burn (cmdPin, cmdPinLen);
-					}
 					PinCallback->notifyIncorrectPin ();
 					(*WarningCallback) (Pkcs11Exception (CKR_PIN_INCORRECT));
 					continue;

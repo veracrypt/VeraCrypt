@@ -102,6 +102,7 @@ extern char *ConfigBuffer;
 extern wchar_t szHelpFile[TC_MAX_PATH];
 extern wchar_t szHelpFile2[TC_MAX_PATH];
 extern wchar_t SecurityTokenLibraryPath[TC_MAX_PATH];
+extern char CmdTokenPin [TC_MAX_PATH];
 extern HFONT hFixedDigitFont;
 extern HFONT hBoldFont;
 extern HFONT hTitleFont;

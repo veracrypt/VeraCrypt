@@ -129,7 +129,6 @@ int nSelectedDriveIndex = -1;		/* Item number of selected drive */
 int cmdUnmountDrive = -2;			/* Volume drive letter to unmount (-1 = all) */
 Password VolumePassword;			/* Password used for mounting volumes */
 Password CmdVolumePassword;			/* Password passed from command line */
-char CmdTokenPin [SecurityToken::MaxPasswordLength + 1] = {0};
 int VolumePkcs5 = 0;
 int CmdVolumePkcs5 = 0;
 int VolumePim = -1;
@@ -238,7 +237,6 @@ static void localcleanup (void)
 	burn (&mountOptions, sizeof (mountOptions));
 	burn (&defaultMountOptions, sizeof (defaultMountOptions));
 	burn (szFileName, sizeof(szFileName));
-	burn (&CmdTokenPin, sizeof (CmdTokenPin));
 
 	/* Cleanup common code resources */
 	cleanup ();
@@ -6513,7 +6511,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							BOOL reportBadPasswd = CmdVolumePassword.Length > 0;
 
 							if (FirstCmdKeyFile)
-								KeyFilesApplyWithPin (hwndDlg, &CmdVolumePassword, CmdTokenPin, FirstCmdKeyFile, szFileName);
+								KeyFilesApply (hwndDlg, &CmdVolumePassword, FirstCmdKeyFile, szFileName);
 
 							mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A',
 								szFileName, &CmdVolumePassword, EffectiveVolumePkcs5, CmdVolumePim, EffectiveVolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount,
@@ -6558,7 +6556,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							WaitCursor ();
 
 							if (KeyFilesEnable && FirstKeyFile)
-								KeyFilesApplyWithPin (hwndDlg, &VolumePassword, CmdTokenPin, FirstKeyFile, szFileName);
+								KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, szFileName);
 
 							mounted = MountVolume (hwndDlg, szDriveLetter[0] - L'A', szFileName, &VolumePassword, VolumePkcs5, VolumePim, VolumeTrueCryptMode, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, FALSE, TRUE);
 
@@ -8695,7 +8693,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					wchar_t szTmp[SecurityToken::MaxPasswordLength + 1] = {0};
 					if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)) == HAS_ARGUMENT)
 					{
-						if (0 == WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, CmdTokenPin, array_capacity (CmdTokenPin), nullptr, nullptr))
+						if (0 == WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, CmdTokenPin, TC_MAX_PATH, nullptr, nullptr))
 							AbortProcess ("COMMAND_LINE_ERROR");
 					}
 					else
@@ -8924,7 +8922,6 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	VirtualLock (&mountOptions, sizeof (mountOptions));
 	VirtualLock (&defaultMountOptions, sizeof (defaultMountOptions));
 	VirtualLock (&szFileName, sizeof(szFileName));
-	VirtualLock (&CmdTokenPin, sizeof (CmdTokenPin));
 
 	DetectX86Features ();
 
