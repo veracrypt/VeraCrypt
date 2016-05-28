@@ -82,6 +82,7 @@ namespace VeraCrypt
 		VolumeInfoList ArgVolumes;
 		VolumeType::Enum ArgVolumeType;
 		bool ArgTrueCryptMode;
+        shared_ptr<SecureBuffer> ArgTokenPin;
 
 		bool StartBackgroundTask;
 		UserPreferences Preferences;

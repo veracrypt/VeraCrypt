@@ -170,6 +170,7 @@ namespace VeraCrypt
 	{
 		virtual ~GetPinFunctor () { }
 		virtual void operator() (string &str) = 0;
+		virtual void notifyIncorrectPin () = 0;
 	};
 
 	struct SendExceptionFunctor

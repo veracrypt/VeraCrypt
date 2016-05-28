@@ -89,6 +89,7 @@ namespace VeraCrypt
 		parser.AddSwitch (L"",	L"test",				_("Test internal algorithms"));
 		parser.AddSwitch (L"t", L"text",				_("Use text user interface"));
 		parser.AddOption (L"",	L"token-lib",			_("Security token library"));
+        parser.AddOption (L"",	L"token-pin",			_("Security token PIN"));
 		parser.AddSwitch (L"v", L"verbose",				_("Enable verbose output"));
 		parser.AddSwitch (L"",	L"version",				_("Display version information"));
 		parser.AddSwitch (L"",	L"volume-properties",	_("Display volume properties"));
@@ -592,6 +593,11 @@ namespace VeraCrypt
 
 		if (parser.Found (L"token-lib", &str))
 			Preferences.SecurityTokenModule = wstring (str);
+
+        if (parser.Found (L"token-pin", &str) && !str.IsEmpty ())
+        {
+            ArgTokenPin = ToUTF8Buffer (str.c_str(), str.Len ());
+        }
 
 		if (parser.Found (L"verbose"))
 			Preferences.Verbose = true;

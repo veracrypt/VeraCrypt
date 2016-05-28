@@ -1053,6 +1053,13 @@ namespace VeraCrypt
 
 			virtual void operator() (string &passwordStr)
 			{
+                if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+                {
+        			passwordStr.clear();
+        			passwordStr.insert (0, (char*) CmdLine->ArgTokenPin->Ptr (), CmdLine->ArgTokenPin->Size());
+                    return;
+                }
+
 				if (UI->GetPreferences().NonInteractive)
 					throw MissingArgument (SRC_POS);
 
@@ -1067,6 +1074,14 @@ namespace VeraCrypt
 				UI->ShowString (L"\n");
 
 				StringConverter::ToSingle (wPassword, passwordStr);
+			}
+
+			virtual void notifyIncorrectPin ()
+			{
+				if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+				{
+					CmdLine->ArgTokenPin->Free ();
+				}
 			}
 
 			const TextUserInterface *UI;

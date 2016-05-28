@@ -537,6 +537,13 @@ namespace VeraCrypt
 		{
 			virtual void operator() (string &passwordStr)
 			{
+                if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+                {
+        			passwordStr.clear();
+        			passwordStr.insert (0, (char*) CmdLine->ArgTokenPin->Ptr (), CmdLine->ArgTokenPin->Size());
+                    return;
+                }
+
 				if (Gui->GetPreferences().NonInteractive)
 					throw MissingArgument (SRC_POS);
 
@@ -562,6 +569,14 @@ namespace VeraCrypt
 				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
 
 				StringConverter::ToSingle (wPassword, passwordStr);
+			}
+
+			virtual void notifyIncorrectPin ()
+			{
+				if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+				{
+					CmdLine->ArgTokenPin->Free ();
+				}
 			}
 		};
 

@@ -517,6 +517,7 @@ namespace VeraCrypt
 						size_t cmdPinLen = strlen (cmdPin);
 						burn (cmdPin, cmdPinLen);
 					}
+					PinCallback->notifyIncorrectPin ();
 					(*WarningCallback) (Pkcs11Exception (CKR_PIN_INCORRECT));
 					continue;
 				}
