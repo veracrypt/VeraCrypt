@@ -17,4 +17,5 @@ SOURCES = \
 	Serpent.c \
 	Sha2.c \
 	Twofish.c \
-	Whirlpool.c
+	Whirlpool.c \
+	Camellia.c

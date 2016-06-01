@@ -348,6 +348,35 @@ TWOFISH_TEST twofish_vectors[TWOFISH_TEST_COUNT] = {
 0x6C, 0xB4, 0x56, 0x1C, 0x40, 0xBF, 0x0A, 0x97, 0x05, 0x93, 0x1C, 0xB6, 0xD4, 0x08, 0xE7, 0xFA
 };
 
+// Camellia ECB test vectors
+#define CAMELLIA_TEST_COUNT 2
+
+typedef struct {
+	unsigned char key[32];
+	unsigned char plaintext[16];
+	unsigned char ciphertext[16];
+	} CAMELLIA_TEST;
+
+CAMELLIA_TEST camellia_vectors[CAMELLIA_TEST_COUNT] = {
+{
+	0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98,
+	0x76, 0x54, 0x32, 0x10, 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
+	0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x01, 0x23, 0x45, 0x67,
+	0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10,
+	0x9A, 0xCC, 0x23, 0x7D, 0xFF, 0x16, 0xD7, 0x6C, 0x20, 0xEF, 0x7C, 0x91,
+	0x9E, 0x3A, 0x75, 0x09
+},
+{
+	0x2B, 0xD6, 0x45, 0x9F, 0x82, 0xC5, 0xB3, 0x00, 0x95, 0x2C, 0x49, 0x10,
+	0x48, 0x81, 0xFF, 0x48, 0x2B, 0xD6, 0x45, 0x9F, 0x82, 0xC5, 0xB3, 0x00,
+	0x95, 0x2C, 0x49, 0x10, 0x48, 0x81, 0xFF, 0x48, 0xE6, 0x84, 0x42, 0x17,
+	0x16, 0xFC, 0x0B, 0x01, 0xAE, 0xB5, 0xC6, 0x76, 0x51, 0x20, 0xF9, 0x5F,
+	0xEA, 0x02, 0x47, 0x14, 0xAD, 0x5C, 0x4D, 0x84, 0xEA, 0x02, 0x47, 0x14,
+	0xAD, 0x5C, 0x4D, 0x84
+}
+};
+
+
 /* Test vectors from FIPS 198a, RFC 4231, RFC 2104, RFC 2202, and other sources. */
 
 char *hmac_sha256_test_keys[] =
@@ -462,6 +491,10 @@ void CipherInit2(int cipher, void* key, void* ks, int key_len)
 		break;
 
 	case TWOFISH:
+		CipherInit(cipher,key,ks);
+		break;
+		
+	case CAMELLIA:
 		CipherInit(cipher,key,ks);
 		break;
 
@@ -620,6 +653,32 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				case 3:
 					if (crc != 0xb1c45759)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				}
+			}
+			else if (wcscmp (name, L"Camellia") == 0)
+			{
+				switch (testCase)
+				{
+				case 0:
+					if (crc != 0x2436badb)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 1:
+					if (crc != 0x247d2272)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 2:
+					if (crc != 0x72b49cde)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 3:
+					if (crc != 0xb838d2c1)
 						return FALSE;
 					nTestsPerformed++;
 					break;
@@ -819,6 +878,12 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 				return FALSE;
 			nTestsPerformed++;
 		}
+		else if (wcscmp (name, L"Camellia") == 0)
+		{
+			if (crc != 0x8176b223)
+				return FALSE;
+			nTestsPerformed++;
+		}
 		else if (wcscmp (name, L"AES-Twofish") == 0)
 		{
 			if (crc != 0x14ce7385)
@@ -861,7 +926,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 		nTestsPerformed++;
 	}
 
-	return (nTestsPerformed == 80);
+	return (nTestsPerformed == 90);
 }
 
 static BOOL DoAutoTestAlgorithms (void)
@@ -962,6 +1027,26 @@ static BOOL DoAutoTestAlgorithms (void)
 			break;
 	}
 	if (i != TWOFISH_TEST_COUNT)
+		bFailed = TRUE;
+	
+	/* Camellia */
+
+	for (i = 0; i < CAMELLIA_TEST_COUNT; i++)
+	{
+		int cipher = CAMELLIA;
+		memcpy(key, camellia_vectors[i].key, 32);
+		memcpy(tmp, camellia_vectors[i].plaintext, 16);
+		CipherInit(cipher, key, ks_tmp);
+
+		EncipherBlock(cipher, tmp, ks_tmp);
+		if (memcmp(camellia_vectors[i].ciphertext, tmp, 16) != 0)
+			break;
+
+		DecipherBlock(cipher, tmp, ks_tmp);
+		if (memcmp(camellia_vectors[i].plaintext, tmp, 16) != 0)
+			break;
+	}
+	if (i != CAMELLIA_TEST_COUNT)
 		bFailed = TRUE;
 
 

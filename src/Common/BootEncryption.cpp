@@ -1169,6 +1169,19 @@ namespace VeraCrypt
 				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_TWOFISH : IDR_BOOT_LOADER_TWOFISH;
 			}
 			break;
+			
+		case CAMELLIA:
+			if (pkcs5_prf == SHA256)
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_CAMELLIA_SHA2 : IDR_BOOT_SECTOR_CAMELLIA_SHA2;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_CAMELLIA_SHA2 : IDR_BOOT_LOADER_CAMELLIA_SHA2;
+			}
+			else
+			{
+				bootSectorId = rescueDisk ? IDR_RESCUE_BOOT_SECTOR_CAMELLIA : IDR_BOOT_SECTOR_CAMELLIA;
+				bootLoaderId = rescueDisk ? IDR_RESCUE_LOADER_CAMELLIA : IDR_BOOT_LOADER_CAMELLIA;
+			}
+			break;
 		}
 
 		// Boot sector

@@ -1399,6 +1399,7 @@
    <string lang="ar" key="PIM_TOO_BIG">مضاعف الدورات الشخصي (PIM) قيمته القصوى 2147468.</string>
    <control lang="ar" key="IDC_SKIP_RESCUE_VERIFICATION">تجاوز التحقق من قرص إنقاذ فيراكربت</control>
    <control lang="ar" key="IDC_HIDE_WAITING_DIALOG">لا تظهر نافذة الانتظار أثناء أداء العمليات</control>
+   <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

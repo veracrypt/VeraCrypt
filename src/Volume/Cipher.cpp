@@ -15,6 +15,7 @@
 #include "Crypto/Aes.h"
 #include "Crypto/Serpent.h"
 #include "Crypto/Twofish.h"
+#include "Crypto/Camellia.h"
 
 #ifdef TC_AES_HW_CPU
 #	include "Crypto/Aes_hw_cpu.h"
@@ -77,6 +78,7 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Cipher> (new CipherAES ()));
 		l.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
 		l.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
+		l.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
 
 		return l;
 	}
@@ -238,6 +240,27 @@ namespace VeraCrypt
 	void CipherTwofish::SetCipherKey (const byte *key)
 	{
 		twofish_set_key ((TwofishInstance *) ScheduledKey.Ptr(), (unsigned int *) key);
+	}
+	
+	// Camellia
+	void CipherCamellia::Decrypt (byte *data) const
+	{
+		camellia_decrypt (data, data, (uint64 *) ScheduledKey.Ptr());
+	}
+
+	void CipherCamellia::Encrypt (byte *data) const
+	{
+		camellia_encrypt (data, data, (uint64 *) ScheduledKey.Ptr());
+	}
+
+	size_t CipherCamellia::GetScheduledKeySize () const
+	{
+		return CAMELLIA_KS;
+	}
+
+	void CipherCamellia::SetCipherKey (const byte *key)
+	{
+		camellia_set_key (key, (uint64 *) ScheduledKey.Ptr());
 	}
 
 

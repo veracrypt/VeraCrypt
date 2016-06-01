@@ -1401,6 +1401,7 @@
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

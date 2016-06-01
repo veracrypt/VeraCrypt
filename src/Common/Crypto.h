@@ -106,7 +106,8 @@ enum
 	NONE = 0,
 	AES,
 	SERPENT,
-	TWOFISH
+	TWOFISH,
+	CAMELLIA
 };
 
 typedef struct
@@ -155,6 +156,8 @@ typedef struct
 #		define MAX_EXPANDED_KEY	SERPENT_KS
 #	elif defined (TC_WINDOWS_BOOT_TWOFISH)
 #		define MAX_EXPANDED_KEY	TWOFISH_KS
+#	elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+#		define MAX_EXPANDED_KEY	CAMELLIA_KS
 #	endif
 
 #else
@@ -186,6 +189,9 @@ typedef struct
 #ifndef TC_WINDOWS_BOOT
 #	include "Sha2.h"
 #	include "Whirlpool.h"
+#  include "Camellia.h"
+#else
+#  include "CamelliaSmall.h"
 #endif
 
 #include "GfMul.h"

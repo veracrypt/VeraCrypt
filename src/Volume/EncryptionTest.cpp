@@ -95,6 +95,34 @@ namespace VeraCrypt
 			}
 		}
 	};
+	
+	static const CipherTestVector CamelliaTestVectors[] =
+	{
+		{
+			{
+				0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 
+				0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,	0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
+			},
+			{
+				0x01, 0x23, 0x45, 0x67,	0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10
+			},
+			{
+				0x9A, 0xCC, 0x23, 0x7D, 0xFF, 0x16, 0xD7, 0x6C, 0x20, 0xEF, 0x7C, 0x91,	0x9E, 0x3A, 0x75, 0x09
+			}
+		},
+		{
+			{
+				0x2B, 0xD6, 0x45, 0x9F, 0x82, 0xC5, 0xB3, 0x00, 0x95, 0x2C, 0x49, 0x10, 0x48, 0x81, 0xFF, 0x48, 
+				0x2B, 0xD6, 0x45, 0x9F, 0x82, 0xC5, 0xB3, 0x00,	0x95, 0x2C, 0x49, 0x10, 0x48, 0x81, 0xFF, 0x48
+			},
+			{
+				0xE6, 0x84, 0x42, 0x17,	0x16, 0xFC, 0x0B, 0x01, 0xAE, 0xB5, 0xC6, 0x76, 0x51, 0x20, 0xF9, 0x5F
+			},
+			{
+				0xEA, 0x02, 0x47, 0x14, 0xAD, 0x5C, 0x4D, 0x84, 0xEA, 0x02, 0x47, 0x14,	0xAD, 0x5C, 0x4D, 0x84
+			}
+		}
+	};
 
 	static void TestCipher (Cipher &cipher, const CipherTestVector *testVector, size_t testVectorCount)
 	{
@@ -139,6 +167,9 @@ namespace VeraCrypt
 
 			CipherTwofish twofish;
 			TestCipher (twofish, TwofishTestVectors, array_capacity (TwofishTestVectors));
+			
+			CipherCamellia camellia;
+			TestCipher (camellia, CamelliaTestVectors, array_capacity (CamelliaTestVectors));
 	}
 
 	const EncryptionTest::XtsTestVector EncryptionTest::XtsTestVectors[] =
@@ -546,6 +577,32 @@ namespace VeraCrypt
 						break;
 					}
 				}
+				else if (typeid (ea) == typeid (Camellia))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x2436badb)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x247d2272)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0x72b49cde)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xb838d2c1)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
 				else if (typeid (ea) == typeid (AESTwofish))
 				{
 					switch (testCase)
@@ -742,6 +799,12 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
+			else if (typeid (ea) == typeid (Camellia))
+			{
+				if (crc != 0x8176b223)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
 			else if (typeid (ea) == typeid (AESTwofish))
 			{
 				if (crc != 0x14ce7385)
@@ -784,7 +847,7 @@ namespace VeraCrypt
 			nTestsPerformed++;
 		}
 
-		if (nTestsPerformed != 80)
+		if (nTestsPerformed != 90)
 			throw TestFailed (SRC_POS);
 	}
 

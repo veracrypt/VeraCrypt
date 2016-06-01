@@ -104,6 +104,9 @@ OBJS = $(OBJS) $(OUTDIR)\Serpent.obj
 OBJS = $(OBJS) $(OUTDIR)\Twofish.obj
 !endif
 
+!if "$(SINGLE_CIPHER)" == "CAMELLIA"
+OBJS = $(OBJS) $(OUTDIR)\CamelliaSmall.obj
+!endif
 
 all: env $(TARGETS)
 

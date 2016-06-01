@@ -64,6 +64,7 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Serpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Twofish ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new Camellia ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
@@ -281,6 +282,14 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia
+	Camellia::Camellia ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}

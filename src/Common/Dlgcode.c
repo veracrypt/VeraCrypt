@@ -6415,7 +6415,7 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 	SetWindowText(GetDlgItem(hwndDlg, IDC_PLAINTEXT), L"0000000000000000");
 	SetWindowText(GetDlgItem(hwndDlg, IDC_CIPHERTEXT), L"0000000000000000");
 
-	if (idTestCipher == AES || idTestCipher == SERPENT || idTestCipher == TWOFISH)
+	if (idTestCipher == AES || idTestCipher == SERPENT || idTestCipher == TWOFISH || idTestCipher == CAMELLIA)
 	{
 		ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) L"256");
 		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 32);

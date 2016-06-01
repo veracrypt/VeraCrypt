@@ -1399,6 +1399,7 @@
     <string lang="de" key="PIM_TOO_BIG">Der größtmögliche Wert für den PIM (Persönlicher IterationsMultiplikator) ist 2147468.</string>
     <control lang="de" key="IDC_SKIP_RESCUE_VERIFICATION">Rettungsdatenträgerüberprüfung überspringen</control>
     <control lang="de" key="IDC_HIDE_WAITING_DIALOG">Wartemitteilungsdialog nicht anzeigen, wenn Vorgänge ausgeführt werden</control>
+    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

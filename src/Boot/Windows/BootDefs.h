@@ -29,6 +29,8 @@
 #		define TC__BOOT_MEMORY_REQUIRED		33
 #	elif defined (TC_WINDOWS_BOOT_TWOFISH)
 #		define TC__BOOT_MEMORY_REQUIRED		41
+#	elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+#		define TC__BOOT_MEMORY_REQUIRED		31
 #	endif
 
 #if 0

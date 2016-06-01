@@ -1159,6 +1159,10 @@ namespace VeraCrypt
 		{
 			url = L"https://veracrypt.codeplex.com/wikipage?title=Twofish";
 		}
+		else if (linkId == L"camellia")
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Camellia";
+		}
 		else if (linkId == L"cascades")
 		{
 			url = L"https://veracrypt.codeplex.com/wikipage?title=Cascades";

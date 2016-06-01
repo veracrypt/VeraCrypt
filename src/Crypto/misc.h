@@ -55,6 +55,24 @@
 
 #endif
 
+#if _MSC_VER >= 1400 && !defined(__INTEL_COMPILER)
+// Intel C++ Compiler 10.0 calls a function instead of using the rotate instruction when using these instructions
+#pragma intrinsic(_rotr8,_rotl8,_rotr16,_rotl16)
+
+#define rotr8(x,n)	_rotr8(x, n)
+#define rotl8(x,n)	_rotl8(x, n)
+#define rotr16(x,n)	_rotr16(x, n)
+#define rotl16(x,n)	_rotl16(x, n)
+
+#else
+
+#define rotr8(x,n)	(((x) >> n) | ((x) << (8 - n)))
+#define rotl8(x,n)	(((x) << n) | ((x) >> (8 - n)))
+#define rotr16(x,n)	(((x) >> n) | ((x) << (16 - n)))
+#define rotl16(x,n)	(((x) << n) | ((x) >> (16 - n)))
+
+#endif
+
 #if defined(__GNUC__) && defined(__linux__)
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #include <byteswap.h>

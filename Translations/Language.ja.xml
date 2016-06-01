@@ -1399,6 +1399,7 @@
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <string lang="ja" key="CAMELLIA_HELP">Camellia（カメリア）とは、2000年にNTTと三菱電機により共同開発されたブロック暗号です。 256ビットキー、128ビットブロックを使用します。動作モードはXTSです。 Camelliaは解読可能なラウンド数と最低限安全性を保てるラウンド数を元にした指標であるセキュリティーマージンにてAESを上回る1.8～2.0を確保しています。これに加え、CRYPTRECおよびNESSIEにおいてAESと同等の安全性と効率を兼ね備えているという評価もされています。</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

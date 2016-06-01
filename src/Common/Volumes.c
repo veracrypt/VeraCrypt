@@ -667,6 +667,8 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 		serpent_set_key (dk, cryptoInfo->ks);
 	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
 		twofish_set_key ((TwofishInstance *) cryptoInfo->ks, (const u4byte *) dk);
+	#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+		camellia_set_key (dk, cryptoInfo->ks);
 	#else
 		status = EAInit (dk, cryptoInfo->ks);
 		if (status == ERR_CIPHER_INIT_FAILURE)
@@ -683,6 +685,8 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 		serpent_set_key (dk + 32, cryptoInfo->ks2);
 	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
 		twofish_set_key ((TwofishInstance *)cryptoInfo->ks2, (const u4byte *) (dk + 32));
+	#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+		camellia_set_key (dk + 32, cryptoInfo->ks2);
 	#else
 		EAInit (dk + 32, cryptoInfo->ks2);
 	#endif
@@ -742,6 +746,8 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 		serpent_set_key (dk, cryptoInfo->ks);
 	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
 		twofish_set_key ((TwofishInstance *) cryptoInfo->ks, (const u4byte *) dk);
+	#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+		camellia_set_key (dk, cryptoInfo->ks);
 	#else
 		status = EAInit (dk, cryptoInfo->ks);
 		if (status == ERR_CIPHER_INIT_FAILURE)
@@ -759,6 +765,8 @@ int ReadVolumeHeader (BOOL bBoot, char *header, Password *password, int pim, PCR
 		serpent_set_key (dk + 32, cryptoInfo->ks2);
 	#elif defined (TC_WINDOWS_BOOT_TWOFISH)
 		twofish_set_key ((TwofishInstance *)cryptoInfo->ks2, (const u4byte *) (dk + 32));
+	#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+		camellia_set_key (dk + 32, cryptoInfo->ks2);
 	#else
 		EAInit (dk + 32, cryptoInfo->ks2);
 	#endif

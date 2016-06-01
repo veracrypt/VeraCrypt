@@ -1413,6 +1413,12 @@ void ComboSelChangeEA (HWND hwndDlg)
 
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("TWOFISH_HELP"));
 		}
+		else if (wcscmp (name, L"Camellia") == 0)
+		{
+			StringCbPrintfW (hyperLink, sizeof(hyperLink) / 2, GetString ("MORE_INFO_ABOUT"), name);
+
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("CAMELLIA_HELP"));
+		}
 		else if (EAGetCipherCount (nIndex) > 1)
 		{
 			// Cascade
@@ -5465,6 +5471,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Applink ("serpent", FALSE, "");
 			else if (wcscmp (name, L"Twofish") == 0)
 				Applink ("twofish", FALSE, "");
+			else if (wcscmp (name, L"Camellia") == 0)
+				Applink ("camellia", FALSE, "");
 			else if (EAGetCipherCount (nIndex) > 1)
 				Applink ("cascades", TRUE, "");
 

@@ -176,6 +176,12 @@
 #endif
 #endif
 
+// this version of the macro is fastest on Pentium 3 and Pentium 4 with MSVC 6 SP5 w/ Processor Pack
 #define GETBYTE(x, y) (unsigned int)((unsigned char)((x)>>(8*(y))))
+// these may be faster on other CPUs/compilers
+// #define GETBYTE(x, y) (unsigned int)(((x)>>(8*(y)))&255)
+// #define GETBYTE(x, y) (((byte *)&(x))[y])
+
+#define CRYPTOPP_GET_BYTE_AS_BYTE(x, y) ((byte)((x)>>(8*(y))))
 
 #endif

@@ -52,6 +52,7 @@ static Cipher Ciphers[] =
 	{ AES,		L"AES",			16,			32,			AES_KS				},
 	{ SERPENT,	L"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	L"Twofish",		16,			32,			TWOFISH_KS			},
+	{ CAMELLIA,	L"Camellia",	16,			32,			CAMELLIA_KS			},
 #endif
 	{ 0,		0,				0,			0,			0					}
 };
@@ -68,6 +69,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { AES,					0 }, { XTS, 0 },			1 },
 	{ { SERPENT,				0 }, { XTS, 0 },			1 },
 	{ { TWOFISH,				0 }, { XTS, 0 },			1 },
+	{ { CAMELLIA,				0 }, { XTS, 0 },			1 },
 	{ { TWOFISH, AES,			0 }, { XTS, 0 },	1 },
 	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1 },
 	{ { AES, SERPENT,			0 }, { XTS, 0 },	1 },
@@ -133,6 +135,12 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 	case TWOFISH:
 		twofish_set_key ((TwofishInstance *)ks, (const u4byte *)key);
 		break;
+		
+#if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
+	case CAMELLIA:
+		camellia_set_key (key, ks);
+		break;
+#endif
 
 	default:
 		// Unknown/wrong cipher ID
@@ -158,6 +166,9 @@ void EncipherBlock(int cipher, void *data, void *ks)
 
 	case TWOFISH:		twofish_encrypt (ks, data, data); break;
 	case SERPENT:		serpent_encrypt (data, data, ks); break;
+#if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
+	case CAMELLIA:		camellia_encrypt (data, data, ks); break;
+#endif
 	default:			TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
 }
@@ -210,6 +221,9 @@ void DecipherBlock(int cipher, void *data, void *ks)
 	{
 	case SERPENT:	serpent_decrypt (data, data, ks); break;
 	case TWOFISH:	twofish_decrypt (ks, data, data); break;
+#if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
+	case CAMELLIA:	camellia_decrypt (data, data, ks); break;
+#endif
 #ifndef TC_WINDOWS_BOOT
 
 	case AES:
@@ -945,7 +959,7 @@ void DecryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *s
 #else // TC_WINDOWS_BOOT_SINGLE_CIPHER_MODE
 
 
-#if !defined (TC_WINDOWS_BOOT_AES) && !defined (TC_WINDOWS_BOOT_SERPENT) && !defined (TC_WINDOWS_BOOT_TWOFISH)
+#if !defined (TC_WINDOWS_BOOT_AES) && !defined (TC_WINDOWS_BOOT_SERPENT) && !defined (TC_WINDOWS_BOOT_TWOFISH) && !defined (TC_WINDOWS_BOOT_CAMELLIA)
 #error No cipher defined
 #endif
 
@@ -960,6 +974,8 @@ void EncipherBlock(int cipher, void *data, void *ks)
 	serpent_encrypt (data, data, ks);
 #elif defined (TC_WINDOWS_BOOT_TWOFISH)
 	twofish_encrypt (ks, data, data);
+#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+	camellia_encrypt (data, data, ks);
 #endif
 }
 
@@ -974,6 +990,8 @@ void DecipherBlock(int cipher, void *data, void *ks)
 	serpent_decrypt (data, data, ks);
 #elif defined (TC_WINDOWS_BOOT_TWOFISH)
 	twofish_decrypt (ks, data, data);
+#elif defined (TC_WINDOWS_BOOT_CAMELLIA)
+	camellia_decrypt (data, data, ks);
 #endif
 }
 

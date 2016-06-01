@@ -1399,6 +1399,7 @@
     <string lang="fr" key="PIM_TOO_BIG">La valeur maximale du PIM est 2147468.</string>
     <control lang="fr" key="IDC_SKIP_RESCUE_VERIFICATION">Ne pas vérifier le disque de secours</control>
     <control lang="fr" key="IDC_HIDE_WAITING_DIALOG">Ne pas afficher la fenêtre d'attente lors de l'exécution des opérations</control>
+    <string lang="fr" key="CAMELLIA_HELP">Développé conjointement par les entreprises japonaises Mitsubishi Electric and NTT et publié en 2000. Clé de 256 bits et bloc de 128 bits. Le mode opératoire est XTS. Camellia a été approuvé par ISO/IEC, le projet NESSIE de l'Union Européenne et le projet CRYPTREC du gouvernement Japonais.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

@@ -427,6 +427,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Camellia.c"
+				>
+			</File>
+			<File
 				RelativePath=".\cpu.c"
 				>
 			</File>
@@ -470,6 +474,10 @@
 			</File>
 			<File
 				RelativePath=".\Aestab.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Camellia.h"
 				>
 			</File>
 			<File
