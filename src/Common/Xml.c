@@ -128,9 +128,10 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	if (t[0] != '<')
 		return NULL;
 
-	t = strchr (t, '>') + 1;
-	if (t == (char *)1) return NULL;
+	t = strchr (t, '>');
+	if (t == NULL) return NULL;
 
+	t++;
 	e = strchr (e, '<');
 	if (e == NULL) return NULL;
 

@@ -361,9 +361,11 @@ BOOL LoadLanguageFile ()
 
 		header = headerPtr;
 		if (header == NULL) return FALSE;
+		header--;
 
 		do
 		{
+			header++;
 			if (sscanf (header, "#define %127s %d", key, &intKey) == 2)
 			{
 				WCHAR *str = GetString (key);
@@ -372,7 +374,7 @@ BOOL LoadLanguageFile ()
 					AddDictionaryEntry (NULL, intKey, str);
 			}
 
-		} while ((header = strchr (header, '\n') + 1) != (char *) 1);
+		} while ((header = strchr (header, '\n')) != NULL);
 
 		free (headerPtr);
 	}
