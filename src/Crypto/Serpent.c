@@ -10,37 +10,37 @@
 #include "Serpent.h"
 #include "Common/Endian.h"
 
-#include <memory.h>
-
-#if defined(_WIN32) && !defined(_DEBUG)
+#ifdef TC_WINDOWS_BOOT
 #include <stdlib.h>
-#define rotlFixed _rotl
-#define rotrFixed _rotr
+#pragma intrinsic(_lrotr,_lrotl)
+#define rotr32(x,n)	_lrotr(x, n)
+#define rotl32(x,n)	_lrotl(x, n)
 #else
-#define rotlFixed(x,n)   (((x) << (n)) | ((x) >> (32 - (n))))
-#define rotrFixed(x,n)   (((x) >> (n)) | ((x) << (32 - (n))))
+#include "Crypto/misc.h"
 #endif
+
+#include <memory.h>
 
 // linear transformation
 #define LT(i,a,b,c,d,e)	{\
-	a = rotlFixed(a, 13);	\
-	c = rotlFixed(c, 3); 	\
-	d = rotlFixed(d ^ c ^ (a << 3), 7); 	\
-	b = rotlFixed(b ^ a ^ c, 1); 	\
-	a = rotlFixed(a ^ b ^ d, 5); 		\
-	c = rotlFixed(c ^ d ^ (b << 7), 22);}
+	a = rotl32(a, 13);	\
+	c = rotl32(c, 3); 	\
+	d = rotl32(d ^ c ^ (a << 3), 7); 	\
+	b = rotl32(b ^ a ^ c, 1); 	\
+	a = rotl32(a ^ b ^ d, 5); 		\
+	c = rotl32(c ^ d ^ (b << 7), 22);}
 
 // inverse linear transformation
 #define ILT(i,a,b,c,d,e)	{\
-	c = rotrFixed(c, 22);	\
-	a = rotrFixed(a, 5); 	\
+	c = rotr32(c, 22);	\
+	a = rotr32(a, 5); 	\
 	c ^= d ^ (b << 7);	\
 	a ^= b ^ d; 		\
-	b = rotrFixed(b, 1); 	\
-	d = rotrFixed(d, 7) ^ c ^ (a << 3);	\
+	b = rotr32(b, 1); 	\
+	d = rotr32(d, 7) ^ c ^ (a << 3);	\
 	b ^= a ^ c; 		\
-	c = rotrFixed(c, 3); 	\
-	a = rotrFixed(a, 13);}
+	c = rotr32(c, 3); 	\
+	a = rotr32(a, 13);}
 
 // order of output from S-box functions
 #define beforeS0(f) f(0,a,b,c,d,e)
@@ -644,7 +644,7 @@ void serpent_set_key(const unsigned __int8 userKey[],unsigned __int8 *ks)
 	k += 8;
 	t = k[-1];
 	for (i = 0; i < 132; ++i)
-		k[i] = t = rotlFixed(k[i-8] ^ k[i-5] ^ k[i-3] ^ t ^ 0x9e3779b9 ^ i, 11);
+		k[i] = t = rotl32(k[i-8] ^ k[i-5] ^ k[i-3] ^ t ^ 0x9e3779b9 ^ i, 11);
 	k -= 20;
 
 #define LK(r, a, b, c, d, e)	{\
@@ -705,7 +705,7 @@ void serpent_set_key(const unsigned __int8 userKey[], unsigned __int8 *ks)
 	k += 8;
 	t = k[-1];
 	for (i = 0; i < 132; ++i)
-		k[i] = t = rotlFixed(k[i-8] ^ k[i-5] ^ k[i-3] ^ t ^ 0x9e3779b9 ^ i, 11);
+		k[i] = t = rotl32(k[i-8] ^ k[i-5] ^ k[i-3] ^ t ^ 0x9e3779b9 ^ i, 11);
 	k -= 20;
 
 	for (i=0; i<4; i++)
@@ -780,12 +780,12 @@ typedef unsigned __int32 uint32;
 
 static void LTf (uint32 *a, uint32 *b, uint32 *c, uint32 *d)
 {
-	*a = rotlFixed(*a, 13);
-	*c = rotlFixed(*c, 3);
-	*d = rotlFixed(*d ^ *c ^ (*a << 3), 7);
-	*b = rotlFixed(*b ^ *a ^ *c, 1);
-	*a = rotlFixed(*a ^ *b ^ *d, 5);
-	*c = rotlFixed(*c ^ *d ^ (*b << 7), 22);
+	*a = rotl32(*a, 13);
+	*c = rotl32(*c, 3);
+	*d = rotl32(*d ^ *c ^ (*a << 3), 7);
+	*b = rotl32(*b ^ *a ^ *c, 1);
+	*a = rotl32(*a ^ *b ^ *d, 5);
+	*c = rotl32(*c ^ *d ^ (*b << 7), 22);
 }
 
 void serpent_encrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, unsigned __int8 *ks)
@@ -883,15 +883,15 @@ start:
 
 static void ILTf (uint32 *a, uint32 *b, uint32 *c, uint32 *d)
 {
-	*c = rotrFixed(*c, 22);
-	*a = rotrFixed(*a, 5);
+	*c = rotr32(*c, 22);
+	*a = rotr32(*a, 5);
 	*c ^= *d ^ (*b << 7);
 	*a ^= *b ^ *d;
-	*b = rotrFixed(*b, 1);
-	*d = rotrFixed(*d, 7) ^ *c ^ (*a << 3);
+	*b = rotr32(*b, 1);
+	*d = rotr32(*d, 7) ^ *c ^ (*a << 3);
 	*b ^= *a ^ *c;
-	*c = rotrFixed(*c, 3);
-	*a = rotrFixed(*a, 13);
+	*c = rotr32(*c, 3);
+	*a = rotr32(*a, 13);
 }
 
 void serpent_decrypt(const unsigned __int8 *inBlock, unsigned __int8 *outBlock, unsigned __int8 *ks)
