@@ -205,6 +205,9 @@
 #define IDC_KEYFILES_TRY_EMPTY_PASSWORD 5135
 #define IDC_ENTROPY_BAR                 5136
 #define IDT_ENTROPY_BAR                 5137
+#define IDT_BENCHMARK                   5138
+#define IDC_BENCHMARK_LIST              5139
+#define IDC_BENCHMARK_PREBOOT           5140
 
 // Next default values for new objects
 //
@@ -213,7 +216,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        566
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5138
+#define _APS_NEXT_CONTROL_VALUE         5141
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -295,7 +295,14 @@ ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
 #error PKCS5_BENCHMARKS and HASH_FNC_BENCHMARKS are both TRUE (at least one of them should be FALSE).
 #endif
 
-enum
+enum 
+{
+	BENCHMARK_TYPE_ENCRYPTION = 0,
+	BENCHMARK_TYPE_PRF,
+	BENCHMARK_TYPE_HASH
+};
+
+enum 
 {
 	BENCHMARK_SORT_BY_NAME = 0,
 	BENCHMARK_SORT_BY_SPEED
@@ -316,6 +323,10 @@ int benchmarkBufferSize = BENCHMARK_DEFAULT_BUF_SIZE;
 int benchmarkLastBufferSize = BENCHMARK_DEFAULT_BUF_SIZE;
 int benchmarkSortMethod = BENCHMARK_SORT_BY_SPEED;
 LARGE_INTEGER benchmarkPerformanceFrequency;
+int benchmarkType = BENCHMARK_TYPE_ENCRYPTION;
+int benchmarkPim = -1;
+BOOL benchmarkPreBoot = FALSE;
+BOOL benchmarkGPT = FALSE;
 
 #endif	// #ifndef SETUP
 
@@ -359,7 +370,7 @@ void cleanup ()
 	/* Close the device driver handle */
 	if (hDriver != INVALID_HANDLE_VALUE)
 	{
-		// Unload driver mode if possible (non-install mode)
+		// Unload driver mode if possible (non-install mode) 
 		if (IsNonInstallMode ())
 		{
 			// If a dismount was forced in the lifetime of the driver, Windows may later prevent it to be loaded again from
@@ -4876,6 +4887,60 @@ void GetSpeedString (unsigned __int64 speed, wchar_t *str, size_t cbStr)
 		StringCbPrintfW (str, cbStr, L"%I64d %s", speed, b);
 }
 
+static void ResetBenchmarkList (HWND hwndDlg)
+{
+	LVCOLUMNW LvCol;
+
+	HWND hList = GetDlgItem (hwndDlg, IDC_RESULTS);
+
+	/* Render the results */
+	// delete data
+	SendMessage (hList, LVM_DELETEALLITEMS, 0, 0);
+	// Delete headers
+	SendMessageW (hList, LVM_DELETECOLUMN, 1, 0);
+	SendMessageW (hList, LVM_DELETECOLUMN, 1, 0);
+	SendMessageW (hList, LVM_DELETECOLUMN, 1, 0);
+
+	memset (&LvCol,0,sizeof(LvCol));               
+	LvCol.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;  
+	switch(benchmarkType) {
+	case BENCHMARK_TYPE_ENCRYPTION:
+		// Create headers
+		LvCol.pszText = GetString ("ENCRYPTION");
+		LvCol.cx = CompensateXDPI (80);
+		LvCol.fmt = LVCFMT_RIGHT;
+		SendMessageW (hList,LVM_INSERTCOLUMNW,1,(LPARAM)&LvCol);
+
+		LvCol.pszText = GetString ("DECRYPTION");
+		LvCol.cx = CompensateXDPI (80);
+		LvCol.fmt = LVCFMT_RIGHT;
+		SendMessageW (hList,LVM_INSERTCOLUMNW,2,(LPARAM)&LvCol);
+
+		LvCol.pszText = GetString ("MEAN");
+		LvCol.cx = CompensateXDPI (80);
+		LvCol.fmt = LVCFMT_RIGHT;
+		SendMessageW (hList,LVM_INSERTCOLUMNW,3,(LPARAM)&LvCol);
+		break;
+	case BENCHMARK_TYPE_HASH:
+		LvCol.pszText = GetString ("MEAN");
+		LvCol.cx = CompensateXDPI (80);
+		LvCol.fmt = LVCFMT_RIGHT;
+		SendMessageW (hList,LVM_INSERTCOLUMNW,1,(LPARAM)&LvCol);
+		break;
+	case BENCHMARK_TYPE_PRF:
+		LvCol.pszText = GetString ("TIME");
+		LvCol.cx = CompensateXDPI (80);
+		LvCol.fmt = LVCFMT_RIGHT;
+		SendMessageW (hList,LVM_INSERTCOLUMNW,1,(LPARAM)&LvCol);
+
+		LvCol.pszText = GetString ("ITERATIONS");
+		LvCol.cx = CompensateXDPI (80);
+		LvCol.fmt = LVCFMT_RIGHT;
+		SendMessageW (hList,LVM_INSERTCOLUMNW,2,(LPARAM)&LvCol);
+		break;
+	}
+}
+
 static void DisplayBenchmarkResults (HWND hwndDlg)
 {
 	wchar_t item1[100]={0};
@@ -4884,6 +4949,8 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 	int ea, i;
 	BOOL unsorted = TRUE;
 	BENCHMARK_REC tmp_line;
+
+	ResetBenchmarkList (hwndDlg);
 
 	/* Sort the list */
 
@@ -4896,7 +4963,10 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 			unsorted = FALSE;
 			for (i = 0; i < benchmarkTotalItems - 1; i++)
 			{
-				if (benchmarkTable[i].meanBytesPerSec < benchmarkTable[i+1].meanBytesPerSec)
+
+				if (((benchmarkType == BENCHMARK_TYPE_PRF) && (benchmarkTable[i].meanBytesPerSec > benchmarkTable[i+1].meanBytesPerSec)) ||
+					 ((benchmarkType != BENCHMARK_TYPE_PRF) && (benchmarkTable[i].meanBytesPerSec < benchmarkTable[i+1].meanBytesPerSec))
+					)
 				{
 					unsorted = TRUE;
 					memcpy (&tmp_line, &benchmarkTable[i], sizeof(BENCHMARK_REC));
@@ -4926,10 +4996,6 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 		break;
 	}
 
-	/* Render the results */
-
-	SendMessage (hList,LVM_DELETEALLITEMS,0,(LPARAM)&LvItem);
-
 	for (i = 0; i < benchmarkTotalItems; i++)
 	{
 		ea = benchmarkTable[i].id;
@@ -4939,37 +5005,41 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 		LvItem.iItem = i;
 		LvItem.iSubItem = 0;
 		LvItem.pszText = (LPWSTR) benchmarkTable[i].name;
-		SendMessageW (hList, LVM_INSERTITEM, 0, (LPARAM)&LvItem);
+		SendMessageW (hList, LVM_INSERTITEM, 0, (LPARAM)&LvItem); 
+		switch(benchmarkType) {
+		case BENCHMARK_TYPE_ENCRYPTION:
+			GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].encSpeed / benchmarkPerformanceFrequency.QuadPart)), item1, sizeof(item1));
+			LvItem.iSubItem = 1;
+			LvItem.pszText = item1;
+			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
 
-#if PKCS5_BENCHMARKS
-		wcscpy (item1, L"-");
-#else
-		GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].encSpeed / benchmarkPerformanceFrequency.QuadPart)), item1, sizeof(item1));
-#endif
-		LvItem.iSubItem = 1;
-		LvItem.pszText = item1;
+			GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].decSpeed / benchmarkPerformanceFrequency.QuadPart)), item1, sizeof(item1));
+			LvItem.iSubItem = 2;
+			LvItem.pszText = item1;
+			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
 
-		SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem);
-
-#if PKCS5_BENCHMARKS
-		wcscpy (item1, L"-");
-#else
-		GetSpeedString ((unsigned __int64) (benchmarkLastBufferSize / ((float) benchmarkTable[i].decSpeed / benchmarkPerformanceFrequency.QuadPart)), item1, sizeof(item1));
-#endif
-		LvItem.iSubItem = 2;
-		LvItem.pszText = item1;
-
-		SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem);
-
-#if PKCS5_BENCHMARKS
-		swprintf (item1, L"%d t", benchmarkTable[i].encSpeed);
-#else
-		GetSpeedString (benchmarkTable[i].meanBytesPerSec, item1, sizeof(item1));
-#endif
-		LvItem.iSubItem = 3;
-		LvItem.pszText = item1;
-
-		SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem);
+			GetSpeedString (benchmarkTable[i].meanBytesPerSec, item1, sizeof(item1));
+			LvItem.iSubItem = 3;
+			LvItem.pszText = item1;
+			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
+			break;
+		case BENCHMARK_TYPE_HASH:
+			GetSpeedString (benchmarkTable[i].meanBytesPerSec, item1, sizeof(item1));
+			LvItem.iSubItem = 1;
+			LvItem.pszText = item1;
+			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
+			break;
+		case BENCHMARK_TYPE_PRF:
+			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d ms", benchmarkTable[i].meanBytesPerSec);
+			LvItem.iSubItem = 1;
+			LvItem.pszText = item1;
+			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
+			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d", benchmarkTable[i].decSpeed);
+			LvItem.iSubItem = 2;
+			LvItem.pszText = item1;
+			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
+			break;
+		}
 	}
 
 	SendMessageW(hList, LVM_SETCOLUMNWIDTH, 0, MAKELPARAM(LVSCW_AUTOSIZE_USEHEADER, 0));
@@ -4998,17 +5068,21 @@ void CALLBACK BenchmarkThreadProc(void* pArg, HWND hwndDlg)
 static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 {
     LARGE_INTEGER performanceCountStart, performanceCountEnd;
-	BYTE *lpTestBuffer;
+	BYTE *lpTestBuffer = NULL;
 	PCRYPTO_INFO ci = NULL;
 	UINT64_STRUCT startDataUnitNo;
+	SYSTEM_INFO sysInfo = {0};
 
+	GetSystemInfo (&sysInfo);
 	startDataUnitNo.Value = 0;
 
-#if !(PKCS5_BENCHMARKS || HASH_FNC_BENCHMARKS)
+	/* set priority to critical only when there are 2 or more CPUs on the system */
+	if (sysInfo.dwNumberOfProcessors > 1)
+		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+
 	ci = crypto_open ();
 	if (!ci)
 		return FALSE;
-#endif
 
 	if (QueryPerformanceFrequency (&benchmarkPerformanceFrequency) == 0)
 	{
@@ -5018,142 +5092,128 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 		return FALSE;
 	}
 
-	lpTestBuffer = (BYTE *) malloc(benchmarkBufferSize - (benchmarkBufferSize % 16));
-	if (lpTestBuffer == NULL)
+	if (benchmarkType != BENCHMARK_TYPE_PRF)
 	{
-		if (ci)
-			crypto_close (ci);
-		MessageBoxW (hwndDlg, GetString ("ERR_MEM_ALLOC"), lpszTitle, ICON_HAND);
-		return FALSE;
+		lpTestBuffer = (BYTE *) _aligned_malloc(benchmarkBufferSize - (benchmarkBufferSize % 16), 16);
+		if (lpTestBuffer == NULL)
+		{
+			if (ci)
+				crypto_close (ci);
+			MessageBoxW (hwndDlg, GetString ("ERR_MEM_ALLOC"), lpszTitle, ICON_HAND);
+			return FALSE;
+		}
+		VirtualLock (lpTestBuffer, benchmarkBufferSize - (benchmarkBufferSize % 16));
 	}
-	VirtualLock (lpTestBuffer, benchmarkBufferSize - (benchmarkBufferSize % 16));
 
 	WaitCursor ();
 	benchmarkTotalItems = 0;
 
-#if !(PKCS5_BENCHMARKS || HASH_FNC_BENCHMARKS)
-	// CPU "warm up" (an attempt to prevent skewed results on systems where CPU frequency
-	// gradually changes depending on CPU load).
-	ci->ea = EAGetFirst();
-	if (!EAInit (ci->ea, ci->master_keydata, ci->ks))
-	{
-		ci->mode = FIRST_MODE_OF_OPERATION_ID;
-		if (EAInitMode (ci))
-		{
-			int i;
+	switch(benchmarkType) {
 
-			for (i = 0; i < 10; i++)
+	case BENCHMARK_TYPE_HASH:
+		/*	Measures the speed at which each of the hash algorithms processes the message to produce
+			a single digest.
+		*/
+		{
+			BYTE *digest [MAX_DIGESTSIZE];
+			WHIRLPOOL_CTX	wctx;
+			RMD160_CTX		rctx;
+			sha512_ctx		s2ctx;
+			sha256_ctx		s256ctx;
+
+			int hid, i;
+
+			for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++) 
 			{
-				EncryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
-				DecryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
+				if (QueryPerformanceCounter (&performanceCountStart) == 0)
+					goto counter_error;
+
+				for (i = 1; i <= 2; i++) 
+				{
+					switch (hid)
+					{
+
+					case SHA512:
+						sha512_begin (&s2ctx);
+						sha512_hash (lpTestBuffer, benchmarkBufferSize, &s2ctx);
+						sha512_end ((unsigned char *) digest, &s2ctx);
+						break;
+
+					case SHA256:
+						sha256_begin (&s256ctx);
+						sha256_hash (lpTestBuffer, benchmarkBufferSize, &s256ctx);
+						sha256_end ((unsigned char *) digest, &s256ctx);
+						break;
+
+					case RIPEMD160:
+						RMD160Init(&rctx);
+						RMD160Update(&rctx, lpTestBuffer, benchmarkBufferSize);
+						RMD160Final((unsigned char *) digest, &rctx);
+						break;
+
+					case WHIRLPOOL:
+						WHIRLPOOL_init (&wctx);
+						WHIRLPOOL_add (lpTestBuffer, benchmarkBufferSize * 8, &wctx);
+						WHIRLPOOL_finalize (&wctx, (unsigned char *) digest);
+						break;
+					}
+				}
+
+				if (QueryPerformanceCounter (&performanceCountEnd) == 0)
+					goto counter_error;
+
+				benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+
+				benchmarkTable[benchmarkTotalItems].decSpeed = benchmarkTable[benchmarkTotalItems].encSpeed;
+				benchmarkTable[benchmarkTotalItems].id = hid;
+				benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart / 2));
+				StringCbPrintfW (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTotalItems].name),L"%s", HashGetName(hid));
+
+				benchmarkTotalItems++;
 			}
 		}
-	}
-#endif
+	break;
 
-#if HASH_FNC_BENCHMARKS
-
-	/* Measures the speed at which each of the hash algorithms processes the message to produce
-	   a single digest.
-
-	   The hash algorithm benchmarks are included here for development purposes only. Do not enable
-	   them when building a public release (the benchmark GUI strings wouldn't make sense). */
-
-	{
-		BYTE *digest [MAX_DIGESTSIZE];
-		WHIRLPOOL_CTX	wctx;
-		RMD160_CTX		rctx;
-		sha512_ctx		s2ctx;
-		sha256_ctx		s256ctx;
-		int hid;
-
-		for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
-		{
-			if (QueryPerformanceCounter (&performanceCountStart) == 0)
-				goto counter_error;
-
-			switch (hid)
-			{
-
-			case SHA512:
-				sha512_begin (&s2ctx);
-				sha512_hash (lpTestBuffer, benchmarkBufferSize, &s2ctx);
-				sha512_end ((unsigned char *) digest, &s2ctx);
-				break;
-
-			case SHA256:
-				sha256_begin (&s256ctx);
-				sha256_hash (lpTestBuffer, benchmarkBufferSize, &s256ctx);
-				sha256_end ((unsigned char *) digest, &s256ctx);
-				break;
-
-			case RIPEMD160:
-				RMD160Init(&rctx);
-				RMD160Update(&rctx, lpTestBuffer, benchmarkBufferSize);
-				RMD160Final((unsigned char *) digest, &rctx);
-				break;
-
-			case WHIRLPOOL:
-				WHIRLPOOL_init (&wctx);
-				WHIRLPOOL_add (lpTestBuffer, benchmarkBufferSize * 8, &wctx);
-				WHIRLPOOL_finalize (&wctx, (unsigned char *) digest);
-				break;
-			}
-
-			if (QueryPerformanceCounter (&performanceCountEnd) == 0)
-				goto counter_error;
-
-			benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
-
-			benchmarkTable[benchmarkTotalItems].decSpeed = benchmarkTable[benchmarkTotalItems].encSpeed;
-			benchmarkTable[benchmarkTotalItems].id = hid;
-			benchmarkTable[benchmarkTotalItems].meanBytesPerSec = ((unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart)) + (unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].decSpeed / benchmarkPerformanceFrequency.QuadPart))) / 2;
-			StringCbPrintfA (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTotalItems].name),"%s", HashGetName(hid));
-
-			benchmarkTotalItems++;
-		}
-	}
-
-#elif PKCS5_BENCHMARKS	// #if HASH_FNC_BENCHMARKS
-
+	case BENCHMARK_TYPE_PRF:
 	/* Measures the time that it takes for the PKCS-5 routine to derive a header key using
-	   each of the implemented PRF algorithms.
-
-	   The PKCS-5 benchmarks are included here for development purposes only. Do not enable
-	   them when building a public release (the benchmark GUI strings wouldn't make sense). */
+	   each of the implemented PRF algorithms. 
+	*/
 	{
 		int thid, i;
 		char dk[MASTER_KEYDATA_SIZE];
 		char *tmp_salt = {"\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF\x01\x23\x45\x67\x89\xAB\xCD\xEF\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF\x01\x23\x45\x67\x89\xAB\xCD\xEF\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xAA\xBB\xCC\xDD\xEE\xFF"};
 
-		for (thid = FIRST_PRF_ID; thid <= LAST_PRF_ID; thid++)
+		for (thid = FIRST_PRF_ID; thid <= LAST_PRF_ID; thid++) 
 		{
+			if (benchmarkPreBoot && !benchmarkGPT && !HashForSystemEncryption (thid))
+				continue;
+
 			if (QueryPerformanceCounter (&performanceCountStart) == 0)
 				goto counter_error;
 
-			for (i = 1; i <= 5; i++)
+			for (i = 1; i <= 2; i++) 
 			{
 				switch (thid)
 				{
 
 				case SHA512:
 					/* PKCS-5 test with HMAC-SHA-512 used as the PRF */
-					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha512 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case SHA256:
 					/* PKCS-5 test with HMAC-SHA-256 used as the PRF */
-					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_sha256 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case RIPEMD160:
 					/* PKCS-5 test with HMAC-RIPEMD-160 used as the PRF */
-					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_ripemd160 ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
-					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, 0, FALSE, FALSE), dk, MASTER_KEYDATA_SIZE);
+					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 			}
@@ -5163,62 +5223,101 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 			benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 			benchmarkTable[benchmarkTotalItems].id = thid;
-			StringCbPrintfW (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTable[benchmarkTotalItems].name),L"%s", get_pkcs5_prf_name (thid));
+			benchmarkTable[benchmarkTotalItems].decSpeed = get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot);
+			benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (unsigned __int64) (1000 * ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart / 2));
+			if (benchmarkPreBoot)
+			{
+				/* heuristics for boot times */
+				if (benchmarkGPT)
+				{
+					benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 8) / 5;
+				}
+				else
+				{
+					if (thid == SHA256)
+						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 8 * 18) / 5;
+					else
+						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 8) / 3;
+				}
+			}
+			StringCbPrintfW (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTotalItems].name),L"%s", get_pkcs5_prf_name (thid));
 
 			benchmarkTotalItems++;
 		}
 	}
+	break;
+	case BENCHMARK_TYPE_ENCRYPTION:
+		{
+			/* Encryption algorithm benchmarks */
 
-#else	// #elif PKCS5_BENCHMARKS
+			// CPU "warm up" (an attempt to prevent skewed results on systems where CPU frequency
+			// gradually changes depending on CPU load).
+			ci->ea = EAGetFirst();
+			if (!EAInit (ci->ea, ci->master_keydata, ci->ks))
+			{
+				ci->mode = FIRST_MODE_OF_OPERATION_ID;
+				if (EAInitMode (ci))
+				{
+					int i;
 
-	/* Encryption algorithm benchmarks */
+					for (i = 0; i < 10; i++)
+					{
+						EncryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
+						DecryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
+					}
+				}
+			}
 
-	for (ci->ea = EAGetFirst(); ci->ea != 0; ci->ea = EAGetNext(ci->ea))
-	{
-		if (!EAIsFormatEnabled (ci->ea))
-			continue;
+			for (ci->ea = EAGetFirst(); ci->ea != 0; ci->ea = EAGetNext(ci->ea))
+			{
+				if (!EAIsFormatEnabled (ci->ea))
+					continue;
 
-		if (ERR_CIPHER_INIT_FAILURE == EAInit (ci->ea, ci->master_keydata, ci->ks))
-			goto counter_error;
+				if (ERR_CIPHER_INIT_FAILURE == EAInit (ci->ea, ci->master_keydata, ci->ks))
+					goto counter_error;
 
-		ci->mode = FIRST_MODE_OF_OPERATION_ID;
-		if (!EAInitMode (ci))
-			goto counter_error;
+				ci->mode = FIRST_MODE_OF_OPERATION_ID;
+				if (!EAInitMode (ci))
+					goto counter_error;
 
-		if (QueryPerformanceCounter (&performanceCountStart) == 0)
-			goto counter_error;
+				if (QueryPerformanceCounter (&performanceCountStart) == 0)
+					goto counter_error;
 
-		EncryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
+				EncryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
 
-		if (QueryPerformanceCounter (&performanceCountEnd) == 0)
-			goto counter_error;
+				if (QueryPerformanceCounter (&performanceCountEnd) == 0)
+					goto counter_error;
 
-		benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+				benchmarkTable[benchmarkTotalItems].encSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
 
-		if (QueryPerformanceCounter (&performanceCountStart) == 0)
-			goto counter_error;
+				if (QueryPerformanceCounter (&performanceCountStart) == 0)
+					goto counter_error;
 
-		DecryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
+				DecryptDataUnits (lpTestBuffer, &startDataUnitNo, (TC_LARGEST_COMPILER_UINT) benchmarkBufferSize / ENCRYPTION_DATA_UNIT_SIZE, ci);
 
-		if (QueryPerformanceCounter (&performanceCountEnd) == 0)
-			goto counter_error;
+				if (QueryPerformanceCounter (&performanceCountEnd) == 0)
+					goto counter_error;
 
-		benchmarkTable[benchmarkTotalItems].decSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
-		benchmarkTable[benchmarkTotalItems].id = ci->ea;
-		benchmarkTable[benchmarkTotalItems].meanBytesPerSec = ((unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart)) + (unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].decSpeed / benchmarkPerformanceFrequency.QuadPart))) / 2;
-		EAGetName (benchmarkTable[benchmarkTotalItems].name, ci->ea, 1);
+				benchmarkTable[benchmarkTotalItems].decSpeed = performanceCountEnd.QuadPart - performanceCountStart.QuadPart;
+				benchmarkTable[benchmarkTotalItems].id = ci->ea;
+				benchmarkTable[benchmarkTotalItems].meanBytesPerSec = ((unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].encSpeed / benchmarkPerformanceFrequency.QuadPart)) + (unsigned __int64) (benchmarkBufferSize / ((float) benchmarkTable[benchmarkTotalItems].decSpeed / benchmarkPerformanceFrequency.QuadPart))) / 2;
+				EAGetName (benchmarkTable[benchmarkTotalItems].name, ci->ea, 1);
 
-		benchmarkTotalItems++;
+				benchmarkTotalItems++;
+			}
+		}
+	break;
 	}
-
-#endif	// #elif PKCS5_BENCHMARKS (#else)
 
 	if (ci)
 		crypto_close (ci);
 
-	VirtualUnlock (lpTestBuffer, benchmarkBufferSize - (benchmarkBufferSize % 16));
+	if (lpTestBuffer)
+	{
+		VirtualUnlock (lpTestBuffer, benchmarkBufferSize - (benchmarkBufferSize % 16));
 
-	free(lpTestBuffer);
+		_aligned_free(lpTestBuffer);
+	}
 
 	benchmarkLastBufferSize = benchmarkBufferSize;
 
@@ -5235,9 +5334,12 @@ counter_error:
 	if (ci)
 		crypto_close (ci);
 
-	VirtualUnlock (lpTestBuffer, benchmarkBufferSize - (benchmarkBufferSize % 16));
+	if (lpTestBuffer)
+	{
+		VirtualUnlock (lpTestBuffer, benchmarkBufferSize - (benchmarkBufferSize % 16));
 
-	free(lpTestBuffer);
+		_aligned_free(lpTestBuffer);
+	}
 
 	NormalCursor ();
 
@@ -5253,8 +5355,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 {
 	WORD lw = LOWORD (wParam);
 	LPARAM nIndex;
-	HWND hCboxSortMethod = GetDlgItem (hwndDlg, IDC_BENCHMARK_SORT_METHOD);
-	HWND hCboxBufferSize = GetDlgItem (hwndDlg, IDC_BENCHMARK_BUFFER_SIZE);
+	static HWND hCboxSortMethod = NULL, hCboxBufferSize = NULL, hCboxList = NULL;
 
 	switch (msg)
 	{
@@ -5263,11 +5364,22 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			LVCOLUMNW LvCol;
 			wchar_t s[128];
 			HWND hList = GetDlgItem (hwndDlg, IDC_RESULTS);
+			hCboxSortMethod = GetDlgItem (hwndDlg, IDC_BENCHMARK_SORT_METHOD);
+			hCboxBufferSize = GetDlgItem (hwndDlg, IDC_BENCHMARK_BUFFER_SIZE);
+			hCboxList = GetDlgItem (hwndDlg, IDC_BENCHMARK_LIST);
 
 			LocalizeDialog (hwndDlg, "IDD_BENCHMARK_DLG");
 
 			benchmarkBufferSize = BENCHMARK_DEFAULT_BUF_SIZE;
 			benchmarkSortMethod = BENCHMARK_SORT_BY_SPEED;
+			benchmarkType = BENCHMARK_TYPE_ENCRYPTION;
+
+			if (lParam)
+			{
+				benchmarkGPT = TRUE;
+			}
+			else
+				benchmarkGPT = FALSE;
 
 			SendMessage (hList,LVM_SETEXTENDEDLISTVIEWSTYLE,0,
 				LVS_EX_FULLROWSELECT|LVS_EX_HEADERDRAGDROP|LVS_EX_LABELTIP
@@ -5280,20 +5392,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			LvCol.fmt = LVCFMT_LEFT;
 			SendMessage (hList,LVM_INSERTCOLUMNW,0,(LPARAM)&LvCol);
 
-			LvCol.pszText = GetString ("ENCRYPTION");
-			LvCol.cx = CompensateXDPI (80);
-			LvCol.fmt = LVCFMT_RIGHT;
-			SendMessageW (hList,LVM_INSERTCOLUMNW,1,(LPARAM)&LvCol);
-
-			LvCol.pszText = GetString ("DECRYPTION");
-			LvCol.cx = CompensateXDPI (80);
-			LvCol.fmt = LVCFMT_RIGHT;
-			SendMessageW (hList,LVM_INSERTCOLUMNW,2,(LPARAM)&LvCol);
-
-			LvCol.pszText = GetString ("MEAN");
-			LvCol.cx = CompensateXDPI (80);
-			LvCol.fmt = LVCFMT_RIGHT;
-			SendMessageW (hList,LVM_INSERTCOLUMNW,3,(LPARAM)&LvCol);
+			ResetBenchmarkList (hwndDlg);
 
 			/* Combo boxes */
 
@@ -5308,6 +5407,21 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage (hCboxSortMethod, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
 			SendMessage (hCboxSortMethod, CB_SETCURSEL, 1, 0);		// Default sort method
+
+			// benchmark list
+
+			SendMessage (hCboxList, CB_RESETCONTENT, 0, 0);
+
+			nIndex = SendMessageW (hCboxList, CB_ADDSTRING, 0, (LPARAM) GetString ("ENCRYPTION_ALGORITHM"));
+			SendMessage (hCboxList, CB_SETITEMDATA, nIndex, (LPARAM) 0);
+
+			nIndex = SendMessageW (hCboxList, CB_ADDSTRING, 0, (LPARAM) GetString ("PKCS5_PRF"));
+			SendMessage (hCboxList, CB_SETITEMDATA, nIndex, (LPARAM) 0);
+
+			nIndex = SendMessageW (hCboxList, CB_ADDSTRING, 0, (LPARAM) GetString ("IDT_HASH_ALGO"));
+			SendMessage (hCboxList, CB_SETITEMDATA, nIndex, (LPARAM) 0);
+
+			SendMessage (hCboxList, CB_SETCURSEL, 0, 0);		// Default: benchmark of encryption
 
 			// Buffer size
 
@@ -5414,10 +5528,46 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			return 1;
 
+		case IDC_BENCHMARK_LIST:
+
+			nIndex = SendMessage (hCboxList, CB_GETCURSEL, 0, 0);
+			if (nIndex != benchmarkType)
+			{
+				benchmarkType = (int) nIndex;
+				benchmarkTotalItems = 0;
+				ResetBenchmarkList (hwndDlg);
+			}
+
+			if (benchmarkType == BENCHMARK_TYPE_PRF)
+			{
+				ShowWindow (GetDlgItem (hwndDlg, IDC_BENCHMARK_BUFFER_SIZE), SW_HIDE);
+				ShowWindow (GetDlgItem (hwndDlg, IDT_BUFFER_SIZE), SW_HIDE);
+				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem (hwndDlg, IDT_PIM), SW_SHOW);
+				ShowWindow (GetDlgItem (hwndDlg, IDC_BENCHMARK_PREBOOT), SW_SHOW);
+			}
+			else
+			{
+				ShowWindow (GetDlgItem (hwndDlg, IDC_BENCHMARK_BUFFER_SIZE), SW_SHOW);
+				ShowWindow (GetDlgItem (hwndDlg, IDT_BUFFER_SIZE), SW_SHOW);
+				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM), SW_HIDE);
+				ShowWindow (GetDlgItem (hwndDlg, IDT_PIM), SW_HIDE);
+				ShowWindow (GetDlgItem (hwndDlg, IDC_BENCHMARK_PREBOOT), SW_HIDE);
+			}
+			return 1;
+
 		case IDC_PERFORM_BENCHMARK:
 
-			nIndex = SendMessage (hCboxBufferSize, CB_GETCURSEL, 0, 0);
-			benchmarkBufferSize = (int) SendMessage (hCboxBufferSize, CB_GETITEMDATA, nIndex, 0);
+			if (benchmarkType == BENCHMARK_TYPE_PRF)
+			{
+				benchmarkPim = GetPim (hwndDlg, IDC_PIM);
+				benchmarkPreBoot = GetCheckBox (hwndDlg, IDC_BENCHMARK_PREBOOT);
+			}
+			else
+			{
+				nIndex = SendMessage (hCboxBufferSize, CB_GETCURSEL, 0, 0);
+				benchmarkBufferSize = (int) SendMessage (hCboxBufferSize, CB_GETITEMDATA, nIndex, 0);
+			}
 
 			BenchmarkThreadParam threadParam;
 			threadParam.hBenchDlg = hwndDlg;
@@ -6142,7 +6292,7 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		if (lw == IDOK || lw == IDC_ENCRYPT || lw == IDC_DECRYPT)
 		{
-			char key[128+1], inputtext[128+1], secondaryKey[64+1], dataUnitNo[16+1];
+			CRYPTOPP_ALIGN_DATA(16) char key[128+1], inputtext[128+1], secondaryKey[64+1], dataUnitNo[16+1];
 			wchar_t szTmp[128+1];
 			int ks, pt, n, tlen, blockNo = 0;
 			BOOL bEncrypt;

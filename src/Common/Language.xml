@@ -335,7 +335,7 @@
     <control lang="en" key="IDC_USE_EMBEDDED_HEADER_BAK">Use backup header embedded in &amp;volume if available</control>
     <control lang="en" key="IDC_XTS_MODE_ENABLED">XTS mode</control>
     <control lang="en" key="IDD_ABOUT_DLG">About VeraCrypt</control>
-    <control lang="en" key="IDD_BENCHMARK_DLG">VeraCrypt - Encryption Algorithm Benchmark</control>
+    <control lang="en" key="IDD_BENCHMARK_DLG">VeraCrypt - Algorithms Benchmark</control>
     <control lang="en" key="IDD_CIPHER_TEST_DLG">VeraCrypt - Test Vectors</control>
     <control lang="en" key="IDD_COMMANDHELP_DLG">Command Line Help</control>
     <control lang="en" key="IDD_KEYFILES">VeraCrypt - Keyfiles</control>
@@ -1400,6 +1400,9 @@
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
     <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
+    <string lang="en" key="TIME">Time</string>
+    <string lang="en" key="ITERATIONS">Iterations</string>
+    <string lang="en" key="PRE-BOOT">Pre-Boot</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
