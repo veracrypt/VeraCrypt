@@ -335,7 +335,7 @@
     <control lang="de" key="IDC_USE_EMBEDDED_HEADER_BAK">Wenn verfügbar, im Volume eingebettete Kopfdatensicherung verwenden</control>
     <control lang="de" key="IDC_XTS_MODE_ENABLED">XTS Modus</control>
     <control lang="de" key="IDD_ABOUT_DLG">Über VeraCrypt</control>
-    <control lang="de" key="IDD_BENCHMARK_DLG">VeraCrypt – Benchmark-Test für Verschlüsselungsalgorithmen</control>
+    <control lang="de" key="IDD_BENCHMARK_DLG">VeraCrypt – Benchmark-Test für Algorithmen</control>
     <control lang="de" key="IDD_CIPHER_TEST_DLG">VeraCrypt – Testvektoren</control>
     <control lang="de" key="IDD_COMMANDHELP_DLG">Hilfe für Kommandozeilenparameter</control>
     <control lang="de" key="IDD_KEYFILES">VeraCrypt – Schlüsseldateien</control>
@@ -1400,6 +1400,9 @@
     <control lang="de" key="IDC_SKIP_RESCUE_VERIFICATION">Rettungsdatenträgerüberprüfung überspringen</control>
     <control lang="de" key="IDC_HIDE_WAITING_DIALOG">Wartemitteilungsdialog nicht anzeigen, wenn Vorgänge ausgeführt werden</control>
     <string lang="de" key="CAMELLIA_HELP">Von Mitsubishi Electric und NTT aus Japan gemeinsam entwickelt. Im Jahr 2000 zuerst veröffentlicht. 256 Bit Schlüssellänge, 128 Bit Blockgröße.\nArbeitet im XTS-Modus. Von der ISO/IEC, dem Projekt NESSIE der Europäischen Union und dem japanischen Projekt CRYPTREC zur Nutzung zugelassen.</string>
+    <string lang="de" key="TIME">Zeit</string>
+    <string lang="de" key="ITERATIONS">Iterationen</string>
+    <string lang="de" key="PRE-BOOT">Prä-Boot</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
