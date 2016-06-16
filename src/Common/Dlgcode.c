@@ -9989,6 +9989,10 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 	{
 		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Twofish");
 	}
+	else if (strcmp(dest, "camellia") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Camellia");
+	}
 	else if (strcmp(dest, "cascades") == 0)
 	{
 		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Cascades");
