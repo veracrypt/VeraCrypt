@@ -19,6 +19,7 @@
 #ifndef TC_WINDOWS_BOOT
 #include "Sha2.h"
 #include "Whirlpool.h"
+#include "cpu.h"
 #include "misc.h"
 #else
 #pragma optimize ("t", on)
@@ -744,6 +745,12 @@ void hmac_whirlpool
 	char* buf = hmac.k;
 	int b;
 	char key[WHIRLPOOL_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	KFLOATING_SAVE floatingPointState;
+	NTSTATUS saveStatus = STATUS_SUCCESS;
+	if (HasISSE())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = whirlpool(key), as per HMAC specifications. */
 	if (lk > WHIRLPOOL_BLOCKSIZE)
@@ -784,6 +791,11 @@ void hmac_whirlpool
 	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
 
 	hmac_whirlpool_internal(k, lk, d, ld, &hmac);
+
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	if (NT_SUCCESS (saveStatus) && HasISSE())
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
 	/* Prevent leaks */
 	burn(&hmac, sizeof(hmac));
 }
@@ -821,6 +833,12 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	char* buf = hmac.k;
 	char key[WHIRLPOOL_DIGESTSIZE];
 	int b, l, r;
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	KFLOATING_SAVE floatingPointState;
+	NTSTATUS saveStatus = STATUS_SUCCESS;
+	if (HasISSE())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = whirlpool(pwd), as per HMAC specifications. */
 	if (pwd_len > WHIRLPOOL_BLOCKSIZE)
@@ -883,6 +901,10 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	derive_u_whirlpool (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	if (NT_SUCCESS (saveStatus) && HasISSE())
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
 
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));

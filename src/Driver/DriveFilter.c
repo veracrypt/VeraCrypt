@@ -27,6 +27,7 @@
 #include "Wipe.h"
 #include "DriveFilter.h"
 #include "Boot/Windows/BootCommon.h"
+#include "cpu.h"
 
 static BOOL DeviceFilterActive = FALSE;
 
@@ -258,6 +259,12 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 	status = TCReadDevice (LowerDeviceObject, ioBuffer, offset, TC_SECTOR_SIZE_BIOS);
 	if (NT_SUCCESS (status))
 	{
+#if !defined (_WIN64)
+		KFLOATING_SAVE floatingPointState;
+		NTSTATUS saveStatus = STATUS_SUCCESS;
+		if (HasISSE())
+			saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
 		WHIRLPOOL_add (ioBuffer, TC_BOOT_SECTOR_PIM_VALUE_OFFSET * 8, &whirlpool);
 		WHIRLPOOL_add (ioBuffer + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH, (TC_BOOT_SECTOR_USER_CONFIG_OFFSET - (TC_BOOT_SECTOR_USER_MESSAGE_OFFSET + TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH)) * 8, &whirlpool);
 		WHIRLPOOL_add (ioBuffer + TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1, (TC_MAX_MBR_BOOT_CODE_SIZE - (TC_BOOT_SECTOR_USER_CONFIG_OFFSET + 1)) * 8, &whirlpool);
@@ -293,6 +300,11 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 			WHIRLPOOL_finalize (&whirlpool, BootLoaderFingerprint);
 			sha512_end (&BootLoaderFingerprint [WHIRLPOOL_DIGESTSIZE], &sha2);
 		}
+
+#if !defined (_WIN64)
+		if (NT_SUCCESS (saveStatus) && HasISSE())
+			KeRestoreFloatingPointState (&floatingPointState);
+#endif
 	}
 	else
 	{
