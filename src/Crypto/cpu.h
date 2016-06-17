@@ -4,6 +4,10 @@
 #include "Common/Tcdefs.h"
 #include "config.h"
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 
 #define CRYPTOPP_X86_ASM_AVAILABLE
@@ -13,30 +17,90 @@
 #else
 
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if defined(TC_WINDOWS_DRIVER)
+typedef union __declspec(intrin_type) CRYPTOPP_ALIGN_DATA(8) __m64
+{
+    unsigned __int64    m64_u64;
+    float               m64_f32[2];
+    __int8              m64_i8[8];
+    __int16             m64_i16[4];
+    __int32             m64_i32[2];    
+    __int64             m64_i64;
+    unsigned __int8     m64_u8[8];
+    unsigned __int16    m64_u16[4];
+    unsigned __int32    m64_u32[2];
+} __m64;
+
+typedef union __declspec(intrin_type) CRYPTOPP_ALIGN_DATA(16) __m128 {
+     float               m128_f32[4];
+     unsigned __int64    m128_u64[2];
+     __int8              m128_i8[16];
+     __int16             m128_i16[8];
+     __int32             m128_i32[4];
+     __int64             m128_i64[2];
+     unsigned __int8     m128_u8[16];
+     unsigned __int16    m128_u16[8];
+     unsigned __int32    m128_u32[4];
+ } __m128;
+ 
+typedef union __declspec(intrin_type) CRYPTOPP_ALIGN_DATA(16) __m128i {
+    __int8              m128i_i8[16];
+    __int16             m128i_i16[8];
+    __int32             m128i_i32[4];    
+    __int64             m128i_i64[2];
+    unsigned __int8     m128i_u8[16];
+    unsigned __int16    m128i_u16[8];
+    unsigned __int32    m128i_u32[4];
+    unsigned __int64    m128i_u64[2];
+} __m128i;
+
+typedef struct __declspec(intrin_type) CRYPTOPP_ALIGN_DATA(16) __m128d {
+    double              m128d_f64[2];
+} __m128d;
+
+#define _MM_SHUFFLE2(x,y) (((x)<<1) | (y))
+
+extern void  _m_empty(void);
+extern int _mm_extract_epi16(__m128i _A, int _Imm);
+extern __m128i _mm_load_si128(__m128i const*_P);
+extern __m128i _mm_xor_si128(__m128i _A, __m128i _B);
+extern __m128i _mm_cvtsi64_si128(__int64);
+extern __m128i _mm_unpacklo_epi64(__m128i _A, __m128i _B);
+extern void _mm_store_si128(__m128i *_P, __m128i _B);
+extern __m64 _m_pxor(__m64 _MM1, __m64 _MM2);
+extern __m128i _mm_set_epi64(__m64 _Q1, __m64 _Q0);
+#define _mm_xor_si64      _m_pxor
+#define _mm_empty         _m_empty
+#else
+#include <mmintrin.h>
 #include <emmintrin.h>
+#endif
 #endif
 
 #if CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
 #if defined(__SSSE3__) || defined(__INTEL_COMPILER)
-#ifdef TC_WINDOWS_DRIVER
+#if defined(TC_WINDOWS_DRIVER)
 extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
 #else
 #include <tmmintrin.h>
 #endif
 #endif
 
-#if defined(__SSE4_1__) || defined(__INTEL_COMPILER)
-#ifdef TC_WINDOWS_DRIVER
+#if defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER)
+#if defined(TC_WINDOWS_DRIVER)
 extern int   _mm_extract_epi32(__m128i src, const int ndx);
 extern __m128i _mm_insert_epi32(__m128i dst, int s, const int ndx);
+#if defined(_M_X64)
+extern __m128i _mm_insert_epi64(__m128i dst, __int64 s, const int ndx);
+#endif
 #else
 #include <smmintrin.h>
 #endif
 #endif
 
-#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER)
-#ifdef TC_WINDOWS_DRIVER
-extern __m128i _mm_clmulepi64_si128(__m128i v1, __m128i v2,
+#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
+#if defined(TC_WINDOWS_DRIVER)
+extern __m128i _mm_clmulepi64_si128(__m128i v1, __m128i v2, 
 					    const int imm8);
 extern __m128i _mm_aeskeygenassist_si128(__m128i ckey, const int rcon);
 extern __m128i _mm_aesimc_si128(__m128i v);
@@ -54,12 +118,11 @@ extern __m128i _mm_aesdeclast_si128(__m128i v, __m128i rkey);
 
 #define CRYPTOPP_CPUID_AVAILABLE
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
-
 // these should not be used directly
 extern int g_x86DetectionDone;
+extern int g_hasAVX;
+extern int g_hasSSE42;
+extern int g_hasSSE41;
 extern int g_hasSSSE3;
 extern int g_hasAESNI;
 extern int g_hasCLMUL;
@@ -84,15 +147,14 @@ extern int g_hasMMX;
 
 #endif
 
+#define HasSSE42() g_hasSSE42
+#define HasSSE41() g_hasSSE41
+#define HasSAVX() g_hasAVX
 #define HasSSSE3() g_hasSSSE3
 #define HasAESNI() g_hasAESNI
 #define HasCLMUL() g_hasCLMUL
 #define IsP4() g_isP4
 #define GetCacheLineSize() g_cacheLineSize
-
-#if defined(__cplusplus)
-}
-#endif
 
 #else
 
@@ -304,5 +366,9 @@ extern int g_hasMMX;
 	ASL(labelPrefix##9)\
 	AS2(	add		outputPtr, increment*16)
 
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif
