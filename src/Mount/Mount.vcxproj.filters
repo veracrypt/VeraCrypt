@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{8f7b640f-31e5-4198-be7c-09501ffebedf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Common">
+      <UniqueIdentifier>{f805ede6-c210-4210-95ce-e33edb12bc27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Favorites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hotkeys.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainCom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mount.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BaseCom.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BootEncryption.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cmdline.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Combo.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Crc.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Crypto.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Dictionary.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Dlgcode.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\EncryptionThreadPool.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Endian.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\GfMul.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Keyfiles.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Language.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Password.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Pkcs5.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Random.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Registry.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SecurityToken.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tests.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Volumes.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Wipe.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Xml.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Xts.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="MainCom.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\Wipe.h">
+      <Filter>Source Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Apidrvr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BaseCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BootEncryption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Cmdline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Combo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Crc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Crypto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Dictionary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Dlgcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\EncryptionThreadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Favorites.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\GfMul.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hotkeys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Keyfiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Language.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Password.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Pkcs5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Registry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SecurityToken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tcdefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Volumes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Xts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Boot\Windows\Rescue_Serpent_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_AES_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Twofish_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Serpent_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_AES_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_Twofish_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Drive_icon_96dpi.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Drive_icon_mask_96dpi.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Logo_288dpi.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Logo_96dpi.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Mount.tlb">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="System_drive_icon_96dpi.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="System_drive_icon_mask_96dpi.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Common\VeraCrypt_mounted.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Common\VeraCrypt_volume.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Serpent\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_AES\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Twofish\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_Serpent\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_AES\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_Twofish\BootLoader.com.gz">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Twofish\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Serpent\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_Serpent\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_AES\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_Twofish\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_AES\BootSector.bin">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release\Decompressor.com">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\Language.xml">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Resources\Texts\License.rtf">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\Textual_logo_288dpi.bmp">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\Textual_logo_96dpi.bmp">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\Textual_logo_background.bmp">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\VeraCrypt.ico">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Camellia\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Release_Camellia_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_Camellia\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Boot\Windows\Rescue_Camellia_SHA2\BootSector.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Mount.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Mount.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="..\Common\Common.rc">
+      <Filter>Resource Files\Common</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

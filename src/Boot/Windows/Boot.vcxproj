@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release Loader|Win32">
+      <Configuration>Release Loader</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8B7F059F-E4C7-4E11-88F5-EE8B8433072E}</ProjectGuid>
+    <RootNamespace>Boot</RootNamespace>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">md Release 2&gt;NUL:
+nmake.exe /nologo RELEASE=1
+
+md Release_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_PRF=SHA2
+
+md Release_AES 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES
+
+md Release_AES_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES SINGLE_PRF=SHA2
+
+md Release_Serpent 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT
+
+md Release_Serpent_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT SINGLE_PRF=SHA2
+
+md Release_Twofish 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH
+
+md Release_Twofish_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH SINGLE_PRF=SHA2
+
+md Release_Camellia 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA
+
+md Release_Camellia_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA SINGLE_PRF=SHA2
+
+md Rescue 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 RESCUE_DISK=1
+
+md Rescue_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+md Rescue_AES 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES RESCUE_DISK=1
+
+md Rescue_AES_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+md Rescue_Serpent 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT RESCUE_DISK=1
+
+md Rescue_Serpent_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+md Rescue_Twofish 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH RESCUE_DISK=1
+
+md Rescue_Twofish_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+md Rescue_Camellia 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA RESCUE_DISK=1
+
+md Rescue_Camellia_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA RESCUE_DISK=1 SINGLE_PRF=SHA2</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">del /q /s Release &gt;NUL:
+md Release 2&gt;NUL:
+nmake.exe /nologo RELEASE=1
+
+del /q /s Release_SHA2 &gt;NUL:
+md Release_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_PRF=SHA2
+
+del /q /s Release_AES &gt;NUL:
+md Release_AES 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES
+
+del /q /s Release_AES_SHA2 &gt;NUL:
+md Release_AES_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES SINGLE_PRF=SHA2
+
+del /q /s Release_Serpent &gt;NUL:
+md Release_Serpent 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT
+
+del /q /s Release_Serpent_SHA2 &gt;NUL:
+md Release_Serpent_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT SINGLE_PRF=SHA2
+
+del /q /s Release_Twofish &gt;NUL:
+md Release_Twofish 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH
+
+del /q /s Release_Twofish_SHA2 &gt;NUL:
+md Release_Twofish_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH SINGLE_PRF=SHA2
+
+del /q /s Release_Camellia &gt;NUL:
+md Release_Camellia 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA
+
+del /q /s Release_Camellia_SHA2 &gt;NUL:
+md Release_Camellia_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA SINGLE_PRF=SHA2
+
+del /q /s Rescue &gt;NUL:
+md Rescue 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 RESCUE_DISK=1
+
+del /q /s Rescue_SHA2 &gt;NUL:
+md Rescue_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+del /q /s Rescue_AES &gt;NUL:
+md Rescue_AES 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES RESCUE_DISK=1
+
+del /q /s Rescue_AES_SHA2 &gt;NUL:
+md Rescue_AES_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+del /q /s Rescue_Serpent &gt;NUL:
+md Rescue_Serpent 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT RESCUE_DISK=1
+
+del /q /s Rescue_Serpent_SHA2 &gt;NUL:
+md Rescue_Serpent_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+del /q /s Rescue_Twofish &gt;NUL:
+md Rescue_Twofish 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH RESCUE_DISK=1
+
+del /q /s Rescue_Twofish_SHA2 &gt;NUL:
+md Rescue_Twofish_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH RESCUE_DISK=1 SINGLE_PRF=SHA2
+
+del /q /s Rescue_Camellia &gt;NUL:
+md Rescue_Camellia 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA RESCUE_DISK=1
+
+del /q /s Rescue_Camellia_SHA2 &gt;NUL:
+md Rescue_Camellia_SHA2 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=CAMELLIA RESCUE_DISK=1 SINGLE_PRF=SHA2</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">del /q /s Release Release_AES Release_Serpent Release_Twofish Release_Camellia Rescue Rescue_AES Rescue_Serpent Rescue_Twofish Rescue_Camellia &gt;NUL:
+del /q /s Release_SHA2 Release_AES_SHA2 Release_Serpent_SHA2 Release_Twofish_SHA2 Release_Camellia_SHA2 Rescue_SHA2 Rescue_AES_SHA2 Rescue_Serpent_SHA2 Rescue_Twofish_SHA2 Rescue_Camellia_SHA2 &gt;NUL:
+</NMakeCleanCommandLine>
+    <NMakeOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\BootLoader.com</NMakeOutput>
+    <NMakePreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir);$(SolutionDir)\Common;$(SolutionDir)\Crypto;$(MSVC16_ROOT)\Include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakeAssemblySearchPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeAssemblySearchPath)</NMakeAssemblySearchPath>
+    <NMakeForcedUsingAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(NMakeForcedUsingAssemblies)</NMakeForcedUsingAssemblies>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">$(Configuration)\</IntDir>
+    <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">md Release 2&gt;NUL:
+nmake.exe /nologo RELEASE=1
+
+md Release_AES 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES
+
+md Release_Serpent 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT
+
+md Release_Twofish 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">del /q /s Release &gt;NUL:
+md Release 2&gt;NUL:
+nmake.exe /nologo RELEASE=1
+
+del /q /s Release_AES &gt;NUL:
+md Release_AES 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=AES
+
+del /q /s Release_Serpent &gt;NUL:
+md Release_Serpent 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=SERPENT
+
+del /q /s Release_Twofish &gt;NUL:
+md Release_Twofish 2&gt;NUL:
+nmake.exe /nologo RELEASE=1 SINGLE_CIPHER=TWOFISH</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">del /q /s Release Release_AES Release_Serpent Release_Twofish &gt;NUL:</NMakeCleanCommandLine>
+    <NMakeOutput Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">Release\BootLoader.com</NMakeOutput>
+    <NMakePreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">$(SolutionDir);$(SolutionDir)\Common;$(SolutionDir)\Crypto;$(MSVC16_ROOT)\Include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakeAssemblySearchPath Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">$(NMakeAssemblySearchPath)</NMakeAssemblySearchPath>
+    <NMakeForcedUsingAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Loader|Win32'">$(NMakeForcedUsingAssemblies)</NMakeForcedUsingAssemblies>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BootConfig.cpp" />
+    <ClCompile Include="BootConsoleIo.cpp" />
+    <ClCompile Include="BootDebug.cpp" />
+    <ClCompile Include="BootDiskIo.cpp" />
+    <ClCompile Include="BootEncryptedIo.cpp" />
+    <ClCompile Include="BootMain.cpp" />
+    <ClCompile Include="BootMemory.cpp" />
+    <ClCompile Include="Decompressor.c" />
+    <ClCompile Include="IntFilter.cpp" />
+    <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="..\..\Common\Crc.c" />
+    <ClCompile Include="..\..\Common\Crypto.c" />
+    <ClCompile Include="..\..\Common\Endian.c" />
+    <ClCompile Include="..\..\Common\Pkcs5.c" />
+    <ClCompile Include="..\..\Common\Volumes.c" />
+    <ClCompile Include="..\..\Common\Xts.c" />
+    <ClCompile Include="..\..\Crypto\AesSmall.c" />
+    <ClCompile Include="..\..\Crypto\CamelliaSmall.c" />
+    <ClCompile Include="..\..\Crypto\Rmd160.c" />
+    <ClCompile Include="..\..\Crypto\Serpent.c" />
+    <ClCompile Include="..\..\Crypto\Sha2Small.c" />
+    <ClCompile Include="..\..\Crypto\Twofish.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BootCrt.asm" />
+    <None Include="BootSector.asm" />
+    <None Include="..\..\Crypto\Aes_hw_cpu.asm" />
+    <None Include="..\..\Crypto\AesSmall_x86.asm" />
+    <None Include="Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bios.h" />
+    <ClInclude Include="BootCommon.h" />
+    <ClInclude Include="BootConfig.h" />
+    <ClInclude Include="BootConsoleIo.h" />
+    <ClInclude Include="BootDebug.h" />
+    <ClInclude Include="BootDefs.h" />
+    <ClInclude Include="BootDiskIo.h" />
+    <ClInclude Include="BootEncryptedIo.h" />
+    <ClInclude Include="BootMain.h" />
+    <ClInclude Include="BootMemory.h" />
+    <ClInclude Include="BootStrings.h" />
+    <ClInclude Include="IntFilter.h" />
+    <ClInclude Include="Platform.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

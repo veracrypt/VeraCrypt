@@ -43,9 +43,9 @@ I. Windows
 Requirements for Building VeraCrypt for Windows:
 ------------------------------------------------
 
-- Microsoft Visual C++ 2008 SP1 (Professional Edition or compatible)
+- Microsoft Visual C++ 2010 SP1 (Professional Edition or compatible)
 - Microsoft Visual C++ 1.52 (available from MSDN Subscriber Downloads)
-- Microsoft Windows SDK for Windows 7 (configured for Visual C++)
+- Microsoft Windows SDK for Windows 7.1 (configured for Visual C++ 2010)
 - Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
@@ -94,7 +94,7 @@ Instructions for Building VeraCrypt for Windows:
    environment variable 'PKCS11_INC' pointing to the directory where
    the PKCS #11 header files are installed.
 
-4) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2008.
+4) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2010.
 
 5) Select 'All' as the active solution configuration.
 

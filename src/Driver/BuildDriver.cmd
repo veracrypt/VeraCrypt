@@ -103,6 +103,13 @@ pushd .
 call %TC_WINDDK_ROOT%\bin\setenv %TC_WINDDK_ROOT% %TC_BUILD_TYPE% %TC_BUILD_ARCH% no_oacr || exit /B %errorlevel%
 popd
 
+if "%TC_ARG_ARCH%"=="-x64" (
+	@call "%VS100COMNTOOLS%VCVarsQueryRegistry.bat" 32bit No64bit
+	@set "PATH=%VSINSTALLDIR%Common7\IDE;%VSINSTALLDIR%VC\bin\amd64;%PATH%"
+) else (
+	@call "%VS100COMNTOOLS%VCVarsQueryRegistry.bat" No32bit 64bit
+	@set "PATH=PATH=%VSINSTALLDIR%Common7\IDE;%VSINSTALLDIR%VC\bin;%PATH%"
+)
 
 :: Build
 
