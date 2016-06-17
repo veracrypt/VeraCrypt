@@ -5235,9 +5235,21 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				else
 				{
 					if (thid == SHA256)
-						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 8 * 18) / 5;
+					{
+#ifdef  _WIN64
+						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 26);						
+#else
+						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 24);
+#endif
+					}
 					else
-						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 8) / 3;
+					{
+#ifdef _WIN64
+						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 21) / 5;						
+#else
+						benchmarkTable[benchmarkTotalItems].meanBytesPerSec = (benchmarkTable[benchmarkTotalItems].meanBytesPerSec * 18) / 5;
+#endif
+					}
 				}
 			}
 			StringCbPrintfW (benchmarkTable[benchmarkTotalItems].name, sizeof(benchmarkTable[benchmarkTotalItems].name),L"%s", get_pkcs5_prf_name (thid));
