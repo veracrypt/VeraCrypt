@@ -69,6 +69,7 @@ extern __m128i _mm_unpacklo_epi64(__m128i _A, __m128i _B);
 extern void _mm_store_si128(__m128i *_P, __m128i _B);
 extern __m64 _m_pxor(__m64 _MM1, __m64 _MM2);
 extern __m128i _mm_set_epi64(__m64 _Q1, __m64 _Q0);
+extern __m128i _mm_setr_epi32(int _I0, int _I1, int _I2, int _I3);
 #define _mm_xor_si64      _m_pxor
 #define _mm_empty         _m_empty
 #else
