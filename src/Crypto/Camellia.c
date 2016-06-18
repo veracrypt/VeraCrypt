@@ -6,7 +6,7 @@ and released into public domain.
 /* Adapted for VeraCrypt */
 
 
-#include "camellia.h"
+#include "Camellia.h"
 #include "Common/Endian.h"
 #include "Crypto/misc.h"
 

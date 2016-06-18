@@ -245,12 +245,12 @@ namespace VeraCrypt
 	// Camellia
 	void CipherCamellia::Decrypt (byte *data) const
 	{
-		camellia_decrypt (data, data, (uint64 *) ScheduledKey.Ptr());
+		camellia_decrypt (data, data, ScheduledKey.Ptr());
 	}
 
 	void CipherCamellia::Encrypt (byte *data) const
 	{
-		camellia_encrypt (data, data, (uint64 *) ScheduledKey.Ptr());
+		camellia_encrypt (data, data, ScheduledKey.Ptr());
 	}
 
 	size_t CipherCamellia::GetScheduledKeySize () const
@@ -260,7 +260,7 @@ namespace VeraCrypt
 
 	void CipherCamellia::SetCipherKey (const byte *key)
 	{
-		camellia_set_key (key, (uint64 *) ScheduledKey.Ptr());
+		camellia_set_key (key, ScheduledKey.Ptr());
 	}
 
 
