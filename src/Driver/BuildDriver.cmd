@@ -103,12 +103,23 @@ pushd .
 call %TC_WINDDK_ROOT%\bin\setenv %TC_WINDDK_ROOT% %TC_BUILD_TYPE% %TC_BUILD_ARCH% no_oacr || exit /B %errorlevel%
 popd
 
+:: set path to VC++ 2010
+IF EXIST "%programfiles(x86)%" (GOTO 64-Bit) ELSE (GOTO 32-Bit)
+
+:32-Bit
+@set "VCPATH=%programfiles%\Microsoft Visual Studio 10.0\"
+GOTO CONTINUE
+
+:64-Bit
+@set "VCPATH=%programfiles(x86)%\Microsoft Visual Studio 10.0\"
+GOTO CONTINUE
+
+:CONTINUE
+
 if "%TC_ARG_ARCH%"=="-x64" (
-	@call "%VS100COMNTOOLS%VCVarsQueryRegistry.bat" 32bit No64bit
-	@set "PATH=%VSINSTALLDIR%Common7\IDE;%VSINSTALLDIR%VC\bin\amd64;%PATH%"
+	@set "PATH=%VCPATH%Common7\IDE;%VCPATH%VC\bin\amd64;%PATH%"
 ) else (
-	@call "%VS100COMNTOOLS%VCVarsQueryRegistry.bat" No32bit 64bit
-	@set "PATH=PATH=%VSINSTALLDIR%Common7\IDE;%VSINSTALLDIR%VC\bin;%PATH%"
+	@set "PATH=%VCPATH%Common7\IDE;%VCPATH%VC\bin;%PATH%"
 )
 
 :: Build
