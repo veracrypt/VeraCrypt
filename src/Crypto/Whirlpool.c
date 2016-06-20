@@ -91,9 +91,9 @@
  */
 
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
-CRYPTOPP_ALIGN_DATA(16) static const uint64 Whirlpool_C[4*256+R] CRYPTOPP_SECTION_ALIGN16 = {
+CRYPTOPP_ALIGN_DATA(16) static const uint64 Whirlpool_C[8*256+R] CRYPTOPP_SECTION_ALIGN16 = {
 #else
-static const uint64 Whirlpool_C[4*256+R] = {
+static const uint64 Whirlpool_C[8*256+R] = {
 #endif
     LL(0x18186018c07830d8), LL(0x23238c2305af4626), LL(0xc6c63fc67ef991b8), LL(0xe8e887e8136fcdfb),
     LL(0x878726874ca113cb), LL(0xb8b8dab8a9626d11), LL(0x0101040108050209), LL(0x4f4f214f426e9e0d),
@@ -355,6 +355,266 @@ static const uint64 Whirlpool_C[4*256+R] = {
     LL(0xdb85e2cccc17cc2e), LL(0x578468424215422a), LL(0xc22d2c98985a98b4), LL(0x0e55eda4a4aaa449),
     LL(0x8850752828a0285d), LL(0x31b8865c5c6d5cda), LL(0x3fed6bf8f8c7f893), LL(0xa411c28686228644),
 
+    LL(0xc07830d818186018), LL(0x05af462623238c23), LL(0x7ef991b8c6c63fc6), LL(0x136fcdfbe8e887e8),
+    LL(0x4ca113cb87872687), LL(0xa9626d11b8b8dab8), LL(0x0805020901010401), LL(0x426e9e0d4f4f214f),
+    LL(0xadee6c9b3636d836), LL(0x590451ffa6a6a2a6), LL(0xdebdb90cd2d26fd2), LL(0xfb06f70ef5f5f3f5),
+    LL(0xef80f2967979f979), LL(0x5fcede306f6fa16f), LL(0xfcef3f6d91917e91), LL(0xaa07a4f852525552),
+    LL(0x27fdc04760609d60), LL(0x89766535bcbccabc), LL(0xaccd2b379b9b569b), LL(0x048c018a8e8e028e),
+    LL(0x71155bd2a3a3b6a3), LL(0x603c186c0c0c300c), LL(0xff8af6847b7bf17b), LL(0xb5e16a803535d435),
+    LL(0xe8693af51d1d741d), LL(0x5347ddb3e0e0a7e0), LL(0xf6acb321d7d77bd7), LL(0x5eed999cc2c22fc2),
+    LL(0x6d965c432e2eb82e), LL(0x627a96294b4b314b), LL(0xa321e15dfefedffe), LL(0x8216aed557574157),
+    LL(0xa8412abd15155415), LL(0x9fb6eee87777c177), LL(0xa5eb6e923737dc37), LL(0x7b56d79ee5e5b3e5),
+    LL(0x8cd923139f9f469f), LL(0xd317fd23f0f0e7f0), LL(0x6a7f94204a4a354a), LL(0x9e95a944dada4fda),
+    LL(0xfa25b0a258587d58), LL(0x06ca8fcfc9c903c9), LL(0x558d527c2929a429), LL(0x5022145a0a0a280a),
+    LL(0xe14f7f50b1b1feb1), LL(0x691a5dc9a0a0baa0), LL(0x7fdad6146b6bb16b), LL(0x5cab17d985852e85),
+    LL(0x8173673cbdbdcebd), LL(0xd234ba8f5d5d695d), LL(0x8050209010104010), LL(0xf303f507f4f4f7f4),
+    LL(0x16c08bddcbcb0bcb), LL(0xedc67cd33e3ef83e), LL(0x28110a2d05051405), LL(0x1fe6ce7867678167),
+    LL(0x7353d597e4e4b7e4), LL(0x25bb4e0227279c27), LL(0x3258827341411941), LL(0x2c9d0ba78b8b168b),
+    LL(0x510153f6a7a7a6a7), LL(0xcf94fab27d7de97d), LL(0xdcfb374995956e95), LL(0x8e9fad56d8d847d8),
+    LL(0x8b30eb70fbfbcbfb), LL(0x2371c1cdeeee9fee), LL(0xc791f8bb7c7ced7c), LL(0x17e3cc7166668566),
+    LL(0xa68ea77bdddd53dd), LL(0xb84b2eaf17175c17), LL(0x02468e4547470147), LL(0x84dc211a9e9e429e),
+    LL(0x1ec589d4caca0fca), LL(0x75995a582d2db42d), LL(0x9179632ebfbfc6bf), LL(0x381b0e3f07071c07),
+    LL(0x012347acadad8ead), LL(0xea2fb4b05a5a755a), LL(0x6cb51bef83833683), LL(0x85ff66b63333cc33),
+    LL(0x3ff2c65c63639163), LL(0x100a041202020802), LL(0x39384993aaaa92aa), LL(0xafa8e2de7171d971),
+    LL(0x0ecf8dc6c8c807c8), LL(0xc87d32d119196419), LL(0x7270923b49493949), LL(0x869aaf5fd9d943d9),
+    LL(0xc31df931f2f2eff2), LL(0x4b48dba8e3e3abe3), LL(0xe22ab6b95b5b715b), LL(0x34920dbc88881a88),
+    LL(0xa4c8293e9a9a529a), LL(0x2dbe4c0b26269826), LL(0x8dfa64bf3232c832), LL(0xe94a7d59b0b0fab0),
+    LL(0x1b6acff2e9e983e9), LL(0x78331e770f0f3c0f), LL(0xe6a6b733d5d573d5), LL(0x74ba1df480803a80),
+    LL(0x997c6127bebec2be), LL(0x26de87ebcdcd13cd), LL(0xbde468893434d034), LL(0x7a75903248483d48),
+    LL(0xab24e354ffffdbff), LL(0xf78ff48d7a7af57a), LL(0xf4ea3d6490907a90), LL(0xc23ebe9d5f5f615f),
+    LL(0x1da0403d20208020), LL(0x67d5d00f6868bd68), LL(0xd07234ca1a1a681a), LL(0x192c41b7aeae82ae),
+    LL(0xc95e757db4b4eab4), LL(0x9a19a8ce54544d54), LL(0xece53b7f93937693), LL(0x0daa442f22228822),
+    LL(0x07e9c86364648d64), LL(0xdb12ff2af1f1e3f1), LL(0xbfa2e6cc7373d173), LL(0x905a248212124812),
+    LL(0x3a5d807a40401d40), LL(0x4028104808082008), LL(0x56e89b95c3c32bc3), LL(0x337bc5dfecec97ec),
+    LL(0x9690ab4ddbdb4bdb), LL(0x611f5fc0a1a1bea1), LL(0x1c8307918d8d0e8d), LL(0xf5c97ac83d3df43d),
+    LL(0xccf1335b97976697), LL(0x0000000000000000), LL(0x36d483f9cfcf1bcf), LL(0x4587566e2b2bac2b),
+    LL(0x97b3ece17676c576), LL(0x64b019e682823282), LL(0xfea9b128d6d67fd6), LL(0xd87736c31b1b6c1b),
+    LL(0xc15b7774b5b5eeb5), LL(0x112943beafaf86af), LL(0x77dfd41d6a6ab56a), LL(0xba0da0ea50505d50),
+    LL(0x124c8a5745450945), LL(0xcb18fb38f3f3ebf3), LL(0x9df060ad3030c030), LL(0x2b74c3c4efef9bef),
+    LL(0xe5c37eda3f3ffc3f), LL(0x921caac755554955), LL(0x791059dba2a2b2a2), LL(0x0365c9e9eaea8fea),
+    LL(0x0fecca6a65658965), LL(0xb9686903babad2ba), LL(0x65935e4a2f2fbc2f), LL(0x4ee79d8ec0c027c0),
+    LL(0xbe81a160dede5fde), LL(0xe06c38fc1c1c701c), LL(0xbb2ee746fdfdd3fd), LL(0x52649a1f4d4d294d),
+    LL(0xe4e0397692927292), LL(0x8fbceafa7575c975), LL(0x301e0c3606061806), LL(0x249809ae8a8a128a),
+    LL(0xf940794bb2b2f2b2), LL(0x6359d185e6e6bfe6), LL(0x70361c7e0e0e380e), LL(0xf8633ee71f1f7c1f),
+    LL(0x37f7c45562629562), LL(0xeea3b53ad4d477d4), LL(0x29324d81a8a89aa8), LL(0xc4f4315296966296),
+    LL(0x9b3aef62f9f9c3f9), LL(0x66f697a3c5c533c5), LL(0x35b14a1025259425), LL(0xf220b2ab59597959),
+    LL(0x54ae15d084842a84), LL(0xb7a7e4c57272d572), LL(0xd5dd72ec3939e439), LL(0x5a6198164c4c2d4c),
+    LL(0xca3bbc945e5e655e), LL(0xe785f09f7878fd78), LL(0xddd870e53838e038), LL(0x148605988c8c0a8c),
+    LL(0xc6b2bf17d1d163d1), LL(0x410b57e4a5a5aea5), LL(0x434dd9a1e2e2afe2), LL(0x2ff8c24e61619961),
+    LL(0xf1457b42b3b3f6b3), LL(0x15a5423421218421), LL(0x94d625089c9c4a9c), LL(0xf0663cee1e1e781e),
+    LL(0x2252866143431143), LL(0x76fc93b1c7c73bc7), LL(0xb32be54ffcfcd7fc), LL(0x2014082404041004),
+    LL(0xb208a2e351515951), LL(0xbcc72f2599995e99), LL(0x4fc4da226d6da96d), LL(0x68391a650d0d340d),
+    LL(0x8335e979fafacffa), LL(0xb684a369dfdf5bdf), LL(0xd79bfca97e7ee57e), LL(0x3db4481924249024),
+    LL(0xc5d776fe3b3bec3b), LL(0x313d4b9aabab96ab), LL(0x3ed181f0cece1fce), LL(0x8855229911114411),
+    LL(0x0c8903838f8f068f), LL(0x4a6b9c044e4e254e), LL(0xd1517366b7b7e6b7), LL(0x0b60cbe0ebeb8beb),
+    LL(0xfdcc78c13c3cf03c), LL(0x7cbf1ffd81813e81), LL(0xd4fe354094946a94), LL(0xeb0cf31cf7f7fbf7),
+    LL(0xa1676f18b9b9deb9), LL(0x985f268b13134c13), LL(0x7d9c58512c2cb02c), LL(0xd6b8bb05d3d36bd3),
+    LL(0x6b5cd38ce7e7bbe7), LL(0x57cbdc396e6ea56e), LL(0x6ef395aac4c437c4), LL(0x180f061b03030c03),
+    LL(0x8a13acdc56564556), LL(0x1a49885e44440d44), LL(0xdf9efea07f7fe17f), LL(0x21374f88a9a99ea9),
+    LL(0x4d8254672a2aa82a), LL(0xb16d6b0abbbbd6bb), LL(0x46e29f87c1c123c1), LL(0xa202a6f153535153),
+    LL(0xae8ba572dcdc57dc), LL(0x582716530b0b2c0b), LL(0x9cd327019d9d4e9d), LL(0x47c1d82b6c6cad6c),
+    LL(0x95f562a43131c431), LL(0x87b9e8f37474cd74), LL(0xe309f115f6f6fff6), LL(0x0a438c4c46460546),
+    LL(0x092645a5acac8aac), LL(0x3c970fb589891e89), LL(0xa04428b414145014), LL(0x5b42dfbae1e1a3e1),
+    LL(0xb04e2ca616165816), LL(0xcdd274f73a3ae83a), LL(0x6fd0d2066969b969), LL(0x482d124109092409),
+    LL(0xa7ade0d77070dd70), LL(0xd954716fb6b6e2b6), LL(0xceb7bd1ed0d067d0), LL(0x3b7ec7d6eded93ed),
+    LL(0x2edb85e2cccc17cc), LL(0x2a57846842421542), LL(0xb4c22d2c98985a98), LL(0x490e55eda4a4aaa4),
+    LL(0x5d8850752828a028), LL(0xda31b8865c5c6d5c), LL(0x933fed6bf8f8c7f8), LL(0x44a411c286862286),
+
+    LL(0x18c07830d8181860), LL(0x2305af462623238c), LL(0xc67ef991b8c6c63f), LL(0xe8136fcdfbe8e887),
+    LL(0x874ca113cb878726), LL(0xb8a9626d11b8b8da), LL(0x0108050209010104), LL(0x4f426e9e0d4f4f21),
+    LL(0x36adee6c9b3636d8), LL(0xa6590451ffa6a6a2), LL(0xd2debdb90cd2d26f), LL(0xf5fb06f70ef5f5f3),
+    LL(0x79ef80f2967979f9), LL(0x6f5fcede306f6fa1), LL(0x91fcef3f6d91917e), LL(0x52aa07a4f8525255),
+    LL(0x6027fdc04760609d), LL(0xbc89766535bcbcca), LL(0x9baccd2b379b9b56), LL(0x8e048c018a8e8e02),
+    LL(0xa371155bd2a3a3b6), LL(0x0c603c186c0c0c30), LL(0x7bff8af6847b7bf1), LL(0x35b5e16a803535d4),
+    LL(0x1de8693af51d1d74), LL(0xe05347ddb3e0e0a7), LL(0xd7f6acb321d7d77b), LL(0xc25eed999cc2c22f),
+    LL(0x2e6d965c432e2eb8), LL(0x4b627a96294b4b31), LL(0xfea321e15dfefedf), LL(0x578216aed5575741),
+    LL(0x15a8412abd151554), LL(0x779fb6eee87777c1), LL(0x37a5eb6e923737dc), LL(0xe57b56d79ee5e5b3),
+    LL(0x9f8cd923139f9f46), LL(0xf0d317fd23f0f0e7), LL(0x4a6a7f94204a4a35), LL(0xda9e95a944dada4f),
+    LL(0x58fa25b0a258587d), LL(0xc906ca8fcfc9c903), LL(0x29558d527c2929a4), LL(0x0a5022145a0a0a28),
+    LL(0xb1e14f7f50b1b1fe), LL(0xa0691a5dc9a0a0ba), LL(0x6b7fdad6146b6bb1), LL(0x855cab17d985852e),
+    LL(0xbd8173673cbdbdce), LL(0x5dd234ba8f5d5d69), LL(0x1080502090101040), LL(0xf4f303f507f4f4f7),
+    LL(0xcb16c08bddcbcb0b), LL(0x3eedc67cd33e3ef8), LL(0x0528110a2d050514), LL(0x671fe6ce78676781),
+    LL(0xe47353d597e4e4b7), LL(0x2725bb4e0227279c), LL(0x4132588273414119), LL(0x8b2c9d0ba78b8b16),
+    LL(0xa7510153f6a7a7a6), LL(0x7dcf94fab27d7de9), LL(0x95dcfb374995956e), LL(0xd88e9fad56d8d847),
+    LL(0xfb8b30eb70fbfbcb), LL(0xee2371c1cdeeee9f), LL(0x7cc791f8bb7c7ced), LL(0x6617e3cc71666685),
+    LL(0xdda68ea77bdddd53), LL(0x17b84b2eaf17175c), LL(0x4702468e45474701), LL(0x9e84dc211a9e9e42),
+    LL(0xca1ec589d4caca0f), LL(0x2d75995a582d2db4), LL(0xbf9179632ebfbfc6), LL(0x07381b0e3f07071c),
+    LL(0xad012347acadad8e), LL(0x5aea2fb4b05a5a75), LL(0x836cb51bef838336), LL(0x3385ff66b63333cc),
+    LL(0x633ff2c65c636391), LL(0x02100a0412020208), LL(0xaa39384993aaaa92), LL(0x71afa8e2de7171d9),
+    LL(0xc80ecf8dc6c8c807), LL(0x19c87d32d1191964), LL(0x497270923b494939), LL(0xd9869aaf5fd9d943),
+    LL(0xf2c31df931f2f2ef), LL(0xe34b48dba8e3e3ab), LL(0x5be22ab6b95b5b71), LL(0x8834920dbc88881a),
+    LL(0x9aa4c8293e9a9a52), LL(0x262dbe4c0b262698), LL(0x328dfa64bf3232c8), LL(0xb0e94a7d59b0b0fa),
+    LL(0xe91b6acff2e9e983), LL(0x0f78331e770f0f3c), LL(0xd5e6a6b733d5d573), LL(0x8074ba1df480803a),
+    LL(0xbe997c6127bebec2), LL(0xcd26de87ebcdcd13), LL(0x34bde468893434d0), LL(0x487a75903248483d),
+    LL(0xffab24e354ffffdb), LL(0x7af78ff48d7a7af5), LL(0x90f4ea3d6490907a), LL(0x5fc23ebe9d5f5f61),
+    LL(0x201da0403d202080), LL(0x6867d5d00f6868bd), LL(0x1ad07234ca1a1a68), LL(0xae192c41b7aeae82),
+    LL(0xb4c95e757db4b4ea), LL(0x549a19a8ce54544d), LL(0x93ece53b7f939376), LL(0x220daa442f222288),
+    LL(0x6407e9c86364648d), LL(0xf1db12ff2af1f1e3), LL(0x73bfa2e6cc7373d1), LL(0x12905a2482121248),
+    LL(0x403a5d807a40401d), LL(0x0840281048080820), LL(0xc356e89b95c3c32b), LL(0xec337bc5dfecec97),
+    LL(0xdb9690ab4ddbdb4b), LL(0xa1611f5fc0a1a1be), LL(0x8d1c8307918d8d0e), LL(0x3df5c97ac83d3df4),
+    LL(0x97ccf1335b979766), LL(0x0000000000000000), LL(0xcf36d483f9cfcf1b), LL(0x2b4587566e2b2bac),
+    LL(0x7697b3ece17676c5), LL(0x8264b019e6828232), LL(0xd6fea9b128d6d67f), LL(0x1bd87736c31b1b6c),
+    LL(0xb5c15b7774b5b5ee), LL(0xaf112943beafaf86), LL(0x6a77dfd41d6a6ab5), LL(0x50ba0da0ea50505d),
+    LL(0x45124c8a57454509), LL(0xf3cb18fb38f3f3eb), LL(0x309df060ad3030c0), LL(0xef2b74c3c4efef9b),
+    LL(0x3fe5c37eda3f3ffc), LL(0x55921caac7555549), LL(0xa2791059dba2a2b2), LL(0xea0365c9e9eaea8f),
+    LL(0x650fecca6a656589), LL(0xbab9686903babad2), LL(0x2f65935e4a2f2fbc), LL(0xc04ee79d8ec0c027),
+    LL(0xdebe81a160dede5f), LL(0x1ce06c38fc1c1c70), LL(0xfdbb2ee746fdfdd3), LL(0x4d52649a1f4d4d29),
+    LL(0x92e4e03976929272), LL(0x758fbceafa7575c9), LL(0x06301e0c36060618), LL(0x8a249809ae8a8a12),
+    LL(0xb2f940794bb2b2f2), LL(0xe66359d185e6e6bf), LL(0x0e70361c7e0e0e38), LL(0x1ff8633ee71f1f7c),
+    LL(0x6237f7c455626295), LL(0xd4eea3b53ad4d477), LL(0xa829324d81a8a89a), LL(0x96c4f43152969662),
+    LL(0xf99b3aef62f9f9c3), LL(0xc566f697a3c5c533), LL(0x2535b14a10252594), LL(0x59f220b2ab595979),
+    LL(0x8454ae15d084842a), LL(0x72b7a7e4c57272d5), LL(0x39d5dd72ec3939e4), LL(0x4c5a6198164c4c2d),
+    LL(0x5eca3bbc945e5e65), LL(0x78e785f09f7878fd), LL(0x38ddd870e53838e0), LL(0x8c148605988c8c0a),
+    LL(0xd1c6b2bf17d1d163), LL(0xa5410b57e4a5a5ae), LL(0xe2434dd9a1e2e2af), LL(0x612ff8c24e616199),
+    LL(0xb3f1457b42b3b3f6), LL(0x2115a54234212184), LL(0x9c94d625089c9c4a), LL(0x1ef0663cee1e1e78),
+    LL(0x4322528661434311), LL(0xc776fc93b1c7c73b), LL(0xfcb32be54ffcfcd7), LL(0x0420140824040410),
+    LL(0x51b208a2e3515159), LL(0x99bcc72f2599995e), LL(0x6d4fc4da226d6da9), LL(0x0d68391a650d0d34),
+    LL(0xfa8335e979fafacf), LL(0xdfb684a369dfdf5b), LL(0x7ed79bfca97e7ee5), LL(0x243db44819242490),
+    LL(0x3bc5d776fe3b3bec), LL(0xab313d4b9aabab96), LL(0xce3ed181f0cece1f), LL(0x1188552299111144),
+    LL(0x8f0c8903838f8f06), LL(0x4e4a6b9c044e4e25), LL(0xb7d1517366b7b7e6), LL(0xeb0b60cbe0ebeb8b),
+    LL(0x3cfdcc78c13c3cf0), LL(0x817cbf1ffd81813e), LL(0x94d4fe354094946a), LL(0xf7eb0cf31cf7f7fb),
+    LL(0xb9a1676f18b9b9de), LL(0x13985f268b13134c), LL(0x2c7d9c58512c2cb0), LL(0xd3d6b8bb05d3d36b),
+    LL(0xe76b5cd38ce7e7bb), LL(0x6e57cbdc396e6ea5), LL(0xc46ef395aac4c437), LL(0x03180f061b03030c),
+    LL(0x568a13acdc565645), LL(0x441a49885e44440d), LL(0x7fdf9efea07f7fe1), LL(0xa921374f88a9a99e),
+    LL(0x2a4d8254672a2aa8), LL(0xbbb16d6b0abbbbd6), LL(0xc146e29f87c1c123), LL(0x53a202a6f1535351),
+    LL(0xdcae8ba572dcdc57), LL(0x0b582716530b0b2c), LL(0x9d9cd327019d9d4e), LL(0x6c47c1d82b6c6cad),
+    LL(0x3195f562a43131c4), LL(0x7487b9e8f37474cd), LL(0xf6e309f115f6f6ff), LL(0x460a438c4c464605),
+    LL(0xac092645a5acac8a), LL(0x893c970fb589891e), LL(0x14a04428b4141450), LL(0xe15b42dfbae1e1a3),
+    LL(0x16b04e2ca6161658), LL(0x3acdd274f73a3ae8), LL(0x696fd0d2066969b9), LL(0x09482d1241090924),
+    LL(0x70a7ade0d77070dd), LL(0xb6d954716fb6b6e2), LL(0xd0ceb7bd1ed0d067), LL(0xed3b7ec7d6eded93),
+    LL(0xcc2edb85e2cccc17), LL(0x422a578468424215), LL(0x98b4c22d2c98985a), LL(0xa4490e55eda4a4aa),
+    LL(0x285d8850752828a0), LL(0x5cda31b8865c5c6d), LL(0xf8933fed6bf8f8c7), LL(0x8644a411c2868622),
+
+    LL(0x6018c07830d81818), LL(0x8c2305af46262323), LL(0x3fc67ef991b8c6c6), LL(0x87e8136fcdfbe8e8),
+    LL(0x26874ca113cb8787), LL(0xdab8a9626d11b8b8), LL(0x0401080502090101), LL(0x214f426e9e0d4f4f),
+    LL(0xd836adee6c9b3636), LL(0xa2a6590451ffa6a6), LL(0x6fd2debdb90cd2d2), LL(0xf3f5fb06f70ef5f5),
+    LL(0xf979ef80f2967979), LL(0xa16f5fcede306f6f), LL(0x7e91fcef3f6d9191), LL(0x5552aa07a4f85252),
+    LL(0x9d6027fdc0476060), LL(0xcabc89766535bcbc), LL(0x569baccd2b379b9b), LL(0x028e048c018a8e8e),
+    LL(0xb6a371155bd2a3a3), LL(0x300c603c186c0c0c), LL(0xf17bff8af6847b7b), LL(0xd435b5e16a803535),
+    LL(0x741de8693af51d1d), LL(0xa7e05347ddb3e0e0), LL(0x7bd7f6acb321d7d7), LL(0x2fc25eed999cc2c2),
+    LL(0xb82e6d965c432e2e), LL(0x314b627a96294b4b), LL(0xdffea321e15dfefe), LL(0x41578216aed55757),
+    LL(0x5415a8412abd1515), LL(0xc1779fb6eee87777), LL(0xdc37a5eb6e923737), LL(0xb3e57b56d79ee5e5),
+    LL(0x469f8cd923139f9f), LL(0xe7f0d317fd23f0f0), LL(0x354a6a7f94204a4a), LL(0x4fda9e95a944dada),
+    LL(0x7d58fa25b0a25858), LL(0x03c906ca8fcfc9c9), LL(0xa429558d527c2929), LL(0x280a5022145a0a0a),
+    LL(0xfeb1e14f7f50b1b1), LL(0xbaa0691a5dc9a0a0), LL(0xb16b7fdad6146b6b), LL(0x2e855cab17d98585),
+    LL(0xcebd8173673cbdbd), LL(0x695dd234ba8f5d5d), LL(0x4010805020901010), LL(0xf7f4f303f507f4f4),
+    LL(0x0bcb16c08bddcbcb), LL(0xf83eedc67cd33e3e), LL(0x140528110a2d0505), LL(0x81671fe6ce786767),
+    LL(0xb7e47353d597e4e4), LL(0x9c2725bb4e022727), LL(0x1941325882734141), LL(0x168b2c9d0ba78b8b),
+    LL(0xa6a7510153f6a7a7), LL(0xe97dcf94fab27d7d), LL(0x6e95dcfb37499595), LL(0x47d88e9fad56d8d8),
+    LL(0xcbfb8b30eb70fbfb), LL(0x9fee2371c1cdeeee), LL(0xed7cc791f8bb7c7c), LL(0x856617e3cc716666),
+    LL(0x53dda68ea77bdddd), LL(0x5c17b84b2eaf1717), LL(0x014702468e454747), LL(0x429e84dc211a9e9e),
+    LL(0x0fca1ec589d4caca), LL(0xb42d75995a582d2d), LL(0xc6bf9179632ebfbf), LL(0x1c07381b0e3f0707),
+    LL(0x8ead012347acadad), LL(0x755aea2fb4b05a5a), LL(0x36836cb51bef8383), LL(0xcc3385ff66b63333),
+    LL(0x91633ff2c65c6363), LL(0x0802100a04120202), LL(0x92aa39384993aaaa), LL(0xd971afa8e2de7171),
+    LL(0x07c80ecf8dc6c8c8), LL(0x6419c87d32d11919), LL(0x39497270923b4949), LL(0x43d9869aaf5fd9d9),
+    LL(0xeff2c31df931f2f2), LL(0xabe34b48dba8e3e3), LL(0x715be22ab6b95b5b), LL(0x1a8834920dbc8888),
+    LL(0x529aa4c8293e9a9a), LL(0x98262dbe4c0b2626), LL(0xc8328dfa64bf3232), LL(0xfab0e94a7d59b0b0),
+    LL(0x83e91b6acff2e9e9), LL(0x3c0f78331e770f0f), LL(0x73d5e6a6b733d5d5), LL(0x3a8074ba1df48080),
+    LL(0xc2be997c6127bebe), LL(0x13cd26de87ebcdcd), LL(0xd034bde468893434), LL(0x3d487a7590324848),
+    LL(0xdbffab24e354ffff), LL(0xf57af78ff48d7a7a), LL(0x7a90f4ea3d649090), LL(0x615fc23ebe9d5f5f),
+    LL(0x80201da0403d2020), LL(0xbd6867d5d00f6868), LL(0x681ad07234ca1a1a), LL(0x82ae192c41b7aeae),
+    LL(0xeab4c95e757db4b4), LL(0x4d549a19a8ce5454), LL(0x7693ece53b7f9393), LL(0x88220daa442f2222),
+    LL(0x8d6407e9c8636464), LL(0xe3f1db12ff2af1f1), LL(0xd173bfa2e6cc7373), LL(0x4812905a24821212),
+    LL(0x1d403a5d807a4040), LL(0x2008402810480808), LL(0x2bc356e89b95c3c3), LL(0x97ec337bc5dfecec),
+    LL(0x4bdb9690ab4ddbdb), LL(0xbea1611f5fc0a1a1), LL(0x0e8d1c8307918d8d), LL(0xf43df5c97ac83d3d),
+    LL(0x6697ccf1335b9797), LL(0x0000000000000000), LL(0x1bcf36d483f9cfcf), LL(0xac2b4587566e2b2b),
+    LL(0xc57697b3ece17676), LL(0x328264b019e68282), LL(0x7fd6fea9b128d6d6), LL(0x6c1bd87736c31b1b),
+    LL(0xeeb5c15b7774b5b5), LL(0x86af112943beafaf), LL(0xb56a77dfd41d6a6a), LL(0x5d50ba0da0ea5050),
+    LL(0x0945124c8a574545), LL(0xebf3cb18fb38f3f3), LL(0xc0309df060ad3030), LL(0x9bef2b74c3c4efef),
+    LL(0xfc3fe5c37eda3f3f), LL(0x4955921caac75555), LL(0xb2a2791059dba2a2), LL(0x8fea0365c9e9eaea),
+    LL(0x89650fecca6a6565), LL(0xd2bab9686903baba), LL(0xbc2f65935e4a2f2f), LL(0x27c04ee79d8ec0c0),
+    LL(0x5fdebe81a160dede), LL(0x701ce06c38fc1c1c), LL(0xd3fdbb2ee746fdfd), LL(0x294d52649a1f4d4d),
+    LL(0x7292e4e039769292), LL(0xc9758fbceafa7575), LL(0x1806301e0c360606), LL(0x128a249809ae8a8a),
+    LL(0xf2b2f940794bb2b2), LL(0xbfe66359d185e6e6), LL(0x380e70361c7e0e0e), LL(0x7c1ff8633ee71f1f),
+    LL(0x956237f7c4556262), LL(0x77d4eea3b53ad4d4), LL(0x9aa829324d81a8a8), LL(0x6296c4f431529696),
+    LL(0xc3f99b3aef62f9f9), LL(0x33c566f697a3c5c5), LL(0x942535b14a102525), LL(0x7959f220b2ab5959),
+    LL(0x2a8454ae15d08484), LL(0xd572b7a7e4c57272), LL(0xe439d5dd72ec3939), LL(0x2d4c5a6198164c4c),
+    LL(0x655eca3bbc945e5e), LL(0xfd78e785f09f7878), LL(0xe038ddd870e53838), LL(0x0a8c148605988c8c),
+    LL(0x63d1c6b2bf17d1d1), LL(0xaea5410b57e4a5a5), LL(0xafe2434dd9a1e2e2), LL(0x99612ff8c24e6161),
+    LL(0xf6b3f1457b42b3b3), LL(0x842115a542342121), LL(0x4a9c94d625089c9c), LL(0x781ef0663cee1e1e),
+    LL(0x1143225286614343), LL(0x3bc776fc93b1c7c7), LL(0xd7fcb32be54ffcfc), LL(0x1004201408240404),
+    LL(0x5951b208a2e35151), LL(0x5e99bcc72f259999), LL(0xa96d4fc4da226d6d), LL(0x340d68391a650d0d),
+    LL(0xcffa8335e979fafa), LL(0x5bdfb684a369dfdf), LL(0xe57ed79bfca97e7e), LL(0x90243db448192424),
+    LL(0xec3bc5d776fe3b3b), LL(0x96ab313d4b9aabab), LL(0x1fce3ed181f0cece), LL(0x4411885522991111),
+    LL(0x068f0c8903838f8f), LL(0x254e4a6b9c044e4e), LL(0xe6b7d1517366b7b7), LL(0x8beb0b60cbe0ebeb),
+    LL(0xf03cfdcc78c13c3c), LL(0x3e817cbf1ffd8181), LL(0x6a94d4fe35409494), LL(0xfbf7eb0cf31cf7f7),
+    LL(0xdeb9a1676f18b9b9), LL(0x4c13985f268b1313), LL(0xb02c7d9c58512c2c), LL(0x6bd3d6b8bb05d3d3),
+    LL(0xbbe76b5cd38ce7e7), LL(0xa56e57cbdc396e6e), LL(0x37c46ef395aac4c4), LL(0x0c03180f061b0303),
+    LL(0x45568a13acdc5656), LL(0x0d441a49885e4444), LL(0xe17fdf9efea07f7f), LL(0x9ea921374f88a9a9),
+    LL(0xa82a4d8254672a2a), LL(0xd6bbb16d6b0abbbb), LL(0x23c146e29f87c1c1), LL(0x5153a202a6f15353),
+    LL(0x57dcae8ba572dcdc), LL(0x2c0b582716530b0b), LL(0x4e9d9cd327019d9d), LL(0xad6c47c1d82b6c6c),
+    LL(0xc43195f562a43131), LL(0xcd7487b9e8f37474), LL(0xfff6e309f115f6f6), LL(0x05460a438c4c4646),
+    LL(0x8aac092645a5acac), LL(0x1e893c970fb58989), LL(0x5014a04428b41414), LL(0xa3e15b42dfbae1e1),
+    LL(0x5816b04e2ca61616), LL(0xe83acdd274f73a3a), LL(0xb9696fd0d2066969), LL(0x2409482d12410909),
+    LL(0xdd70a7ade0d77070), LL(0xe2b6d954716fb6b6), LL(0x67d0ceb7bd1ed0d0), LL(0x93ed3b7ec7d6eded),
+    LL(0x17cc2edb85e2cccc), LL(0x15422a5784684242), LL(0x5a98b4c22d2c9898), LL(0xaaa4490e55eda4a4),
+    LL(0xa0285d8850752828), LL(0x6d5cda31b8865c5c), LL(0xc7f8933fed6bf8f8), LL(0x228644a411c28686),
+
+    LL(0x186018c07830d818), LL(0x238c2305af462623), LL(0xc63fc67ef991b8c6), LL(0xe887e8136fcdfbe8),
+    LL(0x8726874ca113cb87), LL(0xb8dab8a9626d11b8), LL(0x0104010805020901), LL(0x4f214f426e9e0d4f),
+    LL(0x36d836adee6c9b36), LL(0xa6a2a6590451ffa6), LL(0xd26fd2debdb90cd2), LL(0xf5f3f5fb06f70ef5),
+    LL(0x79f979ef80f29679), LL(0x6fa16f5fcede306f), LL(0x917e91fcef3f6d91), LL(0x525552aa07a4f852),
+    LL(0x609d6027fdc04760), LL(0xbccabc89766535bc), LL(0x9b569baccd2b379b), LL(0x8e028e048c018a8e),
+    LL(0xa3b6a371155bd2a3), LL(0x0c300c603c186c0c), LL(0x7bf17bff8af6847b), LL(0x35d435b5e16a8035),
+    LL(0x1d741de8693af51d), LL(0xe0a7e05347ddb3e0), LL(0xd77bd7f6acb321d7), LL(0xc22fc25eed999cc2),
+    LL(0x2eb82e6d965c432e), LL(0x4b314b627a96294b), LL(0xfedffea321e15dfe), LL(0x5741578216aed557),
+    LL(0x155415a8412abd15), LL(0x77c1779fb6eee877), LL(0x37dc37a5eb6e9237), LL(0xe5b3e57b56d79ee5),
+    LL(0x9f469f8cd923139f), LL(0xf0e7f0d317fd23f0), LL(0x4a354a6a7f94204a), LL(0xda4fda9e95a944da),
+    LL(0x587d58fa25b0a258), LL(0xc903c906ca8fcfc9), LL(0x29a429558d527c29), LL(0x0a280a5022145a0a),
+    LL(0xb1feb1e14f7f50b1), LL(0xa0baa0691a5dc9a0), LL(0x6bb16b7fdad6146b), LL(0x852e855cab17d985),
+    LL(0xbdcebd8173673cbd), LL(0x5d695dd234ba8f5d), LL(0x1040108050209010), LL(0xf4f7f4f303f507f4),
+    LL(0xcb0bcb16c08bddcb), LL(0x3ef83eedc67cd33e), LL(0x05140528110a2d05), LL(0x6781671fe6ce7867),
+    LL(0xe4b7e47353d597e4), LL(0x279c2725bb4e0227), LL(0x4119413258827341), LL(0x8b168b2c9d0ba78b),
+    LL(0xa7a6a7510153f6a7), LL(0x7de97dcf94fab27d), LL(0x956e95dcfb374995), LL(0xd847d88e9fad56d8),
+    LL(0xfbcbfb8b30eb70fb), LL(0xee9fee2371c1cdee), LL(0x7ced7cc791f8bb7c), LL(0x66856617e3cc7166),
+    LL(0xdd53dda68ea77bdd), LL(0x175c17b84b2eaf17), LL(0x47014702468e4547), LL(0x9e429e84dc211a9e),
+    LL(0xca0fca1ec589d4ca), LL(0x2db42d75995a582d), LL(0xbfc6bf9179632ebf), LL(0x071c07381b0e3f07),
+    LL(0xad8ead012347acad), LL(0x5a755aea2fb4b05a), LL(0x8336836cb51bef83), LL(0x33cc3385ff66b633),
+    LL(0x6391633ff2c65c63), LL(0x020802100a041202), LL(0xaa92aa39384993aa), LL(0x71d971afa8e2de71),
+    LL(0xc807c80ecf8dc6c8), LL(0x196419c87d32d119), LL(0x4939497270923b49), LL(0xd943d9869aaf5fd9),
+    LL(0xf2eff2c31df931f2), LL(0xe3abe34b48dba8e3), LL(0x5b715be22ab6b95b), LL(0x881a8834920dbc88),
+    LL(0x9a529aa4c8293e9a), LL(0x2698262dbe4c0b26), LL(0x32c8328dfa64bf32), LL(0xb0fab0e94a7d59b0),
+    LL(0xe983e91b6acff2e9), LL(0x0f3c0f78331e770f), LL(0xd573d5e6a6b733d5), LL(0x803a8074ba1df480),
+    LL(0xbec2be997c6127be), LL(0xcd13cd26de87ebcd), LL(0x34d034bde4688934), LL(0x483d487a75903248),
+    LL(0xffdbffab24e354ff), LL(0x7af57af78ff48d7a), LL(0x907a90f4ea3d6490), LL(0x5f615fc23ebe9d5f),
+    LL(0x2080201da0403d20), LL(0x68bd6867d5d00f68), LL(0x1a681ad07234ca1a), LL(0xae82ae192c41b7ae),
+    LL(0xb4eab4c95e757db4), LL(0x544d549a19a8ce54), LL(0x937693ece53b7f93), LL(0x2288220daa442f22),
+    LL(0x648d6407e9c86364), LL(0xf1e3f1db12ff2af1), LL(0x73d173bfa2e6cc73), LL(0x124812905a248212),
+    LL(0x401d403a5d807a40), LL(0x0820084028104808), LL(0xc32bc356e89b95c3), LL(0xec97ec337bc5dfec),
+    LL(0xdb4bdb9690ab4ddb), LL(0xa1bea1611f5fc0a1), LL(0x8d0e8d1c8307918d), LL(0x3df43df5c97ac83d),
+    LL(0x976697ccf1335b97), LL(0x0000000000000000), LL(0xcf1bcf36d483f9cf), LL(0x2bac2b4587566e2b),
+    LL(0x76c57697b3ece176), LL(0x82328264b019e682), LL(0xd67fd6fea9b128d6), LL(0x1b6c1bd87736c31b),
+    LL(0xb5eeb5c15b7774b5), LL(0xaf86af112943beaf), LL(0x6ab56a77dfd41d6a), LL(0x505d50ba0da0ea50),
+    LL(0x450945124c8a5745), LL(0xf3ebf3cb18fb38f3), LL(0x30c0309df060ad30), LL(0xef9bef2b74c3c4ef),
+    LL(0x3ffc3fe5c37eda3f), LL(0x554955921caac755), LL(0xa2b2a2791059dba2), LL(0xea8fea0365c9e9ea),
+    LL(0x6589650fecca6a65), LL(0xbad2bab9686903ba), LL(0x2fbc2f65935e4a2f), LL(0xc027c04ee79d8ec0),
+    LL(0xde5fdebe81a160de), LL(0x1c701ce06c38fc1c), LL(0xfdd3fdbb2ee746fd), LL(0x4d294d52649a1f4d),
+    LL(0x927292e4e0397692), LL(0x75c9758fbceafa75), LL(0x061806301e0c3606), LL(0x8a128a249809ae8a),
+    LL(0xb2f2b2f940794bb2), LL(0xe6bfe66359d185e6), LL(0x0e380e70361c7e0e), LL(0x1f7c1ff8633ee71f),
+    LL(0x62956237f7c45562), LL(0xd477d4eea3b53ad4), LL(0xa89aa829324d81a8), LL(0x966296c4f4315296),
+    LL(0xf9c3f99b3aef62f9), LL(0xc533c566f697a3c5), LL(0x25942535b14a1025), LL(0x597959f220b2ab59),
+    LL(0x842a8454ae15d084), LL(0x72d572b7a7e4c572), LL(0x39e439d5dd72ec39), LL(0x4c2d4c5a6198164c),
+    LL(0x5e655eca3bbc945e), LL(0x78fd78e785f09f78), LL(0x38e038ddd870e538), LL(0x8c0a8c148605988c),
+    LL(0xd163d1c6b2bf17d1), LL(0xa5aea5410b57e4a5), LL(0xe2afe2434dd9a1e2), LL(0x6199612ff8c24e61),
+    LL(0xb3f6b3f1457b42b3), LL(0x21842115a5423421), LL(0x9c4a9c94d625089c), LL(0x1e781ef0663cee1e),
+    LL(0x4311432252866143), LL(0xc73bc776fc93b1c7), LL(0xfcd7fcb32be54ffc), LL(0x0410042014082404),
+    LL(0x515951b208a2e351), LL(0x995e99bcc72f2599), LL(0x6da96d4fc4da226d), LL(0x0d340d68391a650d),
+    LL(0xfacffa8335e979fa), LL(0xdf5bdfb684a369df), LL(0x7ee57ed79bfca97e), LL(0x2490243db4481924),
+    LL(0x3bec3bc5d776fe3b), LL(0xab96ab313d4b9aab), LL(0xce1fce3ed181f0ce), LL(0x1144118855229911),
+    LL(0x8f068f0c8903838f), LL(0x4e254e4a6b9c044e), LL(0xb7e6b7d1517366b7), LL(0xeb8beb0b60cbe0eb),
+    LL(0x3cf03cfdcc78c13c), LL(0x813e817cbf1ffd81), LL(0x946a94d4fe354094), LL(0xf7fbf7eb0cf31cf7),
+    LL(0xb9deb9a1676f18b9), LL(0x134c13985f268b13), LL(0x2cb02c7d9c58512c), LL(0xd36bd3d6b8bb05d3),
+    LL(0xe7bbe76b5cd38ce7), LL(0x6ea56e57cbdc396e), LL(0xc437c46ef395aac4), LL(0x030c03180f061b03),
+    LL(0x5645568a13acdc56), LL(0x440d441a49885e44), LL(0x7fe17fdf9efea07f), LL(0xa99ea921374f88a9),
+    LL(0x2aa82a4d8254672a), LL(0xbbd6bbb16d6b0abb), LL(0xc123c146e29f87c1), LL(0x535153a202a6f153),
+    LL(0xdc57dcae8ba572dc), LL(0x0b2c0b582716530b), LL(0x9d4e9d9cd327019d), LL(0x6cad6c47c1d82b6c),
+    LL(0x31c43195f562a431), LL(0x74cd7487b9e8f374), LL(0xf6fff6e309f115f6), LL(0x4605460a438c4c46),
+    LL(0xac8aac092645a5ac), LL(0x891e893c970fb589), LL(0x145014a04428b414), LL(0xe1a3e15b42dfbae1),
+    LL(0x165816b04e2ca616), LL(0x3ae83acdd274f73a), LL(0x69b9696fd0d20669), LL(0x092409482d124109),
+    LL(0x70dd70a7ade0d770), LL(0xb6e2b6d954716fb6), LL(0xd067d0ceb7bd1ed0), LL(0xed93ed3b7ec7d6ed),
+    LL(0xcc17cc2edb85e2cc), LL(0x4215422a57846842), LL(0x985a98b4c22d2c98), LL(0xa4aaa4490e55eda4),
+    LL(0x28a0285d88507528), LL(0x5c6d5cda31b8865c), LL(0xf8c7f8933fed6bf8), LL(0x86228644a411c286),
+
 	LL(0x1823c6e887b8014f),
 	LL(0x36a6d2f5796f9152),
 	LL(0x60bc9b8ea30c7b35),
@@ -374,7 +634,6 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
 	if (HasISSE())
 	{
-		// MMX version has the same structure as C version below
 #ifdef __GNUC__
 	#if CRYPTOPP_BOOL_X64
 		uint64 workspace[16];
@@ -511,7 +770,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 		KSH(2, 3, 2, 1, 0, 7)
 		KSH(2, 7, 6, 5, 4, 3)
 
-		AS2(	pxor	mm0, [AS_REG_6 + 8*1024 + WORD_REG(si)*8])
+		AS2(	pxor	mm0, [AS_REG_6 + 16*1024 + WORD_REG(si)*8])
 		AS2(	movq	[SSE2_workspace], mm0)
 
 		TSL(0, 4, 3, 2, 1, 0)
@@ -570,117 +829,35 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 	else
 #endif		// #ifdef CRYPTOPP_X86_ASM_AVAILABLE
 	{
-	uint64 s[8];	// the cipher state
-	uint64 k[8];	// the round key
-	int r;
-	uint64 w0 = 0, w1 = 0, w2 = 0, w3 = 0, w4 = 0, w5 = 0, w6 = 0, w7 = 0;	// temporary storage
+		union { unsigned char ch[64]; unsigned long long ll[8]; } K, state;
+		unsigned long long L[8];
+		int r, i;
 
-	// Compute and apply K^0 to the cipher state
-	// Also apply part of the Miyaguchi-Preneel compression function
-	for (r=0; r<8; r++)
-		digest[r] = s[r] = block[r] ^ (k[r] = digest[r]);
+		i = 0; do state.ll[i] = (K.ll[i] = digest[i]) ^ (block)[i]; while (++i < 8);
 
-#define KSL(op, i, a, b, c, d)	\
-	t = (uint32)k[i];\
-	w##a = Whirlpool_C[3*256 + (byte)t] ^ (op ? w##a : 0);\
-	t >>= 8;\
-	w##b = Whirlpool_C[2*256 + (byte)t] ^ (op ? w##b : 0);\
-	t >>= 8;\
-	w##c = Whirlpool_C[1*256 + (byte)t] ^ (op ? w##c : 0);\
-	t >>= 8;\
-	w##d = Whirlpool_C[0*256 + t]       ^ (op ? w##d : 0);
+		r = 0; do {
+			L[0] = Whirlpool_C[0*256 + K.ch[0 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[7 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[6 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[5 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[4 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[3 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[2 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[1 * 8 + 0]] ^ Whirlpool_C[2048 + r];
+			L[1] = Whirlpool_C[0*256 + K.ch[1 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[0 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[7 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[6 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[5 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[4 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[3 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[2 * 8 + 0]];
+			L[2] = Whirlpool_C[0*256 + K.ch[2 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[1 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[0 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[7 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[6 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[5 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[4 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[3 * 8 + 0]];
+			L[3] = Whirlpool_C[0*256 + K.ch[3 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[2 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[1 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[0 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[7 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[6 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[5 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[4 * 8 + 0]];
+			L[4] = Whirlpool_C[0*256 + K.ch[4 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[3 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[2 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[1 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[0 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[7 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[6 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[5 * 8 + 0]];
+			L[5] = Whirlpool_C[0*256 + K.ch[5 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[4 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[3 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[2 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[1 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[0 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[7 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[6 * 8 + 0]];
+			L[6] = Whirlpool_C[0*256 + K.ch[6 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[5 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[4 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[3 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[2 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[1 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[0 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[7 * 8 + 0]];
+			L[7] = Whirlpool_C[0*256 + K.ch[7 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[6 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[5 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[4 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[3 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[2 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[1 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[0 * 8 + 0]];
 
-#define KSH(op, i, a, b, c, d)	\
-	t = (uint32)(k[(i+4)%8]>>32);\
-	w##a = Whirlpool_C[3*256 + (byte)t] ^ (op ? w##a : rotr64(w##a, 32));\
-	if (op==2) k[a] = w##a;\
-	t >>= 8;\
-	w##b = Whirlpool_C[2*256 + (byte)t] ^ (op ? w##b : rotr64(w##b, 32));\
-	if (op==2) k[b] = w##b;\
-	t >>= 8;\
-	w##c = Whirlpool_C[1*256 + (byte)t] ^ (op ? w##c : rotr64(w##c, 32));\
-	if (op==2) k[c] = w##c;\
-	t >>= 8;\
-	w##d = Whirlpool_C[0*256 + t]       ^ (op ? w##d : rotr64(w##d, 32));\
-	if (op==2) k[d] = w##d;\
+			L[0] = (K.ll[0] = L[0]) ^ Whirlpool_C[0*256 + state.ch[0 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[7 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[6 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[5 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[4 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[3 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[2 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[1 * 8 + 0]];
+			L[1] = (K.ll[1] = L[1]) ^ Whirlpool_C[0*256 + state.ch[1 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[0 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[7 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[6 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[5 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[4 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[3 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[2 * 8 + 0]];
+			L[2] = (K.ll[2] = L[2]) ^ Whirlpool_C[0*256 + state.ch[2 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[1 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[0 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[7 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[6 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[5 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[4 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[3 * 8 + 0]];
+			L[3] = (K.ll[3] = L[3]) ^ Whirlpool_C[0*256 + state.ch[3 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[2 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[1 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[0 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[7 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[6 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[5 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[4 * 8 + 0]];
+			L[4] = (K.ll[4] = L[4]) ^ Whirlpool_C[0*256 + state.ch[4 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[3 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[2 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[1 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[0 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[7 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[6 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[5 * 8 + 0]];
+			L[5] = (K.ll[5] = L[5]) ^ Whirlpool_C[0*256 + state.ch[5 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[4 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[3 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[2 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[1 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[0 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[7 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[6 * 8 + 0]];
+			L[6] = (K.ll[6] = L[6]) ^ Whirlpool_C[0*256 + state.ch[6 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[5 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[4 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[3 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[2 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[1 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[0 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[7 * 8 + 0]];
+			L[7] = (K.ll[7] = L[7]) ^ Whirlpool_C[0*256 + state.ch[7 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[6 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[5 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[4 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[3 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[2 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[1 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[0 * 8 + 0]];
 
-#define TSL(op, i, a, b, c, d)	\
-	t = (uint32)s[i];\
-	w##a = Whirlpool_C[3*256 + (byte)t] ^ (op ? w##a : 0);\
-	t >>= 8;\
-	w##b = Whirlpool_C[2*256 + (byte)t] ^ (op ? w##b : 0);\
-	t >>= 8;\
-	w##c = Whirlpool_C[1*256 + (byte)t] ^ (op ? w##c : 0);\
-	t >>= 8;\
-	w##d = Whirlpool_C[0*256 + t]       ^ (op ? w##d : 0);
+			memcpy(state.ll, L, sizeof(L));
+		} while (++r < 10);
 
-#define TSH_OP(op, a, b)	\
-	w##a = Whirlpool_C[b*256 + (byte)t] ^ (op ? w##a : rotr64(w##a, 32) ^ k[a]);\
-	if (op==2) s[a] = w##a;\
-	if (op==3) digest[a] ^= w##a;\
-
-#define TSH(op, i, a, b, c, d)	\
-	t = (uint32)(s[(i+4)%8]>>32);\
-	TSH_OP(op, a, 3);\
-	t >>= 8;\
-	TSH_OP(op, b, 2);\
-	t >>= 8;\
-	TSH_OP(op, c, 1);\
-	t >>= 8;\
-	TSH_OP(op, d, 0);\
-
-	// Iterate over all rounds:
-	r=0;
-	while (1)
-	{
-		uint32 t = 0;
-
-		KSL(0, 4, 3, 2, 1, 0)
-		KSL(0, 0, 7, 6, 5, 4)
-		KSL(1, 1, 0, 7, 6, 5)
-		KSL(1, 2, 1, 0, 7, 6)
-		KSL(1, 3, 2, 1, 0, 7)
-		KSL(1, 5, 4, 3, 2, 1)
-		KSL(1, 6, 5, 4, 3, 2)
-		KSL(1, 7, 6, 5, 4, 3)
-		KSH(0, 0, 7, 6, 5, 4)
-		KSH(0, 4, 3, 2, 1, 0)
-		KSH(1, 1, 0, 7, 6, 5)
-		KSH(1, 2, 1, 0, 7, 6)
-		KSH(1, 5, 4, 3, 2, 1)
-		KSH(1, 6, 5, 4, 3, 2)
-		KSH(2, 3, 2, 1, 0, 7)
-		KSH(2, 7, 6, 5, 4, 3)
-
-		k[0] ^= Whirlpool_C[1024+r];
-
-		TSL(0, 4, 3, 2, 1, 0)
-		TSL(0, 0, 7, 6, 5, 4)
-		TSL(1, 1, 0, 7, 6, 5)
-		TSL(1, 2, 1, 0, 7, 6)
-		TSL(1, 3, 2, 1, 0, 7)
-		TSL(1, 5, 4, 3, 2, 1)
-		TSL(1, 6, 5, 4, 3, 2)
-		TSL(1, 7, 6, 5, 4, 3)
-		TSH(0, 0, 7, 6, 5, 4)
-		TSH(0, 4, 3, 2, 1, 0)
-		TSH(1, 1, 0, 7, 6, 5)
-		TSH(1, 2, 1, 0, 7, 6)
-		TSH(1, 5, 4, 3, 2, 1)
-		TSH(1, 6, 5, 4, 3, 2)
-
-		if (++r < R)
-		{
-			TSH(2, 3, 2, 1, 0, 7)
-			TSH(2, 7, 6, 5, 4, 3)
-		}
-		else
-		{
-			TSH(3, 3, 2, 1, 0, 7)
-			TSH(3, 7, 6, 5, 4, 3)
-			break;
-		}
-	}
+		i = 0; do digest[i] ^= L[i] ^ (block)[i]; while (++i < 8);
 	}
 }
 
