@@ -638,6 +638,11 @@ namespace VeraCrypt
 					multiplier = 1024 * 1024 * 1024;
 					sizeStr.resize (sizeStr.size() - 1);
 				}
+				else if (sizeStr.find (L"T") != string::npos)
+				{
+					multiplier = 1024 * 1024 * 1024 * 1024;
+					sizeStr.resize (sizeStr.size() - 1);
+				}
 
 				try
 				{
