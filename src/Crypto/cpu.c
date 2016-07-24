@@ -118,20 +118,32 @@ static int TrySSE2()
 #if CRYPTOPP_BOOL_X64
 	return 1;
 #elif defined(CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY)
+	volatile int result = 1;
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+	KFLOATING_SAVE floatingPointState;
+	if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
+	{
+#endif
     __try
 	{
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
         AS2(por xmm0, xmm0)        // executing SSE2 instruction
 #elif CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
 		__m128i x = _mm_setzero_si128();
-		return _mm_cvtsi128_si32(x) == 0 ? 1 : 0;
+		result = _mm_cvtsi128_si32(x) == 0 ? 1 : 0;
 #endif
 	}
     __except (EXCEPTION_EXECUTE_HANDLER)
 	{
+		result = 0;
+	}
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+	KeRestoreFloatingPointState (&floatingPointState);
+	}
+	else
 		return 0;
-    }
-	return 1;
+#endif
+	return result;
 #else
 	// longjmp and clobber warnings. Volatile is required.
 	// http://github.com/weidai11/cryptopp/issues/24
@@ -197,6 +209,48 @@ void DetectX86Features()
 	g_hasSSSE3 = g_hasSSE2 && (cpuid1[2] & (1<<9));
 	g_hasAESNI = g_hasSSE2 && (cpuid1[2] & (1<<25));
 	g_hasCLMUL = g_hasSSE2 && (cpuid1[2] & (1<<1));
+
+#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
+	// Hypervisor = bit 31 of ECX of CPUID leaf 0x1
+	// reference: http://artemonsecurity.com/vmde.pdf
+	if (!g_hasAESNI && (cpuid1[2] & (1<<31)))
+	{
+		// when Hyper-V is enabled on older versions of Windows Server (i.e. 2008 R2), the AES-NI capability 
+		// gets masked out for all applications, even running on the host.
+		// We try to detect Hyper-V virtual CPU and perform a dummy AES-NI operation to check its real presence
+		uint32 cpuid2[4];
+		char HvProductName[13];
+
+		CpuId(0x40000000, cpuid2);
+		memcpy (HvProductName, &cpuid2[1], 12);
+		HvProductName[12] = 0;
+		if (_stricmp(HvProductName, "Microsoft Hv") == 0)
+		{
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+			KFLOATING_SAVE floatingPointState;
+			if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
+			{
+#endif
+			__try
+			{
+				__m128i block, subkey, ciphered;
+				// perform AES round.
+				block = _mm_setr_epi32(0x11223344,0x55667788,0x99AABBCC,0xDDEEFF00);
+				subkey = _mm_setr_epi32(0xA5A5A5A5,0xA5A5A5A5,0x5A5A5A5A,0x5A5A5A5A);
+				ciphered = _mm_aesenc_si128(block, subkey);
+				g_hasAESNI = (ciphered.m128i_u64[0] == LL(0x2f4654b9485061fa) && ciphered.m128i_u64[1] == LL(0xc8b51f1fe1256f99));
+			}
+			__except (EXCEPTION_EXECUTE_HANDLER)
+			{
+				// ignore error if AES-NI not supported
+			}
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+			KeRestoreFloatingPointState (&floatingPointState);
+			}
+#endif
+		}
+	}
+#endif
 
 	if ((cpuid1[3] & (1 << 25)) != 0)
 		g_hasISSE = 1;

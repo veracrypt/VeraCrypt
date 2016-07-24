@@ -21,6 +21,7 @@
 #include "EncryptionThreadPool.h"
 #endif
 #include "Volumes.h"
+#include "cpu.h"
 
 /* Update the following when adding a new cipher or EA:
 
@@ -1051,7 +1052,11 @@ BOOL IsAesHwCpuSupported ()
 
 	if (!stateValid)
 	{
+#ifdef TC_WINDOWS_BOOT_AES
 		state = is_aes_hw_cpu_supported() ? TRUE : FALSE;
+#else
+		state = g_hasAESNI ? TRUE : FALSE;
+#endif
 		stateValid = TRUE;
 	}
 

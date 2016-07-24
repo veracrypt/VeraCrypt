@@ -3,6 +3,10 @@
 
 #include "config.h"
 #include <string.h>		// for memcpy and memmove
+#ifndef _WIN32
+#include <strings.h> // for strcasecmp
+#define _stricmp strcasecmp
+#endif
 
 #ifdef _MSC_VER
 	#if _MSC_VER >= 1400
