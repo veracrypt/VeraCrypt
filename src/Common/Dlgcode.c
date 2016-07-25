@@ -5153,7 +5153,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 
 					case WHIRLPOOL:
 						WHIRLPOOL_init (&wctx);
-						WHIRLPOOL_add (lpTestBuffer, benchmarkBufferSize * 8, &wctx);
+						WHIRLPOOL_add (lpTestBuffer, benchmarkBufferSize, &wctx);
 						WHIRLPOOL_finalize (&wctx, (unsigned char *) digest);
 						break;
 					}

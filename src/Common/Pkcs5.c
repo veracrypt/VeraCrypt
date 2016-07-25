@@ -719,7 +719,7 @@ void hmac_whirlpool_internal
 
 	memcpy (ctx, &(hmac->inner_digest_ctx), sizeof (WHIRLPOOL_CTX));
 
-	WHIRLPOOL_add ((unsigned char *) d, ld * 8, ctx);
+	WHIRLPOOL_add ((unsigned char *) d, ld, ctx);
 
 	WHIRLPOOL_finalize (ctx, (unsigned char *) d);
 
@@ -727,7 +727,7 @@ void hmac_whirlpool_internal
 
 	memcpy (ctx, &(hmac->outer_digest_ctx), sizeof (WHIRLPOOL_CTX));
 
-	WHIRLPOOL_add ((unsigned char *) d, WHIRLPOOL_DIGESTSIZE * 8, ctx);
+	WHIRLPOOL_add ((unsigned char *) d, WHIRLPOOL_DIGESTSIZE, ctx);
 
 	WHIRLPOOL_finalize (ctx, (unsigned char *) d);
 }
@@ -758,7 +758,7 @@ void hmac_whirlpool
 		WHIRLPOOL_CTX tctx;
 
 		WHIRLPOOL_init (&tctx);
-		WHIRLPOOL_add ((unsigned char *) k, lk * 8, &tctx);
+		WHIRLPOOL_add ((unsigned char *) k, lk, &tctx);
 		WHIRLPOOL_finalize (&tctx, (unsigned char *) key);
 
 		k = key;
@@ -777,7 +777,7 @@ void hmac_whirlpool
 		buf[b] = (char) (k[b] ^ 0x36);
 	memset (&buf[lk], 0x36, WHIRLPOOL_BLOCKSIZE - lk);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -788,7 +788,7 @@ void hmac_whirlpool
 		buf[b] = (char) (k[b] ^ 0x5C);
 	memset (&buf[lk], 0x5C, WHIRLPOOL_BLOCKSIZE - lk);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	hmac_whirlpool_internal(k, lk, d, ld, &hmac);
 
@@ -846,7 +846,7 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 		WHIRLPOOL_CTX tctx;
 
 		WHIRLPOOL_init (&tctx);
-		WHIRLPOOL_add ((unsigned char *) pwd, pwd_len * 8, &tctx);
+		WHIRLPOOL_add ((unsigned char *) pwd, pwd_len, &tctx);
 		WHIRLPOOL_finalize (&tctx, (unsigned char *) key);
 
 		pwd = key;
@@ -876,7 +876,7 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 		buf[b] = (char) (pwd[b] ^ 0x36);
 	memset (&buf[pwd_len], 0x36, WHIRLPOOL_BLOCKSIZE - pwd_len);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	/**** Precompute HMAC Outer Digest ****/
 
@@ -887,7 +887,7 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 		buf[b] = (char) (pwd[b] ^ 0x5C);
 	memset (&buf[pwd_len], 0x5C, WHIRLPOOL_BLOCKSIZE - pwd_len);
 
-	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE * 8, ctx);
+	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)

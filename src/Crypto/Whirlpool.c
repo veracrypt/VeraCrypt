@@ -898,11 +898,11 @@ void WHIRLPOOL_init(WHIRLPOOL_CTX * const ctx) {
  * This method maintains the invariant: bufferBits < DIGESTBITS
  */
 void WHIRLPOOL_add(const unsigned char * input,
-               unsigned __int32 sourceBits,
+               unsigned __int32 sourceBytes,
                WHIRLPOOL_CTX * const ctx)
 {
 	uint64 num, oldCountLo = ctx->countLo, oldCountHi = ctx->countHi;
-	uint64 len = sourceBits >> 3;
+	uint64 len = sourceBytes;
 	if ((ctx->countLo = oldCountLo + (uint64)len) < oldCountLo)
 		ctx->countHi++;             // carry from low to high
 

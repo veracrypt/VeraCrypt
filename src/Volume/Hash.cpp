@@ -136,6 +136,6 @@ namespace VeraCrypt
 	void Whirlpool::ProcessData (const ConstBufferPtr &data)
 	{
 		if_debug (ValidateDataParameters (data));
-		WHIRLPOOL_add (data.Get(), (int) data.Size() * 8, (WHIRLPOOL_CTX *) Context.Ptr());
+		WHIRLPOOL_add (data.Get(), (int) data.Size(), (WHIRLPOOL_CTX *) Context.Ptr());
 	}
 }

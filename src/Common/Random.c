@@ -299,7 +299,7 @@ BOOL Randmix ()
 
 			case WHIRLPOOL:
 				WHIRLPOOL_init (&wctx);
-				WHIRLPOOL_add (pRandPool, RNG_POOL_SIZE * 8, &wctx);
+				WHIRLPOOL_add (pRandPool, RNG_POOL_SIZE, &wctx);
 				WHIRLPOOL_finalize (&wctx, hashOutputBuffer);
 				break;
 
