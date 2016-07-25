@@ -239,6 +239,18 @@ HMODULE hwinscarddll = NULL;
 
 #define FREE_DLL(h)	if (h) { FreeLibrary (h); h = NULL;}
 
+#ifndef BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE
+#define BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE 0x00000001
+#endif
+
+#ifndef BASE_SEARCH_PATH_PERMANENT
+#define BASE_SEARCH_PATH_PERMANENT 0x00008000
+#endif
+
+typedef BOOL (WINAPI *SetDllDirectoryPtr)(LPCWSTR lpPathName);
+typedef BOOL (WINAPI *SetSearchPathModePtr)(DWORD Flags);
+
+
 typedef void (WINAPI *InitCommonControlsPtr)(void);
 typedef HIMAGELIST  (WINAPI *ImageList_CreatePtr)(int cx, int cy, UINT flags, int cInitial, int cGrow);
 typedef int         (WINAPI *ImageList_AddPtr)(HIMAGELIST himl, HBITMAP hbmImage, HBITMAP hbmMask);
@@ -254,6 +266,9 @@ typedef HRESULT (STDAPICALLTYPE *SHStrDupWPtr)(LPCWSTR psz, LPWSTR *ppwsz);
 
 // ChangeWindowMessageFilter
 typedef BOOL (WINAPI *ChangeWindowMessageFilterPtr) (UINT, DWORD);
+
+SetDllDirectoryPtr SetDllDirectoryFn = NULL;
+SetSearchPathModePtr SetSearchPathModeFn = NULL;
 
 ImageList_CreatePtr ImageList_CreateFn = NULL;
 ImageList_AddPtr ImageList_AddFn = NULL;
@@ -2547,6 +2562,15 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	char langId[6];
 	InitCommonControlsPtr InitCommonControlsFn = NULL;
 
+   /* remove current directory from dll search path */
+   SetDllDirectoryFn = (SetDllDirectoryPtr) GetProcAddress (GetModuleHandle(L"kernel32.dll"), "SetDllDirectoryW");
+   SetSearchPathModeFn = (SetSearchPathModePtr) GetProcAddress (GetModuleHandle(L"kernel32.dll"), "SetSearchPathMode");
+
+   if (SetDllDirectoryFn)
+      SetDllDirectoryFn (L"");
+   if (SetSearchPathModeFn)
+      SetSearchPathModeFn (BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE | BASE_SEARCH_PATH_PERMANENT);
+
 	InitOSVersionInfo();
 
 	VirtualLock (&CmdTokenPin, sizeof (CmdTokenPin));
@@ -2597,9 +2621,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	if (IsOSAtLeast (WIN_VISTA))
 	{
-		LoadSystemDll (L"spp.dll", &hsppdll, TRUE, SRC_POS);
-		LoadSystemDll (L"vssapi.dll", &vssapidll, TRUE, SRC_POS);
+		LoadSystemDll (L"atl.dll", &hsppdll, TRUE, SRC_POS);
 		LoadSystemDll (L"vsstrace.dll", &hvsstracedll, TRUE, SRC_POS);
+		LoadSystemDll (L"vssapi.dll", &vssapidll, TRUE, SRC_POS);
+		LoadSystemDll (L"spp.dll", &hsppdll, TRUE, SRC_POS);
 
 		if (IsOSAtLeast (WIN_7))
 		{
