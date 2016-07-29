@@ -247,8 +247,13 @@ HMODULE hwinscarddll = NULL;
 #define BASE_SEARCH_PATH_PERMANENT 0x00008000
 #endif
 
+#ifndef LOAD_LIBRARY_SEARCH_SYSTEM32
+#define LOAD_LIBRARY_SEARCH_SYSTEM32   0x00000800
+#endif
+
 typedef BOOL (WINAPI *SetDllDirectoryPtr)(LPCWSTR lpPathName);
 typedef BOOL (WINAPI *SetSearchPathModePtr)(DWORD Flags);
+typedef BOOL (WINAPI *SetDefaultDllDirectoriesPtr)(DWORD DirectoryFlags);
 
 
 typedef void (WINAPI *InitCommonControlsPtr)(void);
@@ -269,6 +274,7 @@ typedef BOOL (WINAPI *ChangeWindowMessageFilterPtr) (UINT, DWORD);
 
 SetDllDirectoryPtr SetDllDirectoryFn = NULL;
 SetSearchPathModePtr SetSearchPathModeFn = NULL;
+SetDefaultDllDirectoriesPtr SetDefaultDllDirectoriesFn = NULL;
 
 ImageList_CreatePtr ImageList_CreateFn = NULL;
 ImageList_AddPtr ImageList_AddFn = NULL;
@@ -2565,11 +2571,14 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
    /* remove current directory from dll search path */
    SetDllDirectoryFn = (SetDllDirectoryPtr) GetProcAddress (GetModuleHandle(L"kernel32.dll"), "SetDllDirectoryW");
    SetSearchPathModeFn = (SetSearchPathModePtr) GetProcAddress (GetModuleHandle(L"kernel32.dll"), "SetSearchPathMode");
+   SetDefaultDllDirectoriesFn = (SetDefaultDllDirectoriesPtr) GetProcAddress (GetModuleHandle(L"kernel32.dll"), "SetDefaultDllDirectories");
 
    if (SetDllDirectoryFn)
       SetDllDirectoryFn (L"");
    if (SetSearchPathModeFn)
       SetSearchPathModeFn (BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE | BASE_SEARCH_PATH_PERMANENT);
+   if (SetDefaultDllDirectoriesFn)
+      SetDefaultDllDirectoriesFn (LOAD_LIBRARY_SEARCH_SYSTEM32);
 
 	InitOSVersionInfo();
 
@@ -2591,7 +2600,9 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	LoadSystemDll (L"secur32.dll", &hsecur32dll, TRUE, SRC_POS);
 	LoadSystemDll (L"msasn1.dll", &hmsasn1dll, TRUE, SRC_POS);
 	LoadSystemDll (L"Usp10.DLL", &hUsp10Dll, TRUE, SRC_POS);
-	LoadSystemDll (L"UXTheme.dll", &hUXThemeDll, TRUE, SRC_POS);
+	if (IsOSAtLeast (WIN_7))
+		LoadSystemDll (L"dwmapi.dll", &hdwmapidll, TRUE, SRC_POS);
+	LoadSystemDll (L"UXTheme.dll", &hUXThemeDll, TRUE, SRC_POS);   
 
 	LoadSystemDll (L"msls31.dll", &hMsls31, TRUE, SRC_POS);
 	LoadSystemDll (L"SETUPAPI.DLL", &hSetupDll, FALSE, SRC_POS);
@@ -2633,8 +2644,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 			LoadSystemDll (L"cfgmgr32.dll", &hcfgmgr32dll, TRUE, SRC_POS);
 			LoadSystemDll (L"devobj.dll", &hdevobjdll, TRUE, SRC_POS);
 			LoadSystemDll (L"powrprof.dll", &hpowrprofdll, TRUE, SRC_POS);
-
-			LoadSystemDll (L"dwmapi.dll", &hdwmapidll, TRUE, SRC_POS);
 
 			LoadSystemDll (L"crypt32.dll", &hcrypt32dll, TRUE, SRC_POS);
 
