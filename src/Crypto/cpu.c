@@ -192,6 +192,47 @@ VC_INLINE int IsAMD(const uint32 output[4])
     (output[3] /*EDX*/ == 0x444D4163);
 }
 
+static int Detect_MS_HyperV_AES ()
+{
+	int hasAesNI = 0;
+	// when Hyper-V is enabled on older versions of Windows Server (i.e. 2008 R2), the AES-NI capability 
+	// gets masked out for all applications, even running on the host.
+	// We try to detect Hyper-V virtual CPU and perform a dummy AES-NI operation to check its real presence
+	uint32 cpuid[4];
+	char HvProductName[13];
+
+	CpuId(0x40000000, cpuid);
+	memcpy (HvProductName, &cpuid[1], 12);
+	HvProductName[12] = 0;
+	if (_stricmp(HvProductName, "Microsoft Hv") == 0)
+	{
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+		KFLOATING_SAVE floatingPointState;
+		if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
+		{
+#endif
+		__try
+		{
+			__m128i block, subkey, ciphered;
+			// perform AES round.
+			block = _mm_setr_epi32(0x11223344,0x55667788,0x99AABBCC,0xDDEEFF00);
+			subkey = _mm_setr_epi32(0xA5A5A5A5,0xA5A5A5A5,0x5A5A5A5A,0x5A5A5A5A);
+			ciphered = _mm_aesenc_si128(block, subkey);
+			hasAesNI = (ciphered.m128i_u64[0] == LL(0x2f4654b9485061fa) && ciphered.m128i_u64[1] == LL(0xc8b51f1fe1256f99));
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{
+			// ignore error if AES-NI not supported
+		}
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+		KeRestoreFloatingPointState (&floatingPointState);
+		}
+#endif
+	}
+
+	return hasAesNI;
+}
+
 void DetectX86Features()
 {
 	uint32 cpuid[4], cpuid1[4];
@@ -215,40 +256,7 @@ void DetectX86Features()
 	// reference: http://artemonsecurity.com/vmde.pdf
 	if (!g_hasAESNI && (cpuid1[2] & (1<<31)))
 	{
-		// when Hyper-V is enabled on older versions of Windows Server (i.e. 2008 R2), the AES-NI capability 
-		// gets masked out for all applications, even running on the host.
-		// We try to detect Hyper-V virtual CPU and perform a dummy AES-NI operation to check its real presence
-		uint32 cpuid2[4];
-		char HvProductName[13];
-
-		CpuId(0x40000000, cpuid2);
-		memcpy (HvProductName, &cpuid2[1], 12);
-		HvProductName[12] = 0;
-		if (_stricmp(HvProductName, "Microsoft Hv") == 0)
-		{
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-			KFLOATING_SAVE floatingPointState;
-			if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
-			{
-#endif
-			__try
-			{
-				__m128i block, subkey, ciphered;
-				// perform AES round.
-				block = _mm_setr_epi32(0x11223344,0x55667788,0x99AABBCC,0xDDEEFF00);
-				subkey = _mm_setr_epi32(0xA5A5A5A5,0xA5A5A5A5,0x5A5A5A5A,0x5A5A5A5A);
-				ciphered = _mm_aesenc_si128(block, subkey);
-				g_hasAESNI = (ciphered.m128i_u64[0] == LL(0x2f4654b9485061fa) && ciphered.m128i_u64[1] == LL(0xc8b51f1fe1256f99));
-			}
-			__except (EXCEPTION_EXECUTE_HANDLER)
-			{
-				// ignore error if AES-NI not supported
-			}
-#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
-			KeRestoreFloatingPointState (&floatingPointState);
-			}
-#endif
-		}
+		g_hasAESNI = Detect_MS_HyperV_AES ();
 	}
 #endif
 
@@ -282,4 +290,27 @@ void DetectX86Features()
 	*((volatile int*)&g_x86DetectionDone) = 1;
 }
 
+int is_aes_hw_cpu_supported ()
+{
+	int bHasAESNI = 0;
+	uint32 cpuid[4];
+
+	if (CpuId(1, cpuid))
+	{
+		if (cpuid[2] & (1<<25))
+			bHasAESNI = 1;
+#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
+		// Hypervisor = bit 31 of ECX of CPUID leaf 0x1
+		// reference: http://artemonsecurity.com/vmde.pdf
+		if (!bHasAESNI && (cpuid[2] & (1<<31)))
+		{
+			bHasAESNI = Detect_MS_HyperV_AES ();
+		}
 #endif
+	}
+
+	return bHasAESNI;
+}
+
+#endif
+

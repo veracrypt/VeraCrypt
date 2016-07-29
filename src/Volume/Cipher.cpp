@@ -19,6 +19,7 @@
 
 #ifdef TC_AES_HW_CPU
 #	include "Crypto/Aes_hw_cpu.h"
+#	include "Crypto/cpu.h"
 #endif
 
 namespace VeraCrypt
@@ -181,7 +182,7 @@ namespace VeraCrypt
 
 		if (!stateValid)
 		{
-			state = is_aes_hw_cpu_supported() ? true : false;
+			state = g_hasAESNI ? true : false;
 			stateValid = true;
 		}
 		return state && HwSupportEnabled;

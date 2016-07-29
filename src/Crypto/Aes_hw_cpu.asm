@@ -286,17 +286,20 @@
 
 ; byte is_aes_hw_cpu_supported ();
 
-	export_function is_aes_hw_cpu_supported
-		push %[R]bx
-
-		mov eax, 1
-		cpuid
-		mov eax, ecx
-		shr eax, 25
-		and eax, 1
-
-		pop %[R]bx
-	ret
+; We comment this since we have an alternative C implementation
+; that supports Hyper-V detection workaround
+;
+;	export_function is_aes_hw_cpu_supported
+;		push %[R]bx
+;
+;		mov eax, 1
+;		cpuid
+;		mov eax, ecx
+;		shr eax, 25
+;		and eax, 1
+;
+;		pop %[R]bx
+;	ret
 
 
 ; void aes_hw_cpu_decrypt (const byte *ks, byte *data);
