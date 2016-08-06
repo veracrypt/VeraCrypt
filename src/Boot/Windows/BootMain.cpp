@@ -610,7 +610,7 @@ static void BootMenu ()
 
 				if (result == BiosResultSuccess && *(uint16 *) (SectorBuffer + TC_LB_SIZE - 2) == 0xaa55)
 				{
-					// Windows writes boot loader on all NTFS/FAT filesystems it creates and, therefore,
+					// Windows writes boot loader on all NTFS/FAT file systems it creates and, therefore,
 					// NTFS/FAT partitions must have the boot indicator set to be considered bootable.
 					if (!partition.Active
 						&& (*(uint32 *) (SectorBuffer + 3) == 0x5346544e  // 'NTFS'
