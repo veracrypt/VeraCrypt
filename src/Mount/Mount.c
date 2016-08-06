@@ -9340,7 +9340,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 		catch (...)
 		{
 			if (ServiceMode)
-				SystemFavoritesServiceLogError (wstring (L"An error occured while reading System Favorites XML file"));
+				SystemFavoritesServiceLogError (wstring (L"An error occurred while reading System Favorites XML file"));
 			return false;
 		}
 	}

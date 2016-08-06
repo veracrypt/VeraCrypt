@@ -171,7 +171,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			// set help text
 			if (pVolExpandParam->bIsDevice)
 			{
-				StringCbPrintfW (szTemp,sizeof(szTemp),L"This is a device-based VeraCrypt volume.\n\nThe new volume size will be choosen automatically as the size of the host device.");
+				StringCbPrintfW (szTemp,sizeof(szTemp),L"This is a device-based VeraCrypt volume.\n\nThe new volume size will be chosen automatically as the size of the host device.");
 				if (pVolExpandParam->bIsLegacy)
 					StringCbCatW(szTemp,sizeof(szTemp),L" Note: filling the new space with random data is not supported for legacy volumes.");
 			}
@@ -649,7 +649,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		MessageBoxW (hwndDlg,
 			L"Expanding a device hosted legacy volume with no NTFS file system\n"
 			L"is unsupported.\n"
-			L"Note that expanding the VeraCrypt volume itself is not neccessary\n"
+			L"Note that expanding the VeraCrypt volume itself is not necessary\n"
 			L"for legacy volumes.\n",
 			lpszTitle, MB_OK|MB_ICONEXCLAMATION);
 		goto ret;
