@@ -22,7 +22,7 @@ extern "C" {
 typedef enum
 {
 	/* WARNING: As these values are written to config files, if they or their meanings
-	are changed, incompatiblity with other versions may arise (upgrade, downgrade, etc.).
+	are changed, incompatibility with other versions may arise (upgrade, downgrade, etc.).
 	When adding a new constant, verify that the value is unique within this block. */
 	TC_WIPE_NONE = 0,
 	TC_WIPE_1_RAND = 100,

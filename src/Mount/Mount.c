@@ -830,7 +830,7 @@ void SaveSettings (HWND hwndDlg)
 	WaitCursor ();
 
 	// Check first if modifications ocurred before writing to the settings and history files
-	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing setttings or history
+	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing settings or history
 	BOOL bSettingsChanged = FALSE;
 	BOOL bHistoryChanged = FALSE;
 
@@ -2701,7 +2701,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SetPim (hwndDlg, IDC_PIM, *pim);
 
-			/* make PIM field visible if a PIM value has been explicitely specified */
+			/* make PIM field visible if a PIM value has been explicitly specified */
 			if (*pim > 0)
 			{
 				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, TRUE);
@@ -3383,7 +3383,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			SetPim (hwndDlg, IDC_PIM, mountOptions->ProtectedHidVolPim);
 
-			/* make PIM field visible if a PIM value has been explicitely specified */
+			/* make PIM field visible if a PIM value has been explicitly specified */
 			if (mountOptions->ProtectedHidVolPim > 0)
 			{
 				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, TRUE);
@@ -9290,7 +9290,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 
 	if (ServiceMode)
 	{
-		// in service case, intialize some global variable here.
+		// in service case, initialize some global variable here.
 		LastKnownMountList.ulMountedDrives = 0;
 		LoadDriveLetters (MainDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
 	}

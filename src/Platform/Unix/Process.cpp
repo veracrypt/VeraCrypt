@@ -53,7 +53,7 @@ namespace VeraCrypt
 				try
 				{
 					int argIndex = 0;
-					/* Workaround for gcc 5.X issue related to the use of STL (string and list) with muliple fork calls.
+					/* Workaround for gcc 5.X issue related to the use of STL (string and list) with multiple fork calls.
 					 *
 					 * The char* pointers retrieved from the elements of parameter "arguments" are no longer valid after
 					 * a second fork is called. "arguments" was created in the parent of the current child process.

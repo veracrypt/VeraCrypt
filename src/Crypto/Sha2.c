@@ -295,7 +295,7 @@ VOID_RETURN sha256_hash(const unsigned char data[], unsigned long len, sha256_ct
     if((ctx->count[0] += len) < len)
         ++(ctx->count[1]);
 
-    while(len >= space)     /* tranfer whole blocks while possible  */
+    while(len >= space)     /* transfer whole blocks while possible  */
     {
         memcpy(((unsigned char*)ctx->wbuf) + pos, sp, space);
         sp += space; len -= space; space = SHA256_BLOCK_SIZE; pos = 0;
@@ -530,7 +530,7 @@ VOID_RETURN sha512_hash(const unsigned char data[], unsigned long len, sha512_ct
     if((ctx->count[0] += len) < len)
         ++(ctx->count[1]);
 
-    while(len >= space)     /* tranfer whole blocks while possible  */
+    while(len >= space)     /* transfer whole blocks while possible  */
     {
         memcpy(((unsigned char*)ctx->wbuf) + pos, sp, space);
         sp += space; len -= space; space = SHA512_BLOCK_SIZE; pos = 0;

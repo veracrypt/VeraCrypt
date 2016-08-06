@@ -2545,7 +2545,7 @@ static void LoadSystemDll (LPCTSTR szModuleName, HMODULE *pHandle, BOOL bIgnoreE
 {
 	wchar_t dllPath[MAX_PATH];
 
-	/* Load dll explictely from System32 to avoid Dll hijacking attacks*/
+	/* Load dll explicitely from System32 to avoid Dll hijacking attacks*/
 	if (!GetSystemDirectory(dllPath, MAX_PATH))
 		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32");
 

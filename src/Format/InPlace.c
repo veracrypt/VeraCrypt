@@ -909,7 +909,7 @@ inplace_enc_read:
 
 		if (remainingBytes - workChunkSize < TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE)
 		{
-			// We reached the inital portion of the filesystem, which we had concealed (in order to prevent
+			// We reached the initial portion of the filesystem, which we had concealed (in order to prevent
 			// Windows from interfering with the volume). Now we need to undo that modification.
 
 			for (i = 0; i < TC_INITIAL_NTFS_CONCEAL_PORTION_SIZE - (remainingBytes - workChunkSize); i++)
@@ -1425,7 +1425,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 
 				if (*DiscardUnreadableEncryptedSectors)
 				{
-					// Read the work chunk again, but this time each sector individually and skiping each bad sector
+					// Read the work chunk again, but this time each sector individually and skipping each bad sector
 
 					LARGE_INTEGER tmpSectorOffset;
 					uint64 tmpSectorCount;

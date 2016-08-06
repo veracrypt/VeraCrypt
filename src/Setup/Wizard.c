@@ -187,7 +187,7 @@ static int GetDonVal (int minVal, int maxVal)
 			OsPrngAvailable = TRUE;
 
 		srand ((unsigned int) time (NULL));
-		rand(); // Generate and discard the inital value, as it always appears to be somewhat non-random.
+		rand(); // Generate and discard the initial value, as it always appears to be somewhat non-random.
 
 		prngInitialized = TRUE;
 	}

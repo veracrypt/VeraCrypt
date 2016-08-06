@@ -250,7 +250,7 @@ in_line void xor_block_aligned64( void *p, const void *q)
     q(0xf8), q(0xf9), q(0xfa), q(0xfb), q(0xfc), q(0xfd), q(0xfe), q(0xff) }
 
 /* given the value i in 0..255 as the byte overflow when a a field  */
-/* element in GHASH is multipled by x^8, this function will return  */
+/* element in GHASH is multiplied by x^8, this function will return  */
 /* the values that are generated in the lo 16-bit word of the field */
 /* value by applying the modular polynomial. The values lo_byte and */
 /* hi_byte are returned via the macro xp_fun(lo_byte, hi_byte) so   */
@@ -287,7 +287,7 @@ static mode(32t) gf_poly64[2] = { 0, 0xd8000000 };
 
 /* This function multiples a field element x, in the polynomial */
 /* field representation. It uses 32-bit word operations to gain */
-/* speed but compensates for machine endianess and hence works  */
+/* speed but compensates for machine endianness and hence works  */
 /* correctly on both styles of machine                          */
 
 in_line void mul_x(mode(32t) x[4])
@@ -333,7 +333,7 @@ in_line void mul_x64(mode(32t) x[2])
 }
 
 /* Multiply of a GF128 field element by x^8 using 32-bit words  */
-/* for speed - machine endianess matters here                   */
+/* for speed - machine endianness matters here                   */
 
 #if (PLATFORM_BYTE_ORDER == BRG_LITTLE_ENDIAN)
 
@@ -380,7 +380,7 @@ in_line void mul_bex8_64(mode(32t) x[2])   /* mutiply with long words  */
 
 #endif
 
-/* hence choose the correct version for the machine endianess       */
+/* hence choose the correct version for the machine endianness       */
 
 #if PLATFORM_BYTE_ORDER == BRG_BIG_ENDIAN
 #define mul_x8  mul_bex8

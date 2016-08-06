@@ -67,7 +67,7 @@ enum
 // initially (most such errors are really caused by supplying an incorrect password, not by header corruption).
 #define TC_TRY_HEADER_BAK_AFTER_NBR_WRONG_PWD_TRIES		2
 
-#define MAX_MULTI_CHOICES		10		/* Maximum number of options for mutliple-choice dialog */
+#define MAX_MULTI_CHOICES		10		/* Maximum number of options for multiple-choice dialog */
 
 #define TC_APPD_FILENAME_CONFIGURATION						L"Configuration.xml"
 #define TC_APPD_FILENAME_SYSTEM_ENCRYPTION					L"System Encryption.xml"
@@ -194,7 +194,7 @@ enum tc_app_msg_ids
 enum system_encryption_status
 {
 	/* WARNING: As these values are written to config files, if they or their meanings
-	are changed, incompatiblity with other versions may arise (upgrade, downgrade, etc.).
+	are changed, incompatibility with other versions may arise (upgrade, downgrade, etc.).
 	When adding a new constant, verify that the value is unique within this block. */
 	SYSENC_STATUS_NONE = 0,
 	SYSENC_STATUS_PRETEST = 200,	// This may also mean that the OS is to be (or has been) copied to a hidden volume (to create a hidden OS).

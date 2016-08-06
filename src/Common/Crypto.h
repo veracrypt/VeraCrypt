@@ -140,7 +140,7 @@ typedef struct
 } Hash;
 #endif
 
-// Maxium length of scheduled key
+// Maximum length of scheduled key
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_AES)
 #	define AES_KS				(sizeof(aes_encrypt_ctx) + sizeof(aes_decrypt_ctx))
 #else
@@ -219,7 +219,7 @@ typedef struct CRYPTO_INFO_t
 	int mode;								/* Mode of operation (e.g., XTS) */
 	int pkcs5;								/* PRF algorithm */
 
-	unsigned __int8 ks[MAX_EXPANDED_KEY];	/* Primary key schedule (if it is a cascade, it conatins multiple concatenated keys) */
+	unsigned __int8 ks[MAX_EXPANDED_KEY];	/* Primary key schedule (if it is a cascade, it contains multiple concatenated keys) */
 	unsigned __int8 ks2[MAX_EXPANDED_KEY];	/* Secondary key schedule (if cascade, multiple concatenated) for XTS mode. */
 
 	BOOL hiddenVolume;						// Indicates whether the volume is mounted/mountable as hidden volume

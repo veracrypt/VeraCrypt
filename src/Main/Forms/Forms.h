@@ -92,7 +92,7 @@ namespace VeraCrypt
 			wxButton* DismountAllButton;
 			wxButton* ExitButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
 			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 			virtual void OnCreateVolumeButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -173,7 +173,7 @@ namespace VeraCrypt
 			wxButton* NextButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
 			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 			virtual void OnMouseMotion( wxMouseEvent& event ) { event.Skip(); }
@@ -209,7 +209,7 @@ namespace VeraCrypt
 			wxStaticLine* m_staticline4;
 			wxStaticLine* m_staticline5;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnWebsiteHyperlinkClick( wxHyperlinkEvent& event ) { event.Skip(); }
 
 
@@ -234,7 +234,7 @@ namespace VeraCrypt
 			wxButton* BenchmarkButton;
 			wxStaticText* BenchmarkNoteStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnBenchmarkButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -260,7 +260,7 @@ namespace VeraCrypt
 			wxButton* OKButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -284,7 +284,7 @@ namespace VeraCrypt
 			wxButton* StdButtonsOK;
 			wxButton* StdButtonsCancel;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemActivated( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
@@ -320,7 +320,7 @@ namespace VeraCrypt
 			wxButton* ResetButton;
 			wxButton* CloseButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnEncryptionAlgorithmSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnXtsModeCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnEncryptButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -352,7 +352,7 @@ namespace VeraCrypt
 			wxButton* OKButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnMoveUpButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -387,7 +387,7 @@ namespace VeraCrypt
 			wxHyperlinkCtrl* KeyfilesHyperlink;
 			wxButton* CreateKeyfileButtton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnKeyfilesHyperlinkClick( wxHyperlinkEvent& event ) { event.Skip(); }
 			virtual void OnCreateKeyfileButttonClick( wxCommandEvent& event ) { event.Skip(); }
 
@@ -424,7 +424,7 @@ namespace VeraCrypt
 			wxPanel* m_panel19;
 			wxButton* GenerateButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnMouseMotion( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnHashSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
@@ -489,7 +489,7 @@ namespace VeraCrypt
 			wxStaticText* FilesystemOptionsStaticText;
 			wxTextCtrl* FilesystemOptionsTextCtrl;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnInitDialog( wxInitDialogEvent& event ) { event.Skip(); }
 			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnOptionsButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -521,7 +521,7 @@ namespace VeraCrypt
 			wxButton* StdButtonsOK;
 			wxButton* StdButtonsCancel;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnKeyfileNameChanged( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -599,7 +599,7 @@ namespace VeraCrypt
 			wxButton* StdButtonsOK;
 			wxButton* StdButtonsCancel;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 			virtual void OnDismountOnScreenSaverCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDismountOnPowerSavingCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
@@ -644,7 +644,7 @@ namespace VeraCrypt
 			wxStaticText* MouseStaticText;
 			wxButton* ContinueButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnMouseMotion( wxMouseEvent& event ) { event.Skip(); }
 			virtual void OnHashSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnShowRandomPoolCheckBoxClicked( wxCommandEvent& event ) { event.Skip(); }
@@ -672,7 +672,7 @@ namespace VeraCrypt
 			wxButton* OKButton;
 			wxButton* CancelButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemActivated( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
@@ -724,7 +724,7 @@ namespace VeraCrypt
 			wxChoice* HashChoice;
 			wxHyperlinkCtrl* HashHyperlink;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnEncryptionAlgorithmSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnTestButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnEncryptionAlgorithmHyperlinkClick( wxHyperlinkEvent& event ) { event.Skip(); }
@@ -772,7 +772,7 @@ namespace VeraCrypt
 			wxButton* RemoveButton;
 			wxButton* RemoveAllButton;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListSizeChanged( wxSizeEvent& event ) { event.Skip(); }
@@ -803,7 +803,7 @@ namespace VeraCrypt
 			wxButton* AbortButton;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnAbortButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -826,7 +826,7 @@ namespace VeraCrypt
 			wxButton* BrowseButton;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnDirectoryTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnBrowseButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
@@ -885,7 +885,7 @@ namespace VeraCrypt
 			wxStaticText* TimeLeftStaticText;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnDisplayKeysCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnAbortButtonClick( wxCommandEvent& event ) { event.Skip(); }
 
@@ -911,7 +911,7 @@ namespace VeraCrypt
 			wxCheckBox* NoHistoryCheckBox;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnVolumePathTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnSelectFileButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnSelectDeviceButtonClick( wxCommandEvent& event ) { event.Skip(); }
@@ -938,7 +938,7 @@ namespace VeraCrypt
 			wxCheckBox* QuickFormatCheckBox;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnFilesystemTypeSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnQuickFormatCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 
@@ -979,7 +979,7 @@ namespace VeraCrypt
 			wxChoice* HeaderWipeCount;
 			wxBoxSizer* PasswordPlaceholderSizer;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnPimChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnUsePimCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
@@ -1032,7 +1032,7 @@ namespace VeraCrypt
 			wxCheckBox* DisplayPimCheckBox;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnPimChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnDisplayPimCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 
@@ -1057,7 +1057,7 @@ namespace VeraCrypt
 			wxStaticText* FreeSpaceStaticText;
 			wxStaticText* InfoStaticText;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnVolumeSizeTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnVolumeSizePrefixSelected( wxCommandEvent& event ) { event.Skip(); }
 
@@ -1080,7 +1080,7 @@ namespace VeraCrypt
 			wxStaticText* WaitStaticText;
 			wxGauge* WaitProgessBar;
 
-			// Virtual event handlers, overide them in your derived class
+			// Virtual event handlers, override them in your derived class
 			virtual void OnWaitDialogClose( wxCloseEvent& event ) { event.Skip(); }
 			virtual void OnWaitDialogInit( wxInitDialogEvent& event ) { event.Skip(); }
 

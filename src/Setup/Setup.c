@@ -443,7 +443,7 @@ BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 /*
  * Creates a VT_LPWSTR propvariant.
  * we use our own implementation to use SHStrDupW function pointer
- * that we retreive ourselves to avoid dll hijacking attacks
+ * that we retrieve ourselves to avoid dll hijacking attacks
  */
 inline HRESULT VCInitPropVariantFromString(__in PCWSTR psz, __out PROPVARIANT *ppropvar)
 {

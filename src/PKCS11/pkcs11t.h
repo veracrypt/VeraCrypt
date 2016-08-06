@@ -559,7 +559,7 @@ typedef CK_ULONG          CK_ATTRIBUTE_TYPE;
 #define CKA_WRAP_TEMPLATE        (CKF_ARRAY_ATTRIBUTE|0x00000211)
 #define CKA_UNWRAP_TEMPLATE      (CKF_ARRAY_ATTRIBUTE|0x00000212)
 
-/* CKA_OTP... atttributes are new for PKCS #11 v2.20 amendment 3. */
+/* CKA_OTP... attributes are new for PKCS #11 v2.20 amendment 3. */
 #define CKA_OTP_FORMAT                0x00000220
 #define CKA_OTP_LENGTH                0x00000221
 #define CKA_OTP_TIME_INTERVAL         0x00000222
