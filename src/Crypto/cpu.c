@@ -38,6 +38,12 @@ static void SigIllHandlerCPUID(int p)
 	longjmp(s_jmpNoCPUID, 1);
 }
 
+static jmp_buf s_jmpNoAESNI;
+static void SigIllHandlerAESNI(int p)
+{
+	longjmp(s_jmpNoAESNI, 1);
+}
+
 #if CRYPTOPP_BOOL_X64 == 0
 static jmp_buf s_jmpNoSSE2;
 static void SigIllHandlerSSE2(int p)
@@ -192,6 +198,47 @@ VC_INLINE int IsAMD(const uint32 output[4])
     (output[3] /*EDX*/ == 0x444D4163);
 }
 
+#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
+
+static int TryAESNI ()
+{
+	volatile int result = 0;
+#ifdef _MSC_VER
+	__try
+#else
+	SigHandler oldHandler = signal(SIGILL, SigIllHandlerAESNI);
+	if (oldHandler == SIG_ERR)
+		return 0;
+
+	if (setjmp(s_jmpNoAESNI))
+		result = 0;
+	else
+#endif
+	{
+		__m128i block, subkey, ciphered;
+		// perform AES round.
+		block = _mm_setr_epi32(0x11223344,0x55667788,0x99AABBCC,0xDDEEFF00);
+		subkey = _mm_setr_epi32(0xA5A5A5A5,0xA5A5A5A5,0x5A5A5A5A,0x5A5A5A5A);
+		ciphered = _mm_aesenc_si128(block, subkey);
+#ifdef _MSC_VER
+		if (ciphered.m128i_u64[0] == LL(0x2f4654b9485061fa) && ciphered.m128i_u64[1] == LL(0xc8b51f1fe1256f99))
+#else
+		if (((uint64_t*)(&ciphered))[0] == LL(0x2f4654b9485061fa) && ((uint64_t*)(&ciphered))[1] == LL(0xc8b51f1fe1256f99))
+#endif
+			result = 1;
+	}
+#ifdef _MSC_VER
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		// ignore error if AES-NI not supported
+	}
+#else
+	signal(SIGILL, oldHandler);
+#endif
+	
+	return result;
+}
+
 static int Detect_MS_HyperV_AES ()
 {
 	int hasAesNI = 0;
@@ -211,19 +258,8 @@ static int Detect_MS_HyperV_AES ()
 		if (NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState)))
 		{
 #endif
-		__try
-		{
-			__m128i block, subkey, ciphered;
-			// perform AES round.
-			block = _mm_setr_epi32(0x11223344,0x55667788,0x99AABBCC,0xDDEEFF00);
-			subkey = _mm_setr_epi32(0xA5A5A5A5,0xA5A5A5A5,0x5A5A5A5A,0x5A5A5A5A);
-			ciphered = _mm_aesenc_si128(block, subkey);
-			hasAesNI = (ciphered.m128i_u64[0] == LL(0x2f4654b9485061fa) && ciphered.m128i_u64[1] == LL(0xc8b51f1fe1256f99));
-		}
-		__except (EXCEPTION_EXECUTE_HANDLER)
-		{
-			// ignore error if AES-NI not supported
-		}
+		hasAesNI = TryAESNI ();
+
 #if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
 		KeRestoreFloatingPointState (&floatingPointState);
 		}
@@ -232,6 +268,8 @@ static int Detect_MS_HyperV_AES ()
 
 	return hasAesNI;
 }
+
+#endif
 
 void DetectX86Features()
 {
