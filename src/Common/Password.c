@@ -437,9 +437,51 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 				&& (cryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
 				&& (cryptoInfo->HeaderFlags & ~TC_HEADER_FLAG_NONSYS_INPLACE_ENC) == 0)
 			{
+				PCRYPTO_INFO dummyInfo = NULL;
+				LARGE_INTEGER hiddenOffset;
+
 				nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, cryptoInfo->VolumeSize.Value, !backupHeader, backupHeader);
 				if (nStatus != ERR_SUCCESS)
 					goto error;
+
+				// write fake hidden volume header to protect against attacks that use statistical entropy
+				// analysis to detect presence of hidden volumes
+				hiddenOffset.QuadPart = backupHeader ? cryptoInfo->VolumeSize.Value + TC_VOLUME_HEADER_GROUP_SIZE + TC_HIDDEN_VOLUME_HEADER_OFFSET: TC_HIDDEN_VOLUME_HEADER_OFFSET;
+
+				nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
+					buffer,
+					cryptoInfo->ea,
+					cryptoInfo->mode,
+					NULL,
+					0,
+					0,
+					NULL,
+					&dummyInfo,
+					cryptoInfo->VolumeSize.Value,
+					cryptoInfo->VolumeSize.Value,
+					cryptoInfo->EncryptedAreaStart.Value,
+					cryptoInfo->EncryptedAreaLength.Value,
+					truecryptMode? 0 : cryptoInfo->RequiredProgramVersion,
+					cryptoInfo->HeaderFlags,
+					cryptoInfo->SectorSize,
+					wipePass < wipePassCount - 1);
+
+				if (nStatus != ERR_SUCCESS)
+					goto error;
+
+				crypto_close (dummyInfo);
+
+				if (!SetFilePointerEx ((HANDLE) dev, hiddenOffset, NULL, FILE_BEGIN))
+				{
+					nStatus = ERR_OS_ERROR;
+					goto error;
+				}
+
+				if (!WriteEffectiveVolumeHeader (bDevice, dev, buffer))
+				{
+					nStatus = ERR_OS_ERROR;
+					goto error;
+				}
 			}
 
 			FlushFileBuffers (dev);

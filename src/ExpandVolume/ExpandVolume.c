@@ -804,7 +804,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			cryptoInfo->RequiredProgramVersion,
 			cryptoInfo->HeaderFlags,
 			cryptoInfo->SectorSize,
-			TRUE ); // use slow poll
+			FALSE ); // use slow poll
 
 		if (ci != NULL)
 			crypto_close (ci);
@@ -818,8 +818,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		nStatus = _lwrite ((HFILE) dev, buffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
-		if (nStatus != TC_VOLUME_HEADER_EFFECTIVE_SIZE)
+		if (!WriteEffectiveVolumeHeader (bDevice, dev, buffer))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto error;
@@ -835,9 +834,51 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			)
 		{
 			//DebugAddProgressDlgStatus(hwndDlg, L"WriteRandomDataToReservedHeaderAreas() ...\r\n");
+			PCRYPTO_INFO dummyInfo = NULL;
+			LARGE_INTEGER hiddenOffset;
+
 			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader);
 			if (nStatus != ERR_SUCCESS)
 				goto error;
+
+			// write fake hidden volume header to protect against attacks that use statistical entropy
+			// analysis to detect presence of hidden volumes
+			hiddenOffset.QuadPart = headerOffset.QuadPart + TC_HIDDEN_VOLUME_HEADER_OFFSET;
+
+			nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
+				buffer,
+				cryptoInfo->ea,
+				cryptoInfo->mode,
+				NULL,
+				0,
+				0,
+				NULL,
+				&dummyInfo,
+				newDataAreaSize,
+				newDataAreaSize, // hiddenVolumeSize
+				cryptoInfo->EncryptedAreaStart.Value,
+				newDataAreaSize,
+				cryptoInfo->RequiredProgramVersion,
+				cryptoInfo->HeaderFlags,
+				cryptoInfo->SectorSize,
+				FALSE ); // use slow poll
+
+			if (nStatus != ERR_SUCCESS)
+				goto error;
+
+			crypto_close (dummyInfo);
+
+			if (!SetFilePointerEx ((HANDLE) dev, hiddenOffset, NULL, FILE_BEGIN))
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
+
+			if (!WriteEffectiveVolumeHeader (bDevice, dev, buffer))
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
 		}
 
 		FlushFileBuffers (dev);

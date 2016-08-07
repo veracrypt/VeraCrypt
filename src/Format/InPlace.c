@@ -566,6 +566,8 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 	// Prepare the backup header
 	for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_HEADER_WIPE_PASSES); wipePass++)
 	{
+		PCRYPTO_INFO dummyInfo = NULL;
+
 		nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 			header,
 			volParams->ea,
@@ -607,6 +609,47 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 
 		if (nStatus != ERR_SUCCESS)
 			goto closing_seq;
+
+		// write fake hidden volume header to protect against attacks that use statistical entropy
+		// analysis to detect presence of hidden volumes
+		nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
+			header,
+			volParams->ea,
+			FIRST_MODE_OF_OPERATION_ID,
+			NULL,
+			0,
+			0,
+			NULL,
+			&dummyInfo,
+			dataAreaSize,
+			dataAreaSize,
+			TC_VOLUME_DATA_OFFSET + dataAreaSize,	// Start of the encrypted area = the first byte of the backup heeader (encrypting from the end)
+			dataAreaSize,	// No data is encrypted yet
+			0,
+			volParams->headerFlags | TC_HEADER_FLAG_NONSYS_INPLACE_ENC,
+			volParams->sectorSize,
+			wipeAlgorithm == TC_WIPE_NONE ? FALSE : (wipePass < PRAND_HEADER_WIPE_PASSES - 1));
+
+		if (nStatus != ERR_SUCCESS)
+			goto closing_seq;
+
+		crypto_close (dummyInfo);
+
+		offset.QuadPart += TC_HIDDEN_VOLUME_HEADER_OFFSET;
+
+		if (!SetFilePointerEx (dev, offset, NULL, FILE_BEGIN))
+		{
+			nStatus = ERR_OS_ERROR;
+			goto closing_seq;
+		}
+
+		// Write the fake hidden backup header to the partition
+		if (!WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
+		{
+			nStatus = ERR_OS_ERROR;
+			goto closing_seq;
+		}
+
 	}
 
 
@@ -1045,6 +1088,8 @@ inplace_enc_read:
 
 		for (int wipePass = 0; wipePass < (wipeAlgorithm == TC_WIPE_NONE ? 1 : PRAND_HEADER_WIPE_PASSES); wipePass++)
 		{
+			PCRYPTO_INFO dummyInfo = NULL;
+
 			nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 				header,
 				headerCryptoInfo->ea,
@@ -1081,6 +1126,40 @@ inplace_enc_read:
 
 			if (nStatus != ERR_SUCCESS)
 				goto closing_seq;
+
+			// write fake hidden volume header to protect against attacks that use statistical entropy
+			// analysis to detect presence of hidden volumes
+			nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
+				header,
+				headerCryptoInfo->ea,
+				headerCryptoInfo->mode,
+				NULL,
+				0,
+				0,
+				NULL,
+				&dummyInfo,
+				masterCryptoInfo->VolumeSize.Value,
+				masterCryptoInfo->VolumeSize.Value,
+				masterCryptoInfo->EncryptedAreaStart.Value,
+				masterCryptoInfo->EncryptedAreaLength.Value,
+				masterCryptoInfo->RequiredProgramVersion,
+				masterCryptoInfo->HeaderFlags | TC_HEADER_FLAG_NONSYS_INPLACE_ENC,
+				masterCryptoInfo->SectorSize,
+				wipeAlgorithm == TC_WIPE_NONE ? FALSE : (wipePass < PRAND_HEADER_WIPE_PASSES - 1));
+
+			if (nStatus != ERR_SUCCESS)
+				goto closing_seq;
+
+			crypto_close (dummyInfo);
+
+			offset.QuadPart += TC_HIDDEN_VOLUME_HEADER_OFFSET;
+
+			if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
+				|| !WriteEffectiveVolumeHeader (TRUE, dev, (byte *) header))
+			{
+				nStatus = ERR_OS_ERROR;
+				goto closing_seq;
+			}
 		}
 
 		// Update the configuration files

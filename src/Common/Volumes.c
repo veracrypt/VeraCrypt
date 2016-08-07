@@ -809,7 +809,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	unsigned char *p = (unsigned char *) header;
 	static CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
 
-	int nUserKeyLen = password->Length;
+	int nUserKeyLen = password? password->Length : 0;
 	PCRYPTO_INFO cryptoInfo = crypto_open ();
 	static char dk[MASTER_KEYDATA_SIZE];
 	int x;
@@ -844,7 +844,10 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 		}
 
 		if (!RandgetBytes (hwndDlg, keyInfo.master_keydata, bytesNeeded, TRUE))
+		{
+			crypto_close (cryptoInfo);
 			return ERR_CIPHER_INIT_WEAK_KEY;
+		}
 	}
 	else
 	{
@@ -853,9 +856,17 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	}
 
 	// User key
-	memcpy (keyInfo.userKey, password->Text, nUserKeyLen);
-	keyInfo.keyLength = nUserKeyLen;
-	keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, FALSE, bBoot);
+	if (password)
+	{
+		memcpy (keyInfo.userKey, password->Text, nUserKeyLen);
+		keyInfo.keyLength = nUserKeyLen;
+		keyInfo.noIterations = get_pkcs5_iteration_count (pkcs5_prf, pim, FALSE, bBoot);
+	}
+	else
+	{
+		keyInfo.keyLength = 0;
+		keyInfo.noIterations = 0;
+	}
 
 	// User selected encryption algorithm
 	cryptoInfo->ea = ea;
@@ -871,34 +882,51 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 
 	// Salt for header key derivation
 	if (!RandgetBytes (hwndDlg, keyInfo.salt, PKCS5_SALT_SIZE, !bWipeMode))
-		return ERR_CIPHER_INIT_WEAK_KEY;
-
-	// PBKDF2 (PKCS5) is used to derive primary header key(s) and secondary header key(s) (XTS) from the password/keyfiles
-	switch (pkcs5_prf)
 	{
-	case SHA512:
-		derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
-		break;
+		crypto_close (cryptoInfo);
+		return ERR_CIPHER_INIT_WEAK_KEY; 
+	}
 
-	case SHA256:
-		derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
-		break;
+	if (password)
+	{
+		// PBKDF2 (PKCS5) is used to derive primary header key(s) and secondary header key(s) (XTS) from the password/keyfiles
+		switch (pkcs5_prf)
+		{
+		case SHA512:
+			derive_key_sha512 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			break;
 
-	case RIPEMD160:
-		derive_key_ripemd160 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
-		break;
+		case SHA256:
+			derive_key_sha256 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			break;
 
-	case WHIRLPOOL:
-		derive_key_whirlpool (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
-			PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
-		break;
+		case RIPEMD160:
+			derive_key_ripemd160 (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			break;
 
-	default:
-		// Unknown/wrong ID
-		TC_THROW_FATAL_EXCEPTION;
+		case WHIRLPOOL:
+			derive_key_whirlpool (keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			break;
+
+
+		default:
+			// Unknown/wrong ID
+			crypto_close (cryptoInfo);
+			TC_THROW_FATAL_EXCEPTION;
+		}
+	}
+	else
+	{
+		// generate a random key
+		if (!RandgetBytes(hwndDlg, dk, GetMaxPkcs5OutSize(), !bWipeMode))
+		{
+			crypto_close (cryptoInfo);
+			return ERR_CIPHER_INIT_WEAK_KEY; 
+		}
 	}
 
 	/* Header setup */
@@ -950,6 +978,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 		|| sectorSize > TC_MAX_VOLUME_SECTOR_SIZE
 		|| sectorSize % ENCRYPTION_DATA_UNIT_SIZE != 0)
 	{
+		crypto_close (cryptoInfo);
 		TC_THROW_FATAL_EXCEPTION;
 	}
 
@@ -978,11 +1007,17 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 
 	retVal = EAInit (cryptoInfo->ea, dk + primaryKeyOffset, cryptoInfo->ks);
 	if (retVal != ERR_SUCCESS)
+	{
+		crypto_close (cryptoInfo);
 		return retVal;
+	}
 
 	// Mode of operation
 	if (!EAInitMode (cryptoInfo))
+	{
+		crypto_close (cryptoInfo);
 		return ERR_OUTOFMEMORY;
+	}
 
 
 	// Encrypt the entire header (except the salt)
@@ -996,7 +1031,10 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	// Init with the master key(s)
 	retVal = EAInit (cryptoInfo->ea, keyInfo.master_keydata + primaryKeyOffset, cryptoInfo->ks);
 	if (retVal != ERR_SUCCESS)
+	{
+		crypto_close (cryptoInfo);
 		return retVal;
+	}
 
 	memcpy (cryptoInfo->master_keydata, keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
 
@@ -1010,7 +1048,10 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 
 	// Mode of operation
 	if (!EAInitMode (cryptoInfo))
+	{
+		crypto_close (cryptoInfo);
 		return ERR_OUTOFMEMORY;
+	}
 
 
 #ifdef VOLFORMAT
