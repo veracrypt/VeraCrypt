@@ -107,7 +107,8 @@ enum
 	AES,
 	SERPENT,
 	TWOFISH,
-	CAMELLIA
+	CAMELLIA,
+	GOST89
 };
 
 typedef struct
@@ -189,9 +190,10 @@ typedef struct
 #ifndef TC_WINDOWS_BOOT
 #	include "Sha2.h"
 #	include "Whirlpool.h"
-#  include "Camellia.h"
+#	include "GostCipher.h"
+#	include "Camellia.h"
 #else
-#  include "CamelliaSmall.h"
+#	include "CamelliaSmall.h"
 #endif
 
 #include "GfMul.h"

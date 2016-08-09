@@ -202,12 +202,23 @@
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
+    <CustomBuild Include="Gost89_x64.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Aeskey.c" />
     <ClCompile Include="Aestab.c" />
     <ClCompile Include="Camellia.c" />
     <ClCompile Include="cpu.c" />
+    <ClCompile Include="GostCipher.c" />
     <ClCompile Include="Rmd160.c" />
     <ClCompile Include="Serpent.c" />
     <ClCompile Include="Sha2.c" />
@@ -222,6 +233,7 @@
     <ClInclude Include="Camellia.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="cpu.h" />
+    <ClInclude Include="GostCipher.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="Rmd160.h" />
     <ClInclude Include="Serpent.h" />

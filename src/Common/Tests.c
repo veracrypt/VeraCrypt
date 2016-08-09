@@ -497,7 +497,11 @@ void CipherInit2(int cipher, void* key, void* ks, int key_len)
 	case CAMELLIA:
 		CipherInit(cipher,key,ks);
 		break;
-
+#if defined(CIPHER_GOST89)
+	case GOST89:
+		CipherInit(cipher,key,ks);
+		break;
+#endif // defined(CIPHER_GOST89)
 	default:
 		/* Unknown/wrong ID */
 		TC_THROW_FATAL_EXCEPTION;
@@ -925,8 +929,11 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 
 		nTestsPerformed++;
 	}
-
-	return (nTestsPerformed == 90);
+#if defined(CIPHER_GOST89)
+	return (nTestsPerformed == 100);
+#else
+	return (nTestsPerformed == 95);
+#endif
 }
 
 static BOOL DoAutoTestAlgorithms (void)

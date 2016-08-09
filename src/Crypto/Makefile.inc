@@ -8,6 +8,9 @@ TC_ASFLAGS = $(TC_ASFLAGS) -f win64
 
 TC_ASM_ERR_LOG = ..\Driver\build_errors_asm.log
 
+"$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).obj": gost89_$(TC_ARCH).asm
+	nasm.exe $(TC_ASFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).lst" gost89_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
+
 "$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).obj": Aes_$(TC_ARCH).asm
 	nasm.exe $(TC_ASFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).lst" Aes_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
 

@@ -42,6 +42,9 @@
     <ClCompile Include="Whirlpool.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GostCipher.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -83,6 +86,9 @@
     <ClInclude Include="Whirlpool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GostCipher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Aes_hw_cpu.asm">
@@ -92,6 +98,9 @@
       <Filter>Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Aes_x86.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Gost89_x64.asm">
       <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>

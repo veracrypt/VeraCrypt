@@ -23,6 +23,7 @@
 #include "Volumes.h"
 #include "cpu.h"
 
+#pragma warning (disable:4706) // assignment within conditional expression
 /* Update the following when adding a new cipher or EA:
 
    Crypto.h:
@@ -54,6 +55,9 @@ static Cipher Ciphers[] =
 	{ SERPENT,	L"Serpent",		16,			32,			140*4				},
 	{ TWOFISH,	L"Twofish",		16,			32,			TWOFISH_KS			},
 	{ CAMELLIA,	L"Camellia",	16,			32,			CAMELLIA_KS			},
+#if defined(CIPHER_GOST89)
+	{ GOST89,	L"GOST89",		16,			32,			GOST_KS },
+#endif  // defined(CIPHER_GOST89)
 #endif
 	{ 0,		0,				0,			0,			0					}
 };
@@ -71,6 +75,9 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { SERPENT,				0 }, { XTS, 0 },			1 },
 	{ { TWOFISH,				0 }, { XTS, 0 },			1 },
 	{ { CAMELLIA,				0 }, { XTS, 0 },			1 },
+#if defined(CIPHER_GOST89)
+	{ { GOST89,					0 }, { XTS, 0 },	1 },
+#endif  // defined(CIPHER_GOST89)
 	{ { TWOFISH, AES,			0 }, { XTS, 0 },	1 },
 	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1 },
 	{ { AES, SERPENT,			0 }, { XTS, 0 },	1 },
@@ -143,6 +150,14 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 		break;
 #endif
 
+#if !defined(TC_WINDOWS_BOOT) 
+#if defined(CIPHER_GOST89)
+	case GOST89:
+		gost_set_key(key, (gost_kds*)ks);
+		break;
+#endif // && defined(CIPHER_GOST89)
+#endif // !defined(TC_WINDOWS_BOOT)
+
 	default:
 		// Unknown/wrong cipher ID
 		return ERR_CIPHER_INIT_FAILURE;
@@ -170,6 +185,11 @@ void EncipherBlock(int cipher, void *data, void *ks)
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
 	case CAMELLIA:		camellia_encrypt (data, data, ks); break;
 #endif
+#if !defined(TC_WINDOWS_BOOT)
+#if defined(CIPHER_GOST89)
+	case GOST89:		gost_encrypt(data, data, ks, 1); break;
+#endif // defined(CIPHER_GOST89)
+#endif // !defined(TC_WINDOWS_BOOT) 
 	default:			TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
 }
@@ -203,6 +223,9 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}
+	else if (cipher == GOST89)	{
+			gost_encrypt(data, data, ks, (int)blockCount);
+	}
 	else
 	{
 		size_t blockSize = CipherGetBlockSize (cipher);
@@ -225,6 +248,13 @@ void DecipherBlock(int cipher, void *data, void *ks)
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
 	case CAMELLIA:	camellia_decrypt (data, data, ks); break;
 #endif
+#if !defined(TC_WINDOWS_BOOT)
+#if defined(CIPHER_GOST89)
+	case GOST89:	gost_decrypt(data, data, ks, 1); break;
+#endif // defined(CIPHER_GOST89)
+#endif // !defined(TC_WINDOWS_BOOT)
+
+
 #ifndef TC_WINDOWS_BOOT
 
 	case AES:
@@ -271,6 +301,9 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
+	}
+	else if (cipher == GOST89)	{
+			gost_decrypt(data, data, ks, (int)blockCount);
 	}
 	else
 	{
@@ -340,7 +373,8 @@ int CipherGetKeyScheduleSize (int cipherId)
 
 BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 {
-	return cipher == AES && IsAesHwCpuSupported();
+	return cipher == AES && IsAesHwCpuSupported() ||
+		cipher == GOST89;
 }
 
 #endif
