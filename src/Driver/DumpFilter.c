@@ -94,7 +94,17 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	// Check dump volume is located within the scope of system encryption
 	status = SendDeviceIoControlRequest (filterExtension->DeviceObject, IOCTL_DISK_GET_PARTITION_INFO, NULL, 0, &partitionInfo, sizeof (partitionInfo));
 	if (!NT_SUCCESS (status))
-		goto err;
+	{
+		PARTITION_INFORMATION_EX partitionInfoEx;
+		status = SendDeviceIoControlRequest (filterExtension->DeviceObject, IOCTL_DISK_GET_PARTITION_INFO_EX, NULL, 0, &partitionInfoEx, sizeof (partitionInfoEx));
+		if (!NT_SUCCESS (status))
+		{
+			goto err;
+		}
+
+		// we only need starting offset
+		partitionInfo.StartingOffset = partitionInfoEx.StartingOffset;
+	}
 
 	DumpPartitionOffset = partitionInfo.StartingOffset;
 
