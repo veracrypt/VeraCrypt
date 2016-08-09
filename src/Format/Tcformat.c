@@ -931,11 +931,13 @@ static BOOL SysDriveOrPartitionFullyEncrypted (BOOL bSilent)
 BOOL SwitchWizardToSysEncMode (void)
 {
 	WaitCursor ();
+	SystemDriveConfiguration config;
 
 	try
 	{
 		BootEncStatus = BootEncObj->GetStatus();
 		bWholeSysDrive = BootEncObj->SystemPartitionCoversWholeDrive();
+		config = BootEncObj->GetSystemDriveConfiguration ();
 	}
 	catch (Exception &e)
 	{
@@ -1412,6 +1414,18 @@ void ComboSelChangeEA (HWND hwndDlg)
 			StringCbPrintfW (hyperLink, sizeof(hyperLink) / 2, GetString ("MORE_INFO_ABOUT"), name);
 
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("TWOFISH_HELP"));
+		}
+		else if (wcsncmp (name, L"GOST89", 6) == 0)
+		{
+			StringCbPrintfW (hyperLink, sizeof(hyperLink) / 2, GetString ("MORE_INFO_ABOUT"), L"GOST89");
+
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("GOST89_HELP"));
+		}
+		else if (wcscmp (name, L"Kuznyechik") == 0)
+		{
+			StringCbPrintfW (hyperLink, sizeof(hyperLink) / 2, GetString ("MORE_INFO_ABOUT"), name);
+
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("KUZNYECHIK_HELP"));
 		}
 		else if (wcscmp (name, L"Camellia") == 0)
 		{
@@ -3612,6 +3626,14 @@ static BOOL FileSize4GBLimitQuestionNeeded (void)
 }
 
 
+void BlockIfGpt(HWND control) {
+   SystemDriveConfiguration config = BootEncObj->GetSystemDriveConfiguration();
+
+   if (config.SystemPartition.IsGPT) {
+      EnableWindow(control, FALSE);
+   }
+}
+
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
    not. - see DialogProc */
@@ -3669,6 +3691,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SendMessage (GetDlgItem (hwndDlg, IDC_SYSENC_HIDDEN), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 			SendMessage (GetDlgItem (hwndDlg, IDC_SYSENC_NORMAL), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 
+			BlockIfGpt(GetDlgItem(hwndDlg, IDC_SYSENC_HIDDEN));
+
 			CheckButton (GetDlgItem (hwndDlg, bHiddenOS ? IDC_SYSENC_HIDDEN : IDC_SYSENC_NORMAL));
 
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("SYSENC_HIDDEN_TYPE_HELP"));
@@ -3708,6 +3732,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (hwndDlg, IDT_WHOLE_SYS_DRIVE), GetString ("SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP"));
 
 			CheckButton (GetDlgItem (hwndDlg, bWholeSysDrive ? IDC_WHOLE_SYS_DRIVE : IDC_SYS_PARTITION));
+			BlockIfGpt(GetDlgItem(hwndDlg, IDC_WHOLE_SYS_DRIVE));
 
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
@@ -3785,7 +3810,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDCANCEL), GetString ("CANCEL"));
 
 			RefreshMultiBootControls (hwndDlg);
-
+			BlockIfGpt(GetDlgItem(hwndDlg, IDC_MULTI_BOOT));
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), nMultiBoot > 0);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), TRUE);
@@ -4061,13 +4086,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (SysEncInEffect ())
 				{
-					hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
+					BOOL bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
+					hash_algo = bIsGPT? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
 					RandSetHashFunction (hash_algo);
 
 					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 					{
 						// For now, we keep RIPEMD160 for system encryption
-						if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && HashForSystemEncryption (hid))
+						if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && (bIsGPT || HashForSystemEncryption (hid)))
 							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
 					}
 				}
@@ -4461,8 +4487,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetDlgItemText (hwndDlg, IDC_RESCUE_DISK_ISO_PATH, szRescueDiskISO);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), (GetWindowTextLength (GetDlgItem (hwndDlg, IDC_RESCUE_DISK_ISO_PATH)) > 1));
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
-			SetCheckBox (hCurPage, IDC_SKIP_RESCUE_VERIFICATION, bDontVerifyRescueDisk);
 
+			// For now, disable verification of Rescue Disk for GPT system encryption
+			{
+				SystemDriveConfiguration config = BootEncObj->GetSystemDriveConfiguration();
+				bDontVerifyRescueDisk = config.SystemPartition.IsGPT;
+				SetCheckBox (hCurPage, IDC_SKIP_RESCUE_VERIFICATION, bDontVerifyRescueDisk);
+				EnableWindow(GetDlgItem (hwndDlg, IDC_SKIP_RESCUE_VERIFICATION), !config.SystemPartition.IsGPT);
+			}
 			break;
 
 		case SYSENC_RESCUE_DISK_BURN_PAGE:
@@ -5443,13 +5475,20 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_BENCHMARK && nCurPageNo == CIPHER_PAGE)
 		{
+			BOOL bIsGPT = FALSE;
+			try
+			{
+				bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
+			}
+			catch (...) {}
+
 			// Reduce CPU load
 			bFastPollEnabled = FALSE;
 			bRandmixEnabled = FALSE;
 
 			DialogBoxParamW (hInst,
 				MAKEINTRESOURCEW (IDD_BENCHMARK_DLG), hwndDlg,
-				(DLGPROC) BenchmarkDlgProc, (LPARAM) NULL);
+				(DLGPROC) BenchmarkDlgProc, (LPARAM) bIsGPT);
 
 			bFastPollEnabled = TRUE;
 			bRandmixEnabled = TRUE;
@@ -5471,6 +5510,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Applink ("serpent", FALSE, "");
 			else if (wcscmp (name, L"Twofish") == 0)
 				Applink ("twofish", FALSE, "");
+			else if (wcscmp (name, L"GOST89") == 0)
+				Applink ("gost89", FALSE, "");
+			else if (wcscmp (name, L"Kuznyechik") == 0)
+				Applink ("kuznyechik", FALSE, "");
 			else if (wcscmp (name, L"Camellia") == 0)
 				Applink ("camellia", FALSE, "");
 			else if (EAGetCipherCount (nIndex) > 1)
@@ -5793,7 +5836,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					HWND hHashAlgoItem = GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO);
 					int selectedAlgo = (int) SendMessage (hHashAlgoItem, CB_GETITEMDATA, SendMessage (hHashAlgoItem, CB_GETCURSEL, 0, 0), 0);
-					if (!HashForSystemEncryption(selectedAlgo))
+					BOOL bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
+					if (!bIsGPT && !HashForSystemEncryption(selectedAlgo))
 					{
 						hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
 						RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);
@@ -7332,10 +7376,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			else if (nCurPageNo == CIPHER_PAGE)
 			{
 				LPARAM nIndex;
+				BOOL bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 				nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
 				nVolumeEA = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 
-				if (SysEncInEffect ()
+				if (!bIsGPT && SysEncInEffect ()
 					&& EAGetCipherCount (nVolumeEA) > 1)		// Cascade?
 				{
 					if (AskWarnNoYes ("CONFIRM_CASCADE_FOR_SYS_ENCRYPTION", hwndDlg) == IDNO)
@@ -8033,7 +8078,7 @@ retryCDDriveCheck:
 					}
 #endif
 
-					BootEncObj->Install (bHiddenOS ? true : false);
+					BootEncObj->Install (bHiddenOS ? true : false, hash_algo);
 				}
 				catch (Exception &e)
 				{

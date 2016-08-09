@@ -504,9 +504,17 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			int i, nIndex = SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
+			BOOL bIsGPT = FALSE;
+			try
+			{
+				BootEncryption BootEncObj (hwndDlg);
+				bIsGPT = BootEncObj.GetSystemDriveConfiguration().SystemPartition.IsGPT;
+			}
+			catch (...) {}
+
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				if (HashForSystemEncryption(i))
+				if (bIsGPT || HashForSystemEncryption(i))
 				{
 					nIndex = SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);

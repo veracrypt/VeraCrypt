@@ -510,6 +510,9 @@ void AllowMessageInUIPI (UINT msg);
 BOOL IsRepeatedByteArray (byte value, const byte* buffer, size_t bufferSize);
 BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue);
 BOOL CopyTextToClipboard (const wchar_t* txtValue);
+BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_t* args);
+BOOL GetFreeDriveLetter(WCHAR* pCh);
+BOOL RaisePrivileges(void);
 
 #ifdef __cplusplus
 }
