@@ -537,12 +537,12 @@ namespace VeraCrypt
 		{
 			virtual void operator() (string &passwordStr)
 			{
-                if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
-                {
-        			passwordStr.clear();
-        			passwordStr.insert (0, (char*) CmdLine->ArgTokenPin->Ptr (), CmdLine->ArgTokenPin->Size());
-                    return;
-                }
+				if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+				{
+					passwordStr.clear();
+					passwordStr.insert (0, (char*) CmdLine->ArgTokenPin->Ptr (), CmdLine->ArgTokenPin->Size());
+					return;
+				}
 
 				if (Gui->GetPreferences().NonInteractive)
 					throw MissingArgument (SRC_POS);
@@ -1162,6 +1162,14 @@ namespace VeraCrypt
 		else if (linkId == L"camellia")
 		{
 			url = L"https://veracrypt.codeplex.com/wikipage?title=Camellia";
+		}
+		else if (linkId == L"GOST89")
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=GOST89";
+		}
+		else if (linkId == L"Kuznyechik")
+		{
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Kuznyechik";
 		}
 		else if (linkId == L"cascades")
 		{
