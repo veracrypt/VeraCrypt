@@ -1077,7 +1077,7 @@
     <string lang="cs" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt na Windows Vista, kde není nainstalován žádný Service Pack, již nepodporuje šifrování systémových oddílů/disků. Před aktualizací VeraCryptu si prosím nainstalujte Service Pack 1 nebo vyšší.</string>
     <string lang="cs" key="FEATURE_REQUIRES_INSTALLATION">Chyba: Tato vlastnost vyžaduje, aby byl VeraCrypt nainstalován na vašem systému (aktuálně běží VeraCrypt v přenosném módu).\n\nNainstalujte, prosím, VeraCrypt, a pak to zkuste znovu.</string>
     <string lang="cs" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">VAROVÁNÍ: Zdá se, že Windows nejsou nainstalovány na stejném disku, jako odkud se spouští. To není podporováno.\n\nMěli byste pokračovat pouze tehdy, pokud jste si jisti, že Windows jsou nainstalovány na disku, odkud bootují.\n\nChcete pokračovat?</string>
-    <string lang="cs" key="GPT_BOOT_DRIVE_UNSUPPORTED">Váš systémový disk obsahuje GUID tabulku oddílů (GPT). Momentálně jsou podporovány jen disky s MBR tabulkou oddílů.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="cs" key="TC_BOOT_LOADER_ALREADY_INSTALLED">VAROVÁNÍ: Bootovací zavaděč VeraCryptu je již na vašem systémovém disku nainstalován!\n\nJe možné, že jiný systém na vašem počítači je již zašifrován.\n\nVAROVÁNÍ: BUDETE-LI POKRAČOVAT V ŠIFROVÁNÍ NYNÍ BĚŽÍCÍHO SYTÉMU, OSTATNÍ SYSTÉM NEMUSÍ POTÉ NABĚHNOUT A JEJICH DATA MOHOU BÝT NEPŘÍSTUPNÁ.\n\nJste si jisti, že chcete pokračovat?</string>
     <string lang="cs" key="SYS_LOADER_RESTORE_FAILED">Obnovení původního systémového zavaděče selhalo.\n\nPoužijte prosím váš Záchranný disk VeraCrypt ('Volby opravy' &gt; 'Obnovit původní systémový zavaděč') nebo instalační médium Windows a nahraďte bootovací zavaděč VeraCryptu systémovým zavaděčem Windows.</string>
     <string lang="cs" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Původní systémový zavaděč nebude uložen na Záchranném disku (pravděpodobná příčina: chybějící záložní soubor).</string>
@@ -1399,6 +1399,9 @@
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
     <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>

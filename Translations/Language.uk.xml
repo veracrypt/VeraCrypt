@@ -1077,7 +1077,7 @@
     <string lang="uk" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt більше не підтримує шифрування системного розділу/диску в Windows Vista без встановленого пакета оновлення (Service Pack). Перш ніж оновити VeraCrypt, встановіть Service Pack 1 (або новіший) для Windows Vista.</string>
     <string lang="uk" key="FEATURE_REQUIRES_INSTALLATION">Помилка! Щоб скористатися даною функцією, потрібно щоб VeraCrypt був встановлений на цьому комп’ютері (зараз ви використовуєте VeraCrypt в 'портативному' режимі).\n\nВстановіть (інсталюйте) VeraCrypt і повторіть спробу.</string>
     <string lang="uk" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">Помилка! Windows не встановлений на диску, з якого він завантажується. Це не підтримується.</string>
-    <string lang="uk" key="GPT_BOOT_DRIVE_UNSUPPORTED">Ваш системний диск має таблицю розділів GUID (GPT). На даний момент підтримуються тільки диски з таблицею розділів MBR.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="uk" key="TC_BOOT_LOADER_ALREADY_INSTALLED">ОБЕРЕЖНО: На системному диску вже встановлено завантажувач VeraCrypt!\n\nМожливо, у вашому комп'ютер є інша вже Зашифрована система.\n\nУВАГА: У разі продовження Шифрування поточна система є вірогідність, що ІНШІ СИСТЕМИ НЕ зможуть завантажувати, А СТОСУЮТЬСЯ НИМ ДАНІ стануть недоступними.\n\nВи дійсно бажаєте продовжити?</string>
     <string lang="uk" key="SYS_LOADER_RESTORE_FAILED">Помилка відновлення початкового завантажувача системи.\n\nВикористовується інсталяційний диск Windows, щоб замінити завантажувач VeraCrypt системний завантажувач Windows.</string>
     <string lang="uk" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Вихідний системний завантажувач не буде збережений на диску відновлення (можлива причина: немає файлу з резервної копією).</string>
@@ -1399,6 +1399,9 @@
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
     <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>

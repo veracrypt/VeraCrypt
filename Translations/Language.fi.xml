@@ -1077,7 +1077,7 @@
     <string lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt no longer supports encryption of the system partition/drive on Windows Vista with no Service Pack installed. Before upgrading VeraCrypt, please install Service Pack 1 or higher for Windows Vista.</string>
     <string lang="fi" key="FEATURE_REQUIRES_INSTALLATION">Virhe: Tämä ominaisuus vaatii, että VeraCrypt on asennettuna järjestelmään (käytät VeraCrypt ohjelmaa liikutettavassa tilassa).\n\nOle hyvä ja asenna VeraCrypt ja sitten yritä uudelleen.</string>
     <string lang="fi" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">VAROITUS: Windows ei ole asennettu samalle asemalle kuin mistä se käynnistetään. Tämä ei ole tuettuna.\n\nSinun tulee jatkaa ainoastaan vain jos olet varma että Windows on asennettuna asemalle josta se käynnistetään.\n\nHaluatko jatkaa?</string>
-    <string lang="fi" key="GPT_BOOT_DRIVE_UNSUPPORTED">Järjestelmäsi asemassa on GUID partitio taulu (GPT). Nykyisin vain aseman MBR osio taulu on tuettuna.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="fi" key="TC_BOOT_LOADER_ALREADY_INSTALLED">VAROITUS: VeraCrypt Käynnistyslataaja on jo asennettu järjestelmälevylle!\n\nOn mahdollista että koneen toinen käyttöjärjestelmä on jo salattu.\n\nVAROITUS: SUORITTAMALLA SALAUKSEN NYKYISELLE AJETTAVALLE JÄRJESTELMÄLLE SAATTAA TOINEN JÄRJESTELMÄ(T) MAHDOTTOMAKSI KÄYNNISTÄÄ JA ASIANOMAINEN MAHDOTONTA KÄYTTÄÄ.\n\nOletko varma, että haluat jatkaa?</string>
     <string lang="fi" key="SYS_LOADER_RESTORE_FAILED">Alkuperäisen järjestelmälataajan palautus ei onnistunut.\n\nKäytä VeraCrypt Pelastuslevyä ('Korjaa Valinta' &gt; 'Palauta alkuperäinen järjestelmä lataaja') tai Windows asennusohjelmalla korvataksesi VeraCrypt käynnistyslataajan Windows järjestelmälataajalla.</string>
     <string lang="fi" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Alkuperäinen järjestelmä lataaja ei ole talletettu Pelastuslevylle (mahdollinen syy: puuttuva varmuuskopio tiedosto).</string>
@@ -1399,6 +1399,9 @@
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
     <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>

@@ -1077,7 +1077,7 @@
     <string lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt no longer supports encryption of the system partition/drive on Windows Vista with no Service Pack installed. Before upgrading VeraCrypt, please install Service Pack 1 or higher for Windows Vista.</string>
     <string lang="ko" key="FEATURE_REQUIRES_INSTALLATION">오류: 이 기능은 (현재 VeraCrypt가 포터블 모드로 실행 되고 있는) 시스템에 VeraCrypt가 설치되어 있을 것을 요구합니다.\n\nVeraCrypt를 다시 설치한 후 다시 시도해 주십시오.</string>
     <string lang="ko" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">주의: 부팅이 되는 드라이브에 윈도우가 설치되지 않은 것으로 보입니다. 이 작업은 지원되지 않습니다.\n\n부팅이 되는 드라이브에 윈도우가 설치된 경우에만 계속 진행해야 합니다.\n\n계속하시겠습니까?</string>
-    <string lang="ko" key="GPT_BOOT_DRIVE_UNSUPPORTED">시스템 드라이브에 GUID 파티션 테이블(GPT)이 있습니다. 현재 MBR 파티션 테이블을 가진 드라이브만 지원합니다.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="ko" key="TC_BOOT_LOADER_ALREADY_INSTALLED">주의: VeraCrypt 부트 로더가 이미 시스템 드라이브에 설치되어 있습니다!\n\n컴퓨터 상의 다른 시스템이 이미 암호화되어 있을 수도 있습니다.\n\n주의: 현재 실행 중인 시스템의 암호화로 진행하면 다른 시스템이 시작이 안되고 관련 데이터에 접근할 수 없게될 지도 모릅니다.\n\n그래도 계속하시겠습니까?</string>
     <string lang="ko" key="SYS_LOADER_RESTORE_FAILED">원래의 시스템 로더를 복구하는 데 실패했습니다.\n\nVeraCrypt 응급복구 디스크를 사용하거나(→ “Repair Options” 메뉴에서 “Restore original system loader”를 선택), VeraCrypt 부트 로더를 윈도우 시스템 로더로 교체하려면 윈도우 설치 매체를 사용해 주십시오.</string>
     <string lang="ko" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">원래의 시스템 로더가 응급복구 디스크에 저장되지 않을 것입니다 (원인: 백업 파일 분실).</string>
@@ -1399,6 +1399,9 @@
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
     <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>

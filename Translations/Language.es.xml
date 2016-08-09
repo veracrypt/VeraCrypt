@@ -1077,7 +1077,7 @@
     <string lang="es" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt ya no soporta el cifrado de la partición/unidad del sistema en Windows Vista sin ningún Service Pack. Antes de actualizar VeraCrypt, instale Service Pack 1 o posterior para Windows Vista.</string>
     <string lang="es" key="FEATURE_REQUIRES_INSTALLATION">Error: Esta característica requiere que se instale VeraCrypt en este sistema (actualmente está ejecutando VeraCrypt en modo portable).\n\nInstale VeraCrypt y reinténtelo.</string>
     <string lang="es" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">AVISO: Windows no parece estar instalado en la unidad desde la que él mismo arranca. Esto no está soportado.\n\nDebería continuar sólo si está seguro de que Windows está instalado en la unidad desde la que arranca.\n\n¿Desea continuar?</string>
-    <string lang="es" key="GPT_BOOT_DRIVE_UNSUPPORTED">Su unidad del sistema tiene una Tabla de Particiones GUID (GPT). Actualmente, sólo se soportan unidades con Tabla de Particiones MBR.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="es" key="TC_BOOT_LOADER_ALREADY_INSTALLED">PRECAUCIÓN: ¡El Cargador de Arranque VeraCrypt ya está instalado en su unidad del sistema!\n\nEs posible que otro sistema en su ordenador esté ya cifrado.\n\nAVISO: CONTINUAR CON EL CIFRADO DEL SISTEMA ACTUAL PUEDE HACE QUE OTROS SISTEMAS NO PUEDAN INICIARSE Y SUS DATOS SEAN INACCESIBLES.\n\n¿Seguro que desea continuar?</string>
     <string lang="es" key="SYS_LOADER_RESTORE_FAILED">Fallo al restaurar el cargador original del sistema.\n\nUse su Disco de Rescate VeraCrypt ('Opciones de Reparación' &gt; 'Restaurar cargador original del sistema') o un medio de instalación de Windows para reemplazar el Cargador de Arranque de VeraCrypt con el cargador del sistema de Windows.</string>
     <string lang="es" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">El cargador original del sistema no será guardado en el Disco de Rescate (causa probable: archivo de copia de seguridad perdido).</string>
@@ -1399,6 +1399,9 @@
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
     <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>
