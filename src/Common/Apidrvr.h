@@ -26,23 +26,77 @@
 
 #define TC_IOCTL(CODE) (CTL_CODE (FILE_DEVICE_UNKNOWN, 0x800 + (CODE), METHOD_BUFFERED, FILE_ANY_ACCESS))
 
+// IOCTL interface to \\device\veracrypt
+
+// Gets version of driver
+// OUT struct - LONG
 #define TC_IOCTL_GET_DRIVER_VERSION						TC_IOCTL (1)
+
+// Gets boot loader version
+// OUT struct - int16
 #define TC_IOCTL_GET_BOOT_LOADER_VERSION				TC_IOCTL (2)
+
+// Mount volume to \\Device\VeraCryptVolume"X"
+// IN OUT - MOUNT_STRUCT
 #define TC_IOCTL_MOUNT_VOLUME							TC_IOCTL (3)
+
+// Dismount volume
+// IN OUT - UNMOUNT_STRUCT
 #define TC_IOCTL_DISMOUNT_VOLUME						TC_IOCTL (4)
+
+// Dismount all volumes
+// IN OUT - UNMOUNT_STRUCT
 #define TC_IOCTL_DISMOUNT_ALL_VOLUMES					TC_IOCTL (5)
+
+// Get list of all mounted volumes
+// IN OUT - MOUNT_LIST_STRUCT (only 26 volumes possible)
 #define TC_IOCTL_GET_MOUNTED_VOLUMES					TC_IOCTL (6)
+
+// Get properties of the volume selected by driveNo
+// In OUT - VOLUME_PROPERTIES_STRUCT
 #define TC_IOCTL_GET_VOLUME_PROPERTIES					TC_IOCTL (7)
+
+// Get reference count to main device object
+// OUT - int
 #define TC_IOCTL_GET_DEVICE_REFCOUNT					TC_IOCTL (8)
+
+// Is it possible to unload driver 
+// It check file system cache of mounted drives via unmount IOCTL.
+// OUT - int
 #define TC_IOCTL_IS_DRIVER_UNLOAD_DISABLED				TC_IOCTL (9)
+
+// Is there any mounted device
+// OUT - int
 #define TC_IOCTL_IS_ANY_VOLUME_MOUNTED					TC_IOCTL (10)
+
+// Check password cache
+// Result in IOCTL result TRUE if there is chached passwords
 #define TC_IOCTL_GET_PASSWORD_CACHE_STATUS				TC_IOCTL (11)
+
+// Clean password cache
 #define TC_IOCTL_WIPE_PASSWORD_CACHE					TC_IOCTL (12)
+
+// Check file/drive container
+// IN OUT - OPEN_TEST_STRUCT
 #define TC_IOCTL_OPEN_TEST								TC_IOCTL (13)
+
+// result of IOCTL_DISK_GET_PARTITION_INFO
+// IN OUT - DISK_PARTITION_INFO_STRUCT
+// TODO: need IOCTL_DISK_GET_PARTITION_INFO_EX to support GPT
 #define TC_IOCTL_GET_DRIVE_PARTITION_INFO				TC_IOCTL (14)
+
+// result IOCTL_DISK_GET_DRIVE_GEOMETRY
+// IN OUT - DISK_GEOMETRY_STRUCT
 #define TC_IOCTL_GET_DRIVE_GEOMETRY						TC_IOCTL (15)
+
+// result IOCTL_DISK_GET_LENGTH_INFO
+// IN OUT - ProbeRealDriveSizeRequest
 #define TC_IOCTL_PROBE_REAL_DRIVE_SIZE					TC_IOCTL (16)
+
+// result of ZwQuerySymbolicLinkObject
+// IN OUT RESOLVE_SYMLINK_STRUCT
 #define TC_IOCTL_GET_RESOLVED_SYMLINK					TC_IOCTL (17)
+
 #define TC_IOCTL_GET_BOOT_ENCRYPTION_STATUS				TC_IOCTL (18)
 #define TC_IOCTL_BOOT_ENCRYPTION_SETUP					TC_IOCTL (19)
 #define TC_IOCTL_ABORT_BOOT_ENCRYPTION_SETUP			TC_IOCTL (20)
@@ -287,7 +341,7 @@ typedef struct
 typedef struct
 {
 	WipeAlgorithmId WipeAlgorithm;
-	byte WipeKey[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) byte WipeKey[MASTER_KEYDATA_SIZE];
 } WipeDecoySystemRequest;
 
 typedef struct

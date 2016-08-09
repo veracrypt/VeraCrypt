@@ -262,7 +262,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 	unsigned __int64 nSecNo = startSector;
 	int x, n;
 	int retVal;
-	char temporaryKey[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
 	HWND hwndDlg = (HWND) hwndDlgPtr;
 
 	LARGE_INTEGER startOffset;

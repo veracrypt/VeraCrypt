@@ -51,8 +51,8 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 	unsigned __int64 nSecNo = startSector;
 	int retVal = 0;
 	DWORD err;
-	char temporaryKey[MASTER_KEYDATA_SIZE];
-	char originalK2[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) char temporaryKey[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) char originalK2[MASTER_KEYDATA_SIZE];
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
