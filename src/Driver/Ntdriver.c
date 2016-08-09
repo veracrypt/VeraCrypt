@@ -77,6 +77,8 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 
 	PsGetVersion (&OsMajorVersion, &OsMinorVersion, NULL, NULL);
 
+	Dump ("OsMajorVersion=%d OsMinorVersion=%d\n", OsMajorVersion, OsMinorVersion);
+
 	// Load dump filter if the main driver is already loaded
 	if (NT_SUCCESS (TCDeviceIoControl (NT_ROOT_PREFIX, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &version, sizeof (version))))
 		return DumpFilterEntry ((PFILTER_EXTENSION) DriverObject, (PFILTER_INITIALIZATION_DATA) RegistryPath);
@@ -118,7 +120,7 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 
 NTSTATUS DriverAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 {
-#ifdef DEBUG
+#if defined(DEBUG) || defined (DEBUG_TRACE)
 	char nameInfoBuffer[128];
 	POBJECT_NAME_INFORMATION nameInfo = (POBJECT_NAME_INFORMATION) nameInfoBuffer;
 	ULONG nameInfoSize;
@@ -425,7 +427,7 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 	PEXTENSION Extension;
 	NTSTATUS ntStatus;
 	ULONG devChars = 0;
-#if defined (DEBUG)
+#if defined (DEBUG) || defined (DEBUG_TRACE)
 	WCHAR dosname[32];
 #endif
 
@@ -434,7 +436,7 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 
 	TCGetNTNameFromNumber (ntname, sizeof(ntname),mount->nDosDriveNo);
 	RtlInitUnicodeString (&ntUnicodeString, ntname);
-#if defined (DEBUG)
+#if defined (DEBUG) || defined (DEBUG_TRACE)
 	TCGetDosNameFromNumber (dosname, sizeof(dosname),mount->nDosDriveNo, DeviceNamespaceDefault);
 #endif
 
@@ -442,7 +444,9 @@ NTSTATUS TCCreateDeviceObject (PDRIVER_OBJECT DriverObject,
 	devChars |= mount->bMountReadOnly ? FILE_READ_ONLY_DEVICE : 0;
 	devChars |= mount->bMountRemovable ? FILE_REMOVABLE_MEDIA : 0;
 
+#if defined (DEBUG) || defined (DEBUG_TRACE)
 	Dump ("Creating device nt=%ls dos=%ls\n", ntname, dosname);
+#endif
 
 	ntStatus = IoCreateDevice (
 					  DriverObject,			/* Our Driver Object */
@@ -503,6 +507,11 @@ void RootDeviceControlMutexRelease ()
 	KeReleaseMutex (&RootDeviceControlMutex, FALSE);
 }
 
+/*
+IOCTL_STORAGE_GET_DEVICE_NUMBER 0x002D1080 
+IOCTL_STORAGE_GET_HOTPLUG_INFO 0x002D0C14
+IOCTL_STORAGE_QUERY_PROPERTY 0x002D1400
+*/
 
 NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension, PIRP Irp)
 {
@@ -512,6 +521,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	{
 
 	case IOCTL_MOUNTDEV_QUERY_DEVICE_NAME:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_MOUNTDEV_QUERY_DEVICE_NAME)\n");
 		if (!ValidateIOBufferSize (Irp, sizeof (MOUNTDEV_NAME), ValidateOutput))
 		{
 			Irp->IoStatus.Information = sizeof (MOUNTDEV_NAME);
@@ -548,6 +558,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_MOUNTDEV_QUERY_UNIQUE_ID:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_MOUNTDEV_QUERY_UNIQUE_ID)\n");
 		if (!ValidateIOBufferSize (Irp, sizeof (MOUNTDEV_UNIQUE_ID), ValidateOutput))
 		{
 			Irp->IoStatus.Information = sizeof (MOUNTDEV_UNIQUE_ID);
@@ -583,6 +594,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_MOUNTDEV_QUERY_SUGGESTED_LINK_NAME:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_MOUNTDEV_QUERY_SUGGESTED_LINK_NAME)\n");
 		{
 			ULONG outLength;
 			UNICODE_STRING ntUnicodeString;
@@ -622,6 +634,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_DISK_GET_MEDIA_TYPES:
 	case IOCTL_DISK_GET_DRIVE_GEOMETRY:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_GEOMETRY)\n");
 		/* Return the drive geometry for the disk.  Note that we
 		   return values which were made up to suit the disk size.  */
 		if (ValidateIOBufferSize (Irp, sizeof (DISK_GEOMETRY), ValidateOutput))
@@ -640,6 +653,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_STORAGE_QUERY_PROPERTY:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_QUERY_PROPERTY)\n");
 		if (EnableExtendedIoctlSupport)
 		{
 			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_PROPERTY_QUERY), ValidateInput))
@@ -706,6 +720,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_DISK_GET_PARTITION_INFO:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_PARTITION_INFO)\n");
 		if (ValidateIOBufferSize (Irp, sizeof (PARTITION_INFORMATION), ValidateOutput))
 		{
 			PPARTITION_INFORMATION outputBuffer = (PPARTITION_INFORMATION)
@@ -724,6 +739,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_DISK_GET_PARTITION_INFO_EX:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_PARTITION_INFO_EX)\n");
 		if (ValidateIOBufferSize (Irp, sizeof (PARTITION_INFORMATION_EX), ValidateOutput))
 		{
 			PPARTITION_INFORMATION_EX outputBuffer = (PPARTITION_INFORMATION_EX) Irp->AssociatedIrp.SystemBuffer;
@@ -742,6 +758,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_DISK_GET_DRIVE_LAYOUT:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_LAYOUT)\n");
 		if (ValidateIOBufferSize (Irp, sizeof (DRIVE_LAYOUT_INFORMATION), ValidateOutput))
 		{
 			PDRIVE_LAYOUT_INFORMATION outputBuffer = (PDRIVE_LAYOUT_INFORMATION)
@@ -764,6 +781,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_DISK_GET_LENGTH_INFO:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_LENGTH_INFO)\n");
 		if (!ValidateIOBufferSize (Irp, sizeof (GET_LENGTH_INFORMATION), ValidateOutput))
 		{
 			Irp->IoStatus.Status = STATUS_BUFFER_OVERFLOW;
@@ -780,6 +798,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_DISK_VERIFY:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_VERIFY)\n");
 		if (ValidateIOBufferSize (Irp, sizeof (VERIFY_INFORMATION), ValidateInput))
 		{
 			HRESULT hResult;
@@ -825,6 +844,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_DISK_CHECK_VERIFY:
 	case IOCTL_STORAGE_CHECK_VERIFY:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_CHECK_VERIFY)\n");
 		{
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = 0;
@@ -838,6 +858,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_DISK_IS_WRITABLE:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_IS_WRITABLE)\n");
 		{
 			if (Extension->bReadOnly)
 				Irp->IoStatus.Status = STATUS_MEDIA_WRITE_PROTECTED;
@@ -849,12 +870,13 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_VOLUME_ONLINE:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_ONLINE)\n");
 		Irp->IoStatus.Status = STATUS_SUCCESS;
 		Irp->IoStatus.Information = 0;
 		break;
 
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
-
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
 		// Vista's filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
 		if (!(OsMajorVersion == 6 && OsMinorVersion == 0))
 		{
@@ -875,10 +897,11 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	default:
+		Dump ("ProcessVolumeDeviceControlIrp (unknown code 0x%.8X)\n", irpSp->Parameters.DeviceIoControl.IoControlCode);
 		return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
 	}
 
-#ifdef DEBUG
+#if defined(DEBUG) || defined (DEBG_TRACE)
 	if (!NT_SUCCESS (Irp->IoStatus.Status))
 	{
 		Dump ("IOCTL error 0x%08x (0x%x %d)\n",
@@ -1691,7 +1714,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 	}
 
 
-#ifdef DEBUG
+#if defined(DEBUG) || defined(DEBUG_TRACE)
 	if (!NT_SUCCESS (Irp->IoStatus.Status))
 	{
 		switch (irpSp->Parameters.DeviceIoControl.IoControlCode)

@@ -198,8 +198,8 @@ typedef int BOOL;
 #endif
 
 #ifdef DEVICE_DRIVER
-#	if defined (DEBUG) || 0
-#		if 1 // DbgPrintEx is not available on Windows 2000
+#	if defined (DEBUG) || defined (DEBUG_TRACE)
+#		if 0 // DbgPrintEx is not available on Windows 2000
 #			define Dump DbgPrint
 #		else
 #			define Dump(...) DbgPrintEx (DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, __VA_ARGS__)
@@ -212,7 +212,7 @@ typedef int BOOL;
 #endif
 
 #if !defined (trace_msg) && !defined (TC_WINDOWS_BOOT)
-#	ifdef DEBUG
+#	if defined(DEBUG) || defined (DEBUG_TRACE)
 #		ifdef DEVICE_DRIVER
 #			define trace_msg Dump
 #		elif defined (_WIN32)
