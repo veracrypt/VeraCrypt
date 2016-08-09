@@ -15,6 +15,7 @@
 #include "Crypto/Rmd160.h"
 #include "Crypto/Sha2.h"
 #include "Crypto/Whirlpool.h"
+#include "Crypto/Streebog.h"
 
 namespace VeraCrypt
 {
@@ -137,5 +138,29 @@ namespace VeraCrypt
 	{
 		if_debug (ValidateDataParameters (data));
 		WHIRLPOOL_add (data.Get(), (int) data.Size(), (WHIRLPOOL_CTX *) Context.Ptr());
+	}
+	
+	// Streebog
+	Streebog::Streebog ()
+	{
+		Context.Allocate (sizeof (STREEBOG_CTX));
+		Init();
+	}
+
+	void Streebog::GetDigest (const BufferPtr &buffer)
+	{
+		if_debug (ValidateDigestParameters (buffer));
+		STREEBOG_finalize ((STREEBOG_CTX *) Context.Ptr(), buffer);
+	}
+
+	void Streebog::Init ()
+	{
+		STREEBOG_init ((STREEBOG_CTX *) Context.Ptr());
+	}
+
+	void Streebog::ProcessData (const ConstBufferPtr &data)
+	{
+		if_debug (ValidateDataParameters (data));
+		STREEBOG_add (data.Get(), (int) data.Size(), (STREEBOG_CTX *) Context.Ptr());
 	}
 }

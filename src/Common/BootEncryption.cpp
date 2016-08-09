@@ -1082,11 +1082,23 @@ namespace VeraCrypt
 					ea = SERPENT;
 				else if (_stricmp (request.BootEncryptionAlgorithmName, "Twofish") == 0)
 					ea = TWOFISH;
+				else if (_stricmp (request.BootEncryptionAlgorithmName, "Camellia") == 0)
+					ea = CAMELLIA;
+#if defined(CIPHER_GOST89)
+				else if (_stricmp (request.BootEncryptionAlgorithmName, "GOST89") == 0)
+					ea = GOST89;
+#endif
 
 				if (_stricmp(request.BootPrfAlgorithmName, "SHA-256") == 0)
 					pkcs5_prf = SHA256;
 				else if (_stricmp(request.BootPrfAlgorithmName, "RIPEMD-160") == 0)
 					pkcs5_prf = RIPEMD160;
+				else if (_stricmp(request.BootPrfAlgorithmName, "SHA-512") == 0)
+					pkcs5_prf = SHA512;
+				else if (_stricmp(request.BootPrfAlgorithmName, "Whirlpool") == 0)
+					pkcs5_prf = WHIRLPOOL;
+				else if (_stricmp(request.BootPrfAlgorithmName, "Streebog") == 0)
+					pkcs5_prf = STREEBOG;
 				else if (strlen(request.BootPrfAlgorithmName) == 0) // case of version < 1.0f
 					pkcs5_prf = RIPEMD160;
 			}
@@ -1101,6 +1113,9 @@ namespace VeraCrypt
 				}
 				catch (...) { }
 			}
+
+			if (pkcs5_prf == 0)
+				throw ParameterIncorrect (SRC_POS);
 		}
 		else
 		{

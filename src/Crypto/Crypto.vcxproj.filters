@@ -45,6 +45,12 @@
     <ClCompile Include="GostCipher.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="kuznyechik.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Streebog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -87,6 +93,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GostCipher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kuznyechik.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Streebog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

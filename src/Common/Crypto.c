@@ -58,6 +58,7 @@ static Cipher Ciphers[] =
 #if defined(CIPHER_GOST89)
 	{ GOST89,	L"GOST89",		16,			32,			GOST_KS },
 #endif  // defined(CIPHER_GOST89)
+	{ KUZNYECHIK,	L"Kuznyechik",16,		32,			KUZNYECHIK_KS },
 #endif
 	{ 0,		0,				0,			0,			0					}
 };
@@ -78,6 +79,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 #if defined(CIPHER_GOST89)
 	{ { GOST89,					0 }, { XTS, 0 },	1 },
 #endif  // defined(CIPHER_GOST89)
+	{ { KUZNYECHIK,				0 }, { XTS, 0 },	1 },
 	{ { TWOFISH, AES,			0 }, { XTS, 0 },	1 },
 	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1 },
 	{ { AES, SERPENT,			0 }, { XTS, 0 },	1 },
@@ -112,6 +114,7 @@ static Hash Hashes[] =
 	{ WHIRLPOOL,	L"Whirlpool",	FALSE,			FALSE },
 	{ SHA256,		L"SHA-256",		FALSE,			TRUE },
 	{ RIPEMD160,	L"RIPEMD-160",	TRUE,			TRUE },
+	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
 	{ 0, 0, 0 }
 };
 #endif
@@ -156,6 +159,9 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 		gost_set_key(key, (gost_kds*)ks);
 		break;
 #endif // && defined(CIPHER_GOST89)
+	case KUZNYECHIK:
+		kuznyechik_set_key(key, (kuznyechik_kds*)ks);
+		break;
 #endif // !defined(TC_WINDOWS_BOOT)
 
 	default:
@@ -189,6 +195,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 #if defined(CIPHER_GOST89)
 	case GOST89:		gost_encrypt(data, data, ks, 1); break;
 #endif // defined(CIPHER_GOST89)
+	case KUZNYECHIK:		kuznyechik_encrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT) 
 	default:			TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
@@ -252,6 +259,7 @@ void DecipherBlock(int cipher, void *data, void *ks)
 #if defined(CIPHER_GOST89)
 	case GOST89:	gost_decrypt(data, data, ks, 1); break;
 #endif // defined(CIPHER_GOST89)
+	case KUZNYECHIK:	kuznyechik_decrypt_block(data, data, ks); break;
 #endif // !defined(TC_WINDOWS_BOOT)
 
 

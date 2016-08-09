@@ -171,7 +171,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	char header[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
 	PCRYPTO_INFO cryptoInfo;
-	char dk[MASTER_KEYDATA_SIZE];
+	CRYPTOPP_ALIGN_DATA(16) char dk[MASTER_KEYDATA_SIZE];
 	int enqPkcs5Prf, pkcs5_prf;
 	uint16 headerVersion;
 	int status = ERR_PARAMETER_INCORRECT;
@@ -345,6 +345,10 @@ KeyReady:	;
 					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 				break;
 
+			case STREEBOG:
+				derive_key_streebog(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+					PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+				break;
 			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
@@ -912,6 +916,10 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
 			break;
 
+		case STREEBOG:
+			derive_key_streebog(keyInfo.userKey, keyInfo.keyLength, keyInfo.salt,
+				PKCS5_SALT_SIZE, keyInfo.noIterations, dk, GetMaxPkcs5OutSize());
+			break;
 
 		default:
 			// Unknown/wrong ID

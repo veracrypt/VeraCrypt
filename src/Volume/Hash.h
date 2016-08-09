@@ -139,6 +139,29 @@ namespace VeraCrypt
 		Whirlpool (const Whirlpool &);
 		Whirlpool &operator= (const Whirlpool &);
 	};
+	
+	// Streebog
+	class Streebog : public Hash
+	{
+	public:
+		Streebog ();
+		virtual ~Streebog () { }
+
+		virtual void GetDigest (const BufferPtr &buffer);
+		virtual size_t GetBlockSize () const { return 64; }
+		virtual size_t GetDigestSize () const { return 512 / 8; }
+		virtual wstring GetName () const { return L"Streebog"; }
+		virtual wstring GetAltName () const { return L"Streebog"; }
+		virtual shared_ptr <Hash> GetNew () const { return shared_ptr <Hash> (new Streebog); }
+		virtual void Init ();
+		virtual void ProcessData (const ConstBufferPtr &data);
+
+	protected:
+
+	private:
+		Streebog (const Streebog &);
+		Streebog &operator= (const Streebog &);
+	};
 }
 
 #endif // TC_HEADER_Encryption_Hash

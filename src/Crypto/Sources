@@ -20,5 +20,7 @@ SOURCES = \
 	Sha2.c \
 	Twofish.c \
 	GostCipher.c \
+	Streebog.c \
+	kuznyechik.c \
 	Whirlpool.c \
 	Camellia.c

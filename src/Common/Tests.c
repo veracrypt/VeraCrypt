@@ -19,10 +19,11 @@
 #include "Xts.h"
 #include <string.h>
 #include "Pkcs5.h"
+#include "cpu.h"
 
 typedef struct {
-	unsigned __int8 key1[32];
-	unsigned __int8 key2[32];
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 key1[32];
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 key2[32];
 	unsigned __int8 dataUnitNo[8];
 	unsigned int blockNo;
 	unsigned __int8 plaintext[ENCRYPTION_DATA_UNIT_SIZE];
@@ -475,6 +476,95 @@ char *hmac_whirlpool_test_vectors =
 	"\x6a\xbf\xa4\x02"
 };
 
+typedef struct _HashTestVector
+{
+	const char* hexInput;
+	const char* hexOutput;
+
+} HashTestVector;
+
+typedef int (__cdecl HashFunction) (unsigned char* input, unsigned long inputLen, unsigned char* output);
+
+unsigned char HexCharToByte (char c)
+{
+   if (c >= ('0') && c <= ('9'))
+      return c - ('0');
+   else if (c >= ('A') && c <= ('F'))
+      return c - ('A') + 10;
+   else if (c >= ('a') && c <= ('f'))
+      return c - ('a') + 10;
+   else
+      return 0xFF;
+}
+
+unsigned long HexStringToByteArray(const char* hexStr, unsigned char* pbData)
+{
+	unsigned long count = 0;
+	while (*hexStr)
+	{
+		*pbData++ = (HexCharToByte(hexStr[0]) << 4) | HexCharToByte(hexStr[1]);
+		hexStr += 2;
+		count++;
+	}
+	return count;
+}
+
+BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
+{
+	ALIGN (16) unsigned char input[256];
+	unsigned char output[64];
+	unsigned char digest[64];
+	unsigned long i = 0, inputLen, outputLen, digestLen;
+	BOOL bRet = TRUE;
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	KFLOATING_SAVE floatingPointState;
+	NTSTATUS saveStatus = STATUS_SUCCESS;
+	if (bUseSSE && (HasSSE2() || HasSSE41()))
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
+	while (vector[i].hexInput && vector[i].hexOutput)
+	{
+		inputLen = HexStringToByteArray (vector[i].hexInput, input);
+		outputLen = HexStringToByteArray (vector[i].hexOutput, output);
+		digestLen = fn (input, inputLen, digest);
+		if ((digestLen != outputLen) || (0 != memcmp (digest, output, digestLen)))
+		{
+			bRet = FALSE;
+			break;
+		}
+		i++;
+	}
+
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	if (NT_SUCCESS (saveStatus) && bUseSSE && (HasSSE2() || HasSSE41()))
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+
+	return bRet;
+}
+
+
+/* https://www.streebog.net/src/trunk/examples/ */
+HashTestVector Streebog512TestVectors[] = {
+	/* M1 */
+	{"303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132", 
+	 "1b54d01a4af5b9d5cc3d86d68d285462b19abc2475222f35c085122be4ba1ffa00ad30f8767b3a82384c6574f024c311e2a481332b08ef7f41797891c1646f48"
+	},
+	/* M2 */
+	{"d1e520e2e5f2f0e82c20d1f2f0e8e1eee6e820e2edf3f6e82c20e2e5fef2fa20f120eceef0ff20f1f2f0e5ebe0ece820ede020f5f0e0e1f0fbff20efebfaeafb20c8e3eef0e5e2fb",
+	"1e88e62226bfca6f9994f1f2d51569e0daf8475a3b0fe61a5300eee46d961376035fe83549ada2b8620fcd7c496ce5b33f0cb9dddc2b6460143b03dabac9fb28"
+	},
+	/* M3 */
+	{"",
+	"8e945da209aa869f0455928529bcae4679e9873ab707b55315f56ceb98bef0a7362f715528356ee83cda5f2aac4c6ad2ba3a715c1bcd81cb8e9f90bf4c1c1a8a"
+	},
+	/* M4 */
+	{"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+	"b0fd29ac1b0df441769ff3fdb8dc564df67721d6ac06fb28ceffb7bbaa7948c6c014ac999235b58cb26fb60fb112a145d7b4ade9ae566bf2611402c552d20db7"
+	},
+	{NULL, NULL}
+};
+
 unsigned char ks_tmp[MAX_EXPANDED_KEY];
 
 void CipherInit2(int cipher, void* key, void* ks, int key_len)
@@ -502,6 +592,9 @@ void CipherInit2(int cipher, void* key, void* ks, int key_len)
 		CipherInit(cipher,key,ks);
 		break;
 #endif // defined(CIPHER_GOST89)
+	case KUZNYECHIK:
+		CipherInit(cipher, key, ks);
+		break;
 	default:
 		/* Unknown/wrong ID */
 		TC_THROW_FATAL_EXCEPTION;
@@ -521,7 +614,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 	int testCase = 0;
 	int nTestsPerformed = 0;
 
-	static unsigned char key1[] =
+	static CRYPTOPP_ALIGN_DATA(16) unsigned char key1[] =
 	{
 		0x27, 0x18, 0x28, 0x18, 0x28, 0x45, 0x90, 0x45, 0x23, 0x53, 0x60, 0x28, 0x74, 0x71, 0x35, 0x26, 0x62, 0x49, 0x77, 0x57, 0x24, 0x70, 0x93, 0x69, 0x99, 0x59, 0x57, 0x49, 0x66, 0x96, 0x76, 0x27,
 		0x31, 0x41, 0x59, 0x26, 0x53, 0x58, 0x97, 0x93, 0x23, 0x84, 0x62, 0x64, 0x33, 0x83, 0x27, 0x95, 0x02, 0x88, 0x41, 0x97, 0x16, 0x93, 0x99, 0x37, 0x51, 0x05, 0x82, 0x09, 0x74, 0x94, 0x45, 0x92,
@@ -939,7 +1032,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 static BOOL DoAutoTestAlgorithms (void)
 {
 	PCRYPTO_INFO ci;
-	char key[32];
+	CRYPTOPP_ALIGN_DATA(16) char key[32];
 	unsigned char tmp[16];
 	BOOL bFailed = FALSE;
 	int i;
@@ -1172,6 +1265,50 @@ BOOL test_hmac_whirlpool ()
 	return TRUE;
 }
 
+/* http://www.tc26.ru/methods/recommendation/%D0%A2%D0%9A26%D0%90%D0%9B%D0%93.pdf */
+/* https://tools.ietf.org/html/draft-smyshlyaev-gost-usage-00 */
+/* https://datatracker.ietf.org/doc/rfc7836/?include_text=1 */
+static const unsigned char gost3411_2012_hmac_k1[] = {
+	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+	0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+	0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+	0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f
+};
+static const unsigned char gost3411_2012_hmac_m1[] = {
+	0x01, 0x26, 0xbd, 0xb8, 0x78, 0x00, 0xaf, 0x21,
+	0x43, 0x41, 0x45, 0x65, 0x63, 0x78, 0x01, 0x00
+};
+static const unsigned char gost3411_2012_hmac_r1[] = {
+	0xA5, 0x9B, 0xAB, 0x22, 0xEC, 0xAE, 0x19, 0xC6, 0x5F, 0xBD, 0xE6, 0xE5,
+	0xF4, 0xE9, 0xF5, 0xD8, 0x54, 0x9D, 0x31, 0xF0, 0x37, 0xF9, 0xDF, 0x9B,
+	0x90, 0x55, 0x00, 0xE1, 0x71, 0x92, 0x3A, 0x77, 0x3D, 0x5F, 0x15, 0x30,
+	0xF2, 0xED, 0x7E, 0x96, 0x4C, 0xB2, 0xEE, 0xDC, 0x29, 0xE9, 0xAD, 0x2F,
+	0x3A, 0xFE, 0x93, 0xB2, 0x81, 0x4F, 0x79, 0xF5, 0x00, 0x0F, 0xFC, 0x03,
+	0x66, 0xC2, 0x51, 0xE6
+};
+
+
+BOOL test_hmac_streebog ()
+{
+	ALIGN(16) char digest[64]; /* large enough to hold digets and test vector inputs */
+
+	memcpy (digest, gost3411_2012_hmac_m1, sizeof (gost3411_2012_hmac_m1));
+	hmac_streebog ((char*) gost3411_2012_hmac_k1, sizeof(gost3411_2012_hmac_k1), digest, (int) sizeof (gost3411_2012_hmac_m1));
+	if (memcmp (digest, gost3411_2012_hmac_r1, STREEBOG_DIGESTSIZE) != 0)
+		return FALSE;
+
+	return TRUE;
+}
+
+int __cdecl StreebogHash (unsigned char* input, unsigned long inputLen, unsigned char* output)
+{
+	STREEBOG_CTX ctx;
+	STREEBOG_init (&ctx);
+	STREEBOG_add (&ctx, input, inputLen);
+	STREEBOG_finalize (&ctx, output);
+	return STREEBOG_DIGESTSIZE;
+}
+
 BOOL test_pkcs5 ()
 {
 	char dk[144];
@@ -1190,6 +1327,14 @@ BOOL test_pkcs5 ()
 
 	/* HMAC-Whirlpool tests */
 	if (test_hmac_whirlpool() == FALSE)
+		return FALSE;
+
+	/* HMAC-STREEBOG tests */
+	if (test_hmac_streebog() == FALSE)
+		return FALSE;
+
+	/* STREEBOG hash tests */
+	if (RunHashTest (StreebogHash, Streebog512TestVectors, TRUE) == FALSE)
 		return FALSE;
 
 	/* PKCS-5 test 1 with HMAC-SHA-256 used as the PRF (https://tools.ietf.org/html/draft-josefsson-scrypt-kdf-00) */
@@ -1241,6 +1386,16 @@ BOOL test_pkcs5 ()
 	/* PKCS-5 test 2 with HMAC-Whirlpool used as the PRF (derives a key longer than the underlying hash) */
 	derive_key_whirlpool ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 96);
 	if (memcmp (dk, "\x50\x7c\x36\x6f\xee\x10\x2e\x9a\xe2\x8a\xd5\x82\x72\x7d\x27\x0f\xe8\x4d\x7f\x68\x7a\xcf\xb5\xe7\x43\x67\xaa\x98\x93\x52\x2b\x09\x6e\x42\xdf\x2c\x59\x4a\x91\x6d\x7e\x10\xae\xb2\x1a\x89\x8f\xb9\x8f\xe6\x31\xa9\xd8\x9f\x98\x26\xf4\xda\xcd\x7d\x65\x65\xde\x10\x95\x91\xb4\x84\x26\xae\x43\xa1\x00\x5b\x1e\xb8\x38\x97\xa4\x1e\x4b\xd2\x65\x64\xbc\xfa\x1f\x35\x85\xdb\x4f\x97\x65\x6f\xbd\x24", 96) != 0)
+		return FALSE;
+
+	/* PKCS-5 test 1 with HMAC-STREEBOG used as the PRF */
+	derive_key_streebog ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 4);
+	if (memcmp (dk, "\xd0\x53\xa2\x30", 4) != 0)
+		return FALSE;
+
+	/* PKCS-5 test 2 with HMAC-STREEBOG used as the PRF (derives a key longer than the underlying hash) */
+	derive_key_streebog ("password", 8, "\x12\x34\x56\x78", 4, 5, dk, 96);
+	if (memcmp (dk, "\xd0\x53\xa2\x30\x6f\x45\x81\xeb\xbc\x06\x81\xc5\xe7\x53\xa8\x5d\xc7\xf1\x23\x33\x1e\xbe\x64\x2c\x3b\x0f\x26\xd7\x00\xe1\x95\xc9\x65\x26\xb1\x85\xbe\x1e\xe2\xf4\x9b\xfc\x6b\x14\x84\xda\x24\x61\xa0\x1b\x9e\x79\x5c\xee\x69\x6e\xf9\x25\xb1\x1d\xca\xa0\x31\xba\x02\x6f\x9e\x99\x0f\xdb\x25\x01\x5b\xf1\xc7\x10\x19\x53\x3b\x29\x3f\x18\x00\xd6\xfc\x85\x03\xdc\xf2\xe5\xe9\x5a\xb1\x1e\x61\xde", 96) != 0)
 		return FALSE;
 
 	return TRUE;

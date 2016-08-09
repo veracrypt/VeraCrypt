@@ -65,6 +65,8 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Serpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Twofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Camellia ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new GOST89 ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
@@ -290,6 +292,23 @@ namespace VeraCrypt
 	Camellia::Camellia ()
 	{
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+
+	
+	// GOST89
+	GOST89::GOST89 ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherGost89()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+
+	// Kuznyechik
+	Kuznyechik::Kuznyechik ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}

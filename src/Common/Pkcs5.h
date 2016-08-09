@@ -37,6 +37,9 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 void hmac_whirlpool (char *k, int lk, char *d, int ld);
 void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen);
 
+void hmac_streebog (char *k, int32 lk, char *d, int32 ld);
+void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, char *dk, int dklen);
+
 int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BOOL bBoot);
 wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id);
 #endif

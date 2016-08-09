@@ -847,7 +847,7 @@ namespace VeraCrypt
 			nTestsPerformed++;
 		}
 
-		if (nTestsPerformed != 90)
+		if (nTestsPerformed != 100)
 			throw TestFailed (SRC_POS);
 	}
 
@@ -871,6 +871,16 @@ namespace VeraCrypt
 		Pkcs5HmacWhirlpool pkcs5HmacWhirlpool(false);
 		pkcs5HmacWhirlpool.DeriveKey (derivedKey, password, salt, 5);
 		if (memcmp (derivedKey.Ptr(), "\x50\x7c\x36\x6f", 4) != 0)
+			throw TestFailed (SRC_POS);
+
+		Pkcs5HmacSha256 pkcs5HmacSha256;
+		pkcs5HmacSha256.DeriveKey (derivedKey, password, salt, 5);
+		if (memcmp (derivedKey.Ptr(), "\xf2\xa0\x4f\xb2", 4) != 0)
+			throw TestFailed (SRC_POS);
+		
+		Pkcs5HmacStreebog pkcs5HmacStreebog;
+		pkcs5HmacStreebog.DeriveKey (derivedKey, password, salt, 5);
+		if (memcmp (derivedKey.Ptr(), "\xd0\x53\xa2\x30", 4) != 0)
 			throw TestFailed (SRC_POS);
 	}
 }

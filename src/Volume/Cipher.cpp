@@ -16,6 +16,8 @@
 #include "Crypto/Serpent.h"
 #include "Crypto/Twofish.h"
 #include "Crypto/Camellia.h"
+#include "Crypto/GostCipher.h"
+#include "Crypto/kuznyechik.h"
 
 #ifdef TC_AES_HW_CPU
 #	include "Crypto/Aes_hw_cpu.h"
@@ -80,6 +82,8 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
 		l.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
 		l.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+		l.push_back (shared_ptr <Cipher> (new CipherGost89 ()));
+		l.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
 
 		return l;
 	}
@@ -264,6 +268,46 @@ namespace VeraCrypt
 		camellia_set_key (key, ScheduledKey.Ptr());
 	}
 
+	// GOST89
+	void CipherGost89::Decrypt (byte *data) const
+	{
+		gost_decrypt (data, data, (gost_kds *) ScheduledKey.Ptr(), 1);
+	}
 
+	void CipherGost89::Encrypt (byte *data) const
+	{
+		gost_encrypt (data, data, (gost_kds *) ScheduledKey.Ptr(), 1);
+	}
+
+	size_t CipherGost89::GetScheduledKeySize () const
+	{
+		return GOST_KS;
+	}
+
+	void CipherGost89::SetCipherKey (const byte *key)
+	{
+		gost_set_key (key, (gost_kds *) ScheduledKey.Ptr());
+	}
+
+	// Kuznyechik
+	void CipherKuznyechik::Decrypt (byte *data) const
+	{
+		kuznyechik_decrypt_block (data, data, (kuznyechik_kds *) ScheduledKey.Ptr());
+	}
+
+	void CipherKuznyechik::Encrypt (byte *data) const
+	{
+		kuznyechik_encrypt_block (data, data, (kuznyechik_kds *) ScheduledKey.Ptr());
+	}
+
+	size_t CipherKuznyechik::GetScheduledKeySize () const
+	{
+		return KUZNYECHIK_KS;
+	}
+
+	void CipherKuznyechik::SetCipherKey (const byte *key)
+	{
+		kuznyechik_set_key (key, (kuznyechik_kds *) ScheduledKey.Ptr());
+	}
 	bool Cipher::HwSupportEnabled = true;
 }

@@ -247,6 +247,7 @@ BOOL Randmix ()
 		RMD160_CTX		rctx;
 		sha512_ctx		sctx;
 		sha256_ctx		s256ctx;
+		STREEBOG_CTX	stctx;
 		int poolIndex, digestIndex, digestSize;
 
 		switch (HashFunction)
@@ -265,6 +266,10 @@ BOOL Randmix ()
 
 		case WHIRLPOOL:
 			digestSize = WHIRLPOOL_DIGESTSIZE;
+			break;
+
+		case STREEBOG:
+			digestSize = STREEBOG_DIGESTSIZE;
 			break;
 
 		default:
@@ -303,6 +308,12 @@ BOOL Randmix ()
 				WHIRLPOOL_finalize (&wctx, hashOutputBuffer);
 				break;
 
+			case STREEBOG:
+				STREEBOG_init (&stctx);
+				STREEBOG_add (&stctx, pRandPool, RNG_POOL_SIZE);
+				STREEBOG_finalize (&stctx, hashOutputBuffer);
+				break;
+
 			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
@@ -333,6 +344,10 @@ BOOL Randmix ()
 
 		case WHIRLPOOL:
 			burn (&wctx, sizeof(wctx));
+			break;
+
+		case STREEBOG:
+			burn (&stctx, sizeof(sctx));
 			break;
 
 		default:

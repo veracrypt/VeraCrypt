@@ -52,6 +52,9 @@ OBJS += ../Crypto/Sha2.o
 OBJS += ../Crypto/Twofish.o
 OBJS += ../Crypto/Whirlpool.o
 OBJS += ../Crypto/Camellia.o
+OBJS += ../Crypto/GostCipher.o
+OBJS += ../Crypto/Streebog.o
+OBJS += ../Crypto/kuznyechik.o
 
 OBJS += ../Common/Crc.o
 OBJS += ../Common/Endian.o

@@ -219,9 +219,11 @@
     <ClCompile Include="Camellia.c" />
     <ClCompile Include="cpu.c" />
     <ClCompile Include="GostCipher.c" />
+    <ClCompile Include="kuznyechik.c" />
     <ClCompile Include="Rmd160.c" />
     <ClCompile Include="Serpent.c" />
     <ClCompile Include="Sha2.c" />
+    <ClCompile Include="Streebog.c" />
     <ClCompile Include="Twofish.c" />
     <ClCompile Include="Whirlpool.c" />
   </ItemGroup>
@@ -234,10 +236,12 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="GostCipher.h" />
+    <ClInclude Include="kuznyechik.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="Rmd160.h" />
     <ClInclude Include="Serpent.h" />
     <ClInclude Include="Sha2.h" />
+    <ClInclude Include="Streebog.h" />
     <ClInclude Include="Twofish.h" />
     <ClInclude Include="Whirlpool.h" />
   </ItemGroup>

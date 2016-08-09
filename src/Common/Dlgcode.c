@@ -5154,6 +5154,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 			RMD160_CTX		rctx;
 			sha512_ctx		s2ctx;
 			sha256_ctx		s256ctx;
+			STREEBOG_CTX		stctx;
 
 			int hid, i;
 
@@ -5190,6 +5191,13 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 						WHIRLPOOL_add (lpTestBuffer, benchmarkBufferSize, &wctx);
 						WHIRLPOOL_finalize (&wctx, (unsigned char *) digest);
 						break;
+
+					case STREEBOG:
+						STREEBOG_init(&stctx);
+						STREEBOG_add(&stctx, lpTestBuffer, benchmarkBufferSize);
+						STREEBOG_finalize(&stctx, (unsigned char *)digest);
+						break;
+
 					}
 				}
 
@@ -5248,6 +5256,11 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				case WHIRLPOOL:
 					/* PKCS-5 test with HMAC-Whirlpool used as the PRF */
 					derive_key_whirlpool ("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
+					break;
+
+				case STREEBOG:
+					/* PKCS-5 test with HMAC-STREEBOG used as the PRF */
+					derive_key_streebog("passphrase-1234567890", 21, tmp_salt, 64, get_pkcs5_iteration_count(thid, benchmarkPim, FALSE, benchmarkPreBoot), dk, MASTER_KEYDATA_SIZE);
 					break;
 				}
 			}
@@ -6612,7 +6625,12 @@ ResetCipherTest(HWND hwndDlg, int idTestCipher)
 	SetWindowText(GetDlgItem(hwndDlg, IDC_PLAINTEXT), L"0000000000000000");
 	SetWindowText(GetDlgItem(hwndDlg, IDC_CIPHERTEXT), L"0000000000000000");
 
-	if (idTestCipher == AES || idTestCipher == SERPENT || idTestCipher == TWOFISH || idTestCipher == CAMELLIA)
+	if (idTestCipher == AES || idTestCipher == SERPENT || idTestCipher == TWOFISH || idTestCipher == CAMELLIA
+#if defined(CIPHER_GOST89)
+		|| idTestCipher == GOST89
+#endif
+		|| idTestCipher == KUZNYECHIK
+		)
 	{
 		ndx = (int) SendMessage (GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_ADDSTRING, 0,(LPARAM) L"256");
 		SendMessage(GetDlgItem(hwndDlg, IDC_KEY_SIZE), CB_SETITEMDATA, ndx,(LPARAM) 32);
@@ -10185,6 +10203,14 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 	else if (strcmp(dest, "twofish") == 0)
 	{
 		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Twofish");
+	}
+	else if (strcmp(dest, "gost89") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=GOST89");
+	}
+	else if (strcmp(dest, "kuznyechik") == 0)
+	{
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Kuznyechik");
 	}
 	else if (strcmp(dest, "camellia") == 0)
 	{
