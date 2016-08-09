@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
+ derived from the source code of TrueCrypt 7.1a, which is 
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses'
- Modifications and additions to the original source code (contained in this file)
+ and which is governed by the 'License Agreement for Encryption for the Masses' 
+ Modifications and additions to the original source code (contained in this file) 
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -45,9 +45,9 @@ extern "C" {
 #define MASTER_KEYDATA_SIZE			256
 
 // The first PRF to try when mounting
-#define FIRST_PRF_ID		1
+#define FIRST_PRF_ID		1	
 
-// Hash algorithms (pseudorandom functions).
+// Hash algorithms (pseudorandom functions). 
 enum
 {
 	SHA512 = FIRST_PRF_ID,
@@ -59,7 +59,7 @@ enum
 };
 
 // The last PRF to try when mounting and also the number of implemented PRFs
-#define LAST_PRF_ID			(HASH_ENUM_END_ID - 1)
+#define LAST_PRF_ID			(HASH_ENUM_END_ID - 1)	
 
 #define RIPEMD160_BLOCKSIZE		64
 #define RIPEMD160_DIGESTSIZE	20
@@ -109,7 +109,7 @@ enum
 {
 	NONE = 0,
 	AES,
-	SERPENT,
+	SERPENT,			
 	TWOFISH,
 	CAMELLIA,
 	GOST89,
@@ -238,12 +238,12 @@ typedef struct CRYPTO_INFO_t
 #ifndef TC_WINDOWS_BOOT
 	uint16 HeaderVersion;
 
-	GfCtx gf_ctx;
+	GfCtx gf_ctx; 
 
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 master_keydata[MASTER_KEYDATA_SIZE];	/* This holds the volume header area containing concatenated master key(s) and secondary key(s) (XTS mode). For LRW (deprecated/legacy), it contains the tweak key before the master key(s). For CBC (deprecated/legacy), it contains the IV seed before the master key(s). */
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 k2[MASTER_KEYDATA_SIZE];				/* For XTS, this contains the secondary key (if cascade, multiple concatenated). For LRW (deprecated/legacy), it contains the tweak key. For CBC (deprecated/legacy), it contains the IV seed. */
 	unsigned __int8 salt[PKCS5_SALT_SIZE];
-	int noIterations;
+	int noIterations;	
 	BOOL bTrueCryptMode;
 	int volumePim;
 
@@ -252,7 +252,7 @@ typedef struct CRYPTO_INFO_t
 
 	BOOL bProtectHiddenVolume;			// Indicates whether the volume contains a hidden volume to be protected against overwriting
 	BOOL bHiddenVolProtectionAction;		// TRUE if a write operation has been denied by the driver in order to prevent the hidden volume from being overwritten (set to FALSE upon volume mount).
-
+	
 	uint64 volDataAreaOffset;		// Absolute position, in bytes, of the first data sector of the volume.
 
 	uint64 hiddenVolumeSize;		// Size of the hidden volume excluding the header (in bytes). Set to 0 for standard volumes.
@@ -279,7 +279,7 @@ typedef struct CRYPTO_INFO_t
 
 } CRYPTO_INFO, *PCRYPTO_INFO;
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_UEFI)
 
 #pragma pack (push)
 #pragma pack(1)

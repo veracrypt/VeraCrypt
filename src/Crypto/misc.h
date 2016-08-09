@@ -2,15 +2,19 @@
 #define CRYPTOPP_MISC_H
 
 #include "config.h"
+#if !defined(_UEFI)
 #include <string.h>		// for memcpy and memmove
 #ifndef _WIN32
 #include <strings.h> // for strcasecmp
 #define _stricmp strcasecmp
 #endif
+#else
+#include "Tcdefs.h"
+#endif // !defined(_UEFI)
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && !defined(_UEFI)
 	#if _MSC_VER >= 1400
-		#ifndef TC_WINDOWS_DRIVER
+		#if !defined(TC_WINDOWS_DRIVER) && !defined(_UEFI)
 			// VC2005 workaround: disable declarations that conflict with winnt.h
 			#define _interlockedbittestandset CRYPTOPP_DISABLED_INTRINSIC_1
 			#define _interlockedbittestandreset CRYPTOPP_DISABLED_INTRINSIC_2
@@ -23,7 +27,7 @@
 			#undef _interlockedbittestandreset64
 		#endif
 		#define CRYPTOPP_FAST_ROTATE(x) 1
-	#elif _MSC_VER >= 1300
+	#elif !defined(_UEFI) &&  _MSC_VER >= 1300
 		#define CRYPTOPP_FAST_ROTATE(x) ((x) == 32 | (x) == 64)
 	#else
 		#define CRYPTOPP_FAST_ROTATE(x) ((x) == 32)
@@ -37,7 +41,7 @@
 	#define CRYPTOPP_FAST_ROTATE(x) 0
 #endif
 
-#if defined( _MSC_VER ) && ( _MSC_VER > 800 )
+#if defined( _MSC_VER ) && ( _MSC_VER > 800 ) && !defined(_UEFI)
 #pragma intrinsic(memcpy,memset)
 #endif
 
@@ -80,7 +84,7 @@
 #if defined(__GNUC__) && defined(__linux__)
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #include <byteswap.h>
-#elif defined(_MSC_VER) && _MSC_VER >= 1300
+#elif defined(_MSC_VER) && _MSC_VER >= 1300 && !defined(_UEFI)
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #define bswap_32(x)	_byteswap_ulong(x)
 #define bswap_64(x)	_byteswap_uint64(x)

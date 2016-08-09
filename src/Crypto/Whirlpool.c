@@ -26,7 +26,7 @@
  *      ``The Whirlpool hashing function,''
  *      NESSIE submission, 2000 (tweaked version, 2001),
  *      <https://www.cosic.esat.kuleuven.ac.be/nessie/workshop/submissions/whirlpool.zip>
- *
+ * 
  * @author  Paulo S.L.M. Barreto
  * @author  Vincent Rijmen.
  *
@@ -68,14 +68,16 @@
  *
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include "Common/Tcdefs.h"
 #include "Common/Endian.h"
-#include "cpu.h"
-#include "misc.h"
+#if !defined(_UEFI)
+#include <memory.h>
+#include <stdlib.h>
+#endif
 
+#include "cpu.h"
+
+#include "misc.h"
 #include "Whirlpool.h"
 
 /*
@@ -656,7 +658,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 		AS2(	and		esp, -16)
 		AS2(	sub		esp, 16*8)
 		AS_PUSH_IF86( ax)
-
+     
     #if CRYPTOPP_BOOL_X86
         #define SSE2_workspace	esp+WORD_SZ
     #elif CRYPTOPP_BOOL_X32
@@ -899,7 +901,7 @@ void WHIRLPOOL_init(WHIRLPOOL_CTX * const ctx) {
  */
 void WHIRLPOOL_add(const unsigned char * input,
                unsigned __int32 sourceBytes,
-               WHIRLPOOL_CTX * const ctx)
+               WHIRLPOOL_CTX * const ctx) 
 {
 	uint64 num, oldCountLo = ctx->countLo, oldCountHi = ctx->countHi;
 	uint64 len = sourceBytes;
@@ -911,7 +913,7 @@ void WHIRLPOOL_add(const unsigned char * input,
 	else
 	{
 		uint64* dataBuf = ctx->data;
-		byte* data = (byte *)dataBuf;
+		byte* data = (byte *)dataBuf;		
 		num = oldCountLo & 63;
 
 		if (num != 0)	// process left over data
@@ -963,11 +965,11 @@ void WHIRLPOOL_add(const unsigned char * input,
 
 /**
  * Get the hash value from the hashing state.
- *
+ * 
  * This method uses the invariant: bufferBits < DIGESTBITS
  */
 void WHIRLPOOL_finalize(WHIRLPOOL_CTX * const ctx,
-                    unsigned char * result)
+                    unsigned char * result) 
 {
 	unsigned int num = ctx->countLo & 63;
 	uint64* dataBuf = ctx->data;

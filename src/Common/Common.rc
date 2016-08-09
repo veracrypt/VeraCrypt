@@ -532,6 +532,10 @@ IDR_RESCUE_LOADER_AES_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_AE
 IDR_RESCUE_LOADER_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Serpent_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Twofish_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_CAMELLIA_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Camellia_SHA2\\BootLoader.com.gz"
+IDR_EFI_DCSBOOT         BIN                     "..\\Boot\\EFI\\DcsBoot.efi"
+IDR_EFI_DCSINT          BIN                     "..\\Boot\\EFI\\DcsInt.efi"
+IDR_EFI_DCSCFG          BIN                     "..\\Boot\\EFI\\DcsCfg.efi"
+IDR_EFI_LEGACYSPEAKER   BIN                     "..\\Boot\\EFI\\LegacySpeaker.efi"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -560,18 +564,18 @@ IDR_LICENSE             TEXT                    "..\\Resources\\Texts\\License.r
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"

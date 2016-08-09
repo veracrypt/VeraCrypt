@@ -12,8 +12,8 @@
  code distribution packages. */
 
 #include "Tcdefs.h"
-
-#ifndef TC_WINDOWS_BOOT
+#if !defined(_UEFI)
+#if !defined(TC_WINDOWS_BOOT) 
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -28,6 +28,7 @@
 #ifndef DEVICE_DRIVER
 #include "Random.h"
 #endif
+#endif // !defined(_UEFI)
 
 #include "Crc.h"
 #include "Crypto.h"
@@ -35,7 +36,7 @@
 #include "Volumes.h"
 #include "Pkcs5.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_UEFI)
 #include <Strsafe.h>
 #include "../Boot/Windows/BootCommon.h"
 #endif
@@ -176,16 +177,17 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	uint16 headerVersion;
 	int status = ERR_PARAMETER_INCORRECT;
 	int primaryKeyOffset;
-
+	int pkcs5PrfCount = LAST_PRF_ID - FIRST_PRF_ID + 1;
+#if !defined(_UEFI)
 	TC_EVENT keyDerivationCompletedEvent;
 	TC_EVENT noOutstandingWorkItemEvent;
 	KeyDerivationWorkItem *keyDerivationWorkItems;
 	KeyDerivationWorkItem *item;
-	int pkcs5PrfCount = LAST_PRF_ID - FIRST_PRF_ID + 1;
 	size_t encryptionThreadCount = GetEncryptionThreadCount();
-	size_t queuedWorkItems = 0;
 	LONG outstandingWorkItemCount = 0;
 	int i;
+#endif
+	size_t queuedWorkItems = 0;
 
 	// if no PIM specified, use default value
 	if (pim < 0)
@@ -212,7 +214,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 		if (cryptoInfo == NULL)
 			return ERR_OUTOFMEMORY;
 	}
-
+#if !defined(_UEFI)
 	/* use thread pool only if no PRF was specified */
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
@@ -244,10 +246,11 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 #endif
 	}
 
-#ifndef DEVICE_DRIVER
+#if !defined(DEVICE_DRIVER) 
 	VirtualLock (&keyInfo, sizeof (keyInfo));
 	VirtualLock (&dk, sizeof (dk));
 #endif
+#endif //  !defined(_UEFI)
 
 	crypto_loadkey (&keyInfo, password->Text, (int) password->Length);
 
@@ -264,7 +267,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 		// skip SHA-256 in case of TrueCrypt mode
 		if (truecryptMode && (enqPkcs5Prf == SHA256))
 			continue;
-
+#if !defined(_UEFI)
 		if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 		{
 			// Enqueue key derivation on thread pool
@@ -319,6 +322,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 KeyReady:	;
 		}
 		else
+#endif // !defined(_UEFI)
 		{
 			pkcs5_prf = enqPkcs5Prf;
 			keyInfo.noIterations = get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot);
@@ -568,11 +572,12 @@ ret:
 	burn (&keyInfo, sizeof (keyInfo));
 	burn (dk, sizeof(dk));
 
-#ifndef DEVICE_DRIVER
+#if !defined(DEVICE_DRIVER) && !defined(_UEFI)
 	VirtualUnlock (&keyInfo, sizeof (keyInfo));
 	VirtualUnlock (&dk, sizeof (dk));
 #endif
 
+#if !defined(_UEFI)
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
 		TC_WAIT_EVENT (noOutstandingWorkItemEvent);
@@ -580,16 +585,16 @@ ret:
 		burn (keyDerivationWorkItems, sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
 		TCfree (keyDerivationWorkItems);
 
-#ifndef DEVICE_DRIVER
+#if !defined(DEVICE_DRIVER) 
 		CloseHandle (keyDerivationCompletedEvent);
 		CloseHandle (noOutstandingWorkItemEvent);
 #endif
 	}
-
+#endif
 	return status;
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_UEFI)
 void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderSize, byte* fingerprint)
 {
 	// compute Whirlpool+SHA512 fingerprint of bootloader including MBR
@@ -805,10 +810,17 @@ ret:
 #endif
 
 // Creates a volume header in memory
+#if defined(_UEFI)
+int CreateVolumeHeaderInMemory(BOOL bBoot, char *header, int ea, int mode, Password *password,
+	int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo,
+	unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize,
+	unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode)
+#else
 int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, int mode, Password *password,
 		   int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo,
 		   unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize,
 		   unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode)
+#endif // !defined(_UEFI)
 {
 	unsigned char *p = (unsigned char *) header;
 	static CRYPTOPP_ALIGN_DATA(16) KEY_INFO keyInfo;
@@ -828,9 +840,10 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 		pim = 0;
 
 	memset (header, 0, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
-
+#if !defined(_UEFI)
 	VirtualLock (&keyInfo, sizeof (keyInfo));
 	VirtualLock (&dk, sizeof (dk));
+#endif // !defined(_UEFI)
 
 	/* Encryption setup */
 
@@ -847,7 +860,11 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 			bytesNeeded = EAGetKeySize (ea) * 2;	// Size of primary + secondary key(s)
 		}
 
+#if !defined(_UEFI)
 		if (!RandgetBytes (hwndDlg, keyInfo.master_keydata, bytesNeeded, TRUE))
+#else
+		if (!RandgetBytes(keyInfo.master_keydata, bytesNeeded, TRUE))
+#endif
 		{
 			crypto_close (cryptoInfo);
 			return ERR_CIPHER_INIT_WEAK_KEY;
@@ -885,7 +902,11 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	cryptoInfo->mode = mode;
 
 	// Salt for header key derivation
-	if (!RandgetBytes (hwndDlg, keyInfo.salt, PKCS5_SALT_SIZE, !bWipeMode))
+#if !defined(_UEFI)
+	if (!RandgetBytes(hwndDlg, keyInfo.salt, PKCS5_SALT_SIZE, !bWipeMode))
+#else
+	if (!RandgetBytes(keyInfo.salt, PKCS5_SALT_SIZE, !bWipeMode))
+#endif
 	{
 		crypto_close (cryptoInfo);
 		return ERR_CIPHER_INIT_WEAK_KEY; 
@@ -930,7 +951,11 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	else
 	{
 		// generate a random key
+#if !defined(_UEFI)
 		if (!RandgetBytes(hwndDlg, dk, GetMaxPkcs5OutSize(), !bWipeMode))
+#else
+		if (!RandgetBytes(dk, GetMaxPkcs5OutSize(), !bWipeMode))
+#endif
 		{
 			crypto_close (cryptoInfo);
 			return ERR_CIPHER_INIT_WEAK_KEY; 
@@ -1111,7 +1136,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	return 0;
 }
 
-
+#if !defined(_UEFI)
 BOOL ReadEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header, DWORD *bytesRead)
 {
 #if TC_VOLUME_HEADER_EFFECTIVE_SIZE > TC_MAX_VOLUME_SECTOR_SIZE
@@ -1324,4 +1349,5 @@ final_seq:
 	return nStatus;
 }
 
+#endif // !defined(_UEFI)
 #endif // !defined (DEVICE_DRIVER) && !defined (TC_WINDOWS_BOOT)

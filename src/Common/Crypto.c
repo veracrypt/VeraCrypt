@@ -1,11 +1,11 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
+ derived from the source code of TrueCrypt 7.1a, which is 
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses'
- Modifications and additions to the original source code (contained in this file)
+ and which is governed by the 'License Agreement for Encryption for the Masses' 
+ Modifications and additions to the original source code (contained in this file) 
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -16,9 +16,11 @@
 #include "Xts.h"
 #include "Crc.h"
 #include "Common/Endian.h"
+#if !defined(_UEFI)
 #include <string.h>
 #ifndef TC_WINDOWS_BOOT
 #include "EncryptionThreadPool.h"
+#endif
 #endif
 #include "Volumes.h"
 #include "cpu.h"
@@ -71,21 +73,21 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 
 #ifndef TC_WINDOWS_BOOT
 
-	{ { 0,						0 }, { 0, 0},				0 },	// Must be all-zero
-	{ { AES,					0 }, { XTS, 0 },			1 },
-	{ { SERPENT,				0 }, { XTS, 0 },			1 },
-	{ { TWOFISH,				0 }, { XTS, 0 },			1 },
-	{ { CAMELLIA,				0 }, { XTS, 0 },			1 },
+	{ { 0,							0 }, { 0, 0},		0 },	// Must be all-zero
+	{ { AES,							0 }, { XTS, 0 },	1 },
+	{ { SERPENT,					0 }, { XTS, 0 },	1 },
+	{ { TWOFISH,					0 }, { XTS, 0 },	1 },
+	{ { CAMELLIA,					0 }, { XTS, 0 },	1 },
 #if defined(CIPHER_GOST89)
-	{ { GOST89,					0 }, { XTS, 0 },	1 },
+	{ { GOST89,						0 }, { XTS, 0 },	1 },
 #endif  // defined(CIPHER_GOST89)
 	{ { KUZNYECHIK,				0 }, { XTS, 0 },	1 },
-	{ { TWOFISH, AES,			0 }, { XTS, 0 },	1 },
+	{ { TWOFISH, AES,				0 }, { XTS, 0 },	1 },
 	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1 },
-	{ { AES, SERPENT,			0 }, { XTS, 0 },	1 },
+	{ { AES, SERPENT,				0 }, { XTS, 0 },	1 },
 	{ { AES, TWOFISH, SERPENT,	0 }, { XTS, 0 },	1 },
 	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1 },
-	{ { 0,						0 }, { 0, 0},				0 }		// Must be all-zero
+	{ { 0,							0 }, { 0,    0},	0 }		// Must be all-zero
 
 #else // TC_WINDOWS_BOOT
 
@@ -109,11 +111,11 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 #ifndef TC_WINDOWS_BOOT
 // Hash algorithms
 static Hash Hashes[] =
-{	// ID			Name			Deprecated		System Encryption
-	{ SHA512,		L"SHA-512",		FALSE,			FALSE },
-	{ WHIRLPOOL,	L"Whirlpool",	FALSE,			FALSE },
-	{ SHA256,		L"SHA-256",		FALSE,			TRUE },
-	{ RIPEMD160,	L"RIPEMD-160",	TRUE,			TRUE },
+{	// ID				Name					Deprecated	System Encryption
+	{ SHA512,		L"SHA-512",				FALSE,	FALSE },
+	{ WHIRLPOOL,	L"Whirlpool",			FALSE,	FALSE },
+	{ SHA256,		L"SHA-256",				FALSE,	TRUE },
+	{ RIPEMD160,	L"RIPEMD-160",			TRUE,		TRUE },
 	{ STREEBOG,		L"Streebog",	FALSE,	FALSE },
 	{ 0, 0, 0 }
 };
@@ -142,11 +144,11 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 	case SERPENT:
 		serpent_set_key (key, ks);
 		break;
-
+		
 	case TWOFISH:
 		twofish_set_key ((TwofishInstance *)ks, (const u4byte *)key);
 		break;
-		
+
 #if !defined (TC_WINDOWS_BOOT) || defined (TC_WINDOWS_BOOT_CAMELLIA)
 	case CAMELLIA:
 		camellia_set_key (key, ks);
@@ -176,7 +178,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 {
 	switch (cipher)
 	{
-	case AES:
+	case AES:	
 		// In 32-bit kernel mode, due to KeSaveFloatingPointState() overhead, AES instructions can be used only when processing the whole data unit.
 #if (defined (_WIN64) || !defined (TC_WINDOWS_DRIVER)) && !defined (TC_WINDOWS_BOOT)
 		if (IsAesHwCpuSupported())
@@ -456,11 +458,11 @@ BOOL EAInitMode (PCRYPTO_INFO ci)
 		/* Note: XTS mode could potentially be initialized with a weak key causing all blocks in one data unit
 		on the volume to be tweaked with zero tweaks (i.e. 512 bytes of the volume would be encrypted in ECB
 		mode). However, to create a TrueCrypt volume with such a weak key, each human being on Earth would have
-		to create approximately 11,378,125,361,078,862 (about eleven quadrillion) TrueCrypt volumes (provided
+		to create approximately 11,378,125,361,078,862 (about eleven quadrillion) TrueCrypt volumes (provided 
 		that the size of each of the volumes is 1024 terabytes). */
 		break;
 
-	default:
+	default:		
 		// Unknown/wrong ID
 		TC_THROW_FATAL_EXCEPTION;
 	}
@@ -507,8 +509,12 @@ int EAGetByName (wchar_t *name)
 
 	do
 	{
-		EAGetName (n, ea, 1);
-		if (_wcsicmp (n, name) == 0)
+		EAGetName(n, ea, 1);
+#if defined(_UEFI)
+		if (wcscmp(n, name) == 0)
+#else
+		if (_wcsicmp(n, name) == 0)
+#endif
 			return ea;
 	}
 	while (ea = EAGetNext (ea));
@@ -545,7 +551,7 @@ int EAGetNextMode (int ea, int previousModeId)
 	int c, i = 0;
 	while (c = EncryptionAlgorithms[ea].Modes[i++])
 	{
-		if (c == previousModeId)
+		if (c == previousModeId) 
 			return EncryptionAlgorithms[ea].Modes[i];
 	}
 
@@ -648,7 +654,7 @@ int EAGetNextCipher (int ea, int previousCipherId)
 	int c, i = 0;
 	while (c = EncryptionAlgorithms[ea].Ciphers[i++])
 	{
-		if (c == previousCipherId)
+		if (c == previousCipherId) 
 			return EncryptionAlgorithms[ea].Ciphers[i];
 	}
 
@@ -665,7 +671,7 @@ int EAGetPreviousCipher (int ea, int previousCipherId)
 
 	while (c = EncryptionAlgorithms[ea].Ciphers[i++])
 	{
-		if (c == previousCipherId)
+		if (c == previousCipherId) 
 			return EncryptionAlgorithms[ea].Ciphers[i - 2];
 	}
 
@@ -777,7 +783,7 @@ PCRYPTO_INFO crypto_open ()
 
 	memset (cryptoInfo, 0, sizeof (CRYPTO_INFO));
 
-#ifndef DEVICE_DRIVER
+#if !defined(DEVICE_DRIVER) && !defined(_UEFI)
 	VirtualLock (cryptoInfo, sizeof (CRYPTO_INFO));
 #endif
 
@@ -812,7 +818,7 @@ void crypto_close (PCRYPTO_INFO cryptoInfo)
 	if (cryptoInfo != NULL)
 	{
 		burn (cryptoInfo, sizeof (CRYPTO_INFO));
-#ifndef DEVICE_DRIVER
+#if !defined(DEVICE_DRIVER) && !defined(_UEFI)
 		VirtualUnlock (cryptoInfo, sizeof (CRYPTO_INFO));
 #endif
 		TCfree (cryptoInfo);
@@ -834,7 +840,7 @@ void crypto_close (PCRYPTO_INFO cryptoInfo)
 // EncryptBuffer
 //
 // buf:  data to be encrypted; the start of the buffer is assumed to be aligned with the start of a data unit.
-// len:  number of bytes to encrypt; must be divisible by the block size (for cascaded ciphers, divisible
+// len:  number of bytes to encrypt; must be divisible by the block size (for cascaded ciphers, divisible 
 //       by the largest block size used within the cascade)
 void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo)
 {
@@ -865,7 +871,7 @@ void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_
 		}
 		break;
 
-	default:
+	default:		
 		// Unknown/wrong ID
 		TC_THROW_FATAL_EXCEPTION;
 	}
@@ -876,7 +882,7 @@ void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_
 // unitNo:		sequential number of the data unit with which the buffer starts
 // nbrUnits:	number of data units in the buffer
 void EncryptDataUnits (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, uint32 nbrUnits, PCRYPTO_INFO ci)
-#ifndef TC_WINDOWS_BOOT
+#if !defined(TC_WINDOWS_BOOT) && !defined(_UEFI)
 {
 	EncryptionThreadPoolDoWork (EncryptDataUnitsWork, buf, structUnitNo, nbrUnits, ci);
 }
@@ -907,7 +913,7 @@ void EncryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *s
 		}
 		break;
 
-	default:
+	default:		
 		// Unknown/wrong ID
 		TC_THROW_FATAL_EXCEPTION;
 	}
@@ -916,7 +922,7 @@ void EncryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *s
 // DecryptBuffer
 //
 // buf:  data to be decrypted; the start of the buffer is assumed to be aligned with the start of a data unit.
-// len:  number of bytes to decrypt; must be divisible by the block size (for cascaded ciphers, divisible
+// len:  number of bytes to decrypt; must be divisible by the block size (for cascaded ciphers, divisible 
 //       by the largest block size used within the cascade)
 void DecryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo)
 {
@@ -947,7 +953,7 @@ void DecryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_
 		}
 		break;
 
-	default:
+	default:		
 		// Unknown/wrong ID
 		TC_THROW_FATAL_EXCEPTION;
 	}
@@ -957,7 +963,7 @@ void DecryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_
 // unitNo:		sequential number of the data unit with which the buffer starts
 // nbrUnits:	number of data units in the buffer
 void DecryptDataUnits (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, uint32 nbrUnits, PCRYPTO_INFO ci)
-#ifndef TC_WINDOWS_BOOT
+#if !defined(TC_WINDOWS_BOOT) && !defined(_UEFI)
 {
 	EncryptionThreadPoolDoWork (DecryptDataUnitsWork, buf, structUnitNo, nbrUnits, ci);
 }
@@ -992,7 +998,7 @@ void DecryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *s
 		}
 		break;
 
-	default:
+	default:		
 		// Unknown/wrong ID
 		TC_THROW_FATAL_EXCEPTION;
 	}
@@ -1012,7 +1018,7 @@ void EncipherBlock(int cipher, void *data, void *ks)
 	if (IsAesHwCpuSupported())
 		aes_hw_cpu_encrypt ((byte *) ks, data);
 	else
-		aes_encrypt (data, data, ks);
+		aes_encrypt (data, data, ks); 
 #elif defined (TC_WINDOWS_BOOT_SERPENT)
 	serpent_encrypt (data, data, ks);
 #elif defined (TC_WINDOWS_BOOT_TWOFISH)
@@ -1028,7 +1034,7 @@ void DecipherBlock(int cipher, void *data, void *ks)
 	if (IsAesHwCpuSupported())
 		aes_hw_cpu_decrypt ((byte *) ks + sizeof (aes_encrypt_ctx) + 14 * 16, data);
 	else
-		aes_decrypt (data, data, (aes_decrypt_ctx *) ((byte *) ks + sizeof(aes_encrypt_ctx)));
+		aes_decrypt (data, data, (aes_decrypt_ctx *) ((byte *) ks + sizeof(aes_encrypt_ctx))); 
 #elif defined (TC_WINDOWS_BOOT_SERPENT)
 	serpent_decrypt (data, data, ks);
 #elif defined (TC_WINDOWS_BOOT_TWOFISH)

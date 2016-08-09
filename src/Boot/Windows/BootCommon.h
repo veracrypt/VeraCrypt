@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file)
+ Modifications and additions to the original source code (contained in this file) 
  and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -78,5 +78,104 @@ typedef struct
 #define TC_SET_BOOT_ARGUMENTS_SIGNATURE(SG) do { SG[0]  = 'T';   SG[1]  = 'R';   SG[2]  = 'U';   SG[3]  = 'E';   SG[4]  = 0x11;   SG[5]  = 0x23;   SG[6]  = 0x45;   SG[7]  = 0x66; } while (FALSE)
 #define TC_IS_BOOT_ARGUMENTS_SIGNATURE(SG)      (SG[0] == 'T' && SG[1] == 'R' && SG[2] == 'U' && SG[3] == 'E' && SG[4] == 0x11 && SG[5] == 0x23 && SG[6] == 0x45 && SG[7] == 0x66)
 
+#if !defined(TC_WINDOWS_BOOT) 
+
+#define DCS_DISK_ENTRY_LIST_HEADER_ID      SIGNATURE_64 ('D','C','S','D','E','L','S','T')
+
+#define DE_IDX_CRYPTOHEADER  0
+#define DE_IDX_LIST          1
+#define DE_IDX_DISKID        2
+#define DE_IDX_MAINGPTHDR    3
+#define DE_IDX_MAINGPTENTRYS 4
+#define DE_IDX_ALTGPTHDR     5
+#define DE_IDX_ALTGPTENTRYS  6
+#define DE_IDX_EXECPARAMS    7
+#define DE_IDX_PWDCACHE      8
+#define DE_IDX_TOTAL         9
+
+enum DcsDiskEntryTypes {
+	DE_Unused = 0,
+	DE_Sectors,
+	DE_List,
+	DE_DISKID,
+	DE_ExecParams,
+	DE_PwdCache
+};
+
+#pragma pack(1)
+typedef struct _SECREGION_BOOT_PARAMS {
+	uint64               Ptr;
+	uint32               Size;
+	uint32               Crc;
+} SECREGION_BOOT_PARAMS;
+
+typedef struct _DCS_DISK_ENTRY_SECTORS {
+	uint32      Type;
+	uint32      Offset;
+	uint64      Reserved;
+	uint64      Start;
+	uint64      Length;
+} DCS_DISK_ENTRY_SECTORS;
+
+typedef struct {
+	uint32  Data1;
+	uint16  Data2;
+	uint16  Data3;
+	byte    Data4[8];
+} DCS_GUID;
+
+typedef struct _DCS_DISK_ENTRY_DISKID {
+	uint32      Type;
+	uint32      MbrID;
+	uint64      ReservedDiskId;
+	DCS_GUID    GptID;
+} DCS_DISK_ENTRY_DISKID;
+
+typedef struct _DCS_DISK_ENTRY_EXEC_PARAMS {
+	DCS_GUID     ExecPartGuid;
+	uint16       ExecCmd[248];
+} DCS_DISK_ENTRY_EXEC_PARAMS;
+static_assert(sizeof(DCS_DISK_ENTRY_EXEC_PARAMS) == 512, "Wrong size DCS_DISK_ENTRY_EXEC_PARAMS");
+
+#define DCS_DISK_ENTRY_PWD_CACHE_ID      SIGNATURE_64 ('P','W','D','C','A','C','H','E')
+typedef struct _DCS_DISK_ENTRY_PWD_CACHE {
+	uint64       Sign;
+	uint32       CRC;
+	uint32       Count;
+	Password     Pwd[4];
+	int32        Pim[4];
+	byte         pad[512 -8 - 4 - 4 - (sizeof(Password) + 4) * 4];
+} DCS_DISK_ENTRY_PWD_CACHE;
+static_assert(sizeof(DCS_DISK_ENTRY_PWD_CACHE) == 512, "Wrong size DCS_DISK_ENTRY_PWD_CACHE");
+
+#pragma warning(disable:4201)
+typedef struct _DCS_DISK_ENTRY {
+	union {
+		struct {
+			uint32      Type;
+			byte        Data[28];
+		};
+		DCS_DISK_ENTRY_SECTORS Sectors;
+		DCS_DISK_ENTRY_DISKID  DiskId;
+	};
+} DCS_DISK_ENTRY;
+#pragma warning(default:4201)
+
+typedef struct _DCS_DISK_ENTRY_LIST {
+	//	EFI_TABLE_HEADER
+	uint64  Signature;
+	uint32  Revision;
+	uint32  HeaderSize;	//< The size, in bytes, of the entire table including the EFI_TABLE_HEADER.
+	uint32  CRC32;       //< The 32-bit CRC for the entire table. This value is computed by setting this field to 0, and computing the 32-bit CRC for HeaderSize bytes.
+	uint32  Reserved; 	//< Reserved field that must be set to 0.
+								//
+	uint32  Count;
+	uint32  DataSize;
+	//
+	DCS_DISK_ENTRY  DE[31];
+} DCS_DISK_ENTRY_LIST;
+#pragma pack()
+
+#endif
 
 #endif // TC_HEADER_Boot_BootCommon

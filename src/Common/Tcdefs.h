@@ -14,6 +14,44 @@
 #ifndef TCDEFS_H
 #define TCDEFS_H
 
+#if defined(_UEFI)
+#undef  _WIN32
+#undef  _WIN64
+#undef  _DEBUG
+
+#include <Uefi.h> 
+#include <Library/BaseLib.h> 
+#include <Library/BaseMemoryLib.h>
+
+void* VeraCryptMemAlloc(IN UINTN size);
+void VeraCryptMemFree(IN VOID* ptr);
+
+#define BOOL int
+#ifndef FALSE
+#define FALSE 0
+#define TRUE 1
+#endif
+
+#define max(a,b)	((a)>(b))?(a):(b)
+#define min(a,b)	((a)<(b))?(a):(b)
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
+extern unsigned __int64 __cdecl _rotl64(unsigned __int64,int);
+extern unsigned __int64 __cdecl _rotr64(unsigned __int64,int);
+extern unsigned int __cdecl _rotl(unsigned int,int);
+extern unsigned int __cdecl _rotr(unsigned int,int);
+extern unsigned char _rotr8(unsigned char value, unsigned char shift);
+extern unsigned short _rotr16(unsigned short value, unsigned char shift);
+extern unsigned char _rotl8(unsigned char value, unsigned char shift);
+extern unsigned short _rotl16(unsigned short value, unsigned char shift);
+#ifdef  __cplusplus
+}
+#endif
+
+#endif // defined(_UEFI)
+
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
@@ -54,6 +92,9 @@ typedef __int64 int64;
 typedef unsigned __int64 uint64;
 #define LL(x) x##ui64
 #endif
+
+#pragma warning( disable : 4201 )  // disable: 4201 nonstandard extension used : nameless struct/union
+#pragma warning( disable : 4324 )  // disable: 4324 structure was padded due to __declspec(align())
 
 #else // !_MSC_VER
 
@@ -123,6 +164,41 @@ typedef union
 #define __has_builtin(x) 0  // Compatibility with non-clang compilers
 #endif
 
+#if defined(_UEFI)
+typedef UINTN size_t;
+typedef uint64 uint_64t;
+typedef CHAR16 wchar_t;
+typedef int LONG;
+
+#define wcscpy StrCpy
+#define wcslen StrLen
+#define wcscmp StrCmp
+#define wcscat StrCat
+
+#define memcpy(dest,source,count)         CopyMem(dest,source,(UINTN)(count))
+#define memset(dest,ch,count)             SetMem(dest,(UINTN)(count),(UINT8)(ch))
+#define memchr(buf,ch,count)              ScanMem8(buf,(UINTN)(count),(UINT8)ch)
+#define memcmp(buf1,buf2,count)           (int)(CompareMem(buf1,buf2,(UINTN)(count)))
+
+#define MAX_STRING_SIZE  0x1000
+#define strcat(strDest,strSource)         AsciiStrCatS(strDest,MAX_STRING_SIZE,strSource)
+#define strchr(str,ch)                    ScanMem8((VOID *)(str),AsciiStrSize(str),(UINT8)ch)
+#define strcmp                            AsciiStrCmp
+#define strncmp(string1,string2,count)    (int)(AsciiStrnCmp(string1,string2,(UINTN)(count)))
+#define strcpy(strDest,strSource)         AsciiStrCpyS(strDest,MAX_STRING_SIZE,strSource)
+#define strncpy(strDest,strSource,count)  AsciiStrnCpyS(strDest,MAX_STRING_SIZE,strSource,(UINTN)count)
+#define strlen(str)                       (size_t)(AsciiStrnLenS(str,MAX_STRING_SIZE))
+#define strstr                            AsciiStrStr
+
+// #define rotr32(x,n)	(((x) >> n) | ((x) << (32 - n)))
+// #define rotl32(x,n)	(((x) << n) | ((x) >> (32 - n)))
+// #define rotr64(x,n)	(((x) >> n) | ((x) << (64 - n)))
+// #define rotl64(x,n)	(((x) << n) | ((x) >> (64 - n)))
+// #define bswap_32(x)	(rotl32((((x) & 0xFF00FF00) >> 8) | (((x) & 0x00FF00FF) << 8), 16U))
+// #define bswap_64(x)	rotl64(((((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | (((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
+
+#endif
+
 #ifdef TC_WINDOWS_BOOT
 
 #	ifdef  __cplusplus
@@ -133,6 +209,9 @@ void ThrowFatalException (int line);
 #	define TC_THROW_FATAL_EXCEPTION	ThrowFatalException (__LINE__)
 #elif defined (TC_WINDOWS_DRIVER)
 #	define TC_THROW_FATAL_EXCEPTION KeBugCheckEx (SECURITY_SYSTEM, __LINE__, 0, 0, 'VC')
+#elif defined(_UEFI)
+void ThrowFatalException(int line);
+#	define TC_THROW_FATAL_EXCEPTION	ThrowFatalException (__LINE__)
 #elif (defined(__clang__) && __has_builtin(__builtin_trap)) \
     || (defined(__GNUC__ ) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3))) \
     || (__has_builtin(__builtin_trap))
@@ -170,9 +249,13 @@ typedef int BOOL;
 #endif
 
 #else				/* !TC_WINDOWS_DRIVER */
-
+#if !defined(_UEFI)
 #define TCalloc malloc
 #define TCfree free
+#else
+#define TCalloc VeraCryptMemAlloc
+#define TCfree VeraCryptMemFree
+#endif //!defined(_UEFI)
 
 #ifdef _WIN32
 
@@ -217,6 +300,8 @@ typedef int BOOL;
 #			define trace_msg Dump
 #		elif defined (_WIN32)
 #			define trace_msg(...) do { char msg[2048]; StringCbPrintfA (msg, sizeof (msg), __VA_ARGS__); OutputDebugString (msg); } while (0)
+#		else
+#			define trace_msg(...)
 #		endif
 #		define trace_point trace_msg (__FUNCTION__ ":" TC_TO_STRING(__LINE__) "\n")
 #	else
@@ -233,7 +318,7 @@ typedef int BOOL;
 #	define TC_WAIT_EVENT(EVENT) WaitForSingleObject (EVENT, INFINITE)
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_UEFI)
 #define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); size_t burnc = size; RtlSecureZeroMemory (mem, size); while (burnc--) *burnm++ = 0; } while (0)
 #else
 #define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); int burnc = size; while (burnc--) *burnm++ = 0; } while (0)
@@ -251,7 +336,7 @@ typedef int BOOL;
 #		define max(a,b) (((a) > (b)) ? (a) : (b))
 #	endif
 
-#	ifdef  __cplusplus
+#	if defined(__cplusplus) && !defined(_UEFI)
 extern "C"
 #	endif
 void EraseMemory (void *memory, int size);

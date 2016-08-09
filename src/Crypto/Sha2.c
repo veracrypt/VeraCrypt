@@ -69,7 +69,9 @@
 */
 
 #include "Common/Endian.h"
+#include "Common/Tcdefs.h"
 #include "Crypto/misc.h"
+
 #define PLATFORM_BYTE_ORDER BYTE_ORDER
 #define IS_LITTLE_ENDIAN LITTLE_ENDIAN
 
@@ -77,7 +79,9 @@
 #define UNROLL_SHA2     /* for SHA2 loop unroll     */
 #endif
 
+#if !defined(_UEFI)
 #include <string.h>     /* for memcpy() etc.        */
+#endif !defined(_UEFI)
 
 #include "Sha2.h"
 
@@ -86,7 +90,7 @@ extern "C"
 {
 #endif
 
-#if defined( _MSC_VER ) && ( _MSC_VER > 800 )
+#if defined( _MSC_VER ) && ( _MSC_VER > 800 ) && !defined(_UEFI)
 #pragma intrinsic(memcpy)
 #endif
 

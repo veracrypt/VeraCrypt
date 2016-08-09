@@ -13,7 +13,7 @@
 #else
 
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
-#if defined(TC_WINDOWS_DRIVER)
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -82,7 +82,7 @@ extern __m128i _mm_setr_epi32(int _I0, int _I1, int _I2, int _I3);
 
 #if CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
 #if defined(__SSSE3__) || defined(__INTEL_COMPILER)
-#if defined(TC_WINDOWS_DRIVER)
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -96,7 +96,7 @@ extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
 #endif
 
 #if defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER)
-#if defined(TC_WINDOWS_DRIVER)
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -114,7 +114,7 @@ extern __m128i _mm_insert_epi64(__m128i dst, __int64 s, const int ndx);
 #endif
 
 #if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
-#if defined(TC_WINDOWS_DRIVER)
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
 #endif

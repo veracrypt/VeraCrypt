@@ -60,8 +60,10 @@ static void SigIllHandlerSSE2(int p)
 int CpuId(uint32 input, uint32 output[4])
 {
 #ifdef CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY
+#ifndef _UEFI
     __try
 	{
+#endif
 		__asm
 		{
 			mov eax, input
@@ -73,11 +75,13 @@ int CpuId(uint32 input, uint32 output[4])
 			mov [edi+8], ecx
 			mov [edi+12], edx
 		}
-	}
-    __except (EXCEPTION_EXECUTE_HANDLER)
+#ifndef _UEFI
+	 }
+	 __except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		return 0;
     }
+#endif
 
 	// function 0 returns the highest basic function understood in EAX
 	if(input == 0)
@@ -123,7 +127,7 @@ static int TrySSE2()
 {
 #if CRYPTOPP_BOOL_X64
 	return 1;
-#elif defined(CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY)
+#elif defined(CRYPTOPP_MS_STYLE_INLINE_ASSEMBLY) && !defined(_UEFI)
 	volatile int result = 1;
 #if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
@@ -150,7 +154,7 @@ static int TrySSE2()
 		return 0;
 #endif
 	return result;
-#else
+#elif !defined(_UEFI)
 	// longjmp and clobber warnings. Volatile is required.
 	// http://github.com/weidai11/cryptopp/issues/24
 	// http://stackoverflow.com/q/7721854
@@ -174,6 +178,8 @@ static int TrySSE2()
 
 	signal(SIGILL, oldHandler);
 	return result;
+#else
+	return 1;
 #endif
 }
 
@@ -198,7 +204,7 @@ VC_INLINE int IsAMD(const uint32 output[4])
     (output[3] /*EDX*/ == 0x444D4163);
 }
 
-#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
+#if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
 
 static int TryAESNI ()
 {
@@ -289,7 +295,7 @@ void DetectX86Features()
 	g_hasAESNI = g_hasSSE2 && (cpuid1[2] & (1<<25));
 	g_hasCLMUL = g_hasSSE2 && (cpuid1[2] & (1<<1));
 
-#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
+#if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
 	// Hypervisor = bit 31 of ECX of CPUID leaf 0x1
 	// reference: http://artemonsecurity.com/vmde.pdf
 	if (!g_hasAESNI && (cpuid1[2] & (1<<31)))
@@ -337,7 +343,7 @@ int is_aes_hw_cpu_supported ()
 	{
 		if (cpuid[2] & (1<<25))
 			bHasAESNI = 1;
-#if (defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
+#if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
 		// Hypervisor = bit 31 of ECX of CPUID leaf 0x1
 		// reference: http://artemonsecurity.com/vmde.pdf
 		if (!bHasAESNI && (cpuid[2] & (1<<31)))
