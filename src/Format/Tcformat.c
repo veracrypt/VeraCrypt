@@ -4060,6 +4060,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				int ea, hid;
 				wchar_t buf[100];
+				BOOL bIsGPT = FALSE;
+				if (SysEncInEffect ())
+					bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 
 				// Encryption algorithms
 
@@ -4072,7 +4075,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 				{
-					if (EAIsFormatEnabled (ea))
+					if (EAIsFormatEnabled (ea) && (!SysEncInEffect () || bIsGPT || EAIsMbrSysEncEnabled (ea)))
 						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea, 1), ea);
 				}
 
@@ -4086,7 +4089,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (SysEncInEffect ())
 				{
-					BOOL bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 					hash_algo = bIsGPT? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
 					RandSetHashFunction (hash_algo);
 

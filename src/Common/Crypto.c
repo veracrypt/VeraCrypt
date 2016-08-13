@@ -73,21 +73,21 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 
 #ifndef TC_WINDOWS_BOOT
 
-	{ { 0,							0 }, { 0, 0},		0 },	// Must be all-zero
-	{ { AES,							0 }, { XTS, 0 },	1 },
-	{ { SERPENT,					0 }, { XTS, 0 },	1 },
-	{ { TWOFISH,					0 }, { XTS, 0 },	1 },
-	{ { CAMELLIA,					0 }, { XTS, 0 },	1 },
+	{ { 0,							0 }, { 0, 0},		0, 0 },	// Must be all-zero
+	{ { AES,							0 }, { XTS, 0 },	1, 1 },
+	{ { SERPENT,					0 }, { XTS, 0 },	1, 1 },
+	{ { TWOFISH,					0 }, { XTS, 0 },	1, 1 },
+	{ { CAMELLIA,					0 }, { XTS, 0 },	1, 1 },
 #if defined(CIPHER_GOST89)
-	{ { GOST89,						0 }, { XTS, 0 },	1 },
+	{ { GOST89,						0 }, { XTS, 0 },	0, 1 },
 #endif  // defined(CIPHER_GOST89)
-	{ { KUZNYECHIK,				0 }, { XTS, 0 },	1 },
-	{ { TWOFISH, AES,				0 }, { XTS, 0 },	1 },
-	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1 },
-	{ { AES, SERPENT,				0 }, { XTS, 0 },	1 },
-	{ { AES, TWOFISH, SERPENT,	0 }, { XTS, 0 },	1 },
-	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1 },
-	{ { 0,							0 }, { 0,    0},	0 }		// Must be all-zero
+	{ { KUZNYECHIK,				0 }, { XTS, 0 },	0, 1 },
+	{ { TWOFISH, AES,				0 }, { XTS, 0 },	1, 1 },
+	{ { SERPENT, TWOFISH, AES,	0 }, { XTS, 0 },	1, 1 },
+	{ { AES, SERPENT,				0 }, { XTS, 0 },	1, 1 },
+	{ { AES, TWOFISH, SERPENT,	0 }, { XTS, 0 },	1, 1 },
+	{ { SERPENT, TWOFISH,		0 }, { XTS, 0 },	1, 1 },
+	{ { 0,							0 }, { 0,    0},	0, 0 }		// Must be all-zero
 
 #else // TC_WINDOWS_BOOT
 
@@ -684,6 +684,12 @@ int EAIsFormatEnabled (int ea)
 	return EncryptionAlgorithms[ea].FormatEnabled;
 }
 
+#ifndef TC_WINDOWS_BOOT
+int EAIsMbrSysEncEnabled (int ea)
+{
+	return EncryptionAlgorithms[ea].MbrSysEncEnabled;
+}
+#endif
 
 // Returns TRUE if the mode of operation is supported for the encryption algorithm
 BOOL EAIsModeSupported (int ea, int testedMode)

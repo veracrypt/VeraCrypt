@@ -133,6 +133,9 @@ typedef struct
 {
 	int Ciphers[4];			// Null terminated array of ciphers used by encryption algorithm
 	int Modes[LAST_MODE_OF_OPERATION + 1];			// Null terminated array of modes of operation
+#ifndef TC_WINDOWS_BOOT
+	BOOL MbrSysEncEnabled;
+#endif
 	int FormatEnabled;
 } EncryptionAlgorithm;
 
@@ -348,6 +351,9 @@ int EAGetLastCipher (int ea);
 int EAGetNextCipher (int ea, int previousCipherId);
 int EAGetPreviousCipher (int ea, int previousCipherId);
 int EAIsFormatEnabled (int ea);
+#ifndef TC_WINDOWS_BOOT
+int EAIsMbrSysEncEnabled (int ea);
+#endif
 BOOL EAIsModeSupported (int ea, int testedMode);
 
 
