@@ -78,9 +78,9 @@ typedef struct
 #define TC_SET_BOOT_ARGUMENTS_SIGNATURE(SG) do { SG[0]  = 'T';   SG[1]  = 'R';   SG[2]  = 'U';   SG[3]  = 'E';   SG[4]  = 0x11;   SG[5]  = 0x23;   SG[6]  = 0x45;   SG[7]  = 0x66; } while (FALSE)
 #define TC_IS_BOOT_ARGUMENTS_SIGNATURE(SG)      (SG[0] == 'T' && SG[1] == 'R' && SG[2] == 'U' && SG[3] == 'E' && SG[4] == 0x11 && SG[5] == 0x23 && SG[6] == 0x45 && SG[7] == 0x66)
 
-#if !defined(TC_WINDOWS_BOOT) 
+#if !defined(TC_WINDOWS_BOOT)
 
-#define DCS_DISK_ENTRY_LIST_HEADER_ID      SIGNATURE_64 ('D','C','S','D','E','L','S','T')
+#define DCS_DISK_ENTRY_LIST_HEADER_SIGN      SIGNATURE_64 ('D','C','S','D','E','L','S','T')
 
 #define DE_IDX_CRYPTOHEADER  0
 #define DE_IDX_LIST          1
@@ -89,9 +89,11 @@ typedef struct
 #define DE_IDX_MAINGPTENTRYS 4
 #define DE_IDX_ALTGPTHDR     5
 #define DE_IDX_ALTGPTENTRYS  6
-#define DE_IDX_EXECPARAMS    7
+#define DE_IDX_EXEC          7
 #define DE_IDX_PWDCACHE      8
-#define DE_IDX_TOTAL         9
+#define DE_IDX_RND           9
+#define DE_IDX_TOTAL         10
+static_assert(DE_IDX_TOTAL <= 15, "DE_IDX_TOTAL too big");
 
 enum DcsDiskEntryTypes {
 	DE_Unused = 0,
@@ -99,7 +101,8 @@ enum DcsDiskEntryTypes {
 	DE_List,
 	DE_DISKID,
 	DE_ExecParams,
-	DE_PwdCache
+	DE_PwdCache,
+	DE_Rnd
 };
 
 #pragma pack(1)
@@ -109,14 +112,6 @@ typedef struct _SECREGION_BOOT_PARAMS {
 	uint32               Crc;
 } SECREGION_BOOT_PARAMS;
 
-typedef struct _DCS_DISK_ENTRY_SECTORS {
-	uint32      Type;
-	uint32      Offset;
-	uint64      Reserved;
-	uint64      Start;
-	uint64      Length;
-} DCS_DISK_ENTRY_SECTORS;
-
 typedef struct {
 	uint32  Data1;
 	uint16  Data2;
@@ -124,43 +119,63 @@ typedef struct {
 	byte    Data4[8];
 } DCS_GUID;
 
+// DE types
+typedef struct _DCS_DISK_ENTRY_SECTORS {
+	uint32      Type;
+	uint32      Offset; // Offset in memory
+	uint64      Reserved;
+	uint64      Start;  // Start on disk (byte)
+	uint64      Length; // length on disk (byte)
+} DCS_DISK_ENTRY_SECTORS;
+static_assert(sizeof(DCS_DISK_ENTRY_SECTORS) ==	32, "Wrong size DCS_DISK_ENTRY_SECTORS");
+
+typedef struct _DCS_DISK_ENTRY_PARAMS {
+	uint32      Type;
+	uint32      Offset;
+	uint64      Reserved[2];
+	uint64      Length;           // size of data
+} DCS_DISK_ENTRY_PARAMS;
+static_assert(sizeof(DCS_DISK_ENTRY_PARAMS) == 32, "Wrong size DCS_DISK_ENTRY_PARAMS");
+
 typedef struct _DCS_DISK_ENTRY_DISKID {
 	uint32      Type;
 	uint32      MbrID;
 	uint64      ReservedDiskId;
 	DCS_GUID    GptID;
 } DCS_DISK_ENTRY_DISKID;
-
-typedef struct _DCS_DISK_ENTRY_EXEC_PARAMS {
-	DCS_GUID     ExecPartGuid;
-	uint16       ExecCmd[248];
-} DCS_DISK_ENTRY_EXEC_PARAMS;
-static_assert(sizeof(DCS_DISK_ENTRY_EXEC_PARAMS) == 512, "Wrong size DCS_DISK_ENTRY_EXEC_PARAMS");
-
-#define DCS_DISK_ENTRY_PWD_CACHE_ID      SIGNATURE_64 ('P','W','D','C','A','C','H','E')
-typedef struct _DCS_DISK_ENTRY_PWD_CACHE {
-	uint64       Sign;
-	uint32       CRC;
-	uint32       Count;
-	Password     Pwd[4];
-	int32        Pim[4];
-	byte         pad[512 -8 - 4 - 4 - (sizeof(Password) + 4) * 4];
-} DCS_DISK_ENTRY_PWD_CACHE;
-static_assert(sizeof(DCS_DISK_ENTRY_PWD_CACHE) == 512, "Wrong size DCS_DISK_ENTRY_PWD_CACHE");
+static_assert(sizeof(DCS_DISK_ENTRY_DISKID) == 32, "Wrong size DCS_DISK_ENTRY_DISKID");
 
 #pragma warning(disable:4201)
 typedef struct _DCS_DISK_ENTRY {
 	union {
 		struct {
 			uint32      Type;
-			byte        Data[28];
+			uint32      Offset;
+			byte        reserved[16];
+			uint64      Length;           // size of structure at Offset
 		};
 		DCS_DISK_ENTRY_SECTORS Sectors;
 		DCS_DISK_ENTRY_DISKID  DiskId;
+		DCS_DISK_ENTRY_PARAMS  Prm;
 	};
 } DCS_DISK_ENTRY;
 #pragma warning(default:4201)
+static_assert(sizeof(DCS_DISK_ENTRY) == 32, "Wrong size DCS_DISK_ENTRY");
 
+// Static compile time checks field offsets
+#ifndef FIELD_OFFSET
+#define FIELD_OFFSET(t, f) ((UINTN)(&((t*)0)->f))
+#endif
+static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Type), "Wrong Type offset");
+static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_DISKID,  Type), "Wrong Type offset");
+static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Type), "Wrong Type offset");
+static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Length) == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Length), "Wrong Length offset");
+static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Length) == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Length), "Wrong Length offset");
+static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Offset), "Wrong Offset offset");
+static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Offset), "Wrong Offset offset");
+
+// DE type specific data 
+// DE List
 typedef struct _DCS_DISK_ENTRY_LIST {
 	//	EFI_TABLE_HEADER
 	uint64  Signature;
@@ -172,10 +187,28 @@ typedef struct _DCS_DISK_ENTRY_LIST {
 	uint32  Count;
 	uint32  DataSize;
 	//
-	DCS_DISK_ENTRY  DE[31];
+	DCS_DISK_ENTRY  DE[15];
 } DCS_DISK_ENTRY_LIST;
+static_assert(sizeof(DCS_DISK_ENTRY_LIST) == 512, "Wrong size DCS_DISK_ENTRY_LIST");
+
+typedef struct _DCS_DEP_EXEC {
+	DCS_GUID     ExecPartGuid;
+	uint16       ExecCmd[248];
+} DCS_DEP_EXEC;
+static_assert(sizeof(DCS_DEP_EXEC) == 512, "Wrong size DCS_DEP_EXEC");
+
+#define DCS_DEP_PWD_CACHE_SIGN      SIGNATURE_64 ('P','W','D','C','A','C','H','E')
+typedef struct _DCS_DEP_PWD_CACHE {
+	uint64       Sign;
+	uint32       CRC;
+	uint32       Count;
+	Password     Pwd[4];
+	int32        Pim[4];
+	byte         pad[512 - 8 - 4 - 4 - (sizeof(Password) + 4) * 4];
+} DCS_DEP_PWD_CACHE;
+static_assert(sizeof(DCS_DEP_PWD_CACHE) == 512, "Wrong size DCS_DEP_PWD_CACHE");
 #pragma pack()
 
-#endif
+#endif // #if !defined(TC_WINDOWS_BOOT)
 
 #endif // TC_HEADER_Boot_BootCommon
