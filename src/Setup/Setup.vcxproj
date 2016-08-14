@@ -129,6 +129,8 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\XUnzip.cpp" />
+    <ClCompile Include="..\Common\XZip.cpp" />
     <ClCompile Include="ComSetup.cpp" />
     <ClCompile Include="Dir.c" />
     <ClCompile Include="SelfExtract.c" />
@@ -172,6 +174,8 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
   <ItemGroup>
     <ClInclude Include="..\Common\Apidrvr.h" />
     <ClInclude Include="..\Common\Combo.h" />
+    <ClInclude Include="..\Common\XUnzip.h" />
+    <ClInclude Include="..\Common\XZip.h" />
     <ClInclude Include="ComSetup.h" />
     <ClInclude Include="..\Common\Crc.h" />
     <ClInclude Include="Dir.h" />

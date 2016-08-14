@@ -309,6 +309,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\XUnzip.cpp" />
+    <ClCompile Include="..\Common\XZip.cpp" />
     <ClCompile Include="DlgExpandVolume.cpp" />
     <ClCompile Include="ExpandVolume.c" />
     <ClCompile Include="InitDataArea.c" />
@@ -381,6 +383,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Dlgcode.h" />
     <ClInclude Include="..\Common\EncryptionThreadPool.h" />
     <ClInclude Include="..\Common\Exception.h" />
+    <ClInclude Include="..\Common\XUnzip.h" />
+    <ClInclude Include="..\Common\XZip.h" />
     <ClInclude Include="ExpandVolume.h" />
     <ClInclude Include="..\Common\GfMul.h" />
     <ClInclude Include="Hotkeys.h" />

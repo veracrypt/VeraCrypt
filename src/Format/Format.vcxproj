@@ -250,6 +250,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\XUnzip.cpp" />
+    <ClCompile Include="..\Common\XZip.cpp" />
     <ClCompile Include="FormatCom.cpp" />
     <ClCompile Include="InPlace.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
@@ -320,6 +322,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Exception.h" />
     <ClInclude Include="..\Common\Fat.h" />
     <ClInclude Include="..\Common\Format.h" />
+    <ClInclude Include="..\Common\XUnzip.h" />
+    <ClInclude Include="..\Common\XZip.h" />
     <ClInclude Include="FormatCom.h" />
     <ClInclude Include="..\Common\GfMul.h" />
     <ClInclude Include="InPlace.h" />

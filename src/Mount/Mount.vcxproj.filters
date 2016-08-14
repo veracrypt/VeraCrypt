@@ -102,6 +102,12 @@
     <ClCompile Include="..\Common\Xts.c">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\XZip.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\XUnzip.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="MainCom.idl">
@@ -203,6 +209,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\Xts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\XZip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\XUnzip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

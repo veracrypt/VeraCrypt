@@ -120,6 +120,12 @@
     <ClCompile Include="..\Mount\Mount.c">
       <Filter>Source Files\Mount</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\XZip.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\XUnzip.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Wipe.h">
@@ -222,6 +228,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\Xts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\XZip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\XUnzip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -274,6 +274,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\XUnzip.cpp" />
+    <ClCompile Include="..\Common\XZip.cpp" />
     <ClCompile Include="Favorites.cpp" />
     <ClCompile Include="Hotkeys.c" />
     <ClCompile Include="MainCom.cpp" />
@@ -339,6 +341,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Dlgcode.h" />
     <ClInclude Include="..\Common\EncryptionThreadPool.h" />
     <ClInclude Include="..\Common\Exception.h" />
+    <ClInclude Include="..\Common\XUnzip.h" />
+    <ClInclude Include="..\Common\XZip.h" />
     <ClInclude Include="Favorites.h" />
     <ClInclude Include="..\Common\GfMul.h" />
     <ClInclude Include="Hotkeys.h" />
