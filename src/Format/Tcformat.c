@@ -1605,6 +1605,10 @@ static void RefreshMultiBootControls (HWND hwndDlg)
 		nMultiBoot = 1;
 #endif
 
+	// For now, we force single configuration in wizard
+	if (bSystemIsGPT && nMultiBoot == 0)
+		nMultiBoot = 1;
+
 	SendMessage (GetDlgItem (hwndDlg, IDC_SINGLE_BOOT),
 		BM_SETCHECK,
 		nMultiBoot == 1 ? BST_CHECKED : BST_UNCHECKED,
@@ -3628,10 +3632,9 @@ static BOOL FileSize4GBLimitQuestionNeeded (void)
 }
 
 
-void BlockIfGpt(HWND control) {
-   SystemDriveConfiguration config = BootEncObj->GetSystemDriveConfiguration();
-
-   if (config.SystemPartition.IsGPT) {
+void DisableIfGpt(HWND control)
+{
+   if (bSystemIsGPT) {
       EnableWindow(control, FALSE);
    }
 }
@@ -3693,7 +3696,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SendMessage (GetDlgItem (hwndDlg, IDC_SYSENC_HIDDEN), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 			SendMessage (GetDlgItem (hwndDlg, IDC_SYSENC_NORMAL), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 
-			BlockIfGpt(GetDlgItem(hwndDlg, IDC_SYSENC_HIDDEN));
+			DisableIfGpt(GetDlgItem(hwndDlg, IDC_SYSENC_HIDDEN));
 
 			CheckButton (GetDlgItem (hwndDlg, bHiddenOS ? IDC_SYSENC_HIDDEN : IDC_SYSENC_NORMAL));
 
@@ -3734,7 +3737,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (hwndDlg, IDT_WHOLE_SYS_DRIVE), GetString ("SYS_ENCRYPTION_SPAN_WHOLE_SYS_DRIVE_HELP"));
 
 			CheckButton (GetDlgItem (hwndDlg, bWholeSysDrive ? IDC_WHOLE_SYS_DRIVE : IDC_SYS_PARTITION));
-			BlockIfGpt(GetDlgItem(hwndDlg, IDC_WHOLE_SYS_DRIVE));
+			DisableIfGpt(GetDlgItem(hwndDlg, IDC_WHOLE_SYS_DRIVE));
 
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
@@ -3812,7 +3815,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDCANCEL), GetString ("CANCEL"));
 
 			RefreshMultiBootControls (hwndDlg);
-			BlockIfGpt(GetDlgItem(hwndDlg, IDC_MULTI_BOOT));
+			DisableIfGpt(GetDlgItem(hwndDlg, IDC_MULTI_BOOT));
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), nMultiBoot > 0);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), TRUE);
