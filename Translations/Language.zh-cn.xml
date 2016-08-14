@@ -261,7 +261,7 @@
     <control lang="zh-cn" key="IDM_UNMOUNTALL">卸载全部加载的加密卷</control>
     <control lang="zh-cn" key="IDM_UNMOUNT_VOLUME">卸载所选加密卷</control>
     <control lang="zh-cn" key="IDM_VERIFY_RESCUE_DISK">验证应急盘</control>
-    <control lang="zh-cn" key="IDM_VERIFY_RESCUE_DISK_ISO">验证应急盘ISO镜像</control>
+    <control lang="zh-cn" key="IDM_VERIFY_RESCUE_DISK_ISO">验证应急盘镜像</control>
     <control lang="zh-cn" key="IDM_VERSION_HISTORY">版本历史（联网）</control>
     <control lang="zh-cn" key="IDM_VOLUME_EXPANDER">加密卷扩展向导</control>
     <control lang="zh-cn" key="IDM_VOLUME_PROPERTIES">加密卷属性</control>
@@ -962,14 +962,14 @@
     <string lang="zh-cn" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中没有内嵌的备份头信息（注意，仅在 VeraCrypt 6.0 和以后的版本才包含内嵌的头信息）。</string>
     <string lang="zh-cn" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试备份系统分区/设备的头信息，该功能不被允许。对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</string>
     <string lang="zh-cn" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试恢复系统分区/设备的头信息，但是您选择的是系统分区/设备。该功能不被允许。 对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</string>
-    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在点击〖确定〗按钮后，您将会设置新的 VeraCrypt 应急盘  ISO 镜像文件的名称和存放位置。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在点击〖确定〗按钮后，您将会设置新的 VeraCrypt 应急盘  镜像文件的名称和存放位置。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">应急盘  ISO 镜像文件已经创建并存储为文件： %s\n\n现在您需要把应急盘刻录到 CD 或 DVD。\n\n重要：文件必须以 ISO 镜像文件方式刻录到 CD/DVD（不要刻录为单个的数据文件）。要获取更多的关于如何刻录 ISO 文件的信息，请参考您的 CD/DVD 刻录软件的说明书。\n\n请您在刻录应急盘之后，选择〖系统〗 -&gt; 〖验证应急盘〗来验证应急盘是否已经成功刻录。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">应急盘  ISO 镜像文件已经创建并存储为文件： %s\n\n现在您需要把应急盘刻录到 CD 或 DVD。\n\n您想要启动 Windows 自带的磁盘镜像刻录功能吗？\n\n注意，请您在刻录应急盘之后，选择〖系统〗 -&gt; 〖验证应急盘〗来验证应急盘是否已经成功刻录。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">请插入 VeraCrypt 应急盘到 CD/DVD 光驱并点〖确定〗按钮开始验证。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 应急盘已经被成功验证。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">应急盘验证失败。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再试一次。如果仍然无效，请尝试使用其它 CD/DVD 刻录软件或刻录盘。\n\n如果您尝试验证一个为不同的主密钥、密码、元素等创建的 VeraCrypt 应急盘，请注意这样的应急盘会无法通过验证。要创建一个新的和当前配置完全兼容的应急盘，请选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 应急盘ISO镜像已经被成功验证。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘ISO镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘ISO镜像，请选择 "系统" > "创建应急盘" 。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 应急盘 镜像已经被成功验证。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘 镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘镜像，请选择 "系统" > "创建应急盘" 。</string>
     <string lang="zh-cn" key="ERROR_CREATING_RESCUE_DISK">创建 VeraCrypt 应急盘时失败。</string>
     <string lang="zh-cn" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 应急盘在隐形操作系统运行时无法创建。\n\n要创建 VeraCrypt 应急盘，请启动到迷惑操作系统之后选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
     <string lang="zh-cn" key="RESCUE_DISK_CHECK_FAILED">不能确定应急盘是否刻录成功。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再尝试验证一次。如果仍然无效，请尝试使用其它 %s 。\n\n如果您还没有创建应急盘，请首先创建一个，然后再点〖下一步〗按钮。\n\n如果您尝试验证一个运行加密盘创建向导以前创建的应急盘，则这样的应急盘是无法用于当前系统的，这是因为它是使用了不同的主密钥创建的。您需要刻录和创建一个新的应急盘。</string>
@@ -1406,6 +1406,11 @@
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>
     <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

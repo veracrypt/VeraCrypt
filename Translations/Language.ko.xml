@@ -261,7 +261,7 @@
     <control lang="ko" key="IDM_UNMOUNTALL">삽입된 모든 볼륨 꺼내기</control>
     <control lang="ko" key="IDM_UNMOUNT_VOLUME">볼륨 꺼내기</control>
     <control lang="ko" key="IDM_VERIFY_RESCUE_DISK">응급복구 디스크 검증</control>
-    <control lang="ko" key="IDM_VERIFY_RESCUE_DISK_ISO">응급복구 디스크 ISO 검증</control>
+    <control lang="ko" key="IDM_VERIFY_RESCUE_DISK_ISO">응급복구 디스크 검증</control>
     <control lang="ko" key="IDM_VERSION_HISTORY">버전 히스토리</control>
     <control lang="ko" key="IDM_VOLUME_EXPANDER">볼륨확장기</control>
     <control lang="ko" key="IDM_VOLUME_PROPERTIES">볼륨 속성</control>
@@ -968,8 +968,8 @@
     <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">검증하려면 VeraCrypt 응급복구 디스크를 CD/DVD 드라이브에 삽입한 다음 “확인”을 클릭하세요.</string>
     <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 응급복구 디스크를 성공적으로 검증했습니다.</string>
     <string lang="ko" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">응급복구 디스크가 올바르게 구워졌는지를 검증할 수 없습니다.\n\n응급복구 디스크를 구웠다면, CD/DVD를 꺼내서 다시 삽입한 다음 다시 시도해 주세요. 이것이 도움이 되지 않는 경우, 다른 CD/DVD 리코딩 소프트웨어 및 매체로 시도해 주세요.\n\n다른 마스터 키, 비밀번호, 소금 등을 위해 생성된 응급복구 디스크를 검증하려고 하는 경우, 그러한 응급복구 디스크는 항상 검증작업에 실패하게 됩니다. 현재 설정과 완전히 호환되는 새로운 응급복구 디스크를 만들려면, “시스템” ▶ “응급복구 디스크 만들기”를 선택하세요.</string>
-    <string lang="ko" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 응급복구 디스크 ISO가 성공적으로 확인되었습니다.</string>
-    <string lang="ko" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">VeraCrypt 응급복구 디스크 ISO의 확인이 실패했습니다.\n\n만약 VeraCrypt의 응급복구 디스크를 다른 마스터 키, 비밀번호, 또한 소금(Salt) 등을 사용할 경우, 확인이 실패할경우를 주의하시기 바랍니다.</string>
+    <string lang="ko" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 응급복구 디스크 가 성공적으로 확인되었습니다.</string>
+    <string lang="ko" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">VeraCrypt 응급복구 디스크 의 확인이 실패했습니다.\n\n만약 VeraCrypt의 응급복구 디스크를 다른 마스터 키, 비밀번호, 또한 소금(Salt) 등을 사용할 경우, 확인이 실패할경우를 주의하시기 바랍니다.</string>
     <string lang="ko" key="ERROR_CREATING_RESCUE_DISK">VeraCrypt 응급복구 디스크 만들기 오류.</string>
     <string lang="ko" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">숨긴 운영체제가 실행 중일 때 VeraCrypt 응급복구 디스크를 만들 수 없습니다.\n\nVeraCrypt 응급복구 디스크를 만들려면 미끼용 운영체제를 부팅한 다음 “시스템” ▶ “응급복구 디스크 만들기”를 선택하세요.</string>
     <string lang="ko" key="RESCUE_DISK_CHECK_FAILED">응급복구 디스크가 올바르게 구워졌는지를 검증할 수 없습니다.\n\n응급복구 디스크를 구웠다면, CD/DVD를 꺼내서 다시 삽입한 다음, “다음”을 클릭해서 다시 시도해 주세요. 이것이 도움이 되지 않는 경우, 다른 매체%s로 시도해 주십시오.\n\n아직 응급복구 디스크를 굽지 않았다면, 다음을 클릭하세요.\n\n이 마법사를 시작하기 전에 VeraCrypt 응급복구 디스크를 검증하려고 할 경우, 이러한 응급복구 디스크는 (다른 마스터 키를 위해 생성되었기 때문에) 사용될 수 없습니다. 새롭게 생성된 응급복구 디스크를 구울 필요가 있습니다.</string>
@@ -1406,6 +1406,11 @@
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>
     <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

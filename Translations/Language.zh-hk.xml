@@ -261,7 +261,7 @@
     <control lang="zh-hk" key="IDM_UNMOUNTALL">卸載全部載入的加密卷</control>
     <control lang="zh-hk" key="IDM_UNMOUNT_VOLUME">卸載所選加密卷</control>
     <control lang="zh-hk" key="IDM_VERIFY_RESCUE_DISK">驗證應急盤</control>
-    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk Image</control>
     <control lang="zh-hk" key="IDM_VERSION_HISTORY">版本歷史（聯網）</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="zh-hk" key="IDM_VOLUME_PROPERTIES">加密卷屬性</control>
@@ -962,14 +962,14 @@
     <string lang="zh-hk" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中沒有內嵌的備份頭資訊（注意，僅在 VeraCrypt 6.0 和以後的版本才包含內嵌的頭資訊）。</string>
     <string lang="zh-hk" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在嘗試備份系統分區/設備的頭資訊，該功能不被允許。對於系統分區/設備頭資訊的備份/恢復 只能通過使用 VeraCrypt 應急盤來進行。\n\n您希望創建 VeraCrypt 應急盤嗎？</string>
     <string lang="zh-hk" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在嘗試恢復系統分區/設備的頭資訊，但是您選擇的是系統分區/設備。該功能不被允許。 對於系統分區/設備頭資訊的備份/恢復 只能通過使用 VeraCrypt 應急盤來進行。\n\n您希望創建 VeraCrypt 應急盤嗎？</string>
-    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在點擊“確定”按鈕後，您將會設置新的 VeraCrypt 應急盤  ISO 鏡像檔的名稱和存放位置。</string>
+    <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在點擊“確定”按鈕後，您將會設置新的 VeraCrypt 應急盤  鏡像檔的名稱和存放位置。</string>
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">應急盤  ISO 鏡像檔已經創建並存儲為檔： %s\n\n現在您需要把應急盤刻錄到 CD 或 DVD。\n\n重要：檔必須以 ISO 鏡像檔方式刻錄到 CD/DVD（不要刻錄為單個的資料檔案）。要獲取更多的關於如何刻錄 ISO 檔的資訊，請參考您的 CD/DVD 刻錄軟體的說明書。\n\n請您在刻錄應急盤之後，選擇 '系統' &gt; '驗證應急盤' 來驗證應急盤是否已經成功刻錄。</string>
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">應急盤  ISO 鏡像檔已經創建並存儲為檔： %s\n\n現在您需要把應急盤刻錄到 CD 或 DVD。\n\n您想要啟動 Windows 自帶的磁片鏡像刻錄功能嗎？\n\n注意，請您在刻錄應急盤之後，選擇 '系統' &gt; '驗證應急盤' 來驗證應急盤是否已經成功刻錄。</string>
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">請插入 VeraCrypt 應急盤到 CD/DVD 光碟機並點“確定”按鈕開始驗證。</string>
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 應急盤已經被成功驗證。</string>
     <string lang="zh-hk" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">應急盤驗證失敗。\n\n如果您已經刻錄了應急盤，請彈出後重新插入應急盤到 CD/DVD，之後再試一次。如果仍然無效，請嘗試使用其他 CD/DVD 刻錄軟體或刻錄盤。\n\n如果您嘗試驗證一個為不同的主密鑰、密碼、元素等創建的 VeraCrypt 應急盤，請注意這樣的應急盤會無法通過驗證。要創建一個新的和當前配置完全相容的應急盤，請選擇 '系統' &gt; '創建應急盤'。</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk image created for a different master key, password, salt, etc., please note that such Rescue Disk image will always fail this verification. To create a new Rescue Disk image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="zh-hk" key="ERROR_CREATING_RESCUE_DISK">創建 VeraCrypt 應急盤時失敗。</string>
     <string lang="zh-hk" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 應急盤在隱形作業系統運行時無法創建。\n\n要創建 VeraCrypt 應急盤，請啟動到迷惑作業系統之後選擇 '系統' &gt; '創建應急盤'。</string>
     <string lang="zh-hk" key="RESCUE_DISK_CHECK_FAILED">不能確定應急盤是否刻錄成功。\n\n如果您已經刻錄了應急盤，請彈出後重新插入應急盤到 CD/DVD，之後再嘗試驗證一次。如果仍然無效，請嘗試使用其他 %s 。\n\n如果您還沒有創建應急盤，請首先創建一個，然後再點 '下一步' 按鈕。\n\n如果您嘗試驗證一個運行加密盤創建嚮導以前創建的應急盤，則這樣的應急盤是無法用於當前系統的，這是因為它是使用了不同的主密鑰創建的。您需要刻錄和創建一個新的應急盤。</string>
@@ -1406,6 +1406,11 @@
     <string lang="en" key="TIME">Time</string>
     <string lang="en" key="ITERATIONS">Iterations</string>
     <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
