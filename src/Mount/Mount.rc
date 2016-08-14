@@ -633,7 +633,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Create Rescue Disk...",       IDM_CREATE_RESCUE_DISK
         MENUITEM "Verify Rescue Disk",          IDM_VERIFY_RESCUE_DISK
-        MENUITEM "Verify Rescue Disk ISO Image", IDM_VERIFY_RESCUE_DISK_ISO
+        MENUITEM "Verify Rescue Disk Image", IDM_VERIFY_RESCUE_DISK_ISO
         MENUITEM SEPARATOR
         MENUITEM "Mount Without Pre-Boot &Authentication...", IDM_MOUNT_SYSENC_PART_WITHOUT_PBA
         MENUITEM SEPARATOR

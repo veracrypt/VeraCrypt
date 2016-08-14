@@ -29,6 +29,8 @@
 #include "Registry.h"
 #include "Volumes.h"
 #include "Xml.h"
+#include "XZip.h"
+#include "XUnzip.h"
 
 #ifdef VOLFORMAT
 #include "Format/FormatCom.h"
@@ -575,8 +577,15 @@ namespace VeraCrypt
 			LARGE_INTEGER lSize;
 			lSize.QuadPart = 0;
 			throw_sys_if (!GetFileSizeEx (Handle, &lSize));
-			size = (size_t) lSize.QuadPart;
+			size = (unsigned __int64) lSize.QuadPart;
 		}
+	}
+
+	void File::GetFileSize (DWORD& dwSize)
+	{
+		unsigned __int64 size64;
+		GetFileSize (size64);
+		dwSize = (DWORD) size64;
 	}
 
 	void File::Write (byte *buffer, DWORD size)
@@ -682,6 +691,8 @@ namespace VeraCrypt
 		ParentWindow (parent),
 		RealSystemDriveSizeValid (false),
 		RescueIsoImage (nullptr),
+		RescueZipData (nullptr),
+		RescueZipSize (0),
 		RescueVolumeHeaderValid (false),
 		SelectedEncryptionAlgorithmId (0),
 		SelectedPrfAlgorithmId (0),
@@ -701,7 +712,15 @@ namespace VeraCrypt
 	BootEncryption::~BootEncryption ()
 	{
 		if (RescueIsoImage)
+		{
+			burn (RescueIsoImage, RescueIsoImageSize);
 			delete[] RescueIsoImage;
+		}
+		if (RescueZipData)
+		{
+			burn (RescueZipData, RescueZipSize);
+			delete [] RescueZipData;
+		}
 
 		Elevator::Release();
 	}
@@ -2515,6 +2534,10 @@ namespace VeraCrypt
 			byte *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
 			if (!LegacySpeakerImg)
 				throw ErrorException(L"Out of resource LegacySpeaker", SRC_POS);
+			DWORD sizeBootMenuLocker;
+			byte *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
+			if (!BootMenuLockerImg)
+				throw ErrorException(L"Out of resource DcsBml", SRC_POS);
 
 			finally_do ({ EfiBootInst.DismountBootPartition(); });
 			EfiBootInst.MountBootPartition(0);			
@@ -2530,6 +2553,7 @@ namespace VeraCrypt
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInt.dcs", dcsIntImg, sizeDcsInt);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsCfg.dcs", dcsCfgImg, sizeDcsCfg);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker);
+				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker);
 				EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi");
 
 				// move configuration file from old location (if it exists) to new location
@@ -2683,126 +2707,255 @@ namespace VeraCrypt
 		BootEncryptionStatus encStatus = GetStatus();
 		if (encStatus.SetupInProgress)
 			throw ParameterIncorrect (SRC_POS);
-
-		Buffer imageBuf (RescueIsoImageSize);
-		
-		byte *image = imageBuf.Ptr();
-		memset (image, 0, RescueIsoImageSize);
-
-		// Primary volume descriptor
-		const char* szPrimVolDesc = "\001CD001\001";
-		const char* szPrimVolLabel = "VeraCrypt Rescue Disk           ";
-		memcpy (image + 0x8000, szPrimVolDesc, strlen(szPrimVolDesc) + 1);
-		memcpy (image + 0x7fff + 41, szPrimVolLabel, strlen(szPrimVolLabel) + 1);
-		*(uint32 *) (image + 0x7fff + 81) = RescueIsoImageSize / 2048;
-		*(uint32 *) (image + 0x7fff + 85) = BE32 (RescueIsoImageSize / 2048);
-		image[0x7fff + 121] = 1;
-		image[0x7fff + 124] = 1;
-		image[0x7fff + 125] = 1;
-		image[0x7fff + 128] = 1;
-		image[0x7fff + 130] = 8;
-		image[0x7fff + 131] = 8;
-
-		image[0x7fff + 133] = 10;
-		image[0x7fff + 140] = 10;
-		image[0x7fff + 141] = 0x14;
-		image[0x7fff + 157] = 0x22;
-		image[0x7fff + 159] = 0x18;
-
-		// Boot record volume descriptor
-		const char* szBootRecDesc = "CD001\001EL TORITO SPECIFICATION";
-		memcpy (image + 0x8801, szBootRecDesc, strlen(szBootRecDesc) + 1);
-		image[0x8800 + 0x47] = 0x19;
-
-		// Volume descriptor set terminator
-		const char* szVolDescTerm = "\377CD001\001";
-		memcpy (image + 0x9000, szVolDescTerm, strlen(szVolDescTerm) + 1);
-
-		// Path table
-		image[0xA000 + 0] = 1;
-		image[0xA000 + 2] = 0x18;
-		image[0xA000 + 6] = 1;
-
-		// Root directory
-		image[0xc000 + 0] = 0x22;
-		image[0xc000 + 2] = 0x18;
-		image[0xc000 + 9] = 0x18;
-		image[0xc000 + 11] = 0x08;
-		image[0xc000 + 16] = 0x08;
-		image[0xc000 + 25] = 0x02;
-		image[0xc000 + 28] = 0x01;
-		image[0xc000 + 31] = 0x01;
-		image[0xc000 + 32] = 0x01;
-		image[0xc000 + 34] = 0x22;
-		image[0xc000 + 36] = 0x18;
-		image[0xc000 + 43] = 0x18;
-		image[0xc000 + 45] = 0x08;
-		image[0xc000 + 50] = 0x08;
-		image[0xc000 + 59] = 0x02;
-		image[0xc000 + 62] = 0x01;
-		*(uint32 *) (image + 0xc000 + 65) = 0x010101;
-
-		// Validation entry
-		image[0xc800] = 1;
-		int offset = 0xc800 + 0x1c;
-		image[offset++] = 0xaa;
-		image[offset++] = 0x55;
-		image[offset++] = 0x55;
-		image[offset] = 0xaa;
-
-		// Initial entry
-		offset = 0xc820;
-		image[offset++] = 0x88;
-		image[offset++] = 2;
-		image[0xc820 + 6] = 1;
-		image[0xc820 + 8] = TC_CD_BOOT_LOADER_SECTOR;
-
-		// TrueCrypt Boot Loader
-		CreateBootLoaderInMemory (image + TC_CD_BOOTSECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE, true);
-
-		// Volume header
-		if (initialSetup)
+		BOOL bIsGPT = GetSystemDriveConfiguration().SystemPartition.IsGPT;
+		if (bIsGPT)
 		{
-			if (!RescueVolumeHeaderValid)
+			// create EFI disk structure
+			DWORD sizeDcsBoot;
+			byte *dcsBootImg = MapResource(L"BIN", IDR_EFI_DCSBOOT, &sizeDcsBoot);
+			if (!dcsBootImg)
+				throw ParameterIncorrect (SRC_POS);
+			DWORD sizeDcsInt;
+			byte *dcsIntImg = MapResource(L"BIN", IDR_EFI_DCSINT, &sizeDcsInt);
+			if (!dcsIntImg)
+				throw ParameterIncorrect (SRC_POS);
+			DWORD sizeDcsCfg;
+			byte *dcsCfgImg = MapResource(L"BIN", IDR_EFI_DCSCFG, &sizeDcsCfg);
+			if (!dcsCfgImg)
+				throw ParameterIncorrect (SRC_POS);
+			DWORD sizeLegacySpeaker;
+			byte *LegacySpeakerImg = MapResource(L"BIN", IDR_EFI_LEGACYSPEAKER, &sizeLegacySpeaker);
+			if (!LegacySpeakerImg)
+				throw ParameterIncorrect (SRC_POS);
+			DWORD sizeBootMenuLocker;
+			byte *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
+			if (!BootMenuLockerImg)
+				throw ParameterIncorrect (SRC_POS);
+			DWORD sizeDcsRescue;
+			byte *DcsRescueImg = MapResource(L"BIN", IDR_EFI_DCSRE, &sizeDcsRescue);
+			if (!DcsRescueImg)
 				throw ParameterIncorrect (SRC_POS);
 
-			memcpy (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET, RescueVolumeHeader, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+			unsigned int maxRescueZipSize = 4 * 1024 * 1024;
+			ZRESULT res;
+			HZIP hz = CreateZip (0, maxRescueZipSize, ZIP_MEMORY);
+			if (!hz)
+				throw ParameterIncorrect (SRC_POS);
+
+			finally_do_arg (HZIP, hz, { CloseZip (finally_arg); });
+
+			if (ZR_OK != ZipAdd (hz, L"EFI/Boot/bootx64.efi", DcsRescueImg, sizeDcsRescue, ZIP_MEMORY))
+				throw ParameterIncorrect (SRC_POS);
+			if (ZR_OK !=ZipAdd (hz, L"EFI/VeraCrypt/DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker, ZIP_MEMORY))
+				throw ParameterIncorrect (SRC_POS);
+			if (ZR_OK != ZipAdd (hz, L"EFI/VeraCrypt/DcsBoot.efi", dcsBootImg, sizeDcsBoot, ZIP_MEMORY))
+				throw ParameterIncorrect (SRC_POS);
+			if (ZR_OK != ZipAdd (hz, L"EFI/VeraCrypt/DcsCfg.dcs", dcsCfgImg, sizeDcsCfg, ZIP_MEMORY))
+				throw ParameterIncorrect (SRC_POS);
+			if (ZR_OK != ZipAdd (hz, L"EFI/VeraCrypt/DcsInt.dcs", dcsIntImg, sizeDcsInt, ZIP_MEMORY))
+				throw ParameterIncorrect (SRC_POS);
+			if (ZR_OK != ZipAdd (hz, L"EFI/VeraCrypt/LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker, ZIP_MEMORY))
+				throw ParameterIncorrect (SRC_POS);
+
+			Buffer volHeader(TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+
+			// Volume header
+			if (initialSetup)
+			{
+				if (!RescueVolumeHeaderValid)
+					throw ParameterIncorrect (SRC_POS);
+
+				memcpy (volHeader.Ptr (), RescueVolumeHeader, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+			}
+			else
+			{
+				Device bootDevice (GetSystemDriveConfiguration().DevicePath, true);
+				bootDevice.CheckOpened (SRC_POS);
+				bootDevice.SeekAt (TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET);
+				bootDevice.Read (volHeader.Ptr (), TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+			}
+
+			if (ZR_OK != ZipAdd (hz, L"EFI/VeraCrypt/svh_bak", volHeader.Ptr (), TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE, ZIP_MEMORY))
+				throw ParameterIncorrect (SRC_POS);
+
+			// Original system loader
+			res = ZR_WRITE;
+			try
+			{
+				DWORD fileSize = 0;
+				File sysBakFile (GetSystemLoaderBackupPath(), true);
+				sysBakFile.CheckOpened (SRC_POS);
+				sysBakFile.GetFileSize(fileSize);
+				Buffer fileBuf ((DWORD) fileSize);
+				DWORD sizeLoader = sysBakFile.Read (fileBuf.Ptr (), fileSize);
+				res = ZipAdd (hz, L"EFI/Boot/original_bootx64.vc_backup", fileBuf.Ptr (), sizeLoader, ZIP_MEMORY);				
+			}
+			catch (Exception &e)
+			{
+				e.Show (ParentWindow);
+				Warning ("SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK", ParentWindow);
+			}
+
+			if (res != ZR_OK)
+				throw ParameterIncorrect (SRC_POS);			
+
+			EfiBootConf conf;
+			wstring dcsPropFileName = GetTempPathString() + L"_dcsproprescue";
+			finally_do_arg (wstring, dcsPropFileName, { DeleteFileW (finally_arg.c_str()); });
+			if (conf.Save(dcsPropFileName.c_str(), ParentWindow))
+			{
+				DWORD fileSize = 0;
+				File propFile (dcsPropFileName, true, false);
+				propFile.CheckOpened (SRC_POS);
+				propFile.GetFileSize(fileSize);
+				Buffer propBuf (fileSize);
+				DWORD sizeDcsProp = propFile.Read (propBuf.Ptr (), fileSize);
+
+				if (ZR_OK != ZipAdd (hz, L"EFI/VeraCrypt/DcsProp", propBuf.Ptr (), sizeDcsProp, ZIP_MEMORY))
+					throw ParameterIncorrect (SRC_POS);
+			}
+			else
+				throw ParameterIncorrect (SRC_POS);
+
+			void* pZipContent = NULL;
+			unsigned long ulZipSize = 0;
+			if (ZR_OK != ZipGetMemory (hz, &pZipContent, &ulZipSize))
+				throw ParameterIncorrect (SRC_POS);
+			
+			RescueZipData = new byte[ulZipSize];
+			if (!RescueZipData)
+				throw bad_alloc();
+			memcpy (RescueZipData, pZipContent, ulZipSize);
+			RescueZipSize = ulZipSize;
+
+			if (!isoImagePath.empty())
+			{
+				File isoFile (isoImagePath, false, true);
+				isoFile.Write (RescueZipData, RescueZipSize);
+			}
 		}
 		else
 		{
-			Device bootDevice (GetSystemDriveConfiguration().DevicePath, true);
-			bootDevice.CheckOpened (SRC_POS);
-			bootDevice.SeekAt (TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET);
-			bootDevice.Read (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
-		}
-
-		// Original system loader
-		try
-		{
-			File sysBakFile (GetSystemLoaderBackupPath(), true);
-			sysBakFile.CheckOpened (SRC_POS);
-			sysBakFile.Read (image + TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE);
-			
-			image[TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_SECTOR_CONFIG_OFFSET] |= TC_BOOT_CFG_FLAG_RESCUE_DISK_ORIG_SYS_LOADER;
-		}
-		catch (Exception &e)
-		{
-			e.Show (ParentWindow);
-			Warning ("SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK", ParentWindow);
-		}
+			Buffer imageBuf (RescueIsoImageSize);
 		
-		// Boot loader backup
-		CreateBootLoaderInMemory (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_LOADER_BACKUP_RESCUE_DISK_SECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE, false);
+			byte *image = imageBuf.Ptr();
+			memset (image, 0, RescueIsoImageSize);
 
-		RescueIsoImage = new byte[RescueIsoImageSize];
-		if (!RescueIsoImage)
-			throw bad_alloc();
-		memcpy (RescueIsoImage, image, RescueIsoImageSize);
+			// Primary volume descriptor
+			const char* szPrimVolDesc = "\001CD001\001";
+			const char* szPrimVolLabel = "VeraCrypt Rescue Disk           ";
+			memcpy (image + 0x8000, szPrimVolDesc, strlen(szPrimVolDesc) + 1);
+			memcpy (image + 0x7fff + 41, szPrimVolLabel, strlen(szPrimVolLabel) + 1);
+			*(uint32 *) (image + 0x7fff + 81) = RescueIsoImageSize / 2048;
+			*(uint32 *) (image + 0x7fff + 85) = BE32 (RescueIsoImageSize / 2048);
+			image[0x7fff + 121] = 1;
+			image[0x7fff + 124] = 1;
+			image[0x7fff + 125] = 1;
+			image[0x7fff + 128] = 1;
+			image[0x7fff + 130] = 8;
+			image[0x7fff + 131] = 8;
 
-		if (!isoImagePath.empty())
-		{
-			File isoFile (isoImagePath, false, true);
-			isoFile.Write (image, RescueIsoImageSize);
+			image[0x7fff + 133] = 10;
+			image[0x7fff + 140] = 10;
+			image[0x7fff + 141] = 0x14;
+			image[0x7fff + 157] = 0x22;
+			image[0x7fff + 159] = 0x18;
+
+			// Boot record volume descriptor
+			const char* szBootRecDesc = "CD001\001EL TORITO SPECIFICATION";
+			memcpy (image + 0x8801, szBootRecDesc, strlen(szBootRecDesc) + 1);
+			image[0x8800 + 0x47] = 0x19;
+
+			// Volume descriptor set terminator
+			const char* szVolDescTerm = "\377CD001\001";
+			memcpy (image + 0x9000, szVolDescTerm, strlen(szVolDescTerm) + 1);
+
+			// Path table
+			image[0xA000 + 0] = 1;
+			image[0xA000 + 2] = 0x18;
+			image[0xA000 + 6] = 1;
+
+			// Root directory
+			image[0xc000 + 0] = 0x22;
+			image[0xc000 + 2] = 0x18;
+			image[0xc000 + 9] = 0x18;
+			image[0xc000 + 11] = 0x08;
+			image[0xc000 + 16] = 0x08;
+			image[0xc000 + 25] = 0x02;
+			image[0xc000 + 28] = 0x01;
+			image[0xc000 + 31] = 0x01;
+			image[0xc000 + 32] = 0x01;
+			image[0xc000 + 34] = 0x22;
+			image[0xc000 + 36] = 0x18;
+			image[0xc000 + 43] = 0x18;
+			image[0xc000 + 45] = 0x08;
+			image[0xc000 + 50] = 0x08;
+			image[0xc000 + 59] = 0x02;
+			image[0xc000 + 62] = 0x01;
+			*(uint32 *) (image + 0xc000 + 65) = 0x010101;
+
+			// Validation entry
+			image[0xc800] = 1;
+			int offset = 0xc800 + 0x1c;
+			image[offset++] = 0xaa;
+			image[offset++] = 0x55;
+			image[offset++] = 0x55;
+			image[offset] = 0xaa;
+
+			// Initial entry
+			offset = 0xc820;
+			image[offset++] = 0x88;
+			image[offset++] = 2;
+			image[0xc820 + 6] = 1;
+			image[0xc820 + 8] = TC_CD_BOOT_LOADER_SECTOR;
+
+			// TrueCrypt Boot Loader
+			CreateBootLoaderInMemory (image + TC_CD_BOOTSECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE, true);
+
+			// Volume header
+			if (initialSetup)
+			{
+				if (!RescueVolumeHeaderValid)
+					throw ParameterIncorrect (SRC_POS);
+
+				memcpy (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET, RescueVolumeHeader, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+			}
+			else
+			{
+				Device bootDevice (GetSystemDriveConfiguration().DevicePath, true);
+				bootDevice.CheckOpened (SRC_POS);
+				bootDevice.SeekAt (TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET);
+				bootDevice.Read (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+			}
+
+			// Original system loader
+			try
+			{
+				File sysBakFile (GetSystemLoaderBackupPath(), true);
+				sysBakFile.CheckOpened (SRC_POS);
+				sysBakFile.Read (image + TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE);
+			
+				image[TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_SECTOR_CONFIG_OFFSET] |= TC_BOOT_CFG_FLAG_RESCUE_DISK_ORIG_SYS_LOADER;
+			}
+			catch (Exception &e)
+			{
+				e.Show (ParentWindow);
+				Warning ("SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK", ParentWindow);
+			}
+		
+			// Boot loader backup
+			CreateBootLoaderInMemory (image + TC_CD_BOOTSECTOR_OFFSET + TC_BOOT_LOADER_BACKUP_RESCUE_DISK_SECTOR_OFFSET, TC_BOOT_LOADER_AREA_SIZE, false);
+
+			RescueIsoImage = new byte[RescueIsoImageSize];
+			if (!RescueIsoImage)
+				throw bad_alloc();
+			memcpy (RescueIsoImage, image, RescueIsoImageSize);
+
+			if (!isoImagePath.empty())
+			{
+				File isoFile (isoImagePath, false, true);
+				isoFile.Write (image, RescueIsoImageSize);
+			}
 		}
 	}
 #endif
@@ -2827,61 +2980,240 @@ namespace VeraCrypt
 
 	bool BootEncryption::VerifyRescueDisk ()
 	{
-		if (!RescueIsoImage)
+		BOOL bIsGPT = GetSystemDriveConfiguration().SystemPartition.IsGPT;
+		if ((bIsGPT && !RescueZipData) || (!bIsGPT && !RescueIsoImage))
 			throw ParameterIncorrect (SRC_POS);
 
-		for (WCHAR drive = L'Z'; drive >= L'C'; --drive)
+		if (bIsGPT)
 		{
-			try
+			const wchar_t* efiFiles[] = {
+				L"EFI/Boot/bootx64.efi",
+				L"EFI/VeraCrypt/DcsBml.dcs",
+				L"EFI/VeraCrypt/DcsBoot.efi",
+				L"EFI/VeraCrypt/DcsCfg.dcs",
+				L"EFI/VeraCrypt/DcsInt.dcs",
+				L"EFI/VeraCrypt/LegacySpeaker.dcs",
+				L"EFI/VeraCrypt/svh_bak",
+				L"EFI/Boot/original_bootx64.vc_backup"
+			};
+
+			ZRESULT res;
+			HZIP hz = OpenZip(RescueZipData, RescueZipSize, ZIP_MEMORY);
+			if (!hz)
+				throw ParameterIncorrect (SRC_POS);
+			finally_do_arg (HZIP, hz, { CloseZip (finally_arg); });
+
+			for (WCHAR drive = L'Z'; drive >= L'C'; --drive)
 			{
-				WCHAR rootPath[4] = { drive, L':', L'\\', 0};
-				UINT driveType = GetDriveType (rootPath);
-				// check that it is a CD/DVD drive or a removable media in case a bootable
-				// USB key was created from the rescue disk ISO file
-				if ((DRIVE_CDROM == driveType) || (DRIVE_REMOVABLE == driveType)) 
+				try
 				{
-					rootPath[2] = 0; // remove trailing backslash
+					WCHAR rootPath[4] = { drive, L':', L'\\', 0};
+					UINT driveType = GetDriveType (rootPath);
+					if (DRIVE_REMOVABLE == driveType)
+					{
+						// check if it is FAT/FAT32
+						WCHAR szNameBuffer[TC_MAX_PATH];
+						if (GetVolumeInformationW (rootPath, NULL, 0, NULL, NULL, NULL, szNameBuffer, ARRAYSIZE(szNameBuffer))
+								&& !wcsncmp (szNameBuffer, L"FAT", 3))
+						{
+							int index, i;
+							ZIPENTRYW ze;							
+							for (i = 0; i < ARRAYSIZE(efiFiles); i++)
+							{
+								bool bMatch = false;
+								res = FindZipItemW (hz, efiFiles[i], true, &index, &ze);
+								if ((res == ZR_OK) && (index >= 0))
+								{
+									// check that the file exists on the disk and that it has the same content
+									StringCbCopyW (szNameBuffer, sizeof (szNameBuffer), rootPath);
+									StringCbCatW (szNameBuffer, sizeof (szNameBuffer), efiFiles[i]);
 
-					Device driveDevice (rootPath, true);
-					driveDevice.CheckOpened (SRC_POS);
-					size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
-					Buffer buffer ((verifiedSectorCount + 1) * 2048);
+									try
+									{
+										DWORD dwSize = 0;
+										File diskFile (szNameBuffer, true);
+										diskFile.CheckOpened (SRC_POS);
+										diskFile.GetFileSize (dwSize);
+										if (dwSize == (DWORD) ze.unc_size)
+										{
+											Buffer fileBuf (dwSize);
+											if (dwSize == diskFile.Read (fileBuf.Ptr (), dwSize))
+											{
+												Buffer efiBuf (dwSize);
+												res = UnzipItem (hz, ze.index, efiBuf.Ptr (), dwSize, ZIP_MEMORY);
+												if (res == ZR_OK)
+												{
+													bMatch = (memcmp (efiBuf.Ptr(), fileBuf.Ptr(), dwSize) == 0);
+												}
+											}
+										}										
+									}
+									catch (...)
+									{
+									}
 
-					DWORD bytesRead = driveDevice.Read (buffer.Ptr(), (DWORD) buffer.Size());
-					if (bytesRead != buffer.Size())
-						continue;
+								}
+								else
+								{
+									// entry not found in our Rescue ZIP image. Skip it.
+									bMatch = true;
+								}
 
-					if (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
-						return true;
+								if (!bMatch)
+									break;
+							}
+
+							if (i == ARRAYSIZE(efiFiles))
+							{
+								// All entries processed
+								return true;
+							}
+						}
+					}
 				}
+				catch (...) { }
 			}
-			catch (...) { }
+		}
+		else
+		{
+			size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
+			Buffer buffer ((verifiedSectorCount + 1) * 2048);
+			for (WCHAR drive = L'Z'; drive >= L'C'; --drive)
+			{
+				try
+				{
+					WCHAR rootPath[4] = { drive, L':', L'\\', 0};
+					UINT driveType = GetDriveType (rootPath);
+					// check that it is a CD/DVD drive or a removable media in case a bootable
+					// USB key was created from the rescue disk ISO file
+					if ((DRIVE_CDROM == driveType) || (DRIVE_REMOVABLE == driveType)) 
+					{
+						rootPath[2] = 0; // remove trailing backslash
+
+						Device driveDevice (rootPath, true);
+						driveDevice.CheckOpened (SRC_POS);
+
+						DWORD bytesRead = driveDevice.Read (buffer.Ptr(), (DWORD) buffer.Size());
+						if (bytesRead != buffer.Size())
+							continue;
+
+						if (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
+							return true;
+					}
+				}
+				catch (...) { }
+			}
 		}
 
 		return false;
 	}
 
-	bool BootEncryption::VerifyRescueDiskIsoImage (const wchar_t* imageFile)
+	bool BootEncryption::VerifyRescueDiskImage (const wchar_t* imageFile)
 	{
-		if (!RescueIsoImage)
+		BOOL bIsGPT = GetSystemDriveConfiguration().SystemPartition.IsGPT;
+		if ((bIsGPT && !RescueZipData) || (!bIsGPT && !RescueIsoImage))
 			throw ParameterIncorrect (SRC_POS);
 
-		try
+		if (bIsGPT)
 		{
-			File isoFile (imageFile, true);
-			isoFile.CheckOpened (SRC_POS);
-			size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
-			Buffer buffer ((verifiedSectorCount + 1) * 2048);
-
-			DWORD bytesRead = isoFile.Read (buffer.Ptr(), (DWORD) buffer.Size());
-			if (	(bytesRead == buffer.Size()) 
-				&& (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
-				)
+			try
 			{
-				return true;
+				DWORD dwSize = 0;
+				File rescueFile (imageFile, true);
+				rescueFile.CheckOpened (SRC_POS);
+				rescueFile.GetFileSize (dwSize);
+				Buffer rescueData (dwSize);
+
+				if (dwSize == rescueFile.Read (rescueData.Ptr (), dwSize))
+				{
+					ZRESULT res;
+					HZIP hzFile = OpenZip(rescueData.Ptr (), dwSize, ZIP_MEMORY);
+					if (hzFile)
+					{
+						finally_do_arg (HZIP, hzFile, { CloseZip (finally_arg); });
+						HZIP hzMem = OpenZip(RescueZipData, RescueZipSize, ZIP_MEMORY);
+						if (hzMem)
+						{
+							finally_do_arg (HZIP, hzMem, { CloseZip (finally_arg); });
+							const wchar_t* efiFiles[] = {
+								L"EFI/Boot/bootx64.efi",
+								L"EFI/VeraCrypt/DcsBml.dcs",
+								L"EFI/VeraCrypt/DcsBoot.efi",
+								L"EFI/VeraCrypt/DcsCfg.dcs",
+								L"EFI/VeraCrypt/DcsInt.dcs",
+								L"EFI/VeraCrypt/LegacySpeaker.dcs",
+								L"EFI/VeraCrypt/svh_bak",
+								L"EFI/Boot/original_bootx64.vc_backup"
+							};
+
+							int index, i;
+							ZIPENTRYW zeFile, zeMem;							
+							for (i = 0; i < ARRAYSIZE(efiFiles); i++)
+							{
+								bool bMatch = false;
+								res = FindZipItemW (hzMem, efiFiles[i], true, &index, &zeMem);
+								if ((res == ZR_OK) && (index >= 0))
+								{
+									res = FindZipItemW (hzFile, efiFiles[i], true, &index, &zeFile);
+									if ((res == ZR_OK) && (index >= 0) && (zeMem.unc_size == zeFile.unc_size))
+									{
+										Buffer fileBuf (zeFile.unc_size);
+										Buffer memBuf (zeFile.unc_size);
+
+										res = UnzipItem (hzMem, zeMem.index, memBuf.Ptr (), zeMem.unc_size, ZIP_MEMORY);
+										if (res == ZR_OK)
+										{
+											res = UnzipItem (hzFile, zeFile.index, fileBuf.Ptr (), zeFile.unc_size, ZIP_MEMORY);
+											if (res == ZR_OK)
+											{
+												bMatch = (memcmp (memBuf.Ptr (), fileBuf.Ptr (), zeMem.unc_size) == 0);
+											}
+										}
+									}
+
+								}
+								else
+								{
+									// entry not found in our internal Rescue ZIP image. Skip it.
+									bMatch = true;
+								}
+
+								if (!bMatch)
+									break;
+							}
+
+							if (i == ARRAYSIZE(efiFiles))
+							{
+								// All entries processed
+								return true;
+							}
+
+
+						}
+					}
+				}
 			}
+			catch (...) { }
 		}
-		catch (...) { }
+		else
+		{
+			try
+			{
+				File rescueFile (imageFile, true);
+				rescueFile.CheckOpened (SRC_POS);
+				size_t verifiedSectorCount = (TC_CD_BOOTSECTOR_OFFSET + TC_ORIG_BOOT_LOADER_BACKUP_SECTOR_OFFSET + TC_BOOT_LOADER_AREA_SIZE) / 2048;
+				Buffer buffer ((verifiedSectorCount + 1) * 2048);
+
+				DWORD bytesRead = rescueFile.Read (buffer.Ptr(), (DWORD) buffer.Size());
+				if (	(bytesRead == buffer.Size()) 
+					&& (memcmp (buffer.Ptr(), RescueIsoImage, buffer.Size()) == 0)
+					)
+				{
+					return true;
+				}
+			}
+			catch (...) { }
+		}
 
 		return false;
 	}
@@ -3063,6 +3395,7 @@ namespace VeraCrypt
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsInt.dcs");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsCfg.dcs");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs");
+			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsBoot");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsProp");
 		}

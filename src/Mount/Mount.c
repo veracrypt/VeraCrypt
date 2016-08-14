@@ -121,6 +121,10 @@ BOOL ComServerMode = FALSE;
 BOOL ServiceMode = FALSE;
 BOOL UsePreferences = TRUE;
 
+BOOL bSystemIsGPT = FALSE;
+wchar_t szDefaultRescueDiskName[TC_MAX_PATH+1];
+wchar_t szRescueDiskExtension[4];
+
 int HiddenSysLeakProtectionNotificationStatus = TC_HIDDEN_OS_READ_ONLY_NOTIF_MODE_NONE;
 int MaxVolumeIdleTime = -120;
 int nCurrentShowType = 0;			/* current display mode, mount, unmount etc */
@@ -347,23 +351,10 @@ static void InitMainDialog (HWND hwndDlg)
 	}
 
 	{
-		BOOL bIsGPT = FALSE;
-		try
-		{
-			SystemDriveConfiguration config = BootEncObj->GetSystemDriveConfiguration();
-			bIsGPT = config.SystemPartition.IsGPT;
-		}
-		catch (Exception &)
-		{
-		}
-
-		// disable rescue disk operation for GPT system encryption
-		if (bIsGPT)
+		// disable hidden OS creation for GPT system encryption
+		if (bSystemIsGPT)
 		{
 			EnableMenuItem (GetMenu (hwndDlg), IDM_CREATE_HIDDEN_OS, MF_GRAYED);
-			EnableMenuItem (GetMenu (hwndDlg), IDM_CREATE_RESCUE_DISK, MF_GRAYED);
-			EnableMenuItem (GetMenu (hwndDlg), IDM_VERIFY_RESCUE_DISK, MF_GRAYED);
-			EnableMenuItem (GetMenu (hwndDlg), IDM_VERIFY_RESCUE_DISK_ISO, MF_GRAYED);
 		}
 	}
 
@@ -1134,7 +1125,7 @@ static void PopulateSysEncContextMenu (HMENU popup, BOOL bToolsOnly)
 	AppendMenu (popup, MF_SEPARATOR, 0, L"");
 	AppendMenuW (popup, MF_STRING, IDM_SYS_ENC_SETTINGS, GetString ("IDM_SYS_ENC_SETTINGS"));
 
-	if (!IsHiddenOSRunning() && !config.SystemPartition.IsGPT)
+	if (!IsHiddenOSRunning())
 	{
 		AppendMenu (popup, MF_SEPARATOR, 0, L"");
 		AppendMenuW (popup, MF_STRING, IDM_CREATE_RESCUE_DISK, GetString ("IDM_CREATE_RESCUE_DISK"));
@@ -2460,14 +2451,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 					int new_hash_algo_id = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, 
 						SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
-					BOOL bIsGPT = FALSE;
-					try
-					{
-						bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
-					}
-					catch (...) {}
 
-					if (new_hash_algo_id != 0 && !bIsGPT && !HashForSystemEncryption(new_hash_algo_id))
+					if (new_hash_algo_id != 0 && !bSystemIsGPT && !HashForSystemEncryption(new_hash_algo_id))
 					{
 						int new_hash_algo_id = DEFAULT_HASH_ALGORITHM_BOOT;
 						Info ("ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION", hwndDlg);
@@ -2799,16 +2784,9 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			int i, defaultPrfIndex = 0, nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
 			SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
 
-			BOOL bIsGPT = FALSE;
-			try
-			{
-				bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
-			}
-			catch (...) {}
-
 			for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
 			{
-				if (bIsGPT || HashForSystemEncryption(i))
+				if (bSystemIsGPT || HashForSystemEncryption(i))
 				{
 					nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
 					SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
@@ -5829,7 +5807,7 @@ void CreateRescueDisk (HWND hwndDlg)
 			wchar_t initialDir[MAX_PATH];
 			SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, initialDir);
 
-			if (!BrowseFilesInDir (hwndDlg, "OPEN_TITLE", initialDir, szRescueDiskISO, FALSE, TRUE, NULL, L"VeraCrypt Rescue Disk.iso", L"iso"))
+			if (!BrowseFilesInDir (hwndDlg, "OPEN_TITLE", initialDir, szRescueDiskISO, FALSE, TRUE, NULL, szDefaultRescueDiskName, szRescueDiskExtension))
 			{
 				CloseSysEncMutex ();
 				return;
@@ -5838,17 +5816,25 @@ void CreateRescueDisk (HWND hwndDlg)
 			WaitCursor();
 			BootEncObj->CreateRescueIsoImage (false, szRescueDiskISO);
 
-			StringCbPrintfW (szTmp, sizeof szTmp,
-				GetString (IsWindowsIsoBurnerAvailable() ? "RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN" : "RESCUE_DISK_NON_WIZARD_CREATION_BURN"),
-				szRescueDiskISO);
-
-			if (IsWindowsIsoBurnerAvailable())
+			if (bSystemIsGPT)
 			{
-				if (AskYesNoString (szTmp, hwndDlg) == IDYES)
-					LaunchWindowsIsoBurner (MainDlg, szRescueDiskISO);
+				StringCbPrintfW (szTmp, sizeof szTmp, GetString ("RESCUE_DISK_EFI_NON_WIZARD_CREATION"), szRescueDiskISO);
+				InfoDirect (szTmp, hwndDlg);
 			}
 			else
-				InfoDirect (szTmp, hwndDlg);
+			{
+				StringCbPrintfW (szTmp, sizeof szTmp,
+					GetString (IsWindowsIsoBurnerAvailable() ? "RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN" : "RESCUE_DISK_NON_WIZARD_CREATION_BURN"),
+					szRescueDiskISO);
+
+				if (IsWindowsIsoBurnerAvailable())
+				{
+					if (AskYesNoString (szTmp, hwndDlg) == IDYES)
+						LaunchWindowsIsoBurner (MainDlg, szRescueDiskISO);
+				}
+				else
+					InfoDirect (szTmp, hwndDlg);
+			}
 		}
 		catch (Exception &e)
 		{
@@ -5863,7 +5849,7 @@ void CreateRescueDisk (HWND hwndDlg)
 		Warning ("SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE", hwndDlg);
 }
 
-static void VerifyRescueDisk (HWND hwndDlg, bool checkIsoFile)
+static void VerifyRescueDisk (HWND hwndDlg, bool checkImageFile)
 {
 	try
 	{
@@ -5894,7 +5880,7 @@ static void VerifyRescueDisk (HWND hwndDlg, bool checkIsoFile)
 	{
 		try
 		{
-			if (!checkIsoFile && (AskOkCancel ("RESCUE_DISK_NON_WIZARD_CHECK_INSERT", hwndDlg) != IDOK))
+			if (!checkImageFile && (AskOkCancel ("RESCUE_DISK_NON_WIZARD_CHECK_INSERT", hwndDlg) != IDOK))
 			{
 				CloseSysEncMutex ();
 				return;
@@ -5904,20 +5890,20 @@ static void VerifyRescueDisk (HWND hwndDlg, bool checkIsoFile)
 			BootEncObj->CreateRescueIsoImage (false, L"");
 
 
-			if (checkIsoFile)
+			if (checkImageFile)
 			{
-				wchar_t szRescueDiskISO [TC_MAX_PATH+1];
+				wchar_t szRescueDiskImage [TC_MAX_PATH+1];
 				wchar_t initialDir[MAX_PATH];
 				SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, initialDir);
 
-				if (!BrowseFilesInDir (hwndDlg, "OPEN_TITLE", initialDir, szRescueDiskISO, FALSE, FALSE, NULL, L"VeraCrypt Rescue Disk.iso", L"iso"))
+				if (!BrowseFilesInDir (hwndDlg, "OPEN_TITLE", initialDir, szRescueDiskImage, FALSE, FALSE, NULL,szDefaultRescueDiskName, szRescueDiskExtension))
 				{
 					CloseSysEncMutex ();
 					return;
 				}
 
 				WaitCursor();
-				if (!BootEncObj->VerifyRescueDiskIsoImage (szRescueDiskISO))
+				if (!BootEncObj->VerifyRescueDiskImage (szRescueDiskImage))
 					Error ("RESCUE_DISK_ISO_IMAGE_CHECK_FAILED", hwndDlg);
 				else
 					Info ("RESCUE_DISK_ISO_IMAGE_CHECK_PASSED", hwndDlg);
@@ -5926,7 +5912,7 @@ static void VerifyRescueDisk (HWND hwndDlg, bool checkIsoFile)
 			{
 				WaitCursor();
 				if (!BootEncObj->VerifyRescueDisk ())
-					Error ("RESCUE_DISK_NON_WIZARD_CHECK_FAILED", hwndDlg);
+					Error (bSystemIsGPT? "RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED" : "RESCUE_DISK_NON_WIZARD_CHECK_FAILED", hwndDlg);
 				else
 					Info ("RESCUE_DISK_NON_WIZARD_CHECK_PASSED", hwndDlg);
 			}
@@ -5934,7 +5920,7 @@ static void VerifyRescueDisk (HWND hwndDlg, bool checkIsoFile)
 		catch (Exception &e)
 		{
 			e.Show (MainDlg);
-			Error ("RESCUE_DISK_NON_WIZARD_CHECK_FAILED", hwndDlg);
+			Error (bSystemIsGPT? "RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED" : "RESCUE_DISK_NON_WIZARD_CHECK_FAILED", hwndDlg);
 		}
 		CloseSysEncMutex ();
 
@@ -6048,15 +6034,9 @@ static void WipeCache (HWND hwndDlg, BOOL silent)
 
 static void Benchmark (HWND hwndDlg)
 {
-	BOOL bIsGPT = FALSE;
-	try
-	{
-		bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
-	}
-	catch (...) {}
 
 	DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_BENCHMARK_DLG), hwndDlg,
-		(DLGPROC) BenchmarkDlgProc, (LPARAM) bIsGPT);
+		(DLGPROC) BenchmarkDlgProc, (LPARAM) bSystemIsGPT);
 }
 
 
@@ -6453,11 +6433,20 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				BootEncObj->SetParentWindow (hwndDlg);
 				BootEncStatus = BootEncObj->GetStatus();
 				RecentBootEncStatus = BootEncStatus;
+				bSystemIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 			}
 			catch (...)
 			{
 				// NOP
 			}
+
+			if (bSystemIsGPT)
+				StringCbCopyW (szRescueDiskExtension, sizeof (szRescueDiskExtension), L"zip");
+			else
+				StringCbCopyW (szRescueDiskExtension, sizeof (szRescueDiskExtension), L"iso");
+			
+			StringCbCopyW (szDefaultRescueDiskName, sizeof (szDefaultRescueDiskName), L"VeraCrypt Rescue Disk.");		
+			StringCbCatW  (szDefaultRescueDiskName, sizeof (szDefaultRescueDiskName), szRescueDiskExtension);
 
 			if (UsePreferences)
 			{
@@ -8087,14 +8076,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_SYSENC_SETTINGS || lw == IDM_SYS_ENC_SETTINGS)
 		{
-			BOOL bIsGPT = FALSE;
-			try
-			{
-				bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
-			}
-			catch (...) {}
-
-			DialogBoxParamW (hInst, MAKEINTRESOURCEW (bIsGPT? IDD_EFI_SYSENC_SETTINGS : IDD_SYSENC_SETTINGS), hwndDlg, (DLGPROC) BootLoaderPreferencesDlgProc, 0);
+			DialogBoxParamW (hInst, MAKEINTRESOURCEW (bSystemIsGPT? IDD_EFI_SYSENC_SETTINGS : IDD_SYSENC_SETTINGS), hwndDlg, (DLGPROC) BootLoaderPreferencesDlgProc, 0);
 			return 1;
 		}
 
@@ -10504,19 +10486,17 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				try
 				{
 					VOLUME_PROPERTIES_STRUCT prop;
-					BOOL bIsGPT = FALSE;
 					try
 					{
 						BootEncStatus = BootEncObj->GetStatus();
 						BootEncObj->GetVolumeProperties (&prop);
-						bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 					}
 					catch (...)
 					{
 						BootEncStatus.DriveMounted = false;	
 					}
 
-					if (BootEncStatus.DriveMounted && !bIsGPT)
+					if (BootEncStatus.DriveMounted && !bSystemIsGPT)
 					{
 						byte userConfig;
 						string customUserMessage;
@@ -10855,7 +10835,6 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				return 1;
 			}
 
-			BOOL bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 			try
 			{
 				LocalizeDialog (hwndDlg, "IDD_SYSENC_SETTINGS");
@@ -10877,7 +10856,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				if (bootLoaderVersion != VERSION_NUM)
 					Warning ("BOOT_LOADER_VERSION_INCORRECT_PREFERENCES", hwndDlg);
 
-				if (bIsGPT)
+				if (bSystemIsGPT)
 				{
 					CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_HASH_PROMPT, (userConfig & TC_BOOT_USER_CFG_FLAG_STORE_HASH) ? BST_CHECKED : BST_UNCHECKED);
 				}
@@ -10916,7 +10895,6 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 		case IDOK:
 			{
 				VOLUME_PROPERTIES_STRUCT prop;
-				BOOL bIsGPT = FALSE;
 
 				if (!BootEncObj->GetStatus().DriveMounted)
 				{
@@ -10927,7 +10905,6 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				try
 				{
 					BootEncObj->GetVolumeProperties (&prop);
-					bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 				}
 				catch (Exception &e)
 				{
@@ -10937,7 +10914,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				}
 
 				char customUserMessage[TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH + 1] = {0};
-				if (!bIsGPT)
+				if (!bSystemIsGPT)
 					GetDlgItemTextA (hwndDlg, IDC_CUSTOM_BOOT_LOADER_MESSAGE, customUserMessage, sizeof (customUserMessage));
 
 				byte userConfig;
@@ -10957,7 +10934,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				else
 					userConfig &= ~TC_BOOT_USER_CFG_FLAG_DISABLE_PIM;
 
-				if (bIsGPT)
+				if (bSystemIsGPT)
 				{
 				if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_HASH_PROMPT))
 					userConfig |= TC_BOOT_USER_CFG_FLAG_STORE_HASH;

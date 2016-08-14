@@ -255,6 +255,8 @@ BOOL bOperationSuccess = FALSE;
 
 BOOL bGuiMode = TRUE;
 
+BOOL bSystemIsGPT = FALSE;
+
 int nPbar = 0;			/* Control ID of progress bar:- for format code */
 
 wchar_t HeaderKeyGUIView [KEY_GUI_VIEW_SIZE];
@@ -4060,9 +4062,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				int ea, hid;
 				wchar_t buf[100];
-				BOOL bIsGPT = FALSE;
-				if (SysEncInEffect ())
-					bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 
 				// Encryption algorithms
 
@@ -4075,7 +4074,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 				{
-					if (EAIsFormatEnabled (ea) && (!SysEncInEffect () || bIsGPT || EAIsMbrSysEncEnabled (ea)))
+					if (EAIsFormatEnabled (ea) && (!SysEncInEffect () || bSystemIsGPT || EAIsMbrSysEncEnabled (ea)))
 						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea, 1), ea);
 				}
 
@@ -4089,13 +4088,13 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (SysEncInEffect ())
 				{
-					hash_algo = bIsGPT? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
+					hash_algo = bSystemIsGPT? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
 					RandSetHashFunction (hash_algo);
 
 					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
 					{
 						// For now, we keep RIPEMD160 for system encryption
-						if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && (bIsGPT || HashForSystemEncryption (hid)))
+						if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
 							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
 					}
 				}
@@ -4485,18 +4484,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("RESCUE_DISK"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
-			SetWindowTextW (GetDlgItem (hwndDlg, IDT_RESCUE_DISK_INFO), GetString ("RESCUE_DISK_INFO"));
+			SetWindowTextW (GetDlgItem (hwndDlg, IDT_RESCUE_DISK_INFO), bSystemIsGPT? GetString ("RESCUE_DISK_EFI_INFO"): GetString ("RESCUE_DISK_INFO"));
 			SetDlgItemText (hwndDlg, IDC_RESCUE_DISK_ISO_PATH, szRescueDiskISO);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), (GetWindowTextLength (GetDlgItem (hwndDlg, IDC_RESCUE_DISK_ISO_PATH)) > 1));
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 
-			// For now, disable verification of Rescue Disk for GPT system encryption
-			{
-				SystemDriveConfiguration config = BootEncObj->GetSystemDriveConfiguration();
-				bDontVerifyRescueDisk = config.SystemPartition.IsGPT;
-				SetCheckBox (hCurPage, IDC_SKIP_RESCUE_VERIFICATION, bDontVerifyRescueDisk);
-				EnableWindow(GetDlgItem (hwndDlg, IDC_SKIP_RESCUE_VERIFICATION), !config.SystemPartition.IsGPT);
-			}
 			break;
 
 		case SYSENC_RESCUE_DISK_BURN_PAGE:
@@ -4507,10 +4499,19 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
 
-				StringCbPrintfW (szTmp, sizeof szTmp,
-					GetString (bDontVerifyRescueDisk ? "RESCUE_DISK_BURN_INFO_NO_CHECK" : "RESCUE_DISK_BURN_INFO"),
-					szRescueDiskISO, IsWindowsIsoBurnerAvailable() ? L"" : GetString ("RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER"));
+				if (bSystemIsGPT)
+				{
+					StringCbPrintfW (szTmp, sizeof szTmp,
+						GetString (bDontVerifyRescueDisk ? "RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK" : "RESCUE_DISK_EFI_EXTRACT_INFO"),
+						szRescueDiskISO, GetString ("RESCUE_DISK_EFI_EXTRACT_INFO_NOTE"));
+				}
+				else
+				{
+					StringCbPrintfW (szTmp, sizeof szTmp,
+						GetString (bDontVerifyRescueDisk ? "RESCUE_DISK_BURN_INFO_NO_CHECK" : "RESCUE_DISK_BURN_INFO"),
+						szRescueDiskISO, IsWindowsIsoBurnerAvailable() ? L"" : GetString ("RESCUE_DISK_BURN_INFO_NONWIN_ISO_BURNER"));
 
+				}
 				SetWindowTextW (GetDlgItem (hwndDlg, IDT_RESCUE_DISK_BURN_INFO), szTmp);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
 
@@ -4519,14 +4520,21 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				would be confusion and bug reports). */
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), FALSE);
 
-				if (IsWindowsIsoBurnerAvailable())
-					SetWindowTextW (GetDlgItem (hwndDlg, IDC_DOWNLOAD_CD_BURN_SOFTWARE), GetString ("LAUNCH_WIN_ISOBURN"));
+				if (bSystemIsGPT)
+				{
+					ShowWindow (GetDlgItem (hwndDlg, IDC_DOWNLOAD_CD_BURN_SOFTWARE), SW_HIDE);
+				}
+				else
+				{
+					if (IsWindowsIsoBurnerAvailable())
+						SetWindowTextW (GetDlgItem (hwndDlg, IDC_DOWNLOAD_CD_BURN_SOFTWARE), GetString ("LAUNCH_WIN_ISOBURN"));
 
-				ToHyperlink (hwndDlg, IDC_DOWNLOAD_CD_BURN_SOFTWARE);
+					ToHyperlink (hwndDlg, IDC_DOWNLOAD_CD_BURN_SOFTWARE);
 
-				if (IsWindowsIsoBurnerAvailable() && !bDontVerifyRescueDisk)
-					LaunchWindowsIsoBurner (hwndDlg, szRescueDiskISO);
-			}
+					if (IsWindowsIsoBurnerAvailable() && !bDontVerifyRescueDisk)
+						LaunchWindowsIsoBurner (hwndDlg, szRescueDiskISO);
+				}
+			}			
 			break;
 
 		case SYSENC_RESCUE_DISK_VERIFIED_PAGE:
@@ -5477,20 +5485,13 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_BENCHMARK && nCurPageNo == CIPHER_PAGE)
 		{
-			BOOL bIsGPT = FALSE;
-			try
-			{
-				bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
-			}
-			catch (...) {}
-
 			// Reduce CPU load
 			bFastPollEnabled = FALSE;
 			bRandmixEnabled = FALSE;
 
 			DialogBoxParamW (hInst,
 				MAKEINTRESOURCEW (IDD_BENCHMARK_DLG), hwndDlg,
-				(DLGPROC) BenchmarkDlgProc, (LPARAM) bIsGPT);
+				(DLGPROC) BenchmarkDlgProc, (LPARAM) bSystemIsGPT);
 
 			bFastPollEnabled = TRUE;
 			bRandmixEnabled = TRUE;
@@ -5838,8 +5839,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					HWND hHashAlgoItem = GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO);
 					int selectedAlgo = (int) SendMessage (hHashAlgoItem, CB_GETITEMDATA, SendMessage (hHashAlgoItem, CB_GETCURSEL, 0, 0), 0);
-					BOOL bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
-					if (!bIsGPT && !HashForSystemEncryption(selectedAlgo))
+					if (!bSystemIsGPT && !HashForSystemEncryption(selectedAlgo))
 					{
 						hash_algo = DEFAULT_HASH_ALGORITHM_BOOT;
 						RandSetHashFunction (DEFAULT_HASH_ALGORITHM_BOOT);
@@ -6027,6 +6027,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 0;
 			}
 
+			try
+			{
+				bSystemIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
+			}
+			catch (...)
+			{
+			}
+
 			SendMessageW (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hTitleFont, (LPARAM) TRUE);
 			SetWindowTextW (hwndDlg, lpszTitle);
 
@@ -6208,7 +6216,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, szRescueDiskISO);
-			StringCbCatW (szRescueDiskISO, sizeof(szRescueDiskISO), L"\\VeraCrypt Rescue Disk.iso");
+			if (bSystemIsGPT)
+				StringCbCatW (szRescueDiskISO, sizeof(szRescueDiskISO), L"\\VeraCrypt Rescue Disk.zip");
+			else
+				StringCbCatW (szRescueDiskISO, sizeof(szRescueDiskISO), L"\\VeraCrypt Rescue Disk.iso");
 
 			if (IsOSAtLeast (WIN_VISTA))
 			{
@@ -7378,11 +7389,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			else if (nCurPageNo == CIPHER_PAGE)
 			{
 				LPARAM nIndex;
-				BOOL bIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 				nIndex = SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETCURSEL, 0, 0);
 				nVolumeEA = (int) SendMessage (GetDlgItem (hCurPage, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 
-				if (!bIsGPT && SysEncInEffect ()
+				if (!bSystemIsGPT && SysEncInEffect ()
 					&& EAGetCipherCount (nVolumeEA) > 1)		// Cascade?
 				{
 					if (AskWarnNoYes ("CONFIRM_CASCADE_FOR_SYS_ENCRYPTION", hwndDlg) == IDNO)
@@ -7966,40 +7976,43 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					return 1;
 				}
 
-retryCDDriveCheck:
-				if (!bDontVerifyRescueDisk && !BootEncObj->IsCDRecorderPresent())
+				if (!bSystemIsGPT)
 				{
-					char *multiChoiceStr[] = { 0, "CD_BURNER_NOT_PRESENT",
-						"CD_BURNER_NOT_PRESENT_WILL_STORE_ISO",
-						"CD_BURNER_NOT_PRESENT_WILL_CONNECT_LATER",
-						"CD_BURNER_NOT_PRESENT_CONNECTED_NOW",
-						0 };
-
-					switch (AskMultiChoice ((void **) multiChoiceStr, FALSE, hwndDlg))
+retryCDDriveCheck:
+					if (!bDontVerifyRescueDisk && !BootEncObj->IsCDRecorderPresent())
 					{
-					case 1:
-						wchar_t msg[8192];
-						StringCchPrintfW (msg, array_capacity (msg), GetString ("CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO"), szRescueDiskISO);
-						WarningDirect (msg, hwndDlg);
+						char *multiChoiceStr[] = { 0, "CD_BURNER_NOT_PRESENT",
+							"CD_BURNER_NOT_PRESENT_WILL_STORE_ISO",
+							"CD_BURNER_NOT_PRESENT_WILL_CONNECT_LATER",
+							"CD_BURNER_NOT_PRESENT_CONNECTED_NOW",
+							0 };
 
-						Warning ("RESCUE_DISK_BURN_NO_CHECK_WARN", hwndDlg);
-						bDontVerifyRescueDisk = TRUE;
-						nNewPageNo = SYSENC_RESCUE_DISK_VERIFIED_PAGE;
-						break;
+						switch (AskMultiChoice ((void **) multiChoiceStr, FALSE, hwndDlg))
+						{
+						case 1:
+							wchar_t msg[8192];
+							StringCchPrintfW (msg, array_capacity (msg), GetString ("CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO"), szRescueDiskISO);
+							WarningDirect (msg, hwndDlg);
 
-					case 2:
-						AbortProcessSilent();
+							Warning ("RESCUE_DISK_BURN_NO_CHECK_WARN", hwndDlg);
+							bDontVerifyRescueDisk = TRUE;
+							nNewPageNo = SYSENC_RESCUE_DISK_VERIFIED_PAGE;
+							break;
 
-					case 3:
-						break;
+						case 2:
+							AbortProcessSilent();
 
-					default:
-						goto retryCDDriveCheck;
+						case 3:
+							break;
+
+						default:
+							goto retryCDDriveCheck;
+						}
 					}
-				}
 
-				if (IsWindowsIsoBurnerAvailable() && !bDontVerifyRescueDisk)
-					Info ("RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE", hwndDlg);
+					if (IsWindowsIsoBurnerAvailable() && !bDontVerifyRescueDisk)
+						Info ("RESCUE_DISK_WIN_ISOBURN_PRELAUNCH_NOTE", hwndDlg);
+				}
 
 				NormalCursor ();
 			}
@@ -8017,8 +8030,15 @@ retryCDDriveCheck:
 						{
 							wchar_t szTmp[8000];
 
-							StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("RESCUE_DISK_CHECK_FAILED"),
-								IsWindowsIsoBurnerAvailable () ? L"" : GetString ("RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"));
+							if (bSystemIsGPT)
+							{
+								StringCbCopyW (szTmp, sizeof(szTmp), GetString ("RESCUE_DISK_EFI_CHECK_FAILED"));
+							}
+							else
+							{
+								StringCbPrintfW (szTmp, sizeof(szTmp), GetString ("RESCUE_DISK_CHECK_FAILED"),
+									IsWindowsIsoBurnerAvailable () ? L"" : GetString ("RESCUE_DISK_CHECK_FAILED_SENTENCE_APPENDIX"));
+							}
 
 							ErrorDirect (szTmp, hwndDlg);
 

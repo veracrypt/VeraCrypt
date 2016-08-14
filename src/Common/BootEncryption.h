@@ -46,6 +46,7 @@ namespace VeraCrypt
 		void Write (byte *buffer, DWORD size);
 		void SeekAt (int64 position);
 		void GetFileSize (unsigned __int64& size);
+		void GetFileSize (DWORD& dwSize);
       bool IoCtl(DWORD code, void* inBuf, DWORD inBufSize, void* outBuf, DWORD outBufSize);
 
 	protected:
@@ -277,7 +278,7 @@ namespace VeraCrypt
 		bool SystemPartitionCoversWholeDrive ();
 		bool SystemDriveIsDynamic ();
 		bool VerifyRescueDisk ();
-		bool VerifyRescueDiskIsoImage (const wchar_t* imageFile);
+		bool VerifyRescueDiskImage (const wchar_t* imageFile);
 		void WipeHiddenOSCreationConfig ();
 		void WriteBootDriveSector (uint64 offset, byte *data);
 		void WriteBootSectorConfig (const byte newConfig[]);
@@ -308,6 +309,8 @@ namespace VeraCrypt
 		int SelectedPrfAlgorithmId;
 		Partition HiddenOSCandidatePartition;
 		byte *RescueIsoImage;
+		byte *RescueZipData;
+		unsigned long RescueZipSize;
 		byte RescueVolumeHeader[TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];
 		byte VolumeHeader[TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE];
 		bool DriveConfigValid;
