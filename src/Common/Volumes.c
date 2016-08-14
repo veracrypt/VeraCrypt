@@ -1239,7 +1239,7 @@ BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header)
 // Writes randomly generated data to unused/reserved header areas.
 // When bPrimaryOnly is TRUE, then only the primary header area (not the backup header area) is filled with random data.
 // When bBackupOnly is TRUE, only the backup header area (not the primary header area) is filled with random data.
-int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO *cryptoInfo, uint64 dataAreaSize, BOOL bPrimaryOnly, BOOL bBackupOnly)
+int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO *cryptoInfo, uint64 dataAreaSize, BOOL bPrimaryOnly, BOOL bBackupOnly, BOOL bInPlaceEnc)
 {
 	char temporaryKey[MASTER_KEYDATA_SIZE];
 	char originalK2[MASTER_KEYDATA_SIZE];
@@ -1296,6 +1296,13 @@ int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO 
 			SetLastError (ERROR_INVALID_PARAMETER);
 			nStatus = ERR_OS_ERROR;
 			goto final_seq;
+		}
+
+		if (backupHeaders || !bInPlaceEnc)
+		{
+			// encrypt random data instead of existing data for better entropy, except in case of primary
+			// header of an in-place encrypted disk
+			RandgetBytes (hwndDlg, buf + TC_VOLUME_HEADER_EFFECTIVE_SIZE, sizeof (buf) - TC_VOLUME_HEADER_EFFECTIVE_SIZE, FALSE);
 		}
 
 		EncryptBuffer (buf + TC_VOLUME_HEADER_EFFECTIVE_SIZE, sizeof (buf) - TC_VOLUME_HEADER_EFFECTIVE_SIZE, cryptoInfo);
