@@ -90,8 +90,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-
+#ifndef _WIN64
 #define _USE_32BIT_TIME_T	//+++1.2
+#endif
 
 
 #define STRICT
@@ -3673,14 +3674,30 @@ int unzReadCurrentFile  (unzFile file, voidp buf, unsigned len)
       pfile_in_zip_read_info->crc32 = ucrc32(pfile_in_zip_read_info->crc32,bufBefore,(uInt)(uOutThis));
       pfile_in_zip_read_info->rest_read_uncompressed -= uOutThis;
       iRead += (uInt)(uTotalOutAfter - uTotalOutBefore);
-      if (err==Z_STREAM_END) return (iRead==0) ? UNZ_EOF : iRead;			//+++1.3
+      if (err==Z_STREAM_END)
+      {
+        if( pfile_in_zip_read_info->rest_read_uncompressed > 0 )
+        {
+          return iRead; // More to go
+        }
+        return Z_OK; // No point returning UNZ_EOF as it is also zero
+      }
+      //if (err==Z_STREAM_END) return (iRead==0) ? UNZ_EOF : iRead;			//+++1.3
       //if (err==Z_STREAM_END) return (iRead==len) ? UNZ_EOF : iRead;		//+++1.2
 
 	  if (err != Z_OK) break;
     }
   }
 
-  if (err==Z_OK) return iRead;
+  // if (err==Z_OK) return iRead;
+  if( err == Z_OK )
+  {
+    if( pfile_in_zip_read_info->rest_read_uncompressed > 0 )
+	 {
+	   return iRead; // More to go
+	 }
+	 return Z_OK; // Done
+  }
   
   return iRead;
 }
@@ -3839,10 +3856,17 @@ int unzReadCurrentFile (unzFile file, void *buf, unsigned len);
 int unzCloseCurrentFile (unzFile file);
 
 
-FILETIME timet2filetime(time_t timer)
+FILETIME timet2filetime(__time32_t timer)
 { 
-	struct tm *tm = gmtime(&timer);
+	struct tm *tm = _gmtime32(&timer);
 	SYSTEMTIME st;
+
+	if (tm == NULL)
+	{
+		 _time32(&timer);
+		 tm = _gmtime32(&timer);
+	}
+
 	st.wYear = (WORD)(tm->tm_year+1900);
 	st.wMonth = (WORD)(tm->tm_mon+1);
 	st.wDay = (WORD)(tm->tm_mday);
@@ -3953,8 +3977,9 @@ ZRESULT TUnzip::Get(int index,ZIPENTRY *ze)
   //
   WORD dostime = (WORD)(ufi.dosDate&0xFFFF);
   WORD dosdate = (WORD)((ufi.dosDate>>16)&0xFFFF);
-  FILETIME ft;
-  DosDateTimeToFileTime(dosdate,dostime,&ft);
+  FILETIME lt, ft;
+  DosDateTimeToFileTime(dosdate,dostime,&lt);
+  LocalFileTimeToFileTime(&lt,&ft);
   ze->atime=ft; ze->ctime=ft; ze->mtime=ft;
   // the zip will always have at least that dostime. But if it also has
   // an extra header, then we'll instead get the info from that.
@@ -3969,15 +3994,15 @@ ZRESULT TUnzip::Get(int index,ZIPENTRY *ze)
     bool hasctime = (flags&4)!=0;
     epos+=5;
     if (hasmtime)
-    { time_t mtime = *(time_t*)(extra+epos); epos+=4;
+    { __time32_t mtime = *(__time32_t*)(extra+epos); epos+=4;
       ze->mtime = timet2filetime(mtime);
     }
     if (hasatime)
-    { time_t atime = *(time_t*)(extra+epos); epos+=4;
+    { __time32_t atime = *(__time32_t*)(extra+epos); epos+=4;
       ze->atime = timet2filetime(atime);
     }
     if (hasctime)
-    { time_t ctime = *(time_t*)(extra+epos); 
+    { __time32_t ctime = *(__time32_t*)(extra+epos); 
       ze->ctime = timet2filetime(ctime);
     }
     break;
@@ -4164,7 +4189,8 @@ ZRESULT TUnzip::Unzip(int index,void *dst,unsigned int len,DWORD flags)
 		SetFileTime(h,&ze.ctime,&ze.atime,&ze.mtime);
 	if (flags!=ZIP_HANDLE) 
 		CloseHandle(h);
-	unzCloseCurrentFile(uf);
+	if (unzCloseCurrentFile(uf) == UNZ_CRCERROR)
+		return ZR_CORRUPT;
 	if (haderr) 
 		return ZR_WRITE;
 	return ZR_OK;

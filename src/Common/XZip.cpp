@@ -90,7 +90,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#ifndef _WIN64
 #define _USE_32BIT_TIME_T	//+++1.2
+#endif
 
 
 #define STRICT
@@ -668,7 +670,7 @@ public:
 
 
 typedef struct iztimes {
-  time_t atime,mtime,ctime;
+  __time32_t atime,mtime,ctime;
 } iztimes; // access, modify, create times
 
 typedef struct zlist {
@@ -2250,7 +2252,7 @@ bool HasZipSuffix(const char *fn)
 }
 
 
-time_t filetime2timet(const FILETIME ft)
+__time32_t filetime2timet(const FILETIME ft)
 { SYSTEMTIME st; FileTimeToSystemTime(&ft,&st);
   if (st.wYear<1970) {st.wYear=1970; st.wMonth=1; st.wDay=1;}
   if (st.wYear>=2038) {st.wYear=2037; st.wMonth=12; st.wDay=31;}
@@ -2262,7 +2264,7 @@ time_t filetime2timet(const FILETIME ft)
   tm.tm_mon = st.wMonth-1;
   tm.tm_year = st.wYear-1900;
   tm.tm_isdst = 0;
-  time_t t = mktime(&tm);
+  __time32_t t = _mktime32(&tm);
   return t;
 }
 
@@ -3050,6 +3052,13 @@ ZRESULT ZipAdd(HZIP hz, const TCHAR *dstzn, void *src, unsigned int len, DWORD f
 		lasterrorZ = ZR_ARGS;
 		return ZR_ARGS;
 	}
+
+	if (dstzn == NULL)
+	{
+		 lasterrorZ = ZR_ARGS;
+		 return ZR_ARGS;
+	}
+
 	TZipHandleData *han = (TZipHandleData*)hz;
 	if (han->flag != 2) 
 	{
@@ -3059,33 +3068,26 @@ ZRESULT ZipAdd(HZIP hz, const TCHAR *dstzn, void *src, unsigned int len, DWORD f
 	TZip *zip = han->zip;
 
 
-	if (flags == ZIP_FILENAME)
-	{
-		char szDest[MAX_PATH*2];
-		memset(szDest, 0, sizeof(szDest));
+	char szDest[MAX_PATH*2];
+	memset(szDest, 0, sizeof(szDest));
 
 #ifdef _UNICODE
-		// need to convert Unicode dest to ANSI
-		int nActualChars = WideCharToMultiByte(CP_ACP,	// code page
-								0,						// performance and mapping flags
-								(LPCWSTR) dstzn,		// wide-character string
-								-1,						// number of chars in string
-								szDest,					// buffer for new string
-								MAX_PATH*2-2,			// size of buffer
-								NULL,					// default for unmappable chars
-								NULL);					// set when default char used
-		if (nActualChars == 0)
-			return ZR_ARGS; 
+	// need to convert Unicode dest to ANSI
+	int nActualChars = WideCharToMultiByte(CP_ACP,	// code page
+							0,						// performance and mapping flags
+							(LPCWSTR) dstzn,		// wide-character string
+							-1,						// number of chars in string
+							szDest,					// buffer for new string
+							MAX_PATH*2,			// size of buffer
+							NULL,					// default for unmappable chars
+							NULL);					// set when default char used
+	if (nActualChars == 0)
+		return ZR_ARGS; 
 #else
-		strcpy(szDest, dstzn);
+	strcpy(szDest, dstzn);
 #endif
 
-		lasterrorZ = zip->Add(szDest, src, len, flags);
-	}
-	else
-	{
-		lasterrorZ = zip->Add((char *)dstzn, src, len, flags);
-	}
+	lasterrorZ = zip->Add(szDest, src, len, flags);
 
 	return lasterrorZ;
 }
@@ -3182,8 +3184,12 @@ BOOL AddFolderContent(HZIP hZip, TCHAR* AbsolutePath, TCHAR* DirToAdd)
 				_tcscpy(RelativePathNewFileFound, DirToAdd);
 				_tcscat(RelativePathNewFileFound, _T("\\"));
 				_tcscat(RelativePathNewFileFound, FindFileData.cFileName);
+
+				TCHAR AbsoluteSourceFile[MAX_PATH] = { 0 };
+				_tcscpy(AbsoluteSourceFile, AbsolutePath);
+				_tcscat(AbsoluteSourceFile, RelativePathNewFileFound);
 				
-				if (ZipAdd(hZip, RelativePathNewFileFound, RelativePathNewFileFound, 0, ZIP_FILENAME) != ZR_OK)
+				if (ZipAdd(hZip, RelativePathNewFileFound, AbsoluteSourceFile, 0, ZIP_FILENAME) != ZR_OK)
 				{
 					return FALSE;
 				}
