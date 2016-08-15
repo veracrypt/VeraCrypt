@@ -3424,6 +3424,87 @@ namespace VeraCrypt
 
 #endif // SETUP
 
+	static bool CompareMultiString (const char* str1, const char* str2)
+	{
+		size_t l1, l2;
+		if (!str1 || !str2)
+			return false;
+		while (true)
+		{
+			l1 = strlen (str1);
+			l2 = strlen (str2);
+			if (l1 == l2)
+			{
+				if (l1 == 0)
+					break; // we reached the end
+				if (_stricmp (str1, str2) == 0)
+				{
+					str1 += l1 + 1;
+					str2 += l2 + 1;
+				}
+				else
+					return false;
+			}
+			else
+				return false;
+
+		}
+
+		return true;
+	}
+
+	static void AppendToMultiString (char* mszDest, DWORD dwMaxDesSize, DWORD& dwDestSize, const char* input)
+	{
+		// find the index of the end of the last string
+		DWORD dwInputSize = (DWORD) strlen (input) + 1;
+		DWORD index = dwDestSize;
+		while (index > 0 && mszDest[index - 1] == 0)
+			index--;
+
+		if (dwMaxDesSize > (index + 1 + dwInputSize + 1))
+		{
+			if (index == 0)
+			{
+				StringCchCopyA ((char *) mszDest, dwMaxDesSize, input);
+				mszDest [dwInputSize] = 0;
+				dwDestSize = dwInputSize + 1;
+			}
+			else
+			{
+				mszDest[index] = 0;
+				StringCchCopyA ((char *) &mszDest[index + 1], dwMaxDesSize - index - 1, input);
+				mszDest [index + 1 + dwInputSize] = 0;
+				dwDestSize = index + 1 + dwInputSize + 1;
+			}
+		}
+	}
+
+	// mszDest is guaranteed to be double zero terminated
+	static bool RemoveFromMultiString (char* mszDest, DWORD& dwDestSize, const char* input)
+	{
+		bool bRet = false;
+		if (mszDest && input)
+		{
+			DWORD offset, remainingSize = dwDestSize;
+			while (*mszDest)
+			{
+				if (_stricmp (mszDest, input) == 0)
+				{
+					offset = (DWORD) strlen (input) + 1;
+					memmove (mszDest, mszDest + offset, remainingSize - offset);
+					dwDestSize -= offset;
+					bRet = true;
+					break;
+				}
+				offset = (DWORD) strlen (mszDest) + 1;
+				mszDest += offset;
+				remainingSize -= offset;
+			}
+		}
+
+		return bRet;
+	}
+
 	void BootEncryption::RegisterFilter (bool registerFilter, FilterType filterType, const GUID *deviceClassGuid)
 	{
 		string filter;
@@ -3458,26 +3539,112 @@ namespace VeraCrypt
 
 		finally_do_arg (HKEY, regKey, { RegCloseKey (finally_arg); });
 
-		if (registerFilter && filterType != DumpFilter)
+		if (registerFilter)
 		{
-			// Register class filter below all other filters in the stack
+			if (filterType != DumpFilter)
+			{
+				// Register class filter below all other filters in the stack
 
-			size_t strSize = filter.size() + 1;
-			byte regKeyBuf[65536];
-			DWORD size = (DWORD) (sizeof (regKeyBuf) - strSize);
+				size_t strSize = filter.size() + 1;
+				byte regKeyBuf[65536];
+				DWORD size = (DWORD) (sizeof (regKeyBuf) - strSize);
 
-			// SetupInstallFromInfSection() does not support prepending of values so we have to modify the registry directly
-			StringCchCopyA ((char *) regKeyBuf, ARRAYSIZE(regKeyBuf), filter.c_str());
+				// SetupInstallFromInfSection() does not support prepending of values so we have to modify the registry directly
+				StringCchCopyA ((char *) regKeyBuf, ARRAYSIZE(regKeyBuf), filter.c_str());
 
-			if (RegQueryValueExA (regKey, filterReg.c_str(), NULL, NULL, regKeyBuf + strSize, &size) != ERROR_SUCCESS)
-				size = 1;
+				if (RegQueryValueExA (regKey, filterReg.c_str(), NULL, NULL, regKeyBuf + strSize, &size) != ERROR_SUCCESS)
+					size = 1;
 
-			SetLastError (RegSetValueExA (regKey, filterReg.c_str(), 0, REG_MULTI_SZ, regKeyBuf, (DWORD) strSize + size));
-			throw_sys_if (GetLastError() != ERROR_SUCCESS);
+				SetLastError (RegSetValueExA (regKey, filterReg.c_str(), 0, REG_MULTI_SZ, regKeyBuf, (DWORD) strSize + size));
+				throw_sys_if (GetLastError() != ERROR_SUCCESS);
+			}
+			else
+			{
+				// workaround rare SetupInstallFromInfSection which overwrite value instead of appending new value
+				// read initial value
+				DWORD strSize = (DWORD) filter.size() + 1, expectedSize;
+				Buffer expectedRegKeyBuf(65536), outputRegKeyBuf(65536);
+				byte* pbExpectedRegKeyBuf = expectedRegKeyBuf.Ptr ();
+				byte* pbOutputRegKeyBuf = outputRegKeyBuf.Ptr ();
+				DWORD initialSize = (DWORD) (expectedRegKeyBuf.Size() - strSize - 2);				
+
+				if (RegQueryValueExA (regKey, filterReg.c_str(), NULL, NULL, pbExpectedRegKeyBuf, &initialSize) != ERROR_SUCCESS)
+				{
+					StringCchCopyA ((char *) pbExpectedRegKeyBuf, expectedRegKeyBuf.Size(), filter.c_str());
+					pbExpectedRegKeyBuf [strSize] = 0;
+					expectedSize = strSize + 1;
+				}
+				else
+				{
+					expectedSize = initialSize;
+					AppendToMultiString ((char *) pbExpectedRegKeyBuf, (DWORD) expectedRegKeyBuf.Size(), expectedSize, filter.c_str());
+				}
+
+				RegisterDriverInf (registerFilter, filter, filterReg, ParentWindow, regKey);
+
+				// check if operation successful
+				initialSize = (DWORD) outputRegKeyBuf.Size() - 2;
+				if (RegQueryValueExA (regKey, filterReg.c_str(), NULL, NULL, pbOutputRegKeyBuf, &initialSize) != ERROR_SUCCESS)
+				{
+					pbOutputRegKeyBuf [0] = 0;
+					pbOutputRegKeyBuf [1] = 0;
+				}
+				else
+				{
+					// append two \0 at the end if they are missing
+					if (pbOutputRegKeyBuf [initialSize - 1] != 0)
+					{
+						pbOutputRegKeyBuf [initialSize] = 0;
+						pbOutputRegKeyBuf [initialSize + 1] = 0;
+					}
+					else if (pbOutputRegKeyBuf [initialSize - 2] != 0)
+					{
+						pbOutputRegKeyBuf [initialSize] = 0;
+					}
+				}
+
+				if (!CompareMultiString ((char *) pbExpectedRegKeyBuf, (char *) pbOutputRegKeyBuf))
+				{
+					// Set value manually
+					SetLastError (RegSetValueExA (regKey, filterReg.c_str(), 0, REG_MULTI_SZ, pbExpectedRegKeyBuf, expectedSize));
+					throw_sys_if (GetLastError() != ERROR_SUCCESS);
+				}
+			}
 		}
 		else
 		{
 			RegisterDriverInf (registerFilter, filter, filterReg, ParentWindow, regKey);
+
+			// remove value in case it was not done properly
+			Buffer regKeyBuf(65536);
+			byte* pbRegKeyBuf = regKeyBuf.Ptr ();
+
+			DWORD initialSize = (DWORD) regKeyBuf.Size() - 2;				
+
+			if (		(RegQueryValueExA (regKey, filterReg.c_str(), NULL, NULL, pbRegKeyBuf, &initialSize) == ERROR_SUCCESS)
+					&& (initialSize >= ((DWORD) filter.size()))
+				)
+			{
+				// append two \0 at the end if they are missing
+				if (pbRegKeyBuf [initialSize - 1] != 0)
+				{
+					pbRegKeyBuf [initialSize] = 0;
+					pbRegKeyBuf [initialSize + 1] = 0;
+					initialSize += 2;
+				}
+				else if (pbRegKeyBuf [initialSize - 2] != 0)
+				{
+					pbRegKeyBuf [initialSize] = 0;
+					initialSize ++;
+				}
+
+				if (RemoveFromMultiString ((char*) pbRegKeyBuf, initialSize, filter.c_str()))
+				{
+					// Set value manually
+					SetLastError (RegSetValueExA (regKey, filterReg.c_str(), 0, REG_MULTI_SZ, pbRegKeyBuf, initialSize));
+					throw_sys_if (GetLastError() != ERROR_SUCCESS);
+				}
+			}
 		}
 	}
 
