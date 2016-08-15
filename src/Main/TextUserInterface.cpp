@@ -622,7 +622,7 @@ namespace VeraCrypt
 					throw MissingArgument (SRC_POS);
 
 				wstring sizeStr = AskString (options->Type == VolumeType::Hidden ? _("\nEnter hidden volume size (sizeK/size[M]/sizeG): ") : _("\nEnter volume size (sizeK/size[M]/sizeG): "));
-				int multiplier = 1024 * 1024;
+				uint64 multiplier = 1024 * 1024;
 
 				if (sizeStr.find (L"K") != string::npos)
 				{
