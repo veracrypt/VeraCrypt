@@ -1302,7 +1302,7 @@ int WriteRandomDataToReservedHeaderAreas (HWND hwndDlg, HANDLE dev, CRYPTO_INFO 
 		{
 			// encrypt random data instead of existing data for better entropy, except in case of primary
 			// header of an in-place encrypted disk
-			RandgetBytes (hwndDlg, buf + TC_VOLUME_HEADER_EFFECTIVE_SIZE, sizeof (buf) - TC_VOLUME_HEADER_EFFECTIVE_SIZE, FALSE);
+			RandgetBytesFull (hwndDlg, buf + TC_VOLUME_HEADER_EFFECTIVE_SIZE, sizeof (buf) - TC_VOLUME_HEADER_EFFECTIVE_SIZE, FALSE, TRUE);
 		}
 
 		EncryptBuffer (buf + TC_VOLUME_HEADER_EFFECTIVE_SIZE, sizeof (buf) - TC_VOLUME_HEADER_EFFECTIVE_SIZE, cryptoInfo);
