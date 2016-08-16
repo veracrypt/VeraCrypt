@@ -28,8 +28,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,17,22,0
- PRODUCTVERSION 1,17,22,0
+ FILEVERSION 1,18,13,0
+ PRODUCTVERSION 1,18,13,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,11 +46,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt Format"
-            VALUE "FileVersion", "1.17"
+            VALUE "FileVersion", "1.18"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt Format.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.17"
+            VALUE "ProductVersion", "1.18"
         END
     END
     BLOCK "VarFileInfo"
@@ -459,19 +459,19 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "#include ""..\\\\common\\\\resource.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "#include ""..\\\\common\\\\common.rc""\r\n"
     "\0"
@@ -486,7 +486,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_VOL_CREATION_WIZARD_DLG, DIALOG
     BEGIN
@@ -725,7 +725,7 @@ IDB_WIZARD              BITMAP                  "VeraCrypt_wizard.bmp"
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_UACSTRING_FMT       "VeraCrypt"
 END

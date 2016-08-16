@@ -141,7 +141,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_SIZE_DIALOG, DIALOG
     BEGIN
@@ -192,8 +192,8 @@ IDR_MOUNT_RSRC_HEADER   HEADER                  "resource.h"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,17,22,0
- PRODUCTVERSION 1,17,22,0
+ FILEVERSION 1,18,13,0
+ PRODUCTVERSION 1,18,13,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -210,11 +210,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt Expander"
-            VALUE "FileVersion", "1.17"
+            VALUE "FileVersion", "1.18"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCryptExpander.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.17"
+            VALUE "ProductVersion", "1.18"
         END
     END
     BLOCK "VarFileInfo"
@@ -230,19 +230,19 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "#include ""..\\\\common\\\\resource.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "#include ""..\\\\common\\\\common.rc""\r\n"
     "\0"
@@ -264,7 +264,7 @@ IDB_LOGO_288DPI         BITMAP                  "Logo_288dpi.bmp"
 // Menu
 //
 
-IDR_MENU MENUEX
+IDR_MENU MENUEX 
 BEGIN
     MENUITEM "About",                       IDM_ABOUT,MFT_STRING,MFS_ENABLED
     MENUITEM "Homepage",                    IDM_HOMEPAGE,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
@@ -276,7 +276,7 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_UACSTRING           "VeraCrypt Expander"
 END
