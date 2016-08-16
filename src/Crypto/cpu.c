@@ -38,11 +38,15 @@ static void SigIllHandlerCPUID(int p)
 	longjmp(s_jmpNoCPUID, 1);
 }
 
+#if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
+
 static jmp_buf s_jmpNoAESNI;
 static void SigIllHandlerAESNI(int p)
 {
 	longjmp(s_jmpNoAESNI, 1);
 }
+
+#endif
 
 #if CRYPTOPP_BOOL_X64 == 0
 static jmp_buf s_jmpNoSSE2;

@@ -15,7 +15,6 @@ Dynamic SBOX idea is from GostCrypt project. Copyright (c) 2008-2011 TrueCrypt D
 
 #include "GostCipher.h"
 #include "Streebog.h"
-#include "common\Tcdefs.h"
 #include "cpu.h"
 
 #if defined(CIPHER_GOST89)

@@ -12,6 +12,12 @@
 #ifndef GOST_CIPHER_H
 #define GOST_CIPHER_H
 
+#include "Common/Tcdefs.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //In unsigned chars
 #define GOST_KEYSIZE	32
 #define GOST_BLOCKSIZE	8
@@ -27,7 +33,6 @@
 #define rotl32(b, shift) ((b << shift) | (b >> (32 - shift)))
 #endif
 
-typedef unsigned char byte;
 #ifdef GST_WINDOWS_BOOT
 typedef int gst_word;
 typedef long gst_dword;
@@ -55,6 +60,10 @@ void gost_set_key(const byte *key, gost_kds *ks);
 
 #else 
 #define GOST_KS				(0)
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 

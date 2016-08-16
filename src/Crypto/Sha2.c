@@ -81,7 +81,7 @@
 
 #if !defined(_UEFI)
 #include <string.h>     /* for memcpy() etc.        */
-#endif !defined(_UEFI)
+#endif // !defined(_UEFI)
 
 #include "Sha2.h"
 

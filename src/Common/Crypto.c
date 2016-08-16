@@ -760,7 +760,7 @@ int GetMaxPkcs5OutSize (void)
 {
 	int size = 32;
 
-	size = max (size, EAGetLargestKeyForMode (XTS) * 2);	// Sizes of primary + secondary keys
+	size = VC_MAX (size, EAGetLargestKeyForMode (XTS) * 2);	// Sizes of primary + secondary keys
 
 	return size;
 }

@@ -161,6 +161,6 @@ namespace VeraCrypt
 	void Streebog::ProcessData (const ConstBufferPtr &data)
 	{
 		if_debug (ValidateDataParameters (data));
-		STREEBOG_add (data.Get(), (int) data.Size(), (STREEBOG_CTX *) Context.Ptr());
+		STREEBOG_add ((STREEBOG_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
 	}
 }

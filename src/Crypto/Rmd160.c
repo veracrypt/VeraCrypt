@@ -11,7 +11,7 @@
 /* Adapted for VeraCrypt */
 #if !defined(_UEFI)
 #include <memory.h>
-#endif !defined(_UEFI)
+#endif // !defined(_UEFI)
 
 #include "Common/Tcdefs.h"
 #include "Common/Endian.h"

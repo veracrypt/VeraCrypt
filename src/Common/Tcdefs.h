@@ -75,6 +75,9 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 
 #define WIDE(x) (LPWSTR)L##x
 
+#define VC_MAX(a,b)	((a)>(b))?(a):(b)
+#define VC_MIN(a,b)	((a)<(b))?(a):(b)
+
 #ifdef _MSC_VER
 
 typedef __int8 int8;
@@ -100,6 +103,7 @@ typedef unsigned __int64 uint64;
 
 #include <inttypes.h>
 #include <limits.h>
+#include <memory.h>
 
 typedef int8_t int8;
 typedef int16_t int16;

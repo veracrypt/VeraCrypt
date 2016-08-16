@@ -21,7 +21,7 @@
 
 #if !defined(_UEFI)
 #include <memory.h>
-#endif !defined(_UEFI)
+#endif // !defined(_UEFI)
 
 // linear transformation
 #define LT(i,a,b,c,d,e)	{\

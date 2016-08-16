@@ -163,7 +163,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Streebog); }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 500000 : (15000 + (pim * 1000)); }
 		virtual wstring GetName () const { return L"HMAC-Streebog"; }
-		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacStreebog(m_truecryptMode); }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacStreebog(); }
 
 	private:
 		Pkcs5HmacStreebog (const Pkcs5HmacStreebog &);
@@ -180,7 +180,7 @@ namespace VeraCrypt
 		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Streebog); }
 		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 200000 : pim * 2048; }
 		virtual wstring GetName () const { return L"HMAC-Streebog"; }
-		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacStreebog_Boot(m_truecryptMode); }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacStreebog_Boot(); }
 
 	private:
 		Pkcs5HmacStreebog_Boot (const Pkcs5HmacStreebog_Boot &);

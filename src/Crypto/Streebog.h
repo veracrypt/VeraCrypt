@@ -12,6 +12,10 @@
 #include "Common/Tcdefs.h"
 #include "config.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define ALIGN(a)	CRYPTOPP_ALIGN_DATA(a)
 
 typedef ALIGN(16) struct _STREEBOG_CTX
@@ -29,5 +33,9 @@ void STREEBOG_init(STREEBOG_CTX *ctx);
 void STREEBOG_init256(STREEBOG_CTX *ctx);
 void STREEBOG_add(STREEBOG_CTX *ctx, const byte *msg, size_t len);
 void STREEBOG_finalize(STREEBOG_CTX *ctx, byte *out);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

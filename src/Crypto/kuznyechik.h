@@ -10,6 +10,10 @@ and released into public domain.
 
 #include "Common/Tcdefs.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct _kuznyechik_kds
 {
 	uint64 rke[10][2];
@@ -22,5 +26,8 @@ void kuznyechik_encrypt_block(byte* out, const byte* in, kuznyechik_kds* kds);
 void kuznyechik_decrypt_block(byte* out, const byte* in, kuznyechik_kds* kds);
 void kuznyechik_set_key(const byte* key, kuznyechik_kds *kds);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
