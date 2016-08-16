@@ -9206,17 +9206,19 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{
 					wchar_t szTmp [TC_MAX_PATH + 8000] = {0};
 
-					GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp));
-
-					if (wcslen (szTmp) < 1)
+					if ((HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)))
+						&& (wcslen (szTmp) >= 1)
+						)
+					{
+						memset (szFileName, 0, sizeof (szFileName));
+						StringCbCopyW (szFileName, sizeof (szFileName), szTmp);
+						DirectNonSysInplaceDecStartMode = TRUE;
+					}
+					else
 					{
 						// No valid volume path specified as command-line parameter
 						AbortProcess ("ERR_PARAMETER_INCORRECT");
 					}
-
-					memset (szFileName, 0, sizeof (szFileName));
-					StringCbCopyW (szFileName, sizeof (szFileName), szTmp);
-					DirectNonSysInplaceDecStartMode = TRUE;
 				}
 				break;
 

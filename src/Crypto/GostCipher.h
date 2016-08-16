@@ -49,9 +49,9 @@ typedef struct gost_kds
 
 #define GOST_KS				(sizeof(gost_kds))
 
-void gost_encrypt(byte *in, byte *out, gost_kds *ks, int count);
-void gost_decrypt(byte *in, byte *out, gost_kds *ks, int count);
-void gost_set_key(byte *key, gost_kds *ks);
+void gost_encrypt(const byte *in, byte *out, gost_kds *ks, int count);
+void gost_decrypt(const byte *in, byte *out, gost_kds *ks, int count);
+void gost_set_key(const byte *key, gost_kds *ks);
 
 #else 
 #define GOST_KS				(0)

@@ -686,7 +686,7 @@ typedef struct zlist {
   char iname[MAX_PATH];                  // Internal file name after cleanup
   char zname[MAX_PATH];                  // External version of internal name
   int mark;                     // Marker for files to operate on
-  int trash;                    // Marker for files to delete
+  // int trash;                    // Marker for files to delete
   int dosflag;                  // Set to force MSDOS file attributes
   struct zlist far *nxt;        // Pointer to next header in list
 } TZipFileInfo;

@@ -75,19 +75,19 @@ static void xor_s_box(byte s_box[8][16], byte *seed)
    int i;
    for (i = 0; i < 16; i++)
    {
-      s_box[1][i] ^= (seed[ (i * 4) + 0 ]   ) & 0xF;
-      s_box[2][i] ^= (seed[ (i * 4) + 0 ]>>4) & 0xF;
-      s_box[3][i] ^= (seed[ (i * 4) + 1 ]   ) & 0xF;
-      s_box[4][i] ^= (seed[ (i * 4) + 1 ]>>4) & 0xF;
-      s_box[5][i] ^= (seed[ (i * 4) + 2 ]   ) & 0xF;
-      s_box[6][i] ^= (seed[ (i * 4) + 2 ]>>4) & 0xF;
-      s_box[7][i] ^= (seed[ (i * 4) + 3 ]   ) & 0xF;
-      s_box[8][i] ^= (seed[ (i * 4) + 3 ]>>4) & 0xF;
+      s_box[0][i] ^= (seed[ (i * 4) + 0 ]   ) & 0xF;
+      s_box[1][i] ^= (seed[ (i * 4) + 0 ]>>4) & 0xF;
+      s_box[2][i] ^= (seed[ (i * 4) + 1 ]   ) & 0xF;
+      s_box[3][i] ^= (seed[ (i * 4) + 1 ]>>4) & 0xF;
+      s_box[4][i] ^= (seed[ (i * 4) + 2 ]   ) & 0xF;
+      s_box[5][i] ^= (seed[ (i * 4) + 2 ]>>4) & 0xF;
+      s_box[6][i] ^= (seed[ (i * 4) + 3 ]   ) & 0xF;
+      s_box[7][i] ^= (seed[ (i * 4) + 3 ]>>4) & 0xF;
    }
 }
 #endif
 
-void gost_set_key(byte *key, gost_kds *ks)
+void gost_set_key(const byte *key, gost_kds *ks)
 {
 #ifdef GOST_DYNAMIC_SBOXES
 	STREEBOG_CTX sctx;
@@ -228,11 +228,11 @@ void gost_decrypt_block(uint64 in_, uint64* out_, gost_kds* kds) {
 }
 
 #if defined(_M_AMD64)
-void gost_encrypt_128_CBC_asm(byte *in, byte *out, gost_kds *ks, uint64 count);
-void gost_decrypt_128_CBC_asm(byte *in, byte *out, gost_kds *ks, uint64 count);
+void gost_encrypt_128_CBC_asm(const byte *in, byte *out, gost_kds *ks, uint64 count);
+void gost_decrypt_128_CBC_asm(const byte *in, byte *out, gost_kds *ks, uint64 count);
 #endif
 
-void gost_encrypt(byte *in, byte *out, gost_kds *ks, int count) {
+void gost_encrypt(const byte *in, byte *out, gost_kds *ks, int count) {
 #if defined(_M_AMD64)
 	gost_encrypt_128_CBC_asm(in, out, ks, (uint64)count);
 #else
@@ -249,7 +249,7 @@ void gost_encrypt(byte *in, byte *out, gost_kds *ks, int count) {
 #endif
 }
 
-void gost_decrypt(byte *in, byte *out, gost_kds *ks, int count) {
+void gost_decrypt(const byte *in, byte *out, gost_kds *ks, int count) {
 #if defined(_M_AMD64)
 	gost_decrypt_128_CBC_asm(in, out, ks, (uint64)count);
 #else

@@ -10980,6 +10980,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_PIM_PROMPT, BST_UNCHECKED);
 			}
 
+			break;
+
 		case IDC_DISABLE_BOOT_LOADER_OUTPUT:
 			if ((IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_OUTPUT))
 				&& AskWarnYesNo ("CUSTOM_BOOT_LOADER_MESSAGE_PROMPT", hwndDlg) == IDNO)

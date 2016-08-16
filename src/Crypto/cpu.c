@@ -279,7 +279,7 @@ static int Detect_MS_HyperV_AES ()
 
 void DetectX86Features()
 {
-	uint32 cpuid[4], cpuid1[4];
+	uint32 cpuid[4] = {0}, cpuid1[4] = {0};
 	if (!CpuId(0, cpuid))
 		return;
 	if (!CpuId(1, cpuid1))

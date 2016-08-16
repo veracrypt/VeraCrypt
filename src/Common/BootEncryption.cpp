@@ -198,6 +198,9 @@ namespace VeraCrypt
 			if (bstr)
 			{
 				CComBSTR inputBstr;
+				CComBSTR fileBstr;
+				fileBstr.Attach (bstr);
+
 				if (input && inputBstr.AppendBytes ((const char *) input, inputSize) != S_OK)
 				{
 					SetLastError (ERROR_INVALID_PARAMETER);
@@ -211,8 +214,6 @@ namespace VeraCrypt
 					return FALSE;
 				}
 
-				CComBSTR fileBstr;
-				fileBstr.Attach (bstr);
 				result = ElevatedComInstance->DeviceIoControl (readOnly, device, fileBstr, dwIoControlCode, inputBstr, &outputBstr);
 
 				if (output)
@@ -2071,6 +2072,8 @@ namespace VeraCrypt
 	EfiBoot::EfiBoot() {
 		ZeroMemory(EfiBootPartPath, sizeof(EfiBootPartPath));		
 		ZeroMemory (systemPartitionPath, sizeof (systemPartitionPath));
+		ZeroMemory (&sdn, sizeof (sdn));
+		ZeroMemory (&partInfo, sizeof (partInfo));
 		m_bMounted = false;
 	}
 
@@ -2288,7 +2291,7 @@ namespace VeraCrypt
 		wchar_t	varName[256];
 		StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
 		SetFirmwareEnvironmentVariable(varName, EfiVarGuid, startVar, varSize);
-		delete startVar;
+		delete [] startVar;
 
 		// Update order
 		wstring order = L"Order";

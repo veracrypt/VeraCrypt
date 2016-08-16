@@ -2328,9 +2328,9 @@ stage3(STREEBOG_CTX *CTX)
 
     memset(buf, 0x00, sizeof buf);
 #ifndef __GOST3411_BIG_ENDIAN__
-    buf[0] = CTX->bufsize << 3;
+    buf[0] = ((unsigned long long) CTX->bufsize) << 3;
 #else
-    buf[0] = BSWAP64(CTX->bufsize << 3);
+    buf[0] = BSWAP64(((unsigned long long) CTX->bufsize) << 3);
 #endif
 
     pad(CTX);
