@@ -20,6 +20,8 @@
 # RESOURCEDIR:	Run-time resource directory
 # VERBOSE:		Enable verbose messages
 # WXSTATIC:		Use static wxWidgets library
+# SSSE3:		Enable SSSE3 support in compiler
+# SSE41:		Enable SSE4.1 support in compiler
 
 #------ Targets ------
 # all
@@ -161,10 +163,24 @@ ifeq "$(shell uname -s)" "Linux"
 	PLATFORM := Linux
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
 	
+	CFLAGS += -msse2
+	CXXFLAGS += -msse2
+
 	GCC_GTEQ_440 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 40400)
+	GCC_GTEQ_430 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 40300)
 	ifeq "$(GCC_GTEQ_440)" "1"
 		CFLAGS += -maes
 		CXXFLAGS += -maes
+	endif
+
+	ifeq "$(GCC_GTEQ_430)" "1"
+		ifeq "$(origin SSSE3)" "command line"
+			CFLAGS += -mssse3 -msse4.1
+		endif
+
+		ifeq "$(origin SSE41)" "command line"
+			CXXFLAGS += -mssse3 -msse4.1
+		endif
 	endif
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
