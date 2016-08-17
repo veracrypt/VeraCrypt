@@ -116,6 +116,14 @@ This is the case for IDRIX's certificate. If yours is issued by another CA,
 then you should put the Root and Intermediate certificates in the "Signing"
 folder and then modify sign.bat accordingly.
 
+VeraCrypt EFI Boot Loader:
+--------------------------
+
+VeraCrypt source code contains pre-built EFI binaries under src\Boot\EFI.
+The source code of VeraCrypt EFI Boot Loader is licensed under LGPL and 
+it is available at https://github.com/veracrypt/VeraCrypt-DCS.
+For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
+
 
 II. Linux and Mac OS X
 ======================
@@ -240,13 +248,18 @@ Copyright Information
 ---------------------
 
 This software as a whole:
-Copyright (c) 2013-2015 IDRIX. All rights reserved.
+Copyright (c) 2013-2016 IDRIX. All rights reserved.
 
 Portions of this software:
+Copyright (c) 2013-2016 IDRIX. All rights reserved.
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.
 Copyright (c) 2002-2004 Mark Adler. All rights reserved.
+Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov
+Copyright (c) 1990-2002 Info-ZIP. All rights reserved.
+Copyright (c) 2013, Alexey Degtyarev. All rights reserved.
+
 For more information, please see the legal notices attached to parts of the
 source code.
 

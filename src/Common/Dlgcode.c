@@ -1214,7 +1214,10 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\r\n"
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\r\n"
-			L"Copyright \xA9 2002-2004 Mark Adler. All Rights Reserved.\r\n\r\n"
+			L"Copyright \xA9 2002-2004 Mark Adler. All Rights Reserved.\r\n"
+			L"Copyright \xA9 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov.\r\n"
+			L"Copyright \xA9 1990-2002 Info-ZIP. All rights reserved.\r\n"
+			L"Copyright \xA9 2013, Alexey Degtyarev. All rights reserved.\r\n\r\n"
 
 			L"This software as a whole:\r\n"
 			L"Copyright \xA9 2013-2016 IDRIX. All rights reserved.\r\n\r\n"
