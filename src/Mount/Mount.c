@@ -7980,7 +7980,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (VolumeSelected (hwndDlg)
 				&& IsMountedVolume (volPathLower))
 			{
-				TranslateVolumeID (hwndDlg, volPathLower, ARRAYSIZE (volPathLower));
+				if (!TranslateVolumeID (hwndDlg, volPathLower, ARRAYSIZE (volPathLower)))
+					return 1;
 
 				if (LOWORD (selectedDrive) != TC_MLIST_ITEM_NONSYS_VOL)
 				{
