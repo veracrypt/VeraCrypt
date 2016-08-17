@@ -511,7 +511,7 @@ unsigned long HexStringToByteArray(const char* hexStr, unsigned char* pbData)
 
 BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
 {
-	ALIGN (16) unsigned char input[256];
+	CRYPTOPP_ALIGN_DATA (16) unsigned char input[256];
 	unsigned char output[64];
 	unsigned char digest[64];
 	unsigned long i = 0, inputLen, outputLen, digestLen;
@@ -1290,7 +1290,7 @@ static const unsigned char gost3411_2012_hmac_r1[] = {
 
 BOOL test_hmac_streebog ()
 {
-	ALIGN(16) char digest[64]; /* large enough to hold digets and test vector inputs */
+	CRYPTOPP_ALIGN_DATA(16) char digest[64]; /* large enough to hold digets and test vector inputs */
 
 	memcpy (digest, gost3411_2012_hmac_m1, sizeof (gost3411_2012_hmac_m1));
 	hmac_streebog ((char*) gost3411_2012_hmac_k1, sizeof(gost3411_2012_hmac_k1), digest, (int) sizeof (gost3411_2012_hmac_m1));
