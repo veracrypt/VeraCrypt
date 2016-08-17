@@ -303,9 +303,12 @@ namespace VeraCrypt
 	void CoreLinux::MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const
 	{
 		bool xts = (typeid (*volume->GetEncryptionMode()) == typeid (EncryptionModeXTS));
+		bool algoNotSupported = (typeid (*volume->GetEncryptionAlgorithm()) == typeid (GOST89))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (Kuznyechik));
 
 		if (options.NoKernelCrypto
 			|| !xts
+			|| algoNotSupported
 			|| volume->GetProtectionType() == VolumeProtection::HiddenVolumeReadOnly)
 		{
 			throw NotApplicable (SRC_POS);
