@@ -61,7 +61,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0118
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"August 16th, 2016"
+#define TC_STR_RELEASE_DATE			L"August 17th, 2016"
 #define TC_RELEASE_DATE_YEAR			2016
 #define TC_RELEASE_DATE_MONTH			 8
 
