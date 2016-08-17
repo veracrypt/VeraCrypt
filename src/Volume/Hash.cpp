@@ -26,6 +26,7 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <Hash> (new Sha512 ()));
 		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
 		l.push_back (shared_ptr <Hash> (new Sha256 ()));
+		l.push_back (shared_ptr <Hash> (new Streebog ()));
 		l.push_back (shared_ptr <Hash> (new Ripemd160 ()));
 
 		return l;
