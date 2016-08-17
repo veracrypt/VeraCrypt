@@ -123,6 +123,12 @@
     #define CRYPTOPP_BOOL_ALIGN16 0
 #endif
 
+#if CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE && (defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER))
+    #define CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE 1
+#else
+    #define CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE 0
+#endif
+
 // how to allocate 16-byte aligned memory (for SSE2)
 #if defined(_MSC_VER)
 	#define CRYPTOPP_MM_MALLOC_AVAILABLE

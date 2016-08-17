@@ -2229,6 +2229,7 @@ static void
 g(unsigned long long *h, const unsigned long long *N, const unsigned char *m)
 {
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE
 	if (HasSSE41()) {
 		__m128i xmm0, xmm2, xmm4, xmm6; /* XMMR0-quadruple */
 		__m128i xmm1, xmm3, xmm5, xmm7; /* XMMR1-quadruple */
@@ -2255,8 +2256,9 @@ g(unsigned long long *h, const unsigned long long *N, const unsigned char *m)
 #if CRYPTOPP_BOOL_X86
 		_mm_empty();
 #endif
-	}
-	else if (HasSSE2()) {
+	} else
+#endif
+	if (HasSSE2()) {
 		__m128i xmm0, xmm2, xmm4, xmm6; /* XMMR0-quadruple */
 		__m128i xmm1, xmm3, xmm5, xmm7; /* XMMR1-quadruple */
 		unsigned int i;
