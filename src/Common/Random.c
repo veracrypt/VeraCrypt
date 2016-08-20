@@ -108,7 +108,7 @@ int Randinit ()
 
 	if (pRandPool == NULL)
 	{
-		pRandPool = (unsigned char *) TCalloc (RANDOMPOOL_ALLOCSIZE);
+		pRandPool = (unsigned char *) _aligned_malloc (RANDOMPOOL_ALLOCSIZE, 16);
 		if (pRandPool == NULL)
 			goto error;
 
