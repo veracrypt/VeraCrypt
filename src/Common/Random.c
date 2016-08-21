@@ -203,7 +203,7 @@ freePool:
 		if (pRandPool != NULL)
 		{
 			burn (pRandPool, RANDOMPOOL_ALLOCSIZE);
-			TCfree (pRandPool);
+			_aligned_free (pRandPool);
 			pRandPool = NULL;
 		}
 	}
