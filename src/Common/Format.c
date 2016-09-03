@@ -568,7 +568,7 @@ begin_format:
 	{
 		BOOL bUpdateBackup = FALSE;
 
-		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, FALSE, FALSE);
+		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, FALSE);
 
 		if (nStatus != ERR_SUCCESS)
 			goto error;

@@ -440,7 +440,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 				PCRYPTO_INFO dummyInfo = NULL;
 				LARGE_INTEGER hiddenOffset;
 
-				nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, cryptoInfo->VolumeSize.Value, !backupHeader, backupHeader, FALSE);
+				nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, cryptoInfo->VolumeSize.Value, !backupHeader, backupHeader);
 				if (nStatus != ERR_SUCCESS)
 					goto error;
 

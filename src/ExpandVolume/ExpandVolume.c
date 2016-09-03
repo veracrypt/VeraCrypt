@@ -837,7 +837,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			PCRYPTO_INFO dummyInfo = NULL;
 			LARGE_INTEGER hiddenOffset;
 
-			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader, FALSE);
+			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader);
 			if (nStatus != ERR_SUCCESS)
 				goto error;
 

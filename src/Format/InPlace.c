@@ -605,7 +605,7 @@ int EncryptPartitionInPlaceBegin (volatile FORMAT_VOL_PARAMETERS *volParams, vol
 		}
 
 		// Fill the reserved sectors of the backup header area with random data
-		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, TRUE, TRUE);
+		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, TRUE);
 
 		if (nStatus != ERR_SUCCESS)
 			goto closing_seq;
@@ -1122,7 +1122,7 @@ inplace_enc_read:
 			}
 
 			// Fill the reserved sectors of the header area with random data
-			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, headerCryptoInfo, masterCryptoInfo->VolumeSize.Value, TRUE, FALSE, TRUE);
+			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, headerCryptoInfo, masterCryptoInfo->VolumeSize.Value, TRUE, FALSE);
 
 			if (nStatus != ERR_SUCCESS)
 				goto closing_seq;
