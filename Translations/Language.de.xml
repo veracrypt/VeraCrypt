@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version="1.19-BETA2">
-    <!-- Languages -->
+    <!-- Sprachen -->
     <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl" />
-    <!-- Fonts -->
+    <!-- Schriftarten -->
     <font lang="de" class="normal" size="11" face="default" />
     <font lang="de" class="bold" size="13" face="Arial" />
     <font lang="de" class="fixed" size="12" face="Lucida Console" />
     <font lang="de" class="title" size="21" face="Times New Roman" />
-    <!-- Controls -->
+    <!-- Steuerelemente  -->
     <control lang="de" key="IDCANCEL">Abbrechen</control>
     <control lang="de" key="IDC_ALL_USERS">Für &amp;alle Benutzer installieren</control>
-    <control lang="de" key="IDC_BROWSE">Su&amp;chen...</control>
+    <control lang="de" key="IDC_BROWSE">Su&amp;chen ...</control>
     <control lang="de" key="IDC_DESKTOP_ICON">VeraCrypt-Symbol auf dem &amp;Desktop erstellen</control>
-    <control lang="de" key="IDC_DONATE">Jetzt spenden...</control>
+    <control lang="de" key="IDC_DONATE">Jetzt spenden ...</control>
     <control lang="de" key="IDC_FILE_TYPE">Verknüpft die .hc &amp;Dateierweiterung mit VeraCrypt</control>
     <control lang="de" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Den Speicherort nach dem Beenden öffnen</control>
     <control lang="de" key="IDC_PROG_GROUP">VeraCrypt ins &amp;Startmenü eintragen</control>
@@ -47,7 +47,7 @@
     <control lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;t. verwenden</control>
     <control lang="de" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Versuche zuerst ohne Passwort einzubinden</control>
     <control lang="de" key="IDC_KEYFILES_RANDOM_SIZE">Zufällige Größe (64 &lt;-&gt; 1048576)</control>
-    <control lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien...</control>
+    <control lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien ...</control>
     <control lang="de" key="IDC_LINK_HASH_INFO">Infos über Hash-Algorithmen</control>
     <control lang="de" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Weitere Informationen</control>
     <control lang="de" key="IDC_LINK_PIM_INFO">Informationen zu PIM</control>
@@ -111,9 +111,9 @@
     <control lang="de" key="IDC_AUTORUN_START">&amp;VeraCrypt starten</control>
     <control lang="de" key="IDC_AUTO_DETECT_PKCS11_MODULE">Bibliothek auto&amp;matisch erkennen</control>
     <control lang="de" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Prä-Boot-Authentifikationspasswort in Treiber-Speicher schr. (zum Einbinden v. Nicht-System-Volume)</control>
-    <control lang="de" key="IDC_BROWSE_DIRS">Durchsuchen...</control>
-    <control lang="de" key="IDC_BROWSE_FILES">Durchsuchen...</control>
-    <control lang="de" key="IDC_CACHE">Passwort u. Schlüsseldat. im &amp;Cache halten</control>
+    <control lang="de" key="IDC_BROWSE_DIRS">Durchsuchen ...</control>
+    <control lang="de" key="IDC_BROWSE_FILES">Durchsuchen ...</control>
+    <control lang="de" key="IDC_CACHE">Passwort und Schlüsseldatei im &amp;Cache halten</control>
     <control lang="de" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">&amp;Beenden, wenn alle Vol. getrennt wurden</control>
     <control lang="de" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">Token-&amp;Sitzung schließen, nachdem ein Volume erfolgreich eingebunden wurde</control>
     <control lang="de" key="IDC_COPY_EXPANDER">Volume-Erweiterer hinzufügen</control>
@@ -146,15 +146,15 @@
     <control lang="de" key="IDC_HK_MOD_WIN">Win</control>
     <control lang="de" key="IDC_HOTKEY_ASSIGN">Zuweisen</control>
     <control lang="de" key="IDC_HOTKEY_REMOVE">Aufheben</control>
-    <control lang="de" key="IDC_KEYFILES">&amp;Schlüsseldat...</control>
+    <control lang="de" key="IDC_KEYFILES">&amp;Schlüsseldat ...</control>
     <control lang="de" key="IDC_LIMIT_ENC_THREAD_POOL">Diese Anzahl von Prozessoren NICHT für Ver-/Entschlüsselung nutzen:</control>
     <control lang="de" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Mehr Informationen</control>
     <control lang="de" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Mehr Informationen</control>
-    <control lang="de" key="IDC_MORE_SETTINGS">Mehr Einstellungen...</control>
+    <control lang="de" key="IDC_MORE_SETTINGS">Mehr Einstellungen ...</control>
     <control lang="de" key="IDC_MOUNTALL">&amp;Alle Datentr. einbinden</control>
-    <control lang="de" key="IDC_MOUNT_OPTIONS">&amp;Optionen...</control>
+    <control lang="de" key="IDC_MOUNT_OPTIONS">&amp;Optionen ...</control>
     <control lang="de" key="IDC_MOUNT_READONLY">Als schreib&amp;geschütztes Laufwerk einbinden</control>
-    <control lang="de" key="IDC_NEW_KEYFILES">Schlüssel&amp;dat...</control>
+    <control lang="de" key="IDC_NEW_KEYFILES">Schlüssel&amp;dat ...</control>
     <control lang="de" key="IDC_OLD_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</control>
     <control lang="de" key="IDC_PIM_HELP">(Leer oder 0 für vordefinierte Iterationen)</control>
     <control lang="de" key="IDC_PREF_BKG_TASK_ENABLE">&amp;Aktiv</control>
@@ -176,17 +176,17 @@
     <control lang="de" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Cache beim Beenden sicher &amp;löschen</control>
     <control lang="de" key="IDC_PRESERVE_TIMESTAMPS">Änderungszeiten von Containerdateien erhalten</control>
     <control lang="de" key="IDC_RESET_HOTKEYS">Zu&amp;rücksetzen</control>
-    <control lang="de" key="IDC_SELECT_DEVICE">Datent&amp;räger...</control>
-    <control lang="de" key="IDC_SELECT_FILE">&amp;Datei...</control>
-    <control lang="de" key="IDC_SELECT_PKCS11_MODULE">Wähle &amp;Bibliothek...</control>
+    <control lang="de" key="IDC_SELECT_DEVICE">Datent&amp;räger ...</control>
+    <control lang="de" key="IDC_SELECT_FILE">&amp;Datei ...</control>
+    <control lang="de" key="IDC_SELECT_PKCS11_MODULE">&amp;Bibliothek auswählen ...</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Passwort anze&amp;igen</control>
     <control lang="de" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Passwort an&amp;zeigen</control>
     <control lang="de" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer-Fenster für eingebundenes Volume öffnen</control>
     <control lang="de" key="IDC_TRAV_CACHE_PASSWORDS">Passwort im Cache halten</control>
     <control lang="de" key="IDC_TRUECRYPT_MODE">TrueCrypt-Modus</control>
     <control lang="de" key="IDC_UNMOUNTALL">A&amp;lle trennen</control>
-    <control lang="de" key="IDC_VOLUME_PROPERTIES">Eigenscha&amp;ften...</control>
-    <control lang="de" key="IDC_VOLUME_TOOLS">Vol.-&amp;Operationen...</control>
+    <control lang="de" key="IDC_VOLUME_PROPERTIES">Eigenscha&amp;ften ...</control>
+    <control lang="de" key="IDC_VOLUME_TOOLS">Vol.-&amp;Operationen ...</control>
     <control lang="de" key="IDC_WIPE_CACHE">&amp;Cache sicher löschen</control>
     <control lang="de" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt – Parameter beim Einbinden</control>
     <control lang="de" key="IDD_FAVORITE_VOLUMES">VeraCrypt – Favoriten-Volumes</control>
@@ -201,63 +201,63 @@
     <control lang="de" key="IDD_TRAVELER_DLG">VeraCrypt Traveler-Disk-Installation</control>
     <control lang="de" key="IDD_VOLUME_PROPERTIES">Eigenschaften des VeraCrypt-Volumes</control>
     <control lang="de" key="IDM_ABOUT">&amp;Infos über VeraCrypt</control>
-    <control lang="de" key="IDM_ADD_REMOVE_VOL_KEYFILES">Schlüssel&amp;dateien dem/vom Volume hinzufügen/entfernen...</control>
-    <control lang="de" key="IDM_ADD_VOLUME_TO_FAVORITES">Eingebundenes Volume zu Favoriten hinzufügen...</control>
-    <control lang="de" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Eingebundenes Volume zu Systemfavoriten hinzufügen. ..</control>
-    <control lang="de" key="IDM_ANALYZE_SYSTEM_CRASH">Einen Systemabsturz analysieren...</control>
-    <control lang="de" key="IDM_BACKUP_VOL_HEADER">Volume-Kopfdaten s&amp;ichern...</control>
-    <control lang="de" key="IDM_BENCHMARK">&amp;Benchmark-Test...</control>
-    <control lang="de" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Algorithmus für &amp;Kopfdatenschlüsselberechnung ändern...</control>
-    <control lang="de" key="IDM_CHANGE_PASSWORD">Volume-&amp;Passwort ändern...</control>
-    <control lang="de" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Algorithmus für Kopfdatenschlüsselberechnung ändern...</control>
-    <control lang="de" key="IDM_CHANGE_SYS_PASSWORD">Passwort ändern...</control>
+    <control lang="de" key="IDM_ADD_REMOVE_VOL_KEYFILES">Schlüssel&amp;dateien dem/vom Volume hinzufügen/entfernen ...</control>
+    <control lang="de" key="IDM_ADD_VOLUME_TO_FAVORITES">Eingebundenes Volume zu Favoriten hinzufügen ...</control>
+    <control lang="de" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Eingebundenes Volume zu Systemfavoriten hinzufügen ...</control>
+    <control lang="de" key="IDM_ANALYZE_SYSTEM_CRASH">Einen Systemabsturz analysieren ...</control>
+    <control lang="de" key="IDM_BACKUP_VOL_HEADER">Volume-Kopfdaten s&amp;ichern ...</control>
+    <control lang="de" key="IDM_BENCHMARK">&amp;Benchmark-Test ...</control>
+    <control lang="de" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Algorithmus für &amp;Kopfdatenschlüsselberechnung ändern ...</control>
+    <control lang="de" key="IDM_CHANGE_PASSWORD">Volume-&amp;Passwort ändern ...</control>
+    <control lang="de" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Algorithmus für Kopfdatenschlüsselberechnung ändern ...</control>
+    <control lang="de" key="IDM_CHANGE_SYS_PASSWORD">Passwort ändern ...</control>
     <control lang="de" key="IDM_CLEAR_HISTORY">Volume-Ve&amp;rlauf löschen</control>
     <control lang="de" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Alle Sicherheitstoken-Sitzungen schließen</control>
     <control lang="de" key="IDM_CONTACT">&amp;Kontakt</control>
-    <control lang="de" key="IDM_CREATE_HIDDEN_OS">Verstecktes Betriebssystem erstellen...</control>
-    <control lang="de" key="IDM_CREATE_RESCUE_DISK">Rettungsdatenträger erstellen...</control>
-    <control lang="de" key="IDM_CREATE_VOLUME">&amp;Neues Volume erstellen...</control>
-    <control lang="de" key="IDM_DECRYPT_NONSYS_VOL">Dauerhaft entschlüsseln...</control>
-    <control lang="de" key="IDM_DEFAULT_KEYFILES">&amp;Standardschlüsseldateien...</control>
-    <control lang="de" key="IDM_DEFAULT_MOUNT_PARAMETERS">Standardparameter beim Einbinden...</control>
+    <control lang="de" key="IDM_CREATE_HIDDEN_OS">Verstecktes Betriebssystem erstellen ...</control>
+    <control lang="de" key="IDM_CREATE_RESCUE_DISK">Rettungsdatenträger erstellen ...</control>
+    <control lang="de" key="IDM_CREATE_VOLUME">&amp;Neues Volume erstellen ...</control>
+    <control lang="de" key="IDM_DECRYPT_NONSYS_VOL">Dauerhaft entschlüsseln ...</control>
+    <control lang="de" key="IDM_DEFAULT_KEYFILES">&amp;Standardschlüsseldateien ...</control>
+    <control lang="de" key="IDM_DEFAULT_MOUNT_PARAMETERS">Standardparameter beim Einbinden ...</control>
     <control lang="de" key="IDM_DONATE">Jetzt spenden...</control>
-    <control lang="de" key="IDM_ENCRYPT_SYSTEM_DEVICE">System-Partition/Laufwerk verschlüsseln...</control>
+    <control lang="de" key="IDM_ENCRYPT_SYSTEM_DEVICE">System-Partition/Laufwerk verschlüsseln ...</control>
     <control lang="de" key="IDM_FAQ">Häufig gestellte &amp;Fragen (FAQ)</control>
     <control lang="de" key="IDM_HELP">&amp;Benutzerhandbuch</control>
     <control lang="de" key="IDM_HOMEPAGE">Webseite</control>
-    <control lang="de" key="IDM_HOTKEY_SETTINGS">&amp;Tastenkombinationen...</control>
+    <control lang="de" key="IDM_HOTKEY_SETTINGS">&amp;Tastenkombinationen ...</control>
     <control lang="de" key="IDM_KEYFILE_GENERATOR">&amp;Schlüsseldatei(en) generieren</control>
-    <control lang="de" key="IDM_LANGUAGE">&amp;Sprache...</control>
+    <control lang="de" key="IDM_LANGUAGE">&amp;Sprache ...</control>
     <control lang="de" key="IDM_LICENSE">&amp;Lizenzvereinbarung</control>
-    <control lang="de" key="IDM_MANAGE_TOKEN_KEYFILES">Sicherheitstoken-Schlüsseldateien verwalten...</control>
+    <control lang="de" key="IDM_MANAGE_TOKEN_KEYFILES">Sicherheitstoken-Schlüsseldateien verwalten ...</control>
     <control lang="de" key="IDM_MOUNTALL">&amp;Alle Datenträger-Volumes automatisch einbinden</control>
     <control lang="de" key="IDM_MOUNT_FAVORITE_VOLUMES">&amp;Favoriten einbinden</control>
-    <control lang="de" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Ohne Prä-Boot-&amp;Authentifikation einbinden...</control>
+    <control lang="de" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Ohne Prä-Boot-&amp;Authentifikation einbinden ...</control>
     <control lang="de" key="IDM_MOUNT_VOLUME">Volume &amp;einbinden</control>
     <control lang="de" key="IDM_MOUNT_VOLUME_OPTIONS">Volume einbinden (mit &amp;Optionen)</control>
     <control lang="de" key="IDM_NEWS">&amp;Neuigkeiten</control>
     <control lang="de" key="IDM_ONLINE_HELP">Online-&amp;Hilfe</control>
     <control lang="de" key="IDM_ONLINE_TUTORIAL">&amp;Anleitung für Anfänger</control>
-    <control lang="de" key="IDM_ORGANIZE_FAVORITES">Favoriten-Volumes Einstellungen...</control>
-    <control lang="de" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Systemfavoriten-Volumes Einstellungen...</control>
+    <control lang="de" key="IDM_ORGANIZE_FAVORITES">Favoriten-Volumes Einstellungen ...</control>
+    <control lang="de" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Systemfavoriten-Volumes Einstellungen ...</control>
     <control lang="de" key="IDM_PERFORMANCE_SETTINGS">Leistung/Treiberkonfiguration</control>
     <control lang="de" key="IDM_PERMANENTLY_DECRYPT_SYS">System-Partition/Laufwerk dauerhaft entschlüsseln</control>
-    <control lang="de" key="IDM_PREFERENCES">&amp;Voreinstellungen...</control>
+    <control lang="de" key="IDM_PREFERENCES">&amp;Voreinstellungen ...</control>
     <control lang="de" key="IDM_REFRESH_DRIVE_LETTERS">&amp;Laufwerksbuchstaben aktualisieren</control>
-    <control lang="de" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">&amp;Alle Schlüsseldateien vom Volume entfernen...</control>
-    <control lang="de" key="IDM_RESTORE_VOL_HEADER">Volume-Kopfdaten &amp;wiederherstellen...</control>
+    <control lang="de" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">&amp;Alle Schlüsseldateien vom Volume entfernen ...</control>
+    <control lang="de" key="IDM_RESTORE_VOL_HEADER">Volume-Kopfdaten &amp;wiederherstellen ...</control>
     <control lang="de" key="IDM_RESUME_INTERRUPTED_PROC">Unterbrochenen Prozess fortsetzen</control>
-    <control lang="de" key="IDM_SELECT_DEVICE">Datent&amp;räger oder Partition auswählen...</control>
-    <control lang="de" key="IDM_SELECT_FILE">&amp;Datei auswählen...</control>
+    <control lang="de" key="IDM_SELECT_DEVICE">Datent&amp;räger oder Partition auswählen ...</control>
+    <control lang="de" key="IDM_SELECT_FILE">&amp;Datei auswählen ...</control>
     <control lang="de" key="IDM_SYSENC_RESUME">Unterbrochenen Vorgang fortsetzen</control>
-    <control lang="de" key="IDM_SYSENC_SETTINGS">Systemverschlüsselung...</control>
-    <control lang="de" key="IDM_SYSTEM_ENCRYPTION_STATUS">Eigenschaften...</control>
-    <control lang="de" key="IDM_SYS_ENC_SETTINGS">Einstellungen...</control>
-    <control lang="de" key="IDM_SYS_FAVORITES_SETTINGS">Systemfavoriten-Volumes...</control>
+    <control lang="de" key="IDM_SYSENC_SETTINGS">Systemverschlüsselung ...</control>
+    <control lang="de" key="IDM_SYSTEM_ENCRYPTION_STATUS">Eigenschaften ...</control>
+    <control lang="de" key="IDM_SYS_ENC_SETTINGS">Einstellungen ...</control>
+    <control lang="de" key="IDM_SYS_FAVORITES_SETTINGS">Systemfavoriten-Volumes ...</control>
     <control lang="de" key="IDM_TC_DOWNLOADS">&amp;Downloads</control>
-    <control lang="de" key="IDM_TEST_VECTORS">&amp;Testvektoren...</control>
-    <control lang="de" key="IDM_TOKEN_PREFERENCES">Sicherheitstokens...</control>
-    <control lang="de" key="IDM_TRAVELER">Traveler-Disk-Installation...</control>
+    <control lang="de" key="IDM_TEST_VECTORS">&amp;Testvektoren ...</control>
+    <control lang="de" key="IDM_TOKEN_PREFERENCES">Sicherheitstokens ...</control>
+    <control lang="de" key="IDM_TRAVELER">Traveler-Disk-Installation ...</control>
     <control lang="de" key="IDM_UNMOUNTALL">A&amp;lle Volumes trennen</control>
     <control lang="de" key="IDM_UNMOUNT_VOLUME">Volume &amp;trennen</control>
     <control lang="de" key="IDM_VERIFY_RESCUE_DISK">Rettungsdatenträger überprüfen</control>
@@ -293,7 +293,7 @@
     <control lang="de" key="IDT_NEW">Neu</control>
     <control lang="de" key="IDT_NEW_PASSWORD">Passwort:</control>
     <control lang="de" key="IDT_PARALLELIZATION_OPTIONS">Thread-basierte Parallelisierung</control>
-    <control lang="de" key="IDT_PKCS11_LIB_PATH">Pfad der PKCS #11 Bibliothek</control>
+    <control lang="de" key="IDT_PKCS11_LIB_PATH">Pfad der PKCS #11-Bibliothek</control>
     <control lang="de" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="de" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="de" key="IDT_PW_CACHE_OPTIONS">Passwort-Cache (im Speicher des VeraCrypt-Treibers)</control>
@@ -304,21 +304,21 @@
     <control lang="de" key="IDT_TRAVEL_ROOT">Traveler-Disk-Dateien erstellen in (Traveler-Disk-Stammverzeichnis):</control>
     <control lang="de" key="IDT_VOLUME">Volume</control>
     <control lang="de" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
-    <control lang="de" key="IDC_ADD_KEYFILE_PATH">&amp;Pfad...</control>
+    <control lang="de" key="IDC_ADD_KEYFILE_PATH">&amp;Pfad ...</control>
     <control lang="de" key="IDC_AUTO">&amp;Auto-Test für alle</control>
     <control lang="de" key="IDC_CONTINUE">&amp;Fortsetzen</control>
     <control lang="de" key="IDC_DECRYPT">&amp;Entschlüsseln</control>
     <control lang="de" key="IDC_DELETE">&amp;Löschen</control>
     <control lang="de" key="IDC_ENCRYPT">&amp;Verschlüsseln</control>
-    <control lang="de" key="IDC_EXPORT">&amp;Exportieren...</control>
+    <control lang="de" key="IDC_EXPORT">&amp;Exportieren ...</control>
     <control lang="de" key="IDC_GENERATE_AND_SAVE_KEYFILE">Schlüsseldatei(en) &amp;erstellen und speichern</control>
     <control lang="de" key="IDC_GENERATE_KEYFILE">Schlüsseldatei(en) &amp;generieren</control>
     <control lang="de" key="IDC_GET_LANG_PACKS">Sprachpaket herunterladen</control>
     <control lang="de" key="IDC_HW_AES_LABEL_LINK">Hardwarebeschleunigtes AES:</control>
-    <control lang="de" key="IDC_IMPORT_KEYFILE">&amp;Schl.dateien auf den Token importieren...</control>
+    <control lang="de" key="IDC_IMPORT_KEYFILE">&amp;Schl.dateien auf den Token importieren ...</control>
     <control lang="de" key="IDC_KEYADD">Dateien &amp;hinzuf.</control>
     <control lang="de" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Schlüsselda&amp;teien verw.</control>
-    <control lang="de" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Schlüsseldat...</control>
+    <control lang="de" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Schlüsseldat ...</control>
     <control lang="de" key="IDC_KEYREMOVE">Ent&amp;fernen</control>
     <control lang="de" key="IDC_KEYREMOVEALL">&amp;Alle entfernen</control>
     <control lang="de" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Was bedeutet „Schützen von verstecktem Volume“?</control>
@@ -370,8 +370,8 @@
     <control lang="de" key="IDT_SECONDARY_KEY">Sekundärer Schlüssel (hexadezimal)</control>
     <control lang="de" key="IDT_SECURITY_TOKEN">Sicherheitstoken:</control>
     <control lang="de" key="IDT_SORT_METHOD">Sortiermethode:</control>
-    <control lang="de" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Bitte warten. Dieser Vorgang kann sehr lange dauern...</control>
-    <control lang="de" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Bitte warten...\nDieser Prozess kann sehr lange dauern und VeraCrypt kann vorübergehend hängen bleiben.</control>
+    <control lang="de" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Bitte warten. Dieser Vorgang kann sehr lange dauern ...</control>
+    <control lang="de" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Bitte warten ...\nDieser Prozess kann sehr lange dauern und VeraCrypt kann vorübergehend hängen bleiben.</control>
     <control lang="de" key="IDT_TEST_BLOCK_NUMBER">Block Nummer:</control>
     <control lang="de" key="IDT_TEST_CIPHERTEXT">Chiffretext (hexadezimal)</control>
     <control lang="de" key="IDT_TEST_DATA_UNIT_NUMBER">Dateneinheitnummer (64 Bit hexadezimal, die Größe einer Dateneinheit beträgt 512 Byte)</control>
@@ -595,7 +595,7 @@
     <string lang="de" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt kann das Volume nicht sperren weil es vom System oder von Programmen verwendet wird (es könnte offene Dateien auf dem Volume geben).\n\nMöchten sie die Trennung auf dem Volume erzwingen?</string>
     <string lang="de" key="OPEN_VOL_TITLE">VeraCrypt-Volume auswählen</string>
     <string lang="de" key="OPEN_TITLE">Pfad- und Dateiname angeben</string>
-    <string lang="de" key="SELECT_PKCS11_MODULE">Wähle PKCS #11 Bibliothek</string>
+    <string lang="de" key="SELECT_PKCS11_MODULE">PKCS #11-Bibliothek auswählen</string>
     <string lang="de" key="OUTOFMEMORY">Kein Speicher mehr vorhanden</string>
     <string lang="de" key="FORMAT_DEVICE_FOR_ADVANCED_ONLY">WICHTIG: Wir empfehlen unerfahrenen Nutzern dringend eine VeraCrypt-Containerdatei auf der ausgewählten Partition/Laufwerk zu erstellen anstatt zu versuchen die gesamte Partition/Laufwerk zu verschlüsseln.\n\nWenn Sie eine VeraCrypt-Containerdatei erstellen besteht zum Beispiel (im Gegensatz zum Verschlüsseln einer ganzen Partition oder eines Laufwerks) keine Gefahr eine große Zahl von Dateien zu zerstören. Bitte beachten Sie, dass eine VeraCrypt-Containerdatei (obwohl sie eine virtuelle verschlüsselte Festplatte enthält) sich genau wie eine normale Datei verhält (sie kann z.B. kopiert, verschoben oder gelöscht werden). Für mehr Informationen siehe Kapitel „Beginner's Tutorial“ im VeraCrypt Benutzerhandbuch.\n\nSind Sie sicher, dass Sie die gesamte Partition / das gesamte Laufwerk verschlüsseln möchten?</string>
     <string lang="de" key="OVERWRITEPROMPT">WARNUNG: Die Datei „%s“ existiert bereits!\n\nWICHTIG: VERACRYPT WIRD DIE DATEI NICHT VERSCHLÜSSELN SONDERN LÖSCHEN. Sind Sie sicher, dass Sie die Datei löschen möchten und mit dem neuen VeraCrypt-Container ersetzen möchten?</string>
@@ -786,8 +786,8 @@
     <string lang="de" key="MEAN">Mittelwert</string>
     <string lang="de" key="DRIVE">LW</string>
     <string lang="de" key="SIZE">Größe</string>
-    <string lang="de" key="ENCRYPTION_ALGORITHM">Verschlüsselungsalg.</string>
-    <string lang="de" key="ENCRYPTION_ALGORITHM_LV">Verschlüsselungsalg.</string>
+    <string lang="de" key="ENCRYPTION_ALGORITHM">Verschlüsselungsalgorithmus</string>
+    <string lang="de" key="ENCRYPTION_ALGORITHM_LV">Verschlüsselungsalgorithmus</string>
     <string lang="de" key="TYPE">Typ</string>
     <string lang="de" key="VALUE">Wert</string>
     <string lang="de" key="PROPERTY">Eigenschaft</string>
@@ -847,7 +847,7 @@
     <string lang="de" key="EXTRACTION_FINISHED_INFO">Alle Dateien wurden erfolgreich in das angegebene Verzeichnis entpackt.</string>
     <string lang="de" key="AUTO_FOLDER_CREATION">Wenn der angegebene Ordner nicht existiert wird er automatisch erstellt.</string>
     <string lang="de" key="SETUP_UPGRADE_DESTINATION">Die VeraCrypt-Aktualisierung wird am selben Ort installiert an dem VeraCrypt bisher installiert ist. Wenn Sie einen anderen Installationsort wählen möchten, dann deinstallieren Sie VeraCrypt bitte zuerst.</string>
-    <string lang="de" key="AFTER_UPGRADE_RELEASE_NOTES">Möchten Sie die „Release Notes“ zu der aktuellen (stabilen) VeraCrypt-Version lesen?</string>
+    <string lang="de" key="AFTER_UPGRADE_RELEASE_NOTES">Möchten Sie die „Versionshinweise“ zu der aktuellen (stabilen) VeraCrypt-Version lesen?</string>
     <string lang="de" key="AFTER_INSTALL_TUTORIAL">Falls Sie VeraCrypt noch nie zuvor verwendet haben, ist es empfehlenswert das Kapitel „Beginner's Tutorial“ im VeraCrypt-Benutzerhandbuch zu lesen. Möchten Sie das Tutorial ansehen?</string>
     <string lang="de" key="SELECT_AN_ACTION">Wählen Sie eine der folgenden Aktionen aus:</string>
     <string lang="de" key="REPAIR_REINSTALL">Reparatur/Neuinstallation</string>
@@ -1261,18 +1261,18 @@
     <string lang="de" key="BOOT_LOADER_UPGRADE_FAILED">Es ist ein Fehler beim Aktualisieren des VeraCrypt-Bootloaders aufgetreten.</string>
     <string lang="de" key="SYS_DRIVE_SIZE_PROBE_TIMEOUT">VeraCrypt konnte die reale Größe des Systemlaufwerkes nicht ermitteln und folglich wird die Größe, die das Betriebssystem angibt verwendet (welche kleiner sein kann als die reale Größe). Beachten Sie auch, dass dies kein Fehler in VeraCrypt ist.</string>
     <string lang="de" key="HIDDEN_SECTOR_DETECTION_FAILED_PREVIOUSLY">WARNUNG: Möglicherweise hat VeraCrypt bereits versucht versteckte Sektoren auf diesem Systemlaufwerk zu erkennen. Wenn Sie Probleme während des vorherigen Erkennungsprozesses hatten, so können Sie diese vermeiden, indem Sie diesmal die Erkennung von versteckten Sektoren überspringen. Bedenken Sie dabei, dass VeraCrypt die vom Betriebssystem angegebene Größe verwendet (die vielleicht kleiner ist als die tatsächliche Größe).\n\nBeachten Sie, das Problem wurde nicht wegen eines Fehlers in VeraCrypt verursacht.</string>
-    <string lang="de" key="SKIP_HIDDEN_SECTOR_DETECTION">Die Erkennung von versteckten Sektoren überspringen (die Größe die das Betriebssystem angibt verwenden)</string>
+    <string lang="de" key="SKIP_HIDDEN_SECTOR_DETECTION">Die Erkennung von versteckten Sektoren überspringen (die vom Betriebssystem angegebene Größe verwenden)</string>
     <string lang="de" key="RETRY_HIDDEN_SECTOR_DETECTION">Nochmals versteckte Sektoren suchen</string>
     <string lang="de" key="ENABLE_BAD_SECTOR_ZEROING">Fehler: Der Inhalt von mindestens einem Sektor des Laufwerks konnte nicht gelesen werden (zum Beispiel wegen eines Hardware Fehlers).\n\nDer Vorgang der „in-place“-Verschlüsselung kann nur fortgesetzt werden, wenn diese Sektoren wieder lesbar sind. VeraCrypt kann versuchen, diese Sektoren wieder lesbar zu machen, indem sie mit Nullen überschrieben werden (diese werden dann mit verschlüsselt). Beachten Sie dabei bitte, dass alle in den beschädigten Sektoren vorhandenen Daten bei diesem Vorgang verloren gehen. Wenn Sie dies vermeiden möchten, dann können Sie versuchen die beschädigten Daten mit einem Dritt-Anbieter Programm wiederherzustellen.\n\nHinweis: Im Falle eines Hardware Fehlers (im Gegensatz zu beschädigten Daten und Prüfsummenfehlern) könnten die Laufwerke die beschädigten Sektoren intern schützen, so dass die darin enthaltenen Daten unverschlüsselt auf der Festplatte bleiben.\n\nMöchten Sie, dass VeraCrypt die unlesbaren Sektoren mit Nullen überschreibt?</string>
     <string lang="de" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">Fehler: Der Inhalt von mindestens einem Sektor des Laufwerks konnte nicht gelesen werden (zum Beispiel wegen eines Hardware Fehlers).\n\nUm den Vorgang fortsetzen zu können, muss VeraCrypt den Inhalt dieser Sektoren verwerfen (der Inhalt wird mit Pseudo-Zufallsinhalten gefüllt). Beachten Sie bitte dass Sie auch versuchen können die beschädigten Daten mit einem Dritt-Anbieter Programm wiederherzustellen.\n\nMöchten Sie, dass VeraCrypt die unlesbaren Sektoren verwirft?</string>
     <string lang="de" key="ZEROED_BAD_SECTOR_COUNT">Hinweis: VeraCrypt hat den Inhalt der %I64d nicht lesbaren Sektoren (%s) mit verschlüsselten NULL-Textblöcken ersetzt.</string>
     <string lang="de" key="SKIPPED_BAD_SECTOR_COUNT">Hinweis: VeraCrypt hat den Inhalt der %I64d nicht lesbaren Sektoren (%s) mit zufälligen Daten ersetzt.</string>
     <string lang="de" key="ENTER_TOKEN_PASSWORD">Passwort/PIN eingeben für Token „%s“:</string>
-    <string lang="de" key="PKCS11_LIB_LOCATION_HELP">Damit VeraCrypt auf einen Token/Smart Card zugreifen kann, müssen Sie zuerst eine PKCS #11 Software Bibliothek installieren. Diese kann mit dem Gerät ausgeliefert sein o. sie steht zum Herunterladen auf der Webswite des Herstellers oder eines Drittherstellers bereit.\n\nNachdem Sie die Bibliothek installiert haben, können Sie diese durch klicken auf „Wähle Bibliothek ...“ selber wählen oder Sie können diese von VeraCrypt durch klicken auf „Bibliothek automatisch erkennen“ suchen und auswählen lassen (nur das Windows Systemverzeichnis wird durchsucht).</string>
+    <string lang="de" key="PKCS11_LIB_LOCATION_HELP">Damit VeraCrypt auf eine(n) Token/Smart Card zugreifen kann, müssen Sie zuerst eine PKCS #11-Softwarebibliothek installieren. Diese kann mit dem Gerät ausgeliefert sein oder sie steht zum Herunterladen auf der Webseite des Herstellers oder eines Drittherstellers bereit.\n\nNachdem Sie die Bibliothek installiert haben, können Sie diese durch klicken auf „Bibliothek auswählen ...“ selber auswählen oder Sie können diese von VeraCrypt durch klicken auf „Bibliothek automatisch erkennen“ suchen und auswählen lassen (nur das Windows-Systemverzeichnis wird durchsucht).</string>
     <string lang="de" key="SELECT_PKCS11_MODULE_HELP">Hinweis: Für den Dateinamen und Speicherort der PKCS #11-Bibliothek, die für Ihren Sicherheitstoken oder Smart Card installiert wurde, lesen Sie bitte die Dokumentation, welche mit dem Token, der Card oder Dritthersteller Software mitgeliefert wurde.\n\nKlicken Sie auf „OK“, um den Pfad und Dateinamen zu wählen.</string>
     <string lang="de" key="NO_PKCS11_MODULE_SPECIFIED">Um VeraCrypt zu ermöglichen auf einen Sicherheitstoken oder eine Smart-Card zuzugreifen, müssen Sie dafür zuerst eine PKCS #11 Bibliothekssoftware für den Token/die Smart-Card auswählen. Wählen Sie dazu „Einstellungen“ &gt; „Sicherheitstokens ...“.</string>
-    <string lang="de" key="PKCS11_MODULE_INIT_FAILED">Die PKCS #11 Sicherheitstoken Bibliothek konnte nicht initialisiert werden.\n\nStellen Sie bitte sicher, dass der angegebene Pfad und Dateiname auf eine gültige PKCS # 11-Bibliothek verweist. Um den Pfad und Dateiname für eine PKCS #11-Bibliothek anzugeben, klicken Sie auf „Einstellungen“ &gt; „Sicherheitstokens“.</string>
-    <string lang="de" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">Es wurde keine PKCS #11-Bibliothek im Windows Systemverzeichnis gefunden.\n\nBitte stellen Sie sicher, dass eine PKCS #11-Bibliothek für Ihren Sicherheitstoken (oder für Ihre Smart Card) installiert ist (solch eine Bibliothek kann mit dem Token/der Smart Card mitgeliefert sein oder zum Herunterladen auf der Webseite des Herstellers oder von anderen Drittherstellern bereitstehen). Wenn sie in einem anderen Verzeichnis installiert ist als im Windows-Verzeichnis, dann klicken Sie auf „Wähle Bibliothek“, um die Bibliothek anzugeben (z.B. im Ordner in dem die Software für den Token/die Smart Card installiert ist).</string>
+    <string lang="de" key="PKCS11_MODULE_INIT_FAILED">Die PKCS #11 Sicherheitstoken-Bibliothek konnte nicht initialisiert werden.\n\nStellen Sie bitte sicher, dass der angegebene Pfad und Dateiname auf eine gültige PKCS # 11-Bibliothek verweist. Um den Pfad und Dateiname für eine PKCS #11-Bibliothek anzugeben, klicken Sie auf „Einstellungen“ &gt; „Sicherheitstokens“.</string>
+    <string lang="de" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">Es wurde keine PKCS #11-Bibliothek im Windows Systemverzeichnis gefunden.\n\nBitte stellen Sie sicher, dass eine PKCS #11-Bibliothek für Ihren Sicherheitstoken (oder für Ihre Smart Card) installiert ist (solch eine Bibliothek kann mit dem Token/der Smart Card mitgeliefert sein oder zum Herunterladen auf der Webseite des Herstellers oder von anderen Drittherstellern bereitstehen). Wenn sie in einem anderen Verzeichnis installiert ist als im Windows-Verzeichnis, dann klicken Sie auf „Bibliothek auswählen ...“, um die Bibliothek anzugeben (z.B. im Ordner in dem die Software für den Token/die Smart Card installiert ist).</string>
     <string lang="de" key="NO_TOKENS_FOUND">Kein Sicherheitstoken gefunden.\n\nBitte stellen Sie sicher, dass Ihr Sicherheitstoken mit Ihrem Computer verbunden ist und der richtige Gerätetreiber für Ihren Sicherheitstoken installiert ist.</string>
     <string lang="de" key="TOKEN_KEYFILE_NOT_FOUND">Sicherheitstoken Schlüsseldatei nicht gefunden.</string>
     <string lang="de" key="TOKEN_KEYFILE_ALREADY_EXISTS">Eine Sicherheitstoken Schlüsseldatei mit demselben Namen existiert bereits.</string>
@@ -1282,9 +1282,9 @@
     <string lang="de" key="CKR_PIN_INCORRECT">Passwort für das Sicherheitstoken ist falsch.</string>
     <string lang="de" key="CKR_DEVICE_MEMORY">Das Sicherheitstoken hat nicht genug Speicherplatz zur Verfügung um diesen Vorgang durchzuführen.\n\nWenn Sie versuchen eine Schlüsseldatei zu importieren sollten Sie eine kleinere Datei auswählen oder eine von VeraCrypt erstellte Schlüsseldatei benutzen („Extras“ &gt; „Schlüsseldatei(en) generieren“).</string>
     <string lang="de" key="ALL_TOKEN_SESSIONS_CLOSED">Alle offenen Sicherheitstoken Sitzungen wurden geschlossen.</string>
-    <string lang="de" key="SELECT_TOKEN_KEYFILES">Wähle Sicherheitstoken Schlüsseldateien</string>
+    <string lang="de" key="SELECT_TOKEN_KEYFILES">Sicherheitstoken-Schlüsseldateien auswählen</string>
     <string lang="de" key="TOKEN_SLOT_ID">Steckplatz</string>
-    <string lang="de" key="TOKEN_NAME">Token Name</string>
+    <string lang="de" key="TOKEN_NAME">Tokenname</string>
     <string lang="de" key="TOKEN_DATA_OBJECT_LABEL">Dateiname</string>
     <string lang="de" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">WICHTIG: Bitte beachten Sie, dass Prä-Boot-Authentifikationspasswörter stets mit einer Standard US-Tastaturbelegung geschrieben werden. Deshalb kann es unmöglich sein ein Volume, dessen Passwort mit einer anderen Tastaturbelegung erstellt wurde mit einem Prä-Boot-Authentifikationspasswort einzubinden (bitte beachten Sie, dass dies kein VeraCrypt-Fehler ist). Um solch ein Volume mit einem Prä-Boot-Authentifikationspasswort einzubinden, folgen Sie diesen Schritten:\n\n1) Klicken Sie „Datei“ oder „Datenträger“ und wählen Sie das Volume aus.\n2) Wählen Sie „Volumes“ &gt; „Volume-Passwort ändern“.\n3) Geben Sie das derzeitige Passwort für das Volume ein.\n4) Ändern Sie die Tastaturbelegung auf „English (US)“ indem Sie auf das Sprachsymbol in der Windows Taskleiste klicken und „EN English (United States)“ wählen (falls das Symbol nicht angezeigt wird gehen Sie in „Systemsteuerung“ &gt; „Regions- und Sprachoptionen“. Klicken Sie auf „Tastatur ändern“ und wählen Sie „Englisch (US)“).\n5) Geben Sie nun in VeraCrypt das neue Prä-Boot-Authentifikationspasswort ein.\n6) Bestätigen Sie das neue Prä-Boot-Authentifikationspasswort und klicken Sie „OK“.\n7)ACHTUNG: Bitte denken Sie daran, dass das Volume Passwort IMMER mit der US-Tastaturbelegung eingegeben werden muss, wenn Sie diese Schritte befolgen (in der Prä-Boot-Umgebung ist automatisch US-Englisch eingestellt).</string>
     <string lang="de" key="SYS_FAVORITES_KEYBOARD_WARNING">Systemfavoriten-Volumes werden mit dem Prä-Boot-Authentifikationspasswort eingebunden. Wenn irgendein Systemfavoriten-Volume ein anderes Passwort nutzt wird es nicht eingebunden.</string>
@@ -1293,8 +1293,8 @@
     <string lang="de" key="SETTING_REQUIRES_REBOOT">Bitte beachten Sie, dass diese Änderung erst nach einem Neustart des Betriebssystems in Kraft tritt.</string>
     <string lang="de" key="COMMAND_LINE_ERROR">Fehler bei der Syntaxanalyse der Kommandozeile.</string>
     <string lang="de" key="RESCUE_DISK">Rettungsdatenträger</string>
-    <string lang="de" key="SELECT_FILE_AND_MOUNT">&amp;Datei wählen und einbinden ...</string>
-    <string lang="de" key="SELECT_DEVICE_AND_MOUNT">Laufwerk wä&amp;hlen und einbinden ...</string>
+    <string lang="de" key="SELECT_FILE_AND_MOUNT">&amp;Datei auswählen und einbinden ...</string>
+    <string lang="de" key="SELECT_DEVICE_AND_MOUNT">Laufwerk auswä&amp;hlen und einbinden ...</string>
     <string lang="de" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">Nur Administratoren erlauben Systemfavoriten in VeraCrypt zu sehen und zu trennen</string>
     <string lang="de" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">Systemfavoriten-Volumes einbinden wenn Windows startet (am Anfang der Startphase)</string>
     <string lang="de" key="MOUNTED_VOLUME_DIRTY">WARNUNG: Das Dateisystem auf dem Volume, eingebunden als „%s“, wurde nicht ordnungsgemäß getrennt und könnte dadurch Fehler enthalten. Das Verwenden eines beschädigten Dateisystems kann zu Datenverlusten bzw. Datenbeschädigungen führen.\n\nHinweis: Bevor Sie ein Laufwerk physikalisch entfernen oder ausschalten (z.B. ein USB-Stick oder eine externe Festplatte), auf denen ein eingebundenes VeraCrypt-Volume ist, so sollten Sie immer zuerst das Volume in VeraCrypt trennen.\n\n\nMöchten Sie das Windows auf dem Dateisystem nach Fehlern sucht und diese behebt (falls vorhanden)?</string>
@@ -1393,28 +1393,28 @@
     <control lang="de" key="IDC_FAVORITE_USE_VOLUME_ID">Volume-Kennung zum Einbinden des Favoriten verwenden</control>
     <string lang="de" key="VOLUME_ID_INVALID">Die Volume-Kennung ist ungültig</string>
     <string lang="de" key="VOLUME_ID_NOT_FOUND">Mit der angegebenen Kennung wurde kein Volume auf dem System gefunden</string>
-    <string lang="de" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Wert in die Zwischenablage kopieren...</string>
+    <string lang="de" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Wert in die Zwischenablage kopieren ...</string>
     <control lang="de" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Im Prä-Boot-Authentifikationsbildschirm keinen PIM abfragen</control>
     <string lang="de" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNUNG: Sie sollten nicht vergessen, dass, wenn Sie diese Option aktivieren, der PIM-Wert unverschlüsselt auf der Festplatte gespeichert wird.\n\nSind Sie sicher, dass Sie diese Option aktivieren möchten?</string>
     <string lang="de" key="PIM_TOO_BIG">Der größtmögliche Wert für den PIM (Persönlicher IterationsMultiplikator) ist 2147468.</string>
     <control lang="de" key="IDC_SKIP_RESCUE_VERIFICATION">Rettungsdatenträgerüberprüfung überspringen</control>
     <control lang="de" key="IDC_HIDE_WAITING_DIALOG">Wartemitteilungsdialog nicht anzeigen, wenn Vorgänge ausgeführt werden</control>
     <control lang="de" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Im Prä-Boot-Authentifikationsbildschirm keinen Hash-Algorithmus abfragen</control>
-    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
-    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
+    <string lang="de" key="GOST89_HELP">Die GOST-Blockverschlüsselung, definiert in der Norm GOST 28147-89 unter dem Namen Magma, ist ein sowjetischer und russischer Regierungsstandard für Blockverschlüsselung mit symmetrischem Schlüssel.\n\nEntwickelt in den 1970er Jahren wurde der Standard als "Streng geheim" eingestuft und dann im Jahr 1990 auf "Geheim" herabgestuft. Er war eine sowjetische Alternative zum Standard-Algorithmus der Vereinigten Staaten, DES.</string>
+    <string lang="de" key="KUZNYECHIK_HELP">Kuznyechik ist eine Blockverschlüsselung, zuerst veröffentlicht im Jahr 2015 und definiert im Nationalen Standard der Russischen Föderation GOST R 34.12-2015 und ebenfalls in RFC 7801. 256 Bit Schlüssellänge, 28 Bit Blockgröße. Arbeitet im XTS-Modus.</string>
     <string lang="de" key="CAMELLIA_HELP">Von Mitsubishi Electric und NTT aus Japan gemeinsam entwickelt. Im Jahr 2000 zuerst veröffentlicht. 256 Bit Schlüssellänge, 128 Bit Blockgröße.\nArbeitet im XTS-Modus. Von der ISO/IEC, dem Projekt NESSIE der Europäischen Union und dem japanischen Projekt CRYPTREC zur Nutzung zugelassen.</string>
     <string lang="de" key="TIME">Zeit</string>
     <string lang="de" key="ITERATIONS">Iterationen</string>
     <string lang="de" key="PRE-BOOT">Prä-Boot</string>
-    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
-    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
+    <string lang="de" key="RESCUE_DISK_EFI_INFO">Bevor Sie die Partition verschlüsseln können, müssen Sie einen VeraCrypt-Rettungsdatenträger (VRD) erstellen, der zu folgenden Zwecken dient:\n\n- Wenn der VeraCrypt-Bootloader, Hauptschlüssel oder andere kritische Daten beschädigt werden, ermöglicht der VRD Ihnen, sie wiederherzustellen (beachten Sie jedoch, dass Sie immer noch das richtige Passwort eingeben müssen).\n\n- Wenn Windows beschädigt wird und nicht gestartet werden kann, ermöglicht der VRD Ihnen, die Partition dauerhaft zu entschlüsseln, bevor Windows gestartet wird.\n\n- Der VRD wird eine Sicherung des derzeitigen EFI-Bootloaders enthalten und ermöglicht es Ihnen, ihn bei Bedarf wiederherzustellen.\n\nDas VeraCrypt-Rettungsdatenträger-ZIP-Abbild wird in der unten angegebenen Adresse erstellt.</string>
+    <string lang="de" key="RESCUE_DISK_EFI_EXTRACT_INFO">Das Rettungsdatenträger-ZIP-Abbild wurde erstellt und in dieser Datei gespeichert:\n%s\n\nJetzt müssen Sie es auf einen mit FAT/FAT32-formatierten USB-Stick entpacken.\n\n%lsNachdem Sie den Rettungsdatenträger erstellt haben, klicken Sie auf Weiter, um zu bestätigen, dass er korrekt erstellt wurde.</string>
+    <string lang="de" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">Das Rettungsdatenträger-ZIP-Abbild wurde erstellt und in dieser Datei gespeichert\n%s\n\nJetzt sollten Sie es entweder auf einen mit FAT/FAT32-formatierten USB-Stick entpacken oder an einen sicheren Ort für die spätere Verwendung verschieben.\n\n%lsWeiter klicken, um fortzufahren.</string>
+    <string lang="de" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">WICHTIG: Beachten Sie, dass die ZIP-Datei direkt in das Stammverzeichnis des USB-Sticks entpackt werden muss. Zum Beispiel, wenn der Laufwerksbuchstabe des USB-Sticks E: ist, sollte das Entpacken der ZIP-Datei einen Ordner E:\\EFI auf dem USB-Stick erstellen.\n\n</string>
+    <string lang="de" key="RESCUE_DISK_EFI_CHECK_FAILED">Kann nicht bestätigen, ob der Rettungsdatenträger korrekt entpackt wurde.\n\nWenn Sie den Rettungsdatenträger entpackt haben, werfen Sie den USB-Stick bitte aus und stecken Sie ihn wieder ein; anschließend klicken Sie auf Weiter und versuchen es erneut. Wenn dies nicht hilft, versuchen Sie es bitte mit einem anderen USB-Stick und/oder einer anderen ZIP-Software.\n\nWenn Sie den Rettungsdatenträger noch nicht entpackt haben, machen Sie dies bitte und klicken Sie anschließend auf Weiter.\n\nWenn Sie vor dem Start dieses Assistenten versucht haben, den VeraCrypt-Rettungsdatenträger zu bestätigen, beachten Sie bitte, dass ein solcher Rettungsdatenträger nicht verwendet werden kann, da er für einen anderen Hauptschlüssel erstellt wurde. Sie müssen das neu generierte Rettungsdatenträger-ZIP-Abbild entpacken.</string>
+    <string lang="de" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Kann nicht bestätigen, ob der Rettungsdatenträger korrekt entpackt wurde.\n\nWenn Sie das Rettungsdatenträger-Abbild auf einen USB-Stick entpackt haben, werfen Sie ihn bitte aus und stecken Sie ihn wieder ein; anschließend versuchen Sie es erneut. Wenn dies nicht hilft, versuchen Sie es bitte mit einer anderen ZIP-Software und/oder Medium.\n\nWenn Sie für einen anderen Hauptschlüssel, Passwort, Salz, usw. versucht haben, den VeraCrypt-Rettungsdatenträger zu bestätigen, beachten Sie bitte, dass ein solcher Rettungsdatenträger immer durch diese Überprüfung fallen wird. Um einen neuen, mit Ihrer aktuellen Konfiguration vollständig kompatiblen Rettungsdatenträger zu erstellen, wählen Sie 'System' > 'Rettungsdatenträger erstellen' aus.</string>
+    <string lang="de" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Das Rettungsdatenträger-Abbild wurde erstellt und in dieser Datei gespeichert:\n%s\n\nJetzt müssen Sie das Rettungsdatenträger-Abbild auf einen mit FAT/FAT32-formatierten USB-Stick entpacken.\n\WICHTIG: Beachten Sie, dass die ZIP-Datei direkt in das Stammverzeichnis des USB-Sticks entpackt werden muss. Zum Beispiel, wenn der Laufwerksbuchstabe des USB-Sticks E: ist, sollte das Entpacken der ZIP-Datei einen Ordner E:\\EFI auf dem USB-Stick erstellen.\n\nNachdem Sie den Rettungsdatenträger erstellt haben, wählen Sie 'System' > 'Rettungsdatenträger überprüfen' aus, um zu bestätigen, dass er korrekt erstellt wurde.</string>
   </localization>
-  <!-- XML Schema -->
+  <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
       <xs:complexType>
