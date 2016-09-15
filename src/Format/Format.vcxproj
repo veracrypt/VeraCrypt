@@ -93,8 +93,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VOLFORMAT;WIN32;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -103,7 +103,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\Debug\crypto.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -133,8 +133,8 @@ copy Debug\VeraCryptFormat.exe "..\Debug\Setup Files\VeraCrypt Format.exe" &gt;N
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VOLFORMAT;WIN32;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -143,7 +143,7 @@ copy Debug\VeraCryptFormat.exe "..\Debug\Setup Files\VeraCrypt Format.exe" &gt;N
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\x64\Debug\crypto.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -173,8 +173,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VOLFORMAT;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -182,16 +182,15 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
       <AssemblerOutput>All</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <WarningLevel>Level4</WarningLevel>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
-      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\Release\crypto.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptFormat.exe</OutputFile>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -215,8 +214,8 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <ClCompile>
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>VOLFORMAT;WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>VOLFORMAT;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -226,7 +225,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>
       </DebugInformationFormat>
-      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4057;4100;4127;4201;4204;4701;4706;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\Crypto\x64\Release\crypto.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -250,8 +249,118 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Common\XUnzip.cpp" />
-    <ClCompile Include="..\Common\XZip.cpp" />
+    <ClCompile Include="..\Common\libzip\mkstemp.c" />
+    <ClCompile Include="..\Common\libzip\zip_add.c" />
+    <ClCompile Include="..\Common\libzip\zip_add_dir.c" />
+    <ClCompile Include="..\Common\libzip\zip_add_entry.c" />
+    <ClCompile Include="..\Common\libzip\zip_buffer.c" />
+    <ClCompile Include="..\Common\libzip\zip_close.c" />
+    <ClCompile Include="..\Common\libzip\zip_delete.c" />
+    <ClCompile Include="..\Common\libzip\zip_dirent.c" />
+    <ClCompile Include="..\Common\libzip\zip_dir_add.c" />
+    <ClCompile Include="..\Common\libzip\zip_discard.c" />
+    <ClCompile Include="..\Common\libzip\zip_entry.c" />
+    <ClCompile Include="..\Common\libzip\zip_error.c" />
+    <ClCompile Include="..\Common\libzip\zip_error_clear.c" />
+    <ClCompile Include="..\Common\libzip\zip_error_get.c" />
+    <ClCompile Include="..\Common\libzip\zip_error_get_sys_type.c" />
+    <ClCompile Include="..\Common\libzip\zip_error_strerror.c" />
+    <ClCompile Include="..\Common\libzip\zip_error_to_str.c" />
+    <ClCompile Include="..\Common\libzip\zip_err_str.c" />
+    <ClCompile Include="..\Common\libzip\zip_extra_field.c" />
+    <ClCompile Include="..\Common\libzip\zip_extra_field_api.c" />
+    <ClCompile Include="..\Common\libzip\zip_fclose.c" />
+    <ClCompile Include="..\Common\libzip\zip_fdopen.c" />
+    <ClCompile Include="..\Common\libzip\zip_filerange_crc.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_add.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_error_clear.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_error_get.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_get_comment.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_get_external_attributes.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_get_offset.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_rename.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_replace.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_set_comment.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_set_external_attributes.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_set_mtime.c" />
+    <ClCompile Include="..\Common\libzip\zip_file_strerror.c" />
+    <ClCompile Include="..\Common\libzip\zip_fopen.c" />
+    <ClCompile Include="..\Common\libzip\zip_fopen_encrypted.c" />
+    <ClCompile Include="..\Common\libzip\zip_fopen_index.c" />
+    <ClCompile Include="..\Common\libzip\zip_fopen_index_encrypted.c" />
+    <ClCompile Include="..\Common\libzip\zip_fread.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_archive_comment.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_archive_flag.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_compression_implementation.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_encryption_implementation.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_file_comment.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_name.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_num_entries.c" />
+    <ClCompile Include="..\Common\libzip\zip_get_num_files.c" />
+    <ClCompile Include="..\Common\libzip\zip_hash.c" />
+    <ClCompile Include="..\Common\libzip\zip_io_util.c" />
+    <ClCompile Include="..\Common\libzip\zip_memdup.c" />
+    <ClCompile Include="..\Common\libzip\zip_name_locate.c" />
+    <ClCompile Include="..\Common\libzip\zip_new.c" />
+    <ClCompile Include="..\Common\libzip\zip_open.c" />
+    <ClCompile Include="..\Common\libzip\zip_rename.c" />
+    <ClCompile Include="..\Common\libzip\zip_replace.c" />
+    <ClCompile Include="..\Common\libzip\zip_set_archive_comment.c" />
+    <ClCompile Include="..\Common\libzip\zip_set_archive_flag.c" />
+    <ClCompile Include="..\Common\libzip\zip_set_default_password.c" />
+    <ClCompile Include="..\Common\libzip\zip_set_file_comment.c" />
+    <ClCompile Include="..\Common\libzip\zip_set_file_compression.c" />
+    <ClCompile Include="..\Common\libzip\zip_set_name.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_begin_write.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_buffer.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_call.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_close.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_commit_write.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_crc.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_deflate.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_error.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_filep.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_free.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_function.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_is_deleted.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_layered.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_open.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_pkware.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_read.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_remove.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_rollback_write.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_seek.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_seek_write.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_stat.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_supports.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_tell.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_tell_write.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_win32a.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_win32handle.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_win32utf8.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_win32w.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_window.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_write.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_zip.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_zip_new.c" />
+    <ClCompile Include="..\Common\libzip\zip_stat.c" />
+    <ClCompile Include="..\Common\libzip\zip_stat_index.c" />
+    <ClCompile Include="..\Common\libzip\zip_stat_init.c" />
+    <ClCompile Include="..\Common\libzip\zip_strerror.c" />
+    <ClCompile Include="..\Common\libzip\zip_string.c" />
+    <ClCompile Include="..\Common\libzip\zip_unchange.c" />
+    <ClCompile Include="..\Common\libzip\zip_unchange_all.c" />
+    <ClCompile Include="..\Common\libzip\zip_unchange_archive.c" />
+    <ClCompile Include="..\Common\libzip\zip_unchange_data.c" />
+    <ClCompile Include="..\Common\libzip\zip_utf-8.c" />
+    <ClCompile Include="..\Common\zlib\adler32.c" />
+    <ClCompile Include="..\Common\zlib\crc32.c" />
+    <ClCompile Include="..\Common\zlib\deflate.c" />
+    <ClCompile Include="..\Common\zlib\inffast.c" />
+    <ClCompile Include="..\Common\zlib\inflate.c" />
+    <ClCompile Include="..\Common\zlib\inftrees.c" />
+    <ClCompile Include="..\Common\zlib\trees.c" />
+    <ClCompile Include="..\Common\zlib\zutil.c" />
     <ClCompile Include="FormatCom.cpp" />
     <ClCompile Include="InPlace.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
@@ -322,8 +431,24 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt Format-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Exception.h" />
     <ClInclude Include="..\Common\Fat.h" />
     <ClInclude Include="..\Common\Format.h" />
+    <ClInclude Include="..\Common\libzip\compat.h" />
+    <ClInclude Include="..\Common\libzip\config.h" />
+    <ClInclude Include="..\Common\libzip\zconf.h" />
+    <ClInclude Include="..\Common\libzip\zip.h" />
+    <ClInclude Include="..\Common\libzip\zipint.h" />
+    <ClInclude Include="..\Common\libzip\zipwin32.h" />
     <ClInclude Include="..\Common\XUnzip.h" />
     <ClInclude Include="..\Common\XZip.h" />
+    <ClInclude Include="..\Common\zlib\crc32.h" />
+    <ClInclude Include="..\Common\zlib\deflate.h" />
+    <ClInclude Include="..\Common\zlib\inffast.h" />
+    <ClInclude Include="..\Common\zlib\inffixed.h" />
+    <ClInclude Include="..\Common\zlib\inflate.h" />
+    <ClInclude Include="..\Common\zlib\inftrees.h" />
+    <ClInclude Include="..\Common\zlib\trees.h" />
+    <ClInclude Include="..\Common\zlib\zconf.h" />
+    <ClInclude Include="..\Common\zlib\zlib.h" />
+    <ClInclude Include="..\Common\zlib\zutil.h" />
     <ClInclude Include="FormatCom.h" />
     <ClInclude Include="..\Common\GfMul.h" />
     <ClInclude Include="InPlace.h" />

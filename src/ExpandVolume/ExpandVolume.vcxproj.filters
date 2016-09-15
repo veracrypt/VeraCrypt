@@ -22,6 +22,12 @@
     <Filter Include="Resource Files\Common">
       <UniqueIdentifier>{ece6c790-f488-400d-b92d-64f73ce9f990}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Common\zlib">
+      <UniqueIdentifier>{044f5a5d-232b-4c85-b9ff-5b755d249450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common\libzip">
+      <UniqueIdentifier>{3431cd6c-72ca-4156-8311-37e469f29da9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DlgExpandVolume.cpp">
@@ -120,11 +126,341 @@
     <ClCompile Include="..\Mount\Mount.c">
       <Filter>Source Files\Mount</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\XZip.cpp">
-      <Filter>Source Files\Common</Filter>
+    <ClCompile Include="..\Common\zlib\adler32.c">
+      <Filter>Source Files\Common\zlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\XUnzip.cpp">
-      <Filter>Source Files\Common</Filter>
+    <ClCompile Include="..\Common\zlib\crc32.c">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\zlib\deflate.c">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\zlib\inffast.c">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\zlib\inflate.c">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\zlib\inftrees.c">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\zlib\trees.c">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\zlib\zutil.c">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\mkstemp.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_add.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_add_dir.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_add_entry.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_buffer.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_close.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_delete.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_dir_add.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_dirent.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_discard.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_entry.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_err_str.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_error.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_error_clear.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_error_get.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_error_get_sys_type.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_error_strerror.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_error_to_str.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_extra_field.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_extra_field_api.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_fclose.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_fdopen.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_add.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_error_clear.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_error_get.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_get_comment.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_get_external_attributes.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_get_offset.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_rename.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_replace.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_set_comment.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_set_external_attributes.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_set_mtime.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_file_strerror.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_filerange_crc.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_fopen.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_fopen_encrypted.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_fopen_index.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_fopen_index_encrypted.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_fread.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_archive_comment.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_archive_flag.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_compression_implementation.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_encryption_implementation.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_file_comment.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_name.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_num_entries.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_get_num_files.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_hash.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_io_util.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_memdup.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_name_locate.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_new.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_open.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_rename.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_replace.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_set_archive_comment.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_set_archive_flag.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_set_default_password.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_set_file_comment.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_set_file_compression.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_set_name.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_begin_write.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_buffer.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_call.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_close.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_commit_write.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_crc.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_deflate.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_error.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_filep.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_free.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_function.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_is_deleted.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_layered.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_open.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_pkware.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_read.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_remove.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_rollback_write.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_seek.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_seek_write.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_stat.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_supports.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_tell.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_tell_write.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_win32a.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_win32handle.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_win32utf8.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_win32w.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_window.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_write.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_zip.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_source_zip_new.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_stat.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_stat_index.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_stat_init.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_strerror.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_string.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_unchange.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_unchange_all.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_unchange_archive.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_unchange_data.c">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\libzip\zip_utf-8.c">
+      <Filter>Source Files\Common\libzip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +571,54 @@
     </ClInclude>
     <ClInclude Include="..\Common\XUnzip.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\crc32.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\deflate.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\inffast.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\inffixed.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\inflate.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\inftrees.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\trees.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\zconf.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\zlib.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\zlib\zutil.h">
+      <Filter>Source Files\Common\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\libzip\compat.h">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\libzip\config.h">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\libzip\zconf.h">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\libzip\zip.h">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\libzip\zipint.h">
+      <Filter>Source Files\Common\libzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\libzip\zipwin32.h">
+      <Filter>Source Files\Common\libzip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

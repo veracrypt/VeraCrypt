@@ -82,6 +82,19 @@ namespace VeraCrypt
 		~Buffer () { delete[] DataPtr; }
 		byte *Ptr () const { return DataPtr; }
 		size_t Size () const { return DataSize; }
+		void Resize (size_t newSize)
+		{ 
+			if (newSize > DataSize)
+			{
+				byte *tmp = new byte[newSize];
+				if (!tmp)
+					throw bad_alloc();
+				memcpy (tmp, DataPtr, DataSize);
+				delete [] DataPtr;			
+				DataPtr = tmp;
+			}
+			DataSize = newSize;
+		}
 
 	protected:
 		byte *DataPtr;
