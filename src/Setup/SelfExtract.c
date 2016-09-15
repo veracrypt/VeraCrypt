@@ -12,7 +12,7 @@
 
 #include "Tcdefs.h"
 
-#include "Inflate.h"
+#include "zlib.h"
 #include "SelfExtract.h"
 #include "Wizard.h"
 #include "Setup.h"
@@ -84,144 +84,26 @@ static void PkgInfo (wchar_t *msg)
 
 
 // Returns 0 if decompression fails or, if successful, returns the size of the decompressed data
-static int DecompressBuffer (char *out, char *in, int len)
+static int DecompressBuffer (unsigned char *out, int outSize, unsigned char *in, int len)
 {
-	return (DecompressDeflatedData (out, in, len));		// Inflate
-}
-
-
-static void __cdecl PipeWriteThread (void *len)
-{
-	int sendBufSize = PIPE_BUFFER_LEN, bytesSent = 0;
-	int bytesToSend = *((int *) len), bytesSentTotal = 0;
-
-	if (PipeWriteBuf == NULL || (HANDLE) hChildStdinWrite == INVALID_HANDLE_VALUE)
-	{
-		PkgError (L"Failed sending data to the STDIN pipe");
-		return;
-	}
-
-	while (bytesToSend > 0)
-	{
-		if (bytesToSend < PIPE_BUFFER_LEN)
-			sendBufSize = bytesToSend;
-
-		if (!WriteFile ((HANDLE) hChildStdinWrite, (char *) PipeWriteBuf + bytesSentTotal, sendBufSize, &bytesSent, NULL)
-			|| bytesSent == 0
-			|| bytesSent != sendBufSize)
-		{
-			PkgError (L"Failed sending data to the STDIN pipe");
-			return;
-		}
-
-		bytesToSend -= bytesSent;
-		bytesSentTotal += bytesSent;
-	}
-
-	// Closing the pipe causes the child process to stop reading from it
-
-	if (!CloseHandle (hChildStdinWrite))
-	{
-		PkgError (L"Cannot close pipe");
-		return;
-	}
+	uLongf outlen = (uLongf) outSize;
+	int ret = uncompress (out, &outlen, in, (uLong) len);
+	if (Z_OK == ret)
+		return (int) outlen;
+	else
+		return 0;
 }
 
 
 // Returns 0 if compression fails or, if successful, the size of the compressed data
-static int CompressBuffer (char *out, char *in, int len)
+static int CompressBuffer (unsigned char *out, int outSize, unsigned char *in, int len)
 {
-	SECURITY_ATTRIBUTES securityAttrib;
-	DWORD bytesReceived = 0;
-	HANDLE hChildStdoutWrite = INVALID_HANDLE_VALUE;
-	HANDLE hChildStdoutRead = INVALID_HANDLE_VALUE;
-	HANDLE hChildStdinRead = INVALID_HANDLE_VALUE;
-	STARTUPINFO startupInfo;
-	PROCESS_INFORMATION procInfo;
-	char pipeBuffer [PIPE_BUFFER_LEN];
-	int res_len = 0;
-	BOOL bGzipHeaderRead = FALSE;
-	wchar_t szGzipCmd[64];
-
-	ZeroMemory (&startupInfo, sizeof (startupInfo));
-	ZeroMemory (&procInfo, sizeof (procInfo));
-
-	// Pipe handle inheritance
-	securityAttrib.bInheritHandle = TRUE;
-	securityAttrib.nLength = sizeof (securityAttrib);
-	securityAttrib.lpSecurityDescriptor = NULL;
-
-	if (!CreatePipe (&hChildStdoutRead, &hChildStdoutWrite, &securityAttrib, 0))
-	{
-		PkgError (L"Cannot create STDOUT pipe.");
+	uLongf outlen = (uLongf) outSize;
+	int ret = compress2 (out, &outlen, in, (uLong) len, Z_BEST_COMPRESSION);
+	if (Z_OK == ret)
+		return (int) outlen;
+	else
 		return 0;
-	}
-	SetHandleInformation (hChildStdoutRead, HANDLE_FLAG_INHERIT, 0);
-
-	if (!CreatePipe (&hChildStdinRead, &((HANDLE) hChildStdinWrite), &securityAttrib, 0))
-	{
-		PkgError (L"Cannot create STDIN pipe.");
-		CloseHandle(hChildStdoutWrite);
-		CloseHandle(hChildStdoutRead);
-		return 0;
-	}
-	SetHandleInformation (hChildStdinWrite, HANDLE_FLAG_INHERIT, 0);
-
-	// Create a child process that will compress the data
-
-	startupInfo.wShowWindow = SW_HIDE;
-	startupInfo.hStdInput = hChildStdinRead;
-	startupInfo.hStdOutput = hChildStdoutWrite;
-	startupInfo.cb = sizeof (startupInfo);
-	startupInfo.hStdError = hChildStdoutWrite;
-	startupInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-
-	StringCchCopyW (szGzipCmd, ARRAYSIZE (szGzipCmd), L"gzip --best");
-	if (!CreateProcess (NULL, szGzipCmd, NULL, NULL, TRUE, 0, NULL, NULL, &startupInfo, &procInfo))
-	{
-		PkgError (L"Error: Cannot run gzip.\n\nBefore you can create a self-extracting VeraCrypt package, you need to have the open-source 'gzip' compression tool placed in any directory in the search path for executable files (for example, in 'C:\\Windows\\').\n\nNote: gzip can be freely downloaded e.g. from www.gzip.org");
-		CloseHandle(hChildStdoutWrite);
-		CloseHandle(hChildStdoutRead);
-		CloseHandle(hChildStdinRead);
-		CloseHandle(hChildStdinWrite);
-		return 0;
-	}
-
-	CloseHandle (procInfo.hProcess);
-	CloseHandle (procInfo.hThread);
-
-	// Start sending the uncompressed data to the pipe (STDIN)
-	PipeWriteBuf = in;
-	_beginthread (PipeWriteThread, PIPE_BUFFER_LEN * 2, (void *) &len);
-
-	if (!CloseHandle (hChildStdoutWrite))
-	{
-		PkgError (L"Cannot close STDOUT write");
-		CloseHandle(hChildStdoutRead);
-		CloseHandle(hChildStdinRead);
-		return 0;
-	}
-
-	bGzipHeaderRead = FALSE;
-
-	// Read the compressed data from the pipe (sent by the child process to STDOUT)
-	while (TRUE)
-	{
-		if (!ReadFile (hChildStdoutRead, pipeBuffer, bGzipHeaderRead ? PIPE_BUFFER_LEN : 10, &bytesReceived, NULL))
-			break;
-
-		if (bGzipHeaderRead)
-		{
-			memcpy (out + res_len, pipeBuffer, bytesReceived);
-			res_len += bytesReceived;
-		}
-		else
-			bGzipHeaderRead = TRUE;	// Skip the 10-byte gzip header
-	}
-
-	CloseHandle(hChildStdoutRead);
-	CloseHandle(hChildStdinRead);
-	return res_len - 8;	// A gzip stream ends with a CRC-32 hash and a 32-bit size (those 8 bytes need to be chopped off)
 }
 
 
@@ -388,7 +270,8 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 		goto err;
 	}
 
-	compressedBuffer = malloc (uncompressedDataLen + 524288);	// + 512K reserve
+	compressedDataLen = uncompressedDataLen + 524288;	// + 512K reserve
+	compressedBuffer = malloc (compressedDataLen);
 	if (compressedBuffer == NULL)
 	{
 		if (_wremove (outputFile))
@@ -398,7 +281,7 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 		goto err;
 	}
 
-	compressedDataLen = CompressBuffer (compressedBuffer, buffer, uncompressedDataLen);
+	compressedDataLen = CompressBuffer (compressedBuffer, compressedDataLen, buffer, uncompressedDataLen);
 	if (compressedDataLen <= 0)
 	{
 		if (_wremove (outputFile))
@@ -597,6 +480,7 @@ BOOL SelfExtractInMemory (wchar_t *path)
 	int fileDataStartPos = 0;
 	int uncompressedLen = 0;
 	int compressedLen = 0;
+	int decompressedDataLen = 0;
 	unsigned char *compressedData = NULL;
 	unsigned char *bufPos = NULL, *bufEndPos = NULL;
 
@@ -645,7 +529,8 @@ BOOL SelfExtractInMemory (wchar_t *path)
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 	}
 
-	DecompressedData = malloc (uncompressedLen + 524288);	// + 512K reserve
+	decompressedDataLen = uncompressedLen + 524288;	// + 512K reserve
+	DecompressedData = malloc (decompressedDataLen);
 	if (DecompressedData == NULL)
 	{
 		Error ("ERR_MEM_ALLOC", NULL);
@@ -667,7 +552,7 @@ BOOL SelfExtractInMemory (wchar_t *path)
 	}
 
 	// Decompress the data
-	if (DecompressBuffer (DecompressedData, compressedData, compressedLen) != uncompressedLen)
+	if (DecompressBuffer (DecompressedData, decompressedDataLen, compressedData, compressedLen) != uncompressedLen)
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		goto sem_end;
