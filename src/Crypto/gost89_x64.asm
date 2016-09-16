@@ -5,7 +5,9 @@
 ;
 ; This program and the accompanying materials
 ; are licensed and made available under the terms and conditions
-; of the Apache License, Version 2.0.  The full text of the license may be found at
+; of the Apache License, Version 2.0.  
+;
+; The full text of the license may be found at
 ; https://opensource.org/licenses/Apache-2.0
 ;
 ; Some ideas from article https://xakep.ru/2013/10/19/shifrovanie-gost-28147-89/
@@ -107,17 +109,17 @@
    mov   eax, [r8 + %2*4]                          ; read key
 %endmacro
 
-; input: r8 - &key, rdx - &IN
+; input: r8 - &key, rcx - &IN
 ; returns: (r13) & (r10)
 GostEncrypt2x64:
    ; 1st
-   mov   r13d, [rdx]
-   mov   r14,  [rdx]
+   mov   r13d, [rcx]
+   mov   r14,  [rcx]
    shr   r14, 32
 
    ; 2nd
-   mov   r10d, [rdx + 16]
-   mov   r11,  [rdx + 16]
+   mov   r10d, [rcx + 16]
+   mov   r11,  [rcx + 16]
    shr   r11, 32
 
    mov   ecx, [r8]
@@ -150,17 +152,17 @@ GostEncrypt2x64:
    or  r10, r11
    ret
 
-; input: r8 - &key, rdx - &IN
+; input: r8 - &key, rcx - &IN
 ; returns: (r13) & (r10)
 GostDecrypt2x64:
    ; 1st
-   mov   r13d, [rdx]
-   mov   r14,  [rdx]
+   mov   r13d, [rcx]
+   mov   r14,  [rcx]
    shr   r14, 32
 
    ; 2nd
-   mov   r10d, [rdx + 16]
-   mov   r11,  [rdx + 16]
+   mov   r10d, [rcx + 16]
+   mov   r11,  [rcx + 16]
    shr   r11, 32
 
    mov   ecx, [r8]
@@ -227,11 +229,11 @@ ret
    mov   ecx, [r8 + %2*4]                          ; read key
 %endmacro
 
-; input: r8 - &gost_kds rdx - &IN
+; input: r8 - &gost_kds rcx - &IN
 ; returns: r13
 GostEncrypt1x64:
-   mov   r13d, [rdx]
-   mov   r14,  [rdx]
+   mov   r13d, [rcx]
+   mov   r14,  [rcx]
    shr   r14, 32
    mov   ecx, [r8]
 
@@ -259,11 +261,11 @@ GostEncrypt1x64:
    or  r13, r14
 ret
 
-; input: r8 - &gost_kds rdx - IN
+; input: r8 - &gost_kds rcx - IN
 ; returns: r13
 GostDecrypt1x64:
-   mov   r13d, [rdx]
-   mov   r14, [rdx]
+   mov   r13d, [rcx]
+   mov   r14, [rcx]
    shr   r14, 32
    mov   ecx, [r8]
    
@@ -291,17 +293,17 @@ GostDecrypt1x64:
    or  r13, r14
 ret
 
-global gost_encrypt_128_CBC_asm                     ; gost_encrypt_128_CBC_asm(uint64* out, uint64* in, gost_kds* kds, uint64 count);
-; rcx - &out
-; rdx - &in
+global gost_encrypt_128_CBC_asm                     ; gost_encrypt_128_CBC_asm(uint64* in, uint64* out, gost_kds* kds, uint64 count);
+; rcx - &in
+; rdx - &out
 ; r8  - &gost_kds
 ; r9  - count
 gost_encrypt_128_CBC_asm:
    SaveRegs                                 ; Saving
    
    sub rsp, 32
-   mov [rsp], rcx                             ; Save out addr
-   mov [rsp + 8], rdx                         ; Save in addr
+   mov [rsp], rdx                             ; Save out addr
+   mov [rsp + 8], rcx                         ; Save in addr
    mov [rsp + 16], r8                         ; key addr
 
 .do:
@@ -314,32 +316,32 @@ gost_encrypt_128_CBC_asm:
 
 ; One 128 block encryption
 .blk1:
-   mov  rdx, [rsp + 8]                         ; set in addr
+   mov  rcx, [rsp + 8]                         ; set in addr
    call GostEncrypt1x64
 
-   mov rcx, [rsp]                              ; Restore out
-   mov rdx, [rsp + 8]                          ; restore in
+   mov rdx, [rsp]                              ; Restore out
+   mov rcx, [rsp + 8]                          ; restore in
 
-   mov [rcx], r13
-   mov rax, [rdx + 8]
+   mov [rdx], r13
+   mov rax, [rcx + 8]
    xor rax, r13                              ; CBC
 
-   add rcx, 8                                ;next 8 bytes
-   mov [rcx], rax
+   add rdx, 8                                ;next 8 bytes
+   mov [rdx], rax
 
-   mov rdx, rcx
+   mov rcx, rdx
    call GostEncrypt1x64
 
-   mov rcx, [rsp]                             ; Restore out addr
-   mov rdx, [rsp+8]                           ; Restore in addr
+   mov rdx, [rsp]                             ; Restore out addr
+   mov rcx, [rsp+8]                           ; Restore in addr
 
-   mov [rcx + 8], r13
+   mov [rdx + 8], r13
 
-   add rcx,16
-   mov [rsp], rcx
+   add rdx,16
+   mov [rsp], rdx
 
-   add rdx, 16
-   mov [rsp+8], rdx
+   add rcx, 16
+   mov [rsp+8], rcx
 
    mov r9, [rsp + 24]
    dec r9
@@ -347,41 +349,41 @@ gost_encrypt_128_CBC_asm:
    jmp .do
 
 .blk2:
-   mov  rdx, [rsp + 8]                         ; set in addr
+   mov  rcx, [rsp + 8]                         ; set in addr
    call GostEncrypt2x64
 
-   mov rcx, [rsp]                              ; Restore out
-   mov rdx, [rsp + 8]                          ; restore in
+   mov rdx, [rsp]                              ; Restore out
+   mov rcx, [rsp + 8]                          ; restore in
 
-   mov [rcx], r13
+   mov [rdx], r13
 
-   mov rax, [rdx + 8]
+   mov rax, [rcx + 8]
    xor rax, r13                              ; CBC
 
-   mov [rcx + 16], r10
+   mov [rdx + 16], r10
 
-   mov rbx, [rdx + 24]
+   mov rbx, [rcx + 24]
    xor rbx, r10                              ; CBC
 
-   mov [rcx + 8], rax
-   mov [rcx + 24], rbx
+   mov [rdx + 8], rax
+   mov [rdx + 24], rbx
 
-   add rcx, 8                                ;next 8 bytes
+   add rdx, 8                                ;next 8 bytes
 
-   mov rdx, rcx
+   mov rcx, rdx
    call GostEncrypt2x64
 
-   mov rcx, [rsp]                             ; Restore out addr
-   mov rdx, [rsp+8]                           ; Restore in addr
+   mov rdx, [rsp]                             ; Restore out addr
+   mov rcx, [rsp+8]                           ; Restore in addr
 
-   mov [rcx + 8], r13
-   mov [rcx + 24], r10
+   mov [rdx + 8], r13
+   mov [rdx + 24], r10
 
-   add rcx,32
-   mov [rsp], rcx
+   add rdx,32
+   mov [rsp], rdx
 
-   add rdx, 32
-   mov [rsp+8], rdx
+   add rcx, 32
+   mov [rsp+8], rcx
 
    mov r9, [rsp + 24]
    sub r9, 2
@@ -393,9 +395,9 @@ gost_encrypt_128_CBC_asm:
    RestoreRegs                              ; Load
 ret
 
-global gost_decrypt_128_CBC_asm                     ; gost_decrypt_128_CBC_asm(uint64* out, uint64* in, const gost_kds* kds, uint64 count);
-; rcx - &out
-; rdx - &in
+global gost_decrypt_128_CBC_asm                     ; gost_decrypt_128_CBC_asm(uint64* in, uint64* out, const gost_kds* kds, uint64 count);
+; rcx - &in
+; rdx - &out
 ; r8  - &gost_kds
 ; r9  - count
 gost_decrypt_128_CBC_asm:
@@ -416,26 +418,26 @@ gost_decrypt_128_CBC_asm:
 
 ; One 128 block decryption
 .blk1:
-   add  rdx, 8
+   add  rcx, 8
    call GostDecrypt1x64
-   mov rcx, [rsp]                              ; Restore out
-   mov rdx, [rsp + 8]                          ; Restore in
-   mov rax, [rdx]
+   mov rdx, [rsp]                              ; Restore out
+   mov rcx, [rsp + 8]                          ; Restore in
+   mov rax, [rcx]
    xor rax, r13                                ; CBC
-   mov [rcx + 8], rax
+   mov [rdx + 8], rax
 
    call GostDecrypt1x64
 
-   mov rcx, [rsp]                             ; Restore out addr
-   mov rdx, [rsp+8]                           ; Restore in addr
+   mov rdx, [rsp]                             ; Restore out addr
+   mov rcx, [rsp+8]                           ; Restore in addr
 
-   mov [rcx], r13
+   mov [rdx], r13
 
-   add rcx,16
-   mov [rsp], rcx
+   add rdx,16
+   mov [rsp], rdx
 
-   add rdx, 16
-   mov [rsp+8], rdx
+   add rcx, 16
+   mov [rsp+8], rcx
 
    mov r9, [rsp + 24]
    dec r9
@@ -443,32 +445,32 @@ gost_decrypt_128_CBC_asm:
    jmp .do
 
 .blk2:
-   add  rdx, 8
+   add  rcx, 8
    call GostDecrypt2x64
-   mov rcx, [rsp]                              ; Restore out
-   mov rdx, [rsp + 8]                          ; Restore in
+   mov rdx, [rsp]                              ; Restore out
+   mov rcx, [rsp + 8]                          ; Restore in
 
-   mov rax, [rdx]
+   mov rax, [rcx]
    xor rax, r13                                ; CBC
-   mov [rcx + 8], rax
+   mov [rdx + 8], rax
 
-   mov rbx, [rdx+16]
+   mov rbx, [rcx+16]
    xor rbx, r10                                ; CBC
-   mov [rcx + 24], rbx
+   mov [rdx + 24], rbx
 
    call GostDecrypt2x64
 
-   mov rcx, [rsp]                             ; Restore out addr
-   mov rdx, [rsp+8]                           ; Restore in addr
+   mov rdx, [rsp]                             ; Restore out addr
+   mov rcx, [rsp+8]                           ; Restore in addr
 
-   mov [rcx], r13
-   mov [rcx+16], r10
-
-   add rcx,32
-   mov [rsp], rcx
+   mov [rdx], r13
+   mov [rdx+16], r10
 
    add rdx,32
-   mov [rsp+8], rdx
+   mov [rsp], rdx
+
+   add rcx,32
+   mov [rsp+8], rcx
 
    mov r9, [rsp + 24]
    sub r9, 2

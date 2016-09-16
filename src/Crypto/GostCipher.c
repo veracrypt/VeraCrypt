@@ -5,7 +5,8 @@ Copyright (c) 2016. Disk Cryptography Services for EFI (DCS), Alex Kolotnikov
 
 This program and the accompanying materials
 are licensed and made available under the terms and conditions
-of the Apache License, Version 2.0.  The full text of the license may be found at
+of the Apache License, Version 2.0.  
+The full text of the license may be found at
 https://opensource.org/licenses/Apache-2.0
 
 Dynamic SBOX idea is from GostCrypt project. Copyright (c) 2008-2011 TrueCrypt Developers Association
