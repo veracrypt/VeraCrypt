@@ -48,8 +48,6 @@ Requirements for Building VeraCrypt for Windows:
 - Microsoft Windows SDK for Windows 7.1 (configured for Visual C++ 2010)
 - Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
-- RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
-  header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20)
 - NASM assembler 2.08 or compatible
 - gzip compressor
 - upx packer (available at http://upx.sourceforge.net/)
@@ -90,17 +88,13 @@ Instructions for Building VeraCrypt for Windows:
    directory than '%SYSTEMDRIVE%\WinDDK', create an environment variable
    'WINDDK_ROOT' pointing to the DDK installation directory.
 
-3) Copy the PKCS #11 header files to a standard include path or create an
-   environment variable 'PKCS11_INC' pointing to the directory where
-   the PKCS #11 header files are installed.
+3) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2010.
 
-4) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2010.
+4) Select 'All' as the active solution configuration.
 
-5) Select 'All' as the active solution configuration.
+5) Build the solution.
 
-6) Build the solution.
-
-7) If successful, there should be newly built VeraCrypt binaries in the
+6) If successful, there should be newly built VeraCrypt binaries in the
    'Release' folder.
 
 Instructions for Signing and Packaging VeraCrypt for Windows:
@@ -141,10 +135,6 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
   wxWidgets 3.0 library source code (available at http://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse
   and https://osxfuse.github.io/)
-- RSA Security Inc. PKCS #11 Cryptographic Token Interface (Cryptoki) 2.20
-  header files (available at ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-11/v2-20).
-  They are already included in the source tree under the directory PKCS11 but
-  it is possible to override it using the environment variable 'PKCS11_INC'.
 
 
 Instructions for Building VeraCrypt for Linux and Mac OS X:
