@@ -280,7 +280,7 @@ typedef struct hmac_sha512_ctx_struct
 	sha512_ctx ctx;
 	sha512_ctx inner_digest_ctx; /*pre-computed inner digest context */
 	sha512_ctx outer_digest_ctx; /*pre-computed outer digest context */
-	char k[PKCS5_SALT_SIZE + 4]; /* enough to hold (salt_len + 4) and also the SHA512 hash */
+	char k[SHA512_BLOCKSIZE]; /* enough to hold (salt_len + 4) and also the SHA512 hash */
 	char u[SHA512_DIGESTSIZE];
 } hmac_sha512_ctx;
 
@@ -322,9 +322,7 @@ void hmac_sha512
 {
 	hmac_sha512_ctx hmac;
 	sha512_ctx* ctx;
-	char* buf = hmac.k; /* there is enough space to hold SHA512_BLOCKSIZE (128) bytes
-							   * because k is followed by u in hmac_sha512_ctx
-								*/
+	char* buf = hmac.k;
 	int b;
 	char key[SHA512_DIGESTSIZE];
 
@@ -405,9 +403,7 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 {
 	hmac_sha512_ctx hmac;
 	sha512_ctx* ctx;
-	char* buf = hmac.k; /* there is enough space to hold SHA512_BLOCKSIZE (128) bytes
-							   * because k is followed by u in hmac_sha512_ctx
-								*/
+	char* buf = hmac.k;
 	int b, l, r;
 	char key[SHA512_DIGESTSIZE];
 
