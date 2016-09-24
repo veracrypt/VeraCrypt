@@ -61,8 +61,6 @@ typedef struct hmac_sha256_ctx_struct
 
 void hmac_sha256_internal
 (
-	  char *k,		/* secret key. It's ensured to be always <= 32 bytes */
-	  int lk,		/* length of the key in bytes */
 	  char *d,		/* input data. d pointer is guaranteed to be at least 32-bytes long */
 	  int ld,		/* length of input data in bytes */
 	  hmac_sha256_ctx* hmac /* HMAC-SHA256 context which holds temporary variables */
@@ -140,14 +138,14 @@ void hmac_sha256
 
 	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
 
-	hmac_sha256_internal(k, lk, d, ld, &hmac);
+	hmac_sha256_internal(d, ld, &hmac);
 	/* Prevent leaks */
 	burn(&hmac, sizeof(hmac));
 	burn(key, sizeof(key));
 }
 #endif
 
-static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
+static void derive_u_sha256 (char *salt, int salt_len, uint32 iterations, int b, hmac_sha256_ctx* hmac)
 {
 	char* k = hmac->k;
 	char* u = hmac->u;
@@ -176,13 +174,13 @@ static void derive_u_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, u
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
 
-	hmac_sha256_internal (pwd, pwd_len, k, salt_len + 4, hmac);
+	hmac_sha256_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, SHA256_DIGESTSIZE);
 
 	/* remaining iterations */
 	while (c > 1)
 	{
-		hmac_sha256_internal (pwd, pwd_len, k, SHA256_DIGESTSIZE, hmac);
+		hmac_sha256_internal (k, SHA256_DIGESTSIZE, hmac);
 		for (i = 0; i < SHA256_DIGESTSIZE; i++)
 		{
 			u[i] ^= k[i];
@@ -254,13 +252,13 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_sha256 (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+		derive_u_sha256 (salt, salt_len, iterations, b, &hmac);
 		memcpy (dk, hmac.u, SHA256_DIGESTSIZE);
 		dk += SHA256_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_sha256 (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+	derive_u_sha256 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
 
@@ -286,8 +284,6 @@ typedef struct hmac_sha512_ctx_struct
 
 void hmac_sha512_internal
 (
-	  char *k,		/* secret key */
-	  int lk,		/* length of the key in bytes */
 	  char *d,		/* data and also output buffer of at least 64 bytes */
 	  int ld,			/* length of data in bytes */
 	  hmac_sha512_ctx* hmac
@@ -365,14 +361,14 @@ void hmac_sha512
 
 	sha512_hash ((unsigned char *) buf, SHA512_BLOCKSIZE, ctx);
 
-	hmac_sha512_internal (k, lk, d, ld, &hmac);
+	hmac_sha512_internal (d, ld, &hmac);
 
 	/* Prevent leaks */
 	burn (&hmac, sizeof(hmac));
 	burn (key, sizeof(key));
 }
 
-static void derive_u_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
+static void derive_u_sha512 (char *salt, int salt_len, uint32 iterations, int b, hmac_sha512_ctx* hmac)
 {
 	char* k = hmac->k;
 	char* u = hmac->u;
@@ -384,13 +380,13 @@ static void derive_u_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, u
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
 
-	hmac_sha512_internal (pwd, pwd_len, k, salt_len + 4, hmac);
+	hmac_sha512_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, SHA512_DIGESTSIZE);
 
 	/* remaining iterations */
 	for (c = 1; c < iterations; c++)
 	{
-		hmac_sha512_internal (pwd, pwd_len, k, SHA512_DIGESTSIZE, hmac);
+		hmac_sha512_internal (k, SHA512_DIGESTSIZE, hmac);
 		for (i = 0; i < SHA512_DIGESTSIZE; i++)
 		{
 			u[i] ^= k[i];
@@ -460,13 +456,13 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_sha512 (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+		derive_u_sha512 (salt, salt_len, iterations, b, &hmac);
 		memcpy (dk, hmac.u, SHA512_DIGESTSIZE);
 		dk += SHA512_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_sha512 (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+	derive_u_sha512 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
 
@@ -488,7 +484,7 @@ typedef struct hmac_ripemd160_ctx_struct
 	char u[RIPEMD160_DIGESTSIZE];
 } hmac_ripemd160_ctx;
 
-void hmac_ripemd160_internal (char *key, int keylen, char *input_digest, int len, hmac_ripemd160_ctx* hmac)
+void hmac_ripemd160_internal (char *input_digest, int len, hmac_ripemd160_ctx* hmac)
 {
 	RMD160_CTX* context = &(hmac->context);
 
@@ -557,7 +553,7 @@ void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
 	RMD160Init(ctx);           /* init context for 2nd pass */
 	RMD160Update(ctx, k_pad, RIPEMD160_BLOCKSIZE);  /* start with outer pad */
 
-	hmac_ripemd160_internal (key, keylen, input_digest, len, &hmac);
+	hmac_ripemd160_internal (input_digest, len, &hmac);
 
 	burn (&hmac, sizeof(hmac));
 	burn (tk, sizeof(tk));
@@ -565,7 +561,7 @@ void hmac_ripemd160 (char *key, int keylen, char *input_digest, int len)
 #endif
 
 
-static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_ripemd160_ctx* hmac)
+static void derive_u_ripemd160 (char *salt, int salt_len, uint32 iterations, int b, hmac_ripemd160_ctx* hmac)
 {
 	char* k = hmac->k;
 	char* u = hmac->u;
@@ -594,13 +590,13 @@ static void derive_u_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
 
-	hmac_ripemd160_internal (pwd, pwd_len, k, salt_len + 4, hmac);
+	hmac_ripemd160_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, RIPEMD160_DIGESTSIZE);
 
 	/* remaining iterations */
 	while ( c > 1)
 	{
-		hmac_ripemd160_internal (pwd, pwd_len, k, RIPEMD160_DIGESTSIZE, hmac);
+		hmac_ripemd160_internal (k, RIPEMD160_DIGESTSIZE, hmac);
 		for (i = 0; i < RIPEMD160_DIGESTSIZE; i++)
 		{
 			u[i] ^= k[i];
@@ -672,13 +668,13 @@ void derive_key_ripemd160 (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_ripemd160 (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+		derive_u_ripemd160 (salt, salt_len, iterations, b, &hmac);
 		memcpy (dk, hmac.u, RIPEMD160_DIGESTSIZE);
 		dk += RIPEMD160_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_ripemd160 (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+	derive_u_ripemd160 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
 
@@ -703,8 +699,6 @@ typedef struct hmac_whirlpool_ctx_struct
 
 void hmac_whirlpool_internal
 (
-	  char *k,		/* secret key */
-	  int lk,		/* length of the key in bytes */
 	  char *d,		/* input/output data. d pointer is guaranteed to be at least 64-bytes long */
 	  int ld,		/* length of input data in bytes */
 	  hmac_whirlpool_ctx* hmac /* HMAC-Whirlpool context which holds temporary variables */
@@ -787,7 +781,7 @@ void hmac_whirlpool
 
 	WHIRLPOOL_add ((unsigned char *) buf, WHIRLPOOL_BLOCKSIZE, ctx);
 
-	hmac_whirlpool_internal(k, lk, d, ld, &hmac);
+	hmac_whirlpool_internal(d, ld, &hmac);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	if (NT_SUCCESS (saveStatus) && HasISSE())
@@ -797,7 +791,7 @@ void hmac_whirlpool
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
+static void derive_u_whirlpool (char *salt, int salt_len, uint32 iterations, int b, hmac_whirlpool_ctx* hmac)
 {
 	char* u = hmac->u;
 	char* k = hmac->k;
@@ -809,13 +803,13 @@ static void derive_u_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len
 	memset (&k[salt_len], 0, 3);	
 	k[salt_len + 3] = (char) b;
 
-	hmac_whirlpool_internal (pwd, pwd_len, k, salt_len + 4, hmac);
+	hmac_whirlpool_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, WHIRLPOOL_DIGESTSIZE);
 
 	/* remaining iterations */
 	for (c = 1; c < iterations; c++)
 	{
-		hmac_whirlpool_internal (pwd, pwd_len, k, WHIRLPOOL_DIGESTSIZE, hmac);
+		hmac_whirlpool_internal (k, WHIRLPOOL_DIGESTSIZE, hmac);
 		for (i = 0; i < WHIRLPOOL_DIGESTSIZE; i++)
 		{
 			u[i] ^= k[i];
@@ -889,13 +883,13 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_whirlpool (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+		derive_u_whirlpool (salt, salt_len, iterations, b, &hmac);
 		memcpy (dk, hmac.u, WHIRLPOOL_DIGESTSIZE);
 		dk += WHIRLPOOL_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_whirlpool (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+	derive_u_whirlpool (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
@@ -920,8 +914,6 @@ typedef struct hmac_streebog_ctx_struct
 
 void hmac_streebog_internal
 (
-	  char *k,		/* secret key */
-	  int lk,		/* length of the key in bytes */
 	  char *d,		/* input/output data. d pointer is guaranteed to be at least 64-bytes long */
 	  int ld,		/* length of input data in bytes */
 	  hmac_streebog_ctx* hmac /* HMAC-Whirlpool context which holds temporary variables */
@@ -1004,7 +996,7 @@ void hmac_streebog
 
 	STREEBOG_add (ctx, (unsigned char *) buf, STREEBOG_BLOCKSIZE);
 
-	hmac_streebog_internal(k, lk, d, ld, &hmac);
+	hmac_streebog_internal(d, ld, &hmac);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	if (NT_SUCCESS (saveStatus) && (HasSSE2() || HasSSE41()))
@@ -1014,7 +1006,7 @@ void hmac_streebog
 	burn(&hmac, sizeof(hmac));
 }
 
-static void derive_u_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac)
+static void derive_u_streebog (char *salt, int salt_len, uint32 iterations, int b, hmac_streebog_ctx* hmac)
 {
 	char* u = hmac->u;
 	char* k = hmac->k;
@@ -1026,13 +1018,13 @@ static void derive_u_streebog (char *pwd, int pwd_len, char *salt, int salt_len,
 	memset (&k[salt_len], 0, 3);	
 	k[salt_len + 3] = (char) b;
 
-	hmac_streebog_internal (pwd, pwd_len, k, salt_len + 4, hmac);
+	hmac_streebog_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, STREEBOG_DIGESTSIZE);
 
 	/* remaining iterations */
 	for (c = 1; c < iterations; c++)
 	{
-		hmac_streebog_internal (pwd, pwd_len, k, STREEBOG_DIGESTSIZE, hmac);
+		hmac_streebog_internal (k, STREEBOG_DIGESTSIZE, hmac);
 		for (i = 0; i < STREEBOG_DIGESTSIZE; i++)
 		{
 			u[i] ^= k[i];
@@ -1106,13 +1098,13 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 	/* first l - 1 blocks */
 	for (b = 1; b < l; b++)
 	{
-		derive_u_streebog (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+		derive_u_streebog (salt, salt_len, iterations, b, &hmac);
 		memcpy (dk, hmac.u, STREEBOG_DIGESTSIZE);
 		dk += STREEBOG_DIGESTSIZE;
 	}
 
 	/* last block */
-	derive_u_streebog (pwd, pwd_len, salt, salt_len, iterations, b, &hmac);
+	derive_u_streebog (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
