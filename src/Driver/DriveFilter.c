@@ -424,7 +424,16 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 			Extension->Queue.CryptoInfo->EncryptedAreaStart.Value = BootArgs.DecoySystemPartitionStart;
 			
 			if (Extension->Queue.CryptoInfo->VolumeSize.Value > hiddenPartitionOffset - BootArgs.DecoySystemPartitionStart)
+			{
+				// Erase boot loader scheduled keys
+				if (mappedCryptoInfo)
+				{
+					burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+					MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+					BootArgs.CryptoInfoLength = 0;
+				}
 				TC_THROW_FATAL_EXCEPTION;
+			}
 
 			Dump ("RemappedAreaOffset = %I64d\n", Extension->Queue.RemappedAreaOffset);
 			Dump ("RemappedAreaDataUnitOffset = %I64d\n", Extension->Queue.RemappedAreaDataUnitOffset);
