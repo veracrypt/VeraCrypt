@@ -171,8 +171,14 @@ static void derive_u_sha256 (char *salt, int salt_len, uint32 iterations, int b,
 	memcpy (k, salt, salt_len);	/* salt */
 	
 	/* big-endian block number */
+#ifdef TC_WINDOWS_BOOT
+    /* specific case of 16-bit bootloader: b is a 16-bit integer that is always < 256 */
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
+#else
+    b = bswap_32 (b);
+    memcpy (&k[salt_len], &b, 4);
+#endif	
 
 	hmac_sha256_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, SHA256_DIGESTSIZE);
@@ -377,8 +383,8 @@ static void derive_u_sha512 (char *salt, int salt_len, uint32 iterations, int b,
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-	memset (&k[salt_len], 0, 3);
-	k[salt_len + 3] = (char) b;
+    b = bswap_32 (b);
+	memcpy (&k[salt_len], &b, 4);
 
 	hmac_sha512_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, SHA512_DIGESTSIZE);
@@ -587,8 +593,14 @@ static void derive_u_ripemd160 (char *salt, int salt_len, uint32 iterations, int
 	memcpy (k, salt, salt_len);	/* salt */
 	
 	/* big-endian block number */
+#ifdef TC_WINDOWS_BOOT
+    /* specific case of 16-bit bootloader: b is a 16-bit integer that is always < 256*/
 	memset (&k[salt_len], 0, 3);
 	k[salt_len + 3] = (char) b;
+#else
+    b = bswap_32 (b);
+    memcpy (&k[salt_len], &b, 4);
+#endif	
 
 	hmac_ripemd160_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, RIPEMD160_DIGESTSIZE);
@@ -800,8 +812,8 @@ static void derive_u_whirlpool (char *salt, int salt_len, uint32 iterations, int
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-	memset (&k[salt_len], 0, 3);	
-	k[salt_len + 3] = (char) b;
+    b = bswap_32 (b);
+	memcpy (&k[salt_len], &b, 4);
 
 	hmac_whirlpool_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, WHIRLPOOL_DIGESTSIZE);
@@ -1015,8 +1027,8 @@ static void derive_u_streebog (char *salt, int salt_len, uint32 iterations, int 
 	/* iteration 1 */
 	memcpy (k, salt, salt_len);	/* salt */
 	/* big-endian block number */
-	memset (&k[salt_len], 0, 3);	
-	k[salt_len + 3] = (char) b;
+    b = bswap_32 (b);
+	memcpy (&k[salt_len], &b, 4);
 
 	hmac_streebog_internal (k, salt_len + 4, hmac);
 	memcpy (u, k, STREEBOG_DIGESTSIZE);

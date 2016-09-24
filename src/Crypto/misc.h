@@ -85,6 +85,7 @@
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #include <byteswap.h>
 #elif defined(_MSC_VER) && _MSC_VER >= 1300 && !defined(_UEFI)
+#pragma intrinsic(_byteswap_ulong,_byteswap_uint64)
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #define bswap_32(x)	_byteswap_ulong(x)
 #define bswap_64(x)	_byteswap_uint64(x)
