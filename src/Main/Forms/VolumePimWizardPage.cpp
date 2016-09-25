@@ -39,7 +39,8 @@ namespace VeraCrypt
 			if (pimStr.IsEmpty())
 				return 0;
 			if (((size_t) wxNOT_FOUND == pimStr.find_first_not_of (wxT("0123456789")))
-				&& pimStr.ToLong (&pim))
+				&& pimStr.ToLong (&pim)
+				&& pim <= MAX_PIM_VALUE)
 				return (int) pim;
 			else
 				return -1;
