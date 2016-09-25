@@ -79,7 +79,7 @@ static EncryptionAlgorithm EncryptionAlgorithms[] =
 	{ { TWOFISH,					0 }, { XTS, 0 },	1, 1 },
 	{ { CAMELLIA,					0 }, { XTS, 0 },	1, 1 },
 #if defined(CIPHER_GOST89)
-	{ { GOST89,						0 }, { XTS, 0 },	0, 1 },
+	{ { GOST89,						0 }, { XTS, 0 },	0, 0 },
 #endif  // defined(CIPHER_GOST89)
 	{ { KUZNYECHIK,				0 }, { XTS, 0 },	0, 1 },
 	{ { TWOFISH, AES,				0 }, { XTS, 0 },	1, 1 },

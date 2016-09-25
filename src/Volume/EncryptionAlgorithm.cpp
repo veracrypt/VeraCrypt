@@ -298,7 +298,7 @@ namespace VeraCrypt
 
 	
 	// GOST89
-	GOST89::GOST89 ()
+	GOST89::GOST89 () : Deprecated (true)
 	{
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherGost89()));
 
