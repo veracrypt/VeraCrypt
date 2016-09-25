@@ -286,7 +286,28 @@ namespace VeraCrypt
 
 	void CipherGost89::SetCipherKey (const byte *key)
 	{
-		gost_set_key (key, (gost_kds *) ScheduledKey.Ptr());
+		gost_set_key (key, (gost_kds *) ScheduledKey.Ptr(), 1);
+	}
+	
+	// GOST89 with static SBOX
+	void CipherGost89StaticSBOX::Decrypt (byte *data) const
+	{
+		gost_decrypt (data, data, (gost_kds *) ScheduledKey.Ptr(), 1);
+	}
+
+	void CipherGost89StaticSBOX::Encrypt (byte *data) const
+	{
+		gost_encrypt (data, data, (gost_kds *) ScheduledKey.Ptr(), 1);
+	}
+
+	size_t CipherGost89StaticSBOX::GetScheduledKeySize () const
+	{
+		return GOST_KS;
+	}
+
+	void CipherGost89StaticSBOX::SetCipherKey (const byte *key)
+	{
+		gost_set_key (key, (gost_kds *) ScheduledKey.Ptr(), 0);
 	}
 
 	// Kuznyechik

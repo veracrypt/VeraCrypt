@@ -123,6 +123,50 @@ namespace VeraCrypt
 			}
 		}
 	};
+	
+	static const CipherTestVector GOST89TestVectors[] =
+	{
+		{
+			{
+				0xFF, 0xEE, 0xDD, 0xCC, 0xBB, 0xAA, 0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 
+				0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7,	0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF
+			},
+			{
+				0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10, 0xFF, 0xEE, 0xDD, 0xCC,	0xBB, 0xAA, 0x99, 0x88
+			},
+			{
+				0x8F, 0xC6, 0xFE, 0xB8, 0x91, 0x51, 0x4C, 0x37, 0x4D, 0x51, 0x46, 0xEF, 0x02, 0x9D, 0xBD, 0x9F
+			}
+		}
+	};
+	
+	static const CipherTestVector KuznyechikTestVectors[] =
+	{
+		{
+			{
+				0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00, 0x11, 0x22, 0x33,	0x44, 0x55, 0x66, 0x77, 
+				0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10,	0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF
+			},
+			{
+				0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x00, 0xFF, 0xEE, 0xDD, 0xCC,	0xBB, 0xAA, 0x99, 0x88
+			},
+			{
+				0x7F, 0x67, 0x9D, 0x90, 0xBE, 0xBC, 0x24, 0x30, 0x5A, 0x46, 0x8D, 0x42, 0xB9, 0xD4, 0xED, 0xCD
+			}
+		},
+		{
+			{
+				0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x00, 0x11, 0x22, 0x33,	0x44, 0x55, 0x66, 0x77, 
+				0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10,	0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF
+			},
+			{
+				0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB,	0xCC, 0xEE, 0xFF, 0x0A
+			},
+			{
+				0xB4, 0x29, 0x91, 0x2C, 0x6E, 0x00, 0x32, 0xF9,	0x28, 0x54, 0x52, 0xD7, 0x67, 0x18, 0xD0, 0x8B
+			}
+		}
+	};
 
 	static void TestCipher (Cipher &cipher, const CipherTestVector *testVector, size_t testVectorCount)
 	{
@@ -170,6 +214,12 @@ namespace VeraCrypt
 			
 			CipherCamellia camellia;
 			TestCipher (camellia, CamelliaTestVectors, array_capacity (CamelliaTestVectors));
+			
+			CipherGost89StaticSBOX gost89;
+			TestCipher (gost89, GOST89TestVectors, array_capacity (GOST89TestVectors));
+			
+			CipherKuznyechik kuznyechik;
+			TestCipher (kuznyechik, KuznyechikTestVectors, array_capacity (KuznyechikTestVectors));
 	}
 
 	const EncryptionTest::XtsTestVector EncryptionTest::XtsTestVectors[] =
@@ -603,6 +653,58 @@ namespace VeraCrypt
 						break;
 					}
 				}
+				else if (typeid (ea) == typeid (GOST89))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x12194ef5)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0xda8d429b)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xdbf0b12e)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xb986eb4a)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (Kuznyechik))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x6b86e72e)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0xa4f8637d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xfd83e76d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xb24fc47b)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
 				else if (typeid (ea) == typeid (AESTwofish))
 				{
 					switch (testCase)
@@ -805,6 +907,18 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
+			else if (typeid (ea) == typeid (GOST89))
+			{
+				if (crc != 0x9e8653cb)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (Kuznyechik))
+			{
+				if (crc != 0xd6d39cdb)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
 			else if (typeid (ea) == typeid (AESTwofish))
 			{
 				if (crc != 0x14ce7385)
@@ -847,7 +961,7 @@ namespace VeraCrypt
 			nTestsPerformed++;
 		}
 
-		if (nTestsPerformed != 100)
+		if (nTestsPerformed != 110)
 			throw TestFailed (SRC_POS);
 	}
 

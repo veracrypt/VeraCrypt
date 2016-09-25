@@ -158,7 +158,7 @@ int CipherInit (int cipher, unsigned char *key, unsigned __int8 *ks)
 #if !defined(TC_WINDOWS_BOOT) 
 #if defined(CIPHER_GOST89)
 	case GOST89:
-		gost_set_key(key, (gost_kds*)ks);
+		gost_set_key(key, (gost_kds*)ks, 1);
 		break;
 #endif // && defined(CIPHER_GOST89)
 	case KUZNYECHIK:

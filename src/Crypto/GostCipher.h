@@ -56,7 +56,7 @@ typedef struct gost_kds
 
 void gost_encrypt(const byte *in, byte *out, gost_kds *ks, int count);
 void gost_decrypt(const byte *in, byte *out, gost_kds *ks, int count);
-void gost_set_key(const byte *key, gost_kds *ks);
+void gost_set_key(const byte *key, gost_kds *ks, int useDynamicSbox);
 
 #else 
 #define GOST_KS				(0)
