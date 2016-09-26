@@ -129,15 +129,27 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Common\libzip\mkstemp.c" />
+    <ClCompile Include="..\Common\libzip\mkstemp.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Common\libzip\zip_add.c" />
-    <ClCompile Include="..\Common\libzip\zip_add_dir.c" />
+    <ClCompile Include="..\Common\libzip\zip_add_dir.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Common\libzip\zip_add_entry.c" />
     <ClCompile Include="..\Common\libzip\zip_buffer.c" />
     <ClCompile Include="..\Common\libzip\zip_close.c" />
-    <ClCompile Include="..\Common\libzip\zip_delete.c" />
+    <ClCompile Include="..\Common\libzip\zip_delete.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Common\libzip\zip_dirent.c" />
-    <ClCompile Include="..\Common\libzip\zip_dir_add.c" />
+    <ClCompile Include="..\Common\libzip\zip_dir_add.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Common\libzip\zip_discard.c" />
     <ClCompile Include="..\Common\libzip\zip_entry.c" />
     <ClCompile Include="..\Common\libzip\zip_error.c" />
@@ -150,7 +162,10 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     <ClCompile Include="..\Common\libzip\zip_extra_field.c" />
     <ClCompile Include="..\Common\libzip\zip_extra_field_api.c" />
     <ClCompile Include="..\Common\libzip\zip_fclose.c" />
-    <ClCompile Include="..\Common\libzip\zip_fdopen.c" />
+    <ClCompile Include="..\Common\libzip\zip_fdopen.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Common\libzip\zip_filerange_crc.c" />
     <ClCompile Include="..\Common\libzip\zip_file_add.c" />
     <ClCompile Include="..\Common\libzip\zip_file_error_clear.c" />
@@ -199,7 +214,10 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     <ClCompile Include="..\Common\libzip\zip_source_crc.c" />
     <ClCompile Include="..\Common\libzip\zip_source_deflate.c" />
     <ClCompile Include="..\Common\libzip\zip_source_error.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_filep.c" />
+    <ClCompile Include="..\Common\libzip\zip_source_filep.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Common\libzip\zip_source_free.c" />
     <ClCompile Include="..\Common\libzip\zip_source_function.c" />
     <ClCompile Include="..\Common\libzip\zip_source_is_deleted.c" />
