@@ -519,6 +519,11 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 							LoadKeyList (hwndDlg, param->FirstKeyFile);
 
 							kf = (KeyFile *) malloc (sizeof (KeyFile));
+                            if (!kf)
+                            {
+                                Warning ("ERR_MEM_ALLOC", hwndDlg);
+                                break;
+                            }
 						}
 					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
 
@@ -528,7 +533,8 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					}
 				}
 
-				free (kf);
+                if (kf)
+				    free (kf);
 			}
 			return 1;
 		}
@@ -536,16 +542,22 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_ADD_KEYFILE_PATH)
 		{
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-
-			if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
-			{
-				param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-				LoadKeyList (hwndDlg, param->FirstKeyFile);
-			}
-			else
-			{
-				free (kf);
-			}
+            if (kf)
+            {
+			    if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
+			    {
+				    param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+				    LoadKeyList (hwndDlg, param->FirstKeyFile);
+			    }
+			    else
+			    {
+				    free (kf);
+			    }
+            }
+            else
+            {
+                Warning ("ERR_MEM_ALLOC", hwndDlg);
+            }
 			return 1;
 		}
 
@@ -716,13 +728,19 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 					{
 						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 						kf = (KeyFile *) malloc (sizeof (KeyFile));
+                        if (!kf)
+                        {
+                            Warning ("ERR_MEM_ALLOC", hwndDlg);
+                            break;
+                        }
 					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
 
 					param->EnableKeyFiles = TRUE;
 					status = TRUE;
 				}
 
-				free (kf);
+                if (kf)
+				    free (kf);
 			}
 		}
 		break;
@@ -743,6 +761,10 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 					free (kf);
 				}
 			}
+            else
+            {
+                Warning ("ERR_MEM_ALLOC", hwndDlg);
+            }
 		}
 		break;
 
@@ -762,6 +784,11 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 						param->EnableKeyFiles = TRUE;
 						status = TRUE;
 					}
+                    else
+                    {
+                        Warning ("ERR_MEM_ALLOC", hwndDlg);
+                        break;
+                    }
 				}
 			}
 		}
