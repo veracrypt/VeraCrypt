@@ -180,14 +180,10 @@ static int GetDonVal (int minVal, int maxVal)
 
 	if (!prngInitialized)
 	{
-		if (!CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)
-			&& !CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET))
+		if (!CryptAcquireContext (&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
 			OsPrngAvailable = FALSE;
 		else
 			OsPrngAvailable = TRUE;
-
-		srand ((unsigned int) time (NULL));
-		rand(); // Generate and discard the inital value, as it always appears to be somewhat non-random.
 
 		prngInitialized = TRUE;
 	}
@@ -197,7 +193,7 @@ static int GetDonVal (int minVal, int maxVal)
 		return  ((int) ((double) *((uint16 *) buffer) / (0xFFFF+1) * (maxVal + 1 - minVal)) + minVal);
 	}
 	else
-		return  ((int) ((double) rand() / (RAND_MAX+1) * (maxVal + 1 - minVal)) + minVal);
+		return maxVal;
 }
 
 
