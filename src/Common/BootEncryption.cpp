@@ -3236,8 +3236,8 @@ namespace VeraCrypt
 									{
 										if (statMem.size == statFile.size)
 										{
-											Buffer fileBuf (statFile.size);
-											Buffer memBuf (statMem.size);
+											Buffer fileBuf ((size_t) statFile.size);
+											Buffer memBuf ((size_t) statMem.size);
 
 											zip_file_t* zfMem = zip_fopen_index (zMem, indexMem, 0);
 											if (zfMem)
@@ -3249,7 +3249,7 @@ namespace VeraCrypt
 													{
 														if (0 < zip_fread (zfFile, fileBuf.Ptr (), statFile.size))
 														{
-															bMatch = (memcmp (memBuf.Ptr(), fileBuf.Ptr(), statFile.size) == 0);
+															bMatch = (memcmp (memBuf.Ptr(), fileBuf.Ptr(), (size_t) statFile.size) == 0);
 														}
 														zip_fclose (zfFile);
 													}															
