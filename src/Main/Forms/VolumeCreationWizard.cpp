@@ -807,6 +807,7 @@ namespace VeraCrypt
 					if (-1 == Pim)
 					{
 						// PIM invalid: don't go anywhere
+						Gui->ShowError ("PIM_TOO_BIG");
 						return GetCurrentStep();
 					}
 
