@@ -15,13 +15,13 @@
 
 namespace VeraCrypt
 {
-	Buffer::Buffer () : DataPtr (nullptr), DataSize (0)
+	Buffer::Buffer () : DataPtr (nullptr), DataSize (0), DataAlignment (0)
 	{
 	}
 
-	Buffer::Buffer (size_t size) : DataPtr (nullptr), DataSize (0)
+	Buffer::Buffer (size_t size, size_t alignment) : DataPtr (nullptr), DataSize (0), DataAlignment (0)
 	{
-		Allocate (size);
+		Allocate (size, alignment);
 	}
 
 	Buffer::~Buffer ()
@@ -30,37 +30,42 @@ namespace VeraCrypt
 			Free ();
 	}
 
-	void Buffer::Allocate (size_t size)
+	void Buffer::Allocate (size_t size, size_t alignment)
 	{
 		if (size < 1)
 			throw ParameterIncorrect (SRC_POS);
 
 		if (DataPtr != nullptr)
 		{
-			if (DataSize == size)
+			if ((DataSize == size) && (DataAlignment == alignment))
 				return;
 			Free();
 		}
 
 		try
 		{
-			DataPtr = static_cast<byte *> (Memory::Allocate (size));
+			DataPtr = static_cast<byte *> ((alignment > 0)? Memory::AllocateAligned (size, alignment) : Memory::Allocate (size));
 			DataSize = size;
+			DataAlignment = alignment;
 		}
 		catch (...)
 		{
 			DataPtr = nullptr;
 			DataSize = 0;
+			DataAlignment = 0;
 			throw;
 		}
 	}
 
-	void Buffer::CopyFrom (const ConstBufferPtr &bufferPtr)
+	void Buffer::CopyFrom (const ConstBufferPtr &bufferPtr, size_t alignment)
 	{
-		if (!IsAllocated ())
+		if (!IsAllocated () || ((bufferPtr.Size()) && (DataAlignment != alignment)))
 		{
+			if (IsAllocated ())
+				Free ();
+
 			if (bufferPtr.Size())
-				Allocate (bufferPtr.Size());
+				Allocate (bufferPtr.Size(), alignment);
 		}
 		else if (bufferPtr.Size() > DataSize)
 			throw ParameterTooLarge (SRC_POS);
@@ -80,9 +85,13 @@ namespace VeraCrypt
 		if (DataPtr == nullptr)
 			throw NotInitialized (SRC_POS);
 
-		Memory::Free (DataPtr);
+		if (DataAlignment > 0)
+			Memory::FreeAligned (DataPtr);
+		else
+			Memory::Free (DataPtr);
 		DataPtr = nullptr;
 		DataSize = 0;
+		DataAlignment = 0;
 	}
 
 	BufferPtr Buffer::GetRange (size_t offset, size_t size) const
@@ -99,9 +108,9 @@ namespace VeraCrypt
 			Memory::Zero (DataPtr, DataSize);
 	}
 
-	SecureBuffer::SecureBuffer (size_t size)
+	SecureBuffer::SecureBuffer (size_t size, size_t alignment)
 	{
-		Allocate (size);
+		Allocate (size, alignment);
 	}
 
 	SecureBuffer::~SecureBuffer ()
@@ -110,9 +119,9 @@ namespace VeraCrypt
 			Free ();
 	}
 
-	void SecureBuffer::Allocate (size_t size)
+	void SecureBuffer::Allocate (size_t size, size_t alignment)
 	{
-		Buffer::Allocate (size);
+		Buffer::Allocate (size, alignment);
 	}
 
 	void SecureBuffer::Free ()

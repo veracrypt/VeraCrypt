@@ -13,6 +13,7 @@
 #include "Common/Tcdefs.h"
 #include "Memory.h"
 #include "Exception.h"
+#include <stdlib.h>
 
 namespace VeraCrypt
 {
@@ -22,6 +23,23 @@ namespace VeraCrypt
 			throw ParameterIncorrect (SRC_POS);
 
 		void *bufPtr = malloc (size);
+		if (!bufPtr)
+			throw bad_alloc();
+
+		return bufPtr;
+	}
+	
+	void *Memory::AllocateAligned (std::size_t size, std::size_t alignment)
+	{
+		if (size < 1)
+			throw ParameterIncorrect (SRC_POS);
+#ifdef TC_WINDOWS
+		void *bufPtr = _aligned_malloc (size, alignment);
+#else
+		void *bufPtr = NULL;
+		if (0 != posix_memalign (&bufPtr, alignment, size))
+			bufPtr = NULL;
+#endif
 		if (!bufPtr)
 			throw bad_alloc();
 
@@ -58,5 +76,15 @@ namespace VeraCrypt
 	{
 		assert (memory != nullptr);
 		free (memory);
+	}
+	
+	void Memory::FreeAligned (void *memory)
+	{
+		assert (memory != nullptr);
+#ifdef TC_WINDOWS
+		_aligned_free (memory);
+#else
+		free (memory);
+#endif
 	}
 }

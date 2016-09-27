@@ -102,7 +102,7 @@ void gost_set_key(const byte *key, gost_kds *ks, int useDynamicSbox)
 #endif
 	    //Generate pseudorandom data based on the key
 	    STREEBOG_init(&sctx);
-	    STREEBOG_add(&sctx, key, 32);
+	    STREEBOG_add(&sctx, ks->key, 32);
 	    STREEBOG_finalize(&sctx, sbox_seed);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)

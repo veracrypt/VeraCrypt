@@ -13,6 +13,7 @@
 #define GOST_CIPHER_H
 
 #include "Common/Tcdefs.h"
+#include "config.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,7 +48,7 @@ typedef unsigned int gst_udword;
 
 typedef struct gost_kds
 {
-	byte			key[32];
+	CRYPTOPP_ALIGN_DATA(16) byte key[32];
 	gst_udword	sbox_cvt[256 * 4];
 	byte			sbox[8][16];
 } gost_kds;

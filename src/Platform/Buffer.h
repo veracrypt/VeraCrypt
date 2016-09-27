@@ -71,17 +71,18 @@ namespace VeraCrypt
 	{
 	public:
 		Buffer ();
-		Buffer (size_t size);
-		Buffer (const ConstBufferPtr &bufferPtr) { CopyFrom (bufferPtr); }
+		Buffer (size_t size, size_t alignment = 0);
+		Buffer (const ConstBufferPtr &bufferPtr, size_t alignment = 0) { CopyFrom (bufferPtr, alignment); }
 		virtual ~Buffer ();
 
-		virtual void Allocate (size_t size);
-		virtual void CopyFrom (const ConstBufferPtr &bufferPtr);
+		virtual void Allocate (size_t size, size_t alignment = 0);
+		virtual void CopyFrom (const ConstBufferPtr &bufferPtr, size_t alignment = 0);
 		virtual byte *Ptr () const { return DataPtr; }
 		virtual void Erase ();
 		virtual void Free ();
 		virtual BufferPtr GetRange (size_t offset, size_t size) const;
 		virtual size_t Size () const { return DataSize; }
+		virtual size_t Alignment () const { return DataAlignment; }
 		virtual bool IsAllocated () const { return DataSize != 0; }
 		virtual void Zero ();
 
@@ -92,6 +93,7 @@ namespace VeraCrypt
 	protected:
 		byte *DataPtr;
 		size_t DataSize;
+		size_t DataAlignment;
 
 	private:
 		Buffer (const Buffer &);
@@ -102,11 +104,11 @@ namespace VeraCrypt
 	{
 	public:
 		SecureBuffer () { }
-		SecureBuffer (size_t size);
+		SecureBuffer (size_t size, size_t alignment = 0);
 		SecureBuffer (const ConstBufferPtr &bufferPtr) { CopyFrom (bufferPtr); }
 		virtual ~SecureBuffer ();
 
-		virtual void Allocate (size_t size);
+		virtual void Allocate (size_t size, size_t alignment = 0);
 		virtual void Free ();
 
 	private:

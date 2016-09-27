@@ -73,10 +73,12 @@ namespace VeraCrypt
 	{
 	public:
 		static void *Allocate (size_t size);
+		static void *AllocateAligned (size_t size, size_t alignment);
 		static int Compare (const void *memory1, size_t size1, const void *memory2, size_t size2);
 		static void Copy (void *memoryDestination, const void *memorySource, size_t size);
 		static void Erase (void *memory, size_t size);
 		static void Free (void *memory);
+		static void FreeAligned (void *memory);
 		static void Zero (void *memory, size_t size);
 	};
 

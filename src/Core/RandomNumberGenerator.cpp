@@ -173,7 +173,7 @@ namespace VeraCrypt
 		Running = true;
 		EnrichedByUser = false;
 
-		Pool.Allocate (PoolSize);
+		Pool.Allocate (PoolSize, 16);
 		Test();
 
 		if (!PoolHash)
