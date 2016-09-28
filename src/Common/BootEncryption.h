@@ -276,7 +276,7 @@ namespace VeraCrypt
 		void RegisterSystemFavoritesService (BOOL registerService, BOOL noFileHandling);
 		void UpdateSystemFavoritesService ();
 		void RenameDeprecatedSystemLoaderBackup ();
-		bool RestartComputer (void);
+		bool RestartComputer (BOOL bShutdown = FALSE);
 		void InitialSecurityChecksForHiddenOS ();
 		void RestrictPagingFilesToSystemPartition ();
 		void SetDriverConfigurationFlag (uint32 flag, bool state);

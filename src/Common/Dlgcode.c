@@ -10017,7 +10017,7 @@ BOOL EnableWow64FsRedirection (BOOL enable)
 }
 
 
-BOOL RestartComputer (void)
+BOOL RestartComputer (BOOL bShutdown)
 {
 	TOKEN_PRIVILEGES tokenPrivil;
 	HANDLE hTkn;
@@ -10038,7 +10038,7 @@ BOOL RestartComputer (void)
 		return false;
 	}
 
-	if (!ExitWindowsEx (EWX_REBOOT,
+	if (!ExitWindowsEx (bShutdown? EWX_POWEROFF: EWX_REBOOT,
 		SHTDN_REASON_MAJOR_OTHER | SHTDN_REASON_MINOR_OTHER | SHTDN_REASON_FLAG_PLANNED))
 	{
 		CloseHandle(hTkn);

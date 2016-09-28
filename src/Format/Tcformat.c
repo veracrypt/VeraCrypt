@@ -8157,7 +8157,7 @@ retryCDDriveCheck:
 
 				try
 				{
-					BootEncObj->RestartComputer ();
+					BootEncObj->RestartComputer (bSystemIsGPT);
 				}
 				catch (Exception &e)
 				{
@@ -10112,7 +10112,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 
 							try
 							{
-								BootEncObj->RestartComputer ();
+								BootEncObj->RestartComputer (bSystemIsGPT);
 							}
 							catch (Exception &e)
 							{

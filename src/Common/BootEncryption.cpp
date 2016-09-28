@@ -4568,8 +4568,8 @@ namespace VeraCrypt
 		}
 	}
 
-	bool BootEncryption::RestartComputer (void)
+	bool BootEncryption::RestartComputer (BOOL bShutdown)
 	{
-		return (::RestartComputer() != FALSE);
+		return (::RestartComputer(bShutdown) != FALSE);
 	}
 }

@@ -443,7 +443,7 @@ BOOL Is64BitOs ();
 BOOL IsServerOS ();
 BOOL IsHiddenOSRunning (void);
 BOOL EnableWow64FsRedirection (BOOL enable);
-BOOL RestartComputer (void);
+BOOL RestartComputer (BOOL bShutdown);
 void Applink (char *dest, BOOL bSendOS, char *extraOutput);
 wchar_t *RelativePath2Absolute (wchar_t *szFileName);
 void HandleDriveNotReadyError (HWND hwnd);
