@@ -790,7 +790,7 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>OSXFuse seems to be missing on your machine. VeraCrypt requires OSXFuse 2.3 or above.
+							<string>OSXFuse seems to be missing on your machine. VeraCrypt requires OSXFuse 2.5 or above.
 Please download the latest OSXFuse version from  :
 https://osxfuse.github.io/</string>
 						</dict>
@@ -800,7 +800,7 @@ https://osxfuse.github.io/</string>
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>OSXFuse semble ne pas être installé sur votre machine. VeraCrypt nécessite OSXFuse 2.3 ou supérieur.
+							<string>OSXFuse semble ne pas être installé sur votre machine. VeraCrypt nécessite OSXFuse 2.5 ou supérieur.
 Merci de télécharger la dernière version de OSXFuse à partir de :
 https://osxfuse.github.io/
 
@@ -809,53 +809,6 @@ https://osxfuse.github.io/
 					</array>
 					<key>NAME</key>
 					<string>OSXFuse</string>
-					<key>STATE</key>
-					<true/>
-				</dict>
-				<dict>
-					<key>BEHAVIOR</key>
-					<integer>3</integer>
-					<key>DICTIONARY</key>
-					<dict>
-						<key>IC_REQUIREMENT_FILES_CONDITION</key>
-						<integer>0</integer>
-						<key>IC_REQUIREMENT_FILES_DISK_TYPE</key>
-						<integer>1</integer>
-						<key>IC_REQUIREMENT_FILES_LIST</key>
-						<array>
-							<string>/Library/Frameworks/MacFUSE.framework/MacFUSE</string>
-							<string>/usr/local/lib/libfuse.dylib</string>
-						</array>
-						<key>IC_REQUIREMENT_FILES_SELECTOR</key>
-						<integer>1</integer>
-					</dict>
-					<key>IC_REQUIREMENT_CHECK_TYPE</key>
-					<integer>0</integer>
-					<key>IDENTIFIER</key>
-					<string>fr.whitebox.Packages.requirement.files</string>
-					<key>MESSAGE</key>
-					<array>
-						<dict>
-							<key>LANGUAGE</key>
-							<string>English</string>
-							<key>SECONDARY_VALUE</key>
-							<string></string>
-							<key>VALUE</key>
-							<string>VeraCrypt needs OSXFUSE to be installed with MacFUSE compatibility layer enabled.
-Please re-install OSXFUSE and check the MacFUSE compatibility layer in the installer.</string>
-						</dict>
-						<dict>
-							<key>LANGUAGE</key>
-							<string>French</string>
-							<key>SECONDARY_VALUE</key>
-							<string></string>
-							<key>VALUE</key>
-							<string>VeraCrypt nécessite que OSXFUSE soit installé avec l'option "MacFUSE compatibility layer".
-Merci de ré-installer OSXFUSE et de cocher l'option de compatibilité MacFUSE dans l'installeur.</string>
-						</dict>
-					</array>
-					<key>NAME</key>
-					<string>MacFUSE compatibility layer</string>
 					<key>STATE</key>
 					<true/>
 				</dict>

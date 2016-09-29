@@ -493,7 +493,7 @@ namespace VeraCrypt
 		EX2MSG (UnsupportedTrueCryptFormat,			LangString["UNSUPPORTED_TRUECRYPT_FORMAT"]);
 
 #ifdef TC_MACOSX
-		EX2MSG (HigherFuseVersionRequired,			_("VeraCrypt requires OSXFUSE 2.3 or later with MacFUSE compatibility layer installer.\nPlease ensure that you have selected this compatibility layer during OSXFUSE installation."));
+		EX2MSG (HigherFuseVersionRequired,			_("VeraCrypt requires OSXFUSE 2.5 or above."));
 #endif
 
 #undef EX2MSG

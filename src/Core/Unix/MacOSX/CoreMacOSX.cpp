@@ -119,27 +119,20 @@ namespace VeraCrypt
 		int status;
 		bool bIsOSXFuse = false;
 
-		if ((status = sysctlbyname ("macfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
+		if ((status = sysctlbyname ("osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
 		{
 			fuseVersionStringLength = MAXHOSTNAMELEN;
-			if ((status = sysctlbyname ("osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
+			if ((status = sysctlbyname ("vfs.generic.osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
 			{
-				fuseVersionStringLength = MAXHOSTNAMELEN;
-				if ((status = sysctlbyname ("vfs.generic.osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
-				{
-					throw HigherFuseVersionRequired (SRC_POS);
-				}
-			}
-
-			// look for compatibility mode
-			struct stat sb;
-			if ((0 == stat("/usr/local/lib/libfuse.dylib", &sb)) && (0 == stat("/Library/Frameworks/MacFUSE.framework/MacFUSE", &sb)))
-			{
-				bIsOSXFuse = true;
-			}
-			else
 				throw HigherFuseVersionRequired (SRC_POS);
+			}
+		}
 
+		// look for OSXFuse dynamic library
+		struct stat sb;
+		if (0 != stat("/usr/local/lib/libosxfuse_i64.2.dylib", &sb))
+		{
+			throw HigherFuseVersionRequired (SRC_POS);
 		}
 
 		vector <string> fuseVersion = StringConverter::Split (string (fuseVersionString), ".");
@@ -149,12 +142,7 @@ namespace VeraCrypt
 		uint32 fuseVersionMajor = StringConverter::ToUInt32 (fuseVersion[0]);
 		uint32 fuseVersionMinor = StringConverter::ToUInt32 (fuseVersion[1]);
 
-		if (bIsOSXFuse)
-		{
-			if (fuseVersionMajor < 2 || (fuseVersionMajor == 2 && fuseVersionMinor < 5))
-				throw HigherFuseVersionRequired (SRC_POS);
-		}
-		else if (fuseVersionMajor < 1 || (fuseVersionMajor == 1 && fuseVersionMinor < 3))
+		if (fuseVersionMajor < 2 || (fuseVersionMajor == 2 && fuseVersionMinor < 5))
 			throw HigherFuseVersionRequired (SRC_POS);
 
 		// Mount volume image
