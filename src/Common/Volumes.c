@@ -249,6 +249,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 #if !defined(DEVICE_DRIVER) 
 	VirtualLock (&keyInfo, sizeof (keyInfo));
 	VirtualLock (&dk, sizeof (dk));
+	VirtualLock (&header, sizeof (header));
 #endif
 #endif //  !defined(_UEFI)
 
@@ -571,10 +572,12 @@ err:
 ret:
 	burn (&keyInfo, sizeof (keyInfo));
 	burn (dk, sizeof(dk));
+	burn (header, sizeof(header));
 
 #if !defined(DEVICE_DRIVER) && !defined(_UEFI)
 	VirtualUnlock (&keyInfo, sizeof (keyInfo));
 	VirtualUnlock (&dk, sizeof (dk));
+	VirtualUnlock (&header, sizeof (header));
 #endif
 
 #if !defined(_UEFI)
