@@ -870,7 +870,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 #endif
 		{
 			crypto_close (cryptoInfo);
-			return ERR_CIPHER_INIT_WEAK_KEY;
+			retVal = ERR_CIPHER_INIT_WEAK_KEY;
+			goto err;
 		}
 	}
 	else
@@ -912,7 +913,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 #endif
 	{
 		crypto_close (cryptoInfo);
-		return ERR_CIPHER_INIT_WEAK_KEY; 
+		retVal = ERR_CIPHER_INIT_WEAK_KEY; 
+		goto err;
 	}
 
 	if (password)
@@ -961,7 +963,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 #endif
 		{
 			crypto_close (cryptoInfo);
-			return ERR_CIPHER_INIT_WEAK_KEY; 
+			retVal = ERR_CIPHER_INIT_WEAK_KEY; 
+			goto err;
 		}
 	}
 
@@ -1045,14 +1048,15 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	if (retVal != ERR_SUCCESS)
 	{
 		crypto_close (cryptoInfo);
-		return retVal;
+		goto err;
 	}
 
 	// Mode of operation
 	if (!EAInitMode (cryptoInfo))
 	{
 		crypto_close (cryptoInfo);
-		return ERR_OUTOFMEMORY;
+		retVal = ERR_OUTOFMEMORY;
+		goto err;
 	}
 
 
@@ -1069,7 +1073,7 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	if (retVal != ERR_SUCCESS)
 	{
 		crypto_close (cryptoInfo);
-		return retVal;
+		goto err;
 	}
 
 	memcpy (cryptoInfo->master_keydata, keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
@@ -1086,7 +1090,8 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	if (!EAInitMode (cryptoInfo))
 	{
 		crypto_close (cryptoInfo);
-		return ERR_OUTOFMEMORY;
+		retVal = ERR_OUTOFMEMORY;
+		goto err;
 	}
 
 
@@ -1132,10 +1137,16 @@ int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *header, int ea, 
 	}
 #endif	// #ifdef VOLFORMAT
 
+	*retInfo = cryptoInfo;
+
+err:
 	burn (dk, sizeof(dk));
 	burn (&keyInfo, sizeof (keyInfo));
+#if !defined(_UEFI)
+	VirtualUnlock (&keyInfo, sizeof (keyInfo));
+	VirtualUnlock (&dk, sizeof (dk));
+#endif // !defined(_UEFI)
 
-	*retInfo = cryptoInfo;
 	return 0;
 }
 
