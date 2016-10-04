@@ -221,7 +221,8 @@
     <ClCompile Include="GostCipher.c" />
     <ClCompile Include="kuznyechik.c" />
     <ClCompile Include="Rmd160.c" />
-    <ClCompile Include="Serpent.c" />
+    <ClCompile Include="SerpentFast.c" />
+    <ClCompile Include="SerpentFast_simd.cpp" />
     <ClCompile Include="Sha2.c" />
     <ClCompile Include="Streebog.c" />
     <ClCompile Include="Twofish.c" />
@@ -239,7 +240,8 @@
     <ClInclude Include="kuznyechik.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="Rmd160.h" />
-    <ClInclude Include="Serpent.h" />
+    <ClInclude Include="SerpentFast.h" />
+    <ClInclude Include="SerpentFast_sbox.h" />
     <ClInclude Include="Sha2.h" />
     <ClInclude Include="Streebog.h" />
     <ClInclude Include="Twofish.h" />

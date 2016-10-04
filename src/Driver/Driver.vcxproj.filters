@@ -90,9 +90,6 @@
     <ClCompile Include="..\Crypto\Rmd160.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\Crypto\Serpent.c">
-      <Filter>Source Files\Crypto</Filter>
-    </ClCompile>
     <ClCompile Include="..\Crypto\Sha2.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
@@ -103,6 +100,12 @@
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\Crypto\Camellia.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\SerpentFast.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\SerpentFast_simd.cpp">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
   </ItemGroup>

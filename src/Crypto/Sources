@@ -16,7 +16,8 @@ SOURCES = \
 	Aestab.c \
 	cpu.c \
 	Rmd160.c \
-	Serpent.c \
+	SerpentFast.c \
+	SerpentFast_simd.cpp \
 	Sha2.c \
 	Twofish.c \
 	GostCipher.c \

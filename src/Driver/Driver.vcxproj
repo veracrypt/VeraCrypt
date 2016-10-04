@@ -193,6 +193,8 @@ BuildDriver.cmd -rebuild -debug -x64 "$(SolutionDir)\Common" "$(SolutionDir)\Cry
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Crypto\Camellia.c" />
+    <ClCompile Include="..\Crypto\SerpentFast.c" />
+    <ClCompile Include="..\Crypto\SerpentFast_simd.cpp" />
     <ClCompile Include="DriveFilter.c" />
     <ClCompile Include="DumpFilter.c" />
     <ClCompile Include="EncryptedIoQueue.c" />
@@ -213,7 +215,6 @@ BuildDriver.cmd -rebuild -debug -x64 "$(SolutionDir)\Common" "$(SolutionDir)\Cry
     <ClCompile Include="..\Crypto\Aeskey.c" />
     <ClCompile Include="..\Crypto\Aestab.c" />
     <ClCompile Include="..\Crypto\Rmd160.c" />
-    <ClCompile Include="..\Crypto\Serpent.c" />
     <ClCompile Include="..\Crypto\Sha2.c" />
     <ClCompile Include="..\Crypto\Twofish.c" />
     <ClCompile Include="..\Crypto\Whirlpool.c" />

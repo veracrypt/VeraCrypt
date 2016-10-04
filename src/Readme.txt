@@ -249,6 +249,7 @@ Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler.
 Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov
 Copyright (c) Dieter Baron and Thomas Klausner.
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.
+Copyright (c) 1999-2013,2014,2015,2016 Jack Lloyd. All rights reserved.
 
 For more information, please see the legal notices attached to parts of the
 source code.

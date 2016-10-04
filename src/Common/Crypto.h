@@ -193,7 +193,11 @@ typedef struct
 #endif
 
 #include "Aes_hw_cpu.h"
-#include "Serpent.h"
+#if !defined (TC_WINDOWS_BOOT)
+#	include "SerpentFast.h"
+#else
+#	include "Serpent.h"
+#endif
 #include "Twofish.h"
 
 #include "Rmd160.h"

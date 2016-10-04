@@ -68,7 +68,7 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 {
 	unsigned __int8 finalCarry;
 	unsigned __int8 whiteningValues [ENCRYPTION_DATA_UNIT_SIZE];
-	unsigned __int8 whiteningValue [BYTES_PER_XTS_BLOCK];
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 whiteningValue [BYTES_PER_XTS_BLOCK];
 	unsigned __int8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 	unsigned __int64 *whiteningValuesPtr64 = (unsigned __int64 *) whiteningValues;
 	unsigned __int64 *whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
@@ -208,7 +208,7 @@ static void EncryptBufferXTSNonParallel (unsigned __int8 *buffer,
 					   int cipher)
 {
 	unsigned __int8 finalCarry;
-	unsigned __int8 whiteningValue [BYTES_PER_XTS_BLOCK];
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 whiteningValue [BYTES_PER_XTS_BLOCK];
 	unsigned __int8 byteBufUnitNo [BYTES_PER_XTS_BLOCK];
 	unsigned __int64 *whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 	unsigned __int64 *bufPtr = (unsigned __int64 *) buffer;

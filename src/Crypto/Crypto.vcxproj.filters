@@ -30,9 +30,6 @@
     <ClCompile Include="Rmd160.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Serpent.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sha2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,6 +46,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Streebog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SerpentFast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SerpentFast_simd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,9 +83,6 @@
     <ClInclude Include="Rmd160.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Serpent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sha2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -99,6 +99,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Streebog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SerpentFast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SerpentFast_sbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

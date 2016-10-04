@@ -12,6 +12,10 @@
 #include "Tcdefs.h"
 #endif // !defined(_UEFI)
 
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
 #if defined(_MSC_VER) && !defined(_UEFI)
 	#if _MSC_VER >= 1400
 		#if !defined(TC_WINDOWS_DRIVER) && !defined(_UEFI)
@@ -174,5 +178,9 @@ VC_INLINE void CorrectEndianess(uint64 *out, const uint64 *in, size_t byteCount)
 #define IsAlignedOn(p,alignment) ((alignment==1) || (IsPowerOf2(alignment) ? ModPowerOf2((size_t)p, alignment) == 0 : (size_t)p % alignment == 0))
 
 #define IsAligned16(p)	IsAlignedOn(p, GetAlignmentOf(uint64))
+
+#ifdef  __cplusplus
+}
+#endif
 
 #endif
