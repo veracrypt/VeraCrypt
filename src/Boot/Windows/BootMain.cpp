@@ -581,7 +581,9 @@ err:
 		crypto_close (BootCryptoInfo);
 		BootCryptoInfo = NULL;
 	}
-
+#ifndef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
+	PimValueOrHiddenVolumeStartUnitNo.LowPart = -1;
+#endif
 	EncryptedVirtualPartition.Drive = TC_INVALID_BIOS_DRIVE;
 	EraseMemory ((void *) TC_BOOT_LOADER_ARGS_OFFSET, sizeof (BootArguments));
 
@@ -801,6 +803,7 @@ err:
 	GetKeyboardChar();
 
 ret:
+	PimValueOrHiddenVolumeStartUnitNo.LowPart = -1;
 	EraseMemory ((void *) TC_BOOT_LOADER_ARGS_OFFSET, sizeof (BootArguments));
 	return status;
 }
