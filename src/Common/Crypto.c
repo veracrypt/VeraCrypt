@@ -232,7 +232,7 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == SERPENT
 			&& (blockCount >= 4)
 			&& HasSSE2()
@@ -327,7 +327,7 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 	else if (cipher == SERPENT
 			&& (blockCount >= 4)
 			&& HasSSE2()
@@ -415,7 +415,7 @@ BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 {
 	return (cipher == AES && IsAesHwCpuSupported()) 
 		|| (cipher == GOST89)
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 		|| (cipher == SERPENT && HasSSE2())
 #endif
 		;
