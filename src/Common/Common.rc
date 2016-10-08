@@ -109,7 +109,7 @@ BEGIN
     PUSHBUTTON      "Add &Token Files...",IDC_TOKEN_FILES_ADD,151,132,65,14
     PUSHBUTTON      "&Remove",IDC_KEYREMOVE,227,132,61,14
     PUSHBUTTON      "Remove &All",IDC_KEYREMOVEALL,299,132,61,14
-    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,232,105,11
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,232,100,11
     PUSHBUTTON      "&Generate Random Keyfile...",IDC_GENERATE_KEYFILE,237,230,123,14
     DEFPUSHBUTTON   "OK",IDOK,290,8,70,14
     PUSHBUTTON      "Cancel",IDCANCEL,290,25,70,14
@@ -117,7 +117,7 @@ BEGIN
     LTEXT           "WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!",IDT_KEYFILE_WARNING,290,44,69,85,0,WS_EX_TRANSPARENT
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,154,361,1,WS_EX_STATICEDGE
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,209,361,1,WS_EX_STATICEDGE
-    LTEXT           "More information on keyfiles",IDC_LINK_KEYFILES_INFO,119,233,113,10,SS_NOTIFY
+    LTEXT           "More information on keyfiles",IDC_LINK_KEYFILES_INFO,111,233,124,10,SS_NOTIFY
     CONTROL         "Try first to mount with an empty password",IDC_KEYFILES_TRY_EMPTY_PASSWORD,
                     "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,7,217,310,10
 END
