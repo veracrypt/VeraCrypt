@@ -124,6 +124,8 @@
 #define TC_IOCTL_LEGACY_GET_DRIVER_VERSION		466968
 #define TC_IOCTL_LEGACY_GET_MOUNTED_VOLUMES		466948
 
+// Undocumented IOCTL sent by Windows 10 when handling EFS data on volumes
+#define IOCTL_UNKNOWN_WINDOWS10_EFS_ACCESS				0x455610D8
 
 /* Start of driver interface structures, the size of these structures may
    change between versions; so make sure you first send DRIVER_VERSION to

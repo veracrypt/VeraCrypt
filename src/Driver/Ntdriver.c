@@ -214,7 +214,7 @@ NTSTATUS TCDispatchQueueIRP (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 	PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
 	NTSTATUS ntStatus;
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined (_DEBUG_TRACE)
 	if (irpSp->MajorFunction == IRP_MJ_DEVICE_CONTROL && (Extension->bRootDevice || Extension->IsVolumeDevice))
 	{
 		switch (irpSp->Parameters.DeviceIoControl.IoControlCode)
@@ -896,6 +896,15 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		}
 		break;
 
+
+	case IOCTL_UNKNOWN_WINDOWS10_EFS_ACCESS:
+		// This undocumented IOCTL is sent when handling EFS data
+		// We must return success otherwise EFS operations fail
+		Dump ("ProcessVolumeDeviceControlIrp (unknown IOCTL 0x%.8X, OutputBufferLength = %d). Returning fake success\n", irpSp->Parameters.DeviceIoControl.IoControlCode, (int) irpSp->Parameters.DeviceIoControl.OutputBufferLength);
+		Irp->IoStatus.Status = STATUS_SUCCESS;
+		Irp->IoStatus.Information = 0;
+
+		break;
 	default:
 		Dump ("ProcessVolumeDeviceControlIrp (unknown code 0x%.8X)\n", irpSp->Parameters.DeviceIoControl.IoControlCode);
 		return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
@@ -2071,7 +2080,7 @@ void TCGetDosNameFromNumber (LPWSTR dosname,int cbDosName, int nDriveNo, DeviceN
 	RtlStringCbCatW (dosname, cbDosName, tmp);
 }
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined (_DEBUG_TRACE)
 LPWSTR TCTranslateCode (ULONG ulCode)
 {
 	switch (ulCode)
