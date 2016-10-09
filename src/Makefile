@@ -129,6 +129,7 @@ export PLATFORM_ARCH := "Unknown"
 export PLATFORM_UNSUPPORTED := 0
 
 export CPU_ARCH ?= unknown
+export SIMD_SUPPORTED := 0
 
 ARCH = $(shell uname -p)
 ifeq "$(ARCH)" "unknown"
@@ -149,9 +150,11 @@ endif
 
 ifeq "$(CPU_ARCH)" "x86"
 	PLATFORM_ARCH := i386
+	SIMD_SUPPORTED := 1
 	C_CXX_FLAGS += -D TC_ARCH_X86
 else ifeq "$(CPU_ARCH)" "x64"
 	PLATFORM_ARCH := amd64
+	SIMD_SUPPORTED := 1
 	C_CXX_FLAGS += -D TC_ARCH_X64
 endif
 
@@ -163,7 +166,7 @@ ifeq "$(shell uname -s)" "Linux"
 	PLATFORM := Linux
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
 	
-	ifneq "$(CPU_ARCH)" "unknown"
+	ifeq "$(SIMD_SUPPORTED)" "1"
 		CFLAGS += -msse2
 		CXXFLAGS += -msse2
 
@@ -176,10 +179,12 @@ ifeq "$(shell uname -s)" "Linux"
 
 		ifeq "$(GCC_GTEQ_430)" "1"
 			ifeq "$(origin SSSE3)" "command line"
-				CFLAGS += -mssse3 -msse4.1
+				CFLAGS += -mssse3
+				CXXFLAGS += -mssse3
 			endif
 
 			ifeq "$(origin SSE41)" "command line"
+				CFLAGS += -mssse3 -msse4.1
 				CXXFLAGS += -mssse3 -msse4.1
 			endif
 		endif
@@ -233,6 +238,19 @@ ifeq "$(shell uname -s)" "Darwin"
 
 	ifeq "$(CPU_ARCH)" "x64"
 		CPU_ARCH = x86
+	endif
+
+	CFLAGS += -msse2
+	CXXFLAGS += -msse2
+
+	ifeq "$(origin SSSE3)" "command line"
+		CFLAGS += -mssse3
+		CXXFLAGS += -mssse3
+	endif
+
+	ifeq "$(origin SSE41)" "command line"
+		CFLAGS += -mssse3 -msse4.1
+		CXXFLAGS += -mssse3 -msse4.1
 	endif
 
 	AS := $(BASE_DIR)/Build/Tools/MacOSX/nasm
