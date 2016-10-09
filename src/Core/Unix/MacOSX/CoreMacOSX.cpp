@@ -117,7 +117,6 @@ namespace VeraCrypt
 		char fuseVersionString[MAXHOSTNAMELEN + 1] = { 0 };
 		size_t fuseVersionStringLength = MAXHOSTNAMELEN;
 		int status;
-		bool bIsOSXFuse = false;
 
 		if ((status = sysctlbyname ("osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
 		{
