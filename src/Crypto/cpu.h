@@ -167,6 +167,8 @@ extern "C" {
 // these should not be used directly
 extern int g_x86DetectionDone;
 extern int g_hasAVX;
+extern int g_hasAVX2;
+extern int g_hasBMI2;
 extern int g_hasSSE42;
 extern int g_hasSSE41;
 extern int g_hasSSSE3;
@@ -196,6 +198,8 @@ extern int g_hasMMX;
 #define HasSSE42() g_hasSSE42
 #define HasSSE41() g_hasSSE41
 #define HasSAVX() g_hasAVX
+#define HasSAVX2() g_hasAVX2
+#define HasSBMI2() g_hasBMI2
 #define HasSSSE3() g_hasSSSE3
 #define HasAESNI() g_hasAESNI
 #define HasCLMUL() g_hasCLMUL

@@ -189,7 +189,7 @@ static int TrySSE2()
 
 int g_x86DetectionDone = 0;
 int g_hasISSE = 0, g_hasSSE2 = 0, g_hasSSSE3 = 0, g_hasMMX = 0, g_hasAESNI = 0, g_hasCLMUL = 0, g_isP4 = 0;
-int g_hasAVX = 0, g_hasSSE42 = 0, g_hasSSE41 = 0;
+int g_hasAVX = 0, g_hasAVX2 = 0, g_hasBMI2 = 0, g_hasSSE42 = 0, g_hasSSE41 = 0;
 uint32 g_cacheLineSize = CRYPTOPP_L1_CACHE_LINE_SIZE;
 
 VC_INLINE int IsIntel(const uint32 output[4])
@@ -292,6 +292,8 @@ void DetectX86Features()
 	g_hasMMX = (cpuid1[3] & (1 << 23)) != 0;
 	if ((cpuid1[3] & (1 << 26)) != 0)
 		g_hasSSE2 = TrySSE2();
+	g_hasAVX2 = g_hasSSE2 && (cpuid1[1] & (1 << 5));
+	g_hasBMI2 = g_hasSSE2 && (cpuid1[1] & (1 << 8));
 	g_hasAVX = g_hasSSE2 && (cpuid1[2] & (1 << 28));
 	g_hasSSE42 = g_hasSSE2 && (cpuid1[2] & (1 << 20));
 	g_hasSSE41 = g_hasSSE2 && (cpuid1[2] & (1 << 19));
