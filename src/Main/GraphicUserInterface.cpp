@@ -1163,11 +1163,7 @@ namespace VeraCrypt
 		{
 			url = L"https://veracrypt.codeplex.com/wikipage?title=Camellia";
 		}
-		else if (linkId == L"GOST89")
-		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=GOST89";
-		}
-		else if (linkId == L"Kuznyechik")
+		else if (linkId == L"kuznyechik")
 		{
 			url = L"https://veracrypt.codeplex.com/wikipage?title=Kuznyechik";
 		}
