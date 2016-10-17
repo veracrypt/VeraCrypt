@@ -12204,3 +12204,24 @@ BOOL RaisePrivileges(void)
 
 	return bRet;
 }
+
+BOOL DeleteDirectory (const wchar_t* szDirName)
+{
+	BOOL bStatus = RemoveDirectory (szDirName);
+	if (!bStatus)
+	{
+		/* force removal of the non empty directory */
+		wchar_t szOpPath[TC_MAX_PATH + 1] = {0};
+		SHFILEOPSTRUCTW op;
+
+		StringCchCopyW(szOpPath, ARRAYSIZE(szOpPath)-1, szDirName);
+		ZeroMemory(&op, sizeof(op));
+		op.wFunc = FO_DELETE;
+		op.pFrom = szOpPath;
+		op.fFlags = FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR;
+
+		if ((0 == SHFileOperation(&op)) && (!op.fAnyOperationsAborted))
+			bStatus = TRUE;
+	}
+	return bStatus;
+}

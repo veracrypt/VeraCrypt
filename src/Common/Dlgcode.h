@@ -513,6 +513,7 @@ BOOL CopyTextToClipboard (const wchar_t* txtValue);
 BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_t* args);
 BOOL GetFreeDriveLetter(WCHAR* pCh);
 BOOL RaisePrivileges(void);
+BOOL DeleteDirectory (const wchar_t* szDirName);
 
 #ifdef __cplusplus
 }

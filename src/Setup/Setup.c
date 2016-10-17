@@ -128,23 +128,7 @@ BOOL StatRemoveDirectory (wchar_t *lpszDir)
 
 	if (_wstat64 (lpszDir, &st) == 0)
 	{
-		BOOL bStatus = RemoveDirectory (lpszDir);
-		if (!bStatus)
-		{
-			/* force removal of the non empty directory */
-			wchar_t szOpPath[TC_MAX_PATH + 1] = {0};
-			SHFILEOPSTRUCTW op;
-
-			StringCchCopyW(szOpPath, ARRAYSIZE(szOpPath)-1, lpszDir);
-			ZeroMemory(&op, sizeof(op));
-			op.wFunc = FO_DELETE;
-			op.pFrom = szOpPath;
-			op.fFlags = FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR;
-
-			if ((0 == SHFileOperation(&op)) && (!op.fAnyOperationsAborted))
-				bStatus = TRUE;
-		}
-		return bStatus;
+		return DeleteDirectory (lpszDir);
 	}
 	else
 		return TRUE;

@@ -2351,7 +2351,7 @@ namespace VeraCrypt
 
 	}
 
-	void EfiBoot::SaveFile(wchar_t* name, byte* data, DWORD size) {
+	void EfiBoot::SaveFile(const wchar_t* name, byte* data, DWORD size) {
 		wstring path = EfiBootPartPath;
 		path += name;
 		File f(path, false, true);
@@ -2389,7 +2389,7 @@ namespace VeraCrypt
 		throw_sys_if (!::CopyFileW (path.c_str(), targetPath.c_str(), FALSE));
 	}
 
-	BOOL EfiBoot::RenameFile(wchar_t* name, wchar_t* nameNew, BOOL bForce) {
+	BOOL EfiBoot::RenameFile(const wchar_t* name, wchar_t* nameNew, BOOL bForce) {
 		wstring path = EfiBootPartPath;
 		path += name;
 		wstring pathNew = EfiBootPartPath;
@@ -2397,13 +2397,13 @@ namespace VeraCrypt
 		return MoveFileExW(path.c_str(), pathNew.c_str(), bForce? MOVEFILE_REPLACE_EXISTING : 0);
 	}
 
-	BOOL EfiBoot::DelFile(wchar_t* name) {
+	BOOL EfiBoot::DelFile(const wchar_t* name) {
 		wstring path = EfiBootPartPath;
 		path += name;
 		return DeleteFile(path.c_str());
 	}
 
-	BOOL EfiBoot::MkDir(wchar_t* name, bool& bAlreadyExists) {
+	BOOL EfiBoot::MkDir(const wchar_t* name, bool& bAlreadyExists) {
 		wstring path = EfiBootPartPath;
 		path += name;
 		bAlreadyExists = false;
@@ -2416,7 +2416,13 @@ namespace VeraCrypt
 		return bRet;
 	}
 
-	BOOL EfiBoot::ReadConfig (wchar_t* name, EfiBootConf& conf)
+	BOOL EfiBoot::DelDir(const wchar_t* name) {
+		wstring path = EfiBootPartPath;
+		path += name;
+		return DeleteDirectory (path.c_str());
+	}
+
+	BOOL EfiBoot::ReadConfig (const wchar_t* name, EfiBootConf& conf)
 	{
 		wstring path = EfiBootPartPath;
 		path += name;
@@ -2424,7 +2430,7 @@ namespace VeraCrypt
 		return conf.Load (path.c_str());
 	}
 
-	BOOL EfiBoot::UpdateConfig (wchar_t* name, int pim, int hashAlgo, HWND hwndDlg)
+	BOOL EfiBoot::UpdateConfig (const wchar_t* name, int pim, int hashAlgo, HWND hwndDlg)
 	{
 		BOOL bRet = FALSE;
 		EfiBootConf conf;
@@ -2461,7 +2467,7 @@ namespace VeraCrypt
 		return bRet;
 	}
 
-	BOOL EfiBoot::WriteConfig (wchar_t* name, bool preserveUserConfig, int pim, int hashAlgo, const char* passPromptMsg, HWND hwndDlg)
+	BOOL EfiBoot::WriteConfig (const wchar_t* name, bool preserveUserConfig, int pim, int hashAlgo, const char* passPromptMsg, HWND hwndDlg)
 	{
 		EfiBootConf conf;
 		wstring path = EfiBootPartPath;
@@ -3483,6 +3489,7 @@ namespace VeraCrypt
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsBoot");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsProp");
+			EfiBootInst.DelDir (L"\\EFI\\VeraCrypt");
 		}
 		else
 		{
