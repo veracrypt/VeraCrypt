@@ -50,7 +50,7 @@ Requirements for Building VeraCrypt for Windows:
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - NASM assembler 2.08 or compatible
 - gzip compressor
-- upx packer (available at http://upx.sourceforge.net/)
+- upx packer (available at https://upx.sourceforge.net/)
 
 IMPORTANT:
 
@@ -132,7 +132,7 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - pkg-config
 - makeself (Linux only)
 - wxWidgets 3.0 shared library and header files installed or
-  wxWidgets 3.0 library source code (available at http://www.wxwidgets.org)
+  wxWidgets 3.0 library source code (available at https://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse
   and https://osxfuse.github.io/)
 
@@ -183,7 +183,7 @@ of the SDK (i.e. 10.6), you can export the environment variable VC_OSX_TARGET:
 
 
 Before building under MacOSX, pkg-config must be installed if not yet available.
-Get it from http://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
+Get it from https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
 compile using the following commands :
 
 	$ ./configure --with-internal-glib
@@ -264,4 +264,4 @@ documentation, are the sole property of their respective owners.
 VI. Further Information
 =======================
 
-http://www.veracrypt.fr
+https://www.veracrypt.fr
