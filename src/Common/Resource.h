@@ -73,6 +73,12 @@
 #define IDR_EFI_LEGACYSPEAKER           569
 #define IDR_EFI_DCSBML           		570
 #define IDR_EFI_DCSRE           		571
+#define IDR_EFI_DCSBOOT32               572
+#define IDR_EFI_DCSINT32                573
+#define IDR_EFI_DCSCFG32                574
+#define IDR_EFI_LEGACYSPEAKER32         575
+#define IDR_EFI_DCSBML32           		576
+#define IDR_EFI_DCSRE32           		577
 #define IDC_HW_AES_LABEL_LINK           5000
 #define IDC_HW_AES                      5001
 #define IDC_PARALLELIZATION_LABEL_LINK  5002
@@ -220,7 +226,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        572
+#define _APS_NEXT_RESOURCE_VALUE        578
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         5141
 #define _APS_NEXT_SYMED_VALUE           101
