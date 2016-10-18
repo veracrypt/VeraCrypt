@@ -50,7 +50,7 @@ Requirements for Building VeraCrypt for Windows:
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - NASM assembler 2.08 or compatible
 - gzip compressor
-- upx packer (available at https://upx.sourceforge.net/)
+- upx packer (available at https://upx.github.io/)
 
 IMPORTANT:
 
