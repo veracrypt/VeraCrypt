@@ -33,12 +33,14 @@ ifeq "$(PLATFORM)" "MacOSX"
     OBJSEX += ../Crypto/Aes_asm.oo
     OBJS += ../Crypto/Aes_hw_cpu.o
     OBJS += ../Crypto/Aescrypt.o
+    OBJSEX += ../Crypto/Twofish_asm.oo
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
 else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/Aes_x64.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
+	OBJS += ../Crypto/Twofish_x64.o
 else
 	OBJS += ../Crypto/Aescrypt.o
 endif
@@ -72,6 +74,9 @@ ifeq "$(PLATFORM)" "MacOSX"
 	$(AS) $(ASFLAGS) -f macho64 -o ../Crypto/Aes_x64.o ../Crypto/Aes_x64.asm
 	lipo -create ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o -output ../Crypto/Aes_asm.oo
 	rm -fr ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o
+../Crypto/Twofish_asm.oo: ../Crypto/Twofish_x64.S
+	@echo Assembling $(<F)
+	$(CC) -arch x86_64 -c ../Crypto/Twofish_x64.S -o ../Crypto/Twofish_asm.oo
 endif
 
 include $(BUILD_INC)/Makefile.inc

@@ -121,5 +121,8 @@
     <CustomBuild Include="Gost89_x64.asm">
       <Filter>Source Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Twofish_x64.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

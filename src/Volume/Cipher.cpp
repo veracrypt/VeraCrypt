@@ -296,6 +296,39 @@ namespace VeraCrypt
 		twofish_set_key ((TwofishInstance *) ScheduledKey.Ptr(), (unsigned int *) key);
 	}
 	
+	void CipherTwofish::EncryptBlocks (byte *data, size_t blockCount) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+#if CRYPTOPP_BOOL_X64
+		twofish_encrypt_blocks ( (TwofishInstance *) ScheduledKey.Ptr(), data, data, blockCount);
+#else
+		Cipher::EncryptBlocks (data, blockCount);
+#endif
+	}
+	
+	void CipherTwofish::DecryptBlocks (byte *data, size_t blockCount) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+#if CRYPTOPP_BOOL_X64
+		twofish_decrypt_blocks ( (TwofishInstance *) ScheduledKey.Ptr(), data, data, blockCount);
+#else
+		Cipher::DecryptBlocks (data, blockCount);
+#endif
+	}
+	
+	bool CipherTwofish::IsHwSupportAvailable () const
+	{
+#if CRYPTOPP_BOOL_X64
+		return true;
+#else
+		return false;
+#endif
+	}
+	
 	// Camellia
 	void CipherCamellia::Decrypt (byte *data) const
 	{

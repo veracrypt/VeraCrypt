@@ -23,6 +23,10 @@ clean:
 %.o: %.cpp
 	@echo Compiling $(<F)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+%.o: %.S
+	@echo Compiling $(<F)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 ifeq "$(PLATFORM)" "MacOSX"
 %.o: %.asm
