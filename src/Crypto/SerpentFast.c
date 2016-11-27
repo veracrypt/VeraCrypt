@@ -83,31 +83,9 @@ void serpent_encrypt_blocks(const unsigned __int8* in, unsigned __int8* out, siz
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
    if(HasSSE2() && (blocks >= 4))
    {
-	  CRYPTOPP_ALIGN_DATA(16) unsigned __int8 alignedInputBuffer[4 * 16];
-	  CRYPTOPP_ALIGN_DATA(16) unsigned __int8 alignedOutputBuffer[4 * 16];
-	  unsigned __int8 *inPtr, *outPtr;
-	  BOOL inputAligned = IsAligned16(in)? TRUE : FALSE;
-	  BOOL outputAligned = IsAligned16(out)? TRUE : FALSE;
-
       while(blocks >= 4)
       {
-         if (inputAligned)
-			 inPtr = (unsigned __int8 *) in;
-		 else
-		 {
-			 inPtr = alignedInputBuffer;
-			 memcpy (inPtr, in, 4 * 16);
-		 }
-		 if (out == in)
-			 outPtr = inPtr;
-         else if (outputAligned)
-			 outPtr = (unsigned __int8 *) out;
-		 else
-		 {
-			 outPtr = alignedOutputBuffer;
-			 memcpy (outPtr, out, 4 * 16);
-		 }
-         serpent_simd_encrypt_blocks_4(inPtr, outPtr, round_key);
+         serpent_simd_encrypt_blocks_4(in, out, round_key);
          in += 4 * 16;
          out += 4 * 16;
          blocks -= 4;
@@ -184,31 +162,9 @@ void serpent_decrypt_blocks(const unsigned __int8* in, unsigned __int8* out, siz
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
    if(HasSSE2() && (blocks >= 4))
    {
-	  CRYPTOPP_ALIGN_DATA(16) unsigned __int8 alignedInputBuffer[4 * 16];
-	  CRYPTOPP_ALIGN_DATA(16) unsigned __int8 alignedOutputBuffer[4 * 16];
-	  unsigned __int8 *inPtr, *outPtr;
-	  BOOL inputAligned = IsAligned16(in)? TRUE : FALSE;
-	  BOOL outputAligned = IsAligned16(out)? TRUE : FALSE;
-
       while(blocks >= 4)
       {
-         if (inputAligned)
-			 inPtr = (unsigned __int8 *) in;
-		 else
-		 {
-			 inPtr = alignedInputBuffer;
-			 memcpy (inPtr, in, 4 * 16);
-		 }
-		 if (out == in)
-			 outPtr = inPtr;
-         else if (outputAligned)
-			 outPtr = (unsigned __int8 *) out;
-		 else
-		 {
-			 outPtr = alignedOutputBuffer;
-			 memcpy (outPtr, out, 4 * 16);
-		 }
-         serpent_simd_decrypt_blocks_4(inPtr, outPtr, round_key);
+         serpent_simd_decrypt_blocks_4(in, out, round_key);
          in += 4 * 16;
          out += 4 * 16;
          blocks -= 4;
