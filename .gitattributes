@@ -24,6 +24,7 @@ Makefile	text eol=lf
 *.fbp	text eol=lf
 *.rgs	text eol=lf
 *.pkgproj	text eol=lf
+*.S	text eol=lf
 Sources	text eol=lf
 
 # Declare files that will always have LF line endings on checkout.
