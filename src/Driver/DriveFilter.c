@@ -33,6 +33,10 @@ static BOOL DeviceFilterActive = FALSE;
 
 BOOL BootArgsValid = FALSE;
 BootArguments BootArgs;
+byte*  BootSecRegionData = NULL;
+uint32 BootSecRegionSize = 0;
+uint32 BootPkcs5;
+
 static uint64 BootLoaderArgsPtr;
 static BOOL BootDriveSignatureValid = FALSE;
 
@@ -76,10 +80,11 @@ NTSTATUS LoadBootArguments ()
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
 	PHYSICAL_ADDRESS bootArgsAddr;
 	byte *mappedBootArgs;
+	byte *mappedCryptoInfo = NULL;
 	uint16 bootLoaderArgsIndex;
 
 	KeInitializeMutex (&MountMutex, 0);
-
+//	__debugbreak();
 	for (bootLoaderArgsIndex = 0;
 		bootLoaderArgsIndex < sizeof(BootArgsRegions)/ sizeof(BootArgsRegions[1]) && status != STATUS_SUCCESS;
 		++bootLoaderArgsIndex)
@@ -126,22 +131,61 @@ NTSTATUS LoadBootArguments ()
 				Dump ("BootDriveSignature = %x\n", BootArgs.BootDriveSignature);
 				Dump ("BootArgumentsCrc32 = %x\n", BootArgs.BootArgumentsCrc32);
 
-				if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
-				{
-					int pim = CacheBootPim? (int) (BootArgs.Flags >> 16) : 0;
-					AddPasswordToCache (&BootArgs.BootPassword, pim);
-				}
-
 				// clear fingerprint
 				burn (BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
+				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 
+				if (BootArgs.CryptoInfoLength > 0)
+				{
+					PHYSICAL_ADDRESS cryptoInfoAddress;
+					cryptoInfoAddress.QuadPart = BootLoaderArgsPtr + BootArgs.CryptoInfoOffset;
+					Dump ("CryptoInfo memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
+
+					mappedCryptoInfo = MmMapIoSpace (cryptoInfoAddress, BootArgs.CryptoInfoLength, MmCached);
+					if (mappedCryptoInfo)
+					{
+						/* Get the parameters used for booting to speed up driver startup and avoid testing irrelevant PRFs */
+						BOOT_CRYPTO_HEADER* pBootCryptoInfo = (BOOT_CRYPTO_HEADER*) mappedCryptoInfo;
+						BootPkcs5 = pBootCryptoInfo->pkcs5;
+
+						BootSecRegionData = NULL;
+						BootSecRegionSize = 0;
+
+						if(BootArgs.CryptoInfoLength > (sizeof(BOOT_CRYPTO_HEADER) + sizeof(SECREGION_BOOT_PARAMS)) ) {
+							uint32   crc;
+							PHYSICAL_ADDRESS SecRegionAddress;
+							SECREGION_BOOT_PARAMS* SecRegionParams = (SECREGION_BOOT_PARAMS*) (mappedCryptoInfo + sizeof(BOOT_CRYPTO_HEADER) + 2);
+							byte *secRegionData = NULL;
+
+							SecRegionAddress.QuadPart = SecRegionParams->Ptr;
+							Dump ("SecRegion memory 0x%x %d\n", SecRegionAddress.LowPart, SecRegionParams->Size);
+
+							if( (SecRegionParams->Ptr != 0) && (SecRegionParams->Size > 0)) {
+								crc = GetCrc32((byte*)SecRegionParams, 12);
+								if(crc == SecRegionParams->Crc) {
+									Dump ("SecRegion crc ok\n");
+									secRegionData = MmMapIoSpace (SecRegionAddress, SecRegionParams->Size, MmCached);
+									BootSecRegionData = TCalloc (SecRegionParams->Size);
+									if(BootSecRegionData != NULL) {
+										BootSecRegionSize = SecRegionParams->Size;
+										memcpy(BootSecRegionData, secRegionData, SecRegionParams->Size);
+									}
+									burn (secRegionData, SecRegionParams->Size);
+									MmUnmapIoSpace (secRegionData,  SecRegionParams->Size);
+								}
+								// Erase boot loader scheduled keys
+								burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+								MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+							}
+						}
+					}
+				}
 				status = STATUS_SUCCESS;
 			}
+		} else {
+			MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 		}
-
-		MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 	}
-
 	return status;
 }
 
@@ -327,30 +371,55 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 	Dump ("MountDrive pdo=%p\n", Extension->Pdo);
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
-	// Check boot drive signature first (header CRC search could fail if a user restored the header to a non-boot drive)
-	if (BootDriveSignatureValid)
-	{
+	if (BootSecRegionData != NULL && BootSecRegionSize >= 1024) {
 		byte mbr[TC_SECTOR_SIZE_BIOS];
-
+		DCS_DISK_ENTRY_LIST* DeList = (DCS_DISK_ENTRY_LIST*)(BootSecRegionData + 512);
 		offset.QuadPart = 0;
 		status = TCReadDevice (Extension->LowerDeviceObject, mbr, offset, TC_SECTOR_SIZE_BIOS);
 
-		if (NT_SUCCESS (status) && BootArgs.BootDriveSignature != *(uint32 *) (mbr + 0x1b8))
+		if (NT_SUCCESS (status) && DeList->DE[DE_IDX_DISKID].DiskId.MbrID != *(uint32 *) (mbr + 0x1b8))
 			return STATUS_UNSUCCESSFUL;
-	}
 
-	header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
-	if (!header)
-		return STATUS_INSUFFICIENT_RESOURCES;
+		offset.QuadPart = 512;
+		status = TCReadDevice (Extension->LowerDeviceObject, mbr, offset, TC_SECTOR_SIZE_BIOS);
+		if (NT_SUCCESS (status) && memcmp(&DeList->DE[DE_IDX_DISKID].DiskId.GptID, mbr + 0x38, sizeof(DCS_GUID)) != 0)
+			return STATUS_UNSUCCESSFUL;
 
-	offset.QuadPart = hiddenVolume ? hiddenHeaderOffset : TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET;
-	Dump ("Reading volume header at %I64u\n", offset.QuadPart);
+		header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+		if (!header)
+			return STATUS_INSUFFICIENT_RESOURCES;
+		memcpy(header, BootSecRegionData, 512);
+		// Set extra data for the disk
+		Extension->Queue.SecRegionData = BootSecRegionData;
+		Extension->Queue.SecRegionSize = BootSecRegionSize;
+	} else {
+		// Check boot drive signature first (header CRC search could fail if a user restored the header to a non-boot drive)
+		if (BootDriveSignatureValid)
+		{
+			byte mbr[TC_SECTOR_SIZE_BIOS];
 
-	status = TCReadDevice (Extension->LowerDeviceObject, header, offset, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
-	if (!NT_SUCCESS (status))
-	{
-		Dump ("TCReadDevice error %x\n", status);
-		goto ret;
+			offset.QuadPart = 0;
+			status = TCReadDevice (Extension->LowerDeviceObject, mbr, offset, TC_SECTOR_SIZE_BIOS);
+
+			if (NT_SUCCESS (status) && BootArgs.BootDriveSignature != *(uint32 *) (mbr + 0x1b8))
+				return STATUS_UNSUCCESSFUL;
+		}
+
+		header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+		if (!header)
+			return STATUS_INSUFFICIENT_RESOURCES;
+
+		offset.QuadPart = hiddenVolume ? hiddenHeaderOffset : TC_BOOT_VOLUME_HEADER_SECTOR_OFFSET;
+		Dump ("Reading volume header at %I64u\n", offset.QuadPart);
+
+		status = TCReadDevice (Extension->LowerDeviceObject, header, offset, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
+		if (!NT_SUCCESS (status))
+		{
+			Dump ("TCReadDevice error %x\n", status);
+			goto ret;
+		}
+		Extension->Queue.SecRegionData = NULL;
+		Extension->Queue.SecRegionSize = 0;
 	}
 
 	if (headerSaltCrc32)
@@ -468,6 +537,41 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		BootDriveFilterExtension = Extension;
 		BootDriveFound = Extension->BootDrive = Extension->DriveMounted = Extension->VolumeHeaderPresent = TRUE;
 		BootDriveFilterExtension->MagicNumber = TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER;
+
+		if (BootSecRegionData != NULL && BootSecRegionSize > 1024) {
+			DCS_DISK_ENTRY_LIST* DeList = (DCS_DISK_ENTRY_LIST*)(BootSecRegionData + 512);
+			uint32 crc;
+			uint32 crcSaved;
+			crcSaved = DeList->CRC32;
+			DeList->CRC32 = 0;
+			crc = GetCrc32((byte*)DeList, 512);
+			if(crc == crcSaved){
+				if(DeList->DE[DE_IDX_PWDCACHE].Type == DE_PwdCache) {
+					uint64 sector = 0;
+					DCS_DEP_PWD_CACHE* pwdCache = (DCS_DEP_PWD_CACHE*)(BootSecRegionData + DeList->DE[DE_IDX_PWDCACHE].Sectors.Offset);
+					DecryptDataUnits((unsigned char*)pwdCache, (UINT64_STRUCT*)&sector, 1, Extension->Queue.CryptoInfo);
+					crcSaved = pwdCache->CRC;
+					pwdCache->CRC = 0;
+					crc = GetCrc32((unsigned char*)pwdCache, 512);
+					if(crcSaved == crc && pwdCache->Count < CACHE_SIZE){
+						uint32 i;
+						for(i = 0; i<pwdCache->Count; ++i){
+							if (CacheBootPassword && pwdCache->Pwd[i].Length > 0)	{
+								int pim = CacheBootPim? (int) (pwdCache->Pim[i]) : 0;
+								AddPasswordToCache (&pwdCache->Pwd[i], pim);
+							}
+						}
+						burn(pwdCache, sizeof(*pwdCache));
+					}
+				}
+			}
+		}
+
+		if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
+		{
+			int pim = CacheBootPim? (int) (BootArgs.Flags >> 16) : 0;
+			AddPasswordToCache (&BootArgs.BootPassword, pim);
+		}
 
 		burn (&BootArgs.BootPassword, sizeof (BootArgs.BootPassword));
 

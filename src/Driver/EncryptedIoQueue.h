@@ -117,6 +117,8 @@ typedef struct
 	LARGE_INTEGER LastPerformanceCounter;
 #endif
 
+ 	byte*  SecRegionData;
+ 	SIZE_T SecRegionSize;
 }  EncryptedIoQueue;
 
 
