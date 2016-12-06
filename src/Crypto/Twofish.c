@@ -949,7 +949,7 @@ static u4byte mds_rem(u4byte p0, u4byte p1)
 
 /* initialise the key schedule from the user supplied key   */
 
-u4byte *twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
+void twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
 {   u4byte  i, a, b, me_key[4], mo_key[4];
 	u4byte *l_key, *s_key;
 
@@ -990,8 +990,6 @@ u4byte *twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
 #ifdef MK_TABLE
     gen_mk_tab(instance, s_key);
 #endif
-
-    return l_key;
 };
 
 #endif
