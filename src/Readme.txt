@@ -200,8 +200,9 @@ VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
 then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.2")
 
 The build process uses Code Signing certificates whose ID is specified in
-src/Main/Main.make (lines 167 & 169). You'll have to modify these lines to put
-the ID of your Code Signing certificates or comment them if you don't have one.
+src/Main/Main.make (look for lines containing "Developer ID Application" and 
+"Developer ID Installer"). You'll have to modify these lines to put the ID of
+your Code Signing certificates or comment them if you don't have one.
 
 Because of incompatibility issues with OSXFUSE, the SDK 10.9 generates a
 VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension.
