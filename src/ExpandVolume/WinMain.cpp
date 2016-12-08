@@ -686,9 +686,9 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				*pim = GetPim (hwndDlg, IDC_PIM);
 
-				/* SHA-256 is not supported by TrueCrypt */
+				/* check that PRF is supported in TrueCrypt Mode */
 				if (	(*truecryptMode)
-					&& ((*pkcs5 == SHA256) || (mountOptions.ProtectHiddenVolume && mountOptions.ProtectedHidVolPkcs5Prf == SHA256))
+					&& ((!is_pkcs5_prf_supported(*pkcs5, TRUE, PRF_BOOT_NO)) || (mountOptions.ProtectHiddenVolume && !is_pkcs5_prf_supported(mountOptions.ProtectedHidVolPkcs5Prf, TRUE, PRF_BOOT_NO)))
 					)
 				{
 					Error ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);

@@ -2506,7 +2506,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			int old_pim = GetPim (hwndDlg, IDC_OLD_PIM);
 			int pim = GetPim (hwndDlg, IDC_PIM);
 
-			if (truecryptMode && (old_pkcs5 == SHA256))
+			if (truecryptMode && !is_pkcs5_prf_supported (old_pkcs5, TRUE, PRF_BOOT_NO))
 			{
 				Error ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
 				return 1;
@@ -2973,9 +2973,9 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 				*pim = GetPim (hwndDlg, IDC_PIM);
 
-				/* SHA-256 is not supported by TrueCrypt */
+				/* check that PRF is supported in TrueCrypt Mode */
 				if (	(*truecryptMode)
-					&& ((*pkcs5 == SHA256) || (mountOptions.ProtectHiddenVolume && mountOptions.ProtectedHidVolPkcs5Prf == SHA256))
+					&& ((!is_pkcs5_prf_supported (*pkcs5, TRUE, PRF_BOOT_NO)) || (mountOptions.ProtectHiddenVolume && !is_pkcs5_prf_supported (mountOptions.ProtectedHidVolPkcs5Prf, TRUE, PRF_BOOT_NO)))
 					)
 				{
 					Error ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
@@ -4556,24 +4556,43 @@ static int AskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int 
 
 // GUI actions
 
-static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
+static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim, int pkcs5, int trueCryptMode)
 {
 	BOOL status = FALSE;
 	wchar_t fileName[MAX_PATH];
-	int mounted = 0, EffectiveVolumePkcs5 = CmdVolumePkcs5;
-	BOOL EffectiveVolumeTrueCryptMode = CmdVolumeTrueCryptMode;
+	int mounted = 0, EffectiveVolumePkcs5 = 0;
+	BOOL EffectiveVolumeTrueCryptMode = FALSE;
 	int EffectiveVolumePim = (pim < 0)? CmdVolumePim : pim;
 	BOOL bEffectiveCacheDuringMultipleMount = bCmdCacheDuringMultipleMount? TRUE: bCacheDuringMultipleMount;
 	BOOL bEffectiveTryEmptyPasswordWhenKeyfileUsed = bCmdTryEmptyPasswordWhenKeyfileUsedValid? bCmdTryEmptyPasswordWhenKeyfileUsed : bTryEmptyPasswordWhenKeyfileUsed;
 	BOOL bUseCmdVolumePassword = CmdVolumePasswordValid && ((CmdVolumePassword.Length > 0) || (KeyFilesEnable && FirstKeyFile));
 
-	/* Priority is given to command line parameters
-	 * Default values used only when nothing specified in command line
+	/* Priority is given to arguments and command line parameters
+	 * Default values used only when nothing specified
 	 */
-	if (EffectiveVolumePkcs5 == 0)
+	if (pkcs5 > 0)
+		EffectiveVolumePkcs5 = pkcs5;
+	else if (CmdVolumePkcs5 > 0)
+		EffectiveVolumePkcs5 = CmdVolumePkcs5;
+	else
 		EffectiveVolumePkcs5 = DefaultVolumePkcs5;
-	if (!EffectiveVolumeTrueCryptMode)
+
+	if (trueCryptMode >= 0)
+		EffectiveVolumeTrueCryptMode = (trueCryptMode == 0)? FALSE : TRUE;
+	else if (CmdVolumeTrueCryptMode)
+		EffectiveVolumeTrueCryptMode = TRUE;
+	else
 		EffectiveVolumeTrueCryptMode = DefaultVolumeTrueCryptMode;
+
+	if (EffectiveVolumeTrueCryptMode)
+	{
+		/* No PIM Mode if TrueCrypt Mode specified */
+		EffectiveVolumePim = 0;
+
+		/* valdate the effective PRF is compatible with TrueCrypt Mode */
+		if (!is_pkcs5_prf_supported (EffectiveVolumePkcs5, TRUE, mountOptions.PartitionInInactiveSysEncScope? PRF_BOOT_MBR : PRF_BOOT_NO))
+			EffectiveVolumePkcs5 = 0;
+	}
 
 	bPrebootPasswordDlgMode = mountOptions.PartitionInInactiveSysEncScope;
 
@@ -4632,11 +4651,10 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 	if (!bUseCmdVolumePassword)
 	{
 		// First try cached passwords and if they fail ask user for a new one
-		// try TrueCrypt mode first since it is quick, only if no custom pim specified
-		if (EffectiveVolumePim <= 0)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
-		if (!mounted)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
+		if (EffectiveVolumeTrueCryptMode)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, EffectiveVolumePkcs5, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
+		else
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, NULL, EffectiveVolumePkcs5, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 
 		// If keyfiles are enabled, test empty password first
 		if (!mounted && KeyFilesEnable && FirstKeyFile && bEffectiveTryEmptyPasswordWhenKeyfileUsed)
@@ -4644,11 +4662,11 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 			Password emptyPassword = {0};
 
 			KeyFilesApply (hwndDlg, &emptyPassword, FirstKeyFile, szFileName);
-			// try TrueCrypt mode first since it is quick, only if no custom pim specified
-			if (EffectiveVolumePim <= 0)
-				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
-			if (!mounted)
-				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
+
+			if (EffectiveVolumeTrueCryptMode)
+				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, EffectiveVolumePkcs5, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
+			else
+				mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &emptyPassword, EffectiveVolumePkcs5, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 
 			burn (&emptyPassword, sizeof (emptyPassword));
 		}
@@ -4658,10 +4676,10 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim)
 	if (!mounted && bEffectiveCacheDuringMultipleMount && MultipleMountOperationInProgress && VolumePassword.Length != 0)
 	{
 		// try TrueCrypt mode first as it is quick, only if no custom pim specified
-		if (EffectiveVolumePim <= 0)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
-		if (!mounted)
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, 0, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
+		if (EffectiveVolumeTrueCryptMode)
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, EffectiveVolumePkcs5, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
+		else
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, EffectiveVolumePkcs5, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 	}
 
 	NormalCursor ();
@@ -4811,7 +4829,7 @@ void __cdecl mountThreadFunction (void *hwndDlgArg)
 	EnableWindow(hwndDlg, FALSE);
 	finally_do_arg2 (HWND, hwndDlg, BOOL, bIsForeground, { EnableWindow(finally_arg, TRUE);  if (finally_arg2) BringToForeground (finally_arg); bPrebootPasswordDlgMode = FALSE;});
 
-	Mount (hwndDlg, -1, 0, -1);
+	Mount (hwndDlg, -1, 0, -1, -1, -1);
 }
 
 typedef struct
@@ -9283,7 +9301,7 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 		if (ServiceMode)
 			SystemFavoritesServiceLogInfo (wstring (L"Mounting system favorite \"") + effectiveVolumePath + L"\"");
 
-		status = Mount (hwnd, drive, (wchar_t *) effectiveVolumePath.c_str(), favorite.Pim);
+		status = Mount (hwnd, drive, (wchar_t *) effectiveVolumePath.c_str(), favorite.Pim, favorite.Pkcs5, favorite.TrueCryptMode);
 
 		if (ServiceMode)
 		{
@@ -10785,9 +10803,9 @@ static BOOL CALLBACK DefaultMountParametersDlgProc (HWND hwndDlg, UINT msg, WPAR
 			{
 				int pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 				BOOL truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
-				/* SHA-256 is not supported by TrueCrypt */
+				/* check that PRF is supported in TrueCrypt Mode */
 				if (	(truecryptMode)
-					&& (pkcs5 == SHA256)
+					&& (!is_pkcs5_prf_supported(pkcs5, TRUE, PRF_BOOT_NO))
 					)
 				{
 					Error ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);

@@ -1209,4 +1209,29 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 	return 0;
 }
 
+int is_pkcs5_prf_supported (int pkcs5_prf_id, BOOL truecryptMode, PRF_BOOT_TYPE bootType)
+{
+   if (pkcs5_prf_id == 0) // auto-detection always supported
+      return 1;
+
+   if (truecryptMode)
+   {
+      if (  (bootType == PRF_BOOT_GPT) 
+         || (bootType == PRF_BOOT_MBR && pkcs5_prf_id != RIPEMD160) 
+         || (bootType == PRF_BOOT_NO && pkcs5_prf_id != SHA512 && pkcs5_prf_id != WHIRLPOOL && pkcs5_prf_id != RIPEMD160)
+         )
+         return 0;
+   }
+   else
+   {
+      if (  (bootType == PRF_BOOT_MBR && pkcs5_prf_id != RIPEMD160 && pkcs5_prf_id != SHA256)
+         || (bootType != PRF_BOOT_MBR && (pkcs5_prf_id < FIRST_PRF_ID || pkcs5_prf_id > LAST_PRF_ID))
+         )
+         return 0;
+   }
+
+   return 1;
+
+}
+
 #endif //!TC_WINDOWS_BOOT

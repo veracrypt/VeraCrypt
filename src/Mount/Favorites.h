@@ -22,6 +22,8 @@ namespace VeraCrypt
 		FavoriteVolume()
 			:
 			Pim (0),
+			Pkcs5 (-1),
+			TrueCryptMode (-1),
 			DisableHotkeyMount (false),
 			DisconnectedDevice (false),
 			MountOnLogOn (false),
@@ -41,6 +43,8 @@ namespace VeraCrypt
 		wstring VolumePathId;
 		wstring Label;
 		int Pim;
+		int Pkcs5;
+		int TrueCryptMode;
 		BYTE VolumeID[VOLUME_ID_SIZE];
 
 		bool DisableHotkeyMount;

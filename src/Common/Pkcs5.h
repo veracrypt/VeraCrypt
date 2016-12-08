@@ -42,6 +42,16 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 
 int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BOOL bBoot);
 wchar_t *get_pkcs5_prf_name (int pkcs5_prf_id);
+
+/* check if given PRF supported.*/
+typedef enum
+{
+   PRF_BOOT_NO = 0,
+   PRF_BOOT_MBR,
+   PRF_BOOT_GPT
+} PRF_BOOT_TYPE;
+
+int is_pkcs5_prf_supported (int pkcs5_prf_id, BOOL truecryptMode, PRF_BOOT_TYPE bootType);
 #endif
 
 #if defined(__cplusplus)
