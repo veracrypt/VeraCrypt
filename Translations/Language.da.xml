@@ -170,7 +170,7 @@
     <control lang="da" key="IDC_PREF_MOUNT_READONLY">Tilslut bind som læs-kun</control>
     <control lang="da" key="IDC_PREF_MOUNT_REMOVABLE">Tilslut bind som flytbart medie</control>
     <control lang="da" key="IDC_PREF_OPEN_EXPLORER">Åben Explorer vindue til succesfuldt tilsluttet bind</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="da" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Slet kodeord i hukommelsen ved auto-afbryd</control>
     <control lang="da" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Slet kodeord i hukommelsen ved afslut</control>

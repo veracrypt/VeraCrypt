@@ -170,7 +170,7 @@
     <control lang="et" key="IDC_PREF_MOUNT_READONLY">Haagi konteiner kirjutuskaitstuna</control>
     <control lang="et" key="IDC_PREF_MOUNT_REMOVABLE">Haagi konteinerid kui eemaldatav meedia</control>
     <control lang="et" key="IDC_PREF_OPEN_EXPLORER">Ava edukalt haagitud konteiner Exploreris</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="et" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Kustuta kogutud salasõnad automaatsel lahtihaakimisel</control>
     <control lang="et" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Kustuta väljumisel kogutud salasõnad</control>

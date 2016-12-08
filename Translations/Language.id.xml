@@ -170,7 +170,7 @@
     <control lang="id" key="IDC_PREF_MOUNT_READONLY">Sambung volume hanya bisa-baca</control>
     <control lang="id" key="IDC_PREF_MOUNT_REMOVABLE">Sambung volume jadi media lepas-pasang</control>
     <control lang="id" key="IDC_PREF_OPEN_EXPLORER">Buka jendela explorer dari volume yang berhasil disambung</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="id" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Bersihkan password tersimpan pada sambung otomatist</control>
     <control lang="id" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Bersihkan password tersimpan saat keluar</control>

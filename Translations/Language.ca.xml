@@ -170,7 +170,7 @@
     <control lang="ca" key="IDC_PREF_MOUNT_READONLY">Muntar els volums en mode només lectura</control>
     <control lang="ca" key="IDC_PREF_MOUNT_REMOVABLE">Muntar els volums com a mitjans extraïbles</control>
     <control lang="ca" key="IDC_PREF_OPEN_EXPLORER">Obrir una finestra pels volums muntats satisfactòriament</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="ca" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Oblidar les contrasenyes guardades quan es desmunti automàticament</control>
     <control lang="ca" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Oblidar les contrasenyes guardades al sortir</control>

@@ -170,7 +170,7 @@
     <control lang="tr" key="IDC_PREF_MOUNT_READONLY">Birimleri salt okunur olarak bağla</control>
     <control lang="tr" key="IDC_PREF_MOUNT_REMOVABLE">Birimleri çıkartılabilir ortam olarak bağla</control>
     <control lang="tr" key="IDC_PREF_OPEN_EXPLORER">Başarıyla bağlanan birim için Gezgin penceresini aç</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="tr" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Önbellekteki parolaları otomatik bağlantı keserken temizle</control>
     <control lang="tr" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Önbellekteki parolaları çıkışta temizle</control>

@@ -170,7 +170,7 @@
     <control lang="sk" key="IDC_PREF_MOUNT_READONLY">Pripojiť zväzky len na čítanie</control>
     <control lang="sk" key="IDC_PREF_MOUNT_REMOVABLE">Pripojiť zväzky ako vymeniteľné média</control>
     <control lang="sk" key="IDC_PREF_OPEN_EXPLORER">Otvoriť okno Prieskumníka pre úspešne pripojený zväzok</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="sk" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Odstrániť hesla z medzipamäte a automaticky odpojiť</control>
     <control lang="sk" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Odstrániť hesla z medzipamäte pri skončenie</control>

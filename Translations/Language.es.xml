@@ -170,7 +170,7 @@
     <control lang="es" key="IDC_PREF_MOUNT_READONLY">Montar volúmenes como sólo lectura</control>
     <control lang="es" key="IDC_PREF_MOUNT_REMOVABLE">Montar volúmenes como medios extraíbles</control>
     <control lang="es" key="IDC_PREF_OPEN_EXPLORER">Abrir en el &amp;explorador el volumen montado con éxito</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="es" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Usar icono distinto en la barra de tareas si hay volúmenes montados</control>
     <control lang="es" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Eliminar contraseñas guardadas al desmontar automáticamente</control>
     <control lang="es" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Eliminar contraseñas guardadas al salir</control>

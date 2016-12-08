@@ -81,7 +81,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,254,146,11
     CONTROL         "Wipe cached passwords on exit",IDC_PREF_WIPE_CACHE_ON_EXIT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,254,165,11
-    CONTROL         "Temporary Cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
+    CONTROL         "Temporarily cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,268,294,11
     CONTROL         "Wipe cached passwords on auto-dismount",IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,282,296,11

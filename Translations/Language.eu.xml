@@ -170,7 +170,7 @@
     <control lang="eu" key="IDC_PREF_MOUNT_READONLY">Bolumenak &amp;irakurtzeko bakarrik muntatu</control>
     <control lang="eu" key="IDC_PREF_MOUNT_REMOVABLE">Bolumenak kendu daitezkeen gailuak bezala muntatu</control>
     <control lang="eu" key="IDC_PREF_OPEN_EXPLORER">Explorer-aren lehioa ireki muntatutako bolumenentzako</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="eu" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Ataza-barra ikono ezberdin bat erabili muntatutako bolumenak badaude</control>
     <control lang="eu" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Gordetako pasahitzak ezabatu automatikoki desmuntatzerakoan</control>
     <control lang="eu" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Gordetako pasahitzak ezabatu irtetzerakoan</control>

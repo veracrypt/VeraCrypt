@@ -170,7 +170,7 @@
     <control lang="lv" key="IDC_PREF_MOUNT_READONLY">Uzstādīt apgabalus tikai lasīšanai</control>
     <control lang="lv" key="IDC_PREF_MOUNT_REMOVABLE">Uzstādīt apgabalus kā removable media</control>
     <control lang="lv" key="IDC_PREF_OPEN_EXPLORER">Atvērt sekmīgi uzstādītu apgabalu Explorer logā</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="lv" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Auto-demontējot, iznīcināt kešatmiņā ierakstītās paroles</control>
     <control lang="lv" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Aizverot, iznīcināt kešatmiņā ier. paroles</control>

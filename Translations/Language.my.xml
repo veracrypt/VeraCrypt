@@ -170,7 +170,7 @@
     <control lang="my" key="IDC_PREF_MOUNT_READONLY">Volumes များကို ဖတ်ရှုရန် အတွက်သာ အစပျိုးရန်</control>
     <control lang="my" key="IDC_PREF_MOUNT_REMOVABLE">Volumes များကို ဖြုတ်တပ်နိုင်သော ကြားခံအဖြစ်သာ အစပျိုးရန်</control>
     <control lang="my" key="IDC_PREF_OPEN_EXPLORER">အောင်မြင်စွာ အစပျိုးလိုက်သော volume အတွက် Explorer ၀င်းဒိုးကို ဖွင့်ရန်</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="my" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">အစပျိုးထားသော volumes များ ရှိပါက ခြားနားသော taskbar ပုံများကို သုံးစွဲရန်</control>
     <control lang="my" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">အလိုအလျောက် အဆုံးသတ်သည့်အခါ ခေတ္တ မှတ်ထားသော စကားဝှက်များကို ရှင်းလင်းရန်</control>
     <control lang="my" key="IDC_PREF_WIPE_CACHE_ON_EXIT">ထွက်သည့်အခါ ခေတ္တ မှတ်ထားသော စကားဝှက်များကို ရှင်းလင်းရန်</control>

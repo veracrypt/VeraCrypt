@@ -170,7 +170,7 @@
     <control lang="fa" key="IDC_PREF_MOUNT_READONLY">فايل سيستم فقط خواندني را استارت كند</control>
     <control lang="fa" key="IDC_PREF_MOUNT_REMOVABLE">فايل سيستم را براي درايوهاي جداپذير شروع كند</control>
     <control lang="fa" key="IDC_PREF_OPEN_EXPLORER">مرورگر را براي فايل سيستم هايي كه با موفقيت مونت شدند بازكن</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="en" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Wipe cached passwords on auto-dismount</control>
     <control lang="en" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Wipe cached passwords on exit</control>

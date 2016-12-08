@@ -170,7 +170,7 @@
     <control lang="nn" key="IDC_PREF_MOUNT_READONLY">Monter volum som skriveverna</control>
     <control lang="nn" key="IDC_PREF_MOUNT_REMOVABLE">Monter volum som fjernbart medium</control>
     <control lang="nn" key="IDC_PREF_OPEN_EXPLORER">Opne Utforskar vindauga for vellykka monterte volum</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="nn" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Slett snøgglagra passord ved automatisk avmontering</control>
     <control lang="nn" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Slett snøgglagra passord ved avslutning</control>

@@ -170,7 +170,7 @@
     <control lang="uk" key="IDC_PREF_MOUNT_READONLY">Монтувати як том тільки для читання</control>
     <control lang="uk" key="IDC_PREF_MOUNT_REMOVABLE">Монтувати як змінні носії</control>
     <control lang="uk" key="IDC_PREF_OPEN_EXPLORER">Відкривати вікно Провідника для успішно змонтованного тома</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="uk" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Використовувати інший значок панелі завдань, коли є підключені томи</control>
     <control lang="uk" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Очищати кеш паролів при авторозмонтуванні</control>
     <control lang="uk" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Очищати кеш паролів при виході</control>

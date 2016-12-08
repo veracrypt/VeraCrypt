@@ -170,7 +170,7 @@
     <control lang="it" key="IDC_PREF_MOUNT_READONLY">Monta i volumi in sola lettura</control>
     <control lang="it" key="IDC_PREF_MOUNT_REMOVABLE">Monta i volumi come unità rimovibili</control>
     <control lang="it" key="IDC_PREF_OPEN_EXPLORER">Apri la finestra di Esplora risorse dopo aver montato un volume correttamente</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="it" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Usa un icona diversa nella barra di sistema se ci sono volumi montati</control>
     <control lang="it" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Azzera le password nella cache allo smontaggio automatico</control>
     <control lang="it" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Azzera le password nella cache in uscita</control>

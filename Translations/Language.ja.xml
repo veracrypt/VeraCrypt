@@ -170,7 +170,7 @@
     <control lang="ja" key="IDC_PREF_MOUNT_READONLY">ボリュームを読み取り専用でマウント</control>
     <control lang="ja" key="IDC_PREF_MOUNT_REMOVABLE">ボリュームをリムーバブルメディアとしてマウント</control>
     <control lang="ja" key="IDC_PREF_OPEN_EXPLORER">マウント成功時にそのボリュームのウィンドウを開く</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="ja" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">マウントされたボリュームがあるときにタスクバーアイコンを変える</control>
     <control lang="ja" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">自動アンマウントの際に記憶していたパスワードを消去</control>
     <control lang="ja" key="IDC_PREF_WIPE_CACHE_ON_EXIT">終了時に記憶していたパスワードを消去</control>

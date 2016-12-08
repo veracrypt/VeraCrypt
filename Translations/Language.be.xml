@@ -170,7 +170,7 @@
     <control lang="be" key="IDC_PREF_MOUNT_READONLY">Мантаваць як тамы толькі для чытання</control>
     <control lang="be" key="IDC_PREF_MOUNT_REMOVABLE">Мантаваць як зменныя носьбіты</control>
     <control lang="be" key="IDC_PREF_OPEN_EXPLORER">Адчыніць акно Аглядальніка пасля паспяховага мантавання тома</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="be" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Ачысціць кэш пароляў пры аўтаразмантаванні</control>
     <control lang="be" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Ачысціць кэш пароляў на выхадзе</control>

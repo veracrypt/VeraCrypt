@@ -170,7 +170,7 @@
     <control lang="sv" key="IDC_PREF_MOUNT_READONLY">Montera volymer som &amp;skrivskyddade</control>
     <control lang="sv" key="IDC_PREF_MOUNT_REMOVABLE">Montera volymer som &amp;flyttbara medier</control>
     <control lang="sv" key="IDC_PREF_OPEN_EXPLORER">&amp;Öppna Utforskaren vid montering av volymer</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="sv" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Visa en alternativ ikon i Meddelandefältet när det finns volymer monterade</control>
     <control lang="sv" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Töm lösenords&amp;cache vid automatisk demontering</control>
     <control lang="sv" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Töm lösenordscac&amp;he vid avslut</control>

@@ -170,7 +170,7 @@
     <control lang="fi" key="IDC_PREF_MOUNT_READONLY">Yhdistä taltiot vain lukutilaan</control>
     <control lang="fi" key="IDC_PREF_MOUNT_REMOVABLE">Yhdistä taltiot liikutettavina välineinä</control>
     <control lang="fi" key="IDC_PREF_OPEN_EXPLORER">Avaa Selaus ikkuna onnistuneesti yhdistetyille taltioille</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="fi" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Tyhjennä tallennetut välimuisti salasanat taltioilta auto-poiskytketyillä yhteyksillä</control>
     <control lang="fi" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Pyyhi välimuisti salasanat poistuttaessa</control>

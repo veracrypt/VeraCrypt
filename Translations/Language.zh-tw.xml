@@ -170,7 +170,7 @@
     <control lang="zh-tw" key="IDC_PREF_MOUNT_READONLY">以唯讀模式掛載加密區</control>
     <control lang="zh-tw" key="IDC_PREF_MOUNT_REMOVABLE">以卸除式媒體模式掛載加密區</control>
     <control lang="zh-tw" key="IDC_PREF_OPEN_EXPLORER">為成功掛載的加密區打開瀏覽器視窗</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="zh-tw" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">自動卸載時清除快取的密碼</control>
     <control lang="zh-tw" key="IDC_PREF_WIPE_CACHE_ON_EXIT">結束時清除快取的密碼</control>

@@ -170,7 +170,7 @@
     <control lang="en" key="IDC_PREF_MOUNT_READONLY">Mount volumes as read-only</control>
     <control lang="en" key="IDC_PREF_MOUNT_REMOVABLE">Mount volumes as removable media</control>
     <control lang="en" key="IDC_PREF_OPEN_EXPLORER">Open Explorer window for successfully mounted volume</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="en" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Wipe cached passwords on auto-dismount</control>
     <control lang="en" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Wipe cached passwords on exit</control>

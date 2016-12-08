@@ -170,7 +170,7 @@
     <control lang="vi" key="IDC_PREF_MOUNT_READONLY">Nạp các tập đĩa kiểu chỉ-đọc lên</control>
     <control lang="vi" key="IDC_PREF_MOUNT_REMOVABLE">Nạp các tập đĩa kiểu môi trường chứa rời được lên</control>
     <control lang="vi" key="IDC_PREF_OPEN_EXPLORER">Mở cửa sổ Explorer của tập đĩa được nạp lên thành công</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="vi" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Xóa mật mã được tạm trữ khi tự-tháo xuống</control>
     <control lang="vi" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Xóa mật mã được tạm trữ khi ra khỏi</control>

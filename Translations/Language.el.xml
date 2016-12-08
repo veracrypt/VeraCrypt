@@ -170,7 +170,7 @@
     <control lang="el" key="IDC_PREF_MOUNT_READONLY">Φόρτωση τόμων ως μόνο για ανάγνωση</control>
     <control lang="el" key="IDC_PREF_MOUNT_REMOVABLE">Φόρτωση τόμων ως αποσπώμενα μέσα</control>
     <control lang="el" key="IDC_PREF_OPEN_EXPLORER">Άνοιγμα Explorer για τους επιτυχώς φορτωμένους τόμους</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="el" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Διαγραφή κωδικών από τη μνήμη κατά την αυτοεκφόρτωση</control>
     <control lang="el" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Διαγρ. κωδικών από τη μνήμη κατά την έξοδο</control>
