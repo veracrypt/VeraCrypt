@@ -135,6 +135,7 @@ NTSTATUS LoadBootArguments ()
 				burn (BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
 				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 
+				// Extra parameters? (pkcs5, hash)
 				if (BootArgs.CryptoInfoLength > 0)
 				{
 					PHYSICAL_ADDRESS cryptoInfoAddress;
@@ -146,11 +147,12 @@ NTSTATUS LoadBootArguments ()
 					{
 						/* Get the parameters used for booting to speed up driver startup and avoid testing irrelevant PRFs */
 						BOOT_CRYPTO_HEADER* pBootCryptoInfo = (BOOT_CRYPTO_HEADER*) mappedCryptoInfo;
-						BootPkcs5 = pBootCryptoInfo->pkcs5;
+						BootPkcs5 = pBootCryptoInfo->pkcs5; // save hash to speed up boot.
 
 						BootSecRegionData = NULL;
 						BootSecRegionSize = 0;
 
+						// SecRegion data?
 						if(BootArgs.CryptoInfoLength > (sizeof(BOOT_CRYPTO_HEADER) + sizeof(SECREGION_BOOT_PARAMS)) ) {
 							uint32   crc;
 							PHYSICAL_ADDRESS SecRegionAddress;
@@ -159,25 +161,27 @@ NTSTATUS LoadBootArguments ()
 
 							SecRegionAddress.QuadPart = SecRegionParams->Ptr;
 							Dump ("SecRegion memory 0x%x %d\n", SecRegionAddress.LowPart, SecRegionParams->Size);
-
+							// SecRegion correct?
 							if( (SecRegionParams->Ptr != 0) && (SecRegionParams->Size > 0)) {
 								crc = GetCrc32((byte*)SecRegionParams, 12);
 								if(crc == SecRegionParams->Crc) {
 									Dump ("SecRegion crc ok\n");
 									secRegionData = MmMapIoSpace (SecRegionAddress, SecRegionParams->Size, MmCached);
-									BootSecRegionData = TCalloc (SecRegionParams->Size);
-									if(BootSecRegionData != NULL) {
-										BootSecRegionSize = SecRegionParams->Size;
-										memcpy(BootSecRegionData, secRegionData, SecRegionParams->Size);
+									if(secRegionData) {
+										BootSecRegionData = TCalloc (SecRegionParams->Size);
+										if(BootSecRegionData != NULL) {
+											BootSecRegionSize = SecRegionParams->Size;
+											memcpy(BootSecRegionData, secRegionData, SecRegionParams->Size);
+										}
+										burn (secRegionData, SecRegionParams->Size);
+										MmUnmapIoSpace (secRegionData,  SecRegionParams->Size);
 									}
-									burn (secRegionData, SecRegionParams->Size);
-									MmUnmapIoSpace (secRegionData,  SecRegionParams->Size);
 								}
-								// Erase boot loader scheduled keys
-								burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-								MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
 							}
 						}
+						// Erase boot loader scheduled keys
+						burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+						MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
 					}
 				}
 				status = STATUS_SUCCESS;
@@ -371,6 +375,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 	Dump ("MountDrive pdo=%p\n", Extension->Pdo);
 	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
 
+	// Check disk MBR id and GPT ID if BootSecRegion is available to detect boot drive
 	if (BootSecRegionData != NULL && BootSecRegionSize >= 1024) {
 		byte mbr[TC_SECTOR_SIZE_BIOS];
 		DCS_DISK_ENTRY_LIST* DeList = (DCS_DISK_ENTRY_LIST*)(BootSecRegionData + 512);
@@ -388,8 +393,10 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		header = TCalloc (TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
 		if (!header)
 			return STATUS_INSUFFICIENT_RESOURCES;
+		// Copy header from SecRegion instead of read from disk
 		memcpy(header, BootSecRegionData, 512);
-		// Set extra data for the disk
+
+		// Set SecRegion data for the disk (sectors to substitute to hide GPT table)
 		Extension->Queue.SecRegionData = BootSecRegionData;
 		Extension->Queue.SecRegionSize = BootSecRegionSize;
 	} else {
@@ -538,6 +545,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		BootDriveFound = Extension->BootDrive = Extension->DriveMounted = Extension->VolumeHeaderPresent = TRUE;
 		BootDriveFilterExtension->MagicNumber = TC_BOOT_DRIVE_FILTER_EXTENSION_MAGIC_NUMBER;
 
+		// Try to load password cached if saved in SecRegion
 		if (BootSecRegionData != NULL && BootSecRegionSize > 1024) {
 			DCS_DISK_ENTRY_LIST* DeList = (DCS_DISK_ENTRY_LIST*)(BootSecRegionData + 512);
 			uint32 crc;
