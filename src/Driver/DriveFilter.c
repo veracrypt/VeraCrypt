@@ -35,7 +35,7 @@ BOOL BootArgsValid = FALSE;
 BootArguments BootArgs;
 byte*  BootSecRegionData = NULL;
 uint32 BootSecRegionSize = 0;
-uint32 BootPkcs5;
+uint32 BootPkcs5 = 0;
 
 static uint64 BootLoaderArgsPtr;
 static BOOL BootDriveSignatureValid = FALSE;
@@ -107,6 +107,9 @@ NTSTATUS LoadBootArguments ()
 				&& bootArguments->BootArgumentsCrc32 != GetCrc32 ((byte *) bootArguments, (int) ((byte *) &bootArguments->BootArgumentsCrc32 - (byte *) bootArguments)))
 			{
 				Dump ("BootArguments CRC incorrect\n");
+				burn (mappedBootArgs, sizeof (BootArguments));
+				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
+				mappedBootArgs = NULL;
 				TC_BUG_CHECK (STATUS_CRC_ERROR);
 			}
 
@@ -134,6 +137,7 @@ NTSTATUS LoadBootArguments ()
 				// clear fingerprint
 				burn (BootLoaderFingerprint, sizeof (BootLoaderFingerprint));
 				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
+				mappedBootArgs = NULL;
 
 				// Extra parameters? (pkcs5, hash)
 				if (BootArgs.CryptoInfoLength > 0)
@@ -182,11 +186,26 @@ NTSTATUS LoadBootArguments ()
 						// Erase boot loader scheduled keys
 						burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
 						MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
+						BootArgs.CryptoInfoLength = 0;
+					}
+					else
+					{
+						BootArgs.CryptoInfoLength = 0;
 					}
 				}
 				status = STATUS_SUCCESS;
 			}
-		} else {
+			else
+			{
+				Dump ("BootArguments contains a password larger than maximum limit\n");
+				burn (mappedBootArgs, sizeof (BootArguments));
+				MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
+				mappedBootArgs = NULL;
+				TC_BUG_CHECK (STATUS_FAIL_CHECK);
+			}
+		}
+		
+		if (mappedBootArgs) {
 			MmUnmapIoSpace (mappedBootArgs, sizeof (BootArguments));
 		}
 	}
@@ -368,7 +387,6 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 	LARGE_INTEGER offset;
 	char *header;
 	int pkcs5_prf = 0, pim = 0;
-	byte *mappedCryptoInfo = NULL;
 	PARTITION_INFORMATION_EX pi;
 	BOOL bIsGPT = FALSE;
 
@@ -454,23 +472,12 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		bIsGPT = (pi.PartitionStyle == PARTITION_STYLE_GPT)? TRUE : FALSE;
 	}
 
-	if (BootArgs.CryptoInfoLength > 0)
+	if (BootPkcs5 > 0)
 	{
-		PHYSICAL_ADDRESS cryptoInfoAddress;		
-		
-		cryptoInfoAddress.QuadPart = BootLoaderArgsPtr + BootArgs.CryptoInfoOffset;
-#ifdef DEBUG
-		Dump ("Wiping memory %x %d\n", cryptoInfoAddress.LowPart, BootArgs.CryptoInfoLength);
-#endif
-		mappedCryptoInfo = MmMapIoSpace (cryptoInfoAddress, BootArgs.CryptoInfoLength, MmCached);
-		if (mappedCryptoInfo)
-		{
-			/* Get the parameters used for booting to speed up driver startup and avoid testing irrelevant PRFs */
-			BOOT_CRYPTO_HEADER* pBootCryptoInfo = (BOOT_CRYPTO_HEADER*) mappedCryptoInfo;
-			Hash* pHash = HashGet(pBootCryptoInfo->pkcs5);
-			if (pHash && (bIsGPT || pHash->SystemEncryption))
-				pkcs5_prf = pBootCryptoInfo->pkcs5;
-		}
+		/* Get the parameters used for booting to speed up driver startup and avoid testing irrelevant PRFs */
+		Hash* pHash = HashGet(BootPkcs5);
+		if (pHash && (bIsGPT || pHash->SystemEncryption))
+			pkcs5_prf = BootPkcs5;
 	}
 
 	pim = (int) (BootArgs.Flags >> 16);
@@ -499,13 +506,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 			
 			if (Extension->Queue.CryptoInfo->VolumeSize.Value > hiddenPartitionOffset - BootArgs.DecoySystemPartitionStart)
 			{
-				// Erase boot loader scheduled keys
-				if (mappedCryptoInfo)
-				{
-					burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-					MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-					BootArgs.CryptoInfoLength = 0;
-				}
+				// we have already erased boot loader scheduled keys
 				TC_THROW_FATAL_EXCEPTION;
 			}
 
@@ -533,13 +534,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		Dump ("Loaded: ConfiguredEncryptedAreaStart=%I64d (%I64d)  ConfiguredEncryptedAreaEnd=%I64d (%I64d)\n", Extension->ConfiguredEncryptedAreaStart / 1024 / 1024, Extension->ConfiguredEncryptedAreaStart, Extension->ConfiguredEncryptedAreaEnd / 1024 / 1024, Extension->ConfiguredEncryptedAreaEnd);
 		Dump ("Loaded: EncryptedAreaStart=%I64d (%I64d)  EncryptedAreaEnd=%I64d (%I64d)\n", Extension->Queue.EncryptedAreaStart / 1024 / 1024, Extension->Queue.EncryptedAreaStart, Extension->Queue.EncryptedAreaEnd / 1024 / 1024, Extension->Queue.EncryptedAreaEnd);
 
-		// Erase boot loader scheduled keys
-		if (mappedCryptoInfo)
-		{
-			burn (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-			MmUnmapIoSpace (mappedCryptoInfo, BootArgs.CryptoInfoLength);
-			BootArgs.CryptoInfoLength = 0;
-		}
+		// at this stage, we have already erased boot loader scheduled keys
 
 		BootDriveFilterExtension = Extension;
 		BootDriveFound = Extension->BootDrive = Extension->DriveMounted = Extension->VolumeHeaderPresent = TRUE;
@@ -565,8 +560,8 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 						uint32 i;
 						for(i = 0; i<pwdCache->Count; ++i){
 							if (CacheBootPassword && pwdCache->Pwd[i].Length > 0)	{
-								int pim = CacheBootPim? (int) (pwdCache->Pim[i]) : 0;
-								AddPasswordToCache (&pwdCache->Pwd[i], pim);
+								int cachedPim = CacheBootPim? (int) (pwdCache->Pim[i]) : 0;
+								AddPasswordToCache (&pwdCache->Pwd[i], cachedPim);
 							}
 						}
 						burn(pwdCache, sizeof(*pwdCache));
@@ -577,8 +572,8 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 
 		if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
 		{
-			int pim = CacheBootPim? (int) (BootArgs.Flags >> 16) : 0;
-			AddPasswordToCache (&BootArgs.BootPassword, pim);
+			int cachedPim = CacheBootPim? pim : 0;
+			AddPasswordToCache (&BootArgs.BootPassword, cachedPim);
 		}
 
 		burn (&BootArgs.BootPassword, sizeof (BootArgs.BootPassword));
