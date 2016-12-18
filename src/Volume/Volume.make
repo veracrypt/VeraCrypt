@@ -76,7 +76,7 @@ ifeq "$(PLATFORM)" "MacOSX"
 	rm -fr ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o
 ../Crypto/Twofish_asm.oo: ../Crypto/Twofish_x64.S
 	@echo Assembling $(<F)
-	$(CC) -arch x86_64 -c ../Crypto/Twofish_x64.S -o ../Crypto/Twofish_asm.oo
+	$(YASM) -p gas -f macho64 -o ../Crypto/Twofish_asm.oo ../Crypto/Twofish_x64.S 
 endif
 
 include $(BUILD_INC)/Makefile.inc

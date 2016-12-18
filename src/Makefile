@@ -39,6 +39,7 @@ export AR ?= ar
 export CC ?= gcc
 export CXX ?= g++
 export AS := nasm
+export YASM := yasm
 export RANLIB ?= ranlib
 
 export CFLAGS := -Wall
@@ -251,6 +252,7 @@ ifeq "$(shell uname -s)" "Darwin"
 	endif
 
 	AS := $(BASE_DIR)/Build/Tools/MacOSX/nasm
+	YASM := $(BASE_DIR)/Build/Tools/MacOSX/yasm
 	ASFLAGS += --prefix _
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
