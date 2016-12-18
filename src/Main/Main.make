@@ -173,6 +173,7 @@ endif
 endif
 
 	cp $(PWD)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
+	cp $(PWD)/Resources/Icons/VeraCrypt_Volume.icns $(APPNAME).app/Contents/Resources
 	cp "$(PWD)/Release/Setup Files/VeraCrypt User Guide.pdf" $(APPNAME).app/Contents/Resources
 
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
