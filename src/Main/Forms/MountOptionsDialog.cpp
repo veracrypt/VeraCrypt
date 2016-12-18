@@ -36,6 +36,12 @@ namespace VeraCrypt
 
 		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, disableMountOptions, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
+		
+		if (options.Path && options.Path->HasTrueCryptExtension() && !disableMountOptions 
+			&& !options.TrueCryptMode && (options.Pim <= 0))
+		{
+			PasswordPanel->SetTrueCryptMode (true);	
+		}
 
 		PasswordSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);
 

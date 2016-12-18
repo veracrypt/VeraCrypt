@@ -24,6 +24,12 @@ namespace VeraCrypt
 		bool enableNewPassword = false;
 		bool enableNewKeyfiles = false;
 		bool enablePkcs5Prf = false;
+		bool isTrueCryptFile = false;
+		
+		if (volumePath && volumePath->HasTrueCryptExtension ())
+		{
+			isTrueCryptFile = true;
+		}
 
 		switch (mode)
 		{
@@ -54,6 +60,7 @@ namespace VeraCrypt
 
 		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, false, keyfiles, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
+		CurrentPasswordPanel->SetTrueCryptMode (isTrueCryptFile);
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
 		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, true, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);

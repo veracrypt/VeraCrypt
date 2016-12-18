@@ -39,6 +39,33 @@ namespace VeraCrypt
 
 		bool IsDevice () const { return FilesystemPath (Data).IsBlockDevice() || FilesystemPath (Data).IsCharacterDevice(); }
 		bool IsEmpty () const { return Data.empty(); }
+		
+		wstring GetExtension () const
+		{
+			if (Data.empty() || (Data.size() == 1))
+				return L"";
+			else
+			{
+				size_t pos = Data.find_last_of (L'.');
+				if (pos == string::npos)
+					return L"";
+				return Data.substr (pos + 1);
+			}
+		}
+		
+		bool HasTrueCryptExtension () const
+		{
+			wstring sExt = GetExtension ();
+			if ((sExt.size () == 2) 
+				&& (sExt[0] == L't' || sExt[0] == L'T')
+				&& (sExt[1] == L'c' || sExt[1] == L'C')
+				)
+			{
+				return true;
+			}
+			else
+				return false;
+		}
 
 	protected:
 		wstring Data;

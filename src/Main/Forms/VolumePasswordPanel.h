@@ -32,6 +32,7 @@ namespace VeraCrypt
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf (bool bTrueCryptMode, bool &bUnsupportedKdf) const;
 		int GetVolumePim () const;
 		bool GetTrueCryptMode () const;
+		void SetTrueCryptMode (bool trueCryptMode);
 		int GetHeaderWipeCount () const;
 		void SetCacheCheckBoxValidator (const wxGenericValidator &validator) { CacheCheckBox->SetValidator (validator); }
 		void SetFocusToPasswordTextCtrl () { PasswordTextCtrl->SetSelection (-1, -1); PasswordTextCtrl->SetFocus(); }

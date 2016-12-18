@@ -306,6 +306,16 @@ namespace VeraCrypt
 	{
 		return TrueCryptModeCheckBox->GetValue ();
 	}
+	
+	void VolumePasswordPanel::SetTrueCryptMode (bool trueCryptMode)
+	{
+		bool bEnablePIM = !trueCryptMode;
+		TrueCryptModeCheckBox->SetValue (trueCryptMode);
+		PimCheckBox->Enable (bEnablePIM);
+		VolumePimStaticText->Enable (bEnablePIM);
+		VolumePimTextCtrl->Enable (bEnablePIM);
+		VolumePimHelpStaticText->Enable (bEnablePIM);
+	}
 
 	int VolumePasswordPanel::GetHeaderWipeCount () const
 	{
