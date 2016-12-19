@@ -247,7 +247,7 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #endif
 	}
 #endif
-#if CRYPTOPP_BOOL_X64 && !defined(_UEFI)
+#if CRYPTOPP_BOOL_X64
    else if (cipher == TWOFISH)	{
 			twofish_encrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
@@ -347,7 +347,7 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 #endif
 	}
 #endif
-#if CRYPTOPP_BOOL_X64 && !defined(_UEFI)
+#if CRYPTOPP_BOOL_X64
    else if (cipher == TWOFISH)	{
 			twofish_decrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
@@ -428,7 +428,7 @@ BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 		|| (cipher == SERPENT && HasSSE2())
 #endif
-#if CRYPTOPP_BOOL_X64 && !defined(_UEFI)
+#if CRYPTOPP_BOOL_X64
 		|| (cipher == TWOFISH)
 #endif
 		;
