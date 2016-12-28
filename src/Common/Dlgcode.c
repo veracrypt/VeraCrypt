@@ -7372,16 +7372,16 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 	else
 	{
 		BOOL bIsForeground = FALSE;
+		HWND creatorWnd = hwnd? hwnd : MainDlg;
 		WaitDialogDisplaying = TRUE;
-		if (hwnd)
+		if (creatorWnd)
 		{
-			if (GetForegroundWindow () == hwnd)
+			if (GetForegroundWindow () == creatorWnd)
 				bIsForeground = TRUE;
-			EnableWindow (hwnd, FALSE);
+			EnableWindow (creatorWnd, FALSE);
 		}
-		else
-			EnableWindow (MainDlg, FALSE);
-		finally_do_arg2 (HWND, hwnd, BOOL, bIsForeground, { if (finally_arg) {EnableWindow(finally_arg, TRUE); if (finally_arg2) BringToForeground (finally_arg);} else EnableWindow (MainDlg, TRUE);});
+
+		finally_do_arg2 (HWND, creatorWnd, BOOL, bIsForeground, { if (finally_arg) { EnableWindow(finally_arg, TRUE); if (finally_arg2) BringToForeground (finally_arg);}});
 
 		DialogBoxParamW (hInst,
 					MAKEINTRESOURCEW (IDD_STATIC_MODAL_WAIT_DLG), hParent,
