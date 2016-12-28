@@ -3297,7 +3297,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				int menuItem = TrackPopupMenu (popup, TPM_RETURNCMD | TPM_LEFTBUTTON, rect.left + 2, rect.top + 2, 0, hwndDlg, NULL);
 				DestroyMenu (popup);
 
-				SendMessage (MainDlg, WM_COMMAND, menuItem, NULL);
+				SendMessage (MainDlg, WM_COMMAND, menuItem, (LPARAM) hwndDlg);
 				return 1;
 			}
 			else
@@ -7952,27 +7952,31 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_HOTKEY_SETTINGS)
 		{
+			HWND hwndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
 			DialogBoxParamW (hInst,
-				MAKEINTRESOURCEW (IDD_HOTKEYS_DLG), hwndDlg,
+				MAKEINTRESOURCEW (IDD_HOTKEYS_DLG), hwndParent,
 				(DLGPROC) HotkeysDlgProc, (LPARAM) 0);
 			return 1;
 		}
 
 		if (lw == IDM_PERFORMANCE_SETTINGS)
 		{
-			DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_PERFORMANCE_SETTINGS), hwndDlg, (DLGPROC) PerformanceSettingsDlgProc, 0);
+			HWND hwndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
+			DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_PERFORMANCE_SETTINGS), hwndParent, (DLGPROC) PerformanceSettingsDlgProc, 0);
 			return 1;
 		}
 
 		if (lw == IDM_DEFAULT_KEYFILES)
 		{
-			KeyfileDefaultsDlg (hwndDlg);
+			HWND hwndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
+			KeyfileDefaultsDlg (hwndParent);
 			return 1;
 		}
 
 		if (lw == IDM_DEFAULT_MOUNT_PARAMETERS)
 		{
-			DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_DEFAULT_MOUNT_PARAMETERS), hwndDlg, (DLGPROC) DefaultMountParametersDlgProc, 0);
+			HWND hwndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
+			DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_DEFAULT_MOUNT_PARAMETERS), hwndParent, (DLGPROC) DefaultMountParametersDlgProc, 0);
 			return 1;
 		}
 
@@ -8088,19 +8092,22 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_TOKEN_PREFERENCES)
 		{
-			SecurityTokenPreferencesDialog (hwndDlg);
+			HWND hwndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
+			SecurityTokenPreferencesDialog (hwndParent);
 			return 1;
 		}
 
 		if (lw == IDM_SYSENC_SETTINGS || lw == IDM_SYS_ENC_SETTINGS)
 		{
-			DialogBoxParamW (hInst, MAKEINTRESOURCEW (bSystemIsGPT? IDD_EFI_SYSENC_SETTINGS : IDD_SYSENC_SETTINGS), hwndDlg, (DLGPROC) BootLoaderPreferencesDlgProc, 0);
+			HWND hwndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
+			DialogBoxParamW (hInst, MAKEINTRESOURCEW (bSystemIsGPT? IDD_EFI_SYSENC_SETTINGS : IDD_SYSENC_SETTINGS), hwndParent, (DLGPROC) BootLoaderPreferencesDlgProc, 0);
 			return 1;
 		}
 
 		if (lw == IDM_SYS_FAVORITES_SETTINGS)
 		{
-			OrganizeFavoriteVolumes (hwndDlg, true);
+			HWND hwndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
+			OrganizeFavoriteVolumes (hwndParent, true);
 			return 1;
 		}
 
@@ -8176,7 +8183,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if (lw == IDM_LANGUAGE)
 		{
 			BOOL p;
-			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_LANGUAGE), hwndDlg,
+			HWND wndParent = (lParam != 0)? (HWND) lParam : hwndDlg;
+			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_LANGUAGE), wndParent,
 				(DLGPROC) LanguageDlgProc, (LPARAM) 0) == IDOK)
 			{
 				LoadLanguageFile ();
