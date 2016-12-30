@@ -10169,7 +10169,7 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 	// sprintf_s (url, sizeof (url), TC_APPLINK "%s%s&dest=%s", bSendOS ? ("&os=" + GetWindowsEdition()).c_str() : "", extraOutput, dest);
 	if (strcmp(dest, "donate") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BCXVMTTNJDCY");
+		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Donation#VeraCryptDonation");
 	}
 	else if (strcmp(dest, "main") == 0)
 	{

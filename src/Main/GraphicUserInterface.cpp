@@ -1093,7 +1093,7 @@ namespace VeraCrypt
 
 		if (linkId == L"donate")
 		{
-			url = L"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BCXVMTTNJDCY";
+			url = L"https://veracrypt.codeplex.com/wikipage?title=Donation#VeraCryptDonation";
 		}
 		else if (linkId == L"main")
 		{
