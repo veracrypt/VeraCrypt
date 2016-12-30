@@ -42,7 +42,11 @@
 #define __STDC_LIMIT_MACROS
 
 #ifdef _WIN32
+#ifdef ZIP_STATIC
+#define ZIP_EXTERN
+#else
 #define ZIP_EXTERN __declspec(dllexport)
+#endif
 /* for dup(), close(), etc. */
 #include <io.h>
 #endif
