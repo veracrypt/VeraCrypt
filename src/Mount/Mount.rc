@@ -41,7 +41,7 @@ IDR_MOUNT_TLB           TYPELIB                 "Mount.tlb"
 // Dialog
 //
 
-IDD_PREFERENCES_DLG DIALOGEX 0, 0, 336, 333
+IDD_PREFERENCES_DLG DIALOGEX 0, 0, 336, 340
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -78,28 +78,30 @@ BEGIN
     CONTROL         "Make disconnected network drives available for mounting",IDC_SHOW_DISCONNECTED_NETWORK_DRIVES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,208,316,10
     CONTROL         "Cache passwords in driver memory",IDC_PREF_CACHE_PASSWORDS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,254,146,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,263,146,11
     CONTROL         "Wipe cached passwords on exit",IDC_PREF_WIPE_CACHE_ON_EXIT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,254,165,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,263,165,11
     CONTROL         "Temporarily cache password during ""Mount Favorite Volumes"" operations",IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,268,294,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,277,294,11
     CONTROL         "Wipe cached passwords on auto-dismount",IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,282,296,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,291,296,11
     CONTROL         "Include PIM when caching a password",IDC_PREF_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,296,296,10
-    PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,5,317,85,14
-    DEFPUSHBUTTON   "OK",IDOK,225,317,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,281,317,50,14
-    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,76
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,305,296,10
+    PUSHBUTTON      "More Settings...",IDC_MORE_SETTINGS,5,324,85,14
+    DEFPUSHBUTTON   "OK",IDOK,225,324,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,281,324,50,14
+    GROUPBOX        "Windows",IDT_WINDOWS_RELATED_SETTING,4,160,328,87
     GROUPBOX        "Default Mount Options",IDT_DEFAULT_MOUNT_OPTIONS,4,3,328,26
     GROUPBOX        "VeraCrypt Background Task",IDT_TASKBAR_ICON,4,33,328,26
     GROUPBOX        "Auto-Dismount",IDT_AUTO_DISMOUNT,4,94,328,62
     LTEXT           "minutes",IDT_MINUTES,289,129,39,10
     LTEXT           "Dismount all when:",IDT_AUTO_DISMOUNT_ON,9,104,71,20
-    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,243,328,68
+    GROUPBOX        "Password Cache",IDT_PW_CACHE_OPTIONS,4,252,328,68
     GROUPBOX        "Actions to perform upon logon to Windows",IDT_LOGON,4,63,328,28
     CONTROL         "Don't show wait message dialog when performing operations",IDC_HIDE_WAITING_DIALOG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,220,316,10
+    CONTROL         "Use Secure Desktop for password entry",IDC_SECURE_DESKTOP_PASSWORD_ENTRY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,232,316,10
 END
 
 IDD_VOLUME_PROPERTIES DIALOGEX 60, 30, 284, 224
@@ -421,7 +423,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 329
         TOPMARGIN, 7
-        BOTTOMMARGIN, 331
+        BOTTOMMARGIN, 338
     END
 
     IDD_VOLUME_PROPERTIES, DIALOG

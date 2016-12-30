@@ -121,6 +121,9 @@ extern BOOL bShowDisconnectedNetworkDrives;
 extern BOOL bHideWaitingDialog;
 extern BOOL bCmdHideWaitingDialog;
 extern BOOL bCmdHideWaitingDialogValid;
+extern BOOL bUseSecureDesktop;
+extern BOOL bCmdUseSecureDesktop;
+extern BOOL bCmdUseSecureDesktopValid;
 extern BOOL bStartOnLogon;
 extern BOOL bMountDevicesOnLogon;
 extern BOOL bMountFavoritesOnLogon;
@@ -514,6 +517,7 @@ BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_
 BOOL GetFreeDriveLetter(WCHAR* pCh);
 BOOL RaisePrivileges(void);
 BOOL DeleteDirectory (const wchar_t* szDirName);
+INT_PTR SecureDesktopDialogBoxParam (HINSTANCE, LPCWSTR, HWND, DLGPROC, LPARAM);
 
 #ifdef __cplusplus
 }

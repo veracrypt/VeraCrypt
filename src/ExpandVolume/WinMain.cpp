@@ -284,6 +284,7 @@ void LoadSettings (HWND hwndDlg)
 	bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = ConfigReadInt ("PreserveTimestamps", TRUE);
 	bShowDisconnectedNetworkDrives = ConfigReadInt ("ShowDisconnectedNetworkDrives", FALSE);
 	bHideWaitingDialog = ConfigReadInt ("HideWaitingDialog", FALSE);
+	bUseSecureDesktop = ConfigReadInt ("UseSecureDesktop", FALSE);
 	defaultMountOptions.Removable =	ConfigReadInt ("MountVolumesRemovable", FALSE);
 	defaultMountOptions.ReadOnly =	ConfigReadInt ("MountVolumesReadOnly", FALSE);
 	defaultMountOptions.ProtectHiddenVolume = FALSE;
@@ -815,7 +816,7 @@ int ExtcvAskVolumePassword (HWND hwndDlg, const wchar_t* fileName, Password *pas
 
 	StringCbCopyW (PasswordDlgVolume, sizeof(PasswordDlgVolume), fileName);
 
-	result = DialogBoxParamW (hInst,
+	result = SecureDesktopDialogBoxParam (hInst,
 		MAKEINTRESOURCEW (IDD_PASSWORD_DLG), hwndDlg,
 		(DLGPROC) ExtcvPasswordDlgProc, (LPARAM) &dlgParam);
 
@@ -883,6 +884,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = TRUE;
 			bShowDisconnectedNetworkDrives = FALSE;
 			bHideWaitingDialog = FALSE;
+			bUseSecureDesktop = FALSE;
 
 			if (UsePreferences)
 			{

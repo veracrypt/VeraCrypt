@@ -26,6 +26,11 @@
 #include <time.h>
 #include <tchar.h>
 #include <Richedit.h>
+#ifdef TCMOUNT
+#include <Shlwapi.h>
+#include <process.h>
+#include <Tlhelp32.h>
+#endif
 
 #include "Resource.h"
 
@@ -108,6 +113,9 @@ BOOL bShowDisconnectedNetworkDrives = FALSE;
 BOOL bHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialogValid = FALSE;
+BOOL bUseSecureDesktop = FALSE;
+BOOL bCmdUseSecureDesktop = FALSE;
+BOOL bCmdUseSecureDesktopValid = FALSE;
 BOOL bStartOnLogon = FALSE;
 BOOL bMountDevicesOnLogon = FALSE;
 BOOL bMountFavoritesOnLogon = FALSE;
@@ -12225,3 +12233,171 @@ BOOL DeleteDirectory (const wchar_t* szDirName)
 	}
 	return bStatus;
 }
+
+#ifdef TCMOUNT
+/*********************************************************************/
+
+static BOOL GenerateRandomString (HWND hwndDlg, LPTSTR szName, DWORD maxCharsCount)
+{
+	BOOL bRet = FALSE;
+	if (Randinit () != ERR_SUCCESS) 
+	{
+		handleError (hwndDlg, (CryptoAPILastError == ERROR_SUCCESS)? ERR_RAND_INIT_FAILED : ERR_CAPI_INIT_FAILED, SRC_POS);
+	}
+	else
+	{
+		BYTE* indexes = (BYTE*) malloc (maxCharsCount + 1);
+		bRet = RandgetBytesFull (hwndDlg, indexes, maxCharsCount + 1, TRUE, TRUE); 
+		if (bRet)
+		{
+			static LPCTSTR chars = _T("0123456789@#$%^&_-*abcdefghijklmnopqrstuvwxyz");
+			DWORD i, charsLen = (DWORD) _tcslen (chars);
+			DWORD effectiveLen = (indexes[0] % (64 - 16)) + 16; // random length between 16 to 64
+			effectiveLen = (effectiveLen > maxCharsCount)? maxCharsCount : effectiveLen;
+
+			for (i = 0; i < effectiveLen; i++)
+			{
+				szName[i] = chars[indexes[i + 1] % charsLen];
+			}
+
+			szName[effectiveLen] = 0;
+		}
+		burn (indexes, maxCharsCount + 1);
+		free (indexes);
+	}
+
+	return bRet;
+}
+
+typedef struct
+{
+	HDESK hDesk;
+	HINSTANCE hInstance;
+	LPCWSTR lpTemplateName;
+	DLGPROC lpDialogFunc;
+	LPARAM dwInitParam;
+	INT_PTR retValue;
+} SecureDesktopThreadParam;
+
+static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
+{
+	SecureDesktopThreadParam* pParam = (SecureDesktopThreadParam*) lpThreadParameter;
+
+	SetThreadDesktop (pParam->hDesk);
+	SwitchDesktop (pParam->hDesk);
+
+	pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
+						NULL, pParam->lpDialogFunc, pParam->dwInitParam);
+
+	return 0;
+}
+
+static void GetCtfMonProcessIdList (map<DWORD, BOOL>& processIdList)
+{
+	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+	PROCESSENTRY32 pEntry;
+	BOOL hRes;
+
+	pEntry.dwSize = sizeof (pEntry);
+	processIdList.clear();
+	hRes = Process32First(hSnapShot, &pEntry);
+	while (hRes)
+	{
+		LPTSTR szFileName = PathFindFileName (pEntry.szExeFile);
+		if (_wcsicmp(szFileName, L"ctfmon.exe") == 0)
+		{
+			processIdList[pEntry.th32ProcessID] = TRUE;
+		}
+		hRes = Process32Next(hSnapShot, &pEntry);
+	}
+	CloseHandle(hSnapShot);
+}
+
+static void KillProcess (DWORD dwProcessId)
+{
+	HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, 0, dwProcessId);
+	if (hProcess != NULL)
+	{
+		TerminateProcess(hProcess, (UINT) -1);
+		CloseHandle(hProcess);
+	}
+}
+
+INT_PTR SecureDesktopDialogBoxParam(
+    HINSTANCE hInstance,
+    LPCWSTR lpTemplateName,
+    HWND hWndParent,
+    DLGPROC lpDialogFunc,
+    LPARAM dwInitParam)
+{
+	TCHAR szDesktopName[65] = {0};
+	BOOL bSuccess = FALSE;
+	INT_PTR retValue = 0;
+	BOOL bEffectiveUseSecureDesktop = bCmdUseSecureDesktopValid? bCmdUseSecureDesktop : bUseSecureDesktop;
+
+	if (bEffectiveUseSecureDesktop && GenerateRandomString (hWndParent, szDesktopName, 64))
+	{
+		map<DWORD, BOOL> ctfmonBeforeList, ctfmonAfterList;
+		DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
+		HDESK hSecureDesk;
+		
+		// get the initial list of ctfmon.exe processes before creating new desktop
+		GetCtfMonProcessIdList (ctfmonBeforeList);
+
+		hSecureDesk = CreateDesktop (szDesktopName, NULL, NULL, 0, desktopAccess, NULL);
+		if (hSecureDesk)
+		{
+			HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId ());
+			SecureDesktopThreadParam param;
+	
+			param.hDesk = hSecureDesk;
+			param.hInstance = hInstance;
+			param.lpTemplateName = lpTemplateName;
+			param.lpDialogFunc = lpDialogFunc;
+			param.dwInitParam = dwInitParam;
+			param.retValue = 0;
+
+			HANDLE hThread = ::CreateThread (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
+			if (hThread)
+			{
+				WaitForSingleObject (hThread, INFINITE);
+				CloseHandle (hThread);
+
+				SwitchDesktop (hOriginalDesk);
+				SetThreadDesktop (hOriginalDesk);
+
+				retValue = param.retValue;
+				bSuccess = TRUE;
+			}
+
+			CloseDesktop (hSecureDesk);
+
+			// get the new list of ctfmon.exe processes in order to find the ID of the
+			// ctfmon.exe instance that corresponds to the desktop we create so that
+			// we can kill it, otherwise it would remain running
+			GetCtfMonProcessIdList (ctfmonAfterList);
+
+			for (map<DWORD, BOOL>::iterator It = ctfmonAfterList.begin(); 
+				It != ctfmonAfterList.end(); It++)
+			{
+				if (ctfmonBeforeList[It->first] != TRUE)
+				{
+					// Kill process
+					KillProcess (It->first);
+				}
+			}
+		}
+
+		burn (szDesktopName, sizeof (szDesktopName));
+	}
+
+	if (!bSuccess)
+	{
+		// fallback to displaying in normal desktop
+		retValue = DialogBoxParamW (hInstance, lpTemplateName, hWndParent, lpDialogFunc, dwInitParam);
+	}
+
+	return retValue;
+}
+
+#endif

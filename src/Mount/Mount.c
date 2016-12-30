@@ -721,6 +721,8 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 
 	ConfigReadCompareInt ("HideWaitingDialog", FALSE, &bHideWaitingDialog, bOnlyCheckModified, pbSettingsModified);
 
+	ConfigReadCompareInt ("UseSecureDesktop", FALSE, &bUseSecureDesktop, bOnlyCheckModified, pbSettingsModified);
+
 	ConfigReadCompareInt ("MountVolumesRemovable", FALSE, &defaultMountOptions.Removable, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("MountVolumesReadOnly", FALSE, &defaultMountOptions.ReadOnly, bOnlyCheckModified, pbSettingsModified);
 
@@ -878,6 +880,7 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("PreserveTimestamps",				defaultMountOptions.PreserveTimestamp);
 		ConfigWriteInt ("ShowDisconnectedNetworkDrives",bShowDisconnectedNetworkDrives);
 		ConfigWriteInt ("HideWaitingDialog",				bHideWaitingDialog);
+		ConfigWriteInt ("UseSecureDesktop",					bUseSecureDesktop);
 
 		ConfigWriteInt ("EnableBackgroundTask",				bEnableBkgTask);
 		ConfigWriteInt ("CloseBackgroundTaskOnNoVolumes",	bCloseBkgTaskWhenNoVolumes);
@@ -3132,6 +3135,9 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage (GetDlgItem (hwndDlg, IDC_HIDE_WAITING_DIALOG), BM_SETCHECK,
 				bHideWaitingDialog ? BST_CHECKED:BST_UNCHECKED, 0);
 
+			SendMessage (GetDlgItem (hwndDlg, IDC_SECURE_DESKTOP_PASSWORD_ENTRY), BM_SETCHECK,
+				bUseSecureDesktop ? BST_CHECKED:BST_UNCHECKED, 0);
+
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT), BM_SETCHECK,
 						bCacheDuringMultipleMount ? BST_CHECKED:BST_UNCHECKED, 0);
 
@@ -3247,6 +3253,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PRESERVE_TIMESTAMPS));
 			bShowDisconnectedNetworkDrives = IsButtonChecked (GetDlgItem (hwndDlg, IDC_SHOW_DISCONNECTED_NETWORK_DRIVES));
 			bHideWaitingDialog = IsButtonChecked (GetDlgItem (hwndDlg, IDC_HIDE_WAITING_DIALOG));
+			bUseSecureDesktop = IsButtonChecked (GetDlgItem (hwndDlg, IDC_SECURE_DESKTOP_PASSWORD_ENTRY));
 			bCacheDuringMultipleMount	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT));
 			bWipeCacheOnExit				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT));
 			bWipeCacheOnAutoDismount		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT));
@@ -4537,7 +4544,7 @@ static int AskVolumePassword (HWND hwndDlg, Password *password, int *pkcs5, int 
 	dlgParam.pim = pim;
 	dlgParam.truecryptMode = truecryptMode;
 
-	result = DialogBoxParamW (hInst,
+	result = SecureDesktopDialogBoxParam (hInst,
 		MAKEINTRESOURCEW (IDD_PASSWORD_DLG), hwndDlg,
 		(DLGPROC) PasswordDlgProc, (LPARAM) &dlgParam);
 
@@ -6440,6 +6447,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bPreserveTimestamp = defaultMountOptions.PreserveTimestamp = TRUE;
 			bShowDisconnectedNetworkDrives = FALSE;
 			bHideWaitingDialog = FALSE;
+			bUseSecureDesktop = FALSE;
 
 			ResetWrongPwdRetryCount ();
 
@@ -8449,6 +8457,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionPim,
 				OptionTryEmptyPassword,
 				OptionNoWaitDlg,
+				OptionSecureDesktop,
 			};
 
 			argument args[]=
@@ -8476,6 +8485,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ CommandWipeCache,				L"/wipecache",		L"/w", FALSE },
 				{ OptionTryEmptyPassword,		L"/tryemptypass",	NULL, FALSE },
 				{ OptionNoWaitDlg,			L"/nowaitdlg",	NULL, FALSE },
+				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
 			};
 
 			argumentspec as;
@@ -8541,6 +8551,25 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							bCmdHideWaitingDialog = FALSE;
 						else if (!_wcsicmp(szTmp,L"y") || !_wcsicmp(szTmp,L"yes"))
 							bCmdHideWaitingDialog = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				}
+				break;
+
+			case OptionSecureDesktop:
+				{
+					wchar_t szTmp[16] = {0};
+					bCmdUseSecureDesktop = TRUE;
+					bCmdUseSecureDesktopValid = TRUE;
+
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, ARRAYSIZE (szTmp)))
+					{
+						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
+							bCmdUseSecureDesktop = FALSE;
+						else if (!_wcsicmp(szTmp,L"y") || !_wcsicmp(szTmp,L"yes"))
+							bCmdUseSecureDesktop = TRUE;
 						else
 							AbortProcess ("COMMAND_LINE_ERROR");
 					}
@@ -8972,6 +9001,7 @@ static BOOL StartSystemFavoritesService ()
 	DeviceChangeBroadcastDisabled = TRUE;
 	bShowDisconnectedNetworkDrives = TRUE;
 	bHideWaitingDialog = TRUE;
+	bUseSecureDesktop = FALSE;
 
 	InitOSVersionInfo();
 
