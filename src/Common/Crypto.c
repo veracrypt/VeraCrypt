@@ -762,16 +762,17 @@ Hash *HashGet (int id)
 	return 0;
 }
 
-
+#ifdef _WIN32
 int HashGetIdByName (wchar_t *name)
 {
 	int i;
 	for (i = 0; Hashes[i].Id != 0; i++)
-		if (wcscmp (Hashes[i].Name, name) == 0)
+		if (_wcsicmp (Hashes[i].Name, name) == 0)
 			return Hashes[i].Id;
 
 	return 0;
 }
+#endif
 
 const wchar_t *HashGetName (int hashId)
 {

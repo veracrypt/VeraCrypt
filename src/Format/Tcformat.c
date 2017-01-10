@@ -9000,20 +9000,22 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs,
 						&i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)))
 					{
-						if (_wcsicmp(szTmp, L"sha512") == 0 || _wcsicmp(szTmp, L"sha-512") == 0)
+						/* match against special names first */
+						if (_wcsicmp(szTmp, L"sha512") == 0)
 							CmdVolumePkcs5 = SHA512;
-						else if (_wcsicmp(szTmp, L"whirlpool") == 0)
-							CmdVolumePkcs5 = WHIRLPOOL;
-						else if (_wcsicmp(szTmp, L"sha256") == 0 || _wcsicmp(szTmp, L"sha-256") == 0)
+						else if (_wcsicmp(szTmp, L"sha256") == 0)
 							CmdVolumePkcs5 = SHA256;
-						else if (_wcsicmp(szTmp, L"ripemd160") == 0 || _wcsicmp(szTmp, L"ripemd-160") == 0)
+						else if (_wcsicmp(szTmp, L"ripemd160") == 0)
 							CmdVolumePkcs5 = RIPEMD160;
 						else
 						{
-							CmdVolumePkcs5 = 0;
-							AbortProcess ("COMMAND_LINE_ERROR");
+							/* match using internal hash names */
+							CmdVolumePkcs5 = HashGetIdByName (szTmp);
+							if (0 == CmdVolumePkcs5)
+							{
+								AbortProcess ("COMMAND_LINE_ERROR");
+							}
 						}
-
 					}
 					else
 						AbortProcess ("COMMAND_LINE_ERROR");

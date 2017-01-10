@@ -363,7 +363,9 @@ BOOL EAIsModeSupported (int ea, int testedMode);
 
 #ifndef TC_WINDOWS_BOOT
 const wchar_t *HashGetName (int hash_algo_id);
-
+#ifdef _WIN32
+int HashGetIdByName (wchar_t *name);
+#endif
 Hash *HashGet (int id);
 void HashGetName2 (wchar_t *buf, int hashId);
 BOOL HashIsDeprecated (int hashId);
