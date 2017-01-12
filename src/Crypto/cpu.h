@@ -4,6 +4,27 @@
 #include "Common/Tcdefs.h"
 #include "config.h"
 
+// Applies to both X86/X32/X64 and ARM32/ARM64
+#if defined(CRYPTOPP_LLVM_CLANG_VERSION) || defined(CRYPTOPP_APPLE_CLANG_VERSION) || defined(CRYPTOPP_CLANG_INTEGRATED_ASSEMBLER)
+	#define NEW_LINE "\n"
+	#define INTEL_PREFIX ".intel_syntax;"
+	#define INTEL_NOPREFIX ".intel_syntax;"
+	#define ATT_PREFIX ".att_syntax;"
+	#define ATT_NOPREFIX ".att_syntax;"
+#elif defined(__GNUC__)
+	#define NEW_LINE
+	#define INTEL_PREFIX ".intel_syntax prefix;"
+	#define INTEL_NOPREFIX ".intel_syntax noprefix;"
+	#define ATT_PREFIX ".att_syntax prefix;"
+	#define ATT_NOPREFIX ".att_syntax noprefix;"
+#else
+	#define NEW_LINE
+	#define INTEL_PREFIX
+	#define INTEL_NOPREFIX
+	#define ATT_PREFIX
+	#define ATT_NOPREFIX
+#endif
+
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 
 #define CRYPTOPP_X86_ASM_AVAILABLE
@@ -218,6 +239,8 @@ extern int g_hasMMX;
 
 #endif
 
+#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
+
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 	#define AS1(x) x*newline*
 	#define AS2(x, y) x, y*newline*
@@ -241,20 +264,6 @@ extern int g_hasMMX;
 #else
 	#define CRYPTOPP_GNU_STYLE_INLINE_ASSEMBLY
 
-    #if defined(CRYPTOPP_CLANG_VERSION) || defined(CRYPTOPP_APPLE_CLANG_VERSION)
-        #define NEW_LINE "\n"
-        #define INTEL_PREFIX ".intel_syntax;"
-        #define INTEL_NOPREFIX ".intel_syntax;"
-        #define ATT_PREFIX ".att_syntax;"
-        #define ATT_NOPREFIX ".att_syntax;"
-    #else
-        #define NEW_LINE
-        #define INTEL_PREFIX ".intel_syntax prefix;"
-        #define INTEL_NOPREFIX ".intel_syntax noprefix;"
-        #define ATT_PREFIX ".att_syntax prefix;"
-        #define ATT_NOPREFIX ".att_syntax noprefix;"
-        #endif
-
     // define these in two steps to allow arguments to be expanded
     #define GNU_AS1(x) #x ";" NEW_LINE
     #define GNU_AS2(x, y) #x ", " #y ";" NEW_LINE
@@ -274,21 +283,6 @@ extern int g_hasMMX;
 
 #define IF0(y)
 #define IF1(y) y
-
-// Should be confined to GCC, but its used to help manage Clang 3.4 compiler error.
-//   Also see LLVM Bug 24232, http://llvm.org/bugs/show_bug.cgi?id=24232 .
-#ifndef INTEL_PREFIX
-#define INTEL_PREFIX
-#endif
-#ifndef INTEL_NOPREFIX
-#define INTEL_NOPREFIX
-#endif
-#ifndef ATT_PREFIX
-#define ATT_PREFIX
-#endif
-#ifndef ATT_NOPREFIX
-#define ATT_NOPREFIX
-#endif
 
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 #define ASM_MOD(x, y) ((x) MOD (y))
@@ -420,6 +414,7 @@ extern int g_hasMMX;
 	ASL(labelPrefix##9)\
 	AS2(	add		outputPtr, increment*16)
 
+#endif  //  X86/X32/X64
 
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #ifdef  __cplusplus

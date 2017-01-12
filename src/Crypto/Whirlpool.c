@@ -80,6 +80,15 @@
 #include "misc.h"
 #include "Whirlpool.h"
 
+// "Inline assembly operands don't work with .intel_syntax",
+//   http://llvm.org/bugs/show_bug.cgi?id=24232
+#if defined(CRYPTOPP_DISABLE_INTEL_ASM)
+# undef CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
+# undef CRYPTOPP_BOOL_SSSE3_ASM_AVAILABLE
+# define CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE 0
+# define CRYPTOPP_BOOL_SSSE3_ASM_AVAILABLE 0
+#endif
+
 /*
  * The number of rounds of the internal dedicated block cipher.
  */
