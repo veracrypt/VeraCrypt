@@ -20,9 +20,9 @@ char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttr
 char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize);
 char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *attrName, const char *attrValue);
 char *XmlQuoteText (const char *textSrc, char *textDst, int textDstMaxSize);
-wchar_t *XmlQuoteTextW (const wchar_t *textSrc, wchar_t *textDst, int textDstMaxSize);
 
 #if !defined(_UEFI)
+wchar_t *XmlQuoteTextW(const wchar_t *textSrc, wchar_t *textDst, int textDstMaxSize);
 int XmlWriteHeader (FILE *file);
 int XmlWriteFooter (FILE *file);
 #endif !defined(_UEFI)
