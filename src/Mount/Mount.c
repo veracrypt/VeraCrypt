@@ -10916,6 +10916,17 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				return 1;
 			}
 
+			byte platforminfo[10*1024];
+			platforminfo[0] = 0;
+			DWORD cbread;
+			try
+			{
+				BootEncObj->ReadEfiConfig(L"\\EFI\\VeraCrypt\\PlatformInfo", platforminfo, 10*1024 - 1,  &cbread);
+				platforminfo[cbread - 1] = 0;
+			}
+			catch (Exception &e)	{	}
+			SetDlgItemTextA (hwndDlg, IDC_PLATFORMINFO, (char*)platforminfo);
+
 			try
 			{
 				LocalizeDialog (hwndDlg, "IDD_SYSENC_SETTINGS");

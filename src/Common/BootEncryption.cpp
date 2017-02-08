@@ -372,7 +372,7 @@ namespace VeraCrypt
 			}
 		}
 
-		static void ReadEfiConfig (byte* confContent, DWORD maxSize, DWORD* pcbRead)
+		static void ReadEfiConfig (const wchar_t *filename, byte* confContent, DWORD maxSize, DWORD* pcbRead)
 		{
 			Elevate();
 
@@ -382,8 +382,8 @@ namespace VeraCrypt
 				SetLastError (ERROR_INVALID_PARAMETER);
 				throw SystemException(SRC_POS);
 			}
-
-			DWORD result = ElevatedComInstance->ReadEfiConfig (&outputBstr, pcbRead);
+			BSTR bstrfn = W2BSTR(filename);
+			DWORD result = ElevatedComInstance->ReadEfiConfig (bstrfn, &outputBstr, pcbRead);
 
 			if (confContent)
 				memcpy (confContent, *(void **) &outputBstr, maxSize);
@@ -492,7 +492,7 @@ namespace VeraCrypt
 		static void BackupEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
 		static void RestoreEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
 		static void GetEfiBootDeviceNumber (PSTORAGE_DEVICE_NUMBER pSdn) { throw ParameterIncorrect (SRC_POS); }
-		static void ReadEfiConfig (byte* confContent, DWORD maxSize, DWORD* pcbRead) { throw ParameterIncorrect (SRC_POS); }
+		static void ReadEfiConfig (const wchar_t *filename, byte* confContent, DWORD maxSize, DWORD* pcbRead) { throw ParameterIncorrect (SRC_POS); }
 		static void WriteEfiBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
 	};
 
@@ -1530,14 +1530,14 @@ namespace VeraCrypt
 		}
 	}
 
-	void BootEncryption::ReadEfiConfig (byte* confContent, DWORD maxSize, DWORD* pcbRead)
+	void BootEncryption::ReadEfiConfig (const wchar_t* fileName, byte* confContent, DWORD maxSize, DWORD* pcbRead)
 	{
 		if (!pcbRead)
 			throw ParameterIncorrect (SRC_POS);
 
 		if (!IsAdmin() && IsUacSupported())
 		{
-			Elevator::ReadEfiConfig (confContent, maxSize, pcbRead);
+			Elevator::ReadEfiConfig (fileName, confContent, maxSize, pcbRead);
 		}
 		else
 		{
@@ -1546,14 +1546,14 @@ namespace VeraCrypt
 			finally_do ({ EfiBootInst.DismountBootPartition(); });
 			EfiBootInst.MountBootPartition(0);		
 
-			EfiBootInst.GetFileSize(L"\\EFI\\VeraCrypt\\DcsProp", ui64Size);
+			EfiBootInst.GetFileSize(fileName, ui64Size);
 
 			*pcbRead = (DWORD) ui64Size;
 
 			if (*pcbRead > maxSize)
 				throw ParameterIncorrect (SRC_POS);
 
-			EfiBootInst.ReadFile (L"\\EFI\\VeraCrypt\\DcsProp", confContent, *pcbRead);		
+			EfiBootInst.ReadFile (fileName, confContent, *pcbRead);		
 		}
 	}
 
@@ -1575,7 +1575,7 @@ namespace VeraCrypt
 				// call ReadEfiConfig only when needed since it requires elevation
 				if (userConfig || customUserMessage || bootLoaderVersion)
 				{
-					ReadEfiConfig (confContent, sizeof (confContent) - 1, &dwSize);
+					ReadEfiConfig (L"\\EFI\\VeraCrypt\\DcsProp", confContent, sizeof (confContent) - 1, &dwSize);
 					
 					confContent[dwSize] = 0;
 

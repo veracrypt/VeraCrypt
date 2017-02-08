@@ -46,7 +46,7 @@ library TrueCryptFormatCom
 		DWORD BackupEfiSystemLoader ();
 		DWORD RestoreEfiSystemLoader ();
 		DWORD GetEfiBootDeviceNumber (BSTR* pSdn);
-		DWORD ReadEfiConfig (BSTR* pContent, DWORD *pcbRead);
+		DWORD ReadEfiConfig (BSTR filename, BSTR* pContent, DWORD *pcbRead);
 		DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
 	};
 

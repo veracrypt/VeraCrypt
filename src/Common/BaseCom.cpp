@@ -400,7 +400,7 @@ DWORD BaseCom::GetEfiBootDeviceNumber (BSTR* pSdn)
 	return ERROR_SUCCESS;
 }
 
-DWORD BaseCom::ReadEfiConfig (BSTR* pContent, DWORD *pcbRead)
+DWORD BaseCom::ReadEfiConfig (BSTR filename, BSTR* pContent, DWORD *pcbRead)
 {
 	if (!pContent || !(*pContent))
 		return ERROR_INVALID_PARAMETER;
@@ -409,7 +409,7 @@ DWORD BaseCom::ReadEfiConfig (BSTR* pContent, DWORD *pcbRead)
 	{
 		DWORD maxSize = ((DWORD *) ((BYTE *) *pContent))[-1];
 		BootEncryption bootEnc (NULL);
-		bootEnc.ReadEfiConfig ((byte*) *pContent, maxSize, pcbRead);
+		bootEnc.ReadEfiConfig (filename, (byte*) *pContent, maxSize, pcbRead);
 	}
 	catch (SystemException &)
 	{

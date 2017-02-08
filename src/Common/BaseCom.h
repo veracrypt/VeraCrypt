@@ -116,7 +116,7 @@ public:
 	static DWORD BackupEfiSystemLoader ();
 	static DWORD RestoreEfiSystemLoader ();
 	static DWORD GetEfiBootDeviceNumber (BSTR* pSdn);
-	static DWORD ReadEfiConfig (BSTR* pContent, DWORD *pcbRead);
+	static DWORD ReadEfiConfig (BSTR filename, BSTR* pContent, DWORD *pcbRead);
 	static DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
 };
 
