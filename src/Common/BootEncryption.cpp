@@ -2566,6 +2566,10 @@ namespace VeraCrypt
 			byte *BootMenuLockerImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSBML: IDR_EFI_DCSBML32, &sizeBootMenuLocker);
 			if (!BootMenuLockerImg)
 				throw ErrorException(L"Out of resource DcsBml", SRC_POS);
+			DWORD sizeDcsInfo;
+			byte *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
+			if (!DcsInfoImg)
+				throw ErrorException(L"Out of resource DcsInfo", SRC_POS);
 
 			finally_do ({ EfiBootInst.DismountBootPartition(); });
 			EfiBootInst.MountBootPartition(0);			
@@ -2582,6 +2586,8 @@ namespace VeraCrypt
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsCfg.dcs", dcsCfgImg, sizeDcsCfg);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker);
+				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInfo.dcs", DcsInfoImg, sizeDcsInfo);
+				EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\PlatformInfo");
 				EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi");
 
 				// move configuration file from old location (if it exists) to new location
@@ -2766,6 +2772,10 @@ namespace VeraCrypt
 			byte *DcsRescueImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSRE: IDR_EFI_DCSRE32, &sizeDcsRescue);
 			if (!DcsRescueImg)
 				throw ParameterIncorrect (SRC_POS);
+			DWORD sizeDcsInfo;
+			byte *DcsInfoImg = MapResource(L"BIN", Is64BitOs()? IDR_EFI_DCSINFO: IDR_EFI_DCSINFO32, &sizeDcsInfo);
+			if (!DcsInfoImg)
+				throw ErrorException(L"Out of resource DcsInfo", SRC_POS);
 
 			char szTmpPath[MAX_PATH + 1], szTmpFilePath[MAX_PATH + 1];
 			if (!GetTempPathA (MAX_PATH, szTmpPath))
@@ -2793,6 +2803,8 @@ namespace VeraCrypt
 			if (!ZipAdd (z, "EFI/VeraCrypt/DcsInt.dcs", dcsIntImg, sizeDcsInt))
 				throw ParameterIncorrect (SRC_POS);
 			if (!ZipAdd (z, "EFI/VeraCrypt/LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker))
+				throw ParameterIncorrect (SRC_POS);
+			if (!ZipAdd (z, "EFI/VeraCrypt/DcsInfo.dcs", DcsInfoImg, sizeDcsInfo))
 				throw ParameterIncorrect (SRC_POS);
 
 			Buffer volHeader(TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
@@ -3532,6 +3544,8 @@ namespace VeraCrypt
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsBoot");
+			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsInfo.dcs");
+			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\PlatformInfo");
 			EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsProp");
 			EfiBootInst.DelDir (L"\\EFI\\VeraCrypt");
 		}

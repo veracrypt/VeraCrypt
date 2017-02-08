@@ -544,6 +544,8 @@ IDR_EFI_DCSCFG32          BIN                     "..\\Boot\\EFI\\DcsCfg32.efi"
 IDR_EFI_LEGACYSPEAKER32   BIN                     "..\\Boot\\EFI\\LegacySpeaker32.efi"
 IDR_EFI_DCSBML32         BIN                     "..\\Boot\\EFI\\DcsBml32.efi"
 IDR_EFI_DCSRE32          BIN                     "..\\Boot\\EFI\\DcsRe32.efi"
+IDR_EFI_DCSINFO         BIN                     "..\\Boot\\EFI\\DcsInfo.efi"
+IDR_EFI_DCSINFO32         BIN                     "..\\Boot\\EFI\\DcsInfo32.efi"
 
 /////////////////////////////////////////////////////////////////////////////
 //
