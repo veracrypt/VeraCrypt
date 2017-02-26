@@ -186,6 +186,8 @@ namespace VeraCrypt
 		BOOL Save (const wchar_t* fileName, HWND hwnd);
 	};
 
+	void GetVolumeESP(wstring& path);
+
 	class EfiBoot {
 	public:
 		EfiBoot();
@@ -208,7 +210,8 @@ namespace VeraCrypt
 		BOOL UpdateConfig (const wchar_t* name, int pim, int hashAlgo, HWND hwndDlg);
 		BOOL WriteConfig (const wchar_t* name, bool preserveUserConfig, int pim, int hashAlgo, const char* passPromptMsg, HWND hwndDlg);
 		BOOL DelDir(const wchar_t* name);
-
+		void SelectBootVolumeESP();
+		void SelectBootVolume(WCHAR* bootVolumePath);
 		PSTORAGE_DEVICE_NUMBER GetStorageDeviceNumber () { return &sdn;}
 
 	protected:
@@ -217,7 +220,8 @@ namespace VeraCrypt
 		STORAGE_DEVICE_NUMBER sdn;
 		PARTITION_INFORMATION_EX partInfo;
 		WCHAR     tempBuf[1024];
-		WCHAR systemPartitionPath[MAX_PATH];
+		bool  bBootVolumePathSelected;
+		WCHAR BootVolumePath[MAX_PATH];
 	};
 
 	class BootEncryption

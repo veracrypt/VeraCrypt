@@ -313,6 +313,7 @@ int GetAvailableRemovables ( HWND hComboBox , char *lpszRootPath );
 int IsSystemDevicePath (const wchar_t *path, HWND hwndDlg, BOOL bReliableRequired);
 int IsNonSysPartitionOnSysDrive (const wchar_t *path);
 BOOL CALLBACK RawDevicesDlgProc ( HWND hwndDlg , UINT msg , WPARAM wParam , LPARAM lParam );
+BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR TextInfoDialogBox (int nID);
 BOOL CALLBACK TextInfoDialogBoxDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 char * GetLegalNotices ();

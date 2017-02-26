@@ -3360,6 +3360,80 @@ wstring GetDecoyOsInstructionsString (void)
 		+ GetString ("DECOY_OS_INSTRUCTIONS_PORTION_18"));
 }
 
+struct _TEXT_EDIT_DIALOG_PARAM {
+	int           Type;
+	std::string&  Text;
+	const WCHAR*  Title;
+	HWND          Parent;
+	_TEXT_EDIT_DIALOG_PARAM(int _type, const WCHAR* title, std::string&  _text) : Title(title), Text(_text), Type(_type) {}
+	_TEXT_EDIT_DIALOG_PARAM& operator=( const _TEXT_EDIT_DIALOG_PARAM& other) { 
+		Type = other.Type;
+		Text = other.Text;
+		Title = other.Title;
+		return *this; 
+}
+};
+typedef struct _TEXT_EDIT_DIALOG_PARAM TEXT_INFO_DIALOG_PARAM,*TEXT_INFO_DIALOG_PARAM_PTR;
+
+INT_PTR TextEditDialogBox (int type, HWND parent, const WCHAR* Title, std::string& text)
+{
+	TEXT_INFO_DIALOG_PARAM pm(type, Title, text);
+	return DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TEXT_EDIT_DLG), parent, (DLGPROC) TextEditDlgProc, (LPARAM) &pm);
+}
+
+BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	WORD lw = LOWORD (wParam);
+	static int nID = 0;
+	static TEXT_INFO_DIALOG_PARAM_PTR prm;
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		{
+			prm = (TEXT_INFO_DIALOG_PARAM_PTR)lParam;
+			// increase size limit of rich edit control
+			SendMessage(GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), EM_EXLIMITTEXT, 0, -1);
+
+			SetWindowTextW (hwndDlg, prm->Title);
+			// Left margin for rich edit text field
+			SendMessage (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
+
+			SendMessage (hwndDlg, TC_APPMSG_LOAD_TEXT_BOX_CONTENT, 0, 0);
+		}
+		return 0;
+
+	case WM_COMMAND:
+		if (lw == IDOK )
+		{
+			prm->Text.resize(GetWindowTextLengthA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT)) + 1);
+			GetWindowTextA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), &(prm->Text)[0], prm->Text.size());
+			NormalCursor ();
+			EndDialog (hwndDlg, IDOK);
+			return 1;
+		}
+
+		if (lw == IDCANCEL )
+		{
+			NormalCursor ();
+			EndDialog (hwndDlg, IDCANCEL);
+			return 1;
+		}
+		return 0;
+
+	case TC_APPMSG_LOAD_TEXT_BOX_CONTENT:
+		{
+			SetWindowTextA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), prm->Text.c_str());
+		}
+		return 0;
+
+	case WM_CLOSE:
+		NormalCursor ();
+		EndDialog (hwndDlg, 0);
+		return 1;
+	}
+
+	return 0;
+}
 
 INT_PTR TextInfoDialogBox (int nID)
 {

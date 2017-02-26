@@ -1565,7 +1565,7 @@ namespace VeraCrypt
 		{
 			if (GetSystemDriveConfiguration().SystemPartition.IsGPT)
 			{
-				byte confContent[4096];
+				byte confContent[4096*8];
 				DWORD dwSize;
 
 				// for now, we don't support any boot config flags, like hidden OS one
@@ -2032,13 +2032,17 @@ namespace VeraCrypt
 
 	BOOL EfiBootConf::Save (const wchar_t* fileName, HWND hwnd)
 	{
-		FILE *configFile = _wfopen (fileName, L"w,ccs=UTF-8");
-		if (configFile == NULL)
-			return FALSE;
 
 		BOOL bRet = FALSE;
 		DWORD size = 0;
 		char* configContent = LoadFile (fileName, &size);
+
+		FILE *configFile = _wfopen (fileName, L"w,ccs=UTF-8");
+		if (configFile == NULL) {
+			burn (configContent, size);
+			free (configContent);
+			return FALSE;
+		}
 		
 
 		XmlWriteHeader (configFile);
@@ -2088,15 +2092,43 @@ namespace VeraCrypt
 
 	static const wchar_t*	EfiVarGuid = L"{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}";
 
+	void 
+	GetVolumeESP(wstring& path) 
+	{
+		ULONG    len;
+		NTSTATUS res;
+		WCHAR tempBuf[1024];
+		memset(tempBuf, 0, sizeof(tempBuf));
+
+		// Load NtQuerySystemInformation function point
+		if (!NtQuerySystemInformationPtr)
+		{
+			NtQuerySystemInformationPtr = (NtQuerySystemInformationFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "NtQuerySystemInformation");
+			if (!NtQuerySystemInformationPtr)
+				throw SystemException (SRC_POS);
+		}
+
+		res = NtQuerySystemInformationPtr((SYSTEM_INFORMATION_CLASS)SYSPARTITIONINFORMATION, tempBuf, sizeof(tempBuf), &len);
+		if (res != S_OK)
+		{
+			SetLastError (res);
+			throw SystemException (SRC_POS);
+		}		
+
+		PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
+		path = L"\\\\?";
+		path += &pStr->Buffer[7];
+	}
+
 	EfiBoot::EfiBoot() {
 		ZeroMemory(EfiBootPartPath, sizeof(EfiBootPartPath));		
-		ZeroMemory (systemPartitionPath, sizeof (systemPartitionPath));
+		ZeroMemory (BootVolumePath, sizeof (BootVolumePath));
 		ZeroMemory (&sdn, sizeof (sdn));
 		ZeroMemory (&partInfo, sizeof (partInfo));
 		m_bMounted = false;
 	}
 
-	void EfiBoot::MountBootPartition(WCHAR letter) {
+	void EfiBoot::SelectBootVolumeESP() {
 		NTSTATUS res;
 		ULONG    len;
 		memset(tempBuf, 0, sizeof(tempBuf));
@@ -2117,7 +2149,23 @@ namespace VeraCrypt
 		}		
 
 		PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
-		memcpy (systemPartitionPath, pStr->Buffer, min (pStr->Length, (sizeof (systemPartitionPath) - 2)));	
+		memcpy (BootVolumePath, pStr->Buffer, min (pStr->Length, (sizeof (BootVolumePath) - 2)));
+		bBootVolumePathSelected = TRUE;
+	}
+
+	void EfiBoot::SelectBootVolume(WCHAR* bootVolumePath) {
+		wstring str;
+		str = bootVolumePath;
+		memcpy (BootVolumePath, &str[0], min (str.length() * 2, (sizeof (BootVolumePath) - 2)));
+		bBootVolumePathSelected = TRUE;
+	}
+
+	void EfiBoot::MountBootPartition(WCHAR letter) {
+		NTSTATUS res;
+		ULONG    len;
+		if (!bBootVolumePathSelected) {
+			SelectBootVolumeESP();
+		}
 
 		if (!letter) {
 			if (!GetFreeDriveLetter(&EfiBootPartPath[0])) {
@@ -2128,7 +2176,7 @@ namespace VeraCrypt
 		}
 		EfiBootPartPath[1] = ':';
 		EfiBootPartPath[2] = 0;
-		throw_sys_if(!DefineDosDevice(DDD_RAW_TARGET_PATH, EfiBootPartPath, systemPartitionPath));		
+		throw_sys_if(!DefineDosDevice(DDD_RAW_TARGET_PATH, EfiBootPartPath, BootVolumePath));		
 
 		Device  dev(EfiBootPartPath, TRUE);
 

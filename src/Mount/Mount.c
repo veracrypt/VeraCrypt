@@ -10899,6 +10899,7 @@ void SecurityTokenPreferencesDialog (HWND hwndDlg)
 	DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PREFERENCES), hwndDlg, (DLGPROC) SecurityTokenPreferencesDlgProc, 0);
 }
 
+INT_PTR TextEditDialogBox (int type, HWND parent, const WCHAR* Title, std::string& text);
 
 static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -10916,21 +10917,9 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				return 1;
 			}
 
-			byte platforminfo[10*1024];
-			platforminfo[0] = 0;
-			DWORD cbread;
-			try
-			{
-				BootEncObj->ReadEfiConfig(L"\\EFI\\VeraCrypt\\PlatformInfo", platforminfo, 10*1024 - 1,  &cbread);
-				platforminfo[cbread - 1] = 0;
-			}
-			catch (Exception &e)	{	}
-			SetDlgItemTextA (hwndDlg, IDC_PLATFORMINFO, (char*)platforminfo);
-
 			try
 			{
 				LocalizeDialog (hwndDlg, "IDD_SYSENC_SETTINGS");
-
 				uint32 driverConfig = ReadDriverConfigurationFlags();
 				byte userConfig;
 				string customUserMessage;
@@ -10983,6 +10972,50 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 		case IDCANCEL:
 			EndDialog (hwndDlg, lw);
 			return 1;
+		case IDB_SHOW_PLATFORMINFO:
+			{
+				try
+				{
+					std::string platforminfo;
+					DWORD sz;
+					std::wstring path;
+					GetVolumeESP(path);
+					path += L"\\EFI\\VeraCrypt\\PlatformInfo";
+					File fPlatformInfo(path);
+					fPlatformInfo.GetFileSize(sz);
+					platforminfo.resize(sz + 1);
+					platforminfo[sz] = 0;
+					fPlatformInfo.Read((byte*)&platforminfo[0], sz);
+					TextEditDialogBox(0, hwndDlg, L"PlatformInfo", platforminfo);
+				}
+				catch (Exception &e)	{ e.Show(hwndDlg); }
+			}
+			return 0;
+
+		case IDB_EDIT_DCSPROP:
+			{
+				try
+				{
+					std::string dcsprop;
+					DWORD sz;
+					std::wstring path;
+					GetVolumeESP(path);
+					path += L"\\EFI\\VeraCrypt\\DcsProp";
+					File f1(path);
+					f1.GetFileSize(sz);
+					dcsprop.resize(sz + 1);
+					dcsprop[sz] = 0;
+					f1.Read((byte*)&dcsprop[0], sz);
+					f1.Close();
+					if(TextEditDialogBox(0, hwndDlg, L"DcsProp", dcsprop) == IDOK) {
+						File f2(path,false,true);
+						f2.Write((byte*)&dcsprop[0], dcsprop.length());
+						f2.Close();
+					}
+				}
+				catch (Exception &e)	{	e.Show(hwndDlg); }
+			}
+			return 0;
 
 		case IDOK:
 			{
