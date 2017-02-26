@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -39,6 +39,33 @@ namespace VeraCrypt
 
 		bool IsDevice () const { return FilesystemPath (Data).IsBlockDevice() || FilesystemPath (Data).IsCharacterDevice(); }
 		bool IsEmpty () const { return Data.empty(); }
+		
+		wstring GetExtension () const
+		{
+			if (Data.empty() || (Data.size() == 1))
+				return L"";
+			else
+			{
+				size_t pos = Data.find_last_of (L'.');
+				if (pos == string::npos)
+					return L"";
+				return Data.substr (pos + 1);
+			}
+		}
+		
+		bool HasTrueCryptExtension () const
+		{
+			wstring sExt = GetExtension ();
+			if ((sExt.size () == 2) 
+				&& (sExt[0] == L't' || sExt[0] == L'T')
+				&& (sExt[1] == L'c' || sExt[1] == L'C')
+				)
+			{
+				return true;
+			}
+			else
+				return false;
+		}
 
 	protected:
 		wstring Data;
@@ -117,7 +144,7 @@ namespace VeraCrypt
 		VolumeType::Enum Type;
 		shared_ptr <File> VolumeFile;
 		uint64 VolumeHostSize;
-		uint64 VolumeDataOffset; 
+		uint64 VolumeDataOffset;
 		uint64 VolumeDataSize;
 		uint64 TopWriteOffset;
 		uint64 TotalDataRead;

@@ -1,15 +1,15 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
  and also from the source code of extcv, which is Copyright (c) 2009-2010 Kih-Oskh
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -50,7 +50,7 @@
 #define TIMER_INTERVAL_RANDVIEW							50
 
 // see definition of enum EV_FileSystem
-const wchar_t * szFileSystemStr[3] = {L"RAW",L"FAT",L"NTFS"};
+const wchar_t * szFileSystemStr[4] = {L"RAW",L"FAT",L"NTFS",L"EXFAT"};
 
 // prototypes for internal functions
 BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -198,7 +198,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			pVolExpandParam->bInitFreeSpace = IsButtonChecked (GetDlgItem (hwndDlg, IDC_INIT_NEWSPACE));
 			if (!pVolExpandParam->bIsDevice) // for devices new size is set by calling function
-			{				
+			{
 				GetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTemp, ARRAYSIZE (szTemp));
 				pVolExpandParam->newSize = _wtoi64(szTemp) * GetSizeBoxMultiplier(hwndDlg);
 			}
@@ -214,7 +214,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 }
 
 
-extern "C" void AddProgressDlgStatus(HWND hwndDlg, const char* szText)
+extern "C" void AddProgressDlgStatus(HWND hwndDlg, const wchar_t* szText)
 {
 	HWND hwndCtrl;
 
@@ -224,7 +224,7 @@ extern "C" void AddProgressDlgStatus(HWND hwndDlg, const char* szText)
 }
 
 
-extern "C" void SetProgressDlgStatus(HWND hwndDlg, const char* szText)
+extern "C" void SetProgressDlgStatus(HWND hwndDlg, const wchar_t* szText)
 {
 	HWND hwndCtrl;
 
@@ -240,6 +240,14 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 	static EXPAND_VOL_THREAD_PARAMS *pProgressDlgParam;
 	static BOOL bVolTransformStarted = FALSE;
 	static BOOL showRandPool = TRUE;
+	static unsigned char randPool[16];
+	static unsigned char maskRandPool [16];
+	static BOOL bUseMask = FALSE;
+	static DWORD mouseEntropyGathered = 0xFFFFFFFF;
+	static DWORD mouseEventsInitialCount = 0;
+	/* max value of entropy needed to fill all random pool = 8 * RNG_POOL_SIZE = 2560 bits */
+	static const DWORD maxEntropyLevel = RNG_POOL_SIZE * 8;
+	static HWND hEntropyBar = NULL;
 
 	WORD lw = LOWORD (wParam);
 
@@ -248,13 +256,28 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 		{
 			wchar_t szOldHostSize[512], szNewHostSize[512];
+			HCRYPTPROV hRngProv;
 
 			pProgressDlgParam = (EXPAND_VOL_THREAD_PARAMS*)lParam;
 			bVolTransformStarted = FALSE;
-			showRandPool = TRUE;
+			showRandPool = FALSE;
 
 			hCurPage = hwndDlg;
 			nPbar = IDC_PROGRESS_BAR;
+
+			VirtualLock (randPool, sizeof(randPool));
+			VirtualLock (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
+			VirtualLock (maskRandPool, sizeof(maskRandPool));
+
+			mouseEntropyGathered = 0xFFFFFFFF;
+			mouseEventsInitialCount = 0;
+			bUseMask = FALSE;
+			if (CryptAcquireContext (&hRngProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
+			{
+				if (CryptGenRandom (hRngProv, sizeof (maskRandPool), maskRandPool))
+					bUseMask = TRUE;
+				CryptReleaseContext (hRngProv, 0);
+			}
 
 			GetSpaceString(szOldHostSize,sizeof(szOldHostSize),pProgressDlgParam->oldSize,pProgressDlgParam->bIsDevice);
 			GetSpaceString(szNewHostSize,sizeof(szNewHostSize),pProgressDlgParam->newSize,pProgressDlgParam->bIsDevice);
@@ -282,7 +305,10 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetDlgItemText(hwndDlg, IDC_BOX_STATUS, L"IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click 'Continue' to expand the volume.");
 			}
 
-			SendMessage (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), BM_SETCHECK, showRandPool ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendMessage (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), BM_SETCHECK, BST_UNCHECKED, 0);
+			hEntropyBar = GetDlgItem (hwndDlg, IDC_ENTROPY_BAR);
+			SendMessage (hEntropyBar, PBM_SETRANGE32, 0, maxEntropyLevel);
+			SendMessage (hEntropyBar, PBM_SETSTEP, 1, 0);
 			SetTimer (hwndDlg, TIMER_ID_RANDVIEW, TIMER_INTERVAL_RANDVIEW, NULL);
 		}
 		return 0;
@@ -294,13 +320,13 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (nStatus != 0)
 			{
 				if ( nStatus != ERR_USER_ABORT )
-					AddProgressDlgStatus (hwndDlg, "Error: volume expansion failed.");
+					AddProgressDlgStatus (hwndDlg, L"Error: volume expansion failed.");
 				else
-					AddProgressDlgStatus (hwndDlg, "Error: operation aborted by user.");
+					AddProgressDlgStatus (hwndDlg, L"Error: operation aborted by user.");
 			}
 			else
 			{
-				AddProgressDlgStatus (hwndDlg, "Finished. Volume successfully expanded.");
+				AddProgressDlgStatus (hwndDlg, L"Finished. Volume successfully expanded.");
 			}
 
 			SetWindowText (GetDlgItem (hwndDlg, IDOK), L"Exit");
@@ -315,20 +341,36 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 		case TIMER_ID_RANDVIEW:
 			{
-				unsigned char tmp[16] = {0};
 				wchar_t szRndPool[64] = {0};
+				DWORD mouseEventsCounter;
 
-				if (!showRandPool)
-					return 1;
+				RandpeekBytes (hwndDlg, randPool, sizeof (randPool),&mouseEventsCounter);
 
-				RandpeekBytes (hwndDlg, tmp, sizeof (tmp));
+				ProcessEntropyEstimate (hEntropyBar, &mouseEventsInitialCount, mouseEventsCounter, maxEntropyLevel, &mouseEntropyGathered);
 
-				StringCbPrintfW (szRndPool, sizeof(szRndPool), L"%08X%08X%08X%08X", 
-					*((DWORD*) (tmp + 12)), *((DWORD*) (tmp + 8)), *((DWORD*) (tmp + 4)), *((DWORD*) (tmp)));
+				if (showRandPool)
+					StringCbPrintfW (szRndPool, sizeof(szRndPool), L"%08X%08X%08X%08X",
+						*((DWORD*) (randPool + 12)), *((DWORD*) (randPool + 8)), *((DWORD*) (randPool + 4)), *((DWORD*) (randPool)));
+				else if (bUseMask)
+				{
+					for (int i = 0; i < 16; i++)
+					{
+						wchar_t tmp2[3];
+						unsigned char tmpByte = randPool[i] ^ maskRandPool[i];
+						tmp2[0] = (wchar_t) (((tmpByte >> 4) % 6) + L'*');
+						tmp2[1] = (wchar_t) (((tmpByte & 0x0F) % 6) + L'*');
+						tmp2[2] = 0;
+						StringCbCatW (szRndPool, sizeof(szRndPool), tmp2);
+					}
+				}
+				else
+				{
+					wmemset (szRndPool, L'*', 32);
+				}
 
 				SetWindowText (GetDlgItem (hwndDlg, IDC_RANDOM_BYTES), szRndPool);
 
-				burn (tmp, sizeof(tmp));
+				burn (randPool, sizeof(randPool));
 				burn (szRndPool, sizeof(szRndPool));
 			}
 			return 1;
@@ -368,7 +410,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				KillTimer (hwndDlg, TIMER_ID_RANDVIEW);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_DISPLAY_POOL_CONTENTS), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDOK), FALSE);
-				SetProgressDlgStatus (hwndDlg, "Starting volume expansion ...\r\n");
+				SetProgressDlgStatus (hwndDlg, L"Starting volume expansion ...\r\n");
 				bVolTransformStarted = TRUE;
 				pProgressDlgParam->hwndDlg = hwndDlg;
 				if ( _beginthread (volTransformThreadFunction, 0, pProgressDlgParam) == -1L )
@@ -381,6 +423,13 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			return 1;
 		}
 
+		return 0;
+
+	case WM_NCDESTROY:
+		burn (randPool, sizeof (randPool));
+		burn (&mouseEventsInitialCount, sizeof(mouseEventsInitialCount));
+		burn (&mouseEntropyGathered, sizeof(mouseEntropyGathered));
+		burn (maskRandPool, sizeof(maskRandPool));
 		return 0;
 	}
 
@@ -536,11 +585,11 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		{
 			bIsDevice = expandVol.IsDevice;
 			bIsLegacy = expandVol.CryptoInfo->LegacyVolume;
-			hostSize = expandVol.HostSize;			
+			hostSize = expandVol.HostSize;
 			VolumePkcs5 = expandVol.CryptoInfo->pkcs5;
 			if ( bIsLegacy )
 			{
-				if ( bIsDevice ) 
+				if ( bIsDevice )
 					volSize = 0; // updated later
 				else
 					volSize = hostSize;
@@ -580,7 +629,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	{
 		uint64 NumberOfSectors;
 		DWORD BytesPerSector;
-		
+
 		if ( !GetNtfsNumberOfSectors(rootPath, &NumberOfSectors, &BytesPerSector) )
 			nStatus = ERR_OS_ERROR;
 
@@ -625,6 +674,11 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		break;
 	case EV_FS_TYPE_FAT:
 		if (MessageBoxW (hwndDlg,L"Warning: The VeraCrypt volume contains a FAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?",
+			lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
+			goto ret;
+		break;
+	case EV_FS_TYPE_EXFAT:
+		if (MessageBoxW (hwndDlg,L"Warning: The VeraCrypt volume contains an exFAT file system!\n\nOnly the VeraCrypt volume itself will be expanded, but not the file system.\n\nDo you want to continue?",
 			lpszTitle, YES_NO|MB_ICONQUESTION|MB_DEFBUTTON2) == IDNO)
 			goto ret;
 		break;

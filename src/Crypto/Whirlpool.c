@@ -1,3 +1,15 @@
+/*  whrlpool.cpp - originally modified by Kevin Springle from
+ *  Paulo Barreto and Vincent Rijmen's public domain code, whirlpool.c.
+ *  Updated to Whirlpool version 3.0, optimized and SSE version added by Wei Dai
+ *  All modifications are placed in the public domain
+ */
+
+ /*
+  * Adapted to VeraCrypt
+  */
+
+/* This is the original introductory comment: */
+
 /**
  * The Whirlpool hashing function.
  *
@@ -17,7 +29,6 @@
  * 
  * @author  Paulo S.L.M. Barreto
  * @author  Vincent Rijmen.
- * Adapted for TrueCrypt.
  *
  * @version 3.0 (2003.03.12)
  *
@@ -56,16 +67,27 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
- /* The code contained in this file (Whirlpool.c) is in the public domain. */
 
-#include <stdio.h>
+#include "Common/Tcdefs.h"
+#include "Common/Endian.h"
+#if !defined(_UEFI)
+#include <memory.h>
 #include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#endif
 
+#include "cpu.h"
+
+#include "misc.h"
 #include "Whirlpool.h"
 
-/* #define TRACE_INTERMEDIATE_VALUES */
+// "Inline assembly operands don't work with .intel_syntax",
+//   http://llvm.org/bugs/show_bug.cgi?id=24232
+#if defined(CRYPTOPP_DISABLE_INTEL_ASM)
+# undef CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
+# undef CRYPTOPP_BOOL_SSSE3_ASM_AVAILABLE
+# define CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE 0
+# define CRYPTOPP_BOOL_SSSE3_ASM_AVAILABLE 0
+#endif
 
 /*
  * The number of rounds of the internal dedicated block cipher.
@@ -79,7 +101,11 @@
  * employed).
  */
 
-static const u64 C0[256] = {
+#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
+CRYPTOPP_ALIGN_DATA(16) static const uint64 Whirlpool_C[8*256+R] CRYPTOPP_SECTION_ALIGN16 = {
+#else
+static const uint64 Whirlpool_C[8*256+R] = {
+#endif
     LL(0x18186018c07830d8), LL(0x23238c2305af4626), LL(0xc6c63fc67ef991b8), LL(0xe8e887e8136fcdfb),
     LL(0x878726874ca113cb), LL(0xb8b8dab8a9626d11), LL(0x0101040108050209), LL(0x4f4f214f426e9e0d),
     LL(0x3636d836adee6c9b), LL(0xa6a6a2a6590451ff), LL(0xd2d26fd2debdb90c), LL(0xf5f5f3f5fb06f70e),
@@ -143,11 +169,9 @@ static const u64 C0[256] = {
     LL(0x16165816b04e2ca6), LL(0x3a3ae83acdd274f7), LL(0x6969b9696fd0d206), LL(0x09092409482d1241),
     LL(0x7070dd70a7ade0d7), LL(0xb6b6e2b6d954716f), LL(0xd0d067d0ceb7bd1e), LL(0xeded93ed3b7ec7d6),
     LL(0xcccc17cc2edb85e2), LL(0x424215422a578468), LL(0x98985a98b4c22d2c), LL(0xa4a4aaa4490e55ed),
-    LL(0x2828a0285d885075), LL(0x5c5c6d5cda31b886), LL(0xf8f8c7f8933fed6b), LL(0x8686228644a411c2),
-};
+	LL(0x2828a0285d885075), LL(0x5c5c6d5cda31b886), LL(0xf8f8c7f8933fed6b), LL(0x8686228644a411c2),
 
-static const u64 C1[256] = {
-    LL(0xd818186018c07830), LL(0x2623238c2305af46), LL(0xb8c6c63fc67ef991), LL(0xfbe8e887e8136fcd),
+	LL(0xd818186018c07830), LL(0x2623238c2305af46), LL(0xb8c6c63fc67ef991), LL(0xfbe8e887e8136fcd),
     LL(0xcb878726874ca113), LL(0x11b8b8dab8a9626d), LL(0x0901010401080502), LL(0x0d4f4f214f426e9e),
     LL(0x9b3636d836adee6c), LL(0xffa6a6a2a6590451), LL(0x0cd2d26fd2debdb9), LL(0x0ef5f5f3f5fb06f7),
     LL(0x967979f979ef80f2), LL(0x306f6fa16f5fcede), LL(0x6d91917e91fcef3f), LL(0xf852525552aa07a4),
@@ -211,10 +235,8 @@ static const u64 C1[256] = {
     LL(0xd77070dd70a7ade0), LL(0x6fb6b6e2b6d95471), LL(0x1ed0d067d0ceb7bd), LL(0xd6eded93ed3b7ec7),
     LL(0xe2cccc17cc2edb85), LL(0x68424215422a5784), LL(0x2c98985a98b4c22d), LL(0xeda4a4aaa4490e55),
     LL(0x752828a0285d8850), LL(0x865c5c6d5cda31b8), LL(0x6bf8f8c7f8933fed), LL(0xc28686228644a411),
-};
 
-static const u64 C2[256] = {
-    LL(0x30d818186018c078), LL(0x462623238c2305af), LL(0x91b8c6c63fc67ef9), LL(0xcdfbe8e887e8136f),
+	LL(0x30d818186018c078), LL(0x462623238c2305af), LL(0x91b8c6c63fc67ef9), LL(0xcdfbe8e887e8136f),
     LL(0x13cb878726874ca1), LL(0x6d11b8b8dab8a962), LL(0x0209010104010805), LL(0x9e0d4f4f214f426e),
     LL(0x6c9b3636d836adee), LL(0x51ffa6a6a2a65904), LL(0xb90cd2d26fd2debd), LL(0xf70ef5f5f3f5fb06),
     LL(0xf2967979f979ef80), LL(0xde306f6fa16f5fce), LL(0x3f6d91917e91fcef), LL(0xa4f852525552aa07),
@@ -278,10 +300,8 @@ static const u64 C2[256] = {
     LL(0xe0d77070dd70a7ad), LL(0x716fb6b6e2b6d954), LL(0xbd1ed0d067d0ceb7), LL(0xc7d6eded93ed3b7e),
     LL(0x85e2cccc17cc2edb), LL(0x8468424215422a57), LL(0x2d2c98985a98b4c2), LL(0x55eda4a4aaa4490e),
     LL(0x50752828a0285d88), LL(0xb8865c5c6d5cda31), LL(0xed6bf8f8c7f8933f), LL(0x11c28686228644a4),
-};
 
-static const u64 C3[256] = {
-    LL(0x7830d818186018c0), LL(0xaf462623238c2305), LL(0xf991b8c6c63fc67e), LL(0x6fcdfbe8e887e813),
+	LL(0x7830d818186018c0), LL(0xaf462623238c2305), LL(0xf991b8c6c63fc67e), LL(0x6fcdfbe8e887e813),
     LL(0xa113cb878726874c), LL(0x626d11b8b8dab8a9), LL(0x0502090101040108), LL(0x6e9e0d4f4f214f42),
     LL(0xee6c9b3636d836ad), LL(0x0451ffa6a6a2a659), LL(0xbdb90cd2d26fd2de), LL(0x06f70ef5f5f3f5fb),
     LL(0x80f2967979f979ef), LL(0xcede306f6fa16f5f), LL(0xef3f6d91917e91fc), LL(0x07a4f852525552aa),
@@ -345,9 +365,7 @@ static const u64 C3[256] = {
     LL(0xade0d77070dd70a7), LL(0x54716fb6b6e2b6d9), LL(0xb7bd1ed0d067d0ce), LL(0x7ec7d6eded93ed3b),
     LL(0xdb85e2cccc17cc2e), LL(0x578468424215422a), LL(0xc22d2c98985a98b4), LL(0x0e55eda4a4aaa449),
     LL(0x8850752828a0285d), LL(0x31b8865c5c6d5cda), LL(0x3fed6bf8f8c7f893), LL(0xa411c28686228644),
-};
 
-static const u64 C4[256] = {
     LL(0xc07830d818186018), LL(0x05af462623238c23), LL(0x7ef991b8c6c63fc6), LL(0x136fcdfbe8e887e8),
     LL(0x4ca113cb87872687), LL(0xa9626d11b8b8dab8), LL(0x0805020901010401), LL(0x426e9e0d4f4f214f),
     LL(0xadee6c9b3636d836), LL(0x590451ffa6a6a2a6), LL(0xdebdb90cd2d26fd2), LL(0xfb06f70ef5f5f3f5),
@@ -412,9 +430,7 @@ static const u64 C4[256] = {
     LL(0xa7ade0d77070dd70), LL(0xd954716fb6b6e2b6), LL(0xceb7bd1ed0d067d0), LL(0x3b7ec7d6eded93ed),
     LL(0x2edb85e2cccc17cc), LL(0x2a57846842421542), LL(0xb4c22d2c98985a98), LL(0x490e55eda4a4aaa4),
     LL(0x5d8850752828a028), LL(0xda31b8865c5c6d5c), LL(0x933fed6bf8f8c7f8), LL(0x44a411c286862286),
-};
 
-static const u64 C5[256] = {
     LL(0x18c07830d8181860), LL(0x2305af462623238c), LL(0xc67ef991b8c6c63f), LL(0xe8136fcdfbe8e887),
     LL(0x874ca113cb878726), LL(0xb8a9626d11b8b8da), LL(0x0108050209010104), LL(0x4f426e9e0d4f4f21),
     LL(0x36adee6c9b3636d8), LL(0xa6590451ffa6a6a2), LL(0xd2debdb90cd2d26f), LL(0xf5fb06f70ef5f5f3),
@@ -479,9 +495,7 @@ static const u64 C5[256] = {
     LL(0x70a7ade0d77070dd), LL(0xb6d954716fb6b6e2), LL(0xd0ceb7bd1ed0d067), LL(0xed3b7ec7d6eded93),
     LL(0xcc2edb85e2cccc17), LL(0x422a578468424215), LL(0x98b4c22d2c98985a), LL(0xa4490e55eda4a4aa),
     LL(0x285d8850752828a0), LL(0x5cda31b8865c5c6d), LL(0xf8933fed6bf8f8c7), LL(0x8644a411c2868622),
-};
 
-static const u64 C6[256] = {
     LL(0x6018c07830d81818), LL(0x8c2305af46262323), LL(0x3fc67ef991b8c6c6), LL(0x87e8136fcdfbe8e8),
     LL(0x26874ca113cb8787), LL(0xdab8a9626d11b8b8), LL(0x0401080502090101), LL(0x214f426e9e0d4f4f),
     LL(0xd836adee6c9b3636), LL(0xa2a6590451ffa6a6), LL(0x6fd2debdb90cd2d2), LL(0xf3f5fb06f70ef5f5),
@@ -546,9 +560,7 @@ static const u64 C6[256] = {
     LL(0xdd70a7ade0d77070), LL(0xe2b6d954716fb6b6), LL(0x67d0ceb7bd1ed0d0), LL(0x93ed3b7ec7d6eded),
     LL(0x17cc2edb85e2cccc), LL(0x15422a5784684242), LL(0x5a98b4c22d2c9898), LL(0xaaa4490e55eda4a4),
     LL(0xa0285d8850752828), LL(0x6d5cda31b8865c5c), LL(0xc7f8933fed6bf8f8), LL(0x228644a411c28686),
-};
 
-static const u64 C7[256] = {
     LL(0x186018c07830d818), LL(0x238c2305af462623), LL(0xc63fc67ef991b8c6), LL(0xe887e8136fcdfbe8),
     LL(0x8726874ca113cb87), LL(0xb8dab8a9626d11b8), LL(0x0104010805020901), LL(0x4f214f426e9e0d4f),
     LL(0x36d836adee6c9b36), LL(0xa6a2a6590451ffa6), LL(0xd26fd2debdb90cd2), LL(0xf5f3f5fb06f70ef5),
@@ -613,262 +625,279 @@ static const u64 C7[256] = {
     LL(0x70dd70a7ade0d770), LL(0xb6e2b6d954716fb6), LL(0xd067d0ceb7bd1ed0), LL(0xed93ed3b7ec7d6ed),
     LL(0xcc17cc2edb85e2cc), LL(0x4215422a57846842), LL(0x985a98b4c22d2c98), LL(0xa4aaa4490e55eda4),
     LL(0x28a0285d88507528), LL(0x5c6d5cda31b8865c), LL(0xf8c7f8933fed6bf8), LL(0x86228644a411c286),
+
+	LL(0x1823c6e887b8014f),
+	LL(0x36a6d2f5796f9152),
+	LL(0x60bc9b8ea30c7b35),
+	LL(0x1de0d7c22e4bfe57),
+	LL(0x157737e59ff04ada),
+	LL(0x58c9290ab1a06b85),
+	LL(0xbd5d10f4cb3e0567),
+	LL(0xe427418ba77d95d8),
+	LL(0xfbee7c66dd17479e),
+	LL(0xca2dbf07ad5a8333)
 };
 
-static const u64 rc[R + 1] = {
-    LL(0x0000000000000000),
-    LL(0x1823c6e887b8014f),
-    LL(0x36a6d2f5796f9152),
-    LL(0x60bc9b8ea30c7b35),
-    LL(0x1de0d7c22e4bfe57),
-    LL(0x157737e59ff04ada),
-    LL(0x58c9290ab1a06b85),
-    LL(0xbd5d10f4cb3e0567),
-    LL(0xe427418ba77d95d8),
-    LL(0xfbee7c66dd17479e),
-    LL(0xca2dbf07ad5a8333),
-};
 
-/**
- * The core Whirlpool transform.
- */
-static void processBuffer(struct NESSIEstruct * const structpointer) {
-    int i, r;
-    u64 K[8];        /* the round key */
-    u64 block[8];    /* mu(buffer) */
-    u64 state[8];    /* the cipher state */
-    u64 L[8];
-    u8 *buffer = structpointer->buffer;
-    /*
-     * map the buffer to a block:
-     */
-    for (i = 0; i < 8; i++, buffer += 8) {
-        block[i] =
-            (((u64)buffer[0]        ) << 56) ^
-            (((u64)buffer[1] & 0xffL) << 48) ^
-            (((u64)buffer[2] & 0xffL) << 40) ^
-            (((u64)buffer[3] & 0xffL) << 32) ^
-            (((u64)buffer[4] & 0xffL) << 24) ^
-            (((u64)buffer[5] & 0xffL) << 16) ^
-            (((u64)buffer[6] & 0xffL) <<  8) ^
-            (((u64)buffer[7] & 0xffL)      );
-    }
-    /*
-     * compute and apply K^0 to the cipher state:
-     */
-    state[0] = block[0] ^ (K[0] = structpointer->hash[0]);
-    state[1] = block[1] ^ (K[1] = structpointer->hash[1]);
-    state[2] = block[2] ^ (K[2] = structpointer->hash[2]);
-    state[3] = block[3] ^ (K[3] = structpointer->hash[3]);
-    state[4] = block[4] ^ (K[4] = structpointer->hash[4]);
-    state[5] = block[5] ^ (K[5] = structpointer->hash[5]);
-    state[6] = block[6] ^ (K[6] = structpointer->hash[6]);
-    state[7] = block[7] ^ (K[7] = structpointer->hash[7]);
-    /*
-     * iterate over all rounds:
-     */
-    for (r = 1; r <= R; r++) {
-        /*
-         * compute K^r from K^{r-1}:
-         */
-        L[0] =
-            C0[(int)(K[0] >> 56)       ] ^
-            C1[(int)(K[7] >> 48) & 0xff] ^
-            C2[(int)(K[6] >> 40) & 0xff] ^
-            C3[(int)(K[5] >> 32) & 0xff] ^
-            C4[(int)(K[4] >> 24) & 0xff] ^
-            C5[(int)(K[3] >> 16) & 0xff] ^
-            C6[(int)(K[2] >>  8) & 0xff] ^
-            C7[(int)(K[1]      ) & 0xff] ^
-            rc[r];
-        L[1] =
-            C0[(int)(K[1] >> 56)       ] ^
-            C1[(int)(K[0] >> 48) & 0xff] ^
-            C2[(int)(K[7] >> 40) & 0xff] ^
-            C3[(int)(K[6] >> 32) & 0xff] ^
-            C4[(int)(K[5] >> 24) & 0xff] ^
-            C5[(int)(K[4] >> 16) & 0xff] ^
-            C6[(int)(K[3] >>  8) & 0xff] ^
-            C7[(int)(K[2]      ) & 0xff];
-        L[2] =
-            C0[(int)(K[2] >> 56)       ] ^
-            C1[(int)(K[1] >> 48) & 0xff] ^
-            C2[(int)(K[0] >> 40) & 0xff] ^
-            C3[(int)(K[7] >> 32) & 0xff] ^
-            C4[(int)(K[6] >> 24) & 0xff] ^
-            C5[(int)(K[5] >> 16) & 0xff] ^
-            C6[(int)(K[4] >>  8) & 0xff] ^
-            C7[(int)(K[3]      ) & 0xff];
-        L[3] =
-            C0[(int)(K[3] >> 56)       ] ^
-            C1[(int)(K[2] >> 48) & 0xff] ^
-            C2[(int)(K[1] >> 40) & 0xff] ^
-            C3[(int)(K[0] >> 32) & 0xff] ^
-            C4[(int)(K[7] >> 24) & 0xff] ^
-            C5[(int)(K[6] >> 16) & 0xff] ^
-            C6[(int)(K[5] >>  8) & 0xff] ^
-            C7[(int)(K[4]      ) & 0xff];
-        L[4] =
-            C0[(int)(K[4] >> 56)       ] ^
-            C1[(int)(K[3] >> 48) & 0xff] ^
-            C2[(int)(K[2] >> 40) & 0xff] ^
-            C3[(int)(K[1] >> 32) & 0xff] ^
-            C4[(int)(K[0] >> 24) & 0xff] ^
-            C5[(int)(K[7] >> 16) & 0xff] ^
-            C6[(int)(K[6] >>  8) & 0xff] ^
-            C7[(int)(K[5]      ) & 0xff];
-        L[5] =
-            C0[(int)(K[5] >> 56)       ] ^
-            C1[(int)(K[4] >> 48) & 0xff] ^
-            C2[(int)(K[3] >> 40) & 0xff] ^
-            C3[(int)(K[2] >> 32) & 0xff] ^
-            C4[(int)(K[1] >> 24) & 0xff] ^
-            C5[(int)(K[0] >> 16) & 0xff] ^
-            C6[(int)(K[7] >>  8) & 0xff] ^
-            C7[(int)(K[6]      ) & 0xff];
-        L[6] =
-            C0[(int)(K[6] >> 56)       ] ^
-            C1[(int)(K[5] >> 48) & 0xff] ^
-            C2[(int)(K[4] >> 40) & 0xff] ^
-            C3[(int)(K[3] >> 32) & 0xff] ^
-            C4[(int)(K[2] >> 24) & 0xff] ^
-            C5[(int)(K[1] >> 16) & 0xff] ^
-            C6[(int)(K[0] >>  8) & 0xff] ^
-            C7[(int)(K[7]      ) & 0xff];
-        L[7] =
-            C0[(int)(K[7] >> 56)       ] ^
-            C1[(int)(K[6] >> 48) & 0xff] ^
-            C2[(int)(K[5] >> 40) & 0xff] ^
-            C3[(int)(K[4] >> 32) & 0xff] ^
-            C4[(int)(K[3] >> 24) & 0xff] ^
-            C5[(int)(K[2] >> 16) & 0xff] ^
-            C6[(int)(K[1] >>  8) & 0xff] ^
-            C7[(int)(K[0]      ) & 0xff];
-        K[0] = L[0];
-        K[1] = L[1];
-        K[2] = L[2];
-        K[3] = L[3];
-        K[4] = L[4];
-        K[5] = L[5];
-        K[6] = L[6];
-        K[7] = L[7];
-        /*
-         * apply the r-th round transformation:
-         */
-        L[0] =
-            C0[(int)(state[0] >> 56)       ] ^
-            C1[(int)(state[7] >> 48) & 0xff] ^
-            C2[(int)(state[6] >> 40) & 0xff] ^
-            C3[(int)(state[5] >> 32) & 0xff] ^
-            C4[(int)(state[4] >> 24) & 0xff] ^
-            C5[(int)(state[3] >> 16) & 0xff] ^
-            C6[(int)(state[2] >>  8) & 0xff] ^
-            C7[(int)(state[1]      ) & 0xff] ^
-            K[0];
-        L[1] =
-            C0[(int)(state[1] >> 56)       ] ^
-            C1[(int)(state[0] >> 48) & 0xff] ^
-            C2[(int)(state[7] >> 40) & 0xff] ^
-            C3[(int)(state[6] >> 32) & 0xff] ^
-            C4[(int)(state[5] >> 24) & 0xff] ^
-            C5[(int)(state[4] >> 16) & 0xff] ^
-            C6[(int)(state[3] >>  8) & 0xff] ^
-            C7[(int)(state[2]      ) & 0xff] ^
-            K[1];
-        L[2] =
-            C0[(int)(state[2] >> 56)       ] ^
-            C1[(int)(state[1] >> 48) & 0xff] ^
-            C2[(int)(state[0] >> 40) & 0xff] ^
-            C3[(int)(state[7] >> 32) & 0xff] ^
-            C4[(int)(state[6] >> 24) & 0xff] ^
-            C5[(int)(state[5] >> 16) & 0xff] ^
-            C6[(int)(state[4] >>  8) & 0xff] ^
-            C7[(int)(state[3]      ) & 0xff] ^
-            K[2];
-        L[3] =
-            C0[(int)(state[3] >> 56)       ] ^
-            C1[(int)(state[2] >> 48) & 0xff] ^
-            C2[(int)(state[1] >> 40) & 0xff] ^
-            C3[(int)(state[0] >> 32) & 0xff] ^
-            C4[(int)(state[7] >> 24) & 0xff] ^
-            C5[(int)(state[6] >> 16) & 0xff] ^
-            C6[(int)(state[5] >>  8) & 0xff] ^
-            C7[(int)(state[4]      ) & 0xff] ^
-            K[3];
-        L[4] =
-            C0[(int)(state[4] >> 56)       ] ^
-            C1[(int)(state[3] >> 48) & 0xff] ^
-            C2[(int)(state[2] >> 40) & 0xff] ^
-            C3[(int)(state[1] >> 32) & 0xff] ^
-            C4[(int)(state[0] >> 24) & 0xff] ^
-            C5[(int)(state[7] >> 16) & 0xff] ^
-            C6[(int)(state[6] >>  8) & 0xff] ^
-            C7[(int)(state[5]      ) & 0xff] ^
-            K[4];
-        L[5] =
-            C0[(int)(state[5] >> 56)       ] ^
-            C1[(int)(state[4] >> 48) & 0xff] ^
-            C2[(int)(state[3] >> 40) & 0xff] ^
-            C3[(int)(state[2] >> 32) & 0xff] ^
-            C4[(int)(state[1] >> 24) & 0xff] ^
-            C5[(int)(state[0] >> 16) & 0xff] ^
-            C6[(int)(state[7] >>  8) & 0xff] ^
-            C7[(int)(state[6]      ) & 0xff] ^
-            K[5];
-        L[6] =
-            C0[(int)(state[6] >> 56)       ] ^
-            C1[(int)(state[5] >> 48) & 0xff] ^
-            C2[(int)(state[4] >> 40) & 0xff] ^
-            C3[(int)(state[3] >> 32) & 0xff] ^
-            C4[(int)(state[2] >> 24) & 0xff] ^
-            C5[(int)(state[1] >> 16) & 0xff] ^
-            C6[(int)(state[0] >>  8) & 0xff] ^
-            C7[(int)(state[7]      ) & 0xff] ^
-            K[6];
-        L[7] =
-            C0[(int)(state[7] >> 56)       ] ^
-            C1[(int)(state[6] >> 48) & 0xff] ^
-            C2[(int)(state[5] >> 40) & 0xff] ^
-            C3[(int)(state[4] >> 32) & 0xff] ^
-            C4[(int)(state[3] >> 24) & 0xff] ^
-            C5[(int)(state[2] >> 16) & 0xff] ^
-            C6[(int)(state[1] >>  8) & 0xff] ^
-            C7[(int)(state[0]      ) & 0xff] ^
-            K[7];
-        state[0] = L[0];
-        state[1] = L[1];
-        state[2] = L[2];
-        state[3] = L[3];
-        state[4] = L[4];
-        state[5] = L[5];
-        state[6] = L[6];
-        state[7] = L[7];
-    }
-    /*
-     * apply the Miyaguchi-Preneel compression function:
-     */
-    structpointer->hash[0] ^= state[0] ^ block[0];
-    structpointer->hash[1] ^= state[1] ^ block[1];
-    structpointer->hash[2] ^= state[2] ^ block[2];
-    structpointer->hash[3] ^= state[3] ^ block[3];
-    structpointer->hash[4] ^= state[4] ^ block[4];
-    structpointer->hash[5] ^= state[5] ^ block[5];
-    structpointer->hash[6] ^= state[6] ^ block[6];
-    structpointer->hash[7] ^= state[7] ^ block[7];
+// Whirlpool basic transformation. Transforms state based on block.
+void WhirlpoolTransform(uint64 *digest, const uint64 *block)
+{
+#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
+	if (HasISSE())
+	{
+#ifdef __GNUC__
+	#if CRYPTOPP_BOOL_X64
+		uint64 workspace[16];
+	#endif
+	__asm__ __volatile__
+	(
+		INTEL_NOPREFIX
+		AS_PUSH_IF86(	bx)
+		AS2(	mov		AS_REG_6, WORD_REG(ax))
+#else
+	#if _MSC_VER < 1300
+		AS_PUSH_IF86(	bx)
+	#endif
+		AS2(	lea		AS_REG_6, [Whirlpool_C])
+		AS2(	mov		WORD_REG(cx), digest)
+		AS2(	mov		WORD_REG(dx), block)
+#endif
+#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
+		AS2(	mov		eax, esp)
+		AS2(	and		esp, -16)
+		AS2(	sub		esp, 16*8)
+		AS_PUSH_IF86( ax)
+     
+    #if CRYPTOPP_BOOL_X86
+        #define SSE2_workspace	esp+WORD_SZ
+    #elif CRYPTOPP_BOOL_X32
+        #define SSE2_workspace	esp+(WORD_SZ*2)
+    #endif
+#else
+    #define SSE2_workspace	%3
+#endif
+		AS2(	xor		esi, esi)
+		ASL(0)
+		AS2(	movq	mm0, [WORD_REG(cx)+8*WORD_REG(si)])
+		AS2(	movq	[SSE2_workspace+8*WORD_REG(si)], mm0)		// k
+		AS2(	pxor	mm0, [WORD_REG(dx)+8*WORD_REG(si)])
+		AS2(	movq	[SSE2_workspace+64+8*WORD_REG(si)], mm0)	// s
+		AS2(	movq	[WORD_REG(cx)+8*WORD_REG(si)], mm0)
+		AS1(	inc		WORD_REG(si))
+		AS2(	cmp		WORD_REG(si), 8)
+		ASJ(	jne,	0, b)
+
+		AS2(	xor		esi, esi)
+		ASL(1)
+
+#define KSL0(a, b)	AS2(movq	mm##a, b)
+#define KSL1(a, b)	AS2(pxor	mm##a, b)
+
+#define KSL(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+8*i])\
+	AS2(movzx	edi, al)\
+	KSL##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	KSL##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	KSL##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	KSL##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+#define KSH0(a, b)	\
+	ASS(pshufw	mm##a, mm##a, 1, 0, 3, 2)\
+	AS2(pxor	mm##a, b)
+#define KSH1(a, b)	\
+	AS2(pxor	mm##a, b)
+#define KSH2(a, b)	\
+	AS2(pxor	mm##a, b)\
+	AS2(movq	[SSE2_workspace+8*a], mm##a)
+
+#define KSH(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+8*((i+4)-8*((i+4)/8))+4])\
+	AS2(movzx	edi, al)\
+	KSH##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	KSH##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	KSH##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	KSH##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+#define TSL(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+64+8*i])\
+	AS2(movzx	edi, al)\
+	KSL##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	KSL##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	KSL##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	KSL##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+#define TSH0(a, b)	\
+	ASS(pshufw	mm##a, mm##a, 1, 0, 3, 2)\
+	AS2(pxor	mm##a, [SSE2_workspace+8*a])\
+	AS2(pxor	mm##a, b)
+#define TSH1(a, b)	\
+	AS2(pxor	mm##a, b)
+#define TSH2(a, b)	\
+	AS2(pxor	mm##a, b)\
+	AS2(movq	[SSE2_workspace+64+8*a], mm##a)
+#define TSH3(a, b)	\
+	AS2(pxor	mm##a, b)\
+	AS2(pxor	mm##a, [WORD_REG(cx)+8*a])\
+	AS2(movq	[WORD_REG(cx)+8*a], mm##a)
+
+#define TSH(op, i, a, b, c, d)	\
+	AS2(mov		eax, [SSE2_workspace+64+8*((i+4)-8*((i+4)/8))+4])\
+	AS2(movzx	edi, al)\
+	TSH##op(a, [AS_REG_6+3*2048+8*WORD_REG(di)])\
+	AS2(movzx	edi, ah)\
+	TSH##op(b, [AS_REG_6+2*2048+8*WORD_REG(di)])\
+	AS2(shr		eax, 16)\
+	AS2(movzx	edi, al)\
+	AS2(shr		eax, 8)\
+	TSH##op(c, [AS_REG_6+1*2048+8*WORD_REG(di)])\
+	TSH##op(d, [AS_REG_6+0*2048+8*WORD_REG(ax)])
+
+		KSL(0, 4, 3, 2, 1, 0)
+		KSL(0, 0, 7, 6, 5, 4)
+		KSL(1, 1, 0, 7, 6, 5)
+		KSL(1, 2, 1, 0, 7, 6)
+		KSL(1, 3, 2, 1, 0, 7)
+		KSL(1, 5, 4, 3, 2, 1)
+		KSL(1, 6, 5, 4, 3, 2)
+		KSL(1, 7, 6, 5, 4, 3)
+		KSH(0, 0, 7, 6, 5, 4)
+		KSH(0, 4, 3, 2, 1, 0)
+		KSH(1, 1, 0, 7, 6, 5)
+		KSH(1, 2, 1, 0, 7, 6)
+		KSH(1, 5, 4, 3, 2, 1)
+		KSH(1, 6, 5, 4, 3, 2)
+		KSH(2, 3, 2, 1, 0, 7)
+		KSH(2, 7, 6, 5, 4, 3)
+
+		AS2(	pxor	mm0, [AS_REG_6 + 16*1024 + WORD_REG(si)*8])
+		AS2(	movq	[SSE2_workspace], mm0)
+
+		TSL(0, 4, 3, 2, 1, 0)
+		TSL(0, 0, 7, 6, 5, 4)
+		TSL(1, 1, 0, 7, 6, 5)
+		TSL(1, 2, 1, 0, 7, 6)
+		TSL(1, 3, 2, 1, 0, 7)
+		TSL(1, 5, 4, 3, 2, 1)
+		TSL(1, 6, 5, 4, 3, 2)
+		TSL(1, 7, 6, 5, 4, 3)
+		TSH(0, 0, 7, 6, 5, 4)
+		TSH(0, 4, 3, 2, 1, 0)
+		TSH(1, 1, 0, 7, 6, 5)
+		TSH(1, 2, 1, 0, 7, 6)
+		TSH(1, 5, 4, 3, 2, 1)
+		TSH(1, 6, 5, 4, 3, 2)
+
+		AS1(	inc		WORD_REG(si))
+		AS2(	cmp		WORD_REG(si), 10)
+		ASJ(	je,		2, f)
+
+		TSH(2, 3, 2, 1, 0, 7)
+		TSH(2, 7, 6, 5, 4, 3)
+
+		ASJ(	jmp,	1, b)
+		ASL(2)
+
+		TSH(3, 3, 2, 1, 0, 7)
+		TSH(3, 7, 6, 5, 4, 3)
+
+#undef KSL
+#undef KSH
+#undef TSL
+#undef TSH
+
+		AS_POP_IF86(	sp)
+		AS1(	emms)
+
+#if defined(__GNUC__) || (defined(_MSC_VER) && _MSC_VER < 1300)
+		AS_POP_IF86(	bx)
+#endif
+#ifdef __GNUC__
+		ATT_PREFIX
+			:
+			: "a" (Whirlpool_C), "c" (digest), "d" (block)
+	#if CRYPTOPP_BOOL_X64
+			, "r" (workspace)
+	#endif
+			: "%esi", "%edi", "memory", "cc"
+	#if CRYPTOPP_BOOL_X64
+			, "%r9"
+	#endif
+		);
+#endif
+	}
+	else
+#endif		// #ifdef CRYPTOPP_X86_ASM_AVAILABLE
+	{
+		union { unsigned char ch[64]; unsigned long long ll[8]; } K, state;
+		unsigned long long L[8];
+		int r, i;
+
+		i = 0; do state.ll[i] = (K.ll[i] = digest[i]) ^ (block)[i]; while (++i < 8);
+
+		r = 0; do {
+			L[0] = Whirlpool_C[0*256 + K.ch[0 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[7 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[6 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[5 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[4 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[3 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[2 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[1 * 8 + 0]] ^ Whirlpool_C[2048 + r];
+			L[1] = Whirlpool_C[0*256 + K.ch[1 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[0 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[7 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[6 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[5 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[4 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[3 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[2 * 8 + 0]];
+			L[2] = Whirlpool_C[0*256 + K.ch[2 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[1 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[0 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[7 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[6 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[5 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[4 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[3 * 8 + 0]];
+			L[3] = Whirlpool_C[0*256 + K.ch[3 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[2 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[1 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[0 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[7 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[6 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[5 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[4 * 8 + 0]];
+			L[4] = Whirlpool_C[0*256 + K.ch[4 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[3 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[2 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[1 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[0 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[7 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[6 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[5 * 8 + 0]];
+			L[5] = Whirlpool_C[0*256 + K.ch[5 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[4 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[3 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[2 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[1 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[0 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[7 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[6 * 8 + 0]];
+			L[6] = Whirlpool_C[0*256 + K.ch[6 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[5 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[4 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[3 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[2 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[1 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[0 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[7 * 8 + 0]];
+			L[7] = Whirlpool_C[0*256 + K.ch[7 * 8 + 7]] ^ Whirlpool_C[1*256 + K.ch[6 * 8 + 6]] ^ Whirlpool_C[2*256 + K.ch[5 * 8 + 5]] ^ Whirlpool_C[3*256 + K.ch[4 * 8 + 4]] ^ Whirlpool_C[4*256 + K.ch[3 * 8 + 3]] ^ Whirlpool_C[5*256 + K.ch[2 * 8 + 2]] ^ Whirlpool_C[6*256 + K.ch[1 * 8 + 1]] ^ Whirlpool_C[7*256 + K.ch[0 * 8 + 0]];
+
+			L[0] = (K.ll[0] = L[0]) ^ Whirlpool_C[0*256 + state.ch[0 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[7 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[6 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[5 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[4 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[3 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[2 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[1 * 8 + 0]];
+			L[1] = (K.ll[1] = L[1]) ^ Whirlpool_C[0*256 + state.ch[1 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[0 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[7 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[6 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[5 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[4 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[3 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[2 * 8 + 0]];
+			L[2] = (K.ll[2] = L[2]) ^ Whirlpool_C[0*256 + state.ch[2 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[1 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[0 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[7 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[6 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[5 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[4 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[3 * 8 + 0]];
+			L[3] = (K.ll[3] = L[3]) ^ Whirlpool_C[0*256 + state.ch[3 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[2 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[1 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[0 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[7 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[6 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[5 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[4 * 8 + 0]];
+			L[4] = (K.ll[4] = L[4]) ^ Whirlpool_C[0*256 + state.ch[4 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[3 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[2 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[1 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[0 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[7 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[6 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[5 * 8 + 0]];
+			L[5] = (K.ll[5] = L[5]) ^ Whirlpool_C[0*256 + state.ch[5 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[4 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[3 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[2 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[1 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[0 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[7 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[6 * 8 + 0]];
+			L[6] = (K.ll[6] = L[6]) ^ Whirlpool_C[0*256 + state.ch[6 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[5 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[4 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[3 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[2 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[1 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[0 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[7 * 8 + 0]];
+			L[7] = (K.ll[7] = L[7]) ^ Whirlpool_C[0*256 + state.ch[7 * 8 + 7]] ^ Whirlpool_C[1*256 + state.ch[6 * 8 + 6]] ^ Whirlpool_C[2*256 + state.ch[5 * 8 + 5]] ^ Whirlpool_C[3*256 + state.ch[4 * 8 + 4]] ^ Whirlpool_C[4*256 + state.ch[3 * 8 + 3]] ^ Whirlpool_C[5*256 + state.ch[2 * 8 + 2]] ^ Whirlpool_C[6*256 + state.ch[1 * 8 + 1]] ^ Whirlpool_C[7*256 + state.ch[0 * 8 + 0]];
+
+			memcpy(state.ll, L, sizeof(L));
+		} while (++r < 10);
+
+		i = 0; do digest[i] ^= L[i] ^ (block)[i]; while (++i < 8);
+	}
+}
+
+static uint64 HashMultipleBlocks(WHIRLPOOL_CTX * const ctx, const uint64 *input, uint64 length)
+{
+	uint64* dataBuf = ctx->data;
+	do
+	{
+#if BYTE_ORDER == BIG_ENDIAN
+		WhirlpoolTransform(ctx->state, input);
+#else
+		CorrectEndianess(dataBuf, input, 64);
+		WhirlpoolTransform(ctx->state, dataBuf);
+#endif
+		input += 8;
+		length -= 64;
+	}
+	while (length >= 64);
+	return length;
 }
 
 /**
  * Initialize the hashing state.
  */
-void WHIRLPOOL_init(struct NESSIEstruct * const structpointer) {
-    int i;
-
-    memset(structpointer->bitLength, 0, 32);
-    structpointer->bufferBits = structpointer->bufferPos = 0;
-    structpointer->buffer[0] = 0; /* it's only necessary to cleanup buffer[bufferPos] */
-    for (i = 0; i < 8; i++) {
-        structpointer->hash[i] = 0L; /* initial value */
-    }
+void WHIRLPOOL_init(WHIRLPOOL_CTX * const ctx) {
+	 ctx->countHi = 0;
+	 ctx->countLo = 0;
+	 memset (ctx->data, 0, 8 * sizeof (uint64));
+	 memset (ctx->state, 0, 8 * sizeof (uint64));
 }
 
 /**
@@ -879,117 +908,68 @@ void WHIRLPOOL_init(struct NESSIEstruct * const structpointer) {
  *
  * This method maintains the invariant: bufferBits < DIGESTBITS
  */
-void WHIRLPOOL_add(const unsigned char * const source,
-               unsigned __int32 sourceBits,
-               struct NESSIEstruct * const structpointer) {
-    /*
-                       sourcePos
-                       |
-                       +-------+-------+-------
-                          ||||||||||||||||||||| source
-                       +-------+-------+-------
-    +-------+-------+-------+-------+-------+-------
-    ||||||||||||||||||||||                           buffer
-    +-------+-------+-------+-------+-------+-------
-                    |
-                    bufferPos
-    */
-    int sourcePos    = 0; /* index of leftmost source u8 containing data (1 to 8 bits). */
-    int sourceGap    = (8 - ((int)sourceBits & 7)) & 7; /* space on source[sourcePos]. */
-    int bufferRem    = structpointer->bufferBits & 7; /* occupied bits on buffer[bufferPos]. */
-    int i;
-    u32 b, carry;
-    u8 *buffer       = structpointer->buffer;
-    u8 *bitLength    = structpointer->bitLength;
-    int bufferBits   = structpointer->bufferBits;
-    int bufferPos    = structpointer->bufferPos;
+void WHIRLPOOL_add(const unsigned char * input,
+               unsigned __int32 sourceBytes,
+               WHIRLPOOL_CTX * const ctx) 
+{
+	uint64 num, oldCountLo = ctx->countLo, oldCountHi = ctx->countHi;
+	uint64 len = sourceBytes;
+	if ((ctx->countLo = oldCountLo + (uint64)len) < oldCountLo)
+		ctx->countHi++;             // carry from low to high
 
-    /*
-     * tally the length of the added data:
-     */
-    u64 value = sourceBits;
-    for (i = 31, carry = 0; i >= 0 && (carry != 0 || value != LL(0)); i--) {
-        carry += bitLength[i] + ((u32)value & 0xff);
-        bitLength[i] = (u8)carry;
-        carry >>= 8;
-        value >>= 8;
-    }
-    /*
-     * process data in chunks of 8 bits (a more efficient approach would be to take whole-word chunks):
-     */
-    while (sourceBits > 8) {
-        /* N.B. at least source[sourcePos] and source[sourcePos+1] contain data. */
-        /*
-         * take a byte from the source:
-         */
-        b = ((source[sourcePos] << sourceGap) & 0xff) |
-            ((source[sourcePos + 1] & 0xff) >> (8 - sourceGap));
-        /*
-         * process this byte:
-         */
-        buffer[bufferPos++] |= (u8)(b >> bufferRem);
-        bufferBits += 8 - bufferRem; /* bufferBits = 8*bufferPos; */
-        if (bufferBits == DIGESTBITS) {
-            /*
-             * process data block:
-             */
-            processBuffer(structpointer);
-            /*
-             * reset buffer:
-             */
-            bufferBits = bufferPos = 0;
-        }
-        buffer[bufferPos] = (u8) (b << (8 - bufferRem));
-        bufferBits += bufferRem;
-        /*
-         * proceed to remaining data:
-         */
-        sourceBits -= 8;
-        sourcePos++;
-    }
-    /* now 0 <= sourceBits <= 8;
-     * furthermore, all data (if any is left) is in source[sourcePos].
-     */
-    if (sourceBits > 0) {
-        b = (source[sourcePos] << sourceGap) & 0xff; /* bits are left-justified on b. */
-        /*
-         * process the remaining bits:
-         */
-        buffer[bufferPos] |= b >> bufferRem;
-    } else {
-        b = 0;
-    }
-    if (bufferRem + sourceBits < 8) {
-        /*
-         * all remaining data fits on buffer[bufferPos],
-         * and there still remains some space.
-         */
-        bufferBits += sourceBits;
-    } else {
-        /*
-         * buffer[bufferPos] is full:
-         */
-        bufferPos++;
-        bufferBits += 8 - bufferRem; /* bufferBits = 8*bufferPos; */
-        sourceBits -= 8 - bufferRem;
-        /* now 0 <= sourceBits < 8;
-         * furthermore, all data (if any is left) is in source[sourcePos].
-         */
-        if (bufferBits == DIGESTBITS) {
-            /*
-             * process data block:
-             */
-            processBuffer(structpointer);
-            /*
-             * reset buffer:
-             */
-            bufferBits = bufferPos = 0;
-        }
-        buffer[bufferPos] = (u8) (b << (8 - bufferRem));
-        bufferBits += (int)sourceBits;
-    }
-    structpointer->bufferBits   = bufferBits;
-    structpointer->bufferPos    = bufferPos;
+	if (ctx->countHi < oldCountHi)
+		return;
+	else
+	{
+		uint64* dataBuf = ctx->data;
+		byte* data = (byte *)dataBuf;		
+		num = oldCountLo & 63;
+
+		if (num != 0)	// process left over data
+		{
+			if (num+len >= 64)
+			{
+				memcpy(data+num, input, (size_t) (64-num));
+				HashMultipleBlocks(ctx, dataBuf, 64);
+				input += (64-num);
+				len -= (64-num);
+				num = 0;
+				// drop through and do the rest
+			}
+			else
+			{
+				memcpy(data+num, input, (size_t) len);
+				return;
+			}
+		}
+
+		// now process the input data in blocks of 64 bytes and save the leftovers to ctx->data
+		if (len >= 64)
+		{
+			if (input == data)
+			{
+				HashMultipleBlocks(ctx, dataBuf, 64);
+				return;
+			}
+			else if (IsAligned16(input))
+			{
+				uint64 leftOver = HashMultipleBlocks(ctx, (uint64 *)input, len);
+				input += (len - leftOver);
+				len = leftOver;
+			}
+			else
+				do
+				{   // copy input first if it's not aligned correctly
+					memcpy(data, input, 64);
+					HashMultipleBlocks(ctx, dataBuf, 64);
+					input+=64;
+					len-=64;
+				} while (len >= 64);
+		}
+
+		if (len && data != input)
+			memcpy(data, input, (size_t) len);
+	}
 }
 
 /**
@@ -997,62 +977,35 @@ void WHIRLPOOL_add(const unsigned char * const source,
  * 
  * This method uses the invariant: bufferBits < DIGESTBITS
  */
-void WHIRLPOOL_finalize(struct NESSIEstruct * const structpointer,
-                    unsigned char * const result) {
-    int i;
-    u8 *buffer      = structpointer->buffer;
-    u8 *bitLength   = structpointer->bitLength;
-    int bufferBits  = structpointer->bufferBits;
-    int bufferPos   = structpointer->bufferPos;
-    u8 *digest      = result;
+void WHIRLPOOL_finalize(WHIRLPOOL_CTX * const ctx,
+                    unsigned char * result) 
+{
+	unsigned int num = ctx->countLo & 63;
+	uint64* dataBuf = ctx->data;
+	uint64* stateBuf = ctx->state;
+	byte* data = (byte *)dataBuf;
 
-    /*
-     * append a '1'-bit:
-     */
-    buffer[bufferPos] |= 0x80U >> (bufferBits & 7);
-    bufferPos++; /* all remaining bits on the current u8 are set to zero. */
-    /*
-     * pad with zero bits to complete (N*WBLOCKBITS - LENGTHBITS) bits:
-     */
-    if (bufferPos > WBLOCKBYTES - LENGTHBYTES) {
-        if (bufferPos < WBLOCKBYTES) {
-            memset(&buffer[bufferPos], 0, WBLOCKBYTES - bufferPos);
-        }
-        /*
-         * process data block:
-         */
-        processBuffer(structpointer);
-        /*
-         * reset buffer:
-         */
-        bufferPos = 0;
-    }
-    if (bufferPos < WBLOCKBYTES - LENGTHBYTES) {
-        memset(&buffer[bufferPos], 0, (WBLOCKBYTES - LENGTHBYTES) - bufferPos);
-    }
-    bufferPos = WBLOCKBYTES - LENGTHBYTES;
-    /*
-     * append bit length of hashed data:
-     */
-    memcpy(&buffer[WBLOCKBYTES - LENGTHBYTES], bitLength, LENGTHBYTES);
-    /*
-     * process data block:
-     */
-    processBuffer(structpointer);
-    /*
-     * return the completed message digest:
-     */
-    for (i = 0; i < DIGESTBYTES/8; i++) {
-        digest[0] = (u8)(structpointer->hash[i] >> 56);
-        digest[1] = (u8)(structpointer->hash[i] >> 48);
-        digest[2] = (u8)(structpointer->hash[i] >> 40);
-        digest[3] = (u8)(structpointer->hash[i] >> 32);
-        digest[4] = (u8)(structpointer->hash[i] >> 24);
-        digest[5] = (u8)(structpointer->hash[i] >> 16);
-        digest[6] = (u8)(structpointer->hash[i] >>  8);
-        digest[7] = (u8)(structpointer->hash[i]      );
-        digest += 8;
-    }
-    structpointer->bufferBits   = bufferBits;
-    structpointer->bufferPos    = bufferPos;
+	data[num++] = 0x80;
+	if (num <= 32)
+		memset(data+num, 0, 32-num);
+	else
+	{
+		memset(data+num, 0, 64-num);
+		HashMultipleBlocks(ctx, dataBuf, 64);
+		memset(data, 0, 32);
+	}
+#if BYTE_ORDER == LITTLE_ENDIAN
+	CorrectEndianess(dataBuf, dataBuf, 32);
+#endif
+
+	dataBuf[4] = 0;
+	dataBuf[5] = 0;
+	dataBuf[6] = (ctx->countLo >> (8*sizeof(uint64)-3)) + (ctx->countHi << 3);
+	dataBuf[7] = ctx->countLo << 3;
+
+	WhirlpoolTransform(stateBuf, dataBuf);
+#if BYTE_ORDER == LITTLE_ENDIAN
+	CorrectEndianess(stateBuf, stateBuf, 64);
+#endif
+	memcpy(result, stateBuf, 64);
 }

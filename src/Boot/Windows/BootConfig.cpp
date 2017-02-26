@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -32,7 +32,7 @@ Partition EncryptedVirtualPartition;
 Partition ActivePartition;
 Partition PartitionFollowingActive;
 bool ExtraBootPartitionPresent = false;
-uint64 HiddenVolumeStartUnitNo;
+uint64 PimValueOrHiddenVolumeStartUnitNo; // reuse this variable for stored PIM value to reduce memory usage
 uint64 HiddenVolumeStartSector;
 
 #ifndef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
@@ -67,6 +67,14 @@ void ReadBootSectorUserConfiguration ()
 
 		DisableScreenOutput();
 	}
+
+	if (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
+	{
+		PimValueOrHiddenVolumeStartUnitNo.LowPart = 0;
+		memcpy (&PimValueOrHiddenVolumeStartUnitNo.LowPart, SectorBuffer + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
+	}
+	else
+		PimValueOrHiddenVolumeStartUnitNo.LowPart = -1;
 
 	OuterVolumeBackupHeaderCrc = *(uint32 *) (SectorBuffer + TC_BOOT_SECTOR_OUTER_VOLUME_BAK_HEADER_CRC_OFFSET);
 

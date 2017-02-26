@@ -7,6 +7,53 @@
 
 	<key>CFBundleIdentifier</key>
 	<string>org.idrix.VeraCrypt</string>
+	
+ 	<key>UTExportedTypeDeclarations</key>
+    <array>
+    	<dict>
+			<key>UTTypeIdentifier</key>
+			<string>org.idrix.veracrypt.hc</string>
+            
+            <key>UTTypeDescription</key>
+            <string>VeraCrypt Container File</string>
+            
+            <key>UTTypeConformsTo</key>
+            <array>
+            	<string>public.data</string>
+        	</array>
+                
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>hc</string>
+                    <string>tc</string>
+                </array>
+                    
+                <key>public.mime-type</key>
+                <string>application/veracrypt</string>
+            </dict>
+            </dict>
+        </array>
+
+	<key>CFBundleDocumentTypes</key>
+	<array>
+    	<dict>
+     	   <key>CFBundleTypeIconFile</key>
+     	   <string>VeraCrypt_Volume.icns</string>
+    	    <key>CFBundleTypeName</key>
+        	<string>VeraCrypt Container File</string>
+	        <key>CFBundleTypeRole</key>
+    	    <string>Viewer</string>
+        	<key>LSHandlerRank</key>
+        	<string>Owner</string>
+        	<key>LSItemContentTypes</key>
+        	<array>
+            	<!-- my app supports files with my custom extension (see UTExportedTypeDeclarations) -->
+            	<string>org.idrix.veracrypt.hc</string>
+        	</array>
+    	</dict>
+	</array>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
@@ -27,7 +74,7 @@
 	<string>TRUE</string>
 
 	<key>CFBundleVersion</key>
-	<string>1.16.1</string>
+	<string>1.20.2</string>
 
 	<key>CFBundleShortVersionString</key>
 	<string>_VERSION_</string>
@@ -40,5 +87,11 @@
 
 	<key>CSResourcesFileMapped</key>
 	<true/>
+
+    <key>NSHighResolutionCapable</key>
+    <true/>
+
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
 </dict>
 </plist>

@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.16">
+  <localization prog-version="1.20-BETA2">
     <!-- Languages -->
     <language langid="uk" name="Українська" en-name="Ukrainian" version="1.0.0" translators="Kravchuk Olexandr, Babchuk Volodymyr" />
     <!-- Fonts -->
@@ -60,7 +60,7 @@
     <control lang="uk" key="IDC_NO_HISTORY">&amp;Не зберігати історію</control>
     <control lang="uk" key="IDC_OPEN_OUTER_VOLUME">Відкрити зовнішній том</control>
     <control lang="uk" key="IDC_PAUSE">&amp;Павза</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="uk" key="IDC_QUICKFORMAT">Швидке форматування.</control>
     <control lang="uk" key="IDC_SHOW_PASSWORD">&amp;Показ пароля</control>
@@ -170,7 +170,7 @@
     <control lang="uk" key="IDC_PREF_MOUNT_READONLY">Монтувати як том тільки для читання</control>
     <control lang="uk" key="IDC_PREF_MOUNT_REMOVABLE">Монтувати як змінні носії</control>
     <control lang="uk" key="IDC_PREF_OPEN_EXPLORER">Відкривати вікно Провідника для успішно змонтованного тома</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="uk" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Використовувати інший значок панелі завдань, коли є підключені томи</control>
     <control lang="uk" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Очищати кеш паролів при авторозмонтуванні</control>
     <control lang="uk" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Очищати кеш паролів при виході</control>
@@ -261,7 +261,7 @@
     <control lang="uk" key="IDM_UNMOUNTALL">Розмонтувати всі змонтовані томи</control>
     <control lang="uk" key="IDM_UNMOUNT_VOLUME">Розмонтувати том</control>
     <control lang="uk" key="IDM_VERIFY_RESCUE_DISK">Провірити диск відновленння</control>
-    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk Image</control>
     <control lang="uk" key="IDM_VERSION_HISTORY">Історія версії</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="uk" key="IDM_VOLUME_PROPERTIES">Властивості тома</control>
@@ -452,7 +452,7 @@
     <string lang="uk" key="DRIVER_VERSION">Запущено драйвер VeraCrypt несумісної версії.\n\nВерсія що потрібна: VeraCrypt</string>
     <string lang="uk" key="ERR_CIPHER_INIT_FAILURE">Помилка ініціалізації шифру.</string>
     <string lang="uk" key="ERR_CIPHER_INIT_WEAK_KEY">Помилка: слабкий або потенційно слабкий ключ! Цей ключ не принято. Повторіть спробу.</string>
-    <string lang="uk" key="EXCEPTION_REPORT">Виникла критична помилка, робота VeraCrypt перервана. Якщо це наслідок помилки в VeraCrypt, ми б хотіли її виправити. Відправте автоматично створений звіт про помилку з наступними даними:\n\n- Версія програми\n- Версія операційної системи\n- Ім'я компонента VeraCrypt\n- Контрольна сума виконуючого файлу VeraCrypt\n- Символьне ім'я діалогового вікна\n- Категорія помилки\n- Адрес помилки\n- Тип ЦП\n- Мережевий виклик VeraCrypt\n\nПри виборі 'Так' в вашому браузері буде відкрита наступна URL-адреса з повним звітом про помилку (в окремих випадках це може зайняти до 30 секунд).\n\n%s\n\nВідправити звіт про помилку?</string>
+    <string lang="uk" key="EXCEPTION_REPORT">Виникла критична помилка, робота VeraCrypt перервана. Якщо це наслідок помилки в VeraCrypt, ми б хотіли її виправити. Відправте автоматично створений звіт про помилку з наступними даними:\n\n- Версія програми\n- Версія операційної системи\n- Ім'я компонента VeraCrypt\n- Контрольна сума виконуючого файлу VeraCrypt\n- Символьне ім'я діалогового вікна\n- Категорія помилки\n- Адрес помилки\n- Тип ЦП\n- Мережевий виклик VeraCrypt\n\nПри виборі 'Так' в вашому браузері буде відкрита наступна URL-адреса з повним звітом про помилку (в окремих випадках це може зайняти до 30 секунд).\n\n%hs\n\nВідправити звіт про помилку?</string>
     <string lang="uk" key="EXCEPTION_REPORT_EXT">Критична помилка в системі, робота VeraCrypt буде перервана.\n\nЦя помилка виникла не по вині VeraCrypt (тому розробники VeraCrypt не можуть її виправити). Перевірте свою систему на можливі проблеми (наприклад, системну конфігурацію, Підключення до мережі, збій апаратури).</string>
     <string lang="uk" key="EXCEPTION_REPORT_EXT_FILESEL">Критична помилка в системі, яка потребує VeraCrypt повинна бути припинена.\n\nЯкщо проблема не усувається, ви можете спробувати відключити або видалити додатки, які потенційно можуть бути причиною проблеми, такі як антивіруси і забезпечення безпеки в Інтернеті, система "підсилювачів", "оптимізаторів" або "твікера" і т.д. Якщо це не допоможе , ви можете спробувати перевстановити операційну систему (ця проблема може бути викликана шкідливих програм).</string>
     <string lang="uk" key="EXCEPTION_REPORT_TITLE">Критична помилка VeraCrypt</string>
@@ -559,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="uk" key="INIT_SYS_ENC">Неможливо ініціалізувати компонент застосунку для системного шифрування.</string>
     <string lang="uk" key="INIT_RAND">Невдала ініціалізація генератора випадкових чисел!</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="uk" key="INIT_REGISTER">Неможливо ініціалізувати застосунок. Невдала реєстрація класу Dialog.</string>
     <string lang="uk" key="INIT_RICHEDIT">Помилка завантаження системної бібліотеки Rich Edit.</string>
     <string lang="uk" key="INTRO_TITLE">Майстер створення тому VeraCrypt</string>
@@ -641,8 +641,6 @@
     <string lang="uk" key="PASSWORD_WRONG_AUTOMOUNT">Невірний пароль, або не знайдено том VeraCrypt.</string>
     <string lang="uk" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Невірні файл-ключі/пароль, або не знайдено том VeraCrypt.</string>
     <string lang="uk" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nУвага: ввімкнено режим Caps Lock. Зверніть увагу на правильність введення паролю.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -964,14 +962,14 @@
     <string lang="uk" key="VOLUME_HAS_NO_BACKUP_HEADER">В цьому томі немає вмонтованої копії заголовку (вмонтовані копії заголовків містять тільки томи, створені VeraCrypt 6.0 або новіша).</string>
     <string lang="uk" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Ви намагаєтесь зробити резервну копію заголовку системного розділу/пристрою. Це не дозволено. Резервні/відновлювальні операції з системним розділом/пристроєм можуть бути здійснені лише за допомогою Диску Відновлення VeraCrypt.\n\nВи бажаєте створити Диск Відновлення VeraCrypt?</string>
     <string lang="uk" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Ви намагаєтесь відновити заголовок віртуального тому VeraCrypt, але ви обрали системний розділ/пристрій. Це не дозволено. Резервні/відновлювальні операції з системним розділом/пристроєм можуть бути здійснені лише за допомогою Диску Відновлення VeraCrypt.\n\nВи бажаєте створити Диск Відновлення VeraCrypt?</string>
-    <string lang="uk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Після натискання 'Добре', вам потрібно обрати ім'я файлу для ISO-образу нового Диску Відновлення VeraCrypt та шляху його розміщення.</string>
+    <string lang="uk" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Після натискання 'Добре', вам потрібно обрати ім'я файлу для образу нового Диску Відновлення VeraCrypt та шляху його розміщення.</string>
     <string lang="uk" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">Образ Диску Відновлення створено та збережено у файлі: %s\n\nЗараз вам потрібно записати Диск Відновлення на CD або DVD.\n\nВАЖЛИВО: пам'ятайте, що файл потрібно записати на CD/DVD як ISO-образ (а не як окремий файл). Більш докладніше про те, як це зробити, наведено у документації вашого CD/DVD-записувального програмного забезпечення.\n\nПісля запису Диску Відновлення, оберіть 'Система' &gt; 'Перевірити Диск Відновлення', щоб перевірити чи коректно записано Диск Відновлення.</string>
     <string lang="uk" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">Образ диска відновлення створений і збережений у файлі:%s\n\nЗараз вам потрібно записати цей образ на CD або DVD.\n\nБажаєте запустити програму запису оптичних дисків Windows?\n\nЗаписавши диск відновлення на CD/DVD, виберіть 'Система' &gt; 'Перевірити диск відновлення', щоб переконатися в коректності запису створеного диска.</string>
     <string lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Будь ласка, вставте Диск Відновлення VeraCrypt у CD/DVD-пристрій та натисніть 'Добре' для перевірки.</string>
     <string lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">Диск Відновлення VeraCrypt успішно перевірено.</string>
     <string lang="uk" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Неможливо перевірити чи коректно записано Диск Відновлення.\n\nЯкщо у вас є записаний Диск Відновлення, будь ласка, дістаньте, вставте CD/DVD; потім спробуйте ще. Якщо це не допоможе, будь ласка спробуйте іншу CD/DVD-записувальну програму та/або носій.\n\nЯкщо ви захочете перевірити Диск Відновлення VeraCrypt, створений з іншим головний ключем, паролем, "сіллю" тощо, будь ласка пам'ятайте, що перевірка такого Диску Відновлення завжди буде невдалою. Щоб створити новий Диск Відновлення повністю сумісний з вашою поточною конфігурацією, оберіть 'Система' &gt; 'Створити Диск Відновлення'.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk image created for a different master key, password, salt, etc., please note that such Rescue Disk image will always fail this verification. To create a new Rescue Disk image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="uk" key="ERROR_CREATING_RESCUE_DISK">Помилка створення Диску Відновлення VeraCrypt.</string>
     <string lang="uk" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">Диск відновлення VeraCrypt неможна створити при запущеній прихованій операційній системі.\n\nЩоб створити диск відновлення, завантажте підставну операційну систему, а потім виберіть 'Система' &gt; 'Створити диск відновлення'.</string>
     <string lang="uk" key="RESCUE_DISK_CHECK_FAILED">Неможливо перевірити чи коректно записано Диск Відновлення.\n\nЯкщо у вас є записаний Диск Відновлення, будь ласка, вставте в CD/DVD; потім натисніть 'Далі' для наступної спроби. Якщо це не допоможе, будь ласка спробуйте іншу CD/DVD-записувальну програму та/або носій.%s\n\nЯкщо у вас ще немає записаного Диску Відновлення, будь ласка, запишіть його та потім натисніть 'Далі'.\n\nЯкщо ви захочете перевірити Диск Відновлення VeraCrypt, створений перед запуском цього майстра, будь ласка памятайте, що такий Диск Відновлення не можна використовувати, тому що він створений з іншим головним ключем. Вам потрібно записати заново створений Диск Відновлення.</string>
@@ -1056,8 +1054,8 @@
     <string lang="uk" key="FAILED_TO_INTERRUPT_WIPING">Помилка!Неможливо перервати процес очищення (видалення даних).</string>
     <string lang="uk" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">Помилка: Неможливо продовжити процес шифрування/розшифрування системного розділу/пристрою.</string>
     <string lang="uk" key="FAILED_TO_START_WIPING">Помилка! Неможливо почати процес очищення (видалення даних).</string>
-    <string lang="uk" key="INCONSISTENCY_RESOLVED">Несумісність рішення.\n\n\n(якщо ви повідомляєте про помилку, будь ласка, додайте наступну технічну інформацію до повідомлення про помилку: %s)</string>
-    <string lang="uk" key="UNEXPECTED_STATE">Помилка! Невідомий стан.\n\n\n(Якщо ви повідомите про помилку, будь ласка, додайте наступну технічну інформацію до повідомлення про помилку: %s)</string>
+    <string lang="uk" key="INCONSISTENCY_RESOLVED">Несумісність рішення.\n\n\n(якщо ви повідомляєте про помилку, будь ласка, додайте наступну технічну інформацію до повідомлення про помилку: %hs)</string>
+    <string lang="uk" key="UNEXPECTED_STATE">Помилка! Невідомий стан.\n\n\n(Якщо ви повідомите про помилку, будь ласка, додайте наступну технічну інформацію до повідомлення про помилку: %hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="uk" key="HIDVOL_PROT_BKG_TASK_WARNING">УВАГА: фоновий процес VeraCrypt вимкнений. При виході з VeraCrypt ви не будете попереджені про запобігання пошкодження прихованого тому.\n\nПам'ятайте: фоновий процес можна завершити у будь-який момент, натиснувши правою кнопкою миші на значок VeraCrypt у системному треї й обравши пункт 'Вихід'.\n\nВвімкнути фоновий процес VeraCrypt?</string>
     <string lang="uk" key="LANG_PACK_VERSION">Версія мовного модулю: %s</string>
@@ -1079,7 +1077,7 @@
     <string lang="uk" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt більше не підтримує шифрування системного розділу/диску в Windows Vista без встановленого пакета оновлення (Service Pack). Перш ніж оновити VeraCrypt, встановіть Service Pack 1 (або новіший) для Windows Vista.</string>
     <string lang="uk" key="FEATURE_REQUIRES_INSTALLATION">Помилка! Щоб скористатися даною функцією, потрібно щоб VeraCrypt був встановлений на цьому комп’ютері (зараз ви використовуєте VeraCrypt в 'портативному' режимі).\n\nВстановіть (інсталюйте) VeraCrypt і повторіть спробу.</string>
     <string lang="uk" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">Помилка! Windows не встановлений на диску, з якого він завантажується. Це не підтримується.</string>
-    <string lang="uk" key="GPT_BOOT_DRIVE_UNSUPPORTED">Ваш системний диск має таблицю розділів GUID (GPT). На даний момент підтримуються тільки диски з таблицею розділів MBR.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="uk" key="TC_BOOT_LOADER_ALREADY_INSTALLED">ОБЕРЕЖНО: На системному диску вже встановлено завантажувач VeraCrypt!\n\nМожливо, у вашому комп'ютер є інша вже Зашифрована система.\n\nУВАГА: У разі продовження Шифрування поточна система є вірогідність, що ІНШІ СИСТЕМИ НЕ зможуть завантажувати, А СТОСУЮТЬСЯ НИМ ДАНІ стануть недоступними.\n\nВи дійсно бажаєте продовжити?</string>
     <string lang="uk" key="SYS_LOADER_RESTORE_FAILED">Помилка відновлення початкового завантажувача системи.\n\nВикористовується інсталяційний диск Windows, щоб замінити завантажувач VeraCrypt системний завантажувач Windows.</string>
     <string lang="uk" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Вихідний системний завантажувач не буде збережений на диску відновлення (можлива причина: немає файлу з резервної копією).</string>
@@ -1382,6 +1380,40 @@
     <string lang="uk" key="TB_PER_SEC">Тб/с</string>
     <string lang="uk" key="PB_PER_SEC">Пб/с</string>
     <string lang="uk" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
+    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
+    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
+    <string lang="en" key="VOLUME_ID">Volume ID</string>
+    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
+    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
+    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
+    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
+    <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
+    <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
+    <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
+    <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
+    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
+    <string lang="en" key="TIME">Time</string>
+    <string lang="en" key="ITERATIONS">Iterations</string>
+    <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
+	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -43,7 +43,7 @@ namespace VeraCrypt
 		}
 
 		CacheCheckBox->Show (enableCache);
-		
+
 		if (!enablePassword && enableKeyfiles)
 		{
 			Layout();
@@ -58,11 +58,12 @@ namespace VeraCrypt
 		PasswordStaticText->Show (enablePassword);
 		PasswordTextCtrl->Show (enablePassword);
 		DisplayPasswordCheckBox->Show (enablePassword);
-		
-		
+
+
 		EnablePimEntry = enablePassword && (!enableConfirmation || (enablePkcs5Prf && !isMountPassword));
 		PimCheckBox->Show (EnablePimEntry);
 		VolumePimStaticText->Show (false);
+		VolumePimTextCtrl->SetMaxLength (MAX_PIM_DIGITS);
 		VolumePimTextCtrl->Show (false);
 		VolumePimHelpStaticText->Show (false);
 
@@ -70,12 +71,12 @@ namespace VeraCrypt
 
 		ConfirmPasswordStaticText->Show (enableConfirmation);
 		ConfirmPasswordTextCtrl->Show (enableConfirmation);
-		
+
 		UseKeyfilesCheckBox->Show (enableKeyfiles);
 		KeyfilesButton->Show (enableKeyfiles);
 
 		Pkcs5PrfStaticText->Show (enablePkcs5Prf);
-		Pkcs5PrfChoice->Show (enablePkcs5Prf);		
+		Pkcs5PrfChoice->Show (enablePkcs5Prf);
 		TrueCryptModeCheckBox->Show (!disableTruecryptMode);
 		HeaderWipeCountText->Show (enablePkcs5Prf && !isMountPassword);
 		HeaderWipeCount->Show (enablePkcs5Prf && !isMountPassword);
@@ -103,20 +104,20 @@ namespace VeraCrypt
 		}
 
 		if (enablePkcs5Prf)
-		{	
+		{
 			int index, prfInitialIndex = 0;
 			if (isMountPassword)
 			{
 				// case of password for mounting
 				Pkcs5PrfChoice->Delete (0);
-				Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);		
+				Pkcs5PrfChoice->Append (LangString["AUTODETECTION"]);
 			}
 			foreach_ref (const Pkcs5Kdf &kdf, Pkcs5Kdf::GetAvailableAlgorithms(false))
 			{
 				if (!kdf.IsDeprecated() || isMountPassword)
 				{
 					index = Pkcs5PrfChoice->Append (kdf.GetName());
-					if (isMountPassword && options && options->Kdf 
+					if (isMountPassword && options && options->Kdf
 						&& (options->Kdf->GetName() == kdf.GetName())
 					   )
 					{
@@ -198,7 +199,7 @@ namespace VeraCrypt
 		int colspan = isPim? 1 : 2;
 
 		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
-		newTextCtrl->SetMaxLength (isPim? 10 : VolumePassword::MaxSize); 
+		newTextCtrl->SetMaxLength (isPim? MAX_PIM_DIGITS : VolumePassword::MaxSize);
 		newTextCtrl->SetValue ((*textCtrl)->GetValue());
 		newTextCtrl->SetMinSize ((*textCtrl)->GetSize());
 
@@ -269,7 +270,7 @@ namespace VeraCrypt
 			return shared_ptr <Pkcs5Kdf> ();
 		}
 	}
-	
+
 	int VolumePasswordPanel::GetVolumePim () const
 	{
 		if (VolumePimTextCtrl->IsEnabled () && VolumePimTextCtrl->IsShown ())
@@ -278,14 +279,16 @@ namespace VeraCrypt
 			long pim = 0;
 			if (pimStr.IsEmpty())
 				return 0;
-			if (pimStr.ToLong (&pim))
+			if (((size_t) wxNOT_FOUND == pimStr.find_first_not_of (wxT("0123456789")))
+				&& pimStr.ToLong (&pim)
+				&& pim <= MAX_PIM_VALUE)
 				return (int) pim;
 			else
 				return -1;
 		}
 		else
 			return 0;
-	}	
+	}
 
 	void VolumePasswordPanel::SetVolumePim (int pim)
 	{
@@ -304,6 +307,16 @@ namespace VeraCrypt
 		return TrueCryptModeCheckBox->GetValue ();
 	}
 	
+	void VolumePasswordPanel::SetTrueCryptMode (bool trueCryptMode)
+	{
+		bool bEnablePIM = !trueCryptMode;
+		TrueCryptModeCheckBox->SetValue (trueCryptMode);
+		PimCheckBox->Enable (bEnablePIM);
+		VolumePimStaticText->Enable (bEnablePIM);
+		VolumePimTextCtrl->Enable (bEnablePIM);
+		VolumePimHelpStaticText->Enable (bEnablePIM);
+	}
+
 	int VolumePasswordPanel::GetHeaderWipeCount () const
 	{
 		try
@@ -390,10 +403,10 @@ namespace VeraCrypt
 	void VolumePasswordPanel::OnDisplayPasswordCheckBoxClick (wxCommandEvent& event)
 	{
 		DisplayPassword (event.IsChecked(), &PasswordTextCtrl, 1);
-		
+
 		if (ConfirmPasswordTextCtrl->IsShown())
 			DisplayPassword (event.IsChecked(), &ConfirmPasswordTextCtrl, 2);
-		
+
 		if (VolumePimTextCtrl->IsShown())
 			DisplayPassword (event.IsChecked(), &VolumePimTextCtrl, 3);
 
@@ -464,7 +477,7 @@ namespace VeraCrypt
 			VolumePimHelpStaticText->SetLabel(LangString["IDC_PIM_HELP"]);
 			guiUpdated = true;
 		}
-		
+
 		if (guiUpdated)
 		{
 			Layout();
@@ -482,8 +495,8 @@ namespace VeraCrypt
 			PimCheckBox->Show (false);
 			VolumePimStaticText->Show (true);
 			VolumePimTextCtrl->Show (true);
-			VolumePimHelpStaticText->Show (true);	
-			
+			VolumePimHelpStaticText->Show (true);
+
 			if (DisplayPasswordCheckBox->IsChecked ())
 				DisplayPassword (true, &VolumePimTextCtrl, 3);
 			else
@@ -491,12 +504,12 @@ namespace VeraCrypt
 				Layout();
 				Fit();
 			}
-			
+
 			GetParent()->Layout();
 			GetParent()->Fit();
 		}
 	}
-	
+
 	void VolumePasswordPanel::OnTrueCryptModeChecked( wxCommandEvent& event )
 	{
 		bool bEnablePIM = !GetTrueCryptMode ();

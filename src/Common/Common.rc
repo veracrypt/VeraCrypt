@@ -45,14 +45,14 @@ BEGIN
     CONTROL         IDB_TEXTUAL_LOGO_96DPI,IDC_TEXTUAL_LOGO_IMG,"Static",SS_BITMAP,12,26,157,16
 END
 
-IDD_COMMANDHELP_DLG DIALOGEX 0, 0, 249, 274
+IDD_COMMANDHELP_DLG DIALOGEX 0, 0, 249, 289
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Command Line Help"
 CLASS "VeraCryptCustomDlg"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,93,252,59,14
-    LTEXT           "",IDC_COMMANDHELP_TEXT,20,10,208,241
+    DEFPUSHBUTTON   "OK",IDOK,93,267,59,14
+    LTEXT           "",IDC_COMMANDHELP_TEXT,20,7,208,256
 END
 
 IDD_RAWDEVICES_DLG DIALOGEX 0, 0, 305, 209
@@ -77,11 +77,13 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,39,257,11
     CONTROL         "Mount partition &using system encryption without pre-boot authentication",IDC_MOUNT_SYSENC_PART_WITHOUT_PBA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,259,11
+    EDITTEXT        IDC_VOLUME_LABEL,112,67,150,14,ES_AUTOHSCROLL
     CONTROL         "&Protect hidden volume against damage caused by writing to outer volume",IDC_PROTECT_HIDDEN_VOL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,97,252,10
     EDITTEXT        IDC_PASSWORD_PROT_HIDVOL,112,115,151,14,ES_PASSWORD | ES_AUTOHSCROLL
     COMBOBOX        IDC_PKCS5_PRF_ID,112,136,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
     EDITTEXT        IDC_PIM,112,156,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,161,97,10
     LTEXT           "(Empty or 0 for default iterations)",IDC_PIM_HELP,158,159,112,8,NOT WS_VISIBLE
     CONTROL         "&Display password",IDC_SHOW_PASSWORD_MO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,174,90,10
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE_HIDVOL_PROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,187,90,10
@@ -93,33 +95,31 @@ BEGIN
     GROUPBOX        "Hidden Volume Protection",IDT_HIDDEN_VOL_PROTECTION,6,83,265,136
     RTEXT           "PKCS-5 PRF:",IDT_PKCS5_PRF,15,137,91,17
     RTEXT           "Volume PIM:",IDT_PIM,15,159,91,17,NOT WS_VISIBLE
-    CONTROL         "Use PIM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,161,97,10
     LTEXT           "Volume Label in Windows:",IDT_VOLUME_LABEL,12,70,95,8
-    EDITTEXT        IDC_VOLUME_LABEL,112,67,150,14,ES_AUTOHSCROLL
 END
 
-IDD_KEYFILES DIALOGEX 0, 0, 345, 251
+IDD_KEYFILES DIALOGEX 0, 0, 363, 251
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Keyfiles"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_KEYLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,8,263,118
+    CONTROL         "",IDC_KEYLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,8,275,118
     PUSHBUTTON      "Add &Files...",IDC_KEYADD,7,132,61,14
-    PUSHBUTTON      "Add &Path...",IDC_ADD_KEYFILE_PATH,73,132,61,14
-    PUSHBUTTON      "Add &Token Files...",IDC_TOKEN_FILES_ADD,139,132,65,14
-    PUSHBUTTON      "&Remove",IDC_KEYREMOVE,209,132,61,14
-    PUSHBUTTON      "Remove &All",IDC_KEYREMOVEALL,275,132,61,14
-    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,232,83,11
-    PUSHBUTTON      "&Generate Random Keyfile...",IDC_GENERATE_KEYFILE,213,230,123,14
-    DEFPUSHBUTTON   "OK",IDOK,279,8,59,14
-    PUSHBUTTON      "Cancel",IDCANCEL,279,25,59,14
-    LTEXT           "",IDT_KEYFILES_NOTE,10,161,324,41,0,WS_EX_TRANSPARENT
-    LTEXT           "WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!",IDT_KEYFILE_WARNING,279,44,58,85,0,WS_EX_TRANSPARENT
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,154,343,1,WS_EX_STATICEDGE
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,209,343,1,WS_EX_STATICEDGE
-    LTEXT           "More information on keyfiles",IDC_LINK_KEYFILES_INFO,96,233,108,10,SS_NOTIFY
+    PUSHBUTTON      "Add &Path...",IDC_ADD_KEYFILE_PATH,79,132,61,14
+    PUSHBUTTON      "Add &Token Files...",IDC_TOKEN_FILES_ADD,151,132,65,14
+    PUSHBUTTON      "&Remove",IDC_KEYREMOVE,227,132,61,14
+    PUSHBUTTON      "Remove &All",IDC_KEYREMOVEALL,299,132,61,14
+    CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,232,100,11
+    PUSHBUTTON      "&Generate Random Keyfile...",IDC_GENERATE_KEYFILE,237,230,123,14
+    DEFPUSHBUTTON   "OK",IDOK,290,8,70,14
+    PUSHBUTTON      "Cancel",IDCANCEL,290,25,70,14
+    LTEXT           "",IDT_KEYFILES_NOTE,10,161,346,41,0,WS_EX_TRANSPARENT
+    LTEXT           "WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!",IDT_KEYFILE_WARNING,290,44,69,85,0,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,154,361,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,209,361,1,WS_EX_STATICEDGE
+    LTEXT           "More information on keyfiles",IDC_LINK_KEYFILES_INFO,111,233,124,10,SS_NOTIFY
     CONTROL         "Try first to mount with an empty password",IDC_KEYFILES_TRY_EMPTY_PASSWORD,
-                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,7,217,205,10
+                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,7,217,310,10
 END
 
 IDD_LANGUAGE DIALOGEX 0, 0, 209, 183
@@ -138,25 +138,30 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,158,208,1,WS_EX_STATICEDGE
 END
 
-IDD_BENCHMARK_DLG DIALOGEX 0, 0, 330, 223
+IDD_BENCHMARK_DLG DIALOGEX 0, 0, 330, 247
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "VeraCrypt - Encryption Algorithm Benchmark"
+CAPTION "VeraCrypt - Algorithms Benchmark"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    COMBOBOX        IDC_BENCHMARK_BUFFER_SIZE,55,7,77,129,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_BENCHMARK_SORT_METHOD,207,7,116,74,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "",IDC_RESULTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,37,249,160
-    DEFPUSHBUTTON   "Benchmark",IDC_PERFORM_BENCHMARK,265,37,58,14
-    PUSHBUTTON      "Close",IDCLOSE,265,55,58,14
-    LTEXT           "Hardware-accelerated AES:",IDC_HW_AES_LABEL_LINK,148,210,108,9,SS_NOTIFY,WS_EX_RIGHT
-    CONTROL         "",IDC_HW_AES,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,262,209,57,11,WS_EX_STATICEDGE
-    LTEXT           "Parallelization:",IDC_PARALLELIZATION_LABEL_LINK,4,210,67,9,SS_NOTIFY,WS_EX_RIGHT
-    CONTROL         "",IDC_PARALLELIZATION,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,77,209,57,11,WS_EX_STATICEDGE
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,29,328,1,WS_EX_STATICEDGE
-    LTEXT           "Buffer Size:",IDT_BUFFER_SIZE,0,9,53,8,0,WS_EX_RIGHT
-    LTEXT           "Sort Method:",IDT_SORT_METHOD,135,9,70,8,0,WS_EX_RIGHT
-    LTEXT           "Speed is affected by CPU load and storage device characteristics.\n\nThese tests take place in RAM.",IDT_BOX_BENCHMARK_INFO,266,81,57,116
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,205,328,1,WS_EX_STATICEDGE
+    COMBOBOX        IDC_BENCHMARK_LIST,55,11,87,53,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_BENCHMARK_BUFFER_SIZE,209,11,87,129,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PIM,209,11,42,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    CONTROL         "Pre-Boot",IDC_BENCHMARK_PREBOOT,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,258,14,71,10
+    COMBOBOX        IDC_BENCHMARK_SORT_METHOD,55,40,139,74,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Benchmark",IDC_PERFORM_BENCHMARK,265,60,58,14
+    PUSHBUTTON      "Close",IDCLOSE,265,79,58,14
+    CONTROL         "",IDC_RESULTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,60,249,160
+    LTEXT           "Hardware-accelerated AES:",IDC_HW_AES_LABEL_LINK,148,233,108,9,SS_NOTIFY,WS_EX_RIGHT
+    CONTROL         "",IDC_HW_AES,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,262,232,57,11,WS_EX_STATICEDGE
+    LTEXT           "Parallelization:",IDC_PARALLELIZATION_LABEL_LINK,4,233,67,9,SS_NOTIFY,WS_EX_RIGHT
+    CONTROL         "",IDC_PARALLELIZATION,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,77,232,57,11,WS_EX_STATICEDGE
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,32,328,1,WS_EX_STATICEDGE
+    LTEXT           "Buffer Size:",IDT_BUFFER_SIZE,154,14,53,8,0,WS_EX_RIGHT
+    LTEXT           "Sort Method:",IDT_SORT_METHOD,0,42,53,8,0,WS_EX_RIGHT
+    LTEXT           "Speed is affected by CPU load and storage device characteristics.\n\nThese tests take place in RAM.",IDT_BOX_BENCHMARK_INFO,266,107,57,100
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,2,228,328,1,WS_EX_STATICEDGE
+    LTEXT           "Benchmark: ",IDT_BENCHMARK,0,14,53,8,0,WS_EX_RIGHT
+    RTEXT           "Volume PIM:",IDT_PIM,154,14,53,8,NOT WS_VISIBLE
 END
 
 IDD_CIPHER_TEST_DLG DIALOGEX 0, 0, 326, 249
@@ -201,10 +206,10 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,305,200,58,14
     PUSHBUTTON      "&Print",IDC_PRINT,156,200,58,14
-    CONTROL         "",IDC_INFO_BOX_TEXT,"RichEdit20A",ES_MULTILINE | ES_READONLY | ES_NUMBER | WS_BORDER | WS_VSCROLL | WS_TABSTOP,5,6,361,188
+    CONTROL         "",IDC_INFO_BOX_TEXT,"RichEdit20W",ES_MULTILINE | ES_READONLY | ES_NUMBER | WS_BORDER | WS_VSCROLL | WS_TABSTOP,5,6,361,188
 END
 
-IDD_KEYFILE_GENERATOR DIALOGEX 0, 0, 357, 325
+IDD_KEYFILE_GENERATOR DIALOGEX 0, 0, 357, 362
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Keyfile Generator"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -212,20 +217,22 @@ BEGIN
     DEFPUSHBUTTON   "Close",IDCLOSE,291,10,59,14
     COMBOBOX        IDC_PRF_ID,97,49,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
     CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,51,141,10
-    EDITTEXT        IDC_NUMBER_KEYFILES,124,244,51,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_KEYFILES_SIZE,124,264,51,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_NUMBER_KEYFILES,124,278,51,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_KEYFILES_SIZE,124,298,51,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Random size ( 64 <-> 1048576 )",IDC_KEYFILES_RANDOM_SIZE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,181,266,174,10
-    EDITTEXT        IDC_KEYFILES_BASE_NAME,124,284,141,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Generate and Save Keyfile...",IDC_GENERATE_AND_SAVE_KEYFILE,124,302,141,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,181,300,174,10
+    EDITTEXT        IDC_KEYFILES_BASE_NAME,124,318,141,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Generate and Save Keyfile...",IDC_GENERATE_AND_SAVE_KEYFILE,124,336,141,14
     LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.",IDT_KEYFILE_GENERATOR_NOTE,11,5,271,33
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,40,356,1,WS_EX_STATICEDGE
     RTEXT           "Mixing PRF:",IDT_PRF,7,51,85,10,SS_CENTERIMAGE
     GROUPBOX        "Current Pool Content",IDT_POOL_CONTENTS,6,70,344,170
-    CONTROL         "",IDC_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,16,83,323,148,WS_EX_TRANSPARENT
-    RTEXT           "Number of keyfiles:",IDT_NUMBER_KEYFILES,9,247,110,8
-    RTEXT           "Keyfiles base name:",IDT_KEYFILES_BASE_NAME,9,287,110,8
-    RTEXT           "Keyfiles size (in Bytes):",IDT_KEYFILES_SIZE,9,266,110,8
+    CTEXT           "",IDC_POOL_CONTENTS,16,83,323,148,0,WS_EX_TRANSPARENT
+    RTEXT           "Number of keyfiles:",IDT_NUMBER_KEYFILES,9,281,110,8
+    RTEXT           "Keyfiles base name:",IDT_KEYFILES_BASE_NAME,9,321,110,8
+    RTEXT           "Keyfiles size (in Bytes):",IDT_KEYFILES_SIZE,9,300,110,8
+    CONTROL         "",IDC_ENTROPY_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,18,255,321,12
+    GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,6,244,344,29
 END
 
 IDD_MULTI_CHOICE_DLG DIALOGEX 0, 0, 167, 322
@@ -293,12 +300,12 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,5,2,228,51
 END
 
-IDD_RANDOM_POOL_ENRICHMENT DIALOGEX 0, 0, 308, 270
+IDD_RANDOM_POOL_ENRICHMENT DIALOGEX 0, 0, 308, 301
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Random Pool Enrichment"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "&Continue",IDC_CONTINUE,119,248,71,14
+    DEFPUSHBUTTON   "&Continue",IDC_CONTINUE,119,278,71,14
     COMBOBOX        IDC_PRF_ID,79,49,91,90,CBS_DROPDOWNLIST | WS_TABSTOP
     LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases security. When done, click 'Continue'.",IDT_RANDOM_POOL_ENRICHMENT_NOTE,11,6,282,25
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,37,307,1,WS_EX_STATICEDGE
@@ -306,6 +313,8 @@ BEGIN
     GROUPBOX        "Current Pool Content",IDT_POOL_CONTENTS,6,70,296,170
     CONTROL         "",IDC_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,16,83,282,148,WS_EX_TRANSPARENT
     CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,51,111,10
+    CONTROL         "",IDC_ENTROPY_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,16,255,275,12
+    GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,7,244,294,29
 END
 
 IDD_STATIC_MODELESS_WAIT_DLG DIALOGEX 0, 0, 292, 42
@@ -333,7 +342,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ABOUT_DLG, DIALOG
     BEGIN
@@ -341,7 +350,7 @@ BEGIN
 
     IDD_COMMANDHELP_DLG, DIALOG
     BEGIN
-        BOTTOMMARGIN, 266
+        BOTTOMMARGIN, 281
     END
 
     IDD_RAWDEVICES_DLG, DIALOG
@@ -362,7 +371,7 @@ BEGIN
     IDD_KEYFILES, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 330
+        RIGHTMARGIN, 345
         TOPMARGIN, 7
         BOTTOMMARGIN, 244
     END
@@ -380,7 +389,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 323
         TOPMARGIN, 7
-        BOTTOMMARGIN, 216
+        BOTTOMMARGIN, 240
     END
 
     IDD_CIPHER_TEST_DLG, DIALOG
@@ -403,7 +412,7 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         TOPMARGIN, 7
-        BOTTOMMARGIN, 321
+        BOTTOMMARGIN, 358
     END
 
     IDD_MULTI_CHOICE_DLG, DIALOG
@@ -451,7 +460,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 301
         TOPMARGIN, 7
-        BOTTOMMARGIN, 267
+        BOTTOMMARGIN, 298
     END
 
     IDD_STATIC_MODELESS_WAIT_DLG, DIALOG
@@ -482,39 +491,59 @@ IDR_BOOT_SECTOR         BIN                     "..\\Boot\\Windows\\Release\\Boo
 IDR_BOOT_SECTOR_AES     BIN                     "..\\Boot\\Windows\\Release_AES\\BootSector.bin"
 IDR_BOOT_SECTOR_SERPENT BIN                     "..\\Boot\\Windows\\Release_Serpent\\BootSector.bin"
 IDR_BOOT_SECTOR_TWOFISH BIN                     "..\\Boot\\Windows\\Release_Twofish\\BootSector.bin"
+IDR_BOOT_SECTOR_CAMELLIA BIN                     "..\\Boot\\Windows\\Release_Camellia\\BootSector.bin"
 IDR_BOOT_LOADER_DECOMPRESSOR BIN                     "..\\Boot\\Windows\\Release\\Decompressor.com"
 IDR_BOOT_LOADER         BIN                     "..\\Boot\\Windows\\Release\\BootLoader.com.gz"
 IDR_BOOT_LOADER_AES     BIN                     "..\\Boot\\Windows\\Release_AES\\BootLoader.com.gz"
 IDR_BOOT_LOADER_SERPENT BIN                     "..\\Boot\\Windows\\Release_Serpent\\BootLoader.com.gz"
 IDR_BOOT_LOADER_TWOFISH BIN                     "..\\Boot\\Windows\\Release_Twofish\\BootLoader.com.gz"
+IDR_BOOT_LOADER_CAMELLIA BIN                     "..\\Boot\\Windows\\Release_Camellia\\BootLoader.com.gz"
 
 IDR_BOOT_SECTOR_SHA2    BIN                     "..\\Boot\\Windows\\Release_SHA2\\BootSector.bin"
 IDR_BOOT_SECTOR_AES_SHA2 BIN                     "..\\Boot\\Windows\\Release_AES_SHA2\\BootSector.bin"
 IDR_BOOT_SECTOR_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Release_Serpent_SHA2\\BootSector.bin"
 IDR_BOOT_SECTOR_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Release_Twofish_SHA2\\BootSector.bin"
+IDR_BOOT_SECTOR_CAMELLIA_SHA2 BIN                     "..\\Boot\\Windows\\Release_Camellia_SHA2\\BootSector.bin"
 IDR_BOOT_LOADER_SHA2    BIN                     "..\\Boot\\Windows\\Release_SHA2\\BootLoader.com.gz"
 IDR_BOOT_LOADER_AES_SHA2 BIN                     "..\\Boot\\Windows\\Release_AES_SHA2\\BootLoader.com.gz"
 IDR_BOOT_LOADER_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Release_Serpent_SHA2\\BootLoader.com.gz"
 IDR_BOOT_LOADER_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Release_Twofish_SHA2\\BootLoader.com.gz"
+IDR_BOOT_LOADER_CAMELLIA_SHA2 BIN                     "..\\Boot\\Windows\\Release_Camellia_SHA2\\BootLoader.com.gz"
 
 
 IDR_RESCUE_BOOT_SECTOR  BIN                     "..\\Boot\\Windows\\Rescue\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_AES BIN                     "..\\Boot\\Windows\\Rescue_AES\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_SERPENT BIN                     "..\\Boot\\Windows\\Rescue_Serpent\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_TWOFISH BIN                     "..\\Boot\\Windows\\Rescue_Twofish\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_CAMELLIA BIN                     "..\\Boot\\Windows\\Rescue_Camellia\\BootSector.bin"
 IDR_RESCUE_LOADER       BIN                     "..\\Boot\\Windows\\Rescue\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_AES   BIN                     "..\\Boot\\Windows\\Rescue_AES\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_SERPENT BIN                     "..\\Boot\\Windows\\Rescue_Serpent\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_TWOFISH BIN                     "..\\Boot\\Windows\\Rescue_Twofish\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_CAMELLIA BIN                     "..\\Boot\\Windows\\Rescue_Camellia\\BootLoader.com.gz"
 
 IDR_RESCUE_BOOT_SECTOR_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_SHA2\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_AES_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_AES_SHA2\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Serpent_SHA2\\BootSector.bin"
 IDR_RESCUE_BOOT_SECTOR_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Twofish_SHA2\\BootSector.bin"
+IDR_RESCUE_BOOT_SECTOR_CAMELLIA_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Camellia_SHA2\\BootSector.bin"
 IDR_RESCUE_LOADER_SHA2  BIN                     "..\\Boot\\Windows\\Rescue_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_AES_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_AES_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_SERPENT_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Serpent_SHA2\\BootLoader.com.gz"
 IDR_RESCUE_LOADER_TWOFISH_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Twofish_SHA2\\BootLoader.com.gz"
+IDR_RESCUE_LOADER_CAMELLIA_SHA2 BIN                     "..\\Boot\\Windows\\Rescue_Camellia_SHA2\\BootLoader.com.gz"
+IDR_EFI_DCSBOOT         BIN                     "..\\Boot\\EFI\\DcsBoot.efi"
+IDR_EFI_DCSINT          BIN                     "..\\Boot\\EFI\\DcsInt.efi"
+IDR_EFI_DCSCFG          BIN                     "..\\Boot\\EFI\\DcsCfg.efi"
+IDR_EFI_LEGACYSPEAKER   BIN                     "..\\Boot\\EFI\\LegacySpeaker.efi"
+IDR_EFI_DCSBML         BIN                     "..\\Boot\\EFI\\DcsBml.efi"
+IDR_EFI_DCSRE          BIN                     "..\\Boot\\EFI\\DcsRe.efi"
+IDR_EFI_DCSBOOT32         BIN                     "..\\Boot\\EFI\\DcsBoot32.efi"
+IDR_EFI_DCSINT32          BIN                     "..\\Boot\\EFI\\DcsInt32.efi"
+IDR_EFI_DCSCFG32          BIN                     "..\\Boot\\EFI\\DcsCfg32.efi"
+IDR_EFI_LEGACYSPEAKER32   BIN                     "..\\Boot\\EFI\\LegacySpeaker32.efi"
+IDR_EFI_DCSBML32         BIN                     "..\\Boot\\EFI\\DcsBml32.efi"
+IDR_EFI_DCSRE32          BIN                     "..\\Boot\\EFI\\DcsRe32.efi"
 
 /////////////////////////////////////////////////////////////////////////////
 //

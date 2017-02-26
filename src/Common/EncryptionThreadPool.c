@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -182,13 +182,18 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
 				break;
 
-			default:		
+			case STREEBOG:
+				derive_key_streebog(workItem->KeyDerivation.Password, workItem->KeyDerivation.PasswordLength, workItem->KeyDerivation.Salt, PKCS5_SALT_SIZE,
+					workItem->KeyDerivation.IterationCount, workItem->KeyDerivation.DerivedKey, GetMaxPkcs5OutSize());
+				break;
+
+			default:
 				TC_THROW_FATAL_EXCEPTION;
-			} 
+			}
 
 			InterlockedExchange (workItem->KeyDerivation.CompletionFlag, TRUE);
 			TC_SET_EVENT (*workItem->KeyDerivation.CompletionEvent);
-			
+
 			if (InterlockedDecrement (workItem->KeyDerivation.OutstandingWorkItemCount) == 0)
 				TC_SET_EVENT (*workItem->KeyDerivation.NoOutstandingWorkItemEvent);
 
@@ -256,12 +261,12 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 	WorkItemReadyEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 	if (!WorkItemReadyEvent)
 		return FALSE;
-	
+
 	WorkItemCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
 	if (!WorkItemCompletedEvent)
 		return FALSE;
 #endif
-	
+
 #ifdef DEVICE_DRIVER
 	ExInitializeFastMutex (&DequeueMutex);
 	ExInitializeFastMutex (&EnqueueMutex);
@@ -400,10 +405,10 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, 
 
 	EncryptionThreadPoolWorkItem *workItem;
 	EncryptionThreadPoolWorkItem *firstFragmentWorkItem;
-	
+
 	if (unitCount == 0)
 		return;
-	
+
 	if (!ThreadPoolRunning || unitCount == 1)
 	{
 		switch (type)
@@ -432,7 +437,7 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, 
 	else
 	{
 		/* Note that it is not efficient to divide the data into fragments smaller than a few hundred bytes.
-		The reason is that the overhead associated with thread handling would in most cases make a multi-threaded 
+		The reason is that the overhead associated with thread handling would in most cases make a multi-threaded
 		process actually slower than a single-threaded process. */
 
 		fragmentCount = ThreadCount;
@@ -442,7 +447,7 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, 
 		if (remainder > 0)
 			++unitsPerFragment;
 	}
-	
+
 	fragmentData = data;
 	fragmentStartUnitNo = startUnitNo->Value;
 
@@ -475,7 +480,7 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, 
 		workItem->Encryption.UnitCount = unitsPerFragment;
 		workItem->Encryption.StartUnitNo.Value = fragmentStartUnitNo;
 
- 		fragmentData += unitsPerFragment * ENCRYPTION_DATA_UNIT_SIZE;
+		fragmentData += unitsPerFragment * ENCRYPTION_DATA_UNIT_SIZE;
 		fragmentStartUnitNo += unitsPerFragment;
 
 		if (remainder > 0 && --remainder == 0)

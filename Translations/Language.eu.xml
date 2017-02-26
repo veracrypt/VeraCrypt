@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.16">
+  <localization prog-version="1.20-BETA2">
     <!-- Languages -->
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <!-- Fonts -->
@@ -60,7 +60,7 @@
     <control lang="eu" key="IDC_NO_HISTORY">&amp;Ez gorde inoiz historia</control>
     <control lang="eu" key="IDC_OPEN_OUTER_VOLUME">Kanpoko liburukia ireki</control>
     <control lang="eu" key="IDC_PAUSE">&amp;Eten</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="eu" key="IDC_QUICKFORMAT">Formatu Azkarra</control>
     <control lang="eu" key="IDC_SHOW_PASSWORD">&amp;Pasahitza erakutsi</control>
@@ -170,7 +170,7 @@
     <control lang="eu" key="IDC_PREF_MOUNT_READONLY">Bolumenak &amp;irakurtzeko bakarrik muntatu</control>
     <control lang="eu" key="IDC_PREF_MOUNT_REMOVABLE">Bolumenak kendu daitezkeen gailuak bezala muntatu</control>
     <control lang="eu" key="IDC_PREF_OPEN_EXPLORER">Explorer-aren lehioa ireki muntatutako bolumenentzako</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="eu" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Ataza-barra ikono ezberdin bat erabili muntatutako bolumenak badaude</control>
     <control lang="eu" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Gordetako pasahitzak ezabatu automatikoki desmuntatzerakoan</control>
     <control lang="eu" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Gordetako pasahitzak ezabatu irtetzerakoan</control>
@@ -261,7 +261,7 @@
     <control lang="eu" key="IDM_UNMOUNTALL">Muntatutako bolumen guztiak desmuntatu</control>
     <control lang="eu" key="IDM_UNMOUNT_VOLUME">Bolumena desmuntatu</control>
     <control lang="eu" key="IDM_VERIFY_RESCUE_DISK">Salbatze diska egiaztatu</control>
-    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk Image</control>
     <control lang="eu" key="IDM_VERSION_HISTORY">Bertsioen Historia</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="eu" key="IDM_VOLUME_PROPERTIES">Bolumenaren ezaugarriak</control>
@@ -287,7 +287,6 @@
     <control lang="eu" key="IDT_HOTKEY_KEY">Esleitzeko Gakoa:</control>
     <control lang="eu" key="IDT_HW_AES_SUPPORTED_BY_CPU">Ordenagailu honetako prozesadoreak (CPU-ak) AES algoritmoa hardware bidez azelerazea onartzen du:</control>
     <control lang="eu" key="IDT_LOGON">Windowsen sartzean egiteko zereginak</control>
-
     <control lang="eu" key="IDT_MINUTES">minutu</control>
     <control lang="eu" key="IDT_MOUNT_LETTER">Bolumena muntatu diska letra honekin:</control>
     <control lang="eu" key="IDT_MOUNT_SETTINGS">Muntaketaren Aukerak</control>
@@ -335,7 +334,6 @@
     <control lang="eu" key="IDC_TOKEN_FILES_ADD">&amp;Artxibo agiriak gehitu...</control>
     <control lang="eu" key="IDC_USE_EMBEDDED_HEADER_BAK">Bolumenean goiburuaren integratutako &amp;babeskopia badago, erabili</control>
     <control lang="eu" key="IDC_XTS_MODE_ENABLED">XTS modua</control>
-
     <control lang="eu" key="IDD_ABOUT_DLG">VeraCrypt-i buruz</control>
     <control lang="eu" key="IDD_BENCHMARK_DLG">VeraCrypt - Zifratzeko Algoritmoaren Proba-Bankua</control>
     <control lang="eu" key="IDD_CIPHER_TEST_DLG">VeraCrypt - Bektoreak Frogatu</control>
@@ -450,11 +448,11 @@
     <string lang="eu" key="DISK_FREE_TB">%s unitatean%.2f TB libre daude.</string>
     <string lang="eu" key="DISK_FREE_PB">%s unitatean%.2f PB libre daude.</string>
     <string lang="eu" key="DRIVELETTERS">Ezin izan dira erabili gabeko unitate letrak aurkitu.</string>
-    <string lang="eu" key="DRIVER_NOT_FOUND">Errorea: TryeCrypt-en kontrolatzailea ez da aurkitu.\n\nMesedez 'veracrypt.sys' eta 'veracrypt-x64.sys' fitxategiak VeraCrypt-en programa nagusia (VeraCrypt.exe) dagoen tokira kopiatu itzazu.</string>
+    <string lang="eu" key="DRIVER_NOT_FOUND">Errorea: VeraCryptCrypt-en kontrolatzailea ez da aurkitu.\n\nMesedez 'veracrypt.sys' eta 'veracrypt-x64.sys' fitxategiak VeraCrypt-en programa nagusia (VeraCrypt.exe) dagoen tokira kopiatu itzazu.</string>
     <string lang="eu" key="DRIVER_VERSION">Errorea: Onartzen ez den VeraCrypt kontrolatzailearen bertsoio bat martxan dago.\n\nVeraCrypt modu eramangarrian erabiltzen saiatzen ari bazara (hau da, instalatu gabe) eta dagoeneko VeraCrypt-en bertsio bat instalatuta dago, lehendabizi hura desinstalatu behar duzu (edo VeraCrypt instalatzailea erabiliz eguneratu). Desinstalatzeko, ondorengo pausoak jarraitu itzazu: Windows Vista eta gerokoetan, 'Hasiera' menua aukeratu &gt; Ordenagailua &gt; 'Pograma aldatu edo desinstalatu' &gt; VeraCrypt &gt; Desinstalatu; Windows XP-n 'Hasiera' menua aukeratu &gt; Aukerak &gt; 'Kontrol Panela' &gt; 'Programak Gehitu edo Kendu' &gt; VeraCrypt &gt; Kendu.\n\nAntzekotasunez, VeraCrypt modu eramangarrian erabiltzen saiatzen ari bazara (hau da, instalatu gabe) eta VeraCrypt-en bertsio ezberdin bat dagoeneko modu eramangarrian martxan baldin badago, lehendabizi sistema berrabiatu beharko duzu eta ondoren bertsio berria bakarrik abiatu.</string>
     <string lang="eu" key="ERR_CIPHER_INIT_FAILURE">Errorea: Zifraketaren hasieraketak huts egin du.</string>
     <string lang="eu" key="ERR_CIPHER_INIT_WEAK_KEY">Errorea: Gako ahul edo potentzialki ahula detektatu da. Gakoa alde batera utziko da. Mesedez, berrio sailatu.</string>
-    <string lang="eu" key="EXCEPTION_REPORT">Errore kritikoa gertatu da eta VeraCrypt itxi behar da. Hau VeraCryptek daukan akats bat sortu badu, konpontzea gustatuko litzaiguke. Gu laguntzeko automatikoki sortu den errore txostena bidali diezagukezu honako datuekin:\n\n- Programaren bertsioa\n- Sistema eragilearen bertsioa\n- PUZ mota\n- TrueCryp osagaiaren izena\n- TrueCryp exekutagarriaren egiaztapen batura\n - Lehioaren izen sinbolikoa\n- Errore kategoria\n- Errorearen helbidea\n- VeraCrypt-en dei pila\n\n'Bai' aukeratzen baduzu, hurrengo URLa (errore txosten osoa daukana) zure lehenetsitako Internet nabigatzailean irekiko da.\n\n%s\n\nGoiko errore txostena bidali nahi al diguzu?</string>
+    <string lang="eu" key="EXCEPTION_REPORT">Errore kritikoa gertatu da eta VeraCrypt itxi behar da. Hau VeraCryptek daukan akats bat sortu badu, konpontzea gustatuko litzaiguke. Gu laguntzeko automatikoki sortu den errore txostena bidali diezagukezu honako datuekin:\n\n- Programaren bertsioa\n- Sistema eragilearen bertsioa\n- PUZ mota\n- TrueCryp osagaiaren izena\n- TrueCryp exekutagarriaren egiaztapen batura\n - Lehioaren izen sinbolikoa\n- Errore kategoria\n- Errorearen helbidea\n- VeraCrypt-en dei pila\n\n'Bai' aukeratzen baduzu, hurrengo URLa (errore txosten osoa daukana) zure lehenetsitako Internet nabigatzailean irekiko da.\n\n%hs\n\nGoiko errore txostena bidali nahi al diguzu?</string>
     <string lang="eu" key="EXCEPTION_REPORT_EXT">Zure sisteman errore kritikoa gertatu da eta VeraCrypt itxi egingo da.\n\nOhartu zaitez errore hau ez duela VeraCrypt-ek eragin (beraz, VeraCrypt-en garatzaileek ezin dute konpundu). Mesedez, zure sistema arakatu ezazu arazoen bila (adib.: sistemaren konfigurazioa, sarearen konexioa, gaizki dabiltzan euskarri fisikoak).</string>
     <string lang="eu" key="EXCEPTION_REPORT_EXT_FILESEL">Errore kritikoa gertatu da zure sisteman, horregatik VeraCrypt itxi egingo da.\n\nErrore hau behin eta berriro gertatzen bada, arazo hau sortzen ari daitezken programak ezgaitzen edo desinstalatzen saiatu zaitezke, adibidez, antibirusak edo Interneterako segurtasun programak, "hobetzaileak", "optimizatzaileak" e.a. Hau laguntzen ez badu, sistema eragilea berrinstalatzen saiatu zaitez (batzutan malwareak ere sortu dezake arazo hau).</string>
     <string lang="eu" key="EXCEPTION_REPORT_TITLE">VeraCrypt-en Errore Kritikoa</string>
@@ -561,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="eu" key="INIT_SYS_ENC">Ezin izan dira aplikazioaren osagaiak hasieratu sistema zifratzeko.</string>
     <string lang="eu" key="INIT_RAND">Ausazko zenbakien sortzailea hasieratzerakoan hutse egin du!</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="eu" key="INIT_REGISTER">Ezin izan da aplikazioa hasieratu. 'Dialog Class'-a erregistratzerakoan huts egin du.</string>
     <string lang="eu" key="INIT_RICHEDIT">Errorea: Ezin izan da Rich Edit sistemaren liburutegia kargatu.</string>
     <string lang="eu" key="INTRO_TITLE">VeraCrypt Bolumenak Sortzeko Laguntzailea</string>
@@ -643,8 +641,6 @@
     <string lang="eu" key="PASSWORD_WRONG_AUTOMOUNT">Pasahitz okerra edo ez da VeraCrypt bolumenik aurkitu.</string>
     <string lang="eu" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Gako-fitxategi/pasahitz ez zuzena edo ez da VeraCrypt bolumena aurkitu.</string>
     <string lang="eu" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nKontuz: Caps Lock gaituta dago. Honek pasahitza gaizki sartzea eragin dezake.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -966,14 +962,14 @@
     <string lang="eu" key="VOLUME_HAS_NO_BACKUP_HEADER">Bolumen honetan ez dago kapsulatutako goiburuaren babeskopiarik (Ohartu zaitez VeraCrypt 6.0 edo geroagoko programekin sortutako bolumenek bakarrik daukatela kapsulatutako goiburuaren babeskopiak).</string>
     <string lang="eu" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Sistemaren partizioa/unitatearen goiburuaren babeskopia egiten saiatzen ari zara. Hau ez dago onartua. Sistemaren unitate/partizioaren babeskopia egiteko edo babeskopiatik leheneratzeko beharrezkoa da VeraCrypt Salbatze Diska erabiltzea.\n\nVeraCrypt-en Salbatze Diska sortu nahi?</string>
     <string lang="eu" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">VeraCrypt bolumen birtual baten goiburua leheneratzen saiatzen ari zara baina sistemaren partizio/unitatearen bolumena aukeratu duzu. Hau ez dago onartuta. Sistemaren partizioa/unitatean babeskopia eta leheneratze eragiketak VeraCrypt Salbatze Diska erabiliz bakarrik egin daitezke.\n\nVeraCrypt Salbatze Diska sortu nahi?</string>
-    <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">'Ados' sakatu eta gero, VeraCrypt-en Salbatze Diskaren ISO irudia gordetzeko izena eta hura gorde nahi duzun tokia hautatu beharko dituzu</string>
+    <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">'Ados' sakatu eta gero, VeraCrypt-en Salbatze Diskaren irudia gordetzeko izena eta hura gorde nahi duzun tokia hautatu beharko dituzu</string>
     <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">Salbatze Diskaren irudia sortu da eta fitxategi honetan gorde da:\n%s\n\nOrain Salbatze Diskaren irudi hori CD edo DVD batean idatzi behar duzu.\n\nGARRANTZITSUA: Ohartu zaitez fitxategia ISO diska irudi baten moduan idatzi behar dela CD/DVD-an (ez fitxategi bat bezala). Hori egiteko informazio gehiago behar baduzu, zure CD/DVD-ak grabatzeko softwarearen dokumentazioa irakurri ezazu.\n\nSalbatze Diska idatzi eta gero, 'Sistema' &gt; 'Salbatze Diska egiaztatu' aukeratu ezazu ondo idatzi dela ziurtatzeko.</string>
     <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">Salbatze Diska sortu da eta ondorengo fitxategian sortu da:\n%s\n\nOrain Salbatze Diskaren irudia CD edo DVD batean idatzi behar duzu.\n\nMicrosoft Windows-en Diska Irudi Idazlea abiatu nahi al duzu?\nOharra: Salbatze Diska idatzi eta gero, 'Sistema' &gt; 'Salbatze Diska Egiaztatu' aukeratu ezazu ondo idatzi dela ziurtatzeko.</string>
-    <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Mesedez, zure VeraCrypt Salbatze Diska zure CD/DVD unitatean sartu ezazu eta Ados klikatu hura egiaztatzeko.</string>
+    <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Mesedez, zure VeraCrypt Salbatze Diska zure ezazu eta Ados klikatu hura egiaztatzeko.</string>
     <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt salbatze diska arazorik aurkitu gabe egiaztatu da.</string>
     <string lang="eu" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Ezin da egiaztatu Salbatze Diska akatsik gabe idatzi dela.\n\nSalbatze Diska idatzi baduzu, mesedez, CD/DVD-a atera eta berriz sartu ezazu; gero berriro saiatu. Honek laguntzen ez badu, saiatu zaitez CD/DVD-ak idazteko beste programa batekin edo beste gailu batean idazten.\n\nBeste gako nagusi, pasahitz e.a. ezberdin batentzako sortu den VeraCrypt Salbatze Diska egiaztatzen saiatzen bazara, ohartu zaitez Salbatze Diskak egiaztatze honetan beti errorea emango duela. Daukazun konfigurazioarekin guztiz bateragarria den Salbatze Diska Sortzeko, 'Sistema' &gt; 'Salbatze Diska Sortu' aukeratu ezazu.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk image created for a different master key, password, salt, etc., please note that such Rescue Disk image will always fail this verification. To create a new Rescue Disk image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="eu" key="ERROR_CREATING_RESCUE_DISK">TrueCryp-en Salbatze Diska Sortzerakoan Errorea.</string>
     <string lang="eu" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt-en Salbatze Diska ezin da sortu ezkutuko sistema eragile bat martxan dagoenean.\n\nVeraCrypt-en Salbatze Diska sortzeko, sistema eragile amua hasieratu eta 'Sistema' &gt; 'Salbatze Diska Sortu' aukeratu ezazu.</string>
     <string lang="eu" key="RESCUE_DISK_CHECK_FAILED">&gt;Ezin da egiaztatu Salbatze Diska akatsik gabe idatzi dela.\n\nSalbatze Diska idatzi baduzu, mesedez, CD/DVD-a atera eta berriz sartu ezazu; gero 'Hurrengoa' sakatu eta berriro klik egin ezazu. Honek lagunzten ez badu beste gailu batekin %s saiatu zaitez.\n\nSalbatze Diska oraindik idatzi ez baduzu, mesedez, hori egin ezazu eta 'Hurrengoa' sakatu\n\nLaguntzaile hau hasi baino lehen egindago VeraCrypt Salbatze Diska bat egiaztatzen saiatzen bazara, ohartu zaitez Salbatze Diska hori ezin izango dela erabili, gako nagusi ezberdin batentzako sortu baitzen. Orain sortutako Salbatze Diska idatzi behar duzu.</string>
@@ -1058,8 +1054,8 @@
     <string lang="eu" key="FAILED_TO_INTERRUPT_WIPING">Errorea: Ezabatze prozesua eteterakoan huts egin du.</string>
     <string lang="eu" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">Errorea: Sistemaren partizio/unitatea zifratzeko/argitzeko prozesua berriz hasterakoan huts egin du.</string>
     <string lang="eu" key="FAILED_TO_START_WIPING">Errorea: Ezabatze prozesua hasterakoan huts egin du.</string>
-    <string lang="eu" key="INCONSISTENCY_RESOLVED">Datuen hutsala konpondu da.\n\n\n(Akats honen berri ematen baduzu, mesedez hurrengo informazioa gehitu ezazu akatsaren txostenean:\n%s)</string>
-    <string lang="eu" key="UNEXPECTED_STATE">Errorea: ustekabeko egoera.\n\n\n(Akats honi buruz txosten bat bidaltzen baduzu, mesedez, hurrengo informazio teknikoa erantsi iezaiozu akatsaren txostenari:\n%s)</string>
+    <string lang="eu" key="INCONSISTENCY_RESOLVED">Datuen hutsala konpondu da.\n\n\n(Akats honen berri ematen baduzu, mesedez hurrengo informazioa gehitu ezazu akatsaren txostenean:\n%hs)</string>
+    <string lang="eu" key="UNEXPECTED_STATE">Errorea: ustekabeko egoera.\n\n\n(Akats honi buruz txosten bat bidaltzen baduzu, mesedez, hurrengo informazio teknikoa erantsi iezaiozu akatsaren txostenari:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="eu" key="HIDVOL_PROT_BKG_TASK_WARNING">KONTUZ: TruekCrypt-en Ezkutuko Ataza ezgaituta dago.VeraCrypt-etik atera eta gero informatuko zaizu ezkutuko bolumenaren kaltea eragotzi den.\n\nOharra: VeraCrypt-en Ezkutuko Ataza edozein momentutan gelditu dezakezu VeraCrypt erreteiluko ikonoan eskubiko klik eginez eta 'Irten' aukeratuz.\n\n VeraCrypt-en Ezkutuko Ataza gaitu?</string>
     <string lang="eu" key="LANG_PACK_VERSION">Hizkuntza paketearen bertsioa: %s</string>
@@ -1081,7 +1077,7 @@
     <string lang="eu" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt-ek jadanik ez du onartzen Service Pack instalatuta ez daukan Windows Vista-tan sistemaren partizioa/unitatea zifratzea. VeraCrypt eguneratu baino lehen, mesedez, Windows Vistaren Service Pack 1 edo ondorengo bat instalatu ezazu.</string>
     <string lang="eu" key="FEATURE_REQUIRES_INSTALLATION">Errorea: Ezaugarri honek beharrezkoa du VeraCrypt sisteman instalatuta egotea (VeraCrypt modu eramangarrian erabiltzen ari zara)\n\nMesedez, VeraCrypt instalatu ezazu eta berriro saiatu..</string>
     <string lang="eu" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">KONTUZ: Ez dirudi Windows hasieratzen den unitatean instalatuta dagoenik. Hau ez dago onartuta.\n\nWindows hasieratzen den unitatean instalatuta dagoela ziur badakizu bakarrik jarraitu beharko zenuke.\n\nJarraitu nahi duzu?</string>
-    <string lang="eu" key="GPT_BOOT_DRIVE_UNSUPPORTED">Zure sistemaren unitateak GUID partizio taula dauka (GPT). Orain, MBR partizio taula daukaten unitateak bakarrik onartzen dira.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="eu" key="TC_BOOT_LOADER_ALREADY_INSTALLED">KONTUZ: VeraCrypt-en Hasieraketa Kargazailea dagoeneko sistemaren unitatean instalatuta dago!\n\nIzan daiteke dagoeneko zure ordenagailuan beste sistema bat zifratuta egotea.\n\nKONTUZ: ORAIN MARTXAN DAGOEN SISTEMAREN ZIFRAKETAK BESTE SISTEMAK ABIAEZINAK ETA EUREN DATUAK ESKURAEZINAK UTZI DITZAKE.\n\nZiur zaude jarraitu nahi duzula?</string>
     <string lang="eu" key="SYS_LOADER_RESTORE_FAILED">    Jatorrizko sistemaren kargatzailea leheneratzerakoan huts egin du.\n\nMesedez zure VeraCrypt-en Salbatze Diska erabili ezazu ('Konponketa Aukerak' &gt; 'Sistemaren kargatzaile originalera leheneratu') edo Windows instalazio diska erabili ezazu Windowsen sistemaren kargatzailea VeraCrypt-en Hasieraketa Kargatzailea ordez jartzeko.</string>
     <string lang="eu" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Sitemaren kargatzaile originala ez da Salbatze Diskan gordeko (honen zergatia: agian babeskopia fitxategi bat falta da).</string>
@@ -1384,6 +1380,40 @@
     <string lang="eu" key="TB_PER_SEC">TB/s</string>
     <string lang="eu" key="PB_PER_SEC">PB/s</string>
     <string lang="eu" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
+    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
+    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
+    <string lang="en" key="VOLUME_ID">Volume ID</string>
+    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
+    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
+    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
+    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
+    <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
+    <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
+    <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
+    <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
+    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
+    <string lang="en" key="TIME">Time</string>
+    <string lang="en" key="ITERATIONS">Iterations</string>
+    <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
+	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

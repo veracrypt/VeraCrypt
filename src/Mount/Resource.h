@@ -21,6 +21,7 @@
 #define IDD_SYSENC_SETTINGS             116
 #define IDD_FAVORITE_VOLUMES            117
 #define IDD_DEFAULT_MOUNT_PARAMETERS    118
+#define IDD_EFI_SYSENC_SETTINGS         119
 #define IDC_PREF_MOUNT_READONLY         1000
 #define IDC_PREF_MOUNT_REMOVABLE        1001
 #define IDC_VERIFY                      1002
@@ -173,6 +174,16 @@
 #define IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION 1151
 #define IDC_WIPE_MODE                   1152
 #define IDT_WIPE_MODE                   1153
+#define IDC_PREF_CACHE_PIM              1154
+#define IDC_BOOT_LOADER_CACHE_PIM       1155
+#define IDC_SHOW_DISCONNECTED_NETWORK_DRIVES 1156
+#define IDT_VOLUME_ID                   1157
+#define IDC_FAVORITE_VOLUME_ID          1158
+#define IDC_FAVORITE_USE_VOLUME_ID      1159
+#define IDC_DISABLE_BOOT_LOADER_PIM_PROMPT 1160
+#define IDC_HIDE_WAITING_DIALOG         1161
+#define IDC_DISABLE_BOOT_LOADER_HASH_PROMPT 1162
+#define IDC_SECURE_DESKTOP_PASSWORD_ENTRY 1163
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -247,9 +258,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        119
+#define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1154
+#define _APS_NEXT_CONTROL_VALUE         1164
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

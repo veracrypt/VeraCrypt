@@ -1,12 +1,12 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -20,13 +20,14 @@
 #include "Cache.h"
 
 Password CachedPasswords[CACHE_SIZE];
+int	 CachedPim[CACHE_SIZE];
 int cacheEmpty = 1;
 static int nPasswordIdx = 0;
 
-int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo)
+int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, BOOL bCachePim, char *header, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo)
 {
 	int nReturnCode = ERR_PASSWORD_WRONG;
-	int i;
+	int i, effectivePim;
 
 	/* Attempt to recognize volume using mount password */
 	if (password->Length > 0)
@@ -47,10 +48,20 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *pas
 				/* Store the password */
 				CachedPasswords[nPasswordIdx] = *password;
 
+				/* Store also PIM if requested, otherwise set to default */
+				if (bCachePim && (pim > 0))
+					CachedPim[nPasswordIdx] = pim;
+				else
+					CachedPim[nPasswordIdx] = 0;
+
 				/* Try another slot */
 				nPasswordIdx = (nPasswordIdx + 1) % CACHE_SIZE;
 
 				cacheEmpty = 0;
+			}
+			else if (bCachePim)
+			{
+				CachedPim[i] = pim > 0? pim : 0;
 			}
 		}
 	}
@@ -61,7 +72,13 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *pas
 		{
 			if (CachedPasswords[i].Length > 0)
 			{
-				nReturnCode = ReadVolumeHeader (bBoot, header, &CachedPasswords[i], pkcs5_prf, pim, truecryptMode, retInfo, NULL);
+				if (truecryptMode)
+					effectivePim = 0;
+				else if (pim == -1)
+					effectivePim = CachedPim[i];
+				else
+					effectivePim = pim;
+				nReturnCode = ReadVolumeHeader (bBoot, header, &CachedPasswords[i], pkcs5_prf, effectivePim, truecryptMode, retInfo, NULL);
 
 				if (nReturnCode != ERR_PASSWORD_WRONG)
 					break;
@@ -73,7 +90,7 @@ int ReadVolumeHeaderWCache (BOOL bBoot, BOOL bCache, char *header, Password *pas
 }
 
 
-void AddPasswordToCache (Password *password)
+void AddPasswordToCache (Password *password, int pim)
 {
 	int i;
 	for (i = 0; i < CACHE_SIZE; i++)
@@ -83,6 +100,7 @@ void AddPasswordToCache (Password *password)
 	}
 
 	CachedPasswords[nPasswordIdx] = *password;
+	CachedPim[nPasswordIdx] = pim > 0? pim : 0;
 	nPasswordIdx = (nPasswordIdx + 1) % CACHE_SIZE;
 	cacheEmpty = 0;
 }
@@ -91,6 +109,7 @@ void AddPasswordToCache (Password *password)
 void WipeCache ()
 {
 	burn (CachedPasswords, sizeof (CachedPasswords));
+	burn (CachedPim, sizeof (CachedPim));
 	nPasswordIdx = 0;
 	cacheEmpty = 1;
 }

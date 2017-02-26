@@ -3,8 +3,8 @@
 # Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 # by the TrueCrypt License 3.0.
 #
-# Modifications and additions to the original source code (contained in this file) 
-# and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+# Modifications and additions to the original source code (contained in this file)
+# and all other portions of this file are Copyright (c) 2013-2016 IDRIX
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -33,23 +33,31 @@ ifeq "$(PLATFORM)" "MacOSX"
     OBJSEX += ../Crypto/Aes_asm.oo
     OBJS += ../Crypto/Aes_hw_cpu.o
     OBJS += ../Crypto/Aescrypt.o
+    OBJSEX += ../Crypto/Twofish_asm.oo
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
 else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/Aes_x64.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
+	OBJS += ../Crypto/Twofish_x64.o
 else
 	OBJS += ../Crypto/Aescrypt.o
 endif
 
 OBJS += ../Crypto/Aeskey.o
 OBJS += ../Crypto/Aestab.o
+OBJS += ../Crypto/cpu.o
 OBJS += ../Crypto/Rmd160.o
-OBJS += ../Crypto/Serpent.o
+OBJS += ../Crypto/SerpentFast.o
+OBJS += ../Crypto/SerpentFast_simd.o
 OBJS += ../Crypto/Sha2.o
 OBJS += ../Crypto/Twofish.o
 OBJS += ../Crypto/Whirlpool.o
+OBJS += ../Crypto/Camellia.o
+OBJS += ../Crypto/GostCipher.o
+OBJS += ../Crypto/Streebog.o
+OBJS += ../Crypto/kuznyechik.o
 
 OBJS += ../Common/Crc.o
 OBJS += ../Common/Endian.o
@@ -66,6 +74,9 @@ ifeq "$(PLATFORM)" "MacOSX"
 	$(AS) $(ASFLAGS) -f macho64 -o ../Crypto/Aes_x64.o ../Crypto/Aes_x64.asm
 	lipo -create ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o -output ../Crypto/Aes_asm.oo
 	rm -fr ../Crypto/Aes_x86.o ../Crypto/Aes_x64.o
+../Crypto/Twofish_asm.oo: ../Crypto/Twofish_x64.S
+	@echo Assembling $(<F)
+	$(YASM) -p gas -f macho64 -o ../Crypto/Twofish_asm.oo ../Crypto/Twofish_x64.S 
 endif
 
 include $(BUILD_INC)/Makefile.inc

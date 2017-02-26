@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.16">
+  <localization prog-version="1.20-BETA2">
     <!-- Languages -->
     <language langid="sv" name="Svenska" en-name="Swedish" version="1.0.0" translators="Peter Runesson" />
     <!-- Fonts -->
@@ -60,7 +60,7 @@
     <control lang="sv" key="IDC_NO_HISTORY">Spara inte &amp;historik</control>
     <control lang="sv" key="IDC_OPEN_OUTER_VOLUME">Öppna yttre volym</control>
     <control lang="sv" key="IDC_PAUSE">&amp;Pausa</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="sv" key="IDC_QUICKFORMAT">Snabb- formatering</control>
     <control lang="sv" key="IDC_SHOW_PASSWORD">&amp;Visa lösenord</control>
@@ -170,7 +170,7 @@
     <control lang="sv" key="IDC_PREF_MOUNT_READONLY">Montera volymer som &amp;skrivskyddade</control>
     <control lang="sv" key="IDC_PREF_MOUNT_REMOVABLE">Montera volymer som &amp;flyttbara medier</control>
     <control lang="sv" key="IDC_PREF_OPEN_EXPLORER">&amp;Öppna Utforskaren vid montering av volymer</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="sv" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Visa en alternativ ikon i Meddelandefältet när det finns volymer monterade</control>
     <control lang="sv" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Töm lösenords&amp;cache vid automatisk demontering</control>
     <control lang="sv" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Töm lösenordscac&amp;he vid avslut</control>
@@ -261,7 +261,7 @@
     <control lang="sv" key="IDM_UNMOUNTALL">Demontera alla monterade volymer</control>
     <control lang="sv" key="IDM_UNMOUNT_VOLUME">Demontera volym</control>
     <control lang="sv" key="IDM_VERIFY_RESCUE_DISK">Verifiera återställningsskiva</control>
-    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk Image</control>
     <control lang="sv" key="IDM_VERSION_HISTORY">Versionshistorik</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="sv" key="IDM_VOLUME_PROPERTIES">Volymegenskaper</control>
@@ -452,7 +452,7 @@
     <string lang="sv" key="DRIVER_VERSION">Fel: En inkompatibel version av VeraCrypts drivrutin körs redan.\n\nOm du försöker köra VeraCrypt i portabelt läge (d.v.s. utan att installera programmet) och en annan version av VeraCrypt redan är installerad, måste denna först avinstalleras eller uppgraderas med hjälp av VeraCrypts installationsprogram.\n\nFölj dessa steg för att avinstallera VeraCrypt i Windows Vista eller senare: Välj ”Dator” i Start-menyn och klicka på ”Avinstallera eller ändra ett program”. Markera VeraCrypt och klicka på ”Avinstallera”. I Windows XP startar man Kontrollpanelen i Start-menyn och klickar på ”Lägg till eller ta bort program”. Markera VeraCrypt och klicka på ”Avinstallera”.\n\nPå liknande sätt måste du, om du försöker köra VeraCrypt i portabelt läge och en annan version av VeraCrypt redan körs i portabelt läge, först starta om datorn och därefter köra enbart den nya versionen.</string>
     <string lang="sv" key="ERR_CIPHER_INIT_FAILURE">Fel: Initieringen av krypteringsalgoritmerna misslyckades.</string>
     <string lang="sv" key="ERR_CIPHER_INIT_WEAK_KEY">Fel: En svag eller möjligt svag nyckel har identifierats och förkastats. Försök igen.</string>
-    <string lang="sv" key="EXCEPTION_REPORT">Ett allvarligt fel har inträffat, och VeraCrypt måste avslutas. Om detta fel orsakats av ett fel i VeraCrypt, vill vi rätta till det. Genom att skicka en automatiskt genererad felrapport kan du hjälpa oss att avgöra om det finns ett fel i VeraCrypt. Felrapporten innehåller följande information:\n· Programversion\n· Operativsystemets version\n· Typ av processor\n· VeraCrypt-komponentens namn\n· Den körbara filens checksumma\n· Dialogrutans symboliska namn\n· Felkategori\n· Adressen för felet\n· VeraCrypts anropsstack\n\nOm du klickar på ”Ja” kommer följande URL, som innehåller hela felrapporten, att öppnas i din standardwebbläsare.\n\n%s\n\nVill du skicka ovanstående felrapport till oss?</string>
+    <string lang="sv" key="EXCEPTION_REPORT">Ett allvarligt fel har inträffat, och VeraCrypt måste avslutas. Om detta fel orsakats av ett fel i VeraCrypt, vill vi rätta till det. Genom att skicka en automatiskt genererad felrapport kan du hjälpa oss att avgöra om det finns ett fel i VeraCrypt. Felrapporten innehåller följande information:\n· Programversion\n· Operativsystemets version\n· Typ av processor\n· VeraCrypt-komponentens namn\n· Den körbara filens checksumma\n· Dialogrutans symboliska namn\n· Felkategori\n· Adressen för felet\n· VeraCrypts anropsstack\n\nOm du klickar på ”Ja” kommer följande URL, som innehåller hela felrapporten, att öppnas i din standardwebbläsare.\n\n%hs\n\nVill du skicka ovanstående felrapport till oss?</string>
     <string lang="sv" key="EXCEPTION_REPORT_EXT">Ett allvarligt fel, som kräver att VeraCrypt avslutas, har inträffat.\n\nObservera att detta fel inte har orsakats av VeraCrypt, så VeraCrypt-utvecklarna kan inte rätta till det. Sök igenom systemet efter möjliga problem med t.ex. systemkonfigurationen, nätverksanslutningen eller fallerande maskinvarukomponenter.</string>
     <string lang="sv" key="EXCEPTION_REPORT_EXT_FILESEL">Ett allvarligt fel, som kräver att VeraCrypt avslutas, har inträffat.\n\nOm problemet kvarstår, prova att inaktivera eller avinstallera applikationer som kan orsaka felet, t.ex. antivirusprogramvaror, systemförbättrande eller systemoptimerande programvaror etc. Om detta inte hjälper, kan en sista utväg vara att installera om operativsystemet. (Problemet kan även orsakas av skadlig kod.)</string>
     <string lang="sv" key="EXCEPTION_REPORT_TITLE">VeraCrypt – Allvarligt fel</string>
@@ -559,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="sv" key="INIT_SYS_ENC">Det går inte att initiera applikationskomponenter för systemkryptering.</string>
     <string lang="sv" key="INIT_RAND">Initieringen av slumptalsgeneratorn misslyckades!</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="sv" key="INIT_REGISTER">Det gick inte att initiera applikationen. Registreringen av dialogruteklassen misslyckades.</string>
     <string lang="sv" key="INIT_RICHEDIT">Fel: Det gick inte att ladda systembiblioteket för ”Rich Edit”.</string>
     <string lang="sv" key="INTRO_TITLE">Guiden Skapa VeraCrypt-volym</string>
@@ -641,8 +641,6 @@
     <string lang="sv" key="PASSWORD_WRONG_AUTOMOUNT">Antingen är det angivna lösenordet fel, eller så hittades inte någon VeraCrypt-volym.</string>
     <string lang="sv" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Antingen har fel nyckelfil(er) och/eller fel lösenord angetts, eller så hittades inte någon VeraCrypt-volym.</string>
     <string lang="sv" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nVarning: Caps Lock är på. Detta kan orsaka att ditt lösenod blir felaktigt angett.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -970,8 +968,8 @@
     <string lang="sv" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Sätt in återställningsskivan i din CD- eller DVD-enhet och klicka på OK för att verifiera den.</string>
     <string lang="sv" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">Återställningsskivan har verifierats utan att några fel hittades.</string>
     <string lang="sv" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Det går inte att säkerställa att bränningen av återställningsskivan utförts utan fel.\n\nOm du har bränt återställningsskivan, mata ut och sätt in CD:n eller DVD:n igen och försök en gång till. Använd sedan en annan bränningsprogramvara och/eller andra medier.\n\nVerifiering av en återställningsskiva skapad för en annan primär nyckel, annat lösenord eller annat salt kommer alltid att misslyckas. Välj ”Skapa återställningsskiva” under ”System” i rullgardinsmenyn för att skapa en ny återställningsskiva som är helt kompatibel med din aktuella konfiguration.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk image created for a different master key, password, salt, etc., please note that such Rescue Disk image will always fail this verification. To create a new Rescue Disk image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="sv" key="ERROR_CREATING_RESCUE_DISK">Fel vid skapandet av en återställningsskiva.</string>
     <string lang="sv" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">Det går inte att skapa en återställningsskiva medan ett dolt operativsystem körs.\n\nFör att skapa en återställningsskiva, starta skenoperativsystemet och välj sedan ”Skapa återställningsskiva” under ”System” i rullgardinsmenyn.</string>
     <string lang="sv" key="RESCUE_DISK_CHECK_FAILED">Det går inte att säkerställa att bränningen av återställningsskivan utförts utan fel.\n\nOm du har bränt återställningsskivan, mata ut och sätt in CD:n eller DVD:n igen och klicka på Nästa för att försöka en gång till. Använd andra medier om detta inte hjälper%s.\n\nBränn återställningsskivan, om du inte gjort det än, och klicka på Nästa.\n\nAtt verifiera en återställningsskiva som skapats innan du körde denna guide fungerar inte, eftersom den skapades för en annan primär nyckel. Du måste bränna den nyligen genererade återställningsskivan.</string>
@@ -1056,8 +1054,8 @@
     <string lang="sv" key="FAILED_TO_INTERRUPT_WIPING">Fel: Det gick inte att avbryta överskrivningsprocessen.</string>
     <string lang="sv" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">Fel: Återupptagningen av den avbrutna krypterings- eller dekrypteringsprocessen av systempartitionen eller -enheten misslyckades.</string>
     <string lang="sv" key="FAILED_TO_START_WIPING">Fel: Det gick inte att starta överskrivningsprocessen.</string>
-    <string lang="sv" key="INCONSISTENCY_RESOLVED">En inkonsekvens har lösts.\n\n\n(Om du i samband med detta rapporterar ett fel, se till att felrapporten innehåller följande tekniska information:\n%s)</string>
-    <string lang="sv" key="UNEXPECTED_STATE">Fel: Oväntat tillstånd.\n\n\n(Om du i samband med detta skickar en felrapport, inkludera då följande tekniska information i rapporten:\n%s)</string>
+    <string lang="sv" key="INCONSISTENCY_RESOLVED">En inkonsekvens har lösts.\n\n\n(Om du i samband med detta rapporterar ett fel, se till att felrapporten innehåller följande tekniska information:\n%hs)</string>
+    <string lang="sv" key="UNEXPECTED_STATE">Fel: Oväntat tillstånd.\n\n\n(Om du i samband med detta skickar en felrapport, inkludera då följande tekniska information i rapporten:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="sv" key="HIDVOL_PROT_BKG_TASK_WARNING">VARNING: VeraCrypts bakgrundsaktivitet är inaktiverad. Efter att du avslutat VeraCrypt kommer du inte att bli meddelad om en skada av en dold volym förhindrats.\n\nObservera: Du kan stänga av bakgrundsaktiviteten när som helst genom att högerklicka på VeraCrypts meddelandefältsikon och välja ”Avsluta”.\n\nVill du aktivera VeraCrypts bakgrundsaktivitet?</string>
     <string lang="sv" key="LANG_PACK_VERSION">Språkpaketsversion: %s</string>
@@ -1079,7 +1077,7 @@
     <string lang="sv" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt stöder inte längre kryptering av systempartitionen eller -enheten i Windows Vista utan något servicepaket installerat. Installera servicepaket 1 eller nyare för Windows Vista innan du uppgraderar VeraCrypt.</string>
     <string lang="sv" key="FEATURE_REQUIRES_INSTALLATION">Fel: Denna funktion kräver att VeraCrypt installeras. (Du kör VeraCrypt i portabelt läge.)\n\nInstallera VeraCrypt och försök igen.</string>
     <string lang="sv" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">VARNING: Windows verkar inte vara installerat på samma enhet som det startar från, vilket inte stöds.\n\nDu bör endast fortsätta om du är säker på att Windows är installerat på samma enhet som det startar från.\n\nVill du fortsätta?</string>
-    <string lang="sv" key="GPT_BOOT_DRIVE_UNSUPPORTED">Din systemenhet har en GUID-partitionstabell (GPT). För närvarande stöds endast enheter med en MBR-partitionstabell.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="sv" key="TC_BOOT_LOADER_ALREADY_INSTALLED">VARNING: VeraCrypts startinläsare är redan installerad på din systemenhet!\n\nDet är möjligt att ett annat operativsystem i din dator redan är krypterat.\n\nVARNING: OM DU FORTSÄTTER MED KRYPTERINGEN AV DET AKTUELLA OPERATIVSYSTEMET KAN DET ORSAKA ATT ANDRA SYSTEM BLIR OMÖJLIGA ATT STARTA OCH ATT RELATERADE DATA INTE GÅR ATT KOMMA ÅT.\n\nÄr du säker på att du vill fortsätta?</string>
     <string lang="sv" key="SYS_LOADER_RESTORE_FAILED">Det gick inte att återställa den ursprungliga systeminläsaren.\n\nAnvänd din återställningsskiva (välj ”Restore original system loader” under ”Repair Options”) eller Windows installationsskiva för att ersätta VeraCrypt startinläsare med Windows startinläsare.</string>
     <string lang="sv" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Den ursprungliga startinläsaren kommer inte att lagras på återställningsskivan. En trolig orsak är att en säkerhetskopia saknas.</string>
@@ -1382,6 +1380,40 @@
     <string lang="sv" key="TB_PER_SEC">TB/s</string>
     <string lang="sv" key="PB_PER_SEC">PB/s</string>
     <string lang="sv" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
+    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
+    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
+    <string lang="en" key="VOLUME_ID">Volume ID</string>
+    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
+    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
+    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
+    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
+    <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
+    <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
+    <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
+    <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
+    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
+    <string lang="en" key="TIME">Time</string>
+    <string lang="en" key="ITERATIONS">Iterations</string>
+    <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
+	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

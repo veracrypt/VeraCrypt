@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -24,6 +24,12 @@ namespace VeraCrypt
 		bool enableNewPassword = false;
 		bool enableNewKeyfiles = false;
 		bool enablePkcs5Prf = false;
+		bool isTrueCryptFile = false;
+		
+		if (volumePath && volumePath->HasTrueCryptExtension ())
+		{
+			isTrueCryptFile = true;
+		}
 
 		switch (mode)
 		{
@@ -54,12 +60,13 @@ namespace VeraCrypt
 
 		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, false, keyfiles, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
+		CurrentPasswordPanel->SetTrueCryptMode (isTrueCryptFile);
 		CurrentPasswordPanelSizer->Add (CurrentPasswordPanel, 1, wxALL | wxEXPAND);
 
 		NewPasswordPanel = new VolumePasswordPanel (this, NULL, newPassword, true, newKeyfiles, false, enableNewPassword, enableNewKeyfiles, enableNewPassword, enablePkcs5Prf);
 		NewPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));
 		NewPasswordPanelSizer->Add (NewPasswordPanel, 1, wxALL | wxEXPAND);
-		
+
 		if (mode == Mode::RemoveAllKeyfiles)
 			NewSizer->Show (false);
 
@@ -92,7 +99,13 @@ namespace VeraCrypt
 				Gui->ShowWarning (LangString ["ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE"]);
 				return;
 			}
-			
+			int currentPim = CurrentPasswordPanel->GetVolumePim();
+			if (-1 == currentPim)
+			{
+				CurrentPasswordPanel->SetFocusToPimTextCtrl();
+				return;
+			}
+
 			shared_ptr <VolumePassword> newPassword;
 			int newPim = 0;
 			if (DialogMode == Mode::ChangePasswordAndKeyfiles)
@@ -104,10 +117,15 @@ namespace VeraCrypt
 				catch (PasswordException& e)
 				{
 					Gui->ShowWarning (e);
-					NewPasswordPanel->SetFocusToPasswordTextCtrl();				
+					NewPasswordPanel->SetFocusToPasswordTextCtrl();
 					return;
 				}
 				newPim = NewPasswordPanel->GetVolumePim();
+				if (-1 == newPim)
+				{
+					NewPasswordPanel->SetFocusToPimTextCtrl();
+					return;
+				}
 
 				if (newPassword->Size() > 0)
 				{
@@ -115,7 +133,7 @@ namespace VeraCrypt
 					{
 						if (newPim > 0 && newPim < 485)
 						{
-							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");						
+							Gui->ShowError ("PIM_REQUIRE_LONG_PASSWORD");
 							return;
 						}
 
@@ -225,6 +243,9 @@ namespace VeraCrypt
 			if (passwordEmpty && keyfilesEmpty)
 				ok = false;
 
+			if (CurrentPasswordPanel->GetVolumePim () == -1)
+				ok = false;
+
 			if (DialogMode == Mode::RemoveAllKeyfiles && (passwordEmpty || keyfilesEmpty))
 				ok = false;
 
@@ -237,7 +258,11 @@ namespace VeraCrypt
 					ok = false;
 
 				if (DialogMode == Mode::ChangePasswordAndKeyfiles
-					&& ((NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty) || !NewPasswordPanel->PasswordsMatch()))
+					&& (	(NewPasswordPanel->GetPassword()->IsEmpty() && newKeyfilesEmpty)
+						|| 	!NewPasswordPanel->PasswordsMatch()
+						|| 	(NewPasswordPanel->GetVolumePim() == -1)
+						)
+					)
 					ok = false;
 			}
 		}
@@ -247,12 +272,12 @@ namespace VeraCrypt
 		}
 
 		OKButton->Enable (ok);
-		
+
 		if (DialogMode == Mode::ChangePasswordAndKeyfiles)
 		{
 			bool pimChanged = (CurrentPasswordPanel->GetVolumePim() != NewPasswordPanel->GetVolumePim());
 			NewPasswordPanel->UpdatePimHelpText(pimChanged);
 		}
-		
+
 	}
 }

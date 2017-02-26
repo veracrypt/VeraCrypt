@@ -1311,7 +1311,7 @@ int DecompressDeflatedData (char *out, char *in, int inLength)
     G.incnt = inLength;
 	G.outCounter = 0;
 
-	if (inflate(__G) != 0) 
+	if (inflate(__G) != 0)
 	{
 		// Error decompressing
 		return 0;

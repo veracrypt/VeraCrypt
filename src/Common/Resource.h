@@ -59,6 +59,26 @@
 #define IDR_RESCUE_LOADER_AES_SHA2      555
 #define IDR_RESCUE_LOADER_SERPENT_SHA2  556
 #define IDR_RESCUE_LOADER_TWOFISH_SHA2  557
+#define IDR_BOOT_SECTOR_CAMELLIA         558
+#define IDR_BOOT_LOADER_CAMELLIA         559
+#define IDR_RESCUE_BOOT_SECTOR_CAMELLIA  560
+#define IDR_RESCUE_LOADER_CAMELLIA       561
+#define IDR_BOOT_SECTOR_CAMELLIA_SHA2    562
+#define IDR_BOOT_LOADER_CAMELLIA_SHA2    563
+#define IDR_RESCUE_BOOT_SECTOR_CAMELLIA_SHA2 564
+#define IDR_RESCUE_LOADER_CAMELLIA_SHA2  565
+#define IDR_EFI_DCSBOOT                 566
+#define IDR_EFI_DCSINT                  567
+#define IDR_EFI_DCSCFG                  568
+#define IDR_EFI_LEGACYSPEAKER           569
+#define IDR_EFI_DCSBML           		570
+#define IDR_EFI_DCSRE           		571
+#define IDR_EFI_DCSBOOT32               572
+#define IDR_EFI_DCSINT32                573
+#define IDR_EFI_DCSCFG32                574
+#define IDR_EFI_LEGACYSPEAKER32         575
+#define IDR_EFI_DCSBML32           		576
+#define IDR_EFI_DCSRE32           		577
 #define IDC_HW_AES_LABEL_LINK           5000
 #define IDC_HW_AES                      5001
 #define IDC_PARALLELIZATION_LABEL_LINK  5002
@@ -195,15 +215,20 @@
 #define IDC_VOLUME_LABEL                5133
 #define IDT_VOLUME_LABEL                5134
 #define IDC_KEYFILES_TRY_EMPTY_PASSWORD 5135
+#define IDC_ENTROPY_BAR                 5136
+#define IDT_ENTROPY_BAR                 5137
+#define IDT_BENCHMARK                   5138
+#define IDC_BENCHMARK_LIST              5139
+#define IDC_BENCHMARK_PREBOOT           5140
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        542
+#define _APS_NEXT_RESOURCE_VALUE        578
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         5136
+#define _APS_NEXT_CONTROL_VALUE         5141
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.16">
+  <localization prog-version="1.20-BETA2">
     <!-- Languages -->
     <language langid="vi" name="Tiếng Việt" en-name="Vietnamese" version="0.1.0" translators="Nguyễn Kim Huy" />
     <!-- Fonts -->
@@ -60,7 +60,7 @@
     <control lang="vi" key="IDC_NO_HISTORY">Đừng bao giờ &amp;lưu lược sử</control>
     <control lang="vi" key="IDC_OPEN_OUTER_VOLUME">Mở tập đĩa bên ngoài</control>
     <control lang="vi" key="IDC_PAUSE">&amp;Tạm dừng</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use PIM</control>
+    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
     <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
     <control lang="vi" key="IDC_QUICKFORMAT">Định dạng nhanh</control>
     <control lang="vi" key="IDC_SHOW_PASSWORD">&amp;Hiển thị mật mã</control>
@@ -170,7 +170,7 @@
     <control lang="vi" key="IDC_PREF_MOUNT_READONLY">Nạp các tập đĩa kiểu chỉ-đọc lên</control>
     <control lang="vi" key="IDC_PREF_MOUNT_REMOVABLE">Nạp các tập đĩa kiểu môi trường chứa rời được lên</control>
     <control lang="vi" key="IDC_PREF_OPEN_EXPLORER">Mở cửa sổ Explorer của tập đĩa được nạp lên thành công</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporary Cache password during "Mount Favorite Volumes" operations</control>
+    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
     <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
     <control lang="vi" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Xóa mật mã được tạm trữ khi tự-tháo xuống</control>
     <control lang="vi" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Xóa mật mã được tạm trữ khi ra khỏi</control>
@@ -261,7 +261,7 @@
     <control lang="vi" key="IDM_UNMOUNTALL">Tháo Tất cả các Tập đĩa xuống</control>
     <control lang="vi" key="IDM_UNMOUNT_VOLUME">Tháo Tập đĩa xuống</control>
     <control lang="vi" key="IDM_VERIFY_RESCUE_DISK">Kiểm tra Đĩa Cứu hộ</control>
-    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk ISO Image</control>
+    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk Image</control>
     <control lang="vi" key="IDM_VERSION_HISTORY">Lịch sử phiên bản</control>
     <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
     <control lang="vi" key="IDM_VOLUME_PROPERTIES">Đặc tính của Tập đĩa</control>
@@ -452,7 +452,7 @@
     <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' > Computer > 'Uninstall or change a program' > VeraCrypt > Uninstall; on Windows XP, select 'Start Menu' > Settings > 'Control Panel' > 'Add Or Remove Programs' > VeraCrypt > Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
     <string lang="vi" key="ERR_CIPHER_INIT_FAILURE">Lỗi: Sơ khởi mã hóa thất bại.</string>
     <string lang="vi" key="ERR_CIPHER_INIT_WEAK_KEY">Lỗi: Một khóa yếu hoặc có thể yếu đã được phát hiện. Khóa này sẽ được bỏ. Xin thử lại lần nữa.</string>
-    <string lang="vi" key="EXCEPTION_REPORT">Một lỗi nghiêm trọng đã xảy ra và VeraCrypt phải được chấm dứt. Nếu chuyện này gây ra bởi một lỗi trong VeraCrypt thì chúng tôi muốn sửa nó. Để giúp chúng tôi, bạn có thể gởi cho chúng tôi một báo cáo lỗi được làm tự động có chứa những khoản sau đây:\n\n- Phiên bản của chương trình\n- Phiên bản của hệ điều hành\n- Loại CPU\n- Tên bộ phận của VeraCrypt\n- Tổng kiểm của tập tin thực hiện của VeraCrypt\n- Tên tượng trưng của cửa sổ hộp thoại\n- Loại lỗi\n- Địa chỉ lỗi \n- Cụm gọi của VeraCrypt\n\nNếu bạn chọn 'Có', URL sau đây (which có chứas the toàn bộ error report) sẽ được mở ra trong Internet browser mặc định của bạn.\n\n%s\n\nBạn có muốn gởi cho chúng tôi báo cáo lỗi bên trên không?</string>
+    <string lang="vi" key="EXCEPTION_REPORT">Một lỗi nghiêm trọng đã xảy ra và VeraCrypt phải được chấm dứt. Nếu chuyện này gây ra bởi một lỗi trong VeraCrypt thì chúng tôi muốn sửa nó. Để giúp chúng tôi, bạn có thể gởi cho chúng tôi một báo cáo lỗi được làm tự động có chứa những khoản sau đây:\n\n- Phiên bản của chương trình\n- Phiên bản của hệ điều hành\n- Loại CPU\n- Tên bộ phận của VeraCrypt\n- Tổng kiểm của tập tin thực hiện của VeraCrypt\n- Tên tượng trưng của cửa sổ hộp thoại\n- Loại lỗi\n- Địa chỉ lỗi \n- Cụm gọi của VeraCrypt\n\nNếu bạn chọn 'Có', URL sau đây (which có chứas the toàn bộ error report) sẽ được mở ra trong Internet browser mặc định của bạn.\n\n%hs\n\nBạn có muốn gởi cho chúng tôi báo cáo lỗi bên trên không?</string>
     <string lang="vi" key="EXCEPTION_REPORT_EXT">Một lỗi nghiêm trọng đã xảy ra trong hệ thống của bạn nên VeraCrypt cần phải được chấm dứt.\n\nLưu ý là lỗi này không phải do VeraCrypt gây ra (vì vậy những nhà phát triển  VeraCrypt không thể sửa nó được). Xin kiểm soát hệ thống của bạn coi có vấn đề không (ví dụ như cấu hình hệ thống, kết nối mạng, các bộ phận phần cứng bị hư).</string>
     <string lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</string>
     <string lang="vi" key="EXCEPTION_REPORT_TITLE">Lỗi Nghiêm trọng của VeraCrypt</string>
@@ -559,7 +559,7 @@
     <string lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</string>
     <string lang="vi" key="INIT_SYS_ENC">Không thể sơ khởi các bộ phận của ứng dụng cho việc mã hóa hệ thống.</string>
     <string lang="vi" key="INIT_RAND">Không sơ khởi hàm tạo ra các số ngẫu nhiên được!</string>
-    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="vi" key="INIT_REGISTER">Không thể sơ khởi ứng dụng được. Không đăng ký hạng Hộp thoại được.</string>
     <string lang="vi" key="INIT_RICHEDIT">Lỗi: Không nạp thư viện hệ thống Rich Edit được.</string>
     <string lang="vi" key="INTRO_TITLE">Trợ lý Cấu tạo Tập đĩa VeraCrypt</string>
@@ -641,8 +641,6 @@
     <string lang="vi" key="PASSWORD_WRONG_AUTOMOUNT">Mật mã không đúng hoặc không tìm được tập đĩa VeraCrypt nào cả.</string>
     <string lang="vi" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Tập tin khóa/mật mã không đúng hoặc không tìm được tập đĩa VeraCrypt nào cả.</string>
     <string lang="vi" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nCảnh báo: Caps Lock đang bật. Chuyện này có thể làm cho bạn nhập mật mã của bạn không đúng.</string>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
     <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
@@ -964,14 +962,14 @@
     <string lang="vi" key="VOLUME_HAS_NO_BACKUP_HEADER">Không có bản sao phần đầu được gắn trong tập đĩa này (lưu ý là chỉ có các tập đĩa được cấu tạo bởi VeraCrypt 6.0 hay sau này có chứa những bản sao phần đầu được gắn vào).</string>
     <string lang="vi" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">Bạn đang thử sao lại phần đầu của phân vùng/ổ đĩa hệ thống. Chuyện này không được cho phép. Sao lại/hồi phục những thao tác liên quan đến phân vùng/ổ đĩa hệ thống chỉ có thể thực hiện bằng cách dùng Đĩa Cứu hộ VeraCrypt.\n\nBạn có muốn cấu tạo một Đĩa Cứu hộ VeraCrypt không?</string>
     <string lang="vi" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">Bạn đang thử hồi phục phần đầu của một tập đĩa VeraCrypt ảo nhưng bạn đã chọn phân vùng/ổ đĩa hệ thống. Chuyện này không được cho phép. Sao lại/hồi phục những thao tác liên quan đến phân vùng/ổ đĩa hệ thống chỉ có thể thực hiện bằng cách dùng Đĩa Cứu hộ VeraCrypt.\n\nBạn có muốn cấu tạo một Đĩa Cứu hộ VeraCrypt không?</string>
-    <string lang="vi" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Sau khi bạn nhấn OK, bạn sẽ chọn tên một tập tin cho bản ảnh ISO của Đĩa Cứu hộ VeraCrypt và vị trí bạn muốn để nó.</string>
+    <string lang="vi" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">Sau khi bạn nhấn OK, bạn sẽ chọn tên một tập tin cho bản ảnh của Đĩa Cứu hộ VeraCrypt và vị trí bạn muốn để nó.</string>
     <string lang="vi" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">Bản ảnh của Đĩa Cứu hộ đã được cấu tạo và lưu trữ trong tập tin này:\n%s\n\nBây giờ bạn cần sang bản ảnh của Đĩa Cứu hộ qua một CD hay DVD.\n\nQUAN TRỌNG: Lưu ý là tập tin phải được viết vào CD/DVD như là một bản ảnh ISO của đĩa (chứ không phải như là một tập tin cá nhân). Để có hướng dẫn làm như thế nào, xin tham khảo tài liệu của nhu liệu thâu CD/DVD của bạn.\n\nSau khi bạn sang Đĩa Cứu hộ, chọn 'Hệ thống' &gt; 'Xác nhận Đĩa Cứu hộ' để xác nhận là nó đã được sang đúng cách.</string>
     <string lang="vi" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">Bản ảnh của Đĩa Cứu hộ đã được cấu tạo và lưu trữ trong tập tin này:\n%s\n\nBây giờ bạn cần sang bản ảnh của Đĩa Cứu hộ qua một CD hay DVD.\n\nBạn có muốn khởi chạy Microsoft Windows Disc Image Burner bây giờ không?\n\nLưu ý: Sau khi bạn sang Đĩa Cứu hộ, chọn 'Hệ thống' &gt; 'Xác nhận Đĩa Cứu hộ' để xác nhận là nó đã được sang đúng cách.</string>
     <string lang="vi" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">Xin chèn Đĩa Cứu hộ VeraCrypt của bạn vào ổ đĩa CD/DVD của bạn và nhấn OK để xác nhận nó.</string>
     <string lang="vi" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">Đĩa Cứu hộ VeraCrypt đã được xác nhận thành công.</string>
     <string lang="vi" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">Không thể xác nhận là Đĩa Cứu hộ đã được sang đúng cách.\n\nNếu bạn đã sang Đĩa Cứu hộ, xin đẩy CD/DVD ra và chèn vào lại; sau đó thử lại. Nếu việc này không giúp được, xin thử nhu liệu thâu CD/DVD và/hay môi trường khác.\n\nNếu bạn thử xác nhận một Đĩa Cứu hộ VeraCrypt được cấu tạo cho một khóa chính, mật mã, salt, v.v. khác, xin lưu ý là Đĩa Cứu hộ như thế sẽ luôn luôn thất bại sự xác nhận này. Để cấu tạo một Đĩa Cứu hộ mới hoàn toàn tương đương với cấu hình hiện tại của bạn, chọn 'Hệ thống' &gt; 'Cấu tạo Đĩa Cứu hộ'.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk ISO image has been successfully verified.</string>
-    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk ISO image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk ISO image created for a different master key, password, salt, etc., please note that such Rescue Disk ISO image will always fail this verification. To create a new Rescue Disk ISO image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">The VeraCrypt Rescue Disk image has been successfully verified.</string>
+    <string lang="en" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">The Rescue Disk image verification failed.\n\nIf you attempted to verify a VeraCrypt Rescue Disk image created for a different master key, password, salt, etc., please note that such Rescue Disk image will always fail this verification. To create a new Rescue Disk image fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="vi" key="ERROR_CREATING_RESCUE_DISK">Lỗi cấu tạo Đĩa Cứu hộ VeraCrypt.</string>
     <string lang="vi" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">Đĩa Cứu hộ VeraCrypt không thể được cấu tạo khi một hệ điều hành ẩn đang chạy.\n\nĐể cấu tạo một Đĩa Cứu hộ VeraCrypt, khởi động hệ điều hành nghi trang và sau đó chọn 'Hệ thống' &gt; 'Cấu tạo Đĩa Cứu hộ'.</string>
     <string lang="vi" key="RESCUE_DISK_CHECK_FAILED">Không thể xác nhận là Đĩa Cứu hộ đã được sang đúng cách.\n\nNếu bạn đã sang Đĩa Cứu hộ, xin đẩy CD/DVD ra và chèn vào lại; sau đó nhấn Kế tiếp để thử lại. Nếu việc này không giúp được, xin thử môi trường khác%s.\n\nNếu bạn chưa sang Đĩa Cứu hộ, xin làm thế, và sau đó nhấn Kế tiếp.\n\nNếu bạn thử xác nhận một Đĩa Cứu hộ VeraCrypt được cấu tạo trước khi bạn bắt đầu trợ lý này thì xin lưu ý là Đĩa Cứu hộ như thế không thể dùng được bởi vì nó được cấu tạo cho  một khóa chính  khác. Bạn cần sang Đĩa Cứu hộ mới được tạo ra.</string>
@@ -1056,8 +1054,8 @@
     <string lang="vi" key="FAILED_TO_INTERRUPT_WIPING">Lỗi: Không gián đoạn quá trình tẩy được.</string>
     <string lang="vi" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">Lỗi: Không tiếp tục lại quá trình mã hóa/giải mã của phân vùng/ổ đĩa hệ thống được.</string>
     <string lang="vi" key="FAILED_TO_START_WIPING">Lỗi: Không bắt đầu quá trình tẩy được.</string>
-    <string lang="vi" key="INCONSISTENCY_RESOLVED">Mâu thuẫn đã được giải quyết.\n\n\n(Nếu bạn báo một lỗi liên quan đến chuyện này, xin bao gồm tin tức kỹ thuật sau đây trong phần báo lỗi:\n%s)</string>
-    <string lang="vi" key="UNEXPECTED_STATE">Lỗi: Trạng thái bất thường.\n\n\n(Nếu bạn báo một lỗi liên quan đến chuyện này, xin bao gồm tin tức kỹ thuật sau đây trong phần báo lỗi:\n%s)</string>
+    <string lang="vi" key="INCONSISTENCY_RESOLVED">Mâu thuẫn đã được giải quyết.\n\n\n(Nếu bạn báo một lỗi liên quan đến chuyện này, xin bao gồm tin tức kỹ thuật sau đây trong phần báo lỗi:\n%hs)</string>
+    <string lang="vi" key="UNEXPECTED_STATE">Lỗi: Trạng thái bất thường.\n\n\n(Nếu bạn báo một lỗi liên quan đến chuyện này, xin bao gồm tin tức kỹ thuật sau đây trong phần báo lỗi:\n%hs)</string>
     <string lang="en" key="NO_SYS_ENC_PROCESS_TO_RESUME">There is no interrupted process of encryption/decryption of the system partition/drive to resume.\n\nNote: If you want to resume an interrupted process of encryption/decryption of a non-system partition/volume, select 'Volumes' &gt; 'Resume Interrupted Process'.</string>
     <string lang="vi" key="HIDVOL_PROT_BKG_TASK_WARNING">CẢNH BÁO: Tác vụ Phụ của VeraCrypt bị tắt. Sau khi bạn ra khỏi VeraCrypt, bạn sẽ không được thông báo nếu tổn hại cho tập đĩa ẩn được ngăn cản.\n\nLưu ý: Bạn có thể tắt Tác vụ Phụ bất cứ lúc nào bằng cách nhấn phải biểu tượng khay và chọn 'Thoát ra'.\n\nBật Tác vụ Phụ của VeraCrypt lên không?</string>
     <string lang="vi" key="LANG_PACK_VERSION">Phiên bản của bộ ngôn ngữ:  %s</string>
@@ -1079,7 +1077,7 @@
     <string lang="en" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt no longer supports encryption of the system partition/drive on Windows Vista with no Service Pack installed. Before upgrading VeraCrypt, please install Service Pack 1 or higher for Windows Vista.</string>
     <string lang="vi" key="FEATURE_REQUIRES_INSTALLATION">Lỗi: Tính năng này cần VeraCrypt được cài đặt trong hệ thống của bạn (bạn đang cho VeraCrypt chạy trong dạng lưu động).\n\nXin cài đặt VeraCrypt và sau đó thử lại.</string>
     <string lang="vi" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">CẢNH BÁO: Dường như Windows không được cài đặt trong ổ đĩa nơi mà nó khởi nạp. Việc này không được hỗ trợ.\n\nBạn chỉ nên tiếp tục nếu bạn chắc là Windows được cài đặt trong ổ đĩa nơi mà nó khởi nạp.\n\nBạn có muốn tiếp tục không?</string>
-    <string lang="vi" key="GPT_BOOT_DRIVE_UNSUPPORTED">Ổ đĩa hệ thống của bạn có một bảng phân vùng GUID (GPT). Hiện tại, chỉ có những ổ đĩa với bảng phân vùng MBR được hỗ trợ.</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="vi" key="TC_BOOT_LOADER_ALREADY_INSTALLED">CHÚ Ý: Bộ tải Khởi nạp VeraCrypt đã được cài đặt trong ổ đĩa hệ thống của bạn!\n\nCó thể một hệ thống khác trong máy của bạn đã được mã hóa.\n\nCẢNH BÁO: TIẾN HÀNH VIỆC MÃ HÓA HỆ THỐNG ĐANG ĐƯỢC CHẠY CÓ THỂ LÀM CHO (CÁC) HỆ THỐNG KHÁC KHÔNG TÀI NÀO BẮT ĐẦU ĐƯỢC VÀ DỮ LIỆU LIÊN HỆ KHÔNG TRUY CẬP ĐƯỢC.\n\nBạn có chắc là bạn muốn tiếp tục không?</string>
     <string lang="vi" key="SYS_LOADER_RESTORE_FAILED">Không thể phục hồi bộ tải hệ thống nguyên thủy.\n\nXin sử dụng Đĩa Cứu hộ VeraCrypt ('Tùy chọn Sửa chửa' &gt; 'Phục hồi bộ tải hệ thống nguyên thủy') hoặc môi trường cài đặt Windows để thay thế Bộ tải Khởi nạp VeraCrypt với bộ tải hệ thống Windows.</string>
     <string lang="vi" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Bộ tải hệ thống nguyên thủy sẽ không được giữ trong Đĩa Cứu hộ (lý do có thể là tập tin sao lưu bị mất).</string>
@@ -1382,6 +1380,40 @@
     <string lang="vi" key="TB_PER_SEC">TB/s</string>
     <string lang="vi" key="PB_PER_SEC">PB/s</string>
     <string lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
+    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
+    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
+    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
+    <string lang="en" key="VOLUME_ID">Volume ID</string>
+    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
+    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
+    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
+    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
+    <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
+    <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
+    <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
+    <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
+    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
+    <string lang="en" key="TIME">Time</string>
+    <string lang="en" key="ITERATIONS">Iterations</string>
+    <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
+	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

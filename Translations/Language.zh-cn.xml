@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.16">
+  <localization prog-version="1.20-BETA2">
     <!-- Languages -->
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.0" translators="Barney Li and Zhangjintao" />
     <!-- Fonts -->
@@ -60,7 +60,7 @@
     <control lang="zh-cn" key="IDC_NO_HISTORY">从不保留历史记录(&amp;R)</control>
     <control lang="zh-cn" key="IDC_OPEN_OUTER_VOLUME">打开外层加密卷</control>
     <control lang="zh-cn" key="IDC_PAUSE">暂停(&amp;P)</control>
-    <control lang="zh-cn" key="IDC_PIM_ENABLE">使用 PIM</control>
+    <control lang="zh-cn" key="IDC_PIM_ENABLE">使用 P&amp;IM</control>
     <control lang="zh-cn" key="IDC_NEW_PIM_ENABLE">使用 PIM</control>
     <control lang="zh-cn" key="IDC_QUICKFORMAT">快速格式化</control>
     <control lang="zh-cn" key="IDC_SHOW_PASSWORD">显示密码(&amp;D)</control>
@@ -261,7 +261,7 @@
     <control lang="zh-cn" key="IDM_UNMOUNTALL">卸载全部加载的加密卷</control>
     <control lang="zh-cn" key="IDM_UNMOUNT_VOLUME">卸载所选加密卷</control>
     <control lang="zh-cn" key="IDM_VERIFY_RESCUE_DISK">验证应急盘</control>
-    <control lang="zh-cn" key="IDM_VERIFY_RESCUE_DISK_ISO">验证应急盘ISO镜像</control>
+    <control lang="zh-cn" key="IDM_VERIFY_RESCUE_DISK_ISO">验证应急盘镜像</control>
     <control lang="zh-cn" key="IDM_VERSION_HISTORY">版本历史（联网）</control>
     <control lang="zh-cn" key="IDM_VOLUME_EXPANDER">加密卷扩展向导</control>
     <control lang="zh-cn" key="IDM_VOLUME_PROPERTIES">加密卷属性</control>
@@ -452,7 +452,7 @@
     <string lang="zh-cn" key="DRIVER_VERSION">错误：正在运行不兼容版本的 VeraCrypt 设备驱动。\n\n如果您想在便携模式下运行 VeraCrypt（即不安装它）但是却安装了不同版本的 VeraCrypt，您必须先卸载已安装版本（或使用 VeraCrypt 安装程序升级）。要卸载 VeraCrypt，请按如下步骤进行：在 Windows Vista 或其后版本中，选择〖开始〗菜单 -&gt; 计算机 -&gt;〖卸载或更改程序〗-&gt; VeraCrypt -&gt; 卸载；在 Windows XP 中，选择〖开始〗菜单 -&gt; 〖设置〗 -&gt; 〖控制面板〗 -&gt; 〖添加或删除程序〗 -&gt; VeraCrypt -&gt; 删除\n\n与此相似，如果您尝试以便携版运行 VeraCrypt 但是却已经运行了其它版本的便携 VeraCrypt，您必须重启电脑之后再运行新的版本。</string>
     <string lang="zh-cn" key="ERR_CIPHER_INIT_FAILURE">错误：密码初始化失败。</string>
     <string lang="zh-cn" key="ERR_CIPHER_INIT_WEAK_KEY">错误：检测到弱强度密钥！ 密钥将被废弃。请重试。</string>
-    <string lang="zh-cn" key="EXCEPTION_REPORT">发生了关键性错误，VeraCrypt 必须被终止。如果该错误是 VeraCrypt 的缺陷导致的，我们可能会修正它。要协助我们完善软件，您可以把 Veracrypt 自动生成的错误报告发送给我们，报告包括下面内容：\n\n- 程序版本\n- 操作系统版本\n- CPU类型\n- VeraCrypt 组件名称\n- VeraCrypt 执行程序的校验值\n- 对话框窗口的符号标记\n- 错误分类\n- 错误地址信息\n- VeraCrypt 调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在默认浏览器中打开。\n\n%s\n\n您希望发送给我们上述错误报告吗？</string>
+    <string lang="zh-cn" key="EXCEPTION_REPORT">发生了关键性错误，VeraCrypt 必须被终止。如果该错误是 VeraCrypt 的缺陷导致的，我们可能会修正它。要协助我们完善软件，您可以把 Veracrypt 自动生成的错误报告发送给我们，报告包括下面内容：\n\n- 程序版本\n- 操作系统版本\n- CPU类型\n- VeraCrypt 组件名称\n- VeraCrypt 执行程序的校验值\n- 对话框窗口的符号标记\n- 错误分类\n- 错误地址信息\n- VeraCrypt 调用堆栈\n\n如果选择〖是〗，下面的 URL 网址（包含错误报告）将会在默认浏览器中打开。\n\n%hs\n\n您希望发送给我们上述错误报告吗？</string>
     <string lang="zh-cn" key="EXCEPTION_REPORT_EXT">您的系统发生了关键性错误，该错误会终止 VeraCrypt。\n\n需要注意的是此错误并非由 VeraCrypt 导致（因此 VeraCrypt 开发者并不会修复这个错误）。请检查您的系统查找可能的原因（例如：系统配置、网络连接、失效的硬件组件等）。</string>
     <string lang="zh-cn" key="EXCEPTION_REPORT_EXT_FILESEL">系统遇到关键性错误，需要终止 VeraCrypt。\n\n如果此错误仍然存在，您可能需要尝试禁用或卸载可能导致此问题的应用程序，例如防病毒或防火墙软件，系统性能提升、优化或系统设置软件等等。如果仍然无法解决问题，您可能需要尝试从新安装您的操作系统（此问题也可能由恶意软件导致）。</string>
     <string lang="zh-cn" key="EXCEPTION_REPORT_TITLE">VeraCrypt 关键性错误</string>
@@ -559,7 +559,7 @@
     <string lang="zh-cn" key="ERR_VOLUME_SIZE_TOO_BIG">不能创建加密卷，因为所输入的加密卷的大小太大。</string>
     <string lang="zh-cn" key="INIT_SYS_ENC">不能初始化用于系统加密的程序组件。</string>
     <string lang="zh-cn" key="INIT_RAND">初始化随机数据生成器失败！</string>
-    <string lang="zh-cn" key="CAPI_RAND">Windows Crypto API 调用失败!\n\n\n(如果你要提交一个关于此的错误报告，请附上下面的技术信息: bug report:\n%s, Last Error = 0x%.8X)</string>
+    <string lang="zh-cn" key="CAPI_RAND">Windows Crypto API 调用失败!\n\n\n(如果你要提交一个关于此的错误报告，请附上下面的技术信息: bug report:\n%hs, Last Error = 0x%.8X)</string>
     <string lang="zh-cn" key="INIT_REGISTER">无法初始化应用程序。注册对话框类失败。</string>
     <string lang="zh-cn" key="INIT_RICHEDIT">错误：加载富文本编辑系统运行库失败。</string>
     <string lang="zh-cn" key="INTRO_TITLE">VeraCrypt 加密卷创建向导</string>
@@ -641,8 +641,6 @@
     <string lang="zh-cn" key="PASSWORD_WRONG_AUTOMOUNT">密码不正确或不是 VeraCrypt 加密卷。</string>
     <string lang="zh-cn" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">密钥 和/或 密码不正确或不是 VeraCrypt 加密卷</string>
     <string lang="zh-cn" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\n警告：Caps Lock 已经开启。 这可能导致您密码输入错误。</string>
-    <string lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节。</string>
-    <string lang="zh-cn" key="PASSWORD_UTF8_INVALID">键入的密码中包含无法转换为UTF-8编码的Unicode字符。</string>
     <string lang="zh-cn" key="PIM_CHANGE_WARNING">记住所挂载的卷的PIM</string>
     <string lang="zh-cn" key="PIM_HIDVOL_HOST_TITLE">外层卷 PIM</string>
     <string lang="zh-cn" key="PIM_HIDVOL_TITLE">隐藏卷 PIM</string>
@@ -964,14 +962,14 @@
     <string lang="zh-cn" key="VOLUME_HAS_NO_BACKUP_HEADER">加密卷中没有内嵌的备份头信息（注意，仅在 VeraCrypt 6.0 和以后的版本才包含内嵌的头信息）。</string>
     <string lang="zh-cn" key="BACKUP_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试备份系统分区/设备的头信息，该功能不被允许。对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</string>
     <string lang="zh-cn" key="RESTORE_HEADER_NOT_FOR_SYS_DEVICE">您正在尝试恢复系统分区/设备的头信息，但是您选择的是系统分区/设备。该功能不被允许。 对于系统分区/设备头信息的备份/恢复 只能通过使用 VeraCrypt 应急盘来进行。\n\n您希望创建 VeraCrypt 应急盘吗？</string>
-    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在点击〖确定〗按钮后，您将会设置新的 VeraCrypt 应急盘  ISO 镜像文件的名称和存放位置。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_SELECT_PATH">在点击〖确定〗按钮后，您将会设置新的 VeraCrypt 应急盘  镜像文件的名称和存放位置。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_BURN">应急盘  ISO 镜像文件已经创建并存储为文件： %s\n\n现在您需要把应急盘刻录到 CD 或 DVD。\n\n重要：文件必须以 ISO 镜像文件方式刻录到 CD/DVD（不要刻录为单个的数据文件）。要获取更多的关于如何刻录 ISO 文件的信息，请参考您的 CD/DVD 刻录软件的说明书。\n\n请您在刻录应急盘之后，选择〖系统〗 -&gt; 〖验证应急盘〗来验证应急盘是否已经成功刻录。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CREATION_WIN_ISOBURN">应急盘  ISO 镜像文件已经创建并存储为文件： %s\n\n现在您需要把应急盘刻录到 CD 或 DVD。\n\n您想要启动 Windows 自带的磁盘镜像刻录功能吗？\n\n注意，请您在刻录应急盘之后，选择〖系统〗 -&gt; 〖验证应急盘〗来验证应急盘是否已经成功刻录。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_INSERT">请插入 VeraCrypt 应急盘到 CD/DVD 光驱并点〖确定〗按钮开始验证。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_PASSED">VeraCrypt 应急盘已经被成功验证。</string>
     <string lang="zh-cn" key="RESCUE_DISK_NON_WIZARD_CHECK_FAILED">应急盘验证失败。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再试一次。如果仍然无效，请尝试使用其它 CD/DVD 刻录软件或刻录盘。\n\n如果您尝试验证一个为不同的主密钥、密码、元素等创建的 VeraCrypt 应急盘，请注意这样的应急盘会无法通过验证。要创建一个新的和当前配置完全兼容的应急盘，请选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 应急盘ISO镜像已经被成功验证。</string>
-    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘ISO镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘ISO镜像，请选择 "系统" > "创建应急盘" 。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_PASSED">VeraCrypt 应急盘 镜像已经被成功验证。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_ISO_IMAGE_CHECK_FAILED">应急盘 镜像文件验证失败。\n\n请注意，如果你尝试验证一个与当前系统盘主密钥、密码或盐值等不同的情况下创建的应急盘，此操作将提示失败。要创建一个与当前配置相符的应急盘镜像，请选择 "系统" > "创建应急盘" 。</string>
     <string lang="zh-cn" key="ERROR_CREATING_RESCUE_DISK">创建 VeraCrypt 应急盘时失败。</string>
     <string lang="zh-cn" key="CANNOT_CREATE_RESCUE_DISK_ON_HIDDEN_OS">VeraCrypt 应急盘在隐形操作系统运行时无法创建。\n\n要创建 VeraCrypt 应急盘，请启动到迷惑操作系统之后选择〖系统〗 -&gt; 〖创建应急盘〗。</string>
     <string lang="zh-cn" key="RESCUE_DISK_CHECK_FAILED">不能确定应急盘是否刻录成功。\n\n如果您已经刻录了应急盘，请弹出后重新插入应急盘到 CD/DVD，之后再尝试验证一次。如果仍然无效，请尝试使用其它 %s 。\n\n如果您还没有创建应急盘，请首先创建一个，然后再点〖下一步〗按钮。\n\n如果您尝试验证一个运行加密盘创建向导以前创建的应急盘，则这样的应急盘是无法用于当前系统的，这是因为它是使用了不同的主密钥创建的。您需要刻录和创建一个新的应急盘。</string>
@@ -1056,8 +1054,8 @@
     <string lang="zh-cn" key="FAILED_TO_INTERRUPT_WIPING">错误：中断擦除过程时失败。</string>
     <string lang="zh-cn" key="FAILED_TO_RESUME_SYSTEM_ENCRYPTION">错误：继续加密/解密系统分区或驱动器的操作失败。</string>
     <string lang="zh-cn" key="FAILED_TO_START_WIPING">错误：启动擦除过程时失败。</string>
-    <string lang="zh-cn" key="INCONSISTENCY_RESOLVED">发现不一致性。\n\n\n（如果您使用此链接报告这个错误，请在报告中包含下面信息： %s）</string>
-    <string lang="zh-cn" key="UNEXPECTED_STATE">错误：未知状态。\n\n\n（如果您报告与之相关的 BUG，请在错误报告里面包含下面的技术信息： %s）</string>
+    <string lang="zh-cn" key="INCONSISTENCY_RESOLVED">发现不一致性。\n\n\n（如果您使用此链接报告这个错误，请在报告中包含下面信息： %hs）</string>
+    <string lang="zh-cn" key="UNEXPECTED_STATE">错误：未知状态。\n\n\n（如果您报告与之相关的 BUG，请在错误报告里面包含下面的技术信息： %hs）</string>
     <string lang="zh-cn" key="NO_SYS_ENC_PROCESS_TO_RESUME">没有要恢复的系统分区加密/解密进程。\n\n提示: 要恢复非系统分区加密/解密进程，选择"加密卷" -&gt; "继续被中断的过程"。</string>
     <string lang="zh-cn" key="HIDVOL_PROT_BKG_TASK_WARNING">警告： VeraCrypt 后台任务已禁用。在您退出 VeraCrypt 后，如果设置了阻止损坏隐藏加密卷，您也将无法得到提示。\n\n注意：您可以随时在通过右键单击 VeraCrypt 通知栏图标并 选择〖退出〗来停止后台任务。\n\n\n您要启用 VeraCrypt 后台任务吗？</string>
     <string lang="zh-cn" key="LANG_PACK_VERSION">语言包版本： %s</string>
@@ -1079,7 +1077,7 @@
     <string lang="zh-cn" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt 不再支持对未安装 SP 补丁的 Windows Vista 系统的系统分区/设备的加密。在升级 VeraCrypt 之前，请安装 Vista 的 Service Pack 1 或更高补丁版本。</string>
     <string lang="zh-cn" key="FEATURE_REQUIRES_INSTALLATION">错误：此功能要求 VeraCrypt 必须安装于当前系统（您正在以便携模式运行 VeraCrypt）。\n\n请安装 VeraCrypt 之后再试一次。</string>
     <string lang="zh-cn" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">警告：Windows 看起来并未安装在它所启动的驱动器上。此功能目前尚不支持。\n\n尽在您确认 Windows 的确安装在它所启动的驱动器上时，您才应当继续。\n\n您确认要继续吗？</string>
-    <string lang="zh-cn" key="GPT_BOOT_DRIVE_UNSUPPORTED">您的系统驱动器具有 GUID 分区表（GPT）。当前只支持具有 MBR 的分区表。</string>
+    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="zh-cn" key="TC_BOOT_LOADER_ALREADY_INSTALLED">警告：VeraCrypt 启动管理器已经安装到了您的系统驱动器上了！\n\n这可能在您的计算机上已经加密了另外一个系统。\n\n警告：继续加密当前运行的系统可能会导致其它系统无法启动或导致数据无法访问。\n\n您确定要继续吗？</string>
     <string lang="zh-cn" key="SYS_LOADER_RESTORE_FAILED">恢复原来的系统启动管理器时失败。\n\n请使用您的 VeraCrypt 应急盘（'Repair Options' &gt; 'Restore original system loader'）或者 Windows 安装盘来清除 VeraCrypt 启动管理器。</string>
     <string lang="zh-cn" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">原来的系统引导器没有保存到应急盘上（可能原因：备份文件丢失）。</string>
@@ -1382,6 +1380,40 @@
     <string lang="zh-cn" key="TB_PER_SEC">TB/s</string>
     <string lang="zh-cn" key="PB_PER_SEC">PB/s</string>
     <string lang="zh-cn" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
+    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
+    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
+    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <string lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节。</string>
+    <string lang="zh-cn" key="PASSWORD_UTF8_INVALID">键入的密码中包含无法转换为UTF-8编码的Unicode字符。</string>
+    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="zh-cn" key="ERR_EXFAT_INVALID_VOLUME_SIZE">输入的加密卷的大小不兼容所选择的exFAT文件系统。</string>
+    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
+    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
+    <string lang="en" key="VOLUME_ID">Volume ID</string>
+    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
+    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
+    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
+    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
+    <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
+    <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
+    <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
+    <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
+    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
+    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
+    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
+    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
+    <string lang="en" key="TIME">Time</string>
+    <string lang="en" key="ITERATIONS">Iterations</string>
+    <string lang="en" key="PRE-BOOT">Pre-Boot</string>
+    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
+    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
+    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
+	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

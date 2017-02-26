@@ -1,12 +1,12 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -43,8 +43,8 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 
 	UNREFERENCED_PARAMETER (hwndDlg);		/* Remove warning */
 
-	GetWindowText (hPassword, szTmp1, sizeof (szTmp1));
-	GetWindowText (hVerify, szTmp2, sizeof (szTmp2));
+	GetWindowText (hPassword, szTmp1, ARRAYSIZE (szTmp1));
+	GetWindowText (hVerify, szTmp2, ARRAYSIZE (szTmp2));
 
 	utf8Len1 = WideCharToMultiByte (CP_UTF8, 0, szTmp1, -1, szTmp1Utf8, MAX_PASSWORD + 1, NULL, NULL);
 	utf8Len2 = WideCharToMultiByte (CP_UTF8, 0, szTmp2, -1, szTmp2Utf8, MAX_PASSWORD + 1, NULL, NULL);
@@ -89,7 +89,7 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 {
 	int i, len;
-	
+
 	if (hPassword == NULL)
 	{
 		if (ptrPw)
@@ -113,7 +113,7 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 		len = GetWindowTextLength (hPassword);
 
 		if (len > MAX_PASSWORD)
-			return FALSE; 
+			return FALSE;
 
 		GetWindowTextW (hPassword, s, sizeof (s) / sizeof (wchar_t));
 
@@ -126,7 +126,7 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 		burn (s, sizeof(s));
 
 		if (i < len)
-			return FALSE; 
+			return FALSE;
 	}
 
 	return TRUE;
@@ -141,7 +141,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim
 		if (bCustomPimSmall)
 		{
 			Error (bForBoot? "BOOT_PIM_REQUIRE_LONG_PASSWORD": "PIM_REQUIRE_LONG_PASSWORD", hwndDlg);
-			return FALSE;						
+			return FALSE;
 		}
 
 #ifndef _DEBUG
@@ -215,14 +215,14 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 	else
 	{
 		nDosLinkCreated = FakeDosNameForDevice (szDiskFile, szDosDevice, sizeof(szDosDevice), szCFDevice, sizeof(szCFDevice),FALSE);
-		
+
 		if (nDosLinkCreated != 0)
 			goto error;
 	}
 
 	dev = CreateFile (szCFDevice, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
-	if (dev == INVALID_HANDLE_VALUE) 
+	if (dev == INVALID_HANDLE_VALUE)
 		goto error;
 
 	if (bDevice)
@@ -328,7 +328,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 
 		if (bytesRead != sizeof (buffer))
 		{
-			// Windows may report EOF when reading sectors from the last cluster of a device formatted as NTFS 
+			// Windows may report EOF when reading sectors from the last cluster of a device formatted as NTFS
 			memset (buffer, 0, sizeof (buffer));
 		}
 
@@ -347,7 +347,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 			cryptoInfo = NULL;
 			goto error;
 		}
-		else 
+		else
 			break;
 	}
 
@@ -374,12 +374,12 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 	EnableElevatedCursorChange (hwndDlg);
 	WaitCursor();
 
-	/* Re-encrypt the volume header */ 
+	/* Re-encrypt the volume header */
 	backupHeader = FALSE;
 
 	while (TRUE)
 	{
-		/* The header will be re-encrypted wipePassCount times to prevent adversaries from using 
+		/* The header will be re-encrypted wipePassCount times to prevent adversaries from using
 		techniques such as magnetic force microscopy or magnetic force scanning tunnelling microscopy
 		to recover the overwritten header. According to Peter Gutmann, data should be overwritten 22
 		times (ideally, 35 times) using non-random patterns and pseudorandom data. However, as users might
@@ -437,9 +437,51 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 				&& (cryptoInfo->HeaderFlags & TC_HEADER_FLAG_NONSYS_INPLACE_ENC) != 0
 				&& (cryptoInfo->HeaderFlags & ~TC_HEADER_FLAG_NONSYS_INPLACE_ENC) == 0)
 			{
+				PCRYPTO_INFO dummyInfo = NULL;
+				LARGE_INTEGER hiddenOffset;
+
 				nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, cryptoInfo->VolumeSize.Value, !backupHeader, backupHeader);
 				if (nStatus != ERR_SUCCESS)
 					goto error;
+
+				// write fake hidden volume header to protect against attacks that use statistical entropy
+				// analysis to detect presence of hidden volumes
+				hiddenOffset.QuadPart = backupHeader ? cryptoInfo->VolumeSize.Value + TC_VOLUME_HEADER_GROUP_SIZE + TC_HIDDEN_VOLUME_HEADER_OFFSET: TC_HIDDEN_VOLUME_HEADER_OFFSET;
+
+				nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
+					buffer,
+					cryptoInfo->ea,
+					cryptoInfo->mode,
+					NULL,
+					0,
+					0,
+					NULL,
+					&dummyInfo,
+					cryptoInfo->VolumeSize.Value,
+					cryptoInfo->VolumeSize.Value,
+					cryptoInfo->EncryptedAreaStart.Value,
+					cryptoInfo->EncryptedAreaLength.Value,
+					truecryptMode? 0 : cryptoInfo->RequiredProgramVersion,
+					cryptoInfo->HeaderFlags,
+					cryptoInfo->SectorSize,
+					wipePass < wipePassCount - 1);
+
+				if (nStatus != ERR_SUCCESS)
+					goto error;
+
+				crypto_close (dummyInfo);
+
+				if (!SetFilePointerEx ((HANDLE) dev, hiddenOffset, NULL, FILE_BEGIN))
+				{
+					nStatus = ERR_OS_ERROR;
+					goto error;
+				}
+
+				if (!WriteEffectiveVolumeHeader (bDevice, dev, buffer))
+				{
+					nStatus = ERR_OS_ERROR;
+					goto error;
+				}
 			}
 
 			FlushFileBuffers (dev);
@@ -447,7 +489,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 
 		if (backupHeader || cryptoInfo->LegacyVolume)
 			break;
-			
+
 		backupHeader = TRUE;
 		headerOffset.QuadPart += hostSize - TC_VOLUME_HEADER_GROUP_SIZE;
 	}

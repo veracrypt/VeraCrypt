@@ -1,15 +1,15 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
+ and which is governed by the 'License Agreement for Encryption for the Masses'
  and also from the source code of extcv, which is Copyright (c) 2009-2010 Kih-Oskh
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -104,7 +104,7 @@ int MountVolTemp (HWND hwndDlg, wchar_t *volumePath, int *driveNo, Password *pas
 	mountOptions.PartitionInInactiveSysEncScope = FALSE;
 	mountOptions.UseBackupHeader = FALSE;
 
-	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
+	if (MountVolume (hwndDlg, *driveNo, volumePath, password, pkcs5, pim, FALSE, FALSE, FALSE, TRUE, &mountOptions, FALSE, FALSE) < 1)
 	{
 		*driveNo = -3;
 		return ERR_VOL_MOUNT_FAILED;
@@ -192,6 +192,8 @@ BOOL GetFileSystemType(const wchar_t *szFileName, enum EV_FileSystem *pFS)
 			*pFS = EV_FS_TYPE_NTFS;
 		else if (!wcsncmp (szFS, L"FAT", 3)) // FAT16, FAT32
 			*pFS = EV_FS_TYPE_FAT;
+		else if (!_wcsnicmp (szFS, L"exFAT", 5)) // exFAT
+			*pFS = EV_FS_TYPE_EXFAT;
 		else
 			*pFS = EV_FS_TYPE_RAW;
 	}
@@ -264,6 +266,7 @@ int QueryVolumeInfo (HWND hwndDlg, const wchar_t *lpszVolume, uint64 * pHostSize
 
 	/*	file size limits
 		FAT16 / FAT32 :	4 GB minus 1 byte (2^32 bytes minus 1 byte)
+		exFAT: 128 PiB − 1 byte
 		NTFS :	Architecturally : 16 exabytes minus 1 KB (26^4 bytes minus 1 KB)
 				Implementation (Windows Server 2008): 16 terabytes minus 64 KB (2^44 bytes minus 64 KB)
 	*/
@@ -271,6 +274,9 @@ int QueryVolumeInfo (HWND hwndDlg, const wchar_t *lpszVolume, uint64 * pHostSize
 	{
 	case EV_FS_TYPE_NTFS:
 		*pSizeLimitFS = 16 * BYTES_PER_TB - 64 * BYTES_PER_KB;
+		break;
+	case EV_FS_TYPE_EXFAT:
+		*pSizeLimitFS = 128 * BYTES_PER_PB - 1;
 		break;
 	case EV_FS_TYPE_FAT:
 		*pSizeLimitFS = 4 * BYTES_PER_GB - 1;
@@ -383,7 +389,7 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 
 	// mount and resize file system
 
-	DebugAddProgressDlgStatus (hwndDlg, "Mounting volume ...\r\n");
+	DebugAddProgressDlgStatus (hwndDlg, L"Mounting volume ...\r\n");
 
 	nStatus=MountVolTemp(hwndDlg, lpszVolume, &driveNo, pVolumePassword, VolumePkcs5, VolumePim);
 	if (nStatus!=ERR_SUCCESS)
@@ -435,7 +441,7 @@ int ExtendFileSystem (HWND hwndDlg , wchar_t *lpszVolume, Password *pVolumePassw
 		goto error;
 	}
 
-	DebugAddProgressDlgStatus (hwndDlg, "Extending file system ...\r\n");
+	DebugAddProgressDlgStatus (hwndDlg, L"Extending file system ...\r\n");
 
 	// extend volume
 	nStatus = FsctlExtendVolume(szVolumeGUID, newDataAreaSize/BytesPerSector );
@@ -446,7 +452,7 @@ error:
 
 	if (driveNo>=0)
 	{
-		DebugAddProgressDlgStatus (hwndDlg, "Unmounting volume ...\r\n");
+		DebugAddProgressDlgStatus (hwndDlg, L"Unmounting volume ...\r\n");
 		UnmountVolume (hwndDlg, driveNo, TRUE);
 	}
 
@@ -736,7 +742,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, "Writing random data to new space ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, L"Writing random data to new space ...\r\n");
 
 		SetFormatSectorSize(HostSectorSize);
 		nStatus = FormatNoFs (hwndDlg, startSector, num_sectors, dev, cryptoInfo, FALSE);
@@ -753,14 +759,14 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	if (nStatus != ERR_SUCCESS)
 	{
 		dwError = GetLastError();
-		DebugAddProgressDlgStatus(hwndDlg, "Error: failed to write random data ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, L"Error: failed to write random data ...\r\n");
 		if ( !bDevice ) {
 			// restore original size of the container file
 			LARGE_INTEGER liOldSize;
 			liOldSize.QuadPart=(LONGLONG)hostSize;
 			if (!SetFilePointerEx (dev, liOldSize, NULL, FILE_BEGIN) || !SetEndOfFile (dev))
 			{
-				DebugAddProgressDlgStatus(hwndDlg, "Warning: failed to restore original size of the container file\r\n");
+				DebugAddProgressDlgStatus(hwndDlg, L"Warning: failed to restore original size of the container file\r\n");
 			}
 		}
 		SetLastError (dwError);
@@ -777,9 +783,9 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	while ( !cryptoInfo->LegacyVolume )
 	{
 		if (backupHeader)
-			DebugAddProgressDlgStatus(hwndDlg, "Writing re-encrypted backup header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted backup header ...\r\n");
 		else
-			DebugAddProgressDlgStatus(hwndDlg, "Writing re-encrypted primary header ...\r\n");
+			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted primary header ...\r\n");
 
 		// Prepare new volume header
 		nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
@@ -798,7 +804,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			cryptoInfo->RequiredProgramVersion,
 			cryptoInfo->HeaderFlags,
 			cryptoInfo->SectorSize,
-			TRUE ); // use slow poll
+			FALSE ); // use slow poll
 
 		if (ci != NULL)
 			crypto_close (ci);
@@ -812,8 +818,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		nStatus = _lwrite ((HFILE) dev, buffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
-		if (nStatus != TC_VOLUME_HEADER_EFFECTIVE_SIZE)
+		if (!WriteEffectiveVolumeHeader (bDevice, dev, buffer))
 		{
 			nStatus = ERR_OS_ERROR;
 			goto error;
@@ -828,10 +833,52 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 				&& (cryptoInfo->HeaderFlags & ~TC_HEADER_FLAG_NONSYS_INPLACE_ENC) == 0 )
 			)
 		{
-			//DebugAddProgressDlgStatus(hwndDlg, "WriteRandomDataToReservedHeaderAreas() ...\r\n");
+			//DebugAddProgressDlgStatus(hwndDlg, L"WriteRandomDataToReservedHeaderAreas() ...\r\n");
+			PCRYPTO_INFO dummyInfo = NULL;
+			LARGE_INTEGER hiddenOffset;
+
 			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader);
 			if (nStatus != ERR_SUCCESS)
 				goto error;
+
+			// write fake hidden volume header to protect against attacks that use statistical entropy
+			// analysis to detect presence of hidden volumes
+			hiddenOffset.QuadPart = headerOffset.QuadPart + TC_HIDDEN_VOLUME_HEADER_OFFSET;
+
+			nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
+				buffer,
+				cryptoInfo->ea,
+				cryptoInfo->mode,
+				NULL,
+				0,
+				0,
+				NULL,
+				&dummyInfo,
+				newDataAreaSize,
+				newDataAreaSize, // hiddenVolumeSize
+				cryptoInfo->EncryptedAreaStart.Value,
+				newDataAreaSize,
+				cryptoInfo->RequiredProgramVersion,
+				cryptoInfo->HeaderFlags,
+				cryptoInfo->SectorSize,
+				FALSE ); // use slow poll
+
+			if (nStatus != ERR_SUCCESS)
+				goto error;
+
+			crypto_close (dummyInfo);
+
+			if (!SetFilePointerEx ((HANDLE) dev, hiddenOffset, NULL, FILE_BEGIN))
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
+
+			if (!WriteEffectiveVolumeHeader (bDevice, dev, buffer))
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
 		}
 
 		FlushFileBuffers (dev);
@@ -854,7 +901,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	/* wipe old backup header */
 	if ( !cryptoInfo->LegacyVolume )
-	{		
+	{
 		byte wipeRandChars [TC_WIPE_RAND_CHAR_COUNT];
 		byte wipeRandCharsUpdate [TC_WIPE_RAND_CHAR_COUNT];
 		byte wipePass;
@@ -870,7 +917,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			goto error;
 		}
 
-		DebugAddProgressDlgStatus(hwndDlg, "Wiping old backup header ...\r\n");
+		DebugAddProgressDlgStatus(hwndDlg, L"Wiping old backup header ...\r\n");
 
 		wipeBuffer = (byte *) TCalloc (workChunkSize);
 		if (!wipeBuffer)
@@ -901,7 +948,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 				)
 			{
 				// Write error
-				DebugAddProgressDlgStatus(hwndDlg, "Warning: Failed to wipe old backup header\r\n");
+				DebugAddProgressDlgStatus(hwndDlg, L"Warning: Failed to wipe old backup header\r\n");
 				MessageBoxW (hwndDlg, L"WARNING: Failed to wipe old backup header!\n\nIt may be possible to use the current volume password to decrypt the old backup header even after a future password change.\n", lpszTitle, MB_OK | MB_ICONEXCLAMATION);
 				if (wipePass == 1)
 					continue; // retry once

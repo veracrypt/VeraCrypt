@@ -1,12 +1,12 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -46,16 +46,16 @@ static HANDLE PeriodicFastPollThreadHandle = NULL;
 
 void RandAddInt (unsigned __int32 x)
 {
-	RandaddByte(x); 
-	RandaddByte((x >> 8)); 
+	RandaddByte(x);
+	RandaddByte((x >> 8));
 	RandaddByte((x >> 16));
 	RandaddByte((x >> 24));
 }
 
 void RandAddInt64 (unsigned __int64 x)
 {
-	RandaddByte(x); 
-	RandaddByte((x >> 8)); 
+	RandaddByte(x);
+	RandaddByte((x >> 8));
 	RandaddByte((x >> 16));
 	RandaddByte((x >> 24));
 
@@ -74,6 +74,7 @@ void RandAddInt64 (unsigned __int64 x)
 
 HHOOK hMouse = NULL;		/* Mouse hook for the random number generator */
 HHOOK hKeyboard = NULL;		/* Keyboard hook for the random number generator */
+DWORD ProcessedMouseEventsCounter = 0;
 
 /* Variables for thread control, the thread is used to gather up info about
    the system in in the background */
@@ -96,17 +97,18 @@ int Randinit ()
 	if (GetMaxPkcs5OutSize() > RNG_POOL_SIZE)
 		TC_THROW_FATAL_EXCEPTION;
 
-	if(bRandDidInit) 
+	if(bRandDidInit)
 		return 0;
 
 	InitializeCriticalSection (&critRandProt);
 
 	bRandDidInit = TRUE;
 	CryptoAPILastError = ERROR_SUCCESS;
+	ProcessedMouseEventsCounter = 0;
 
 	if (pRandPool == NULL)
 	{
-		pRandPool = (unsigned char *) TCalloc (RANDOMPOOL_ALLOCSIZE);
+		pRandPool = (unsigned char *) _aligned_malloc (RANDOMPOOL_ALLOCSIZE, 16);
 		if (pRandPool == NULL)
 			goto error;
 
@@ -126,9 +128,9 @@ int Randinit ()
 		handleWin32Error (0, SRC_POS);
 		goto error;
 	}
-	
+
 	if (!CryptAcquireContext (&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
-	{		
+	{
 		CryptoAPIAvailable = FALSE;
 		CryptoAPILastError = GetLastError ();
 		goto error;
@@ -201,7 +203,7 @@ freePool:
 		if (pRandPool != NULL)
 		{
 			burn (pRandPool, RANDOMPOOL_ALLOCSIZE);
-			TCfree (pRandPool);
+			_aligned_free (pRandPool);
 			pRandPool = NULL;
 		}
 	}
@@ -245,6 +247,7 @@ BOOL Randmix ()
 		RMD160_CTX		rctx;
 		sha512_ctx		sctx;
 		sha256_ctx		s256ctx;
+		STREEBOG_CTX	stctx;
 		int poolIndex, digestIndex, digestSize;
 
 		switch (HashFunction)
@@ -265,6 +268,10 @@ BOOL Randmix ()
 			digestSize = WHIRLPOOL_DIGESTSIZE;
 			break;
 
+		case STREEBOG:
+			digestSize = STREEBOG_DIGESTSIZE;
+			break;
+
 		default:
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -272,7 +279,7 @@ BOOL Randmix ()
 		if (RNG_POOL_SIZE % digestSize)
 			TC_THROW_FATAL_EXCEPTION;
 
-		for (poolIndex = 0; poolIndex < RNG_POOL_SIZE; poolIndex += digestSize)		
+		for (poolIndex = 0; poolIndex < RNG_POOL_SIZE; poolIndex += digestSize)
 		{
 			/* Compute the message digest of the entire pool using the selected hash function. */
 			switch (HashFunction)
@@ -297,11 +304,17 @@ BOOL Randmix ()
 
 			case WHIRLPOOL:
 				WHIRLPOOL_init (&wctx);
-				WHIRLPOOL_add (pRandPool, RNG_POOL_SIZE * 8, &wctx);
+				WHIRLPOOL_add (pRandPool, RNG_POOL_SIZE, &wctx);
 				WHIRLPOOL_finalize (&wctx, hashOutputBuffer);
 				break;
 
-			default:		
+			case STREEBOG:
+				STREEBOG_init (&stctx);
+				STREEBOG_add (&stctx, pRandPool, RNG_POOL_SIZE);
+				STREEBOG_finalize (&stctx, hashOutputBuffer);
+				break;
+
+			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
 			}
@@ -314,26 +327,30 @@ BOOL Randmix ()
 		}
 
 		/* Prevent leaks */
-		burn (hashOutputBuffer, MAX_DIGESTSIZE);	
+		burn (hashOutputBuffer, MAX_DIGESTSIZE);
 		switch (HashFunction)
 		{
 		case RIPEMD160:
-			burn (&rctx, sizeof(rctx));		
+			burn (&rctx, sizeof(rctx));
 			break;
 
 		case SHA512:
-			burn (&sctx, sizeof(sctx));		
+			burn (&sctx, sizeof(sctx));
 			break;
 
 		case SHA256:
-			burn (&s256ctx, sizeof(s256ctx));		
+			burn (&s256ctx, sizeof(s256ctx));
 			break;
 
 		case WHIRLPOOL:
-			burn (&wctx, sizeof(wctx));		
+			burn (&wctx, sizeof(wctx));
 			break;
 
-		default:		
+		case STREEBOG:
+			burn (&stctx, sizeof(sctx));
+			break;
+
+		default:
 			// Unknown/wrong ID
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -351,18 +368,19 @@ void RandaddBuf (void *buf, int len)
 	}
 }
 
-BOOL RandpeekBytes (void* hwndDlg, unsigned char *buf, int len)
+BOOL RandpeekBytes (void* hwndDlg, unsigned char *buf, int len, DWORD* mouseCounter)
 {
 	if (!bRandDidInit)
 		return FALSE;
 
 	if (len > RNG_POOL_SIZE)
 	{
-		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);	
+		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);
 		len = RNG_POOL_SIZE;
 	}
 
 	EnterCriticalSection (&critRandProt);
+	*mouseCounter = ProcessedMouseEventsCounter;
 	memcpy (buf, pRandPool, len);
 	LeaveCriticalSection (&critRandProt);
 
@@ -410,7 +428,7 @@ BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceS
 	/* There's never more than RNG_POOL_SIZE worth of randomess */
 	if ( (!allowAnyLength) && (len > RNG_POOL_SIZE))
 	{
-		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);	
+		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);
 		len = RNG_POOL_SIZE;
 		LeaveCriticalSection (&critRandProt);
 		return FALSE;
@@ -476,6 +494,7 @@ LRESULT CALLBACK MouseProc (int nCode, WPARAM wParam, LPARAM lParam)
 {
 	static DWORD dwLastTimer;
 	static unsigned __int32 lastCrc, lastCrc2;
+	static POINT lastPoint;
 	MOUSEHOOKSTRUCT *lpMouse = (MOUSEHOOKSTRUCT *) lParam;
 
 	if (nCode < 0)
@@ -486,6 +505,7 @@ LRESULT CALLBACK MouseProc (int nCode, WPARAM wParam, LPARAM lParam)
 		DWORD j = dwLastTimer - dwTimer;
 		unsigned __int32 crc = 0L;
 		int i;
+		POINT pt = lpMouse->pt;
 
 		dwLastTimer = dwTimer;
 
@@ -509,6 +529,13 @@ LRESULT CALLBACK MouseProc (int nCode, WPARAM wParam, LPARAM lParam)
 			}
 
 			EnterCriticalSection (&critRandProt);
+			/* only count real mouse messages in entropy estimation */
+			if (	(nCode == HC_ACTION) && (wParam == WM_MOUSEMOVE)
+				&& ((pt.x != lastPoint.x) || (pt.y != lastPoint.y)))
+			{
+				ProcessedMouseEventsCounter++;
+				lastPoint = pt;
+			}
 			RandaddInt32 ((unsigned __int32) (crc + timeCrc));
 			LeaveCriticalSection (&critRandProt);
 		}
@@ -659,10 +686,10 @@ BOOL SlowPoll (void)
 		wchar_t dllPath[MAX_PATH];
 		if (GetSystemDirectory (dllPath, MAX_PATH))
 		{
-			StringCbCatW(dllPath, sizeof(dllPath), L"\\NETAPI32.DLL");
+			StringCchCatW(dllPath, ARRAYSIZE(dllPath), L"\\NETAPI32.DLL");
 		}
 		else
-			StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32\\NETAPI32.DLL");
+			StringCchCopyW(dllPath, ARRAYSIZE(dllPath), L"C:\\Windows\\System32\\NETAPI32.DLL");
 
 		hNetAPI32 = LoadLibrary (dllPath);
 		if (hNetAPI32 != NULL)
@@ -713,7 +740,7 @@ BOOL SlowPoll (void)
 		wchar_t szDevice[24];
 
 		/* Check whether we can access this device */
-		StringCbPrintfW (szDevice, sizeof(szDevice), L"\\\\.\\PhysicalDrive%d", nDrive);
+		StringCchPrintfW (szDevice, ARRAYSIZE(szDevice), L"\\\\.\\PhysicalDrive%d", nDrive);
 		hDevice = CreateFile (szDevice, 0, FILE_SHARE_READ | FILE_SHARE_WRITE,
 				      NULL, OPEN_EXISTING, 0, NULL);
 		if (hDevice == INVALID_HANDLE_VALUE)
@@ -736,7 +763,7 @@ BOOL SlowPoll (void)
 	//            we keep the check for clarity purpose
 	if ( !CryptoAPIAvailable )
 		return FALSE;
-	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
 
@@ -747,7 +774,7 @@ BOOL SlowPoll (void)
 	else
 	{
 		/* return error in case CryptGenRandom fails */
-		CryptoAPILastError = GetLastError ();		
+		CryptoAPILastError = GetLastError ();
 		return FALSE;
 	}
 }
@@ -858,7 +885,7 @@ BOOL FastPoll (void)
 	//            we keep the check for clarity purpose
 	if ( !CryptoAPIAvailable )
 		return FALSE;
-	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
 		burn (buffer, sizeof(buffer));

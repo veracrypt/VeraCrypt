@@ -1,12 +1,12 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2015 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2016 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -171,7 +171,7 @@ void LoadCombo (HWND hComboBox, BOOL bEnabled, BOOL bOnlyCheckModified, BOOL *pb
 	{
 		wchar_t szTmp[MAX_PATH] = { 0 };
 		wchar_t wszVolume[MAX_PATH] = {0};
-		 
+
 		if (i < count)
 		{
 			if (SendMessage (hComboBox, CB_GETLBTEXTLEN, nComboIdx[i], 0) < ARRAYSIZE (szTmp))
@@ -225,14 +225,14 @@ void DumpCombo (HWND hComboBox, int bClear)
 	for (i = 0; i < SIZEOF_MRU_LIST; i++)
 	{
 		wchar_t szTmp[MAX_PATH] = { 0 };
-		 
+
 		if (SendMessage (hComboBox, CB_GETLBTEXTLEN, nComboIdx[i], 0) < ARRAYSIZE (szTmp))
 			SendMessage (hComboBox, CB_GETLBTEXT, nComboIdx[i], (LPARAM) & szTmp[0]);
 
 		if (szTmp[0] != 0)
 		{
 			wchar_t q[MAX_PATH * 2] = { 0 };
-			XmlQuoteTextW (szTmp, q, sizeof (q));
+			XmlQuoteTextW (szTmp, q, ARRAYSIZE (q));
 
 			fwprintf (f, L"\n\t\t<volume>%s</volume>", q);
 		}
