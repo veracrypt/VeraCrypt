@@ -82,6 +82,10 @@ typedef struct
 
 #define DCS_DISK_ENTRY_LIST_HEADER_SIGN      SIGNATURE_64 ('D','C','S','D','E','L','S','T')
 
+#ifndef CSTATIC_ASSERT
+#define CSTATIC_ASSERT(b, name) typedef int StaticAssertFailed##name[b ? 1 : -1];
+#endif
+
 #define DE_IDX_CRYPTOHEADER  0
 #define DE_IDX_LIST          1
 #define DE_IDX_DISKID        2
@@ -93,7 +97,7 @@ typedef struct
 #define DE_IDX_PWDCACHE      8
 #define DE_IDX_RND           9
 #define DE_IDX_TOTAL         10
-static_assert(DE_IDX_TOTAL <= 15, "DE_IDX_TOTAL too big");
+CSTATIC_ASSERT(DE_IDX_TOTAL <= 15, DE_IDX_TOTAL_too_big);
 
 enum DcsDiskEntryTypes {
 	DE_Unused = 0,
@@ -127,7 +131,7 @@ typedef struct _DCS_DISK_ENTRY_SECTORS {
 	uint64      Start;  // Start on disk (byte)
 	uint64      Length; // length on disk (byte)
 } DCS_DISK_ENTRY_SECTORS;
-static_assert(sizeof(DCS_DISK_ENTRY_SECTORS) ==	32, "Wrong size DCS_DISK_ENTRY_SECTORS");
+CSTATIC_ASSERT(sizeof(DCS_DISK_ENTRY_SECTORS) ==	32, Wrong_size_DCS_DISK_ENTRY_SECTORS);
 
 typedef struct _DCS_DISK_ENTRY_PARAMS {
 	uint32      Type;
@@ -135,7 +139,7 @@ typedef struct _DCS_DISK_ENTRY_PARAMS {
 	uint64      Reserved[2];
 	uint64      Length;           // size of data
 } DCS_DISK_ENTRY_PARAMS;
-static_assert(sizeof(DCS_DISK_ENTRY_PARAMS) == 32, "Wrong size DCS_DISK_ENTRY_PARAMS");
+CSTATIC_ASSERT(sizeof(DCS_DISK_ENTRY_PARAMS) == 32, Wrong_size_DCS_DISK_ENTRY_PARAMS);
 
 typedef struct _DCS_DISK_ENTRY_DISKID {
 	uint32      Type;
@@ -143,7 +147,7 @@ typedef struct _DCS_DISK_ENTRY_DISKID {
 	uint64      ReservedDiskId;
 	DCS_GUID    GptID;
 } DCS_DISK_ENTRY_DISKID;
-static_assert(sizeof(DCS_DISK_ENTRY_DISKID) == 32, "Wrong size DCS_DISK_ENTRY_DISKID");
+CSTATIC_ASSERT(sizeof(DCS_DISK_ENTRY_DISKID) == 32, Wrong_size_DCS_DISK_ENTRY_DISKID);
 
 #pragma warning(disable:4201)
 typedef struct _DCS_DISK_ENTRY {
@@ -160,19 +164,19 @@ typedef struct _DCS_DISK_ENTRY {
 	};
 } DCS_DISK_ENTRY;
 #pragma warning(default:4201)
-static_assert(sizeof(DCS_DISK_ENTRY) == 32, "Wrong size DCS_DISK_ENTRY");
+CSTATIC_ASSERT(sizeof(DCS_DISK_ENTRY) == 32, Wrong_size_DCS_DISK_ENTRY);
 
 // Static compile time checks field offsets
 #ifndef FIELD_OFFSET
 #define FIELD_OFFSET(t, f) ((UINTN)(&((t*)0)->f))
 #endif
-static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Type), "Wrong Type offset");
-static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_DISKID,  Type), "Wrong Type offset");
-static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Type), "Wrong Type offset");
-static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Length) == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Length), "Wrong Length offset");
-static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Length) == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Length), "Wrong Length offset");
-static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Offset), "Wrong Offset offset");
-static_assert(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Offset), "Wrong Offset offset");
+CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Type),   Wrong_Type_offset);
+CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_DISKID,  Type),   Wrong_Type_offset);
+CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Type)   == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Type),   Wrong_Type_offset);
+CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Length) == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Length), Wrong_Length_offset);
+CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Length) == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Length), Wrong_Length_offset);
+CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Offset), Wrong_Offset_offset);
+CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Offset), Wrong_Offset_offset);
 
 // DE type specific data 
 // DE List
@@ -189,13 +193,13 @@ typedef struct _DCS_DISK_ENTRY_LIST {
 	//
 	DCS_DISK_ENTRY  DE[15];
 } DCS_DISK_ENTRY_LIST;
-static_assert(sizeof(DCS_DISK_ENTRY_LIST) == 512, "Wrong size DCS_DISK_ENTRY_LIST");
+CSTATIC_ASSERT(sizeof(DCS_DISK_ENTRY_LIST) == 512, Wrong_size_DCS_DISK_ENTRY_LIST);
 
 typedef struct _DCS_DEP_EXEC {
 	DCS_GUID     ExecPartGuid;
 	uint16       ExecCmd[248];
 } DCS_DEP_EXEC;
-static_assert(sizeof(DCS_DEP_EXEC) == 512, "Wrong size DCS_DEP_EXEC");
+CSTATIC_ASSERT(sizeof(DCS_DEP_EXEC) == 512, Wrong_size_DCS_DEP_EXEC);
 
 #define DCS_DEP_PWD_CACHE_SIGN      SIGNATURE_64 ('P','W','D','C','A','C','H','E')
 typedef struct _DCS_DEP_PWD_CACHE {
@@ -206,7 +210,7 @@ typedef struct _DCS_DEP_PWD_CACHE {
 	int32        Pim[4];
 	byte         pad[512 - 8 - 4 - 4 - (sizeof(Password) + 4) * 4];
 } DCS_DEP_PWD_CACHE;
-static_assert(sizeof(DCS_DEP_PWD_CACHE) == 512, "Wrong size DCS_DEP_PWD_CACHE");
+CSTATIC_ASSERT(sizeof(DCS_DEP_PWD_CACHE) == 512, Wrong_size_DCS_DEP_PWD_CACHE);
 #pragma pack()
 
 #endif // #if !defined(TC_WINDOWS_BOOT)
