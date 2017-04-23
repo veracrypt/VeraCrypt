@@ -285,6 +285,24 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	PLATFORM := FreeBSD
 	PLATFORM_UNSUPPORTED := 1
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_FREEBSD
+	
+	CC := cc
+	CXX := c++
+
+	ifeq "$(SIMD_SUPPORTED)" "1"
+		CFLAGS += -msse2 -maes
+		CXXFLAGS += -msse2 -maes
+
+		ifeq "$(origin SSSE3)" "command line"
+			CFLAGS += -mssse3
+			CXXFLAGS += -mssse3
+		endif
+
+		ifeq "$(origin SSE41)" "command line"
+			CFLAGS += -mssse3 -msse4.1
+			CXXFLAGS += -mssse3 -msse4.1
+		endif
+	endif
 
 endif
 
