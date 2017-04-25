@@ -246,7 +246,7 @@ Copyright (c) 2013-2016 IDRIX. All rights reserved.
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.
-Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler.
+Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler.
 Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov
 Copyright (c) Dieter Baron and Thomas Klausner.
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.
