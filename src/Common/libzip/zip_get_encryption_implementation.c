@@ -44,12 +44,12 @@ _zip_get_encryption_implementation(zip_uint16_t em, int operation)
 	    return NULL;
 	}
 	return zip_source_pkware;
-
+/*
     case ZIP_EM_AES_128:
     case ZIP_EM_AES_192:
     case ZIP_EM_AES_256:
 	return operation == ZIP_CODEC_DECODE ? zip_source_winzip_aes_decode : zip_source_winzip_aes_encode;
-
+*/
     default:
 	return NULL;
     }
