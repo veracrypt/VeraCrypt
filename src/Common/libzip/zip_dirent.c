@@ -44,6 +44,7 @@
 static time_t _zip_d2u_time(zip_uint16_t, zip_uint16_t);
 static zip_string_t *_zip_dirent_process_ef_utf_8(const zip_dirent_t *de, zip_uint16_t id, zip_string_t *str);
 static zip_extra_field_t *_zip_ef_utf8(zip_uint16_t, zip_string_t *, zip_error_t *);
+static bool _zip_dirent_process_winzip_aes(zip_dirent_t *de, zip_error_t *error);
 
 
 void
@@ -66,29 +67,58 @@ zip_cdir_t *
 _zip_cdir_new(zip_uint64_t nentry, zip_error_t *error)
 {
     zip_cdir_t *cd;
-    zip_uint64_t i;
 
     if ((cd=(zip_cdir_t *)malloc(sizeof(*cd))) == NULL) {
 	zip_error_set(error, ZIP_ER_MEMORY, 0);
 	return NULL;
     }
 
-    if (nentry == 0)
-	cd->entry = NULL;
-    else if ((nentry > SIZE_MAX/sizeof(*(cd->entry))) || (cd->entry=(zip_entry_t *)malloc(sizeof(*(cd->entry))*(size_t)nentry)) == NULL) {
-	zip_error_set(error, ZIP_ER_MEMORY, 0);
-	free(cd);
+    cd->entry = NULL;
+    cd->nentry = cd->nentry_alloc = 0;
+    cd->size = cd->offset = 0;
+    cd->comment = NULL;
+    cd->is_zip64 = false;
+
+    if (!_zip_cdir_grow(cd, nentry, error)) {
+	_zip_cdir_free(cd);
 	return NULL;
     }
 
-    for (i=0; i<nentry; i++)
-	_zip_entry_init(cd->entry+i);
-
-    cd->nentry = cd->nentry_alloc = nentry;
-    cd->size = cd->offset = 0;
-    cd->comment = NULL;
-
     return cd;
+}
+
+
+bool
+_zip_cdir_grow(zip_cdir_t *cd, zip_uint64_t additional_entries, zip_error_t *error)
+{
+    zip_uint64_t i, new_alloc;
+    zip_entry_t *new_entry;
+
+    if (additional_entries == 0) {
+	return true;
+    }
+
+    new_alloc = cd->nentry_alloc + additional_entries;
+
+    if (new_alloc < additional_entries || new_alloc > SIZE_MAX/sizeof(*(cd->entry))) {
+	zip_error_set(error, ZIP_ER_MEMORY, 0);
+	return false;
+    }
+
+    if ((new_entry = (zip_entry_t *)realloc(cd->entry, sizeof(*(cd->entry))*(size_t)new_alloc)) == NULL) {
+	zip_error_set(error, ZIP_ER_MEMORY, 0);
+	return false;
+    }
+
+    cd->entry = new_entry;
+
+    for (i = cd->nentry; i < new_alloc; i++) {
+	_zip_entry_init(cd->entry+i);
+    }
+
+    cd->nentry = cd->nentry_alloc = new_alloc;
+
+    return true;
 }
 
 
@@ -222,6 +252,13 @@ _zip_dirent_finalize(zip_dirent_t *zde)
 	_zip_string_free(zde->comment);
 	zde->comment = NULL;
     }
+    if (!zde->cloned || zde->changed & ZIP_DIRENT_PASSWORD) {
+	if (zde->password) {
+	    _zip_crypto_clear(zde->password, strlen(zde->password));
+	}
+	free(zde->password);
+	zde->password = NULL;
+    }
 }
 
 
@@ -243,6 +280,7 @@ _zip_dirent_init(zip_dirent_t *de)
     de->local_extra_fields_read = 0;
     de->cloned = 0;
 
+    de->crc_valid = true;
     de->version_madeby = 20 | (ZIP_OPSYS_DEFAULT << 8);
     de->version_needed = 20; /* 2.0 */
     de->bitflags = 0;
@@ -258,6 +296,8 @@ _zip_dirent_init(zip_dirent_t *de)
     de->int_attrib = 0;
     de->ext_attrib = ZIP_EXT_ATTRIB_DEFAULT;
     de->offset = 0;
+    de->encryption_method = ZIP_EM_NONE;
+    de->password = NULL;
 }
 
 
@@ -370,6 +410,19 @@ _zip_dirent_read(zip_dirent_t *zde, zip_source_t *src, zip_buffer_t *buffer, boo
             _zip_buffer_free(buffer);
         }
         return -1;
+    }
+
+    if (zde->bitflags & ZIP_GPBF_ENCRYPTED) {
+	if (zde->bitflags & ZIP_GPBF_STRONG_ENCRYPTION) {
+	    /* TODO */
+	    zde->encryption_method = ZIP_EM_UNKNOWN;
+	}
+	else {
+	    zde->encryption_method = ZIP_EM_TRAD_PKWARE;
+	}
+    }
+    else {
+	zde->encryption_method = ZIP_EM_NONE;
     }
 
     zde->filename = NULL;
@@ -524,6 +577,13 @@ _zip_dirent_read(zip_dirent_t *zde, zip_source_t *src, zip_buffer_t *buffer, boo
 	return -1;
     }
 
+    if (!_zip_dirent_process_winzip_aes(zde, error)) {
+	if (!from_buffer) {
+	    _zip_buffer_free(buffer);
+	}
+	return -1;
+    }
+
     zde->extra_fields = _zip_ef_remove_internal(zde->extra_fields);
 
     return (zip_int64_t)(size + variable_size);
@@ -563,6 +623,90 @@ _zip_dirent_process_ef_utf_8(const zip_dirent_t *de, zip_uint16_t id, zip_string
     _zip_buffer_free(buffer);
 
     return str;
+}
+
+
+static bool
+_zip_dirent_process_winzip_aes(zip_dirent_t *de, zip_error_t *error)
+{
+    zip_uint16_t ef_len;
+    zip_buffer_t *buffer;
+    const zip_uint8_t *ef;
+    bool crc_valid;
+    zip_uint16_t enc_method;
+
+
+    if (de->comp_method != ZIP_CM_WINZIP_AES) {
+	return true;
+    }
+
+    ef = _zip_ef_get_by_id(de->extra_fields, &ef_len, ZIP_EF_WINZIP_AES, 0, ZIP_EF_BOTH, NULL);
+
+    if (ef == NULL || ef_len < 7) {
+	zip_error_set(error, ZIP_ER_INCONS, 0);
+	return false;
+    }
+
+    if ((buffer = _zip_buffer_new((zip_uint8_t *)ef, ef_len)) == NULL) {
+	zip_error_set(error, ZIP_ER_INTERNAL, 0);
+        return false;
+    }
+
+    /* version */
+
+    crc_valid = true;
+    switch (_zip_buffer_get_16(buffer)) {
+    case 1:
+	break;
+
+    case 2:
+	if (de->uncomp_size < 20 /* TODO: constant */) {
+	    crc_valid = false;
+	}
+	break;
+
+    default:
+	zip_error_set(error, ZIP_ER_ENCRNOTSUPP, 0);
+	_zip_buffer_free(buffer);
+	return false;
+    }
+
+    /* vendor */
+    if (memcmp(_zip_buffer_get(buffer, 2), "AE", 2) != 0) {
+	zip_error_set(error, ZIP_ER_ENCRNOTSUPP, 0);
+	_zip_buffer_free(buffer);
+	return false;
+    }
+
+    /* mode */
+    switch (_zip_buffer_get_8(buffer)) {
+    case 1:
+	enc_method = ZIP_EM_AES_128;
+	break;
+    case 2:
+	enc_method = ZIP_EM_AES_192;
+	break;
+    case 3:
+	enc_method = ZIP_EM_AES_256;
+	break;
+    default:
+	zip_error_set(error, ZIP_ER_ENCRNOTSUPP, 0);
+	_zip_buffer_free(buffer);
+	return false;
+    }
+
+    if (ef_len != 7) {
+	zip_error_set(error, ZIP_ER_INCONS, 0);
+	_zip_buffer_free(buffer);
+	return false;
+    }
+
+    de->crc_valid = crc_valid;
+    de->encryption_method = enc_method;
+    de->comp_method = _zip_buffer_get_16(buffer);
+
+    _zip_buffer_free(buffer);
+    return true;
 }
 
 
@@ -621,6 +765,7 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags)
     zip_uint32_t ef_total_size;
     bool is_zip64;
     bool is_really_zip64;
+    bool is_winzip_aes;
     zip_uint8_t buf[CDENTRYSIZE];
     zip_buffer_t *buffer;
 
@@ -651,8 +796,16 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags)
 	}
     }
 
+    if (de->encryption_method == ZIP_EM_NONE) {
+	de->bitflags &= ~ZIP_GPBF_ENCRYPTED;
+    }
+    else {
+	de->bitflags |= ZIP_GPBF_ENCRYPTED;
+    }
+
     is_really_zip64 = _zip_dirent_needs_zip64(de, flags);
     is_zip64 = (flags & (ZIP_FL_LOCAL|ZIP_FL_FORCE_ZIP64)) == (ZIP_FL_LOCAL|ZIP_FL_FORCE_ZIP64) || is_really_zip64;
+    is_winzip_aes = de->encryption_method == ZIP_EM_AES_128 || de->encryption_method == ZIP_EM_AES_192 || de->encryption_method == ZIP_EM_AES_256;
 
     if (is_zip64) {
         zip_uint8_t ef_zip64[EFZIP64SIZE];
@@ -696,6 +849,35 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags)
         ef = ef64;
     }
 
+    if (is_winzip_aes) {
+	zip_uint8_t data[EF_WINZIP_AES_SIZE];
+        zip_buffer_t *ef_buffer = _zip_buffer_new(data, sizeof(data));
+	zip_extra_field_t *ef_winzip;
+	
+        if (ef_buffer == NULL) {
+            zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
+	    _zip_ef_free(ef);
+            return -1;
+        }
+
+	_zip_buffer_put_16(ef_buffer, 2);
+	_zip_buffer_put(ef_buffer, "AE", 2);
+	_zip_buffer_put_8(ef_buffer, (de->encryption_method & 0xff));
+	_zip_buffer_put_16(ef_buffer, (zip_uint16_t)de->comp_method);
+
+        if (!_zip_buffer_ok(ef_buffer)) {
+            zip_error_set(&za->error, ZIP_ER_INTERNAL, 0);
+            _zip_buffer_free(ef_buffer);
+	    _zip_ef_free(ef);
+            return -1;
+        }
+
+        ef_winzip = _zip_ef_new(ZIP_EF_WINZIP_AES, EF_WINZIP_AES_SIZE, data, ZIP_EF_BOTH);
+        _zip_buffer_free(ef_buffer);
+        ef_winzip->next = ef;
+        ef = ef_winzip;
+    }
+
     if ((buffer = _zip_buffer_new(buf, sizeof(buf))) == NULL) {
         zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
         _zip_ef_free(ef);
@@ -709,13 +891,23 @@ _zip_dirent_write(zip_t *za, zip_dirent_t *de, zip_flags_t flags)
     }
     _zip_buffer_put_16(buffer, (zip_uint16_t)(is_really_zip64 ? 45 : de->version_needed));
     _zip_buffer_put_16(buffer, de->bitflags&0xfff9); /* clear compression method specific flags */
-    _zip_buffer_put_16(buffer, (zip_uint16_t)de->comp_method);
+    if (is_winzip_aes) {
+	_zip_buffer_put_16(buffer, ZIP_CM_WINZIP_AES);
+    }
+    else {
+	_zip_buffer_put_16(buffer, (zip_uint16_t)de->comp_method);
+    }
 
     _zip_u2d_time(de->last_mod, &dostime, &dosdate);
     _zip_buffer_put_16(buffer, dostime);
     _zip_buffer_put_16(buffer, dosdate);
 
-    _zip_buffer_put_32(buffer, de->crc);
+    if (is_winzip_aes && de->uncomp_size < 20)  {
+	_zip_buffer_put_32(buffer, 0);
+    }
+    else {
+	_zip_buffer_put_32(buffer, de->crc);
+    }
 
     if (((flags & ZIP_FL_LOCAL) == ZIP_FL_LOCAL) && ((de->comp_size >= ZIP_UINT32_MAX) || (de->uncomp_size >= ZIP_UINT32_MAX))) {
 	/* In local headers, if a ZIP64 EF is written, it MUST contain

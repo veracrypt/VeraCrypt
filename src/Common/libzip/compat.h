@@ -105,6 +105,12 @@ typedef char bool;
 #if !defined(HAVE__SETMODE) && defined(HAVE_SETMODE)
 #define _setmode	setmode
 #endif
+#if !defined(HAVE_STRTOLL) && defined(HAVE__STRTOI64)
+#define strtoll		_strtoi64
+#endif
+#if !defined(HAVE_STRTOULL) && defined(HAVE__STRTOUI64)
+#define strtoull	_strtoui64
+#endif
 #endif
 
 #ifndef HAVE_FSEEKO

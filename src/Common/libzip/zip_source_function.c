@@ -1,6 +1,6 @@
 /*
   zip_source_function.c -- create zip data source from callback function
-  Copyright (C) 1999-2014 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2016 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -94,6 +94,7 @@ _zip_source_new(zip_error_t *error)
     src->source_archive = NULL;
     src->refcount = 1;
     zip_error_init(&src->error);
+    src->eof = false;
 
     return src;
 }

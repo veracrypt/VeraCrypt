@@ -1,6 +1,6 @@
 /*
   zip_close.c -- close zip archive and update changes
-  Copyright (C) 1999-2015 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2016 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -131,10 +131,14 @@ zip_close(zip_t *za)
 	zip_entry_t *entry;
 	zip_dirent_t *de;
 
+	if (za->progress_callback) {
+	    za->progress_callback((double)j/survivors);
+	}
+
 	i = filelist[j].idx;
 	entry = za->entry+i;
 
-	new_data = (ZIP_ENTRY_DATA_CHANGED(entry) || ZIP_ENTRY_CHANGED(entry, ZIP_DIRENT_COMP_METHOD));
+	new_data = (ZIP_ENTRY_DATA_CHANGED(entry) || ZIP_ENTRY_CHANGED(entry, ZIP_DIRENT_COMP_METHOD) || ZIP_ENTRY_CHANGED(entry, ZIP_DIRENT_ENCRYPTION_METHOD));
 
 	/* create new local directory entry */
 	if (entry->changes == NULL) {
@@ -222,6 +226,10 @@ zip_close(zip_t *za)
 	return -1;
     }
 
+    if (za->progress_callback) {
+	za->progress_callback(1);
+    }
+
     zip_discard(za);
     
     return 0;
@@ -233,10 +241,11 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de)
 {
     zip_int64_t offstart, offdata, offend;
     struct zip_stat st;
-    zip_source_t *s2;
+    zip_source_t *src_final, *src_tmp;
     int ret;
     int is_zip64;
     zip_flags_t flags;
+    bool needs_recompress, needs_decompress, needs_crc, needs_compress, needs_reencrypt, needs_decrypt, needs_encrypt;
     
     if (zip_source_stat(src, &st) < 0) {
 	_zip_error_set_from_source(&za->error, src);
@@ -259,6 +268,10 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de)
 	st.valid &= ~ZIP_STAT_COMP_SIZE;
     }
 
+    if ((st.valid & ZIP_STAT_ENCRYPTION_METHOD) == 0) {
+	st.valid |= ZIP_STAT_ENCRYPTION_METHOD;
+	st.encryption_method = ZIP_EM_NONE;
+    }
 
     flags = ZIP_EF_LOCAL;
 
@@ -285,67 +298,123 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de)
     if ((is_zip64=_zip_dirent_write(za, de, flags)) < 0)
 	return -1;
 
+    needs_recompress = !((st.comp_method == de->comp_method) || (ZIP_CM_IS_DEFAULT(de->comp_method) && st.comp_method == ZIP_CM_DEFLATE));
+    needs_decompress = needs_recompress && (st.comp_method != ZIP_CM_STORE);
+    needs_crc = (st.comp_method == ZIP_CM_STORE) || needs_decompress;
+    needs_compress = needs_recompress && (de->comp_method != ZIP_CM_STORE);
 
-    if (st.comp_method == ZIP_CM_STORE || (ZIP_CM_IS_DEFAULT(de->comp_method) && st.comp_method != de->comp_method)) {
-	zip_source_t *s_store, *s_crc;
-	zip_compression_implementation comp_impl;
+    needs_reencrypt = needs_recompress || (de->changed & ZIP_DIRENT_PASSWORD) || (de->encryption_method != st.encryption_method);
+    needs_decrypt = needs_reencrypt && (st.encryption_method != ZIP_EM_NONE);
+    needs_encrypt = needs_reencrypt && (de->encryption_method != ZIP_EM_NONE);
+
+    src_final = src;
+    zip_source_keep(src_final);
+
+    if (needs_decrypt) {
+	zip_encryption_implementation impl;
 	
-	if (st.comp_method != ZIP_CM_STORE) {
-	    if ((comp_impl=_zip_get_compression_implementation(st.comp_method)) == NULL) {
-		zip_error_set(&za->error, ZIP_ER_COMPNOTSUPP, 0);
-		return -1;
-	    }
-	    if ((s_store=comp_impl(za, src, st.comp_method, ZIP_CODEC_DECODE)) == NULL) {
-		/* error set by comp_impl */
-		return -1;
-	    }
+	if ((impl = _zip_get_encryption_implementation(st.encryption_method, ZIP_CODEC_DECODE)) == NULL) {
+	    zip_error_set(&za->error, ZIP_ER_ENCRNOTSUPP, 0);
+	    zip_source_free(src_final);
+	    return -1;
 	}
-	else {
-	    /* to have the same reference count to src as in the case where it's not stored */
-	    zip_source_keep(src);
-	    s_store = src;
-	}
-
-	s_crc = zip_source_crc(za, s_store, 0);
-	zip_source_free(s_store);
-	if (s_crc == NULL) {
+	if ((src_tmp = impl(za, src_final, st.encryption_method, ZIP_CODEC_DECODE, za->default_password)) == NULL) {
+	    /* error set by impl */
+	    zip_source_free(src_final);
 	    return -1;
 	}
 
-	if (de->comp_method != ZIP_CM_STORE && ((st.valid & ZIP_STAT_SIZE) == 0 || st.size != 0)) {
-	    if ((comp_impl=_zip_get_compression_implementation(de->comp_method)) == NULL) {
-		zip_error_set(&za->error, ZIP_ER_COMPNOTSUPP, 0);
-		zip_source_free(s_crc);
-		return -1;
-	    }
-	    s2 = comp_impl(za, s_crc, de->comp_method, ZIP_CODEC_ENCODE);
-	    zip_source_free(s_crc);
-	    if (s2 == NULL) {
-		return -1;
-	    }
-	}
-	else {
-	    s2 = s_crc;
-	}
+	zip_source_free(src_final);
+	src_final = src_tmp;
     }
-    else {
-	zip_source_keep(src);
-	s2 = src;
+    
+    if (needs_decompress) {
+	zip_compression_implementation comp_impl;
+	
+	if ((comp_impl = _zip_get_compression_implementation(st.comp_method, ZIP_CODEC_DECODE)) == NULL) {
+	    zip_error_set(&za->error, ZIP_ER_COMPNOTSUPP, 0);
+	    zip_source_free(src_final);
+	    return -1;
+	}
+	if ((src_tmp = comp_impl(za, src_final, st.comp_method, ZIP_CODEC_DECODE)) == NULL) {
+	    /* error set by comp_impl */
+	    zip_source_free(src_final);
+	    return -1;
+	}
+
+	zip_source_free(src_final);
+	src_final = src_tmp;
     }
+
+    if (needs_crc) {
+	if ((src_tmp = zip_source_crc(za, src_final, 0)) == NULL) {
+	    zip_source_free(src_final);
+	    return -1;
+	}
+
+	zip_source_free(src_final);
+	src_final = src_tmp;
+    }
+
+    if (needs_compress) {
+	zip_compression_implementation comp_impl;
+
+	if ((comp_impl = _zip_get_compression_implementation(de->comp_method, ZIP_CODEC_ENCODE)) == NULL) {
+	    zip_error_set(&za->error, ZIP_ER_COMPNOTSUPP, 0);
+	    zip_source_free(src_final);
+	    return -1;
+	}
+	if ((src_tmp = comp_impl(za, src_final, de->comp_method, ZIP_CODEC_ENCODE)) == NULL) {
+	    zip_source_free(src_final);
+	    return -1;
+	}
+	
+	zip_source_free(src_final);
+	src_final = src_tmp;
+    }
+
+    
+    if (needs_encrypt) {
+	zip_encryption_implementation impl;
+	const char *password = NULL;
+
+	if (de->password) {
+	    password = de->password;
+	} else if (za->default_password) {
+	    password = za->default_password;
+	}
+	
+	if ((impl = _zip_get_encryption_implementation(de->encryption_method, ZIP_CODEC_ENCODE)) == NULL) {
+	    zip_error_set(&za->error, ZIP_ER_ENCRNOTSUPP, 0);
+	    zip_source_free(src_final);
+	    return -1;
+	}
+	if ((src_tmp = impl(za, src_final, de->encryption_method, ZIP_CODEC_ENCODE, password)) == NULL) {
+	    /* error set by impl */
+	    zip_source_free(src_final);
+	    return -1;
+	}
+
+	zip_source_free(src_final);
+	src_final = src_tmp;
+    }
+
 
     if ((offdata = zip_source_tell_write(za->src)) < 0) {
         return -1;
     }
 
-    ret = copy_source(za, s2);
+    ret = copy_source(za, src_final);
 	
-    if (zip_source_stat(s2, &st) < 0)
+    if (zip_source_stat(src_final, &st) < 0) {
 	ret = -1;
+    }
 
-    zip_source_free(s2);
+    zip_source_free(src_final);
 
-    if (ret < 0)
+    if (ret < 0) {
 	return -1;
+    }
 
     if ((offend = zip_source_tell_write(za->src)) < 0) {
         return -1;

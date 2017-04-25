@@ -20,7 +20,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -64,16 +64,19 @@
 #define CDBUFSIZE       (MAXCOMLEN+EOCDLEN+EOCD64LOCLEN)
 #define BUFSIZE		8192
 #define EFZIP64SIZE 28
+#define EF_WINZIP_AES_SIZE 7
 
 #define ZIP_CM_REPLACED_DEFAULT	(-2)
+#define ZIP_CM_WINZIP_AES         99  /* Winzip AES encrypted */
 
 #define ZIP_CM_IS_DEFAULT(x)	((x) == ZIP_CM_DEFAULT || (x) == ZIP_CM_REPLACED_DEFAULT)
 
 #define ZIP_EF_UTF_8_COMMENT	0x6375
 #define ZIP_EF_UTF_8_NAME	0x7075
+#define ZIP_EF_WINZIP_AES	0x9901
 #define ZIP_EF_ZIP64		0x0001
 
-#define ZIP_EF_IS_INTERNAL(id)	((id) == ZIP_EF_UTF_8_COMMENT || (id) == ZIP_EF_UTF_8_NAME || (id) == ZIP_EF_ZIP64)
+#define ZIP_EF_IS_INTERNAL(id)	((id) == ZIP_EF_UTF_8_COMMENT || (id) == ZIP_EF_UTF_8_NAME || (id) == ZIP_EF_WINZIP_AES || (id) == ZIP_EF_ZIP64)
 
 /* according to unzip-6.0's zipinfo.c, this corresponds to a regular file with rw permissions for everyone */
 #define ZIP_EXT_ATTRIB_DEFAULT		(0100666u<<16)
@@ -96,8 +99,8 @@
 typedef zip_source_t *(*zip_compression_implementation)(zip_t *, zip_source_t *, zip_int32_t, int);
 typedef zip_source_t *(*zip_encryption_implementation)(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
 
-zip_compression_implementation _zip_get_compression_implementation(zip_int32_t);
-zip_encryption_implementation _zip_get_encryption_implementation(zip_uint16_t);
+zip_compression_implementation _zip_get_compression_implementation(zip_int32_t method, int operation);
+zip_encryption_implementation _zip_get_encryption_implementation(zip_uint16_t method, int operation);
 
 
 
@@ -118,6 +121,8 @@ zip_source_t *zip_source_pkware(zip_t *, zip_source_t *, zip_uint16_t, int, cons
 int zip_source_remove(zip_source_t *);
 zip_int64_t zip_source_supports(zip_source_t *src);
 zip_source_t *zip_source_window(zip_t *, zip_source_t *, zip_uint64_t, zip_uint64_t);
+zip_source_t *zip_source_winzip_aes_decode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
+zip_source_t *zip_source_winzip_aes_encode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
 
 
 /* error source for layered sources */
@@ -193,8 +198,8 @@ struct zip {
     zip_source_t **open_source;         /* open sources using archive */
 
     zip_hash_t *names;			/* hash table for name lookup */
-    
-    char *tempdir;                      /* custom temp dir (needed e.g. for OS X sandboxing) */
+
+    zip_progress_callback_t progress_callback; /* progress callback for zip_close() */
 };
 
 /* file in zip archive, part of API */
@@ -208,18 +213,22 @@ struct zip_file {
 
 /* zip archive directory entry (central or local) */
 
-#define ZIP_DIRENT_COMP_METHOD	0x0001u
-#define ZIP_DIRENT_FILENAME	0x0002u
-#define ZIP_DIRENT_COMMENT	0x0004u
-#define ZIP_DIRENT_EXTRA_FIELD	0x0008u
-#define ZIP_DIRENT_ATTRIBUTES	0x0010u
-#define ZIP_DIRENT_LAST_MOD	0x0020u
-#define ZIP_DIRENT_ALL		0xffffu
+#define ZIP_DIRENT_COMP_METHOD		0x0001u
+#define ZIP_DIRENT_FILENAME		0x0002u
+#define ZIP_DIRENT_COMMENT		0x0004u
+#define ZIP_DIRENT_EXTRA_FIELD		0x0008u
+#define ZIP_DIRENT_ATTRIBUTES		0x0010u
+#define ZIP_DIRENT_LAST_MOD		0x0020u
+#define ZIP_DIRENT_ENCRYPTION_METHOD	0x0040u
+#define ZIP_DIRENT_PASSWORD     	0x0080u
+#define ZIP_DIRENT_ALL			ZIP_UINT32_MAX
 
 struct zip_dirent {
     zip_uint32_t changed;
     bool local_extra_fields_read;	/*      whether we already read in local header extra fields */
-    bool cloned;                        /*      whether this instance is cloned, and thus shares non-changed strings */
+    bool cloned;			/*      whether this instance is cloned, and thus shares non-changed strings */
+
+    bool crc_valid;			/*      if CRC is valid (sometimes not for encrypted archives) */
 
     zip_uint16_t version_madeby;	/* (c)  version of creator */
     zip_uint16_t version_needed;	/* (cl) version needed to extract */
@@ -236,6 +245,9 @@ struct zip_dirent {
     zip_uint16_t int_attrib;		/* (c)  internal file attributes */
     zip_uint32_t ext_attrib;		/* (c)  external file attributes */
     zip_uint64_t offset;		/* (c)  offset of local header */
+
+    zip_uint16_t encryption_method;	/*      encryption method, computed from other fields */
+    char *password;                     /*      file specific encryption password */
 };
 
 /* zip archive central directory */
@@ -248,6 +260,7 @@ struct zip_cdir {
     zip_uint64_t size;                  /* size of central directory */
     zip_uint64_t offset;		/* offset of central directory in file */
     zip_string_t *comment;		/* zip archive comment */
+    bool is_zip64;			/* central directory in zip64 format */
 };
 
 struct zip_extra_field {
@@ -280,6 +293,7 @@ struct zip_source {
     bool source_closed;         /* set if source archive is closed */
     zip_t *source_archive;      /* zip archive we're reading from, NULL if not from archive */
     unsigned int refcount;
+    bool eof;                   /* EOF reached */
 };
 
 #define ZIP_SOURCE_IS_OPEN_READING(src) ((src)->open_count > 0)
@@ -312,7 +326,7 @@ struct zip_string {
 struct zip_buffer {
     bool ok;
     bool free_data;
-    
+
     zip_uint8_t *data;
     zip_uint64_t size;
     zip_uint64_t offset;
@@ -332,12 +346,25 @@ extern const char * const _zip_err_str[];
 extern const int _zip_nerr_str;
 extern const int _zip_err_type[];
 
+#define ZIP_MAX(a, b)  ((a) > (b) ? (a) : (b))
+#define ZIP_MIN(a, b)  ((a) < (b) ? (a) : (b))
 
 #define ZIP_ENTRY_CHANGED(e, f)	((e)->changes && ((e)->changes->changed & (f)))
 
 #define ZIP_ENTRY_DATA_CHANGED(x)	((x)->source != NULL)
 
 #define ZIP_IS_RDONLY(za)	((za)->ch_flags & ZIP_AFL_RDONLY)
+
+
+#ifdef HAVE_EXPLICIT_MEMSET
+#define _zip_crypto_clear(b, l) explicit_memset((b), 0, (l))
+#else
+#ifdef HAVE_EXPLICIT_BZERO
+#define _zip_crypto_clear(b, l) explicit_bzero((b), (l))
+#else
+#define _zip_crypto_clear(b, l) memset((b), 0, (l))
+#endif
+#endif
 
 
 zip_int64_t _zip_add_entry(zip_t *);
@@ -355,17 +382,20 @@ zip_buffer_t *_zip_buffer_new(zip_uint8_t *data, zip_uint64_t size);
 zip_buffer_t *_zip_buffer_new_from_source(zip_source_t *src, zip_uint64_t size, zip_uint8_t *buf, zip_error_t *error);
 zip_uint64_t _zip_buffer_offset(zip_buffer_t *buffer);
 bool _zip_buffer_ok(zip_buffer_t *buffer);
+zip_uint8_t *_zip_buffer_peek(zip_buffer_t *buffer, zip_uint64_t length);
 int _zip_buffer_put(zip_buffer_t *buffer, const void *src, size_t length);
 int _zip_buffer_put_16(zip_buffer_t *buffer, zip_uint16_t i);
 int _zip_buffer_put_32(zip_buffer_t *buffer, zip_uint32_t i);
 int _zip_buffer_put_64(zip_buffer_t *buffer, zip_uint64_t i);
 int _zip_buffer_put_8(zip_buffer_t *buffer, zip_uint8_t i);
+zip_uint64_t _zip_buffer_read(zip_buffer_t *buffer, zip_uint8_t *data, zip_uint64_t length);
 int _zip_buffer_skip(zip_buffer_t *buffer, zip_uint64_t length);
 int _zip_buffer_set_offset(zip_buffer_t *buffer, zip_uint64_t offset);
 zip_uint64_t _zip_buffer_size(zip_buffer_t *buffer);
 
 int _zip_cdir_compute_crc(zip_t *, uLong *);
 void _zip_cdir_free(zip_cdir_t *);
+bool _zip_cdir_grow(zip_cdir_t *cd, zip_uint64_t additional_entries, zip_error_t *error);
 zip_cdir_t *_zip_cdir_new(zip_uint64_t, zip_error_t *);
 zip_int64_t _zip_cdir_write(zip_t *za, const zip_filelist_t *filelist, zip_uint64_t survivors);
 void _zip_deregister_source(zip_t *za, zip_source_t *src);
@@ -422,6 +452,8 @@ void _zip_hash_revert(zip_hash_t *hash);
 
 zip_t *_zip_open(zip_source_t *, unsigned int, zip_error_t *);
 
+bool zip_random(zip_uint8_t *buffer, zip_uint16_t length);
+
 int _zip_read(zip_source_t *src, zip_uint8_t *data, zip_uint64_t length, zip_error_t *error);
 int _zip_read_at_offset(zip_source_t *src, zip_uint64_t offset, unsigned char *b, size_t length, zip_error_t *error);
 zip_uint8_t *_zip_read_data(zip_buffer_t *buffer, zip_source_t *src, size_t length, bool nulp, zip_error_t *error);
@@ -432,8 +464,10 @@ int _zip_register_source(zip_t *za, zip_source_t *src);
 void _zip_set_open_error(int *zep, const zip_error_t *err, int ze);
 
 zip_int64_t _zip_source_call(zip_source_t *src, void *data, zip_uint64_t length, zip_source_cmd_t command);
+bool _zip_source_eof(zip_source_t *);
 zip_source_t *_zip_source_file_or_p(const char *, FILE *, zip_uint64_t, zip_int64_t, const zip_stat_t *, zip_error_t *error);
 void _zip_source_invalidate(zip_source_t *src);
+bool _zip_source_had_error(zip_source_t *);
 zip_source_t *_zip_source_new(zip_error_t *error);
 int _zip_source_set_source_archive(zip_source_t *, zip_t *);
 zip_source_t *_zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_uint64_t length, zip_stat_t *st, zip_error_t *error);

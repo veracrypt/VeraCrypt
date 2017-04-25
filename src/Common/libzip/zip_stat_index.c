@@ -1,6 +1,6 @@
 /*
   zip_stat_index.c -- get information about file by index
-  Copyright (C) 1999-2014 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2016 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -64,17 +64,8 @@ zip_stat_index(zip_t *za, zip_uint64_t index, zip_flags_t flags,
 	st->mtime = de->last_mod;
 	st->comp_size = de->comp_size;
 	st->comp_method = (zip_uint16_t)de->comp_method;
-	if (de->bitflags & ZIP_GPBF_ENCRYPTED) {
-	    if (de->bitflags & ZIP_GPBF_STRONG_ENCRYPTION) {
-		/* TODO */
-		st->encryption_method = ZIP_EM_UNKNOWN;
-	    }
-	    else
-		st->encryption_method = ZIP_EM_TRAD_PKWARE;
-	}
-	else
-	    st->encryption_method = ZIP_EM_NONE;
-	st->valid = ZIP_STAT_CRC|ZIP_STAT_SIZE|ZIP_STAT_MTIME
+	st->encryption_method = de->encryption_method;
+	st->valid = (de->crc_valid ? ZIP_STAT_CRC : 0) | ZIP_STAT_SIZE|ZIP_STAT_MTIME
 	    |ZIP_STAT_COMP_SIZE|ZIP_STAT_COMP_METHOD|ZIP_STAT_ENCRYPTION_METHOD;
     }
 

@@ -1,6 +1,6 @@
 /*
   zip_source_error.c -- get last error from zip_source
-  Copyright (C) 2009-2014 Dieter Baron and Thomas Klausner
+  Copyright (C) 2009-2016 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -39,4 +39,10 @@ zip_error_t *
 zip_source_error(zip_source_t *src)
 {
     return &src->error;
+}
+
+bool
+_zip_source_had_error(zip_source_t *src)
+{
+    return zip_source_error(src)->zip_err != ZIP_ER_OK;
 }
