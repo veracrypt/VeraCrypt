@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Security Requirements and Precautions</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Reallocated%20Sectors.html">Reallocated Sectors</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>Reallocated Sectors</h1>
+<p>Some storage devices, such as hard drives, internally reallocate/remap bad sectors. Whenever the device detects a sector to which data cannot be written, it marks the sector as bad and remaps it to a sector in a hidden reserved area on the drive. Any subsequent
+ read/write operations from/to the bad sector are redirected to the sector in the reserved area. This means that any existing data in the bad sector remains on the drive and it cannot be erased (overwritten with other data). This may have various security implications.
+ For instance, data that is to be encrypted in place may remain unencrypted in the bad sector. Likewise, data to be erased (for example, during the process of creation of a hidden operating system) may remain in the bad sector. Plausible deniability (see section
+<a href="Plausible%20Deniability.html"><em>Plausible Deniability</em></a>) may be adversely affected whenever a sector is reallocated. Additional examples of possible security implications are listed in the section
+<a href="Security%20Requirements%20and%20Precautions.html">
+<em>Security Requirements and Precautions</em></a>. Please note that this list is not exhaustive (these are just examples). Also note that VeraCrypt
+<em>cannot</em> prevent any security issues related to or caused by reallocated sectors. To find out the number of reallocated sectors on a hard drive, you can use e.g. a third-party software tool for reading so-called S.M.A.R.T. data.</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>
