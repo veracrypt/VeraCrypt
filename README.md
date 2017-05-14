@@ -228,7 +228,7 @@ If you intend to implement a feature, please contact us first to make sure:
 3) Whether we need help of third-party developers with implementing the feature.
 
 Information on how to contact us can be found at:
-https://veracrypt.codeplex.com/
+https://www.veracrypt.fr/
 
 
 

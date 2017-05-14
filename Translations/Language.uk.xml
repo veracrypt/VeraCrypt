@@ -857,7 +857,7 @@
     <string lang="uk" key="TC_INSTALLER_IS_RUNNING">В этой системе сейчас запущен инсталлятор VeraCrypt. Он выполняет/готовит установку или обновление VeraCrypt. Дождитесь завершения его работы или закройте его. Если закрыть инсталлятор не получается, перезагрузите комп'ютер и лишь потом продолжите.</string>
     <string lang="uk" key="INSTALL_FAILED">Невдале встановлювання.</string>
     <string lang="uk" key="UNINSTALL_FAILED">Невдале видалення.</string>
-    <string lang="uk" key="DIST_PACKAGE_CORRUPTED">Цей файл встановлення пошкоджено. Будь ласка, спробуйте завантажити його знову (рекомендовано з офіційної сторінки VeraCrypt на https://veracrypt.codeplex.com).</string>
+    <string lang="uk" key="DIST_PACKAGE_CORRUPTED">Цей файл встановлення пошкоджено. Будь ласка, спробуйте завантажити його знову (рекомендовано з офіційної сторінки VeraCrypt на https://www.veracrypt.fr).</string>
     <string lang="uk" key="CANNOT_WRITE_FILE_X">Неможливо записати файл %s</string>
     <string lang="uk" key="EXTRACTING_VERB">Видобування</string>
     <string lang="uk" key="CANNOT_READ_FROM_PACKAGE">Неможливо прочитати дані з файлу встановлювання.</string>

@@ -69,7 +69,7 @@ namespace VeraCrypt
 		vars << L"&addr=" << hex << faultingInstructionAddress << dec;
 		vars << FatalErrorHandler::GetCallStack (16);
 
-		wxString url = Gui->GetHomepageLinkURL (L"err-report", true, vars.str());
+		wxString url = Gui->GetHomepageLinkURL (L"err-report", vars.str());
 		url.Replace (L"=0x", L"=");
 		url.Replace (L"=0X0x", L"=0x");
 		url.Replace (L"=0X", L"=0x");
@@ -212,7 +212,7 @@ namespace VeraCrypt
 			vars.Replace (L"::", L".");
 			vars.Replace (L":", L".");
 
-			wxString url = Gui->GetHomepageLinkURL (L"err-report", true, vars);
+			wxString url = Gui->GetHomepageLinkURL (L"err-report", vars);
 			url.Replace (L"=0x", L"=");
 			url.Replace (L"=0X0x", L"=0x");
 			url.Replace (L"=0X", L"=0x");

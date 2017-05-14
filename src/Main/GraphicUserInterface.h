@@ -53,7 +53,7 @@ namespace VeraCrypt
 		virtual int GetCharWidth (wxWindow *window) const;
 		virtual int GetDefaultBorderSize () const { return 5; }
 		virtual wxFont GetDefaultBoldFont (wxWindow *window) const;
-		virtual wxString GetHomepageLinkURL (const wxString &linkId, bool secure = false, const wxString &extraVars = wxEmptyString) const;
+		virtual wxString GetHomepageLinkURL (const wxString &linkId, const wxString &extraVars = wxEmptyString) const;
 		virtual wxFrame *GetMainFrame () const { return mMainFrame; }
 		virtual int GetScrollbarWidth (wxWindow *window, bool noScrollBar = false) const;
 		virtual list <long> GetListCtrlSelectedItems (wxListCtrl *listCtrl) const;

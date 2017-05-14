@@ -857,7 +857,7 @@
     <string lang="zh-hk" key="TC_INSTALLER_IS_RUNNING">VeraCrypt 安裝程式正在執行 VeraCrypt 的安裝或更新。在您繼續進行前，請等待其完成或者關閉它。如果您無法關閉它，請在繼續之前重啟電腦。</string>
     <string lang="zh-hk" key="INSTALL_FAILED">安裝失敗。</string>
     <string lang="zh-hk" key="UNINSTALL_FAILED">卸載失敗。</string>
-    <string lang="zh-hk" key="DIST_PACKAGE_CORRUPTED">該安裝包已經損壞。請嘗試重新下載安裝包（優先建議從 VeraCrypt 官方網站 https://veracrypt.codeplex.com 下載）。</string>
+    <string lang="zh-hk" key="DIST_PACKAGE_CORRUPTED">該安裝包已經損壞。請嘗試重新下載安裝包（優先建議從 VeraCrypt 官方網站 https://www.veracrypt.fr 下載）。</string>
     <string lang="zh-hk" key="CANNOT_WRITE_FILE_X">不能寫入檔 %s</string>
     <string lang="zh-hk" key="EXTRACTING_VERB">正在釋放</string>
     <string lang="zh-hk" key="CANNOT_READ_FROM_PACKAGE">不能從安裝包中讀取資料</string>
@@ -1232,7 +1232,7 @@
     <string lang="zh-hk" key="HIDDEN_OS_CREATION_PREINFO_HELP">在下一步中，VeraCrypt 將會通過複製當前運行系統的內容到隱藏加密卷來創建隱形系統（被複製的資料將會使用與迷惑系統不同的密鑰即時加密））。\n\n請注意該過程將會在啟動驗證環境中執行（在 Windows 啟動前），並可能花費較長的時間；可能需要花費幾個小時或者幾天（依據系統分區容量和電腦性能而定，例如PM1.6GHz加密時大概的速度是0.5GB/分鐘左右）。\n\n您可以中斷該過程，關機，啟動作業系統並在此之後繼續該過程。然而，如果您中斷該過程，整個複製系統的過程將會不得不從頭開始（因為系統分區的內容在克隆期間必須不能被改變）。</string>
     <string lang="zh-hk" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">您想要取消整個隱形作業系統的創建過程嗎？\n\n注意：如果現在取消，您將無法繼續該進程。</string>
     <string lang="zh-hk" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">您要取消系統加密預測試嗎？</string>
-    <string lang="zh-hk" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt 系統加密預測試失敗。您希望再試一次嗎？\n\n如果您選擇 '否'，則啟動驗證元件將會被卸載。\n\n說明：如果 VeraCrypt 啟動管理器在 Windows 啟動前不要求您輸入密碼，這很可能是您的作業系統並沒有從該系統所安裝的驅動器引導的。目前並不支援這種方式。\n\n- 如果您使用了AES 之外的加密演算法並且預測試失敗了（並且您也輸入了密碼），這可能由有設計缺陷的驅動導致的。選擇 '否'，嘗試再次加密系統分區/設備，但是要使用 AES 加密演算法（該演算法所需記憶體最低）。\n\n- 更多可能導致該錯誤的原因，請參考: https://veracrypt.codeplex.com/wikipage?title=Troubleshooting</string>
+    <string lang="zh-hk" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt 系統加密預測試失敗。您希望再試一次嗎？\n\n如果您選擇 '否'，則啟動驗證元件將會被卸載。\n\n說明：如果 VeraCrypt 啟動管理器在 Windows 啟動前不要求您輸入密碼，這很可能是您的作業系統並沒有從該系統所安裝的驅動器引導的。目前並不支援這種方式。\n\n- 如果您使用了AES 之外的加密演算法並且預測試失敗了（並且您也輸入了密碼），這可能由有設計缺陷的驅動導致的。選擇 '否'，嘗試再次加密系統分區/設備，但是要使用 AES 加密演算法（該演算法所需記憶體最低）。\n\n- 更多可能導致該錯誤的原因，請參考: https://www.veracrypt.fr/en/Troubleshooting.html</string>
     <string lang="zh-hk" key="SYS_DRIVE_NOT_ENCRYPTED">該系統分區/驅動器看起來沒有被加密（或者是沒有被完全加密）。</string>
     <string lang="zh-hk" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">您的系統分區/驅動器已加密（部分或完全加密）。\n\n請在繼續進行前解密這個系統分區/驅動器。操作步驟：在 VeraCrypt 主視窗的功能表中，選擇 '系統' &gt; '永久解密系統分區/驅動器'。</string>
     <string lang="zh-hk" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">當系統分區/驅動器已被部份或完全加密時，您不能降級 VeraCrypt 的版本（但是可以更新到新版本或者從新安裝同一版本）。</string>

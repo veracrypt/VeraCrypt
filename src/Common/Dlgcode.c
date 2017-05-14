@@ -6967,6 +6967,17 @@ void CorrectFileName (wchar_t* fileName)
 	}
 }
 
+void CorrectURL (wchar_t* fileName)
+{
+	/* replace '\' by '/' */
+	size_t i, len = wcslen (fileName);
+	for (i = 0; i < len; i++)
+	{
+		if (fileName [i] == L'\\')
+			fileName [i] = L'/';
+	}
+}
+
 void IncreaseWrongPwdRetryCount (int count)
 {
 	WrongPwdRetryCounter += count;
@@ -10162,140 +10173,158 @@ std::wstring GetWindowsEdition ()
 
 void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 {
-	char url [MAX_URL_LENGTH];
+	wchar_t url [MAX_URL_LENGTH] = {0};
+	wchar_t page[MAX_PATH] = {0};
+	wchar_t installDir[MAX_PATH] = {0};
+	BOOL buildUrl = TRUE;
+	int r;
 
 	ArrowWaitCursor ();
+	
+	GetModPath (installDir, MAX_PATH);
 
-	// sprintf_s (url, sizeof (url), TC_APPLINK "%s%s&dest=%s", bSendOS ? ("&os=" + GetWindowsEdition()).c_str() : "", extraOutput, dest);
 	if (strcmp(dest, "donate") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Donation#VeraCryptDonation");
+		StringCbCopyW (page, sizeof (page),L"Donation.html");
 	}
 	else if (strcmp(dest, "main") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),TC_HOMEPAGE);
+		StringCbCopyW (url, sizeof (url), TC_HOMEPAGE);
+		buildUrl = FALSE;
 	}
 	else if (strcmp(dest,"localizations") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Language%20Packs");
+		StringCbCopyW (page, sizeof (page),L"Language%20Packs.html");
 	}
 	else if (strcmp(dest, "beginnerstutorial") == 0 || strcmp(dest,"tutorial") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Beginner%27s%20Tutorial");
+		StringCbCopyW (page, sizeof (page),L"Beginner%27s%20Tutorial.html");
 	}
 	else if (strcmp(dest, "releasenotes") == 0 || strcmp(dest, "history") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Release%20Notes");
+		StringCbCopyW (page, sizeof (page),L"Release%20Notes.html");
 	}
 	else if (strcmp(dest, "hwacceleration") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Hardware%20Acceleration");
+		StringCbCopyW (page, sizeof (page),L"Hardware%20Acceleration.html");
 	}
 	else if (strcmp(dest, "parallelization") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Parallelization");
+		StringCbCopyW (page, sizeof (page),L"Parallelization.html");
 	}
 	else if (strcmp(dest, "help") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/documentation");
+		StringCbCopyW (page, sizeof (page),L"Documentation.html");
 	}
 	else if (strcmp(dest, "keyfiles") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Keyfiles");
+		StringCbCopyW (page, sizeof (page),L"Keyfiles.html");
 	}
 	else if (strcmp(dest, "introcontainer") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Creating%20New%20Volumes");
+		StringCbCopyW (page, sizeof (page),L"Creating%20New%20Volumes.html");
 	}
 	else if (strcmp(dest, "introsysenc") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption");
+		StringCbCopyW (page, sizeof (page),L"System%20Encryption.html");
 	}
 	else if (strcmp(dest, "hiddensysenc") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=VeraCrypt%20Hidden%20Operating%20System");
+		StringCbCopyW (page, sizeof (page),L"VeraCrypt%20Hidden%20Operating%20System.html");
 	}
 	else if (strcmp(dest, "sysencprogressinfo") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption");
+		StringCbCopyW (page, sizeof (page),L"System%20Encryption.html");
 	}
 	else if (strcmp(dest, "hiddenvolume") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Hidden%20Volume");
+		StringCbCopyW (page, sizeof (page),L"Hidden%20Volume.html");
 	}
 	else if (strcmp(dest, "aes") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=AES");
+		StringCbCopyW (page, sizeof (page),L"AES.html");
 	}
 	else if (strcmp(dest, "serpent") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Serpent");
+		StringCbCopyW (page, sizeof (page),L"Serpent.html");
 	}
 	else if (strcmp(dest, "twofish") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Twofish");
-	}
-	else if (strcmp(dest, "gost89") == 0)
-	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=GOST89");
+		StringCbCopyW (page, sizeof (page),L"Twofish.html");
 	}
 	else if (strcmp(dest, "kuznyechik") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Kuznyechik");
+		StringCbCopyW (page, sizeof (page),L"Kuznyechik.html");
 	}
 	else if (strcmp(dest, "camellia") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Camellia");
+		StringCbCopyW (page, sizeof (page),L"Camellia.html");
 	}
 	else if (strcmp(dest, "cascades") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Cascades");
+		StringCbCopyW (page, sizeof (page),L"Cascades.html");
 	}
 	else if (strcmp(dest, "hashalgorithms") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Hash%20Algorithms");
+		StringCbCopyW (page, sizeof (page),L"Hash%20Algorithms.html");
 	}
 	else if (strcmp(dest, "isoburning") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://cdburnerxp.se/en/home");
+		StringCbCopyW (url, sizeof (url),L"https://cdburnerxp.se/en/home");
+		buildUrl = FALSE;
 	}
 	else if (strcmp(dest, "sysfavorites") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=System%20Favorite%20Volumes");
+		StringCbCopyW (page, sizeof (page),L"System%20Favorite%20Volumes.html");
 	}
 	else if (strcmp(dest, "favorites") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Favorite%20Volumes");
+		StringCbCopyW (page, sizeof (page),L"Favorite%20Volumes.html");
 	}
 	else if (strcmp(dest, "hiddenvolprotection") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Protection%20of%20Hidden%20Volumes");
+		StringCbCopyW (page, sizeof (page),L"Protection%20of%20Hidden%20Volumes.html");
 	}
 	else if (strcmp(dest, "faq") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=FAQ");
+		StringCbCopyW (page, sizeof (page),L"FAQ.html");
 	}
 	else if (strcmp(dest, "downloads") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Downloads");
+		StringCbCopyW (page, sizeof (page),L"Downloads.html");
 	}
 	else if (strcmp(dest, "news") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=News");
+		StringCbCopyW (page, sizeof (page),L"News.html");
 	}
 	else if (strcmp(dest, "contact") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Contact");
+		StringCbCopyW (page, sizeof (page),L"Contact.html");
 	}
 	else if (strcmp(dest, "pim") == 0)
 	{
-		StringCbCopyA (url, sizeof (url),"https://veracrypt.codeplex.com/wikipage?title=Personal%20Iterations%20Multiplier%20%28PIM%29");
+		StringCbCopyW (page, sizeof (page),L"Personal%20Iterations%20Multiplier%20%28PIM%29.html");
 	}
 	else
 	{
-		StringCbCopyA (url, sizeof (url),TC_APPLINK);
+		StringCbCopyW (url, sizeof (url),TC_APPLINK);
+		buildUrl = FALSE;
 	}
-	ShellExecuteA (NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+	
+	if (buildUrl)
+	{
+		StringCbPrintfW (url, sizeof (url), L"file:///%sdocs/html/en/%s", installDir, page);
+		CorrectURL (url);
+	}
+
+	r = (int) ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
+
+	if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
+	{
+		// fallbacl to online resources
+		StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+		ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
+	}			
 
 	Sleep (200);
 	NormalCursor ();

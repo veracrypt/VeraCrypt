@@ -1044,7 +1044,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 			StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING));
 			RegSetValueEx (hkey, L"DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t));
 
-			StringCbCopyW (szTmp, sizeof(szTmp), _T(TC_HOMEPAGE));
+			StringCbCopyW (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 			RegSetValueEx (hkey, L"URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t));
 
 			RegCloseKey (hkey);
@@ -1169,7 +1169,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 	if (RegSetValueEx (hkey, L"Publisher", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
-	StringCbCopyW (szTmp, sizeof(szTmp), _T(TC_HOMEPAGE));
+	StringCbCopyW (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 	if (RegSetValueEx (hkey, L"URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
@@ -1834,7 +1834,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 		f = _wfopen (szTmp2, L"w");
 		if (f)
 		{
-			fprintf (f, "[InternetShortcut]\nURL=%s\n", TC_APPLINK);
+			fprintf (f, "[InternetShortcut]\nURL=%S\n", TC_APPLINK);
 
 			CheckFileStreamWriteErrors (hwndDlg, f, szTmp2);
 			fclose (f);

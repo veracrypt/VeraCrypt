@@ -359,9 +359,8 @@ void EraseMemory (void *memory, int size);
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 
-#define TC_HOMEPAGE "http://www.idrix.fr/"
-#define TC_APPLINK "https://veracrypt.codeplex.com"
-#define TC_APPLINK_SECURE "https://veracrypt.codeplex.com"
+#define TC_HOMEPAGE L"https://www.idrix.fr/"
+#define TC_APPLINK L"https://www.veracrypt.fr"
 
 enum
 {

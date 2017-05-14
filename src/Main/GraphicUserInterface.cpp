@@ -1087,125 +1087,137 @@ namespace VeraCrypt
 #endif
 	}
 
-	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, bool secure, const wxString &extraVars) const
+	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, const wxString &extraVars) const
 	{
-		wxString url = wxString (StringConverter::ToWide (secure ? TC_APPLINK_SECURE : TC_APPLINK));
+		wxString url = wxString (TC_APPLINK);
+		bool buildUrl = true;
 
 		if (linkId == L"donate")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Donation#VeraCryptDonation";
+			url = L"Donation.html";
 		}
 		else if (linkId == L"main")
 		{
-			url = wxString (StringConverter::ToWide (TC_HOMEPAGE));
+			url = wxString (TC_HOMEPAGE);
+			buildUrl = false;
 		}
 		else if (linkId == L"localizations")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Language%20Packs";
+			url = L"Language%20Packs.html";
 		}
 		else if (linkId == L"beginnerstutorial" || linkId == L"tutorial")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Beginner%27s%20Tutorial";
+			url = L"Beginner%27s%20Tutorial.html";
 		}
 		else if (linkId == L"releasenotes" || linkId == L"history")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Release%20Notes";
+			url = L"Release%20Notes.html";
 		}
 		else if (linkId == L"hwacceleration")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hardware%20Acceleration";
+			url = L"Hardware%20Acceleration.html";
 		}
 		else if (linkId == L"parallelization")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Parallelization";
+			url = L"Parallelization.html";
 		}
 		else if (linkId == L"help")
 		{
-			url = L"https://veracrypt.codeplex.com/documentation";
+			url = L"Documentation.html";
 		}
 		else if (linkId == L"keyfiles")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Keyfiles";
+			url = L"Keyfiles.html";
 		}
 		else if (linkId == L"introcontainer")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Creating%20New%20Volumes";
+			url = L"Creating%20New%20Volumes.html";
 		}
 		else if (linkId == L"introsysenc")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+			url = L"System%20Encryption.html";
 		}
 		else if (linkId == L"hiddensysenc")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=VeraCrypt%20Hidden%20Operating%20System";
+			url = L"VeraCrypt%20Hidden%20Operating%20System.html";
 		}
 		else if (linkId == L"sysencprogressinfo")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+			url = L"System%20Encryption.html";
 		}
 		else if (linkId == L"hiddenvolume")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hidden%20Volume";
+			url = L"Hidden%20Volume.html";
 		}
 		else if (linkId == L"aes")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=AES";
+			url = L"AES.html";
 		}
 		else if (linkId == L"serpent")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Serpent";
+			url = L"Serpent.html";
 		}
 		else if (linkId == L"twofish")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Twofish";
+			url = L"Twofish.html";
 		}
 		else if (linkId == L"camellia")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Camellia";
+			url = L"Camellia.html";
 		}
 		else if (linkId == L"kuznyechik")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Kuznyechik";
+			url = L"Kuznyechik.html";
 		}
 		else if (linkId == L"cascades")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Cascades";
+			url = L"Cascades.html";
 		}
 		else if (linkId == L"hashalgorithms")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hash%20Algorithms";
+			url = L"Hash%20Algorithms.html";
 		}
 		else if (linkId == L"isoburning")
 		{
 			url = L"https://cdburnerxp.se/en/home";
+			buildUrl = false;
 		}
 		else if (linkId == L"sysfavorites")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Favorite%20Volumes";
+			url = L"System%20Favorite%20Volumes.html";
 		}
 		else if (linkId == L"favorites")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Favorite%20Volumes";
+			url = L"Favorite%20Volumes.html";
 		}
 		else if (linkId == L"hiddenvolprotection")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Protection%20of%20Hidden%20Volumes";
+			url = L"Protection%20of%20Hidden%20Volumes.html";
 		}
 		else if (linkId == L"faq")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=FAQ";
+			url = L"FAQ.html";
 		}
 		else if (linkId == L"downloads")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Downloads";
+			url = L"Downloads.html";
 		}
 		else if (linkId == L"news")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=News";
+			url = L"News.html";
 		}
 		else if (linkId == L"contact")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Contact";
+			url = L"Contact.html";
+		}
+		else
+		{
+			buildUrl = false;
+		}
+		
+		if (buildUrl)
+		{
+			url = L"https://www.veracrypt.fr/en/" + url;
 		}
 
 		return url;
@@ -1216,7 +1228,7 @@ namespace VeraCrypt
 		wxString url;
 
 		BeginInteractiveBusyState (parent);
-		wxLaunchDefaultBrowser (GetHomepageLinkURL (linkId, false, extraVars), wxBROWSER_NEW_WINDOW);
+		wxLaunchDefaultBrowser (GetHomepageLinkURL (linkId, extraVars), wxBROWSER_NEW_WINDOW);
 		Thread::Sleep (200);
 		EndInteractiveBusyState (parent);
 	}

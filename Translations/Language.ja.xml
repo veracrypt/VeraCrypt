@@ -857,7 +857,7 @@
     <string lang="ja" key="TC_INSTALLER_IS_RUNNING">現在VeraCryptインストーラが起動しており、インストールあるいはアップデートの実行中です。インストーラの処理が終わるのを待つか、閉じるかしてください。閉じることができない場合は再起動してください。</string>
     <string lang="ja" key="INSTALL_FAILED">インストールに失敗しました。</string>
     <string lang="ja" key="UNINSTALL_FAILED">アンインストールに失敗しました。</string>
-    <string lang="ja" key="DIST_PACKAGE_CORRUPTED">この配布パッケージは破損しています。（なるべくVeraCryptの公式サイト https://veracrypt.codeplex.com から）もう一度ダウンロードしてみてください。</string>
+    <string lang="ja" key="DIST_PACKAGE_CORRUPTED">この配布パッケージは破損しています。（なるべくVeraCryptの公式サイト https://www.veracrypt.fr から）もう一度ダウンロードしてみてください。</string>
     <string lang="ja" key="CANNOT_WRITE_FILE_X">ファイル %s を書き込めません。</string>
     <string lang="ja" key="EXTRACTING_VERB">展開</string>
     <string lang="ja" key="CANNOT_READ_FROM_PACKAGE">パッケージからデータを読み込めません。</string>
@@ -1232,7 +1232,7 @@
     <string lang="ja" key="HIDDEN_OS_CREATION_PREINFO_HELP">次のステップで、VeraCryptはシステムパーティションから隠しボリュームへファイルをコピーすることで隠しOS領域を作成します（囮OS領域とは別の暗号鍵で即時暗号化しながらコピーします）。\n\nこの処理はWindows起動前の環境で行われ、完了するまでに長時間かかることに注意してください。処理時間はシステムパーティションのサイズやコンピュータの性能にもよりますが、数時間から数日かかることもあります。\n\nこの処理を途中で中断し、コンピュータを再起動した後にあらためて再開することも可能です。ただし、もし処理を中断した場合は、システムのコピー処理からやり直しになります。これはシステムパーティションとコピー先の内容を同一にするために必要です。</string>
     <string lang="ja" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">隠しOSの作成をキャンセルしますか？\n\nここで処理をキャンセルした場合、後で処理を再開することはできません。</string>
     <string lang="ja" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">システム暗号化の予備検査をキャンセルしますか？</string>
-    <string lang="ja" key="BOOT_PRETEST_FAILED_RETRY">VeraCryptのシステム暗号化予備検査に失敗しました。もう一度予備検査をしますか？\n\nもし「いいえ」を選んだ場合、起動前認証用コンポーネントがアンインストールされます。\n\n注：\n\n- もしVeraCryptブートローダーがWindowsが起動する前にパスワードの入力を要求してこなかった場合、ブートローダーがインストールされたのではないドライブからOSが起動している可能性があります。このケースには対応していません。\n\n- もしAES以外の暗号化アルゴリズムを使って予備検査に失敗した（そしてパスワードは入力した）場合、不適切な設計のドライバーに起因している可能性があります。「いいえ」を選択し、システムパーティション/ドライブをAESを使って暗号化しなおしてみてください（メモリ使用量が最少になります）。\n\n- その他に考えられる原因や対処方法については、https://veracrypt.codeplex.com/wikipage?title=Troubleshooting をご覧ください。</string>
+    <string lang="ja" key="BOOT_PRETEST_FAILED_RETRY">VeraCryptのシステム暗号化予備検査に失敗しました。もう一度予備検査をしますか？\n\nもし「いいえ」を選んだ場合、起動前認証用コンポーネントがアンインストールされます。\n\n注：\n\n- もしVeraCryptブートローダーがWindowsが起動する前にパスワードの入力を要求してこなかった場合、ブートローダーがインストールされたのではないドライブからOSが起動している可能性があります。このケースには対応していません。\n\n- もしAES以外の暗号化アルゴリズムを使って予備検査に失敗した（そしてパスワードは入力した）場合、不適切な設計のドライバーに起因している可能性があります。「いいえ」を選択し、システムパーティション/ドライブをAESを使って暗号化しなおしてみてください（メモリ使用量が最少になります）。\n\n- その他に考えられる原因や対処方法については、https://www.veracrypt.fr/en/Troubleshooting.html をご覧ください。</string>
     <string lang="ja" key="SYS_DRIVE_NOT_ENCRYPTED">システムパーティション/ドライブは部分的にも全体的にも暗号化されていないようです。</string>
     <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">システムパーティション/デバイスは暗号化されています（部分的あるいは全体的）。\n\n処理を進める前にシステムパーティション/デバイス全体の暗号化を解除してください。VeraCryptのメインウィンドウのメニューから[システム]-[暗号化の解除]を選択することで解除できます。</string>
     <string lang="ja" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">システムパーティション/ドライブが部分的であれ全体であれ暗号化されている場合は、VeraCryptをダウングレードできません。ただしアップグレードあるいは同じバージョンでの再インストールは可能です。</string>
