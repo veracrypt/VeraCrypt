@@ -59,6 +59,7 @@
 #include "Xts.h"
 #include "Boot/Windows/BootCommon.h"
 #include "Progress.h"
+#include "zip.h"
 
 #ifdef TCMOUNT
 #include "Mount/Mount.h"
@@ -6967,6 +6968,17 @@ void CorrectFileName (wchar_t* fileName)
 	}
 }
 
+void CorrectFileName (std::wstring& fileName)
+{
+	/* replace '/' by '\' */
+	size_t i, len = fileName.length();
+	for (i = 0; i < len; i++)
+	{
+		if (fileName [i] == L'/')
+			fileName [i] = L'\\';
+	}
+}
+
 void CorrectURL (wchar_t* fileName)
 {
 	/* replace '\' by '/' */
@@ -8576,6 +8588,63 @@ BOOL TCCopyFile (wchar_t *sourceFileName, wchar_t *destinationFile)
 	}
 
 	return TCCopyFileBase (src, dst);
+}
+
+BOOL DecompressZipToDir (const unsigned char *inputBuffer, DWORD inputLength, const wchar_t *destinationDir, ProgressFn progressFnPtr, HWND hwndDlg)
+{
+	BOOL res = TRUE;
+	zip_error_t zerr;
+	zip_int64_t numFiles, i;
+	zip_stat_t sb;
+	zip_source_t* zsrc = zip_source_buffer_create (inputBuffer, inputLength, 0, &zerr);
+	if (!zsrc)
+		return FALSE;
+	zip_t* z = zip_open_from_source (zsrc, ZIP_CHECKCONS | ZIP_RDONLY, &zerr);
+	if (!z)
+	{
+		zip_source_free (zsrc);
+		return FALSE;
+	}
+
+	finally_do_arg (zip_t*, z, { zip_close (finally_arg); });
+
+	numFiles = zip_get_num_entries (z, 0);
+	if (numFiles <= 0)
+		return FALSE;
+
+	for (i = 0; (i < numFiles) && res; i++)
+	{
+		ZeroMemory (&sb, sizeof (sb));
+		if ((0 == zip_stat_index (z, i, 0, &sb)) && (sb.valid & (ZIP_STAT_NAME | ZIP_STAT_SIZE)) && (sb.size > 0))
+		{
+			std::wstring wname = Utf8StringToWide (sb.name);
+			CorrectFileName (wname);
+
+			std::wstring filePath = destinationDir + wname;
+			size_t pos = filePath.find_last_of (L"/\\");
+			// create the parent directory if it doesn't exist
+			if (pos != std::wstring::npos)
+			{
+				SHCreateDirectoryEx (NULL, filePath.substr (0, pos).c_str(), NULL);
+			}
+
+			zip_file_t *f = zip_fopen_index (z, i, 0);
+			if (f)
+			{
+				ByteArray buffer((ByteArray::size_type) sb.size);
+
+				zip_fread (f, buffer.data(), sb.size);
+				zip_fclose (f);
+
+				if (progressFnPtr)
+					progressFnPtr (hwndDlg, filePath.c_str());
+
+				res = SaveBufferToFile ((char *) buffer.data(), filePath.c_str(), (DWORD) buffer.size(), FALSE, TRUE);
+			}			
+		}
+	}
+
+	return res;
 }
 
 // If bAppend is TRUE, the buffer is appended to an existing file. If bAppend is FALSE, any existing file

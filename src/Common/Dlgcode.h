@@ -368,6 +368,8 @@ BOOL FileExists (const wchar_t *filePathPtr);
 __int64 FindStringInFile (const wchar_t *filePath, const char *str, int strLen);
 BOOL TCCopyFile (wchar_t *sourceFileName, wchar_t *destinationFile);
 BOOL SaveBufferToFile (const char *inputBuffer, const wchar_t *destinationFile, DWORD inputLength, BOOL bAppend, BOOL bRenameIfFailed);
+typedef void (_cdecl *ProgressFn) ( HWND hwndDlg , const wchar_t *txt );
+BOOL DecompressZipToDir (const unsigned char *inputBuffer, DWORD inputLength, const wchar_t *destinationFile, ProgressFn progressFnPtr, HWND hwndDlg);
 BOOL TCFlushFile (FILE *f);
 BOOL PrintHardCopyTextUTF16 (wchar_t *text, wchar_t *title, size_t byteLen);
 void GetSpeedString (unsigned __int64 speed, wchar_t *str, size_t cbStr);
@@ -526,6 +528,8 @@ INT_PTR SecureDesktopDialogBoxParam (HINSTANCE, LPCWSTR, HWND, DLGPROC, LPARAM);
 #include <vector>
 #include <string>
 
+typedef std::vector<unsigned char> ByteArray;
+
 struct HostDevice
 {
 	HostDevice ()
@@ -588,6 +592,7 @@ bool HexWideStringToArray (const wchar_t* hexStr, std::vector<byte>& arr);
 std::wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE]);
 void RegisterDriverInf (bool registerFilter, const std::string& filter, const std::string& filterReg, HWND ParentWindow, HKEY regKey);
 std::wstring GetTempPathString ();
+void CorrectFileName (std::wstring& fileName);
 inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 {
 	return std::wstring (msg? msg : L"") + L"\n\nSource: " + SingleStringToWide (srcPos);

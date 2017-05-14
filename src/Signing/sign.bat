@@ -1,4 +1,4 @@
-PATH=%PATH%;%WSDK81%\bin\x86
+PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
 rem sign using SHA-1
 signtool sign /v /a /n IDRIX /i Thawte /ac thawte_Primary_MS_Cross_Cert.cer /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\veracrypt.sys" "..\Release\Setup Files\veracrypt-x64.sys"
@@ -11,11 +11,21 @@ signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeS
 
 cd "..\Release\Setup Files\"
 
+del *.xml
 copy /V /Y ..\..\..\Translations\*.xml .
+
+rmdir /S /Q docs
+mkdir docs\html\en
+copy /V /Y ..\..\..\doc\html\* docs\html\en\.
+
+del docs.zip
+7z a -y docs.zip docs
 
 "VeraCrypt Setup.exe" /p
 
 del *.xml
+del docs.zip
+rmdir /S /Q docs
 
 cd "..\..\Signing"
 

@@ -1,4 +1,4 @@
-PATH=%PATH%;%WSDK81%\bin\x86
+PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
 set PFXNAME=TestCertificate\idrix_codeSign.pfx
 set PFXPASSWORD=idrix
@@ -15,11 +15,21 @@ signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% 
 
 cd "..\Release\Setup Files\"
 
+del *.xml
 copy /V /Y ..\..\..\Translations\*.xml .
+
+rmdir /S /Q docs
+mkdir docs\html\en
+copy /V /Y ..\..\..\doc\html\* docs\html\en\.
+
+del docs.zip
+7z a -y docs.zip docs
 
 "VeraCrypt Setup.exe" /p
 
 del *.xml
+del docs.zip
+rmdir /S /Q docs
 
 cd "..\..\Signing"
 

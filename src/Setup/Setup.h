@@ -74,7 +74,8 @@ static wchar_t *szFiles[]=
 	L"ALanguage.vi.xml",
 	L"ALanguage.zh-cn.xml",
 	L"ALanguage.zh-hk.xml",
-	L"ALanguage.zh-tw.xml"
+	L"ALanguage.zh-tw.xml",
+	L"Xdocs.zip",
 };
 
 // Specifies what files are included in self-extracting packages (no other files will be packaged or extracted).
@@ -128,7 +129,8 @@ static wchar_t *szCompressedFiles[]=
 	L"Language.vi.xml",
 	L"Language.zh-cn.xml",
 	L"Language.zh-hk.xml",
-	L"Language.zh-tw.xml"
+	L"Language.zh-tw.xml",
+	L"docs.zip"
 };
 
 #define FILENAME_64BIT_DRIVER	L"veracrypt-x64.sys"
@@ -140,13 +142,13 @@ BOOL StatRemoveDirectory ( wchar_t *lpszDir );
 HRESULT CreateLink ( wchar_t *lpszPathObj , wchar_t *lpszArguments , wchar_t *lpszPathLink );
 void GetProgramPath ( HWND hwndDlg , wchar_t *path );
 void StatusMessage (HWND hwndDlg, char *stringId);
-void StatusMessageParam (HWND hwndDlg, char *stringId, wchar_t *param);
+void StatusMessageParam (HWND hwndDlg, char *stringId, const wchar_t *param);
 void ClearLogWindow (HWND hwndDlg);
-void RegMessage ( HWND hwndDlg , wchar_t *txt );
-void RegRemoveMessage (HWND hwndDlg, wchar_t *txt);
-void CopyMessage ( HWND hwndDlg , wchar_t *txt );
-void RemoveMessage ( HWND hwndDlg , wchar_t *txt );
-void IconMessage ( HWND hwndDlg , wchar_t *txt );
+void RegMessage ( HWND hwndDlg , const wchar_t *txt );
+void RegRemoveMessage (HWND hwndDlg, const wchar_t *txt);
+void _cdecl CopyMessage ( HWND hwndDlg , const wchar_t *txt );
+void RemoveMessage ( HWND hwndDlg , const wchar_t *txt );
+void IconMessage ( HWND hwndDlg , const wchar_t *txt );
 static int CALLBACK BrowseCallbackProc ( HWND hwnd , UINT uMsg , LPARAM lp , LPARAM pData );
 void LoadLicense ( HWND hwndDlg );
 void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersionPtr);
