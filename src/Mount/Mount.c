@@ -10243,16 +10243,15 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 			}
 			else
 			{
-				DISK_GEOMETRY driveInfo;
+				DISK_GEOMETRY_EX driveInfo;
 
-				bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0,
+				bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0,
 					&driveInfo, sizeof (driveInfo), &dwResult, NULL);
 
 				if (!bResult)
 					goto error;
 
-				hostSize = driveInfo.Cylinders.QuadPart * driveInfo.BytesPerSector *
-					driveInfo.SectorsPerTrack * driveInfo.TracksPerCylinder;
+				hostSize = driveInfo.DiskSize.QuadPart;
 			}
 
 			if (hostSize == 0)

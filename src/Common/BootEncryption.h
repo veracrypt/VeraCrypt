@@ -310,7 +310,7 @@ namespace VeraCrypt
 		void CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5, int pim);
 		wstring GetSystemLoaderBackupPath ();
 		uint32 GetChecksum (byte *data, size_t size);
-		DISK_GEOMETRY GetDriveGeometry (int driveNumber);
+		DISK_GEOMETRY_EX GetDriveGeometry (int driveNumber);
 		PartitionList GetDrivePartitions (int driveNumber);
 		wstring GetRemarksOnHiddenOS ();
 		wstring GetWindowsDirectory ();

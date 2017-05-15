@@ -82,7 +82,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		PARTITION_INFORMATION pi;
 		PARTITION_INFORMATION_EX pix;
 		LARGE_INTEGER diskLengthInfo;
-		DISK_GEOMETRY dg;
+		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
 		STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR storageDescriptor = {0};
 
@@ -94,12 +94,12 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		if (!NT_SUCCESS (ntStatus))
 			goto error;
 
-		ntStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_DRIVE_GEOMETRY, (char *) &dg, sizeof (dg));
+		ntStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, (char *) &dg, sizeof (dg));
 		if (!NT_SUCCESS (ntStatus))
 			goto error;
 
-		lDiskLength.QuadPart = dg.Cylinders.QuadPart * dg.SectorsPerTrack * dg.TracksPerCylinder * dg.BytesPerSector;
-		Extension->HostBytesPerSector = dg.BytesPerSector;
+		lDiskLength.QuadPart = dg.DiskSize.QuadPart;
+		Extension->HostBytesPerSector = dg.Geometry.BytesPerSector;
 
 		storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
 		storagePropertyQuery.QueryType = PropertyStandardQuery;
@@ -113,7 +113,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		}
 		else
 		{
-			Extension->HostBytesPerPhysicalSector = dg.BytesPerSector;
+			Extension->HostBytesPerPhysicalSector = dg.Geometry.BytesPerSector;
 		}
 
 		// Drive geometry is used only when IOCTL_DISK_GET_PARTITION_INFO fails

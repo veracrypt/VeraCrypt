@@ -3102,6 +3102,7 @@ BOOL GetDriveLabel (int driveNo, wchar_t *label, int labelSize)
 	return GetVolumeInformationW (root, label, labelSize / 2, NULL, NULL, &fileSystemFlags, NULL, 0);
 }
 
+#ifndef SETUP
 
 /* Stores the device path of the system partition in SysPartitionDevicePath and the device path of the system drive
 in SysDriveDevicePath.
@@ -3254,6 +3255,7 @@ int IsNonSysPartitionOnSysDrive (const wchar_t *path)
 	}
 }
 
+#endif //!SETUP
 
 wstring GetSysEncryptionPretestInfo2String (void)
 {
@@ -3477,6 +3479,7 @@ char * GetLegalNotices ()
 	return buf;
 }
 
+#ifndef SETUP
 
 BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -3835,6 +3838,7 @@ BOOL CALLBACK RawDevicesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return 0;
 }
 
+#endif //!SETUP
 
 BOOL DoDriverInstall (HWND hwndDlg)
 {
@@ -7266,6 +7270,8 @@ BOOL GetPhysicalDriveAlignment(UINT nDriveNumber, STORAGE_ACCESS_ALIGNMENT_DESCR
 		return TRUE;
 }
 
+#ifndef SETUP
+
 /************************************************************/
 
 // implementation of the generic wait dialog mechanism
@@ -7980,6 +7986,7 @@ BOOL UnmountVolumeAfterFormatExCall (HWND hwndDlg, int nDosDriveNo)
 	return UnmountVolumeBase (hwndDlg, nDosDriveNo, FALSE, TRUE);
 }
 
+#endif //!SETUP
 
 BOOL IsPasswordCacheEmpty (void)
 {
@@ -8176,29 +8183,31 @@ BOOL GetDeviceInfo (const wchar_t *deviceName, DISK_PARTITION_INFO_STRUCT *info)
 	return DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVE_PARTITION_INFO, info, sizeof (*info), info, sizeof (*info), &dwResult, NULL);
 }
 
-
-BOOL GetDriveGeometry (const wchar_t *deviceName, PDISK_GEOMETRY diskGeometry)
+#ifndef SETUP
+BOOL GetDriveGeometry (const wchar_t *deviceName, PDISK_GEOMETRY_EX diskGeometry)
 {
 	BOOL bResult;
 	DWORD dwResult;
-	DISK_GEOMETRY_STRUCT dg;
+	DISK_GEOMETRY_EX_STRUCT dg;
 
 	memset (&dg, 0, sizeof(dg));
 	StringCbCopyW ((PWSTR) &dg.deviceName, sizeof(dg.deviceName), deviceName);
 
-	bResult = DeviceIoControl (hDriver, TC_IOCTL_GET_DRIVE_GEOMETRY, &dg,
+	bResult = DeviceIoControl (hDriver, VC_IOCTL_GET_DRIVE_GEOMETRY_EX, &dg,
 		sizeof (dg), &dg, sizeof (dg), &dwResult, NULL);
 
 	if (bResult && (dwResult == sizeof (dg)) && dg.diskGeometry.BytesPerSector)
 	{
-		memcpy (diskGeometry, &dg.diskGeometry, sizeof (DISK_GEOMETRY));
+		ZeroMemory (diskGeometry, sizeof (PDISK_GEOMETRY_EX));
+		memcpy (&diskGeometry->Geometry, &dg.diskGeometry, sizeof (DISK_GEOMETRY));
+		diskGeometry->DiskSize.QuadPart = dg.DiskSize.QuadPart;
 		return TRUE;
 	}
 	else
 		return FALSE;
 }
 
-BOOL GetPhysicalDriveGeometry (int driveNumber, PDISK_GEOMETRY diskGeometry)
+BOOL GetPhysicalDriveGeometry (int driveNumber, PDISK_GEOMETRY_EX diskGeometry)
 {
 	HANDLE hDev;
 	BOOL bResult = FALSE;
@@ -8210,11 +8219,11 @@ BOOL GetPhysicalDriveGeometry (int driveNumber, PDISK_GEOMETRY diskGeometry)
 	{
 		DWORD bytesRead = 0;
 
-		ZeroMemory (diskGeometry, sizeof (DISK_GEOMETRY));
+		ZeroMemory (diskGeometry, sizeof (DISK_GEOMETRY_EX));
 
-		if (	DeviceIoControl (hDev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, diskGeometry, sizeof (DISK_GEOMETRY), &bytesRead, NULL)
-			&& (bytesRead == sizeof (DISK_GEOMETRY))
-			&& diskGeometry->BytesPerSector)
+		if (	DeviceIoControl (hDev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, diskGeometry, sizeof (DISK_GEOMETRY_EX), &bytesRead, NULL)
+			&& (bytesRead == sizeof (DISK_GEOMETRY_EX))
+			&& diskGeometry->Geometry.BytesPerSector)
 		{
 			bResult = TRUE;
 		}
@@ -8224,7 +8233,7 @@ BOOL GetPhysicalDriveGeometry (int driveNumber, PDISK_GEOMETRY diskGeometry)
 
 	return bResult;
 }
-
+#endif
 
 // Returns drive letter number assigned to device (-1 if none)
 int GetDiskDeviceDriveLetter (PWSTR deviceName)
@@ -10534,7 +10543,7 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 	char buffer[TC_VOLUME_HEADER_EFFECTIVE_SIZE];
 	LARGE_INTEGER headerOffset;
 	DWORD dwResult;
-	DISK_GEOMETRY deviceGeometry;
+	DISK_GEOMETRY_EX deviceGeometry;
 
 	context->VolumeIsOpen = FALSE;
 	context->CryptoInfo = NULL;
@@ -10602,15 +10611,15 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 		}
 		else
 		{
-			DISK_GEOMETRY driveInfo;
+			DISK_GEOMETRY_EX driveInfo;
 
-			if (!DeviceIoControl (context->HostFileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &driveInfo, sizeof (driveInfo), &dwResult, NULL))
+			if (!DeviceIoControl (context->HostFileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveInfo, sizeof (driveInfo), &dwResult, NULL))
 			{
 				status = ERR_OS_ERROR;
 				goto error;
 			}
 
-			context->HostSize = driveInfo.Cylinders.QuadPart * driveInfo.BytesPerSector * driveInfo.SectorsPerTrack * driveInfo.TracksPerCylinder;
+			context->HostSize = driveInfo.DiskSize.QuadPart;
 		}
 
 		if (context->HostSize == 0)
@@ -10798,10 +10807,10 @@ BOOL IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly)
 		if (handle == INVALID_HANDLE_VALUE)
 			continue;
 
-		DISK_GEOMETRY driveInfo;
+		DISK_GEOMETRY_EX driveInfo;
 		DWORD dwResult;
 
-		if (!DeviceIoControl (handle, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &driveInfo, sizeof (driveInfo), &dwResult, NULL))
+		if (!DeviceIoControl (handle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveInfo, sizeof (driveInfo), &dwResult, NULL))
 		{
 			CloseHandle (handle);
 			continue;
@@ -11398,8 +11407,6 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 	return TRUE;
 }
 
-#endif // !SETUP
-
 std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool singleList, bool noFloppy, bool detectUnencryptedFilesystems)
 {
 	vector <HostDevice> devices;
@@ -11436,14 +11443,13 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 			}
 			else
 			{
-				// retrieve size using DISK_GEOMETRY
-				DISK_GEOMETRY deviceGeometry = {0};
+				// retrieve size using DISK_GEOMETRY_EX
+				DISK_GEOMETRY_EX deviceGeometry = {0};
 				if (	GetDriveGeometry (devPath, &deviceGeometry)
 						||	((partNumber == 0) && GetPhysicalDriveGeometry (devNumber, &deviceGeometry))
 					)
 				{
-					device.Size = deviceGeometry.Cylinders.QuadPart * (LONGLONG) deviceGeometry.BytesPerSector
-						* (LONGLONG) deviceGeometry.SectorsPerTrack * (LONGLONG) deviceGeometry.TracksPerCylinder;
+					device.Size = (uint64) deviceGeometry.DiskSize.QuadPart;
 				}
 			}
 
@@ -11451,7 +11457,7 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 
 			if (!noDeviceProperties)
 			{
-				DISK_GEOMETRY geometry;
+				DISK_GEOMETRY_EX geometry;
 
 				int driveNumber = GetDiskDeviceDriveLetter ((wchar_t *) devPathStr.c_str());
 
@@ -11469,7 +11475,7 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 				}
 
 				if (partNumber == 0 && GetDriveGeometry (devPath, &geometry))
-					device.Removable = (geometry.MediaType == RemovableMedia);
+					device.Removable = (geometry.Geometry.MediaType == RemovableMedia);
 			}
 
 			if (partNumber == 0)
@@ -11600,6 +11606,8 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE])
 
 	return L"";
 }
+
+#endif // !SETUP
 
 BOOL FileHasReadOnlyAttribute (const wchar_t *path)
 {
@@ -12207,6 +12215,8 @@ BOOL IsRepeatedByteArray (byte value, const byte* buffer, size_t bufferSize)
 		return FALSE;
 }
 
+#ifndef SETUP
+
 BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue)
 {
 	BOOL bRet = TRUE;
@@ -12242,6 +12252,8 @@ BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue)
 
 	return bRet;
 }
+
+#endif
 
 BOOL CopyTextToClipboard (LPCWSTR txtValue)
 {

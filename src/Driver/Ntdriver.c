@@ -1483,6 +1483,34 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
+	case VC_IOCTL_GET_DRIVE_GEOMETRY_EX:
+		if (ValidateIOBufferSize (Irp, sizeof (DISK_GEOMETRY_EX_STRUCT), ValidateInputOutput))
+		{
+			DISK_GEOMETRY_EX_STRUCT *g = (DISK_GEOMETRY_EX_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
+			{
+				NTSTATUS ntStatus;
+				DISK_GEOMETRY_EX geo = {0};
+
+				memset (g, 0, sizeof (DISK_GEOMETRY_EX_STRUCT));
+
+				EnsureNullTerminatedString (g->deviceName, sizeof (g->deviceName));
+
+				ntStatus = TCDeviceIoControl (g->deviceName,
+					IOCTL_DISK_GET_DRIVE_GEOMETRY_EX,
+					NULL, 0, &geo, sizeof (geo));
+
+				if (NT_SUCCESS(ntStatus))
+				{
+					memcpy (&g->diskGeometry, &geo.Geometry, sizeof (DISK_GEOMETRY));
+					g->DiskSize.QuadPart = geo.DiskSize.QuadPart;
+				}
+
+				Irp->IoStatus.Information = sizeof (DISK_GEOMETRY_EX_STRUCT);
+				Irp->IoStatus.Status = ntStatus;
+			}
+		}
+		break;
+
 	case TC_IOCTL_PROBE_REAL_DRIVE_SIZE:
 		if (ValidateIOBufferSize (Irp, sizeof (ProbeRealDriveSizeRequest), ValidateInputOutput))
 		{
@@ -2125,6 +2153,7 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		TC_CASE_RET_NAME (TC_IOCTL_START_DECOY_SYSTEM_WIPE);
 		TC_CASE_RET_NAME (TC_IOCTL_WIPE_PASSWORD_CACHE);
 		TC_CASE_RET_NAME (TC_IOCTL_WRITE_BOOT_DRIVE_SECTOR);
+		TC_CASE_RET_NAME (VC_IOCTL_GET_DRIVE_GEOMETRY_EX);
 
 		TC_CASE_RET_NAME (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS);
 
@@ -3421,14 +3450,14 @@ NTSTATUS WriteRegistryConfigFlags (uint32 flags)
 NTSTATUS GetDeviceSectorSize (PDEVICE_OBJECT deviceObject, ULONG *bytesPerSector)
 {
 	NTSTATUS status;
-	DISK_GEOMETRY geometry;
+	DISK_GEOMETRY_EX geometry;
 
-	status = SendDeviceIoControlRequest (deviceObject, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &geometry, sizeof (geometry));
+	status = SendDeviceIoControlRequest (deviceObject, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &geometry, sizeof (geometry));
 
 	if (!NT_SUCCESS (status))
 		return status;
 
-	*bytesPerSector = geometry.BytesPerSector;
+	*bytesPerSector = geometry.Geometry.BytesPerSector;
 	return STATUS_SUCCESS;
 }
 

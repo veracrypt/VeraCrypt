@@ -186,7 +186,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 	BOOL bTimeStampValid = FALSE;
 	LARGE_INTEGER headerOffset;
 	BOOL backupHeader;
-	DISK_GEOMETRY driveInfo;
+	DISK_GEOMETRY_EX driveInfo;
 
 	if (oldPassword->Length == 0 || newPassword->Length == 0) return -1;
 
@@ -239,7 +239,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 			DWORD dwResult;
 			BOOL bResult;
 
-			bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0,
+			bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0,
 				&driveInfo, sizeof (driveInfo), &dwResult, NULL);
 
 			if (!bResult)
@@ -253,8 +253,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 			}
 			else
 			{
-				hostSize = driveInfo.Cylinders.QuadPart * driveInfo.BytesPerSector *
-					driveInfo.SectorsPerTrack * driveInfo.TracksPerCylinder;
+				hostSize = driveInfo.DiskSize.QuadPart;
 			}
 
 			if (hostSize == 0)

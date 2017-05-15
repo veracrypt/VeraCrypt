@@ -1053,16 +1053,18 @@ namespace VeraCrypt
 	}
 
 
-	DISK_GEOMETRY BootEncryption::GetDriveGeometry (int driveNumber)
+#ifndef SETUP
+
+	DISK_GEOMETRY_EX BootEncryption::GetDriveGeometry (int driveNumber)
 	{
 		wstringstream devName;
 		devName << L"\\Device\\Harddisk" << driveNumber << L"\\Partition0";
 
-		DISK_GEOMETRY geometry;
+		DISK_GEOMETRY_EX geometry;
 		throw_sys_if (!::GetDriveGeometry (devName.str().c_str(), &geometry));
 		return geometry;
 	}
-
+#endif // !SETUP
 
 	wstring BootEncryption::GetWindowsDirectory ()
 	{
@@ -3999,9 +4001,9 @@ namespace VeraCrypt
 		if (config.InitialUnallocatedSpace < TC_BOOT_LOADER_AREA_SIZE)
 			throw ErrorException ("NO_SPACE_FOR_BOOT_LOADER", SRC_POS);
 
-		DISK_GEOMETRY geometry = GetDriveGeometry (config.DriveNumber);
+		DISK_GEOMETRY_EX geometry = GetDriveGeometry (config.DriveNumber);
 
-		if (geometry.BytesPerSector != TC_SECTOR_SIZE_BIOS)
+		if (geometry.Geometry.BytesPerSector != TC_SECTOR_SIZE_BIOS)
 			throw ErrorException ("SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS", SRC_POS);
 
 		bool activePartitionFound = false;
@@ -4425,17 +4427,17 @@ namespace VeraCrypt
 		// Some chipset drivers may prevent access to the last sector of the drive
 		if (!systemPartitionOnly)
 		{
-			DISK_GEOMETRY geometry = GetDriveGeometry (config.DriveNumber);
-			if ((geometry.BytesPerSector > 0) && (geometry.BytesPerSector < TC_MAX_VOLUME_SECTOR_SIZE))
+			DISK_GEOMETRY_EX geometry = GetDriveGeometry (config.DriveNumber);
+			if ((geometry.Geometry.BytesPerSector > 0) && (geometry.Geometry.BytesPerSector < TC_MAX_VOLUME_SECTOR_SIZE))
 			{
-				Buffer sector (geometry.BytesPerSector);
+				Buffer sector (geometry.Geometry.BytesPerSector);
 
 				Device device (config.DevicePath);
 				device.CheckOpened (SRC_POS);
 
 				try
 				{
-					device.SeekAt (config.DrivePartition.Info.PartitionLength.QuadPart - geometry.BytesPerSector);
+					device.SeekAt (config.DrivePartition.Info.PartitionLength.QuadPart - geometry.Geometry.BytesPerSector);
 					device.Read (sector.Ptr(), (DWORD) sector.Size());
 				}
 				catch (SystemException &e)
