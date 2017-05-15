@@ -10239,18 +10239,25 @@ std::wstring GetWindowsEdition ()
 	return osname;
 }
 
+#ifdef SETUP
+extern wchar_t InstallationPath[TC_MAX_PATH];
+#endif
 
 void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 {
 	wchar_t url [MAX_URL_LENGTH] = {0};
-	wchar_t page[MAX_PATH] = {0};
-	wchar_t installDir[MAX_PATH] = {0};
+	wchar_t page[TC_MAX_PATH] = {0};
+	wchar_t installDir[TC_MAX_PATH] = {0};
 	BOOL buildUrl = TRUE;
 	int r;
 
 	ArrowWaitCursor ();
 	
-	GetModPath (installDir, MAX_PATH);
+#ifdef SETUP
+	StringCbCopyW (installDir, sizeof (installDir), InstallationPath);
+#else
+	GetModPath (installDir, TC_MAX_PATH);
+#endif
 
 	if (strcmp(dest, "donate") == 0)
 	{
