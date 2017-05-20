@@ -1491,8 +1491,6 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 				NTSTATUS ntStatus;
 				DISK_GEOMETRY_EX geo = {0};
 
-				memset (g, 0, sizeof (DISK_GEOMETRY_EX_STRUCT));
-
 				EnsureNullTerminatedString (g->deviceName, sizeof (g->deviceName));
 
 				ntStatus = TCDeviceIoControl (g->deviceName,
