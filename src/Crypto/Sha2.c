@@ -498,11 +498,20 @@ const uint_64t  k512[80] =
 VOID_RETURN sha512_compile(sha512_ctx ctx[1])
 {   uint_64t    v[8], *p = ctx->wbuf;
     uint_32t    j;
+#if defined (TC_WINDOWS_DRIVER) && defined (DEBUG)
+	 uint_32t	  i;
+#endif
 
     memcpy(v, ctx->hash, 8 * sizeof(uint_64t));
 
     for(j = 0; j < 80; j += 16)
     {
+#if defined (TC_WINDOWS_DRIVER) && defined (DEBUG)
+		 for (i = 0; i < 16; i++)
+		 {
+			 v_cycle( i, j);
+		 }
+#else
         v_cycle( 0, j); v_cycle( 1, j);
         v_cycle( 2, j); v_cycle( 3, j);
         v_cycle( 4, j); v_cycle( 5, j);
@@ -511,6 +520,7 @@ VOID_RETURN sha512_compile(sha512_ctx ctx[1])
         v_cycle(10, j); v_cycle(11, j);
         v_cycle(12, j); v_cycle(13, j);
         v_cycle(14, j); v_cycle(15, j);
+#endif
     }
 
     ctx->hash[0] += v[0]; ctx->hash[1] += v[1];

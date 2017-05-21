@@ -80,7 +80,7 @@ void serpent_encrypt_blocks(const unsigned __int8* in, unsigned __int8* out, siz
    unsigned __int32 B0, B1, B2, B3;
    unsigned __int32* round_key = ((unsigned __int32*) ks) + 8;
    size_t i;
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && (!defined (DEBUG) || !defined (TC_WINDOWS_DRIVER))
    if(HasSSE2() && (blocks >= 4))
    {
       while(blocks >= 4)
@@ -159,7 +159,7 @@ void serpent_decrypt_blocks(const unsigned __int8* in, unsigned __int8* out, siz
    unsigned __int32 B0, B1, B2, B3;
    unsigned __int32* round_key = ((unsigned __int32*) ks) + 8;
    size_t i;
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && (!defined (DEBUG) || !defined (TC_WINDOWS_DRIVER))
    if(HasSSE2() && (blocks >= 4))
    {
       while(blocks >= 4)
