@@ -675,7 +675,9 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		break;
 
 	case IOCTL_STORAGE_QUERY_PROPERTY:
-		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_QUERY_PROPERTY)\n");
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_QUERY_PROPERTY)\n");		
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
 		if (EnableExtendedIoctlSupport)
 		{
 			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_PROPERTY_QUERY), ValidateInput))
@@ -683,12 +685,16 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				PSTORAGE_PROPERTY_QUERY pStoragePropQuery = (PSTORAGE_PROPERTY_QUERY) Irp->AssociatedIrp.SystemBuffer;
 				STORAGE_QUERY_TYPE type = pStoragePropQuery->QueryType;
 
+				Dump ("IOCTL_STORAGE_QUERY_PROPERTY - PropertyId = %d, type = %d\n", pStoragePropQuery->PropertyId, type);
+
 				/* return error if an unsupported type is encountered */
-				Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
-				Irp->IoStatus.Information = 0;
+				Irp->IoStatus.Status = STATUS_NOT_SUPPORTED;
 
 				if (	(pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
 					||	(pStoragePropQuery->PropertyId == StorageDeviceProperty)
+					||	(pStoragePropQuery->PropertyId == StorageAdapterProperty)
+					||	(pStoragePropQuery->PropertyId == StorageDeviceSeekPenaltyProperty)
+					||	(pStoragePropQuery->PropertyId == StorageDeviceTrimProperty)
 					)
 				{
 					if (type == PropertyExistsQuery)
@@ -702,16 +708,57 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 						{
 							case StorageDeviceProperty:
 								{
-									if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_DESCRIPTOR), ValidateOutput))
+									/* Add 0x00 for NULL terminating string used as ProductId, ProductRevision, SerialNumber, VendorId */
+									ULONG descriptorSize = sizeof (STORAGE_DEVICE_DESCRIPTOR) + 1;
+									if (ValidateIOBufferSize (Irp, descriptorSize, ValidateOutput))
 									{
 										PSTORAGE_DEVICE_DESCRIPTOR outputBuffer = (PSTORAGE_DEVICE_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
 
 										outputBuffer->Version = sizeof(STORAGE_DEVICE_DESCRIPTOR);
-										outputBuffer->Size = sizeof(STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->Size = descriptorSize;
 										outputBuffer->DeviceType = FILE_DEVICE_DISK;
 										outputBuffer->RemovableMedia = Extension->bRemovable? TRUE : FALSE;
+										outputBuffer->ProductIdOffset = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->SerialNumberOffset = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->ProductRevisionOffset = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->VendorIdOffset = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->BusType = BusTypeVirtual;
 										Irp->IoStatus.Status = STATUS_SUCCESS;
-										Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_DESCRIPTOR);
+										Irp->IoStatus.Information = descriptorSize;
+									}
+									else if (irpSp->Parameters.DeviceIoControl.OutputBufferLength == sizeof (STORAGE_DESCRIPTOR_HEADER))
+									{
+										PSTORAGE_DESCRIPTOR_HEADER outputBuffer = (PSTORAGE_DESCRIPTOR_HEADER) Irp->AssociatedIrp.SystemBuffer;
+										outputBuffer->Version = sizeof(STORAGE_DEVICE_DESCRIPTOR);
+										outputBuffer->Size = descriptorSize;
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (STORAGE_DESCRIPTOR_HEADER);
+									}
+								}
+								break;
+							case StorageAdapterProperty:
+								{
+									ULONG descriptorSize = sizeof (STORAGE_ADAPTER_DESCRIPTOR);
+									if (ValidateIOBufferSize (Irp, descriptorSize, ValidateOutput))
+									{
+										PSTORAGE_ADAPTER_DESCRIPTOR outputBuffer = (PSTORAGE_ADAPTER_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+
+										outputBuffer->Version = sizeof(STORAGE_ADAPTER_DESCRIPTOR);
+										outputBuffer->Size = descriptorSize;
+										outputBuffer->MaximumTransferLength = Extension->HostMaximumTransferLength;
+										outputBuffer->MaximumPhysicalPages = Extension->HostMaximumPhysicalPages;
+										outputBuffer->AlignmentMask = Extension->HostAlignmentMask;
+										outputBuffer->BusType = BusTypeVirtual;
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = descriptorSize;
+									}
+									else if (irpSp->Parameters.DeviceIoControl.OutputBufferLength == sizeof (STORAGE_DESCRIPTOR_HEADER))
+									{
+										PSTORAGE_DESCRIPTOR_HEADER outputBuffer = (PSTORAGE_DESCRIPTOR_HEADER) Irp->AssociatedIrp.SystemBuffer;
+										outputBuffer->Version = sizeof(STORAGE_ADAPTER_DESCRIPTOR);
+										outputBuffer->Size = descriptorSize;
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (STORAGE_DESCRIPTOR_HEADER);
 									}
 								}
 								break;
@@ -724,9 +771,61 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 										outputBuffer->Version = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
 										outputBuffer->Size = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
 										outputBuffer->BytesPerLogicalSector = Extension->BytesPerSector;
-										outputBuffer->BytesPerPhysicalSector = Extension->HostBytesPerPhysicalSector;
+										outputBuffer->BytesPerPhysicalSector = Extension->HostBytesPerPhysicalSector;										
 										Irp->IoStatus.Status = STATUS_SUCCESS;
 										Irp->IoStatus.Information = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+									}
+									else if (irpSp->Parameters.DeviceIoControl.OutputBufferLength == sizeof (STORAGE_DESCRIPTOR_HEADER))
+									{
+										PSTORAGE_DESCRIPTOR_HEADER outputBuffer = (PSTORAGE_DESCRIPTOR_HEADER) Irp->AssociatedIrp.SystemBuffer;
+										outputBuffer->Version = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+										outputBuffer->Size = sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (STORAGE_DESCRIPTOR_HEADER);
+									}
+								}
+								break;
+							case StorageDeviceSeekPenaltyProperty:
+								{
+									if (ValidateIOBufferSize (Irp, sizeof (DEVICE_SEEK_PENALTY_DESCRIPTOR), ValidateOutput))
+									{
+										PDEVICE_SEEK_PENALTY_DESCRIPTOR outputBuffer = (PDEVICE_SEEK_PENALTY_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+
+										outputBuffer->Version = sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR);
+										outputBuffer->Size = sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR);
+										outputBuffer->IncursSeekPenalty = TRUE; //TODO: in case of SSD drive, we should probably return FALSE
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (DEVICE_SEEK_PENALTY_DESCRIPTOR);
+									}
+									else if (irpSp->Parameters.DeviceIoControl.OutputBufferLength == sizeof (STORAGE_DESCRIPTOR_HEADER))
+									{
+										PSTORAGE_DESCRIPTOR_HEADER outputBuffer = (PSTORAGE_DESCRIPTOR_HEADER) Irp->AssociatedIrp.SystemBuffer;
+										outputBuffer->Version = sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR);
+										outputBuffer->Size = sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR);
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (STORAGE_DESCRIPTOR_HEADER);
+									}
+								}
+								break;
+							case StorageDeviceTrimProperty:
+								{
+									if (ValidateIOBufferSize (Irp, sizeof (DEVICE_TRIM_DESCRIPTOR), ValidateOutput))
+									{
+										PDEVICE_TRIM_DESCRIPTOR outputBuffer = (PDEVICE_TRIM_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
+
+										outputBuffer->Version = sizeof(DEVICE_TRIM_DESCRIPTOR);
+										outputBuffer->Size = sizeof(DEVICE_TRIM_DESCRIPTOR);
+										outputBuffer->TrimEnabled = FALSE; /* TODO: implement Trim support for SSD drives */
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (DEVICE_TRIM_DESCRIPTOR);
+									}
+									else if (irpSp->Parameters.DeviceIoControl.OutputBufferLength == sizeof (STORAGE_DESCRIPTOR_HEADER))
+									{
+										PSTORAGE_DESCRIPTOR_HEADER outputBuffer = (PSTORAGE_DESCRIPTOR_HEADER) Irp->AssociatedIrp.SystemBuffer;
+										outputBuffer->Version = sizeof(DEVICE_TRIM_DESCRIPTOR);
+										outputBuffer->Size = sizeof(DEVICE_TRIM_DESCRIPTOR);
+										Irp->IoStatus.Status = STATUS_SUCCESS;
+										Irp->IoStatus.Information = sizeof (STORAGE_DESCRIPTOR_HEADER);
 									}
 								}
 								break;
@@ -735,8 +834,6 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				}
 			}
 		}
-		else
-			return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
 
 		break;
 
