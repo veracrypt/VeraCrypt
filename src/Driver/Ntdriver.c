@@ -40,6 +40,35 @@
 #include <Ntstrsafe.h>
 #include <Intsafe.h>
 
+#ifndef IOCTL_DISK_GET_CLUSTER_INFO
+#define IOCTL_DISK_GET_CLUSTER_INFO				CTL_CODE(IOCTL_DISK_BASE, 0x0085, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#endif
+
+#ifndef IOCTL_DISK_ARE_VOLUMES_READY
+#define IOCTL_DISK_ARE_VOLUMES_READY			CTL_CODE(IOCTL_DISK_BASE, 0x0087, METHOD_BUFFERED, FILE_READ_ACCESS)
+#endif
+
+#ifndef FT_BALANCED_READ_MODE
+#define FTTYPE  ((ULONG)'f') 
+#define FT_BALANCED_READ_MODE						CTL_CODE(FTTYPE, 6, METHOD_NEITHER,  FILE_ANY_ACCESS) 
+#endif
+
+#ifndef IOCTL_VOLUME_QUERY_ALLOCATION_HINT
+#define IOCTL_VOLUME_QUERY_ALLOCATION_HINT      CTL_CODE(IOCTL_VOLUME_BASE, 20, METHOD_OUT_DIRECT, FILE_READ_ACCESS)
+#endif
+
+#ifndef IOCTL_DISK_IS_CLUSTERED
+#define IOCTL_DISK_IS_CLUSTERED             CTL_CODE(IOCTL_DISK_BASE, 0x003e, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#endif
+
+#ifndef IOCTL_VOLUME_POST_ONLINE
+#define IOCTL_VOLUME_POST_ONLINE                CTL_CODE(IOCTL_VOLUME_BASE, 25, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS)
+#endif
+
+#ifndef IOCTL_VOLUME_IS_DYNAMIC
+#define IOCTL_VOLUME_IS_DYNAMIC                 CTL_CODE(IOCTL_VOLUME_BASE, 18, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#endif
+
 /* Init section, which is thrown away as soon as DriverEntry returns */
 #pragma alloc_text(INIT,DriverEntry)
 #pragma alloc_text(INIT,TCCreateRootDeviceObject)
@@ -1023,6 +1052,12 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		Irp->IoStatus.Information = 0;
 		break;
 
+	case IOCTL_VOLUME_POST_ONLINE:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_POST_ONLINE)\n");
+		Irp->IoStatus.Status = STATUS_SUCCESS;
+		Irp->IoStatus.Information = 0;
+		break;
+
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
 		// Vista's filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
@@ -1093,6 +1128,45 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		}
 		break;
 
+	case IOCTL_VOLUME_IS_DYNAMIC:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_IS_DYNAMIC)\n");
+		if (ValidateIOBufferSize (Irp, sizeof (BOOLEAN), ValidateOutput))
+		{
+			BOOLEAN *pbDynamic = (BOOLEAN*) Irp->AssociatedIrp.SystemBuffer;
+
+			*pbDynamic = FALSE;
+
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+			Irp->IoStatus.Information = sizeof (BOOLEAN);
+		}
+		break;
+
+	case IOCTL_DISK_IS_CLUSTERED:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_IS_CLUSTERED)\n");
+		if (ValidateIOBufferSize (Irp, sizeof (BOOLEAN), ValidateOutput))
+		{
+			BOOLEAN *pbIsClustered = (BOOLEAN*) Irp->AssociatedIrp.SystemBuffer;
+
+			*pbIsClustered = FALSE;
+
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+			Irp->IoStatus.Information = sizeof (BOOLEAN);
+		}
+		break;
+
+	case IOCTL_VOLUME_GET_GPT_ATTRIBUTES:
+		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_GPT_ATTRIBUTES)\n");
+		if (ValidateIOBufferSize (Irp, sizeof (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION), ValidateOutput))
+		{
+			VOLUME_GET_GPT_ATTRIBUTES_INFORMATION *pGptAttr = (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION*) Irp->AssociatedIrp.SystemBuffer;
+
+			pGptAttr->GptAttributes = 0; // we are MBR not GPT
+
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+			Irp->IoStatus.Information = sizeof (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION);
+		}
+		break;
+
 	case IOCTL_UNKNOWN_WINDOWS10_EFS_ACCESS:
 		// This undocumented IOCTL is sent when handling EFS data
 		// We must return success otherwise EFS operations fail
@@ -1100,6 +1174,21 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		Irp->IoStatus.Status = STATUS_SUCCESS;
 		Irp->IoStatus.Information = 0;
 
+		break;
+
+	case IOCTL_DISK_GET_CLUSTER_INFO:
+		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_NOT_SUPPORTED for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
+		Irp->IoStatus.Status = STATUS_NOT_SUPPORTED;
+		Irp->IoStatus.Information = 0;		
+		break;
+	
+	case IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT:
+	case IOCTL_DISK_MEDIA_REMOVAL:
+	case IOCTL_VOLUME_QUERY_ALLOCATION_HINT:
+	case FT_BALANCED_READ_MODE:
+		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_INVALID_DEVICE_REQUEST for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;		
 		break;
 	default:
 		Dump ("ProcessVolumeDeviceControlIrp (unknown code 0x%.8X)\n", irpSp->Parameters.DeviceIoControl.IoControlCode);
@@ -1668,6 +1757,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 				NTSTATUS ntStatus;
 
 				EnsureNullTerminatedString (g->deviceName, sizeof (g->deviceName));
+				Dump ("Calling IOCTL_DISK_GET_DRIVE_GEOMETRY on %ls\n", g->deviceName);
 
 				ntStatus = TCDeviceIoControl (g->deviceName,
 					IOCTL_DISK_GET_DRIVE_GEOMETRY,
@@ -1688,6 +1778,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 				DISK_GEOMETRY_EX geo = {0};
 
 				EnsureNullTerminatedString (g->deviceName, sizeof (g->deviceName));
+				Dump ("Calling IOCTL_DISK_GET_DRIVE_GEOMETRY_EX on %ls\n", g->deviceName);
 
 				ntStatus = TCDeviceIoControl (g->deviceName,
 					IOCTL_DISK_GET_DRIVE_GEOMETRY_EX,
@@ -2444,6 +2535,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		return (LPWSTR) _T ("IOCTL_DISK_FIND_NEW_DEVICES");
 	else if (ulCode == IOCTL_DISK_GET_MEDIA_TYPES)
 		return (LPWSTR) _T ("IOCTL_DISK_GET_MEDIA_TYPES");
+	else if (ulCode == IOCTL_DISK_IS_CLUSTERED)
+		return (LPWSTR) _T ("IOCTL_DISK_IS_CLUSTERED");	
 	else if (ulCode == IOCTL_STORAGE_GET_MEDIA_TYPES)
 		return (LPWSTR) _T ("IOCTL_STORAGE_GET_MEDIA_TYPES");
 	else if (ulCode == IOCTL_STORAGE_GET_HOTPLUG_INFO)
@@ -2452,6 +2545,24 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		return (LPWSTR) _T ("IOCTL_STORAGE_SET_HOTPLUG_INFO");
 	else if (ulCode == IOCTL_STORAGE_QUERY_PROPERTY)
 		return (LPWSTR) _T ("IOCTL_STORAGE_QUERY_PROPERTY");
+	else if (ulCode == IOCTL_VOLUME_GET_GPT_ATTRIBUTES)
+		return (LPWSTR) _T ("IOCTL_VOLUME_GET_GPT_ATTRIBUTES");	
+	else if (ulCode == FT_BALANCED_READ_MODE)
+		return (LPWSTR) _T ("FT_BALANCED_READ_MODE");
+	else if (ulCode == IOCTL_VOLUME_QUERY_ALLOCATION_HINT)
+		return (LPWSTR) _T ("IOCTL_VOLUME_QUERY_ALLOCATION_HINT");
+	else if (ulCode == IOCTL_DISK_GET_CLUSTER_INFO)
+		return (LPWSTR) _T ("IOCTL_DISK_GET_CLUSTER_INFO");
+	else if (ulCode == IOCTL_DISK_ARE_VOLUMES_READY)
+		return (LPWSTR) _T ("IOCTL_DISK_ARE_VOLUMES_READY");			
+	else if (ulCode == IOCTL_VOLUME_IS_DYNAMIC)
+		return (LPWSTR) _T ("IOCTL_VOLUME_IS_DYNAMIC");
+	else if (ulCode == IOCTL_MOUNTDEV_QUERY_STABLE_GUID)
+		return (LPWSTR) _T ("IOCTL_MOUNTDEV_QUERY_STABLE_GUID");
+	else if (ulCode == IOCTL_VOLUME_POST_ONLINE)
+		return (LPWSTR) _T ("IOCTL_VOLUME_POST_ONLINE");
+	else if (ulCode == IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT)
+		return (LPWSTR) _T ("IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT");
 	else if (ulCode == IRP_MJ_READ)
 		return (LPWSTR) _T ("IRP_MJ_READ");
 	else if (ulCode == IRP_MJ_WRITE)
@@ -2976,6 +3087,7 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 
 	if (!SelfTestsPassed)
 	{
+		Dump ("Failure of built-in automatic self-tests! Mounting not allowed.\n");
 		mount->nReturnCode = ERR_SELF_TESTS_FAILED;
 		return ERR_SELF_TESTS_FAILED;
 	}
