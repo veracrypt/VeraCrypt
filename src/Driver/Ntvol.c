@@ -704,7 +704,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				Extension->TracksPerCylinder = 1;
 				Extension->SectorsPerTrack = 1;
 				Extension->BytesPerSector = Extension->cryptoInfo->SectorSize;
-				Extension->NumberOfCylinders = Extension->DiskLength / Extension->BytesPerSector;
+				// Add extra sector since our virtual partition starts at Extension->BytesPerSector and not 0
+				Extension->NumberOfCylinders = (Extension->DiskLength / Extension->BytesPerSector) + 1;
 				Extension->PartitionType = 0;
 
 				Extension->bRawDevice = bRawDevice;
