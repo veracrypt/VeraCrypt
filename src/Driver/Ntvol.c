@@ -63,6 +63,11 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	Extension->hDeviceFile = NULL;
 	Extension->bTimeStampValid = FALSE;
 
+	/* default value for storage alignment */
+	Extension->HostMaximumTransferLength = 65536;
+	Extension->HostMaximumPhysicalPages = 17;
+	Extension->HostAlignmentMask = 0;
+
 	RtlInitUnicodeString (&FullFileName, pwszMountVolume);
 	InitializeObjectAttributes (&oaFileAttributes, &FullFileName, OBJ_CASE_INSENSITIVE | (forceAccessCheck ? OBJ_FORCE_ACCESS_CHECK : 0) | OBJ_KERNEL_HANDLE, NULL, NULL);
 	KeInitializeEvent (&Extension->keVolumeEvent, NotificationEvent, FALSE);
@@ -129,6 +134,31 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 				TCfree (outputBuffer);			
 			}
+
+			storagePropertyQuery.PropertyId = StorageAdapterProperty;
+			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+				(char *) &storageHeader, sizeof (storageHeader))))
+			{
+				byte* outputBuffer = TCalloc (storageHeader.Size);
+				if (!outputBuffer)
+				{
+					ntStatus = STATUS_INSUFFICIENT_RESOURCES;
+					goto error;
+				}
+
+				if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+					(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+					outputBuffer, storageHeader.Size)))
+				{
+					PSTORAGE_ADAPTER_DESCRIPTOR pStorageDescriptor = (PSTORAGE_ADAPTER_DESCRIPTOR) outputBuffer;
+					Extension->HostMaximumTransferLength = pStorageDescriptor->MaximumTransferLength;
+					Extension->HostMaximumPhysicalPages = pStorageDescriptor->MaximumPhysicalPages;
+					Extension->HostAlignmentMask = pStorageDescriptor->AlignmentMask;
+				}
+
+				TCfree (outputBuffer);			
+			}
 		}
 
 		// Drive geometry is used only when IOCTL_DISK_GET_PARTITION_INFO fails
@@ -179,6 +209,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 		Extension->HostBytesPerSector = mount->BytesPerSector;
 		Extension->HostBytesPerPhysicalSector = mount->BytesPerPhysicalSector;
+		Extension->HostMaximumTransferLength = mount->MaximumTransferLength;
+		Extension->HostMaximumPhysicalPages = mount->MaximumPhysicalPages;
+		Extension->HostAlignmentMask = mount->AlignmentMask;
 
 		if (Extension->HostBytesPerSector != TC_SECTOR_SIZE_FILE_HOSTED_VOLUME)
 			disableBuffering = FALSE;

@@ -172,6 +172,9 @@ typedef struct
 	BOOL bIsNTFS; // output only
 	BOOL bDriverSetLabel;
 	BOOL bCachePim;
+	ULONG MaximumTransferLength;
+	ULONG MaximumPhysicalPages;
+	ULONG AlignmentMask;
 } MOUNT_STRUCT;
 
 typedef struct

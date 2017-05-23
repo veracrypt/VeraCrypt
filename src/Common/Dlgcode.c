@@ -7228,12 +7228,83 @@ void BroadcastDeviceChange (WPARAM message, int nDosDriveNo, DWORD driveMap)
 	IgnoreWmDeviceChange = FALSE;
 }
 
-BOOL GetPhysicalDriveAlignment(UINT nDriveNumber, STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR* pDesc)
+static BOOL GetDeviceStorageProperty (HANDLE hDevice, STORAGE_PROPERTY_ID propertyId, DWORD dwDescSize, void* pDesc)
 {
 	DWORD dwRet = NO_ERROR;
 
 	if (!pDesc)
 		return FALSE;
+
+	ZeroMemory (pDesc, dwDescSize);
+
+	// Set the input data structure
+	STORAGE_PROPERTY_QUERY storagePropertyQuery;
+	ZeroMemory(&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY));
+	storagePropertyQuery.PropertyId = propertyId;
+	storagePropertyQuery.QueryType = PropertyStandardQuery;
+
+	// Get the necessary output buffer size
+	STORAGE_DESCRIPTOR_HEADER descHeader = {0};
+	DWORD dwBytesReturned = 0;
+	BOOL bRet = ::DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY,
+		&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY),
+		&descHeader, sizeof(STORAGE_DESCRIPTOR_HEADER),
+		&dwBytesReturned, NULL);
+	if (bRet)
+	{
+		if (dwBytesReturned == sizeof(STORAGE_DESCRIPTOR_HEADER))
+		{
+			unsigned char* outputBuffer = (unsigned char*) TCalloc (descHeader.Size);
+			bRet = ::DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY,
+				&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY),
+				outputBuffer, descHeader.Size,
+				&dwBytesReturned, NULL);
+			if (bRet)
+			{
+				if (dwBytesReturned >= dwDescSize)
+				{
+					memcpy (pDesc, outputBuffer, dwDescSize);
+					((STORAGE_DESCRIPTOR_HEADER*)pDesc)->Version = dwDescSize;
+					((STORAGE_DESCRIPTOR_HEADER*)pDesc)->Size = dwDescSize;
+				}
+				else
+				{
+					bRet = FALSE;
+					dwRet = ERROR_UNHANDLED_ERROR;
+				}
+			}
+			else
+				dwRet = ::GetLastError();
+			TCfree (outputBuffer);
+		}
+		else
+		{
+			bRet = FALSE;
+			dwRet = ERROR_UNHANDLED_ERROR;
+		}
+	}
+	else
+		dwRet = ::GetLastError();
+	::CloseHandle(hDevice);
+
+	if (!bRet)
+	{
+		SetLastError (dwRet);
+		return FALSE;
+	}
+	else
+		return TRUE;
+}
+
+BOOL GetPhysicalDriveStorageInformation(UINT nDriveNumber, STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR* pAlignmentDesc, STORAGE_ADAPTER_DESCRIPTOR* pAdapterDesc)
+{
+	DWORD dwRet = NO_ERROR;
+
+	if (!pAlignmentDesc || pAdapterDesc)
+	{
+		SetLastError (ERROR_INVALID_PARAMETER);
+		return FALSE;
+	}
 
 	// Format physical drive path (may be '\\.\PhysicalDrive0', '\\.\PhysicalDrive1' and so on).
 	TCHAR strDrivePath[512];
@@ -7246,18 +7317,8 @@ BOOL GetPhysicalDriveAlignment(UINT nDriveNumber, STORAGE_ACCESS_ALIGNMENT_DESCR
 	if(INVALID_HANDLE_VALUE == hDevice)
 		return FALSE;
 
-	// Set the input data structure
-	STORAGE_PROPERTY_QUERY storagePropertyQuery;
-	ZeroMemory(&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY));
-	storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
-	storagePropertyQuery.QueryType = PropertyStandardQuery;
-
-	// Get the necessary output buffer size
-	DWORD dwBytesReturned = 0;
-	BOOL bRet = ::DeviceIoControl(hDevice, IOCTL_STORAGE_QUERY_PROPERTY,
-		&storagePropertyQuery, sizeof(STORAGE_PROPERTY_QUERY),
-		pDesc, sizeof(STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR),
-		&dwBytesReturned, NULL);
+	BOOL bRet = (GetDeviceStorageProperty (hDevice, StorageAccessAlignmentProperty, sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR), pAlignmentDesc)
+		|| GetDeviceStorageProperty (hDevice, StorageAdapterProperty, sizeof (STORAGE_ADAPTER_DESCRIPTOR), pAdapterDesc))? TRUE : FALSE;
 	dwRet = ::GetLastError();
 	::CloseHandle(hDevice);
 
@@ -7621,6 +7682,13 @@ retry:
 
 	if (!bDevice)
 	{
+		// put default values
+		mount.BytesPerSector = 512;
+		mount.BytesPerPhysicalSector = 512;
+		mount.MaximumTransferLength = 65536;
+		mount.MaximumPhysicalPages = 17;
+		mount.AlignmentMask = 0;
+
 		// UNC path
 		if (path.find (L"\\\\") == 0)
 		{
@@ -7655,11 +7723,23 @@ retry:
 						{
 							if (extents.NumberOfDiskExtents > 0)
 							{
-								STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR desc;
-								if (GetPhysicalDriveAlignment (extents.Extents[0].DiskNumber, &desc))
+								STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR accessDesc;
+								STORAGE_ADAPTER_DESCRIPTOR adapterDesc;
+
+								if (GetPhysicalDriveStorageInformation (extents.Extents[0].DiskNumber, &accessDesc, &adapterDesc))
 								{
-									mount.BytesPerSector = desc.BytesPerLogicalSector;
-									mount.BytesPerPhysicalSector = desc.BytesPerPhysicalSector;
+									if (accessDesc.Size >= sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR))
+									{
+										mount.BytesPerSector = accessDesc.BytesPerLogicalSector;
+										mount.BytesPerPhysicalSector = accessDesc.BytesPerPhysicalSector;
+									}
+
+									if (adapterDesc.Size >= sizeof (STORAGE_ADAPTER_DESCRIPTOR))
+									{
+										mount.MaximumTransferLength = adapterDesc.MaximumTransferLength;
+										mount.MaximumPhysicalPages = adapterDesc.MaximumPhysicalPages;
+										mount.AlignmentMask = adapterDesc.AlignmentMask;
+									}
 								}
 							}
 						}
