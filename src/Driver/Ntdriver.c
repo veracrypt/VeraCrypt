@@ -1096,7 +1096,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		}
 		break;
 
-	case IOCTL_STORAGE_GET_DEVICE_NUMBER:
+	/*case IOCTL_STORAGE_GET_DEVICE_NUMBER:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_DEVICE_NUMBER)\n");
 		if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_NUMBER), ValidateOutput))
 		{
@@ -1109,7 +1109,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_NUMBER);
 		}
-		break;
+		break;*/
 
 	case IOCTL_STORAGE_GET_HOTPLUG_INFO:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_HOTPLUG_INFO)\n");
@@ -1186,6 +1186,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 	case IOCTL_DISK_MEDIA_REMOVAL:
 	case IOCTL_VOLUME_QUERY_ALLOCATION_HINT:
 	case FT_BALANCED_READ_MODE:
+	case IOCTL_STORAGE_GET_DEVICE_NUMBER:
 		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_INVALID_DEVICE_REQUEST for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
 		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 		Irp->IoStatus.Information = 0;		
