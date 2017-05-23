@@ -84,7 +84,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		LARGE_INTEGER diskLengthInfo;
 		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
-		STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR storageDescriptor = {0};
+		STORAGE_DESCRIPTOR_HEADER storageHeader = {0};
 
 		ntStatus = IoGetDeviceObjectPointer (&FullFileName,
 			FILE_READ_DATA | FILE_READ_ATTRIBUTES,
@@ -100,20 +100,35 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 		lDiskLength.QuadPart = dg.DiskSize.QuadPart;
 		Extension->HostBytesPerSector = dg.Geometry.BytesPerSector;
-
-		storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
-		storagePropertyQuery.QueryType = PropertyStandardQuery;
+		Extension->HostBytesPerPhysicalSector = dg.Geometry.BytesPerSector;
 
 		/* IOCTL_STORAGE_QUERY_PROPERTY supported only on Vista and above */
-		if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
-			(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
-			(char *) &storageDescriptor, sizeof (storageDescriptor))))
+		if (OsMajorVersion >= 6)
 		{
-			Extension->HostBytesPerPhysicalSector = storageDescriptor.BytesPerPhysicalSector;
-		}
-		else
-		{
-			Extension->HostBytesPerPhysicalSector = dg.Geometry.BytesPerSector;
+			storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
+			storagePropertyQuery.QueryType = PropertyStandardQuery;
+
+			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+				(char *) &storageHeader, sizeof (storageHeader))))
+			{
+				byte* outputBuffer = TCalloc (storageHeader.Size);
+				if (!outputBuffer)
+				{
+					ntStatus = STATUS_INSUFFICIENT_RESOURCES;
+					goto error;
+				}
+
+				if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+					(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+					outputBuffer, storageHeader.Size)))
+				{
+					PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR pStorageDescriptor = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) outputBuffer;
+					Extension->HostBytesPerPhysicalSector = pStorageDescriptor->BytesPerPhysicalSector;
+				}
+
+				TCfree (outputBuffer);			
+			}
 		}
 
 		// Drive geometry is used only when IOCTL_DISK_GET_PARTITION_INFO fails
