@@ -1356,7 +1356,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 									case 0xEB3C904D53444F53: // FAT16
 									case 0xEB58904D53444F53: // FAT32
 									case 0xEB76904558464154: // exFAT
-
+									case 0x0000005265465300: // ReFS
 										opentest->FilesystemDetected = TRUE;
 										break;
 									}
