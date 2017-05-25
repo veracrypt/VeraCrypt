@@ -7664,8 +7664,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 							/* Hidden volume host successfully mounted as read-only */
 
-							WaitCursor ();
-
 							// Verify that the outer volume contains a suitable file system, retrieve cluster size, and
 							// scan the volume bitmap
 							if (!IsAdmin () && IsUacSupported ())
