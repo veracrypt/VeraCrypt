@@ -692,6 +692,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			// mount it (i.e. not just to protect it)
 			if (volumeType == TC_VOLUME_TYPE_NORMAL || !mount->bProtectHiddenVolume)
 			{
+				LARGE_INTEGER dataOffset;
+				ULONG dataLength;
 				// Validate sector size
 				if (bRawDevice && Extension->cryptoInfo->SectorSize != Extension->HostBytesPerSector)
 				{
@@ -707,6 +709,76 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				// Add extra sector since our virtual partition starts at Extension->BytesPerSector and not 0
 				Extension->NumberOfCylinders = (Extension->DiskLength / Extension->BytesPerSector) + 1;
 				Extension->PartitionType = 0;
+
+				// Try to detect the filesystem used by the volume in order to give a correct value to Extension->PartitionType
+				dataOffset.QuadPart = (LONGLONG) Extension->cryptoInfo->volDataAreaOffset;
+				dataLength = bRawDevice ? Extension->HostBytesPerSector : TC_VOLUME_HEADER_EFFECTIVE_SIZE;
+
+				Dump ("Reading first data at %I64d\n", dataOffset.QuadPart);
+
+				if (NT_SUCCESS (ZwReadFile (Extension->hDeviceFile,
+													NULL,
+													NULL,
+													NULL,
+													&IoStatusBlock,
+													readBuffer,
+													dataLength,
+													&dataOffset,
+													NULL)))
+				{
+					uint64 fsId = 0;
+					UINT64_STRUCT dataUnit;
+					
+					dataUnit.Value = Extension->cryptoInfo->volDataAreaOffset / ENCRYPTION_DATA_UNIT_SIZE;
+
+					if (Extension->cryptoInfo->bPartitionInInactiveSysEncScope)
+						dataUnit.Value += Extension->cryptoInfo->FirstDataUnitNo.Value;
+					DecryptDataUnits ((unsigned char*) readBuffer, &dataUnit, dataLength / ENCRYPTION_DATA_UNIT_SIZE, Extension->cryptoInfo);
+
+					fsId = BE64 (*(uint64 *) readBuffer);
+
+					switch (fsId)
+					{
+					case 0xEB3C904D53444F53: // FAT16						
+						// workaround for FAT32 formatting by TrueCrypt/VeraCrypt
+						if (memcmp (readBuffer + 0x52, "FAT32   ", 8) == 0)
+						{
+							Extension->PartitionType = PARTITION_FAT32;
+							Dump ("FAT32 detected with FAT16 header\n");
+						}
+						else
+						{
+							Extension->PartitionType = PARTITION_FAT_16;
+							Dump ("FAT16 detected\n");
+						}
+						break;
+					case 0xEB58906D6B66732E: // mkfs.fat
+					case 0xEB58906D6B646F73: // mkfs.vfat/mkdosfs
+					case 0xEB58904D53444F53: // FAT32
+						Extension->PartitionType = PARTITION_FAT32;
+						Dump ("FAT32 detected\n");
+						break;
+					case 0xEB52904E54465320: // NTFS
+						Extension->PartitionType = PARTITION_IFS;
+						Dump ("NTFS detected\n");
+						break;
+					case 0xEB76904558464154: // exFAT
+						Extension->PartitionType = PARTITION_IFS;
+						Dump ("exFAT detected\n");
+						break;
+					case 0x0000005265465300: // ReFS
+						Extension->PartitionType = PARTITION_IFS;
+						Dump ("ReFS detected\n");
+						break;
+					default:
+						Dump ("Unknown FS ID (0x%.8I64x)\n", fsId);
+						break;
+					}
+
+					// erase sensitive data
+					EncryptDataUnits ((unsigned char*) readBuffer, &dataUnit, dataLength / ENCRYPTION_DATA_UNIT_SIZE, Extension->cryptoInfo);
+					burn (readBuffer, dataLength);
+				}
 
 				Extension->bRawDevice = bRawDevice;
 
