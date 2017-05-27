@@ -2540,13 +2540,34 @@ void DoPostInstallTasks (HWND hwndDlg)
 		SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_REMOVE_ALL);
 }
 
+/*
+ * Use RtlGetVersion to get Windows version because GetVersionEx is affected by application manifestation.
+ */
+typedef NTSTATUS (WINAPI* RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
+
+static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
+{
+	BOOL bRet = FALSE;
+	RtlGetVersionPtr RtlGetVersionFn = (RtlGetVersionPtr) GetProcAddress(GetModuleHandle (L"ntdll.dll"), "RtlGetVersion");
+	if (RtlGetVersionFn != NULL)
+	{
+		if (ERROR_SUCCESS == RtlGetVersionFn (lpVersionInformation))
+			bRet = TRUE;
+	}
+
+	if (!bRet)
+		bRet = GetVersionExW (lpVersionInformation);
+
+	return bRet;
+}
+
 
 void InitOSVersionInfo ()
 {
 	OSVERSIONINFOEXW os;
 	os.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEXW);
 
-	if (GetVersionExW ((LPOSVERSIONINFOW) &os) == FALSE)
+	if (GetWindowsVersion ((LPOSVERSIONINFOW) &os) == FALSE)
 		AbortProcess ("NO_OS_VER");
 
 	CurrentOSMajor = os.dwMajorVersion;
