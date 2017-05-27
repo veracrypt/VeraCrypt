@@ -86,6 +86,7 @@ static void StopFormatWriteThread ();
 #define FILESYS_FAT		1
 #define FILESYS_NTFS	2
 #define FILESYS_EXFAT	3
+#define FILESYS_REFS	4
 
 #ifdef __cplusplus
 }

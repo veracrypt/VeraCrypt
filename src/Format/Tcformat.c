@@ -2556,7 +2556,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	// Check administrator privileges
 	if (!IsAdmin () && !IsUacSupported ())
 	{
-		if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT)
+		if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT  || fileSystem == FILESYS_REFS)
 		{
 			if (Silent || (MessageBoxW (hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_NTFS"), lpszTitle, MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2) == IDCANCEL))
 				goto cancel;
@@ -4835,6 +4835,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				BOOL bNTFSallowed = FALSE;
 				BOOL bFATallowed = FALSE;
 				BOOL bEXFATallowed = FALSE;
+				BOOL bReFSallowed = FALSE;
 				BOOL bNoFSallowed = FALSE;
 				HCRYPTPROV hRngProv;
 
@@ -4971,6 +4972,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						AddComboPair (GetDlgItem (hwndDlg, IDC_FILESYS), L"exFAT", FILESYS_EXFAT);
 						bEXFATallowed = TRUE;
 					}
+
+					//ReFS write support activated by default starting from Windows 10
+					//We don't support it yet for the creation of hidden volumes
+					if ((!bHiddenVolHost) && IsOSVersionAtLeast (WIN_10, 0) && dataAreaSize >= TC_MIN_REFS_FS_SIZE && dataAreaSize <= TC_MAX_REFS_FS_SIZE)
+					{
+						AddComboPair (GetDlgItem (hwndDlg, IDC_FILESYS), L"ReFS", FILESYS_REFS);
+						bReFSallowed = TRUE;
+					}
 				}
 				else
 				{
@@ -4992,12 +5001,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					// Set default file system
 
-					if (bFATallowed && !(nNeedToStoreFilesOver4GB == 1 && (bNTFSallowed || bEXFATallowed)))
+					if (bFATallowed && !(nNeedToStoreFilesOver4GB == 1 && (bNTFSallowed || bEXFATallowed || bReFSallowed)))
 						fileSystem = FILESYS_FAT;
 					else if (bEXFATallowed)
 						fileSystem = FILESYS_EXFAT;
 					else if (bNTFSallowed)
 						fileSystem = FILESYS_NTFS;
+					else if (bReFSallowed)
+						fileSystem = FILESYS_REFS;
 					else if (bNoFSallowed)
 						fileSystem = FILESYS_NONE;
 					else
@@ -6175,6 +6186,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					)
 				{
 					AbortProcess ("ERR_EXFAT_INVALID_VOLUME_SIZE");
+				}
+
+				if (	(fileSystem == FILESYS_REFS) &&
+						(dataAreaSize < TC_MIN_REFS_FS_SIZE || dataAreaSize > TC_MAX_REFS_FS_SIZE)
+					)
+				{
+					AbortProcess ("ERR_REFS_INVALID_VOLUME_SIZE");
 				}
 
 				if (	(fileSystem == FILESYS_FAT) &&
@@ -8294,7 +8312,7 @@ retryCDDriveCheck:
 				{
 					// Creating a non-hidden volume under a hidden OS
 
-					if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT)
+					if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT || fileSystem == FILESYS_REFS)
 					{
 						WarningDirect ((wstring (GetString ("CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS"))
 							+ L"\n\n"
@@ -8965,6 +8983,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							CmdVolumeFilesystem = FILESYS_NTFS;
 						else if (IsOSVersionAtLeast (WIN_VISTA, 1) && _wcsicmp(szTmp, L"EXFAT") == 0)
 							CmdVolumeFilesystem = FILESYS_EXFAT;
+						else if (IsOSVersionAtLeast (WIN_10, 0) && _wcsicmp(szTmp, L"ReFS") == 0)
+							CmdVolumeFilesystem = FILESYS_REFS;
 						else
 						{
 							AbortProcess ("COMMAND_LINE_ERROR");

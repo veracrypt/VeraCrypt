@@ -475,6 +475,7 @@ begin_format:
 	case FILESYS_NONE:
 	case FILESYS_NTFS:
 	case FILESYS_EXFAT:
+	case FILESYS_REFS:
 
 		if (volParams->bDevice && !StartFormatWriteThread())
 		{
@@ -626,7 +627,7 @@ begin_format:
 	}
 
 #ifndef DEBUG
-	if (volParams->quickFormat && volParams->fileSystem != FILESYS_NTFS && volParams->fileSystem != FILESYS_EXFAT)
+	if (volParams->quickFormat && volParams->fileSystem != FILESYS_NTFS && volParams->fileSystem != FILESYS_EXFAT && && volParams->fileSystem != FILESYS_REFS)
 		Sleep (500);	// User-friendly GUI
 #endif
 
@@ -660,13 +661,13 @@ error:
 		goto fv_end;
 	}
 
-	if (volParams->fileSystem == FILESYS_NTFS || volParams->fileSystem == FILESYS_EXFAT)
+	if (volParams->fileSystem == FILESYS_NTFS || volParams->fileSystem == FILESYS_EXFAT || volParams->fileSystem == FILESYS_REFS)
 	{
 		// Quick-format volume as NTFS
 		int driveNo = GetLastAvailableDrive ();
 		MountOptions mountOptions;
 		int retCode;
-		int fsType = (volParams->fileSystem == FILESYS_EXFAT)? FILESYS_EXFAT: FILESYS_NTFS;
+		int fsType = volParams->fileSystem;
 
 		ZeroMemory (&mountOptions, sizeof (mountOptions));
 
@@ -931,6 +932,9 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 			break;
 		case FILESYS_EXFAT:
 			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"EXFAT");
+			break;
+		case FILESYS_REFS:
+			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"ReFS");
 			break;
 		default:
 			return FALSE;
