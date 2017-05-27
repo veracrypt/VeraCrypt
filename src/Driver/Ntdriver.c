@@ -1353,12 +1353,14 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 									switch (BE64 (*(uint64 *) readBuffer))
 									{
 									case 0xEB52904E54465320: // NTFS
-									case 0xEB3C904D53444F53: // FAT16
+									case 0xEB3C904D53444F53: // FAT16/FAT32
 									case 0xEB58904D53444F53: // FAT32
 									case 0xEB76904558464154: // exFAT
 									case 0x0000005265465300: // ReFS
-									case 0xEB58906D6B66732E: // FAT by mkfs.fat
-									case 0xEB58906D6B646F73: // FAT by mkfs.vfat/mkdosfs
+									case 0xEB58906D6B66732E: // FAT32 mkfs.fat
+									case 0xEB58906D6B646F73: // FAT32 mkfs.vfat/mkdosfs
+									case 0xEB3C906D6B66732E: // FAT16/FAT12 mkfs.fat
+									case 0xEB3C906D6B646F73: // FAT16/FAT12 mkfs.vfat/mkdosfs
 										opentest->FilesystemDetected = TRUE;
 										break;
 									}

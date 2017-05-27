@@ -739,7 +739,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 					switch (fsId)
 					{
-					case 0xEB3C904D53444F53: // FAT16						
+					case 0xEB3C904D53444F53: // FAT16/FAT12
+					case 0xEB3C906D6B66732E: // mkfs.fat
+					case 0xEB3C906D6B646F73: // mkfs.vfat/mkdosfs
 						// workaround for FAT32 formatting by TrueCrypt/VeraCrypt
 						if (memcmp (readBuffer + 0x52, "FAT32   ", 8) == 0)
 						{
@@ -748,8 +750,16 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 						}
 						else
 						{
-							Extension->PartitionType = PARTITION_FAT_16;
-							Dump ("FAT16 detected\n");
+							if (memcmp (readBuffer + 0x36, "FAT12   ", 8) == 0)
+							{
+								Extension->PartitionType = PARTITION_FAT_12;
+								Dump ("FAT12 detected\n");
+							}
+							else
+							{
+								Extension->PartitionType = PARTITION_FAT_16;
+								Dump ("FAT16 detected\n");
+							}
 						}
 						break;
 					case 0xEB58906D6B66732E: // mkfs.fat
