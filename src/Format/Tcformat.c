@@ -3638,6 +3638,36 @@ void DisableIfGpt(HWND control)
    }
 }
 
+static void UpdateClusterSizeList (HWND hwndDlg, int fsType)
+{
+	SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_RESETCONTENT, 0, 0);
+	AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), GetString ("DEFAULT"), 0);
+
+	for (int i = 1; i <= 128; i *= 2)
+	{
+		wstringstream s;
+		DWORD size = GetFormatSectorSize() * i;
+
+		if (size > TC_MAX_FAT_CLUSTER_SIZE)
+			break;
+
+		/* ReFS supports only 4KiB and 64KiB clusters */
+		if ((fsType == FILESYS_REFS) && (size != 4*BYTES_PER_KB) && (size != 64*BYTES_PER_KB))
+			continue;
+
+		if (size == 512)
+			s << L"0.5";
+		else
+			s << size / BYTES_PER_KB;
+
+		s << L" " << GetString ("KB");
+
+		AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), s.str().c_str(), i);
+	}
+
+	SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_SETCURSEL, 0, 0);
+}
+
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
    should return nonzero if it processes the message, and zero if it does
    not. - see DialogProc */
@@ -4915,29 +4945,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetWindowText (GetDlgItem (hwndDlg, IDC_HEADER_KEY), showKeys ? L"" : L"********************************                                              ");
 				SetWindowText (GetDlgItem (hwndDlg, IDC_DISK_KEY), showKeys ? L"" : L"********************************                                              ");
 
-				SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_RESETCONTENT, 0, 0);
-				AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), GetString ("DEFAULT"), 0);
-
-				for (int i = 1; i <= 128; i *= 2)
-				{
-					wstringstream s;
-					DWORD size = GetFormatSectorSize() * i;
-
-					if (size > TC_MAX_FAT_CLUSTER_SIZE)
-						break;
-
-					if (size == 512)
-						s << L"0.5";
-					else
-						s << size / BYTES_PER_KB;
-
-					s << L" " << GetString ("KB");
-
-					AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), s.str().c_str(), i);
-				}
-
-				SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_SETCURSEL, 0, 0);
-
 				EnableWindow (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), TRUE);
 
 				/* Filesystems */
@@ -5020,6 +5027,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SendMessage (GetDlgItem (hwndDlg, IDC_FILESYS), CB_SETCURSEL, 0, 0);
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_FILESYS), (int *) &fileSystem);
+
+				UpdateClusterSizeList (hwndDlg, fileSystem);
 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ABORT_BUTTON), FALSE);
 
@@ -5885,6 +5894,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			fileSystem = (int) SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETITEMDATA,
 				SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETCURSEL, 0, 0) , 0);
+
+			if (nCurPageNo == FORMAT_PAGE)
+			{
+				UpdateClusterSizeList (hCurPage, fileSystem);
+			}
 
 			return 1;
 		}
