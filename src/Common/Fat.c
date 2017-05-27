@@ -139,7 +139,7 @@ PutBoot (fatparams * ft, unsigned char *boot)
 	int cnt = 0;
 
 	boot[cnt++] = 0xeb;	/* boot jump */
-	boot[cnt++] = 0x3c;
+	boot[cnt++] = (ft->size_fat == 32)? 0x58: 0x3c;
 	boot[cnt++] = 0x90;
 	memcpy (boot + cnt, "MSDOS5.0", 8); /* system id */
 	cnt += 8;
