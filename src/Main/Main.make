@@ -174,7 +174,7 @@ endif
 
 	cp $(PWD)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
 	cp $(PWD)/Resources/Icons/VeraCrypt_Volume.icns $(APPNAME).app/Contents/Resources
-	cp "$(PWD)/Release/Setup Files/VeraCrypt User Guide.pdf" $(APPNAME).app/Contents/Resources
+	cp "$(PWD)/../doc/VeraCrypt User Guide.pdf" $(APPNAME).app/Contents/Resources
 
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
@@ -204,7 +204,7 @@ ifeq "$(TC_BUILD_CONFIG)" "Release"
 	cp $(PWD)/Setup/Linux/$(APPNAME)-uninstall.sh $(PWD)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
 	chmod +x $(PWD)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
 	cp $(PWD)/License.txt $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/License.txt
-	cp "$(PWD)/Release/Setup Files/VeraCrypt User Guide.pdf" "$(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/VeraCrypt User Guide.pdf"
+	cp "$(PWD)/../doc/VeraCrypt User Guide.pdf" "$(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/VeraCrypt User Guide.pdf"
 
 ifndef TC_NO_GUI
 	mkdir -p $(PWD)/Setup/Linux/usr/share/applications
