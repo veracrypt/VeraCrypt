@@ -11,6 +11,11 @@ signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeS
 
 cd "..\Release\Setup Files\"
 
+copy ..\..\LICENSE .
+copy ..\..\License.txt .
+copy ..\..\NOTICE .
+copy "..\..\..\doc\VeraCrypt User Guide.pdf" .
+
 del *.xml
 copy /V /Y ..\..\..\Translations\*.xml .
 
@@ -22,6 +27,11 @@ del docs.zip
 7z a -y docs.zip docs
 
 "VeraCrypt Setup.exe" /p
+
+del LICENSE
+del License.txt
+del NOTICE
+del "VeraCrypt User Guide.pdf"
 
 del *.xml
 del docs.zip
