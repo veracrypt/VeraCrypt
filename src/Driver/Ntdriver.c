@@ -203,6 +203,16 @@ void DumpMemory (void *mem, int size)
 	}
 }
 
+BOOL IsAllZeroes (unsigned char* pbData, DWORD dwDataLen)
+{
+	while (dwDataLen--)
+	{
+		if (*pbData)
+			return FALSE;
+		pbData++;
+	}
+	return TRUE;
+}
 
 BOOL ValidateIOBufferSize (PIRP irp, size_t requiredBufferSize, ValidateIOBufferSizeType type)
 {
@@ -1293,7 +1303,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 
 			InitializeObjectAttributes (&ObjectAttributes, &FullFileName, OBJ_CASE_INSENSITIVE | OBJ_KERNEL_HANDLE, NULL, NULL);
 
-			if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem || opentest->bMatchVolumeID)
+			if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem || opentest->bComputeVolumeIDs)
 				access |= FILE_READ_DATA;
 
 			ntStatus = ZwCreateFile (&NtFileHandle,
@@ -1304,9 +1314,10 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			{
 				opentest->TCBootLoaderDetected = FALSE;
 				opentest->FilesystemDetected = FALSE;
-				opentest->VolumeIDMatched = FALSE;
+				memset (opentest->VolumeIDComputed, 0, sizeof (opentest->VolumeIDComputed));
+				memset (opentest->volumeIDs, 0, sizeof (opentest->volumeIDs));
 
-				if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem || opentest->bMatchVolumeID)
+				if (opentest->bDetectTCBootLoader || opentest->DetectFilesystem || opentest->bComputeVolumeIDs)
 				{
 					byte *readBuffer = TCalloc (TC_MAX_VOLUME_SECTOR_SIZE);
 					if (!readBuffer)
@@ -1352,27 +1363,30 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 								{
 									switch (BE64 (*(uint64 *) readBuffer))
 									{
-									case 0xEB52904E54465320: // NTFS
-									case 0xEB3C904D53444F53: // FAT16/FAT32
-									case 0xEB58904D53444F53: // FAT32
-									case 0xEB76904558464154: // exFAT
-									case 0x0000005265465300: // ReFS
-									case 0xEB58906D6B66732E: // FAT32 mkfs.fat
-									case 0xEB58906D6B646F73: // FAT32 mkfs.vfat/mkdosfs
-									case 0xEB3C906D6B66732E: // FAT16/FAT12 mkfs.fat
-									case 0xEB3C906D6B646F73: // FAT16/FAT12 mkfs.vfat/mkdosfs
+									case 0xEB52904E54465320ULL: // NTFS
+									case 0xEB3C904D53444F53ULL: // FAT16/FAT32
+									case 0xEB58904D53444F53ULL: // FAT32
+									case 0xEB76904558464154ULL: // exFAT
+									case 0x0000005265465300ULL: // ReFS
+									case 0xEB58906D6B66732EULL: // FAT32 mkfs.fat
+									case 0xEB58906D6B646F73ULL: // FAT32 mkfs.vfat/mkdosfs
+									case 0xEB3C906D6B66732EULL: // FAT16/FAT12 mkfs.fat
+									case 0xEB3C906D6B646F73ULL: // FAT16/FAT12 mkfs.vfat/mkdosfs
 										opentest->FilesystemDetected = TRUE;
+										break;
+									case 0x0000000000000000ULL:
+										// all 512 bytes are zeroes => unencrypted filesystem like Microsoft reserved partition
+										if (IsAllZeroes (readBuffer + 8, TC_VOLUME_HEADER_EFFECTIVE_SIZE - 8))
+											opentest->FilesystemDetected = TRUE;
 										break;
 									}
 								}
 							}
 						}
 
-						if (opentest->bMatchVolumeID)
+						if (opentest->bComputeVolumeIDs && (!opentest->DetectFilesystem || !opentest->FilesystemDetected))
 						{
 							int volumeType;
-							BYTE volumeID[VOLUME_ID_SIZE];
-
 							// Go through all volume types (e.g., normal, hidden)
 							for (volumeType = TC_VOLUME_TYPE_NORMAL;
 								volumeType < TC_VOLUME_TYPE_COUNT;
@@ -1404,13 +1418,8 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 								if (NT_SUCCESS (ntStatus))
 								{
 									/* compute the ID of this volume: SHA-256 of the effective header */
-									sha256 (volumeID, readBuffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
-
-									if (0 == memcmp (volumeID, opentest->volumeID, VOLUME_ID_SIZE))
-									{
-										opentest->VolumeIDMatched = TRUE;
-										break;
-									}
+									sha256 (opentest->volumeIDs[volumeType], readBuffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
+									opentest->VolumeIDComputed[volumeType] = TRUE;
 								}
 							}
 						}

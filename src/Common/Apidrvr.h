@@ -266,9 +266,9 @@ typedef struct
 	BOOL TCBootLoaderDetected;
 	BOOL DetectFilesystem;
 	BOOL FilesystemDetected;
-	BOOL bMatchVolumeID;
-	unsigned char volumeID[VOLUME_ID_SIZE];
-	BOOL VolumeIDMatched;
+	BOOL bComputeVolumeIDs;
+	unsigned char volumeIDs[TC_VOLUME_TYPE_COUNT][VOLUME_ID_SIZE];
+	BOOL VolumeIDComputed[TC_VOLUME_TYPE_COUNT];
 } OPEN_TEST_STRUCT;
 
 

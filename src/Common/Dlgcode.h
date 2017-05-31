@@ -306,7 +306,7 @@ void InitOSVersionInfo ();
 void InitApp ( HINSTANCE hInstance, wchar_t *lpszCommandLine );
 void FinalizeApp (void);
 void InitHelpFileName (void);
-BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL matchVolumeID, const BYTE* pbVolumeID);
+BOOL OpenDevice (const wchar_t *lpszPath, OPEN_TEST_STRUCT *driver, BOOL detectFilesystem, BOOL computeVolumeID);
 void NotifyDriverOfPortableMode (void);
 int GetAvailableFixedDisks ( HWND hComboBox , char *lpszRootPath );
 int GetAvailableRemovables ( HWND hComboBox , char *lpszRootPath );
@@ -543,11 +543,34 @@ struct HostDevice
 		HasUnencryptedFilesystem (false),
 		Removable (false),
 		Size (0),
-		SystemNumber((uint32) -1)
+		SystemNumber((uint32) -1),
+		HasVolumeIDs (false)
 	{
+		ZeroMemory (VolumeIDs, sizeof (VolumeIDs));
 	}
 
-	~HostDevice () { }
+	HostDevice (const HostDevice& device)
+		:
+		Bootable (device.Bootable),
+		ContainsSystem (device.ContainsSystem),
+		DynamicVolume (device.DynamicVolume),
+		Floppy (device.Floppy),
+		IsPartition (device.IsPartition),
+		IsVirtualPartition (device.IsVirtualPartition),
+		HasUnencryptedFilesystem (device.HasUnencryptedFilesystem),
+		MountPoint (device.MountPoint),
+		Name (device.Name),
+		Path (device.Path),
+		Removable (device.Removable),
+		Size (device.Size),
+		SystemNumber (device.SystemNumber),	
+		HasVolumeIDs (device.HasVolumeIDs),
+		Partitions (device.Partitions)
+	{
+		memcpy (VolumeIDs, device.VolumeIDs, sizeof (VolumeIDs));
+	}
+
+	~HostDevice () {}
 
 	bool Bootable;
 	bool ContainsSystem;
@@ -562,6 +585,8 @@ struct HostDevice
 	bool Removable;
 	uint64 Size;
 	uint32 SystemNumber;
+	BYTE VolumeIDs[TC_VOLUME_TYPE_COUNT][VOLUME_ID_SIZE];
+	bool HasVolumeIDs;
 
 	std::vector <HostDevice> Partitions;
 };
@@ -597,6 +622,7 @@ inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 {
 	return std::wstring (msg? msg : L"") + L"\n\nSource: " + SingleStringToWide (srcPos);
 }
+void UpdateMountableHostDeviceList ();
 
 // Display a wait dialog while calling the provided callback with the given parameter
 typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);

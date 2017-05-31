@@ -1090,6 +1090,7 @@ namespace VeraCrypt
 		memcpy (fingerprint, request.Fingerprint, sizeof (request.Fingerprint));
 	}
 
+#ifndef SETUP
 	// Note that this does not require admin rights (it just requires the driver to be running)
 	bool BootEncryption::IsBootLoaderOnDrive (wchar_t *devicePath)
 	{
@@ -1114,6 +1115,7 @@ namespace VeraCrypt
 		}
 	}
 
+#endif
 
 	BootEncryptionStatus BootEncryption::GetStatus ()
 	{
