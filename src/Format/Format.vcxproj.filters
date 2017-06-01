@@ -550,12 +550,6 @@
     <ClInclude Include="..\Common\Xts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\XZip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\XUnzip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\libzip\compat.h">
       <Filter>Source Files\Common\libzip</Filter>
     </ClInclude>

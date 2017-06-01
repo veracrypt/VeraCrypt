@@ -566,12 +566,6 @@
     <ClInclude Include="..\Common\Xts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\XZip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\XUnzip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\zlib\crc32.h">
       <Filter>Source Files\Common\zlib</Filter>
     </ClInclude>

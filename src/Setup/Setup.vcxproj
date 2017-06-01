@@ -309,8 +309,6 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     <ClInclude Include="..\Common\libzip\zip.h" />
     <ClInclude Include="..\Common\libzip\zipint.h" />
     <ClInclude Include="..\Common\libzip\zipwin32.h" />
-    <ClInclude Include="..\Common\XUnzip.h" />
-    <ClInclude Include="..\Common\XZip.h" />
     <ClInclude Include="..\Common\zlib\crc32.h" />
     <ClInclude Include="..\Common\zlib\deflate.h" />
     <ClInclude Include="..\Common\zlib\inffast.h" />

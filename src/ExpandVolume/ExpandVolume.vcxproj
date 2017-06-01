@@ -529,8 +529,6 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     <ClInclude Include="..\Common\Dlgcode.h" />
     <ClInclude Include="..\Common\EncryptionThreadPool.h" />
     <ClInclude Include="..\Common\Exception.h" />
-    <ClInclude Include="..\Common\XUnzip.h" />
-    <ClInclude Include="..\Common\XZip.h" />
     <ClInclude Include="..\Common\zlib\crc32.h" />
     <ClInclude Include="..\Common\zlib\deflate.h" />
     <ClInclude Include="..\Common\zlib\inffast.h" />
