@@ -1101,21 +1101,26 @@ namespace VeraCrypt
 			url = wxString (TC_HOMEPAGE);
 			buildUrl = false;
 		}
+		else if (linkId == L"onlinehelp")
+		{
+			url = L"https://www.veracrypt.fr/en/Documentation.html";
+			buildUrl = false;
+		}
 		else if (linkId == L"localizations")
 		{
-			url = L"Language%20Packs.html";
+			url = L"Language Packs.html";
 		}
 		else if (linkId == L"beginnerstutorial" || linkId == L"tutorial")
 		{
-			url = L"Beginner%27s%20Tutorial.html";
+			url = L"Beginner's Tutorial.html";
 		}
 		else if (linkId == L"releasenotes" || linkId == L"history")
 		{
-			url = L"Release%20Notes.html";
+			url = L"Release Notes.html";
 		}
 		else if (linkId == L"hwacceleration")
 		{
-			url = L"Hardware%20Acceleration.html";
+			url = L"Hardware Acceleration.html";
 		}
 		else if (linkId == L"parallelization")
 		{
@@ -1131,23 +1136,23 @@ namespace VeraCrypt
 		}
 		else if (linkId == L"introcontainer")
 		{
-			url = L"Creating%20New%20Volumes.html";
+			url = L"Creating New Volumes.html";
 		}
 		else if (linkId == L"introsysenc")
 		{
-			url = L"System%20Encryption.html";
+			url = L"System Encryption.html";
 		}
 		else if (linkId == L"hiddensysenc")
 		{
-			url = L"VeraCrypt%20Hidden%20Operating%20System.html";
+			url = L"VeraCrypt Hidden Operating System.html";
 		}
 		else if (linkId == L"sysencprogressinfo")
 		{
-			url = L"System%20Encryption.html";
+			url = L"System Encryption.html";
 		}
 		else if (linkId == L"hiddenvolume")
 		{
-			url = L"Hidden%20Volume.html";
+			url = L"Hidden Volume.html";
 		}
 		else if (linkId == L"aes")
 		{
@@ -1175,7 +1180,7 @@ namespace VeraCrypt
 		}
 		else if (linkId == L"hashalgorithms")
 		{
-			url = L"Hash%20Algorithms.html";
+			url = L"Hash Algorithms.html";
 		}
 		else if (linkId == L"isoburning")
 		{
@@ -1184,15 +1189,15 @@ namespace VeraCrypt
 		}
 		else if (linkId == L"sysfavorites")
 		{
-			url = L"System%20Favorite%20Volumes.html";
+			url = L"System Favorite Volumes.html";
 		}
 		else if (linkId == L"favorites")
 		{
-			url = L"Favorite%20Volumes.html";
+			url = L"Favorite Volumes.html";
 		}
 		else if (linkId == L"hiddenvolprotection")
 		{
-			url = L"Protection%20of%20Hidden%20Volumes.html";
+			url = L"Protection of Hidden Volumes.html";
 		}
 		else if (linkId == L"faq")
 		{
@@ -1217,7 +1222,35 @@ namespace VeraCrypt
 		
 		if (buildUrl)
 		{
-			url = L"https://www.veracrypt.fr/en/" + url;
+			wxString htmlPath = wstring (Application::GetExecutableDirectory());
+			bool localFile = true;
+
+#ifdef TC_RESOURCE_DIR
+			htmlPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/HTML/");
+#elif defined (TC_WINDOWS)
+			htmlPath += L"\\docs\\html\\en\\";
+#elif defined (TC_MACOSX)
+			htmlPath += L"/../Resources/doc/HTML/";
+#elif defined (TC_UNIX)
+			htmlPath = L"/usr/share/veracrypt/doc/HTML/";
+#else
+			htmlPath = L"https://www.veracrypt.fr/en/";
+			localFile = false;
+#endif
+			if (localFile)
+			{
+				/* check if local file exists */
+				wxFileName htmlFile = htmlPath + url;
+				htmlFile.Normalize();
+				if (!htmlFile.FileExists())
+				{
+					htmlPath = L"https://www.veracrypt.fr/en/";
+					url.Replace (L" ", L"%20");
+					url.Replace (L"'", L"%27");
+				}
+			}
+
+			url = htmlPath + url;
 		}
 
 		return url;
@@ -1235,44 +1268,12 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::OpenOnlineHelp (wxWindow *parent)
 	{
-		OpenHomepageLink (parent, L"help");
+		OpenHomepageLink (parent, L"onlinehelp");
 	}
 
 	void GraphicUserInterface::OpenUserGuide (wxWindow *parent)
 	{
-		try
-		{
-			wxString docPath = wstring (Application::GetExecutableDirectory());
-
-#ifdef TC_RESOURCE_DIR
-			docPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/VeraCrypt User Guide.pdf");
-#elif defined (TC_WINDOWS)
-			docPath += L"\\VeraCrypt User Guide.pdf";
-#elif defined (TC_MACOSX)
-			docPath += L"/../Resources/VeraCrypt User Guide.pdf";
-#elif defined (TC_UNIX)
-			docPath = L"/usr/share/veracrypt/doc/VeraCrypt User Guide.pdf";
-#else
-#	error TC_RESOURCE_DIR undefined
-#endif
-
-			wxFileName docFile = docPath;
-			docFile.Normalize();
-
-			try
-			{
-				Gui->OpenDocument (parent, docFile);
-			}
-			catch (...)
-			{
-				if (Gui->AskYesNo (LangString ["HELP_READER_ERROR"], true))
-					OpenOnlineHelp (parent);
-			}
-		}
-		catch (Exception &e)
-		{
-			Gui->ShowError (e);
-		}
+		OpenHomepageLink (parent, L"help");
 	}
 
 	void GraphicUserInterface::RestoreVolumeHeaders (shared_ptr <VolumePath> volumePath) const
