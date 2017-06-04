@@ -682,11 +682,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 			case IDC_DONATE:
 				{
-					char tmpstr [200];
-
-					StringCbPrintfA (tmpstr, sizeof(tmpstr), "&ref=%d", DonColorSchemeId);
-
-					Applink ("donate", FALSE, tmpstr);
+					Applink ("donate");
 				}
 				return 1;
 			}
@@ -1160,7 +1156,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptReleaseNotes
 					&& AskYesNo ("AFTER_UPGRADE_RELEASE_NOTES", hwndDlg) == IDYES)
 				{
-					Applink ("releasenotes", TRUE, "");
+					Applink ("releasenotes");
 				}
 
 				bPromptReleaseNotes = FALSE;
@@ -1168,7 +1164,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptTutorial
 					&& AskYesNo ("AFTER_INSTALL_TUTORIAL", hwndDlg) == IDYES)
 				{
-					Applink ("beginnerstutorial", TRUE, "");
+					Applink ("beginnerstutorial");
 				}
 
 				bPromptTutorial = FALSE;

@@ -3491,7 +3491,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		if (lw == IDC_LINK_HIDVOL_PROTECTION_INFO)
 		{
-			Applink ("hiddenvolprotection", TRUE, "");
+			Applink ("hiddenvolprotection");
 		}
 
 		if (lw == IDCANCEL)
@@ -7271,7 +7271,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 					else if (sel == IDM_HOMEPAGE_SYSTRAY)
 					{
-						Applink ("home", TRUE, "");
+						Applink ("home");
 					}
 					else if (sel == IDCANCEL)
 					{
@@ -7898,7 +7898,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_DONATE)
 		{
-			Applink ("donate", TRUE, "");
+			Applink ("donate");
 			return 1;
 		}
 
@@ -7910,17 +7910,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_WEBSITE)
 		{
-			Applink ("website", TRUE, "");
+			Applink ("website");
 			return 1;
 		}
 		else if (lw == IDM_HOMEPAGE)
 		{
-			Applink ("homepage", TRUE, "");
+			Applink ("homepage");
 			return 1;
 		}
 		else if (lw == IDM_ONLINE_TUTORIAL)
 		{
-			Applink ("tutorial", TRUE, "");
+			Applink ("tutorial");
 			return 1;
 		}
 		else if (lw == IDM_ONLINE_HELP)
@@ -7930,27 +7930,27 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		else if (lw == IDM_FAQ)
 		{
-			Applink ("faq", TRUE, "");
+			Applink ("faq");
 			return 1;
 		}
 		else if (lw == IDM_TC_DOWNLOADS)
 		{
-			Applink ("downloads", TRUE, "");
+			Applink ("downloads");
 			return 1;
 		}
 		else if (lw == IDM_NEWS)
 		{
-			Applink ("news", TRUE, "");
+			Applink ("news");
 			return 1;
 		}
 		else if (lw == IDM_VERSION_HISTORY)
 		{
-			Applink ("history", TRUE, "");
+			Applink ("history");
 			return 1;
 		}
 		else if (lw == IDM_CONTACT)
 		{
-			Applink ("contact", FALSE, "");
+			Applink ("contact");
 			return 1;
 		}
 
@@ -10652,11 +10652,11 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 			return 1;
 
 		case IDC_MORE_INFO_ON_HW_ACCELERATION:
-			Applink ("hwacceleration", TRUE, "");
+			Applink ("hwacceleration");
 			return 1;
 
 		case IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION:
-			Applink ("parallelization", TRUE, "");
+			Applink ("parallelization");
 			return 1;
 		}
 

@@ -1268,7 +1268,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 		if (lw == IDC_HOMEPAGE)
 		{
-			Applink ("main", TRUE, "");
+			Applink ("main");
 			return 1;
 		}
 
@@ -2546,7 +2546,7 @@ void DoPostInstallTasks (HWND hwndDlg)
 	if (FileExists (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_TUTORIAL)))
 	{
 		if (AskYesNo ("AFTER_INSTALL_TUTORIAL", hwndDlg) == IDYES)
-			Applink ("beginnerstutorial", TRUE, "");
+			Applink ("beginnerstutorial");
 
 		bDone = TRUE;
 	}
@@ -2554,7 +2554,7 @@ void DoPostInstallTasks (HWND hwndDlg)
 	if (FileExists (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RELEASE_NOTES)))
 	{
 		if (AskYesNo ("AFTER_UPGRADE_RELEASE_NOTES", hwndDlg) == IDYES)
-			Applink ("releasenotes", TRUE, "");
+			Applink ("releasenotes");
 
 		bDone = TRUE;
 	}
@@ -5729,12 +5729,12 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_HW_AES_LABEL_LINK:
 
-			Applink ("hwacceleration", TRUE, "");
+			Applink ("hwacceleration");
 			return 1;
 
 		case IDC_PARALLELIZATION_LABEL_LINK:
 
-			Applink ("parallelization", TRUE, "");
+			Applink ("parallelization");
 			return 1;
 
 		case IDCLOSE:
@@ -10038,7 +10038,8 @@ void OpenPageHelp (HWND hwndDlg, int nPage)
 
 		if (r == ERROR_FILE_NOT_FOUND)
 		{
-			OpenOnlineHelp ();
+			// Open local HTML help. It will fallback to online help if not found.
+			Applink ("help");
 			return;
 		}
 	}
@@ -10053,7 +10054,7 @@ void OpenPageHelp (HWND hwndDlg, int nPage)
 
 void OpenOnlineHelp ()
 {
-	Applink ("help", TRUE, "");
+	Applink ("onlinehelp");
 }
 
 
@@ -10395,7 +10396,7 @@ std::wstring GetWindowsEdition ()
 extern wchar_t InstallationPath[TC_MAX_PATH];
 #endif
 
-void Applink (char *dest, BOOL bSendOS, char *extraOutput)
+void Applink (const char *dest)
 {
 	wchar_t url [MAX_URL_LENGTH] = {0};
 	wchar_t page[TC_MAX_PATH] = {0};
@@ -10443,6 +10444,11 @@ void Applink (char *dest, BOOL bSendOS, char *extraOutput)
 	else if (strcmp(dest, "help") == 0)
 	{
 		StringCbCopyW (page, sizeof (page),L"Documentation.html");
+	}
+	else if (strcmp(dest, "onlinehelp") == 0)
+	{
+		StringCbCopyW (url, sizeof (url),L"https://www.veracrypt.fr/en/Documentation.html");
+		buildUrl = FALSE;
 	}
 	else if (strcmp(dest, "keyfiles") == 0)
 	{

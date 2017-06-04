@@ -5231,11 +5231,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 
 			case IDC_MORE_INFO_ON_CONTAINERS:
-				Applink ("introcontainer", TRUE, "");
+				Applink ("introcontainer");
 				return 1;
 
 			case IDC_MORE_INFO_ON_SYS_ENCRYPTION:
-				Applink ("introsysenc", TRUE, "");
+				Applink ("introsysenc");
 				return 1;
 			}
 		}
@@ -5257,14 +5257,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 
 			case IDC_HIDDEN_SYSENC_INFO_LINK:
-				Applink ("hiddensysenc", TRUE, "");
+				Applink ("hiddensysenc");
 				return 1;
 			}
 		}
 
 		if (nCurPageNo == SYSENC_HIDDEN_OS_REQ_CHECK_PAGE && lw == IDC_HIDDEN_SYSENC_INFO_LINK)
 		{
-			Applink ("hiddensysenc", TRUE, "");
+			Applink ("hiddensysenc");
 			return 1;
 		}
 
@@ -5387,7 +5387,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				break;
 
 			case IDC_MORE_INFO_SYS_ENCRYPTION:
-				Applink ("sysencprogressinfo", TRUE, "");
+				Applink ("sysencprogressinfo");
 				return 1;
 			}
 		}
@@ -5478,7 +5478,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_HIDDEN_VOL_HELP && nCurPageNo == VOLUME_TYPE_PAGE)
 		{
-			Applink ("hiddenvolume", TRUE, "");
+			Applink ("hiddenvolume");
 			return 1;
 		}
 
@@ -5530,32 +5530,32 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			EAGetName (name, nIndex, 0);
 
 			if (wcscmp (name, L"AES") == 0)
-				Applink ("aes", FALSE, "");
+				Applink ("aes");
 			else if (wcscmp (name, L"Serpent") == 0)
-				Applink ("serpent", FALSE, "");
+				Applink ("serpent");
 			else if (wcscmp (name, L"Twofish") == 0)
-				Applink ("twofish", FALSE, "");
+				Applink ("twofish");
 			else if (wcscmp (name, L"GOST89") == 0)
-				Applink ("gost89", FALSE, "");
+				Applink ("gost89");
 			else if (wcscmp (name, L"Kuznyechik") == 0)
-				Applink ("kuznyechik", FALSE, "");
+				Applink ("kuznyechik");
 			else if (wcscmp (name, L"Camellia") == 0)
-				Applink ("camellia", FALSE, "");
+				Applink ("camellia");
 			else if (EAGetCipherCount (nIndex) > 1)
-				Applink ("cascades", TRUE, "");
+				Applink ("cascades");
 
 			return 1;
 		}
 
 		if (lw == IDC_LINK_HASH_INFO && nCurPageNo == CIPHER_PAGE)
 		{
-			Applink ("hashalgorithms", TRUE, "");
+			Applink ("hashalgorithms");
 			return 1;
 		}
 
 		if (lw == IDC_LINK_PIM_INFO && nCurPageNo == PIM_PAGE)
 		{
-			Applink ("pim", TRUE, "");
+			Applink ("pim");
 			return 1;
 		}
 
@@ -5959,7 +5959,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (IsWindowsIsoBurnerAvailable())
 				LaunchWindowsIsoBurner (hwndDlg, szRescueDiskISO);
 			else
-				Applink ("isoburning", TRUE, "");
+				Applink ("isoburning");
 
 			return 1;
 		}

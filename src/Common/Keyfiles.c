@@ -617,7 +617,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_LINK_KEYFILES_INFO)
 		{
-			Applink ("keyfiles", TRUE, "");
+			Applink ("keyfiles");
 			return 1;
 		}
 

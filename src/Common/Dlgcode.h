@@ -450,7 +450,7 @@ BOOL IsServerOS ();
 BOOL IsHiddenOSRunning (void);
 BOOL EnableWow64FsRedirection (BOOL enable);
 BOOL RestartComputer (BOOL bShutdown);
-void Applink (char *dest, BOOL bSendOS, char *extraOutput);
+void Applink (const char *dest);
 wchar_t *RelativePath2Absolute (wchar_t *szFileName);
 void HandleDriveNotReadyError (HWND hwnd);
 BOOL CALLBACK CloseTCWindowsEnum( HWND hwnd, LPARAM lParam);

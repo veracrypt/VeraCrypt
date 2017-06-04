@@ -539,7 +539,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			else
 				tmpstr[0] = 0;
 
-			Applink ("localizations", TRUE, tmpstr);
+			Applink ("localizations");
 
 			return 1;
 		}

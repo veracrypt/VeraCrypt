@@ -382,7 +382,7 @@ namespace VeraCrypt
 				return 1;
 
 			case IDC_FAVORITES_HELP_LINK:
-				Applink (SystemFavoritesMode ? "sysfavorites" : "favorites", TRUE, "");
+				Applink (SystemFavoritesMode ? "sysfavorites" : "favorites");
 				return 1;
 			case IDC_SHOW_PIM:
 				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PIM, IDC_PIM, 0);
