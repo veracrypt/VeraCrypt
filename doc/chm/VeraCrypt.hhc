@@ -1,0 +1,415 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Table Of Contents">
+		<param name="Local" value="Documentation.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Preface">
+		<param name="Local" value="Preface.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Introduction">
+		<param name="Local" value="Introduction.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Beginner's Tutorial ">
+		<param name="Local" value="Beginner's Tutorial.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="VeraCrypt Volume ">
+		<param name="Local" value="VeraCrypt Volume.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Creating a New VeraCrypt Volume">
+			<param name="Local" value="Creating New Volumes.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Favorite Volumes">
+			<param name="Local" value="Favorite Volumes.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="System Favorite Volumes">
+			<param name="Local" value="System Favorite Volumes.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="System Encryption">
+		<param name="Local" value="System Encryption.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Hidden Operating System">
+			<param name="Local" value="Hidden Operating System.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Operating Systems Supported for System Encryption">
+			<param name="Local" value="Supported Systems for System Encryption.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt Rescue Disk">
+			<param name="Local" value="VeraCrypt Rescue Disk.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Plausible Deniability">
+		<param name="Local" value="Plausible Deniability.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Hidden Volume">
+			<param name="Local" value="Hidden Volume.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Protection of Hidden Volumes Against Damage">
+				<param name="Local" value="Protection of Hidden Volumes.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Security Requirements and Precautions Pertaining to Hidden Volumes">
+				<param name="Local" value="Security Requirements for Hidden Volumes.html">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Hidden Operating System">
+			<param name="Local" value="VeraCrypt Hidden Operating System.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Main Program Window">
+		<param name="Local" value="Main Program Window.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Program Menu">
+			<param name="Local" value="Program Menu.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Mounting Volumes">
+			<param name="Local" value="Mounting VeraCrypt Volumes.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Parallelization">
+		<param name="Local" value="Parallelization.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pipelining">
+		<param name="Local" value="Pipelining.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Hardware acceleration">
+		<param name="Local" value="Hardware Acceleration.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Hot keys">
+		<param name="Local" value="Hot Keys.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Keyfiles">
+		<param name="Local" value="Keyfiles in VeraCrypt.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Security Tokens &amp; Smart Cards">
+		<param name="Local" value="Security Tokens & Smart Cards.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Portable Mode">
+		<param name="Local" value="Portable Mode.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="TrueCrypt Support">
+		<param name="Local" value="TrueCrypt Support.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Converting TrueCrypt Volumes &amp; Partitions">
+		<param name="Local" value="Converting TrueCrypt volumes and partitions.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Default Mount Parameters">
+		<param name="Local" value="Default Mount Parameters.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Language Packs">
+		<param name="Local" value="Language Packs.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Encryption Algorithms">
+		<param name="Local" value="Encryption Algorithms.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="AES">
+			<param name="Local" value="AES.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Camellia">
+			<param name="Local" value="Camellia.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Kuznyechik">
+			<param name="Local" value="Kuznyechik.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Serpent">
+			<param name="Local" value="Serpent.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Twofish">
+			<param name="Local" value="Twofish.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Cascades of ciphers">
+			<param name="Local" value="Cascades.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Hash Algorithms">
+		<param name="Local" value="Hash Algorithms.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="RIPEMD-160">
+			<param name="Local" value="RIPEMD-160.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="SHA-256">
+			<param name="Local" value="SHA-256.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="SHA-512">
+			<param name="Local" value="SHA-512.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Whirlpool">
+			<param name="Local" value="Whirlpool.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Streebog">
+			<param name="Local" value="Streebog.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Supported Operating Systems">
+		<param name="Local" value="Supported Operating Systems.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Command Line Usage">
+		<param name="Local" value="Command Line Usage.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Security Model">
+		<param name="Local" value="Security Model.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Security Requirements And Precautions">
+		<param name="Local" value="Security Requirements and Precautions.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Data Leaks">
+			<param name="Local" value="Data Leaks.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Paging File">
+				<param name="Local" value="Paging File.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Memory Dump Files">
+				<param name="Local" value="Memory Dump Files.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Hibernation File">
+				<param name="Local" value="Hibernation File.html">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Unencrypted Data in RAM">
+			<param name="Local" value="Unencrypted Data in RAM.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Physical Security">
+			<param name="Local" value="Physical Security.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Malware">
+			<param name="Local" value="Malware.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Multi-User Environment">
+			<param name="Local" value="Multi-User Environment.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Authenticity and Integrity">
+			<param name="Local" value="Authenticity and Integrity.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Choosing Passwords and Keyfiles">
+			<param name="Local" value="Choosing Passwords and Keyfiles.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Changing Passwords and Keyfiles">
+			<param name="Local" value="Changing Passwords and Keyfiles.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Trim Operation">
+			<param name="Local" value="Trim Operation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Wear-Leveling">
+			<param name="Local" value="Wear-Leveling.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Reallocated Sectors">
+			<param name="Local" value="Reallocated Sectors.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Defragmenting">
+			<param name="Local" value="Defragmenting.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Journaling File Systems">
+			<param name="Local" value="Journaling File Systems.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Volume Clones">
+			<param name="Local" value="Volume Clones.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Additional Security Requirements and Precautions">
+			<param name="Local" value="Additional Security Requirements and Precautions.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="How To Back Up Securely">
+		<param name="Local" value="How to Back Up Securely.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Miscellaneous">
+		<param name="Local" value="Miscellaneous.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Using VeraCrypt Without Administrator Privileges">
+			<param name="Local" value="Using VeraCrypt Without Administrator Privileges.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Sharing Over Network">
+			<param name="Local" value="Sharing over Network.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt Background Task">
+			<param name="Local" value="VeraCrypt Background Task.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Volume Mounted as Removable Medium">
+			<param name="Local" value="Removable Medium Volume.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt System Files &amp; Application Data">
+			<param name="Local" value="VeraCrypt System Files.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="How To Remove Encryption">
+			<param name="Local" value="Removing Encryption.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Uninstalling VeraCrypt">
+			<param name="Local" value="Uninstalling VeraCrypt.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Digital Signatures">
+			<param name="Local" value="Digital Signatures.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Troubleshooting">
+		<param name="Local" value="Troubleshooting.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Incompatibilities">
+		<param name="Local" value="Incompatibilities.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Known Issues and Limitations">
+		<param name="Local" value="Issues and Limitations.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Frequently Asked Questions">
+		<param name="Local" value="FAQ.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Technical Details">
+		<param name="Local" value="Technical Details.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Notation">
+			<param name="Local" value="Notation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Encryption Scheme">
+			<param name="Local" value="Encryption Scheme.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Modes of Operation">
+			<param name="Local" value="Modes of Operation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Header Key Derivation, Salt, and Iteration Count">
+			<param name="Local" value="Header Key Derivation.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Random Number Generator">
+			<param name="Local" value="Random Number Generator.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Keyfiles">
+			<param name="Local" value="Keyfiles.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="PIM">
+			<param name="Local" value="Personal Iterations Multiplier (PIM).html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="VeraCrypt Volume Format Specification">
+			<param name="Local" value="VeraCrypt Volume Format Specification.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Compliance with Standards and Specifications">
+			<param name="Local" value="Standard Compliance.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Source Code">
+			<param name="Local" value="Source Code.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Contact">
+		<param name="Local" value="Contact.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Legal Information">
+		<param name="Local" value="Legal Information.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Version History">
+		<param name="Local" value="Release Notes.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Acknowledgements">
+		<param name="Local" value="Acknowledgements.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="References">
+		<param name="Local" value="References.html">
+		</OBJECT>
+</UL>
+</BODY></HTML>
