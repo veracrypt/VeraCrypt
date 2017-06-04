@@ -1016,6 +1016,29 @@ err:
 		}
 	}
 
+	// remove PDF from previous version if any
+	if (bUninstall == FALSE)
+	{
+		WIN32_FIND_DATA f;
+		HANDLE h;
+
+		SetCurrentDirectory (szDestDir);
+		h = FindFirstFile (L"VeraCrypt User Guide*.pdf", &f);
+
+		if (h != INVALID_HANDLE_VALUE)
+		{
+			do
+			{
+				StatDeleteFile (f.cFileName, TRUE);
+			}
+			while (FindNextFile(h, &f) != 0);
+
+			FindClose (h);
+		}
+
+		SetCurrentDirectory (SetupFilesDir);
+	}
+
 	// Language pack
 	if (bUninstall == FALSE)
 	{
@@ -1036,7 +1059,7 @@ err:
 
 		SetCurrentDirectory (SetupFilesDir);
 		SetCurrentDirectory (L"Setup files");
-		h = FindFirstFile (L"VeraCrypt User Guide.*.pdf", &f);
+		h = FindFirstFile (L"VeraCrypt User Guide.*.chm", &f);
 		if (h != INVALID_HANDLE_VALUE)
 		{
 			wchar_t d[MAX_PATH*2];

@@ -21,7 +21,7 @@ extern "C" {
 // Specifies what files to install, where (determined by the prefix), and in what order
 static wchar_t *szFiles[]=
 {
-	L"AVeraCrypt User Guide.pdf",
+	L"AVeraCrypt User Guide.chm",
 	L"ALicense.txt",
 	L"ALICENSE",
 	L"ANOTICE",
@@ -81,7 +81,7 @@ static wchar_t *szFiles[]=
 // Specifies what files are included in self-extracting packages (no other files will be packaged or extracted).
 static wchar_t *szCompressedFiles[]=
 {
-	L"VeraCrypt User Guide.pdf",
+	L"VeraCrypt User Guide.chm",
 	L"License.txt",
 	L"LICENSE",
 	L"NOTICE",
