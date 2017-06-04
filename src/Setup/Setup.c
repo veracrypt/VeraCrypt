@@ -1015,14 +1015,15 @@ err:
 				return FALSE;
 		}
 	}
-
-	// remove PDF from previous version if any
+	
 	if (bUninstall == FALSE)
 	{
 		WIN32_FIND_DATA f;
 		HANDLE h;
 
 		SetCurrentDirectory (szDestDir);
+
+		// remove PDF from previous version if any
 		h = FindFirstFile (L"VeraCrypt User Guide*.pdf", &f);
 
 		if (h != INVALID_HANDLE_VALUE)
@@ -1036,38 +1037,20 @@ err:
 			FindClose (h);
 		}
 
-		SetCurrentDirectory (SetupFilesDir);
-	}
-
-	// Language pack
-	if (bUninstall == FALSE)
-	{
-		WIN32_FIND_DATA f;
-		HANDLE h;
-
-		SetCurrentDirectory (SetupFilesDir);
-		h = FindFirstFile (L"Language.*.xml", &f);
+		// remove language XML files from previous version if any
+		h = FindFirstFile (L"Language*.xml", &f);
 
 		if (h != INVALID_HANDLE_VALUE)
 		{
-			wchar_t d[MAX_PATH*2];
-			StringCbPrintfW (d, sizeof(d), L"%s%s", szDestDir, f.cFileName);
-			CopyMessage (hwndDlg, d);
-			TCCopyFile (f.cFileName, d);
+			do
+			{
+				StatDeleteFile (f.cFileName, TRUE);
+			}
+			while (FindNextFile(h, &f) != 0);
+
 			FindClose (h);
 		}
 
-		SetCurrentDirectory (SetupFilesDir);
-		SetCurrentDirectory (L"Setup files");
-		h = FindFirstFile (L"VeraCrypt User Guide.*.chm", &f);
-		if (h != INVALID_HANDLE_VALUE)
-		{
-			wchar_t d[MAX_PATH*2];
-			StringCbPrintfW (d, sizeof(d), L"%s%s", szDestDir, f.cFileName);
-			CopyMessage (hwndDlg, d);
-			TCCopyFile (f.cFileName, d);
-			FindClose (h);
-		}
 		SetCurrentDirectory (SetupFilesDir);
 	}
 

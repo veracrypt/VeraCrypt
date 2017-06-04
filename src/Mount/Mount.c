@@ -4359,8 +4359,14 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (strcmp (GetPreferredLangId (), "en") != 0)
 			{
 				// Language pack
-				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\Language.%hs.xml", appDir, GetPreferredLangId ());
-				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\Language.%hs.xml", dstDir, GetPreferredLangId ());
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\Languages", dstDir);
+				if (!CreateDirectoryW (dstPath, NULL))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+					goto stop;
+				}
+				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\Languages\\Language.%hs.xml", appDir, GetPreferredLangId ());
+				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\Languages\\Language.%hs.xml", dstDir, GetPreferredLangId ());
 				TCCopyFile (srcPath, dstPath);
 			}
 

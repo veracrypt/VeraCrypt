@@ -23,7 +23,11 @@ copy ..\..\License.txt .
 copy ..\..\NOTICE .
 
 del *.xml
-copy /V /Y ..\..\..\Translations\*.xml .
+rmdir /S /Q Languages
+mkdir Languages
+copy /V /Y ..\..\..\Translations\*.xml Languages\.
+del Languages.zip
+7z a -y Languages.zip Languages
 
 rmdir /S /Q docs
 mkdir docs\html\en
@@ -40,8 +44,9 @@ del License.txt
 del NOTICE
 del "VeraCrypt User Guide.chm"
 
-del *.xml
+del Languages.zip
 del docs.zip
+rmdir /S /Q Languages
 rmdir /S /Q docs
 
 cd %SIGNINGPATH%
