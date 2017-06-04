@@ -1234,7 +1234,6 @@ namespace VeraCrypt
 #elif defined (TC_UNIX)
 			htmlPath = L"/usr/share/veracrypt/doc/HTML/";
 #else
-			htmlPath = L"https://www.veracrypt.fr/en/";
 			localFile = false;
 #endif
 			if (localFile)
@@ -1242,12 +1241,14 @@ namespace VeraCrypt
 				/* check if local file exists */
 				wxFileName htmlFile = htmlPath + url;
 				htmlFile.Normalize();
-				if (!htmlFile.FileExists())
-				{
-					htmlPath = L"https://www.veracrypt.fr/en/";
-					url.Replace (L" ", L"%20");
-					url.Replace (L"'", L"%27");
-				}
+				localFile = htmlFile.FileExists();
+			}
+
+			if (!localFile)
+			{
+				htmlPath = L"https://www.veracrypt.fr/en/";
+				url.Replace (L" ", L"%20");
+				url.Replace (L"'", L"%27");
 			}
 
 			url = htmlPath + url;
