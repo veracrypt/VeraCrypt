@@ -3054,11 +3054,11 @@ void InitHelpFileName (void)
 		if (strcmp (GetPreferredLangId(), "en") == 0
 			|| strlen(GetPreferredLangId()) == 0)
 		{
-			StringCbCatW (szHelpFile, sizeof(szHelpFile), L"VeraCrypt User Guide.chm");
+			StringCbCatW (szHelpFile, sizeof(szHelpFile), L"docs\\VeraCrypt User Guide.chm");
 		}
 		else
 		{
-			StringCbPrintfW (szTemp, sizeof(szTemp), L"VeraCrypt User Guide.%S.chm", GetPreferredLangId());
+			StringCbPrintfW (szTemp, sizeof(szTemp), L"docs\\VeraCrypt User Guide.%S.chm", GetPreferredLangId());
 			StringCbCatW (szHelpFile, sizeof(szHelpFile), szTemp);
 		}
 
@@ -3069,7 +3069,7 @@ void InitHelpFileName (void)
 		{
 			++lpszTmp;
 			*lpszTmp = 0;
-			StringCbCatW (szHelpFile2, sizeof(szHelpFile2), L"VeraCrypt User Guide.chm");
+			StringCbCatW (szHelpFile2, sizeof(szHelpFile2), L"docs\\VeraCrypt User Guide.chm");
 		}
 	}
 }

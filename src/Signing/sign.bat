@@ -1,8 +1,9 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
 set SIGNINGPATH=%~dp0
+cd %SIGNINGPATH%
 
-call "..\..\..\doc\chm\create_chm.bat"
+call "..\..\doc\chm\create_chm.bat"
 
 cd %SIGNINGPATH%
 
@@ -20,7 +21,6 @@ cd "..\Release\Setup Files\"
 copy ..\..\LICENSE .
 copy ..\..\License.txt .
 copy ..\..\NOTICE .
-copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" .
 
 del *.xml
 copy /V /Y ..\..\..\Translations\*.xml .
@@ -28,6 +28,7 @@ copy /V /Y ..\..\..\Translations\*.xml .
 rmdir /S /Q docs
 mkdir docs\html\en
 copy /V /Y ..\..\..\doc\html\* docs\html\en\.
+copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
 
 del docs.zip
 7z a -y docs.zip docs
