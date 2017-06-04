@@ -195,9 +195,9 @@ https://osxfuse.github.io/ (MacFUSE compatibility layer must selected)
 
 The script build_veracrypt_macosx.sh available under "src/Build" performs the
 full build of VeraCrypt including the creation of the installer pkg. It expects
-to find the wxWidgets 3.0.2 sources at the same level as where you put
+to find the wxWidgets 3.0.3 sources at the same level as where you put
 VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
-then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.2")
+then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.3")
 
 The build process uses Code Signing certificates whose ID is specified in
 src/Main/Main.make (look for lines containing "Developer ID Application" and 
