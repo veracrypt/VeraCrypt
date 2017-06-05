@@ -69,7 +69,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcmtd.lib;atlsd.lib;mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -108,7 +108,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>mpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -129,138 +129,6 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Common\libzip\mkstemp.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Common\libzip\zip_add.c" />
-    <ClCompile Include="..\Common\libzip\zip_add_dir.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Common\libzip\zip_add_entry.c" />
-    <ClCompile Include="..\Common\libzip\zip_buffer.c" />
-    <ClCompile Include="..\Common\libzip\zip_close.c" />
-    <ClCompile Include="..\Common\libzip\zip_delete.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Common\libzip\zip_dirent.c" />
-    <ClCompile Include="..\Common\libzip\zip_dir_add.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Common\libzip\zip_discard.c" />
-    <ClCompile Include="..\Common\libzip\zip_entry.c" />
-    <ClCompile Include="..\Common\libzip\zip_error.c" />
-    <ClCompile Include="..\Common\libzip\zip_error_clear.c" />
-    <ClCompile Include="..\Common\libzip\zip_error_get.c" />
-    <ClCompile Include="..\Common\libzip\zip_error_get_sys_type.c" />
-    <ClCompile Include="..\Common\libzip\zip_error_strerror.c" />
-    <ClCompile Include="..\Common\libzip\zip_error_to_str.c" />
-    <ClCompile Include="..\Common\libzip\zip_err_str.c" />
-    <ClCompile Include="..\Common\libzip\zip_extra_field.c" />
-    <ClCompile Include="..\Common\libzip\zip_extra_field_api.c" />
-    <ClCompile Include="..\Common\libzip\zip_fclose.c" />
-    <ClCompile Include="..\Common\libzip\zip_fdopen.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Common\libzip\zip_filerange_crc.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_add.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_error_clear.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_error_get.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_get_comment.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_get_external_attributes.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_get_offset.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_rename.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_replace.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_set_comment.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_set_external_attributes.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_set_mtime.c" />
-    <ClCompile Include="..\Common\libzip\zip_file_strerror.c" />
-    <ClCompile Include="..\Common\libzip\zip_fopen.c" />
-    <ClCompile Include="..\Common\libzip\zip_fopen_encrypted.c" />
-    <ClCompile Include="..\Common\libzip\zip_fopen_index.c" />
-    <ClCompile Include="..\Common\libzip\zip_fopen_index_encrypted.c" />
-    <ClCompile Include="..\Common\libzip\zip_fread.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_archive_comment.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_archive_flag.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_compression_implementation.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_encryption_implementation.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_file_comment.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_name.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_num_entries.c" />
-    <ClCompile Include="..\Common\libzip\zip_get_num_files.c" />
-    <ClCompile Include="..\Common\libzip\zip_hash.c" />
-    <ClCompile Include="..\Common\libzip\zip_io_util.c" />
-    <ClCompile Include="..\Common\libzip\zip_memdup.c" />
-    <ClCompile Include="..\Common\libzip\zip_name_locate.c" />
-    <ClCompile Include="..\Common\libzip\zip_new.c" />
-    <ClCompile Include="..\Common\libzip\zip_open.c" />
-    <ClCompile Include="..\Common\libzip\zip_rename.c" />
-    <ClCompile Include="..\Common\libzip\zip_replace.c" />
-    <ClCompile Include="..\Common\libzip\zip_set_archive_comment.c" />
-    <ClCompile Include="..\Common\libzip\zip_set_archive_flag.c" />
-    <ClCompile Include="..\Common\libzip\zip_set_default_password.c" />
-    <ClCompile Include="..\Common\libzip\zip_set_file_comment.c" />
-    <ClCompile Include="..\Common\libzip\zip_set_file_compression.c" />
-    <ClCompile Include="..\Common\libzip\zip_set_name.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_begin_write.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_buffer.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_call.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_close.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_commit_write.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_crc.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_deflate.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_error.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_filep.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Common\libzip\zip_source_free.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_function.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_is_deleted.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_layered.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_open.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_pkware.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_read.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_remove.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_rollback_write.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_seek.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_seek_write.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_stat.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_supports.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_tell.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_tell_write.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_win32a.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_win32handle.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_win32utf8.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_win32w.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_window.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_write.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_zip.c" />
-    <ClCompile Include="..\Common\libzip\zip_source_zip_new.c" />
-    <ClCompile Include="..\Common\libzip\zip_stat.c" />
-    <ClCompile Include="..\Common\libzip\zip_stat_index.c" />
-    <ClCompile Include="..\Common\libzip\zip_stat_init.c" />
-    <ClCompile Include="..\Common\libzip\zip_strerror.c" />
-    <ClCompile Include="..\Common\libzip\zip_string.c" />
-    <ClCompile Include="..\Common\libzip\zip_unchange.c" />
-    <ClCompile Include="..\Common\libzip\zip_unchange_all.c" />
-    <ClCompile Include="..\Common\libzip\zip_unchange_archive.c" />
-    <ClCompile Include="..\Common\libzip\zip_unchange_data.c" />
-    <ClCompile Include="..\Common\libzip\zip_utf-8.c" />
-    <ClCompile Include="..\Common\zlib\adler32.c" />
-    <ClCompile Include="..\Common\zlib\compress.c" />
-    <ClCompile Include="..\Common\zlib\crc32.c" />
-    <ClCompile Include="..\Common\zlib\deflate.c" />
-    <ClCompile Include="..\Common\zlib\inffast.c" />
-    <ClCompile Include="..\Common\zlib\inflate.c" />
-    <ClCompile Include="..\Common\zlib\inftrees.c" />
-    <ClCompile Include="..\Common\zlib\trees.c" />
-    <ClCompile Include="..\Common\zlib\uncompr.c" />
-    <ClCompile Include="..\Common\zlib\zutil.c" />
     <ClCompile Include="ComSetup.cpp" />
     <ClCompile Include="Dir.c" />
     <ClCompile Include="SelfExtract.c" />
@@ -303,22 +171,6 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
   <ItemGroup>
     <ClInclude Include="..\Common\Apidrvr.h" />
     <ClInclude Include="..\Common\Combo.h" />
-    <ClInclude Include="..\Common\libzip\compat.h" />
-    <ClInclude Include="..\Common\libzip\config.h" />
-    <ClInclude Include="..\Common\libzip\zconf.h" />
-    <ClInclude Include="..\Common\libzip\zip.h" />
-    <ClInclude Include="..\Common\libzip\zipint.h" />
-    <ClInclude Include="..\Common\libzip\zipwin32.h" />
-    <ClInclude Include="..\Common\zlib\crc32.h" />
-    <ClInclude Include="..\Common\zlib\deflate.h" />
-    <ClInclude Include="..\Common\zlib\inffast.h" />
-    <ClInclude Include="..\Common\zlib\inffixed.h" />
-    <ClInclude Include="..\Common\zlib\inflate.h" />
-    <ClInclude Include="..\Common\zlib\inftrees.h" />
-    <ClInclude Include="..\Common\zlib\trees.h" />
-    <ClInclude Include="..\Common\zlib\zconf.h" />
-    <ClInclude Include="..\Common\zlib\zlib.h" />
-    <ClInclude Include="..\Common\zlib\zutil.h" />
     <ClInclude Include="ComSetup.h" />
     <ClInclude Include="..\Common\Crc.h" />
     <ClInclude Include="Dir.h" />
