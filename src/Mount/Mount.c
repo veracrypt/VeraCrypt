@@ -10977,15 +10977,24 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				try
 				{
 					std::string platforminfo;
-					DWORD sz;
+					ByteArray fileContent;
+					DWORD sz, offset;
 					std::wstring path;
 					GetVolumeESP(path);
 					path += L"\\EFI\\VeraCrypt\\PlatformInfo";
 					File fPlatformInfo(path);
 					fPlatformInfo.GetFileSize(sz);
-					platforminfo.resize(sz + 1);
-					platforminfo[sz] = 0;
-					fPlatformInfo.Read((byte*)&platforminfo[0], sz);
+					fileContent.resize(sz + 1);
+					fileContent[sz] = 0;
+					fPlatformInfo.Read((byte*)&fileContent[0], sz);
+					// remove UTF-8 BOM if any
+					if (0 == memcmp (fileContent.data(), "\xEF\xBB\xBF", 3))
+					{
+						offset = 3;
+					}
+					else
+						offset = 0;
+					platforminfo = (const char*) &fileContent[offset];
 					TextEditDialogBox(0, hwndDlg, L"PlatformInfo", platforminfo);
 				}
 				catch (Exception &e)	{ e.Show(hwndDlg); }
@@ -10997,19 +11006,33 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				try
 				{
 					std::string dcsprop;
-					DWORD sz;
+					ByteArray fileContent;
+					DWORD sz, offset;
 					std::wstring path;
 					GetVolumeESP(path);
 					path += L"\\EFI\\VeraCrypt\\DcsProp";
 					File f1(path);
 					f1.GetFileSize(sz);
-					dcsprop.resize(sz + 1);
-					dcsprop[sz] = 0;
-					f1.Read((byte*)&dcsprop[0], sz);
+					fileContent.resize(sz + 1);
+					fileContent[sz] = 0;
+					f1.Read((byte*)&fileContent[0], sz);
 					f1.Close();
+					// remove UTF-8 BOM if any
+					if (0 == memcmp (fileContent.data(), "\xEF\xBB\xBF", 3))
+					{
+						offset = 3;
+					}
+					else
+						offset = 0;
+
+					dcsprop = (const char*) &fileContent[offset];
 					if(TextEditDialogBox(0, hwndDlg, L"DcsProp", dcsprop) == IDOK) {
+						// Add UTF-8 BOM
+						fileContent.resize (dcsprop.length() + 3);
+						memcpy (fileContent.data(), "\xEF\xBB\xBF", 3);
+						memcpy (&fileContent[3], &dcsprop[0], dcsprop.length());
 						File f2(path,false,true);
-						f2.Write((byte*)&dcsprop[0], dcsprop.length());
+						f2.Write(fileContent.data(), fileContent.size());
 						f2.Close();
 					}
 				}
