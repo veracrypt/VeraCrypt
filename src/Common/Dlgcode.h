@@ -624,6 +624,7 @@ inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 	return std::wstring (msg? msg : L"") + L"\n\nSource: " + SingleStringToWide (srcPos);
 }
 void UpdateMountableHostDeviceList ();
+INT_PTR TextEditDialogBox (BOOL readOnly, HWND parent, const WCHAR* Title, std::string& text);
 
 // Display a wait dialog while calling the provided callback with the given parameter
 typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);

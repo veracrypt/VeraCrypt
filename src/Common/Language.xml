@@ -1415,6 +1415,12 @@
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
     <control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
     <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
+    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
+    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
+    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
+    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
+    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
+    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

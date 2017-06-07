@@ -51,6 +51,8 @@
 
 #include <Strsafe.h>
 
+#import <msxml6.dll>
+
 #include <wtsapi32.h>
 
 typedef BOOL (WINAPI *WTSREGISTERSESSIONNOTIFICATION)(HWND, DWORD);
@@ -214,6 +216,125 @@ static void UnregisterWtsNotification(HWND hWnd)
 		fnWtsUnRegisterSessionNotification = NULL;
 	}
 }
+
+static std::vector<MSXML2::IXMLDOMNodePtr> GetReadChildNodes (MSXML2::IXMLDOMNodeListPtr childs)
+{
+	std::vector<MSXML2::IXMLDOMNodePtr> list;	
+	if (childs && childs->Getlength())
+	{
+		for (long i = 0; i < childs->Getlength(); i++)
+		{
+			MSXML2::IXMLDOMNodePtr node = childs->Getitem(i);
+			if (node)
+			{
+				//skip comments
+				if (node->GetnodeType() == NODE_COMMENT)
+					continue;
+				// skip root xml node
+				if (node->GetbaseName().GetBSTR() && (0 == strcmp ("xml", (const char*) node->GetbaseName())))
+					continue;
+
+				list.push_back (node);
+			}
+		}
+	}
+
+	return list;
+}
+
+static bool validateDcsPropXml(const char* xmlData)
+{
+	bool bValid = false;	
+	HRESULT hr = CoInitialize(NULL);
+	if(FAILED(hr))
+		return false;
+	else
+	{
+		MSXML2::IXMLDOMDocumentPtr pXMLDom;
+		hr= pXMLDom.CreateInstance(__uuidof(MSXML2::DOMDocument60), NULL, CLSCTX_INPROC_SERVER);
+		if (SUCCEEDED(hr)) 
+		{
+			try
+			{
+				pXMLDom->async = VARIANT_FALSE;
+				pXMLDom->validateOnParse = VARIANT_FALSE;
+				pXMLDom->resolveExternals = VARIANT_FALSE;
+
+				if(pXMLDom->loadXML(xmlData) == VARIANT_TRUE && pXMLDom->hasChildNodes())
+				{
+					MSXML2::IXMLDOMNodePtr veracryptNode, configurationNode, configNode;
+					std::vector<MSXML2::IXMLDOMNodePtr> nodes = GetReadChildNodes (pXMLDom->GetchildNodes());
+					size_t nodesCount = nodes.size();
+					if (nodesCount == 1 
+						&& ((veracryptNode = nodes[0])->GetnodeType() == NODE_ELEMENT)
+						&& veracryptNode->GetnodeName().GetBSTR()
+						&& (0 == strcmp ((const char*) veracryptNode->GetnodeName(), "VeraCrypt")) 
+						&& veracryptNode->hasChildNodes()
+						
+						)
+					{
+						nodes = GetReadChildNodes (veracryptNode->GetchildNodes());
+						nodesCount = nodes.size();
+						if ((nodesCount == 1)
+							&& ((configurationNode = nodes[0])->GetnodeType() == NODE_ELEMENT)
+							&& configurationNode->GetnodeName().GetBSTR()
+							&&  (0 == strcmp ((const char*) configurationNode->GetnodeName(), "configuration"))
+							&&  (configurationNode->hasChildNodes())
+							)
+						{
+							nodes = GetReadChildNodes (configurationNode->GetchildNodes());
+							nodesCount = nodes.size();
+
+							if (nodesCount > 1)
+							{
+								bValid = true;
+								for (size_t i = 0; bValid && (i < nodesCount); i++)
+								{
+									configNode = nodes[i];
+									if (configNode->GetnodeType() == NODE_COMMENT)
+										continue;									
+									else if (	(configNode->GetnodeType() == NODE_ELEMENT)
+										&&	(configNode->GetnodeName().GetBSTR())
+										&& (0 == strcmp ((const char*) configNode->GetnodeName(), "config"))	
+										)
+									{
+										nodes = GetReadChildNodes (configNode->GetchildNodes());
+										nodesCount = nodes.size();
+										if ((nodesCount == 0 || (nodesCount == 1 && nodes[0]->GetnodeType() == NODE_TEXT)) 
+											&& configNode->Getattributes() 
+											&& (configNode->Getattributes()->Getlength() == 1)
+											&& (configNode->Getattributes()->Getitem(0))
+											)
+										{
+											std::string val;
+											bstr_t bstr = configNode->Getattributes()->Getitem(0)->GetnodeName ();
+											if (bstr.GetBSTR())
+												val = (const char*) bstr;
+											if (val != "key")
+												bValid = false;
+										}
+										else
+											bValid = false;
+									}
+									else
+										bValid = false;
+								}
+							}
+						}
+					}
+				}
+			}
+			catch(_com_error errorObject)
+			{
+				bValid = false;
+			}
+		}
+	}
+
+	CoUninitialize();
+	return bValid;
+}
+
 
 static void localcleanup (void)
 {
@@ -10899,8 +11020,6 @@ void SecurityTokenPreferencesDialog (HWND hwndDlg)
 	DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PREFERENCES), hwndDlg, (DLGPROC) SecurityTokenPreferencesDlgProc, 0);
 }
 
-INT_PTR TextEditDialogBox (int type, HWND parent, const WCHAR* Title, std::string& text);
-
 static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD (wParam);
@@ -10972,7 +11091,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 		case IDCANCEL:
 			EndDialog (hwndDlg, lw);
 			return 1;
-		case IDB_SHOW_PLATFORMINFO:
+		case IDC_SHOW_PLATFORMINFO:
 			{
 				try
 				{
@@ -10995,13 +11114,14 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					else
 						offset = 0;
 					platforminfo = (const char*) &fileContent[offset];
-					TextEditDialogBox(0, hwndDlg, L"PlatformInfo", platforminfo);
+					TextEditDialogBox(TRUE, hwndDlg, GetString ("EFI_PLATFORM_INFORMATION"), platforminfo);
 				}
 				catch (Exception &e)	{ e.Show(hwndDlg); }
 			}
 			return 0;
 
-		case IDB_EDIT_DCSPROP:
+		case IDC_EDIT_DCSPROP:
+			if (AskWarnNoYes ("EDIT_DCSPROP_FOR_ADVANCED_ONLY", hwndDlg) == IDYES)
 			{
 				try
 				{
@@ -11026,14 +11146,23 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 						offset = 0;
 
 					dcsprop = (const char*) &fileContent[offset];
-					if(TextEditDialogBox(0, hwndDlg, L"DcsProp", dcsprop) == IDOK) {
-						// Add UTF-8 BOM
-						fileContent.resize (dcsprop.length() + 3);
-						memcpy (fileContent.data(), "\xEF\xBB\xBF", 3);
-						memcpy (&fileContent[3], &dcsprop[0], dcsprop.length());
-						File f2(path,false,true);
-						f2.Write(fileContent.data(), fileContent.size());
-						f2.Close();
+					while (TextEditDialogBox(FALSE, hwndDlg, GetString ("BOOT_LOADER_CONFIGURATION_FILE"), dcsprop) == IDOK)
+					{
+						if (validateDcsPropXml (dcsprop.c_str()))
+						{
+							// Add UTF-8 BOM
+							fileContent.resize (dcsprop.length() + 3);
+							memcpy (fileContent.data(), "\xEF\xBB\xBF", 3);
+							memcpy (&fileContent[3], &dcsprop[0], dcsprop.length());
+							File f2(path,false,true);
+							f2.Write(fileContent.data(), fileContent.size());
+							f2.Close();
+							break;
+						}
+						else
+						{
+							MessageBoxW (hwndDlg, GetString ("DCSPROP_XML_VALIDATION_FAILED"), lpszTitle, ICON_HAND);
+						}
 					}
 				}
 				catch (Exception &e)	{	e.Show(hwndDlg); }

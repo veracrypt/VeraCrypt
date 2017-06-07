@@ -3361,13 +3361,13 @@ wstring GetDecoyOsInstructionsString (void)
 }
 
 struct _TEXT_EDIT_DIALOG_PARAM {
-	int           Type;
+	BOOL ReadOnly;
 	std::string&  Text;
 	const WCHAR*  Title;
 	HWND          Parent;
-	_TEXT_EDIT_DIALOG_PARAM(int _type, const WCHAR* title, std::string&  _text) : Title(title), Text(_text), Type(_type) {}
+	_TEXT_EDIT_DIALOG_PARAM(BOOL _readOnly, const WCHAR* title, std::string&  _text) : Title(title), Text(_text), ReadOnly(_readOnly) {}
 	_TEXT_EDIT_DIALOG_PARAM& operator=( const _TEXT_EDIT_DIALOG_PARAM& other) { 
-		Type = other.Type;
+		ReadOnly = other.ReadOnly;
 		Text = other.Text;
 		Title = other.Title;
 		return *this; 
@@ -3375,9 +3375,9 @@ struct _TEXT_EDIT_DIALOG_PARAM {
 };
 typedef struct _TEXT_EDIT_DIALOG_PARAM TEXT_INFO_DIALOG_PARAM,*TEXT_INFO_DIALOG_PARAM_PTR;
 
-INT_PTR TextEditDialogBox (int type, HWND parent, const WCHAR* Title, std::string& text)
+INT_PTR TextEditDialogBox (BOOL readOnly, HWND parent, const WCHAR* Title, std::string& text)
 {
-	TEXT_INFO_DIALOG_PARAM pm(type, Title, text);
+	TEXT_INFO_DIALOG_PARAM pm(readOnly, Title, text);
 	return DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TEXT_EDIT_DLG), parent, (DLGPROC) TextEditDlgProc, (LPARAM) &pm);
 }
 
@@ -3398,6 +3398,14 @@ BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// Left margin for rich edit text field
 			SendMessage (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
 
+			if (prm->ReadOnly)
+			{
+				// switch rich edit control to ReadOnly
+				SendMessage(GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), ES_READONLY, TRUE, 0);
+				// hide cancel button
+				ShowWindow(GetDlgItem(hwndDlg, IDCANCEL), SW_HIDE);
+			}
+
 			SendMessage (hwndDlg, TC_APPMSG_LOAD_TEXT_BOX_CONTENT, 0, 0);
 		}
 		return 0;
@@ -3405,8 +3413,11 @@ BOOL CALLBACK TextEditDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		if (lw == IDOK )
 		{
-			prm->Text.resize(GetWindowTextLengthA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT)) + 1);
-			GetWindowTextA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), &(prm->Text)[0], prm->Text.size());
+			if (!prm->ReadOnly)
+			{
+				prm->Text.resize(GetWindowTextLengthA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT)) + 1);
+				GetWindowTextA (GetDlgItem (hwndDlg, IDC_INFO_BOX_TEXT), &(prm->Text)[0], prm->Text.size());
+			}
 			NormalCursor ();
 			EndDialog (hwndDlg, IDOK);
 			return 1;
