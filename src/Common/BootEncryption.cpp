@@ -4090,7 +4090,7 @@ namespace VeraCrypt
 			}
 		}
 
-		if (!config.SystemLoaderPresent || !activePartitionFound)
+		if ((!config.SystemLoaderPresent && !config.SystemPartition.IsGPT) || !activePartitionFound)
 		{
 			static bool confirmed = false;
 
