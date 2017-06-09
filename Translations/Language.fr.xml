@@ -1414,6 +1414,14 @@
 	<string lang="fr" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Impossible de vérifier que le disque de secours a été correctement décompressé.\n\nSi vous avez décompressé le disque de secours dans une clef USB, éjectez-la et réinsérez-la puis essayez à nouveau. Si cela n'aide pas, essayez un autre logiciel de ZIP ou une autre clef USB.\n\nSi vous essayez de vérifier un disque de secours créé pour une clé principale différente, un mot de passe différent, etc... dans ce cas la vérification échouera à tous les coups. Pour créer un nouveau disque de secours totalement compatible avec votre configuration actuelle, sélectionnez 'Système' &gt; 'Créer un disque de secours'.</string>
 	<string lang="fr" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">L'image ZIP du disque de secours a été créée et stockée dans le fichier : \n%s\n\nMainteant vous avez besoin de la décompresser dans une clef USB formattée en FAT/FAT32.\n\nIMPORTANT : Le fichier ZIP doit être décompressé directement à la racine de la clef USB. Par exemple, si la lettre E: est attribuée à la clef USB, alors la décompression du fichier zip devrait créer un répertoire E:\\EFI sur la clef USB.\n\nAprès avoir créer le disque de secours, sélectionnez « Système » &gt; « Vérifier le disque de secours » pour vérifier qu'il a été créé correctement.</string>
 	<control lang="fr" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Utiliser le Bureau Sécurisé pour la demande de mot de passe</control>
+    <string lang="fr" key="ERR_REFS_INVALID_VOLUME_SIZE">La taille du volume spécifiée en ligne de commande n'est pas compatible avec ReFS.</string>
+    <control lang="fr" key="IDC_EDIT_DCSPROP">Modifier la configuration du chargeur de démarrage</control>
+    <control lang="fr" key="IDC_SHOW_PLATFORMINFO">Afficher les détails de la platforme EFI</control>
+    <string lang="fr" key="BOOT_LOADER_CONFIGURATION_FILE">Fichier de configuration du chargeur de démarrage</string>
+    <string lang="fr" key="EFI_PLATFORM_INFORMATION">Détails de la platforme EFI</string>
+    <string lang="fr" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">AVERTISSEMENT : Les utilisateurs novices ne devraient pas modifier manuellement le fichier de configuration du chargeur de démarrage.\n\nContinuer ?</string>
+    <string lang="fr" key="DCSPROP_XML_VALIDATION_FAILED">ATTENTION: échec de la validation du format XML du fichier de configuration du chargeur de démarrage. Merci de vérifier vos modifications.</string>
+    <control lang="fr" key="IDT_ADVANCED_OPTIONS">Options Avancées</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

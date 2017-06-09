@@ -1414,6 +1414,14 @@
     <string lang="de" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Kann nicht bestätigen, ob der Rettungsdatenträger korrekt entpackt wurde.\n\nWenn Sie das Rettungsdatenträger-Abbild auf einen USB-Stick entpackt haben, werfen Sie ihn bitte aus und stecken Sie ihn wieder ein; anschließend versuchen Sie es erneut. Wenn dies nicht hilft, versuchen Sie es bitte mit einer anderen ZIP-Software und/oder Medium.\n\nWenn Sie für einen anderen Hauptschlüssel, Passwort, Salz, usw. versucht haben, den VeraCrypt-Rettungsdatenträger zu bestätigen, beachten Sie bitte, dass ein solcher Rettungsdatenträger immer durch diese Überprüfung fallen wird. Um einen neuen, mit Ihrer aktuellen Konfiguration vollständig kompatiblen Rettungsdatenträger zu erstellen, wählen Sie 'System' > 'Rettungsdatenträger erstellen' aus.</string>
     <string lang="de" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Das Rettungsdatenträger-Abbild wurde erstellt und in dieser Datei gespeichert:\n%s\n\nJetzt müssen Sie das Rettungsdatenträger-Abbild auf einen mit FAT/FAT32-formatierten USB-Stick entpacken.\n\nWICHTIG: Beachten Sie, dass die ZIP-Datei direkt in das Stammverzeichnis des USB-Sticks entpackt werden muss. Zum Beispiel, wenn der Laufwerksbuchstabe des USB-Sticks E: ist, sollte das Entpacken der ZIP-Datei einen Ordner E:\\EFI auf dem USB-Stick erstellen.\n\nNachdem Sie den Rettungsdatenträger erstellt haben, wählen Sie 'System' > 'Rettungsdatenträger überprüfen' aus, um zu bestätigen, dass er korrekt erstellt wurde.</string>
 	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
+    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
+    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
+    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
+    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
+    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
+    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
+    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
+    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

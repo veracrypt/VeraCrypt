@@ -1414,6 +1414,14 @@
     <string lang="pl" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Nie można zweryfikować poprawności wypakowania płyty ratunkowej.\n\nJeżeli wypakowałeś płytę ratunkową, proszę wysunąć i raz jeszcze wsunąć pamięć USB, kliknąć Dalej i spróbować ponownie. Jeżeli to nie pomoże, proszę wypróbować inną pamięć USB albo/i inny program obsługujący ZIP lub inny nośnik\n\nIJeżeli próbowałeś zweryfikować płytę ratunkową VeraCrypt stworzoną dla innego klucza głównego, hasła, soli itd., proszę pamiętać, że taka płyta ratunkową zawsze nie przejdzie weryfikacji. Aby stworzyć nową płytę ratunkową w pełni kompatybilną z bieżącą konfiguracją, wybierz 'System' > 'Utwórz płytę ratunkową'.</string>
     <string lang="pl" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Obraz płyty ratunkowej został stworzony i jest przechowywany w tym pliku:\n%s\n\nTeraz musisz wypakować go na pamięć USB, która jest sformatowana jako FAT/FAT32.\n\nWAŻNE: Pamiętaj, że plik ZIP musi być wypakowany bezpośrednio do głównego folderu pamięci USB. Na przykład, jeżeli litera napędu pamięci USB to E:, wtedy wypakowany plik ZIP powinien stworzyć folder E:\\EFI na pamięci USB.\n\nPo stworzeniu płyty ratunkowej wybierz 'System' > 'Sprawdź płytę ratunkową', aby zweryfikować poprawność jej stworzenia.</string>
 	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
+    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
+    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
+    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
+    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
+    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
+    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
+    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
+    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
