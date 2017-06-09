@@ -166,7 +166,7 @@
     <control lang="cs" key="IDC_PREF_DISMOUNT_SCREENSAVER">Je spuštěn spořič obrazovky</control>
     <control lang="cs" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Vynutit automatické odpojení, i když svazek obsahuje otevřené soubory nebo adresáře</control>
     <control lang="cs" key="IDC_PREF_LOGON_MOUNT_DEVICES">Připojit všechny svazky na zařízeních</control>
-    <control lang="cs" key="IDC_PREF_LOGON_START">Spustit VeraCrypt službu na pozadí</control>
+    <control lang="cs" key="IDC_PREF_LOGON_START">Spustit službu VeraCryptu na pozadí</control>
     <control lang="cs" key="IDC_PREF_MOUNT_READONLY">Připojit svazky jen pro čtení</control>
     <control lang="cs" key="IDC_PREF_MOUNT_REMOVABLE">Připojit svazky jako výměnná média</control>
     <control lang="cs" key="IDC_PREF_OPEN_EXPLORER">Otevřít okno Průzkumníka pro úspěšně připojený svazek</control>
@@ -1413,15 +1413,15 @@
     <string lang="cs" key="RESCUE_DISK_EFI_CHECK_FAILED">Není možné ověřit, že záchranný disk byl správně rozbalen.\n\nByl-li rozbalen záchranný disk na zařízení USB, vyjměte a znovu zasuňte zařízení USB a klikněte na tlačítko "Další". Pokud to nepomůže, zkuste jiné zařízení USB a/nebo jiný program pro práci s archívem *zip.\n\nPokud nebyl ještě záchranný disk rozbalen, učiňte tak a klikněte na tlačítko "Další".\n\nZkoušel-li jste ověřit záchranný disk Veracrypt vytvořený před spuštěním tohoto průvodce, mějte na paměti, že takový záchranný disk nemůže být použit, neboť byl vytvořen s jiným klíčem. Musíte rozbalit nově vygenerovaný obraz záchranného disku z formátu *.zip.</string>
     <string lang="cs" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Není možné ověřit, že záchranný disk byl správně rozbalen.\n\nByl-li rozbalen záchranný disk na zařízení USB, vyjměte a znovu zasuňte zařízení USB a klikněte na tlačítko "Další". Pokud to nepomůže, zkuste jiné zařízení USB a/nebo jiný program pro práci s archívem *zip.\n\nZkoušel-li jste ověřit záchranný disk vytvořený pro jiný master key, heslo, zařízení, atd., uvědomte si, že kontrola bude vždy neúspěšná. Pro vytvoření nového záchranného disku plně kompatibilního s vaším současnou konfigurací, vyberte možnost v nabídce "Systém > Vytvořit záchranný disk".</string>
     <string lang="cs" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Obraz záchranného disku byl vytvořen a uložen v tomto souboru:\n%s\n\nNyní stačí rozbalit obraz na zařízení USB, které je naformátováno jako FAT/FAT32.\n\nDŮLEŽITÉ: Uvědomte si, že soubor *.zip musí být rozbalen přímo do hlavního adresáře zařízení USB. Například, pokud je písmeno jednotky USB "E:", tak rozbalení souboru *.zip by mělo vytvořit adresář E:\\EFI na zařízení USB.\n\nJakmile vytvoříte záchranný disk, vyberte nabídku "Systém > Ověřit záchranný disk" a tím si ověříte jestli byl správně vytvořen.</string>
-	<control lang="cs" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Použít zabezpečenou plochu pro zadávání hesla</control>
-    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
-    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
-    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
-    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
-    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
-    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
-    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
-    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
+    <control lang="cs" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Použít zabezpečenou plochu pro zadávání hesla</control>
+    <string lang="cs" key="ERR_REFS_INVALID_VOLUME_SIZE">Velikost svazku specifikovaného v příkazovém řádku je nekompatibilní s vybraným souborovým souborem ReFS.</string>
+    <control lang="cs" key="IDC_EDIT_DCSPROP">Upravit konfiguraci Boot Loaderu</control>
+    <control lang="cs" key="IDC_SHOW_PLATFORMINFO">Zobrazit informace o platformě EFI</control>
+    <string lang="cs" key="BOOT_LOADER_CONFIGURATION_FILE">Konfigurační soubor Boot Loaderu</string>
+    <string lang="cs" key="EFI_PLATFORM_INFORMATION">Informace o platformě EFI</string>
+    <string lang="cs" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">UPOZORNĚNÍ: nezkušení uživatelé by se neměli pokoušet upravovat konfiguraci Boot Loaderu.\n\nPokračovat?</string>
+    <string lang="cs" key="DCSPROP_XML_VALIDATION_FAILED">UPOZORNĚNÍ: chyba při ověření formátu *.xml v konfiguraci Boot Loaderu. Zkontrolujte si vaše úpravy.</string>
+    <control lang="cs" key="IDT_ADVANCED_OPTIONS">Pokročilé možnosti</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
