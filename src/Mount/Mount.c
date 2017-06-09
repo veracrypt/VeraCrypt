@@ -11023,6 +11023,7 @@ void SecurityTokenPreferencesDialog (HWND hwndDlg)
 static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD (wParam);
+	static std::string platforminfo;
 
 	switch (msg)
 	{
@@ -11059,6 +11060,35 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				if (bSystemIsGPT)
 				{
 					CheckDlgButton (hwndDlg, IDC_DISABLE_BOOT_LOADER_HASH_PROMPT, (userConfig & TC_BOOT_USER_CFG_FLAG_STORE_HASH) ? BST_CHECKED : BST_UNCHECKED);
+					// read PlatformInfo file if it exists
+					try
+					{
+						ByteArray fileContent;
+						DWORD sz, offset;
+						std::wstring path;
+						GetVolumeESP(path);
+						path += L"\\EFI\\VeraCrypt\\PlatformInfo";
+						File fPlatformInfo(path);
+						fPlatformInfo.GetFileSize(sz);
+						fileContent.resize(sz + 1);
+						fileContent[sz] = 0;
+						fPlatformInfo.Read((byte*)&fileContent[0], sz);
+						// remove UTF-8 BOM if any
+						if (0 == memcmp (fileContent.data(), "\xEF\xBB\xBF", 3))
+						{
+							offset = 3;
+						}
+						else
+							offset = 0;
+						platforminfo = (const char*) &fileContent[offset];						
+					}
+					catch (Exception &e)	{}
+
+					if (platforminfo.length() == 0)
+					{
+						// could not read PlatformInfo file. Disable corresponding button in UI
+						EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PLATFORMINFO), FALSE);
+					}
 				}
 				else
 				{
@@ -11092,32 +11122,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 			EndDialog (hwndDlg, lw);
 			return 1;
 		case IDC_SHOW_PLATFORMINFO:
-			{
-				try
-				{
-					std::string platforminfo;
-					ByteArray fileContent;
-					DWORD sz, offset;
-					std::wstring path;
-					GetVolumeESP(path);
-					path += L"\\EFI\\VeraCrypt\\PlatformInfo";
-					File fPlatformInfo(path);
-					fPlatformInfo.GetFileSize(sz);
-					fileContent.resize(sz + 1);
-					fileContent[sz] = 0;
-					fPlatformInfo.Read((byte*)&fileContent[0], sz);
-					// remove UTF-8 BOM if any
-					if (0 == memcmp (fileContent.data(), "\xEF\xBB\xBF", 3))
-					{
-						offset = 3;
-					}
-					else
-						offset = 0;
-					platforminfo = (const char*) &fileContent[offset];
-					TextEditDialogBox(TRUE, hwndDlg, GetString ("EFI_PLATFORM_INFORMATION"), platforminfo);
-				}
-				catch (Exception &e)	{ e.Show(hwndDlg); }
-			}
+			TextEditDialogBox(TRUE, hwndDlg, GetString ("EFI_PLATFORM_INFORMATION"), platforminfo);
 			return 0;
 
 		case IDC_EDIT_DCSPROP:
