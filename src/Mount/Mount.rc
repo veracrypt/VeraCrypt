@@ -285,15 +285,15 @@ BEGIN
     LTEXT           "",IDT_PKCS11_LIB_HELP,16,63,286,65
 END
 
-IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 374, 156
+IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 374, 165
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,339,10
-    DEFPUSHBUTTON   "OK",IDOK,258,132,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,317,132,50,14
+    DEFPUSHBUTTON   "OK",IDOK,255,141,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,313,141,50,14
     GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,45
     GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,53,355,44
     CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
@@ -302,8 +302,9 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,20,339,9
     CONTROL         "Do not request Hash algorithm in the pre-boot authentication screen",IDC_DISABLE_BOOT_LOADER_HASH_PROMPT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,35,339,9
-    PUSHBUTTON      "Display EFI Platform Information",IDC_SHOW_PLATFORMINFO,16,126,154,14
-    PUSHBUTTON      "Edit Boot Loader Configuration",IDC_EDIT_DCSPROP,16,105,154,14
+    PUSHBUTTON      "Display EFI Platform Information",IDC_SHOW_PLATFORMINFO,187,112,173,14
+    PUSHBUTTON      "Edit Boot Loader Configuration",IDC_EDIT_DCSPROP,10,112,173,14
+    GROUPBOX        "Advanced Options",IDT_ADVANCED_OPTIONS,7,99,355,36
 END
 
 IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 370, 248
@@ -485,7 +486,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 367
         TOPMARGIN, 7
-        BOTTOMMARGIN, 146
+        BOTTOMMARGIN, 155
     END
 
     IDD_PERFORMANCE_SETTINGS, DIALOG
@@ -605,7 +606,7 @@ IDB_SYS_DRIVEICON_MASK  BITMAP                  "System_drive_icon_mask_96dpi.bm
 // Menu
 //
 
-IDR_MENU MENU 
+IDR_MENU MENU
 BEGIN
     POPUP "&Volumes"
     BEGIN
@@ -640,7 +641,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Create Rescue Disk...",       IDM_CREATE_RESCUE_DISK
         MENUITEM "Verify Rescue Disk",          IDM_VERIFY_RESCUE_DISK
-        MENUITEM "Verify Rescue Disk Image", IDM_VERIFY_RESCUE_DISK_ISO
+        MENUITEM "Verify Rescue Disk Image",    IDM_VERIFY_RESCUE_DISK_ISO
         MENUITEM SEPARATOR
         MENUITEM "Mount Without Pre-Boot &Authentication...", IDM_MOUNT_SYSENC_PART_WITHOUT_PBA
         MENUITEM SEPARATOR
@@ -724,7 +725,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_UACSTRING           "VeraCrypt"
 END
