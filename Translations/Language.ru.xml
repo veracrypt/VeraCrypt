@@ -1414,14 +1414,14 @@
     <string lang="ru" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Невозможно проверить правильность распаковки диска восстановления.\n\nЕсли вы его уже распаковали на USB-флэшку, выньте её и снова вставьте; затем повторите попытку. Если это не поможет, используйте другую Zip-программу и/или носитель.\n\nЕсли вы пытались проверить диск восстановления VeraCrypt, созданный с другим мастер-ключом, паролем, солью и т.д., учтите, что проверка такого диска будет всегда выдавать ошибку. Чтобы создать новый диск восстановления, полностью совместимый с текущей конфигурацией, выберите 'Система' > 'Создать диск восстановления'.</string>
     <string lang="ru" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Образ диска восстановления создан и сохранён в этом файле:\n%s\n\nСейчас нужно распаковать образ диска на USB-флэшку, отформатированную в FAT/FAT32.\n\nВАЖНО: Zip-файл необходимо распаковать в корневую папку USB-флэшки. Например, если флэшка имеет букву E:, то при распаковке Zip-файла на USB-флэшке должна быть создана папка E:\\EFI.\n\nПосле создания диска восстановления выберите 'Система' > 'Проверить диск восстановления', чтобы убедиться, что диск создан правильно.</string>
 	<control lang="ru" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Безопасный рабочий стол при вводе пароля</control>
-    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
-    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
-    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
-    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
-    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
-    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
-    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
-    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
+    <string lang="ru" key="ERR_REFS_INVALID_VOLUME_SIZE">Указанный в командной строке размер файла несовместим с выбранной файловой системой ReFS.</string>
+    <control lang="ru" key="IDC_EDIT_DCSPROP">Правка конфигурации загрузчика</control>
+    <control lang="ru" key="IDC_SHOW_PLATFORMINFO">Показать информацию о платформе EFI</control>
+    <string lang="ru" key="BOOT_LOADER_CONFIGURATION_FILE">Файл конфигурации загрузчика</string>
+    <string lang="ru" key="EFI_PLATFORM_INFORMATION">Информация о платформе EFI</string>
+    <string lang="ru" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">ВНИМАНИЕ: Если у вас недостаточно опыта, не следует вручную редактировать настройки загрузчика.\n\nПродолжить?</string>
+    <string lang="ru" key="DCSPROP_XML_VALIDATION_FAILED">ВНИМАНИЕ: Ошибка проверки корректности XML-формата конфигурации загрузчика. Проверьте внесённые вами изменения.</string>
+    <control lang="ru" key="IDT_ADVANCED_OPTIONS">Расширенные настройки</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
