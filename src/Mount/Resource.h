@@ -186,6 +186,7 @@
 #define IDC_SECURE_DESKTOP_PASSWORD_ENTRY 1163
 #define IDC_SHOW_PLATFORMINFO           1164
 #define IDC_EDIT_DCSPROP                1165
+#define IDT_ADVANCED_OPTIONS            1166
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -262,7 +263,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1166
+#define _APS_NEXT_CONTROL_VALUE         1167
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
