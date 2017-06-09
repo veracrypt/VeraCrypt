@@ -7154,8 +7154,8 @@ DWORD GetUsedLogicalDrives (void)
 
 		finally_do ({ LeaveCriticalSection (&csWNetCalls); });
 
-		/* update values every 2 seconds to reduce CPU consumption */
-		if ((time (NULL) - g_lastCallTime) > 2)
+		/* update values every 1 minute to reduce CPU consumption */
+		if ((time (NULL) - g_lastCallTime) > 60)
 		{
 			/* detect disconnected mapped network shares and removed
 			 * their associated drives from the list
