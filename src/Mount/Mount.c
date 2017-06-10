@@ -11063,24 +11063,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					// read PlatformInfo file if it exists
 					try
 					{
-						ByteArray fileContent;
-						DWORD sz, offset;
-						std::wstring path;
-						GetVolumeESP(path);
-						path += L"\\EFI\\VeraCrypt\\PlatformInfo";
-						File fPlatformInfo(path);
-						fPlatformInfo.GetFileSize(sz);
-						fileContent.resize(sz + 1);
-						fileContent[sz] = 0;
-						fPlatformInfo.Read((byte*)&fileContent[0], sz);
-						// remove UTF-8 BOM if any
-						if (0 == memcmp (fileContent.data(), "\xEF\xBB\xBF", 3))
-						{
-							offset = 3;
-						}
-						else
-							offset = 0;
-						platforminfo = (const char*) &fileContent[offset];						
+						platforminfo = ReadESPFile (L"\\EFI\\VeraCrypt\\PlatformInfo", true);						
 					}
 					catch (Exception &e)	{}
 
@@ -11130,38 +11113,13 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 			{
 				try
 				{
-					std::string dcsprop;
-					ByteArray fileContent;
-					DWORD sz, offset;
-					std::wstring path;
-					GetVolumeESP(path);
-					path += L"\\EFI\\VeraCrypt\\DcsProp";
-					File f1(path);
-					f1.GetFileSize(sz);
-					fileContent.resize(sz + 1);
-					fileContent[sz] = 0;
-					f1.Read((byte*)&fileContent[0], sz);
-					f1.Close();
-					// remove UTF-8 BOM if any
-					if (0 == memcmp (fileContent.data(), "\xEF\xBB\xBF", 3))
-					{
-						offset = 3;
-					}
-					else
-						offset = 0;
+					std::string dcsprop = ReadESPFile (L"\\EFI\\VeraCrypt\\DcsProp", true);
 
-					dcsprop = (const char*) &fileContent[offset];
 					while (TextEditDialogBox(FALSE, hwndDlg, GetString ("BOOT_LOADER_CONFIGURATION_FILE"), dcsprop) == IDOK)
 					{
 						if (validateDcsPropXml (dcsprop.c_str()))
 						{
-							// Add UTF-8 BOM
-							fileContent.resize (dcsprop.length() + 3);
-							memcpy (fileContent.data(), "\xEF\xBB\xBF", 3);
-							memcpy (&fileContent[3], &dcsprop[0], dcsprop.length());
-							File f2(path,false,true);
-							f2.Write(fileContent.data(), fileContent.size());
-							f2.Close();
+							WriteESPFile (L"\\EFI\\VeraCrypt\\DcsProp", (LPBYTE) dcsprop.c_str(), (DWORD) dcsprop.size(), true);
 							break;
 						}
 						else

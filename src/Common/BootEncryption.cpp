@@ -1565,9 +1565,6 @@ namespace VeraCrypt
 		{
 			if (GetSystemDriveConfiguration().SystemPartition.IsGPT)
 			{
-				byte confContent[4096*8];
-				DWORD dwSize;
-
 				// for now, we don't support any boot config flags, like hidden OS one
 				if (config)
 					memset (config, 0, bufLength);
@@ -1575,12 +1572,10 @@ namespace VeraCrypt
 				// call ReadEfiConfig only when needed since it requires elevation
 				if (userConfig || customUserMessage || bootLoaderVersion)
 				{
-					ReadEfiConfig (L"\\EFI\\VeraCrypt\\DcsProp", confContent, sizeof (confContent) - 1, &dwSize);
-					
-					confContent[dwSize] = 0;
+					std::string confContent = ReadESPFile (L"\\EFI\\VeraCrypt\\DcsProp", true);
 
 					EfiBootConf conf;
-					conf.Load ((char*) confContent);
+					conf.Load ((char*) confContent.c_str());
 
 					if (userConfig)
 					{
@@ -2095,29 +2090,96 @@ namespace VeraCrypt
 	void 
 	GetVolumeESP(wstring& path) 
 	{
-		ULONG    len;
-		NTSTATUS res;
-		WCHAR tempBuf[1024];
-		memset(tempBuf, 0, sizeof(tempBuf));
+		static wstring g_EspPath;
+		static bool g_EspPathInitialized = false;
 
-		// Load NtQuerySystemInformation function point
-		if (!NtQuerySystemInformationPtr)
+		if (!g_EspPathInitialized)
 		{
-			NtQuerySystemInformationPtr = (NtQuerySystemInformationFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "NtQuerySystemInformation");
+			ULONG    len;
+			NTSTATUS res;
+			WCHAR tempBuf[1024];
+			memset(tempBuf, 0, sizeof(tempBuf));
+
+			// Load NtQuerySystemInformation function point
 			if (!NtQuerySystemInformationPtr)
+			{
+				NtQuerySystemInformationPtr = (NtQuerySystemInformationFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "NtQuerySystemInformation");
+				if (!NtQuerySystemInformationPtr)
+					throw SystemException (SRC_POS);
+			}
+
+			res = NtQuerySystemInformationPtr((SYSTEM_INFORMATION_CLASS)SYSPARTITIONINFORMATION, tempBuf, sizeof(tempBuf), &len);
+			if (res != S_OK)
+			{
+				SetLastError (res);
 				throw SystemException (SRC_POS);
+			}		
+
+			PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
+			g_EspPath = L"\\\\?";
+			g_EspPath += &pStr->Buffer[7];
+			g_EspPathInitialized = true;
 		}
 
-		res = NtQuerySystemInformationPtr((SYSTEM_INFORMATION_CLASS)SYSPARTITIONINFORMATION, tempBuf, sizeof(tempBuf), &len);
-		if (res != S_OK)
-		{
-			SetLastError (res);
-			throw SystemException (SRC_POS);
-		}		
+		path = g_EspPath;
+	}
 
-		PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
-		path = L"\\\\?";
-		path += &pStr->Buffer[7];
+	std::string ReadESPFile (LPCWSTR szFilePath, bool bSkipUTF8BOM)
+	{
+		if (!szFilePath || !szFilePath[0])
+			throw ParameterIncorrect (SRC_POS);
+
+		ByteArray fileContent;
+		DWORD dwSize = 0, dwOffset = 0;
+		std::wstring pathESP;
+
+		GetVolumeESP(pathESP);
+		if (szFilePath[0] != L'\\')
+			pathESP += L"\\";
+		File f(pathESP + szFilePath, true);
+		f.GetFileSize(dwSize);
+		fileContent.resize(dwSize + 1);
+		fileContent[dwSize] = 0;
+		f.Read(fileContent.data(), dwSize);
+		f.Close();
+
+		if (bSkipUTF8BOM)
+		{
+			// remove UTF-8 BOM if any
+			if (0 == memcmp (fileContent.data(), "\xEF\xBB\xBF", 3))
+			{
+				dwOffset = 3;
+			}
+		}
+
+		return (const char*) &fileContent[dwOffset];
+	}
+
+	void WriteESPFile (LPCWSTR szFilePath, LPBYTE pbData, DWORD dwDataLen, bool bAddUTF8BOM)
+	{
+		if (!szFilePath || !szFilePath[0] || !pbData || !dwDataLen)
+			throw ParameterIncorrect (SRC_POS);
+
+		ByteArray fileContent;
+		DWORD dwSize = dwDataLen, dwOffset = 0;
+		std::wstring pathESP;
+
+		if (bAddUTF8BOM)
+		{
+			dwSize += 3;
+			dwOffset = 3;
+		}
+
+		GetVolumeESP(pathESP);
+		if (szFilePath[0] != L'\\')
+			pathESP += L"\\";
+		File f(pathESP + szFilePath, false, true);
+		fileContent.resize(dwSize);
+		if (bAddUTF8BOM)
+			memcpy (fileContent.data(), "\xEF\xBB\xBF", 3);
+		memcpy (&fileContent[dwOffset], pbData, dwDataLen);
+		f.Write(fileContent.data(), dwSize);
+		f.Close();
 	}
 
 	EfiBoot::EfiBoot() {
