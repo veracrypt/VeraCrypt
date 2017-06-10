@@ -187,6 +187,8 @@ namespace VeraCrypt
 	};
 
 	void GetVolumeESP(wstring& path);
+	std::string ReadESPFile (LPCWSTR szFilePath, bool bSkipUTF8BOM);
+	void WriteESPFile (LPCWSTR szFilePath, LPBYTE pbData, DWORD dwDataLen, bool bAddUTF8BOM);
 
 	class EfiBoot {
 	public:
