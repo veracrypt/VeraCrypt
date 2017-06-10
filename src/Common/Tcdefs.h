@@ -235,7 +235,15 @@ void ThrowFatalException(int line);
 #include <ntddk.h>		/* Standard header file for nt drivers */
 #include <ntdddisk.h>		/* Standard I/O control codes  */
 
-#define TCalloc(size) ((void *) ExAllocatePoolWithTag( NonPagedPool, size, 'MMCV' ))
+/* defines needed for using enhanced protection of NX pool under Windows 8 and later */
+#define NonPagedPoolNx  512
+#define MdlMappingNoExecute     0x40000000
+
+/* variables used in the implementation of enhanced protection of NX pool under Windows 8 and later */
+extern POOL_TYPE ExDefaultNonPagedPoolType;
+extern ULONG ExDefaultMdlProtection;
+
+#define TCalloc(size) ((void *) ExAllocatePoolWithTag( ExDefaultNonPagedPoolType, size, 'MMCV' ))
 #define TCfree(memblock) ExFreePoolWithTag( memblock, 'MMCV' )
 
 #define DEVICE_DRIVER

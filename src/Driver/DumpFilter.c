@@ -189,7 +189,7 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 	if ((offset & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
 		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 
-	writeBuffer = MmGetSystemAddressForMdlSafe (writeMdl, HighPagePriority);
+	writeBuffer = MmGetSystemAddressForMdlSafe (writeMdl, (HighPagePriority | ExDefaultMdlProtection));
 	if (!writeBuffer)
 		TC_BUG_CHECK (STATUS_INSUFFICIENT_RESOURCES);
 

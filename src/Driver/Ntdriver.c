@@ -92,6 +92,9 @@ static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
 static BOOL EnableExtendedIoctlSupport = FALSE;
 
+POOL_TYPE ExDefaultNonPagedPoolType = NonPagedPool;
+ULONG ExDefaultMdlProtection = 0;
+
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
 
 
@@ -108,6 +111,13 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	PsGetVersion (&OsMajorVersion, &OsMinorVersion, NULL, NULL);
 
 	Dump ("OsMajorVersion=%d OsMinorVersion=%d\n", OsMajorVersion, OsMinorVersion);
+
+	// NX pool support is available starting from Windows 8
+	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 2))
+	{
+		ExDefaultNonPagedPoolType = (POOL_TYPE) NonPagedPoolNx;
+		ExDefaultMdlProtection = MdlMappingNoExecute;
+	}
 
 	// Load dump filter if the main driver is already loaded
 	if (NT_SUCCESS (TCDeviceIoControl (NT_ROOT_PREFIX, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &version, sizeof (version))))
