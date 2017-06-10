@@ -638,7 +638,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				{
 					UINT64_STRUCT dataUnit;
 
-					dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, HighPagePriority);
+					dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | ExDefaultMdlProtection));
 					if (!dataBuffer)
 					{
 						TCfree (buffer);
@@ -758,7 +758,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				continue;
 			}
 
-			dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, HighPagePriority);
+			dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | ExDefaultMdlProtection));
 
 			if (dataBuffer == NULL)
 			{
