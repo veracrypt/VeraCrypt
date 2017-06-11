@@ -3364,7 +3364,7 @@ struct _TEXT_EDIT_DIALOG_PARAM {
 	BOOL ReadOnly;
 	std::string&  Text;
 	const WCHAR*  Title;
-	HWND          Parent;
+
 	_TEXT_EDIT_DIALOG_PARAM(BOOL _readOnly, const WCHAR* title, std::string&  _text) : Title(title), Text(_text), ReadOnly(_readOnly) {}
 	_TEXT_EDIT_DIALOG_PARAM& operator=( const _TEXT_EDIT_DIALOG_PARAM& other) { 
 		ReadOnly = other.ReadOnly;
