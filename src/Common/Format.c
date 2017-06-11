@@ -163,11 +163,12 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 					 FormatSectorSize,
 					 FALSE);
 
-	if (nStatus != 0)
+	/* cryptoInfo sanity check to make Coverity happy eventhough it can't be NULL if nStatus = 0 */
+	if ((nStatus != 0) || !cryptoInfo)
 	{
 		burn (header, sizeof (header));
 		VirtualUnlock (header, sizeof (header));
-		return nStatus;
+		return nStatus? nStatus : ERR_OUTOFMEMORY;
 	}
 
 begin_format:

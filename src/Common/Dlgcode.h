@@ -241,6 +241,7 @@ typedef struct
 void cleanup ( void );
 void LowerCaseCopy ( wchar_t *lpszDest , const wchar_t *lpszSource );
 void UpperCaseCopy ( wchar_t *lpszDest , size_t cbDest, const wchar_t *lpszSource );
+BOOL IsNullTerminateString (const wchar_t* str, size_t cbSize);
 void CreateFullVolumePath ( wchar_t *lpszDiskFile , size_t cbDiskFile, const wchar_t *lpszFileName , BOOL *bDevice );
 int FakeDosNameForDevice ( const wchar_t *lpszDiskFile , wchar_t *lpszDosDevice , size_t cbDosDevice, wchar_t *lpszCFDevice , size_t cbCFDevice, BOOL bNameOnly );
 int RemoveFakeDosName ( wchar_t *lpszDiskFile , wchar_t *lpszDosDevice );
