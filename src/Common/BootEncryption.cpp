@@ -2223,8 +2223,6 @@ namespace VeraCrypt
 	}
 
 	void EfiBoot::MountBootPartition(WCHAR letter) {
-		NTSTATUS res;
-		ULONG    len;
 		if (!bBootVolumePathSelected) {
 			SelectBootVolumeESP();
 		}

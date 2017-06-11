@@ -6134,8 +6134,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (nVolumeSize < (bHiddenVolHost ? TC_MIN_HIDDEN_VOLUME_HOST_SIZE : (bHiddenVol ? TC_MIN_HIDDEN_VOLUME_SIZE : TC_MIN_VOLUME_SIZE)))
 					AbortProcess ("ERR_VOLUME_SIZE_TOO_SMALL");
 
-				if (	((!bHiddenVolHost && bHiddenVol) && (nVolumeSize > nMaximumHiddenVolSize))
-					||	(nVolumeSize > (bHiddenVolHost ? TC_MAX_HIDDEN_VOLUME_HOST_SIZE : TC_MAX_VOLUME_SIZE))
+				if (	((!bHiddenVolHost && bHiddenVol) && (nVolumeSize > (unsigned __int64) nMaximumHiddenVolSize))
+					||	(nVolumeSize > (unsigned __int64) (bHiddenVolHost ? TC_MAX_HIDDEN_VOLUME_HOST_SIZE : TC_MAX_VOLUME_SIZE))
 					)
 				{
 					AbortProcess ("ERR_VOLUME_SIZE_TOO_BIG");
