@@ -11065,7 +11065,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					{
 						platforminfo = ReadESPFile (L"\\EFI\\VeraCrypt\\PlatformInfo", true);						
 					}
-					catch (Exception &e)	{}
+					catch (Exception &)	{}
 
 					if (platforminfo.length() == 0)
 					{

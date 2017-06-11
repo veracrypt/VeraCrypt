@@ -142,7 +142,7 @@ void LoadCombo (HWND hComboBox, BOOL bEnabled, BOOL bOnlyCheckModified, BOOL *pb
 	char *xml = history;
 	char volume[MAX_PATH];
 	int i, nComboIdx[SIZEOF_MRU_LIST] = {0};
-	int count = SendMessage (hComboBox, CB_GETCOUNT, 0, 0);
+	int count = (int) SendMessage (hComboBox, CB_GETCOUNT, 0, 0);
 
 	if (xml == NULL)
 	{
