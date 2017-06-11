@@ -1864,7 +1864,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 		f = _wfopen (szTmp2, L"w");
 		if (f)
 		{
-			fprintf (f, "[InternetShortcut]\nURL=%S\n", TC_APPLINK);
+			fwprintf (f, L"[InternetShortcut]\nURL=%s\n", TC_APPLINK);
 
 			CheckFileStreamWriteErrors (hwndDlg, f, szTmp2);
 			fclose (f);

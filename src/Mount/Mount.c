@@ -159,7 +159,7 @@ BOOL bKeybLayoutAltKeyWarningShown = FALSE;	/* TRUE if the user has been informe
 
 static KeyFilesDlgParam				hidVolProtKeyFilesParam;
 
-static MOUNT_LIST_STRUCT	LastKnownMountList;
+static MOUNT_LIST_STRUCT	LastKnownMountList = {0};
 VOLUME_NOTIFICATIONS_LIST	VolumeNotificationsList;
 static DWORD				LastKnownLogicalDrives;
 
@@ -1603,7 +1603,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 		NULL);
 	memcpy (&LastKnownMountList, &driver, sizeof (driver));
 
-	if (bResult == FALSE)
+	if ((bResult == FALSE) || (driver.ulMountedDrives >= (1 << 26)))
 	{
 		KillTimer (MainDlg, TIMER_ID_MAIN);
 		KillTimer (hwndDlg, TIMER_ID_UPDATE_DEVICE_LIST);
@@ -1740,7 +1740,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 				curDrive = HIWORD(tmp.lParam);
 		}
 
-		if (driver.ulMountedDrives & (1 << i)
+		if (((driver.ulMountedDrives & (1 << i)) && (IsNullTerminateString (driver.wszVolume[i], TC_MAX_PATH)))
 			|| bSysEncPartition)
 		{
 			wchar_t szTmp[1024];
@@ -5059,12 +5059,12 @@ static BOOL DismountAll (HWND hwndDlg, BOOL forceUnmount, BOOL interact, int dis
 retry:
 	WaitCursor();
 
-	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL);
+	status = DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL);
 
-	if (mountList.ulMountedDrives == 0)
+	if (!status || (mountList.ulMountedDrives == 0) || (mountList.ulMountedDrives >= (1 << 26)))
 	{
 		NormalCursor();
-		return TRUE;
+		return status && (mountList.ulMountedDrives == 0)? TRUE : FALSE;
 	}
 
 	BroadcastDeviceChange (DBT_DEVICEREMOVEPENDING, 0, mountList.ulMountedDrives);
@@ -5106,16 +5106,19 @@ retry:
 		return FALSE;
 
 	memset (&mountList, 0, sizeof (mountList));
-	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL);
-
-	// remove any custom label from registry
-	if (prevMountList.ulMountedDrives)
+	if (	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, &mountList, sizeof (mountList), &mountList, sizeof (mountList), &dwResult, NULL)
+		&& (mountList.ulMountedDrives < (1 << 26))
+		)
 	{
-		for (i = 0; i < 26; i++)
+		// remove any custom label from registry
+		if (prevMountList.ulMountedDrives)
 		{
-			if ((prevMountList.ulMountedDrives & (1 << i)) && (!(mountList.ulMountedDrives & (1 << i))) && wcslen (prevMountList.wszLabel[i]))
+			for (i = 0; i < 26; i++)
 			{
-				UpdateDriveCustomLabel (i, prevMountList.wszLabel[i], FALSE);
+				if ((prevMountList.ulMountedDrives & (1 << i)) && (!(mountList.ulMountedDrives & (1 << i))) && IsNullTerminateString (prevMountList.wszLabel[i], 33) && wcslen (prevMountList.wszLabel[i]))
+				{
+					UpdateDriveCustomLabel (i, prevMountList.wszLabel[i], FALSE);
+				}
 			}
 		}
 	}
@@ -5145,9 +5148,10 @@ retry:
 			if (IsOSAtLeast (WIN_7))
 			{
 				// Undo SHCNE_DRIVEREMOVED
-				DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL);
-
-				if (mountList.ulMountedDrives)
+				if (	DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &dwResult, NULL)
+					&& mountList.ulMountedDrives
+					&& (mountList.ulMountedDrives < (1 << 26))
+					)
 				{
 					for (i = 0; i < 26; i++)
 					{
@@ -6203,12 +6207,15 @@ static void Benchmark (HWND hwndDlg)
 
 static BOOL CheckMountList (HWND hwndDlg, BOOL bForceTaskBarUpdate)
 {
-	MOUNT_LIST_STRUCT current;
+	MOUNT_LIST_STRUCT current = {0};
 	static BootEncryptionStatus newBootEncStatus;
 	static BOOL lastbUseDifferentTrayIconIfVolMounted = bUseDifferentTrayIconIfVolMounted;
 	static uint32 lastUlMountedDrives = 0;
 
-	GetMountList (&current);
+	if (!GetMountList (&current))
+	{
+		return bForceTaskBarUpdate;
+	}
 
 	if ((bForceTaskBarUpdate || current.ulMountedDrives != lastUlMountedDrives || bUseDifferentTrayIconIfVolMounted != lastbUseDifferentTrayIconIfVolMounted)
 		&& TaskBarIconMutex != NULL)
@@ -6857,7 +6864,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				DWORD bytesReturned;
 
 				if (DeviceIoControl (hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, NULL, 0, &mountList, sizeof (mountList), &bytesReturned, NULL)
+					&& ((mountList.ulMountedDrives < (1 << 26))
 					&& (mountList.ulMountedDrives & (1 << cmdUnmountDrive)) == 0)
+					)
 				{
 					Error ("NO_VOLUME_MOUNTED_TO_DRIVE", hwndDlg);
 					exitCode = 1;
@@ -7332,7 +7341,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						for (i = 0; i < 26; i++)
 						{
-							if (LastKnownMountList.ulMountedDrives & (1 << i))
+							if ((LastKnownMountList.ulMountedDrives & (1 << i)) && IsNullTerminateString (LastKnownMountList.wszVolume[i], TC_MAX_PATH))
 							{
 								wchar_t s[1024];
 								wchar_t *vol = (wchar_t *) LastKnownMountList.wszVolume[i];
@@ -7341,7 +7350,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 								// first check label used for mounting. If empty, look for it in favorites.
 								bool useInExplorer = false;
-								wstring label = (wchar_t *) LastKnownMountList.wszLabel[i];
+								wstring label;
+								if (IsNullTerminateString (LastKnownMountList.wszLabel[i], 33))
+									label = (wchar_t *) LastKnownMountList.wszLabel[i];
 								if (label.empty())
 									label = GetFavoriteVolumeLabel (vol, useInExplorer);
 
@@ -7451,56 +7462,57 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			PDEV_BROADCAST_HDR hdr = (PDEV_BROADCAST_HDR) lParam;
 			int m;
 
-			GetMountList (&LastKnownMountList);
-
-			if (wParam == DBT_DEVICEREMOVECOMPLETE && hdr->dbch_devicetype == DBT_DEVTYP_VOLUME)
+			if (GetMountList (&LastKnownMountList))
 			{
-				// File-hosted volumes
-				PDEV_BROADCAST_VOLUME vol = (PDEV_BROADCAST_VOLUME) lParam;
-				int i;
-
-				for (i = 0; i < 26; i++)
+				if (wParam == DBT_DEVICEREMOVECOMPLETE && hdr->dbch_devicetype == DBT_DEVTYP_VOLUME)
 				{
-					if (LastKnownMountList.ulMountedDrives && (vol->dbcv_unitmask & (1 << i)) && !(GetUsedLogicalDrives() & (1 << i)))
+					// File-hosted volumes
+					PDEV_BROADCAST_VOLUME vol = (PDEV_BROADCAST_VOLUME) lParam;
+					int i;
+
+					for (i = 0; i < 26; i++)
 					{
-						for (m = 0; m < 26; m++)
+						if (LastKnownMountList.ulMountedDrives && (vol->dbcv_unitmask & (1 << i)) && !(GetUsedLogicalDrives() & (1 << i)))
 						{
-							if (LastKnownMountList.ulMountedDrives & (1 << m))
+							for (m = 0; m < 26; m++)
 							{
-								wchar_t *vol = (wchar_t *) LastKnownMountList.wszVolume[m];
-
-								if (wcsstr (vol, L"\\??\\") == vol)
-									vol += 4;
-
-								if (vol[1] == L':' && i == (vol[0] - (vol[0] <= L'Z' ? L'A' : L'a')))
+								if ((LastKnownMountList.ulMountedDrives & (1 << m)) && IsNullTerminateString (LastKnownMountList.wszVolume[m], TC_MAX_PATH))
 								{
-									UnmountVolume (hwndDlg, m, TRUE);
-									WarningBalloon ("HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_DISMOUNT_WARN", hwndDlg);
+									wchar_t *vol = (wchar_t *) LastKnownMountList.wszVolume[m];
+
+									if (wcsstr (vol, L"\\??\\") == vol)
+										vol += 4;
+
+									if (vol[1] == L':' && i == (vol[0] - (vol[0] <= L'Z' ? L'A' : L'a')))
+									{
+										UnmountVolume (hwndDlg, m, TRUE);
+										WarningBalloon ("HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_DISMOUNT_WARN", hwndDlg);
+									}
 								}
 							}
 						}
 					}
 				}
-			}
 
-			// Device-hosted volumes
-			for (m = 0; m < 26; m++)
-			{
-				if (LastKnownMountList.ulMountedDrives & (1 << m))
+				// Device-hosted volumes
+				for (m = 0; m < 26; m++)
 				{
-					wchar_t *vol = (wchar_t *) LastKnownMountList.wszVolume[m];
-
-					if (wcsstr (vol, L"\\??\\") == vol)
-						vol += 4;
-
-					if (IsVolumeDeviceHosted (vol))
+					if ((LastKnownMountList.ulMountedDrives & (1 << m)) && IsNullTerminateString (LastKnownMountList.wszVolume[m], TC_MAX_PATH))
 					{
-						OPEN_TEST_STRUCT ots = {0};
+						wchar_t *vol = (wchar_t *) LastKnownMountList.wszVolume[m];
 
-						if (!OpenDevice (vol, &ots, FALSE, FALSE))
+						if (wcsstr (vol, L"\\??\\") == vol)
+							vol += 4;
+
+						if (IsVolumeDeviceHosted (vol))
 						{
-							UnmountVolume (hwndDlg, m, TRUE);
-							WarningBalloon ("HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_DISMOUNT_WARN", hwndDlg);
+							OPEN_TEST_STRUCT ots = {0};
+
+							if (!OpenDevice (vol, &ots, FALSE, FALSE))
+							{
+								UnmountVolume (hwndDlg, m, TRUE);
+								WarningBalloon ("HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE", "HOST_DEVICE_REMOVAL_DISMOUNT_WARN", hwndDlg);
+							}
 						}
 					}
 				}

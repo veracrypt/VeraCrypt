@@ -2137,6 +2137,7 @@ namespace VeraCrypt
 		ZeroMemory (&sdn, sizeof (sdn));
 		ZeroMemory (&partInfo, sizeof (partInfo));
 		m_bMounted = false;
+		bBootVolumePathSelected = false;
 	}
 
 	void EfiBoot::SelectBootVolumeESP() {
@@ -2161,14 +2162,14 @@ namespace VeraCrypt
 
 		PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
 		memcpy (BootVolumePath, pStr->Buffer, min (pStr->Length, (sizeof (BootVolumePath) - 2)));
-		bBootVolumePathSelected = TRUE;
+		bBootVolumePathSelected = true;
 	}
 
 	void EfiBoot::SelectBootVolume(WCHAR* bootVolumePath) {
 		wstring str;
 		str = bootVolumePath;
 		memcpy (BootVolumePath, &str[0], min (str.length() * 2, (sizeof (BootVolumePath) - 2)));
-		bBootVolumePathSelected = TRUE;
+		bBootVolumePathSelected = true;
 	}
 
 	void EfiBoot::MountBootPartition(WCHAR letter) {
