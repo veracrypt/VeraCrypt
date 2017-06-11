@@ -372,29 +372,6 @@ namespace VeraCrypt
 			}
 		}
 
-		static void ReadEfiConfig (const wchar_t *filename, byte* confContent, DWORD maxSize, DWORD* pcbRead)
-		{
-			Elevate();
-
-			CComBSTR outputBstr;
-			if (confContent && outputBstr.AppendBytes ((const char *) confContent, maxSize) != S_OK)
-			{
-				SetLastError (ERROR_INVALID_PARAMETER);
-				throw SystemException(SRC_POS);
-			}
-			BSTR bstrfn = W2BSTR(filename);
-			DWORD result = ElevatedComInstance->ReadEfiConfig (bstrfn, &outputBstr, pcbRead);
-
-			if (confContent)
-				memcpy (confContent, *(void **) &outputBstr, maxSize);
-
-			if (result != ERROR_SUCCESS)
-			{
-				SetLastError (result);
-				throw SystemException(SRC_POS);
-			}
-		}
-
 		static void WriteEfiBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg)
 		{
 			Elevate();
@@ -492,7 +469,6 @@ namespace VeraCrypt
 		static void BackupEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
 		static void RestoreEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
 		static void GetEfiBootDeviceNumber (PSTORAGE_DEVICE_NUMBER pSdn) { throw ParameterIncorrect (SRC_POS); }
-		static void ReadEfiConfig (const wchar_t *filename, byte* confContent, DWORD maxSize, DWORD* pcbRead) { throw ParameterIncorrect (SRC_POS); }
 		static void WriteEfiBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
 	};
 
@@ -1530,33 +1506,6 @@ namespace VeraCrypt
 		}
 	}
 
-	void BootEncryption::ReadEfiConfig (const wchar_t* fileName, byte* confContent, DWORD maxSize, DWORD* pcbRead)
-	{
-		if (!pcbRead)
-			throw ParameterIncorrect (SRC_POS);
-
-		if (!IsAdmin() && IsUacSupported())
-		{
-			Elevator::ReadEfiConfig (fileName, confContent, maxSize, pcbRead);
-		}
-		else
-		{
-			unsigned __int64 ui64Size = 0;
-
-			finally_do ({ EfiBootInst.DismountBootPartition(); });
-			EfiBootInst.MountBootPartition(0);		
-
-			EfiBootInst.GetFileSize(fileName, ui64Size);
-
-			*pcbRead = (DWORD) ui64Size;
-
-			if (*pcbRead > maxSize)
-				throw ParameterIncorrect (SRC_POS);
-
-			EfiBootInst.ReadFile (fileName, confContent, *pcbRead);		
-		}
-	}
-
 	// return false when the user cancel an elevation request
 	bool BootEncryption::ReadBootSectorConfig (byte *config, size_t bufLength, byte *userConfig, string *customUserMessage, uint16 *bootLoaderVersion)
 	{
@@ -1569,7 +1518,7 @@ namespace VeraCrypt
 				if (config)
 					memset (config, 0, bufLength);
 
-				// call ReadEfiConfig only when needed since it requires elevation
+				// call ReadESPFile only when needed since it requires elevation
 				if (userConfig || customUserMessage || bootLoaderVersion)
 				{
 					std::string confContent = ReadESPFile (L"\\EFI\\VeraCrypt\\DcsProp", true);

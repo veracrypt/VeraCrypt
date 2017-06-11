@@ -400,34 +400,6 @@ DWORD BaseCom::GetEfiBootDeviceNumber (BSTR* pSdn)
 	return ERROR_SUCCESS;
 }
 
-DWORD BaseCom::ReadEfiConfig (BSTR filename, BSTR* pContent, DWORD *pcbRead)
-{
-	if (!pContent || !(*pContent))
-		return ERROR_INVALID_PARAMETER;
-
-	try
-	{
-		DWORD maxSize = ((DWORD *) ((BYTE *) *pContent))[-1];
-		BootEncryption bootEnc (NULL);
-		bootEnc.ReadEfiConfig (filename, (byte*) *pContent, maxSize, pcbRead);
-	}
-	catch (SystemException &)
-	{
-		return GetLastError();
-	}
-	catch (Exception &e)
-	{
-		e.Show (NULL);
-		return ERROR_EXCEPTION_IN_SERVICE;
-	}
-	catch (...)
-	{
-		return ERROR_EXCEPTION_IN_SERVICE;
-	}
-
-	return ERROR_SUCCESS;
-}
-
 DWORD BaseCom::WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)
 {
 	if (!customUserMessage)

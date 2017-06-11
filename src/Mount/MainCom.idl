@@ -16,7 +16,7 @@ import "..\Common\Password.h";
 [
 	uuid(9ACF6176-5FC4-4690-A025-B3306A50EB6A),
 	helpstring("VeraCrypt Main UAC Support Library"),
-	version(2.8)	// Update ComSetup.cpp when changing version number
+	version(2.9)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptMainCom
 {
@@ -50,7 +50,6 @@ library TrueCryptMainCom
 		DWORD BackupEfiSystemLoader ();
 		DWORD RestoreEfiSystemLoader ();
 		DWORD GetEfiBootDeviceNumber (BSTR* pSdn);
-		DWORD ReadEfiConfig (BSTR filename, BSTR* pContent, DWORD *pcbRead);
 		DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
 	};
 
