@@ -11995,62 +11995,66 @@ void UpdateMountableHostDeviceList ()
 				(LPVOID) buffer.data(),
 				(DWORD) buffer.size(),
 				(LPDWORD) &bytesReturned,
-				NULL))
+				NULL) && (bytesReturned >= sizeof (DRIVE_LAYOUT_INFORMATION_EX)))
 			{
 				PDRIVE_LAYOUT_INFORMATION_EX layout = (PDRIVE_LAYOUT_INFORMATION_EX) buffer.data();
-				for (DWORD i = 0; i < layout->PartitionCount; i++)
+				// sanity checks
+				if (layout->PartitionCount <= 256)
 				{
-					if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_MBR)
+					for (DWORD i = 0; i < layout->PartitionCount; i++)
 					{
-						if (layout->PartitionEntry[i].Mbr.PartitionType == 0)
-							continue;
-
-						bHasPartition = true;
-
-						/* skip dynamic volume */
-						if (layout->PartitionEntry[i].Mbr.PartitionType == PARTITION_LDM)
+						if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_MBR)
 						{
-							bIsDynamic = true;
-							/* remove any partition that may have been added */
-							while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
-								mountableDevices.pop_back ();
-							break;
+							if (layout->PartitionEntry[i].Mbr.PartitionType == 0)
+								continue;
+
+							bHasPartition = true;
+
+							/* skip dynamic volume */
+							if (layout->PartitionEntry[i].Mbr.PartitionType == PARTITION_LDM)
+							{
+								bIsDynamic = true;
+								/* remove any partition that may have been added */
+								while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
+									mountableDevices.pop_back ();
+								break;
+							}
 						}
-					}
 
-					if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_GPT)
-					{
-						if (IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_ENTRY_UNUSED_GUID))
-							continue;
-
-						bHasPartition = true;
-
-						/* skip dynamic volume */
-						if (	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_METADATA_GUID)
-							||	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_DATA_GUID)
-							)
+						if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_GPT)
 						{
-							bIsDynamic = true;
-							/* remove any partition that may have been added */
-							while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
-								mountableDevices.pop_back ();
-							break;
-						}
-					}
+							if (IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_ENTRY_UNUSED_GUID))
+								continue;
 
-					WCHAR path[MAX_PATH];
-					StringCbPrintfW (path, sizeof(path), L"\\\\?\\GLOBALROOT\\Device\\Harddisk%d\\Partition%d", It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
-					HANDLE handle = CreateFile( path,
-						0,
-						FILE_SHARE_READ | FILE_SHARE_WRITE,
-						NULL,
-						OPEN_EXISTING,
-						0,
-						NULL );
-					if (handle != INVALID_HANDLE_VALUE)
-					{
-						AddDeviceToList (mountableDevices, It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
-						CloseHandle (handle);
+							bHasPartition = true;
+
+							/* skip dynamic volume */
+							if (	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_METADATA_GUID)
+								||	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_DATA_GUID)
+								)
+							{
+								bIsDynamic = true;
+								/* remove any partition that may have been added */
+								while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
+									mountableDevices.pop_back ();
+								break;
+							}
+						}
+
+						WCHAR path[MAX_PATH];
+						StringCbPrintfW (path, sizeof(path), L"\\\\?\\GLOBALROOT\\Device\\Harddisk%d\\Partition%d", It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
+						HANDLE handle = CreateFile( path,
+							0,
+							FILE_SHARE_READ | FILE_SHARE_WRITE,
+							NULL,
+							OPEN_EXISTING,
+							0,
+							NULL );
+						if (handle != INVALID_HANDLE_VALUE)
+						{
+							AddDeviceToList (mountableDevices, It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
+							CloseHandle (handle);
+						}
 					}
 				}
 			}
