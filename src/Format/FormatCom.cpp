@@ -167,11 +167,6 @@ public:
 		return BaseCom::GetEfiBootDeviceNumber (pSdn);
 	}
 
-	virtual DWORD STDMETHODCALLTYPE ReadEfiConfig (BSTR filename, BSTR* pContent, DWORD *pcbRead)
-	{
-		return BaseCom::ReadEfiConfig (filename, pContent, pcbRead);
-	}
-
 	virtual DWORD STDMETHODCALLTYPE WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)
 	{
 		return BaseCom::WriteEfiBootSectorUserConfig (userConfig, customUserMessage,pim, hashAlg);

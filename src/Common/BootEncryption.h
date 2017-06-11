@@ -276,7 +276,6 @@ namespace VeraCrypt
 		void ProbeRealSystemDriveSize ();
 		bool ReadBootSectorConfig (byte *config, size_t bufLength, byte *userConfig = nullptr, string *customUserMessage = nullptr, uint16 *bootLoaderVersion = nullptr);
 		uint32 ReadDriverConfigurationFlags ();
-		void ReadEfiConfig (const wchar_t* filename, byte* confContent, DWORD maxSize, DWORD* pcbRead);
 		void RegisterBootDriver (bool hiddenSystem);
 		void RegisterFilterDriver (bool registerDriver, FilterType filterType);
 		void RegisterSystemFavoritesService (BOOL registerService);
