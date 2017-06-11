@@ -7416,7 +7416,6 @@ static BOOL GetDeviceStorageProperty (HANDLE hDevice, STORAGE_PROPERTY_ID proper
 	}
 	else
 		dwRet = ::GetLastError();
-	::CloseHandle(hDevice);
 
 	if (!bRet)
 	{
