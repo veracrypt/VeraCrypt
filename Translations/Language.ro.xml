@@ -1411,15 +1411,15 @@
     <string lang="ro" key="RESCUE_DISK_EFI_CHECK_FAILED">Nu se poate verifica dacă Discul de Recuperare a fost extras corect.\n\nDacă ați extras Discul de Recuperare, scoateți și reintroduceți dispozitivul USB; apoi dați clic pe Înainte pentru a reîncerca. Dacă nici acum nu funcționează, încercați cu alt dispozitiv USB sau alt program de dezarhivare.\n\nDacă nu ați extras încă Discul de Recuperare, atunci extrageți-l acum și apoi dați clic pe Înainte.\n\nDacă ați încercat să verificați un Disc de Recuperare VeraCrypt creat înainte de a porni acest asistent, rețineți că un astfel de disc nu poate fi utilizat, deoarece a fost creat pentru o cheie principală diferită. Trebuie să extrageți noua imagine ZIP a Discului de Recuperare generat.</string>
     <string lang="ro" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Nu se poate verifica dacă Discul de Recuperare a fost extras corect.\n\nDacă ați extras imaginea Discului de Recuperare pe un dispozitiv USB, scoteți-l și reintroduceți-l; apoi reîncercați. Dacă nici acum nu funcționează, încercați cu alt dispozitiv USB sau program de dezarhivare.\n\nDacă ați încercat să verificați un Disc de Recuperare VeraCrypt creat pentru o cheie principală, parolă, etc. diferite, rețineți că un astfel de disc va eșua întotdeauna la verificare. Pentru a crea un nou Disc de Recuperare complet compatibil cu configurația curentă, selectați 'Sistem' > 'Creare disc de recuperare'.</string>
     <string lang="ro" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Imaginea Discului de Recuperare a fost creată și stocată în acest fișier:\n%s\n\nAcum va trebui să extrageți imaginea pe un dispozitiv USB care este formatat ca FAT/FAT32.\n\nIMPORTANT: Rețineți că fișierul zip trebuie extras direct în rădăcina unității USB. De exemplu, dacă litera unității USB este E:, atunci extrăgând arhiva zip ar trebui să fie creat un folder E:\\EFI pe unitatea USB.\n\nDupă ce ați creat Discul de Recuperare, selectați 'Sistem' > 'Verificare disc de recuperare' pentru a verifica dacă a fost creat corect.</string>
-    <control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Folosire ecran securizat pentru introducerea parolei</control>
-    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
-    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
-    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
-    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
-    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
-    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
-    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
-    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
+    <control lang="ro" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Folosire ecran securizat pentru introducerea parolei</control>
+    <string lang="ro" key="ERR_REFS_INVALID_VOLUME_SIZE">Dimensiunea volumului specificată în linia de comandă este incompatibilă cu sistemul de fișiere ReFS selectat.</string>
+    <control lang="ro" key="IDC_EDIT_DCSPROP">Editare configurație încărcător sistem</control>
+    <control lang="ro" key="IDC_SHOW_PLATFORMINFO">Afișare informații platformă EFI</control>
+    <string lang="ro" key="BOOT_LOADER_CONFIGURATION_FILE">Fișier configurație încărcător sistem</string>
+    <string lang="ro" key="EFI_PLATFORM_INFORMATION">Informații platformă EFI</string>
+    <string lang="ro" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">ATENȚIE: Utilizatorii neexperimentați nu ar trebui să încerce editarea manuală a configurației încărcătorului de sistem.\n\nContinuați?</string>
+    <string lang="ro" key="DCSPROP_XML_VALIDATION_FAILED">ATENȚIE: Eșuare la validarea formatului XML al încărcătorului de sistem. Verificați modificările efectuate.</string>
+    <control lang="ro" key="IDT_ADVANCED_OPTIONS">Opțiuni avansate</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
