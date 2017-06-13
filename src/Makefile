@@ -189,15 +189,15 @@ ifeq "$(shell uname -s)" "Linux"
 	endif
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
-		C_CXX_FLAGS += -fdata-sections -ffunction-sections
-		LFLAGS += -Wl,--gc-sections
+		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
+		LFLAGS += -Wl,--gc-sections -pie
 
 		ifneq "$(shell ld --help 2>&1 | grep sysv | wc -l)" "0"
 			LFLAGS += -Wl,--hash-style=sysv
 		endif
 
-		WXCONFIG_CFLAGS += -fdata-sections -ffunction-sections
-		WXCONFIG_CXXFLAGS += -fdata-sections -ffunction-sections
+		WXCONFIG_CFLAGS += -fdata-sections -ffunction-sections -fpie
+		WXCONFIG_CXXFLAGS += -fdata-sections -ffunction-sections -fpie
 	endif
 
 	ifneq "$(origin WXSTATIC)" "command line"
