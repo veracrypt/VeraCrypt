@@ -362,6 +362,11 @@ all clean:
 		export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
 	done
 
+install:
+	$(MAKE) -C Main -f Main.make NAME=Main install
+
+package:
+	$(MAKE) -C Main -f Main.make NAME=Main package
 
 #------ wxWidgets build ------
 

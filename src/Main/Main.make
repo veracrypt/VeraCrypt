@@ -152,6 +152,7 @@ endif
 endif
 
 ifeq "$(PLATFORM)" "MacOSX"
+prepare: $(APPNAME)
 	mkdir -p $(APPNAME).app/Contents/MacOS $(APPNAME).app/Contents/Resources/doc/HTML
 	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)
 	-rm -f $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
@@ -179,6 +180,11 @@ endif
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
 	codesign -s "Developer ID Application: Mounir IDRASSI" --timestamp $(APPNAME).app
+
+install: prepare
+	cp -R $(APPNAME).app /Applications/.
+
+package: prepare
 	/usr/local/bin/packagesbuild $(PWD)/Setup/MacOSX/veracrypt.pkgproj
 	productsign --sign "Developer ID Installer: Mounir IDRASSI" --timestamp "$(PWD)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_$(TC_VERSION).dmg
@@ -197,7 +203,7 @@ endif
 
 
 ifeq "$(PLATFORM)" "Linux"
-ifeq "$(TC_BUILD_CONFIG)" "Release"
+prepare: $(APPNAME)
 	mkdir -p $(PWD)/Setup/Linux/usr/bin
 	mkdir -p $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/HTML
 	cp $(PWD)/Main/$(APPNAME) $(PWD)/Setup/Linux/usr/bin/$(APPNAME)
@@ -214,6 +220,11 @@ ifndef TC_NO_GUI
 endif
 
 
+install: prepare
+	cp -R $(PWD)/Setup/Linux/usr /.
+
+ifeq "$(TC_BUILD_CONFIG)" "Release"
+package: prepare
 	tar cfz $(PWD)/Setup/Linux/$(PACKAGE_NAME) --directory $(PWD)/Setup/Linux usr
 
 	@rm -fr $(INTERNAL_INSTALLER_NAME)
@@ -233,6 +244,24 @@ endif
 	cp $(INTERNAL_INSTALLER_NAME) $(PWD)/Setup/Linux/packaging/.
 	makeself $(PWD)/Setup/Linux/packaging $(PWD)/Setup/Linux/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) Installer" ./$(INTERNAL_INSTALLER_NAME)
 
+endif
+
+endif
+
+ifeq "$(PLATFORM)" "FreeBSD"
+install: $(APPNAME)
+	mkdir -p /usr/share/$(APPNAME)/doc/HTML
+	cp $(PWD)/Main/$(APPNAME) /usr/bin/$(APPNAME)
+	cp $(PWD)/Setup/Linux/$(APPNAME)-uninstall.sh /usr/bin/$(APPNAME)-uninstall.sh
+	chmod +x /usr/bin/$(APPNAME)-uninstall.sh
+	cp $(PWD)/License.txt /usr/share/$(APPNAME)/doc/License.txt
+	cp $(PWD)/../doc/html/* "/usr/share/$(APPNAME)/doc/HTML"
+
+ifndef TC_NO_GUI
+	mkdir -p /usr/share/applications
+	mkdir -p /usr/share/pixmaps
+	cp $(PWD)/Resources/Icons/VeraCrypt-256x256.xpm /usr/share/pixmaps/$(APPNAME).xpm
+	cp $(PWD)/Setup/Linux/$(APPNAME).desktop /usr/share/applications/$(APPNAME).desktop
 endif
 
 endif
