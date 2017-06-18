@@ -173,6 +173,8 @@ namespace VeraCrypt
 		int requestPim;
 		int authorizeVisible;
 		int authorizeRetry;
+		int bmlLockFlags;
+		int bmlDriverEnabled;
 
 		EfiBootConf();
 

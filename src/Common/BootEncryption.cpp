@@ -1854,7 +1854,9 @@ namespace VeraCrypt
 		pim (0),
 		requestPim (1),
 		authorizeVisible (0),
-		authorizeRetry (10)
+		authorizeRetry (10),
+		bmlLockFlags (0),
+		bmlDriverEnabled (0)
 	{
 
 	}
@@ -1970,6 +1972,8 @@ namespace VeraCrypt
 		requestPim = ReadConfigInteger (configContent, "PimRqt", 1);
 		authorizeVisible = ReadConfigInteger (configContent, "AuthorizeVisible", 0);
 		authorizeRetry = ReadConfigInteger (configContent, "AuthorizeRetry", 0);
+		bmlLockFlags = ReadConfigInteger (configContent, "DcsBmlLockFlags", 0);
+		bmlDriverEnabled = ReadConfigInteger (configContent, "DcsBmlDriver", 0);
 
 		burn (buffer, sizeof (buffer));
 	}
@@ -2003,6 +2007,8 @@ namespace VeraCrypt
 		WriteConfigInteger (configFile, configContent, "PimRqt", requestPim);
 		WriteConfigInteger (configFile, configContent, "AuthorizeVisible", authorizeVisible);
 		WriteConfigInteger (configFile, configContent, "AuthorizeRetry", authorizeRetry);
+		WriteConfigInteger (configFile, configContent, "DcsBmlLockFlags", bmlLockFlags);
+		WriteConfigInteger (configFile, configContent, "DcsBmlDriver", bmlDriverEnabled);
 
 		// Write unmodified values
 		char* xml = configContent;
@@ -3585,6 +3591,7 @@ namespace VeraCrypt
 			EfiBootInst.MountBootPartition(0);			
 
 			EfiBootInst.DeleteStartExec();
+			EfiBootInst.DeleteStartExec(0xDC5B, L"Driver"); // remove DcsBml boot driver it was installed
 			if (Is64BitOs())
 				EfiBootInst.RenameFile(L"\\EFI\\Boot\\original_bootx64.vc_backup", L"\\EFI\\Boot\\bootx64.efi", TRUE);
 			else
