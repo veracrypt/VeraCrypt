@@ -21,9 +21,6 @@
     <ClCompile Include="Aestab.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camellia.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cpu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SerpentFast_simd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camellia.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,6 +122,12 @@
       <Filter>Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Twofish_x64.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Camellia_x64.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Camellia_aesni_x64.S">
       <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>

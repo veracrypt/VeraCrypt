@@ -143,6 +143,15 @@
     <None Include="..\Crypto\Sources">
       <Filter>Build Files\Crypto</Filter>
     </None>
+    <None Include="..\Crypto\Camellia_aesni_x64.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\Camellia_x64.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\Twofish_x64.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Apidrvr.h">

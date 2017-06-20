@@ -196,6 +196,8 @@ extern int g_hasSSSE3;
 extern int g_hasAESNI;
 extern int g_hasCLMUL;
 extern int g_isP4;
+extern int g_isIntel;
+extern int g_isAMD;
 extern uint32 g_cacheLineSize;
 void DetectX86Features(); // must be called at the start of the program/driver
 int CpuId(uint32 input, uint32 *output);
@@ -225,6 +227,8 @@ extern int g_hasMMX;
 #define HasAESNI() g_hasAESNI
 #define HasCLMUL() g_hasCLMUL
 #define IsP4() g_isP4
+#define IsCpuIntel() g_isIntel
+#define IsCpuAMD() g_isAMD
 #define GetCacheLineSize() g_cacheLineSize
 
 #if defined(__cplusplus)
