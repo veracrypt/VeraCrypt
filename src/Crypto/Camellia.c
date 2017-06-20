@@ -1095,7 +1095,7 @@ void camellia_decrypt(const unsigned __int8 *inBlock,  unsigned __int8 *outBlock
 
 void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte* out_blk, uint32 blockCount)
 {
-
+#if !defined (_UEFI)
 	if (IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
 	{
 		while (blockCount >= 16)
@@ -1106,6 +1106,7 @@ void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 			blockCount -= 16;
 		}
 	}
+#endif
 
 	while (blockCount >= 2)
 	{
@@ -1121,6 +1122,7 @@ void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 
 void camellia_decrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte* out_blk, uint32 blockCount)
 {
+#if !defined (_UEFI)
 	if (IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
 	{
 		while (blockCount >= 16)
@@ -1131,6 +1133,7 @@ void camellia_decrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 			blockCount -= 16;
 		}
 	}
+#endif
 
 	while (blockCount >= 2)
 	{
