@@ -24,6 +24,23 @@
 #endif
 #include "Crypto/cpu.h"
 
+extern "C" int IsAesHwCpuSupported ()
+{
+#ifdef TC_AES_HW_CPU
+	static bool state = false;
+	static bool stateValid = false;
+
+	if (!stateValid)
+	{
+		state = g_hasAESNI ? true : false;
+		stateValid = true;
+	}
+	return state && Cipher::IsHwSupportEnabled();
+#else
+	return false;
+#endif
+}
+
 namespace VeraCrypt
 {
 	Cipher::Cipher () : Initialized (false)
@@ -348,6 +365,39 @@ namespace VeraCrypt
 	void CipherCamellia::SetCipherKey (const byte *key)
 	{
 		camellia_set_key (key, ScheduledKey.Ptr());
+	}
+	
+	void CipherCamellia::EncryptBlocks (byte *data, size_t blockCount) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+#if CRYPTOPP_BOOL_X64
+		camellia_encrypt_blocks ( ScheduledKey.Ptr(), data, data, blockCount);
+#else
+		Cipher::EncryptBlocks (data, blockCount);
+#endif
+	}
+	
+	void CipherCamellia::DecryptBlocks (byte *data, size_t blockCount) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+#if CRYPTOPP_BOOL_X64
+		camellia_decrypt_blocks ( ScheduledKey.Ptr(), data, data, blockCount);
+#else
+		Cipher::DecryptBlocks (data, blockCount);
+#endif
+	}
+	
+	bool CipherCamellia::IsHwSupportAvailable () const
+	{
+#if CRYPTOPP_BOOL_X64
+		return true;
+#else
+		return false;
+#endif
 	}
 
 	// GOST89

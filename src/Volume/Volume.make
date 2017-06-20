@@ -34,6 +34,8 @@ ifeq "$(PLATFORM)" "MacOSX"
     OBJS += ../Crypto/Aes_hw_cpu.o
     OBJS += ../Crypto/Aescrypt.o
     OBJSEX += ../Crypto/Twofish_asm.oo
+    OBJSEX += ../Crypto/Camellia_asm.oo
+	OBJSEX += ../Crypto/Camellia_aesni_asm.oo
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
@@ -41,6 +43,8 @@ else ifeq "$(CPU_ARCH)" "x64"
 	OBJS += ../Crypto/Aes_x64.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
 	OBJS += ../Crypto/Twofish_x64.o
+	OBJS += ../Crypto/Camellia_x64.o
+	OBJS += ../Crypto/Camellia_aesni_x64.o
 else
 	OBJS += ../Crypto/Aescrypt.o
 endif
@@ -77,6 +81,12 @@ ifeq "$(PLATFORM)" "MacOSX"
 ../Crypto/Twofish_asm.oo: ../Crypto/Twofish_x64.S
 	@echo Assembling $(<F)
 	$(YASM) -p gas -f macho64 -o ../Crypto/Twofish_asm.oo ../Crypto/Twofish_x64.S 
+../Crypto/Camellia_asm.oo: ../Crypto/Camellia_x64.S
+	@echo Assembling $(<F)
+	$(YASM) -p gas -f macho64 -o ../Crypto/Camellia_asm.oo ../Crypto/Camellia_x64.S
+../Crypto/Camellia_aesni_asm.oo: ../Crypto/Camellia_aesni_x64.S
+	@echo Assembling $(<F)
+	$(YASM) -p gas -f macho64 -o ../Crypto/Camellia_aesni_asm.oo ../Crypto/Camellia_aesni_x64.S
 endif
 
 include $(BUILD_INC)/Makefile.inc

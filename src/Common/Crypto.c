@@ -251,6 +251,9 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
    else if (cipher == TWOFISH)	{
 			twofish_encrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
+	else if (cipher == CAMELLIA)	{
+			camellia_encrypt_blocks(ks, data, data, (uint32) blockCount);
+	}
 #endif
 	else if (cipher == GOST89)	{
 			gost_encrypt(data, data, ks, (int)blockCount);
@@ -351,6 +354,9 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
    else if (cipher == TWOFISH)	{
 			twofish_decrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
+	else if (cipher == CAMELLIA)	{
+			camellia_decrypt_blocks(ks, data, data, (uint32) blockCount);
+	}
 #endif
 	else if (cipher == GOST89)	{
 			gost_decrypt(data, data, ks, (int)blockCount);
@@ -430,6 +436,7 @@ BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 #endif
 #if CRYPTOPP_BOOL_X64
 		|| (cipher == TWOFISH)
+		|| (cipher == CAMELLIA)
 #endif
 		;
 }

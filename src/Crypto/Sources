@@ -7,7 +7,9 @@ NTTARGETFILES = \
 	"$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Aes_hw_cpu.obj" \
 	"$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).obj" \
-	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj"
+	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).obj"
 
 SOURCES = \
 	Aes_$(TC_ARCH).asm \
@@ -26,4 +28,7 @@ SOURCES = \
 	Streebog.c \
 	kuznyechik.c \
 	Whirlpool.c \
-	Camellia.c
+	Camellia.c \
+	Camellia_$(TC_ARCH).S \
+	Camellia_aesni_$(TC_ARCH).S
+

@@ -223,6 +223,9 @@ BuildDriver.cmd -rebuild -debug -x64 "$(SolutionDir)\Common" "$(SolutionDir)\Cry
     <None Include="..\Crypto\Aes_hw_cpu.asm" />
     <None Include="..\Crypto\Aes_x64.asm" />
     <None Include="..\Crypto\Aes_x86.asm" />
+    <None Include="..\Crypto\Camellia_aesni_x64.S" />
+    <None Include="..\Crypto\Camellia_x64.S" />
+    <None Include="..\Crypto\Twofish_x64.S" />
     <None Include="BuildDriver.cmd" />
     <None Include="Makefile" />
     <None Include="Sources" />

@@ -22,3 +22,10 @@ TC_ASM_ERR_LOG = ..\Driver\build_errors_asm.log
 
 "$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj": Twofish_$(TC_ARCH).S
 	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).lst" Twofish_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
+	
+"$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).obj": Camellia_$(TC_ARCH).S
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).lst" Camellia_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
+	
+"$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).obj": Camellia_aesni_$(TC_ARCH).S
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).lst" Camellia_aesni_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
+
