@@ -35,7 +35,7 @@ extern "C" int IsAesHwCpuSupported ()
 		state = g_hasAESNI ? true : false;
 		stateValid = true;
 	}
-	return state && Cipher::IsHwSupportEnabled();
+	return state && VeraCrypt::Cipher::IsHwSupportEnabled();
 #else
 	return false;
 #endif
