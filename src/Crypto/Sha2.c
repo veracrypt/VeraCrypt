@@ -40,26 +40,26 @@ typedef void (*transformFn)(sha512_ctx* ctx, void* m, uint_64t num_blks);
 transformFn transfunc = NULL;
 
 static const uint_64t K[80] = {
-	0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f, 0xe9b5dba58189dbbc,
-	0x3956c25bf348b538, 0x59f111f1b605d019, 0x923f82a4af194f9b, 0xab1c5ed5da6d8118,
-	0xd807aa98a3030242, 0x12835b0145706fbe, 0x243185be4ee4b28c, 0x550c7dc3d5ffb4e2,
-	0x72be5d74f27b896f, 0x80deb1fe3b1696b1, 0x9bdc06a725c71235, 0xc19bf174cf692694,
-	0xe49b69c19ef14ad2, 0xefbe4786384f25e3, 0x0fc19dc68b8cd5b5, 0x240ca1cc77ac9c65,
-	0x2de92c6f592b0275, 0x4a7484aa6ea6e483, 0x5cb0a9dcbd41fbd4, 0x76f988da831153b5,
-	0x983e5152ee66dfab, 0xa831c66d2db43210, 0xb00327c898fb213f, 0xbf597fc7beef0ee4,
-	0xc6e00bf33da88fc2, 0xd5a79147930aa725, 0x06ca6351e003826f, 0x142929670a0e6e70,
-	0x27b70a8546d22ffc, 0x2e1b21385c26c926, 0x4d2c6dfc5ac42aed, 0x53380d139d95b3df,
-	0x650a73548baf63de, 0x766a0abb3c77b2a8, 0x81c2c92e47edaee6, 0x92722c851482353b,
-	0xa2bfe8a14cf10364, 0xa81a664bbc423001, 0xc24b8b70d0f89791, 0xc76c51a30654be30,
-	0xd192e819d6ef5218, 0xd69906245565a910, 0xf40e35855771202a, 0x106aa07032bbd1b8,
-	0x19a4c116b8d2d0c8, 0x1e376c085141ab53, 0x2748774cdf8eeb99, 0x34b0bcb5e19b48a8,
-	0x391c0cb3c5c95a63, 0x4ed8aa4ae3418acb, 0x5b9cca4f7763e373, 0x682e6ff3d6b2b8a3,
-	0x748f82ee5defb2fc, 0x78a5636f43172f60, 0x84c87814a1f0ab72, 0x8cc702081a6439ec,
-	0x90befffa23631e28, 0xa4506cebde82bde9, 0xbef9a3f7b2c67915, 0xc67178f2e372532b,
-	0xca273eceea26619c, 0xd186b8c721c0c207, 0xeada7dd6cde0eb1e, 0xf57d4f7fee6ed178,
-	0x06f067aa72176fba, 0x0a637dc5a2c898a6, 0x113f9804bef90dae, 0x1b710b35131c471b,
-	0x28db77f523047d84, 0x32caab7b40c72493, 0x3c9ebe0a15c9bebc, 0x431d67c49c100d4c,
-	0x4cc5d4becb3e42b6, 0x597f299cfc657e2a, 0x5fcb6fab3ad6faec, 0x6c44198c4a475817
+	LL(0x428a2f98d728ae22), LL(0x7137449123ef65cd), LL(0xb5c0fbcfec4d3b2f), LL(0xe9b5dba58189dbbc),
+	LL(0x3956c25bf348b538), LL(0x59f111f1b605d019), LL(0x923f82a4af194f9b), LL(0xab1c5ed5da6d8118),
+	LL(0xd807aa98a3030242), LL(0x12835b0145706fbe), LL(0x243185be4ee4b28c), LL(0x550c7dc3d5ffb4e2),
+	LL(0x72be5d74f27b896f), LL(0x80deb1fe3b1696b1), LL(0x9bdc06a725c71235), LL(0xc19bf174cf692694),
+	LL(0xe49b69c19ef14ad2), LL(0xefbe4786384f25e3), LL(0x0fc19dc68b8cd5b5), LL(0x240ca1cc77ac9c65),
+	LL(0x2de92c6f592b0275), LL(0x4a7484aa6ea6e483), LL(0x5cb0a9dcbd41fbd4), LL(0x76f988da831153b5),
+	LL(0x983e5152ee66dfab), LL(0xa831c66d2db43210), LL(0xb00327c898fb213f), LL(0xbf597fc7beef0ee4),
+	LL(0xc6e00bf33da88fc2), LL(0xd5a79147930aa725), LL(0x06ca6351e003826f), LL(0x142929670a0e6e70),
+	LL(0x27b70a8546d22ffc), LL(0x2e1b21385c26c926), LL(0x4d2c6dfc5ac42aed), LL(0x53380d139d95b3df),
+	LL(0x650a73548baf63de), LL(0x766a0abb3c77b2a8), LL(0x81c2c92e47edaee6), LL(0x92722c851482353b),
+	LL(0xa2bfe8a14cf10364), LL(0xa81a664bbc423001), LL(0xc24b8b70d0f89791), LL(0xc76c51a30654be30),
+	LL(0xd192e819d6ef5218), LL(0xd69906245565a910), LL(0xf40e35855771202a), LL(0x106aa07032bbd1b8),
+	LL(0x19a4c116b8d2d0c8), LL(0x1e376c085141ab53), LL(0x2748774cdf8eeb99), LL(0x34b0bcb5e19b48a8),
+	LL(0x391c0cb3c5c95a63), LL(0x4ed8aa4ae3418acb), LL(0x5b9cca4f7763e373), LL(0x682e6ff3d6b2b8a3),
+	LL(0x748f82ee5defb2fc), LL(0x78a5636f43172f60), LL(0x84c87814a1f0ab72), LL(0x8cc702081a6439ec),
+	LL(0x90befffa23631e28), LL(0xa4506cebde82bde9), LL(0xbef9a3f7b2c67915), LL(0xc67178f2e372532b),
+	LL(0xca273eceea26619c), LL(0xd186b8c721c0c207), LL(0xeada7dd6cde0eb1e), LL(0xf57d4f7fee6ed178),
+	LL(0x06f067aa72176fba), LL(0x0a637dc5a2c898a6), LL(0x113f9804bef90dae), LL(0x1b710b35131c471b),
+	LL(0x28db77f523047d84), LL(0x32caab7b40c72493), LL(0x3c9ebe0a15c9bebc), LL(0x431d67c49c100d4c),
+	LL(0x4cc5d4becb3e42b6), LL(0x597f299cfc657e2a), LL(0x5fcb6fab3ad6faec), LL(0x6c44198c4a475817)
 };
 
 
@@ -188,14 +188,14 @@ void SSE2Transform(sha512_ctx* ctx, void* mp, uint_64t num_blks)
 
 void sha512_begin(sha512_ctx* ctx)
 {
-	ctx->hash[0] = 0x6a09e667f3bcc908;
-	ctx->hash[1] = 0xbb67ae8584caa73b;
-	ctx->hash[2] = 0x3c6ef372fe94f82b;
-	ctx->hash[3] = 0xa54ff53a5f1d36f1;
-	ctx->hash[4] = 0x510e527fade682d1;
-	ctx->hash[5] = 0x9b05688c2b3e6c1f;
-	ctx->hash[6] = 0x1f83d9abfb41bd6b;
-	ctx->hash[7] = 0x5be0cd19137e2179;
+	ctx->hash[0] = LL(0x6a09e667f3bcc908);
+	ctx->hash[1] = LL(0xbb67ae8584caa73b);
+	ctx->hash[2] = LL(0x3c6ef372fe94f82b);
+	ctx->hash[3] = LL(0xa54ff53a5f1d36f1);
+	ctx->hash[4] = LL(0x510e527fade682d1);
+	ctx->hash[5] = LL(0x9b05688c2b3e6c1f);
+	ctx->hash[6] = LL(0x1f83d9abfb41bd6b);
+	ctx->hash[7] = LL(0x5be0cd19137e2179);
 	ctx->count[0] = 0;
 	ctx->count[1] = 0;
 
