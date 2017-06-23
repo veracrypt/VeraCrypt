@@ -38,14 +38,13 @@ export BUILD_INC := $(BASE_DIR)/Build/Include
 export AR ?= ar
 export CC ?= gcc
 export CXX ?= g++
-export AS := nasm
-export YASM := yasm
+export AS := yasm
 export RANLIB ?= ranlib
 
 export CFLAGS := -Wall
 export CXXFLAGS := -Wall -Wno-unused-parameter
 C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto
-export ASFLAGS := -Ox -D __GNUC__
+export ASFLAGS := -D __GNUC__
 export LFLAGS :=
 
 export PKG_CONFIG_PATH ?= /usr/local/lib/pkgconfig
@@ -136,10 +135,10 @@ ARCH = $(shell uname -m)
 
 ifneq (,$(filter i386 i486 i586 i686 x86,$(ARCH)))
 	CPU_ARCH = x86
-    ASFLAGS += -f elf32
+    ASFLAGS += -f elf32 -D __BITS__=32
 else ifneq (,$(filter x86_64 x86-64 amd64 x64,$(ARCH)))
 	CPU_ARCH = x64
-    ASFLAGS += -f elf64
+    ASFLAGS += -f elf64 -D __BITS__=64
 endif
 
 ifeq "$(origin NOASM)" "command line"
@@ -251,9 +250,9 @@ ifeq "$(shell uname -s)" "Darwin"
 		CXXFLAGS += -mssse3 -msse4.1
 	endif
 
-	AS := $(BASE_DIR)/Build/Tools/MacOSX/nasm
-	YASM := $(BASE_DIR)/Build/Tools/MacOSX/yasm
-	ASFLAGS += --prefix _
+	AS := $(BASE_DIR)/Build/Tools/MacOSX/yasm
+	export ASFLAGS32 := -D __GNUC__ -D __BITS__=32 --prefix _ -f macho32
+	export ASFLAGS64 := -D __GNUC__ -D __BITS__=64 --prefix _ -f macho64
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
 
