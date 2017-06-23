@@ -31,8 +31,8 @@ clean:
 ifeq "$(PLATFORM)" "MacOSX"
 %.o: %.asm
 	@echo Assembling $(<F)
-	$(AS) $(ASFLAGS) -f macho32 -o $@.32 $<
-	$(AS) $(ASFLAGS) -f macho64 -o $@.64 $<
+	$(AS) $(ASFLAGS32) -f macho32 -o $@.32 $<
+	$(AS) $(ASFLAGS64) -f macho64 -o $@.64 $<
 	lipo -create $@.32 $@.64 -output $@
 else
 %.o: %.asm
