@@ -1,9 +1,9 @@
 TC_ASFLAGS = -Xvc -Ox
-VC_YASMFLAGS = -Xvc -p gas -D WINABI
+VC_YASMFLAGS = -Xvc -D WINABI
 
 !if "$(TC_ARCH)" == "x86"
 TC_ASFLAGS = $(TC_ASFLAGS) -f win32 --prefix _ -D MS_STDCALL -D DLL_EXPORT
-VC_YASMFLAGS = $(VC_YASMFLAGS) -f win32
+VC_YASMFLAGS = $(VC_YASMFLAGS) -f win32 -D MS_STDCALL
 !else
 TC_ASFLAGS = $(TC_ASFLAGS) -f win64
 VC_YASMFLAGS = $(VC_YASMFLAGS) -f win64
@@ -21,11 +21,34 @@ TC_ASM_ERR_LOG = ..\Driver\build_errors_asm.log
 	nasm.exe $(TC_ASFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Aes_hw_cpu.lst" Aes_hw_cpu.asm 2>$(TC_ASM_ERR_LOG)
 
 "$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj": Twofish_$(TC_ARCH).S
-	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).lst" Twofish_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
+	yasm.exe $(VC_YASMFLAGS) -p gas -o "$@" -l "$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).lst" Twofish_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
 	
 "$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).obj": Camellia_$(TC_ARCH).S
-	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).lst" Camellia_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
+	yasm.exe $(VC_YASMFLAGS) -p gas -o "$@" -l "$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).lst" Camellia_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
 	
 "$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).obj": Camellia_aesni_$(TC_ARCH).S
-	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).lst" Camellia_aesni_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
+	yasm.exe $(VC_YASMFLAGS) -p gas -o "$@" -l "$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).lst" Camellia_aesni_$(TC_ARCH).S 2>$(TC_ASM_ERR_LOG)
 
+"$(OBJ_PATH)\$(O)\sha256-$(TC_ARCH)-nayuki.obj": sha256-$(TC_ARCH)-nayuki.S
+	yasm.exe $(VC_YASMFLAGS) -p gas -o "$@" -l "$(OBJ_PATH)\$(O)\sha256-$(TC_ARCH)-nayuki.lst" sha256-$(TC_ARCH)-nayuki.S 2>$(TC_ASM_ERR_LOG)
+
+"$(OBJ_PATH)\$(O)\sha512-$(TC_ARCH)-nayuki.obj": sha512-$(TC_ARCH)-nayuki.S
+	yasm.exe $(VC_YASMFLAGS) -p gas -o "$@" -l "$(OBJ_PATH)\$(O)\sha512-$(TC_ARCH)-nayuki.lst" sha512-$(TC_ARCH)-nayuki.S 2>$(TC_ASM_ERR_LOG)
+
+"$(OBJ_PATH)\$(O)\sha512_avx1_$(TC_ARCH).obj": sha512_avx1_$(TC_ARCH).asm
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\sha512_avx1_$(TC_ARCH).lst" sha512_avx1_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
+
+"$(OBJ_PATH)\$(O)\sha512_avx2_$(TC_ARCH).obj": sha512_avx2_$(TC_ARCH).asm
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\sha512_avx2_$(TC_ARCH).lst" sha512_avx2_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
+
+"$(OBJ_PATH)\$(O)\sha512_sse4_$(TC_ARCH).obj": sha512_sse4_$(TC_ARCH).asm
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\sha512_sse4_$(TC_ARCH).lst" sha512_sse4_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
+
+"$(OBJ_PATH)\$(O)\sha256_avx1_$(TC_ARCH).obj": sha256_avx1_$(TC_ARCH).asm
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\sha256_avx1_$(TC_ARCH).lst" sha256_avx1_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
+
+"$(OBJ_PATH)\$(O)\sha256_avx2_$(TC_ARCH).obj": sha256_avx2_$(TC_ARCH).asm
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\sha256_avx2_$(TC_ARCH).lst" sha256_avx2_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
+
+"$(OBJ_PATH)\$(O)\sha256_sse4_$(TC_ARCH).obj": sha256_sse4_$(TC_ARCH).asm
+	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\sha256_sse4_$(TC_ARCH).lst" sha256_sse4_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)

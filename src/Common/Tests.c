@@ -584,7 +584,7 @@ BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
 	NTSTATUS saveStatus = STATUS_SUCCESS;
-	if (bUseSSE && (HasSSE2() || HasSSE41()))
+	if (bUseSSE && (HasISSE() || HasSSE2()))
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
 	while (vector[i].hexInput && vector[i].hexOutput)
@@ -601,7 +601,7 @@ BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
 	}
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && bUseSSE && (HasSSE2() || HasSSE41()))
+	if (NT_SUCCESS (saveStatus) && bUseSSE && (HasISSE() || HasSSE2()))
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 

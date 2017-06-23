@@ -330,7 +330,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 #if !defined (_WIN64)
 		KFLOATING_SAVE floatingPointState;
 		NTSTATUS saveStatus = STATUS_SUCCESS;
-		if (HasISSE())
+		if (HasISSE()|| (HasSSE2() && HasMMX()))
 			saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
 		WHIRLPOOL_add (ioBuffer, TC_BOOT_SECTOR_PIM_VALUE_OFFSET, &whirlpool);
@@ -368,7 +368,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 		}
 
 #if !defined (_WIN64)
-		if (NT_SUCCESS (saveStatus) && HasISSE())
+		if (NT_SUCCESS (saveStatus) && (HasISSE() || (HasSSE2() && HasMMX())))
 			KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}
