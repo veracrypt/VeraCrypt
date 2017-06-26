@@ -26,7 +26,7 @@ extern "C"
 	void sha512_avx(const void* M, void* D, uint_64t l);
 #endif
 	
-#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 || ((CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32) && !defined (TC_MACOSX))
 	void sha512_compress_nayuki(uint_64t state[8], const uint_8t block[128]);
 #endif
 #if defined(__cplusplus)
@@ -173,7 +173,7 @@ void SSE4Transform(sha512_ctx* ctx, void* mp, uint_64t num_blks)
 }
 #endif
 
-#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 || ((CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32) && !defined (TC_MACOSX))
 
 void SSE2Transform(sha512_ctx* ctx, void* mp, uint_64t num_blks)
 {
@@ -216,7 +216,7 @@ void sha512_begin(sha512_ctx* ctx)
 		else
 #endif
 
-#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 || ((CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32) && !defined (TC_MACOSX))
 		if (HasSSE2() && HasMMX())
 				transfunc = SSE2Transform;
 		else

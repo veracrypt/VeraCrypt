@@ -173,7 +173,7 @@
  .quad 0x28DB77F523047D84, 0x32CAAB7B40C72493, 0x3C9EBE0A15C9BEBC, 0x431D67C49C100D4C
  .quad 0x4CC5D4BECB3E42B6, 0x597F299CFC657E2A, 0x5FCB6FAB3AD6FAEC, 0x6C44198C4A475817
 
- .ifndef WINABI
+ .ifndef __YASM__
 #if defined(__linux__) && defined(__ELF__)
  .section .note.GNU-stack,"",%progbits
 #endif

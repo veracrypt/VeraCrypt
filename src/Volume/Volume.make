@@ -36,14 +36,14 @@ ifeq "$(PLATFORM)" "MacOSX"
     OBJSEX += ../Crypto/Twofish_asm.oo
     OBJSEX += ../Crypto/Camellia_asm.oo
 	OBJSEX += ../Crypto/Camellia_aesni_asm.oo
-	OBJS += ../Crypto/sha256-nayuki.oo
-	OBJS += ../Crypto/sha512-nayuki.oo
-	OBJS += ../Crypto/sha256_avx1.oo
-	OBJS += ../Crypto/sha256_avx2.oo
-	OBJS += ../Crypto/sha256_sse4.oo
-	OBJS += ../Crypto/sha512_avx1.oo
-	OBJS += ../Crypto/sha512_avx2.oo
-	OBJS += ../Crypto/sha512_sse4.oo
+	OBJSEX += ../Crypto/sha256-nayuki.oo
+	OBJSEX += ../Crypto/sha512-nayuki.oo
+	OBJSEX += ../Crypto/sha256_avx1.oo
+	OBJSEX += ../Crypto/sha256_avx2.oo
+	OBJSEX += ../Crypto/sha256_sse4.oo
+	OBJSEX += ../Crypto/sha512_avx1.oo
+	OBJSEX += ../Crypto/sha512_avx2.oo
+	OBJSEX += ../Crypto/sha512_sse4.oo
 else ifeq "$(CPU_ARCH)" "x86"
 	OBJS += ../Crypto/Aes_x86.o
 	OBJS += ../Crypto/Aes_hw_cpu.o
@@ -106,7 +106,10 @@ ifeq "$(PLATFORM)" "MacOSX"
 	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/Camellia_aesni_asm.oo ../Crypto/Camellia_aesni_x64.S
 ../Crypto/sha256-nayuki.oo: ../Crypto/sha256-x86-nayuki.S
 	@echo Assembling $(<F)
-	$(AS) $(ASFLAGS32) -p gas -o ../Crypto/sha256-nayuki.oo ../Crypto/sha256-x86-nayuki.S
+	$(AS) $(ASFLAGS32) -p gas -o ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x86-nayuki.S
+	$(AS) $(ASFLAGS64) -p gas -o ../Crypto/sha256-x64-nayuki.o ../Crypto/sha256-x64-nayuki.S
+	lipo -create ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x64-nayuki.o -output ../Crypto/sha256-nayuki.oo
+	rm -fr ../Crypto/sha256-x86-nayuki.o ../Crypto/sha256-x64-nayuki.o
 ../Crypto/sha256_avx1.oo: ../Crypto/sha256_avx1_x64.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS64) -o ../Crypto/sha256_avx1.oo ../Crypto/sha256_avx1_x64.asm
@@ -116,12 +119,9 @@ ifeq "$(PLATFORM)" "MacOSX"
 ../Crypto/sha256_sse4.oo: ../Crypto/sha256_sse4_x64.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS64) -o ../Crypto/sha256_sse4.oo ../Crypto/sha256_sse4_x64.asm
-../Crypto/sha512-nayuki.oo: ../Crypto/sha512-x86-nayuki.S ../Crypto/sha512-x64-nayuki.S
+../Crypto/sha512-nayuki.oo: ../Crypto/sha512-x64-nayuki.S
 	@echo Assembling $(<F)
-	$(AS) -p gas $(ASFLAGS32) -o ../Crypto/sha512-x86-nayuki.o ../Crypto/sha512-x86-nayuki.S
-	$(AS) -p gas $(ASFLAGS64) -o ../Crypto/sha512-x64-nayuki.o ../Crypto/sha512-x64-nayuki.S
-	lipo -create ../Crypto/sha512-x86-nayuki.o ../Crypto/sha512-x64-nayuki.o -output ../Crypto/sha512-nayuki.oo
-	rm -fr ../Crypto/sha512-x86-nayuki.o ../Crypto/sha512-x64-nayuki.o
+	$(AS) -p gas $(ASFLAGS64) -o ../Crypto/sha512-nayuki.oo ../Crypto/sha512-x64-nayuki.S
 ../Crypto/sha512_avx1.oo: ../Crypto/sha512_avx1_x64.asm
 	@echo Assembling $(<F)
 	$(AS) $(ASFLAGS64) -o ../Crypto/sha512_avx1.oo ../Crypto/sha512_avx1_x64.asm
