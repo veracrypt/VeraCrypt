@@ -44,7 +44,7 @@ export RANLIB ?= ranlib
 export CFLAGS := -Wall
 export CXXFLAGS := -Wall -Wno-unused-parameter
 C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto
-export ASFLAGS := -D __GNUC__
+export ASFLAGS := -D __GNUC__ -D __YASM__
 export LFLAGS :=
 
 export PKG_CONFIG_PATH ?= /usr/local/lib/pkgconfig
@@ -251,8 +251,8 @@ ifeq "$(shell uname -s)" "Darwin"
 	endif
 
 	AS := $(BASE_DIR)/Build/Tools/MacOSX/yasm
-	export ASFLAGS32 := -D __GNUC__ -D __BITS__=32 --prefix _ -f macho32
-	export ASFLAGS64 := -D __GNUC__ -D __BITS__=64 --prefix _ -f macho64
+	export ASFLAGS32 := -D __GNUC__ -D __YASM__ -D __BITS__=32 --prefix=_ -f macho32
+	export ASFLAGS64 := -D __GNUC__ -D __YASM__ -D __BITS__=64 --prefix=_ -f macho64
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
 
