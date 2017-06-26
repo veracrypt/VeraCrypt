@@ -187,6 +187,19 @@ static int TrySSE2()
 #endif
 }
 
+static uint64 xgetbv()
+{
+#if defined(_MSC_VER) && defined(_XCR_XFEATURE_ENABLED_MASK) && !defined(_UEFI)
+	 return _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
+#elif defined(__GNUC__) || defined(__clang__)
+    uint32 eax, edx;
+    __asm__ __volatile__(".byte 0x0F, 0x01, 0xd0" : "=a"(eax), "=d"(edx) : "c"(0));
+    return ((uint64_t)edx << 32) | eax;
+#else
+	return 0;
+#endif
+}
+
 int g_x86DetectionDone = 0;
 int g_hasISSE = 0, g_hasSSE2 = 0, g_hasSSSE3 = 0, g_hasMMX = 0, g_hasAESNI = 0, g_hasCLMUL = 0, g_isP4 = 0;
 int g_hasAVX = 0, g_hasAVX2 = 0, g_hasBMI2 = 0, g_hasSSE42 = 0, g_hasSSE41 = 0, g_isIntel = 0, g_isAMD = 0;
@@ -292,9 +305,13 @@ void DetectX86Features()
 	g_hasMMX = (cpuid1[3] & (1 << 23)) != 0;
 	if ((cpuid1[3] & (1 << 26)) != 0)
 		g_hasSSE2 = TrySSE2();
-	g_hasAVX2 = g_hasSSE2 && (cpuid1[1] & (1 << 5));
+	if (g_hasSSE2 && (cpuid1[2] & (1 << 28)) && (cpuid1[2] & (1 << 27))) /* CPU has AVX and OS supports XSAVE/XRSTORE */
+	{
+      uint64 xcrFeatureMask = xgetbv();
+      g_hasAVX = (xcrFeatureMask & 0x6) == 0x6;
+	}
+	g_hasAVX2 = g_hasAVX && (cpuid1[1] & (1 << 5));
 	g_hasBMI2 = g_hasSSE2 && (cpuid1[1] & (1 << 8));
-	g_hasAVX = g_hasSSE2 && (cpuid1[2] & (1 << 28));
 	g_hasSSE42 = g_hasSSE2 && (cpuid1[2] & (1 << 20));
 	g_hasSSE41 = g_hasSSE2 && (cpuid1[2] & (1 << 19));
 	g_hasSSSE3 = g_hasSSE2 && (cpuid1[2] & (1<<9));
