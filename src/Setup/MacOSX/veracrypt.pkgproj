@@ -646,7 +646,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../../Release/Setup Files/License.txt</string>
+							<string>../../License.txt</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -736,7 +736,7 @@
 						<key>IC_REQUIREMENT_OS_DISTRIBUTION_TYPE</key>
 						<integer>0</integer>
 						<key>IC_REQUIREMENT_OS_MINIMUM_VERSION</key>
-						<integer>100601</integer>
+						<integer>100701</integer>
 					</dict>
 					<key>IC_REQUIREMENT_CHECK_TYPE</key>
 					<integer>0</integer>
@@ -748,13 +748,13 @@
 							<key>LANGUAGE</key>
 							<string>English</string>
 							<key>VALUE</key>
-							<string>VeraCrypt requires MacOSX 10.6.1 and above.</string>
+							<string>VeraCrypt requires MacOSX 10.7.1 and above.</string>
 						</dict>
 						<dict>
 							<key>LANGUAGE</key>
 							<string>French</string>
 							<key>VALUE</key>
-							<string>VeraCrypt nécessite MacOSX 10.6.1 et supérieur.</string>
+							<string>VeraCrypt nécessite MacOSX 10.7.1 et supérieur.</string>
 						</dict>
 					</array>
 					<key>NAME</key>
