@@ -258,9 +258,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -D __YASM__ -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -D __YASM__ -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
@@ -269,18 +269,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -D __YASM__ -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -D __YASM__ -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
     </CustomBuild>
     <CustomBuild Include="Camellia_x64.S">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -D __YASM__ -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -p gas -D WINABI -D __YASM__ -f win64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
@@ -289,17 +289,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -D __YASM__ -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -D __YASM__ -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="sha256_avx1_x64.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
@@ -307,8 +307,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
@@ -316,8 +316,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
@@ -325,26 +325,26 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -D __YASM__ -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo %(Filename)%(Extension) &amp; vsyasm.exe -Xvc -p gas -D WINABI -D __YASM__ -f win32 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="sha512-x64-nayuki.S">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -Xvc -p gas -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -Xvc -p gas -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -Xvc -p gas -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -Xvc -p gas -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="sha512_avx1_x64.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
@@ -352,8 +352,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
@@ -361,8 +361,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo %(Filename)%(Extension) &amp; yasm.exe -D WINABI -D __YASM__ -f x64 -o "$(TargetDir)\%(Filename).obj" -l "$(TargetDir)\%(Filename).lst" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>

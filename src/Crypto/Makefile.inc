@@ -1,5 +1,5 @@
 TC_ASFLAGS = -Xvc -Ox
-VC_YASMFLAGS = -Xvc -D WINABI
+VC_YASMFLAGS = -Xvc -D WINABI -D __YASM__
 
 !if "$(TC_ARCH)" == "x86"
 TC_ASFLAGS = $(TC_ASFLAGS) -f win32 --prefix _ -D MS_STDCALL -D DLL_EXPORT
