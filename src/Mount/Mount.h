@@ -67,6 +67,9 @@ extern BOOL bDisplayBalloonOnSuccessfulHkDismount;
 extern BOOL bExplore;
 extern BOOL bTryEmptyPasswordWhenKeyfileUsed;
 
+BOOL EnableWindowsContextMenu();
+BOOL DisableWindowsContextMenuRegistry();
+BOOL EnableWindowsContextMenuRegistry();
 static void localcleanup ( void );
 void EndMainDlg ( HWND hwndDlg );
 void EnableDisableButtons ( HWND hwndDlg );

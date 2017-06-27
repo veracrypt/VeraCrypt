@@ -1329,6 +1329,9 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume\\DefaultIcon");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume");
 
+	RegDeleteKey (HKEY_CLASSES_ROOT, L"*\\shell\\Mount with VeraCrypt\\command");
+	RegDeleteKey (HKEY_CLASSES_ROOT, L"*\\shell\\Mount with VeraCrypt");
+
 	if (!bRemoveDeprecated)
 	{
 		HKEY hKey;

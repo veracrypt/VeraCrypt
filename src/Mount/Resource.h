@@ -185,6 +185,7 @@
 #define IDC_DISABLE_BOOT_LOADER_HASH_PROMPT 1162
 #define IDC_SECURE_DESKTOP_PASSWORD_ENTRY 1163
 #define IDB_SHOW_PLATFORMINFO           1164
+#define IDC_PREF_CONTEXT_MENU           1164
 #define IDB_EDIT_DCSPROP                1165
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002

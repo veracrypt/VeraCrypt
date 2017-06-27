@@ -129,6 +129,7 @@ BOOL bHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialogValid = FALSE;
 BOOL bUseSecureDesktop = FALSE;
+BOOL bEnableWindowsContextMenu = FALSE;
 BOOL bCmdUseSecureDesktop = FALSE;
 BOOL bCmdUseSecureDesktopValid = FALSE;
 BOOL bStartOnLogon = FALSE;

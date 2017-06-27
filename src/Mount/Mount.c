@@ -215,6 +215,96 @@ static void UnregisterWtsNotification(HWND hWnd)
 	}
 }
 
+BOOL EnableWindowsContextMenu(BOOL enabled)
+{
+	HKEY hkey;
+
+	if (!IsOSAtLeast (WIN_VISTA))
+		return FALSE;
+
+	if (enabled) {
+		if (RegOpenKeyEx (HKEY_CLASSES_ROOT, L"*\\shell\\Mount with VeraCrypt", 0, KEY_READ, &hkey) != ERROR_SUCCESS)
+		{
+			return EnableWindowsContextMenuRegistry();
+		}
+		else 
+		{
+			return FALSE;
+		}
+	} else {
+		return DisableWindowsContextMenuRegistry();
+	}
+}
+
+BOOL EnableWindowsContextMenuRegistry()
+{
+	DWORD dw;
+	HKEY hkeymain, kheysub;
+	wchar_t szAppPath[MAX_PATH] = L"";
+	
+	if (!IsOSAtLeast (WIN_VISTA))
+		return FALSE;
+
+	// retrieve the full path for the current module
+	GetModuleFileNameW(0, szAppPath, sizeof(szAppPath));
+
+	if (RegCreateKeyEx (HKEY_CLASSES_ROOT, L"*\\shell\\Mount with VeraCrypt", 0, NULL, 
+		REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_32KEY, NULL, &hkeymain, &dw) == ERROR_SUCCESS)
+	{
+		if (RegCreateKeyEx (HKEY_CLASSES_ROOT, L"*\\shell\\Mount with VeraCrypt\\command", 0, NULL, 
+			REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_32KEY, NULL, &kheysub, &dw) == ERROR_SUCCESS)
+		{
+			wchar_t* parmString = L" /a /v %1";
+			wchar_t fullPathParmString[MAX_PATH];
+			wcscpy(fullPathParmString, szAppPath);
+			wcscat(fullPathParmString, parmString);
+
+			RegSetValueEx (kheysub, L"", 0, REG_SZ, (BYTE *) fullPathParmString, (wcslen (fullPathParmString) + 1) * sizeof (wchar_t));
+		}
+		else 
+		{
+			return FALSE;
+		}
+
+		RegCloseKey (kheysub);
+
+		RegSetValueEx (hkeymain, L"Icon", 0, REG_SZ, (BYTE *) szAppPath, (wcslen (szAppPath) + 1) * sizeof (wchar_t));	
+	}
+	else 
+	{
+		return FALSE;
+	}
+
+	RegCloseKey (hkeymain);
+
+	return TRUE;
+}
+
+BOOL DisableWindowsContextMenuRegistry()
+{
+	LONG lDValue1 = 0;
+	LONG lDValue2 = 0;
+
+	lDValue1 = RegDeleteKey(HKEY_CLASSES_ROOT, L"*\\shell\\Mount with VeraCrypt\\command");
+ 
+	if (lDValue1 == ERROR_SUCCESS) 
+	{
+		lDValue2 = RegDeleteKey(HKEY_CLASSES_ROOT, L"*\\shell\\Mount with VeraCrypt");
+
+		if (lDValue2 != ERROR_SUCCESS) 
+		{
+			return FALSE; //failed to delete Mount with VeraCrypt
+		}
+
+	} 
+	else 
+	{
+		return FALSE; //failed to delete Mount with VeraCrypt\command
+	}
+
+	return TRUE;
+}
+
 static void localcleanup (void)
 {
 	// Wipe command line
@@ -725,6 +815,7 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 	ConfigReadCompareInt ("HideWaitingDialog", FALSE, &bHideWaitingDialog, bOnlyCheckModified, pbSettingsModified);
 
 	ConfigReadCompareInt ("UseSecureDesktop", FALSE, &bUseSecureDesktop, bOnlyCheckModified, pbSettingsModified);
+	ConfigReadCompareInt ("EnableWindowsContextMenu", FALSE, &bEnableWindowsContextMenu, bOnlyCheckModified, pbSettingsModified);
 
 	ConfigReadCompareInt ("MountVolumesRemovable", FALSE, &defaultMountOptions.Removable, bOnlyCheckModified, pbSettingsModified);
 	ConfigReadCompareInt ("MountVolumesReadOnly", FALSE, &defaultMountOptions.ReadOnly, bOnlyCheckModified, pbSettingsModified);
@@ -884,6 +975,8 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("ShowDisconnectedNetworkDrives",bShowDisconnectedNetworkDrives);
 		ConfigWriteInt ("HideWaitingDialog",				bHideWaitingDialog);
 		ConfigWriteInt ("UseSecureDesktop",					bUseSecureDesktop);
+		ConfigWriteInt ("EnableWindowsContextMenu",			bEnableWindowsContextMenu);
+		EnableWindowsContextMenu(bEnableWindowsContextMenu);
 
 		ConfigWriteInt ("EnableBackgroundTask",				bEnableBkgTask);
 		ConfigWriteInt ("CloseBackgroundTaskOnNoVolumes",	bCloseBkgTaskWhenNoVolumes);
@@ -895,7 +988,7 @@ void SaveSettings (HWND hwndDlg)
 		ConfigWriteInt ("ForceAutoDismount",				bForceAutoDismount);
 		ConfigWriteInt ("MaxVolumeIdleTime",				MaxVolumeIdleTime);
 
-		ConfigWriteInt ("HiddenSectorDetectionStatus",				HiddenSectorDetectionStatus);
+		ConfigWriteInt ("HiddenSectorDetectionStatus",		HiddenSectorDetectionStatus);
 
 		ConfigWriteInt ("UseKeyfiles",						defaultKeyFilesParam.EnableKeyFiles);
 
@@ -3098,6 +3191,16 @@ static void PreferencesDlgEnableButtons (HWND hwndDlg)
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE), back);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_DISMOUNT_INACTIVE_TIME), back && idle);
 	EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_FORCE_AUTO_DISMOUNT), back);
+
+	// enable/disable context menu option
+	if (!IsAdmin())
+	{
+		EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_CONTEXT_MENU), MF_ENABLED);
+	}
+	else 
+	{
+		EnableWindow (GetDlgItem (hwndDlg, IDC_PREF_CONTEXT_MENU), MF_GRAYED);
+	}
 }
 
 BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -3141,6 +3244,9 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_SECURE_DESKTOP_PASSWORD_ENTRY), BM_SETCHECK,
 				bUseSecureDesktop ? BST_CHECKED:BST_UNCHECKED, 0);
+			
+			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_CONTEXT_MENU), BM_SETCHECK,
+				bEnableWindowsContextMenu ? BST_CHECKED:BST_UNCHECKED, 0);
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT), BM_SETCHECK,
 						bCacheDuringMultipleMount ? BST_CHECKED:BST_UNCHECKED, 0);
@@ -3258,6 +3364,7 @@ BOOL CALLBACK PreferencesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bShowDisconnectedNetworkDrives = IsButtonChecked (GetDlgItem (hwndDlg, IDC_SHOW_DISCONNECTED_NETWORK_DRIVES));
 			bHideWaitingDialog = IsButtonChecked (GetDlgItem (hwndDlg, IDC_HIDE_WAITING_DIALOG));
 			bUseSecureDesktop = IsButtonChecked (GetDlgItem (hwndDlg, IDC_SECURE_DESKTOP_PASSWORD_ENTRY));
+			bEnableWindowsContextMenu = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_CONTEXT_MENU));
 			bCacheDuringMultipleMount	= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT));
 			bWipeCacheOnExit				= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_EXIT));
 			bWipeCacheOnAutoDismount		= IsButtonChecked (GetDlgItem (hwndDlg, IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT));
