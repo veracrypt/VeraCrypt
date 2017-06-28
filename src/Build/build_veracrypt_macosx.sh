@@ -27,8 +27,7 @@ echo "Using MacOSX SDK $VC_OSX_TARGET"
 cd $SOURCEPATH
 
 echo "Building VeraCrypt"
-#make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1 && make WXSTATIC=1 package
+make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1 && make WXSTATIC=1 package
 
 # Uncomment below and comment line above to reuse existing wxWidgets build
 # make WXSTATIC=1 clean && make WXSTATIC=1 && make WXSTATIC=1 package
-make WXSTATIC=1 && make WXSTATIC=1 package
