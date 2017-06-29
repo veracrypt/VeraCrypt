@@ -49,6 +49,7 @@ Requirements for Building VeraCrypt for Windows:
 - Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - NASM assembler 2.08 or compatible
+- YASM 1.3.0 or newer.
 - gzip compressor
 - upx packer (available at https://upx.github.io/)
 
@@ -128,9 +129,8 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - GNU Make
 - GNU C++ Compiler 4.0 or compatible
 - Apple Xcode (Mac OS X only)
-- NASM assembler 2.08 or compatible (x86/x64 architecture only)
+- YASM 1.3.0 or newer (Linux only, x86/x64 architecture only)
 - pkg-config
-- makeself (Linux only)
 - wxWidgets 3.0 shared library and header files installed or
   wxWidgets 3.0 library source code (available at https://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse

@@ -18,14 +18,14 @@ Contents
 ========
 
 I. Windows
-   Requirements for Building VeraCrypt for Windows
-   Instructions for Building VeraCrypt for Windows
-	Instructions for Signing and Packaging VeraCrypt for Windows
+Requirements for Building VeraCrypt for Windows
+Instructions for Building VeraCrypt for Windows
+Instructions for Signing and Packaging VeraCrypt for Windows
 
 II. Linux and Mac OS X
-    Requirements for Building VeraCrypt for Linux and Mac OS X
-    Instructions for Building VeraCrypt for Linux and Mac OS X
-	Mac OS X specifics
+Requirements for Building VeraCrypt for Linux and Mac OS X
+Instructions for Building VeraCrypt for Linux and Mac OS X
+Mac OS X specifics
 
 III. FreeBSD and OpenSolaris
 
@@ -49,8 +49,9 @@ Requirements for Building VeraCrypt for Windows:
 - Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - NASM assembler 2.08 or compatible
+- YASM 1.3.0 or newer.
 - gzip compressor
-- upx packer (available at http://upx.sourceforge.net/)
+- upx packer (available at https://upx.github.io/)
 
 IMPORTANT:
 
@@ -77,16 +78,16 @@ Instructions for Building VeraCrypt for Windows:
 ------------------------------------------------
 
 1) Create an environment variable 'MSVC16_ROOT' pointing to the folder 'MSVC15'
-   extracted from the Visual C++ 1.52 self-extracting package.
+extracted from the Visual C++ 1.52 self-extracting package.
 
-   Note: The 16-bit installer MSVC15\SETUP.EXE cannot be run on 64-bit Windows,
-   but it is actually not necessary to run it. You only need to extract the
-   folder 'MSVC15', which contains the 32-bit binaries required to build the
-   VeraCrypt Boot Loader.
+Note: The 16-bit installer MSVC15\SETUP.EXE cannot be run on 64-bit Windows,
+but it is actually not necessary to run it. You only need to extract the
+folder 'MSVC15', which contains the 32-bit binaries required to build the
+VeraCrypt Boot Loader.
 
 2) If you have installed the Windows Driver Development Kit in another
-   directory than '%SYSTEMDRIVE%\WinDDK', create an environment variable
-   'WINDDK_ROOT' pointing to the DDK installation directory.
+directory than '%SYSTEMDRIVE%\WinDDK', create an environment variable
+'WINDDK_ROOT' pointing to the DDK installation directory.
 
 3) Open the solution file 'VeraCrypt.sln' in Microsoft Visual Studio 2010.
 
@@ -95,7 +96,7 @@ Instructions for Building VeraCrypt for Windows:
 5) Build the solution.
 
 6) If successful, there should be newly built VeraCrypt binaries in the
-   'Release' folder.
+'Release' folder.
 
 Instructions for Signing and Packaging VeraCrypt for Windows:
 -------------------------------------------------------------
@@ -114,7 +115,7 @@ VeraCrypt EFI Boot Loader:
 --------------------------
 
 VeraCrypt source code contains pre-built EFI binaries under src\Boot\EFI.
-The source code of VeraCrypt EFI Boot Loader is licensed under LGPL and 
+The source code of VeraCrypt EFI Boot Loader is licensed under LGPL and
 it is available at https://github.com/veracrypt/VeraCrypt-DCS.
 For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 
@@ -128,13 +129,12 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - GNU Make
 - GNU C++ Compiler 4.0 or compatible
 - Apple Xcode (Mac OS X only)
-- NASM assembler 2.08 or compatible (x86/x64 architecture only)
+- YASM 1.3.0 or newer (Linux only, x86/x64 architecture only)
 - pkg-config
-- makeself (Linux only)
 - wxWidgets 3.0 shared library and header files installed or
-  wxWidgets 3.0 library source code (available at http://www.wxwidgets.org)
+wxWidgets 3.0 library source code (available at https://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse
-  and https://osxfuse.github.io/)
+and https://osxfuse.github.io/)
 
 
 Instructions for Building VeraCrypt for Linux and Mac OS X:
@@ -143,33 +143,33 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
 1) Change the current directory to the root of the VeraCrypt source code.
 
 2) If you have no wxWidgets shared library installed, run the following
-   command to configure the wxWidgets static library for VeraCrypt and to
-   build it:
+command to configure the wxWidgets static library for VeraCrypt and to
+build it:
 
-   $ make WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+$ make WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
 
-   The variable WX_ROOT must point to the location of the source code of the
-   wxWidgets library. Output files will be placed in the './wxrelease/'
-   directory.
+The variable WX_ROOT must point to the location of the source code of the
+wxWidgets library. Output files will be placed in the './wxrelease/'
+directory.
 
 3) To build VeraCrypt, run the following command:
 
-   $ make
+$ make
 
-   or if you have no wxWidgets shared library installed:
+or if you have no wxWidgets shared library installed:
 
-   $ make WXSTATIC=1
+$ make WXSTATIC=1
 
 4) If successful, the VeraCrypt executable should be located in the directory
-   'Main'.
+'Main'.
 
 By default, a universal executable supporting both graphical and text user
 interface (through the switch --text) is built.
 On Linux, a console-only executable, which requires no GUI library, can be
 built using the 'NOGUI' parameter:
 
-   $ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
-   $ make NOGUI=1 WXSTATIC=1
+$ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+$ make NOGUI=1 WXSTATIC=1
 
 On MacOSX, building a console-only executable is not supported.
 
@@ -179,16 +179,16 @@ Mac OS X specifics:
 Under MacOSX, the SDK for OSX 10.7 is used by default. To use another version
 of the SDK (i.e. 10.6), you can export the environment variable VC_OSX_TARGET:
 
-	$ export VC_OSX_TARGET=10.6
+$ export VC_OSX_TARGET=10.6
 
 
 Before building under MacOSX, pkg-config must be installed if not yet available.
-Get it from http://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
+Get it from https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz and
 compile using the following commands :
 
-	$ ./configure --with-internal-glib
-	$ make
-	$ sudo make install
+$ ./configure --with-internal-glib
+$ make
+$ sudo make install
 
 After making sure pkg-config is available, download and install OSXFuse from
 https://osxfuse.github.io/ (MacFUSE compatibility layer must selected)
@@ -200,7 +200,7 @@ VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
 then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.3")
 
 The build process uses Code Signing certificates whose ID is specified in
-src/Main/Main.make (look for lines containing "Developer ID Application" and 
+src/Main/Main.make (look for lines containing "Developer ID Application" and
 "Developer ID Installer"). You'll have to modify these lines to put the ID of
 your Code Signing certificates or comment them if you don't have one.
 
@@ -223,7 +223,7 @@ IV. Third-Party Developers (Contributors)
 If you intend to implement a feature, please contact us first to make sure:
 
 1) That the feature has not been implemented (we may have already implemented
-   it, but haven't released the code yet).
+it, but haven't released the code yet).
 2) That the feature is acceptable.
 3) Whether we need help of third-party developers with implementing the feature.
 
@@ -266,4 +266,4 @@ documentation, are the sole property of their respective owners.
 VI. Further Information
 =======================
 
-http://www.veracrypt.fr
+https://www.veracrypt.fr
