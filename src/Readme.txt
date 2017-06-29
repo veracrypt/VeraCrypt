@@ -206,7 +206,7 @@ your Code Signing certificates or comment them if you don't have one.
 
 Because of incompatibility issues with OSXFUSE, the SDK 10.9 generates a
 VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension.
-Thus, we recommend to use the SDK 10.8 or earlier for building VeraCrypt.
+Thus, we recommend using a different OSX SDK version for building VeraCrypt.
 
 
 
