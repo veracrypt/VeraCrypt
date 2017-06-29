@@ -18,13 +18,13 @@ Contents
 ========
 
 I. Windows
-   Requirements for Building VeraCrypt for Windows
-   Instructions for Building VeraCrypt for Windows
-	Instructions for Signing and Packaging VeraCrypt for Windows
+   Requirements for Building VeraCrypt for Windows.
+   Instructions for Building VeraCrypt for Windows.
+	Instructions for Signing and Packaging VeraCrypt for Windows.
 
 II. Linux and Mac OS X
-    Requirements for Building VeraCrypt for Linux and Mac OS X
-    Instructions for Building VeraCrypt for Linux and Mac OS X
+    Requirements for Building VeraCrypt for Linux and Mac OS X.
+    Instructions for Building VeraCrypt for Linux and Mac OS X.
 	Mac OS X specifics
 
 III. FreeBSD and OpenSolaris
