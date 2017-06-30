@@ -305,7 +305,7 @@ void DetectX86Features()
 	g_hasMMX = (cpuid1[3] & (1 << 23)) != 0;
 	if ((cpuid1[3] & (1 << 26)) != 0)
 		g_hasSSE2 = TrySSE2();
-	if (g_hasSSE2 && (cpuid1[2] & (1 << 28)) && (cpuid1[2] & (1 << 27))) /* CPU has AVX and OS supports XSAVE/XRSTORE */
+	if (g_hasSSE2 && (cpuid1[2] & (1 << 28)) && (cpuid1[2] & (1 << 27)) && (cpuid1[2] & (1 << 26))) /* CPU has AVX and OS supports XSAVE/XRSTORE */
 	{
       uint64 xcrFeatureMask = xgetbv();
       g_hasAVX = (xcrFeatureMask & 0x6) == 0x6;
