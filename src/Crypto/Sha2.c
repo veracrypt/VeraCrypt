@@ -217,7 +217,7 @@ void sha512_begin(sha512_ctx* ctx)
 #endif
 
 #if CRYPTOPP_BOOL_X64 || ((CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32) && !defined (TC_MACOSX))
-		if (HasSSE2() && HasMMX())
+		if (HasSSSE3() && HasMMX())
 				transfunc = SSE2Transform;
 		else
 #endif
