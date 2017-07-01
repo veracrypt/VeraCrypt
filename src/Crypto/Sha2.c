@@ -480,8 +480,8 @@ static void CRYPTOPP_FASTCALL X86_SHA256_HashBlocks(uint_32t *state, const uint_
 	ASJ(	jnz,	2, f)
 	AS1(	dec		DWORD PTR K_END)
 #endif
-	AS2(	movdqa	xmm0, XMMWORD_PTR [WORD_REG(cx)+0*16])
-	AS2(	movdqa	xmm1, XMMWORD_PTR [WORD_REG(cx)+1*16])
+	AS2(	movdqu	xmm0, XMMWORD_PTR [WORD_REG(cx)+0*16])
+	AS2(	movdqu	xmm1, XMMWORD_PTR [WORD_REG(cx)+1*16])
 #endif
 
 #if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
@@ -501,8 +501,8 @@ INTEL_NOPREFIX
 
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
 	ASL(0)
-	AS2(	movdqa	E(0), xmm1)
-	AS2(	movdqa	A(0), xmm0)
+	AS2(	movdqu	E(0), xmm1)
+	AS2(	movdqu	A(0), xmm0)
 #endif
 #if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32
 	ASL(3)
@@ -569,12 +569,12 @@ INTEL_NOPREFIX
 	AS2(	test	DWORD PTR K_END, 1)
 	ASJ(	jz,		4, f)
 #endif
-	AS2(	movdqa	xmm1, XMMWORD_PTR [AS_REG_7+1*16])
-	AS2(	movdqa	xmm0, XMMWORD_PTR [AS_REG_7+0*16])
+	AS2(	movdqu	xmm1, XMMWORD_PTR [AS_REG_7+1*16])
+	AS2(	movdqu	xmm0, XMMWORD_PTR [AS_REG_7+0*16])
 	AS2(	paddd	xmm1, E(0))
 	AS2(	paddd	xmm0, A(0))
-	AS2(	movdqa	[AS_REG_7+1*16], xmm1)
-	AS2(	movdqa	[AS_REG_7+0*16], xmm0)
+	AS2(	movdqu	[AS_REG_7+1*16], xmm1)
+	AS2(	movdqu	[AS_REG_7+0*16], xmm0)
 	AS2(	cmp		WORD_REG(dx), DATA_END)
 	ATT_NOPREFIX
 	ASJ(	jb,		0, b)
