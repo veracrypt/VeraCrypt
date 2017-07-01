@@ -1413,15 +1413,15 @@
     <string lang="ar" key="RESCUE_DISK_EFI_CHECK_FAILED">لم يمكن التأكد من صحة تصدير ملف الإنقاذ\n\nإذا صدرت ملف الإنقاذ فيرجى نزع القرص الملحق ثم إدخاله مرة أخرى ثم اضغط زر التالي. إذا لم تنجح العملية فيمكن استخدام قرص ملق آخر أو تطبيق آخر لفك ضغط الملفات المضغفطة\n\nإذا لم تقم بتصدير ملف الإنقاذ بعد فيرجى عمل ذلك ثم الضغط على زر التالي\n\nإذا حاولت التأكد من صحة إنشاء ملف الإنقاذ قبل التسلسل التوضيحي للعملية فيرجى ملاحظة أنه لن يمكنك استخدام قرص الإنقاذ ذاك لأنه أنشء بمفتاح رئيسي آخر. تحتاج تصدير تصدير صورة مضغوطة جديدة</string>
     <string lang="ar" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">لم يمكن التأكد من نجاح عملية تصدير قرص الإنقاذ\n\nإذا قمت بتصدير قرص الإنقاذ على وسيط ملحق فيرجى نزعه ثم إدخاله مرة أخرى. إذا لم يجد ذلك فعليك باستخدام وسيط ملحق آخر أو تطبيق آخر لضغط الملفات\n\nإذا حاولت التحقق من إنشاء قرص الإنقاذ لمفتاح رئيسي آخر أو كلمة سر أخرى, فيرجى ملاحظ أن عملية التحقق ستفشل دائما. لإنشاء قرص إنقاذ جديد فينبغي تهيئته على البيئة الحالية, اختر 'النظام' > 'إنشاء قرص الإنقاذ'.</string>
     <string lang="ar" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">صورة قرص الإنقاذ تم إنشاؤها وحفظها على الملف:\n%s\n\nالآن تحتاج تصديره على وسيط ملحق مهيأ بصيغة FAT/FAT32.\n\nمهم: لاحظ أن تطبيق فك الضغط يجب أن يفك الملف على جذر الوسيط الملحق. على سبيل المثال، لو كان الوسيط الملحق هو E: فإنه يلزم فك الضغط على المجلد E:\\EFI.\n\nبعد إنشاء قرص الإنقاذ، اختر 'النظام' > 'التحقق من قرص الإنقاذ' للتحقق من إنشائه بنجاح</string>
-	<control lang="ar" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">استخدم سطح مكتب مؤمن لإدخال كلمة السر</control>
-    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
-    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
-    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
-    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
-    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
-    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
-    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
-    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
+    <control lang="ar" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">استخدم سطح مكتب مؤمن لإدخال كلمة السر</control>
+    <string lang="ar" key="ERR_REFS_INVALID_VOLUME_SIZE">حجم الملف المحدد في سطر الأوامر غير متوافق مع نظام الملفات  ReFS</string>
+    <control lang="ar" key="IDC_EDIT_DCSPROP">تحرير تهيئة تحميل الاقلاع</control>
+    <control lang="ar" key="IDC_SHOW_PLATFORMINFO">أعرض معلومات بيئة EFI</control>
+    <string lang="ar" key="BOOT_LOADER_CONFIGURATION_FILE">ملف تهيئة تحميل الاقلاع</string>
+    <string lang="ar" key="EFI_PLATFORM_INFORMATION">EFI معلومات بيئة</string>
+    <string lang="ar" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">تحذير: المستخدم غير الخبير ينبغي ألا يحاول تعديل ملف تحميل الإقلاع يدويا\n\nاستمر?</string>
+    <string lang="ar" key="DCSPROP_XML_VALIDATION_FAILED">تحذير: فشل في التحقق من صحة صيغة XML لتهيئة بيئة الإقلاع. يرجى التأكد من التعديلات.</string>
+    <control lang="ar" key="IDT_ADVANCED_OPTIONS">خيارات متقدمة</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
