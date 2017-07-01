@@ -221,7 +221,7 @@ endif
 
 
 install: prepare
-	cp -R $(PWD)/Setup/Linux/usr /.
+	cp -R $(CURDIR)/Setup/Linux/usr $(DESTDIR)/.
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
