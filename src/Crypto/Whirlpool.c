@@ -647,7 +647,7 @@ void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 	{
 #ifdef __GNUC__
 	#if CRYPTOPP_BOOL_X64
-		uint64 workspace[16];
+		CRYPTOPP_ALIGN_DATA(16) uint64 workspace[16];
 	#endif
 	__asm__ __volatile__
 	(
