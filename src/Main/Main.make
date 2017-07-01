@@ -204,6 +204,7 @@ endif
 
 ifeq "$(PLATFORM)" "Linux"
 prepare: $(APPNAME)
+	rm -fr $(PWD)/Setup/Linux/usr
 	mkdir -p $(PWD)/Setup/Linux/usr/bin
 	mkdir -p $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/HTML
 	cp $(PWD)/Main/$(APPNAME) $(PWD)/Setup/Linux/usr/bin/$(APPNAME)
