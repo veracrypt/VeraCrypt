@@ -44,7 +44,7 @@
 Header Key Derivation</a>).</p>
 <p>When a PIM value is specified, the number of iterations is calculated as follows:</p>
 <ul>
-<li>For system encryption: Iterations = <strong>PIM x 2048</strong> </li><li>For non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+<li>For system encryption that doesn't use SHA-512 or Whirlpool: Iterations = <strong>PIM x 2048</strong> </li><li>For system encryption that uses SHA-512 or Whirlpool, non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
 </li></ul>
 <p>Prior to version 1.12, the security of a VeraCrypt volume was only based on the password strength because VeraCrypt was using a fixed number of iterations.<br>
 With the introduction of PIM, VeraCrypt has a 2-dimensional security space for volumes based on the couple (Password, PIM). This provides more flexibility for adjusting the desired security level while also controlling the performance of the mount/boot operation.</p>
@@ -61,8 +61,8 @@ When creating a volume or when changing the password, the user has the possibili
 <div>During the creation of a volume or the encryption of the system, VeraCrypt forces the PIM value to be greater than or equal to a certain minimal value when the password is less than 20 characters. This check is done in order to ensure that, for short passwords,
  the security level is at least equal to the default level provided by an empty PIM.</div>
 <div>&nbsp;</div>
-<div>The PIM minimal value for short passwords is <strong>98</strong> for system encryption and
-<strong>485</strong> for non-system encryption and files containers. For password with 20 characters and more, the PIM minimal value is
+<div>The PIM minimal value for short passwords is <strong>98</strong> for system encryption that doesn't use SHA-512 or Whirlpool and
+<strong>485</strong> for the other cases. For password with 20 characters and more, the PIM minimal value is
 <strong>1</strong>. In all cases, leaving the PIM empty or setting its value to 0 will make VeraCrypt use the default high number of iterations as explained in section
 <a href="Header%20Key%20Derivation.html">
 Header Key Derivation</a>.</div>
@@ -70,7 +70,7 @@ Header Key Derivation</a>.</div>
 Motivations behind using a custom PIM value can be:<br>
 <ul>
 <li>Add an extra secret parameter (PIM) that an attacker will have to guess </li><li>Increase security level by using large PIM values to thwart future development of brute force attacks.
-</li><li>Speeding up booting or mounting through the use of a small PIM value (less than 98 for system encryption and less than 485 for the other cases)
+</li><li>Speeding up booting or mounting through the use of a small PIM value (less than 98 for system encryption that doesn't use SHA-512 or Whirlpool and less than 485 for the other cases)
 </li></ul>
 <p>The screenshots below show the step to mount a volume using a PIM equal to 231:</p>
 <table style="margin-left:auto; margin-right:auto">

@@ -4404,7 +4404,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SetFocus (GetDlgItem (hwndDlg, IDC_PIM));
 
-				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect ()? "PIM_SYSENC_HELP" : "PIM_HELP"));
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString (SysEncInEffect () && hash_algo != SHA512 && hash_algo != WHIRLPOOL? "PIM_SYSENC_HELP" : "PIM_HELP"));
 
 				ToHyperlink (hwndDlg, IDC_LINK_PIM_INFO);
 
@@ -6238,7 +6238,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (volumePassword.Length > 0)
 				{
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					if (!CheckPasswordLength (NULL, volumePassword.Length, volumePim, FALSE, Silent, Silent))
+					if (!CheckPasswordLength (NULL, volumePassword.Length, volumePim, FALSE, 0, Silent, Silent))
 					{
 						exit (1);
 					}
@@ -7514,7 +7514,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), FALSE, FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, 0, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, FALSE, FALSE))
 					{
 						return 1;
 					}
@@ -7601,7 +7601,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), TRUE, FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, TRUE, FALSE))
 					{
 						return 1;
 					}

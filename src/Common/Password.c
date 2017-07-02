@@ -133,14 +133,15 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 }
 
 
-BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim, BOOL bForBoot, BOOL bSkipPasswordWarning, BOOL bSkipPimWarning)
+BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim, BOOL bForBoot, int bootPRF, BOOL bSkipPasswordWarning, BOOL bSkipPimWarning)
 {
-	BOOL bCustomPimSmall = ((pim != 0) && (pim < (bForBoot? 98 : 485)))? TRUE : FALSE;
+	BOOL bootPimCondition = (bForBoot && (bootPRF != SHA512 && bootPRF != WHIRLPOOL))? TRUE : FALSE;
+	BOOL bCustomPimSmall = ((pim != 0) && (pim < (bootPimCondition? 98 : 485)))? TRUE : FALSE;
 	if (passwordLength < PASSWORD_LEN_WARNING)
 	{
 		if (bCustomPimSmall)
 		{
-			Error (bForBoot? "BOOT_PIM_REQUIRE_LONG_PASSWORD": "PIM_REQUIRE_LONG_PASSWORD", hwndDlg);
+			Error (bootPimCondition? "BOOT_PIM_REQUIRE_LONG_PASSWORD": "PIM_REQUIRE_LONG_PASSWORD", hwndDlg);
 			return FALSE;
 		}
 
@@ -157,7 +158,7 @@ BOOL CheckPasswordLength (HWND hwndDlg, unsigned __int32 passwordLength, int pim
 	}
 #endif
 
-	if ((pim != 0) && (pim > (bForBoot? 98 : 485)))
+	if ((pim != 0) && (pim > (bootPimCondition? 98 : 485)))
 	{
 		// warn that mount/boot will take more time
 		Warning ("PIM_LARGE_WARNING", hwndDlg);
