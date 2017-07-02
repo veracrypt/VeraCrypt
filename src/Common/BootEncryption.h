@@ -37,7 +37,7 @@ namespace VeraCrypt
 	{
 	public:
 		File () : Elevated (false), FileOpen (false), ReadOnly (false), FilePointerPosition(0), Handle(INVALID_HANDLE_VALUE), IsDevice(false), LastError(0) { }
-		File (wstring path,bool readOnly = false, bool create = false);
+		File (wstring path,bool readOnly = false, bool create = false, bool useNormalAttributes = false);
 		virtual ~File () { Close(); }
 
 		void CheckOpened (const char* srcPos) { if (!FileOpen) { SetLastError (LastError); throw SystemException (srcPos);} }
