@@ -62,12 +62,14 @@ VeraCrypt Rescue Disk</a>.</div>
 <strong style="text-align:left">Possible permanent solution</strong>: decrypt the system partition/drive, and then re-encrypt it using a non-cascade encryption algorithm (i.e., AES, Serpent, or Twofish).*</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 Please note that this not a bug in VeraCrypt (the issue is caused by inappropriate design of the third-party activation software).</div>
-<h2>Outpost Firewall 9.1</h2>
+<h2>Outpost Firewall and Outpost Security Suite</h2>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
-if Outpost Firewall 9.1 is installed with Proactive Protection enabled, the machine freezes completely for 5-10 seconds during the volume mount/dismount operation. This is caused by a conflict between Outpost System Guard option that protects "Active Desktop" objects and VeraCrypt waiting dialog displayed during mount/dismount operations.</div>
+If Outpost Firewall or Outpost Security Suite is installed with Proactive Protection enabled, the machine freezes completely for 5-10 seconds during the volume mount/dismount operation. This is caused by a conflict between Outpost System Guard option that protects "Active Desktop" objects and VeraCrypt waiting dialog displayed during mount/dismount operations.</div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
 A workaround that fixes this issue is to disable VeraCrypt waiting dialog in the Preferences: use menu "Settings -> Preferences" and check the option "Don't show wait message dialog when performing operations".</div>
-
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+More information can be found at <a href="https://sourceforge.net/p/veracrypt/tickets/100/">https://sourceforge.net/p/veracrypt/tickets/100/</a>
+</div>
 <hr align="left" size="1" width="189" style="text-align:left; height:0px; border-width:0px 1px 1px; border-style:solid; border-color:#000000">
 <p><span style="text-align:left; font-size:10px; line-height:12px">* The reason is that the VeraCrypt Boot Loader is smaller than the one used for cascades of ciphers and, therefore, there is enough space in the first drive track for a backup of the VeraCrypt
  Boot Loader. Hence, whenever the VeraCrypt Boot Loader is damaged, its backup copy is run automatically instead.</span><br style="text-align:left">
