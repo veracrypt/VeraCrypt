@@ -5611,7 +5611,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (lw == IDC_PIM)
 			{
-				if(GetPim (hwndDlg, IDC_PIM) != 0)
+				if(GetPim (hwndDlg, IDC_PIM, 0) != 0)
 				{
 					PimValueChangedWarning = TRUE;
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (SysEncInEffect ()? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
@@ -7582,7 +7582,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			else if (nCurPageNo == PIM_PAGE)
 			{
-				volumePim = GetPim (hCurPage, IDC_PIM);
+				volumePim = GetPim (hCurPage, IDC_PIM, 0);
 
 				if (!SysEncInEffect() && (volumePim > MAX_PIM_VALUE))
 				{
@@ -7639,7 +7639,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				hash_algo = (int) SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hCurPage, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
-				volumePim = GetPim (hCurPage, IDC_PIM);
+				volumePim = GetPim (hCurPage, IDC_PIM, 0);
 
 				// Store the password in case we need to restore it after keyfile is applied to it
 				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, sizeof (szRawPassword), TRUE))
@@ -8764,7 +8764,7 @@ ovf_end:
 
 			else if (nCurPageNo == PIM_PAGE)
 			{
-				volumePim = GetPim (hCurPage, IDC_PIM);
+				volumePim = GetPim (hCurPage, IDC_PIM, 0);
 			}
 
 			else if (nCurPageNo == HIDDEN_VOL_HOST_PASSWORD_PAGE

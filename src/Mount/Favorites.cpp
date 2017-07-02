@@ -391,7 +391,7 @@ namespace VeraCrypt
 			case IDC_PIM:
 				if (hw == EN_CHANGE)
 				{
-					int pim = GetPim (hwndDlg, IDC_PIM);
+					int pim = GetPim (hwndDlg, IDC_PIM, -1);
 					if (pim > (SystemFavoritesMode? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
 					{
 						SetDlgItemText (hwndDlg, IDC_PIM, L"");
@@ -618,9 +618,14 @@ namespace VeraCrypt
 				/* support old attribute name before it was changed to PIM*/
 				XmlGetAttributeText (xml, "pin", label, sizeof (label));
 			}
-			favorite.Pim = strtol (label, NULL, 10);
-			if (favorite.Pim < 0 || favorite.Pim > (systemFavorites? MAX_BOOT_PIM_VALUE : MAX_PIM_VALUE))
-				favorite.Pim = 0;
+			if (label[0])
+			{
+				favorite.Pim = strtol (label, NULL, 10);
+				if (favorite.Pim < 0 || favorite.Pim > (systemFavorites? MAX_BOOT_PIM_VALUE : MAX_PIM_VALUE))
+					favorite.Pim = -1;
+			}
+			else
+				favorite.Pim = -1;
 
 			char boolVal[2];
 			XmlGetAttributeText (xml, "readonly", boolVal, sizeof (boolVal));
@@ -786,7 +791,7 @@ namespace VeraCrypt
 			if (!favorite.Label.empty())
 				s += L" label=\"" + favorite.Label + L"\"";
 
-			if (favorite.Pim > 0)
+			if ((favorite.Pim >= 0) && (favorite.TrueCryptMode <= 0))
 				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
 
 			if (favorite.Pkcs5 > 0)
@@ -1029,7 +1034,7 @@ namespace VeraCrypt
 		else
 			favorite.Label.clear();
 
-		favorite.Pim = GetPim (hwndDlg, IDC_PIM);
+		favorite.Pim = GetPim (hwndDlg, IDC_PIM, -1);
 		favorite.UseLabelInExplorer = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER) != 0);
 		favorite.UseVolumeID = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID) != 0);
 		int nSelected = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0);

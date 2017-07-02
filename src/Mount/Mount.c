@@ -2434,7 +2434,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			if (lw == IDC_PIM)
 			{
-				if(GetPim (hwndDlg, IDC_OLD_PIM) != GetPim (hwndDlg, IDC_PIM))
+				if(GetPim (hwndDlg, IDC_OLD_PIM, 0) != GetPim (hwndDlg, IDC_PIM, 0))
 				{
 					PimValueChangedWarning = TRUE;
 					SetDlgItemTextW (hwndDlg, IDC_PIM_HELP, GetString (bSysEncPwdChangeDlgMode? "PIM_SYSENC_CHANGE_WARNING" : "PIM_CHANGE_WARNING"));
@@ -2631,8 +2631,8 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 			BOOL truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
-			int old_pim = GetPim (hwndDlg, IDC_OLD_PIM);
-			int pim = GetPim (hwndDlg, IDC_PIM);
+			int old_pim = GetPim (hwndDlg, IDC_OLD_PIM, 0);
+			int pim = GetPim (hwndDlg, IDC_PIM, 0);
 
 			if (truecryptMode && !is_pkcs5_prf_supported (old_pkcs5, TRUE, PRF_BOOT_NO))
 			{
@@ -3099,7 +3099,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 				*truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 
-				*pim = GetPim (hwndDlg, IDC_PIM);
+				*pim = GetPim (hwndDlg, IDC_PIM, 0);
 
 				/* check that PRF is supported in TrueCrypt Mode */
 				if (	(*truecryptMode)
@@ -3651,7 +3651,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				mountOptions->ProtectedHidVolPkcs5Prf = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA,
 					SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
 
-				mountOptions->ProtectedHidVolPim = GetPim (hwndDlg, IDC_PIM);
+				mountOptions->ProtectedHidVolPim = GetPim (hwndDlg, IDC_PIM, 0);
 			}
 
 			// Cleanup
@@ -4816,8 +4816,8 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim, 
 		// try TrueCrypt mode first as it is quick, only if no custom pim specified
 		if (EffectiveVolumeTrueCryptMode)
 			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, EffectiveVolumePkcs5, 0, TRUE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
-		else
-			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, EffectiveVolumePkcs5, EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
+		else // if no PIM specified for favorite, we use also the PIM of the previous volume alongside its password.
+			mounted = MountVolume (hwndDlg, nDosDriveNo, szFileName, &VolumePassword, EffectiveVolumePkcs5, (EffectiveVolumePim < 0)? VolumePim : EffectiveVolumePim, FALSE, bCacheInDriver, bIncludePimInCache, bForceMount, &mountOptions, Silent, FALSE);
 	}
 
 	NormalCursor ();

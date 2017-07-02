@@ -5801,7 +5801,7 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (benchmarkType == BENCHMARK_TYPE_PRF)
 			{
-				benchmarkPim = GetPim (hwndDlg, IDC_PIM);
+				benchmarkPim = GetPim (hwndDlg, IDC_PIM, 0);
 				benchmarkPreBoot = GetCheckBox (hwndDlg, IDC_BENCHMARK_PREBOOT);
 			}
 			else
@@ -12670,9 +12670,9 @@ std::wstring FindLatestFileOrDirectory (const std::wstring &directory, const wch
 	return wstring (directory) + L"\\" + name;
 }
 
-int GetPim (HWND hwndDlg, UINT ctrlId)
+int GetPim (HWND hwndDlg, UINT ctrlId, int defaultPim)
 {
-	int pim = 0;
+	int pim = defaultPim;
 	HWND hCtrl = GetDlgItem (hwndDlg, ctrlId);
 	if (IsWindowEnabled (hCtrl) && IsWindowVisible (hCtrl))
 	{
@@ -12682,7 +12682,7 @@ int GetPim (HWND hwndDlg, UINT ctrlId)
 			wchar_t* endPtr = NULL;
 			pim = wcstol(szTmp, &endPtr, 10);
 			if (pim < 0 || endPtr == szTmp || !endPtr || *endPtr != L'\0')
-				pim = 0;
+				pim = defaultPim;
 		}
 	}
 	return pim;

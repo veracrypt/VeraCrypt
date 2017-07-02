@@ -503,7 +503,7 @@ BOOL VolumePathExists (const wchar_t *volumePath);
 BOOL IsWindowsIsoBurnerAvailable ();
 BOOL LaunchWindowsIsoBurner (HWND hwnd, const wchar_t *isoPath);
 BOOL IsApplicationInstalled (const wchar_t *appName);
-int GetPim (HWND hwndDlg, UINT ctrlId);
+int GetPim (HWND hwndDlg, UINT ctrlId, int defaultPim);
 void SetPim (HWND hwndDlg, UINT ctrlId, int pim);
 BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL bShowError);
 void SetPassword (HWND hwndDlg, UINT ctrlID, char* passValue);
