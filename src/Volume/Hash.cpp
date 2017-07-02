@@ -48,7 +48,7 @@ namespace VeraCrypt
 	Ripemd160::Ripemd160 ()
 	{
 		Deprecated = true; // Mark RIPEMD-160 as deprecated like on Windows.
-		Context.Allocate (sizeof (RMD160_CTX));
+		Context.Allocate (sizeof (RMD160_CTX), 32);
 		Init();
 	}
 
@@ -72,7 +72,7 @@ namespace VeraCrypt
 	// SHA-256
 	Sha256::Sha256 ()
 	{
-		Context.Allocate (sizeof (sha256_ctx));
+		Context.Allocate (sizeof (sha256_ctx), 32);
 		Init();
 	}
 
@@ -96,7 +96,7 @@ namespace VeraCrypt
 	// SHA-512
 	Sha512::Sha512 ()
 	{
-		Context.Allocate (sizeof (sha512_ctx));
+		Context.Allocate (sizeof (sha512_ctx), 32);
 		Init();
 	}
 
@@ -120,7 +120,7 @@ namespace VeraCrypt
 	// Whirlpool
 	Whirlpool::Whirlpool ()
 	{
-		Context.Allocate (sizeof (WHIRLPOOL_CTX));
+		Context.Allocate (sizeof (WHIRLPOOL_CTX), 32);
 		Init();
 	}
 
@@ -144,7 +144,7 @@ namespace VeraCrypt
 	// Streebog
 	Streebog::Streebog ()
 	{
-		Context.Allocate (sizeof (STREEBOG_CTX));
+		Context.Allocate (sizeof (STREEBOG_CTX), 32);
 		Init();
 	}
 
