@@ -143,6 +143,42 @@
     <None Include="..\Crypto\Sources">
       <Filter>Build Files\Crypto</Filter>
     </None>
+    <None Include="..\Crypto\Camellia_aesni_x64.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\Camellia_x64.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\Twofish_x64.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha256-x86-nayuki.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha512_sse4_x64.asm">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha256_avx1_x64.asm">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha256_avx2_x64.asm">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha256_sse4_x64.asm">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha512-x86-nayuki.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha512-x64-nayuki.S">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha512_avx1_x64.asm">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
+    <None Include="..\Crypto\sha512_avx2_x64.asm">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Apidrvr.h">

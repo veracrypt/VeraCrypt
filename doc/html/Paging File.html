@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Security%20Requirements%20and%20Precautions.html">Security Requirements and Precautions</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Data%20Leaks.html">Data Leaks</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Paging%20File.html">Paging File</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Paging File</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<em style="text-align:left">Note: The issue described below does <strong style="text-align:left">
+not</strong> affect you if the system partition or system drive is encrypted (for more information, see the chapter
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+System Encryption</a>) and if all paging files are located on one or more of the partitions within the key scope of
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+system encryption</a>, for example, on the partition where Windows is installed (for more information, see the fourth paragraph in this subsection</em><em style="text-align:left">).</em></div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Paging files, also called swap files, are used by Windows to hold parts of programs and data files that do not fit in memory. This means that sensitive data, which you believe are only stored in RAM, can actually be written
+<em style="text-align:left">unencrypted</em> to a hard drive by Windows without you knowing.
+<br style="text-align:left">
+<br style="text-align:left">
+Note that VeraCrypt <em style="text-align:left">cannot</em> prevent the contents of sensitive files that are opened in RAM from being saved
+<em style="text-align:left">unencrypted</em> to a paging file (note that when you open a file stored on a VeraCrypt volume, for example, in a text editor, then the content of the file is stored
+<em style="text-align:left">unencrypted</em> in RAM).</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">To prevent the issues described above</strong>, encrypt the system partition/drive (for information on how to do so, see the chapter
+<a href="System%20Encryption.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+System Encryption</a>) and make sure that all paging files are located on one or more of the partitions within the key scope of system encryption (for example, on the partition where Windows is installed). Note that the last condition is typically met on Windows
+ XP by default. However, Windows Vista and later versions of Windows are configured by default to create paging files on any suitable volume. Therefore, before, you start using VeraCrypt, you must follow these steps: Right-click the '<em style="text-align:left">Computer</em>'
+ (or '<em style="text-align:left">My Computer</em>') icon on the desktop or in the
+<em style="text-align:left">Start Menu</em>, and then select <em style="text-align:left">
+Properties</em> &gt; (<span style="text-align:left">on Windows Vista or later</span>: &gt;
+<em style="text-align:left">Advanced System Settings</em> &gt;) <em style="text-align:left">
+Advanced </em>tab &gt; section <em style="text-align:left">Performance </em>&gt; <em style="text-align:left">
+Settings &gt; Advanced </em>tab &gt; section <em style="text-align:left">Virtual memory
+</em>&gt;<em style="text-align:left"> Change</em>. On Windows Vista or later, disable '<em style="text-align:left">Automatically manage paging file size for all drives</em>'. Then make sure that the list of volumes available for paging file creation contains
+ only volumes within the intended key scope of system encryption (for example, the volume where Windows is installed). To disable paging file creation on a particular volume, select it, then select '<em style="text-align:left">No paging file</em>' and click
+<em style="text-align:left">Set</em>. When done, click <em style="text-align:left">
+OK</em> and restart the computer. <br style="text-align:left">
+<br style="text-align:left">
+<em style="text-align:left">Note: You may also want to consider creating a hidden operating system (for more information, see the section
+<a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
+Hidden Operating System</a>)</em>.</div>
+</div><div class="ClearBoth"></div></body></html>

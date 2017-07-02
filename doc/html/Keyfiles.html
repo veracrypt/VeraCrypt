@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Technical%20Details.html">Technical Details</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Keyfiles.html">Keyfiles</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Keyfiles</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>VeraCrypt keyfile is a file whose content is combined with a password. The user can use any kind of file as a VeraCrypt keyfile. The user can also generate a keyfile using the built-in keyfile generator, which utilizes the VeraCrypt RNG to generate a file
+ with random content (for more information, see the section <a href="Random%20Number%20Generator.html">
+<em>Random Number Generator</em></a>).</p>
+<p>The maximum size of a keyfile is not limited; however, only its first 1,048,576 bytes (1 MB) are processed (all remaining bytes are ignored due to performance issues connected with processing extremely large files). The user can supply one or more keyfiles
+ (the number of keyfiles is not limited).</p>
+<p>Keyfiles can be stored on PKCS-11-compliant [23] security tokens and smart cards protected by multiple PIN codes (which can be entered either using a hardware PIN pad or via the VeraCrypt GUI).</p>
+<p>Keyfiles are processed and applied to a password using the following method:</p>
+<ol>
+<li>Let <em>P</em> be a VeraCrypt volume password supplied by user (may be empty)
+</li><li>Let <em>KP</em> be the keyfile pool </li><li>Let <em>kpl</em> be the size of the keyfile pool <em>KP</em>, in bytes (64, i.e., 512 bits);
+<p>kpl must be a multiple of the output size of a hash function H</p>
+</li><li>Let <em>pl</em> be the length of the password <em>P</em>, in bytes (in the current version: 0 &le;
+<em>pl</em> &le; 64) </li><li>if <em>kpl &gt; pl</em>, append (<em>kpl &ndash; pl</em>) zero bytes to the password
+<em>P</em> (thus <em>pl = kpl</em>) </li><li>Fill the keyfile pool <em>KP</em> with <em>kpl</em> zero bytes. </li><li>For each keyfile perform the following steps:
+<ol type="a">
+<li>Set the position of the keyfile pool cursor to the beginning of the pool </li><li>Initialize the hash function <em>H</em> </li><li>Load all bytes of the keyfile one by one, and for each loaded byte perform the following steps:
+<ol type="i">
+<li>Hash the loaded byte using the hash function <em>H</em> without initializing the hash, to obtain an intermediate hash (state)
+<em>M.</em> Do not finalize the hash (the state is retained for next round). </li><li>Divide the state <em>M</em> into individual bytes.<br>
+For example, if the hash output size is 4 bytes, (<em>T</em><sub>0</sub> || <em>T</em><sub>1</sub> ||
+<em>T</em><sub>2</sub> || <em>T</em><sub>3</sub>) = <em>M</em> </li><li>Write these bytes (obtained in step 7.c.ii) individually to the keyfile pool with the modulo 2<sup>8</sup> addition operation (not by replacing the old values in the pool) at the position of the pool cursor. After a byte is written, the pool cursor position
+ is advanced by one byte. When the cursor reaches the end of the pool, its position is set to the beginning of the pool.
+</li></ol>
+</li></ol>
+</li><li>Apply the content of the keyfile pool to the password <em>P</em> using the following method:
+<ol type="a">
+<li>Divide the password <em>P</em> into individual bytes <em>B</em><sub>0</sub>...<em>B</em><sub>pl-1</sub>.<br>
+Note that if the password was shorter than the keyfile pool, then the password was padded with zero bytes to the length of the pool in Step 5 (hence, at this point the length of the password is always greater than or equal to the length of the keyfile pool).
+</li><li>Divide the keyfile pool <em>KP</em> into individual bytes <em>G</em><sub>0</sub>...<em>G</em><sub>kpl-1</sub>
+</li><li>For 0 &le; i &lt; kpl perform: Bi = Bi &oplus; Gi </li><li><em>P</em> = <em>B</em><sub>0</sub> || <em>B</em><sub>1</sub> || ... || <em>B</em><sub>pl-2</sub> ||
+<em>B</em><sub>pl-1</sub> </li></ol>
+</li><li>The password <em>P</em> (after the keyfile pool content has been applied to it) is now passed to the header key derivation function PBKDF2 (PKCS #5 v2), which processes it (along with salt and other data) using a cryptographically secure hash algorithm
+ selected by the user (e.g., SHA-512). See the section <a href="Header%20Key%20Derivation.html">
+<em>Header Key Derivation, Salt, and Iteration Count</em></a> for more information.
+</li></ol>
+<p>The role of the hash function <em>H</em> is merely to perform diffusion [2]. CRC-32 is used as the hash function
+<em>H</em>. Note that the output of CRC-32 is subsequently processed using a cryptographically secure hash algorithm: The keyfile pool content (in addition to being hashed using CRC-32) is applied to the password, which is then passed to the header key derivation
+ function PBKDF2 (PKCS #5 v2), which processes it (along with salt and other data) using a cryptographically secure hash algorithm selected by the user (e.g., SHA-512). The resultant values are used to form the header key and the secondary header key (XTS mode).</p>
+<p>&nbsp;</p>
+<p><a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

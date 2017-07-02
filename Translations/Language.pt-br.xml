@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.20-BETA2">
+  <localization prog-version="1.21">
     <!-- Languages -->
     <language langid="pt-br" name="Português-Brasil" en-name="Portuguese (Brazil)" version="0.1.0" translators="Thiago C. L. Mendes, Lecidio S. Alencar , Lucas C. Ferreira" />
     <!-- Fonts -->
@@ -857,7 +857,7 @@
     <string lang="pt-br" key="TC_INSTALLER_IS_RUNNING">O instalador do VeraCrypt está atualmente em execução, realizando ou preparando uma instalação ou atualização do VeraCrypt. Antes de continuar, por favor, aguarde o seu término ou feche-o. Se você não puder fechá-lo, por favor, reinicie o computador antes de prosseguir.</string>
     <string lang="pt-br" key="INSTALL_FAILED">A instalação falhou.</string>
     <string lang="pt-br" key="UNINSTALL_FAILED">A desinstalação falhou.</string>
-    <string lang="pt-br" key="DIST_PACKAGE_CORRUPTED">Este pacote de distribuição parece estar danificado. Tente baixá-lo novamente (de preferência a partir do nosso site oficial https://veracrypt.codeplex.com).</string>
+    <string lang="pt-br" key="DIST_PACKAGE_CORRUPTED">Este pacote de distribuição parece estar danificado. Tente baixá-lo novamente (de preferência a partir do nosso site oficial https://www.veracrypt.fr).</string>
     <string lang="pt-br" key="CANNOT_WRITE_FILE_X">Não foi possível gravr o arquivoe %s</string>
     <string lang="pt-br" key="EXTRACTING_VERB">Extraindo</string>
     <string lang="pt-br" key="CANNOT_READ_FROM_PACKAGE">Não foi possível ler alguns dados do pacote de instalação.</string>
@@ -1232,7 +1232,7 @@
     <string lang="pt-br" key="HIDDEN_OS_CREATION_PREINFO_HELP">Nas próximas etapas, o VeraCrypt irá criar o sistema operacional oculto copiando o conteúdo da partição do sistema para o volume oculto (os dados a serem copiados serão criptografados on-the-fly com uma chave de criptografia diferente daquele que será utilizada para o sistema isca).\n\nPor favor note que o processo será realizado em ambiente pré-boot (antes do Windows iniciar) e pode levar um longo tempo para concluir; várias horas ou até vários dias (dependendo do tamanho da partição do sistema e do desempenho do seu computador).\n\nVocê poderá interromper o processo, desligar o computador, iniciar o sistema operacional e, em seguida, retomar o processo. No entanto, se você interrompê-lo, todo o processo de cópia do sistema terá que começar desde o início (porque o conteúdo da partição do sistema não deve mudar durante a clonagem).</string>
     <string lang="pt-br" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">Deseja cancelar todo o processo de criação do sistema operacional oculto?\n\nNota: Você NÃO poderá retomar o processo se cancelá-lo agora.</string>
     <string lang="pt-br" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">Você deseja cancelar o pré-teste de criptografia de sistema?</string>
-    <string lang="en" key="BOOT_PRETEST_FAILED_RETRY">The VeraCrypt system encryption pretest failed. Do you want to try again?\n\nIf you select 'No', the pre-boot authentication component will be uninstalled.\n\nNotes:\n\n- If the VeraCrypt Boot Loader did not ask you to enter the password before Windows started, it is possible that your operating system does not boot from the drive on which it is installed. This is not supported.\n\n- If you used an encryption algorithm other than AES and the pretest failed (and you entered the password), it may have been caused by an inappropriately designed driver. Select 'No', and try encrypting the system partition/drive again, but use the AES encryption algorithm (which has the lowest memory requirements).\n\n- For more possible causes and solutions, see: https://veracrypt.codeplex.com/wikipage?title=Troubleshooting</string>
+    <string lang="en" key="BOOT_PRETEST_FAILED_RETRY">The VeraCrypt system encryption pretest failed. Do you want to try again?\n\nIf you select 'No', the pre-boot authentication component will be uninstalled.\n\nNotes:\n\n- If the VeraCrypt Boot Loader did not ask you to enter the password before Windows started, it is possible that your operating system does not boot from the drive on which it is installed. This is not supported.\n\n- If you used an encryption algorithm other than AES and the pretest failed (and you entered the password), it may have been caused by an inappropriately designed driver. Select 'No', and try encrypting the system partition/drive again, but use the AES encryption algorithm (which has the lowest memory requirements).\n\n- For more possible causes and solutions, see: https://www.veracrypt.fr/en/Troubleshooting.html</string>
     <string lang="pt-br" key="SYS_DRIVE_NOT_ENCRYPTED">O dispositivo/partição de sistema não parece estar criptografado (nem parcial nem completamente).</string>
     <string lang="pt-br" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">Seu dispositivo/partição de sistema está criptografado (parcial ou completamente).\n\nFavor descriptografar o dispositivo/partição de sistema completamente antes de continuar. Para isso, clique em 'Sistema' &gt; 'Descriptografar Dispositivo/Partição de Sistema Definitivamente' na barra de menu da janela principal do VeraCrypt.</string>
     <string lang="en" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">When the system partition/drive is encrypted (partially or fully), you cannot downgrade VeraCrypt (but you can upgrade it or reinstall the same version).</string>
@@ -1414,6 +1414,14 @@
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
 	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
+    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
+    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
+    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
+    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
+    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
+    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
+    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
+    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

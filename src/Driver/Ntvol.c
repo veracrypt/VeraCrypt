@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -63,6 +63,11 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	Extension->hDeviceFile = NULL;
 	Extension->bTimeStampValid = FALSE;
 
+	/* default value for storage alignment */
+	Extension->HostMaximumTransferLength = 65536;
+	Extension->HostMaximumPhysicalPages = 17;
+	Extension->HostAlignmentMask = 0;
+
 	RtlInitUnicodeString (&FullFileName, pwszMountVolume);
 	InitializeObjectAttributes (&oaFileAttributes, &FullFileName, OBJ_CASE_INSENSITIVE | (forceAccessCheck ? OBJ_FORCE_ACCESS_CHECK : 0) | OBJ_KERNEL_HANDLE, NULL, NULL);
 	KeInitializeEvent (&Extension->keVolumeEvent, NotificationEvent, FALSE);
@@ -82,9 +87,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		PARTITION_INFORMATION pi;
 		PARTITION_INFORMATION_EX pix;
 		LARGE_INTEGER diskLengthInfo;
-		DISK_GEOMETRY dg;
+		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
-		STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR storageDescriptor = {0};
+		STORAGE_DESCRIPTOR_HEADER storageHeader = {0};
 
 		ntStatus = IoGetDeviceObjectPointer (&FullFileName,
 			FILE_READ_DATA | FILE_READ_ATTRIBUTES,
@@ -94,26 +99,66 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		if (!NT_SUCCESS (ntStatus))
 			goto error;
 
-		ntStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_DRIVE_GEOMETRY, (char *) &dg, sizeof (dg));
+		ntStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, (char *) &dg, sizeof (dg));
 		if (!NT_SUCCESS (ntStatus))
 			goto error;
 
-		lDiskLength.QuadPart = dg.Cylinders.QuadPart * dg.SectorsPerTrack * dg.TracksPerCylinder * dg.BytesPerSector;
-		Extension->HostBytesPerSector = dg.BytesPerSector;
-
-		storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
-		storagePropertyQuery.QueryType = PropertyStandardQuery;
+		lDiskLength.QuadPart = dg.DiskSize.QuadPart;
+		Extension->HostBytesPerSector = dg.Geometry.BytesPerSector;
+		Extension->HostBytesPerPhysicalSector = dg.Geometry.BytesPerSector;
 
 		/* IOCTL_STORAGE_QUERY_PROPERTY supported only on Vista and above */
-		if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
-			(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
-			(char *) &storageDescriptor, sizeof (storageDescriptor))))
+		if (OsMajorVersion >= 6)
 		{
-			Extension->HostBytesPerPhysicalSector = storageDescriptor.BytesPerPhysicalSector;
-		}
-		else
-		{
-			Extension->HostBytesPerPhysicalSector = dg.BytesPerSector;
+			storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
+			storagePropertyQuery.QueryType = PropertyStandardQuery;
+
+			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+				(char *) &storageHeader, sizeof (storageHeader))))
+			{
+				byte* outputBuffer = TCalloc (storageHeader.Size);
+				if (!outputBuffer)
+				{
+					ntStatus = STATUS_INSUFFICIENT_RESOURCES;
+					goto error;
+				}
+
+				if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+					(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+					outputBuffer, storageHeader.Size)))
+				{
+					PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR pStorageDescriptor = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) outputBuffer;
+					Extension->HostBytesPerPhysicalSector = pStorageDescriptor->BytesPerPhysicalSector;
+				}
+
+				TCfree (outputBuffer);			
+			}
+
+			storagePropertyQuery.PropertyId = StorageAdapterProperty;
+			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+				(char *) &storageHeader, sizeof (storageHeader))))
+			{
+				byte* outputBuffer = TCalloc (storageHeader.Size);
+				if (!outputBuffer)
+				{
+					ntStatus = STATUS_INSUFFICIENT_RESOURCES;
+					goto error;
+				}
+
+				if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+					(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+					outputBuffer, storageHeader.Size)))
+				{
+					PSTORAGE_ADAPTER_DESCRIPTOR pStorageDescriptor = (PSTORAGE_ADAPTER_DESCRIPTOR) outputBuffer;
+					Extension->HostMaximumTransferLength = pStorageDescriptor->MaximumTransferLength;
+					Extension->HostMaximumPhysicalPages = pStorageDescriptor->MaximumPhysicalPages;
+					Extension->HostAlignmentMask = pStorageDescriptor->AlignmentMask;
+				}
+
+				TCfree (outputBuffer);			
+			}
 		}
 
 		// Drive geometry is used only when IOCTL_DISK_GET_PARTITION_INFO fails
@@ -164,6 +209,9 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 		Extension->HostBytesPerSector = mount->BytesPerSector;
 		Extension->HostBytesPerPhysicalSector = mount->BytesPerPhysicalSector;
+		Extension->HostMaximumTransferLength = mount->MaximumTransferLength;
+		Extension->HostMaximumPhysicalPages = mount->MaximumPhysicalPages;
+		Extension->HostAlignmentMask = mount->AlignmentMask;
 
 		if (Extension->HostBytesPerSector != TC_SECTOR_SIZE_FILE_HOSTED_VOLUME)
 			disableBuffering = FALSE;
@@ -517,7 +565,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 
 			Extension->cryptoInfo->bPartitionInInactiveSysEncScope = mount->bPartitionInInactiveSysEncScope;
 
-			/* compute the ID of this volume: SHA-512 of the effective header */
+			/* compute the ID of this volume: SHA-256 of the effective header */
 			sha256 (Extension->volumeID, readBuffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 
 			if (volumeType == TC_VOLUME_TYPE_NORMAL)
@@ -644,6 +692,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			// mount it (i.e. not just to protect it)
 			if (volumeType == TC_VOLUME_TYPE_NORMAL || !mount->bProtectHiddenVolume)
 			{
+				LARGE_INTEGER dataOffset;
+				ULONG dataLength;
 				// Validate sector size
 				if (bRawDevice && Extension->cryptoInfo->SectorSize != Extension->HostBytesPerSector)
 				{
@@ -656,8 +706,89 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				Extension->TracksPerCylinder = 1;
 				Extension->SectorsPerTrack = 1;
 				Extension->BytesPerSector = Extension->cryptoInfo->SectorSize;
-				Extension->NumberOfCylinders = Extension->DiskLength / Extension->BytesPerSector;
+				// Add extra sector since our virtual partition starts at Extension->BytesPerSector and not 0
+				Extension->NumberOfCylinders = (Extension->DiskLength / Extension->BytesPerSector) + 1;
 				Extension->PartitionType = 0;
+
+				// Try to detect the filesystem used by the volume in order to give a correct value to Extension->PartitionType
+				dataOffset.QuadPart = (LONGLONG) Extension->cryptoInfo->volDataAreaOffset;
+				dataLength = bRawDevice ? Extension->HostBytesPerSector : TC_VOLUME_HEADER_EFFECTIVE_SIZE;
+
+				Dump ("Reading first data at %I64d\n", dataOffset.QuadPart);
+
+				if (NT_SUCCESS (ZwReadFile (Extension->hDeviceFile,
+													NULL,
+													NULL,
+													NULL,
+													&IoStatusBlock,
+													readBuffer,
+													dataLength,
+													&dataOffset,
+													NULL)))
+				{
+					uint64 fsId = 0;
+					UINT64_STRUCT dataUnit;
+					
+					dataUnit.Value = Extension->cryptoInfo->volDataAreaOffset / ENCRYPTION_DATA_UNIT_SIZE;
+
+					if (Extension->cryptoInfo->bPartitionInInactiveSysEncScope)
+						dataUnit.Value += Extension->cryptoInfo->FirstDataUnitNo.Value;
+					DecryptDataUnits ((unsigned char*) readBuffer, &dataUnit, dataLength / ENCRYPTION_DATA_UNIT_SIZE, Extension->cryptoInfo);
+
+					fsId = BE64 (*(uint64 *) readBuffer);
+
+					switch (fsId)
+					{
+					case 0xEB3C904D53444F53: // FAT16/FAT12
+					case 0xEB3C906D6B66732E: // mkfs.fat
+					case 0xEB3C906D6B646F73: // mkfs.vfat/mkdosfs
+						// workaround for FAT32 formatting by TrueCrypt/VeraCrypt
+						if (memcmp (readBuffer + 0x52, "FAT32   ", 8) == 0)
+						{
+							Extension->PartitionType = PARTITION_FAT32;
+							Dump ("FAT32 detected with FAT16 header\n");
+						}
+						else
+						{
+							if (memcmp (readBuffer + 0x36, "FAT12   ", 8) == 0)
+							{
+								Extension->PartitionType = PARTITION_FAT_12;
+								Dump ("FAT12 detected\n");
+							}
+							else
+							{
+								Extension->PartitionType = PARTITION_FAT_16;
+								Dump ("FAT16 detected\n");
+							}
+						}
+						break;
+					case 0xEB58906D6B66732E: // mkfs.fat
+					case 0xEB58906D6B646F73: // mkfs.vfat/mkdosfs
+					case 0xEB58904D53444F53: // FAT32
+						Extension->PartitionType = PARTITION_FAT32;
+						Dump ("FAT32 detected\n");
+						break;
+					case 0xEB52904E54465320: // NTFS
+						Extension->PartitionType = PARTITION_IFS;
+						Dump ("NTFS detected\n");
+						break;
+					case 0xEB76904558464154: // exFAT
+						Extension->PartitionType = PARTITION_IFS;
+						Dump ("exFAT detected\n");
+						break;
+					case 0x0000005265465300: // ReFS
+						Extension->PartitionType = PARTITION_IFS;
+						Dump ("ReFS detected\n");
+						break;
+					default:
+						Dump ("Unknown FS ID (0x%.8I64x)\n", fsId);
+						break;
+					}
+
+					// erase sensitive data
+					EncryptDataUnits ((unsigned char*) readBuffer, &dataUnit, dataLength / ENCRYPTION_DATA_UNIT_SIZE, Extension->cryptoInfo);
+					burn (readBuffer, dataLength);
+				}
 
 				Extension->bRawDevice = bRawDevice;
 

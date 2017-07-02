@@ -8,11 +8,11 @@
 
 
 %ifidn __BITS__, 16
-	%define R e
+	%define R(x) e %+ x
 %elifidn __BITS__, 32
-	%define R e
+	%define R(x) e %+ x
 %elifidn __BITS__, 64
-	%define R r
+	%define R(x) r %+ x
 %endif
 
 
@@ -105,25 +105,25 @@
 	; Load data blocks
 	%assign block 1
 	%rep BLOCK_COUNT
-		movdqu xmm%[block], [%[R]dx + 16 * (block - 1)]
+		movdqu xmm %+ block, [R(dx) + 16 * (block - 1)]
 		%assign block block+1
 	%endrep
 
 	; Encrypt/decrypt data blocks
 	%assign round 0
 	%rep 15
-		movdqu xmm0, [%[R]cx + 16 * round]
+		movdqu xmm0, [R(cx) + 16 * round]
 
 		%assign block 1
 		%rep BLOCK_COUNT
 
 			%if round = 0
-				pxor xmm%[block], xmm0
+				pxor xmm %+ block, xmm0
 			%else
 				%if round < 14
-					aes%[OPERATION] xmm%[block], xmm0
+					aes %+ OPERATION xmm %+ block, xmm0
 				%else
-					aes%[OPERATION]last xmm%[block], xmm0
+					aes %+ OPERATION %+ last xmm %+ block, xmm0
 				%endif
 			%endif
 
@@ -136,7 +136,7 @@
 	; Store data blocks
 	%assign block 1
 	%rep BLOCK_COUNT
-		movdqu [%[R]dx + 16 * (block - 1)], xmm%[block]
+		movdqu [R(dx) + 16 * (block - 1)], xmm %+ block
 		%assign block block+1
 	%endrep
 
@@ -162,14 +162,14 @@
 
 		mov eax, 32 / MAX_REG_BLOCK_COUNT
 	.1:
-		aes_hw_cpu %[OPERATION_32_BLOCKS], MAX_REG_BLOCK_COUNT
+		aes_hw_cpu OPERATION_32_BLOCKS, MAX_REG_BLOCK_COUNT
 
-		add %[R]dx, 16 * MAX_REG_BLOCK_COUNT
+		add R(dx), 16 * MAX_REG_BLOCK_COUNT
 		dec eax
 		jnz .1
 
 	%if (32 % MAX_REG_BLOCK_COUNT) != 0
-		aes_hw_cpu %[OPERATION_32_BLOCKS], (32 % MAX_REG_BLOCK_COUNT)
+		aes_hw_cpu OPERATION_32_BLOCKS, (32 % MAX_REG_BLOCK_COUNT)
 	%endif
 
 	%ifidn __OUTPUT_FORMAT__, win64
@@ -201,9 +201,9 @@
 ; void aes_hw_cpu_enable_sse ();
 
 	export_function aes_hw_cpu_enable_sse
-		mov %[R]ax, cr4
+		mov R(ax), cr4
 		or ax, 1 << 9
-		mov cr4, %[R]ax
+		mov cr4, R(ax)
 	ret
 
 
@@ -290,7 +290,7 @@
 ; that supports Hyper-V detection workaround
 ;
 ;	export_function is_aes_hw_cpu_supported
-;		push %[R]bx
+;		push R(bx)
 ;
 ;		mov eax, 1
 ;		cpuid
@@ -298,7 +298,7 @@
 ;		shr eax, 25
 ;		and eax, 1
 ;
-;		pop %[R]bx
+;		pop R(bx)
 ;	ret
 
 
@@ -331,3 +331,14 @@
 
 
 %endif	; __BITS__ != 16
+
+%ifidn __OUTPUT_FORMAT__,elf
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif
+%ifidn __OUTPUT_FORMAT__,elf32
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif
+%ifidn __OUTPUT_FORMAT__,elf64
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif
+

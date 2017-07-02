@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -682,11 +682,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 			case IDC_DONATE:
 				{
-					char tmpstr [200];
-
-					StringCbPrintfA (tmpstr, sizeof(tmpstr), "&ref=%d", DonColorSchemeId);
-
-					Applink ("donate", FALSE, tmpstr);
+					Applink ("donate");
 				}
 				return 1;
 			}
@@ -1160,7 +1156,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptReleaseNotes
 					&& AskYesNo ("AFTER_UPGRADE_RELEASE_NOTES", hwndDlg) == IDYES)
 				{
-					Applink ("releasenotes", TRUE, "");
+					Applink ("releasenotes");
 				}
 
 				bPromptReleaseNotes = FALSE;
@@ -1168,7 +1164,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptTutorial
 					&& AskYesNo ("AFTER_INSTALL_TUTORIAL", hwndDlg) == IDYES)
 				{
-					Applink ("beginnerstutorial", TRUE, "");
+					Applink ("beginnerstutorial");
 				}
 
 				bPromptTutorial = FALSE;

@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -103,7 +103,7 @@ static char *MapNextLanguageFile ()
 		if (t == NULL) return NULL;
 
 		*t = 0;
-		StringCbCatW (f, sizeof(f), L"\\Language*.xml");
+		StringCbCatW (f, sizeof(f), L"\\Languages\\Language*.xml");
 
 		LanguageFileFindHandle = FindFirstFileW (f, &find);
 	}
@@ -130,6 +130,7 @@ static char *MapNextLanguageFile ()
 	}
 
 	t[1] = 0;
+	StringCbCatW (f, sizeof(f), L"Languages\\");
 	StringCbCatW (f, sizeof(f),find.cFileName);
 
 	file = CreateFileW (f, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
@@ -539,7 +540,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			else
 				tmpstr[0] = 0;
 
-			Applink ("localizations", TRUE, tmpstr);
+			Applink ("localizations");
 
 			return 1;
 		}

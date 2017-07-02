@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="VeraCrypt%20Volume.html">VeraCrypt Volume</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Creating%20New%20Volumes.html">Creating New Volumes</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Creating a New VeraCrypt Volume</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>To create a new VeraCrypt file-hosted volume or to encrypt a partition/device (requires administrator privileges), click on &lsquo;Create Volume&rsquo; in the main program window. VeraCrypt Volume Creation Wizard should appear. As soon as the Wizard appears,
+ it starts collecting data that will be used in generating the master key, secondary key (XTS mode), and salt, for the new volume. The collected data, which should be as random as possible, include your mouse movements, key presses, and other values obtained
+ from the system (for more information, please see the section <a href="Random%20Number%20Generator.html">
+<em>Random Number Generator</em></a>). The Wizard provides help and information necessary to successfully create a new VeraCrypt volume. However, several items deserve further explanation:</p>
+<h3>Hash Algorithm</h3>
+<p>Allows you to select which hash algorithm VeraCrypt will use. The selected hash algorithm is used by the random number generator (as a pseudorandom mixing function), which generates the master key, secondary key (XTS mode), and salt (for more information,
+ please see the section <a href="Random%20Number%20Generator.html">
+<em>Random Number Generator</em></a>). It is also used in deriving the new volume header key and secondary header key (see the section
+<a href="Header%20Key%20Derivation.html">
+<em>Header Key Derivation, Salt, and Iteration Count</em></a>).<br>
+<br>
+For information about the implemented hash algorithms, see the chapter <a href="Hash%20Algorithms.html">
+<em>Hash Algorithms.</em></a><br>
+<br>
+Note that the output of a hash function is <em>never </em>used directly as an encryption key. For more information, please refer to the chapter
+<a href="Technical%20Details.html"><em>Technical Details</em></a>.</p>
+<h3>Encryption Algorithm</h3>
+<p>This allows you to select the encryption algorithm with which your new volume will be encrypted. Note that the encryption algorithm cannot be changed after the volume is created. For more information, please see the chapter
+<a href="Encryption%20Algorithms.html"><em>Encryption Algorithms</em></a>.</p>
+<h3 id="QuickFormat">Quick Format</h3>
+<p>If unchecked, each sector of the new volume will be formatted. This means that the new volume will be
+<em>entirely </em>filled with random data. Quick format is much faster but may be less secure because until the whole volume has been filled with files, it may be possible to tell how much data it contains (if the space was not filled with random data beforehand).
+ If you are not sure whether to enable or disable Quick Format, we recommend that you leave this option unchecked. Note that Quick Format can only be enabled when encrypting partitions/devices.</p>
+<p>Important: When encrypting a partition/device within which you intend to create a hidden volume afterwards, leave this option unchecked.</p>
+<h3 id="dynamic">Dynamic</h3>
+<p>Dynamic VeraCrypt container is a pre-allocated NTFS sparse file whose physical size (actual disk space used) grows as new data is added to it. Note that the physical size of the container (actual disk space that the container uses) will not decrease when
+ files are deleted on the VeraCrypt volume. The physical size of the container can only
+<em>increase </em>up to the maximum value that is specified by the user during the volume creation process. After the maximum specified size is reached, the physical size of the container will remain constant.<br>
+<br>
+Note that sparse files can only be created in the NTFS file system. If you are creating a container in the FAT file system, the option
+<em>Dynamic </em>will be disabled (&ldquo;grayed out&rdquo;).<br>
+<br>
+Note that the size of a dynamic (sparse-file-hosted) VeraCrypt volume reported by Windows and by VeraCrypt will always be equal to its maximum size (which you specify when creating the volume). To find out current physical size of the container (actual disk
+ space it uses), right-click the container file (in a Windows Explorer window, not in VeraCrypt), then select
+<em>Properties </em>and see the Size on disk value.</p>
+<p>WARNING: Performance of dynamic (sparse-file-hosted) VeraCrypt volumes is significantly worse than performance of regular volumes. Dynamic (sparse-file-hosted) VeraCrypt volumes are also less secure, because it is possible to tell which volume sectors are
+ unused. Furthermore, if data is written to a dynamic volume when there is not enough free space in its host file system, the encrypted file system may get corrupted.</p>
+<h3>Cluster Size</h3>
+<p>Cluster is an allocation unit. For example, one cluster is allocated on a FAT file system for a one- byte file. When the file grows beyond the cluster boundary, another cluster is allocated. Theoretically, this means that the bigger the cluster size, the
+ more disk space is wasted; however, the better the performance. If you do not know which value to use, use the default.</p>
+<h3>VeraCrypt Volumes on CDs and DVDs</h3>
+<p>If you want a VeraCrypt volume to be stored on a CD or a DVD, first create a file-hosted VeraCrypt container on a hard drive and then burn it onto a CD/DVD using any CD/DVD burning software (or, under Windows XP or later, using the CD burning tool provided
+ with the operating system). Remember that if you need to mount a VeraCrypt volume that is stored on a read-only medium (such as a CD/DVD) under Windows 2000, you must format the VeraCrypt volume as FAT. The reason is that Windows 2000 cannot mount NTFS file
+ system on read-only media (Windows XP and later versions of Windows can).</p>
+<h3>Hardware/Software RAID, Windows Dynamic Volumes</h3>
+<p>VeraCrypt supports hardware/software RAID as well as Windows dynamic volumes.</p>
+<p>Windows Vista or later: Dynamic volumes are displayed in the &lsquo;Select Device&rsquo; dialog window as \Device\HarddiskVolumeN.</p>
+<p>Windows XP/2000/2003: If you intend to format a Windows dynamic volume as a VeraCrypt volume, keep in mind that after you create the Windows dynamic volume (using the Windows Disk Management tool), you must restart the operating system in order for the volume
+ to be available/displayed in the &lsquo;Select Device&rsquo; dialog window of the VeraCrypt Volume Creation Wizard. Also note that, in the &lsquo;Select Device&rsquo; dialog window, a Windows dynamic volume is not displayed as a single device (item). Instead,
+ all volumes that the Windows dynamic volume consists of are displayed and you can select any of them in order to format the entire Windows dynamic volume.</p>
+<h3>Additional Notes on Volume Creation</h3>
+<p>After you click the &lsquo;Format&rsquo; button in the Volume Creation Wizard window (the last step), there will be a short delay while your system is being polled for additional random data. Afterwards, the master key, header key, secondary key (XTS mode),
+ and salt, for the new volume will be generated, and the master key and header key contents will be displayed.<br>
+<br>
+For extra security, the portions of the randomness pool, master key, and header key can be prevented from being displayed by unchecking the checkbox in the upper right corner of the corresponding field:<br>
+<br>
+<img src="Beginner's Tutorial_Image_023.gif" alt="" width="338" height="51"><br>
+<br>
+Note that only the first 128 bits of the pool/keys are displayed (not the entire contents).<br>
+<br>
+You can create FAT (whether it will be FAT12, FAT16, or FAT32, is automatically determined from the number of clusters) or NTFS volumes (however, NTFS volumes can only be created by users with administrator privileges). Mounted VeraCrypt volumes can be reformatted
+ as FAT12, FAT16, FAT32, or NTFS anytime. They behave as standard disk devices so you can right-click the drive letter of the mounted VeraCrypt volume (for example in the &lsquo;<em>Computer</em>&rsquo; or &lsquo;<em>My Computer</em>&rsquo; list) and select
+ &lsquo;Format&rsquo;.<br>
+<br>
+For more information about creating VeraCrypt volumes, see also the section <a href="Hidden%20Volume.html">
+<em>Hidden Volume</em></a>.</p>
+<p>&nbsp;</p>
+<p><a href="Favorite%20Volumes.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
+</div>
+</div>
+
+</body></html>

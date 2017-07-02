@@ -7,7 +7,17 @@ NTTARGETFILES = \
 	"$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Aes_hw_cpu.obj" \
 	"$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).obj" \
-	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj"
+	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256-$(TC_ARCH)-nayuki.obj" \
+	"$(OBJ_PATH)\$(O)\sha512-$(TC_ARCH)-nayuki.obj" \
+	"$(OBJ_PATH)\$(O)\sha512_avx1_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha512_avx2_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha512_sse4_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256_avx1_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256_avx2_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256_sse4_$(TC_ARCH).obj"
 
 SOURCES = \
 	Aes_$(TC_ARCH).asm \
@@ -26,4 +36,14 @@ SOURCES = \
 	Streebog.c \
 	kuznyechik.c \
 	Whirlpool.c \
-	Camellia.c
+	Camellia.c \
+	Camellia_$(TC_ARCH).S \
+	Camellia_aesni_$(TC_ARCH).S \
+	sha256-$(TC_ARCH)-nayuki.S \
+	sha512-$(TC_ARCH)-nayuki.S \
+	sha512_avx1_$(TC_ARCH).asm \
+	sha512_avx2_$(TC_ARCH).asm \
+	sha512_sse4_$(TC_ARCH).asm \
+	sha256_avx1_$(TC_ARCH).asm \
+	sha256_avx2_$(TC_ARCH).asm \
+	sha256_sse4_$(TC_ARCH).asm

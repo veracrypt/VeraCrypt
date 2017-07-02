@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013-2016 IDRIX
+# Copyright (c) 2013-2017 IDRIX
 # Governed by the Apache License 2.0 the full text of which is contained
 # in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -20,8 +20,8 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-# the sources of wxWidgets 3.0.2 must be extracted to the parent directory
-export WX_ROOT=$PARENTDIR/wxWidgets-3.0.2
+# the sources of wxWidgets 3.0.3 must be extracted to the parent directory
+export WX_ROOT=$PARENTDIR/wxWidgets-3.0.3
 echo "Using wxWidgets sources in $WX_ROOT"
 
 cd $SOURCEPATH
@@ -31,17 +31,17 @@ echo "Building GUI version of VeraCrypt"
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildGui
 
-make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1
+make WXSTATIC=1 wxbuild && make WXSTATIC=1 clean && make WXSTATIC=1 && make WXSTATIC=1 package
 
 # Uncomment below and comment line above to reuse existing wxWidgets build
-# make WXSTATIC=1 clean && make WXSTATIC=1
+# make WXSTATIC=1 clean && make WXSTATIC=1 && make WXSTATIC=1 package
 
 echo "Building console version of VeraCrypt"
 
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
 
-make WXSTATIC=1 NOGUI=1 wxbuild && make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1
+make WXSTATIC=1 NOGUI=1 wxbuild && make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1 && make WXSTATIC=1 NOGUI=1 package
 
 # Uncomment below and comment line above to reuse existing wxWidgets build
-# make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1
+# make WXSTATIC=1 NOGUI=1 clean && make WXSTATIC=1 NOGUI=1 && make WXSTATIC=1 NOGUI=1 package

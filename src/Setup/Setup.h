@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -21,7 +21,6 @@ extern "C" {
 // Specifies what files to install, where (determined by the prefix), and in what order
 static wchar_t *szFiles[]=
 {
-	L"AVeraCrypt User Guide.pdf",
 	L"ALicense.txt",
 	L"ALICENSE",
 	L"ANOTICE",
@@ -38,49 +37,13 @@ static wchar_t *szFiles[]=
 	L"Averacrypt-x64.sys",
 	L"Dveracrypt.sys",
 	L"AVeraCrypt Setup.exe",
-	L"ALanguage.ar.xml",
-	L"ALanguage.be.xml",
-	L"ALanguage.bg.xml",
-	L"ALanguage.ca.xml",
-	L"ALanguage.cs.xml",
-	L"ALanguage.da.xml",
-	L"ALanguage.de.xml",
-	L"ALanguage.el.xml",
-	L"ALanguage.es.xml",
-	L"ALanguage.et.xml",
-	L"ALanguage.eu.xml",
-	L"ALanguage.fa.xml",
-	L"ALanguage.fi.xml",
-	L"ALanguage.fr.xml",
-	L"ALanguage.hu.xml",
-	L"ALanguage.id.xml",
-	L"ALanguage.it.xml",
-	L"ALanguage.ja.xml",
-	L"ALanguage.ka.xml",
-	L"ALanguage.ko.xml",
-	L"ALanguage.lv.xml",
-	L"ALanguage.my.xml",
-	L"ALanguage.nl.xml",
-	L"ALanguage.nn.xml",
-	L"ALanguage.pl.xml",
-	L"ALanguage.pt-br.xml",
-	L"ALanguage.ru.xml",
-	L"ALanguage.sk.xml",
-	L"ALanguage.sl.xml",
-	L"ALanguage.sv.xml",
-	L"ALanguage.tr.xml",
-	L"ALanguage.uk.xml",
-	L"ALanguage.uz.xml",
-	L"ALanguage.vi.xml",
-	L"ALanguage.zh-cn.xml",
-	L"ALanguage.zh-hk.xml",
-	L"ALanguage.zh-tw.xml"
+	L"XLanguages.zip",
+	L"Xdocs.zip",
 };
 
 // Specifies what files are included in self-extracting packages (no other files will be packaged or extracted).
 static wchar_t *szCompressedFiles[]=
 {
-	L"VeraCrypt User Guide.pdf",
 	L"License.txt",
 	L"LICENSE",
 	L"NOTICE",
@@ -92,43 +55,8 @@ static wchar_t *szCompressedFiles[]=
 	L"VeraCrypt Format-x64.exe",
 	L"veracrypt.sys",
 	L"veracrypt-x64.sys",
-	L"Language.ar.xml",
-	L"Language.be.xml",
-	L"Language.bg.xml",
-	L"Language.ca.xml",
-	L"Language.cs.xml",
-	L"Language.da.xml",
-	L"Language.de.xml",
-	L"Language.el.xml",
-	L"Language.es.xml",
-	L"Language.et.xml",
-	L"Language.eu.xml",
-	L"Language.fa.xml",
-	L"Language.fi.xml",
-	L"Language.fr.xml",
-	L"Language.hu.xml",
-	L"Language.id.xml",
-	L"Language.it.xml",
-	L"Language.ja.xml",
-	L"Language.ka.xml",
-	L"Language.ko.xml",
-	L"Language.lv.xml",
-	L"Language.my.xml",
-	L"Language.nl.xml",
-	L"Language.nn.xml",
-	L"Language.pl.xml",
-	L"Language.pt-br.xml",
-	L"Language.ru.xml",
-	L"Language.sk.xml",
-	L"Language.sl.xml",
-	L"Language.sv.xml",
-	L"Language.tr.xml",
-	L"Language.uk.xml",
-	L"Language.uz.xml",
-	L"Language.vi.xml",
-	L"Language.zh-cn.xml",
-	L"Language.zh-hk.xml",
-	L"Language.zh-tw.xml"
+	L"Languages.zip",
+	L"docs.zip"
 };
 
 #define FILENAME_64BIT_DRIVER	L"veracrypt-x64.sys"
@@ -140,13 +68,13 @@ BOOL StatRemoveDirectory ( wchar_t *lpszDir );
 HRESULT CreateLink ( wchar_t *lpszPathObj , wchar_t *lpszArguments , wchar_t *lpszPathLink );
 void GetProgramPath ( HWND hwndDlg , wchar_t *path );
 void StatusMessage (HWND hwndDlg, char *stringId);
-void StatusMessageParam (HWND hwndDlg, char *stringId, wchar_t *param);
+void StatusMessageParam (HWND hwndDlg, char *stringId, const wchar_t *param);
 void ClearLogWindow (HWND hwndDlg);
-void RegMessage ( HWND hwndDlg , wchar_t *txt );
-void RegRemoveMessage (HWND hwndDlg, wchar_t *txt);
-void CopyMessage ( HWND hwndDlg , wchar_t *txt );
-void RemoveMessage ( HWND hwndDlg , wchar_t *txt );
-void IconMessage ( HWND hwndDlg , wchar_t *txt );
+void RegMessage ( HWND hwndDlg , const wchar_t *txt );
+void RegRemoveMessage (HWND hwndDlg, const wchar_t *txt);
+void _cdecl CopyMessage ( HWND hwndDlg , const wchar_t *txt );
+void RemoveMessage ( HWND hwndDlg , const wchar_t *txt );
+void IconMessage ( HWND hwndDlg , const wchar_t *txt );
 static int CALLBACK BrowseCallbackProc ( HWND hwnd , UINT uMsg , LPARAM lp , LPARAM pData );
 void LoadLicense ( HWND hwndDlg );
 void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersionPtr);

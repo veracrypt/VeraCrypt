@@ -335,6 +335,15 @@ BEGIN
     CONTROL         "",IDC_WAIT_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,49,278,14
 END
 
+IDD_TEXT_EDIT_DLG DIALOGEX 0, 0, 372, 220
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,306,201,58,14
+    CONTROL         "",IDC_INFO_BOX_TEXT,"RichEdit20W",ES_MULTILINE | ES_NUMBER | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,5,6,361,188
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,240,201,58,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -478,6 +487,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 67
     END
+
+    IDD_TEXT_EDIT_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 365
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 213
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -538,13 +555,16 @@ IDR_EFI_DCSCFG          BIN                     "..\\Boot\\EFI\\DcsCfg.efi"
 IDR_EFI_LEGACYSPEAKER   BIN                     "..\\Boot\\EFI\\LegacySpeaker.efi"
 IDR_EFI_DCSBML         BIN                     "..\\Boot\\EFI\\DcsBml.efi"
 IDR_EFI_DCSRE          BIN                     "..\\Boot\\EFI\\DcsRe.efi"
+IDR_EFI_DCSINFO         BIN                     "..\\Boot\\EFI\\DcsInfo.efi"
+#ifndef WIN64
 IDR_EFI_DCSBOOT32         BIN                     "..\\Boot\\EFI\\DcsBoot32.efi"
 IDR_EFI_DCSINT32          BIN                     "..\\Boot\\EFI\\DcsInt32.efi"
 IDR_EFI_DCSCFG32          BIN                     "..\\Boot\\EFI\\DcsCfg32.efi"
 IDR_EFI_LEGACYSPEAKER32   BIN                     "..\\Boot\\EFI\\LegacySpeaker32.efi"
 IDR_EFI_DCSBML32         BIN                     "..\\Boot\\EFI\\DcsBml32.efi"
 IDR_EFI_DCSRE32          BIN                     "..\\Boot\\EFI\\DcsRe32.efi"
-
+IDR_EFI_DCSINFO32         BIN                     "..\\Boot\\EFI\\DcsInfo32.efi"
+#endif
 /////////////////////////////////////////////////////////////////////////////
 //
 // XML

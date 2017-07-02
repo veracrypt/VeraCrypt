@@ -223,6 +223,36 @@ BuildDriver.cmd -rebuild -debug -x64 "$(SolutionDir)\Common" "$(SolutionDir)\Cry
     <None Include="..\Crypto\Aes_hw_cpu.asm" />
     <None Include="..\Crypto\Aes_x64.asm" />
     <None Include="..\Crypto\Aes_x86.asm" />
+    <None Include="..\Crypto\Camellia_aesni_x64.S" />
+    <None Include="..\Crypto\Camellia_x64.S" />
+    <None Include="..\Crypto\sha256-x86-nayuki.S">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha256_avx1_x64.asm">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha256_avx2_x64.asm">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha256_sse4_x64.asm">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha512-x64-nayuki.S">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha512-x86-nayuki.S">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha512_avx1_x64.asm">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha512_avx2_x64.asm">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\sha512_sse4_x64.asm">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Crypto\Twofish_x64.S" />
     <None Include="BuildDriver.cmd" />
     <None Include="Makefile" />
     <None Include="Sources" />

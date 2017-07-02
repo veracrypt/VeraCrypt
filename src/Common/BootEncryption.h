@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -173,6 +173,8 @@ namespace VeraCrypt
 		int requestPim;
 		int authorizeVisible;
 		int authorizeRetry;
+		int bmlLockFlags;
+		int bmlDriverEnabled;
 
 		EfiBootConf();
 
@@ -185,6 +187,10 @@ namespace VeraCrypt
 		void Load (char* configContent);
 		BOOL Save (const wchar_t* fileName, HWND hwnd);
 	};
+
+	void GetVolumeESP(wstring& path);
+	std::string ReadESPFile (LPCWSTR szFilePath, bool bSkipUTF8BOM);
+	void WriteESPFile (LPCWSTR szFilePath, LPBYTE pbData, DWORD dwDataLen, bool bAddUTF8BOM);
 
 	class EfiBoot {
 	public:
@@ -208,7 +214,8 @@ namespace VeraCrypt
 		BOOL UpdateConfig (const wchar_t* name, int pim, int hashAlgo, HWND hwndDlg);
 		BOOL WriteConfig (const wchar_t* name, bool preserveUserConfig, int pim, int hashAlgo, const char* passPromptMsg, HWND hwndDlg);
 		BOOL DelDir(const wchar_t* name);
-
+		void SelectBootVolumeESP();
+		void SelectBootVolume(WCHAR* bootVolumePath);
 		PSTORAGE_DEVICE_NUMBER GetStorageDeviceNumber () { return &sdn;}
 
 	protected:
@@ -217,7 +224,8 @@ namespace VeraCrypt
 		STORAGE_DEVICE_NUMBER sdn;
 		PARTITION_INFORMATION_EX partInfo;
 		WCHAR     tempBuf[1024];
-		WCHAR systemPartitionPath[MAX_PATH];
+		bool  bBootVolumePathSelected;
+		WCHAR BootVolumePath[MAX_PATH];
 	};
 
 	class BootEncryption
@@ -270,7 +278,6 @@ namespace VeraCrypt
 		void ProbeRealSystemDriveSize ();
 		bool ReadBootSectorConfig (byte *config, size_t bufLength, byte *userConfig = nullptr, string *customUserMessage = nullptr, uint16 *bootLoaderVersion = nullptr);
 		uint32 ReadDriverConfigurationFlags ();
-		void ReadEfiConfig (byte* confContent, DWORD maxSize, DWORD* pcbRead);
 		void RegisterBootDriver (bool hiddenSystem);
 		void RegisterFilterDriver (bool registerDriver, FilterType filterType);
 		void RegisterSystemFavoritesService (BOOL registerService);
@@ -310,7 +317,7 @@ namespace VeraCrypt
 		void CreateVolumeHeader (uint64 volumeSize, uint64 encryptedAreaStart, Password *password, int ea, int mode, int pkcs5, int pim);
 		wstring GetSystemLoaderBackupPath ();
 		uint32 GetChecksum (byte *data, size_t size);
-		DISK_GEOMETRY GetDriveGeometry (int driveNumber);
+		DISK_GEOMETRY_EX GetDriveGeometry (int driveNumber);
 		PartitionList GetDrivePartitions (int driveNumber);
 		wstring GetRemarksOnHiddenOS ();
 		wstring GetWindowsDirectory ();

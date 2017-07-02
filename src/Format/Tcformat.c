@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -2556,7 +2556,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	// Check administrator privileges
 	if (!IsAdmin () && !IsUacSupported ())
 	{
-		if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT)
+		if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT  || fileSystem == FILESYS_REFS)
 		{
 			if (Silent || (MessageBoxW (hwndDlg, GetString ("ADMIN_PRIVILEGES_WARN_NTFS"), lpszTitle, MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2) == IDCANCEL))
 				goto cancel;
@@ -3416,7 +3416,7 @@ BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display)
 	}
 	else
 	{
-		DISK_GEOMETRY driveInfo;
+		DISK_GEOMETRY_EX driveInfo;
 		PARTITION_INFORMATION diskInfo;
 		BOOL piValid = FALSE;
 		BOOL gValid = FALSE;
@@ -3465,8 +3465,7 @@ BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display)
 			LARGE_INTEGER lDiskFree;
 
 			// Drive geometry info is used only when GetPartitionInfo() fails
-			lDiskFree.QuadPart = driveInfo.Cylinders.QuadPart * driveInfo.BytesPerSector *
-				driveInfo.SectorsPerTrack * driveInfo.TracksPerCylinder;
+			lDiskFree.QuadPart = driveInfo.DiskSize.QuadPart;
 
 			nVolumeSize = lDiskFree.QuadPart;
 
@@ -3637,6 +3636,36 @@ void DisableIfGpt(HWND control)
    if (bSystemIsGPT) {
       EnableWindow(control, FALSE);
    }
+}
+
+static void UpdateClusterSizeList (HWND hwndDlg, int fsType)
+{
+	SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_RESETCONTENT, 0, 0);
+	AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), GetString ("DEFAULT"), 0);
+
+	for (int i = 1; i <= 128; i *= 2)
+	{
+		wstringstream s;
+		DWORD size = GetFormatSectorSize() * i;
+
+		if (size > TC_MAX_FAT_CLUSTER_SIZE)
+			break;
+
+		/* ReFS supports only 4KiB and 64KiB clusters */
+		if ((fsType == FILESYS_REFS) && (size != 4*BYTES_PER_KB) && (size != 64*BYTES_PER_KB))
+			continue;
+
+		if (size == 512)
+			s << L"0.5";
+		else
+			s << size / BYTES_PER_KB;
+
+		s << L" " << GetString ("KB");
+
+		AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), s.str().c_str(), i);
+	}
+
+	SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_SETCURSEL, 0, 0);
 }
 
 /* Except in response to the WM_INITDIALOG message, the dialog box procedure
@@ -4836,6 +4865,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				BOOL bNTFSallowed = FALSE;
 				BOOL bFATallowed = FALSE;
 				BOOL bEXFATallowed = FALSE;
+				BOOL bReFSallowed = FALSE;
 				BOOL bNoFSallowed = FALSE;
 				HCRYPTPROV hRngProv;
 
@@ -4915,29 +4945,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetWindowText (GetDlgItem (hwndDlg, IDC_HEADER_KEY), showKeys ? L"" : L"********************************                                              ");
 				SetWindowText (GetDlgItem (hwndDlg, IDC_DISK_KEY), showKeys ? L"" : L"********************************                                              ");
 
-				SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_RESETCONTENT, 0, 0);
-				AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), GetString ("DEFAULT"), 0);
-
-				for (int i = 1; i <= 128; i *= 2)
-				{
-					wstringstream s;
-					DWORD size = GetFormatSectorSize() * i;
-
-					if (size > TC_MAX_FAT_CLUSTER_SIZE)
-						break;
-
-					if (size == 512)
-						s << L"0.5";
-					else
-						s << size / BYTES_PER_KB;
-
-					s << L" " << GetString ("KB");
-
-					AddComboPair (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), s.str().c_str(), i);
-				}
-
-				SendMessage (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), CB_SETCURSEL, 0, 0);
-
 				EnableWindow (GetDlgItem (hwndDlg, IDC_CLUSTERSIZE), TRUE);
 
 				/* Filesystems */
@@ -4972,6 +4979,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						AddComboPair (GetDlgItem (hwndDlg, IDC_FILESYS), L"exFAT", FILESYS_EXFAT);
 						bEXFATallowed = TRUE;
 					}
+
+					//ReFS write support activated by default starting from Windows 10
+					//We don't support it yet for the creation of hidden volumes
+					if ((!bHiddenVolHost) && IsOSVersionAtLeast (WIN_10, 0) && dataAreaSize >= TC_MIN_REFS_FS_SIZE && dataAreaSize <= TC_MAX_REFS_FS_SIZE)
+					{
+						AddComboPair (GetDlgItem (hwndDlg, IDC_FILESYS), L"ReFS", FILESYS_REFS);
+						bReFSallowed = TRUE;
+					}
 				}
 				else
 				{
@@ -4993,12 +5008,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					// Set default file system
 
-					if (bFATallowed && !(nNeedToStoreFilesOver4GB == 1 && (bNTFSallowed || bEXFATallowed)))
+					if (bFATallowed && !(nNeedToStoreFilesOver4GB == 1 && (bNTFSallowed || bEXFATallowed || bReFSallowed)))
 						fileSystem = FILESYS_FAT;
 					else if (bEXFATallowed)
 						fileSystem = FILESYS_EXFAT;
 					else if (bNTFSallowed)
 						fileSystem = FILESYS_NTFS;
+					else if (bReFSallowed)
+						fileSystem = FILESYS_REFS;
 					else if (bNoFSallowed)
 						fileSystem = FILESYS_NONE;
 					else
@@ -5010,6 +5027,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SendMessage (GetDlgItem (hwndDlg, IDC_FILESYS), CB_SETCURSEL, 0, 0);
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_FILESYS), (int *) &fileSystem);
+
+				UpdateClusterSizeList (hwndDlg, fileSystem);
 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ABORT_BUTTON), FALSE);
 
@@ -5212,11 +5231,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 
 			case IDC_MORE_INFO_ON_CONTAINERS:
-				Applink ("introcontainer", TRUE, "");
+				Applink ("introcontainer");
 				return 1;
 
 			case IDC_MORE_INFO_ON_SYS_ENCRYPTION:
-				Applink ("introsysenc", TRUE, "");
+				Applink ("introsysenc");
 				return 1;
 			}
 		}
@@ -5238,14 +5257,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 
 			case IDC_HIDDEN_SYSENC_INFO_LINK:
-				Applink ("hiddensysenc", TRUE, "");
+				Applink ("hiddensysenc");
 				return 1;
 			}
 		}
 
 		if (nCurPageNo == SYSENC_HIDDEN_OS_REQ_CHECK_PAGE && lw == IDC_HIDDEN_SYSENC_INFO_LINK)
 		{
-			Applink ("hiddensysenc", TRUE, "");
+			Applink ("hiddensysenc");
 			return 1;
 		}
 
@@ -5368,7 +5387,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				break;
 
 			case IDC_MORE_INFO_SYS_ENCRYPTION:
-				Applink ("sysencprogressinfo", TRUE, "");
+				Applink ("sysencprogressinfo");
 				return 1;
 			}
 		}
@@ -5459,7 +5478,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_HIDDEN_VOL_HELP && nCurPageNo == VOLUME_TYPE_PAGE)
 		{
-			Applink ("hiddenvolume", TRUE, "");
+			Applink ("hiddenvolume");
 			return 1;
 		}
 
@@ -5511,32 +5530,32 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			EAGetName (name, nIndex, 0);
 
 			if (wcscmp (name, L"AES") == 0)
-				Applink ("aes", FALSE, "");
+				Applink ("aes");
 			else if (wcscmp (name, L"Serpent") == 0)
-				Applink ("serpent", FALSE, "");
+				Applink ("serpent");
 			else if (wcscmp (name, L"Twofish") == 0)
-				Applink ("twofish", FALSE, "");
+				Applink ("twofish");
 			else if (wcscmp (name, L"GOST89") == 0)
-				Applink ("gost89", FALSE, "");
+				Applink ("gost89");
 			else if (wcscmp (name, L"Kuznyechik") == 0)
-				Applink ("kuznyechik", FALSE, "");
+				Applink ("kuznyechik");
 			else if (wcscmp (name, L"Camellia") == 0)
-				Applink ("camellia", FALSE, "");
+				Applink ("camellia");
 			else if (EAGetCipherCount (nIndex) > 1)
-				Applink ("cascades", TRUE, "");
+				Applink ("cascades");
 
 			return 1;
 		}
 
 		if (lw == IDC_LINK_HASH_INFO && nCurPageNo == CIPHER_PAGE)
 		{
-			Applink ("hashalgorithms", TRUE, "");
+			Applink ("hashalgorithms");
 			return 1;
 		}
 
 		if (lw == IDC_LINK_PIM_INFO && nCurPageNo == PIM_PAGE)
 		{
-			Applink ("pim", TRUE, "");
+			Applink ("pim");
 			return 1;
 		}
 
@@ -5876,6 +5895,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			fileSystem = (int) SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETITEMDATA,
 				SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETCURSEL, 0, 0) , 0);
 
+			if (nCurPageNo == FORMAT_PAGE)
+			{
+				UpdateClusterSizeList (hCurPage, fileSystem);
+			}
+
 			return 1;
 		}
 
@@ -5935,7 +5959,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (IsWindowsIsoBurnerAvailable())
 				LaunchWindowsIsoBurner (hwndDlg, szRescueDiskISO);
 			else
-				Applink ("isoburning", TRUE, "");
+				Applink ("isoburning");
 
 			return 1;
 		}
@@ -6110,8 +6134,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (nVolumeSize < (bHiddenVolHost ? TC_MIN_HIDDEN_VOLUME_HOST_SIZE : (bHiddenVol ? TC_MIN_HIDDEN_VOLUME_SIZE : TC_MIN_VOLUME_SIZE)))
 					AbortProcess ("ERR_VOLUME_SIZE_TOO_SMALL");
 
-				if (	((!bHiddenVolHost && bHiddenVol) && (nVolumeSize > nMaximumHiddenVolSize))
-					||	(nVolumeSize > (bHiddenVolHost ? TC_MAX_HIDDEN_VOLUME_HOST_SIZE : TC_MAX_VOLUME_SIZE))
+				if (	((!bHiddenVolHost && bHiddenVol) && (nVolumeSize > (unsigned __int64) nMaximumHiddenVolSize))
+					||	(nVolumeSize > (unsigned __int64) (bHiddenVolHost ? TC_MAX_HIDDEN_VOLUME_HOST_SIZE : TC_MAX_VOLUME_SIZE))
 					)
 				{
 					AbortProcess ("ERR_VOLUME_SIZE_TOO_BIG");
@@ -6176,6 +6200,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					)
 				{
 					AbortProcess ("ERR_EXFAT_INVALID_VOLUME_SIZE");
+				}
+
+				if (	(fileSystem == FILESYS_REFS) &&
+						(dataAreaSize < TC_MIN_REFS_FS_SIZE || dataAreaSize > TC_MAX_REFS_FS_SIZE)
+					)
+				{
+					AbortProcess ("ERR_REFS_INVALID_VOLUME_SIZE");
 				}
 
 				if (	(fileSystem == FILESYS_FAT) &&
@@ -7665,8 +7696,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 							/* Hidden volume host successfully mounted as read-only */
 
-							WaitCursor ();
-
 							// Verify that the outer volume contains a suitable file system, retrieve cluster size, and
 							// scan the volume bitmap
 							if (!IsAdmin () && IsUacSupported ())
@@ -8297,7 +8326,7 @@ retryCDDriveCheck:
 				{
 					// Creating a non-hidden volume under a hidden OS
 
-					if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT)
+					if (fileSystem == FILESYS_NTFS || fileSystem == FILESYS_EXFAT || fileSystem == FILESYS_REFS)
 					{
 						WarningDirect ((wstring (GetString ("CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS"))
 							+ L"\n\n"
@@ -8968,6 +8997,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							CmdVolumeFilesystem = FILESYS_NTFS;
 						else if (IsOSVersionAtLeast (WIN_VISTA, 1) && _wcsicmp(szTmp, L"EXFAT") == 0)
 							CmdVolumeFilesystem = FILESYS_EXFAT;
+						else if (IsOSVersionAtLeast (WIN_10, 0) && _wcsicmp(szTmp, L"ReFS") == 0)
+							CmdVolumeFilesystem = FILESYS_REFS;
 						else
 						{
 							AbortProcess ("COMMAND_LINE_ERROR");
@@ -10320,7 +10351,7 @@ static DWORD GetFormatSectorSize ()
 	if (!bDevice)
 		return TC_SECTOR_SIZE_FILE_HOSTED_VOLUME;
 
-	DISK_GEOMETRY geometry;
+	DISK_GEOMETRY_EX geometry;
 
 	if (!GetDriveGeometry (szDiskFile, &geometry))
 	{
@@ -10328,5 +10359,5 @@ static DWORD GetFormatSectorSize ()
 		AbortProcessSilent();
 	}
 
-	return geometry.BytesPerSector;
+	return geometry.Geometry.BytesPerSector;
 }

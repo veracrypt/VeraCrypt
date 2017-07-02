@@ -1,4 +1,11 @@
-PATH=%PATH%;%WSDK81%\bin\x86
+PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
+
+set SIGNINGPATH=%~dp0
+cd %SIGNINGPATH%
+
+call "..\..\doc\chm\create_chm.bat"
+
+cd %SIGNINGPATH%
 
 rem sign using SHA-1
 signtool sign /v /a /n IDRIX /i Thawte /ac thawte_Primary_MS_Cross_Cert.cer /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\veracrypt.sys" "..\Release\Setup Files\veracrypt-x64.sys"
@@ -11,17 +18,42 @@ signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeS
 
 cd "..\Release\Setup Files\"
 
-copy /V /Y ..\..\..\Translations\*.xml .
+copy ..\..\LICENSE .
+copy ..\..\License.txt .
+copy ..\..\NOTICE .
+
+del *.xml
+rmdir /S /Q Languages
+mkdir Languages
+copy /V /Y ..\..\..\Translations\*.xml Languages\.
+del Languages.zip
+7z a -y Languages.zip Languages
+
+rmdir /S /Q docs
+mkdir docs\html\en
+copy /V /Y ..\..\..\doc\html\* docs\html\en\.
+copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
+
+del docs.zip
+7z a -y docs.zip docs
 
 "VeraCrypt Setup.exe" /p
 
-del *.xml
+del LICENSE
+del License.txt
+del NOTICE
+del "VeraCrypt User Guide.chm"
 
-cd "..\..\Signing"
+del Languages.zip
+del docs.zip
+rmdir /S /Q Languages
+rmdir /S /Q docs
+
+cd %SIGNINGPATH%
 
 rem sign using SHA-1
-signtool sign /v /a /n IDRIX /i Thawte /ac Thawt_CodeSigning_CA.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.20-BETA2.exe"
+signtool sign /v /a /n IDRIX /i Thawte /ac Thawt_CodeSigning_CA.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.21.exe"
 rem sign using SHA-256
-signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt Setup 1.20-BETA2.exe"
+signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt Setup 1.21.exe"
 
 pause

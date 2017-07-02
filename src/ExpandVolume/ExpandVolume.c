@@ -9,7 +9,7 @@
  or Copyright (c) 2012-2013 Josef Schneider <josef@netpage.dk>
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -559,18 +559,17 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			}
 			else
 			{
-				DISK_GEOMETRY driveInfo;
+				DISK_GEOMETRY_EX driveInfo;
 
-				bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0,
+				bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0,
 					&driveInfo, sizeof (driveInfo), &dwResult, NULL);
 
 				if (!bResult)
 					goto error;
 
-				hostSize = driveInfo.Cylinders.QuadPart * driveInfo.BytesPerSector *
-					driveInfo.SectorsPerTrack * driveInfo.TracksPerCylinder;
+				hostSize = driveInfo.DiskSize.QuadPart;
 
-				HostSectorSize = driveInfo.BytesPerSector;
+				HostSectorSize = driveInfo.Geometry.BytesPerSector;
 			}
 
 			if (hostSize == 0)

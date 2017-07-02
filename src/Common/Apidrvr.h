@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -119,6 +119,9 @@
 #define TC_IOCTL_REREAD_DRIVER_CONFIG					TC_IOCTL (37)
 #define TC_IOCTL_GET_SYSTEM_DRIVE_DUMP_CONFIG			TC_IOCTL (38)
 #define VC_IOCTL_GET_BOOT_LOADER_FINGERPRINT			TC_IOCTL (39)
+// result IOCTL_DISK_GET_DRIVE_GEOMETRY_EX
+// IN OUT - DISK_GEOMETRY_EX_STRUCT
+#define VC_IOCTL_GET_DRIVE_GEOMETRY_EX					TC_IOCTL (40)
 
 // Legacy IOCTLs used before version 5.0
 #define TC_IOCTL_LEGACY_GET_DRIVER_VERSION		466968
@@ -169,6 +172,9 @@ typedef struct
 	BOOL bIsNTFS; // output only
 	BOOL bDriverSetLabel;
 	BOOL bCachePim;
+	ULONG MaximumTransferLength;
+	ULONG MaximumPhysicalPages;
+	ULONG AlignmentMask;
 } MOUNT_STRUCT;
 
 typedef struct
@@ -240,6 +246,14 @@ DISK_GEOMETRY_STRUCT;
 
 typedef struct
 {
+	WCHAR deviceName[TC_MAX_PATH];
+	DISK_GEOMETRY diskGeometry;
+	LARGE_INTEGER DiskSize;
+}
+DISK_GEOMETRY_EX_STRUCT;
+
+typedef struct
+{
 	WCHAR DeviceName[TC_MAX_PATH];
 	LARGE_INTEGER RealDriveSize;
 	BOOL TimeOut;
@@ -252,9 +266,9 @@ typedef struct
 	BOOL TCBootLoaderDetected;
 	BOOL DetectFilesystem;
 	BOOL FilesystemDetected;
-	BOOL bMatchVolumeID;
-	unsigned char volumeID[VOLUME_ID_SIZE];
-	BOOL VolumeIDMatched;
+	BOOL bComputeVolumeIDs;
+	unsigned char volumeIDs[TC_VOLUME_TYPE_COUNT][VOLUME_ID_SIZE];
+	BOOL VolumeIDComputed[TC_VOLUME_TYPE_COUNT];
 } OPEN_TEST_STRUCT;
 
 

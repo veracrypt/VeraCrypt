@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -57,18 +57,18 @@ namespace VeraCrypt
 			L"Paulo Barreto, Brian Gladman, Wei Dai, Peter Gutmann, and many others.\n\n"
 
 			L"Portions of this software:\n"
-			L"Copyright \xA9 2013-2016 IDRIX. All rights reserved.\n"
+			L"Copyright \xA9 2013-2017 IDRIX. All rights reserved.\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\n"
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\n"
-			L"Copyright \xA9 1995-2013 Jean-loup Gailly and Mark Adler.\n"
+			L"Copyright \xA9 1995-2017 Jean-loup Gailly and Mark Adler.\n"
 			L"Copyright \xA9 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov.\n"
 			L"Copyright \xA9 Dieter Baron and Thomas Klausner.\n"
 			L"Copyright \xA9 2013, Alexey Degtyarev. All rights reserved.\n"
 			L"Copyright \xA9 1999-2013,2014,2015,2016 Jack Lloyd. All rights reserved.\n\n"
 
 			L"\nThis software as a whole:\n"
-			L"Copyright \xA9 2013-2016 IDRIX. All rights reserved.\n\n"
+			L"Copyright \xA9 2013-2017 IDRIX. All rights reserved.\n\n"
 
 			L"This software uses wxWidgets library, which is copyright \xA9 1998-2011 Julian Smart, Robert Roebling et al.\n\n"
 

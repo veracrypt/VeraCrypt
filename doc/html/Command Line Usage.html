@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Command%20Line%20Usage.html">Command Line Usage</a>
+</p></div>
+
+<div class="wikidoc">
+<div>
+<h1>Command Line Usage</h1>
+<p>Note that this section applies to the Windows version of VeraCrypt. For information on command line usage applying to the
+<strong>Linux and Mac OS X versions</strong>, please run: veracrypt &ndash;h</p>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><em>/help</em> or <em>/?</em></td>
+<td>Display command line help.</td>
+</tr>
+<tr>
+<td><em>/truecrypt or /tc</em></td>
+<td>Activate TrueCrypt compatibility mode which enables mounting volumes created with TrueCrypt 6.x and 7.x series.</td>
+</tr>
+<tr>
+<td><em>/hash</em></td>
+<td>It must be followed by a parameter indicating the PRF hash algorithm to use when mounting the volume. Possible values for /hash parameter are: sha256, sha-256, sha512, sha-512, whirlpool, ripemd160 and ripemd-160. When /hash is omitted, VeraCrypt will try
+ all possible PRF algorithms thus lengthening the mount operation time.</td>
+</tr>
+<tr>
+<td id="volume"><em>/volume</em> or <em>/v</em></td>
+<td>
+<p>It must be followed by a parameter indicating the file and path name of a VeraCrypt volume to mount (do not use when dismounting) or the Volume ID of the disk/partition to mount.<br>
+The syntax of the volume ID is <strong>ID:XXXXXX...XX</strong> where the XX part is a 64 hexadecimal characters string that represent the 32-Bytes ID of the desired volume to mount.<br>
+<br>
+To mount a partition/device-hosted volume, use, for example, /v \Device\Harddisk1\Partition3 (to determine the path to a partition/device, run VeraCrypt and click
+<em>Select Device</em>). You can also mount a partition or dynamic volume using its volume name (for example, /v \\?\Volume{5cceb196-48bf-46ab-ad00-70965512253a}\). To determine the volume name use e.g. mountvol.exe. Also note that device paths are case-sensitive.<br>
+<br>
+You can also specify the Volume ID of the partition/device-hosted volume to mount, for example: /v ID:53B9A8D59CC84264004DA8728FC8F3E2EE6C130145ABD3835695C29FD601EDCA. The Volume ID value can be retrieved using the volume properties dialog.</p>
+</td>
+</tr>
+<tr>
+<td><em>/letter</em> or <em>/l</em></td>
+<td>It must be followed by a parameter indicating the driver letter to mount the volume as. When /l is omitted and when /a is used, the first free drive letter is used.</td>
+</tr>
+<tr>
+<td><em>/explore</em> or <em>/e</em></td>
+<td>Open an Explorer window after a volume has been mounted.</td>
+</tr>
+<tr>
+<td><em>/beep</em> or <em>/b</em></td>
+<td>Beep after a volume has been successfully mounted or dismounted.</td>
+</tr>
+<tr>
+<td><em>/auto</em> or <em>/a</em></td>
+<td>If no parameter is specified, automatically mount the volume. If devices is specified as the parameter (e.g., /a devices), auto-mount all currently accessible device/partition-hosted VeraCrypt volumes. If favorites is specified as the parameter, auto-mount
+ favorite volumes. Note that /auto is implicit if /quit and /volume are specified. If you need to prevent the application window from appearing, use /quit.</td>
+</tr>
+<tr>
+<td><em>/dismount</em> or <em>/d</em></td>
+<td>Dismount volume specified by drive letter (e.g., /d x). When no drive letter is specified, dismounts all currently mounted VeraCrypt volumes.</td>
+</tr>
+<tr>
+<td><em>/force</em> or <em>/f</em></td>
+<td>Forces dismount (if the volume to be dismounted contains files being used by the system or an application) and forces mounting in shared mode (i.e., without exclusive access).</td>
+</tr>
+<tr>
+<td><em>/keyfile</em> or <em>/k</em></td>
+<td>It must be followed by a parameter specifying a keyfile or a keyfile search path. For multiple keyfiles, specify e.g.: /k c:\keyfile1.dat /k d:\KeyfileFolder /k c:\kf2 To specify a keyfile stored on a security token or smart card, use the following syntax:
+ token://slot/SLOT_NUMBER/file/FILE_NAME</td>
+</tr>
+<tr id="tryemptypass">
+<td><em>/tryemptypass&nbsp;&nbsp; </em></td>
+<td>ONLY when default keyfile configured or when a keyfile is specified in the command line.<br>
+If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: try to mount using an empty password and the keyfile before displaying password prompt.<br>
+if it is followed by <strong>n </strong>or<strong> no</strong>: don't try to mount using an empty password and the keyfile, and display password prompt right away.</td>
+</tr>
+<tr>
+<td><em>/nowaitdlg</em></td>
+<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: don&rsquo;t display the waiting dialog while performing operations like mounting volumes.<br>
+If it is followed by <strong>n</strong> or <strong>no</strong>: force the display waiting dialog is displayed while performing operations.</td>
+</tr>
+<tr>
+<td><em>/secureDesktop</em></td>
+<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: display password dialog in a dedicated secure desktop to protect against certain types of attacks.<br>
+If it is followed by <strong>n</strong> or <strong>no</strong>: the password dialog is displayed in the normal desktop.</td>
+</tr>
+<tr>
+<td><em>/tokenlib</em></td>
+<td>It must be followed by a parameter indicating the PKCS #11 library to use for security tokens and smart cards. (e.g.: /tokenlib c:\pkcs11lib.dll)</td>
+</tr>
+<tr>
+<td><em>/tokenpin</em></td>
+<td>It must be followed by a parameter indicating the PIN to use in order to authenticate to the security token or smart card (e.g.: /tokenpin 0000). Warning: This method of entering a smart card PIN may be insecure, for example, when an unencrypted command
+ prompt history log is being saved to unencrypted disk.</td>
+</tr>
+<tr>
+<td><em>/cache</em> or <em>/c</em></td>
+<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: enable password cache;
+<br>
+If it is followed by <strong>n </strong>or<strong> no</strong>: disable password cache (e.g., /c n).<br>
+If it is followed by <strong>f </strong>or<strong> favorites</strong>: temporary cache password when mounting multiple favorites&nbsp; (e.g., /c f).<br>
+Note that turning the password cache off will not clear it (use /w to clear the password cache).</td>
+</tr>
+<tr>
+<td><em>/history</em> or <em>/h</em></td>
+<td>If it is followed by <strong>y</strong> or no parameter: enables saving history of mounted volumes; if it is followed by
+<strong>n</strong>: disables saving history of mounted volumes (e.g., /h n).</td>
+</tr>
+<tr>
+<td><em>/wipecache</em> or <em>/w</em></td>
+<td>Wipes any passwords cached in the driver memory.</td>
+</tr>
+<tr>
+<td><em>/password</em> or <em>/p</em></td>
+<td>It must be followed by a parameter indicating the volume password. If the password contains spaces, it must be enclosed in quotation marks (e.g., /p &rdquo;My Password&rdquo;). Use /p &rdquo;&rdquo; to specify an empty password.
+<em>Warning: This method of entering a volume password may be insecure, for example, when an unencrypted command prompt history log is being saved to unencrypted disk.</em></td>
+</tr>
+<tr>
+<td><em>/pim</em></td>
+<td>It must be followed by a positive integer indicating the PIM (Personal Iterations Multiplier) to use for the volume.</td>
+</tr>
+<tr>
+<td><em>/quit</em> or <em>/q</em></td>
+<td>Automatically perform requested actions and exit (main VeraCrypt window will not be displayed). If preferences is specified as the parameter (e.g., /q preferences), then program settings are loaded/saved and they override settings specified on the command
+ line. /q background launches the VeraCrypt Background Task (tray icon) unless it is disabled in the Preferences.</td>
+</tr>
+<tr>
+<td><em>/silent</em> or <em>/s</em></td>
+<td>If /q is specified, suppresses interaction with the user (prompts, error messages, warnings, etc.). If /q is not specified, this option has no effect.</td>
+</tr>
+<tr>
+<td><em>/mountoption</em> or <em>/m</em></td>
+<td>
+<p>It must be followed by a parameter which can have one of the values indicated below.</p>
+<p><strong>ro</strong> or<strong> readonly</strong>: Mount volume as read-only.</p>
+<p><strong>rm</strong> or <strong>removable</strong>: Mount volume as removable medium (see section
+<a href="Removable%20Medium%20Volume.html">
+<em>Volume Mounted as Removable Medium</em></a>).</p>
+<p><strong>ts</strong> or <strong>timestamp</strong>: Do not preserve container modification timestamp.</p>
+<p><strong>sm</strong> or <strong>system</strong>: Without pre-boot authentication, mount a partition that is within the key scope of system encryption (for example, a partition located on the encrypted system drive of another operating system that is not running).
+ Useful e.g. for backup or repair operations. Note: If you supply a password as a parameter of /p, make sure that the password has been typed using the standard US keyboard layout (in contrast, the GUI ensures this automatically). This is required due to the
+ fact that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available.</p>
+<p><strong>bk</strong> or <strong>headerbak</strong>: Mount volume using embedded backup header. Note: All volumes created by VeraCrypt contain an embedded backup header (located at the end of the volume).</p>
+<p><strong>recovery</strong>: Do not verify any checksums stored in the volume header. This option should be used only when the volume header is damaged and the volume cannot be mounted even with the mount option headerbak. Example: /m ro</p>
+<p><strong>label=LabelValue</strong>: Use the given string value <strong>LabelValue</strong> as a label of the mounted volume in Windows Explorer. The maximum length for
+<strong>LabelValue&nbsp;</strong> is 32 characters for NTFS volumes and 11 characters for FAT volumes. For example,
+<em>/m label=MyDrive</em> will set the label of the drive in Explorer to <em>MyDrive</em>.<br>
+<br>
+Please note that this switch may be present several times in the command line in order to specify multiple mount options (e.g.: /m rm /m ts)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h4>VeraCrypt Format.exe (VeraCrypt Volume Creation Wizard):</h4>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td>/create</td>
+<td>Create a container based volume in command line mode. It must be followed by the file name of the container to be created.</td>
+</tr>
+<tr>
+<td>/size</td>
+<td>
+<p>(Only with /create)<br>
+It must be followed by a parameter indicating the size of the container file that will be created. This parameter is a number indicating the size in Bytes. It can have a suffixe 'K', 'M', 'G' or 'T' to indicate that the value is in Kilobytes, Megabytes, Gigabytes
+ or Terabytes respectively. For example:</p>
+<ul>
+<li>/size 5000000: the container size will be 5000000 bytes </li><li>/size 25K: the container size will be 25 KiloBytes. </li><li>/size 100M: the container size will be 100 MegaBytes. </li><li>/size 2G: the container size will be 2 GigaBytes. </li><li>/size 1T: the container size will be 1 TeraBytes. </li></ul>
+</td>
+</tr>
+<tr>
+<td>&nbsp;/password</td>
+<td>&nbsp;(Only with /create)<br>
+It must be followed by a parameter indicating the password of the container that will be created.</td>
+</tr>
+<tr>
+<td>&nbsp;<em>/hash</em></td>
+<td>(Only with /create)<br>
+It must be followed by a parameter indicating the PRF hash algorithm to use when creating the volume. It has the same syntax as VeraCrypt.exe.</td>
+</tr>
+<tr>
+<td>/encryption</td>
+<td>(Only with /create)<br>
+It must be followed by a parameter indicating the encryption algorithm to use. The default is AES if this switch is not specified. The parameter can have the following values (case insensitive):
+<ul>
+<li>AES </li><li>Serpent </li><li>Twofish </li><li>AES(Twofish) </li><li>AES(Twofish(Serpent)) </li><li>Serpent(AES) </li><li>Serpent(Twofish(AES)) </li><li>Twofish(Serpent) </li></ul>
+</td>
+</tr>
+<tr>
+<td>/filesystem</td>
+<td>(Only with /create)<br>
+It must be followed by a parameter indicating the file system to use for the volume. The parameter can have the following values:
+<ul>
+<li>None: don't use any filesystem </li><li>FAT: format using FAT/FAT32 </li><li>NTFS: format using NTFS. Please note that in this case a UAC prompt will be displayed unless the process is run with full administrative privileges.
+</li></ul>
+</td>
+</tr>
+<tr>
+<td>/dynamic</td>
+<td>(Only with /create)<br>
+It has no parameters and it indicates that the volume will be created as a dynamic volume.</td>
+</tr>
+<tr>
+<td>/force</td>
+<td>(Only with /create)<br>
+It has no parameters and it indicates that overwrite will be forced without requiring user confirmation.</td>
+</tr>
+<tr>
+<td>/silent</td>
+<td>(Only with /create)<br>
+It has no parameters and it indicates that no message box or dialog will be displayed to the user. If there is any error, the operation will fail silently.</td>
+</tr>
+<tr>
+<td><em>/noisocheck</em> or <em>/n</em></td>
+<td>Do not verify that VeraCrypt Rescue Disks are correctly burned. <strong>WARNING</strong>: Never attempt to use this option to facilitate the reuse of a previously created VeraCrypt Rescue Disk. Note that every time you encrypt a system partition/drive,
+ you must create a new VeraCrypt Rescue Disk even if you use the same password. A previously created VeraCrypt Rescue Disk cannot be reused as it was created for a different master key.</td>
+</tr>
+</tbody>
+</table>
+<h4>Syntax</h4>
+<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |ripemd160|ripemd-160}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts}]
+ [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
+<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent)}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|ripemd160|ripemd-160}]
+ [/filesystem {None|FAT|NTFS}] [/dynamic] [/force] [/silent]</p>
+<p>Note that the order in which options are specified does not matter.</p>
+<h4>Examples</h4>
+<p>Mount the volume <em>d:\myvolume</em> as the first free drive letter, using the password prompt (the main program window will not be displayed):</p>
+<p>veracrypt /q /v d:\myvolume</p>
+<p>Dismount a volume mounted as the drive letter <em>X</em> (the main program window will not be displayed):</p>
+<p>veracrypt /q /d x</p>
+<p>Mount a volume called <em>myvolume.tc</em> using the password <em>MyPassword</em>, as the drive letter
+<em>X</em>. VeraCrypt will open an explorer window and beep; mounting will be automatic:</p>
+<p>veracrypt /v myvolume.tc /l x /a /p MyPassword /e /b</p>
+<p>Create a 10 MB file container using the password <em>test</em> and formatted using FAT:</p>
+<p><code>&quot;C:\Program Files\VeraCrypt\VeraCrypt Format.exe&quot; /create c:\Data\test.hc /password test /hash sha512 /encryption serpent /filesystem FAT /size 10M /force</code></p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

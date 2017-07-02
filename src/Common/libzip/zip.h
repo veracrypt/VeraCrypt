@@ -3,7 +3,7 @@
 
 /*
   zip.h -- exported declarations.
-  Copyright (C) 1999-2015 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2016 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -20,7 +20,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -127,7 +127,7 @@ extern "C" {
 #define ZIP_ER_REMOVE        22  /* S Can't remove file */
 #define ZIP_ER_DELETED       23  /* N Entry has been deleted */
 #define ZIP_ER_ENCRNOTSUPP   24  /* N Encryption method not supported */
-#define ZIP_ER_RDONLY        25  /* N Read-only archive */ 
+#define ZIP_ER_RDONLY        25  /* N Read-only archive */
 #define ZIP_ER_NOPASSWD      26  /* N No password provided */
 #define ZIP_ER_WRONGPASSWD   27  /* N Wrong password provided */
 #define ZIP_ER_OPNOTSUPP     28  /* N Operation not supported */
@@ -161,6 +161,8 @@ extern "C" {
 /* 15-17 - Reserved by PKWARE */
 #define ZIP_CM_TERSE	      18  /* compressed using IBM TERSE (new) */
 #define ZIP_CM_LZ77           19  /* IBM LZ77 z Architecture (PFS) */
+#define ZIP_CM_XZ	      95  /* XZ compressed data */
+#define ZIP_CM_JPEG	      96  /* Compressed Jpeg data */
 #define ZIP_CM_WAVPACK	      97  /* WavPack compressed data */
 #define ZIP_CM_PPMD	      98  /* PPMd version I, Rev 1 */
 
@@ -173,12 +175,15 @@ extern "C" {
 #define ZIP_EM_RC2_OLD    0x6602  /* strong encryption: RC2, version < 5.2 */
 #define ZIP_EM_3DES_168   0x6603
 #define ZIP_EM_3DES_112   0x6609
-#define ZIP_EM_AES_128    0x660e
-#define ZIP_EM_AES_192    0x660f
-#define ZIP_EM_AES_256    0x6610
+#define ZIP_EM_PKZIP_AES_128    0x660e
+#define ZIP_EM_PKZIP_AES_192    0x660f
+#define ZIP_EM_PKZIP_AES_256    0x6610
 #define ZIP_EM_RC2        0x6702  /* strong encryption: RC2, version >= 5.2 */
 #define ZIP_EM_RC4        0x6801
 #endif
+#define ZIP_EM_AES_128    0x0101  /* Winzip AES encryption */
+#define ZIP_EM_AES_192    0x0102
+#define ZIP_EM_AES_256    0x0103
 #define ZIP_EM_UNKNOWN    0xffff  /* unknown algorithm */
 
 #define ZIP_OPSYS_DOS	  	0x00u
@@ -299,9 +304,10 @@ typedef struct zip_file zip_file_t;
 typedef struct zip_source zip_source_t;
 typedef struct zip_stat zip_stat_t;
 
-typedef zip_uint32_t zip_flags_t;    
+typedef zip_uint32_t zip_flags_t;
 
 typedef zip_int64_t (*zip_source_callback)(void *, void *, zip_uint64_t, zip_source_cmd_t);
+typedef void (*zip_progress_callback_t)(double);
 
 
 #ifndef ZIP_DISABLE_DEPRECATED
@@ -318,7 +324,6 @@ ZIP_EXTERN int zip_error_to_str(char *, zip_uint64_t, int, int);
 ZIP_EXTERN void zip_file_error_get(zip_file_t *, int *, int *); /* use zip_file_get_error, zip_error_code_zip / zip_error_code_system */
 #endif
 
-ZIP_EXTERN int zip_archive_set_tempdir(zip_t *, const char *);
 ZIP_EXTERN int zip_close(zip_t *);
 ZIP_EXTERN int zip_delete(zip_t *, zip_uint64_t);
 ZIP_EXTERN zip_int64_t zip_dir_add(zip_t *, const char *, zip_flags_t);
@@ -353,6 +358,7 @@ ZIP_EXTERN int zip_file_get_external_attributes(zip_t *, zip_uint64_t, zip_flags
 ZIP_EXTERN int zip_file_rename(zip_t *, zip_uint64_t, const char *, zip_flags_t);
 ZIP_EXTERN int zip_file_replace(zip_t *, zip_uint64_t, zip_source_t *, zip_flags_t);
 ZIP_EXTERN int zip_file_set_comment(zip_t *, zip_uint64_t, const char *, zip_uint16_t, zip_flags_t);
+ZIP_EXTERN int zip_file_set_encryption(zip_t *, zip_uint64_t, zip_uint16_t, const char *);
 ZIP_EXTERN int zip_file_set_external_attributes(zip_t *, zip_uint64_t, zip_flags_t, zip_uint8_t, zip_uint32_t);
 ZIP_EXTERN int zip_file_set_mtime(zip_t *, zip_uint64_t, time_t, zip_flags_t);
 ZIP_EXTERN const char *zip_file_strerror(zip_file_t *);
@@ -361,6 +367,8 @@ ZIP_EXTERN zip_file_t *zip_fopen_encrypted(zip_t *, const char *, zip_flags_t, c
 ZIP_EXTERN zip_file_t *zip_fopen_index(zip_t *, zip_uint64_t, zip_flags_t);
 ZIP_EXTERN zip_file_t *zip_fopen_index_encrypted(zip_t *, zip_uint64_t, zip_flags_t, const char *);
 ZIP_EXTERN zip_int64_t zip_fread(zip_file_t *, void *, zip_uint64_t);
+ZIP_EXTERN zip_int8_t zip_fseek(zip_file_t *, zip_int64_t, int);
+ZIP_EXTERN zip_int64_t zip_ftell(zip_file_t *);
 ZIP_EXTERN const char *zip_get_archive_comment(zip_t *, int *, zip_flags_t);
 ZIP_EXTERN int zip_get_archive_flag(zip_t *, zip_flags_t, zip_flags_t);
 ZIP_EXTERN const char *zip_get_name(zip_t *, zip_uint64_t, zip_flags_t);
@@ -368,6 +376,7 @@ ZIP_EXTERN zip_int64_t zip_get_num_entries(zip_t *, zip_flags_t);
 ZIP_EXTERN zip_int64_t zip_name_locate(zip_t *, const char *, zip_flags_t);
 ZIP_EXTERN zip_t *zip_open(const char *, int, int *);
 ZIP_EXTERN zip_t *zip_open_from_source(zip_source_t *, int, zip_error_t *);
+ZIP_EXTERN void zip_register_progress_callback(zip_t *, zip_progress_callback_t);
 ZIP_EXTERN int zip_set_archive_comment(zip_t *, const char *, zip_uint16_t);
 ZIP_EXTERN int zip_set_archive_flag(zip_t *, zip_flags_t, int);
 ZIP_EXTERN int zip_set_default_password(zip_t *, const char *);
@@ -377,7 +386,7 @@ ZIP_EXTERN zip_source_t *zip_source_buffer(zip_t *, const void *, zip_uint64_t, 
 ZIP_EXTERN zip_source_t *zip_source_buffer_create(const void *, zip_uint64_t, int, zip_error_t *);
 ZIP_EXTERN int zip_source_close(zip_source_t *);
 ZIP_EXTERN int zip_source_commit_write(zip_source_t *);
-ZIP_EXTERN zip_error_t *zip_source_error(zip_source_t *src);
+ZIP_EXTERN zip_error_t *zip_source_error(zip_source_t *);
 ZIP_EXTERN zip_source_t *zip_source_file(zip_t *, const char *, zip_uint64_t, zip_int64_t);
 ZIP_EXTERN zip_source_t *zip_source_file_create(const char *, zip_uint64_t, zip_int64_t, zip_error_t *);
 ZIP_EXTERN zip_source_t *zip_source_filep(zip_t *, FILE *, zip_uint64_t, zip_int64_t);

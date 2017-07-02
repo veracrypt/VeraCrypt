@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div class="wikidoc">
+<h1>Table of Contents</h1>
+<p><em style="text-align:left">This documentation is not guaranteed to be error-free and is provided &quot;as is&quot; without warranty of any kind. For more information, see
+<a href="Disclaimers.html">Disclaimers</a>.</em></p>
+<ul>
+<li><a title="Preface" href="Preface.html"><strong>Preface</strong></a>
+</li><li><strong><a href="Introduction.html">Introduction</a></strong>
+</li><li><strong><a href="Beginner%27s%20Tutorial.html">Beginner's Tutorial</a></strong>
+</li><li><strong><strong><a href="VeraCrypt%20Volume.html">VeraCrypt Volume</a></strong></strong>
+<ul>
+<li><a href="Creating%20New%20Volumes.html">Creating a New VeraCrypt Volume</a>
+</li><li><a href="Favorite%20Volumes.html">Favorite Volumes</a>
+</li><li><a href="System%20Favorite%20Volumes.html">System Favorite Volumes</a>
+</li></ul>
+</li><li><strong><a href="System%20Encryption.html">System Encryption</a></strong>
+<ul>
+<li><a href="Hidden%20Operating%20System.html">Hidden Operating System</a>
+</li><li><a href="Supported%20Systems%20for%20System%20Encryption.html">Operating Systems Supported for System Encryption</a>
+</li><li><a href="VeraCrypt%20Rescue%20Disk.html">VeraCrypt Rescue Disk</a>
+</li></ul>
+</li><li><strong><a href="Plausible%20Deniability.html">Plausible Deniability</a></strong><br>
+<ul>
+<li><a href="Hidden%20Volume.html">Hidden Volume</a>
+<ul>
+<li><a href="Protection%20of%20Hidden%20Volumes.html">Protection of Hidden Volumes Against Damage</a>
+</li><li><a href="Security%20Requirements%20for%20Hidden%20Volumes.html">Security Requirements and Precautions Pertaining to Hidden Volumes</a>
+</li></ul>
+</li><li><a href="VeraCrypt%20Hidden%20Operating%20System.html">Hidden Operating System</a>
+</li></ul>
+</li><li><strong><a href="Main%20Program%20Window.html">Main Program Window</a></strong>
+<ul>
+<li><a href="Program%20Menu.html">Program Menu</a>
+</li><li><a href="Mounting%20VeraCrypt%20Volumes.html">Mounting Volumes</a>
+</li></ul>
+</li><li><strong><a href="Parallelization.html">Parallelization</a></strong>
+</li><li><strong><a href="Pipelining.html">Pipelining</a></strong>
+</li><li><strong><a href="Hardware%20Acceleration.html">Hardware acceleration</a></strong>
+</li><li><strong><a href="Hot%20Keys.html">Hot keys</a></strong>
+</li><li><strong><a href="Keyfiles%20in%20VeraCrypt.html">Keyfiles</a></strong>
+</li><li><strong><a href="Security%20Tokens%20%26%20Smart%20Cards.html">Security Tokens &amp; Smart Cards</a></strong>
+</li><li><strong><a href="Portable%20Mode.html">Portable Mode</a></strong>
+</li><li><strong><a href="TrueCrypt%20Support.html">TrueCrypt Support</a></strong>
+</li><li><strong><a href="Converting%20TrueCrypt%20volumes%20and%20partitions.html">Converting TrueCrypt Volumes &amp; Partitions</a></strong>
+</li><li><strong><a href="Default%20Mount%20Parameters.html">Default Mount Parameters</a></strong>
+</li><li><strong><a href="Language%20Packs.html">Language Packs</a></strong>
+</li><li><strong><a href="Encryption%20Algorithms.html">Encryption Algorithms</a></strong>
+<ul>
+<li><a href="AES.html">AES</a> </li><li><a href="Camellia.html">Camellia</a>
+</li><li><a href="Kuznyechik.html">Kuznyechik</a>
+</li><li><a href="Serpent.html">Serpent</a> </li><li><a href="Twofish.html">Twofish</a> </li><li><a href="Cascades.html">Cascades of ciphers</a>
+</li></ul>
+</li><li><strong><a href="Hash%20Algorithms.html">Hash Algorithms</a></strong>
+<ul>
+<li><a href="RIPEMD-160.html">RIPEMD-160</a>
+</li><li><a href="SHA-256.html">SHA-256</a> </li><li><a href="SHA-512.html">SHA-512</a> </li><li><a href="Whirlpool.html">Whirlpool</a>
+</li><li><a href="Streebog.html">Streebog</a></li></ul>
+</li><li><strong><a href="Supported%20Operating%20Systems.html">Supported Operating Systems</a></strong>
+</li><li><strong><a href="Command%20Line%20Usage.html">Command Line Usage</a></strong>
+</li><li><strong><a href="Security%20Model.html">Security Model</a></strong>
+</li><li><strong><a href="Security%20Requirements%20and%20Precautions.html">Security Requirements And Precautions<br>
+</a></strong>
+<ul>
+<li><a href="Data%20Leaks.html">Data Leaks</a>
+<ul>
+<li><a href="Paging%20File.html">Paging File</a>
+</li><li><a href="Memory%20Dump%20Files.html">Memory Dump Files</a>
+</li><li><a href="Hibernation%20File.html">Hibernation File</a>
+</li></ul>
+</li><li><a href="Unencrypted%20Data%20in%20RAM.html">Unencrypted Data in RAM</a>
+</li><li><a href="Physical%20Security.html">Physical Security</a>
+</li><li><a href="Malware.html">Malware</a> </li><li><a href="Multi-User%20Environment.html">Multi-User Environment</a>
+</li><li><a href="Authenticity%20and%20Integrity.html">Authenticity and Integrity</a>
+</li><li><a href="Choosing%20Passwords%20and%20Keyfiles.html">Choosing Passwords and Keyfiles</a>
+</li><li><a href="Changing%20Passwords%20and%20Keyfiles.html">Changing Passwords and Keyfiles</a>
+</li><li><a href="Trim%20Operation.html">Trim Operation</a>
+</li><li><a href="Wear-Leveling.html">Wear-Leveling</a>
+</li><li><a href="Reallocated%20Sectors.html">Reallocated Sectors</a>
+</li><li><a href="Defragmenting.html">Defragmenting</a>
+</li><li><a href="Journaling%20File%20Systems.html">Journaling File Systems</a>
+</li><li><a href="Volume%20Clones.html">Volume Clones</a>
+</li><li><a href="Additional%20Security%20Requirements%20and%20Precautions.html">Additional Security Requirements and Precautions</a>
+</li></ul>
+</li><li><strong><a href="How%20to%20Back%20Up%20Securely.html">How To Back Up Securely</a></strong>
+</li><li><strong><a href="Miscellaneous.html">Miscellaneous</a></strong>
+<ul>
+<li><a href="Using%20VeraCrypt%20Without%20Administrator%20Privileges.html">Using VeraCrypt Without Administrator Privileges</a>
+</li><li><a href="Sharing%20over%20Network.html">Sharing Over Network</a>
+</li><li><a href="VeraCrypt%20Background%20Task.html">VeraCrypt Background Task</a>
+</li><li><a href="Removable%20Medium%20Volume.html">Volume Mounted as Removable Medium</a>
+</li><li><a href="VeraCrypt%20System%20Files.html">VeraCrypt System Files &amp; Application Data</a>
+</li><li><a href="Removing%20Encryption.html">How To Remove Encryption</a>
+</li><li><a href="Uninstalling%20VeraCrypt.html">Uninstalling VeraCrypt</a>
+</li><li><a href="Digital%20Signatures.html">Digital Signatures</a>
+</li></ul>
+</li><li><strong><a href="Troubleshooting.html">Troubleshooting</a></strong>
+</li><li><strong><a href="Incompatibilities.html">Incompatibilities</a></strong>
+</li><li><strong><a href="Issues%20and%20Limitations.html">Known Issues and Limitations</a></strong>
+</li><li><strong><a href="FAQ.html">Frequently Asked Questions</a></strong>
+</li><li><strong><strong><a href="Technical%20Details.html">Technical Details</a></strong></strong>
+<ul>
+<li><a href="Notation.html">Notation</a>
+</li><li><a href="Encryption%20Scheme.html">Encryption Scheme</a>
+</li><li><a href="Modes%20of%20Operation.html">Modes of Operation</a>
+</li><li><a href="Header%20Key%20Derivation.html">Header Key Derivation, Salt, and Iteration Count</a>
+</li><li><a href="Random%20Number%20Generator.html">Random Number Generator</a>
+</li><li><a href="Keyfiles.html">Keyfiles</a>
+</li><li><a title="PIM" href="Personal%20Iterations%20Multiplier%20(PIM).html">PIM</a>
+</li><li><a href="VeraCrypt%20Volume%20Format%20Specification.html">VeraCrypt Volume Format Specification</a>
+</li><li><a href="Standard%20Compliance.html">Compliance with Standards and Specifications</a>
+</li><li><a href="Source%20Code.html">Source Code</a>
+</li></ul>
+</li><li><strong><a href="Contact.html">Contact</a></strong>
+</li><li><strong><a href="Legal%20Information.html">Legal Information</a></strong>
+</li><li><strong><a href="Release%20Notes.html">Version History</a></strong>
+</li><li><strong><a href="Acknowledgements.html">Acknowledgements</a></strong>
+</li><li><strong><a href="References.html">References</a></strong>
+</li></ul>
+</div>
+
+</body></html>

@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -327,6 +327,12 @@ void hmac_sha512
 	char* buf = hmac.k;
 	int b;
 	char key[SHA512_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	KFLOATING_SAVE floatingPointState;
+	NTSTATUS saveStatus = STATUS_SUCCESS;
+	if (HasSSE2() && HasMMX())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
 
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha512(key), as per HMAC specifications. */
@@ -369,6 +375,11 @@ void hmac_sha512
 
 	hmac_sha512_internal (d, ld, &hmac);
 
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	if (NT_SUCCESS (saveStatus) && (HasSSE2() && HasMMX()))
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+
 	/* Prevent leaks */
 	burn (&hmac, sizeof(hmac));
 	burn (key, sizeof(key));
@@ -408,6 +419,12 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	char* buf = hmac.k;
 	int b, l, r;
 	char key[SHA512_DIGESTSIZE];
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	KFLOATING_SAVE floatingPointState;
+	NTSTATUS saveStatus = STATUS_SUCCESS;
+	if (HasSSE2() && HasMMX())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
 
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = sha512(pwd), as per HMAC specifications. */
@@ -471,6 +488,10 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	derive_u_sha512 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
+#if defined (DEVICE_DRIVER) && !defined (_WIN64)
+	if (NT_SUCCESS (saveStatus) && (HasSSE2() && HasMMX()))
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
 
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));

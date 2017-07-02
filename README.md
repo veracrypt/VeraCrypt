@@ -18,13 +18,13 @@ Contents
 ========
 
 I. Windows
-   Requirements for Building VeraCrypt for Windows
-   Instructions for Building VeraCrypt for Windows
-	Instructions for Signing and Packaging VeraCrypt for Windows
+   Requirements for Building VeraCrypt for Windows.
+   Instructions for Building VeraCrypt for Windows.
+	Instructions for Signing and Packaging VeraCrypt for Windows.
 
 II. Linux and Mac OS X
-    Requirements for Building VeraCrypt for Linux and Mac OS X
-    Instructions for Building VeraCrypt for Linux and Mac OS X
+    Requirements for Building VeraCrypt for Linux and Mac OS X.
+    Instructions for Building VeraCrypt for Linux and Mac OS X.
 	Mac OS X specifics
 
 III. FreeBSD and OpenSolaris
@@ -49,6 +49,7 @@ Requirements for Building VeraCrypt for Windows:
 - Microsoft Windows SDK for Windows 8.1 (needed for SHA-256 code signing)
 - Microsoft Windows Driver Kit 7.1.0 (build 7600.16385.1)
 - NASM assembler 2.08 or compatible
+- YASM 1.3.0 or newer.
 - gzip compressor
 - upx packer (available at https://upx.github.io/)
 
@@ -128,9 +129,8 @@ Requirements for Building VeraCrypt for Linux and Mac OS X:
 - GNU Make
 - GNU C++ Compiler 4.0 or compatible
 - Apple Xcode (Mac OS X only)
-- NASM assembler 2.08 or compatible (x86/x64 architecture only)
+- YASM 1.3.0 or newer (Linux only, x86/x64 architecture only)
 - pkg-config
-- makeself (Linux only)
 - wxWidgets 3.0 shared library and header files installed or
   wxWidgets 3.0 library source code (available at https://www.wxwidgets.org)
 - FUSE library and header files (available at https://github.com/libfuse/libfuse
@@ -195,9 +195,9 @@ https://osxfuse.github.io/ (MacFUSE compatibility layer must selected)
 
 The script build_veracrypt_macosx.sh available under "src/Build" performs the
 full build of VeraCrypt including the creation of the installer pkg. It expects
-to find the wxWidgets 3.0.2 sources at the same level as where you put
+to find the wxWidgets 3.0.3 sources at the same level as where you put
 VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
-then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.2")
+then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.3")
 
 The build process uses Code Signing certificates whose ID is specified in
 src/Main/Main.make (look for lines containing "Developer ID Application" and 
@@ -206,7 +206,7 @@ your Code Signing certificates or comment them if you don't have one.
 
 Because of incompatibility issues with OSXFUSE, the SDK 10.9 generates a
 VeraCrypt binary that has issues communicating with the OSXFUSE kernel extension.
-Thus, we recommend to use the SDK 10.8 or earlier for building VeraCrypt.
+Thus, we recommend using a different OSX SDK version for building VeraCrypt.
 
 
 
@@ -228,7 +228,7 @@ If you intend to implement a feature, please contact us first to make sure:
 3) Whether we need help of third-party developers with implementing the feature.
 
 Information on how to contact us can be found at:
-https://veracrypt.codeplex.com/
+https://www.veracrypt.fr/
 
 
 
@@ -239,14 +239,14 @@ Copyright Information
 ---------------------
 
 This software as a whole:
-Copyright (c) 2013-2016 IDRIX. All rights reserved.
+Copyright (c) 2013-2017 IDRIX. All rights reserved.
 
 Portions of this software:
-Copyright (c) 2013-2016 IDRIX. All rights reserved.
+Copyright (c) 2013-2017 IDRIX. All rights reserved.
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.
-Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler.
+Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler.
 Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov
 Copyright (c) Dieter Baron and Thomas Klausner.
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.

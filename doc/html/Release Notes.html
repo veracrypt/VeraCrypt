@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Release%20Notes.html">Version History</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Release Notes</h1>
+<p><strong style="text-align:left">1.19 </strong>(October 17<sup>th</sup>, 2016):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Fix issues raised by Quarkslab audit.
+<ul>
+<li>Remove GOST89 encryption algorithm. </li><li>Make PBKDF2 and HMAC code clearer and easier to analyze. </li><li>Add test vectors for Kuznyechik. </li><li>Update documentation to warn about risks of using command line switch &rdquo;tokenpin&rdquo;.
+</li></ul>
+</li><li>Use SSE2 optimized Serpent algorithm implementation from Botan project (2.5 times faster on 64-bit platforms).
+</li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>Fix keyboard issues in EFI Boot Loader. </li><li>Fix crash on 32-bit machines when creating a volume that uses Streebog as PRF.
+</li><li>Fix false positive detection of Evil-Maid attacks in some cases (e.g. hidden OS creation)
+</li><li>Fix failure to access EFS data on VeraCrypt volumes under Windows 10. </li><li>Fix wrong password error in the process of copying hidden OS. </li><li>Fix issues raised by Quarkslab audit:
+<ul>
+<li>Fix leak of password length in MBR bootloader inherited from TrueCrypt. </li><li>EFI bootloader: Fix various leaks and erase keyboard buffer after password is typed.
+</li><li>Use libzip library for handling zip Rescue Disk file instead of vulnerable XUnzip library.
+</li></ul>
+</li><li>Support EFI system encryption for 32-bit Windows. </li><li>Perform shutdown instead of reboot during Pre-Test of EFI system encryption to detect incompatible motherboards.
+</li><li>Minor GUI and translations fixes. </li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>Remove dependency to MacFUSE compatibility layer in OSXFuse. </li></ul>
+</li></ul>
+<p>&nbsp;</p>
+<p><strong style="text-align:left">1.18a </strong>(August 17<sup>th</sup>, 2016):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Support Japanese encryption standard Camellia, including for Windows system encryption (MBR &amp; EFI).
+</li><li>Support Russian encryption and hash standards Kuznyechik, Magma and Streebog, including for Windows EFI system encryption.
+</li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>Support EFI Windows system encryption (limitations: no hidden os, no boot custom message)
+</li><li>Fix TrueCrypt vulnerability allowing detection of hidden volumes presence(reported by Ivanov Aleksey Mikhailovich, alekc96 [at] mail dot ru)
+</li><li>Enhanced protection against dll hijacking attacks. </li><li>Fix boot issues on some machines by increasing required memory by 1 KiB </li><li>Add benchmarking of hash algorithms and PRF with PIM (including for pre-boot).
+</li><li>Move build system to Visual C&#43;&#43; 2010 for better stability. </li><li>Workaround for AES-NI support under Hyper-V on Windows Server 2008 R2. </li><li>Correctly remove driver file veracrypt.sys during uninstall on Windows 64-bit.
+</li><li>Implement passing smart card PIN as command line argument (/tokenpin) when explicitly mounting a volume.
+</li><li>When no drive letter specified, choose A: or B: only when no other free drive letter is available.
+</li><li>Reduce CPU usage caused by the option to disable use of disconnected network drives.
+</li><li>Add new volume ID mechanism to be used to identify disks/partitions instead of their device name.
+</li><li>Add option to avoid PIM prompt in pre-boot authentication by storing PIM value unencrypted in MBR.
+</li><li>Add option and command line switch to hide waiting dialog when performing operations.
+</li><li>Add checkbox in &quot;VeraCrypt Format&quot; wizard GUI to skip Rescue Disk verification during system encryption procedure.
+</li><li>Allow files drag-n-drop when VeraCrypt is running as elevated process. </li><li>Minor GUI and translations fixes. </li></ul>
+</li><li><strong>Linux:</strong>
+<ul>
+<li>Fix mount issue on Fedora 23. </li><li>Fix mount failure when compiling source code using gcc 5.x. </li><li>Adhere to XDG Desktop Specification by using XDG_CONFIG_HOME to determine location of configuration files.
+</li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>Solve compatibility issue with newer versions of OSXFuse. </li></ul>
+</li></ul>
+<p>&nbsp;</p>
+<p><strong style="text-align:left">1.17 </strong>(February 13<sup>th</sup>, 2016):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Support UNICODE passwords: all characters are now accepted in passwords (except Windows system encryption)
+</li><li>Cut mount/boot time by half thanks to a clever optimization of key derivation (found by
+<a href="https://madiba.encs.concordia.ca/~x_decarn/" target="_blank">Xavier de Carn&eacute; de Carnavalet</a>)
+</li><li>Optimize Whirlpool PRF speed by using assembly (25% speed gain compared to previous code).
+</li><li>Add support for creating exFAT volumes. </li><li>Add GUI indicator for the amount of randomness gathered using mouse movement.
+</li><li>Include new icons and graphics contributed by <em>Andreas Becker</em> (<a href="http://www.andreasbecker.de" target="_blank">http://www.andreasbecker.de</a>)
+</li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>Fix dll hijacking issue affecting installer that allows code execution with elevation of privilege (CVE-2016-1281). Reported by Stefan Kanthak (<a href="http://home.arcor.de/skanthak/" target="_blank">http://home.arcor.de/skanthak/</a>)
+</li><li>Sign binaries using both SHA-1 and SHA-256 to follow new Microsoft recommendations.
+</li><li>Solve issues under Comodo/Kaspersky when running an application from a VeraCrypt volume (Reported and fixed by Robert Geisler).
+</li><li>Bootloader: Protect password/PIM length by filling the fields to maximum length with '*' after ENTER
+</li><li>Solve issue with system favorites not being able to be mounted to drive A: </li><li>Solve lost focus issues for after displaying the waiting dialog </li><li>Solve rare issue where some partitions where asscoiated with wrong disk the &quot;Select Device&quot; dialog.
+</li><li>Implement PIM caching, for both system encryption and normal volumes. Add option to activate it.
+</li><li>Don't try mounting using cached passwords if password and/or keyfile are specified in the command line.
+</li><li>Internal rewrite to make VeraCrypt native UNICODE application. </li><li>Workaround to avoid false positive detection by some anti-virus software. </li><li>Hide disconnected network drives in the list of available drives. Add option to make them available for mounting.
+</li><li>Solve issue that caused in some cases configuration and history XML files to be updated even when not needed.
+</li><li>Fix leak of path of selected keyfiles in RAM. </li><li>Fix TB unit can't be deselected in VeraCryptExpander. </li><li>Add Alt&#43;i keyboard shortcut for &quot;Use PIM&quot; checkbox in GUI. </li><li>Minor GUI and translations fixes. </li></ul>
+</li><li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>Fix issue of --stdin option not handling correctly passwords that contain a space character (reported and fixed by Codeplex user horsley1953).
+</li><li>Fix issue creating volumes using command line with a filesystem other than FAT.
+</li><li>Support K/M/G/T suffixes for --size switch to indicate unit to use for size value.
+</li></ul>
+</li></ul>
+<p id="116"><strong style="text-align:left">1.16 (October 7<sup>th</sup>, 2015):</strong></p>
+<ul>
+<li><strong><strong>Windows:</strong></strong>
+<ul>
+<li>Modify patch for CVE-2015-7358 vulnerability to solve side effects on Windows while still making it very hard to abuse drive letter handling.
+</li><li>Fix failure to restore volume header from an external file in some configurations.
+</li><li>Add option to disable &ldquo;Evil Maid&rdquo; attack detection for those encountering false positive cases (e.g. FLEXnet/Adobe issue).
+</li><li>By default, don&rsquo;t try to mount using empty password when default keyfile configured or keyfile specified in command line. Add option to restore the old behavior.
+<ul>
+<li>If mounting using empty password is needed, explicitly specify so in the command line using: /p &quot;&quot;
+</li></ul>
+</li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.15 </strong>(September 26<sup>th</sup>, 2015):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Fix two TrueCrypt vulnerabilities reported by James Forshaw (Google Project<br>
+Zero)
+<ul>
+<li><a href="https://code.google.com/p/google-security-research/issues/detail?id=538" target="_blank">CVE-2015-7358</a>&nbsp;(critical): Local Elevation of Privilege on Windows by<br>
+abusing drive letter handling. </li><li><a href="https://code.google.com/p/google-security-research/issues/detail?id=537" target="_blank">CVE-2015-7359</a>: Local Elevation of Privilege on Windows caused by<br>
+incorrect Impersonation Token Handling. </li></ul>
+</li><li>Fix regression in mounting of favorite volumes at user logon. </li><li>Fix display of some Unicode languages (e.g. Chinese) in formatting wizard. </li><li>Set keyboard focus to PIM field when &quot;Use PIM&quot; is checked. </li><li>Allow Application key to open context menu on drive letters list </li><li>Support specifying volumes size in TB in the GUI (command line already supports this)
+</li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.14 </strong>(September 16<sup>th</sup>, 2015):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Mask and unmask PIM value in GUI and bootloader like the password. </li></ul>
+</li></ul>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Solve Rescue Disk damaged error when using cascade ciphers and SHA256 for system encryption.
+</li><li>Solve option &quot;Cache password in drive memory&quot; always disabled even if checked in preferences.
+</li><li>Solve UI language change not taken into account for new install unless a preference is changed.
+</li><li>Implement creating file containers using command line. </li><li>Driver: disable support of IOCTL_STORAGE_QUERY_PROPERTY by default and add option to enable it.
+</li><li>Driver:&nbsp; Support returning StorageDeviceProperty when queried through IOCTL_STORAGE_QUERY_PROPERTY.
+</li><li>Support setting volume label in Explorer through mount option or favorite label value.
+</li><li>Fix for Hot Keys assignment dialog issue where OEM-233 is always displayed and can't be changed.
+</li><li>Always copy both 32-bit and 64-bit executable binaries during install and in Traveler Disk Setup.
+<ul>
+<li>Traveler Disk will again use 32-bit exe by default while also offering 64-bit exe.
+</li><li>On Windows 64-bit, 32-bit exe files are now available(e.g. if needed to use 32-bit PKCS#11 dll)
+</li></ul>
+</li><li>Include Volume Expander in Traveler Disk Setup. </li><li>Don't offer creating a restore point if it is disabled in Windows. </li><li>Add possibility to verify a Rescue Disk ISO image file. </li><li>Minors fixes in the installer, GUI and driver. </li></ul>
+</li></ul>
+<ul>
+<li><strong>Linux:</strong>
+<ul>
+<li>Support supplying password using stdin in non interactive mode (contributed by
+<a href="https://github.com/LouisTakePILLz" target="_blank">LouisTakePILLz</a>)
+<ul>
+<li>Example: <code>veracrypt -t ${IMAGE_PATH} ${MOUNT_PATH} --mount --non-interactive --stdin &lt;&lt;&lt; &quot;$PWD&quot;</code>
+</li></ul>
+</li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.13 </strong>(August 9<sup>th</sup>, 2015):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Solve TOR crashing when run from a VeraCrypt volume. </li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.12 </strong>(August 5<sup>th</sup>, 2015):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Implement &quot;Dynamic Mode&quot; by supporting a Personal Iterations Multiplier (PIM). See documentation for more information.
+</li></ul>
+</li></ul>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Detect Boot Loader tampering (&quot;Evil Maid&quot; attacks) for system encryption and propose recovery options.
+</li><li>Fix buffer overrun issue and other memory related bugs when parsing language XML files.
+</li><li>Fix wrongly reported bad sectors by chkdsk caused by a bug in&nbsp;IOCTL_DISK_VERIFY handling.
+</li><li>Fix privacy issue caused by configuration and history files being updated whenever VeraCrypt is used (reported by Liran Elharar)
+</li><li>Fix system favorites not always mounting after cold start. </li><li>Solve installer error when updating VeraCrypt on Windows 10. </li><li>Implement decryption of non-system partition/drive. </li><li>Include 64-bit exe files in the installer and deploy them on 64-bit machines for better performances.
+</li><li>Allow using drive letters A: and B: for mounting volumes </li><li>Make command line argument parsing more strict and robust (e.g. /lz rejected, must be /l z)
+</li><li>Add possibility to show system encryption password in Windows GUI and bootloader
+</li><li>Solve &quot;Class Already exists&quot; error that was happening for some users. </li><li>Solve some menu items and GUI fields not translatable </li><li>Make volumes correctly report Physical Sector size to Windows. </li><li>Correctly detect switch user/RDP disconnect operations for autodismount on session locked.
+</li><li>Add manual selection of partition when resuming in-place encryption. </li><li>Add command line option (/cache f) to temporarily cache password during favorites mounting.
+</li><li>Add waiting dialog for Auto-Mount Devices operations to avoid freezing GUI. </li><li>Add extra information to displayed error message in order to help analyze reported issues.
+</li><li>Disable menu entry for changing system encryption PRF since it's not yet implemented.
+</li><li>Fix failure to change password when UAC required (inherited from TrueCrypt) </li><li>Minor fixes and changes (see Git history for more details) </li></ul>
+</li></ul>
+<ul>
+<li><strong>Linux:</strong>
+<ul>
+<li>Solve installer issue under KDE when xterm not available </li><li>Fix warnings on about/LegalNotice dialogs when wxWidgets linked dynamically (N/A for official binary)
+</li><li>Support hash names with '-' in command line (sha-256, sha-512 and ripemd-160)
+</li><li>Remove &quot;--current-hash&quot; switch and add &quot;--new-hash&quot; to be more coherent with existing switches.
+</li><li>When only keyfile specified in command line, don't try to mount using empty password.
+<ul>
+<li>If mounting using empty password is needed, explicitly specify so using: -p &quot;&quot;
+</li></ul>
+</li></ul>
+</li></ul>
+<p id="1.0f-2"><strong style="text-align:left">1.0f-2</strong>(April 5<sup>th</sup>, 2015):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Mounting speed improvement, up to 20% quicker on 64-bit (contributed by Nils Maier)
+</li><li>Add option to set default hash/TrueCryptMode used for mounting volumes. </li><li>Use TrueCryptMode/Hash specified in command line in password dialog. </li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>Solve CryptAcquireContext vulnerability reported by Open Crypto Audit Phase II.
+</li><li>Proper handling of random generator failures. Inform user in such cases. </li><li>TrueCrypt Mode related changes:
+<ul>
+<li>Support mounting TrueCrypt system partition (no conversion yet) </li><li>Support TrueCrypt volumes as System Favorites. </li><li>Correct displaying wrong TrueCrypt mode in volume properties when SHA-256 is used.
+</li></ul>
+</li><li>Solve PIN BLOCKED issue with smart cards in a special case. </li><li>Correctly handle file access errors when mounting containers. </li><li>Solve several issues reported by the Static Code Analysis too Coverity. </li><li>Bootloader: Add &quot;Verifying Password...&quot; message. </li><li>When UAC prompt fails (for example timeout), offer the user to retry the operation.
+</li><li>Uninstall link now open the standard &quot;Add/Remove Programs&quot; window. </li><li>On uninstall, remove all VeraCrypt references from registry and disk. </li><li>Included VeraCryptExpander in the Setup. </li><li>Add option to temporary cache password when mounting multiple favorites. </li><li>Minor fixes and enhancements (see git history for more information) </li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>Solve issue volumes not auto-dismounting when quitting VeraCrypt<strong>.</strong>
+</li><li>Solve issue VeraCrypt window not reopening by clicking dock icon. </li></ul>
+</li><li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>Solve preferences dialog not closing when clicking on the 'X' icon. </li><li>Solve read-only issue when mounting non-FAT volumes in some cases. </li><li>Support opening/exploring mounted volumes on desktops other than Gnome/KDE. </li><li>Solve various installer issues when running on less common configurations </li><li>Minor fixes (see git history for more information) </li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.0f-1 </strong>(January 4<sup>th</sup>, 2015)</p>
+<ul>
+<li><strong>All OSs</strong>:
+<ul>
+<li>Add support for old TrueCrypt 6.0. </li><li>Change naming of cascades algorithms in GUI for a better description. </li></ul>
+</li><li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>Make cancel button of the preference dialog working. </li><li>Solve impossibility to enter a one digit size for the volume. </li><li>Add wait dialog to the benchmark calculation. </li></ul>
+</li><li><strong>Windows:</strong>
+<ul>
+<li>Add TrueCrypt mode to the mounted volume information. </li><li>For Windows XP, correct the installer graphical artefacts. </li></ul>
+</li></ul>
+<p><strong style="text-align:left">1.0f </strong>(December 30, 2014)</p>
+<ul>
+<li><strong>All OSs</strong>:
+<ul>
+<li>Add support for mounting TrueCrypt volumes. </li><li>Add support for converting TrueCrypt containers and non-system partitions. </li><li>Add support for SHA-256 for volume encryption. </li><li>Make SHA-512 the default key derivation algorithm and change the order of preference of derivation algorithms : SHA-512 -&gt; Whirlpool -&gt; SHA-256 -&gt; RIPEMD160
+</li><li>Deprecate RIPEMD160 for non-system encryption. </li><li>Speedup mount operation by enabling choice of correct hash algorithm. </li><li>Display a wait dialog during lengthy operations to avoid freezing the GUI. </li><li>Implement creation of multiple keyfiles at once, with predefined or random size.
+</li><li>Always display random gathering dialog before performing sensitive operations.
+</li><li>Links in the application now points to the online resources on Codeplex </li><li>First version of proper VeraCrypt User Guide </li></ul>
+</li><li><strong>MacOSX:</strong>
+<ul>
+<li>Implement support for hard drives with a large sector size (&gt; 512). </li><li>Link against new wxWidgets version 3.0.2. </li><li>Solve truncated text in some Wizard windows. </li></ul>
+</li><li><strong>Linux:</strong>
+<ul>
+<li>Add support of NTFS formatting of volumes. </li><li>Correct issue on opening of the user guide PDF. </li><li>Better support for hard drives with a large sector size (&gt; 512). </li><li>Link against new wxWidgets version 3.0.2. </li></ul>
+</li><li><strong>Windows:</strong><br>
+<ul>
+<li>Security: fix vulnerability in bootloader detected by Open Crypto Audit and make it more robust.
+</li><li>Add support for SHA-256 in system boot encryption. </li><li>Various optimizations in bootloader. </li><li>Complete fix of ShellExecute security issue. </li><li>Kernel driver: check that the password length received from bootloader is less or equal to 64.
+</li><li>Correct a random crash when clicking the link for more information on keyfiles
+</li><li>Implement option to auto-dismount when user session is locked </li><li>Add self-test vectors for SHA-256 </li><li>Modern look-and-feel by enabling visual styles </li><li>few minor fixed. </li></ul>
+</li></ul>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<strong style="text-align:left">1.0e </strong>(September 4, 2014)</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<ul>
+<li><strong style="text-align:left">Improvements and bug fixes:</strong>
+<ul>
+<li>Correct most of the security vulnerabilities reported by the Open Crypto Audit Project.
+</li><li>Correct security issues detected by Static Code Analysis, mainly under Windows.
+</li><li>Correct issue of unresponsiveness when changing password/key file of a volume. Reduce overall time taken for creating encrypted volume/partition.
+</li><li>Minor improvements and bug fixes (look at git history for more details). </li></ul>
+</li></ul>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<br style="text-align:left">
+<strong style="text-align:left">1.0d </strong>(June 3, 2014)</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<ul>
+<li><strong style="text-align:left">Improvements and bug fixes:</strong>
+<ul>
+<li>Correct issue while creating hidden operating system. </li><li>Minor improvements and bug fixes. </li></ul>
+</li></ul>
+</div>
+</div><div class="ClearBoth"></div></body></html>

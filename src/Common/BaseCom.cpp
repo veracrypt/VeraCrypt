@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -382,34 +382,6 @@ DWORD BaseCom::GetEfiBootDeviceNumber (BSTR* pSdn)
 	{
 		BootEncryption bootEnc (NULL);
 		bootEnc.GetEfiBootDeviceNumber ((PSTORAGE_DEVICE_NUMBER) *pSdn);
-	}
-	catch (SystemException &)
-	{
-		return GetLastError();
-	}
-	catch (Exception &e)
-	{
-		e.Show (NULL);
-		return ERROR_EXCEPTION_IN_SERVICE;
-	}
-	catch (...)
-	{
-		return ERROR_EXCEPTION_IN_SERVICE;
-	}
-
-	return ERROR_SUCCESS;
-}
-
-DWORD BaseCom::ReadEfiConfig (BSTR* pContent, DWORD *pcbRead)
-{
-	if (!pContent || !(*pContent))
-		return ERROR_INVALID_PARAMETER;
-
-	try
-	{
-		DWORD maxSize = ((DWORD *) ((BYTE *) *pContent))[-1];
-		BootEncryption bootEnc (NULL);
-		bootEnc.ReadEfiConfig ((byte*) *pContent, maxSize, pcbRead);
 	}
 	catch (SystemException &)
 	{

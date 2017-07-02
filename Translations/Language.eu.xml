@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.20-BETA2">
+  <localization prog-version="1.21">
     <!-- Languages -->
     <language langid="eu" name="Euskara" en-name="Basque" version="1.0.0" translators="Ander Genua" />
     <!-- Fonts -->
@@ -857,7 +857,7 @@
     <string lang="eu" key="TC_INSTALLER_IS_RUNNING">VeraCrypt-en instalatzailea dagoeneko martxan dago sistema honetan instalazio bat egiten edo prestatzen edo VeraCrypt-en eguneraketa batekin. Jarraitu baino lehen, mesedez, bukatzen den arte itxaron ezazu edo itxi ezazu. Ezin baduzu itxi, mesedez, zure ordenagailua berrabiatu ezazu jarraitu baino lehen.</string>
     <string lang="eu" key="INSTALL_FAILED">Instalazioak huts egin du.</string>
     <string lang="eu" key="UNINSTALL_FAILED">Desinstalazioak huts egin du.</string>
-    <string lang="eu" key="DIST_PACKAGE_CORRUPTED">Banaketaren pakete hau hondatuta dago. Mesedez, saiatu zaitez berriro deskargatzen (hobe VeraCrypt-en weborri ofizialetik https://veracrypt.codeplex.com).</string>
+    <string lang="eu" key="DIST_PACKAGE_CORRUPTED">Banaketaren pakete hau hondatuta dago. Mesedez, saiatu zaitez berriro deskargatzen (hobe VeraCrypt-en weborri ofizialetik https://www.veracrypt.fr).</string>
     <string lang="eu" key="CANNOT_WRITE_FILE_X">Ezin da %s fitxategia idatzi</string>
     <string lang="eu" key="EXTRACTING_VERB">Ateratzen</string>
     <string lang="eu" key="CANNOT_READ_FROM_PACKAGE">Ezin da paketeko informazioa irakurri.</string>
@@ -1232,7 +1232,7 @@
     <string lang="eu" key="HIDDEN_OS_CREATION_PREINFO_HELP">Hurrengo urratsetan VeraCrypt ezkutuko sistema eragile berria sortuko du sistemaren partizioa ezkutuko bolumenera kopiatuz (kopiatutako datuak segidan zifratuko dira sistema amu bezala dagoen sistema eragileak daukan gako ezberdinarekin).\n\nKontutan izan ezazu prozesu hau hasieraketa aurreko ingurunean (Windows hasi aurretik) egingo dela eta asko iraun dezakela; orduak edo egunak (sistemaren partizioaren tamaina eta ordenagailuaren potentziaren arabera).\n\nProzesua bertan bera uzti ahal izango duzu ordenagailua itzaliz, sistema eragilea hasieratu eta prozesua jarraitu. Hala ere, prozesua mozten baduzu, sistema kopiatzeko prozesu guztia haieratik hasi behar izando da berriro (sistemaren partizioaren edukia ezin daitekeelako aldatu klonatze prozesua martxan dagoenean).</string>
     <string lang="eu" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">Ezkutuko sistema eragilearen sortzeko prozesua bertan behera utzi nahi al duzu?n\nOharra: Orain uzten baduzu ezingo diozu prozesuari berrekin.</string>
     <string lang="eu" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">Sistema zifratzeko aurre-azterketa bertan behera utzi nahi al duzu?</string>
-    <string lang="eu" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt-en sistema zifratzeko aurre-azterketak huts egin du. Berriz saiatu nahi duzu?\n\n'Ez' aukeratzen baduzu, hasieraketa aurreko kautotze osagarria desinstalatuko da.\n\nOharrak:\n\n- VeraCrypt Hasieraketa Kargatzaileak ez badizu pasahitzik eskatu Windows hasi aurretik, agian zure sistema eragilea ez da abiatzen instalatuta dagoen unitatetik. Hori ez dago onartua.\n\n- AES ez den zifraketa algoritmo bat erabili baduzu eta aurre-azterketak huts egin badu (eta pasahitza sartu duzu), gaizki diseinatuta dagoen erabiltzaile baten errua izan daiteke. 'Ez' aukeratu ezazu eta sistemaren partizio/unitatea berriz zifratzen saiatu zatez, baina oraingoan AES zifratze algoritmoa erabiliz (zeinek memoria behar baxuenak dituen).\n\n- Zergati eta konponbide gehiago ikusteko: https://veracrypt.codeplex.com/wikipage?title=Troubleshooting</string>
+    <string lang="eu" key="BOOT_PRETEST_FAILED_RETRY">VeraCrypt-en sistema zifratzeko aurre-azterketak huts egin du. Berriz saiatu nahi duzu?\n\n'Ez' aukeratzen baduzu, hasieraketa aurreko kautotze osagarria desinstalatuko da.\n\nOharrak:\n\n- VeraCrypt Hasieraketa Kargatzaileak ez badizu pasahitzik eskatu Windows hasi aurretik, agian zure sistema eragilea ez da abiatzen instalatuta dagoen unitatetik. Hori ez dago onartua.\n\n- AES ez den zifraketa algoritmo bat erabili baduzu eta aurre-azterketak huts egin badu (eta pasahitza sartu duzu), gaizki diseinatuta dagoen erabiltzaile baten errua izan daiteke. 'Ez' aukeratu ezazu eta sistemaren partizio/unitatea berriz zifratzen saiatu zatez, baina oraingoan AES zifratze algoritmoa erabiliz (zeinek memoria behar baxuenak dituen).\n\n- Zergati eta konponbide gehiago ikusteko: https://www.veracrypt.fr/en/Troubleshooting.html</string>
     <string lang="eu" key="SYS_DRIVE_NOT_ENCRYPTED">Sistemaren partizioa/unitatea ez dirudi zifratuta dagoenik (ez zati bat, ez guztiz).</string>
     <string lang="eu" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">Zure sistemaren partizioa/unitatea (zatika edo guztiz) zifratuta dago.\n\nMesedez, sistemaren partizio/unitate osoa argitu jarraitu aurretik. Hori egiteko, 'Sistema' &gt; 'Sistemaren Partizioa/Unitatea Betirako Argitu' aukeratu VeraCrypt lehio nagusiaren menuan.</string>
     <string lang="eu" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">Sistemaren partizioa/unitatea (zatika edo guztiz) zifratuta dagoenean, ezin zara VeraCrypt-en bertsio zahar batera aldatu (baina berri bat instalatu edo martxan dagoena berrinstalatu bai).</string>
@@ -1414,6 +1414,14 @@
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
 	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
+    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
+    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
+    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
+    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
+    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
+    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
+    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
+    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

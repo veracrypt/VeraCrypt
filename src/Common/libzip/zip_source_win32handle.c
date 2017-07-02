@@ -344,9 +344,12 @@ _win32_read_file(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd
 	    }
 	    else {
 		h = ctx->ops->op_open(ctx);
-		if (h == INVALID_HANDLE_VALUE && GetLastError() == ERROR_FILE_NOT_FOUND) {
-		    zip_error_set(&ctx->error, ZIP_ER_READ, ENOENT);
-		    return -1;
+		if (h == INVALID_HANDLE_VALUE) {
+		    win32err = GetLastError();
+		    if (win32err == ERROR_FILE_NOT_FOUND || win32err == ERROR_PATH_NOT_FOUND) {
+		        zip_error_set(&ctx->error, ZIP_ER_READ, ENOENT);
+		        return -1;
+		    }
 		}
 	    }
 

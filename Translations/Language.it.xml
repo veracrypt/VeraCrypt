@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.20-BETA2">
+  <localization prog-version="1.21">
     <!-- Languages -->
     <language langid="it" name="Italiano" en-name="Italian" version="1.0.1" translators="Maurizio Ballo, Consiglio Gaetano" />
     <!-- Fonts -->
@@ -857,7 +857,7 @@
     <string lang="it" key="TC_INSTALLER_IS_RUNNING">L’installer di VeraCrypt è attualmente in esecuzione in questo sistema ed esegue o prepara l’installazione oppure aggiornamento di VeraCrypt. Prima di procedere, attendere per finire o chiudere esso. Se non potete chiudere l’installer, riavviare i computer prima di procedere.</string>
     <string lang="it" key="INSTALL_FAILED">Installazione fallita.</string>
     <string lang="it" key="UNINSTALL_FAILED">Disinstallazione fallita.</string>
-    <string lang="it" key="DIST_PACKAGE_CORRUPTED">Questo pacchetto di distribuzione è danneggiato. Provare a scaricarlo nuovamente (preferibilmente dal sito ufficiale di VeraCrypt all’indirizzo ww.veracrypt.org).</string>
+    <string lang="it" key="DIST_PACKAGE_CORRUPTED">Questo pacchetto di distribuzione è danneggiato. Provare a scaricarlo nuovamente (preferibilmente dal sito ufficiale di VeraCrypt all’indirizzo https://www.veracrypt.fr).</string>
     <string lang="it" key="CANNOT_WRITE_FILE_X">Impossibile scrivere il file %s</string>
     <string lang="it" key="EXTRACTING_VERB">Estrazione</string>
     <string lang="it" key="CANNOT_READ_FROM_PACKAGE">Impossibile leggere i dati dal pacchetto.</string>
@@ -1232,7 +1232,7 @@
     <string lang="it" key="HIDDEN_OS_CREATION_PREINFO_HELP">Nei passi successivi, VeraCrypt creerà il sistema operativo nascosto copiando il contenuto della partizione di sistema nel volume nascosto (i dati in copia saranno Codificati al volo con una chiave di codifica differente da quella usata per il sistema operativo di richiamo).\n\nNotate che il processo sarà eseguito in ambiente di pre-boot(prima dell’avvio di Windows) e può impiegare molto tempo per essere completato; diverse ore o anche diversi giorni (a seconda della dimensione della partizione di sistema e dalle prestazioni del vostro computer).\n\nVoi potrete interrompere il processo, spegnere il vostro computer, avviare il sistema operativo e riavviare il processo. Comunque, se interrompete tale processo, l’intera procedura di copia del sistema dovrà ripartire dall’inizio (perché il contenuto della partizione di sistema non deve cambiare durante la clonazione).</string>
     <string lang="it" key="CONFIRM_CANCEL_HIDDEN_OS_CREATION">Volete annullare l’intero processo di creazione del sistema operativo nascosto?\n\nNota: NON potrete ripristinare il processo se lo annullate adesso.</string>
     <string lang="it" key="CONFIRM_CANCEL_SYS_ENC_PRETEST">Volete annullare il pre-test per la codifica di sistema?</string>
-    <string lang="it" key="BOOT_PRETEST_FAILED_RETRY">La richiesta di codifica di sistema VeraCrypt è fallita. Volete ritentare?\n\nSelezionando 'No', il componente di autenticazione in pre-boot sarà disinstallato.\n\nNota:\n\n- Se il Boot Loader di VeraCrypt non vi richiede di digitare la password prima dell'avvio di Windows, è possibile che il vostro sistema operativo non si it is avvia dall'unità nella quale esso è installato. Questo non è supportato.\n\n- Se usate un algoritmo di cifratura diverso di AES e la richiesta è fallita (ed avete digitato la password), questo è stato causato da un driver designato inadeguatamente. Selezionare 'No', e ritentare la cifratura della partizione/unità di sistema, usando l'algoritmo di codifica AES (che ha dei requisiti di memoria inferiori).\n\n- Per più possibili cause e soluzioni, visitare: https://veracrypt.codeplex.com/wikipage?title=Troubleshooting</string>
+    <string lang="it" key="BOOT_PRETEST_FAILED_RETRY">La richiesta di codifica di sistema VeraCrypt è fallita. Volete ritentare?\n\nSelezionando 'No', il componente di autenticazione in pre-boot sarà disinstallato.\n\nNota:\n\n- Se il Boot Loader di VeraCrypt non vi richiede di digitare la password prima dell'avvio di Windows, è possibile che il vostro sistema operativo non si it is avvia dall'unità nella quale esso è installato. Questo non è supportato.\n\n- Se usate un algoritmo di cifratura diverso di AES e la richiesta è fallita (ed avete digitato la password), questo è stato causato da un driver designato inadeguatamente. Selezionare 'No', e ritentare la cifratura della partizione/unità di sistema, usando l'algoritmo di codifica AES (che ha dei requisiti di memoria inferiori).\n\n- Per più possibili cause e soluzioni, visitare: https://www.veracrypt.fr/en/Troubleshooting.html</string>
     <string lang="it" key="SYS_DRIVE_NOT_ENCRYPTED">La partizione/disco di sistema non sembra essere criptato (né parzialmente né interamente).</string>
     <string lang="it" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED">La vostra partizione/disco di sistema è criptato (parzialmente o completamente).\n\nDeCodificate la vostra partizione/disco interamente prima di procedere. Per fare questo, selezionate 'Sistema'&gt;'Decodifica definitivamente la partizione/disco di sistema' dal menu della barra strumenti della finestra principale di VeraCrypt.</string>
     <string lang="it" key="SETUP_FAILED_BOOT_DRIVE_ENCRYPTED_DOWNGRADE">Quando la partizione/unità di sistema è crittata (parzialmente o totalmente), non potete tornare ad una precedente versione di VeraCrypt (ma potete aggiornare o reinstallare la stessa versione di esso).</string>
@@ -1414,6 +1414,14 @@
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
 	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
+    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
+    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
+    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
+    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
+    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
+    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
+    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
+    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

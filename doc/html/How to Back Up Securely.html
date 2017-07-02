@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="How%20to%20Back%20Up%20Securely.html">How to Back Up Securely</a>
+</p></div>
+<div class="wikidoc">
+<div>
+<h2>How to Back Up Securely</h2>
+<p>Due to hardware or software errors/malfunctions, files stored on a VeraCrypt volume may become corrupted. Therefore, we strongly recommend that you backup all your important files regularly (this, of course, applies to any important data, not just to encrypted
+ data stored on VeraCrypt volumes).</p>
+<h3>Non-System Volumes</h3>
+<p>To back up a non-system VeraCrypt volume securely, it is recommended to follow these steps:</p>
+<ol>
+<li>Create a new VeraCrypt volume using the VeraCrypt Volume Creation Wizard (do not enable the
+<em>Quick Format</em> option or the <em>Dynamic</em> option). It will be your <em>
+backup</em> volume so its size should match (or be greater than) the size of your
+<em>main</em> volume.<br>
+<br>
+If the <em>main</em> volume is a hidden VeraCrypt volume (see the section <a href="Hidden%20Volume.html">
+<em>Hidden Volume</em></a>), the <em>backup</em> volume must be a hidden VeraCrypt volume too. Before you create the hidden
+<em>backup</em> volume, you must create a new host (outer) volume for it without enabling the
+<em>Quick Format</em> option. In addition, especially if the <em>backup</em> volume is file-hosted, the hidden
+<em>backup</em> volume should occupy only a very small portion of the container and the outer volume should be almost completely filled with files (otherwise, the plausible deniability of the hidden volume might be adversely affected).
+</li><li>Mount the newly created <em>backup</em> volume. </li><li>Mount the <em>main</em> volume. </li><li>Copy all files from the mounted <em>main</em> volume directly to the mounted <em>
+backup</em> volume. </li></ol>
+<h4>IMPORTANT: If you store the backup volume in any location that an adversary can repeatedly access (for example, on a device kept in a bank&rsquo;s safe deposit box), you should repeat all of the above steps (including the step 1) each time you want to back
+ up the volume (see below).</h4>
+<p>If you follow the above steps, you will help prevent adversaries from finding out:</p>
+<ul>
+<li>Which sectors of the volumes are changing (because you always follow step 1). This is particularly important, for example, if you store the backup volume on a device kept in a bank&rsquo;s safe deposit box (or in any other location that an adversary can
+ repeatedly access) and the volume contains a hidden volume (for more information, see the subsection
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">
+<em>Security Requirements and Precautions Pertaining to Hidden Volumes</em></a> in the chapter
+<a href="Plausible%20Deniability.html"><em>Plausible Deniability</em></a>).
+</li><li>That one of the volumes is a backup of the other. </li></ul>
+<h3>System Partitions</h3>
+<p>Note: In addition to backing up files, we recommend that you also back up your VeraCrypt Rescue Disk (select
+<em>System</em> &gt; <em>Create Rescue Disk</em>). For more information, see the section Vera<em>Crypt Rescue Disk</em>.</p>
+<p>To back up an encrypted system partition securely and safely, it is recommended to follow these steps:</p>
+<ol>
+<li>If you have multiple operating systems installed on your computer, boot the one that does not require pre-boot authentication.<br>
+<br>
+If you do not have multiple operating systems installed on your computer, you can boot a WinPE or BartPE CD/DVD (&lsquo;live&rsquo; Windows entirely stored on and booted from a CD/DVD; for more information, search the section
+<a href="FAQ.html"><em>Frequently Asked Questions</em></a> for the keyword &lsquo;BartPE&rsquo;).<br>
+<br>
+If none of the above is possible, connect your system drive as a secondary drive to another computer and then boot the operating system installed on the computer.<br>
+<br>
+Note: For security reasons, if the operating system that you want to back up resides in a hidden VeraCrypt volume (see the section
+<a href="Hidden%20Operating%20System.html">
+<em>Hidden Operating System</em></a>), then the operating system that you boot in this step must be either another hidden operating system or a &quot;live- CD&quot; operating system (see above). For more information, see the subsection
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">
+<em>Security Requirements and Precautions Pertaining to Hidden Volumes</em></a> in the chapter
+<a href="Plausible%20Deniability.html"><em>Plausible Deniability</em></a>.
+</li><li>Create a new non-system VeraCrypt volume using the VeraCrypt Volume Creation Wizard (do not enable the
+<em>Quick Format</em> option or the <em>Dynamic</em> option). It will be your <em>
+backup</em> volume so its size should match (or be greater than) the size of the system partition that you want to back up.<br>
+<br>
+If the operating system that you want to back up is installed in a hidden VeraCrypt volume (see the section
+<em>Hidden Operating System</em>), the <em>backup</em> volume must be a hidden VeraCrypt volume too. Before you create the hidden
+<em>backup</em> volume, you must create a new host (outer) volume for it without enabling the
+<em>Quick Format</em> option. In addition, especially if the <em>backup</em> volume is file-hosted, the hidden
+<em>backup</em> volume should occupy only a very small portion of the container and the outer volume should be almost completely filled with files (otherwise, the plausible deniability of the hidden volume might be adversely affected).
+</li><li>Mount the newly created <em>backup</em> volume. </li><li>Mount the system partition that you want to back up by following these steps:
+<ol type="a">
+<li>Click <em>Select Device</em> and then select the system partition that you want to back up (in case of a hidden operating system, select the partition containing the hidden volume in which the operating system is installed).
+</li><li>Click <em>OK</em>. </li><li>Select <em>System</em> &gt; <em>Mount Without Pre-Boot Authentication</em>. </li><li>Enter your pre-boot authentication password and click <em>OK</em>. </li></ol>
+</li><li>Mount the <em>backup</em> volume and then use a third-party program or a Windows tool to create an image of the filesystem that resides on the system partition (which was mounted as a regular VeraCrypt volume in the previous step) and store the image directly
+ on the mounted backup volume. </li></ol>
+<h4>IMPORTANT: If you store the backup volume in any location that an adversary can repeatedly access (for example, on a device kept in a bank&rsquo;s safe deposit box), you should repeat all of the above steps (including the step 2) each time you want to back
+ up the volume (see below).</h4>
+<p>If you follow the above steps, you will help prevent adversaries from finding out:</p>
+<ul>
+<li>Which sectors of the volumes are changing (because you always follow step 2). This is particularly important, for example, if you store the backup volume on a device kept in a bank&rsquo;s safe deposit box (or in any other location that an adversary can
+ repeatedly access) and the volume contains a hidden volume (for more information, see the subsection
+<a href="Security%20Requirements%20for%20Hidden%20Volumes.html">
+<em>Security Requirements and Precautions Pertaining to Hidden Volumes</em></a> in the chapter
+<a href="Plausible%20Deniability.html"><em>Plausible Deniability</em></a>).
+</li><li>That one of the volumes is a backup of the other. </li></ul>
+<h3>General Notes</h3>
+<p>If you store the backup volume in any location where an adversary can make a copy of the volume, consider encrypting the volume with a cascade of ciphers (for example, with AES-Twofish- Serpent). Otherwise, if the volume is encrypted only with a single encryption
+ algorithm and the algorithm is later broken (for example, due to advances in cryptanalysis), the attacker might be able to decrypt his copies of the volume. The probability that three distinct encryption algorithms will be broken is significantly lower than
+ the probability that only one of them will be broken.</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

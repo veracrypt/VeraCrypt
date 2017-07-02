@@ -4,7 +4,7 @@
 # by the TrueCrypt License 3.0.
 #
 # Modifications and additions to the original source code (contained in this file)
-# and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+# and all other portions of this file are Copyright (c) 2013-2017 IDRIX
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -38,14 +38,13 @@ export BUILD_INC := $(BASE_DIR)/Build/Include
 export AR ?= ar
 export CC ?= gcc
 export CXX ?= g++
-export AS := nasm
-export YASM := yasm
+export AS := yasm
 export RANLIB ?= ranlib
 
 export CFLAGS := -Wall
 export CXXFLAGS := -Wall -Wno-unused-parameter
 C_CXX_FLAGS := -MMD -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGE_FILES -I$(BASE_DIR) -I$(BASE_DIR)/Crypto
-export ASFLAGS := -Ox -D __GNUC__
+export ASFLAGS := -D __GNUC__ -D __YASM__
 export LFLAGS :=
 
 export PKG_CONFIG_PATH ?= /usr/local/lib/pkgconfig
@@ -136,10 +135,10 @@ ARCH = $(shell uname -m)
 
 ifneq (,$(filter i386 i486 i586 i686 x86,$(ARCH)))
 	CPU_ARCH = x86
-    ASFLAGS += -f elf32
+    ASFLAGS += -f elf32 -D __BITS__=32
 else ifneq (,$(filter x86_64 x86-64 amd64 x64,$(ARCH)))
 	CPU_ARCH = x64
-    ASFLAGS += -f elf64
+    ASFLAGS += -f elf64 -D __BITS__=64
 endif
 
 ifeq "$(origin NOASM)" "command line"
@@ -189,15 +188,15 @@ ifeq "$(shell uname -s)" "Linux"
 	endif
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
-		C_CXX_FLAGS += -fdata-sections -ffunction-sections
-		LFLAGS += -Wl,--gc-sections
+		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
+		LFLAGS += -Wl,--gc-sections -pie
 
 		ifneq "$(shell ld --help 2>&1 | grep sysv | wc -l)" "0"
 			LFLAGS += -Wl,--hash-style=sysv
 		endif
 
-		WXCONFIG_CFLAGS += -fdata-sections -ffunction-sections
-		WXCONFIG_CXXFLAGS += -fdata-sections -ffunction-sections
+		WXCONFIG_CFLAGS += -fdata-sections -ffunction-sections -fpie
+		WXCONFIG_CXXFLAGS += -fdata-sections -ffunction-sections -fpie
 	endif
 
 	ifneq "$(origin WXSTATIC)" "command line"
@@ -251,9 +250,9 @@ ifeq "$(shell uname -s)" "Darwin"
 		CXXFLAGS += -mssse3 -msse4.1
 	endif
 
-	AS := $(BASE_DIR)/Build/Tools/MacOSX/nasm
-	YASM := $(BASE_DIR)/Build/Tools/MacOSX/yasm
-	ASFLAGS += --prefix _
+	AS := $(BASE_DIR)/Build/Tools/MacOSX/yasm
+	export ASFLAGS32 := -D __GNUC__ -D __YASM__ -D __BITS__=32 --prefix=_ -f macho32
+	export ASFLAGS64 := -D __GNUC__ -D __YASM__ -D __BITS__=64 --prefix=_ -f macho64
 
 	ifeq "$(TC_BUILD_CONFIG)" "Release"
 
@@ -285,6 +284,24 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	PLATFORM := FreeBSD
 	PLATFORM_UNSUPPORTED := 1
 	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_FREEBSD
+	
+	CC := cc
+	CXX := c++
+
+	ifeq "$(SIMD_SUPPORTED)" "1"
+		CFLAGS += -msse2 -maes
+		CXXFLAGS += -msse2 -maes
+
+		ifeq "$(origin SSSE3)" "command line"
+			CFLAGS += -mssse3
+			CXXFLAGS += -mssse3
+		endif
+
+		ifeq "$(origin SSE41)" "command line"
+			CFLAGS += -mssse3 -msse4.1
+			CXXFLAGS += -mssse3 -msse4.1
+		endif
+	endif
 
 endif
 
@@ -344,6 +361,11 @@ all clean:
 		export LIBS="$(BASE_DIR)/$$DIR/$$PROJ.a $$LIBS"; \
 	done
 
+install:
+	$(MAKE) -C Main -f Main.make NAME=Main install
+
+package:
+	$(MAKE) -C Main -f Main.make NAME=Main package
 
 #------ wxWidgets build ------
 

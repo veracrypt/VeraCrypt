@@ -218,7 +218,7 @@ typedef SIMD_4x32 SIMD_32;
    } while(0);
 
 
-
+#if (!defined (DEBUG) || !defined (TC_WINDOWS_DRIVER))
 /*
 * SIMD Serpent Encryption of 4 blocks in parallel
 */
@@ -330,7 +330,7 @@ extern "C" void serpent_simd_decrypt_blocks_4(const unsigned __int8 in[], unsign
    B2.store_le(out + 32);
    B3.store_le(out + 48);
 }
-
+#endif
 #undef key_xor
 #undef transform
 #undef i_transform

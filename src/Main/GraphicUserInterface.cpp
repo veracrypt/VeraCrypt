@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -1087,125 +1087,171 @@ namespace VeraCrypt
 #endif
 	}
 
-	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, bool secure, const wxString &extraVars) const
+	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, const wxString &extraVars) const
 	{
-		wxString url = wxString (StringConverter::ToWide (secure ? TC_APPLINK_SECURE : TC_APPLINK));
+		wxString url = wxString (TC_APPLINK);
+		bool buildUrl = true;
 
 		if (linkId == L"donate")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Donation#VeraCryptDonation";
+			url = L"Donation.html";
 		}
 		else if (linkId == L"main")
 		{
-			url = wxString (StringConverter::ToWide (TC_HOMEPAGE));
+			url = wxString (TC_HOMEPAGE);
+			buildUrl = false;
+		}
+		else if (linkId == L"onlinehelp")
+		{
+			url = L"https://www.veracrypt.fr/en/Documentation.html";
+			buildUrl = false;
 		}
 		else if (linkId == L"localizations")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Language%20Packs";
+			url = L"Language Packs.html";
 		}
 		else if (linkId == L"beginnerstutorial" || linkId == L"tutorial")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Beginner%27s%20Tutorial";
+			url = L"Beginner's Tutorial.html";
 		}
 		else if (linkId == L"releasenotes" || linkId == L"history")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Release%20Notes";
+			url = L"Release Notes.html";
 		}
 		else if (linkId == L"hwacceleration")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hardware%20Acceleration";
+			url = L"Hardware Acceleration.html";
 		}
 		else if (linkId == L"parallelization")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Parallelization";
+			url = L"Parallelization.html";
 		}
 		else if (linkId == L"help")
 		{
-			url = L"https://veracrypt.codeplex.com/documentation";
+			url = L"Documentation.html";
 		}
 		else if (linkId == L"keyfiles")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Keyfiles";
+			url = L"Keyfiles.html";
 		}
 		else if (linkId == L"introcontainer")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Creating%20New%20Volumes";
+			url = L"Creating New Volumes.html";
 		}
 		else if (linkId == L"introsysenc")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+			url = L"System Encryption.html";
 		}
 		else if (linkId == L"hiddensysenc")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=VeraCrypt%20Hidden%20Operating%20System";
+			url = L"VeraCrypt Hidden Operating System.html";
 		}
 		else if (linkId == L"sysencprogressinfo")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+			url = L"System Encryption.html";
 		}
 		else if (linkId == L"hiddenvolume")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hidden%20Volume";
+			url = L"Hidden Volume.html";
 		}
 		else if (linkId == L"aes")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=AES";
+			url = L"AES.html";
 		}
 		else if (linkId == L"serpent")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Serpent";
+			url = L"Serpent.html";
 		}
 		else if (linkId == L"twofish")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Twofish";
+			url = L"Twofish.html";
 		}
 		else if (linkId == L"camellia")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Camellia";
+			url = L"Camellia.html";
 		}
 		else if (linkId == L"kuznyechik")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Kuznyechik";
+			url = L"Kuznyechik.html";
 		}
 		else if (linkId == L"cascades")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Cascades";
+			url = L"Cascades.html";
 		}
 		else if (linkId == L"hashalgorithms")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hash%20Algorithms";
+			url = L"Hash Algorithms.html";
 		}
 		else if (linkId == L"isoburning")
 		{
 			url = L"https://cdburnerxp.se/en/home";
+			buildUrl = false;
 		}
 		else if (linkId == L"sysfavorites")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Favorite%20Volumes";
+			url = L"System Favorite Volumes.html";
 		}
 		else if (linkId == L"favorites")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Favorite%20Volumes";
+			url = L"Favorite Volumes.html";
 		}
 		else if (linkId == L"hiddenvolprotection")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Protection%20of%20Hidden%20Volumes";
+			url = L"Protection of Hidden Volumes.html";
 		}
 		else if (linkId == L"faq")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=FAQ";
+			url = L"FAQ.html";
 		}
 		else if (linkId == L"downloads")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Downloads";
+			url = L"Downloads.html";
 		}
 		else if (linkId == L"news")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=News";
+			url = L"News.html";
 		}
 		else if (linkId == L"contact")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Contact";
+			url = L"Contact.html";
+		}
+		else
+		{
+			buildUrl = false;
+		}
+		
+		if (buildUrl)
+		{
+			wxString htmlPath = wstring (Application::GetExecutableDirectory());
+			bool localFile = true;
+
+#ifdef TC_RESOURCE_DIR
+			htmlPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/HTML/");
+#elif defined (TC_WINDOWS)
+			htmlPath += L"\\docs\\html\\en\\";
+#elif defined (TC_MACOSX)
+			htmlPath += L"/../Resources/doc/HTML/";
+#elif defined (TC_UNIX)
+			htmlPath = L"/usr/share/veracrypt/doc/HTML/";
+#else
+			localFile = false;
+#endif
+			if (localFile)
+			{
+				/* check if local file exists */
+				wxFileName htmlFile = htmlPath + url;
+				htmlFile.Normalize();
+				localFile = htmlFile.FileExists();
+			}
+
+			if (!localFile)
+			{
+				htmlPath = L"https://www.veracrypt.fr/en/";
+				url.Replace (L" ", L"%20");
+				url.Replace (L"'", L"%27");
+			}
+
+			url = htmlPath + url;
 		}
 
 		return url;
@@ -1216,51 +1262,19 @@ namespace VeraCrypt
 		wxString url;
 
 		BeginInteractiveBusyState (parent);
-		wxLaunchDefaultBrowser (GetHomepageLinkURL (linkId, false, extraVars), wxBROWSER_NEW_WINDOW);
+		wxLaunchDefaultBrowser (GetHomepageLinkURL (linkId, extraVars), wxBROWSER_NEW_WINDOW);
 		Thread::Sleep (200);
 		EndInteractiveBusyState (parent);
 	}
 
 	void GraphicUserInterface::OpenOnlineHelp (wxWindow *parent)
 	{
-		OpenHomepageLink (parent, L"help");
+		OpenHomepageLink (parent, L"onlinehelp");
 	}
 
 	void GraphicUserInterface::OpenUserGuide (wxWindow *parent)
 	{
-		try
-		{
-			wxString docPath = wstring (Application::GetExecutableDirectory());
-
-#ifdef TC_RESOURCE_DIR
-			docPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/VeraCrypt User Guide.pdf");
-#elif defined (TC_WINDOWS)
-			docPath += L"\\VeraCrypt User Guide.pdf";
-#elif defined (TC_MACOSX)
-			docPath += L"/../Resources/VeraCrypt User Guide.pdf";
-#elif defined (TC_UNIX)
-			docPath = L"/usr/share/veracrypt/doc/VeraCrypt User Guide.pdf";
-#else
-#	error TC_RESOURCE_DIR undefined
-#endif
-
-			wxFileName docFile = docPath;
-			docFile.Normalize();
-
-			try
-			{
-				Gui->OpenDocument (parent, docFile);
-			}
-			catch (...)
-			{
-				if (Gui->AskYesNo (LangString ["HELP_READER_ERROR"], true))
-					OpenOnlineHelp (parent);
-			}
-		}
-		catch (Exception &e)
-		{
-			Gui->ShowError (e);
-		}
+		OpenHomepageLink (parent, L"help");
 	}
 
 	void GraphicUserInterface::RestoreVolumeHeaders (shared_ptr <VolumePath> volumePath) const

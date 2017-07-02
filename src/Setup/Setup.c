@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -557,7 +557,7 @@ void StatusMessage (HWND hwndDlg, char *stringId)
 		SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_GETCOUNT, 0, 0) - 1, 0);
 }
 
-void StatusMessageParam (HWND hwndDlg, char *stringId, wchar_t *param)
+void StatusMessageParam (HWND hwndDlg, char *stringId, const wchar_t *param)
 {
 	wchar_t szTmp[1024];
 
@@ -576,23 +576,23 @@ void ClearLogWindow (HWND hwndDlg)
 	SendMessage (GetDlgItem (hwndDlg, IDC_LOG_WINDOW), LB_RESETCONTENT, 0, 0);
 }
 
-void RegMessage (HWND hwndDlg, wchar_t *txt)
+void RegMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	StatusMessageParam (hwndDlg, "ADDING_REG", txt);
 }
 
-void CopyMessage (HWND hwndDlg, wchar_t *txt)
+void _cdecl CopyMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	StatusMessageParam (hwndDlg, "INSTALLING", txt);
 }
 
-void RemoveMessage (HWND hwndDlg, wchar_t *txt)
+void RemoveMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	if (!Rollback)
 		StatusMessageParam (hwndDlg, "REMOVING", txt);
 }
 
-void IconMessage (HWND hwndDlg, wchar_t *txt)
+void IconMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	StatusMessageParam (hwndDlg, "ADDING_ICON", txt);
 }
@@ -672,7 +672,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 	for (i = 0; i < sizeof (szFiles) / sizeof (szFiles[0]); i++)
 	{
-		BOOL bResult, driver64 = FALSE;
+		BOOL bResult, driver64 = FALSE, zipFile = FALSE;
 		wchar_t szDir[TC_MAX_PATH];
 
 		if (wcsstr (szFiles[i], L"VeraCrypt Setup") != 0)
@@ -696,7 +696,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 			continue;
 		}
 
-		if (*szFiles[i] == L'A')
+		if ((*szFiles[i] == L'A') || (*szFiles[i] == L'X'))
 			StringCbCopyW (szDir, sizeof(szDir), szDestDir);
 		else if (*szFiles[i] == L'D')
 		{
@@ -717,7 +717,17 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		if (*szFiles[i] == L'I')
 			continue;
 
+		if (*szFiles[i] == L'X')
+			zipFile = TRUE;
+
 		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, szFiles[i] + 1);
+		if (zipFile)
+		{
+			// build folder name by removing .zip extension
+			wchar_t* ptr = wcsrchr (szTmp, L'.');
+			if (ptr)
+				*ptr = 0;
+		}
 
 		if (bUninstall == FALSE)
 			CopyMessage (hwndDlg, szTmp);
@@ -805,13 +815,24 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 								bResult = FALSE;
 								goto err;
 							}
-
-							bResult = SaveBufferToFile (
-								(char *) Decompressed_Files[fileNo].fileContent,
-								szTmp,
-								Decompressed_Files[fileNo].fileLength,
-								FALSE,
-								TRUE);
+							if (zipFile)
+							{
+								bResult = DecompressZipToDir (
+									Decompressed_Files[fileNo].fileContent,
+									Decompressed_Files[fileNo].fileLength,
+									szDir,
+									CopyMessage,
+									hwndDlg);
+							}
+							else
+							{
+								bResult = SaveBufferToFile (
+									(char *) Decompressed_Files[fileNo].fileContent,
+									szTmp,
+									Decompressed_Files[fileNo].fileLength,
+									FALSE,
+									TRUE);
+							}
 
 							if (driver64)
 							{
@@ -907,7 +928,10 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		{
 			if (driver64)
 				EnableWow64FsRedirection (FALSE);
-			bResult = StatDeleteFile (szTmp, TRUE);
+			if (zipFile)
+				bResult = StatRemoveDirectory (szTmp);
+			else
+				bResult = StatDeleteFile (szTmp, TRUE);
 			if (driver64)
 				EnableWow64FsRedirection (TRUE);
 
@@ -991,36 +1015,42 @@ err:
 				return FALSE;
 		}
 	}
-
-	// Language pack
+	
 	if (bUninstall == FALSE)
 	{
 		WIN32_FIND_DATA f;
 		HANDLE h;
 
-		SetCurrentDirectory (SetupFilesDir);
-		h = FindFirstFile (L"Language.*.xml", &f);
+		SetCurrentDirectory (szDestDir);
+
+		// remove PDF from previous version if any
+		h = FindFirstFile (L"VeraCrypt User Guide*.pdf", &f);
 
 		if (h != INVALID_HANDLE_VALUE)
 		{
-			wchar_t d[MAX_PATH*2];
-			StringCbPrintfW (d, sizeof(d), L"%s%s", szDestDir, f.cFileName);
-			CopyMessage (hwndDlg, d);
-			TCCopyFile (f.cFileName, d);
+			do
+			{
+				StatDeleteFile (f.cFileName, TRUE);
+			}
+			while (FindNextFile(h, &f) != 0);
+
 			FindClose (h);
 		}
 
-		SetCurrentDirectory (SetupFilesDir);
-		SetCurrentDirectory (L"Setup files");
-		h = FindFirstFile (L"VeraCrypt User Guide.*.pdf", &f);
+		// remove language XML files from previous version if any
+		h = FindFirstFile (L"Language*.xml", &f);
+
 		if (h != INVALID_HANDLE_VALUE)
 		{
-			wchar_t d[MAX_PATH*2];
-			StringCbPrintfW (d, sizeof(d), L"%s%s", szDestDir, f.cFileName);
-			CopyMessage (hwndDlg, d);
-			TCCopyFile (f.cFileName, d);
+			do
+			{
+				StatDeleteFile (f.cFileName, TRUE);
+			}
+			while (FindNextFile(h, &f) != 0);
+
 			FindClose (h);
 		}
+
 		SetCurrentDirectory (SetupFilesDir);
 	}
 
@@ -1044,7 +1074,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 			StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING));
 			RegSetValueEx (hkey, L"DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t));
 
-			StringCbCopyW (szTmp, sizeof(szTmp), _T(TC_HOMEPAGE));
+			StringCbCopyW (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 			RegSetValueEx (hkey, L"URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t));
 
 			RegCloseKey (hkey);
@@ -1169,7 +1199,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 	if (RegSetValueEx (hkey, L"Publisher", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
-	StringCbCopyW (szTmp, sizeof(szTmp), _T(TC_HOMEPAGE));
+	StringCbCopyW (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 	if (RegSetValueEx (hkey, L"URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
@@ -1834,7 +1864,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 		f = _wfopen (szTmp2, L"w");
 		if (f)
 		{
-			fprintf (f, "[InternetShortcut]\nURL=%s\n", TC_APPLINK);
+			fwprintf (f, L"[InternetShortcut]\nURL=%s\n", TC_APPLINK);
 
 			CheckFileStreamWriteErrors (hwndDlg, f, szTmp2);
 			fclose (f);

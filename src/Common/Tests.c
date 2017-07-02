@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -584,7 +584,7 @@ BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
 	NTSTATUS saveStatus = STATUS_SUCCESS;
-	if (bUseSSE && (HasSSE2() || HasSSE41()))
+	if (bUseSSE && (HasISSE() || HasSSE2()))
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
 	while (vector[i].hexInput && vector[i].hexOutput)
@@ -601,7 +601,7 @@ BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
 	}
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && bUseSSE && (HasSSE2() || HasSSE41()))
+	if (NT_SUCCESS (saveStatus) && bUseSSE && (HasISSE() || HasSSE2()))
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 

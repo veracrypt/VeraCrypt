@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -163,11 +163,12 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 					 FormatSectorSize,
 					 FALSE);
 
-	if (nStatus != 0)
+	/* cryptoInfo sanity check to make Coverity happy eventhough it can't be NULL if nStatus = 0 */
+	if ((nStatus != 0) || !cryptoInfo)
 	{
 		burn (header, sizeof (header));
 		VirtualUnlock (header, sizeof (header));
-		return nStatus;
+		return nStatus? nStatus : ERR_OUTOFMEMORY;
 	}
 
 begin_format:
@@ -475,6 +476,7 @@ begin_format:
 	case FILESYS_NONE:
 	case FILESYS_NTFS:
 	case FILESYS_EXFAT:
+	case FILESYS_REFS:
 
 		if (volParams->bDevice && !StartFormatWriteThread())
 		{
@@ -626,7 +628,7 @@ begin_format:
 	}
 
 #ifndef DEBUG
-	if (volParams->quickFormat && volParams->fileSystem != FILESYS_NTFS && volParams->fileSystem != FILESYS_EXFAT)
+	if (volParams->quickFormat && volParams->fileSystem != FILESYS_NTFS && volParams->fileSystem != FILESYS_EXFAT && volParams->fileSystem != FILESYS_REFS)
 		Sleep (500);	// User-friendly GUI
 #endif
 
@@ -660,13 +662,13 @@ error:
 		goto fv_end;
 	}
 
-	if (volParams->fileSystem == FILESYS_NTFS || volParams->fileSystem == FILESYS_EXFAT)
+	if (volParams->fileSystem == FILESYS_NTFS || volParams->fileSystem == FILESYS_EXFAT || volParams->fileSystem == FILESYS_REFS)
 	{
 		// Quick-format volume as NTFS
 		int driveNo = GetLastAvailableDrive ();
 		MountOptions mountOptions;
 		int retCode;
-		int fsType = (volParams->fileSystem == FILESYS_EXFAT)? FILESYS_EXFAT: FILESYS_NTFS;
+		int fsType = volParams->fileSystem;
 
 		ZeroMemory (&mountOptions, sizeof (mountOptions));
 
@@ -931,6 +933,9 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 			break;
 		case FILESYS_EXFAT:
 			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"EXFAT");
+			break;
+		case FILESYS_REFS:
+			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"ReFS");
 			break;
 		default:
 			return FALSE;

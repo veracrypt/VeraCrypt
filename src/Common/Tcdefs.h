@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -55,15 +55,15 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.20-BETA2"
+#define VERSION_STRING					"1.21"
 
 // Version number to compare against driver
-#define VERSION_NUM						0x0120
+#define VERSION_NUM						0x0121
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"December 30th, 2016"
-#define TC_RELEASE_DATE_YEAR			2016
-#define TC_RELEASE_DATE_MONTH			 12
+#define TC_STR_RELEASE_DATE			L"July 1, 2017"
+#define TC_RELEASE_DATE_YEAR			2017
+#define TC_RELEASE_DATE_MONTH			 07
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -235,7 +235,15 @@ void ThrowFatalException(int line);
 #include <ntddk.h>		/* Standard header file for nt drivers */
 #include <ntdddisk.h>		/* Standard I/O control codes  */
 
-#define TCalloc(size) ((void *) ExAllocatePoolWithTag( NonPagedPool, size, 'MMCV' ))
+/* defines needed for using enhanced protection of NX pool under Windows 8 and later */
+#define NonPagedPoolNx  512
+#define MdlMappingNoExecute     0x40000000
+
+/* variables used in the implementation of enhanced protection of NX pool under Windows 8 and later */
+extern POOL_TYPE ExDefaultNonPagedPoolType;
+extern ULONG ExDefaultMdlProtection;
+
+#define TCalloc(size) ((void *) ExAllocatePoolWithTag( ExDefaultNonPagedPoolType, size, 'MMCV' ))
 #define TCfree(memblock) ExFreePoolWithTag( memblock, 'MMCV' )
 
 #define DEVICE_DRIVER
@@ -359,9 +367,8 @@ void EraseMemory (void *memory, int size);
 
 #define MAX_URL_LENGTH	2084 /* Internet Explorer limit. Includes the terminating null character. */
 
-#define TC_HOMEPAGE "http://www.idrix.fr/"
-#define TC_APPLINK "https://veracrypt.codeplex.com"
-#define TC_APPLINK_SECURE "https://veracrypt.codeplex.com"
+#define TC_HOMEPAGE L"https://www.idrix.fr/"
+#define TC_APPLINK L"https://www.veracrypt.fr"
 
 enum
 {

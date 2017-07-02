@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses'
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -139,7 +139,7 @@ PutBoot (fatparams * ft, unsigned char *boot)
 	int cnt = 0;
 
 	boot[cnt++] = 0xeb;	/* boot jump */
-	boot[cnt++] = 0x3c;
+	boot[cnt++] = (ft->size_fat == 32)? 0x58: 0x3c;
 	boot[cnt++] = 0x90;
 	memcpy (boot + cnt, "MSDOS5.0", 8); /* system id */
 	cnt += 8;

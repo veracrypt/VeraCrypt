@@ -285,23 +285,26 @@ BEGIN
     LTEXT           "",IDT_PKCS11_LIB_HELP,16,63,286,65
 END
 
-IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 370, 139
+IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 374, 165
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,79,339,10
-    DEFPUSHBUTTON   "OK",IDOK,257,115,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,115,50,14
-    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,53
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,8,64,355,44
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,339,10
+    DEFPUSHBUTTON   "OK",IDOK,255,141,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,313,141,50,14
+    GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,8,7,355,45
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,53,355,44
     CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,18,94,340,10
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,16,83,340,10
     CONTROL         "Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)",IDC_DISABLE_BOOT_LOADER_PIM_PROMPT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,20,339,9
     CONTROL         "Do not request Hash algorithm in the pre-boot authentication screen",IDC_DISABLE_BOOT_LOADER_HASH_PROMPT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,35,339,9
+    PUSHBUTTON      "Display EFI Platform Information",IDC_SHOW_PLATFORMINFO,187,112,173,14
+    PUSHBUTTON      "Edit Boot Loader Configuration",IDC_EDIT_DCSPROP,10,112,173,14
+    GROUPBOX        "Advanced Options",IDT_ADVANCED_OPTIONS,7,99,355,36
 END
 
 IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 370, 248
@@ -416,7 +419,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_PREFERENCES_DLG, DIALOG
     BEGIN
@@ -481,9 +484,9 @@ BEGIN
     IDD_EFI_SYSENC_SETTINGS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 363
+        RIGHTMARGIN, 367
         TOPMARGIN, 7
-        BOTTOMMARGIN, 129
+        BOTTOMMARGIN, 155
     END
 
     IDD_PERFORMANCE_SETTINGS, DIALOG
@@ -527,8 +530,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,20,2,0
- PRODUCTVERSION 1,20,2,0
+ FILEVERSION 1,21,2,0
+ PRODUCTVERSION 1,21,2,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -545,11 +548,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt"
-            VALUE "FileVersion", "1.20-BETA2"
+            VALUE "FileVersion", "1.21"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.20-BETA2"
+            VALUE "ProductVersion", "1.21"
         END
     END
     BLOCK "VarFileInfo"
@@ -603,7 +606,7 @@ IDB_SYS_DRIVEICON_MASK  BITMAP                  "System_drive_icon_mask_96dpi.bm
 // Menu
 //
 
-IDR_MENU MENU 
+IDR_MENU MENU
 BEGIN
     POPUP "&Volumes"
     BEGIN
@@ -638,7 +641,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Create Rescue Disk...",       IDM_CREATE_RESCUE_DISK
         MENUITEM "Verify Rescue Disk",          IDM_VERIFY_RESCUE_DISK
-        MENUITEM "Verify Rescue Disk Image", IDM_VERIFY_RESCUE_DISK_ISO
+        MENUITEM "Verify Rescue Disk Image",    IDM_VERIFY_RESCUE_DISK_ISO
         MENUITEM SEPARATOR
         MENUITEM "Mount Without Pre-Boot &Authentication...", IDM_MOUNT_SYSENC_PART_WITHOUT_PBA
         MENUITEM SEPARATOR
@@ -722,7 +725,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_UACSTRING           "VeraCrypt"
 END

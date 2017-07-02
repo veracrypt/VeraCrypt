@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file)
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -772,7 +772,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	Password *password = volParams->password;
 	int pkcs5_prf = volParams->pkcs5;
 	int pim = volParams->pim;
-	DISK_GEOMETRY driveGeometry;
+	DISK_GEOMETRY_EX driveGeometry;
 	HWND hwndDlg = volParams->hwndDlg;
 
 
@@ -855,13 +855,13 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 		NULL);
 
 
-	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
+	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
 	}
 
-	sectorSize = driveGeometry.BytesPerSector;
+	sectorSize = driveGeometry.Geometry.BytesPerSector;
 
 
 	nStatus = OpenBackupHeader (dev, devicePath, password, pkcs5_prf, pim, &masterCryptoInfo, headerCryptoInfo, deviceSize);
@@ -1282,7 +1282,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	HWND hwndDlg = volParams->hwndDlg;
 	int pkcs5_prf = volParams->pkcs5;
 	int pim = volParams->pim;
-	DISK_GEOMETRY driveGeometry;
+	DISK_GEOMETRY_EX driveGeometry;
 
 
 	buf = (char *) TCalloc (TC_MAX_NONSYS_INPLACE_ENC_WORK_CHUNK_SIZE);
@@ -1357,15 +1357,15 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 		NULL);
 
 
-	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
+	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
 	}
 
-	if (	(driveGeometry.BytesPerSector == 0)
-		||	(driveGeometry.BytesPerSector > TC_MAX_VOLUME_SECTOR_SIZE)
-		|| (driveGeometry.BytesPerSector % ENCRYPTION_DATA_UNIT_SIZE != 0)
+	if (	(driveGeometry.Geometry.BytesPerSector == 0)
+		||	(driveGeometry.Geometry.BytesPerSector > TC_MAX_VOLUME_SECTOR_SIZE)
+		|| (driveGeometry.Geometry.BytesPerSector % ENCRYPTION_DATA_UNIT_SIZE != 0)
 		)
 	{
 		Error ("SECTOR_SIZE_UNSUPPORTED", hwndDlg);
@@ -1373,7 +1373,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 		goto closing_seq;
 	}
 
-	sectorSize = driveGeometry.BytesPerSector;
+	sectorSize = driveGeometry.Geometry.BytesPerSector;
 
 
 	tmpSectorBuf = (byte *) TCalloc (sectorSize);
