@@ -474,12 +474,12 @@ namespace VeraCrypt
 
 #endif // SETUP
 
-	File::File (wstring path, bool readOnly, bool create) : Elevated (false), FileOpen (false), ReadOnly (readOnly), LastError(0)
+	File::File (wstring path, bool readOnly, bool create, bool useNormalAttributes) : Elevated (false), FileOpen (false), ReadOnly (readOnly), LastError(0)
 	{
 		Handle = CreateFile (path.c_str(),
 			readOnly ? GENERIC_READ : GENERIC_READ | GENERIC_WRITE,
 			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, create ? CREATE_ALWAYS : OPEN_EXISTING,
-			FILE_FLAG_RANDOM_ACCESS | FILE_FLAG_WRITE_THROUGH, NULL);
+			useNormalAttributes? FILE_ATTRIBUTE_NORMAL : (FILE_FLAG_RANDOM_ACCESS | FILE_FLAG_WRITE_THROUGH), NULL);
 
 		if (Handle != INVALID_HANDLE_VALUE)
 		{
@@ -2128,13 +2128,27 @@ namespace VeraCrypt
 		GetVolumeESP(pathESP);
 		if (szFilePath[0] != L'\\')
 			pathESP += L"\\";
-		File f(pathESP + szFilePath, false, true);
+
 		fileContent.resize(dwSize);
 		if (bAddUTF8BOM)
 			memcpy (fileContent.data(), "\xEF\xBB\xBF", 3);
 		memcpy (&fileContent[dwOffset], pbData, dwDataLen);
-		f.Write(fileContent.data(), dwSize);
-		f.Close();
+
+		try
+		{
+			File f(pathESP + szFilePath, false, true);
+			f.Write(fileContent.data(), dwSize);
+			f.Close();
+		}
+		catch (SystemException &e)
+		{
+			if (e.ErrorCode != ERROR_INVALID_PARAMETER)
+				throw;
+			// try again with normal attributes
+			File f(pathESP + szFilePath, false, true, true);
+			f.Write(fileContent.data(), dwSize);
+			f.Close();
+		}
 	}
 
 	EfiBoot::EfiBoot() {
@@ -2422,9 +2436,22 @@ namespace VeraCrypt
 	void EfiBoot::SaveFile(const wchar_t* name, byte* data, DWORD size) {
 		wstring path = EfiBootPartPath;
 		path += name;
-		File f(path, false, true);
-		f.Write(data, size);
-		f.Close();
+		try
+		{
+			File f(path, false, true);
+			f.Write(data, size);
+			f.Close();
+		}
+		catch (SystemException &e)
+		{
+			if (e.ErrorCode != ERROR_INVALID_PARAMETER)
+				throw;
+
+			// try again with normal attributes
+			File f(path, false, true, true);
+			f.Write(data, size);
+			f.Close();
+		}
 	}
 
 	void EfiBoot::GetFileSize(const wchar_t* name, unsigned __int64& size) {
