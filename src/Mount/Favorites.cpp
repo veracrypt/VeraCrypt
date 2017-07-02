@@ -678,7 +678,7 @@ namespace VeraCrypt
 			else
 				favorite.TrueCryptMode = -1;
 			
-			if (favorite.TrueCryptMode)
+			if (favorite.TrueCryptMode > 0)
 				favorite.Pim = 0;
 
 			XmlGetAttributeText (xml, "pkcs5", label, sizeof (label));
