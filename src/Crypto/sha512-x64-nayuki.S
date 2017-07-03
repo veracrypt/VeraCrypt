@@ -22,8 +22,9 @@
  */
  
 # Adapted for VeraCrypt
-# Adapt to Windows calling convention when building on Windows.
-# avoid using xmm6 register since it must be preserved on Windows. We use MMX registers instead.
+# Adapt to Windows build:
+#  - specific calling convention
+#  - avoid using xmm6 register since it must be preserved. We use the stack to save RBX, RDI and RSI
 
 
 /* void sha512_compress_nayuki(uint64_t state[8], const uint8_t block[128]) */
@@ -64,15 +65,19 @@ _sha512_compress_nayuki:
  movq %r13, %xmm3
  movq %r14, %xmm4
  movq %r15, %xmm5
- movq %rbx, %mm0
+
 .ifdef WINABI
- movq %rdi, %mm1
- movq %rsi, %mm2
+ subq $152, %rsp
+ movq %rbx, (0*8 + 128)(%rsp)
+ movq %rdi, (1*8 + 128)(%rsp)
+ movq %rsi, (2*8 + 128)(%rsp)
  movq %rcx, %rdi
  movq %rdx, %rsi
-.endif
+ .else
+ movq %rbx, %xmm6
  subq $128, %rsp
-
+.endif
+ 
 
  movq 0(%rdi), %r8
  movq 8(%rdi), %r9
@@ -182,16 +187,16 @@ _sha512_compress_nayuki:
  movq %xmm3, %r13
  movq %xmm4, %r14
  movq %xmm5, %r15
- movq %mm0, %rbx
 
 .ifdef WINABI
- movq %mm1, %rdi
- movq %mm2, %rsi
-.endif
-
- emms
-
+ movq (0*8 + 128)(%rsp), %rbx
+ movq (1*8 + 128)(%rsp), %rdi
+ movq (2*8 + 128)(%rsp), %rsi
+ addq $152, %rsp
+ .else
+ movq %xmm6, %rbx
  addq $128, %rsp
+.endif
 
  retq
 
