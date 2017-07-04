@@ -200,10 +200,10 @@ static uint64 xgetbv()
 #endif
 }
 
-int g_x86DetectionDone = 0;
-int g_hasISSE = 0, g_hasSSE2 = 0, g_hasSSSE3 = 0, g_hasMMX = 0, g_hasAESNI = 0, g_hasCLMUL = 0, g_isP4 = 0;
-int g_hasAVX = 0, g_hasAVX2 = 0, g_hasBMI2 = 0, g_hasSSE42 = 0, g_hasSSE41 = 0, g_isIntel = 0, g_isAMD = 0;
-uint32 g_cacheLineSize = CRYPTOPP_L1_CACHE_LINE_SIZE;
+volatile int g_x86DetectionDone = 0;
+volatile int g_hasISSE = 0, g_hasSSE2 = 0, g_hasSSSE3 = 0, g_hasMMX = 0, g_hasAESNI = 0, g_hasCLMUL = 0, g_isP4 = 0;
+volatile int g_hasAVX = 0, g_hasAVX2 = 0, g_hasBMI2 = 0, g_hasSSE42 = 0, g_hasSSE41 = 0, g_isIntel = 0, g_isAMD = 0;
+volatile uint32 g_cacheLineSize = CRYPTOPP_L1_CACHE_LINE_SIZE;
 
 VC_INLINE int IsIntel(const uint32 output[4])
 {
@@ -379,6 +379,24 @@ int is_aes_hw_cpu_supported ()
 	}
 
 	return bHasAESNI;
+}
+
+void DisableCPUExtendedFeatures ()
+{
+	g_hasSSE2 = 0;
+	g_hasISSE = 0;
+	g_hasMMX = 0;
+	g_hasSSE2 = 0;
+	g_hasISSE = 0;
+	g_hasMMX = 0;
+	g_hasAVX = 0;
+	g_hasAVX2 = 0;
+	g_hasBMI2 = 0;
+	g_hasSSE42 = 0;
+	g_hasSSE41 = 0;
+	g_hasSSSE3 = 0;
+	g_hasAESNI = 0;
+	g_hasCLMUL = 0;
 }
 
 #endif

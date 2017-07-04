@@ -186,38 +186,31 @@ extern "C" {
 #define CRYPTOPP_CPUID_AVAILABLE
 
 // these should not be used directly
-extern int g_x86DetectionDone;
-extern int g_hasAVX;
-extern int g_hasAVX2;
-extern int g_hasBMI2;
-extern int g_hasSSE42;
-extern int g_hasSSE41;
-extern int g_hasSSSE3;
-extern int g_hasAESNI;
-extern int g_hasCLMUL;
-extern int g_isP4;
-extern int g_isIntel;
-extern int g_isAMD;
-extern uint32 g_cacheLineSize;
+extern volatile int g_x86DetectionDone;
+extern volatile int g_hasSSE2;
+extern volatile int g_hasISSE;
+extern volatile int g_hasMMX;
+extern volatile int g_hasAVX;
+extern volatile int g_hasAVX2;
+extern volatile int g_hasBMI2;
+extern volatile int g_hasSSE42;
+extern volatile int g_hasSSE41;
+extern volatile int g_hasSSSE3;
+extern volatile int g_hasAESNI;
+extern volatile int g_hasCLMUL;
+extern volatile int g_isP4;
+extern volatile int g_isIntel;
+extern volatile int g_isAMD;
+extern volatile uint32 g_cacheLineSize;
 void DetectX86Features(); // must be called at the start of the program/driver
 int CpuId(uint32 input, uint32 *output);
-
-#if CRYPTOPP_BOOL_X64
-#define HasSSE2()	1
-#define HasISSE()	1
-#define HasMMX()	1
-#else
-
-extern int g_hasSSE2;
-extern int g_hasISSE;
-extern int g_hasMMX;
+// disable all CPU extended features (e.g. SSE, AVX, AES) that may have
+// been enabled by DetectX86Features.
+void DisableCPUExtendedFeatures (); 
 
 #define HasSSE2()	g_hasSSE2
 #define HasISSE()	g_hasISSE
 #define HasMMX()	g_hasMMX
-
-#endif
-
 #define HasSSE42() g_hasSSE42
 #define HasSSE41() g_hasSSE41
 #define HasSAVX() g_hasAVX

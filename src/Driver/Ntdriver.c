@@ -153,7 +153,16 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 		if (startKeyValue->Type == REG_DWORD && *((uint32 *) startKeyValue->Data) == SERVICE_BOOT_START)
 		{
 			if (!SelfTestsPassed)
-				TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+			{
+				// in case of system encryption, if self-tests fail, disable all extended CPU
+				// features and try again in order to workaround faulty configurations
+				DisableCPUExtendedFeatures ();
+				SelfTestsPassed = AutoTestAlgorithms();
+
+				// BUG CHECK if the self-tests still fail
+				if (!SelfTestsPassed)
+					TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+			}
 
 			LoadBootArguments();
 			VolumeClassFilterRegistered = IsVolumeClassFilterRegistered();

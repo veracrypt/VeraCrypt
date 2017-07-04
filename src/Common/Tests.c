@@ -1355,18 +1355,45 @@ BOOL AutoTestAlgorithms (void)
 {
 	BOOL result = TRUE;
 	BOOL hwEncryptionEnabled = IsHwEncryptionEnabled();
+#if defined (_MSC_VER) && !defined (_UEFI)
+	BOOL exceptionCatched = FALSE;
+	__try
+	{
+#endif
+		EnableHwEncryption (FALSE);
 
-	EnableHwEncryption (FALSE);
+		if (!DoAutoTestAlgorithms())
+			result = FALSE;
 
-	if (!DoAutoTestAlgorithms())
-		result = FALSE;
+		EnableHwEncryption (TRUE);
 
-	EnableHwEncryption (TRUE);
+		if (!DoAutoTestAlgorithms())
+			result = FALSE;
 
-	if (!DoAutoTestAlgorithms())
-		result = FALSE;
+		EnableHwEncryption (hwEncryptionEnabled);
+#if defined (_MSC_VER) && !defined (_UEFI)
+	}
+    __except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		exceptionCatched = TRUE;
+	}
 
-	EnableHwEncryption (hwEncryptionEnabled);
+	if (exceptionCatched)
+	{
+		/* unexepected exception raised. Disable all CPU extended feature and try again */
+		EnableHwEncryption (hwEncryptionEnabled);
+		DisableCPUExtendedFeatures ();
+		__try
+		{
+			result = DoAutoTestAlgorithms();
+		}
+	    __except (EXCEPTION_EXECUTE_HANDLER)
+		{
+			/* exception still occuring. Report failure. */
+			result = FALSE;
+		}
+	}
+#endif
 	return result;
 }
 
