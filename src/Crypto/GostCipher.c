@@ -96,7 +96,7 @@ void gost_set_key(const byte *key, gost_kds *ks, int useDynamicSbox)
 	    byte sbox_seed[64];
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	    KFLOATING_SAVE floatingPointState;
-	    NTSTATUS saveStatus = STATUS_SUCCESS;
+	    NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	    if (HasSSE2() || HasSSE41())
 		    saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
@@ -106,7 +106,7 @@ void gost_set_key(const byte *key, gost_kds *ks, int useDynamicSbox)
 	    STREEBOG_finalize(&sctx, sbox_seed);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	    if (NT_SUCCESS (saveStatus) && (HasSSE2() || HasSSE41()))
+	    if (NT_SUCCESS (saveStatus))
 		    KeRestoreFloatingPointState (&floatingPointState);
 #endif
 

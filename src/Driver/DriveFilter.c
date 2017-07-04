@@ -327,10 +327,14 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 	status = TCReadDevice (LowerDeviceObject, ioBuffer, offset, TC_SECTOR_SIZE_BIOS);
 	if (NT_SUCCESS (status))
 	{
-#if !defined (_WIN64)
-		KFLOATING_SAVE floatingPointState;
-		NTSTATUS saveStatus = STATUS_SUCCESS;
-		if (HasISSE()|| (HasSSE2() && HasMMX()))
+		NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+#ifdef _WIN64
+		XSTATE_SAVE SaveState;
+		if (g_isIntel && HasSAVX())
+			saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+#else
+		KFLOATING_SAVE floatingPointState;		
+		if (HasISSE() || (HasSSSE3() && HasMMX()))
 			saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
 		WHIRLPOOL_add (ioBuffer, TC_BOOT_SECTOR_PIM_VALUE_OFFSET, &whirlpool);
@@ -367,8 +371,10 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 			sha512_end (&BootLoaderFingerprint [WHIRLPOOL_DIGESTSIZE], &sha2);
 		}
 
-#if !defined (_WIN64)
-		if (NT_SUCCESS (saveStatus) && (HasISSE() || (HasSSE2() && HasMMX())))
+		if (NT_SUCCESS (saveStatus))
+#ifdef _WIN64
+			KeRestoreExtendedProcessorState(&SaveState);
+#else
 			KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	}

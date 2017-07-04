@@ -260,6 +260,26 @@ typedef int BOOL;
 #define FALSE !TRUE
 #endif
 
+typedef NTSTATUS (NTAPI *KeSaveExtendedProcessorStateFn) (
+    __in ULONG64 Mask,
+    PXSTATE_SAVE XStateSave
+    );
+
+
+typedef VOID (NTAPI *KeRestoreExtendedProcessorStateFn) (
+	PXSTATE_SAVE XStateSave
+	);
+
+extern NTSTATUS NTAPI KeSaveExtendedProcessorState (
+    __in ULONG64 Mask,
+    PXSTATE_SAVE XStateSave
+    );
+
+
+extern VOID NTAPI KeRestoreExtendedProcessorState (
+	PXSTATE_SAVE XStateSave
+	);
+
 #else				/* !TC_WINDOWS_DRIVER */
 #if !defined(_UEFI)
 #define TCalloc malloc

@@ -73,6 +73,11 @@
 #pragma alloc_text(INIT,DriverEntry)
 #pragma alloc_text(INIT,TCCreateRootDeviceObject)
 
+/* We need to silence 'type cast' warning in order to use MmGetSystemRoutineAddress.
+ * MmGetSystemRoutineAddress() should have been declare FARPROC instead of PVOID.
+ */
+#pragma warning(disable:4055)
+
 PDRIVER_OBJECT TCDriverObject;
 PDEVICE_OBJECT RootDeviceObject = NULL;
 static KMUTEX RootDeviceControlMutex;
@@ -91,6 +96,8 @@ static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
 static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
 static BOOL EnableExtendedIoctlSupport = FALSE;
+static KeSaveExtendedProcessorStateFn KeSaveExtendedProcessorStatePtr = NULL;
+static KeRestoreExtendedProcessorStateFn KeRestoreExtendedProcessorStatePtr = NULL;
 
 POOL_TYPE ExDefaultNonPagedPoolType = NonPagedPool;
 ULONG ExDefaultMdlProtection = 0;
@@ -117,6 +124,15 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	{
 		ExDefaultNonPagedPoolType = (POOL_TYPE) NonPagedPoolNx;
 		ExDefaultMdlProtection = MdlMappingNoExecute;
+	}
+
+	// KeSaveExtendedProcessorState/KeRestoreExtendedProcessorState are available starting from Windows 7
+	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 1))
+	{
+		UNICODE_STRING funcName;
+		RtlInitUnicodeString(&funcName, L"KeSaveExtendedProcessorState");
+		KeSaveExtendedProcessorStatePtr = (KeSaveExtendedProcessorStateFn) MmGetSystemRoutineAddress(&funcName);
+		KeRestoreExtendedProcessorStatePtr = (KeRestoreExtendedProcessorStateFn) MmGetSystemRoutineAddress(&funcName);
 	}
 
 	// Load dump filter if the main driver is already loaded
@@ -3959,4 +3975,29 @@ BOOL IsOSAtLeast (OSVersionEnum reqMinOS)
 
 	return ((OsMajorVersion << 16 | OsMinorVersion << 8)
 		>= (major << 16 | minor << 8));
+}
+
+NTSTATUS NTAPI KeSaveExtendedProcessorState (
+    __in ULONG64 Mask,
+    PXSTATE_SAVE XStateSave
+    )
+{
+	if (KeSaveExtendedProcessorStatePtr)
+	{
+		return (KeSaveExtendedProcessorStatePtr) (Mask, XStateSave);
+	}
+	else
+	{
+		return STATUS_SUCCESS;
+	}
+}
+
+VOID NTAPI KeRestoreExtendedProcessorState (
+	PXSTATE_SAVE XStateSave
+	)
+{
+	if (KeRestoreExtendedProcessorStatePtr)
+	{
+		(KeRestoreExtendedProcessorStatePtr) (XStateSave);
+	}
 }
