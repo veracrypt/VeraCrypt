@@ -99,6 +99,18 @@ void hmac_sha256
 	char* buf = hmac.k;
 	int b;
 	char key[SHA256_DIGESTSIZE];
+#if defined (DEVICE_DRIVER)
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+#ifdef _WIN64
+	XSTATE_SAVE SaveState;
+	if (g_isIntel && HasSAVX())
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+#else
+	KFLOATING_SAVE floatingPointState;	
+	if (HasSSE2())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
+#endif
     /* If the key is longer than the hash algorithm block size,
 	   let key = sha256(key), as per HMAC specifications. */
 	if (lk > SHA256_BLOCKSIZE)
@@ -139,6 +151,16 @@ void hmac_sha256
 	sha256_hash ((unsigned char *) buf, SHA256_BLOCKSIZE, ctx);
 
 	hmac_sha256_internal(d, ld, &hmac);
+
+#if defined (DEVICE_DRIVER)
+	if (NT_SUCCESS (saveStatus))
+#ifdef _WIN64
+		KeRestoreExtendedProcessorState(&SaveState);
+#else
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+#endif
+
 	/* Prevent leaks */
 	burn(&hmac, sizeof(hmac));
 	burn(key, sizeof(key));
@@ -204,6 +226,18 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	int b, l, r;
 #ifndef TC_WINDOWS_BOOT
 	char key[SHA256_DIGESTSIZE];
+#if defined (DEVICE_DRIVER)
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+#ifdef _WIN64
+	XSTATE_SAVE SaveState;
+	if (g_isIntel && HasSAVX())
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+#else
+	KFLOATING_SAVE floatingPointState;	
+	if (HasSSE2())
+		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
+#endif
     /* If the password is longer than the hash algorithm block size,
 	   let pwd = sha256(pwd), as per HMAC specifications. */
 	if (pwd_len > SHA256_BLOCKSIZE)
@@ -267,6 +301,14 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	derive_u_sha256 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
+#if defined (DEVICE_DRIVER)
+	if (NT_SUCCESS (saveStatus))
+#ifdef _WIN64
+		KeRestoreExtendedProcessorState(&SaveState);
+#else
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+#endif
 
 	/* Prevent possible leaks. */
 	burn (&hmac, sizeof(hmac));
@@ -327,11 +369,17 @@ void hmac_sha512
 	char* buf = hmac.k;
 	int b;
 	char key[SHA512_DIGESTSIZE];
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_SUCCESS;
-	if (HasSSE2() && HasMMX())
+#if defined (DEVICE_DRIVER)
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+#ifdef _WIN64
+	XSTATE_SAVE SaveState;
+	if (g_isIntel && HasSAVX())
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+#else
+	KFLOATING_SAVE floatingPointState;	
+	if (HasSSSE3() && HasMMX())
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
 #endif
 
     /* If the key is longer than the hash algorithm block size,
@@ -375,9 +423,13 @@ void hmac_sha512
 
 	hmac_sha512_internal (d, ld, &hmac);
 
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && (HasSSE2() && HasMMX()))
+#if defined (DEVICE_DRIVER)
+	if (NT_SUCCESS (saveStatus))
+#ifdef _WIN64
+		KeRestoreExtendedProcessorState(&SaveState);
+#else
 		KeRestoreFloatingPointState (&floatingPointState);
+#endif
 #endif
 
 	/* Prevent leaks */
@@ -419,11 +471,17 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	char* buf = hmac.k;
 	int b, l, r;
 	char key[SHA512_DIGESTSIZE];
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_SUCCESS;
-	if (HasSSE2() && HasMMX())
+#if defined (DEVICE_DRIVER)
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+#ifdef _WIN64
+	XSTATE_SAVE SaveState;
+	if (g_isIntel && HasSAVX())
+		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+#else
+	KFLOATING_SAVE floatingPointState;	
+	if (HasSSSE3() && HasMMX())
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
+#endif
 #endif
 
     /* If the password is longer than the hash algorithm block size,
@@ -488,9 +546,13 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	derive_u_sha512 (salt, salt_len, iterations, b, &hmac);
 	memcpy (dk, hmac.u, r);
 
-#if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && (HasSSE2() && HasMMX()))
+#if defined (DEVICE_DRIVER)
+	if (NT_SUCCESS (saveStatus))
+#ifdef _WIN64
+		KeRestoreExtendedProcessorState(&SaveState);
+#else
 		KeRestoreFloatingPointState (&floatingPointState);
+#endif
 #endif
 
 	/* Prevent possible leaks. */
@@ -771,7 +833,7 @@ void hmac_whirlpool
 	char key[WHIRLPOOL_DIGESTSIZE];
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_SUCCESS;
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	if (HasISSE())
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
@@ -817,7 +879,7 @@ void hmac_whirlpool
 	hmac_whirlpool_internal(d, ld, &hmac);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && HasISSE())
+	if (NT_SUCCESS (saveStatus))
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	/* Prevent leaks */
@@ -859,7 +921,7 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	int b, l, r;
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_SUCCESS;
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	if (HasISSE())
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
@@ -926,7 +988,7 @@ void derive_key_whirlpool (char *pwd, int pwd_len, char *salt, int salt_len, uin
 	memcpy (dk, hmac.u, r);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && HasISSE())
+	if (NT_SUCCESS (saveStatus))
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 
@@ -986,7 +1048,7 @@ void hmac_streebog
 	CRYPTOPP_ALIGN_DATA(16) char key[STREEBOG_DIGESTSIZE];
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_SUCCESS;
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	if (HasSSE2() || HasSSE41())
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
@@ -1032,7 +1094,7 @@ void hmac_streebog
 	hmac_streebog_internal(d, ld, &hmac);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && (HasSSE2() || HasSSE41()))
+	if (NT_SUCCESS (saveStatus))
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 	/* Prevent leaks */
@@ -1074,7 +1136,7 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 	int b, l, r;
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_SUCCESS;
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 	if (HasSSE2() || HasSSE41())
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
@@ -1141,7 +1203,7 @@ void derive_key_streebog (char *pwd, int pwd_len, char *salt, int salt_len, uint
 	memcpy (dk, hmac.u, r);
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && (HasSSE2() || HasSSE41()))
+	if (NT_SUCCESS (saveStatus))
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 

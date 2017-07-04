@@ -583,8 +583,8 @@ BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
 	BOOL bRet = TRUE;
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
 	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_SUCCESS;
-	if (bUseSSE && (HasISSE() || HasSSE2()))
+	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
+	if (bUseSSE)
 		saveStatus = KeSaveFloatingPointState (&floatingPointState);
 #endif
 	while (vector[i].hexInput && vector[i].hexOutput)
@@ -601,7 +601,7 @@ BOOL RunHashTest (HashFunction fn, HashTestVector* vector, BOOL bUseSSE)
 	}
 
 #if defined (DEVICE_DRIVER) && !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus) && bUseSSE && (HasISSE() || HasSSE2()))
+	if (NT_SUCCESS (saveStatus))
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
 
@@ -1508,7 +1508,7 @@ BOOL test_pkcs5 ()
 		return FALSE;
 
 	/* STREEBOG hash tests */
-	if (RunHashTest (StreebogHash, Streebog512TestVectors, TRUE) == FALSE)
+	if (RunHashTest (StreebogHash, Streebog512TestVectors, (HasSSE2() || HasSSE41())? TRUE : FALSE) == FALSE)
 		return FALSE;
 
 	/* PKCS-5 test 1 with HMAC-SHA-256 used as the PRF (https://tools.ietf.org/html/draft-josefsson-scrypt-kdf-00) */

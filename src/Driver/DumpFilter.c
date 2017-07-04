@@ -14,6 +14,7 @@
 #include "DriveFilter.h"
 #include "Ntdriver.h"
 #include "Tests.h"
+#include "cpu.h"
 
 static DriveFilterExtension *BootDriveFilterExtension = NULL;
 static LARGE_INTEGER DumpPartitionOffset;
@@ -63,7 +64,21 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	// KeSaveFloatingPointState() may generate a bug check during crash dump
 #if !defined (_WIN64)
 	if (filterExtension->DumpType == DumpTypeCrashdump)
+	{
 		dumpConfig.HwEncryptionEnabled = FALSE;
+		// disable also SSE optimizations
+		HasMMX() = 0;
+		HasISSE() = 0;
+		HasSSE2() = 0;
+		HasSSSE3() = 0;
+		HasSSE41() = 0;
+		HasSSE42() = 0;
+		HasAESNI() = 0;
+		HasCLMUL() = 0;
+		HasSAVX() = 0;
+		HasSAVX2() = 0;
+		HasSBMI2() = 0;
+	}
 #endif
 
 	EnableHwEncryption (dumpConfig.HwEncryptionEnabled);

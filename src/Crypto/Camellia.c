@@ -1096,15 +1096,24 @@ void camellia_decrypt(const unsigned __int8 *inBlock,  unsigned __int8 *outBlock
 void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte* out_blk, uint32 blockCount)
 {
 #if !defined (_UEFI)
-	if (IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
+	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
 	{
-		while (blockCount >= 16)
+#if defined (TC_WINDOWS_DRIVER)
+		XSTATE_SAVE SaveState;
+		if (NT_SUCCESS (KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState)))
 		{
-			camellia_ecb_enc_16way (instance, out_blk, in_blk);
-			out_blk += 16 * 16;
-			in_blk += 16 * 16;
-			blockCount -= 16;
+#endif
+			while (blockCount >= 16)
+			{
+				camellia_ecb_enc_16way (instance, out_blk, in_blk);
+				out_blk += 16 * 16;
+				in_blk += 16 * 16;
+				blockCount -= 16;
+			}
+#if defined (TC_WINDOWS_DRIVER)
+			KeRestoreExtendedProcessorState(&SaveState);
 		}
+#endif
 	}
 #endif
 
@@ -1123,8 +1132,13 @@ void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 void camellia_decrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte* out_blk, uint32 blockCount)
 {
 #if !defined (_UEFI)
-	if (IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
+	if ((blockCount >= 16) && IsCpuIntel() && IsAesHwCpuSupported () && HasSAVX()) /* on AMD cpu, AVX is too slow */
 	{
+#if defined (TC_WINDOWS_DRIVER)
+		XSTATE_SAVE SaveState;
+		if (NT_SUCCESS (KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState)))
+		{
+#endif
 		while (blockCount >= 16)
 		{
 			camellia_ecb_dec_16way (instance, out_blk, in_blk);
@@ -1132,6 +1146,10 @@ void camellia_decrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 			in_blk += 16 * 16;
 			blockCount -= 16;
 		}
+#if defined (TC_WINDOWS_DRIVER)
+			KeRestoreExtendedProcessorState(&SaveState);
+		}
+#endif
 	}
 #endif
 
