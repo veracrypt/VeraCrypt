@@ -66,18 +66,8 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	if (filterExtension->DumpType == DumpTypeCrashdump)
 	{
 		dumpConfig.HwEncryptionEnabled = FALSE;
-		// disable also SSE optimizations
-		HasMMX() = 0;
-		HasISSE() = 0;
-		HasSSE2() = 0;
-		HasSSSE3() = 0;
-		HasSSE41() = 0;
-		HasSSE42() = 0;
-		HasAESNI() = 0;
-		HasCLMUL() = 0;
-		HasSAVX() = 0;
-		HasSAVX2() = 0;
-		HasSBMI2() = 0;
+		// disable also CPU extended features used in optimizations
+		DisableCPUExtendedFeatures ();
 	}
 #endif
 

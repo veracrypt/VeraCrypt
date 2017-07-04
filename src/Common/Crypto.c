@@ -1156,20 +1156,20 @@ static BOOL HwEncryptionDisabled = FALSE;
 
 BOOL IsAesHwCpuSupported ()
 {
+#ifdef TC_WINDOWS_BOOT_AES
 	static BOOL state = FALSE;
 	static BOOL stateValid = FALSE;
 
 	if (!stateValid)
 	{
-#ifdef TC_WINDOWS_BOOT_AES
 		state = is_aes_hw_cpu_supported() ? TRUE : FALSE;
-#else
-		state = g_hasAESNI ? TRUE : FALSE;
-#endif
 		stateValid = TRUE;
 	}
 
 	return state && !HwEncryptionDisabled;
+#else
+	return (HasAESNI() && !HwEncryptionDisabled)? TRUE : FALSE;
+#endif
 }
 
 void EnableHwEncryption (BOOL enable)
