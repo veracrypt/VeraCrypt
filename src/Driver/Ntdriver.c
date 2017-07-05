@@ -129,10 +129,11 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	// KeSaveExtendedProcessorState/KeRestoreExtendedProcessorState are available starting from Windows 7
 	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 1))
 	{
-		UNICODE_STRING funcName;
-		RtlInitUnicodeString(&funcName, L"KeSaveExtendedProcessorState");
-		KeSaveExtendedProcessorStatePtr = (KeSaveExtendedProcessorStateFn) MmGetSystemRoutineAddress(&funcName);
-		KeRestoreExtendedProcessorStatePtr = (KeRestoreExtendedProcessorStateFn) MmGetSystemRoutineAddress(&funcName);
+		UNICODE_STRING saveFuncName, restoreFuncName;
+		RtlInitUnicodeString(&saveFuncName, L"KeSaveExtendedProcessorState");
+		RtlInitUnicodeString(&restoreFuncName, L"KeRestoreExtendedProcessorState");
+		KeSaveExtendedProcessorStatePtr = (KeSaveExtendedProcessorStateFn) MmGetSystemRoutineAddress(&saveFuncName);
+		KeRestoreExtendedProcessorStatePtr = (KeRestoreExtendedProcessorStateFn) MmGetSystemRoutineAddress(&restoreFuncName);
 	}
 
 	// Load dump filter if the main driver is already loaded
