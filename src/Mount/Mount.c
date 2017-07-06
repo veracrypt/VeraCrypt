@@ -9679,6 +9679,9 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 		{
 			Sleep (5000);
 
+			SystemFavoritesServiceLogInfo (wstring (L"Updating list of host devices"));
+			UpdateMountableHostDeviceList ();
+
 			SystemFavoritesServiceLogInfo (wstring (L"Trying to mount skipped system favorites"));
 
 			// Update the service status to avoid being killed
