@@ -494,6 +494,9 @@ static void InitMainDialog (HWND hwndDlg)
 		e.Show (NULL);
 	}
 
+	// initialize the list of devices available for mounting as early as possible
+	UpdateMountableHostDeviceList ();
+
 	// Resize the logo bitmap if the user has a non-default DPI
 	if (ScreenDPI != USER_DEFAULT_SCREEN_DPI
 		&& hbmLogoBitmapRescaled == NULL)	// If not re-called (e.g. after language pack change)
@@ -9143,6 +9146,10 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 
 	SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
 
+	SystemFavoritesServiceLogInfo (wstring (L"Initializing list of host devices"));
+	// initialize the list of devices available for mounting as early as possible
+	UpdateMountableHostDeviceList ();
+
 	SystemFavoritesServiceLogInfo (wstring (L"Starting System Favorites mounting process"));
 
 	try
@@ -9211,7 +9218,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	VirtualLock (&CmdVolumePassword, sizeof (CmdVolumePassword));
 	VirtualLock (&mountOptions, sizeof (mountOptions));
 	VirtualLock (&defaultMountOptions, sizeof (defaultMountOptions));
-	VirtualLock (&szFileName, sizeof(szFileName));
+	VirtualLock (&szFileName, sizeof(szFileName));	
 
 	DetectX86Features ();
 
