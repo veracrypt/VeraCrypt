@@ -4952,9 +4952,6 @@ wstring GetUserFriendlyVersionString (int version)
 
 	versionString.insert (version > 0xfff ? 2 : 1,L".");
 
-	if (versionString[versionString.length()-1] == L'0')
-		versionString.erase (versionString.length()-1, 1); 
-
 	return (versionString);
 }
 
