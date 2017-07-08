@@ -238,6 +238,8 @@ typedef struct
 #define	ISO_BURNER_TOOL L"isoburn.exe"
 #define PRINT_TOOL L"notepad.exe"
 
+void InitGlobalLocks ();
+void FinalizeGlobalLocks ();
 void cleanup ( void );
 void LowerCaseCopy ( wchar_t *lpszDest , const wchar_t *lpszSource );
 void UpperCaseCopy ( wchar_t *lpszDest , size_t cbDest, const wchar_t *lpszSource );

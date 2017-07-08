@@ -389,6 +389,19 @@ typedef struct
 
 } MULTI_CHOICE_DLGPROC_PARAMS;
 
+void InitGlobalLocks ()
+{
+	InitializeCriticalSection (&csWNetCalls);
+	InitializeCriticalSection (&csMountableDevices);
+	InitializeCriticalSection (&csVolumeIdCandidates);
+}
+
+void FinalizeGlobalLocks ()
+{
+	DeleteCriticalSection (&csWNetCalls);
+	DeleteCriticalSection (&csMountableDevices);
+	DeleteCriticalSection (&csVolumeIdCandidates);
+}
 
 void cleanup ()
 {
@@ -468,9 +481,7 @@ void cleanup ()
 	EncryptionThreadPoolStop();
 #endif
 
-	DeleteCriticalSection (&csWNetCalls);
-	DeleteCriticalSection (&csMountableDevices);
-	DeleteCriticalSection (&csVolumeIdCandidates);
+	FinalizeGlobalLocks ();
 }
 
 
@@ -2694,9 +2705,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	VirtualLock (&CmdTokenPin, sizeof (CmdTokenPin));
 
-	InitializeCriticalSection (&csWNetCalls);
-	InitializeCriticalSection (&csMountableDevices);
-	InitializeCriticalSection (&csVolumeIdCandidates);
+	InitGlobalLocks ();
 
 	LoadSystemDll (L"ntmarta.dll", &hntmartadll, TRUE, SRC_POS);
 	LoadSystemDll (L"MPR.DLL", &hmprdll, TRUE, SRC_POS);

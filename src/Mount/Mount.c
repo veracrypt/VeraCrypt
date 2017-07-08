@@ -9144,6 +9144,8 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	if (!SystemFavoritesServiceStatusHandle)
 		return;
 
+	InitGlobalLocks ();
+
 	SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
 
 	SystemFavoritesServiceLogInfo (wstring (L"Initializing list of host devices"));
@@ -9166,6 +9168,8 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	{
 		SystemFavoritesServiceLogError (wstring (L"System Favorites mounting process failed."));
 	}
+
+	FinalizeGlobalLocks ();
 
 	SystemFavoritesServiceSetStatus (SERVICE_RUNNING);
 	SystemFavoritesServiceSetStatus (SERVICE_STOPPED);
