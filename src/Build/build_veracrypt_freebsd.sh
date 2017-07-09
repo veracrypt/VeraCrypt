@@ -32,17 +32,17 @@ echo "Building GUI version of VeraCrypt"
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildGui
 
-#gmake WXSTATIC=1 wxbuild && gmake WXSTATIC=1 clean && gmake WXSTATIC=1 && gmake WXSTATIC=1 package
+gmake WXSTATIC=1 wxbuild && gmake WXSTATIC=1 clean && gmake WXSTATIC=1 && gmake WXSTATIC=1 package
 
 # Uncomment below and comment line above to reuse existing wxWidgets build
-gmake WXSTATIC=1 clean && gmake WXSTATIC=1 && gmake WXSTATIC=1 package
+#gmake WXSTATIC=1 clean && gmake WXSTATIC=1 && gmake WXSTATIC=1 package
 
 echo "Building console version of VeraCrypt"
 
 # this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
 
-#gmake WXSTATIC=1 NOGUI=1 wxbuild && gmake WXSTATIC=1 NOGUI=1 clean && gmake WXSTATIC=1 NOGUI=1 && gmake WXSTATIC=1 NOGUI=1 package
+gmake WXSTATIC=1 NOGUI=1 wxbuild && gmake WXSTATIC=1 NOGUI=1 clean && gmake WXSTATIC=1 NOGUI=1 && gmake WXSTATIC=1 NOGUI=1 package
 
 # Uncomment below and comment line above to reuse existing wxWidgets build
-gmake WXSTATIC=1 NOGUI=1 clean && gmake WXSTATIC=1 NOGUI=1 && gmake WXSTATIC=1 NOGUI=1 package
+#gmake WXSTATIC=1 NOGUI=1 clean && gmake WXSTATIC=1 NOGUI=1 && gmake WXSTATIC=1 NOGUI=1 package
