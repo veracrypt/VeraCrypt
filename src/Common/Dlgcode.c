@@ -12106,10 +12106,11 @@ void UpdateMountableHostDeviceList ()
 							OPEN_EXISTING,
 							0,
 							NULL );
-						if (handle != INVALID_HANDLE_VALUE)
+						if ((handle != INVALID_HANDLE_VALUE) || (GetLastError () == ERROR_ACCESS_DENIED))
 						{
 							AddDeviceToList (mountableDevices, It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
-							CloseHandle (handle);
+							if (handle != INVALID_HANDLE_VALUE)
+								CloseHandle (handle);
 						}
 					}
 				}
