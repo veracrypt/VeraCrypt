@@ -287,6 +287,18 @@ ifeq "$(shell uname -s)" "FreeBSD"
 	
 	CC := cc
 	CXX := c++
+	
+	ifeq "$(TC_BUILD_CONFIG)" "Release"
+		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
+		LFLAGS += -Wl,--gc-sections -pie
+
+		ifneq "$(shell ld --help 2>&1 | grep sysv | wc -l)" "0"
+			LFLAGS += -Wl,--hash-style=sysv
+		endif
+
+		WXCONFIG_CFLAGS += -fpie -fPIC
+		WXCONFIG_CXXFLAGS += -fpie -fPIC
+	endif
 
 	ifeq "$(SIMD_SUPPORTED)" "1"
 		CFLAGS += -msse2 -maes
