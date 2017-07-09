@@ -70,8 +70,8 @@ PIM </a>value is not specified or if it is equal to zero, VeraCrypt uses the def
 <p>When a <a href="Personal%20Iterations%20Multiplier%20%28PIM%29.html">
 PIM </a>value is given by the user, the number of iterations of the key derivation function is calculated as follows:</p>
 <ul>
-<li>For system partition encryption (boot encryption): Iterations = <strong>PIM x 2048</strong>
-</li><li>For standard containers and other partitions: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
+<li>For system encryption that doesn't use SHA-512 or Whirlpool: Iterations = <strong>PIM x 2048</strong>
+</li><li>For system encryption that uses SHA-512 or Whirlpool, non-system encryption and file containers: Iterations = <strong>15000 &#43; (PIM x 1000)</strong>
 </li></ul>
 </div>
 <div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
