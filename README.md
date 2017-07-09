@@ -27,7 +27,7 @@ II. Linux and Mac OS X
     Instructions for Building VeraCrypt for Linux and Mac OS X.
 	Mac OS X specifics
 
-III. FreeBSD and OpenSolaris
+III. FreeBSD
 
 IV. Third-Party Developers (Contributors)
 
@@ -210,10 +210,12 @@ Thus, we recommend using a different OSX SDK version for building VeraCrypt.
 
 
 
-III. FreeBSD and OpenSolaris
+III. FreeBSD
 ============================
 
-FreeBSD and OpenSolaris are not yet supported.
+FreeBSD is supported starting from version 11.
+The build requirements and instructions are the same as Linux except that gmake
+should be used instead of make.
 
 
 
