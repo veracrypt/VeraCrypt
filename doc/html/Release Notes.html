@@ -34,6 +34,104 @@
 
 <div class="wikidoc">
 <h1>Release Notes</h1>
+<p><strong style="text-align:left">1.21 </strong>(July 9<sup>th</sup>, 2017):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Fix 1.20 regression crash when running on CPU not supporting extended features.</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>Fix 1.20 regression that caused PIM value stored in favorites to be ignored during mount.</li>
+<li>Fix 1.20 regression that causes system favorites not to mount in some cases.</li>
+<li>Fix some cases of "Parameter Incorrect" error during EFI system encryption wizard.</li>
+<li>Install PDF documents related to EFI system encryption configuration for advanced users:
+<ul>
+<li>disk_encryption_v1_2.pdf related to EFI hidden OS and full fisk encryption</li>
+<li>dcs_tpm_owner_02.pdf related to TPM configuration for EFI system encryption.</li>
+</li>
+</ul>
+</ul>
+</li>
+<li><strong>FreeBSD:</strong>
+<ul>
+<li>Add support for building on FreeBSD.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong style="text-align:left">1.20 </strong>(June 29<sup>th</sup>, 2017):</p>
+<ul>
+<li><strong>All OSs:</strong>
+<ul>
+<li>Use 64-bit optimized assembly implementation of Twofish and Camellia by Jussi Kivilinna.
+<ul>
+<li>Camellia 2.5 faster when AES-NI supported by CPU. 30% faster without it.</li>
+</ul>
+</li>
+<li>Use optimized implementation for SHA-512/SHA256.
+<ul>
+<li>33% speedup on 64-bit systems.</li>
+</ul>
+</li>
+<li>Deploy local HTML documentation instead of User Guide PDF.</li>
+<li>Change links in UI from ones on Codeplex to ones hosted at veracrypt.fr </li>
+<li>Security: build binaries with support for Address Space Layout Randomization (ASLR).</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>Several fixes and modifications for EFI System Encryption:
+<ul>
+<li>Fix bug in EFI system decryption using EFI Rescue Disk</li>
+<li>Add support for TPM 1.2 and TPM 2.0 (experimental) through DCS low level configuration.
+<ul>
+<li><a href="https://dc5.sourceforge.io/docs/dcs_tpm_owner_02.pdf" target="_blank">https://dc5.sourceforge.io/docs/dcs_tpm_owner_02.pdf</a>
+</li>
+</ul>
+<li>Add Support for EFI full disk encryption and hidden OS using manual procedure (not exposed in UI).
+<ul>
+<li><a href="https://dc5.sourceforge.io/docs/disk_encryption_v1_2.pdf" target="_blank">https://dc5.sourceforge.io/docs/disk_encryption_v1_2.pdf</a>
+</li>
+</ul>
+</li>
+</li>
+</ul>
+</li>
+
+<li>Enable using Secure Desktop for password entry. Add preferences option and command line switch (/secureDesktop) to activate it.</li>
+<li>Use default mount parameters when mounting multiple favorites with password caching.</li>
+<li>Enable specifying PRF and TrueCryptMode for favorites.</li>
+<li>Preliminary driver changes to support EFI hidden OS functionality.</li>
+<li>Fix Streebog not recognized by /hash command line.</li>
+<li>Add support for ReFS filesystem on Windows 10 when creating normal volumes</li>
+<li>Fix high CPU usage when favorite configured to mount with VolumeID on arrival.</li>
+<li>Use CHM file for User Guide instead of PDF.</li>
+<li>Fix false warning in case of EFI system encryption about Windows not installed on boot drive.</li>
+<li>Enhancements to driver handling of various disk IOCTL.</li>
+<li>Enhancements to EFI bootloader. Add possibility to manually edit EFI configuration file.</li>
+<li>Driver Security: Use enhanced protection of NX pool under Windows 8 and later.</li>
+<li>Reduce performance impact of internal check for disconnected network drives.</li>
+<li>Minor fixes.</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>OSX 10.7 or newer is required to run VeraCrypt.</li>
+<li>Make VeraCrypt default handler of .hc & .tc files.</li>
+<li>Add custom VeraCrypt icon to .hc and .tc files in Finder.</li>
+<li>Check TrueCryptMode in password dialog when opening container file with .tc extension.</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Check TrueCryptMode in password dialog when opening container file with .tc extension.</li>
+<li>Fix executable stack in resulting binary which was caused by crypto assembly files missing the GNU-stack note.</li>
+</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.19 </strong>(October 17<sup>th</sup>, 2016):</p>
 <ul>
 <li><strong>All OSs:</strong>
