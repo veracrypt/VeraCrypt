@@ -793,7 +793,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				Extension->bRawDevice = bRawDevice;
 
 				memset (Extension->wszVolume, 0, sizeof (Extension->wszVolume));
-				if (wcsstr (pwszMountVolume, WIDE ("\\??\\UNC\\")) == pwszMountVolume)
+				if ((wcslen (pwszMountVolume) > 8)  && (0 == memcmp (pwszMountVolume, WIDE ("\\??\\UNC\\"), 8 * sizeof (WCHAR))))
 				{
 					/* UNC path */
 					RtlStringCbPrintfW (Extension->wszVolume,
