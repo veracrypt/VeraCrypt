@@ -139,6 +139,9 @@ ifneq (,$(filter i386 i486 i586 i686 x86,$(ARCH)))
 else ifneq (,$(filter x86_64 x86-64 amd64 x64,$(ARCH)))
 	CPU_ARCH = x64
     ASFLAGS += -f elf64 -D __BITS__=64
+else ifneq (,$(filter armv7l,$(ARCH)))
+	PLATFORM_ARCH := armv7
+	CPU_ARCH = armv7
 endif
 
 ifeq "$(origin NOASM)" "command line"
