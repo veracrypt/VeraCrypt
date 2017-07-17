@@ -43,10 +43,10 @@
 #ifndef GET_UINT32_BE
 #define GET_UINT32_BE(n,b,i)                            \
 {                                                       \
-    (n) = ( (unsigned __int32) (b)[(i)    ] << 24 )             \
-        | ( (unsigned __int32) (b)[(i) + 1] << 16 )             \
-        | ( (unsigned __int32) (b)[(i) + 2] <<  8 )             \
-        | ( (unsigned __int32) (b)[(i) + 3]       );            \
+    (n) = ( (unsigned __int32) (b)[(i)    ] << 24 );             \
+    (n)|= ( (unsigned __int32) (b)[(i) + 1] << 16 );             \
+    (n)|= ( (unsigned __int32) (b)[(i) + 2] <<  8 );             \
+    (n)|= ( (unsigned __int32) (b)[(i) + 3]       );            \
 }
 #endif
 
