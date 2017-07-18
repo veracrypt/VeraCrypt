@@ -41,7 +41,9 @@ typedef struct
 	u4byte l_key[40];
 #ifdef TC_MINIMIZE_CODE_SIZE
 	u4byte s_key[4];
+#ifdef TC_WINDOWS_BOOT_TWOFISH
 	u4byte mk_tab[4 * 256];
+#endif
 #else
    u4byte mk_tab[4][256];
 #endif
