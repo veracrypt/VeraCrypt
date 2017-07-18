@@ -137,6 +137,8 @@ bool operator<= (const uint64 &a, const uint64 &b)
 	return a < b || a == b;
 }
 
+#ifdef TC_BOOT_DEBUG_ENABLED
+
 bool TestInt64 ()
 {
 	uint64 a, b, c;
@@ -161,6 +163,7 @@ bool TestInt64 ()
 	return c.HighPart == 0x22446755UL && c.LowPart == 0x78024600UL;
 }
 
+#endif
 
 void CopyMemory (void *source, uint16 destSegment, uint16 destOffset, uint16 blockSize)
 {
