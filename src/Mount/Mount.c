@@ -495,7 +495,7 @@ static void InitMainDialog (HWND hwndDlg)
 	}
 
 	// initialize the list of devices available for mounting as early as possible
-	UpdateMountableHostDeviceList ();
+	UpdateMountableHostDeviceList (false);
 
 	// Resize the logo bitmap if the user has a non-default DPI
 	if (ScreenDPI != USER_DEFAULT_SCREEN_DPI
@@ -7119,7 +7119,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (wParam == TIMER_ID_UPDATE_DEVICE_LIST)
 			{
-				UpdateMountableHostDeviceList ();
+				UpdateMountableHostDeviceList (false);
 			}
 			else
 			{
@@ -9168,7 +9168,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 
 	SystemFavoritesServiceLogInfo (wstring (L"Initializing list of host devices"));
 	// initialize the list of devices available for mounting as early as possible
-	UpdateMountableHostDeviceList ();
+	UpdateMountableHostDeviceList (true);
 
 	SystemFavoritesServiceLogInfo (wstring (L"Starting System Favorites mounting process"));
 
@@ -9702,7 +9702,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 			Sleep (5000);
 
 			SystemFavoritesServiceLogInfo (wstring (L"Updating list of host devices"));
-			UpdateMountableHostDeviceList ();
+			UpdateMountableHostDeviceList (true);
 
 			SystemFavoritesServiceLogInfo (wstring (L"Trying to mount skipped system favorites"));
 

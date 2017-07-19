@@ -11866,8 +11866,11 @@ void AddDeviceToList (std::vector<HostDevice>& devices, int devNumber, int partN
 	devices.push_back (device);
 }
 
-std::vector <HostDevice> GetHostRawDeviceList ()
+std::vector <HostDevice> GetHostRawDeviceList (bool bFromService)
 {
+	if (bFromService)
+		return GetAvailableHostDevices (true, false, true, true);
+
 	std::vector <HostDevice> list;
 	HDEVINFO diskClassDevices;
 	GUID diskClassDeviceInterfaceGuid = GUID_DEVINTERFACE_DISK;
@@ -11980,7 +11983,7 @@ bool CompareDeviceList (const std::vector<HostDevice>& list1, const std::vector<
 	return true;
 }
 
-void UpdateMountableHostDeviceList ()
+void UpdateMountableHostDeviceList (bool bFromService)
 {
 	ByteArray buffer(4096);
 	DWORD bytesReturned;
@@ -11989,7 +11992,7 @@ void UpdateMountableHostDeviceList ()
 	EnterCriticalSection (&csMountableDevices);
 	finally_do ({ LeaveCriticalSection (&csMountableDevices); });
 
-	std::vector<HostDevice> newList = GetHostRawDeviceList ();
+	std::vector<HostDevice> newList = GetHostRawDeviceList (bFromService);
 	std::map<DWORD, bool> existingDevicesMap;
 
 	if (CompareDeviceList (newList, rawHostDeviceList))
@@ -12032,104 +12035,120 @@ void UpdateMountableHostDeviceList ()
 		if (existingDevicesMap[It->SystemNumber])
 			continue;
 
-		HANDLE disk = CreateFile( It->Path.c_str(),
-			0,
-			FILE_SHARE_READ | FILE_SHARE_WRITE,
-			NULL,
-			OPEN_EXISTING,
-			0,
-			NULL );
-		if ( INVALID_HANDLE_VALUE != disk)
-		{	
-			bool bIsDynamic = false;
-			bool bHasPartition = false;
-			if (DeviceIoControl(
-				disk,
-				IOCTL_DISK_GET_DRIVE_LAYOUT_EX,
-				NULL,
-				0,
-				(LPVOID) buffer.data(),
-				(DWORD) buffer.size(),
-				(LPDWORD) &bytesReturned,
-				NULL) && (bytesReturned >= sizeof (DRIVE_LAYOUT_INFORMATION_EX)))
+		if (bFromService)
+		{
+			if (It->Partitions.empty())
+				mountableDevices.push_back (*It);
+			else
 			{
-				PDRIVE_LAYOUT_INFORMATION_EX layout = (PDRIVE_LAYOUT_INFORMATION_EX) buffer.data();
-				// sanity checks
-				if (layout->PartitionCount <= 256)
+				for (std::vector<HostDevice>::iterator partIt = It->Partitions.begin(); partIt != It->Partitions.end(); partIt++)
 				{
-					for (DWORD i = 0; i < layout->PartitionCount; i++)
+					if (!partIt->ContainsSystem && !partIt->HasUnencryptedFilesystem)
+						mountableDevices.push_back (*partIt);
+				}
+			}
+		}
+		else
+		{
+			HANDLE disk = CreateFile( It->Path.c_str(),
+				0,
+				FILE_SHARE_READ | FILE_SHARE_WRITE,
+				NULL,
+				OPEN_EXISTING,
+				0,
+				NULL );
+			if ( INVALID_HANDLE_VALUE != disk)
+			{	
+				bool bIsDynamic = false;
+				bool bHasPartition = false;
+				if (DeviceIoControl(
+					disk,
+					IOCTL_DISK_GET_DRIVE_LAYOUT_EX,
+					NULL,
+					0,
+					(LPVOID) buffer.data(),
+					(DWORD) buffer.size(),
+					(LPDWORD) &bytesReturned,
+					NULL) && (bytesReturned >= sizeof (DRIVE_LAYOUT_INFORMATION_EX)))
+				{
+					PDRIVE_LAYOUT_INFORMATION_EX layout = (PDRIVE_LAYOUT_INFORMATION_EX) buffer.data();
+					// sanity checks
+					if (layout->PartitionCount <= 256)
 					{
-						if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_MBR)
+						for (DWORD i = 0; i < layout->PartitionCount; i++)
 						{
-							if (layout->PartitionEntry[i].Mbr.PartitionType == 0)
-								continue;
-
-							bHasPartition = true;
-
-							/* skip dynamic volume */
-							if (layout->PartitionEntry[i].Mbr.PartitionType == PARTITION_LDM)
+							if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_MBR)
 							{
-								bIsDynamic = true;
-								/* remove any partition that may have been added */
-								while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
-									mountableDevices.pop_back ();
-								break;
+								if (layout->PartitionEntry[i].Mbr.PartitionType == 0)
+									continue;
+
+								bHasPartition = true;
+
+								/* skip dynamic volume */
+								if (layout->PartitionEntry[i].Mbr.PartitionType == PARTITION_LDM)
+								{
+									bIsDynamic = true;
+									/* remove any partition that may have been added */
+									while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
+										mountableDevices.pop_back ();
+									break;
+								}
 							}
-						}
 
-						if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_GPT)
-						{
-							if (IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_ENTRY_UNUSED_GUID))
-								continue;
-
-							bHasPartition = true;
-
-							/* skip dynamic volume */
-							if (	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_METADATA_GUID)
-								||	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_DATA_GUID)
-								)
+							if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_GPT)
 							{
-								bIsDynamic = true;
-								/* remove any partition that may have been added */
-								while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
-									mountableDevices.pop_back ();
-								break;
-							}
-						}
+								if (IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_ENTRY_UNUSED_GUID))
+									continue;
 
-						WCHAR path[MAX_PATH];
-						StringCbPrintfW (path, sizeof(path), L"\\\\?\\GLOBALROOT\\Device\\Harddisk%d\\Partition%d", It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
-						HANDLE handle = CreateFile( path,
-							0,
-							FILE_SHARE_READ | FILE_SHARE_WRITE,
-							NULL,
-							OPEN_EXISTING,
-							0,
-							NULL );
-						if ((handle != INVALID_HANDLE_VALUE) || (GetLastError () == ERROR_ACCESS_DENIED))
-						{
-							AddDeviceToList (mountableDevices, It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
-							if (handle != INVALID_HANDLE_VALUE)
-								CloseHandle (handle);
+								bHasPartition = true;
+
+								/* skip dynamic volume */
+								if (	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_METADATA_GUID)
+									||	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_DATA_GUID)
+									)
+								{
+									bIsDynamic = true;
+									/* remove any partition that may have been added */
+									while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
+										mountableDevices.pop_back ();
+									break;
+								}
+							}
+
+							WCHAR path[MAX_PATH];
+							StringCbPrintfW (path, sizeof(path), L"\\\\?\\GLOBALROOT\\Device\\Harddisk%d\\Partition%d", It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
+							HANDLE handle = CreateFile( path,
+								0,
+								FILE_SHARE_READ | FILE_SHARE_WRITE,
+								NULL,
+								OPEN_EXISTING,
+								0,
+								NULL );
+							if ((handle != INVALID_HANDLE_VALUE) || (GetLastError () == ERROR_ACCESS_DENIED))
+							{
+								AddDeviceToList (mountableDevices, It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
+								if (handle != INVALID_HANDLE_VALUE)
+									CloseHandle (handle);
+							}
 						}
 					}
 				}
+
+				if (bIsDynamic)
+					dynamicVolumesPresent = true;
+
+				if (!bHasPartition)
+					AddDeviceToList (mountableDevices, It->SystemNumber, 0);
+
+				CloseHandle (disk);
 			}
-
-			if (bIsDynamic)
-				dynamicVolumesPresent = true;
-
-			if (!bHasPartition)
-				AddDeviceToList (mountableDevices, It->SystemNumber, 0);
-
-			CloseHandle (disk);
 		}
 	}
 
 	rawHostDeviceList = newList;
 
 	// Starting from Vista, Windows does not create partition links for dynamic volumes so it is necessary to scan \\Device\\HarddiskVolumeX devices
-	if (dynamicVolumesPresent && (CurrentOSMajor >= 6))
+	if (!bFromService && dynamicVolumesPresent && (CurrentOSMajor >= 6))
 	{
 		for (int devNumber = 0; devNumber < 256; devNumber++)
 		{
