@@ -11652,7 +11652,7 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 				HWND hParent = IsWindow (m_hwnd)? m_hwnd : GetActiveWindow();
 				if (!hParent)
 					hParent = GetForegroundWindow ();
-				if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PASSWORD), hParent, (DLGPROC) SecurityTokenPasswordDlgProc, (LPARAM) &str) == IDCANCEL)
+				if (SecureDesktopDialogBoxParam (hInst, MAKEINTRESOURCEW (IDD_TOKEN_PASSWORD), hParent, (DLGPROC) SecurityTokenPasswordDlgProc, (LPARAM) &str) == IDCANCEL)
 					throw UserAbort (SRC_POS);
 			}
 			if (hCursor != NULL)
