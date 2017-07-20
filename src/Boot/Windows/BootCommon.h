@@ -17,7 +17,7 @@
 #include "BootDefs.h"
 
 // The user will be advised to upgrade the rescue disk if upgrading from the following or any previous version
-#define TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION 0x0120
+#define TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION 0x0121
 
 #define TC_BOOT_LOADER_AREA_SIZE (TC_BOOT_LOADER_AREA_SECTOR_COUNT * TC_SECTOR_SIZE_BIOS)
 
