@@ -13,6 +13,7 @@
 
 #include "Tcdefs.h"
 #include <Shlobj.h>
+#include <Richedit.h>
 #include <io.h>
 #include <stdio.h>
 #include <time.h>
@@ -222,10 +223,20 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				char *licenseText = NULL;
 
+				// increase size limit of rich edit control
+				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_EXLIMITTEXT, 0, -1);
+				// Left margin for license text
+				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
+
 				licenseText = GetLegalNotices ();
 				if (licenseText != NULL)
 				{
-					SetWindowTextA (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), licenseText);
+					SETTEXTEX TextInfo = {0};
+
+					TextInfo.flags = ST_SELECTION;
+					TextInfo.codepage = CP_ACP;
+
+					SendMessage(GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETTEXTEX, (WPARAM)&TextInfo, (LPARAM)licenseText);
 					free (licenseText);
 				}
 				else
@@ -258,9 +269,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), bLicenseAccepted);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), FALSE);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDHELP), bLicenseAccepted);
-
-				// Left margin for license text
-				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
 			}
 			return 1;
 
