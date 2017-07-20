@@ -1100,8 +1100,13 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_VOLUME_POST_ONLINE:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_POST_ONLINE)\n");
-		Irp->IoStatus.Status = STATUS_SUCCESS;
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
+		{
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+			Irp->IoStatus.Information = 0;
+		}
 		break;
 
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
@@ -1127,89 +1132,119 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_STORAGE_READ_CAPACITY:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_READ_CAPACITY)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (STORAGE_READ_CAPACITY), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			STORAGE_READ_CAPACITY *capacity = (STORAGE_READ_CAPACITY *) Irp->AssociatedIrp.SystemBuffer;
+			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_READ_CAPACITY), ValidateOutput))
+			{
+				STORAGE_READ_CAPACITY *capacity = (STORAGE_READ_CAPACITY *) Irp->AssociatedIrp.SystemBuffer;
 
-			capacity->Version = sizeof (STORAGE_READ_CAPACITY);
-			capacity->Size = sizeof (STORAGE_READ_CAPACITY);
-			capacity->BlockLength = Extension->BytesPerSector;
-			capacity->NumberOfBlocks.QuadPart = (Extension->DiskLength / Extension->BytesPerSector) + 1;
-			capacity->DiskLength.QuadPart = Extension->DiskLength + Extension->BytesPerSector;
+				capacity->Version = sizeof (STORAGE_READ_CAPACITY);
+				capacity->Size = sizeof (STORAGE_READ_CAPACITY);
+				capacity->BlockLength = Extension->BytesPerSector;
+				capacity->NumberOfBlocks.QuadPart = (Extension->DiskLength / Extension->BytesPerSector) + 1;
+				capacity->DiskLength.QuadPart = Extension->DiskLength + Extension->BytesPerSector;
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (STORAGE_READ_CAPACITY);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (STORAGE_READ_CAPACITY);
+			}
 		}
 		break;
 
 	/*case IOCTL_STORAGE_GET_DEVICE_NUMBER:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_DEVICE_NUMBER)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_NUMBER), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			STORAGE_DEVICE_NUMBER *storage = (STORAGE_DEVICE_NUMBER *) Irp->AssociatedIrp.SystemBuffer;
+			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_DEVICE_NUMBER), ValidateOutput))
+			{
+				STORAGE_DEVICE_NUMBER *storage = (STORAGE_DEVICE_NUMBER *) Irp->AssociatedIrp.SystemBuffer;
 
-			storage->DeviceType = FILE_DEVICE_DISK;
-			storage->DeviceNumber = (ULONG) -1;
-			storage->PartitionNumber = 1;
+				storage->DeviceType = FILE_DEVICE_DISK;
+				storage->DeviceNumber = (ULONG) -1;
+				storage->PartitionNumber = 1;
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_NUMBER);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (STORAGE_DEVICE_NUMBER);
+			}
 		}
 		break;*/
 
 	case IOCTL_STORAGE_GET_HOTPLUG_INFO:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_HOTPLUG_INFO)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (STORAGE_HOTPLUG_INFO), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			STORAGE_HOTPLUG_INFO *info = (STORAGE_HOTPLUG_INFO *) Irp->AssociatedIrp.SystemBuffer;
+			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_HOTPLUG_INFO), ValidateOutput))
+			{
+				STORAGE_HOTPLUG_INFO *info = (STORAGE_HOTPLUG_INFO *) Irp->AssociatedIrp.SystemBuffer;
 
-			info->Size = sizeof (STORAGE_HOTPLUG_INFO);
-			info->MediaRemovable = Extension->bRemovable? TRUE : FALSE;
-			info->MediaHotplug = FALSE;
-			info->DeviceHotplug = FALSE;
-			info->WriteCacheEnableOverride = FALSE;
+				info->Size = sizeof (STORAGE_HOTPLUG_INFO);
+				info->MediaRemovable = Extension->bRemovable? TRUE : FALSE;
+				info->MediaHotplug = FALSE;
+				info->DeviceHotplug = FALSE;
+				info->WriteCacheEnableOverride = FALSE;
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (STORAGE_HOTPLUG_INFO);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (STORAGE_HOTPLUG_INFO);
+			}
 		}
 		break;
 
 	case IOCTL_VOLUME_IS_DYNAMIC:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_IS_DYNAMIC)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (BOOLEAN), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			BOOLEAN *pbDynamic = (BOOLEAN*) Irp->AssociatedIrp.SystemBuffer;
+			if (ValidateIOBufferSize (Irp, sizeof (BOOLEAN), ValidateOutput))
+			{
+				BOOLEAN *pbDynamic = (BOOLEAN*) Irp->AssociatedIrp.SystemBuffer;
 
-			*pbDynamic = FALSE;
+				*pbDynamic = FALSE;
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (BOOLEAN);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (BOOLEAN);
+			}
 		}
 		break;
 
 	case IOCTL_DISK_IS_CLUSTERED:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_IS_CLUSTERED)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (BOOLEAN), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			BOOLEAN *pbIsClustered = (BOOLEAN*) Irp->AssociatedIrp.SystemBuffer;
+			if (ValidateIOBufferSize (Irp, sizeof (BOOLEAN), ValidateOutput))
+			{
+				BOOLEAN *pbIsClustered = (BOOLEAN*) Irp->AssociatedIrp.SystemBuffer;
 
-			*pbIsClustered = FALSE;
+				*pbIsClustered = FALSE;
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (BOOLEAN);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (BOOLEAN);
+			}
 		}
 		break;
 
 	case IOCTL_VOLUME_GET_GPT_ATTRIBUTES:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_GPT_ATTRIBUTES)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			VOLUME_GET_GPT_ATTRIBUTES_INFORMATION *pGptAttr = (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION*) Irp->AssociatedIrp.SystemBuffer;
+			if (ValidateIOBufferSize (Irp, sizeof (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION), ValidateOutput))
+			{
+				VOLUME_GET_GPT_ATTRIBUTES_INFORMATION *pGptAttr = (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION*) Irp->AssociatedIrp.SystemBuffer;
 
-			pGptAttr->GptAttributes = 0; // we are MBR not GPT
+				pGptAttr->GptAttributes = 0; // we are MBR not GPT
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (VOLUME_GET_GPT_ATTRIBUTES_INFORMATION);
+			}
 		}
 		break;
 
@@ -1224,8 +1259,13 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_DISK_GET_CLUSTER_INFO:
 		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_NOT_SUPPORTED for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
-		Irp->IoStatus.Status = STATUS_NOT_SUPPORTED;
-		Irp->IoStatus.Information = 0;		
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
+		{
+			Irp->IoStatus.Status = STATUS_NOT_SUPPORTED;
+			Irp->IoStatus.Information = 0;
+		}
 		break;
 	
 	case IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT:
