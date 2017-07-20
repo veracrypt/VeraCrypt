@@ -26,7 +26,7 @@
 #include <time.h>
 #include <tchar.h>
 #include <Richedit.h>
-#ifdef TCMOUNT
+#if defined (TCMOUNT) || defined (VOLFORMAT)
 #include <Shlwapi.h>
 #include <process.h>
 #include <Tlhelp32.h>
@@ -13030,7 +13030,7 @@ BOOL DeleteDirectory (const wchar_t* szDirName)
 	return bStatus;
 }
 
-#ifdef TCMOUNT
+#if defined (TCMOUNT) || defined (VOLFORMAT)
 /*********************************************************************/
 
 static BOOL GenerateRandomString (HWND hwndDlg, LPTSTR szName, DWORD maxCharsCount)
