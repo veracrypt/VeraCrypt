@@ -157,6 +157,7 @@ BiosResult ReadWriteSectors (bool write, uint16 bufferSegment, uint16 bufferOffs
 	return result;
 }
 
+#ifdef TC_WINDOWS_BOOT_RESCUE_DISK_MODE
 
 BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent)
 {
@@ -165,18 +166,19 @@ BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const ChsAddr
 	return ReadWriteSectors (write, codeSeg, (uint16) buffer, drive, chs, sectorCount, silent);
 }
 
-
 BiosResult ReadSectors (byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent)
 {
 	return ReadWriteSectors (false, buffer, drive, chs, sectorCount, silent);
 }
 
-
+#if 0
 BiosResult WriteSectors (byte *buffer, byte drive, const ChsAddress &chs, byte sectorCount, bool silent)
 {
 	return ReadWriteSectors (true, buffer, drive, chs, sectorCount, silent);
 }
+#endif
 
+#endif
 
 static BiosResult ReadWriteSectors (bool write, BiosLbaPacket &dapPacket, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {

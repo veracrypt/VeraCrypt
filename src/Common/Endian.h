@@ -139,8 +139,7 @@ unsigned __int16 MirrorBytes16 (unsigned __int16 x);
 unsigned __int32 MirrorBytes32 (unsigned __int32 x);
 #ifndef TC_NO_COMPILER_INT64
 uint64 MirrorBytes64 (uint64 x);
-#endif 
-void LongReverse ( unsigned __int32 *buffer , unsigned byteCount );
+#endif
 
 #if defined(__cplusplus)
 }

@@ -36,18 +36,6 @@
 #include "Pkcs5.h"
 #include "Crypto.h"
 
-void hmac_truncate
-  (
-	  char *d1,		/* data to be truncated */
-	  char *d2,		/* truncated data */
-	  int len		/* length in bytes to keep */
-)
-{
-	int i;
-	for (i = 0; i < len; i++)
-		d2[i] = d1[i];
-}
-
 #if !defined(TC_WINDOWS_BOOT) || defined(TC_WINDOWS_BOOT_SHA2)
 
 typedef struct hmac_sha256_ctx_struct

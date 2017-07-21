@@ -121,6 +121,7 @@ unsigned __int32 GetCrc32 (unsigned char *data, int length)
 	return r ^ 0xFFFFFFFFUL;
 }
 
+#if 0
 BOOL crc32_selftests ()
 {
 	unsigned __int8 testData[32];
@@ -131,5 +132,6 @@ BOOL crc32_selftests ()
 
 	return GetCrc32 (testData, sizeof (testData)) == 0x91267E8AUL;
 }
+#endif
 
 #endif // TC_MINIMIZE_CODE_SIZE

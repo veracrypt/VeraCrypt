@@ -19,17 +19,19 @@
 
 static int ScreenOutputDisabled = 0;
 
+#if defined(TC_TRACE_INT13) || !defined(TC_WINDOWS_BOOT_RESCUE_DISK_MODE)
 void DisableScreenOutput ()
 {
 	++ScreenOutputDisabled;
 }
+#endif
 
-
+#ifdef TC_TRACE_INT13
 void EnableScreenOutput ()
 {
 	--ScreenOutputDisabled;
 }
-
+#endif
 
 void PrintChar (char c)
 {

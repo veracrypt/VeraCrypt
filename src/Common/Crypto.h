@@ -354,8 +354,8 @@ int EAGetFirstCipher (int ea);
 int EAGetLastCipher (int ea);
 int EAGetNextCipher (int ea, int previousCipherId);
 int EAGetPreviousCipher (int ea, int previousCipherId);
-int EAIsFormatEnabled (int ea);
 #ifndef TC_WINDOWS_BOOT
+int EAIsFormatEnabled (int ea);
 int EAIsMbrSysEncEnabled (int ea);
 #endif
 BOOL EAIsModeSupported (int ea, int testedMode);
