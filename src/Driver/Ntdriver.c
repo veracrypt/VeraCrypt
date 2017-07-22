@@ -954,12 +954,14 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_DISK_GET_DRIVE_LAYOUT:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_LAYOUT)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (DRIVE_LAYOUT_INFORMATION) + 3*sizeof(PARTITION_INFORMATION), ValidateOutput))
+		if (ValidateIOBufferSize (Irp, sizeof (DRIVE_LAYOUT_INFORMATION), ValidateOutput))
 		{
+			PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
+			BOOL bFullBuffer = (irpSp->Parameters.DeviceIoControl.OutputBufferLength >= (sizeof (DRIVE_LAYOUT_INFORMATION) + 3*sizeof(PARTITION_INFORMATION)))? TRUE : FALSE;
 			PDRIVE_LAYOUT_INFORMATION outputBuffer = (PDRIVE_LAYOUT_INFORMATION)
 			Irp->AssociatedIrp.SystemBuffer;
 
-			outputBuffer->PartitionCount = 4;
+			outputBuffer->PartitionCount = bFullBuffer? 4 : 1;
 			outputBuffer->Signature = GetCrc32((unsigned char*) &(Extension->UniqueVolumeId), 4);
 
 			outputBuffer->PartitionEntry->PartitionType = Extension->PartitionType;
@@ -969,36 +971,53 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			outputBuffer->PartitionEntry->StartingOffset.QuadPart = Extension->BytesPerSector;
 			outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
 			outputBuffer->PartitionEntry->PartitionNumber = 1;
-			outputBuffer->PartitionEntry->HiddenSectors = 0;
+			outputBuffer->PartitionEntry->HiddenSectors = 0;			
 
 			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (DRIVE_LAYOUT_INFORMATION) + 3*sizeof(PARTITION_INFORMATION);
+			Irp->IoStatus.Information = sizeof (DRIVE_LAYOUT_INFORMATION);
+			if (bFullBuffer)
+			{
+				Irp->IoStatus.Information += 3*sizeof(PARTITION_INFORMATION);
+				memset (((BYTE*) Irp->AssociatedIrp.SystemBuffer) + sizeof (DRIVE_LAYOUT_INFORMATION), 0, 3*sizeof(PARTITION_INFORMATION));
+			}				
 		}
 		break;
 
 	case IOCTL_DISK_GET_DRIVE_LAYOUT_EX:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_LAYOUT_EX)\n");
-		if (ValidateIOBufferSize (Irp, sizeof (DRIVE_LAYOUT_INFORMATION_EX) + 3*sizeof(PARTITION_INFORMATION_EX), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			PDRIVE_LAYOUT_INFORMATION_EX outputBuffer = (PDRIVE_LAYOUT_INFORMATION_EX)
-			Irp->AssociatedIrp.SystemBuffer;
+			if (ValidateIOBufferSize (Irp, sizeof (DRIVE_LAYOUT_INFORMATION_EX), ValidateOutput))
+			{
+				PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
+				BOOL bFullBuffer = (irpSp->Parameters.DeviceIoControl.OutputBufferLength >= (sizeof (DRIVE_LAYOUT_INFORMATION_EX) + 3*sizeof(PARTITION_INFORMATION_EX)))? TRUE : FALSE;
+				PDRIVE_LAYOUT_INFORMATION_EX outputBuffer = (PDRIVE_LAYOUT_INFORMATION_EX)
+				Irp->AssociatedIrp.SystemBuffer;
 
-			outputBuffer->PartitionCount = 4;
-			outputBuffer->PartitionStyle = PARTITION_STYLE_MBR;
-			outputBuffer->Mbr.Signature = GetCrc32((unsigned char*) &(Extension->UniqueVolumeId), 4);
+				outputBuffer->PartitionCount = bFullBuffer? 4 : 1;
+				outputBuffer->PartitionStyle = PARTITION_STYLE_MBR;
+				outputBuffer->Mbr.Signature = GetCrc32((unsigned char*) &(Extension->UniqueVolumeId), 4);
 
-			outputBuffer->PartitionEntry->PartitionStyle = PARTITION_STYLE_MBR;
-			outputBuffer->PartitionEntry->Mbr.BootIndicator = FALSE;
-			outputBuffer->PartitionEntry->Mbr.RecognizedPartition = TRUE;
-			outputBuffer->PartitionEntry->RewritePartition = FALSE;
-			outputBuffer->PartitionEntry->StartingOffset.QuadPart = Extension->BytesPerSector;
-			outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
-			outputBuffer->PartitionEntry->PartitionNumber = 1;
-			outputBuffer->PartitionEntry->Mbr.HiddenSectors = 0;
-			outputBuffer->PartitionEntry->Mbr.PartitionType = Extension->PartitionType;
+				outputBuffer->PartitionEntry->PartitionStyle = PARTITION_STYLE_MBR;
+				outputBuffer->PartitionEntry->Mbr.BootIndicator = FALSE;
+				outputBuffer->PartitionEntry->Mbr.RecognizedPartition = TRUE;
+				outputBuffer->PartitionEntry->RewritePartition = FALSE;
+				outputBuffer->PartitionEntry->StartingOffset.QuadPart = Extension->BytesPerSector;
+				outputBuffer->PartitionEntry->PartitionLength.QuadPart = Extension->DiskLength;
+				outputBuffer->PartitionEntry->PartitionNumber = 1;
+				outputBuffer->PartitionEntry->Mbr.HiddenSectors = 0;
+				outputBuffer->PartitionEntry->Mbr.PartitionType = Extension->PartitionType;
 
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (DRIVE_LAYOUT_INFORMATION_EX) + 3*sizeof(PARTITION_INFORMATION_EX);
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (DRIVE_LAYOUT_INFORMATION_EX);
+				if (bFullBuffer)
+				{
+					Irp->IoStatus.Information += 3*sizeof(PARTITION_INFORMATION_EX);
+					memset (((BYTE*) Irp->AssociatedIrp.SystemBuffer) + sizeof (DRIVE_LAYOUT_INFORMATION_EX), 0, 3*sizeof(PARTITION_INFORMATION_EX));
+				}
+			}
 		}
 		break;
 
