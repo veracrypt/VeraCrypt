@@ -731,21 +731,25 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_DISK_GET_DRIVE_GEOMETRY_EX:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_GEOMETRY_EX)\n");
-		/* Return the drive geometry for the disk and its size.*/
-		if (ValidateIOBufferSize (Irp, sizeof (DISK_GEOMETRY_EX), ValidateOutput))
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (EnableExtendedIoctlSupport)
 		{
-			PDISK_GEOMETRY_EX outputBuffer = (PDISK_GEOMETRY_EX)
-			Irp->AssociatedIrp.SystemBuffer;
+			/* Return the drive geometry for the disk and its size.*/
+			if (ValidateIOBufferSize (Irp, sizeof (DISK_GEOMETRY_EX), ValidateOutput))
+			{
+				PDISK_GEOMETRY_EX outputBuffer = (PDISK_GEOMETRY_EX)
+				Irp->AssociatedIrp.SystemBuffer;
 
-			outputBuffer->Geometry.MediaType = Extension->bRemovable ? RemovableMedia : FixedMedia;
-			outputBuffer->Geometry.Cylinders.QuadPart = Extension->NumberOfCylinders;
-			outputBuffer->Geometry.TracksPerCylinder = Extension->TracksPerCylinder;
-			outputBuffer->Geometry.SectorsPerTrack = Extension->SectorsPerTrack;
-			outputBuffer->Geometry.BytesPerSector = Extension->BytesPerSector;
-			/* add one sector to DiskLength since our partition size is DiskLength and its offset if BytesPerSector */
-			outputBuffer->DiskSize.QuadPart = Extension->DiskLength + Extension->BytesPerSector;
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (DISK_GEOMETRY_EX);
+				outputBuffer->Geometry.MediaType = Extension->bRemovable ? RemovableMedia : FixedMedia;
+				outputBuffer->Geometry.Cylinders.QuadPart = Extension->NumberOfCylinders;
+				outputBuffer->Geometry.TracksPerCylinder = Extension->TracksPerCylinder;
+				outputBuffer->Geometry.SectorsPerTrack = Extension->SectorsPerTrack;
+				outputBuffer->Geometry.BytesPerSector = Extension->BytesPerSector;
+				outputBuffer->DiskSize.QuadPart = Extension->DiskLength;
+				Irp->IoStatus.Status = STATUS_SUCCESS;
+				Irp->IoStatus.Information = sizeof (DISK_GEOMETRY_EX);
+			}
 		}
 		break;
 
@@ -1162,8 +1166,8 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				capacity->Version = sizeof (STORAGE_READ_CAPACITY);
 				capacity->Size = sizeof (STORAGE_READ_CAPACITY);
 				capacity->BlockLength = Extension->BytesPerSector;
-				capacity->NumberOfBlocks.QuadPart = (Extension->DiskLength / Extension->BytesPerSector) + 1;
-				capacity->DiskLength.QuadPart = Extension->DiskLength + Extension->BytesPerSector;
+				capacity->NumberOfBlocks.QuadPart = Extension->DiskLength / Extension->BytesPerSector;
+				capacity->DiskLength.QuadPart = Extension->DiskLength;
 
 				Irp->IoStatus.Status = STATUS_SUCCESS;
 				Irp->IoStatus.Information = sizeof (STORAGE_READ_CAPACITY);
