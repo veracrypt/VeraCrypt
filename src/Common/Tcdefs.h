@@ -55,13 +55,13 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.22-BETA1-Build4"
+#define VERSION_STRING					"1.22-BETA2-Build1"
 
 // Version number to compare against driver
 #define VERSION_NUM						0x0122
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"July 20, 2017"
+#define TC_STR_RELEASE_DATE			L"July 22, 2017"
 #define TC_RELEASE_DATE_YEAR			2017
 #define TC_RELEASE_DATE_MONTH			 07
 
