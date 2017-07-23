@@ -197,9 +197,9 @@ $(LIBS)
 	del $(PROJ).crf $(PROJ).crf2
 
 # Compress the Rescue Disk botloader for Cascades and Serpent since it is too big (size > 31232 bytes)
-!if DEFINED(RESCUE_DISK) && (!DEFINED (SINGLE_CIPHER) || ("$(SINGLE_CIPHER)" == "SERPENT") || ("$(SINGLE_CIPHER)" == "CAMELLIA"))
+#!if DEFINED(RESCUE_DISK) && (!DEFINED (SINGLE_CIPHER) || ("$(SINGLE_CIPHER)" == "SERPENT") || ("$(SINGLE_CIPHER)" == "CAMELLIA"))
 	upx $(PROJ).$(TARGETEXT)
-!endif
+#!endif
 	gzip.exe -c -n --best $(PROJ).$(TARGETEXT) >$(PROJ).$(TARGETEXT).gz
 	-dd.exe conv=notrunc,sync bs=512 seek=5 if=$(PROJ).$(TARGETEXT).gz of=$(PROJ).flp 2>NUL:
 	cd ..
