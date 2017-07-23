@@ -2534,6 +2534,7 @@ void SavePostInstallTasksSettings (int command)
 	case TC_POST_INSTALL_CFG_REMOVE_ALL:
 		_wremove (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_TUTORIAL));
 		_wremove (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RELEASE_NOTES));
+		_wremove (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RESCUE_DISK));
 		break;
 
 	case TC_POST_INSTALL_CFG_TUTORIAL:
@@ -2542,6 +2543,10 @@ void SavePostInstallTasksSettings (int command)
 
 	case TC_POST_INSTALL_CFG_RELEASE_NOTES:
 		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RELEASE_NOTES), L"w");
+		break;
+
+	case TC_POST_INSTALL_CFG_RESCUE_DISK:
+		f = _wfopen (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RESCUE_DISK), L"w");
 		break;
 
 	default:
@@ -2580,6 +2585,14 @@ void DoPostInstallTasks (HWND hwndDlg)
 	{
 		if (AskYesNo ("AFTER_UPGRADE_RELEASE_NOTES", hwndDlg) == IDYES)
 			Applink ("releasenotes");
+
+		bDone = TRUE;
+	}
+
+	if (FileExists (GetConfigPath (TC_APPD_FILENAME_POST_INSTALL_TASK_RESCUE_DISK)))
+	{
+		if (AskYesNo ("AFTER_UPGRADE_RESCUE_DISK", hwndDlg) == IDYES)
+			PostMessage (hwndDlg, VC_APPMSG_CREATE_RESCUE_DISK, 0, 0);
 
 		bDone = TRUE;
 	}

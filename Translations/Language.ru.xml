@@ -1422,6 +1422,7 @@
     <string lang="ru" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">ВНИМАНИЕ: Если у вас недостаточно опыта, не следует вручную редактировать настройки загрузчика.\n\nПродолжить?</string>
     <string lang="ru" key="DCSPROP_XML_VALIDATION_FAILED">ВНИМАНИЕ: Ошибка проверки корректности XML-формата конфигурации загрузчика. Проверьте внесённые вами изменения.</string>
     <control lang="ru" key="IDT_ADVANCED_OPTIONS">Расширенные настройки</control>
+    <string lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

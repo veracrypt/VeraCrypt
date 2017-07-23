@@ -1423,6 +1423,7 @@
     <string lang="nl" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">Waarschuwing: Onervaren gebruikers moeten niet proberen bootloader configuraties handmatig te bewerken.\n\nVerder gaan?</string>
     <string lang="nl" key="DCSPROP_XML_VALIDATION_FAILED">Waarschuwing: Het valideren van de XML-opmaak van de bootloader configuratie is mislukt. Controleer uw wijzigingen.</string>
     <control lang="nl" key="IDT_ADVANCED_OPTIONS">Geavanceerde opties</control>
+    <string lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

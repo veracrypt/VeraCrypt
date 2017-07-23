@@ -8531,6 +8531,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		ShowWindow (hwndDlg, SW_RESTORE);
 		return 1;
 
+	case VC_APPMSG_CREATE_RESCUE_DISK:
+		CreateRescueDisk (hwndDlg);
+		return 1;
+
 	case WM_COPYDATA:
 		{
 			PCOPYDATASTRUCT cd = (PCOPYDATASTRUCT)lParam;

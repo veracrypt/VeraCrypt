@@ -59,6 +59,7 @@ BOOL bMakePackage = FALSE;
 BOOL bDone = FALSE;
 BOOL Rollback = FALSE;
 BOOL bUpgrade = FALSE;
+BOOL bUpdateRescueDisk = FALSE;
 BOOL bDowngrade = FALSE;
 BOOL SystemEncryptionUpdate = FALSE;
 BOOL PortableMode = FALSE;
@@ -1688,7 +1689,10 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 			bootEnc.InstallBootLoader (true);
 
 			if (bootEnc.GetInstalledBootLoaderVersion() <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
+			{
+				bUpdateRescueDisk = TRUE;
 				Info (IsHiddenOSRunning() ? "BOOT_LOADER_UPGRADE_OK_HIDDEN_OS" : "BOOT_LOADER_UPGRADE_OK", hwndDlg);
+			}
 		}
 		return TRUE;
 	}
@@ -2276,6 +2280,10 @@ void DoInstall (void *arg)
 				if (bUpgrade)
 				{
 					SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_RELEASE_NOTES);
+					if (bUpdateRescueDisk)
+					{
+						SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_RESCUE_DISK);
+					}
 				}
 				else if (bPossiblyFirstTimeInstall)
 				{
