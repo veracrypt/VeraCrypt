@@ -772,7 +772,7 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	Password *password = volParams->password;
 	int pkcs5_prf = volParams->pkcs5;
 	int pim = volParams->pim;
-	DISK_GEOMETRY_EX driveGeometry;
+	DISK_GEOMETRY driveGeometry;
 	HWND hwndDlg = volParams->hwndDlg;
 
 
@@ -855,13 +855,13 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 		NULL);
 
 
-	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
+	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
 	}
 
-	sectorSize = driveGeometry.Geometry.BytesPerSector;
+	sectorSize = driveGeometry.BytesPerSector;
 
 
 	nStatus = OpenBackupHeader (dev, devicePath, password, pkcs5_prf, pim, &masterCryptoInfo, headerCryptoInfo, deviceSize);
@@ -1282,7 +1282,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	HWND hwndDlg = volParams->hwndDlg;
 	int pkcs5_prf = volParams->pkcs5;
 	int pim = volParams->pim;
-	DISK_GEOMETRY_EX driveGeometry;
+	DISK_GEOMETRY driveGeometry;
 
 
 	buf = (char *) TCalloc (TC_MAX_NONSYS_INPLACE_ENC_WORK_CHUNK_SIZE);
@@ -1357,15 +1357,15 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 		NULL);
 
 
-	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
+	if (!DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &driveGeometry, sizeof (driveGeometry), &dwResult, NULL))
 	{
 		nStatus = ERR_OS_ERROR;
 		goto closing_seq;
 	}
 
-	if (	(driveGeometry.Geometry.BytesPerSector == 0)
-		||	(driveGeometry.Geometry.BytesPerSector > TC_MAX_VOLUME_SECTOR_SIZE)
-		|| (driveGeometry.Geometry.BytesPerSector % ENCRYPTION_DATA_UNIT_SIZE != 0)
+	if (	(driveGeometry.BytesPerSector == 0)
+		||	(driveGeometry.BytesPerSector > TC_MAX_VOLUME_SECTOR_SIZE)
+		|| (driveGeometry.BytesPerSector % ENCRYPTION_DATA_UNIT_SIZE != 0)
 		)
 	{
 		Error ("SECTOR_SIZE_UNSUPPORTED", hwndDlg);
@@ -1373,7 +1373,7 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 		goto closing_seq;
 	}
 
-	sectorSize = driveGeometry.Geometry.BytesPerSector;
+	sectorSize = driveGeometry.BytesPerSector;
 
 
 	tmpSectorBuf = (byte *) TCalloc (sectorSize);

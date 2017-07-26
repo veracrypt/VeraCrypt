@@ -8505,11 +8505,14 @@ BOOL GetPhysicalDriveGeometry (int driveNumber, PDISK_GEOMETRY_EX diskGeometry)
 		DWORD bytesRead = 0;
 
 		ZeroMemory (diskGeometry, sizeof (DISK_GEOMETRY_EX));
+		BYTE dgBuffer[256];
 
-		if (	DeviceIoControl (hDev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, diskGeometry, sizeof (DISK_GEOMETRY_EX), &bytesRead, NULL)
-			&& (bytesRead == sizeof (DISK_GEOMETRY_EX))
-			&& diskGeometry->Geometry.BytesPerSector)
+		if (	DeviceIoControl (hDev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, dgBuffer, sizeof (dgBuffer), &bytesRead, NULL)
+			&& (bytesRead >= (sizeof (DISK_GEOMETRY) + sizeof (LARGE_INTEGER)))
+			&& ((PDISK_GEOMETRY_EX) dgBuffer)->Geometry.BytesPerSector)
 		{
+			memcpy (&diskGeometry->Geometry, &((PDISK_GEOMETRY_EX) dgBuffer)->Geometry, sizeof (DISK_GEOMETRY));
+			diskGeometry->DiskSize.QuadPart = ((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart;
 			bResult = TRUE;
 		}
 
@@ -10910,15 +10913,15 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 		}
 		else
 		{
-			DISK_GEOMETRY_EX driveInfo;
+			BYTE dgBuffer[256];
 
-			if (!DeviceIoControl (context->HostFileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveInfo, sizeof (driveInfo), &dwResult, NULL))
+			if (!DeviceIoControl (context->HostFileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, dgBuffer, sizeof (dgBuffer), &dwResult, NULL))
 			{
 				status = ERR_OS_ERROR;
 				goto error;
 			}
 
-			context->HostSize = driveInfo.DiskSize.QuadPart;
+			context->HostSize = ((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart;
 		}
 
 		if (context->HostSize == 0)
@@ -11106,10 +11109,10 @@ BOOL IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly)
 		if (handle == INVALID_HANDLE_VALUE)
 			continue;
 
-		DISK_GEOMETRY_EX driveInfo;
+		BYTE dgBuffer[256];
 		DWORD dwResult;
 
-		if (!DeviceIoControl (handle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &driveInfo, sizeof (driveInfo), &dwResult, NULL))
+		if (!DeviceIoControl (handle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, dgBuffer, sizeof (dgBuffer), &dwResult, NULL))
 		{
 			CloseHandle (handle);
 			continue;
@@ -12063,95 +12066,95 @@ void UpdateMountableHostDeviceList (bool bFromService)
 		}
 		else
 		{
-			HANDLE disk = CreateFile( It->Path.c_str(),
-				0,
-				FILE_SHARE_READ | FILE_SHARE_WRITE,
+		HANDLE disk = CreateFile( It->Path.c_str(),
+			0,
+			FILE_SHARE_READ | FILE_SHARE_WRITE,
+			NULL,
+			OPEN_EXISTING,
+			0,
+			NULL );
+		if ( INVALID_HANDLE_VALUE != disk)
+		{	
+			bool bIsDynamic = false;
+			bool bHasPartition = false;
+			if (DeviceIoControl(
+				disk,
+				IOCTL_DISK_GET_DRIVE_LAYOUT_EX,
 				NULL,
-				OPEN_EXISTING,
 				0,
-				NULL );
-			if ( INVALID_HANDLE_VALUE != disk)
-			{	
-				bool bIsDynamic = false;
-				bool bHasPartition = false;
-				if (DeviceIoControl(
-					disk,
-					IOCTL_DISK_GET_DRIVE_LAYOUT_EX,
-					NULL,
-					0,
-					(LPVOID) buffer.data(),
-					(DWORD) buffer.size(),
-					(LPDWORD) &bytesReturned,
-					NULL) && (bytesReturned >= sizeof (DRIVE_LAYOUT_INFORMATION_EX)))
+				(LPVOID) buffer.data(),
+				(DWORD) buffer.size(),
+				(LPDWORD) &bytesReturned,
+				NULL) && (bytesReturned >= sizeof (DRIVE_LAYOUT_INFORMATION_EX)))
+			{
+				PDRIVE_LAYOUT_INFORMATION_EX layout = (PDRIVE_LAYOUT_INFORMATION_EX) buffer.data();
+				// sanity checks
+				if (layout->PartitionCount <= 256)
 				{
-					PDRIVE_LAYOUT_INFORMATION_EX layout = (PDRIVE_LAYOUT_INFORMATION_EX) buffer.data();
-					// sanity checks
-					if (layout->PartitionCount <= 256)
+					for (DWORD i = 0; i < layout->PartitionCount; i++)
 					{
-						for (DWORD i = 0; i < layout->PartitionCount; i++)
+						if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_MBR)
 						{
-							if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_MBR)
+							if (layout->PartitionEntry[i].Mbr.PartitionType == 0)
+								continue;
+
+							bHasPartition = true;
+
+							/* skip dynamic volume */
+							if (layout->PartitionEntry[i].Mbr.PartitionType == PARTITION_LDM)
 							{
-								if (layout->PartitionEntry[i].Mbr.PartitionType == 0)
-									continue;
-
-								bHasPartition = true;
-
-								/* skip dynamic volume */
-								if (layout->PartitionEntry[i].Mbr.PartitionType == PARTITION_LDM)
-								{
-									bIsDynamic = true;
-									/* remove any partition that may have been added */
-									while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
-										mountableDevices.pop_back ();
-									break;
-								}
+								bIsDynamic = true;
+								/* remove any partition that may have been added */
+								while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
+									mountableDevices.pop_back ();
+								break;
 							}
+						}
 
-							if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_GPT)
+						if (layout->PartitionEntry[i].PartitionStyle == PARTITION_STYLE_GPT)
+						{
+							if (IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_ENTRY_UNUSED_GUID))
+								continue;
+
+							bHasPartition = true;
+
+							/* skip dynamic volume */
+							if (	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_METADATA_GUID)
+								||	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_DATA_GUID)
+								)
 							{
-								if (IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_ENTRY_UNUSED_GUID))
-									continue;
-
-								bHasPartition = true;
-
-								/* skip dynamic volume */
-								if (	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_METADATA_GUID)
-									||	IsEqualGUID(layout->PartitionEntry[i].Gpt.PartitionType, PARTITION_LDM_DATA_GUID)
-									)
-								{
-									bIsDynamic = true;
-									/* remove any partition that may have been added */
-									while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
-										mountableDevices.pop_back ();
-									break;
-								}
+								bIsDynamic = true;
+								/* remove any partition that may have been added */
+								while (!mountableDevices.empty() && (mountableDevices.back().SystemNumber == It->SystemNumber))
+									mountableDevices.pop_back ();
+								break;
 							}
+						}
 
-							WCHAR path[MAX_PATH];
-							StringCbPrintfW (path, sizeof(path), L"\\\\?\\GLOBALROOT\\Device\\Harddisk%d\\Partition%d", It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
-							HANDLE handle = CreateFile( path,
-								0,
-								FILE_SHARE_READ | FILE_SHARE_WRITE,
-								NULL,
-								OPEN_EXISTING,
-								0,
-								NULL );
-							if ((handle != INVALID_HANDLE_VALUE) || (GetLastError () == ERROR_ACCESS_DENIED))
-							{
-								AddDeviceToList (mountableDevices, It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
-								if (handle != INVALID_HANDLE_VALUE)
-									CloseHandle (handle);
-							}
+						WCHAR path[MAX_PATH];
+						StringCbPrintfW (path, sizeof(path), L"\\\\?\\GLOBALROOT\\Device\\Harddisk%d\\Partition%d", It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
+						HANDLE handle = CreateFile( path,
+							0,
+							FILE_SHARE_READ | FILE_SHARE_WRITE,
+							NULL,
+							OPEN_EXISTING,
+							0,
+							NULL );
+						if ((handle != INVALID_HANDLE_VALUE) || (GetLastError () == ERROR_ACCESS_DENIED))
+						{
+							AddDeviceToList (mountableDevices, It->SystemNumber, layout->PartitionEntry[i].PartitionNumber);
+							if (handle != INVALID_HANDLE_VALUE)
+								CloseHandle (handle);
 						}
 					}
 				}
+			}
 
-				if (bIsDynamic)
-					dynamicVolumesPresent = true;
+			if (bIsDynamic)
+				dynamicVolumesPresent = true;
 
-				if (!bHasPartition)
-					AddDeviceToList (mountableDevices, It->SystemNumber, 0);
+			if (!bHasPartition)
+				AddDeviceToList (mountableDevices, It->SystemNumber, 0);
 
 				CloseHandle (disk);
 			}
@@ -12221,79 +12224,79 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE])
 
 	/* not mounted. Look for it in the local drives*/
 
-	EnterCriticalSection (&csMountableDevices);
-	std::vector<HostDevice> newDevices = mountableDevices;
-	LeaveCriticalSection (&csMountableDevices);
+		EnterCriticalSection (&csMountableDevices);
+		std::vector<HostDevice> newDevices = mountableDevices;
+		LeaveCriticalSection (&csMountableDevices);
 
-	EnterCriticalSection (&csVolumeIdCandidates);
-	finally_do ({ LeaveCriticalSection (&csVolumeIdCandidates); });
+		EnterCriticalSection (&csVolumeIdCandidates);
+		finally_do ({ LeaveCriticalSection (&csVolumeIdCandidates); });
 
-	/* remove any devices that don't exist anymore */
-	for (std::vector<HostDevice>::iterator It = volumeIdCandidates.begin();
-		It != volumeIdCandidates.end();)
-	{
-		bool bFound = false;
+		/* remove any devices that don't exist anymore */
+		for (std::vector<HostDevice>::iterator It = volumeIdCandidates.begin();
+			It != volumeIdCandidates.end();)
+		{
+			bool bFound = false;
+			for (std::vector<HostDevice>::iterator newIt = newDevices.begin();
+				newIt != newDevices.end(); newIt++)
+			{
+				if (It->Path == newIt->Path)
+				{
+					bFound = true;
+					break;
+				}
+			}
+
+			if (bFound)
+				It++;
+			else
+				It = volumeIdCandidates.erase (It);
+		}
+
+		/* Add newly inserted devices and compute their VolumeID */
 		for (std::vector<HostDevice>::iterator newIt = newDevices.begin();
 			newIt != newDevices.end(); newIt++)
 		{
-			if (It->Path == newIt->Path)
+			bool bFound = false;
+
+			for (std::vector<HostDevice>::iterator It = volumeIdCandidates.begin();
+				It != volumeIdCandidates.end(); It++)
 			{
-				bFound = true;
-				break;
+				if (It->Path == newIt->Path)
+				{
+					bFound = true;
+					break;
+				}
+			}
+
+			if (!bFound)
+			{
+				/* new device/partition. Compute its Volume IDs */
+				OPEN_TEST_STRUCT openTest = {0};
+				if (OpenDevice (newIt->Path.c_str(), &openTest, TRUE, TRUE)
+					&& (openTest.VolumeIDComputed[TC_VOLUME_TYPE_NORMAL] && openTest.VolumeIDComputed[TC_VOLUME_TYPE_HIDDEN])
+					)
+				{
+					memcpy (newIt->VolumeIDs, openTest.volumeIDs, sizeof (newIt->VolumeIDs));
+					newIt->HasVolumeIDs = true;
+				}
+				else
+					newIt->HasVolumeIDs = false;
+				volumeIdCandidates.push_back (*newIt);
 			}
 		}
-
-		if (bFound)
-			It++;
-		else
-			It = volumeIdCandidates.erase (It);
-	}
-
-	/* Add newly inserted devices and compute their VolumeID */
-	for (std::vector<HostDevice>::iterator newIt = newDevices.begin();
-		newIt != newDevices.end(); newIt++)
-	{
-		bool bFound = false;
 
 		for (std::vector<HostDevice>::iterator It = volumeIdCandidates.begin();
 			It != volumeIdCandidates.end(); It++)
 		{
-			if (It->Path == newIt->Path)
-			{
-				bFound = true;
-				break;
-			}
-		}
-
-		if (!bFound)
-		{
-			/* new device/partition. Compute its Volume IDs */
-			OPEN_TEST_STRUCT openTest = {0};
-			if (OpenDevice (newIt->Path.c_str(), &openTest, TRUE, TRUE)
-				&& (openTest.VolumeIDComputed[TC_VOLUME_TYPE_NORMAL] && openTest.VolumeIDComputed[TC_VOLUME_TYPE_HIDDEN])
+			if (	It->HasVolumeIDs &&
+					(	(0 == memcmp (volumeID, It->VolumeIDs[TC_VOLUME_TYPE_NORMAL], VOLUME_ID_SIZE))
+						||	(0 == memcmp (volumeID, It->VolumeIDs[TC_VOLUME_TYPE_HIDDEN], VOLUME_ID_SIZE))
+					)
 				)
 			{
-				memcpy (newIt->VolumeIDs, openTest.volumeIDs, sizeof (newIt->VolumeIDs));
-				newIt->HasVolumeIDs = true;
+				return It->Path;
 			}
-			else
-				newIt->HasVolumeIDs = false;
-			volumeIdCandidates.push_back (*newIt);
 		}
-	}
-
-	for (std::vector<HostDevice>::iterator It = volumeIdCandidates.begin();
-		It != volumeIdCandidates.end(); It++)
-	{
-		if (	It->HasVolumeIDs &&
-				(	(0 == memcmp (volumeID, It->VolumeIDs[TC_VOLUME_TYPE_NORMAL], VOLUME_ID_SIZE))
-					||	(0 == memcmp (volumeID, It->VolumeIDs[TC_VOLUME_TYPE_HIDDEN], VOLUME_ID_SIZE))
-				)
-			)
-		{
-			return It->Path;
-		}
-	}
 
 	return L"";
 }

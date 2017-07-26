@@ -10448,15 +10448,15 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 			}
 			else
 			{
-				DISK_GEOMETRY_EX driveInfo;
+				BYTE dgBuffer[256];
 
 				bResult = DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0,
-					&driveInfo, sizeof (driveInfo), &dwResult, NULL);
+					dgBuffer, sizeof (dgBuffer), &dwResult, NULL);
 
 				if (!bResult)
 					goto error;
 
-				hostSize = driveInfo.DiskSize.QuadPart;
+				hostSize = ((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart;
 			}
 
 			if (hostSize == 0)
