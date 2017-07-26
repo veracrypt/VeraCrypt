@@ -1422,7 +1422,7 @@
     <string lang="pl" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">UWAGA: Niedoświadczeni użytkownicy nie powinni próbować ręcznie edytować konfiguracje programu rozruchowego.\n\nKontynuować?</string>
     <string lang="pl" key="DCSPROP_XML_VALIDATION_FAILED">UWAGA: Nie udało się zweryfikować formatu XML konfiguracji programu rozruchowego. Proszę sprawdzić swoje modyfikacje.</string>
     <control lang="pl" key="IDT_ADVANCED_OPTIONS">Opcje zaawansowane</control>
-    <string lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</string>
+    <string lang="pl" key="AFTER_UPGRADE_RESCUE_DISK">Zdecydowanie zaleca się utworzenie nowej płyty ratunkowej VeraCrypt (która zawierać będzie nową wersję programu rozruchowego VeraCrypt) poprzez wybranie 'System' > 'Utwórz płytę ratunkową'.\nCzy chcesz to teraz zrobić?</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
