@@ -7659,7 +7659,7 @@ static BOOL PerformMountIoctl (MOUNT_STRUCT* pmount, LPDWORD pdwResult, BOOL use
 {
 	if (useVolumeID)
 	{
-		wstring devicePath = FindDeviceByVolumeID (volumeID);
+		wstring devicePath = FindDeviceByVolumeID (volumeID, FALSE);
 		if (devicePath == L"")
 		{
 			if (pdwResult)
@@ -11882,11 +11882,8 @@ void AddDeviceToList (std::vector<HostDevice>& devices, int devNumber, int partN
 	devices.push_back (device);
 }
 
-std::vector <HostDevice> GetHostRawDeviceList (bool bFromService)
+std::vector <HostDevice> GetHostRawDeviceList ()
 {
-	if (bFromService)
-		return GetAvailableHostDevices (true, false, true, true);
-
 	std::vector <HostDevice> list;
 	HDEVINFO diskClassDevices;
 	GUID diskClassDeviceInterfaceGuid = GUID_DEVINTERFACE_DISK;
@@ -11999,7 +11996,7 @@ bool CompareDeviceList (const std::vector<HostDevice>& list1, const std::vector<
 	return true;
 }
 
-void UpdateMountableHostDeviceList (bool bFromService)
+void UpdateMountableHostDeviceList ()
 {
 	ByteArray buffer(4096);
 	DWORD bytesReturned;
@@ -12008,7 +12005,7 @@ void UpdateMountableHostDeviceList (bool bFromService)
 	EnterCriticalSection (&csMountableDevices);
 	finally_do ({ LeaveCriticalSection (&csMountableDevices); });
 
-	std::vector<HostDevice> newList = GetHostRawDeviceList (bFromService);
+	std::vector<HostDevice> newList = GetHostRawDeviceList ();
 	std::map<DWORD, bool> existingDevicesMap;
 
 	if (CompareDeviceList (newList, rawHostDeviceList))
@@ -12051,21 +12048,6 @@ void UpdateMountableHostDeviceList (bool bFromService)
 		if (existingDevicesMap[It->SystemNumber])
 			continue;
 
-		if (bFromService)
-		{
-			if (It->Partitions.empty())
-				mountableDevices.push_back (*It);
-			else
-			{
-				for (std::vector<HostDevice>::iterator partIt = It->Partitions.begin(); partIt != It->Partitions.end(); partIt++)
-				{
-					if (!partIt->ContainsSystem && !partIt->HasUnencryptedFilesystem)
-						mountableDevices.push_back (*partIt);
-				}
-			}
-		}
-		else
-		{
 		HANDLE disk = CreateFile( It->Path.c_str(),
 			0,
 			FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -12156,15 +12138,14 @@ void UpdateMountableHostDeviceList (bool bFromService)
 			if (!bHasPartition)
 				AddDeviceToList (mountableDevices, It->SystemNumber, 0);
 
-				CloseHandle (disk);
-			}
+			CloseHandle (disk);
 		}
 	}
 
 	rawHostDeviceList = newList;
 
 	// Starting from Vista, Windows does not create partition links for dynamic volumes so it is necessary to scan \\Device\\HarddiskVolumeX devices
-	if (!bFromService && dynamicVolumesPresent && (CurrentOSMajor >= 6))
+	if (dynamicVolumesPresent && (CurrentOSMajor >= 6))
 	{
 		for (int devNumber = 0; devNumber < 256; devNumber++)
 		{
@@ -12190,10 +12171,8 @@ void UpdateMountableHostDeviceList (bool bFromService)
 	}
 }
 
-wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE])
+wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE], BOOL bFromService)
 {
-	static std::vector<HostDevice>  volumeIdCandidates;
-
 	/* if it is already mounted, get the real path name used for mounting */
 	MOUNT_LIST_STRUCT mlist;
 	DWORD dwResult;
@@ -12223,6 +12202,36 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE])
 	}
 
 	/* not mounted. Look for it in the local drives*/
+
+	if (bFromService)
+	{
+		for (int devNumber = 0; devNumber < MAX_HOST_DRIVE_NUMBER; devNumber++)
+		{
+			for (int partNumber = 0; partNumber < MAX_HOST_PARTITION_NUMBER; partNumber++)
+			{
+				wstringstream strm;
+				strm << L"\\Device\\Harddisk" << devNumber << L"\\Partition" << partNumber;
+				wstring devPathStr (strm.str());
+				const wchar_t *devPath = devPathStr.c_str();
+
+				OPEN_TEST_STRUCT openTest = {0};
+				if (OpenDevice (devPath, &openTest, TRUE, TRUE)
+					&& (openTest.VolumeIDComputed[TC_VOLUME_TYPE_NORMAL] && openTest.VolumeIDComputed[TC_VOLUME_TYPE_HIDDEN])
+					)
+				{
+					if (	(0 == memcmp (volumeID, openTest.volumeIDs[TC_VOLUME_TYPE_NORMAL], VOLUME_ID_SIZE))
+								||	(0 == memcmp (volumeID, openTest.volumeIDs[TC_VOLUME_TYPE_HIDDEN], VOLUME_ID_SIZE))
+						)
+					{
+						return devPath;
+					}
+				}					
+			}
+		}
+	}
+	else
+	{
+		static std::vector<HostDevice>  volumeIdCandidates;
 
 		EnterCriticalSection (&csMountableDevices);
 		std::vector<HostDevice> newDevices = mountableDevices;
@@ -12297,6 +12306,7 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE])
 				return It->Path;
 			}
 		}
+	}
 
 	return L"";
 }
@@ -12924,7 +12934,7 @@ BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue)
 			&& (arr.size() == VOLUME_ID_SIZE)
 			)
 		{
-			std::wstring devicePath = FindDeviceByVolumeID (&arr[0]);
+			std::wstring devicePath = FindDeviceByVolumeID (&arr[0], FALSE);
 			if (devicePath.length() > 0)
 				StringCchCopyW (pathValue, cchPathValue, devicePath.c_str());
 			else

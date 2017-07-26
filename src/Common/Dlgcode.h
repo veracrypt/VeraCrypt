@@ -621,7 +621,7 @@ std::wstring GetUserFriendlyVersionString (int version);
 std::wstring IntToWideString (int val);
 std::wstring ArrayToHexWideString (const unsigned char* pbData, int cbData);
 bool HexWideStringToArray (const wchar_t* hexStr, std::vector<byte>& arr);
-std::wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE]);
+std::wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE], BOOL bFromService);
 void RegisterDriverInf (bool registerFilter, const std::string& filter, const std::string& filterReg, HWND ParentWindow, HKEY regKey);
 std::wstring GetTempPathString ();
 void CorrectFileName (std::wstring& fileName);
@@ -629,7 +629,7 @@ inline std::wstring AppendSrcPos (const wchar_t* msg, const char* srcPos)
 {
 	return std::wstring (msg? msg : L"") + L"\n\nSource: " + SingleStringToWide (srcPos);
 }
-void UpdateMountableHostDeviceList (bool bFromService);
+void UpdateMountableHostDeviceList ();
 INT_PTR TextEditDialogBox (BOOL readOnly, HWND parent, const WCHAR* Title, std::string& text);
 
 // Display a wait dialog while calling the provided callback with the given parameter

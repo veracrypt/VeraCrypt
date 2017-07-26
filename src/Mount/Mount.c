@@ -495,7 +495,7 @@ static void InitMainDialog (HWND hwndDlg)
 	}
 
 	// initialize the list of devices available for mounting as early as possible
-	UpdateMountableHostDeviceList (false);
+	UpdateMountableHostDeviceList ();
 
 	// Resize the logo bitmap if the user has a non-default DPI
 	if (ScreenDPI != USER_DEFAULT_SCREEN_DPI
@@ -7119,7 +7119,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (wParam == TIMER_ID_UPDATE_DEVICE_LIST)
 			{
-				UpdateMountableHostDeviceList (false);
+				UpdateMountableHostDeviceList ();
 			}
 			else
 			{
@@ -7195,7 +7195,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 								if (IsMountedVolumeID (favorite.VolumeID))
 									continue;
 
-								std::wstring volDevPath = FindDeviceByVolumeID (favorite.VolumeID);
+								std::wstring volDevPath = FindDeviceByVolumeID (favorite.VolumeID, FALSE);
 								if (volDevPath.length() > 0)
 								{
 									favorite.Path = volDevPath;
@@ -8486,7 +8486,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					std::wstring volName;
 					WaitCursor();
 					if (FavoriteVolumes[favoriteIndex].UseVolumeID)
-						volName = FindDeviceByVolumeID (FavoriteVolumes[favoriteIndex].VolumeID);
+						volName = FindDeviceByVolumeID (FavoriteVolumes[favoriteIndex].VolumeID, FALSE);
 					else
 						volName = FavoriteVolumes[favoriteIndex].Path;
 					OpenVolumeExplorerWindow (GetMountedVolumeDriveNo ((wchar_t*) FavoriteVolumes[favoriteIndex].Path.c_str()));
@@ -9172,7 +9172,7 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 
 	SystemFavoritesServiceLogInfo (wstring (L"Initializing list of host devices"));
 	// initialize the list of devices available for mounting as early as possible
-	UpdateMountableHostDeviceList (true);
+	UpdateMountableHostDeviceList ();
 
 	SystemFavoritesServiceLogInfo (wstring (L"Starting System Favorites mounting process"));
 
@@ -9479,7 +9479,7 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 
 	if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
 	{
-		effectiveVolumePath = FindDeviceByVolumeID (favorite.VolumeID);
+		effectiveVolumePath = FindDeviceByVolumeID (favorite.VolumeID, (ServiceMode && systemFavorites)? TRUE : FALSE);
 	}
 	else
 		effectiveVolumePath = favorite.Path;
@@ -9645,7 +9645,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 				{
 					if (favorite->UseVolumeID)
 					{
-						std::wstring path = FindDeviceByVolumeID (favorite->VolumeID);
+						std::wstring path = FindDeviceByVolumeID (favorite->VolumeID, TRUE);
 						if (path.empty ())
 						{
 							favorite->DisconnectedDevice = true;
@@ -9706,7 +9706,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 			Sleep (5000);
 
 			SystemFavoritesServiceLogInfo (wstring (L"Updating list of host devices"));
-			UpdateMountableHostDeviceList (true);
+			UpdateMountableHostDeviceList ();
 
 			SystemFavoritesServiceLogInfo (wstring (L"Trying to mount skipped system favorites"));
 
@@ -9723,7 +9723,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 					wstring resolvedPath;
 					if (favorite->UseVolumeID)
 					{
-						resolvedPath = FindDeviceByVolumeID (favorite->VolumeID);
+						resolvedPath = FindDeviceByVolumeID (favorite->VolumeID, TRUE);
 					}
 					else
 						resolvedPath = VolumeGuidPathToDevicePath (favorite->Path);
