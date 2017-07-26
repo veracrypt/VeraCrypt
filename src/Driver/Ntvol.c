@@ -90,6 +90,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
 		STORAGE_DESCRIPTOR_HEADER storageHeader = {0};
+		byte* dgBuffer;
 
 		ntStatus = IoGetDeviceObjectPointer (&FullFileName,
 			FILE_READ_DATA | FILE_READ_ATTRIBUTES,
@@ -99,9 +100,48 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		if (!NT_SUCCESS (ntStatus))
 			goto error;
 
-		ntStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, (char *) &dg, sizeof (dg));
-		if (!NT_SUCCESS (ntStatus))
+		dgBuffer = TCalloc (256);
+		if (!dgBuffer)
+		{
+			ntStatus = STATUS_INSUFFICIENT_RESOURCES;
 			goto error;
+		}
+
+		ntStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, (char *) dgBuffer, 256);
+		if (!NT_SUCCESS (ntStatus))
+		{
+			DISK_GEOMETRY geo;
+			ntStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_DRIVE_GEOMETRY, (char *) &geo, sizeof (geo));
+			if (!NT_SUCCESS (ntStatus))
+			{
+				TCfree (dgBuffer);
+				goto error;
+			}
+			memset (&dg, 0, sizeof (dg));
+			memcpy (&dg.Geometry, &geo, sizeof (geo));
+			dg.DiskSize.QuadPart = geo.Cylinders.QuadPart * geo.SectorsPerTrack * geo.TracksPerCylinder * geo.BytesPerSector;
+
+			if (OsMajorVersion >= 6)
+			{
+				STORAGE_READ_CAPACITY storage = {0};
+				NTSTATUS lStatus;
+
+				storage.Version = sizeof (STORAGE_READ_CAPACITY);
+				lStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension,
+					IOCTL_STORAGE_READ_CAPACITY,
+					(char*)  &storage, sizeof (STORAGE_READ_CAPACITY));
+				if (	NT_SUCCESS(lStatus)
+					&& (storage.Size == sizeof (STORAGE_READ_CAPACITY))
+					)
+				{
+					dg.DiskSize.QuadPart = storage.DiskLength.QuadPart;
+				}
+			}
+		}
+		else
+			memcpy (&dg, dgBuffer, sizeof (DISK_GEOMETRY_EX));
+
+		TCfree (dgBuffer);
 
 		lDiskLength.QuadPart = dg.DiskSize.QuadPart;
 		Extension->HostBytesPerSector = dg.Geometry.BytesPerSector;
@@ -704,7 +744,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				Extension->TracksPerCylinder = 1;
 				Extension->SectorsPerTrack = 1;
 				Extension->BytesPerSector = Extension->cryptoInfo->SectorSize;
-				Extension->NumberOfCylinders = Extension->DiskLength / Extension->BytesPerSector;
+				// Add extra sector since our virtual partition starts at Extension->BytesPerSector and not 0
+				Extension->NumberOfCylinders = (Extension->DiskLength / Extension->BytesPerSector) + 1;
 				Extension->PartitionType = 0;
 
 				Extension->bRawDevice = bRawDevice;

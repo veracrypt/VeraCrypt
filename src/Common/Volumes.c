@@ -1155,21 +1155,21 @@ BOOL ReadEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header, DW
 #endif
 
 	byte sectorBuffer[TC_MAX_VOLUME_SECTOR_SIZE];
-	DISK_GEOMETRY_EX geometry;
+	DISK_GEOMETRY geometry;
 
 	if (!device)
 		return ReadFile (fileHandle, header, TC_VOLUME_HEADER_EFFECTIVE_SIZE, bytesRead, NULL);
 
-	if (!DeviceIoControl (fileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &geometry, sizeof (geometry), bytesRead, NULL))
+	if (!DeviceIoControl (fileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &geometry, sizeof (geometry), bytesRead, NULL))
 		return FALSE;
 
-	if (geometry.Geometry.BytesPerSector > sizeof (sectorBuffer) || geometry.Geometry.BytesPerSector < TC_MIN_VOLUME_SECTOR_SIZE)
+	if (geometry.BytesPerSector > sizeof (sectorBuffer) || geometry.BytesPerSector < TC_MIN_VOLUME_SECTOR_SIZE)
 	{
 		SetLastError (ERROR_INVALID_PARAMETER);
 		return FALSE;
 	}
 
-	if (!ReadFile (fileHandle, sectorBuffer, max (TC_VOLUME_HEADER_EFFECTIVE_SIZE, geometry.Geometry.BytesPerSector), bytesRead, NULL))
+	if (!ReadFile (fileHandle, sectorBuffer, max (TC_VOLUME_HEADER_EFFECTIVE_SIZE, geometry.BytesPerSector), bytesRead, NULL))
 		return FALSE;
 
 	memcpy (header, sectorBuffer, min (*bytesRead, TC_VOLUME_HEADER_EFFECTIVE_SIZE));
@@ -1189,7 +1189,7 @@ BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header)
 
 	byte sectorBuffer[TC_MAX_VOLUME_SECTOR_SIZE];
 	DWORD bytesDone;
-	DISK_GEOMETRY_EX geometry;
+	DISK_GEOMETRY geometry;
 
 	if (!device)
 	{
@@ -1205,23 +1205,24 @@ BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header)
 		return TRUE;
 	}
 
-	if (!DeviceIoControl (fileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, &geometry, sizeof (geometry), &bytesDone, NULL))
+
+	if (!DeviceIoControl (fileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, &geometry, sizeof (geometry), &bytesDone, NULL))
 		return FALSE;
 
-	if (geometry.Geometry.BytesPerSector > sizeof (sectorBuffer) || geometry.Geometry.BytesPerSector < TC_MIN_VOLUME_SECTOR_SIZE)
+	if (geometry.BytesPerSector > sizeof (sectorBuffer) || geometry.BytesPerSector < TC_MIN_VOLUME_SECTOR_SIZE)
 	{
 		SetLastError (ERROR_INVALID_PARAMETER);
 		return FALSE;
 	}
 
-	if (geometry.Geometry.BytesPerSector != TC_VOLUME_HEADER_EFFECTIVE_SIZE)
+	if (geometry.BytesPerSector != TC_VOLUME_HEADER_EFFECTIVE_SIZE)
 	{
 		LARGE_INTEGER seekOffset;
 
-		if (!ReadFile (fileHandle, sectorBuffer, geometry.Geometry.BytesPerSector, &bytesDone, NULL))
+		if (!ReadFile (fileHandle, sectorBuffer, geometry.BytesPerSector, &bytesDone, NULL))
 			return FALSE;
 
-		if (bytesDone != geometry.Geometry.BytesPerSector)
+		if (bytesDone != geometry.BytesPerSector)
 		{
 			SetLastError (ERROR_INVALID_PARAMETER);
 			return FALSE;
@@ -1234,10 +1235,10 @@ BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header)
 
 	memcpy (sectorBuffer, header, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 
-	if (!WriteFile (fileHandle, sectorBuffer, geometry.Geometry.BytesPerSector, &bytesDone, NULL))
+	if (!WriteFile (fileHandle, sectorBuffer, geometry.BytesPerSector, &bytesDone, NULL))
 		return FALSE;
 
-	if (bytesDone != geometry.Geometry.BytesPerSector)
+	if (bytesDone != geometry.BytesPerSector)
 	{
 		SetLastError (ERROR_INVALID_PARAMETER);
 		return FALSE;
