@@ -1,5 +1,6 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
+set VC_VERSION=1.22-BETA2-Build5
 set SIGNINGPATH=%~dp0
 cd %SIGNINGPATH%
 
@@ -40,6 +41,7 @@ del docs.zip
 7z a -y docs.zip docs
 
 "VeraCrypt Setup.exe" /p
+"VeraCrypt Portable.exe" /p
 
 del LICENSE
 del License.txt
@@ -54,8 +56,8 @@ rmdir /S /Q docs
 cd %SIGNINGPATH%
 
 rem sign using SHA-1
-signtool sign /v /a /n IDRIX /i Thawte /ac Thawt_CodeSigning_CA.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.22-BETA2-Build5.exe"
+signtool sign /v /a /n IDRIX /i Thawte /ac Thawt_CodeSigning_CA.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe"
 rem sign using SHA-256
-signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt Setup 1.22-BETA2-Build5.exe"
+signtool sign /v /a /n "IDRIX SARL" /i GlobalSign /ac GlobalSign_SHA256_EV_CodeSigning_CA.cer /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe"
 
 pause

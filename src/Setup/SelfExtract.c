@@ -29,8 +29,11 @@
 #define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
 #endif
 
+#ifdef PORTABLE
+#define OutputPackageFile L"VeraCrypt Portable " _T(VERSION_STRING) L".exe"
+#else
 #define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) L".exe"
-
+#endif
 #define MAG_START_MARKER	"TCINSTRT"
 #define MAG_END_MARKER_OBFUSCATED	"T/C/I/N/S/C/R/C"
 #define PIPE_BUFFER_LEN	(4 * BYTES_PER_KB)
@@ -146,7 +149,11 @@ BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir)
 	if (!TCCopyFile (inputFile, outputFile))
 	{
 		handleWin32Error (hwndDlg, SRC_POS);
+#ifdef PORTABLE
+		PkgError (L"Cannot copy 'VeraCrypt Portable.exe' to the package");
+#else
 		PkgError (L"Cannot copy 'VeraCrypt Setup.exe' to the package");
+#endif
 		goto err;
 	}
 

@@ -1,0 +1,250 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+#include "..\\common\\resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,22,2,6
+ PRODUCTVERSION 1,22,2,6
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "IDRIX"
+            VALUE "FileDescription", "VeraCrypt Portable"
+            VALUE "FileVersion", "1.22"
+            VALUE "LegalTrademarks", "VeraCrypt"
+            VALUE "OriginalFilename", "VeraCrypt Portable.exe"
+            VALUE "ProductName", "VeraCrypt"
+            VALUE "ProductVersion", "1.22"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HEADER
+//
+
+IDR_SETUP_RSRC_HEADER   HEADER                  "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_INFO_PAGE_DLG DIALOGEX 0, 0, 217, 156
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_BOX_HELP,0,10,217,146
+END
+
+IDD_INTRO_PAGE_DLG DIALOGEX 0, 0, 346, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_LICENSE_TEXT,"RichEdit20W",WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x2804,0,23,345,108
+    CONTROL         "",IDC_AGREE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,2,137,126,10
+    LTEXT           "",IDC_BOX_HELP,0,0,346,22
+END
+
+IDD_INSTL_DLG DIALOGEX 0, 0, 374, 231
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "VeraCrypt Portable Wizard"
+CLASS "VeraCryptCustomDlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "&Help",IDHELP,150,211,50,14
+    PUSHBUTTON      "",IDC_PREV,209,211,50,14
+    DEFPUSHBUTTON   "",IDC_NEXT,259,211,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,317,211,50,14
+    LTEXT           "",IDC_BOX_TITLE,11,5,324,12,0,WS_EX_TRANSPARENT
+    CONTROL         107,IDC_BITMAP_SETUP_WIZARD,"Static",SS_BITMAP | SS_NOTIFY,139,3,228,30
+    CONTROL         109,IDC_SETUP_WIZARD_BKG,"Static",SS_BITMAP,0,0,11,10
+    CONTROL         "",IDC_SETUP_WIZARD_GFX_AREA,"Static",SS_GRAYRECT | NOT WS_VISIBLE,0,0,378,36,WS_EX_TRANSPARENT | WS_EX_STATICEDGE
+    CONTROL         "",IDC_HR_BOTTOM,"Static",SS_ETCHEDHORZ,67,204,306,1,WS_EX_STATICEDGE
+    CONTROL         "",IDC_HR,"Static",SS_ETCHEDHORZ,0,35,399,1,WS_EX_STATICEDGE
+    LTEXT           "VeraCrypt Portable",IDC_STATIC,4,200,62,8,WS_DISABLED
+    LTEXT           "",IDC_BOX_INFO,18,18,317,13,0,WS_EX_TRANSPARENT
+    LTEXT           "",IDC_MAIN_CONTENT_CANVAS,0,36,374,164
+    LTEXT           "",IDC_POS_BOX,14,42,346,155,0,WS_EX_TRANSPARENT
+END
+
+IDD_EXTRACTION_OPTIONS_PAGE_DLG DIALOGEX 0, 0, 346, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Bro&wse...",IDC_BROWSE,277,32,62,14
+    EDITTEXT        IDC_DESTINATION,6,33,264,12,ES_AUTOHSCROLL
+    LTEXT           "Please select or type the location where you want to place the extracted files:",IDT_EXTRACT_DESTINATION,6,15,333,17
+    CONTROL         "&Open the destination location when finished",IDC_OPEN_CONTAINING_FOLDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,91,318,16
+    LTEXT           "",IDC_BOX_HELP,6,56,333,32
+END
+
+IDD_PROGRESS_PAGE_DLG DIALOGEX 0, 0, 346, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LISTBOX         IDC_LOG_WINDOW,0,1,345,131,LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL
+    CONTROL         "",IDC_PROGRESS_BAR,"msctls_progress32",PBS_SMOOTH | WS_BORDER,0,139,345,12
+END
+
+IDD_DONATIONS_PAGE_DLG DIALOGEX 0, 0, 346, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_TRANSPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Donate now...",IDC_DONATE,124,94,96,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SETUP               ICON                    "Setup.ico"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "#include ""..\\\\common\\\\resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#include ""..\\\\common\\\\common.rc""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_INFO_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_INTRO_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 339
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_INSTL_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_EXTRACTION_OPTIONS_PAGE_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 343
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_PROGRESS_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 339
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 145
+    END
+
+    IDD_DONATIONS_PAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 339
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 147
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SETUP_WIZARD        BITMAP                  "VeraCrypt_setup.bmp"
+IDB_SETUP_WIZARD_BKG    BITMAP                  "VeraCrypt_setup_background.bmp"
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "..\\common\\common.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

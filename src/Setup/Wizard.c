@@ -32,9 +32,11 @@ using namespace std;
 enum wizard_pages
 {
 	INTRO_PAGE,
+#ifndef PORTABLE
 	WIZARD_MODE_PAGE,
 	INSTALL_OPTIONS_PAGE,
 	INSTALL_PROGRESS_PAGE,
+#endif
 	EXTRACTION_OPTIONS_PAGE,
 	EXTRACTION_PROGRESS_PAGE,
 	DONATIONS_PAGE
@@ -126,6 +128,7 @@ void LoadPage (HWND hwndDlg, int nPageNo)
 					 (DLGPROC) PageDialogProc);
 		break;
 
+#ifndef PORTABLE
 	case WIZARD_MODE_PAGE:
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_WIZARD_MODE_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
@@ -140,6 +143,7 @@ void LoadPage (HWND hwndDlg, int nPageNo)
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_PROGRESS_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
 		break;
+#endif
 
 	case EXTRACTION_OPTIONS_PAGE:
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_EXTRACTION_OPTIONS_PAGE_DLG), hwndDlg,
@@ -223,6 +227,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				char *licenseText = NULL;
 
+#ifdef PORTABLE
+				bExtractOnly = TRUE;
+#endif
+
 				// increase size limit of rich edit control
 				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_EXLIMITTEXT, 0, -1);
 				// Left margin for license text
@@ -272,6 +280,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			return 1;
 
+#ifndef PORTABLE
 		case WIZARD_MODE_PAGE:
 			{
 				LONG driverVersion;
@@ -310,6 +319,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			}
 			return 1;
+#endif
 
 		case EXTRACTION_OPTIONS_PAGE:
 
@@ -382,6 +392,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			return 1;
 
+#ifndef PORTABLE
 		case INSTALL_OPTIONS_PAGE:
 			{
 				LONG driverVersion;
@@ -485,6 +496,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			return 1;
+#endif
 
 		case DONATIONS_PAGE:
 
@@ -600,7 +612,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), IsButtonChecked (GetDlgItem (hwndDlg, IDC_AGREE)));
 			return 1;
 		}
-
+#ifndef PORTABLE
 		if (lw == IDC_WIZARD_MODE_EXTRACT_ONLY && nCurPageNo == WIZARD_MODE_PAGE)
 		{
 			bExtractOnly = TRUE;
@@ -612,19 +624,19 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bExtractOnly = FALSE;
 			return 1;
 		}
-
+#endif
 		if ( nCurPageNo == EXTRACTION_OPTIONS_PAGE && hw == EN_CHANGE )
 		{
 			EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), (GetWindowTextLength (GetDlgItem (hCurPage, IDC_DESTINATION)) > 1));
 			return 1;
 		}
-
+#ifndef PORTABLE
 		if ( nCurPageNo == INSTALL_OPTIONS_PAGE && hw == EN_CHANGE )
 		{
 			EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), (GetWindowTextLength (GetDlgItem (hCurPage, IDC_DESTINATION)) > 1));
 			return 1;
 		}
-
+#endif
 		if ( nCurPageNo == EXTRACTION_OPTIONS_PAGE )
 		{
 			switch (lw)
@@ -645,7 +657,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 		}
-
+#ifndef PORTABLE
 		if ( nCurPageNo == INSTALL_OPTIONS_PAGE )
 		{
 			switch (lw)
@@ -683,7 +695,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			}
 		}
-
+#endif
 		if (nCurPageNo == DONATIONS_PAGE)
 		{
 			switch (lw)
@@ -829,8 +841,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			nPbar = IDC_PROGRESS_BAR;
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
-
+#ifndef PORTABLE
 			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING));
+#else
+			SetWindowText (hwndDlg, L"VeraCrypt Portable " _T(VERSION_STRING));
+#endif
 
 			DonColorSchemeId = GetDonVal (2, 9);
 
@@ -843,7 +858,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bDesktopIcon = TRUE;
 				bLicenseAccepted = TRUE;
 				bStartInstall = TRUE;
+#ifdef PORTABLE
+				bExtractOnly = TRUE;
+				LoadPage (hwndDlg, EXTRACTION_PROGRESS_PAGE);
+#else
 				LoadPage (hwndDlg, INSTALL_PROGRESS_PAGE);
+#endif
 			}
 			else
 				LoadPage (hwndDlg, INTRO_PAGE);
@@ -909,7 +929,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					RegCloseKey (hkey);
 				}
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == WIZARD_MODE_PAGE)
 			{
 				if (IsButtonChecked (GetDlgItem (hCurPage, IDC_WIZARD_MODE_EXTRACT_ONLY)))
@@ -926,14 +946,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					nCurPageNo = EXTRACTION_OPTIONS_PAGE - 1;
 				}
 			}
-
+#endif
 			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
 
 				bStartExtraction = TRUE;
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
@@ -946,7 +966,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				PostMessage (hwndDlg, WM_CLOSE, 0, 0);
 				return 1;
 			}
-
+#endif
 			else if (nCurPageNo == EXTRACTION_PROGRESS_PAGE)
 			{
 				PostMessage (hwndDlg, WM_CLOSE, 0, 0);
@@ -969,22 +989,25 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_PREV)
 		{
+#ifndef PORTABLE
 			if (nCurPageNo == WIZARD_MODE_PAGE)
 			{
 				bExtractOnly = IsButtonChecked (GetDlgItem (hCurPage, IDC_WIZARD_MODE_EXTRACT_ONLY));
-			}
-
-			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
+			} else
+#endif
+			if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
+#ifndef PORTABLE
 				nCurPageNo = WIZARD_MODE_PAGE + 1;
+#endif
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
 			}
-
+#endif
 			LoadPage (hwndDlg, --nCurPageNo);
 
 			return 1;
