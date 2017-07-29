@@ -89,7 +89,6 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		LARGE_INTEGER diskLengthInfo;
 		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
-		STORAGE_DESCRIPTOR_HEADER storageHeader = {0};
 		byte* dgBuffer;
 
 		ntStatus = IoGetDeviceObjectPointer (&FullFileName,
@@ -127,6 +126,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				NTSTATUS lStatus;
 
 				storage.Version = sizeof (STORAGE_READ_CAPACITY);
+				storage.Size = sizeof (STORAGE_READ_CAPACITY);
 				lStatus = TCSendHostDeviceIoControlRequest (DeviceObject, Extension,
 					IOCTL_STORAGE_READ_CAPACITY,
 					(char*)  &storage, sizeof (STORAGE_READ_CAPACITY));
@@ -150,54 +150,33 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		/* IOCTL_STORAGE_QUERY_PROPERTY supported only on Vista and above */
 		if (OsMajorVersion >= 6)
 		{
+			STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR alignmentDesc = {0};
+			STORAGE_ADAPTER_DESCRIPTOR adapterDesc = {0};
+
 			storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
 			storagePropertyQuery.QueryType = PropertyStandardQuery;
 
+			alignmentDesc.Version = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+			alignmentDesc.Size = sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR);
+
 			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
 				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
-				(char *) &storageHeader, sizeof (storageHeader))))
+				(char *) &alignmentDesc, sizeof (alignmentDesc))))
 			{
-				byte* outputBuffer = TCalloc (storageHeader.Size);
-				if (!outputBuffer)
-				{
-					ntStatus = STATUS_INSUFFICIENT_RESOURCES;
-					goto error;
-				}
-
-				if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
-					(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
-					outputBuffer, storageHeader.Size)))
-				{
-					PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR pStorageDescriptor = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) outputBuffer;
-					Extension->HostBytesPerPhysicalSector = pStorageDescriptor->BytesPerPhysicalSector;
-				}
-
-				TCfree (outputBuffer);			
+				Extension->HostBytesPerPhysicalSector = alignmentDesc.BytesPerPhysicalSector;
 			}
 
 			storagePropertyQuery.PropertyId = StorageAdapterProperty;
+			adapterDesc.Version = sizeof (STORAGE_ADAPTER_DESCRIPTOR);
+			adapterDesc.Size = sizeof (STORAGE_ADAPTER_DESCRIPTOR);
+
 			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
 				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
-				(char *) &storageHeader, sizeof (storageHeader))))
+				(char *) &adapterDesc, sizeof (adapterDesc))))
 			{
-				byte* outputBuffer = TCalloc (storageHeader.Size);
-				if (!outputBuffer)
-				{
-					ntStatus = STATUS_INSUFFICIENT_RESOURCES;
-					goto error;
-				}
-
-				if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
-					(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
-					outputBuffer, storageHeader.Size)))
-				{
-					PSTORAGE_ADAPTER_DESCRIPTOR pStorageDescriptor = (PSTORAGE_ADAPTER_DESCRIPTOR) outputBuffer;
-					Extension->HostMaximumTransferLength = pStorageDescriptor->MaximumTransferLength;
-					Extension->HostMaximumPhysicalPages = pStorageDescriptor->MaximumPhysicalPages;
-					Extension->HostAlignmentMask = pStorageDescriptor->AlignmentMask;
-				}
-
-				TCfree (outputBuffer);			
+				Extension->HostMaximumTransferLength = adapterDesc.MaximumTransferLength;
+				Extension->HostMaximumPhysicalPages = adapterDesc.MaximumPhysicalPages;
+				Extension->HostAlignmentMask = adapterDesc.AlignmentMask;
 			}
 		}
 
