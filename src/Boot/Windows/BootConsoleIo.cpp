@@ -238,11 +238,32 @@ byte GetKeyboardChar ()
 	return GetKeyboardChar (nullptr);
 }
 
+/*
+inline void Sleep ()
+{
+	__asm
+	{
+		mov al, 0
+		mov ah, 0x86
+		// Sleep for 250 milliseconds = 250 000 microseconds = 0x0003D090
+		mov cx, 0x0003
+		mov dx, 0xD090
+		int 0x15
+	}
+}
+*/
 
 byte GetKeyboardChar (byte *scanCode)
 {
 	// Work around potential BIOS bugs (Windows boot manager polls the keystroke buffer)
-	while (!IsKeyboardCharAvailable());
+	while (!IsKeyboardCharAvailable())
+	{
+		// reduce CPU usage by halting CPU until the next external interrupt is fired
+		__asm
+		{		
+			hlt
+		}
+	}
 
 	byte asciiCode;
 	byte scan;
