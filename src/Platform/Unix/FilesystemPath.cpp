@@ -72,6 +72,14 @@ namespace VeraCrypt
 
 		path = StringConverter::StripTrailingNumber (StringConverter::ToSingle (Path));
 
+		// If the system-encrypted partition is on a nvme drive, partition name will be
+		// something like /dev/nvme0n1p<partition_number>, therefore we have to remove
+		// the last 'p' as well to get the name of the host drive.
+		string pathStr = StringConverter::ToSingle (path);
+		size_t t = pathStr.find("nvme");
+		if(t != string::npos)
+			path = pathStr.substr (0, pathStr.size() - 1);
+
 #elif defined (TC_MACOSX)
 
 		string pathStr = StringConverter::StripTrailingNumber (StringConverter::ToSingle (Path));
