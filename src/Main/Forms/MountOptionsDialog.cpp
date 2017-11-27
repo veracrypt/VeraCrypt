@@ -38,7 +38,7 @@ namespace VeraCrypt
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
 		
 		if (options.Path && options.Path->HasTrueCryptExtension() && !disableMountOptions 
-			&& !options.TrueCryptMode && (options.Pim <= 0))
+			&& options.TrueCryptMode && (options.Pim <= 0))
 		{
 			PasswordPanel->SetTrueCryptMode (true);	
 		}
