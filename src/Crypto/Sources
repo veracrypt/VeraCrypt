@@ -35,6 +35,7 @@ SOURCES = \
 	GostCipher.c \
 	Streebog.c \
 	kuznyechik.c \
+	kuznyechik_simd.c \
 	Whirlpool.c \
 	Camellia.c \
 	Camellia_$(TC_ARCH).S \

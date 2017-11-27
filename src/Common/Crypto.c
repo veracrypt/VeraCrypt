@@ -255,6 +255,20 @@ void EncipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 			camellia_encrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
 #endif
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
+	else if (cipher == KUZNYECHIK
+			&& HasSSE2()
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+			&& (blockCount >= 4) && NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
+#endif
+		)
+	{
+		kuznyechik_encrypt_blocks (data, data, blockCount, ks);
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+	}
+#endif
 	else if (cipher == GOST89)	{
 			gost_encrypt(data, data, ks, (int)blockCount);
 	}
@@ -358,6 +372,20 @@ void DecipherBlocks (int cipher, void *dataPtr, void *ks, size_t blockCount)
 			camellia_decrypt_blocks(ks, data, data, (uint32) blockCount);
 	}
 #endif
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
+	else if (cipher == KUZNYECHIK			
+			&& HasSSE2()
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+			&& (blockCount >= 4) && NT_SUCCESS (KeSaveFloatingPointState (&floatingPointState))
+#endif
+		)
+	{
+		kuznyechik_decrypt_blocks (data, data, blockCount, ks);
+#if defined (TC_WINDOWS_DRIVER) && !defined (_WIN64)
+		KeRestoreFloatingPointState (&floatingPointState);
+#endif
+	}
+#endif
 	else if (cipher == GOST89)	{
 			gost_decrypt(data, data, ks, (int)blockCount);
 	}
@@ -429,6 +457,7 @@ BOOL CipherSupportsIntraDataUnitParallelization (int cipher)
 		|| (cipher == GOST89)
 #if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined (_UEFI)
 		|| (cipher == SERPENT && HasSSE2())
+		|| (cipher == KUZNYECHIK && HasSSE2())
 #endif
 #if CRYPTOPP_BOOL_X64
 		|| (cipher == TWOFISH)

@@ -79,6 +79,7 @@ OBJS += ../Crypto/Camellia.o
 OBJS += ../Crypto/GostCipher.o
 OBJS += ../Crypto/Streebog.o
 OBJS += ../Crypto/kuznyechik.o
+OBJS += ../Crypto/kuznyechik_simd.o
 
 OBJS += ../Common/Crc.o
 OBJS += ../Common/Endian.o

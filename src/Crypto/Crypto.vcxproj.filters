@@ -54,6 +54,9 @@
     <ClCompile Include="Camellia.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="kuznyechik_simd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">

@@ -16,14 +16,16 @@ extern "C" {
 
 typedef struct _kuznyechik_kds
 {
-	uint64 rke[10][2];
-	uint64 rkd[10][2];
+	uint64 rke[20];
+	uint64 rkd[20];
 } kuznyechik_kds;
 
 #define KUZNYECHIK_KS				(sizeof(kuznyechik_kds))
 
 void kuznyechik_encrypt_block(byte* out, const byte* in, kuznyechik_kds* kds);
+void kuznyechik_encrypt_blocks(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds);
 void kuznyechik_decrypt_block(byte* out, const byte* in, kuznyechik_kds* kds);
+void kuznyechik_decrypt_blocks(byte* out, const byte* in, size_t blocks, kuznyechik_kds* kds);
 void kuznyechik_set_key(const byte* key, kuznyechik_kds *kds);
 
 #ifdef __cplusplus

@@ -462,5 +462,53 @@ namespace VeraCrypt
 	{
 		kuznyechik_set_key (key, (kuznyechik_kds *) ScheduledKey.Ptr());
 	}
+	void CipherKuznyechik::EncryptBlocks (byte *data, size_t blockCount) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+		if ((blockCount >= 4)
+			&& IsHwSupportAvailable())
+		{
+			kuznyechik_encrypt_blocks (data, data, blockCount, (kuznyechik_kds *) ScheduledKey.Ptr());
+		}
+		else
+#endif
+			Cipher::EncryptBlocks (data, blockCount);
+	}
+	
+	void CipherKuznyechik::DecryptBlocks (byte *data, size_t blockCount) const
+	{
+		if (!Initialized)
+			throw NotInitialized (SRC_POS);
+
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+		if ((blockCount >= 4)
+			&& IsHwSupportAvailable())
+		{
+			kuznyechik_decrypt_blocks (data, data, blockCount, (kuznyechik_kds *) ScheduledKey.Ptr());
+		}
+		else
+#endif
+			Cipher::DecryptBlocks (data, blockCount);
+	}
+	
+	bool CipherKuznyechik::IsHwSupportAvailable () const
+	{
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+		static bool state = false;
+		static bool stateValid = false;
+
+		if (!stateValid)
+		{
+			state = HasSSE2() ? true : false;
+			stateValid = true;
+		}
+		return state;
+#else
+		return false;
+#endif
+	}
 	bool Cipher::HwSupportEnabled = true;
 }

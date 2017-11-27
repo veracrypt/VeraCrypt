@@ -218,6 +218,7 @@
     <ClCompile Include="cpu.c" />
     <ClCompile Include="GostCipher.c" />
     <ClCompile Include="kuznyechik.c" />
+    <ClCompile Include="kuznyechik_simd.c" />
     <ClCompile Include="Rmd160.c" />
     <ClCompile Include="SerpentFast.c" />
     <ClCompile Include="SerpentFast_simd.cpp" />
