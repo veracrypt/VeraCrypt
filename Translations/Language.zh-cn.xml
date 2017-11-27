@@ -1314,31 +1314,31 @@
     <string lang="zh-cn" key="UNSUPPORTED_TRUECRYPT_FORMAT">不能在VeraCrypt使用这个用TrueCrypt%x.%x创建的加密卷，VeraCrypt只支持TrueCrypt6.x/7.x创建的加密卷。</string>
     <string lang="zh-cn" key="TEST">测试</string>
     <string lang="zh-cn" key="KEYFILE">密钥文件</string>
-    <string lang="zh-cn" key="VKEY_08">Backspace</string>
-    <string lang="zh-cn" key="VKEY_09">Tab</string>
-    <string lang="zh-cn" key="VKEY_0C">Clear</string>
-    <string lang="zh-cn" key="VKEY_0D">Enter</string>
-    <string lang="zh-cn" key="VKEY_13">Pause</string>
-    <string lang="zh-cn" key="VKEY_14">Caps Lock</string>
+    <string lang="zh-cn" key="VKEY_08">退格键</string>
+    <string lang="zh-cn" key="VKEY_09">跳格键</string>
+    <string lang="zh-cn" key="VKEY_0C">清除键</string>
+    <string lang="zh-cn" key="VKEY_0D">回车键</string>
+    <string lang="zh-cn" key="VKEY_13">暂停键</string>
+    <string lang="zh-cn" key="VKEY_14">大写锁定</string>
     <string lang="zh-cn" key="VKEY_20">空格键</string>
-    <string lang="zh-cn" key="VKEY_21">Page Up</string>
-    <string lang="zh-cn" key="VKEY_22">Page Down</string>
-    <string lang="zh-cn" key="VKEY_23">End</string>
-    <string lang="zh-cn" key="VKEY_24">Home</string>
+    <string lang="zh-cn" key="VKEY_21">向上翻页</string>
+    <string lang="zh-cn" key="VKEY_22">向下翻页</string>
+    <string lang="zh-cn" key="VKEY_23">行尾</string>
+    <string lang="zh-cn" key="VKEY_24">行首</string>
     <string lang="zh-cn" key="VKEY_25">左箭头</string>
     <string lang="zh-cn" key="VKEY_26">上箭头</string>
     <string lang="zh-cn" key="VKEY_27">右箭头</string>
     <string lang="zh-cn" key="VKEY_28">下箭头</string>
     <string lang="zh-cn" key="VKEY_29">选择键</string>
     <string lang="zh-cn" key="VKEY_2A">打印键</string>
-    <string lang="zh-cn" key="VKEY_2B">Execute Key</string>
-    <string lang="zh-cn" key="VKEY_2C">Print Screen</string>
-    <string lang="zh-cn" key="VKEY_2D">Insert</string>
-    <string lang="zh-cn" key="VKEY_2E">Delete</string>
-    <string lang="zh-cn" key="VKEY_5D">Applications Key</string>
+    <string lang="zh-cn" key="VKEY_2B">执行键</string>
+    <string lang="zh-cn" key="VKEY_2C">打印屏幕</string>
+    <string lang="zh-cn" key="VKEY_2D">插入</string>
+    <string lang="zh-cn" key="VKEY_2E">删除</string>
+    <string lang="zh-cn" key="VKEY_5D">应用键</string>
     <string lang="zh-cn" key="VKEY_5F">睡眠</string>
-    <string lang="zh-cn" key="VKEY_90">Num Lock</string>
-    <string lang="zh-cn" key="VKEY_91">Scroll Lock</string>
+    <string lang="zh-cn" key="VKEY_90">数字锁定</string>
+    <string lang="zh-cn" key="VKEY_91">滚动锁定</string>
     <string lang="zh-cn" key="VKEY_A6">浏览器 后退</string>
     <string lang="zh-cn" key="VKEY_A7">浏览器 前进</string>
     <string lang="zh-cn" key="VKEY_A8">浏览器 刷新</string>
@@ -1349,14 +1349,14 @@
     <string lang="zh-cn" key="VKEY_AD">静音</string>
     <string lang="zh-cn" key="VKEY_AE">音量加</string>
     <string lang="zh-cn" key="VKEY_AF">音量减</string>
-    <string lang="zh-cn" key="VKEY_B0">Next Track</string>
-    <string lang="zh-cn" key="VKEY_B1">Previous Track</string>
-    <string lang="zh-cn" key="VKEY_B2">Stop Media</string>
-    <string lang="zh-cn" key="VKEY_B3">Play/Pause Media</string>
-    <string lang="zh-cn" key="VKEY_B4">Start Mail Key</string>
-    <string lang="zh-cn" key="VKEY_B5">Select Media Key</string>
-    <string lang="zh-cn" key="VKEY_B6">Application 1</string>
-    <string lang="zh-cn" key="VKEY_B7">Application 2</string>
+    <string lang="zh-cn" key="VKEY_B0">下一曲目</string>
+    <string lang="zh-cn" key="VKEY_B1">上一曲目</string>
+    <string lang="zh-cn" key="VKEY_B2">停止媒体</string>
+    <string lang="zh-cn" key="VKEY_B3">播放/暂停 媒体</string>
+    <string lang="zh-cn" key="VKEY_B4">启动邮件键</string>
+    <string lang="zh-cn" key="VKEY_B5">选择媒体键</string>
+    <string lang="zh-cn" key="VKEY_B6">应用 1</string>
+    <string lang="zh-cn" key="VKEY_B7">应用 2</string>
     <string lang="zh-cn" key="VKEY_F6">Attn</string>
     <string lang="zh-cn" key="VKEY_F7">CrSel</string>
     <string lang="zh-cn" key="VKEY_F8">ExSel</string>
@@ -1380,49 +1380,49 @@
     <string lang="zh-cn" key="TB_PER_SEC">TB/s</string>
     <string lang="zh-cn" key="PB_PER_SEC">PB/s</string>
     <string lang="zh-cn" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
-    <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
-    <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
+    <control lang="zh-cn" key="IDC_BOOT_LOADER_CACHE_PIM">当缓存预引导身份验证密码时，包含 &amp;PIM</control>
+    <control lang="zh-cn" key="IDC_PREF_CACHE_PIM">在缓存密码时，包含 PIM</control>
+    <control lang="zh-cn" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">使断开的网络驱动器可用于加载</control>
     <string lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节。</string>
     <string lang="zh-cn" key="PASSWORD_UTF8_INVALID">键入的密码中包含无法转换为UTF-8编码的Unicode字符。</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
+    <string lang="zh-cn" key="INIT_DLL">错误: 加载系统库失败。</string>
     <string lang="zh-cn" key="ERR_EXFAT_INVALID_VOLUME_SIZE">输入的加密卷的大小不兼容所选择的exFAT文件系统。</string>
-    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
-    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
-    <string lang="en" key="VOLUME_ID">Volume ID</string>
-    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
-    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
-    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
-    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
-    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
-    <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
-    <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
-    <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
-    <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
-    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
-    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
-    <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
-    <string lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</string>
-    <string lang="en" key="TIME">Time</string>
-    <string lang="en" key="ITERATIONS">Iterations</string>
-    <string lang="en" key="PRE-BOOT">Pre-Boot</string>
-    <string lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</string>
-    <string lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</string>
-    <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
-	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
-    <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
-    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
-    <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
-    <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
-    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
-    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
-    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
-    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
-    <string lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</string>
+    <control lang="zh-cn" key="IDT_ENTROPY_BAR">从鼠标移动中收集的随机性</control>
+    <control lang="zh-cn" key="IDT_VOLUME_ID">卷 ID:</control>
+    <string lang="zh-cn" key="VOLUME_ID">卷 ID</string>
+    <control lang="zh-cn" key="IDC_FAVORITE_USE_VOLUME_ID">使用卷 ID 加载到收藏夹</control>
+    <string lang="zh-cn" key="VOLUME_ID_INVALID">卷 ID 值无效</string>
+    <string lang="zh-cn" key="VOLUME_ID_NOT_FOUND">在系统上未找到具有指定 ID 的卷</string>
+    <string lang="zh-cn" key="IDPM_COPY_VALUE_TO_CLIPBOARD">将值复制到剪贴板…</string>
+    <control lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">不要在预引导身份验证屏幕中请求 PIM (PIM 值在磁盘上未加密存储)</control>
+    <string lang="zh-cn" key="DISABLE_BOOT_LOADER_PIM_PROMPT">警告: 请记住，如果启用此选项，PIM 值将在磁盘上不加密地存储。n\n 您确定要启用此选项吗？</string>
+    <string lang="zh-cn" key="PIM_TOO_BIG">个人迭代乘数 (PIM) 最大值为 2147468。</string>
+    <control lang="zh-cn" key="IDC_SKIP_RESCUE_VERIFICATION">跳过修复盘验证</control>
+    <control lang="zh-cn" key="IDC_HIDE_WAITING_DIALOG">执行操作时不显示等待消息对话框</control>
+    <control lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">在预引导身份验证屏幕中不请求哈希算法</control>
+    <string lang="zh-cn" key="GOST89_HELP">GOST 块密码，定义在标准 GOST 28147-89 名称 Magma 之下，是苏联和俄罗斯政府标准的对称密钥块密码。\n\n开发于二十世纪七十年代，该标准被标记为 "绝密"，然后在 1990 年降级为 "秘密"。这是苏联对美国标准算法 DES 的替代。</string>
+    <string lang="zh-cn" key="KUZNYECHIK_HELP">Kuznyechik 是一个分组密码首次发表于 2015年, 并在俄罗斯联邦 GOST R 34.12-2015 和 RFC 7801 的国家标准中定义。256位密钥，128 位块。操作方式 XTS。</string>
+    <string lang="zh-cn" key="CAMELLIA_HELP">由日本三菱电气和 NTT 共同开发。首先发表在2000。256位密钥，128 位块。操作方式 XTS。它已被批准供 ISO/IEC，欧盟的 NESSIE 项目和日本 CRYPTREC 项目使用。</string>
+    <string lang="zh-cn" key="TIME">时间</string>
+    <string lang="zh-cn" key="ITERATIONS">迭代</string>
+    <string lang="zh-cn" key="PRE-BOOT">预启动</string>
+    <string lang="zh-cn" key="RESCUE_DISK_EFI_INFO">在对分区进行加密之前，必须创建一个 VeraCrypt 的修复盘 (VRD)，该磁盘具有以下用途：\n\n- 如果 VeraCrypt 启动加载程序、主密钥或其他关键数据被破坏, 则 VRD 允许您还原它 (注意, 但是, 您将仍然必须输入正确的密码)。\n\n- 如果 windows 损坏且无法启动，VRD 允许您在 windows 启动之前永久解密该分区。\n\n- VRD 将包含当前 EFI 引导加载程序的备份, 并允许您恢复如果有必要。\n\nVeraCrypt 救援磁盘 ZIP 映像将在下面指定的位置创建。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO">修复盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您需要将其解压到一个格式化为 FAT/FAT32 的 U盘。\n\n%ls您创建修复盘后，单击 "下一步" 以验证它是否已正确创建。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">修复盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您应该将镜像提取到格式化为 FAT/FAT32 的 U盘，或将其移动到安全位置以备以后使用。\n\n%ls 单击 "下一步" 继续。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">重要：请注意，必须将 zip 文件直接提取到 U盘的根目录中。例如，如果 U盘的驱动器号是 E:， 那么解压 zip 文件，应该在 U盘上创建一个文件夹 E:\\EFI。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n如果您已经提取了修复盘，请弹出并重新插入 U盘；然后单击 "下一步" 重试。如果这没有帮助，请尝试另一个 U盘和/或其他 ZIP 软件。\n\n如果您尚未提取修复盘，请执行此操作，然后单击 "下一步"。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 修复盘；请注意，无法使用此修复盘，因为它是为不同的主密钥创建的。您需要提取新生成的修复盘 ZIP 映像。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n您已将修复盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其他 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 修复盘, 请注意此修复盘将始终无法通过此验证。要创建与当前配置完全兼容的新的修复盘, 请选择 "系统" > "创建修复盘"。</string>
+    <string lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">恢复盘镜像文件已经创建并存储在文件：\n%s\n\n现在您需要提取恢复盘镜像到格式化为 FAT 和 FAT32 的 U盘。\n\n重要：注意 zip 文件必须直接提取到 U盘的根目录。例如，如果 U盘的盘符是 E: ，解压缩 ZIP 文件应该在 U盘创建一个文件夹 E:\\EFI。\n\n创建恢复盘后，选择 “系统” > “验证恢复盘” 以确认它已正确创建。</string>
+	<control lang="zh-cn" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">使用安全桌面输入密码</control>
+    <string lang="zh-cn" key="ERR_REFS_INVALID_VOLUME_SIZE">命令行中指定的卷文件大小与选定的 ReFS 文件系统不兼容。</string>
+    <control lang="zh-cn" key="IDC_EDIT_DCSPROP">编辑引导加载程序配置</control>
+    <control lang="zh-cn" key="IDC_SHOW_PLATFORMINFO">显示 EFI 平台信息</control>
+    <string lang="zh-cn" key="BOOT_LOADER_CONFIGURATION_FILE">启动加载程序配置文件</string>
+    <string lang="zh-cn" key="EFI_PLATFORM_INFORMATION">EFI 平台信息</string>
+    <string lang="zh-cn" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">警告: 经验不足的用户不应尝试手动编辑引导加载程序配置。\n\n继续吗？</string>
+    <string lang="zh-cn" key="DCSPROP_XML_VALIDATION_FAILED">警告: 未能验证启动加载程序配置的 XML 格式。请检查您的修改。</string>
+    <control lang="zh-cn" key="IDT_ADVANCED_OPTIONS">高级选项</control>
+    <string lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 修复盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 '系统' > '创建修复盘'。\n您现在要创建吗？</string>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
