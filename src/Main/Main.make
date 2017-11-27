@@ -107,9 +107,9 @@ endif
 #------ FUSE configuration ------
 
 ifeq "$(PLATFORM)" "MacOSX"
-FUSE_LIBS = $(shell pkg-config osxfuse --libs)
+FUSE_LIBS = $(shell $(PKG_CONFIG_PATH) osxfuse --libs)
 else
-FUSE_LIBS = $(shell pkg-config fuse --libs)
+FUSE_LIBS = $(shell $(PKG_CONFIG_PATH) fuse --libs)
 endif
 
 #------ Executable ------
