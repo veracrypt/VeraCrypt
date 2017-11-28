@@ -72,6 +72,29 @@ namespace VeraCrypt
 
 		path = StringConverter::StripTrailingNumber (StringConverter::ToSingle (Path));
 
+		// If simply removing trailing number didn't produce a valid drive name, try to use sysfs to get the right one
+		if (!path.IsDevice()) {
+			struct stat st;
+
+			if(stat (StringConverter::ToSingle (Path).c_str (), &st) == 0) {
+				const long maxPathLength = pathconf ("/", _PC_PATH_MAX);
+
+				if(maxPathLength != -1) {
+					string linkPathName ("/sys/dev/block/");
+					linkPathName += StringConverter::ToSingle (major (st.st_rdev)) + string (":") + StringConverter::ToSingle (minor (st.st_rdev));
+
+					char linkTargetPath[maxPathLength+1] = "";
+
+					if(readlink(linkPathName.c_str (), linkTargetPath, sizeof (linkTargetPath)) != -1) {
+						const string targetPathStr (linkTargetPath);
+						const size_t lastSlashPos = targetPathStr.find_last_of ('/');
+						const size_t secondLastSlashPos = targetPathStr.find_last_of ('/', lastSlashPos-1);
+						path = string ("/dev/") + targetPathStr.substr (secondLastSlashPos+1, lastSlashPos-secondLastSlashPos-1);
+					}
+				}
+			}
+		}
+
 #elif defined (TC_MACOSX)
 
 		string pathStr = StringConverter::StripTrailingNumber (StringConverter::ToSingle (Path));
