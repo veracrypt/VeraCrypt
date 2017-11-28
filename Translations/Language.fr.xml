@@ -1400,7 +1400,6 @@
     <control lang="fr" key="IDC_SKIP_RESCUE_VERIFICATION">Ne pas vérifier le disque de secours</control>
     <control lang="fr" key="IDC_HIDE_WAITING_DIALOG">Ne pas afficher la fenêtre d'attente lors de l'exécution des opérations</control>
     <control lang="fr" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Ne demander aucun algorithme de hashage dans l'écran d'authentification de pré-amorçage.</control>
-    <string lang="fr" key="GOST89_HELP">GOST est un algorithme de chiffrement standard du gouvernement Russe et qui est défini dans le standard GOST 28147-89 sous le nom Magma. Développé dans les années 70 à l'époque soviétique, il fait toujours partie du dernier standard GOST R 34.12-2015 qui a introduit son successeur Kuznyechik sans pour autant le retirer.</string>
     <string lang="fr" key="KUZNYECHIK_HELP">Kuznyechik est un algorithme de chiffrement publié en 2015 et spécifié dans le standard national de la Fédération de Russie GOST R 34.12-2015 et ausi dans RFC 7801. Clé de 256 bits, bloc de 128 bits. Le mode opératoire est XTS.</string>
     <string lang="fr" key="CAMELLIA_HELP">Développé conjointement par les entreprises japonaises Mitsubishi Electric and NTT et publié en 2000. Clé de 256 bits et bloc de 128 bits. Le mode opératoire est XTS. Camellia a été approuvé par ISO/IEC, le projet NESSIE de l'Union Européenne et le projet CRYPTREC du gouvernement Japonais.</string>
     <string lang="fr" key="TIME">Temps</string>

@@ -1401,7 +1401,6 @@
     <control lang="nl" key="IDC_SKIP_RESCUE_VERIFICATION">Herstelschijf controle overslaan</control>
     <control lang="nl" key="IDC_HIDE_WAITING_DIALOG">Geen wachtvenster tonen tijdens het uitvoeren van acties.</control>
     <control lang="nl" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Gebruik geen hash algoritme in het pre-boot authenticatievenster</control>
-    <string lang="nl" key="GOST89_HELP">Het GOST blok cijfercodering, vastgelegd in de standaard "GOST 28147-89" onder de naam Magma, is een Sovjet en Russische overheidsstandaard symetrische blok cijfercodering.\n\nOntwikkeld in de 1970er jaren, de standaard was gekenmerkt als "Uiterst geheim" en in 1990 afgewaardeerd tot "geheim". Het was een Sovjet alternatief voor de Verenigde Staten standaard algoritme, DES.</string>
     <string lang="nl" key="KUZNYECHIK_HELP">Kuznyechik is een blok cijfercodering voor het eerst gepubliceerd in 2015 en vastgelegd in de "National Standard of the Russian Federation GOST R 34.12-2015" en ook in RFC 7801. 256-bit sleutel, 128-bit blok. Bewerkingsmodus is XTS.</string>
     <string lang="nl" key="CAMELLIA_HELP">Gemeenschappelijk ontwikkeld door Mitsubishi Electric en NTT of Japan. Voor het eerst gepubliceerd in 2000. 256-bit sleutels, 128-bit blok. Modus voor bewerkingen is XTS. Het is goedgekeurd voor gebruik door de ISO/IEC, het Europese Gemeenschap's NESSIE project en het Japanse CRYPTREC project.</string>
     <string lang="nl" key="TIME">Tijd</string>

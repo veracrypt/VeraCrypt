@@ -1400,7 +1400,6 @@
     <control lang="pl" key="IDC_SKIP_RESCUE_VERIFICATION">Pomiń weryfikację dysku ratunkowego</control>
     <control lang="pl" key="IDC_HIDE_WAITING_DIALOG">Nie pokazuj okna komunikatu oczekiwania podczas przeprowadzania operacji</control>
     <control lang="pl" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Nie wymagaj algorytmu haszującego na ekranie uwierzytelniania rozruchu wstępnego</control>
-    <string lang="pl" key="GOST89_HELP">Szyfr blokowy GOST, zdefiniowany w standardzie GOST 28147-89 pod nazwą Magma, jest radzieckim i rosyjskim państwowym standardem blokowych szyfrów symetrycznych.\n\nStworzony w latach 70. XX wieku, standard oznaczony jako "ściśle tajny", a następnie obniżony do "tajny" w 1990 roku. Był radziecką alternatywą dla amerykańskiego standardowego algorytmu DES.</string>
     <string lang="pl" key="KUZNYECHIK_HELP">Kuznyechik to szyfr blokowy po raz pierwszy opublikowany w 2015 roku i zdefiniowany w normie państwowej Federacji Rosyjskiej GOST R 34.12-2015 oraz w RFC 7801. Klucz 256-bitowy, blok 128-bitowy. Tryb operacji XTS.</string>
     <string lang="pl" key="CAMELLIA_HELP">Wspólnie stworzony przez Mitsubishi Electric oraz NTT of Japan. Po raz pierwszy opublikowany w 2000 roku. Klucz 256-bitowy, blok 128-bitowy. Tryb operacji to XTS. Został zatwierdzony do użytku przez ISO/IEC, projekt Unii Europejskiej NESSIE oraz przez japoński projekt CRYPTREC.</string>
     <string lang="pl" key="TIME">Czas</string>

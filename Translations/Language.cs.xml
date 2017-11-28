@@ -1400,7 +1400,6 @@
     <control lang="cs" key="IDC_SKIP_RESCUE_VERIFICATION">Přerušit ověření záchraného disku</control>
     <control lang="cs" key="IDC_HIDE_WAITING_DIALOG">Nezobrazovat vyčkávací dialog při zpracování operací</control>
     <control lang="cs" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Nevyžadovat hashovací algoritmus v autorizační před-bootovací obrazovce</control>
-    <string lang="cs" key="GOST89_HELP">GOST bloková šifra, definovaná jako standard GOST 28147-89 pod názvem Magma, je standardní symetrickou blokovou šifrou.\n\nVyvynutou v roce 1970, standard byl označen jako "Přísně tajné" a v roce 1990 snížen na stupeň "Tajné". Jde o Sovětskou alternativu k standardním algoritmům Spojených Států - DES.</string>
     <string lang="cs" key="KUZNYECHIK_HELP">Kuznyechik je bloková šifra prvě publikovaná v roce 2015 v Národním standartu Ruské federace GOST R 34.12-2015 a také v RFC 7801. 256 bitový klíč, 128 bitový blok. Operační režim je XTS.</string>
     <string lang="cs" key="CAMELLIA_HELP">Společné vytvořeno v Mitsubishi Electric a NTT of Japan. Prvně publikováno v roce 2000. 256 bitový klíč, 128 bitový blok. Operační režim je XTS. Schváleno pro použití jako ISO/IEC, projektem NESSIE v EU a Japonským projektem CRYPTREC.</string>
     <string lang="cs" key="TIME">Čas</string>

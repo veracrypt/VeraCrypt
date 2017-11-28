@@ -1400,7 +1400,6 @@
     <control lang="ar" key="IDC_SKIP_RESCUE_VERIFICATION">تجاوز التحقق من قرص إنقاذ فيراكربت</control>
     <control lang="ar" key="IDC_HIDE_WAITING_DIALOG">لا تظهر نافذة الانتظار أثناء أداء العمليات</control>
     <control lang="ar" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">لا تطلب Hash في مرحلة قبل الإقلاع</control>
-    <string lang="ar" key="GOST89_HELP">كتلة التشفير GOST, المعرفة طبقا لمعيار GOST 28147-89 ويسمى Magma, هي طريقة تشفير لدى روسيا ومتماثل الإتحاد السوفيتي.\n\nتم تطويره في السبعينيات, وهو معيار صنف بأنه "عالي السرية" ثم تم تخفيض تصنيفه إلى "سري" في التسعينيات. وهو البديل الروسي لنظام التشفير DES لدى الولايات المتحدة الأمريكية</string>
     <string lang="ar" key="KUZNYECHIK_HELP">Kuznyechik هو تشفير كتلة نشر أول مرة في عام 2015 وهو معرف في المعيار الوطني الروسي GOST R 34.12-2015 وأيضا في RFC 7801 256-بت للمفتاح و 128-بت للكتلة ونمط التشغيل XTS</string>
     <string lang="ar" key="CAMELLIA_HELP">تم تطوير بالاشتراك بين ميتسوبيشي و NTT باليابان. ونشر أول مرة عام 2000. طول المفتاح 256-بت و الكتلة 128-بت ونمط التشغيل XTS. وتم اعتماده للاستخدام من قبل ISO/IEC ومن مشروع NESSIE الأوربي ومشروع CRYPTREC الياباني</string>
     <string lang="ar" key="TIME">الزمن</string>

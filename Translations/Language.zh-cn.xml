@@ -1400,7 +1400,6 @@
     <control lang="zh-cn" key="IDC_SKIP_RESCUE_VERIFICATION">跳过修复盘验证</control>
     <control lang="zh-cn" key="IDC_HIDE_WAITING_DIALOG">执行操作时不显示等待消息对话框</control>
     <control lang="zh-cn" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">在预引导身份验证屏幕中不请求哈希算法</control>
-    <string lang="zh-cn" key="GOST89_HELP">GOST 块密码，定义在标准 GOST 28147-89 名称 Magma 之下，是苏联和俄罗斯政府标准的对称密钥块密码。\n\n开发于二十世纪七十年代，该标准被标记为 "绝密"，然后在 1990 年降级为 "秘密"。这是苏联对美国标准算法 DES 的替代。</string>
     <string lang="zh-cn" key="KUZNYECHIK_HELP">Kuznyechik 是一个分组密码首次发表于 2015年, 并在俄罗斯联邦 GOST R 34.12-2015 和 RFC 7801 的国家标准中定义。256位密钥，128 位块。操作方式 XTS。</string>
     <string lang="zh-cn" key="CAMELLIA_HELP">由日本三菱电气和 NTT 共同开发。首先发表在2000。256位密钥，128 位块。操作方式 XTS。它已被批准供 ISO/IEC，欧盟的 NESSIE 项目和日本 CRYPTREC 项目使用。</string>
     <string lang="zh-cn" key="TIME">时间</string>

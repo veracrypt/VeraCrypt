@@ -1400,7 +1400,6 @@
     <control lang="en" key="IDC_SKIP_RESCUE_VERIFICATION">Skip Rescue Disk verification</control>
     <control lang="en" key="IDC_HIDE_WAITING_DIALOG">Don't show wait message dialog when performing operations</control>
     <control lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</control>
-    <string lang="en" key="GOST89_HELP">The GOST block cipher, defined in the standard GOST 28147-89 under name Magma, is a Soviet and Russian government standard symmetric key block cipher.\n\nDeveloped in the 1970s, the standard had been marked "Top Secret" and then downgraded to "Secret" in 1990. It was a Soviet alternative to the United States standard algorithm, DES.</string>
     <string lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</string>
     <string lang="ja" key="CAMELLIA_HELP">Camellia（カメリア）とは、2000年にNTTと三菱電機により共同開発されたブロック暗号です。 256ビットキー、128ビットブロックを使用します。動作モードはXTSです。 Camelliaは解読可能なラウンド数と最低限安全性を保てるラウンド数を元にした指標であるセキュリティーマージンにてAESを上回る1.8～2.0を確保しています。これに加え、CRYPTRECおよびNESSIEにおいてAESと同等の安全性と効率を兼ね備えているという評価もされています。</string>
     <string lang="en" key="TIME">Time</string>

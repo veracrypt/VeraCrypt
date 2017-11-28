@@ -1417,12 +1417,6 @@ void ComboSelChangeEA (HWND hwndDlg)
 
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("TWOFISH_HELP"));
 		}
-		else if (wcsncmp (name, L"GOST89", 6) == 0)
-		{
-			StringCbPrintfW (hyperLink, sizeof(hyperLink) / 2, GetString ("MORE_INFO_ABOUT"), L"GOST89");
-
-			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("GOST89_HELP"));
-		}
 		else if (wcscmp (name, L"Kuznyechik") == 0)
 		{
 			StringCbPrintfW (hyperLink, sizeof(hyperLink) / 2, GetString ("MORE_INFO_ABOUT"), name);

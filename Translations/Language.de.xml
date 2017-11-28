@@ -1400,7 +1400,6 @@
     <control lang="de" key="IDC_SKIP_RESCUE_VERIFICATION">Rettungsdatenträgerüberprüfung überspringen</control>
     <control lang="de" key="IDC_HIDE_WAITING_DIALOG">Wartemitteilungsdialog nicht anzeigen, wenn Vorgänge ausgeführt werden</control>
     <control lang="de" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Im Prä-Boot-Authentifikationsbildschirm keinen Hash-Algorithmus abfragen</control>
-    <string lang="de" key="GOST89_HELP">Die GOST-Blockverschlüsselung, definiert in der Norm GOST 28147-89 unter dem Namen Magma, ist ein sowjetischer und russischer Regierungsstandard für Blockverschlüsselung mit symmetrischem Schlüssel.\n\nEntwickelt in den 1970er Jahren wurde der Standard als "Streng geheim" eingestuft und dann im Jahr 1990 auf "Geheim" herabgestuft. Er war eine sowjetische Alternative zum Standard-Algorithmus der Vereinigten Staaten, DES.</string>
     <string lang="de" key="KUZNYECHIK_HELP">Kuznyechik ist eine Blockverschlüsselung, zuerst veröffentlicht im Jahr 2015 und definiert im Nationalen Standard der Russischen Föderation GOST R 34.12-2015 und ebenfalls in RFC 7801. 256 Bit Schlüssellänge, 128 Bit Blockgröße. Arbeitet im XTS-Modus.</string>
     <string lang="de" key="CAMELLIA_HELP">Von Mitsubishi Electric und NTT aus Japan gemeinsam entwickelt. Im Jahr 2000 zuerst veröffentlicht. 256 Bit Schlüssellänge, 128 Bit Blockgröße.\nArbeitet im XTS-Modus. Von der ISO/IEC, dem Projekt NESSIE der Europäischen Union und dem japanischen Projekt CRYPTREC zur Nutzung zugelassen.</string>
     <string lang="de" key="TIME">Zeit</string>
