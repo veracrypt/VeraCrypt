@@ -596,10 +596,13 @@ namespace VeraCrypt
 		HostDeviceList devices;
 		foreach (shared_ptr <HostDevice> device, Core->GetHostDevices (true))
 		{
-			devices.push_back (device);
-
-			foreach (shared_ptr <HostDevice> partition, device->Partitions)
-				devices.push_back (partition);
+			if (device->Partitions.empty())
+				devices.push_back (device);
+			else
+			{
+				foreach (shared_ptr <HostDevice> partition, device->Partitions)
+					devices.push_back (partition);
+			}
 		}
 
 		set <wstring> mountedVolumes;
