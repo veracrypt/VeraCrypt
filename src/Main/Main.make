@@ -198,14 +198,14 @@ endif
 
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
-	codesign -s "Developer ID Application: Mounir IDRASSI" --timestamp $(APPNAME).app
+	codesign -s "Developer ID Application: IDRIX (Z933746L2S)" --timestamp $(APPNAME).app
 
 install: prepare
 	cp -R $(APPNAME).app /Applications/.
 
 package: prepare
 	/usr/local/bin/packagesbuild $(PWD)/Setup/MacOSX/veracrypt.pkgproj
-	productsign --sign "Developer ID Installer: Mounir IDRASSI" --timestamp "$(PWD)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
+	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(PWD)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_$(TC_VERSION).dmg
 	rm -f "$(PWD)/Setup/MacOSX/template.dmg"
 	rm -fr "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
