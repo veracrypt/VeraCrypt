@@ -1569,13 +1569,18 @@ namespace VeraCrypt
 
 	DirectoryPath GraphicUserInterface::SelectDirectory (wxWindow *parent, const wxString &message, bool existingOnly) const
 	{
+		/* Avoid OS leaking previously used directory when user choose not to save history */
+		wxString defaultPath;
+		if (!GetPreferences().SaveHistory)
+			defaultPath = wxGetHomeDir ();
+
 		return DirectoryPath (::wxDirSelector (!message.empty() ? message :
 #ifdef __WXGTK__
 			wxDirSelectorPromptStr,
 #else
 			L"",
 #endif
-			L"", wxDD_DEFAULT_STYLE | (existingOnly ? wxDD_DIR_MUST_EXIST : 0), wxDefaultPosition, parent).wc_str());
+			defaultPath, wxDD_DEFAULT_STYLE | (existingOnly ? wxDD_DIR_MUST_EXIST : 0), wxDefaultPosition, parent).wc_str());
 	}
 
 	FilePathList GraphicUserInterface::SelectFiles (wxWindow *parent, const wxString &caption, bool saveMode, bool allowMultiple, const list < pair <wstring, wstring> > &fileExtensions, const DirectoryPath &directory) const
@@ -1614,7 +1619,12 @@ namespace VeraCrypt
 			}
 		}
 
-		wxFileDialog dialog (parent, !caption.empty() ? caption : LangString ["OPEN_TITLE"], wstring (directory), wxString(), wildcards, style);
+		/* Avoid OS leaking previously used directory when user choose not to save history */
+		wxString defaultDir = wstring (directory);
+		if (defaultDir.IsEmpty () && !GetPreferences().SaveHistory)
+			defaultDir = wxGetHomeDir ();
+
+		wxFileDialog dialog (parent, !caption.empty() ? caption : LangString ["OPEN_TITLE"], defaultDir, wxString(), wildcards, style);
 
 		if (dialog.ShowModal() == wxID_OK)
 		{
