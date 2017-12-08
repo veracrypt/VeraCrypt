@@ -1247,9 +1247,13 @@ namespace VeraCrypt
 			if (!localFile)
 			{
 				htmlPath = L"https://www.veracrypt.fr/en/";
-				url.Replace (L" ", L"%20");
-				url.Replace (L"'", L"%27");
 			}
+			else
+			{
+				htmlPath = L"file://" + htmlPath;
+			}
+			url.Replace (L" ", L"%20");
+			url.Replace (L"'", L"%27");
 
 			url = htmlPath + url;
 		}
