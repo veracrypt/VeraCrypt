@@ -495,7 +495,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.21.5</string>
+				<string>1.22.4</string>
 			</dict>
 			<key>UUID</key>
 			<string>B14381D9-EC5F-43E4-B971-82AB3D132A64</string>
@@ -1004,7 +1004,7 @@ https://osxfuse.github.io/
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>VeraCrypt 1.21</string>
+			<string>VeraCrypt 1.22-BETA4</string>
 		</dict>
 	</dict>
 	<key>SHARED_GLOBAL_DATA</key>
