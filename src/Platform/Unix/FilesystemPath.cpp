@@ -83,10 +83,10 @@ namespace VeraCrypt
 					string linkPathName ("/sys/dev/block/");
 					linkPathName += StringConverter::ToSingle (major (st.st_rdev)) + string (":") + StringConverter::ToSingle (minor (st.st_rdev));
 
-					char linkTargetPath[maxPathLength+1] = "";
+					vector<char> linkTargetPath(maxPathLength+1);
 
-					if(readlink(linkPathName.c_str (), linkTargetPath, sizeof (linkTargetPath)) != -1) {
-						const string targetPathStr (linkTargetPath);
+					if(readlink(linkPathName.c_str (), linkTargetPath.data(), linkTargetPath.size()) != -1) {
+						const string targetPathStr (linkTargetPath.data());
 						const size_t lastSlashPos = targetPathStr.find_last_of ('/');
 						const size_t secondLastSlashPos = targetPathStr.find_last_of ('/', lastSlashPos-1);
 						path = string ("/dev/") + targetPathStr.substr (secondLastSlashPos+1, lastSlashPos-secondLastSlashPos-1);
