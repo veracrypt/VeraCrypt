@@ -161,7 +161,7 @@
     <control lang="es" key="IDC_PREF_CACHE_PASSWORDS">Guardar contraseñas en caché</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_INACTIVE">Desmontar volumen autom. cuando dejen de leerse/escribirse datos</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_LOGOFF">Si el usuario cierra sesión</control>
-    <control lang="es" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Sessión de usuario bloqueada</control>
+    <control lang="es" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Sesión de usuario bloqueada</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_POWERSAVING">Si se entra en "ahorro de energía"</control>
     <control lang="es" key="IDC_PREF_DISMOUNT_SCREENSAVER">Si se activa el salvapantallas</control>
     <control lang="es" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Forzar desmontaje automático aunque el volumen tenga archivos abiertos</control>
