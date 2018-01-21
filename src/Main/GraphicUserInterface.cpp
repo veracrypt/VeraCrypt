@@ -219,7 +219,7 @@ namespace VeraCrypt
 
 				wxSingleChoiceDialog choiceDialog (parent, LangString["DOES_VOLUME_CONTAIN_HIDDEN"], Application::GetName(), choices);
 				choiceDialog.SetSize (wxSize (Gui->GetCharWidth (&choiceDialog) * 60, -1));
-				choiceDialog.SetSelection (-1);
+				choiceDialog.SetSelection (0);
 
 				if (choiceDialog.ShowModal() != wxID_OK)
 					return;
@@ -1324,7 +1324,7 @@ namespace VeraCrypt
 
 		wxSingleChoiceDialog choiceDialog (parent, LangString["HEADER_RESTORE_EXTERNAL_INTERNAL"], Application::GetName(), choices);
 		choiceDialog.SetSize (wxSize (Gui->GetCharWidth (&choiceDialog) * 80, -1));
-		choiceDialog.SetSelection (-1);
+		choiceDialog.SetSelection (0);
 
 		if (choiceDialog.ShowModal() != wxID_OK)
 			return;
