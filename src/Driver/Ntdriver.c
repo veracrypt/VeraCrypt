@@ -69,6 +69,42 @@
 #define IOCTL_VOLUME_IS_DYNAMIC                 CTL_CODE(IOCTL_VOLUME_BASE, 18, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #endif
 
+#ifndef StorageDeviceLBProvisioningProperty
+#define StorageDeviceLBProvisioningProperty 11
+#endif
+
+#ifndef DeviceDsmAction_OffloadRead
+#define DeviceDsmAction_OffloadRead       ( 3  | DeviceDsmActionFlag_NonDestructive)
+#endif
+
+#ifndef DeviceDsmAction_OffloadWrite
+#define DeviceDsmAction_OffloadWrite        4
+#endif
+
+#ifndef DeviceDsmAction_Allocation
+#define DeviceDsmAction_Allocation        ( 5  | DeviceDsmActionFlag_NonDestructive)
+#endif
+
+#ifndef DeviceDsmAction_Repair
+#define DeviceDsmAction_Repair            ( 6  | DeviceDsmActionFlag_NonDestructive)
+#endif
+
+#ifndef DeviceDsmAction_Scrub
+#define DeviceDsmAction_Scrub             ( 7  | DeviceDsmActionFlag_NonDestructive)
+#endif
+
+#ifndef DeviceDsmAction_DrtQuery
+#define DeviceDsmAction_DrtQuery          ( 8  | DeviceDsmActionFlag_NonDestructive)
+#endif
+
+#ifndef DeviceDsmAction_DrtClear
+#define DeviceDsmAction_DrtClear          ( 9  | DeviceDsmActionFlag_NonDestructive)
+#endif
+
+#ifndef DeviceDsmAction_DrtDisable
+#define DeviceDsmAction_DrtDisable        (10  | DeviceDsmActionFlag_NonDestructive)
+#endif
+
 /* Init section, which is thrown away as soon as DriverEntry returns */
 #pragma alloc_text(INIT,DriverEntry)
 #pragma alloc_text(INIT,TCCreateRootDeviceObject)
@@ -96,6 +132,7 @@ static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
 static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
 static BOOL EnableExtendedIoctlSupport = FALSE;
+static BOOL AllowTrimCommand = FALSE;
 static KeSaveExtendedProcessorStateFn KeSaveExtendedProcessorStatePtr = NULL;
 static KeRestoreExtendedProcessorStateFn KeRestoreExtendedProcessorStatePtr = NULL;
 
@@ -710,6 +747,8 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_DISK_GET_MEDIA_TYPES:
 	case IOCTL_DISK_GET_DRIVE_GEOMETRY:
+	case IOCTL_STORAGE_GET_MEDIA_TYPES:
+	case IOCTL_DISK_UPDATE_DRIVE_SIZE:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_DISK_GET_DRIVE_GEOMETRY)\n");
 		/* Return the drive geometry for the disk.  Note that we
 		   return values which were made up to suit the disk size.  */
@@ -774,25 +813,6 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		}
 		break;
 
-	case IOCTL_STORAGE_GET_MEDIA_TYPES:
-		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_MEDIA_TYPES)\n");
-		/* Return the drive geometry for the disk.  Note that we
-			return values which were made up to suit the disk size.  */
-		if (ValidateIOBufferSize (Irp, sizeof (DISK_GEOMETRY), ValidateOutput))
-		{
-			PDISK_GEOMETRY outputBuffer = (PDISK_GEOMETRY)
-			Irp->AssociatedIrp.SystemBuffer;
-
-			outputBuffer->MediaType = Extension->bRemovable ? RemovableMedia : FixedMedia;
-			outputBuffer->Cylinders.QuadPart = Extension->NumberOfCylinders;
-			outputBuffer->TracksPerCylinder = Extension->TracksPerCylinder;
-			outputBuffer->SectorsPerTrack = Extension->SectorsPerTrack;
-			outputBuffer->BytesPerSector = Extension->BytesPerSector;
-			Irp->IoStatus.Status = STATUS_SUCCESS;
-			Irp->IoStatus.Information = sizeof (DISK_GEOMETRY);
-		}
-		break;
-
 	case IOCTL_STORAGE_GET_MEDIA_TYPES_EX:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_GET_MEDIA_TYPES_EX)\n");
 		if (ValidateIOBufferSize (Irp, sizeof (GET_MEDIA_TYPES), ValidateOutput))
@@ -839,19 +859,40 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_STORAGE_QUERY_PROPERTY)\n");		
 		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 		Irp->IoStatus.Information = 0;
-		if (EnableExtendedIoctlSupport)
+		if (EnableExtendedIoctlSupport || Extension->TrimEnabled)
 		{
 			if (ValidateIOBufferSize (Irp, sizeof (STORAGE_PROPERTY_QUERY), ValidateInput))
 			{
 				PSTORAGE_PROPERTY_QUERY pStoragePropQuery = (PSTORAGE_PROPERTY_QUERY) Irp->AssociatedIrp.SystemBuffer;
 				STORAGE_QUERY_TYPE type = pStoragePropQuery->QueryType;
 
-				Dump ("IOCTL_STORAGE_QUERY_PROPERTY - PropertyId = %d, type = %d\n", pStoragePropQuery->PropertyId, type);
+				Dump ("IOCTL_STORAGE_QUERY_PROPERTY - PropertyId = %d, type = %d, InputBufferLength = %d, OutputBufferLength = %d\n", pStoragePropQuery->PropertyId, type, (int) irpSp->Parameters.DeviceIoControl.InputBufferLength, (int) irpSp->Parameters.DeviceIoControl.OutputBufferLength);
 
-				/* return error if an unsupported type is encountered */
-				Irp->IoStatus.Status = STATUS_NOT_SUPPORTED;
-
-				if (	(pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
+				if (Extension->bRawDevice &&
+						(pStoragePropQuery->PropertyId == (STORAGE_PROPERTY_ID) StorageDeviceLBProvisioningProperty)
+					)
+				{
+					IO_STATUS_BLOCK IoStatus;
+					Dump ("ProcessVolumeDeviceControlIrp: sending IOCTL_STORAGE_QUERY_PROPERTY (%d) to device\n", (int) pStoragePropQuery->PropertyId);
+					Irp->IoStatus.Status = ZwDeviceIoControlFile (
+						Extension->hDeviceFile,
+						NULL,
+						NULL,
+						NULL,
+						&IoStatus,
+						IOCTL_STORAGE_QUERY_PROPERTY,
+						Irp->AssociatedIrp.SystemBuffer,
+						irpSp->Parameters.DeviceIoControl.InputBufferLength,
+						Irp->AssociatedIrp.SystemBuffer,
+						irpSp->Parameters.DeviceIoControl.OutputBufferLength);
+					Dump ("ProcessVolumeDeviceControlIrp: ZwDeviceIoControlFile returned 0x%.8X\n", (DWORD) Irp->IoStatus.Status);
+					if (Irp->IoStatus.Status == STATUS_SUCCESS)
+					{
+						Irp->IoStatus.Status = IoStatus.Status;
+						Irp->IoStatus.Information = IoStatus.Information;
+					}
+				}
+				else if (	(pStoragePropQuery->PropertyId == StorageAccessAlignmentProperty)
 					||	(pStoragePropQuery->PropertyId == StorageDeviceProperty)
 					||	(pStoragePropQuery->PropertyId == StorageAdapterProperty)
 					||	(pStoragePropQuery->PropertyId == StorageDeviceSeekPenaltyProperty)
@@ -865,12 +906,14 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 					}
 					else if (type == PropertyStandardQuery)
 					{
+						ULONG descriptorSize;
 						switch (pStoragePropQuery->PropertyId)
 						{
 							case StorageDeviceProperty:
 								{
+									Dump ("IOCTL_STORAGE_QUERY_PROPERTY - StorageDeviceProperty\n");
 									/* Add 0x00 for NULL terminating string used as ProductId, ProductRevision, SerialNumber, VendorId */
-									ULONG descriptorSize = sizeof (STORAGE_DEVICE_DESCRIPTOR) + 1;
+									descriptorSize = sizeof (STORAGE_DEVICE_DESCRIPTOR) + 1;
 									if (ValidateIOBufferSize (Irp, descriptorSize, ValidateOutput))
 									{
 										PSTORAGE_DEVICE_DESCRIPTOR outputBuffer = (PSTORAGE_DEVICE_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
@@ -899,7 +942,8 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 								break;
 							case StorageAdapterProperty:
 								{
-									ULONG descriptorSize = sizeof (STORAGE_ADAPTER_DESCRIPTOR);
+									Dump ("IOCTL_STORAGE_QUERY_PROPERTY - StorageAdapterProperty\n");
+									descriptorSize = sizeof (STORAGE_ADAPTER_DESCRIPTOR);
 									if (ValidateIOBufferSize (Irp, descriptorSize, ValidateOutput))
 									{
 										PSTORAGE_ADAPTER_DESCRIPTOR outputBuffer = (PSTORAGE_ADAPTER_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
@@ -925,6 +969,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 								break;
 							case StorageAccessAlignmentProperty:
 								{
+									Dump ("IOCTL_STORAGE_QUERY_PROPERTY - StorageAccessAlignmentProperty\n");
 									if (ValidateIOBufferSize (Irp, sizeof (STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR), ValidateOutput))
 									{
 										PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR outputBuffer = (PSTORAGE_ACCESS_ALIGNMENT_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
@@ -948,13 +993,14 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 								break;
 							case StorageDeviceSeekPenaltyProperty:
 								{
+									Dump ("IOCTL_STORAGE_QUERY_PROPERTY - StorageDeviceSeekPenaltyProperty\n");
 									if (ValidateIOBufferSize (Irp, sizeof (DEVICE_SEEK_PENALTY_DESCRIPTOR), ValidateOutput))
 									{
 										PDEVICE_SEEK_PENALTY_DESCRIPTOR outputBuffer = (PDEVICE_SEEK_PENALTY_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
-
+										Dump ("IOCTL_STORAGE_QUERY_PROPERTY - StorageDeviceSeekPenaltyProperty: set IncursSeekPenalty to %s\n", Extension->IncursSeekPenalty? "TRUE" : "FALSE");
 										outputBuffer->Version = sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR);
 										outputBuffer->Size = sizeof(DEVICE_SEEK_PENALTY_DESCRIPTOR);
-										outputBuffer->IncursSeekPenalty = TRUE; //TODO: in case of SSD drive, we should probably return FALSE
+										outputBuffer->IncursSeekPenalty = (BOOLEAN) Extension->IncursSeekPenalty;
 										Irp->IoStatus.Status = STATUS_SUCCESS;
 										Irp->IoStatus.Information = sizeof (DEVICE_SEEK_PENALTY_DESCRIPTOR);
 									}
@@ -970,13 +1016,14 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 								break;
 							case StorageDeviceTrimProperty:
 								{
+									Dump ("IOCTL_STORAGE_QUERY_PROPERTY - StorageDeviceTrimProperty\n");
 									if (ValidateIOBufferSize (Irp, sizeof (DEVICE_TRIM_DESCRIPTOR), ValidateOutput))
 									{
 										PDEVICE_TRIM_DESCRIPTOR outputBuffer = (PDEVICE_TRIM_DESCRIPTOR) Irp->AssociatedIrp.SystemBuffer;
-
+										Dump ("IOCTL_STORAGE_QUERY_PROPERTY - StorageDeviceTrimProperty: set TrimEnabled to %s\n", Extension->TrimEnabled? "TRUE" : "FALSE");
 										outputBuffer->Version = sizeof(DEVICE_TRIM_DESCRIPTOR);
 										outputBuffer->Size = sizeof(DEVICE_TRIM_DESCRIPTOR);
-										outputBuffer->TrimEnabled = FALSE; /* TODO: implement Trim support for SSD drives */
+										outputBuffer->TrimEnabled = (BOOLEAN) Extension->TrimEnabled;
 										Irp->IoStatus.Status = STATUS_SUCCESS;
 										Irp->IoStatus.Information = sizeof (DEVICE_TRIM_DESCRIPTOR);
 									}
@@ -1361,6 +1408,21 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 		break;
 
+	case IOCTL_DISK_UPDATE_PROPERTIES:
+		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_SUCCESS for IOCTL_DISK_UPDATE_PROPERTIES\n");
+		Irp->IoStatus.Status = STATUS_SUCCESS;
+		Irp->IoStatus.Information = 0;
+
+		break;
+
+	case IOCTL_DISK_MEDIA_REMOVAL:
+	case IOCTL_STORAGE_MEDIA_REMOVAL:
+		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_SUCCESS for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
+		Irp->IoStatus.Status = STATUS_SUCCESS;
+		Irp->IoStatus.Information = 0;
+
+		break;
+
 	case IOCTL_DISK_GET_CLUSTER_INFO:
 		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_NOT_SUPPORTED for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
 		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
@@ -1371,12 +1433,203 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			Irp->IoStatus.Information = 0;
 		}
 		break;
+
+	case IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES:
+		Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES\n");
+		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
+		Irp->IoStatus.Information = 0;
+		if (Extension->bRawDevice && Extension->TrimEnabled)
+		{
+			if (ValidateIOBufferSize (Irp, sizeof (DEVICE_MANAGE_DATA_SET_ATTRIBUTES), ValidateInput))
+			{
+				PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
+				DWORD inputLength = irpSp->Parameters.DeviceIoControl.InputBufferLength;
+				PDEVICE_MANAGE_DATA_SET_ATTRIBUTES pInputAttrs = (PDEVICE_MANAGE_DATA_SET_ATTRIBUTES) Irp->AssociatedIrp.SystemBuffer;
+				DEVICE_DATA_MANAGEMENT_SET_ACTION action = pInputAttrs->Action;
+				BOOL bEntireSet = pInputAttrs->Flags & DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE? TRUE : FALSE;
+				ULONGLONG minSizedataSet = (ULONGLONG) pInputAttrs->DataSetRangesOffset + (ULONGLONG) pInputAttrs->DataSetRangesLength;
+				ULONGLONG minSizeParameter = (ULONGLONG) pInputAttrs->ParameterBlockOffset + (ULONGLONG) pInputAttrs->ParameterBlockLength;
+				ULONGLONG minSizeGeneric = sizeof(DEVICE_MANAGE_DATA_SET_ATTRIBUTES) + (ULONGLONG) pInputAttrs->ParameterBlockLength + (ULONGLONG) pInputAttrs->DataSetRangesLength;
+				PDEVICE_MANAGE_DATA_SET_ATTRIBUTES pNewSetAttrs = NULL;
+				ULONG ulNewInputLength = 0;
+				BOOL bForwardIoctl = FALSE;
+
+				if (inputLength >= minSizeGeneric && inputLength >= minSizedataSet && inputLength >= minSizeParameter)
+				{
+					if (bEntireSet)
+					{
+						if (minSizedataSet)
+						{
+							Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE set but data set range specified=> Error.\n");
+							Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+							Irp->IoStatus.Information = 0;
+						}
+						else
+						{
+							DWORD dwDataSetOffset = ALIGN_VALUE (inputLength, sizeof(DEVICE_DATA_SET_RANGE));
+							DWORD dwDataSetLength = sizeof(DEVICE_DATA_SET_RANGE);
+
+							Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE set. Setting data range to all volume.\n");
+
+							ulNewInputLength = dwDataSetOffset + dwDataSetLength;
+							pNewSetAttrs = (PDEVICE_MANAGE_DATA_SET_ATTRIBUTES) TCalloc (ulNewInputLength);
+							if (pNewSetAttrs)
+							{
+								PDEVICE_DATA_SET_RANGE pRange = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pNewSetAttrs) + dwDataSetOffset);
+
+								memcpy (pNewSetAttrs, pInputAttrs, inputLength);
+
+								pRange->StartingOffset = (ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset;
+								pRange->LengthInBytes = Extension->DiskLength;
+
+								pNewSetAttrs->Size = sizeof(DEVICE_MANAGE_DATA_SET_ATTRIBUTES);
+								pNewSetAttrs->Action = action;
+								pNewSetAttrs->Flags = pInputAttrs->Flags & (~DEVICE_DSM_FLAG_ENTIRE_DATA_SET_RANGE);
+								pNewSetAttrs->ParameterBlockOffset = pInputAttrs->ParameterBlockOffset;
+								pNewSetAttrs->ParameterBlockLength = pInputAttrs->ParameterBlockLength;
+								pNewSetAttrs->DataSetRangesOffset = dwDataSetOffset;
+								pNewSetAttrs->DataSetRangesLength = dwDataSetLength;
+
+								bForwardIoctl = TRUE;
+							}
+							else
+							{
+								Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - Failed to allocate memory.\n");
+								Irp->IoStatus.Status = STATUS_INSUFFICIENT_RESOURCES;
+								Irp->IoStatus.Information = 0;
+							}
+						}
+					}
+					else
+					{						
+						Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - creating new data set range from input range.\n");
+						ulNewInputLength = inputLength;
+						pNewSetAttrs = (PDEVICE_MANAGE_DATA_SET_ATTRIBUTES) TCalloc (inputLength);
+						if (pNewSetAttrs)
+						{
+							PDEVICE_DATA_SET_RANGE pNewRanges = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pNewSetAttrs) + pInputAttrs->DataSetRangesOffset);
+							PDEVICE_DATA_SET_RANGE pInputRanges = (PDEVICE_DATA_SET_RANGE) (((unsigned char*) pInputAttrs) + pInputAttrs->DataSetRangesOffset);
+							DWORD dwInputRangesCount = 0, dwNewRangesCount = 0, i;
+							ULONGLONG ullStartingOffset, ullNewOffset, ullEndOffset;
+							HRESULT hResult;
+
+							memcpy (pNewSetAttrs, pInputAttrs, inputLength);
+
+							dwInputRangesCount = pInputAttrs->DataSetRangesLength / sizeof(DEVICE_DATA_SET_RANGE);
+
+							for (i = 0; i < dwInputRangesCount; i++)
+							{
+								ullStartingOffset = (ULONGLONG) pInputRanges[i].StartingOffset;
+								hResult = ULongLongAdd(ullStartingOffset,
+									(ULONGLONG) Extension->cryptoInfo->hiddenVolume ? Extension->cryptoInfo->hiddenVolumeOffset : Extension->cryptoInfo->volDataAreaOffset,
+									&ullNewOffset);
+								if (hResult != S_OK)
+									continue;
+								else if (S_OK != ULongLongAdd(ullStartingOffset, (ULONGLONG) pInputRanges[i].LengthInBytes, &ullEndOffset))
+									continue;
+								else if (ullEndOffset > (ULONGLONG) Extension->DiskLength)
+									continue;
+								else if (ullNewOffset > 0)
+								{
+									pNewRanges[dwNewRangesCount].StartingOffset = (LONGLONG) ullNewOffset;
+									pNewRanges[dwNewRangesCount].LengthInBytes = pInputRanges[i].LengthInBytes;
+
+									dwNewRangesCount++;
+								}
+							}
+
+							Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - %d valid range processed from %d range in input.\n", (int) dwNewRangesCount, (int) dwInputRangesCount);
+
+							pNewSetAttrs->DataSetRangesLength = dwNewRangesCount * sizeof (DEVICE_DATA_SET_RANGE);
+
+							bForwardIoctl = TRUE;
+						}
+						else
+						{
+							Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - Failed to allocate memory.\n");
+							Irp->IoStatus.Status = STATUS_INSUFFICIENT_RESOURCES;
+							Irp->IoStatus.Information = 0;
+						}
+					}
+				}
+				else
+				{
+					Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - buffer containing DEVICE_MANAGE_DATA_SET_ATTRIBUTES has invalid length.\n");
+					Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+					Irp->IoStatus.Information = 0;
+				}
+
+
+				if (bForwardIoctl)
+				{
+					if (action == DeviceDsmAction_Trim)
+					{
+						Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_Trim.\n");
+
+						if (Extension->cryptoInfo->hiddenVolume || !AllowTrimCommand)
+						{
+							Dump ("ProcessVolumeDeviceControlIrp: TRIM command filtered\n");
+							Irp->IoStatus.Status = STATUS_SUCCESS;
+							Irp->IoStatus.Information = 0;
+						}
+						else
+						{
+							IO_STATUS_BLOCK IoStatus;
+							Dump ("ProcessVolumeDeviceControlIrp: sending TRIM to device\n");
+							Irp->IoStatus.Status = ZwDeviceIoControlFile (
+								Extension->hDeviceFile,
+								NULL,
+								NULL,
+								NULL,
+								&IoStatus,
+								IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES,
+								(PVOID) pNewSetAttrs,
+								ulNewInputLength,
+								NULL,
+								0);
+							Dump ("ProcessVolumeDeviceControlIrp: ZwDeviceIoControlFile returned 0x%.8X\n", (DWORD) Irp->IoStatus.Status);
+							if (Irp->IoStatus.Status == STATUS_SUCCESS)
+							{
+								Irp->IoStatus.Status = IoStatus.Status;
+								Irp->IoStatus.Information = IoStatus.Information;
+							}
+							else
+								Irp->IoStatus.Information = 0;
+						}						
+					}
+					else
+					{
+						switch (action)
+						{
+							case DeviceDsmAction_Notification: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_Notification\n"); break;
+							case DeviceDsmAction_OffloadRead: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_OffloadRead\n"); break;
+							case DeviceDsmAction_OffloadWrite: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_OffloadWrite\n"); break;
+							case DeviceDsmAction_Allocation: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_Allocation\n"); break;
+							case DeviceDsmAction_Scrub: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_Scrub\n"); break;
+							case DeviceDsmAction_DrtQuery: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_DrtQuery\n"); break;
+							case DeviceDsmAction_DrtClear: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_DrtClear\n"); break;
+							case DeviceDsmAction_DrtDisable: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - DeviceDsmAction_DrtDisable\n"); break;
+							default: Dump ("ProcessVolumeDeviceControlIrp: IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES - unknown action %d\n", (int) action); break;
+						}
+					
+					}
+				}
+
+				if (pNewSetAttrs)
+					TCfree (pNewSetAttrs);
+			}
+		}
+#if defined (DEBUG) || defined (DEBUG_TRACE)
+		else
+			Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_INVALID_DEVICE_REQUEST for IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES\n");
+#endif
+		break;
 	
 	case IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT:
-	case IOCTL_DISK_MEDIA_REMOVAL:
 	case IOCTL_VOLUME_QUERY_ALLOCATION_HINT:
 	case FT_BALANCED_READ_MODE:
 	case IOCTL_STORAGE_GET_DEVICE_NUMBER:
+	case IOCTL_MOUNTDEV_LINK_CREATED:
 		Dump ("ProcessVolumeDeviceControlIrp: returning STATUS_INVALID_DEVICE_REQUEST for %ls\n", TCTranslateCode (irpSp->Parameters.DeviceIoControl.IoControlCode));
 		Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 		Irp->IoStatus.Information = 0;		
@@ -2772,6 +3025,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		return (LPWSTR) _T ("IOCTL_DISK_GET_MEDIA_TYPES");
 	else if (ulCode == IOCTL_DISK_IS_CLUSTERED)
 		return (LPWSTR) _T ("IOCTL_DISK_IS_CLUSTERED");	
+	else if (ulCode == IOCTL_DISK_UPDATE_DRIVE_SIZE)
+		return (LPWSTR) _T ("IOCTL_DISK_UPDATE_DRIVE_SIZE");
 	else if (ulCode == IOCTL_STORAGE_GET_MEDIA_TYPES)
 		return (LPWSTR) _T ("IOCTL_STORAGE_GET_MEDIA_TYPES");
 	else if (ulCode == IOCTL_STORAGE_GET_HOTPLUG_INFO)
@@ -2798,6 +3053,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		return (LPWSTR) _T ("IOCTL_VOLUME_POST_ONLINE");
 	else if (ulCode == IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT)
 		return (LPWSTR) _T ("IOCTL_STORAGE_CHECK_PRIORITY_HINT_SUPPORT");
+	else if (ulCode == IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES)
+		return (LPWSTR) _T ("IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES");
 	else if (ulCode == IRP_MJ_READ)
 		return (LPWSTR) _T ("IRP_MJ_READ");
 	else if (ulCode == IRP_MJ_WRITE)
@@ -3968,6 +4225,7 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
 
 			EnableExtendedIoctlSupport = (flags & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL)? TRUE : FALSE;
+			AllowTrimCommand = (flags & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM)? TRUE : FALSE;
 		}
 		else
 			status = STATUS_INVALID_PARAMETER;

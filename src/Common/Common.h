@@ -23,6 +23,8 @@
 
 #define VOLUME_ID_SIZE	SHA256_DIGESTSIZE
 
+#define ALIGN_VALUE(value, alignment) (((alignment) == 0)? (value) : (((value) + ((alignment) - 1)) & ~((alignment) - 1)))
+
 typedef enum
 {
 	// IMPORTANT: If you add a new item here, update IsOSVersionAtLeast().

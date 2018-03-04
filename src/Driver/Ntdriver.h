@@ -67,6 +67,9 @@ typedef struct EXTENSION
 	ULONG HostMaximumPhysicalPages;
 	ULONG HostAlignmentMask;
 
+	BOOL IncursSeekPenalty;
+	BOOL TrimEnabled;
+
 	KEVENT keVolumeEvent;		/* Event structure used when setting up a device */
 
 	EncryptedIoQueue Queue;

@@ -68,6 +68,10 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	Extension->HostMaximumPhysicalPages = 17;
 	Extension->HostAlignmentMask = 0;
 
+	/* default values for non-SSD drives */
+	Extension->IncursSeekPenalty = TRUE;
+	Extension->TrimEnabled = FALSE;
+
 	RtlInitUnicodeString (&FullFileName, pwszMountVolume);
 	InitializeObjectAttributes (&oaFileAttributes, &FullFileName, OBJ_CASE_INSENSITIVE | (forceAccessCheck ? OBJ_FORCE_ACCESS_CHECK : 0) | OBJ_KERNEL_HANDLE, NULL, NULL);
 	KeInitializeEvent (&Extension->keVolumeEvent, NotificationEvent, FALSE);
@@ -152,6 +156,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		{
 			STORAGE_ACCESS_ALIGNMENT_DESCRIPTOR alignmentDesc = {0};
 			STORAGE_ADAPTER_DESCRIPTOR adapterDesc = {0};
+			DEVICE_SEEK_PENALTY_DESCRIPTOR penaltyDesc = {0};
+			DEVICE_TRIM_DESCRIPTOR trimDesc = {0};
 
 			storagePropertyQuery.PropertyId = StorageAccessAlignmentProperty;
 			storagePropertyQuery.QueryType = PropertyStandardQuery;
@@ -177,6 +183,28 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				Extension->HostMaximumTransferLength = adapterDesc.MaximumTransferLength;
 				Extension->HostMaximumPhysicalPages = adapterDesc.MaximumPhysicalPages;
 				Extension->HostAlignmentMask = adapterDesc.AlignmentMask;
+			}
+
+			storagePropertyQuery.PropertyId = StorageDeviceSeekPenaltyProperty;
+			penaltyDesc.Version = sizeof (DEVICE_SEEK_PENALTY_DESCRIPTOR);
+			penaltyDesc.Size = sizeof (DEVICE_SEEK_PENALTY_DESCRIPTOR);
+
+			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+				(char *) &penaltyDesc, sizeof (penaltyDesc))))
+			{
+				Extension->IncursSeekPenalty = penaltyDesc.IncursSeekPenalty;
+			}
+
+			storagePropertyQuery.PropertyId = StorageDeviceTrimProperty;
+			trimDesc.Version = sizeof (DEVICE_TRIM_DESCRIPTOR);
+			trimDesc.Size = sizeof (DEVICE_TRIM_DESCRIPTOR);
+
+			if (NT_SUCCESS (TCSendHostDeviceIoControlRequestEx (DeviceObject, Extension, IOCTL_STORAGE_QUERY_PROPERTY,
+				(char*) &storagePropertyQuery, sizeof(storagePropertyQuery),
+				(char *) &trimDesc, sizeof (trimDesc))))
+			{
+				Extension->TrimEnabled = trimDesc.TrimEnabled;
 			}
 		}
 
