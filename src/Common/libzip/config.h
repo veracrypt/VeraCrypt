@@ -11,7 +11,7 @@
 #define HAVE__FILENO
 #define HAVE__OPEN
 #define HAVE__SETMODE
-#define HAVE__SNPRINTF
+/* #undef HAVE__SNPRINTF */
 #define HAVE__STRDUP
 #define HAVE__STRICMP
 #define HAVE__STRTOI64

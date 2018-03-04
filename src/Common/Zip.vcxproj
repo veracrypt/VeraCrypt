@@ -35,7 +35,6 @@
     <ClCompile Include="libzip\zip_error_get.c" />
     <ClCompile Include="libzip\zip_error_get_sys_type.c" />
     <ClCompile Include="libzip\zip_error_strerror.c" />
-    <ClCompile Include="libzip\zip_error_to_str.c" />
     <ClCompile Include="libzip\zip_err_str.c" />
     <ClCompile Include="libzip\zip_extra_field.c" />
     <ClCompile Include="libzip\zip_extra_field_api.c" />
@@ -223,7 +222,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_LIB;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>zlib:libzip</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>zlib;libzip</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

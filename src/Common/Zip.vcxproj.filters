@@ -57,9 +57,6 @@
     <ClCompile Include="libzip\zip_error_strerror.c">
       <Filter>libzip</Filter>
     </ClCompile>
-    <ClCompile Include="libzip\zip_error_to_str.c">
-      <Filter>libzip</Filter>
-    </ClCompile>
     <ClCompile Include="libzip\zip_err_str.c">
       <Filter>libzip</Filter>
     </ClCompile>
