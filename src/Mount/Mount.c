@@ -51,7 +51,7 @@
 
 #include <Strsafe.h>
 
-#import <msxml6.dll>
+#import <msxml6.dll> no_auto_exclude
 
 #include <wtsapi32.h>
 
