@@ -1423,6 +1423,7 @@
     <control lang="ru" key="IDT_ADVANCED_OPTIONS">Расширенные настройки</control>
     <string lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</string>
     <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM operation for non-system SSD partition/drive</control>
+    <control lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

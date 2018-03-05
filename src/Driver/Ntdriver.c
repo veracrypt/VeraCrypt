@@ -128,6 +128,7 @@ BOOL VolumeClassFilterRegistered = FALSE;
 BOOL CacheBootPassword = FALSE;
 BOOL CacheBootPim = FALSE;
 BOOL NonAdminSystemFavoritesAccessDisabled = FALSE;
+BOOL BlockSystemTrimCommand = FALSE;
 static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
 static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
@@ -4220,6 +4221,9 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 
 				if (flags & TC_DRIVER_CONFIG_CACHE_BOOT_PIM)
 					CacheBootPim = TRUE;
+
+				if (flags & VC_DRIVER_CONFIG_BLOCK_SYS_TRIM)
+					BlockSystemTrimCommand = TRUE;
 			}
 
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);

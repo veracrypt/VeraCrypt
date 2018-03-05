@@ -1423,6 +1423,7 @@
     <control lang="es" key="IDT_ADVANCED_OPTIONS">Opciones Avanzadas</control>
     <string lang="es" key="AFTER_UPGRADE_RESCUE_DISK">Se recomienda encarecidamente que cree un nuevo Disco de Rescate de VeraCrypt (el cual tendrá la nueva versión de Cargador de Arranque de VeraCrypt) seleccionando 'Sistema' > 'Crear Disco de Rescate'.\n¿Quiere proceder a ello ahora?</string>
     <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM operation for non-system SSD partition/drive</control>
+    <control lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

@@ -1423,6 +1423,7 @@
     <control lang="pl" key="IDT_ADVANCED_OPTIONS">Opcje zaawansowane</control>
     <string lang="pl" key="AFTER_UPGRADE_RESCUE_DISK">Zdecydowanie zaleca się utworzenie nowej płyty ratunkowej VeraCrypt (która zawierać będzie nową wersję programu rozruchowego VeraCrypt) poprzez wybranie 'System' > 'Utwórz płytę ratunkową'.\nCzy chcesz to teraz zrobić?</string>
     <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM operation for non-system SSD partition/drive</control>
+    <control lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
