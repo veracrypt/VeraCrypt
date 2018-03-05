@@ -1422,6 +1422,7 @@
     <string lang="ro" key="DCSPROP_XML_VALIDATION_FAILED">ATENȚIE: Eșuare la validarea formatului XML al încărcătorului de sistem. Verificați modificările efectuate.</string>
     <control lang="ro" key="IDT_ADVANCED_OPTIONS">Opțiuni avansate</control>
     <string lang="ro" key="AFTER_UPGRADE_RESCUE_DISK">Este recomandată crearea unui Disc de recuperare Veracrypt nou (ce va conține noua versiune a încărcătorului Veracrypt) selectând 'Sistem' > 'Creare disc de recuperare'.\nDoriți crearea lui acum ?</string>
+    <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM operation for non-system SSD partition/drive</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

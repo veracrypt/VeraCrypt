@@ -1422,6 +1422,7 @@
     <string lang="es" key="DCSPROP_XML_VALIDATION_FAILED">AVISO: Error al validar el formato XML de la configuración del Cargador de Arranque. Por favor, revise los cambios efectuados.</string>
     <control lang="es" key="IDT_ADVANCED_OPTIONS">Opciones Avanzadas</control>
     <string lang="es" key="AFTER_UPGRADE_RESCUE_DISK">Se recomienda encarecidamente que cree un nuevo Disco de Rescate de VeraCrypt (el cual tendrá la nueva versión de Cargador de Arranque de VeraCrypt) seleccionando 'Sistema' > 'Crear Disco de Rescate'.\n¿Quiere proceder a ello ahora?</string>
+    <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM operation for non-system SSD partition/drive</control>
   </localization>
   <!-- XML Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
