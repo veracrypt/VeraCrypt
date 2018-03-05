@@ -325,7 +325,7 @@ BEGIN
     LTEXT           "More information",IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION,18,159,165,10,SS_NOTIFY
     CONTROL         "Enable extended disk control codes support",IDC_ENABLE_EXTENDED_IOCTL_SUPPORT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,198,337,10
-    CONTROL         "Allow TRIM operation for non-system SSD partition/drive",IDC_ALLOW_TRIM_NONSYS_SSD,
+    CONTROL         "Allow TRIM command for non-system SSD partition/drive",IDC_ALLOW_TRIM_NONSYS_SSD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,212,337,10
     PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,232,59,14
     DEFPUSHBUTTON   "OK",IDOK,257,232,50,14

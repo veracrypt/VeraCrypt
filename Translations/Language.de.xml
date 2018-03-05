@@ -1422,7 +1422,7 @@
     <string lang="de" key="DCSPROP_XML_VALIDATION_FAILED">WARNUNG: Das XML-Format der Bootloader-Konfiguration konnte nicht validiert werden. Bitte überprüfen Sie Ihre Änderungen.</string>
     <control lang="de" key="IDT_ADVANCED_OPTIONS">Erweiterte Optionen</control>
     <string lang="de" key="AFTER_UPGRADE_RESCUE_DISK">Es wird dringend empfohlen, dass Sie einen neuen VeraCrypt-Rettungsdatenträger (der die neue Version des VeraCrypt-Bootloaders enthalten wird) erstellen, indem Sie 'System' > 'Rettungsdatenträger erstellen' auswählen.\nMöchten Sie es jetzt erledigen?</string>
-    <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM operation for non-system SSD partition/drive</control>
+    <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</control>
     <control lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</control>
   </localization>
   <!-- XML-Schema -->

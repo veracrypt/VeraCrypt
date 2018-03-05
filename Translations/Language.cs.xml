@@ -1422,7 +1422,7 @@
     <string lang="cs" key="DCSPROP_XML_VALIDATION_FAILED">UPOZORNĚNÍ: chyba při ověření formátu *.xml v konfiguraci Boot Loaderu. Zkontrolujte si vaše úpravy.</string>
     <control lang="cs" key="IDT_ADVANCED_OPTIONS">Pokročilé možnosti</control>
     <string lang="cs" key="AFTER_UPGRADE_RESCUE_DISK">Doporučujeme vytvořit si nový záchranný disk Veracryptu (již bude obsahovat novou verzi VeraCrypt Boot Loader). Učiníte tak pomocí nabídky 'Systém' > 'Vytvořit záchranný disk'.\nChcete to provést nyní?</string>
-    <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM operation for non-system SSD partition/drive</control>
+    <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</control>
     <control lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</control>
   </localization>
   <!-- XML Schema -->
