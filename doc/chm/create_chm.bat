@@ -7,7 +7,7 @@ copy ..\html\* .
 
 hhc VeraCrypt.hhp
 
-del /F /Q *.html *.css *.jpg *.gif *.png
+del /F /Q *.html *.css *.jpg *.gif *.png *.svg
 
 
 

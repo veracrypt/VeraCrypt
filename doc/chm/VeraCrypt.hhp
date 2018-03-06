@@ -17,6 +17,8 @@ arrow_right.gif
 Authenticity and Integrity.html
 Authors.html
 bank_30x30.png
+BC_Logo_30x30.png
+BCH_Logo_48x30.png
 Beginner's Tutorial.html
 Beginner's Tutorial_Image_001.jpg
 Beginner's Tutorial_Image_002.jpg
@@ -65,7 +67,9 @@ Donation_donate_Dollars.gif
 Donation_donate_Euros.gif
 Donation_donate_GBP.gif
 Donation_donate_YEN.gif
-Donation_VeraCrypt_Bitcoin.png
+Donation_VeraCrypt_Bitcoin_small.png
+Donation_VeraCrypt_Litecoin.png
+Donation_VeraCrypt_Monero.png
 Encryption Algorithms.html
 Encryption Scheme.html
 FAQ.html
@@ -80,7 +84,6 @@ Hidden Operating System.html
 Hidden Volume.html
 Home_facebook_veracrypt.png
 Home_reddit.png
-Home_tibitDonateButton.png
 Home_utilities-file-archiver-3.png
 Home_VeraCrypt_Default_Mount_Parameters.png
 Home_VeraCrypt_menu_Default_Mount_Parameters.png
@@ -96,16 +99,20 @@ Keyfiles.html
 Kuznyechik.html
 Language Packs.html
 Legal Information.html
+liberapay_donate.svg
+LTC_Logo_30x30.png
 Main Program Window.html
 Malware.html
 Memory Dump Files.html
 Miscellaneous.html
 Modes of Operation.html
+Monero_Logo_30x30.png
 Mounting VeraCrypt Volumes.html
 Multi-User Environment.html
 Notation.html
 Paging File.html
 Parallelization.html
+paypal_30x30.png
 Personal Iterations Multiplier (PIM).html
 Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step1.png
 Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step2.png
