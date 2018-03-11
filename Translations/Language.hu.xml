@@ -2,7 +2,7 @@
 <VeraCrypt>
   <localization prog-version="1.22-BETA4">
     <!-- Languages -->
-    <language langid="hu" name="Magyar" en-name="Hungarian" version="0.1.0" translators="Nyul Balazs" />
+    <language langid="hu" name="Magyar" en-name="Hungarian" version="2018.03.06" translators="Nyul Balazs > Szaki" />
     <!-- Fonts -->
     <font lang="hu" class="normal" size="11" face="default" />
     <font lang="hu" class="bold" size="13" face="Arial" />
@@ -10,148 +10,148 @@
     <font lang="hu" class="title" size="21" face="Times New Roman" />
     <!-- Controls -->
     <control lang="hu" key="IDCANCEL">Mégsem</control>
-    <control lang="en" key="IDC_ALL_USERS">Install &amp;for all users</control>
-    <control lang="en" key="IDC_BROWSE">Bro&amp;wse...</control>
-    <control lang="en" key="IDC_DESKTOP_ICON">Add VeraCrypt icon to &amp;desktop</control>
-    <control lang="en" key="IDC_DONATE">Donate now...</control>
-    <control lang="en" key="IDC_FILE_TYPE">Associate the .hc file &amp;extension with VeraCrypt</control>
-    <control lang="en" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Open the destination location when finished</control>
+    <control lang="hu" key="IDC_ALL_USERS">&amp;Minden felhasználónál telepítd</control>
+    <control lang="hu" key="IDC_BROWSE">&amp;Tallózás...</control>
+    <control lang="hu" key="IDC_DESKTOP_ICON">&amp;Ikon elhelyezése az asztalon</control>
+    <control lang="hu" key="IDC_DONATE">Adományozz...</control>
+    <control lang="hu" key="IDC_FILE_TYPE">A ".hc" fájlkiterjesztés &amp;hozzárendelése a VeraCrypt-hez</control>
+    <control lang="hu" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Nyisd meg a cél-mappát, ha végzett</control>
     <control lang="hu" key="IDC_PROG_GROUP">VeraCrypt hozzáadása a &amp;Start menühöz</control>
     <control lang="hu" key="IDC_SYSTEM_RESTORE">Rendszer visszaállítási pont létrehozása</control>
     <control lang="hu" key="IDC_UNINSTALL">&amp;Program eltávolítása</control>
-    <control lang="en" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Extract</control>
-    <control lang="en" key="IDC_WIZARD_MODE_INSTALL">&amp;Install</control>
-    <control lang="en" key="IDD_INSTL_DLG">VeraCrypt Setup Wizard</control>
+    <control lang="hu" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Kicsomagol</control>
+    <control lang="hu" key="IDC_WIZARD_MODE_INSTALL">&amp;Telepít</control>
+    <control lang="hu" key="IDD_INSTL_DLG">VeraCrypt Telepítő varázsló</control>
     <control lang="hu" key="IDD_UNINSTALL">VeraCrypt eltávolítása</control>
     <control lang="hu" key="IDHELP">&amp;Súgó</control>
-    <control lang="en" key="IDT_EXTRACT_DESTINATION">Please select or type the location where you want to place the extracted files:</control>
-    <control lang="en" key="IDT_INSTALL_DESTINATION">Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.</control>
-    <control lang="en" key="IDT_UNINSTALL_DIR">Click Uninstall to remove VeraCrypt from this system.</control>
+    <control lang="hu" key="IDT_EXTRACT_DESTINATION">Kérlek add meg a helyet, ahová a fájlokat kicsomagoljam:</control>
+    <control lang="hu" key="IDT_INSTALL_DESTINATION">Kérlek add meg a helyet, ahová a VeraCrypt program fájlokat installálja. Ha a könyvtár nem létezik, automatikusan létrehozza.</control>
+    <control lang="hu" key="IDT_UNINSTALL_DIR">Kattints az "Eltávolít"-ra, hogy törlődjön a VeraCrypt program a erről a rendszerről.</control>
     <control lang="hu" key="IDC_ABORT_BUTTON">Megszakít</control>
-    <control lang="en" key="IDC_BENCHMARK">&amp;Benchmark</control>
+    <control lang="hu" key="IDC_BENCHMARK">&amp;Sebességteszt</control>
     <control lang="hu" key="IDC_CIPHER_TEST">&amp;Teszt</control>
-    <control lang="en" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Create encrypted volume and format it</control>
-    <control lang="en" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Encrypt partition in place</control>
-    <control lang="en" key="IDC_DISPLAY_KEYS">Display generated keys (their portions)</control>
-    <control lang="en" key="IDC_DISPLAY_POOL_CONTENTS">Display pool content</control>
-    <control lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Download CD/DVD recording software</control>
-    <control lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</control>
-    <control lang="en" key="IDC_GB">&amp;GB</control>
-    <control lang="en" key="IDC_TB">&amp;TB</control>
-    <control lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</control>
-    <control lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden VeraCrypt volume </control>
-    <control lang="en" key="IDC_HIDDEN_VOL_HELP">More information about hidden volumes</control>
-    <control lang="en" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direct mode</control>
-    <control lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</control>
+    <control lang="hu" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Kódolt meghajtó létrehozása és formázása</control>
+    <control lang="hu" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Helyi Partíció Lekódolása</control>
+    <control lang="hu" key="IDC_DISPLAY_KEYS">Generált kulcsot mutasd (a részét)</control>
+    <control lang="hu" key="IDC_DISPLAY_POOL_CONTENTS">Mutasd a verem tartalmát</control>
+    <control lang="hu" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD író program letöltése</control>
+    <control lang="hu" key="IDC_FILE_CONTAINER">Készíts egy kódolt fájl-tárolót</control>
+    <control lang="hu" key="IDC_GB">&amp;GB</control>
+    <control lang="hu" key="IDC_TB">&amp;TB</control>
+    <control lang="hu" key="IDC_HIDDEN_SYSENC_INFO_LINK">További információ</control>
+    <control lang="hu" key="IDC_HIDDEN_VOL">&amp;Rejtett VeraCrypt tároló </control>
+    <control lang="hu" key="IDC_HIDDEN_VOL_HELP">További információ a rentett tárolókról</control>
+    <control lang="hu" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direct mód</control>
+    <control lang="hu" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mód</control>
     <control lang="hu" key="IDC_KB">&amp;KB</control>
-    <control lang="en" key="IDC_KEYFILES_ENABLE">U&amp;se keyfiles</control>
-    <control lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</control>
-    <control lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</control>
-    <control lang="en" key="IDC_KEY_FILES">&amp;Keyfiles...</control>
-    <control lang="en" key="IDC_LINK_HASH_INFO">Information on hash algorithms</control>
-    <control lang="en" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">More information</control>
-    <control lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</control>
+    <control lang="hu" key="IDC_KEYFILES_ENABLE">&amp;Kulcsfájl használata</control>
+    <control lang="hu" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Próbáld elsőként üres jelszóval csatolni</control>
+    <control lang="hu" key="IDC_KEYFILES_RANDOM_SIZE">Véletlen méret ( 64 &lt;-&gt; 1048576 )</control>
+    <control lang="hu" key="IDC_KEY_FILES">&amp;Kulcsfájlok...</control>
+    <control lang="hu" key="IDC_LINK_HASH_INFO">Információ a HASH algoritmusokról</control>
+    <control lang="hu" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">További információ</control>
+    <control lang="hu" key="IDC_LINK_PIM_INFO">Informató a PIM -ről</control>
     <control lang="hu" key="IDC_MB">&amp;MB</control>
-    <control lang="en" key="IDC_MORE_INFO_ON_CONTAINERS">More information</control>
-    <control lang="en" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">More information about system encryption</control>
-    <control lang="en" key="IDC_MORE_INFO_SYS_ENCRYPTION">More information</control>
+    <control lang="hu" key="IDC_MORE_INFO_ON_CONTAINERS">További információ</control>
+    <control lang="hu" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">További információ a rendszer-kódolásról</control>
+    <control lang="hu" key="IDC_MORE_INFO_SYS_ENCRYPTION">További információ</control>
     <control lang="en" key="IDC_MULTI_BOOT">Multi-boot</control>
-    <control lang="en" key="IDC_NONSYS_DEVICE">Encrypt a non-system partition/drive</control>
-    <control lang="en" key="IDC_NO_HISTORY">&amp;Never save history</control>
+    <control lang="hu" key="IDC_NONSYS_DEVICE">Nem-rendszer partíció/meghajtó Lekódolása</control>
+    <control lang="hu" key="IDC_NO_HISTORY">S&amp;oha ne mentse az előzményeket</control>
     <control lang="hu" key="IDC_OPEN_OUTER_VOLUME">Külső kötet megnyitása</control>
-    <control lang="en" key="IDC_PAUSE">&amp;Pause</control>
-    <control lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</control>
-    <control lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</control>
+    <control lang="hu" key="IDC_PAUSE">&amp;Szünet</control>
+    <control lang="hu" key="IDC_PIM_ENABLE">Használj &amp;PIM-et</control>
+    <control lang="hu" key="IDC_NEW_PIM_ENABLE">Új PIM</control>
     <control lang="hu" key="IDC_QUICKFORMAT">Gyorsformázás</control>
-    <control lang="en" key="IDC_SHOW_PASSWORD">&amp;Display password</control>
-    <control lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</control>
-    <control lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</control>
+    <control lang="hu" key="IDC_SHOW_PASSWORD">&amp;Mutasd a jelszót</control>
+    <control lang="hu" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Mutasd a jelszót</control>
+    <control lang="hu" key="IDC_SHOW_PIM">&amp;Mutasd a PIM-et</control>
     <control lang="en" key="IDC_SINGLE_BOOT">Single-boot</control>
-    <control lang="en" key="IDC_STD_VOL">Standard VeraCrypt volume</control>
-    <control lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</control>
-    <control lang="en" key="IDC_SYSENC_NORMAL">Normal</control>
-    <control lang="en" key="IDC_SYS_DEVICE">Encrypt the system partition or entire system drive</control>
-    <control lang="en" key="IDC_SYS_PARTITION">Encrypt the Windows system partition</control>
-    <control lang="en" key="IDC_WHOLE_SYS_DRIVE">Encrypt the whole drive</control>
-    <control lang="en" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt Volume Creation Wizard</control>
-    <control lang="hu" key="IDT_CLUSTER">Cluster </control>
-    <control lang="en" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.</control>
+    <control lang="hu" key="IDC_STD_VOL">Standard VeraCrypt kötet</control>
+    <control lang="hu" key="IDC_SYSENC_HIDDEN">R&amp;ejtett</control>
+    <control lang="hu" key="IDC_SYSENC_NORMAL">Normál</control>
+    <control lang="hu" key="IDC_SYS_DEVICE">Kódold le a rendszer-partíciót/teljes rendszer-lemezt</control>
+    <control lang="hu" key="IDC_SYS_PARTITION">Kódold le a Windows rendszer-partíciót</control>
+    <control lang="hu" key="IDC_WHOLE_SYS_DRIVE">Kódold le a teljes rendszer-lemezt</control>
+    <control lang="hu" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt Kötet Létrehozó Varázsló</control>
+    <control lang="hu" key="IDT_CLUSTER">Fürt (Cluster) </control>
+    <control lang="hu" key="IDT_COLLECTING_RANDOM_DATA_NOTE">FONTOS: Mozgasd az egeret amennyire csak véletlenszerűen tudod ezen ablakon belül. Minél tovább mozgatod, annál jobb. Ez jelentősen megnöveli a kulcs kódolásának erősségét. Azután nyomj "Tovább"-ot a folytatáshoz.</control>
     <control lang="hu" key="IDT_CONFIRM">&amp;Megerősítés:</control>
     <control lang="hu" key="IDT_DONE">Kész </control>
-    <control lang="en" key="IDT_DRIVE_LETTER">Drive letter:</control>
-    <control lang="hu" key="IDT_ENCRYPTION_ALGO">Titkosítási Algoritmus</control>
+    <control lang="hu" key="IDT_DRIVE_LETTER">Meghajtó Betűjele:</control>
+    <control lang="hu" key="IDT_ENCRYPTION_ALGO">Kódolási Algoritmus</control>
     <control lang="hu" key="IDT_FILESYSTEM">Fájlrendszer </control>
-    <control lang="en" key="IDT_FILE_CONTAINER">Creates a virtual encrypted disk within a file. Recommended for inexperienced users.</control>
+    <control lang="hu" key="IDT_FILE_CONTAINER">Egy fájlon belül hoz létre kódolt lemezt. (Tapasztalatlan felhasználóknak ezt javasoljuk választani.)</control>
     <control lang="hu" key="IDT_FORMAT_OPTIONS">Beállítások</control>
     <control lang="hu" key="IDT_HASH_ALGO">Hash Algoritmus</control>
-    <control lang="hu" key="IDT_HEADER_KEY">Header Kulcs: </control>
+    <control lang="hu" key="IDT_HEADER_KEY">Fejléc Kulcs: </control>
     <control lang="hu" key="IDT_LEFT">Bal </control>
-    <control lang="hu" key="IDT_MASTER_KEY">Master Kulcs: </control>
-    <control lang="en" key="IDT_MULTI_BOOT">Select this option if there are two or more operating systems installed on this computer.\n\nFor example:\n- Windows XP and Windows XP\n- Windows XP and Windows Vista\n- Windows and Mac OS X\n- Windows and Linux\n- Windows, Linux and Mac OS X</control>
-    <control lang="en" key="IDT_NON_SYS_DEVICE">Encrypts a non-system partition on any internal or external drive (e.g. a flash drive). Optionally, creates a hidden volume.</control>
-    <control lang="en" key="IDT_PARTIAL_POOL_CONTENTS">Current pool content (partial)</control>
+    <control lang="hu" key="IDT_MASTER_KEY">Mester Kulcs: </control>
+    <control lang="hu" key="IDT_MULTI_BOOT">Ezt az opciót válaszd, ha 2 vagy több operációs rendszer van telepítve erre a számítógépre.\n\nPéldául:\n- Windows XP és Windows XP\n- Windows XP és Windows Vista\n- Windows és Mac OS X\n- Windows és Linux\n- Windows, Linux és Mac OS X</control>
+    <control lang="hu" key="IDT_NON_SYS_DEVICE">Bármely belső vagy külső meghajtó egészében Lekódolható (Pl. pendrájv). Opcionálisan rejtett is lehet.</control>
+    <control lang="hu" key="IDT_PARTIAL_POOL_CONTENTS">Jelen verem-tartalom (részleges)</control>
     <control lang="en" key="IDT_PASS">Pass</control>
     <control lang="hu" key="IDT_PASSWORD">Jelszó:</control>
-    <control lang="en" key="IDT_PIM">Volume PIM:</control>
-    <control lang="en" key="IDT_OLD_PIM">Volume PIM:</control>
-    <control lang="en" key="IDT_PROGRESS">Progress:</control>
-    <control lang="hu" key="IDT_RANDOM_POOL">Random Pool: </control>
-    <control lang="en" key="IDT_SINGLE_BOOT">Select this option if there is only one operating system installed on this computer (even if it has multiple users).</control>
+    <control lang="hu" key="IDT_PIM">Kötet PIM:</control>
+    <control lang="hu" key="IDT_OLD_PIM">Kötet PIM:</control>
+    <control lang="hu" key="IDT_PROGRESS">Állapot:</control>
+    <control lang="hu" key="IDT_RANDOM_POOL">Véletlen verem: </control>
+    <control lang="hu" key="IDT_SINGLE_BOOT">Ezt az opciót válaszd, ha csak egy operációs rendszer van telepítve erre a számítógépre. (Még akkor is, ha több felhasználója van.)</control>
     <control lang="hu" key="IDT_SPEED">Sebesség </control>
-    <control lang="en" key="IDT_STATUS">Status</control>
-    <control lang="en" key="IDT_SYSENC_KEYS_GEN_INFO">The keys, salt, and other data have been successfully generated. If you want to generate new keys, click Back and then Next. Otherwise, click Next to continue.</control>
+    <control lang="hu" key="IDT_STATUS">Státus</control>
+    <control lang="hu" key="IDT_SYSENC_KEYS_GEN_INFO">A kulcsót, sózást, és egyéb adatot sikeresen generáltam. Ha akarsz újabb kulcsot generálni, klikkelj a "Vissza", majd a "Tovább"-ra a folytatáshoz.</control>
     <control lang="en" key="IDT_SYS_DEVICE">Encrypts the partition/drive where Windows is installed. Anyone who wants to gain access and use the system, read and write files, etc., will need to enter the correct password each time before Windows boots. Optionally, creates a hidden system.</control>
     <control lang="en" key="IDT_SYS_PARTITION">Select this option to encrypt the partition where the currently running Windows operating system is installed.</control>
-    <control lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</control>
-    <control lang="en" key="IDT_WIPE_MODE">Wipe mode:</control>
+    <control lang="hu" key="IDT_VOLUME_LABEL">Meghajtó címke a Windows-ban:</control>
+    <control lang="hu" key="IDT_WIPE_MODE">Tisztára törlés mód:</control>
     <control lang="hu" key="IDCLOSE">Bezár</control>
     <control lang="en" key="IDC_ALLOW_ESC_PBA_BYPASS">Allow pre-boot &amp;authentication to be bypassed by pressing the Esc key (enables boot manager)</control>
     <control lang="hu" key="IDC_AUTORUN_DISABLE">Ne csináljon semmit</control>
-    <control lang="en" key="IDC_AUTORUN_MOUNT">&amp;Auto-mount VeraCrypt volume (specified below)</control>
+    <control lang="hu" key="IDC_AUTORUN_MOUNT">&amp;Auto-csatolja a VeraCrypt kötetet (alább megadva)</control>
     <control lang="hu" key="IDC_AUTORUN_START">VeraCrypt &amp;indítása</control>
-    <control lang="en" key="IDC_AUTO_DETECT_PKCS11_MODULE">Auto-&amp;Detect Library</control>
-    <control lang="en" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)</control>
+    <control lang="hu" key="IDC_AUTO_DETECT_PKCS11_MODULE">Könyvár auto-&amp;detektálás</control>
+    <control lang="hu" key="IDC_BOOT_LOADER_CACHE_PASSWORD">Átmenetileg &amp;tárolja az elő-bútolás autentikációs jelszavád a memódiában. (Nem-rendszermeghajtók csatolásához)</control>
     <control lang="hu" key="IDC_BROWSE_DIRS">Tallózás...</control>
     <control lang="hu" key="IDC_BROWSE_FILES">Tallózás...</control>
-    <control lang="en" key="IDC_CACHE">Cache passwords and keyfil&amp;es in memory</control>
+    <control lang="hu" key="IDC_CACHE">Tárold a jelszavakat és kulcsfájlokat a &amp;memóriában.</control>
     <control lang="hu" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Lépjen ki ha nincs csatolt kötet</control>
-    <control lang="en" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Close token session (log out) after a volume is successfully mounted</control>
+    <control lang="hu" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Zárd a token-munkamenetet (kijelentkezés), miután a kötetet sikeresen csatolta.</control>
     <control lang="en" key="IDC_COPY_EXPANDER">Include VeraCrypt Volume Expander</control>
     <control lang="hu" key="IDC_COPY_WIZARD">Tartalmazza a VeraCrypt Kötet Létrehozás Varázslót</control>
     <control lang="hu" key="IDC_CREATE">Létrehoz</control>
-    <control lang="hu" key="IDC_CREATE_VOLUME">&amp;Kötet létrehozása</control>
-    <control lang="en" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">Do not &amp;show any texts in the pre-boot authentication screen (except the below custom message)</control>
+    <control lang="hu" key="IDC_CREATE_VOLUME">Kötet &amp;Létrehozása</control>
+    <control lang="hu" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">&amp;Ne mutasson semmilyen szöveget az elő-autentikációs képernyőn (kivéve az alábbi egyedi üzenetet).</control>
     <control lang="en" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">Disable "Evil Maid" attack detection</control>
-    <control lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</control>
+    <control lang="hu" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Gyorsítsa az AES kódolást, kihasználva a processzor ezen aritmetikai részét (ha elérhető).</control>
     <control lang="hu" key="IDC_ENABLE_KEYFILES">Kulcsfájlok használata</control>
     <control lang="hu" key="IDC_ENABLE_NEW_KEYFILES">Kulcsfájlok használata</control>
     <control lang="hu" key="IDC_EXIT">K&amp;ilépés</control>
-    <control lang="en" key="IDC_FAVORITES_HELP_LINK">Help on favorite volumes</control>
-    <control lang="en" key="IDC_FAVORITE_DISABLE_HOTKEY">Do not mount selected volume when 'Mount Favorite Volumes' &amp;hot key is pressed</control>
-    <control lang="en" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">Mount selected volume when its host device gets &amp;connected</control>
-    <control lang="en" key="IDC_FAVORITE_MOUNT_ON_LOGON">Mount selected volume upon log&amp;on</control>
-    <control lang="en" key="IDC_FAVORITE_MOUNT_READONLY">Mount selected volume as read-o&amp;nly</control>
-    <control lang="en" key="IDC_FAVORITE_MOUNT_REMOVABLE">Mount selected volume as remo&amp;vable medium</control>
-    <control lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</control>
-    <control lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</control>
-    <control lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</control>
-    <control lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</control>
-    <control lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</control>
-    <control lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</control>
-    <control lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</control>
-    <control lang="en" key="IDC_HK_DISMOUNT_PLAY_SOUND">Play system notification sound after successful hot-key dismount</control>
+    <control lang="hu" key="IDC_FAVORITES_HELP_LINK">Súgó a kedvenc kötetekhez</control>
+    <control lang="hu" key="IDC_FAVORITE_DISABLE_HOTKEY">&amp;Ne csatolja a kiválasztott kötetet, ha a 'Kedvenc Kötet Csatolása' gyorsbillentyűt lenyomják.</control>
+    <control lang="hu" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">&amp;Csatold a kiválasztott kötetet, ha a gazda-eszköz elérhetővé válik</control>
+    <control lang="hu" key="IDC_FAVORITE_MOUNT_ON_LOGON">Kötet csatolása &amp;bejelentkezéskor</control>
+    <control lang="hu" key="IDC_FAVORITE_MOUNT_READONLY">Csak &amp;olvashatóként csatolás</control>
+    <control lang="hu" key="IDC_FAVORITE_MOUNT_REMOVABLE">&amp;Eltávolítható eszközként csatolás</control>
+    <control lang="hu" key="IDC_FAVORITE_MOVE_DOWN">Mozgasd &amp;Le</control>
+    <control lang="hu" key="IDC_FAVORITE_MOVE_UP">Mozgasd &amp;Fel</control>
+    <control lang="hu" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Az &amp;intéző ablak megnyitása, ha sikeresen csatolta a kiválasztott kötetet</control>
+    <control lang="hu" key="IDC_FAVORITE_REMOVE">&amp;Eltávolít</control>
+    <control lang="hu" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Használd a kedvenc-elnevezést az Intézőben, mint meghajtó-feliratot</control>
+    <control lang="hu" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Globális Beállítások</control>
+    <control lang="hu" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Mutass felugró-üzenetet sikeres gyorsbillentyűs-lecsatoláskor</control>
+    <control lang="hu" key="IDC_HK_DISMOUNT_PLAY_SOUND">Rendszerhang lejátszása sikeres gyorsbillentyűs-lecsatoláskor</control>
     <control lang="hu" key="IDC_HK_MOD_ALT">Alt</control>
-    <control lang="en" key="IDC_HK_MOD_CTRL">Ctrl</control>
+    <control lang="hu" key="IDC_HK_MOD_CTRL">Ctrl</control>
     <control lang="hu" key="IDC_HK_MOD_SHIFT">Shift</control>
     <control lang="hu" key="IDC_HK_MOD_WIN">Win</control>
     <control lang="hu" key="IDC_HOTKEY_ASSIGN">Hozzárendel</control>
     <control lang="hu" key="IDC_HOTKEY_REMOVE">Eltávolít</control>
     <control lang="hu" key="IDC_KEYFILES">Kulcsfájlok...</control>
-    <control lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</control>
-    <control lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</control>
-    <control lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</control>
+    <control lang="hu" key="IDC_LIMIT_ENC_THREAD_POOL">Ne használd ezen processzor-magokat kódolásra:</control>
+    <control lang="hu" key="IDC_MORE_INFO_ON_HW_ACCELERATION">További információ</control>
+    <control lang="hu" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">További információ</control>
     <control lang="en" key="IDC_MORE_SETTINGS">More Settings...</control>
-    <control lang="hu" key="IDC_MOUNTALL">&amp;Eszközök auto-csatolása</control>
+    <control lang="hu" key="IDC_MOUNTALL">Eszközök &amp;Auto-csatolása</control>
     <control lang="en" key="IDC_MOUNT_OPTIONS">Mount Opti&amp;ons...</control>
     <control lang="hu" key="IDC_MOUNT_READONLY">Kötet csak &amp;olvasható módú csatolása</control>
     <control lang="hu" key="IDC_NEW_KEYFILES">Kulcsfájlok...</control>
@@ -166,62 +166,62 @@
     <control lang="hu" key="IDC_PREF_DISMOUNT_SCREENSAVER">Képernyővédő elindulásakor</control>
     <control lang="hu" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Auto-leválasztás akkor is ha a kötet nyitott fájlokat tartalmaz</control>
     <control lang="hu" key="IDC_PREF_LOGON_MOUNT_DEVICES">Minden eszközön található VeraCrypt kötet csatolása</control>
-    <control lang="en" key="IDC_PREF_LOGON_START">Start VeraCrypt Background Task</control>
-    <control lang="hu" key="IDC_PREF_MOUNT_READONLY">Kötetek csak olvasható csatolása</control>
+    <control lang="hu" key="IDC_PREF_LOGON_START">Háttérfeladatként indítsa el a VeraCrypt-et</control>
+    <control lang="hu" key="IDC_PREF_MOUNT_READONLY">Kötetek "Csak olvasható" módon csatolása</control>
     <control lang="hu" key="IDC_PREF_MOUNT_REMOVABLE">Kötetek csatolása cserélhető lemezként</control>
     <control lang="hu" key="IDC_PREF_OPEN_EXPLORER">Sikeresen csatolt kötet Explorerben való megnyitása</control>
-    <control lang="en" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</control>
-    <control lang="en" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Use a different taskbar icon when there are mounted volumes</control>
+    <control lang="hu" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Jelszó átmeneti-tárazása a "Kedvencek Kötetetek Csatolása" művelet folyamán</control>
+    <control lang="hu" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Más ikonnal jelezze a tálcán, ha van kötet csatolva</control>
     <control lang="hu" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Tárolt jelszavak törlése auto-leválasztáskor</control>
     <control lang="hu" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Tárolt jelszavak törlése kilépéskor</control>
-    <control lang="en" key="IDC_PRESERVE_TIMESTAMPS">Preserve modification timestamp of file containers</control>
-    <control lang="hu" key="IDC_RESET_HOTKEYS">Reset</control>
-    <control lang="hu" key="IDC_SELECT_DEVICE">&amp;Eszközt kiválaszt</control>
-    <control lang="hu" key="IDC_SELECT_FILE">&amp;Fájl kiválasztása</control>
-    <control lang="en" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</control>
-    <control lang="en" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Display password</control>
-    <control lang="en" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Display password</control>
+    <control lang="hu" key="IDC_PRESERVE_TIMESTAMPS">Időbélyeg megőrzése a fájl-tárolóknál (nem változik)</control>
+    <control lang="hu" key="IDC_RESET_HOTKEYS">Rezetel</control>
+    <control lang="hu" key="IDC_SELECT_DEVICE">&amp;Eszköz kiválasztása...</control>
+    <control lang="hu" key="IDC_SELECT_FILE">&amp;Fájl kiválasztása...</control>
+    <control lang="hu" key="IDC_SELECT_PKCS11_MODULE">&amp;Könyvtár kiválasztása...</control>
+    <control lang="hu" key="IDC_SHOW_PASSWORD_CHPWD_NEW">Jelszó megjelenítése</control>
+    <control lang="hu" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Jelszó megjelenítése</control>
     <control lang="hu" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer ablak nyitása a csatolt kötethez</control>
     <control lang="hu" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Jelszó tárolása a driver memóriájában</control>
-    <control lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</control>
-    <control lang="hu" key="IDC_UNMOUNTALL">M&amp;inden lecsatolása</control>
+    <control lang="hu" key="IDC_TRUECRYPT_MODE">TrueCrypt mód</control>
+    <control lang="hu" key="IDC_UNMOUNTALL">M&amp;indent Lecsatol</control>
     <control lang="hu" key="IDC_VOLUME_PROPERTIES">&amp;Kötet Tulajdonságok...</control>
     <control lang="hu" key="IDC_VOLUME_TOOLS">Kötet &amp;Eszközök...</control>
     <control lang="hu" key="IDC_WIPE_CACHE">&amp;Cache ürítés</control>
-    <control lang="en" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Mount Parameters</control>
-    <control lang="en" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Favorite Volumes</control>
-    <control lang="hu" key="IDD_HOTKEYS_DLG">VeraCrypt - Rendszer szintű gyorsgombok</control>
+    <control lang="hu" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Csatolási Paraméterek</control>
+    <control lang="hu" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Kedvenc Kötetek</control>
+    <control lang="hu" key="IDD_HOTKEYS_DLG">VeraCrypt - Rendszer-szintű gyorsgombok</control>
     <control lang="hu" key="IDD_MOUNT_DLG">VeraCrypt</control>
-    <control lang="en" key="IDD_PASSWORDCHANGE_DLG">Change Password or Keyfiles</control>
+    <control lang="hu" key="IDD_PASSWORDCHANGE_DLG">Jelszó vagy Kulcsfájl megváltoztatása</control>
     <control lang="hu" key="IDD_PASSWORD_DLG">VeraCrypt Kötet Jelszavának Megadása</control>
-    <control lang="en" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Performance and Driver Options</control>
+    <control lang="hu" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - Teljesítmény és Meghajtó-Beállítások</control>
     <control lang="hu" key="IDD_PREFERENCES_DLG">VeraCrypt - Beállítások</control>
-    <control lang="en" key="IDD_SYSENC_SETTINGS">VeraCrypt - System Encryption Settings</control>
-    <control lang="en" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Security Token Preferences</control>
-    <control lang="en" key="IDD_TRAVELER_DLG">VeraCrypt Traveler Disk Setup</control>
+    <control lang="hu" key="IDD_SYSENC_SETTINGS">VeraCrypt - Rendszer-kódolási Beállítások</control>
+    <control lang="hu" key="IDD_TOKEN_PREFERENCES">VeraCrypt - Biztonsági Token Beállítások</control>
+    <control lang="hu" key="IDD_TRAVELER_DLG">VeraCrypt Utazó-Lemez Beállítások</control>
     <control lang="hu" key="IDD_VOLUME_PROPERTIES">VeraCrypt Kötet Tulajdonságok</control>
     <control lang="hu" key="IDM_ABOUT">Rólunk...</control>
-    <control lang="en" key="IDM_ADD_REMOVE_VOL_KEYFILES">Add/Remove Keyfiles to/from Volume...</control>
-    <control lang="en" key="IDM_ADD_VOLUME_TO_FAVORITES">Add Mounted Volume to Favorites...</control>
-    <control lang="en" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Add Mounted Volume to System Favorites...</control>
-    <control lang="en" key="IDM_ANALYZE_SYSTEM_CRASH">Analyze a System Crash...</control>
-    <control lang="en" key="IDM_BACKUP_VOL_HEADER">Backup Volume Header...</control>
-    <control lang="hu" key="IDM_BENCHMARK">Benchmark...</control>
-    <control lang="en" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm...</control>
+    <control lang="hu" key="IDM_ADD_REMOVE_VOL_KEYFILES">Kulcsfájl adása/eltávolítása Kötet-hez/-től...</control>
+    <control lang="hu" key="IDM_ADD_VOLUME_TO_FAVORITES">Add hozzá a csatolt Kötetet, mint Kedvencet...</control>
+    <control lang="hu" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">Add a csatolt Kötetet a Rendszer-kedvencekhez...</control>
+    <control lang="hu" key="IDM_ANALYZE_SYSTEM_CRASH">Rendszer-összeomlás Analízise...</control>
+    <control lang="hu" key="IDM_BACKUP_VOL_HEADER">Kötetfejléc Biztonsági Mentése...</control>
+    <control lang="hu" key="IDM_BENCHMARK">Sebességteszt...</control>
+    <control lang="hu" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">Fejléc-kulcs Algoritmus megadása...</control>
     <control lang="hu" key="IDM_CHANGE_PASSWORD">Kötet jelszó megváltoztatása...</control>
-    <control lang="en" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Set Header Key Derivation Algorithm...</control>
-    <control lang="en" key="IDM_CHANGE_SYS_PASSWORD">Change Password...</control>
-    <control lang="hu" key="IDM_CLEAR_HISTORY">Kötet history törlése</control>
-    <control lang="en" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Close All Security Token Sessions</control>
+    <control lang="hu" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Fejléc-kulcs Algoritmus megadása...</control>
+    <control lang="hu" key="IDM_CHANGE_SYS_PASSWORD">Jelszó megváltoztatása...</control>
+    <control lang="hu" key="IDM_CLEAR_HISTORY">Kötet-előzmény törlése</control>
+    <control lang="hu" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Zárj Be Minden Biztonsági Token Munkamenetet</control>
     <control lang="hu" key="IDM_CONTACT">Kapcsolat...</control>
-    <control lang="en" key="IDM_CREATE_HIDDEN_OS">Create Hidden Operating System...</control>
-    <control lang="en" key="IDM_CREATE_RESCUE_DISK">Create Rescue Disk...</control>
+    <control lang="hu" key="IDM_CREATE_HIDDEN_OS">Rejtett operációs rendszer készítése...</control>
+    <control lang="hu" key="IDM_CREATE_RESCUE_DISK">Helyreállító Lemez Készítése...</control>
     <control lang="hu" key="IDM_CREATE_VOLUME">Új kötet létrehozása...</control>
-    <control lang="en" key="IDM_DECRYPT_NONSYS_VOL">Permanently Decrypt...</control>
+    <control lang="hu" key="IDM_DECRYPT_NONSYS_VOL">Véglegesen távolítsd el a kódolást (decrypt)...</control>
     <control lang="hu" key="IDM_DEFAULT_KEYFILES">Alap. kulcsfájlok...</control>
-    <control lang="en" key="IDM_DEFAULT_MOUNT_PARAMETERS">Default Mount Parameters...</control>
-    <control lang="en" key="IDM_DONATE">Donate now...</control>
-    <control lang="en" key="IDM_ENCRYPT_SYSTEM_DEVICE">Encrypt System Partition/Drive...</control>
+    <control lang="hu" key="IDM_DEFAULT_MOUNT_PARAMETERS">Alap Csatolási Paraméterek...</control>
+    <control lang="hu" key="IDM_DONATE">Támogass most...</control>
+    <control lang="hu" key="IDM_ENCRYPT_SYSTEM_DEVICE">Rendszermeghajtó Lemez/Partíció Lekódolása...</control>
     <control lang="hu" key="IDM_FAQ">Gyakran Ismételt Kérdések</control>
     <control lang="hu" key="IDM_HELP">User's Guide</control>
     <control lang="hu" key="IDM_HOMEPAGE">&amp;Honlap </control>
@@ -229,206 +229,206 @@
     <control lang="hu" key="IDM_KEYFILE_GENERATOR">Kulcsfájl Generátor</control>
     <control lang="hu" key="IDM_LANGUAGE">Nyelv...</control>
     <control lang="hu" key="IDM_LICENSE">Jogi Nyilatkozat</control>
-    <control lang="en" key="IDM_MANAGE_TOKEN_KEYFILES">Manage Security Token Keyfiles...</control>
-    <control lang="hu" key="IDM_MOUNTALL">Az eszközön levő összes kötet auto-cstolása</control>
+    <control lang="hu" key="IDM_MANAGE_TOKEN_KEYFILES">Biztonsági Token Fájlok Kezelése...</control>
+    <control lang="hu" key="IDM_MOUNTALL">Az eszközön levő összes kötet auto-csatolása</control>
     <control lang="hu" key="IDM_MOUNT_FAVORITE_VOLUMES">Kedvenc kötetek csatolása</control>
-    <control lang="en" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Mount Without Pre-Boot &amp;Authentication...</control>
+    <control lang="hu" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Betöltéskori (boot) Elő-autentikáció nélkül csatold...</control>
     <control lang="hu" key="IDM_MOUNT_VOLUME">Kötet csatolása</control>
     <control lang="hu" key="IDM_MOUNT_VOLUME_OPTIONS">Kötet csatolása beállításokkal</control>
     <control lang="hu" key="IDM_NEWS">Hírek</control>
-    <control lang="en" key="IDM_ONLINE_HELP">Online Help</control>
-    <control lang="en" key="IDM_ONLINE_TUTORIAL">Beginner's Tutorial</control>
-    <control lang="en" key="IDM_ORGANIZE_FAVORITES">Organize Favorite Volumes...</control>
-    <control lang="en" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Organize System Favorite Volumes...</control>
-    <control lang="en" key="IDM_PERFORMANCE_SETTINGS">Performance/Driver Configuration</control>
-    <control lang="en" key="IDM_PERMANENTLY_DECRYPT_SYS">Permanently Decrypt System Partition/Drive</control>
+    <control lang="hu" key="IDM_ONLINE_HELP">Online Segítség</control>
+    <control lang="hu" key="IDM_ONLINE_TUTORIAL">Kezdők Kézikönyve</control>
+    <control lang="hu" key="IDM_ORGANIZE_FAVORITES">Kedvenc Kötetek Rendszerezése...</control>
+    <control lang="hu" key="IDM_ORGANIZE_SYSTEM_FAVORITES">Kedvenc Rendszer-Kötetek Rendszerezése...</control>
+    <control lang="hu" key="IDM_PERFORMANCE_SETTINGS">Teljesítmény/Drájver Konfiguráció</control>
+    <control lang="hu" key="IDM_PERMANENTLY_DECRYPT_SYS">Véglegesen távolítsd el a kódolást a rendszer-meghatjóról/-partícióról</control>
     <control lang="hu" key="IDM_PREFERENCES">Beállítások...</control>
-    <control lang="hu" key="IDM_REFRESH_DRIVE_LETTERS">Meghajtó betüjelek frissítése</control>
+    <control lang="hu" key="IDM_REFRESH_DRIVE_LETTERS">Meghajtó betűjelek frissítése</control>
     <control lang="hu" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Az összes kulcsfájl eltávolítása a kötetből...</control>
-    <control lang="hu" key="IDM_RESTORE_VOL_HEADER">Kötet fejrész visszaállítása...</control>
-    <control lang="en" key="IDM_RESUME_INTERRUPTED_PROC">Resume Interrupted Process</control>
+    <control lang="hu" key="IDM_RESTORE_VOL_HEADER">Kötetfejléc Visszaállítása...</control>
+    <control lang="hu" key="IDM_RESUME_INTERRUPTED_PROC">Megszakított Folyamat Folytatása...</control>
     <control lang="hu" key="IDM_SELECT_DEVICE">Eszköz választása...</control>
     <control lang="hu" key="IDM_SELECT_FILE">Fájl kiválasztása...</control>
-    <control lang="en" key="IDM_SYSENC_RESUME">Resume Interrupted Process</control>
-    <control lang="en" key="IDM_SYSENC_SETTINGS">System Encryption...</control>
-    <control lang="en" key="IDM_SYSTEM_ENCRYPTION_STATUS">Properties...</control>
-    <control lang="en" key="IDM_SYS_ENC_SETTINGS">Settings...</control>
-    <control lang="en" key="IDM_SYS_FAVORITES_SETTINGS">System Favorite Volumes...</control>
+    <control lang="hu" key="IDM_SYSENC_RESUME">Megszakított Rendszerkódolás Folytatása...</control>
+    <control lang="hu" key="IDM_SYSENC_SETTINGS">Rendszer Kódolása...</control>
+    <control lang="hu" key="IDM_SYSTEM_ENCRYPTION_STATUS">Tulajdonságok...</control>
+    <control lang="hu" key="IDM_SYS_ENC_SETTINGS">Beállítások...</control>
+    <control lang="hu" key="IDM_SYS_FAVORITES_SETTINGS">Kedvenc Rendszer-kötetek...</control>
     <control lang="hu" key="IDM_TC_DOWNLOADS">Letöltések</control>
-    <control lang="hu" key="IDM_TEST_VECTORS">Test Vectors...</control>
-    <control lang="en" key="IDM_TOKEN_PREFERENCES">Security Tokens...</control>
-    <control lang="en" key="IDM_TRAVELER">Traveler Disk Setup...</control>
+    <control lang="hu" key="IDM_TEST_VECTORS">Vektorok Tesztelése...</control>
+    <control lang="hu" key="IDM_TOKEN_PREFERENCES">Biztonsági Tokenek...</control>
+    <control lang="hu" key="IDM_TRAVELER">Utazó-Lemez Beállítás...</control>
     <control lang="hu" key="IDM_UNMOUNTALL">Az összes felcsatolt kötet leválasztása</control>
     <control lang="hu" key="IDM_UNMOUNT_VOLUME">Kötet leválasztása</control>
-    <control lang="en" key="IDM_VERIFY_RESCUE_DISK">Verify Rescue Disk</control>
-    <control lang="en" key="IDM_VERIFY_RESCUE_DISK_ISO">Verify Rescue Disk Image</control>
+    <control lang="hu" key="IDM_VERIFY_RESCUE_DISK">Helyreállító-Lemez Ellenőrzése</control>
+    <control lang="hu" key="IDM_VERIFY_RESCUE_DISK_ISO">Helyreállító-Lemez (ISO) Ellenőrzése</control>
     <control lang="hu" key="IDM_VERSION_HISTORY">Verzió történet</control>
-    <control lang="en" key="IDM_VOLUME_EXPANDER">Volume Expander</control>
+    <control lang="hu" key="IDM_VOLUME_EXPANDER">Kötet Bővítő</control>
     <control lang="hu" key="IDM_VOLUME_PROPERTIES">Kötet tulajdonságok</control>
-    <control lang="hu" key="IDM_VOLUME_WIZARD">Kötet létrehozás varázsló</control>
+    <control lang="hu" key="IDM_VOLUME_WIZARD">Kötet Létrehozás Varázsló</control>
     <control lang="hu" key="IDM_WEBSITE">VeraCrypt Honlap</control>
     <control lang="hu" key="IDM_WIPE_CACHE">Tárolt jelszavak ürítése</control>
     <control lang="hu" key="IDOK">OK</control>
-    <control lang="en" key="IDT_ACCELERATION_OPTIONS">Hardware Acceleration</control>
-    <control lang="hu" key="IDT_ASSIGN_HOTKEY">Shortcut</control>
-    <control lang="hu" key="IDT_AUTORUN">AutoRun konfiguráció (autorun.inf)</control>
+    <control lang="hu" key="IDT_ACCELERATION_OPTIONS">Hardveres Gyorsítás</control>
+    <control lang="hu" key="IDT_ASSIGN_HOTKEY">Parancsikon</control>
+    <control lang="hu" key="IDT_AUTORUN">Auto-Futtatás konfigurációja (autorun.inf)</control>
     <control lang="hu" key="IDT_AUTO_DISMOUNT">Auto-Leválasztás</control>
     <control lang="hu" key="IDT_AUTO_DISMOUNT_ON">Minden kötet lecsatolása ha:</control>
-    <control lang="en" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Boot Loader Screen Options</control>
+    <control lang="hu" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Betöltő-Képernyő Opciók</control>
     <control lang="hu" key="IDT_CONFIRM_PASSWORD">Jelszó megerősítése:</control>
     <control lang="hu" key="IDT_CURRENT">Aktuális</control>
-    <control lang="en" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Display this custom message in the pre-boot authentication screen (24 characters maximum):</control>
+    <control lang="hu" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Az alábbi egyedi üzenet megjelenítése a boot előtti azonosítás képernyőjén (maximum 24 karakter):</control>
     <control lang="hu" key="IDT_DEFAULT_MOUNT_OPTIONS">Alapértelmezett csatolási beállítások</control>
     <control lang="hu" key="IDT_DISMOUNT_ACTION">Gyorsgomb beállítások</control>
-    <control lang="en" key="IDT_DRIVER_OPTIONS">Driver Configuration</control>
-    <control lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</control>
-    <control lang="en" key="IDT_FAVORITE_LABEL">Label of selected favorite volume:</control>
+    <control lang="hu" key="IDT_DRIVER_OPTIONS">Drájver Konfiguráció</control>
+    <control lang="hu" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Kiterjesztett lemez-kontrol kód engedélyezése</control>
+    <control lang="hu" key="IDT_FAVORITE_LABEL">A Kiválasztott "Kedvenc Kötet" címkéje:</control>
     <control lang="hu" key="IDT_FILE_SETTINGS">Fájl beállítások</control>
     <control lang="hu" key="IDT_HOTKEY_KEY">Hozzárendelendő gomb:</control>
-    <control lang="en" key="IDT_HW_AES_SUPPORTED_BY_CPU">Processor (CPU) in this computer supports hardware acceleration for AES:</control>
+    <control lang="hu" key="IDT_HW_AES_SUPPORTED_BY_CPU">Ezen számítógép Processzora (CPU) támogatja az AES kódfuttatás aritmetikai gyorsítását:</control>
     <control lang="hu" key="IDT_LOGON">Windowsba bejelentkezéskor elvégzendő műveletek</control>
     <control lang="hu" key="IDT_MINUTES">perc</control>
     <control lang="hu" key="IDT_MOUNT_LETTER">Kötet csatolása mint ez a meghajtó betűjel:</control>
     <control lang="hu" key="IDT_MOUNT_SETTINGS">Csatolási Beállítások</control>
     <control lang="hu" key="IDT_NEW">Új</control>
     <control lang="hu" key="IDT_NEW_PASSWORD">Jelszó:</control>
-    <control lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</control>
-    <control lang="en" key="IDT_PKCS11_LIB_PATH">PKCS #11 Library Path</control>
+    <control lang="hu" key="IDT_PARALLELIZATION_OPTIONS">Szál-alapú (CPU) párhuzamosítás</control>
+    <control lang="hu" key="IDT_PKCS11_LIB_PATH">PKCS #11 Könyvtár útvonala</control>
     <control lang="en" key="IDT_PKCS5_PRF">PKCS-5 PRF:</control>
     <control lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</control>
-    <control lang="hu" key="IDT_PW_CACHE_OPTIONS">Jelszó Cache</control>
-    <control lang="en" key="IDT_SECURITY_OPTIONS">Security Options</control>
+    <control lang="hu" key="IDT_PW_CACHE_OPTIONS">Jelszó Tár (Cache)</control>
+    <control lang="hu" key="IDT_SECURITY_OPTIONS">Biztonsági Opciók</control>
     <control lang="hu" key="IDT_TASKBAR_ICON">VeraCrypt háttérben futó taszk</control>
-    <control lang="en" key="IDT_TRAVELER_MOUNT">VeraCrypt volume to mount (relative to traveler disk root):</control>
-    <control lang="en" key="IDT_TRAVEL_INSERTION">Upon insertion of traveler disk: </control>
-    <control lang="en" key="IDT_TRAVEL_ROOT">Create traveler disk files at (traveler disk root directory):</control>
+    <control lang="hu" key="IDT_TRAVELER_MOUNT">VeraCrypt kötet, melyet csatoljon (az "Utazó-Lemez" gyökeréhez képest):</control>
+    <control lang="hu" key="IDT_TRAVEL_INSERTION">"Utazó-Lemez" behelyezésekor: </control>
+    <control lang="hu" key="IDT_TRAVEL_ROOT">Hozz létre "Utazó-Lemez" fájlokat ide (gyökér könyvtár):</control>
     <control lang="hu" key="IDT_VOLUME">Kötet</control>
     <control lang="hu" key="IDT_WINDOWS_RELATED_SETTING">Windows</control>
-    <control lang="en" key="IDC_ADD_KEYFILE_PATH">Add &amp;Path...</control>
-    <control lang="hu" key="IDC_AUTO">&amp;Auto-Test All</control>
-    <control lang="en" key="IDC_CONTINUE">&amp;Continue</control>
+    <control lang="hu" key="IDC_ADD_KEYFILE_PATH">Útvonal &amp;hozzáadása...</control>
+    <control lang="hu" key="IDC_AUTO">&amp;Auto-Teszteld Mind</control>
+    <control lang="hu" key="IDC_CONTINUE">&amp;Folytasd</control>
     <control lang="hu" key="IDC_DECRYPT">&amp;Kikódol</control>
-    <control lang="en" key="IDC_DELETE">&amp;Delete</control>
-    <control lang="hu" key="IDC_ENCRYPT">&amp;Titkosít</control>
+    <control lang="hu" key="IDC_DELETE">&amp;Töröl</control>
+    <control lang="hu" key="IDC_ENCRYPT">&amp;Lekódol</control>
     <control lang="en" key="IDC_EXPORT">&amp;Export...</control>
     <control lang="hu" key="IDC_GENERATE_AND_SAVE_KEYFILE">Kulcsfájl generálása és mentése...</control>
-    <control lang="en" key="IDC_GENERATE_KEYFILE">&amp;Generate Random Keyfile...</control>
-    <control lang="en" key="IDC_GET_LANG_PACKS">Download language pack</control>
-    <control lang="en" key="IDC_HW_AES_LABEL_LINK">Hardware-accelerated AES:</control>
-    <control lang="en" key="IDC_IMPORT_KEYFILE">&amp;Import Keyfile to Token...</control>
-    <control lang="en" key="IDC_KEYADD">Add &amp;Files...</control>
-    <control lang="en" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">U&amp;se keyfiles</control>
+    <control lang="hu" key="IDC_GENERATE_KEYFILE">&amp;Generálj Véletlen Kulcsfájlt...</control>
+    <control lang="hu" key="IDC_GET_LANG_PACKS">Nyelvi csomag letöltése</control>
+    <control lang="hu" key="IDC_HW_AES_LABEL_LINK">Hardveres-gyorsítású AES:</control>
+    <control lang="hu" key="IDC_IMPORT_KEYFILE">&amp;Importálj Kulcsfájlt a Token-hez...</control>
+    <control lang="hu" key="IDC_KEYADD">Add &amp;Fájlok...</control>
+    <control lang="hu" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">&amp;Használd a Kulcsfájlokat</control>
     <control lang="hu" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Kulcsfájlok...</control>
-    <control lang="en" key="IDC_KEYREMOVE">&amp;Remove</control>
-    <control lang="en" key="IDC_KEYREMOVEALL">Remove &amp;All</control>
-    <control lang="en" key="IDC_LINK_HIDVOL_PROTECTION_INFO">What is hidden volume protection?</control>
-    <control lang="en" key="IDC_LINK_KEYFILES_INFO">More information on keyfiles</control>
+    <control lang="hu" key="IDC_KEYREMOVE">&amp;Eltávolít</control>
+    <control lang="hu" key="IDC_KEYREMOVEALL">&amp;Mindet Eltávolít</control>
+    <control lang="hu" key="IDC_LINK_HIDVOL_PROTECTION_INFO">Mi a "rejtett kötet védelem"?</control>
+    <control lang="hu" key="IDC_LINK_KEYFILES_INFO">További információ a kulcsfájlokról</control>
     <control lang="hu" key="IDC_MOUNT_REMOVABLE">Kötet csatolása eltávolítható &amp;médiaként</control>
-    <control lang="en" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Mount partition &amp;using system encryption without pre-boot authentication</control>
-    <control lang="en" key="IDC_PARALLELIZATION_LABEL_LINK">Parallelization:</control>
-    <control lang="hu" key="IDC_PERFORM_BENCHMARK">Benchmark</control>
-    <control lang="en" key="IDC_PRINT">&amp;Print</control>
+    <control lang="hu" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">&amp;Partíció csatolása rendszer-kódolással, elő-boot jelszó nélkül</control>
+    <control lang="hu" key="IDC_PARALLELIZATION_LABEL_LINK">Párhuzamosítás:</control>
+    <control lang="hu" key="IDC_PERFORM_BENCHMARK">Sebességteszt</control>
+    <control lang="hu" key="IDC_PRINT">&amp;Nyomtat</control>
     <control lang="hu" key="IDC_PROTECT_HIDDEN_VOL">&amp;Rejtett kötet védelme a külső kötetre történő írás miatt előfordulható sérüléstől</control>
-    <control lang="hu" key="IDC_RESET">&amp;Reset</control>
-    <control lang="en" key="IDC_SHOW_PASSWORD_MO">&amp;Display password</control>
-    <control lang="en" key="IDC_TOKEN_FILES_ADD">Add &amp;Token Files...</control>
-    <control lang="en" key="IDC_USE_EMBEDDED_HEADER_BAK">Use backup header embedded in &amp;volume if available</control>
-    <control lang="en" key="IDC_XTS_MODE_ENABLED">XTS mode</control>
+    <control lang="hu" key="IDC_RESET">&amp;Rezet</control>
+    <control lang="hu" key="IDC_SHOW_PASSWORD_MO">&amp;Jelszó mutatása</control>
+    <control lang="hu" key="IDC_TOKEN_FILES_ADD">&amp;Token Fájlok Hozzáadása...</control>
+    <control lang="hu" key="IDC_USE_EMBEDDED_HEADER_BAK">Használj fejléc-mentést beépítve a Kötetbe (ha elérhető)</control>
+    <control lang="hu" key="IDC_XTS_MODE_ENABLED">XTS mód</control>
     <control lang="hu" key="IDD_ABOUT_DLG">A VeraCrypt-ről</control>
-    <control lang="hu" key="IDD_BENCHMARK_DLG">VeraCrypt - Titkosítási Algoritmus Sebességteszt</control>
-    <control lang="en" key="IDD_CIPHER_TEST_DLG">VeraCrypt - Test Vectors</control>
+    <control lang="hu" key="IDD_BENCHMARK_DLG">VeraCrypt - Kódolási Algoritmus Sebességteszt</control>
+    <control lang="hu" key="IDD_CIPHER_TEST_DLG">VeraCrypt - Vektor Teszt</control>
     <control lang="hu" key="IDD_COMMANDHELP_DLG">Parancssoros súgó</control>
     <control lang="hu" key="IDD_KEYFILES">VeraCrypt - Kulcsfájlok</control>
     <control lang="hu" key="IDD_KEYFILE_GENERATOR">VeraCrypt - Kulcsfájl Generátor</control>
-    <control lang="hu" key="IDD_LANGUAGE">VeraCrypt - Nyelv</control>
+    <control lang="hu" key="IDD_LANGUAGE">VeraCrypt - Nyelv (Language)</control>
     <control lang="hu" key="IDD_MOUNT_OPTIONS">VeraCrypt - Csatolási Beállítások</control>
-    <control lang="en" key="IDD_NEW_TOKEN_KEYFILE">New Security Token Keyfile Properties</control>
-    <control lang="en" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - Random Pool Enrichment</control>
+    <control lang="hu" key="IDD_NEW_TOKEN_KEYFILE">Új Biztonsági Token Kulcsfájl Tulajdonságok</control>
+    <control lang="hu" key="IDD_RANDOM_POOL_ENRICHMENT">VeraCrypt - Véletlen-verem bővítés</control>
     <control lang="hu" key="IDD_RAWDEVICES_DLG">Partíció vagy Eszköz választása</control>
     <control lang="en" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</control>
-    <control lang="en" key="IDD_TOKEN_KEYFILES">Security Token Keyfiles</control>
-    <control lang="en" key="IDD_TOKEN_PASSWORD">Security token password/PIN required</control>
+    <control lang="hu" key="IDD_TOKEN_KEYFILES">Biztonsági Token fájlok</control>
+    <control lang="hu" key="IDD_TOKEN_PASSWORD">Biztonsági Token jelszó/PIN szükséges</control>
     <control lang="hu" key="IDT_ACTIVE_LANG_PACK">Aktív nyelvi csomag</control>
     <control lang="hu" key="IDT_BOX_BENCHMARK_INFO">A sebesség a CPU terheltségétől és a háttértár karakterisztikájától függ.\n\nEzek a tesztek a RAM-ban futnak.</control>
     <control lang="hu" key="IDT_BUFFER_SIZE">Buffer méret:</control>
-    <control lang="en" key="IDT_CIPHER">Cipher:</control>
+    <control lang="hu" key="IDT_CIPHER">Kódoló (Cipher):</control>
     <control lang="hu" key="IDT_HIDDEN_PROT_PASSWD">J&amp;elszó a rejtett kötethez:\n(ha üres, a cache lesz használva)</control>
     <control lang="hu" key="IDT_HIDDEN_VOL_PROTECTION">Rejtett-kötet védelem</control>
     <control lang="hu" key="IDT_KEY">Kulcs méret:</control>
     <control lang="en" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.</control>
-    <control lang="en" key="IDT_KEYFILE_WARNING">WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!</control>
+    <control lang="hu" key="IDT_KEYFILE_WARNING">FIGYELEM: Ha elveszíti a kulcsfájlt, vagy az első 1024 kilobájt megváltozik, lehetetlen lesz csatolni olyan kötetet, amely ezt a kulcsfájlt használja!</control>
     <control lang="hu" key="IDT_KEY_UNIT">bit</control>
-    <control lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</control>
-    <control lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</control>
-    <control lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</control>
+    <control lang="hu" key="IDT_NUMBER_KEYFILES">Kulcsfájlok száma:</control>
+    <control lang="hu" key="IDT_KEYFILES_SIZE">Kulcsfájlok mérete (bájtban):</control>
+    <control lang="hu" key="IDT_KEYFILES_BASE_NAME">Kulcsfájlok alap-neve:</control>
     <control lang="hu" key="IDT_LANGPACK_AUTHORS">Fordította:</control>
-    <control lang="hu" key="IDT_PLAINTEXT">Szöveg méret:</control>
+    <control lang="hu" key="IDT_PLAINTEXT">Szöveg mérete:</control>
     <control lang="hu" key="IDT_PLAINTEXT_SIZE_UNIT">bit</control>
     <control lang="hu" key="IDT_POOL_CONTENTS">Aktuális Pool tartalom</control>
-    <control lang="hu" key="IDT_PRF">Mixing PRF:</control>
-    <control lang="en" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases security. When done, click 'Continue'.</control>
-    <control lang="en" key="IDT_SECONDARY_KEY">Secondary key (hexadecimal)</control>
-    <control lang="en" key="IDT_SECURITY_TOKEN">Security token:</control>
+    <control lang="en" key="IDT_PRF">Mixing PRF:</control>
+	<control lang="hu" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">FONTOS: Mozgasd az egeret amennyire csak véletlenszerűen tudod ezen ablakon belül. Minél tovább mozgatod, annál jobb. Ez jelentősen megnöveli a kulcs kódolásának erősségét. Azután nyomj "Tovább"-ot a folytatáshoz.</control>
+    <control lang="hu" key="IDT_SECONDARY_KEY">Másodlagos Kulcs (hexadecimális)</control>
+    <control lang="hu" key="IDT_SECURITY_TOKEN">Biztonsági Token:</control>
     <control lang="hu" key="IDT_SORT_METHOD">Rendezés módja:</control>
-    <control lang="en" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Please wait. This process may take a long time...</control>
-    <control lang="en" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Please wait...\nThis process may take a long time and VeraCrypt may seem unresponsive.</control>
-    <control lang="en" key="IDT_TEST_BLOCK_NUMBER">Block number:</control>
-    <control lang="hu" key="IDT_TEST_CIPHERTEXT">Titkosított szöveg (hexadecimális)</control>
-    <control lang="en" key="IDT_TEST_DATA_UNIT_NUMBER">Data unit number (64-bit hexadecimal, data unit size is 512 bytes)</control>
+    <control lang="hu" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Kérem várjon. Ez a feladat tovább is eltarthat...</control>
+    <control lang="hu" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Kérem várjon...\n Ez a feladat tovább is eltarthat és ezalatt a VeraCrypt úgy tűnhet, hogy nem válaszol.</control>
+    <control lang="hu" key="IDT_TEST_BLOCK_NUMBER">Block száma:</control>
+    <control lang="hu" key="IDT_TEST_CIPHERTEXT">Kódolt szöveg (hexadecimális)</control>
+    <control lang="hu" key="IDT_TEST_DATA_UNIT_NUMBER">Adat-egység száma (64-bites hexadecimális, 512 bájt méretű)</control>
     <control lang="hu" key="IDT_TEST_KEY">Kulcs (hexadecimális)</control>
     <control lang="hu" key="IDT_TEST_PLAINTEXT">Szöveg (hexadecimális)</control>
-    <control lang="en" key="IDT_TOKEN_KEYFILE_NAME">Keyfile name:</control>
-    <control lang="en" key="IDT_XTS_MODE">XTS mode</control>
-    <control lang="en" key="MENU_SYSTEM_ENCRYPTION">S&amp;ystem</control>
-    <control lang="en" key="MENU_VOLUMES">&amp;Volumes</control>
-    <control lang="en" key="MENU_FAVORITES">Favor&amp;ites</control>
-    <control lang="en" key="MENU_TOOLS">T&amp;ools</control>
-    <control lang="en" key="MENU_SETTINGS">Settin&amp;gs</control>
-    <control lang="en" key="MENU_HELP">&amp;Help</control>
-    <control lang="en" key="MENU_WEBSITE">   Home&amp;page   </control>
+    <control lang="hu" key="IDT_TOKEN_KEYFILE_NAME">A Kulcsfájl neve:</control>
+    <control lang="hu" key="IDT_XTS_MODE">XTS mód</control>
+    <control lang="hu" key="MENU_SYSTEM_ENCRYPTION">&amp;Rendszer</control>
+    <control lang="hu" key="MENU_VOLUMES">&amp;Kötetek</control>
+    <control lang="hu" key="MENU_FAVORITES">Ke&amp;dvencek</control>
+    <control lang="hu" key="MENU_TOOLS">&amp;Eszközök</control>
+    <control lang="hu" key="MENU_SETTINGS">&amp;Beállítások</control>
+    <control lang="hu" key="MENU_HELP">&amp;Segítség</control>
+    <control lang="hu" key="MENU_WEBSITE">   &amp;Weboldal...   </control>
     <!-- Strings -->
     <string lang="hu" key="ABOUTBOX">&amp;Rólunk...</string>
-    <string lang="en" key="ACCESSMODEFAIL">The read-only attribute on your old volume could not be changed. Please check the file access permissions.</string>
+    <string lang="hu" key="ACCESSMODEFAIL">Nem lehetett megváltoztatni a régi köteten a "Csak-olvasható" jellemzőt. Kérem ellenőrizze a Hozzáférési Jogokat.</string>
     <string lang="hu" key="ACCESS_DENIED">Hiba: Belépés megtagadva.\n\nA partíció amihez hozzá próbált hozzéférni vagy 0 szektor hosszú, vagy az a boot eszköz.</string>
-    <string lang="en" key="ADMINISTRATOR">Administrator</string>
-    <string lang="en" key="ADMIN_PRIVILEGES_DRIVER">In order to load the VeraCrypt driver, you need to be logged into an account with administrator privileges.</string>
-    <string lang="en" key="ADMIN_PRIVILEGES_WARN_DEVICES">Please note that in order to encrypt, decrypt or format a partition/device you need to be logged into an account with administrator privileges.\n\nThis does not apply to file-hosted volumes.</string>
-    <string lang="en" key="ADMIN_PRIVILEGES_WARN_HIDVOL">In order to create a hidden volume you need to be logged into an account with administrator privileges.\n\nContinue?</string>
-    <string lang="en" key="ADMIN_PRIVILEGES_WARN_NTFS">Please note that in order to format the volume as NTFS you need to be logged into an account with administrator privileges.\n\nWithout administrator privileges, you can format the volume as FAT.</string>
+    <string lang="hu" key="ADMINISTRATOR">Rendszergazda (Admin)</string>
+    <string lang="hu" key="ADMIN_PRIVILEGES_DRIVER">Ahhoz, hogy betöltődjön a VeraCrypt drájvere, Rendszergazda jogosultsággal kell bejelentkeznie.</string>
+    <string lang="hu" key="ADMIN_PRIVILEGES_WARN_DEVICES">Kérem ügyeljen rá, hogy Kódoláshoz és Kikódoláshoz Rendszergazda jogosultsággal kell bejelentkeznie.\n\nEz nem vonatkozik a fájlban-tárolt kötetekre.</string>
+    <string lang="hu" key="ADMIN_PRIVILEGES_WARN_HIDVOL">Rejtett kötet létrehozásához Rendszergazda jogosultsággal kell bejelentkeznie.\n\nFolytatja?</string>
+    <string lang="hu" key="ADMIN_PRIVILEGES_WARN_NTFS">NTFS kötet formázásához Rendszergazda jogosultsággal kell bejelentkeznie.\n\nE nélkül csat FAT formátumban formázhat.</string>
     <string lang="en" key="AES_HELP">FIPS-approved cipher (Rijndael, published in 1998) that may be used by U.S. government departments and agencies to protect classified information up to the Top Secret level. 256-bit key, 128-bit block, 14 rounds (AES-256). Mode of operation is XTS.</string>
     <string lang="hu" key="ALREADY_MOUNTED">A kötet már fel van csatolva.</string>
-    <string lang="en" key="ERR_SELF_TESTS_FAILED">CAUTION: At least one encryption or hash algorithm failed the built-in automatic self-tests!\n\nVeraCrypt installation may be corrupted.</string>
-    <string lang="en" key="ERR_NOT_ENOUGH_RANDOM_DATA">CAUTION: There is not enough data in the Random Number Generator pool to provide the requested amount of random data.\n\nYou should not proceed any further. Please select 'Report a Bug' from the Help menu, and report this error.</string>
-    <string lang="en" key="ERR_HARDWARE_ERROR">The drive is damaged (there is a physical defect on it) or a cable is damaged, or the memory is malfunctioning.\n\nPlease note that this is a problem with your hardware, not with VeraCrypt. Therefore, please do NOT report this as a bug/problem in VeraCrypt and please do NOT ask for help with this in the VeraCrypt Forums. Please contact your computer vendor's technical support team for assistance. Thank you.\n\nNote: If the error occurs repeatedly at the same place, it is very likely caused by a bad disk block, which should be possible to correct using third-party software (note that, in many cases, the 'chkdsk /r' command cannot correct it because it works only at the filesystem level; in some cases, the 'chkdsk' tool cannot even detect it).</string>
-    <string lang="en" key="DEVICE_NOT_READY_ERROR">If you are accessing a drive for removable media, please make sure that a medium is inserted in the drive. The drive/medium may also be damaged (there may be a physical defect on it) or a cable may be damaged/disconnected.</string>
-    <string lang="en" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">Your system appears to be using custom chipset drivers containing a bug that prevents encryption of the whole system drive.\n\nPlease try updating or uninstalling any custom (non-Microsoft) chipset drivers before proceeding. If it does not help, try encrypting the system partition only.</string>
-    <string lang="hu" key="BAD_DRIVE_LETTER">Hibás meghajtó betüjel.</string>
-    <string lang="en" key="INVALID_PATH">Invalid path.</string>
+    <string lang="hu" key="ERR_SELF_TESTS_FAILED">VIGYÁZAT: Legalább egy beépített kódolási és hash-elési algoritmus hibázott az automatikus ön-teszt során!\n\nFeltehetően sérült a VeraCrypt program installációja.</string>
+    <string lang="hu" key="ERR_NOT_ENOUGH_RANDOM_DATA">FIGYELEM: Nem áll rendelkezésre elegendő véletlen-adat a Véletlenszám Generátor által.\n\nNem javasolt tovább folytatni. Kérem válassza a "Hiba jelentése" menüpontot a Súgóból.</string>
+    <string lang="hu" key="ERR_HARDWARE_ERROR">A Meghajtó Sérült! (Fizikai sérülés található rajta vagy a kábel nincs megfelelően csatlakoztatva.)\n\nKérem nyugtázza, hogy ez a hiba az Ön eszközében van, nem a VeraCrypt programmal. Tehát NE jelentse hibaként weboldalunk fórumán.\n\nKöszönjük.\n\nHa a hiba ismételten előfordul ugyanezen helyen, akkor valószínű, hogy az eszköz "rossz blokkot" tartalmaz. Ezt csak speciális külső programmal lehet megpróbálni javítani.\n\nSok esetben a 'chkdsk /r' parancs illetve a "Lemezellenőrzés" gomb nem tudja a problémát megjavítani (sem detektálni), mivel az csak fájlrendszer-szinten képes működni.</string>
+    <string lang="hu" key="DEVICE_NOT_READY_ERROR">Ha eltávolítható eszközről éri el a meghajtót, kérem bizonyosodjon meg róla, hogy megfelelően csatlakoztatta az eszközt. Az is lehet, hogy a drájv/hordozó vagy kábel fizikailag sérült (belsőleg).</string>
+    <string lang="hu" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">Az Ön rendszere úgy tűnik valamely egyedi chipset meghajtóprogramot használ, mely olyan hibát tartalmaz, ami megakadályozza a teljes rendszermeghajtó kódolását.\n\nKérem próbálja meg frissíteni vagy eltávolítani minden egyedi (nem-Microsoft) alaplapi vezérlő-meghajtót (drájvert). Ha ez sem segít, próbálja meg CSAK a rendszerpartíciót Lekódolni.</string>
+    <string lang="hu" key="BAD_DRIVE_LETTER">Hibás meghajtó-betűjel.</string>
+    <string lang="hu" key="INVALID_PATH">Helytelen könyvtár-útvonal.</string>
     <string lang="hu" key="CANCEL">Mégsem</string>
     <string lang="hu" key="CANNOT_CALC_SPACE">Az eszköz nem hozzáférhető. Kérem bizonyosodjon meg róla, hogy a kiválasztott eszköz létezik és nincs használatban.</string>
     <string lang="hu" key="CAPSLOCK_ON">Figyelem: CapsLock bekapcsolva. Ez azt eredményezheti hogy hibásan irja be a jelszavát.</string>
-    <string lang="en" key="VOLUME_TYPE_TITLE">Volume Type</string>
-    <string lang="en" key="HIDDEN_VOLUME_TYPE_HELP">It may happen that you are forced by somebody to reveal the password to an encrypted volume. There are many situations where you cannot refuse to reveal the password (for example, due to extortion). Using a so-called hidden volume allows you to solve such situations without revealing the password to your volume.</string>
-    <string lang="en" key="NORMAL_VOLUME_TYPE_HELP">Select this option if you want to create a normal VeraCrypt volume.</string>
-    <string lang="en" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">Please note that if you wish an operating system to be installed in a hidden partition-hosted volume, then the entire system drive cannot be encrypted using a single key.</string>
-    <string lang="en" key="CIPHER_HIDVOL_HOST_TITLE">Outer Volume Encryption Options</string>
-    <string lang="hu" key="CIPHER_HIDVOL_TITLE">Rejtett kötet titkosításának beállításai</string>
-    <string lang="hu" key="CIPHER_TITLE">Titkosítási beállítások</string>
-    <string lang="en" key="CLEAN_WINMRU_FAILED">WARNING: Failed to clear the path of the last selected volume/keyfile (remembered by file selector)!</string>
-    <string lang="en" key="COMPRESSION_NOT_SUPPORTED">Error: The container has been compressed at the filesystem level. VeraCrypt does not support compressed containers (note that compression of encrypted data is ineffective and redundant).\n\nPlease disable compression for the container by following these steps:\n1) Right-click the container in Windows Explorer (not in VeraCrypt).\n2) Select 'Properties'.\n3) In the 'Properties' dialog box, click 'Advanced'.\n4) In the 'Advanced Attributes' dialog box, disable the option 'Compress contents to save disk space' and click 'OK'.\n5) In the 'Properties' dialog box, click 'OK'.</string>
-    <string lang="hu" key="CREATE_FAILED">Kötet létrehozás sikertelen: %s</string>
-    <string lang="en" key="DEVICE_FREE_BYTES">Size of %s is %.2f bytes</string>
-    <string lang="en" key="DEVICE_FREE_KB">Size of %s is %.2f KB</string>
-    <string lang="en" key="DEVICE_FREE_MB">Size of %s is %.2f MB</string>
-    <string lang="en" key="DEVICE_FREE_GB">Size of %s is %.2f GB</string>
-    <string lang="en" key="DEVICE_FREE_TB">Size of %s is %.2f TB</string>
-    <string lang="en" key="DEVICE_FREE_PB">Size of %s is %.2f PB</string>
-    <string lang="en" key="DEVICE_IN_USE_FORMAT">WARNING: The device/partition is in use by the operating system or applications. Formatting the device/partition might cause data corruption and system instability.\n\nContinue?</string>
-    <string lang="en" key="DEVICE_IN_USE_INPLACE_ENC">Warning: The partition is in use by the operating system or applications. You should close any applications that might be using the partition (including antivirus software).\n\nContinue?</string>
-    <string lang="en" key="FORMAT_CANT_DISMOUNT_FILESYS">Error: The device/partition contains a file system that could not be dismounted. The file system may be in use by the operating system. Formatting the device/partition would very likely cause data corruption and system instability.\n\nTo solve this issue, we recommend that you first delete the partition and then recreate it without formatting. To do so, follow these steps:\n1) Right-click the 'Computer' (or 'My Computer') icon in the 'Start Menu' and select 'Manage'. The 'Computer Management' window should appear.\n2) In the 'Computer Management' window, select 'Storage' &gt; 'Disk Management'.\n3) Right-click the partition you want to encrypt and select either 'Delete Partition', or 'Delete Volume', or 'Delete Logical Drive'.\n4) Click 'Yes'. If Windows asks you to restart the computer, do so. Then repeat the steps 1 and 2 and continue from the step 5.\n5) Right-click the unallocated/free space area and select either 'New Partition', or 'New Simple Volume', or 'New Logical Drive'.\n6) The 'New Partition Wizard' or 'New Simple Volume Wizard' window should appear now; follow its instructions. On the wizard page entitled 'Format Partition', select either 'Do not format this partition' or 'Do not format this volume'. In the same wizard, click 'Next' and then 'Finish'.\n7) Note that the device path you have selected in VeraCrypt may be wrong now. Therefore, exit the VeraCrypt Volume Creation Wizard (if it is still running) and then start it again.\n8) Try encrypting the device/partition again.\n\nIf VeraCrypt repeatedly fails to encrypt the device/partition, you may want to consider creating a file container instead.</string>
-    <string lang="en" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">Error: The filesystem could not be locked and/or dismounted. It may be in use by the operating system or applications (for example, antivirus software). Encrypting the partition might cause data corruption and system instability.\n\nPlease close any applications that might be using the filesystem (including antivirus software) and try again. If it does not help, please follow the below steps.</string>
-    <string lang="en" key="DEVICE_IN_USE_INFO">WARNING: Some of the mounted devices/partitions were already in use!\n\nIgnoring this can cause undesired results including system instability.\n\nWe strongly recommend that you close any application that might be using the devices/partitions.</string>
-    <string lang="en" key="DEVICE_PARTITIONS_ERR">The selected device contains partitions.\n\nFormatting the device might cause system instability and/or data corruption. Please either select a partition on the device, or remove all partitions on the device to enable VeraCrypt to format it safely.</string>
+    <string lang="hu" key="VOLUME_TYPE_TITLE">Kötet Típus</string>
+    <string lang="hu" key="HIDDEN_VOLUME_TYPE_HELP">Előfordulhat, hogy kényszerítik a kódolt kötet jelszavának megadására. Sok szituációban nem tagadhatja meg a jelszó felfedését (Pl. kierőszakolással). Úgynevezett rejtett-kötet használatával lehetősége van megoldani az ilyen szituációkat a kötet jelszavának felfedése nélkül.</string>
+    <string lang="hu" key="NORMAL_VOLUME_TYPE_HELP">Ezt az opciót válassza, ha normál VeraCrypt kötetet akar létrehozni.</string>
+    <string lang="hu" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">Kérem vegye figyelembe, ha az egész operációs rendszert rejtett partíción alapuló kötetre szeretné telepíteni, akkor nem kódolható le az egész lemez egyetlen kulccsal.</string>
+    <string lang="hu" key="CIPHER_HIDVOL_HOST_TITLE">Külső Kötet Kódolási Opciók</string>
+    <string lang="hu" key="CIPHER_HIDVOL_TITLE">Rejtett kötet kódolásának beállításai</string>
+    <string lang="hu" key="CIPHER_TITLE">Kódolási beállítások</string>
+    <string lang="hu" key="CLEAN_WINMRU_FAILED">FIGYELEM: Nem sikerült törölni az elérési útvonalát a legutóbb választott kötetnek/kulcsfájlnak (melyet a fájl-választó megjegyzett)!</string>
+    <string lang="hu" key="COMPRESSION_NOT_SUPPORTED">HIBA: A tároló fájlrendszer szinten lett tömörítve. A VeraCrypt nem támogat tömörített tárolókat. (A Lekódolás eleve tömörít is, tehát duplán felesleges és nem is hatékony.)\n\nKérem kapcsolja ki a tömörítést a meghajtón a következő lépéseket követve:\n1) Kattintson jobb-egérrel a Windows Intézőben a meghajtóra (Nem a VeraCrypten belül)\n2) Válassza 'Tulajdonságok' menüpontot\n3) A felugró ablakban válassza az 'Általános fület'\n4) Pipátlanítsa a 'Meghajtó tömörítése helymegtakarítás céljából'\n5) Nyomjon OK-t az ablak alján.\n\nEgy teljes tömörített meghajtó kicsomagolása az adatok mennyiségének függvényében órákat is eltarthat! \n(Gyorsabb lehet egy másik meghajtóra menteni mindent, leformázni és visszamásolni.)</string>
+    <string lang="hu" key="CREATE_FAILED">Kötet létrehozása sikertelen: %s</string>
+    <string lang="hu" key="DEVICE_FREE_BYTES">%s mérete: %.2f bájt</string>
+    <string lang="hu" key="DEVICE_FREE_KB">%s mérete: %.2f KB</string>
+    <string lang="hu" key="DEVICE_FREE_MB">%s mérete: %.2f MB</string>
+    <string lang="hu" key="DEVICE_FREE_GB">%s mérete: %.2f GB</string>
+    <string lang="hu" key="DEVICE_FREE_TB">%s mérete: %.2f TB</string>
+    <string lang="hu" key="DEVICE_FREE_PB">%s mérete: %.2f PB</string>
+    <string lang="hu" key="DEVICE_IN_USE_FORMAT">FiGYELEM: Az eszközt/partíciót éppen az operációs rendszer vagy más alkalmazás is használja. Ha így formázza, adatvesztés vagy rendszer-instabilitás léphet fel.\n\nFolytatja?</string>
+    <string lang="hu" key="DEVICE_IN_USE_INPLACE_ENC">FiGYELEM: Az eszközt/partíciót éppen az operációs rendszer vagy más alkalmazás is használja. Állítson le minden ilyen folyamamot (a víruskeresőt is beleértve).\n\nFolytatja?</string>
+    <string lang="hu" key="FORMAT_CANT_DISMOUNT_FILESYS">Hiba: Az eszköz/partíció olyan fájlrendszert tartalmaz, amelyről nem lehet lecsatlakozni. Talán az operációs rendszer használja éppen. \n\nHa így formázza, az nagy valószínűséggel adatvesztést és rendszer instabilitást okoz.\n\nA probléma megolásához javasoljuk a partírció teljes törlését és újra létrehozását formázás nélkül.\n\nEhhez tegye a következőket:\n1) Jobb klikk a 'Számítógép' (vagy 'Ez a Gép') ikonra és válassza a 'Kezelés' menüpontot\n2) A megjelenő 'Számítógép-kezelés' ablakban válassza a 'Lemezkezelés'-t\n3) Kattintson jobb-egérgombbal a Kódolni kívánt merevlemez-partícióra és válassza a Törlést.\nVIGYÁZAT!!! Ezzel minden rajta lévő adata el fog veszni!\n4) Több partíció esetén mindnél végezze el a műveletet.\n5) Ha a Windows kérdi, indítsa újra a számítógépet, majd folytassa a törléseket.\n5) Hozzon létre egy új partíciót az üres területen (Jobb egér-klikk > Új Egyszerű kötet).\n6 Ezután próbálja meg újra kódolni a partíciót.\n\nHa továbbra sem jár sikerrel, megfontolhatja inkább egy fájl-alapú kódolt kötet létrehozását.</string>
+    <string lang="hu" key="INPLACE_ENC_CANT_LOCK_OR_DISMOUNT_FILESYS">HIBA: A fájlrendszert nem lehetett zárolni és/vagy leválasztani. Az eszközt/partíciót talán éppen az operációs rendszer vagy más alkalmazás is használja (például antivírus szoftver). Ha most kódolja le a partíciót, az adatvesztéshez és rendszer instabilitáshoz vezethet.\n\nKérem zárjon be minden olyan alkalmazást, amely okozhatja ezt, (beleértve az antivírust,) majd próbálja újra. Ha ez sem segít, kövesse az alább olvasható lépéseket.</string>
+    <string lang="hu" key="DEVICE_IN_USE_INFO">FIGYELEM: Néhány a csatolt eszköz/partíció közül még használatban van!\n\nHa figyelmen kívül hagyja ezt, az rendszer-instabilitáshoz vezethet.\n\nErősen javallott, hogy bezárjon minden alkalmazást, mely használhatja az eszközöket/partíciókat.</string>
+    <string lang="hu" key="DEVICE_PARTITIONS_ERR">A választott eszköz több partíciót is tartalmaz.\n\nAz eszköz formázásakor így adatvesztés vagy rendszer-instabilitás léphet fel.\nKérem válasszon csak egy partíciót az eszközről, vagy távolítsa el az összes partíciót, hogy a VeraCrypt biztonsággal tudja megformázni azt.</string>
     <string lang="en" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">The selected non-system device contains partitions.\n\nEncrypted device-hosted VeraCrypt volumes can be created within devices that do not contain any partitions (including hard disks and solid-state drives). A device that contains partitions can be entirely encrypted in place (using a single master key) only if it is the drive where Windows is installed and from which it boots.\n\nIf you want to encrypt the selected non-system device using a single master key, you will need to remove all partitions on the device first to enable VeraCrypt to format it safely (formatting a device that contains partitions might cause system instability and/or data corruption). Alternatively, you can encrypt each partition on the drive individually (each partition will be encrypted using a different master key).\n\nNote: If you want to remove all partitions from a GPT disk, you may need to convert it to a MBR disk (using e.g. the Computer Management tool) in order to remove hidden partitions.</string>
     <string lang="en" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">Warning: If you encrypt the entire device (as opposed to encrypting only a partition on it), operating systems will consider the device as new, empty, and unformatted (as it will contain no partition table) and may spontaneously initialize the device (or ask you if you want to do so), which may damage the volume. Furthermore, it will not be possible to consistently mount the volume as favorite (e.g. when the drive number changes) or to assign a favorite-volume label to it.\n\nTo avoid that you may want to consider creating a partition on the device and encrypting the partition instead.\n\nAre you sure want to encrypt the entire device?</string>
     <string lang="en" key="AFTER_FORMAT_DRIVE_LETTER_WARN">IMPORTANT: Please keep in mind that this volume can NOT be mounted/accessed using the drive letter %c:, which is currently assigned to it!\n\nTo mount this volume, click 'Auto-Mount Devices' in the main VeraCrypt window (alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/device, and click 'Mount'). The volume will be mounted to a different drive letter, which you select from the list in the main VeraCrypt window.\n\nThe original drive letter %c: should be used only in case you need to remove encryption from the partition/device (e.g., if you no longer need encryption). In such a case, right-click the drive letter %c: in the 'Computer' (or 'My Computer') list and select 'Format'. Otherwise, the drive letter %c: should never be used (unless you remove it, as described e.g. in the VeraCrypt FAQ, and assign it to another partition/device).</string>
@@ -441,90 +441,90 @@
     <string lang="en" key="INPLACE_ENC_INVALID_PATH">Error: VeraCrypt can in-place encrypt only a partition, a dynamic volume, or an entire system drive. Please make sure the specified path is valid.</string>
     <string lang="en" key="CANNOT_RESIZE_FILESYS">Error: Cannot shrink the filesystem (the filesystem needs to be shrunk to make space for the volume header and backup header).\n\nPossible causes and solutions:\n\n- Not enough free space on the volume. Please make sure no other application is writing to the filesystem.\n\n- Corrupted file system. Try to check it and fix any errors (right-click the corresponding drive letter in the 'Computer' list, then select Properties &gt; Tools &gt; 'Check Now', make sure the option 'Automatically fix file system errors' is enabled and click Start).\n\nIf the above steps do not help, please follow the below steps.</string>
     <string lang="en" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">Error: There is not enough free space on the volume and so the filesystem cannot be shrunk (the filesystem needs to be shrunk to make space for the volume header and backup header).\n\nPlease delete any redundant files and empty the Recycle Bin so as to free at least 256 KB of space and then try again. Note that due to a Windows issue, the amount of free space reported by the Windows Explorer may be incorrect until the operating system is restarted. If restarting the system does not help, the file system may be corrupted. Try to check it and fix any errors (right-click the corresponding drive letter in the 'Computer' list, then select Properties &gt; Tools &gt; 'Check Now', make sure the option 'Automatically fix file system errors' is enabled and click Start).\n\nIf the above steps do not help, please follow the below steps.</string>
-    <string lang="en" key="DISK_FREE_BYTES">Free space on drive %s is %.2f bytes.</string>
-    <string lang="en" key="DISK_FREE_KB">Free space on drive %s is %.2f KB</string>
-    <string lang="en" key="DISK_FREE_MB">Free space on drive %s is %.2f MB</string>
-    <string lang="en" key="DISK_FREE_GB">Free space on drive %s is %.2f GB</string>
-    <string lang="en" key="DISK_FREE_TB">Free space on drive %s is %.2f TB</string>
-    <string lang="en" key="DISK_FREE_PB">Free space on drive %s is %.2f PB</string>
-    <string lang="en" key="DRIVELETTERS">Could not get available drive letters.</string>
-    <string lang="en" key="DRIVER_NOT_FOUND">Error: VeraCrypt driver not found.\n\nPlease copy the files 'veracrypt.sys' and 'veracrypt-x64.sys' to the directory where the main VeraCrypt application (VeraCrypt.exe) is located.</string>
-    <string lang="en" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' > Computer > 'Uninstall or change a program' > VeraCrypt > Uninstall; on Windows XP, select 'Start Menu' > Settings > 'Control Panel' > 'Add Or Remove Programs' > VeraCrypt > Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</string>
-    <string lang="en" key="ERR_CIPHER_INIT_FAILURE">Error: Cipher initialization failure.</string>
-    <string lang="en" key="ERR_CIPHER_INIT_WEAK_KEY">Error: A weak or a potentially weak key has been detected. The key will be discarded. Please try again.</string>
+    <string lang="hu" key="DISK_FREE_BYTES">Szabad lemezterület a(z) %s meghajtón: %.2f byte.</string>
+    <string lang="hu" key="DISK_FREE_KB">Szabad lemezterület a(z) %s meghajtón: %.2f KB</string>
+    <string lang="hu" key="DISK_FREE_MB">Szabad lemezterület a(z) %s meghajtón: %.2f MB</string>
+    <string lang="hu" key="DISK_FREE_GB">Szabad lemezterület a(z) %s meghajtón: %.2f GB</string>
+    <string lang="hu" key="DISK_FREE_TB">Szabad lemezterület a(z) %s meghajtón: %.2f TB</string>
+    <string lang="hu" key="DISK_FREE_PB">Szabad lemezterület a(z) %s meghajtón: %.2f PB</string>
+    <string lang="hu" key="DRIVELETTERS">Could not get available drive letters.</string>
+    <string lang="hu" key="DRIVER_NOT_FOUND">Hiba: a VeraCrypt meghajtóprogramja (drájvere) nem található.\n\nKérem másolja az alábbi fájlokat az alkalmazás könyvtárába (ahol a VeraCrypt.exe fellelhető):\n'veracrypt.sys' és \n'veracrypt-x64.sys'..</string>
+    <string lang="hu" key="DRIVER_VERSION">Hiba: Egy inkompatibilis VeraCrypt-drájver változata fut éppen!\n\nHa hordozható (portable) módban próbálja futtatni (telepítés nélkül), és már telepítve van egy más változata a VeraCryptnek, akkor előbb el kell azt távolítania, vagy frissítenie az installálót használva.\nHa azonban egy másik hordozható VeraCrypt változat fut már, akkor újra kell indítania a számítógépet, és csak a mostani új változatot futtatni egyedül.</string>
+    <string lang="hu" key="ERR_CIPHER_INIT_FAILURE">Hiba: A kódoló (Cipher) inicializálása sikertelen.</string>
+    <string lang="hu" key="ERR_CIPHER_INIT_WEAK_KEY">Hiba: Egy (potenciálisan) gyenge kulcsot érzékeltem. A kulcsot elvetettem. Kérem próbálja újra.</string>
     <string lang="en" key="EXCEPTION_REPORT">A critical error has occurred and VeraCrypt must be terminated. If this is caused by a bug in VeraCrypt, we would like to fix it. To help us, you can send us an automatically generated error report containing the following items:\n\n- Program version\n- Operating system version\n- Type of CPU\n- VeraCrypt component name\n- Checksum of VeraCrypt executable\n- Symbolic name of dialog window\n- Error category\n- Error address\n- VeraCrypt call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.\n\n%hs\n\nDo you want to send us the above error report?</string>
     <string lang="en" key="EXCEPTION_REPORT_EXT">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nNote that this error has not been caused by VeraCrypt (so the VeraCrypt developers cannot fix it). Please, check your system for possible problems (e.g., system configuration, network connection, failing hardware components).</string>
     <string lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</string>
-    <string lang="en" key="EXCEPTION_REPORT_TITLE">VeraCrypt Critical Error</string>
-    <string lang="en" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt detected that the operating system recently crashed. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)\n\nDo you want VeraCrypt to check whether a bug in VeraCrypt could have caused the system crash?</string>
-    <string lang="en" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">Do you want VeraCrypt to continue detecting system crashes?</string>
-    <string lang="en" key="NO_MINIDUMP_FOUND">VeraCrypt found no system crash minidump file.</string>
-    <string lang="en" key="ASK_DELETE_KERNEL_CRASH_DUMP">Do you want to delete the Windows crash dump file to free up disk space?</string>
+    <string lang="hu" key="EXCEPTION_REPORT_TITLE">VeraCrypt Kritikus Hiba</string>
+    <string lang="hu" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt érzékelte, hogy az operációs rendszer nemrégiben összeomlott. Ennek számtalan oka lehet, (például egy hardver-komponens meghibásodása, meghajtóprogram-hiba, stb.)\nSzeretné, ha VeraCrypt leellenőrizné, hogy a saját hibájából okozhatta az összeomlást?</string>
+    <string lang="hu" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">Szeretné, ha továbbra is detektálná a rendszer-összeomlásokat?</string>
+    <string lang="hu" key="NO_MINIDUMP_FOUND">VeraCrypt nem talált összeomlást-leíró (minidump) fájlt.</string>
+    <string lang="hu" key="ASK_DELETE_KERNEL_CRASH_DUMP">Szeretné a Windows összeomlást-leíró (minidump) fájljait törölni, hogy helyet szabadítson fel?</string>
     <string lang="en" key="ASK_DEBUGGER_INSTALL">In order to analyze the system crash, VeraCrypt needs to install Microsoft Debugging Tools for Windows first.\n\nAfter you click OK, the Windows installer will download the Microsoft Debugging Tools installation package (16 MB) from a Microsoft server and install it (the Windows installer will be forwarded to the Microsoft server URL from the veracrypt.org server, which ensures that this feature works even if Microsoft changes the location of the installation package).</string>
-    <string lang="en" key="SYSTEM_CRASH_ANALYSIS_INFO">After you click OK, VeraCrypt will analyze the system crash. This may take up to several minutes.</string>
+    <string lang="hu" key="SYSTEM_CRASH_ANALYSIS_INFO">Az OK gomb lenyomása után VeraCrypt analizálni fogja a rendszerleállás okát. Ez több percig is eltarthat.</string>
     <string lang="en" key="DEBUGGER_NOT_FOUND">Please make sure the environment variable 'PATH' includes the path to 'kd.exe' (Kernel Debugger).</string>
     <string lang="en" key="SYSTEM_CRASH_NO_VERACRYPT">It appears that VeraCrypt most likely did not cause the system crash. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)</string>
     <string lang="en" key="SYSTEM_CRASH_UPDATE_DRIVER">Results of the analysis indicate that updating the following driver might solve this issue: </string>
     <string lang="en" key="SYSTEM_CRASH_REPORT">To help us determine whether there is a bug in VeraCrypt, you can send us an automatically generated error report containing the following items:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\nIf you select 'Yes', the following URL (which contains the entire error report) will be opened in your default Internet browser.</string>
-    <string lang="en" key="ASK_SEND_ERROR_REPORT">Do you want to send us the above error report?</string>
-    <string lang="en" key="ENCRYPT">&amp;Encrypt</string>
-    <string lang="en" key="DECRYPT">&amp;Decrypt</string>
-    <string lang="en" key="PERMANENTLY_DECRYPT">&amp;Permanently Decrypt</string>
-    <string lang="en" key="EXIT">Exit</string>
-    <string lang="en" key="EXT_PARTITION">Please create a logical drive for this extended partition, and then try again.</string>
-    <string lang="en" key="FILE_HELP">A VeraCrypt volume can reside in a file (called VeraCrypt container), which can reside on a hard disk, on a USB flash drive, etc. A VeraCrypt container is just like any normal file (it can be, for example, moved or deleted as any normal file). Click 'Select File' to choose a filename for the container and to select the location where you wish the container to be created.\n\nWARNING: If you select an existing file, VeraCrypt will NOT encrypt it; the file will be deleted and replaced with the newly created VeraCrypt container. You will be able to encrypt existing files (later on) by moving them to the VeraCrypt container that you are about to create now.</string>
+    <string lang="hu" key="ASK_SEND_ERROR_REPORT">Szeretne hiba-riportot küldeni nekünk?</string>
+    <string lang="hu" key="ENCRYPT">&amp;Lekódol</string>
+    <string lang="hu" key="DECRYPT">&amp;Kikódol</string>
+    <string lang="hu" key="PERMANENTLY_DECRYPT">&amp;Véglegesen kikódol</string>
+    <string lang="hu" key="EXIT">Kilé&amp;p</string>
+    <string lang="hu" key="EXT_PARTITION">Kérem hozzon létre egy 'logikai meghajtót' ehhez a kiterjelsztett partícióhoz, majd próbálja újra.</string>
+    <string lang="hu" key="FILE_HELP">Egy VeraCrypt kötet be lehet építve egy egyszerű fájlba, mely tárolható egy merevlemezen, egy USB pendrájvon, stb. \nEzt 'VeraCrypt Tárolónak' hívják (konténer).\nEgy ilyen Tárolóval ugyanazt csinálhatjuk ('nem-csatolt' állapotában), mint bármely más fájllal. (Mozgathatjuk, másolhatjuk, törölhetjük, átnevezhetjük.)\n\nKattintson a 'Fájl választása..' gombra, hogy megadhasson egy helyet és nevet, ahová ez a tároló-fájl fog kerülni.\n\nFIGYELEM: Ha egy MÁR LÉTEZŐ fájlt választ, akkor azt NEM fogja Lekódolni, helyette TÖRÖLNI fogja, és felülírja egy újonnan létrehozott VeraCrypt tárolófájllal.\nAhhoz, hogy létező fájlokat Kódoljon le, később lesz lehetősége azzal, hogy bemozgatja azokat a Tárolón (konténeren) belülre, melyet most fog létrehozni.</string>
     <string lang="en" key="FILE_HELP_HIDDEN_HOST_VOL">Select the location of the outer volume to be created (within this volume the hidden volume will be created later on).\n\nA VeraCrypt volume can reside in a file (called VeraCrypt container), which can reside on a hard disk, on a USB flash drive, etc. A VeraCrypt container can be moved or deleted as any normal file. Click 'Select File' to choose a filename for the container and to select the location where you wish the container to be created. If you select an existing file, VeraCrypt will NOT encrypt it; it will be deleted and replaced with the newly created container. You will be able to encrypt existing files (later on) by moving them to the VeraCrypt container you are about to create now.</string>
     <string lang="en" key="DEVICE_HELP">Encrypted device-hosted VeraCrypt volumes can be created within partitions on hard disks, solid-state drives, USB memory sticks, and on any other supported storage devices. Partitions can also be encrypted in place.\n\nIn addition, encrypted device-hosted VeraCrypt volumes can be created within devices that do not contain any partitions (including hard disks and solid-state drives).\n\nNote: A device that contains partitions can be entirely encrypted in place (using a single key) only if it is the drive where Windows is installed and from which it boots.</string>
-    <string lang="en" key="DEVICE_HELP_NO_INPLACE">A device-hosted VeraCrypt volume can be created within a hard disk partition, solid-state drive, USB memory stick, and other storage devices.\n\nWARNING: Note that the partition/device will be formatted and all data currently stored on it will be lost.</string>
+    <string lang="hu" key="DEVICE_HELP_NO_INPLACE">Egy 'eszközön-hosztolt' kötetet létre lehet hozni: merevlemez partíción, SSD meghajtón, USB memória kulcson, és más eszközökön.\n\nFIGYELEM: Ezen eszköz/partíció formázva lesz és minden rajta lévő adat MEGSEMMISÜL!).</string>
     <string lang="en" key="DEVICE_HELP_HIDDEN_HOST_VOL">\nSelect the location of the outer volume to be created (within this volume the hidden volume will be created later on).\n\nOuter volumes can be created within partitions on hard disks, solid-state drives, USB memory sticks, and on any other supported storage devices. Outer volumes can also be created within devices that do not contain any partitions (including hard disks and solid-state drives).\n\nWARNING: Note that the partition/device will be formatted and all data currently stored on it will be lost.</string>
-    <string lang="en" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\nSelect the location of the VeraCrypt volume within which you wish to create a hidden volume.</string>
-    <string lang="en" key="FILE_IN_USE">WARNING: The host file/device is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device (for example, antivirus or backup applications) should be closed before mounting the volume.\n\nContinue mounting?</string>
-    <string lang="en" key="FILE_IN_USE_FAILED">Error: Cannot mount volume. The host file/device is already in use. Attempt to mount without exclusive access failed as well.</string>
+    <string lang="hu" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\nVálasszon helyet a VeraCrypt kötetnek, amelyen belül egy 'rejtett kötetet' kíván létrehozni.</string>
+    <string lang="hu" key="FILE_IN_USE">FIGYELEM: a tároló-fájl/-eszköz már használatban van!\n\nEnnek figyelmen kívül hagyása nem kívánt eredményhez vezethet, beleértve rendszer-instabilitást és adatvesztést.\nMinden alakalmazást állítson le, amely ezen fájlt használhatja, mielőtt Csatolná a kötetet.\n(Például antivírus és biztonsági-mentő alkalmazásokat.)\nFolytassam a Csatolást?</string>
+    <string lang="hu" key="FILE_IN_USE_FAILED">Hiba: Nem lehet Csatolni a Kötetet. A tároló fájl/eszköz már használatban van!\n'Kizárólagos Hozzáférés'-sel sem sikerült végrehajtani.</string>
     <string lang="hu" key="FILE_OPEN_FAILED">A fájlt nem sikerült megnyitni.</string>
     <string lang="hu" key="FILE_TITLE">Kötet helye</string>
-    <string lang="en" key="FILESYS_PAGE_TITLE">Large Files</string>
-    <string lang="en" key="FILESYS_PAGE_HELP_QUESTION">Do you intend to store files larger than 4 GB in this VeraCrypt volume?</string>
-    <string lang="en" key="FILESYS_PAGE_HELP_EXPLANATION">Depending on your choice above, VeraCrypt will choose a suitable default file system for the VeraCrypt volume (you will be able to select a file system in the next step).</string>
-    <string lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">As you are creating an outer volume, you should consider choosing 'No'. If you choose 'Yes', the default filesystem will be NTFS, which is not as suitable for outer volumes as FAT (for example, the maximum possible size of the hidden volume will be significantly greater if the outer volume is formatted as FAT). Normally, FAT is the default for both hidden and normal volumes (so FAT volumes are not suspicious). However, if the user indicates intent to store files larger than 4 GB (which the FAT file system does not allow), then FAT is not the default.</string>
-    <string lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Are you sure you want to choose 'Yes'?</string>
-    <string lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Volume Creation Mode</string>
-    <string lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">This is the fastest way to create a partition-hosted or device-hosted VeraCrypt volume (in-place encryption, which is the other option, is slower because content of each sector has to be first read, encrypted, and then written). Any data currently stored on the selected partition/device will be lost (the data will NOT be encrypted; it will be overwritten with random data). If you want to encrypt existing data on a partition, choose the other option.</string>
-    <string lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">The entire selected partition and all data stored on it will be encrypted in place. If the partition is empty, you should choose the other option (the volume will be created much faster).</string>
-    <string lang="en" key="NOTE_BEGINNING">Note: </string>
-    <string lang="en" key="RESUME">&amp;Resume</string>
-    <string lang="en" key="DEFER">&amp;Defer</string>
-    <string lang="en" key="START">&amp;Start</string>
-    <string lang="en" key="CONTINUE">&amp;Continue</string>
-    <string lang="en" key="FORMAT">&amp;Format</string>
-    <string lang="en" key="WIPE">&amp;Wipe</string>
+    <string lang="hu" key="FILESYS_PAGE_TITLE">Nagyméretű Fájlok</string>
+    <string lang="hu" key="FILESYS_PAGE_HELP_QUESTION">Szándékozik 4 Gigabájtnál nagyobb méretű fájlokat helyezni ebbe a VeraCrypt kötetbe?</string>
+    <string lang="hu" key="FILESYS_PAGE_HELP_EXPLANATION">A szerint mit választott, VeraCrypt eldöntötte melyik legyen az alapértelmezett fájlrendszert a kötethez. (Ezt még megváltoztathatja a következő lépésben.)</string>
+    <string lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">Mivel 'Külső Kötetet' készít, fontolja meg a 'Nem' választ.\nHa 'Igen'-t választ, az alapértelmezett fájlrendszer NTFS lesz, amely nem kezelhet 'Külső Kötetet' FAT fájlrendszerként.\n(Például a maximum lehetésges mérete egy rejtett kötetnek lényegesen nagyobb lesz, ha a 'Külső Tároló' FAT-ként van formázva.)\n\nNormál esetben, FAT az alapértelmezett mind a rejtett, mind a normál kötetekhez (így a FAT kötet nem lesz gyanús.)\nUgyanakkor, ha a felhasználó szándékozik 4 Gigabájtnál nagyobb fájlokat is tárolni, akkor nem FAT az alapértelmezett.</string>
+    <string lang="hu" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Biztosan 'Igen-t' választasz?</string>
+    <string lang="hu" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Kötet Létrehozási Mód</string>
+    <string lang="hu" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">Ez a leggyorsabb módja, hogy létrehozzon egy eszközön- vagy partíción-tárolt VeraCrypt kötetet.\nÁm ezzel a módszerrel a választott tárolón lévő MINDEN ADAT MEGSEMMÍSÍTésre kerül, tehát nem lesz Lekódolva. (A másik: 'Helyben át-Kódolás' lassabb, mert minden egyes szektort be kell olvasni, Lekódoni majd visszaírni.)\n\nHa a meglévő adatokat akarja Lekódolni, válassza a másik módszert.</string>
+    <string lang="hu" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">A kiválasztott partíció teljes egészében az összes adatával együtt Lekódolásra kerül.\n(Ha a partíció amúgy is üres, vagy nincs szüksége a rajta lévő adatokra, akkor a másik módszert válassza, mert az gyorsabb.)</string>
+    <string lang="hu" key="NOTE_BEGINNING">Megjegyzés: </string>
+    <string lang="hu" key="RESUME">&amp;Folytat</string>
+    <string lang="hu" key="DEFER">F&amp;elfüggeszt</string>
+    <string lang="hu" key="START">&amp;Start</string>
+    <string lang="hu" key="CONTINUE">F&amp;olytat</string>
+    <string lang="hu" key="FORMAT">Formá&amp;z</string>
+    <string lang="hu" key="WIPE">&amp;Tisztít</string>
     <string lang="hu" key="FORMAT_ABORT">Formázás megszakítása?</string>
-    <string lang="en" key="SHOW_MORE_INFORMATION">Show more information</string>
-    <string lang="en" key="DO_NOT_SHOW_THIS_AGAIN">Do not show this again</string>
-    <string lang="en" key="WIPE_FINISHED">The content of the partition/device has been successfully erased.</string>
-    <string lang="en" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">The content of the partition where the original system (of which the hidden system is a clone) resided has been successfully erased.</string>
-    <string lang="en" key="DECOY_OS_VERSION_WARNING">Please make sure the version of Windows you are going to install (on the wiped partition) is the same as the version of Windows you are currently running. This is required due to the fact that both systems will share a common boot partition.</string>
-    <string lang="en" key="SYSTEM_ENCRYPTION_FINISHED">The system partition/drive has been successfully encrypted.\n\nNote: If there are non-system VeraCrypt volumes that you need to have mounted automatically every time Windows starts, you can set it up by mounting each of them and selecting 'Favorites' > 'Add Mounted Volume to System Favorites').</string>
-    <string lang="en" key="SYSTEM_DECRYPTION_FINISHED">The system partition/drive has been successfully decrypted.</string>
-    <string lang="en" key="FORMAT_FINISHED_HELP">\n\nThe VeraCrypt volume has been created and is ready for use. If you wish to create another VeraCrypt volume, click Next. Otherwise, click Exit.</string>
-    <string lang="en" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nThe hidden VeraCrypt volume has been successfully created (the hidden operating system will reside within this hidden volume).\n\nClick Next to continue.</string>
-    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Volume Fully Encrypted</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Volume Fully Decrypted</string>
-    <string lang="en" key="NONSYS_INPLACE_ENC_FINISHED_INFO">IMPORTANT: TO MOUNT THIS NEWLY CREATED VERACRYPT VOLUME AND TO ACCESS DATA STORED IN IT, CLICK 'Auto-Mount Devices' IN THE MAIN VERACRYPT WINDOW. After you enter the correct password (and/or supply correct keyfiles), the volume will be mounted to the drive letter you select from the list in the main VeraCrypt window (and you will be able to access the encrypted data via the selected drive letter).\n\nPLEASE REMEMBER OR WRITE DOWN THE ABOVE STEPS. YOU MUST FOLLOW THEM WHENEVER YOU WANT TO MOUNT THE VOLUME AND ACCESS DATA STORED IN IT. Alternatively, in the main VeraCrypt window, click 'Select Device', then select this partition/volume, and click 'Mount'.\n\nThe partition/volume has been successfully encrypted (it contains a fully encrypted VeraCrypt volume now) and is ready for use.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_INFO">The VeraCrypt volume has been successfully decrypted.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</string>
-    <string lang="en" key="FORMAT_FINISHED_INFO">The VeraCrypt volume has been successfully created.</string>
+    <string lang="hu" key="SHOW_MORE_INFORMATION">Mutass további információt</string>
+    <string lang="hu" key="DO_NOT_SHOW_THIS_AGAIN">Ne mutasd ezt többé</string>
+    <string lang="hu" key="WIPE_FINISHED">A partíció/eszköz tartalmát sikeresen töröltem.</string>
+    <string lang="hu" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">A partíció tartalma, ahol az eredeti rendszer volt sikeresen törölve lett. (Erről lett a rejtett rendszer klónozva.)</string>
+    <string lang="hu" key="DECOY_OS_VERSION_WARNING">Kérem ügyeljen rá, hogy ugyanazon Windows verziót installálja ami az imént törölt partíción volt, mivel mindkét rendszer osztozni fog az indulási- (boot-)partíción.</string>
+    <string lang="hu" key="SYSTEM_ENCRYPTION_FINISHED">A Rendszer-partíciót sikeresen Lekódoltam.\n\n(Megjegyzés: Ha vannan nem-rendszer VeraCrypt kötetek, melyek automatikusan kell, hogy Csatolódjanak valahányszor a Windows elindul: Beállíthatja a 'Kedvencek' menü > 'Add a csatolt Kötetet a Rendszer-kedvencekhez...' almenüpontjával.</string>
+    <string lang="hu" key="SYSTEM_DECRYPTION_FINISHED">A Rendszer -partíciót/-lemezt sikeresen Kikódoltam.</string>
+    <string lang="hu" key="FORMAT_FINISHED_HELP">\n\nA VeraCrypt Kötetet létrehoztam és használatra kész. Ha több kötetet is létre szeretne hozni, kattintson a 'Következő'-re. \nKülönben a 'Kilép'-re.</string>
+    <string lang="hu" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nA Rejtett VeraCrypt Kötetet sikeresen létrehoztam.\n(A rejtett operációs rendszer ezen rejtett köteten fog elhelyezkedni).\n\nKattints a 'Tovább'-ra a folytatáshoz.</string>
+    <string lang="hu" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">A Kötetet teljesen Lekódoltam.</string>
+    <string lang="hu" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">A Kötetet teljesen Kikódoltam.</string>
+    <string lang="hu" key="NONSYS_INPLACE_ENC_FINISHED_INFO">FONTOS:\n\nAhhoz, hogy a most létrehozott kötetet CSATOLJA és adatokat TÁROLJON benne, kattintson a VeraCrypt Főablakánál a:\n'Kötetek' menü >> 'Összes kötet auto-csatolása az eszközről' almenüpontra.\nMiután beütötte a megfelelő jelszót (és/vagy megfelelő kulcsokat), azon meghatójellel lesz felcsatolva a kötet, melyet az ablakon látható listából kiválasztott. (A: .. Z:)\nKÉREM EMLÉKEZZEN VAGY ÍRJA LE EZEN LÉPÉSEKET, MERT MINDEN ALAKLOMMAL VÉGRE KELL HAJTANIA, HA HOZZÁ AKAR FÉRNI AZ ADATOKHOZ, MELYET A KÓDOLT KÖTETEN BELÜL TÁROL.\nAlternatívaként a VeraCrypt főablakában kattintson az 'Eszköz Választása' >> azután válassza ezt a partíciót/kötetet >> majd kattintson a 'Csatol' gombra.\n\nA partíció/kötet ezennel sikeresen kódolva lett és készen áll a használatra.</string>
+    <string lang="hu" key="NONSYS_INPLACE_DEC_FINISHED_INFO">A VeraCrypt kötetet sikeresen Kikódoltam (decrypted).</string>
+    <string lang="hu" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">A VeraCrypt kötetet sikeresen Kikódoltam (decrypted).\n\nKérem válasszon egy meghajtó betűjelet (A: .. Z:) melyet hozzá szeretne rendelni a Kikódolt kötethez, azután nyomjon a 'KÉSZ' gombra.</string>
+    <string lang="hu" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Figyelem: Ahhoz, hogy a Kikódolt adatokhoz hozzáférjen, szükség van egy meghajtó-betűjelre (A: .. Z:). Ám úgy tűnik nincs szabad betű.\n\nKérem tegyen szabaddá egyet (például egy USB meghajtó vagy külső merevlemez vagy virtuális DVD olvasó leválasztásával).\nAzután nyomjon OK-t.</string>
+    <string lang="hu" key="FORMAT_FINISHED_INFO">A VeraCrypt kötetet sikeresen létrehoztam.</string>
     <string lang="hu" key="FORMAT_FINISHED_TITLE">Kötet elkészült</string>
-    <string lang="en" key="FORMAT_HELP">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Format to create the volume.</string>
-    <string lang="en" key="FORMAT_HIDVOL_HOST_HELP">Click Format to create the outer volume. For more information, please refer to the documentation.</string>
-    <string lang="en" key="FORMAT_HIDVOL_HOST_TITLE">Outer Volume Format</string>
-    <string lang="en" key="FORMAT_HIDVOL_TITLE">Hidden Volume Format</string>
-    <string lang="en" key="FORMAT_TITLE">Volume Format</string>
+    <string lang="hu" key="FORMAT_HELP">FONTOS: Mozgasd az egeret amennyire csak véletlenszerűen tudod ezen ablakon belül. Minél tovább mozgatod, annál jobb. Ez jelentősen megnöveli a kulcs kódolásának erősségét. Azután nyomj "Formáz"-ot a kötet létrehozásához.</string>
+    <string lang="hu" key="FORMAT_HIDVOL_HOST_HELP">Kattintson a Fozmáz-ra külső kötet létrehozásához. További információért kérem olvassa a dokumentációt.</string>
+    <string lang="hu" key="FORMAT_HIDVOL_HOST_TITLE">Külső Kötet - Formatálás</string>
+    <string lang="hu" key="FORMAT_HIDVOL_TITLE">Rejtett Kötet - Formatálás</string>
+    <string lang="hu" key="FORMAT_TITLE">Kötet Formatálás</string>
     <string lang="en" key="HELP_READER_ERROR">Adobe Reader (or a compatible tool) is necessary to view or print the VeraCrypt User's Guide. Adobe Reader (freeware) can be downloaded at: www.adobe.com\n\nDo you want to view the online documentation instead?</string>
-    <string lang="en" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">If you select this option, the wizard will first help you create a normal VeraCrypt volume and then a hidden VeraCrypt volume within it. Inexperienced users should always select this option.</string>
-    <string lang="en" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">If you select this option, you will create a hidden volume within an existing VeraCrypt volume. It will be assumed that you have already created a VeraCrypt volume that is suitable to host the hidden volume.</string>
-    <string lang="en" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Volume Creation Mode</string>
-    <string lang="en" key="HIDVOL_FORMAT_FINISHED_TITLE">Hidden Volume Created</string>
+    <string lang="hu" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">Ha ezt az opciót választja, a varázsló először segít létrehozni egy NORMÁL VeraCrypt kötetet, azután egy REJTETTET azon belül. Tapasztalatlan felhasználók mindig válasszák ezt az opciót.</string>
+    <string lang="hu" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">Ha ezt az opciót választja, létre fog hozni egy rejtett Kötetet egy létező VeraCrypt Köteten belül. Feltételezzük, hogy Ön már létrehozott egy normál VeraCrypt kötetet, mely alkalmas egy rejtett kötet befogadására.</string>
+    <string lang="hu" key="HIDDEN_VOL_WIZARD_MODE_TITLE">Kötet Létrehozási Mód</string>
+    <string lang="hu" key="HIDVOL_FORMAT_FINISHED_TITLE">Rejtett Kötet Létrehozása KÉSZ</string>
     <string lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE VERACRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</string>
     <string lang="en" key="FIRST_HIDDEN_OS_BOOT_INFO">You have started the hidden operating system. As you may have noticed, the hidden operating system appears to be installed on the same partition as the original operating system. However, in reality, it is installed within the partition behind it (in the hidden volume). All read and write operations are being transparently redirected from the original system partition to the hidden volume.\n\nNeither the operating system nor applications will know that data written to and read from the system partition are actually written to and read from the partition behind it (from/to a hidden volume). Any such data is encrypted and decrypted on the fly as usual (with an encryption key different from the one that will be used for the decoy operating system).\n\n\nPlease click Next to continue.</string>
     <string lang="en" key="HIDVOL_HOST_FILLING_HELP_SYSENC">The outer volume has been created and mounted as drive %hc:. To this outer volume you should now copy some sensitive-looking files that you actually do NOT want to hide. They will be there for anyone forcing you to disclose the password for the first partition behind the system partition, where both the outer volume and the hidden volume (containing the hidden operating system) will reside. You will be able to reveal the password for this outer volume, and the existence of the hidden volume (and of the hidden operating system) will remain secret.\n\nIMPORTANT: The files you copy to the outer volume should not occupy more than %s. Otherwise, there may not be enough free space on the outer volume for the hidden volume (and you will not be able to continue). After you finish copying, click Next (do not dismount the volume).</string>
@@ -546,10 +546,10 @@
     <string lang="en" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">For security reasons, when a hidden operating system is running, local unencrypted filesystems and non-hidden VeraCrypt volumes are mounted as read-only (no data can be written to such filesystems or VeraCrypt volumes).\n\nData is allowed to be written to any filesystem that resides within a hidden VeraCrypt volume (provided that the hidden volume is not located in a container stored on an unencrypted filesystem or on any other read-only filesystem).</string>
     <string lang="en" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">There are three main reasons why such countermeasures have been implemented:\n\n- It enables the creation of a secure platform for mounting of hidden VeraCrypt volumes. Note that we officially recommend that hidden volumes are mounted only when a hidden operating system is running. (For more information, see the subsection 'Security Requirements and Precautions Pertaining to Hidden Volumes' in the documentation.)\n\n- In some cases, it is possible to determine that, at a certain time, a particular filesystem was not mounted under (or that a particular file on the filesystem was not saved or accessed from within) a particular instance of an operating system (e.g. by analyzing and comparing filesystem journals, file timestamps, application logs, error logs, etc). This might indicate that a hidden operating system is installed on the computer. The countermeasures prevent these issues.\n\n- It prevents data corruption and allows safe hibernation. When Windows resumes from hibernation, it assumes that all mounted filesystems are in the same state as when the system entered hibernation. VeraCrypt ensures this by write-protecting any filesystem accessible both from within the decoy and hidden systems. Without such protection, the filesystem could become corrupted when mounted by one system while the other system is hibernated.</string>
     <string lang="en" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">Note: If you need to securely transfer files from the decoy system to the hidden system, follow these steps:\n1) Start the decoy system.\n2) Save the files to an unencrypted volume or to an outer/normal VeraCrypt volume.\n3) Start the hidden system.\n4) If you saved the files to a VeraCrypt volume, mount it (it will be automatically mounted as read-only).\n5) Copy the files to the hidden system partition or to another hidden volume.</string>
-    <string lang="en" key="CONFIRM_RESTART">Your computer must be restarted.\n\nDo you want to restart it now?</string>
+    <string lang="hu" key="CONFIRM_RESTART">A számítógép újraindítása szükséges.\n\nÚjraindíthatom most?</string>
     <string lang="en" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">An error occurred when obtaining the system encryption status.</string>
-    <string lang="en" key="ERR_PASSWORD_MISSING">No password specified in the command line. The volume can't be created.</string>
-    <string lang="en" key="ERR_SIZE_MISSING">No volume size specified in the command line. The volume can't be created.</string>
+    <string lang="hu" key="ERR_PASSWORD_MISSING">Nincs jelszó megadva a parancssorban. A kötetet nem lehet elkészíteni.</string>
+    <string lang="hu" key="ERR_SIZE_MISSING">Nincs kötet-méret megadva a parancssorban. A kötetet nem lehet elkészíteni.</string>
     <string lang="en" key="ERR_NTFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected NTFS filesystem.</string>
     <string lang="en" key="ERR_FAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected FAT32 filesystem.</string>
     <string lang="en" key="ERR_DYNAMIC_NOT_SUPPORTED">The filesystem on the target drive doesn't support creating sparse files which is required for dynamic volumes.</string>
@@ -570,29 +570,29 @@
     <string lang="en" key="MAX_HIDVOL_SIZE_TB">Maximum possible hidden volume size for this volume is %.2f TB.</string>
     <string lang="en" key="MOUNTED_NOPWCHANGE">Volume password/keyfiles cannot be changed while the volume is mounted. Please dismount the volume first.</string>
     <string lang="en" key="MOUNTED_NO_PKCS5_PRF_CHANGE">The header key derivation algorithm cannot be changed while the volume is mounted. Please dismount the volume first.</string>
-    <string lang="en" key="MOUNT_BUTTON">&amp;Mount</string>
-    <string lang="en" key="NEW_VERSION_REQUIRED">A newer version of VeraCrypt is required to mount this volume.</string>
+    <string lang="hu" key="MOUNT_BUTTON">&amp;C S A T O L</string>
+    <string lang="hu" key="NEW_VERSION_REQUIRED">Egy újabb verziója a VeraCryptnek szükséges ezen kötet csatolásához.</string>
     <string lang="en" key="VOL_CREATION_WIZARD_NOT_FOUND">Error: Volume Creation Wizard not found.\n\nPlease make sure that the file 'VeraCrypt Format.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCrypt Format.exe' on your disk and run it.</string>
     <string lang="en" key="VOL_EXPANDER_NOT_FOUND">Error: Volume Expander not found.\n\nPlease make sure that the file 'VeraCryptExpander.exe' is in the folder from which 'VeraCrypt.exe' was launched. If it is not, please reinstall VeraCrypt, or locate 'VeraCryptExpander.exe' on your disk and run it.</string>
     <string lang="hu" key="NEXT">&amp;Következő &gt;</string>
-    <string lang="en" key="FINALIZE">&amp;Finish</string>
-    <string lang="en" key="INSTALL">&amp;Install</string>
-    <string lang="en" key="EXTRACT">E&amp;xtract</string>
+    <string lang="hu" key="FINALIZE">&amp;Véglegesít</string>
+    <string lang="hu" key="INSTALL">&amp;Install</string>
+    <string lang="hu" key="EXTRACT">&amp;Kinyer (extract)</string>
     <string lang="en" key="NODRIVER">Unable to connect to the VeraCrypt device driver. VeraCrypt cannot work if the device driver is not running.\n\nPlease note that, due to a Windows issue, it may be necessary to log off or restart the system before the device driver can be loaded.</string>
     <string lang="en" key="NOFONT">Error occurred when loading/preparing fonts.</string>
-    <string lang="en" key="NOT_FOUND">The drive letter was not found or no drive letter was specified.</string>
+    <string lang="hu" key="NOT_FOUND">Nincs meghajtó-betűjel megadva, vagy az nem található.</string>
     <string lang="en" key="ERR_CANNOT_ASSIGN_DRIVE_LETTER_NONSYS_DEC">Error: Cannot assign drive letter.\n\nUntil a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.\n\nRetry?</string>
-    <string lang="en" key="DRIVE_LETTER_UNAVAILABLE">Drive letter not available.</string>
+    <string lang="hu" key="DRIVE_LETTER_UNAVAILABLE">Nincs szabad Betűjel.</string>
     <string lang="hu" key="NO_FILE_SELECTED">Nincs fájl kiválasztva!</string>
-    <string lang="en" key="NO_FREE_DRIVES">No drive letters available.</string>
-    <string lang="en" key="NO_FREE_DRIVE_FOR_OUTER_VOL">No free drive letter for the outer volume! Volume creation cannot continue.</string>
-    <string lang="en" key="NO_OS_VER">Could not determine your operating system version or you are using an unsupported operating system.</string>
+    <string lang="hu" key="NO_FREE_DRIVES">Nincs szabad Meghajtó-Betűjel.</string>
+    <string lang="hu" key="NO_FREE_DRIVE_FOR_OUTER_VOL">Nincs szabad Meghajtó-Betűjel a külső kötethez! A kötet létrehozását nem folytathatom.</string>
+    <string lang="hu" key="NO_OS_VER">Nem állapítható meg az operációs rendszer verziószáma, vagy Ön ismeretlen rendszert használ.</string>
     <string lang="hu" key="NO_PATH_SELECTED">Nincs útvonal kiválasztva!</string>
-    <string lang="en" key="NO_SPACE_FOR_HIDDEN_VOL">Not enough free space for the hidden volume! Volume creation cannot continue.</string>
+    <string lang="hu" key="NO_SPACE_FOR_HIDDEN_VOL">Nincs elegendő szabad hely a rendtett kötethez! A kötet létrehozását nem folytathatom.</string>
     <string lang="en" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">Error: The files you copied to the outer volume occupy too much space. Therefore, there is not enough free space on the outer volume for the hidden volume.\n\nNote that the hidden volume must be as large as the system partition (the partition where the currently running operating system is installed). The reason is that the hidden operating system needs to be created by copying the content of the system partition to the hidden volume.\n\n\nThe process of creation of the hidden operating system cannot continue.</string>
-    <string lang="en" key="OPENFILES_DRIVER">The driver is unable to dismount the volume. Some files located on the volume are probably still open.</string>
-    <string lang="en" key="OPENFILES_LOCK">Unable to lock the volume. There are still open files on the volume. Therefore, it cannot be dismounted.</string>
-    <string lang="en" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt cannot lock the volume because it is in use by the system or applications (there may be open files on the volume).\n\nDo you want to force dismount on the volume?</string>
+    <string lang="hu" key="OPENFILES_DRIVER">Nem tudja Lecsatolni a drájver a kötetet. Néhány fájl még valószínűleg meg van nyitva rajta.</string>
+    <string lang="hu" key="OPENFILES_LOCK">Nem lehet zárolni a kötetet. Néhány fájl még valószínűleg meg van nyitva rajta. Ezért nem is lehet Lecsatolni.</string>
+    <string lang="hu" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt nem tudta zárolni a kötetet, mert a rendszer vagy egy alkalmazás használja. (Néhány fájl még valószínűleg meg van nyitva rajta.)\n\nAkarja kényszerrel Lecsatolni a kötetet?</string>
     <string lang="hu" key="OPEN_VOL_TITLE">Válasszon ki egy VeraCrypt kötetet</string>
     <string lang="hu" key="OPEN_TITLE">Adja meg az útvonalat és a fájl nevet</string>
     <string lang="en" key="SELECT_PKCS11_MODULE">Select PKCS #11 Library</string>
@@ -609,45 +609,45 @@
     <string lang="hu" key="PASSWORD">Jelszó</string>
     <string lang="en" key="PIM">PIM</string>
     <string lang="en" key="IDD_PCDM_CHANGE_PKCS5_PRF">Set Header Key Derivation Algorithm</string>
-    <string lang="en" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Add/Remove Keyfiles to/from Volume</string>
-    <string lang="en" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Remove All Keyfiles from Volume</string>
+    <string lang="hu" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Kulcsfájl(ok) Hozzáadása/Eltávolítása a Kötet-hez/-ről</string>
+    <string lang="hu" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Minden Kulcsfájl eltávolítása a Kötetről</string>
     <string lang="en" key="PASSWORD_CHANGED">Password, PIM and/or keyfile(s) successfully changed.\n\nIMPORTANT: Please make sure you have read the section 'Changing Passwords and Keyfiles' in the chapter 'Security Requirements and Precautions' in the VeraCrypt User Guide.</string>
-    <string lang="en" key="FAVORITE_PIM_CHANGED">This volume is registered as a System Favorite and its PIM was changed.\nDo you want VeraCrypt to automatically update the System Favorite configuration (administrator privileges required)?\n\nPlease note that if you answer no, you'll have to update the System Favorite manually.</string>
-    <string lang="en" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">IMPORTANT: If you did not destroy your VeraCrypt Rescue Disk, your system partition/drive can still be decrypted using the old password (by booting the VeraCrypt Rescue Disk and entering the old password). You should create a new VeraCrypt Rescue Disk and then destroy the old one.\n\nDo you want to create a new VeraCrypt Rescue Disk?</string>
-    <string lang="en" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">Note that your VeraCrypt Rescue Disk still uses the previous algorithm. If you consider the previous algorithm insecure, you should create a new VeraCrypt Rescue Disk and then destroy the old one.\n\nDo you want to create a new VeraCrypt Rescue Disk?</string>
-    <string lang="en" key="KEYFILES_NOTE">Any kind of file (for example, .mp3, .jpg, .zip, .avi) may be used as a VeraCrypt keyfile. Note that VeraCrypt never modifies the keyfile contents. You can select more than one keyfile (the order does not matter). If you add a folder, all non-hidden files found in it will be used as keyfiles. Click 'Add Token Files' to select keyfiles stored on security tokens or smart cards (or to import keyfiles to security tokens or smart cards).</string>
-    <string lang="en" key="KEYFILE_CHANGED">Keyfile(s) successfully added/removed.</string>
-    <string lang="en" key="KEYFILE_EXPORTED">Keyfile exported.</string>
-    <string lang="en" key="PKCS5_PRF_CHANGED">Header key derivation algorithm successfully set.</string>
+    <string lang="hu" key="FAVORITE_PIM_CHANGED">Ez a kötet 'Rendszer-Kedvenc'-ként van regisztrálva és a PIM-je megváltozott.\nSzeretné, hogy a VeraCrypt automatikusan frissítse a 'Rendszer-Kedvenc' konfigurációját? (Rendszergazdai jogosultság szükséges.)\n\nKérem ügyeljen rá, ha a válasza NEM, akkor manuálisan kell majd ezt elvégeznie.</string>
+    <string lang="hu" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">FONTOS: Ha nem semmisítette meg a 'VeraCrypt Mentési Lemez'-t, még Kikódolható a rendszer-partíció/-meghajtó, ha betötli (bootolja) a lemezt és beüti a régi jelszavát.\n\nAkar most új Lemezt készíteni?</string>
+    <string lang="hu" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">A mostani 'VeraCrypt Mentési Lemez' még a régi algoritmust használja. Ha úgy találja, hogy a régi nem elég biztonságos, érdemes létrehoznia egy újat és megsemmisíteni a régi lemezt.\n\nAkar most újat készíteni?</string>
+    <string lang="hu" key="KEYFILES_NOTE">Bármely fájl (például .mp3, .jpg, .zip, .avi) használható, mint VeraCrypt kulcsfájl.\nVeraCrypt sosem módosítja a kulcsfájl tartalmát.\nVálaszthat több, mint egy kulcsfájlt is (a sorrend nem számít).\nHa könyvtárat választ, mindegyik benne található fájl használva lesz, amelyik nincs rejtve.\nKattintson a 'Token fájlok hozzáadása' gombra, hogy olyan kulcsfájl(oka)t válasszon ki, mely(ek) egy biztonsági-tokenen vagy 'smart card'-on van(nak)... vagy, hogy importáljon kulcsfáljokat ilyen eszközökre.</string>
+    <string lang="hu" key="KEYFILE_CHANGED">A Kulcsfájl(oka)t sikeresen hozzáadtam/eltávolítottam.</string>
+    <string lang="hu" key="KEYFILE_EXPORTED">A Kulcsfájlt exportáltam.</string>
+    <string lang="hu" key="PKCS5_PRF_CHANGED">A Fejléc Kulcs-derivációs algoritmusát sikeresen beállítottam.</string>
     <string lang="en" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system volume where you want to resume the process of in-place encryption.\n\n\nRemark: After you click Next, VeraCrypt will attempt to find all non-system volumes where the process of encryption has been interrupted and where the VeraCrypt volume header can be decrypted using the supplied password and/or keyfile(s). If more than one such volume is found, you will need to select one of them in the next step.</string>
-    <string lang="en" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Please select one of the listed volumes. The list contains every accessible non-system volume where the process of encryption has been interrupted and whose header could be decrypted using the supplied password and/or keyfile(s).</string>
-    <string lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</string>
-    <string lang="en" key="PASSWORD_HELP">It is very important that you choose a good password. You should avoid choosing one that contains only a single word that can be found in a dictionary (or a combination of 2, 3, or 4 such words). It should not contain any names or dates of birth. It should not be easy to guess. A good password is a random combination of upper and lower case letters, numbers, and special characters, such as @ ^ = $ * + etc. We recommend choosing a password consisting of 20 or more characters (the longer, the better). The maximum possible length is 64 characters.</string>
-    <string lang="en" key="PASSWORD_HIDDENVOL_HELP">Please choose a password for the hidden volume. </string>
-    <string lang="en" key="PASSWORD_HIDDEN_OS_HELP">Please choose a password for the hidden operating system (i.e. for the hidden volume). </string>
+    <string lang="hu" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">Kérem válasszon egyet a felsorolt kötetekből. A lista minden olyan elérhető nem-rendszerkötetet tartalmaz, amelynél a titkosítási eljárás meg lett szakítva és amelyeknél a fejléc Kikódolható a megfelelő jelszóval és/vagy kulcsfájl(okk)al.</string>
+    <string lang="hu" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Kérem adja meg a jelszót vagy és/vagy kulcsfájlt a nem-rendszer VeraCrypt kötethez, melyet Ki szeretne kódoltatni.</string>
+    <string lang="hu" key="PASSWORD_HELP">Nagyon fontos, hogy jó jelszót válasszon. Hanyagolja az egyszavas, szótárban megtalálhatóakat (vagy 2, 3, 4 ilyen szó kombinációját). Ne tartalmazzon neveket vagy születési időt. Ne lehessen könnyen kitalálni. Egy jó jelszó kis és nagybetűk véletlen sorozata kibővítve számokkal és jelekkel, úgy mint: [/()%!+-_$*ˇ~^] stb.\nJavasoljuk hogy válasszon LEGALÁBB 22 betű hosszút. (Minél hosszabb, annál jobb)\nMaximum hossz = 64 karakter.</string>
+    <string lang="hu" key="PASSWORD_HIDDENVOL_HELP">Kérem válasszon jelszót a rejtett kötethez.</string>
+    <string lang="hu" key="PASSWORD_HIDDEN_OS_HELP">Kérem válasszon jelszót a rejtett operációs rendszerhez.</string>
     <string lang="en" key="PASSWORD_HIDDEN_OS_NOTE">IMPORTANT: The password that you choose for the hidden operating system in this step must be substantially different from the other two passwords (i.e. from the password for the outer volume and from the password for the decoy operating system).</string>
     <string lang="en" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">Please enter the password for the volume within which you wish to create a hidden volume.\n\nAfter you click Next, VeraCrypt will attempt to mount the volume. As soon as the volume is mounted, its cluster bitmap will be scanned to determine the size of the uninterrupted area of free space (if there is any) whose end is aligned with the end of the volume. This area will accommodate the hidden volume and therefore will limit its maximum possible size. Cluster map scanning is necessary to ensure that no data on the outer volume will be overwritten by the hidden volume.</string>
     <string lang="en" key="PASSWORD_HIDDENVOL_HOST_HELP">\nPlease choose a password for the outer volume. This will be the password that you will be able to reveal to an adversary if you are asked or forced to do so.\n\nIMPORTANT: The password must be substantially different from the one you will choose for the hidden volume.\n\nNote: The maximum possible password length is 64 characters.</string>
     <string lang="en" key="PASSWORD_SYSENC_OUTERVOL_HELP">Please choose a password for the outer volume. This will be the password you will be able to reveal to anyone forcing you to disclose the password for the first partition behind the system partition, where both the outer volume and the hidden volume (containing the hidden operating system) will reside. The existence of the hidden volume (and of the hidden operating system) will remain secret. Note that this password is not for the decoy operating system.\n\nIMPORTANT: The password must be substantially different from the one you will choose for the hidden volume (i.e. for the hidden operating system).</string>
-    <string lang="en" key="PASSWORD_HIDVOL_HOST_TITLE">Outer Volume Password</string>
-    <string lang="en" key="PASSWORD_HIDVOL_TITLE">Hidden Volume Password</string>
-    <string lang="en" key="PASSWORD_HIDDEN_OS_TITLE">Password for Hidden Operating System</string>
-    <string lang="en" key="PASSWORD_LENGTH_WARNING">WARNING: Short passwords are easy to crack using brute force techniques!\n\nWe recommend choosing a password consisting of 20 or more characters. Are you sure you want to use a short password?</string>
+    <string lang="hu" key="PASSWORD_HIDVOL_HOST_TITLE">Külső Kötet Jelszava</string>
+    <string lang="hu" key="PASSWORD_HIDVOL_TITLE">Rejtett Kötet Jelszó</string>
+    <string lang="hu" key="PASSWORD_HIDDEN_OS_TITLE">Rejtett Operációs Rendszer Jelszava</string>
+    <string lang="hu" key="PASSWORD_LENGTH_WARNING">FIGYELEM: Rövid jelszavakat könnyű feltörni próbálgatós (brute force) módszerekkel!\n\nJavasoljuk, hogy legalább 22 karakter hosszút válasszon.\nBiztos benne, hogy ezt a rövidet akarja használni?</string>
     <string lang="hu" key="PASSWORD_TITLE">Kötet jelszó</string>
     <string lang="hu" key="PASSWORD_WRONG">Hibás jelszó, vagy nem VeraCrypt kötet.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Incorrect keyfile(s) and/or password or not a VeraCrypt volume.</string>
-    <string lang="en" key="PASSWORD_OR_MODE_WRONG">Wrong mount mode, incorrect password, or not a VeraCrypt volume.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Wrong mount mode, incorrect keyfile(s) and/or password, or not a VeraCrypt volume.</string>
-    <string lang="hu" key="PASSWORD_WRONG_AUTOMOUNT">Hibás jelszó, vagy nem találni a VeraCrypt kötet.</string>
-    <string lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Incorrect keyfile(s)/password or no VeraCrypt volume found.</string>
+    <string lang="hu" key="PASSWORD_OR_KEYFILE_WRONG">Helytelen kulcsfájl(ok) és/vagy jelszó, vagy nem VeraCrypt kötet.</string>
+    <string lang="hu" key="PASSWORD_OR_MODE_WRONG">Rossz csatolási mód, vagy hibás jelszó vagy nem jó kötet.</string>
+    <string lang="hu" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Rossz csatolási mód, hibás kulcsfájl(ok) és/vagy jelszó, nem VeraCrypt kötet.</string>
+    <string lang="hu" key="PASSWORD_WRONG_AUTOMOUNT">Hibás jelszó, vagy nem VeraCrypt kötet.</string>
+    <string lang="hu" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Helytelen kulcsfájl(ok) vagy Jelszó! (Esetleg nem egy VeraCrypt kötetet próbált felcsatolni?)</string>
     <string lang="hu" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nFigyelem: CapsLock bekapcsolva. Ez azt eredményezheti, hogy hibásan írja be a jelszavát.</string>
-    <string lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</string>
+    <string lang="hu" key="PIM_CHANGE_WARNING">Emlékezzen a Számra a kötet újracsatolásához</string>
     <string lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</string>
     <string lang="en" key="PIM_HIDVOL_TITLE">Hidden Volume PIM</string>
     <string lang="en" key="PIM_HIDDEN_OS_TITLE">PIM for Hidden Operating System</string>
     <string lang="en" key="PIM_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = 15000 + (PIM x 1000).\n\nWhen left empty or set to 0, VeraCrypt will use a default value (485) that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 485 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 485 will lead to slower mount. A small PIM value (less than 485) will lead to a quicker mount but it can reduce security if the password is not strong enough.</string>
     <string lang="en" key="PIM_SYSENC_HELP">PIM (Personal Iterations Multiplier) is a value that controls the number of iterations used by the header key derivation as follows:\n      Iterations = PIM x 2048.\n\nWhen left empty or set to 0, VeraCrypt will use a default value that ensures a high security.\n\nWhen the password is less than 20 characters, PIM can't be smaller than 98 in order to maintain a minimal security level.\nWhen the password is 20 characters or more, PIM can be set to any value.\n\nA PIM value larger than 98 will lead to slower boot. A small PIM value (less than 98) will lead to a quicker boot but it can reduce security if the password is not strong enough.</string>
-    <string lang="en" key="PIM_SYSENC_CHANGE_WARNING">Remember Number to Boot System</string>
+    <string lang="hu" key="PIM_SYSENC_CHANGE_WARNING">Emlékezzen a Számra a rendszer betöltéséhez (boot)</string>
     <string lang="en" key="PIM_LARGE_WARNING">You have chosen a PIM value that is larger than VeraCrypt default value.\nPlease note that this will lead to much slower mount/boot.</string>
     <string lang="en" key="PIM_SMALL_WARNING">You have chosen a Personal Iterations Multiplier (PIM) that is smaller than the default VeraCrypt value. Please note that if your password is not strong enough, this could lead to a weaker security.\n\nDo you confirm that you are using a strong password?</string>
     <string lang="en" key="PIM_SYSENC_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value for system encryption is 65535.</string>
@@ -693,9 +693,9 @@
     <string lang="en" key="TRAVELER_DISK_CREATED">VeraCrypt traveler disk has been successfully created.\n\nNote that you need administrator privileges to run VeraCrypt in portable mode. Also note that, after examining the registry file, it may be possible to tell that VeraCrypt was run on a Windows system even if it is run in portable mode.</string>
     <string lang="en" key="TC_TRAVELER_DISK">VeraCrypt Traveler Disk</string>
     <string lang="en" key="TWOFISH_HELP">Designed by Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall, and Niels Ferguson. Published in 1998. 256-bit key, 128-bit block. Mode of operation is XTS. Twofish was one of the AES finalists.</string>
-    <string lang="en" key="MORE_INFO_ABOUT">More information on %s</string>
+    <string lang="hu" key="MORE_INFO_ABOUT">További információ erről: %s</string>
     <string lang="hu" key="UNKNOWN">Ismeretlen</string>
-    <string lang="en" key="ERR_UNKNOWN">An unspecified or unknown error occurred (%d).</string>
+    <string lang="hu" key="ERR_UNKNOWN">Egy ismeretlen hiba keletkezett (%d).</string>
     <string lang="hu" key="UNMOUNTALL_LOCK_FAILED">Néhány köteten használatban lévő fájlok vagy könyvtárak vannak.\n\nErőszakos leválasztás?</string>
     <string lang="hu" key="UNMOUNT_BUTTON">&amp;Leválaszt</string>
     <string lang="hu" key="UNMOUNT_FAILED">Leválasztás sikertelen!</string>
@@ -781,13 +781,13 @@
     <string lang="hu" key="ALPHABETICAL_CATEGORIZED">ABC szerinti/Kategorizált</string>
     <string lang="hu" key="MEAN_SPEED">Számított sebesség (Csökkenő)</string>
     <string lang="hu" key="ALGORITHM">Algoritmus</string>
-    <string lang="hu" key="ENCRYPTION">Titkosítás</string>
-    <string lang="hu" key="DECRYPTION">Visszafejtés</string>
+    <string lang="hu" key="ENCRYPTION">Lekódolás</string>
+    <string lang="hu" key="DECRYPTION">Kikódolás</string>
     <string lang="hu" key="MEAN">Számít</string>
     <string lang="hu" key="DRIVE">Meghajtó</string>
     <string lang="hu" key="SIZE">Méret</string>
-    <string lang="hu" key="ENCRYPTION_ALGORITHM">Titkosítási algoritmus</string>
-    <string lang="en" key="ENCRYPTION_ALGORITHM_LV">Encryption algorithm</string>
+    <string lang="hu" key="ENCRYPTION_ALGORITHM">Kódolási algoritmus</string>
+    <string lang="hu" key="ENCRYPTION_ALGORITHM_LV">Kódolási algoritmus</string>
     <string lang="hu" key="TYPE">Típus</string>
     <string lang="hu" key="VALUE">Érték</string>
     <string lang="hu" key="PROPERTY">Tulajdonság</string>
@@ -996,9 +996,9 @@
     <string lang="en" key="SIZE_ITEM">Size:   </string>
     <string lang="en" key="PATH_ITEM">Path:   </string>
     <string lang="en" key="DRIVE_LETTER_ITEM">Drive Letter:   </string>
-    <string lang="en" key="UNSUPPORTED_CHARS_IN_PWD">Error: Password must contain only ASCII characters.\n\nNon-ASCII characters in password might cause the volume to be impossible to mount when your system configuration changes.\n\nThe following characters are allowed:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="en" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">Warning: Password contains non-ASCII characters. This may cause the volume to be impossible to mount when your system configuration changes.\n\nYou should replace all non-ASCII characters in the password with ASCII characters. To do so, click 'Volumes' -&gt; 'Change Volume Password'.\n\nThe following are ASCII characters:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</string>
-    <string lang="en" key="EXE_FILE_EXTENSION_CONFIRM">WARNING: We strongly recommend that you avoid file extensions that are used for executable files (such as .exe, .sys, or .dll) and other similarly problematic file extensions. Using such file extensions causes Windows and antivirus software to interfere with the container, which adversely affects the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension or change it (e.g., to '.hc').\n\nAre you sure you want to use the problematic file extension?</string>
+    <string lang="hu" key="UNSUPPORTED_CHARS_IN_PWD">Hiba! A jelszó csak ASCII karaktereket tartalmazhat!\n\nElőfordulhat, hogy a rendszer konfigurációjának megváltoztatása után nem tudná csatolni az olyan köteteket, melyek jelszava nem-ASCII karaktereket is tartalmaz.\n\nA következő karaktereket használhatja:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="en" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">FIGYELEM! A jelszó tartalamaz nem-ASCII karakter(eke)t!\n\nElőfordulhat, hogy a rendszer konfigurációjának megváltoztatása után nem tudná csatolni az olyan köteteket, melyek jelszava nem-ASCII karaktereket is tartalmaz.\n\nA következő karaktereket használhatja:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</string>
+    <string lang="en" key="EXE_FILE_EXTENSION_CONFIRM">FIGYELEM! WARNING: We strongly recommend that you avoid file extensions that are used for executable files (such as .exe, .sys, or .dll) and other similarly problematic file extensions. Using such file extensions causes Windows and antivirus software to interfere with the container, which adversely affects the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension or change it (e.g., to '.hc').\n\nAre you sure you want to use the problematic file extension?</string>
     <string lang="en" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: This container has a file extension that is used for executable files (such as .exe, .sys, or .dll) or some other file extension that is similarly problematic. It will very likely cause Windows and antivirus software to interfere with the container, which will adversely affect the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension of the container or change it (e.g., to '.hc') after you dismount the volume.</string>
     <string lang="hu" key="HOMEPAGE">Honlap</string>
     <string lang="en" key="LARGE_IDE_WARNING_XP">WARNING: It appears that you have not applied any Service Pack to your Windows installation. You should not write to IDE disks larger than 128 GB under Windows XP to which you did not apply Service Pack 1 or later! If you do, data on the disk (no matter if it is a VeraCrypt volume or not) may get corrupted. Note that this is a limitation of Windows, not a bug in VeraCrypt.</string>
@@ -1007,11 +1007,11 @@
     <string lang="en" key="VOLUME_TOO_LARGE_FOR_FAT32">Error: Files larger than 4 GB cannot be stored on a FAT32 file system. Therefore, file-hosted VeraCrypt volumes (containers) stored on a FAT32 file system cannot be larger than 4 GB.\n\nIf you need a larger volume, create it on an NTFS file system (or, if you use Windows Vista SP1 or later, on an exFAT file system) or, instead of creating a file-hosted volume, encrypt an entire partition or device.</string>
     <string lang="en" key="VOLUME_TOO_LARGE_FOR_WINXP">Warning: Windows XP does not support files larger than 2048 GB (it will report that "Not enough storage is available"). Therefore, you cannot create a file-hosted VeraCrypt volume (container) larger than 2048 GB under Windows XP.\n\nNote that it is still possible to encrypt the entire drive or create a partition-hosted VeraCrypt volume larger than 2048 GB under Windows XP.</string>
     <string lang="en" key="FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME">WARNING: If you want to be able to add more data/files to the outer volume in future, you should consider choosing a smaller size for the hidden volume.\n\nAre you sure you want to continue with the size you specified?</string>
-    <string lang="en" key="NO_VOLUME_SELECTED">No volume selected.\n\nClick 'Select Device' or 'Select File' to select a VeraCrypt volume.</string>
+    <string lang="hu" key="NO_VOLUME_SELECTED">Nem választott kötetet.\n\nKattintson előbb a 'Fájl kiválasztására'.</string>
     <string lang="en" key="NO_SYSENC_PARTITION_SELECTED">No partition selected.\n\nClick 'Select Device' to select a dismounted partition that normally requires pre-boot authentication (for example, a partition located on the encrypted system drive of another operating system, which is not running, or the encrypted system partition of another operating system).\n\nNote: The selected partition will be mounted as a regular VeraCrypt volume without pre-boot authentication. This is useful e.g. for backup or repair operations.</string>
     <string lang="en" key="CONFIRM_SAVE_DEFAULT_KEYFILES">WARNING: If default keyfiles are set and enabled, volumes that are not using these keyfiles will be impossible to mount. Therefore, after you enable default keyfiles, keep in mind to uncheck the 'Use keyfiles' checkbox (below a password input field) whenever mounting such volumes.\n\nAre you sure you want to save the selected keyfiles/paths as default?</string>
-    <string lang="hu" key="HK_AUTOMOUNT_DEVICES">Eszközök auto-csatolása</string>
-    <string lang="hu" key="HK_DISMOUNT_ALL">Mindent leválaszt</string>
+    <string lang="hu" key="HK_AUTOMOUNT_DEVICES">Eszközök a&amp;uto-csatolása</string>
+    <string lang="hu" key="HK_DISMOUNT_ALL">Mindent le&amp;választ</string>
     <string lang="en" key="HK_WIPE_CACHE">Wipe Cache</string>
     <string lang="en" key="HK_DISMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</string>
     <string lang="hu" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Minden kötet erőszakos leválasztása és a cache ürítése</string>
@@ -1312,51 +1312,51 @@
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</string>
     <string lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</string>
     <string lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</string>
-    <string lang="en" key="TEST">Test</string>
-    <string lang="en" key="KEYFILE">Keyfile</string>
-    <string lang="en" key="VKEY_08">Backspace</string>
+    <string lang="hu" key="TEST">Teszt</string>
+    <string lang="hu" key="KEYFILE">Kulcsfájl</string>
+    <string lang="hu" key="VKEY_08">Visszatörlés</string>
     <string lang="en" key="VKEY_09">Tab</string>
-    <string lang="en" key="VKEY_0C">Clear</string>
+    <string lang="hu" key="VKEY_0C">Töröl</string>
     <string lang="en" key="VKEY_0D">Enter</string>
     <string lang="en" key="VKEY_13">Pause</string>
     <string lang="en" key="VKEY_14">Caps Lock</string>
-    <string lang="en" key="VKEY_20">Spacebar</string>
+    <string lang="hu" key="VKEY_20">Szóköz</string>
     <string lang="en" key="VKEY_21">Page Up</string>
     <string lang="en" key="VKEY_22">Page Down</string>
     <string lang="en" key="VKEY_23">End</string>
     <string lang="en" key="VKEY_24">Home</string>
-    <string lang="en" key="VKEY_25">Left Arrow</string>
-    <string lang="en" key="VKEY_26">Up Arrow</string>
-    <string lang="en" key="VKEY_27">Right Arrow</string>
-    <string lang="en" key="VKEY_28">Down Arrow</string>
-    <string lang="en" key="VKEY_29">Select Key</string>
+    <string lang="hu" key="VKEY_25">Balra Nyíl</string>
+    <string lang="hu" key="VKEY_26">Fel Nyíl</string>
+    <string lang="hu" key="VKEY_27">Jobbra Nyíl</string>
+    <string lang="hu" key="VKEY_28">Le Nyíl</string>
+    <string lang="hu" key="VKEY_29">Kiválasztás Billentyű</string>
     <string lang="en" key="VKEY_2A">Print Key</string>
     <string lang="en" key="VKEY_2B">Execute Key</string>
     <string lang="en" key="VKEY_2C">Print Screen</string>
     <string lang="en" key="VKEY_2D">Insert</string>
     <string lang="en" key="VKEY_2E">Delete</string>
-    <string lang="en" key="VKEY_5D">Applications Key</string>
-    <string lang="en" key="VKEY_5F">Sleep</string>
+    <string lang="hu" key="VKEY_5D">Alkalmazási Gomb</string>
+    <string lang="hu" key="VKEY_5F">Altat Gomb</string>
     <string lang="en" key="VKEY_90">Num Lock</string>
     <string lang="en" key="VKEY_91">Scroll Lock</string>
-    <string lang="en" key="VKEY_A6">Browser Back</string>
-    <string lang="en" key="VKEY_A7">Browser Forward</string>
-    <string lang="en" key="VKEY_A8">Browser Refresh</string>
-    <string lang="en" key="VKEY_A9">Browser Stop</string>
-    <string lang="en" key="VKEY_AA">Browser Search</string>
-    <string lang="en" key="VKEY_AB">Browser Favorites</string>
-    <string lang="en" key="VKEY_AC">Browser Home</string>
-    <string lang="en" key="VKEY_AD">Mute</string>
-    <string lang="en" key="VKEY_AE">Volume Down</string>
-    <string lang="en" key="VKEY_AF">Volume Up</string>
-    <string lang="en" key="VKEY_B0">Next Track</string>
-    <string lang="en" key="VKEY_B1">Previous Track</string>
-    <string lang="en" key="VKEY_B2">Stop Media</string>
-    <string lang="en" key="VKEY_B3">Play/Pause Media</string>
-    <string lang="en" key="VKEY_B4">Start Mail Key</string>
-    <string lang="en" key="VKEY_B5">Select Media Key</string>
-    <string lang="en" key="VKEY_B6">Application 1</string>
-    <string lang="en" key="VKEY_B7">Application 2</string>
+    <string lang="hu" key="VKEY_A6">Böngésző Vissza</string>
+    <string lang="hu" key="VKEY_A7">Böngésző Előre</string>
+    <string lang="hu" key="VKEY_A8">Böngésző Frissít</string>
+    <string lang="hu" key="VKEY_A9">Böngésző Stop</string>
+    <string lang="hu" key="VKEY_AA">Böngésző Keresés</string>
+    <string lang="hu" key="VKEY_AB">Böngésző Kedvencek</string>
+    <string lang="hu" key="VKEY_AC">Böngésző Home</string>
+    <string lang="hu" key="VKEY_AD">Némít Gomb</string>
+    <string lang="hu" key="VKEY_AE">Hangerő Le</string>
+    <string lang="hu" key="VKEY_AF">Hangerő Fel</string>
+    <string lang="hu" key="VKEY_B0">Következő Szám</string>
+    <string lang="hu" key="VKEY_B1">Előző Szám</string>
+    <string lang="hu" key="VKEY_B2">Média STOP</string>
+    <string lang="hu" key="VKEY_B3">Lejátszik/Szünetel</string>
+    <string lang="hu" key="VKEY_B4">Start Levél Gomb</string>
+    <string lang="hu" key="VKEY_B5">Média Választó Gomb</string>
+    <string lang="hu" key="VKEY_B6">Alkalmazás 1</string>
+    <string lang="hu" key="VKEY_B7">Alkalmazás 2</string>
     <string lang="en" key="VKEY_F6">Attn</string>
     <string lang="en" key="VKEY_F7">CrSel</string>
     <string lang="en" key="VKEY_F8">ExSel</string>
@@ -1383,17 +1383,17 @@
     <control lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</control>
     <control lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</control>
     <control lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</control>
-    <string lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</string>
-    <string lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</string>
-    <string lang="en" key="INIT_DLL">Error: Failed to load a system library.</string>
-    <string lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</string>
-    <control lang="en" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</control>
-    <control lang="en" key="IDT_VOLUME_ID">Volume ID:</control>
-    <string lang="en" key="VOLUME_ID">Volume ID</string>
-    <control lang="en" key="IDC_FAVORITE_USE_VOLUME_ID">Use Volume ID to mount favorite</control>
-    <string lang="en" key="VOLUME_ID_INVALID">The Volume ID value is invalid</string>
-    <string lang="en" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</string>
-    <string lang="en" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Copy Value to Clipboard...</string>
+    <string lang="hu" key="PASSWORD_UTF8_TOO_LONG">A beütött jelszó túl hosszú. Az UTF-8 kódolása meghaladja a 64 bájtot.</string>
+    <string lang="hu" key="PASSWORD_UTF8_INVALID">A beütött jelszó olyan Unicode karaktereket tartalmaz, melyeket lehetett átkonvertálni UTF-8 kódolásra.</string>
+    <string lang="hu" key="INIT_DLL">Hiba: Nem sikerült betölteni a rendszer könyvtárat (DLL fájlt).</string>
+    <string lang="hu" key="ERR_EXFAT_INVALID_VOLUME_SIZE">A megadott fájlméret nem kompatibilis a választott exFAT fájlrendszerrel.</string>
+    <control lang="hu" key="IDT_ENTROPY_BAR">Egérmozgatásból gyűjtött véletlenszerűség</control>
+    <control lang="hu" key="IDT_VOLUME_ID">Kötet-ID:</control>
+    <string lang="hu" key="VOLUME_ID">Kötet-ID</string>
+    <control lang="hu" key="IDC_FAVORITE_USE_VOLUME_ID">Kötet-ID használata kedvenc csatolásához</control>
+    <string lang="hu" key="VOLUME_ID_INVALID">Rossz a kötet-ID értéke.</string>
+    <string lang="hu" key="VOLUME_ID_NOT_FOUND">Nem található a rendszeren a megadott Kötet-ID</string>
+    <string lang="hu" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Értek Vágólapra másolása...</string>
     <control lang="en" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</control>
     <string lang="en" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</string>
     <string lang="en" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maximum value is 2147468.</string>
@@ -1414,13 +1414,13 @@
     <string lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' > 'Verify Rescue Disk' to verify that it has been correctly created.</string>
 	<control lang="en" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Use Secure Desktop for password entry</control>
     <string lang="en" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</string>
-    <control lang="en" key="IDC_EDIT_DCSPROP">Edit Boot Loader Configuration</control>
+    <control lang="hu" key="IDC_EDIT_DCSPROP">Betöltő (Boot Loader) Konfig. Szerkesztése</control>
     <control lang="en" key="IDC_SHOW_PLATFORMINFO">Display EFI Platform Information</control>
     <string lang="en" key="BOOT_LOADER_CONFIGURATION_FILE">Boot Loader Configuration File</string>
-    <string lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</string>
-    <string lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</string>
-    <string lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</string>
-    <control lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</control>
+    <string lang="hu" key="EFI_PLATFORM_INFORMATION">EFI Platform Információ</string>
+    <string lang="hu" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">FIGYELEM: Gyakorlatlan felhasználók soha ne próbálják megváltoztatni manuálisan a betöltő (boot loader) konfigurációt.\n\nBiztosan Folytatod?</string>
+    <string lang="hu" key="DCSPROP_XML_VALIDATION_FAILED">FIGYELEM: Nem sikerült validálni az XML formátumát a betöltő (boot loader) konfigurációjának. Kérem ellenőrizze amit megváltoztatott.</string>
+    <control lang="hu" key="IDT_ADVANCED_OPTIONS">Haladó opciók</control>
     <string lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</string>
     <control lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</control>
     <control lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</control>
