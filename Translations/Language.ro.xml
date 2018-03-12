@@ -1380,7 +1380,7 @@
     <string lang="ro" key="TB_PER_SEC">TB/s</string>
     <string lang="ro" key="PB_PER_SEC">PB/s</string>
     <string lang="ro" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</string>
-    <control lang="ro" key="IDC_BOOT_LOADER_CACHE_PIM">Include și MI&ampP; la salvarea parolei de autentificare la pornire</control>
+    <control lang="ro" key="IDC_BOOT_LOADER_CACHE_PIM">Include și MI&amp;P la salvarea parolei de autentificare la pornire</control>
     <control lang="ro" key="IDC_PREF_CACHE_PIM">Include MIP când se salvează o parolă</control>
     <control lang="ro" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Unitățile de rețea deconectate afişate ca disponibile pentru montare</control>
     <string lang="ro" key="PASSWORD_UTF8_TOO_LONG">Parola introdusă este prea lungă: reprezentarea sa în UTF-8 depășește 64 de baiți.</string>
