@@ -1790,13 +1790,13 @@ static int g_waitCursorCounter = 0;
 void
 WaitCursor ()
 {
-	static HCURSOR hcWait;
+	static HCURSOR hcWait = NULL;
 	if (hcWait == NULL)
 		hcWait = LoadCursor (NULL, IDC_WAIT);
 
 	if ((g_waitCursorCounter == 0) || (hCursor != hcWait))
 	{
-		SetCursor (hcWait);
+		if (!Silent) SetCursor (hcWait);
 		hCursor = hcWait;
 	}
 	g_waitCursorCounter++;
@@ -1805,14 +1805,14 @@ WaitCursor ()
 void
 NormalCursor ()
 {
-	static HCURSOR hcArrow;
+	static HCURSOR hcArrow = NULL;
 	if (hcArrow == NULL)
 		hcArrow = LoadCursor (NULL, IDC_ARROW);
 	if (g_waitCursorCounter > 0)
 		g_waitCursorCounter--;
 	if (g_waitCursorCounter == 0)
 	{
-		SetCursor (hcArrow);
+		if (!Silent) SetCursor (hcArrow);
 		hCursor = NULL;
 	}
 }
@@ -1820,12 +1820,12 @@ NormalCursor ()
 void
 ArrowWaitCursor ()
 {
-	static HCURSOR hcArrowWait;
+	static HCURSOR hcArrowWait = NULL;
 	if (hcArrowWait == NULL)
 		hcArrowWait = LoadCursor (NULL, IDC_APPSTARTING);
 	if ((g_waitCursorCounter == 0) || (hCursor != hcArrowWait))
 	{
-		SetCursor (hcArrowWait);
+		if (!Silent) SetCursor (hcArrowWait);
 		hCursor = hcArrowWait;
 	}
 	g_waitCursorCounter++;
@@ -1833,7 +1833,7 @@ ArrowWaitCursor ()
 
 void HandCursor ()
 {
-	static HCURSOR hcHand;
+	static HCURSOR hcHand = NULL;
 	if (hcHand == NULL)
 		hcHand = LoadCursor (NULL, IDC_HAND);
 	SetCursor (hcHand);

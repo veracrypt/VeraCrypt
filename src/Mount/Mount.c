@@ -379,11 +379,16 @@ static void localcleanup (void)
 
 void RefreshMainDlg (HWND hwndDlg)
 {
-	int drive = (wchar_t) (HIWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))));
+	if (Silent)
+		LoadDriveLetters (hwndDlg, NULL, 0);
+	else
+	{
+		int drive = (wchar_t) (HIWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))));
 
-	MoveEditToCombo (GetDlgItem (hwndDlg, IDC_VOLUME), bHistory);
-	LoadDriveLetters (hwndDlg, GetDlgItem (hwndDlg, IDC_DRIVELIST), drive);
-	EnableDisableButtons (hwndDlg);
+		MoveEditToCombo (GetDlgItem (hwndDlg, IDC_VOLUME), bHistory);
+		LoadDriveLetters (hwndDlg, GetDlgItem (hwndDlg, IDC_DRIVELIST), drive);
+		EnableDisableButtons (hwndDlg);
+	}
 }
 
 void EndMainDlg (HWND hwndDlg)
@@ -427,63 +432,66 @@ static void InitMainDialog (HWND hwndDlg)
 	wchar_t *str;
 	int i;
 
-	/* Call the common dialog init code */
-	InitDialog (hwndDlg);
-	LocalizeDialog (hwndDlg, NULL);
-
-	SetWindowLongPtrW (hwndDlg, DWLP_USER, (LONG_PTR) (IsAdmin() ? TC_MAIN_WINDOW_FLAG_ADMIN_PRIVILEGES : 0));
-
-	DragAcceptFiles (hwndDlg, TRUE);
-
-	SendMessageW (GetDlgItem (hwndDlg, IDC_VOLUME), CB_LIMITTEXT, TC_MAX_PATH, 0);
-	SetWindowTextW (hwndDlg, (IsAdmin() && !IsBuiltInAdmin() && IsUacSupported() && !IsNonInstallMode()) ? (wstring (lpszTitle) + L" [" + GetString ("ADMINISTRATOR") + L"]").c_str() : lpszTitle);
-
-	// Help file name
-	InitHelpFileName();
-
-	// Localize menu strings
-	for (i = 40001; str = (wchar_t *)GetDictionaryValueByInt (i); i++)
+	if (!Silent)
 	{
-		info.cbSize = sizeof (info);
-		info.fMask = MIIM_TYPE;
-		info.fType = MFT_STRING;
-		info.dwTypeData = str;
-		info.cch = (UINT) wcslen (str);
+		/* Call the common dialog init code */
+		InitDialog (hwndDlg);
+		LocalizeDialog (hwndDlg, NULL);
 
-		SetMenuItemInfoW (GetMenu (hwndDlg), i, FALSE,  &info);
-	}
+		SetWindowLongPtrW (hwndDlg, DWLP_USER, (LONG_PTR) (IsAdmin() ? TC_MAIN_WINDOW_FLAG_ADMIN_PRIVILEGES : 0));
 
-	for (i = 0; popupTexts[i] != 0; i++)
-	{
-		str = GetString (popupTexts[i]);
+		DragAcceptFiles (hwndDlg, TRUE);
 
-		info.cbSize = sizeof (info);
-		info.fMask = MIIM_TYPE;
+		SendMessageW (GetDlgItem (hwndDlg, IDC_VOLUME), CB_LIMITTEXT, TC_MAX_PATH, 0);
+		SetWindowTextW (hwndDlg, (IsAdmin() && !IsBuiltInAdmin() && IsUacSupported() && !IsNonInstallMode()) ? (wstring (lpszTitle) + L" [" + GetString ("ADMINISTRATOR") + L"]").c_str() : lpszTitle);
 
-		if (strcmp (popupTexts[i], "MENU_WEBSITE") == 0)
-			info.fType = MFT_STRING | MFT_RIGHTJUSTIFY;
-		else
-			info.fType = MFT_STRING;
+		// Help file name
+		InitHelpFileName();
 
-		if (strcmp (popupTexts[i], "MENU_FAVORITES") == 0)
-			FavoriteVolumesMenu = GetSubMenu (GetMenu (hwndDlg), i);
-
-		info.dwTypeData = str;
-		info.cch = (UINT) wcslen (str);
-
-		SetMenuItemInfoW (GetMenu (hwndDlg), i, TRUE,  &info);
-	}
-
-	{
-		// disable hidden OS creation for GPT system encryption
-		if (bSystemIsGPT)
+		// Localize menu strings
+		for (i = 40001; str = (wchar_t *)GetDictionaryValueByInt (i); i++)
 		{
-			EnableMenuItem (GetMenu (hwndDlg), IDM_CREATE_HIDDEN_OS, MF_GRAYED);
-		}
-	}
+			info.cbSize = sizeof (info);
+			info.fMask = MIIM_TYPE;
+			info.fType = MFT_STRING;
+			info.dwTypeData = str;
+			info.cch = (UINT) wcslen (str);
 
-	// Disable menu item for changing system header key derivation algorithm until it's implemented
-	EnableMenuItem (GetMenu (hwndDlg), IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO, MF_GRAYED);
+			SetMenuItemInfoW (GetMenu (hwndDlg), i, FALSE,  &info);
+		}
+
+		for (i = 0; popupTexts[i] != 0; i++)
+		{
+			str = GetString (popupTexts[i]);
+
+			info.cbSize = sizeof (info);
+			info.fMask = MIIM_TYPE;
+
+			if (strcmp (popupTexts[i], "MENU_WEBSITE") == 0)
+				info.fType = MFT_STRING | MFT_RIGHTJUSTIFY;
+			else
+				info.fType = MFT_STRING;
+
+			if (strcmp (popupTexts[i], "MENU_FAVORITES") == 0)
+				FavoriteVolumesMenu = GetSubMenu (GetMenu (hwndDlg), i);
+
+			info.dwTypeData = str;
+			info.cch = (UINT) wcslen (str);
+
+			SetMenuItemInfoW (GetMenu (hwndDlg), i, TRUE,  &info);
+		}
+
+		{
+			// disable hidden OS creation for GPT system encryption
+			if (bSystemIsGPT)
+			{
+				EnableMenuItem (GetMenu (hwndDlg), IDM_CREATE_HIDDEN_OS, MF_GRAYED);
+			}
+		}
+
+		// Disable menu item for changing system header key derivation algorithm until it's implemented
+		EnableMenuItem (GetMenu (hwndDlg), IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO, MF_GRAYED);
+	}
 
 	try
 	{
@@ -497,31 +505,36 @@ static void InitMainDialog (HWND hwndDlg)
 	// initialize the list of devices available for mounting as early as possible
 	UpdateMountableHostDeviceList ();
 
-	// Resize the logo bitmap if the user has a non-default DPI
-	if (ScreenDPI != USER_DEFAULT_SCREEN_DPI
-		&& hbmLogoBitmapRescaled == NULL)	// If not re-called (e.g. after language pack change)
-	{
-		hbmLogoBitmapRescaled = RenderBitmap (MAKEINTRESOURCE (IDB_LOGO_288DPI),
-			GetDlgItem (hwndDlg, IDC_LOGO),
-			0, 0, 0, 0, FALSE, TRUE);
-	}
-
-	BuildTree (hwndDlg, GetDlgItem (hwndDlg, IDC_DRIVELIST));
-
-	if (*szDriveLetter != 0)
-	{
-		SelectItem (GetDlgItem (hwndDlg, IDC_DRIVELIST), *szDriveLetter);
-
-		if(nSelectedDriveIndex > SendMessage (GetDlgItem (hwndDlg, IDC_DRIVELIST), LVM_GETITEMCOUNT, 0, 0)/2)
-			SendMessage(GetDlgItem (hwndDlg, IDC_DRIVELIST), LVM_SCROLL, 0, 10000);
-	}
+	if (Silent)
+		LoadDriveLetters (hwndDlg, NULL, 0);
 	else
 	{
-		SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_DRIVELIST), 1L);
-	}
+		// Resize the logo bitmap if the user has a non-default DPI
+		if (ScreenDPI != USER_DEFAULT_SCREEN_DPI
+			&& hbmLogoBitmapRescaled == NULL)	// If not re-called (e.g. after language pack change)
+		{
+			hbmLogoBitmapRescaled = RenderBitmap (MAKEINTRESOURCE (IDB_LOGO_288DPI),
+				GetDlgItem (hwndDlg, IDC_LOGO),
+				0, 0, 0, 0, FALSE, TRUE);
+		}
 
-	SendMessage (GetDlgItem (hwndDlg, IDC_NO_HISTORY), BM_SETCHECK, bHistory ? BST_UNCHECKED : BST_CHECKED, 0);
-	EnableDisableButtons (hwndDlg);
+		BuildTree (hwndDlg, GetDlgItem (hwndDlg, IDC_DRIVELIST));
+
+		if (*szDriveLetter != 0)
+		{
+			SelectItem (GetDlgItem (hwndDlg, IDC_DRIVELIST), *szDriveLetter);
+
+			if(nSelectedDriveIndex > SendMessage (GetDlgItem (hwndDlg, IDC_DRIVELIST), LVM_GETITEMCOUNT, 0, 0)/2)
+				SendMessage(GetDlgItem (hwndDlg, IDC_DRIVELIST), LVM_SCROLL, 0, 10000);
+		}
+		else
+		{
+			SendMessage(hwndDlg, WM_NEXTDLGCTL, (WPARAM) GetDlgItem (hwndDlg, IDC_DRIVELIST), 1L);
+		}
+
+		SendMessage (GetDlgItem (hwndDlg, IDC_NO_HISTORY), BM_SETCHECK, bHistory ? BST_UNCHECKED : BST_CHECKED, 0);
+		EnableDisableButtons (hwndDlg);
+	}
 }
 
 void EnableDisableButtons (HWND hwndDlg)
@@ -1564,7 +1577,7 @@ static void LaunchVolExpander (HWND hwndDlg)
 void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 {
 	// Remember the top-most visible item
-	int lastTopMostVisibleItem = ListView_GetTopIndex (hTree);
+	int lastTopMostVisibleItem = (!Silent && hTree)? ListView_GetTopIndex (hTree) : 0;
 
 	wchar_t *szDriveLetters[]=
 	{L"A:", L"B:", L"C:", L"D:",
@@ -1617,6 +1630,9 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 	LastKnownLogicalDrives = dwUsedDrives = GetUsedLogicalDrives ();
 	if (dwUsedDrives == 0)
 			Warning ("DRIVELETTERS", hwndDlg);
+
+	if (Silent)
+		return;
 
 	if(drive == 0)
 		ListView_DeleteAllItems(hTree);
@@ -5182,7 +5198,7 @@ retry:
 			return FALSE;
 		}
 
-		if (interact)
+		if (interact && !Silent)
 			MessageBoxW (hwndDlg, GetString ("UNMOUNT_FAILED"), lpszTitle, MB_ICONERROR);
 	}
 	else
@@ -5485,7 +5501,10 @@ static BOOL MountAllDevices (HWND hwndDlg, BOOL bPasswordPrompt)
 	param.bPasswordPrompt = bPasswordPrompt;
 	param.bRet = FALSE;
 
-	ShowWaitDialog (hwndDlg, FALSE, mountAllDevicesThreadProc, &param);
+	if (Silent)
+		mountAllDevicesThreadProc (&param, hwndDlg);
+	else
+		ShowWaitDialog (hwndDlg, FALSE, mountAllDevicesThreadProc, &param);
 
 	return param.bRet;
 }
@@ -6612,6 +6631,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			ExtractCommandLine (hwndDlg, (wchar_t *) lParam);
 
+			if (Silent && !Quit)
+				Silent = FALSE;
+
 			try
 			{
 				BootEncObj->SetParentWindow (hwndDlg);
@@ -6824,10 +6846,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (bExplore)
 							OpenVolumeExplorerWindow (szDriveLetter[0] - L'A');
 
-						RefreshMainDlg(hwndDlg);
 
 						if(!Silent)
 						{
+							RefreshMainDlg(hwndDlg);
 							// Check for problematic file extensions (exe, dll, sys)
 							if (CheckFileExtension (szFileName))
 								Warning ("EXE_FILE_EXTENSION_MOUNT_WARNING", hwndDlg);
@@ -6916,6 +6938,15 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (TaskBarIconMutex)
 						TaskBarIconRemove (hwndDlg);
 					exit (exitCode);
+				}
+				else
+				{
+					if (Silent)
+					{
+						Silent = FALSE;
+						InitMainDialog (hwndDlg);
+						RefreshMainDlg(hwndDlg);
+					}
 				}
 			}
 
@@ -9531,7 +9562,7 @@ static BOOL MountFavoriteVolumeBase (HWND hwnd, const FavoriteVolume &favorite, 
 			else
 				mountOptions.ProtectedHidVolPkcs5Prf = CmdVolumePkcs5;
 			mountOptions.ProtectedHidVolPim = CmdVolumePim;
-			if (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwnd, (DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL)
+			if (Silent || (DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_MOUNT_OPTIONS), hwnd, (DLGPROC) MountOptionsDlgProc, (LPARAM) &mountOptions) == IDCANCEL))
 			{
 				status = FALSE;
 				goto skipMount;
