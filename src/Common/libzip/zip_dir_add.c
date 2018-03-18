@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,8 +41,7 @@
 /* NOTE: Signed due to -1 on error.  See zip_add.c for more details. */
 
 ZIP_EXTERN zip_int64_t
-zip_dir_add(zip_t *za, const char *name, zip_flags_t flags)
-{
+zip_dir_add(zip_t *za, const char *name, zip_flags_t flags) {
     size_t len;
     zip_int64_t idx;
     char *s;
@@ -61,21 +60,21 @@ zip_dir_add(zip_t *za, const char *name, zip_flags_t flags)
     s = NULL;
     len = strlen(name);
 
-    if (name[len-1] != '/') {
-	if ((s=(char *)malloc(len+2)) == NULL) {
+    if (name[len - 1] != '/') {
+	if ((s = (char *)malloc(len + 2)) == NULL) {
 	    zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
 	    return -1;
 	}
 	strcpy(s, name);
 	s[len] = '/';
-	s[len+1] = '\0';
+	s[len + 1] = '\0';
     }
 
-    if ((source=zip_source_buffer(za, NULL, 0, 0)) == NULL) {
+    if ((source = zip_source_buffer(za, NULL, 0, 0)) == NULL) {
 	free(s);
 	return -1;
     }
-	
+
     idx = _zip_file_replace(za, ZIP_UINT64_MAX, s ? s : name, source, flags);
 
     free(s);

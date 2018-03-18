@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,7 +39,6 @@
 /* NOTE: Signed due to -1 on error.  See zip_add.c for more details. */
 
 ZIP_EXTERN zip_int64_t
-zip_add_dir(zip_t *za, const char *name)
-{
+zip_add_dir(zip_t *za, const char *name) {
     return zip_dir_add(za, name, 0);
 }

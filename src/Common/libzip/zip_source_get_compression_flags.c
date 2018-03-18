@@ -1,6 +1,6 @@
 /*
-  zip_stat.c -- get information about file by name
-  Copyright (C) 1999-2014 Dieter Baron and Thomas Klausner
+  zip_source_get_compression_flags.c -- get compression flags for entry
+  Copyright (C) 2017 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -34,13 +34,24 @@
 
 #include "zipint.h"
 
+#define ZIP_COMPRESSION_BITFLAG_MAX 3
 
-ZIP_EXTERN int
-zip_stat(zip_t *za, const char *fname, zip_flags_t flags, zip_stat_t *st) {
-    zip_int64_t idx;
+zip_int8_t
+zip_source_get_compression_flags(zip_source_t *src) {
+    while (src) {
+	if ((src->supports & ZIP_SOURCE_MAKE_COMMAND_BITMASK(ZIP_SOURCE_GET_COMPRESSION_FLAGS))) {
+	    zip_int64_t ret = _zip_source_call(src, NULL, 0, ZIP_SOURCE_GET_COMPRESSION_FLAGS);
+	    if (ret < 0) {
+		return -1;
+	    }
+	    if (ret > ZIP_COMPRESSION_BITFLAG_MAX) {
+		zip_error_set(&src->error, ZIP_ER_INTERNAL, 0);
+		return -1;
+	    }
+	    return (zip_int8_t)ret;
+	}
+	src = src->src;
+    }
 
-    if ((idx = zip_name_locate(za, fname, flags)) < 0)
-	return -1;
-
-    return zip_stat_index(za, (zip_uint64_t)idx, flags, st);
+    return 0;
 }

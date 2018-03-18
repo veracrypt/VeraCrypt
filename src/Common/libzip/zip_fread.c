@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,8 +36,7 @@
 
 
 ZIP_EXTERN zip_int64_t
-zip_fread(zip_file_t *zf, void *outbuf, zip_uint64_t toread)
-{
+zip_fread(zip_file_t *zf, void *outbuf, zip_uint64_t toread) {
     zip_int64_t n;
 
     if (!zf)
@@ -54,7 +53,7 @@ zip_fread(zip_file_t *zf, void *outbuf, zip_uint64_t toread)
     if ((zf->eof) || (toread == 0))
 	return 0;
 
-    if ((n=zip_source_read(zf->src, outbuf, toread)) < 0) {
+    if ((n = zip_source_read(zf->src, outbuf, toread)) < 0) {
 	_zip_error_set_from_source(&zf->error, zf->src);
 	return -1;
     }

@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,8 +35,7 @@
 #include "zipint.h"
 
 void
-_zip_entry_finalize(zip_entry_t *e)
-{
+_zip_entry_finalize(zip_entry_t *e) {
     _zip_unchange_data(e);
     _zip_dirent_free(e->orig);
     _zip_dirent_free(e->changes);
@@ -44,8 +43,7 @@ _zip_entry_finalize(zip_entry_t *e)
 
 
 void
-_zip_entry_init(zip_entry_t *e)
-{
+_zip_entry_init(zip_entry_t *e) {
     e->orig = NULL;
     e->changes = NULL;
     e->source = NULL;

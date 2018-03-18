@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -38,8 +38,7 @@
 
 
 ZIP_EXTERN const char *
-zip_get_archive_comment(zip_t *za, int *lenp, zip_flags_t flags)
-{
+zip_get_archive_comment(zip_t *za, int *lenp, zip_flags_t flags) {
     zip_string_t *comment;
     zip_uint32_t len;
     const zip_uint8_t *str;
@@ -49,7 +48,7 @@ zip_get_archive_comment(zip_t *za, int *lenp, zip_flags_t flags)
     else
 	comment = za->comment_changes;
 
-    if ((str=_zip_string_get(comment, &len, flags, &za->error)) == NULL)
+    if ((str = _zip_string_get(comment, &len, flags, &za->error)) == NULL)
 	return NULL;
 
     if (lenp)

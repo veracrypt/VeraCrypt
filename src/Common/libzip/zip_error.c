@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,24 +49,21 @@ zip_error_code_zip(const zip_error_t *error) {
 
 
 ZIP_EXTERN void
-zip_error_fini(zip_error_t *err)
-{
+zip_error_fini(zip_error_t *err) {
     free(err->str);
     err->str = NULL;
 }
 
 
 ZIP_EXTERN void
-zip_error_init(zip_error_t *err)
-{
+zip_error_init(zip_error_t *err) {
     err->zip_err = ZIP_ER_OK;
     err->sys_err = 0;
     err->str = NULL;
 }
 
 ZIP_EXTERN void
-zip_error_init_with_code(zip_error_t *error, int ze)
-{
+zip_error_init_with_code(zip_error_t *error, int ze) {
     zip_error_init(error);
     error->zip_err = ze;
     switch (zip_error_system_type(error)) {
@@ -77,22 +74,21 @@ zip_error_init_with_code(zip_error_t *error, int ze)
     default:
 	error->sys_err = 0;
 	break;
-    }	
+    }
 }
 
 
 ZIP_EXTERN int
 zip_error_system_type(const zip_error_t *error) {
     if (error->zip_err < 0 || error->zip_err >= _zip_nerr_str)
-        return ZIP_ET_NONE;
-    
+	return ZIP_ET_NONE;
+
     return _zip_err_type[error->zip_err];
 }
 
 
 void
-_zip_error_clear(zip_error_t *err)
-{
+_zip_error_clear(zip_error_t *err) {
     if (err == NULL)
 	return;
 
@@ -102,16 +98,18 @@ _zip_error_clear(zip_error_t *err)
 
 
 void
-_zip_error_copy(zip_error_t *dst, const zip_error_t *src)
-{
+_zip_error_copy(zip_error_t *dst, const zip_error_t *src) {
+    if (dst == NULL) {
+	return;
+    }
+
     dst->zip_err = src->zip_err;
     dst->sys_err = src->sys_err;
 }
 
 
 void
-_zip_error_get(const zip_error_t *err, int *zep, int *sep)
-{
+_zip_error_get(const zip_error_t *err, int *zep, int *sep) {
     if (zep)
 	*zep = err->zip_err;
     if (sep) {
@@ -124,8 +122,7 @@ _zip_error_get(const zip_error_t *err, int *zep, int *sep)
 
 
 void
-zip_error_set(zip_error_t *err, int ze, int se)
-{
+zip_error_set(zip_error_t *err, int ze, int se) {
     if (err) {
 	err->zip_err = ze;
 	err->sys_err = se;
@@ -134,22 +131,20 @@ zip_error_set(zip_error_t *err, int ze, int se)
 
 
 void
-_zip_error_set_from_source(zip_error_t *err, zip_source_t *src)
-{
+_zip_error_set_from_source(zip_error_t *err, zip_source_t *src) {
     _zip_error_copy(err, zip_source_error(src));
 }
 
 
 zip_int64_t
-zip_error_to_data(const zip_error_t *error, void *data, zip_uint64_t length)
-{
+zip_error_to_data(const zip_error_t *error, void *data, zip_uint64_t length) {
     int *e = (int *)data;
-    
-    if (length < sizeof(int)*2) {
-        return -1;
+
+    if (length < sizeof(int) * 2) {
+	return -1;
     }
-    
+
     e[0] = zip_error_code_zip(error);
     e[1] = zip_error_code_system(error);
-    return sizeof(int)*2;
+    return sizeof(int) * 2;
 }

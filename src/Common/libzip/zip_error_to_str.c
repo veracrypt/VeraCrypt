@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,28 +41,26 @@
 
 
 ZIP_EXTERN int
-zip_error_to_str(char *buf, zip_uint64_t len, int ze, int se)
-{
+zip_error_to_str(char *buf, zip_uint64_t len, int ze, int se) {
     const char *zs, *ss;
 
     if (ze < 0 || ze >= _zip_nerr_str)
 	return snprintf(buf, len, "Unknown error %d", ze);
 
     zs = _zip_err_str[ze];
-	
+
     switch (_zip_err_type[ze]) {
     case ZIP_ET_SYS:
 	ss = strerror(se);
 	break;
-	
+
     case ZIP_ET_ZLIB:
 	ss = zError(se);
 	break;
-	
+
     default:
 	ss = NULL;
     }
 
-    return snprintf(buf, len, "%s%s%s",
-		    zs, (ss ? ": " : ""), (ss ? ss : ""));
+    return snprintf(buf, len, "%s%s%s", zs, (ss ? ": " : ""), (ss ? ss : ""));
 }

@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,11 +40,10 @@
 /* NOTE: Signed due to -1 on error.  See zip_add.c for more details. */
 
 zip_int64_t
-_zip_add_entry(zip_t *za)
-{
+_zip_add_entry(zip_t *za) {
     zip_uint64_t idx;
 
-    if (za->nentry+1 >= za->nentry_alloc) {
+    if (za->nentry + 1 >= za->nentry_alloc) {
 	zip_entry_t *rentries;
 	zip_uint64_t nalloc = za->nentry_alloc;
 	zip_uint64_t additional_entries = 2 * nalloc;
@@ -75,7 +74,7 @@ _zip_add_entry(zip_t *za)
 
     idx = za->nentry++;
 
-    _zip_entry_init(za->entry+idx);
+    _zip_entry_init(za->entry + idx);
 
     return (zip_int64_t)idx;
 }

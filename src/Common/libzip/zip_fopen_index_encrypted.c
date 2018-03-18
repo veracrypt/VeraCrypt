@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,13 +41,11 @@ static zip_file_t *_zip_file_new(zip_t *za);
 
 
 ZIP_EXTERN zip_file_t *
-zip_fopen_index_encrypted(zip_t *za, zip_uint64_t index, zip_flags_t flags,
-			  const char *password)
-{
+zip_fopen_index_encrypted(zip_t *za, zip_uint64_t index, zip_flags_t flags, const char *password) {
     zip_file_t *zf;
     zip_source_t *src;
 
-    if ((src=_zip_source_zip_new(za, za, index, flags, 0, 0, password)) == NULL)
+    if ((src = _zip_source_zip_new(za, za, index, flags, 0, 0, password)) == NULL)
 	return NULL;
 
     if (zip_source_open(src) < 0) {
@@ -56,7 +54,7 @@ zip_fopen_index_encrypted(zip_t *za, zip_uint64_t index, zip_flags_t flags,
 	return NULL;
     }
 
-    if ((zf=_zip_file_new(za)) == NULL) {
+    if ((zf = _zip_file_new(za)) == NULL) {
 	zip_source_free(src);
 	return NULL;
     }
@@ -68,11 +66,10 @@ zip_fopen_index_encrypted(zip_t *za, zip_uint64_t index, zip_flags_t flags,
 
 
 static zip_file_t *
-_zip_file_new(zip_t *za)
-{
+_zip_file_new(zip_t *za) {
     zip_file_t *zf;
 
-    if ((zf=(zip_file_t *)malloc(sizeof(struct zip_file))) == NULL) {
+    if ((zf = (zip_file_t *)malloc(sizeof(struct zip_file))) == NULL) {
 	zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
 	return NULL;
     }

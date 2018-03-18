@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,8 +36,7 @@
 
 
 ZIP_EXTERN int
-zip_delete(zip_t *za, zip_uint64_t idx)
-{
+zip_delete(zip_t *za, zip_uint64_t idx) {
     const char *name;
 
     if (idx >= za->nentry) {
@@ -50,7 +49,7 @@ zip_delete(zip_t *za, zip_uint64_t idx)
 	return -1;
     }
 
-    if ((name=_zip_get_name(za, idx, 0, &za->error)) == NULL) {
+    if ((name = _zip_get_name(za, idx, 0, &za->error)) == NULL) {
 	return -1;
     }
 
@@ -67,4 +66,3 @@ zip_delete(zip_t *za, zip_uint64_t idx)
 
     return 0;
 }
-

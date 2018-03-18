@@ -1,6 +1,6 @@
 /*
   zip_fdopen.c -- open read-only archive from file descriptor
-  Copyright (C) 2009-2016 Dieter Baron and Thomas Klausner
+  Copyright (C) 2009-2017 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,28 +39,27 @@
 
 
 ZIP_EXTERN zip_t *
-zip_fdopen(int fd_orig, int _flags, int *zep)
-{
+zip_fdopen(int fd_orig, int _flags, int *zep) {
     int fd;
     FILE *fp;
     zip_t *za;
     zip_source_t *src;
     struct zip_error error;
 
-    if (_flags < 0 || (_flags & ZIP_TRUNCATE)) {
+    if (_flags < 0 || (_flags & ~(ZIP_CHECKCONS | ZIP_RDONLY))) {
 	_zip_set_open_error(zep, NULL, ZIP_ER_INVAL);
-        return  NULL;
+	return NULL;
     }
-        
+
     /* We dup() here to avoid messing with the passed in fd.
        We could not restore it to the original state in case of error. */
 
-    if ((fd=dup(fd_orig)) < 0) {
+    if ((fd = dup(fd_orig)) < 0) {
 	_zip_set_open_error(zep, NULL, ZIP_ER_OPEN);
 	return NULL;
     }
 
-    if ((fp=fdopen(fd, "rb")) == NULL) {
+    if ((fp = fdopen(fd, "rb")) == NULL) {
 	close(fd);
 	_zip_set_open_error(zep, NULL, ZIP_ER_OPEN);
 	return NULL;

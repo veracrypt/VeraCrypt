@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,57 +36,55 @@
 
 
 ZIP_EXTERN int
-zip_source_seek(zip_source_t *src, zip_int64_t offset, int whence)
-{
+zip_source_seek(zip_source_t *src, zip_int64_t offset, int whence) {
     zip_source_args_seek_t args;
-    
+
     if (src->source_closed) {
-        return -1;
+	return -1;
     }
     if (!ZIP_SOURCE_IS_OPEN_READING(src) || (whence != SEEK_SET && whence != SEEK_CUR && whence != SEEK_END)) {
-        zip_error_set(&src->error, ZIP_ER_INVAL, 0);
-        return -1;
+	zip_error_set(&src->error, ZIP_ER_INVAL, 0);
+	return -1;
     }
 
     args.offset = offset;
     args.whence = whence;
-    
+
     return (_zip_source_call(src, &args, sizeof(args), ZIP_SOURCE_SEEK) < 0 ? -1 : 0);
 }
 
 
 zip_int64_t
-zip_source_seek_compute_offset(zip_uint64_t offset, zip_uint64_t length, void *data, zip_uint64_t data_length, zip_error_t *error)
-{
+zip_source_seek_compute_offset(zip_uint64_t offset, zip_uint64_t length, void *data, zip_uint64_t data_length, zip_error_t *error) {
     zip_int64_t new_offset;
     zip_source_args_seek_t *args = ZIP_SOURCE_GET_ARGS(zip_source_args_seek_t, data, data_length, error);
-    
+
     if (args == NULL) {
-        return -1;
+	return -1;
     }
-    
+
     switch (args->whence) {
-        case SEEK_CUR:
-            new_offset = (zip_int64_t)offset + args->offset;
-            break;
-            
-        case SEEK_END:
-            new_offset = (zip_int64_t)length + args->offset;
-            break;
-            
-        case SEEK_SET:
-            new_offset = args->offset;
-            break;
-            
-        default:
-            zip_error_set(error, ZIP_ER_INVAL, 0);
-            return -1;
+    case SEEK_CUR:
+	new_offset = (zip_int64_t)offset + args->offset;
+	break;
+
+    case SEEK_END:
+	new_offset = (zip_int64_t)length + args->offset;
+	break;
+
+    case SEEK_SET:
+	new_offset = args->offset;
+	break;
+
+    default:
+	zip_error_set(error, ZIP_ER_INVAL, 0);
+	return -1;
     }
-    
+
     if (new_offset < 0 || (zip_uint64_t)new_offset > length) {
-        zip_error_set(error, ZIP_ER_INVAL, 0);
-        return -1;
+	zip_error_set(error, ZIP_ER_INVAL, 0);
+	return -1;
     }
-    
+
     return new_offset;
 }

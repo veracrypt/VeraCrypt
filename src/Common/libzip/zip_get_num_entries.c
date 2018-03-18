@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,8 +36,7 @@
 
 
 ZIP_EXTERN zip_int64_t
-zip_get_num_entries(zip_t *za, zip_flags_t flags)
-{
+zip_get_num_entries(zip_t *za, zip_flags_t flags) {
     zip_uint64_t n;
 
     if (za == NULL)
@@ -45,7 +44,7 @@ zip_get_num_entries(zip_t *za, zip_flags_t flags)
 
     if (flags & ZIP_FL_UNCHANGED) {
 	n = za->nentry;
-	while (n>0 && za->entry[n-1].orig == NULL)
+	while (n > 0 && za->entry[n - 1].orig == NULL)
 	    --n;
 	return (zip_int64_t)n;
     }

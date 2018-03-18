@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,7 +39,6 @@
 
 
 ZIP_EXTERN zip_file_t *
-zip_fopen_index(zip_t *za, zip_uint64_t index, zip_flags_t flags)
-{
+zip_fopen_index(zip_t *za, zip_uint64_t index, zip_flags_t flags) {
     return zip_fopen_index_encrypted(za, index, flags, za->default_password);
 }

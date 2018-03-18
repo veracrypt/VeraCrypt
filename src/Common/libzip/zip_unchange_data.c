@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,8 +35,7 @@
 #include "zipint.h"
 
 void
-_zip_unchange_data(zip_entry_t *ze)
-{
+_zip_unchange_data(zip_entry_t *ze) {
     if (ze->source) {
 	zip_source_free(ze->source);
 	ze->source = NULL;
@@ -52,4 +51,3 @@ _zip_unchange_data(zip_entry_t *ze)
 
     ze->deleted = 0;
 }
-

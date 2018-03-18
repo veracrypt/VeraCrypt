@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -34,8 +34,7 @@
 #include "zipint.h"
 
 ZIP_EXTERN int
-zip_file_set_external_attributes(zip_t *za, zip_uint64_t idx, zip_flags_t flags, zip_uint8_t opsys, zip_uint32_t attributes)
-{
+zip_file_set_external_attributes(zip_t *za, zip_uint64_t idx, zip_flags_t flags, zip_uint8_t opsys, zip_uint32_t attributes) {
     zip_entry_t *e;
     int changed;
     zip_uint8_t unchanged_opsys;
@@ -49,23 +48,23 @@ zip_file_set_external_attributes(zip_t *za, zip_uint64_t idx, zip_flags_t flags,
 	return -1;
     }
 
-    e = za->entry+idx;
+    e = za->entry + idx;
 
-    unchanged_opsys = (e->orig ? (zip_uint8_t)(e->orig->version_madeby>>8) : (zip_uint8_t)ZIP_OPSYS_DEFAULT);
+    unchanged_opsys = (e->orig ? (zip_uint8_t)(e->orig->version_madeby >> 8) : (zip_uint8_t)ZIP_OPSYS_DEFAULT);
     unchanged_attributes = e->orig ? e->orig->ext_attrib : ZIP_EXT_ATTRIB_DEFAULT;
 
     changed = (opsys != unchanged_opsys || attributes != unchanged_attributes);
 
     if (changed) {
-        if (e->changes == NULL) {
-            if ((e->changes=_zip_dirent_clone(e->orig)) == NULL) {
-                zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
-                return -1;
-            }
-        }
-        e->changes->version_madeby = (zip_uint16_t)((opsys << 8) | (e->changes->version_madeby & 0xff));
+	if (e->changes == NULL) {
+	    if ((e->changes = _zip_dirent_clone(e->orig)) == NULL) {
+		zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
+		return -1;
+	    }
+	}
+	e->changes->version_madeby = (zip_uint16_t)((opsys << 8) | (e->changes->version_madeby & 0xff));
 	e->changes->ext_attrib = attributes;
-        e->changes->changed |= ZIP_DIRENT_ATTRIBUTES;
+	e->changes->changed |= ZIP_DIRENT_ATTRIBUTES;
     }
     else if (e->changes) {
 	e->changes->changed &= ~ZIP_DIRENT_ATTRIBUTES;

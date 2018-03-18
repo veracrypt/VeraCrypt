@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,15 +39,14 @@
 
 
 ZIP_EXTERN int
-zip_set_default_password(zip_t *za, const char *passwd)
-{
+zip_set_default_password(zip_t *za, const char *passwd) {
     if (za == NULL)
 	return -1;
 
     free(za->default_password);
-    
+
     if (passwd) {
-	if ((za->default_password=strdup(passwd)) == NULL) {
+	if ((za->default_password = strdup(passwd)) == NULL) {
 	    zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
 	    return -1;
 	}

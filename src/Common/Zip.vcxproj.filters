@@ -132,9 +132,6 @@
     <ClCompile Include="libzip\zip_get_archive_flag.c">
       <Filter>libzip</Filter>
     </ClCompile>
-    <ClCompile Include="libzip\zip_get_compression_implementation.c">
-      <Filter>libzip</Filter>
-    </ClCompile>
     <ClCompile Include="libzip\zip_get_encryption_implementation.c">
       <Filter>libzip</Filter>
     </ClCompile>
@@ -347,6 +344,21 @@
     </ClCompile>
     <ClCompile Include="zlib\uncompr.c">
       <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_progress.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_source_begin_write_cloning.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_source_compress.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_algorithm_deflate.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
+    <ClCompile Include="libzip\zip_source_get_compression_flags.c">
+      <Filter>libzip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

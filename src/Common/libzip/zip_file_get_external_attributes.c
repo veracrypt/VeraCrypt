@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -34,11 +34,10 @@
 #include "zipint.h"
 
 int
-zip_file_get_external_attributes(zip_t *za, zip_uint64_t idx, zip_flags_t flags, zip_uint8_t *opsys, zip_uint32_t *attributes)
-{
+zip_file_get_external_attributes(zip_t *za, zip_uint64_t idx, zip_flags_t flags, zip_uint8_t *opsys, zip_uint32_t *attributes) {
     zip_dirent_t *de;
 
-    if ((de=_zip_get_dirent(za, idx, flags, NULL)) == NULL)
+    if ((de = _zip_get_dirent(za, idx, flags, NULL)) == NULL)
 	return -1;
 
     if (opsys)

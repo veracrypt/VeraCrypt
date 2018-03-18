@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,11 +39,10 @@
 
 
 ZIP_EXTERN int
-zip_set_file_comment(zip_t *za, zip_uint64_t idx, const char *comment, int len)
-{
+zip_set_file_comment(zip_t *za, zip_uint64_t idx, const char *comment, int len) {
     if (len < 0 || len > ZIP_UINT16_MAX) {
-        zip_error_set(&za->error, ZIP_ER_INVAL, 0);
-        return -1;
+	zip_error_set(&za->error, ZIP_ER_INVAL, 0);
+	return -1;
     }
     return zip_file_set_comment(za, idx, comment, (zip_uint16_t)len, 0);
 }

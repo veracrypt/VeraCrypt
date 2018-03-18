@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -37,21 +37,18 @@
 
 
 ZIP_EXTERN void
-zip_error_get(zip_t *za, int *zep, int *sep)
-{
+zip_error_get(zip_t *za, int *zep, int *sep) {
     _zip_error_get(&za->error, zep, sep);
 }
 
 
 ZIP_EXTERN zip_error_t *
-zip_get_error(zip_t *za)
-{
+zip_get_error(zip_t *za) {
     return &za->error;
 }
 
 
 ZIP_EXTERN zip_error_t *
-zip_file_get_error(zip_file_t *f)
-{
+zip_file_get_error(zip_file_t *f) {
     return &f->error;
 }

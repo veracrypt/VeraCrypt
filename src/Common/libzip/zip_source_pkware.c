@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -42,24 +42,20 @@ struct trad_pkware {
     zip_uint32_t key[3];
 };
 
-#define HEADERLEN	12
-#define KEY0		305419896
-#define KEY1		591751049
-#define KEY2		878082192
+#define HEADERLEN 12
+#define KEY0 305419896
+#define KEY1 591751049
+#define KEY2 878082192
 
 
-static void decrypt(struct trad_pkware *, zip_uint8_t *,
-		    const zip_uint8_t *, zip_uint64_t, int);
+static void decrypt(struct trad_pkware *, zip_uint8_t *, const zip_uint8_t *, zip_uint64_t, int);
 static int decrypt_header(zip_source_t *, struct trad_pkware *);
-static zip_int64_t pkware_decrypt(zip_source_t *, void *, void *,
-				  zip_uint64_t, zip_source_cmd_t);
+static zip_int64_t pkware_decrypt(zip_source_t *, void *, void *, zip_uint64_t, zip_source_cmd_t);
 static void pkware_free(struct trad_pkware *);
 
 
 zip_source_t *
-zip_source_pkware(zip_t *za, zip_source_t *src,
-		  zip_uint16_t em, int flags, const char *password)
-{
+zip_source_pkware(zip_t *za, zip_source_t *src, zip_uint16_t em, int flags, const char *password) {
     struct trad_pkware *ctx;
     zip_source_t *s2;
 
@@ -72,7 +68,7 @@ zip_source_pkware(zip_t *za, zip_source_t *src,
 	return NULL;
     }
 
-    if ((ctx=(struct trad_pkware *)malloc(sizeof(*ctx))) == NULL) {
+    if ((ctx = (struct trad_pkware *)malloc(sizeof(*ctx))) == NULL) {
 	zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
 	return NULL;
     }
@@ -84,7 +80,7 @@ zip_source_pkware(zip_t *za, zip_source_t *src,
     ctx->key[2] = KEY2;
     decrypt(ctx, NULL, (const zip_uint8_t *)password, strlen(password), 1);
 
-    if ((s2=zip_source_layered(za, src, pkware_decrypt, ctx)) == NULL) {
+    if ((s2 = zip_source_layered(za, src, pkware_decrypt, ctx)) == NULL) {
 	pkware_free(ctx);
 	return NULL;
     }
@@ -94,14 +90,12 @@ zip_source_pkware(zip_t *za, zip_source_t *src,
 
 
 static void
-decrypt(struct trad_pkware *ctx, zip_uint8_t *out, const zip_uint8_t *in,
-	zip_uint64_t len, int update_only)
-{
+decrypt(struct trad_pkware *ctx, zip_uint8_t *out, const zip_uint8_t *in, zip_uint64_t len, int update_only) {
     zip_uint16_t tmp;
     zip_uint64_t i;
     Bytef b;
 
-    for (i=0; i<len; i++) {
+    for (i = 0; i < len; i++) {
 	b = in[i];
 
 	if (!update_only) {
@@ -125,20 +119,19 @@ decrypt(struct trad_pkware *ctx, zip_uint8_t *out, const zip_uint8_t *in,
 
 
 static int
-decrypt_header(zip_source_t *src, struct trad_pkware *ctx)
-{
+decrypt_header(zip_source_t *src, struct trad_pkware *ctx) {
     zip_uint8_t header[HEADERLEN];
     struct zip_stat st;
     zip_int64_t n;
     unsigned short dostime, dosdate;
 
-    if ((n=zip_source_read(src, header, HEADERLEN)) < 0) {
-        _zip_error_set_from_source(&ctx->error, src);
+    if ((n = zip_source_read(src, header, HEADERLEN)) < 0) {
+	_zip_error_set_from_source(&ctx->error, src);
 	return -1;
     }
-    
+
     if (n != HEADERLEN) {
-        zip_error_set(&ctx->error, ZIP_ER_EOF, 0);
+	zip_error_set(&ctx->error, ZIP_ER_EOF, 0);
 	return -1;
     }
 
@@ -151,8 +144,8 @@ decrypt_header(zip_source_t *src, struct trad_pkware *ctx)
 
     _zip_u2d_time(st.mtime, &dostime, &dosdate);
 
-    if (header[HEADERLEN-1] != st.crc>>24 && header[HEADERLEN-1] != dostime>>8) {
-        zip_error_set(&ctx->error, ZIP_ER_WRONGPASSWD, 0);
+    if (header[HEADERLEN - 1] != st.crc >> 24 && header[HEADERLEN - 1] != dostime >> 8) {
+	zip_error_set(&ctx->error, ZIP_ER_WRONGPASSWD, 0);
 	return -1;
     }
 
@@ -161,66 +154,62 @@ decrypt_header(zip_source_t *src, struct trad_pkware *ctx)
 
 
 static zip_int64_t
-pkware_decrypt(zip_source_t *src, void *ud, void *data,
-	       zip_uint64_t len, zip_source_cmd_t cmd)
-{
+pkware_decrypt(zip_source_t *src, void *ud, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
     struct trad_pkware *ctx;
     zip_int64_t n;
 
     ctx = (struct trad_pkware *)ud;
 
     switch (cmd) {
-        case ZIP_SOURCE_OPEN:
-            if (decrypt_header(src, ctx) < 0)
-                return -1;
-            return 0;
+    case ZIP_SOURCE_OPEN:
+	if (decrypt_header(src, ctx) < 0)
+	    return -1;
+	return 0;
 
-        case ZIP_SOURCE_READ:
-            if ((n=zip_source_read(src, data, len)) < 0) {
-                _zip_error_set_from_source(&ctx->error, src);
-                return -1;
-            }
+    case ZIP_SOURCE_READ:
+	if ((n = zip_source_read(src, data, len)) < 0) {
+	    _zip_error_set_from_source(&ctx->error, src);
+	    return -1;
+	}
 
-            decrypt((struct trad_pkware *)ud, (zip_uint8_t *)data, (zip_uint8_t *)data, (zip_uint64_t)n, 0);
-            return n;
+	decrypt((struct trad_pkware *)ud, (zip_uint8_t *)data, (zip_uint8_t *)data, (zip_uint64_t)n, 0);
+	return n;
 
-        case ZIP_SOURCE_CLOSE:
-            return 0;
+    case ZIP_SOURCE_CLOSE:
+	return 0;
 
-        case ZIP_SOURCE_STAT:
-        {
-	    zip_stat_t *st;
+    case ZIP_SOURCE_STAT: {
+	zip_stat_t *st;
 
-	    st = (zip_stat_t *)data;
+	st = (zip_stat_t *)data;
 
-	    st->encryption_method = ZIP_EM_NONE;
-	    st->valid |= ZIP_STAT_ENCRYPTION_METHOD;
-	    /* TODO: deduce HEADERLEN from size for uncompressed */
-	    if (st->valid & ZIP_STAT_COMP_SIZE)
-		st->comp_size -= HEADERLEN;
-	
-            return 0;
-        }
-            
-        case ZIP_SOURCE_SUPPORTS:
-            return zip_source_make_command_bitmap(ZIP_SOURCE_OPEN, ZIP_SOURCE_READ, ZIP_SOURCE_CLOSE, ZIP_SOURCE_STAT, ZIP_SOURCE_ERROR, ZIP_SOURCE_FREE, -1);
+	st->encryption_method = ZIP_EM_NONE;
+	st->valid |= ZIP_STAT_ENCRYPTION_METHOD;
+	/* TODO: deduce HEADERLEN from size for uncompressed */
+	if (st->valid & ZIP_STAT_COMP_SIZE)
+	    st->comp_size -= HEADERLEN;
 
-        case ZIP_SOURCE_ERROR:
-            return zip_error_to_data(&ctx->error, data, len);
+	return 0;
+    }
 
-        case ZIP_SOURCE_FREE:
-            pkware_free(ctx);
-            return 0;
+    case ZIP_SOURCE_SUPPORTS:
+	return zip_source_make_command_bitmap(ZIP_SOURCE_OPEN, ZIP_SOURCE_READ, ZIP_SOURCE_CLOSE, ZIP_SOURCE_STAT, ZIP_SOURCE_ERROR, ZIP_SOURCE_FREE, -1);
 
-        default:
-            zip_error_set(&ctx->error, ZIP_ER_INVAL, 0);
-            return -1;
+    case ZIP_SOURCE_ERROR:
+	return zip_error_to_data(&ctx->error, data, len);
+
+    case ZIP_SOURCE_FREE:
+	pkware_free(ctx);
+	return 0;
+
+    default:
+	zip_error_set(&ctx->error, ZIP_ER_INVAL, 0);
+	return -1;
     }
 }
 
 
 static void
-pkware_free(struct trad_pkware *ctx)
-{
+pkware_free(struct trad_pkware *ctx) {
     free(ctx);
 }

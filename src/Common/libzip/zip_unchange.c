@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -38,18 +38,16 @@
 
 
 ZIP_EXTERN int
-zip_unchange(zip_t *za, zip_uint64_t idx)
-{
+zip_unchange(zip_t *za, zip_uint64_t idx) {
     return _zip_unchange(za, idx, 0);
 }
 
 
 int
-_zip_unchange(zip_t *za, zip_uint64_t idx, int allow_duplicates)
-{
+_zip_unchange(zip_t *za, zip_uint64_t idx, int allow_duplicates) {
     zip_int64_t i;
     const char *orig_name, *changed_name;
-    
+
     if (idx >= za->nentry) {
 	zip_error_set(&za->error, ZIP_ER_INVAL, 0);
 	return -1;
@@ -57,7 +55,7 @@ _zip_unchange(zip_t *za, zip_uint64_t idx, int allow_duplicates)
 
     if (!allow_duplicates && za->entry[idx].changes && (za->entry[idx].changes->changed & ZIP_DIRENT_FILENAME)) {
 	if (za->entry[idx].orig != NULL) {
-	    if ((orig_name=_zip_get_name(za, idx, ZIP_FL_UNCHANGED, &za->error)) == NULL) {
+	    if ((orig_name = _zip_get_name(za, idx, ZIP_FL_UNCHANGED, &za->error)) == NULL) {
 		return -1;
 	    }
 
@@ -70,8 +68,8 @@ _zip_unchange(zip_t *za, zip_uint64_t idx, int allow_duplicates)
 	else {
 	    orig_name = NULL;
 	}
-	    
-	if ((changed_name=_zip_get_name(za, idx, 0, &za->error)) == NULL) {
+
+	if ((changed_name = _zip_get_name(za, idx, 0, &za->error)) == NULL) {
 	    return -1;
 	}
 
@@ -89,7 +87,7 @@ _zip_unchange(zip_t *za, zip_uint64_t idx, int allow_duplicates)
     _zip_dirent_free(za->entry[idx].changes);
     za->entry[idx].changes = NULL;
 
-    _zip_unchange_data(za->entry+idx);
+    _zip_unchange_data(za->entry + idx);
 
     return 0;
 }

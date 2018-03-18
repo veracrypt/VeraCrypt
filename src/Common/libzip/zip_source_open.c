@@ -1,6 +1,6 @@
 /*
   zip_source_open.c -- open zip_source (prepare for reading)
-  Copyright (C) 2009-2016 Dieter Baron and Thomas Klausner
+  Copyright (C) 2009-2017 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,13 +35,12 @@
 #include "zipint.h"
 
 ZIP_EXTERN int
-zip_source_open(zip_source_t *src)
-{
+zip_source_open(zip_source_t *src) {
     if (src->source_closed) {
-        return -1;
+	return -1;
     }
     if (src->write_state == ZIP_SOURCE_WRITE_REMOVED) {
-        zip_error_set(&src->error, ZIP_ER_DELETED, 0);
+	zip_error_set(&src->error, ZIP_ER_DELETED, 0);
 	return -1;
     }
 
@@ -58,7 +57,7 @@ zip_source_open(zip_source_t *src)
 		return -1;
 	    }
 	}
-	
+
 	if (_zip_source_call(src, NULL, 0, ZIP_SOURCE_OPEN) < 0) {
 	    if (ZIP_SOURCE_IS_LAYERED(src)) {
 		zip_source_close(src->src);
@@ -68,8 +67,9 @@ zip_source_open(zip_source_t *src)
     }
 
     src->eof = false;
+    src->had_read_error = false;
     _zip_error_clear(&src->error);
     src->open_count++;
-    
+
     return 0;
 }

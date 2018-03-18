@@ -3,7 +3,7 @@
 
 /*
   compat.h -- compatibility defines.
-  Copyright (C) 1999-2016 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2017 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -20,7 +20,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -34,6 +34,8 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "zipconf.h"
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -42,10 +44,12 @@
 #define __STDC_LIMIT_MACROS
 
 #ifdef _WIN32
-#ifdef ZIP_STATIC
-#define ZIP_EXTERN
-#else
+#ifndef ZIP_EXTERN
+#ifndef ZIP_STATIC
 #define ZIP_EXTERN __declspec(dllexport)
+#else
+#define ZIP_EXTERN
+#endif
 #endif
 /* for dup(), close(), etc. */
 #include <io.h>
@@ -54,9 +58,11 @@
 #ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
 #else
+#ifndef __cplusplus
 typedef char bool;
-#define true    1
-#define false   0
+#define true 1
+#define false 0
+#endif
 #endif
 
 #include <errno.h>
@@ -76,49 +82,58 @@ typedef char bool;
 #endif
 
 #ifdef _WIN32
+#if defined(HAVE__CHMOD)
+#define chmod _chmod
+#endif
 #if defined(HAVE__CLOSE)
-#define close		_close
+#define close _close
 #endif
 #if defined(HAVE__DUP)
-#define dup		_dup
+#define dup _dup
 #endif
 /* crashes reported when using fdopen instead of _fdopen on Windows/Visual Studio 10/Win64 */
 #if defined(HAVE__FDOPEN)
-#define fdopen		_fdopen
+#define fdopen _fdopen
 #endif
 #if !defined(HAVE_FILENO) && defined(HAVE__FILENO)
-#define fileno		_fileno
+#define fileno _fileno
 #endif
 /* Windows' open() doesn't understand Unix permissions */
 #if defined(HAVE__OPEN)
-#define open(a, b, c)	_open((a), (b))
+#define open(a, b, c) _open((a), (b))
 #endif
 #if defined(HAVE__SNPRINTF)
-#define snprintf	_snprintf
+#define snprintf _snprintf
 #endif
 #if defined(HAVE__STRDUP)
 #if !defined(HAVE_STRDUP) || defined(_WIN32)
 #undef strdup
-#define strdup		_strdup
+#define strdup _strdup
 #endif
 #endif
 #if !defined(HAVE__SETMODE) && defined(HAVE_SETMODE)
-#define _setmode	setmode
+#define _setmode setmode
 #endif
 #if !defined(HAVE_STRTOLL) && defined(HAVE__STRTOI64)
-#define strtoll		_strtoi64
+#define strtoll _strtoi64
 #endif
 #if !defined(HAVE_STRTOULL) && defined(HAVE__STRTOUI64)
-#define strtoull	_strtoui64
+#define strtoull _strtoui64
+#endif
+#if defined(HAVE__UMASK)
+#define umask _umask
+#endif
+#if defined(HAVE__UNLINK)
+#define unlink _unlink
 #endif
 #endif
 
 #ifndef HAVE_FSEEKO
-#define fseeko(s, o, w)	(fseek((s), (long int)(o), (w)))
+#define fseeko(s, o, w) (fseek((s), (long int)(o), (w)))
 #endif
 
 #ifndef HAVE_FTELLO
-#define ftello(s)	((long)ftell((s)))
+#define ftello(s) ((long)ftell((s)))
 #endif
 
 #ifndef HAVE_MKSTEMP
@@ -128,9 +143,9 @@ int _zip_mkstemp(char *);
 
 #if !defined(HAVE_STRCASECMP)
 #if defined(HAVE__STRICMP)
-#define strcasecmp	_stricmp
+#define strcasecmp _stricmp
 #elif defined(HAVE_STRICMP)
-#define strcasecmp	stricmp
+#define strcasecmp stricmp
 #endif
 #endif
 
@@ -185,7 +200,7 @@ int _zip_mkstemp(char *);
 #endif
 
 #ifndef S_ISDIR
-#define S_ISDIR(mode)	(((mode) & S_IFMT) == S_IFDIR)
+#define S_ISDIR(mode) (((mode)&S_IFMT) == S_IFDIR)
 #endif
 
 #endif /* compat.h */

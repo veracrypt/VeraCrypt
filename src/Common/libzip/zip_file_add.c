@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,18 +36,17 @@
 
 /*
   NOTE: Return type is signed so we can return -1 on error.
-        The index can not be larger than ZIP_INT64_MAX since the size
-        of the central directory cannot be larger than
-        ZIP_UINT64_MAX, and each entry is larger than 2 bytes.
+	The index can not be larger than ZIP_INT64_MAX since the size
+	of the central directory cannot be larger than
+	ZIP_UINT64_MAX, and each entry is larger than 2 bytes.
 */
 
 ZIP_EXTERN zip_int64_t
-zip_file_add(zip_t *za, const char *name, zip_source_t *source, zip_flags_t flags)
-{
+zip_file_add(zip_t *za, const char *name, zip_source_t *source, zip_flags_t flags) {
     if (name == NULL || source == NULL) {
 	zip_error_set(&za->error, ZIP_ER_INVAL, 0);
 	return -1;
     }
-	
+
     return _zip_file_replace(za, ZIP_UINT64_MAX, name, source, flags);
 }

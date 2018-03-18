@@ -1,6 +1,6 @@
 /*
   zip_source_function.c -- create zip data source from callback function
-  Copyright (C) 1999-2016 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2017 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -17,7 +17,7 @@
   3. The names of the authors may not be used to endorse or promote
      products derived from this software without specific prior
      written permission.
- 
+
   THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
   OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -38,50 +38,46 @@
 
 
 ZIP_EXTERN zip_source_t *
-zip_source_function(zip_t *za, zip_source_callback zcb, void *ud)
-{
+zip_source_function(zip_t *za, zip_source_callback zcb, void *ud) {
     if (za == NULL) {
-        return NULL;
+	return NULL;
     }
-    
+
     return zip_source_function_create(zcb, ud, &za->error);
 }
 
 
 ZIP_EXTERN zip_source_t *
-zip_source_function_create(zip_source_callback zcb, void *ud, zip_error_t *error)
-{
+zip_source_function_create(zip_source_callback zcb, void *ud, zip_error_t *error) {
     zip_source_t *zs;
 
-    if ((zs=_zip_source_new(error)) == NULL)
+    if ((zs = _zip_source_new(error)) == NULL)
 	return NULL;
 
     zs->cb.f = zcb;
     zs->ud = ud;
-    
+
     zs->supports = zcb(ud, NULL, 0, ZIP_SOURCE_SUPPORTS);
     if (zs->supports < 0) {
-        zs->supports = ZIP_SOURCE_SUPPORTS_READABLE;
+	zs->supports = ZIP_SOURCE_SUPPORTS_READABLE;
     }
-    
+
     return zs;
 }
 
 
 ZIP_EXTERN void
-zip_source_keep(zip_source_t *src)
-{
+zip_source_keep(zip_source_t *src) {
     src->refcount++;
 }
 
 
 zip_source_t *
-_zip_source_new(zip_error_t *error)
-{
+_zip_source_new(zip_error_t *error) {
     zip_source_t *src;
 
-    if ((src=(zip_source_t *)malloc(sizeof(*src))) == NULL) {
-        zip_error_set(error, ZIP_ER_MEMORY, 0);
+    if ((src = (zip_source_t *)malloc(sizeof(*src))) == NULL) {
+	zip_error_set(error, ZIP_ER_MEMORY, 0);
 	return NULL;
     }
 
@@ -95,6 +91,7 @@ _zip_source_new(zip_error_t *error)
     src->refcount = 1;
     zip_error_init(&src->error);
     src->eof = false;
+    src->had_read_error = false;
 
     return src;
 }

@@ -23,6 +23,7 @@
     <ClCompile Include="libzip\zip_add.c" />
     <ClCompile Include="libzip\zip_add_dir.c" />
     <ClCompile Include="libzip\zip_add_entry.c" />
+    <ClCompile Include="libzip\zip_algorithm_deflate.c" />
     <ClCompile Include="libzip\zip_buffer.c" />
     <ClCompile Include="libzip\zip_close.c" />
     <ClCompile Include="libzip\zip_delete.c" />
@@ -60,7 +61,6 @@
     <ClCompile Include="libzip\zip_fread.c" />
     <ClCompile Include="libzip\zip_get_archive_comment.c" />
     <ClCompile Include="libzip\zip_get_archive_flag.c" />
-    <ClCompile Include="libzip\zip_get_compression_implementation.c" />
     <ClCompile Include="libzip\zip_get_encryption_implementation.c" />
     <ClCompile Include="libzip\zip_get_file_comment.c" />
     <ClCompile Include="libzip\zip_get_name.c" />
@@ -72,6 +72,7 @@
     <ClCompile Include="libzip\zip_name_locate.c" />
     <ClCompile Include="libzip\zip_new.c" />
     <ClCompile Include="libzip\zip_open.c" />
+    <ClCompile Include="libzip\zip_progress.c" />
     <ClCompile Include="libzip\zip_rename.c" />
     <ClCompile Include="libzip\zip_replace.c" />
     <ClCompile Include="libzip\zip_set_archive_comment.c" />
@@ -81,16 +82,19 @@
     <ClCompile Include="libzip\zip_set_file_compression.c" />
     <ClCompile Include="libzip\zip_set_name.c" />
     <ClCompile Include="libzip\zip_source_begin_write.c" />
+    <ClCompile Include="libzip\zip_source_begin_write_cloning.c" />
     <ClCompile Include="libzip\zip_source_buffer.c" />
     <ClCompile Include="libzip\zip_source_call.c" />
     <ClCompile Include="libzip\zip_source_close.c" />
     <ClCompile Include="libzip\zip_source_commit_write.c" />
+    <ClCompile Include="libzip\zip_source_compress.c" />
     <ClCompile Include="libzip\zip_source_crc.c" />
     <ClCompile Include="libzip\zip_source_deflate.c" />
     <ClCompile Include="libzip\zip_source_error.c" />
     <ClCompile Include="libzip\zip_source_filep.c" />
     <ClCompile Include="libzip\zip_source_free.c" />
     <ClCompile Include="libzip\zip_source_function.c" />
+    <ClCompile Include="libzip\zip_source_get_compression_flags.c" />
     <ClCompile Include="libzip\zip_source_is_deleted.c" />
     <ClCompile Include="libzip\zip_source_layered.c" />
     <ClCompile Include="libzip\zip_source_open.c" />
