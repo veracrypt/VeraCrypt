@@ -241,18 +241,18 @@ Copyright Information
 ---------------------
 
 This software as a whole:
-Copyright (c) 2013-2017 IDRIX. All rights reserved.
+Copyright (c) 2013-2018 IDRIX. All rights reserved.
 
 Portions of this software:
-Copyright (c) 2013-2017 IDRIX. All rights reserved.
+Copyright (c) 2013-2018 IDRIX. All rights reserved.
 Copyright (c) 2003-2012 TrueCrypt Developers Association. All rights reserved.
 Copyright (c) 1998-2000 Paul Le Roux. All rights reserved.
 Copyright (c) 1998-2008 Brian Gladman, Worcester, UK. All rights reserved.
 Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler.
 Copyright (c) 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov
-Copyright (c) Dieter Baron and Thomas Klausner.
+Copyright (c) 1999-2017 Dieter Baron and Thomas Klausner.
 Copyright (c) 2013, Alexey Degtyarev. All rights reserved.
-Copyright (c) 1999-2013,2014,2015,2016 Jack Lloyd. All rights reserved.
+Copyright (c) 1999-2016 Jack Lloyd. All rights reserved.
 
 For more information, please see the legal notices attached to parts of the
 source code.

@@ -57,18 +57,18 @@ namespace VeraCrypt
 			L"Paulo Barreto, Brian Gladman, Wei Dai, Peter Gutmann, and many others.\n\n"
 
 			L"Portions of this software:\n"
-			L"Copyright \xA9 2013-2017 IDRIX. All rights reserved.\n"
+			L"Copyright \xA9 2013-2018 IDRIX. All rights reserved.\n"
 			L"Copyright \xA9 2003-2012 TrueCrypt Developers Association. All Rights Reserved.\n"
 			L"Copyright \xA9 1998-2000 Paul Le Roux. All Rights Reserved.\n"
 			L"Copyright \xA9 1998-2008 Brian Gladman. All Rights Reserved.\n"
 			L"Copyright \xA9 1995-2017 Jean-loup Gailly and Mark Adler.\n"
 			L"Copyright \xA9 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov.\n"
-			L"Copyright \xA9 Dieter Baron and Thomas Klausner.\n"
+			L"Copyright \xA9 1999-2017 Dieter Baron and Thomas Klausner.\n"
 			L"Copyright \xA9 2013, Alexey Degtyarev. All rights reserved.\n"
-			L"Copyright \xA9 1999-2013,2014,2015,2016 Jack Lloyd. All rights reserved.\n\n"
+			L"Copyright \xA9 1999-2016 Jack Lloyd. All rights reserved.\n\n"
 
 			L"\nThis software as a whole:\n"
-			L"Copyright \xA9 2013-2017 IDRIX. All rights reserved.\n\n"
+			L"Copyright \xA9 2013-2018 IDRIX. All rights reserved.\n\n"
 
 			L"This software uses wxWidgets library, which is copyright \xA9 1998-2011 Julian Smart, Robert Roebling et al.\n\n"
 
