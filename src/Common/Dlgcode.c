@@ -7616,9 +7616,14 @@ void BringToForeground(HWND hWnd)
 #endif
 }
 
+static LRESULT CALLBACK ShowWaitDialogParentWndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return DefWindowProcW (hWnd, message, wParam, lParam);
+}
+
+
 void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg)
 {
-	HWND hParent = (hwnd && bUseHwndAsParent)? hwnd : GetDesktopWindow();
 	BOOL bEffectiveHideWaitingDialog = bCmdHideWaitingDialogValid? bCmdHideWaitingDialog : bHideWaitingDialog;
 	WaitThreadParam threadParam;
 	threadParam.callback = callback;
@@ -7632,14 +7637,39 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 	}
 	else
 	{
+		const wchar_t *className = L"VeraCryptShowWaitDialogParent";
 		BOOL bIsForeground = FALSE;
 		HWND creatorWnd = hwnd? hwnd : MainDlg;
 		WaitDialogDisplaying = TRUE;
+		HWND hParent = NULL;
+
 		if (creatorWnd)
 		{
 			if (GetForegroundWindow () == creatorWnd)
 				bIsForeground = TRUE;
 			EnableWindow (creatorWnd, FALSE);
+		}
+
+		if (hwnd && bUseHwndAsParent)
+			hParent = hwnd;
+		else
+		{		
+			/*  create invisible window and use it as parent */
+			WNDCLASSEXW winClass;
+
+			memset (&winClass, 0, sizeof (winClass));
+			winClass.cbSize = sizeof (WNDCLASSEX);
+			winClass.lpfnWndProc = (WNDPROC) ShowWaitDialogParentWndProc;
+			winClass.hInstance = hInst;
+			winClass.lpszClassName = className;
+			RegisterClassExW (&winClass);
+
+			hParent = CreateWindowExW (WS_EX_TOOLWINDOW | WS_EX_LAYERED, className, L"VeraCrypt ShowWaitDialog Parent", 0, 0, 0, 1, 1, NULL, NULL, hInst, NULL);
+			if (hParent)
+			{
+				SetLayeredWindowAttributes (hParent, 0, 1, LWA_ALPHA);
+				ShowWindow (hParent, SW_SHOWNORMAL);
+			}
 		}
 
 		finally_do_arg2 (HWND, creatorWnd, BOOL, bIsForeground, { if (finally_arg) { EnableWindow(finally_arg, TRUE); if (finally_arg2) BringToForeground (finally_arg);}});
@@ -7649,6 +7679,13 @@ void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, v
 					(DLGPROC) WaitDlgProc, (LPARAM) &threadParam);
 
 		WaitDialogDisplaying = FALSE;
+
+		if (!(hwnd && bUseHwndAsParent))
+		{
+			if (hParent)
+				DestroyWindow (hParent);
+			UnregisterClassW (className, hInst);
+		}
 	}
 }
 
