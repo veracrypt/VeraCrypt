@@ -607,7 +607,7 @@
     <string lang="de" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">WARNUNG: DIE AUSGEWÄHLTE PARTITION ENTHÄLT EINE GROSSE MENGE AN DATEN! Jede Datei die sich auf der Partition befindet wird gelöscht und geht verloren (sie werden NICHT verschlüsselt)!</string>
     <string lang="de" key="ERASE_FILES_BY_CREATING_VOLUME">Löscht alle Dateien die sich auf der Partition befinden, durch Erstellen eines VeraCrypt-Volumes innerhalb dieser.</string>
     <string lang="de" key="PASSWORD">Passwort</string>
-    <string lang="en" key="PIM">PIM</string>
+    <string lang="de" key="PIM">PIM</string>
     <string lang="de" key="IDD_PCDM_CHANGE_PKCS5_PRF">Algorithmus für Kopfdatenschlüsselberechnung ändern</string>
     <string lang="de" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Schlüsseldateien dem/vom Volume hinzufügen/entfernen</string>
     <string lang="de" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Alle Schlüsseldateien vom Volume entfernen</string>
@@ -1077,7 +1077,6 @@
     <string lang="de" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt unterstützt die Systemverschlüsselung unter Windows Vista ohne installierte Service Packs nicht mehr. Installieren Sie bitte Service Pack 1 oder höher für Windows Vista bevor Sie VeraCrypt aktualisieren.</string>
     <string lang="de" key="FEATURE_REQUIRES_INSTALLATION">Fehler: Zur Nutzung dieser Option muss VeraCrypt auf dem System installiert sein (Sie nutzen VeraCrypt derzeit im mobilen Modus).\n\nBitte installieren Sie VeraCrypt und versuchen Sie es dann erneut.</string>
     <string lang="de" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">WARNUNG: Windows scheint nicht auf dem Laufwerk installiert zu sein von dem es startet. Dieser Zustand wird nicht unterstützt.\n\nSie sollten nur fortfahren wenn Sie sicher sind, dass Windows auf dem Laufwerk installiert ist von dem es startet.\n\nMöchten Sie fortfahren?\n\n</string>
-    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="de" key="TC_BOOT_LOADER_ALREADY_INSTALLED">ACHTUNG: Der VeraCrypt-Bootloader ist bereits auf Ihrem Systemlaufwerk installiert!\n\nEs ist möglich, dass ein anderes Betriebssystem auf Ihrem Computer bereits verschlüsselt ist.\n\nWARNUNG: DAS VERSCHLÜSSELN DES AKTUELLEN SYSTEMS KANN VERHINDERN DAS (EIN) ANDERE(S) SYSTEM(E) STARTEN UND AUF BENÖTIGTE DATEIEN ZUGEGRIFFEN WERDEN KANN.\n\nMöchten Sie wirklich fortfahren?</string>
     <string lang="de" key="SYS_LOADER_RESTORE_FAILED">Der Original Systemstarter konnte nicht wiederhergestellt werden.\n\nBitte verwenden Sie Ihren VeraCrypt-Rettungsdatenträger („Repair Options“ &gt; „Restore original system loader“) oder Ihre Windows-Installations-CD, um den VeraCrypt-Bootloader mit dem Windows-Starter zu überschreiben.</string>
     <string lang="de" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">Der originale System Loader wurde nicht auf dem Rettungsdatenträger gespeichert (Grund: Fehlende Sicherungsdatei).</string>

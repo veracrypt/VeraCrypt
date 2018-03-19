@@ -1077,7 +1077,6 @@
     <string lang="ja" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">サービスパックが適用されていないWindows Vistaのシステムパーティション/ドライブの暗号化はもうサポートされません。VeraCryptをアップグレードする前にVistaにSP1以上を適用してください。</string>
     <string lang="ja" key="FEATURE_REQUIRES_INSTALLATION">エラー：この機能はVeraCryptがこのシステムにインストールされている必要があります（現在はポータブルモードです）。\n\nVeraCryptをインストールしてもう一度試してみてください。</string>
     <string lang="ja" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">エラー：起動しようとしたドライブにWindowsがインストールされているか確認できません。この状態には対応していません。\n\n起動しようとしたドライブにWindowsがインストールされていることを確認してから続けるべきです。\n\n処理を続けますか？</string>
-    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="ja" key="TC_BOOT_LOADER_ALREADY_INSTALLED">注意：VeraCryptブートローダーがすでにシステムドライブにインストールされています！\n\nこれはこのマシン上の別のシステムがすでに暗号化されている可能性を示唆しています。\n\n警告：現在実行中のシステムで暗号化処理を継続すると、その別のシステムを起動できなくなったり、そのデータを参照できなくなったりするでしょう。\n\n本当に処理を続けますか？</string>
     <string lang="ja" key="SYS_LOADER_RESTORE_FAILED">元システムのブートローダーの復帰に失敗しました。\n\nVeraCryptブートローダーをWindowsのブートローダーに置き換えるには、VeraCryptレスキューディスクで 'Repair Options'→'Restore original system loader' を実行するか、Windowsのインストールディスクを使用してください。</string>
     <string lang="ja" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">元システムのブートローダーがレスキューディスクに保存されていないようです。おそらくバックアップファイルが失われています。</string>

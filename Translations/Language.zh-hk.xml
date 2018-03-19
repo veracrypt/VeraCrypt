@@ -1077,7 +1077,6 @@
     <string lang="zh-hk" key="SYS_ENCRYPTION_UPGRADE_UNSUPPORTED_ON_VISTA_SP0">VeraCrypt 不再支援對未安裝 SP 補丁的 Windows Vista 系統的系統分區/設備的加密。在升級 VeraCrypt 之前，請安裝 Vista 的 Service Pack 1 或更高補丁版本。</string>
     <string lang="zh-hk" key="FEATURE_REQUIRES_INSTALLATION">錯誤：此功能要求 VeraCrypt 必須安裝於當前系統（您正在以便攜模式運行 VeraCrypt）。\n\n請安裝 VeraCrypt 之後再試一次。</string>
     <string lang="zh-hk" key="WINDOWS_NOT_ON_BOOT_DRIVE_ERROR">警告：Windows 看起來並未安裝在它所啟動的驅動器上。此功能目前尚不支援。\n\n盡在您確認 Windows 的確安裝在它所啟動的驅動器上時，您才應當繼續。\n\n您確認要繼續嗎？</string>
-    <string lang="en" key="GPT_BOOT_DRIVE_UNSUPPORTED">You are running a 32-bit Windows and your system drive has a GUID partition table (GPT). Currently, only Windows 64-bit is supported for GPT system encryption.</string>
     <string lang="zh-hk" key="TC_BOOT_LOADER_ALREADY_INSTALLED">小心：VeraCrypt 啟動管理器已經安裝到了您的系統驅動器上了！\n\n這可能在您的電腦上已經加密了另外一個系統。\n\n警告：繼續加密當前運行的系統可能會導致其他系統無法啟動或導致資料無法訪問。\n\n您確定要繼續嗎？</string>
     <string lang="zh-hk" key="SYS_LOADER_RESTORE_FAILED">恢復原來的系統啟動管理器時失敗。\n\n請使用您的 VeraCrypt 應急盤（'Repair Options' &gt; 'Restore original system loader'）或者 Windows 安裝盤來清除 VeraCrypt 啟動管理器。</string>
     <string lang="zh-hk" key="SYS_LOADER_UNAVAILABLE_FOR_RESCUE_DISK">原來的系統引導器沒有保存到應急盤上（可能原因：備份檔案丟失）。</string>
