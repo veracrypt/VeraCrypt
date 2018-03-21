@@ -37,8 +37,11 @@
 <div class="wikidoc">
 <h2>Data Leaks</h2>
 <p>When a VeraCrypt volume is mounted, the operating system and third-party applications may write to unencrypted volumes (typically, to the unencrypted system volume) unencrypted information about the data stored in the VeraCrypt volume (e.g. filenames and
- locations of recently accessed files, databases created by file indexing tools, etc.), or the data itself in an unencrypted form (temporary files, etc.), or unencrypted information about the filesystem residing in the VeraCrypt volume. Note that Windows automatically
- records large amounts of potentially sensitive data, such as the names and locations of files you open, applications you run, etc.</p>
+ locations of recently accessed files, databases created by file indexing tools, etc.), or the data itself in an unencrypted form (temporary files, etc.), or unencrypted information about the filesystem residing in the VeraCrypt volume.</p>
+<p>Note that Windows automatically records large amounts of potentially sensitive data, such as the names and locations of files you open, applications you run, etc. For example, Windows uses a set of Registry keys known as “shellbags” to store the name, size, view, icon, and position of a folder when using Explorer. 
+Each time you open a folder, this information is updated including the time and date of access. Windows Shellbags may be found in a few locations, depending on operating system version and user profile. 
+On a Windows XP system, shellbags may be found under <strong>"HKEY_USERS\{USERID}\Software\Microsoft\Windows\Shell\"</strong> and <strong>"HKEY_USERS\{USERID}\Software\Microsoft\Windows\ShellNoRoam\"</strong>.
+On a Windows 7 system, shellbags may be found under <strong>"HEKY_USERS\{USERID}\Local Settings\Software\Microsoft\Windows\Shell\"</strong>. More information available at <a href="https://www.sans.org/reading-room/whitepapers/forensics/windows-shellbag-forensics-in-depth-34545" target="_blank">https://www.sans.org/reading-room/whitepapers/forensics/windows-shellbag-forensics-in-depth-34545</a>.
 <p>Also, starting from Windows 8, every time a VeraCrypt volume that is formatted using NTFS is mounted, an Event 98 is written for the system Events Log and it will contain the device name (\\device\VeraCryptVolumeXX) of the volume. This event log &quot;feature&quot;
  was introduced in Windows 8 as part of newly introduced NTFS health checks as explained
 <a href="https://blogs.msdn.microsoft.com/b8/2012/05/09/redesigning-chkdsk-and-the-new-ntfs-health-model/" target="_blank">
