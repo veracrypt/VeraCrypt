@@ -35,7 +35,7 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
-<p><strong style="text-align:left">1.22-BETA4 </strong>(December 8<sup>th</sup>, 2017):</p>
+<p><strong style="text-align:left">1.22-BETA5 </strong>(March 21<sup>st</sup>, 2018):</p>
 <ul>
 <li><strong>All OSs:</strong>
 <ul>
@@ -46,10 +46,15 @@
 <ul>
 <li>MBR Bootloader: Fix failure to boot hidden OS on some machines.</li>
 <li>MBR Bootloader: Reduce CPU usage during password prompt.</li>
+<li>Security enhancement: Add option to block TRIM command for system encryption on SSD drives.</li>
+<li>Implement TRIM support for non-system SSD drives and add option to enable it (TRIM is disabled by default for non-system volumes).</li>
 <li>Better fix for "Parameter Incorrect" issues during EFI system encryption in some machines.</li>
 <li>Driver: remove unnecessary dependency to wcsstr which can cause issues on some machines.</li>
 <li>Driver: Fix "Incorrect Parameter" error when mounting volumes on some machines.</li>
 <li>Fix failure to mount system favorites during boot on some machines.</li>
+<li>Fix current application losing focus when VeraCrypt is run in command line with /quit /silent switches.</li>
+<li>Fix some cases of external applications freezing during mount/dismount.</li>
+<li>Update libzip to version 1.5.0 that include fixes for some security issues.</li>
 <li>Extend Secure Desktop feature to smart card PIN entry dialog.</li>
 <li>Fix truncated license text in installer wizard.</li>
 <li>Add portable package that allows extracting binaries without asking for admin privileges.</li>
@@ -57,6 +62,7 @@
 <li><strong>Linux:</strong>
 <ul>
 <li>Fix failure to install GUI version under recent versions of KDE.</li>
+<li>Fix wxWidgets assertion failed when backing up/restoring volume header.</li>
 </ul>
 </li>
 <li><strong>MacOSX:</strong>
