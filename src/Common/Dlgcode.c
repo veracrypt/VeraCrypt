@@ -13131,6 +13131,7 @@ static BOOL GenerateRandomString (HWND hwndDlg, LPTSTR szName, DWORD maxCharsCou
 typedef struct
 {
 	HDESK hDesk;
+	LPCWSTR szDesktopName;
 	HINSTANCE hInstance;
 	LPCWSTR lpTemplateName;
 	DLGPROC lpDialogFunc;
@@ -13138,15 +13139,89 @@ typedef struct
 	INT_PTR retValue;
 } SecureDesktopThreadParam;
 
+typedef struct
+{
+	LPCWSTR szVCDesktopName;
+	HDESK hVcDesktop;
+	volatile BOOL* pbStopMonitoring;
+} SecureDesktopMonitoringThreadParam;
+
+#define SECUREDESKTOP_MONOTIR_PERIOD	500
+
+// This thread checks if VeraCrypt secure desktop is the one that has user input
+// and if it is not then it will call SwitchDesktop to make it the input desktop
+static unsigned int __stdcall SecureDesktopMonitoringThread( LPVOID lpThreadParameter ) 
+{
+	SecureDesktopMonitoringThreadParam* pMonitorParam = (SecureDesktopMonitoringThreadParam*) lpThreadParameter;
+	if (pMonitorParam)
+	{
+		volatile BOOL* pbStopMonitoring = pMonitorParam->pbStopMonitoring;
+		LPCWSTR szVCDesktopName = pMonitorParam->szVCDesktopName;
+		HDESK hVcDesktop = pMonitorParam->hVcDesktop;
+
+		while (!*pbStopMonitoring)
+		{
+			// check that our secure desktop is still the input desktop
+			// otherwise, switch to it
+			BOOL bPerformSwitch = FALSE;
+			HDESK currentDesk = OpenInputDesktop (0, FALSE, GENERIC_READ);
+			if (currentDesk)
+			{
+				LPWSTR szName = NULL;
+				DWORD dwLen = 0;
+				if (!GetUserObjectInformation (currentDesk, UOI_NAME, NULL, 0, &dwLen))
+				{
+					szName = (LPWSTR) malloc (dwLen);
+					if (szName)
+					{
+						if (GetUserObjectInformation (currentDesk, UOI_NAME, szName, dwLen, &dwLen))
+						{
+							if (0 != _wcsicmp (szName, szVCDesktopName))
+								bPerformSwitch = TRUE;
+						}
+						free (szName);
+					}
+				}
+				CloseDesktop (currentDesk);
+			}
+
+			if (bPerformSwitch)
+				SwitchDesktop (hVcDesktop);
+
+			Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
+		}
+	}
+
+	return 0;
+}
+
 static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
 {
+	volatile BOOL bStopMonitoring = FALSE;
+	HANDLE hMonitoringThread = NULL;
+	unsigned int monitoringThreadID = 0;
 	SecureDesktopThreadParam* pParam = (SecureDesktopThreadParam*) lpThreadParameter;
+	SecureDesktopMonitoringThreadParam monitorParam;
 
 	SetThreadDesktop (pParam->hDesk);
 	SwitchDesktop (pParam->hDesk);
 
+	// create the thread that will ensure that VeraCrypt secure desktop has always user input
+	monitorParam.szVCDesktopName = pParam->szDesktopName;
+	monitorParam.hVcDesktop = pParam->hDesk;
+	monitorParam.pbStopMonitoring = &bStopMonitoring;
+	hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+
 	pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
 						NULL, pParam->lpDialogFunc, pParam->dwInitParam);
+
+	if (hMonitoringThread)
+	{
+		bStopMonitoring = TRUE;
+
+		WaitForSingleObject (hMonitoringThread, INFINITE);
+		CloseHandle (hMonitoringThread);
+	}
 
 	return 0;
 }
@@ -13210,6 +13285,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 			SecureDesktopThreadParam param;
 	
 			param.hDesk = hSecureDesk;
+			param.szDesktopName = szDesktopName;
 			param.hInstance = hInstance;
 			param.lpTemplateName = lpTemplateName;
 			param.lpDialogFunc = lpDialogFunc;
