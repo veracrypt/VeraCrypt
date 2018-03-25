@@ -7577,33 +7577,42 @@ BOOL CALLBACK WaitDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 
-void BringToForeground(HWND hWnd)
+// Based on source: https://www.codeproject.com/Tips/76427/How-to-bring-window-to-top-with-SetForegroundWindo?msg=5285754#xx5285754xx
+void BringToForeground (HWND hWnd)
 {
 	if(!::IsWindow(hWnd)) return;
- 
-	DWORD lockTimeOut = 0;
 	HWND  hCurrWnd = ::GetForegroundWindow();
 	DWORD dwThisTID = ::GetCurrentThreadId(),
 	      dwCurrTID = ::GetWindowThreadProcessId(hCurrWnd,0);
- 
+	// This structure will be used to create the keyboard
+	// input event.
+	INPUT ip;
+
 	if (hCurrWnd != hWnd)
 	{
 		if(dwThisTID != dwCurrTID)
 		{
-			::AttachThreadInput(dwThisTID, dwCurrTID, TRUE);
-	 
-			::SystemParametersInfo(SPI_GETFOREGROUNDLOCKTIMEOUT,0,&lockTimeOut,0);
-			::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,0,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
-	 
-			::AllowSetForegroundWindow(ASFW_ANY);
+			// Set up a generic keyboard event.
+			ip.type = INPUT_KEYBOARD;
+			ip.ki.wScan = 0; // hardware scan code for key
+			ip.ki.time = 0;
+			ip.ki.dwExtraInfo = 0;
+
+			// Press the "A" key
+			ip.ki.wVk = VK_MENU; // virtual-key code for the "a" key
+			ip.ki.dwFlags = 0; // 0 for key press
+			SendInput(1, &ip, sizeof(INPUT));
+
+			::Sleep(250); //Sometimes SetForegroundWindow will fail and the window will flash instead of it being show. Sleeping for a bit seems to help.
 		}
-	 
+	
 		::SetForegroundWindow(hWnd);
-	 
+
 		if(dwThisTID != dwCurrTID)
 		{
-			::SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT,0,(PVOID)lockTimeOut,SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE);
-			::AttachThreadInput(dwThisTID, dwCurrTID, FALSE);
+			// Release the "A" key
+			ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+			SendInput(1, &ip, sizeof(INPUT));
 		}
 	}
 
