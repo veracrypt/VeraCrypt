@@ -13211,15 +13211,32 @@ static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
 	unsigned int monitoringThreadID = 0;
 	SecureDesktopThreadParam* pParam = (SecureDesktopThreadParam*) lpThreadParameter;
 	SecureDesktopMonitoringThreadParam monitorParam;
+	HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId ());
+	BOOL bNewDesktopSet = FALSE;
+	int counter = 0;
 
-	SetThreadDesktop (pParam->hDesk);
-	SwitchDesktop (pParam->hDesk);
+	// wait for SwitchDesktop to succeed before using it for current thread
+	// we wait a maximum of 5 seconds
+	for (counter = 0; counter < 10; counter++)
+	{
+		if (SwitchDesktop (pParam->hDesk))
+		{
+			bNewDesktopSet = TRUE;
+			break;
+		}
+		Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
+	}
 
-	// create the thread that will ensure that VeraCrypt secure desktop has always user input
-	monitorParam.szVCDesktopName = pParam->szDesktopName;
-	monitorParam.hVcDesktop = pParam->hDesk;
-	monitorParam.pbStopMonitoring = &bStopMonitoring;
-	hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+	if (bNewDesktopSet)
+	{
+		SetThreadDesktop (pParam->hDesk);
+
+		// create the thread that will ensure that VeraCrypt secure desktop has always user input
+		monitorParam.szVCDesktopName = pParam->szDesktopName;
+		monitorParam.hVcDesktop = pParam->hDesk;
+		monitorParam.pbStopMonitoring = &bStopMonitoring;
+		hMonitoringThread = (HANDLE) _beginthreadex (NULL, 0, SecureDesktopMonitoringThread, (LPVOID) &monitorParam, 0, &monitoringThreadID);
+	}
 
 	pParam->retValue = DialogBoxParamW (pParam->hInstance, pParam->lpTemplateName, 
 						NULL, pParam->lpDialogFunc, pParam->dwInitParam);
@@ -13230,6 +13247,12 @@ static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
 
 		WaitForSingleObject (hMonitoringThread, INFINITE);
 		CloseHandle (hMonitoringThread);
+	}
+
+	if (bNewDesktopSet)
+	{
+		SetThreadDesktop (hOriginalDesk);
+		SwitchDesktop (hOriginalDesk);
 	}
 
 	return 0;
@@ -13290,7 +13313,6 @@ INT_PTR SecureDesktopDialogBoxParam(
 		hSecureDesk = CreateDesktop (szDesktopName, NULL, NULL, 0, desktopAccess, NULL);
 		if (hSecureDesk)
 		{
-			HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId ());
 			SecureDesktopThreadParam param;
 	
 			param.hDesk = hSecureDesk;
@@ -13306,9 +13328,6 @@ INT_PTR SecureDesktopDialogBoxParam(
 			{
 				WaitForSingleObject (hThread, INFINITE);
 				CloseHandle (hThread);
-
-				SwitchDesktop (hOriginalDesk);
-				SetThreadDesktop (hOriginalDesk);
 
 				retValue = param.retValue;
 				bSuccess = TRUE;
