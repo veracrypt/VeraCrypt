@@ -13,7 +13,7 @@ SOURCEPATH=$(cd "$(dirname "$SCRIPTPATH/../.")"; pwd)
 PARENTDIR=$(cd "$(dirname "$SCRIPTPATH/../../../.")"; pwd)
 
 # the sources of wxWidgets 3.0.3 must be extracted to the parent directory
-export WX_ROOT=$PARENTDIR/wxWidgets-3.0.3
+export WX_ROOT=$PARENTDIR/wxWidgets-3.0.4
 echo "Using wxWidgets sources in $WX_ROOT"
 
 # this will be the temporary wxWidgets directory
