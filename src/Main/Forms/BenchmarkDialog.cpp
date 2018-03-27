@@ -87,6 +87,11 @@ namespace VeraCrypt
 		}
 
 		BenchmarkListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
+		wxSize minSize = BenchmarkListCtrl->GetBestSize ();
+		minSize.IncBy (10, 20);
+		BenchmarkListCtrl->SetMinSize(minSize);
+		Layout ();
+		Fit();
 	}
 
 	void BenchmarkDialog::DoBenchmark (list<BenchmarkResult>& results, Buffer& buffer)
