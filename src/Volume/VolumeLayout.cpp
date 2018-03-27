@@ -104,6 +104,11 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaKuznyechik ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaSerpent ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikAES ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikSerpentCamellia ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikTwofish ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
@@ -145,6 +150,11 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaKuznyechik ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaSerpent ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikAES ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikSerpentCamellia ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikTwofish ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
@@ -193,10 +203,15 @@ namespace VeraCrypt
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaKuznyechik ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaSerpent ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikAES ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikSerpentCamellia ()));
+		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikTwofish ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		SupportedEncryptionAlgorithms.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
-
+		
 		SupportedEncryptionModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
 

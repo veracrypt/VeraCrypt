@@ -835,6 +835,136 @@ namespace VeraCrypt
 						break;
 					}
 				}
+				else if (typeid (ea) == typeid (CamelliaKuznyechik))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x4ea34e89)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0xb3ad8559)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xde361313)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0x519d2bf9)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (KuznyechikTwofish))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x748f8631)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x8a4b0888)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xe0310188)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xfc2b6b45)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (CamelliaSerpent))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x10569a42)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x4de95152)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xe17b5fe7)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0xdbf993fa)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (KuznyechikAES))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0xc479f95d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x58eaf88d)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0xbe300cc2)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0x9b681c2e)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
+				else if (typeid (ea) == typeid (KuznyechikSerpentCamellia))
+				{
+					switch (testCase)
+					{
+					case 0:
+						if (crc != 0x9d8ac7ee)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 1:
+						if (crc != 0x5d7d347f)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 2:
+						if (crc != 0x884b62ee)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					case 3:
+						if (crc != 0x5c6c3997)
+							throw TestFailed (SRC_POS);
+						nTestsPerformed++;
+						break;
+					}
+				}
 
 				if (crc == 0x9f5edd58)
 					throw TestFailed (SRC_POS);
@@ -949,6 +1079,36 @@ namespace VeraCrypt
 					throw TestFailed (SRC_POS);
 				nTestsPerformed++;
 			}
+			else if (typeid (ea) == typeid (CamelliaKuznyechik))
+			{
+				if (crc != 0xe69d680d)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (KuznyechikTwofish))
+			{
+				if (crc != 0xe0aef0d1)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (CamelliaSerpent))
+			{
+				if (crc != 0x58aad727)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (KuznyechikAES))
+			{
+				if (crc != 0x4641234a)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
+			else if (typeid (ea) == typeid (KuznyechikSerpentCamellia))
+			{
+				if (crc != 0x755dad72)
+					throw TestFailed (SRC_POS);
+				nTestsPerformed++;
+			}
 
 			if (crc == 0x9f5edd58)
 				throw TestFailed (SRC_POS);
@@ -961,7 +1121,7 @@ namespace VeraCrypt
 			nTestsPerformed++;
 		}
 
-		if (nTestsPerformed != 110)
+		if (nTestsPerformed != 160)
 			throw TestFailed (SRC_POS);
 	}
 

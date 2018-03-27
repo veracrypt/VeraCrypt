@@ -304,7 +304,11 @@ namespace VeraCrypt
 	{
 		bool xts = (typeid (*volume->GetEncryptionMode()) == typeid (EncryptionModeXTS));
 		bool algoNotSupported = (typeid (*volume->GetEncryptionAlgorithm()) == typeid (GOST89))
-			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (Kuznyechik));
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (Kuznyechik))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (CamelliaKuznyechik))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikTwofish))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikAES))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikSerpentCamellia));
 
 		if (options.NoKernelCrypto
 			|| !xts

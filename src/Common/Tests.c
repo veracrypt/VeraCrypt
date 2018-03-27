@@ -1030,6 +1030,136 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 					break;
 				}
 			}
+			else if (wcscmp (name, L"Camellia-Kuznyechik") == 0)
+			{
+				switch (testCase)
+				{
+				case 0:
+					if (crc != 0x4ea34e89)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 1:
+					if (crc != 0xb3ad8559)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 2:
+					if (crc != 0xde361313)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 3:
+					if (crc != 0x519d2bf9)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				}
+			}
+			else if (wcscmp (name, L"Kuznyechik-Twofish") == 0)
+			{
+				switch (testCase)
+				{
+				case 0:
+					if (crc != 0x748f8631)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 1:
+					if (crc != 0x8a4b0888)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 2:
+					if (crc != 0xe0310188)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 3:
+					if (crc != 0xfc2b6b45)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				}
+			}
+			else if (wcscmp (name, L"Camellia-Serpent") == 0)
+			{
+				switch (testCase)
+				{
+				case 0:
+					if (crc != 0x10569a42)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 1:
+					if (crc != 0x4de95152)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 2:
+					if (crc != 0xe17b5fe7)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 3:
+					if (crc != 0xdbf993fa)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				}
+			}
+			else if (wcscmp (name, L"Kuznyechik-AES") == 0)
+			{
+				switch (testCase)
+				{
+				case 0:
+					if (crc != 0xc479f95d)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 1:
+					if (crc != 0x58eaf88d)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 2:
+					if (crc != 0xbe300cc2)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 3:
+					if (crc != 0x9b681c2e)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				}
+			}
+			else if (wcscmp (name, L"Kuznyechik-Serpent-Camellia") == 0)
+			{
+				switch (testCase)
+				{
+				case 0:
+					if (crc != 0x9d8ac7ee)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 1:
+					if (crc != 0x5d7d347f)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 2:
+					if (crc != 0x884b62ee)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				case 3:
+					if (crc != 0x5c6c3997)
+						return FALSE;
+					nTestsPerformed++;
+					break;
+				}
+			}
 
 			if (crc == 0x9f5edd58)
 				return FALSE;
@@ -1144,6 +1274,36 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 				return FALSE;
 			nTestsPerformed++;
 		}
+		else if (wcscmp (name, L"Camellia-Kuznyechik") == 0)
+		{
+			if (crc != 0xe69d680d)
+				return FALSE;
+			nTestsPerformed++;
+		}
+		else if (wcscmp (name, L"Kuznyechik-Twofish") == 0)
+		{
+			if (crc != 0xe0aef0d1)
+				return FALSE;
+			nTestsPerformed++;
+		}
+		else if (wcscmp (name, L"Camellia-Serpent") == 0)
+		{
+			if (crc != 0x58aad727)
+				return FALSE;
+			nTestsPerformed++;
+		}
+		else if (wcscmp (name, L"Kuznyechik-AES") == 0)
+		{
+			if (crc != 0x4641234a)
+				return FALSE;
+			nTestsPerformed++;
+		}
+		else if (wcscmp (name, L"Kuznyechik-Serpent-Camellia") == 0)
+		{
+			if (crc != 0x755dad72)
+				return FALSE;
+			nTestsPerformed++;
+		}
 
 		if (crc == 0x9f5edd58)
 			return FALSE;
@@ -1156,9 +1316,9 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 		nTestsPerformed++;
 	}
 #if defined(CIPHER_GOST89)
-	return (nTestsPerformed == 110);
+	return (nTestsPerformed == 160);
 #else
-	return (nTestsPerformed == 105);
+	return (nTestsPerformed == 155);
 #endif
 }
 

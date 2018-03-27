@@ -69,6 +69,11 @@ namespace VeraCrypt
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaKuznyechik ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaSerpent ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikAES ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikSerpentCamellia ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
@@ -311,6 +316,52 @@ namespace VeraCrypt
 	Kuznyechik::Kuznyechik ()
 	{
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-Twofish
+	KuznyechikTwofish::KuznyechikTwofish ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-AES
+	KuznyechikAES::KuznyechikAES ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-Serpent-Camellia
+	KuznyechikSerpentCamellia::KuznyechikSerpentCamellia ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia-Kuznyechik
+	CamelliaKuznyechik::CamelliaKuznyechik ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia-Serpent
+	CamelliaSerpent::CamelliaSerpent ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}
