@@ -47,6 +47,31 @@
 <em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Serpent (256-bit key) in XTS mode, then with Twofish (256-bit key) in XTS mode, and finally with AES (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption
  keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section
 <a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.</p>
+<h2>Camellia-Kuznyechik</h2>
+<p>Two ciphers in a cascade [15, 16] operating in XTS mode (see the section <a href="Modes%20of%20Operation.html">
+<em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Kuznyechik (256-bit key) in XTS mode and then with Camellia (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that
+ header keys are independent too, even though they are derived from a single password &ndash; see the section
+<a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.</p>
+<h2>Camellia-Serpent</h2>
+<p>Two ciphers in a cascade [15, 16] operating in XTS mode (see the section <a href="Modes%20of%20Operation.html">
+<em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Serpent (256-bit key) in XTS mode and then with Camellia (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that
+ header keys are independent too, even though they are derived from a single password &ndash; see the section
+<a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.</p>
+<h2>Kuznyechik-AES</h2>
+<p>Two ciphers in a cascade [15, 16] operating in XTS mode (see the section <a href="Modes%20of%20Operation.html">
+<em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with AES (256-bit key) in XTS mode and then with Kuznyechik (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that
+ header keys are independent too, even though they are derived from a single password &ndash; see the section
+<a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.</p>
+<h2>Kuznyechik-Serpent-Camellia</h2>
+<p>Three ciphers in a cascade [15, 16] operating in XTS mode (see the section <a href="Modes%20of%20Operation.html">
+<em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Camellia (256-bit key) in XTS mode, then with Serpent (256- bit key) in XTS mode, and finally with Kuznyechik (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All
+ encryption keys are mutually independent (note that header keys are independent too, even though they are derived from a single password &ndash; see the section
+<a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.</p>
+<h2>Kuznyechik-Twofish</h2>
+<p>Two ciphers in a cascade [15, 16] operating in XTS mode (see the section <a href="Modes%20of%20Operation.html">
+<em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with Twofish (256-bit key) in XTS mode and then with Kuznyechik (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that
+ header keys are independent too, even though they are derived from a single password &ndash; see the section
+<a href="Header Key Derivation.html"><em>Header Key Derivation, Salt, and Iteration Count</em></a>). See above for information on the individual cascaded ciphers.</p>
 <h2>Serpent-AES</h2>
 <p>Two ciphers in a cascade [15, 16] operating in XTS mode (see the section <a href="Modes%20of%20Operation.html">
 <em>Modes of Operation</em></a>). Each 128-bit block is first encrypted with AES (256-bit key) in XTS mode and then with Serpent (256-bit key) in XTS mode. Each of the cascaded ciphers uses its own key. All encryption keys are mutually independent (note that
