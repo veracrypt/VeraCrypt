@@ -1939,7 +1939,7 @@ namespace VeraCrypt
 	NtQuerySystemInformationFn NtQuerySystemInformationPtr = NULL;
 
 	EfiBootConf::EfiBootConf() : passwordType (0),
-		passwordMsg ("Enter Password: "),
+		passwordMsg ("Password: "),
 		passwordPicture ("login.bmp"),
 		hashMsg ("(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) RIPEMD160 (5) STREEBOG\nHash: "),
 		hashAlgo (0),
@@ -2056,7 +2056,7 @@ namespace VeraCrypt
 		char buffer[1024];
 
 		passwordType = ReadConfigInteger (configContent, "PasswordType", 0);
-		passwordMsg = ReadConfigString (configContent, "PasswordMsg", "Enter password: ", buffer, sizeof (buffer));
+		passwordMsg = ReadConfigString (configContent, "PasswordMsg", "Password: ", buffer, sizeof (buffer));
 		passwordPicture = ReadConfigString (configContent, "PasswordPicture", "\\EFI\\VeraCrypt\\login.bmp", buffer, sizeof (buffer));
 		//hashMsg = ReadConfigString (configContent, "HashMsg", "(0) TEST ALL (1) SHA512 (2) WHIRLPOOL (3) SHA256 (4) RIPEMD160 (5) STREEBOG\nHash: ", buffer, sizeof (buffer));
 		hashAlgo = ReadConfigInteger (configContent, "Hash", 0);
