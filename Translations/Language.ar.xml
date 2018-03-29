@@ -1065,7 +1065,7 @@
     <entry lang="ar" key="UAC_INIT_ERROR">‮فشل ڤيراكربت في الحصول على صلاحيات الإدارة.</entry>
     <entry lang="ar" key="ERR_ACCESS_DENIED">‮منع النظامُ النفاذ. ‮ ‮السبب المحتمل: يتطلب النظام أن تكون لديك صلاحية القراءة\\الكتابة (أو صلاحية الإدارة) لأدلة و ملفات و نبائط معينة ليُسمح لك بقراءة و كتابة بيانات إليها/منها. عادة ما يُسمح للمستخدم دون صلاحيات الإدارة أن يُنشئ و يقرأ و يعدل الملفات في دليل الوثائق الخاص به.</entry>
     <entry lang="ar" key="SECTOR_SIZE_UNSUPPORTED">خطأ: القرص يستخدم حجم مسار غير مدعوم.\n\nإنه لا يمكن إنشاء جزء/قرص  حجم مساره أكبر 4096من  بايت. لكن, لاحظ أن بإمكانك إنشاء ملف حاوية على ذلك القرص.</entry>
-    <entry lang="ar" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">It is currently not possible to encrypt a system installed on a disk that uses a sector size other than 512 bytes.</entry>
+    <entry lang="ar" key="SYSENC_UNSUPPORTED_SECTOR_SIZE_BIOS">لا يمكن حاليا تشفير نظام مثبت على قرص يستخدم حجم قطاع غير 512 بايت.</entry>
     <entry lang="ar" key="NO_SPACE_FOR_BOOT_LOADER">‮يتطلب مُحمِّل إقلاع ڤيراكربت ما لا يقل عن 32 كيلوبايت من المساحة الشاغرة في بداية سواقة النظام (حيث ينبغي تخزين مُحمِّل الإقلاع). للأسف لا تلبي هذه السواقة ذاك الشرط. ‮ ‮رجاءً لا تبلغ عن هذا كعلة\\مشكلة في ڤيراكربت. لحل هذه المشكلة سيكون عليك إعادة تقسيم القرص و ترك أول 32 كيلوبايت من القرص شاغرة (في الأغلب ستضطر إلى حذف و إعادة إنشاء القسم الأول). نوصي باستخدام أداة ميكروسوفت لإدارة الاقسام المتاحة عند تنصيب ويندوز.</entry>
     <entry lang="ar" key="FEATURE_UNSUPPORTED_ON_CURRENT_OS">‮هذه الخاصية غير مدعومة في هذه الإصدارة من نظام التشغيل الذي تيتخدمه حاليا.</entry>
     <entry lang="ar" key="SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS">‮لا يدعم ڤيراكربت تعمية قسم\\سواقة النظام في هذه الإصدارة من نظام التشغيل الذي تستخدمه.</entry>
@@ -1416,7 +1416,7 @@
     <entry lang="ar" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">تحذير: المستخدم غير الخبير ينبغي ألا يحاول تعديل ملف تحميل الإقلاع يدويا\n\nاستمر?</entry>
     <entry lang="ar" key="DCSPROP_XML_VALIDATION_FAILED">تحذير: فشل في التحقق من صحة صيغة XML لتهيئة بيئة الإقلاع. يرجى التأكد من التعديلات.</entry>
     <entry lang="ar" key="IDT_ADVANCED_OPTIONS">خيارات متقدمة</entry>
-    <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</entry>
+    <entry lang="ar" key="AFTER_UPGRADE_RESCUE_DISK">يوصى بشدة إنشاء قرص جديد لإسعاف فيراكربت والذي سيحتوي على الإصدار الجديد من برنامج إقلاع فيراكربت عن طريق اختيار 'النظام'&gt;'إنشاء قرص الإسعاف'\nهل تريد أن تفعل ذلك الآن؟</entry>
     <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
     <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
   </localization>
