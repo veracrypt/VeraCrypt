@@ -64,7 +64,8 @@ enum timer_ids
 {
 	TIMER_ID_MAIN = 0xff,
 	TIMER_ID_KEYB_LAYOUT_GUARD,
-	TIMER_ID_UPDATE_DEVICE_LIST
+	TIMER_ID_UPDATE_DEVICE_LIST,
+	TIMER_ID_CHECK_FOREGROUND
 };
 
 enum hidden_os_read_only_notif_mode
@@ -77,6 +78,7 @@ enum hidden_os_read_only_notif_mode
 #define TIMER_INTERVAL_MAIN					500
 #define TIMER_INTERVAL_KEYB_LAYOUT_GUARD	10
 #define TIMER_INTERVAL_UPDATE_DEVICE_LIST	1000
+#define TIMER_INTERVAL_CHECK_FOREGROUND		500
 
 BootEncryption			*BootEncObj = NULL;
 BootEncryptionStatus	BootEncStatus;
@@ -2931,6 +2933,8 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 				SetWindowPos (hwndDlg, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			}
+			SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
+			SetTimer (hwndDlg, TIMER_ID_CHECK_FOREGROUND, TIMER_INTERVAL_CHECK_FOREGROUND, NULL);
 		}
 		return 0;
 
@@ -3005,6 +3009,17 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_TIMER:
 		switch (wParam)
 		{
+		case TIMER_ID_CHECK_FOREGROUND:
+			if (hwndDlg != ::GetForegroundWindow ())
+			{
+				// we are not foreground after 500ms of creating the dialog
+				// try to force it for be foreground
+				BringToForeground (hwndDlg);
+				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
+			}
+			// one shot timer: stop it
+			KillTimer (hwndDlg, TIMER_ID_CHECK_FOREGROUND);
+			return 0;
 		case TIMER_ID_KEYB_LAYOUT_GUARD:
 			if (bPrebootPasswordDlgMode)
 			{
