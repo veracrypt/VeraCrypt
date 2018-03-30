@@ -1417,8 +1417,8 @@
     <entry lang="ar" key="DCSPROP_XML_VALIDATION_FAILED">تحذير: فشل في التحقق من صحة صيغة XML لتهيئة بيئة الإقلاع. يرجى التأكد من التعديلات.</entry>
     <entry lang="ar" key="IDT_ADVANCED_OPTIONS">خيارات متقدمة</entry>
     <entry lang="ar" key="AFTER_UPGRADE_RESCUE_DISK">يوصى بشدة إنشاء قرص جديد لإسعاف فيراكربت والذي سيحتوي على الإصدار الجديد من برنامج إقلاع فيراكربت عن طريق اختيار 'النظام'&gt;'إنشاء قرص الإسعاف'\nهل تريد أن تفعل ذلك الآن؟</entry>
-    <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
-    <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
+    <entry lang="ar" key="IDC_ALLOW_TRIM_NONSYS_SSD">اسمح بأمرTRIM للأقسام/المحارف غير النظامية لأقراص SDD</entry>
+    <entry lang="ar" key="IDC_BLOCK_SYSENC_TRIM">امنع أمر TRIM للقسم/المحارف النظامي</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
