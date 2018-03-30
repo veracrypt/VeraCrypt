@@ -166,7 +166,7 @@ BOOL LoadLanguageFile ()
 	WCHAR wattr[32768];
 	int i, intKey, len;
 
-	char *xmlElements[] = {"control", "string", 0};
+	char *xmlElements[] = {"entry", 0};
 
 #ifdef TCMOUNT
 	int headers[] = { IDR_COMMON_RSRC_HEADER, IDR_MOUNT_RSRC_HEADER, 0 };
