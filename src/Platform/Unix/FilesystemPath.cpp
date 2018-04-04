@@ -15,6 +15,7 @@
 #include "Platform/StringConverter.h"
 #include <stdio.h>
 #include <sys/stat.h>
+#include <sys/sysmacros.h>
 
 namespace VeraCrypt
 {
