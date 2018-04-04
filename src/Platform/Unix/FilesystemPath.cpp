@@ -15,7 +15,9 @@
 #include "Platform/StringConverter.h"
 #include <stdio.h>
 #include <sys/stat.h>
+#if !defined(__FreeBSD__) && !defined(__APPLE__)
 #include <sys/sysmacros.h>
+#endif
 
 namespace VeraCrypt
 {
