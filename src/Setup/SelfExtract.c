@@ -644,20 +644,38 @@ void __cdecl ExtractAllFilesThread (void *hwndDlg)
 	{
 		wchar_t fileName [TC_MAX_PATH] = {0};
 		wchar_t filePath [TC_MAX_PATH] = {0};
+		BOOL bResult = FALSE, zipFile = FALSE;
 
 		// Filename
 		StringCchCopyNW (fileName, ARRAYSIZE(fileName), Decompressed_Files[fileNo].fileName, Decompressed_Files[fileNo].fileNameLength);
 		StringCchCopyW (filePath, ARRAYSIZE(filePath), DestExtractPath);
 		StringCchCatW (filePath, ARRAYSIZE(filePath), fileName);
 
+		if ((wcslen (fileName) > 4) && (0 == wcscmp (L".zip", &fileName[wcslen(fileName) - 4])))
+			zipFile = TRUE;
+
 		StatusMessageParam (hwndDlg, "EXTRACTING_VERB", filePath);
 
+		if (zipFile)
+		{
+			bResult = DecompressZipToDir (
+				Decompressed_Files[fileNo].fileContent,
+				Decompressed_Files[fileNo].fileLength,
+				DestExtractPath,
+				CopyMessage,
+				hwndDlg);
+		}
+		else
+		{
+			bResult = SaveBufferToFile (
+				(char *) Decompressed_Files[fileNo].fileContent,
+				filePath,
+				Decompressed_Files[fileNo].fileLength,
+				FALSE, FALSE);
+		}
+
 		// Write the file
-		if (!SaveBufferToFile (
-			Decompressed_Files[fileNo].fileContent,
-			filePath,
-			Decompressed_Files[fileNo].fileLength,
-			FALSE, FALSE))
+		if (!bResult)
 		{
 			wchar_t szTmp[512];
 
