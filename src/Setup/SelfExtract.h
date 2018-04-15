@@ -32,9 +32,11 @@ void SelfExtractStartupInit (void);
 BOOL SelfExtractInMemory (wchar_t *path);
 void __cdecl ExtractAllFilesThread (void *hwndDlg);
 BOOL MakeSelfExtractingPackage (HWND hwndDlg, wchar_t *szDestDir);
-BOOL VerifyPackageIntegrity (void);
+BOOL VerifyPackageIntegrity (const wchar_t *path);
+BOOL VerifySelfPackageIntegrity (void);
 BOOL IsSelfExtractingPackage (void);
-static void DeobfuscateMagEndMarker (void);
+void FreeAllFileBuffers (void);
+void DeobfuscateMagEndMarker (void);
 
 extern wchar_t DestExtractPath [TC_MAX_PATH];
 

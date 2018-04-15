@@ -685,18 +685,6 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				continue;	// Destination = target
 		}
 
-		// skip files that don't apply to the current architecture
-		if (	(Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt-x64.exe") == 0))
-			|| (Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCryptExpander-x64.exe") == 0))
-			|| (Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt Format-x64.exe") == 0))
-			||	(!Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt-x86.exe") == 0))
-			||	(!Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCryptExpander-x86.exe") == 0))
-			||	(!Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt Format-x86.exe") == 0))
-			)
-		{
-			continue;
-		}
-
 		if ((*szFiles[i] == L'A') || (*szFiles[i] == L'X'))
 			StringCbCopyW (szDir, sizeof(szDir), szDestDir);
 		else if (*szFiles[i] == L'D')
@@ -766,33 +754,15 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				}
 
 				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"AVeraCrypt-x86.exe") == 0)
-				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt.exe", sizeof (L"VeraCrypt.exe"));
-				}
-
-				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCryptExpander.exe") == 0)
 				{
 					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-x64.exe", sizeof (L"VeraCryptExpander-x64.exe"));
 				}
 
 				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"AVeraCryptExpander-x86.exe") == 0)
-				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander.exe", sizeof (L"VeraCryptExpander.exe"));
-				}
-
-				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0)
 				{
 					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-x64.exe", sizeof (L"VeraCrypt Format-x64.exe"));
-				}
-
-				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"AVeraCrypt Format-x86.exe") == 0)
-				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format.exe", sizeof (L"VeraCrypt Format.exe"));
 				}
 
 				if (!bDevm)
@@ -1052,6 +1022,12 @@ err:
 			FindClose (h);
 		}
 		
+		// remvove legacy files that are not needed anymore
+		for (i = 0; i < sizeof (szLegacyFiles) / sizeof (szLegacyFiles[0]); i++)
+		{
+			StatDeleteFile (szLegacyFiles [i], TRUE);
+		}
+
 		SetCurrentDirectory (SetupFilesDir);
 	}
 
@@ -2586,7 +2562,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		{
 			if (IsSelfExtractingPackage())
 			{
-				if (!VerifyPackageIntegrity())
+				if (!VerifySelfPackageIntegrity())
 				{
 					// Package corrupted
 					exit (1);

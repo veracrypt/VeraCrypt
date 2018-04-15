@@ -34,8 +34,8 @@
 #else
 #define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) L".exe"
 #endif
-#define MAG_START_MARKER	"TCINSTRT"
-#define MAG_END_MARKER_OBFUSCATED	"T/C/I/N/S/C/R/C"
+#define MAG_START_MARKER	"VCINSTRT"
+#define MAG_END_MARKER_OBFUSCATED	"V/C/I/N/S/C/R/C"
 #define PIPE_BUFFER_LEN	(4 * BYTES_PER_KB)
 
 unsigned char MagEndMarker [sizeof (MAG_END_MARKER_OBFUSCATED)];
@@ -57,7 +57,7 @@ void SelfExtractStartupInit (void)
 // The end marker must be included in the self-extracting exe only once, not twice (used e.g.
 // by IsSelfExtractingPackage()) and that's why MAG_END_MARKER_OBFUSCATED is obfuscated and
 // needs to be deobfuscated using this function at startup.
-static void DeobfuscateMagEndMarker (void)
+void DeobfuscateMagEndMarker (void)
 {
 	int i;
 
@@ -385,16 +385,21 @@ err:
 
 
 // Verifies the CRC-32 of the whole self-extracting package (except the digital signature areas, if present)
-BOOL VerifyPackageIntegrity (void)
+BOOL VerifySelfPackageIntegrity ()
+{
+	wchar_t path [TC_MAX_PATH];
+
+	GetModuleFileName (NULL, path, ARRAYSIZE (path));
+	return VerifyPackageIntegrity (path);
+}
+
+BOOL VerifyPackageIntegrity (const wchar_t *path)
 {
 	int fileDataEndPos = 0;
 	int fileDataStartPos = 0;
 	unsigned __int32 crc = 0;
 	unsigned char *tmpBuffer;
 	int tmpFileSize;
-	wchar_t path [TC_MAX_PATH];
-
-	GetModuleFileName (NULL, path, ARRAYSIZE (path));
 
 #ifdef NDEBUG
 	// verify Authenticode digital signature of the exe file
@@ -464,7 +469,7 @@ BOOL IsSelfExtractingPackage (void)
 }
 
 
-static void FreeAllFileBuffers (void)
+void FreeAllFileBuffers (void)
 {
 	int fileNo;
 
@@ -619,7 +624,7 @@ sem_end:
 	return FALSE;
 }
 
-
+#ifdef SETUP
 void __cdecl ExtractAllFilesThread (void *hwndDlg)
 {
 	int fileNo;
@@ -704,4 +709,4 @@ eaf_end:
 	else
 		PostMessage (MainDlg, TC_APPMSG_EXTRACTION_FAILURE, 0, 0);
 }
-
+#endif

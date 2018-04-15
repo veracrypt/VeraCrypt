@@ -69,7 +69,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -107,7 +107,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
