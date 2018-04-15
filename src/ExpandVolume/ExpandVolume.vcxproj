@@ -313,6 +313,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCryptExpander-x64.exe" &gt;NUL:
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Setup\SelfExtract.c" />
     <ClCompile Include="DlgExpandVolume.cpp" />
     <ClCompile Include="ExpandVolume.c" />
     <ClCompile Include="InitDataArea.c" />

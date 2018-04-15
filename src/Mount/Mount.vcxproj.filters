@@ -19,6 +19,9 @@
     <Filter Include="Resource Files\Common">
       <UniqueIdentifier>{f805ede6-c210-4210-95ce-e33edb12bc27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Setup">
+      <UniqueIdentifier>{3bd21420-974d-4264-8daa-807c240fbed7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Favorites.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\Xts.c">
       <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Setup\SelfExtract.c">
+      <Filter>Source Files\Setup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

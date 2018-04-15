@@ -278,6 +278,7 @@ copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-x64.exe" &gt;NUL:
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Setup\SelfExtract.c" />
     <ClCompile Include="Favorites.cpp" />
     <ClCompile Include="Hotkeys.c" />
     <ClCompile Include="MainCom.cpp" />

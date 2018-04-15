@@ -22,6 +22,9 @@
     <Filter Include="Resource Files\Common">
       <UniqueIdentifier>{ece6c790-f488-400d-b92d-64f73ce9f990}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Setup">
+      <UniqueIdentifier>{922a1924-e0f2-4829-8ed2-eb783e03e8a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DlgExpandVolume.cpp">
@@ -119,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="..\Mount\Mount.c">
       <Filter>Source Files\Mount</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Setup\SelfExtract.c">
+      <Filter>Source Files\Setup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
