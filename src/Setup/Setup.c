@@ -1051,7 +1051,7 @@ err:
 
 			FindClose (h);
 		}
-
+		
 		SetCurrentDirectory (SetupFilesDir);
 	}
 
@@ -2571,7 +2571,18 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 #ifndef PORTABLE
 		SetInstallationPath (NULL);
 #endif
-		if (!bUninstall)
+		if (bUninstall)
+		{
+			wchar_t path [TC_MAX_PATH];
+
+			GetModuleFileName (NULL, path, ARRAYSIZE (path));
+			if (!VerifyModuleSignature (path))
+			{
+				Error ("DIST_PACKAGE_CORRUPTED", NULL);
+				exit (1);
+			}
+		}
+		else
 		{
 			if (IsSelfExtractingPackage())
 			{

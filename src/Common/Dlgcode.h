@@ -528,7 +528,7 @@ BOOL GetFreeDriveLetter(WCHAR* pCh);
 BOOL RaisePrivileges(void);
 BOOL DeleteDirectory (const wchar_t* szDirName);
 INT_PTR SecureDesktopDialogBoxParam (HINSTANCE, LPCWSTR, HWND, DLGPROC, LPARAM);
-
+BOOL VerifyModuleSignature (const wchar_t* path);
 #ifdef __cplusplus
 }
 

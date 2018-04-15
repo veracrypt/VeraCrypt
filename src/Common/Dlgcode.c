@@ -75,6 +75,8 @@
 #endif
 
 #include <Setupapi.h>
+#include <Softpub.h>
+#include <WinTrust.h>
 #include <strsafe.h>
 
 #pragma comment( lib, "setupapi.lib" )
@@ -266,6 +268,8 @@ HMODULE hbcryptprimitivesdll = NULL;
 HMODULE hMsls31 = NULL;
 HMODULE hntmartadll = NULL;
 HMODULE hwinscarddll = NULL;
+HMODULE hmsvcrtdll = NULL;
+HMODULE hWinTrustLib = NULL;
 
 #define FREE_DLL(h)	if (h) { FreeLibrary (h); h = NULL;}
 
@@ -316,6 +320,29 @@ SetupOpenInfFileWPtr SetupOpenInfFileWFn = NULL;
 SHDeleteKeyWPtr SHDeleteKeyWFn = NULL;
 SHStrDupWPtr SHStrDupWFn = NULL;
 ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
+
+typedef LONG (WINAPI *WINVERIFYTRUST)(HWND hwnd, GUID *pgActionID, LPVOID pWVTData);
+typedef CRYPT_PROVIDER_DATA* (WINAPI *WTHELPERPROVDATAFROMSTATEDATA)(HANDLE hStateData);
+typedef CRYPT_PROVIDER_SGNR* (WINAPI *WTHELPERGETPROVSIGNERFROMCHAIN)(CRYPT_PROVIDER_DATA *pProvData,
+                                                                       DWORD idxSigner,
+                                                                       BOOL fCounterSigner,
+                                                                       DWORD idxCounterSigner);
+typedef CRYPT_PROVIDER_CERT* (WINAPI *WTHELPERGETPROVCERTFROMCHAIN)(CRYPT_PROVIDER_SGNR *pSgnr,
+                                                                     DWORD idxCert);
+
+static WINVERIFYTRUST WinVerifyTrustFn = NULL;
+static WTHELPERPROVDATAFROMSTATEDATA WTHelperProvDataFromStateDataFn = NULL;
+static WTHELPERGETPROVSIGNERFROMCHAIN WTHelperGetProvSignerFromChainFn = NULL;
+static WTHELPERGETPROVCERTFROMCHAIN WTHelperGetProvCertFromChainFn = NULL;
+
+static unsigned char gpbSha1CodeSignCertFingerprint[64] = {
+	0xCD, 0xF3, 0x05, 0xAD, 0xAE, 0xD3, 0x91, 0xF2, 0x0D, 0x95, 0x95, 0xAC,
+	0x76, 0x09, 0x35, 0x53, 0x11, 0x00, 0x4D, 0xDD, 0x56, 0x02, 0xBD, 0x09,
+	0x76, 0x57, 0xE1, 0xFA, 0xFA, 0xF4, 0x86, 0x09, 0x28, 0xA4, 0x0D, 0x1C,
+	0x68, 0xE7, 0x68, 0x31, 0xD3, 0xB6, 0x62, 0x9C, 0x75, 0x91, 0xAB, 0xB5,
+	0x6F, 0x1A, 0x75, 0xE7, 0x13, 0x2F, 0xF1, 0xB1, 0x14, 0xBF, 0x5F, 0x00,
+	0x40, 0xCE, 0x17, 0x6C
+};
 
 /* Windows dialog class */
 #define WINDOWS_DIALOG_CLASS L"#32770"
@@ -691,6 +718,7 @@ void AbortProcessDirect (wchar_t *abortMsg)
 	FREE_DLL (hMsls31);
 	FREE_DLL (hntmartadll);
 	FREE_DLL (hwinscarddll);
+	FREE_DLL (hmsvcrtdll);
 
 	exit (1);
 }
@@ -740,6 +768,7 @@ void AbortProcessSilent (void)
 	FREE_DLL (hMsls31);
 	FREE_DLL (hntmartadll);
 	FREE_DLL (hwinscarddll);
+	FREE_DLL (hmsvcrtdll);
 
 	// Note that this function also causes localcleanup() to be called (see atexit())
 	exit (1);
@@ -2701,6 +2730,9 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	WNDCLASSW wc;
 	char langId[6];	
 	InitCommonControlsPtr InitCommonControlsFn = NULL;	
+	wchar_t modPath[MAX_PATH];
+
+	GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
 
    /* remove current directory from dll search path */
    SetDllDirectoryFn = (SetDllDirectoryPtr) GetProcAddress (GetModuleHandle(L"kernel32.dll"), "SetDllDirectoryW");
@@ -2720,6 +2752,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	InitGlobalLocks ();
 
+	LoadSystemDll (L"msvcrt.dll", &hmsvcrtdll, TRUE, SRC_POS);
 	LoadSystemDll (L"ntmarta.dll", &hntmartadll, TRUE, SRC_POS);
 	LoadSystemDll (L"MPR.DLL", &hmprdll, TRUE, SRC_POS);
 #ifdef SETUP
@@ -2770,22 +2803,24 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		LoadSystemDll (L"vsstrace.dll", &hvsstracedll, TRUE, SRC_POS);
 		LoadSystemDll (L"vssapi.dll", &vssapidll, TRUE, SRC_POS);
 		LoadSystemDll (L"spp.dll", &hsppdll, TRUE, SRC_POS);
+	}
+#endif
 
-		if (IsOSAtLeast (WIN_7))
-		{
-			LoadSystemDll (L"CryptSP.dll", &hCryptSpDll, TRUE, SRC_POS);
+	LoadSystemDll (L"crypt32.dll", &hcrypt32dll, TRUE, SRC_POS);
+	
+	if (IsOSAtLeast (WIN_7))
+	{
+		LoadSystemDll (L"CryptSP.dll", &hCryptSpDll, TRUE, SRC_POS);
 
-			LoadSystemDll (L"cfgmgr32.dll", &hcfgmgr32dll, TRUE, SRC_POS);
-			LoadSystemDll (L"devobj.dll", &hdevobjdll, TRUE, SRC_POS);
-			LoadSystemDll (L"powrprof.dll", &hpowrprofdll, TRUE, SRC_POS);
+		LoadSystemDll (L"cfgmgr32.dll", &hcfgmgr32dll, TRUE, SRC_POS);
+		LoadSystemDll (L"devobj.dll", &hdevobjdll, TRUE, SRC_POS);
+		LoadSystemDll (L"powrprof.dll", &hpowrprofdll, TRUE, SRC_POS);
 
-			LoadSystemDll (L"crypt32.dll", &hcrypt32dll, TRUE, SRC_POS);
-
-			LoadSystemDll (L"bcrypt.dll", &hbcryptdll, TRUE, SRC_POS);
-			LoadSystemDll (L"bcryptprimitives.dll", &hbcryptprimitivesdll, TRUE, SRC_POS);								
-		}
+		LoadSystemDll (L"bcrypt.dll", &hbcryptdll, TRUE, SRC_POS);
+		LoadSystemDll (L"bcryptprimitives.dll", &hbcryptprimitivesdll, TRUE, SRC_POS);								
 	}	
-#else
+
+#ifndef SETUP
 	LoadSystemDll (L"WINSCARD.DLL", &hwinscarddll, TRUE, SRC_POS);
 #endif
 
@@ -2805,6 +2840,10 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	LoadSystemDll (L"Riched20.dll", &hRichEditDll, FALSE, SRC_POS);
 
+#if defined(NDEBUG) && !defined(SETUP)
+	if (!VerifyModuleSignature (modPath))
+		AbortProcess ("DIST_PACKAGE_CORRUPTED");
+#endif
 	// Get SetupAPI functions pointers
 	SetupCloseInfFileFn = (SetupCloseInfFilePtr) GetProcAddress (hSetupDll, "SetupCloseInfFile");
 	SetupDiOpenClassRegKeyFn = (SetupDiOpenClassRegKeyPtr) GetProcAddress (hSetupDll, "SetupDiOpenClassRegKey");
@@ -2876,7 +2915,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	// A new instance of the application must be created with elevated privileges.
 	if (IsNonInstallMode () && !IsAdmin () && IsUacSupported ())
 	{
-		wchar_t modPath[MAX_PATH];
 
 		if (wcsstr (lpszCommandLine, L"/q UAC ") == lpszCommandLine)
 		{
@@ -2884,7 +2922,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 			exit (1);
 		}
 
-		GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
 
 		if (LaunchElevatedProcess (NULL, modPath, lpszCommandLine))
 			exit (0);
@@ -3027,6 +3064,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		FREE_DLL (hMsls31);
 		FREE_DLL (hntmartadll);
 		FREE_DLL (hwinscarddll);
+		FREE_DLL (hmsvcrtdll);
 		exit (1);
 	}
 #endif
@@ -3071,6 +3109,7 @@ void FinalizeApp (void)
 	FREE_DLL (hMsls31);
 	FREE_DLL (hntmartadll);
 	FREE_DLL (hwinscarddll);
+	FREE_DLL (hmsvcrtdll);
 }
 
 void InitHelpFileName (void)
@@ -13364,3 +13403,105 @@ INT_PTR SecureDesktopDialogBoxParam(
 }
 
 #endif
+
+static BOOL InitializeWintrust()
+{
+	if (!hWinTrustLib)
+	{
+		wchar_t szPath[MAX_PATH] = {0};
+
+		if (GetSystemDirectory(szPath, MAX_PATH))
+			StringCchCatW (szPath, MAX_PATH, L"\\Wintrust.dll");
+		else
+			StringCchCopyW (szPath, MAX_PATH, L"C:\\Windows\\System32\\Wintrust.dll");
+
+		hWinTrustLib = LoadLibrary (szPath);
+		if (hWinTrustLib)
+		{
+			WinVerifyTrustFn = (WINVERIFYTRUST) GetProcAddress (hWinTrustLib, "WinVerifyTrust");
+			WTHelperProvDataFromStateDataFn = (WTHELPERPROVDATAFROMSTATEDATA) GetProcAddress (hWinTrustLib, "WTHelperProvDataFromStateData");
+			WTHelperGetProvSignerFromChainFn = (WTHELPERGETPROVSIGNERFROMCHAIN) GetProcAddress (hWinTrustLib, "WTHelperGetProvSignerFromChain");
+			WTHelperGetProvCertFromChainFn = (WTHELPERGETPROVCERTFROMCHAIN) GetProcAddress (hWinTrustLib, "WTHelperGetProvCertFromChain");
+
+			if (	!WinVerifyTrustFn 
+				||	!WTHelperProvDataFromStateDataFn 
+				||	!WTHelperGetProvSignerFromChainFn 
+				||	!WTHelperGetProvCertFromChainFn)
+			{
+				FreeLibrary (hWinTrustLib);
+				hWinTrustLib = NULL;
+			}
+
+		}
+	}
+
+	if (hWinTrustLib)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static void FinalizeWintrust()
+{
+	if (hWinTrustLib)
+	{
+		FreeLibrary (hWinTrustLib);
+		hWinTrustLib = NULL;
+	}
+}
+
+BOOL VerifyModuleSignature (const wchar_t* path)
+{
+	BOOL bResult = FALSE;
+	HRESULT hResult;
+	GUID gActionID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
+	WINTRUST_FILE_INFO  fileInfo = {0};
+	WINTRUST_DATA      WVTData = {0};
+
+	if (!InitializeWintrust ())
+		return FALSE;
+
+	fileInfo.cbStruct = sizeof(WINTRUST_FILE_INFO);
+	fileInfo.pcwszFilePath = path;
+	fileInfo.hFile = NULL;
+
+	WVTData.cbStruct            = sizeof(WINTRUST_DATA);
+	WVTData.dwUIChoice          = WTD_UI_NONE;
+	WVTData.fdwRevocationChecks = WTD_REVOKE_NONE;
+	WVTData.dwUnionChoice       = WTD_CHOICE_FILE;
+	WVTData.pFile               = &fileInfo;
+	WVTData.dwStateAction       = WTD_STATEACTION_VERIFY;
+	WVTData.dwProvFlags         = WTD_REVOCATION_CHECK_NONE | WTD_CACHE_ONLY_URL_RETRIEVAL;
+
+	hResult = WinVerifyTrustFn(0, &gActionID, &WVTData);
+	if (SUCCEEDED (hResult))
+	{
+		PCRYPT_PROVIDER_DATA pProviderData = WTHelperProvDataFromStateDataFn (WVTData.hWVTStateData);
+		if (pProviderData)
+		{
+			PCRYPT_PROVIDER_SGNR pProviderSigner = WTHelperGetProvSignerFromChainFn (pProviderData, 0, FALSE, 0);
+			if (pProviderSigner)
+			{
+				PCRYPT_PROVIDER_CERT pProviderCert = WTHelperGetProvCertFromChainFn (pProviderSigner, 0);
+				if (pProviderCert && (pProviderCert->pCert))
+				{
+					BYTE hashVal[64];
+					sha512 (hashVal, pProviderCert->pCert->pbCertEncoded, pProviderCert->pCert->cbCertEncoded);
+
+					if (0 ==  memcmp (hashVal, gpbSha1CodeSignCertFingerprint, 64))
+					{
+						bResult = TRUE;
+					}
+				}
+			}
+		}
+	}
+
+	WVTData.dwUIChoice = WTD_UI_NONE;
+	WVTData.dwStateAction = WTD_STATEACTION_CLOSE;
+	WinVerifyTrustFn(0, &gActionID, &WVTData);
+
+	FinalizeWintrust ();
+
+	return bResult;
+}
