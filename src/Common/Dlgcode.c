@@ -13457,12 +13457,27 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 	GUID gActionID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
 	WINTRUST_FILE_INFO  fileInfo = {0};
 	WINTRUST_DATA      WVTData = {0};
+	wchar_t filePath [TC_MAX_PATH + 1024];
+
+	// Strip quotation marks (if any)
+	if (path [0] == L'"')
+	{
+		StringCbCopyW (filePath, sizeof(filePath), path + 1);
+	}
+	else
+	{
+		StringCbCopyW (filePath, sizeof(filePath), path);
+	}
+
+	// Strip quotation marks (if any)
+	if (filePath [wcslen (filePath) - 1] == L'"')
+		filePath [wcslen (filePath) - 1] = 0;
 
 	if (!InitializeWintrust ())
 		return FALSE;
 
 	fileInfo.cbStruct = sizeof(WINTRUST_FILE_INFO);
-	fileInfo.pcwszFilePath = path;
+	fileInfo.pcwszFilePath = filePath;
 	fileInfo.hFile = NULL;
 
 	WVTData.cbStruct            = sizeof(WINTRUST_DATA);
