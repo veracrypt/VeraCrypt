@@ -1,0 +1,80 @@
+;;;
+;;; VeraCrypt
+;;;
+;;;
+;;; Copyright (c) 2018, IDRIX
+;;;
+
+[Version]
+signature   = "$Windows NT$"
+Class       = "Encryption"                              ;This is determined by the work this filter driver does
+ClassGuid   = {a0a701c0-a511-42ff-aa6c-06dc0395576f}    ;This value is determined by the Class
+Provider    = %ProviderString%
+DriverVer   = 04/14/2018,1.23.0.0
+CatalogFile = veracrypt.cat
+
+
+[DestinationDirs]
+DefaultDestDir          = 12
+MiniFilter.DriverFiles  = 12            ;%windir%\system32\drivers
+
+;;
+;; Default install sections
+;;
+
+[DefaultInstall]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = MiniFilter.DriverFiles
+
+[DefaultInstall.Services]
+AddService          = %ServiceName%,,MiniFilter.Service
+
+;;
+;; Default uninstall sections
+;;
+
+[DefaultUninstall]
+DelFiles   = MiniFilter.DriverFiles
+
+[DefaultUninstall.Services]
+DelService = veracrypt,0x200      ;Ensure service is stopped before deleting
+
+;
+; Services Section
+;
+
+[MiniFilter.Service]
+DisplayName      = %ServiceName%
+Description      = %ServiceDescription%
+ServiceBinary    = %12%\%DriverName%.sys        ;%windir%\system32\drivers\
+Dependencies     = "FltMgr"
+ServiceType      = 2                            ;SERVICE_FILE_SYSTEM_DRIVER
+;StartType        = 0                           ;SERVICE_BOOT_START
+StartType        = 3                            ;SERVICE_DEMAND_START
+ErrorControl     = 1                            ;SERVICE_ERROR_NORMAL
+LoadOrderGroup   = "FSFilter Encryption"
+
+;
+; Copy Files
+;
+
+[MiniFilter.DriverFiles]
+%DriverName%.sys
+
+[SourceDisksFiles]
+veracrypt.sys = 1,,
+
+[SourceDisksNames]
+1 = %DiskId1%,,,
+
+;;
+;; String Section
+;;
+
+[Strings]
+ProviderString          = "IDRIX"
+ServiceDescription      = "veracrypt"
+ServiceName             = "veracrypt"
+DriverName              = "veracrypt"
+DiskId1                 = "VeraCrypt Device Installation Disk"
+

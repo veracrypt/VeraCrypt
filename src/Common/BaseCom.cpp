@@ -431,3 +431,27 @@ DWORD BaseCom::WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMe
 
 	return ERROR_SUCCESS;
 }
+
+DWORD BaseCom::UpdateSetupConfigFile (BOOL bForInstall)
+{
+	try
+	{
+		BootEncryption bootEnc (NULL);
+		bootEnc.UpdateSetupConfigFile (bForInstall? true : false);
+	}
+	catch (SystemException &)
+	{
+		return GetLastError();
+	}
+	catch (Exception &e)
+	{
+		e.Show (NULL);
+		return ERROR_EXCEPTION_IN_SERVICE;
+	}
+	catch (...)
+	{
+		return ERROR_EXCEPTION_IN_SERVICE;
+	}
+
+	return ERROR_SUCCESS;
+}

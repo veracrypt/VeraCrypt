@@ -147,6 +147,7 @@ OSVersionEnum nCurrentOS = WIN_UNKNOWN;
 int CurrentOSMajor = 0;
 int CurrentOSMinor = 0;
 int CurrentOSServicePack = 0;
+int CurrentOSBuildNumber = 0;
 BOOL RemoteSession = FALSE;
 BOOL UacElevated = FALSE;
 
@@ -343,6 +344,13 @@ static unsigned char gpbSha1CodeSignCertFingerprint[64] = {
 	0x6F, 0x1A, 0x75, 0xE7, 0x13, 0x2F, 0xF1, 0xB1, 0x14, 0xBF, 0x5F, 0x00,
 	0x40, 0xCE, 0x17, 0x6C
 };
+
+typedef HRESULT (WINAPI *SHGETKNOWNFOLDERPATH) (
+  _In_     REFKNOWNFOLDERID rfid,
+  _In_     DWORD            dwFlags,
+  _In_opt_ HANDLE           hToken,
+  _Out_    PWSTR            *ppszPath
+);
 
 /* Windows dialog class */
 #define WINDOWS_DIALOG_CLASS L"#32770"
@@ -2663,6 +2671,7 @@ void InitOSVersionInfo ()
 	CurrentOSMajor = os.dwMajorVersion;
 	CurrentOSMinor = os.dwMinorVersion;
 	CurrentOSServicePack = os.wServicePackMajor;
+	CurrentOSBuildNumber = os.dwBuildNumber;
 
 	if (os.dwPlatformId == VER_PLATFORM_WIN32_NT && CurrentOSMajor == 5 && CurrentOSMinor == 0)
 		nCurrentOS = WIN_2000;
@@ -13517,6 +13526,122 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 	WinVerifyTrustFn(0, &gActionID, &WVTData);
 
 	FinalizeWintrust ();
+
+	return bResult;
+}
+
+void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, BOOL* pbInstallPathDetermined)
+{
+	HKEY hkey;
+	BOOL bInstallPathDetermined = FALSE;
+	wchar_t path[MAX_PATH+20];
+	ITEMIDLIST *itemList;
+
+	memset (szInstallPath, 0, cchSize * sizeof (wchar_t));
+
+	// Determine if VeraCrypt is already installed and try to determine its "Program Files" location
+	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
+	{
+		/* Default 'UninstallString' registry strings written by VeraCrypt:
+		------------------------------------------------------------------------------------
+		5.0+	"C:\Program Files\VeraCrypt\VeraCrypt Setup.exe" /u
+		*/
+
+		wchar_t rv[MAX_PATH*4];
+		DWORD size = sizeof (rv);
+		if (RegQueryValueEx (hkey, L"UninstallString", 0, 0, (LPBYTE) &rv, &size) == ERROR_SUCCESS && wcsrchr (rv, L'/'))
+		{
+			size_t len = 0;
+
+			// Cut and paste the location (path) where VeraCrypt is installed to InstallationPath
+			if (rv[0] == L'"')
+			{
+				len = wcsrchr (rv, L'/') - rv - 2;
+				StringCchCopyNW (szInstallPath, cchSize, rv + 1, len);
+				szInstallPath [len] = 0;
+				bInstallPathDetermined = TRUE;
+
+				if (szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
+				{
+					len = wcsrchr (szInstallPath, L'\\') - szInstallPath;
+					szInstallPath [len] = 0;
+				}
+			}
+
+		}
+		RegCloseKey (hkey);
+	}
+
+	if (!bInstallPathDetermined)
+	{
+		/* VeraCrypt is not installed or it wasn't possible to determine where it is installed. */
+
+		// Default "Program Files" path.
+		SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList);
+		SHGetPathFromIDList (itemList, path);
+
+		if (Is64BitOs())
+		{
+			// Use a unified default installation path (registry redirection of %ProgramFiles% does not work if the installation path is user-selectable)
+			wstring s = path;
+			size_t p = s.find (L" (x86)");
+			if (p != wstring::npos)
+			{
+				s = s.substr (0, p);
+				if (_waccess (s.c_str(), 0) != -1)
+					StringCbCopyW (path, sizeof (path), s.c_str());
+			}
+		}
+
+		StringCbCatW (path, sizeof(path), L"\\VeraCrypt\\");
+		StringCbCopyW (szInstallPath, cchSize, path);
+	}
+
+	// Make sure the path ends with a backslash
+	if (szInstallPath [wcslen (szInstallPath) - 1] != L'\\')
+	{
+		StringCbCatW (szInstallPath, cchSize, L"\\");
+	}
+
+	if (pbInstallPathDetermined)
+		*pbInstallPathDetermined = bInstallPathDetermined;
+}
+
+BOOL GetSetupconfigLocation (wchar_t* path, DWORD cchSize)
+{
+	wchar_t szShell32Path[MAX_PATH] = {0};
+	HMODULE hShell32 = NULL;
+	BOOL bResult = FALSE;
+
+	path[0] = 0;
+
+	if (GetSystemDirectory(szShell32Path, MAX_PATH))
+		StringCchCatW (szShell32Path, MAX_PATH, L"\\Shell32.dll");
+	else
+		StringCchCopyW (szShell32Path, MAX_PATH, L"C:\\Windows\\System32\\Shell32.dll");
+
+	hShell32 = LoadLibrary (szShell32Path);
+	if (hShell32)
+	{
+		SHGETKNOWNFOLDERPATH SHGetKnownFolderPathFn = (SHGETKNOWNFOLDERPATH) GetProcAddress (hShell32, "SHGetKnownFolderPath");
+		if (SHGetKnownFolderPathFn)
+		{
+			wchar_t* pszUsersPath = NULL;
+			if (S_OK == SHGetKnownFolderPathFn (FOLDERID_UserProfiles, 0, NULL, &pszUsersPath))
+			{
+				StringCchPrintfW (path, cchSize, L"%s\\Default\\AppData\\Local\\Microsoft\\Windows\\WSUS\\", pszUsersPath);
+				CoTaskMemFree (pszUsersPath);
+				bResult = TRUE;
+			}
+		}
+		FreeLibrary (hShell32);
+	}
+
+	if (!bResult && CurrentOSMajor >= 10)
+	{
+		StringCchPrintfW (path, cchSize, L"%c:\\Users\\Default\\AppData\\Local\\Microsoft\\Windows\\WSUS\\", szShell32Path[0]);					
+		bResult = TRUE;
+	}
 
 	return bResult;
 }

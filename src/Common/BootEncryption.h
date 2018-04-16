@@ -310,7 +310,7 @@ namespace VeraCrypt
 		void GetEfiBootDeviceNumber (PSTORAGE_DEVICE_NUMBER pSdn);
 		void BackupSystemLoader ();
 		void RestoreSystemLoader ();
-
+		void UpdateSetupConfigFile (bool bForInstall);
 	protected:
 		static const uint32 RescueIsoImageSize = 1835008; // Size of ISO9660 image with bootable emulated 1.44MB floppy disk image
 

@@ -135,6 +135,7 @@ extern OSVersionEnum nCurrentOS;
 extern int CurrentOSMajor;
 extern int CurrentOSMinor;
 extern int CurrentOSServicePack;
+extern int CurrentOSBuildNumber;
 extern BOOL RemoteSession;
 extern HANDLE hDriver;
 extern HINSTANCE hInst;
@@ -529,6 +530,8 @@ BOOL RaisePrivileges(void);
 BOOL DeleteDirectory (const wchar_t* szDirName);
 INT_PTR SecureDesktopDialogBoxParam (HINSTANCE, LPCWSTR, HWND, DLGPROC, LPARAM);
 BOOL VerifyModuleSignature (const wchar_t* path);
+void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, BOOL* pbInstallPathDetermined);
+BOOL GetSetupconfigLocation (wchar_t* path, DWORD cchSize);
 #ifdef __cplusplus
 }
 

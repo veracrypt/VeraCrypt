@@ -172,6 +172,11 @@ public:
 		return BaseCom::WriteEfiBootSectorUserConfig (userConfig, customUserMessage,pim, hashAlg);
 	}
 
+	virtual DWORD STDMETHODCALLTYPE UpdateSetupConfigFile (BOOL bForInstall)
+	{
+		return BaseCom::UpdateSetupConfigFile (bForInstall);
+	}
+
 protected:
 	DWORD MessageThreadId;
 	LONG RefCount;

@@ -117,6 +117,7 @@ public:
 	static DWORD RestoreEfiSystemLoader ();
 	static DWORD GetEfiBootDeviceNumber (BSTR* pSdn);
 	static DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
+	static DWORD UpdateSetupConfigFile (BOOL bForInstall);
 };
 
 

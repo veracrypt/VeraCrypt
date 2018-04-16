@@ -748,6 +748,12 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				}
 
 				if (Is64BitOs ()
+					&& wcscmp (szFiles[i], L"Averacrypt.cat") == 0)
+				{
+					StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-x64.cat", sizeof (L"veracrypt-x64.cat"));
+				}
+
+				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
 				{
 					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-x64.exe", sizeof (L"VeraCrypt-x64.exe"));
@@ -2289,45 +2295,9 @@ void DoInstall (void *arg)
 
 void SetInstallationPath (HWND hwndDlg)
 {
-	HKEY hkey;
 	BOOL bInstallPathDetermined = FALSE;
-	wchar_t path[MAX_PATH+20];
-	ITEMIDLIST *itemList;
-
-	memset (InstallationPath, 0, sizeof (InstallationPath));
-
-	// Determine if VeraCrypt is already installed and try to determine its "Program Files" location
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
-	{
-		/* Default 'UninstallString' registry strings written by VeraCrypt:
-		------------------------------------------------------------------------------------
-		5.0+	"C:\Program Files\VeraCrypt\VeraCrypt Setup.exe" /u
-		*/
-
-		wchar_t rv[MAX_PATH*4];
-		DWORD size = sizeof (rv);
-		if (RegQueryValueEx (hkey, L"UninstallString", 0, 0, (LPBYTE) &rv, &size) == ERROR_SUCCESS && wcsrchr (rv, L'/'))
-		{
-			size_t len = 0;
-
-			// Cut and paste the location (path) where VeraCrypt is installed to InstallationPath
-			if (rv[0] == L'"')
-			{
-				len = wcsrchr (rv, L'/') - rv - 2;
-				StringCchCopyNW (InstallationPath, ARRAYSIZE(InstallationPath), rv + 1, len);
-				InstallationPath [len] = 0;
-				bInstallPathDetermined = TRUE;
-
-				if (InstallationPath [wcslen (InstallationPath) - 1] != L'\\')
-				{
-					len = wcsrchr (InstallationPath, L'\\') - InstallationPath;
-					InstallationPath [len] = 0;
-				}
-			}
-
-		}
-		RegCloseKey (hkey);
-	}
+	
+	GetInstallationPath (hwndDlg, InstallationPath, ARRAYSIZE (InstallationPath), &bInstallPathDetermined);
 
 	if (bInstallPathDetermined)
 	{
@@ -2342,36 +2312,6 @@ void SetInstallationPath (HWND hwndDlg)
 			if (!IsNonInstallMode() && !bDevm)
 				bChangeMode = TRUE;
 		}
-	}
-	else
-	{
-		/* VeraCrypt is not installed or it wasn't possible to determine where it is installed. */
-
-		// Default "Program Files" path.
-		SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList);
-		SHGetPathFromIDList (itemList, path);
-
-		if (Is64BitOs())
-		{
-			// Use a unified default installation path (registry redirection of %ProgramFiles% does not work if the installation path is user-selectable)
-			wstring s = path;
-			size_t p = s.find (L" (x86)");
-			if (p != wstring::npos)
-			{
-				s = s.substr (0, p);
-				if (_waccess (s.c_str(), 0) != -1)
-					StringCbCopyW (path, sizeof (path), s.c_str());
-			}
-		}
-
-		StringCbCatW (path, sizeof(path), L"\\VeraCrypt\\");
-		StringCbCopyW (InstallationPath, sizeof(InstallationPath), path);
-	}
-
-	// Make sure the path ends with a backslash
-	if (InstallationPath [wcslen (InstallationPath) - 1] != L'\\')
-	{
-		StringCbCatW (InstallationPath, sizeof(InstallationPath), L"\\");
 	}
 }
 

@@ -396,6 +396,18 @@ namespace VeraCrypt
 			}
 		}
 
+		static void UpdateSetupConfigFile (bool bForInstall)
+		{
+			Elevate();
+
+			DWORD result = ElevatedComInstance->UpdateSetupConfigFile (bForInstall ? TRUE : FALSE);
+			if (result != ERROR_SUCCESS)
+			{
+				SetLastError (result);
+				throw SystemException(SRC_POS);
+			}
+		}
+
 		static void Release ()
 		{
 			if (--ReferenceCount == 0 && ElevatedComInstance)
@@ -470,6 +482,7 @@ namespace VeraCrypt
 		static void RestoreEfiSystemLoader () { throw ParameterIncorrect (SRC_POS); }
 		static void GetEfiBootDeviceNumber (PSTORAGE_DEVICE_NUMBER pSdn) { throw ParameterIncorrect (SRC_POS); }
 		static void WriteEfiBootSectorUserConfig (byte userConfig, const string &customUserMessage, int pim, int hashAlg) { throw ParameterIncorrect (SRC_POS); }
+		static void UpdateSetupConfigFile (bool bForInstall) { throw ParameterIncorrect (SRC_POS); }
 	};
 
 #endif // SETUP
@@ -2685,6 +2698,27 @@ namespace VeraCrypt
 		return conf.Save (path.c_str(), hwndDlg);
 	}
 
+	void BootEncryption::UpdateSetupConfigFile (bool bForInstall)
+	{
+		// starting from Windows 10 1607 (Build 14393), ReflectDrivers in Setupconfig.ini is supported
+		if (IsOSVersionAtLeast (WIN_10, 0) && CurrentOSBuildNumber >= 14393)
+		{
+			wchar_t szInstallPath [TC_MAX_PATH];
+			wchar_t szSetupconfigLocation [TC_MAX_PATH + 20];
+
+			if (bForInstall)
+				GetInstallationPath (NULL, szInstallPath, ARRAYSIZE (szInstallPath), NULL);
+			if (GetSetupconfigLocation (szSetupconfigLocation, ARRAYSIZE (szSetupconfigLocation)))
+			{
+				::CreateDirectoryW (szSetupconfigLocation, NULL);
+
+				StringCchCatW (szSetupconfigLocation, ARRAYSIZE (szSetupconfigLocation), L"SetupConfig.ini");
+
+				WritePrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", bForInstall? szInstallPath : NULL, szSetupconfigLocation);
+			}
+		}
+	}
+
 	void BootEncryption::InstallBootLoader (bool preserveUserConfig, bool hiddenOSCreation, int pim, int hashAlg)
 	{
 		Device device (GetSystemDriveConfiguration().DevicePath);
@@ -2850,6 +2884,15 @@ namespace VeraCrypt
 			// Write boot loader
 			device.SeekAt (TC_SECTOR_SIZE_BIOS);
 			device.Write (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, sizeof (bootLoaderBuf) - TC_SECTOR_SIZE_BIOS);
+		}
+
+		if (!IsAdmin() && IsUacSupported())
+		{
+			Elevator::UpdateSetupConfigFile (true);
+		}
+		else
+		{
+			UpdateSetupConfigFile (true);
 		}
 	}
 
@@ -3785,6 +3828,22 @@ namespace VeraCrypt
 
 			device.SeekAt (0);
 			device.Write (bootLoaderBuf, sizeof (bootLoaderBuf));
+		}
+
+		// starting from Windows 10 1607 (Build 14393), ReflectDrivers in Setupconfig.ini is supported
+		if (IsOSVersionAtLeast (WIN_10, 0) && CurrentOSBuildNumber >= 14393)
+		{
+			wchar_t szSetupconfigLocation [TC_MAX_PATH + 20];
+
+			if (GetSetupconfigLocation (szSetupconfigLocation, ARRAYSIZE (szSetupconfigLocation)))
+			{
+				StringCchCatW (szSetupconfigLocation, ARRAYSIZE (szSetupconfigLocation), L"SetupConfig.ini");
+
+				if (FileExists (szSetupconfigLocation))
+				{
+					WritePrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", NULL, szSetupconfigLocation);
+				}
+			}
 		}
 	}
 
