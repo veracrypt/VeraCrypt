@@ -742,7 +742,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				curFileName [wcslen (szFiles[i]) - 1] = 0;
 
 				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"Dveracrypt.sys") == 0)
+					&& ((wcscmp (szFiles[i], L"Dveracrypt.sys") == 0) || (wcscmp (szFiles[i], L"Averacrypt.sys") == 0)))
 				{
 					StringCbCopyNW (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
 				}
