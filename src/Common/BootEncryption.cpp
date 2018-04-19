@@ -2707,7 +2707,14 @@ namespace VeraCrypt
 			wchar_t szSetupconfigLocation [TC_MAX_PATH + 20];
 
 			if (bForInstall)
+			{
 				GetInstallationPath (NULL, szInstallPath, ARRAYSIZE (szInstallPath), NULL);
+				// remove ending backslash
+				if (szInstallPath [wcslen (szInstallPath) - 1] == L'\\')
+				{
+					szInstallPath [wcslen (szInstallPath) - 1] = 0;
+				}
+			}
 			if (GetSetupconfigLocation (szSetupconfigLocation, ARRAYSIZE (szSetupconfigLocation)))
 			{
 				::CreateDirectoryW (szSetupconfigLocation, NULL);
