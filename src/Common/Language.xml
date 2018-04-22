@@ -1419,6 +1419,7 @@
     <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</entry>
     <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
     <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
+    <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

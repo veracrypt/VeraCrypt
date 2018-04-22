@@ -40,6 +40,7 @@ namespace VeraCrypt
 		File (wstring path,bool readOnly = false, bool create = false);
 		virtual ~File () { Close(); }
 
+		bool IsOpened () const { return FileOpen;}
 		void CheckOpened (const char* srcPos) { if (!FileOpen) { SetLastError (LastError); throw SystemException (srcPos);} }
 		void Close ();
 		DWORD Read (byte *buffer, DWORD size);
@@ -176,6 +177,7 @@ namespace VeraCrypt
 		int authorizeRetry;
 		int bmlLockFlags;
 		int bmlDriverEnabled;
+		string actionSuccessValue;
 
 		EfiBootConf();
 
@@ -207,6 +209,7 @@ namespace VeraCrypt
 		void GetFileSize(const wchar_t* name, unsigned __int64& size);
 		void ReadFile(const wchar_t* name, byte* data, DWORD size);
 		void CopyFile(const wchar_t* name, const wchar_t* targetName);
+		bool FileExists(const wchar_t* name);
 
 		BOOL RenameFile(const wchar_t* name, wchar_t* nameNew, BOOL bForce);
 		BOOL DelFile(const wchar_t* name);
