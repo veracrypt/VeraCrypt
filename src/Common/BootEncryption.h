@@ -310,7 +310,7 @@ namespace VeraCrypt
 		void GetEfiBootDeviceNumber (PSTORAGE_DEVICE_NUMBER pSdn);
 		void BackupSystemLoader ();
 		void RestoreSystemLoader ();
-		void UpdateSetupConfigFile (bool bForInstall);
+		static void UpdateSetupConfigFile (bool bForInstall);
 	protected:
 		static const uint32 RescueIsoImageSize = 1835008; // Size of ISO9660 image with bootable emulated 1.44MB floppy disk image
 
@@ -353,5 +353,7 @@ namespace VeraCrypt
 #define TC_SYSTEM_FAVORITES_SERVICE_NAME				_T(TC_APP_NAME) L"SystemFavorites"
 #define	TC_SYSTEM_FAVORITES_SERVICE_LOAD_ORDER_GROUP	L"Event Log"
 #define TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION		L"/systemFavoritesService"
+
+#define VC_WINDOWS_UPGRADE_POSTOOBE_CMDLINE_OPTION		L"/PostOOBE"
 
 #endif // TC_HEADER_Common_BootEncryption

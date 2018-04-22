@@ -2722,8 +2722,37 @@ namespace VeraCrypt
 
 				StringCchCatW (szSetupconfigLocation, ARRAYSIZE (szSetupconfigLocation), L"SetupConfig.ini");
 
-				if (bForInstall || FileExists (szSetupconfigLocation))
-					WritePrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", bForInstall? szInstallPath : NULL, szSetupconfigLocation);
+				if (bForInstall)
+				{
+					wstring szPathParam = L"\"";
+					szPathParam += szInstallPath;
+					szPathParam += L"\"";
+					WritePrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", szPathParam.c_str(), szSetupconfigLocation);
+
+					szPathParam = GetProgramConfigPath (L"SetupComplete.cmd");
+					FILE* scriptFile = _wfopen (szPathParam.c_str(), L"w");
+					if (scriptFile)
+					{
+						fwprintf (scriptFile, L"\"%s\\VeraCrypt.exe\" /PostOOBE\n", szInstallPath);
+						fclose (scriptFile);
+
+						WritePrivateProfileStringW (L"SetupConfig", L"PostOOBE", szPathParam.c_str(), szSetupconfigLocation);
+					}
+				}
+				else
+				{
+					if (FileExists (szSetupconfigLocation))
+					{
+						WritePrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", NULL, szSetupconfigLocation);
+						WritePrivateProfileStringW (L"SetupConfig", L"PostOOBE", NULL, szSetupconfigLocation);
+					}
+
+					wstring scriptFilePath = GetProgramConfigPath (L"SetupComplete.cmd");
+					if (FileExists (scriptFilePath.c_str()))
+					{
+						::DeleteFileW (scriptFilePath.c_str());
+					}
+				}
 			}
 		}
 	}
@@ -3717,7 +3746,7 @@ namespace VeraCrypt
 
 			finally_do ({ EfiBootInst.DismountBootPartition(); });
 
-			EfiBootInst.MountBootPartition(0);			
+			EfiBootInst.MountBootPartition(0);		
 
 			EfiBootInst.GetFileSize(Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi" : L"\\EFI\\Boot\\bootia32.efi", loaderSize);
 

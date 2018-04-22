@@ -9383,6 +9383,13 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	if (argv && argc == 2 && wstring (TC_SYSTEM_FAVORITES_SERVICE_CMDLINE_OPTION) == argv[1])
 		return StartSystemFavoritesService() ? 0 : 1;
 
+	if (argv && argc == 2 && wstring (VC_WINDOWS_UPGRADE_POSTOOBE_CMDLINE_OPTION) == argv[1])
+	{
+		InitOSVersionInfo();
+		BootEncryption::UpdateSetupConfigFile (true);
+		return 0;
+	}
+
 	int status;
 	atexit (localcleanup);
 	SetProcessShutdownParameters (0x100, 0);
