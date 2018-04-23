@@ -52,6 +52,7 @@ library TrueCryptMainCom
 		DWORD GetEfiBootDeviceNumber (BSTR* pSdn);
 		DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
 		DWORD UpdateSetupConfigFile (BOOL bForInstall);
+		DWORD GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
 	};
 
 	[

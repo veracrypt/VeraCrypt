@@ -387,44 +387,6 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const wchar_t *subKey, const w
 	}
 }
 
-/* Set the given privilege of the current process */
-BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
-{
-	TOKEN_PRIVILEGES tp;
-	LUID luid;
-	HANDLE hProcessToken;
-	BOOL bStatus = FALSE;
-
-	if ( OpenProcessToken(GetCurrentProcess(),
-			TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
-			&hProcessToken) )
-	{
-		if ( LookupPrivilegeValue(
-				NULL,
-				szPrivilegeName,
-				&luid ) )
-		{
-
-			tp.PrivilegeCount = 1;
-			tp.Privileges[0].Luid = luid;
-			tp.Privileges[0].Attributes = bEnable? SE_PRIVILEGE_ENABLED : SE_PRIVILEGE_REMOVED;
-
-			// Enable the privilege
-			bStatus = AdjustTokenPrivileges(
-				hProcessToken,
-				FALSE,
-				&tp,
-				sizeof(TOKEN_PRIVILEGES),
-				(PTOKEN_PRIVILEGES) NULL,
-				(PDWORD) NULL);
-		}
-
-		CloseHandle(hProcessToken);
-	}
-
-	return bStatus;
-}
-
 /*
  * Creates a VT_LPWSTR propvariant.
  * we use our own implementation to use SHStrDupW function pointer

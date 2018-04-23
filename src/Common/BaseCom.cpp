@@ -336,6 +336,10 @@ DWORD BaseCom::BackupEfiSystemLoader ()
 	{
 		return GetLastError();
 	}
+	catch (UserAbort&)
+	{
+		return ERROR_CANCELLED;
+	}
 	catch (Exception &e)
 	{
 		e.Show (NULL);
@@ -382,6 +386,33 @@ DWORD BaseCom::GetEfiBootDeviceNumber (BSTR* pSdn)
 	{
 		BootEncryption bootEnc (NULL);
 		bootEnc.GetEfiBootDeviceNumber ((PSTORAGE_DEVICE_NUMBER) *pSdn);
+	}
+	catch (SystemException &)
+	{
+		return GetLastError();
+	}
+	catch (Exception &e)
+	{
+		e.Show (NULL);
+		return ERROR_EXCEPTION_IN_SERVICE;
+	}
+	catch (...)
+	{
+		return ERROR_EXCEPTION_IN_SERVICE;
+	}
+
+	return ERROR_SUCCESS;
+}
+
+DWORD BaseCom::GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded)
+{
+	if (!pSecureBootEnabled || !pVeraCryptKeysLoaded)
+		return ERROR_INVALID_PARAMETER;
+
+	try
+	{
+		BootEncryption bootEnc (NULL);
+		bootEnc.GetSecureBootConfig (pSecureBootEnabled, pVeraCryptKeysLoaded);
 	}
 	catch (SystemException &)
 	{

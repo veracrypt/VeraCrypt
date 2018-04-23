@@ -526,7 +526,7 @@ BOOL TranslateVolumeID (HWND hwndDlg, wchar_t* pathValue, size_t cchPathValue);
 BOOL CopyTextToClipboard (const wchar_t* txtValue);
 BOOL LaunchElevatedProcess (HWND hwndDlg, const wchar_t* szModPath, const wchar_t* args);
 BOOL GetFreeDriveLetter(WCHAR* pCh);
-BOOL RaisePrivileges(void);
+BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable);
 BOOL DeleteDirectory (const wchar_t* szDirName);
 INT_PTR SecureDesktopDialogBoxParam (HINSTANCE, LPCWSTR, HWND, DLGPROC, LPARAM);
 BOOL VerifyModuleSignature (const wchar_t* path);

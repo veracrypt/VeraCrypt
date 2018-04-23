@@ -167,6 +167,11 @@ public:
 		return BaseCom::GetEfiBootDeviceNumber (pSdn);
 	}
 
+	virtual DWORD STDMETHODCALLTYPE GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded)
+	{
+		return BaseCom::GetSecureBootConfig (pSecureBootEnabled, pVeraCryptKeysLoaded);
+	}
+
 	virtual DWORD STDMETHODCALLTYPE WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg)
 	{
 		return BaseCom::WriteEfiBootSectorUserConfig (userConfig, customUserMessage,pim, hashAlg);

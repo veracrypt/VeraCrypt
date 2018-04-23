@@ -13093,7 +13093,7 @@ BOOL GetFreeDriveLetter(WCHAR* pCh) {
 	return FALSE;
 }
 
-BOOL RaisePrivileges(void)
+BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable)
 {
 	HANDLE hToken;
 	TOKEN_PRIVILEGES tkp;
@@ -13104,15 +13104,13 @@ BOOL RaisePrivileges(void)
 		TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
 		&hToken))
 	{
-		if (LookupPrivilegeValue(NULL, SE_SYSTEM_ENVIRONMENT_NAME,
+		if (LookupPrivilegeValue(NULL, szPrivilegeName,
 				&tkp.Privileges[0].Luid))
 		{
-			DWORD len;
-			
 			tkp.PrivilegeCount = 1;
-			tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+			tkp.Privileges[0].Attributes = bEnable? SE_PRIVILEGE_ENABLED : SE_PRIVILEGE_REMOVED;
 			
-			bRet = AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, NULL, &len);
+			bRet = AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, NULL, NULL);
 			if (!bRet)
 				dwLastError = GetLastError ();
 		}
