@@ -1419,6 +1419,8 @@
     <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</entry>
     <entry lang="fr" key="IDC_ALLOW_TRIM_NONSYS_SSD">Autoriser la commande TRIM sur les disques SSD non système</entry>
     <entry lang="fr" key="IDC_BLOCK_SYSENC_TRIM">Bloquer la commande TRIM sur la partition/disque système</entry>
+    <entry lang="fr" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERREUR: Le chargeur de démarrage système EFI de Windows n'a pas pu être trouvé sur le disque. L'opération va être interrompue.</entry>
+    <entry lang="fr" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Il n'est actuellement pas possible de chiffrer un système si SecureBoot est activé et si les clefs personnalisées de VeraCrypt ne sont pas chargées dans le firmware de la machine. SecureBoot doit être désactivé dans la configuration du BIOS afin de permettre d'effectuer le chiffrement du système.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
