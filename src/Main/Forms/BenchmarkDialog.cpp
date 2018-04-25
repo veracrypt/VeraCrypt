@@ -32,6 +32,9 @@ namespace VeraCrypt
 		bufferSizes.push_back (200 * BYTES_PER_MB);
 		bufferSizes.push_back (500 * BYTES_PER_MB);
 		bufferSizes.push_back (1 * BYTES_PER_GB);
+		bufferSizes.push_back (2 * BYTES_PER_GB);
+		bufferSizes.push_back (4 * BYTES_PER_GB);
+		bufferSizes.push_back (8 * BYTES_PER_GB);
 
 		foreach (size_t size, bufferSizes)
 		{
