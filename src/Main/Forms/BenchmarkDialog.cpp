@@ -79,9 +79,9 @@ namespace VeraCrypt
 			vector <wstring> fields (BenchmarkListCtrl->GetColumnCount());
 
 			fields[ColumnAlgorithm] = result.AlgorithmName;
-			fields[ColumnEncryption] = Gui->SpeedToString (result.EncryptionSpeed);
-			fields[ColumnDecryption] = Gui->SpeedToString (result.DecryptionSpeed);
-			fields[ColumnMean] = Gui->SpeedToString (result.MeanSpeed);
+			fields[ColumnEncryption] = wxString::Format(L"%.1f %s", (double)(result.EncryptionSpeed / 1024.0 / 1024), LangString["MB_PER_SEC"].c_str());
+			fields[ColumnDecryption] = wxString::Format(L"%.1f %s", (double)(result.DecryptionSpeed / 1024.0 / 1024), LangString["MB_PER_SEC"].c_str());
+			fields[ColumnMean] = wxString::Format(L"%.1f %s", (double)(result.MeanSpeed / 1024.0 / 1024), LangString["MB_PER_SEC"].c_str());
 
 			Gui->AppendToListCtrl (BenchmarkListCtrl, fields);
 		}
