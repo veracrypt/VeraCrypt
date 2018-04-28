@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2017 IDRIX. All rights reserved.
+ Copyright (c) 2013-2018 IDRIX. All rights reserved.
 
  Governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -47,7 +47,7 @@ namespace VeraCrypt
 	{
 	public:
 		WaitDialog (wxWindow *parent, const wxString& label, WaitThreadRoutine* pRoutine)
-			: WaitDialogBase(parent), WaitThreadUI(pRoutine), m_timer (this)
+			: WaitDialogBase(parent), WaitThreadUI(pRoutine), m_bThreadRunning (false), m_timer (this)
 		{
 			WaitStaticText->SetLabel (label);
 			WaitProgessBar->Pulse();
@@ -76,6 +76,7 @@ namespace VeraCrypt
 		{
 			m_thread->Run();
 			m_timer.Start(100);
+			m_bThreadRunning = true;
 		}
 
 		int GetCharWidth (wxWindow *window) const
@@ -144,9 +145,19 @@ namespace VeraCrypt
 				pin = wxT("");
 		}
 
-		// virtual void OnWaitDialogClose( wxCloseEvent& event ) { }
+		virtual void OnWaitDialogClose( wxCloseEvent& event ) 
+		{ 
+			if (event.CanVeto () && m_bThreadRunning)
+			{
+				event.Veto ();
+			}
+			else
+				event.Skip ();
+		}
+ 
 		void OnThreadCompletion(wxCommandEvent &)
 		{
+			m_bThreadRunning = false;
 			m_queue.Clear();
 			EndModal(0);
 		}
@@ -202,6 +213,7 @@ namespace VeraCrypt
 
 	protected:
 		WaitThread* m_thread;
+		bool m_bThreadRunning;
 		wxTimer m_timer;
 		wxMessageQueue<wxString> m_queue;
 	};
