@@ -37,6 +37,11 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+	int GraphicUserInterface::g_customIdCmdV = 0;
+	int GraphicUserInterface::g_customIdCmdA = 0;
+#endif
+
 	GraphicUserInterface::GraphicUserInterface () :
 		ActiveFrame (nullptr),
 		BackgroundMode (false),
@@ -51,6 +56,8 @@ namespace VeraCrypt
 #endif
 
 #ifdef TC_MACOSX
+		g_customIdCmdV = wxNewId();
+		g_customIdCmdA = wxNewId();
 		wxApp::s_macHelpMenuTitleName = _("&Help");
 #endif
 	}
@@ -656,6 +663,41 @@ namespace VeraCrypt
 	void GraphicUserInterface::MacReopenApp ()
 	{
 		SetBackgroundMode (false);
+	}
+	
+	bool GraphicUserInterface::HandlePasswordEntryCustomEvent (wxEvent& event)
+	{
+		bool bHandled = false;
+		if (	(event.GetEventType() == wxEVT_MENU)
+			&&	((event.GetId() == g_customIdCmdV) || (event.GetId() == g_customIdCmdA)))
+		{
+			wxWindow* focusedCtrl = wxWindow::FindFocus();
+			if (focusedCtrl 
+				&& (focusedCtrl->IsKindOf(wxCLASSINFO(wxTextCtrl)))
+				&& (focusedCtrl->GetWindowStyle() & wxTE_PASSWORD))
+			{
+				wxTextCtrl* passwordCtrl = (wxTextCtrl*) focusedCtrl;
+				if (event.GetId() == g_customIdCmdV)
+					passwordCtrl->Paste ();
+				else if (event.GetId() == g_customIdCmdA)
+					passwordCtrl->SelectAll ();
+				bHandled = true;
+			}
+		}
+		
+		return bHandled;
+	}
+	
+	void GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (wxWindow* window)
+	{
+		// we manually handle CMD+V and CMD+A on password fields in order to support
+		// pasting password values into them. By default, wxWidgets doesn't handle this
+		// for password entry fields.
+		wxAcceleratorEntry entries[2];
+		entries[0].Set(wxACCEL_CMD, (int) 'V', g_customIdCmdV);
+		entries[1].Set(wxACCEL_CMD, (int) 'A', g_customIdCmdA);
+		wxAcceleratorTable accel(sizeof(entries) / sizeof(wxAcceleratorEntry), entries);
+		window->SetAcceleratorTable(accel);
 	}
 #endif
 

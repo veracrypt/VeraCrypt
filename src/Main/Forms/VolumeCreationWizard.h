@@ -24,6 +24,10 @@ namespace VeraCrypt
 		VolumeCreationWizard (wxWindow* parent);
 		~VolumeCreationWizard ();
 
+#ifdef TC_MACOSX
+		virtual bool ProcessEvent(wxEvent& event);
+#endif
+
 	protected:
 		struct Step
 		{

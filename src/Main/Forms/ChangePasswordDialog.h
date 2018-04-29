@@ -35,6 +35,10 @@ namespace VeraCrypt
 
 		ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode = Mode::ChangePasswordAndKeyfiles, shared_ptr <VolumePassword> password = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> keyfiles = shared_ptr <KeyfileList> (), shared_ptr <VolumePassword> newPassword = shared_ptr <VolumePassword> (), shared_ptr <KeyfileList> newKeyfiles = shared_ptr <KeyfileList> ());
 		virtual ~ChangePasswordDialog ();
+		
+#ifdef TC_MACOSX
+		virtual bool ProcessEvent(wxEvent& event);
+#endif
 
 	protected:
 		void OnOKButtonClick (wxCommandEvent& event);

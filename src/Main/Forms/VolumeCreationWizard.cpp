@@ -36,6 +36,17 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+
+	bool VolumeCreationWizard::ProcessEvent(wxEvent& event)
+	{
+		if(GraphicUserInterface::HandlePasswordEntryCustomEvent (event))
+			return true;
+		else
+			return WizardFrame::ProcessEvent(event);
+	}
+#endif
+
 	VolumeCreationWizard::VolumeCreationWizard (wxWindow* parent)
 		: WizardFrame (parent),
 		CrossPlatformSupport (true),
@@ -55,6 +66,10 @@ namespace VeraCrypt
 		SetTitle (LangString["INTRO_TITLE"]);
 		SetImage (Resources::GetVolumeCreationWizardBitmap (Gui->GetCharHeight (this) * 21));
 		SetMaxStaticTextWidth (55);
+		
+#ifdef TC_MACOSX
+		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
+#endif
 
 		SetStep (Step::VolumeHostType);
 

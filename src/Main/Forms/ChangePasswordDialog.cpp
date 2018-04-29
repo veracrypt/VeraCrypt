@@ -18,6 +18,17 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+
+	bool ChangePasswordDialog::ProcessEvent(wxEvent& event)
+	{
+		if(GraphicUserInterface::HandlePasswordEntryCustomEvent (event))
+			return true;
+		else
+			return ChangePasswordDialogBase::ProcessEvent(event);
+	}
+#endif
+
 	ChangePasswordDialog::ChangePasswordDialog (wxWindow* parent, shared_ptr <VolumePath> volumePath, Mode::Enum mode, shared_ptr <VolumePassword> password, shared_ptr <KeyfileList> keyfiles, shared_ptr <VolumePassword> newPassword, shared_ptr <KeyfileList> newKeyfiles)
 		: ChangePasswordDialogBase (parent), DialogMode (mode), Path (volumePath)
 	{
@@ -57,6 +68,10 @@ namespace VeraCrypt
 		default:
 			throw ParameterIncorrect (SRC_POS);
 		}
+		
+#ifdef TC_MACOSX
+		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
+#endif
 
 		CurrentPasswordPanel = new VolumePasswordPanel (this, NULL, password, false, keyfiles, false, true, true, false, true, true);
 		CurrentPasswordPanel->UpdateEvent.Connect (EventConnector <ChangePasswordDialog> (this, &ChangePasswordDialog::OnPasswordPanelUpdate));

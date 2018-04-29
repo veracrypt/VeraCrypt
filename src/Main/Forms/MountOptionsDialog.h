@@ -24,6 +24,10 @@ namespace VeraCrypt
 	public:
 		MountOptionsDialog (wxWindow* parent, MountOptions &options, const wxString &title = wxEmptyString, bool disableMountOptions = false);
 		void OnShow ();
+		
+#ifdef TC_MACOSX
+		virtual bool ProcessEvent(wxEvent& event);
+#endif
 
 	protected:
 		void OnInitDialog (wxInitDialogEvent& event);

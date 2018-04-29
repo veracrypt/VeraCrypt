@@ -100,6 +100,8 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		virtual void MacOpenFiles (const wxArrayString &fileNames);
 		virtual void MacReopenApp ();
+		static bool HandlePasswordEntryCustomEvent (wxEvent& event);
+		static void InstallPasswordEntryCustomKeyboardShortcuts (wxWindow* window);
 #endif
 
 		template <class T>
@@ -133,6 +135,11 @@ namespace VeraCrypt
 		auto_ptr <wxSingleInstanceChecker> SingleInstanceChecker;
 
 		mutable WaitDialog* mWaitDialog;
+public:	
+#ifdef TC_MACOSX
+		static int g_customIdCmdV;
+		static int g_customIdCmdA;
+#endif
 
 	private:
 		GraphicUserInterface (const GraphicUserInterface &);

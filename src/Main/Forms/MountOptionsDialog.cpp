@@ -17,6 +17,17 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+
+	bool MountOptionsDialog::ProcessEvent(wxEvent& event)
+	{
+		if(GraphicUserInterface::HandlePasswordEntryCustomEvent (event))
+			return true;
+		else
+			return MountOptionsDialogBase::ProcessEvent(event);
+	}
+#endif
+
 	MountOptionsDialog::MountOptionsDialog (wxWindow *parent, MountOptions &options, const wxString &title, bool disableMountOptions)
 		: MountOptionsDialogBase (parent, wxID_ANY, wxString()
 #ifdef __WXGTK__ // GTK apparently needs wxRESIZE_BORDER to support dynamic resizing
@@ -33,6 +44,11 @@ namespace VeraCrypt
 
 		if (disableMountOptions)
 			OptionsButton->Show (false);
+			
+
+#ifdef TC_MACOSX
+		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
+#endif
 
 		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, disableMountOptions, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
