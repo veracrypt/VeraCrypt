@@ -13643,3 +13643,22 @@ BOOL GetSetupconfigLocation (wchar_t* path, DWORD cchSize)
 
 	return bResult;
 }
+
+BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void* pattern, size_t patternLen)
+{
+	BOOL bRet = FALSE;
+	if (patternLen <= bufferLen)
+	{
+		size_t i;
+		for (i = 0; i <= (bufferLen - patternLen); ++i)
+		{
+			if (memcmp (&buffer[i], pattern, patternLen) == 0)
+			{
+				bRet = TRUE;
+				break;
+			}
+		}
+	}
+
+	return bRet;
+}

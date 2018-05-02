@@ -235,7 +235,7 @@ namespace VeraCrypt
 	class BootEncryption
 	{
 	public:
-		BootEncryption (HWND parent);
+		BootEncryption (HWND parent, bool postOOBE = false);
 		~BootEncryption ();
 
 		enum FilterType
@@ -343,6 +343,7 @@ namespace VeraCrypt
 		bool RealSystemDriveSizeValid;
 		bool RescueVolumeHeaderValid;
 		bool VolumeHeaderValid;
+		bool PostOOBEMode;
 	};
 }
 

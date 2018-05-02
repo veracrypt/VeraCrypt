@@ -1024,7 +1024,7 @@ namespace VeraCrypt
 
 	static EfiBoot EfiBootInst;
 
-	BootEncryption::BootEncryption (HWND parent)
+	BootEncryption::BootEncryption (HWND parent, bool postOOBE)
 		: DriveConfigValid (false),
 		ParentWindow (parent),
 		RealSystemDriveSizeValid (false),
@@ -1034,7 +1034,8 @@ namespace VeraCrypt
 		RescueVolumeHeaderValid (false),
 		SelectedEncryptionAlgorithmId (0),
 		SelectedPrfAlgorithmId (0),
-		VolumeHeaderValid (false)
+		VolumeHeaderValid (false),
+		PostOOBEMode (postOOBE)
 	{
       HiddenOSCandidatePartition.IsGPT = FALSE;
       HiddenOSCandidatePartition.Number = (size_t) -1;
@@ -3088,78 +3089,106 @@ namespace VeraCrypt
 			{
 				// Save modules
 				bool bAlreadyExist;
-				unsigned __int64 loaderSize = 0;
-				bool bModifiedMsBoot = false;
 
-				if (preserveUserConfig && !EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
+				if (preserveUserConfig)
 				{
+					bool bModifiedMsBoot = true;
+					const char* g_szMsBootString = "bootmgfw.pdb";
+					unsigned __int64 loaderSize = 0;
 					EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
 
-					// DcsBoot.efi is always smaller than 32KB
-					if (loaderSize < 32768)
+					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
 					{
-						std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
-
-						EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
-
-						// Prevent VeraCrypt EFI loader from being backed up
-						for (size_t i = 0; i < (size_t) loaderSize - (wcslen (_T(TC_APP_NAME)) * 2); ++i)
+						if (loaderSize > 32768)
 						{
-							if (memcmp (&bootLoaderBuf[i], _T(TC_APP_NAME), wcslen (_T(TC_APP_NAME)) * 2) == 0)
+							std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+
+							EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
+
+							// look for bootmgfw.efi identifiant string
+							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
 							{
-								bModifiedMsBoot = true;
-								break;
+								bModifiedMsBoot = false;
+								// replace the backup with this version
+								EfiBootInst.RenameFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
 							}
 						}
-					}
-
-					if (!bModifiedMsBoot)
-					{
-						EfiBootInst.RenameFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", FALSE);					
 					}
 					else
-					{
-						bool bFound = false;
-						EfiBootConf conf;
-						if (EfiBootInst.ReadConfig (L"\\EFI\\VeraCrypt\\DcsProp", conf) && strlen (conf.actionSuccessValue.c_str()))
+					{						
+						// DcsBoot.efi is always smaller than 32KB
+						if (loaderSize > 32768)
 						{
-							string actionValue = conf.actionSuccessValue;
-							std::transform(actionValue.begin(), actionValue.end(), actionValue.begin(), ::tolower);
+							std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
 
-							if (strstr (actionValue.c_str(), "postexec") && strstr (actionValue.c_str(), "file("))
-							{
-								char c;
-								const char* ptr = strstr (actionValue.c_str(), "file(");
-								ptr += 5;
-								wstring loaderPath = L"\\";
-								while ((c = *ptr))
-								{
-									if (c == ')' || c == ' ')
-										break;
-									loaderPath += (wchar_t) c;
-									ptr++;
-								}
-								bFound = true;
-								EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE);
-							}
+							EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
+
+							// look for bootmgfw.efi identifiant string
+							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+								bModifiedMsBoot = false;
 						}
 
-						if (!bFound)
-							throw ErrorException ("WINDOWS_EFI_BOOT_LOADER_MISSING", SRC_POS);
+						if (!bModifiedMsBoot)
+						{
+							EfiBootInst.RenameFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
+						}
+						else
+						{
+							bool bFound = false;
+							EfiBootConf conf;
+							if (EfiBootInst.ReadConfig (L"\\EFI\\VeraCrypt\\DcsProp", conf) && strlen (conf.actionSuccessValue.c_str()))
+							{
+								string actionValue = conf.actionSuccessValue;
+								std::transform(actionValue.begin(), actionValue.end(), actionValue.begin(), ::tolower);
+
+								if (strstr (actionValue.c_str(), "postexec") && strstr (actionValue.c_str(), "file("))
+								{
+									char c;
+									const char* ptr = strstr (actionValue.c_str(), "file(");
+									ptr += 5;
+									wstring loaderPath = L"\\";
+									while ((c = *ptr))
+									{
+										if (c == ')' || c == ' ')
+											break;
+										loaderPath += (wchar_t) c;
+										ptr++;
+									}
+									bFound = true;
+									EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
+								}
+							}
+
+							if (!bFound)
+								throw ErrorException ("WINDOWS_EFI_BOOT_LOADER_MISSING", SRC_POS);
+						}
+					}
+
+					if (PostOOBEMode)
+					{
+						// check if bootmgfw.efi has been set again to Microsoft version
+						// if yes, replace it with our bootloader after it was copied to bootmgfw_ms.vc
+						if (!bModifiedMsBoot)
+							EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi");
+						return;
 					}
 				}
 
+				const wchar_t * szStdEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi";
+
 				EfiBootInst.MkDir(L"\\EFI\\VeraCrypt", bAlreadyExist);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBoot.efi", dcsBootImg, sizeDcsBoot);
-				EfiBootInst.SaveFile(Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi", dcsBootImg, sizeDcsBoot);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInt.dcs", dcsIntImg, sizeDcsInt);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsCfg.dcs", dcsCfgImg, sizeDcsCfg);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInfo.dcs", DcsInfoImg, sizeDcsInfo);
-				EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\PlatformInfo");
+				if (!preserveUserConfig)
+					EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\PlatformInfo");
 				EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi");
 
+				if (EfiBootInst.FileExists (szStdEfiBootloader))
+					EfiBootInst.SaveFile(szStdEfiBootloader, dcsBootImg, sizeDcsBoot);
 				EfiBootInst.SaveFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", dcsBootImg, sizeDcsBoot);
 				// move configuration file from old location (if it exists) to new location
 				// we don't force the move operation if the new location already exists
@@ -4053,41 +4082,29 @@ namespace VeraCrypt
 			}
 			unsigned __int64 loaderSize = 0;
 			std::vector<byte> bootLoaderBuf;
+			const wchar_t * szStdEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi";
+			const wchar_t * szBackupEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\original_bootx64.vc_backup": L"\\EFI\\Boot\\original_bootia32.vc_backup";
+			const char* g_szMsBootString = "bootmgfw.pdb";
+			bool bModifiedMsBoot = true;
 
 			finally_do ({ EfiBootInst.DismountBootPartition(); });
 
 			EfiBootInst.MountBootPartition(0);		
 
 			EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
+			bootLoaderBuf.resize ((size_t) loaderSize);
+			EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
 
 			// DcsBoot.efi is always smaller than 32KB
-			if (loaderSize < 32768)
+			if (loaderSize > 32768)
 			{
-				bootLoaderBuf.resize ((size_t) loaderSize);
-
-				EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
-
-				// Prevent VeraCrypt EFI loader from being backed up
-				for (size_t i = 0; i < (size_t) loaderSize - (wcslen (_T(TC_APP_NAME)) * 2); ++i)
-				{
-					if (memcmp (&bootLoaderBuf[i], _T(TC_APP_NAME), wcslen (_T(TC_APP_NAME)) * 2) == 0)
-					{
-						Error ("WINDOWS_EFI_BOOT_LOADER_MISSING", ParentWindow);
-						throw UserAbort (SRC_POS);
-					}
-				}
+				// look for bootmgfw.efi identifiant string
+				if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+					bModifiedMsBoot = false;
 			}
-
-			EfiBootInst.GetFileSize(Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi" : L"\\EFI\\Boot\\bootia32.efi", loaderSize);
-
-			bootLoaderBuf.resize ((size_t) loaderSize);
-
-			EfiBootInst.ReadFile(Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
-
-			// Prevent VeraCrypt EFI loader from being backed up
-			for (size_t i = 0; i < (size_t) loaderSize - (wcslen (_T(TC_APP_NAME)) * 2); ++i)
+			else
 			{
-				if (memcmp (&bootLoaderBuf[i], _T(TC_APP_NAME), wcslen (_T(TC_APP_NAME)) * 2) == 0)
+				if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, _T(TC_APP_NAME), wcslen (_T(TC_APP_NAME)) * 2))
 				{
 					if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED", ParentWindow) == IDNO)
 						throw UserAbort (SRC_POS);
@@ -4095,18 +4112,36 @@ namespace VeraCrypt
 				}
 			}
 
-			if (Is64BitOs())
+			if (bModifiedMsBoot)
 			{
-				EfiBootInst.CopyFile(L"\\EFI\\Boot\\bootx64.efi", GetSystemLoaderBackupPath().c_str());
-				EfiBootInst.CopyFile(L"\\EFI\\Boot\\bootx64.efi", L"\\EFI\\Boot\\original_bootx64.vc_backup");
-			}
-			else
-			{
-				EfiBootInst.CopyFile(L"\\EFI\\Boot\\bootia32.efi", GetSystemLoaderBackupPath().c_str());
-				EfiBootInst.CopyFile(L"\\EFI\\Boot\\bootia32.efi", L"\\EFI\\Boot\\original_bootia32.vc_backup");
+				Error ("WINDOWS_EFI_BOOT_LOADER_MISSING", ParentWindow);
+				throw UserAbort (SRC_POS);
 			}
 
 			EfiBootInst.CopyFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc");
+
+			if (EfiBootInst.FileExists (szStdEfiBootloader))
+			{
+				EfiBootInst.GetFileSize (szStdEfiBootloader, loaderSize);
+
+				bootLoaderBuf.resize ((size_t) loaderSize);
+
+				EfiBootInst.ReadFile (szStdEfiBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
+
+				// Prevent VeraCrypt EFI loader from being backed up
+				if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, _T(TC_APP_NAME), wcslen (_T(TC_APP_NAME)) * 2))
+				{
+					if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED", ParentWindow) == IDNO)
+						throw UserAbort (SRC_POS);
+					return;
+				}
+
+				EfiBootInst.CopyFile (szStdEfiBootloader, GetSystemLoaderBackupPath().c_str());
+				EfiBootInst.CopyFile (szStdEfiBootloader, szBackupEfiBootloader);
+			}
+			else
+				EfiBootInst.CopyFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", GetSystemLoaderBackupPath().c_str());
+
 		}
 		else
 		{

@@ -9386,7 +9386,16 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	if (argv && argc == 2 && wstring (VC_WINDOWS_UPGRADE_POSTOOBE_CMDLINE_OPTION) == argv[1])
 	{
 		InitOSVersionInfo();
-		BootEncryption::UpdateSetupConfigFile (true);
+		try
+		{
+			BootEncryption::UpdateSetupConfigFile (true);
+			// re-install our bootloader again in case the upgrade process has removed it.
+			BootEncryption bootEnc (NULL, true);
+			bootEnc.InstallBootLoader (true);
+		}
+		catch (...)
+		{
+		}
 		return 0;
 	}
 
