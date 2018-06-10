@@ -113,6 +113,7 @@ namespace VeraCrypt
 		uint32 GetSaltSize () const { return Header->GetSaltSize(); }
 		size_t GetSectorSize () const { return SectorSize; }
 		uint64 GetSize () const { return VolumeDataSize; }
+		uint64 GetEncryptedSize () const { return EncryptedDataSize; }
 		uint64 GetTopWriteOffset () const { return TopWriteOffset; }
 		uint64 GetTotalDataRead () const { return TotalDataRead; }
 		uint64 GetTotalDataWritten () const { return TotalDataWritten; }
@@ -127,6 +128,7 @@ namespace VeraCrypt
 		void ReadSectors (const BufferPtr &buffer, uint64 byteOffset);
 		void ReEncryptHeader (bool backupHeader, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf);
 		void WriteSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
+		bool IsEncryptionNotCompleted () const { return EncryptionNotCompleted; }
 
 	protected:
 		void CheckProtectedRange (uint64 writeHostOffset, uint64 writeLength);
@@ -146,11 +148,13 @@ namespace VeraCrypt
 		uint64 VolumeHostSize;
 		uint64 VolumeDataOffset;
 		uint64 VolumeDataSize;
+		uint64 EncryptedDataSize;
 		uint64 TopWriteOffset;
 		uint64 TotalDataRead;
 		uint64 TotalDataWritten;
 		bool TrueCryptMode;
 		int Pim;
+		bool EncryptionNotCompleted;
 
 	private:
 		Volume (const Volume &);

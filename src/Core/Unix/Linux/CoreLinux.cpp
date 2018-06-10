@@ -313,6 +313,7 @@ namespace VeraCrypt
 		if (options.NoKernelCrypto
 			|| !xts
 			|| algoNotSupported
+			|| volume->IsEncryptionNotCompleted ()
 			|| volume->GetProtectionType() == VolumeProtection::HiddenVolumeReadOnly)
 		{
 			throw NotApplicable (SRC_POS);

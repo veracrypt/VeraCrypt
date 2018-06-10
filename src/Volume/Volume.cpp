@@ -24,12 +24,15 @@ namespace VeraCrypt
 	Volume::Volume ()
 		: HiddenVolumeProtectionTriggered (false),
 		SystemEncryption (false),
+		VolumeDataOffset (0),
 		VolumeDataSize (0),
+		EncryptedDataSize (0),
 		TopWriteOffset (0),
 		TotalDataRead (0),
 		TotalDataWritten (0),
 		TrueCryptMode (false),
-		Pim (0)
+		Pim (0),
+		EncryptionNotCompleted (false)
 	{
 	}
 
@@ -206,6 +209,7 @@ namespace VeraCrypt
 
 					VolumeDataOffset = layout->GetDataOffset (VolumeHostSize);
 					VolumeDataSize = layout->GetDataSize (VolumeHostSize);
+					EncryptedDataSize = header->GetEncryptedAreaLength();
 
 					Header = header;
 					Layout = layout;
@@ -215,13 +219,19 @@ namespace VeraCrypt
 					if (layout->HasDriveHeader())
 					{
 						if (header->GetEncryptedAreaLength() != header->GetVolumeDataSize())
-							throw VolumeEncryptionNotCompleted (SRC_POS);
+						{
+							EncryptionNotCompleted = true;
+							// we avoid writing data to the partition since it is only partially encrypted
+							Protection = VolumeProtection::ReadOnly;
+						}
 
 						uint64 partitionStartOffset = VolumeFile->GetPartitionDeviceStartOffset();
 
 						if (partitionStartOffset < header->GetEncryptedAreaStart()
 							|| partitionStartOffset >= header->GetEncryptedAreaStart() + header->GetEncryptedAreaLength())
 							throw PasswordIncorrect (SRC_POS);
+
+						EncryptedDataSize -= partitionStartOffset - header->GetEncryptedAreaStart();
 
 						mode.SetSectorOffset (partitionStartOffset / ENCRYPTION_DATA_UNIT_SIZE);
 					}
@@ -313,7 +323,31 @@ namespace VeraCrypt
 		if (VolumeFile->ReadAt (buffer, hostOffset) != length)
 			throw MissingVolumeData (SRC_POS);
 
-		EA->DecryptSectors (buffer, hostOffset / SectorSize, length / SectorSize, SectorSize);
+		if (EncryptionNotCompleted)
+		{
+			// if encryption is not complete, we decrypt only the encrypted sectors
+			if (hostOffset < EncryptedDataSize)
+			{
+				size_t bufferOffset = 0;
+
+				// first sector is not encrypted in case of incomplete encryption
+				if (hostOffset == 0)
+				{
+					bufferOffset = (size_t) SectorSize;
+					hostOffset += SectorSize;
+					length -= SectorSize;
+				}
+
+				if (length && (hostOffset < EncryptedDataSize))
+				{
+					uint64 encryptedLength = VC_MIN (length, (EncryptedDataSize - hostOffset));
+
+					EA->DecryptSectors (buffer.GetRange (bufferOffset, encryptedLength), hostOffset / SectorSize, encryptedLength / SectorSize, SectorSize);			
+				}
+			}
+		}
+		else
+			EA->DecryptSectors (buffer, hostOffset / SectorSize, length / SectorSize, SectorSize);
 
 		TotalDataRead += length;
 	}
