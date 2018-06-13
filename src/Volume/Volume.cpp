@@ -316,6 +316,7 @@ namespace VeraCrypt
 
 		uint64 length = buffer.Size();
 		uint64 hostOffset = VolumeDataOffset + byteOffset;
+		size_t bufferOffset = 0;
 
 		if (length % SectorSize != 0 || byteOffset % SectorSize != 0)
 			throw ParameterIncorrect (SRC_POS);
@@ -323,31 +324,30 @@ namespace VeraCrypt
 		if (VolumeFile->ReadAt (buffer, hostOffset) != length)
 			throw MissingVolumeData (SRC_POS);
 
-		if (EncryptionNotCompleted)
+		// first sector can be unencrypted in some cases (e.g. windows repair)
+		// detect this case by looking for NTFS header
+		if (SystemEncryption && (hostOffset == 0) && ((BE64 (*(uint64 *) buffer.Get ())) == 0xEB52904E54465320ULL))
 		{
-			// if encryption is not complete, we decrypt only the encrypted sectors
-			if (hostOffset < EncryptedDataSize)
+			bufferOffset = (size_t) SectorSize;
+			hostOffset += SectorSize;
+			length -= SectorSize;
+		}
+
+		if (length)
+		{
+			if (EncryptionNotCompleted)
 			{
-				size_t bufferOffset = 0;
-
-				// first sector is not encrypted in case of incomplete encryption
-				if (hostOffset == 0)
-				{
-					bufferOffset = (size_t) SectorSize;
-					hostOffset += SectorSize;
-					length -= SectorSize;
-				}
-
-				if (length && (hostOffset < EncryptedDataSize))
+				// if encryption is not complete, we decrypt only the encrypted sectors
+				if (hostOffset < EncryptedDataSize)
 				{
 					uint64 encryptedLength = VC_MIN (length, (EncryptedDataSize - hostOffset));
 
 					EA->DecryptSectors (buffer.GetRange (bufferOffset, encryptedLength), hostOffset / SectorSize, encryptedLength / SectorSize, SectorSize);			
 				}
 			}
+			else
+				EA->DecryptSectors (buffer.GetRange (bufferOffset, length), hostOffset / SectorSize, length / SectorSize, SectorSize);
 		}
-		else
-			EA->DecryptSectors (buffer, hostOffset / SectorSize, length / SectorSize, SectorSize);
 
 		TotalDataRead += length;
 	}
