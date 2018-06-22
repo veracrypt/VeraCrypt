@@ -401,14 +401,12 @@ BOOL VerifyPackageIntegrity (const wchar_t *path)
 	unsigned char *tmpBuffer;
 	int tmpFileSize;
 
-#ifdef NDEBUG
 	// verify Authenticode digital signature of the exe file
 	if (!VerifyModuleSignature (path))
 	{
 		Error ("DIST_PACKAGE_CORRUPTED", NULL);
 		return FALSE;
 	}
-#endif
 
 	fileDataEndPos = (int) FindStringInFile (path, MagEndMarker, strlen (MagEndMarker));
 	if (fileDataEndPos < 0)

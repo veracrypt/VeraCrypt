@@ -2849,7 +2849,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	LoadSystemDll (L"Riched20.dll", &hRichEditDll, FALSE, SRC_POS);
 
-#if defined(NDEBUG) && !defined(SETUP)
+#if !defined(SETUP)
 	if (!VerifyModuleSignature (modPath))
 		AbortProcess ("DIST_PACKAGE_CORRUPTED");
 #endif
@@ -13459,6 +13459,7 @@ static void FinalizeWintrust()
 
 BOOL VerifyModuleSignature (const wchar_t* path)
 {
+#ifdef NDEBUG
 	BOOL bResult = FALSE;
 	HRESULT hResult;
 	GUID gActionID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
@@ -13526,6 +13527,9 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 	FinalizeWintrust ();
 
 	return bResult;
+#else
+	return TRUE;
+#endif
 }
 
 void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, BOOL* pbInstallPathDetermined)
