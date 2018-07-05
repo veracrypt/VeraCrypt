@@ -61,7 +61,7 @@
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="da" key="IDC_QUICKFORMAT">Ekspres Formatering</entry>
     <entry lang="da" key="IDC_SHOW_PASSWORD">&amp;Vis kodeord</entry>
-    <entry lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</entry>
+    <entry lang="da" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Vis kodeord</entry>
     <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
     <entry lang="da" key="IDC_SINGLE_BOOT">Single-boot</entry>
     <entry lang="da" key="IDC_STD_VOL">Standard VeraCrypt bind</entry>
@@ -132,7 +132,7 @@
     <entry lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</entry>
     <entry lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</entry>
     <entry lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</entry>
-    <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
+    <entry lang="da" key="IDC_FAVORITE_REMOVE">&amp;Fjern</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
     <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
@@ -243,7 +243,7 @@
     <entry lang="da" key="IDM_REFRESH_DRIVE_LETTERS">Opdater drev bogstaver</entry>
     <entry lang="da" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Fjern alle nøglefiler fra Bind...</entry>
     <entry lang="da" key="IDM_RESTORE_VOL_HEADER">Gendan Bind Etiket...</entry>
-    <entry lang="en" key="IDM_RESUME_INTERRUPTED_PROC">Resume Interrupted Process</entry>
+    <entry lang="da" key="IDM_RESUME_INTERRUPTED_PROC">Genoptag afbrudt proces</entry>
     <entry lang="da" key="IDM_SELECT_DEVICE">Vælg Enhed...</entry>
     <entry lang="da" key="IDM_SELECT_FILE">Vælg Fil...</entry>
     <entry lang="da" key="IDM_SYSENC_RESUME">Genoptag afbrudt proces</entry>
@@ -303,7 +303,7 @@
     <entry lang="da" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
     <entry lang="da" key="IDC_ADD_KEYFILE_PATH">Tilføj &amp;sti...</entry>
     <entry lang="da" key="IDC_AUTO">&amp;Auto-Test alle</entry>
-    <entry lang="en" key="IDC_CONTINUE">&amp;Continue</entry>
+    <entry lang="da" key="IDC_CONTINUE">&amp;Fortsæt</entry>
     <entry lang="da" key="IDC_DECRYPT">&amp;Dekrypter</entry>
     <entry lang="en" key="IDC_DELETE">&amp;Delete</entry>
     <entry lang="da" key="IDC_ENCRYPT">&amp;Krypter</entry>
@@ -483,7 +483,7 @@
     <entry lang="da" key="FILESYS_PAGE_HELP_EXPLANATION">Afhængigt af dit valg ovenfor, vil VeraCrypt vælge et passende standard filsystem til dit VeraCrypt bind (du vil være i stand til at vælge et filsystem i det næste trin).</entry>
     <entry lang="da" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">Da du opretter et ydre bind, bør du overveje at vælge 'Nej'. Hvis du vælger 'Ja', vil standard filsystemet blive NTFS, hvilket ikke er så passende til ydre bind som FAT (for eksempel, den maksimalt mulige størrelse på det skjulte bind vil blive væsentligt større hvis det ydre bind er formatteret som FAT). Normalt er FAT standard for både skjulte og normale bind (så FAT bind er ikke så mistænkelige). Dog, hvis brugeren indikerer ønske om at gemme filer større end 4 GB (hvilket FAT filsystemet ikke tillader), så er FAT ikke standard.</entry>
     <entry lang="da" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Er du sikker på du ønsker at vælge 'Ja'?</entry>
-    <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Volume Creation Mode</entry>
+    <entry lang="da" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Bind oprettelses tilstand</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">This is the fastest way to create a partition-hosted or device-hosted VeraCrypt volume (in-place encryption, which is the other option, is slower because content of each sector has to be first read, encrypted, and then written). Any data currently stored on the selected partition/device will be lost (the data will NOT be encrypted; it will be overwritten with random data). If you want to encrypt existing data on a partition, choose the other option.</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">The entire selected partition and all data stored on it will be encrypted in place. If the partition is empty, you should choose the other option (the volume will be created much faster).</entry>
     <entry lang="da" key="NOTE_BEGINNING">Bemærk: </entry>
@@ -739,7 +739,7 @@
     <entry lang="da" key="VOLUME">Bind</entry>
     <entry lang="en" key="VOLUME_LOWER_CASE">volume</entry>
     <entry lang="en" key="VOLUME_UPPER_CASE">VOLUME</entry>
-    <entry lang="en" key="LABEL">Label</entry>
+    <entry lang="da" key="LABEL">Etiket</entry>
     <entry lang="da" key="CLUSTER_TOO_SMALL">Den valgte klynge størrelse er for lille til denne størrelse bind. En større klynge størrelse vil blive brugt istedet.</entry>
     <entry lang="da" key="CANT_GET_VOLSIZE">Fejl: Kan ikke hente bind størrelsen!\n\nSørg for at det valgte bind ikke anvendes af systemet eller et andet program.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
@@ -984,7 +984,7 @@
     <entry lang="en" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">N/A</entry>
     <entry lang="da" key="UISTR_YES">Ja</entry>
     <entry lang="da" key="UISTR_NO">Nej</entry>
-    <entry lang="en" key="UISTR_DISABLED">Disabled</entry>
+    <entry lang="da" key="UISTR_DISABLED">Deaktiveret</entry>
     <entry lang="da" key="DIGIT_ONE">1</entry>
     <entry lang="da" key="TWO_OR_MORE">2 eller flere</entry>
     <entry lang="da" key="MODE_OF_OPERATION">Driftstilstand</entry>
@@ -1397,7 +1397,7 @@
     <entry lang="en" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Do not request Hash algorithm in the pre-boot authentication screen</entry>
     <entry lang="en" key="KUZNYECHIK_HELP">Kuznyechik is a block cipher first published in 2015 and defined in the National Standard of the Russian Federation GOST R 34.12-2015 and also in RFC 7801. 256-bit key, 128-bit block. Mode of operation is XTS.</entry>
     <entry lang="en" key="CAMELLIA_HELP">Jointly developed by Mitsubishi Electric and NTT of Japan. First published on 2000. 256-bit key, 128-bit block. Mode of operation is XTS. It has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.</entry>
-    <entry lang="en" key="TIME">Time</entry>
+    <entry lang="da" key="TIME">Tid</entry>
     <entry lang="en" key="ITERATIONS">Iterations</entry>
     <entry lang="en" key="PRE-BOOT">Pre-Boot</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</entry>

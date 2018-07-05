@@ -52,7 +52,7 @@
     <entry lang="en" key="IDC_MORE_INFO_ON_CONTAINERS">More information</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">More information about system encryption</entry>
     <entry lang="en" key="IDC_MORE_INFO_SYS_ENCRYPTION">More information</entry>
-    <entry lang="en" key="IDC_MULTI_BOOT">Multi-boot</entry>
+    <entry lang="en" key="IDC_MULTI_BOOT">Multi-Boot</entry>
     <entry lang="en" key="IDC_NONSYS_DEVICE">Encrypt a non-system partition/drive</entry>
     <entry lang="fa" key="IDC_NO_HISTORY">هيچگونه اثري را ذخيره نكند</entry>
     <entry lang="fa" key="IDC_OPEN_OUTER_VOLUME">پارتيشن بيروني را انتخاب كند</entry>
@@ -61,7 +61,7 @@
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="fa" key="IDC_QUICKFORMAT">Quick Format</entry>
     <entry lang="fa" key="IDC_SHOW_PASSWORD">نمايش كلمه عبور</entry>
-    <entry lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</entry>
+    <entry lang="fa" key="IDC_SHOW_PASSWORD_SINGLE">نمايش كلمه عبور</entry>
     <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
     <entry lang="en" key="IDC_SINGLE_BOOT">Single-boot</entry>
     <entry lang="en" key="IDC_STD_VOL">Standard VeraCrypt volume</entry>
@@ -70,7 +70,7 @@
     <entry lang="en" key="IDC_SYS_DEVICE">Encrypt the system partition or entire system drive</entry>
     <entry lang="en" key="IDC_SYS_PARTITION">Encrypt the Windows system partition</entry>
     <entry lang="en" key="IDC_WHOLE_SYS_DRIVE">Encrypt the whole drive</entry>
-    <entry lang="en" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt Volume Creation Wizard</entry>
+    <entry lang="fa" key="IDD_VOL_CREATION_WIZARD_DLG">جادوگر ساخت درايو</entry>
     <entry lang="fa" key="IDT_CLUSTER">كلاستر</entry>
     <entry lang="en" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.</entry>
     <entry lang="fa" key="IDT_CONFIRM">تاييد:</entry>
@@ -101,7 +101,7 @@
     <entry lang="en" key="IDT_SYS_PARTITION">Select this option to encrypt the partition where the currently running Windows operating system is installed.</entry>
     <entry lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</entry>
     <entry lang="en" key="IDT_WIPE_MODE">Wipe mode:</entry>
-    <entry lang="en" key="IDCLOSE">Close</entry>
+    <entry lang="fa" key="IDCLOSE">بستن</entry>
     <entry lang="en" key="IDC_ALLOW_ESC_PBA_BYPASS">Allow pre-boot &amp;authentication to be bypassed by pressing the Esc key (enables boot manager)</entry>
     <entry lang="fa" key="IDC_AUTORUN_DISABLE">هيچ كاري نكند</entry>
     <entry lang="en" key="IDC_AUTORUN_MOUNT">&amp;Auto-mount VeraCrypt volume (specified below)</entry>
@@ -288,7 +288,7 @@
     <entry lang="en" key="IDT_MOUNT_LETTER">Mount volume as drive letter:</entry>
     <entry lang="en" key="IDT_MOUNT_SETTINGS">Mount Settings</entry>
     <entry lang="en" key="IDT_NEW">New</entry>
-    <entry lang="en" key="IDT_NEW_PASSWORD">Password:</entry>
+    <entry lang="fa" key="IDT_NEW_PASSWORD">كلمه عبور</entry>
     <entry lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</entry>
     <entry lang="en" key="IDT_PKCS11_LIB_PATH">PKCS #11 Library Path</entry>
     <entry lang="en" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
@@ -314,8 +314,8 @@
     <entry lang="en" key="IDC_HW_AES_LABEL_LINK">Hardware-accelerated AES:</entry>
     <entry lang="en" key="IDC_IMPORT_KEYFILE">&amp;Import Keyfile to Token...</entry>
     <entry lang="en" key="IDC_KEYADD">Add &amp;Files...</entry>
-    <entry lang="en" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">U&amp;se keyfiles</entry>
-    <entry lang="en" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Keyfiles...</entry>
+    <entry lang="fa" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">از كليدفايلها استفاده نماييد</entry>
+    <entry lang="fa" key="IDC_KEYFILES_HIDVOL_PROT">كليد فايلها ...</entry>
     <entry lang="en" key="IDC_KEYREMOVE">&amp;Remove</entry>
     <entry lang="en" key="IDC_KEYREMOVEALL">Remove &amp;All</entry>
     <entry lang="en" key="IDC_LINK_HIDVOL_PROTECTION_INFO">What is hidden volume protection?</entry>
@@ -327,12 +327,12 @@
     <entry lang="en" key="IDC_PRINT">&amp;Print</entry>
     <entry lang="en" key="IDC_PROTECT_HIDDEN_VOL">&amp;Protect hidden volume against damage caused by writing to outer volume</entry>
     <entry lang="en" key="IDC_RESET">&amp;Reset</entry>
-    <entry lang="en" key="IDC_SHOW_PASSWORD_MO">&amp;Display password</entry>
+    <entry lang="fa" key="IDC_SHOW_PASSWORD_MO">نمايش كلمه عبور</entry>
     <entry lang="en" key="IDC_TOKEN_FILES_ADD">Add &amp;Token Files...</entry>
     <entry lang="en" key="IDC_USE_EMBEDDED_HEADER_BAK">Use backup header embedded in &amp;volume if available</entry>
     <entry lang="en" key="IDC_XTS_MODE_ENABLED">XTS mode</entry>
     <entry lang="en" key="IDD_ABOUT_DLG">About VeraCrypt</entry>
-    <entry lang="en" key="IDD_BENCHMARK_DLG">VeraCrypt - Encryption Algorithm Benchmark</entry>
+    <entry lang="en" key="IDD_BENCHMARK_DLG">VeraCrypt - Algorithms Benchmark</entry>
     <entry lang="en" key="IDD_CIPHER_TEST_DLG">VeraCrypt - Test Vectors</entry>
     <entry lang="en" key="IDD_COMMANDHELP_DLG">Command Line Help</entry>
     <entry lang="en" key="IDD_KEYFILES">VeraCrypt - Keyfiles</entry>
@@ -354,13 +354,13 @@
     <entry lang="en" key="IDT_KEY">Key size:</entry>
     <entry lang="en" key="IDT_KEYFILE_GENERATOR_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.</entry>
     <entry lang="en" key="IDT_KEYFILE_WARNING">WARNING: If you lose a keyfile or if any bit of its first 1024 kilobytes changes, it will be impossible to mount volumes that use the keyfile!</entry>
-    <entry lang="en" key="IDT_KEY_UNIT">bits</entry>
+    <entry lang="fa" key="IDT_KEY_UNIT">بيت ها</entry>
     <entry lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</entry>
     <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</entry>
     <entry lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</entry>
     <entry lang="en" key="IDT_LANGPACK_AUTHORS">Translated by:</entry>
     <entry lang="en" key="IDT_PLAINTEXT">Plaintext size:</entry>
-    <entry lang="en" key="IDT_PLAINTEXT_SIZE_UNIT">bits</entry>
+    <entry lang="fa" key="IDT_PLAINTEXT_SIZE_UNIT">بيت ها</entry>
     <entry lang="en" key="IDT_POOL_CONTENTS">Current Pool Content</entry>
     <entry lang="en" key="IDT_PRF">Mixing PRF:</entry>
     <entry lang="en" key="IDT_RANDOM_POOL_ENRICHMENT_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases security. When done, click 'Continue'.</entry>
@@ -381,7 +381,7 @@
     <entry lang="en" key="MENU_FAVORITES">Favor&amp;ites</entry>
     <entry lang="en" key="MENU_TOOLS">T&amp;ools</entry>
     <entry lang="en" key="MENU_SETTINGS">Settin&amp;gs</entry>
-    <entry lang="en" key="MENU_HELP">&amp;Help</entry>
+    <entry lang="fa" key="MENU_HELP">كمك</entry>
     <entry lang="en" key="MENU_WEBSITE">   Home&amp;page   </entry>
     <entry lang="en" key="ABOUTBOX">&amp;About...</entry>
     <entry lang="en" key="ACCESSMODEFAIL">The read-only attribute on your old volume could not be changed. Please check the file access permissions.</entry>
@@ -390,7 +390,7 @@
     <entry lang="en" key="ADMIN_PRIVILEGES_DRIVER">In order to load the VeraCrypt driver, you need to be logged into an account with administrator privileges.</entry>
     <entry lang="en" key="ADMIN_PRIVILEGES_WARN_DEVICES">Please note that in order to encrypt, decrypt or format a partition/device you need to be logged into an account with administrator privileges.\n\nThis does not apply to file-hosted volumes.</entry>
     <entry lang="en" key="ADMIN_PRIVILEGES_WARN_HIDVOL">In order to create a hidden volume you need to be logged into an account with administrator privileges.\n\nContinue?</entry>
-    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_NTFS">Please note that in order to format the volume as NTFS you need to be logged into an account with administrator privileges.\n\nWithout administrator privileges, you can format the volume as FAT.</entry>
+    <entry lang="en" key="ADMIN_PRIVILEGES_WARN_NTFS">Please note that in order to format the volume as NTFS/exFAT/ReFS you need to be logged into an account with administrator privileges.\n\nWithout administrator privileges, you can format the volume as FAT.</entry>
     <entry lang="en" key="AES_HELP">FIPS-approved cipher (Rijndael, published in 1998) that may be used by U.S. government departments and agencies to protect classified information up to the Top Secret level. 256-bit key, 128-bit block, 14 rounds (AES-256). Mode of operation is XTS.</entry>
     <entry lang="en" key="ALREADY_MOUNTED">Volume is already mounted.</entry>
     <entry lang="en" key="ERR_SELF_TESTS_FAILED">CAUTION: At least one encryption or hash algorithm failed the built-in automatic self-tests!\n\nVeraCrypt installation may be corrupted.</entry>
@@ -400,7 +400,7 @@
     <entry lang="en" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">Your system appears to be using custom chipset drivers containing a bug that prevents encryption of the whole system drive.\n\nPlease try updating or uninstalling any custom (non-Microsoft) chipset drivers before proceeding. If it does not help, try encrypting the system partition only.</entry>
     <entry lang="en" key="BAD_DRIVE_LETTER">Invalid drive letter.</entry>
     <entry lang="en" key="INVALID_PATH">Invalid path.</entry>
-    <entry lang="en" key="CANCEL">Cancel</entry>
+    <entry lang="fa" key="CANCEL">لغو</entry>
     <entry lang="en" key="CANNOT_CALC_SPACE">Cannot access device. Make sure the selected device exists and is not used by system.</entry>
     <entry lang="en" key="CAPSLOCK_ON">Warning: Caps Lock is on. This may cause you to enter your password incorrectly.</entry>
     <entry lang="en" key="VOLUME_TYPE_TITLE">Volume Type</entry>
@@ -554,7 +554,7 @@
     <entry lang="en" key="ERR_VOLUME_SIZE_TOO_SMALL">The volume size specified in the command line is too small. The volume can't be created.</entry>
     <entry lang="en" key="ERR_VOLUME_SIZE_TOO_BIG">The volume size specified in the command line is too big. The volume can't be created.</entry>
     <entry lang="en" key="INIT_SYS_ENC">Cannot initialize application components for system encryption.</entry>
-    <entry lang="en" key="INIT_RAND">Failed to initialize the random number generator!</entry>
+    <entry lang="en" key="INIT_RAND">Failed to initialize the random number generator!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</entry>
     <entry lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</entry>
     <entry lang="en" key="INIT_REGISTER">Unable to initialize the application. Failed to register the Dialog class.</entry>
     <entry lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</entry>
@@ -630,12 +630,12 @@
     <entry lang="en" key="PASSWORD_HIDDEN_OS_TITLE">Password for Hidden Operating System</entry>
     <entry lang="en" key="PASSWORD_LENGTH_WARNING">WARNING: Short passwords are easy to crack using brute force techniques!\n\nWe recommend choosing a password consisting of 20 or more characters. Are you sure you want to use a short password?</entry>
     <entry lang="en" key="PASSWORD_TITLE">Volume Password</entry>
-    <entry lang="en" key="PASSWORD_WRONG">Incorrect password or not a VeraCrypt volume.</entry>
-    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Incorrect keyfile(s) and/or password or not a VeraCrypt volume.</entry>
-    <entry lang="en" key="PASSWORD_OR_MODE_WRONG">Wrong mount mode, incorrect password, or not a VeraCrypt volume.</entry>
-    <entry lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Wrong mount mode, incorrect keyfile(s) and/or password, or not a VeraCrypt volume.</entry>
-    <entry lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Incorrect password or no VeraCrypt volume found.</entry>
-    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Incorrect keyfile(s)/password or no VeraCrypt volume found.</entry>
+    <entry lang="en" key="PASSWORD_WRONG">Operation failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
+    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Operation failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
+    <entry lang="en" key="PASSWORD_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
+    <entry lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
+    <entry lang="en" key="PASSWORD_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</entry>
+    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</entry>
     <entry lang="en" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nWarning: Caps Lock is on. This may cause you to enter your password incorrectly.</entry>
     <entry lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</entry>
     <entry lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</entry>
@@ -650,7 +650,7 @@
     <entry lang="en" key="PIM_TITLE">Volume PIM</entry>
     <entry lang="en" key="HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNING: Hidden file(s) have been found in a keyfile search path. Such hidden files cannot be used as keyfiles. If you need to use them as keyfiles, remove their 'Hidden' attribute (right-click each of them, select 'Properties', uncheck 'Hidden' and click OK). Note: Hidden files are visible only if the corresponding option is enabled (Computer > Organize > 'Folder and search options' > View).</entry>
     <entry lang="en" key="HIDDEN_VOL_PROT_PASSWORD_US_KEYB_LAYOUT">If you are attempting to protect a hidden volume containing a hidden system, please make sure you are using the standard US keyboard layout when typing the password for the hidden volume. This is required due to the fact that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available.</entry>
-    <entry lang="en" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt has not found any volume where non-system encryption has been interrupted and where the volume header can be decrypted using the supplied password and/or keyfile(s).\n\nPlease make sure the password and/or keyfile(s) are correct and that the partition/volume is not being used by the system or applications (including antivirus software).</entry>
+    <entry lang="en" key="FOUND_NO_PARTITION_W_DEFERRED_INPLACE_ENC">VeraCrypt has not found any volume where the process of encryption/decryption of a non-system volume has been interrupted and where the volume header can be deciphered using the supplied password and/or keyfile(s).\n\nPlease make sure the password and/or keyfile(s) are correct and that the partition/volume is not being used by the system or applications (including antivirus software).</entry>
     <entry lang="en" key="SELECTED_PARTITION_ALREADY_INPLACE_ENC">The selected partition/device is already fully encrypted.\nHeader Flags = 0x%.8X</entry>
     <entry lang="en" key="SELECTED_PARTITION_NOT_INPLACE_ENC">The selected partition/device is not using in-place encryption.\nHeader Flags = 0x%.8X</entry>
     <entry lang="en" key="SYSENC_MOUNT_WITHOUT_PBA_NOTE">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'System' &gt; 'Mount Without Pre-Boot Authentication'.</entry>
@@ -745,8 +745,8 @@
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">The VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT or NTFS volume.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Under Windows 2000, the VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT volume.</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT).</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT/exFAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT/exFAT).</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT/exFAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT/exFAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
     <entry lang="en" key="OFFER_FAT_FORMAT_ALTERNATIVE">Do you want to format the volume as FAT instead?</entry>
     <entry lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Note: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</entry>
     <entry lang="en" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Error: The partition for the hidden operating system (i.e. the first partition behind the system partition) must be at least 5% larger than the system partition (the system partition is the one where the currently running operating system is installed).</entry>
@@ -782,8 +782,8 @@
     <entry lang="en" key="MEAN">Mean</entry>
     <entry lang="en" key="DRIVE">Drive</entry>
     <entry lang="en" key="SIZE">Size</entry>
-    <entry lang="en" key="ENCRYPTION_ALGORITHM">Encryption Algorithm</entry>
-    <entry lang="en" key="ENCRYPTION_ALGORITHM_LV">Encryption algorithm</entry>
+    <entry lang="fa" key="ENCRYPTION_ALGORITHM">الگوريتم رمزنگاري</entry>
+    <entry lang="fa" key="ENCRYPTION_ALGORITHM_LV">الگوريتم رمزنگاري</entry>
     <entry lang="en" key="TYPE">Type</entry>
     <entry lang="en" key="VALUE">Value</entry>
     <entry lang="en" key="PROPERTY">Property</entry>
@@ -805,7 +805,7 @@
     <entry lang="en" key="SYSTEM_PARTITION_DECRYPTING">System partition (decrypting - %.2f%% done)</entry>
     <entry lang="en" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">System partition (%.2f%% encrypted)</entry>
     <entry lang="en" key="HID_VOL_DAMAGE_PREVENTED">Yes (damage prevented!)</entry>
-    <entry lang="en" key="NONE">None</entry>
+    <entry lang="fa" key="NONE">هیچکدام</entry>
     <entry lang="en" key="KEY_SIZE">Primary Key Size</entry>
     <entry lang="en" key="SECONDARY_KEY_SIZE_XTS">Secondary Key Size (XTS Mode)</entry>
     <entry lang="en" key="SECONDARY_KEY_SIZE_LRW">Tweak Key Size (LRW Mode)</entry>
@@ -900,7 +900,7 @@
     <entry lang="en" key="HOURS">hours</entry>
     <entry lang="en" key="MINUTES">minutes</entry>
     <entry lang="en" key="SECONDS">s</entry>
-    <entry lang="en" key="OPEN">Open</entry>
+    <entry lang="fa" key="OPEN">باز کردن</entry>
     <entry lang="en" key="DISMOUNT">Dismount</entry>
     <entry lang="en" key="SHOW_TC">Show VeraCrypt</entry>
     <entry lang="en" key="HIDE_TC">Hide VeraCrypt</entry>
@@ -919,7 +919,7 @@
     <entry lang="en" key="PROGRESS_STATUS_FINALIZING">Finalizing</entry>
     <entry lang="en" key="PROGRESS_STATUS_PAUSED">Paused</entry>
     <entry lang="en" key="PROGRESS_STATUS_FINISHED">Finished</entry>
-    <entry lang="en" key="PROGRESS_STATUS_ERROR">Error</entry>
+    <entry lang="fa" key="PROGRESS_STATUS_ERROR">خطا</entry>
     <entry lang="en" key="FAVORITE_DISCONNECTED_DEV">Device disconnected</entry>
     <entry lang="en" key="SYS_FAVORITE_VOLUMES_SAVED">System favorite volumes saved.\n\nTo enable mounting of system favorite volumes when the system starts, please select 'Settings' &gt; 'System Favorite Volumes' &gt; 'Mount system favorite volumes when Windows starts'.</entry>
     <entry lang="en" key="FAVORITE_ADD_DRIVE_DEV_WARNING">The volume you are adding to favorites is neither a partition nor a dynamic volume. Therefore, VeraCrypt will be unable to mount this favorite volume if the device number changes.</entry>
@@ -936,7 +936,7 @@
     <entry lang="en" key="ENTER_NORMAL_VOL_PASSWORD">Enter password for the normal/outer volume</entry>
     <entry lang="en" key="ENTER_HIDDEN_VOL_PASSWORD">Enter password for the hidden volume</entry>
     <entry lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</entry>
-    <entry lang="en" key="KEYFILE_CREATED">Keyfile has been successfully created.</entry>
+    <entry lang="en" key="KEYFILE_CREATED">Keyfiles have been successfully created.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
     <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
@@ -1031,19 +1031,19 @@
     <entry lang="en" key="CONFIRM_NO_FORCED_AUTODISMOUNT">WARNING: If this option is disabled, volumes containing open files/directories will not be possible to auto-dismount.\n\nAre you sure you want to disable this option?</entry>
     <entry lang="en" key="WARN_PREF_AUTO_DISMOUNT">WARNING: Volumes containing open files/directories will NOT be auto-dismounted.\n\nTo prevent this, enable the following option in this dialog window: 'Force auto-dismount even if volume contains open files or directories'</entry>
     <entry lang="en" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">WARNING: When the notebook battery power is low, Windows may omit sending the appropriate messages to running applications when the computer is entering power saving mode. Therefore, VeraCrypt may fail to auto-dismount volumes in such cases.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">You have scheduled the process of encryption of a partition/volume. The process has not been completed yet.\n\nDo you want to resume the process now?</entry>
+    <entry lang="en" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">You have scheduled the process of encryption/decryption of a partition/volume. The process has not been completed yet.\n\nDo you want to resume the process now?</entry>
     <entry lang="en" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">You have scheduled the process of encryption or decryption of the system partition/drive. The process has not been completed yet.\n\nDo you want to start (resume) the process now?</entry>
-    <entry lang="en" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Do you want to be prompted about whether you want to resume the currently scheduled processes of encryption of non-system partitions/volumes?</entry>
+    <entry lang="en" key="ASK_NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL">Do you want to be prompted about whether you want to resume the currently scheduled processes of encryption/decryption of non-system partitions/volumes?</entry>
     <entry lang="en" key="KEEP_PROMPTING_ME">Yes, keep prompting me</entry>
     <entry lang="en" key="DO_NOT_PROMPT_ME">No, do not prompt me</entry>
-    <entry lang="en" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">IMPORTANT: Keep in mind that you can resume the process of encryption of any non-system partition/volume by selecting 'Volumes' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window.</entry>
+    <entry lang="en" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">IMPORTANT: Keep in mind that you can resume the process of encryption/decryption of any non-system partition/volume by selecting 'Volumes' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window.</entry>
     <entry lang="en" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">You have scheduled the process of encryption or decryption of the system partition/drive. However, pre-boot authentication failed (or was bypassed).\n\nNote: If you decrypted the system partition/drive in the pre-boot environment, you may need to finalize the process by selecting 'System' &gt; 'Permanently Decrypt System Partition/Drive' from the menu bar of the main VeraCrypt window.</entry>
     <entry lang="en" key="CONFIRM_EXIT">WARNING: If VeraCrypt exits now, the following functions will be disabled:\n\n1) Hot keys\n2) Auto-dismount (e.g., upon logoff, inadvertent host device removal, time-out, etc.)\n3) Auto-mount of favorite volumes\n4) Notifications (e.g., when damage to hidden volume is prevented)\n\nNote: If you do not wish VeraCrypt to run in the background, disable the VeraCrypt Background Task in the Preferences (and, if necessary, disable the automatic start of VeraCrypt in the Preferences).\n\nAre you sure you want VeraCrypt to exit?</entry>
     <entry lang="en" key="CONFIRM_EXIT_UNIVERSAL">Exit?</entry>
     <entry lang="en" key="CHOOSE_ENCRYPT_OR_DECRYPT">VeraCrypt does not have sufficient information to determine whether to encrypt or decrypt.</entry>
     <entry lang="en" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">VeraCrypt does not have sufficient information to determine whether to encrypt or decrypt.\n\nNote: If you decrypted the system partition/drive in the pre-boot environment, you may need to finalize the process by clicking Decrypt.</entry>
     <entry lang="en" key="NONSYS_INPLACE_ENC_REVERSE_INFO">Note: When you are encrypting a non-system partition/volume in place and an error persistently prevents you from finishing the process, you will not be able to mount the volume (and access data stored on it) until you entirely DECRYPT the volume (i.e. reverse the process).\n\nIf you need to do so, follow these steps:\n1) Exit this wizard.\n2) In the main VeraCrypt window, select 'Volumes' &gt; 'Resume Interrupted Process'.\n3) Select 'Decrypt'.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">Do you want to interrupt and postpone the process of encryption of the partition/volume?\n\nNote: Keep in mind that the volume cannot be mounted until it has been fully encrypted. You will be able to resume the process of encryption and it will continue from the point it was stopped. You can do so, for example, by selecting 'Volumes' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window.</entry>
+    <entry lang="en" key="NONSYS_INPLACE_ENC_DEFER_CONFIRM">Do you want to interrupt and postpone the process of encryption/decryption of the partition/volume?\n\nNote: Keep in mind that the volume cannot be mounted until it has been fully encrypted or decrypted. You will be able to resume the process of encryption/decryption and it will continue from the point where it was stopped. You can do so, for example, by selecting 'Volumes' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window.</entry>
     <entry lang="en" key="SYSTEM_ENCRYPTION_DEFER_CONFIRM">Do you want to interrupt and postpone the process of encryption of the system partition/drive?\n\nNote: You will be able to resume the process and it will continue from the point it was stopped. You can do so, for example, by selecting 'System' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window. If you want to permanently terminate or reverse the encryption process, select 'System' &gt; 'Permanently Decrypt System Partition/Drive'.</entry>
     <entry lang="en" key="SYSTEM_DECRYPTION_DEFER_CONFIRM">Do you want to interrupt and postpone the process of decryption of the system partition/drive?\n\nNote: You will be able to resume the process and it will continue from the point it was stopped. You can do so, for example, by selecting 'System' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window. If you want to reverse the decryption process (and start encrypting), select 'System' &gt; 'Encrypt System Partition/Drive'.</entry>
     <entry lang="en" key="FAILED_TO_INTERRUPT_SYSTEM_ENCRYPTION">Error: Failed to interrupt the process of encryption/decryption of the system partition/drive.</entry>
@@ -1329,7 +1329,7 @@
     <entry lang="en" key="VKEY_2B">Execute Key</entry>
     <entry lang="en" key="VKEY_2C">Print Screen</entry>
     <entry lang="en" key="VKEY_2D">Insert</entry>
-    <entry lang="en" key="VKEY_2E">Delete</entry>
+    <entry lang="fa" key="VKEY_2E">حذف</entry>
     <entry lang="en" key="VKEY_5D">Applications Key</entry>
     <entry lang="en" key="VKEY_5F">Sleep</entry>
     <entry lang="en" key="VKEY_90">Num Lock</entry>
@@ -1358,10 +1358,10 @@
     <entry lang="en" key="VKEY_FA">Play</entry>
     <entry lang="en" key="VKEY_FB">Zoom</entry>
     <entry lang="en" key="VK_NUMPAD">NumPad</entry>
-    <entry lang="en" key="VK_SHIFT">Shift</entry>
+    <entry lang="fa" key="VK_SHIFT">كليد شيفت</entry>
     <entry lang="en" key="VK_CONTROL">Control</entry>
-    <entry lang="en" key="VK_ALT">Alt</entry>
-    <entry lang="en" key="VK_WIN">Win</entry>
+    <entry lang="fa" key="VK_ALT">Alt كليد</entry>
+    <entry lang="fa" key="VK_WIN">كليد ويندوز</entry>
     <entry lang="en" key="BYTE">B</entry>
     <entry lang="en" key="KB">KB</entry>
     <entry lang="en" key="MB">MB</entry>

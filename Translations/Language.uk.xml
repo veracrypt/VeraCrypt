@@ -355,7 +355,7 @@
     <entry lang="uk" key="IDT_KEYFILE_GENERATOR_NOTE">ВАЖНО: Хаотично переміщуйте мишку всередині цього вікна. Чим довше, тим ліпше. Це значно збільшить криптостійкість ключового файлу.</entry>
     <entry lang="uk" key="IDT_KEYFILE_WARNING">УВАГА: При втраті ключового файлу або пошкодженні його перших 1024 кілобайт монтувати використовуючи цей файл томів неможливо!</entry>
     <entry lang="uk" key="IDT_KEY_UNIT">біт</entry>
-    <entry lang="en" key="IDT_NUMBER_KEYFILES">Number of keyfiles:</entry>
+    <entry lang="uk" key="IDT_NUMBER_KEYFILES">Кількість ключових файлів:</entry>
     <entry lang="en" key="IDT_KEYFILES_SIZE">Keyfiles size (in Bytes):</entry>
     <entry lang="en" key="IDT_KEYFILES_BASE_NAME">Keyfiles base name:</entry>
     <entry lang="uk" key="IDT_LANGPACK_AUTHORS">Автор перкладу:</entry>

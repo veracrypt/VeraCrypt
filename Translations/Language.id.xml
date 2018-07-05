@@ -61,7 +61,7 @@
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="id" key="IDC_QUICKFORMAT">Format cepat</entry>
     <entry lang="id" key="IDC_SHOW_PASSWORD">&amp;Perlihatkan password</entry>
-    <entry lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</entry>
+    <entry lang="id" key="IDC_SHOW_PASSWORD_SINGLE">Tampilkan Passwor&amp;d</entry>
     <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
     <entry lang="en" key="IDC_SINGLE_BOOT">Single-boot</entry>
     <entry lang="en" key="IDC_STD_VOL">Standard VeraCrypt volume</entry>

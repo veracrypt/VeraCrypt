@@ -35,7 +35,7 @@
     <entry lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</entry>
     <entry lang="en" key="IDC_GB">&amp;GB</entry>
     <entry lang="en" key="IDC_TB">&amp;TB</entry>
-    <entry lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</entry>
+    <entry lang="zh-tw" key="IDC_HIDDEN_SYSENC_INFO_LINK">更多訊息</entry>
     <entry lang="zh-tw" key="IDC_HIDDEN_VOL">建立隱藏的 VeraCrypt 加密區(&amp;D) </entry>
     <entry lang="zh-tw" key="IDC_HIDDEN_VOL_HELP">更多隱藏加密區的訊息</entry>
     <entry lang="zh-tw" key="IDC_HIDVOL_WIZ_MODE_DIRECT">直接模式</entry>
@@ -61,12 +61,12 @@
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="zh-tw" key="IDC_QUICKFORMAT">快速格式化</entry>
     <entry lang="zh-tw" key="IDC_SHOW_PASSWORD">顯示密碼(&amp;D)</entry>
-    <entry lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</entry>
+    <entry lang="zh-tw" key="IDC_SHOW_PASSWORD_SINGLE">顯示密碼(&amp;A)</entry>
     <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
     <entry lang="zh-tw" key="IDC_SINGLE_BOOT">單一系統開機</entry>
     <entry lang="zh-tw" key="IDC_STD_VOL">標準 VeraCrypt 加密區</entry>
     <entry lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</entry>
-    <entry lang="en" key="IDC_SYSENC_NORMAL">Normal</entry>
+    <entry lang="zh-tw" key="IDC_SYSENC_NORMAL">一般</entry>
     <entry lang="zh-tw" key="IDC_SYS_DEVICE">加密系統分割區或者整個系統所在磁碟機</entry>
     <entry lang="zh-tw" key="IDC_SYS_PARTITION">加密 Windows 系統分割區</entry>
     <entry lang="zh-tw" key="IDC_WHOLE_SYS_DRIVE">加密整個磁碟機</entry>
@@ -132,7 +132,7 @@
     <entry lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</entry>
     <entry lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</entry>
     <entry lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</entry>
-    <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
+    <entry lang="zh-tw" key="IDC_FAVORITE_REMOVE">移除(&amp;R)</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
     <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
@@ -145,8 +145,8 @@
     <entry lang="zh-tw" key="IDC_HOTKEY_REMOVE">移除</entry>
     <entry lang="zh-tw" key="IDC_KEYFILES">金鑰檔案...</entry>
     <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
+    <entry lang="zh-tw" key="IDC_MORE_INFO_ON_HW_ACCELERATION">更多訊息</entry>
+    <entry lang="zh-tw" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">更多訊息</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>
     <entry lang="zh-tw" key="IDC_MOUNTALL">自動掛載磁碟機(&amp;A)</entry>
     <entry lang="zh-tw" key="IDC_MOUNT_OPTIONS">掛載選項(&amp;A)...</entry>
@@ -243,7 +243,7 @@
     <entry lang="zh-tw" key="IDM_REFRESH_DRIVE_LETTERS">重新整理磁碟機代號</entry>
     <entry lang="zh-tw" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">從加密區中移除所有金鑰...</entry>
     <entry lang="zh-tw" key="IDM_RESTORE_VOL_HEADER">復原加密區標頭資訊...</entry>
-    <entry lang="en" key="IDM_RESUME_INTERRUPTED_PROC">Resume Interrupted Process</entry>
+    <entry lang="zh-tw" key="IDM_RESUME_INTERRUPTED_PROC">恢復被中斷的操作</entry>
     <entry lang="zh-tw" key="IDM_SELECT_DEVICE">選擇磁碟機...</entry>
     <entry lang="zh-tw" key="IDM_SELECT_FILE">選擇檔案...</entry>
     <entry lang="zh-tw" key="IDM_SYSENC_RESUME">恢復被中斷的操作</entry>
@@ -483,7 +483,7 @@
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION">Depending on your choice above, VeraCrypt will choose a suitable default file system for the VeraCrypt volume (you will be able to select a file system in the next step).</entry>
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">As you are creating an outer volume, you should consider choosing 'No'. If you choose 'Yes', the default filesystem will be NTFS, which is not as suitable for outer volumes as FAT (for example, the maximum possible size of the hidden volume will be significantly greater if the outer volume is formatted as FAT). Normally, FAT is the default for both hidden and normal volumes (so FAT volumes are not suspicious). However, if the user indicates intent to store files larger than 4 GB (which the FAT file system does not allow), then FAT is not the default.</entry>
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Are you sure you want to choose 'Yes'?</entry>
-    <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Volume Creation Mode</entry>
+    <entry lang="zh-tw" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">加密區建立模式</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">This is the fastest way to create a partition-hosted or device-hosted VeraCrypt volume (in-place encryption, which is the other option, is slower because content of each sector has to be first read, encrypted, and then written). Any data currently stored on the selected partition/device will be lost (the data will NOT be encrypted; it will be overwritten with random data). If you want to encrypt existing data on a partition, choose the other option.</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">The entire selected partition and all data stored on it will be encrypted in place. If the partition is empty, you should choose the other option (the volume will be created much faster).</entry>
     <entry lang="en" key="NOTE_BEGINNING">Note: </entry>
@@ -536,8 +536,8 @@
     <entry lang="zh-tw" key="HIDVOL_PROT_WARN_AFTER_MOUNT">在外層加密區卸載前隱藏加密區將處於保護之中。\n\n警告：如果有資料試圖存到隱藏加密區區域，VeraCrypt 將會開始對整個加密區(外層和隱藏加密區都是)進行寫入保護直到卸載。這也許會導致外層加密區的檔案系統損毀，這樣(如果持續下去)也許會對隱藏加密區的合理隱蔽特性有不利的影響。因此，您應該盡全力避免寫入資料到隱藏加密區區域裡。任何要被儲存到隱藏加密區區域的資料將不被保存而且會遺失！Windows 可能會報告為這是寫入錯誤("延遲寫入失敗" 或者 "參數不正確")</entry>
     <entry lang="zh-tw" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">在新掛載上去的外層加密區卸載前每一個隱藏加密區將處於保護之中。\n\n警告：如果有資料試圖存到任何保護的隱藏加密區區域，VeraCrypt 將會開始對整個加密區(外層和隱藏加密區都是)進行寫入保護直到卸載。這也許會導致外層加密區的檔案系統損毀，這樣(如果持續下去)也許會對隱藏加密區的合理隱蔽特性有不利的影響。因此，您應該盡全力避免寫入資料到隱藏加密區區域裡。任何要被儲存到隱藏加密區區域的資料將不被保存而且會遺失！Windows 可能會報告為這是寫入錯誤("延遲寫入失敗" 或者 "參數不正確")</entry>
     <entry lang="zh-tw" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">警告：資料試圖存到掛載為 %c: 加密區的隱藏加密區區域！\n\nVeraCrypt 為了保護隱藏加密區已經阻止了這些資料的儲存。這也許會導致外層加密區的檔案系統損毀而且 Windows 可能會報告為這是寫入錯誤("延遲寫入失敗" 或者 "參數不正確")。整個加密區(外層和隱藏加密區都是)將進行寫入保護直到加密區卸除為止。如果這不是 VeraCrypt 第一次避免資料寫入到隱藏加密區區域，隱藏加密區的合理隱蔽特性可能會有不利的影響(因為外層加密區的檔案系統裡可能有不正常的不一致相關)。因此，您應該考慮建立一個新的 VeraCrypt 加密區(停用快速格式化的)而且把檔案從這加密區移動到新加密區裡面；這加密區應該被安全的消除(外層和隱藏加密區都是)。我們強烈建議您現在重開作業系統。</entry>
-    <entry lang="en" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">You have indicated intent to store files larger than 4 GB on the volume. This requires the volume to be formatted as NTFS, which, however, will not be possible.</entry>
-    <entry lang="en" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">Please note that when a hidden operating system is running, non-hidden VeraCrypt volumes cannot be formatted as NTFS. The reason is that the volume would need to be temporarily mounted without write protection in order to allow the operating system to format it as NTFS (whereas formatting as FAT is performed by VeraCrypt, not by the operating system, and without mounting the volume). For further technical details, see below. You can create a non-hidden NTFS volume from within the decoy operating system.</entry>
+    <entry lang="en" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">You have indicated intent to store files larger than 4 GB on the volume. This requires the volume to be formatted as NTFS/exFAT/ReFS, which, however, will not be possible.</entry>
+    <entry lang="en" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">Please note that when a hidden operating system is running, non-hidden VeraCrypt volumes cannot be formatted as NTFS/exFAT/ReFS. The reason is that the volume would need to be temporarily mounted without write protection in order to allow the operating system to format it as NTFS (whereas formatting as FAT is performed by VeraCrypt, not by the operating system, and without mounting the volume). For further technical details, see below. You can create a non-hidden NTFS/exFAT/ReFS volume from within the decoy operating system.</entry>
     <entry lang="en" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">For security reasons, when a hidden operating system is running, hidden volumes can be created only in the 'direct' mode (because outer volumes must always be mounted as read-only). To create a hidden volume securely, follow these steps:\n\n1) Boot the decoy system.\n\n2) Create a normal VeraCrypt volume and, to this volume, copy some sensitive-looking files that you actually do NOT want to hide (the volume will become the outer volume).\n\n3) Boot the hidden system and start the VeraCrypt Volume Creation Wizard. If the volume is file-hosted, move it to the system partition or to another hidden volume (otherwise, the newly created hidden volume would be mounted as read-only and could not be formatted). Follow the instructions in the wizard so as to select the 'direct' hidden volume creation mode.\n\n4) In the wizard, select the volume you created in step 2 and then follow the instructions to create a hidden volume within it.</entry>
     <entry lang="en" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">For security reasons, when a hidden operating system is running, local unencrypted filesystems and non-hidden VeraCrypt volumes are mounted as read-only (no data can be written to such filesystems or VeraCrypt volumes).\n\nData is allowed to be written to any filesystem that resides within a hidden VeraCrypt volume (provided that the hidden volume is not located in a container stored on an unencrypted filesystem or on any other read-only filesystem).</entry>
     <entry lang="en" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">There are three main reasons why such countermeasures have been implemented:\n\n- It enables the creation of a secure platform for mounting of hidden VeraCrypt volumes. Note that we officially recommend that hidden volumes are mounted only when a hidden operating system is running. (For more information, see the subsection 'Security Requirements and Precautions Pertaining to Hidden Volumes' in the documentation.)\n\n- In some cases, it is possible to determine that, at a certain time, a particular filesystem was not mounted under (or that a particular file on the filesystem was not saved or accessed from within) a particular instance of an operating system (e.g. by analyzing and comparing filesystem journals, file timestamps, application logs, error logs, etc). This might indicate that a hidden operating system is installed on the computer. The countermeasures prevent these issues.\n\n- It prevents data corruption and allows safe hibernation. When Windows resumes from hibernation, it assumes that all mounted filesystems are in the same state as when the system entered hibernation. VeraCrypt ensures this by write-protecting any filesystem accessible both from within the decoy and hidden systems. Without such protection, the filesystem could become corrupted when mounted by one system while the other system is hibernated.</entry>
@@ -745,8 +745,8 @@
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
     <entry lang="zh-tw" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">VeraCrypt 加密區建立精靈只能在 FAT 或 NTFS 的檔案系統格式加密區內建立隱藏加密區。</entry>
     <entry lang="zh-tw" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">在 Windows 2000 系統下，VeraCrypt 加密區建立精靈只能在 FAT 的檔案系統格式加密區裡面建立隱藏加密區。</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT).</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT/exFAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT/exFAT).</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT/exFAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT/exFAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
     <entry lang="en" key="OFFER_FAT_FORMAT_ALTERNATIVE">Do you want to format the volume as FAT instead?</entry>
     <entry lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Note: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</entry>
     <entry lang="en" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Error: The partition for the hidden operating system (i.e. the first partition behind the system partition) must be at least 5% larger than the system partition (the system partition is the one where the currently running operating system is installed).</entry>
@@ -1235,7 +1235,7 @@
     <entry lang="zh-tw" key="SYSTEM_ENCRYPTION_IN_PROGRESS_ELSEWHERE">已經有 VeraCrypt 加密區建立精靈的執行實例在執行，而且正在執行對系統分割區/磁碟機的加密/解密操作。在您操作前，請等它完成或者將它關閉。如果您無法關閉它，請在繼續操作前重新啟動電腦。</entry>
     <entry lang="zh-tw" key="SYSTEM_ENCRYPTION_NOT_COMPLETED">加密或解密系統分割區/磁碟機的操作尚未完成。請等到它操作完成。</entry>
     <entry lang="zh-tw" key="ERR_ENCRYPTION_NOT_COMPLETED">錯誤：加密分割區/磁碟機的操作尚未完成。那必須要先完成。</entry>
-    <entry lang="en" key="ERR_NONSYS_INPLACE_ENC_INCOMPLETE">Error: The process of encryption of the partition/volume has not been completed. It must be completed first.\n\nNote: To resume the process, select 'Volumes' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window.</entry>
+    <entry lang="en" key="ERR_NONSYS_INPLACE_ENC_INCOMPLETE">Error: The process of encryption or decryption of the partition/volume has not been completed. It must be completed first.\n\nNote: To resume the process, select 'Volumes' &gt; 'Resume Interrupted Process' from the menu bar of the main VeraCrypt window.</entry>
     <entry lang="en" key="ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG">The password is correct, VeraCrypt has successfully decrypted the volume header and detected that this volume is a hidden system volume. However, you cannot modify the header of a hidden system volume this way.\n\nTo change the password for a hidden system volume, boot the operating system residing in the hidden volume, and then select 'System' &gt; 'Change Password' from the menu bar of the main VeraCrypt window.\n\nTo set the header key derivation algorithm, boot the hidden operating system and then select 'System' &gt; 'Set Header Key Derivation Algorithm'.</entry>
     <entry lang="en" key="CANNOT_DECRYPT_HIDDEN_OS">VeraCrypt does not support in-place decryption of a hidden system partition.\n\nNote: If you want to decrypt the decoy system partition, boot the decoy system, and then select 'System' &gt; 'Permanently Decrypt System Partition/Drive' from the menu bar of the main VeraCrypt window.</entry>
     <entry lang="zh-tw" key="ERR_PARAMETER_INCORRECT">錯誤：不正確/無效的參數。</entry>

@@ -481,7 +481,7 @@
     <entry lang="hu" key="FILESYS_PAGE_TITLE">Nagyméretű Fájlok</entry>
     <entry lang="hu" key="FILESYS_PAGE_HELP_QUESTION">Szándékozik 4 Gigabájtnál nagyobb méretű fájlokat helyezni ebbe a VeraCrypt kötetbe?</entry>
     <entry lang="hu" key="FILESYS_PAGE_HELP_EXPLANATION">A szerint mit választott, VeraCrypt eldöntötte melyik legyen az alapértelmezett fájlrendszert a kötethez. (Ezt még megváltoztathatja a következő lépésben.)</entry>
-    <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">Mivel 'Külső Kötetet' készít, fontolja meg a 'Nem' választ.\nHa 'Igen'-t választ, az alapértelmezett fájlrendszer NTFS lesz, amely nem kezelhet 'Külső Kötetet' FAT fájlrendszerként.\n(Például a maximum lehetésges mérete egy rejtett kötetnek lényegesen nagyobb lesz, ha a 'Külső Tároló' FAT-ként van formázva.)\n\nNormál esetben, FAT az alapértelmezett mind a rejtett, mind a normál kötetekhez (így a FAT kötet nem lesz gyanús.)\nUgyanakkor, ha a felhasználó szándékozik 4 Gigabájtnál nagyobb fájlokat is tárolni, akkor nem FAT az alapértelmezett.</entry>
+    <entry lang="hu" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">Mivel 'Külső Kötetet' készít, fontolja meg a 'Nem' választ.\nHa 'Igen'-t választ, az alapértelmezett fájlrendszer NTFS lesz, amely nem kezelhet 'Külső Kötetet' FAT fájlrendszerként.\n(Például a maximum lehetésges mérete egy rejtett kötetnek lényegesen nagyobb lesz, ha a 'Külső Tároló' FAT-ként van formázva.)\n\nNormál esetben, FAT az alapértelmezett mind a rejtett, mind a normál kötetekhez (így a FAT kötet nem lesz gyanús.)\nUgyanakkor, ha a felhasználó szándékozik 4 Gigabájtnál nagyobb fájlokat is tárolni, akkor nem FAT az alapértelmezett.</entry>
     <entry lang="hu" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Biztosan 'Igen-t' választasz?</entry>
     <entry lang="hu" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Kötet Létrehozási Mód</entry>
     <entry lang="hu" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">Ez a leggyorsabb módja, hogy létrehozzon egy eszközön- vagy partíción-tárolt VeraCrypt kötetet.\nÁm ezzel a módszerrel a választott tárolón lévő MINDEN ADAT MEGSEMMÍSÍTésre kerül, tehát nem lesz Lekódolva. (A másik: 'Helyben át-Kódolás' lassabb, mert minden egyes szektort be kell olvasni, Lekódoni majd visszaírni.)\n\nHa a meglévő adatokat akarja Lekódolni, válassza a másik módszert.</entry>
@@ -558,7 +558,7 @@
     <entry lang="en" key="CAPI_RAND">Windows Crypto API failed!\n\n\n(If you report a bug in connection with this, please include the following technical information in the bug report:\n%hs, Last Error = 0x%.8X)</entry>
     <entry lang="en" key="INIT_REGISTER">Unable to initialize the application. Failed to register the Dialog class.</entry>
     <entry lang="en" key="INIT_RICHEDIT">Error: Failed to load the Rich Edit system library.</entry>
-    <entry lang="en" key="INTRO_TITLE">VeraCrypt Volume Creation Wizard</entry>
+    <entry lang="hu" key="INTRO_TITLE">VeraCrypt Kötet Létrehozó Varázsló</entry>
     <entry lang="en" key="MAX_HIDVOL_SIZE_BYTES">Maximum possible hidden volume size for this volume is %.2f bytes.</entry>
     <entry lang="en" key="MAX_HIDVOL_SIZE_KB">Maximum possible hidden volume size for this volume is %.2f KB.</entry>
     <entry lang="en" key="MAX_HIDVOL_SIZE_MB">Maximum possible hidden volume size for this volume is %.2f MB.</entry>
@@ -725,11 +725,11 @@
     <entry lang="hu" key="ALL_FILES">Minden fájl</entry>
     <entry lang="hu" key="TC_VOLUMES">VeraCrypt Kötetek</entry>
     <entry lang="en" key="DLL_FILES">Library Modules</entry>
-    <entry lang="en" key="FORMAT_NTFS_STOP">NTFS formatting cannot continue.</entry>
+    <entry lang="en" key="FORMAT_NTFS_STOP">NTFS/exFAT/ReFS formatting cannot continue.</entry>
     <entry lang="hu" key="CANT_MOUNT_VOLUME">Kötet csatolása sikertelen.</entry>
     <entry lang="hu" key="CANT_DISMOUNT_VOLUME">Kötet leválasztása sikertelen.</entry>
-    <entry lang="en" key="FORMAT_NTFS_FAILED">Windows failed to format the volume as NTFS.\n\nPlease select a different type of file system (if possible) and try again. Alternatively, you could leave the volume unformatted (select 'None' as the filesystem), exit this wizard, mount the volume, and then use either a system or a third-party tool to format the mounted volume (the volume will remain encrypted).</entry>
-    <entry lang="en" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows failed to format the volume as NTFS.\n\nDo you want to format the volume as FAT instead?</entry>
+    <entry lang="en" key="FORMAT_NTFS_FAILED">Windows failed to format the volume as NTFS/exFAT/ReFS.\n\nPlease select a different type of file system (if possible) and try again. Alternatively, you could leave the volume unformatted (select 'None' as the filesystem), exit this wizard, mount the volume, and then use either a system or a third-party tool to format the mounted volume (the volume will remain encrypted).</entry>
+    <entry lang="en" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows failed to format the volume as NTFS/exFAT/ReFS.\n\nDo you want to format the volume as FAT instead?</entry>
     <entry lang="hu" key="DEFAULT">Alapértelmezett</entry>
     <entry lang="en" key="PARTITION_LOWER_CASE">partition</entry>
     <entry lang="en" key="PARTITION_UPPER_CASE">PARTITION</entry>
@@ -745,8 +745,8 @@
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">The VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT or NTFS volume.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Under Windows 2000, the VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT volume.</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT).</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT/exFAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT/exFAT).</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT/exFAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT/exFAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
     <entry lang="en" key="OFFER_FAT_FORMAT_ALTERNATIVE">Do you want to format the volume as FAT instead?</entry>
     <entry lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Note: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</entry>
     <entry lang="en" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Error: The partition for the hidden operating system (i.e. the first partition behind the system partition) must be at least 5% larger than the system partition (the system partition is the one where the currently running operating system is installed).</entry>
@@ -993,7 +993,7 @@
     <entry lang="en" key="PATH_ITEM">Path:   </entry>
     <entry lang="en" key="DRIVE_LETTER_ITEM">Drive Letter:   </entry>
     <entry lang="hu" key="UNSUPPORTED_CHARS_IN_PWD">Hiba! A jelszó csak ASCII karaktereket tartalmazhat!\n\nElőfordulhat, hogy a rendszer konfigurációjának megváltoztatása után nem tudná csatolni az olyan köteteket, melyek jelszava nem-ASCII karaktereket is tartalmaz.\n\nA következő karaktereket használhatja:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</entry>
-    <entry lang="en" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">FIGYELEM! A jelszó tartalamaz nem-ASCII karakter(eke)t!\n\nElőfordulhat, hogy a rendszer konfigurációjának megváltoztatása után nem tudná csatolni az olyan köteteket, melyek jelszava nem-ASCII karaktereket is tartalmaz.\n\nA következő karaktereket használhatja:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w k y z { | } ~</entry>
+    <entry lang="hu" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">FIGYELEM! A jelszó tartalamaz nem-ASCII karakter(eke)t!\n\nElőfordulhat, hogy a rendszer konfigurációjának megváltoztatása után nem tudná csatolni az olyan köteteket, melyek jelszava nem-ASCII karaktereket is tartalmaz.\n\nA következő karaktereket használhatja:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</entry>
     <entry lang="en" key="EXE_FILE_EXTENSION_CONFIRM">FIGYELEM! WARNING: We strongly recommend that you avoid file extensions that are used for executable files (such as .exe, .sys, or .dll) and other similarly problematic file extensions. Using such file extensions causes Windows and antivirus software to interfere with the container, which adversely affects the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension or change it (e.g., to '.hc').\n\nAre you sure you want to use the problematic file extension?</entry>
     <entry lang="en" key="EXE_FILE_EXTENSION_MOUNT_WARNING">WARNING: This container has a file extension that is used for executable files (such as .exe, .sys, or .dll) or some other file extension that is similarly problematic. It will very likely cause Windows and antivirus software to interfere with the container, which will adversely affect the performance of the volume and may also cause other serious problems.\n\nWe strongly recommend that you remove the file extension of the container or change it (e.g., to '.hc') after you dismount the volume.</entry>
     <entry lang="hu" key="HOMEPAGE">Honlap</entry>
@@ -1016,7 +1016,7 @@
     <entry lang="hu" key="HK_SHOW_HIDE_MAIN_WINDOW">Mutassa/rejtse a fő VeraCrypt ablakot</entry>
     <entry lang="hu" key="PRESS_A_KEY_TO_ASSIGN">(Kattintson ide és nyomjon meg egy gombot)</entry>
     <entry lang="hu" key="ACTION">Esemény</entry>
-    <entry lang="en" key="SHORTCUT">Shortcut</entry>
+    <entry lang="hu" key="SHORTCUT">Parancsikon</entry>
     <entry lang="en" key="CANNOT_USE_RESERVED_KEY">Error: This shortcut is reserved. Please choose a different shortcut.</entry>
     <entry lang="en" key="SHORTCUT_ALREADY_IN_USE">Error: Shortcut already in use.</entry>
     <entry lang="en" key="HOTKEY_REGISTRATION_ERROR">WARNING: One or more VeraCrypt system-wide hot keys will not work!\n\nPlease make sure that other applications and the operating system do not use the same shortcut(s) as VeraCrypt.</entry>
