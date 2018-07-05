@@ -35,13 +35,14 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
-<p><strong style="text-align:left">1.23-BETA1 </strong>(May 2<sup>nd</sup>, 2018):</p>
+<p><strong style="text-align:left">1.23-BETA2 </strong>(July 5<sup>nd</sup>, 2018):</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
 <li>Fix EFI system encryption issues on some machines (e.g. HP, Acer).</li>
 <li>Support EFI system encryption on Windows LTSB.</li>
-<li>First implementation of compatibility of system encryption with Windows 10 upgrade using ReflectDrivers mechanism</li>
+<li>Add compatibility of system encryption with Windows 10 upgrade using ReflectDrivers mechanism</li>
+<li>Make EFI Rescue Disk decrypt partition correctly when Windows Repair overwrites first partition sector.</li>
 <li>Don't start EFI system encryption process if SecureBoot is enabled and VeraCrypt-DCS custom keys are not loaded in the machine's firmware.</li>
 <li>Add internal verification of binaries embedded signature to protect against some types to tampering attacks.</li>
 <li>when Secure Desktop is enabled, use it for Mount Options dialog if it is displayed before password dialog.</li>
