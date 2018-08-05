@@ -13259,11 +13259,9 @@ static DWORD WINAPI SecureDesktopThread(LPVOID lpThreadParameter)
 	SecureDesktopMonitoringThreadParam monitorParam;
 	HDESK hOriginalDesk = GetThreadDesktop (GetCurrentThreadId ());
 	BOOL bNewDesktopSet = FALSE;
-	int counter = 0;
 
 	// wait for SwitchDesktop to succeed before using it for current thread
-	// we wait a maximum of 5 seconds
-	for (counter = 0; counter < 10; counter++)
+	while (true)
 	{
 		if (SwitchDesktop (pParam->hDesk))
 		{
@@ -13352,6 +13350,21 @@ INT_PTR SecureDesktopDialogBoxParam(
 		map<DWORD, BOOL> ctfmonBeforeList, ctfmonAfterList;
 		DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
 		HDESK hSecureDesk;
+
+		HDESK hInputDesk = NULL;
+
+		// wait for the input desktop to be available before switching to 
+		// secure desktop. Under Windows 10, the user session can be started
+		// in the background even before the user has authenticated and in this
+		// case, we wait for the user to be really authenticated before starting 
+		// secure desktop mechanism
+
+		while (!(hInputDesk = OpenInputDesktop (0, TRUE, GENERIC_READ)))
+		{
+			Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
+		}
+
+		CloseDesktop (hInputDesk);
 		
 		// get the initial list of ctfmon.exe processes before creating new desktop
 		GetCtfMonProcessIdList (ctfmonBeforeList);
