@@ -13424,6 +13424,7 @@ INT_PTR SecureDesktopDialogBoxParam(
 
 #endif
 
+#ifdef NDEBUG
 static BOOL InitializeWintrust()
 {
 	if (!hWinTrustLib)
@@ -13469,6 +13470,8 @@ static void FinalizeWintrust()
 		hWinTrustLib = NULL;
 	}
 }
+
+#endif
 
 BOOL VerifyModuleSignature (const wchar_t* path)
 {
