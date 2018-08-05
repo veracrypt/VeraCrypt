@@ -35,7 +35,7 @@
     <entry lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</entry>
     <entry lang="en" key="IDC_GB">&amp;GB</entry>
     <entry lang="en" key="IDC_TB">&amp;TB</entry>
-    <entry lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</entry>
+    <entry lang="el" key="IDC_HIDDEN_SYSENC_INFO_LINK">Περισσότερες πληροφορίες</entry>
     <entry lang="el" key="IDC_HIDDEN_VOL">Κρυ&amp;φός τόμος VeraCrypt </entry>
     <entry lang="el" key="IDC_HIDDEN_VOL_HELP">Περισσότερες πληροφορίες για κρυφούς τόμους</entry>
     <entry lang="el" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Άμεση μέθοδος</entry>
@@ -61,12 +61,12 @@
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="el" key="IDC_QUICKFORMAT">Γρήγορη διαμόρφωση</entry>
     <entry lang="el" key="IDC_SHOW_PASSWORD">Εμφάνιση &amp;κωδικού</entry>
-    <entry lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</entry>
+    <entry lang="el" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Εμφάνιση κωδικού</entry>
     <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
     <entry lang="el" key="IDC_SINGLE_BOOT">Μονής εκκίνησης</entry>
     <entry lang="el" key="IDC_STD_VOL">Απλός τόμος VeraCrypt</entry>
     <entry lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</entry>
-    <entry lang="en" key="IDC_SYSENC_NORMAL">Normal</entry>
+    <entry lang="el" key="IDC_SYSENC_NORMAL">Τυπικός</entry>
     <entry lang="el" key="IDC_SYS_DEVICE">Κρυπτογράφηση του συστήματος</entry>
     <entry lang="el" key="IDC_SYS_PARTITION">Κρυπτογράφηση του διαμερίσματος των Windows</entry>
     <entry lang="el" key="IDC_WHOLE_SYS_DRIVE">Κρυπτογράφηση ολόκληρου του οδηγού</entry>
@@ -132,7 +132,7 @@
     <entry lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</entry>
     <entry lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</entry>
     <entry lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</entry>
-    <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
+    <entry lang="el" key="IDC_FAVORITE_REMOVE">&amp;Διαγραφή</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
     <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
@@ -145,8 +145,8 @@
     <entry lang="el" key="IDC_HOTKEY_REMOVE">Απομάκρυνση</entry>
     <entry lang="el" key="IDC_KEYFILES">Αρχεία-κλειδιά</entry>
     <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
+    <entry lang="el" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Περισσότερες πληροφορίες</entry>
+    <entry lang="el" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Περισσότερες πληροφορίες</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>
     <entry lang="el" key="IDC_MOUNTALL">&amp;Αυτοφόρτωση συσκευών</entry>
     <entry lang="el" key="IDC_MOUNT_OPTIONS">Επι&amp;λογές φόρ/σης</entry>
@@ -243,7 +243,7 @@
     <entry lang="el" key="IDM_REFRESH_DRIVE_LETTERS">Επανέλεγχος γραμμάτων οδηγών</entry>
     <entry lang="el" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Απομάκρυνση όλων των αρχείων-κλειδιών από τόμο...</entry>
     <entry lang="el" key="IDM_RESTORE_VOL_HEADER">Επανάκτηση header...</entry>
-    <entry lang="en" key="IDM_RESUME_INTERRUPTED_PROC">Resume Interrupted Process</entry>
+    <entry lang="el" key="IDM_RESUME_INTERRUPTED_PROC">Επαναφορά σταματημένης διαδικασίας</entry>
     <entry lang="el" key="IDM_SELECT_DEVICE">Επιλογή συσκευής...</entry>
     <entry lang="el" key="IDM_SELECT_FILE">Επιλογή αρχείου...</entry>
     <entry lang="el" key="IDM_SYSENC_RESUME">Επαναφορά σταματημένης διαδικασίας</entry>
@@ -483,7 +483,7 @@
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION">Depending on your choice above, VeraCrypt will choose a suitable default file system for the VeraCrypt volume (you will be able to select a file system in the next step).</entry>
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">As you are creating an outer volume, you should consider choosing 'No'. If you choose 'Yes', the default filesystem will be NTFS, which is not as suitable for outer volumes as FAT (for example, the maximum possible size of the hidden volume will be significantly greater if the outer volume is formatted as FAT). Normally, FAT is the default for both hidden and normal volumes (so FAT volumes are not suspicious). However, if the user indicates intent to store files larger than 4 GB (which the FAT file system does not allow), then FAT is not the default.</entry>
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Are you sure you want to choose 'Yes'?</entry>
-    <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Volume Creation Mode</entry>
+    <entry lang="el" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Μέθοδος δημιουργίας τόμου</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">This is the fastest way to create a partition-hosted or device-hosted VeraCrypt volume (in-place encryption, which is the other option, is slower because content of each sector has to be first read, encrypted, and then written). Any data currently stored on the selected partition/device will be lost (the data will NOT be encrypted; it will be overwritten with random data). If you want to encrypt existing data on a partition, choose the other option.</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">The entire selected partition and all data stored on it will be encrypted in place. If the partition is empty, you should choose the other option (the volume will be created much faster).</entry>
     <entry lang="en" key="NOTE_BEGINNING">Note: </entry>

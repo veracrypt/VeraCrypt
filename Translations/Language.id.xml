@@ -314,8 +314,8 @@
     <entry lang="en" key="IDC_HW_AES_LABEL_LINK">Hardware-accelerated AES:</entry>
     <entry lang="en" key="IDC_IMPORT_KEYFILE">&amp;Import Keyfile to Token...</entry>
     <entry lang="en" key="IDC_KEYADD">Add &amp;Files...</entry>
-    <entry lang="en" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">U&amp;se keyfiles</entry>
-    <entry lang="en" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Keyfiles...</entry>
+    <entry lang="id" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">Gu&amp;nakan file kunci</entry>
+    <entry lang="id" key="IDC_KEYFILES_HIDVOL_PROT">&amp;File kunci..</entry>
     <entry lang="en" key="IDC_KEYREMOVE">&amp;Remove</entry>
     <entry lang="en" key="IDC_KEYREMOVEALL">Remove &amp;All</entry>
     <entry lang="en" key="IDC_LINK_HIDVOL_PROTECTION_INFO">What is hidden volume protection?</entry>
@@ -400,7 +400,7 @@
     <entry lang="en" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">Your system appears to be using custom chipset drivers containing a bug that prevents encryption of the whole system drive.\n\nPlease try updating or uninstalling any custom (non-Microsoft) chipset drivers before proceeding. If it does not help, try encrypting the system partition only.</entry>
     <entry lang="en" key="BAD_DRIVE_LETTER">Invalid drive letter.</entry>
     <entry lang="en" key="INVALID_PATH">Invalid path.</entry>
-    <entry lang="en" key="CANCEL">Cancel</entry>
+    <entry lang="id" key="CANCEL">Batal</entry>
     <entry lang="en" key="CANNOT_CALC_SPACE">Cannot access device. Make sure the selected device exists and is not used by system.</entry>
     <entry lang="en" key="CAPSLOCK_ON">Warning: Caps Lock is on. This may cause you to enter your password incorrectly.</entry>
     <entry lang="en" key="VOLUME_TYPE_TITLE">Volume Type</entry>
@@ -602,7 +602,7 @@
     <entry lang="en" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">CAUTION: ANY FILES CURRENTLY STORED ON THE PARTITION '%s'%s (I.E. ON THE FIRST PARTITION BEHIND THE SYSTEM PARTITION) WILL BE ERASED AND LOST (THEY WILL NOT BE ENCRYPTED)!\n\nAre you sure you want to proceed with format?</entry>
     <entry lang="en" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">WARNING: THE SELECTED PARTITION CONTAINS A LARGE AMOUNT OF DATA! Any files stored on the partition will be erased and lost (they will NOT be encrypted)!</entry>
     <entry lang="en" key="ERASE_FILES_BY_CREATING_VOLUME">Erase any files stored on the partition by creating a VeraCrypt volume within it</entry>
-    <entry lang="en" key="PASSWORD">Password</entry>
+    <entry lang="id" key="PASSWORD">Kata sandi</entry>
     <entry lang="en" key="PIM">PIM</entry>
     <entry lang="en" key="IDD_PCDM_CHANGE_PKCS5_PRF">Set Header Key Derivation Algorithm</entry>
     <entry lang="en" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Add/Remove Keyfiles to/from Volume</entry>
@@ -631,11 +631,11 @@
     <entry lang="en" key="PASSWORD_LENGTH_WARNING">WARNING: Short passwords are easy to crack using brute force techniques!\n\nWe recommend choosing a password consisting of 20 or more characters. Are you sure you want to use a short password?</entry>
     <entry lang="id" key="PASSWORD_TITLE">Parssword Volume</entry>
     <entry lang="id" key="PASSWORD_WRONG">Password salah atau bukan volume VeraCrypt.</entry>
-    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Incorrect keyfile(s) and/or password or not a VeraCrypt volume.</entry>
-    <entry lang="en" key="PASSWORD_OR_MODE_WRONG">Wrong mount mode, incorrect password, or not a VeraCrypt volume.</entry>
-    <entry lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Wrong mount mode, incorrect keyfile(s) and/or password, or not a VeraCrypt volume.</entry>
+    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG">Operation failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
+    <entry lang="en" key="PASSWORD_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
+    <entry lang="en" key="PASSWORD_OR_KEYFILE_OR_MODE_WRONG">Operation failed due to one or more of the following:\n - Wrong mount mode.\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
     <entry lang="id" key="PASSWORD_WRONG_AUTOMOUNT">Password SALAH ! atau bukan volume VeraCrypt.</entry>
-    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Incorrect keyfile(s)/password or no VeraCrypt volume found.</entry>
+    <entry lang="en" key="PASSWORD_OR_KEYFILE_WRONG_AUTOMOUNT">Auto-mount failed due to one or more of the following:\n - Incorrect keyfile(s).\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - No valid volume found.</entry>
     <entry lang="id" key="PASSWORD_WRONG_CAPSLOCK_ON">\n\nPeringatan: Caps Lock aktif !. Ini busa membuat password yang anda masukkan tidak tepat.</entry>
     <entry lang="en" key="PIM_CHANGE_WARNING">Remember Number to Mount Volume</entry>
     <entry lang="en" key="PIM_HIDVOL_HOST_TITLE">Outer Volume PIM</entry>
@@ -730,7 +730,7 @@
     <entry lang="en" key="CANT_DISMOUNT_VOLUME">Cannot dismount volume.</entry>
     <entry lang="en" key="FORMAT_NTFS_FAILED">Windows failed to format the volume as NTFS.\n\nPlease select a different type of file system (if possible) and try again. Alternatively, you could leave the volume unformatted (select 'None' as the filesystem), exit this wizard, mount the volume, and then use either a system or a third-party tool to format the mounted volume (the volume will remain encrypted).</entry>
     <entry lang="en" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows failed to format the volume as NTFS.\n\nDo you want to format the volume as FAT instead?</entry>
-    <entry lang="en" key="DEFAULT">Default</entry>
+    <entry lang="id" key="DEFAULT">Bawaan</entry>
     <entry lang="en" key="PARTITION_LOWER_CASE">partition</entry>
     <entry lang="en" key="PARTITION_UPPER_CASE">PARTITION</entry>
     <entry lang="en" key="DEVICE">Device</entry>
@@ -782,8 +782,8 @@
     <entry lang="en" key="MEAN">Mean</entry>
     <entry lang="en" key="DRIVE">Drive</entry>
     <entry lang="en" key="SIZE">Size</entry>
-    <entry lang="en" key="ENCRYPTION_ALGORITHM">Encryption Algorithm</entry>
-    <entry lang="en" key="ENCRYPTION_ALGORITHM_LV">Encryption algorithm</entry>
+    <entry lang="id" key="ENCRYPTION_ALGORITHM">Algoritma pengacak</entry>
+    <entry lang="id" key="ENCRYPTION_ALGORITHM_LV">Algoritma pengacak</entry>
     <entry lang="en" key="TYPE">Type</entry>
     <entry lang="en" key="VALUE">Value</entry>
     <entry lang="en" key="PROPERTY">Property</entry>
@@ -805,7 +805,7 @@
     <entry lang="en" key="SYSTEM_PARTITION_DECRYPTING">System partition (decrypting - %.2f%% done)</entry>
     <entry lang="en" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">System partition (%.2f%% encrypted)</entry>
     <entry lang="en" key="HID_VOL_DAMAGE_PREVENTED">Yes (damage prevented!)</entry>
-    <entry lang="en" key="NONE">None</entry>
+    <entry lang="id" key="NONE">Tidak ada</entry>
     <entry lang="en" key="KEY_SIZE">Primary Key Size</entry>
     <entry lang="en" key="SECONDARY_KEY_SIZE_XTS">Secondary Key Size (XTS Mode)</entry>
     <entry lang="en" key="SECONDARY_KEY_SIZE_LRW">Tweak Key Size (LRW Mode)</entry>
@@ -813,7 +813,7 @@
     <entry lang="en" key="BLOCK_SIZE">Block Size</entry>
     <entry lang="en" key="PKCS5_PRF">PKCS-5 PRF</entry>
     <entry lang="en" key="PKCS5_ITERATIONS">PKCS-5 Iteration Count</entry>
-    <entry lang="en" key="VOLUME_CREATE_DATE">Volume Created</entry>
+    <entry lang="id" key="VOLUME_CREATE_DATE">Volume Telah Dibuat</entry>
     <entry lang="en" key="VOLUME_HEADER_DATE">Header Last Modified</entry>
     <entry lang="en" key="VOLUME_HEADER_DAYS"> (%I64d days ago)</entry>
     <entry lang="en" key="VOLUME_FORMAT_VERSION">Volume Format Version</entry>
@@ -896,9 +896,9 @@
     <entry lang="en" key="CONTAINER_ADMIN_WARNING">Warning: This instance of the Volume Creation Wizard has administrator privileges.\n\nYour new volume may be created with permissions that will not allow you to write to the volume when it is mounted. If you want to avoid that, close this instance of the Volume Creation Wizard and launch a new one without administrator privileges.\n\nDo you want to close this instance of the Volume Creation Wizard?</entry>
     <entry lang="en" key="CANNOT_DISPLAY_LICENSE">Error: Cannot display license.</entry>
     <entry lang="en" key="OUTER_VOL_WRITE_PREVENTED">Outer(!)</entry>
-    <entry lang="en" key="DAYS">days</entry>
+    <entry lang="id" key="DAYS">hari</entry>
     <entry lang="en" key="HOURS">hours</entry>
-    <entry lang="en" key="MINUTES">minutes</entry>
+    <entry lang="id" key="MINUTES">menit</entry>
     <entry lang="en" key="SECONDS">s</entry>
     <entry lang="id" key="OPEN">Buka</entry>
     <entry lang="id" key="DISMOUNT">Putuskan</entry>
@@ -984,7 +984,7 @@
     <entry lang="en" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">N/A</entry>
     <entry lang="en" key="UISTR_YES">Yes</entry>
     <entry lang="en" key="UISTR_NO">No</entry>
-    <entry lang="en" key="UISTR_DISABLED">Disabled</entry>
+    <entry lang="id" key="UISTR_DISABLED">menonaktifkan</entry>
     <entry lang="en" key="DIGIT_ONE">1</entry>
     <entry lang="en" key="TWO_OR_MORE">2 or more</entry>
     <entry lang="en" key="MODE_OF_OPERATION">Mode of Operation</entry>
@@ -1012,11 +1012,11 @@
     <entry lang="en" key="HK_DISMOUNT_ALL_AND_WIPE">Dismount All  &amp;  Wipe Cache</entry>
     <entry lang="en" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Force Dismount All  &amp;  Wipe Cache</entry>
     <entry lang="en" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Force Dismount All,  Wipe Cache  &amp;  Exit</entry>
-    <entry lang="en" key="HK_MOUNT_FAVORITE_VOLUMES">Mount Favorite Volumes</entry>
+    <entry lang="id" key="HK_MOUNT_FAVORITE_VOLUMES">Sambung Volumes favorit</entry>
     <entry lang="en" key="HK_SHOW_HIDE_MAIN_WINDOW">Show/Hide Main VeraCrypt Window</entry>
     <entry lang="en" key="PRESS_A_KEY_TO_ASSIGN">(Click here and press a key)</entry>
     <entry lang="en" key="ACTION">Action</entry>
-    <entry lang="en" key="SHORTCUT">Shortcut</entry>
+    <entry lang="id" key="SHORTCUT">Jalan pintas</entry>
     <entry lang="en" key="CANNOT_USE_RESERVED_KEY">Error: This shortcut is reserved. Please choose a different shortcut.</entry>
     <entry lang="en" key="SHORTCUT_ALREADY_IN_USE">Error: Shortcut already in use.</entry>
     <entry lang="en" key="HOTKEY_REGISTRATION_ERROR">WARNING: One or more VeraCrypt system-wide hot keys will not work!\n\nPlease make sure that other applications and the operating system do not use the same shortcut(s) as VeraCrypt.</entry>
@@ -1311,7 +1311,7 @@
     <entry lang="en" key="KEYFILE">Keyfile</entry>
     <entry lang="en" key="VKEY_08">Backspace</entry>
     <entry lang="en" key="VKEY_09">Tab</entry>
-    <entry lang="en" key="VKEY_0C">Clear</entry>
+    <entry lang="id" key="VKEY_0C">Bersihkan</entry>
     <entry lang="en" key="VKEY_0D">Enter</entry>
     <entry lang="en" key="VKEY_13">Pause</entry>
     <entry lang="en" key="VKEY_14">Caps Lock</entry>
@@ -1319,7 +1319,7 @@
     <entry lang="en" key="VKEY_21">Page Up</entry>
     <entry lang="en" key="VKEY_22">Page Down</entry>
     <entry lang="en" key="VKEY_23">End</entry>
-    <entry lang="en" key="VKEY_24">Home</entry>
+    <entry lang="id" key="VKEY_24">Beranda </entry>
     <entry lang="en" key="VKEY_25">Left Arrow</entry>
     <entry lang="en" key="VKEY_26">Up Arrow</entry>
     <entry lang="en" key="VKEY_27">Right Arrow</entry>
