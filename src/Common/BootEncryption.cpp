@@ -2321,7 +2321,7 @@ namespace VeraCrypt
 		authorizeRetry = ReadConfigInteger (configContent, "AuthorizeRetry", 0);
 		bmlLockFlags = ReadConfigInteger (configContent, "DcsBmlLockFlags", 0);
 		bmlDriverEnabled = ReadConfigInteger (configContent, "DcsBmlDriver", 0);
-		actionSuccessValue = ReadConfigString (configContent, "ActionSuccess", "", buffer, sizeof (buffer));
+		actionSuccessValue = ReadConfigString (configContent, "ActionSuccess", "postexec file(EFI\\Microsoft\\Boot\\bootmgfw_ms.vc)", buffer, sizeof (buffer));
 
 		burn (buffer, sizeof (buffer));
 	}
@@ -2357,8 +2357,7 @@ namespace VeraCrypt
 		WriteConfigInteger (configFile, configContent, "AuthorizeRetry", authorizeRetry);
 		WriteConfigInteger (configFile, configContent, "DcsBmlLockFlags", bmlLockFlags);
 		WriteConfigInteger (configFile, configContent, "DcsBmlDriver", bmlDriverEnabled);
-		if (strlen(actionSuccessValue.c_str()))
-			WriteConfigString (configFile, configContent, "ActionSuccess", actionSuccessValue.c_str());
+		WriteConfigString (configFile, configContent, "ActionSuccess", actionSuccessValue.c_str());
 
 		// Write unmodified values
 		char* xml = configContent;
