@@ -1845,21 +1845,40 @@ add512(const unsigned long long *x, const unsigned long long *y, unsigned long l
 {
 #ifndef __GOST3411_BIG_ENDIAN__
     unsigned int CF, OF;
+    unsigned long long tmp;
     unsigned int i;
 
     CF = 0;
     for (i = 0; i < 8; i++)
     {
-        r[i] = x[i] + y[i];
-        if ( (r[i] < y[i]) || 
-             (r[i] < x[i]) )
+        /* Detecting integer overflow condition for three numbers
+         * in a portable way is tricky a little. */
+
+        /* Step 1: numbers cause overflow */
+        tmp = x[i] + y[i];
+
+        /* Compare with any of two summands, no need to check both */
+        if (tmp < x[i])
             OF = 1;
         else
             OF = 0;
 
-        r[i] += CF;
+        /* Step 2: carry bit causes overflow */
+        tmp += CF;
+
+		/* 
+		 * We don't include the carry bit overflow since it can break
+		 * mounting for some containers eventhough the probability of
+		 * such case is very low
+		 */
+		/*
+        if (CF > 0 && tmp == 0)
+            OF = 1;
+		*/
         CF = OF;
-    }
+
+        r[i] = tmp;
+	}
 #else
     const unsigned char *xp, *yp;
     unsigned char *rp;
