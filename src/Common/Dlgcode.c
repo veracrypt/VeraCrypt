@@ -81,6 +81,18 @@
 
 #pragma comment( lib, "setupapi.lib" )
 
+#ifndef TTI_INFO_LARGE
+#define TTI_INFO_LARGE          4
+#endif
+
+#ifndef TTI_WARNING_LARGE
+#define TTI_WARNING_LARGE       5
+#endif
+
+#ifndef TTI_ERROR_LARGE
+#define TTI_ERROR_LARGE         6
+#endif
+
 /* GPT Partition Type GUIDs */
 #define LOCAL_DEFINE_GUID(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) const GUID name = {l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8}
 LOCAL_DEFINE_GUID(PARTITION_ENTRY_UNUSED_GUID,   0x00000000L, 0x0000, 0x0000, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);    // Entry unused
@@ -1178,11 +1190,131 @@ static LRESULT CALLBACK BootPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam
 void ToBootPwdField (HWND hwndDlg, UINT ctrlId)
 {
 	HWND hwndCtrl = GetDlgItem (hwndDlg, ctrlId);
-
-	SetWindowLongPtrW (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC));
+	WNDPROC originalwp = (WNDPROC) GetWindowLongPtrW (hwndCtrl, GWLP_USERDATA);
+	// if ToNormalPwdField has been called before, GWLP_USERDATA already contains original WNDPROC
+	if (!originalwp)
+	{		
+		SetWindowLongPtrW (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC));
+	}
 	SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) BootPwdFieldProc);
 }
 
+// Ensures that a warning is displayed when user is pasting a password longer than the maximum
+// length which is set to 64 characters
+static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	WNDPROC wp = (WNDPROC) GetWindowLongPtrW (hwnd, GWLP_USERDATA);
+
+	switch (message)
+	{
+	case WM_PASTE:
+		{
+			bool bBlock = false;
+			if (OpenClipboard (NULL))
+			{
+				HANDLE h = GetClipboardData (CF_UNICODETEXT);
+				if (h)
+				{
+					wchar_t *pchData = (wchar_t*)GlobalLock(h);
+					int txtlen = 0;
+					while (*pchData)
+					{
+						if (*pchData == '\r' || *pchData == '\n')
+							break;
+						else
+						{
+							txtlen++;
+							pchData++;
+						}
+					}
+
+					if (txtlen)
+					{
+						int curLen = GetWindowTextLength (hwnd);
+						if (curLen == MAX_PASSWORD)
+						{
+							EDITBALLOONTIP ebt;
+
+							ebt.cbStruct = sizeof( EDITBALLOONTIP );
+							ebt.pszText = GetString ("PASSWORD_MAXLENGTH_REACHED");
+							ebt.pszTitle = lpszTitle;
+							ebt.ttiIcon = TTI_ERROR_LARGE;    // tooltip warning icon
+
+							SendMessage(hwnd, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
+
+							MessageBeep (0xFFFFFFFF);
+
+							bBlock = true;
+						}
+						else if ((txtlen + curLen) > MAX_PASSWORD)
+						{
+							EDITBALLOONTIP ebt;
+
+							ebt.cbStruct = sizeof( EDITBALLOONTIP );
+							ebt.pszText = GetString ("PASSWORD_PASTED_TRUNCATED");
+							ebt.pszTitle = lpszTitle;
+							ebt.ttiIcon = TTI_WARNING_LARGE;    // tooltip warning icon
+
+							SendMessage(hwnd, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
+
+							MessageBeep (0xFFFFFFFF);
+						}
+						else
+							 SendMessage(hwnd, EM_HIDEBALLOONTIP, 0, 0);
+					}
+					GlobalUnlock(h);
+				}
+				CloseClipboard ();
+			}
+
+			if (bBlock)
+				return FALSE;
+		}
+		break;
+	case WM_CHAR:
+		{
+			DWORD dwStartPos = 0, dwEndPos = 0;
+			short vk = VkKeyScanW ((WCHAR) wParam);
+			BYTE vkCode = LOBYTE (vk);
+			BYTE vkState = HIBYTE (vk);
+			bool ctrlPressed = (vkState & 2) && !(vkState & 4);
+
+			// check if there is a selected text
+			SendMessage (hwnd,	EM_GETSEL, (WPARAM) &dwStartPos, (LPARAM) &dwEndPos);
+
+			if ((dwStartPos == dwEndPos) 
+				&& (vkCode != VK_DELETE) && (vkCode != VK_BACK) 
+				&& !ctrlPressed 
+				&& (GetWindowTextLength (hwnd) == MAX_PASSWORD))
+			{
+				EDITBALLOONTIP ebt;
+
+				ebt.cbStruct = sizeof( EDITBALLOONTIP );
+				ebt.pszText = GetString ("PASSWORD_MAXLENGTH_REACHED");
+				ebt.pszTitle = lpszTitle;
+				ebt.ttiIcon = TTI_ERROR_LARGE;    // tooltip warning icon
+
+				SendMessage(hwnd, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
+
+				MessageBeep (0xFFFFFFFF);
+			}
+			else
+				 SendMessage(hwnd, EM_HIDEBALLOONTIP, 0, 0);
+		}
+		break;
+	}
+
+	return CallWindowProcW (wp, hwnd, message, wParam, lParam);
+}
+
+void ToNormalPwdField (HWND hwndDlg, UINT ctrlId)
+{
+	HWND hwndCtrl = GetDlgItem (hwndDlg, ctrlId);
+
+	SendMessage (hwndCtrl, EM_LIMITTEXT, MAX_PASSWORD, 0);
+	SetWindowLongPtrW (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC));
+	SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) NormalPwdFieldProc);
+}
 
 
 // This function currently serves the following purposes:

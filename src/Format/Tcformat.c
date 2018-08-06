@@ -4265,7 +4265,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				/* make autodetection the default */
 				SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
 
-				SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD_DIRECT), EM_LIMITTEXT, MAX_PASSWORD, 0);
+				ToNormalPwdField (hwndDlg, IDC_PASSWORD_DIRECT);
 
 				SetPassword (hwndDlg, IDC_PASSWORD_DIRECT, szRawPassword);
 
@@ -4345,8 +4345,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					StringCbCopyW (str, sizeof(str), GetString ("PASSWORD_HELP"));
 				}
 
-				SendMessage (GetDlgItem (hwndDlg, IDC_PASSWORD), EM_LIMITTEXT, MAX_PASSWORD, 0);
-				SendMessage (GetDlgItem (hwndDlg, IDC_VERIFY), EM_LIMITTEXT, MAX_PASSWORD, 0);
+				ToNormalPwdField (hwndDlg, IDC_PASSWORD);
+				ToNormalPwdField (hwndDlg, IDC_VERIFY);
 
 				SetPassword (hwndDlg, IDC_PASSWORD, szRawPassword);
 				SetPassword (hwndDlg, IDC_VERIFY, szVerify);

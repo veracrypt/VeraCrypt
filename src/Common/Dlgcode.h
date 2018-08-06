@@ -484,6 +484,7 @@ BOOL ToCustHyperlink (HWND hwndDlg, UINT ctrlId, HFONT hFont);
 void DisableCloseButton (HWND hwndDlg);
 void EnableCloseButton (HWND hwndDlg);
 void ToBootPwdField (HWND hwndDlg, UINT ctrlId);
+void ToNormalPwdField (HWND hwndDlg, UINT ctrlId);
 void AccommodateTextField (HWND hwndDlg, UINT ctrlId, BOOL bFirstUpdate, HFONT hFont);
 BOOL GetDriveLabel (int driveNo, wchar_t *label, int labelSize);
 BOOL GetSysDevicePaths (HWND hwndDlg);
