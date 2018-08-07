@@ -81,6 +81,7 @@ namespace VeraCrypt
 		FilesystemOptionsTextCtrl->SetValue (Options.FilesystemOptions);
 
 		ReadOnlyCheckBox->SetValue (Options.Protection == VolumeProtection::ReadOnly);
+		BackupHeaderCheckBox->SetValidator (wxGenericValidator (&Options.UseBackupHeaders));
 		ProtectionCheckBox->SetValue (Options.Protection == VolumeProtection::HiddenVolumeReadOnly);
 
 		OptionsButtonLabel = OptionsButton->GetLabel();

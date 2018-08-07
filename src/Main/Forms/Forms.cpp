@@ -1567,6 +1567,9 @@ MountOptionsDialogBase::MountOptionsDialogBase( wxWindow* parent, wxWindowID id,
 	RemovableCheckBox = new wxCheckBox( OptionsPanel, wxID_ANY, _("Mount volume as removable &medium"), wxDefaultPosition, wxDefaultSize, 0 );
 	OptionsSizer->Add( RemovableCheckBox, 0, wxALL, 5 );
 
+	BackupHeaderCheckBox = new wxCheckBox( OptionsPanel, wxID_ANY, _("Use backup header embedded in &volume if available"), wxDefaultPosition, wxDefaultSize, 0 );
+	OptionsSizer->Add( BackupHeaderCheckBox, 0, wxALL, 5 );
+
 	PartitionInSystemEncryptionScopeCheckBox = new wxCheckBox( OptionsPanel, wxID_ANY, _("Mount partition &using system encryption (preboot authentication)"), wxDefaultPosition, wxDefaultSize, 0 );
 	OptionsSizer->Add( PartitionInSystemEncryptionScopeCheckBox, 0, wxALL, 5 );
 
