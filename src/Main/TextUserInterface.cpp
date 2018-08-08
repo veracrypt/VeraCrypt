@@ -317,7 +317,40 @@ namespace VeraCrypt
 				}
 				catch (PasswordException &e)
 				{
-					ShowInfo (e);
+					bool bFailed = true;
+					if (!options->UseBackupHeaders)
+					{
+						try
+						{
+							volume = Core->OpenVolume (
+								options->Path,
+								options->PreserveTimestamps,
+								options->Password,
+								options->Pim,
+								kdf,
+								false,
+								options->Keyfiles,
+								options->Protection,
+								options->ProtectionPassword,
+								options->ProtectionPim,
+								options->ProtectionKdf,
+								options->ProtectionKeyfiles,
+								true,
+								volumeType,
+								true
+								);
+							
+							bFailed = false;
+						}
+						catch (...)
+						{
+						}
+					}
+					
+					if (bFailed)
+						ShowInfo (e);
+					else
+						ShowInfo ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
 				}
 			}
 
