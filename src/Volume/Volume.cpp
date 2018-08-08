@@ -110,8 +110,8 @@ namespace VeraCrypt
 		if (!volumeFile)
 			throw ParameterIncorrect (SRC_POS);
 
-		// TrueCrypt doesn't support SHA-256
-		if (kdf && truecryptMode && (kdf->GetName() == L"HMAC-SHA-256"))
+		// TrueCrypt doesn't support SHA-256 and Streebog
+		if (kdf && truecryptMode && (kdf->GetName() == L"HMAC-SHA-256" || kdf->GetName() == L"HMAC-Streebog"))
 			throw UnsupportedAlgoInTrueCryptMode (SRC_POS);
 
 		Protection = protection;
