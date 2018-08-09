@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun  5 2014)
+// C++ code generated with wxFormBuilder (version Jun 20 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #include "System.h"
@@ -767,79 +767,111 @@ AboutDialogBase::~AboutDialogBase()
 BenchmarkDialogBase::BenchmarkDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-
+	
 	wxBoxSizer* bSizer153;
 	bSizer153 = new wxBoxSizer( wxVERTICAL );
-
+	
 	wxBoxSizer* bSizer154;
 	bSizer154 = new wxBoxSizer( wxVERTICAL );
-
-	wxBoxSizer* bSizer155;
-	bSizer155 = new wxBoxSizer( wxHORIZONTAL );
-
-	wxStaticText* m_staticText54;
-	m_staticText54 = new wxStaticText( this, wxID_ANY, _("Buffer Size:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText54->Wrap( -1 );
-	bSizer155->Add( m_staticText54, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM|wxLEFT, 5 );
-
+	
+	wxFlexGridSizer* fgSizer9;
+	fgSizer9 = new wxFlexGridSizer( 3, 2, 0, 0 );
+	fgSizer9->AddGrowableCol( 1 );
+	fgSizer9->SetFlexibleDirection( wxHORIZONTAL );
+	fgSizer9->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText70 = new wxStaticText( this, wxID_ANY, _("Benchmark:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText70->Wrap( -1 );
+	
+	fgSizer9->Add( m_staticText70, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	wxString BenchmarkChoiceChoices[] = { _("Encryption Algorithm"), _("PKCS-5 PRF"), _("Hash Algorithm") };
+	int BenchmarkChoiceNChoices = sizeof( BenchmarkChoiceChoices ) / sizeof( wxString );
+	BenchmarkChoice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, BenchmarkChoiceNChoices, BenchmarkChoiceChoices, 0 );
+	BenchmarkChoice->SetSelection( 0 );
+	fgSizer9->Add( BenchmarkChoice, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_bufferSizeLabel = new wxStaticText( this, wxID_ANY, _("Buffer Size:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_bufferSizeLabel->Wrap( -1 );
+	
+	fgSizer9->Add( m_bufferSizeLabel, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM|wxLEFT, 5 );
+	
 	wxArrayString BufferSizeChoiceChoices;
 	BufferSizeChoice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, BufferSizeChoiceChoices, 0 );
 	BufferSizeChoice->SetSelection( 0 );
-	bSizer155->Add( BufferSizeChoice, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-
-
-	bSizer154->Add( bSizer155, 0, wxEXPAND, 5 );
-
+	fgSizer9->Add( BufferSizeChoice, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_volumePimLabel = new wxStaticText( this, wxID_ANY, _("Volume PIM:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_volumePimLabel->Wrap( -1 );
+	
+	fgSizer9->Add( m_volumePimLabel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	VolumePimText = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	#ifdef __WXGTK__
+	if ( !VolumePimText->HasFlag( wxTE_MULTILINE ) )
+	{
+	VolumePimText->SetMaxLength( 7 );
+	}
+	#else
+	VolumePimText->SetMaxLength( 7 );
+	#endif
+	fgSizer9->Add( VolumePimText, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	
+	bSizer154->Add( fgSizer9, 0, wxEXPAND, 5 );
+	
 	wxStaticLine* m_staticline6;
 	m_staticline6 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
 	bSizer154->Add( m_staticline6, 0, wxEXPAND | wxALL, 5 );
-
+	
 	wxBoxSizer* bSizer156;
 	bSizer156 = new wxBoxSizer( wxHORIZONTAL );
-
+	
 	BenchmarkListCtrl = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_SORT_HEADER|wxLC_REPORT|wxSUNKEN_BORDER );
 	bSizer156->Add( BenchmarkListCtrl, 1, wxALL|wxEXPAND, 5 );
-
+	
 	RightSizer = new wxBoxSizer( wxVERTICAL );
-
+	
 	BenchmarkButton = new wxButton( this, wxID_OK, _("Benchmark"), wxDefaultPosition, wxDefaultSize, 0 );
 	BenchmarkButton->SetDefault();
 	RightSizer->Add( BenchmarkButton, 0, wxALL|wxEXPAND, 5 );
-
+	
 	wxButton* CancelButton;
 	CancelButton = new wxButton( this, wxID_CANCEL, _("Close"), wxDefaultPosition, wxDefaultSize, 0 );
 	RightSizer->Add( CancelButton, 0, wxALL|wxEXPAND, 5 );
-
-
+	
+	
 	RightSizer->Add( 0, 0, 0, wxEXPAND|wxTOP|wxBOTTOM, 5 );
-
+	
 	BenchmarkNoteStaticText = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	BenchmarkNoteStaticText->Wrap( -1 );
 	RightSizer->Add( BenchmarkNoteStaticText, 1, wxALL|wxEXPAND, 5 );
-
-
+	
+	
 	bSizer156->Add( RightSizer, 0, wxEXPAND, 5 );
-
-
+	
+	
 	bSizer154->Add( bSizer156, 1, wxEXPAND, 5 );
-
-
+	
+	
 	bSizer153->Add( bSizer154, 1, wxEXPAND|wxALL, 5 );
-
-
+	
+	
 	this->SetSizer( bSizer153 );
 	this->Layout();
 	bSizer153->Fit( this );
-
+	
 	// Connect Events
+	BenchmarkChoice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BenchmarkDialogBase::OnBenchmarkChoiceSelected ), NULL, this );
 	BenchmarkButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BenchmarkDialogBase::OnBenchmarkButtonClick ), NULL, this );
 }
 
 BenchmarkDialogBase::~BenchmarkDialogBase()
 {
 	// Disconnect Events
+	BenchmarkChoice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BenchmarkDialogBase::OnBenchmarkChoiceSelected ), NULL, this );
 	BenchmarkButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BenchmarkDialogBase::OnBenchmarkButtonClick ), NULL, this );
-
+	
 }
 
 ChangePasswordDialogBase::ChangePasswordDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
