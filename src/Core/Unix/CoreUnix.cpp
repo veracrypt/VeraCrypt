@@ -475,17 +475,6 @@ namespace VeraCrypt
 		{
 			if (volume->GetFile()->GetDeviceSectorSize() != volume->GetSectorSize())
 				throw ParameterIncorrect (SRC_POS);
-
-#if defined (TC_LINUX)
-			if (volume->GetSectorSize() != TC_SECTOR_SIZE_LEGACY)
-			{
-				if (options.Protection == VolumeProtection::HiddenVolumeReadOnly)
-					throw UnsupportedSectorSizeHiddenVolumeProtection();
-
-				if (options.NoKernelCrypto)
-					throw UnsupportedSectorSizeNoKernelCrypto();
-			}
-#endif
 		}
 
 		// Find a free mount point for FUSE service
