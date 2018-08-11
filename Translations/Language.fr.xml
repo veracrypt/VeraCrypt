@@ -1423,6 +1423,7 @@
     <entry lang="fr" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Il n'est actuellement pas possible de chiffrer un système si SecureBoot est activé et si les clefs personnalisées de VeraCrypt ne sont pas chargées dans le firmware de la machine. SecureBoot doit être désactivé dans la configuration du BIOS afin de permettre d'effectuer le chiffrement du système.</entry>
 	<entry lang="fr" key="PASSWORD_PASTED_TRUNCATED">Le texte collé a été tronqué car la taille maximale du mot de passe est 64 caractères</entry>
 	<entry lang="fr" key="PASSWORD_MAXLENGTH_REACHED">Le mot de passe a déjà atteint sa taille maximale de 64 caractères.\nAucun caractère supplémentaire n'est autorisé.</entry>
+	<entry lang="fr" key="IDC_SELECT_LANGUAGE_LABEL">Veuillez sélectionner la langue qui sera utilisée par l'assistant d'installation :</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

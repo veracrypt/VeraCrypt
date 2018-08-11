@@ -34,6 +34,7 @@ BOOL CALLBACK LanguageDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 wchar_t *GetString (const char *stringId);
 Font *GetFont (char *fontType);
 BOOL LoadLanguageFile ();
+BOOL LoadLanguageFromResource (int resourceid, BOOL bSetPreferredLanguage, BOOL bForceSilent);
 char *GetPreferredLangId ();
 void SetPreferredLangId (char *langId);
 char *GetActiveLangPackVersion ();

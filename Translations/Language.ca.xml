@@ -1423,6 +1423,7 @@
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
 	<entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 64 characters</entry>
 	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
+	<entry lang="ca" key="IDC_SELECT_LANGUAGE_LABEL">Trieu idioma a emprar durant la instal·lació:</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

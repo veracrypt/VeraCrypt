@@ -3,6 +3,20 @@
 // Used by Setup.rc
 //
 #define IDR_COMREG                      10
+#define IDR_LANG_AR                     20
+#define IDR_LANG_CS                     21
+#define IDR_LANG_DE                     22
+#define IDR_LANG_ES                     23
+#define IDR_LANG_FR                     24
+#define IDR_LANG_IT                     25
+#define IDR_LANG_JA                     26
+#define IDR_LANG_NL                     27
+#define IDR_LANG_PL                     28
+#define IDR_LANG_RO                     29
+#define IDR_LANG_RU                     30
+#define IDR_LANG_VI                     31
+#define IDR_LANG_ZHCN                   32
+#define IDR_LANG_ZHHK                   33
 #define IDD_INSTALL                     101
 #define IDD_INSTALL_OPTIONS_PAGE_DLG    102
 #define IDD_UNINSTALL                   103
@@ -17,6 +31,7 @@
 #define IDD_WIZARD_MODE_PAGE_DLG        112
 #define IDD_PROGRESS_PAGE_DLG           113
 #define IDD_DONATIONS_PAGE_DLG          114
+#define IDD_INSTALL_LANGUAGE            115
 #define IDC_DESTINATION                 1000
 #define IDC_BOX_TITLE                   1001
 #define IDC_BROWSE                      1002
@@ -50,15 +65,17 @@
 #define IDC_BITMAP_SETUP_WIZARD         1030
 #define IDC_MAIN_CONTENT_CANVAS         1031
 #define IDC_DONATE                      1032
+#define IDC_LANGUAGES_LIST              1033
+#define IDC_SELECT_LANGUAGE_LABEL       1034
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_RESOURCE_VALUE        116
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1033
+#define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

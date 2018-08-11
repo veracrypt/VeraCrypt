@@ -24,6 +24,7 @@
 #include "Common/Resource.h"
 #include "Resource.h"
 #include "Setup.h"
+#include "Registry.h"
 #include <tchar.h>
 #include <Strsafe.h>
 
@@ -59,6 +60,8 @@ BOOL bStartExtraction = FALSE;
 BOOL bInProgress = FALSE;
 BOOL bPromptTutorial = FALSE;
 BOOL bPromptReleaseNotes = FALSE;
+
+extern BOOL bUserSetLanguage;
 
 int nPbar = 0;			/* Control ID of progress bar */
 
@@ -1068,6 +1071,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case TC_APPMSG_INSTALL_SUCCESS:
 
 		/* Installation completed successfully */
+
+		/* if user selected a language, use for GUI in the next run */
+		if (bUserSetLanguage)
+		{
+			WCHAR langId[6];
+			MultiByteToWideChar (CP_ACP, 0, GetPreferredLangId(), -1, langId, ARRAYSIZE (langId));
+			WriteRegistryString (L"Software\\VeraCrypt", L"SetupUILanguage", langId);
+		}
 
 		bInProgress = FALSE;
 

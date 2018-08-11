@@ -1,4 +1,4 @@
-/*
+﻿/*
  Legal Notice: Some portions of the source code contained in this file were
  derived from the source code of TrueCrypt 7.1a, which is
  Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
@@ -77,6 +77,8 @@ BOOL bForAllUsers = TRUE;
 BOOL bRegisterFileExt = TRUE;
 BOOL bAddToStartMenu = TRUE;
 BOOL bDesktopIcon = TRUE;
+
+BOOL bUserSetLanguage = FALSE;
 
 BOOL bDesktopIconStatusDetermined = FALSE;
 
@@ -2374,6 +2376,137 @@ BOOL CALLBACK UninstallDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 }
 #endif
 
+typedef struct
+{
+	LPCWSTR name;
+	int resourceid;
+	WORD langid;
+	LPCSTR internalId;
+	LPCWSTR langtag;
+} tLanguageEntry;
+
+static tLanguageEntry g_languagesEntries[] = {
+	{L"العربية", IDR_LANG_AR, LANG_ARABIC, "ar", NULL},
+	{L"Čeština", IDR_LANG_CS, LANG_CZECH, "cs", NULL},
+	{L"Deutsch", IDR_LANG_DE, LANG_GERMAN, "de", NULL},
+	{L"English", IDR_LANGUAGE, LANG_ENGLISH, "en", NULL},
+	{L"Español", IDR_LANG_ES, LANG_SPANISH, "es", NULL},
+	{L"Français", IDR_LANG_FR, LANG_FRENCH, "fr", NULL},
+	{L"Italiano", IDR_LANG_IT, LANG_ITALIAN, "it", NULL},
+	{L"日本語", IDR_LANG_JA, LANG_JAPANESE, "ja", NULL},
+	{L"Nederlands", IDR_LANG_NL, LANG_DUTCH, "nl", NULL},
+	{L"Polski", IDR_LANG_PL, LANG_POLISH, "pl", NULL},
+	{L"Română", IDR_LANG_RO, LANG_ROMANIAN, "ro", NULL},
+	{L"Русский", IDR_LANG_RU, LANG_RUSSIAN, "ru", NULL},
+	{L"Tiếng Việt", IDR_LANG_VI, LANG_VIETNAMESE, "vi", NULL},
+	{L"简体中文", IDR_LANG_ZHCN, LANG_CHINESE, "zh-cn", L"zh-CN"},
+	{L"繁體中文", IDR_LANG_ZHHK, LANG_CHINESE, "zh-hk", L"zh-HK"},
+};
+
+typedef int (WINAPI *LCIDToLocaleNameFn)(
+    LCID     Locale,
+    LPWSTR  lpName,
+    int      cchName,
+    DWORD    dwFlags);
+
+static void UpdateSelectLanguageDialog (HWND hwndDlg)
+{
+	HWND hLangList = GetDlgItem (hwndDlg, IDC_LANGUAGES_LIST);
+	LPARAM nIndex = SendMessage (hLangList, CB_GETCURSEL, 0, 0);
+	int resourceid = (int) SendMessage (hLangList, CB_GETITEMDATA, nIndex, 0);
+
+	LoadLanguageFromResource (resourceid, TRUE, TRUE);
+
+	LocalizeDialog (hwndDlg, "IDD_INSTL_DLG");
+}
+
+BOOL CALLBACK SelectLanguageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	WORD lw = LOWORD (wParam);
+
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		{
+			char* preferredLanguage = GetPreferredLangId ();
+			if (strlen (preferredLanguage))
+			{
+				// language already selected by user in current install
+				// use it for the setup
+				for (size_t i = 0; i < ARRAYSIZE (g_languagesEntries); i++)
+				{
+					if (0 == strcmp (preferredLanguage, g_languagesEntries[i].internalId))
+					{
+						LoadLanguageFromResource (g_languagesEntries[i].resourceid, FALSE, TRUE);
+						break;
+					}
+				}
+				EndDialog (hwndDlg, IDCANCEL);
+				return FALSE;
+			}
+			else
+			{
+				// Get the default UI language
+				LCIDToLocaleNameFn LCIDToLocaleNamePtr = (LCIDToLocaleNameFn) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "LCIDToLocaleName");
+				WCHAR langtag[256];
+				LANGID defaultLanguage = GetUserDefaultUILanguage ();
+				WORD langid = (WORD) (defaultLanguage & 0x03FF); // primary language ID
+
+				InitDialog (hwndDlg);
+
+				LCIDToLocaleNamePtr (MAKELCID (defaultLanguage, 0), langtag, ARRAYSIZE (langtag), 0); // language tag (e.g. "en-US")
+				int resourceid = IDR_LANGUAGE;
+				for (size_t i = 0; i < ARRAYSIZE (g_languagesEntries); i++)
+				{
+					if (g_languagesEntries[i].langid == langid)
+					{
+						if (!g_languagesEntries[i].langtag || (0 == _wcsicmp (g_languagesEntries[i].langtag, langtag)))
+						{
+							resourceid = g_languagesEntries[i].resourceid;
+							break;
+						}
+					}
+				}
+
+				for (size_t i = 0; i < ARRAYSIZE (g_languagesEntries); i++)
+				{
+					AddComboPair (GetDlgItem (hwndDlg, IDC_LANGUAGES_LIST), g_languagesEntries[i].name, g_languagesEntries[i].resourceid);
+				}
+
+				SelectAlgo (GetDlgItem (hwndDlg, IDC_LANGUAGES_LIST), &resourceid);
+
+				UpdateSelectLanguageDialog (hwndDlg);
+			}
+
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		if (CBN_SELCHANGE == HIWORD (wParam))
+		{
+			UpdateSelectLanguageDialog (hwndDlg);
+			return 1;
+		}
+
+		if (lw == IDOK)
+		{
+			bUserSetLanguage = TRUE;
+			EndDialog (hwndDlg, IDOK);
+			return 1;
+		}
+
+		if (lw == IDCANCEL)
+		{
+			SetPreferredLangId ("");
+			EndDialog (hwndDlg, IDCANCEL);
+			return 1;
+		}
+		return 0;
+	}
+
+	return 0;
+}
+
 
 int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
 {
@@ -2525,6 +2658,10 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 		if (!bUninstall)
 		{
+			if (!bDevm && !LocalizationActive && (nCurrentOS >= WIN_VISTA))
+			{
+				DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_INSTALL_LANGUAGE), NULL, (DLGPROC) SelectLanguageDialogProc, (LPARAM) 0 );
+			}
 			/* Create the main dialog for install */
 
 			DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_INSTL_DLG), NULL, (DLGPROC) MainDialogProc,

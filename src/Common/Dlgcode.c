@@ -3031,6 +3031,22 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	// Language
 	langId[0] = 0;
 	SetPreferredLangId (ConfigReadString ("Language", "", langId, sizeof (langId)));
+
+#ifndef SETUP
+	if (langId[0] == 0)
+	{
+		// check if user selected a language during installation
+		WCHAR uiLang[6];
+		ReadRegistryString (L"Software\\VeraCrypt", L"SetupUILanguage", L"", uiLang, sizeof (uiLang));
+		if (0 < WideCharToMultiByte (CP_ACP, 0, uiLang, -1, langId, sizeof (langId), NULL, NULL))
+		{
+			SetPreferredLangId (langId);
+		}
+	}
+
+	// delete the registry key created by the installer (if any)
+	DeleteRegistryKey (HKEY_CURRENT_USER, L"Software\\VeraCrypt");
+#endif
 	
 	if (langId[0] == 0)
 	{
@@ -5529,7 +5545,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 			a single digest.
 		*/
 		{
-			BYTE *digest [MAX_DIGESTSIZE];
+			BYTE digest [MAX_DIGESTSIZE];
 			WHIRLPOOL_CTX	wctx;
 			RMD160_CTX		rctx;
 			sha512_ctx		s2ctx;
