@@ -1419,11 +1419,11 @@
     <entry lang="zh-cn" key="AFTER_UPGRADE_RESCUE_DISK">强烈建议您创建一个新的 VeraCrypt 修复盘 (该磁盘将包含新版本的 VeraCrypt 引导加载程序)，方法是选择 '系统' > '创建修复盘'。\n您现在要创建吗？</entry>
     <entry lang="zh-cn" key="IDC_ALLOW_TRIM_NONSYS_SSD">允许在非系统 SSD 分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="IDC_BLOCK_SYSENC_TRIM">阻止系统分区/磁盘上使用 TRIM 命令</entry>
-    <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
-    <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
-	<entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 64 characters</entry>
-	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
-	<entry lang="en" key="IDC_SELECT_LANGUAGE_LABEL">Select the language to use during the installation:</entry>
+    <entry lang="zh-cn" key="WINDOWS_EFI_BOOT_LOADER_MISSING">错误: 无法在磁盘上找到 Windows EFI 系统加载程序。操作将中止。</entry>
+    <entry lang="zh-cn" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">如果启用了 SecureBoot, 并且 VeraCrypt 自定义密钥未加载到计算机固件中, 则无法对当前系统进行加密。SecureBoot 需要在 BIOS 配置中禁用, 以允许系统加密继续进行。</entry>
+    <entry lang="zh-cn" key="PASSWORD_PASTED_TRUNCATED">粘贴的文本被截断, 因为密码最大长度为64个字符</entry>
+    <entry lang="zh-cn" key="PASSWORD_MAXLENGTH_REACHED">密码已达到其最大长度64个字符。\n不允许附加字符。</entry>
+    <entry lang="zh-cn" key="IDC_SELECT_LANGUAGE_LABEL">选择安装期间要使用的语言：</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
