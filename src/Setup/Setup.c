@@ -2414,10 +2414,15 @@ static void UpdateSelectLanguageDialog (HWND hwndDlg)
 	HWND hLangList = GetDlgItem (hwndDlg, IDC_LANGUAGES_LIST);
 	LPARAM nIndex = SendMessage (hLangList, CB_GETCURSEL, 0, 0);
 	int resourceid = (int) SendMessage (hLangList, CB_GETITEMDATA, nIndex, 0);
+	BOOL bVal;
 
 	LoadLanguageFromResource (resourceid, TRUE, TRUE);
 
+	bVal = LocalizationActive;
+	LocalizationActive = TRUE;
 	LocalizeDialog (hwndDlg, "IDD_INSTL_DLG");
+	InvalidateRect (hwndDlg, NULL, FALSE);
+	LocalizationActive = bVal;
 }
 
 BOOL CALLBACK SelectLanguageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -2660,7 +2665,15 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		{
 			if (!bDevm && !LocalizationActive && (nCurrentOS >= WIN_VISTA))
 			{
-				DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_INSTALL_LANGUAGE), NULL, (DLGPROC) SelectLanguageDialogProc, (LPARAM) 0 );
+				BOOL bHasPreferredLanguage = (strlen (GetPreferredLangId ()) > 0)? TRUE : FALSE;
+				if ((IDCANCEL == DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_INSTALL_LANGUAGE), NULL, (DLGPROC) SelectLanguageDialogProc, (LPARAM) 0 ))
+					&& !bHasPreferredLanguage
+					)
+				{
+					// Language dialog cancelled by user: exit the installer
+					FinalizeApp ();
+					exit (1);
+				}
 			}
 			/* Create the main dialog for install */
 
