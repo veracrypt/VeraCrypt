@@ -11960,10 +11960,8 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 	{
 		for (int partNumber = 0; partNumber < MAX_HOST_PARTITION_NUMBER; partNumber++)
 		{
-			wstringstream strm;
-			strm << L"\\Device\\Harddisk" << devNumber << L"\\Partition" << partNumber;
-			wstring devPathStr (strm.str());
-			const wchar_t *devPath = devPathStr.c_str();
+			WCHAR devPath[32];
+			StringCbPrintfW (devPath, sizeof (devPath), L"\\Device\\Harddisk%d\\Partition%d", devNumber, partNumber);
 
 			OPEN_TEST_STRUCT openTest = {0};
 			if (!OpenDevice (devPath, &openTest, detectUnencryptedFilesystems && partNumber != 0, FALSE))
@@ -12003,7 +12001,7 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 			{
 				DISK_GEOMETRY_EX geometry;
 
-				int driveNumber = GetDiskDeviceDriveLetter ((wchar_t *) devPathStr.c_str());
+				int driveNumber = GetDiskDeviceDriveLetter (devPath);
 
 				if (driveNumber >= 0)
 				{
@@ -12064,10 +12062,8 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 	{
 		for (int devNumber = 0; devNumber < 256; devNumber++)
 		{
-			wstringstream strm;
-			strm << L"\\Device\\HarddiskVolume" << devNumber;
-			wstring devPathStr (strm.str());
-			const wchar_t *devPath = devPathStr.c_str();
+			WCHAR devPath[32];
+			StringCbPrintfW (devPath, sizeof (devPath), L"\\Device\\HarddiskVolume%d", devNumber);
 
 			OPEN_TEST_STRUCT openTest = {0};
 			if (!OpenDevice (devPath, &openTest, detectUnencryptedFilesystems, FALSE))
@@ -12086,7 +12082,7 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 
 				if (!noDeviceProperties)
 				{
-					int driveNumber = GetDiskDeviceDriveLetter ((wchar_t *) devPathStr.c_str());
+					int driveNumber = GetDiskDeviceDriveLetter (devPath);
 
 					if (driveNumber >= 0)
 					{
@@ -12112,10 +12108,8 @@ std::vector <HostDevice> GetAvailableHostDevices (bool noDeviceProperties, bool 
 
 void AddDeviceToList (std::vector<HostDevice>& devices, int devNumber, int partNumber)
 {
-	wstringstream strm;
-	strm << L"\\Device\\Harddisk" << devNumber << L"\\Partition" << partNumber;
-	wstring devPathStr (strm.str());
-	const wchar_t *devPath = devPathStr.c_str();
+	WCHAR devPath[64];
+	StringCbPrintfW (devPath, sizeof (devPath), L"\\Device\\Harddisk%d\\Partition%d", devNumber, partNumber);
 
 	HostDevice device;
 	device.SystemNumber = devNumber;
@@ -12391,10 +12385,8 @@ void UpdateMountableHostDeviceList ()
 	{
 		for (int devNumber = 0; devNumber < 256; devNumber++)
 		{
-			wstringstream strm;
-			strm << L"\\Device\\HarddiskVolume" << devNumber;
-			wstring devPathStr (strm.str());
-			const wchar_t *devPath = devPathStr.c_str();
+			WCHAR devPath[32];
+			StringCbPrintfW (devPath, sizeof (devPath), L"\\Device\\HarddiskVolume%d", devNumber);
 
 			OPEN_TEST_STRUCT openTest = {0};
 			if (!OpenDevice (devPath, &openTest, FALSE, FALSE))
@@ -12451,10 +12443,8 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE], BOOL bFromSe
 		{
 			for (int partNumber = 0; partNumber < MAX_HOST_PARTITION_NUMBER; partNumber++)
 			{
-				wstringstream strm;
-				strm << L"\\Device\\Harddisk" << devNumber << L"\\Partition" << partNumber;
-				wstring devPathStr (strm.str());
-				const wchar_t *devPath = devPathStr.c_str();
+				WCHAR devPath[32];
+				StringCbPrintfW (devPath, sizeof (devPath), L"\\Device\\Harddisk%d\\Partition%d", devNumber, partNumber);
 
 				OPEN_TEST_STRUCT openTest = {0};
 				if (OpenDevice (devPath, &openTest, TRUE, TRUE)

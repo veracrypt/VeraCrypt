@@ -4634,7 +4634,11 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				}
 				StringCbPrintfW (srcPath, sizeof(srcPath), L"%s\\Languages\\Language.%hs.xml", appDir, GetPreferredLangId ());
 				StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\Languages\\Language.%hs.xml", dstDir, GetPreferredLangId ());
-				TCCopyFile (srcPath, dstPath);
+				if (!TCCopyFile (srcPath, dstPath))
+				{
+					handleWin32Error (hwndDlg, SRC_POS);
+					goto stop;
+				}
 			}
 
 			// AutoRun

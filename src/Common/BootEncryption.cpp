@@ -811,7 +811,7 @@ namespace VeraCrypt
 					DWORD effectiveSize = min (bytesRead, remainingSize);					
 					memcpy (buffer, ReadBuffer, effectiveSize);
 					offset.QuadPart = - ((LONGLONG) bytesRead) + (LONGLONG) effectiveSize;
-					SetFilePointerEx (Handle, offset, NULL, FILE_CURRENT);
+					throw_sys_if (!SetFilePointerEx (Handle, offset, NULL, FILE_CURRENT));
 					return alignedSize + effectiveSize;
 				}
 				else
