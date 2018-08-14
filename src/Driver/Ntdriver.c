@@ -3734,16 +3734,19 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 							IO_STATUS_BLOCK ioblock;
 							ULONG labelInfoSize = sizeof(FILE_FS_LABEL_INFORMATION) + (labelEffectiveLen * sizeof(WCHAR));
 							FILE_FS_LABEL_INFORMATION* labelInfo = (FILE_FS_LABEL_INFORMATION*) TCalloc (labelInfoSize);
-							labelInfo->VolumeLabelLength = labelEffectiveLen * sizeof(WCHAR);
-							memcpy (labelInfo->VolumeLabel, mount->wszLabel, labelInfo->VolumeLabelLength);
-
-							if (STATUS_SUCCESS == ZwSetVolumeInformationFile (volumeHandle, &ioblock, labelInfo, labelInfoSize, FileFsLabelInformation))
+							if (labelInfo)
 							{
-								mount->bDriverSetLabel = TRUE;
-								NewExtension->bDriverSetLabel = TRUE;
-							}
+								labelInfo->VolumeLabelLength = labelEffectiveLen * sizeof(WCHAR);
+								memcpy (labelInfo->VolumeLabel, mount->wszLabel, labelInfo->VolumeLabelLength);
 
-							TCfree(labelInfo);
+								if (STATUS_SUCCESS == ZwSetVolumeInformationFile (volumeHandle, &ioblock, labelInfo, labelInfoSize, FileFsLabelInformation))
+								{
+									mount->bDriverSetLabel = TRUE;
+									NewExtension->bDriverSetLabel = TRUE;
+								}
+
+								TCfree(labelInfo);
+							}
 						}
 						__except (EXCEPTION_EXECUTE_HANDLER)
 						{
