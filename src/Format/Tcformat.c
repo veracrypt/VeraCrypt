@@ -4301,6 +4301,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				hPasswordInputField = GetDlgItem (hwndDlg, IDC_PASSWORD);
 				hVerifyPasswordInputField = GetDlgItem (hwndDlg, IDC_VERIFY);
 
+				ToNormalPwdField (hwndDlg, IDC_PASSWORD);
+				ToNormalPwdField (hwndDlg, IDC_VERIFY);
+
 				if (SysEncInEffect ())
 				{
 					ToBootPwdField (hwndDlg, IDC_PASSWORD);
@@ -4344,9 +4347,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					StringCbCopyW (str, sizeof(str), GetString ("PASSWORD_HELP"));
 				}
-
-				ToNormalPwdField (hwndDlg, IDC_PASSWORD);
-				ToNormalPwdField (hwndDlg, IDC_VERIFY);
 
 				SetPassword (hwndDlg, IDC_PASSWORD, szRawPassword);
 				SetPassword (hwndDlg, IDC_VERIFY, szVerify);

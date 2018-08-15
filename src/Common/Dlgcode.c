@@ -1310,10 +1310,15 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 void ToNormalPwdField (HWND hwndDlg, UINT ctrlId)
 {
 	HWND hwndCtrl = GetDlgItem (hwndDlg, ctrlId);
+	WNDPROC originalwp = (WNDPROC) GetWindowLongPtrW (hwndCtrl, GWLP_USERDATA);
 
 	SendMessage (hwndCtrl, EM_LIMITTEXT, MAX_PASSWORD, 0);
-	SetWindowLongPtrW (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC));
-	SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) NormalPwdFieldProc);
+	// only change WNDPROC if not changed already
+	if (!originalwp)
+	{
+		SetWindowLongPtrW (hwndCtrl, GWLP_USERDATA, (LONG_PTR) GetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC));
+		SetWindowLongPtrW (hwndCtrl, GWLP_WNDPROC, (LONG_PTR) NormalPwdFieldProc);
+	}
 }
 
 
