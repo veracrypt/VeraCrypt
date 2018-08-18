@@ -66,6 +66,7 @@ typedef struct EXTENSION
 	ULONG HostMaximumTransferLength;
 	ULONG HostMaximumPhysicalPages;
 	ULONG HostAlignmentMask;
+	ULONG DeviceNumber;
 
 	BOOL IncursSeekPenalty;
 	BOOL TrimEnabled;

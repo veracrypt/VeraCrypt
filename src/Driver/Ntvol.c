@@ -72,6 +72,8 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	Extension->IncursSeekPenalty = TRUE;
 	Extension->TrimEnabled = FALSE;
 
+	Extension->DeviceNumber = (ULONG) -1;
+
 	RtlInitUnicodeString (&FullFileName, pwszMountVolume);
 	InitializeObjectAttributes (&oaFileAttributes, &FullFileName, OBJ_CASE_INSENSITIVE | (forceAccessCheck ? OBJ_FORCE_ACCESS_CHECK : 0) | OBJ_KERNEL_HANDLE, NULL, NULL);
 	KeInitializeEvent (&Extension->keVolumeEvent, NotificationEvent, FALSE);
@@ -94,6 +96,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 		DISK_GEOMETRY_EX dg;
 		STORAGE_PROPERTY_QUERY storagePropertyQuery = {0};
 		byte* dgBuffer;
+		STORAGE_DEVICE_NUMBER storageDeviceNumber;
 
 		ntStatus = IoGetDeviceObjectPointer (&FullFileName,
 			FILE_READ_DATA | FILE_READ_ATTRIBUTES,
@@ -146,6 +149,13 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			memcpy (&dg, dgBuffer, sizeof (DISK_GEOMETRY_EX));
 
 		TCfree (dgBuffer);
+
+		if (NT_SUCCESS (TCSendHostDeviceIoControlRequest (DeviceObject, Extension,
+					IOCTL_STORAGE_GET_DEVICE_NUMBER,
+					(char*) &storageDeviceNumber, sizeof (storageDeviceNumber))))
+		{
+			Extension->DeviceNumber = storageDeviceNumber.DeviceNumber;
+		}
 
 		lDiskLength.QuadPart = dg.DiskSize.QuadPart;
 		Extension->HostBytesPerSector = dg.Geometry.BytesPerSector;

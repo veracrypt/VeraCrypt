@@ -1263,8 +1263,10 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
-		// Vista's filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
-		if (!(OsMajorVersion == 6 && OsMinorVersion == 0))
+		// Vista's and Windows 10 filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
+		if (!(OsMajorVersion == 6 && OsMinorVersion == 0) 
+			&& !(OsMajorVersion == 10 && EnableExtendedIoctlSupport && Extension->bRawDevice)
+			)
 		{
 			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
 			Irp->IoStatus.Information = 0;
@@ -1272,10 +1274,24 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		else if (ValidateIOBufferSize (Irp, sizeof (VOLUME_DISK_EXTENTS), ValidateOutput))
 		{
 			VOLUME_DISK_EXTENTS *extents = (VOLUME_DISK_EXTENTS *) Irp->AssociatedIrp.SystemBuffer;
+			
 
-			// No extent data can be returned as this is not a physical drive.
-			memset (extents, 0, sizeof (*extents));
-			extents->NumberOfDiskExtents = 0;
+			if (OsMajorVersion == 10)
+			{
+				// Windows 10 filesystem defragmenter works only if we report an extent with a real disk number
+				// So in the case of a VeraCrypt disk based volume, we use the disk number
+				// of the underlaying physical disk and we report a single extent 
+				extents->NumberOfDiskExtents = 1;
+				extents->Extents[0].DiskNumber = Extension->DeviceNumber;
+				extents->Extents[0].StartingOffset.QuadPart = Extension->BytesPerSector;
+				extents->Extents[0].ExtentLength.QuadPart = Extension->DiskLength;
+			}
+			else
+			{
+				// Vista: No extent data can be returned as this is not a physical drive.				
+				memset (extents, 0, sizeof (*extents));
+				extents->NumberOfDiskExtents = 0;
+			}
 
 			Irp->IoStatus.Status = STATUS_SUCCESS;
 			Irp->IoStatus.Information = sizeof (*extents);
