@@ -1,5 +1,5 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
-
+set VC_VERSION=1.23-BETA5
 set PFXNAME=TestCertificate\idrix_codeSign.pfx
 set PFXPASSWORD=idrix
 set PFXCA=TestCertificate\idrix_TestRootCA.crt
@@ -58,9 +58,9 @@ rmdir /S /Q docs
 cd %SIGNINGPATH%
 
 rem sign using SHA-1
-signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac %PFXCA% /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup 1.22.exe"
+signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac %PFXCA% /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe"
 
 rem sign using SHA-256
-signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt Setup 1.22.exe"
+signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe"
 
 pause
