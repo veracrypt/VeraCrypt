@@ -2877,6 +2877,9 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	char langId[6];	
 	InitCommonControlsPtr InitCommonControlsFn = NULL;	
 	wchar_t modPath[MAX_PATH];
+#ifndef SETUP
+	BOOL bLanguageSetInSetup = FALSE;
+#endif
 
 	GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
 
@@ -3046,6 +3049,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		if (0 < WideCharToMultiByte (CP_ACP, 0, uiLang, -1, langId, sizeof (langId), NULL, NULL))
 		{
 			SetPreferredLangId (langId);
+			bLanguageSetInSetup = TRUE;
 		}
 	}
 
@@ -3073,6 +3077,11 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	LoadLanguageFile ();
 
 #ifndef SETUP
+	// Save language to XML configuration file if it has been selected in the setup
+	// so that other VeraCrypt programs will pick it up
+	if (bLanguageSetInSetup)
+		SaveSettings (NULL);
+
 	// UAC elevation moniker cannot be used in portable mode.
 	// A new instance of the application must be created with elevated privileges.
 	if (IsNonInstallMode () && !IsAdmin () && IsUacSupported ())

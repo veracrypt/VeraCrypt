@@ -32,7 +32,7 @@ enum timer_ids
 
 static void localcleanup ( void );
 static void LoadSettings ( HWND hwndDlg );
-static void SaveSettings ( HWND hwndDlg );
+void SaveSettings ( HWND hwndDlg );
 static void EndMainDlg ( HWND hwndDlg );
 void ComboSelChangeEA ( HWND hwndDlg );
 static void VerifySizeAndUpdate ( HWND hwndDlg , BOOL bUpdate );

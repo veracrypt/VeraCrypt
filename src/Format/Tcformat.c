@@ -821,7 +821,7 @@ static void LoadSettings (HWND hwndDlg)
 	LoadSettingsAndCheckModified (hwndDlg, FALSE, NULL, NULL);
 }
 
-static void SaveSettings (HWND hwndDlg)
+void SaveSettings (HWND hwndDlg)
 {
 	WaitCursor ();
 
