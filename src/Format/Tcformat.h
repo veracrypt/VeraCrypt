@@ -42,7 +42,7 @@ static void LoadPage ( HWND hwndDlg , int nPageNo );
 __int64 PrintFreeSpace ( HWND hwndTextBox , wchar_t *lpszDrive , PLARGE_INTEGER lDiskFree );
 void DisplaySizingErrorText ( HWND hwndTextBox );
 void EnableDisableFileNext ( HWND hComboBox , HWND hMainButton );
-BOOL QueryFreeSpace ( HWND hwndDlg , HWND hwndTextBox , BOOL display );
+BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display, LONGLONG *pFreeSpaceValue, BOOL* pbIsSparseFilesSupported);
 static BOOL FinalPreTransformPrompts (void);
 void UpdateLastDialogId (void);
 void HandleOldAssignedDriveLetter (void);
