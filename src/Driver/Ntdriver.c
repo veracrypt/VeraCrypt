@@ -129,6 +129,7 @@ BOOL CacheBootPassword = FALSE;
 BOOL CacheBootPim = FALSE;
 BOOL NonAdminSystemFavoritesAccessDisabled = FALSE;
 BOOL BlockSystemTrimCommand = FALSE;
+BOOL AllowWindowsDefrag = FALSE;
 static size_t EncryptionThreadPoolFreeCpuCountLimit = 0;
 static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
@@ -1265,7 +1266,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
 		// Vista's and Windows 10 filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
 		if (!(OsMajorVersion == 6 && OsMinorVersion == 0) 
-			&& !(OsMajorVersion == 10 && EnableExtendedIoctlSupport && Extension->bRawDevice)
+			&& !(OsMajorVersion == 10 && AllowWindowsDefrag && Extension->bRawDevice)
 			)
 		{
 			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
@@ -4249,6 +4250,7 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 
 			EnableExtendedIoctlSupport = (flags & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL)? TRUE : FALSE;
 			AllowTrimCommand = (flags & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM)? TRUE : FALSE;
+			AllowWindowsDefrag = (flags & VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG)? TRUE : FALSE;
 		}
 		else
 			status = STATUS_INVALID_PARAMETER;

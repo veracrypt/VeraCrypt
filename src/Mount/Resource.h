@@ -189,6 +189,7 @@
 #define IDT_ADVANCED_OPTIONS            1166
 #define IDC_ALLOW_TRIM_NONSYS_SSD       1167
 #define IDC_BLOCK_SYSENC_TRIM           1168
+#define IDC_ALLOW_WINDOWS_DEFRAG        1169
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -265,7 +266,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1169
+#define _APS_NEXT_CONTROL_VALUE         1170
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

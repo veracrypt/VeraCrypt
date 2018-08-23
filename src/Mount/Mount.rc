@@ -309,7 +309,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,255,158,50,14
 END
 
-IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 253
+IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 265
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Performance Options"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -327,13 +327,15 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,198,337,10
     CONTROL         "Allow TRIM command for non-system SSD partition/drive",IDC_ALLOW_TRIM_NONSYS_SSD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,212,337,10
-    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,232,59,14
-    DEFPUSHBUTTON   "OK",IDOK,257,232,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,314,232,50,14
+    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,244,59,14
+    DEFPUSHBUTTON   "OK",IDOK,257,244,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,314,244,50,14
     LTEXT           "Processor (CPU) in this computer supports hardware acceleration for AES:",IDT_HW_AES_SUPPORTED_BY_CPU,18,23,273,9
     GROUPBOX        "Hardware Acceleration",IDT_ACCELERATION_OPTIONS,7,6,355,74
     GROUPBOX        "Thread-Based Parallelization",IDT_PARALLELIZATION_OPTIONS,7,84,355,93
-    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,44
+    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,58
+    CONTROL         "Allow Windows Disk Defragmenter to defragment non-system partition/drive",IDC_ALLOW_WINDOWS_DEFRAG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,226,337,10
 END
 
 IDD_FAVORITE_VOLUMES DIALOGEX 0, 0, 380, 368
@@ -500,7 +502,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 364
         TOPMARGIN, 7
-        BOTTOMMARGIN, 246
+        BOTTOMMARGIN, 258
     END
 
     IDD_FAVORITE_VOLUMES, DIALOG

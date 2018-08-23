@@ -1425,6 +1425,8 @@
 	<entry lang="fr" key="PASSWORD_MAXLENGTH_REACHED">Le mot de passe a déjà atteint sa taille maximale de 64 caractères.\nAucun caractère supplémentaire n'est autorisé.</entry>
 	<entry lang="fr" key="IDC_SELECT_LANGUAGE_LABEL">Veuillez sélectionner la langue qui sera utilisée par l'assistant d'installation :</entry>
 	<entry lang="fr" key="VOLUME_TOO_LARGE_FOR_HOST">ERREUR : La taille du fichier conteneur est plus grande que l'espace libre sur le disque.</entry>
+    <entry lang="fr" key="IDC_ALLOW_WINDOWS_DEFRAG">Autoriser l'outil de défragmentation de disque de Windows à défragmenter les disques non système</entry>    
+    <entry lang="fr" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">AVERTISSEMENT: La défragmentation des disques non système peut engendrer des fuites de métadonnées ainsi que causer des problèmes avec les volumes cachés s'ils en contiennent.\n\nContinuer?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

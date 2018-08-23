@@ -1425,6 +1425,8 @@
 	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
 	<entry lang="ca" key="IDC_SELECT_LANGUAGE_LABEL">Trieu idioma a emprar durant la instal·lació:</entry>
 	<entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
+    <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>    
+    <entry lang="en" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNING: Defragmenting non-system partitions/drives may leak metadata about their content or cause issues with hidden volumes they may contain.\n\nContinue?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
