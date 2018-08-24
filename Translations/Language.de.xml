@@ -14,7 +14,7 @@
     <entry lang="de" key="IDC_BROWSE">Su&amp;chen ...</entry>
     <entry lang="de" key="IDC_DESKTOP_ICON">VeraCrypt-Symbol auf dem &amp;Desktop erstellen</entry>
     <entry lang="de" key="IDC_DONATE">Jetzt spenden ...</entry>
-    <entry lang="de" key="IDC_FILE_TYPE">Verknüpft die .hc &amp;Dateierweiterung mit VeraCrypt</entry>
+    <entry lang="de" key="IDC_FILE_TYPE">Verknüpft die &amp;Dateierweiterung .hc mit VeraCrypt</entry>
     <entry lang="de" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Den Speicherort nach dem Beenden öffnen</entry>
     <entry lang="de" key="IDC_PROG_GROUP">VeraCrypt ins &amp;Startmenü eintragen</entry>
     <entry lang="de" key="IDC_SYSTEM_RESTORE">&amp;Wiederherstellungspunkt erstellen</entry>
@@ -1410,7 +1410,7 @@
     <entry lang="de" key="RESCUE_DISK_EFI_CHECK_FAILED">Kann nicht bestätigen, ob der Rettungsdatenträger korrekt entpackt wurde.\n\nWenn Sie den Rettungsdatenträger entpackt haben, werfen Sie den USB-Stick bitte aus und stecken Sie ihn wieder ein; anschließend klicken Sie auf Weiter und versuchen es erneut. Wenn dies nicht hilft, versuchen Sie es bitte mit einem anderen USB-Stick und/oder einer anderen ZIP-Software.\n\nWenn Sie den Rettungsdatenträger noch nicht entpackt haben, machen Sie dies bitte und klicken Sie anschließend auf Weiter.\n\nWenn Sie vor dem Start dieses Assistenten versucht haben, den VeraCrypt-Rettungsdatenträger zu bestätigen, beachten Sie bitte, dass ein solcher Rettungsdatenträger nicht verwendet werden kann, da er für einen anderen Hauptschlüssel erstellt wurde. Sie müssen das neu generierte Rettungsdatenträger-ZIP-Abbild entpacken.</entry>
     <entry lang="de" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Kann nicht bestätigen, ob der Rettungsdatenträger korrekt entpackt wurde.\n\nWenn Sie das Rettungsdatenträger-Abbild auf einen USB-Stick entpackt haben, werfen Sie ihn bitte aus und stecken Sie ihn wieder ein; anschließend versuchen Sie es erneut. Wenn dies nicht hilft, versuchen Sie es bitte mit einer anderen ZIP-Software und/oder Medium.\n\nWenn Sie für einen anderen Hauptschlüssel, Passwort, Salz, usw. versucht haben, den VeraCrypt-Rettungsdatenträger zu bestätigen, beachten Sie bitte, dass ein solcher Rettungsdatenträger immer durch diese Überprüfung fallen wird. Um einen neuen, mit Ihrer aktuellen Konfiguration vollständig kompatiblen Rettungsdatenträger zu erstellen, wählen Sie 'System' > 'Rettungsdatenträger erstellen' aus.</entry>
     <entry lang="de" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Das Rettungsdatenträger-Abbild wurde erstellt und in dieser Datei gespeichert:\n%s\n\nJetzt müssen Sie das Rettungsdatenträger-Abbild auf einen mit FAT/FAT32-formatierten USB-Stick entpacken.\n\nWICHTIG: Beachten Sie, dass die ZIP-Datei direkt in das Stammverzeichnis des USB-Sticks entpackt werden muss. Zum Beispiel, wenn der Laufwerksbuchstabe des USB-Sticks E: ist, sollte das Entpacken der ZIP-Datei einen Ordner E:\\EFI auf dem USB-Stick erstellen.\n\nNachdem Sie den Rettungsdatenträger erstellt haben, wählen Sie 'System' > 'Rettungsdatenträger überprüfen' aus, um zu bestätigen, dass er korrekt erstellt wurde.</entry>
-	<entry lang="de" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Sicheren Desktop für die Passworteingabe verwenden</entry>
+    <entry lang="de" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Sicheren Desktop für die Passworteingabe verwenden</entry>
     <entry lang="de" key="ERR_REFS_INVALID_VOLUME_SIZE">Die in der Befehlszeile angegebene Größe der Volume-Datei ist mit dem ausgewählten ReFS-Dateisystem nicht kompatibel.</entry>
     <entry lang="de" key="IDC_EDIT_DCSPROP">Bootloader-Konfiguration bearbeiten</entry>
     <entry lang="de" key="IDC_SHOW_PLATFORMINFO">EFI-Plattforminformationen anzeigen</entry>
@@ -1424,12 +1424,12 @@
     <entry lang="de" key="IDC_BLOCK_SYSENC_TRIM">TRIM-Befehl auf Systempartition/Laufwerk blockieren</entry>
     <entry lang="de" key="WINDOWS_EFI_BOOT_LOADER_MISSING">FEHLER: Windows-EFI-Systemlader konnte nicht auf der Festplatte gefunden werden. Operation wird abgebrochen.</entry>
     <entry lang="de" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Es ist derzeit nicht möglich, ein System zu verschlüsseln, wenn SecureBoot aktiviert ist und keine benutzerdefinierten Schlüssel von VeraCrypt in die Maschinen-Firmware geladen sind. SecureBoot muss in der BIOS-Konfiguration deaktiviert werden, damit die Systemverschlüsselung fortgesetzt werden kann.</entry>
-	<entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 64 characters</entry>
-	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
-	<entry lang="de" key="IDC_SELECT_LANGUAGE_LABEL">Wählen Sie die Sprache aus, die während der Installation benutzt werden soll:</entry>
-	<entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
-    <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>    
-    <entry lang="en" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNING: Defragmenting non-system partitions/drives may leak metadata about their content or cause issues with hidden volumes they may contain.\n\nContinue?</entry>
+    <entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 64 characters</entry>
+    <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
+    <entry lang="de" key="IDC_SELECT_LANGUAGE_LABEL">Wählen Sie die Sprache aus, die während der Installation benutzt werden soll:</entry>
+    <entry lang="de" key="VOLUME_TOO_LARGE_FOR_HOST">FEHLER: Der Datei-Container ist größer als der verfügbare freie Speicherplatz auf der Festplatte.</entry>
+    <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows-Festplattendefragmentierung die Defragmentierung von Nicht-Systempartitionen/-laufwerken erlauben</entry>    
+    <entry lang="de" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNUNG: Defragmentierung von Nicht-Systempartitionen/-laufwerken kann Metadaten über ihren Inhalt preisgeben oder Probleme mit versteckten Volumes verursachen, die sie enthalten können.\n\nFortsetzen?</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
