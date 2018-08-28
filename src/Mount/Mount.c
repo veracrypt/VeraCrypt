@@ -537,6 +537,21 @@ static void InitMainDialog (HWND hwndDlg)
 
 		SendMessage (GetDlgItem (hwndDlg, IDC_NO_HISTORY), BM_SETCHECK, bHistory ? BST_UNCHECKED : BST_CHECKED, 0);
 		EnableDisableButtons (hwndDlg);
+
+		// Ensure bottom buttons are visible if the user sets a large font size
+		RECT mainRectScreen, boxRectScreen;
+		ULONG mainHeigth, mainWidth, correctHeigth;
+		GetWindowRect (hwndDlg, &mainRectScreen);
+		GetWindowRect (GetDlgItem (hwndDlg, IDC_LOWER_BOX), &boxRectScreen);
+
+		mainHeigth = mainRectScreen.bottom - mainRectScreen.top;
+		mainWidth = mainRectScreen.right - mainRectScreen.left;
+		correctHeigth =  boxRectScreen.bottom - mainRectScreen.top + CompensateYDPI (5);
+
+		if (mainHeigth < correctHeigth)
+		{
+			SetWindowPos (hwndDlg, NULL, 0, 0, mainWidth, correctHeigth , SWP_NOACTIVATE | SWP_NOZORDER  | SWP_NOMOVE | SWP_SHOWWINDOW);
+		}
 	}
 }
 
