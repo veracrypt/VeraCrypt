@@ -1264,9 +1264,9 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 
 	case IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS:
 		Dump ("ProcessVolumeDeviceControlIrp (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS)\n");
-		// Vista's and Windows 10 filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
+		// Vista's, Windows 8.1 and later filesystem defragmenter fails if IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS does not succeed.
 		if (!(OsMajorVersion == 6 && OsMinorVersion == 0) 
-			&& !(OsMajorVersion == 10 && AllowWindowsDefrag && Extension->bRawDevice)
+			&& !(IsOSAtLeast (WIN_8_1) && AllowWindowsDefrag && Extension->bRawDevice)
 			)
 		{
 			Irp->IoStatus.Status = STATUS_INVALID_DEVICE_REQUEST;
@@ -1277,7 +1277,7 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			VOLUME_DISK_EXTENTS *extents = (VOLUME_DISK_EXTENTS *) Irp->AssociatedIrp.SystemBuffer;
 			
 
-			if (OsMajorVersion == 10)
+			if (IsOSAtLeast (WIN_8_1))
 			{
 				// Windows 10 filesystem defragmenter works only if we report an extent with a real disk number
 				// So in the case of a VeraCrypt disk based volume, we use the disk number

@@ -10896,10 +10896,10 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 			CheckDlgButton (hwndDlg, IDC_ENABLE_HARDWARE_ENCRYPTION, (driverConfig & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? BST_UNCHECKED : BST_CHECKED);
 			CheckDlgButton (hwndDlg, IDC_ENABLE_EXTENDED_IOCTL_SUPPORT, (driverConfig & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton (hwndDlg, IDC_ALLOW_TRIM_NONSYS_SSD, (driverConfig & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM) ? BST_CHECKED : BST_UNCHECKED);
-			// checkbox for Windows Defragmenter only usuable on Windows 10
-			// on previous version, we can not control Windows defragmenter so 
+			// checkbox for Windows Defragmenter only usuable starting from Windows 8.1
+			// on previous versions, we can not control Windows defragmenter so 
 			// this settings is always checked.
-			if (CurrentOSMajor >= 10)
+			if (IsOSAtLeast (WIN_8_1))
 				CheckDlgButton (hwndDlg, IDC_ALLOW_WINDOWS_DEFRAG, (driverConfig & VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG) ? BST_CHECKED : BST_UNCHECKED);
 			else
 			{
@@ -11002,7 +11002,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION, disableHW);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL, enableExtendedIOCTL);
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM, allowTrimCommand);
-					if (CurrentOSMajor >= 10)
+					if (IsOSAtLeast (WIN_8_1))
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG, allowWindowsDefrag);
 
 					DWORD bytesReturned;
