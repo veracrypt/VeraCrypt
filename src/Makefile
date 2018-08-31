@@ -22,6 +22,7 @@
 # WXSTATIC:		Use static wxWidgets library
 # SSSE3:		Enable SSSE3 support in compiler
 # SSE41:		Enable SSE4.1 support in compiler
+# NOSSE2:		Disable SEE2 support in compiler
 
 #------ Targets ------
 # all
@@ -158,6 +159,10 @@ else ifeq "$(CPU_ARCH)" "x64"
 	C_CXX_FLAGS += -D TC_ARCH_X64
 endif
 
+ifeq "$(origin NOSSE2)" "command line"
+	SIMD_SUPPORTED := 0
+endif
+
 
 #------ Linux configuration ------
 
@@ -210,6 +215,13 @@ ifeq "$(shell uname -s)" "Linux"
 			CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 			WXCONFIG_CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 		endif
+	endif
+	
+	ifeq "$(origin NOSSE2)" "command line"
+		CFLAGS += -mno-sse2
+		CXXFLAGS += -mno-sse2
+		WXCONFIG_CFLAGS += -mno-sse2
+		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif
 
 endif
@@ -316,6 +328,13 @@ ifeq "$(shell uname -s)" "FreeBSD"
 			CFLAGS += -mssse3 -msse4.1
 			CXXFLAGS += -mssse3 -msse4.1
 		endif
+	endif
+	
+	ifeq "$(origin NOSSE2)" "command line"
+		CFLAGS += -mno-sse2
+		CXXFLAGS += -mno-sse2
+		WXCONFIG_CFLAGS += -mno-sse2
+		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif
 
 endif

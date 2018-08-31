@@ -121,14 +121,27 @@ ifeq "$(PLATFORM)" "Linux"
 
 ifdef TC_NO_GUI
 INSTALLER_TYPE := console
+ifeq "$(origin NOSSE2)" "command line"
+PACKAGE_NAME := $(APPNAME)_$(TC_VERSION)_console_$(PLATFORM_ARCH)_legacy.tar.gz
+else
 PACKAGE_NAME := $(APPNAME)_$(TC_VERSION)_console_$(PLATFORM_ARCH).tar.gz
+endif
 else
 INSTALLER_TYPE := gui
+ifeq "$(origin NOSSE2)" "command line"
+PACKAGE_NAME := $(APPNAME)_$(TC_VERSION)_$(PLATFORM_ARCH)_legacy.tar.gz
+else
 PACKAGE_NAME := $(APPNAME)_$(TC_VERSION)_$(PLATFORM_ARCH).tar.gz
 endif
+endif
 
+ifeq "$(origin NOSSE2)" "command line"
+INTERNAL_INSTALLER_NAME := veracrypt_install_$(INSTALLER_TYPE)_$(CPU_ARCH)_legacy.sh
+INSTALLER_NAME := veracrypt-$(TC_VERSION)-setup-$(INSTALLER_TYPE)-$(CPU_ARCH)-legacy
+else
 INTERNAL_INSTALLER_NAME := veracrypt_install_$(INSTALLER_TYPE)_$(CPU_ARCH).sh
 INSTALLER_NAME := veracrypt-$(TC_VERSION)-setup-$(INSTALLER_TYPE)-$(CPU_ARCH)
+endif
 
 endif
 #-----------------------------------
