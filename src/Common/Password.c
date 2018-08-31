@@ -244,7 +244,33 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 				dgBuffer, sizeof (dgBuffer), &dwResult, NULL);
 
 			if (!bResult)
-				goto error;
+			{
+				DISK_GEOMETRY geo;
+				if (DeviceIoControl (dev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, (LPVOID) &geo, sizeof (geo), &dwResult, NULL))
+				{
+					((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart = geo.Cylinders.QuadPart * geo.SectorsPerTrack * geo.TracksPerCylinder * geo.BytesPerSector;
+
+					if (CurrentOSMajor >= 6)
+					{
+						STORAGE_READ_CAPACITY storage = {0};
+
+						storage.Version = sizeof (STORAGE_READ_CAPACITY);
+						storage.Size = sizeof (STORAGE_READ_CAPACITY);
+						if (DeviceIoControl (dev, IOCTL_STORAGE_READ_CAPACITY, NULL, 0, (LPVOID) &storage, sizeof (storage), &bytesRead, NULL)
+							&& (bytesRead >= sizeof (storage))
+							&& (storage.Size == sizeof (STORAGE_READ_CAPACITY))
+							)
+						{
+							((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart = storage.DiskLength.QuadPart;
+						}
+					}
+				}
+				else
+				{
+					goto error;
+				}
+
+			}
 
 			bResult = GetPartitionInfo (lpszVolume, &diskInfo);
 

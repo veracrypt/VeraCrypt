@@ -8771,6 +8771,33 @@ BOOL GetPhysicalDriveGeometry (int driveNumber, PDISK_GEOMETRY_EX diskGeometry)
 			diskGeometry->DiskSize.QuadPart = ((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart;
 			bResult = TRUE;
 		}
+		else
+		{
+			DISK_GEOMETRY geo;
+			if (	DeviceIoControl (hDev, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, (LPVOID) &geo, sizeof (geo), &bytesRead, NULL)
+				&& (bytesRead >= sizeof (DISK_GEOMETRY))
+				&& geo.BytesPerSector)
+			{
+				memcpy (&diskGeometry->Geometry, &geo, sizeof (DISK_GEOMETRY));
+				diskGeometry->DiskSize.QuadPart = geo.Cylinders.QuadPart * geo.SectorsPerTrack * geo.TracksPerCylinder * geo.BytesPerSector;
+				bResult = TRUE;
+
+				if (CurrentOSMajor >= 6)
+				{
+					STORAGE_READ_CAPACITY storage = {0};
+
+					storage.Version = sizeof (STORAGE_READ_CAPACITY);
+					storage.Size = sizeof (STORAGE_READ_CAPACITY);
+					if (DeviceIoControl (hDev, IOCTL_STORAGE_READ_CAPACITY, NULL, 0, (LPVOID) &storage, sizeof (storage), &bytesRead, NULL)
+						&& (bytesRead >= sizeof (storage))
+						&& (storage.Size == sizeof (STORAGE_READ_CAPACITY))
+						)
+					{
+						diskGeometry->DiskSize.QuadPart = storage.DiskLength.QuadPart;
+					}
+				}
+			}
+		}
 
 		CloseHandle (hDev);
 	}
@@ -11173,8 +11200,28 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 
 			if (!DeviceIoControl (context->HostFileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, dgBuffer, sizeof (dgBuffer), &dwResult, NULL))
 			{
-				status = ERR_OS_ERROR;
-				goto error;
+				DISK_GEOMETRY geo;
+				if (DeviceIoControl (context->HostFileHandle, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, (LPVOID) &geo, sizeof (geo), &dwResult, NULL))
+				{
+					((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart = geo.Cylinders.QuadPart * geo.SectorsPerTrack * geo.TracksPerCylinder * geo.BytesPerSector;
+
+					if (CurrentOSMajor >= 6)
+					{
+						STORAGE_READ_CAPACITY storage = {0};
+
+						storage.Version = sizeof (STORAGE_READ_CAPACITY);
+						storage.Size = sizeof (STORAGE_READ_CAPACITY);
+						if (DeviceIoControl (context->HostFileHandle, IOCTL_STORAGE_READ_CAPACITY, NULL, 0, (LPVOID) &storage, sizeof (storage), &dwResult, NULL))
+						{
+							((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart = storage.DiskLength.QuadPart;
+						}
+					}
+				}
+				else
+				{
+					status = ERR_OS_ERROR;
+					goto error;
+				}
 			}
 
 			context->HostSize = ((PDISK_GEOMETRY_EX) dgBuffer)->DiskSize.QuadPart;
@@ -11368,7 +11415,8 @@ BOOL IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly)
 		BYTE dgBuffer[256];
 		DWORD dwResult;
 
-		if (!DeviceIoControl (handle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, dgBuffer, sizeof (dgBuffer), &dwResult, NULL))
+		if (!DeviceIoControl (handle, IOCTL_DISK_GET_DRIVE_GEOMETRY_EX, NULL, 0, dgBuffer, sizeof (dgBuffer), &dwResult, NULL)
+			&& !DeviceIoControl (handle, IOCTL_DISK_GET_DRIVE_GEOMETRY, NULL, 0, dgBuffer, sizeof (dgBuffer), &dwResult, NULL))
 		{
 			CloseHandle (handle);
 			continue;
