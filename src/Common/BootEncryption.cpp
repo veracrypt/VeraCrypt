@@ -3064,6 +3064,7 @@ namespace VeraCrypt
 #endif
 			if (!LegacySpeakerImg)
 				throw ErrorException(L"Out of resource LegacySpeaker", SRC_POS);
+#ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
 #ifdef _WIN64
 			byte *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
@@ -3072,6 +3073,7 @@ namespace VeraCrypt
 #endif
 			if (!BootMenuLockerImg)
 				throw ErrorException(L"Out of resource DcsBml", SRC_POS);
+#endif
 			DWORD sizeDcsInfo;
 #ifdef _WIN64
 			byte *DcsInfoImg = MapResource(L"BIN", IDR_EFI_DCSINFO, &sizeDcsInfo);
@@ -3180,7 +3182,9 @@ namespace VeraCrypt
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInt.dcs", dcsIntImg, sizeDcsInt);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsCfg.dcs", dcsCfgImg, sizeDcsCfg);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\LegacySpeaker.dcs", LegacySpeakerImg, sizeLegacySpeaker);
+#ifdef VC_EFI_CUSTOM_MODE
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker);
+#endif
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInfo.dcs", DcsInfoImg, sizeDcsInfo);
 				if (!preserveUserConfig)
 					EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\PlatformInfo");
@@ -3208,6 +3212,10 @@ namespace VeraCrypt
 				EfiBootInst.DelFile(L"\\LegacySpeaker.efi");
 				EfiBootInst.DelFile(L"\\DcsBoot");
 				EfiBootInst.DelFile(L"\\DcsProp");
+#ifndef VC_EFI_CUSTOM_MODE
+				// remove DcsBml if it exists since we don't use it in non-custom SecureBoot mode
+				EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\DcsBml.dcs");
+#endif
 			}
 			catch (...)
 			{
@@ -3388,6 +3396,7 @@ namespace VeraCrypt
 #endif
 			if (!LegacySpeakerImg)
 				throw ParameterIncorrect (SRC_POS);
+#ifdef VC_EFI_CUSTOM_MODE
 			DWORD sizeBootMenuLocker;
 #ifdef _WIN64
 			byte *BootMenuLockerImg = MapResource(L"BIN", IDR_EFI_DCSBML, &sizeBootMenuLocker);
@@ -3396,6 +3405,7 @@ namespace VeraCrypt
 #endif
 			if (!BootMenuLockerImg)
 				throw ParameterIncorrect (SRC_POS);
+#endif
 			DWORD sizeDcsRescue;
 #ifdef _WIN64
 			byte *DcsRescueImg = MapResource(L"BIN", IDR_EFI_DCSRE, &sizeDcsRescue);
@@ -3430,8 +3440,10 @@ namespace VeraCrypt
 
 			if (!ZipAdd (z, Is64BitOs()? "EFI/Boot/bootx64.efi": "EFI/Boot/bootia32.efi", DcsRescueImg, sizeDcsRescue))
 				throw ParameterIncorrect (SRC_POS);
+#ifdef VC_EFI_CUSTOM_MODE
 			if (!ZipAdd (z, "EFI/VeraCrypt/DcsBml.dcs", BootMenuLockerImg, sizeBootMenuLocker))
 				throw ParameterIncorrect (SRC_POS);
+#endif
 			if (!ZipAdd (z, "EFI/VeraCrypt/DcsBoot.efi", dcsBootImg, sizeDcsBoot))
 				throw ParameterIncorrect (SRC_POS);
 			if (!ZipAdd (z, "EFI/VeraCrypt/DcsCfg.dcs", dcsCfgImg, sizeDcsCfg))
@@ -3692,7 +3704,9 @@ namespace VeraCrypt
 		{
 			const wchar_t* efi64Files[] = {
 				L"EFI/Boot/bootx64.efi",
+#ifdef VC_EFI_CUSTOM_MODE
 				L"EFI/VeraCrypt/DcsBml.dcs",
+#endif
 				L"EFI/VeraCrypt/DcsBoot.efi",
 				L"EFI/VeraCrypt/DcsCfg.dcs",
 				L"EFI/VeraCrypt/DcsInt.dcs",
@@ -3703,7 +3717,9 @@ namespace VeraCrypt
 			
 			const wchar_t* efi32Files[] = {
 				L"EFI/Boot/bootia32.efi",
+#ifdef VC_EFI_CUSTOM_MODE
 				L"EFI/VeraCrypt/DcsBml.dcs",
+#endif
 				L"EFI/VeraCrypt/DcsBoot.efi",
 				L"EFI/VeraCrypt/DcsCfg.dcs",
 				L"EFI/VeraCrypt/DcsInt.dcs",
@@ -3883,7 +3899,9 @@ namespace VeraCrypt
 
 					const wchar_t* efi64Files[] = {
 						L"EFI/Boot/bootx64.efi",
+#ifdef VC_EFI_CUSTOM_MODE
 						L"EFI/VeraCrypt/DcsBml.dcs",
+#endif
 						L"EFI/VeraCrypt/DcsBoot.efi",
 						L"EFI/VeraCrypt/DcsCfg.dcs",
 						L"EFI/VeraCrypt/DcsInt.dcs",
@@ -3894,7 +3912,9 @@ namespace VeraCrypt
 					
 					const wchar_t* efi32Files[] = {
 						L"EFI/Boot/bootia32.efi",
+#ifdef VC_EFI_CUSTOM_MODE
 						L"EFI/VeraCrypt/DcsBml.dcs",
+#endif
 						L"EFI/VeraCrypt/DcsBoot.efi",
 						L"EFI/VeraCrypt/DcsCfg.dcs",
 						L"EFI/VeraCrypt/DcsInt.dcs",
@@ -4766,15 +4786,16 @@ namespace VeraCrypt
 		if (config.SystemPartition.IsGPT)
 		{
 			STORAGE_DEVICE_NUMBER sdn;
+#ifdef VC_EFI_CUSTOM_MODE
 			BOOL bSecureBootEnabled = FALSE, bVeraCryptKeysLoaded = FALSE;
 			GetSecureBootConfig (&bSecureBootEnabled, &bVeraCryptKeysLoaded);
-			GetEfiBootDeviceNumber (&sdn);
-			activePartitionFound = (config.DriveNumber == (int) sdn.DeviceNumber);
-
 			if (bSecureBootEnabled && !bVeraCryptKeysLoaded)
 			{
 				throw ErrorException ("SYSENC_EFI_UNSUPPORTED_SECUREBOOT", SRC_POS);
 			}
+#endif
+			GetEfiBootDeviceNumber (&sdn);
+			activePartitionFound = (config.DriveNumber == (int) sdn.DeviceNumber);
 		}
 		else
 		{
