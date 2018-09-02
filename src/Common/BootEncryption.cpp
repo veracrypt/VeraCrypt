@@ -4103,6 +4103,8 @@ namespace VeraCrypt
 			std::vector<byte> bootLoaderBuf;
 			const wchar_t * szStdEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi";
 			const wchar_t * szBackupEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\original_bootx64.vc_backup": L"\\EFI\\Boot\\original_bootia32.vc_backup";
+			const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
+			const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
 			const char* g_szMsBootString = "bootmgfw.pdb";
 			bool bModifiedMsBoot = true;
 
@@ -4110,9 +4112,9 @@ namespace VeraCrypt
 
 			EfiBootInst.MountBootPartition(0);		
 
-			EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
+			EfiBootInst.GetFileSize(szStdMsBootloader, loaderSize);
 			bootLoaderBuf.resize ((size_t) loaderSize);
-			EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
+			EfiBootInst.ReadFile(szStdMsBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
 
 			// DcsBoot.efi is always smaller than 32KB
 			if (loaderSize > 32768)
@@ -4127,7 +4129,24 @@ namespace VeraCrypt
 				{
 					if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED", ParentWindow) == IDNO)
 						throw UserAbort (SRC_POS);
-					return;
+
+					// check if backup exists already and if it has bootmgfw signature
+					if (EfiBootInst.FileExists (szBackupMsBootloader))
+					{
+						EfiBootInst.GetFileSize(szBackupMsBootloader, loaderSize);
+						bootLoaderBuf.resize ((size_t) loaderSize);
+						EfiBootInst.ReadFile(szBackupMsBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
+
+						if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+						{
+							// copy it to original location
+							EfiBootInst.CopyFile (szBackupMsBootloader, szStdMsBootloader);
+							bModifiedMsBoot = false;
+						}
+					}
+
+					if (bModifiedMsBoot)
+						return;
 				}
 			}
 
@@ -4137,7 +4156,7 @@ namespace VeraCrypt
 				throw UserAbort (SRC_POS);
 			}
 
-			EfiBootInst.CopyFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc");
+			EfiBootInst.CopyFile (szStdMsBootloader, szBackupMsBootloader);
 
 			if (EfiBootInst.FileExists (szStdEfiBootloader))
 			{
@@ -4152,6 +4171,14 @@ namespace VeraCrypt
 				{
 					if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED", ParentWindow) == IDNO)
 						throw UserAbort (SRC_POS);
+
+					// check if backup exists already and if it has bootmgfw signature
+					if (EfiBootInst.FileExists (szBackupEfiBootloader))
+					{
+						// perform the backup on disk using this file
+						EfiBootInst.CopyFile (szBackupEfiBootloader, GetSystemLoaderBackupPath().c_str());
+					}
+
 					return;
 				}
 
@@ -4159,7 +4186,7 @@ namespace VeraCrypt
 				EfiBootInst.CopyFile (szStdEfiBootloader, szBackupEfiBootloader);
 			}
 			else
-				EfiBootInst.CopyFile (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", GetSystemLoaderBackupPath().c_str());
+				EfiBootInst.CopyFile (szStdMsBootloader, GetSystemLoaderBackupPath().c_str());
 
 		}
 		else
