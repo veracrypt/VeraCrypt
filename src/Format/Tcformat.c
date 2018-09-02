@@ -6060,6 +6060,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			LoadSettings (hwndDlg);
 
+			// Save language to XML configuration file if it has been selected in the setup
+			// so that other VeraCrypt programs will pick it up
+			if (bLanguageSetInSetup)
+				SaveSettings (hwndDlg);
+
 			LoadDefaultKeyFilesParam ();
 			RestoreDefaultKeyFilesParam ();
 

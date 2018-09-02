@@ -163,6 +163,9 @@ extern BOOL MountVolumesAsSystemFavorite;
 extern BOOL FavoriteMountOnArrivalInProgress;
 extern BOOL MultipleMountOperationInProgress;
 
+#ifndef SETUP
+extern BOOL bLanguageSetInSetup;
+#endif
 
 enum tc_app_msg_ids
 {
