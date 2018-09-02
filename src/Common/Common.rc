@@ -553,7 +553,9 @@ IDR_EFI_DCSBOOT         BIN                     "..\\Boot\\EFI\\DcsBoot.efi"
 IDR_EFI_DCSINT          BIN                     "..\\Boot\\EFI\\DcsInt.efi"
 IDR_EFI_DCSCFG          BIN                     "..\\Boot\\EFI\\DcsCfg.efi"
 IDR_EFI_LEGACYSPEAKER   BIN                     "..\\Boot\\EFI\\LegacySpeaker.efi"
+#ifdef VC_EFI_CUSTOM_MODE
 IDR_EFI_DCSBML         BIN                     "..\\Boot\\EFI\\DcsBml.efi"
+#endif
 IDR_EFI_DCSRE          BIN                     "..\\Boot\\EFI\\DcsRe.efi"
 IDR_EFI_DCSINFO         BIN                     "..\\Boot\\EFI\\DcsInfo.efi"
 #ifndef WIN64
@@ -561,7 +563,9 @@ IDR_EFI_DCSBOOT32         BIN                     "..\\Boot\\EFI\\DcsBoot32.efi"
 IDR_EFI_DCSINT32          BIN                     "..\\Boot\\EFI\\DcsInt32.efi"
 IDR_EFI_DCSCFG32          BIN                     "..\\Boot\\EFI\\DcsCfg32.efi"
 IDR_EFI_LEGACYSPEAKER32   BIN                     "..\\Boot\\EFI\\LegacySpeaker32.efi"
+#ifdef VC_EFI_CUSTOM_MODE
 IDR_EFI_DCSBML32         BIN                     "..\\Boot\\EFI\\DcsBml32.efi"
+#endif
 IDR_EFI_DCSRE32          BIN                     "..\\Boot\\EFI\\DcsRe32.efi"
 IDR_EFI_DCSINFO32         BIN                     "..\\Boot\\EFI\\DcsInfo32.efi"
 #endif
