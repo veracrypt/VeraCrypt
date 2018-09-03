@@ -550,7 +550,7 @@ static void InitMainDialog (HWND hwndDlg)
 
 		if (mainHeigth < correctHeigth)
 		{
-			SetWindowPos (hwndDlg, NULL, 0, 0, mainWidth, correctHeigth , SWP_NOACTIVATE | SWP_NOZORDER  | SWP_NOMOVE | SWP_SHOWWINDOW);
+			SetWindowPos (hwndDlg, NULL, 0, 0, mainWidth, correctHeigth , SWP_NOACTIVATE | SWP_NOZORDER  | SWP_NOMOVE);
 		}
 	}
 }
