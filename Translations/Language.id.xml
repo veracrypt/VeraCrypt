@@ -725,11 +725,11 @@
     <entry lang="en" key="ALL_FILES">All Files</entry>
     <entry lang="en" key="TC_VOLUMES">VeraCrypt Volumes</entry>
     <entry lang="en" key="DLL_FILES">Library Modules</entry>
-    <entry lang="en" key="FORMAT_NTFS_STOP">NTFS formatting cannot continue.</entry>
+    <entry lang="en" key="FORMAT_NTFS_STOP">NTFS/exFAT/ReFS formatting cannot continue.</entry>
     <entry lang="en" key="CANT_MOUNT_VOLUME">Cannot mount volume.</entry>
     <entry lang="en" key="CANT_DISMOUNT_VOLUME">Cannot dismount volume.</entry>
-    <entry lang="en" key="FORMAT_NTFS_FAILED">Windows failed to format the volume as NTFS.\n\nPlease select a different type of file system (if possible) and try again. Alternatively, you could leave the volume unformatted (select 'None' as the filesystem), exit this wizard, mount the volume, and then use either a system or a third-party tool to format the mounted volume (the volume will remain encrypted).</entry>
-    <entry lang="en" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows failed to format the volume as NTFS.\n\nDo you want to format the volume as FAT instead?</entry>
+    <entry lang="en" key="FORMAT_NTFS_FAILED">Windows failed to format the volume as NTFS/exFAT/ReFS.\n\nPlease select a different type of file system (if possible) and try again. Alternatively, you could leave the volume unformatted (select 'None' as the filesystem), exit this wizard, mount the volume, and then use either a system or a third-party tool to format the mounted volume (the volume will remain encrypted).</entry>
+    <entry lang="en" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows failed to format the volume as NTFS/exFAT/ReFS.\n\nDo you want to format the volume as FAT instead?</entry>
     <entry lang="id" key="DEFAULT">Bawaan</entry>
     <entry lang="en" key="PARTITION_LOWER_CASE">partition</entry>
     <entry lang="en" key="PARTITION_UPPER_CASE">PARTITION</entry>
@@ -743,10 +743,10 @@
     <entry lang="en" key="CLUSTER_TOO_SMALL">The selected cluster size is too small for this volume size. A greater cluster size will be used instead.</entry>
     <entry lang="en" key="CANT_GET_VOLSIZE">Error: Cannot get volume size!\n\nMake sure the selected volume is not being used by the system or an application.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">The VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT or NTFS volume.</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">The VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT/exFAT or NTFS volume.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Under Windows 2000, the VeraCrypt Volume Creation Wizard can create a hidden volume only within a FAT volume.</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT).</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT/exFAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT/exFAT).</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT/exFAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT/exFAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
     <entry lang="en" key="OFFER_FAT_FORMAT_ALTERNATIVE">Do you want to format the volume as FAT instead?</entry>
     <entry lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Note: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</entry>
     <entry lang="en" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Error: The partition for the hidden operating system (i.e. the first partition behind the system partition) must be at least 5% larger than the system partition (the system partition is the one where the currently running operating system is installed).</entry>
@@ -767,7 +767,7 @@
     <entry lang="en" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">Error: Cannot access the volume and/or obtain information about the volume.\n\nMake sure that the selected volume exists, that it is not being used by the system or applications, that you have read/write permission for the volume, and that it is not write-protected.</entry>
     <entry lang="en" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">Error: Cannot access the volume and/or obtain information about the volume. Make sure that the selected volume exists, that it is not being used by the system or applications, that you have read/write permission for the volume, and that it is not write-protected.\n\nIf the problem persists, it might help to follow the below steps.</entry>
     <entry lang="en" key="INPLACE_ENC_GENERIC_ERR_ALT_STEPS">An error prevented VeraCrypt from encrypting the partition. Please try fixing any previously reported problems and then try again. If the problems persist, it might help to follow the below steps.</entry>
-    <entry lang="en" key="INPLACE_ENC_GENERIC_ERR_RESUME">An error prevented VeraCrypt from resuming the process of encryption of the partition.\n\nPlease try fixing any previously reported problems and then try resuming the process again. Note that the volume cannot be mounted until it has been fully encrypted.</entry>
+    <entry lang="en" key="INPLACE_ENC_GENERIC_ERR_RESUME">An error prevented VeraCrypt from resuming the process of encryption/decryption of the partition/volume.\n\nPlease try fixing any previously reported problems and then try resuming the process again if possible. Note that the volume cannot be mounted until it has been fully encrypted or fully decrypted.</entry>
     <entry lang="en" key="INPLACE_DEC_GENERIC_ERR">An error prevented VeraCrypt from decrypting the volume. Please try fixing any previously reported problems and then try again if possible.</entry>
     <entry lang="en" key="CANT_DISMOUNT_OUTER_VOL">Error: Cannot dismount the outer volume!\n\nVolume cannot be dismounted if it contains files or folders being used by a program or the system.\n\nPlease close any program that might be using files or directories on the volume and click Retry.</entry>
     <entry lang="en" key="CANT_GET_OUTER_VOL_INFO">Error: Cannot obtain information about the outer volume!\nVolume creation cannot continue.</entry>
@@ -936,7 +936,7 @@
     <entry lang="en" key="ENTER_NORMAL_VOL_PASSWORD">Enter password for the normal/outer volume</entry>
     <entry lang="en" key="ENTER_HIDDEN_VOL_PASSWORD">Enter password for the hidden volume</entry>
     <entry lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</entry>
-    <entry lang="en" key="KEYFILE_CREATED">Keyfile has been successfully created.</entry>
+    <entry lang="en" key="KEYFILE_CREATED">Keyfiles have been successfully created.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
     <entry lang="en" key="KEYFILE_EMPTY_BASE_NAME">Please enter a name for the keyfile(s) to be generated</entry>
@@ -1415,7 +1415,7 @@
     <entry lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</entry>
     <entry lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</entry>
     <entry lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</entry>
-    <entry lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</entry>
+    <entry lang="id" key="IDT_ADVANCED_OPTIONS">Pilihan Lebih Lanjut</entry>
     <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</entry>
     <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
     <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>

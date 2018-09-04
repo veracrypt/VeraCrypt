@@ -132,7 +132,7 @@
     <entry lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</entry>
     <entry lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</entry>
     <entry lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</entry>
-    <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
+    <entry lang="fi" key="IDC_FAVORITE_REMOVE">&amp;Poista</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
     <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
@@ -145,8 +145,8 @@
     <entry lang="fi" key="IDC_HOTKEY_REMOVE">Poista</entry>
     <entry lang="fi" key="IDC_KEYFILES">Avaintiedosto..</entry>
     <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
+    <entry lang="fi" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Lisätietoa</entry>
+    <entry lang="fi" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Lisätietoa</entry>
     <entry lang="fi" key="IDC_MORE_SETTINGS">Lisää Asetuksia..</entry>
     <entry lang="fi" key="IDC_MOUNTALL">Autoyhdistä &amp;Laitteet</entry>
     <entry lang="fi" key="IDC_MOUNT_OPTIONS">Yhdistä V&amp;alinta..</entry>
@@ -739,7 +739,7 @@
     <entry lang="fi" key="VOLUME">Taltio</entry>
     <entry lang="fi" key="VOLUME_LOWER_CASE">taltio</entry>
     <entry lang="fi" key="VOLUME_UPPER_CASE">TALTIO</entry>
-    <entry lang="en" key="LABEL">Label</entry>
+    <entry lang="fi" key="LABEL">Otsikko</entry>
     <entry lang="fi" key="CLUSTER_TOO_SMALL">Valittu ryhmä koko liian pieni tälle taltion koolle. Suurempaa ryhmä kokoa käytetään sen sijaan.</entry>
     <entry lang="fi" key="CANT_GET_VOLSIZE">Virhe: Taltion kokoa ei saatu!\n\nVarmista, että valittu taltio ei ole järjestelmän tai toisen sovelluksen käytössä.</entry>
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>

@@ -35,7 +35,7 @@
     <entry lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</entry>
     <entry lang="en" key="IDC_GB">&amp;GB</entry>
     <entry lang="en" key="IDC_TB">&amp;TB</entry>
-    <entry lang="en" key="IDC_HIDDEN_SYSENC_INFO_LINK">More information</entry>
+    <entry lang="ka" key="IDC_HIDDEN_SYSENC_INFO_LINK">დამატებით ინფორმაცია</entry>
     <entry lang="ka" key="IDC_HIDDEN_VOL">VeraCrypt-ის ფარული ტომი </entry>
     <entry lang="ka" key="IDC_HIDDEN_VOL_HELP">ფარული ტომების შესახებ დამატებითი ინფორმაცია</entry>
     <entry lang="ka" key="IDC_HIDVOL_WIZ_MODE_DIRECT">პირდაპირი რეჟიმი</entry>
@@ -61,12 +61,12 @@
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="ka" key="IDC_QUICKFORMAT">სწრაფი ფორმატირება</entry>
     <entry lang="ka" key="IDC_SHOW_PASSWORD">პაროლის ჩვენება</entry>
-    <entry lang="en" key="IDC_SHOW_PASSWORD_SINGLE">&amp;Display password</entry>
+    <entry lang="ka" key="IDC_SHOW_PASSWORD_SINGLE">პაროლის ჩვენება</entry>
     <entry lang="en" key="IDC_SHOW_PIM">&amp;Display PIM</entry>
     <entry lang="ka" key="IDC_SINGLE_BOOT">Single-boot</entry>
     <entry lang="ka" key="IDC_STD_VOL">VeraCrypt-ის სტანდარტული ტომი</entry>
     <entry lang="en" key="IDC_SYSENC_HIDDEN">Hi&amp;dden</entry>
-    <entry lang="en" key="IDC_SYSENC_NORMAL">Normal</entry>
+    <entry lang="ka" key="IDC_SYSENC_NORMAL">ჩვეულებრივი</entry>
     <entry lang="ka" key="IDC_SYS_DEVICE">სისტემური განაყოფის ან სისტემური დისკის შიფრაცია</entry>
     <entry lang="ka" key="IDC_SYS_PARTITION">Windows-ის სისტემური განაყოფის შიფრაცია</entry>
     <entry lang="ka" key="IDC_WHOLE_SYS_DRIVE">მთლიანი დისკის შიფრაცია</entry>
@@ -132,7 +132,7 @@
     <entry lang="en" key="IDC_FAVORITE_MOVE_DOWN">Move &amp;Down</entry>
     <entry lang="en" key="IDC_FAVORITE_MOVE_UP">Move &amp;Up</entry>
     <entry lang="en" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Open &amp;Explorer window for selected volume when successfully mounted</entry>
-    <entry lang="en" key="IDC_FAVORITE_REMOVE">&amp;Remove</entry>
+    <entry lang="ka" key="IDC_FAVORITE_REMOVE">წაშლა</entry>
     <entry lang="en" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Use favorite label as Explorer drive label</entry>
     <entry lang="en" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">Global Settings</entry>
     <entry lang="en" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">Display balloon tooltip after successful hot-key dismount</entry>
@@ -145,8 +145,8 @@
     <entry lang="ka" key="IDC_HOTKEY_REMOVE">წაშლა</entry>
     <entry lang="ka" key="IDC_KEYFILES">ფაილები</entry>
     <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
+    <entry lang="ka" key="IDC_MORE_INFO_ON_HW_ACCELERATION">დამატებით ინფორმაცია</entry>
+    <entry lang="ka" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">დამატებით ინფორმაცია</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>
     <entry lang="ka" key="IDC_MOUNTALL">ავტომიერთება</entry>
     <entry lang="ka" key="IDC_MOUNT_OPTIONS">ოფციები</entry>
@@ -243,7 +243,7 @@
     <entry lang="ka" key="IDM_REFRESH_DRIVE_LETTERS">დისკების ასოების განახლება</entry>
     <entry lang="ka" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">ტომიდან ყველა გასაღების ფაილების წაშლა</entry>
     <entry lang="ka" key="IDM_RESTORE_VOL_HEADER">ტომის სათაურის აღდგენა</entry>
-    <entry lang="en" key="IDM_RESUME_INTERRUPTED_PROC">Resume Interrupted Process</entry>
+    <entry lang="ka" key="IDM_RESUME_INTERRUPTED_PROC">შეწყვეტილი პროცესის გაგრძელება</entry>
     <entry lang="ka" key="IDM_SELECT_DEVICE">მოწყობილობის არჩევა</entry>
     <entry lang="ka" key="IDM_SELECT_FILE">ფაილის არჩევა</entry>
     <entry lang="ka" key="IDM_SYSENC_RESUME">შეწყვეტილი პროცესის გაგრძელება</entry>
@@ -483,7 +483,7 @@
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION">Depending on your choice above, VeraCrypt will choose a suitable default file system for the VeraCrypt volume (you will be able to select a file system in the next step).</entry>
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">As you are creating an outer volume, you should consider choosing 'No'. If you choose 'Yes', the default filesystem will be NTFS, which is not as suitable for outer volumes as FAT (for example, the maximum possible size of the hidden volume will be significantly greater if the outer volume is formatted as FAT). Normally, FAT is the default for both hidden and normal volumes (so FAT volumes are not suspicious). However, if the user indicates intent to store files larger than 4 GB (which the FAT file system does not allow), then FAT is not the default.</entry>
     <entry lang="en" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">Are you sure you want to choose 'Yes'?</entry>
-    <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">Volume Creation Mode</entry>
+    <entry lang="ka" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">ტომის შექმნის რეჟიმი</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">This is the fastest way to create a partition-hosted or device-hosted VeraCrypt volume (in-place encryption, which is the other option, is slower because content of each sector has to be first read, encrypted, and then written). Any data currently stored on the selected partition/device will be lost (the data will NOT be encrypted; it will be overwritten with random data). If you want to encrypt existing data on a partition, choose the other option.</entry>
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">The entire selected partition and all data stored on it will be encrypted in place. If the partition is empty, you should choose the other option (the volume will be created much faster).</entry>
     <entry lang="en" key="NOTE_BEGINNING">Note: </entry>
@@ -745,8 +745,8 @@
     <entry lang="en" key="HIDDEN_VOL_HOST_SPARSE">Hidden volumes must not be created within dynamic (sparse file) containers. To achieve plausible deniability, the hidden volume needs to be created within a non-dynamic container.</entry>
     <entry lang="ka" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS">VeraCrypt-ის ტომების შექმნის ოსტატს ფარული ტომის შექმნა შეუძლია მხოლოდ FAT ან NTFS ტომში.</entry>
     <entry lang="ka" key="HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS_WIN2000">Windows 2000-ში, VeraCrypt-ის ტომების შექმნის ოსტატს ფარული ტომის შექმნა შეუძლია მხოლოდ FAT ტომში.</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT).</entry>
-    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS">Note: The FAT/exFAT file system is more suitable for outer volumes than the NTFS file system (for example, the maximum possible size of the hidden volume would very likely have been significantly greater if the outer volume had been formatted as FAT/exFAT).</entry>
+    <entry lang="en" key="HIDDEN_VOL_HOST_NTFS_ASK">Note that the FAT/exFAT file system is more suitable for outer volumes than the NTFS file system. For example, the maximum possible size of the hidden volume will very likely be significantly greater if the outer volume is formatted as FAT/exFAT (the reason is that the NTFS file system always stores internal data exactly in the middle of the volume and, therefore, the hidden volume can reside only in the second half of the outer volume).\n\nAre you sure you want to format the outer volume as NTFS?</entry>
     <entry lang="en" key="OFFER_FAT_FORMAT_ALTERNATIVE">Do you want to format the volume as FAT instead?</entry>
     <entry lang="en" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">Note: This volume cannot be formatted as FAT, because it exceeds the maximum volume size supported by the FAT32 filesystem for the applicable sector size (2 TB for 512-byte sectors and 16 TB for 4096-byte sectors).</entry>
     <entry lang="en" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">Error: The partition for the hidden operating system (i.e. the first partition behind the system partition) must be at least 5% larger than the system partition (the system partition is the one where the currently running operating system is installed).</entry>
@@ -847,7 +847,7 @@
     <entry lang="ka" key="AFTER_INSTALL_TUTORIAL">თუ VeraCrypt-თან არასდროს გიმუშავიათ, რეკომენდებულია გაეცნოთ დამწყებთა განაყოფს VeraCrypt-ის მომხმარებლის სახელმძღვანელოში გსურთ დოკუმენტაციის წაკითხვა?</entry>
     <entry lang="ka" key="SELECT_AN_ACTION">გთხოვთ აირჩიოთ შემდეგი მოქმედებებიდან:</entry>
     <entry lang="ka" key="REPAIR_REINSTALL">აღდგენა/რეინსტალაცია</entry>
-    <entry lang="en" key="UPGRADE">Upgrade</entry>
+    <entry lang="ka" key="UPGRADE">განახლება</entry>
     <entry lang="ka" key="UNINSTALL">დეინსტალაცია</entry>
     <entry lang="en" key="SETUP_ADMIN">To successfully install/uninstall VeraCrypt, you must have administrator privileges. Do you want to continue?</entry>
     <entry lang="en" key="TC_INSTALLER_IS_RUNNING">VeraCrypt Installer is currently running on this system and performing or preparing installation or update of VeraCrypt. Before you proceed, please wait for it to finish or close it. If you cannot close it, please restart your computer before proceeding.</entry>
@@ -919,7 +919,7 @@
     <entry lang="en" key="PROGRESS_STATUS_FINALIZING">Finalizing</entry>
     <entry lang="ka" key="PROGRESS_STATUS_PAUSED">პაუზა</entry>
     <entry lang="ka" key="PROGRESS_STATUS_FINISHED">დასრულებულია</entry>
-    <entry lang="en" key="PROGRESS_STATUS_ERROR">Error</entry>
+    <entry lang="ka" key="PROGRESS_STATUS_ERROR">შეცდომა</entry>
     <entry lang="en" key="FAVORITE_DISCONNECTED_DEV">Device disconnected</entry>
     <entry lang="en" key="SYS_FAVORITE_VOLUMES_SAVED">System favorite volumes saved.\n\nTo enable mounting of system favorite volumes when the system starts, please select 'Settings' &gt; 'System Favorite Volumes' &gt; 'Mount system favorite volumes when Windows starts'.</entry>
     <entry lang="en" key="FAVORITE_ADD_DRIVE_DEV_WARNING">The volume you are adding to favorites is neither a partition nor a dynamic volume. Therefore, VeraCrypt will be unable to mount this favorite volume if the device number changes.</entry>
@@ -1415,7 +1415,7 @@
     <entry lang="en" key="EFI_PLATFORM_INFORMATION">EFI Platform Information</entry>
     <entry lang="en" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</entry>
     <entry lang="en" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</entry>
-    <entry lang="en" key="IDT_ADVANCED_OPTIONS">Advanced Options</entry>
+    <entry lang="ka" key="IDT_ADVANCED_OPTIONS">დამატებითი პარამეტრები</entry>
     <entry lang="en" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' > 'Create Rescue Disk'.\nDo you want to do it now?</entry>
     <entry lang="en" key="IDC_ALLOW_TRIM_NONSYS_SSD">Allow TRIM command for non-system SSD partition/drive</entry>
     <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
