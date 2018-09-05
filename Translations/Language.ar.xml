@@ -1420,7 +1420,7 @@
     <entry lang="ar" key="IDC_ALLOW_TRIM_NONSYS_SSD">اسمح بأمرTRIM للأقسام/المحارف غير النظامية لأقراص SDD</entry>
     <entry lang="ar" key="IDC_BLOCK_SYSENC_TRIM">امنع أمر TRIM للقسم/المحارف النظامي</entry>
     <entry lang="ar" key="WINDOWS_EFI_BOOT_LOADER_MISSING">خطأ: لم يمكن إيجاد مُقلع EFI لنظام ويندوز على القرص. سيتم إنهاء العملية.</entry>
-    <entry lang="ar" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">لا يمكن حاليا تشفير النظام إذا كان الإقلاع الآمن SecureBoot مقعلا وكذلك إذا لم يتم تحميل مفاتيح فيراكريبت المخصصة في البرنامج الثابت للجهاز. الإقلاع الآمن ينبغي تعطيله في إعدادات بايوس لتستطيع إستكمال عملية تشفير النظام.</entry>
+    <entry lang="ar" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">لا يمكن حاليا تشفير النظام إذا كان الإقلاع الآمن SecureBoot مفعلا وكذلك إذا لم يتم تحميل مفاتيح فيراكريبت المخصصة في البرنامج الثابت للجهاز. الإقلاع الآمن ينبغي تعطيله في إعدادات بايوس لتستطيع إستكمال عملية تشفير النظام.</entry>
     <entry lang="ar" key="PASSWORD_PASTED_TRUNCATED">النص الملصق سوف يتم اجتزاؤه لأن الحد الأقصى لطول كلمة السر هو 64 خانة.</entry>
     <entry lang="ar" key="PASSWORD_MAXLENGTH_REACHED">لقد وصلت كلمة السر إلى أقصى طول الذي هو 64 خانة. لا يمكن إضافة أي خانة.</entry>
     <entry lang="ar" key="IDC_SELECT_LANGUAGE_LABEL">اختر اللغة التي ستستخدم أثناء التثبيت :</entry>

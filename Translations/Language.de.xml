@@ -1424,8 +1424,8 @@
     <entry lang="de" key="IDC_BLOCK_SYSENC_TRIM">TRIM-Befehl auf Systempartition/Laufwerk blockieren</entry>
     <entry lang="de" key="WINDOWS_EFI_BOOT_LOADER_MISSING">FEHLER: Windows-EFI-Systemlader konnte nicht auf der Festplatte gefunden werden. Operation wird abgebrochen.</entry>
     <entry lang="de" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Es ist derzeit nicht möglich, ein System zu verschlüsseln, wenn SecureBoot aktiviert ist und keine benutzerdefinierten Schlüssel von VeraCrypt in die Maschinen-Firmware geladen sind. SecureBoot muss in der BIOS-Konfiguration deaktiviert werden, damit die Systemverschlüsselung fortgesetzt werden kann.</entry>
-    <entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 64 characters</entry>
-    <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
+    <entry lang="de" key="PASSWORD_PASTED_TRUNCATED">Eingefügter Text wurde abgeschnitten, da die maximale Länge des Passworts 64 Zeichen beträgt</entry>
+    <entry lang="de" key="PASSWORD_MAXLENGTH_REACHED">Passwort hat bereits seine maximale Länge von 64 Zeichen erreicht.\nEs ist kein zusätzliches Zeichen erlaubt.</entry>
     <entry lang="de" key="IDC_SELECT_LANGUAGE_LABEL">Wählen Sie die Sprache aus, die während der Installation benutzt werden soll:</entry>
     <entry lang="de" key="VOLUME_TOO_LARGE_FOR_HOST">FEHLER: Der Datei-Container ist größer als der verfügbare freie Speicherplatz auf der Festplatte.</entry>
     <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows-Festplattendefragmentierung die Defragmentierung von Nicht-Systempartitionen/-laufwerken erlauben</entry>    
