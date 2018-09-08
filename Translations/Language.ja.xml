@@ -292,7 +292,7 @@
     <entry lang="ja" key="IDT_PARALLELIZATION_OPTIONS">マルチスレッドによる並列処理設定</entry>
     <entry lang="ja" key="IDT_PKCS11_LIB_PATH">PKCS#11ライブラリの場所</entry>
     <entry lang="ja" key="IDT_PKCS5_PRF">導出アルゴリズム：</entry>
-    <entry lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
+    <entry lang="ja" key="IDT_NEW_PKCS5_PRF">導出アルゴリズム：</entry>
     <entry lang="ja" key="IDT_PW_CACHE_OPTIONS">パスワードの記憶</entry>
     <entry lang="ja" key="IDT_SECURITY_OPTIONS">セキュリティオプション</entry>
     <entry lang="ja" key="IDT_TASKBAR_ICON">VeraCryptの常駐</entry>
