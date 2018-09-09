@@ -44,11 +44,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt Portable"
-            VALUE "FileVersion", "1.23-BETA8"
+            VALUE "FileVersion", "1.23"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt Portable.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.23-BETA8"
+            VALUE "ProductVersion", "1.23"
         END
     END
     BLOCK "VarFileInfo"
