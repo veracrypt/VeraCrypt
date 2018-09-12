@@ -77,23 +77,30 @@ If you do not see the above sentence, the file is very likely corrupted. Note: O
 <h3 id="VerifyPGPSignature">How to Verify PGP Signatures</h3>
 <p>To verify a PGP signature, follow these steps:</p>
 <ol>
-<li>Install any public-key encryption software that supports PGP signatures. For Windows, you can download
-<a href="http://www.gpg4win.org/" target="_blank">Gpg4win</a>. For more information, you can visit
-<a href="https://www.gnupg.org/">https://www.gnupg.org/</a>. </li><li>Create a private key (for information on how to do so, please see the documentation for the public-key encryption software).
-</li><li>Download our PGP public key from <strong>IDRIX</strong> website (<a href="https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc" target="_blank">https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc</a>) or from a trusted public key repository
- (ID=0x54DDD393), and import the downloaded key to your keyring (for information on how to do so, please see the documentation for the public-key encryption software). Please check that its fingerprint is
-<strong>993B7D7E8E413809828F0F29EB559C7C54DDD393</strong>. </li><li>Sign the imported key with your private key to mark it as trusted (for information on how to do so, please see the documentation for the public-key encryption software).<br>
+<li>Install any public-key encryption software that supports PGP signatures. For Windows, you can download <a href="http://www.gpg4win.org/" target="_blank">Gpg4win</a>. For more information, you can visit <a href="https://www.gnupg.org/">https://www.gnupg.org/</a>. </li>
+<li>Create a private key (for information on how to do so, please see the documentation for the public-key encryption software).</li>
+<li>Download our PGP public key from <strong>IDRIX</strong> website (<a href="https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc" target="_blank">https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc</a>) or from a trusted public key repository
+ (ID=0x680D16DE), and import the downloaded key to your keyring (for information on how to do so, please see the documentation for the public-key encryption software). Please check that its fingerprint is
+<strong>5069A233D55A0EEB174A5FC3821ACD02680D16DE</strong>.
+<ul>
+<li>For VeraCrypt version 1.22 and below, the verification must use the PGP public key available at <a href="https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key_2014.asc" target="_blank">https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key_2014.asc</a> or from a trusted public key repository
+ (ID=0x54DDD393), whose fingerprint is <strong>993B7D7E8E413809828F0F29EB559C7C54DDD393</strong>.
+</li>
+</ul>
+</li>
+<li>Sign the imported key with your private key to mark it as trusted (for information on how to do so, please see the documentation for the public-key encryption software).<br>
 <br>
 Note: If you skip this step and attempt to verify any of our PGP signatures, you will receive an error message stating that the signing key is invalid.
-</li><li>Download the digital signature by downloading the <em>PGP Signature</em> of the file you want to verify (on the
-<a href="Downloads.html">Downloads page</a>).
-</li><li>Verify the downloaded signature (for information on how to do so, please see the documentation for the public-key encryption software).
-</li></ol>
+</li>
+<li>Download the digital signature by downloading the <em>PGP Signature</em> of the file you want to verify (on the <a href="Downloads.html">Downloads page</a>).
+</li>
+<li>Verify the downloaded signature (for information on how to do so, please see the documentation for the public-key encryption software).</li>
+</ol>
 <p>Under Linux, these steps can be achieved using the following commands:</p>
 <ul>
-<li>Check that the fingerprint of the public key is <strong>993B7D7E8E413809828F0F29EB559C7C54DDD393</strong>:
+<li>Check that the fingerprint of the public key is <strong>5069A233D55A0EEB174A5FC3821ACD02680D16DE</strong>:
 <strong>gpg --with-fingerprint VeraCrypt_PGP_public_key.asc</strong> </li><li>If the fingerprint is the expected one, import the public key: <strong>gpg --import VeraCrypt_PGP_public_key.asc</strong>
-</li><li>Verify the signature of the Linux setup archive (here for version 1.0e): <strong>
-gpg --verify veracrypt-1.0e-setup.tar.bz2.sig veracrypt-1.0e-setup.tar.bz2</strong>
+</li><li>Verify the signature of the Linux setup archive (here for version 1.23): <strong>
+gpg --verify veracrypt-1.23-setup.tar.bz2.sig veracrypt-1.23-setup.tar.bz2</strong>
 </li></ul>
 </div><div class="ClearBoth"></div></body></html>
