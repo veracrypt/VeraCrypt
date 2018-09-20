@@ -289,6 +289,23 @@ BOOL IsAllZeroes (unsigned char* pbData, DWORD dwDataLen)
 	return TRUE;
 }
 
+static BOOL StringNoCaseCompare (const wchar_t* str1, const wchar_t* str2, size_t len)
+{
+	if (str1 && str2)
+	{
+		while (len)
+		{
+			if (RtlUpcaseUnicodeChar (*str1) != RtlUpcaseUnicodeChar (*str2))
+				return FALSE;
+			str1++;
+			str2++;
+			len--;
+		}
+	}
+
+	return TRUE;
+}
+
 BOOL ValidateIOBufferSize (PIRP irp, size_t requiredBufferSize, ValidateIOBufferSizeType type)
 {
 	PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (irp);
@@ -1745,9 +1762,22 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			IO_STATUS_BLOCK IoStatus;
 			LARGE_INTEGER offset;
 			ACCESS_MASK access = FILE_READ_ATTRIBUTES;
+			size_t devicePathLen = 0;
 
 			if (!ValidateIOBufferSize (Irp, sizeof (OPEN_TEST_STRUCT), ValidateInputOutput))
 				break;
+
+			// check that opentest->wszFileName is a device path that starts with "\\Device\\Harddisk"
+			if (	!NT_SUCCESS (RtlUnalignedStringCchLengthW (opentest->wszFileName, TC_MAX_PATH, &devicePathLen))
+				||	(devicePathLen < 16) // 16 is the length of "\\Device\\Harddisk" which is the minimum
+				||	(!StringNoCaseCompare (opentest->wszFileName, L"\\Device\\Harddisk", 16))
+				)
+			{
+				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+				Irp->IoStatus.Information = 0;
+				break;
+			}
+
 
 			EnsureNullTerminatedString (opentest->wszFileName, sizeof (opentest->wszFileName));
 			RtlInitUnicodeString (&FullFileName, opentest->wszFileName);
@@ -1866,7 +1896,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 								&offset,
 								NULL);
 
-								if (NT_SUCCESS (ntStatus))
+								if (NT_SUCCESS (ntStatus) && (IoStatus.Information >= TC_VOLUME_HEADER_EFFECTIVE_SIZE))
 								{
 									/* compute the ID of this volume: SHA-256 of the effective header */
 									sha256 (opentest->volumeIDs[volumeType], readBuffer, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
