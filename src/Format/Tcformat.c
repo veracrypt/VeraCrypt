@@ -178,6 +178,7 @@ int SysEncDetectHiddenSectors = -1;		/* Whether the user wants us to detect and 
 int SysEncDriveAnalysisStart;
 BOOL bDontVerifyRescueDisk = FALSE;
 BOOL bFirstSysEncResumeDone = FALSE;
+BOOL bDontCheckFileContainerSize = FALSE; /* If true, we don't check if the given size of file container is smaller than the available size on the hosting disk */
 int nMultiBoot = 0;			/* The number of operating systems installed on the computer, according to the user. 0: undetermined, 1: one, 2: two or more */
 volatile BOOL bHiddenVol = FALSE;	/* If true, we are (or will be) creating a hidden volume. */
 volatile BOOL bHiddenVolHost = FALSE;	/* If true, we are (or will be) creating the host volume (called "outer") for a hidden volume. */
@@ -1541,7 +1542,7 @@ static void VerifySizeAndUpdate (HWND hwndDlg, BOOL bUpdate)
 		{
 			if (lTmp * i > (bHiddenVolHost ? TC_MAX_HIDDEN_VOLUME_HOST_SIZE : TC_MAX_VOLUME_SIZE))
 				bEnable = FALSE;
-			else if (!bDevice && (lTmp * i > nAvailableFreeSpace) && (!bIsSparseFilesSupportedByHost || bHiddenVolHost))
+			else if (!bDevice && (lTmp * i > nAvailableFreeSpace) && !bDontCheckFileContainerSize && (!bIsSparseFilesSupportedByHost || bHiddenVolHost))
 			{
 				// we check container size against available free space only when creating dynamic volume is not possible
 				// which is the case if filesystem doesn't allow sparce file or if we are creating outer volume of a hidden volume
@@ -8945,6 +8946,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionSilent,
 				OptionDynamic,
 				OptionForce,
+				OptionNoSizeCheck,
 			};
 
 			argument args[]=
@@ -8965,6 +8967,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionSilent,				L"/silent",			NULL, FALSE },
 				{ OptionDynamic,				L"/dynamic",			NULL, FALSE },
 				{ OptionForce,					L"/force",			NULL, FALSE },
+				{ OptionNoSizeCheck,			L"/nosizecheck",	NULL, FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9311,6 +9314,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionNoIsoCheck:
 				bDontVerifyRescueDisk = TRUE;
+				break;
+
+			case OptionNoSizeCheck:
+				bDontCheckFileContainerSize = TRUE;
 				break;
 
 			case OptionHistory:
