@@ -249,6 +249,7 @@ int CmdVolumePim = 0;
 int CmdVolumeFilesystem = FILESYS_NONE;
 unsigned __int64 CmdVolumeFileSize = 0;
 BOOL CmdSparseFileSwitch = FALSE;
+BOOL CmdQuickFormat = FALSE;
 
 BOOL bForceOperation = FALSE;
 
@@ -6192,7 +6193,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 				}
 
-				quickFormat = TRUE;
+				quickFormat = CmdQuickFormat;
 
 				if (!GetDiskFreeSpaceEx (root, &free, 0, 0))
 				{
@@ -8947,6 +8948,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionDynamic,
 				OptionForce,
 				OptionNoSizeCheck,
+				OptionQuickFormat,
 			};
 
 			argument args[]=
@@ -8968,6 +8970,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionDynamic,				L"/dynamic",			NULL, FALSE },
 				{ OptionForce,					L"/force",			NULL, FALSE },
 				{ OptionNoSizeCheck,			L"/nosizecheck",	NULL, FALSE },
+				{ OptionQuickFormat,			L"/quick",	NULL, FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9318,6 +9321,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionNoSizeCheck:
 				bDontCheckFileContainerSize = TRUE;
+				break;
+
+			case OptionQuickFormat:
+				CmdQuickFormat = TRUE;
 				break;
 
 			case OptionHistory:
