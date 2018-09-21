@@ -35,6 +35,19 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
+<p><strong style="text-align:left">1.23-Hotfix-1 </strong>(September 20<sup>th</sup>, 2018):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Fix low severity vulnerability inherited from TrueCrypt that allowed reading 3 bytes of kernel stack memory (with a rare possibility of 25 additional bytes). Reported by Tim Harrison.
+</li>
+<li>Disable quick format when creating file containers from command line. Add /quick switch to enable it in this case if needed.</li>
+<li>Add /nosizecheck switch to disable checking container size against available free space during its creation. This enables to workaround a <a href="https://support.microsoft.com/en-us/help/177127/incorrect-disk-free-space-information-for-a-dfs-client-share">bug in Microsoft Distributed File System (DFS)</a>
+</li>
+</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.23 </strong>(September 12<sup>th</sup>, 2018):</p>
 <ul>
 <li><strong>Windows:</strong>
