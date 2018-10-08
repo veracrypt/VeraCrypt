@@ -1526,6 +1526,7 @@ namespace VeraCrypt
 	bool BootEncryption::SystemDriveIsDynamic ()
 	{
 		GetSystemDriveConfigurationRequest request;
+		memset (&request, 0, sizeof (request));
 		StringCchCopyW (request.DevicePath, ARRAYSIZE (request.DevicePath), GetSystemDriveConfiguration().DeviceKernelPath.c_str());
 
 		CallDriver (TC_IOCTL_GET_SYSTEM_DRIVE_CONFIG, &request, sizeof (request), &request, sizeof (request));
@@ -1898,6 +1899,7 @@ namespace VeraCrypt
 					throw ParameterIncorrect (SRC_POS);
 
 				GetSystemDriveConfigurationRequest request;
+				memset (&request, 0, sizeof (request));
 				StringCchCopyW (request.DevicePath, ARRAYSIZE (request.DevicePath), GetSystemDriveConfiguration().DeviceKernelPath.c_str());
 
 				CallDriver (TC_IOCTL_GET_SYSTEM_DRIVE_CONFIG, &request, sizeof (request), &request, sizeof (request));
