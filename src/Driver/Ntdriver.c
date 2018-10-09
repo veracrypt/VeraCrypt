@@ -289,19 +289,50 @@ BOOL IsAllZeroes (unsigned char* pbData, DWORD dwDataLen)
 	return TRUE;
 }
 
+static wchar_t UpperCaseUnicodeChar (wchar_t c)
+{
+	if (c >= L'a' && c <= L'z')
+		return (c - L'a') + L'A';
+	return c;
+}
+
 static BOOL StringNoCaseCompare (const wchar_t* str1, const wchar_t* str2, size_t len)
 {
 	if (str1 && str2)
 	{
 		while (len)
 		{
-			if (RtlUpcaseUnicodeChar (*str1) != RtlUpcaseUnicodeChar (*str2))
+			if (UpperCaseUnicodeChar (*str1) != UpperCaseUnicodeChar (*str2))
 				return FALSE;
 			str1++;
 			str2++;
 			len--;
 		}
 	}
+
+	return TRUE;
+}
+
+static BOOL CheckStringLength (const wchar_t* str, size_t cchSize, size_t minLength, size_t maxLength, size_t* pcchLength)
+{
+	size_t actualLength;
+	for (actualLength = 0; actualLength < cchSize; actualLength++)
+	{
+		if (str[actualLength] == 0)
+			break;
+	}
+
+	if (pcchLength)
+		*pcchLength = actualLength;
+
+	if (actualLength == cchSize)
+		return FALSE;
+
+	if ((minLength != ((size_t) -1)) && (actualLength < minLength))
+		return FALSE;
+
+	if ((maxLength != ((size_t) -1)) && (actualLength > maxLength))
+		return FALSE;
 
 	return TRUE;
 }
@@ -1762,14 +1793,13 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			IO_STATUS_BLOCK IoStatus;
 			LARGE_INTEGER offset;
 			ACCESS_MASK access = FILE_READ_ATTRIBUTES;
-			size_t devicePathLen = 0;
 
 			if (!ValidateIOBufferSize (Irp, sizeof (OPEN_TEST_STRUCT), ValidateInputOutput))
 				break;
 
 			// check that opentest->wszFileName is a device path that starts with "\\Device\\Harddisk"
-			if (	!NT_SUCCESS (RtlUnalignedStringCchLengthW (opentest->wszFileName, TC_MAX_PATH, &devicePathLen))
-				||	(devicePathLen < 16) // 16 is the length of "\\Device\\Harddisk" which is the minimum
+			// 16 is the length of "\\Device\\Harddisk" which is the mi
+			if (	!CheckStringLength (opentest->wszFileName, TC_MAX_PATH, 16, (size_t) -1, NULL)
 				||	(!StringNoCaseCompare (opentest->wszFileName, L"\\Device\\Harddisk", 16))
 				)
 			{
@@ -1933,16 +1963,18 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			IO_STATUS_BLOCK IoStatus;
 			LARGE_INTEGER offset;
 			size_t devicePathLen = 0;
+			WCHAR* wszPath = NULL;
 
 			if (!ValidateIOBufferSize (Irp, sizeof (GetSystemDriveConfigurationRequest), ValidateInputOutput))
 				break;
 
 			// check that request->DevicePath has the expected format "\\Device\\HarddiskXXX\\Partition0"
-			if (	!NT_SUCCESS (RtlUnalignedStringCchLengthW (request->DevicePath, TC_MAX_PATH, &devicePathLen))
-				||	(devicePathLen < 28) // 28 is the length of "\\Device\\Harddisk0\\Partition0" which is the minimum
-				||	(devicePathLen > 30) // 30 is the length of "\\Device\\Harddisk255\\Partition0" which is the maximum
-				||	(memcmp (request->DevicePath, L"\\Device\\Harddisk", 16 * sizeof (WCHAR)))
-				||	(memcmp (&request->DevicePath[devicePathLen - 11], L"\\Partition0", 11 * sizeof (WCHAR)))
+			// 28 is the length of "\\Device\\Harddisk0\\Partition0" which is the minimum
+			// 30 is the length of "\\Device\\Harddisk255\\Partition0" which is the maximum
+			wszPath = request->DevicePath;
+			if (	!CheckStringLength (wszPath, TC_MAX_PATH, 28, 30, &devicePathLen)
+				||	(memcmp (wszPath, L"\\Device\\Harddisk", 16 * sizeof (WCHAR)))
+				||	(memcmp (wszPath + (devicePathLen - 11), L"\\Partition0", 11 * sizeof (WCHAR)))
 				)
 			{
 				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
