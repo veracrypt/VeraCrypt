@@ -1709,11 +1709,6 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, wchar_t *szDestDir)
 	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 
-	StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\Uninstall VeraCrypt.lnk");
-	RemoveMessage (hwndDlg, szTmp2);
-	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
-		goto error;
-
 	StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt User's Guide.lnk");
 	StatDeleteFile (szTmp2, FALSE);
 
@@ -1821,19 +1816,6 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 			fclose (f);
 		}
 		else
-			goto error;
-
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"VeraCrypt Setup.exe");
-		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\Uninstall VeraCrypt.lnk");
-		if (GetSystemDirectory (szTmp3, ARRAYSIZE(szTmp3)))
-		{
-			StringCbCatW (szTmp3, sizeof(szTmp3), L"\\control.exe");
-		}
-		else
-			StringCbCopyW(szTmp3, sizeof(szTmp3), L"C:\\Windows\\System32\\control.exe");
-
-		IconMessage (hwndDlg, szTmp2);
-		if (CreateLink (szTmp3, L"appwiz.cpl", szTmp2, szTmp, 0) != S_OK)
 			goto error;
 
 		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt User's Guide.lnk");
