@@ -43,23 +43,24 @@ main:
 	call print
 skip_loader_name_msg:
 
-	; Determine boot loader segment
-	mov ax, TC_BOOT_LOADER_SEGMENT
+    ; Determine boot loader segment
+    mov ax, word ptr [ds:413h]      ;available kB from BIOS
+    sub ax, TC_BOOT_MEMORY_REQUIRED ;minus TC_BOOT_MEMORY_REQUIRED
+    jc mem_toolow
+    and ax, 0FFE0h                  ;32K align
+    shl ax, 6                       ;convert kB to segment addr (*1024/16)
+    cmp ax, 8000h
+    jb mem_toolow                   ;we can't load below 8000h
+    cmp ax, TC_BOOT_LOADER_SEGMENT
+    jbe memory_ok                   ;don't load above TC_BOOT_LOADER_SEGMENT (9000h)
+    mov ax, TC_BOOT_LOADER_SEGMENT
+    jmp memory_ok
 
-	; Check available memory
-	cmp word ptr [ds:413h], TC_BOOT_LOADER_SEGMENT / 1024 * 16 + TC_BOOT_MEMORY_REQUIRED
-	jge memory_ok
-
-	mov ax, TC_BOOT_LOADER_SEGMENT_LOW
-
-	cmp word ptr [ds:413h], TC_BOOT_LOADER_SEGMENT_LOW / 1024 * 16 + TC_BOOT_MEMORY_REQUIRED
-	jge memory_ok
-
-	; Insufficient memory
-	mov ax, TC_BOOT_LOADER_LOWMEM_SEGMENT
+mem_toolow:
+    mov ax, TC_BOOT_LOADER_LOWMEM_SEGMENT
 
 memory_ok:
-	mov es, ax
+    mov es, ax
 
 	; Clear BSS section
 	xor al, al
