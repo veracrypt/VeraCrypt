@@ -185,7 +185,7 @@
     <entry lang="fr" key="IDC_VOLUME_PROPERTIES">&amp;Propriétés du volume</entry>
     <entry lang="fr" key="IDC_VOLUME_TOOLS">&amp;Outils pour le volume</entry>
     <entry lang="fr" key="IDC_WIPE_CACHE">&amp;Vider le cache</entry>
-    <entry lang="fr" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Paramèters montage</entry>
+    <entry lang="fr" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - Paramètres montage</entry>
     <entry lang="fr" key="IDD_FAVORITE_VOLUMES">VeraCrypt - Volumes favoris</entry>
     <entry lang="fr" key="IDD_HOTKEYS_DLG">VeraCrypt - Raccourcis système</entry>
     <entry lang="fr" key="IDD_MOUNT_DLG">VeraCrypt</entry>
