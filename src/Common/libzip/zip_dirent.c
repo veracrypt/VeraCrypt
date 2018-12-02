@@ -536,7 +536,7 @@ _zip_dirent_read(zip_dirent_t *zde, zip_source_t *src, zip_buffer_t *buffer, boo
 	    if (zde->offset == ZIP_UINT32_MAX)
 		zde->offset = _zip_buffer_get_64(ef_buffer);
 	    if (zde->disk_number == ZIP_UINT16_MAX)
-		zde->disk_number = _zip_buffer_get_32(buffer);
+		zde->disk_number = _zip_buffer_get_32(ef_buffer);
 	}
 
 	if (!_zip_buffer_eof(ef_buffer)) {

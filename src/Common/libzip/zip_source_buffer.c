@@ -562,7 +562,7 @@ buffer_write(buffer_t *buffer, const zip_uint8_t *data, zip_uint64_t length, zip
 
 	memcpy(buffer->fragments[i].data + fragment_offset, data + n, left);
 
-	if (n == buffer->fragments[i].length - fragment_offset) {
+	if (left == buffer->fragments[i].length - fragment_offset) {
 	    i++;
 	}
 	n += left;
