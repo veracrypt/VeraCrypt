@@ -1741,7 +1741,7 @@ error:
 BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL bDesktopIcon)
 {
 	wchar_t szLinkDir[TC_MAX_PATH], szDir[TC_MAX_PATH];
-	wchar_t szTmp[TC_MAX_PATH], szTmp2[TC_MAX_PATH], szTmp3[TC_MAX_PATH];
+	wchar_t szTmp[TC_MAX_PATH], szTmp2[TC_MAX_PATH];
 	BOOL bSlash, bOK = FALSE;
 	HRESULT hOle;
 	int x;
