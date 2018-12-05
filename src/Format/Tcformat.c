@@ -281,7 +281,8 @@ wchar_t outRandPoolDispBuffer [RANDPOOL_DISPLAY_SIZE];
 BOOL bDisplayPoolContents = TRUE;
 
 volatile BOOL bSparseFileSwitch = FALSE;
-volatile BOOL quickFormat = FALSE;	/* WARNING: Meaning of this variable depends on bSparseFileSwitch. If bSparseFileSwitch is TRUE, this variable represents the sparse file flag. */
+volatile BOOL quickFormat = FALSE;
+volatile BOOL dynamicFormat = FALSE; /* this variable represents the sparse file flag. */
 volatile int fileSystem = FILESYS_NONE;
 volatile int clusterSize = 0;
 
@@ -2632,7 +2633,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	volParams->headerFlags = (CreatingHiddenSysVol() ? TC_HEADER_FLAG_ENCRYPTED_SYSTEM : 0);
 	volParams->fileSystem = fileSystem;
 	volParams->clusterSize = clusterSize;
-	volParams->sparseFileSwitch = bSparseFileSwitch;
+	volParams->sparseFileSwitch = dynamicFormat;
 	volParams->quickFormat = quickFormat;
 	volParams->sectorSize = GetFormatSectorSize();
 	volParams->realClusterSize = &realClusterSize;
@@ -2821,7 +2822,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				{
 					Info("FORMAT_FINISHED_INFO", hwndDlg);
 
-					if (bSparseFileSwitch && quickFormat)
+					if (dynamicFormat)
 						Warning("SPARSE_FILE_SIZE_NOTE", hwndDlg);
 				}
 			}
@@ -4934,26 +4935,29 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bHiddenVol)
 				{
 					quickFormat = !bHiddenVolHost;
+					dynamicFormat = FALSE;
 					bSparseFileSwitch = FALSE;
 
+					SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
+					EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), FALSE);
+
 					SetCheckBox (hwndDlg, IDC_QUICKFORMAT, quickFormat);
-					SetWindowTextW (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), GetString ((bDevice || !bHiddenVolHost) ? "IDC_QUICKFORMAT" : "SPARSE_FILE"));
-					EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), bDevice && bHiddenVolHost);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), bHiddenVolHost);
 				}
 				else
 				{
 					if (bDevice)
 					{
+						dynamicFormat = FALSE;
 						bSparseFileSwitch = FALSE;
-						SetWindowTextW (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), GetString("IDC_QUICKFORMAT"));
+						SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
+						EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), FALSE);
 						EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), TRUE);
 					}
 					else
 					{
 						wchar_t root[TC_MAX_PATH];
 						DWORD fileSystemFlags = 0;
-
-						SetWindowTextW (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), GetString("SPARSE_FILE"));
 
 						/* Check if the host file system supports sparse files */
 
@@ -4964,8 +4968,13 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 						else
 							bSparseFileSwitch = FALSE;
-
-						EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), bSparseFileSwitch);
+						if (!bSparseFileSwitch)
+						{
+							dynamicFormat = FALSE;
+							SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
+						}
+						EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), bSparseFileSwitch);
+						EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), TRUE);
 					}
 				}
 
@@ -5866,6 +5875,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bHiddenVolHost = FALSE;
 				bSparseFileSwitch = FALSE;
 				quickFormat = FALSE;
+				dynamicFormat = FALSE;
 
 				return 1;
 			}
@@ -5904,17 +5914,29 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		}
 
-		if (lw == IDC_QUICKFORMAT && IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT)))
+		if (lw == IDC_QUICKFORMAT)
 		{
-			if (bSparseFileSwitch)
-			{
-				if (AskWarnYesNo("CONFIRM_SPARSE_FILE", MainDlg) == IDNO)
-					SetCheckBox (hwndDlg, IDC_QUICKFORMAT, FALSE);
-			}
-			else
+			if (IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT)))
 			{
 				if (AskWarnYesNo("WARN_QUICK_FORMAT", MainDlg) == IDNO)
 					SetCheckBox (hwndDlg, IDC_QUICKFORMAT, FALSE);
+			}
+			else if (IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE)))
+			{
+				/* sparse file require quick format */
+				SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
+			}
+			return 1;
+		}
+
+		if (lw == SPARSE_FILE && IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE)))
+		{
+			if (AskWarnYesNo("CONFIRM_SPARSE_FILE", MainDlg) == IDNO)
+				SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
+			else if (!IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT)) && IsWindowEnabled (GetDlgItem (hCurPage, IDC_QUICKFORMAT)))
+			{
+				/* sparse file require quick format */
+				SetCheckBox (hwndDlg, IDC_QUICKFORMAT, TRUE);
 			}
 			return 1;
 		}
@@ -6194,6 +6216,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				quickFormat = CmdQuickFormat;
+				dynamicFormat = CmdSparseFileSwitch;
 
 				if (!GetDiskFreeSpaceEx (root, &free, 0, 0))
 				{
@@ -6214,7 +6237,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else
 				{
-					if (!bSparseFileSwitch && (nVolumeSize > free.QuadPart))
+					if (!dynamicFormat && (nVolumeSize > free.QuadPart))
 					{
 						AbortProcess ("ERR_CONTAINER_SIZE_TOO_BIG");
 					}
@@ -6801,7 +6824,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			// Format has been aborted (did not finish)
 
-			EnableWindow (GetDlgItem (hCurPage, IDC_QUICKFORMAT), (bDevice || bSparseFileSwitch) && !(bHiddenVol && !bHiddenVolHost));
+			EnableWindow (GetDlgItem (hCurPage, IDC_QUICKFORMAT), !(bHiddenVol && !bHiddenVolHost));
+			EnableWindow (GetDlgItem (hCurPage, SPARSE_FILE), (bSparseFileSwitch) && !(bHiddenVol && !bHiddenVolHost));
 			EnableWindow (GetDlgItem (hCurPage, IDC_FILESYS), TRUE);
 			EnableWindow (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), TRUE);
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PREV), TRUE);
@@ -8354,8 +8378,9 @@ retryCDDriveCheck:
 					SendMessage (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), CB_GETCURSEL, 0, 0) , 0);
 
 				quickFormat = IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT));
+				dynamicFormat = IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE));
 
-				if (!quickFormat && !bDevice && !(bHiddenVol && !bHiddenVolHost) && (nVolumeSize > (ULONGLONG) nAvailableFreeSpace))
+				if (!dynamicFormat && !bDevice && !(bHiddenVol && !bHiddenVolHost) && (nVolumeSize > (ULONGLONG) nAvailableFreeSpace))
 				{
 					Error("VOLUME_TOO_LARGE_FOR_HOST", hwndDlg);
 					bVolTransformThreadToRun = FALSE;
@@ -8439,9 +8464,9 @@ retryCDDriveCheck:
 				}
 				else if (bHiddenVol)
 				{
-					// Hidden volume is always quick-formatted (if, however, the meaning of quickFormat is
-					// whether to create a sparse file, it must be set to FALSE).
-					quickFormat = !bSparseFileSwitch;
+					// Hidden volume is always quick-formatted.
+					quickFormat = TRUE;
+					dynamicFormat = FALSE;
 				}
 
 
@@ -8458,6 +8483,7 @@ retryCDDriveCheck:
 				EnableWindow (GetDlgItem (hwndDlg, IDHELP), FALSE);
 				EnableWindow (GetDlgItem (hwndDlg, IDCANCEL), FALSE);
 				EnableWindow (GetDlgItem (hCurPage, IDC_QUICKFORMAT), FALSE);
+				EnableWindow (GetDlgItem (hCurPage, SPARSE_FILE), FALSE);
 				EnableWindow (GetDlgItem (hCurPage, IDC_CLUSTERSIZE), FALSE);
 				EnableWindow (GetDlgItem (hCurPage, IDC_FILESYS), FALSE);
 				EnableWindow (GetDlgItem (hCurPage, IDC_ABORT_BUTTON), TRUE);
