@@ -224,6 +224,11 @@ ifeq "$(shell uname -s)" "Linux"
 		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif
 
+	ifneq "$(shell pkg-config libbsd --libs)" ""
+		C_CXX_FLAGS += -DTC_LINUX_WITHBSD
+		LFLAGS += -lbsd
+	endif
+
 endif
 
 #------ Mac OS X configuration ------

@@ -16,6 +16,12 @@
 #include <fcntl.h>
 #endif
 
+#if defined(TC_LINUX_WITHBSD)
+#include <bsd/stdlib.h>
+#elif defined(TC_FREEBSD)
+#include <stdlib.h>
+#endif
+
 #include "RandomNumberGenerator.h"
 #include "Volume/Crc32.h"
 
@@ -29,6 +35,9 @@ namespace VeraCrypt
 #ifndef DEBUG
 		throw NotImplemented (SRC_POS);
 #endif
+#else
+#if defined(TC_FREEBSD) || defined(TC_LINUX_WITHBSD)
+		arc4random_buf(buffer, buffer.Size());
 #else
 		int urandom = open ("/dev/urandom", O_RDONLY);
 		throw_sys_sub_if (urandom == -1, L"/dev/urandom");
@@ -47,6 +56,7 @@ namespace VeraCrypt
 			throw_sys_sub_if (read (random, buffer, buffer.Size()) == -1 && errno != EAGAIN, L"/dev/random");
 			AddToPool (buffer);
 		}
+#endif
 #endif
 	}
 
