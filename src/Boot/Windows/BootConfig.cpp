@@ -85,14 +85,29 @@ ret:
 
 BiosResult UpdateBootSectorConfiguration (byte drive)
 {
-	AcquireSectorBuffer();
+	uint64 mbrSector;
+	mbrSector.HighPart = 0;
+	mbrSector.LowPart = 0;
 
+	AcquireSectorBuffer();
+/*
 	BiosResult result = ReadWriteMBR (false, drive);
 	if (result != BiosResultSuccess)
 		goto ret;
 
 	SectorBuffer[TC_BOOT_SECTOR_CONFIG_OFFSET] = BootSectorFlags;
 	result = ReadWriteMBR (true, drive);
+*/
+
+	BiosResult result = ReadWriteSectors (false, TC_BOOT_LOADER_BUFFER_SEGMENT, 0, drive, mbrSector, 8, false);
+	if (result != BiosResultSuccess)
+		goto ret;
+
+	CopyMemory (TC_BOOT_LOADER_BUFFER_SEGMENT, 0, SectorBuffer, TC_LB_SIZE);
+	SectorBuffer[TC_BOOT_SECTOR_CONFIG_OFFSET] = BootSectorFlags;
+	CopyMemory (SectorBuffer, TC_BOOT_LOADER_BUFFER_SEGMENT,0, TC_LB_SIZE);
+
+	result = ReadWriteSectors (true, TC_BOOT_LOADER_BUFFER_SEGMENT, 0, drive, mbrSector, 8, false);
 
 ret:
 	ReleaseSectorBuffer();
