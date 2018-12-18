@@ -210,6 +210,7 @@ typedef struct
 	BOOL hiddenVolume;
 	BOOL readOnly;
 	BOOL removable;
+	BOOL mountDisabled;
 	BOOL partitionInInactiveSysEncScope;
 	uint32 volumeHeaderFlags;
 	unsigned __int64 totalBytesRead;

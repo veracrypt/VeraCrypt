@@ -8049,15 +8049,14 @@ retry:
 	mount.bMountReadOnly = mountOptions->ReadOnly;
 	mount.bMountRemovable = mountOptions->Removable;
 	mount.bPreserveTimestamp = mountOptions->PreserveTimestamp;
-
-	mount.bMountManager = TRUE;
+	
+	if (mountOptions->DisableMountManager)
+		mount.bMountManager = FALSE;
+	else
+		mount.bMountManager = TRUE;
 	mount.pkcs5_prf = pkcs5;
 	mount.bTrueCryptMode = truecryptMode;
 	mount.VolumePim = pim;
-
-	// Windows 2000 mount manager causes problems with remounted volumes
-	if (CurrentOSMajor == 5 && CurrentOSMinor == 0)
-		mount.bMountManager = FALSE;
 
 	wstring path = volumePath;
 	if (path.find (L"\\\\?\\") == 0)

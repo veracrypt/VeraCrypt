@@ -3537,6 +3537,8 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				mountOptions->Removable ? BST_CHECKED : BST_UNCHECKED, 0);
 			SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK,
 				mountOptions->ProtectHiddenVolume ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK,
+				mountOptions->DisableMountManager ? BST_CHECKED : BST_UNCHECKED, 0);
 
 			SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK,
 				mountOptions->ProtectHiddenVolume ? BST_CHECKED : BST_UNCHECKED, 0);
@@ -3553,6 +3555,10 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			SetDlgItemTextW (hwndDlg, IDC_VOLUME_LABEL, mountOptions->Label);
 			SendDlgItemMessage (hwndDlg, IDC_VOLUME_LABEL, EM_LIMITTEXT, 32, 0); // 32 is the maximum possible length for a drive label in Windows
+
+			protect = IsButtonChecked (GetDlgItem (hwndDlg, IDC_DISABLE_MOUNT_MANAGER));
+			EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_LABEL), !protect);
+			EnableWindow (GetDlgItem (hwndDlg, IDT_VOLUME_LABEL), !protect);
 
 			/* Add PRF algorithm list for hidden volume password */
 			HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
@@ -3700,6 +3706,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			mountOptions->ReadOnly = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY));
 			mountOptions->Removable = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_REMOVABLE));
+			mountOptions->DisableMountManager = IsButtonChecked (GetDlgItem (hwndDlg, IDC_DISABLE_MOUNT_MANAGER));
 			mountOptions->ProtectHiddenVolume = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL));
 			mountOptions->PartitionInInactiveSysEncScope = IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_SYSENC_PART_WITHOUT_PBA));
 			mountOptions->UseBackupHeader = IsButtonChecked (GetDlgItem (hwndDlg, IDC_USE_EMBEDDED_HEADER_BAK));
@@ -3736,7 +3743,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			return 1;
 		}
 
-		if (lw == IDC_MOUNT_READONLY || lw == IDC_PROTECT_HIDDEN_VOL)
+		if (lw == IDC_MOUNT_READONLY || lw == IDC_PROTECT_HIDDEN_VOL || lw == IDC_DISABLE_MOUNT_MANAGER)
 		{
 			BOOL protect;
 
@@ -3745,6 +3752,12 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK, BST_UNCHECKED, 0);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)));
 				EnableWindow (GetDlgItem (hwndDlg, IDT_HIDDEN_VOL_PROTECTION), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_MOUNT_READONLY)));
+			}
+
+			if (lw == IDC_DISABLE_MOUNT_MANAGER)
+			{
+				EnableWindow (GetDlgItem (hwndDlg, IDC_VOLUME_LABEL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_DISABLE_MOUNT_MANAGER)));
+				EnableWindow (GetDlgItem (hwndDlg, IDT_VOLUME_LABEL), !IsButtonChecked (GetDlgItem (hwndDlg, IDC_DISABLE_MOUNT_MANAGER)));
 			}
 
 			protect = IsButtonChecked (GetDlgItem (hwndDlg, IDC_PROTECT_HIDDEN_VOL));
@@ -3999,6 +4012,14 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ListSubItemSet (list, i++, 1, GetString (bSysEncWholeDrive ? "SYSTEM_DRIVE" : IsHiddenOSRunning() ? "HIDDEN_SYSTEM_PARTITION" : "SYSTEM_PARTITION"));
 			else
 				ListSubItemSet (list, i++, 1, (wchar_t *) (prop.wszVolume[1] != L'?' ? prop.wszVolume : prop.wszVolume + 4));
+
+			if (!bSysEnc && prop.mountDisabled)
+			{
+				// Virtual Device
+				StringCbPrintfW (szTmp, sizeof(szTmp), L"\\Device\\VeraCryptVolume%c", (wchar_t) prop.driveNo + L'A');
+				ListItemAdd (list, i, GetString ("VIRTUAL_DEVICE"));
+				ListSubItemSet (list, i++, 1, szTmp);
+			}
 
 			if (!bSysEnc && IsVolumeDeviceHosted ((wchar_t *) (prop.wszVolume[1] != L'?' ? prop.wszVolume : prop.wszVolume + 4)))
 			{
@@ -7742,10 +7763,26 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				nSelectedDriveIndex = ((LPNMITEMACTIVATE)lParam)->iItem;
 				if (LOWORD(state) == TC_MLIST_ITEM_NONSYS_VOL || LOWORD(state) == TC_MLIST_ITEM_SYS_PARTITION)
 				{
-					// Open explorer window for mounted volume
-					WaitCursor ();
-					OpenVolumeExplorerWindow (HIWORD(state) - L'A');
-					NormalCursor ();
+					VOLUME_PROPERTIES_STRUCT prop;
+					DWORD dwResult;
+
+					memset (&prop, 0, sizeof(prop));
+					prop.driveNo = HIWORD (state) - L'A';
+
+					if (DeviceIoControl (hDriver, TC_IOCTL_GET_VOLUME_PROPERTIES, &prop, sizeof (prop), &prop, sizeof (prop), &dwResult, NULL) 
+						&& dwResult
+						&& prop.mountDisabled
+						)
+					{
+						Warning ("MOUNTED_VOLUME_NOT_ASSOCIATED", hwndDlg);
+					}
+					else
+					{
+						// Open explorer window for mounted volume
+						WaitCursor ();
+						OpenVolumeExplorerWindow (HIWORD(state) - L'A');
+						NormalCursor ();
+					}
 				}
 				else if (LOWORD (GetSelectedLong (GetDlgItem (hwndDlg, IDC_DRIVELIST))) == TC_MLIST_ITEM_FREE)
 				{

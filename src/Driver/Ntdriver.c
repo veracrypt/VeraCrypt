@@ -1090,8 +1090,8 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 						}
 					}
 				}
-			}
-		}
+					}
+				}
 
 		break;
 
@@ -1701,9 +1701,9 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 		Irp->IoStatus.Information = 0;		
 		break;
 	default:
-		Dump ("ProcessVolumeDeviceControlIrp (unknown code 0x%.8X)\n", irpSp->Parameters.DeviceIoControl.IoControlCode);
-		return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
-	}
+				Dump ("ProcessVolumeDeviceControlIrp (unknown code 0x%.8X)\n", irpSp->Parameters.DeviceIoControl.IoControlCode);
+				return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
+			}
 
 #if defined(DEBUG) || defined (DEBG_TRACE)
 	if (!NT_SUCCESS (Irp->IoStatus.Status))
@@ -2209,6 +2209,7 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 					prop->volumeHeaderFlags = ListExtension->cryptoInfo->HeaderFlags;
 					prop->readOnly = ListExtension->bReadOnly;
 					prop->removable = ListExtension->bRemovable;
+					prop->mountDisabled = ListExtension->bMountManager? FALSE : TRUE;
 					prop->partitionInInactiveSysEncScope = ListExtension->PartitionInInactiveSysEncScope;
 					prop->hiddenVolume = ListExtension->cryptoInfo->hiddenVolume;
 
@@ -3782,13 +3783,14 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 				}
 
 				if (mount->bMountManager)
+				{
 					MountManagerMount (mount);
+					// We create symbolic link even if mount manager is notified of
+					// arriving volume as it apparently sometimes fails to create the link
+					CreateDriveLink (mount->nDosDriveNo);
+				}
 
 				NewExtension->bMountManager = mount->bMountManager;
-
-				// We create symbolic link even if mount manager is notified of
-				// arriving volume as it apparently sometimes fails to create the link
-				CreateDriveLink (mount->nDosDriveNo);
 
 				mount->FilesystemDirty = FALSE;
 
