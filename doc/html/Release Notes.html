@@ -35,6 +35,10 @@
 <div class="wikidoc">
 <h1>Release Notes</h1>
 
+<p>
+<strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
+<span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
+</p>
 <p><strong style="text-align:left">1.24-Beta0 </strong>(December 18<sup>th</sup>, 2018):</p>
 <ul>
 <li><strong>Windows:</strong>
@@ -54,10 +58,16 @@
 <ul>
 <li><strong>Windows:</strong>
 <ul>
-<li>Fix low severity vulnerability inherited from TrueCrypt that allowed reading 3 bytes of kernel stack memory (with a rare possibility of 25 additional bytes). Reported by Tim Harrison.
+<li>Fix low severity vulnerability inherited from TrueCrypt that allowed reading 3 bytes of kernel stack memory (with a rare possibility of 25 additional bytes).
+<ul>
+<li>Reported by Tim Harrison.</li>
+</ul>
 </li>
 <li>Disable quick format when creating file containers from command line. Add /quick switch to enable it in this case if needed.</li>
-<li>Add /nosizecheck switch to disable checking container size against available free space during its creation. This enables to workaround a <a href="https://support.microsoft.com/en-us/help/177127/incorrect-disk-free-space-information-for-a-dfs-client-share">bug in Microsoft Distributed File System (DFS)</a>
+<li>Add /nosizecheck switch to disable checking container size against available free space during its creation.
+<ul>
+<li>This enables to workaround a bug in Microsoft Distributed File System (DFS).</li>
+</ul>
 </li>
 </ul>
 </li>
@@ -275,11 +285,12 @@
 <ul>
 <li>Support Japanese encryption standard Camellia, including for Windows system encryption (MBR &amp; EFI).
 </li><li>Support Russian encryption and hash standards Kuznyechik, Magma and Streebog, including for Windows EFI system encryption.
+</li><li>Fix TrueCrypt vulnerability allowing detection of hidden volumes presence (reported by Ivanov Aleksey Mikhailovich, alekc96 [at] mail dot ru)
+<ul><li> <strong style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</strong></li></ul>
 </li></ul>
 </li><li><strong>Windows:</strong>
 <ul>
 <li>Support EFI Windows system encryption (limitations: no hidden os, no boot custom message)
-</li><li>Fix TrueCrypt vulnerability allowing detection of hidden volumes presence(reported by Ivanov Aleksey Mikhailovich, alekc96 [at] mail dot ru)
 </li><li>Enhanced protection against dll hijacking attacks. </li><li>Fix boot issues on some machines by increasing required memory by 1 KiB </li><li>Add benchmarking of hash algorithms and PRF with PIM (including for pre-boot).
 </li><li>Move build system to Visual C&#43;&#43; 2010 for better stability. </li><li>Workaround for AES-NI support under Hyper-V on Windows Server 2008 R2. </li><li>Correctly remove driver file veracrypt.sys during uninstall on Windows 64-bit.
 </li><li>Implement passing smart card PIN as command line argument (/tokenpin) when explicitly mounting a volume.
