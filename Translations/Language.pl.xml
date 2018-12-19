@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.23-Hotfix-2">
+  <localization prog-version= "1.24-Beta0">
     <language langid="pl" name="Polski" en-name="Polish" version="1.0.0" translators="Mirek Druchowicz, Janusz Zamecki, Sobiesław Antolak, Begina Felicysym" />
     <font lang="pl" class="normal" size="11" face="default" />
     <font lang="pl" class="bold" size="13" face="Arial" />
@@ -1427,6 +1427,8 @@
     <entry lang="pl" key="VOLUME_TOO_LARGE_FOR_HOST">BŁĄD: Rozmiar kontenera pliku jest większy niż dostępne wolne miejsce na dysku.</entry>
     <entry lang="pl" key="IDC_ALLOW_WINDOWS_DEFRAG">Zezwalaj Defragmentatorowi dysków Windows na defragmentację bezsystemowej partycji/napędu</entry>
     <entry lang="pl" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">OSTRZEŻENIE: Defragmentacja bezsystemowych partycji/napędów może spowodować wyciek metadanych dotyczących ich zawartości lub spowodować problemy z ukrytymi wolumenami, które mogą zawierać.\n\nKontynuować?</entry>
+    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
+    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

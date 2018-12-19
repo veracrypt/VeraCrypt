@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.23-Hotfix-2">
+  <localization prog-version= "1.24-Beta0">
     <language langid="id" name="Bahasa Indonesia" en-name="Indonesian" version="0.1.0" translators="Tajuddin N. F." />
     <font lang="id" class="normal" size="11" face="default" />
     <font lang="id" class="bold" size="13" face="Arial" />
@@ -1427,6 +1427,8 @@
 	<entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
     <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>    
     <entry lang="en" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNING: Defragmenting non-system partitions/drives may leak metadata about their content or cause issues with hidden volumes they may contain.\n\nContinue?</entry>
+    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
+    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

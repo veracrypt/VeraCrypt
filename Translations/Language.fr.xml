@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.23-Hotfix-2">
+  <localization prog-version= "1.24-Beta0">
     <language langid="fr" name="Français" en-name="French" version="0.3.0" translators="Stéphane S., Olivier M., Thierry T" />
     <font lang="fr" class="normal" size="11" face="default" />
     <font lang="fr" class="bold" size="13" face="Arial" />
@@ -1427,6 +1427,8 @@
     <entry lang="fr" key="VOLUME_TOO_LARGE_FOR_HOST">ERREUR : La taille du fichier conteneur est plus grande que l'espace libre sur le disque.</entry>
     <entry lang="fr" key="IDC_ALLOW_WINDOWS_DEFRAG">Autoriser l'outil de défragmentation de disque de Windows à défragmenter les disques non système</entry>
     <entry lang="fr" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">AVERTISSEMENT: La défragmentation des disques non système peut engendrer des fuites de métadonnées ainsi que causer des problèmes avec les volumes cachés s'ils en contiennent.\n\nContinuer?</entry>
+    <entry lang="fr" key="VIRTUAL_DEVICE">Périphérique Virtuel</entry>
+    <entry lang="fr" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Le volume monté sélectionné n'est pas attaché à sa lettre de lecteur Windows et donc il ne peut pas être ouvert dans l'explorateur de fichiers.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
