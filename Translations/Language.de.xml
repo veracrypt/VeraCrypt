@@ -44,7 +44,7 @@
     <entry lang="de" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direkter Modus</entry>
     <entry lang="de" key="IDC_HIDVOL_WIZ_MODE_FULL">Kompletter Modus</entry>
     <entry lang="de" key="IDC_KB">&amp;KB</entry>
-    <entry lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;t. verwenden</entry>
+    <entry lang="de" key="IDC_KEYFILES_ENABLE">Schlüsselda&amp;tei verwenden</entry>
     <entry lang="de" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Versuche zuerst ohne Passwort einzubinden</entry>
     <entry lang="de" key="IDC_KEYFILES_RANDOM_SIZE">Zufällige Größe (64 &lt;-&gt; 1048576)</entry>
     <entry lang="de" key="IDC_KEY_FILES">Schlüsselda&amp;teien ...</entry>
@@ -1008,7 +1008,7 @@
     <entry lang="de" key="FREE_SPACE_FOR_WRITING_TO_OUTER_VOLUME">WARNUNG: Wenn Sie nachträglich noch weitere Daten/Dateien im äußeren Volume speichern möchten, dann sollten Sie eine kleinere Größe des versteckten Volumes in Betracht ziehen.\n\nMöchten Sie tatsächlich mit der von Ihnen angegebenen Größe fortsetzen?</entry>
     <entry lang="de" key="NO_VOLUME_SELECTED">Es wurde kein Volume ausgewählt.\n\nKlicken Sie bitte auf „Datenträger“ oder „Datei“ und wählen Sie ein VeraCrypt-Volume aus.</entry>
     <entry lang="de" key="NO_SYSENC_PARTITION_SELECTED">Keine Partition ausgewählt.\n\nKlicken Sie „Datenträger ...“ um eine getrennte Partition zu wählen, welche sonst Prä-Boot-Authentifikation voraussetzt (z.B. eine Partition auf einem verschlüsselten Systemlaufwerk mit einem Betriebssystem darauf welches gerade nicht läuft, oder die verschlüsselte Systempartition eines anderen Betriebssystems).\n\nHinweis: Die Ausgewählte Partition wird als reguläres VeraCrypt-Volume eingebunden, ohne Prä-Boot-Authentifikation. Das ist hilfreich für Sicherungs- oder Reparaturvorgänge.</entry>
-    <entry lang="de" key="CONFIRM_SAVE_DEFAULT_KEYFILES">WARNUNG: Wenn Standardschlüsseldateien festgelegt und aktiviert sind, dann können Volumes, die diese nicht verwenden, nicht eingebunden werden. Daher sollten Sie, nachdem Sie die Standardschlüsseldateien aktiviert haben, das Häkchen bei „Schlüsseldat. verw.“ (unterhalb des Passwort-Eingabefeldes) entfernen sobald Sie solche Volumes einbinden möchten.\n\nSind Sie sicher dass Sie die Schlüsseldateien/-pfade als Standard speichern möchten?</entry>
+    <entry lang="de" key="CONFIRM_SAVE_DEFAULT_KEYFILES">WARNUNG: Wenn Standardschlüsseldateien festgelegt und aktiviert sind, dann können Volumes, die diese nicht verwenden, nicht eingebunden werden. Daher sollten Sie, nachdem Sie die Standardschlüsseldateien aktiviert haben, das Häkchen bei „Schlüsseldatei verwenden“ (unterhalb des Passwort-Eingabefeldes) entfernen sobald Sie solche Volumes einbinden möchten.\n\nSind Sie sicher dass Sie die Schlüsseldateien/-pfade als Standard speichern möchten?</entry>
     <entry lang="de" key="HK_AUTOMOUNT_DEVICES">Alle Datenträger-Volumes automatisch einbinden</entry>
     <entry lang="de" key="HK_DISMOUNT_ALL">Alle Volumes trennen</entry>
     <entry lang="de" key="HK_WIPE_CACHE">Cache sicher löschen</entry>
