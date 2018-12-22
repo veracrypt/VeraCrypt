@@ -1430,8 +1430,8 @@
     <entry lang="de" key="VOLUME_TOO_LARGE_FOR_HOST">FEHLER: Der Datei-Container ist größer als der verfügbare freie Speicherplatz auf der Festplatte.</entry>
     <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows-Festplattendefragmentierung die Defragmentierung von Nicht-Systempartitionen/-laufwerken erlauben</entry>    
     <entry lang="de" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNUNG: Defragmentierung von Nicht-Systempartitionen/-laufwerken kann Metadaten über ihren Inhalt preisgeben oder Probleme mit versteckten Volumes verursachen, die sie enthalten können.\n\nFortsetzen?</entry>
-    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
-    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
+    <entry lang="de" key="VIRTUAL_DEVICE">Virtuelles Gerät</entry>
+    <entry lang="de" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Das ausgewählte eingebundene Volume ist nicht mit seinem Laufwerksbuchstaben in Windows verknüpft und kann daher nicht im Windows Explorer geöffnet werden.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
