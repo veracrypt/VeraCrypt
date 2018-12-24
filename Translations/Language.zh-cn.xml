@@ -1427,8 +1427,8 @@
     <entry lang="zh-cn" key="VOLUME_TOO_LARGE_FOR_HOST">错误：文件容器的大小大于磁盘上的可用空间。</entry>
     <entry lang="zh-cn" key="IDC_ALLOW_WINDOWS_DEFRAG">允许Windows磁盘碎片整理程序对非系统分区/驱动器进行碎片整理</entry>    
     <entry lang="zh-cn" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">警告：对非系统分区/驱动器进行碎片整理可能会泄漏有关其内容的元数据，或导致它们可能包含的隐藏卷出现问题。\n\n是否继续？</entry>
-    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
-    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
+    <entry lang="zh-cn" key="VIRTUAL_DEVICE">虚拟设备</entry>
+    <entry lang="zh-cn" key="MOUNTED_VOLUME_NOT_ASSOCIATED">选中的已挂载卷与它在Windows中的盘符不相符，因此无法在Windows资源管理器中打开。</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
