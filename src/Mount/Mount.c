@@ -3535,9 +3535,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				mountOptions->ReadOnly ? BST_CHECKED : BST_UNCHECKED, 0);
 			SendDlgItemMessage (hwndDlg, IDC_MOUNT_REMOVABLE, BM_SETCHECK,
 				mountOptions->Removable ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK,
-				mountOptions->ProtectHiddenVolume ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK,
+			SendDlgItemMessage (hwndDlg, IDC_DISABLE_MOUNT_MANAGER, BM_SETCHECK,
 				mountOptions->DisableMountManager ? BST_CHECKED : BST_UNCHECKED, 0);
 
 			SendDlgItemMessage (hwndDlg, IDC_PROTECT_HIDDEN_VOL, BM_SETCHECK,
