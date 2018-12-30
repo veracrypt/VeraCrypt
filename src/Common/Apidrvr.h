@@ -210,7 +210,6 @@ typedef struct
 	BOOL hiddenVolume;
 	BOOL readOnly;
 	BOOL removable;
-	BOOL mountDisabled;
 	BOOL partitionInInactiveSysEncScope;
 	uint32 volumeHeaderFlags;
 	unsigned __int64 totalBytesRead;
@@ -221,6 +220,7 @@ typedef struct
 	wchar_t wszLabel[33];
 	BOOL bDriverSetLabel;
 	unsigned char volumeID[VOLUME_ID_SIZE];
+	BOOL mountDisabled;
 } VOLUME_PROPERTIES_STRUCT;
 
 typedef struct
