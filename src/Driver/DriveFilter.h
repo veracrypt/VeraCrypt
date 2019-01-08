@@ -44,7 +44,7 @@ typedef struct _DriveFilterExtension
 
 	KEVENT MountWorkItemCompletedEvent;
 
-	CRYPTO_INFO *HeaderCryptoInfo;
+	volatile CRYPTO_INFO *HeaderCryptoInfo;
 	BOOL HiddenSystem;
 
 } DriveFilterExtension;
@@ -73,6 +73,7 @@ BOOL IsHiddenSystemRunning ();
 NTSTATUS LoadBootArguments ();
 static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension);
 NTSTATUS StartBootEncryptionSetup (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION irpSp);
+void EmergencyClearAllKeys (PIRP irp, PIO_STACK_LOCATION irpSp);
 void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp);
 NTSTATUS StartDecoySystemWipe (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION irpSp);
 void StartLegacyHibernationDriverFilter ();

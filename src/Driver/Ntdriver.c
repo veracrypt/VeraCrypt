@@ -2507,6 +2507,11 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
+	case VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS:
+		EmergencyClearAllKeys (Irp, irpSp);
+		WipeCache();
+		break;
+
 	case TC_IOCTL_BOOT_ENCRYPTION_SETUP:
 		Irp->IoStatus.Status = StartBootEncryptionSetup (DeviceObject, Irp, irpSp);
 		Irp->IoStatus.Information = 0;

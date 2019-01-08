@@ -44,7 +44,7 @@ typedef struct
 	KMUTEX BufferPoolMutex;
 	EncryptedIoQueueBuffer *FirstPoolBuffer;
 
-	CRYPTO_INFO *CryptoInfo;
+	volatile CRYPTO_INFO *CryptoInfo;
 
 	// File-handle-based IO
 	HANDLE HostFileHandle;
@@ -119,6 +119,8 @@ typedef struct
 
  	byte*  SecRegionData;
  	SIZE_T SecRegionSize;
+
+	volatile BOOL ThreadBlockReadWrite;
 }  EncryptedIoQueue;
 
 

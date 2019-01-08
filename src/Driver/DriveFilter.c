@@ -288,13 +288,40 @@ static void DismountDrive (DriveFilterExtension *Extension, BOOL stopIoQueue)
 	if (stopIoQueue && EncryptedIoQueueIsRunning (&Extension->Queue))
 		EncryptedIoQueueStop (&Extension->Queue);
 
-	crypto_close (Extension->Queue.CryptoInfo);
+	crypto_close ((PCRYPTO_INFO) Extension->Queue.CryptoInfo);
 	Extension->Queue.CryptoInfo = NULL;
 
-	crypto_close (Extension->HeaderCryptoInfo);
+	crypto_close ((PCRYPTO_INFO) Extension->HeaderCryptoInfo);
 	Extension->HeaderCryptoInfo = NULL;
 
 	Extension->DriveMounted = FALSE;
+
+	Dump ("Drive dismount done!\n");
+}
+
+static void InvalidateVolumeKeys (EXTENSION *Extension)
+{
+	Dump ("Invalidating volume encryption keys\n");
+	
+	Extension->Queue.ThreadBlockReadWrite = TRUE;
+
+	crypto_eraseKeys ((PCRYPTO_INFO) Extension->Queue.CryptoInfo);
+	crypto_eraseKeys ((PCRYPTO_INFO) Extension->cryptoInfo);
+
+	Dump ("Volume encryption keys invalidated!\n");
+}
+
+static void InvalidateDriveFilterKeys (DriveFilterExtension *Extension)
+{
+	Dump ("Invalidating drive filter encryption keys\n");
+	ASSERT (Extension->DriveMounted);
+	
+	Extension->Queue.ThreadBlockReadWrite = TRUE;
+
+	crypto_eraseKeys ((PCRYPTO_INFO) Extension->Queue.CryptoInfo);
+	crypto_eraseKeys ((PCRYPTO_INFO) Extension->HeaderCryptoInfo);
+
+	Dump ("Drive filter encryption keys invalidated!\n");
 }
 
 static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte* ioBuffer /* ioBuffer must be at least 512 bytes long */)
@@ -1025,6 +1052,36 @@ NTSTATUS DriveFilterDispatchIrp (PDEVICE_OBJECT DeviceObject, PIRP Irp)
 	return status;
 }
 
+void EmergencyClearAllKeys (PIRP irp, PIO_STACK_LOCATION irpSp)
+{
+	irp->IoStatus.Information = 0;
+
+	if (!IoIsSystemThread (PsGetCurrentThread()) && !UserCanAccessDriveDevice())
+	{
+		irp->IoStatus.Status = STATUS_ACCESS_DENIED;
+	}
+	else
+	{
+		int drive;
+		for (drive = MIN_MOUNTED_VOLUME_DRIVE_NUMBER; drive <= MAX_MOUNTED_VOLUME_DRIVE_NUMBER; ++drive)
+		{
+			PDEVICE_OBJECT device = GetVirtualVolumeDeviceObject (drive);
+			if (device)
+			{
+				PEXTENSION extension = (PEXTENSION) device->DeviceExtension;
+				if (extension)
+				{
+					InvalidateVolumeKeys (extension);
+				}
+			}
+		}
+
+		if (BootDriveFound && BootDriveFilterExtension && BootDriveFilterExtension->DriveMounted)
+			InvalidateDriveFilterKeys (BootDriveFilterExtension);
+
+		irp->IoStatus.Status = STATUS_SUCCESS;
+	}
+}
 
 void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 {

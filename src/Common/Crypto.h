@@ -306,6 +306,7 @@ typedef struct BOOT_CRYPTO_HEADER_t
 PCRYPTO_INFO crypto_open (void);
 #ifndef TC_WINDOWS_BOOT
 void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen);
+void crypto_eraseKeys (PCRYPTO_INFO cryptoInfo);
 #endif
 void crypto_close (PCRYPTO_INFO cryptoInfo);
 

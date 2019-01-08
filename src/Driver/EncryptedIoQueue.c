@@ -383,7 +383,9 @@ static VOID IoThreadProc (PVOID threadArg)
 			// Perform IO request if no preceding request of the item failed
 			if (NT_SUCCESS (request->Item->Status))
 			{
-				if (queue->IsFilterDevice)
+				if (queue->ThreadBlockReadWrite)
+					request->Item->Status = STATUS_DEVICE_BUSY;
+				else if (queue->IsFilterDevice)
 				{
 					if (queue->RemapEncryptedArea && request->EncryptedLength > 0)
 					{

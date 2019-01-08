@@ -884,6 +884,16 @@ void crypto_loadkey (PKEY_INFO keyInfo, char *lpszUserKey, int nUserKeyLen)
 	burn (keyInfo->userKey, sizeof (keyInfo->userKey));
 	memcpy (keyInfo->userKey, lpszUserKey, nUserKeyLen);
 }
+
+void crypto_eraseKeys (PCRYPTO_INFO cryptoInfo)
+{
+	burn (cryptoInfo->ks, sizeof (cryptoInfo->ks));
+	burn (cryptoInfo->ks2, sizeof (cryptoInfo->ks2));
+	burn (cryptoInfo->master_keydata, sizeof (cryptoInfo->master_keydata));
+	burn (cryptoInfo->k2, sizeof (cryptoInfo->k2));
+	burn (&cryptoInfo->noIterations, sizeof (cryptoInfo->noIterations));
+	burn (&cryptoInfo->volumePim, sizeof (cryptoInfo->volumePim));
+}
 #endif
 
 void crypto_close (PCRYPTO_INFO cryptoInfo)
