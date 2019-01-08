@@ -917,8 +917,9 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 		while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_ABORT_BOOT_ENCRYPTION_SETUP, NULL, 0, NULL, 0) == STATUS_INSUFFICIENT_RESOURCES);
 	}
 
-#if 0	// Dismount of the system drive is disabled until there is a way to do it without causing system errors (see the documentation for more info)
+	// Dismount the system drive on shutdown on Windows 7 and later
 	if (DriverShuttingDown
+		&& IsOSAtLeast (WIN_7)
 		&& Extension->BootDrive
 		&& Extension->DriveMounted
 		&& irpSp->MinorFunction == IRP_MN_SET_POWER
@@ -926,7 +927,6 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 	{
 		DismountDrive (Extension, TRUE);
 	}
-#endif // 0
 
 	PoStartNextPowerIrp (Irp);
 
