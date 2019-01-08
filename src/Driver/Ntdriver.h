@@ -51,7 +51,7 @@ typedef struct EXTENSION
 	PFILE_OBJECT pfoDeviceFile;	/* Device fileobject for this device */
 	PDEVICE_OBJECT pFsdDevice;	/* lower level device handle */
 
-	volatile CRYPTO_INFO *cryptoInfo;	/* Cryptographic and other information for this device */
+	CRYPTO_INFO *cryptoInfo;	/* Cryptographic and other information for this device */
 
 	__int64	HostLength;
 	__int64 DiskLength;			/* The length of the disk referred to by this device */

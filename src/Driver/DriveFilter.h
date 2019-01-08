@@ -44,7 +44,7 @@ typedef struct _DriveFilterExtension
 
 	KEVENT MountWorkItemCompletedEvent;
 
-	volatile CRYPTO_INFO *HeaderCryptoInfo;
+	CRYPTO_INFO *HeaderCryptoInfo;
 	BOOL HiddenSystem;
 
 } DriveFilterExtension;

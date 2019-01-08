@@ -44,7 +44,7 @@ typedef struct
 	KMUTEX BufferPoolMutex;
 	EncryptedIoQueueBuffer *FirstPoolBuffer;
 
-	volatile CRYPTO_INFO *CryptoInfo;
+	CRYPTO_INFO *CryptoInfo;
 
 	// File-handle-based IO
 	HANDLE HostFileHandle;
