@@ -39,6 +39,8 @@ mkdir docs\EFI-DCS
 copy /V /Y ..\..\..\doc\html\* docs\html\en\.
 copy "..\..\..\doc\chm\VeraCrypt User Guide.chm" docs\.
 copy "..\..\..\doc\EFI-DCS\*.pdf" docs\EFI-DCS\.
+copy "..\..\Release\Setup Files\*.cat" .
+copy "..\..\Release\Setup Files\veracrypt.inf" .
 
 del docs.zip
 7z a -y docs.zip docs
