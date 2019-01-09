@@ -55,15 +55,15 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define TC_APP_NAME						"VeraCrypt"
 
 // Version displayed to user 
-#define VERSION_STRING					"1.24-Beta0"
+#define VERSION_STRING					"1.24-Beta1"
 
 // Version number to compare against driver
 #define VERSION_NUM						0x0124
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"December 18, 2018"
-#define TC_RELEASE_DATE_YEAR			2018
-#define TC_RELEASE_DATE_MONTH			 12
+#define TC_STR_RELEASE_DATE			L"January 8, 2018"
+#define TC_RELEASE_DATE_YEAR			2019
+#define TC_RELEASE_DATE_MONTH			 1
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL
@@ -355,6 +355,8 @@ extern VOID NTAPI KeRestoreExtendedProcessorState (
 #else
 #define burn(mem,size) do { volatile char *burnm = (volatile char *)(mem); int burnc = size; while (burnc--) *burnm++ = 0; } while (0)
 #endif
+
+#define volatile_memcpy(d,s,size) do { volatile char *destm = (volatile char *)(d); volatile char *srcm = (volatile char *)(s); size_t memc = size; while (memc--) *destm++ = *srcm++; } while (0)
 
 // The size of the memory area to wipe is in bytes amd it must be a multiple of 8.
 #ifndef TC_NO_COMPILER_INT64
