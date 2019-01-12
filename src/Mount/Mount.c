@@ -51,6 +51,8 @@
 #include "../Setup/SelfExtract.h"
 
 #include <Strsafe.h>
+#include <InitGuid.h>
+#include <devguid.h>
 
 #import <msxml6.dll> no_auto_exclude
 
@@ -9296,6 +9298,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 static SERVICE_STATUS SystemFavoritesServiceStatus;
 static SERVICE_STATUS_HANDLE SystemFavoritesServiceStatusHandle;
+static HANDLE SystemFavoriteServiceStopEvent = NULL;
+static HDEVNOTIFY  SystemFavoriteServiceNotify = NULL;
+
+DEFINE_GUID(OCL_GUID_DEVCLASS_SOFTWARECOMPONENT, 0x5c4c3332, 0x344d, 0x483c, 0x87, 0x39, 0x25, 0x9e, 0x93, 0x4c, 0x9c, 0xc8);
 
 static void SystemFavoritesServiceLogMessage (const wstring &errorMessage, WORD wType)
 {
@@ -9336,12 +9342,84 @@ static void SystemFavoritesServiceSetStatus (DWORD status, DWORD waitHint = 0)
 }
 
 
-static VOID WINAPI SystemFavoritesServiceCtrlHandler (DWORD control)
+static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
+														DWORD dwEventType,
+														LPVOID lpEventData,
+														LPVOID lpContext)
 {
-	if (control == SERVICE_CONTROL_STOP)
+	switch (dwControl)
+	{
+	case SERVICE_CONTROL_PRESHUTDOWN:
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
-	else
+
+		if (BootEncObj)
+		{
+			try
+			{
+				BootEncryption::UpdateSetupConfigFile (true);
+				// re-install our bootloader again in case the update process has removed it.
+				BootEncryption bootEnc (NULL, true);
+				bootEnc.InstallBootLoader (true);
+			}
+			catch (...)
+			{
+			}
+		}
+
+		/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION flag */
+		SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, FALSE);
+
+		SetEvent (SystemFavoriteServiceStopEvent);
+		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
+
+		break;
+	case SERVICE_CONTROL_STOP:
+		SetEvent (SystemFavoriteServiceStopEvent);
+		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
+		break;
+	case SERVICE_CONTROL_DEVICEEVENT:
+		if (DBT_DEVICEARRIVAL == dwEventType)
+		{
+			DEV_BROADCAST_HDR* pHdr = (DEV_BROADCAST_HDR *) lpEventData;
+			if (pHdr->dbch_devicetype != DBT_DEVTYP_VOLUME &&  pHdr->dbch_devicetype != DBT_DEVTYP_HANDLE)			
+			{
+				SystemFavoritesServiceLogInfo (L"SERVICE_CONTROL_DEVICEEVENT - DBT_DEVICEARRIVAL received");
+
+				if (ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
+				{
+					BOOL bClearKeys = TRUE;
+					if (pHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE)
+					{
+						DEV_BROADCAST_DEVICEINTERFACE* pInf = (DEV_BROADCAST_DEVICEINTERFACE*) pHdr;
+
+						if (IsEqualGUID (pInf->dbcc_classguid, OCL_GUID_DEVCLASS_SOFTWARECOMPONENT)
+							|| IsEqualGUID (pInf->dbcc_classguid, GUID_DEVCLASS_VOLUME)
+							|| IsEqualGUID (pInf->dbcc_classguid, GUID_DEVCLASS_VOLUMESNAPSHOT)
+							)
+						{
+							bClearKeys = FALSE;
+						}
+					}
+
+					if (bClearKeys)
+					{						
+						DWORD cbBytesReturned = 0;
+						BOOL bResult = DeviceIoControl (hDriver, VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS, NULL, 0, NULL, 0, &cbBytesReturned, NULL);
+						if (bResult)
+							SystemFavoritesServiceLogInfo (L"New device insertion detected - encryption keys cleared");
+						else
+							SystemFavoritesServiceLogInfo (L"New device insertion detected - failed to clear encryption keys");
+					}
+				}
+			}
+		}
+		break;
+	default:
 		SystemFavoritesServiceSetStatus (SystemFavoritesServiceStatus.dwCurrentState);
+		break;
+	}
+
+	return NO_ERROR;
 }
 
 static LONG WINAPI SystemFavoritesServiceExceptionHandler (EXCEPTION_POINTERS *ep)
@@ -9363,12 +9441,26 @@ static void SystemFavoritesServiceInvalidParameterHandler (const wchar_t *expres
 static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 {
 	BOOL status = FALSE;
+	DEV_BROADCAST_DEVICEINTERFACE hdr;
 	memset (&SystemFavoritesServiceStatus, 0, sizeof (SystemFavoritesServiceStatus));
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
+	SystemFavoritesServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
+	if (IsOSAtLeast (WIN_VISTA) && BootEncObj && BootEncStatus.DriveMounted && BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT)
+		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN;
 
-	SystemFavoritesServiceStatusHandle = RegisterServiceCtrlHandler (TC_SYSTEM_FAVORITES_SERVICE_NAME, SystemFavoritesServiceCtrlHandler);
+	ZeroMemory (&hdr, sizeof(hdr));
+	hdr.dbcc_size = sizeof (hdr);
+	hdr.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
+
+	SystemFavoritesServiceStatusHandle = RegisterServiceCtrlHandlerEx (TC_SYSTEM_FAVORITES_SERVICE_NAME, SystemFavoritesServiceCtrlHandler, NULL);
 	if (!SystemFavoritesServiceStatusHandle)
 		return;
+
+	SystemFavoriteServiceStopEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
+	if (!SystemFavoriteServiceStopEvent)
+		return;
+  
+	SystemFavoriteServiceNotify = RegisterDeviceNotification (SystemFavoritesServiceStatusHandle, &hdr,DEVICE_NOTIFY_SERVICE_HANDLE | DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
 
 	InitGlobalLocks ();
 
@@ -9400,7 +9492,22 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 
 	FinalizeGlobalLocks ();
 
+	if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD))
+		WipeCache (NULL, TRUE);
+
 	SystemFavoritesServiceSetStatus (SERVICE_RUNNING);
+
+	WaitForSingleObject (SystemFavoriteServiceStopEvent, INFINITE);
+
+	if (SystemFavoriteServiceNotify)
+	{
+		UnregisterDeviceNotification (SystemFavoriteServiceNotify);
+		SystemFavoriteServiceNotify = NULL;
+	}
+
+	CloseHandle (SystemFavoriteServiceStopEvent);
+	SystemFavoriteServiceStopEvent = NULL;
+
 	SystemFavoritesServiceSetStatus (SERVICE_STOPPED);
 }
 
@@ -9419,6 +9526,16 @@ static BOOL StartSystemFavoritesService ()
 	if (DriverAttach() != ERR_SUCCESS)
 		return FALSE;
 
+	try
+	{
+		BootEncObj = new BootEncryption (NULL);
+		BootEncStatus = BootEncObj->GetStatus();
+	}
+	catch (Exception &)
+	{
+		BootEncStatus.DriveMounted = FALSE;
+	}
+
 	SERVICE_TABLE_ENTRY serviceTable[2];
 	serviceTable[0].lpServiceName = TC_SYSTEM_FAVORITES_SERVICE_NAME;
 	serviceTable[0].lpServiceProc = SystemFavoritesServiceMain;
@@ -9428,8 +9545,11 @@ static BOOL StartSystemFavoritesService ()
 
 	BOOL result = StartServiceCtrlDispatcher (serviceTable);
 
-	if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD))
-		WipeCache (NULL, TRUE);
+	if (BootEncObj != NULL)
+	{
+		delete BootEncObj;
+		BootEncObj = NULL;
+	}
 
 	return result;
 }
@@ -10919,7 +11039,8 @@ error:
 
 void SetDriverConfigurationFlag (uint32 flag, BOOL state)
 {
-	BootEncObj->SetDriverConfigurationFlag (flag, state ? true : false);
+	if (BootEncObj)
+		BootEncObj->SetDriverConfigurationFlag (flag, state ? true : false);
 }
 
 
@@ -11380,6 +11501,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				BOOL bPasswordCacheEnabled = (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD)? TRUE : FALSE;
 				BOOL bPimCacheEnabled = (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PIM)? TRUE : FALSE;
 				BOOL bBlockSysEncTrimEnabled = (driverConfig & VC_DRIVER_CONFIG_BLOCK_SYS_TRIM)? TRUE : FALSE;
+				BOOL bClearKeysEnabled = (driverConfig & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)? TRUE : FALSE;
 				BOOL bIsHiddenOS = IsHiddenOSRunning ();
 
 				if (!BootEncObj->ReadBootSectorConfig (nullptr, 0, &userConfig, &customUserMessage, &bootLoaderVersion))
@@ -11422,6 +11544,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD, bPasswordCacheEnabled ? BST_CHECKED : BST_UNCHECKED);
 				EnableWindow (GetDlgItem (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM), bPasswordCacheEnabled);
 				CheckDlgButton (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled? BST_CHECKED : BST_UNCHECKED);
+				
 				if (bIsHiddenOS)
 				{
 					// we always block TRIM command on hidden OS regardless of the configuration
@@ -11542,10 +11666,12 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					BOOL bPasswordCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PASSWORD);
 					BOOL bPimCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM);
 					BOOL bBlockSysEncTrimEnabled = IsDlgButtonChecked (hwndDlg, IDC_BLOCK_SYSENC_TRIM);
+					BOOL bClearKeysEnabled = IsDlgButtonChecked (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
 					BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage, prop.volumePim, prop.pkcs5);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, bPasswordCacheEnabled);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
+					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled);
 					if (!IsHiddenOSRunning ()) /* we don't need to update TRIM config for hidden OS since it's always blocked */
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_BLOCK_SYS_TRIM, bBlockSysEncTrimEnabled);
 				}
@@ -11586,6 +11712,14 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 			else
 			{
 				EnableWindow (GetDlgItem (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM), FALSE);
+			}
+
+			break;
+
+		case IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION:
+			if (IsDlgButtonChecked (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION))
+			{
+				Warning ("CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING", hwndDlg);
 			}
 
 			break;

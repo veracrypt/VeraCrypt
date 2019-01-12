@@ -4346,6 +4346,13 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 
 				if (flags & VC_DRIVER_CONFIG_BLOCK_SYS_TRIM)
 					BlockSystemTrimCommand = TRUE;
+
+				/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION if it is set */
+				if (flags & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
+				{
+					flags ^= VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION;
+					WriteRegistryConfigFlags (flags);
+				}
 			}
 
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);

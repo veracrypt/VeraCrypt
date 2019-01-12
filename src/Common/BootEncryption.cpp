@@ -994,10 +994,16 @@ namespace VeraCrypt
 
 	Device::Device (wstring path, bool readOnly)
 	{
-		 FileOpen = false;
-		 Elevated = false;
+		wstring effectivePath;
+		FileOpen = false;
+		Elevated = false;
 
-		Handle = CreateFile ((wstring (L"\\\\.\\") + path).c_str(),
+		if (path.find(L"\\\\?\\") == 0)
+			effectivePath = path;
+		else
+			effectivePath = wstring (L"\\\\.\\") + path;
+
+		Handle = CreateFile (effectivePath.c_str(),
 			readOnly ? GENERIC_READ : GENERIC_READ | GENERIC_WRITE,
 			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING,
 			FILE_FLAG_RANDOM_ACCESS | FILE_FLAG_WRITE_THROUGH, NULL);
@@ -1978,8 +1984,7 @@ namespace VeraCrypt
 		}
 		else
 		{
-			finally_do ({ EfiBootInst.DismountBootPartition(); });
-			EfiBootInst.MountBootPartition(0);
+			EfiBootInst.PrepareBootPartition();
 
 			if (! (userConfig & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM))
 				pim = -1;
@@ -2492,8 +2497,6 @@ namespace VeraCrypt
 	}
 
 	EfiBoot::EfiBoot() {
-		ZeroMemory(EfiBootPartPath, sizeof(EfiBootPartPath));		
-		ZeroMemory (BootVolumePath, sizeof (BootVolumePath));
 		ZeroMemory (&sdn, sizeof (sdn));
 		ZeroMemory (&partInfo, sizeof (partInfo));
 		m_bMounted = false;
@@ -2521,34 +2524,21 @@ namespace VeraCrypt
 		}		
 
 		PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
-		memcpy (BootVolumePath, pStr->Buffer, min (pStr->Length, (sizeof (BootVolumePath) - 2)));
+		BootVolumePath = pStr->Buffer;
+
+		EfiBootPartPath = L"\\\\?";
+		EfiBootPartPath += &pStr->Buffer[7];
+
 		bBootVolumePathSelected = true;
 	}
 
-	void EfiBoot::SelectBootVolume(WCHAR* bootVolumePath) {
-		wstring str;
-		str = bootVolumePath;
-		memcpy (BootVolumePath, &str[0], min (str.length() * 2, (sizeof (BootVolumePath) - 2)));
-		bBootVolumePathSelected = true;
-	}
-
-	void EfiBoot::MountBootPartition(WCHAR letter) {
+	void EfiBoot::PrepareBootPartition() {
 		if (!bBootVolumePathSelected) {
 			SelectBootVolumeESP();
 		}
-
-		if (!letter) {
-			if (!GetFreeDriveLetter(&EfiBootPartPath[0])) {
-				throw ErrorException(L"No free letter to mount EFI boot partition", SRC_POS);
-			}
-		} else {
-			EfiBootPartPath[0] = letter;
-		}
-		EfiBootPartPath[1] = ':';
-		EfiBootPartPath[2] = 0;
-		throw_sys_if(!DefineDosDevice(DDD_RAW_TARGET_PATH, EfiBootPartPath, BootVolumePath));		
-
-		Device  dev(EfiBootPartPath, TRUE);
+		std::wstring devicePath = L"\\\\?\\GLOBALROOT";
+		devicePath += BootVolumePath;
+		Device  dev(devicePath.c_str(), TRUE);
 
 		try
 		{
@@ -2556,7 +2546,6 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
-			DefineDosDevice(DDD_REMOVE_DEFINITION, EfiBootPartPath, NULL);
 			throw;
 		}
 		
@@ -2566,20 +2555,9 @@ namespace VeraCrypt
 		dev.Close();
 		if (!bSuccess)
 		{
-			DefineDosDevice(DDD_REMOVE_DEFINITION, EfiBootPartPath, NULL);
 			SetLastError (dwLastError);
 			throw SystemException(SRC_POS);
-		}
-
-		m_bMounted = true;
-	}
-
-	void EfiBoot::DismountBootPartition() {
-		if (m_bMounted)
-		{
-			DefineDosDevice(DDD_REMOVE_DEFINITION, EfiBootPartPath, NULL);
-			m_bMounted = false;
-		}
+		}		
 	}
 
 	bool EfiBoot::IsEfiBoot() {
@@ -3085,8 +3063,7 @@ namespace VeraCrypt
 			if (!DcsInfoImg)
 				throw ErrorException(L"Out of resource DcsInfo", SRC_POS);
 
-			finally_do ({ EfiBootInst.DismountBootPartition(); });
-			EfiBootInst.MountBootPartition(0);			
+			EfiBootInst.PrepareBootPartition();			
 
 			try
 			{
@@ -4110,9 +4087,7 @@ namespace VeraCrypt
 			const char* g_szMsBootString = "bootmgfw.pdb";
 			bool bModifiedMsBoot = true;
 
-			finally_do ({ EfiBootInst.DismountBootPartition(); });
-
-			EfiBootInst.MountBootPartition(0);		
+			EfiBootInst.PrepareBootPartition();		
 
 			EfiBootInst.GetFileSize(szStdMsBootloader, loaderSize);
 			bootLoaderBuf.resize ((size_t) loaderSize);
@@ -4233,9 +4208,7 @@ namespace VeraCrypt
 				}
 			}
 
-			finally_do ({ EfiBootInst.DismountBootPartition(); });
-
-			EfiBootInst.MountBootPartition(0);			
+			EfiBootInst.PrepareBootPartition();			
 
 			EfiBootInst.DeleteStartExec();
 			EfiBootInst.DeleteStartExec(0xDC5B, L"Driver"); // remove DcsBml boot driver it was installed
@@ -4735,8 +4708,7 @@ namespace VeraCrypt
 			}
 			else
 			{
-				finally_do ({ EfiBootInst.DismountBootPartition(); });
-				EfiBootInst.MountBootPartition(0);		
+				EfiBootInst.PrepareBootPartition();		
 				memcpy (pSdn, EfiBootInst.GetStorageDeviceNumber(), sizeof (STORAGE_DEVICE_NUMBER));
 			}
 		}

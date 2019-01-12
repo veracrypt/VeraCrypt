@@ -285,7 +285,7 @@ BEGIN
     LTEXT           "",IDT_PKCS11_LIB_HELP,16,63,286,65
 END
 
-IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 375, 182
+IDD_EFI_SYSENC_SETTINGS DIALOGEX 0, 0, 375, 194
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -295,18 +295,20 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,20,339,9
     CONTROL         "Do not request Hash algorithm in the pre-boot authentication screen",IDC_DISABLE_BOOT_LOADER_HASH_PROMPT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,35,339,9
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,53,355,61
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,7,53,355,75
     CONTROL         "&Cache pre-boot authentication password in driver memory (for mounting of non-system volumes)",IDC_BOOT_LOADER_CACHE_PASSWORD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,339,10
     CONTROL         "Include PIM when caching pre-boot authentication password",IDC_BOOT_LOADER_CACHE_PIM,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,16,83,340,10
     CONTROL         "Block TRIM command on system partition/drive",IDC_BLOCK_SYSENC_TRIM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,98,340,10
-    GROUPBOX        "Advanced Options",IDT_ADVANCED_OPTIONS,7,116,355,36
-    PUSHBUTTON      "Edit Boot Loader Configuration",IDC_EDIT_DCSPROP,10,129,173,14
-    PUSHBUTTON      "Display EFI Platform Information",IDC_SHOW_PLATFORMINFO,187,129,173,14
-    PUSHBUTTON      "Cancel",IDCANCEL,313,158,50,14
-    DEFPUSHBUTTON   "OK",IDOK,255,158,50,14
+    GROUPBOX        "Advanced Options",IDT_ADVANCED_OPTIONS,7,131,355,36
+    PUSHBUTTON      "Edit Boot Loader Configuration",IDC_EDIT_DCSPROP,10,144,173,14
+    PUSHBUTTON      "Display EFI Platform Information",IDC_SHOW_PLATFORMINFO,187,144,173,14
+    PUSHBUTTON      "Cancel",IDCANCEL,313,170,50,14
+    DEFPUSHBUTTON   "OK",IDOK,255,170,50,14
+    CONTROL         "Clear encryption keys from memory if a new device is inserted",IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,112,340,10
 END
 
 IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 265
@@ -393,7 +395,7 @@ BEGIN
     CONTROL         "TrueCrypt Mode",IDC_TRUECRYPT_MODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,76,10
 END
 
-IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 371, 297
+IDD_SYSENC_SETTINGS DIALOGEX 0, 0, 371, 310
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - System Encryption Settings"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -413,12 +415,14 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,237,340,10
     CONTROL         "Block TRIM command on system partition/drive",IDC_BLOCK_SYSENC_TRIM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,251,340,10
-    PUSHBUTTON      "Cancel",IDCANCEL,314,273,50,14
-    DEFPUSHBUTTON   "OK",IDOK,257,273,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,314,286,50,14
+    DEFPUSHBUTTON   "OK",IDOK,257,286,50,14
     LTEXT           "Display this custom message in the pre-boot authentication screen (24 characters maximum):",IDT_CUSTOM_BOOT_LOADER_MESSAGE,18,39,337,8
     GROUPBOX        "Boot Loader Screen Options",IDT_BOOT_LOADER_SCREEN_OPTIONS,9,7,355,165
-    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,9,177,355,92
+    GROUPBOX        "Security Options",IDT_SECURITY_OPTIONS,9,177,355,105
     LTEXT           "",IDC_CUSTOM_BOOT_LOADER_MESSAGE_HELP,18,72,337,73
+    CONTROL         "Clear encryption keys from memory if a new device is inserted",IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,265,340,10
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -494,7 +498,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 368
         TOPMARGIN, 7
-        BOTTOMMARGIN, 172
+        BOTTOMMARGIN, 184
     END
 
     IDD_PERFORMANCE_SETTINGS, DIALOG
@@ -526,7 +530,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 364
         TOPMARGIN, 7
-        BOTTOMMARGIN, 287
+        BOTTOMMARGIN, 300
     END
 END
 #endif    // APSTUDIO_INVOKED
