@@ -92,6 +92,34 @@ void localcleanup (void)
 	CloseAppSetupMutex ();
 }
 
+BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
+{
+	BOOL bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
+	if (!bRet)
+	{
+		wstring renamedPath = szDestFile;
+		renamedPath += VC_FILENAME_RENAMED_SUFFIX;
+
+		/* rename the locked file in order to be able to create a new one */
+		if (MoveFileExW (szDestFile, renamedPath.c_str(), MOVEFILE_REPLACE_EXISTING))
+		{
+			bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
+			if (bRet)
+			{
+				/* delete the renamed file when the machine reboots */
+				MoveFileEx (renamedPath.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+			}
+			else
+			{
+				/* restore the original file name */
+				MoveFileEx (renamedPath.c_str(), szDestFile, MOVEFILE_REPLACE_EXISTING);
+			}
+		}
+	}
+
+	return bRet;
+}
+
 BOOL ForceDeleteFile (LPCWSTR szFileName)
 {
 	if (!DeleteFile (szFileName))
@@ -814,14 +842,6 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 					wstring favoritesFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false);
 					wstring favoritesLegacyFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, true);
 
-					if (	FileExists (servicePath.c_str())
-						||	(Is64BitOs () && FileExists (serviceLegacyPath.c_str()))
-						)
-					{
-						CopyMessage (hwndDlg, (wchar_t *) servicePath.c_str());
-						bResult = CopyFile (szTmp, servicePath.c_str(), FALSE);
-					}
-
 					if (bResult && Is64BitOs ()
 						&& FileExists (favoritesLegacyFile.c_str())
 						&& !FileExists (favoritesFile.c_str()))
@@ -830,7 +850,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 						bResult = CopyFile (favoritesLegacyFile.c_str(), favoritesFile.c_str(), FALSE);
 					}
 
-					if (bResult && Is64BitOs () && FileExists (favoritesFile.c_str()) && FileExists (servicePath.c_str()))
+					if (bResult)
 					{
 						// Update the path of the service
 						BootEncryption BootEncObj (hwndDlg);
@@ -839,7 +859,10 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 						{
 							if (BootEncObj.GetDriverServiceStartType() == SERVICE_BOOT_START)
 							{
-								BootEncObj.UpdateSystemFavoritesService ();
+								CopyMessage (hwndDlg, (wchar_t *) servicePath.c_str());
+								bResult = ForceCopyFile (szTmp, servicePath.c_str());
+								if (bResult)
+									BootEncObj.UpdateSystemFavoritesService ();
 							}
 						}
 						catch (...) {}

@@ -4599,8 +4599,6 @@ namespace VeraCrypt
 			{
 				WriteLocalMachineRegistryString (L"SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, NULL, L"Service", FALSE);
 				WriteLocalMachineRegistryString (L"SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, NULL, L"Service", FALSE);
-
-				SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, true);
 			}
 			catch (...)
 			{
@@ -4615,13 +4613,14 @@ namespace VeraCrypt
 		}
 		else
 		{
-			SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, false);
-
 			DeleteLocalMachineRegistryKey (L"SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal", TC_SYSTEM_FAVORITES_SERVICE_NAME);
 			DeleteLocalMachineRegistryKey (L"SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network", TC_SYSTEM_FAVORITES_SERVICE_NAME);
 
 			SC_HANDLE service = OpenService (scm, TC_SYSTEM_FAVORITES_SERVICE_NAME, SERVICE_ALL_ACCESS);
 			throw_sys_if (!service);
+
+			SERVICE_STATUS serviceStatus = {0};
+			ControlService (service, SERVICE_CONTROL_STOP, &serviceStatus);
 
 			throw_sys_if (!DeleteService (service));
 			CloseServiceHandle (service);
@@ -4940,7 +4939,7 @@ namespace VeraCrypt
 
 		try
 		{
-			RegisterSystemFavoritesService (false);
+			RegisterSystemFavoritesService (FALSE);
 		}
 		catch (...) { }
 
@@ -5168,6 +5167,8 @@ namespace VeraCrypt
 				InstallVolumeHeader ();
 
 			RegisterBootDriver (hiddenSystem);
+
+			RegisterSystemFavoritesService (TRUE);
 		}
 		catch (Exception &)
 		{

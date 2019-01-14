@@ -9352,7 +9352,7 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 	case SERVICE_CONTROL_PRESHUTDOWN:
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
-		if (BootEncObj)
+		if (BootEncObj && BootEncStatus.DriveMounted && BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT)
 		{
 			try
 			{
@@ -9383,11 +9383,10 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 			DEV_BROADCAST_HDR* pHdr = (DEV_BROADCAST_HDR *) lpEventData;
 			if (pHdr->dbch_devicetype != DBT_DEVTYP_VOLUME &&  pHdr->dbch_devicetype != DBT_DEVTYP_HANDLE)			
 			{
-				SystemFavoritesServiceLogInfo (L"SERVICE_CONTROL_DEVICEEVENT - DBT_DEVICEARRIVAL received");
-
 				if (ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)
 				{
 					BOOL bClearKeys = TRUE;
+					SystemFavoritesServiceLogInfo (L"SERVICE_CONTROL_DEVICEEVENT - DBT_DEVICEARRIVAL received");
 					if (pHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE)
 					{
 						DEV_BROADCAST_DEVICEINTERFACE* pInf = (DEV_BROADCAST_DEVICEINTERFACE*) pHdr;
@@ -9402,13 +9401,9 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 					}
 
 					if (bClearKeys)
-					{						
+					{
 						DWORD cbBytesReturned = 0;
-						BOOL bResult = DeviceIoControl (hDriver, VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS, NULL, 0, NULL, 0, &cbBytesReturned, NULL);
-						if (bResult)
-							SystemFavoritesServiceLogInfo (L"New device insertion detected - encryption keys cleared");
-						else
-							SystemFavoritesServiceLogInfo (L"New device insertion detected - failed to clear encryption keys");
+						DeviceIoControl (hDriver, VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS, NULL, 0, NULL, 0, &cbBytesReturned, NULL);
 					}
 				}
 			}
@@ -9445,8 +9440,8 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 	memset (&SystemFavoritesServiceStatus, 0, sizeof (SystemFavoritesServiceStatus));
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
 	SystemFavoritesServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
-	if (IsOSAtLeast (WIN_VISTA) && BootEncObj && BootEncStatus.DriveMounted && BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT)
-		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN;
+	if (IsOSAtLeast (WIN_VISTA))
+		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN;		
 
 	ZeroMemory (&hdr, sizeof(hdr));
 	hdr.dbcc_size = sizeof (hdr);

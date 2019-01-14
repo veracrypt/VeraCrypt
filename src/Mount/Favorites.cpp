@@ -256,7 +256,7 @@ namespace VeraCrypt
 						{
 							uint32 reqConfig = IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT) ? TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES : 0;
 							if (reqConfig != (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
-								BootEncObj.RegisterSystemFavoritesService (reqConfig ? TRUE : FALSE);
+								BootEncObj.SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, reqConfig ? true : false);
 
 							SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS, IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY));
 						}
