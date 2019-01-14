@@ -39,12 +39,18 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.24-Beta0 </strong>(December 18<sup>th</sup>, 2018):</p>
+<p><strong style="text-align:left">1.24-Beta1 </strong>(January 12<sup>th</sup>, 2019):</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
 <li>MBR Bootloader: dynamically determine boot loader memory segment instead of hardcoded values (proposed by neos6464)</li>
 <li>MBR Bootloader: workaround for issue affecting creation of hidden OS on some SSD drives.</li>
+<li>New security features:</li>
+<ul>
+<li>Erase system encryption keys from memory during shutdown/reboot to help mitigate some cold boot attacks</li>
+<li>Add option when system encryption is used to erase all encryption keys from memory when a new device is connected to the system.</li>
+<li>Add new driver entry point that can be called by applications to erase encryption keys from memory in case of emergency.</li>
+</ul>
 <li>Add mount option that allows mounting a volume without attaching it to the specified drive letter.</li>
 <li>Update libzip to version 1.5.1</li>
 <li>Do not create uninstall shortcut in startmenu when installing VeraCrypt. (by Sven Strickroth)</li>

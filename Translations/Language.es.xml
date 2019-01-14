@@ -1429,6 +1429,8 @@
     <entry lang="es" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">ADVERTENCIA: Defragmentar particiones/discos no de sistema puede filtrar metadatos acerca de su contenido o causar dificultades con los volúmenes ocultos que puedan contener.\n\n¿Continuar?</entry>
     <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
     <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
+    <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
+    <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
