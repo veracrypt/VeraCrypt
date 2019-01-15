@@ -1611,10 +1611,6 @@ static void RefreshMultiBootControls (HWND hwndDlg)
 		nMultiBoot = 1;
 #endif
 
-	// For now, we force single configuration in wizard
-	if (bSystemIsGPT && nMultiBoot == 0)
-		nMultiBoot = 1;
-
 	SendMessage (GetDlgItem (hwndDlg, IDC_SINGLE_BOOT),
 		BM_SETCHECK,
 		nMultiBoot == 1 ? BST_CHECKED : BST_UNCHECKED,
@@ -3874,7 +3870,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDCANCEL), GetString ("CANCEL"));
 
 			RefreshMultiBootControls (hwndDlg);
-			DisableIfGpt(GetDlgItem(hwndDlg, IDC_MULTI_BOOT));
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), nMultiBoot > 0);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), TRUE);
@@ -7182,9 +7177,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// Skip irrelevant pages
 					nNewPageNo = HIDDEN_VOL_HOST_PRE_CIPHER_PAGE - 1;
 				}
-				else if (nMultiBoot <= 1)
+				else if ((nMultiBoot <= 1) || bSystemIsGPT)
 				{
 					// Single-boot (not creating a hidden OS)
+					// Multi-boot in case of GPT
 
 					// Skip irrelevant pages
 					nNewPageNo = CIPHER_PAGE - 1;
@@ -8766,7 +8762,7 @@ ovf_end:
 
 				if (WizardMode == WIZARD_MODE_SYS_DEVICE)
 				{
-					if (nMultiBoot > 1)
+					if ((nMultiBoot > 1) && !bSystemIsGPT)
 						nNewPageNo = SYSENC_MULTI_BOOT_OUTCOME_PAGE + 1;	// Skip irrelevant pages
 					else
 						nNewPageNo = SYSENC_MULTI_BOOT_MODE_PAGE + 1;		// Skip irrelevant pages

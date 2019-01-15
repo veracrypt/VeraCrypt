@@ -2800,7 +2800,7 @@ namespace VeraCrypt
 		throw_sys_if (!::CopyFileW (path.c_str(), targetPath.c_str(), FALSE));
 	}
 
-	BOOL EfiBoot::RenameFile(const wchar_t* name, wchar_t* nameNew, BOOL bForce) {
+	BOOL EfiBoot::RenameFile(const wchar_t* name, const wchar_t* nameNew, BOOL bForce) {
 		wstring path = EfiBootPartPath;
 		path += name;
 		wstring pathNew = EfiBootPartPath;
@@ -3069,12 +3069,14 @@ namespace VeraCrypt
 			{
 				// Save modules
 				bool bAlreadyExist;
+				const char* g_szMsBootString = "bootmgfw.pdb";
+				unsigned __int64 loaderSize = 0;
+				const wchar_t * szStdEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi";
+				const wchar_t * szBackupEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\original_bootx64.vc_backup": L"\\EFI\\Boot\\original_bootia32.vc_backup";
 
 				if (preserveUserConfig)
 				{
 					bool bModifiedMsBoot = true;
-					const char* g_szMsBootString = "bootmgfw.pdb";
-					unsigned __int64 loaderSize = 0;
 					EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
 
 					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
@@ -3150,11 +3152,29 @@ namespace VeraCrypt
 						// if yes, replace it with our bootloader after it was copied to bootmgfw_ms.vc
 						if (!bModifiedMsBoot)
 							EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi");
+
+						if (EfiBootInst.FileExists (szStdEfiBootloader))
+						{
+							// check if standard bootloader under EFI\Boot has been set to Microsoft version
+							// if yes, replace it with our bootloader
+							EfiBootInst.GetFileSize(szStdEfiBootloader, loaderSize);
+							if (loaderSize > 32768)
+							{
+								std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+
+								EfiBootInst.ReadFile(szStdEfiBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
+
+								// look for bootmgfw.efi identifiant string
+								if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+								{
+									EfiBootInst.RenameFile (szStdEfiBootloader, szBackupEfiBootloader, TRUE);
+									EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", szStdEfiBootloader);
+								}
+							}
+						}
 						return;
 					}
 				}
-
-				const wchar_t * szStdEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi";
 
 				EfiBootInst.MkDir(L"\\EFI\\VeraCrypt", bAlreadyExist);
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsBoot.efi", dcsBootImg, sizeDcsBoot);
@@ -3170,7 +3190,26 @@ namespace VeraCrypt
 				EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi");
 
 				if (EfiBootInst.FileExists (szStdEfiBootloader))
-					EfiBootInst.SaveFile(szStdEfiBootloader, dcsBootImg, sizeDcsBoot);
+				{
+					// check if standard bootloader under EFI\Boot is Microsoft one or if it is ours
+					// if both cases, replace it with our bootloader otherwise do nothing
+					EfiBootInst.GetFileSize(szStdEfiBootloader, loaderSize);
+					std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+					EfiBootInst.ReadFile(szStdEfiBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
+
+					// look for bootmgfw.efi or VeraCrypt identifiant strings
+					if (	((loaderSize > 32768) && BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+						)
+					{
+						EfiBootInst.RenameFile (szStdEfiBootloader, szBackupEfiBootloader, TRUE);
+						EfiBootInst.SaveFile(szStdEfiBootloader, dcsBootImg, sizeDcsBoot);
+					}
+					if (	((loaderSize <= 32768) && BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, _T(TC_APP_NAME), strlen (TC_APP_NAME) * 2))
+						)
+					{
+						EfiBootInst.SaveFile(szStdEfiBootloader, dcsBootImg, sizeDcsBoot);
+					}
+				}
 				EfiBootInst.SaveFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", dcsBootImg, sizeDcsBoot);
 				// move configuration file from old location (if it exists) to new location
 				// we don't force the move operation if the new location already exists
@@ -4080,8 +4119,6 @@ namespace VeraCrypt
 			}
 			unsigned __int64 loaderSize = 0;
 			std::vector<byte> bootLoaderBuf;
-			const wchar_t * szStdEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\bootx64.efi": L"\\EFI\\Boot\\bootia32.efi";
-			const wchar_t * szBackupEfiBootloader = Is64BitOs()? L"\\EFI\\Boot\\original_bootx64.vc_backup": L"\\EFI\\Boot\\original_bootia32.vc_backup";
 			const wchar_t * szStdMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi";
 			const wchar_t * szBackupMsBootloader = L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc";
 			const char* g_szMsBootString = "bootmgfw.pdb";
@@ -4134,36 +4171,7 @@ namespace VeraCrypt
 			}
 
 			EfiBootInst.CopyFile (szStdMsBootloader, szBackupMsBootloader);
-
-			if (EfiBootInst.FileExists (szStdEfiBootloader))
-			{
-				EfiBootInst.GetFileSize (szStdEfiBootloader, loaderSize);
-
-				bootLoaderBuf.resize ((size_t) loaderSize);
-
-				EfiBootInst.ReadFile (szStdEfiBootloader, &bootLoaderBuf[0], (DWORD) loaderSize);
-
-				// Prevent VeraCrypt EFI loader from being backed up
-				if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, _T(TC_APP_NAME), wcslen (_T(TC_APP_NAME)) * 2))
-				{
-					if (AskWarnNoYes ("TC_BOOT_LOADER_ALREADY_INSTALLED", ParentWindow) == IDNO)
-						throw UserAbort (SRC_POS);
-
-					// check if backup exists already and if it has bootmgfw signature
-					if (EfiBootInst.FileExists (szBackupEfiBootloader))
-					{
-						// perform the backup on disk using this file
-						EfiBootInst.CopyFile (szBackupEfiBootloader, GetSystemLoaderBackupPath().c_str());
-					}
-
-					return;
-				}
-
-				EfiBootInst.CopyFile (szStdEfiBootloader, GetSystemLoaderBackupPath().c_str());
-				EfiBootInst.CopyFile (szStdEfiBootloader, szBackupEfiBootloader);
-			}
-			else
-				EfiBootInst.CopyFile (szStdMsBootloader, GetSystemLoaderBackupPath().c_str());
+			EfiBootInst.CopyFile (szStdMsBootloader, GetSystemLoaderBackupPath().c_str());
 
 		}
 		else
@@ -4680,6 +4688,21 @@ namespace VeraCrypt
 		WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, configMap);
 #else
 		WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, configMap);
+#endif
+	}
+
+	void BootEncryption::SetServiceConfigurationFlag (uint32 flag, bool state)
+	{
+		DWORD configMap = ReadDriverConfigurationFlags();
+
+		if (state)
+			configMap |= flag;
+		else
+			configMap &= ~flag;
+#ifdef SETUP
+		WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, TC_SYSTEM_FAVORITES_SERVICE_NAME L"Config", configMap);
+#else
+		WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Services\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, TC_SYSTEM_FAVORITES_SERVICE_NAME L"Config", configMap);
 #endif
 	}
 
@@ -5354,6 +5377,16 @@ namespace VeraCrypt
 		DWORD configMap;
 
 		if (!ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_DRIVER_CONFIG_REG_VALUE_NAME, &configMap))
+			configMap = 0;
+
+		return configMap;
+	}
+
+	uint32 BootEncryption::ReadServiceConfigurationFlags ()
+	{
+		DWORD configMap;
+
+		if (!ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, TC_SYSTEM_FAVORITES_SERVICE_NAME L"Config", &configMap))
 			configMap = 0;
 
 		return configMap;

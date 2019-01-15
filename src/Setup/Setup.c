@@ -92,6 +92,74 @@ void localcleanup (void)
 	CloseAppSetupMutex ();
 }
 
+#define WAIT_PERIOD 3
+
+BOOL StartStopService (HWND hwndDlg, wchar_t *lpszService, BOOL bStart, DWORD argc, LPCWSTR* argv)
+{
+	SC_HANDLE hManager, hService = NULL;
+	BOOL bOK = FALSE, bRet;
+	SERVICE_STATUS status = {0};
+	int x;
+	DWORD dwExpectedState = bStart? SERVICE_RUNNING : SERVICE_STOPPED;
+
+	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
+	if (hManager == NULL)
+		goto error;
+
+	hService = OpenService (hManager, lpszService, SERVICE_ALL_ACCESS);
+	if (hService == NULL)
+		goto error;
+
+	if (bStart)
+		StatusMessageParam (hwndDlg, "STARTING", lpszService);
+	else
+		StatusMessageParam (hwndDlg, "STOPPING", lpszService);
+
+	if (bStart)
+	{
+		if (!StartService (hService, argc, argv) && (GetLastError () != ERROR_SERVICE_ALREADY_RUNNING))
+			goto error;
+	}
+	else
+		ControlService (hService, SERVICE_CONTROL_STOP, &status);
+
+	for (x = 0; x < WAIT_PERIOD; x++)
+	{
+		bRet = QueryServiceStatus (hService, &status);
+		if (bRet != TRUE)
+			goto error;
+
+		if (status.dwCurrentState == dwExpectedState)
+			break;
+
+		Sleep (1000);
+	}
+
+	bRet = QueryServiceStatus (hService, &status);
+	if (bRet != TRUE)
+		goto error;
+
+	if (status.dwCurrentState != dwExpectedState)
+		goto error;
+
+	bOK = TRUE;
+
+error:
+
+	if (bOK == FALSE && GetLastError () == ERROR_SERVICE_DOES_NOT_EXIST)
+	{
+		bOK = TRUE;
+	}
+
+	if (hService != NULL)
+		CloseServiceHandle (hService);
+
+	if (hManager != NULL)
+		CloseServiceHandle (hManager);
+
+	return bOK;
+}
+
 BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
 {
 	BOOL bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
@@ -859,10 +927,33 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 						{
 							if (BootEncObj.GetDriverServiceStartType() == SERVICE_BOOT_START)
 							{
+								uint32 driverFlags = ReadDriverConfigurationFlags ();
+								uint32 serviceFlags = BootEncObj.ReadServiceConfigurationFlags ();
+
+								BootEncObj.UpdateSystemFavoritesService ();
+
 								CopyMessage (hwndDlg, (wchar_t *) servicePath.c_str());
-								bResult = ForceCopyFile (szTmp, servicePath.c_str());
-								if (bResult)
-									BootEncObj.UpdateSystemFavoritesService ();
+
+								// Tell the service not to update loader on stop
+								BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, true);
+
+								if (StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+								{
+									// we tell the service not to load system favorites on startup
+									LPCWSTR szArgs[2] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT};
+									if (!CopyFile (szTmp, servicePath.c_str(), FALSE))
+										ForceCopyFile (szTmp, servicePath.c_str());
+
+									StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, 2, szArgs);
+								}
+								else
+									ForceCopyFile (szTmp, servicePath.c_str());
+
+								BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
+
+								// remove the service flag if it was set originally
+								if (!(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
+									BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, false);
 							}
 						}
 						catch (...) {}
@@ -1377,8 +1468,6 @@ retry:
 	}
 	else
 		StatusMessageParam (hwndDlg, "STOPPING", lpszService);
-
-#define WAIT_PERIOD 3
 
 	for (x = 0; x < WAIT_PERIOD; x++)
 	{

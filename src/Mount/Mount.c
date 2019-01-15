@@ -9350,32 +9350,35 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 	switch (dwControl)
 	{
 	case SERVICE_CONTROL_PRESHUTDOWN:
+	case SERVICE_CONTROL_STOP:
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
-		if (BootEncObj && BootEncStatus.DriveMounted && BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT)
+		if (bSystemIsGPT)
 		{
-			try
+			uint32 serviceFlags = BootEncObj->ReadServiceConfigurationFlags ();
+			if (!(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
 			{
-				BootEncryption::UpdateSetupConfigFile (true);
-				// re-install our bootloader again in case the update process has removed it.
-				BootEncryption bootEnc (NULL, true);
-				bootEnc.InstallBootLoader (true);
-			}
-			catch (...)
-			{
+				try
+				{
+					BootEncryption::UpdateSetupConfigFile (true);
+					if (!BootEncStatus.HiddenSystem)
+					{
+						// re-install our bootloader again in case the update process has removed it.
+						BootEncryption bootEnc (NULL, true);
+						bootEnc.InstallBootLoader (true);
+					}
+				}
+				catch (...)
+				{
+				}
 			}
 		}
 
 		/* clear VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION flag */
 		SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, FALSE);
-
 		SetEvent (SystemFavoriteServiceStopEvent);
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
-		break;
-	case SERVICE_CONTROL_STOP:
-		SetEvent (SystemFavoriteServiceStopEvent);
-		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 		break;
 	case SERVICE_CONTROL_DEVICEEVENT:
 		if (DBT_DEVICEARRIVAL == dwEventType)
@@ -9437,11 +9440,15 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 {
 	BOOL status = FALSE;
 	DEV_BROADCAST_DEVICEINTERFACE hdr;
+	BOOL bSkipMount = FALSE;
 	memset (&SystemFavoritesServiceStatus, 0, sizeof (SystemFavoritesServiceStatus));
 	SystemFavoritesServiceStatus.dwServiceType = SERVICE_WIN32_OWN_PROCESS;
 	SystemFavoritesServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
 	if (IsOSAtLeast (WIN_VISTA))
-		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN;		
+		SystemFavoritesServiceStatus.dwControlsAccepted |= SERVICE_ACCEPT_PRESHUTDOWN;
+
+	if ((argc >= 2) && (0 == _wcsicmp (argv[1], VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT)))
+		bSkipMount = TRUE;
 
 	ZeroMemory (&hdr, sizeof(hdr));
 	hdr.dbcc_size = sizeof (hdr);
@@ -9457,38 +9464,40 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
   
 	SystemFavoriteServiceNotify = RegisterDeviceNotification (SystemFavoritesServiceStatusHandle, &hdr,DEVICE_NOTIFY_SERVICE_HANDLE | DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
 
-	InitGlobalLocks ();
-
 	SetUnhandledExceptionFilter (SystemFavoritesServiceExceptionHandler);
 	_set_invalid_parameter_handler (SystemFavoritesServiceInvalidParameterHandler);
 
-	SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
-
-	SystemFavoritesServiceLogInfo (wstring (L"Initializing list of host devices"));
-	// initialize the list of devices available for mounting as early as possible
-	UpdateMountableHostDeviceList ();
-
-	SystemFavoritesServiceLogInfo (wstring (L"Starting System Favorites mounting process"));
-
-	try
+	if (!bSkipMount)
 	{
-		status = MountFavoriteVolumes (NULL, TRUE);
-	}
-	catch (...) { }
+		InitGlobalLocks ();
+		SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
 
-	if (status)
-	{
-		SystemFavoritesServiceLogInfo (wstring (L"System Favorites mounting process finished"));
-	}
-	else
-	{
-		SystemFavoritesServiceLogError (wstring (L"System Favorites mounting process failed."));
-	}
+		SystemFavoritesServiceLogInfo (wstring (L"Initializing list of host devices"));
+		// initialize the list of devices available for mounting as early as possible
+		UpdateMountableHostDeviceList ();
 
-	FinalizeGlobalLocks ();
+		SystemFavoritesServiceLogInfo (wstring (L"Starting System Favorites mounting process"));
 
-	if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD))
-		WipeCache (NULL, TRUE);
+		try
+		{
+			status = MountFavoriteVolumes (NULL, TRUE);
+		}
+		catch (...) { }
+
+		if (status)
+		{
+			SystemFavoritesServiceLogInfo (wstring (L"System Favorites mounting process finished"));
+		}
+		else
+		{
+			SystemFavoritesServiceLogError (wstring (L"System Favorites mounting process failed."));
+		}
+
+		FinalizeGlobalLocks ();
+
+		if (!(ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD))
+			WipeCache (NULL, TRUE);
+	}
 
 	SystemFavoritesServiceSetStatus (SERVICE_RUNNING);
 
@@ -9525,6 +9534,7 @@ static BOOL StartSystemFavoritesService ()
 	{
 		BootEncObj = new BootEncryption (NULL);
 		BootEncStatus = BootEncObj->GetStatus();
+		bSystemIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 	}
 	catch (Exception &)
 	{
