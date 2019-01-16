@@ -82,6 +82,15 @@
 	<key>CFBundleLongVersionString</key>
 	<string>VeraCrypt _VERSION_</string>
 
+	<key>LSArchitecturePriority</key>
+	<array>
+		<string>x86_64</string>
+		<string>i386</string>
+	</array>
+
+	<key>LSMinimumSystemVersion</key>
+	<string>10.7.0</string>
+
 	<key>LSRequiresCarbon</key>
 	<false/>
 
