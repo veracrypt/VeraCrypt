@@ -465,13 +465,13 @@ KeyReady:	;
 
 				// Header version
 				cryptoInfo->HeaderVersion = headerVersion;
-
+#if 0
 				// Volume creation time (legacy)
 				cryptoInfo->volume_creation_time = GetHeaderField64 (header, TC_HEADER_OFFSET_VOLUME_CREATION_TIME).Value;
 
 				// Header creation time (legacy)
 				cryptoInfo->header_creation_time = GetHeaderField64 (header, TC_HEADER_OFFSET_MODIFICATION_TIME).Value;
-
+#endif
 				// Hidden volume size (if any)
 				cryptoInfo->hiddenVolumeSize = GetHeaderField64 (header, TC_HEADER_OFFSET_HIDDEN_VOLUME_SIZE).Value;
 
@@ -529,7 +529,6 @@ KeyReady:	;
 				memcpy (cryptoInfo->master_keydata, keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
 
 				// PKCS #5
-				memcpy (cryptoInfo->salt, keyInfo.salt, PKCS5_SALT_SIZE);
 				cryptoInfo->pkcs5 = pkcs5_prf;
 				cryptoInfo->noIterations = keyInfo.noIterations;
 				cryptoInfo->bTrueCryptMode = truecryptMode;

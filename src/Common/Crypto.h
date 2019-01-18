@@ -245,17 +245,12 @@ typedef struct CRYPTO_INFO_t
 #ifndef TC_WINDOWS_BOOT
 	uint16 HeaderVersion;
 
-	GfCtx gf_ctx; 
-
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 master_keydata[MASTER_KEYDATA_SIZE];	/* This holds the volume header area containing concatenated master key(s) and secondary key(s) (XTS mode). For LRW (deprecated/legacy), it contains the tweak key before the master key(s). For CBC (deprecated/legacy), it contains the IV seed before the master key(s). */
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 k2[MASTER_KEYDATA_SIZE];				/* For XTS, this contains the secondary key (if cascade, multiple concatenated). For LRW (deprecated/legacy), it contains the tweak key. For CBC (deprecated/legacy), it contains the IV seed. */
-	unsigned __int8 salt[PKCS5_SALT_SIZE];
+
 	int noIterations;	
 	BOOL bTrueCryptMode;
 	int volumePim;
-
-	uint64 volume_creation_time;	// Legacy
-	uint64 header_creation_time;	// Legacy
 
 	BOOL bProtectHiddenVolume;			// Indicates whether the volume contains a hidden volume to be protected against overwriting
 	BOOL bHiddenVolProtectionAction;		// TRUE if a write operation has been denied by the driver in order to prevent the hidden volume from being overwritten (set to FALSE upon volume mount).

@@ -1135,8 +1135,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 	{
 		Dump ("Header reopened\n");
 		ComputeBootLoaderFingerprint (BootDriveFilterExtension->LowerDeviceObject, header);
-		
-		BootDriveFilterExtension->Queue.CryptoInfo->header_creation_time = BootDriveFilterExtension->HeaderCryptoInfo->header_creation_time;
+
 		BootDriveFilterExtension->Queue.CryptoInfo->pkcs5 = BootDriveFilterExtension->HeaderCryptoInfo->pkcs5;
 		BootDriveFilterExtension->Queue.CryptoInfo->noIterations = BootDriveFilterExtension->HeaderCryptoInfo->noIterations;
 		BootDriveFilterExtension->Queue.CryptoInfo->volumePim = BootDriveFilterExtension->HeaderCryptoInfo->volumePim;
