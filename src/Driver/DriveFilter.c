@@ -2181,10 +2181,8 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 		DecoySystemWipeResult = STATUS_INVALID_PARAMETER;
 		goto ret;
 	}
-
-	memcpy (wipeCryptoInfo->k2, WipeDecoyRequest.WipeKey + EAGetKeySize (ea), EAGetKeySize (ea));
 	
-	if (!EAInitMode (wipeCryptoInfo))
+	if (!EAInitMode (wipeCryptoInfo, WipeDecoyRequest.WipeKey + EAGetKeySize (ea)))
 	{
 		DecoySystemWipeResult = STATUS_INVALID_PARAMETER;
 		goto err;

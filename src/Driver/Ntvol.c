@@ -663,7 +663,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			if (Extension->cryptoInfo->hiddenVolume && IsHiddenSystemRunning())
 			{
 				// Prevent mount of a hidden system partition if the system hosted on it is currently running
-				if (memcmp (Extension->cryptoInfo->master_keydata, GetSystemDriveCryptoInfo()->master_keydata, EAGetKeySize (Extension->cryptoInfo->ea)) == 0)
+				if (memcmp (Extension->cryptoInfo->master_keydata_hash, GetSystemDriveCryptoInfo()->master_keydata_hash, sizeof(Extension->cryptoInfo->master_keydata_hash)) == 0)
 				{
 					mount->nReturnCode = ERR_VOL_ALREADY_MOUNTED;
 					ntStatus = STATUS_SUCCESS;

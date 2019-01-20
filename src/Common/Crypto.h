@@ -245,8 +245,12 @@ typedef struct CRYPTO_INFO_t
 #ifndef TC_WINDOWS_BOOT
 	uint16 HeaderVersion;
 
+#ifdef TC_WINDOWS_DRIVER
+	unsigned __int8 master_keydata_hash[SHA512_DIGESTSIZE];
+#else
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 master_keydata[MASTER_KEYDATA_SIZE];	/* This holds the volume header area containing concatenated master key(s) and secondary key(s) (XTS mode). For LRW (deprecated/legacy), it contains the tweak key before the master key(s). For CBC (deprecated/legacy), it contains the IV seed before the master key(s). */
 	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 k2[MASTER_KEYDATA_SIZE];				/* For XTS, this contains the secondary key (if cascade, multiple concatenated). For LRW (deprecated/legacy), it contains the tweak key. For CBC (deprecated/legacy), it contains the IV seed. */
+#endif
 
 	int noIterations;	
 	BOOL bTrueCryptMode;
@@ -320,7 +324,7 @@ int EAInit (int ea, unsigned char *key, unsigned char *ks);
 #else
 int EAInit (unsigned char *key, unsigned char *ks);
 #endif
-BOOL EAInitMode (PCRYPTO_INFO ci);
+BOOL EAInitMode (PCRYPTO_INFO ci, unsigned char* key2);
 void EncipherBlock(int cipher, void *data, void *ks);
 void DecipherBlock(int cipher, void *data, void *ks);
 #ifndef TC_WINDOWS_BOOT

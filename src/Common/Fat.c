@@ -416,7 +416,7 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			burn (temporaryKey, sizeof(temporaryKey));
 			return retVal;
 		}
-		if (!EAInitMode (cryptoInfo))
+		if (!EAInitMode (cryptoInfo, cryptoInfo->k2))
 		{
 			burn (temporaryKey, sizeof(temporaryKey));
 			return ERR_MODE_INIT_FAILED;

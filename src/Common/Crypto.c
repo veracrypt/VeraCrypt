@@ -532,13 +532,13 @@ int EAInit (int ea, unsigned char *key, unsigned __int8 *ks)
 
 #ifndef TC_WINDOWS_BOOT
 
-BOOL EAInitMode (PCRYPTO_INFO ci)
+BOOL EAInitMode (PCRYPTO_INFO ci, unsigned char* key2)
 {
 	switch (ci->mode)
 	{
 	case XTS:
 		// Secondary key schedule
-		if (EAInit (ci->ea, ci->k2, ci->ks2) != ERR_SUCCESS)
+		if (EAInit (ci->ea, key2, ci->ks2) != ERR_SUCCESS)
 			return FALSE;
 
 		/* Note: XTS mode could potentially be initialized with a weak key causing all blocks in one data unit
@@ -889,8 +889,12 @@ void crypto_eraseKeys (PCRYPTO_INFO cryptoInfo)
 {
 	burn (cryptoInfo->ks, sizeof (cryptoInfo->ks));
 	burn (cryptoInfo->ks2, sizeof (cryptoInfo->ks2));
+#ifdef TC_WINDOWS_DRIVER
+	burn (cryptoInfo->master_keydata_hash, sizeof (cryptoInfo->master_keydata_hash));
+#else
 	burn (cryptoInfo->master_keydata, sizeof (cryptoInfo->master_keydata));
 	burn (cryptoInfo->k2, sizeof (cryptoInfo->k2));
+#endif
 	burn (&cryptoInfo->noIterations, sizeof (cryptoInfo->noIterations));
 	burn (&cryptoInfo->volumePim, sizeof (cryptoInfo->volumePim));
 }

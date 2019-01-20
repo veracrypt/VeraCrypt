@@ -275,9 +275,7 @@ BOOL XTSAesTest (PCRYPTO_INFO ci)
 		if (EAInit (ci->ea, XTS_vectors[i].key1, ci->ks) != ERR_SUCCESS)
 			return FALSE;
 
-		memcpy (&ci->k2, XTS_vectors[i].key2, sizeof (XTS_vectors[i].key2));
-
-		if (!EAInitMode (ci))
+		if (!EAInitMode (ci, XTS_vectors[i].key2))
 			return FALSE;
 
 		memcpy (p, XTS_vectors[i].plaintext, sizeof (p));
@@ -685,6 +683,7 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 		0x31, 0x41, 0x59, 0x26, 0x53, 0x58, 0x97, 0x93, 0x23, 0x84, 0x62, 0x64, 0x33, 0x83, 0x27, 0x95, 0x02, 0x88, 0x41, 0x97, 0x16, 0x93, 0x99, 0x37, 0x51, 0x05, 0x82, 0x09, 0x74, 0x94, 0x45, 0x92,
 		0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13
 	};
+	CRYPTOPP_ALIGN_DATA(16) unsigned __int8 key2[MASTER_KEYDATA_SIZE];
 
 
 	/* Encryption/decryption of data units (typically, volume data sectors) */
@@ -713,12 +712,12 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 			if (EAInit (ci->ea, key1, ci->ks) != ERR_SUCCESS)
 				return FALSE;
 
-			for (i = 0; i < sizeof (ci->k2); i++)
-				ci->k2[i] = (unsigned char) i;
+			for (i = 0; i < sizeof (key2); i++)
+				key2[i] = (unsigned char) i;
 
-			memcpy (&ci->k2, XTS_vectors[XTS_TEST_COUNT-1].key2, sizeof (XTS_vectors[XTS_TEST_COUNT-1].key2));
+			memcpy (key2, XTS_vectors[XTS_TEST_COUNT-1].key2, sizeof (XTS_vectors[XTS_TEST_COUNT-1].key2));
 
-			if (!EAInitMode (ci))
+			if (!EAInitMode (ci, key2))
 				return FALSE;
 
 			// Each data unit will contain the same plaintext
@@ -1189,9 +1188,9 @@ BOOL TestSectorBufEncryption (PCRYPTO_INFO ci)
 		if (EAInit (ci->ea, key1, ci->ks) != ERR_SUCCESS)
 			return FALSE;
 
-		memcpy (&ci->k2, XTS_vectors[XTS_TEST_COUNT-1].key2, sizeof (XTS_vectors[XTS_TEST_COUNT-1].key2));
+		memcpy (key2, XTS_vectors[XTS_TEST_COUNT-1].key2, sizeof (XTS_vectors[XTS_TEST_COUNT-1].key2));
 
-		if (!EAInitMode (ci))
+		if (!EAInitMode (ci, key2))
 			return FALSE;
 
 		// Each data unit will contain the same plaintext

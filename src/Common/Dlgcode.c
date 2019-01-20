@@ -5724,7 +5724,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 			if (!EAInit (ci->ea, ci->master_keydata, ci->ks))
 			{
 				ci->mode = FIRST_MODE_OF_OPERATION_ID;
-				if (EAInitMode (ci))
+				if (EAInitMode (ci, ci->k2))
 				{
 					int i;
 
@@ -5745,7 +5745,7 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 					goto counter_error;
 
 				ci->mode = FIRST_MODE_OF_OPERATION_ID;
-				if (!EAInitMode (ci))
+				if (!EAInitMode (ci, ci->k2))
 					goto counter_error;
 
 				if (QueryPerformanceCounter (&performanceCountStart) == 0)
@@ -6931,7 +6931,7 @@ CipherTestDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 
 					memcpy (&ci->k2, secondaryKey, sizeof (secondaryKey));
-					if (!EAInitMode (ci))
+					if (!EAInitMode (ci, ci->k2))
 					{
 						crypto_close (ci);
 						return 1;

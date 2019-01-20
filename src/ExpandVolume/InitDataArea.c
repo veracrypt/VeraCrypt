@@ -97,7 +97,7 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 		if (retVal != ERR_SUCCESS)
 			goto fail;
 
-		if (!EAInitMode (cryptoInfo))
+		if (!EAInitMode (cryptoInfo, cryptoInfo->k2))
 		{
 			retVal = ERR_MODE_INIT_FAILED;
 			goto fail;
@@ -125,7 +125,7 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 	retVal = EAInit (cryptoInfo->ea, cryptoInfo->master_keydata, cryptoInfo->ks);
 	if (retVal != ERR_SUCCESS)
 		goto fail;
-	if (!EAInitMode (cryptoInfo))
+	if (!EAInitMode (cryptoInfo, cryptoInfo->k2))
 	{
 		retVal = ERR_MODE_INIT_FAILED;
 		goto fail;

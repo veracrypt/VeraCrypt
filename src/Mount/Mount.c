@@ -10500,7 +10500,7 @@ noHidden:
 		goto error;
 	}
 
-	if (EAInit (volume.CryptoInfo->ea, temporaryKey, volume.CryptoInfo->ks) != ERR_SUCCESS || !EAInitMode (volume.CryptoInfo))
+	if (EAInit (volume.CryptoInfo->ea, temporaryKey, volume.CryptoInfo->ks) != ERR_SUCCESS || !EAInitMode (volume.CryptoInfo, volume.CryptoInfo->k2))
 	{
 		nStatus = ERR_PARAMETER_INCORRECT;
 		goto error;
@@ -10509,7 +10509,7 @@ noHidden:
 	EncryptBuffer (backup, backupFileSize, volume.CryptoInfo);
 
 	memcpy (volume.CryptoInfo->k2, originalK2, sizeof (volume.CryptoInfo->k2));
-	if (EAInit (volume.CryptoInfo->ea, volume.CryptoInfo->master_keydata, volume.CryptoInfo->ks) != ERR_SUCCESS || !EAInitMode (volume.CryptoInfo))
+	if (EAInit (volume.CryptoInfo->ea, volume.CryptoInfo->master_keydata, volume.CryptoInfo->ks) != ERR_SUCCESS || !EAInitMode (volume.CryptoInfo, volume.CryptoInfo->k2))
 	{
 		nStatus = ERR_PARAMETER_INCORRECT;
 		goto error;
