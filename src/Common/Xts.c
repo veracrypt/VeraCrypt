@@ -27,6 +27,8 @@ For big-endian platforms define BYTE_ORDER as BIG_ENDIAN. */
 #	include <memory.h>
 #endif
 
+#include "cpu.h"
+#include "misc.h"
 #include "Xts.h"
 
 
@@ -56,6 +58,35 @@ void EncryptBufferXTS (unsigned __int8 *buffer,
 		EncryptBufferXTSNonParallel (buffer, length, startDataUnitNo, startCipherBlockNo, ks, ks2, cipher);
 }
 
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+
+#define XorBlocks(result,ptr,len,start,end) \
+    while (len >= 2) \
+    { \
+        __m128i xmm1 = _mm_loadu_si128((const __m128i*) ptr); \
+        __m128i xmm2 = _mm_loadu_si128((__m128i*)result); \
+        __m128i xmm3 = _mm_loadu_si128((const __m128i*) (ptr + 2)); \
+        __m128i xmm4 = _mm_loadu_si128((__m128i*)(result + 2)); \
+		 \
+        _mm_storeu_si128((__m128i*)result, _mm_xor_si128(xmm1, xmm2)); \
+        _mm_storeu_si128((__m128i*)(result + 2), _mm_xor_si128(xmm3, xmm4)); \
+        ptr+= 4; \
+        result+= 4; \
+        len -= 2; \
+    } \
+	 \
+    if (len) \
+    { \
+        __m128i xmm1 = _mm_loadu_si128((const __m128i*)ptr); \
+        __m128i xmm2 = _mm_loadu_si128((__m128i*)result); \
+		 \
+        _mm_storeu_si128((__m128i*)result, _mm_xor_si128(xmm1, xmm2)); \
+        ptr+= 2; \
+        result+= 2; \
+    } \
+	len = end - start;
+
+#endif
 
 // Optimized for encryption algorithms supporting intra-data-unit parallelization
 static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
@@ -74,9 +105,8 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 	unsigned __int64 *whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 	unsigned __int64 *bufPtr = (unsigned __int64 *) buffer;
 	unsigned __int64 *dataUnitBufPtr;
-	unsigned int startBlock = startCipherBlockNo, endBlock, block;
-	unsigned __int64 *const finalInt64WhiteningValuesPtr = whiteningValuesPtr64 + sizeof (whiteningValues) / sizeof (*whiteningValuesPtr64) - 1;
-	TC_LARGEST_COMPILER_UINT blockCount, dataUnitNo;
+	unsigned int startBlock = startCipherBlockNo, endBlock, block, countBlock;
+	TC_LARGEST_COMPILER_UINT remainingBlocks, dataUnitNo;
 
 	/* The encrypted data unit number (i.e. the resultant ciphertext block) is to be multiplied in the
 	finite field GF(2^128) by j-th power of n, where j is the sequential plaintext/ciphertext block
@@ -94,17 +124,18 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 	if (length % BYTES_PER_XTS_BLOCK)
 		TC_THROW_FATAL_EXCEPTION;
 
-	blockCount = length / BYTES_PER_XTS_BLOCK;
+	remainingBlocks = length / BYTES_PER_XTS_BLOCK;
 
 	// Process all blocks in the buffer
-	while (blockCount > 0)
+	while (remainingBlocks > 0)
 	{
-		if (blockCount < BLOCKS_PER_XTS_DATA_UNIT)
-			endBlock = startBlock + (unsigned int) blockCount;
+		if (remainingBlocks < BLOCKS_PER_XTS_DATA_UNIT)
+			endBlock = startBlock + (unsigned int) remainingBlocks;
 		else
 			endBlock = BLOCKS_PER_XTS_DATA_UNIT;
+		countBlock = endBlock - startBlock;
 
-		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+		whiteningValuesPtr64 = (unsigned __int64 *) whiteningValues;
 		whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 
 		// Encrypt the data unit number using the secondary key (in order to generate the first
@@ -114,13 +145,13 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 		EncipherBlock (cipher, whiteningValue, ks2);
 
 		// Generate subsequent whitening values for blocks in this data unit. Note that all generated 128-bit
-		// whitening values are stored in memory as a sequence of 64-bit integers in reverse order.
+		// whitening values are stored in memory as a sequence of 64-bit integers.
 		for (block = 0; block < endBlock; block++)
 		{
 			if (block >= startBlock)
 			{
-				*whiteningValuesPtr64-- = *whiteningValuePtr64++;
-				*whiteningValuesPtr64-- = *whiteningValuePtr64;
+				*whiteningValuesPtr64++ = *whiteningValuePtr64++;
+				*whiteningValuesPtr64++ = *whiteningValuePtr64;
 			}
 			else
 				whiteningValuePtr64++;
@@ -163,31 +194,37 @@ static void EncryptBufferXTSParallel (unsigned __int8 *buffer,
 		}
 
 		dataUnitBufPtr = bufPtr;
-		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+		whiteningValuesPtr64 = (unsigned __int64 *) whiteningValues;
 
 		// Encrypt all blocks in this data unit
-
-		for (block = startBlock; block < endBlock; block++)
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+		XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+		for (block = 0; block < countBlock; block++)
 		{
 			// Pre-whitening
-			*bufPtr++ ^= *whiteningValuesPtr64--;
-			*bufPtr++ ^= *whiteningValuesPtr64--;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
 		}
-
+#endif
 		// Actual encryption
-		EncipherBlocks (cipher, dataUnitBufPtr, ks, endBlock - startBlock);
+		EncipherBlocks (cipher, dataUnitBufPtr, ks, countBlock);
 
 		bufPtr = dataUnitBufPtr;
-		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+		whiteningValuesPtr64 = (unsigned __int64 *) whiteningValues;
 
-		for (block = startBlock; block < endBlock; block++)
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+		XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+		for (block = 0; block < countBlock; block++)
 		{
 			// Post-whitening
-			*bufPtr++ ^= *whiteningValuesPtr64--;
-			*bufPtr++ ^= *whiteningValuesPtr64--;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
 		}
+#endif
 
-		blockCount -= endBlock - startBlock;
+		remainingBlocks -= countBlock;
 		startBlock = 0;
 		dataUnitNo++;
 		*((unsigned __int64 *) byteBufUnitNo) = LE64 (dataUnitNo);
@@ -256,15 +293,31 @@ static void EncryptBufferXTSNonParallel (unsigned __int8 *buffer,
 			if (block >= startBlock)
 			{
 				// Pre-whitening
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+				__m128i xmm1 = _mm_loadu_si128((const __m128i*)whiteningValuePtr64);
+				__m128i xmm2 = _mm_loadu_si128((__m128i*)bufPtr);
+
+				_mm_storeu_si128((__m128i*)bufPtr, _mm_xor_si128(xmm1, xmm2));
+#else
 				*bufPtr++ ^= *whiteningValuePtr64++;
 				*bufPtr-- ^= *whiteningValuePtr64--;
-
+#endif
 				// Actual encryption
 				EncipherBlock (cipher, bufPtr, ks);
 
 				// Post-whitening
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+				xmm1 = _mm_loadu_si128((const __m128i*)whiteningValuePtr64);
+				xmm2 = _mm_loadu_si128((__m128i*)bufPtr);
+
+				_mm_storeu_si128((__m128i*)bufPtr, _mm_xor_si128(xmm1, xmm2));
+				
+				whiteningValuePtr64++;
+				bufPtr += 2;
+#else
 				*bufPtr++ ^= *whiteningValuePtr64++;
 				*bufPtr++ ^= *whiteningValuePtr64;
+#endif
 			}
 			else
 				whiteningValuePtr64++;
@@ -349,9 +402,8 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 	unsigned __int64 *whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 	unsigned __int64 *bufPtr = (unsigned __int64 *) buffer;
 	unsigned __int64 *dataUnitBufPtr;
-	unsigned int startBlock = startCipherBlockNo, endBlock, block;
-	unsigned __int64 *const finalInt64WhiteningValuesPtr = whiteningValuesPtr64 + sizeof (whiteningValues) / sizeof (*whiteningValuesPtr64) - 1;
-	TC_LARGEST_COMPILER_UINT blockCount, dataUnitNo;
+	unsigned int startBlock = startCipherBlockNo, endBlock, block, countBlock;
+	TC_LARGEST_COMPILER_UINT remainingBlocks, dataUnitNo;
 
 	// Convert the 64-bit data unit number into a little-endian 16-byte array.
 	// Note that as we are converting a 64-bit number into a 16-byte array we can always zero the last 8 bytes.
@@ -362,17 +414,18 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 	if (length % BYTES_PER_XTS_BLOCK)
 		TC_THROW_FATAL_EXCEPTION;
 
-	blockCount = length / BYTES_PER_XTS_BLOCK;
+	remainingBlocks = length / BYTES_PER_XTS_BLOCK;
 
 	// Process all blocks in the buffer
-	while (blockCount > 0)
+	while (remainingBlocks > 0)
 	{
-		if (blockCount < BLOCKS_PER_XTS_DATA_UNIT)
-			endBlock = startBlock + (unsigned int) blockCount;
+		if (remainingBlocks < BLOCKS_PER_XTS_DATA_UNIT)
+			endBlock = startBlock + (unsigned int) remainingBlocks;
 		else
 			endBlock = BLOCKS_PER_XTS_DATA_UNIT;
+		countBlock = endBlock - startBlock;
 
-		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+		whiteningValuesPtr64 = (unsigned __int64 *) whiteningValues;
 		whiteningValuePtr64 = (unsigned __int64 *) whiteningValue;
 
 		// Encrypt the data unit number using the secondary key (in order to generate the first
@@ -382,13 +435,13 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 		EncipherBlock (cipher, whiteningValue, ks2);
 
 		// Generate subsequent whitening values for blocks in this data unit. Note that all generated 128-bit
-		// whitening values are stored in memory as a sequence of 64-bit integers in reverse order.
+		// whitening values are stored in memory as a sequence of 64-bit integers.
 		for (block = 0; block < endBlock; block++)
 		{
 			if (block >= startBlock)
 			{
-				*whiteningValuesPtr64-- = *whiteningValuePtr64++;
-				*whiteningValuesPtr64-- = *whiteningValuePtr64;
+				*whiteningValuesPtr64++ = *whiteningValuePtr64++;
+				*whiteningValuesPtr64++ = *whiteningValuePtr64;
 			}
 			else
 				whiteningValuePtr64++;
@@ -431,28 +484,33 @@ static void DecryptBufferXTSParallel (unsigned __int8 *buffer,
 		}
 
 		dataUnitBufPtr = bufPtr;
-		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+		whiteningValuesPtr64 = (unsigned __int64 *) whiteningValues;
 
 		// Decrypt blocks in this data unit
-
-		for (block = startBlock; block < endBlock; block++)
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+		XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+		for (block = 0; block < countBlock; block++)
 		{
-			*bufPtr++ ^= *whiteningValuesPtr64--;
-			*bufPtr++ ^= *whiteningValuesPtr64--;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
 		}
-
+#endif
 		DecipherBlocks (cipher, dataUnitBufPtr, ks, endBlock - startBlock);
 
 		bufPtr = dataUnitBufPtr;
-		whiteningValuesPtr64 = finalInt64WhiteningValuesPtr;
+		whiteningValuesPtr64 = (unsigned __int64 *) whiteningValues;
 
-		for (block = startBlock; block < endBlock; block++)
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+		XorBlocks (bufPtr, whiteningValuesPtr64, countBlock, startBlock, endBlock);
+#else
+		for (block = 0; block < countBlock; block++)
 		{
-			*bufPtr++ ^= *whiteningValuesPtr64--;
-			*bufPtr++ ^= *whiteningValuesPtr64--;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
+			*bufPtr++ ^= *whiteningValuesPtr64++;
 		}
-
-		blockCount -= endBlock - startBlock;
+#endif
+		remainingBlocks -= countBlock;
 		startBlock = 0;
 		dataUnitNo++;
 
@@ -515,15 +573,31 @@ static void DecryptBufferXTSNonParallel (unsigned __int8 *buffer,
 			if (block >= startBlock)
 			{
 				// Post-whitening
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+				__m128i xmm1 = _mm_loadu_si128((const __m128i*)whiteningValuePtr64);
+				__m128i xmm2 = _mm_loadu_si128((__m128i*)bufPtr);
+
+				_mm_storeu_si128((__m128i*)bufPtr, _mm_xor_si128(xmm1, xmm2));
+#else
 				*bufPtr++ ^= *whiteningValuePtr64++;
 				*bufPtr-- ^= *whiteningValuePtr64--;
-
+#endif
 				// Actual decryption
 				DecipherBlock (cipher, bufPtr, ks);
 
 				// Pre-whitening
+#if (CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && CRYPTOPP_BOOL_X64)
+				xmm1 = _mm_loadu_si128((const __m128i*)whiteningValuePtr64);
+				xmm2 = _mm_loadu_si128((__m128i*)bufPtr);
+
+				_mm_storeu_si128((__m128i*)bufPtr, _mm_xor_si128(xmm1, xmm2));
+				
+				whiteningValuePtr64++;
+				bufPtr += 2;
+#else
 				*bufPtr++ ^= *whiteningValuePtr64++;
 				*bufPtr++ ^= *whiteningValuePtr64;
+#endif
 			}
 			else
 				whiteningValuePtr64++;
