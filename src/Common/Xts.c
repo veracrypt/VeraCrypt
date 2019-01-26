@@ -27,8 +27,10 @@ For big-endian platforms define BYTE_ORDER as BIG_ENDIAN. */
 #	include <memory.h>
 #endif
 
+#ifndef TC_NO_COMPILER_INT64
 #include "cpu.h"
 #include "misc.h"
+#endif
 #include "Xts.h"
 
 
