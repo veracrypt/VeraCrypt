@@ -658,6 +658,53 @@ void IconMessage (HWND hwndDlg, const wchar_t *txt)
 	StatusMessageParam (hwndDlg, "ADDING_ICON", txt);
 }
 
+#ifdef VC_EFI_CUSTOM_MODE
+BOOL CheckSecureBootCompatibility (HWND hWnd)
+{
+	BOOL bRet = FALSE;
+	BOOL bDriverAttached = FALSE;
+	if (hDriver == INVALID_HANDLE_VALUE)
+	{
+		int status = DriverAttach();
+		if (status || (hDriver == INVALID_HANDLE_VALUE))
+			return FALSE;
+		bDriverAttached = TRUE;
+	}	
+
+	try
+	{
+		BootEncryption bootEnc (hWnd);
+		if (bootEnc.GetDriverServiceStartType() == SERVICE_BOOT_START)
+		{
+			SystemDriveConfiguration config = bootEnc.GetSystemDriveConfiguration ();
+			if (config.SystemPartition.IsGPT)
+			{
+				BOOL bSecureBootEnabled = FALSE, bVeraCryptKeysLoaded = FALSE;
+				bootEnc.GetSecureBootConfig (&bSecureBootEnabled, &bVeraCryptKeysLoaded);
+				if (!bSecureBootEnabled || bVeraCryptKeysLoaded)
+				{
+					bRet = TRUE;
+				}
+			}
+			else
+				bRet = TRUE;
+		}
+		else
+			bRet = TRUE;
+	}
+	catch (...)
+	{
+	}
+
+	if (bDriverAttached)
+	{
+		CloseHandle (hDriver);
+		hDriver = INVALID_HANDLE_VALUE;
+	}
+	return bRet;
+}
+#endif
+
 void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersionPtr)
 {
 	LONG driverVersion = VERSION_NUM;
@@ -1133,7 +1180,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt",
 			0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_32KEY, NULL, &hkey, &dw) == ERROR_SUCCESS)
 		{
-			StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING));
+			StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 			RegSetValueEx (hkey, L"DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t));
 
 			StringCbCopyW (szTmp, sizeof(szTmp), TC_HOMEPAGE);
@@ -1249,7 +1296,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 	if (RegSetValueEx (hkey, L"DisplayIcon", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
-	StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING));
+	StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 	if (RegSetValueEx (hkey, L"DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 

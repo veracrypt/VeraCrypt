@@ -101,6 +101,9 @@ void DoInstall ( void *hwndDlg );
 void SetInstallationPath (HWND hwndDlg);
 BOOL UpgradeBootLoader (HWND hwndDlg);
 BOOL CALLBACK InstallDlgProc ( HWND hwndDlg , UINT msg , WPARAM wParam , LPARAM lParam );
+#ifdef VC_EFI_CUSTOM_MODE
+BOOL CheckSecureBootCompatibility (HWND hWnd);
+#endif
 
 extern BOOL bDevm;
 extern BOOL Rollback;

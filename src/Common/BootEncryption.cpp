@@ -4740,7 +4740,9 @@ namespace VeraCrypt
 			throw SystemException (SRC_POS);
 		}
 	}
+#endif
 
+#if defined(VC_EFI_CUSTOM_MODE) || !defined(SETUP)
 	void BootEncryption::GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded)
 	{
 		SystemDriveConfiguration config = GetSystemDriveConfiguration ();
@@ -4780,7 +4782,8 @@ namespace VeraCrypt
 			throw SystemException (SRC_POS);
 		}
 	}
-
+#endif
+#ifndef SETUP
 	void BootEncryption::CheckRequirements ()
 	{
 		if (nCurrentOS == WIN_2000)

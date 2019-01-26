@@ -150,7 +150,7 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	LONG version;
 	int i;
 
-	Dump ("DriverEntry " TC_APP_NAME " " VERSION_STRING "\n");
+	Dump ("DriverEntry " TC_APP_NAME " " VERSION_STRING VERSION_STRING_SUFFIX "\n");
 
 	DetectX86Features ();
 

@@ -845,9 +845,9 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 #ifndef PORTABLE
-			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING));
+			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 #else
-			SetWindowText (hwndDlg, L"VeraCrypt Portable " _T(VERSION_STRING));
+			SetWindowText (hwndDlg, L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 #endif
 
 			DonColorSchemeId = GetDonVal (2, 9);
@@ -948,6 +948,13 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bExtractOnly = TRUE;
 					nCurPageNo = EXTRACTION_OPTIONS_PAGE - 1;
 				}
+#ifdef VC_EFI_CUSTOM_MODE
+				else if (bUpgrade && !CheckSecureBootCompatibility (hwndDlg))
+				{
+					WarningDirect(L"This installer version supports only custom EFI SecureBoot.\nPlease use regular installer to update your system", hwndDlg);
+					return 1;
+				}
+#endif
 			}
 #endif
 			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)

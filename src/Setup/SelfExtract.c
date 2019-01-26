@@ -30,9 +30,9 @@
 #endif
 
 #ifdef PORTABLE
-#define OutputPackageFile L"VeraCrypt Portable " _T(VERSION_STRING) L".exe"
+#define OutputPackageFile L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX)L".exe"
 #else
-#define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) L".exe"
+#define OutputPackageFile L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX) L".exe"
 #endif
 #define MAG_START_MARKER	"VCINSTRT"
 #define MAG_END_MARKER_OBFUSCATED	"V/C/I/N/S/C/R/C"
