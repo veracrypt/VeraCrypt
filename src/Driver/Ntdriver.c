@@ -1793,12 +1793,20 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 			IO_STATUS_BLOCK IoStatus;
 			LARGE_INTEGER offset;
 			ACCESS_MASK access = FILE_READ_ATTRIBUTES;
+			PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
 
 			if (!ValidateIOBufferSize (Irp, sizeof (OPEN_TEST_STRUCT), ValidateInputOutput))
 				break;
 
+			if (irpSp->Parameters.DeviceIoControl.InputBufferLength != sizeof (OPEN_TEST_STRUCT))
+			{
+				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+				Irp->IoStatus.Information = 0;
+				break;
+			}
+
 			// check that opentest->wszFileName is a device path that starts with "\\Device\\Harddisk"
-			// 16 is the length of "\\Device\\Harddisk" which is the mi
+			// 16 is the length of "\\Device\\Harddisk" which is the minimum
 			if (	!CheckStringLength (opentest->wszFileName, TC_MAX_PATH, 16, (size_t) -1, NULL)
 				||	(!StringNoCaseCompare (opentest->wszFileName, L"\\Device\\Harddisk", 16))
 				)
@@ -2445,8 +2453,10 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		if (ValidateIOBufferSize (Irp, sizeof (MOUNT_STRUCT), ValidateInputOutput))
 		{
 			MOUNT_STRUCT *mount = (MOUNT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
+			PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
 
-			if (mount->VolumePassword.Length > MAX_PASSWORD || mount->ProtectedHidVolPassword.Length > MAX_PASSWORD
+			if ((irpSp->Parameters.DeviceIoControl.InputBufferLength != sizeof (MOUNT_STRUCT))
+				|| mount->VolumePassword.Length > MAX_PASSWORD || mount->ProtectedHidVolPassword.Length > MAX_PASSWORD
 				||	mount->pkcs5_prf < 0 || mount->pkcs5_prf > LAST_PRF_ID
 				||	mount->VolumePim < -1 || mount->VolumePim == INT_MAX
 				|| mount->ProtectedHidVolPkcs5Prf < 0 || mount->ProtectedHidVolPkcs5Prf > LAST_PRF_ID
@@ -2479,6 +2489,14 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		{
 			UNMOUNT_STRUCT *unmount = (UNMOUNT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
 			PDEVICE_OBJECT ListDevice = GetVirtualVolumeDeviceObject (unmount->nDosDriveNo);
+			PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
+
+			if (irpSp->Parameters.DeviceIoControl.InputBufferLength != sizeof (UNMOUNT_STRUCT))
+			{
+				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+				Irp->IoStatus.Information = 0;
+				break;
+			}
 
 			unmount->nReturnCode = ERR_DRIVE_NOT_FOUND;
 
@@ -2499,6 +2517,14 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		if (ValidateIOBufferSize (Irp, sizeof (UNMOUNT_STRUCT), ValidateInputOutput))
 		{
 			UNMOUNT_STRUCT *unmount = (UNMOUNT_STRUCT *) Irp->AssociatedIrp.SystemBuffer;
+			PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (Irp);
+
+			if (irpSp->Parameters.DeviceIoControl.InputBufferLength != sizeof (UNMOUNT_STRUCT))
+			{
+				Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+				Irp->IoStatus.Information = 0;
+				break;
+			}
 
 			unmount->nReturnCode = UnmountAllDevices (unmount, unmount->ignoreOpenFiles);
 
