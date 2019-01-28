@@ -19,7 +19,8 @@ extern "C" {
 
 #include "Common.h"
 
-#define KEYFILE_POOL_SIZE	64
+#define KEYFILE_POOL_LEGACY_SIZE	64
+#define KEYFILE_POOL_SIZE	128
 #define	KEYFILE_MAX_READ_LEN	(1024*1024)
 
 typedef struct KeyFileStruct

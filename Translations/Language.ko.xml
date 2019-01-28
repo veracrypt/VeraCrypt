@@ -618,12 +618,12 @@
     <entry lang="ko" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">자체 암호화 과정을 다시 시작하고자 하는 “비-시스템 볼륨”에 대한 비밀번호/키파일을 입력해 주십시오.\n\n\n참고: “다음”을 클릭하면 VeraCrypt는 ① 암호화 과정이 중단된 곳에서의 모든 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 VeraCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 모든 비-시스템 볼륨의 검색을 시도합니다. 한 개 이상의 볼륨이 검색되면, 사용자는 다음 단계에서 이러한 볼륨 중 하나를 선택해야 합니다.</entry>
     <entry lang="ko" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">나열된 볼륨 중 하나를 선택해 주십시오. 목록에는 ① 암호화 과정이 중단된 곳에서의 모든 비-시스템 볼륨 및 ② 제공된 비밀번호/키파일을 사용해서 VeraCrypt 볼륨 헤더의 암호를 해제할 수 있는 곳에서의 접근가능한 모든 비-시스템 볼륨이 포함되어 있습니다.</entry>
     <entry lang="en" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</entry>
-    <entry lang="ko" key="PASSWORD_HELP">좋은 비밀번호를 선택하는 것은 매우 중요합니다. 사전에 나오는 한 개의 단어만을 포함하는 것 또는 2, 3개 단어의 조합은 피해야 합니다. 이름이나 생일 등도 피해야 합니다. 추측하기가 쉽기 때문입니다. 좋은 비밀번호는 무작위 조합입니다. 즉 대소문자, 숫자 및 @ ^ = $ * + 등과 같은 특수기호의 조합입니다. 적어도 20개 이상의 문자로 이루어진 비밀번호를 선택할 것을 권장합니다.  가능한 최대 길이는 64개 문자입니다.</entry>
+    <entry lang="ko" key="PASSWORD_HELP">좋은 비밀번호를 선택하는 것은 매우 중요합니다. 사전에 나오는 한 개의 단어만을 포함하는 것 또는 2, 3개 단어의 조합은 피해야 합니다. 이름이나 생일 등도 피해야 합니다. 추측하기가 쉽기 때문입니다. 좋은 비밀번호는 무작위 조합입니다. 즉 대소문자, 숫자 및 @ ^ = $ * + 등과 같은 특수기호의 조합입니다. 적어도 20개 이상의 문자로 이루어진 비밀번호를 선택할 것을 권장합니다.  가능한 최대 길이는 128개 문자입니다.</entry>
     <entry lang="ko" key="PASSWORD_HIDDENVOL_HELP">숨긴 볼륨에 대한 비밀번호를 선택해 주세요. </entry>
     <entry lang="ko" key="PASSWORD_HIDDEN_OS_HELP">숨긴 운영체제(즉 숨긴 볼륨)에 대한 비밀번호를 입력해 주세요. </entry>
     <entry lang="ko" key="PASSWORD_HIDDEN_OS_NOTE">중요: 현재 단계에서 “숨긴 운영체제용으로 선택한 비밀번호”는 다른 2개의 비밀번호(→ 외부 볼륨용 비밀번호 및 미끼용 운영체제용 비밀번호)와 서로 달라야 합니다.</entry>
     <entry lang="ko" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">볼륨(→ 이 안에 숨긴 볼륨을 만듬)의 비밀번호를 입력하세요.\n\n“다음”을 클릭하면, VeraCrypt가 볼륨을 삽입하기 위해 시도를 하게 됩니다. 볼륨이 삽입되었을 때, 여유 공간(이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에, 숨긴 볼륨의 가능한 최대 크기를 제한하게 됩니다. 클러스터 비트맵 스캔은 “숨긴 볼륨”이 외부 볼륨을 데이터로 덮어쓰지 못하도록 하기 위한 것이므로 필요한 작업입니다.</entry>
-    <entry lang="ko" key="PASSWORD_HIDDENVOL_HOST_HELP">\n외부 볼륨에 대한 비밀번호를 선택해 주세요. 이것은 적대자로부터 비밀번호를 강요당하거나 요청받은 경우에 그에게 표시할 수 있는 비밀번호입니다.\n\n중요: 비밀번호는 숨긴 볼륨용으로 선택했던 비밀번호와 서로 달라야 합니다.\n\n참고: 비밀번호의 가능한 최대 길이는 64개 문자입니다.</entry>
+    <entry lang="ko" key="PASSWORD_HIDDENVOL_HOST_HELP">\n외부 볼륨에 대한 비밀번호를 선택해 주세요. 이것은 적대자로부터 비밀번호를 강요당하거나 요청받은 경우에 그에게 표시할 수 있는 비밀번호입니다.\n\n중요: 비밀번호는 숨긴 볼륨용으로 선택했던 비밀번호와 서로 달라야 합니다.\n\n참고: 비밀번호의 가능한 최대 길이는 128개 문자입니다.</entry>
     <entry lang="ko" key="PASSWORD_SYSENC_OUTERVOL_HELP">외부 볼륨에 대한 비밀번호를 선택해 주세요. 이것은 노출을 강요하는 자에게 공개되어도 상관이 없는 “시스템 파티션 뒤의 첫번째 파티션을 위한 비밀번호”입니다. 시스템 파티션에는 ① 외부 볼륨 및 ② 숨긴 볼륨(→ 숨긴 운영체제 포함)이 자리잡고 있습니다. 숨긴 볼륨 (및 숨긴 운영체제)의 존재는 여전히 비밀로 남습니다. 이 비밀번호는 미끼용 운영체제를 위한 것이 아닙니다.\n\n중요: 비밀번호는 숨긴 볼륨(→ 숨긴 운용체제)용으로 선택했던 비밀번호와 서로 달라야 합니다.</entry>
     <entry lang="ko" key="PASSWORD_HIDVOL_HOST_TITLE">외부 볼륨 비밀번호</entry>
     <entry lang="ko" key="PASSWORD_HIDVOL_TITLE">숨긴 볼륨 비밀번호</entry>
@@ -1378,7 +1378,7 @@
     <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</entry>
     <entry lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</entry>
     <entry lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</entry>
-    <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</entry>
+    <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 128 bytes.</entry>
     <entry lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</entry>
     <entry lang="en" key="INIT_DLL">Error: Failed to load a system library.</entry>
     <entry lang="ko" key="ERR_EXFAT_INVALID_VOLUME_SIZE">오류: 명령 프롬프트에 지정된 볼륨 사이즈는 선택된 exFAT 파일 시스템과 호환이 되지 않습니다.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
     <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
-	<entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 64 characters</entry>
-	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
+	<entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 128 characters</entry>
+	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 128 characters.\nNo additional character is allowed.</entry>
 	<entry lang="en" key="IDC_SELECT_LANGUAGE_LABEL">Select the language to use during the installation:</entry>
 	<entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
     <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>    

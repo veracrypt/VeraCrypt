@@ -618,12 +618,12 @@
     <entry lang="zh-hk" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">請為您想要繼續就地加密的非系統分區輸入密碼 和/或 密鑰檔。\n\n\n注解：在您點擊 '下一步' 之後，VeraCrypt 將嘗試查找所有加密過程已被中斷的非系統分區（這些中斷加密的分區的 VeraCrypt 頭資訊可以使用提供的密碼 和/或 密鑰檔解密）。如果發現了多個此類的分區，您需要在下個步驟裏面選擇他們其中的一個。</entry>
     <entry lang="zh-hk" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">請選擇下面列表中的一個加密卷。此列表包含所有加密被中斷非系統加密卷，它們的頭資訊可以使用提供的密碼 和/或 密鑰檔解密。</entry>
     <entry lang="zh-hk" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">Please enter the password and/or keyfile(s) for the non-system VeraCrypt volume that you want to decrypt.</entry>
-    <entry lang="zh-hk" key="PASSWORD_HELP">選擇一個安全的密碼非常重要。您應該避免選取能夠在字典中查到的簡單辭彙（或是2、3、4 這類字元組合）作為密碼，也不應包含任何名字或生日，同時也不應該容易被猜到。安全的密碼應當包含隨機的大小寫字元、數位、以及類似 @ ^ = $ * + 這樣的特殊字元。我們推薦使用大於 20 個字元的密碼（越長越好）。最大的密碼長度為 64 個字元。</entry>
+    <entry lang="zh-hk" key="PASSWORD_HELP">選擇一個安全的密碼非常重要。您應該避免選取能夠在字典中查到的簡單辭彙（或是2、3、4 這類字元組合）作為密碼，也不應包含任何名字或生日，同時也不應該容易被猜到。安全的密碼應當包含隨機的大小寫字元、數位、以及類似 @ ^ = $ * + 這樣的特殊字元。我們推薦使用大於 20 個字元的密碼（越長越好）。最大的密碼長度為 128 個字元。</entry>
     <entry lang="zh-hk" key="PASSWORD_HIDDENVOL_HELP">請為隱藏加密卷選擇一個密碼。 </entry>
     <entry lang="zh-hk" key="PASSWORD_HIDDEN_OS_HELP">請為隱形作業系統設置一個密碼（即隱藏加密卷的密碼）。</entry>
     <entry lang="zh-hk" key="PASSWORD_HIDDEN_OS_NOTE">重要：您在本步驟中為隱形作業系統設置的密碼必須絕對不同於其他的兩個密碼（也就是要不同於外層加密卷的密碼和迷惑作業系統的密碼）。</entry>
     <entry lang="zh-hk" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">請輸入外層加密卷的密碼（您將在該加密卷中創建隱藏加密卷）。\n\n在單擊“下一步”後，VeraCrypt 會嘗試載入此加密卷。一旦加密卷被載入，將進行簇狀圖掃描來確定連續的自由空間大小（如果有的話），此空間的尾部與加密卷尾部一致。該區域將提供給隱藏加密卷並因此會限制它的最大可能大小。簇狀圖掃描是必要的，這可以確保外層卷的資料不會被隱藏卷覆蓋。</entry>
-    <entry lang="zh-hk" key="PASSWORD_HIDDENVOL_HOST_HELP">\n請選擇外層加密卷的密碼。在您被攻擊者強迫說出啟動驗證密碼的情況下，這個密碼可以告訴攻擊者。\n\n重要：您為外層加密卷選擇的密碼必須不同於隱藏加密卷的密碼。\n\n說明：密碼的最大長度為 64 個字元。</entry>
+    <entry lang="zh-hk" key="PASSWORD_HIDDENVOL_HOST_HELP">\n請選擇外層加密卷的密碼。在您被攻擊者強迫說出啟動驗證密碼的情況下，這個密碼可以告訴攻擊者。\n\n重要：您為外層加密卷選擇的密碼必須不同於隱藏加密卷的密碼。\n\n說明：密碼的最大長度為 128 個字元。</entry>
     <entry lang="zh-hk" key="PASSWORD_SYSENC_OUTERVOL_HELP">請選擇外層加密卷的密碼。在您被攻擊者強迫說出系統分區後面的第一個分區（外層加密卷和包含隱形作業系統的隱藏加密卷均位於這個分區）密碼的情況下，這個密碼可以告訴這些攻擊者。而隱藏加密卷和隱形作業系統仍然是安全的。需要注意的是，外層加密卷的密碼並不是迷惑作業系統的密碼。\n\n重要：您為迷惑作業系統選擇的密碼必須不同於隱藏加密卷的密碼（也就是隱形作業系統的密碼）。</entry>
     <entry lang="zh-hk" key="PASSWORD_HIDVOL_HOST_TITLE">外層加密卷密碼</entry>
     <entry lang="zh-hk" key="PASSWORD_HIDVOL_TITLE">隱藏加密卷密碼</entry>
@@ -1378,7 +1378,7 @@
     <entry lang="zh-hk" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</entry>
     <entry lang="zh-hk" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</entry>
     <entry lang="zh-hk" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</entry>
-    <entry lang="zh-hk" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 64 bytes.</entry>
+    <entry lang="zh-hk" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 128 bytes.</entry>
     <entry lang="zh-hk" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</entry>
     <entry lang="zh-hk" key="INIT_DLL">Error: Failed to load a system library.</entry>
     <entry lang="zh-hk" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="zh-hk" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
     <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
-	<entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 64 characters</entry>
-	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 64 characters.\nNo additional character is allowed.</entry>
+	<entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 128 characters</entry>
+	<entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 128 characters.\nNo additional character is allowed.</entry>
 	<entry lang="en" key="IDC_SELECT_LANGUAGE_LABEL">Select the language to use during the installation:</entry>
 	<entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
     <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>    

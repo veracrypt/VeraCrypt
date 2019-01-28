@@ -147,12 +147,12 @@ void KeyFileCloneAll (KeyFile *firstKeyFile, KeyFile **outputKeyFile)
 }
 
 
-static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
+static BOOL KeyFileProcess (unsigned __int8 *keyPool, unsigned __int32 keyPoolSize, KeyFile *keyFile)
 {
 	FILE *f;
 	unsigned __int8 buffer[64 * 1024];
 	unsigned __int32 crc = 0xffffffff;
-	int writePos = 0;
+	unsigned __int32 writePos = 0;
 	size_t bytesRead, totalRead = 0;
 	int status = TRUE;
 
@@ -203,7 +203,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 			keyPool[writePos++] += (unsigned __int8) (crc >> 8);
 			keyPool[writePos++] += (unsigned __int8) crc;
 
-			if (writePos >= KEYFILE_POOL_SIZE)
+			if (writePos >= keyPoolSize)
 				writePos = 0;
 
 			if (++totalRead >= KEYFILE_MAX_READ_LEN)
@@ -248,6 +248,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 	wchar_t searchPath [TC_MAX_PATH*2];
 	struct _wfinddata_t fBuf;
 	intptr_t searchHandle;
+	unsigned __int32 keyPoolSize = password->Length <= MAX_LEGACY_PASSWORD? KEYFILE_POOL_LEGACY_SIZE : KEYFILE_POOL_SIZE;
 
 	HiddenFilesPresentInKeyfilePath = FALSE;
 
@@ -278,7 +279,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				}
 
 				unsigned __int32 crc = 0xffffffff;
-				int writePos = 0;
+				unsigned __int32 writePos = 0;
 				size_t totalRead = 0;
 
 				for (size_t i = 0; i < keyfileData.size(); i++)
@@ -290,7 +291,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 					keyPool[writePos++] += (unsigned __int8) (crc >> 8);
 					keyPool[writePos++] += (unsigned __int8) crc;
 
-					if (writePos >= KEYFILE_POOL_SIZE)
+					if (writePos >= keyPoolSize)
 						writePos = 0;
 
 					if (++totalRead >= KEYFILE_MAX_READ_LEN)
@@ -371,7 +372,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				++keyfileCount;
 
 				// Apply keyfile to the pool
-				if (!KeyFileProcess (keyPool, kfSub))
+				if (!KeyFileProcess (keyPool, keyPoolSize, kfSub))
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -390,7 +391,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			}
 		}
 		// Apply keyfile to the pool
-		else if (!KeyFileProcess (keyPool, kf))
+		else if (!KeyFileProcess (keyPool, keyPoolSize, kf))
 		{
 			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -400,7 +401,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 
 	/* Mix the keyfile pool contents into the password */
 
-	for (i = 0; i < sizeof (keyPool); i++)
+	for (i = 0; i < keyPoolSize; i++)
 	{
 		if (i < password->Length)
 			password->Text[i] += keyPool[i];
@@ -408,8 +409,8 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			password->Text[i] = keyPool[i];
 	}
 
-	if (password->Length < (int)sizeof (keyPool))
-        password->Length = sizeof (keyPool);
+	if (password->Length < keyPoolSize)
+        password->Length = keyPoolSize;
 
 	burn (keyPool, sizeof (keyPool));
 

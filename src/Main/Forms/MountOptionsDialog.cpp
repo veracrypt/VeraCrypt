@@ -140,6 +140,13 @@ namespace VeraCrypt
 			Gui->ShowWarning (e);
 			return;
 		}
+		
+		if (Options.PartitionInSystemEncryptionScope && Options.Password->Size() > VolumePassword::MaxLegacySize)
+		{
+			Gui->ShowWarning (StringFormatter (_("System Encryption password is longer than {0} characters."), (int) VolumePassword::MaxLegacySize));
+			return;
+		}
+		
 		Options.Pim = Pim;
 		Options.Kdf = PasswordPanel->GetPkcs5Kdf(bUnsupportedKdf);
 		if (bUnsupportedKdf)

@@ -41,7 +41,8 @@ namespace VeraCrypt
 
 		TC_SERIALIZABLE (VolumePassword);
 
-		static const size_t MaxSize = 64;
+		static const size_t MaxLegacySize = 64;
+		static const size_t MaxSize = 128;
 		static const size_t WarningSizeThreshold = 12;
 
 	protected:

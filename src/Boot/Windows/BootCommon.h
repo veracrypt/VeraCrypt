@@ -58,7 +58,7 @@ typedef struct
 	uint16 CryptoInfoOffset;
 	uint16 CryptoInfoLength;
 	uint32 HeaderSaltCrc32;
-	Password BootPassword;
+	PasswordLegacy BootPassword;
 	uint64 HiddenSystemPartitionStart;
 	uint64 DecoySystemPartitionStart;
 	uint32 Flags;
@@ -206,9 +206,9 @@ typedef struct _DCS_DEP_PWD_CACHE {
 	uint64       Sign;
 	uint32       CRC;
 	uint32       Count;
-	Password     Pwd[4];
+	PasswordLegacy     Pwd[4];
 	int32        Pim[4];
-	byte         pad[512 - 8 - 4 - 4 - (sizeof(Password) + 4) * 4];
+	byte         pad[512 - 8 - 4 - 4 - (sizeof(PasswordLegacy) + 4) * 4];
 } DCS_DEP_PWD_CACHE;
 CSTATIC_ASSERT(sizeof(DCS_DEP_PWD_CACHE) == 512, Wrong_size_DCS_DEP_PWD_CACHE);
 #pragma pack()

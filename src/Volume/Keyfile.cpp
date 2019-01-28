@@ -134,7 +134,7 @@ done:
 		}
 		else
 		{
-			SecureBuffer keyfilePool (VolumePassword::MaxSize);
+			SecureBuffer keyfilePool (password->Size() <= VolumePassword::MaxLegacySize? VolumePassword::MaxLegacySize: VolumePassword::MaxSize);
 
 			// Pad password with zeros if shorter than max length
 			keyfilePool.Zero();

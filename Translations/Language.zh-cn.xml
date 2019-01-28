@@ -618,12 +618,12 @@
     <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">请为您想要继续就地加密的非系统分区输入密码 和/或 密钥文件。\n\n\n注解：在您点击〖下一步〗之后，VeraCrypt 将尝试查找所有加密过程被中断的非系统分区（这些中断加密的分区的 VeraCrypt 头信息可以使用提供的密码 和/或 密钥文件解密）。如果发现了多个此类的分区，您需要在下个步骤里面选择他们其中的一个。</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">请选择下面列表中的一个加密卷。此列表包含所有加密被中断的非系统加密卷，它们的头信息可以使用提供的密码 和/或 密钥文件解密。</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">请输入用于解密非系统加密卷的密码和(或)提供密钥文件。</entry>
-    <entry lang="zh-cn" key="PASSWORD_HELP">选择一个安全的密码非常重要。您应该避免选取能够在字典中查到的简单词汇（或是2、3、4 这类字符组合）作为密码，也不应包含任何名字或生日，同时也不应该容易被猜到。安全的密码应当包含随机的大小写字母、数字、以及类似 @ ^ = $ * + 这样的特殊字符。我们推荐使用大于 20 个字符的密码（越长越好）。最大的密码长度为 64 个字符。</entry>
+    <entry lang="zh-cn" key="PASSWORD_HELP">选择一个安全的密码非常重要。您应该避免选取能够在字典中查到的简单词汇（或是2、3、4 这类字符组合）作为密码，也不应包含任何名字或生日，同时也不应该容易被猜到。安全的密码应当包含随机的大小写字母、数字、以及类似 @ ^ = $ * + 这样的特殊字符。我们推荐使用大于 20 个字符的密码（越长越好）。最大的密码长度为 128 个字符。</entry>
     <entry lang="zh-cn" key="PASSWORD_HIDDENVOL_HELP">请为隐藏加密卷选择一个密码。 </entry>
     <entry lang="zh-cn" key="PASSWORD_HIDDEN_OS_HELP">请为隐形操作系统设置一个密码（即隐藏加密卷的密码）。 </entry>
     <entry lang="zh-cn" key="PASSWORD_HIDDEN_OS_NOTE">重要：您在本步骤中为隐形操作系统设置的密码必须绝对不同于其它的两个密码（也就是要不同于外层加密卷的密码和迷惑操作系统的密码）。</entry>
     <entry lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_DIRECT_HELP">请输入外层加密卷的密码（您将在该加密卷中创建隐藏加密卷）。\n\n在单击〖下一步〗后，VeraCrypt 会尝试加载此加密卷。一旦加密卷被加载，将进行簇状图扫描来确定连续的自由空间大小（如果有的话），此空间的尾部与加密卷尾部一致。该区域将提供给隐藏加密卷并因此会限制它的最大可能大小。簇状图扫描是必要的，这可以确保外层加密卷的数据不会被隐藏加密卷覆盖。</entry>
-    <entry lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_HELP">\n请选择外层加密卷的密码。在您被攻击者强迫说出启动验证密码的情况下，这个密码可以告诉攻击者。\n\n重要：您为外层加密卷选择的密码必须不同于隐藏加密卷的密码。\n\n说明：密码的最大长度为 64 个字符。</entry>
+    <entry lang="zh-cn" key="PASSWORD_HIDDENVOL_HOST_HELP">\n请选择外层加密卷的密码。在您被攻击者强迫说出启动验证密码的情况下，这个密码可以告诉攻击者。\n\n重要：您为外层加密卷选择的密码必须不同于隐藏加密卷的密码。\n\n说明：密码的最大长度为 128 个字符。</entry>
     <entry lang="zh-cn" key="PASSWORD_SYSENC_OUTERVOL_HELP">请选择外层加密卷的密码。在您被攻击者强迫说出系统分区后面的第一个分区（外层加密卷和包含隐形操作系统的隐藏加密卷均位于这个分区）密码的情况下，这个密码可以告诉这些攻击者。而隐藏加密卷和隐形操作系统仍然是安全的。需要注意的是，外层加密卷的密码并不是迷惑操作系统的密码。\n\n重要：您为迷惑操作系统选择的密码必须不同于隐藏加密卷的密码（也就是隐形操作系统的密码）。</entry>
     <entry lang="zh-cn" key="PASSWORD_HIDVOL_HOST_TITLE">外层加密卷密码</entry>
     <entry lang="zh-cn" key="PASSWORD_HIDVOL_TITLE">隐藏加密卷密码</entry>
@@ -1378,7 +1378,7 @@
     <entry lang="zh-cn" key="IDC_BOOT_LOADER_CACHE_PIM">当缓存预引导身份验证密码时，包含 &amp;PIM</entry>
     <entry lang="zh-cn" key="IDC_PREF_CACHE_PIM">在缓存密码时，包含 PIM</entry>
     <entry lang="zh-cn" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">使断开的网络驱动器可用于加载</entry>
-    <entry lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节。</entry>
+    <entry lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过128字节。</entry>
     <entry lang="zh-cn" key="PASSWORD_UTF8_INVALID">键入的密码中包含无法转换为UTF-8编码的Unicode字符。</entry>
     <entry lang="zh-cn" key="INIT_DLL">错误: 加载系统库失败。</entry>
     <entry lang="zh-cn" key="ERR_EXFAT_INVALID_VOLUME_SIZE">输入的加密卷的大小不兼容所选择的exFAT文件系统。</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="zh-cn" key="IDC_BLOCK_SYSENC_TRIM">阻止系统分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="WINDOWS_EFI_BOOT_LOADER_MISSING">错误: 无法在磁盘上找到 Windows EFI 系统加载程序。操作将中止。</entry>
     <entry lang="zh-cn" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">如果启用了 SecureBoot, 并且 VeraCrypt 自定义密钥未加载到计算机固件中, 则无法对当前系统进行加密。SecureBoot 需要在 BIOS 配置中禁用, 以允许系统加密继续进行。</entry>
-    <entry lang="zh-cn" key="PASSWORD_PASTED_TRUNCATED">粘贴的文本被截断, 因为密码最大长度为64个字符</entry>
-    <entry lang="zh-cn" key="PASSWORD_MAXLENGTH_REACHED">密码已达到其最大长度64个字符。\n不允许附加字符。</entry>
+    <entry lang="zh-cn" key="PASSWORD_PASTED_TRUNCATED">粘贴的文本被截断, 因为密码最大长度为128个字符</entry>
+    <entry lang="zh-cn" key="PASSWORD_MAXLENGTH_REACHED">密码已达到其最大长度128个字符。\n不允许附加字符。</entry>
     <entry lang="zh-cn" key="IDC_SELECT_LANGUAGE_LABEL">选择安装期间要使用的语言：</entry>
     <entry lang="zh-cn" key="VOLUME_TOO_LARGE_FOR_HOST">错误：文件容器的大小大于磁盘上的可用空间。</entry>
     <entry lang="zh-cn" key="IDC_ALLOW_WINDOWS_DEFRAG">允许Windows磁盘碎片整理程序对非系统分区/驱动器进行碎片整理</entry>    

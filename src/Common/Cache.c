@@ -105,6 +105,16 @@ void AddPasswordToCache (Password *password, int pim)
 	cacheEmpty = 0;
 }
 
+void AddLegacyPasswordToCache (PasswordLegacy *password, int pim)
+{
+	Password inputPass = {0};
+	inputPass.Length = password->Length;
+	memcpy (inputPass.Text, password->Text, password->Length);
+
+	AddPasswordToCache (&inputPass, pim);
+
+	burn (&inputPass, sizeof (inputPass));
+}
 
 void WipeCache ()
 {

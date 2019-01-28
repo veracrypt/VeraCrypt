@@ -114,7 +114,7 @@ NTSTATUS LoadBootArguments ()
 			}
 
 			// Sanity check: for valid boot argument, the password is less than 64 bytes long
-			if (bootArguments->BootPassword.Length <= MAX_PASSWORD)
+			if (bootArguments->BootPassword.Length <= MAX_LEGACY_PASSWORD)
 			{
 				BootLoaderArgsPtr = BootArgsRegions[bootLoaderArgsIndex];
 
@@ -594,7 +594,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 						for(i = 0; i<pwdCache->Count; ++i){
 							if (CacheBootPassword && pwdCache->Pwd[i].Length > 0)	{
 								int cachedPim = CacheBootPim? (int) (pwdCache->Pim[i]) : 0;
-								AddPasswordToCache (&pwdCache->Pwd[i], cachedPim);
+								AddLegacyPasswordToCache (&pwdCache->Pwd[i], cachedPim);
 							}
 						}
 						burn(pwdCache, sizeof(*pwdCache));
@@ -606,7 +606,7 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		if (CacheBootPassword && BootArgs.BootPassword.Length > 0)
 		{
 			int cachedPim = CacheBootPim? pim : 0;
-			AddPasswordToCache (&BootArgs.BootPassword, cachedPim);
+			AddLegacyPasswordToCache (&BootArgs.BootPassword, cachedPim);
 		}
 
 		burn (&BootArgs.BootPassword, sizeof (BootArgs.BootPassword));
@@ -808,7 +808,13 @@ static void CheckDeviceTypeAndMount (DriveFilterExtension *filterExtension)
 				TC_BUG_CHECK (status);
 
 			if (!BootDriveFound)
-				MountDrive (filterExtension, &BootArgs.BootPassword, &BootArgs.HeaderSaltCrc32);
+			{
+				Password bootPass = {0};
+				bootPass.Length = BootArgs.BootPassword.Length;
+				memcpy (bootPass.Text, BootArgs.BootPassword.Text, BootArgs.BootPassword.Length);
+				MountDrive (filterExtension, &bootPass, &BootArgs.HeaderSaltCrc32);
+				burn (&bootPass, sizeof (bootPass));
+			}
 
 			KeReleaseMutex (&MountMutex, FALSE);
 		}
@@ -1101,7 +1107,7 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		return;
 
 	if (!BootDriveFound || !BootDriveFilterExtension || !BootDriveFilterExtension->DriveMounted || !BootDriveFilterExtension->HeaderCryptoInfo
-		|| request->VolumePassword.Length > MAX_PASSWORD
+		|| request->VolumePassword.Length > MAX_LEGACY_PASSWORD
 		|| request->pkcs5_prf < 0
 		|| request->pkcs5_prf > LAST_PRF_ID
 		|| request->pim < 0

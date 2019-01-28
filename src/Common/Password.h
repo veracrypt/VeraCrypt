@@ -16,7 +16,12 @@
 
 // User text input limits
 #define MIN_PASSWORD			1		// Minimum possible password length
-#define MAX_PASSWORD			64		// Maximum possible password length
+#if defined(TC_WINDOWS_BOOT) || defined(_UEFI)
+#define MAX_PASSWORD		64		// Maximum possible password length
+#else
+#define MAX_LEGACY_PASSWORD	64		// Maximum possible legacy password length
+#define MAX_PASSWORD		128		// Maximum possible password length
+#endif
 #define MAX_PIM				7		// Maximum allowed digits in a PIM (enough for maximum value)
 #define MAX_PIM_VALUE		2147468 // Maximum value to have a positive 32-bit result for formula 15000 + (PIM x 1000)
 #define MAX_BOOT_PIM			5		// Maximum allowed digits in a PIM for boot (enough for 16-bit value)
@@ -35,6 +40,18 @@ typedef struct
 	unsigned char Text[MAX_PASSWORD + 1];
 	char Pad[3]; // keep 64-bit alignment
 } Password;
+
+#if defined(TC_WINDOWS_BOOT) || defined(_UEFI)
+#define PasswordLegacy Password
+#else
+typedef struct
+{
+	// Modifying this structure can introduce incompatibility with previous versions
+	unsigned __int32 Length;
+	unsigned char Text[MAX_LEGACY_PASSWORD + 1];
+	char Pad[3]; // keep 64-bit alignment
+} PasswordLegacy;
+#endif
 
 #if defined(_WIN32) && !defined(TC_WINDOWS_DRIVER) && !defined(_UEFI)
 
