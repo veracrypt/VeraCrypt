@@ -208,8 +208,13 @@ int CpuId(uint32 input, uint32 *output);
 // been enabled by DetectX86Features.
 void DisableCPUExtendedFeatures (); 
 
+#ifdef CRYPTOPP_BOOL_X64
+#define HasSSE2()	1
+#define HasISSE()	1
+#else
 #define HasSSE2()	g_hasSSE2
 #define HasISSE()	g_hasISSE
+#endif
 #define HasMMX()	g_hasMMX
 #define HasSSE42() g_hasSSE42
 #define HasSSE41() g_hasSSE41
