@@ -529,11 +529,12 @@ KeyReady:	;
 				memcpy (keyInfo.master_keydata, header + HEADER_MASTER_KEYDATA_OFFSET, MASTER_KEYDATA_SIZE);
 #ifdef TC_WINDOWS_DRIVER
 				{
-					sha512_ctx sha2;
-					sha512_begin (&sha2);
-					sha512_hash (keyInfo.master_keydata, MASTER_KEYDATA_SIZE, &sha2);
-					sha512_hash (header, sizeof(header), &sha2);
-					sha512_end (cryptoInfo->master_keydata_hash, &sha2);
+					RMD160_CTX ctx;
+					RMD160Init (&ctx);
+					RMD160Update (&ctx, keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
+					RMD160Update (&ctx, header, sizeof(header));
+					RMD160Final (cryptoInfo->master_keydata_hash, &ctx);
+					burn(&ctx, sizeof (ctx));
 				}
 #else
 				memcpy (cryptoInfo->master_keydata, keyInfo.master_keydata, MASTER_KEYDATA_SIZE);
