@@ -199,6 +199,8 @@ extern volatile int g_hasSSSE3;
 extern volatile int g_hasAESNI;
 extern volatile int g_hasCLMUL;
 extern volatile int g_isP4;
+extern volatile int g_hasRDRAND;
+extern volatile int g_hasRDSEED;
 extern volatile int g_isIntel;
 extern volatile int g_isAMD;
 extern volatile uint32 g_cacheLineSize;
@@ -225,6 +227,8 @@ void DisableCPUExtendedFeatures ();
 #define HasAESNI() g_hasAESNI
 #define HasCLMUL() g_hasCLMUL
 #define IsP4() g_isP4
+#define HasRDRAND() g_hasRDRAND
+#define HasRDSEED() g_hasRDSEED
 #define IsCpuIntel() g_isIntel
 #define IsCpuAMD() g_isAMD
 #define GetCacheLineSize() g_cacheLineSize

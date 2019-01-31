@@ -203,6 +203,7 @@ static uint64 xgetbv()
 volatile int g_x86DetectionDone = 0;
 volatile int g_hasISSE = 0, g_hasSSE2 = 0, g_hasSSSE3 = 0, g_hasMMX = 0, g_hasAESNI = 0, g_hasCLMUL = 0, g_isP4 = 0;
 volatile int g_hasAVX = 0, g_hasAVX2 = 0, g_hasBMI2 = 0, g_hasSSE42 = 0, g_hasSSE41 = 0, g_isIntel = 0, g_isAMD = 0;
+volatile int g_hasRDRAND = 0, g_hasRDSEED = 0;
 volatile uint32 g_cacheLineSize = CRYPTOPP_L1_CACHE_LINE_SIZE;
 
 VC_INLINE int IsIntel(const uint32 output[4])
@@ -219,6 +220,14 @@ VC_INLINE int IsAMD(const uint32 output[4])
 	return (output[1] /*EBX*/ == 0x68747541) &&
     (output[2] /*ECX*/ == 0x69746E65) &&
     (output[3] /*EDX*/ == 0x444D4163);
+}
+
+VC_INLINE int IsHygon(const uint32 output[4])
+{
+	// This is the "HygonGenuine" string.
+	return (output[1] /*EBX*/ == 0x6f677948) &&
+		(output[2] /*ECX*/ == 0x656e6975) &&
+		(output[3] /*EDX*/ == 0x6e65476e);
 }
 
 #if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
@@ -296,15 +305,18 @@ static int Detect_MS_HyperV_AES ()
 
 void DetectX86Features()
 {
-	uint32 cpuid[4] = {0}, cpuid1[4] = {0};
+	uint32 cpuid[4] = {0}, cpuid1[4] = {0}, cpuid2[4] = {0};
 	if (!CpuId(0, cpuid))
 		return;
 	if (!CpuId(1, cpuid1))
 		return;
 
 	g_hasMMX = (cpuid1[3] & (1 << 23)) != 0;
+
+	// cpuid1[2] & (1 << 27) is XSAVE/XRESTORE and signals OS support for SSE; use it to avoid probes.
+	// See http://github.com/weidai11/cryptopp/issues/511 and http://stackoverflow.com/a/22521619/608639
 	if ((cpuid1[3] & (1 << 26)) != 0)
-		g_hasSSE2 = TrySSE2();
+		g_hasSSE2 = (cpuid1[2] & (1 << 27)) || TrySSE2();
 	if (g_hasSSE2 && (cpuid1[2] & (1 << 28)) && (cpuid1[2] & (1 << 27)) && (cpuid1[2] & (1 << 26))) /* CPU has AVX and OS supports XSAVE/XRSTORE */
 	{
       uint64 xcrFeatureMask = xgetbv();
@@ -345,12 +357,34 @@ void DetectX86Features()
 		g_isIntel = 1;
 		g_isP4 = ((cpuid1[0] >> 8) & 0xf) == 0xf;
 		g_cacheLineSize = 8 * GETBYTE(cpuid1[1], 1);
+		g_hasRDRAND = (cpuid1[2] & (1 << 30)) != 0;
+
+		if (cpuid[0] >= 7)
+		{
+			if (CpuId(7, cpuid2))
+			{
+				g_hasRDSEED = (cpuid2[1] & (1 << 18)) != 0;
+				g_hasAVX2 = (cpuid2[1] & (1 <<  5)) != 0;
+				g_hasBMI2 = (cpuid2[1] & (1 <<  8)) != 0;
+			}
+		}
 	}
-	else if (IsAMD(cpuid))
+	else if (IsAMD(cpuid) || IsHygon(cpuid))
 	{
 		g_isAMD = 1;
 		CpuId(0x80000005, cpuid);
 		g_cacheLineSize = GETBYTE(cpuid[2], 0);
+		g_hasRDRAND = (cpuid1[2] & (1 << 30)) != 0;
+
+		if (cpuid[0]  >= 7)
+		{
+			if (CpuId(7, cpuid2))
+			{
+				g_hasRDSEED = (cpuid2[1] & (1 << 18)) != 0;
+				g_hasAVX2 = (cpuid2[1] & (1 <<  5)) != 0;
+				g_hasBMI2 = (cpuid2[1] & (1 <<  8)) != 0;
+			}
+		}
 	}
 
 	if (!g_cacheLineSize)
