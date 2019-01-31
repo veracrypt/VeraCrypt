@@ -1,12 +1,17 @@
 TC_ASFLAGS = -Xvc -Ox
 VC_YASMFLAGS = -Xvc -D WINABI -D __YASM__
+VC_MLFLAGS = /nologo /W3 /Cx /Zi
+VC_MLEXE = ml.exe
 
 !if "$(TC_ARCH)" == "x86"
 TC_ASFLAGS = $(TC_ASFLAGS) -f win32 --prefix _ -D MS_STDCALL -D DLL_EXPORT
 VC_YASMFLAGS = $(VC_YASMFLAGS) -f win32 -D MS_STDCALL
+VC_MLFLAGS = $(VC_MLFLAGS) /D_M_X86 /safeseh
 !else
 TC_ASFLAGS = $(TC_ASFLAGS) -f win64
 VC_YASMFLAGS = $(VC_YASMFLAGS) -f win64
+VC_MLFLAGS = $(VC_MLFLAGS) /D_M_X64
+VC_MLEXE = ml64.exe
 !endif
 
 TC_ASM_ERR_LOG = ..\Driver\build_errors_asm.log
@@ -52,3 +57,7 @@ TC_ASM_ERR_LOG = ..\Driver\build_errors_asm.log
 
 "$(OBJ_PATH)\$(O)\sha256_sse4_$(TC_ARCH).obj": sha256_sse4_$(TC_ARCH).asm
 	yasm.exe $(VC_YASMFLAGS) -o "$@" -l "$(OBJ_PATH)\$(O)\sha256_sse4_$(TC_ARCH).lst" sha256_sse4_$(TC_ARCH).asm 2>$(TC_ASM_ERR_LOG)
+	
+"$(OBJ_PATH)\$(O)\rdrand_ml.obj": rdrand_ml.asm
+	$(VC_MLEXE) $(VC_MLFLAGS) /Fo "$@" /c rdrand_ml.asm 2>$(TC_ASM_ERR_LOG)
+

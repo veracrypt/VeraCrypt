@@ -57,6 +57,9 @@
     <ClCompile Include="kuznyechik_simd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rdrand.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -110,6 +113,9 @@
     <ClInclude Include="SerpentFast_sbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rdrand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Aes_hw_cpu.asm">
@@ -158,6 +164,9 @@
       <Filter>Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="sha512_sse4_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rdrand_ml.asm">
       <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>

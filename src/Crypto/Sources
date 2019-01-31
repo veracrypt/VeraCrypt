@@ -6,6 +6,8 @@ INCLUDES = ..
 NTTARGETFILES = \
 	"$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Aes_hw_cpu.obj" \
+	"$(OBJ_PATH)\$(O)\rdrand.obj" \
+	"$(OBJ_PATH)\$(O)\rdrand_ml.obj" \
 	"$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).obj" \
@@ -23,9 +25,11 @@ SOURCES = \
 	Aes_$(TC_ARCH).asm \
 	gost89_$(TC_ARCH).asm \
 	Aes_hw_cpu.asm \
+	rdrand_ml.asm \
 	Aeskey.c \
 	Aestab.c \
 	cpu.c \
+	rdrand.c \
 	Rmd160.c \
 	SerpentFast.c \
 	SerpentFast_simd.cpp \

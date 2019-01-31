@@ -14,6 +14,8 @@
 #include "Tcdefs.h"
 #include "Crc.h"
 #include "Random.h"
+#include "Crypto\cpu.h"
+#include "Crypto\rdrand.h"
 #include <Strsafe.h>
 
 static unsigned __int8 buffer[RNG_POOL_SIZE];
@@ -766,10 +768,6 @@ BOOL SlowPoll (void)
 	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
-
-		burn(buffer, sizeof (buffer));
-		Randmix();
-		return TRUE;
 	}
 	else
 	{
@@ -777,6 +775,19 @@ BOOL SlowPoll (void)
 		CryptoAPILastError = GetLastError ();
 		return FALSE;
 	}
+
+	// use RDSEED or RDRAND from CPU as source of entropy if present
+	if (	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
+		)
+	{
+		RandaddBuf (buffer, sizeof (buffer));
+	}
+
+	burn(buffer, sizeof (buffer));
+	Randmix();
+
+	return TRUE;
 }
 
 
@@ -888,7 +899,6 @@ BOOL FastPoll (void)
 	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
-		burn (buffer, sizeof(buffer));
 	}
 	else
 	{
@@ -896,6 +906,16 @@ BOOL FastPoll (void)
 		CryptoAPILastError = GetLastError ();
 		return FALSE;
 	}
+
+	// use RDSEED or RDRAND from CPU as source of entropy if present
+	if (	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
+		)
+	{
+		RandaddBuf (buffer, sizeof (buffer));
+	}
+
+	burn (buffer, sizeof(buffer));
 
 	/* Apply the pool mixing function */
 	Randmix();
