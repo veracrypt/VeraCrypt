@@ -108,6 +108,9 @@
     <ClCompile Include="..\Crypto\SerpentFast_simd.cpp">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
+    <ClCompile Include="..\Crypto\rdrand.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Crypto\Aes_hw_cpu.asm">
@@ -179,6 +182,9 @@
     <None Include="..\Crypto\sha512_avx2_x64.asm">
       <Filter>Source Files\Crypto</Filter>
     </None>
+    <None Include="..\Crypto\rdrand_ml.asm">
+      <Filter>Source Files\Crypto</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Apidrvr.h">
@@ -227,6 +233,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\Xts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\rdrand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
