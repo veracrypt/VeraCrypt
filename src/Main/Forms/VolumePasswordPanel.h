@@ -27,7 +27,7 @@ namespace VeraCrypt
 
 		void AddKeyfile (shared_ptr <Keyfile> keyfile);
 		shared_ptr <KeyfileList> GetKeyfiles () const { return UseKeyfilesCheckBox->IsChecked() ? Keyfiles : shared_ptr <KeyfileList> (); }
-		shared_ptr <VolumePassword> GetPassword () const;
+		shared_ptr <VolumePassword> GetPassword (bool bForceLegacyPassword = false) const;
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf (bool &bUnsupportedKdf) const;
 		shared_ptr <Pkcs5Kdf> GetPkcs5Kdf (bool bTrueCryptMode, bool &bUnsupportedKdf) const;
 		int GetVolumePim () const;
@@ -49,7 +49,7 @@ namespace VeraCrypt
 	protected:
 		void SetPimValidator ();
 		void DisplayPassword (bool display, wxTextCtrl **textCtrl, int row);
-		shared_ptr <VolumePassword> GetPassword (wxTextCtrl *textCtrl) const;
+		shared_ptr <VolumePassword> GetPassword (wxTextCtrl *textCtrl, bool bLegacyPassword = false) const;
 		void OnAddKeyfileDirMenuItemSelected (wxCommandEvent& event);
 		void OnAddKeyfilesMenuItemSelected (wxCommandEvent& event);
 		void OnAddSecurityTokenSignatureMenuItemSelected (wxCommandEvent& event);

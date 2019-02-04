@@ -13047,13 +13047,15 @@ void SetPim (HWND hwndDlg, UINT ctrlId, int pim)
 		SetDlgItemText (hwndDlg, ctrlId, L"");
 }
 
-BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL bShowError)
+BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL bLegacyPassword, BOOL bShowError)
 {
 	wchar_t tmp [MAX_PASSWORD + 1];
 	int utf8Len;
 	BOOL bRet = FALSE;
 
 	GetWindowText (GetDlgItem (hwndDlg, ctrlID), tmp, ARRAYSIZE (tmp));
+	if (bLegacyPassword && (lstrlen (tmp) > MAX_LEGACY_PASSWORD))
+		wmemset (&tmp[MAX_LEGACY_PASSWORD], 0, MAX_PASSWORD + 1 - MAX_LEGACY_PASSWORD);
 	utf8Len = WideCharToMultiByte (CP_UTF8, 0, tmp, -1, passValue, bufSize, NULL, NULL);
 	burn (tmp, sizeof (tmp));
 	if (utf8Len > 0)

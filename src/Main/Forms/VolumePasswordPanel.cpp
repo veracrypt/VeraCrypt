@@ -219,15 +219,16 @@ namespace VeraCrypt
 			SetPimValidator ();
 	}
 
-	shared_ptr <VolumePassword> VolumePasswordPanel::GetPassword () const
+	shared_ptr <VolumePassword> VolumePasswordPanel::GetPassword (bool bForceLegacyPassword) const
 	{
-		return GetPassword (PasswordTextCtrl);
+		return GetPassword (PasswordTextCtrl, bForceLegacyPassword || GetTrueCryptMode());
 	}
 
-	shared_ptr <VolumePassword> VolumePasswordPanel::GetPassword (wxTextCtrl *textCtrl) const
+	shared_ptr <VolumePassword> VolumePasswordPanel::GetPassword (wxTextCtrl *textCtrl, bool bLegacyPassword) const
 	{
 		shared_ptr <VolumePassword> password;
 		wchar_t passwordBuf[VolumePassword::MaxSize + 1];
+		size_t maxPasswordLength = bLegacyPassword? VolumePassword::MaxLegacySize: VolumePassword::MaxSize;
 		finally_do_arg (BufferPtr, BufferPtr (reinterpret_cast <byte *> (passwordBuf), sizeof (passwordBuf)), { finally_arg.Erase(); });
 
 #ifdef TC_WINDOWS
@@ -235,12 +236,12 @@ namespace VeraCrypt
 		password = ToUTF8Password (passwordBuf, len);
 #else
 		wxString passwordStr (textCtrl->GetValue());	// A copy of the password is created here by wxWidgets, which cannot be erased
-		for (size_t i = 0; i < passwordStr.size() && i < VolumePassword::MaxSize; ++i)
+		for (size_t i = 0; i < passwordStr.size() && i < maxPasswordLength; ++i)
 		{
 			passwordBuf[i] = (wchar_t) passwordStr[i];
 			passwordStr[i] = L'X';
 		}
-		password = ToUTF8Password (passwordBuf, passwordStr.size() <= VolumePassword::MaxSize ? passwordStr.size() : VolumePassword::MaxSize);
+		password = ToUTF8Password (passwordBuf, passwordStr.size() <= maxPasswordLength ? passwordStr.size() : maxPasswordLength);
 #endif
 		return password;
 	}

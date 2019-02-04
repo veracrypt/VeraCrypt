@@ -2733,7 +2733,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			GetVolumePath (hParent, szFileName, ARRAYSIZE (szFileName));
 
-			if (GetPassword (hwndDlg, IDC_OLD_PASSWORD, (LPSTR) oldPassword.Text, sizeof (oldPassword.Text), TRUE))
+			if (GetPassword (hwndDlg, IDC_OLD_PASSWORD, (LPSTR) oldPassword.Text, sizeof (oldPassword.Text), truecryptMode, TRUE))
 				oldPassword.Length = (unsigned __int32) strlen ((char *) oldPassword.Text);
 			else
 			{
@@ -2751,7 +2751,7 @@ BOOL CALLBACK PasswordChangeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 
 			default:
-				if (GetPassword (hwndDlg, IDC_PASSWORD, (LPSTR) newPassword.Text, sizeof (newPassword.Text), TRUE))
+				if (GetPassword (hwndDlg, IDC_PASSWORD, (LPSTR) newPassword.Text, sizeof (newPassword.Text), FALSE, TRUE))
 					newPassword.Length = (unsigned __int32) strlen ((char *) newPassword.Text);
 				else
 					return 1;
@@ -3155,17 +3155,18 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			if (lw == IDOK)
 			{
+				BOOL bTrueCryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
 				if (mountOptions.ProtectHiddenVolume && hidVolProtKeyFilesParam.EnableKeyFiles)
 					KeyFilesApply (hwndDlg, &mountOptions.ProtectedHidVolPassword, hidVolProtKeyFilesParam.FirstKeyFile, wcslen (PasswordDlgVolume) > 0 ? PasswordDlgVolume : NULL);
 
-				if (GetPassword (hwndDlg, IDC_PASSWORD, (LPSTR) szXPwd->Text, MAX_PASSWORD + 1, TRUE))
+				if (GetPassword (hwndDlg, IDC_PASSWORD, (LPSTR) szXPwd->Text, MAX_PASSWORD + 1, bTrueCryptMode, TRUE))
 					szXPwd->Length = (unsigned __int32) strlen ((char *) szXPwd->Text);
 				else
 					return 1;
 
 				bCacheInDriver = IsButtonChecked (GetDlgItem (hwndDlg, IDC_CACHE));
 				*pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0), 0);
-				*truecryptMode = GetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE);
+				*truecryptMode = bTrueCryptMode;
 
 				*pim = GetPim (hwndDlg, IDC_PIM, 0);
 
@@ -3717,7 +3718,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				GetPassword (hwndDlg, IDC_PASSWORD_PROT_HIDVOL,
 					(LPSTR) mountOptions->ProtectedHidVolPassword.Text, MAX_PASSWORD + 1,
-					FALSE);
+					FALSE, FALSE);
 
 				mountOptions->ProtectedHidVolPassword.Length = (unsigned __int32) strlen ((char *) mountOptions->ProtectedHidVolPassword.Text);
 
@@ -8798,6 +8799,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 	wchar_t **lpszCommandLineArgs = NULL;	/* Array of command line arguments */
 	int nNoCommandLineArgs;	/* The number of arguments in the array */
 	wchar_t tmpPath[MAX_PATH * 2];
+	wchar_t CmdRawPassword[MAX_PASSWORD + 1]; /* Raw value of password passed from command line */
 
 	/* Defaults */
 	mountOptions.PreserveTimestamp = TRUE;
@@ -9119,19 +9121,20 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionPassword:
 				{
-					wchar_t szTmp[MAX_PASSWORD + 1];
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
-								  szTmp, ARRAYSIZE (szTmp)))
+								  CmdRawPassword, ARRAYSIZE (CmdRawPassword)))
 					{
-						int iLen = WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, (char*) CmdVolumePassword.Text, MAX_PASSWORD + 1, NULL, NULL);
-						burn (szTmp, sizeof (szTmp));
+						int iLen = WideCharToMultiByte (CP_UTF8, 0, CmdRawPassword, -1, (char*) CmdVolumePassword.Text, MAX_PASSWORD + 1, NULL, NULL);
 						if (iLen > 0)
 						{
 							CmdVolumePassword.Length = (unsigned __int32) (iLen - 1);
 							CmdVolumePasswordValid = TRUE;
 						}
 						else
+						{
+							burn (CmdRawPassword, sizeof (CmdRawPassword));
 							AbortProcess ("COMMAND_LINE_ERROR");
+						}
 					}
 					else
 						AbortProcess ("COMMAND_LINE_ERROR");
@@ -9284,6 +9287,28 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 			}
 		}
 	}
+
+	if (CmdVolumePasswordValid && (CmdVolumeTrueCryptMode || (CmdMountOptionsValid && bPrebootPasswordDlgMode)))
+	{
+		/* truncate the password to 64 first characer in case of TrueCrypt Mode or System Encryption */
+		if (lstrlen (CmdRawPassword) > MAX_LEGACY_PASSWORD)
+		{
+			int iLen;
+			wmemset (&CmdRawPassword[MAX_LEGACY_PASSWORD], 0, MAX_PASSWORD + 1 - MAX_LEGACY_PASSWORD);
+			iLen = WideCharToMultiByte (CP_UTF8, 0, CmdRawPassword, -1, (char*) CmdVolumePassword.Text, MAX_PASSWORD + 1, NULL, NULL);
+			if (iLen > 0)
+			{
+				CmdVolumePassword.Length = (unsigned __int32) (iLen - 1);
+			}
+			else
+			{
+				burn (CmdRawPassword, sizeof (CmdRawPassword));
+				AbortProcess ("COMMAND_LINE_ERROR");
+			}
+		}
+	}
+
+	burn (CmdRawPassword, sizeof (CmdRawPassword));
 
 	/* Free up the command line arguments */
 	while (--nNoCommandLineArgs >= 0)

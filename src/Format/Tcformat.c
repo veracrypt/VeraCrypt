@@ -5755,7 +5755,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (hw == EN_CHANGE)
 			{
-				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, MAX_PASSWORD + 1, FALSE);
+				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, MAX_PASSWORD + 1, FALSE, FALSE);
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 				return 1;
 			}
@@ -7575,7 +7575,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				// Store the password in case we need to restore it after keyfile is applied to it
-				if (!GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, sizeof (szRawPassword), TRUE))
+				if (!GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, sizeof (szRawPassword), FALSE, TRUE))
 					return 1;
 
 				if (!SysEncInEffect ())
@@ -7684,7 +7684,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				WaitCursor ();
 
-				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, MAX_PASSWORD + 1, TRUE))
+				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, MAX_PASSWORD + 1, FALSE, TRUE))
 				{
 					NormalCursor ();
 					return 1;
@@ -7696,7 +7696,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				volumePim = GetPim (hCurPage, IDC_PIM, 0);
 
 				// Store the password in case we need to restore it after keyfile is applied to it
-				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, sizeof (szRawPassword), TRUE))
+				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, sizeof (szRawPassword), FALSE, TRUE))
 				{
 					NormalCursor ();
 					return 1;
@@ -8791,7 +8791,7 @@ ovf_end:
 			else if (nCurPageNo == PASSWORD_PAGE)
 			{
 				// Store the password in case we need to restore it after keyfile is applied to it
-				GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, sizeof (szRawPassword), FALSE);
+				GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, sizeof (szRawPassword), FALSE, FALSE);
 
 				VerifyPasswordAndUpdate (hwndDlg, GetDlgItem (MainDlg, IDC_NEXT),
 					GetDlgItem (hCurPage, IDC_PASSWORD),
@@ -8833,7 +8833,7 @@ ovf_end:
 				|| nCurPageNo == NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE)
 			{
 				// Store the password in case we need to restore it after keyfile is applied to it
-				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, MAX_PASSWORD + 1, FALSE);
+				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, MAX_PASSWORD + 1, FALSE, FALSE);
 
 				memcpy (volumePassword.Text, szRawPassword, MAX_PASSWORD + 1);
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);

@@ -133,7 +133,7 @@ namespace VeraCrypt
 
 		try
 		{
-			Options.Password = PasswordPanel->GetPassword();
+			Options.Password = PasswordPanel->GetPassword(Options.PartitionInSystemEncryptionScope);
 		}
 		catch (PasswordException& e)
 		{
@@ -165,7 +165,7 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword();
+				Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword(Options.TrueCryptMode);
 			}
 			catch (PasswordException& e)
 			{

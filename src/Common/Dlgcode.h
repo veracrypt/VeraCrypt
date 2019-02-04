@@ -515,7 +515,7 @@ BOOL LaunchWindowsIsoBurner (HWND hwnd, const wchar_t *isoPath);
 BOOL IsApplicationInstalled (const wchar_t *appName);
 int GetPim (HWND hwndDlg, UINT ctrlId, int defaultPim);
 void SetPim (HWND hwndDlg, UINT ctrlId, int pim);
-BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL bShowError);
+BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL bLegacyPassword, BOOL bShowError);
 void SetPassword (HWND hwndDlg, UINT ctrlID, char* passValue);
 void HandleShowPasswordFieldAction (HWND hwndDlg, UINT checkBoxId, UINT edit1Id, UINT edit2Id);
 HKEY OpenDeviceClassRegKey (const GUID *deviceClassGuid);
