@@ -1535,10 +1535,11 @@ static VOID SetupThreadProc (PVOID threadArg)
 	KeQuerySystemTime( &iSeed );
 	WHIRLPOOL_init (&tctx);
 	WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
-	// use RDSEED or RDRAND from CPU as source of entropy if present
-	if (	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
+	// use RDSEED or RDRAND from CPU as source of entropy if enabled
+	if (	IsCpuRngEnabled() && 
+		(	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
 		||	(HasRDRAND() && RDRAND_getBytes (digest, sizeof (digest)))
-		)
+		))
 	{
 		WHIRLPOOL_add (digest, sizeof(digest), &tctx);
 	}

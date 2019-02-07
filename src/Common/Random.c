@@ -777,9 +777,10 @@ BOOL SlowPoll (void)
 	}
 
 	// use RDSEED or RDRAND from CPU as source of entropy if present
-	if (	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+	if (	IsCpuRngEnabled() && 
+		(	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
 		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
-		)
+		))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
 	}
@@ -907,10 +908,11 @@ BOOL FastPoll (void)
 		return FALSE;
 	}
 
-	// use RDSEED or RDRAND from CPU as source of entropy if present
-	if (	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+	// use RDSEED or RDRAND from CPU as source of entropy if enabled
+	if (	IsCpuRngEnabled() && 
+		(	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
 		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
-		)
+		))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
 	}

@@ -1434,6 +1434,7 @@
     <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
     <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
     <entry lang="en" key="STARTING">Starting</entry>
+    <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

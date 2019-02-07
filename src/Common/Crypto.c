@@ -1216,3 +1216,29 @@ BOOL IsHwEncryptionEnabled ()
 }
 
 #endif // !TC_WINDOWS_BOOT
+
+#ifndef TC_WINDOWS_BOOT
+
+static BOOL CpuRngDisabled = FALSE;
+
+BOOL IsCpuRngSupport ()
+{
+	if (HasRDSEED() || HasRDSEED())
+		return TRUE;
+	else
+		return FALSE;
+}
+
+void EnableCpuRng (BOOL enable)
+{
+	CpuRngDisabled = !enable;
+}
+
+BOOL IsCpuRngEnabled ()
+{
+	return !CpuRngDisabled;
+}
+
+
+#endif
+

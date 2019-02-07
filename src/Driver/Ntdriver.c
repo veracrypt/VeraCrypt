@@ -4382,6 +4382,7 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 			}
 
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
+			EnableCpuRng ((flags & VC_DRIVER_CONFIG_ENABLE_CPU_RNG) ? TRUE : FALSE);
 
 			EnableExtendedIoctlSupport = (flags & TC_DRIVER_CONFIG_ENABLE_EXTENDED_IOCTL)? TRUE : FALSE;
 			AllowTrimCommand = (flags & VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM)? TRUE : FALSE;

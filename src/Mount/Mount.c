@@ -820,7 +820,10 @@ void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified, BOOL* 
 {
 	char langid[6] = {0};
 	if (!bOnlyCheckModified)
+	{
 	   EnableHwEncryption ((ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
+	   EnableCpuRng ((ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_ENABLE_CPU_RNG) ? TRUE : FALSE);
+	}
 
 	WipeAlgorithmId savedWipeAlgorithm = TC_WIPE_NONE;
 
@@ -11099,6 +11102,16 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ALLOW_WINDOWS_DEFRAG), FALSE);
 			}
 
+			if (HasRDRAND() || HasRDSEED())
+			{
+				CheckDlgButton (hwndDlg, IDC_ENABLE_CPU_RNG, (driverConfig & VC_DRIVER_CONFIG_ENABLE_CPU_RNG) ? BST_CHECKED : BST_UNCHECKED);
+			}
+			else
+			{
+				CheckDlgButton (hwndDlg, IDC_ENABLE_CPU_RNG,  BST_UNCHECKED);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_CPU_RNG), FALSE);
+			}
+
 			SYSTEM_INFO sysInfo;
 			GetSystemInfo (&sysInfo);
 
@@ -11154,6 +11167,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				}
 
 				BOOL disableHW = !IsDlgButtonChecked (hwndDlg, IDC_ENABLE_HARDWARE_ENCRYPTION);
+				BOOL enableCpuRng = IsDlgButtonChecked (hwndDlg, IDC_ENABLE_CPU_RNG);
 				BOOL enableExtendedIOCTL = IsDlgButtonChecked (hwndDlg, IDC_ENABLE_EXTENDED_IOCTL_SUPPORT);
 				BOOL allowTrimCommand = IsDlgButtonChecked (hwndDlg, IDC_ALLOW_TRIM_NONSYS_SSD);
 				BOOL allowWindowsDefrag = IsDlgButtonChecked (hwndDlg, IDC_ALLOW_WINDOWS_DEFRAG);
@@ -11196,12 +11210,14 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ALLOW_NONSYS_TRIM, allowTrimCommand);
 					if (IsOSAtLeast (WIN_8_1))
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG, allowWindowsDefrag);
+					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_CPU_RNG, enableCpuRng);
 
 					DWORD bytesReturned;
 					if (!DeviceIoControl (hDriver, TC_IOCTL_REREAD_DRIVER_CONFIG, NULL, 0, NULL, 0, &bytesReturned, NULL))
 						handleWin32Error (hwndDlg, SRC_POS);
 
 					EnableHwEncryption (!disableHW);
+					EnableCpuRng (enableCpuRng);
 
 					uint32 cpuFreeCount = 0;
 					if (IsDlgButtonChecked (hwndDlg, IDC_LIMIT_ENC_THREAD_POOL))

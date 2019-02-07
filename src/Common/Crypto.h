@@ -385,6 +385,10 @@ BOOL IsAesHwCpuSupported ();
 void EnableHwEncryption (BOOL enable);
 BOOL IsHwEncryptionEnabled ();
 
+BOOL IsCpuRngSupport ();
+void EnableCpuRng (BOOL enable);
+BOOL IsCpuRngEnabled ();
+
 #ifdef __cplusplus
 }
 #endif
