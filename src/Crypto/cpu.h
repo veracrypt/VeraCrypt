@@ -89,8 +89,10 @@ extern __m128i _mm_unpacklo_epi64(__m128i _A, __m128i _B);
 extern void _mm_store_si128(__m128i *_P, __m128i _B);
 extern __m64 _m_pxor(__m64 _MM1, __m64 _MM2);
 extern __m128i _mm_set_epi64(__m64 _Q1, __m64 _Q0);
+extern __m128i _mm_set1_epi64(__m64 q);
 extern __m128i _mm_setr_epi32(int _I0, int _I1, int _I2, int _I3);
 extern __m128i _mm_loadu_si128(__m128i const*_P);
+extern __m128i _mm_set_epi8(char b15, char b14, char b13, char b12, char b11, char b10, char b9, char b8, char b7, char b6, char b5, char b4, char b3, char b2, char b1, char b0);
 extern __m128i _mm_set_epi32(int _I3, int _I2, int _I1, int _I0);
 extern __m128i _mm_set1_epi32(int _I);
 extern void _mm_storeu_si128(__m128i *_P, __m128i _B);
@@ -99,6 +101,7 @@ extern __m128i _mm_slli_epi32(__m128i _A, int _Count);
 extern __m128i _mm_srli_epi32(__m128i _A, int _Count);
 extern __m128i _mm_add_epi32(__m128i _A, __m128i _B);
 extern __m128i _mm_sub_epi32(__m128i _A, __m128i _B);
+extern __m128i _mm_add_epi64 (__m128i a, __m128i b);
 extern __m128i _mm_or_si128(__m128i _A, __m128i _B);
 extern __m128i _mm_and_si128(__m128i _A, __m128i _B);
 extern __m128i _mm_andnot_si128(__m128i _A, __m128i _B);
@@ -109,6 +112,9 @@ extern __m128i _mm_unpackhi_epi32(__m128i _A, __m128i _B);
 extern __m128i _mm_unpackhi_epi64(__m128i _A, __m128i _B);
 extern __m128i _mm_srli_epi16(__m128i _A, int _Count);
 extern __m128i _mm_slli_epi16(__m128i _A, int _Count);
+extern __m128i _mm_shuffle_epi32 (__m128i a, int imm8);
+extern __m128i _mm_set_epi64x (__int64 e1, __int64 e0);
+extern __m128i _mm_set1_epi64x (__int64 a);
 #define _mm_xor_si64      _m_pxor
 #define _mm_empty         _m_empty
 #define _MM_SHUFFLE(fp3,fp2,fp1,fp0) (((fp3) << 6) | ((fp2) << 4) | \
@@ -122,8 +128,7 @@ extern __m128i _mm_slli_epi16(__m128i _A, int _Count);
 #endif
 #endif
 
-#if CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE
-#if defined(__SSSE3__) || defined(__INTEL_COMPILER)
+#if CRYPTOPP_SSSE3_AVAILABLE || defined(__INTEL_COMPILER)
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
@@ -134,7 +139,6 @@ extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
 #endif
 #else
 #include <tmmintrin.h>
-#endif
 #endif
 
 #if defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER)

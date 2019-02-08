@@ -215,6 +215,9 @@
     <ClCompile Include="Aeskey.c" />
     <ClCompile Include="Aestab.c" />
     <ClCompile Include="Camellia.c" />
+    <ClCompile Include="chacha-xmm.c" />
+    <ClCompile Include="chacha256.c" />
+    <ClCompile Include="chachaRng.c" />
     <ClCompile Include="cpu.c" />
     <ClCompile Include="GostCipher.c" />
     <ClCompile Include="kuznyechik.c" />
@@ -234,6 +237,10 @@
     <ClInclude Include="Aesopt.h" />
     <ClInclude Include="Aestab.h" />
     <ClInclude Include="Camellia.h" />
+    <ClInclude Include="chacha256.h" />
+    <ClInclude Include="chachaRng.h" />
+    <ClInclude Include="chacha_u1.h" />
+    <ClInclude Include="chacha_u4.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="GostCipher.h" />

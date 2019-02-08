@@ -60,6 +60,15 @@
     <ClCompile Include="rdrand.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="chacha256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chacha-xmm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chachaRng.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -114,6 +123,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rdrand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chacha_u1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chacha_u4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chacha256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chachaRng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

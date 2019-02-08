@@ -29,6 +29,7 @@
 #include "Boot/Windows/BootCommon.h"
 #include "cpu.h"
 #include "rdrand.h"
+#include "chachaRng.h"
 
 static BOOL DeviceFilterActive = FALSE;
 
@@ -1521,42 +1522,17 @@ static VOID SetupThreadProc (PVOID threadArg)
 
 	// generate real random values for wipeRandChars and 
 	// wipeRandCharsUpdate instead of relying on uninitialized stack memory
-	LARGE_INTEGER iSeed;
-	byte digest[WHIRLPOOL_DIGESTSIZE];
-	WHIRLPOOL_CTX tctx;
-		
-#ifndef _WIN64
-	KFLOATING_SAVE floatingPointState;
-	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
-	if (HasISSE())
-		saveStatus = KeSaveFloatingPointState (&floatingPointState);
-#endif
+	ChaCha20RngCtx rngCtx;
+	byte pbSeed[CHACHA20RNG_KEYSZ + CHACHA20RNG_IVSZ];
 
-	KeQuerySystemTime( &iSeed );
-	WHIRLPOOL_init (&tctx);
-	WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
-	// use RDSEED or RDRAND from CPU as source of entropy if enabled
-	if (	IsCpuRngEnabled() && 
-		(	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
-		||	(HasRDRAND() && RDRAND_getBytes (digest, sizeof (digest)))
-		))
-	{
-		WHIRLPOOL_add (digest, sizeof(digest), &tctx);
-	}
-	WHIRLPOOL_finalize (&tctx, digest);
+	GetDriverRandomSeed (pbSeed, sizeof (pbSeed));
+	ChaCha20RngInit (&rngCtx, pbSeed, GetDriverRandomSeed, 0);
 
-#if !defined (_WIN64)
-	if (NT_SUCCESS (saveStatus))
-		KeRestoreFloatingPointState (&floatingPointState);
-#endif
+	ChaCha20RngGetBytes (&rngCtx, wipeRandChars, TC_WIPE_RAND_CHAR_COUNT);
+	ChaCha20RngGetBytes (&rngCtx, wipeRandCharsUpdate, TC_WIPE_RAND_CHAR_COUNT);
 
-	memcpy (wipeRandChars, digest, TC_WIPE_RAND_CHAR_COUNT);
-	memcpy (wipeRandCharsUpdate, &digest[WHIRLPOOL_DIGESTSIZE - TC_WIPE_RAND_CHAR_COUNT], TC_WIPE_RAND_CHAR_COUNT);
-
-	burn (digest, WHIRLPOOL_DIGESTSIZE);
-	burn (&tctx, sizeof (tctx));
-	
-	burn (&iSeed, sizeof(iSeed));
+	burn (&rngCtx, sizeof (rngCtx));
+	FAST_ERASE64 (pbSeed, sizeof (pbSeed));
 
 	SetupResult = STATUS_UNSUCCESSFUL;
 

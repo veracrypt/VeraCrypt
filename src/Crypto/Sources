@@ -6,7 +6,6 @@ INCLUDES = ..
 NTTARGETFILES = \
 	"$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Aes_hw_cpu.obj" \
-	"$(OBJ_PATH)\$(O)\rdrand.obj" \
 	"$(OBJ_PATH)\$(O)\rdrand_ml.obj" \
 	"$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).obj" \
 	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj" \
@@ -28,6 +27,9 @@ SOURCES = \
 	rdrand_ml.asm \
 	Aeskey.c \
 	Aestab.c \
+	chacha-xmm.c \
+	chacha256.c \
+	chachaRng.c \
 	cpu.c \
 	rdrand.c \
 	Rmd160.c \
