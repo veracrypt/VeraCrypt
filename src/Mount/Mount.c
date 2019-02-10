@@ -53,6 +53,9 @@
 #include <Strsafe.h>
 #include <InitGuid.h>
 #include <devguid.h>
+#include <intrin.h>
+
+#pragma intrinsic(_InterlockedCompareExchange, _InterlockedExchange)
 
 #import <msxml6.dll> no_auto_exclude
 
@@ -167,6 +170,8 @@ static KeyFilesDlgParam				hidVolProtKeyFilesParam;
 static MOUNT_LIST_STRUCT	LastKnownMountList = {0};
 VOLUME_NOTIFICATIONS_LIST	VolumeNotificationsList;
 static DWORD				LastKnownLogicalDrives;
+
+static volatile LONG FavoriteMountOnGoing = 0;
 
 static HANDLE TaskBarIconMutex = NULL;
 static BOOL MainWindowHidden = FALSE;
@@ -8626,7 +8631,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDM_MOUNT_FAVORITE_VOLUMES)
 		{
-			_beginthread(mountFavoriteVolumeThreadFunction, 0, NULL);
+			if (0 == _InterlockedCompareExchange(&FavoriteMountOnGoing, 1, 0))
+				_beginthread(mountFavoriteVolumeThreadFunction, 0, NULL);
 			return 1;
 		}
 
@@ -8707,13 +8713,16 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else
 				{
-					mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
-					pParam->systemFavorites = FALSE;
-					pParam->logOnMount = FALSE;
-					pParam->hotKeyMount = FALSE;
-					pParam->favoriteVolumeToMount = &FavoriteVolumes[favoriteIndex];
+					if (0 == _InterlockedCompareExchange(&FavoriteMountOnGoing, 1, 0))
+					{
+						mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
+						pParam->systemFavorites = FALSE;
+						pParam->logOnMount = FALSE;
+						pParam->hotKeyMount = FALSE;
+						pParam->favoriteVolumeToMount = &FavoriteVolumes[favoriteIndex];
 
-					_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+						_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+					}
 				}
 			}
 
@@ -10168,6 +10177,7 @@ void CALLBACK mountFavoriteVolumeCallbackFunction (void *pArg, HWND hwnd)
 void __cdecl mountFavoriteVolumeThreadFunction (void *pArg)
 {
 	ShowWaitDialog (MainDlg, FALSE, mountFavoriteVolumeCallbackFunction, pArg);
+	_InterlockedExchange(&FavoriteMountOnGoing, 0);
 }
 
 static void SaveDefaultKeyFilesParam (HWND hwnd)
@@ -10302,13 +10312,16 @@ static void HandleHotKey (HWND hwndDlg, WPARAM wParam)
 
 	case HK_MOUNT_FAVORITE_VOLUMES:
 		{
-			mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
-			pParam->systemFavorites = FALSE;
-			pParam->logOnMount = FALSE;
-			pParam->hotKeyMount = TRUE;
-			pParam->favoriteVolumeToMount = NULL;
+			if (0 == _InterlockedCompareExchange(&FavoriteMountOnGoing, 1, 0))
+			{
+				mountFavoriteVolumeThreadParam* pParam = (mountFavoriteVolumeThreadParam*) calloc(1, sizeof(mountFavoriteVolumeThreadParam));
+				pParam->systemFavorites = FALSE;
+				pParam->logOnMount = FALSE;
+				pParam->hotKeyMount = TRUE;
+				pParam->favoriteVolumeToMount = NULL;
 
-			_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+				_beginthread(mountFavoriteVolumeThreadFunction, 0, pParam);
+			}
 		}
 		break;
 
