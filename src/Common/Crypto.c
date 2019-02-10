@@ -1223,7 +1223,7 @@ static BOOL CpuRngDisabled = FALSE;
 
 BOOL IsCpuRngSupport ()
 {
-	if (HasRDSEED() || HasRDSEED())
+	if (HasRDSEED() || HasRDRAND())
 		return TRUE;
 	else
 		return FALSE;
