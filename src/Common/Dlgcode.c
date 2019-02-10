@@ -214,6 +214,9 @@ CRITICAL_SECTION csVolumeIdCandidates;
 static std::vector<HostDevice> mountableDevices;
 static std::vector<HostDevice> rawHostDeviceList;
 
+/* Critical section used to ensure that only one thread at a time can create a secure desktop */
+CRITICAL_SECTION csSecureDesktop;
+
 HINSTANCE hInst = NULL;
 HCURSOR hCursor = NULL;
 
@@ -445,6 +448,7 @@ void InitGlobalLocks ()
 	InitializeCriticalSection (&csWNetCalls);
 	InitializeCriticalSection (&csMountableDevices);
 	InitializeCriticalSection (&csVolumeIdCandidates);
+	InitializeCriticalSection (&csSecureDesktop);
 }
 
 void FinalizeGlobalLocks ()
@@ -452,6 +456,7 @@ void FinalizeGlobalLocks ()
 	DeleteCriticalSection (&csWNetCalls);
 	DeleteCriticalSection (&csMountableDevices);
 	DeleteCriticalSection (&csVolumeIdCandidates);
+	DeleteCriticalSection (&csSecureDesktop);
 }
 
 void cleanup ()
@@ -13555,6 +13560,9 @@ INT_PTR SecureDesktopDialogBoxParam(
 		HDESK hSecureDesk;
 
 		HDESK hInputDesk = NULL;
+
+		EnterCriticalSection (&csSecureDesktop);
+		finally_do ({ LeaveCriticalSection (&csSecureDesktop); });
 
 		// wait for the input desktop to be available before switching to 
 		// secure desktop. Under Windows 10, the user session can be started
