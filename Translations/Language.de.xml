@@ -1435,7 +1435,7 @@
     <entry lang="de" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Verschlüsselungsschlüssel aus dem Speicher löschen, wenn ein neues Gerät eingesteckt wird</entry>
     <entry lang="de" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">WICHTIGE HINWEISE:\n - Bitte beachten Sie, dass diese Option nach einem Herunterfahren/Neustart nicht erhalten bleibt, so dass Sie sie beim nächsten Start der Maschine erneut auswählen müssen.\n\n - Wenn diese Option aktiviert ist, wird der Rechner nach dem Anschließen eines neuen Geräts einfrieren und schließlich mit einem BSOD abstürzen, da Windows nach dem Löschen seiner Schlüssel aus dem Speicher nicht mehr auf die verschlüsselte Festplatte zugreifen kann.\n</entry>
     <entry lang="de" key="STARTING">Wird gestartet</entry>
-    <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
+    <entry lang="de" key="IDC_ENABLE_CPU_RNG">CPU-Hardware-Zufallsgenerator als zusätzliche Entropiequelle verwenden</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
