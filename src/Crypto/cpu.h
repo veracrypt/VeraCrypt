@@ -25,6 +25,23 @@
 	#define ATT_NOPREFIX
 #endif
 
+#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
+#if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
+#if defined(__cplusplus)
+extern "C" {
+#endif
+extern unsigned __int64 __rdtsc();
+#if defined(__cplusplus)
+}
+#endif
+#else
+#include <intrin.h>
+#ifdef _MSC_VER
+#pragma intrinsic(__rdtsc)
+#endif
+#endif
+#endif
+
 #ifdef CRYPTOPP_GENERATE_X64_MASM
 
 #define CRYPTOPP_X86_ASM_AVAILABLE

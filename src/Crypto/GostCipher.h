@@ -14,6 +14,7 @@
 
 #include "Common/Tcdefs.h"
 #include "config.h"
+#include "misc.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,10 +30,6 @@ extern "C" {
 #define GOST_DYNAMIC_SBOXES
 
 #if defined(CIPHER_GOST89)
-
-#ifndef rotl32
-#define rotl32(b, shift) ((b << shift) | (b >> (32 - shift)))
-#endif
 
 #ifdef GST_WINDOWS_BOOT
 typedef int gst_word;

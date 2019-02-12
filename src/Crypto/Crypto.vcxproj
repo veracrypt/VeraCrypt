@@ -220,6 +220,10 @@
     <ClCompile Include="chachaRng.c" />
     <ClCompile Include="cpu.c" />
     <ClCompile Include="GostCipher.c" />
+    <ClCompile Include="jitterentropy-base.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Disabled</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+    </ClCompile>
     <ClCompile Include="kuznyechik.c" />
     <ClCompile Include="kuznyechik_simd.c" />
     <ClCompile Include="rdrand.c" />
@@ -244,6 +248,8 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="GostCipher.h" />
+    <ClInclude Include="jitterentropy-base-user.h" />
+    <ClInclude Include="jitterentropy.h" />
     <ClInclude Include="kuznyechik.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="rdrand.h" />

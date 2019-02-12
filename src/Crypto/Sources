@@ -31,6 +31,7 @@ SOURCES = \
 	chacha256.c \
 	chachaRng.c \
 	cpu.c \
+	jitterentropy-base.c \
 	rdrand.c \
 	Rmd160.c \
 	SerpentFast.c \

@@ -32,6 +32,7 @@
 #include "VolumeFilter.h"
 #include "cpu.h"
 #include "rdrand.h"
+#include "jitterentropy.h"
 
 #include <tchar.h>
 #include <initguid.h>
@@ -162,7 +163,7 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 	while (cbRandSeed)
 	{	
 		WHIRLPOOL_init (&tctx);
-		// we hash current content of digest buffer which is initialized the first time
+		// we hash current content of digest buffer which is uninitialized the first time
 		WHIRLPOOL_add (digest, WHIRLPOOL_DIGESTSIZE, &tctx);
 
 		// we use various time information as source of entropy
@@ -173,6 +174,19 @@ void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 		WHIRLPOOL_add ((unsigned char *) &(iSeed2.QuadPart), sizeof(iSeed2.QuadPart), &tctx);
 		iSeed.QuadPart = KeQueryInterruptTime ();
 		WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+
+		/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
+		if (0 == jent_entropy_init ())
+		{
+			struct rand_data *ec = jent_entropy_collector_alloc (1, 0);
+			if (ec)
+			{
+				ssize_t rndLen = jent_read_entropy (ec, (char*) digest, sizeof (digest));
+				if (rndLen > 0)
+					WHIRLPOOL_add (digest, (unsigned int) rndLen, &tctx);
+				jent_entropy_collector_free (ec);
+			}
+		}
 
 		// use RDSEED or RDRAND from CPU as source of entropy if enabled
 		if (	IsCpuRngEnabled() && 

@@ -69,6 +69,9 @@
     <ClCompile Include="chachaRng.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jitterentropy-base.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -135,6 +138,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="chachaRng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jitterentropy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jitterentropy-base-user.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
