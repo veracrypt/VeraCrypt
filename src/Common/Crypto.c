@@ -1221,7 +1221,7 @@ BOOL IsHwEncryptionEnabled ()
 
 static BOOL CpuRngDisabled = TRUE;
 
-BOOL IsCpuRngSupport ()
+BOOL IsCpuRngSupported ()
 {
 	if (HasRDSEED() || HasRDRAND())
 		return TRUE;

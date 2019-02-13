@@ -11115,7 +11115,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ALLOW_WINDOWS_DEFRAG), FALSE);
 			}
 
-			if (HasRDRAND() || HasRDSEED())
+			if (IsCpuRngSupported())
 			{
 				CheckDlgButton (hwndDlg, IDC_ENABLE_CPU_RNG, (driverConfig & VC_DRIVER_CONFIG_ENABLE_CPU_RNG) ? BST_CHECKED : BST_UNCHECKED);
 			}
