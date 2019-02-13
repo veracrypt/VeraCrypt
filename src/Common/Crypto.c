@@ -1219,7 +1219,7 @@ BOOL IsHwEncryptionEnabled ()
 
 #ifndef TC_WINDOWS_BOOT
 
-static BOOL CpuRngDisabled = FALSE;
+static BOOL CpuRngDisabled = TRUE;
 
 BOOL IsCpuRngSupport ()
 {
