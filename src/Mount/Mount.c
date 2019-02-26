@@ -11125,6 +11125,16 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_CPU_RNG), FALSE);
 			}
 
+			if (IsOSAtLeast (WIN_7) && IsRamEncryptionSupported())
+			{
+				CheckDlgButton (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION, (driverConfig & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? BST_CHECKED : BST_UNCHECKED);
+			}
+			else
+			{
+				CheckDlgButton (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION,  BST_UNCHECKED);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION), FALSE);
+			}
+
 			SYSTEM_INFO sysInfo;
 			GetSystemInfo (&sysInfo);
 
@@ -11181,6 +11191,7 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 
 				BOOL disableHW = !IsDlgButtonChecked (hwndDlg, IDC_ENABLE_HARDWARE_ENCRYPTION);
 				BOOL enableCpuRng = IsDlgButtonChecked (hwndDlg, IDC_ENABLE_CPU_RNG);
+				BOOL enableRamEncryption = IsDlgButtonChecked (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION);
 				BOOL enableExtendedIOCTL = IsDlgButtonChecked (hwndDlg, IDC_ENABLE_EXTENDED_IOCTL_SUPPORT);
 				BOOL allowTrimCommand = IsDlgButtonChecked (hwndDlg, IDC_ALLOW_TRIM_NONSYS_SSD);
 				BOOL allowWindowsDefrag = IsDlgButtonChecked (hwndDlg, IDC_ALLOW_WINDOWS_DEFRAG);
@@ -11224,6 +11235,8 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 					if (IsOSAtLeast (WIN_8_1))
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG, allowWindowsDefrag);
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_CPU_RNG, enableCpuRng);
+					if (IsOSAtLeast (WIN_7))
+						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION, enableRamEncryption);
 
 					DWORD bytesReturned;
 					if (!DeviceIoControl (hDriver, TC_IOCTL_REREAD_DRIVER_CONFIG, NULL, 0, NULL, 0, &bytesReturned, NULL))

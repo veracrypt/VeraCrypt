@@ -37,6 +37,9 @@ SOURCES = \
 	SerpentFast.c \
 	SerpentFast_simd.cpp \
 	Sha2.c \
+	t1ha_selfcheck.c \
+	t1ha2.c \
+	t1ha2_selfcheck.c \
 	Twofish.c \
 	Twofish_$(TC_ARCH).S \
 	GostCipher.c \

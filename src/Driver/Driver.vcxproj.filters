@@ -126,6 +126,15 @@
     <ClCompile Include="..\Crypto\jitterentropy-base.c">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
+    <ClCompile Include="..\Crypto\t1ha_selfcheck.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\t1ha2.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\t1ha2_selfcheck.c">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Crypto\Aes_hw_cpu.asm">

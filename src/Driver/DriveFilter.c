@@ -94,9 +94,9 @@ NTSTATUS LoadBootArguments ()
 		bootArgsAddr.QuadPart = BootArgsRegions[bootLoaderArgsIndex] + TC_BOOT_LOADER_ARGS_OFFSET;
 		Dump ("Checking BootArguments at 0x%x\n", bootArgsAddr.LowPart);
 
-		mappedBootArgs = MmMapIoSpace (bootArgsAddr, sizeof (BootArguments), MmCached);
-		if (!mappedBootArgs)
-			return STATUS_INSUFFICIENT_RESOURCES;
+			mappedBootArgs = MmMapIoSpace (bootArgsAddr, sizeof (BootArguments), MmCached);
+			if (!mappedBootArgs)
+				return STATUS_INSUFFICIENT_RESOURCES;
 
 		if (TC_IS_BOOT_ARGUMENTS_SIGNATURE (mappedBootArgs))
 		{
@@ -639,6 +639,12 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		}
 		else
 			Extension->Queue.MaxReadAheadOffset = BootDriveLength;
+
+		/* encrypt keys */
+#ifdef _WIN64
+		VcProtectKeys (Extension->HeaderCryptoInfo, VcGetEncryptionID (Extension->HeaderCryptoInfo));
+		VcProtectKeys (Extension->Queue.CryptoInfo, VcGetEncryptionID (Extension->Queue.CryptoInfo));
+#endif
 		
 		status = EncryptedIoQueueStart (&Extension->Queue);
 		if (!NT_SUCCESS (status))
@@ -710,8 +716,18 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		uint32 headerCrc32;
 		uint64 encryptedAreaLength = Extension->Queue.EncryptedAreaEnd + 1 - Extension->Queue.EncryptedAreaStart;
 		byte *fieldPos = header + TC_HEADER_OFFSET_ENCRYPTED_AREA_LENGTH;
+		PCRYPTO_INFO pCryptoInfo = Extension->HeaderCryptoInfo;
+#ifdef _WIN64
+		CRYPTO_INFO tmpCI;
+		if (IsRamEncryptionEnabled())
+		{
+			memcpy (&tmpCI, pCryptoInfo, sizeof (CRYPTO_INFO));
+			VcUnprotectKeys (&tmpCI, VcGetEncryptionID (pCryptoInfo));
+			pCryptoInfo = &tmpCI;
+		}
+#endif
 
-		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, Extension->HeaderCryptoInfo);
+		DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
 
 		if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
 		{
@@ -726,7 +742,13 @@ static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension)
 		fieldPos = header + TC_HEADER_OFFSET_HEADER_CRC;
 		mputLong (fieldPos, headerCrc32);
 
-		EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, Extension->HeaderCryptoInfo);
+		EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled())
+		{
+			burn (&tmpCI, sizeof (CRYPTO_INFO));
+		}
+#endif
 	}
 
 	status = TCWriteDevice (Extension->LowerDeviceObject, header, offset, TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE);
@@ -961,6 +983,9 @@ static NTSTATUS DispatchPower (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFilte
 		&& irpSp->Parameters.Power.Type == DevicePowerState)
 	{
 		DismountDrive (Extension, TRUE);
+#ifdef _WIN64
+		ClearSecurityParameters ();
+#endif
 	}
 
 	PoStartNextPowerIrp (Irp);
@@ -1087,6 +1112,10 @@ void EmergencyClearAllKeys (PIRP irp, PIO_STACK_LOCATION irpSp)
 		if (BootDriveFound && BootDriveFilterExtension && BootDriveFilterExtension->DriveMounted)
 			InvalidateDriveFilterKeys (BootDriveFilterExtension);
 
+#ifdef _WIN64
+		ClearSecurityParameters();
+#endif
+
 		irp->IoStatus.Status = STATUS_SUCCESS;
 	}
 }
@@ -1139,9 +1168,22 @@ void ReopenBootVolumeHeader (PIRP irp, PIO_STACK_LOCATION irpSp)
 		goto ret;
 	}
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled())
+	{
+		VcUnprotectKeys (BootDriveFilterExtension->HeaderCryptoInfo, VcGetEncryptionID (BootDriveFilterExtension->HeaderCryptoInfo));
+	}
+#endif
+
 	if (ReadVolumeHeader (!BootDriveFilterExtension->HiddenSystem, header, &request->VolumePassword, request->pkcs5_prf, request->pim, FALSE, NULL, BootDriveFilterExtension->HeaderCryptoInfo) == 0)
 	{
 		Dump ("Header reopened\n");
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled())
+		{
+			VcProtectKeys (BootDriveFilterExtension->HeaderCryptoInfo, VcGetEncryptionID(BootDriveFilterExtension->HeaderCryptoInfo));
+		}
+#endif
 		ComputeBootLoaderFingerprint (BootDriveFilterExtension->LowerDeviceObject, header);
 
 		BootDriveFilterExtension->Queue.CryptoInfo->pkcs5 = BootDriveFilterExtension->HeaderCryptoInfo->pkcs5;
@@ -1258,7 +1300,7 @@ static NTSTATUS HiberDriverWriteFunctionFilter (int filterNumber, PLARGE_INTEGER
 				if (BootDriveFilterExtension->Queue.RemapEncryptedArea)
 					dataUnit.Value += BootDriveFilterExtension->Queue.RemappedAreaDataUnitOffset;
 
-				EncryptDataUnitsCurrentThread (HibernationWriteBuffer + (intersectStart - offset),
+				EncryptDataUnitsCurrentThreadEx (HibernationWriteBuffer + (intersectStart - offset),
 					&dataUnit,
 					intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
 					BootDriveFilterExtension->Queue.CryptoInfo);

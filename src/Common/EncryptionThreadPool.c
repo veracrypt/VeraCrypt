@@ -111,6 +111,43 @@ static TC_MUTEX DequeueMutex;
 static TC_EVENT WorkItemReadyEvent;
 static TC_EVENT WorkItemCompletedEvent;
 
+#if defined(_WIN64) && defined(TC_WINDOWS_DRIVER)
+void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
+{
+	if (IsRamEncryptionEnabled())
+	{
+		CRYPTO_INFO tmpCI;
+		memcpy (&tmpCI, ci, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (ci));
+
+		EncryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, &tmpCI);
+
+		burn (&tmpCI, sizeof(CRYPTO_INFO));
+	}
+	else
+		EncryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, ci);
+}
+
+void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
+{
+	if (IsRamEncryptionEnabled())
+	{
+		CRYPTO_INFO tmpCI;
+		memcpy (&tmpCI, ci, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (ci));
+
+		DecryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, &tmpCI);
+
+		burn (&tmpCI, sizeof(CRYPTO_INFO));
+	}
+	else
+		DecryptDataUnitsCurrentThread (buf, structUnitNo, nbrUnits, ci);
+}
+
+#else
+#define EncryptDataUnitsCurrentThreadEx EncryptDataUnitsCurrentThread
+#define DecryptDataUnitsCurrentThreadEx DecryptDataUnitsCurrentThread
+#endif
 
 static WorkItemState GetWorkItemState (EncryptionThreadPoolWorkItem *workItem)
 {
@@ -152,11 +189,11 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 		switch (workItem->Type)
 		{
 		case DecryptDataUnitsWork:
-			DecryptDataUnitsCurrentThread (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo);
+			DecryptDataUnitsCurrentThreadEx (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo);
 			break;
 
 		case EncryptDataUnitsWork:
-			EncryptDataUnitsCurrentThread (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo);
+			EncryptDataUnitsCurrentThreadEx (workItem->Encryption.Data, &workItem->Encryption.StartUnitNo, workItem->Encryption.UnitCount, workItem->Encryption.CryptoInfo);
 			break;
 
 		case DeriveKeyWork:
@@ -414,11 +451,11 @@ void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, 
 		switch (type)
 		{
 		case DecryptDataUnitsWork:
-			DecryptDataUnitsCurrentThread (data, startUnitNo, unitCount, cryptoInfo);
+			DecryptDataUnitsCurrentThreadEx (data, startUnitNo, unitCount, cryptoInfo);
 			break;
 
 		case EncryptDataUnitsWork:
-			EncryptDataUnitsCurrentThread (data, startUnitNo, unitCount, cryptoInfo);
+			EncryptDataUnitsCurrentThreadEx (data, startUnitNo, unitCount, cryptoInfo);
 			break;
 
 		default:

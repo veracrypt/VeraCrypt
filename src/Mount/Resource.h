@@ -193,6 +193,7 @@
 #define IDC_LOWER_BOX                   1170
 #define IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION 1171
 #define IDC_ENABLE_CPU_RNG              1172
+#define IDC_ENABLE_RAM_ENCRYPTION       1173
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -269,7 +270,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40069
-#define _APS_NEXT_CONTROL_VALUE         1173
+#define _APS_NEXT_CONTROL_VALUE         1174
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

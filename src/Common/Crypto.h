@@ -208,6 +208,10 @@ typedef struct
 #	include "GostCipher.h"
 #	include "kuznyechik.h"
 #	include "Camellia.h"
+#   include "chachaRng.h"
+#   ifdef _WIN64
+#   include "t1ha.h"
+#   endif
 #else
 #	include "CamelliaSmall.h"
 #endif
@@ -381,6 +385,19 @@ void DecryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *s
 void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
 void DecryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
 
+#if defined(_WIN64) && !defined (_UEFI) && defined(TC_WINDOWS_DRIVER)
+BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback);
+void ClearSecurityParameters();
+uint64 VcGetEncryptionID (PCRYPTO_INFO pCryptoInfo);
+void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID);
+void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID);
+void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci);
+void DecryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci);
+#else
+#define EncryptDataUnitsCurrentThreadEx EncryptDataUnitsCurrentThread
+#define DecryptDataUnitsCurrentThreadEx DecryptDataUnitsCurrentThread
+#endif
+
 BOOL IsAesHwCpuSupported ();
 void EnableHwEncryption (BOOL enable);
 BOOL IsHwEncryptionEnabled ();
@@ -388,6 +405,10 @@ BOOL IsHwEncryptionEnabled ();
 BOOL IsCpuRngSupported ();
 void EnableCpuRng (BOOL enable);
 BOOL IsCpuRngEnabled ();
+
+BOOL IsRamEncryptionSupported ();
+void EnableRamEncryption (BOOL enable);
+BOOL IsRamEncryptionEnabled ();
 
 #ifdef __cplusplus
 }

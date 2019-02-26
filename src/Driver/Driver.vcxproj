@@ -201,6 +201,9 @@ BuildDriver.cmd -rebuild -debug -x64 "$(SolutionDir)\Common" "$(SolutionDir)\Cry
     <ClCompile Include="..\Crypto\SerpentFast.c" />
     <ClCompile Include="..\Crypto\SerpentFast_simd.cpp" />
     <ClCompile Include="..\Crypto\Streebog.c" />
+    <ClCompile Include="..\Crypto\t1ha2.c" />
+    <ClCompile Include="..\Crypto\t1ha2_selfcheck.c" />
+    <ClCompile Include="..\Crypto\t1ha_selfcheck.c" />
     <ClCompile Include="DriveFilter.c" />
     <ClCompile Include="DumpFilter.c" />
     <ClCompile Include="EncryptedIoQueue.c" />

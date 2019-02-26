@@ -287,6 +287,24 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 		TCfree (startKeyValue);
 	}
 
+#ifdef _WIN64
+	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 1))
+	{
+		// we enable RAM encryption only starting from Windows 7
+		if (IsRamEncryptionEnabled())
+		{
+			if (t1ha_selfcheck__t1ha2() != 0)
+				TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+			if (!InitializeSecurityParameters(GetDriverRandomSeed))
+				TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+		}
+	}
+	else
+	{
+		EnableRamEncryption (FALSE);
+	}
+#endif
+
 	for (i = 0; i <= IRP_MJ_MAXIMUM_FUNCTION; ++i)
 	{
 		DriverObject->MajorFunction[i] = TCDispatchQueueIRP;
@@ -326,7 +344,7 @@ NTSTATUS DriverAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 	return DriveFilterAddDevice (driverObject, pdo);
 }
 
-
+#if defined (DEBUG) || defined (DEBUG_TRACE)
 // Dumps a memory region to debug output
 void DumpMemory (void *mem, int size)
 {
@@ -351,6 +369,7 @@ void DumpMemory (void *mem, int size)
 		m+=8;
 	}
 }
+#endif
 
 BOOL IsAllZeroes (unsigned char* pbData, DWORD dwDataLen)
 {
@@ -4453,6 +4472,8 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 					flags ^= VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION;
 					WriteRegistryConfigFlags (flags);
 				}
+
+				EnableRamEncryption ((flags & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE);
 			}
 
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);

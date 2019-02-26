@@ -248,9 +248,14 @@ void ThrowFatalException(int line);
 /* variables used in the implementation of enhanced protection of NX pool under Windows 8 and later */
 extern POOL_TYPE ExDefaultNonPagedPoolType;
 extern ULONG ExDefaultMdlProtection;
+#ifdef _WIN64
+extern ULONG AllocTag;
+#else
+#define AllocTag 'MMCV'
+#endif
 
-#define TCalloc(size) ((void *) ExAllocatePoolWithTag( ExDefaultNonPagedPoolType, size, 'MMCV' ))
-#define TCfree(memblock) ExFreePoolWithTag( memblock, 'MMCV' )
+#define TCalloc(size) ((void *) ExAllocatePoolWithTag( ExDefaultNonPagedPoolType, size, AllocTag ))
+#define TCfree(memblock) ExFreePoolWithTag( memblock, AllocTag )
 
 #define DEVICE_DRIVER
 

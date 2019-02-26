@@ -218,7 +218,7 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 			dataUnit.Value += BootDriveFilterExtension->Queue.RemappedAreaDataUnitOffset;
 		}
 
-		EncryptDataUnitsCurrentThread (WriteFilterBuffer + (intersectStart - offset),
+		EncryptDataUnitsCurrentThreadEx (WriteFilterBuffer + (intersectStart - offset),
 			&dataUnit,
 			intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
 			BootDriveFilterExtension->Queue.CryptoInfo);

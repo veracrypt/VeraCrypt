@@ -591,6 +591,10 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				mount->VolumePim,
 				mount->bTrueCryptMode,
 				&Extension->cryptoInfo);
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled())
+				VcProtectKeys (Extension->cryptoInfo, VcGetEncryptionID (Extension->cryptoInfo));
+#endif
 		}
 
 		ReadVolumeHeaderRecoveryMode = FALSE;

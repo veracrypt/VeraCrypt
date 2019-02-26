@@ -311,7 +311,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,112,340,10
 END
 
-IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 279
+IDD_PERFORMANCE_SETTINGS DIALOGEX 0, 0, 371, 293
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "VeraCrypt - Performance Options"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -329,17 +329,19 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,198,337,10
     CONTROL         "Allow TRIM command for non-system SSD partition/drive",IDC_ALLOW_TRIM_NONSYS_SSD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,212,337,10
-    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,258,59,14
-    DEFPUSHBUTTON   "OK",IDOK,257,258,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,314,258,50,14
+    PUSHBUTTON      "&Benchmark",IDC_BENCHMARK,7,272,59,14
+    DEFPUSHBUTTON   "OK",IDOK,257,272,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,314,272,50,14
     LTEXT           "Processor (CPU) in this computer supports hardware acceleration for AES:",IDT_HW_AES_SUPPORTED_BY_CPU,18,23,273,9
     GROUPBOX        "Hardware Acceleration",IDT_ACCELERATION_OPTIONS,7,6,355,74
     GROUPBOX        "Thread-Based Parallelization",IDT_PARALLELIZATION_OPTIONS,7,84,355,93
-    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,72
+    GROUPBOX        "Driver Configuration",IDT_DRIVER_OPTIONS,7,183,357,86
     CONTROL         "Allow Windows Disk Defragmenter to defragment non-system partition/drive",IDC_ALLOW_WINDOWS_DEFRAG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,226,337,10
     CONTROL         "Use CPU hardware random generator as an additional source of entropy",IDC_ENABLE_CPU_RNG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,240,335,10
+    CONTROL         "Activate encryption of keys and passwords stored in RAM",IDC_ENABLE_RAM_ENCRYPTION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,254,337,10
 END
 
 IDD_FAVORITE_VOLUMES DIALOGEX 0, 0, 380, 368
@@ -508,7 +510,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 364
         TOPMARGIN, 7
-        BOTTOMMARGIN, 272
+        BOTTOMMARGIN, 286
     END
 
     IDD_FAVORITE_VOLUMES, DIALOG
