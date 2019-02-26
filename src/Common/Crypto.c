@@ -1314,6 +1314,8 @@ BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback)
 	byte i, tagLength;
 #endif
 
+	Dump ("InitializeSecurityParameters BEGIN\n");
+
 	rngCallback (pbSeed, sizeof (pbSeed));
 
 	ChaCha20RngInit (&ctx, pbSeed, rngCallback, 0);
@@ -1345,6 +1347,7 @@ BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback)
 	if (!pbKeyDerivationArea)
 	{
 		cbKeyDerivationArea = 0;
+		Dump ("InitializeSecurityParameters return=FALSE END\n");
 		return FALSE;
 	}
 
@@ -1361,11 +1364,13 @@ BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback)
 	burn (&ctx, sizeof (ctx));
 	burn (&tagLength, 1);
 
+	Dump ("InitializeSecurityParameters return=TRUE END\n");
 	return TRUE;
 }
 
 void ClearSecurityParameters()
 {
+	Dump ("ClearSecurityParameters BEGIN\n");
 	if (pbKeyDerivationArea)
 	{
 		FAST_ERASE64 (pbKeyDerivationArea, cbKeyDerivationArea);
@@ -1379,6 +1384,7 @@ void ClearSecurityParameters()
 #ifdef TC_WINDOWS_DRIVER
 	burn (&AllocTag, sizeof (AllocTag));
 #endif
+	Dump ("ClearSecurityParameters END\n");
 }
 
 #ifdef TC_WINDOWS_DRIVER
@@ -1433,6 +1439,7 @@ uint64 VcGetEncryptionID (PCRYPTO_INFO pCryptoInfo)
 
 void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 {
+	Dump ("VcProtectKeys BEGIN\n");
 #ifdef TC_WINDOWS_DRIVER
 	VcProtectMemory (encID, pCryptoInfo->ks, MAX_EXPANDED_KEY, pCryptoInfo->ks2, MAX_EXPANDED_KEY);
 #else
@@ -1441,6 +1448,7 @@ void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 					pCryptoInfo->master_keydata, MASTER_KEYDATA_SIZE,
 					pCryptoInfo->k2, MASTER_KEYDATA_SIZE);
 #endif
+	Dump ("VcProtectKeys END\n");
 }
 
 void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
