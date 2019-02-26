@@ -281,6 +281,14 @@ typedef VOID (NTAPI *KeRestoreExtendedProcessorStateFn) (
 	PXSTATE_SAVE XStateSave
 	);
 
+typedef NTSTATUS (NTAPI *ExGetFirmwareEnvironmentVariableFn) (
+  PUNICODE_STRING VariableName,
+  LPGUID          VendorGuid,
+  PVOID           Value,
+  PULONG          ValueLength,
+  PULONG          Attributes
+);
+
 extern NTSTATUS NTAPI KeSaveExtendedProcessorState (
     __in ULONG64 Mask,
     PXSTATE_SAVE XStateSave

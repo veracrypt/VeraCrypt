@@ -75,28 +75,31 @@ static int64 DecoySystemWipedAreaEnd;
 PKTHREAD DecoySystemWipeThread = NULL;
 static NTSTATUS DecoySystemWipeResult;
 
-uint64 BootArgsRegions[] = { EFI_BOOTARGS_REGIONS };
+static uint64 BootArgsRegionsDefault[] = { EFI_BOOTARGS_REGIONS_DEFAULT };
+static uint64 BootArgsRegionsEFI[] = { EFI_BOOTARGS_REGIONS_EFI };
 
-NTSTATUS LoadBootArguments ()
+NTSTATUS LoadBootArguments (BOOL bIsEfi)
 {
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
 	PHYSICAL_ADDRESS bootArgsAddr;
 	byte *mappedBootArgs;
 	byte *mappedCryptoInfo = NULL;
 	uint16 bootLoaderArgsIndex;
+	uint64* BootArgsRegionsPtr = bIsEfi? BootArgsRegionsEFI : BootArgsRegionsDefault;
+	size_t BootArgsRegionsCount = bIsEfi? sizeof(BootArgsRegionsEFI)/ sizeof(BootArgsRegionsEFI[0]) : sizeof(BootArgsRegionsDefault)/ sizeof(BootArgsRegionsDefault[0]);
 
 	KeInitializeMutex (&MountMutex, 0);
 //	__debugbreak();
 	for (bootLoaderArgsIndex = 0;
-		bootLoaderArgsIndex < sizeof(BootArgsRegions)/ sizeof(BootArgsRegions[1]) && status != STATUS_SUCCESS;
+		bootLoaderArgsIndex < BootArgsRegionsCount && status != STATUS_SUCCESS;
 		++bootLoaderArgsIndex)
 	{
-		bootArgsAddr.QuadPart = BootArgsRegions[bootLoaderArgsIndex] + TC_BOOT_LOADER_ARGS_OFFSET;
+		bootArgsAddr.QuadPart = BootArgsRegionsPtr[bootLoaderArgsIndex] + TC_BOOT_LOADER_ARGS_OFFSET;
 		Dump ("Checking BootArguments at 0x%x\n", bootArgsAddr.LowPart);
 
-			mappedBootArgs = MmMapIoSpace (bootArgsAddr, sizeof (BootArguments), MmCached);
-			if (!mappedBootArgs)
-				return STATUS_INSUFFICIENT_RESOURCES;
+		mappedBootArgs = MmMapIoSpace (bootArgsAddr, sizeof (BootArguments), MmCached);
+		if (!mappedBootArgs)
+			return STATUS_INSUFFICIENT_RESOURCES;
 
 		if (TC_IS_BOOT_ARGUMENTS_SIGNATURE (mappedBootArgs))
 		{
@@ -118,7 +121,7 @@ NTSTATUS LoadBootArguments ()
 			// Sanity check: for valid boot argument, the password is less than 64 bytes long
 			if (bootArguments->BootPassword.Length <= MAX_LEGACY_PASSWORD)
 			{
-				BootLoaderArgsPtr = BootArgsRegions[bootLoaderArgsIndex];
+				BootLoaderArgsPtr = BootArgsRegionsPtr[bootLoaderArgsIndex];
 
 				BootArgs = *bootArguments;
 				BootArgsValid = TRUE;

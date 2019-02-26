@@ -70,7 +70,7 @@ CRYPTO_INFO *GetSystemDriveCryptoInfo ();
 BOOL IsBootDriveMounted ();
 BOOL IsBootEncryptionSetupInProgress ();
 BOOL IsHiddenSystemRunning ();
-NTSTATUS LoadBootArguments ();
+NTSTATUS LoadBootArguments (BOOL bIsEfi);
 static NTSTATUS SaveDriveVolumeHeader (DriveFilterExtension *Extension);
 NTSTATUS StartBootEncryptionSetup (PDEVICE_OBJECT DeviceObject, PIRP irp, PIO_STACK_LOCATION irpSp);
 void EmergencyClearAllKeys (PIRP irp, PIO_STACK_LOCATION irpSp);

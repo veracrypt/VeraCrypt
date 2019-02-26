@@ -140,11 +140,43 @@ static BOOL EnableExtendedIoctlSupport = FALSE;
 static BOOL AllowTrimCommand = FALSE;
 static KeSaveExtendedProcessorStateFn KeSaveExtendedProcessorStatePtr = NULL;
 static KeRestoreExtendedProcessorStateFn KeRestoreExtendedProcessorStatePtr = NULL;
+static ExGetFirmwareEnvironmentVariableFn ExGetFirmwareEnvironmentVariablePtr = NULL;
 
 POOL_TYPE ExDefaultNonPagedPoolType = NonPagedPool;
 ULONG ExDefaultMdlProtection = 0;
 
 PDEVICE_OBJECT VirtualVolumeDeviceObjects[MAX_MOUNTED_VOLUME_DRIVE_NUMBER + 1];
+
+BOOL IsUefiBoot ()
+{
+	BOOL bStatus = FALSE;
+	NTSTATUS ntStatus = STATUS_NOT_IMPLEMENTED;
+	
+	Dump ("IsUefiBoot BEGIN\n");
+	ASSERT (KeGetCurrentIrql() == PASSIVE_LEVEL);
+
+	if (ExGetFirmwareEnvironmentVariablePtr)
+	{
+		ULONG valueLengh = 0;
+		UNICODE_STRING emptyName;
+		GUID guid;
+		RtlInitUnicodeString(&emptyName, L"");
+		memset (&guid, 0, sizeof(guid));
+		Dump ("IsUefiBoot calling ExGetFirmwareEnvironmentVariable\n");
+		ntStatus = ExGetFirmwareEnvironmentVariablePtr (&emptyName, &guid, NULL, &valueLengh, NULL);
+		Dump ("IsUefiBoot ExGetFirmwareEnvironmentVariable returned 0x%08x\n", ntStatus);
+	}
+	else
+	{
+		Dump ("IsUefiBoot ExGetFirmwareEnvironmentVariable not found on the system\n");
+	}
+	
+	if (STATUS_NOT_IMPLEMENTED != ntStatus)
+		bStatus = TRUE;
+
+	Dump ("IsUefiBoot bStatus = %s END\n", bStatus? "TRUE" : "FALSE");
+	return bStatus;
+}
 
 void GetDriverRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 {
@@ -248,6 +280,14 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 		KeSaveExtendedProcessorStatePtr = (KeSaveExtendedProcessorStateFn) MmGetSystemRoutineAddress(&saveFuncName);
 		KeRestoreExtendedProcessorStatePtr = (KeRestoreExtendedProcessorStateFn) MmGetSystemRoutineAddress(&restoreFuncName);
 	}
+	
+	// ExGetFirmwareEnvironmentVariable is available starting from Windows 8
+	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 2))
+	{
+		UNICODE_STRING funcName;
+		RtlInitUnicodeString(&funcName, L"ExGetFirmwareEnvironmentVariable");
+		ExGetFirmwareEnvironmentVariablePtr = (ExGetFirmwareEnvironmentVariableFn) MmGetSystemRoutineAddress(&funcName);
+	}
 
 	// Load dump filter if the main driver is already loaded
 	if (NT_SUCCESS (TCDeviceIoControl (NT_ROOT_PREFIX, TC_IOCTL_GET_DRIVER_VERSION, NULL, 0, &version, sizeof (version))))
@@ -278,7 +318,7 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 					TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 			}
 
-			LoadBootArguments();
+			LoadBootArguments(IsUefiBoot ());
 			VolumeClassFilterRegistered = IsVolumeClassFilterRegistered();
 
 			DriverObject->DriverExtension->AddDevice = DriverAddDevice;
