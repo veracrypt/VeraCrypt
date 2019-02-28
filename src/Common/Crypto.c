@@ -1437,9 +1437,8 @@ uint64 VcGetEncryptionID (PCRYPTO_INFO pCryptoInfo)
 		;
 }
 
-void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
+static void VcInternalProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 {
-	Dump ("VcProtectKeys BEGIN\n");
 #ifdef TC_WINDOWS_DRIVER
 	VcProtectMemory (encID, pCryptoInfo->ks, MAX_EXPANDED_KEY, pCryptoInfo->ks2, MAX_EXPANDED_KEY);
 #else
@@ -1448,12 +1447,21 @@ void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 					pCryptoInfo->master_keydata, MASTER_KEYDATA_SIZE,
 					pCryptoInfo->k2, MASTER_KEYDATA_SIZE);
 #endif
+
+}
+
+void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
+{
+	Dump ("VcProtectKeys BEGIN\n");
+	VcInternalProtectKeys (pCryptoInfo, encID);
 	Dump ("VcProtectKeys END\n");
 }
 
 void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID)
 {
-	VcProtectKeys (pCryptoInfo, encID);
+	Dump ("VcUnprotectKeys BEGIN\n");
+	VcInternalProtectKeys (pCryptoInfo, encID);
+	Dump ("VcUnprotectKeys END\n");
 }
 #endif
 
