@@ -138,6 +138,7 @@ static BOOL SystemFavoriteVolumeDirty = FALSE;
 static BOOL PagingFileCreationPrevented = FALSE;
 static BOOL EnableExtendedIoctlSupport = FALSE;
 static BOOL AllowTrimCommand = FALSE;
+static BOOL RamEncryptionActivated = FALSE;
 static KeSaveExtendedProcessorStateFn KeSaveExtendedProcessorStatePtr = NULL;
 static KeRestoreExtendedProcessorStateFn KeRestoreExtendedProcessorStatePtr = NULL;
 static ExGetFirmwareEnvironmentVariableFn ExGetFirmwareEnvironmentVariablePtr = NULL;
@@ -331,17 +332,15 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 1))
 	{
 		// we enable RAM encryption only starting from Windows 7
-		if (IsRamEncryptionEnabled())
+		if (RamEncryptionActivated)
 		{
 			if (t1ha_selfcheck__t1ha2() != 0)
 				TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 			if (!InitializeSecurityParameters(GetDriverRandomSeed))
 				TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
+
+			EnableRamEncryption (TRUE);
 		}
-	}
-	else
-	{
-		EnableRamEncryption (FALSE);
 	}
 #endif
 
@@ -4513,7 +4512,7 @@ NTSTATUS ReadRegistryConfigFlags (BOOL driverEntry)
 					WriteRegistryConfigFlags (flags);
 				}
 
-				EnableRamEncryption ((flags & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE);
+				RamEncryptionActivated = (flags & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE;
 			}
 
 			EnableHwEncryption ((flags & TC_DRIVER_CONFIG_DISABLE_HARDWARE_ENCRYPTION) ? FALSE : TRUE);
