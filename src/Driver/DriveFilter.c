@@ -645,8 +645,11 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 
 		/* encrypt keys */
 #ifdef _WIN64
-		VcProtectKeys (Extension->HeaderCryptoInfo, VcGetEncryptionID (Extension->HeaderCryptoInfo));
-		VcProtectKeys (Extension->Queue.CryptoInfo, VcGetEncryptionID (Extension->Queue.CryptoInfo));
+		if (IsRamEncryptionEnabled())
+		{
+			VcProtectKeys (Extension->HeaderCryptoInfo, VcGetEncryptionID (Extension->HeaderCryptoInfo));
+			VcProtectKeys (Extension->Queue.CryptoInfo, VcGetEncryptionID (Extension->Queue.CryptoInfo));
+		}
 #endif
 		
 		status = EncryptedIoQueueStart (&Extension->Queue);
