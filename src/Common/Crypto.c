@@ -1388,9 +1388,9 @@ void ClearSecurityParameters()
 }
 
 #ifdef TC_WINDOWS_DRIVER
-static void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, unsigned char* pbData2, size_t cbData2)
+void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, unsigned char* pbData2, size_t cbData2)
 #else
-static void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, 
+void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, 
 							unsigned char* pbData2, size_t cbData2,
 							unsigned char* pbData3, size_t cbData3,
 							unsigned char* pbData4, size_t cbData4)
