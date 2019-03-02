@@ -112,7 +112,7 @@ BOOL CheckPasswordCharEncoding (HWND hPassword, Password *ptrPw)
 		wchar_t s[MAX_PASSWORD + 1];
 		len = GetWindowTextLength (hPassword);
 
-		if (len > MAX_PASSWORD)
+		if (len > (bUseLegacyMaxPasswordLength? MAX_LEGACY_PASSWORD: MAX_PASSWORD))
 			return FALSE;
 
 		GetWindowTextW (hPassword, s, sizeof (s) / sizeof (wchar_t));

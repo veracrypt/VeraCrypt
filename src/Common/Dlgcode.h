@@ -124,6 +124,7 @@ extern BOOL bHideWaitingDialog;
 extern BOOL bCmdHideWaitingDialog;
 extern BOOL bCmdHideWaitingDialogValid;
 extern BOOL bUseSecureDesktop;
+extern BOOL bUseLegacyMaxPasswordLength;
 extern BOOL bCmdUseSecureDesktop;
 extern BOOL bCmdUseSecureDesktopValid;
 extern BOOL bStartOnLogon;

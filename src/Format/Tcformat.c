@@ -779,6 +779,8 @@ static void LoadSettingsAndCheckModified (HWND hwndDlg, BOOL bOnlyCheckModified,
 
 	ConfigReadCompareInt ("SaveVolumeHistory", FALSE, &bHistory, bOnlyCheckModified, pbSettingsModified);
 
+	ConfigReadCompareInt ("UseLegacyMaxPasswordLength", FALSE, &bUseLegacyMaxPasswordLength, bOnlyCheckModified, pbSettingsModified);
+
 	{
 		char szTmp[MAX_PATH] = {0};
 		WideCharToMultiByte (CP_UTF8, 0, SecurityTokenLibraryPath, -1, szTmp, MAX_PATH, NULL, NULL);
@@ -9080,7 +9082,8 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
 								  szTmp, ARRAYSIZE (szTmp)))
 					{
-						int iLen = WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, (LPSTR) CmdVolumePassword.Text, MAX_PASSWORD + 1, NULL, NULL);
+						int iMaxPassLen = bUseLegacyMaxPasswordLength? MAX_LEGACY_PASSWORD : MAX_PASSWORD;
+						int iLen = WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, (LPSTR) CmdVolumePassword.Text, iMaxPassLen + 1, NULL, NULL);
 						burn (szTmp, sizeof (szTmp));
 						if (iLen > 0)
 							CmdVolumePassword.Length = (unsigned __int32) (iLen - 1);

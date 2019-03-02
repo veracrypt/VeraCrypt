@@ -146,6 +146,7 @@ BOOL bHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialog = FALSE;
 BOOL bCmdHideWaitingDialogValid = FALSE;
 BOOL bUseSecureDesktop = FALSE;
+BOOL bUseLegacyMaxPasswordLength = FALSE;
 BOOL bCmdUseSecureDesktop = FALSE;
 BOOL bCmdUseSecureDesktopValid = FALSE;
 BOOL bStartOnLogon = FALSE;
@@ -1232,6 +1233,7 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 				{
 					wchar_t *pchData = (wchar_t*)GlobalLock(h);
 					int txtlen = 0;
+					int dwMaxPassLen = bUseLegacyMaxPasswordLength? MAX_LEGACY_PASSWORD : MAX_PASSWORD;
 					while (*pchData)
 					{
 						if (*pchData == '\r' || *pchData == '\n')
@@ -1246,7 +1248,7 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 					if (txtlen)
 					{
 						int curLen = GetWindowTextLength (hwnd);
-						if (curLen == MAX_PASSWORD)
+						if (curLen == dwMaxPassLen)
 						{
 							EDITBALLOONTIP ebt;
 
@@ -1261,7 +1263,7 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 
 							bBlock = true;
 						}
-						else if ((txtlen + curLen) > MAX_PASSWORD)
+						else if ((txtlen + curLen) > dwMaxPassLen)
 						{
 							EDITBALLOONTIP ebt;
 
@@ -1293,6 +1295,7 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 			BYTE vkCode = LOBYTE (vk);
 			BYTE vkState = HIBYTE (vk);
 			bool ctrlPressed = (vkState & 2) && !(vkState & 4);
+			int dwMaxPassLen = bUseLegacyMaxPasswordLength? MAX_LEGACY_PASSWORD : MAX_PASSWORD;
 
 			// check if there is a selected text
 			SendMessage (hwnd,	EM_GETSEL, (WPARAM) &dwStartPos, (LPARAM) &dwEndPos);
@@ -1300,7 +1303,7 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 			if ((dwStartPos == dwEndPos) 
 				&& (vkCode != VK_DELETE) && (vkCode != VK_BACK) 
 				&& !ctrlPressed 
-				&& (GetWindowTextLength (hwnd) == MAX_PASSWORD))
+				&& (GetWindowTextLength (hwnd) == dwMaxPassLen))
 			{
 				EDITBALLOONTIP ebt;
 
@@ -1326,8 +1329,9 @@ void ToNormalPwdField (HWND hwndDlg, UINT ctrlId)
 {
 	HWND hwndCtrl = GetDlgItem (hwndDlg, ctrlId);
 	WNDPROC originalwp = (WNDPROC) GetWindowLongPtrW (hwndCtrl, GWLP_USERDATA);
+	DWORD dwMaxPassLen = bUseLegacyMaxPasswordLength? MAX_LEGACY_PASSWORD : MAX_PASSWORD;
 
-	SendMessage (hwndCtrl, EM_LIMITTEXT, MAX_PASSWORD, 0);
+	SendMessage (hwndCtrl, EM_LIMITTEXT, dwMaxPassLen, 0);
 	// only change WNDPROC if not changed already
 	if (!originalwp)
 	{
@@ -13077,7 +13081,7 @@ BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL 
 	BOOL bRet = FALSE;
 
 	GetWindowText (GetDlgItem (hwndDlg, ctrlID), tmp, ARRAYSIZE (tmp));
-	if (bLegacyPassword && (lstrlen (tmp) > MAX_LEGACY_PASSWORD))
+	if ((bLegacyPassword || bUseLegacyMaxPasswordLength) && (lstrlen (tmp) > MAX_LEGACY_PASSWORD))
 		wmemset (&tmp[MAX_LEGACY_PASSWORD], 0, MAX_PASSWORD + 1 - MAX_LEGACY_PASSWORD);
 	utf8Len = WideCharToMultiByte (CP_UTF8, 0, tmp, -1, passValue, bufSize, NULL, NULL);
 	burn (tmp, sizeof (tmp));
