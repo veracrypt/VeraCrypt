@@ -17,6 +17,7 @@
 #include <dbghelp.h>
 #include <dbt.h>
 #include <Setupapi.h>
+#include <aclapi.h>
 #include <fcntl.h>
 #include <io.h>
 #include <math.h>
@@ -2892,6 +2893,9 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	char langId[6];	
 	InitCommonControlsPtr InitCommonControlsFn = NULL;	
 	wchar_t modPath[MAX_PATH];
+	
+	/* Protect this process memory from being accessed by non-admin users */
+	EnableProcessProtection ();
 
 	GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
 
@@ -13906,6 +13910,92 @@ BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void
 	}
 
 	return bRet;
+}
+
+/* Implementation borrowed from KeePassXC source code (https://github.com/keepassxreboot/keepassxc/blob/release/2.4.0/src/core/Bootstrap.cpp#L150) 
+ *
+ * Reduce current user acess rights for this process to the minimum in order to forbid non-admin users from reading the process memory.
+ */
+BOOL EnableProcessProtection()
+{
+    BOOL bSuccess = FALSE;
+
+    // Process token and user
+    HANDLE hToken = NULL;
+    PTOKEN_USER pTokenUser = NULL;
+    DWORD cbBufferSize = 0;
+
+    // Access control list
+    PACL pACL = NULL;
+    DWORD cbACL = 0;
+
+    // Open the access token associated with the calling process
+    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
+        goto Cleanup;
+    }
+
+    // Retrieve the token information in a TOKEN_USER structure
+    GetTokenInformation(hToken, TokenUser, NULL, 0, &cbBufferSize);
+
+    pTokenUser = (PTOKEN_USER) HeapAlloc(GetProcessHeap(), 0, cbBufferSize;
+    if (pTokenUser == NULL) {
+        goto Cleanup;
+    }
+
+    if (!GetTokenInformation(hToken, TokenUser, pTokenUser, cbBufferSize, &cbBufferSize)) {
+        goto Cleanup;
+    }
+
+    if (!IsValidSid(pTokenUser->User.Sid)) {
+        goto Cleanup;
+    }
+
+    // Calculate the amount of memory that must be allocated for the DACL
+    cbACL = sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(pTokenUser->User.Sid);
+
+    // Create and initialize an ACL
+    pACL = (PACL) HeapAlloc(GetProcessHeap(), 0, cbACL);
+    if (pACL == NULL) {
+        goto Cleanup;
+    }
+
+    if (!InitializeAcl(pACL, cbACL, ACL_REVISION)) {
+        goto Cleanup;
+    }
+
+    // Add allowed access control entries, everything else is denied
+    if (!AddAccessAllowedAce(
+            pACL,
+            ACL_REVISION,
+            SYNCHRONIZE | PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_TERMINATE, // same as protected process
+            pTokenUser->User.Sid // pointer to the trustee's SID
+            )) {
+        goto Cleanup;
+    }
+
+    // Set discretionary access control list
+    bSuccess = (ERROR_SUCCESS == SetSecurityInfo(GetCurrentProcess(), // object handle
+                                    SE_KERNEL_OBJECT, // type of object
+                                    DACL_SECURITY_INFORMATION, // change only the objects DACL
+                                    NULL,
+                                    NULL, // do not change owner or group
+                                    pACL, // DACL specified
+                                    NULL // do not change SACL
+                    ))? TRUE: FALSE;
+
+Cleanup:
+
+    if (pACL != NULL) {
+        HeapFree(GetProcessHeap(), 0, pACL);
+    }
+    if (pTokenUser != NULL) {
+        HeapFree(GetProcessHeap(), 0, pTokenUser);
+    }
+    if (hToken != NULL) {
+        CloseHandle(hToken);
+    }
+
+    return bSuccess;
 }
 
 #if !defined(SETUP) && defined(_WIN64)
