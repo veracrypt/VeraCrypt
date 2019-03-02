@@ -13937,7 +13937,7 @@ BOOL EnableProcessProtection()
     // Retrieve the token information in a TOKEN_USER structure
     GetTokenInformation(hToken, TokenUser, NULL, 0, &cbBufferSize);
 
-    pTokenUser = (PTOKEN_USER) HeapAlloc(GetProcessHeap(), 0, cbBufferSize;
+    pTokenUser = (PTOKEN_USER) HeapAlloc(GetProcessHeap(), 0, cbBufferSize);
     if (pTokenUser == NULL) {
         goto Cleanup;
     }
