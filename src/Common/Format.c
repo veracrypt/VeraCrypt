@@ -171,6 +171,13 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 		return nStatus? nStatus : ERR_OUTOFMEMORY;
 	}
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
+	}
+#endif
+
 begin_format:
 
 	if (volParams->bDevice)

@@ -1295,7 +1295,7 @@ byte GetRandomIndex (ChaCha20RngCtx* pCtx, byte elementsCount)
 	return index;
 }
 
-#if defined(_WIN64) && !defined (_UEFI) && defined(TC_WINDOWS_DRIVER)
+#if defined(_WIN64) && !defined (_UEFI)
 /* declaration of variables and functions used for RAM encryption on 64-bit build */
 static byte* pbKeyDerivationArea = NULL;
 static ULONG cbKeyDerivationArea = 0;
@@ -1306,15 +1306,19 @@ static uint64 CipherIVMask = 0;
 ULONG AllocTag = 'MMCV';
 #endif
 
+#if !defined(PAGE_SIZE)
+#define PAGE_SIZE 4096
+#endif
+
 BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback)
 {
 	ChaCha20RngCtx ctx;
 	byte pbSeed[CHACHA20RNG_KEYSZ + CHACHA20RNG_IVSZ];
 #ifdef TC_WINDOWS_DRIVER
 	byte i, tagLength;
-#endif
 
 	Dump ("InitializeSecurityParameters BEGIN\n");
+#endif
 
 	rngCallback (pbSeed, sizeof (pbSeed));
 
@@ -1362,9 +1366,11 @@ BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback)
 
 	FAST_ERASE64 (pbSeed, sizeof (pbSeed));
 	burn (&ctx, sizeof (ctx));
+#ifdef TC_WINDOWS_DRIVER
 	burn (&tagLength, 1);
 
 	Dump ("InitializeSecurityParameters return=TRUE END\n");
+#endif
 	return TRUE;
 }
 

@@ -672,6 +672,13 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 		goto error;
 	}
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled())
+	{
+		VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
+	}
+#endif
+
 	if (cryptoInfo->HeaderFlags & TC_HEADER_FLAG_ENCRYPTED_SYSTEM)
 	{
 		nStatus = ERR_SYS_HIDVOL_HEAD_REENC_MODE_WRONG;

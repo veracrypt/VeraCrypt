@@ -869,6 +869,13 @@ int EncryptPartitionInPlaceResume (HANDLE dev,
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		VcProtectKeys (masterCryptoInfo, VcGetEncryptionID (masterCryptoInfo));
+		VcProtectKeys (headerCryptoInfo, VcGetEncryptionID (headerCryptoInfo));
+	}
+#endif
 
 
     remainingBytes = masterCryptoInfo->VolumeSize.Value - masterCryptoInfo->EncryptedAreaLength.Value;
@@ -1389,6 +1396,13 @@ int DecryptPartitionInPlace (volatile FORMAT_VOL_PARAMETERS *volParams, volatile
 	if (nStatus != ERR_SUCCESS)
 		goto closing_seq;
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		VcProtectKeys (masterCryptoInfo, VcGetEncryptionID (masterCryptoInfo));
+		VcProtectKeys (headerCryptoInfo, VcGetEncryptionID (headerCryptoInfo));
+	}
+#endif
 
 	if (masterCryptoInfo->LegacyVolume)
 	{
@@ -1784,6 +1798,7 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 	DWORD dwError;
 	uint32 headerCrc32;
 	byte *fieldPos;
+	PCRYPTO_INFO pCryptoInfo = headerCryptoInfo;
 
 	header = (byte *) TCalloc (TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 
@@ -1804,8 +1819,23 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 		goto closing_seq;
 	}
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled())
+	{
+		pCryptoInfo = crypto_open();
+		if (!pCryptoInfo)
+		{
+			nStatus = ERR_OUTOFMEMORY;
+			goto closing_seq;
+		}
 
-	DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, headerCryptoInfo);
+		memcpy (pCryptoInfo, headerCryptoInfo, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (pCryptoInfo, VcGetEncryptionID (headerCryptoInfo));
+	}
+#endif
+
+
+	DecryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
 
 	if (GetHeaderField32 (header, TC_HEADER_OFFSET_MAGIC) != 0x56455241)
 	{
@@ -1828,7 +1858,7 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 	fieldPos = (byte *) header + TC_HEADER_OFFSET_HEADER_CRC;
 	mputLong (fieldPos, headerCrc32);
 
-	EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, headerCryptoInfo);
+	EncryptBuffer (header + HEADER_ENCRYPTED_DATA_OFFSET, HEADER_ENCRYPTED_DATA_SIZE, pCryptoInfo);
 
 
 	if (SetFilePointerEx (dev, offset, NULL, FILE_BEGIN) == 0
@@ -1842,6 +1872,13 @@ int FastVolumeHeaderUpdate (HANDLE dev, CRYPTO_INFO *headerCryptoInfo, CRYPTO_IN
 closing_seq:
 
 	dwError = GetLastError();
+
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled() && pCryptoInfo)
+	{
+		crypto_close(pCryptoInfo);
+	}
+#endif
 
 	burn (header, TC_VOLUME_HEADER_EFFECTIVE_SIZE);
 	VirtualUnlock (header, TC_VOLUME_HEADER_EFFECTIVE_SIZE);

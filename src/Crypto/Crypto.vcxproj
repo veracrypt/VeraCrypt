@@ -232,6 +232,9 @@
     <ClCompile Include="SerpentFast_simd.cpp" />
     <ClCompile Include="Sha2.c" />
     <ClCompile Include="Streebog.c" />
+    <ClCompile Include="t1ha2.c" />
+    <ClCompile Include="t1ha2_selfcheck.c" />
+    <ClCompile Include="t1ha_selfcheck.c" />
     <ClCompile Include="Twofish.c" />
     <ClCompile Include="Whirlpool.c" />
   </ItemGroup>
@@ -258,6 +261,9 @@
     <ClInclude Include="SerpentFast_sbox.h" />
     <ClInclude Include="Sha2.h" />
     <ClInclude Include="Streebog.h" />
+    <ClInclude Include="t1ha.h" />
+    <ClInclude Include="t1ha_bits.h" />
+    <ClInclude Include="t1ha_selfcheck.h" />
     <ClInclude Include="Twofish.h" />
     <ClInclude Include="Whirlpool.h" />
   </ItemGroup>

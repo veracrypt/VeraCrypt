@@ -385,10 +385,17 @@ void DecryptDataUnitsCurrentThread (unsigned __int8 *buf, const UINT64_STRUCT *s
 void EncryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
 void DecryptBuffer (unsigned __int8 *buf, TC_LARGEST_COMPILER_UINT len, PCRYPTO_INFO cryptoInfo);
 
-#if defined(_WIN64) && !defined (_UEFI) && defined(TC_WINDOWS_DRIVER)
+#if defined(_WIN64) && !defined (_UEFI)
 BOOL InitializeSecurityParameters(GetRandSeedFn rngCallback);
 void ClearSecurityParameters();
+#ifdef TC_WINDOWS_DRIVER
 void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, unsigned char* pbData2, size_t cbData2);
+#else
+void VcProtectMemory (uint64 encID, unsigned char* pbData, size_t cbData, 
+							unsigned char* pbData2, size_t cbData2,
+							unsigned char* pbData3, size_t cbData3,
+							unsigned char* pbData4, size_t cbData4);
+#endif
 uint64 VcGetEncryptionID (PCRYPTO_INFO pCryptoInfo);
 void VcProtectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID);
 void VcUnprotectKeys (PCRYPTO_INFO pCryptoInfo, uint64 encID);

@@ -72,6 +72,15 @@
     <ClCompile Include="jitterentropy-base.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="t1ha_selfcheck.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="t1ha2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="t1ha2_selfcheck.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aes.h">
@@ -144,6 +153,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="jitterentropy-base-user.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1ha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1ha_bits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1ha_selfcheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

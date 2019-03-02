@@ -60,6 +60,8 @@
 #include "Boot/Windows/BootCommon.h"
 #include "Progress.h"
 #include "zip.h"
+#include "rdrand.h"
+#include "jitterentropy.h"
 
 #ifdef TCMOUNT
 #include "Mount/Mount.h"
@@ -3203,6 +3205,17 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	InitHelpFileName ();
 
 #ifndef SETUP
+#ifdef _WIN64
+	if (IsOSAtLeast (WIN_7))
+	{
+		EnableRamEncryption ((ReadDriverConfigurationFlags() & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION) ? TRUE : FALSE);
+		if (IsRamEncryptionEnabled())
+		{
+			if (!InitializeSecurityParameters(GetAppRandomSeed))
+				AbortProcess("OUTOFMEMORY");
+		}
+	}
+#endif
 	if (!EncryptionThreadPoolStart (ReadEncryptionThreadPoolFreeCpuCountLimit()))
 	{
 		handleWin32Error (NULL, SRC_POS);
@@ -13894,3 +13907,72 @@ BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void
 
 	return bRet;
 }
+
+#if !defined(SETUP) && defined(_WIN64)
+
+#define RtlGenRandom SystemFunction036
+extern "C" BOOLEAN NTAPI RtlGenRandom(PVOID RandomBuffer, ULONG RandomBufferLength);
+
+void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
+{
+	LARGE_INTEGER iSeed;
+	SYSTEMTIME sysTime;
+	byte digest[WHIRLPOOL_DIGESTSIZE];
+	WHIRLPOOL_CTX tctx;
+	size_t count;
+
+	while (cbRandSeed)
+	{	
+		WHIRLPOOL_init (&tctx);
+		// we hash current content of digest buffer which is uninitialized the first time
+		WHIRLPOOL_add (digest, WHIRLPOOL_DIGESTSIZE, &tctx);
+
+		// we use various time information as source of entropy
+		GetSystemTime (&sysTime);
+		WHIRLPOOL_add ((unsigned char *) &sysTime, sizeof(sysTime), &tctx);
+		if (QueryPerformanceCounter (&iSeed))
+			WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+		if (QueryPerformanceFrequency (&iSeed))
+			WHIRLPOOL_add ((unsigned char *) &(iSeed.QuadPart), sizeof(iSeed.QuadPart), &tctx);
+
+		/* use Windows random generator as entropy source */
+		if (RtlGenRandom (digest, sizeof (digest)))
+			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
+
+		/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
+		if (0 == jent_entropy_init ())
+		{
+			struct rand_data *ec = jent_entropy_collector_alloc (1, 0);
+			if (ec)
+			{
+				ssize_t rndLen = jent_read_entropy (ec, (char*) digest, sizeof (digest));
+				if (rndLen > 0)
+					WHIRLPOOL_add (digest, (unsigned int) rndLen, &tctx);
+				jent_entropy_collector_free (ec);
+			}
+		}
+
+		// use RDSEED or RDRAND from CPU as source of entropy if enabled
+		if (	IsCpuRngEnabled() && 
+			(	(HasRDSEED() && RDSEED_getBytes (digest, sizeof (digest)))
+			||	(HasRDRAND() && RDRAND_getBytes (digest, sizeof (digest)))
+			))
+		{
+			WHIRLPOOL_add (digest, sizeof(digest), &tctx);
+		}
+		WHIRLPOOL_finalize (&tctx, digest);
+
+		count = VC_MIN (cbRandSeed, sizeof (digest));
+
+		// copy digest value to seed buffer
+		memcpy (pbRandSeed, digest, count);
+		cbRandSeed -= count;
+		pbRandSeed += count;
+	}
+
+	FAST_ERASE64 (digest, sizeof (digest));
+	FAST_ERASE64 (&iSeed.QuadPart, 8);
+	burn (&sysTime, sizeof(sysTime));
+	burn (&tctx, sizeof(tctx));
+}
+#endif

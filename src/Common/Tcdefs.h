@@ -343,6 +343,9 @@ extern VOID NTAPI KeRestoreExtendedProcessorState (
 #		define Dump(...)
 #		define DumpMem(...)
 #	endif
+#elif !defined (TC_WINDOWS_BOOT)
+#	define Dump(...)
+#	define DumpMem(...)
 #endif
 
 #if !defined (trace_msg) && !defined (TC_WINDOWS_BOOT)
