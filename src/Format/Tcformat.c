@@ -295,6 +295,8 @@ BOOL bIsSparseFilesSupportedByHost = FALSE;
 
 vector <HostDevice> DeferredNonSysInPlaceEncDevices;
 
+int iMaxPasswordLength = MAX_PASSWORD;
+
 // specific definitions and implementation for support of resume operation
 // in wait dialog mechanism
 
@@ -5757,7 +5759,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (hw == EN_CHANGE)
 			{
-				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, MAX_PASSWORD + 1, FALSE, FALSE);
+				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, iMaxPasswordLength + 1, FALSE, FALSE);
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 				return 1;
 			}
@@ -6080,6 +6082,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			LoadSettings (hwndDlg);
+
+			// set the maximum password length based on configuration setting
+			if (bUseLegacyMaxPasswordLength)
+				iMaxPasswordLength = MAX_LEGACY_PASSWORD;
+			else
+				iMaxPasswordLength = MAX_PASSWORD;
 
 			// Save language to XML configuration file if it has been selected in the setup
 			// so that other VeraCrypt programs will pick it up
@@ -7577,7 +7585,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				// Store the password in case we need to restore it after keyfile is applied to it
-				if (!GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, sizeof (szRawPassword), FALSE, TRUE))
+				if (!GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, iMaxPasswordLength + 1, FALSE, TRUE))
 					return 1;
 
 				if (!SysEncInEffect ())
@@ -7686,7 +7694,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				WaitCursor ();
 
-				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, MAX_PASSWORD + 1, FALSE, TRUE))
+				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, iMaxPasswordLength + 1, FALSE, TRUE))
 				{
 					NormalCursor ();
 					return 1;
@@ -7698,7 +7706,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				volumePim = GetPim (hCurPage, IDC_PIM, 0);
 
 				// Store the password in case we need to restore it after keyfile is applied to it
-				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, sizeof (szRawPassword), FALSE, TRUE))
+				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, iMaxPasswordLength + 1, FALSE, TRUE))
 				{
 					NormalCursor ();
 					return 1;
@@ -8793,7 +8801,7 @@ ovf_end:
 			else if (nCurPageNo == PASSWORD_PAGE)
 			{
 				// Store the password in case we need to restore it after keyfile is applied to it
-				GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, sizeof (szRawPassword), FALSE, FALSE);
+				GetPassword (hCurPage, IDC_PASSWORD, szRawPassword, iMaxPasswordLength + 1, FALSE, FALSE);
 
 				VerifyPasswordAndUpdate (hwndDlg, GetDlgItem (MainDlg, IDC_NEXT),
 					GetDlgItem (hCurPage, IDC_PASSWORD),
@@ -8835,9 +8843,9 @@ ovf_end:
 				|| nCurPageNo == NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE)
 			{
 				// Store the password in case we need to restore it after keyfile is applied to it
-				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, MAX_PASSWORD + 1, FALSE, FALSE);
+				GetPassword (hCurPage, IDC_PASSWORD_DIRECT, szRawPassword, iMaxPasswordLength + 1, FALSE, FALSE);
 
-				memcpy (volumePassword.Text, szRawPassword, MAX_PASSWORD + 1);
+				memcpy (volumePassword.Text, szRawPassword, iMaxPasswordLength + 1);
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 
 				if (!bInPlaceEncNonSys)
@@ -9082,8 +9090,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
 								  szTmp, ARRAYSIZE (szTmp)))
 					{
-						int iMaxPassLen = bUseLegacyMaxPasswordLength? MAX_LEGACY_PASSWORD : MAX_PASSWORD;
-						int iLen = WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, (LPSTR) CmdVolumePassword.Text, iMaxPassLen + 1, NULL, NULL);
+						int iLen = WideCharToMultiByte (CP_UTF8, 0, szTmp, -1, (LPSTR) CmdVolumePassword.Text, iMaxPasswordLength + 1, NULL, NULL);
 						burn (szTmp, sizeof (szTmp));
 						if (iLen > 0)
 							CmdVolumePassword.Length = (unsigned __int32) (iLen - 1);
