@@ -1434,6 +1434,7 @@
     <entry lang="cs" key="STARTING">Spuštění</entry>
     <entry lang="cs" key="IDC_ENABLE_CPU_RNG">Použít náhodné hardwarové generování v CPU jako dodatečný zdroj entropie</entry> 
     <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
+    <entry lang="en" key="IDC_ENABLE_RAM_ENCRYPTION">Activate encryption of keys and passwords stored in RAM</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
