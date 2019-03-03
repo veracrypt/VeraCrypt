@@ -209,7 +209,13 @@ It must be followed by a parameter indicating the PRF hash algorithm to use when
 <td>(Only with /create)<br>
 It must be followed by a parameter indicating the encryption algorithm to use. The default is AES if this switch is not specified. The parameter can have the following values (case insensitive):
 <ul>
-<li>AES </li><li>Serpent </li><li>Twofish </li><li>AES(Twofish) </li><li>AES(Twofish(Serpent)) </li><li>Serpent(AES) </li><li>Serpent(Twofish(AES)) </li><li>Twofish(Serpent) </li></ul>
+<li>AES </li><li>Serpent </li><li>Twofish </li><li>Camellia </li><li>Kuznyechik </li><li>AES(Twofish) </li><li>AES(Twofish(Serpent)) </li><li>Serpent(AES) </li><li>Serpent(Twofish(AES)) </li><li>Twofish(Serpent) </li>
+<li>Camellia(Kuznyechik) </li>
+<li>Kuznyechik(Twofish) </li>
+<li>Camellia(Serpent) </li>
+<li>Kuznyechik(AES) </li>
+<li>Kuznyechik(Serpent(Camellia)) </li>
+</ul>
 </td>
 </tr>
 <tr>
@@ -218,7 +224,10 @@ It must be followed by a parameter indicating the encryption algorithm to use. T
 It must be followed by a parameter indicating the file system to use for the volume. The parameter can have the following values:
 <ul>
 <li>None: don't use any filesystem </li><li>FAT: format using FAT/FAT32 </li><li>NTFS: format using NTFS. Please note that in this case a UAC prompt will be displayed unless the process is run with full administrative privileges.
-</li></ul>
+</li>
+<li>ExFAT: format using ExFAT. This switch is available starting from Windows Vista SP1 </li>
+<li>ReFS: format using ReFS. This switch is available starting from Windows 10 </li>
+</ul>
 </td>
 </tr>
 <tr>
@@ -244,10 +253,10 @@ It has no parameters and it indicates that no message box or dialog will be disp
 </tbody>
 </table>
 <h4>Syntax</h4>
-<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |ripemd160|ripemd-160}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts}]
+<p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |ripemd160|ripemd-160}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
  [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
-<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent)}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|ripemd160|ripemd-160}]
- [/filesystem {None|FAT|NTFS}] [/dynamic] [/force] [/silent]</p>
+<p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|ripemd160|ripemd-160}]
+ [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent]</p>
 <p>Note that the order in which options are specified does not matter.</p>
 <h4>Examples</h4>
 <p>Mount the volume <em>d:\myvolume</em> as the first free drive letter, using the password prompt (the main program window will not be displayed):</p>
