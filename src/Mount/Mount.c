@@ -9135,6 +9135,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 							// get the label
 							StringCbCopyW (mountOptions.Label, sizeof (mountOptions.Label), &szTmp[6]);
 						}
+						else if (!_wcsicmp (szTmp, L"noattach"))
+						{
+							mountOptions.DisableMountManager = TRUE;
+						}
 						else
 							AbortProcess ("COMMAND_LINE_ERROR");
 
