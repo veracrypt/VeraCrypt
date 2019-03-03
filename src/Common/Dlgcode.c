@@ -1468,7 +1468,7 @@ BOOL CALLBACK AboutDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			L"Copyright \xA9 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov.\r\n"
 			L"Copyright \xA9 1999-2017 Dieter Baron and Thomas Klausner.\r\n"
 			L"Copyright \xA9 2013, Alexey Degtyarev. All rights reserved.\r\n"
-			L"Copyright \xA9 1999-2016 Jack Lloyd. All rights reserved.\r\n\r\n"
+			L"Copyright \xA9 1999-2016 Jack Lloyd. All rights reserved.\r\n"
 			L"Copyright \xA9 2013-2018 Stephan Mueller <smueller@chronox.de>\r\n\r\n"
 
 			L"This software as a whole:\r\n"

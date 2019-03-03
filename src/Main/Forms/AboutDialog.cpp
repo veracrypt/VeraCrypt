@@ -65,7 +65,7 @@ namespace VeraCrypt
 			L"Copyright \xA9 2016 Disk Cryptography Services for EFI (DCS), Alex Kolotnikov.\n"
 			L"Copyright \xA9 1999-2017 Dieter Baron and Thomas Klausner.\n"
 			L"Copyright \xA9 2013, Alexey Degtyarev. All rights reserved.\n"
-			L"Copyright \xA9 1999-2016 Jack Lloyd. All rights reserved.\n\n"
+			L"Copyright \xA9 1999-2016 Jack Lloyd. All rights reserved.\n"
 			L"Copyright \xA9 2013-2018 Stephan Mueller <smueller@chronox.de>\n\n"
 
 			L"\nThis software as a whole:\n"
