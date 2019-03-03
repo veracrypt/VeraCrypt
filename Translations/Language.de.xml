@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.24-Beta2">
+  <localization prog-version= "1.24-Beta3">
     <!-- Sprachen -->
     <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl" />
     <!-- Schriftarten -->
@@ -1436,6 +1436,7 @@
     <entry lang="de" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">WICHTIGE HINWEISE:\n - Bitte beachten Sie, dass diese Option nach einem Herunterfahren/Neustart nicht erhalten bleibt, so dass Sie sie beim nächsten Start der Maschine erneut auswählen müssen.\n\n - Wenn diese Option aktiviert ist, wird der Rechner nach dem Anschließen eines neuen Geräts einfrieren und schließlich mit einem BSOD abstürzen, da Windows nach dem Löschen seiner Schlüssel aus dem Speicher nicht mehr auf die verschlüsselte Festplatte zugreifen kann.\n</entry>
     <entry lang="de" key="STARTING">Wird gestartet</entry>
     <entry lang="de" key="IDC_ENABLE_CPU_RNG">CPU-Hardware-Zufallsgenerator als zusätzliche Entropiequelle verwenden</entry>
+    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

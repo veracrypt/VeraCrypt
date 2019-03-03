@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.24-Beta2">
+  <localization prog-version= "1.24-Beta3">
     <language langid="fi" name="Suomi" en-name="Finnish" version="0.2.0" translators="Matti Ruhanen" />
     <font lang="fi" class="normal" size="11" face="default" />
     <font lang="fi" class="bold" size="13" face="Arial" />
@@ -1407,7 +1407,7 @@
     <entry lang="fi" key="RESCUE_DISK_EFI_CHECK_FAILED">Varmista, että Pelastuslevy on poistettu oikein.\n\nJos olet purkanut Pelastuslevyn -levykuvan, irrota USB-tikku ja asenna se uudelleen. Yritä uudelleen valitsemalla 'Seuraava'. Jos tämä ei auta, kokeile toista USB-muistitikkua ja/tai muuta ZIP-ohjelmistoa.\n\nJos et ole vielä purkanut Pelastuslevyn -ohjelmaa, valitse se ja valitse sitten 'Seuraava'.\n\nJos yritit tarkistaa VeraCryptin Pelastuslevyn, joka on luotu ennen ohjatun toiminnon aloittamista, huomaa, että tällaista pelastuslevyä ei voida käyttää, koska se on luotu toista pääavainta varten. Sinun täytyy purkaa vasta tehdyn Pelastuslevyn ZIP -levykuva.</entry>
     <entry lang="fi" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Varmista, että Pelastuslevy on poistettu oikein.\n\nJos olet levittänyt Pelastuslevyn -kuvan USB-muistitikulle, irrota se ja aseta se takaisin paikalleen; yritä uudelleen. Jos tämä ei auta, kokeile muita ZIP-ohjelmistoja ja/tai tietovälineitä.\n\nJos yritit tarkistaa eri pääavain, salasana, suola jne. Varten luotu VeraCryptin Pelastuslevy, huomaa, että tällainen pelastuslevy on aina epäonnistuta tätä tarkistusta. Jos haluat luoda uuden Pelastuslevyn, joka on täysin yhteensopiva nykyisen kokoonpanon kanssa, valitse 'Järjestelmä'> 'Luo Pelastuslevy'.</entry>
     <entry lang="fi" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Pelastuslevy -levykuva on luotu ja tallennettu tähän tiedostoon:\n%s\n\nJoten sinun on purettava Pelastuslevy -levykuva USB-muistille, joka on alustettu FAT/FAT32:ksi.\n\nVAROITUS: Huomaa, että zip tiedosto on purettava suoraan USB-tikun juureen. Esimerkiksi jos USB-muistin aseman kirjain on E: purkamalla zip-tiedoston, sen on luotava kansio E:\\EFI USB-muistitikulle.\n\nJos olet luonut Pelastuslevyn, valitse 'Järjestelmä'> 'Vahvista Pelastuslevy' varmistaaksesi, että se on luotu oikein.</entry>
-	<entry lang="fi" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Käytä Secure Desktopia salasanojen syöttämiseen</entry>
+    <entry lang="fi" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Käytä Secure Desktopia salasanojen syöttämiseen</entry>
     <entry lang="fi" key="ERR_REFS_INVALID_VOLUME_SIZE">Komentorivin määrittämä tiedostokoko ei ole yhteensopiva valitun ReFS-tiedostojärjestelmän kanssa.</entry>
     <entry lang="fi" key="IDC_EDIT_DCSPROP">Muokkaa käynnistyslataajan kokoonpanoa</entry>
     <entry lang="fi" key="IDC_SHOW_PLATFORMINFO">Näytä EFI Platform -tiedot</entry>
@@ -1421,10 +1421,10 @@
     <entry lang="fi" key="IDC_BLOCK_SYSENC_TRIM">Estä TRIM-komento järjestelmän osio/asemalle</entry>
     <entry lang="fi" key="WINDOWS_EFI_BOOT_LOADER_MISSING">VIRHE: Windows EFI -järjestelmänlataajaa ei löydy levyltä. Toiminto keskeytyy.</entry>
     <entry lang="fi" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Tällä hetkellä ei ole mahdollista salata järjestelmää, jos SecureBoot on käytössä ja jos VeraCrypt-mukautettuja avaimia ei ladata laitteen laiteohjelmistoon. SecureBoot on poistettava käytöstä BIOS-kokoonpanossa, jotta järjestelmän salauksessa voidaan edetä.</entry>
-	<entry lang="fi" key="PASSWORD_PASTED_TRUNCATED">Liitetty teksti katkaistaan, koska salasanan enimmäispituus on 128 merkkiä</entry>
-	<entry lang="fi" key="PASSWORD_MAXLENGTH_REACHED">Salasanan enimmäispituus on 128 merkkiä.\nErikoismerkkejä ei sallittu.</entry>
-	<entry lang="fi" key="IDC_SELECT_LANGUAGE_LABEL">Valitse asentamisen aikana käytettävä kieli:</entry>
-	<entry lang="fi" key="VOLUME_TOO_LARGE_FOR_HOST">VIRHE: Tiedostosäilö koko on suurempi kuin käytettävissä oleva vapaata tilaa levyllä.</entry>
+    <entry lang="fi" key="PASSWORD_PASTED_TRUNCATED">Liitetty teksti katkaistaan, koska salasanan enimmäispituus on 128 merkkiä</entry>
+    <entry lang="fi" key="PASSWORD_MAXLENGTH_REACHED">Salasanan enimmäispituus on 128 merkkiä.\nErikoismerkkejä ei sallittu.</entry>
+    <entry lang="fi" key="IDC_SELECT_LANGUAGE_LABEL">Valitse asentamisen aikana käytettävä kieli:</entry>
+    <entry lang="fi" key="VOLUME_TOO_LARGE_FOR_HOST">VIRHE: Tiedostosäilö koko on suurempi kuin käytettävissä oleva vapaata tilaa levyllä.</entry>
     <entry lang="fi" key="IDC_ALLOW_WINDOWS_DEFRAG">Salli Windowsin Levyn Eheytyksen eheyttää ei-järjestelmäosio/asema</entry>    
     <entry lang="fi" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">VAROITUS: Järjestelmällisten osioiden tai aseman eheyttäminen voi vuotaa metatietoja sisällöstä tai aiheuttaa piilotettujen tiedostojen aiheuttamaa ongelmaa.\n\nJatketaan?</entry>
     <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
@@ -1433,6 +1433,7 @@
     <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
     <entry lang="en" key="STARTING">Starting</entry>
     <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
+    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

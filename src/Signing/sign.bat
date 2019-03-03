@@ -1,6 +1,6 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
 
-set VC_VERSION=1.24-Beta2
+set VC_VERSION=1.24-Beta3
 set SIGNINGPATH=%~dp0
 cd %SIGNINGPATH%
 

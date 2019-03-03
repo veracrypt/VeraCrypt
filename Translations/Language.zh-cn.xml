@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.24-Beta2">
+  <localization prog-version= "1.24-Beta3">
     <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.0" translators="Barney Li and Zhangjintao" />
     <font lang="zh-cn" class="normal" size="11" face="Tahoma" />
     <font lang="zh-cn" class="bold" size="14" face="Tahoma" />
@@ -1433,6 +1433,7 @@
     <entry lang="zh-cn" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">重要提示：\n - 请记住此选项在关机/重启后不再有效，因此你需要在下一次开机后再次选择这个选项。\n\n - 当此选项启用且有一个新设备接入后，由于在内存中清除密钥后无法访问加密磁盘，电脑将会死机且最终会蓝屏。\n</entry>
     <entry lang="zh-cn" key="STARTING">开始</entry>
     <entry lang="zh-cn" key="IDC_ENABLE_CPU_RNG">使用CPU硬件随机数生成器作为额外的熵源</entry>
+    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
