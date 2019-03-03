@@ -170,9 +170,9 @@ Note that turning the password cache off will not clear it (use /w to clear the 
 <p><strong>recovery</strong>: Do not verify any checksums stored in the volume header. This option should be used only when the volume header is damaged and the volume cannot be mounted even with the mount option headerbak. Example: /m ro</p>
 <p><strong>label=LabelValue</strong>: Use the given string value <strong>LabelValue</strong> as a label of the mounted volume in Windows Explorer. The maximum length for
 <strong>LabelValue&nbsp;</strong> is 32 characters for NTFS volumes and 11 characters for FAT volumes. For example,
-<em>/m label=MyDrive</em> will set the label of the drive in Explorer to <em>MyDrive</em>.<br>
-<br>
-Please note that this switch may be present several times in the command line in order to specify multiple mount options (e.g.: /m rm /m ts)</p>
+<em>/m label=MyDrive</em> will set the label of the drive in Explorer to <em>MyDrive</em>.</p>
+<p><strong>noattach</strong>: Only create virtual device without actually attaching the mounted volume to the selected drive letter.</p>
+<p>Please note that this switch may be present several times in the command line in order to specify multiple mount options (e.g.: /m rm /m ts)</p>
 </td>
 </tr>
 </tbody>
