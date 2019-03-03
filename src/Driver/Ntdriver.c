@@ -2796,6 +2796,15 @@ NTSTATUS ProcessMainDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION Ex
 		}
 		break;
 
+	case VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED:
+		if (ValidateIOBufferSize (Irp, sizeof (int), ValidateOutput))
+		{
+			*(int *) Irp->AssociatedIrp.SystemBuffer = IsRamEncryptionEnabled() ? 1 : 0;
+			Irp->IoStatus.Information = sizeof (int);
+			Irp->IoStatus.Status = STATUS_SUCCESS;
+		}
+		break;
+
 	default:
 		return TCCompleteIrp (Irp, STATUS_INVALID_DEVICE_REQUEST, 0);
 	}
@@ -3204,6 +3213,8 @@ LPWSTR TCTranslateCode (ULONG ulCode)
 		TC_CASE_RET_NAME (TC_IOCTL_WIPE_PASSWORD_CACHE);
 		TC_CASE_RET_NAME (TC_IOCTL_WRITE_BOOT_DRIVE_SECTOR);
 		TC_CASE_RET_NAME (VC_IOCTL_GET_DRIVE_GEOMETRY_EX);
+		TC_CASE_RET_NAME (VC_IOCTL_EMERGENCY_CLEAR_ALL_KEYS);
+		TC_CASE_RET_NAME (VC_IOCTL_IS_RAM_ENCRYPTION_ENABLED);
 
 		TC_CASE_RET_NAME (IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS);
 
