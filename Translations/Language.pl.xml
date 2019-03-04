@@ -1427,14 +1427,14 @@
     <entry lang="pl" key="VOLUME_TOO_LARGE_FOR_HOST">BŁĄD: Rozmiar kontenera pliku jest większy niż dostępne wolne miejsce na dysku.</entry>
     <entry lang="pl" key="IDC_ALLOW_WINDOWS_DEFRAG">Zezwalaj Defragmentatorowi dysków Windows na defragmentację bezsystemowej partycji/napędu</entry>
     <entry lang="pl" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">OSTRZEŻENIE: Defragmentacja bezsystemowych partycji/napędów może spowodować wyciek metadanych dotyczących ich zawartości lub spowodować problemy z ukrytymi wolumenami, które mogą zawierać.\n\nKontynuować?</entry>
-    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
-    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
-    <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
-    <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
-    <entry lang="en" key="STARTING">Starting</entry>
-    <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
-    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
-    <entry lang="en" key="IDC_ENABLE_RAM_ENCRYPTION">Activate encryption of keys and passwords stored in RAM</entry>
+    <entry lang="pl" key="VIRTUAL_DEVICE">Urządzenie wirtualne</entry>
+    <entry lang="pl" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Wybrany zamontowany wolumen nie jest powiązany z literą dysku w systemie Windows, więc nie można go otworzyć w Eksploratorze Windows.</entry>
+    <entry lang="pl" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Wyczyść klucze szyfrujące z pamięci, jeśli włożono nowe urządzenie</entry>
+    <entry lang="pl" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">WAŻNE UWAGI:\n - Należy pamiętać, że ta opcja nie będzie obowiązywać po zamknięciu lub ponownym uruchomieniu komputera, więc będziesz musiał wybrać ją ponownie przy następnym uruchomieniu urządzenia.\n\n - Po włączeniu tej opcji i po podłączeniu nowego urządzenia maszyna zawiesi się i w końcu ulegnie awarii BSOD, ponieważ system Windows nie może uzyskać dostępu do zaszyfrowanego dysku po usunięciu kluczy z pamięci.\n</entry>
+    <entry lang="pl" key="STARTING">Rozruch</entry>
+    <entry lang="pl" key="IDC_ENABLE_CPU_RNG">Użyj sprzętowego (CPU) generatora liczb losowych jako dodatkowego źródła entropii</entry>
+    <entry lang="pl" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Użyj starszej maksymalnej długości hasła (64 znaki)</entry>
+    <entry lang="pl" key="IDC_ENABLE_RAM_ENCRYPTION">Aktywuj szyfrowanie kluczy i haseł przechowywanych w RAM</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
