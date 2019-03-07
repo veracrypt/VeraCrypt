@@ -591,10 +591,6 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				mount->VolumePim,
 				mount->bTrueCryptMode,
 				&Extension->cryptoInfo);
-#ifdef _WIN64
-			if (IsRamEncryptionEnabled())
-				VcProtectKeys (Extension->cryptoInfo, VcGetEncryptionID (Extension->cryptoInfo));
-#endif
 		}
 
 		ReadVolumeHeaderRecoveryMode = FALSE;
@@ -610,6 +606,11 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				ntStatus = STATUS_SUCCESS;
 				goto error;
 			}
+
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled())
+				VcProtectKeys (Extension->cryptoInfo, VcGetEncryptionID (Extension->cryptoInfo));
+#endif
 
 			Dump ("Volume header decrypted\n");
 			Dump ("Required program version = %x\n", (int) Extension->cryptoInfo->RequiredProgramVersion);
