@@ -11219,6 +11219,9 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				try
 				{
 					VOLUME_PROPERTIES_STRUCT prop;
+					bool rebootRequired = false;
+					uint32 driverConfig = ReadDriverConfigurationFlags();
+
 					try
 					{
 						BootEncStatus = BootEncObj->GetStatus();
@@ -11256,7 +11259,12 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ALLOW_WINDOWS_DEFRAG, allowWindowsDefrag);
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_CPU_RNG, enableCpuRng);
 					if (IsOSAtLeast (WIN_7))
+					{
+						BOOL originalRamEncryptionEnabled = (driverConfig & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION)? TRUE : FALSE;
+						if (originalRamEncryptionEnabled != enableRamEncryption)
+							rebootRequired = true;
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION, enableRamEncryption);
+					}
 
 					DWORD bytesReturned;
 					if (!DeviceIoControl (hDriver, TC_IOCTL_REREAD_DRIVER_CONFIG, NULL, 0, NULL, 0, &bytesReturned, NULL))
@@ -11276,8 +11284,11 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 					if (ReadEncryptionThreadPoolFreeCpuCountLimit() != cpuFreeCount)
 					{
 						BootEncObj->WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Services\\veracrypt", TC_ENCRYPTION_FREE_CPU_COUNT_REG_VALUE_NAME, cpuFreeCount);
-						Warning ("SETTING_REQUIRES_REBOOT", hwndDlg);
+						rebootRequired = true;
 					}
+
+					if (rebootRequired)
+						Warning ("SETTING_REQUIRES_REBOOT", hwndDlg);
 
 					EndDialog (hwndDlg, lw);
 					return 1;
@@ -11318,6 +11329,17 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 			}
 
 			EnableWindow (GetDlgItem (hwndDlg, IDC_ENCRYPTION_FREE_CPU_COUNT), IsDlgButtonChecked (hwndDlg, IDC_LIMIT_ENC_THREAD_POOL));
+			return 1;
+
+		case IDC_ENABLE_RAM_ENCRYPTION:
+			{
+				uint32 driverConfig = ReadDriverConfigurationFlags();
+				BOOL originalRamEncryptionEnabled = (driverConfig & VC_DRIVER_CONFIG_ENABLE_RAM_ENCRYPTION)? TRUE : FALSE;
+				BOOL enableRamEncryption = IsDlgButtonChecked (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION);
+
+				if (originalRamEncryptionEnabled != enableRamEncryption)
+					Warning ("SETTING_REQUIRES_REBOOT", hwndDlg);
+			}
 			return 1;
 
 		case IDC_BENCHMARK:
