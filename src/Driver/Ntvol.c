@@ -608,7 +608,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			}
 
 #ifdef _WIN64
-			if (IsRamEncryptionEnabled())
+			if (IsRamEncryptionEnabled() && (volumeType == TC_VOLUME_TYPE_NORMAL || !mount->bProtectHiddenVolume))
 				VcProtectKeys (Extension->cryptoInfo, VcGetEncryptionID (Extension->cryptoInfo));
 #endif
 
