@@ -25,7 +25,7 @@
 	#define ATT_NOPREFIX
 #endif
 
-#if CRYPTOPP_BOOL_X86 || CRYPTOPP_BOOL_X32 || CRYPTOPP_BOOL_X64
+#ifdef _MSC_VER
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
@@ -36,9 +36,7 @@ extern unsigned __int64 __rdtsc();
 #endif
 #else
 #include <intrin.h>
-#ifdef _MSC_VER
 #pragma intrinsic(__rdtsc)
-#endif
 #endif
 #endif
 
