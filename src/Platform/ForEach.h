@@ -13,110 +13,73 @@
 #ifndef TC_HEADER_Platform_ForEach
 #define TC_HEADER_Platform_ForEach
 
+#include <iterator>
+#include <utility>
+
 namespace VeraCrypt
 {
-	class ForEach
+	namespace ForEach
 	{
-	public:
-		struct Container
+		template <class C> class Reversed
 		{
-			Container () : InnerContinue (true), InnerEndCondition (false) { }
-			virtual ~Container () { }
+		public:
 
-			void Continue () const { InnerContinue = true; }
-			bool InnerIsNotEnd () const { return InnerEndCondition = !InnerEndCondition; }
-			virtual bool IsNotEnd () const = 0;
-			virtual void Next () const = 0;
+				using iterator = std::reverse_iterator<decltype(std::begin(std::declval<C&>()))>;
 
-			mutable bool InnerContinue;
-			mutable bool InnerEndCondition;
-		};
+				Reversed(C&& container): container_(std::forward<C>(container)) { }
 
-	protected:
-		template <class T>
-		struct ContainerForward : Container
-		{
-			ContainerForward (const T &container)
-				: ContainerCopy (container), EndIterator (ContainerCopy.end()), Iterator (ContainerCopy.begin()) { }
-
-			virtual bool IsNotEnd () const { bool r = InnerContinue && Iterator != EndIterator; InnerContinue = false; return r; }
-			virtual void Next () const { ++Iterator; }
-
-			const T ContainerCopy;	// Support for temporary objects
-			typename T::const_iterator EndIterator;
-			mutable typename T::const_iterator Iterator;
+				iterator begin() {return iterator(std::end(container_));}
+				iterator end() {return iterator(std::begin(container_));}
 
 		private:
-			ContainerForward &operator= (const ContainerForward &);
+
+				C container_;
 		};
 
-		template <class T>
-		struct ContainerReverse : Container
+		template <class C> class Dereferenced
 		{
-			ContainerReverse (const T &container)
-				: ContainerCopy (container), EndIterator (ContainerCopy.rend()), Iterator (ContainerCopy.rbegin()) { }
+		public:
 
-			virtual bool IsNotEnd () const { bool r = InnerContinue && Iterator != EndIterator; InnerContinue = false; return r; }
-			virtual void Next () const { ++Iterator; }
+				using base_iterator = decltype(std::begin(std::declval<C&>()));
+				using value_type = decltype(**std::declval<base_iterator>());
 
-			const T ContainerCopy;
-			typename T::const_reverse_iterator EndIterator;
-			mutable typename T::const_reverse_iterator Iterator;
+				class iterator
+				{
+				public:
+
+						iterator(base_iterator base): base_(base) { }
+
+						value_type& operator* () const {return **base_;}
+						iterator operator++ () {return ++base_;}
+
+						bool operator== (const iterator& other) const {return base_ == other.base_;}
+						bool operator!= (const iterator& other) const {return base_ != other.base_;}
+
+				private:
+
+						base_iterator base_;
+				};
+
+				Dereferenced(C&& container): container_(std::forward<C>(container)) { }
+
+				iterator begin() {return std::begin(container_);}
+				iterator end() {return std::end(container_);}
 
 		private:
-			ContainerReverse &operator= (const ContainerReverse &);
+
+				C container_;
 		};
 
-	public:
-		template <class T>
-		static ContainerForward <T> GetContainerForward (const T &container)
-		{
-			return ContainerForward <T> (container);
-		}
+		template <typename C> static Reversed<C> reverse(C&& c) {return std::forward<C>(c);}
 
-		template <class T>
-		static ContainerReverse <T> GetContainerReverse (const T &container)
-		{
-			return ContainerReverse <T> (container);
-		}
+		template <typename C> static Dereferenced<C> dereference(C&& c) {return std::forward<C>(c);}
 
-	protected:
-		template <class T>
-		struct TypeWrapper { };
-
-	public:
-		template <class T>
-		static TypeWrapper <T> ToTypeWrapper (const T &x) { return TypeWrapper <T> (); }
-
-		struct TypeWrapperDummy
-		{
-			template <class T>
-			operator TypeWrapper <T> () const { return TypeWrapper <T> (); }
-		};
-
-		template <class T>
-		static const ContainerForward <T> &GetContainerForward (const Container &forEachContainer, const TypeWrapper <T> &)
-		{
-			return static_cast <const ContainerForward <T> &> (forEachContainer);
-		}
-
-		template <class T>
-		static const ContainerReverse <T> &GetContainerReverse (const Container &forEachContainer, const TypeWrapper <T> &)
-		{
-			return static_cast <const ContainerReverse <T> &> (forEachContainer);
-		}
 	};
 }
 
-
-#define FOREACH_TEMPLATE(dereference,listType,variable,listInstance) \
-	for (const ForEach::Container &forEachContainer = ForEach::GetContainer##listType (listInstance); forEachContainer.IsNotEnd(); forEachContainer.Next()) \
-		for (variable = dereference(ForEach::GetContainer##listType (forEachContainer, (true ? ForEach::TypeWrapperDummy() : ForEach::ToTypeWrapper (listInstance))).Iterator); forEachContainer.InnerIsNotEnd(); forEachContainer.Continue())
-
-#define foreach(variable,listInstance) FOREACH_TEMPLATE(*, Forward, variable, listInstance)
-#define foreach_ref(variable,listInstance) FOREACH_TEMPLATE(**, Forward, variable, listInstance)
-#define foreach_reverse(variable,listInstance) FOREACH_TEMPLATE(*, Reverse, variable, listInstance)
-#define foreach_reverse_ref(variable,listInstance) FOREACH_TEMPLATE(**, Reverse, variable, listInstance)
-
+#define foreach(variable,listInstance) for (variable: listInstance)
+#define foreach_ref(variable,listInstance) for (variable: ForEach::dereference(listInstance))
+#define foreach_reverse(variable,listInstance) for (variable: ForEach::reverse(listInstance))
+#define foreach_reverse_ref(variable,listInstance) for (variable: ForEach::dereference(ForEach::reverse(listInstance)))
 
 #endif // TC_HEADER_Platform_ForEach
