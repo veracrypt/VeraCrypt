@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -112,7 +112,7 @@ static void ReleasePoolBuffer (EncryptedIoQueue *queue, void *address)
 {
 	EncryptedIoQueueBuffer *buffer;
 	AcquireBufferPoolMutex (queue);
-	
+
 	for (buffer = queue->FirstPoolBuffer; buffer != NULL; buffer = buffer->NextBuffer)
 	{
 		if (buffer->Address == address)
@@ -225,6 +225,47 @@ static void ReleaseFragmentBuffer (EncryptedIoQueue *queue, byte *buffer)
 	}
 }
 
+BOOL 
+UpdateBuffer(
+	byte*     buffer,
+	byte*     secRegion,
+	uint64    bufferDiskOffset,
+	uint32    bufferLength,
+	BOOL      doUpadte
+	) 
+{
+	uint64       intersectStart;
+	uint32       intersectLength;
+	uint32       i;
+	DCS_DISK_ENTRY_LIST *DeList = (DCS_DISK_ENTRY_LIST*)(secRegion + 512);
+	BOOL         updated = FALSE;
+
+	if (secRegion == NULL) return FALSE;
+	for (i = 0; i < DeList->Count; ++i) {
+		if (DeList->DE[i].Type == DE_Sectors) {
+			GetIntersection(
+				bufferDiskOffset, bufferLength,
+				DeList->DE[i].Sectors.Start, DeList->DE[i].Sectors.Start + DeList->DE[i].Sectors.Length - 1,
+				&intersectStart, &intersectLength
+				);
+			if (intersectLength != 0) {
+				updated = TRUE;
+				if(doUpadte && buffer != NULL) {
+//					Dump("Subst data\n");
+					memcpy(
+						buffer + (intersectStart - bufferDiskOffset),
+						secRegion + DeList->DE[i].Sectors.Offset + (intersectStart - DeList->DE[i].Sectors.Start),
+						intersectLength
+						);
+				} else {
+					return TRUE;
+				}
+			}
+		}
+	}
+	return updated;
+}
+
 
 static VOID CompletionThreadProc (PVOID threadArg)
 {
@@ -259,6 +300,11 @@ static VOID CompletionThreadProc (PVOID threadArg)
 					dataUnit.Value += queue->RemappedAreaDataUnitOffset;
 
 				DecryptDataUnits (request->Data + request->EncryptedOffset, &dataUnit, request->EncryptedLength / ENCRYPTION_DATA_UNIT_SIZE, queue->CryptoInfo);
+			}
+//			Dump("Read sector %lld count %d\n", request->Offset.QuadPart >> 9, request->Length >> 9);
+			// Update subst sectors
+			if((queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)) {
+				UpdateBuffer(request->Data, queue->SecRegionData, request->Offset.QuadPart, request->Length, TRUE);
 			}
 
 			if (request->CompleteOriginalIrp)
@@ -329,7 +375,7 @@ static VOID IoThreadProc (PVOID threadArg)
 		{
 			InterlockedDecrement (&queue->IoThreadPendingRequestCount);
 			request = CONTAINING_RECORD (listEntry, EncryptedIoRequest, ListEntry);
-			
+
 #ifdef TC_TRACE_IO_QUEUE
 			Dump ("%c   %I64d [%I64d] roff=%I64d rlen=%d\n", request->Item->Write ? 'W' : 'R', request->Item->OriginalIrpOffset.QuadPart, GetElapsedTime (&queue->LastPerformanceCounter), request->Offset.QuadPart, request->Length);
 #endif
@@ -337,7 +383,9 @@ static VOID IoThreadProc (PVOID threadArg)
 			// Perform IO request if no preceding request of the item failed
 			if (NT_SUCCESS (request->Item->Status))
 			{
-				if (queue->IsFilterDevice)
+				if (queue->ThreadBlockReadWrite)
+					request->Item->Status = STATUS_DEVICE_BUSY;
+				else if (queue->IsFilterDevice)
 				{
 					if (queue->RemapEncryptedArea && request->EncryptedLength > 0)
 					{
@@ -512,7 +560,7 @@ static VOID MainThreadProc (PVOID threadArg)
 		{
 			PIRP irp = CONTAINING_RECORD (listEntry, IRP, Tail.Overlay.ListEntry);
 			PIO_STACK_LOCATION irpSp = IoGetCurrentIrpStackLocation (irp);
-			
+
 			if (queue->Suspended)
 				KeWaitForSingleObject (&queue->QueueResumedEvent, Executive, KernelMode, FALSE, NULL);
 
@@ -592,7 +640,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				{
 					UINT64_STRUCT dataUnit;
 
-					dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, HighPagePriority);
+					dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | ExDefaultMdlProtection));
 					if (!dataBuffer)
 					{
 						TCfree (buffer);
@@ -609,6 +657,10 @@ static VOID MainThreadProc (PVOID threadArg)
 							DecryptDataUnits (buffer + (intersectStart - alignedOffset.QuadPart), &dataUnit, intersectLength / ENCRYPTION_DATA_UNIT_SIZE, queue->CryptoInfo);
 						}
 					}
+					// Update subst sectors
+ 					if((queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)) {
+ 						UpdateBuffer(buffer, queue->SecRegionData, alignedOffset.QuadPart, alignedLength, TRUE);
+ 					}
 
 					memcpy (dataBuffer, buffer + (item->OriginalOffset.LowPart & (ENCRYPTION_DATA_UNIT_SIZE - 1)), item->OriginalLength);
 				}
@@ -622,7 +674,7 @@ static VOID MainThreadProc (PVOID threadArg)
 			if (item->OriginalLength == 0
 				|| (item->OriginalLength & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0
 				|| (item->OriginalOffset.QuadPart & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0
-				|| (	!queue->IsFilterDevice && 
+				|| (	!queue->IsFilterDevice &&
 						(	(S_OK != ULongLongAdd(item->OriginalOffset.QuadPart, item->OriginalLength, &addResult))
 							||	(addResult > (ULONGLONG) queue->VirtualDeviceLength)
 						)
@@ -643,7 +695,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				if (queue->CryptoInfo->hiddenVolume)
 					hResult = ULongLongAdd(item->OriginalOffset.QuadPart, queue->CryptoInfo->hiddenVolumeOffset, &addResult);
 				else
-					hResult = ULongLongAdd(item->OriginalOffset.QuadPart, queue->CryptoInfo->volDataAreaOffset, &addResult); 
+					hResult = ULongLongAdd(item->OriginalOffset.QuadPart, queue->CryptoInfo->volDataAreaOffset, &addResult);
 
 				if (hResult != S_OK)
 				{
@@ -658,7 +710,7 @@ static VOID MainThreadProc (PVOID threadArg)
 				{
 					// If there has already been a write operation denied in order to protect the
 					// hidden volume (since the volume mount time)
-					if (queue->CryptoInfo->bHiddenVolProtectionAction)	
+					if (queue->CryptoInfo->bHiddenVolProtectionAction)
 					{
 						// Do not allow writing to this volume anymore. This is to fake a complete volume
 						// or system failure (otherwise certain kinds of inconsistency within the file
@@ -697,9 +749,18 @@ static VOID MainThreadProc (PVOID threadArg)
 				Dump ("Preventing write to boot loader or host protected area\n");
 				CompleteOriginalIrp (item, STATUS_MEDIA_WRITE_PROTECTED, 0);
 				continue;
+			} 
+			else if (item->Write
+				&& (queue->SecRegionData != NULL) && (queue->SecRegionSize > 512)
+				&& UpdateBuffer (NULL, queue->SecRegionData, item->OriginalOffset.QuadPart, (uint32)(item->OriginalOffset.QuadPart + item->OriginalLength - 1), FALSE))
+			{
+				// Prevent inappropriately designed software from damaging important data
+				Dump ("Preventing write to the system GPT area\n");
+				CompleteOriginalIrp (item, STATUS_MEDIA_WRITE_PROTECTED, 0);
+				continue;
 			}
 
-			dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, HighPagePriority);
+			dataBuffer = (PUCHAR) MmGetSystemAddressForMdlSafe (irp->MdlAddress, (HighPagePriority | ExDefaultMdlProtection));
 
 			if (dataBuffer == NULL)
 			{
@@ -715,7 +776,7 @@ static VOID MainThreadProc (PVOID threadArg)
 			while (dataRemaining > 0)
 			{
 				BOOL isLastFragment = dataRemaining <= TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;
-				
+
 				ULONG dataFragmentLength = isLastFragment ? dataRemaining : TC_ENC_IO_QUEUE_MAX_FRAGMENT_SIZE;
 				activeFragmentBuffer = (activeFragmentBuffer == queue->FragmentBufferA ? queue->FragmentBufferB : queue->FragmentBufferA);
 
@@ -774,7 +835,7 @@ static VOID MainThreadProc (PVOID threadArg)
 							dataUnit.Value += queue->CryptoInfo->FirstDataUnitNo.Value;
 						else if (queue->RemapEncryptedArea)
 							dataUnit.Value += queue->RemappedAreaDataUnitOffset;
-								
+
 						EncryptDataUnits (activeFragmentBuffer + request->EncryptedOffset, &dataUnit, request->EncryptedLength / ENCRYPTION_DATA_UNIT_SIZE, queue->CryptoInfo);
 					}
 				}
@@ -824,7 +885,7 @@ NTSTATUS EncryptedIoQueueAddIrp (EncryptedIoQueue *queue, PIRP irp)
 
 	ExInterlockedInsertTailList (&queue->MainThreadQueue, &irp->Tail.Overlay.ListEntry, &queue->MainThreadQueueLock);
 	KeSetEvent (&queue->MainThreadQueueNotEmptyEvent, IO_DISK_INCREMENT, FALSE);
-	
+
 	return STATUS_PENDING;
 
 err:
@@ -839,7 +900,7 @@ NTSTATUS EncryptedIoQueueHoldWhenIdle (EncryptedIoQueue *queue, int64 timeout)
 	ASSERT (!queue->Suspended);
 
 	queue->SuspendPending = TRUE;
-	
+
 	while (TRUE)
 	{
 		while (InterlockedExchangeAdd (&queue->OutstandingIoCount, 0) > 0)
@@ -898,7 +959,7 @@ BOOL EncryptedIoQueueIsRunning (EncryptedIoQueue *queue)
 NTSTATUS EncryptedIoQueueResumeFromHold (EncryptedIoQueue *queue)
 {
 	ASSERT (queue->Suspended);
-	
+
 	queue->Suspended = FALSE;
 	KeSetEvent (&queue->QueueResumedEvent, IO_DISK_INCREMENT, FALSE);
 
@@ -1024,7 +1085,7 @@ NTSTATUS EncryptedIoQueueStop (EncryptedIoQueue *queue)
 {
 	ASSERT (!queue->StopPending);
 	queue->StopPending = TRUE;
-	
+
 	while (InterlockedExchangeAdd (&queue->OutstandingIoCount, 0) > 0)
 	{
 		KeWaitForSingleObject (&queue->NoOutstandingIoEvent, Executive, KernelMode, FALSE, NULL);

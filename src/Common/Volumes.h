@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -77,6 +77,8 @@ extern "C" {
 #define TC_MAX_FAT_CLUSTER_SIZE			(256 * BYTES_PER_KB)	// Windows XP/Vista may crash when writing to a filesystem using clusters larger than 256 KB
 #define TC_MIN_EXFAT_FS_SIZE			(42 * TC_MAX_VOLUME_SECTOR_SIZE)
 #define TC_MAX_EXFAT_FS_SIZE			(128LL * BYTES_PER_PB)
+#define TC_MIN_REFS_FS_SIZE				(641 * BYTES_PER_MB) // minimal allowed volume size with 4KiB clusters. Determined empirically.
+#define TC_MAX_REFS_FS_SIZE				(0xFFFFFFFFFFFFFFFFULL) // real limit is 1 Yobibyte but it's too large for 64-bit integer
 
 // Volume size limits
 #define TC_MIN_VOLUME_SIZE				(TC_TOTAL_VOLUME_HEADERS_SIZE + TC_MIN_FAT_FS_SIZE)
@@ -130,16 +132,20 @@ extern BOOL ReadVolumeHeaderRecoveryMode;
 uint16 GetHeaderField16 (byte *header, int offset);
 uint32 GetHeaderField32 (byte *header, int offset);
 UINT64_STRUCT GetHeaderField64 (byte *header, int offset);
-#ifdef TC_WINDOWS_BOOT
+#if defined(TC_WINDOWS_BOOT)
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pim, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
+#elif defined(_UEFI)
+int ReadVolumeHeader(BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
+int CreateVolumeHeaderInMemory(BOOL bBoot, char *encryptedHeader, int ea, int mode, Password *password, int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo, unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize, unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode);
+BOOL RandgetBytes(unsigned char *buf, int len, BOOL forceSlowPoll);
 #else
 int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int pkcs5_prf, int pim, BOOL truecryptMode, PCRYPTO_INFO *retInfo, CRYPTO_INFO *retHeaderCryptoInfo);
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_UEFI)
 void ComputeBootloaderFingerprint (byte *bootLoaderBuf, unsigned int bootLoaderSize, byte* fingerprint);
 #endif
 #endif
 
-#if !defined (DEVICE_DRIVER) && !defined (TC_WINDOWS_BOOT)
+#if !defined (DEVICE_DRIVER) && !defined (TC_WINDOWS_BOOT) && !defined(_UEFI)
 int CreateVolumeHeaderInMemory (HWND hwndDlg, BOOL bBoot, char *encryptedHeader, int ea, int mode, Password *password, int pkcs5_prf, int pim, char *masterKeydata, PCRYPTO_INFO *retInfo, unsigned __int64 volumeSize, unsigned __int64 hiddenVolumeSize, unsigned __int64 encryptedAreaStart, unsigned __int64 encryptedAreaLength, uint16 requiredProgramVersion, uint32 headerFlags, uint32 sectorSize, BOOL bWipeMode);
 BOOL ReadEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header, DWORD *bytesRead);
 BOOL WriteEffectiveVolumeHeader (BOOL device, HANDLE fileHandle, byte *header);

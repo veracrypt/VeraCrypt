@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -15,6 +15,9 @@
 #include "Platform/StringConverter.h"
 #include <stdio.h>
 #include <sys/stat.h>
+#if !defined(__FreeBSD__) && !defined(__APPLE__)
+#include <sys/sysmacros.h>
+#endif
 
 namespace VeraCrypt
 {
@@ -43,7 +46,7 @@ namespace VeraCrypt
 
 		struct stat statData;
 		throw_sys_sub_if (stat (StringConverter::ToSingle (path).c_str(), &statData) != 0, Path);
-		
+
 		if (S_ISREG (statData.st_mode)) return FilesystemPathType::File;
 		if (S_ISDIR (statData.st_mode)) return FilesystemPathType::Directory;
 		if (S_ISCHR (statData.st_mode)) return FilesystemPathType::CharacterDevice;
@@ -71,6 +74,29 @@ namespace VeraCrypt
 #ifdef TC_LINUX
 
 		path = StringConverter::StripTrailingNumber (StringConverter::ToSingle (Path));
+
+		// If simply removing trailing number didn't produce a valid drive name, try to use sysfs to get the right one
+		if (!path.IsDevice()) {
+			struct stat st;
+
+			if(stat (StringConverter::ToSingle (Path).c_str (), &st) == 0) {
+				const long maxPathLength = pathconf ("/", _PC_PATH_MAX);
+
+				if(maxPathLength != -1) {
+					string linkPathName ("/sys/dev/block/");
+					linkPathName += StringConverter::ToSingle (major (st.st_rdev)) + string (":") + StringConverter::ToSingle (minor (st.st_rdev));
+
+					vector<char> linkTargetPath(maxPathLength+1);
+
+					if(readlink(linkPathName.c_str (), linkTargetPath.data(), linkTargetPath.size()) != -1) {
+						const string targetPathStr (linkTargetPath.data());
+						const size_t lastSlashPos = targetPathStr.find_last_of ('/');
+						const size_t secondLastSlashPos = targetPathStr.find_last_of ('/', lastSlashPos-1);
+						path = string ("/dev/") + targetPathStr.substr (secondLastSlashPos+1, lastSlashPos-secondLastSlashPos-1);
+					}
+				}
+			}
+		}
 
 #elif defined (TC_MACOSX)
 

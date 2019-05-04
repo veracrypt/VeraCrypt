@@ -1,12 +1,12 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -14,6 +14,9 @@
 #include "Tcdefs.h"
 #include "Crc.h"
 #include "Random.h"
+#include "Crypto\cpu.h"
+#include "Crypto\jitterentropy.h"
+#include "Crypto\rdrand.h"
 #include <Strsafe.h>
 
 static unsigned __int8 buffer[RNG_POOL_SIZE];
@@ -46,16 +49,16 @@ static HANDLE PeriodicFastPollThreadHandle = NULL;
 
 void RandAddInt (unsigned __int32 x)
 {
-	RandaddByte(x); 
-	RandaddByte((x >> 8)); 
+	RandaddByte(x);
+	RandaddByte((x >> 8));
 	RandaddByte((x >> 16));
 	RandaddByte((x >> 24));
 }
 
 void RandAddInt64 (unsigned __int64 x)
 {
-	RandaddByte(x); 
-	RandaddByte((x >> 8)); 
+	RandaddByte(x);
+	RandaddByte((x >> 8));
 	RandaddByte((x >> 16));
 	RandaddByte((x >> 24));
 
@@ -97,7 +100,7 @@ int Randinit ()
 	if (GetMaxPkcs5OutSize() > RNG_POOL_SIZE)
 		TC_THROW_FATAL_EXCEPTION;
 
-	if(bRandDidInit) 
+	if(bRandDidInit)
 		return 0;
 
 	InitializeCriticalSection (&critRandProt);
@@ -108,7 +111,7 @@ int Randinit ()
 
 	if (pRandPool == NULL)
 	{
-		pRandPool = (unsigned char *) TCalloc (RANDOMPOOL_ALLOCSIZE);
+		pRandPool = (unsigned char *) _aligned_malloc (RANDOMPOOL_ALLOCSIZE, 16);
 		if (pRandPool == NULL)
 			goto error;
 
@@ -128,9 +131,9 @@ int Randinit ()
 		handleWin32Error (0, SRC_POS);
 		goto error;
 	}
-	
+
 	if (!CryptAcquireContext (&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
-	{		
+	{
 		CryptoAPIAvailable = FALSE;
 		CryptoAPILastError = GetLastError ();
 		goto error;
@@ -203,7 +206,7 @@ freePool:
 		if (pRandPool != NULL)
 		{
 			burn (pRandPool, RANDOMPOOL_ALLOCSIZE);
-			TCfree (pRandPool);
+			_aligned_free (pRandPool);
 			pRandPool = NULL;
 		}
 	}
@@ -247,6 +250,7 @@ BOOL Randmix ()
 		RMD160_CTX		rctx;
 		sha512_ctx		sctx;
 		sha256_ctx		s256ctx;
+		STREEBOG_CTX	stctx;
 		int poolIndex, digestIndex, digestSize;
 
 		switch (HashFunction)
@@ -267,6 +271,10 @@ BOOL Randmix ()
 			digestSize = WHIRLPOOL_DIGESTSIZE;
 			break;
 
+		case STREEBOG:
+			digestSize = STREEBOG_DIGESTSIZE;
+			break;
+
 		default:
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -274,7 +282,7 @@ BOOL Randmix ()
 		if (RNG_POOL_SIZE % digestSize)
 			TC_THROW_FATAL_EXCEPTION;
 
-		for (poolIndex = 0; poolIndex < RNG_POOL_SIZE; poolIndex += digestSize)		
+		for (poolIndex = 0; poolIndex < RNG_POOL_SIZE; poolIndex += digestSize)
 		{
 			/* Compute the message digest of the entire pool using the selected hash function. */
 			switch (HashFunction)
@@ -299,11 +307,17 @@ BOOL Randmix ()
 
 			case WHIRLPOOL:
 				WHIRLPOOL_init (&wctx);
-				WHIRLPOOL_add (pRandPool, RNG_POOL_SIZE * 8, &wctx);
+				WHIRLPOOL_add (pRandPool, RNG_POOL_SIZE, &wctx);
 				WHIRLPOOL_finalize (&wctx, hashOutputBuffer);
 				break;
 
-			default:		
+			case STREEBOG:
+				STREEBOG_init (&stctx);
+				STREEBOG_add (&stctx, pRandPool, RNG_POOL_SIZE);
+				STREEBOG_finalize (&stctx, hashOutputBuffer);
+				break;
+
+			default:
 				// Unknown/wrong ID
 				TC_THROW_FATAL_EXCEPTION;
 			}
@@ -316,26 +330,30 @@ BOOL Randmix ()
 		}
 
 		/* Prevent leaks */
-		burn (hashOutputBuffer, MAX_DIGESTSIZE);	
+		burn (hashOutputBuffer, MAX_DIGESTSIZE);
 		switch (HashFunction)
 		{
 		case RIPEMD160:
-			burn (&rctx, sizeof(rctx));		
+			burn (&rctx, sizeof(rctx));
 			break;
 
 		case SHA512:
-			burn (&sctx, sizeof(sctx));		
+			burn (&sctx, sizeof(sctx));
 			break;
 
 		case SHA256:
-			burn (&s256ctx, sizeof(s256ctx));		
+			burn (&s256ctx, sizeof(s256ctx));
 			break;
 
 		case WHIRLPOOL:
-			burn (&wctx, sizeof(wctx));		
+			burn (&wctx, sizeof(wctx));
 			break;
 
-		default:		
+		case STREEBOG:
+			burn (&stctx, sizeof(sctx));
+			break;
+
+		default:
 			// Unknown/wrong ID
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -360,7 +378,7 @@ BOOL RandpeekBytes (void* hwndDlg, unsigned char *buf, int len, DWORD* mouseCoun
 
 	if (len > RNG_POOL_SIZE)
 	{
-		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);	
+		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);
 		len = RNG_POOL_SIZE;
 	}
 
@@ -413,7 +431,7 @@ BOOL RandgetBytesFull ( void* hwndDlg, unsigned char *buf , int len, BOOL forceS
 	/* There's never more than RNG_POOL_SIZE worth of randomess */
 	if ( (!allowAnyLength) && (len > RNG_POOL_SIZE))
 	{
-		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);	
+		Error ("ERR_NOT_ENOUGH_RANDOM_DATA", (HWND) hwndDlg);
 		len = RNG_POOL_SIZE;
 		LeaveCriticalSection (&critRandProt);
 		return FALSE;
@@ -515,7 +533,7 @@ LRESULT CALLBACK MouseProc (int nCode, WPARAM wParam, LPARAM lParam)
 
 			EnterCriticalSection (&critRandProt);
 			/* only count real mouse messages in entropy estimation */
-			if (	(nCode == HC_ACTION) && (wParam == WM_MOUSEMOVE) 
+			if (	(nCode == HC_ACTION) && (wParam == WM_MOUSEMOVE)
 				&& ((pt.x != lastPoint.x) || (pt.y != lastPoint.y)))
 			{
 				ProcessedMouseEventsCounter++;
@@ -748,20 +766,43 @@ BOOL SlowPoll (void)
 	//            we keep the check for clarity purpose
 	if ( !CryptoAPIAvailable )
 		return FALSE;
-	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
-
-		burn(buffer, sizeof (buffer));
-		Randmix();
-		return TRUE;
 	}
 	else
 	{
 		/* return error in case CryptGenRandom fails */
-		CryptoAPILastError = GetLastError ();		
+		CryptoAPILastError = GetLastError ();
 		return FALSE;
 	}
+
+	/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
+	if (0 == jent_entropy_init ())
+	{
+		struct rand_data *ec = jent_entropy_collector_alloc (1, 0);
+		if (ec)
+		{
+			ssize_t rndLen = jent_read_entropy (ec, (char*) buffer, sizeof (buffer));
+			if (rndLen > 0)
+				RandaddBuf (buffer, (int) rndLen);
+			jent_entropy_collector_free (ec);
+		}
+	}
+
+	// use RDSEED or RDRAND from CPU as source of entropy if present
+	if (	IsCpuRngEnabled() && 
+		(	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
+		))
+	{
+		RandaddBuf (buffer, sizeof (buffer));
+	}
+
+	burn(buffer, sizeof (buffer));
+	Randmix();
+
+	return TRUE;
 }
 
 
@@ -870,10 +911,9 @@ BOOL FastPoll (void)
 	//            we keep the check for clarity purpose
 	if ( !CryptoAPIAvailable )
 		return FALSE;
-	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer)) 
+	if (CryptGenRandom (hCryptProv, sizeof (buffer), buffer))
 	{
 		RandaddBuf (buffer, sizeof (buffer));
-		burn (buffer, sizeof(buffer));
 	}
 	else
 	{
@@ -881,6 +921,30 @@ BOOL FastPoll (void)
 		CryptoAPILastError = GetLastError ();
 		return FALSE;
 	}
+
+	/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
+	if (0 == jent_entropy_init ())
+	{
+		struct rand_data *ec = jent_entropy_collector_alloc (1, 0);
+		if (ec)
+		{
+			ssize_t rndLen = jent_read_entropy (ec, (char*) buffer, sizeof (buffer));
+			if (rndLen > 0)
+				RandaddBuf (buffer, (int) rndLen);
+			jent_entropy_collector_free (ec);
+		}
+	}
+
+	// use RDSEED or RDRAND from CPU as source of entropy if enabled
+	if (	IsCpuRngEnabled() && 
+		(	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
+		||	(HasRDRAND() && RDRAND_getBytes (buffer, sizeof (buffer)))
+		))
+	{
+		RandaddBuf (buffer, sizeof (buffer));
+	}
+
+	burn (buffer, sizeof(buffer));
 
 	/* Apply the pool mixing function */
 	Randmix();

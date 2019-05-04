@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -37,6 +37,11 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+	int GraphicUserInterface::g_customIdCmdV = 0;
+	int GraphicUserInterface::g_customIdCmdA = 0;
+#endif
+
 	GraphicUserInterface::GraphicUserInterface () :
 		ActiveFrame (nullptr),
 		BackgroundMode (false),
@@ -51,6 +56,8 @@ namespace VeraCrypt
 #endif
 
 #ifdef TC_MACOSX
+		g_customIdCmdV = wxNewId();
+		g_customIdCmdA = wxNewId();
 		wxApp::s_macHelpMenuTitleName = _("&Help");
 #endif
 	}
@@ -73,7 +80,7 @@ namespace VeraCrypt
 		signal (SIGTERM, SIG_DFL);
 #endif
 	}
-	
+
 	void GraphicUserInterface::AppendToListCtrl (wxListCtrl *listCtrl, const vector <wstring> &itemFields, int imageIndex, void *itemDataPtr) const
 	{
 		InsertToListCtrl (listCtrl, listCtrl->GetItemCount(), itemFields, imageIndex, itemDataPtr);
@@ -83,7 +90,7 @@ namespace VeraCrypt
 	{
 		wxMenuItem *item = new wxMenuItem (&menu, itemId, label);
 		menu.Append (item);
-		
+
 		if (handler)
 			handler->Connect (item->GetId(), wxEVT_COMMAND_MENU_SELECTED, handlerFunction);
 
@@ -110,7 +117,7 @@ namespace VeraCrypt
 		if (Core->GetMountedVolumes().size() < mountedVolumeCount)
 			OnVolumesAutoDismounted();
 	}
-	
+
 	void GraphicUserInterface::BackupVolumeHeaders (shared_ptr <VolumePath> volumePath) const
 	{
 		wxWindow *parent = GetActiveWindow();
@@ -196,12 +203,47 @@ namespace VeraCrypt
 						options->UseBackupHeaders
 						);
 
-						ExecuteWaitThreadRoutine (parent, &routine);		
+						ExecuteWaitThreadRoutine (parent, &routine);
 						volume = routine.m_pVolume;
 				}
 				catch (PasswordException &e)
 				{
-					ShowWarning (e);
+					bool bFailed = true;
+					if (!options->UseBackupHeaders)
+					{
+						try
+						{
+							OpenVolumeThreadRoutine routine2(
+								options->Path,
+								options->PreserveTimestamps,
+								options->Password,
+								options->Pim,
+								options->Kdf,
+								false,
+								options->Keyfiles,
+								options->Protection,
+								options->ProtectionPassword,
+								options->ProtectionPim,
+								options->ProtectionKdf,
+								options->ProtectionKeyfiles,
+								true,
+								volumeType,
+								true
+							);
+
+							ExecuteWaitThreadRoutine (parent, &routine2);
+							volume = routine2.m_pVolume;
+							bFailed = false;
+						}
+						catch (...)
+						{
+						}
+					}
+
+					if (bFailed)
+						ShowWarning (e);
+					else
+						ShowWarning ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
 				}
 			}
 
@@ -219,7 +261,7 @@ namespace VeraCrypt
 
 				wxSingleChoiceDialog choiceDialog (parent, LangString["DOES_VOLUME_CONTAIN_HIDDEN"], Application::GetName(), choices);
 				choiceDialog.SetSize (wxSize (Gui->GetCharWidth (&choiceDialog) * 60, -1));
-				choiceDialog.SetSelection (-1);
+				choiceDialog.SetSelection (0);
 
 				if (choiceDialog.ShowModal() != wxID_OK)
 					return;
@@ -332,12 +374,12 @@ namespace VeraCrypt
 	wxHyperlinkCtrl *GraphicUserInterface::CreateHyperlink (wxWindow *parent, const wxString &linkUrl, const wxString &linkText) const
 	{
 		wxHyperlinkCtrl *hyperlink = new wxHyperlinkCtrl (parent, wxID_ANY, linkText, linkUrl, wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE);
-		
+
 		wxColour color = wxSystemSettings::GetColour (wxSYS_COLOUR_WINDOWTEXT);
 		hyperlink->SetHoverColour (color);
 		hyperlink->SetNormalColour (color);
 		hyperlink->SetVisitedColour (color);
-		
+
 		return hyperlink;
 	}
 
@@ -345,7 +387,7 @@ namespace VeraCrypt
 	{
 		ShowMessage (message, wxOK | wxICON_ERROR);
 	}
-	
+
 	void GraphicUserInterface::DoShowInfo (const wxString &message) const
 	{
 		ShowMessage (message, wxOK | wxICON_INFORMATION);
@@ -358,13 +400,13 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::DoShowWarning (const wxString &message) const
 	{
-		ShowMessage (message, wxOK 
+		ShowMessage (message, wxOK
 #ifndef TC_MACOSX
 			| wxICON_EXCLAMATION
 #endif
 			);
 	}
-	
+
 	void GraphicUserInterface::EndInteractiveBusyState (wxWindow *window) const
 	{
 		static auto_ptr <wxCursor> arrowCursor;
@@ -438,7 +480,7 @@ namespace VeraCrypt
 
 		return shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler);
 	}
-	
+
 	int GraphicUserInterface::GetCharHeight (wxWindow *window) const
 	{
 		int width;
@@ -471,9 +513,9 @@ namespace VeraCrypt
 #elif defined(TC_MACOSX)
 			13
 #else
-			10 
+			10
 #endif
-			* GetCharHeight (window) / 13, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, 
+			* GetCharHeight (window) / 13, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
 #ifdef __WXGTK__
 			wxFONTWEIGHT_BOLD, false);
 #elif defined(TC_MACOSX)
@@ -486,7 +528,7 @@ namespace VeraCrypt
 	list <long> GraphicUserInterface::GetListCtrlSelectedItems (wxListCtrl *listCtrl) const
 	{
 		list <long> selectedItems;
-		
+
 		long item = -1;
 		while ((item = listCtrl->GetNextItem (item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)) != -1)
 			selectedItems.push_back (item);
@@ -500,7 +542,7 @@ namespace VeraCrypt
 		item.SetId (itemIndex);
 		item.SetColumn (columnIndex);
 		item.SetText (L"");
-			
+
 		if (!listCtrl->GetItem (item))
 			throw ParameterIncorrect (SRC_POS);
 
@@ -537,6 +579,13 @@ namespace VeraCrypt
 		{
 			virtual void operator() (string &passwordStr)
 			{
+				if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+				{
+					passwordStr.clear();
+					passwordStr.insert (0, (char*) CmdLine->ArgTokenPin->Ptr (), CmdLine->ArgTokenPin->Size());
+					return;
+				}
+
 				if (Gui->GetPreferences().NonInteractive)
 					throw MissingArgument (SRC_POS);
 
@@ -562,6 +611,14 @@ namespace VeraCrypt
 				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
 
 				StringConverter::ToSingle (wPassword, passwordStr);
+			}
+
+			virtual void notifyIncorrectPin ()
+			{
+				if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+				{
+					CmdLine->ArgTokenPin->Free ();
+				}
 			}
 		};
 
@@ -605,7 +662,7 @@ namespace VeraCrypt
 			listCtrl->SetItem (item);
 		}
 	}
-	
+
 	bool GraphicUserInterface::IsTheOnlyTopLevelWindow (const wxWindow *window) const
 	{
 		foreach (wxWindow *w, wxTopLevelWindows)
@@ -642,6 +699,41 @@ namespace VeraCrypt
 	{
 		SetBackgroundMode (false);
 	}
+	
+	bool GraphicUserInterface::HandlePasswordEntryCustomEvent (wxEvent& event)
+	{
+		bool bHandled = false;
+		if (	(event.GetEventType() == wxEVT_MENU)
+			&&	((event.GetId() == g_customIdCmdV) || (event.GetId() == g_customIdCmdA)))
+		{
+			wxWindow* focusedCtrl = wxWindow::FindFocus();
+			if (focusedCtrl 
+				&& (focusedCtrl->IsKindOf(wxCLASSINFO(wxTextCtrl)))
+				&& (focusedCtrl->GetWindowStyle() & wxTE_PASSWORD))
+			{
+				wxTextCtrl* passwordCtrl = (wxTextCtrl*) focusedCtrl;
+				if (event.GetId() == g_customIdCmdV)
+					passwordCtrl->Paste ();
+				else if (event.GetId() == g_customIdCmdA)
+					passwordCtrl->SelectAll ();
+				bHandled = true;
+			}
+		}
+		
+		return bHandled;
+	}
+	
+	void GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (wxWindow* window)
+	{
+		// we manually handle CMD+V and CMD+A on password fields in order to support
+		// pasting password values into them. By default, wxWidgets doesn't handle this
+		// for password entry fields.
+		wxAcceleratorEntry entries[2];
+		entries[0].Set(wxACCEL_CMD, (int) 'V', g_customIdCmdV);
+		entries[1].Set(wxACCEL_CMD, (int) 'A', g_customIdCmdA);
+		wxAcceleratorTable accel(sizeof(entries) / sizeof(wxAcceleratorEntry), entries);
+		window->SetAcceleratorTable(accel);
+	}
 #endif
 
 	void GraphicUserInterface::MoveListCtrlItem (wxListCtrl *listCtrl, long itemIndex, long newItemIndex) const
@@ -654,7 +746,7 @@ namespace VeraCrypt
 		item.SetId (itemIndex);
 		item.SetData ((void *) nullptr);
 		item.SetImage (-1);
-		
+
 		if (!listCtrl->GetItem (item))
 			throw ParameterIncorrect (SRC_POS);
 
@@ -667,7 +759,7 @@ namespace VeraCrypt
 		}
 
 		listCtrl->DeleteItem (itemIndex);
-		
+
 		if (newItemIndex > listCtrl->GetItemCount() - 1)
 			AppendToListCtrl (listCtrl, itemFields, item.GetImage(), (void *) item.GetData());
 		else
@@ -688,7 +780,7 @@ namespace VeraCrypt
 				return VolumeInfoList();
 
 			VolumeInfoList mountedVolumes = UserInterface::MountAllDeviceHostedVolumes (options);
-			
+
 			if (!mountedVolumes.empty())
 				return mountedVolumes;
 		}
@@ -857,7 +949,7 @@ namespace VeraCrypt
 
 			wxLogLevel logLevel = wxLog::GetLogLevel();
 			wxLog::SetLogLevel (wxLOG_Error);
-			
+
 			const wxString instanceCheckerName = wxString (L".") + Application::GetName() + L"-lock-" + wxGetUserId();
 			SingleInstanceChecker.reset (new wxSingleInstanceChecker (instanceCheckerName));
 
@@ -978,7 +1070,7 @@ namespace VeraCrypt
 
 		return true;
 	}
-	
+
 	void GraphicUserInterface::OnLogOff ()
 	{
 		VolumeInfoList mountedVolumes = Core->GetMountedVolumes();
@@ -994,10 +1086,10 @@ namespace VeraCrypt
 				try
 				{
 					timeOver = (wxGetLocalTimeMillis() - startTime >= 4000);
-					
+
 					DismountVolumes (mountedVolumes, !timeOver ? false : GetPreferences().ForceAutoDismount, timeOver);
 					OnVolumesAutoDismounted();
-					
+
 					break;
 				}
 				catch (UserAbort&)
@@ -1072,117 +1164,175 @@ namespace VeraCrypt
 #endif
 	}
 
-	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, bool secure, const wxString &extraVars) const
+	wxString GraphicUserInterface::GetHomepageLinkURL (const wxString &linkId, const wxString &extraVars) const
 	{
-		wxString url = wxString (StringConverter::ToWide (secure ? TC_APPLINK_SECURE : TC_APPLINK));
-		
-		if (linkId == L"donate") 
+		wxString url = wxString (TC_APPLINK);
+		bool buildUrl = true;
+
+		if (linkId == L"donate")
 		{
-			url = L"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BCXVMTTNJDCY";
+			url = L"Donation.html";
 		}
-		else if (linkId == L"main") 
+		else if (linkId == L"main")
 		{
-			url = wxString (StringConverter::ToWide (TC_HOMEPAGE));
+			url = wxString (TC_HOMEPAGE);
+			buildUrl = false;
 		}
-		else if (linkId == L"localizations") 
+		else if (linkId == L"onlinehelp")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Language%20Packs";
+			url = L"https://www.veracrypt.fr/en/Documentation.html";
+			buildUrl = false;
 		}
-		else if (linkId == L"beginnerstutorial" || linkId == L"tutorial") 
+		else if (linkId == L"localizations")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Beginner%27s%20Tutorial";
+			url = L"Language Packs.html";
 		}
-		else if (linkId == L"releasenotes" || linkId == L"history") 
+		else if (linkId == L"beginnerstutorial" || linkId == L"tutorial")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Release%20Notes";
+			url = L"Beginner's Tutorial.html";
 		}
-		else if (linkId == L"hwacceleration") 
+		else if (linkId == L"releasenotes" || linkId == L"history")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hardware%20Acceleration";
+			url = L"Release Notes.html";
 		}
-		else if (linkId == L"parallelization") 
+		else if (linkId == L"hwacceleration")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Parallelization";
+			url = L"Hardware Acceleration.html";
 		}
-		else if (linkId == L"help") 
+		else if (linkId == L"parallelization")
 		{
-			url = L"https://veracrypt.codeplex.com/documentation";
+			url = L"Parallelization.html";
 		}
-		else if (linkId == L"keyfiles") 
+		else if (linkId == L"help")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Keyfiles";
+			url = L"Documentation.html";
 		}
-		else if (linkId == L"introcontainer") 
+		else if (linkId == L"keyfiles")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Creating%20New%20Volumes";
+			url = L"Keyfiles.html";
 		}
-		else if (linkId == L"introsysenc") 
+		else if (linkId == L"introcontainer")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+			url = L"Creating New Volumes.html";
 		}
-		else if (linkId == L"hiddensysenc") 
+		else if (linkId == L"introsysenc")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=VeraCrypt%20Hidden%20Operating%20System";
+			url = L"System Encryption.html";
 		}
-		else if (linkId == L"sysencprogressinfo") 
+		else if (linkId == L"hiddensysenc")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Encryption";
+			url = L"VeraCrypt Hidden Operating System.html";
 		}
-		else if (linkId == L"hiddenvolume") 
+		else if (linkId == L"sysencprogressinfo")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hidden%20Volume";
+			url = L"System Encryption.html";
 		}
-		else if (linkId == L"aes") 
+		else if (linkId == L"hiddenvolume")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=AES";
+			url = L"Hidden Volume.html";
 		}
-		else if (linkId == L"serpent") 
+		else if (linkId == L"aes")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Serpent";
+			url = L"AES.html";
 		}
-		else if (linkId == L"twofish") 
+		else if (linkId == L"serpent")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Twofish";
+			url = L"Serpent.html";
 		}
-		else if (linkId == L"cascades") 
+		else if (linkId == L"twofish")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Cascades";
+			url = L"Twofish.html";
 		}
-		else if (linkId == L"hashalgorithms") 
+		else if (linkId == L"camellia")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Hash%20Algorithms";
+			url = L"Camellia.html";
 		}
-		else if (linkId == L"isoburning") 
+		else if (linkId == L"kuznyechik")
+		{
+			url = L"Kuznyechik.html";
+		}
+		else if (linkId == L"cascades")
+		{
+			url = L"Cascades.html";
+		}
+		else if (linkId == L"hashalgorithms")
+		{
+			url = L"Hash Algorithms.html";
+		}
+		else if (linkId == L"isoburning")
 		{
 			url = L"https://cdburnerxp.se/en/home";
+			buildUrl = false;
 		}
-		else if (linkId == L"sysfavorites") 
+		else if (linkId == L"sysfavorites")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=System%20Favorite%20Volumes";
+			url = L"System Favorite Volumes.html";
 		}
-		else if (linkId == L"favorites") 
+		else if (linkId == L"favorites")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Favorite%20Volumes";
+			url = L"Favorite Volumes.html";
 		}
-		else if (linkId == L"hiddenvolprotection") 
+		else if (linkId == L"hiddenvolprotection")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Protection%20of%20Hidden%20Volumes";
+			url = L"Protection of Hidden Volumes.html";
 		}
-		else if (linkId == L"faq") 
+		else if (linkId == L"faq")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=FAQ";
+			url = L"FAQ.html";
 		}
-		else if (linkId == L"downloads") 
+		else if (linkId == L"downloads")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Downloads";
+			url = L"Downloads.html";
 		}
-		else if (linkId == L"news") 
+		else if (linkId == L"news")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=News";
+			url = L"News.html";
 		}
-		else if (linkId == L"contact") 
+		else if (linkId == L"contact")
 		{
-			url = L"https://veracrypt.codeplex.com/wikipage?title=Contact";
+			url = L"Contact.html";
+		}
+		else
+		{
+			buildUrl = false;
+		}
+		
+		if (buildUrl)
+		{
+			wxString htmlPath = wstring (Application::GetExecutableDirectory());
+			bool localFile = true;
+
+#ifdef TC_RESOURCE_DIR
+			htmlPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/HTML/");
+#elif defined (TC_WINDOWS)
+			htmlPath += L"\\docs\\html\\en\\";
+#elif defined (TC_MACOSX)
+			htmlPath += L"/../Resources/doc/HTML/";
+#elif defined (TC_UNIX)
+			htmlPath = L"/usr/share/veracrypt/doc/HTML/";
+#else
+			localFile = false;
+#endif
+			if (localFile)
+			{
+				/* check if local file exists */
+				wxFileName htmlFile = htmlPath + url;
+				htmlFile.Normalize();
+				localFile = htmlFile.FileExists();
+			}
+
+			if (!localFile)
+			{
+				htmlPath = L"https://www.veracrypt.fr/en/";
+			}
+			else
+			{
+				htmlPath = L"file://" + htmlPath;
+			}
+			url.Replace (L" ", L"%20");
+			url.Replace (L"'", L"%27");
+
+			url = htmlPath + url;
 		}
 
 		return url;
@@ -1191,53 +1341,21 @@ namespace VeraCrypt
 	void GraphicUserInterface::OpenHomepageLink (wxWindow *parent, const wxString &linkId, const wxString &extraVars)
 	{
 		wxString url;
-		
+
 		BeginInteractiveBusyState (parent);
-		wxLaunchDefaultBrowser (GetHomepageLinkURL (linkId, false, extraVars), wxBROWSER_NEW_WINDOW);
+		wxLaunchDefaultBrowser (GetHomepageLinkURL (linkId, extraVars), wxBROWSER_NEW_WINDOW);
 		Thread::Sleep (200);
 		EndInteractiveBusyState (parent);
 	}
 
 	void GraphicUserInterface::OpenOnlineHelp (wxWindow *parent)
 	{
-		OpenHomepageLink (parent, L"help");
+		OpenHomepageLink (parent, L"onlinehelp");
 	}
 
 	void GraphicUserInterface::OpenUserGuide (wxWindow *parent)
 	{
-		try
-		{
-			wxString docPath = wstring (Application::GetExecutableDirectory());
-
-#ifdef TC_RESOURCE_DIR
-			docPath = StringConverter::ToWide (string (TC_TO_STRING (TC_RESOURCE_DIR)) + "/doc/VeraCrypt User Guide.pdf");
-#elif defined (TC_WINDOWS)
-			docPath += L"\\VeraCrypt User Guide.pdf";
-#elif defined (TC_MACOSX)
-			docPath += L"/../Resources/VeraCrypt User Guide.pdf";
-#elif defined (TC_UNIX)
-			docPath = L"/usr/share/veracrypt/doc/VeraCrypt User Guide.pdf";
-#else
-#	error TC_RESOURCE_DIR undefined
-#endif
-
-			wxFileName docFile = docPath;
-			docFile.Normalize();
-
-			try
-			{
-				Gui->OpenDocument (parent, docFile);
-			}
-			catch (...)
-			{
-				if (Gui->AskYesNo (LangString ["HELP_READER_ERROR"], true))
-					OpenOnlineHelp (parent);
-			}
-		}
-		catch (Exception &e)
-		{
-			Gui->ShowError (e);
-		}
+		OpenHomepageLink (parent, L"help");
 	}
 
 	void GraphicUserInterface::RestoreVolumeHeaders (shared_ptr <VolumePath> volumePath) const
@@ -1283,7 +1401,7 @@ namespace VeraCrypt
 
 		wxSingleChoiceDialog choiceDialog (parent, LangString["HEADER_RESTORE_EXTERNAL_INTERNAL"], Application::GetName(), choices);
 		choiceDialog.SetSize (wxSize (Gui->GetCharWidth (&choiceDialog) * 80, -1));
-		choiceDialog.SetSelection (-1);
+		choiceDialog.SetSelection (0);
 
 		if (choiceDialog.ShowModal() != wxID_OK)
 			return;
@@ -1301,7 +1419,7 @@ namespace VeraCrypt
 		default:
 			return;
 		}
-		
+
 		/* force the display of the random enriching interface */
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 
@@ -1341,7 +1459,7 @@ namespace VeraCrypt
 						true
 						);
 
-						ExecuteWaitThreadRoutine (parent, &routine);		
+						ExecuteWaitThreadRoutine (parent, &routine);
 						volume = routine.m_pVolume;
 				}
 				catch (PasswordException &e)
@@ -1449,7 +1567,7 @@ namespace VeraCrypt
 						EncryptionAlgorithmList encryptionAlgorithms = layout->GetSupportedEncryptionAlgorithms();
 						EncryptionModeList encryptionModes = layout->GetSupportedEncryptionModes();
 
-						DecryptThreadRoutine decryptRoutine(layout->GetHeader(), headerBuffer, *passwordKey, options.Pim, options.Kdf, options.TrueCryptMode, keyDerivationFunctions, encryptionAlgorithms, encryptionModes);						
+						DecryptThreadRoutine decryptRoutine(layout->GetHeader(), headerBuffer, *passwordKey, options.Pim, options.Kdf, options.TrueCryptMode, keyDerivationFunctions, encryptionAlgorithms, encryptionModes);
 
 						ExecuteWaitThreadRoutine (parent, &decryptRoutine);
 
@@ -1471,7 +1589,7 @@ namespace VeraCrypt
 
 			File volumeFile;
 			volumeFile.Open (*volumePath, File::OpenReadWrite, File::ShareNone, File::PreserveTimestamps);
-			
+
 			RandomNumberGenerator::Start();
 			UserEnrichRandomPool (nullptr);
 
@@ -1497,7 +1615,7 @@ namespace VeraCrypt
 				ReEncryptHeaderThreadRoutine backupRoutine(newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles);
 
 				ExecuteWaitThreadRoutine (parent, &backupRoutine);
-				
+
 				// Write backup volume header
 				headerOffset = decryptedLayout->GetBackupHeaderOffset();
 				if (headerOffset >= 0)
@@ -1532,13 +1650,18 @@ namespace VeraCrypt
 
 	DirectoryPath GraphicUserInterface::SelectDirectory (wxWindow *parent, const wxString &message, bool existingOnly) const
 	{
+		/* Avoid OS leaking previously used directory when user choose not to save history */
+		wxString defaultPath;
+		if (!GetPreferences().SaveHistory)
+			defaultPath = wxGetHomeDir ();
+
 		return DirectoryPath (::wxDirSelector (!message.empty() ? message :
 #ifdef __WXGTK__
 			wxDirSelectorPromptStr,
 #else
 			L"",
 #endif
-			L"", wxDD_DEFAULT_STYLE | (existingOnly ? wxDD_DIR_MUST_EXIST : 0), wxDefaultPosition, parent).wc_str());
+			defaultPath, wxDD_DEFAULT_STYLE | (existingOnly ? wxDD_DIR_MUST_EXIST : 0), wxDefaultPosition, parent).wc_str());
 	}
 
 	FilePathList GraphicUserInterface::SelectFiles (wxWindow *parent, const wxString &caption, bool saveMode, bool allowMultiple, const list < pair <wstring, wstring> > &fileExtensions, const DirectoryPath &directory) const
@@ -1557,7 +1680,7 @@ namespace VeraCrypt
 		if (!fileExtensions.empty())
 #endif
 		{
-			wildcards = LangString["ALL_FILES"] + 
+			wildcards = LangString["ALL_FILES"] +
 #ifdef TC_WINDOWS
 				L" (*.*)|*.*";
 #else
@@ -1577,7 +1700,12 @@ namespace VeraCrypt
 			}
 		}
 
-		wxFileDialog dialog (parent, !caption.empty() ? caption : LangString ["OPEN_TITLE"], wstring (directory), wxString(), wildcards, style);
+		/* Avoid OS leaking previously used directory when user choose not to save history */
+		wxString defaultDir = wstring (directory);
+		if (defaultDir.IsEmpty () && !GetPreferences().SaveHistory)
+			defaultDir = wxGetHomeDir ();
+
+		wxFileDialog dialog (parent, !caption.empty() ? caption : LangString ["OPEN_TITLE"], defaultDir, wxString(), wildcards, style);
 
 		if (dialog.ShowModal() == wxID_OK)
 		{
@@ -1595,11 +1723,11 @@ namespace VeraCrypt
 
 		return files;
 	}
-	
+
 	FilePath GraphicUserInterface::SelectVolumeFile (wxWindow *parent, bool saveMode, const DirectoryPath &directory) const
 	{
 		list < pair <wstring, wstring> > extensions;
-		extensions.push_back (make_pair (L"tc", LangString["TC_VOLUMES"]));
+		extensions.push_back (make_pair (L"hc", LangString["TC_VOLUMES"].ToStdWstring()));
 
 		FilePathList selFiles = Gui->SelectFiles (parent, LangString[saveMode ? "OPEN_NEW_VOLUME" : "OPEN_VOL_TITLE"], saveMode, false, extensions, directory);
 
@@ -1639,14 +1767,14 @@ namespace VeraCrypt
 			listWidth = minListWidth;
 
 		listWidth -= GetScrollbarWidth (listCtrl, !hasVerticalScrollbar);
-		
+
 		int col = 0;
 		int totalColWidth = 0;
 		foreach (int colWidth, columnWidthPermilles)
 		{
 			int width = listWidth * colWidth / 1000;
 			totalColWidth += width;
-			
+
 			if (col == listCtrl->GetColumnCount() - 1)
 				width += listWidth - totalColWidth;
 
@@ -1712,7 +1840,7 @@ namespace VeraCrypt
 	{
 		ShowMessage (message, wxOK | wxICON_INFORMATION, true);
 	}
-	
+
 	int GraphicUserInterface::ShowMessage (const wxString &message, long style, bool topMost) const
 	{
 		wxString caption = Application::GetName();
@@ -1786,7 +1914,7 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::ShowWarningTopMost (const wxString &message) const
 	{
-		ShowMessage (message, wxOK 
+		ShowMessage (message, wxOK
 #ifndef TC_MACOSX
 			| wxICON_EXCLAMATION
 #endif
@@ -1810,7 +1938,7 @@ namespace VeraCrypt
 		foreach (wxString field, itemFields)
 		{
 			item.SetColumn (col++);
-			
+
 			if (!listCtrl->GetItem (item))
 				throw ParameterIncorrect (SRC_POS);
 
@@ -1829,7 +1957,7 @@ namespace VeraCrypt
 	void GraphicUserInterface::UserEnrichRandomPool (wxWindow *parent, shared_ptr <Hash> hash) const
 	{
 		RandomNumberGenerator::Start();
-		
+
 		if (hash)
 			RandomNumberGenerator::SetHash (hash);
 

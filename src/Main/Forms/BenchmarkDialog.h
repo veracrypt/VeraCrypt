@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -29,7 +29,10 @@ namespace VeraCrypt
 			ColumnAlgorithm = 0,
 			ColumnEncryption,
 			ColumnDecryption,
-			ColumnMean
+			ColumnMean,
+			ColumnTime = 1,
+			ColumnIterations = 2,
+			ColumnHashMean = 1			
 		};
 
 		struct BenchmarkResult
@@ -38,21 +41,26 @@ namespace VeraCrypt
 			uint64 EncryptionSpeed;
 			uint64 DecryptionSpeed;
 			uint64 MeanSpeed;
+			uint64 Time;
+			uint64 Iterations;
 		};
 
-		void DoBenchmark (list<BenchmarkResult>& results, Buffer& buffer);
+		void UpdateBenchmarkList ();
+		void DoBenchmark (list<BenchmarkResult>& results, Buffer& buffer, int opIndex);
+		void OnBenchmarkChoiceSelected (wxCommandEvent& event);
 		void OnBenchmarkButtonClick (wxCommandEvent& event);
-		
+
 		class BenchmarkThreadRoutine : public WaitThreadRoutine
 		{
 		public:
 			BenchmarkDialog* m_pDlg;
 			list<BenchmarkResult>& m_results;
 			Buffer& m_buffer;
-			BenchmarkThreadRoutine(BenchmarkDialog* pDlg, list<BenchmarkResult>& results, Buffer& buffer)
-				: m_pDlg(pDlg), m_results(results), m_buffer(buffer) { }
+			int m_opIndex;
+			BenchmarkThreadRoutine(BenchmarkDialog* pDlg, list<BenchmarkResult>& results, Buffer& buffer, int opIndex)
+				: m_pDlg(pDlg), m_results(results), m_buffer(buffer), m_opIndex (opIndex) { }
 			virtual ~BenchmarkThreadRoutine() { }
-			virtual void ExecutionCode(void) { m_pDlg->DoBenchmark (m_results, m_buffer); }
+			virtual void ExecutionCode(void) { m_pDlg->DoBenchmark (m_results, m_buffer, m_opIndex); }
 		};
 	};
 }

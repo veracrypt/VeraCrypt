@@ -24,11 +24,11 @@
  ---------------------------------------------------------------------------
  Issue Date: 31/01/2004
 
- My thanks to John Viega and David McGrew for their support in developing 
+ My thanks to John Viega and David McGrew for their support in developing
  this code and to David for testing it on a big-endain system.
 */
 
-/* 
+/*
  ---------------------------------------------------------------------------
  Portions Copyright (c) 2005 TrueCrypt Developers Association
 
@@ -630,9 +630,9 @@ int Gf128Tab64Init (unsigned __int8 *a, GfCtx *ctx)
     compile_8k_table (am, ctx8k);
 
 	/* Convert 8k LSB-first table to 4k MSB-first */
-	for (i = 16; i < 32; i++) 
+	for (i = 16; i < 32; i++)
 	{
-		for (j = 0; j < 16; j++) 
+		for (j = 0; j < 16; j++)
 		{
 			int jm = 0;
 			jm |= (j & 0x1) << 3;
@@ -658,7 +658,7 @@ int Gf128Tab64Init (unsigned __int8 *a, GfCtx *ctx)
 
 /* Multiply a 128-bit number by a 64-bit number in the finite field GF(2^128) */
 void Gf128MulBy64Tab (unsigned __int8 a[8], unsigned __int8 p[16], GfCtx *ctx)
-{  
+{
 	unsigned __int32 r[CBLK_LEN >> 2];
 
 	move_block_aligned(r, ctx->gf_t128[7*2][a[7] & 15]);
@@ -751,7 +751,7 @@ BOOL GfMulSelfTest ()
 		}
 
 		GfMul128Basic (a, b, p1);
-	
+
 		Gf128Tab64Init (a, gfCtx);
 		Gf128MulBy64Tab (b + 8, p2, gfCtx);
 

@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun  5 2014)
+// C++ code generated with wxFormBuilder (version Jun 20 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #ifndef __FORMS_H__
@@ -11,8 +11,6 @@
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/intl.h>
-class WizardPage;
-
 #include "WizardPage.h"
 #include <wx/string.h>
 #include <wx/bitmap.h>
@@ -228,19 +226,25 @@ namespace VeraCrypt
 		private:
 		
 		protected:
+			wxStaticText* m_staticText70;
+			wxChoice* BenchmarkChoice;
+			wxStaticText* m_bufferSizeLabel;
 			wxChoice* BufferSizeChoice;
+			wxStaticText* m_volumePimLabel;
+			wxTextCtrl* VolumePimText;
 			wxListCtrl* BenchmarkListCtrl;
 			wxBoxSizer* RightSizer;
 			wxButton* BenchmarkButton;
 			wxStaticText* BenchmarkNoteStaticText;
 			
 			// Virtual event handlers, overide them in your derived class
+			virtual void OnBenchmarkChoiceSelected( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnBenchmarkButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			
 		
 		public:
 			
-			BenchmarkDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt - Encryption Algorithm Benchmark"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+			BenchmarkDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("VeraCrypt - Algorithms Benchmark"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
 			~BenchmarkDialogBase();
 		
 	};
@@ -473,6 +477,7 @@ namespace VeraCrypt
 			wxStaticBoxSizer* OptionsSizer;
 			wxCheckBox* ReadOnlyCheckBox;
 			wxCheckBox* RemovableCheckBox;
+			wxCheckBox* BackupHeaderCheckBox;
 			wxCheckBox* PartitionInSystemEncryptionScopeCheckBox;
 			wxStaticBoxSizer* ProtectionSizer;
 			wxCheckBox* ProtectionCheckBox;

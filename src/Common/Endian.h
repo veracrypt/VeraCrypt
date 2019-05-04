@@ -6,7 +6,7 @@
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
  and which is governed by the 'License Agreement for Encryption for the Masses' 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -21,7 +21,7 @@ extern "C"
 {
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_UEFI)
 
 #	ifndef LITTLE_ENDIAN
 #		define LITTLE_ENDIAN 1234
@@ -139,8 +139,7 @@ unsigned __int16 MirrorBytes16 (unsigned __int16 x);
 unsigned __int32 MirrorBytes32 (unsigned __int32 x);
 #ifndef TC_NO_COMPILER_INT64
 uint64 MirrorBytes64 (uint64 x);
-#endif 
-void LongReverse ( unsigned __int32 *buffer , unsigned byteCount );
+#endif
 
 #if defined(__cplusplus)
 }

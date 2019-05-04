@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -21,6 +21,7 @@
 #include "Resource.h"
 #include "Xml.h"
 #include "Favorites.h"
+#include "Pkcs5.h"
 
 using namespace std;
 
@@ -98,6 +99,9 @@ namespace VeraCrypt
 		favorite.SystemEncryption = prop.partitionInInactiveSysEncScope ? true : false;
 		favorite.OpenExplorerWindow = (bExplore == TRUE);
 		favorite.Pim = prop.volumePim;
+		favorite.Pkcs5 = prop.pkcs5;
+		favorite.TrueCryptMode = (prop.pkcs5Iterations == get_pkcs5_iteration_count(prop.pkcs5, 0, TRUE, prop.partitionInInactiveSysEncScope))? 1 : 0;
+		memcpy (favorite.VolumeID, prop.volumeID, VOLUME_ID_SIZE);
 
 		if (favorite.VolumePathId.empty()
 			&& IsVolumeDeviceHosted (favorite.Path.c_str())
@@ -112,7 +116,7 @@ namespace VeraCrypt
 
 	static BOOL CALLBACK FavoriteVolumesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		/* This dialog is used both for System Favorites and non-system Favorites. 
+		/* This dialog is used both for System Favorites and non-system Favorites.
 
 		The following options have different meaning in System Favorites mode:
 
@@ -122,6 +126,7 @@ namespace VeraCrypt
 		*/
 
 		WORD lw = LOWORD (wParam);
+		WORD hw = HIWORD (wParam);
 		static bool SystemFavoritesMode;
 		static vector <FavoriteVolume> Favorites;
 		static int SelectedItem;
@@ -155,18 +160,18 @@ namespace VeraCrypt
 						// MOUNT_SYSTEM_FAVORITES_ON_BOOT
 
 						SetWindowTextW (GetDlgItem (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT), GetString ("MOUNT_SYSTEM_FAVORITES_ON_BOOT"));
-						
+
 						// DISABLE_NONADMIN_SYS_FAVORITES_ACCESS
 
 						SetWindowTextW (GetDlgItem (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY), GetString ("DISABLE_NONADMIN_SYS_FAVORITES_ACCESS"));
 
 						// Group box
 
-						GetClientRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), &rec);		
+						GetClientRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), &rec);
 
 						SetWindowPos (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), 0, 0, 0,
 							rec.right,
-							rec.bottom - CompensateYDPI (90),
+							rec.bottom - CompensateYDPI (95),
 							SWP_NOMOVE | SWP_NOZORDER);
 
 						InvalidateRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), NULL, TRUE);
@@ -179,7 +184,7 @@ namespace VeraCrypt
 					Favorites.clear();
 
 					LVCOLUMNW column;
-					SendMessageW (FavoriteListControl, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT); 
+					SendMessageW (FavoriteListControl, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
 					memset (&column, 0, sizeof (column));
 					column.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;
@@ -251,7 +256,7 @@ namespace VeraCrypt
 						{
 							uint32 reqConfig = IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT) ? TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES : 0;
 							if (reqConfig != (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
-								BootEncObj.RegisterSystemFavoritesService (reqConfig ? TRUE : FALSE);
+								BootEncObj.SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, reqConfig ? true : false);
 
 							SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS, IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY));
 						}
@@ -377,11 +382,25 @@ namespace VeraCrypt
 				return 1;
 
 			case IDC_FAVORITES_HELP_LINK:
-				Applink (SystemFavoritesMode ? "sysfavorites" : "favorites", TRUE, "");
+				Applink (SystemFavoritesMode ? "sysfavorites" : "favorites");
 				return 1;
 			case IDC_SHOW_PIM:
 				HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PIM, IDC_PIM, 0);
 				return 1;
+
+			case IDC_PIM:
+				if (hw == EN_CHANGE)
+				{
+					int pim = GetPim (hwndDlg, IDC_PIM, -1);
+					if (pim > (SystemFavoritesMode? MAX_BOOT_PIM_VALUE: MAX_PIM_VALUE))
+					{
+						SetDlgItemText (hwndDlg, IDC_PIM, L"");
+						SetFocus (GetDlgItem(hwndDlg, IDC_PIM));
+						Warning (SystemFavoritesMode? "PIM_SYSENC_TOO_BIG": "PIM_TOO_BIG", hwndDlg);
+						return 1;
+					}
+				}
+				break;
 			}
 
 			return 0;
@@ -416,6 +435,19 @@ namespace VeraCrypt
 		case WM_CLOSE:
 			EndDialog (hwndDlg, IDCLOSE);
 			return 1;
+		case WM_CTLCOLORSTATIC:
+			{
+				HDC hdc = (HDC)	wParam;
+				HWND hw = (HWND) lParam;
+				if (hw == GetDlgItem(hwndDlg, IDC_FAVORITE_VOLUME_ID))
+				{
+					// This the favorite ID field. Make its background like normal edit
+					HBRUSH hbr = GetSysColorBrush (COLOR_WINDOW);
+					::SelectObject(hdc, hbr);
+					return (BOOL) hbr;
+				}
+			}
+			break;
 		}
 
 		return 0;
@@ -430,7 +462,7 @@ namespace VeraCrypt
 			return;
 
 		AppendMenu (FavoriteVolumesMenu, MF_SEPARATOR, 0, L"");
-		
+
 		int i = 0;
 		foreach (const FavoriteVolume &favorite, FavoriteVolumes)
 		{
@@ -566,6 +598,17 @@ namespace VeraCrypt
 			favorite.Path = Utf8StringToWide (volume);
 
 			char label[1024];
+
+			XmlGetAttributeText (xml, "ID", label, sizeof (label));
+			if (strlen (label) == (2*VOLUME_ID_SIZE))
+			{
+				std::vector<byte> arr;
+				if (HexWideStringToArray (Utf8StringToWide (label).c_str(), arr) && arr.size() == VOLUME_ID_SIZE)
+				{
+					memcpy (favorite.VolumeID, &arr[0], VOLUME_ID_SIZE);
+				}
+			}
+
 			XmlGetAttributeText (xml, "label", label, sizeof (label));
 			favorite.Label = Utf8StringToWide (label);
 
@@ -575,9 +618,14 @@ namespace VeraCrypt
 				/* support old attribute name before it was changed to PIM*/
 				XmlGetAttributeText (xml, "pin", label, sizeof (label));
 			}
-			favorite.Pim = strtol (label, NULL, 10);
-			if (favorite.Pim < 0)
-				favorite.Pim = 0;
+			if (label[0])
+			{
+				favorite.Pim = strtol (label, NULL, 10);
+				if (favorite.Pim < 0 || favorite.Pim > (systemFavorites? MAX_BOOT_PIM_VALUE : MAX_PIM_VALUE))
+					favorite.Pim = -1;
+			}
+			else
+				favorite.Pim = -1;
 
 			char boolVal[2];
 			XmlGetAttributeText (xml, "readonly", boolVal, sizeof (boolVal));
@@ -612,6 +660,10 @@ namespace VeraCrypt
 			if (boolVal[0])
 				favorite.UseLabelInExplorer = (boolVal[0] == '1') && !favorite.ReadOnly;
 
+			XmlGetAttributeText (xml, "useVolumeID", boolVal, sizeof (boolVal));
+			if (boolVal[0])
+				favorite.UseVolumeID = (boolVal[0] == '1') && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID));
+
 			if (favorite.Path.find (L"\\\\?\\Volume{") == 0 && favorite.Path.rfind (L"}\\") == favorite.Path.size() - 2)
 			{
 				wstring resolvedPath = VolumeGuidPathToDevicePath (favorite.Path);
@@ -623,6 +675,30 @@ namespace VeraCrypt
 				}
 				else
 					favorite.DisconnectedDevice = true;
+			}
+
+			XmlGetAttributeText (xml, "TrueCryptMode", boolVal, sizeof (boolVal));
+			if (boolVal[0])
+				favorite.TrueCryptMode = (boolVal[0] == '1')? 1 : 0;
+			else
+				favorite.TrueCryptMode = -1;
+			
+			if (favorite.TrueCryptMode > 0)
+				favorite.Pim = 0;
+
+			XmlGetAttributeText (xml, "pkcs5", label, sizeof (label));
+			if (label[0])
+				favorite.Pkcs5 = strtol (label, NULL, 10);
+			else
+				favorite.Pkcs5 = -1;
+			if 	(	(favorite.Pkcs5 != -1) 
+				&&	(  (favorite.Pkcs5 < FIRST_PRF_ID)
+						|| (favorite.Pkcs5 > LAST_PRF_ID)
+						|| (favorite.TrueCryptMode == 1 && (0 == get_pkcs5_iteration_count (favorite.Pkcs5, 0, TRUE, favorite.SystemEncryption? TRUE : FALSE)))
+					)
+				)
+			{
+				favorite.Pkcs5 = -1;
 			}
 
 			favorites.push_back (favorite);
@@ -709,15 +785,26 @@ namespace VeraCrypt
 
 			wstring s = L"\n\t\t<volume mountpoint=\"" + favorite.MountPoint + L"\"";
 
+			if (!IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
+				s += L" ID=\"" + ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)) + L"\"";
+
 			if (!favorite.Label.empty())
 				s += L" label=\"" + favorite.Label + L"\"";
 
-			if (favorite.Pim > 0)
+			if ((favorite.Pim >= 0) && (favorite.TrueCryptMode <= 0))
 				s += L" pim=\"" + IntToWideString(favorite.Pim) + L"\"";
+
+			if (favorite.Pkcs5 > 0)
+				s += L" pkcs5=\"" + IntToWideString(favorite.Pkcs5) + L"\"";
+
+			if (favorite.TrueCryptMode > 0)
+				s += L" TrueCryptMode=\"1\"";
+			else if (favorite.TrueCryptMode == 0)
+				s += L" TrueCryptMode=\"0\"";
 
 			if (favorite.ReadOnly)
 				s += L" readonly=\"1\"";
-			
+
 			if (favorite.Removable)
 				s += L" removable=\"1\"";
 
@@ -729,7 +816,7 @@ namespace VeraCrypt
 
 			if (favorite.MountOnLogOn)
 				s += L" mountOnLogOn=\"1\"";
-			
+
 			if (favorite.DisableHotkeyMount)
 				s += L" noHotKeyMount=\"1\"";
 
@@ -738,6 +825,9 @@ namespace VeraCrypt
 
 			if (favorite.UseLabelInExplorer && !favorite.ReadOnly)
 				s += L" useLabelInExplorer=\"1\"";
+
+			if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
+				s += L" useVolumeID=\"1\"";
 
 			s += L">" + wstring (tq) + L"</volume>";
 
@@ -805,6 +895,7 @@ namespace VeraCrypt
 
 	static void SetControls (HWND hwndDlg, const FavoriteVolume &favorite, bool systemFavoritesMode, bool enable)
 	{
+		BOOL bIsDevice = favorite.DisconnectedDevice || IsVolumeDeviceHosted (favorite.Path.c_str()) || !enable;
 		if (favorite.Pim > 0)
 		{
 			wchar_t szTmp[MAX_PIM + 1];
@@ -819,6 +910,37 @@ namespace VeraCrypt
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_ON_ARRIVAL, favorite.MountOnArrival);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_READONLY, favorite.ReadOnly);
 		SetCheckBox (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE, favorite.Removable);
+		SetCheckBox (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID, favorite.UseVolumeID && bIsDevice);
+		SetCheckBox (hwndDlg, IDC_TRUECRYPT_MODE, (favorite.TrueCryptMode > 0)? TRUE : FALSE);
+
+		/* Populate the PRF algorithms list */
+		int nIndex, i, nSelected = 0;
+		HWND hComboBox = GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID);
+		SendMessage (hComboBox, CB_RESETCONTENT, 0, 0);
+
+		nIndex = (int) SendMessageW (hComboBox, CB_ADDSTRING, 0, (LPARAM) GetString ("AUTODETECTION"));
+		SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) 0);
+
+		for (i = FIRST_PRF_ID; i <= LAST_PRF_ID; i++)
+		{
+			if (!favorite.SystemEncryption || (favorite.TrueCryptMode != 1) || (i == RIPEMD160))
+			{
+				nIndex = (int) SendMessage (hComboBox, CB_ADDSTRING, 0, (LPARAM) get_pkcs5_prf_name(i));
+				SendMessage (hComboBox, CB_SETITEMDATA, nIndex, (LPARAM) i);
+				if (favorite.Pkcs5 == i)
+					nSelected = nIndex;
+			}
+		}
+
+		if (favorite.Pkcs5 >= 0)
+			SendMessage (hComboBox, CB_SETCURSEL, nSelected, 0);
+
+		if (IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)) || !bIsDevice)
+		{
+			SetDlgItemText (hwndDlg, IDC_FAVORITE_VOLUME_ID, L"");
+		}
+		else
+			SetDlgItemText (hwndDlg, IDC_FAVORITE_VOLUME_ID, ArrayToHexWideString (favorite.VolumeID, sizeof (favorite.VolumeID)).c_str());
 
 		if (systemFavoritesMode)
 		{
@@ -839,6 +961,9 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_UP), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOVE_DOWN), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_REMOVE), enable);
+		EnableWindow (GetDlgItem (hwndDlg, IDT_PKCS5_PRF), enable && !favorite.SystemEncryption);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), enable && !favorite.SystemEncryption);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_TRUECRYPT_MODE), enable && !favorite.SystemEncryption);                      
 		EnableWindow (GetDlgItem (hwndDlg, IDT_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_PIM), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_SHOW_PIM), enable);
@@ -852,6 +977,44 @@ namespace VeraCrypt
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE), enable);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT), enable || systemFavoritesMode);
 		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY), enable || systemFavoritesMode);
+		EnableWindow (GetDlgItem (hwndDlg, IDT_VOLUME_ID), enable && bIsDevice);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_VOLUME_ID), enable && bIsDevice);
+		EnableWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID), enable && bIsDevice && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)));
+
+		ShowWindow (GetDlgItem (hwndDlg, IDT_VOLUME_ID), bIsDevice? SW_SHOW : SW_HIDE);
+		ShowWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_VOLUME_ID), bIsDevice? SW_SHOW : SW_HIDE);
+		ShowWindow (GetDlgItem (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID), bIsDevice? SW_SHOW : SW_HIDE);
+
+		// Group box
+		RECT boxRect, checkRect, labelRect;
+
+		GetWindowRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), &boxRect);
+		GetWindowRect (GetDlgItem (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID), &checkRect);
+		GetWindowRect (GetDlgItem (hwndDlg, IDT_VOLUME_ID), &labelRect);
+
+		if (!bIsDevice && (boxRect.top < checkRect.top))
+		{
+			POINT pt = {boxRect.left, checkRect.bottom};
+			ScreenToClient (hwndDlg, &pt);
+			SetWindowPos (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), 0, pt.x, pt.y,
+				boxRect.right - boxRect.left,
+				boxRect.bottom - checkRect.bottom,
+				SWP_NOZORDER);
+
+			InvalidateRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), NULL, TRUE);
+		}
+
+		if (bIsDevice && (boxRect.top >= checkRect.top))
+		{
+			POINT pt = {boxRect.left, labelRect.top - CompensateYDPI (10)};
+			ScreenToClient (hwndDlg, &pt);
+			SetWindowPos (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), 0, pt.x, pt.y,
+				boxRect.right - boxRect.left,
+				boxRect.bottom - labelRect.top + CompensateYDPI (10),
+				SWP_NOZORDER);
+
+			InvalidateRect (GetDlgItem (hwndDlg, IDC_FAV_VOL_OPTIONS_GROUP_BOX), NULL, TRUE);
+		}
 	}
 
 
@@ -871,8 +1034,32 @@ namespace VeraCrypt
 		else
 			favorite.Label.clear();
 
-		favorite.Pim = GetPim (hwndDlg, IDC_PIM);
+		favorite.Pim = GetPim (hwndDlg, IDC_PIM, -1);
 		favorite.UseLabelInExplorer = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_LABEL_IN_EXPLORER) != 0);
+		favorite.UseVolumeID = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_USE_VOLUME_ID) != 0);
+		int nSelected = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETCURSEL, 0, 0);
+		if (nSelected != CB_ERR)
+			favorite.Pkcs5 = (int) SendMessage (GetDlgItem (hwndDlg, IDC_PKCS5_PRF_ID), CB_GETITEMDATA, nSelected, 0);
+		else
+			favorite.Pkcs5 = -1;
+		BOOL selectedTrueCryptMode = (IsDlgButtonChecked (hwndDlg, IDC_TRUECRYPT_MODE) != 0)? 1 : 0;
+		if ((favorite.TrueCryptMode >= 0) || selectedTrueCryptMode)
+			favorite.TrueCryptMode = selectedTrueCryptMode;
+
+		if (favorite.TrueCryptMode == 1)
+		{
+			if ((favorite.Pkcs5 > 0) && !is_pkcs5_prf_supported (favorite.Pkcs5, TRUE, favorite.SystemEncryption? PRF_BOOT_MBR : PRF_BOOT_NO))
+			{
+				Error ("ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
+				favorite.Pkcs5 = 0;
+			}
+
+			if (favorite.Pim > 0)
+			{
+				Error ("PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE", hwndDlg);
+				favorite.Pim = 0;
+			}
+		}
 
 		favorite.ReadOnly = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_READONLY) != 0);
 		favorite.Removable = (IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_MOUNT_REMOVABLE) != 0);

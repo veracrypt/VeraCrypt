@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -19,17 +19,19 @@
 
 static int ScreenOutputDisabled = 0;
 
+#if defined(TC_TRACE_INT13) || !defined(TC_WINDOWS_BOOT_RESCUE_DISK_MODE)
 void DisableScreenOutput ()
 {
 	++ScreenOutputDisabled;
 }
+#endif
 
-
+#ifdef TC_TRACE_INT13
 void EnableScreenOutput ()
 {
 	--ScreenOutputDisabled;
 }
-
+#endif
 
 void PrintChar (char c)
 {
@@ -84,7 +86,7 @@ void Print (uint32 number)
 		number /= 10;
 	}
 	str[pos] = (char) (number % 10) + '0';
-	
+
 	while (pos >= 0)
 		PrintChar (str[pos--]);
 }
@@ -236,11 +238,32 @@ byte GetKeyboardChar ()
 	return GetKeyboardChar (nullptr);
 }
 
+/*
+inline void Sleep ()
+{
+	__asm
+	{
+		mov al, 0
+		mov ah, 0x86
+		// Sleep for 250 milliseconds = 250 000 microseconds = 0x0003D090
+		mov cx, 0x0003
+		mov dx, 0xD090
+		int 0x15
+	}
+}
+*/
 
 byte GetKeyboardChar (byte *scanCode)
 {
 	// Work around potential BIOS bugs (Windows boot manager polls the keystroke buffer)
-	while (!IsKeyboardCharAvailable());
+	while (!IsKeyboardCharAvailable())
+	{
+		// reduce CPU usage by halting CPU until the next external interrupt is fired
+		__asm
+		{		
+			hlt
+		}
+	}
 
 	byte asciiCode;
 	byte scan;
@@ -251,7 +274,7 @@ byte GetKeyboardChar (byte *scanCode)
 		mov asciiCode, al
 		mov scan, ah
 	}
-	
+
 	if (scanCode)
 		*scanCode = scan;
 
@@ -299,6 +322,12 @@ void ClearBiosKeystrokeBuffer ()
 		mov cx, 32
 		cld
 		rep stosb
+
+        // reset position pointers at 0x41A and 0x41C to the begining
+        // of keyboard buffer to avoid revealing password/PIM length
+        mov ax, 0x001e
+        mov es:[0x41a], ax
+        mov es:[0x41c], ax
 		pop es
 	}
 }
@@ -327,7 +356,7 @@ int GetString (char *buffer, size_t bufferSize)
 
 		if (scanCode == TC_BIOS_KEY_ENTER)
 			break;
-		
+
 		if (scanCode == TC_BIOS_KEY_ESC)
 			return 0;
 

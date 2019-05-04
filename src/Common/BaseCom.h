@@ -4,7 +4,7 @@
  by the TrueCrypt License 3.0.
 
  Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -110,6 +110,15 @@ public:
 	static DWORD RegisterSystemFavoritesService (BOOL registerService);
 	static DWORD SetDriverServiceStartType (DWORD startType);
 	static DWORD WriteLocalMachineRegistryDwordValue (BSTR keyPath, BSTR valueName, DWORD value);
+	static DWORD GetFileSize (BSTR filePath, unsigned __int64 *pSize);
+	static DWORD DeviceIoControl (BOOL readOnly, BOOL device, BSTR filePath, DWORD dwIoControlCode, BSTR input, BSTR *output);
+	static DWORD InstallEfiBootLoader (BOOL preserveUserConfig, BOOL hiddenOSCreation, int pim, int hashAlg);
+	static DWORD BackupEfiSystemLoader ();
+	static DWORD RestoreEfiSystemLoader ();
+	static DWORD GetEfiBootDeviceNumber (BSTR* pSdn);
+	static DWORD WriteEfiBootSectorUserConfig (DWORD userConfig, BSTR customUserMessage, int pim, int hashAlg);
+	static DWORD UpdateSetupConfigFile (BOOL bForInstall);
+	static DWORD GetSecureBootConfig (BOOL* pSecureBootEnabled, BOOL *pVeraCryptKeysLoaded);
 };
 
 

@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -14,6 +14,7 @@
 #include "DriveFilter.h"
 #include "Ntdriver.h"
 #include "Tests.h"
+#include "cpu.h"
 
 static DriveFilterExtension *BootDriveFilterExtension = NULL;
 static LARGE_INTEGER DumpPartitionOffset;
@@ -63,7 +64,11 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	// KeSaveFloatingPointState() may generate a bug check during crash dump
 #if !defined (_WIN64)
 	if (filterExtension->DumpType == DumpTypeCrashdump)
+	{
 		dumpConfig.HwEncryptionEnabled = FALSE;
+		// disable also CPU extended features used in optimizations
+		DisableCPUExtendedFeatures ();
+	}
 #endif
 
 	EnableHwEncryption (dumpConfig.HwEncryptionEnabled);
@@ -94,7 +99,17 @@ NTSTATUS DumpFilterEntry (PFILTER_EXTENSION filterExtension, PFILTER_INITIALIZAT
 	// Check dump volume is located within the scope of system encryption
 	status = SendDeviceIoControlRequest (filterExtension->DeviceObject, IOCTL_DISK_GET_PARTITION_INFO, NULL, 0, &partitionInfo, sizeof (partitionInfo));
 	if (!NT_SUCCESS (status))
-		goto err;
+	{
+		PARTITION_INFORMATION_EX partitionInfoEx;
+		status = SendDeviceIoControlRequest (filterExtension->DeviceObject, IOCTL_DISK_GET_PARTITION_INFO_EX, NULL, 0, &partitionInfoEx, sizeof (partitionInfoEx));
+		if (!NT_SUCCESS (status))
+		{
+			goto err;
+		}
+
+		// we only need starting offset
+		partitionInfo.StartingOffset = partitionInfoEx.StartingOffset;
+	}
 
 	DumpPartitionOffset = partitionInfo.StartingOffset;
 
@@ -179,7 +194,7 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 	if ((offset & (ENCRYPTION_DATA_UNIT_SIZE - 1)) != 0)
 		TC_BUG_CHECK (STATUS_INVALID_PARAMETER);
 
-	writeBuffer = MmGetSystemAddressForMdlSafe (writeMdl, HighPagePriority);
+	writeBuffer = MmGetSystemAddressForMdlSafe (writeMdl, (HighPagePriority | ExDefaultMdlProtection));
 	if (!writeBuffer)
 		TC_BUG_CHECK (STATUS_INSUFFICIENT_RESOURCES);
 
@@ -203,7 +218,7 @@ static NTSTATUS DumpFilterWrite (PFILTER_EXTENSION filterExtension, PLARGE_INTEG
 			dataUnit.Value += BootDriveFilterExtension->Queue.RemappedAreaDataUnitOffset;
 		}
 
-		EncryptDataUnitsCurrentThread (WriteFilterBuffer + (intersectStart - offset),
+		EncryptDataUnitsCurrentThreadEx (WriteFilterBuffer + (intersectStart - offset),
 			&dataUnit,
 			intersectLength / ENCRYPTION_DATA_UNIT_SIZE,
 			BootDriveFilterExtension->Queue.CryptoInfo);

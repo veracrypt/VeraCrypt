@@ -16,7 +16,7 @@ typedef struct WHIRLPOOL_CTX {
 extern "C" {
 #endif
 
-void WHIRLPOOL_add(const unsigned char * source, unsigned __int32 sourceBits, WHIRLPOOL_CTX * const ctx);
+void WHIRLPOOL_add(const unsigned char * source, unsigned __int32 sourceBytes, WHIRLPOOL_CTX * const ctx);
 void WHIRLPOOL_finalize(WHIRLPOOL_CTX* const ctx, unsigned char * result);
 void WHIRLPOOL_init(WHIRLPOOL_CTX* const ctx);
 

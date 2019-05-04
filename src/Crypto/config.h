@@ -9,22 +9,30 @@
 	#define VC_INLINE	static inline
 #endif
 
+// Clang pretends to be VC++, too.
+//   See http://github.com/weidai11/cryptopp/issues/147
+#if defined(_MSC_VER) && defined(__clang__) && !defined(_DCSPKG_ANALYZE)
+# error: "Unsupported configuration"
+#endif
+
 #ifdef __GNUC__
 	#define CRYPTOPP_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #endif
 
 
 // Apple and LLVM's Clang. Apple Clang version 7.0 roughly equals LLVM Clang version 3.7
-#if defined(__clang__ ) && !defined(__apple_build_version__)
-    #define CRYPTOPP_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
-#elif defined(__clang__ ) && defined(__apple_build_version__)
-    #define CRYPTOPP_APPLE_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
+#if defined(__clang__ ) && !defined(__apple_build_version__) && !defined(_DCSPKG_ANALYZE) 
+	#define CRYPTOPP_LLVM_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
+	#define CRYPTOPP_CLANG_INTEGRATED_ASSEMBLER 1
+#elif defined(__clang__ ) && defined(__apple_build_version__) && !defined(_DCSPKG_ANALYZE)
+	#define CRYPTOPP_APPLE_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
+	#define CRYPTOPP_CLANG_INTEGRATED_ASSEMBLER 1
 #endif
 
 // Clang due to "Inline assembly operands don't work with .intel_syntax", http://llvm.org/bugs/show_bug.cgi?id=24232
 //   TODO: supply the upper version when LLVM fixes it. We set it to 20.0 for compilation purposes.
-#if (defined(CRYPTOPP_CLANG_VERSION) && CRYPTOPP_CLANG_VERSION <= 200000) || (defined(CRYPTOPP_APPLE_CLANG_VERSION) && CRYPTOPP_APPLE_CLANG_VERSION <= 200000)
-#define CRYPTOPP_DISABLE_INTEL_ASM 1
+#if (defined(CRYPTOPP_LLVM_CLANG_VERSION) && CRYPTOPP_LLVM_CLANG_VERSION <= 200000) || (defined(CRYPTOPP_APPLE_CLANG_VERSION) && CRYPTOPP_APPLE_CLANG_VERSION <= 200000) || defined(CRYPTOPP_CLANG_INTEGRATED_ASSEMBLER)
+	#define CRYPTOPP_DISABLE_INTEL_ASM 1
 #endif
 
 #ifndef CRYPTOPP_L1_CACHE_LINE_SIZE
@@ -36,6 +44,10 @@
 		// L1 cache line size is 32 on Pentium III and earlier
 		#define CRYPTOPP_L1_CACHE_LINE_SIZE 32
 	#endif
+#endif
+
+#if defined(_MSC_VER) && (_MSC_VER > 1200)
+	#define CRYPTOPP_MSVC6PP_OR_LATER
 #endif
 
 #ifndef CRYPTOPP_ALIGN_DATA
@@ -107,6 +119,15 @@
     #define CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE 0
 #endif
 
+#if !defined(CRYPTOPP_DISABLE_ASM) && !defined(CRYPTOPP_DISABLE_SSSE3) && ( \
+	defined(__SSSE3__) || (_MSC_VER >= 1500) || \
+	(CRYPTOPP_GCC_VERSION >= 40300) || (__INTEL_COMPILER >= 1000) || (__SUNPRO_CC >= 0x5110) || \
+	(CRYPTOPP_LLVM_CLANG_VERSION >= 20300) || (CRYPTOPP_APPLE_CLANG_VERSION >= 40000))
+	#define CRYPTOPP_SSSE3_AVAILABLE 1
+#else
+	#define CRYPTOPP_SSSE3_AVAILABLE 0
+# endif
+
 #if !defined(CRYPTOPP_DISABLE_SSSE3) && !defined(CRYPTOPP_DISABLE_AESNI) && CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && (CRYPTOPP_GCC_VERSION >= 40400 || _MSC_FULL_VER >= 150030729 || __INTEL_COMPILER >= 1110 || defined(__AES__))
     #define CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE 1
 #else
@@ -117,6 +138,12 @@
     #define CRYPTOPP_BOOL_ALIGN16 1
 #else
     #define CRYPTOPP_BOOL_ALIGN16 0
+#endif
+
+#if CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE && (defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER))
+    #define CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE 1
+#else
+    #define CRYPTOPP_BOOL_SSE41_INTRINSICS_AVAILABLE 0
 #endif
 
 // how to allocate 16-byte aligned memory (for SSE2)
@@ -172,6 +199,12 @@
 #endif
 #endif
 
+// this version of the macro is fastest on Pentium 3 and Pentium 4 with MSVC 6 SP5 w/ Processor Pack
 #define GETBYTE(x, y) (unsigned int)((unsigned char)((x)>>(8*(y))))
+// these may be faster on other CPUs/compilers
+// #define GETBYTE(x, y) (unsigned int)(((x)>>(8*(y)))&255)
+// #define GETBYTE(x, y) (((byte *)&(x))[y])
+
+#define CRYPTOPP_GET_BYTE_AS_BYTE(x, y) ((byte)((x)>>(8*(y))))
 
 #endif

@@ -1,12 +1,12 @@
-/*
+﻿/*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -59,6 +59,7 @@ BOOL bMakePackage = FALSE;
 BOOL bDone = FALSE;
 BOOL Rollback = FALSE;
 BOOL bUpgrade = FALSE;
+BOOL bUpdateRescueDisk = FALSE;
 BOOL bDowngrade = FALSE;
 BOOL SystemEncryptionUpdate = FALSE;
 BOOL PortableMode = FALSE;
@@ -77,6 +78,8 @@ BOOL bRegisterFileExt = TRUE;
 BOOL bAddToStartMenu = TRUE;
 BOOL bDesktopIcon = TRUE;
 
+BOOL bUserSetLanguage = FALSE;
+
 BOOL bDesktopIconStatusDetermined = FALSE;
 
 HMODULE volatile SystemRestoreDll = 0;
@@ -87,6 +90,102 @@ void localcleanup (void)
 	cleanup ();
 
 	CloseAppSetupMutex ();
+}
+
+#define WAIT_PERIOD 3
+
+BOOL StartStopService (HWND hwndDlg, wchar_t *lpszService, BOOL bStart, DWORD argc, LPCWSTR* argv)
+{
+	SC_HANDLE hManager, hService = NULL;
+	BOOL bOK = FALSE, bRet;
+	SERVICE_STATUS status = {0};
+	int x;
+	DWORD dwExpectedState = bStart? SERVICE_RUNNING : SERVICE_STOPPED;
+
+	hManager = OpenSCManager (NULL, NULL, SC_MANAGER_ALL_ACCESS);
+	if (hManager == NULL)
+		goto error;
+
+	hService = OpenService (hManager, lpszService, SERVICE_ALL_ACCESS);
+	if (hService == NULL)
+		goto error;
+
+	if (bStart)
+		StatusMessageParam (hwndDlg, "STARTING", lpszService);
+	else
+		StatusMessageParam (hwndDlg, "STOPPING", lpszService);
+
+	if (bStart)
+	{
+		if (!StartService (hService, argc, argv) && (GetLastError () != ERROR_SERVICE_ALREADY_RUNNING))
+			goto error;
+	}
+	else
+		ControlService (hService, SERVICE_CONTROL_STOP, &status);
+
+	for (x = 0; x < WAIT_PERIOD; x++)
+	{
+		bRet = QueryServiceStatus (hService, &status);
+		if (bRet != TRUE)
+			goto error;
+
+		if (status.dwCurrentState == dwExpectedState)
+			break;
+
+		Sleep (1000);
+	}
+
+	bRet = QueryServiceStatus (hService, &status);
+	if (bRet != TRUE)
+		goto error;
+
+	if (status.dwCurrentState != dwExpectedState)
+		goto error;
+
+	bOK = TRUE;
+
+error:
+
+	if (bOK == FALSE && GetLastError () == ERROR_SERVICE_DOES_NOT_EXIST)
+	{
+		bOK = TRUE;
+	}
+
+	if (hService != NULL)
+		CloseServiceHandle (hService);
+
+	if (hManager != NULL)
+		CloseServiceHandle (hManager);
+
+	return bOK;
+}
+
+BOOL ForceCopyFile (LPCWSTR szSrcFile, LPCWSTR szDestFile)
+{
+	BOOL bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
+	if (!bRet)
+	{
+		wstring renamedPath = szDestFile;
+		renamedPath += VC_FILENAME_RENAMED_SUFFIX;
+
+		/* rename the locked file in order to be able to create a new one */
+		if (MoveFileExW (szDestFile, renamedPath.c_str(), MOVEFILE_REPLACE_EXISTING))
+		{
+			bRet = CopyFileW (szSrcFile, szDestFile, FALSE);
+			if (bRet)
+			{
+				/* delete the renamed file when the machine reboots */
+				MoveFileEx (renamedPath.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+			}
+			else
+			{
+				/* restore the original file name */
+				MoveFileEx (renamedPath.c_str(), szDestFile, MOVEFILE_REPLACE_EXISTING);
+			}
+		}
+	}
+
+	return bRet;
 }
 
 BOOL ForceDeleteFile (LPCWSTR szFileName)
@@ -128,23 +227,7 @@ BOOL StatRemoveDirectory (wchar_t *lpszDir)
 
 	if (_wstat64 (lpszDir, &st) == 0)
 	{
-		BOOL bStatus = RemoveDirectory (lpszDir);
-		if (!bStatus)
-		{
-			/* force removal of the non empty directory */
-			wchar_t szOpPath[TC_MAX_PATH + 1] = {0};
-			SHFILEOPSTRUCTW op;
-
-			StringCchCopyW(szOpPath, ARRAYSIZE(szOpPath)-1, lpszDir);
-			ZeroMemory(&op, sizeof(op));
-			op.wFunc = FO_DELETE;
-			op.pFrom = szOpPath;
-			op.fFlags = FOF_SILENT | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_NOCONFIRMMKDIR;
-
-			if ((0 == SHFileOperation(&op)) && (!op.fAnyOperationsAborted))
-				bStatus = TRUE;
-		}
-		return bStatus;
+		return DeleteDirectory (lpszDir);
 	}
 	else
 		return TRUE;
@@ -156,7 +239,7 @@ static void RecursiveSetOwner (HKEY hKey, PSECURITY_DESCRIPTOR pSD)
 {
 	LSTATUS status = 0;
 	DWORD dwIndex = 0, dwMaxNameLen = 0, dwNameLen = 0, numberSubKeys = 0;
-	HKEY hSubKey;   
+	HKEY hSubKey;
 
 	if (	(ERROR_SUCCESS == status) && (ERROR_SUCCESS == RegQueryInfoKey(hKey, NULL, NULL, NULL, &numberSubKeys, &dwMaxNameLen, NULL, NULL, NULL, NULL, NULL, NULL))
 		&&	(numberSubKeys >= 1)
@@ -192,7 +275,7 @@ static void RecursiveSetDACL (HKEY hKey, const wchar_t* SubKeyName, PSECURITY_DE
 	HKEY hSubKey;
 	DWORD dwIndex = 0, dwMaxNameLen = 0, dwNameLen = 0, numberSubKeys = 0;
 	LSTATUS status = RegOpenKeyExW(hKey, SubKeyName, 0, WRITE_DAC | KEY_READ /*| ACCESS_SYSTEM_SECURITY*/, &hSubKey);
-	if (status == ERROR_SUCCESS) 
+	if (status == ERROR_SUCCESS)
 	{
 		status = RegSetKeySecurity (hSubKey, DACL_SECURITY_INFORMATION, pSD);
 		if (status == ERROR_SUCCESS)
@@ -235,16 +318,16 @@ static void AllowKeyAccess(HKEY Key,const wchar_t* SubKeyName)
 	std::string sNewSD;
 
 	RegResult = RegOpenKeyExW(Key, SubKeyName, 0, WRITE_OWNER | KEY_READ, &SvcKey);
-	if (RegResult==ERROR_SUCCESS) 
+	if (RegResult==ERROR_SUCCESS)
 	{
-		if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &Token)) 
+		if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &Token))
 		{
-			if (!GetTokenInformation(Token, TokenUser, pTokenUser, 0, &dwLength)) 
+			if (!GetTokenInformation(Token, TokenUser, pTokenUser, 0, &dwLength))
 			{
-				if (GetLastError() ==ERROR_INSUFFICIENT_BUFFER) 
+				if (GetLastError() ==ERROR_INSUFFICIENT_BUFFER)
 				{
 					pTokenUser = (PTOKEN_USER) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwLength);
-					if (pTokenUser) 
+					if (pTokenUser)
 					{
 						if (GetTokenInformation(Token, TokenUser, pTokenUser, dwLength, &dwLength))
 						{
@@ -257,7 +340,7 @@ static void AllowKeyAccess(HKEY Key,const wchar_t* SubKeyName)
 								RecursiveSetOwner(SvcKey, &SecDesc);
 							}
 						}
-					
+
 					}
 				}
 			}
@@ -265,7 +348,7 @@ static void AllowKeyAccess(HKEY Key,const wchar_t* SubKeyName)
 		RegCloseKey(SvcKey);
 	}
 
-	if (pTokenUser) 
+	if (pTokenUser)
 	{
 		PSID pSid = pTokenUser->User.Sid;
 		DWORD dwAclSize = sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + ::GetLengthSid(pSid) - sizeof(DWORD);
@@ -338,7 +421,7 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const wchar_t *subKey, const w
 	}
 
 	for (std::list<std::wstring>::iterator ItSubKey = subKeysList.begin(); ItSubKey != subKeysList.end(); ItSubKey++)
-	{	
+	{
 		// if the string to search for is empty, delete the sub key, otherwise, look for matching value and delete them
 		if (subStringLength == 0)
 		{
@@ -378,13 +461,13 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const wchar_t *subKey, const w
 							   foundEntries.push_back(szNameValue);
 						   }
 					   }
-				   } while ((status == ERROR_SUCCESS) || (status == ERROR_MORE_DATA)); // we ignore ERROR_MORE_DATA errors since 
+				   } while ((status == ERROR_SUCCESS) || (status == ERROR_MORE_DATA)); // we ignore ERROR_MORE_DATA errors since
                                                                                    // we are sure to use the correct sizes
 
 				   // delete the entries
 				   if (!foundEntries.empty())
 				   {
-					   for (std::list<std::wstring>::iterator It = foundEntries.begin(); 
+					   for (std::list<std::wstring>::iterator It = foundEntries.begin();
 						   It != foundEntries.end(); It++)
 					   {
 						   RegDeleteValueW (hSubKey, It->c_str());
@@ -400,44 +483,6 @@ void SearchAndDeleteRegistrySubString (HKEY hKey, const wchar_t *subKey, const w
 			}
 		}
 	}
-}
-
-/* Set the given privilege of the current process */
-BOOL SetPrivilege(LPTSTR szPrivilegeName, BOOL bEnable) 
-{
-	TOKEN_PRIVILEGES tp;
-	LUID luid;
-	HANDLE hProcessToken; 
-	BOOL bStatus = FALSE;
-
-	if ( OpenProcessToken(GetCurrentProcess(),
-			TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
-			&hProcessToken) )
-	{
-		if ( LookupPrivilegeValue( 
-				NULL,
-				szPrivilegeName,
-				&luid ) )
-		{
-
-			tp.PrivilegeCount = 1;
-			tp.Privileges[0].Luid = luid;
-			tp.Privileges[0].Attributes = bEnable? SE_PRIVILEGE_ENABLED : SE_PRIVILEGE_REMOVED;
-
-			// Enable the privilege
-			bStatus = AdjustTokenPrivileges(
-				hProcessToken, 
-				FALSE, 
-				&tp, 
-				sizeof(TOKEN_PRIVILEGES), 
-				(PTOKEN_PRIVILEGES) NULL, 
-				(PDWORD) NULL);
-		}
-
-		CloseHandle(hProcessToken);
-	}
-
-	return bStatus;
 }
 
 /*
@@ -522,7 +567,7 @@ BOOL IsSystemRestoreEnabled ()
 	wchar_t szRegPath[MAX_PATH];
 	GetRestorePointRegKeyName (szRegPath, sizeof (szRegPath));
 	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, szRegPath, 0, KEY_READ | KEY_WOW64_64KEY, &hKey) == ERROR_SUCCESS)
-	{	
+	{
 		if (IsOSAtLeast (WIN_VISTA))
 		{
 			if (	(ERROR_SUCCESS == RegQueryValueEx (hKey, L"RPSessionInterval", NULL, NULL, (LPBYTE) &dwValue, &cbValue))
@@ -542,7 +587,7 @@ BOOL IsSystemRestoreEnabled ()
 			}
 		}
 
-		
+
 		RegCloseKey (hKey);
 	}
 
@@ -569,11 +614,11 @@ void StatusMessage (HWND hwndDlg, char *stringId)
 
 	SendMessageW (GetDlgItem (hwndDlg, IDC_LOG_WINDOW), LB_ADDSTRING, 0, (LPARAM) GetString (stringId));
 
-	SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_SETTOPINDEX, 
+	SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_SETTOPINDEX,
 		SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_GETCOUNT, 0, 0) - 1, 0);
 }
 
-void StatusMessageParam (HWND hwndDlg, char *stringId, wchar_t *param)
+void StatusMessageParam (HWND hwndDlg, char *stringId, const wchar_t *param)
 {
 	wchar_t szTmp[1024];
 
@@ -582,8 +627,8 @@ void StatusMessageParam (HWND hwndDlg, char *stringId, wchar_t *param)
 
 	StringCbPrintfW (szTmp, sizeof(szTmp), L"%s %s", GetString (stringId), param);
 	SendMessageW (GetDlgItem (hwndDlg, IDC_LOG_WINDOW), LB_ADDSTRING, 0, (LPARAM) szTmp);
-		
-	SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_SETTOPINDEX, 
+
+	SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_SETTOPINDEX,
 		SendDlgItemMessage (hwndDlg, IDC_LOG_WINDOW, LB_GETCOUNT, 0, 0) - 1, 0);
 }
 
@@ -592,26 +637,73 @@ void ClearLogWindow (HWND hwndDlg)
 	SendMessage (GetDlgItem (hwndDlg, IDC_LOG_WINDOW), LB_RESETCONTENT, 0, 0);
 }
 
-void RegMessage (HWND hwndDlg, wchar_t *txt)
+void RegMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	StatusMessageParam (hwndDlg, "ADDING_REG", txt);
 }
 
-void CopyMessage (HWND hwndDlg, wchar_t *txt)
+void _cdecl CopyMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	StatusMessageParam (hwndDlg, "INSTALLING", txt);
 }
 
-void RemoveMessage (HWND hwndDlg, wchar_t *txt)
+void RemoveMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	if (!Rollback)
 		StatusMessageParam (hwndDlg, "REMOVING", txt);
 }
 
-void IconMessage (HWND hwndDlg, wchar_t *txt)
+void IconMessage (HWND hwndDlg, const wchar_t *txt)
 {
 	StatusMessageParam (hwndDlg, "ADDING_ICON", txt);
 }
+
+#ifdef VC_EFI_CUSTOM_MODE
+BOOL CheckSecureBootCompatibility (HWND hWnd)
+{
+	BOOL bRet = FALSE;
+	BOOL bDriverAttached = FALSE;
+	if (hDriver == INVALID_HANDLE_VALUE)
+	{
+		int status = DriverAttach();
+		if (status || (hDriver == INVALID_HANDLE_VALUE))
+			return FALSE;
+		bDriverAttached = TRUE;
+	}	
+
+	try
+	{
+		BootEncryption bootEnc (hWnd);
+		if (bootEnc.GetDriverServiceStartType() == SERVICE_BOOT_START)
+		{
+			SystemDriveConfiguration config = bootEnc.GetSystemDriveConfiguration ();
+			if (config.SystemPartition.IsGPT)
+			{
+				BOOL bSecureBootEnabled = FALSE, bVeraCryptKeysLoaded = FALSE;
+				bootEnc.GetSecureBootConfig (&bSecureBootEnabled, &bVeraCryptKeysLoaded);
+				if (!bSecureBootEnabled || bVeraCryptKeysLoaded)
+				{
+					bRet = TRUE;
+				}
+			}
+			else
+				bRet = TRUE;
+		}
+		else
+			bRet = TRUE;
+	}
+	catch (...)
+	{
+	}
+
+	if (bDriverAttached)
+	{
+		CloseHandle (hDriver);
+		hDriver = INVALID_HANDLE_VALUE;
+	}
+	return bRet;
+}
+#endif
 
 void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersionPtr)
 {
@@ -688,7 +780,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 
 	for (i = 0; i < sizeof (szFiles) / sizeof (szFiles[0]); i++)
 	{
-		BOOL bResult, driver64 = FALSE;
+		BOOL bResult, driver64 = FALSE, zipFile = FALSE;
 		wchar_t szDir[TC_MAX_PATH];
 
 		if (wcsstr (szFiles[i], L"VeraCrypt Setup") != 0)
@@ -700,19 +792,7 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				continue;	// Destination = target
 		}
 
-		// skip files that don't apply to the current architecture
-		if (	(Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt-x64.exe") == 0))
-			|| (Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCryptExpander-x64.exe") == 0))
-			|| (Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt Format-x64.exe") == 0))
-			||	(!Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt-x86.exe") == 0))
-			||	(!Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCryptExpander-x86.exe") == 0))
-			||	(!Is64BitOs () && (wcscmp (szFiles[i], L"AVeraCrypt Format-x86.exe") == 0))
-			)
-		{
-			continue;
-		}
-
-		if (*szFiles[i] == L'A')
+		if ((*szFiles[i] == L'A') || (*szFiles[i] == L'X'))
 			StringCbCopyW (szDir, sizeof(szDir), szDestDir);
 		else if (*szFiles[i] == L'D')
 		{
@@ -733,7 +813,17 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		if (*szFiles[i] == L'I')
 			continue;
 
+		if (*szFiles[i] == L'X')
+			zipFile = TRUE;
+
 		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, szFiles[i] + 1);
+		if (zipFile)
+		{
+			// build folder name by removing .zip extension
+			wchar_t* ptr = wcsrchr (szTmp, L'.');
+			if (ptr)
+				*ptr = 0;
+		}
 
 		if (bUninstall == FALSE)
 			CopyMessage (hwndDlg, szTmp);
@@ -759,9 +849,15 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				curFileName [wcslen (szFiles[i]) - 1] = 0;
 
 				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"Dveracrypt.sys") == 0)
+					&& ((wcscmp (szFiles[i], L"Dveracrypt.sys") == 0) || (wcscmp (szFiles[i], L"Averacrypt.sys") == 0)))
 				{
 					StringCbCopyNW (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
+				}
+
+				if (Is64BitOs ()
+					&& wcscmp (szFiles[i], L"Averacrypt.cat") == 0)
+				{
+					StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-x64.cat", sizeof (L"veracrypt-x64.cat"));
 				}
 
 				if (Is64BitOs ()
@@ -771,33 +867,15 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				}
 
 				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"AVeraCrypt-x86.exe") == 0)
-				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt.exe", sizeof (L"VeraCrypt.exe"));
-				}
-
-				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCryptExpander.exe") == 0)
 				{
 					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-x64.exe", sizeof (L"VeraCryptExpander-x64.exe"));
 				}
 
 				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"AVeraCryptExpander-x86.exe") == 0)
-				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander.exe", sizeof (L"VeraCryptExpander.exe"));
-				}
-
-				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0)
 				{
 					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-x64.exe", sizeof (L"VeraCrypt Format-x64.exe"));
-				}
-
-				if (Is64BitOs ()
-					&& wcscmp (szFiles[i], L"AVeraCrypt Format-x86.exe") == 0)
-				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format.exe", sizeof (L"VeraCrypt Format.exe"));
 				}
 
 				if (!bDevm)
@@ -807,11 +885,11 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 					// Find the correct decompressed file in memory
 					for (fileNo = 0; fileNo < NBR_COMPRESSED_FILES; fileNo++)
 					{
-						// Write the file (stored in memory) directly to the destination location 
+						// Write the file (stored in memory) directly to the destination location
 						// (there will be no temporary files).
 						if (wmemcmp (
-							curFileName, 
-							Decompressed_Files[fileNo].fileName, 
+							curFileName,
+							Decompressed_Files[fileNo].fileName,
 							min (wcslen (curFileName), (size_t) Decompressed_Files[fileNo].fileNameLength)) == 0)
 						{
 							// Dump filter driver cannot be installed to SysWOW64 directory
@@ -821,13 +899,24 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 								bResult = FALSE;
 								goto err;
 							}
-
-							bResult = SaveBufferToFile (
-								(char *) Decompressed_Files[fileNo].fileContent,
-								szTmp,
-								Decompressed_Files[fileNo].fileLength, 
-								FALSE,
-								TRUE);
+							if (zipFile)
+							{
+								bResult = DecompressZipToDir (
+									Decompressed_Files[fileNo].fileContent,
+									Decompressed_Files[fileNo].fileLength,
+									szDir,
+									CopyMessage,
+									hwndDlg);
+							}
+							else
+							{
+								bResult = SaveBufferToFile (
+									(char *) Decompressed_Files[fileNo].fileContent,
+									szTmp,
+									Decompressed_Files[fileNo].fileLength,
+									FALSE,
+									TRUE);
+							}
 
 							if (driver64)
 							{
@@ -868,23 +957,15 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 					wstring favoritesFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false);
 					wstring favoritesLegacyFile = GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, true);
 
-					if (	FileExists (servicePath.c_str())
-						||	(Is64BitOs () && FileExists (serviceLegacyPath.c_str()))
-						)
-					{
-						CopyMessage (hwndDlg, (wchar_t *) servicePath.c_str());
-						bResult = CopyFile (szTmp, servicePath.c_str(), FALSE);
-					}
-
-					if (bResult && Is64BitOs () 
-						&& FileExists (favoritesLegacyFile.c_str()) 
+					if (bResult && Is64BitOs ()
+						&& FileExists (favoritesLegacyFile.c_str())
 						&& !FileExists (favoritesFile.c_str()))
 					{
 						// copy the favorites XML file to the native system directory
 						bResult = CopyFile (favoritesLegacyFile.c_str(), favoritesFile.c_str(), FALSE);
 					}
 
-					if (bResult && Is64BitOs () && FileExists (favoritesFile.c_str()) && FileExists (servicePath.c_str()))
+					if (bResult)
 					{
 						// Update the path of the service
 						BootEncryption BootEncObj (hwndDlg);
@@ -893,7 +974,33 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 						{
 							if (BootEncObj.GetDriverServiceStartType() == SERVICE_BOOT_START)
 							{
+								uint32 driverFlags = ReadDriverConfigurationFlags ();
+								uint32 serviceFlags = BootEncObj.ReadServiceConfigurationFlags ();
+
 								BootEncObj.UpdateSystemFavoritesService ();
+
+								CopyMessage (hwndDlg, (wchar_t *) servicePath.c_str());
+
+								// Tell the service not to update loader on stop
+								BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, true);
+
+								if (StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, FALSE, 0, NULL))
+								{
+									// we tell the service not to load system favorites on startup
+									LPCWSTR szArgs[2] = { TC_SYSTEM_FAVORITES_SERVICE_NAME, VC_SYSTEM_FAVORITES_SERVICE_ARG_SKIP_MOUNT};
+									if (!CopyFile (szTmp, servicePath.c_str(), FALSE))
+										ForceCopyFile (szTmp, servicePath.c_str());
+
+									StartStopService (hwndDlg, TC_SYSTEM_FAVORITES_SERVICE_NAME, TRUE, 2, szArgs);
+								}
+								else
+									ForceCopyFile (szTmp, servicePath.c_str());
+
+								BootEncObj.SetDriverConfigurationFlag (driverFlags, true);
+
+								// remove the service flag if it was set originally
+								if (!(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
+									BootEncObj.SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, false);
 							}
 						}
 						catch (...) {}
@@ -923,7 +1030,10 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 		{
 			if (driver64)
 				EnableWow64FsRedirection (FALSE);
-			bResult = StatDeleteFile (szTmp, TRUE);
+			if (zipFile)
+				bResult = StatRemoveDirectory (szTmp);
+			else
+				bResult = StatDeleteFile (szTmp, TRUE);
 			if (driver64)
 				EnableWow64FsRedirection (TRUE);
 
@@ -1007,42 +1117,55 @@ err:
 				return FALSE;
 		}
 	}
-
-	// Language pack
+	
 	if (bUninstall == FALSE)
 	{
 		WIN32_FIND_DATA f;
 		HANDLE h;
+
+		SetCurrentDirectory (szDestDir);
+
+		// remove PDF from previous version if any
+		h = FindFirstFile (L"VeraCrypt User Guide*.pdf", &f);
+
+		if (h != INVALID_HANDLE_VALUE)
+		{
+			do
+			{
+				StatDeleteFile (f.cFileName, TRUE);
+			}
+			while (FindNextFile(h, &f) != 0);
+
+			FindClose (h);
+		}
+
+		// remove language XML files from previous version if any
+		h = FindFirstFile (L"Language*.xml", &f);
+
+		if (h != INVALID_HANDLE_VALUE)
+		{
+			do
+			{
+				StatDeleteFile (f.cFileName, TRUE);
+			}
+			while (FindNextFile(h, &f) != 0);
+
+			FindClose (h);
+		}
 		
-		SetCurrentDirectory (SetupFilesDir);
-		h = FindFirstFile (L"Language.*.xml", &f);
-
-		if (h != INVALID_HANDLE_VALUE)
+		// remvove legacy files that are not needed anymore
+		for (i = 0; i < sizeof (szLegacyFiles) / sizeof (szLegacyFiles[0]); i++)
 		{
-			wchar_t d[MAX_PATH*2];
-			StringCbPrintfW (d, sizeof(d), L"%s%s", szDestDir, f.cFileName);
-			CopyMessage (hwndDlg, d);
-			TCCopyFile (f.cFileName, d);
-			FindClose (h);
+			StatDeleteFile (szLegacyFiles [i], TRUE);
 		}
 
-		SetCurrentDirectory (SetupFilesDir);
-		SetCurrentDirectory (L"Setup files");
-		h = FindFirstFile (L"VeraCrypt User Guide.*.pdf", &f);
-		if (h != INVALID_HANDLE_VALUE)
-		{
-			wchar_t d[MAX_PATH*2];
-			StringCbPrintfW (d, sizeof(d), L"%s%s", szDestDir, f.cFileName);
-			CopyMessage (hwndDlg, d);
-			TCCopyFile (f.cFileName, d);
-			FindClose (h);
-		}
 		SetCurrentDirectory (SetupFilesDir);
 	}
 
 	return bOK;
 }
 
+#ifndef PORTABLE
 BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 {
 	wchar_t szDir[TC_MAX_PATH], *key;
@@ -1057,10 +1180,10 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 		if (RegCreateKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt",
 			0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_32KEY, NULL, &hkey, &dw) == ERROR_SUCCESS)
 		{
-			StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING));
+			StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 			RegSetValueEx (hkey, L"DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t));
 
-			StringCbCopyW (szTmp, sizeof(szTmp), _T(TC_HOMEPAGE));
+			StringCbCopyW (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 			RegSetValueEx (hkey, L"URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t));
 
 			RegCloseKey (hkey);
@@ -1145,7 +1268,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 		StringCbCopyW (szTmp, sizeof(szTmp), L"VeraCryptVolume");
 		if (RegSetValueEx (hkey, L"", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 			goto error;
-		
+
 		RegCloseKey (hkey);
 		hkey = 0;
 
@@ -1160,7 +1283,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 		0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_32KEY, NULL, &hkey, &dw) != ERROR_SUCCESS)
 		goto error;
 
-	/* IMPORTANT: IF YOU CHANGE THIS IN ANY WAY, REVISE AND UPDATE SetInstallationPath() ACCORDINGLY! */ 
+	/* IMPORTANT: IF YOU CHANGE THIS IN ANY WAY, REVISE AND UPDATE SetInstallationPath() ACCORDINGLY! */
 	StringCbPrintfW (szTmp, sizeof(szTmp), L"\"%sVeraCrypt Setup.exe\" /u", szDir);
 	if (RegSetValueEx (hkey, L"UninstallString", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
@@ -1173,10 +1296,10 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 	if (RegSetValueEx (hkey, L"DisplayIcon", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
-	StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING));
+	StringCbCopyW (szTmp, sizeof(szTmp), _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
 	if (RegSetValueEx (hkey, L"DisplayVersion", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
-		
+
 	StringCbCopyW (szTmp, sizeof(szTmp), L"VeraCrypt");
 	if (RegSetValueEx (hkey, L"DisplayName", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
@@ -1185,7 +1308,7 @@ BOOL DoRegInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bInstallType)
 	if (RegSetValueEx (hkey, L"Publisher", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
-	StringCbCopyW (szTmp, sizeof(szTmp), _T(TC_HOMEPAGE));
+	StringCbCopyW (szTmp, sizeof(szTmp), TC_HOMEPAGE);
 	if (RegSetValueEx (hkey, L"URLInfoAbout", 0, REG_SZ, (BYTE *) szTmp, (wcslen (szTmp) + 1) * sizeof (wchar_t)) != ERROR_SUCCESS)
 		goto error;
 
@@ -1200,7 +1323,7 @@ error:
 		handleWin32Error (hwndDlg, SRC_POS);
 		Error ("REG_INSTALL_FAILED", hwndDlg);
 	}
-	
+
 	// Register COM servers for UAC
 	if (IsOSAtLeast (WIN_VISTA))
 	{
@@ -1239,7 +1362,7 @@ BOOL DoApplicationDataUninstall (HWND hwndDlg)
 	StringCbPrintfW (path2, sizeof(path2), L"%s%s", path, TC_APPD_FILENAME_HISTORY);
 	RemoveMessage (hwndDlg, path2);
 	StatDeleteFile (path2, FALSE);
-	
+
 	// Delete configuration file
 	StringCbPrintfW (path2, sizeof(path2), L"%s%s", path, TC_APPD_FILENAME_CONFIGURATION);
 	RemoveMessage (hwndDlg, path2);
@@ -1314,7 +1437,7 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume\\Shell");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume\\DefaultIcon");
 	RegDeleteKey (HKEY_LOCAL_MACHINE, L"Software\\Classes\\VeraCryptVolume");
-		
+
 	if (!bRemoveDeprecated)
 	{
 		HKEY hKey;
@@ -1333,7 +1456,7 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 		SearchAndDeleteRegistrySubString (HKEY_USERS, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.hc", NULL, TRUE, NULL);
 		SearchAndDeleteRegistrySubString (HKEY_USERS, L"Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Compatibility Assistant\\Persisted", L"VeraCrypt", TRUE, NULL);
 		SearchAndDeleteRegistrySubString (HKEY_USERS, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartPage\\NewShortcuts", L"VeraCrypt", TRUE, NULL);
-		
+
 		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SYSTEM", 0, KEY_ALL_ACCESS | WRITE_DAC | WRITE_OWNER, &hKey) == ERROR_SUCCESS)
 		{
 			SearchAndDeleteRegistrySubString (hKey, L"Enum\\Root\\LEGACY_VERACRYPT", NULL, TRUE, L"ControlSet");
@@ -1346,7 +1469,7 @@ BOOL DoRegUninstall (HWND hwndDlg, BOOL bRemoveDeprecated)
 
 		SHChangeNotify (SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 	}
-	
+
 	if (hAdvapiDll)
 		FreeLibrary (hAdvapiDll);
 
@@ -1392,8 +1515,6 @@ retry:
 	}
 	else
 		StatusMessageParam (hwndDlg, "STOPPING", lpszService);
-
-#define WAIT_PERIOD 3
 
 	for (x = 0; x < WAIT_PERIOD; x++)
 	{
@@ -1623,7 +1744,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 
 			EnumWindows (CloseTCWindowsEnum, (LPARAM) &TCWindowClosed);
 
-			if (TCWindowClosed) 
+			if (TCWindowClosed)
 				Sleep (2000);
 		}
 
@@ -1648,7 +1769,7 @@ BOOL DoDriverUnload (HWND hwndDlg)
 	}
 	else
 	{
-		// Note that the driver may have already been unloaded during this session (e.g. retry after an error, etc.) so it is not 
+		// Note that the driver may have already been unloaded during this session (e.g. retry after an error, etc.) so it is not
 		// guaranteed that the user is installing VeraCrypt for the first time now (we also cannot know if the user has already
 		// installed and used VeraCrypt on another system before).
 		bPossiblyFirstTimeInstall = TRUE;
@@ -1674,7 +1795,10 @@ BOOL UpgradeBootLoader (HWND hwndDlg)
 			bootEnc.InstallBootLoader (true);
 
 			if (bootEnc.GetInstalledBootLoaderVersion() <= TC_RESCUE_DISK_UPGRADE_NOTICE_MAX_VERSION)
+			{
+				bUpdateRescueDisk = TRUE;
 				Info (IsHiddenOSRunning() ? "BOOT_LOADER_UPGRADE_OK_HIDDEN_OS" : "BOOT_LOADER_UPGRADE_OK", hwndDlg);
+			}
 		}
 		return TRUE;
 	}
@@ -1744,11 +1868,6 @@ BOOL DoShortcutsUninstall (HWND hwndDlg, wchar_t *szDestDir)
 	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
 		goto error;
 
-	StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\Uninstall VeraCrypt.lnk");
-	RemoveMessage (hwndDlg, szTmp2);
-	if (StatDeleteFile (szTmp2, FALSE) == FALSE)
-		goto error;
-	
 	StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt User's Guide.lnk");
 	StatDeleteFile (szTmp2, FALSE);
 
@@ -1781,7 +1900,7 @@ error:
 BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL bDesktopIcon)
 {
 	wchar_t szLinkDir[TC_MAX_PATH], szDir[TC_MAX_PATH];
-	wchar_t szTmp[TC_MAX_PATH], szTmp2[TC_MAX_PATH], szTmp3[TC_MAX_PATH];
+	wchar_t szTmp[TC_MAX_PATH], szTmp2[TC_MAX_PATH];
 	BOOL bSlash, bOK = FALSE;
 	HRESULT hOle;
 	int x;
@@ -1850,7 +1969,7 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 		f = _wfopen (szTmp2, L"w");
 		if (f)
 		{
-			fprintf (f, "[InternetShortcut]\nURL=%s\n", TC_APPLINK);
+			fwprintf (f, L"[InternetShortcut]\nURL=%s\n", TC_APPLINK);
 
 			CheckFileStreamWriteErrors (hwndDlg, f, szTmp2);
 			fclose (f);
@@ -1858,18 +1977,8 @@ BOOL DoShortcutsInstall (HWND hwndDlg, wchar_t *szDestDir, BOOL bProgGroup, BOOL
 		else
 			goto error;
 
-		StringCbPrintfW (szTmp, sizeof(szTmp), L"%s%s", szDir, L"VeraCrypt Setup.exe");
 		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\Uninstall VeraCrypt.lnk");
-		if (GetSystemDirectory (szTmp3, ARRAYSIZE(szTmp3)))
-		{
-			StringCbCatW (szTmp3, sizeof(szTmp3), L"\\control.exe");
-		}
-		else
-			StringCbCopyW(szTmp3, sizeof(szTmp3), L"C:\\Windows\\System32\\control.exe");
-
-		IconMessage (hwndDlg, szTmp2);
-		if (CreateLink (szTmp3, L"appwiz.cpl", szTmp2, szTmp, 0) != S_OK)
-			goto error;
+		StatDeleteFile (szTmp2, FALSE);
 
 		StringCbPrintfW (szTmp2, sizeof(szTmp2), L"%s%s", szLinkDir, L"\\VeraCrypt User's Guide.lnk");
 		StatDeleteFile (szTmp2, FALSE);
@@ -1950,7 +2059,7 @@ static void SetSystemRestorePoint (HWND hwndDlg, BOOL finalize)
 	static STATEMGRSTATUS SMgrStatus;
 	static BOOL failed = FALSE;
 	static BOOL (__stdcall *_SRSetRestorePoint)(PRESTOREPOINTINFO, PSTATEMGRSTATUS);
-	
+
 	if (!SystemRestoreDll) return;
 
 	_SRSetRestorePoint = (BOOL (__stdcall *)(PRESTOREPOINTINFO, PSTATEMGRSTATUS))GetProcAddress (SystemRestoreDll,"SRSetRestorePointW");
@@ -1970,7 +2079,7 @@ static void SetSystemRestorePoint (HWND hwndDlg, BOOL finalize)
 		RestPtInfo.llSequenceNumber = 0;
 		StringCbCopyW (RestPtInfo.szDescription, sizeof(RestPtInfo.szDescription), bUninstall ? L"VeraCrypt uninstallation" : L"VeraCrypt installation");
 
-		if(!_SRSetRestorePoint (&RestPtInfo, &SMgrStatus)) 
+		if(!_SRSetRestorePoint (&RestPtInfo, &SMgrStatus))
 		{
 			StatusMessage (hwndDlg, "FAILED_SYS_RESTORE");
 			failed = TRUE;
@@ -1981,7 +2090,7 @@ static void SetSystemRestorePoint (HWND hwndDlg, BOOL finalize)
 		RestPtInfo.dwEventType = END_SYSTEM_CHANGE;
 		RestPtInfo.llSequenceNumber = SMgrStatus.llSequenceNumber;
 
-		if(!_SRSetRestorePoint(&RestPtInfo, &SMgrStatus)) 
+		if(!_SRSetRestorePoint(&RestPtInfo, &SMgrStatus))
 		{
 			StatusMessage (hwndDlg, "FAILED_SYS_RESTORE");
 		}
@@ -2145,12 +2254,12 @@ void DoInstall (void *arg)
 	}
 
 	UpdateProgressBarProc(12);
-	
+
 	if (bSystemRestore)
 		SetSystemRestorePoint (hwndDlg, FALSE);
 
 	UpdateProgressBarProc(48);
-	
+
 	if (bDisableSwapFiles
 		&& IsPagingFileActive (FALSE))
 	{
@@ -2167,7 +2276,7 @@ void DoInstall (void *arg)
 
 	// Remove deprecated
 	DoServiceUninstall (hwndDlg, L"VeraCryptService");
-	
+
 	UpdateProgressBarProc(55);
 
 	if (!SystemEncryptionUpdate)
@@ -2262,6 +2371,10 @@ void DoInstall (void *arg)
 				if (bUpgrade)
 				{
 					SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_RELEASE_NOTES);
+					if (bUpdateRescueDisk)
+					{
+						SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_RESCUE_DISK);
+					}
 				}
 				else if (bPossiblyFirstTimeInstall)
 				{
@@ -2290,45 +2403,9 @@ void DoInstall (void *arg)
 
 void SetInstallationPath (HWND hwndDlg)
 {
-	HKEY hkey;
 	BOOL bInstallPathDetermined = FALSE;
-	wchar_t path[MAX_PATH+20];
-	ITEMIDLIST *itemList;
-
-	memset (InstallationPath, 0, sizeof (InstallationPath));
-
-	// Determine if VeraCrypt is already installed and try to determine its "Program Files" location
-	if (RegOpenKeyEx (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", 0, KEY_READ | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS)
-	{
-		/* Default 'UninstallString' registry strings written by VeraCrypt:
-		------------------------------------------------------------------------------------
-		5.0+	"C:\Program Files\VeraCrypt\VeraCrypt Setup.exe" /u
-		*/
-
-		wchar_t rv[MAX_PATH*4];
-		DWORD size = sizeof (rv);
-		if (RegQueryValueEx (hkey, L"UninstallString", 0, 0, (LPBYTE) &rv, &size) == ERROR_SUCCESS && wcsrchr (rv, L'/'))
-		{
-			size_t len = 0;
-
-			// Cut and paste the location (path) where VeraCrypt is installed to InstallationPath
-			if (rv[0] == L'"')
-			{
-				len = wcsrchr (rv, L'/') - rv - 2;
-				StringCchCopyNW (InstallationPath, ARRAYSIZE(InstallationPath), rv + 1, len);
-				InstallationPath [len] = 0;
-				bInstallPathDetermined = TRUE;
-
-				if (InstallationPath [wcslen (InstallationPath) - 1] != L'\\')
-				{
-					len = wcsrchr (InstallationPath, L'\\') - InstallationPath;
-					InstallationPath [len] = 0;
-				}
-			}
-
-		}
-		RegCloseKey (hkey);
-	}
+	
+	GetInstallationPath (hwndDlg, InstallationPath, ARRAYSIZE (InstallationPath), &bInstallPathDetermined);
 
 	if (bInstallPathDetermined)
 	{
@@ -2343,36 +2420,6 @@ void SetInstallationPath (HWND hwndDlg)
 			if (!IsNonInstallMode() && !bDevm)
 				bChangeMode = TRUE;
 		}
-	}
-	else
-	{
-		/* VeraCrypt is not installed or it wasn't possible to determine where it is installed. */
-
-		// Default "Program Files" path. 
-		SHGetSpecialFolderLocation (hwndDlg, CSIDL_PROGRAM_FILES, &itemList);
-		SHGetPathFromIDList (itemList, path);
-
-		if (Is64BitOs())
-		{
-			// Use a unified default installation path (registry redirection of %ProgramFiles% does not work if the installation path is user-selectable)
-			wstring s = path;
-			size_t p = s.find (L" (x86)");
-			if (p != wstring::npos)
-			{
-				s = s.substr (0, p);
-				if (_waccess (s.c_str(), 0) != -1)
-					StringCbCopyW (path, sizeof (path), s.c_str());
-			}
-		}
-
-		StringCbCatW (path, sizeof(path), L"\\VeraCrypt\\");
-		StringCbCopyW (InstallationPath, sizeof(InstallationPath), path);
-	}
-
-	// Make sure the path ends with a backslash
-	if (InstallationPath [wcslen (InstallationPath) - 1] != L'\\')
-	{
-		StringCbCatW (InstallationPath, sizeof(InstallationPath), L"\\");
 	}
 }
 
@@ -2471,6 +2518,143 @@ BOOL CALLBACK UninstallDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	return 0;
 }
+#endif
+
+typedef struct
+{
+	LPCWSTR name;
+	int resourceid;
+	WORD langid;
+	LPCSTR internalId;
+	LPCWSTR langtag;
+} tLanguageEntry;
+
+static tLanguageEntry g_languagesEntries[] = {
+	{L"العربية", IDR_LANG_AR, LANG_ARABIC, "ar", NULL},
+	{L"Čeština", IDR_LANG_CS, LANG_CZECH, "cs", NULL},
+	{L"Deutsch", IDR_LANG_DE, LANG_GERMAN, "de", NULL},
+	{L"English", IDR_LANGUAGE, LANG_ENGLISH, "en", NULL},
+	{L"Español", IDR_LANG_ES, LANG_SPANISH, "es", NULL},
+	{L"Français", IDR_LANG_FR, LANG_FRENCH, "fr", NULL},
+	{L"Italiano", IDR_LANG_IT, LANG_ITALIAN, "it", NULL},
+	{L"日本語", IDR_LANG_JA, LANG_JAPANESE, "ja", NULL},
+	{L"Nederlands", IDR_LANG_NL, LANG_DUTCH, "nl", NULL},
+	{L"Polski", IDR_LANG_PL, LANG_POLISH, "pl", NULL},
+	{L"Română", IDR_LANG_RO, LANG_ROMANIAN, "ro", NULL},
+	{L"Русский", IDR_LANG_RU, LANG_RUSSIAN, "ru", NULL},
+	{L"Tiếng Việt", IDR_LANG_VI, LANG_VIETNAMESE, "vi", NULL},
+	{L"简体中文", IDR_LANG_ZHCN, LANG_CHINESE, "zh-cn", L"zh-CN"},
+	{L"繁體中文", IDR_LANG_ZHHK, LANG_CHINESE, "zh-hk", L"zh-HK"},
+};
+
+typedef int (WINAPI *LCIDToLocaleNameFn)(
+    LCID     Locale,
+    LPWSTR  lpName,
+    int      cchName,
+    DWORD    dwFlags);
+
+static void UpdateSelectLanguageDialog (HWND hwndDlg)
+{
+	HWND hLangList = GetDlgItem (hwndDlg, IDC_LANGUAGES_LIST);
+	LPARAM nIndex = SendMessage (hLangList, CB_GETCURSEL, 0, 0);
+	int resourceid = (int) SendMessage (hLangList, CB_GETITEMDATA, nIndex, 0);
+	BOOL bVal;
+
+	LoadLanguageFromResource (resourceid, TRUE, TRUE);
+
+	bVal = LocalizationActive;
+	LocalizationActive = TRUE;
+	LocalizeDialog (hwndDlg, "IDD_INSTL_DLG");
+	InvalidateRect (hwndDlg, NULL, FALSE);
+	LocalizationActive = bVal;
+}
+
+BOOL CALLBACK SelectLanguageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	WORD lw = LOWORD (wParam);
+
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		{
+			char* preferredLanguage = GetPreferredLangId ();
+			if (strlen (preferredLanguage))
+			{
+				// language already selected by user in current install
+				// use it for the setup
+				for (size_t i = 0; i < ARRAYSIZE (g_languagesEntries); i++)
+				{
+					if (0 == strcmp (preferredLanguage, g_languagesEntries[i].internalId))
+					{
+						LoadLanguageFromResource (g_languagesEntries[i].resourceid, FALSE, TRUE);
+						break;
+					}
+				}
+				EndDialog (hwndDlg, IDCANCEL);
+				return FALSE;
+			}
+			else
+			{
+				// Get the default UI language
+				LCIDToLocaleNameFn LCIDToLocaleNamePtr = (LCIDToLocaleNameFn) GetProcAddress (GetModuleHandle (L"kernel32.dll"), "LCIDToLocaleName");
+				WCHAR langtag[256];
+				LANGID defaultLanguage = GetUserDefaultUILanguage ();
+				WORD langid = (WORD) (defaultLanguage & 0x03FF); // primary language ID
+
+				InitDialog (hwndDlg);
+
+				LCIDToLocaleNamePtr (MAKELCID (defaultLanguage, 0), langtag, ARRAYSIZE (langtag), 0); // language tag (e.g. "en-US")
+				int resourceid = IDR_LANGUAGE;
+				for (size_t i = 0; i < ARRAYSIZE (g_languagesEntries); i++)
+				{
+					if (g_languagesEntries[i].langid == langid)
+					{
+						if (!g_languagesEntries[i].langtag || (0 == _wcsicmp (g_languagesEntries[i].langtag, langtag)))
+						{
+							resourceid = g_languagesEntries[i].resourceid;
+							break;
+						}
+					}
+				}
+
+				for (size_t i = 0; i < ARRAYSIZE (g_languagesEntries); i++)
+				{
+					AddComboPair (GetDlgItem (hwndDlg, IDC_LANGUAGES_LIST), g_languagesEntries[i].name, g_languagesEntries[i].resourceid);
+				}
+
+				SelectAlgo (GetDlgItem (hwndDlg, IDC_LANGUAGES_LIST), &resourceid);
+
+				UpdateSelectLanguageDialog (hwndDlg);
+			}
+
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		if (CBN_SELCHANGE == HIWORD (wParam))
+		{
+			UpdateSelectLanguageDialog (hwndDlg);
+			return 1;
+		}
+
+		if (lw == IDOK)
+		{
+			bUserSetLanguage = TRUE;
+			EndDialog (hwndDlg, IDOK);
+			return 1;
+		}
+
+		if (lw == IDCANCEL)
+		{
+			SetPreferredLangId ("");
+			EndDialog (hwndDlg, IDCANCEL);
+			return 1;
+		}
+		return 0;
+	}
+
+	return 0;
+}
 
 
 int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpszCommandLine, int nCmdShow)
@@ -2479,18 +2663,22 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 	SelfExtractStartupInit();
 
+#ifdef PORTABLE
+	lpszTitle = L"VeraCrypt Portable";
+#else
 	lpszTitle = L"VeraCrypt Setup";
-
+#endif
 	/* Call InitApp to initialize the common code */
 	InitApp (hInstance, NULL);
 
+#ifndef PORTABLE
 	if (IsAdmin () != TRUE)
 		if (MessageBoxW (NULL, GetString ("SETUP_ADMIN"), lpszTitle, MB_YESNO | MB_ICONQUESTION) != IDYES)
 		{
 			FinalizeApp ();
 			exit (1);
 		}
-
+#endif
 	/* Setup directory */
 	{
 		wchar_t *s;
@@ -2504,6 +2692,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 	if (lpszCommandLine[0] == L'/')
 	{
+#ifndef PORTABLE
 		if (lpszCommandLine[1] == L'u')
 		{
 			// Uninstall:	/u
@@ -2516,7 +2705,9 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 
 			bChangeMode = TRUE;
 		}
-		else if (lpszCommandLine[1] == L'p')
+		else
+#endif
+		if (lpszCommandLine[1] == L'p')
 		{
 			// Create self-extracting package:	/p
 
@@ -2537,26 +2728,43 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 	}
 	else
 	{
+#ifndef PORTABLE
 		SetInstallationPath (NULL);
+#endif
+		if (bUninstall)
+		{
+			wchar_t path [TC_MAX_PATH];
 
-		if (!bUninstall)
+			GetModuleFileName (NULL, path, ARRAYSIZE (path));
+			if (!VerifyModuleSignature (path))
+			{
+				Error ("DIST_PACKAGE_CORRUPTED", NULL);
+				exit (1);
+			}
+		}
+		else
 		{
 			if (IsSelfExtractingPackage())
 			{
-				if (!VerifyPackageIntegrity())
+				if (!VerifySelfPackageIntegrity())
 				{
-					// Package corrupted 
+					// Package corrupted
 					exit (1);
 				}
 				bDevm = FALSE;
 			}
 			else if (!bDevm)
 			{
+#ifndef PORTABLE
 				MessageBox (NULL, L"Error: This installer file does not contain any compressed files.\n\nTo create a self-extracting installation package (with embedded compressed files), run:\n\"VeraCrypt Setup.exe\" /p", L"VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+#else
+				MessageBox (NULL, L"Error: This portable installer file does not contain any compressed files.\n\nTo create a self-extracting portable installation package (with embedded compressed files), run:\n\"VeraCrypt Portable.exe\" /p", L"VeraCrypt", MB_ICONERROR | MB_SETFOREGROUND | MB_TOPMOST);
+#endif
 				FinalizeApp ();
 				exit (1);
 			}
 
+#ifndef PORTABLE
 			if (bChangeMode)
 			{
 				/* VeraCrypt is already installed on this system and we were launched from the Program Files folder */
@@ -2577,8 +2785,10 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 					exit (1);
 				}
 			}
+#endif
 		}
 
+#ifndef PORTABLE
 		// System Restore
 		if (IsSystemRestoreEnabled ())
 		{
@@ -2593,14 +2803,28 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 		}
 		else
 			SystemRestoreDll = 0;
+#endif
 
 		if (!bUninstall)
 		{
+			if (!bDevm && !LocalizationActive && (nCurrentOS >= WIN_VISTA))
+			{
+				BOOL bHasPreferredLanguage = (strlen (GetPreferredLangId ()) > 0)? TRUE : FALSE;
+				if ((IDCANCEL == DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_INSTALL_LANGUAGE), NULL, (DLGPROC) SelectLanguageDialogProc, (LPARAM) 0 ))
+					&& !bHasPreferredLanguage
+					)
+				{
+					// Language dialog cancelled by user: exit the installer
+					FinalizeApp ();
+					exit (1);
+				}
+			}
 			/* Create the main dialog for install */
 
-			DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_INSTL_DLG), NULL, (DLGPROC) MainDialogProc, 
+			DialogBoxParamW (hInstance, MAKEINTRESOURCEW (IDD_INSTL_DLG), NULL, (DLGPROC) MainDialogProc,
 				(LPARAM)lpszCommandLine);
 		}
+#ifndef PORTABLE
 		else
 		{
 			/* Create the main dialog for uninstall  */
@@ -2626,6 +2850,7 @@ int WINAPI wWinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t *lpsz
 				}
 			}
 		}
+#endif
 	}
 	FinalizeApp ();
 	return 0;

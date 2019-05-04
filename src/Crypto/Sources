@@ -5,16 +5,56 @@ INCLUDES = ..
 
 NTTARGETFILES = \
 	"$(OBJ_PATH)\$(O)\Aes_$(TC_ARCH).obj" \
-	"$(OBJ_PATH)\$(O)\Aes_hw_cpu.obj"
+	"$(OBJ_PATH)\$(O)\Aes_hw_cpu.obj" \
+	"$(OBJ_PATH)\$(O)\rdrand_ml.obj" \
+	"$(OBJ_PATH)\$(O)\gost89_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\Twofish_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\Camellia_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\Camellia_aesni_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256-$(TC_ARCH)-nayuki.obj" \
+	"$(OBJ_PATH)\$(O)\sha512-$(TC_ARCH)-nayuki.obj" \
+	"$(OBJ_PATH)\$(O)\sha512_avx1_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha512_avx2_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha512_sse4_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256_avx1_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256_avx2_$(TC_ARCH).obj" \
+	"$(OBJ_PATH)\$(O)\sha256_sse4_$(TC_ARCH).obj"
 
 SOURCES = \
 	Aes_$(TC_ARCH).asm \
+	gost89_$(TC_ARCH).asm \
 	Aes_hw_cpu.asm \
+	rdrand_ml.asm \
 	Aeskey.c \
 	Aestab.c \
+	chacha-xmm.c \
+	chacha256.c \
+	chachaRng.c \
 	cpu.c \
+	jitterentropy-base.c \
+	rdrand.c \
 	Rmd160.c \
-	Serpent.c \
+	SerpentFast.c \
+	SerpentFast_simd.cpp \
 	Sha2.c \
+	t1ha_selfcheck.c \
+	t1ha2.c \
+	t1ha2_selfcheck.c \
 	Twofish.c \
-	Whirlpool.c
+	Twofish_$(TC_ARCH).S \
+	GostCipher.c \
+	Streebog.c \
+	kuznyechik.c \
+	kuznyechik_simd.c \
+	Whirlpool.c \
+	Camellia.c \
+	Camellia_$(TC_ARCH).S \
+	Camellia_aesni_$(TC_ARCH).S \
+	sha256-$(TC_ARCH)-nayuki.S \
+	sha512-$(TC_ARCH)-nayuki.S \
+	sha512_avx1_$(TC_ARCH).asm \
+	sha512_avx2_$(TC_ARCH).asm \
+	sha512_sse4_$(TC_ARCH).asm \
+	sha256_avx1_$(TC_ARCH).asm \
+	sha256_avx2_$(TC_ARCH).asm \
+	sha256_sse4_$(TC_ARCH).asm

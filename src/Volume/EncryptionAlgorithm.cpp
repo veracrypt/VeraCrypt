@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -60,12 +60,20 @@ namespace VeraCrypt
 	EncryptionAlgorithmList EncryptionAlgorithm::GetAvailableAlgorithms ()
 	{
 		EncryptionAlgorithmList l;
-		
+
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Serpent ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new Twofish ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new Camellia ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new GOST89 ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new Kuznyechik ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new AESTwofishSerpent ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaKuznyechik ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new CamelliaSerpent ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikAES ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikSerpentCamellia ()));
+		l.push_back (shared_ptr <EncryptionAlgorithm> (new KuznyechikTwofish ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new SerpentTwofishAES ()));
 		l.push_back (shared_ptr <EncryptionAlgorithm> (new TwofishSerpent ()));
@@ -98,7 +106,7 @@ namespace VeraCrypt
 
 		return keySize;
 	}
-	
+
 	size_t EncryptionAlgorithm::GetMaxBlockSize () const
 	{
 		size_t blockSize = 0;
@@ -148,10 +156,10 @@ namespace VeraCrypt
 					name += wstring (L"(");
 				else
 					name += wstring (L"-");
-				name += c.GetName();				
+				name += c.GetName();
 			}
 		}
-		
+
 		if (forGuiDisplay && depth)
 		{
 			for (int i = 0; i < depth; i++)
@@ -177,7 +185,7 @@ namespace VeraCrypt
 		return supported;
 	}
 
-	
+
 	bool EncryptionAlgorithm::IsModeSupported (const shared_ptr <EncryptionMode> mode) const
 	{
 		return IsModeSupported (*mode);
@@ -191,7 +199,7 @@ namespace VeraCrypt
 		mode->SetCiphers (Ciphers);
 		Mode = mode;
 	}
-	
+
 	void EncryptionAlgorithm::SetKey (const ConstBufferPtr &key)
 	{
 		if (Ciphers.size() < 1)
@@ -281,6 +289,79 @@ namespace VeraCrypt
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
 		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia
+	Camellia::Camellia ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+
+	
+	// GOST89
+	GOST89::GOST89 ()
+	{
+		Deprecated = true;
+
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherGost89()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+
+	// Kuznyechik
+	Kuznyechik::Kuznyechik ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-Twofish
+	KuznyechikTwofish::KuznyechikTwofish ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherTwofish ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-AES
+	KuznyechikAES::KuznyechikAES ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherAES ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Kuznyechik-Serpent-Camellia
+	KuznyechikSerpentCamellia::KuznyechikSerpentCamellia ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia-Kuznyechik
+	CamelliaKuznyechik::CamelliaKuznyechik ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherKuznyechik ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
+
+		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
+	}
+	
+	// Camellia-Serpent
+	CamelliaSerpent::CamelliaSerpent ()
+	{
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherSerpent ()));
+		Ciphers.push_back (shared_ptr <Cipher> (new CipherCamellia ()));
 
 		SupportedModes.push_back (shared_ptr <EncryptionMode> (new EncryptionModeXTS ()));
 	}

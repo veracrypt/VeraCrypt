@@ -1,12 +1,12 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
@@ -43,17 +43,3 @@ uint64 MirrorBytes64 (uint64 x)
 }
 #endif
 
-void
-LongReverse (unsigned __int32 *buffer, unsigned byteCount)
-{
-	unsigned __int32 value;
-
-	byteCount /= sizeof (unsigned __int32);
-	while (byteCount--)
-	{
-		value = *buffer;
-		value = ((value & 0xFF00FF00L) >> 8) | \
-		    ((value & 0x00FF00FFL) << 8);
-		*buffer++ = (value << 16) | (value >> 16);
-	}
-}

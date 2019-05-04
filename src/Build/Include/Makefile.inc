@@ -3,8 +3,8 @@
 # Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 # by the TrueCrypt License 3.0.
 #
-# Modifications and additions to the original source code (contained in this file) 
-# and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+# Modifications and additions to the original source code (contained in this file)
+# and all other portions of this file are Copyright (c) 2013-2017 IDRIX
 # and are governed by the Apache License 2.0 the full text of which is
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
@@ -23,12 +23,16 @@ clean:
 %.o: %.cpp
 	@echo Compiling $(<F)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+%.o: %.S
+	@echo Compiling $(<F)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 ifeq "$(PLATFORM)" "MacOSX"
 %.o: %.asm
 	@echo Assembling $(<F)
-	$(AS) $(ASFLAGS) -f macho32 -o $@.32 $<
-	$(AS) $(ASFLAGS) -f macho64 -o $@.64 $<
+	$(AS) $(ASFLAGS32) -f macho32 -o $@.32 $<
+	$(AS) $(ASFLAGS64) -f macho64 -o $@.64 $<
 	lipo -create $@.32 $@.64 -output $@
 else
 %.o: %.asm
@@ -53,7 +57,7 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 %.txt.h: %.txt
 	@echo Converting $(<F)
 	$(OD_BIN) $< | $(TR_SED_BIN) >$@
-	
+
 %.bmp.h: %.bmp
 	@echo Converting $(<F)
 	$(OD_BIN) $< | $(TR_SED_BIN) >$@

@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -15,16 +15,18 @@
 #include "Crypto/Rmd160.h"
 #include "Crypto/Sha2.h"
 #include "Crypto/Whirlpool.h"
+#include "Crypto/Streebog.h"
 
 namespace VeraCrypt
 {
 	HashList Hash::GetAvailableAlgorithms ()
 	{
 		HashList l;
-		
+
 		l.push_back (shared_ptr <Hash> (new Sha512 ()));
 		l.push_back (shared_ptr <Hash> (new Whirlpool ()));
 		l.push_back (shared_ptr <Hash> (new Sha256 ()));
+		l.push_back (shared_ptr <Hash> (new Streebog ()));
 		l.push_back (shared_ptr <Hash> (new Ripemd160 ()));
 
 		return l;
@@ -46,7 +48,7 @@ namespace VeraCrypt
 	Ripemd160::Ripemd160 ()
 	{
 		Deprecated = true; // Mark RIPEMD-160 as deprecated like on Windows.
-		Context.Allocate (sizeof (RMD160_CTX));
+		Context.Allocate (sizeof (RMD160_CTX), 32);
 		Init();
 	}
 
@@ -66,11 +68,11 @@ namespace VeraCrypt
 		if_debug (ValidateDataParameters (data));
 		RMD160Update ((RMD160_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
 	}
-	
+
 	// SHA-256
 	Sha256::Sha256 ()
 	{
-		Context.Allocate (sizeof (sha256_ctx));
+		Context.Allocate (sizeof (sha256_ctx), 32);
 		Init();
 	}
 
@@ -94,7 +96,7 @@ namespace VeraCrypt
 	// SHA-512
 	Sha512::Sha512 ()
 	{
-		Context.Allocate (sizeof (sha512_ctx));
+		Context.Allocate (sizeof (sha512_ctx), 32);
 		Init();
 	}
 
@@ -118,7 +120,7 @@ namespace VeraCrypt
 	// Whirlpool
 	Whirlpool::Whirlpool ()
 	{
-		Context.Allocate (sizeof (WHIRLPOOL_CTX));
+		Context.Allocate (sizeof (WHIRLPOOL_CTX), 32);
 		Init();
 	}
 
@@ -136,6 +138,30 @@ namespace VeraCrypt
 	void Whirlpool::ProcessData (const ConstBufferPtr &data)
 	{
 		if_debug (ValidateDataParameters (data));
-		WHIRLPOOL_add (data.Get(), (int) data.Size() * 8, (WHIRLPOOL_CTX *) Context.Ptr());
+		WHIRLPOOL_add (data.Get(), (int) data.Size(), (WHIRLPOOL_CTX *) Context.Ptr());
+	}
+	
+	// Streebog
+	Streebog::Streebog ()
+	{
+		Context.Allocate (sizeof (STREEBOG_CTX), 32);
+		Init();
+	}
+
+	void Streebog::GetDigest (const BufferPtr &buffer)
+	{
+		if_debug (ValidateDigestParameters (buffer));
+		STREEBOG_finalize ((STREEBOG_CTX *) Context.Ptr(), buffer);
+	}
+
+	void Streebog::Init ()
+	{
+		STREEBOG_init ((STREEBOG_CTX *) Context.Ptr());
+	}
+
+	void Streebog::ProcessData (const ConstBufferPtr &data)
+	{
+		if_debug (ValidateDataParameters (data));
+		STREEBOG_add ((STREEBOG_CTX *) Context.Ptr(), data.Get(), (int) data.Size());
 	}
 }

@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -39,6 +39,33 @@ namespace VeraCrypt
 
 		bool IsDevice () const { return FilesystemPath (Data).IsBlockDevice() || FilesystemPath (Data).IsCharacterDevice(); }
 		bool IsEmpty () const { return Data.empty(); }
+		
+		wstring GetExtension () const
+		{
+			if (Data.empty() || (Data.size() == 1))
+				return L"";
+			else
+			{
+				size_t pos = Data.find_last_of (L'.');
+				if (pos == string::npos)
+					return L"";
+				return Data.substr (pos + 1);
+			}
+		}
+		
+		bool HasTrueCryptExtension () const
+		{
+			wstring sExt = GetExtension ();
+			if ((sExt.size () == 2) 
+				&& (sExt[0] == L't' || sExt[0] == L'T')
+				&& (sExt[1] == L'c' || sExt[1] == L'C')
+				)
+			{
+				return true;
+			}
+			else
+				return false;
+		}
 
 	protected:
 		wstring Data;
@@ -86,6 +113,7 @@ namespace VeraCrypt
 		uint32 GetSaltSize () const { return Header->GetSaltSize(); }
 		size_t GetSectorSize () const { return SectorSize; }
 		uint64 GetSize () const { return VolumeDataSize; }
+		uint64 GetEncryptedSize () const { return EncryptedDataSize; }
 		uint64 GetTopWriteOffset () const { return TopWriteOffset; }
 		uint64 GetTotalDataRead () const { return TotalDataRead; }
 		uint64 GetTotalDataWritten () const { return TotalDataWritten; }
@@ -100,6 +128,7 @@ namespace VeraCrypt
 		void ReadSectors (const BufferPtr &buffer, uint64 byteOffset);
 		void ReEncryptHeader (bool backupHeader, const ConstBufferPtr &newSalt, const ConstBufferPtr &newHeaderKey, shared_ptr <Pkcs5Kdf> newPkcs5Kdf);
 		void WriteSectors (const ConstBufferPtr &buffer, uint64 byteOffset);
+		bool IsEncryptionNotCompleted () const { return EncryptionNotCompleted; }
 
 	protected:
 		void CheckProtectedRange (uint64 writeHostOffset, uint64 writeLength);
@@ -117,13 +146,15 @@ namespace VeraCrypt
 		VolumeType::Enum Type;
 		shared_ptr <File> VolumeFile;
 		uint64 VolumeHostSize;
-		uint64 VolumeDataOffset; 
+		uint64 VolumeDataOffset;
 		uint64 VolumeDataSize;
+		uint64 EncryptedDataSize;
 		uint64 TopWriteOffset;
 		uint64 TotalDataRead;
 		uint64 TotalDataWritten;
 		bool TrueCryptMode;
 		int Pim;
+		bool EncryptionNotCompleted;
 
 	private:
 		Volume (const Volume &);

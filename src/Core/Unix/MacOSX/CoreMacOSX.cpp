@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -117,29 +117,21 @@ namespace VeraCrypt
 		char fuseVersionString[MAXHOSTNAMELEN + 1] = { 0 };
 		size_t fuseVersionStringLength = MAXHOSTNAMELEN;
 		int status;
-		bool bIsOSXFuse = false;
 
-		if ((status = sysctlbyname ("macfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
+		if ((status = sysctlbyname ("osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
 		{
 			fuseVersionStringLength = MAXHOSTNAMELEN;
-			if ((status = sysctlbyname ("osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
+			if ((status = sysctlbyname ("vfs.generic.osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
 			{
-				fuseVersionStringLength = MAXHOSTNAMELEN;
-				if ((status = sysctlbyname ("vfs.generic.osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
-				{
-					throw HigherFuseVersionRequired (SRC_POS);
-				}
-			}
-
-			// look for compatibility mode
-			struct stat sb;
-			if ((0 == stat("/usr/local/lib/libfuse.dylib", &sb)) && (0 == stat("/Library/Frameworks/MacFUSE.framework/MacFUSE", &sb)))
-			{
-				bIsOSXFuse = true;
-			}
-			else
 				throw HigherFuseVersionRequired (SRC_POS);
-			
+			}
+		}
+
+		// look for OSXFuse dynamic library
+		struct stat sb;
+		if (0 != stat("/usr/local/lib/libosxfuse_i64.2.dylib", &sb))
+		{
+			throw HigherFuseVersionRequired (SRC_POS);
 		}
 
 		vector <string> fuseVersion = StringConverter::Split (string (fuseVersionString), ".");
@@ -149,12 +141,7 @@ namespace VeraCrypt
 		uint32 fuseVersionMajor = StringConverter::ToUInt32 (fuseVersion[0]);
 		uint32 fuseVersionMinor = StringConverter::ToUInt32 (fuseVersion[1]);
 
-		if (bIsOSXFuse)
-		{
-			if (fuseVersionMajor < 2 || (fuseVersionMajor == 2 && fuseVersionMinor < 5))
-				throw HigherFuseVersionRequired (SRC_POS);
-		}
-		else if (fuseVersionMajor < 1 || (fuseVersionMajor == 1 && fuseVersionMinor < 3))
+		if (fuseVersionMajor < 2 || (fuseVersionMajor == 2 && fuseVersionMinor < 5))
 			throw HigherFuseVersionRequired (SRC_POS);
 
 		// Mount volume image
@@ -187,7 +174,7 @@ namespace VeraCrypt
 			args.push_back ("-readonly");
 
 		string xml;
-		
+
 		while (true)
 		{
 			try
@@ -202,7 +189,7 @@ namespace VeraCrypt
 					args.remove ("-noautofsck");
 					continue;
 				}
-				
+
 				throw;
 			}
 		}

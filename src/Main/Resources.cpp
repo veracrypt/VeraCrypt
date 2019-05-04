@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -24,7 +24,7 @@ namespace VeraCrypt
 #ifdef TC_WINDOWS
 	static ConstBufferPtr GetWindowsResource (const wchar_t *resourceType, const wchar_t *resourceName)
 	{
-		HGLOBAL hResL; 
+		HGLOBAL hResL;
 		HRSRC hRes;
 
 		hRes = FindResource (NULL, resourceName, resourceType);
@@ -49,13 +49,13 @@ namespace VeraCrypt
 		strBuf.CopyFrom (res);
 		return string (reinterpret_cast <char *> (strBuf.Ptr()));
 #else
-		static const char LanguageXml[] =
+		static byte LanguageXml[] =
 		{
 #			include "Common/Language.xml.h"
 			, 0
 		};
 
-		return string (LanguageXml);
+		return string ((const char*) LanguageXml);
 #endif
 	}
 
@@ -68,13 +68,13 @@ namespace VeraCrypt
 		strBuf.CopyFrom (res);
 		return string (reinterpret_cast <char *> (strBuf.Ptr()));
 #else
-		static const char License[] =
+		static byte License[] =
 		{
 #			include "License.txt.h"
 			, 0
 		};
 
-		return string (License);
+		return string ((const char*) License);
 #endif
 	}
 

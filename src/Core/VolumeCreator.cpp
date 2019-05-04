@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -33,7 +33,7 @@ namespace VeraCrypt
 	VolumeCreator::~VolumeCreator ()
 	{
 	}
-	
+
 	void VolumeCreator::Abort ()
 	{
 		AbortRequested = true;
@@ -151,9 +151,37 @@ namespace VeraCrypt
 
 				if (Options->Type == VolumeType::Normal)
 				{
-					// Write random data to space reserved for hidden volume backup header
-					Core->RandomizeEncryptionAlgorithmKey (Options->EA);
-					Options->EA->Encrypt (backupHeader);
+					// Write fake random header to space reserved for hidden volume header
+					VolumeLayoutV2Hidden hiddenLayout;
+					shared_ptr <VolumeHeader> hiddenHeader (hiddenLayout.GetHeader());
+					SecureBuffer hiddenHeaderBuffer (hiddenLayout.GetHeaderSize());
+
+					VolumeHeaderCreationOptions headerOptions;
+					headerOptions.EA = Options->EA;
+					headerOptions.Kdf = Options->VolumeHeaderKdf;
+					headerOptions.Type = VolumeType::Hidden;
+
+					headerOptions.SectorSize = Options->SectorSize;
+
+					headerOptions.VolumeDataStart = HostSize - hiddenLayout.GetHeaderSize() * 2 - Options->Size;
+					headerOptions.VolumeDataSize = hiddenLayout.GetMaxDataSize (Options->Size);
+
+					// Master data key
+					SecureBuffer hiddenMasterKey(Options->EA->GetKeySize() * 2);
+					RandomNumberGenerator::GetData (hiddenMasterKey);
+					headerOptions.DataKey = hiddenMasterKey;
+
+					// PKCS5 salt
+					SecureBuffer hiddenSalt (VolumeHeader::GetSaltSize());
+					RandomNumberGenerator::GetData (hiddenSalt);
+					headerOptions.Salt = hiddenSalt;
+
+					// Header key
+					SecureBuffer hiddenHeaderKey (VolumeHeader::GetLargestSerializedKeySize());
+					RandomNumberGenerator::GetData (hiddenHeaderKey);
+					headerOptions.HeaderKey = hiddenHeaderKey;
+
+					hiddenHeader->Create (backupHeader, headerOptions);
 
 					VolumeFile->Write (backupHeader);
 				}
@@ -295,9 +323,32 @@ namespace VeraCrypt
 
 			if (options->Type == VolumeType::Normal)
 			{
-				// Write random data to space reserved for hidden volume header
-				Core->RandomizeEncryptionAlgorithmKey (options->EA);
-				options->EA->Encrypt (headerBuffer);
+				// Write fake random header to space reserved for hidden volume header
+				VolumeLayoutV2Hidden hiddenLayout;
+				shared_ptr <VolumeHeader> hiddenHeader (hiddenLayout.GetHeader());
+				SecureBuffer hiddenHeaderBuffer (hiddenLayout.GetHeaderSize());
+
+				headerOptions.Type = VolumeType::Hidden;
+
+				headerOptions.VolumeDataStart = HostSize - hiddenLayout.GetHeaderSize() * 2 - options->Size;
+				headerOptions.VolumeDataSize = hiddenLayout.GetMaxDataSize (options->Size);
+
+				// Master data key
+				SecureBuffer hiddenMasterKey(options->EA->GetKeySize() * 2);
+				RandomNumberGenerator::GetData (hiddenMasterKey);
+				headerOptions.DataKey = hiddenMasterKey;
+
+				// PKCS5 salt
+				SecureBuffer hiddenSalt (VolumeHeader::GetSaltSize());
+				RandomNumberGenerator::GetData (hiddenSalt);
+				headerOptions.Salt = hiddenSalt;
+
+				// Header key
+				SecureBuffer hiddenHeaderKey (VolumeHeader::GetLargestSerializedKeySize());
+				RandomNumberGenerator::GetData (hiddenHeaderKey);
+				headerOptions.HeaderKey = hiddenHeaderKey;
+
+				hiddenHeader->Create (headerBuffer, headerOptions);
 
 				VolumeFile->Write (headerBuffer);
 			}

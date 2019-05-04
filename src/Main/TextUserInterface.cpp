@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -165,7 +165,7 @@ namespace VeraCrypt
 
 		return password;
 	}
-	
+
 	int TextUserInterface::AskPim (const wxString &message) const
 	{
 		int pim = -1;
@@ -182,6 +182,12 @@ namespace VeraCrypt
 				try
 				{
 					pim = (int) StringConverter::ToUInt32 (pimStr);
+					if (pim > MAX_PIM_VALUE)
+					{
+						pim = -1;
+						ShowError ("PIM_TOO_BIG");
+						continue;
+					}
 				}
 				catch (...)
 				{
@@ -190,10 +196,10 @@ namespace VeraCrypt
 				}
 			}
 		}
-		
+
 		return pim;
 	}
-	
+
 	ssize_t TextUserInterface::AskSelection (ssize_t optionCount, ssize_t defaultOption) const
 	{
 		while (true)
@@ -223,7 +229,7 @@ namespace VeraCrypt
 		ShowString (message);
 		return wstring (ReadInputStreamLine());
 	}
-	
+
 	bool TextUserInterface::AskYesNo (const wxString &message, bool defaultYes, bool warning) const
 	{
 		while (true)
@@ -258,7 +264,7 @@ namespace VeraCrypt
 #endif
 
 		ShowInfo ("EXTERNAL_VOL_HEADER_BAK_FIRST_INFO");
-		
+
 		shared_ptr <Pkcs5Kdf> kdf;
 		if (CmdLine->ArgHash)
 		{
@@ -311,7 +317,40 @@ namespace VeraCrypt
 				}
 				catch (PasswordException &e)
 				{
-					ShowInfo (e);
+					bool bFailed = true;
+					if (!options->UseBackupHeaders)
+					{
+						try
+						{
+							volume = Core->OpenVolume (
+								options->Path,
+								options->PreserveTimestamps,
+								options->Password,
+								options->Pim,
+								kdf,
+								false,
+								options->Keyfiles,
+								options->Protection,
+								options->ProtectionPassword,
+								options->ProtectionPim,
+								options->ProtectionKdf,
+								options->ProtectionKeyfiles,
+								true,
+								volumeType,
+								true
+								);
+							
+							bFailed = false;
+						}
+						catch (...)
+						{
+						}
+					}
+					
+					if (bFailed)
+						ShowInfo (e);
+					else
+						ShowInfo ("HEADER_DAMAGED_AUTO_USED_HEADER_BAK");
 				}
 			}
 
@@ -420,7 +459,7 @@ namespace VeraCrypt
 			{
 				password = AskPassword ();
 			}
-			
+
 			// current PIM
 			if (!truecryptMode && !Preferences.NonInteractive && (pim < 0))
 			{
@@ -443,7 +482,7 @@ namespace VeraCrypt
 						if (!Preferences.NonInteractive)
 							keyfiles = AskKeyfiles ();
 					}
-				}	
+				}
 
 				if (!volume.get())
 					volume = Core->OpenVolume (volumePath, Preferences.DefaultMountOptions.PreserveTimestamps, password, pim, kdf, truecryptMode, keyfiles);
@@ -463,7 +502,7 @@ namespace VeraCrypt
 		// New password
 		if (!newPassword.get() && !Preferences.NonInteractive)
 			newPassword = AskPassword (_("Enter new password"), true);
-		
+
 		// New PIM
 		if ((newPim < 0) && !Preferences.NonInteractive)
 			newPim = AskPim (_("Enter new PIM"));
@@ -616,7 +655,7 @@ namespace VeraCrypt
 					throw MissingArgument (SRC_POS);
 
 				wstring sizeStr = AskString (options->Type == VolumeType::Hidden ? _("\nEnter hidden volume size (sizeK/size[M]/sizeG): ") : _("\nEnter volume size (sizeK/size[M]/sizeG): "));
-				int multiplier = 1024 * 1024;
+				uint64 multiplier = 1024 * 1024;
 
 				if (sizeStr.find (L"K") != string::npos)
 				{
@@ -630,6 +669,11 @@ namespace VeraCrypt
 				else if (sizeStr.find (L"G") != string::npos)
 				{
 					multiplier = 1024 * 1024 * 1024;
+					sizeStr.resize (sizeStr.size() - 1);
+				}
+				else if (sizeStr.find (L"T") != string::npos)
+				{
+					multiplier = (uint64) 1024 * 1024 * 1024 * 1024;
 					sizeStr.resize (sizeStr.size() - 1);
 				}
 
@@ -763,7 +807,7 @@ namespace VeraCrypt
 			ShowString (L"\n");
 			options->Password = AskPassword (_("Enter password"), true);
 		}
-		
+
 		// PIM
 		if ((options->Pim < 0) && !Preferences.NonInteractive)
 		{
@@ -778,7 +822,7 @@ namespace VeraCrypt
 			options->Keyfiles = AskKeyfiles (_("Enter keyfile path"));
 		}
 
-		if ((!options->Keyfiles || options->Keyfiles->empty()) 
+		if ((!options->Keyfiles || options->Keyfiles->empty())
 			&& (!options->Password || options->Password->IsEmpty()))
 		{
 			throw_err (_("Password cannot be empty when no keyfile is specified"));
@@ -903,7 +947,7 @@ namespace VeraCrypt
 
 		ShowInfo (options->Type == VolumeType::Hidden ? "HIDVOL_FORMAT_FINISHED_HELP" : "FORMAT_FINISHED_INFO");
 	}
-	
+
 	void TextUserInterface::DeleteSecurityTokenKeyfiles () const
 	{
 		shared_ptr <KeyfileList> keyfiles = AskKeyfiles();
@@ -950,7 +994,7 @@ namespace VeraCrypt
 
 		BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
 		finally_do_arg (BufferPtr, keyfileDataBuf, { finally_arg.Erase(); });
-		
+
 		FilePath exportFilePath = AskFilePath();
 
 		if (exportFilePath.IsEmpty())
@@ -972,7 +1016,7 @@ namespace VeraCrypt
 
 				TextUserInterface::SetTerminalEcho (false);
 				finally_do ({ TextUserInterface::SetTerminalEcho (true); });
-				
+
 				wstring wPassword (UI->ReadInputStreamLine());
 				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
 
@@ -982,7 +1026,7 @@ namespace VeraCrypt
 			}
 			TextUserInterface *UI;
 		};
-		
+
 		return shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler (this));
 	}
 
@@ -1047,6 +1091,13 @@ namespace VeraCrypt
 
 			virtual void operator() (string &passwordStr)
 			{
+                if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+                {
+        			passwordStr.clear();
+        			passwordStr.insert (0, (char*) CmdLine->ArgTokenPin->Ptr (), CmdLine->ArgTokenPin->Size());
+                    return;
+                }
+
 				if (UI->GetPreferences().NonInteractive)
 					throw MissingArgument (SRC_POS);
 
@@ -1054,13 +1105,21 @@ namespace VeraCrypt
 
 				TextUserInterface::SetTerminalEcho (false);
 				finally_do ({ TextUserInterface::SetTerminalEcho (true); });
-				
+
 				wstring wPassword (UI->ReadInputStreamLine());
 				finally_do_arg (wstring *, &wPassword, { StringConverter::Erase (*finally_arg); });
 
 				UI->ShowString (L"\n");
 
 				StringConverter::ToSingle (wPassword, passwordStr);
+			}
+
+			virtual void notifyIncorrectPin ()
+			{
+				if (CmdLine->ArgTokenPin && CmdLine->ArgTokenPin->IsAllocated ())
+				{
+					CmdLine->ArgTokenPin->Free ();
+				}
 			}
 
 			const TextUserInterface *UI;
@@ -1104,7 +1163,7 @@ namespace VeraCrypt
 		{
 			if (!options.Password)
 				options.Password = AskPassword();
-			
+
 			if (!options.TrueCryptMode && (options.Pim < 0))
 				options.Pim = AskPim (_("Enter PIM"));
 
@@ -1112,7 +1171,7 @@ namespace VeraCrypt
 				options.Keyfiles = AskKeyfiles();
 
 			VolumeInfoList mountedVolumes = UserInterface::MountAllDeviceHostedVolumes (options);
-			
+
 			if (!mountedVolumes.empty())
 				return mountedVolumes;
 
@@ -1120,7 +1179,7 @@ namespace VeraCrypt
 			options.Pim = -1;
 		}
 	}
-	
+
 	shared_ptr <VolumeInfo> TextUserInterface::MountVolume (MountOptions &options) const
 	{
 		shared_ptr <VolumeInfo> volume;
@@ -1145,7 +1204,7 @@ namespace VeraCrypt
 		// Mount point
 		if (!options.MountPoint && !options.NoFilesystem)
 			options.MountPoint.reset (new DirectoryPath (AskString (_("Enter mount directory [default]: "))));
-		
+
 		VolumePassword password;
 		KeyfileList keyfiles;
 
@@ -1170,7 +1229,7 @@ namespace VeraCrypt
 			{
 				options.Password = AskPassword (StringFormatter (_("Enter password for {0}"), wstring (*options.Path)));
 			}
-			
+
 			if (!options.TrueCryptMode && (options.Pim < 0))
 			{
 				options.Pim = AskPim (StringFormatter (_("Enter PIM for {0}"), wstring (*options.Path)));
@@ -1270,7 +1329,7 @@ namespace VeraCrypt
 	}
 
 	int TextUserInterface::OnRun()
-	{ 
+	{
 		try
 		{
 			if (ProcessCommandLine ())
@@ -1356,7 +1415,7 @@ namespace VeraCrypt
 		default:
 			throw UserAbort (SRC_POS);
 		}
-		
+
 		/* force the display of the random enriching interface */
 		RandomNumberGenerator::SetEnrichedByUserStatus (false);
 
@@ -1507,7 +1566,7 @@ namespace VeraCrypt
 
 			File volumeFile;
 			volumeFile.Open (*volumePath, File::OpenReadWrite, File::ShareNone, File::PreserveTimestamps);
-			
+
 			RandomNumberGenerator::Start();
 			UserEnrichRandomPool();
 
@@ -1528,7 +1587,7 @@ namespace VeraCrypt
 			{
 				// Re-encrypt backup volume header
 				Core->ReEncryptVolumeHeaderWithNewSalt (newHeaderBuffer, decryptedLayout->GetHeader(), options.Password, options.Pim, options.Keyfiles);
-				
+
 				// Write backup volume header
 				headerOffset = decryptedLayout->GetBackupHeaderOffset();
 				if (headerOffset >= 0)
@@ -1566,7 +1625,7 @@ namespace VeraCrypt
 		}
 #endif
 	}
-	
+
 	void TextUserInterface::UserEnrichRandomPool () const
 	{
 		RandomNumberGenerator::Start();

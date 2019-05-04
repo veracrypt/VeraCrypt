@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Beginner's%20Tutorial.html">Beginner's Tutorial</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Beginner's Tutorial</h1>
+<h2>How to Create and Use a VeraCrypt Container</h2>
+<p>This chapter contains step-by-step instructions on how to create, mount, and use a VeraCrypt volume. We strongly recommend that you also read the other sections of this manual, as they contain important information.</p>
+<h4>STEP 1:</h4>
+<p>If you have not done so, download and install VeraCrypt. Then launch VeraCrypt by double-clicking the file VeraCrypt.exe or by clicking the VeraCrypt shortcut in your Windows Start menu.</p>
+<h4>STEP 2:</h4>
+<p><img src="Beginner's Tutorial_Image_001.jpg" alt="" width="579" height="498"><br>
+<br>
+The main VeraCrypt window should appear. Click <strong>Create Volume </strong>(marked with a red rectangle for clarity).</p>
+<h4>STEP 3:</h4>
+<p><img src="Beginner's Tutorial_Image_002.jpg" alt="" width="616" height="410"><br>
+<br>
+The VeraCrypt Volume Creation Wizard window should appear.<br>
+<br>
+In this step you need to choose where you wish the VeraCrypt volume to be created. A VeraCrypt volume can reside in a file, which is also called container, in a partition or drive. In this tutorial, we will choose the first option and create a VeraCrypt volume
+ within a file.<br>
+<br>
+As the option is selected by default, you can just click <strong>Next</strong>.</p>
+<p>Note: In the following steps, the screenshots will show only the right-hand part of the Wizard window.</p>
+<h4>STEP 4:</h4>
+<p><img src="Beginner's Tutorial_Image_003.jpg" alt="" width="371" height="333"><br>
+<br>
+In this step you need to choose whether to create a standard or hidden VeraCrypt volume. In this tutorial, we will choose the former option and create a standard VeraCrypt volume.<br>
+<br>
+As the option is selected by default, you can just click <strong>Next</strong>.</p>
+<h4>STEP 5:</h4>
+<p><img src="Beginner's Tutorial_Image_004.jpg" alt="" width="363" height="336"><br>
+<br>
+In this step you have to specify where you wish the VeraCrypt volume (file container) to be created. Note that a VeraCrypt container is just like any normal file. It can be, for example, moved or deleted as any normal file. It also needs a filename, which you
+ will choose in the next step.<br>
+<br>
+Click <strong>Select File</strong>.<br>
+<br>
+The standard Windows file selector should appear (while the window of the VeraCrypt Volume Creation Wizard remains open in the background).</p>
+<h4>STEP 6:</h4>
+<p><img src="Beginner's Tutorial_Image_005.jpg" alt="" width="720" height="452"><br>
+<br>
+In this tutorial, we will create our VeraCrypt volume in the folder F<em>:\Data\ </em>
+and the filename of the volume (container) will be <em>My Volume </em>(as can be seen in the screenshot above). You may, of course, choose any other filename and location you like (for example, on a USB memory stick). Note that the file
+<em>My Volume </em>does not exist yet &ndash; VeraCrypt will create it.</p>
+<p>IMPORTANT: Note that VeraCrypt will <em>not </em>encrypt any existing files (when creating a VeraCrypt file container). If you select an existing file in this step, it will be overwritten and replaced by the newly created volume (so the overwritten file
+ will be <em>lost</em>, <em>not </em>encrypted). You will be able to encrypt existing files (later on) by moving them to the VeraCrypt volume that we are creating now.*</p>
+<p>Select the desired path (where you wish the container to be created) in the file selector. Type the desired container file name in the
+<strong>Filename </strong>box.<br>
+<br>
+Click <strong>Save</strong>.<br>
+<br>
+The file selector window should disappear.<br>
+<br>
+In the following steps, we will return to the VeraCrypt Volume Creation Wizard.</p>
+<p>* Note that after you copy existing unencrypted files to a VeraCrypt volume, you should securely erase (wipe) the original unencrypted files. There are software tools that can be used for the purpose of secure erasure (many of them are free).</p>
+<h4>STEP 7:</h4>
+<p><img src="Beginner's Tutorial_Image_007.jpg" alt="" width="360" height="335"><br>
+<br>
+In the Volume Creation Wizard window, click <strong>Next</strong>.</p>
+<h4>STEP 8:</h4>
+<p><img src="Beginner's Tutorial_Image_008.jpg" alt="" width="359" height="331"><br>
+<br>
+Here you can choose an encryption algorithm and a hash algorithm for the volume. If you are not sure what to select here, you can use the default settings and click
+<strong>Next </strong>(for more information, see chapters <a href="Encryption Algorithms.html">
+<em>Encryption Algorithms</em></a> and <a href="Hash%20Algorithms.html">
+<em>Hash Algorithms</em></a>).</p>
+<h4>STEP 9:</h4>
+<p><img src="Beginner's Tutorial_Image_009.jpg" alt="" width="369" height="332"><br>
+<br>
+Here we specify that we wish the size of our VeraCrypt container to be 250 megabyte. You may, of course, specify a different size. After you type the desired size in the input field (marked with a red rectangle), click
+<strong>Next</strong>.</p>
+<h4>STEP 10:</h4>
+<p><img src="Beginner's Tutorial_Image_010.jpg" alt="" width="372" height="368"><br>
+<br>
+This is one of the most important steps. Here you have to choose a good volume password. Read carefully the information displayed in the Wizard window about what is considered a good password.<br>
+<br>
+After you choose a good password, type it in the first input field. Then re-type it in the input field below the first one and click
+<strong>Next</strong>.</p>
+<p>Note: The button <strong>Next </strong>will be disabled until passwords in both input fields are the same.</p>
+<h4>STEP 11:</h4>
+<p><img src="Beginner's Tutorial_Image_011.jpg" alt="" width="365" height="368"><br>
+<br>
+Move your mouse as randomly as possible within the Volume Creation Wizard window at least until the randomness indicator becomes green. The longer you move the mouse, the better (moving the mouse for at least 30 seconds is recommended). This significantly increases
+ the cryptographic strength of the encryption keys (which increases security).<br>
+<br>
+Click <strong>Format</strong>.<br>
+<br>
+Volume creation should begin. VeraCrypt will now create a file called <em>My Volume
+</em>in the folder F<em>:\Data\ </em>(as we specified in Step 6). This file will be a VeraCrypt container (it will contain the encrypted VeraCrypt volume). Depending on the size of the volume, the volume creation may take a long time. After it finishes, the
+ following dialog box will appear:<br>
+<br>
+<img src="Beginner's Tutorial_Image_012.jpg" alt="" width="398" height="171"><br>
+<br>
+Click <strong>OK </strong>to close the dialog box.</p>
+<h4>STEP 12:</h4>
+<p><img src="Beginner's Tutorial_Image_013.jpg" alt="" width="361" height="333"><br>
+<br>
+We have just successfully created a VeraCrypt volume (file container). In the VeraCrypt Volume Creation Wizard window, click
+<strong>Exit</strong>.<br>
+<br>
+The Wizard window should disappear.<br>
+<br>
+In the remaining steps, we will mount the volume we just created. We will return to the main VeraCrypt window (which should still be open, but if it is not, repeat Step 1 to launch VeraCrypt and then continue from Step 13.)</p>
+<h4>STEP 13:</h4>
+<p><img src="Beginner's Tutorial_Image_014.jpg" alt="" width="579" height="498"><br>
+<br>
+Select a drive letter from the list (marked with a red rectangle). This will be the drive letter to which the VeraCrypt container will be mounted.<br>
+<br>
+Note: In this tutorial, we chose the drive letter M, but you may of course choose any other available drive letter.</p>
+<h4>STEP 14:</h4>
+<p><img src="Beginner's Tutorial_Image_015.jpg" alt="" width="579" height="498"><br>
+<br>
+Click <strong>Select File</strong>.<br>
+<br>
+The standard file selector window should appear.</p>
+<h4>STEP 15:</h4>
+<p><img src="Beginner's Tutorial_Image_016.jpg" alt="" width="625" height="453"><br>
+<br>
+In the file selector, browse to the container file (which we created in Steps 6-12) and select it. Click
+<strong>Open </strong>(in the file selector window).<br>
+<br>
+The file selector window should disappear.<br>
+<br>
+In the following steps, we will return to the main VeraCrypt window.</p>
+<h4>STEP 16:</h4>
+<p><img src="Beginner's Tutorial_Image_017.jpg" alt="" width="579" height="498"><br>
+<br>
+In the main VeraCrypt window, click <strong>Mount</strong>. Password prompt dialog window should appear.</p>
+<h4>STEP 17:</h4>
+<p><img src="Beginner's Tutorial_Image_018.jpg" alt="" width="499" height="205"><br>
+<br>
+Type the password (which you specified in Step 10) in the password input field (marked with a red rectangle).</p>
+<h4>STEP 18:</h4>
+<p><img src="Beginner's Tutorial_Image_019.jpg" alt="" width="499" height="205"><br>
+<br>
+Select the PRF algorithm that was used during the creation of the volume (SHA-512 is the default PRF used by VeraCrypt). If you don&rsquo;t remember which PRF was used, just leave it set to &ldquo;autodetection&rdquo; but the mounting process will take more
+ time. Click <strong>OK</strong> after entering the password.<br>
+<br>
+VeraCrypt will now attempt to mount the volume. If the password is incorrect (for example, if you typed it incorrectly), VeraCrypt will notify you and you will need to repeat the previous step (type the password again and click
+<strong>OK</strong>). If the password is correct, the volume will be mounted.</p>
+<h4>FINAL STEP:</h4>
+<p><img src="Beginner's Tutorial_Image_020.jpg" alt="" width="579" height="498"><br>
+<br>
+We have just successfully mounted the container as a virtual disk M:<br>
+<br>
+The virtual disk is entirely encrypted (including file names, allocation tables, free space, etc.) and behaves like a real disk. You can save (or copy, move, etc.) files to this virtual disk and they will be encrypted on the fly as they are being written.<br>
+<br>
+If you open a file stored on a VeraCrypt volume, for example, in media player, the file will be automatically decrypted to RAM (memory) on the fly while it is being read.</p>
+<p>Important: Note that when you open a file stored on a VeraCrypt volume (or when you write/copy a file to/from the VeraCrypt volume) you will not be asked to enter the password again. You need to enter the correct password only when mounting the volume.</p>
+<p>You can open the mounted volume, for example, by selecting it on the list as shown in the screenshot above (blue selection) and then double-clicking on the selected item.</p>
+<p>You can also browse to the mounted volume the way you normally browse to any other types of volumes. For example, by opening the &lsquo;<em>Computer</em>&rsquo; (or &lsquo;<em>My Computer</em>&rsquo;) list and double clicking the corresponding drive letter
+ (in this case, it is the letter M).<br>
+<br>
+<img src="Beginner's Tutorial_Image_021.jpg" alt="" width="406" height="264"><br>
+<br>
+You can copy files (or folders) to and from the VeraCrypt volume just as you would copy them to any normal disk (for example, by simple drag-and-drop operations). Files that are being read or copied from the encrypted VeraCrypt volume are automatically decrypted
+ on the fly in RAM (memory). Similarly, files that are being written or copied to the VeraCrypt volume are automatically encrypted on the fly in RAM (right before they are written to the disk).<br>
+<br>
+Note that VeraCrypt never saves any decrypted data to a disk &ndash; it only stores them temporarily in RAM (memory). Even when the volume is mounted, data stored in the volume is still encrypted. When you restart Windows or turn off your computer, the volume
+ will be dismounted and all files stored on it will be inaccessible (and encrypted). Even when power supply is suddenly interrupted (without proper system shut down), all files stored on the volume will be inaccessible (and encrypted). To make them accessible
+ again, you have to mount the volume. To do so, repeat Steps 13-18.</p>
+<p>If you want to close the volume and make files stored on it inaccessible, either restart your operating system or dismount the volume. To do so, follow these steps:<br>
+<br>
+<img src="Beginner's Tutorial_Image_022.jpg" alt="" width="579" height="498"><br>
+<br>
+Select the volume from the list of mounted volumes in the main VeraCrypt window (marked with a red rectangle in the screenshot above) and then click
+<strong>Dismount </strong>(also marked with a red rectangle in the screenshot above). To make files stored on the volume accessible again, you will have to mount the volume. To do so, repeat Steps 13-18.</p>
+<h2>How to Create and Use a VeraCrypt-Encrypted Partition/Device</h2>
+<p>Instead of creating file containers, you can also encrypt physical partitions or drives (i.e., create VeraCrypt device-hosted volumes). To do so, repeat the steps 1-3 but in the step 3 select the second or third option. Then follow the remaining instructions
+ in the wizard. When you create a device-hosted VeraCrypt volume within a <em>non-system
+</em>partition/drive, you can mount it by clicking <em>Auto-Mount Devices </em>in the main VeraCrypt window. For information pertaining to encrypted
+<em>system </em>partition/drives, see the chapter <a href="System%20Encryption.html">
+<em>System Encryption</em></a>.</p>
+<p>Important: <em>We strongly recommend that you also read the other chapters of this manual, as they contain important information that has been omitted in this tutorial for simplicity.</em></p>
+</div>
+</body></html>

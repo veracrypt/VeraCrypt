@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013-2016 IDRIX. All rights reserved.
+ Copyright (c) 2013-2018 IDRIX. All rights reserved.
 
  Governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -21,7 +21,7 @@ namespace VeraCrypt
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOG_ADMIN_PASSWORD, -1);
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOG_PIN, -1);
 	DECLARE_LOCAL_EVENT_TYPE(wxEVT_COMMAND_WAITDIALOG_SHOW_MSG, -1);
-	
+
 	class WaitDialog;
 
 
@@ -31,12 +31,12 @@ namespace VeraCrypt
 	public:
 		WaitThread(WaitDialog *handler, WaitThreadRoutine* pRoutine) : wxThread(wxTHREAD_DETACHED), m_pRoutine(pRoutine)
 		{
-			m_pHandler = handler;			
+			m_pHandler = handler;
 		}
 		~WaitThread()
-		{			
+		{
 		}
-		
+
 	protected:
 		virtual ExitCode Entry();
 		WaitDialog *m_pHandler;
@@ -46,8 +46,8 @@ namespace VeraCrypt
 	class WaitDialog : public WaitDialogBase, public WaitThreadUI
 	{
 	public:
-		WaitDialog (wxWindow *parent, const wxString& label, WaitThreadRoutine* pRoutine) 
-			: WaitDialogBase(parent), WaitThreadUI(pRoutine), m_timer (this)
+		WaitDialog (wxWindow *parent, const wxString& label, WaitThreadRoutine* pRoutine)
+			: WaitDialogBase(parent), WaitThreadUI(pRoutine), m_bThreadRunning (false), m_timer (this)
 		{
 			WaitStaticText->SetLabel (label);
 			WaitProgessBar->Pulse();
@@ -58,11 +58,11 @@ namespace VeraCrypt
 			Connect( wxID_ANY, wxEVT_COMMAND_WAITDIALOG_ADMIN_PASSWORD, wxCommandEventHandler( WaitDialog::OnAdminPasswordRequest ) );
 			Connect( wxID_ANY, wxEVT_COMMAND_WAITDIALOG_PIN, wxCommandEventHandler( WaitDialog::OnPinRequest ) );
 			Connect( wxID_ANY, wxEVT_COMMAND_WAITDIALOG_SHOW_MSG, wxCommandEventHandler( WaitDialog::OnShowMsg ) );
-			
+
 			Connect( wxEVT_TIMER, wxTimerEventHandler( WaitDialog::OnProgressTimer ), NULL, this );
 			m_thread = new WaitThread(this, pRoutine);
 		}
-		
+
 		~WaitDialog()
 		{
 			Disconnect( wxEVT_TIMER, wxTimerEventHandler( WaitDialog::OnProgressTimer ));
@@ -73,9 +73,10 @@ namespace VeraCrypt
 		}
 
 		virtual void OnWaitDialogInit( wxInitDialogEvent& event )
-		{	
+		{
 			m_thread->Run();
 			m_timer.Start(100);
+			m_bThreadRunning = true;
 		}
 
 		int GetCharWidth (wxWindow *window) const
@@ -114,7 +115,7 @@ namespace VeraCrypt
 				wxQueueEvent (this, pEvent);
 				m_queue.Receive (sResult);
 				sResult.ToLong(&lResult);
-			}	
+			}
 			return (int) lResult;
 		}
 
@@ -143,10 +144,20 @@ namespace VeraCrypt
 			else
 				pin = wxT("");
 		}
-		
-		// virtual void OnWaitDialogClose( wxCloseEvent& event ) { }
+
+		virtual void OnWaitDialogClose( wxCloseEvent& event ) 
+		{ 
+			if (event.CanVeto () && m_bThreadRunning)
+			{
+				event.Veto ();
+			}
+			else
+				event.Skip ();
+		}
+ 
 		void OnThreadCompletion(wxCommandEvent &)
 		{
+			m_bThreadRunning = false;
 			m_queue.Clear();
 			EndModal(0);
 		}
@@ -187,10 +198,10 @@ namespace VeraCrypt
 			}
 
 			int iResult = wxMessageBox (pParam->m_message, pParam->m_caption, pParam->m_style, this);
-			delete pParam;		
+			delete pParam;
 			m_queue.Post(wxString::Format(wxT("%d"), iResult));
 		}
-		
+
 		void OnProgressTimer(wxTimerEvent& event)
 		{
 			WaitProgessBar->Pulse();
@@ -202,6 +213,7 @@ namespace VeraCrypt
 
 	protected:
 		WaitThread* m_thread;
+		bool m_bThreadRunning;
 		wxTimer m_timer;
 		wxMessageQueue<wxString> m_queue;
 	};

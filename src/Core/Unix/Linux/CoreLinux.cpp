@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -41,7 +41,7 @@ namespace VeraCrypt
 		loopPaths.push_back ("/dev/loop");
 		loopPaths.push_back ("/dev/loop/");
 		loopPaths.push_back ("/dev/.static/dev/loop");
-		
+
 		// On Fedora 23,"losetup -f" must be called first to create a default loop device
 		list <string> args;
 		args.push_back ("-f");
@@ -171,7 +171,7 @@ namespace VeraCrypt
 		while (tr.ReadLine (line))
 		{
 			vector <string> fields = StringConverter::Split (line);
-			
+
 			if (fields.size() != 4
 				|| fields[3].find ("loop") == 0	// skip loop devices
 				|| fields[3].find ("cloop") == 0
@@ -303,9 +303,17 @@ namespace VeraCrypt
 	void CoreLinux::MountVolumeNative (shared_ptr <Volume> volume, MountOptions &options, const DirectoryPath &auxMountPoint) const
 	{
 		bool xts = (typeid (*volume->GetEncryptionMode()) == typeid (EncryptionModeXTS));
+		bool algoNotSupported = (typeid (*volume->GetEncryptionAlgorithm()) == typeid (GOST89))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (Kuznyechik))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (CamelliaKuznyechik))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikTwofish))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikAES))
+			|| (typeid (*volume->GetEncryptionAlgorithm()) == typeid (KuznyechikSerpentCamellia));
 
 		if (options.NoKernelCrypto
 			|| !xts
+			|| algoNotSupported
+			|| volume->IsEncryptionNotCompleted ()
 			|| volume->GetProtectionType() == VolumeProtection::HiddenVolumeReadOnly)
 		{
 			throw NotApplicable (SRC_POS);
@@ -390,10 +398,10 @@ namespace VeraCrypt
 
 				stringstream nativeDevName;
 				nativeDevName << "veracrypt" << options.SlotNumber;
-				
+
 				if (nativeDevCount != cipherCount - 1)
 					nativeDevName << "_" << cipherCount - nativeDevCount - 2;
-				
+
 				nativeDevPath = "/dev/mapper/" + nativeDevName.str();
 
 				execArgs.clear();
@@ -401,7 +409,7 @@ namespace VeraCrypt
 				execArgs.push_back (nativeDevName.str());
 
 				Process::Execute ("dmsetup", execArgs, -1, nullptr, &dmCreateArgsBuf);
-				
+
 				// Wait for the device to be created
 				for (int t = 0; true; t++)
 				{

@@ -1,18 +1,19 @@
 /*
  Legal Notice: Some portions of the source code contained in this file were
- derived from the source code of TrueCrypt 7.1a, which is 
- Copyright (c) 2003-2012 TrueCrypt Developers Association and which is 
+ derived from the source code of TrueCrypt 7.1a, which is
+ Copyright (c) 2003-2012 TrueCrypt Developers Association and which is
  governed by the TrueCrypt License 3.0, also from the source code of
  Encryption for the Masses 2.02a, which is Copyright (c) 1998-2000 Paul Le Roux
- and which is governed by the 'License Agreement for Encryption for the Masses' 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ and which is governed by the 'License Agreement for Encryption for the Masses'
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages. */
 
 #include "Tcdefs.h"
 #include <Shlobj.h>
+#include <Richedit.h>
 #include <io.h>
 #include <stdio.h>
 #include <time.h>
@@ -23,6 +24,7 @@
 #include "Common/Resource.h"
 #include "Resource.h"
 #include "Setup.h"
+#include "Registry.h"
 #include <tchar.h>
 #include <Strsafe.h>
 
@@ -31,9 +33,11 @@ using namespace std;
 enum wizard_pages
 {
 	INTRO_PAGE,
+#ifndef PORTABLE
 	WIZARD_MODE_PAGE,
 	INSTALL_OPTIONS_PAGE,
 	INSTALL_PROGRESS_PAGE,
+#endif
 	EXTRACTION_OPTIONS_PAGE,
 	EXTRACTION_PROGRESS_PAGE,
 	DONATIONS_PAGE
@@ -56,6 +60,8 @@ BOOL bStartExtraction = FALSE;
 BOOL bInProgress = FALSE;
 BOOL bPromptTutorial = FALSE;
 BOOL bPromptReleaseNotes = FALSE;
+
+extern BOOL bUserSetLanguage;
 
 int nPbar = 0;			/* Control ID of progress bar */
 
@@ -125,6 +131,7 @@ void LoadPage (HWND hwndDlg, int nPageNo)
 					 (DLGPROC) PageDialogProc);
 		break;
 
+#ifndef PORTABLE
 	case WIZARD_MODE_PAGE:
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_WIZARD_MODE_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
@@ -139,6 +146,7 @@ void LoadPage (HWND hwndDlg, int nPageNo)
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_PROGRESS_PAGE_DLG), hwndDlg,
 					 (DLGPROC) PageDialogProc);
 		break;
+#endif
 
 	case EXTRACTION_OPTIONS_PAGE:
 		hCurPage = CreateDialogW (hInst, MAKEINTRESOURCEW (IDD_EXTRACTION_OPTIONS_PAGE_DLG), hwndDlg,
@@ -180,24 +188,20 @@ static int GetDonVal (int minVal, int maxVal)
 
 	if (!prngInitialized)
 	{
-		if (!CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, 0)
-			&& !CryptAcquireContext (&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET))
+		if (!CryptAcquireContext (&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
 			OsPrngAvailable = FALSE;
 		else
 			OsPrngAvailable = TRUE;
 
-		srand ((unsigned int) time (NULL));
-		rand(); // Generate and discard the inital value, as it always appears to be somewhat non-random.
-
 		prngInitialized = TRUE;
 	}
 
-	if (OsPrngAvailable && CryptGenRandom (hCryptProv, sizeof (buffer), buffer) != 0) 
+	if (OsPrngAvailable && CryptGenRandom (hCryptProv, sizeof (buffer), buffer) != 0)
 	{
 		return  ((int) ((double) *((uint16 *) buffer) / (0xFFFF+1) * (maxVal + 1 - minVal)) + minVal);
 	}
 	else
-		return  ((int) ((double) rand() / (RAND_MAX+1) * (maxVal + 1 - minVal)) + minVal);
+		return maxVal;
 }
 
 
@@ -226,10 +230,24 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				char *licenseText = NULL;
 
+#ifdef PORTABLE
+				bExtractOnly = TRUE;
+#endif
+
+				// increase size limit of rich edit control
+				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_EXLIMITTEXT, 0, -1);
+				// Left margin for license text
+				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
+
 				licenseText = GetLegalNotices ();
 				if (licenseText != NULL)
 				{
-					SetWindowTextA (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), licenseText);
+					SETTEXTEX TextInfo = {0};
+
+					TextInfo.flags = ST_SELECTION;
+					TextInfo.codepage = CP_ACP;
+
+					SendMessage(GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETTEXTEX, (WPARAM)&TextInfo, (LPARAM)licenseText);
 					free (licenseText);
 				}
 				else
@@ -262,12 +280,10 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), bLicenseAccepted);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), FALSE);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDHELP), bLicenseAccepted);
-
-				// Left margin for license text
-				SendMessage (GetDlgItem (hwndDlg, IDC_LICENSE_TEXT), EM_SETMARGINS, (WPARAM) EC_LEFTMARGIN, (LPARAM) CompensateXDPI (4));
 			}
 			return 1;
 
+#ifndef PORTABLE
 		case WIZARD_MODE_PAGE:
 			{
 				LONG driverVersion;
@@ -306,11 +322,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			}
 			return 1;
+#endif
 
 		case EXTRACTION_OPTIONS_PAGE:
 
 			if (wcslen(WizardDestExtractPath) < 2)
-			{ 
+			{
 				StringCbCopyW (WizardDestExtractPath, sizeof(WizardDestExtractPath), SetupFilesDir);
 				StringCbCatNW (WizardDestExtractPath, sizeof(WizardDestExtractPath), L"VeraCrypt\\", ARRAYSIZE (WizardDestExtractPath) - wcslen (WizardDestExtractPath) - 1);
 			}
@@ -378,6 +395,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			return 1;
 
+#ifndef PORTABLE
 		case INSTALL_OPTIONS_PAGE:
 			{
 				LONG driverVersion;
@@ -481,6 +499,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			return 1;
+#endif
 
 		case DONATIONS_PAGE:
 
@@ -596,7 +615,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), IsButtonChecked (GetDlgItem (hwndDlg, IDC_AGREE)));
 			return 1;
 		}
-
+#ifndef PORTABLE
 		if (lw == IDC_WIZARD_MODE_EXTRACT_ONLY && nCurPageNo == WIZARD_MODE_PAGE)
 		{
 			bExtractOnly = TRUE;
@@ -608,19 +627,19 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bExtractOnly = FALSE;
 			return 1;
 		}
-
+#endif
 		if ( nCurPageNo == EXTRACTION_OPTIONS_PAGE && hw == EN_CHANGE )
 		{
 			EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), (GetWindowTextLength (GetDlgItem (hCurPage, IDC_DESTINATION)) > 1));
 			return 1;
 		}
-
+#ifndef PORTABLE
 		if ( nCurPageNo == INSTALL_OPTIONS_PAGE && hw == EN_CHANGE )
 		{
 			EnableWindow (GetDlgItem (MainDlg, IDC_NEXT), (GetWindowTextLength (GetDlgItem (hCurPage, IDC_DESTINATION)) > 1));
 			return 1;
 		}
-
+#endif
 		if ( nCurPageNo == EXTRACTION_OPTIONS_PAGE )
 		{
 			switch (lw)
@@ -641,7 +660,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 		}
-
+#ifndef PORTABLE
 		if ( nCurPageNo == INSTALL_OPTIONS_PAGE )
 		{
 			switch (lw)
@@ -679,18 +698,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			}
 		}
-
+#endif
 		if (nCurPageNo == DONATIONS_PAGE)
 		{
 			switch (lw)
 			{
 			case IDC_DONATE:
 				{
-					char tmpstr [200];
-
-					StringCbPrintfA (tmpstr, sizeof(tmpstr), "&ref=%d", DonColorSchemeId);
-
-					Applink ("donate", FALSE, tmpstr);
+					Applink ("donate");
 				}
 				return 1;
 			}
@@ -704,7 +719,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if (nCurPageNo == DONATIONS_PAGE)
 		{
 			PAINTSTRUCT tmpPaintStruct;
-			HDC hdc = BeginPaint (hCurPage, &tmpPaintStruct); 
+			HDC hdc = BeginPaint (hCurPage, &tmpPaintStruct);
 
 			if (hdc == NULL)
 				AbortProcessSilent ();
@@ -736,13 +751,13 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			TextOutW (hdc,
 				CompensateXDPI (258),
 				CompensateYDPI (70),
-				DonText.c_str(), 
-				DonText.length()); 
-			
-			EndPaint (hCurPage, &tmpPaintStruct); 
+				DonText.c_str(),
+				DonText.length());
+
+			EndPaint (hCurPage, &tmpPaintStruct);
 			ReleaseDC (hCurPage, hdc);
 		}
-		return 0; 
+		return 0;
 
 	}
 
@@ -813,8 +828,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			InitDialog (hwndDlg);
 			LocalizeDialog (hwndDlg, "IDD_INSTL_DLG");
-			
-			// Resize the bitmap if the user has a non-default DPI 
+
+			// Resize the bitmap if the user has a non-default DPI
 			if (ScreenDPI != USER_DEFAULT_SCREEN_DPI)
 			{
 				hbmWizardBitmapRescaled = RenderBitmap (MAKEINTRESOURCE (IDB_SETUP_WIZARD),
@@ -829,8 +844,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			nPbar = IDC_PROGRESS_BAR;
 
 			SendMessage (GetDlgItem (hwndDlg, IDC_BOX_TITLE), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
-
-			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING));
+#ifndef PORTABLE
+			SetWindowText (hwndDlg, L"VeraCrypt Setup " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
+#else
+			SetWindowText (hwndDlg, L"VeraCrypt Portable " _T(VERSION_STRING) _T(VERSION_STRING_SUFFIX));
+#endif
 
 			DonColorSchemeId = GetDonVal (2, 9);
 
@@ -843,7 +861,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bDesktopIcon = TRUE;
 				bLicenseAccepted = TRUE;
 				bStartInstall = TRUE;
+#ifdef PORTABLE
+				bExtractOnly = TRUE;
+				LoadPage (hwndDlg, EXTRACTION_PROGRESS_PAGE);
+#else
 				LoadPage (hwndDlg, INSTALL_PROGRESS_PAGE);
+#endif
 			}
 			else
 				LoadPage (hwndDlg, INTRO_PAGE);
@@ -909,14 +932,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					RegCloseKey (hkey);
 				}
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == WIZARD_MODE_PAGE)
 			{
 				if (IsButtonChecked (GetDlgItem (hCurPage, IDC_WIZARD_MODE_EXTRACT_ONLY)))
 				{
 					Info ("TRAVELER_LIMITATIONS_NOTE", hwndDlg);
 
-					if (IsUacSupported() 
+					if (IsUacSupported()
 						&& AskWarnYesNo ("TRAVELER_UAC_NOTE", hwndDlg) == IDNO)
 					{
 						return 1;
@@ -925,15 +948,22 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bExtractOnly = TRUE;
 					nCurPageNo = EXTRACTION_OPTIONS_PAGE - 1;
 				}
+#ifdef VC_EFI_CUSTOM_MODE
+				else if (bUpgrade && !CheckSecureBootCompatibility (hwndDlg))
+				{
+					WarningDirect(L"This installer version supports only custom EFI SecureBoot.\nPlease use regular installer to update your system", hwndDlg);
+					return 1;
+				}
+#endif
 			}
-
+#endif
 			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
 
 				bStartExtraction = TRUE;
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
@@ -946,7 +976,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				PostMessage (hwndDlg, WM_CLOSE, 0, 0);
 				return 1;
 			}
-
+#endif
 			else if (nCurPageNo == EXTRACTION_PROGRESS_PAGE)
 			{
 				PostMessage (hwndDlg, WM_CLOSE, 0, 0);
@@ -969,22 +999,25 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_PREV)
 		{
+#ifndef PORTABLE
 			if (nCurPageNo == WIZARD_MODE_PAGE)
 			{
 				bExtractOnly = IsButtonChecked (GetDlgItem (hCurPage, IDC_WIZARD_MODE_EXTRACT_ONLY));
-			}
-
-			else if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
+			} else
+#endif
+			if (nCurPageNo == EXTRACTION_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestExtractPath, ARRAYSIZE (WizardDestExtractPath));
+#ifndef PORTABLE
 				nCurPageNo = WIZARD_MODE_PAGE + 1;
+#endif
 			}
-
+#ifndef PORTABLE
 			else if (nCurPageNo == INSTALL_OPTIONS_PAGE)
 			{
 				GetWindowText (GetDlgItem (hCurPage, IDC_DESTINATION), WizardDestInstallPath, ARRAYSIZE (WizardDestInstallPath));
 			}
-
+#endif
 			LoadPage (hwndDlg, --nCurPageNo);
 
 			return 1;
@@ -1001,12 +1034,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			HWND hwndItem = GetDlgItem (MainDlg, IDC_MAIN_CONTENT_CANVAS);
 
 			PAINTSTRUCT tmpPaintStruct;
-			HDC hdc = BeginPaint (hwndItem, &tmpPaintStruct); 
+			HDC hdc = BeginPaint (hwndItem, &tmpPaintStruct);
 
 			if (DonColorSchemeId != 2)
 			{
 				HBRUSH tmpBrush = CreateSolidBrush (DonBkgColor);
-				
+
 				RECT trect;
 
 				trect.left = CompensateXDPI (1);
@@ -1016,11 +1049,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				FillRect (hdc, &trect, tmpBrush);
 			}
-					
-			EndPaint(hwndItem, &tmpPaintStruct); 
+
+			EndPaint(hwndItem, &tmpPaintStruct);
 			ReleaseDC (hwndItem, hdc);
 		}
-		return 0; 
+		return 0;
 
 
 
@@ -1043,9 +1076,17 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 
 	case TC_APPMSG_INSTALL_SUCCESS:
-		
+
 		/* Installation completed successfully */
-		
+
+		/* if user selected a language, use for GUI in the next run */
+		if (bUserSetLanguage)
+		{
+			WCHAR langId[6];
+			MultiByteToWideChar (CP_ACP, 0, GetPreferredLangId(), -1, langId, ARRAYSIZE (langId));
+			WriteRegistryString (L"Software\\VeraCrypt", L"SetupUILanguage", langId);
+		}
+
 		bInProgress = FALSE;
 
 		nCurPageNo = DONATIONS_PAGE;
@@ -1065,7 +1106,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return 1;
 
 	case TC_APPMSG_INSTALL_FAILURE:
-		
+
 		/* Installation failed */
 
 		bInProgress = FALSE;
@@ -1086,7 +1127,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return 1;
 
 	case TC_APPMSG_EXTRACTION_SUCCESS:
-		
+
 		/* Extraction completed successfully */
 
 		UpdateProgressBarProc(100);
@@ -1115,7 +1156,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return 1;
 
 	case TC_APPMSG_EXTRACTION_FAILURE:
-		
+
 		/* Extraction failed */
 
 		bInProgress = FALSE;
@@ -1164,7 +1205,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptReleaseNotes
 					&& AskYesNo ("AFTER_UPGRADE_RELEASE_NOTES", hwndDlg) == IDYES)
 				{
-					Applink ("releasenotes", TRUE, "");
+					Applink ("releasenotes");
 				}
 
 				bPromptReleaseNotes = FALSE;
@@ -1172,7 +1213,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (bPromptTutorial
 					&& AskYesNo ("AFTER_INSTALL_TUTORIAL", hwndDlg) == IDYES)
 				{
-					Applink ("beginnerstutorial", TRUE, "");
+					Applink ("beginnerstutorial");
 				}
 
 				bPromptTutorial = FALSE;
@@ -1181,7 +1222,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (bRestartRequired
 				&& AskYesNo (bUpgrade ? "UPGRADE_OK_REBOOT_REQUIRED" : "CONFIRM_RESTART", hwndDlg) == IDYES)
 			{
-				RestartComputer();
+				RestartComputer(FALSE);
 			}
 		}
 

@@ -427,7 +427,57 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Camellia.c"
+				>
+			</File>
+			<File
 				RelativePath=".\cpu.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Gost89_x64.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win64 -Ox -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(TargetDir)\$(InputName).obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="echo $(InputFileName) &amp; nasm.exe -Xvc -f win64 -Ox -o &quot;$(TargetDir)\$(InputName).obj&quot; -l &quot;$(TargetDir)\$(InputName).lst&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(TargetDir)\$(InputName).obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\GostCipher.c"
+				>
+			</File>
+			<File
+				RelativePath=".\kuznyechik.c"
 				>
 			</File>
 			<File
@@ -440,6 +490,10 @@
 			</File>
 			<File
 				RelativePath=".\Sha2.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Streebog.c"
 				>
 			</File>
 			<File
@@ -473,11 +527,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Camellia.h"
+				>
+			</File>
+			<File
 				RelativePath=".\config.h"
 				>
 			</File>
 			<File
 				RelativePath=".\cpu.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GostCipher.h"
+				>
+			</File>
+			<File
+				RelativePath=".\kuznyechik.h"
 				>
 			</File>
 			<File
@@ -494,6 +560,10 @@
 			</File>
 			<File
 				RelativePath=".\Sha2.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Streebog.h"
 				>
 			</File>
 			<File

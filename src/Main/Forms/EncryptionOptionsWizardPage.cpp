@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -32,7 +32,7 @@ namespace VeraCrypt
 		}
 
 		EncryptionAlgorithmChoice->Select (0);
-		
+
 		Hashes = Hash::GetAvailableAlgorithms();
 		foreach (shared_ptr <Hash> hash, Hashes)
 		{
@@ -78,6 +78,10 @@ namespace VeraCrypt
 				EncryptionAlgorithmStaticText->SetLabel (LangString["SERPENT_HELP"]);
 			else if (typeid (*ea) == typeid (Twofish))
 				EncryptionAlgorithmStaticText->SetLabel (LangString["TWOFISH_HELP"]);
+			else if (typeid (*ea) == typeid (Camellia))
+				EncryptionAlgorithmStaticText->SetLabel (LangString["CAMELLIA_HELP"]);
+			else if (typeid (*ea) == typeid (Kuznyechik))
+				EncryptionAlgorithmStaticText->SetLabel (LangString["KUZNYECHIK_HELP"]);
 			else
 				EncryptionAlgorithmStaticText->SetLabel (L"");
 		}
@@ -117,7 +121,7 @@ namespace VeraCrypt
 	{
 		Gui->OpenHomepageLink (this, L"hashalgorithms");
 	}
-	
+
 	void EncryptionOptionsWizardPage::OnTestButtonClick (wxCommandEvent& event)
 	{
 		EncryptionTestDialog dialog (this);

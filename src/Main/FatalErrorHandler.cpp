@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -69,7 +69,7 @@ namespace VeraCrypt
 		vars << L"&addr=" << hex << faultingInstructionAddress << dec;
 		vars << FatalErrorHandler::GetCallStack (16);
 
-		wxString url = Gui->GetHomepageLinkURL (L"err-report", true, vars.str());
+		wxString url = Gui->GetHomepageLinkURL (L"err-report", vars.str());
 		url.Replace (L"=0x", L"=");
 		url.Replace (L"=0X0x", L"=0x");
 		url.Replace (L"=0X", L"=0x");
@@ -111,7 +111,7 @@ namespace VeraCrypt
 		std::set_terminate (DefaultTerminateHandler);
 #endif
 	}
-	
+
 	uint32 FatalErrorHandler::GetAppChecksum ()
 	{
 		uint32 checkSum = 0;
@@ -130,7 +130,7 @@ namespace VeraCrypt
 	}
 
 	wstring FatalErrorHandler::GetCallStack (int depth)
-	{	
+	{
 #if wxUSE_STACKWALKER == 1
 
 		class StackWalker : public wxStackWalker
@@ -176,7 +176,7 @@ namespace VeraCrypt
 		return stackWalker.StackVars.str();
 
 #else // wxUSE_STACKWALKER
-		
+
 		return wstring();
 
 #endif // wxUSE_STACKWALKER
@@ -212,7 +212,7 @@ namespace VeraCrypt
 			vars.Replace (L"::", L".");
 			vars.Replace (L":", L".");
 
-			wxString url = Gui->GetHomepageLinkURL (L"err-report", true, vars);
+			wxString url = Gui->GetHomepageLinkURL (L"err-report", vars);
 			url.Replace (L"=0x", L"=");
 			url.Replace (L"=0X0x", L"=0x");
 			url.Replace (L"=0X", L"=0x");

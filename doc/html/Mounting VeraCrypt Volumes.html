@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>VeraCrypt - Free Open source disk encryption with strong security for the Paranoid</title>
+<meta name="description" content="VeraCrypt is free open-source disk encryption software for Windows, Mac OS X and Linux. In case an attacker forces you to reveal the password, VeraCrypt provides plausible deniability. In contrast to file encryption, data encryption performed by VeraCrypt is real-time (on-the-fly), automatic, transparent, needs very little memory, and does not involve temporary unencrypted files."/>
+<meta name="keywords" content="encryption, security"/>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>                      
+<a href="https://www.veracrypt.fr/en/Home.html"><img src="VeraCrypt128x128.png" alt="VeraCrypt"/></a>
+</div>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Home.html">Home</a></li>
+	  <li><a href="/code/">Source Code</a></li>
+	  <li><a href="Downloads.html">Downloads</a></li>
+	  <li><a class="active" href="Documentation.html">Documentation</a></li>
+	  <li><a href="Donation.html">Donate</a></li>
+	  <li><a href="https://sourceforge.net/p/veracrypt/discussion/" target="_blank">Forums</a></li>
+	</ul>
+</div>
+
+<div>
+<p>
+<a href="Documentation.html">Documentation</a>           
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Main%20Program%20Window.html">Main Program Window</a>
+<img src="arrow_right.gif" alt=">>" style="margin-top: 5px">
+<a href="Mounting%20VeraCrypt%20Volumes.html">Mounting Volumes</a>
+</p></div>
+
+<div class="wikidoc">
+<h1>Mounting VeraCrypt Volumes</h1>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+<p>If you have not done so yet, please read the sections &lsquo;<em>Mount</em>&lsquo; and &lsquo;<em>Auto-Mount Devices</em>&lsquo; in the chapter
+<a href="Main%20Program%20Window.html"><em>Main Program Window</em></a>.</p>
+<h3>Cache Password in Driver Memory</h3>
+<p>This option can be set in the password entry dialog so that it will apply only to that particular mount attempt. It can also be set as default in the Preferences. For more information, please see the section
+<a href="Program%20Menu.html"><em>Settings -&gt; Preferences</em>, subsection
+<em>Cache passwords in driver memory</em></a>.</p>
+<h3>Mount Options</h3>
+<p>Mount options affect the parameters of the volume being mounted. The <em>Mount Options</em> dialog can be opened by clicking on the
+<em>Mount Options</em> button in the password entry dialog. When a correct password is cached, volumes are automatically mounted after you click
+<em>Mount</em>. If you need to change mount options for a volume being mounted using a cached password, hold down the
+<em>Control</em> (<em>Ctrl</em>) key while clicking <em>Mount</em> or a favorite volume in the
+<em>Favorites</em> menu<em>,</em> or select <em>Mount with Options</em> from the <em>
+Volumes</em> menu.<br>
+<br>
+Default mount options can be configured in the main program preferences (<em>Settings -&gt; Preferences).</em></p>
+<h4>Mount volume as read-only</h4>
+<p>When checked, it will not be possible to write any data to the mounted volume.</p>
+<h4>Mount volume as removable medium</h4>
+<p>See section <a href="Removable%20Medium%20Volume.html">
+<em>Volume Mounted as Removable Medium</em></a>.</p>
+<h4>Use backup header embedded in volume if available</h4>
+<p>All volumes created by VeraCrypt contain an embedded backup header (located at the end of the volume). If you check this option, VeraCrypt will attempt to mount the volume using the embedded backup header. Note that if the volume header is damaged, you do
+ not have to use this option. Instead, you can repair the header by selecting <em>
+Tools</em> &gt; <em>Restore Volume Header</em>.</p>
+<h4>Mount partition using system encryption without pre-boot authentication</h4>
+<p>Check this option, if you need to mount a partition that is within the key scope of system encryption without pre-boot authentication. For example, if you need to mount a partition located on the encrypted system drive of another operating system that is
+ not running. This can be useful e.g. when you need to back up or repair an operating system encrypted by VeraCrypt (from within another operating system). Note that this option can be enabled also when using the &lsquo;<em>Auto-Mount Devices</em>&rsquo; or
+ &lsquo;<em>Auto-Mount All Device-Hosted Volumes</em>&rsquo; functions.</p>
+<h4>Hidden Volume Protection</h4>
+<p>Please see the section <a href="Protection%20of%20Hidden%20Volumes.html">
+<em>Protection of Hidden Volumes Against Damage</em></a>.</p>
+</div>
+</div><div class="ClearBoth"></div></body></html>

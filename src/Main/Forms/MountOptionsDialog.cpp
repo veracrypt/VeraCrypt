@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -17,6 +17,17 @@
 
 namespace VeraCrypt
 {
+#ifdef TC_MACOSX
+
+	bool MountOptionsDialog::ProcessEvent(wxEvent& event)
+	{
+		if(GraphicUserInterface::HandlePasswordEntryCustomEvent (event))
+			return true;
+		else
+			return MountOptionsDialogBase::ProcessEvent(event);
+	}
+#endif
+
 	MountOptionsDialog::MountOptionsDialog (wxWindow *parent, MountOptions &options, const wxString &title, bool disableMountOptions)
 		: MountOptionsDialogBase (parent, wxID_ANY, wxString()
 #ifdef __WXGTK__ // GTK apparently needs wxRESIZE_BORDER to support dynamic resizing
@@ -33,9 +44,20 @@ namespace VeraCrypt
 
 		if (disableMountOptions)
 			OptionsButton->Show (false);
+			
+
+#ifdef TC_MACOSX
+		GraphicUserInterface::InstallPasswordEntryCustomKeyboardShortcuts (this);
+#endif
 
 		PasswordPanel = new VolumePasswordPanel (this, &options, options.Password, disableMountOptions, options.Keyfiles, !disableMountOptions, true, true, false, true, true);
 		PasswordPanel->SetCacheCheckBoxValidator (wxGenericValidator (&Options.CachePassword));
+		
+		if (options.Path && options.Path->HasTrueCryptExtension() && !disableMountOptions 
+			&& !options.TrueCryptMode && (options.Pim <= 0))
+		{
+			PasswordPanel->SetTrueCryptMode (true);	
+		}
 
 		PasswordSizer->Add (PasswordPanel, 1, wxALL | wxEXPAND);
 
@@ -59,6 +81,7 @@ namespace VeraCrypt
 		FilesystemOptionsTextCtrl->SetValue (Options.FilesystemOptions);
 
 		ReadOnlyCheckBox->SetValue (Options.Protection == VolumeProtection::ReadOnly);
+		BackupHeaderCheckBox->SetValidator (wxGenericValidator (&Options.UseBackupHeaders));
 		ProtectionCheckBox->SetValue (Options.Protection == VolumeProtection::HiddenVolumeReadOnly);
 
 		OptionsButtonLabel = OptionsButton->GetLabel();
@@ -85,22 +108,22 @@ namespace VeraCrypt
 	}
 
 	void MountOptionsDialog::OnOKButtonClick (wxCommandEvent& event)
-	{	
+	{
 		bool bUnsupportedKdf = false;
-		
+
 		/* verify that PIM values are valid before continuing*/
 		int Pim = PasswordPanel->GetVolumePim();
 		int ProtectionPim = (!ReadOnlyCheckBox->IsChecked() && ProtectionCheckBox->IsChecked())?
 			ProtectionPasswordPanel->GetVolumePim() : 0;
-			
+
 		/* invalid PIM: set focus to PIM field and stop processing */
-		if (-1 == Pim)
+		if (-1 == Pim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && Pim > MAX_BOOT_PIM_VALUE))
 		{
 			PasswordPanel->SetFocusToPimTextCtrl();
 			return;
 		}
-		
-		if (-1 == ProtectionPim)
+
+		if (-1 == ProtectionPim || (PartitionInSystemEncryptionScopeCheckBox->IsChecked() && ProtectionPim > MAX_BOOT_PIM_VALUE))
 		{
 			ProtectionPasswordPanel->SetFocusToPimTextCtrl();
 			return;
@@ -110,13 +133,20 @@ namespace VeraCrypt
 
 		try
 		{
-			Options.Password = PasswordPanel->GetPassword();
+			Options.Password = PasswordPanel->GetPassword(Options.PartitionInSystemEncryptionScope);
 		}
 		catch (PasswordException& e)
 		{
 			Gui->ShowWarning (e);
 			return;
 		}
+		
+		if (Options.PartitionInSystemEncryptionScope && Options.Password->Size() > VolumePassword::MaxLegacySize)
+		{
+			Gui->ShowWarning (StringFormatter (_("System Encryption password is longer than {0} characters."), (int) VolumePassword::MaxLegacySize));
+			return;
+		}
+		
 		Options.Pim = Pim;
 		Options.Kdf = PasswordPanel->GetPkcs5Kdf(bUnsupportedKdf);
 		if (bUnsupportedKdf)
@@ -135,14 +165,14 @@ namespace VeraCrypt
 		{
 			try
 			{
-				Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword();
+				Options.ProtectionPassword = ProtectionPasswordPanel->GetPassword(Options.TrueCryptMode);
 			}
 			catch (PasswordException& e)
 			{
 				Gui->ShowWarning (e);
 				return;
 			}
-			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;			
+			Options.Protection = VolumeProtection::HiddenVolumeReadOnly;
 			Options.ProtectionPim = ProtectionPim;
 			Options.ProtectionKdf = ProtectionPasswordPanel->GetPkcs5Kdf(Options.TrueCryptMode, bUnsupportedKdf);
 			if (bUnsupportedKdf)

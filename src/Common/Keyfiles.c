@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -147,12 +147,12 @@ void KeyFileCloneAll (KeyFile *firstKeyFile, KeyFile **outputKeyFile)
 }
 
 
-static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
+static BOOL KeyFileProcess (unsigned __int8 *keyPool, unsigned __int32 keyPoolSize, KeyFile *keyFile)
 {
 	FILE *f;
 	unsigned __int8 buffer[64 * 1024];
 	unsigned __int32 crc = 0xffffffff;
-	int writePos = 0;
+	unsigned __int32 writePos = 0;
 	size_t bytesRead, totalRead = 0;
 	int status = TRUE;
 
@@ -203,7 +203,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 			keyPool[writePos++] += (unsigned __int8) (crc >> 8);
 			keyPool[writePos++] += (unsigned __int8) crc;
 
-			if (writePos >= KEYFILE_POOL_SIZE)
+			if (writePos >= keyPoolSize)
 				writePos = 0;
 
 			if (++totalRead >= KEYFILE_MAX_READ_LEN)
@@ -218,7 +218,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, KeyFile *keyFile)
 	else if (totalRead == 0)
 	{
 		status = FALSE;
-		SetLastError (ERROR_HANDLE_EOF); 
+		SetLastError (ERROR_HANDLE_EOF);
 	}
 
 close:
@@ -248,6 +248,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 	wchar_t searchPath [TC_MAX_PATH*2];
 	struct _wfinddata_t fBuf;
 	intptr_t searchHandle;
+	unsigned __int32 keyPoolSize = password->Length <= MAX_LEGACY_PASSWORD? KEYFILE_POOL_LEGACY_SIZE : KEYFILE_POOL_SIZE;
 
 	HiddenFilesPresentInKeyfilePath = FALSE;
 
@@ -270,7 +271,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 
 				if (keyfileData.empty())
 				{
-					SetLastError (ERROR_HANDLE_EOF); 
+					SetLastError (ERROR_HANDLE_EOF);
 					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
 					status = FALSE;
@@ -278,7 +279,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				}
 
 				unsigned __int32 crc = 0xffffffff;
-				int writePos = 0;
+				unsigned __int32 writePos = 0;
 				size_t totalRead = 0;
 
 				for (size_t i = 0; i < keyfileData.size(); i++)
@@ -290,7 +291,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 					keyPool[writePos++] += (unsigned __int8) (crc >> 8);
 					keyPool[writePos++] += (unsigned __int8) crc;
 
-					if (writePos >= KEYFILE_POOL_SIZE)
+					if (writePos >= keyPoolSize)
 						writePos = 0;
 
 					if (++totalRead >= KEYFILE_MAX_READ_LEN)
@@ -337,7 +338,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				StringCbPrintfW (kfSub->FileName, sizeof(kfSub->FileName), L"%s%c%s", kf->FileName,
 					L'\\',
 					fBuf.name
-					);				
+					);
 
 				// Determine whether it's a path or a file
 				if (_wstat (kfSub->FileName, &statStruct) != 0)
@@ -350,7 +351,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				else if (statStruct.st_mode & S_IFDIR)		// If it's a directory
 				{
 					// Prevent recursive folder scanning
-					continue;	 
+					continue;
 				}
 
 				// Skip hidden files
@@ -358,7 +359,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 					&& (fileAttributes.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) != 0)
 				{
 					HiddenFilesPresentInKeyfilePath = TRUE;
-					continue;	 
+					continue;
 				}
 
 				CorrectFileName (kfSub->FileName);
@@ -371,7 +372,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 				++keyfileCount;
 
 				// Apply keyfile to the pool
-				if (!KeyFileProcess (keyPool, kfSub))
+				if (!KeyFileProcess (keyPool, keyPoolSize, kfSub))
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
 					Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -390,7 +391,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			}
 		}
 		// Apply keyfile to the pool
-		else if (!KeyFileProcess (keyPool, kf))
+		else if (!KeyFileProcess (keyPool, keyPoolSize, kf))
 		{
 			handleWin32Error (hwndDlg, SRC_POS);
 			Error ("ERR_PROCESS_KEYFILE", hwndDlg);
@@ -400,7 +401,7 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 
 	/* Mix the keyfile pool contents into the password */
 
-	for (i = 0; i < sizeof (keyPool); i++)
+	for (i = 0; i < keyPoolSize; i++)
 	{
 		if (i < password->Length)
 			password->Text[i] += keyPool[i];
@@ -408,8 +409,8 @@ BOOL KeyFilesApply (HWND hwndDlg, Password *password, KeyFile *firstKeyFile, con
 			password->Text[i] = keyPool[i];
 	}
 
-	if (password->Length < (int)sizeof (keyPool))
-        password->Length = sizeof (keyPool);
+	if (password->Length < keyPoolSize)
+        password->Length = keyPoolSize;
 
 	burn (keyPool, sizeof (keyPool));
 
@@ -469,18 +470,18 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SendMessageW (hList,LVM_SETEXTENDEDLISTVIEWSTYLE,0,
 				LVS_EX_FULLROWSELECT|LVS_EX_HEADERDRAGDROP
-				); 
+				);
 
-			memset (&LvCol,0,sizeof(LvCol));               
-			LvCol.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;  
-			LvCol.pszText = GetString ("KEYFILE");                           
+			memset (&LvCol,0,sizeof(LvCol));
+			LvCol.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM|LVCF_FMT;
+			LvCol.pszText = GetString ("KEYFILE");
 			LvCol.cx = CompensateXDPI (374);
 			LvCol.fmt = LVCFMT_LEFT;
 			SendMessageW (hList, LVM_INSERTCOLUMNW, 0, (LPARAM)&LvCol);
 
 			LoadKeyList (hwndDlg, param->FirstKeyFile);
 			SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, param->EnableKeyFiles);
-			
+
 #ifdef TCMOUNT
 			if (	(origParam.EnableKeyFiles == defaultKeyFilesParam.EnableKeyFiles)
 				&&	(origParam.FirstKeyFile == defaultKeyFilesParam.FirstKeyFile)
@@ -519,6 +520,11 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 							LoadKeyList (hwndDlg, param->FirstKeyFile);
 
 							kf = (KeyFile *) malloc (sizeof (KeyFile));
+                            if (!kf)
+                            {
+                                Warning ("ERR_MEM_ALLOC", hwndDlg);
+                                break;
+                            }
 						}
 					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
 
@@ -528,7 +534,8 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					}
 				}
 
-				free (kf);
+                if (kf)
+				    free (kf);
 			}
 			return 1;
 		}
@@ -536,16 +543,22 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if (lw == IDC_ADD_KEYFILE_PATH)
 		{
 			KeyFile *kf = (KeyFile *) malloc (sizeof (KeyFile));
-
-			if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
-			{
-				param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
-				LoadKeyList (hwndDlg, param->FirstKeyFile);
-			}
-			else
-			{
-				free (kf);
-			}
+            if (kf)
+            {
+			    if (BrowseDirectories (hwndDlg,"SELECT_KEYFILE_PATH", kf->FileName))
+			    {
+				    param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
+				    LoadKeyList (hwndDlg, param->FirstKeyFile);
+			    }
+			    else
+			    {
+				    free (kf);
+			    }
+            }
+            else
+            {
+                Warning ("ERR_MEM_ALLOC", hwndDlg);
+            }
 			return 1;
 		}
 
@@ -575,17 +588,17 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			HWND list = GetDlgItem (hwndDlg, IDC_KEYLIST);
 			LVITEM LvItem;
 			memset (&LvItem, 0, sizeof(LvItem));
-			LvItem.mask = LVIF_PARAM;   
+			LvItem.mask = LVIF_PARAM;
 			LvItem.iItem = -1;
 
 			while (-1 != (LvItem.iItem = ListView_GetNextItem (list, LvItem.iItem, LVIS_SELECTED)))
 			{
 				ListView_GetItem (list, &LvItem);
 				param->FirstKeyFile = KeyFileRemove (param->FirstKeyFile, (KeyFile *) LvItem.lParam);
-			} 
-			
+			}
+
 			LoadKeyList (hwndDlg, param->FirstKeyFile);
- 			return 1;
+			return 1;
 		}
 
 		if (lw == IDC_KEYREMOVEALL)
@@ -597,7 +610,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_GENERATE_KEYFILE)
 		{
-			DialogBoxParamW (hInst, 
+			DialogBoxParamW (hInst,
 				MAKEINTRESOURCEW (IDD_KEYFILE_GENERATOR), hwndDlg,
 				(DLGPROC) KeyfileGeneratorDlgProc, (LPARAM) 0);
 			return 1;
@@ -605,7 +618,7 @@ BOOL CALLBACK KeyFilesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		if (lw == IDC_LINK_KEYFILES_INFO)
 		{
-			Applink ("keyfiles", TRUE, "");
+			Applink ("keyfiles");
 			return 1;
 		}
 
@@ -716,13 +729,19 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 					{
 						param->FirstKeyFile = KeyFileAdd (param->FirstKeyFile, kf);
 						kf = (KeyFile *) malloc (sizeof (KeyFile));
+                        if (!kf)
+                        {
+                            Warning ("ERR_MEM_ALLOC", hwndDlg);
+                            break;
+                        }
 					} while (SelectMultipleFilesNext (kf->FileName, sizeof(kf->FileName)));
 
 					param->EnableKeyFiles = TRUE;
 					status = TRUE;
 				}
 
-				free (kf);
+                if (kf)
+				    free (kf);
 			}
 		}
 		break;
@@ -743,6 +762,10 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 					free (kf);
 				}
 			}
+            else
+            {
+                Warning ("ERR_MEM_ALLOC", hwndDlg);
+            }
 		}
 		break;
 
@@ -762,6 +785,11 @@ BOOL KeyfilesPopupMenu (HWND hwndDlg, POINT popupPosition, KeyFilesDlgParam *par
 						param->EnableKeyFiles = TRUE;
 						status = TRUE;
 					}
+                    else
+                    {
+                        Warning ("ERR_MEM_ALLOC", hwndDlg);
+                        break;
+                    }
 				}
 			}
 		}

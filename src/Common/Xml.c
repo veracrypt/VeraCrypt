@@ -3,15 +3,19 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
 */
-
+#if !defined(_UEFI)
 #include <windows.h>
 #include <stdio.h>
+#else
+#include "Tcdefs.h"
+#pragma warning( disable : 4706 )  //  assignment within conditional expression
+#endif
 #include "Xml.h"
 
 
@@ -59,7 +63,7 @@ char *XmlFindElement (char *xmlNode, char *nodeName)
 }
 
 
-char *XmlFindElementByAttributeValue (char *xml, char *nodeName, char *attrName, char *attrValue)
+char *XmlFindElementByAttributeValue (char *xml, char *nodeName, const char *attrName, const char *attrValue)
 {
 	char attr[2048];
 
@@ -76,7 +80,7 @@ char *XmlFindElementByAttributeValue (char *xml, char *nodeName, char *attrName,
 }
 
 
-char *XmlGetAttributeText (char *xmlNode, char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize)
+char *XmlGetAttributeText (char *xmlNode, const char *xmlAttrName, char *xmlAttrValue, int xmlAttrValueSize)
 {
 	char *t = xmlNode;
 	char *e = xmlNode;
@@ -105,7 +109,7 @@ char *XmlGetAttributeText (char *xmlNode, char *xmlAttrName, char *xmlAttrValue,
 
 	if (t == NULL || t > e) return NULL;
 
-	t = strchr (t, '"') + 1;
+	t = ((char*)strchr (t, '"')) + 1;
 	e = strchr (t, '"');
 	l = (int)(e - t);
 	if (e == NULL || l > xmlAttrValueSize) return NULL;
@@ -128,9 +132,10 @@ char *XmlGetNodeText (char *xmlNode, char *xmlText, int xmlTextSize)
 	if (t[0] != '<')
 		return NULL;
 
-	t = strchr (t, '>') + 1;
-	if (t == (char *)1) return NULL;
+	t = (char*) strchr (t, '>');
+	if (t == NULL) return NULL;
 
+	t++;
 	e = strchr (e, '<');
 	if (e == NULL) return NULL;
 
@@ -172,7 +177,7 @@ char *XmlQuoteText (const char *textSrc, char *textDst, int textDstMaxSize)
 	if (textDstMaxSize == 0)
 		return NULL;
 
-	while (*textSrc != 0 && textDst <= textDstLast) 
+	while (*textSrc != 0 && textDst <= textDstLast)
 	{
 		char c = *textSrc++;
 		switch (c)
@@ -217,7 +222,7 @@ wchar_t *XmlQuoteTextW (const wchar_t *textSrc, wchar_t *textDst, int textDstMax
 	if (textDstMaxSize == 0)
 		return NULL;
 
-	while (*textSrc != 0 && textDst <= textDstLast) 
+	while (*textSrc != 0 && textDst <= textDstLast)
 	{
 		wchar_t c = *textSrc++;
 		switch (c)
@@ -255,7 +260,8 @@ wchar_t *XmlQuoteTextW (const wchar_t *textSrc, wchar_t *textDst, int textDstMax
 	return textDst;
 }
 
-
+#if !defined(_UEFI)
+#pragma warning( default : 4706 )
 int XmlWriteHeader (FILE *file)
 {
 	return fputws (L"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VeraCrypt>", file);
@@ -266,3 +272,4 @@ int XmlWriteFooter (FILE *file)
 {
 	return fputws (L"\n</VeraCrypt>", file);
 }
+#endif !defined(_UEFI)

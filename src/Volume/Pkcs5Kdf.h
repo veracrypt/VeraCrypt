@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -38,7 +38,7 @@ namespace VeraCrypt
 		virtual Pkcs5Kdf* Clone () const = 0;
 		virtual bool IsDeprecated () const { return GetHash()->IsDeprecated(); }
 		bool GetTrueCryptMode () const { return m_truecryptMode;}
-		void SetTrueCryptMode (bool truecryptMode) { m_truecryptMode = truecryptMode;}		
+		void SetTrueCryptMode (bool truecryptMode) { m_truecryptMode = truecryptMode;}
 
 	protected:
 		bool m_truecryptMode;
@@ -84,7 +84,7 @@ namespace VeraCrypt
 		Pkcs5HmacRipemd160_1000 (const Pkcs5HmacRipemd160_1000 &);
 		Pkcs5HmacRipemd160_1000 &operator= (const Pkcs5HmacRipemd160_1000 &);
 	};
-	
+
 	class Pkcs5HmacSha256_Boot : public Pkcs5Kdf
 	{
 	public:
@@ -151,6 +151,40 @@ namespace VeraCrypt
 	private:
 		Pkcs5HmacWhirlpool (const Pkcs5HmacWhirlpool &);
 		Pkcs5HmacWhirlpool &operator= (const Pkcs5HmacWhirlpool &);
+	};
+	
+	class Pkcs5HmacStreebog : public Pkcs5Kdf
+	{
+	public:
+		Pkcs5HmacStreebog () : Pkcs5Kdf(false) { }
+		virtual ~Pkcs5HmacStreebog () { }
+
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Streebog); }
+		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 500000 : (15000 + (pim * 1000)); }
+		virtual wstring GetName () const { return L"HMAC-Streebog"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacStreebog(); }
+
+	private:
+		Pkcs5HmacStreebog (const Pkcs5HmacStreebog &);
+		Pkcs5HmacStreebog &operator= (const Pkcs5HmacStreebog &);
+	};
+	
+	class Pkcs5HmacStreebog_Boot : public Pkcs5Kdf
+	{
+	public:
+		Pkcs5HmacStreebog_Boot () : Pkcs5Kdf(false) { }
+		virtual ~Pkcs5HmacStreebog_Boot () { }
+
+		virtual void DeriveKey (const BufferPtr &key, const VolumePassword &password, const ConstBufferPtr &salt, int iterationCount) const;
+		virtual shared_ptr <Hash> GetHash () const { return shared_ptr <Hash> (new Streebog); }
+		virtual int GetIterationCount (int pim) const { return pim <= 0 ? 200000 : pim * 2048; }
+		virtual wstring GetName () const { return L"HMAC-Streebog"; }
+		virtual Pkcs5Kdf* Clone () const { return new Pkcs5HmacStreebog_Boot(); }
+
+	private:
+		Pkcs5HmacStreebog_Boot (const Pkcs5HmacStreebog_Boot &);
+		Pkcs5HmacStreebog_Boot &operator= (const Pkcs5HmacStreebog_Boot &);
 	};
 }
 

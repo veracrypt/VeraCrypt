@@ -181,7 +181,7 @@ echo.
 
 :ripemd160
 
-IF NOT EXIST test.ripemd160.hc GOTO :autodetect
+IF NOT EXIST test.ripemd160.hc GOTO :streebog
 
 rem Get start time:
 for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
@@ -232,6 +232,63 @@ if %mm% lss 10 set mm=0%mm%
 if %ss% lss 10 set ss=0%ss%
 if %cc% lss 10 set cc=0%cc%
 echo RIPEMD-160 (Hidden) = %hh%:%mm%:%ss%,%cc%
+echo.
+
+"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
+
+:streebog
+
+IF NOT EXIST test.streebog.hc GOTO :autodetect
+
+rem Get start time:
+for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
+   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+)
+
+rem Mount Streebog container (Normal)
+"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.streebog.hc /hash streebog /l %mydriveletter% /password test /q /silent /m ro
+
+rem Get end time:
+for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
+   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+)
+
+rem Get elapsed time:
+set /A elapsed=end-start
+
+rem Show elapsed time:
+set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
+if %hh% lss 10 set hh=0%hh%
+if %mm% lss 10 set mm=0%mm%
+if %ss% lss 10 set ss=0%ss%
+if %cc% lss 10 set cc=0%cc%
+echo Streebog (Normal) = %hh%:%mm%:%ss%,%cc%
+
+"c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
+
+rem Get start time:
+for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
+   set /A "start=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+)
+
+rem Mount Streebog container (Hidden)
+"c:\Program Files\VeraCrypt\veracrypt.exe" /volume test.streebog.hc /hash streebog /l %mydriveletter% /password testhidden /q /silent /m ro
+
+rem Get end time:
+for /F "tokens=1-4 delims=:.," %%a in ("%time%") do (
+   set /A "end=(((%%a*60)+1%%b %% 100)*60+1%%c %% 100)*100+1%%d %% 100"
+)
+
+rem Get elapsed time:
+set /A elapsed=end-start
+
+rem Show elapsed time:
+set /A hh=elapsed/(60*60*100), rest=elapsed%%(60*60*100), mm=rest/(60*100), rest%%=60*100, ss=rest/100, cc=rest%%100
+if %hh% lss 10 set hh=0%hh%
+if %mm% lss 10 set mm=0%mm%
+if %ss% lss 10 set ss=0%ss%
+if %cc% lss 10 set cc=0%cc%
+echo Streebog (Hidden) = %hh%:%mm%:%ss%,%cc%
 echo.
 
 "c:\Program Files\VeraCrypt\veracrypt.exe" /dismount %mydriveletter% /silent /q
@@ -319,3 +376,5 @@ set volume=
 endlocal & set "%output_var%=%volume%" & exit /b %exitcode%
 
 :exit
+
+pause

@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -40,14 +40,7 @@ namespace VeraCrypt
 
 	void LanguageStrings::Init ()
 	{
-		foreach (XmlNode node, XmlParser (Resources::GetLanguageXml()).GetNodes (L"string"))
-		{
-			wxString text = node.InnerText;
-			text.Replace (L"\\n", L"\n");
-			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
-		}
-
-		foreach (XmlNode node, XmlParser (Resources::GetLanguageXml()).GetNodes (L"control"))
+		foreach (XmlNode node, XmlParser (Resources::GetLanguageXml()).GetNodes (L"entry"))
 		{
 			wxString text = node.InnerText;
 			text.Replace (L"\\n", L"\n");
@@ -60,7 +53,7 @@ namespace VeraCrypt
 		Map["NO"] = _("No");
 		Map["NO_VOLUMES_MOUNTED"] = _("No volumes mounted.");
 		Map["OPEN_NEW_VOLUME"] = _("Specify a New VeraCrypt Volume");
-		Map["PARAMETER_INCORRECT"] = _("Parameter incorrrect");
+		Map["PARAMETER_INCORRECT"] = _("Parameter incorrect");
 		Map["SELECT_KEYFILES"] = _("Select Keyfiles");
 		Map["START_TC"] = _("Start VeraCrypt");
 		Map["VOLUME_ALREADY_MOUNTED"] = _("The volume \"{0}\" is already mounted.");

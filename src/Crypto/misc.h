@@ -2,11 +2,23 @@
 #define CRYPTOPP_MISC_H
 
 #include "config.h"
+#if !defined(_UEFI)
 #include <string.h>		// for memcpy and memmove
+#ifndef _WIN32
+#include <strings.h> // for strcasecmp
+#define _stricmp strcasecmp
+#endif
+#else
+#include "Tcdefs.h"
+#endif // !defined(_UEFI)
 
-#ifdef _MSC_VER
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+#if defined(_MSC_VER) && !defined(_UEFI)
 	#if _MSC_VER >= 1400
-		#ifndef TC_WINDOWS_DRIVER
+		#if !defined(TC_WINDOWS_DRIVER) && !defined(_UEFI)
 			// VC2005 workaround: disable declarations that conflict with winnt.h
 			#define _interlockedbittestandset CRYPTOPP_DISABLED_INTRINSIC_1
 			#define _interlockedbittestandreset CRYPTOPP_DISABLED_INTRINSIC_2
@@ -19,7 +31,7 @@
 			#undef _interlockedbittestandreset64
 		#endif
 		#define CRYPTOPP_FAST_ROTATE(x) 1
-	#elif _MSC_VER >= 1300
+	#elif !defined(_UEFI) &&  _MSC_VER >= 1300
 		#define CRYPTOPP_FAST_ROTATE(x) ((x) == 32 | (x) == 64)
 	#else
 		#define CRYPTOPP_FAST_ROTATE(x) ((x) == 32)
@@ -33,7 +45,7 @@
 	#define CRYPTOPP_FAST_ROTATE(x) 0
 #endif
 
-#if defined( _MSC_VER ) && ( _MSC_VER > 800 )
+#if defined( _MSC_VER ) && ( _MSC_VER > 800 ) && !defined(_UEFI)
 #pragma intrinsic(memcpy,memset)
 #endif
 
@@ -55,10 +67,29 @@
 
 #endif
 
+#if _MSC_VER >= 1400 && !defined(__INTEL_COMPILER)
+// Intel C++ Compiler 10.0 calls a function instead of using the rotate instruction when using these instructions
+#pragma intrinsic(_rotr8,_rotl8,_rotr16,_rotl16)
+
+#define rotr8(x,n)	_rotr8(x, n)
+#define rotl8(x,n)	_rotl8(x, n)
+#define rotr16(x,n)	_rotr16(x, n)
+#define rotl16(x,n)	_rotl16(x, n)
+
+#else
+
+#define rotr8(x,n)	(((x) >> n) | ((x) << (8 - n)))
+#define rotl8(x,n)	(((x) << n) | ((x) >> (8 - n)))
+#define rotr16(x,n)	(((x) >> n) | ((x) << (16 - n)))
+#define rotl16(x,n)	(((x) << n) | ((x) >> (16 - n)))
+
+#endif
+
 #if defined(__GNUC__) && defined(__linux__)
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #include <byteswap.h>
-#elif defined(_MSC_VER) && _MSC_VER >= 1300
+#elif defined(_MSC_VER) && _MSC_VER >= 1300 && !defined(_UEFI)
+#pragma intrinsic(_byteswap_ulong,_byteswap_uint64)
 #define CRYPTOPP_BYTESWAP_AVAILABLE
 #define bswap_32(x)	_byteswap_ulong(x)
 #define bswap_64(x)	_byteswap_uint64(x)
@@ -69,10 +100,12 @@
 #define bswap_32 OSSwapInt32
 #define bswap_64 OSSwapInt64
 #else
-#ifdef CRYPTOPP_FAST_ROTATE(32)
+#if CRYPTOPP_FAST_ROTATE(32)
 #define bswap_32(x)	(rotr32((x), 8U) & 0xff00ff00) | (rotl32((x), 8U) & 0x00ff00ff)
 #else
+#define CRYPTOPP_BYTESWAP_AVAILABLE
 #define bswap_32(x)	(rotl32((((x) & 0xFF00FF00) >> 8) | (((x) & 0x00FF00FF) << 8), 16U))
+#define bswap_64(x)	rotl64(((((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | (((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
 #endif
 #ifndef TC_NO_COMPILER_INT64
 #define bswap_64(x)	rotl64(((((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0xFFFF0000FFFF0000)) >> 16) | (((((x & LL(0xFF00FF00FF00FF00)) >> 8) | ((x & LL(0x00FF00FF00FF00FF)) << 8)) & LL(0x0000FFFF0000FFFF)) << 16)), 32U)
@@ -145,5 +178,9 @@ VC_INLINE void CorrectEndianess(uint64 *out, const uint64 *in, size_t byteCount)
 #define IsAlignedOn(p,alignment) ((alignment==1) || (IsPowerOf2(alignment) ? ModPowerOf2((size_t)p, alignment) == 0 : (size_t)p % alignment == 0))
 
 #define IsAligned16(p)	IsAlignedOn(p, GetAlignmentOf(uint64))
+
+#ifdef  __cplusplus
+}
+#endif
 
 #endif

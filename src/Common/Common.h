@@ -3,8 +3,8 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
- and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+ Modifications and additions to the original source code (contained in this file)
+ and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
  code distribution packages.
@@ -20,6 +20,10 @@
 
 #define MAX_HOST_DRIVE_NUMBER 64
 #define MAX_HOST_PARTITION_NUMBER 32
+
+#define VOLUME_ID_SIZE	SHA256_DIGESTSIZE
+
+#define ALIGN_VALUE(value, alignment) (((alignment) == 0)? (value) : (((value) + ((alignment) - 1)) & ~((alignment) - 1)))
 
 typedef enum
 {
@@ -88,6 +92,7 @@ typedef struct
 	int ProtectedHidVolPkcs5Prf;
 	int ProtectedHidVolPim;
 	wchar_t Label[33]; /* maximum label length is 32 for NTFS and 11 for FAT32 */
+	BOOL DisableMountManager;
 } MountOptions;
 
 #endif

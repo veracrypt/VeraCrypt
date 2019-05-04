@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Aeskey.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Aestab.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rmd160.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sha2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Twofish.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Whirlpool.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GostCipher.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kuznyechik.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Streebog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SerpentFast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SerpentFast_simd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camellia.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kuznyechik_simd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rdrand.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chacha256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chacha-xmm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chachaRng.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jitterentropy-base.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="t1ha_selfcheck.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="t1ha2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="t1ha2_selfcheck.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Aes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Aes_hw_cpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Aesopt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Aestab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camellia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rmd160.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sha2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Twofish.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Whirlpool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GostCipher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kuznyechik.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Streebog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SerpentFast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SerpentFast_sbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rdrand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chacha_u1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chacha_u4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chacha256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chachaRng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jitterentropy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jitterentropy-base-user.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1ha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1ha_bits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="t1ha_selfcheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Aes_hw_cpu.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Aes_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Aes_x86.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Gost89_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Twofish_x64.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Camellia_x64.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Camellia_aesni_x64.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha512-x64-nayuki.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha256-x86-nayuki.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha256_avx1_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha256_avx2_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha256_sse4_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha512-x86-nayuki.S">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha512_avx1_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha512_avx2_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sha512_sse4_x64.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="rdrand_ml.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

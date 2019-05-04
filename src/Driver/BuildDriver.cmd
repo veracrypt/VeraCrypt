@@ -3,8 +3,8 @@
 :: Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
 :: by the TrueCrypt License 3.0.
 ::
-:: Modifications and additions to the original source code (contained in this file) 
-:: and all other portions of this file are Copyright (c) 2013-2016 IDRIX
+:: Modifications and additions to the original source code (contained in this file)
+:: and all other portions of this file are Copyright (c) 2013-2017 IDRIX
 :: and are governed by the Apache License 2.0 the full text of which is
 :: contained in the file License.txt included in VeraCrypt binary and source
 :: code distribution packages.
@@ -103,6 +103,24 @@ pushd .
 call %TC_WINDDK_ROOT%\bin\setenv %TC_WINDDK_ROOT% %TC_BUILD_TYPE% %TC_BUILD_ARCH% no_oacr || exit /B %errorlevel%
 popd
 
+:: set path to VC++ 2010
+IF EXIST "%programfiles(x86)%" (GOTO 64-Bit) ELSE (GOTO 32-Bit)
+
+:32-Bit
+@set "VCPATH=%programfiles%\Microsoft Visual Studio 10.0\"
+GOTO CONTINUE
+
+:64-Bit
+@set "VCPATH=%programfiles(x86)%\Microsoft Visual Studio 10.0\"
+GOTO CONTINUE
+
+:CONTINUE
+
+if "%TC_ARG_ARCH%"=="-x64" (
+	@set "PATH=%VCPATH%Common7\IDE;%VCPATH%VC\bin\amd64;%PATH%"
+) else (
+	@set "PATH=%VCPATH%Common7\IDE;%VCPATH%VC\bin;%PATH%"
+)
 
 :: Build
 
@@ -128,7 +146,7 @@ pushd .
 		set BUILD_ALT_DIR=%TC_BUILD_ALT_DIR%
 
 		build %TC_BUILD_OPTS% -w -nmake /S -nmake /C 2>build_errors.log 1>&2
-		
+
 		if errorlevel 1 (
 			type build_errors.log
 			type build_errors_asm.log 2>NUL:
@@ -138,7 +156,7 @@ pushd .
 	)
 
 	shift
-	
+
 goto build_dirs
 :done
 popd
