@@ -809,7 +809,7 @@
     <entry lang="de" key="SYSTEM_PARTITION_PARTIALLY_ENCRYPTED">Systempartition (%.2f%% verschlüsselt)</entry>
     <entry lang="de" key="HID_VOL_DAMAGE_PREVENTED">Ja (vor Beschädigung bewahrt!)</entry>
     <entry lang="de" key="NONE">Keins</entry>
-    <entry lang="de" key="KEY_SIZE">Primärschlüssel Größe</entry>
+    <entry lang="de" key="KEY_SIZE">Primärschlüsselgröße</entry>
     <entry lang="de" key="SECONDARY_KEY_SIZE_XTS">Sekundärschlüssellänge (XTS-Modus)</entry>
     <entry lang="de" key="SECONDARY_KEY_SIZE_LRW">Tweak-Schlüssellänge (LRW-Modus)</entry>
     <entry lang="de" key="BITS">Bit</entry>
