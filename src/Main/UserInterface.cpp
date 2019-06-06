@@ -1307,7 +1307,7 @@ namespace VeraCrypt
 					"veracrypt --filesystem=none volume.hc\n"
 					"\n"
 					"Mount a volume prompting only for its password:\n"
-					"veracrypt -t -k \"\" --protect-hidden=no volume.hc /media/veracrypt1\n"
+					"veracrypt -t -k \"\" --pim=0 --protect-hidden=no volume.hc /media/veracrypt1\n"
 					"\n"
 					"Dismount a volume:\n"
 					"veracrypt -d volume.hc\n"
