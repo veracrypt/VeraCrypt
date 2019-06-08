@@ -56,9 +56,9 @@ namespace VeraCrypt
 					if (!execFunctor)
 						args[argIndex++] = const_cast <char*> (processName.c_str());
 
-					for (list<string>::const_iterator it = arguments.begin(); it != arguments.end(); it++)
+					foreach (const string &arg, arguments)
 					{
-						args[argIndex++] = const_cast <char*> (it->c_str());
+						args[argIndex++] = const_cast <char*> (arg.c_str());
 					}
 					args[argIndex] = nullptr;
 
