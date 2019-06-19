@@ -52,7 +52,7 @@
     <entry lang="ko" key="IDC_MORE_INFO_ON_CONTAINERS">추가 정보</entry>
     <entry lang="ko" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">시스템 암호화에 대한 추가 정보</entry>
     <entry lang="ko" key="IDC_MORE_INFO_SYS_ENCRYPTION">추가 정보</entry>
-    <entry lang="ko" key="IDC_MULTI_BOOT">멀티-부트</entry>
+    <entry lang="ko" key="IDC_MULTI_BOOT">멀티부팅</entry>
     <entry lang="ko" key="IDC_NONSYS_DEVICE">비-시스템 파티션/드라이브 암호화</entry>
     <entry lang="ko" key="IDC_NO_HISTORY">히스토리 저장 안함</entry>
     <entry lang="ko" key="IDC_OPEN_OUTER_VOLUME">외부 볼륨 열기</entry>
@@ -119,7 +119,7 @@
     <entry lang="ko" key="IDC_CREATE_VOLUME">볼륨 만들기(&amp;C)</entry>
     <entry lang="ko" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">부팅-전 인증 화면에 어떠한 텍스트도 표시 안함(* 하단의 사용자 메시지는 제외)(&amp;S)</entry>
     <entry lang="ko" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">"Evil Maid" 탐지를 사용 안함</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)</entry>
+    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">CPU에 내장된 AES 명령을 사용하여 AES 암호화/복호화 가속(사용 가능한 경우)</entry>
     <entry lang="ko" key="IDC_ENABLE_KEYFILES">키파일 사용</entry>
     <entry lang="ko" key="IDC_ENABLE_NEW_KEYFILES">키파일 사용</entry>
     <entry lang="ko" key="IDC_EXIT">종료(&amp;X)</entry>
@@ -144,7 +144,7 @@
     <entry lang="ko" key="IDC_HOTKEY_ASSIGN">할당</entry>
     <entry lang="ko" key="IDC_HOTKEY_REMOVE">제거</entry>
     <entry lang="ko" key="IDC_KEYFILES">키파일...</entry>
-    <entry lang="ko" key="IDC_LIMIT_ENC_THREAD_POOL">암호화/복호화에 다음의 프로세서의 재한수 (예: 2 = 2개의 프로세서만 사용가능):</entry>
+    <entry lang="ko" key="IDC_LIMIT_ENC_THREAD_POOL">암호화/복호화에 다음의 프로세서의 제한수 (예: 2 = 2개의 프로세서만 사용가능):</entry>
     <entry lang="ko" key="IDC_MORE_INFO_ON_HW_ACCELERATION">자세한 내용</entry>
     <entry lang="ko" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">자세한 내용</entry>
     <entry lang="ko" key="IDC_MORE_SETTINGS">다른 설정...</entry>
@@ -199,8 +199,8 @@
     <entry lang="ko" key="IDD_VOLUME_PROPERTIES">VeraCrypt 볼륨 속성</entry>
     <entry lang="ko" key="IDM_ABOUT">정보...</entry>
     <entry lang="ko" key="IDM_ADD_REMOVE_VOL_KEYFILES">볼륨에 키파일 추가/삭제...</entry>
-    <entry lang="ko" key="IDM_ADD_VOLUME_TO_FAVORITES">장착됀 볼륨을 즐겨찾기에 추가하기...</entry>
-    <entry lang="ko" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">장착됀 볼륨을 시스템 즐겨찾기에 추가하기...</entry>
+    <entry lang="ko" key="IDM_ADD_VOLUME_TO_FAVORITES">장착된 볼륨을 즐겨찾기에 추가하기...</entry>
+    <entry lang="ko" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">장착된 볼륨을 시스템 즐겨찾기에 추가하기...</entry>
     <entry lang="ko" key="IDM_ANALYZE_SYSTEM_CRASH">시스템 충돌을 분석하기...</entry>
     <entry lang="ko" key="IDM_BACKUP_VOL_HEADER">볼륨 헤더 백업...</entry>
     <entry lang="ko" key="IDM_BENCHMARK">벤치마크...</entry>
@@ -216,7 +216,7 @@
     <entry lang="ko" key="IDM_CREATE_VOLUME">새 볼륨 만들기...</entry>
     <entry lang="ko" key="IDM_DECRYPT_NONSYS_VOL">볼륨을 복호화 하기...</entry>
     <entry lang="ko" key="IDM_DEFAULT_KEYFILES">기본 키파일...</entry>
-    <entry lang="ko" key="IDM_DEFAULT_MOUNT_PARAMETERS">디폴트 삽입 변수...</entry>
+    <entry lang="ko" key="IDM_DEFAULT_MOUNT_PARAMETERS">기본 마운트 변수...</entry>
     <entry lang="ko" key="IDM_DONATE">기부하기...</entry>
     <entry lang="ko" key="IDM_ENCRYPT_SYSTEM_DEVICE">시스템 파티션/드라이브 암호화...</entry>
     <entry lang="ko" key="IDM_FAQ">자주 묻는 질문</entry>
@@ -266,7 +266,7 @@
     <entry lang="ko" key="IDM_WEBSITE">VeraCrypt 웹사이트</entry>
     <entry lang="ko" key="IDM_WIPE_CACHE">보관된 비밀번호 지우기</entry>
     <entry lang="ko" key="IDOK">확인</entry>
-    <entry lang="en" key="IDT_ACCELERATION_OPTIONS">Hardware Acceleration</entry>
+    <entry lang="en" key="IDT_ACCELERATION_OPTIONS">하드웨어 가속</entry>
     <entry lang="ko" key="IDT_ASSIGN_HOTKEY">바로가기</entry>
     <entry lang="ko" key="IDT_AUTORUN">자동-실행 설정 (autorun.inf)</entry>
     <entry lang="ko" key="IDT_AUTO_DISMOUNT">자동 꺼냄</entry>
@@ -278,18 +278,18 @@
     <entry lang="ko" key="IDT_DEFAULT_MOUNT_OPTIONS">기본 삽입 옵션</entry>
     <entry lang="ko" key="IDT_DISMOUNT_ACTION">단축키 옵션</entry>
     <entry lang="ko" key="IDT_DRIVER_OPTIONS">드라이버 설정</entry>
-    <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Enable extended disk control codes support</entry>
-    <entry lang="ko" key="IDT_FAVORITE_LABEL">택된 볼륨의 레이블:</entry>
+    <entry lang="en" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">확장 디스크 제어 코드 사용</entry>
+    <entry lang="ko" key="IDT_FAVORITE_LABEL">선택된 볼륨의 레이블:</entry>
     <entry lang="ko" key="IDT_FILE_SETTINGS">파일 설정</entry>
     <entry lang="ko" key="IDT_HOTKEY_KEY">할당할 키:</entry>
-    <entry lang="ko" key="IDT_HW_AES_SUPPORTED_BY_CPU">이 컴퓨터의 프로세서는(CPU) AES의 하드웨어 가속(Hardware Acceleration)을 지원합니다:</entry>
+    <entry lang="ko" key="IDT_HW_AES_SUPPORTED_BY_CPU">이 PC의 CPU는 AES의 하드웨어 가속을 지원합니다.</entry>
     <entry lang="ko" key="IDT_LOGON">윈도우에 로그온할 때 수행할 작업</entry>
     <entry lang="ko" key="IDT_MINUTES">분</entry>
     <entry lang="ko" key="IDT_MOUNT_LETTER">특정 드라이브 문자로 삽입:</entry>
     <entry lang="ko" key="IDT_MOUNT_SETTINGS">삽입 설정</entry>
     <entry lang="ko" key="IDT_NEW">새 비밀번호</entry>
     <entry lang="ko" key="IDT_NEW_PASSWORD">비밀번호:</entry>
-    <entry lang="en" key="IDT_PARALLELIZATION_OPTIONS">Thread-Based Parallelization</entry>
+    <entry lang="en" key="IDT_PARALLELIZATION_OPTIONS">스레드 기반 병렬화</entry>
     <entry lang="ko" key="IDT_PKCS11_LIB_PATH">PKCS #11 라이브러리 경로</entry>
     <entry lang="ko" key="IDT_PKCS5_PRF">PKCS-5 PRF</entry>
     <entry lang="en" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
