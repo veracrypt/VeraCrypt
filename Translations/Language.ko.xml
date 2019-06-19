@@ -7,136 +7,136 @@
     <font lang="ko" class="fixed" size="12" face="Lucida Console" />
     <font lang="ko" class="title" size="21" face="Times New Roman" />
     <entry lang="ko" key="IDCANCEL">취소</entry>
-    <entry lang="ko" key="IDC_ALL_USERS">모든 사용자를 위해 설치(&amp;F)</entry>
-    <entry lang="ko" key="IDC_BROWSE">탐색(&amp;W)...</entry>
-    <entry lang="ko" key="IDC_DESKTOP_ICON">바탕화면에 VeraCrypt 아이콘 추가</entry>
-    <entry lang="ko" key="IDC_DONATE">기부하기...</entry>
-    <entry lang="ko" key="IDC_FILE_TYPE">VeraCrypt와 “.hc” 파일 확장자를 연결</entry>
-    <entry lang="ko" key="IDC_OPEN_CONTAINING_FOLDER">완료시 타겟 위치 열기(&amp;O)</entry>
+    <entry lang="ko" key="IDC_ALL_USERS">모든 사용자를 위해 설치(F)</entry>
+    <entry lang="ko" key="IDC_BROWSE">탐색(W)</entry>
+    <entry lang="ko" key="IDC_DESKTOP_ICON">바탕화면에 VeraCrypt 바로가기 추가</entry>
+    <entry lang="ko" key="IDC_DONATE">기부하러 가기</entry>
+    <entry lang="ko" key="IDC_FILE_TYPE">VeraCrypt와 .hc 확장자를 연결</entry>
+    <entry lang="ko" key="IDC_OPEN_CONTAINING_FOLDER">완료시 대상 위치 열기(O)</entry>
     <entry lang="ko" key="IDC_PROG_GROUP">시작 메뉴에 VeraCrypt 추가</entry>
     <entry lang="ko" key="IDC_SYSTEM_RESTORE">시스템 복구 시점 만들기</entry>
-    <entry lang="ko" key="IDC_UNINSTALL">제거(&amp;U)</entry>
-    <entry lang="ko" key="IDC_WIZARD_MODE_EXTRACT_ONLY">추출(&amp;E)</entry>
-    <entry lang="ko" key="IDC_WIZARD_MODE_INSTALL">설치(&amp;I)</entry>
+    <entry lang="ko" key="IDC_UNINSTALL">제거(U)</entry>
+    <entry lang="ko" key="IDC_WIZARD_MODE_EXTRACT_ONLY">압축 해제(E)</entry>
+    <entry lang="ko" key="IDC_WIZARD_MODE_INSTALL">설치(I)</entry>
     <entry lang="ko" key="IDD_INSTL_DLG">VeraCrypt 설치 마법사</entry>
     <entry lang="ko" key="IDD_UNINSTALL">VeraCrypt 제거</entry>
-    <entry lang="ko" key="IDHELP">도움말(&amp;H)</entry>
-    <entry lang="ko" key="IDT_EXTRACT_DESTINATION">추출된 파일을 둘 위치를 선택하거나 입력해 주세요:</entry>
-    <entry lang="ko" key="IDT_INSTALL_DESTINATION">VeraCrypt 프로그램 파일을 설치할 위치를 선택하거나 입력해 주세요. 지정한 폴더가 존재하지 않는 경우, 자동으로 폴더가 생성됩니다.</entry>
-    <entry lang="ko" key="IDT_UNINSTALL_DIR">현재 시스템에서 VeraCrypt를 제거하려면 “제거” 를 클릭하세요.</entry>
+    <entry lang="ko" key="IDHELP">도움말(H)</entry>
+    <entry lang="ko" key="IDT_EXTRACT_DESTINATION">압축 해제된 파일을 저장할 위치를 선택하거나 입력하세요:</entry>
+    <entry lang="ko" key="IDT_INSTALL_DESTINATION">VeraCrypt 프로그램 파일을 설치할 위치를 선택하거나 입력하세요. 지정된 폴더가 없으면 자동으로 생성됩니다.</entry>
+    <entry lang="ko" key="IDT_UNINSTALL_DIR">이 시스템에서 VeraCrypt를 제거하려면 제거를 클릭하십시오.</entry>
     <entry lang="ko" key="IDC_ABORT_BUTTON">중지</entry>
-    <entry lang="ko" key="IDC_BENCHMARK">&amp;벤치마크 테스트</entry>
-    <entry lang="ko" key="IDC_CIPHER_TEST">테스트(&amp;T)</entry>
-    <entry lang="ko" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">암호화된 볼륨을 만든 후 포맷</entry>
-    <entry lang="ko" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">파티션 자체 암호화</entry>
+    <entry lang="ko" key="IDC_BENCHMARK">벤치마크</entry>
+    <entry lang="ko" key="IDC_CIPHER_TEST">테스트</entry>
+    <entry lang="ko" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">암호화된 볼륨 생성 및 포맷</entry>
+    <entry lang="ko" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">전체 파티션 암호화</entry>
     <entry lang="ko" key="IDC_DISPLAY_KEYS">생성된 키 표시</entry>
-    <entry lang="ko" key="IDC_DISPLAY_POOL_CONTENTS">풀(Pool) 내용 표시</entry>
-    <entry lang="ko" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD 리코딩 소프트웨어 다운로드</entry>
-    <entry lang="ko" key="IDC_FILE_CONTAINER">암호화된 파일 보관소 만들기</entry>
-    <entry lang="ko" key="IDC_GB">GB(&amp;G)</entry>
-    <entry lang="ko" key="IDC_TB">TB(&amp;T)</entry>
+    <entry lang="ko" key="IDC_DISPLAY_POOL_CONTENTS">풀 내용 표시</entry>
+    <entry lang="ko" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD 기록 소프트웨어 다운로드</entry>
+    <entry lang="ko" key="IDC_FILE_CONTAINER">암호화된 파일 보관소 생성</entry>
+    <entry lang="ko" key="IDC_GB">GB</entry>
+    <entry lang="ko" key="IDC_TB">TB</entry>
     <entry lang="ko" key="IDC_HIDDEN_SYSENC_INFO_LINK">추가 정보</entry>
-    <entry lang="ko" key="IDC_HIDDEN_VOL">숨긴 VeraCrypt 볼륨(&amp;D) </entry>
-    <entry lang="ko" key="IDC_HIDDEN_VOL_HELP">숨긴 볼륨에 대한 추가 정보</entry>
+    <entry lang="ko" key="IDC_HIDDEN_VOL">숨겨진 VeraCrypt 볼륨</entry>
+    <entry lang="ko" key="IDC_HIDDEN_VOL_HELP">숨겨진 볼륨에 대한 추가 정보</entry>
     <entry lang="ko" key="IDC_HIDVOL_WIZ_MODE_DIRECT">직접 방식</entry>
     <entry lang="ko" key="IDC_HIDVOL_WIZ_MODE_FULL">표준 방식</entry>
-    <entry lang="ko" key="IDC_KB">KB(&amp;K)</entry>
-    <entry lang="ko" key="IDC_KEYFILES_ENABLE">키파일 사용(&amp;S)</entry>
-    <entry lang="ko" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">빈 비밀번호를 먼저 사용</entry>
-    <entry lang="ko" key="IDC_KEYFILES_RANDOM_SIZE">키파일 랜덤 사이즈 (64 &lt;-&gt; 1048576 바이트)</entry>
-    <entry lang="ko" key="IDC_KEY_FILES">키파일(&amp;k)...</entry>
+    <entry lang="ko" key="IDC_KB">KB</entry>
+    <entry lang="ko" key="IDC_KEYFILES_ENABLE">키 파일 사용</entry>
+    <entry lang="ko" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">빈 암호를 먼저 사용</entry>
+    <entry lang="ko" key="IDC_KEYFILES_RANDOM_SIZE">무작위 키 파일 크기 ( 64 &lt;-&gt; 1048576 )</entry>
+    <entry lang="ko" key="IDC_KEY_FILES">키 파일</entry>
     <entry lang="ko" key="IDC_LINK_HASH_INFO">해시 알고리듬에 대한 정보</entry>
     <entry lang="ko" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">추가 정보</entry>
     <entry lang="ko" key="IDC_LINK_PIM_INFO">PIM에 대한 정보</entry>
-    <entry lang="ko" key="IDC_MB">MB(&amp;M)</entry>
+    <entry lang="ko" key="IDC_MB">MB</entry>
     <entry lang="ko" key="IDC_MORE_INFO_ON_CONTAINERS">추가 정보</entry>
     <entry lang="ko" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">시스템 암호화에 대한 추가 정보</entry>
     <entry lang="ko" key="IDC_MORE_INFO_SYS_ENCRYPTION">추가 정보</entry>
     <entry lang="ko" key="IDC_MULTI_BOOT">멀티 부트</entry>
-    <entry lang="ko" key="IDC_NONSYS_DEVICE">비-시스템 파티션/드라이브 암호화</entry>
-    <entry lang="ko" key="IDC_NO_HISTORY">히스토리 저장 안함</entry>
+    <entry lang="ko" key="IDC_NONSYS_DEVICE">비 시스템 파티션/드라이브 암호화</entry>
+    <entry lang="ko" key="IDC_NO_HISTORY">기록 저장 안함</entry>
     <entry lang="ko" key="IDC_OPEN_OUTER_VOLUME">외부 볼륨 열기</entry>
-    <entry lang="ko" key="IDC_PAUSE">정지(&amp;P)</entry>
-    <entry lang="ko" key="IDC_PIM_ENABLE">P&amp;IM 사용하기</entry>
+    <entry lang="ko" key="IDC_PAUSE">정지</entry>
+    <entry lang="ko" key="IDC_PIM_ENABLE">PIM 사용</entry>
     <entry lang="ko" key="IDC_NEW_PIM_ENABLE">PIM 사용하기</entry>
     <entry lang="ko" key="IDC_QUICKFORMAT">빠른 포맷</entry>
-    <entry lang="ko" key="IDC_SHOW_PASSWORD">비밀번호 표시(&amp;D)</entry>
-    <entry lang="ko" key="IDC_SHOW_PASSWORD_SINGLE">비밀번호 표시(&amp;D)</entry>
-    <entry lang="ko" key="IDC_SHOW_PIM">&amp;PIM 표시</entry>
+    <entry lang="ko" key="IDC_SHOW_PASSWORD">비밀번호 표시</entry>
+    <entry lang="ko" key="IDC_SHOW_PASSWORD_SINGLE">비밀번호 표시</entry>
+    <entry lang="ko" key="IDC_SHOW_PIM">PIM 표시</entry>
     <entry lang="ko" key="IDC_SINGLE_BOOT">싱글 부트</entry>
     <entry lang="ko" key="IDC_STD_VOL">표준 VeraCrypt 볼륨</entry>
-    <entry lang="ko" key="IDC_SYSENC_HIDDEN">숨김(&amp;D)</entry>
+    <entry lang="ko" key="IDC_SYSENC_HIDDEN">숨겨짐</entry>
     <entry lang="ko" key="IDC_SYSENC_NORMAL">표준</entry>
-    <entry lang="ko" key="IDC_SYS_DEVICE">시스템 파티션 또는 전체 시스템 드라이브의 암호화</entry>
-    <entry lang="ko" key="IDC_SYS_PARTITION">윈도우 시스템 파티션 암호화</entry>
-    <entry lang="ko" key="IDC_WHOLE_SYS_DRIVE">전체 드라이브 암호화</entry>
+    <entry lang="ko" key="IDC_SYS_DEVICE">시스템 파티션 또는 전체 시스템 드라이브 암호화</entry>
+    <entry lang="ko" key="IDC_SYS_PARTITION">Windows 시스템 파티션 암호화</entry>
+    <entry lang="ko" key="IDC_WHOLE_SYS_DRIVE">모든 드라이브 암호화</entry>
     <entry lang="ko" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt 볼륨 만들기 마법사</entry>
     <entry lang="ko" key="IDT_CLUSTER">클러스터 </entry>
-    <entry lang="ko" key="IDT_COLLECTING_RANDOM_DATA_NOTE">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 암호키의 암호력을 상당히 증대시킵니다. 계속하려면 "다음"을 클릭하세요.</entry>
-    <entry lang="ko" key="IDT_CONFIRM">확인(&amp;C):</entry>
+    <entry lang="ko" key="IDT_COLLECTING_RANDOM_DATA_NOTE">중요: 이 창에서 마우스를 가능한 한 무작위로 이동하세요. 오래 움직일수록 좋습니다. 이것은 암호화 키의 암호 강도를 매우 강하게 만듭니다. 계속하려면 다음을 클릭하십시오.</entry>
+    <entry lang="ko" key="IDT_CONFIRM">확인:</entry>
     <entry lang="ko" key="IDT_DONE">완료</entry>
     <entry lang="ko" key="IDT_DRIVE_LETTER">드라이브 문자:</entry>
     <entry lang="ko" key="IDT_ENCRYPTION_ALGO">암호 알고리듬</entry>
     <entry lang="ko" key="IDT_FILESYSTEM">파일시스템 </entry>
-    <entry lang="ko" key="IDT_FILE_CONTAINER">파일 안에 가상의 암호화된 디스크를 만듭니다. 경험 없는 사용자에게 권장합니다.</entry>
+    <entry lang="ko" key="IDT_FILE_CONTAINER">파일 내에 암호화된 가상 디스크를 생성합니다. 경험이 없는 사용자에게 권장됩니다.</entry>
     <entry lang="ko" key="IDT_FORMAT_OPTIONS">옵션</entry>
     <entry lang="ko" key="IDT_HASH_ALGO">해시 알고리듬</entry>
     <entry lang="ko" key="IDT_HEADER_KEY">헤더 키: </entry>
     <entry lang="ko" key="IDT_LEFT">남음</entry>
     <entry lang="ko" key="IDT_MASTER_KEY">마스터 키: </entry>
-    <entry lang="ko" key="IDT_MULTI_BOOT">컴퓨터에 두 개 또는 그 이상의 운영체제가 설치되어 있는 경우에 이 옵션을 선택합니다.\n\n예:\n- Windows XP 및 Windows XP\n- Windows XP 및 Windows Vista\n- Windows 및 Mac OS X\n- Windows 및 Linux\n- Windows, Linux 및 Mac OS X</entry>
-    <entry lang="ko" key="IDT_NON_SYS_DEVICE">내부 또는 외부 드라이브(예: 플래시 드라이브)에 시스템이 아닌 파티션을 암호화합니다. 숨긴 볼륨을 선택적으로 만들 수 있습니다.</entry>
-    <entry lang="ko" key="IDT_PARTIAL_POOL_CONTENTS">현재의 풀(Pool) 내용 (부분)</entry>
+    <entry lang="ko" key="IDT_MULTI_BOOT">이 컴퓨터에 둘 이상의 운영 체제가 설치되어 있는 경우 이 옵션을 선택하십시오.\n\n예:\n- Windows XP 및 Windows XP\n- Windows XP 및 Windows Vista\n- Windows 및 Mac OS X\n- Windows 및 Linux\n- Windows, Linux 및 Mac OS X</entry>
+    <entry lang="ko" key="IDT_NON_SYS_DEVICE">모든 내장 또는 외장 드라이브(예: 플래시 드라이브)에서 비시스템 파티션 암호화가 필요한 경우, 숨겨진 볼륨을 생성합니다.</entry>
+    <entry lang="ko" key="IDT_PARTIAL_POOL_CONTENTS">현재의 풀 내용 (부분적)</entry>
     <entry lang="ko" key="IDT_PASS">패스</entry>
     <entry lang="ko" key="IDT_PASSWORD">비밀번호:</entry>
     <entry lang="ko" key="IDT_PIM">볼륨 PIM:</entry>
     <entry lang="ko" key="IDT_OLD_PIM">볼륨 PIM:</entry>
-    <entry lang="ko" key="IDT_PROGRESS">진행:</entry>
+    <entry lang="ko" key="IDT_PROGRESS">진행률:</entry>
     <entry lang="ko" key="IDT_RANDOM_POOL">무작위 풀: </entry>
-    <entry lang="ko" key="IDT_SINGLE_BOOT">현재 컴퓨터에 설치된 운영체제가 한 개인 경우 (비록 사용자가 여럿 있는 경우라 하더라도) 이 옵션을 선택합니다.</entry>
+    <entry lang="ko" key="IDT_SINGLE_BOOT">이 컴퓨터에 운영 체제가 하나만 설치되어 있는 경우(사용자가 여러 개인 경우에도) 이 옵션을 선택하세요.</entry>
     <entry lang="ko" key="IDT_SPEED">속도</entry>
     <entry lang="ko" key="IDT_STATUS">상태</entry>
-    <entry lang="ko" key="IDT_SYSENC_KEYS_GEN_INFO">키, 소금(→ 패스워드 보호에서 패스워드 해시를 변환하는 데 사용되는 무작위 문자열) 및 기타 데이터를 성공적으로 생성했습니다. 새로운 키를 생성하려면 “뒤로”를 클릭한 후 “다음”을 누르세요. 계속하려면 “다음”을 클릭하세요.</entry>
-    <entry lang="ko" key="IDT_SYS_DEVICE">윈도우가 설치되어 있는 파티션/드라이브를 암호화합니다. 시스템에 접근해서 사용하고, 파일을 읽고 쓰는 등의 작업을 하려는 사람은 윈도우가 부팅할 때마다 올바른 비밀번호를 입력해야 합니다. 숨긴 시스템을 선택적으로 만들 수 있습니다.</entry>
-    <entry lang="ko" key="IDT_SYS_PARTITION">현재 실행 중인 윈도우 운영체제가 설치된 파티션을 암호화하려면 이 옵션을 선택합니다.</entry>
-    <entry lang="ko" key="IDT_VOLUME_LABEL">윈도우 볼륨 이름:</entry>
-    <entry lang="ko" key="IDT_WIPE_MODE">지움 방식:</entry>
+    <entry lang="ko" key="IDT_SYSENC_KEYS_GEN_INFO">키, 소금, 기타 데이터가 성공적으로 생성되었습니다. 새 키를 생성하려면 뒤로가기 버튼을 누르고 다음을 누르십시오. 그렇지 않으면 다음을 눌러 계속하십시오.</entry>
+    <entry lang="ko" key="IDT_SYS_DEVICE">Windows가 설치된 파티션/드라이브가 암호화되었습니다. 접근 권한을 얻고 시스템, 파일 읽기 및 쓰기 등을 원하는 사람은 Windows 가 부팅되기 전에 매번 정확한 암호를 입력해야 합니다. 선택적으로 숨겨진 시스템을 생성하세요.</entry>
+    <entry lang="ko" key="IDT_SYS_PARTITION">현재 실행 중인 Windows 운영 체제가 설치된 파티션을 암호화하려면 이 옵션을 선택하십시오.</entry>
+    <entry lang="ko" key="IDT_VOLUME_LABEL">Windows 볼륨 레이블:</entry>
+    <entry lang="ko" key="IDT_WIPE_MODE">초기화 방식:</entry>
     <entry lang="ko" key="IDCLOSE">닫기</entry>
-    <entry lang="ko" key="IDC_ALLOW_ESC_PBA_BYPASS">Esc 키를 눌러 부팅 전 인증을 건너뛸 수 있습니다(* 부트 관리자 사용)(&amp;A)</entry>
-    <entry lang="ko" key="IDC_AUTORUN_DISABLE">아무것도 안함</entry>
-    <entry lang="ko" key="IDC_AUTORUN_MOUNT">VeraCrypt 볼륨 자동삽입(&amp;A) (아래에서 지정)</entry>
-    <entry lang="ko" key="IDC_AUTORUN_START">VeraCrypt 시작(&amp;S)</entry>
-    <entry lang="ko" key="IDC_AUTO_DETECT_PKCS11_MODULE">라이브러리 자동-탐지(&amp;D)</entry>
-    <entry lang="ko" key="IDC_BOOT_LOADER_CACHE_PASSWORD">부팅 전 인증 암호를 드라이버 메모리에 캐시(* 시스템 아닌 볼륨의 삽입 목적)(&amp;C)</entry>
+    <entry lang="ko" key="IDC_ALLOW_ESC_PBA_BYPASS">Esc 키를 눌러 사전 부트 및 자동 인증 무시 허용 (부트 관리자 사용)</entry>
+    <entry lang="ko" key="IDC_AUTORUN_DISABLE">아무 것도 안함</entry>
+    <entry lang="ko" key="IDC_AUTORUN_MOUNT">VeraCrypt 볼륨 자동 마운트 (아래에서 설정))</entry>
+    <entry lang="ko" key="IDC_AUTORUN_START">VeraCrypt 시작</entry>
+    <entry lang="ko" key="IDC_AUTO_DETECT_PKCS11_MODULE">자동라이브러리 검색</entry>
+    <entry lang="ko" key="IDC_BOOT_LOADER_CACHE_PASSWORD">드라이버 메모리에 사전 부트 인증 암호 캐시 (비시스템 볼륨 마운트용)</entry>
     <entry lang="ko" key="IDC_BROWSE_DIRS">탐색...</entry>
     <entry lang="ko" key="IDC_BROWSE_FILES">탐색...</entry>
-    <entry lang="ko" key="IDC_CACHE">메모리에 비밀번호 및 키파일 보관</entry>
-    <entry lang="ko" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">삽입된 볼륨이 없을 때 종료</entry>
-    <entry lang="ko" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">볼륨이 성공적으로 삽입된 후 토큰 세션 닫기(* 로그 아웃)(&amp;C)</entry>
-    <entry lang="ko" key="IDC_COPY_EXPANDER">VeraCrypt 볼륨확장기를 포함</entry>
+    <entry lang="ko" key="IDC_CACHE">메모리에 암호 및 키파일 캐시</entry>
+    <entry lang="ko" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">마운트된 볼륨이 없을 때 종료</entry>
+    <entry lang="ko" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">볼륨이 성공적으로 마운트된 후 토큰 세션 닫기(로그아웃)</entry>
+    <entry lang="ko" key="IDC_COPY_EXPANDER">VeraCrypt 볼륨 확장기 포함</entry>
     <entry lang="ko" key="IDC_COPY_WIZARD">VeraCrypt 볼륨 만들기 마법사 포함</entry>
     <entry lang="ko" key="IDC_CREATE">만들기</entry>
-    <entry lang="ko" key="IDC_CREATE_VOLUME">볼륨 만들기(&amp;C)</entry>
-    <entry lang="ko" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">부팅-전 인증 화면에 어떠한 텍스트도 표시 안함(* 하단의 사용자 메시지는 제외)(&amp;S)</entry>
-    <entry lang="ko" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">"Evil Maid" 탐지를 사용 안함</entry>
+    <entry lang="ko" key="IDC_CREATE_VOLUME">볼륨 만들기</entry>
+    <entry lang="ko" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">사전 부트 인증 화면에 텍스트 표시 안 함 (아래 사용자 지정 메시지 제외)</entry>
+    <entry lang="ko" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">"Evil Maid" 공격 탐지 사용 안 함</entry>
     <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION">CPU에 내장된 AES 명령을 사용하여 AES 암호화/복호화 가속(사용 가능한 경우)</entry>
     <entry lang="ko" key="IDC_ENABLE_KEYFILES">키파일 사용</entry>
     <entry lang="ko" key="IDC_ENABLE_NEW_KEYFILES">키파일 사용</entry>
-    <entry lang="ko" key="IDC_EXIT">종료(&amp;X)</entry>
-    <entry lang="ko" key="IDC_FAVORITES_HELP_LINK">즐겨찾기 도움</entry>
-    <entry lang="ko" key="IDC_FAVORITE_DISABLE_HOTKEY">선택된 볼륨을 마운트하지 않기 ('즐겨찾기' 핫키를 눌렀을 경우)</entry>
+    <entry lang="ko" key="IDC_EXIT">종료</entry>
+    <entry lang="ko" key="IDC_FAVORITES_HELP_LINK">즐겨찾기 볼륨 도움말</entry>
+    <entry lang="ko" key="IDC_FAVORITE_DISABLE_HOTKEY">선택된 볼륨을 마운트하지 않기 ('즐겨찾기' 핫키를 눌럿을 경우)</entry>
     <entry lang="ko" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">선택된 볼륨을 호스트 장치가 연결될때 마운트하기</entry>
-    <entry lang="ko" key="IDC_FAVORITE_MOUNT_ON_LOGON">선택된 볼륨을 로그인때 마운트하기</entry>
+    <entry lang="ko" key="IDC_FAVORITE_MOUNT_ON_LOGON">선택된 볼륨을 로그인 할 때 마운트하기</entry>
     <entry lang="ko" key="IDC_FAVORITE_MOUNT_READONLY">선택된 볼륨을 읽기 전용으로 마운트하기</entry>
-    <entry lang="ko" key="IDC_FAVORITE_MOUNT_REMOVABLE">선택된 볼륨을 이동식 매체로 마운트하기</entry>
-    <entry lang="ko" key="IDC_FAVORITE_MOVE_DOWN">아래로 &amp; 이동</entry>
-    <entry lang="ko" key="IDC_FAVORITE_MOVE_UP">위로 &amp; 이동</entry>
-    <entry lang="ko" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">탐색기 창을 선택한 볼륨들이 성공적으로 마운트될때 열기</entry>
-    <entry lang="ko" key="IDC_FAVORITE_REMOVE">&amp;제거</entry>
-    <entry lang="ko" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">'즐겨찾기'의 표시를 탐색기 드라이브의 표시로 사용하기</entry>
+    <entry lang="ko" key="IDC_FAVORITE_MOUNT_REMOVABLE">선택된 볼륨을 이동식 드라이브로 마운트하기</entry>
+    <entry lang="ko" key="IDC_FAVORITE_MOVE_DOWN">아래로 이동</entry>
+    <entry lang="ko" key="IDC_FAVORITE_MOVE_UP">위로 이동</entry>
+    <entry lang="ko" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">성공적으로 마운트된 경우 선택한 볼륨에 대한 탐색기 창 열기</entry>
+    <entry lang="ko" key="IDC_FAVORITE_REMOVE">삭제</entry>
+    <entry lang="ko" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">즐겨찾기 레이블을 탐색기 드라이브 레이블로 사용</entry>
     <entry lang="ko" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">전역 설정</entry>
-    <entry lang="ko" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">풍선 툴탑을 성공적인 핫키 마운트 해재때 표시하기</entry>
-    <entry lang="ko" key="IDC_HK_DISMOUNT_PLAY_SOUND">시스템 소리를 성공적인 핫키 마운트 해재때 재생하기</entry>
+    <entry lang="ko" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">단축키 분리 성공 후 말풍선 툴팁 표시</entry>
+    <entry lang="ko" key="IDC_HK_DISMOUNT_PLAY_SOUND">단축키 분리 성공 후 시스템 알림 소리 재생</entry>
     <entry lang="en" key="IDC_HK_MOD_ALT">ALT</entry>
     <entry lang="en" key="IDC_HK_MOD_CTRL">Ctrl</entry>
     <entry lang="en" key="IDC_HK_MOD_SHIFT">SHIFT</entry>
@@ -144,13 +144,13 @@
     <entry lang="ko" key="IDC_HOTKEY_ASSIGN">할당</entry>
     <entry lang="ko" key="IDC_HOTKEY_REMOVE">제거</entry>
     <entry lang="ko" key="IDC_KEYFILES">키파일...</entry>
-    <entry lang="ko" key="IDC_LIMIT_ENC_THREAD_POOL">암호화/복호화에 다음의 프로세서의 제한수 (예: 2 = 2개의 프로세서만 사용가능):</entry>
-    <entry lang="ko" key="IDC_MORE_INFO_ON_HW_ACCELERATION">자세한 내용</entry>
-    <entry lang="ko" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">자세한 내용</entry>
-    <entry lang="ko" key="IDC_MORE_SETTINGS">다른 설정...</entry>
-    <entry lang="ko" key="IDC_MOUNTALL">장치 자동삽입(&amp;A)</entry>
-    <entry lang="ko" key="IDC_MOUNT_OPTIONS">삽입 옵션(&amp;O)...</entry>
-    <entry lang="ko" key="IDC_MOUNT_READONLY">볼륨을 읽기 전용으로 삽입(&amp;O)</entry>
+    <entry lang="ko" key="IDC_LIMIT_ENC_THREAD_POOL">암호화/복호화에 다음의 프로세서의 제한수:</entry>
+    <entry lang="ko" key="IDC_MORE_INFO_ON_HW_ACCELERATION">자세한 정보</entry>
+    <entry lang="ko" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">자세한 정보</entry>
+    <entry lang="ko" key="IDC_MORE_SETTINGS">추가 설정...</entry>
+    <entry lang="ko" key="IDC_MOUNTALL">장치 자동삽입(A)</entry>
+    <entry lang="ko" key="IDC_MOUNT_OPTIONS">삽입 옵션(O)...</entry>
+    <entry lang="ko" key="IDC_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입(O)</entry>
     <entry lang="ko" key="IDC_NEW_KEYFILES">키파일...</entry>
     <entry lang="ko" key="IDC_OLD_PIM_HELP">(빈값 아니면 0은 기본 반복값을 사용함)</entry>
     <entry lang="ko" key="IDC_PIM_HELP">(빈값 아니면 0은 기본 반복값을 사용함)</entry>
@@ -162,29 +162,29 @@
     <entry lang="ko" key="IDC_PREF_DISMOUNT_POWERSAVING">절전 모드로 들어갈 때</entry>
     <entry lang="ko" key="IDC_PREF_DISMOUNT_SCREENSAVER">화면보호기가 실행될 때</entry>
     <entry lang="ko" key="IDC_PREF_FORCE_AUTO_DISMOUNT">볼륨에 열린 파일 또는 디렉토리가 있어도 강제로 꺼내기</entry>
-    <entry lang="ko" key="IDC_PREF_LOGON_MOUNT_DEVICES">장치 기반의 모든 VeraCrypt 볼륨 삽입</entry>
+    <entry lang="ko" key="IDC_PREF_LOGON_MOUNT_DEVICES">장치-기반의 모든 VeraCrypt 볼륨 삽입</entry>
     <entry lang="ko" key="IDC_PREF_LOGON_START">VeraCrypt 백그라운드 작업 시작</entry>
     <entry lang="ko" key="IDC_PREF_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입</entry>
     <entry lang="ko" key="IDC_PREF_MOUNT_REMOVABLE">볼륨을 이동식 디스크로 삽입</entry>
     <entry lang="ko" key="IDC_PREF_OPEN_EXPLORER">성공적으로 삽입된 볼륨을 위한 탐색기 창 열기</entry>
-    <entry lang="ko" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">'즐겨찾기' 볼륨의 작업중에 암호를 임시 캐시 하기</entry>
+    <entry lang="ko" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">'즐겨찾기' 볼륨의 작업중에 암호를 임시 캐시(cache) 하기</entry>
     <entry lang="ko" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">볼륨이 장착될때 다른 작업 아이콘을 사용함</entry>
     <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">“자동 꺼냄”시 보관된 비밀번호 삭제</entry>
     <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_EXIT">“종료”시 보관된 비밀번호 삭제</entry>
     <entry lang="ko" key="IDC_PRESERVE_TIMESTAMPS">파일 보관소의 수정 타임스탬프 보존</entry>
     <entry lang="ko" key="IDC_RESET_HOTKEYS">초기화</entry>
-    <entry lang="ko" key="IDC_SELECT_DEVICE">장치 선택(&amp;E)...</entry>
-    <entry lang="ko" key="IDC_SELECT_FILE">파일 선택(&amp;F)...</entry>
-    <entry lang="ko" key="IDC_SELECT_PKCS11_MODULE">라이브러리 선택(&amp;L)...</entry>
+    <entry lang="ko" key="IDC_SELECT_DEVICE">장치 선택(E)...</entry>
+    <entry lang="ko" key="IDC_SELECT_FILE">파일 선택(F)...</entry>
+    <entry lang="ko" key="IDC_SELECT_PKCS11_MODULE">라이브러리 선택(L)...</entry>
     <entry lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_NEW">비밀번호 표시</entry>
     <entry lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_ORI">비밀번호 표시</entry>
     <entry lang="ko" key="IDC_TRAVEL_OPEN_EXPLORER">삽입된 볼륨을 위한 탐색기 창 열기</entry>
-    <entry lang="ko" key="IDC_TRAV_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관(&amp;C)</entry>
+    <entry lang="ko" key="IDC_TRAV_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관(C)</entry>
     <entry lang="ko" key="IDC_TRUECRYPT_MODE">TrueCrypt 모드</entry>
-    <entry lang="ko" key="IDC_UNMOUNTALL">모두 꺼내기(&amp;S)</entry>
-    <entry lang="ko" key="IDC_VOLUME_PROPERTIES">볼륨 속성(&amp;V)...</entry>
-    <entry lang="ko" key="IDC_VOLUME_TOOLS">볼륨 도구(&amp;T)...</entry>
-    <entry lang="ko" key="IDC_WIPE_CACHE">캐시 지우기(&amp;W)</entry>
+    <entry lang="ko" key="IDC_UNMOUNTALL">모두 꺼내기(S)</entry>
+    <entry lang="ko" key="IDC_VOLUME_PROPERTIES">볼륨 속성(V)...</entry>
+    <entry lang="ko" key="IDC_VOLUME_TOOLS">볼륨 도구(T)...</entry>
+    <entry lang="ko" key="IDC_WIPE_CACHE">캐시 지우기(W)</entry>
     <entry lang="ko" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - 마운트 변수</entry>
     <entry lang="ko" key="IDD_FAVORITE_VOLUMES">VeraCrypt - 즐겨찾기 볼륨</entry>
     <entry lang="ko" key="IDD_HOTKEYS_DLG">VeraCrypt - 시스템 일반 단축키</entry>
@@ -221,7 +221,7 @@
     <entry lang="ko" key="IDM_ENCRYPT_SYSTEM_DEVICE">시스템 파티션/드라이브 암호화...</entry>
     <entry lang="ko" key="IDM_FAQ">자주 묻는 질문</entry>
     <entry lang="ko" key="IDM_HELP">사용 안내서</entry>
-    <entry lang="ko" key="IDM_HOMEPAGE">홈페이지(&amp;H) </entry>
+    <entry lang="ko" key="IDM_HOMEPAGE">홈페이지(H) </entry>
     <entry lang="ko" key="IDM_HOTKEY_SETTINGS">단축키...</entry>
     <entry lang="ko" key="IDM_KEYFILE_GENERATOR">키파일 생성기...</entry>
     <entry lang="ko" key="IDM_LANGUAGE">언어...</entry>
@@ -229,7 +229,7 @@
     <entry lang="ko" key="IDM_MANAGE_TOKEN_KEYFILES">보안 토큰 키파일 관리...</entry>
     <entry lang="ko" key="IDM_MOUNTALL">장치-기반의 모든 볼륨 자동삽입</entry>
     <entry lang="ko" key="IDM_MOUNT_FAVORITE_VOLUMES">즐겨찾는 볼륨 삽입</entry>
-    <entry lang="ko" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">부팅-전 인증 없이 삽입(&amp;A)...</entry>
+    <entry lang="ko" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">부팅-전 인증 없이 삽입(A)...</entry>
     <entry lang="ko" key="IDM_MOUNT_VOLUME">볼륨 삽입</entry>
     <entry lang="ko" key="IDM_MOUNT_VOLUME_OPTIONS">볼륨 삽입 (옵션 부가)</entry>
     <entry lang="ko" key="IDM_NEWS">뉴스</entry>
@@ -301,35 +301,35 @@
     <entry lang="ko" key="IDT_TRAVEL_ROOT">휴대용 디스크 파일을 만들 위치 (휴대용 디스크 루트 디렉토리):</entry>
     <entry lang="ko" key="IDT_VOLUME">볼륨</entry>
     <entry lang="ko" key="IDT_WINDOWS_RELATED_SETTING">창</entry>
-    <entry lang="ko" key="IDC_ADD_KEYFILE_PATH">경로 추가(&amp;P)...</entry>
+    <entry lang="ko" key="IDC_ADD_KEYFILE_PATH">경로 추가(P)...</entry>
     <entry lang="ko" key="IDC_AUTO">모두 자동-테스트</entry>
-    <entry lang="ko" key="IDC_CONTINUE">계속(&amp;C)</entry>
-    <entry lang="ko" key="IDC_DECRYPT">암호해제(&amp;D)</entry>
-    <entry lang="ko" key="IDC_DELETE">삭제(&amp;D)</entry>
-    <entry lang="ko" key="IDC_ENCRYPT">암호화(&amp;E)</entry>
-    <entry lang="ko" key="IDC_EXPORT">내보내기(&amp;E)...</entry>
+    <entry lang="ko" key="IDC_CONTINUE">계속(C)</entry>
+    <entry lang="ko" key="IDC_DECRYPT">암호해제(D)</entry>
+    <entry lang="ko" key="IDC_DELETE">삭제(D)</entry>
+    <entry lang="ko" key="IDC_ENCRYPT">암호화(E)</entry>
+    <entry lang="ko" key="IDC_EXPORT">내보내기(E)...</entry>
     <entry lang="ko" key="IDC_GENERATE_AND_SAVE_KEYFILE">키파일 생성 및 저장…</entry>
     <entry lang="ko" key="IDC_GENERATE_KEYFILE">무작위 키파일 생성...</entry>
     <entry lang="ko" key="IDC_GET_LANG_PACKS">언어팩 다운로드</entry>
-    <entry lang="en" key="IDC_HW_AES_LABEL_LINK">하드웨어 가속 AES:</entry>
-    <entry lang="ko" key="IDC_IMPORT_KEYFILE">토큰에 키파일 가져오기(&amp;I)...</entry>
-    <entry lang="ko" key="IDC_KEYADD">파일 추가(&amp;F)...</entry>
-    <entry lang="ko" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">키파일 사용(&amp;S)</entry>
-    <entry lang="ko" key="IDC_KEYFILES_HIDVOL_PROT">키파일(&amp;K)...</entry>
-    <entry lang="ko" key="IDC_KEYREMOVE">제거(&amp;R)</entry>
-    <entry lang="ko" key="IDC_KEYREMOVEALL">모두 제거(&amp;A)</entry>
+    <entry lang="en" key="IDC_HW_AES_LABEL_LINK">Hardware-accelerated AES:</entry>
+    <entry lang="ko" key="IDC_IMPORT_KEYFILE">토큰에 키파일 가져오기(I)...</entry>
+    <entry lang="ko" key="IDC_KEYADD">파일 추가(F)...</entry>
+    <entry lang="ko" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">키파일 사용(S)</entry>
+    <entry lang="ko" key="IDC_KEYFILES_HIDVOL_PROT">키파일(K)...</entry>
+    <entry lang="ko" key="IDC_KEYREMOVE">제거(R)</entry>
+    <entry lang="ko" key="IDC_KEYREMOVEALL">모두 제거(A)</entry>
     <entry lang="ko" key="IDC_LINK_HIDVOL_PROTECTION_INFO">숨긴 볼륨 보호란 무엇인가?</entry>
     <entry lang="ko" key="IDC_LINK_KEYFILES_INFO">키파일에 대한 추가 정보</entry>
-    <entry lang="ko" key="IDC_MOUNT_REMOVABLE">볼륨을 이동식 미디어로 삽입(&amp;M)</entry>
-    <entry lang="ko" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">부팅-전 인증 없는 시스템 암호화를 사용해서 파티션 삽입(&amp;U)</entry>
-    <entry lang="en" key="IDC_PARALLELIZATION_LABEL_LINK">병렬화:</entry>
+    <entry lang="ko" key="IDC_MOUNT_REMOVABLE">볼륨을 이동식 미디어로 삽입(M)</entry>
+    <entry lang="ko" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">부팅-전 인증 없는 시스템 암호화를 사용해서 파티션 삽입(U)</entry>
+    <entry lang="en" key="IDC_PARALLELIZATION_LABEL_LINK">Parallelization:</entry>
     <entry lang="ko" key="IDC_PERFORM_BENCHMARK">벤치마크</entry>
-    <entry lang="ko" key="IDC_PRINT">인쇄(&amp;P)</entry>
-    <entry lang="ko" key="IDC_PROTECT_HIDDEN_VOL">숨긴 볼륨 보호 (외부 볼륨에 쓰는 것에 의해 손상되는 것을 방지)(&amp;P)</entry>
-    <entry lang="ko" key="IDC_RESET">초기화(&amp;R)</entry>
-    <entry lang="ko" key="IDC_SHOW_PASSWORD_MO">비밀번호 표시(&amp;D)</entry>
-    <entry lang="ko" key="IDC_TOKEN_FILES_ADD">토큰 파일 추가(&amp;T)...</entry>
-    <entry lang="ko" key="IDC_USE_EMBEDDED_HEADER_BAK">볼륨에 내장된 백업 헤더 사용 (가능한 경우)(&amp;V)</entry>
+    <entry lang="ko" key="IDC_PRINT">인쇄(P)</entry>
+    <entry lang="ko" key="IDC_PROTECT_HIDDEN_VOL">숨긴 볼륨 보호 (외부 볼륨에 쓰는 것에 의해 손상되는 것을 방지)(P)</entry>
+    <entry lang="ko" key="IDC_RESET">초기화(R)</entry>
+    <entry lang="ko" key="IDC_SHOW_PASSWORD_MO">비밀번호 표시(D)</entry>
+    <entry lang="ko" key="IDC_TOKEN_FILES_ADD">토큰 파일 추가(T)...</entry>
+    <entry lang="ko" key="IDC_USE_EMBEDDED_HEADER_BAK">볼륨에 내장된 백업 헤더 사용 (가능한 경우)(V)</entry>
     <entry lang="ko" key="IDC_XTS_MODE_ENABLED">XTS 모드</entry>
     <entry lang="ko" key="IDD_ABOUT_DLG">VeraCrypt 정보</entry>
     <entry lang="ko" key="IDD_BENCHMARK_DLG">VeraCrypt - 암호 알고리듬 벤치마크</entry>
@@ -368,7 +368,7 @@
     <entry lang="ko" key="IDT_SECURITY_TOKEN">보안 토큰:</entry>
     <entry lang="ko" key="IDT_SORT_METHOD">정렬 방법:</entry>
     <entry lang="ko" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">진행이 되는동한 기다려주세요.</entry>
-    <entry lang="ko" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">진행이 되는동한 기다려주세요 - VeraCrypt가 잠시 멈출수도 있습니다.</entry>
+    <entry lang="ko" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">진행이 되는동한 기다려주세요 - VeraCrypt가 잠시 멈칠수도 있습니다.</entry>
     <entry lang="ko" key="IDT_TEST_BLOCK_NUMBER">블록 수:</entry>
     <entry lang="ko" key="IDT_TEST_CIPHERTEXT">암호문(16진법)</entry>
     <entry lang="ko" key="IDT_TEST_DATA_UNIT_NUMBER">데이터 단위 수 (64-비트 16진법, 데이터 단위 크기는 512 바이트)</entry>
@@ -376,16 +376,16 @@
     <entry lang="ko" key="IDT_TEST_PLAINTEXT">단순텍스트(16진법)</entry>
     <entry lang="ko" key="IDT_TOKEN_KEYFILE_NAME">키파일 이름:</entry>
     <entry lang="ko" key="IDT_XTS_MODE">XTS 모드</entry>
-    <entry lang="ko" key="MENU_SYSTEM_ENCRYPTION">시스템(&amp;Y)</entry>
-    <entry lang="ko" key="MENU_VOLUMES">볼륨(&amp;V)</entry>
+    <entry lang="ko" key="MENU_SYSTEM_ENCRYPTION">시스템(Y)</entry>
+    <entry lang="ko" key="MENU_VOLUMES">볼륨(V)</entry>
     <entry lang="ko" key="MENU_FAVORITES">즐겨찾기</entry>
-    <entry lang="ko" key="MENU_TOOLS">도구(&amp;O)</entry>
-    <entry lang="ko" key="MENU_SETTINGS">설정(&amp;G)</entry>
-    <entry lang="ko" key="MENU_HELP">도움말(&amp;H)</entry>
-    <entry lang="ko" key="MENU_WEBSITE">   홈페이지(&amp;P)   </entry>
-    <entry lang="ko" key="ABOUTBOX">정보(&amp;A)...</entry>
+    <entry lang="ko" key="MENU_TOOLS">도구(O)</entry>
+    <entry lang="ko" key="MENU_SETTINGS">설정(G)</entry>
+    <entry lang="ko" key="MENU_HELP">도움말(H)</entry>
+    <entry lang="ko" key="MENU_WEBSITE">   홈페이지(P)   </entry>
+    <entry lang="ko" key="ABOUTBOX">정보(A)...</entry>
     <entry lang="ko" key="ACCESSMODEFAIL">이전 볼륨의 읽기전용 속성을 변경할 수 없습니다. 파일 접근 권한을 확인해 주세요.</entry>
-    <entry lang="ko" key="ACCESS_DENIED">오류: 권한이 없습니다.\n\n접근하려고 하는 파티션이 0섹터이거나 부팅 장치입니다.</entry>
+    <entry lang="ko" key="ACCESS_DENIED">오류: 접근이 허용되지 않습니다.\n\n접근하려고 하는 파티션의 0 섹터이거나 부팅 장치입니다.</entry>
     <entry lang="ko" key="ADMINISTRATOR">관리자</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypt 드라이버를 로드하려면, 관리자 권한의 계정으로 로그온해야 합니다.</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_WARN_DEVICES">파티션/장치를 암호화/암호해제/포맷하려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n이는 파일에 의한 볼륨에는 해당되지 않습니다.</entry>
@@ -396,9 +396,9 @@
     <entry lang="ko" key="ERR_SELF_TESTS_FAILED">주의: 적어도 한 개의 암호 또는 해시 알고리듬이 내장된 자동 셀프-테스트를 하는데 실패했습니다!\n\nVeraCrypt 설치가 손상되었습니다.</entry>
     <entry lang="ko" key="ERR_NOT_ENOUGH_RANDOM_DATA">주의: 요청된 양의 무작위 데이터를 제공하는 “무작위 숫자 생성기” 풀에서의 데이터가 불충분합니다.\n\n더 이상 진행할 수 없습니다. 도움말 메뉴에서 “버그 보고”를 선택해서 이 오류를 보고해 주세요.</entry>
     <entry lang="ko" key="ERR_HARDWARE_ERROR">드라이브 손상(→ 드라이브에 물리적 결함이 있음), 케이블 손상 또는 메모리에 이상이 있습니다.\n\n이것은 VeraCrypt의 문제가 아니라 사용자의 하드웨어 문제입니다. 그러므로 VeraCrypt에서의 이러한 버그/문제점을 보고하지 않길 바랍니다. 또한 VeraCrypt 포럼에 도움을 요청하지도 않기를 바랍니다. 도움을 받으려면 컴퓨터 판매업체의 기술지원팀에 문의해 주세요. 감사합니다.\n\n참고: 만약 오류가 반복적으로 동일 장소에서 발생하는 경우라면 불량 디스크 블록이 원인일 수 있습니다. 이러한 경우는 제3의 소프트웨어를 사용해서 수리할 수 있습니다. (참고: 때론 “chkdsk /r” 명령으로 수리할 수 없는 경우가 많은데 이는 파일시스템 단계에서만 작동하기 때문입니다. 또한 어떤 때는 “chkdsk” 도구가 오류를 탐지하지 못하는 수도 있습니다.)</entry>
-    <entry lang="en" key="DEVICE_NOT_READY_ERROR">이동식 미디어용 드라이브에 액세스하는 경우 드라이브에 미디어가 삽입되었는지 확인하십시오. 이동식 드라이브도 손상되거나(물리적 결함이 있을 수 있음) 연결 해제될 수 있습니다.</entry>
-    <entry lang="ko" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">전체 시스템 드라이브의 암호화를 방해하는 버그를 포함하고 있는 사용자 칩셋 드라이버를 사용하는 것으로 보입니다.\n\n계속하기 전에 (Microsoft가 아닌) 사용자 칩셋 드라이버를 업데이트하거나 제거해 주시기 바랍니다. 이렇게 해도 도움이 되지 않은 경우, 시스템 파티션만을 암호화해 보시기 바랍니다.</entry>
-    <entry lang="ko" key="BAD_DRIVE_LETTER">올바르지 않은 드라이브 문자.</entry>
+    <entry lang="en" key="DEVICE_NOT_READY_ERROR">If you are accessing a drive for removable media, please make sure that a medium is inserted in the drive. The drive/medium may also be damaged (there may be a physical defect on it) or a cable may be damaged/disconnected.</entry>
+    <entry lang="ko" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">전체 시스템 드라이브의 암호화를 방해하는 버그를 포함하고 있는 사용자 칩셋 드라이버를 사용하는 것으로 보입니다.\n\n계속하기 전에 (Microsoft가 아닌) 사용자 칩센 드라이버를 업데이트하거나 제거해 주시기 바랍니다. 이렇게 해도 도움이 되지 않은 경우, 시스템 파티션만을 암호화해 보시기 바랍니다.</entry>
+    <entry lang="ko" key="BAD_DRIVE_LETTER">올바르지 못한 드라이브 문자.</entry>
     <entry lang="ko" key="INVALID_PATH">올바르지 않은 경로.</entry>
     <entry lang="ko" key="CANCEL">취소</entry>
     <entry lang="ko" key="CANNOT_CALC_SPACE">장치에 접근할 수 없습니다. 선택한 장치가 존재하는지 여부 및 시스템에 의해 사용 중인가를 확인하세요.</entry>
@@ -426,7 +426,7 @@
     <entry lang="ko" key="DEVICE_IN_USE_INFO">주의: 삽입된 일부 장치/파티션이 현재 사용 중입니다!\n\n이를 무시하면 시스템 불안정을 포함한 바람직하지 않은 결과를 초래할 수 있습니다.\n\n장치/파티션을 사용 중인 프로그램을 닫을 것을 권장합니다.</entry>
     <entry lang="ko" key="DEVICE_PARTITIONS_ERR">선택한 장치에 파티션이 포함되어 있습니다.\n\n장치를 포맷하면 시스템 불안정 또는 데이터 손상을 초래할 수 있습니다. VeraCrypt로 안전하게 포맷하려면 장치에서 파티션을 선택하거나 장치의 모든 파티션을 제거해야 합니다.</entry>
     <entry lang="ko" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">선택한 비-시스템 장치는 파티션을 포함하고 있습니다.\n\n암호화된 장치-기반의 VeraCrypt 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다. 파티션을 포함하고 있는 장치 자체를 (단 한 개의 키로써) 완전히 암호화할 수 있습니다. 다만 윈도우가 설치되어 있고 그곳에서 부팅이 가능한 드라이브인 경우에 가능합니다.\n\n한 개의 마스터 키를 사용해서 “선택한 비-시스템 장치”를 암호화하려면, 먼저 장치에 있는 모든 파티션을 제거해서 VeraCrypt가 안전하게 이를 포맷할 수 있도록 해야 합니다(* 파티션을 포함하고 있는 장치의 포맷은 시스템 불안정 또는 데이터 손상을 초래할 수도 있습니다). 대체방법으로 드라이브의 각 파티션을 개별적으로 암호화할 수 있습니다(* 각 파티션은 서로 다른 마스터 키를 이용해서 암호화됩니다).\n\n참고: GPT 디스크에서 모든 파티션을 제거하려는 경우, 숨겨진 파티션을 제거하기 위해 (예컨대 컴퓨터 관리 도구를 이용해서) 이 디스크를 MBR 디스크로 변환할 필요가 있습니다.</entry>
-    <entry lang="en" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">경고: 전체 장치(그 장치의 파티션만 암호화하는 것이 아니라)를 암호화하는 경우, 운영 체제는 장치를 새 장치 또는 비어 있고 포맷되지 않은 것으로 간주하고(파티션 테이블을 포함하지 않기 때문에) 강제적으로 장치를 초기화(또는 그렇게 할 것인지 묻는 질문)하여 볼륨이 손상될 수 있습니다. 또한 볼륨을 즐겨찾기(예: 드라이브 번호가 변경될 때)로 일관되게 마운트하거나 즐겨찾기 볼륨 레이블을 지정할 수 없습니다.\n\n장치에서 파티션을 생성하고 대신 파티션을 암호화하는 것을 고려할 수 있는 경우를 방지하려면\n\n전체 장치를 암호화하시겠습니까?</entry>
+    <entry lang="en" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">Warning: If you encrypt the entire device (as opposed to encrypting only a partition on it), operating systems will consider the device as new, empty, and unformatted (as it will contain no partition table) and may spontaneously initialize the device (or ask you if you want to do so), which may damage the volume. Furthermore, it will not be possible to consistently mount the volume as favorite (e.g. when the drive number changes) or to assign a favorite-volume label to it.\n\nTo avoid that you may want to consider creating a partition on the device and encrypting the partition instead.\n\nAre you sure want to encrypt the entire device?</entry>
     <entry lang="ko" key="AFTER_FORMAT_DRIVE_LETTER_WARN">중요: 드라이브 문자 %c: 을(를) 이용해서 이 볼륨을 삽입하거나 이에 접근할 수 없습니다. 이 문자가 현재 할당되어 있기 때문입니다.\n\n이 볼륨을 삽입하려면, VeraCrypt 메인 창에서 “장치 자동삽입”을 클릭하세요(* 대체방법으로는 VeraCrypt 메인 창에서 “장치 선택”을 클릭한 후 이 파티션/장치를 선택한 다음 “삽입”을 클릭하는 것입니다). 볼륨은 다른 드라이브 문자에 삽입되고, 드라이브 문자는 VeraCrypt 창의 목록에서 선택가능합니다.\n\n원래의 드라이브 문자 %c: 은(는) 파티션/장치에서 암호를 제거할 경우에만 사용되어야 합니다(예: 암호화가 더 이상 필요하지 않은 경우). 이런 경우에 “내 컴퓨터” 목록에서 드라이브 문자 %c:를 오른쪽 클릭한 다음 “포맷”을 선택합니다. 이런 경우를 제외하고는  드라이브 문자 %c:를 사용해서는 안됩니다. 다만 VeraCrypt FAQ에서 설명했던 것처럼 이를 제거한 후 다른 파티션/장치에 할당하는 것은 가능합니다.</entry>
     <entry lang="ko" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">비-시스템 볼륨 자체의 암호화는 사용자가 사용 중인 운영체제 버전에서는 지원되지 않습니다(* Windows Vista 및 그 이후 버전에서만 지원됨).\n\n왜냐하면 이 버전의 윈도우는 파일시스템의 축소를 지원하지 않기 때문입니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).</entry>
     <entry lang="ko" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">선택한 파티션은 NTFS 파일시스템을 포함하고 있지 않은 것으로 보입니다. NTFS 파일시스템을 포함한 파티션만이 자체적으로 암호화될 수 있습니다.\n\n참고: 왜냐하면 윈도우는 다른 형식의 파일시스템의 축소를 지원하지 않기 때문입니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).</entry>
@@ -450,9 +450,9 @@
     <entry lang="ko" key="ERR_CIPHER_INIT_WEAK_KEY">오류: 강력하지 않은 키가 탐지되었습니다. 이 키는 무시되었습니다. 다시 시도하세요.</entry>
     <entry lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 VeraCrypt를 종료해야 합니다. 만약 원인이 VeraCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- VeraCrypt 콤포넌트 이름\n- VeraCrypt 실행파일 체크섬\n- VeraCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- VeraCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%hs\n\n오류 보고서를 저희에게 보내시겠습니까?</entry>
     <entry lang="ko" key="EXCEPTION_REPORT_EXT">VeraCrypt를 종료해야만 하는 치명적인 오류가 시스템에 발생했습니다.\n\n이 오류는 VeraCrypt에 의해 발생된 것이 아닙니다(그래서 VeraCrypt의 개발자가 고칠 수는 없습니다). 여러분의 시스템을 체크해 주세요(예: 시스템 설정, 네트워크 연결, 하드웨어 콤포넌트 실패 등).</entry>
-    <entry lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">시스템에서 심각한 오류가 발생하여 VeraCrypt를 종료해야 합니다.\n\n이 문제가 지속되면 바이러스 백신 또는 인터넷 보안 소프트웨어, 시스템 "개선", "최적화 툴" 또는 "트위커" 등과 같이 잠재적으로 이 문제를 일으킬 수 있는 응용 프로그램을 비활성화하거나 제거하려고 할 수 있습니다. 도움이 되지 않는 경우 운영 체제를 다시 설치해 보십시오(이 문제는 멀웨어에 의해 발생할 수도 있음).</entry>
+    <entry lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</entry>
     <entry lang="ko" key="EXCEPTION_REPORT_TITLE">VeraCrypt 치명적 오류</entry>
-    <entry lang="en" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt는 최근 운영체제가 비정상 적으로 작동하는 것을 감지했습니다. 시스템이 고장 났을 수 있는 많은 잠재적 이유(예: 하드웨어 구성 요소 고장, 장치 드라이버의 버그 등)VeraCrypt에서 VeraCrypt의 버그가 시스템 충돌을 일으킬 수 있는지 확인하시겠습니까?</entry>
+    <entry lang="en" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt detected that the operating system recently crashed. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)\n\nDo you want VeraCrypt to check whether a bug in VeraCrypt could have caused the system crash?</entry>
     <entry lang="ko" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">VeraCrypt가 계속 시스템 충돌을 검출하기를 원하십니까?</entry>
     <entry lang="ko" key="NO_MINIDUMP_FOUND">VeraCrypt 미니덤프를 찻지 못했습니다.</entry>
     <entry lang="ko" key="ASK_DELETE_KERNEL_CRASH_DUMP">디스크의 공간을 확보하기 위해서 시스템 충돌파일을 지우는것을 원하십니까?</entry>
@@ -463,8 +463,8 @@
     <entry lang="ko" key="SYSTEM_CRASH_UPDATE_DRIVER">시스템 충돌을 검사한 결과 다음의 드라이버들을 업데이트를 한후 다시 시도하세요: </entry>
     <entry lang="ko" key="SYSTEM_CRASH_REPORT">버그를 제보하기 위해서 VeraCrypt에 자동으로 생성된 오류보고서를 보네시겠습니까? 보고서에는 다음과 같은 정보가 포함이 되어있습니다:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\n만약 'YES'를 클릭하시면 다음과같은 URL이 열립니다.</entry>
     <entry lang="ko" key="ASK_SEND_ERROR_REPORT">위에 보이는 오류보고서를 VeraCrypt에게 보내고 싶습니까?</entry>
-    <entry lang="ko" key="ENCRYPT">암호화(&amp;E)</entry>
-    <entry lang="ko" key="DECRYPT">암호해제(&amp;D)</entry>
+    <entry lang="ko" key="ENCRYPT">암호화(E)</entry>
+    <entry lang="ko" key="DECRYPT">암호해제(D)</entry>
     <entry lang="ko" key="PERMANENTLY_DECRYPT">영구적 암호해제</entry>
     <entry lang="ko" key="EXIT">종료</entry>
     <entry lang="ko" key="EXT_PARTITION">이 확장 파티션에 대한 논리 드라이브를 만든 후 다시 시도하세요.</entry>
@@ -487,12 +487,12 @@
     <entry lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">이 방법은 파티션-기반 또는 장치-기반의 VeraCrypt 볼륨을 만드는 가장 빠른 방법입니다(* 다른 옵션인 “자체 암호화”는 각 섹터의 내용을 먼저 읽고, 암호화해서 쓰기 때문에 비교적 느립니다). 선택한 파티션/장치에 현재 저장되어 있는 모든 데이터는 잃게 됩니다(* 데이터는 암호화되지 않고 무작위 데이터로 덮어쓰기됩니다). 파티션에 있는 기존 데이터를 암호화하려면, 다른 옵션을 선택합니다.</entry>
     <entry lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">선택한 전체 파티션 및 이곳에 저장된 모든 데이터는 자체(in place) 암호화됩니다. 파티션이 비어 있는 경우, 다른 옵션을 선택해야 합니다(* 볼륨이 훨씬 더 빠르게 생성됩니다).</entry>
     <entry lang="ko" key="NOTE_BEGINNING">참고: </entry>
-    <entry lang="ko" key="RESUME">다시 시작(&amp;R)</entry>
-    <entry lang="ko" key="DEFER">연기(&amp;D)</entry>
-    <entry lang="ko" key="START">시작(&amp;S)</entry>
-    <entry lang="ko" key="CONTINUE">계속(&amp;C)</entry>
-    <entry lang="ko" key="FORMAT">포맷(&amp;F)</entry>
-    <entry lang="ko" key="WIPE">지우기(&amp;W)</entry>
+    <entry lang="ko" key="RESUME">다시 시작(R)</entry>
+    <entry lang="ko" key="DEFER">연기(D)</entry>
+    <entry lang="ko" key="START">시작(S)</entry>
+    <entry lang="ko" key="CONTINUE">계속(C)</entry>
+    <entry lang="ko" key="FORMAT">포맷(F)</entry>
+    <entry lang="ko" key="WIPE">지우기(W)</entry>
     <entry lang="ko" key="FORMAT_ABORT">포맷 중단?</entry>
     <entry lang="ko" key="SHOW_MORE_INFORMATION">추가 정보 표시</entry>
     <entry lang="ko" key="DO_NOT_SHOW_THIS_AGAIN">다시 표시 안함</entry>
@@ -566,14 +566,14 @@
     <entry lang="ko" key="MAX_HIDVOL_SIZE_TB">이 볼륨에 대한 숨긴 볼륨의 가능한 최대 크기 ▷ %.2f TB</entry>
     <entry lang="ko" key="MOUNTED_NOPWCHANGE">볼륨이 삽입된 상태에서 “비밀번호/키파일”을 변경할 수 없습니다. 먼저 볼륨을 꺼내야 합니다.</entry>
     <entry lang="ko" key="MOUNTED_NO_PKCS5_PRF_CHANGE">볼륨이 삽입된 상태에서 “헤더 키 도출 알고리듬”을 변경할 수 없습니다. 먼저 볼륨을 꺼내야 합니다.</entry>
-    <entry lang="ko" key="MOUNT_BUTTON">삽입(&amp;M)</entry>
+    <entry lang="ko" key="MOUNT_BUTTON">삽입(M)</entry>
     <entry lang="ko" key="NEW_VERSION_REQUIRED">이 볼륨을 삽입하려면 최신 버전의 VeraCrypt가 필요합니다.</entry>
     <entry lang="ko" key="VOL_CREATION_WIZARD_NOT_FOUND">오류: 볼륨 만들기 마법사를 찾을 수 없습니다.\n\n“VeraCrypt.exe”가 실행된 폴더에서 “VeraCrypt Format.exe” 파일을 찾아보시기 바랍니다. 만약 없으면 VeraCrypt를 다시 설치하거나, 디스크에서 “VeraCrypt Format.exe” 파일의 위치를 지정한 실행하세요.</entry>
     <entry lang="ko" key="VOL_EXPANDER_NOT_FOUND">오류: 볼륨확장기을 찾을수 없습니다.\n\n'VeraCryptExpander.exe'가 'VeraCrypt.exe'을 실행한 폴더에 있는지 확인하시길 바랍니다. 그렇지 않을 경우 VeraCrypt를 다시 설치하거나 'VeraCryptExpander.exe'를 찾아 폴더에 포함하세요.</entry>
-    <entry lang="ko" key="NEXT">다음(&amp;N) &gt;</entry>
-    <entry lang="ko" key="FINALIZE">마침(&amp;F)</entry>
-    <entry lang="ko" key="INSTALL">설치(&amp;I)</entry>
-    <entry lang="ko" key="EXTRACT">추출(&amp;X)</entry>
+    <entry lang="ko" key="NEXT">다음(N) &gt;</entry>
+    <entry lang="ko" key="FINALIZE">마침(F)</entry>
+    <entry lang="ko" key="INSTALL">설치(I)</entry>
+    <entry lang="ko" key="EXTRACT">추출(X)</entry>
     <entry lang="ko" key="NODRIVER">VeraCrypt 장치 드라이버에 연결할 수 없습니다. 장치 드라이버가 실행 중이 아니라면 VeraCrypt가 작동하지 않습니다.\n\n(윈도우의 문제로 인해) 장치 드라이버를 로드하기 전에 시스템을 로그오프하거나 다시 시작해야 합니다.</entry>
     <entry lang="ko" key="NOFONT">글꼴을 로딩/준비할 때 오류가 발생했습니다.</entry>
     <entry lang="ko" key="NOT_FOUND">드라이브 문자를 찾을 수 없거나 지정한 드라이브 문자가 없습니다.</entry>
@@ -657,7 +657,7 @@
     <entry lang="ko" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">이 방식에서, 드라이브의 일부가 활성 시스템 암호화의 키 범위에 있는 경우, 드라이브에 위치한 파티션을 삽입할 수 없습니다.\n\n이 방식에서 이 파티션을 삽입하기 전에, ① 다른 드라이브에 설치되어 있는 운영체제로 부팅하거나 ② 암호화되지 않은 운영체제로 부팅해야 합니다.</entry>
     <entry lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive).</entry>
     <entry lang="en" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">Warning: As the drive contains the VeraCrypt Boot Loader, it may be an entirely encrypted system drive. If it is, please note that VeraCrypt cannot decrypt an individual partition on an entirely encrypted system drive (you can decrypt only the entire system drive). If that is the case, you will be able to continue now but you will receive the 'Incorrect password' error message later.</entry>
-    <entry lang="ko" key="PREV">&lt; 뒤로(&amp;B)</entry>
+    <entry lang="ko" key="PREV">&lt; 뒤로(B)</entry>
     <entry lang="ko" key="RAWDEVICES">시스템에 설치된 RAW 장치를 나열할 수 없습니다!</entry>
     <entry lang="ko" key="READONLYPROMPT">“%s” 볼륨이 존재하고, 읽기전용 상태입니다. 그래도 교체하시겠습니까?</entry>
     <entry lang="ko" key="SELECT_DEST_DIR">대상 디렉토리 선택</entry>
@@ -693,7 +693,7 @@
     <entry lang="ko" key="UNKNOWN">알 수 없음</entry>
     <entry lang="en" key="ERR_UNKNOWN">An unspecified or unknown error occurred (%d).</entry>
     <entry lang="ko" key="UNMOUNTALL_LOCK_FAILED">일부 볼륨은 “프로그램 또는 시스템에 의해 사용되는” 파일 또는 폴더를 포함하고 있습니다.\n\n강제로 꺼내시겠습니까?</entry>
-    <entry lang="ko" key="UNMOUNT_BUTTON">꺼내기(&amp;D)</entry>
+    <entry lang="ko" key="UNMOUNT_BUTTON">꺼내기(D)</entry>
     <entry lang="ko" key="UNMOUNT_FAILED">꺼내기 실패!</entry>
     <entry lang="ko" key="UNMOUNT_LOCK_FAILED">볼륨이 “프로그램 또는 시스템에 의해 사용되는” 파일 또는 폴더를 포함하고 있습니다.\n\n강제로 꺼내시겠습니까?</entry>
     <entry lang="en" key="NO_VOLUME_MOUNTED_TO_DRIVE">No volume is mounted to the specified drive letter.</entry>
@@ -992,8 +992,8 @@
     <entry lang="ko" key="SIZE_ITEM">크기:   </entry>
     <entry lang="ko" key="PATH_ITEM">경로:   </entry>
     <entry lang="ko" key="DRIVE_LETTER_ITEM">드라이브 문자:   </entry>
-    <entry lang="ko" key="UNSUPPORTED_CHARS_IN_PWD">오류: 비밀번호는 ASCII 문자만을 포함해야 합니다.\n\n비밀번호에 ASCII 아닌 문자가 있는 경우, 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\n다음 문자는 허용됩니다:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</entry>
-    <entry lang="ko" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">주의: 비밀번호에 ASCII 아닌 문자가 포함되어 있습니다. 이 경우 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\nASCII 아닌 문자를 ASCII 문자로 모두 교체해야 합니다. 이렇게 하려면, “볼륨” ▶ “볼륨 비밀번호 변경”을 클릭하세요.\n\n다음은 ASCII 문자입니다:\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</entry>
+    <entry lang="ko" key="UNSUPPORTED_CHARS_IN_PWD">오류: 비밀번호는 ASCII 문자만을 포함해야 합니다.\n\n비밀번호에 ASCII 아닌 문자가 있는 경우, 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\n다음 문자는 허용됩니다:\n\n  ! " # $ %  ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</entry>
+    <entry lang="ko" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">주의: 비밀번호에 ASCII 아닌 문자가 포함되어 있습니다. 이 경우 시스템 설정의 변경이 있으면 볼륨을 삽입할 수 없게 될 수도 있습니다.\n\nASCII 아닌 문자를 ASCII 문자로 모두 교체해야 합니다. 이렇게 하려면, “볼륨” ▶ “볼륨 비밀번호 변경”을 클릭하세요.\n\n다음은 ASCII 문자입니다:\n\n  ! " # $ %  ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~</entry>
     <entry lang="ko" key="EXE_FILE_EXTENSION_CONFIRM">주의: 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 및 문제를 일으키는 유사한 파일 확장자는 사용하지 않길 권장합니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n파일 확장자를 제거하거나 (예컨대 “.hc”) 등으로 변경할 것을 적극권장합니다.\n\n문제가 될 만한 파일 확장자를 정말로 사용하시겠습니까?</entry>
     <entry lang="ko" key="EXE_FILE_EXTENSION_MOUNT_WARNING">주의: 이 보관소는 실행 파일로 사용되는 확장자(예: .exe, .sys, .dll) 또는 유사한 문제를 일으킬 수 있는 파일 확장자를 가지고 있습니다. 이런 파일 확장자를 사용하게 되면 윈도우와 안티바이러스 소프트웨어가 보관소에 간섭을 하게 될 수도 있고 결국 볼륨의 성능에 악영향을 초래하고 다른 중대한 문제를 일으킬 수도 있습니다.\n\n(볼륨을 꺼낸 후에) 보관소의 확장자를 변경(예: “.hc”)하거나 제거할 것을 권장합니다.</entry>
     <entry lang="ko" key="HOMEPAGE">홈페이지</entry>
@@ -1288,8 +1288,8 @@
     <entry lang="ko" key="SETTING_REQUIRES_REBOOT">이 설정은 운영 체제가 다시 시작된 후에만 효과가 있습니다.</entry>
     <entry lang="ko" key="COMMAND_LINE_ERROR">명령 줄을 분석하는 동안 오류가 발생했습니다.</entry>
     <entry lang="ko" key="RESCUE_DISK">응급복구 디스크</entry>
-    <entry lang="ko" key="SELECT_FILE_AND_MOUNT">파일 선택 후 삽입(&amp;F)...</entry>
-    <entry lang="ko" key="SELECT_DEVICE_AND_MOUNT">장치 선택 후 삽입(&amp;D)...</entry>
+    <entry lang="ko" key="SELECT_FILE_AND_MOUNT">파일 선택 후 삽입(F)...</entry>
+    <entry lang="ko" key="SELECT_DEVICE_AND_MOUNT">장치 선택 후 삽입(D)...</entry>
     <entry lang="ko" key="DISABLE_NONADMIN_SYS_FAVORITES_ACCESS">시스템 관리자만 VeraCrypt의 즐겨찾기에 해당되는 볼륨을 확인하고 마운트 해제를 허용</entry>
     <entry lang="ko" key="MOUNT_SYSTEM_FAVORITES_ON_BOOT">윈도우가 시작될때 시스템 즐겨찾기에 해당되는 볼륨을 마운트 (초기 단계)</entry>
     <entry lang="ko" key="MOUNTED_VOLUME_DIRTY">주의: “%s”로 삽입된 볼륨에 있는 파일 시스템이 제대로 꺼내지지 않아 오류를  포함하고 있습니다. 손상된 파일 시스템을 사용하면 데이터 손실이나 데이터의 손상이 발생할 수 있습니다.\n\n참고: 삽입된 VeraCrypt 볼륨이 위치하는 장치(예: USB 플래시 드라이브 또는 외장 하드 드라이브)를 물리적으로 제거하거나 시스템에서 중지하기 전에, VeraCrypt에서 VeraCrypt 볼륨을 먼저 꺼내줘야 합니다.\n\n\n윈도우를 통해 파일 시스템의 오류를 탐지해서 이를 수리하시겠습니까?</entry>
@@ -1375,7 +1375,7 @@
     <entry lang="en" key="TB_PER_SEC">TB/s</entry>
     <entry lang="en" key="PB_PER_SEC">PB/s</entry>
     <entry lang="en" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</entry>
-    <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</entry>
+    <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include PIM when caching pre-boot authentication password</entry>
     <entry lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</entry>
     <entry lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</entry>
     <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 128 bytes.</entry>
