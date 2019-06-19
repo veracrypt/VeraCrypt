@@ -99,15 +99,15 @@
     <entry lang="ko" key="IDT_SYSENC_KEYS_GEN_INFO">키, 소금(→ 패스워드 보호에서 패스워드 해시를 변환하는 데 사용되는 무작위 문자열) 및 기타 데이터를 성공적으로 생성했습니다. 새로운 키를 생성하려면 “뒤로”를 클릭한 후 “다음”을 누르세요. 계속하려면 “다음”을 클릭하세요.</entry>
     <entry lang="ko" key="IDT_SYS_DEVICE">윈도우가 설치되어 있는 파티션/드라이브를 암호화합니다. 시스템에 접근해서 사용하고, 파일을 읽고 쓰는 등의 작업을 하려는 사람은 윈도우가 부팅할 때마다 올바른 비밀번호를 입력해야 합니다. 숨긴 시스템을 선택적으로 만들 수 있습니다.</entry>
     <entry lang="ko" key="IDT_SYS_PARTITION">현재 실행 중인 윈도우 운영체제가 설치된 파티션을 암호화하려면 이 옵션을 선택합니다.</entry>
-    <entry lang="ko" key="IDT_VOLUME_LABEL">윈도우 볼륨 표찰:</entry>
+    <entry lang="ko" key="IDT_VOLUME_LABEL">윈도우 볼륨 이름:</entry>
     <entry lang="ko" key="IDT_WIPE_MODE">지움 방식:</entry>
     <entry lang="ko" key="IDCLOSE">닫기</entry>
-    <entry lang="ko" key="IDC_ALLOW_ESC_PBA_BYPASS">Esc 키를 눌러 부팅-전 인증을 건너뛸 수 있습니다(* 부트 관리자 사용)(&amp;A)</entry>
-    <entry lang="ko" key="IDC_AUTORUN_DISABLE">아무 것도 안함</entry>
+    <entry lang="ko" key="IDC_ALLOW_ESC_PBA_BYPASS">Esc 키를 눌러 부팅 전 인증을 건너뛸 수 있습니다(* 부트 관리자 사용)(&amp;A)</entry>
+    <entry lang="ko" key="IDC_AUTORUN_DISABLE">아무것도 안함</entry>
     <entry lang="ko" key="IDC_AUTORUN_MOUNT">VeraCrypt 볼륨 자동삽입(&amp;A) (아래에서 지정)</entry>
     <entry lang="ko" key="IDC_AUTORUN_START">VeraCrypt 시작(&amp;S)</entry>
     <entry lang="ko" key="IDC_AUTO_DETECT_PKCS11_MODULE">라이브러리 자동-탐지(&amp;D)</entry>
-    <entry lang="ko" key="IDC_BOOT_LOADER_CACHE_PASSWORD">부팅-전-인증 암호를 드라이버 메모리에 캐시(* 시스템 아닌 볼륨의 삽입 목적)(&amp;C)</entry>
+    <entry lang="ko" key="IDC_BOOT_LOADER_CACHE_PASSWORD">부팅 전 인증 암호를 드라이버 메모리에 캐시(* 시스템 아닌 볼륨의 삽입 목적)(&amp;C)</entry>
     <entry lang="ko" key="IDC_BROWSE_DIRS">탐색...</entry>
     <entry lang="ko" key="IDC_BROWSE_FILES">탐색...</entry>
     <entry lang="ko" key="IDC_CACHE">메모리에 비밀번호 및 키파일 보관</entry>
@@ -124,7 +124,7 @@
     <entry lang="ko" key="IDC_ENABLE_NEW_KEYFILES">키파일 사용</entry>
     <entry lang="ko" key="IDC_EXIT">종료(&amp;X)</entry>
     <entry lang="ko" key="IDC_FAVORITES_HELP_LINK">즐겨찾기 도움</entry>
-    <entry lang="ko" key="IDC_FAVORITE_DISABLE_HOTKEY">선택된 볼륨을 마운트하지 않기 ('즐겨찾기' 핫키를 눌럿을 경우)</entry>
+    <entry lang="ko" key="IDC_FAVORITE_DISABLE_HOTKEY">선택된 볼륨을 마운트하지 않기 ('즐겨찾기' 핫키를 눌렀을 경우)</entry>
     <entry lang="ko" key="IDC_FAVORITE_MOUNT_ON_ARRIVAL">선택된 볼륨을 호스트 장치가 연결될때 마운트하기</entry>
     <entry lang="ko" key="IDC_FAVORITE_MOUNT_ON_LOGON">선택된 볼륨을 로그인때 마운트하기</entry>
     <entry lang="ko" key="IDC_FAVORITE_MOUNT_READONLY">선택된 볼륨을 읽기 전용으로 마운트하기</entry>
@@ -150,7 +150,7 @@
     <entry lang="ko" key="IDC_MORE_SETTINGS">다른 설정...</entry>
     <entry lang="ko" key="IDC_MOUNTALL">장치 자동삽입(&amp;A)</entry>
     <entry lang="ko" key="IDC_MOUNT_OPTIONS">삽입 옵션(&amp;O)...</entry>
-    <entry lang="ko" key="IDC_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입(&amp;O)</entry>
+    <entry lang="ko" key="IDC_MOUNT_READONLY">볼륨을 읽기 전용으로 삽입(&amp;O)</entry>
     <entry lang="ko" key="IDC_NEW_KEYFILES">키파일...</entry>
     <entry lang="ko" key="IDC_OLD_PIM_HELP">(빈값 아니면 0은 기본 반복값을 사용함)</entry>
     <entry lang="ko" key="IDC_PIM_HELP">(빈값 아니면 0은 기본 반복값을 사용함)</entry>
@@ -162,12 +162,12 @@
     <entry lang="ko" key="IDC_PREF_DISMOUNT_POWERSAVING">절전 모드로 들어갈 때</entry>
     <entry lang="ko" key="IDC_PREF_DISMOUNT_SCREENSAVER">화면보호기가 실행될 때</entry>
     <entry lang="ko" key="IDC_PREF_FORCE_AUTO_DISMOUNT">볼륨에 열린 파일 또는 디렉토리가 있어도 강제로 꺼내기</entry>
-    <entry lang="ko" key="IDC_PREF_LOGON_MOUNT_DEVICES">장치-기반의 모든 VeraCrypt 볼륨 삽입</entry>
+    <entry lang="ko" key="IDC_PREF_LOGON_MOUNT_DEVICES">장치 기반의 모든 VeraCrypt 볼륨 삽입</entry>
     <entry lang="ko" key="IDC_PREF_LOGON_START">VeraCrypt 백그라운드 작업 시작</entry>
     <entry lang="ko" key="IDC_PREF_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입</entry>
     <entry lang="ko" key="IDC_PREF_MOUNT_REMOVABLE">볼륨을 이동식 디스크로 삽입</entry>
     <entry lang="ko" key="IDC_PREF_OPEN_EXPLORER">성공적으로 삽입된 볼륨을 위한 탐색기 창 열기</entry>
-    <entry lang="ko" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">'즐겨찾기' 볼륨의 작업중에 암호를 임시 캐시(cache) 하기</entry>
+    <entry lang="ko" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">'즐겨찾기' 볼륨의 작업중에 암호를 임시 캐시 하기</entry>
     <entry lang="ko" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">볼륨이 장착될때 다른 작업 아이콘을 사용함</entry>
     <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">“자동 꺼냄”시 보관된 비밀번호 삭제</entry>
     <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_EXIT">“종료”시 보관된 비밀번호 삭제</entry>
@@ -311,7 +311,7 @@
     <entry lang="ko" key="IDC_GENERATE_AND_SAVE_KEYFILE">키파일 생성 및 저장…</entry>
     <entry lang="ko" key="IDC_GENERATE_KEYFILE">무작위 키파일 생성...</entry>
     <entry lang="ko" key="IDC_GET_LANG_PACKS">언어팩 다운로드</entry>
-    <entry lang="en" key="IDC_HW_AES_LABEL_LINK">Hardware-accelerated AES:</entry>
+    <entry lang="en" key="IDC_HW_AES_LABEL_LINK">하드웨어 가속 AES:</entry>
     <entry lang="ko" key="IDC_IMPORT_KEYFILE">토큰에 키파일 가져오기(&amp;I)...</entry>
     <entry lang="ko" key="IDC_KEYADD">파일 추가(&amp;F)...</entry>
     <entry lang="ko" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">키파일 사용(&amp;S)</entry>
@@ -322,7 +322,7 @@
     <entry lang="ko" key="IDC_LINK_KEYFILES_INFO">키파일에 대한 추가 정보</entry>
     <entry lang="ko" key="IDC_MOUNT_REMOVABLE">볼륨을 이동식 미디어로 삽입(&amp;M)</entry>
     <entry lang="ko" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">부팅-전 인증 없는 시스템 암호화를 사용해서 파티션 삽입(&amp;U)</entry>
-    <entry lang="en" key="IDC_PARALLELIZATION_LABEL_LINK">Parallelization:</entry>
+    <entry lang="en" key="IDC_PARALLELIZATION_LABEL_LINK">병렬화:</entry>
     <entry lang="ko" key="IDC_PERFORM_BENCHMARK">벤치마크</entry>
     <entry lang="ko" key="IDC_PRINT">인쇄(&amp;P)</entry>
     <entry lang="ko" key="IDC_PROTECT_HIDDEN_VOL">숨긴 볼륨 보호 (외부 볼륨에 쓰는 것에 의해 손상되는 것을 방지)(&amp;P)</entry>
@@ -368,7 +368,7 @@
     <entry lang="ko" key="IDT_SECURITY_TOKEN">보안 토큰:</entry>
     <entry lang="ko" key="IDT_SORT_METHOD">정렬 방법:</entry>
     <entry lang="ko" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">진행이 되는동한 기다려주세요.</entry>
-    <entry lang="ko" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">진행이 되는동한 기다려주세요 - VeraCrypt가 잠시 멈칠수도 있습니다.</entry>
+    <entry lang="ko" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">진행이 되는동한 기다려주세요 - VeraCrypt가 잠시 멈출수도 있습니다.</entry>
     <entry lang="ko" key="IDT_TEST_BLOCK_NUMBER">블록 수:</entry>
     <entry lang="ko" key="IDT_TEST_CIPHERTEXT">암호문(16진법)</entry>
     <entry lang="ko" key="IDT_TEST_DATA_UNIT_NUMBER">데이터 단위 수 (64-비트 16진법, 데이터 단위 크기는 512 바이트)</entry>
@@ -385,7 +385,7 @@
     <entry lang="ko" key="MENU_WEBSITE">   홈페이지(&amp;P)   </entry>
     <entry lang="ko" key="ABOUTBOX">정보(&amp;A)...</entry>
     <entry lang="ko" key="ACCESSMODEFAIL">이전 볼륨의 읽기전용 속성을 변경할 수 없습니다. 파일 접근 권한을 확인해 주세요.</entry>
-    <entry lang="ko" key="ACCESS_DENIED">오류: 접근이 허용되지 않습니다.\n\n접근하려고 하는 파티션의 0 섹터이거나 부팅 장치입니다.</entry>
+    <entry lang="ko" key="ACCESS_DENIED">오류: 권한이 없습니다.\n\n접근하려고 하는 파티션이 0섹터이거나 부팅 장치입니다.</entry>
     <entry lang="ko" key="ADMINISTRATOR">관리자</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_DRIVER">VeraCrypt 드라이버를 로드하려면, 관리자 권한의 계정으로 로그온해야 합니다.</entry>
     <entry lang="ko" key="ADMIN_PRIVILEGES_WARN_DEVICES">파티션/장치를 암호화/암호해제/포맷하려면 관리자 권한의 계정으로 로그온해야 합니다.\n\n이는 파일에 의한 볼륨에는 해당되지 않습니다.</entry>
@@ -396,9 +396,9 @@
     <entry lang="ko" key="ERR_SELF_TESTS_FAILED">주의: 적어도 한 개의 암호 또는 해시 알고리듬이 내장된 자동 셀프-테스트를 하는데 실패했습니다!\n\nVeraCrypt 설치가 손상되었습니다.</entry>
     <entry lang="ko" key="ERR_NOT_ENOUGH_RANDOM_DATA">주의: 요청된 양의 무작위 데이터를 제공하는 “무작위 숫자 생성기” 풀에서의 데이터가 불충분합니다.\n\n더 이상 진행할 수 없습니다. 도움말 메뉴에서 “버그 보고”를 선택해서 이 오류를 보고해 주세요.</entry>
     <entry lang="ko" key="ERR_HARDWARE_ERROR">드라이브 손상(→ 드라이브에 물리적 결함이 있음), 케이블 손상 또는 메모리에 이상이 있습니다.\n\n이것은 VeraCrypt의 문제가 아니라 사용자의 하드웨어 문제입니다. 그러므로 VeraCrypt에서의 이러한 버그/문제점을 보고하지 않길 바랍니다. 또한 VeraCrypt 포럼에 도움을 요청하지도 않기를 바랍니다. 도움을 받으려면 컴퓨터 판매업체의 기술지원팀에 문의해 주세요. 감사합니다.\n\n참고: 만약 오류가 반복적으로 동일 장소에서 발생하는 경우라면 불량 디스크 블록이 원인일 수 있습니다. 이러한 경우는 제3의 소프트웨어를 사용해서 수리할 수 있습니다. (참고: 때론 “chkdsk /r” 명령으로 수리할 수 없는 경우가 많은데 이는 파일시스템 단계에서만 작동하기 때문입니다. 또한 어떤 때는 “chkdsk” 도구가 오류를 탐지하지 못하는 수도 있습니다.)</entry>
-    <entry lang="en" key="DEVICE_NOT_READY_ERROR">If you are accessing a drive for removable media, please make sure that a medium is inserted in the drive. The drive/medium may also be damaged (there may be a physical defect on it) or a cable may be damaged/disconnected.</entry>
-    <entry lang="ko" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">전체 시스템 드라이브의 암호화를 방해하는 버그를 포함하고 있는 사용자 칩셋 드라이버를 사용하는 것으로 보입니다.\n\n계속하기 전에 (Microsoft가 아닌) 사용자 칩센 드라이버를 업데이트하거나 제거해 주시기 바랍니다. 이렇게 해도 도움이 되지 않은 경우, 시스템 파티션만을 암호화해 보시기 바랍니다.</entry>
-    <entry lang="ko" key="BAD_DRIVE_LETTER">올바르지 못한 드라이브 문자.</entry>
+    <entry lang="en" key="DEVICE_NOT_READY_ERROR">이동식 미디어용 드라이브에 액세스하는 경우 드라이브에 미디어가 삽입되었는지 확인하십시오. 이동식 드라이브도 손상되거나(물리적 결함이 있을 수 있음) 연결 해제될 수 있습니다.</entry>
+    <entry lang="ko" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">전체 시스템 드라이브의 암호화를 방해하는 버그를 포함하고 있는 사용자 칩셋 드라이버를 사용하는 것으로 보입니다.\n\n계속하기 전에 (Microsoft가 아닌) 사용자 칩셋 드라이버를 업데이트하거나 제거해 주시기 바랍니다. 이렇게 해도 도움이 되지 않은 경우, 시스템 파티션만을 암호화해 보시기 바랍니다.</entry>
+    <entry lang="ko" key="BAD_DRIVE_LETTER">올바르지 않은 드라이브 문자.</entry>
     <entry lang="ko" key="INVALID_PATH">올바르지 않은 경로.</entry>
     <entry lang="ko" key="CANCEL">취소</entry>
     <entry lang="ko" key="CANNOT_CALC_SPACE">장치에 접근할 수 없습니다. 선택한 장치가 존재하는지 여부 및 시스템에 의해 사용 중인가를 확인하세요.</entry>
@@ -426,7 +426,7 @@
     <entry lang="ko" key="DEVICE_IN_USE_INFO">주의: 삽입된 일부 장치/파티션이 현재 사용 중입니다!\n\n이를 무시하면 시스템 불안정을 포함한 바람직하지 않은 결과를 초래할 수 있습니다.\n\n장치/파티션을 사용 중인 프로그램을 닫을 것을 권장합니다.</entry>
     <entry lang="ko" key="DEVICE_PARTITIONS_ERR">선택한 장치에 파티션이 포함되어 있습니다.\n\n장치를 포맷하면 시스템 불안정 또는 데이터 손상을 초래할 수 있습니다. VeraCrypt로 안전하게 포맷하려면 장치에서 파티션을 선택하거나 장치의 모든 파티션을 제거해야 합니다.</entry>
     <entry lang="ko" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">선택한 비-시스템 장치는 파티션을 포함하고 있습니다.\n\n암호화된 장치-기반의 VeraCrypt 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다. 파티션을 포함하고 있는 장치 자체를 (단 한 개의 키로써) 완전히 암호화할 수 있습니다. 다만 윈도우가 설치되어 있고 그곳에서 부팅이 가능한 드라이브인 경우에 가능합니다.\n\n한 개의 마스터 키를 사용해서 “선택한 비-시스템 장치”를 암호화하려면, 먼저 장치에 있는 모든 파티션을 제거해서 VeraCrypt가 안전하게 이를 포맷할 수 있도록 해야 합니다(* 파티션을 포함하고 있는 장치의 포맷은 시스템 불안정 또는 데이터 손상을 초래할 수도 있습니다). 대체방법으로 드라이브의 각 파티션을 개별적으로 암호화할 수 있습니다(* 각 파티션은 서로 다른 마스터 키를 이용해서 암호화됩니다).\n\n참고: GPT 디스크에서 모든 파티션을 제거하려는 경우, 숨겨진 파티션을 제거하기 위해 (예컨대 컴퓨터 관리 도구를 이용해서) 이 디스크를 MBR 디스크로 변환할 필요가 있습니다.</entry>
-    <entry lang="en" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">Warning: If you encrypt the entire device (as opposed to encrypting only a partition on it), operating systems will consider the device as new, empty, and unformatted (as it will contain no partition table) and may spontaneously initialize the device (or ask you if you want to do so), which may damage the volume. Furthermore, it will not be possible to consistently mount the volume as favorite (e.g. when the drive number changes) or to assign a favorite-volume label to it.\n\nTo avoid that you may want to consider creating a partition on the device and encrypting the partition instead.\n\nAre you sure want to encrypt the entire device?</entry>
+    <entry lang="en" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">경고: 전체 장치(그 장치의 파티션만 암호화하는 것이 아니라)를 암호화하는 경우, 운영 체제는 장치를 새 장치 또는 비어 있고 포맷되지 않은 것으로 간주하고(파티션 테이블을 포함하지 않기 때문에) 강제적으로 장치를 초기화(또는 그렇게 할 것인지 묻는 질문)하여 볼륨이 손상될 수 있습니다. 또한 볼륨을 즐겨찾기(예: 드라이브 번호가 변경될 때)로 일관되게 마운트하거나 즐겨찾기 볼륨 레이블을 지정할 수 없습니다.\n\n장치에서 파티션을 생성하고 대신 파티션을 암호화하는 것을 고려할 수 있는 경우를 방지하려면\n\n전체 장치를 암호화하시겠습니까?</entry>
     <entry lang="ko" key="AFTER_FORMAT_DRIVE_LETTER_WARN">중요: 드라이브 문자 %c: 을(를) 이용해서 이 볼륨을 삽입하거나 이에 접근할 수 없습니다. 이 문자가 현재 할당되어 있기 때문입니다.\n\n이 볼륨을 삽입하려면, VeraCrypt 메인 창에서 “장치 자동삽입”을 클릭하세요(* 대체방법으로는 VeraCrypt 메인 창에서 “장치 선택”을 클릭한 후 이 파티션/장치를 선택한 다음 “삽입”을 클릭하는 것입니다). 볼륨은 다른 드라이브 문자에 삽입되고, 드라이브 문자는 VeraCrypt 창의 목록에서 선택가능합니다.\n\n원래의 드라이브 문자 %c: 은(는) 파티션/장치에서 암호를 제거할 경우에만 사용되어야 합니다(예: 암호화가 더 이상 필요하지 않은 경우). 이런 경우에 “내 컴퓨터” 목록에서 드라이브 문자 %c:를 오른쪽 클릭한 다음 “포맷”을 선택합니다. 이런 경우를 제외하고는  드라이브 문자 %c:를 사용해서는 안됩니다. 다만 VeraCrypt FAQ에서 설명했던 것처럼 이를 제거한 후 다른 파티션/장치에 할당하는 것은 가능합니다.</entry>
     <entry lang="ko" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">비-시스템 볼륨 자체의 암호화는 사용자가 사용 중인 운영체제 버전에서는 지원되지 않습니다(* Windows Vista 및 그 이후 버전에서만 지원됨).\n\n왜냐하면 이 버전의 윈도우는 파일시스템의 축소를 지원하지 않기 때문입니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).</entry>
     <entry lang="ko" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">선택한 파티션은 NTFS 파일시스템을 포함하고 있지 않은 것으로 보입니다. NTFS 파일시스템을 포함한 파티션만이 자체적으로 암호화될 수 있습니다.\n\n참고: 왜냐하면 윈도우는 다른 형식의 파일시스템의 축소를 지원하지 않기 때문입니다(* 파일시스템은 볼륨 헤더 및 백업 헤더를 위한 공간을 만들기 위해 축소되어야 할 필요가 있습니다).</entry>
@@ -450,9 +450,9 @@
     <entry lang="ko" key="ERR_CIPHER_INIT_WEAK_KEY">오류: 강력하지 않은 키가 탐지되었습니다. 이 키는 무시되었습니다. 다시 시도하세요.</entry>
     <entry lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 VeraCrypt를 종료해야 합니다. 만약 원인이 VeraCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- VeraCrypt 콤포넌트 이름\n- VeraCrypt 실행파일 체크섬\n- VeraCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- VeraCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%hs\n\n오류 보고서를 저희에게 보내시겠습니까?</entry>
     <entry lang="ko" key="EXCEPTION_REPORT_EXT">VeraCrypt를 종료해야만 하는 치명적인 오류가 시스템에 발생했습니다.\n\n이 오류는 VeraCrypt에 의해 발생된 것이 아닙니다(그래서 VeraCrypt의 개발자가 고칠 수는 없습니다). 여러분의 시스템을 체크해 주세요(예: 시스템 설정, 네트워크 연결, 하드웨어 콤포넌트 실패 등).</entry>
-    <entry lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</entry>
+    <entry lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">시스템에서 심각한 오류가 발생하여 VeraCrypt를 종료해야 합니다.\n\n이 문제가 지속되면 바이러스 백신 또는 인터넷 보안 소프트웨어, 시스템 "개선", "최적화 툴" 또는 "트위커" 등과 같이 잠재적으로 이 문제를 일으킬 수 있는 응용 프로그램을 비활성화하거나 제거하려고 할 수 있습니다. 도움이 되지 않는 경우 운영 체제를 다시 설치해 보십시오(이 문제는 멀웨어에 의해 발생할 수도 있음).</entry>
     <entry lang="ko" key="EXCEPTION_REPORT_TITLE">VeraCrypt 치명적 오류</entry>
-    <entry lang="en" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt detected that the operating system recently crashed. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)\n\nDo you want VeraCrypt to check whether a bug in VeraCrypt could have caused the system crash?</entry>
+    <entry lang="en" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt는 최근 운영체제가 비정상 적으로 작동하는 것을 감지했습니다. 시스템이 고장 났을 수 있는 많은 잠재적 이유(예: 하드웨어 구성 요소 고장, 장치 드라이버의 버그 등)VeraCrypt에서 VeraCrypt의 버그가 시스템 충돌을 일으킬 수 있는지 확인하시겠습니까?</entry>
     <entry lang="ko" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">VeraCrypt가 계속 시스템 충돌을 검출하기를 원하십니까?</entry>
     <entry lang="ko" key="NO_MINIDUMP_FOUND">VeraCrypt 미니덤프를 찻지 못했습니다.</entry>
     <entry lang="ko" key="ASK_DELETE_KERNEL_CRASH_DUMP">디스크의 공간을 확보하기 위해서 시스템 충돌파일을 지우는것을 원하십니까?</entry>
