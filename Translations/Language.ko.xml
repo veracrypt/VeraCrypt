@@ -32,7 +32,7 @@
     <entry lang="ko" key="IDC_DISPLAY_KEYS">생성된 키 표시</entry>
     <entry lang="ko" key="IDC_DISPLAY_POOL_CONTENTS">풀 내용 표시</entry>
     <entry lang="ko" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD 기록 소프트웨어 다운로드</entry>
-    <entry lang="ko" key="IDC_FILE_CONTAINER">암호화된 파일 보관소 생성</entry>
+    <entry lang="ko" key="IDC_FILE_CONTAINER">암호화된 파일 컨테이너 생성</entry>
     <entry lang="ko" key="IDC_GB">GB</entry>
     <entry lang="ko" key="IDC_TB">TB</entry>
     <entry lang="ko" key="IDC_HIDDEN_SYSENC_INFO_LINK">추가 정보</entry>
@@ -144,47 +144,47 @@
     <entry lang="ko" key="IDC_HOTKEY_ASSIGN">할당</entry>
     <entry lang="ko" key="IDC_HOTKEY_REMOVE">제거</entry>
     <entry lang="ko" key="IDC_KEYFILES">키파일...</entry>
-    <entry lang="ko" key="IDC_LIMIT_ENC_THREAD_POOL">암호화/복호화에 다음의 프로세서의 제한수:</entry>
+    <entry lang="ko" key="IDC_LIMIT_ENC_THREAD_POOL">암호화/복호화에 다음 프로세서 수 사용 안 함:</entry>
     <entry lang="ko" key="IDC_MORE_INFO_ON_HW_ACCELERATION">자세한 정보</entry>
     <entry lang="ko" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">자세한 정보</entry>
     <entry lang="ko" key="IDC_MORE_SETTINGS">추가 설정...</entry>
-    <entry lang="ko" key="IDC_MOUNTALL">장치 자동삽입(A)</entry>
-    <entry lang="ko" key="IDC_MOUNT_OPTIONS">삽입 옵션(O)...</entry>
-    <entry lang="ko" key="IDC_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입(O)</entry>
+    <entry lang="ko" key="IDC_MOUNTALL">장치 자동 마운트</entry>
+    <entry lang="ko" key="IDC_MOUNT_OPTIONS">마운트 옵션...</entry>
+    <entry lang="ko" key="IDC_MOUNT_READONLY">볼륨을 읽기 전용으로 마운트</entry>
     <entry lang="ko" key="IDC_NEW_KEYFILES">키파일...</entry>
-    <entry lang="ko" key="IDC_OLD_PIM_HELP">(빈값 아니면 0은 기본 반복값을 사용함)</entry>
-    <entry lang="ko" key="IDC_PIM_HELP">(빈값 아니면 0은 기본 반복값을 사용함)</entry>
-    <entry lang="ko" key="IDC_PREF_BKG_TASK_ENABLE">사용</entry>
-    <entry lang="ko" key="IDC_PREF_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관</entry>
-    <entry lang="ko" key="IDC_PREF_DISMOUNT_INACTIVE">어떤 데이터가 읽기/쓰기된 후 볼륨 자동 꺼내기</entry>
+    <entry lang="ko" key="IDC_OLD_PIM_HELP">(기본값은 0 또는 비어있습니다)</entry>
+    <entry lang="ko" key="IDC_PIM_HELP">(기본값은 0 또는 비어있습니다)</entry>
+    <entry lang="ko" key="IDC_PREF_BKG_TASK_ENABLE">활성화</entry>
+    <entry lang="ko" key="IDC_PREF_CACHE_PASSWORDS">드라이버 메모리에 암호 캐시</entry>
+    <entry lang="ko" key="IDC_PREF_DISMOUNT_INACTIVE">볼륨에 데이터를 읽거나 쓰기 작업이 없으면 자동으로 마운트 해제</entry>
     <entry lang="ko" key="IDC_PREF_DISMOUNT_LOGOFF">사용자 로그오프할 때</entry>
     <entry lang="ko" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">사용자 세션이 잠겨있을 때</entry>
     <entry lang="ko" key="IDC_PREF_DISMOUNT_POWERSAVING">절전 모드로 들어갈 때</entry>
-    <entry lang="ko" key="IDC_PREF_DISMOUNT_SCREENSAVER">화면보호기가 실행될 때</entry>
-    <entry lang="ko" key="IDC_PREF_FORCE_AUTO_DISMOUNT">볼륨에 열린 파일 또는 디렉토리가 있어도 강제로 꺼내기</entry>
-    <entry lang="ko" key="IDC_PREF_LOGON_MOUNT_DEVICES">장치-기반의 모든 VeraCrypt 볼륨 삽입</entry>
+    <entry lang="ko" key="IDC_PREF_DISMOUNT_SCREENSAVER">화면 보호기가 실행될 때</entry>
+    <entry lang="ko" key="IDC_PREF_FORCE_AUTO_DISMOUNT">볼륨에 열린 파일 또는 폴더가 포함되어 있더라도 강제로 마운트 해제</entry>
+    <entry lang="ko" key="IDC_PREF_LOGON_MOUNT_DEVICES">디바이스 호스팅된 모든 VeraCrypt 볼륨 마운트</entry>
     <entry lang="ko" key="IDC_PREF_LOGON_START">VeraCrypt 백그라운드 작업 시작</entry>
-    <entry lang="ko" key="IDC_PREF_MOUNT_READONLY">볼륨을 읽기-전용으로 삽입</entry>
-    <entry lang="ko" key="IDC_PREF_MOUNT_REMOVABLE">볼륨을 이동식 디스크로 삽입</entry>
-    <entry lang="ko" key="IDC_PREF_OPEN_EXPLORER">성공적으로 삽입된 볼륨을 위한 탐색기 창 열기</entry>
-    <entry lang="ko" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">'즐겨찾기' 볼륨의 작업중에 암호를 임시 캐시(cache) 하기</entry>
-    <entry lang="ko" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">볼륨이 장착될때 다른 작업 아이콘을 사용함</entry>
-    <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">“자동 꺼냄”시 보관된 비밀번호 삭제</entry>
-    <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_EXIT">“종료”시 보관된 비밀번호 삭제</entry>
-    <entry lang="ko" key="IDC_PRESERVE_TIMESTAMPS">파일 보관소의 수정 타임스탬프 보존</entry>
+    <entry lang="ko" key="IDC_PREF_MOUNT_READONLY">볼륨을 읽기 전용으로 마운트</entry>
+    <entry lang="ko" key="IDC_PREF_MOUNT_REMOVABLE">볼륨을 이동식 디스크로 마운트</entry>
+    <entry lang="ko" key="IDC_PREF_OPEN_EXPLORER">성공적으로 마운트된 볼륨을 보기 위한 탐색기 창 열기</entry>
+    <entry lang="ko" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">즐겨찾기 볼륨 마운트 작업 중 임시로 암호 캐시</entry>
+    <entry lang="ko" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">마운트된 볼륨이 있는 경우 다른 작업 표시줄 아이콘 사용</entry>
+    <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">자동 마운트 해제 시 캐시된 암호 지우기</entry>
+    <entry lang="ko" key="IDC_PREF_WIPE_CACHE_ON_EXIT">종료 시 캐시된 암호 지우기</entry>
+    <entry lang="ko" key="IDC_PRESERVE_TIMESTAMPS">파일 컨테이너의 수정 시간 스탬프 유지</entry>
     <entry lang="ko" key="IDC_RESET_HOTKEYS">초기화</entry>
-    <entry lang="ko" key="IDC_SELECT_DEVICE">장치 선택(E)...</entry>
-    <entry lang="ko" key="IDC_SELECT_FILE">파일 선택(F)...</entry>
-    <entry lang="ko" key="IDC_SELECT_PKCS11_MODULE">라이브러리 선택(L)...</entry>
+    <entry lang="ko" key="IDC_SELECT_DEVICE">장치 선택...</entry>
+    <entry lang="ko" key="IDC_SELECT_FILE">파일 선택...</entry>
+    <entry lang="ko" key="IDC_SELECT_PKCS11_MODULE">라이브러리 선택...</entry>
     <entry lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_NEW">비밀번호 표시</entry>
     <entry lang="ko" key="IDC_SHOW_PASSWORD_CHPWD_ORI">비밀번호 표시</entry>
-    <entry lang="ko" key="IDC_TRAVEL_OPEN_EXPLORER">삽입된 볼륨을 위한 탐색기 창 열기</entry>
-    <entry lang="ko" key="IDC_TRAV_CACHE_PASSWORDS">드라이버 메모리에 비밀번호 보관(C)</entry>
+    <entry lang="ko" key="IDC_TRAVEL_OPEN_EXPLORER">마운트된 볼륨에 대한 탐색기 창 열기</entry>
+    <entry lang="ko" key="IDC_TRAV_CACHE_PASSWORDS">드라이버 메모리에 암호 캐시</entry>
     <entry lang="ko" key="IDC_TRUECRYPT_MODE">TrueCrypt 모드</entry>
-    <entry lang="ko" key="IDC_UNMOUNTALL">모두 꺼내기(S)</entry>
-    <entry lang="ko" key="IDC_VOLUME_PROPERTIES">볼륨 속성(V)...</entry>
-    <entry lang="ko" key="IDC_VOLUME_TOOLS">볼륨 도구(T)...</entry>
-    <entry lang="ko" key="IDC_WIPE_CACHE">캐시 지우기(W)</entry>
+    <entry lang="ko" key="IDC_UNMOUNTALL">모두 꺼내기</entry>
+    <entry lang="ko" key="IDC_VOLUME_PROPERTIES">볼륨 속성...</entry>
+    <entry lang="ko" key="IDC_VOLUME_TOOLS">볼륨 도구...</entry>
+    <entry lang="ko" key="IDC_WIPE_CACHE">캐시 지우기</entry>
     <entry lang="ko" key="IDD_DEFAULT_MOUNT_PARAMETERS">VeraCrypt - 마운트 변수</entry>
     <entry lang="ko" key="IDD_FAVORITE_VOLUMES">VeraCrypt - 즐겨찾기 볼륨</entry>
     <entry lang="ko" key="IDD_HOTKEYS_DLG">VeraCrypt - 시스템 일반 단축키</entry>
@@ -192,12 +192,12 @@
     <entry lang="ko" key="IDD_PASSWORDCHANGE_DLG">비밀번호 또는 키파일 변경</entry>
     <entry lang="ko" key="IDD_PASSWORD_DLG">VeraCrypt 볼륨 비밀번호 입력</entry>
     <entry lang="ko" key="IDD_PERFORMANCE_SETTINGS">VeraCrypt - 성능과 드라이버 설정</entry>
-    <entry lang="ko" key="IDD_PREFERENCES_DLG">VeraCrypt - 옵션</entry>
+    <entry lang="ko" key="IDD_PREFERENCES_DLG">VeraCrypt - 설정</entry>
     <entry lang="ko" key="IDD_SYSENC_SETTINGS">VeraCrypt - 시스템 암호화 설정</entry>
     <entry lang="ko" key="IDD_TOKEN_PREFERENCES">VeraCrypt - 보안 토큰 설정</entry>
     <entry lang="ko" key="IDD_TRAVELER_DLG">VeraCrypt 휴대용 디스크 설치</entry>
     <entry lang="ko" key="IDD_VOLUME_PROPERTIES">VeraCrypt 볼륨 속성</entry>
-    <entry lang="ko" key="IDM_ABOUT">정보...</entry>
+    <entry lang="ko" key="IDM_ABOUT">정보</entry>
     <entry lang="ko" key="IDM_ADD_REMOVE_VOL_KEYFILES">볼륨에 키파일 추가/삭제...</entry>
     <entry lang="ko" key="IDM_ADD_VOLUME_TO_FAVORITES">장착된 볼륨을 즐겨찾기에 추가하기...</entry>
     <entry lang="ko" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">장착된 볼륨을 시스템 즐겨찾기에 추가하기...</entry>
