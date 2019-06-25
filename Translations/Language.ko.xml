@@ -444,90 +444,90 @@
     <entry lang="ko" key="DISK_FREE_TB">%s의 여유 공간 : %.2f TB</entry>
     <entry lang="ko" key="DISK_FREE_PB">%s의 여유 공간 : %.2f PB</entry>
     <entry lang="ko" key="DRIVELETTERS">사용 가능한 드라이브 문자를 가져올 수 없습니다.</entry>
-    <entry lang="ko" key="DRIVER_NOT_FOUND">오류: VeraCrypt 드라이버를 찾을 수 없습니다!\n\n프로그램(VeraCrypt.exe)이 위치한 디렉토리에 “veracrypt.sys” 및 “turecrypt-x64.sys” 파일을 복사해 주세요.</entry>
-    <entry lang="ko" key="DRIVER_VERSION">오류: 호환되지 않는 VeraCrypt 드라이버 버전이 실행되고 있습니다.\n\n만약에 VeraCrypt를 휴대용 모드 (예: 설치하지않은 상태), 다른 버전의 VeraCrypt가 이미 설치가 되었으면, 먼저 제거 (아니면 VeraCrypt의 업데이트 옵션으로 업그레이드) 할 필요가 있습니다. 제거 할경우, 다음과 같은 단계를 따르세요: Windows Vista 그리고 후의 버전들은, 시작 메뉴 &gt; 나의 컴퓨터 &gt; '프로그램 밋 제거' &gt; VeraCrypt &gt; 제거; Windows XP는, 시작 메뉴 &gt; 설정 &gt; '제어판' &gt; '프로그램 밋 제거' &gt; VeraCrypt &gt; 제거.\n\n비슷한 방식으로, 휴대용으로 사용한 결과 (그리고 다른 버전이 설치된후) 컴퓨터를 재시작후 새로운 최근버전의 VeraCrypt로 실행하세요.</entry>
-    <entry lang="ko" key="ERR_CIPHER_INIT_FAILURE">오류: 암호를 초기화하는데 실패했습니다.</entry>
-    <entry lang="ko" key="ERR_CIPHER_INIT_WEAK_KEY">오류: 강력하지 않은 키가 탐지되었습니다. 이 키는 무시되었습니다. 다시 시도하세요.</entry>
-    <entry lang="ko" key="EXCEPTION_REPORT">치명적인 오류가 발생해서 VeraCrypt를 종료해야 합니다. 만약 원인이 VeraCrypt의 버그라면, 이것을 고치고자 합니다. 우리를 돕고자 한다면, 다음 항목들을 포함해서 자동으로 생성된 오류 보고서를 저희에게 보내주시면 고맙겠습니다:\n\n- 프로그램 버전\n- 운영체제 버전\n- CPU 형식\n- VeraCrypt 콤포넌트 이름\n- VeraCrypt 실행파일 체크섬\n- VeraCrypt 대화창 식별기\n- 오류 카테고리\n- 오류 주소\n- VeraCrypt 콜 스택(call stack)\n\n“예”를 선택하면, (전체 오류 보고서를 포함한) 다음 URL이 기본 인터넷 브라우저에서 열립니다.\n\n%hs\n\n오류 보고서를 저희에게 보내시겠습니까?</entry>
-    <entry lang="ko" key="EXCEPTION_REPORT_EXT">VeraCrypt를 종료해야만 하는 치명적인 오류가 시스템에 발생했습니다.\n\n이 오류는 VeraCrypt에 의해 발생된 것이 아닙니다(그래서 VeraCrypt의 개발자가 고칠 수는 없습니다). 여러분의 시스템을 체크해 주세요(예: 시스템 설정, 네트워크 연결, 하드웨어 콤포넌트 실패 등).</entry>
-    <entry lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">A critical error has occurred in your system, which requires VeraCrypt to be terminated.\n\nIf this problem persists, you may want to try disabling or uninstalling applications that could potentially be causing this issue, such as antivirus or Internet security software, system "enhancers", "optimizers" or "tweakers", etc. If it does not help, you may want to try reinstalling your operating system (this problem may also be caused by malware).</entry>
+    <entry lang="ko" key="DRIVER_NOT_FOUND">오류: VeraCrypt 드라이버를 찾을 수 없습니다!\n\n'veracrypt.sys' 와 'turecrypt-x64.sys' 파일을 VeraCrypt 프로그램이 있는 폴더에 복사 해 주세요.</entry>
+    <entry lang="ko" key="DRIVER_VERSION">오류: 호환되지 않는 버전의 VeraCrypt 드라이버가 실행 중입니다.\n\n휴대용 모드에서 VeraCrypt를 실행하려는 경우(설치하지 않고) 다른 버전의 VeraCrypt가 이미 설치되어 있는 경우, 먼저 VeraCrypt를 제거하거나 VeraCrypt 설치 프로그램을 사용하여 업그레이드하십시오. 제거하려면 다음 단계를 수행하십시오. Windows Vista 이상에서는 '시작 메뉴' > 컴퓨터 > '프로그램 추가 또는 제거' > VeraCrypt > 제거를 선택하고, Windows XP에서는 '시작 메뉴' > 설정 > '제어판' > '프로그램 추가 또는 제거' > VeraCrypt > 제거를 선택하십시오.\n\n간단하게 VeraCrypt를 휴대용 모드로 실행하려고 할 때(설치하지 않고) 다른 버전의 VeraCrypt가 이미 휴대용 모드로 실행되고 있다면, 먼저 시스템을 다시 시작한 다음 이 새 버전만 실행해야 합니다.</entry>
+    <entry lang="ko" key="ERR_CIPHER_INIT_FAILURE">오류: 암호 초기화 실패.</entry>
+    <entry lang="ko" key="ERR_CIPHER_INIT_WEAK_KEY">오류: 잠재적으로 보안이 매우 약한 키가 감지되었습니다. 이 키는 폐기되었으니 다시 시도하세요.</entry>
+    <entry lang="ko" key="EXCEPTION_REPORT">심각한 오류가 발생하여 VeraCrypt를 종료해야 합니다. 만약 이것이 VeraCrypt의 버그에 의한 것이라면, 우리는 그것을 고치고 싶습니다. 도움말을 보려면 자동으로 생성된 오류 보고서를 보내주세요.\n\n- 프로그램 버전\n- OS 버전\n- CPU 종류\n- VeraCrypt 구성 요소 이름\n- VeraCrypt 실행 파일\n- 이 대화창의 이름\n- 오류- 주소\n-오류\n-오류\n-암호화 호출 스택\n 만약 '네' 를 선택한다면, 다음 URL(전체 오류 보고서가 들어 있음)이 기본 인터넷 브라우저에서 열릴 것입니다.\n%hs\n위 오류 보고서를 보내시겠습니까?</entry>
+    <entry lang="ko" key="EXCEPTION_REPORT_EXT">시스템에서 심각한 오류가 발생하여 VeraCrypt를 종료해야 합니다.\n\n이 오류는 VeraCrypt에 의해 발생한 것이 아니므로 VeraCrypt 개발자가 오류를 수정할 수 없습니다. 시스템에 가능한 문제(예: 시스템 구성, 네트워크 연결, 하드웨어 고장)가 있는지 확인하십시오.</entry>
+    <entry lang="en" key="EXCEPTION_REPORT_EXT_FILESEL">시스템에서 심각한 오류가 발생하여 VeraCrypt를 종료해야 합니다.\n\n이 문제가 지속되면 바이러스 백신 또는 인터넷 보안 소프트웨어, 시스템 "튜너", "최적화" 또는 "트위커" 등과 같이 잠재적으로 이 문제를 일으킬 수 있는 응용 프로그램을 비활성화하거나 제거해 볼 수 있습니다. 도움이 되지 않는 경우 운영 체제를 다시 설치해 보십시오(이 문제는 멀웨어에 의해 발생할 수도 있음).</entry>
     <entry lang="ko" key="EXCEPTION_REPORT_TITLE">VeraCrypt 치명적 오류</entry>
-    <entry lang="en" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt detected that the operating system recently crashed. There are many potential reasons why the system could have crashed (for example, a failing hardware component, a bug in a device driver, etc.)\n\nDo you want VeraCrypt to check whether a bug in VeraCrypt could have caused the system crash?</entry>
-    <entry lang="ko" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">VeraCrypt가 계속 시스템 충돌을 검출하기를 원하십니까?</entry>
-    <entry lang="ko" key="NO_MINIDUMP_FOUND">VeraCrypt 미니덤프를 찻지 못했습니다.</entry>
-    <entry lang="ko" key="ASK_DELETE_KERNEL_CRASH_DUMP">디스크의 공간을 확보하기 위해서 시스템 충돌파일을 지우는것을 원하십니까?</entry>
-    <entry lang="ko" key="ASK_DEBUGGER_INSTALL">시스템 충돌을 분석하기에 VeraCrypt가 Microsoft Debugging Tools를 Windows에 설치해야합니다.\n\nOK를 클릭하신후 Microsoft에서 Microsoft Debugging Tools (16 MB)를 다운로드를한후 설치를 실행합니다. (Windows installer가 Microsoft 서버에서부터 veracrypt.org 서버로 전송을 해서 Microsoft의 설치프로그램의 장소가 바뀌어도 실행을 할수있습니다).</entry>
-    <entry lang="ko" key="SYSTEM_CRASH_ANALYSIS_INFO">OK를 클릭하시면 VeraCrypt의 시스템분석이 시작됩니다. 몇분이 될수있으니 기다려주세요.</entry>
-    <entry lang="ko" key="DEBUGGER_NOT_FOUND">시스템 패스(PATH)가 커넬디버거를 (kd.exe, Kernel Debugger) 포함한것을 체크해주세요.</entry>
-    <entry lang="ko" key="SYSTEM_CRASH_NO_VERACRYPT">시스템 충돌을 검사한 결과 VeraCrypt가 아닌 다른원인의 가능성이 있습니다 (예: 하드웨어의 오류, 장치 드라이버, etc.)</entry>
-    <entry lang="ko" key="SYSTEM_CRASH_UPDATE_DRIVER">시스템 충돌을 검사한 결과 다음의 드라이버들을 업데이트를 한후 다시 시도하세요: </entry>
-    <entry lang="ko" key="SYSTEM_CRASH_REPORT">버그를 제보하기 위해서 VeraCrypt에 자동으로 생성된 오류보고서를 보네시겠습니까? 보고서에는 다음과 같은 정보가 포함이 되어있습니다:\n- Program version\n- Operating system version\n- Type of CPU\n- Error category\n- Driver name and version\n- System call stack\n\n만약 'YES'를 클릭하시면 다음과같은 URL이 열립니다.</entry>
-    <entry lang="ko" key="ASK_SEND_ERROR_REPORT">위에 보이는 오류보고서를 VeraCrypt에게 보내고 싶습니까?</entry>
+    <entry lang="en" key="SYSTEM_CRASHED_ASK_REPORT">VeraCrypt가 최근 OS에 오류가 발생한 것을 감지했습니다. 시스템이 고장 났을 수 있는 많은 잠재적 이유(예: 하드웨어 구성 요소 고장, 장치 드라이버의 버그 등). VeraCrypt에서 VeraCrypt의 버그가 시스템 충돌을 일으킬 수 있는지 확인하시겠습니까?</entry>
+    <entry lang="ko" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">VeraCrypt가 계속 시스템 오류를 감지하기를 원하십니까?</entry>
+    <entry lang="ko" key="NO_MINIDUMP_FOUND">VeraCrypt가 시스템 오류 미니 덤프 파일을 찾지 못함</entry>
+    <entry lang="ko" key="ASK_DELETE_KERNEL_CRASH_DUMP">디스크 공간을 확보하기 위해 Windows 오류 덤프 파일을 삭제하시겠습니까?</entry>
+    <entry lang="ko" key="ASK_DEBUGGER_INSTALL">시스템 오류를 분석하기 위해 VeraCrypt는 Windows용 Microsoft 디버깅 도구를 먼저 설치해야 합니다.\n\n 확인을 누르면 Windows 설치 관리자가 Microsoft 서버에서 Microsoft 디버깅 도구 설치 패키지(16MB)를 다운로드하여 설치(윈도우즈 설치 관리자가 veracrypt.org 서버에서 Microsoft 서버 URL로 전달되므로 Microsoft 가 설치 위치를 변경하더라도 이 기능이 제대로 작동하는지 확인해야 합니다).</entry>
+    <entry lang="ko" key="SYSTEM_CRASH_ANALYSIS_INFO">확인을 클릭하면 VeraCrypt가 시스템 오류를 분석합니다. 이것은 몇 분 걸릴 수 있습니다.</entry>
+    <entry lang="ko" key="DEBUGGER_NOT_FOUND">환경변수 'PATH'에 'kd.exe'(커널 디버거)의 경로가 포함되어 있는지 확인해 주세요.</entry>
+    <entry lang="ko" key="SYSTEM_CRASH_NO_VERACRYPT">VeraCrypt는 시스템 오류를 유발하지 않았을 가능성이 가장 큰 것으로 보입니다. 시스템이 오류를 일으킬 수 있는 많은 잠재적 이유(예: 하드웨어 구성 요소 고장, 장치 드라이버의 버그 등)가 있습니다.</entry>
+    <entry lang="ko" key="SYSTEM_CRASH_UPDATE_DRIVER">분석 결과에 따르면 다음 드라이버를 업데이트하면 이 문제가 해결될 수 있습니다:</entry>
+    <entry lang="ko" key="SYSTEM_CRASH_REPORT">VeraCrypt에 버그가 있는지 확인하려면 자동으로 생성된 오류 보고서를 보내 주십시오.\n- 프로그램 버전\n- 운영 체제 버전\n- CPU 유형\n- 오류 카테고리\n- 드라이버 이름 및 버전\n- 시스템 호출 스택\nn'을 선택하면 다음 URL(전체 오류 보고서가 들어 있음)가 기본 인터넷 브라우저에서 열립니다.</entry>
+    <entry lang="ko" key="ASK_SEND_ERROR_REPORT">위의 오류 보고서를 보내고 싶습니까?</entry>
     <entry lang="ko" key="ENCRYPT">암호화</entry>
-    <entry lang="ko" key="DECRYPT">암호해제</entry>
-    <entry lang="ko" key="PERMANENTLY_DECRYPT">영구적 암호해제</entry>
+    <entry lang="ko" key="DECRYPT">복호화</entry>
+    <entry lang="ko" key="PERMANENTLY_DECRYPT">영구 복호화</entry>
     <entry lang="ko" key="EXIT">종료</entry>
-    <entry lang="ko" key="EXT_PARTITION">이 확장 파티션에 대한 논리 드라이브를 만든 후 다시 시도하세요.</entry>
-    <entry lang="ko" key="FILE_HELP">(하드 디스크, USB 플래시 드라이브 등에 위치할 수 있는) VeraCrypt 보관소로 불리는 파일 안에 VeraCrypt 볼륨을 둘 수 있습니다. VeraCrypt 보관소는 일반의 보통 파일과 같습니다(* 예컨대 보통의 파일처럼 이동 또는 삭제가 가능합니다). 보관소를 위한 파일이름을 선택하고, 보관소가 만들어질 위치를 선택하려면 “파일 선택”을 클릭합니다.\n\n주의: 만약 기존의 파일을 선택하게 되면, VeraCrypt는 이 파일을 암호화하지 않습니다. 또한 이 파일은 삭제되고 “새롭게 생성된 VeraCrypt 보관소”로 교체됩니다. 기존의 파일을, 지금 만들려고 하는 VeraCrypt 보관소로 (나중에) 이동시켜서, 암호화할 수 있습니다.</entry>
-    <entry lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL">생성될 외부 볼륨의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\nVeraCrypt 볼륨은 하드 디스크, USB 플래시 드라이브 등에 위치할 수 있는 파일(→ VeraCrypt 보관소) 안에 둘 수 있습니다. VeraCrypt 보관소는 보통의 파일처럼 이동 또는 삭제가 가능합니다. 보관소를 위한 파일이름을 선택하고, 보관소가 만들어질 위치를 선택하려면 “파일 선택”을 클릭합니다. 만약 기존의 파일을 선택하게 되면, VeraCrypt는 이 파일을 암호화하지 않습니다. 또한 이 파일은 삭제되고 새롭게 생성된 VeraCrypt 보관소로 교체됩니다. 기존의 파일을, 지금 만들려고 하는 VeraCrypt 보관소로 (나중에) 이동시켜서, 암호화할 수 있습니다.</entry>
-    <entry lang="ko" key="DEVICE_HELP">암호화된 장치-기반의 VeraCrypt 볼륨은 ① 하드 디스크의 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 또한 파티션 자체를 암호화할 수도 있습니다.\n\n게다가 암호화된 장치-기반의 VeraCrypt 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n참고: 파티션을 포함하고 있는 장치 자체를 (단 한 개의 키로써) 완전히 암호화할 수 있습니다. 다만 윈도우가 설치되어 있고 그곳에서 부팅이 가능한 드라이브인 경우에 가능합니다.</entry>
-    <entry lang="ko" key="DEVICE_HELP_NO_INPLACE">장치-기반의 VeraCrypt 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 저장 장치 안에 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다.</entry>
+    <entry lang="ko" key="EXT_PARTITION">이 확장 파티션에 대한 논리 드라이브를 생성한 다음 다시 시도하세요.</entry>
+    <entry lang="ko" key="FILE_HELP">VeraCrypt 볼륨은 파일(VeraCrypt 컨테이너라고 함)에 있을 수 있으며, 이 컨테이너는 하드 디스크, USB 플래시 드라이브 등에 있을 수 있습니다. VeraCrypt 컨테이너는 일반 파일과 동일합니다(예: 일반 파일로 이동하거나 삭제할 수 있음). '파일 선택'을 클릭하여 컨테이너의 파일 이름을 선택하고 컨테이너를 만들 위치를 선택합니다.\n\nWARNING: 기존 파일을 선택하면 VeraCrypt가 파일을 암호화하지 않습니다. 파일이 삭제되고 새로 생성된 VeraCrypt 컨테이너로 대체됩니다. 지금 생성하려는 VeraCrypt 컨테이너로 파일을 이동하여 기존 파일을 암호화할 수 있습니다.</entry>
+    <entry lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL">생성할 외부 볼륨의 위치를 선택합니다(이 볼륨 내에서 숨겨진 볼륨은 나중에 생성됩니다).\n\nVeraCrypt 볼륨은 파일(VeraCrypt 컨테이너)에 있을 수 있으며, 파일(VeraCrypt 컨테이너)은 하드 디스크, USB 플래시 드라이브 등에 있을 수 있습니다. VeraCrypt 컨테이너는 일반 파일로 이동하거나 삭제할 수 있습니다. '파일 선택'을 클릭하여 컨테이너의 파일 이름을 선택하고 컨테이너를 만들 위치를 선택합니다. 기존 파일을 선택하면 VeraCrypt가 파일을 암호화하지 않고 삭제되어 새로 생성된 컨테이너로 대체됩니다. 지금 생성하려는 VeraCrypt 컨테이너로 파일을 이동하여 기존 파일을 암호화할 수 있습니다.</entry>
+    <entry lang="ko" key="DEVICE_HELP">암호화된 디바이스 호스팅된 VeraCrypt 볼륨은 하드 디스크, 솔리드 스테이트 드라이브, USB 메모리 스틱 및 지원되는 다른 저장 장치의 파티션 내에 생성할 수 있습니다. 파티션은 제자리에 암호화될 수도 있습니다.\n\n또한 암호화된 디바이스 호스팅된 VeraCrypt 볼륨을 파티션이 포함되지 않은 장치(HDD 및 SSD 포함) 내에서 생성할 수 있습니다.\n\n참고: 파티션이 포함된 장치는 Windows가 설치되어 있고 부팅되는 드라이브인 경우에만 단일 키를 사용하여 완전히 암호화될 수 있습니다.</entry>
+    <entry lang="ko" key="DEVICE_HELP_NO_INPLACE">디바이스 호스팅된 VeraCrypt 볼륨은 HDD, SSD, USB 메모리 스틱 및 기타 저장 장치 내에 생성할 수 있습니다.\n\nWARNING: 파티션/디바이스가 포맷되고 파티션에 현재 저장된 모든 데이터가 손실됩니다.</entry>
     <entry lang="ko" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n생성될 “외부 볼륨”의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\n외부 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 외부 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다.</entry>
-    <entry lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\n숨긴 볼륨을 생성할 VeraCrypt 외부 볼륨의 위치를 선택해 주세요.</entry>
-    <entry lang="ko" key="FILE_IN_USE">주의: 호스트 파일/장치가 이미 사용 중입니다!\n\n이것을 무시하면 시스템 불안정 등의 원하지 않는 결과를 초래할 수 있습니다. 호스트 파일/장치를 사용하는 모든 프로그램(예: 안티바이러스 또는 백업 프로그램)을 “볼륨이 마운트하기 전”에 닫아야 합니다.\n\n그래도 계속 하시겠습니까?</entry>
-    <entry lang="ko" key="FILE_IN_USE_FAILED">오류: 볼륨을 마운트할 수 없습니다. 호스트 파일/장치가 이미 사용 중입니다. 접근권한 없는 마운트의 시도는 실패했습니다.</entry>
+    <entry lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\n숨겨진 볼륨을 만들 VeraCrypt 볼륨의 위치를 선택합니다.</entry>
+    <entry lang="ko" key="FILE_IN_USE">경고: 호스트 파일/장치가 이미 사용 중입니다!\n\n이(가) 이러한 결과를 예상하지 못할 경우 시스템이 불안정해질 수 있습니다. 볼륨을 마운트하기 전에 호스트 파일/장치(예: 바이러스 백신 또는 백업 프로그램)를 사용할 수 있는 모든 프로그램을 닫아야 합니다.\n\n계속 진행하시겠습니까?</entry>
+    <entry lang="ko" key="FILE_IN_USE_FAILED">오류: 볼륨을 마운트할 수 없습니다. 호스트 파일/장치가 이미 사용 중입니다. 단독 액세스 없이 마운트 시도도 실패했습니다.</entry>
     <entry lang="ko" key="FILE_OPEN_FAILED">파일을 열 수 없습니다.</entry>
     <entry lang="ko" key="FILE_TITLE">볼륨 위치</entry>
     <entry lang="ko" key="FILESYS_PAGE_TITLE">큰 파일</entry>
-    <entry lang="ko" key="FILESYS_PAGE_HELP_QUESTION">현재 VeraCrypt 볼륨에 4GB 이상의 파일을 저장하시겠습니까?</entry>
-    <entry lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION">여러분이 위에서 선택한 것에 따라 VeraCrypt는 VeraCrypt 볼륨을 위해 적절한 기본 파일 시스템을 선택하게 됩니다. (다음 단계에서 파일 시스템을 선택할 수 있습니다.)</entry>
-    <entry lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">외부 볼륨을 만드는 동안 여러분은 “아니오”의 선택 여부를 고민해야 합니다. “예”를 선택하게 되면 기본 파일 시스템은 NTFS가 되는데 이는 외부 볼륨으로선 적당하지 않습니다(→ FAT이 적당). 예컨대 (외부 볼륨이 FAT으로 포맷된 경우) 숨긴 볼륨의 가능한 최대 크기는 훨씬 더 클 수도 있습니다. 대개 FAT은 표준 및 숨긴 볼륨에 기본 형식입니다. (그래서 FAT 볼륨은 별 문제가 없습니다.) 그러나 4GB 이상의 파일(→ FAT 파일 시스템에선 지원 안됨)을 저장하려고 하는 경우에는 FAT은 기본 형식이 아닙니다.</entry>
-    <entry lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">그래도 “예”를 선택하시겠습니까?</entry>
+    <entry lang="ko" key="FILESYS_PAGE_HELP_QUESTION">이 VeraCrypt 볼륨에 4GB보다 큰 파일을 저장하려고 합니까?</entry>
+    <entry lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION">위의 선택에 따라 VeraCrypt는 VeraCrypt 볼륨에 적합한 기본 파일 시스템을 선택합니다(다음 단계에서 파일 시스템을 선택할 수 있습니다).</entry>
+    <entry lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">외부 볼륨을 생성할 때는 '아니요'를 선택하는 것이 좋습니다. '예'를 선택하면 기본 파일 시스템은 NTFS가 됩니다. NTFS는 FAT/exFAT만큼 외부 볼륨에 적합하지 않습니다. 예를 들어, 외부 볼륨이 FAT/exFAT로 포맷된 경우 숨겨진 볼륨의 최대 크기가 훨씬 커집니다. 일반적으로 FAT는 숨겨진 볼륨과 일반 볼륨 모두에 대해 기본값입니다(FAT 볼륨이 의심되지 않도록). 그러나 FAT 파일 시스템이 허용하지 않는 4GB보다 큰 파일을 저장하려는 의도를 사용자에게 표시하면 FAT가 기본값이 아닙니다.</entry>
+    <entry lang="ko" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">그래도 '예' 를 선택하시겠습니까?</entry>
     <entry lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">볼륨 생성 모드</entry>
-    <entry lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">이 방법은 파티션-기반 또는 장치-기반의 VeraCrypt 볼륨을 만드는 가장 빠른 방법입니다(* 다른 옵션인 “자체 암호화”는 각 섹터의 내용을 먼저 읽고, 암호화해서 쓰기 때문에 비교적 느립니다). 선택한 파티션/장치에 현재 저장되어 있는 모든 데이터는 잃게 됩니다(* 데이터는 암호화되지 않고 무작위 데이터로 덮어쓰기됩니다). 파티션에 있는 기존 데이터를 암호화하려면, 다른 옵션을 선택합니다.</entry>
-    <entry lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">선택한 전체 파티션 및 이곳에 저장된 모든 데이터는 자체(in place) 암호화됩니다. 파티션이 비어 있는 경우, 다른 옵션을 선택해야 합니다(* 볼륨이 훨씬 더 빠르게 생성됩니다).</entry>
+    <entry lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">이렇게 하면 파티션 호스팅된 VeraCrypt 볼륨 또는 디바이스 호스팅된 VeraCrypt 볼륨을 가장 빠르게 생성할 수 있습니다(다른 옵션인 내부 암호화는 각 섹터의 콘텐츠를 먼저 읽고 암호화한 다음 작성해야 하므로 속도가 더 느립니다). 선택한 파티션/장치에 현재 저장된 데이터는 모두 손실됩니다(데이터는 암호화되지 않고 임의의 데이터로 덮어쓰게 됩니다). 파티션의 기존 데이터를 암호화하려면 다른 옵션을 선택합니다.</entry>
+    <entry lang="ko" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">선택한 전체 파티션과 파티션에 저장된 모든 데이터가 제자리에 암호화됩니다. 파티션이 비어 있는 경우 다른 옵션을 선택해야 합니다(볼륨이 훨씬 빠르게 생성됩니다).</entry>
     <entry lang="ko" key="NOTE_BEGINNING">참고: </entry>
     <entry lang="ko" key="RESUME">다시 시작</entry>
     <entry lang="ko" key="DEFER">연기</entry>
     <entry lang="ko" key="START">시작</entry>
     <entry lang="ko" key="CONTINUE">계속</entry>
     <entry lang="ko" key="FORMAT">포맷</entry>
-    <entry lang="ko" key="WIPE">지우기</entry>
+    <entry lang="ko" key="WIPE">초기화</entry>
     <entry lang="ko" key="FORMAT_ABORT">포맷 중단?</entry>
     <entry lang="ko" key="SHOW_MORE_INFORMATION">추가 정보 표시</entry>
     <entry lang="ko" key="DO_NOT_SHOW_THIS_AGAIN">다시 표시 안함</entry>
-    <entry lang="ko" key="WIPE_FINISHED">파티션/장치의 내용을 성공적으로 지웠습니다.</entry>
-    <entry lang="ko" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">원래의 시스템(* 이 시스템의 숨겨진 시스템은 복제된 것임)이 존재했던 파티션의 내용을 성공적으로 지웠습니다.</entry>
-    <entry lang="ko" key="DECOY_OS_VERSION_WARNING">(지워진 파티션에) 설치하려는 윈도우 버전이 현재 실행 중인 윈도우 버전과 동일한 것인가를 확인해 주세요. 이 작업은 두 시스템이 부트 파티션을 공통으로 공유하기 때문에 필요합니다.</entry>
-    <entry lang="en" key="SYSTEM_ENCRYPTION_FINISHED">The system partition/drive has been successfully encrypted.\n\nNote: If there are non-system VeraCrypt volumes that you need to have mounted automatically every time Windows starts, you can set it up by mounting each of them and selecting 'Favorites' > 'Add Mounted Volume to System Favorites').</entry>
-    <entry lang="ko" key="SYSTEM_DECRYPTION_FINISHED">시스템 파티션/드라이브를 성공적으로 암호해제했습니다.</entry>
-    <entry lang="ko" key="FORMAT_FINISHED_HELP">\n\n볼륨이 성공적으로 만들어졌고, 사용할 준비가 되었습니다. 또 다른 VeraCrypt 볼륨을 만들려면 “다음”을 클릭하세요. 마법사를 끝내려면 “종료”를 클릭하세요.</entry>
-    <entry lang="ko" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n숨겨진 VeraCrypt 볼륨을 성공적으로 만들었습니다(* 숨겨진 운영체제는 이 숨겨진 볼륨에 존재하게 됩니다).\n\n계속하려면 “다음”을 클릭합니다.</entry>
-    <entry lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">볼륨이 완전히 암호화됨</entry>
-    <entry lang="ko" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">볼륨이 완전히 암호해제됨</entry>
-    <entry lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_INFO">중요: 새롭게 만들어진 VeraCrypt 볼륨을 마운트해서 이에 저장된 데이터에 접근하려면, VeraCrypt 메인 창에서 “장치 자동마운트”을 클릭합니다. 올바른 비밀번호 또는 키 파일을 입력한 이후 사용자가 VeraCrypt 메인 창에 있는 목록에서 선택한 드라이브 문자에 볼륨이 마운트됩니다(* 선택한 드라이브 문자를 통해 암호화된 데이터에 접근할 수 있게 됩니다).\n\n위에서 언급한 단계를 기억해 두거나 작성해 주십시오. 볼륨을 마운트하거나 그곳에 저장된 데이터에 접근하려 할 때마다 이 단계를 반드시 따라야 합니다. 대체방법은 VeraCrypt 메인 창에서 “장치 선택”을 클릭한 후 해당 파티션/볼륨을 선택해서 “마운트”을 클릭하는 것입니다.\n\n파티션/볼륨이 성공적으로 암호화되었고(* 완전히 암호화된 VeraCrypt 볼륨 포함) 사용할 준비가 되었습니다.</entry>
-    <entry lang="ko" key="NONSYS_INPLACE_DEC_FINISHED_INFO">VeraCrypt 볼륨이 성공적으로 암호가 해제되고, 사용할 준비가 되었습니다.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">The VeraCrypt volume has been successfully decrypted.\n\nPlease select a drive letter that you wish to assign to the decrypted volume and then click Finish.\n\nIMPORTANT: Until a drive letter is assigned to the decrypted volume, you will not be able to access data stored on the volume.</entry>
-    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Warning: To be able to access the decrypted data, a drive letter needs to be assigned to the decrypted volume. However, no drive letter is currently available.\n\nPlease vacate a drive letter (for example, by disconnecting a USB flash drive or external hard drive, etc.) and then click OK.</entry>
-    <entry lang="ko" key="FORMAT_FINISHED_INFO">볼륨이 성공적으로 만들어졌고, 사용할 준비가 되었습니다.</entry>
+    <entry lang="ko" key="WIPE_FINISHED">파티션/디바이스의 내용이 성공적으로 삭제되었습니다.</entry>
+    <entry lang="ko" key="WIPE_FINISHED_DECOY_SYSTEM_PARTITION">숨겨진 시스템이 복제된 원래 시스템이 있는 파티션의 내용이 성공적으로 삭제되었습니다.</entry>
+    <entry lang="ko" key="DECOY_OS_VERSION_WARNING">설치하려는 Windows(윈도우) 버전이 현재 실행 중인 Windows(윈도우) 버전과 동일해야 합니다. 이는 두 시스템이 부팅 파티션을 공유하기 때문에 필요합니다.</entry>
+    <entry lang="en" key="SYSTEM_ENCRYPTION_FINISHED">시스템 파티션/드라이브가 암호화되었습니다.\n\n참고: Windows(윈도우)를 시작할 때마다 자동으로 마운트해야 하는 비시스템 VeraCrypt 볼륨이 있는 경우 각 볼륨을 마운트하고 '즐겨찾기' > '시스템 즐겨찾기에 마운트된 볼륨 추가'를 선택하여 설정할 수 있습니다.</entry>
+    <entry lang="ko" key="SYSTEM_DECRYPTION_FINISHED">시스템 파티션/드라이브의 암호가 성공적으로 복호화 되었습니다.</entry>
+    <entry lang="ko" key="FORMAT_FINISHED_HELP">\n\nVeraCrypt 볼륨이 생성되었으며 사용할 준비가 되었습니다. 다른 VeraCrypt 볼륨을 생성하려면 다음을 클릭합니다. 그렇지 않으면 [종료]를 클릭합니다.</entry>
+    <entry lang="ko" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n숨겨진 VeraCrypt 볼륨이 성공적으로 생성되었습니다(숨겨진 운영 체제는 이 숨겨진 볼륨 내에 있습니다). 계속하려면 다음을 클릭합니다.</entry>
+    <entry lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">볼륨이 완전히 암호화 되었습니다.</entry>
+    <entry lang="ko" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">볼륨이 완전히 복호화 되었습니다.</entry>
+    <entry lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_INFO">중요: 새롭게 생성된 VeraCrypt 볼륨을 마운트하고 데이터에 접근하려면 메인 VeraCrypt 창에서 '자동 마운트 장치'를 클릭하세요. 올바른 암호를 입력하고 올바른 키 파일을 입력하면 볼륨이 VeraCrypt 창의 목록에서 선택한 드라이브 문자에 마운트됩니다 (선택한 드라이브 문자를 통해 암호화 된 데이터에 액세스 할 수 있습니다).\n\n위의 단계를 기억하거나 적어주십시오. 볼륨 및 저장 데이터를 마운트하려는 경우에는 반드시 이 방법을 사용해야 합니다. 또는 VeraCrypt 창에서 '장치 선택'을 클릭 한 다음이 파티션/볼륨을 선택하고 '마운트'를 클릭하세요.\n\n파티션 / 볼륨이 성공적으로 암호화 되었습니다 (현재 완전히 암호화 된 VeraCrypt 볼륨이 포함되어 있음). 장치를 사용할 준비가 되었습니다.</entry>
+    <entry lang="ko" key="NONSYS_INPLACE_DEC_FINISHED_INFO">VeraCrypt 볼륨의 암호가 성공적으로 해제되었습니다.</entry>
+    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">VeraCrypt 볼륨의 암호가 성공적으로 해제되었습니다.\n\n암호화된 볼륨에 할당할 드라이브 문자를 선택한 다음 마침을 클릭합니다.\n\n주의: 드라이브 문자가 암호 해독된 볼륨에 할당될 때까지 볼륨에 저장된 데이터에 액세스할 수 없습니다.</entry>
+    <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">경고: 암호 해독된 데이터에 액세스할 수 있으려면 드라이브 문자를 암호 해독된 볼륨에 할당해야 합니다. 그러나 현재 사용 가능한 드라이브 문자가 없습니다.\n\nUSB 플래시 드라이브 또는 외장 하드 드라이브 연결을 해제하는 등 드라이브 문자를 비운 다음 확인을 클릭합니다.</entry>
+    <entry lang="ko" key="FORMAT_FINISHED_INFO">VeraCrypt 볼륨이 성공적으로 생성되었습니다.</entry>
     <entry lang="ko" key="FORMAT_FINISHED_TITLE">볼륨 생성</entry>
-    <entry lang="ko" key="FORMAT_HELP">중요: 이 창 안에서 마우스를 가능한 한 무작위로 움직이세요. 마우스를 더 오래 움직일수록 더욱 좋습니다. 이 작업은 암호키의 암호력을 상당히 증대시킵니다. 이제 볼륨을 생성하려면 “포맷”을 클릭하세요.</entry>
-    <entry lang="ko" key="FORMAT_HIDVOL_HOST_HELP">외부 볼륨을 만들 준비가 되면 “포맷”을 클릭하세요. 더 자세한 정보를 보려면 문서를 참고하세요.</entry>
+    <entry lang="ko" key="FORMAT_HELP">중요: 이 창에서 마우스를 가능한 한 무작위로 이동합니다. 오래 움직일수록 좋습니다. 따라서 암호화 키의 암호화 강도가 크게 향상됩니다. 그런 다음 포맷을 클릭하여 볼륨을 생성합니다.</entry>
+    <entry lang="ko" key="FORMAT_HIDVOL_HOST_HELP">포맷을 클릭하여 외부 볼륨을 생성합니다. 자세한 내용은 설명서를 참고하시기 바랍니다.</entry>
     <entry lang="ko" key="FORMAT_HIDVOL_HOST_TITLE">외부 볼륨 포맷</entry>
-    <entry lang="ko" key="FORMAT_HIDVOL_TITLE">숨긴 볼륨 포맷</entry>
+    <entry lang="ko" key="FORMAT_HIDVOL_TITLE">숨겨진 볼륨 포맷</entry>
     <entry lang="ko" key="FORMAT_TITLE">볼륨 포맷</entry>
-    <entry lang="ko" key="HELP_READER_ERROR">VeraCrypt 사용자 안내서를 보거나 인쇄하려면 Adobe Reader(또는 호환가능한 도구)가 필요합니다. Adobe Reader (프리웨어) 다운로드 주소: www.adobe.com\n\n대신 온라인 문서를 보시겠습니까?</entry>
-    <entry lang="ko" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">만약 이 옵션을 선택했다면, 마법사가 ① 표준 VeraCrypt 볼륨을 만들고 ② 그 안에 숨긴 VeraCrypt 볼륨을 만드는 것을 도와줍니다. 경험이 없는 사용자는 항상 이 옵션을 선택해야 합니다.</entry>
-    <entry lang="ko" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">만약 이 옵션을 선택했다면, 기존의 VeraCrypt 볼륨 안에 숨긴 볼륨을 만들게 됩니다. “숨긴 볼륨”의 호스트에 적당한 VeraCrypt “외부 볼륨”은 이미 만들었다고 간주됩니다.</entry>
+    <entry lang="ko" key="HELP_READER_ERROR">VeraCrypt 사용자 가이드를 보거나 인쇄하려면 Adobe Reader(또는 호환 도구)가 필요합니다. 다음 위치에서 Adobe Reader(프리웨어)를 다운로드할 수 있습니다. www.adobe.com\n\n온라인 설명서를 대신 보시겠습니까?</entry>
+    <entry lang="ko" key="HIDDEN_VOL_WIZARD_MODE_NORMAL_HELP">이 옵션을 선택하면 먼저 일반 VeraCrypt 볼륨을 생성한 다음 숨겨진 VeraCrypt 볼륨을 생성할 수 있습니다. 경험이 없는 사용자는 항상 이 옵션을 선택해야 합니다.</entry>
+    <entry lang="ko" key="HIDDEN_VOL_WIZARD_MODE_DIRECT_HELP">이 옵션을 선택하면 기존 VeraCrypt 볼륨 내에 숨겨진 볼륨이 생성됩니다. 숨겨진 볼륨을 호스팅하는 데 적합한 VeraCrypt 볼륨을 이미 생성했다고 가정합니다.</entry>
     <entry lang="ko" key="HIDDEN_VOL_WIZARD_MODE_TITLE">볼륨 생성 모드</entry>
-    <entry lang="ko" key="HIDVOL_FORMAT_FINISHED_TITLE">숨긴 볼륨을 생성했습니다.</entry>
-    <entry lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">The hidden VeraCrypt volume has been successfully created and is ready for use. If all the instructions have been followed and if the precautions and requirements listed in the section "Security Requirements and Precautions Pertaining to Hidden Volumes" in the VeraCrypt User's Guide are followed, it should be impossible to prove that the hidden volume exists, even when the outer volume is mounted.\n\nWARNING: IF YOU DO NOT PROTECT THE HIDDEN VOLUME (FOR INFORMATION ON HOW TO DO SO, REFER TO THE SECTION "PROTECTION OF HIDDEN VOLUMES AGAINST DAMAGE" IN THE VERACRYPT USER'S GUIDE), DO NOT WRITE TO THE OUTER VOLUME. OTHERWISE, YOU MAY OVERWRITE AND DAMAGE THE HIDDEN VOLUME!</entry>
-    <entry lang="ko" key="FIRST_HIDDEN_OS_BOOT_INFO">숨긴 운영체제를 시작했습니다. 주지했다시피 숨긴 운영체제는 원래의 운영체제와 동일한 파티션에 설치된 것으로 보이게 됩니다. 그러나 실제로는 (숨긴 볼륨 내에 있는) 파티션 안에 설치되어 있습니다. 모든 읽기 및 쓰기 작업은 원래의 시스템 파티션에서 숨긴 볼륨으로 (눈에 띄지 않게) 재전환됩니다.\n\n시스템 파티션에서 읽고 쓰여지는 데이터가 실제로는 숨긴 볼륨에서 읽고 쓰여지고 있다는 사실을 운영체제 뿐만 아니라 프로그램도 전혀 알지 못합니다. 이러한 데이터는 실시간으로 보통 때와 마찬가지로 (미끼용 운영체제에서 사용되는 키와는 다른 키를 사용해서) 암호화되고 암호해제됩니다.\n\n\n계속하려면 “다음”을 클릭해 주십시오.</entry>
-    <entry lang="ko" key="HIDVOL_HOST_FILLING_HELP_SYSENC">외부 볼륨이 만들어졌고, 드라이브 %hc:에 마운트되었습니다:. 실제로는 숨기고 싶지 않지만 겉으로 보기에 상당히 민감하게 보이는 파일들을 이 외부 볼륨에 지금 복사해야 합니다. 이러한 파일들은 노출을 강요하는 자에게 공개되어도 상관이 없는 “시스템 파티션 뒤의 첫번째 파티션에 대한 비밀번호용”입니다. 시스템 파티션에는 ① 외부 볼륨 및 ② 숨긴 볼륨(→ 숨긴 운영체제 포함)이 자리잡고 있습니다. 이러한 외부 볼륨용 비밀번호는 공개될 수 있지만, 숨긴 볼륨 (및 숨긴 운영체제)의 존재는 여전히 비밀로 남습니다.\n\n중요: 외부 볼륨에 복사한 파일이 %s 이상을 차지해선 안됩니다. 그렇지 않으면 외부 볼륨에 “숨긴 볼륨을 위한 충분한 공간”이 확보되지 않기 때문입니다. 이런 경우 계속 진행할 수 없게 됩니다. 복사 작업을 마친 후 “다음”을 클릭합니다(→ 볼륨을 꺼내지 마세요).</entry>
-    <entry lang="ko" key="HIDVOL_HOST_FILLING_HELP">외부 볼륨이 성공적으로 만들어졌고, 드라이브 %hc:에 마운트되었습니다. 실제로는 숨기고 싶지 않지만 겉으로 보기에 상당히 민감한 파일을 이 볼륨에 지금 복사해야 합니다. 강요에 의해 비밀번호를 노출해야만 하는 경우, 거기에 있는 파일들이 표시됩니다. 외부 볼륨에 대한 비밀번호만 노출될 뿐, 숨긴 볼륨은 안전합니다. 나중에 만들어질 “숨긴 볼륨”에 진짜 소중한 파일을 저장하면 됩니다. 복사 작업이 끝나면 “다음”을 클릭하세요. 볼륨을 꺼내지 마세요.\n\n참고: “다음”을 클릭하면, 여유 공간(이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에, 숨긴 볼륨의 가능한 최대 크기를 제한하게 됩니다. 클러스터 비트맵 스캔은 “숨긴 볼륨”이 외부 볼륨을 데이터로 덮어쓰지 못하도록 하는 것입니다.</entry>
+    <entry lang="ko" key="HIDVOL_FORMAT_FINISHED_TITLE">숨겨진 볼륨이 생성되었습니다.</entry>
+    <entry lang="en" key="HIDVOL_FORMAT_FINISHED_HELP">숨겨진 VeraCrypt 볼륨이 생성되었으며 사용할 준비가 되었습니다. 모든 지침을 따르고 VeraCrypt 사용자 설명서의 "숨겨진 볼륨에 대한 보안 요구 사항 및 주의 사항" 섹션에 나열된 주의 사항과 요구 사항을 준수하는 경우, 외부 볼륨이 장착되어 있더라도 숨겨진 볼륨이 존재한다는 것을 증명할 수 없습니다.\n\n경고: 숨겨진 볼륨을 보호하지 않으면 (VERACRYPT 사용 설명서의 "숨겨진 볼륨 보호"절을 참조하십시오), 볼륨을 쓰지 마십시오. 그렇지 않으면 숨겨진 볼륨을 초과하여 손상시킬 수 있습니다!</entry>
+    <entry lang="ko" key="FIRST_HIDDEN_OS_BOOT_INFO">숨겨진 운영 체제를 시작했습니다. 숨겨진 운영 체제가 원래 운영 체제와 동일한 파티션에 설치된 것으로 나타납니다. 그러나 실제로는 숨겨진 볼륨에 있는 파티션 내에 설치됩니다. 모든 읽기 및 쓰기 작업은 원래 시스템 파티션에서 숨겨진 볼륨으로 투명하게 리디렉션됩니다.\n운영 체제나 애플리케이션 중 어느 것도 시스템 파티션에서 읽고 쓴 데이터가 실제로 뒤의 파티션(숨겨진 볼륨에서/로)에 쓰여지는 것을 알지 못합니다. 이러한 데이터는 평상시와 같이 즉시 암호화 및 암호 해독됩니다(디코이 운영 체제에 사용될 암호화 키와 다른 암호화 키 사용).계속하려면 다음을 클릭합니다.</entry>
+    <entry lang="ko" key="HIDVOL_HOST_FILLING_HELP_SYSENC">외부 볼륨이 생성되어 %hc: 드라이브로 마운트되었습니다. 이제 실제로 숨기려 하지 않는 중요해 보이는 파일을 이 외부 볼륨에 복사해야 합니다. 시스템 파티션 뒤에 있는 첫 번째 파티션의 암호를 강제로 공개해야 하는 모든 사용자가 외부 볼륨과 숨겨진 볼륨(숨겨진 운영 체제 포함)이 모두 있을 수 있습니다. 이 외부 볼륨의 암호를 표시할 수 있으며 숨겨진 볼륨(및 숨겨진 운영 체제)의 존재는 비밀로 유지됩니다.\n\nIMPORTANT: 외부 볼륨에 복사하는 파일은 %s 이상 차지하면 안 됩니다. 그렇지 않으면 숨겨진 볼륨을 위한 외부 볼륨의 사용 가능한 공간이 부족할 수 있습니다(계속하지 못할 수도 있습니다). 복사를 마친 후 다음을 클릭합니다(볼륨을 마운트 해제하지 않음).</entry>
+    <entry lang="ko" key="HIDVOL_HOST_FILLING_HELP">외부 볼륨이 생성되어 %hc: 드라이브로 마운트되었습니다. 이제 실제로 숨기지 않을 중요해 보이는 파일을 이 볼륨에 복사해야 합니다. 이 파일은 암호를 공개하도록 강요하는 모든 사용자를 위해 제공됩니다. 숨겨진 볼륨이 아닌 이 외부 볼륨의 암호만 표시됩니다. 사용자가 정말 신경 쓰는 파일은 나중에 생성되는 숨겨진 볼륨에 저장됩니다. 복사를 마치면 다음을 클릭합니다. 볼륨을 마운트 해제하지 않습니다.\n\n참고: 다음을 클릭하면 외부 볼륨의 클러스터 비트맵이 스캔되어 끝단이 볼륨의 끝과 정렬된 사용 가능한 공간의 중단 없는 영역 크기를 결정합니다. 이 영역은 숨겨진 볼륨을 수용하므로 가능한 최대 크기를 제한합니다. 클러스터 비트맵 검색은 숨겨진 볼륨에 의해 외부 볼륨의 데이터를 덮어쓰지 않도록 합니다.</entry>
     <entry lang="ko" key="HIDVOL_HOST_FILLING_TITLE">외부 볼륨 내용</entry>
-    <entry lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n다음 단계에서 외부 볼륨에 대한 옵션을 설정하게 됩니다(→ 외부 볼륨 안에 숨긴 볼륨이 나중에 만들어집니다).</entry>
-    <entry lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n다음 단계에서, (이전 단계에서 설명했듯이) 시스템 파티션 뒤의 첫번째 파티션 안에 이른바 “외부 VeraCrypt 볼륨”을 만들게 됩니다.</entry>
+    <entry lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP">\n\n다음 단계에서는 숨겨진 볼륨이 나중에 생성될 외부 볼륨에 대한 옵션을 설정합니다.</entry>
+    <entry lang="ko" key="HIDVOL_HOST_PRE_CIPHER_HELP_SYSENC">\n\n다음 단계에서는 시스템 파티션 뒤의 첫 번째 파티션에 이른바 외부 VeraCrypt 볼륨을 생성합니다(이전 단계 중 하나에서 설명됨).</entry>
     <entry lang="ko" key="HIDVOL_HOST_PRE_CIPHER_TITLE">외부 볼륨</entry>
     <entry lang="ko" key="HIDDEN_OS_PRE_CIPHER_HELP">다음 단계에서 (숨긴 운영체제를 포함하고 있는) 숨긴 볼륨에 대한 옵션 및 비밀번호를 설정하게 됩니다.\n\n참고: 여유 공간(→ 이 공간의 끝이 볼륨의 끝과 정렬됨)의 간섭받지 않는 영역의 크기를 결정하기 위해, 외부 볼륨의 클러스터 비트맵을 스캔하게 됩니다. 이 영역은 숨긴 볼륨을 위한 것이기 때문에 “숨긴 볼륨의 가능한 최대 크기”를 제한하게 됩니다. 숨긴 볼륨의 가능한 최대 크기는 시스템 파티션의 것보다 더 크게 정해지게 됩니다. 이는 시스템 파티션의 전체 내용이 숨긴 볼륨에 복사될 필요가 있기 때문입니다. 이를 통해 숨긴 볼륨 영역에 쓰여진 데이터가 “외부 볼륨에 현재 저장되어 있는 데이터”를 덮어쓰지 못하도록 방지합니다.</entry>
     <entry lang="ko" key="HIDDEN_OS_PRE_CIPHER_WARNING">중요: 이 단계에서 선택한 알고리즘을 기억해 두십시오. 미끼용 시스템을 위해 동일한 알고리즘을 선택해야 할 것입니다. 그렇지 않으면 “숨긴 시스템”에 접근하지 못하게 됩니다! (미끼용 시스템은 “숨긴 시스템”과 동일한 암호 알고리즘으로 암호화되어야 합니다.)\n\n참고: 그 이유는 미끼용 시스템과 숨긴 시스템은 한 개의 부트 로더를 공유하게 되는데, 이 부트 로더는 사용자가 선택한 단일 알고리즘만을 지원하기 때문입니다(* 각 알고리즘에 대해 특별한 버전의 VeraCrypt 부트 로더가 있습니다).</entry>
