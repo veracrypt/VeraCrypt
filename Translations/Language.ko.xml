@@ -472,7 +472,7 @@
     <entry lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL">생성할 외부 볼륨의 위치를 선택합니다(이 볼륨 내에서 숨겨진 볼륨은 나중에 생성됩니다).\n\nVeraCrypt 볼륨은 파일(VeraCrypt 컨테이너)에 있을 수 있으며, 파일(VeraCrypt 컨테이너)은 하드 디스크, USB 플래시 드라이브 등에 있을 수 있습니다. VeraCrypt 컨테이너는 일반 파일로 이동하거나 삭제할 수 있습니다. '파일 선택'을 클릭하여 컨테이너의 파일 이름을 선택하고 컨테이너를 만들 위치를 선택합니다. 기존 파일을 선택하면 VeraCrypt가 파일을 암호화하지 않고 삭제되어 새로 생성된 컨테이너로 대체됩니다. 지금 생성하려는 VeraCrypt 컨테이너로 파일을 이동하여 기존 파일을 암호화할 수 있습니다.</entry>
     <entry lang="ko" key="DEVICE_HELP">암호화된 디바이스 호스팅된 VeraCrypt 볼륨은 하드 디스크, 솔리드 스테이트 드라이브, USB 메모리 스틱 및 지원되는 다른 저장 장치의 파티션 내에 생성할 수 있습니다. 파티션은 제자리에 암호화될 수도 있습니다.\n\n또한 암호화된 디바이스 호스팅된 VeraCrypt 볼륨을 파티션이 포함되지 않은 장치(HDD 및 SSD 포함) 내에서 생성할 수 있습니다.\n\n참고: 파티션이 포함된 장치는 Windows가 설치되어 있고 부팅되는 드라이브인 경우에만 단일 키를 사용하여 완전히 암호화될 수 있습니다.</entry>
     <entry lang="ko" key="DEVICE_HELP_NO_INPLACE">디바이스 호스팅된 VeraCrypt 볼륨은 HDD, SSD, USB 메모리 스틱 및 기타 저장 장치 내에 생성할 수 있습니다.\n\nWARNING: 파티션/디바이스가 포맷되고 파티션에 현재 저장된 모든 데이터가 손실됩니다.</entry>
-    <entry lang="ko" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n생성될 “외부 볼륨”의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\n외부 볼륨은 ① 하드 디스크 파티션, ② SSD(Solid State Drive), ③ USB 메모리 스틱 및 ④ 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 외부 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다.</entry>
+    <entry lang="ko" key="DEVICE_HELP_HIDDEN_HOST_VOL">\n생성될 “외부 볼륨”의 위치를 선택합니다. 나중에 외부 볼륨 안에 “숨긴 볼륨”이 만들어집니다.\n\n외부 볼륨은 하드 디스크 파티션, SSD, USB 메모리 스틱 및 기타 지원되는 저장 장치 안에 만들어질 수 있습니다. 외부 볼륨은 파티션을 포함하고 있지 않은 장치(* 하드 디스크 및 SSD 포함) 내에도 만들어질 수 있습니다.\n\n주의: 파티션/장치가 포맷되고 현재 이곳에 저장된 모든 데이터를 잃게 됩니다.</entry>
     <entry lang="ko" key="FILE_HELP_HIDDEN_HOST_VOL_DIRECT">\n숨겨진 볼륨을 만들 VeraCrypt 볼륨의 위치를 선택합니다.</entry>
     <entry lang="ko" key="FILE_IN_USE">경고: 호스트 파일/장치가 이미 사용 중입니다!\n\n이(가) 이러한 결과를 예상하지 못할 경우 시스템이 불안정해질 수 있습니다. 볼륨을 마운트하기 전에 호스트 파일/장치(예: 바이러스 백신 또는 백업 프로그램)를 사용할 수 있는 모든 프로그램을 닫아야 합니다.\n\n계속 진행하시겠습니까?</entry>
     <entry lang="ko" key="FILE_IN_USE_FAILED">오류: 볼륨을 마운트할 수 없습니다. 호스트 파일/장치가 이미 사용 중입니다. 단독 액세스 없이 마운트 시도도 실패했습니다.</entry>
@@ -505,13 +505,13 @@
     <entry lang="ko" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\n숨겨진 VeraCrypt 볼륨이 성공적으로 생성되었습니다(숨겨진 운영 체제는 이 숨겨진 볼륨 내에 있습니다). 계속하려면 다음을 클릭합니다.</entry>
     <entry lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">볼륨이 완전히 암호화 되었습니다.</entry>
     <entry lang="ko" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">볼륨이 완전히 복호화 되었습니다.</entry>
-    <entry lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_INFO">중요: 새롭게 생성된 VeraCrypt 볼륨을 마운트하고 데이터에 접근하려면 메인 VeraCrypt 창에서 '자동 마운트 장치'를 클릭하세요. 올바른 암호를 입력하고 올바른 키 파일을 입력하면 볼륨이 VeraCrypt 창의 목록에서 선택한 드라이브 문자에 마운트됩니다 (선택한 드라이브 문자를 통해 암호화 된 데이터에 액세스 할 수 있습니다).\n\n위의 단계를 기억하거나 적어주세요. 볼륨 및 저장 데이터를 마운트하려는 경우에는 반드시 이 방법을 사용해야 합니다. 또는 VeraCrypt 창에서 '장치 선택'을 클릭 한 다음이 파티션/볼륨을 선택하고 '마운트'를 클릭하세요.\n\n파티션/볼륨이 성공적으로 암호화 되었습니다 (현재 완전히 암호화 된 VeraCrypt 볼륨이 포함되어 있음). 장치를 사용할 준비가 되었습니다.</entry>
+    <entry lang="ko" key="NONSYS_INPLACE_ENC_FINISHED_INFO">중요: 새롭게 생성된 VeraCrypt 볼륨을 마운트하고 데이터에 접근하려면 메인 VeraCrypt 창에서 '장치 자동 마운트'를 클릭하세요. 올바른 암호를 입력하고 올바른 키 파일을 입력하면 볼륨이 VeraCrypt 창의 목록에서 선택한 드라이브 문자에 마운트됩니다 (선택한 드라이브 문자를 통해 암호화 된 데이터에 액세스 할 수 있습니다).\n\n위의 단계를 기억하거나 적어주세요. 볼륨 및 저장 데이터를 마운트하려는 경우에는 반드시 이 방법을 사용해야 합니다. 또는 VeraCrypt 창에서 '장치 선택'을 클릭 한 다음이 파티션/볼륨을 선택하고 '마운트'를 클릭하세요.\n\n파티션/볼륨이 성공적으로 암호화 되었습니다 (현재 완전히 암호화 된 VeraCrypt 볼륨이 포함되어 있음). 장치를 사용할 준비가 되었습니다.</entry>
     <entry lang="ko" key="NONSYS_INPLACE_DEC_FINISHED_INFO">VeraCrypt 볼륨의 암호가 성공적으로 해제되었습니다.</entry>
     <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">VeraCrypt 볼륨의 암호가 성공적으로 해제되었습니다.\n\n암호화된 볼륨에 할당할 드라이브 문자를 선택한 다음 마침을 클릭합니다.\n\n주의: 드라이브 문자가 암호 해독된 볼륨에 할당될 때까지 볼륨에 저장된 데이터에 액세스할 수 없습니다.</entry>
     <entry lang="en" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">경고: 암호 해독된 데이터에 액세스할 수 있으려면 드라이브 문자를 암호 해독된 볼륨에 할당해야 합니다. 그러나 현재 사용 가능한 드라이브 문자가 없습니다.\n\nUSB 플래시 드라이브 또는 외장 하드 드라이브 연결을 해제하는 등 드라이브 문자를 비운 다음 확인을 클릭합니다.</entry>
     <entry lang="ko" key="FORMAT_FINISHED_INFO">VeraCrypt 볼륨이 성공적으로 생성되었습니다.</entry>
     <entry lang="ko" key="FORMAT_FINISHED_TITLE">볼륨 생성</entry>
-    <entry lang="ko" key="FORMAT_HELP">중요: 이 창에서 마우스를 가능한 한 무작위로 이동합니다. 오래 움직일수록 좋습니다. 따라서 암호화 키의 암호화 강도가 크게 향상됩니다. 그런 다음 포맷을 클릭하여 볼륨을 생성합니다.</entry>
+    <entry lang="ko" key="FORMAT_HELP">중요: 이 창에서 마우스를 가능한 한 무작위로 이동합니다. 오래 움직일수록 암호화 키의 암호화 강도가 크게 향상됩니다. 그런 다음 포맷을 클릭하여 볼륨을 생성하세요.</entry>
     <entry lang="ko" key="FORMAT_HIDVOL_HOST_HELP">포맷을 클릭하여 외부 볼륨을 생성합니다. 자세한 내용은 설명서를 참고하시기 바랍니다.</entry>
     <entry lang="ko" key="FORMAT_HIDVOL_HOST_TITLE">외부 볼륨 포맷</entry>
     <entry lang="ko" key="FORMAT_HIDVOL_TITLE">숨겨진 볼륨 포맷</entry>
@@ -536,11 +536,11 @@
     <entry lang="ko" key="HIDVOL_PROT_WARN_AFTER_MOUNT">이제 외부 볼륨이 분리될 때까지 숨겨진 볼륨이 손상되지 않도록 보호됩니다.\n\nWARNING: 숨겨진 볼륨 영역에 데이터를 저장하려고 하면 VeraCrypt는 전체 볼륨(외부 및 숨겨진 부분 모두)이 마운트 해제될 때까지 쓰기 보호 기능을 시작합니다. 이로 인해 외부 볼륨의 파일 시스템이 손상될 수 있으며, 이 경우 숨겨진 볼륨의 신뢰할 수 있는 부인성에 부정적인 영향을 미칠 수 있습니다. 따라서 숨겨진 볼륨 영역에 쓰지 않도록 모든 노력을 기울여야 합니다. 숨겨진 볼륨 영역에 저장되는 데이터는 저장되지 않고 손실됩니다. Windows에서 이 오류를 쓰기 오류("쓰기 지연 실패" 또는 "파라미터가 올바르지 않습니다")로 보고할 수 있습니다.</entry>
     <entry lang="ko" key="HIDVOL_PROT_WARN_AFTER_MOUNT_PLURAL">이제 새로 마운트된 볼륨 내의 숨겨진 각 볼륨이 마운트 해제될 때까지 손상으로부터 보호됩니다.\n\nWARNING: 이러한 볼륨의 보호되는 숨겨진 볼륨 영역에 데이터를 저장하려고 하면 VeraCrypt는 전체 볼륨(외부 및 숨겨진 부분 모두)이 마운트 해제될 때까지 쓰기 보호를 시작합니다. 이로 인해 외부 볼륨의 파일 시스템이 손상될 수 있으며, 이 경우 숨겨진 볼륨의 신뢰할 수 있는 부인성에 부정적인 영향을 미칠 수 있습니다. 따라서 숨겨진 볼륨 영역에 쓰지 않도록 모든 노력을 기울여야 합니다. 보호되는 숨겨진 볼륨 영역에 저장되는 데이터는 저장되지 않고 손실됩니다. Windows에서 이 오류를 쓰기 오류("쓰기 지연 실패" 또는 "파라미터가 올바르지 않습니다")로 보고할 수 있습니다.</entry>
     <entry lang="ko" key="DAMAGE_TO_HIDDEN_VOLUME_PREVENTED">경고: %c:로 마운트된 볼륨의 숨겨진 볼륨 영역에 데이터를 저장하려고 했습니다. VeraCrypt는 숨겨진 볼륨을 보호하기 위해 이러한 데이터를 저장하지 못하도록 했습니다. 이로 인해 외부 볼륨에서 파일 시스템이 손상되었을 수 있으며 Windows(윈도우)에서 쓰기 오류("쓰기 지연 실패" 또는 "파라미터가 올바르지 않습니다")를 보고했을 수 있습니다. 전체 볼륨(외부 및 숨겨진 부분 모두)이 마운트 해제될 때까지 쓰기 보호됩니다. VeraCrypt가 이 볼륨의 숨겨진 볼륨 영역에 데이터를 저장하지 못하게 한 것이 이번이 처음이 아닌 경우, 이 숨겨진 볼륨의 그럴듯한 부인성에 부정적인 영향을 미칠 수 있습니다(외부 볼륨 파일 시스템 내에서 비정상적인 상관 불일치가 발생할 수 있음). 따라서 빠른 포맷을 사용하지 않도록 설정한 상태에서 새 VeraCrypt 볼륨을 생성하고 이 볼륨에서 새 볼륨으로 파일을 이동하는 것이 좋습니다. 이 볼륨은 외부 및 숨겨진 부분 모두 안전하게 삭제해야 합니다. 지금 운영 체제를 다시 시작하는 것이 좋습니다.</entry>
-    <entry lang="ko" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">4GB보다 큰 파일을 볼륨에 저장할 의도를 표시했습니다. 이렇게 하려면 볼륨을 NTFS/exFAT/ReFS로 포맷해야 합니다. 그러나 이 형식은 가능하지 않습니다.</entry>
+    <entry lang="ko" key="CANNOT_SATISFY_OVER_4G_FILE_SIZE_REQ">4GB보다 큰 파일을 볼륨에 저장할 의도를 표시했습니다. 이렇게 하려면 볼륨을 NTFS/exFAT/ReFS로 포맷해야 합니다. 그러나 이 포맷 형식은 지원하지 않습니다.</entry>
     <entry lang="ko" key="CANNOT_CREATE_NON_HIDDEN_NTFS_VOLUMES_UNDER_HIDDEN_OS">숨겨진 운영 체제가 실행 중일 때는 숨김이 없는 VeraCrypt 볼륨을 NTFS/exFAT/ReFS로 포맷할 수 없습니다. 그 이유는 운영 체제가 NTFS로 포맷할 수 있도록 하려면 볼륨을 쓰기 보호 없이 일시적으로 마운트해야 하기 때문입니다(여기서 FAT로 포맷하는 것은 운영 체제가 아니라 VeraCrypt에서 수행되며 볼륨을 마운트하지 않습니다). 자세한 기술 정보는 아래를 참조하세요. 디코이 운영 체제 내에서 숨겨진 NTFS/exFAT/ReFS 볼륨을 생성할 수 있습니다.</entry>
     <entry lang="ko" key="HIDDEN_VOL_CREATION_UNDER_HIDDEN_OS_HOWTO">보안상의 이유로 숨겨진 운영 체제가 실행 중일 때 숨겨진 볼륨은 항상 읽기 전용으로 마운트되어야 하므로 '직접' 모드에서만 생성할 수 있습니다. 숨겨진 볼륨을 안전하게 생성하려면 다음 단계를 수행합니다.\n\n1) 디코이 시스템을 부팅합니다.\n\n2) 정상적인 VeraCrypt 볼륨을 생성하고 이 볼륨에 실제로 숨기지 않을 중요해 보이는 일부 파일을 복사합니다(볼륨이 외부 볼륨이 됨).\n\n3) 숨겨진 시스템을 부팅하고 VeraCrypt Volume Creation Wizard(VeraCrypt 볼륨 생성 마법사)를 시작합니다. 볼륨이 파일 호스팅된 경우 시스템 파티션이나 다른 숨겨진 볼륨으로 이동합니다(그렇지 않으면 새로 생성한 숨겨진 볼륨이 읽기 전용으로 마운트되어 포맷할 수 없습니다). 마법사의 지침에 따라 '직접' 숨겨진 볼륨 생성 모드를 선택합니다.\n\n4) 마법사에서 2단계에서 생성한 볼륨을 선택한 다음 지침에 따라 해당 볼륨 내에 숨겨진 볼륨을 생성합니다.</entry>
     <entry lang="ko" key="HIDDEN_OS_WRITE_PROTECTION_BRIEF_INFO">보안상의 이유로 숨겨진 운영 체제가 실행 중일 때 로컬 암호화되지 않은 파일 시스템 및 숨김이 없는 VeraCrypt 볼륨이 읽기 전용으로 마운트됩니다(이러한 파일 시스템 또는 VeraCrypt 볼륨에는 데이터를 쓸 수 없음).\n\nData는 숨겨진 VeraCrypt 볼륨 내에 있는 파일 시스템에 쓸 수 있습니다(숨겨진 볼륨이 암호화되지 않은 파일 시스템 또는 다른 읽기 전용 파일 시스템에 저장된 컨테이너에 있지 않은 경우).</entry>
-    <entry lang="ko" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">이러한 대책이 구현된 주요 이유는 다음과 같습니다.\n\n- 은닉 VeraCrypt 볼륨을 마운트하기 위한 보안 플랫폼을 만들 수 있습니다. 숨겨진 볼륨은 숨겨진 운영 체제가 실행 중일 때만 마운트하는 것이 좋습니다. 자세한 내용은 설명서의 '숨겨진 볼륨에 대한 보안 요구 사항 및 주의 사항' 섹션을 참조하세요.\n\n- 특정 시간에 특정 파일 시스템이 운영 체제의 특정 인스턴스(예: 파일 시스템 저널, 파일 타임스탬프, 응용 프로그램 로그, 오류 로그) 아래에 마운트되지 않았거나 파일 시스템의 특정 파일을 저장하거나 액세스하지 않았는지를 확인할 수 있습니다. 등). 은닉 운영 체제가 컴퓨터에 설치되어 있음을 나타낼 수 있습니다. 그 대책은 이러한 문제들을 예방합니다.\n\n- 데이터 손상을 방지하고 안전한 최대 절전 모드를 허용합니다. Windows가 최대 절전 모드에서 다시 시작되면 마운트된 모든 파일 시스템이 시스템이 최대 절전 모드로 전환되었을 때와 동일한 상태에 있다고 가정합니다. VeraCrypt는 디코이와 은닉 시스템 모두에서 액세스할 수 있는 파일 시스템을 쓰기 방지하여 이를 보장합니다. 이러한 보호가 없으면 다른 시스템이 최대 절전 모드인 동안 한 시스템에 의해 마운트되면 파일 시스템이 손상될 수 있습니다.</entry>
+    <entry lang="ko" key="HIDDEN_OS_WRITE_PROTECTION_EXPLANATION">이러한 대책이 구현된 주요 이유는 다음과 같습니다.\n\n- 숨겨진 VeraCrypt 볼륨을 마운트하기 위한 보안 플랫폼을 만들 수 있습니다. 숨겨진 볼륨은 숨겨진 운영 체제가 실행 중일 때만 마운트하는 것이 좋습니다. 자세한 내용은 설명서의 '숨겨진 볼륨에 대한 보안 요구 사항 및 주의 사항' 섹션을 참조하세요.\n\n- 특정 시간에 특정 파일 시스템이 운영 체제의 특정 인스턴스(예: 파일 시스템 저널, 파일 타임스탬프, 응용 프로그램 로그, 오류 로그) 아래에 마운트되지 않았거나 파일 시스템의 특정 파일을 저장하거나 액세스하지 않았는지를 확인할 수 있습니다. 등). 은닉 운영 체제가 컴퓨터에 설치되어 있음을 나타낼 수 있습니다. 그 대책은 이러한 문제들을 예방합니다.\n\n- 데이터 손상을 방지하고 안전한 최대 절전 모드를 허용합니다. Windows가 최대 절전 모드에서 다시 시작되면 마운트된 모든 파일 시스템이 시스템이 최대 절전 모드로 전환되었을 때와 동일한 상태에 있다고 가정합니다. VeraCrypt는 디코이와 은닉 시스템 모두에서 액세스할 수 있는 파일 시스템을 쓰기 방지하여 이를 보장합니다. 이러한 보호가 없으면 다른 시스템이 최대 절전 모드인 동안 한 시스템에 의해 마운트되면 파일 시스템이 손상될 수 있습니다.</entry>
     <entry lang="ko" key="DECOY_TO_HIDDEN_OS_DATA_TRANSFER_HOWTO">참고: 디코이 시스템에서 숨겨진 시스템으로 안전하게 파일을 전송해야 하는 경우 다음 단계를 수행합니다.\n1) 디코이 시스템을 시작합니다.\n2) 파일을 암호화되지 않은 볼륨 또는 외부/일반 VeraCrypt 볼륨에 저장합니다.\n3) 숨겨진 시스템을 시작합니다.\n4) 파일을 VeraCrypt 볼륨에 저장한 경우 해당 볼륨을 마운트합니다(읽기 전용으로 자동으로 마운트됨).\n5) 파일을 숨겨진 시스템 파티션 또는 다른 숨겨진 볼륨에 복사합니다.</entry>
     <entry lang="ko" key="CONFIRM_RESTART">컴퓨터를 다시 시작해야 합니다.지금 다시 시작하시겠습니까?</entry>
     <entry lang="ko" key="ERR_GETTING_SYSTEM_ENCRYPTION_STATUS">시스템 암호화 상태를 가져오는 동안 오류가 발생했습니다.</entry>
@@ -587,7 +587,7 @@
     <entry lang="ko" key="NO_SPACE_FOR_HIDDEN_VOL">숨겨진 볼륨의 여유 공간이 충분하지 않습니다! 볼륨 생성을 계속할 수 없습니다.</entry>
     <entry lang="ko" key="HIDDEN_VOLUME_TOO_SMALL_FOR_OS_CLONE">오류: 외부 볼륨에 복사 한 파일이 너무 많은 공간을 차지합니다. 따라서 숨긴 볼륨의 외부 볼륨에 여유 공간이 부족합니다.\n\n숨긴 볼륨은 시스템 파티션 (현재 실행중인 운영 체제가 설치된 파티션)만큼 커야합니다. 그 이유는 시스템 파티션의 내용을 숨긴 볼륨에 복사하여 숨겨진 운영 체제를 만들어야하기 때문입니다.\n\n\n숨겨진 운영 체제를 만드는 과정을 계속할 수 없습니다.</entry>
     <entry lang="ko" key="OPENFILES_DRIVER">드라이버가 볼륨을 분리 할 수 없습니다. 볼륨에있는 일부 파일이 열려있을 수 있습니다.</entry>
-    <entry lang="ko" key="OPENFILES_LOCK">볼륨을 잠글 수 없습니다. 볼륨에 아직 열린 파일이 있습니다. 따라서 마운트 해제 할 수 없습니다.</entry>
+    <entry lang="ko" key="OPENFILES_LOCK">볼륨을 잠글 수 없습니다. 볼륨에 아직 열린 파일이 있어서 마운트 해제 할 수 없습니다.</entry>
     <entry lang="ko" key="VOL_LOCK_FAILED_OFFER_FORCED_DISMOUNT">VeraCrypt는 시스템 또는 응용 프로그램에서 사용 중이기 때문에 볼륨을 잠글 수 없습니다 (볼륨에 열린 파일이있을 수 있음).\n\n볼륨에서 강제로 마운트 해제 하시겠습니까?</entry>
     <entry lang="ko" key="OPEN_VOL_TITLE">VeraCrypt 볼륨 선택</entry>
     <entry lang="ko" key="OPEN_TITLE">경로 및 파일 이름 지정</entry>
@@ -683,15 +683,15 @@
     <entry lang="ko" key="TEST_CIPHERTEXT_SIZE">제공 한 테스트 암호문이 너무 길거나 짧습니다.</entry>
     <entry lang="ko" key="TEST_KEY_SIZE">입력 한 테스트 키가 너무 길거나 짧습니다.</entry>
     <entry lang="ko" key="TEST_PLAINTEXT_SIZE">귀하가 제공 한 테스트 평문은 너무 길거나 짧습니다.</entry>
-    <entry lang="ko" key="TWO_LAYER_CASCADE_HELP">XTS 모드에서 작동하는 캐스케이드의 두 암호. 각 블록은 먼저 %s (% d-bit 키)로 암호화 된 다음 %s (% d-bit 키)로 암호화됩니다. 각 암호는 자체 키를 사용합니다. 모든 키는 서로 독립적입니다.</entry>
-    <entry lang="ko" key="THREE_LAYER_CASCADE_HELP">XTS 모드에서 작동하는 3 개의 암호. 각 블록은 먼저 %s (% d-bit 키)로 암호화 된 다음 %s (% d-bit 키)로 암호화되고 마지막으로 %s (% d-bit 키)로 암호화됩니다. 각 암호는 자체 키를 사용합니다. 모든 키는 서로 독립적입니다.</entry>
+    <entry lang="ko" key="TWO_LAYER_CASCADE_HELP">XTS 모드에서 작동하는 캐스케이드의 두 암호. 각 블록은 먼저 %s (%d-bit 키)로 암호화 된 다음 %s (%d-bit 키)로 암호화됩니다. 각 암호는 자체 키를 사용합니다. 모든 키는 서로 독립적입니다.</entry>
+    <entry lang="ko" key="THREE_LAYER_CASCADE_HELP">XTS 모드에서 작동하는 3 개의 암호. 각 블록은 먼저 %s (%d-bit 키)로 암호화 된 다음 %s (%d-bit 키)로 암호화되고 마지막으로 %s (%d-bit 키)로 암호화됩니다. 각 암호는 자체 키를 사용합니다. 모든 키는 서로 독립적입니다.</entry>
     <entry lang="ko" key="AUTORUN_MAY_NOT_ALWAYS_WORK">운영 체제 구성에 따라 이러한 자동 실행 및 자동 마운트 기능은 쓰기가 불가능한 CD/DVD와 같은 매체에서 여행자 디스크 파일을 만들 때만 작동 할 수 있습니다. 또한이 문제는 VeraCrypt의 버그가 아닙니다 (Windows의 제한 사항 임).</entry>
     <entry lang="ko" key="TRAVELER_DISK_CREATED">VeraCrypt 여행 디스크가 성공적으로 생성되었습니다.\n\nVeraCrypt를 휴대용 모드로 실행하려면 관리자 권한이 필요합니다. 또한 레지스트리 파일을 검토 한 후에 VeraCrypt가 휴대용 모드로 실행 되더라도 Windows 시스템에서 실행되었음을 알 수 있습니다.</entry>
     <entry lang="ko" key="TC_TRAVELER_DISK">VeraCrypt Traveler 디스크</entry>
     <entry lang="ko" key="TWOFISH_HELP">Bruce Schneier, John Kelsey, Doug Whiting, David Wagner, Chris Hall 및 Niels Ferguson이 디자인했습니다. 1998 년 발행. 256 비트 키, 128 비트 블록. 작동 모드는 XTS입니다. Twofish는 AES 결선 진출 자 중 하나였습니다.</entry>
     <entry lang="ko" key="MORE_INFO_ABOUT">%s에 대한 추가 정보</entry>
     <entry lang="ko" key="UNKNOWN">알 수 없는</entry>
-    <entry lang="ko" key="ERR_UNKNOWN">알 수없는 또는 알 수없는 오류가 발생했습니다 (% d).</entry>
+    <entry lang="ko" key="ERR_UNKNOWN">알 수없는 또는 알 수없는 오류가 발생했습니다 (%d).</entry>
     <entry lang="ko" key="UNMOUNTALL_LOCK_FAILED">일부 볼륨에는 응용 프로그램이나 시스템에서 사용중인 파일이나 폴더가 포함되어 있습니다.\n\n강제 마운트 해제 하시겠습니까?</entry>
     <entry lang="ko" key="UNMOUNT_BUTTON">내리다</entry>
     <entry lang="ko" key="UNMOUNT_FAILED">마운트 해제에 실패했습니다!</entry>
@@ -749,10 +749,10 @@
     <entry lang="ko" key="HIDDEN_VOL_HOST_NTFS_ASK">FAT/exFAT 파일 시스템은 NTFS 파일 시스템보다 외부 볼륨에 더 적합합니다. 예를 들어 외부 볼륨을 FAT/exFAT로 포맷하면 숨겨진 볼륨의 가능한 최대 크기가 상당히 커질 수 있습니다 (NTFS 파일 시스템이 볼륨의 중간에 항상 내부 데이터를 저장하므로 숨겨진 볼륨은 외부 볼륨의 두 번째 절반에만있을 수 있습니다.)\n\n외부 볼륨을 NTFS로 포맷 하시겠습니까?</entry>
     <entry lang="ko" key="OFFER_FAT_FORMAT_ALTERNATIVE">대신 볼륨을 FAT로 포맷 하시겠습니까?</entry>
     <entry lang="ko" key="FAT_NOT_AVAILABLE_FOR_SO_LARGE_VOLUME">참고 :이 볼륨은 해당 섹터 크기 (512 바이트 섹터의 경우 2TB 및 4096 바이트 섹터의 경우 16TB)에 대해 FAT32 파일 시스템에서 지원하는 최대 볼륨 크기를 초과하므로 FAT로 포맷 할 수 없습니다.</entry>
-    <entry lang="ko" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">오류: 숨겨진 운영 체제 파티션 (즉, 시스템 파티션 뒤의 첫 번째 파티션)은 시스템 파티션보다 5 % 이상 커야합니다 (시스템 파티션은 현재 실행중인 운영 체제가 설치된 파티션 임).</entry>
-    <entry lang="ko" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS_NTFS">오류: 숨겨진 운영 체제 파티션 (즉, 시스템 파티션 뒤의 첫 번째 파티션)은 시스템 파티션보다 최소 110 % (2.1 배) 커야합니다 (시스템 파티션은 현재 실행중인 운영 체제가 설치된 파티션 임). 그 이유는 NTFS 파일 시스템이 항상 내부 데이터를 볼륨 중간에 저장하기 때문에 숨겨진 볼륨 (시스템 파티션의 복제를 포함)은 파티션의 두 번째 절반에만있을 수 있기 때문입니다.</entry>
-    <entry lang="ko" key="OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS">오류: 외부 볼륨이 NTFS로 포맷 된 경우 시스템 파티션보다 최소 110 % (2.1 배) 커야합니다. 그 이유는 NTFS 파일 시스템이 항상 내부 데이터를 볼륨 중간에 저장하기 때문에 숨겨진 볼륨 (시스템 파티션의 복제를 포함)은 외부 볼륨의 두 번째 절반에만있을 수 있기 때문입니다.\n\n참고: 외부 볼륨은 숨겨진 운영 체제와 동일한 파티션 (즉, 시스템 파티션 뒤의 첫 번째 파티션)에 있어야합니다.</entry>
-    <entry lang="ko" key="NO_PARTITION_FOLLOWS_BOOT_PARTITION">오류: 시스템 파티션 뒤에 파티션이 없습니다.\n\n숨겨진 운영 체제를 만들려면 먼저 시스템 드라이브에 파티션을 만들어야합니다. 시스템 파티션 뒤에있는 첫 번째 파티션이어야하며 시스템 파티션보다 적어도 5 % 커야합니다 (시스템 파티션은 현재 실행중인 운영 체제가 설치된 파티션입니다). 그러나 외부 볼륨 (시스템 파티션과 혼동하지 말 것)이 NTFS로 포맷 된 경우 숨겨진 운영 체제의 파티션이 시스템 파티션보다 적어도 110 % (2.1 배) 커야합니다 (NTFS 파일 시스템은 항상 볼륨의 중간에 내부 데이터를 저장하므로 시스템 파티션의 복제를 포함하는 숨겨진 볼륨은 파티션의 두 번째 절반에만 상주 할 수 있습니다.</entry>
+    <entry lang="ko" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS">오류: 숨겨진 운영 체제 파티션 (즉, 시스템 파티션 뒤의 첫 번째 파티션)은 시스템 파티션보다 5% 이상 커야합니다 (시스템 파티션은 현재 실행중인 운영 체제가 설치된 파티션 임).</entry>
+    <entry lang="ko" key="PARTITION_TOO_SMALL_FOR_HIDDEN_OS_NTFS">오류: 숨겨진 운영 체제 파티션 (즉, 시스템 파티션 뒤의 첫 번째 파티션)은 시스템 파티션보다 최소 110% (2.1 배) 커야합니다 (시스템 파티션은 현재 실행중인 운영 체제가 설치된 파티션 임). 그 이유는 NTFS 파일 시스템이 항상 내부 데이터를 볼륨 중간에 저장하기 때문에 숨겨진 볼륨 (시스템 파티션의 복제를 포함)은 파티션의 두 번째 절반에만있을 수 있기 때문입니다.</entry>
+    <entry lang="ko" key="OUTER_VOLUME_TOO_SMALL_FOR_HIDDEN_OS_NTFS">오류: 외부 볼륨이 NTFS로 포맷 된 경우 시스템 파티션보다 최소 110% (2.1 배) 커야합니다. 그 이유는 NTFS 파일 시스템이 항상 내부 데이터를 볼륨 중간에 저장하기 때문에 숨겨진 볼륨 (시스템 파티션의 복제를 포함)은 외부 볼륨의 두 번째 절반에만있을 수 있기 때문입니다.\n\n참고: 외부 볼륨은 숨겨진 운영 체제와 동일한 파티션 (즉, 시스템 파티션 뒤의 첫 번째 파티션)에 있어야합니다.</entry>
+    <entry lang="ko" key="NO_PARTITION_FOLLOWS_BOOT_PARTITION">오류: 시스템 파티션 뒤에 파티션이 없습니다.\n\n숨겨진 운영 체제를 만들려면 먼저 시스템 드라이브에 파티션을 만들어야합니다. 시스템 파티션 뒤에있는 첫 번째 파티션이어야하며 시스템 파티션보다 적어도 5% 커야합니다 (시스템 파티션은 현재 실행중인 운영 체제가 설치된 파티션입니다). 그러나 외부 볼륨 (시스템 파티션과 혼동하지 말 것)이 NTFS로 포맷 된 경우 숨겨진 운영 체제의 파티션이 시스템 파티션보다 적어도 110% (2.1 배) 커야합니다 (NTFS 파일 시스템은 항상 볼륨의 중간에 내부 데이터를 저장하므로 시스템 파티션의 복제를 포함하는 숨겨진 볼륨은 파티션의 두 번째 절반에만 상주 할 수 있습니다.</entry>
     <entry lang="ko" key="TWO_SYSTEMS_IN_ONE_PARTITION_REMARK">참고: 외부 운영 체제를 사용하면 종종 숨겨진 운영 체제 영역에 데이터를 작성해야하기 때문에 단일 파티션에 포함 된 두 개의 VeraCrypt 볼륨에 운영 체제를 설치하는 것은 실용적이지 않으므로 지원되지 않습니다. (이러한 쓰기 작업이 숨겨진 볼륨 보호 기능을 사용하지 못하게되면 본질적으로 시스템 오류 (예: '블루 스크린'오류)가 발생합니다.</entry>
     <entry lang="ko" key="FOR_MORE_INFO_ON_PARTITIONS">파티션을 만들고 관리하는 방법에 대한 자세한 내용은 운영 체제와 함께 제공된 설명서를 참조하거나 컴퓨터 공급 업체의 기술 지원 팀에 문의하세요.</entry>
     <entry lang="ko" key="SYSTEM_PARTITION_NOT_ACTIVE">오류: 현재 실행중인 운영 체제가 부팅 파티션 (첫 번째 활성 파티션)에 설치되어 있지 않습니다. 지원되지 않습니다.</entry>
@@ -907,10 +907,10 @@
     <entry lang="ko" key="TOTAL_DATA_READ">마운트 이후의 데이터 읽기</entry>
     <entry lang="ko" key="TOTAL_DATA_WRITTEN">마운트 이후 작성된 데이터</entry>
     <entry lang="ko" key="ENCRYPTED_PORTION">암호화 된 부분</entry>
-    <entry lang="ko" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100 % (완전히 암호화 됨)</entry>
-    <entry lang="ko" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0 % (암호화되지 않음)</entry>
+    <entry lang="ko" key="ENCRYPTED_PORTION_FULLY_ENCRYPTED">100% (완전히 암호화 됨)</entry>
+    <entry lang="ko" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (암호화되지 않음)</entry>
     <entry lang="ko" key="PROCESSED_PORTION_X_PERCENT">%.3f%%</entry>
-    <entry lang="ko" key="PROCESSED_PORTION_100_PERCENT">100 %</entry>
+    <entry lang="ko" key="PROCESSED_PORTION_100_PERCENT">100%</entry>
     <entry lang="ko" key="PROGRESS_STATUS_WAITING">기다리는</entry>
     <entry lang="ko" key="PROGRESS_STATUS_PREPARING">준비중 인</entry>
     <entry lang="ko" key="PROGRESS_STATUS_RESIZING">크기 조정</entry>
@@ -1178,7 +1178,7 @@
     <entry lang="ko" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCrypt 응급 복구 디스크가 성공적으로 확인되었습니다. 드라이브에서 드라이브를 제거하고 안전한 장소에 보관하세요.\n\n계속하려면 다음을 클릭하세요.</entry>
     <entry lang="ko" key="REMOVE_RESCUE_DISK_FROM_DRIVE">경고: 다음 단계에서는 VeraCrypt 응급 복구 디스크가 드라이브에 없어야합니다. 그렇지 않으면 단계를 올바르게 완료 할 수 없습니다.\n\n지금 드라이브에서 드라이브를 제거하고 안전한 장소에 보관하세요. 그런 다음 확인을 클릭하세요.</entry>
     <entry lang="ko" key="PREBOOT_NOT_LOCALIZED">경고: 사전 부팅 환경의 기술적 제한으로 인해 사전 부팅 환경 (즉, Windows 시작 전)에 VeraCrypt가 표시 한 텍스트를 현지화 할 수 없습니다. VeraCrypt 부트 로더 사용자 인터페이스는 영어로만 제공됩니다.\n\n계속 하시겠습니까?</entry>
-    <entry lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO">시스템 파티션이나 드라이브를 암호화하기 전에 VeraCrypt가 모든 것이 올바르게 작동하는지 확인해야합니다.\n\n테스트를 클릭하면 필요한 모든 구성 요소 (예: 부팅 전 인증 구성 요소, 즉 VeraCrypt 부트 로더)가 설치되고 컴퓨터가 다시 시작됩니다. 그런 다음 Windows를 시작하기 전에 나타나는 VeraCrypt Boot Loader 화면에 암호를 입력해야합니다.\n\n다음 장치가 수정됩니다: 드라이브 # % d\n\n\n지금 취소를 클릭하면 아무 것도 설치되지 않고 사전 테스트는 자동으로 실행됩니다. 수행되어야한다.</entry>
+    <entry lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO">시스템 파티션이나 드라이브를 암호화하기 전에 VeraCrypt가 모든 것이 올바르게 작동하는지 확인해야합니다.\n\n테스트를 클릭하면 필요한 모든 구성 요소 (예: 부팅 전 인증 구성 요소, 즉 VeraCrypt 부트 로더)가 설치되고 컴퓨터가 다시 시작됩니다. 그런 다음 Windows를 시작하기 전에 나타나는 VeraCrypt Boot Loader 화면에 암호를 입력해야합니다.\n\n다음 장치가 수정됩니다: 드라이브 # %d\n\n\n지금 취소를 클릭하면 아무 것도 설치되지 않고 사전 테스트는 자동으로 실행됩니다. 수행되어야한다.</entry>
     <entry lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">중요 참고 사항 - 읽으신 후 인쇄하세요. ('인쇄'를 클릭하세요.)\n\n컴퓨터를 성공적으로 다시 시작하고 Windows를 시작하기 전에 파일이 암호화되지 않도록하세요. 따라서 어떤 것이 든 실패하면 데이터가 손실되지 않습니다. 그러나 문제가 발생하면 Windows를 시작하는 데 어려움을 겪을 수 있습니다. 따라서 컴퓨터를 다시 시작한 후에 Windows를 시작할 수없는 경우 수행 할 작업에 대한 다음 지침을 읽고 (가능한 경우 인쇄하십시오).\n\n</entry>
     <entry lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">Windows를 시작할 수없는 경우 수행 할 작업\n----------------------------------------- -------\n\n참고 :이 지침은 암호화를 시작하지 않은 경우에만 유효합니다.\n\n- 올바른 암호를 입력하거나 올바른 암호를 반복해서 입력하면 Windows가 시작되지 않는 경우 VeraCrypt는 비밀 번호가 잘못되었다고 말합니다) 당황하지 마세요. 컴퓨터를 다시 시작 (전원을 껐다가 켜기)하고 VeraCrypt Boot Loader (부팅 로더) 화면에서 키보드의 Esc 키를 누릅니다 (여러 시스템이있는 경우 시작할 항목 선택). 그런 다음 Windows가 시작되어야하며 (암호화되지 않은 경우) VeraCrypt는 부팅 전 인증 구성 요소를 제거할지 여부를 자동으로 묻습니다. 시스템 파티션/드라이브가 암호화 된 경우 이전 단계는 작동하지 않습니다 (아무도 Windows를 시작하거나 이전 단계를 수행하더라도 올바른 암호없이 드라이브의 암호화 된 데이터에 액세스 할 수 없음).\n\n</entry>
     <entry lang="ko" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- 이전 단계가 도움이되지 않거나 (Windows가 시작되기 전에) VeraCrypt 부트 로더 화면이 나타나지 않으면 CD/DVD 드라이브에 VeraCrypt 응급 복구 디스크를 넣고 컴퓨터를 다시 시작하세요. VeraCrypt 응급 복구 디스크 화면이 나타나지 않으면 (또는 VeraCrypt 응급 복구 디스크 화면의 '키보드 컨트롤'섹션에 '복구 옵션'항목이없는 경우) BIOS가 부팅을 시도하도록 구성되었을 수 있습니다 CD/DVD 드라이브 전에 하드 드라이브. 이 경우 컴퓨터를 다시 시작하고 F2 또는 Delete (BIOS 시작 화면이 표시되는 즉시)를 누른 다음 BIOS 구성 화면이 나타날 때까지 기다립니다. BIOS 구성 화면이 나타나지 않으면 컴퓨터를 다시 시작 (재설정)하고 컴퓨터를 다시 시작 (재설정)하는 즉시 F2 또는 Delete 키를 반복해서 누르세요. BIOS 구성 화면이 나타나면 먼저 CD/DVD 드라이브에서 부팅하도록 BIOS를 구성하십시오 (자세한 방법은 BIOS/마더 보드 설명서를 참조하거나 컴퓨터 공급 업체의 기술 지원 팀에 문의하십시오). 그런 다음 컴퓨터를 다시 시작하세요. VeraCrypt 응급 복구 디스크 화면이 나타납니다. VeraCrypt 응급 복구 디스크 화면에서 키보드의 F8 키를 눌러 '복구 옵션'을 선택하세요. 'Repair Options'메뉴에서 'Restore original system loader'를 선택하세요. 그런 다음 CD/DVD 드라이브에서 응급 복구 디스크를 제거하고 컴퓨터를 다시 시작하세요. Windows가 정상적으로 시작되어야합니다 (암호화되지 않은 경우).\n\n</entry>
@@ -1260,8 +1260,8 @@
     <entry lang="ko" key="RETRY_HIDDEN_SECTOR_DETECTION">숨겨진 섹터를 다시 검색하세요.</entry>
     <entry lang="ko" key="ENABLE_BAD_SECTOR_ZEROING">오류: 디스크의 하나 이상의 섹터 내용을 읽을 수 없습니다 (물리적 인 결함으로 인한 것일 수 있음).\n\n섹터를 다시 읽을 수있게 설정 한 경우에만 내부 암호화 프로세스를 계속할 수 있습니다. VeraCrypt는 섹터에 0을 기록하여 이러한 섹터를 읽을 수있게 만들려고 시도합니다 (이후 이러한 모든 0 블록이 암호화됩니다). 그러나 읽을 수없는 섹터에 저장된 모든 데이터는 손실됩니다. 이를 방지하려면 적절한 타사 도구를 사용하여 손상된 데이터의 일부를 복구 할 수 있습니다.\n\n참고: 물리적으로 손상된 섹터의 경우 (단순한 데이터 손상 및 체크섬 오류와 달리) 대부분의 유형의 저장소 장치가 데이터를 쓸 때 내부적으로 섹터를 재 할당합니다 (손상된 섹터의 기존 데이터는 드라이브에서 암호화되지 않은 채로 남아있을 수 있습니다).\n\nVeraCrypt가 읽을 수없는 섹터에 0을 기록하도록 하시겠습니까?</entry>
     <entry lang="ko" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">오류: 디스크에있는 하나 이상의 섹터의 내용을 읽을 수 없습니다 (물리적 인 결함으로 인한 것일 수 있음).\n\n해독을 계속 진행하려면 VeraCrypt가 읽을 수없는 섹터의 내용을 폐기해야합니다. 의사 랜덤 데이터로 대체 됨). 계속 진행하기 전에 적절한 타사 도구를 사용하여 손상된 데이터의 일부를 복구 할 수 있습니다.\n\nVeraCrypt가 읽을 수없는 섹터의 데이터를 폐기하도록 하시겠습니까?</entry>
-    <entry lang="ko" key="ZEROED_BAD_SECTOR_COUNT">참고: VeraCrypt는 % I64d 읽을 수없는 섹터 (%s)의 내용을 암호화 된 모두 제로 평문 블록으로 대체했습니다.</entry>
-    <entry lang="ko" key="SKIPPED_BAD_SECTOR_COUNT">참고: VeraCrypt는 % I64d 읽을 수없는 섹터 (%s)의 내용을 의사 임의 데이터로 바 꾸었습니다.</entry>
+    <entry lang="ko" key="ZEROED_BAD_SECTOR_COUNT">참고: VeraCrypt는 %I64d 읽을 수없는 섹터 (%s)의 내용을 암호화 된 모두 제로 평문 블록으로 대체했습니다.</entry>
+    <entry lang="ko" key="SKIPPED_BAD_SECTOR_COUNT">참고: VeraCrypt는 %I64d 읽을 수없는 섹터 (%s)의 내용을 의사 임의 데이터로 바 꾸었습니다.</entry>
     <entry lang="ko" key="ENTER_TOKEN_PASSWORD">토큰 '%s'의 암호/PIN을 입력하십시오 :</entry>
     <entry lang="ko" key="PKCS11_LIB_LOCATION_HELP">VeraCrypt가 보안 토큰 또는 스마트 카드에 액세스 할 수있게하려면 먼저 토큰 또는 스마트 카드 용 PKCS # 11 소프트웨어 라이브러리를 설치해야합니다. 이러한 라이브러리는 장치와 함께 제공되거나 공급 업체 또는 타사 웹 사이트에서 다운로드 할 수 있습니다.\n\n라이브러리를 설치 한 후 '라이브러리 선택'을 클릭하여 수동으로 선택하거나 '자동 라이브러리 감지'(Windows 시스템 디렉토리 만 검색)를 클릭하여 VeraCrypt에서 자동으로 찾아서 선택할 수 있습니다.</entry>
     <entry lang="ko" key="SELECT_PKCS11_MODULE_HELP">참고: 보안 토큰이나 스마트 카드 용으로 설치된 PKCS # 11 라이브러리의 파일 이름과 위치는 토큰, 카드 또는 타사 소프트웨어와 함께 제공된 설명서를 참조하세요.\n\n'확인'을 클릭하여 경로 및 파일 이름.</entry>
@@ -1296,17 +1296,17 @@
     <entry lang="ko" key="SYS_FAVORITE_VOLUME_DIRTY">경고: 하나 이상의 시스템 선호 볼륨이 완전히 분리되지 않아 파일 시스템 오류가있을 수 있습니다. 자세한 내용은 시스템 이벤트 로그를 참조하세요.\n\n손상된 파일 시스템을 사용하면 데이터가 손실되거나 데이터가 손상 될 수 있습니다. 영향을받는 시스템 선호 볼륨 (VeraCrypt에서 각각 마우스 오른쪽 단추로 클릭하고 '파일 시스템 복구'선택)에 오류가 있는지 확인해야합니다.</entry>
     <entry lang="ko" key="FILESYS_REPAIR_CONFIRM_BACKUP">경고: Microsoft 'chkdsk'도구를 사용하여 손상된 파일 시스템을 복구하면 손상된 영역의 파일이 손실 될 수 있습니다. 따라서 먼저 VeraCrypt 볼륨에 저장된 파일을 다른 건강한 VeraCrypt 볼륨에 백업하는 것이 좋습니다.\n\n이제 파일 시스템을 복구 하시겠습니까?</entry>
     <entry lang="ko" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">쓰기 액세스가 거부되었으므로 볼륨 '%s'이 (가) 읽기 전용으로 마운트되었습니다.\n\n파일 컨테이너의 보안 권한을 사용하여 쓰기 권한을 부여하십시오 (컨테이너를 마우스 오른쪽 단추로 클릭하고 속성> 보안을 선택하십시오).\n\nWindows 문제로 인해 적절한 보안 권한을 설정 한 후에도이 경고가 표시 될 수 있습니다. 이것은 VeraCrypt의 버그로 인한 것이 아닙니다. 가능한 해결책은 컨테이너를 예를 들어 'Documents'폴더로 옮기는 것입니다.\n\n볼륨을 읽기 전용으로 유지하려면 컨테이너의 읽기 전용 속성을 설정하십시오 (컨테이너를 마우스 오른쪽 단추로 클릭하고 속성을 선택하십시오 > 읽기 전용).이 경고는 표시되지 않습니다.</entry>
-    <entry lang="ko" key="MOUNTED_DEVICE_FORCED_READ_ONLY">쓰기 권한이 거부 되었기 때문에 볼륨 '%s'을 (를) 읽기 전용으로 마운트해야했습니다.\n\n볼륨 (예: 바이러스 백신 소프트웨어)이 볼륨이 호스팅 된 파티션/장치에 액세스하고 있는지 확인하세요.</entry>
+    <entry lang="ko" key="MOUNTED_DEVICE_FORCED_READ_ONLY">쓰기 권한이 거부 되었기 때문에 볼륨 '%s'을 (를) 읽기 전용으로 마운트해야 했습니다.\n\n볼륨 (예: 바이러스 백신 소프트웨어)이 볼륨이 호스팅 된 파티션/장치에 액세스하고 있는지 확인하세요.</entry>
     <entry lang="ko" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">운영 체제가 호스트 장치에 쓰기 보호가되어 있다고보고 했으므로 볼륨 '%s'이 (가) 읽기 전용으로 마운트되었습니다.\n\n일부 사용자 정의 칩셋 드라이버가 쓰기 가능한 미디어가 쓰기 보호 된 것처럼 보이게하는 것으로보고되었습니다. 이 문제는 VeraCrypt가 원인이 아닙니다. 이 시스템에 현재 설치되어있는 사용자 지정 (타사) 칩셋 드라이버를 업데이트하거나 제거하면 문제가 해결 될 수 있습니다.</entry>
     <entry lang="ko" key="LIMIT_ENC_THREAD_POOL_NOTE">하이퍼 스레딩 기술은 단일 물리적 코어 당 여러 개의 논리적 코어를 제공합니다. 하이퍼 스레딩이 활성화되면 위에서 선택한 숫자는 논리 프로세서/코어의 수를 나타냅니다.</entry>
-    <entry lang="ko" key="NUMBER_OF_THREADS">스레드 % d 개</entry>
+    <entry lang="ko" key="NUMBER_OF_THREADS">스레드 %d 개</entry>
     <entry lang="ko" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">하드웨어 가속 AES가 비활성화되어 벤치 마크 결과에 영향을 미칩니다 (성능 저하).\n\n하드웨어 가속을 사용하려면 '설정'> '성능'을 선택하고 해당 옵션을 활성화하세요.</entry>
     <entry lang="ko" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">현재 스레드 수가 제한되어 벤치 마크 결과에 영향을 미칩니다 (성능 저하).\n\n프로세서의 잠재력을 최대한 활용하려면 '설정'> '성능'을 선택하고 해당 옵션을 비활성화하세요.</entry>
     <entry lang="ko" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">VeraCrypt가 파티션/드라이브의 쓰기 방지 기능을 해제하려고합니까?</entry>
     <entry lang="ko" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">경고 :이 설정은 성능을 저하시킬 수 있습니다.\n\n이 설정을 사용 하시겠습니까?</entry>
     <entry lang="ko" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">경고: VeraCrypt 볼륨 자동 마운트 해제</entry>
     <entry lang="ko" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">마운트 된 볼륨이있는 장치를 물리적으로 제거하거나 끄기 전에 먼저 볼륨을 VeraCrypt에서 마운트 해제해야합니다.\n\n예기치 않은 자발 마운트 해제는 대개 간헐적으로 고장난 케이블, 드라이브 (인클로저) 등으로 인해 발생합니다.</entry>
-    <entry lang="ko" key="UNSUPPORTED_TRUECRYPT_FORMAT">이 볼륨은 TrueCrypt % x. % x로 생성되었지만 VeraCrypt는 TrueCrypt 6.x/7.x 시리즈로 생성 된 TrueCrypt 볼륨 만 지원합니다</entry>
+    <entry lang="ko" key="UNSUPPORTED_TRUECRYPT_FORMAT">이 볼륨은 TrueCrypt %x. %x로 생성되었지만 VeraCrypt는 TrueCrypt 6.x/7.x 시리즈로 생성 된 TrueCrypt 볼륨 만 지원합니다</entry>
     <entry lang="ko" key="TEST">테스트</entry>
     <entry lang="ko" key="KEYFILE">키 파일</entry>
     <entry lang="ko" key="VKEY_08">Backspace</entry>
