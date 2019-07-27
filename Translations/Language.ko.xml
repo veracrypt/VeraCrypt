@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.24-Beta5">
-    <language langid="ko" name="한국어" en-name="Korean" version="0.1.1" translators="Kim Young, Herbert Shin" />
-    <font lang="ko" class="normal" size="11" face="default" />
-    <font lang="ko" class="bold" size="13" face="Arial" />
-    <font lang="ko" class="fixed" size="12" face="Lucida Console" />
-    <font lang="ko" class="title" size="21" face="Times New Roman" />
+    <language langid="ko" name="한국어" en-name="Korean" version="0.1.1" translators="Kieaer, Herbert Shin" />
+    <font lang="ko" class="normal" size="11" face="돋움" />
+    <font lang="ko" class="bold" size="13" face="맑은 고딕" />
+    <font lang="ko" class="fixed" size="12" face="돋움체" />
+    <font lang="ko" class="title" size="21" face="맑은 고딕" />
     <entry lang="ko" key="IDCANCEL">취소</entry>
     <entry lang="ko" key="IDC_ALL_USERS">모든 사용자를 위해 설치</entry>
     <entry lang="ko" key="IDC_BROWSE">탐색</entry>
