@@ -25,7 +25,7 @@
 	#define ATT_NOPREFIX
 #endif
 
-#ifdef _MSC_VER
+#if defined (_MSC_VER) && !defined (TC_WINDOWS_BOOT) 
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
