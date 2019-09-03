@@ -98,8 +98,8 @@ Note: If you skip this step and attempt to verify any of our PGP signatures, you
 </ol>
 <p>Under Linux, these steps can be achieved using the following commands:</p>
 <ul>
-<li>Check that the fingerprint of the public key is <strong>5069A233D55A0EEB174A5FC3821ACD02680D16DE</strong>:
-<strong>gpg --with-fingerprint VeraCrypt_PGP_public_key.asc</strong> </li><li>If the fingerprint is the expected one, import the public key: <strong>gpg --import VeraCrypt_PGP_public_key.asc</strong>
+<li>Check that the fingerprint of the public key is <strong>5069A233D55A0EEB174A5FC3821ACD02680D16DE</strong>:<strong>gpg --import --import-options show-only VeraCrypt_PGP_public_key.asc</strong> (for older gpg versions, type instead: 
+<strong>gpg --with-fingerprint VeraCrypt_PGP_public_key.asc</strong>)</li><li>If the fingerprint is the expected one, import the public key: <strong>gpg --import VeraCrypt_PGP_public_key.asc</strong>
 </li><li>Verify the signature of the Linux setup archive (here for version 1.23): <strong>
 gpg --verify veracrypt-1.23-setup.tar.bz2.sig veracrypt-1.23-setup.tar.bz2</strong>
 </li></ul>
