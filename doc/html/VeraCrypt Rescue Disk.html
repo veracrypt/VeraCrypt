@@ -97,4 +97,72 @@ To boot a VeraCrypt Rescue Disk, insert it into your CD/DVD drive and restart yo
 <p>If your VeraCrypt Rescue Disk is damaged, you can create a new one by selecting
 <em style="text-align:left">System</em> &gt; <em style="text-align:left">Create Rescue Disk</em>. To find out whether your VeraCrypt Rescue Disk is damaged, insert it into your CD/DVD drive and select
 <em style="text-align:left">System</em> &gt; <em style="text-align:left">Verify Rescue Disk</em>.</p>
-</div><div class="ClearBoth"></div></body></html>
+</div><div class="ClearBoth"></div>
+
+
+<h2>VeraCrypt Rescue Disk on USB Stick</h2>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+It is also possible to create a VeraCrypt Rescue Disk on a USB drive, in case your machine does not have a CD/DVD drive. <strong style="text-align:left">Please note that you must ensure that the data on the USB stick is not overwritten! If you lose the USB drive or your data is damaged, you will not be able to recover your system in case of a problem!</strong>
+</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+To create a bootable VeraCrypt Rescue USB drive you have to create a bootable USB drive which bootloader runs up the iso image. Solutions like Unetbootin, which try to copy the data inside the iso image to the usb drive do not work yet. On Windows please follow the steps below:
+</div>
+<ul style="text-align:left; margin-top:18px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Download the required files from the official SourceForge repository of VeraCrypt: <a href="https://sourceforge.net/projects/veracrypt/files/Contributions/VeraCryptUsbRescueDisk.zip" style="text-align:left; 		color:#0080c0; text-decoration:none.html">
+		https://sourceforge.net/projects/veracrypt/files/Contributions/VeraCryptUsbRescueDisk.zip</a>
+	</li>
+
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Insert a USB drive.
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Format the USB drive with FAT16 oder FAT32:
+		<ul style="text-align:left; margin-top:6px; margin-bottom:6px; padding-top:0px; padding-bottom:0px">
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Launch usb_format.exe as an administrator (right click "Run as Administrator").
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Select your USB drive in the Device list.
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Choose FAT as filesystem and check "Quick Format". Click Start.
+			</li>
+		</ul>
+
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Create a bootloader which can start up an iso image:
+		<ul style="text-align:left; margin-top:6px; margin-bottom:6px; padding-top:0px; padding-bottom:0px">
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Launch grubinst_gui.exe.
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Check "Disk" and then select your USB drive in the list.
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Click the "Refresh" button in front of "Part List" and then choose "Whole disk (MBR)".
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Leave all other options unchanged and then click "Install".
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				You should see an console window that reads "The MBR/BS has been successfully installed. Press &ltENTER&gt; to continue ..."
+			</li>
+			<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+				Close the tool.
+			</li>
+		</ul>
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Copy the file "grldr" to your USB drive at the root (e.g. if the drive letter is I:, you should have I:\grldr). This file loads Grub4Dos.
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Copy the file "menu.lst" to your USB drive at the root (e.g. if the drive letter is I:, you should have I:\menu.lst). This file configures the shown menu and its options.
+	</li>
+	<li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+		Copy the rescue disk file "VeraCrypt Rescue Disk.iso" to the USB drive at the root and rename it "veracrypt.iso". Another possibility is to change the link in the "menu.lst" file.
+	</li>
+
+</ul>
+</body></html>
