@@ -1217,7 +1217,7 @@ BOOL IsHwEncryptionEnabled ()
 
 #endif // !TC_WINDOWS_BOOT
 
-#ifndef TC_WINDOWS_BOOT
+#if !defined (TC_WINDOWS_BOOT) && !defined (_UEFI)
 
 static BOOL CpuRngDisabled = TRUE;
 static BOOL RamEncryptionEnabled = FALSE;

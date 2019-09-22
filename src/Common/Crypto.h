@@ -208,10 +208,12 @@ typedef struct
 #	include "GostCipher.h"
 #	include "kuznyechik.h"
 #	include "Camellia.h"
+#if !defined (_UEFI)
 #   include "chachaRng.h"
 #   ifdef _WIN64
 #   include "t1ha.h"
 #   endif
+#endif
 #else
 #	include "CamelliaSmall.h"
 #endif
