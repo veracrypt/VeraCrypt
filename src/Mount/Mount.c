@@ -6069,8 +6069,6 @@ static void DecryptNonSysDevice (HWND hwndDlg, BOOL bResolveAmbiguousSelection, 
 		return;
 	}
 
-	WaitCursor();
-
 	// Make sure the user is not attempting to decrypt a partition on an entirely encrypted system drive.
 	if (IsNonSysPartitionOnSysDrive (scPath.c_str ()) == 1)
 	{
@@ -6087,8 +6085,6 @@ static void DecryptNonSysDevice (HWND hwndDlg, BOOL bResolveAmbiguousSelection, 
 	else if (TCBootLoaderOnInactiveSysEncDrive ((wchar_t *) scPath.c_str ()))
 	{
 		// The system drive MAY be entirely encrypted (external access without PBA) and the potentially encrypted OS is not running
-
-		NormalCursor ();
 
 		Warning ("CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE", hwndDlg);
 
