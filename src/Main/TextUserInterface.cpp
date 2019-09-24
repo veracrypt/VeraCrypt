@@ -1056,9 +1056,18 @@ namespace VeraCrypt
 			slotId = (CK_SLOT_ID) AskSelection (tokens.back().SlotId, tokens.front().SlotId);
 		}
 
-		shared_ptr <KeyfileList> keyfiles = AskKeyfiles();
-		if (keyfiles->empty())
-			throw UserAbort();
+		shared_ptr <KeyfileList> keyfiles;
+
+		if (CmdLine->ArgKeyfiles.get() && !CmdLine->ArgKeyfiles->empty())
+			keyfiles = CmdLine->ArgKeyfiles;
+		else if (!Preferences.NonInteractive)
+		{
+			keyfiles = AskKeyfiles();
+			if (keyfiles->empty())
+				throw UserAbort();
+		}
+		else
+			throw MissingArgument (SRC_POS);
 
 		foreach_ref (const Keyfile &keyfilePath, *keyfiles)
 		{
