@@ -97,7 +97,7 @@ BEGIN
     RTEXT           "Volume PIM:",IDT_PIM,15,177,91,17,NOT WS_VISIBLE
     LTEXT           "Volume Label in Windows:",IDT_VOLUME_LABEL,12,85,95,8
     CONTROL         "Only create virtual device without mounting on selected drive letter",IDC_DISABLE_MOUNT_MANAGER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,231,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,261,10
 END
 
 IDD_KEYFILES DIALOGEX 0, 0, 363, 251

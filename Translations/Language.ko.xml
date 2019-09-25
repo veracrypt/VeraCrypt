@@ -1435,6 +1435,8 @@
     <entry lang="ko" key="IDC_ENABLE_CPU_RNG">CPU 하드웨어 랜덤 생성기를 엔트로피의 추가 소스로 사용합니다.</entry>
     <entry lang="ko" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">기존 최대 암호 길이(64자)를 사용합니다.</entry>
     <entry lang="ko" key="IDC_ENABLE_RAM_ENCRYPTION">RAM에 저장된 키 및 암호의 암호화를 활성화합니다.</entry>
+    <entry lang="ko" key="IDT_BENCHMARK">벤치마크:</entry>
+    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

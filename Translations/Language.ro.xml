@@ -168,7 +168,7 @@
     <entry lang="ro" key="IDC_PREF_MOUNT_REMOVABLE">Montare volume ca unități detașabile</entry>
     <entry lang="ro" key="IDC_PREF_OPEN_EXPLORER">Deschidere fereastră Explorer pentru volumele montate cu succes</entry>
     <entry lang="ro" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Păstrare temporară parole în timpul operațiilor de "Montare volume favorite"</entry>
-	<entry lang="ro" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Folosire pictogramă diferită în zona de sistem când există volume montate</entry>
+    <entry lang="ro" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Folosire pictogramă diferită în zona de sistem când există volume montate</entry>
     <entry lang="ro" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Eliminare parole păstrate după autodemontare</entry>
     <entry lang="ro" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Eliminare parole păstrate la ieșire</entry>
     <entry lang="ro" key="IDC_PRESERVE_TIMESTAMPS">Păstrare dată modificare fișiere container</entry>
@@ -1435,6 +1435,8 @@
     <entry lang="ro" key="IDC_ENABLE_CPU_RNG">Folosire generator hardware aleator al procesorului ca sursă adițională de entropie</entry>
     <entry lang="ro" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Folosire lungime maximă parolă clasică (64 de caractere)</entry>
     <entry lang="ro" key="IDC_ENABLE_RAM_ENCRYPTION">Activare criptare chei și parole stocate în RAM</entry>
+    <entry lang="ro" key="IDT_BENCHMARK">Evaluare:</entry>
+    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
