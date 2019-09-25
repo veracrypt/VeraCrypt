@@ -4391,7 +4391,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, PimEnable);
 
 				SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable && !SysEncInEffect());
-				EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), KeyFilesEnable);
+				EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), KeyFilesEnable && !SysEncInEffect());
+				EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), !SysEncInEffect());
 
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), str);
 
