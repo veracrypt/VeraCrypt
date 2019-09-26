@@ -2968,7 +2968,12 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				SetWindowPos (hwndDlg, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			}
 			SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
-			SetTimer (hwndDlg, TIMER_ID_CHECK_FOREGROUND, TIMER_INTERVAL_CHECK_FOREGROUND, NULL);
+
+			/* Start the timer to check if we are foreground only if Secure Desktop is not used */
+			if (!bSecureDesktopOngoing)
+			{
+				SetTimer (hwndDlg, TIMER_ID_CHECK_FOREGROUND, TIMER_INTERVAL_CHECK_FOREGROUND, NULL);
+			}
 		}
 		return 0;
 

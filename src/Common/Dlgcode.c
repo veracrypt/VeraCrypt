@@ -221,6 +221,9 @@ static std::vector<HostDevice> rawHostDeviceList;
 /* Critical section used to ensure that only one thread at a time can create a secure desktop */
 CRITICAL_SECTION csSecureDesktop;
 
+/* Boolean that indicates if our Secure Desktop is active and being user of not */
+BOOL bSecureDesktopOngoing = FALSE;
+
 HINSTANCE hInst = NULL;
 HCURSOR hCursor = NULL;
 
@@ -13584,7 +13587,8 @@ INT_PTR SecureDesktopDialogBoxParam(
 		HDESK hInputDesk = NULL;
 
 		EnterCriticalSection (&csSecureDesktop);
-		finally_do ({ LeaveCriticalSection (&csSecureDesktop); });
+		bSecureDesktopOngoing = TRUE;
+		finally_do ({ bSecureDesktopOngoing = FALSE; LeaveCriticalSection (&csSecureDesktop); });
 
 		// wait for the input desktop to be available before switching to 
 		// secure desktop. Under Windows 10, the user session can be started
