@@ -221,7 +221,7 @@ static std::vector<HostDevice> rawHostDeviceList;
 /* Critical section used to ensure that only one thread at a time can create a secure desktop */
 CRITICAL_SECTION csSecureDesktop;
 
-/* Boolean that indicates if our Secure Desktop is active and being used of not */
+/* Boolean that indicates if our Secure Desktop is active and being used or not */
 BOOL bSecureDesktopOngoing = FALSE;
 
 HINSTANCE hInst = NULL;
