@@ -512,8 +512,11 @@ static void InitMainDialog (HWND hwndDlg)
 		e.Show (NULL);
 	}
 
-	// initialize the list of devices available for mounting as early as possible
-	UpdateMountableHostDeviceList ();
+	if (NeedPeriodicDeviceListUpdate)
+	{
+		// initialize the list of devices available for mounting as early as possible
+		UpdateMountableHostDeviceList ();
+	}
 
 	if (Silent)
 		LoadDriveLetters (hwndDlg, NULL, 0);
@@ -7337,7 +7340,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (wParam == TIMER_ID_UPDATE_DEVICE_LIST)
 			{
-				UpdateMountableHostDeviceList ();
+				if (NeedPeriodicDeviceListUpdate)
+					UpdateMountableHostDeviceList ();
 			}
 			else
 			{
@@ -8873,6 +8877,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionTryEmptyPassword,
 				OptionNoWaitDlg,
 				OptionSecureDesktop,
+				OptionDisableDeviceUpdate,
 			};
 
 			argument args[]=
@@ -8901,6 +8906,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionTryEmptyPassword,		L"/tryemptypass",	NULL, FALSE },
 				{ OptionNoWaitDlg,			L"/nowaitdlg",	NULL, FALSE },
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
+				{ OptionDisableDeviceUpdate,			L"/disableDeviceUpdate",	NULL, FALSE },
 			};
 
 			argumentspec as;
@@ -8988,6 +8994,12 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 						else
 							AbortProcess ("COMMAND_LINE_ERROR");
 					}
+				}
+				break;
+
+			case OptionDisableDeviceUpdate:
+				{
+					DisablePeriodicDeviceListUpdate = TRUE;
 				}
 				break;
 
@@ -9530,8 +9542,6 @@ static VOID WINAPI SystemFavoritesServiceMain (DWORD argc, LPTSTR *argv)
 		SystemFavoritesServiceSetStatus (SERVICE_START_PENDING, 120000);
 
 		SystemFavoritesServiceLogInfo (wstring (L"Initializing list of host devices"));
-		// initialize the list of devices available for mounting as early as possible
-		UpdateMountableHostDeviceList ();
 
 		SystemFavoritesServiceLogInfo (wstring (L"Starting System Favorites mounting process"));
 
@@ -10111,9 +10121,6 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 		while ((remainingFavorites > 0) && (retryCounter++ < 4))
 		{
 			Sleep (5000);
-
-			SystemFavoritesServiceLogInfo (wstring (L"Updating list of host devices"));
-			UpdateMountableHostDeviceList ();
 
 			SystemFavoritesServiceLogInfo (wstring (L"Trying to mount skipped system favorites"));
 

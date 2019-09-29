@@ -243,76 +243,84 @@ namespace VeraCrypt
 			switch (lw)
 			{
 			case IDOK:
-
-				/* Global System Favorites settings */
-
-				if (SystemFavoritesMode)
 				{
-					BootEncryption BootEncObj (NULL);
+					BOOL bInitialOptionValue = NeedPeriodicDeviceListUpdate;
 
-					if (BootEncObj.GetStatus().DriveMounted)
+					/* Global System Favorites settings */
+
+					if (SystemFavoritesMode)
 					{
-						try
+						BootEncryption BootEncObj (NULL);
+
+						if (BootEncObj.GetStatus().DriveMounted)
 						{
-							uint32 reqConfig = IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT) ? TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES : 0;
-							if (reqConfig != (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
-								BootEncObj.SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, reqConfig ? true : false);
-
-							SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS, IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY));
-						}
-						catch (Exception &e)
-						{
-							e.Show (hwndDlg);
-						}
-					}
-				}
-
-				/* (System) Favorites list */
-
-				if (SelectedItem != -1 && !Favorites.empty())
-					SetFavoriteVolume (hwndDlg, Favorites[SelectedItem], SystemFavoritesMode);
-
-				if (SaveFavoriteVolumes (hwndDlg, Favorites, SystemFavoritesMode))
-				{
-					if (!SystemFavoritesMode)
-					{
-						bMountFavoritesOnLogon = FALSE;
-
-						foreach (const FavoriteVolume &favorite, Favorites)
-						{
-							if (favorite.MountOnLogOn)
+							try
 							{
-								bMountFavoritesOnLogon = TRUE;
-								break;
+								uint32 reqConfig = IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT) ? TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES : 0;
+								if (reqConfig != (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
+									BootEncObj.SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, reqConfig ? true : false);
+
+								SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS, IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY));
+							}
+							catch (Exception &e)
+							{
+								e.Show (hwndDlg);
 							}
 						}
+					}
 
-						if (!bEnableBkgTask || bCloseBkgTaskWhenNoVolumes || IsNonInstallMode())
+					/* (System) Favorites list */
+
+					if (SelectedItem != -1 && !Favorites.empty())
+						SetFavoriteVolume (hwndDlg, Favorites[SelectedItem], SystemFavoritesMode);
+
+					if (SaveFavoriteVolumes (hwndDlg, Favorites, SystemFavoritesMode))
+					{
+						if (!SystemFavoritesMode)
 						{
-							foreach (const FavoriteVolume favorite, Favorites)
+							bMountFavoritesOnLogon = FALSE;
+
+							foreach (const FavoriteVolume &favorite, Favorites)
 							{
-								if (favorite.MountOnArrival)
+								if (favorite.MountOnLogOn)
 								{
-									Warning ("FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR", hwndDlg);
+									bMountFavoritesOnLogon = TRUE;
 									break;
 								}
 							}
+
+							if (!bEnableBkgTask || bCloseBkgTaskWhenNoVolumes || IsNonInstallMode())
+							{
+								foreach (const FavoriteVolume favorite, Favorites)
+								{
+									if (favorite.MountOnArrival)
+									{
+										Warning ("FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR", hwndDlg);
+										break;
+									}
+								}
+							}
+
+							if (!bInitialOptionValue && NeedPeriodicDeviceListUpdate)
+							{
+								// a favorite was set to use VolumeID. We update the list of devices available for mounting as early as possible
+								UpdateMountableHostDeviceList ();
+							}
+
+							FavoriteVolumes = Favorites;
+
+							ManageStartupSeq();
+							SaveSettings (hwndDlg);
 						}
+						else
+							SystemFavoriteVolumes = Favorites;
 
-						FavoriteVolumes = Favorites;
+						OnFavoriteVolumesUpdated();
+						LoadDriveLetters (hwndDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
 
-						ManageStartupSeq();
-						SaveSettings (hwndDlg);
+						EndDialog (hwndDlg, IDOK);
 					}
-					else
-						SystemFavoriteVolumes = Favorites;
-
-					OnFavoriteVolumesUpdated();
-					LoadDriveLetters (hwndDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
-
-					EndDialog (hwndDlg, IDOK);
 				}
-
 				return 1;
 
 			case IDCANCEL:
@@ -554,6 +562,7 @@ namespace VeraCrypt
 
 	void LoadFavoriteVolumes (vector <FavoriteVolume> &favorites, bool systemFavorites, bool noUacElevation)
 	{
+		bool bVolumeIdInUse = false;
 		favorites.clear();
 		wstring favoritesFilePath = systemFavorites ? GetServiceConfigPath (TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES, false) : GetConfigPath (TC_APPD_FILENAME_FAVORITE_VOLUMES);
 
@@ -701,8 +710,19 @@ namespace VeraCrypt
 				favorite.Pkcs5 = -1;
 			}
 
+			if (!systemFavorites && favorite.UseVolumeID)
+				bVolumeIdInUse = true;
+
 			favorites.push_back (favorite);
 			xml++;
+		}
+
+		if (!systemFavorites)
+		{
+			if (bVolumeIdInUse && !DisablePeriodicDeviceListUpdate)
+				NeedPeriodicDeviceListUpdate = TRUE;
+			else
+				NeedPeriodicDeviceListUpdate = FALSE;
 		}
 
 		free (favoritesXml);
@@ -763,6 +783,7 @@ namespace VeraCrypt
 	{
 		FILE *f;
 		int cnt = 0;
+		bool bVolumeIdInUse = false;
 
 		f = _wfopen (GetConfigPath (systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES), L"w,ccs=UTF-8");
 		if (f == NULL)
@@ -827,7 +848,11 @@ namespace VeraCrypt
 				s += L" useLabelInExplorer=\"1\"";
 
 			if (favorite.UseVolumeID && !IsRepeatedByteArray (0, favorite.VolumeID, sizeof (favorite.VolumeID)))
+			{
 				s += L" useVolumeID=\"1\"";
+				if (!systemFavorites)
+					bVolumeIdInUse = true;
+			}
 
 			s += L">" + wstring (tq) + L"</volume>";
 
@@ -837,6 +862,14 @@ namespace VeraCrypt
 
 		fputws (L"\n\t</favorites>", f);
 		XmlWriteFooter (f);
+
+		if (!systemFavorites)
+		{
+			if (bVolumeIdInUse && !DisablePeriodicDeviceListUpdate)
+				NeedPeriodicDeviceListUpdate = TRUE;
+			else
+				NeedPeriodicDeviceListUpdate = FALSE;
+		}
 
 		if (!CheckFileStreamWriteErrors (hwndDlg, f, systemFavorites ? TC_APPD_FILENAME_SYSTEM_FAVORITE_VOLUMES : TC_APPD_FILENAME_FAVORITE_VOLUMES))
 		{

@@ -165,6 +165,9 @@ extern BOOL MountVolumesAsSystemFavorite;
 extern BOOL FavoriteMountOnArrivalInProgress;
 extern BOOL MultipleMountOperationInProgress;
 
+extern volatile BOOL NeedPeriodicDeviceListUpdate;
+extern BOOL DisablePeriodicDeviceListUpdate;
+
 #ifndef SETUP
 extern BOOL bLanguageSetInSetup;
 #endif

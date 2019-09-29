@@ -188,6 +188,9 @@ BOOL MountVolumesAsSystemFavorite = FALSE;
 BOOL FavoriteMountOnArrivalInProgress = FALSE;
 BOOL MultipleMountOperationInProgress = FALSE;
 
+volatile BOOL NeedPeriodicDeviceListUpdate = FALSE;
+BOOL DisablePeriodicDeviceListUpdate = FALSE;
+
 BOOL WaitDialogDisplaying = FALSE;
 
 /* Handle to the device driver */
@@ -12530,7 +12533,7 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE], BOOL bFromSe
 
 	/* not mounted. Look for it in the local drives*/
 
-	if (bFromService)
+	if (bFromService || !NeedPeriodicDeviceListUpdate)
 	{
 		for (int devNumber = 0; devNumber < MAX_HOST_DRIVE_NUMBER; devNumber++)
 		{
