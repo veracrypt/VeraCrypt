@@ -12533,7 +12533,7 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE], BOOL bFromSe
 
 	/* not mounted. Look for it in the local drives*/
 
-	if (bFromService || !NeedPeriodicDeviceListUpdate)
+	if (bFromService)
 	{
 		for (int devNumber = 0; devNumber < MAX_HOST_DRIVE_NUMBER; devNumber++)
 		{
@@ -12562,6 +12562,8 @@ wstring FindDeviceByVolumeID (const BYTE volumeID [VOLUME_ID_SIZE], BOOL bFromSe
 		static std::vector<HostDevice>  volumeIdCandidates;
 
 		EnterCriticalSection (&csMountableDevices);
+		if (!NeedPeriodicDeviceListUpdate)
+			UpdateMountableHostDeviceList ();
 		std::vector<HostDevice> newDevices = mountableDevices;
 		LeaveCriticalSection (&csMountableDevices);
 
