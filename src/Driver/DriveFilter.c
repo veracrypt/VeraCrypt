@@ -660,6 +660,12 @@ static NTSTATUS MountDrive (DriveFilterExtension *Extension, Password *password,
 		{
 			CrashDumpEnabled = TRUE;
 			HibernationEnabled = TRUE;
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled())
+			{
+				HibernationEnabled = FALSE;
+			}
+#endif
 		}
 		else if (!LegacyHibernationDriverFilterActive)
 			StartLegacyHibernationDriverFilter();
