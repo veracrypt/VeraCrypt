@@ -61,15 +61,15 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #endif
 
 // Version displayed to user 
-#define VERSION_STRING					"1.24-Beta5"
+#define VERSION_STRING					"1.24-Beta6"
 
 // Version number to compare against driver
 #define VERSION_NUM						0x0124
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"March 8, 2019"
+#define TC_STR_RELEASE_DATE			L"October 1, 2019"
 #define TC_RELEASE_DATE_YEAR			2019
-#define TC_RELEASE_DATE_MONTH			 3
+#define TC_RELEASE_DATE_MONTH			 10
 
 #define BYTES_PER_KB                    1024LL
 #define BYTES_PER_MB                    1048576LL

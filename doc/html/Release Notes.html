@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.24-Beta5 </strong>(March 8<sup>th</sup>, 2019):</p>
+<p><strong style="text-align:left">1.24-Beta6 </strong>(October 1<sup>st</sup>, 2019):</p>
 <ul>
 <li><strong>All OSs:</strong>
 <ul>
@@ -59,6 +59,7 @@
 <li>Available only on 64-bit machines.</li>
 <li>Disabled by default. Can be enabled using option in UI.</li>
 <li>Less than 10% overhead on modern CPUs.</li>
+<li>Side effect: Windows Hibernate is not possible.</li>
 </ul>
 <li>Mitigate some memory attacks by making VeraCrypt applications memory inaccessible to non-admin users (based on KeePassXC implementation)</li>
 <li>New security features:</li>
@@ -77,6 +78,11 @@
 <li>Enhance Rescue Disk implementation of restoring VeraCrypt loader.</li>
 <li>Fix ESC on password prompt during Pre-Test not starting Windows.</li>
 <li>Add menu entry in Rescue Disk that enables starting original Windows loader.</li>
+<li>Fix issue that was preventing Streebog hash from being selected manually during Pre-Boot authentication.</li>
+<li>If "VeraCrypt" folder is missing from Rescue Disk, it will boot PC directly from bootloader stored on hard drive</li>
+<ul>
+<li>This makes it easy to create a bootable disk for VeraCrypt from Rescue Disk just by removing/renaming its "VeraCrypt" folder.</li>
+</ul>
 </ul>
 <li>Add option (disabled by default) to use CPU RDRAND or RDSEED as an additional entropy source for our random generator when available.</li>
 <li>Add mount option (both UI and command line) that allows mounting a volume without attaching it to the specified drive letter.</li>
@@ -86,7 +92,15 @@
 <li>Fix editor of EFI system encryption configuration file not accepting ENTER key to add new lines.</li>
 <li>Avoid simultaneous calls of favorites mounting, for example if corresponding hotkey is pressed multiple times.</li>
 <li>Ensure that only one thread at a time can create a secure desktop.</li> 
+<li>Resize some dialogs in Format and Mount Options to to fix some text truncation issues with non-English languages.</li>
+<li>Fix high CPU usage when using favorites and add switch to disable periodic check on devices to reduce CPU load.</li>
+<li>Minor UI changes.</li>
 <li>Updates and corrections to translations and documentation.</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Make CLI switch --import-token-keyfiles compatible with Non-Interactive mode.</li>
 </ul>
 </li>
 </ul>
