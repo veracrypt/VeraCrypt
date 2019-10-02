@@ -6243,7 +6243,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else
 				{
-					if (!dynamicFormat && (nVolumeSize > free.QuadPart))
+					if (!dynamicFormat && !bDontCheckFileContainerSize && (nVolumeSize > free.QuadPart))
 					{
 						AbortProcess ("ERR_CONTAINER_SIZE_TOO_BIG");
 					}
