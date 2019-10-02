@@ -254,7 +254,8 @@ endif
 
 
 install: prepare
-	cp -R $(CURDIR)/Setup/Linux/usr $(DESTDIR)/.
+	mkdir -p $(DESTDIR)
+	cp -R $(CURDIR)/../Setup/Linux/usr $(DESTDIR)/.
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
@@ -303,7 +304,8 @@ endif
 
 
 install: prepare
-	cp -R $(CURDIR)/Setup/FreeBSD/usr $(DESTDIR)/.
+	mkdir -p $(DESTDIR)
+	cp -R $(CURDIR)/../Setup/FreeBSD/usr $(DESTDIR)/.
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
