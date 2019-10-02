@@ -191,23 +191,23 @@ prepare: $(APPNAME)
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 ifdef TC_NO_GUI
-	cp $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
+	cp $(BASE_DIR)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
 else
-	cp $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)
+	cp $(BASE_DIR)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)
 endif
 else
 ifdef TC_NO_GUI
-	-rm -f $(PWD)/Main/$(APPNAME)_console
-	cp $(PWD)/Main/$(APPNAME) $(PWD)/Main/$(APPNAME)_console
-	-ln -sf $(PWD)/Main/$(APPNAME)_console $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
+	-rm -f $(BASE_DIR)/Main/$(APPNAME)_console
+	cp $(BASE_DIR)/Main/$(APPNAME) $(BASE_DIR)/Main/$(APPNAME)_console
+	-ln -sf $(BASE_DIR)/Main/$(APPNAME)_console $(APPNAME).app/Contents/MacOS/$(APPNAME)_console
 else
-	-ln -sf $(PWD)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)
+	-ln -sf $(BASE_DIR)/Main/$(APPNAME) $(APPNAME).app/Contents/MacOS/$(APPNAME)
 endif
 endif
 
-	cp $(PWD)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
-	cp $(PWD)/Resources/Icons/VeraCrypt_Volume.icns $(APPNAME).app/Contents/Resources
-	cp $(PWD)/../doc/html/* $(APPNAME).app/Contents/Resources/doc/HTML
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt.icns $(APPNAME).app/Contents/Resources
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt_Volume.icns $(APPNAME).app/Contents/Resources
+	cp $(BASE_DIR)/../doc/html/* $(APPNAME).app/Contents/Resources/doc/HTML
 
 	echo -n APPLTRUE >$(APPNAME).app/Contents/PkgInfo
 	sed -e 's/_VERSION_/$(patsubst %a,%.1,$(patsubst %b,%.2,$(TC_VERSION)))/' ../Build/Resources/MacOSX/Info.plist.xml >$(APPNAME).app/Contents/Info.plist
@@ -217,48 +217,48 @@ install: prepare
 	cp -R $(APPNAME).app /Applications/.
 
 package: prepare
-	/usr/local/bin/packagesbuild $(PWD)/Setup/MacOSX/veracrypt.pkgproj
-	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(PWD)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
+	/usr/local/bin/packagesbuild $(BASE_DIR)/Setup/MacOSX/veracrypt.pkgproj
+	productsign --sign "Developer ID Installer: IDRIX (Z933746L2S)" --timestamp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt $(TC_VERSION).pkg" $(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg
 	rm -f $(APPNAME)_$(TC_VERSION).dmg
-	rm -f "$(PWD)/Setup/MacOSX/template.dmg"
-	rm -fr "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
-	mkdir -p "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
-	bunzip2 -k -f "$(PWD)/Setup/MacOSX/template.dmg.bz2"
-	hdiutil attach "$(PWD)/Setup/MacOSX/template.dmg" -noautoopen -quiet -mountpoint "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
-	cp "$(PWD)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg" "$(PWD)/Setup/MacOSX/VeraCrypt_dmg/VeraCrypt_Installer.pkg"
-	hdiutil detach "$(PWD)/Setup/MacOSX/VeraCrypt_dmg" -quiet -force
-	hdiutil convert "$(PWD)/Setup/MacOSX/template.dmg" -quiet -format UDZO -imagekey zlib-level=9 -o $(APPNAME)_$(TC_VERSION).dmg
-	rm -f "$(PWD)/Setup/MacOSX/template.dmg"
-	rm -fr "$(PWD)/Setup/MacOSX/VeraCrypt_dmg"
+	rm -f "$(BASE_DIR)/Setup/MacOSX/template.dmg"
+	rm -fr "$(BASE_DIR)/Setup/MacOSX/VeraCrypt_dmg"
+	mkdir -p "$(BASE_DIR)/Setup/MacOSX/VeraCrypt_dmg"
+	bunzip2 -k -f "$(BASE_DIR)/Setup/MacOSX/template.dmg.bz2"
+	hdiutil attach "$(BASE_DIR)/Setup/MacOSX/template.dmg" -noautoopen -quiet -mountpoint "$(BASE_DIR)/Setup/MacOSX/VeraCrypt_dmg"
+	cp "$(BASE_DIR)/Setup/MacOSX/VeraCrypt_$(TC_VERSION).pkg" "$(BASE_DIR)/Setup/MacOSX/VeraCrypt_dmg/VeraCrypt_Installer.pkg"
+	hdiutil detach "$(BASE_DIR)/Setup/MacOSX/VeraCrypt_dmg" -quiet -force
+	hdiutil convert "$(BASE_DIR)/Setup/MacOSX/template.dmg" -quiet -format UDZO -imagekey zlib-level=9 -o $(APPNAME)_$(TC_VERSION).dmg
+	rm -f "$(BASE_DIR)/Setup/MacOSX/template.dmg"
+	rm -fr "$(BASE_DIR)/Setup/MacOSX/VeraCrypt_dmg"
 endif
 
 
 
 ifeq "$(PLATFORM)" "Linux"
 prepare: $(APPNAME)
-	rm -fr $(PWD)/Setup/Linux/usr
-	mkdir -p $(PWD)/Setup/Linux/usr/bin
-	mkdir -p $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/HTML
-	cp $(PWD)/Main/$(APPNAME) $(PWD)/Setup/Linux/usr/bin/$(APPNAME)
-	cp $(PWD)/Setup/Linux/$(APPNAME)-uninstall.sh $(PWD)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
-	chmod +x $(PWD)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
-	cp $(PWD)/License.txt $(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/License.txt
-	cp $(PWD)/../doc/html/* "$(PWD)/Setup/Linux/usr/share/$(APPNAME)/doc/HTML"
+	rm -fr $(BASE_DIR)/Setup/Linux/usr
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/bin
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML
+	cp $(BASE_DIR)/Main/$(APPNAME) $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)
+	cp $(BASE_DIR)/Setup/Linux/$(APPNAME)-uninstall.sh $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
+	chmod +x $(BASE_DIR)/Setup/Linux/usr/bin/$(APPNAME)-uninstall.sh
+	cp $(BASE_DIR)/License.txt $(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/License.txt
+	cp $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML"
 
 ifndef TC_NO_GUI
-	mkdir -p $(PWD)/Setup/Linux/usr/share/applications
-	mkdir -p $(PWD)/Setup/Linux/usr/share/pixmaps
-	cp $(PWD)/Resources/Icons/VeraCrypt-256x256.xpm $(PWD)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
-	cp $(PWD)/Setup/Linux/$(APPNAME).desktop $(PWD)/Setup/Linux/usr/share/applications/$(APPNAME).desktop
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/applications
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/pixmaps
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
+	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).desktop $(BASE_DIR)/Setup/Linux/usr/share/applications/$(APPNAME).desktop
 endif
 
 
 install: prepare
-	cp -R $(CURDIR)/Setup/Linux/usr $(DESTDIR)/.
+	cp -R $(BASE_DIR)/Setup/Linux/usr $(DESTDIR)/
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
-	tar cfz $(PWD)/Setup/Linux/$(PACKAGE_NAME) --directory $(PWD)/Setup/Linux usr
+	tar cfz $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME) --directory $(BASE_DIR)/Setup/Linux usr
 
 	@rm -fr $(INTERNAL_INSTALLER_NAME)
 	@echo "#!/bin/sh" > $(INTERNAL_INSTALLER_NAME)
@@ -268,14 +268,14 @@ package: prepare
 	@echo "PACKAGE_START=1107" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
 
-	@cat $(PWD)/Setup/Linux/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
-	@cat $(PWD)/Setup/Linux/$(PACKAGE_NAME) >> $(INTERNAL_INSTALLER_NAME)
+	@cat $(BASE_DIR)/Setup/Linux/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
+	@cat $(BASE_DIR)/Setup/Linux/$(PACKAGE_NAME) >> $(INTERNAL_INSTALLER_NAME)
 	chmod +x $(INTERNAL_INSTALLER_NAME)
 
-	rm -fr $(PWD)/Setup/Linux/packaging
-	mkdir -p $(PWD)/Setup/Linux/packaging
-	cp $(INTERNAL_INSTALLER_NAME) $(PWD)/Setup/Linux/packaging/.
-	makeself $(PWD)/Setup/Linux/packaging $(PWD)/Setup/Linux/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) Installer" ./$(INTERNAL_INSTALLER_NAME)
+	rm -fr $(BASE_DIR)/Setup/Linux/packaging
+	mkdir -p $(BASE_DIR)/Setup/Linux/packaging
+	cp $(INTERNAL_INSTALLER_NAME) $(BASE_DIR)/Setup/Linux/packaging/.
+	makeself $(BASE_DIR)/Setup/Linux/packaging $(BASE_DIR)/Setup/Linux/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) Installer" ./$(INTERNAL_INSTALLER_NAME)
 
 endif
 
@@ -283,31 +283,31 @@ endif
 
 ifeq "$(PLATFORM)" "FreeBSD"
 prepare: $(APPNAME)
-	rm -fr $(PWD)/Setup/FreeBSD/usr
-	mkdir -p $(PWD)/Setup/FreeBSD/usr/bin
-	mkdir -p $(PWD)/Setup/FreeBSD/usr/share/$(APPNAME)/doc/HTML
-	cp $(PWD)/Main/$(APPNAME) $(PWD)/Setup/FreeBSD/usr/bin/$(APPNAME)
-	cp $(PWD)/Setup/Linux/$(APPNAME)-uninstall.sh $(PWD)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
-	chmod +x $(PWD)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
-	cp $(PWD)/License.txt $(PWD)/Setup/FreeBSD/usr/share/$(APPNAME)/doc/License.txt
-	cp $(PWD)/../doc/html/* "$(PWD)/Setup/FreeBSD/usr/share/$(APPNAME)/doc/HTML"
+	rm -fr $(BASE_DIR)/Setup/FreeBSD/usr
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/bin
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/$(APPNAME)/doc/HTML
+	cp $(BASE_DIR)/Main/$(APPNAME) $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)
+	cp $(BASE_DIR)/Setup/Linux/$(APPNAME)-uninstall.sh $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
+	chmod +x $(BASE_DIR)/Setup/FreeBSD/usr/bin/$(APPNAME)-uninstall.sh
+	cp $(BASE_DIR)/License.txt $(BASE_DIR)/Setup/FreeBSD/usr/share/$(APPNAME)/doc/License.txt
+	cp $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/FreeBSD/usr/share/$(APPNAME)/doc/HTML"
 
 ifndef TC_NO_GUI
-	mkdir -p $(PWD)/Setup/FreeBSD/usr/share/applications
-	mkdir -p $(PWD)/Setup/FreeBSD/usr/share/pixmaps
-	cp $(PWD)/Resources/Icons/VeraCrypt-256x256.xpm $(PWD)/Setup/FreeBSD/usr/share/pixmaps/$(APPNAME).xpm
-	cp $(PWD)/Setup/Linux/$(APPNAME).desktop $(PWD)/Setup/FreeBSD/usr/share/applications/$(APPNAME).desktop
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/applications
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps
+	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps/$(APPNAME).xpm
+	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).desktop $(BASE_DIR)/Setup/FreeBSD/usr/share/applications/$(APPNAME).desktop
 endif
-	chown -R root:wheel $(PWD)/Setup/FreeBSD/usr
-	chmod -R go-w $(PWD)/Setup/FreeBSD/usr
+	chown -R root:wheel $(BASE_DIR)/Setup/FreeBSD/usr
+	chmod -R go-w $(BASE_DIR)/Setup/FreeBSD/usr
 
 
 install: prepare
-	cp -R $(CURDIR)/Setup/FreeBSD/usr $(DESTDIR)/.
+	cp -R $(BASE_DIR)/Setup/FreeBSD/usr $(DESTDIR)/.
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 package: prepare
-	tar cfz $(PWD)/Setup/FreeBSD/$(PACKAGE_NAME) --directory $(PWD)/Setup/FreeBSD usr
+	tar cfz $(BASE_DIR)/Setup/FreeBSD/$(PACKAGE_NAME) --directory $(BASE_DIR)/Setup/FreeBSD usr
 
 	@rm -fr $(INTERNAL_INSTALLER_NAME)
 	@echo "#!/bin/sh" > $(INTERNAL_INSTALLER_NAME)
@@ -317,14 +317,14 @@ package: prepare
 	@echo "PACKAGE_START=1107" >> $(INTERNAL_INSTALLER_NAME)
 	@echo "INSTALLER_TYPE=$(INSTALLER_TYPE)" >> $(INTERNAL_INSTALLER_NAME)
 
-	@cat $(PWD)/Setup/FreeBSD/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
-	@cat $(PWD)/Setup/FreeBSD/$(PACKAGE_NAME) >> $(INTERNAL_INSTALLER_NAME)
+	@cat $(BASE_DIR)/Setup/FreeBSD/veracrypt_install_template.sh >> $(INTERNAL_INSTALLER_NAME)
+	@cat $(BASE_DIR)/Setup/FreeBSD/$(PACKAGE_NAME) >> $(INTERNAL_INSTALLER_NAME)
 	chmod +x $(INTERNAL_INSTALLER_NAME)
 
-	rm -fr $(PWD)/Setup/FreeBSD/packaging
-	mkdir -p $(PWD)/Setup/FreeBSD/packaging
-	cp $(INTERNAL_INSTALLER_NAME) $(PWD)/Setup/FreeBSD/packaging/.
-	makeself $(PWD)/Setup/FreeBSD/packaging $(PWD)/Setup/FreeBSD/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) $(SYSTEMNAME) Installer" ./$(INTERNAL_INSTALLER_NAME)
+	rm -fr $(BASE_DIR)/Setup/FreeBSD/packaging
+	mkdir -p $(BASE_DIR)/Setup/FreeBSD/packaging
+	cp $(INTERNAL_INSTALLER_NAME) $(BASE_DIR)/Setup/FreeBSD/packaging/.
+	makeself $(BASE_DIR)/Setup/FreeBSD/packaging $(BASE_DIR)/Setup/FreeBSD/$(INSTALLER_NAME) "VeraCrypt $(TC_VERSION) $(SYSTEMNAME) Installer" ./$(INTERNAL_INSTALLER_NAME)
 
 endif
 
