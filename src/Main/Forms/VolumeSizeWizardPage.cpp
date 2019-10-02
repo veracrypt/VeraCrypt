@@ -21,7 +21,8 @@ namespace VeraCrypt
 		MaxVolumeSize (0),
 		MaxVolumeSizeValid (false),
 		MinVolumeSize (1),
-		SectorSize (sectorSize)
+		SectorSize (sectorSize),
+		AvailableDiskSpace (0)
 	{
 		VolumeSizePrefixChoice->Append (LangString["KB"], reinterpret_cast <void *> (1024));
 		VolumeSizePrefixChoice->Append (LangString["MB"], reinterpret_cast <void *> (1024 * 1024));
@@ -33,6 +34,10 @@ namespace VeraCrypt
 		{
 			VolumeSizeTextCtrl->Disable();
 			VolumeSizeTextCtrl->SetValue (L"");
+		}
+		else
+		{
+			AvailableDiskSpace = (uint64) diskSpace.GetValue ();
 		}
 
 		FreeSpaceStaticText->SetFont (Gui->GetDefaultBoldFont (this));
@@ -97,7 +102,8 @@ namespace VeraCrypt
 		{
 			try
 			{
-				if (GetVolumeSize() >= MinVolumeSize && (!MaxVolumeSizeValid || GetVolumeSize() <= MaxVolumeSize))
+				uint64 uiVolumeSize = GetVolumeSize();
+				if (uiVolumeSize >= MinVolumeSize && (!MaxVolumeSizeValid || uiVolumeSize <= MaxVolumeSize) && (CmdLine->ArgDisableFileSizeCheck || !AvailableDiskSpace || uiVolumeSize <= AvailableDiskSpace))
 					return true;
 			}
 			catch (...) { }

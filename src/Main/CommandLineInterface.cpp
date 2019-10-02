@@ -30,6 +30,7 @@ namespace VeraCrypt
 		ArgSize (0),
 		ArgVolumeType (VolumeType::Unknown),
 		ArgTrueCryptMode (false),
+		ArgDisableFileSizeCheck (false),
 		StartBackgroundTask (false)
 	{
 		wxCmdLineParser parser;
@@ -96,6 +97,7 @@ namespace VeraCrypt
 		parser.AddOption (L"",	L"volume-type",			_("Volume type"));
 		parser.AddParam (								_("Volume path"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL);
 		parser.AddParam (								_("Mount point"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL);
+		parser.AddSwitch (L"",	L"no-size-check",		_("Disable check of container size against disk free space."));
 
 		wxString str;
 		bool param1IsVolume = false;
@@ -331,6 +333,7 @@ namespace VeraCrypt
 		ArgForce = parser.Found (L"force");
 
 		ArgTrueCryptMode = parser.Found (L"truecrypt");
+		ArgDisableFileSizeCheck = parser.Found (L"no-size-check");
 
 #if !defined(TC_WINDOWS) && !defined(TC_MACOSX)
 		if (parser.Found (L"fs-options", &str))

@@ -49,6 +49,7 @@ namespace VeraCrypt
 		bool MaxVolumeSizeValid;
 		uint64 MinVolumeSize;
 		uint32 SectorSize;
+		uint64 AvailableDiskSpace;
 	};
 }
 
