@@ -2,7 +2,7 @@
 <VeraCrypt>
   <localization prog-version= "1.24-Beta6">
     <!-- Sprachen -->
-    <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl" />
+    <language langid="de" name="Deutsch" en-name="German" version="1.1.8" translators="Harry Haller, Alexander Schorg, Simon Frankenberger, David Arndt, H. Sauer, Dulla, Ettore Atalan, Matthias Kolja Miehl, Felix Reichmann" />
     <!-- Schriftarten -->
     <font lang="de" class="normal" size="11" face="default" />
     <font lang="de" class="bold" size="13" face="Arial" />
@@ -56,7 +56,7 @@
     <entry lang="de" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Mehr Informationen über die Systemverschlüsselung</entry>
     <entry lang="de" key="IDC_MORE_INFO_SYS_ENCRYPTION">Mehr Informationen</entry>
     <entry lang="de" key="IDC_MULTI_BOOT">Mehrere Betriebssysteme</entry>
-    <entry lang="de" key="IDC_NONSYS_DEVICE">Verschlüsselt eine Partition/ein Laufwerk</entry>
+    <entry lang="de" key="IDC_NONSYS_DEVICE">Eine Partition/ein Laufwerk verschlüsseln</entry>
     <entry lang="de" key="IDC_NO_HISTORY">Verlauf &amp;nicht speichern</entry>
     <entry lang="de" key="IDC_OPEN_OUTER_VOLUME">Äußeres Volume öffnen</entry>
     <entry lang="de" key="IDC_PAUSE">&amp;Pause</entry>
@@ -70,7 +70,7 @@
     <entry lang="de" key="IDC_STD_VOL">Standard VeraCrypt-Volume</entry>
     <entry lang="de" key="IDC_SYSENC_HIDDEN">V&amp;ersteckt</entry>
     <entry lang="de" key="IDC_SYSENC_NORMAL">Normal</entry>
-    <entry lang="de" key="IDC_SYS_DEVICE">System-Partition bzw. System-Laufwerk verschlüsseln</entry>
+    <entry lang="de" key="IDC_SYS_DEVICE">Eine System-Partition bzw. ein System-Laufwerk verschlüsseln</entry>
     <entry lang="de" key="IDC_SYS_PARTITION">Die Windows System-Partition verschlüsseln</entry>
     <entry lang="de" key="IDC_WHOLE_SYS_DRIVE">Gesamtes Laufwerk verschlüsseln</entry>
     <entry lang="de" key="IDD_VOL_CREATION_WIZARD_DLG">Assistent zum Erstellen eines VeraCrypt-Volumes</entry>
@@ -88,7 +88,7 @@
     <entry lang="de" key="IDT_LEFT">Rest</entry>
     <entry lang="de" key="IDT_MASTER_KEY">Hauptschlüssel: </entry>
     <entry lang="de" key="IDT_MULTI_BOOT">Diese Option wählen, falls zwei oder mehrere Betriebssysteme auf diesem System installiert sind.\n\nZum Beispiel:\n- Windows 8 und Windows 8\n- Windows 8 und Windows 10\n- Windows und Mac OS X\n- Windows und Linux\n- Windows, Linux und Mac OS X</entry>
-    <entry lang="de" key="IDT_NON_SYS_DEVICE">Verschlüsselt eine Nicht-Systempartition auf internen oder externen Laufwerken (als normales oder verstecktes Volume).</entry>
+    <entry lang="de" key="IDT_NON_SYS_DEVICE">Verschlüsselt eine Nicht-Systempartition auf internen oder externen Laufwerken (als normales oder verstecktes Volumen).</entry>
     <entry lang="de" key="IDT_PARTIAL_POOL_CONTENTS">Aktueller Inhalte-Pool (teilweise)</entry>
     <entry lang="de" key="IDT_PASS">Durchgang</entry>
     <entry lang="de" key="IDT_PASSWORD">&amp;Passwort:</entry>
