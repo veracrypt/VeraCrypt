@@ -132,7 +132,7 @@ export PLATFORM_UNSUPPORTED := 0
 export CPU_ARCH ?= unknown
 export SIMD_SUPPORTED := 0
 
-ARCH = $(shell uname -m)
+ARCH ?= $(shell uname -m)
 
 ifneq (,$(filter i386 i486 i586 i686 x86,$(ARCH)))
 	CPU_ARCH = x86
