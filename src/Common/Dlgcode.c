@@ -13392,7 +13392,8 @@ BOOL DeleteDirectory (const wchar_t* szDirName)
 static BOOL GenerateRandomString (HWND hwndDlg, LPTSTR szName, DWORD maxCharsCount)
 {
 	BOOL bRet = FALSE;
-	if (Randinit () != ERR_SUCCESS) 
+	int alreadyInitialized = 0;
+	if (RandinitWithCheck (&alreadyInitialized) != ERR_SUCCESS) 
 	{
 		handleError (hwndDlg, (CryptoAPILastError == ERROR_SUCCESS)? ERR_RAND_INIT_FAILED : ERR_CAPI_INIT_FAILED, SRC_POS);
 	}
@@ -13416,6 +13417,19 @@ static BOOL GenerateRandomString (HWND hwndDlg, LPTSTR szName, DWORD maxCharsCou
 		}
 		burn (indexes, maxCharsCount + 1);
 		free (indexes);
+		
+		/* If RNG was not initialized before us, then stop it in order to
+		 * stop the fast poll thread which consumes CPU. Next time a critical operation
+		 * that requires RNG is performed, it will be initialized again.
+		 *
+		 * We do this because since the addition of secure desktop support, every time
+		 * secure desktop is displayed, the RNG fast poll thread was started even if the 
+		 * user will never perform any critical operation that requires random bytes.
+		 */
+		if (!alreadyInitialized)
+		{
+			RandStop (FALSE);
+		}
 	}
 
 	return bRet;
@@ -13583,76 +13597,79 @@ INT_PTR SecureDesktopDialogBoxParam(
 	INT_PTR retValue = 0;
 	BOOL bEffectiveUseSecureDesktop = bCmdUseSecureDesktopValid? bCmdUseSecureDesktop : bUseSecureDesktop;
 
-	if (bEffectiveUseSecureDesktop && GenerateRandomString (hWndParent, szDesktopName, 64))
+	if (bEffectiveUseSecureDesktop)
 	{
-		map<DWORD, BOOL> ctfmonBeforeList, ctfmonAfterList;
-		DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
-		HDESK hSecureDesk;
-
-		HDESK hInputDesk = NULL;
-
 		EnterCriticalSection (&csSecureDesktop);
 		bSecureDesktopOngoing = TRUE;
 		finally_do ({ bSecureDesktopOngoing = FALSE; LeaveCriticalSection (&csSecureDesktop); });
 
-		// wait for the input desktop to be available before switching to 
-		// secure desktop. Under Windows 10, the user session can be started
-		// in the background even before the user has authenticated and in this
-		// case, we wait for the user to be really authenticated before starting 
-		// secure desktop mechanism
-
-		while (!(hInputDesk = OpenInputDesktop (0, TRUE, GENERIC_READ)))
+		if (GenerateRandomString (hWndParent, szDesktopName, 64))
 		{
-			Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
-		}
+			map<DWORD, BOOL> ctfmonBeforeList, ctfmonAfterList;
+			DWORD desktopAccess = DESKTOP_CREATEMENU | DESKTOP_CREATEWINDOW | DESKTOP_READOBJECTS | DESKTOP_SWITCHDESKTOP | DESKTOP_WRITEOBJECTS;
+			HDESK hSecureDesk;
 
-		CloseDesktop (hInputDesk);
-		
-		// get the initial list of ctfmon.exe processes before creating new desktop
-		GetCtfMonProcessIdList (ctfmonBeforeList);
+			HDESK hInputDesk = NULL;
 
-		hSecureDesk = CreateDesktop (szDesktopName, NULL, NULL, 0, desktopAccess, NULL);
-		if (hSecureDesk)
-		{
-			SecureDesktopThreadParam param;
-	
-			param.hDesk = hSecureDesk;
-			param.szDesktopName = szDesktopName;
-			param.hInstance = hInstance;
-			param.lpTemplateName = lpTemplateName;
-			param.lpDialogFunc = lpDialogFunc;
-			param.dwInitParam = dwInitParam;
-			param.retValue = 0;
+			// wait for the input desktop to be available before switching to 
+			// secure desktop. Under Windows 10, the user session can be started
+			// in the background even before the user has authenticated and in this
+			// case, we wait for the user to be really authenticated before starting 
+			// secure desktop mechanism
 
-			HANDLE hThread = ::CreateThread (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
-			if (hThread)
+			while (!(hInputDesk = OpenInputDesktop (0, TRUE, GENERIC_READ)))
 			{
-				WaitForSingleObject (hThread, INFINITE);
-				CloseHandle (hThread);
-
-				retValue = param.retValue;
-				bSuccess = TRUE;
+				Sleep (SECUREDESKTOP_MONOTIR_PERIOD);
 			}
 
-			CloseDesktop (hSecureDesk);
+			CloseDesktop (hInputDesk);
+		
+			// get the initial list of ctfmon.exe processes before creating new desktop
+			GetCtfMonProcessIdList (ctfmonBeforeList);
 
-			// get the new list of ctfmon.exe processes in order to find the ID of the
-			// ctfmon.exe instance that corresponds to the desktop we create so that
-			// we can kill it, otherwise it would remain running
-			GetCtfMonProcessIdList (ctfmonAfterList);
-
-			for (map<DWORD, BOOL>::iterator It = ctfmonAfterList.begin(); 
-				It != ctfmonAfterList.end(); It++)
+			hSecureDesk = CreateDesktop (szDesktopName, NULL, NULL, 0, desktopAccess, NULL);
+			if (hSecureDesk)
 			{
-				if (ctfmonBeforeList[It->first] != TRUE)
+				SecureDesktopThreadParam param;
+	
+				param.hDesk = hSecureDesk;
+				param.szDesktopName = szDesktopName;
+				param.hInstance = hInstance;
+				param.lpTemplateName = lpTemplateName;
+				param.lpDialogFunc = lpDialogFunc;
+				param.dwInitParam = dwInitParam;
+				param.retValue = 0;
+
+				HANDLE hThread = ::CreateThread (NULL, 0, SecureDesktopThread, (LPVOID) &param, 0, NULL);
+				if (hThread)
 				{
-					// Kill process
-					KillProcess (It->first);
+					WaitForSingleObject (hThread, INFINITE);
+					CloseHandle (hThread);
+
+					retValue = param.retValue;
+					bSuccess = TRUE;
+				}
+
+				CloseDesktop (hSecureDesk);
+
+				// get the new list of ctfmon.exe processes in order to find the ID of the
+				// ctfmon.exe instance that corresponds to the desktop we create so that
+				// we can kill it, otherwise it would remain running
+				GetCtfMonProcessIdList (ctfmonAfterList);
+
+				for (map<DWORD, BOOL>::iterator It = ctfmonAfterList.begin(); 
+					It != ctfmonAfterList.end(); It++)
+				{
+					if (ctfmonBeforeList[It->first] != TRUE)
+					{
+						// Kill process
+						KillProcess (It->first);
+					}
 				}
 			}
-		}
 
-		burn (szDesktopName, sizeof (szDesktopName));
+			burn (szDesktopName, sizeof (szDesktopName));
+		}
 	}
 
 	if (!bSuccess)
