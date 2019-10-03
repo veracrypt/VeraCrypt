@@ -35,6 +35,7 @@ extern "C" {
 
 void RandAddInt ( unsigned __int32 x );
 int Randinit ( void );
+int RandinitWithCheck ( int* pAlreadyInitialized);
 void RandStop (BOOL freePool);
 BOOL IsRandomNumberGeneratorStarted ();
 void RandSetHashFunction ( int hash_algo_id );

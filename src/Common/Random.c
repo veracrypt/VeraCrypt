@@ -94,14 +94,21 @@ HCRYPTPROV hCryptProv;
 
 
 /* Init the random number generator, setup the hooks, and start the thread */
-int Randinit ()
+int RandinitWithCheck ( int* pAlreadyInitialized)
 {
 	DWORD dwLastError = ERROR_SUCCESS;
 	if (GetMaxPkcs5OutSize() > RNG_POOL_SIZE)
 		TC_THROW_FATAL_EXCEPTION;
 
 	if(bRandDidInit)
+	{
+		if (pAlreadyInitialized)
+			*pAlreadyInitialized = 1;
 		return 0;
+	}
+
+	if (pAlreadyInitialized)
+		*pAlreadyInitialized = 0;
 
 	InitializeCriticalSection (&critRandProt);
 
@@ -151,6 +158,11 @@ error:
 	RandStop (TRUE);
 	SetLastError (dwLastError);
 	return 1;
+}
+
+int Randinit ()
+{
+	return RandinitWithCheck (NULL);
 }
 
 /* Close everything down, including the thread which is closed down by
