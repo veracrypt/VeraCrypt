@@ -922,19 +922,6 @@ BOOL FastPoll (void)
 		return FALSE;
 	}
 
-	/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
-	if (0 == jent_entropy_init ())
-	{
-		struct rand_data *ec = jent_entropy_collector_alloc (1, 0);
-		if (ec)
-		{
-			ssize_t rndLen = jent_read_entropy (ec, (char*) buffer, sizeof (buffer));
-			if (rndLen > 0)
-				RandaddBuf (buffer, (int) rndLen);
-			jent_entropy_collector_free (ec);
-		}
-	}
-
 	// use RDSEED or RDRAND from CPU as source of entropy if enabled
 	if (	IsCpuRngEnabled() && 
 		(	(HasRDSEED() && RDSEED_getBytes (buffer, sizeof (buffer)))
