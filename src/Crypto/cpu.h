@@ -144,6 +144,7 @@ extern __m128i _mm_set1_epi64x (__int64 a);
 #endif
 
 #if CRYPTOPP_SSSE3_AVAILABLE || defined(__INTEL_COMPILER)
+#if defined (_MSC_VER) && !defined (TC_WINDOWS_BOOT)
 #if defined(TC_WINDOWS_DRIVER) || defined (_UEFI)
 #if defined(__cplusplus)
 extern "C" {
@@ -154,6 +155,7 @@ extern __m128i _mm_shuffle_epi8 (__m128i a, __m128i b);
 #endif
 #else
 #include <tmmintrin.h>
+#endif
 #endif
 
 #if defined(__SSE4_1__) || defined(__INTEL_COMPILER) || defined(_MSC_VER)
