@@ -1,6 +1,6 @@
 /*
   zip_source_seek.c -- seek to offset
-  Copyright (C) 2014 Dieter Baron and Thomas Klausner
+  Copyright (C) 2014-2018 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -50,7 +50,12 @@ zip_source_seek(zip_source_t *src, zip_int64_t offset, int whence) {
     args.offset = offset;
     args.whence = whence;
 
-    return (_zip_source_call(src, &args, sizeof(args), ZIP_SOURCE_SEEK) < 0 ? -1 : 0);
+    if (_zip_source_call(src, &args, sizeof(args), ZIP_SOURCE_SEEK) < 0) {
+	return -1;
+    }
+
+    src->eof = 0;
+    return 0;
 }
 
 

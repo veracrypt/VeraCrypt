@@ -1,6 +1,6 @@
 /*
   zip_source_filep.c -- create data source from FILE *
-  Copyright (C) 1999-2017 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -34,6 +34,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 
 #include "zipint.h"
@@ -412,21 +413,27 @@ read_file(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
 #endif
 
     case ZIP_SOURCE_COMMIT_WRITE: {
-	mode_t mask;
+	mode_t mode;
+	struct stat st;
 
 	if (fclose(ctx->fout) < 0) {
 	    ctx->fout = NULL;
 	    zip_error_set(&ctx->error, ZIP_ER_WRITE, errno);
 	}
 	ctx->fout = NULL;
+	if (stat(ctx->fname, &st) == 0) {
+	    mode = st.st_mode;
+	} else {
+	    mode_t mask = umask(022);
+	    umask(mask);
+	    mode = 0666 & ~mask;
+	}
 	if (rename(ctx->tmpname, ctx->fname) < 0) {
 	    zip_error_set(&ctx->error, ZIP_ER_RENAME, errno);
 	    return -1;
 	}
-	mask = umask(022);
-	umask(mask);
 	/* not much we can do if chmod fails except make the whole commit fail */
-	(void)chmod(ctx->fname, 0666 & ~mask);
+	(void)chmod(ctx->fname, mode);
 	free(ctx->tmpname);
 	ctx->tmpname = NULL;
 	return 0;

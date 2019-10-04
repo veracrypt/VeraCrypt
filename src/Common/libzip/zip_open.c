@@ -1,6 +1,6 @@
 /*
   zip_open.c -- open zip archive by name
-  Copyright (C) 1999-2017 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2018 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -177,7 +177,6 @@ _zip_open(zip_source_t *src, unsigned int flags, zip_error_t *error) {
     /* treat empty files as empty archives */
     if (len == 0) {
 	if ((za = _zip_allocate_new(src, flags, error)) == NULL) {
-	    zip_source_free(src);
 	    return NULL;
 	}
 

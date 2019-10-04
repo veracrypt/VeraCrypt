@@ -1,3 +1,11 @@
+1.5.2 [2019-03-12]
+==================
+* Fix bug in AES encryption affecting certain file sizes
+* Keep file permissions when modifying zip archives
+* Support systems with small stack size.
+* Support mbed TLS as crypto backend.
+* Add nullability annotations.
+
 1.5.1 [2018-04-11]
 ==================
 
