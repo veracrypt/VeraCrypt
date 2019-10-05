@@ -23,7 +23,7 @@ echo "Building GUI version of VeraCrypt for RPM using wxWidgets static libraries
 # This will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildGui
 
-make WXSTATIC=1 wxbuild || exit 1
+make WXSTATIC=1 WITHGTK3=1 wxbuild || exit 1
 make WXSTATIC=1 clean 	|| exit 1
 make WXSTATIC=1 		|| exit 1
 make WXSTATIC=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
@@ -42,7 +42,7 @@ echo "Building console version of VeraCrypt for RPM using wxWidgets static libra
 # This will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
 
-make WXSTATIC=1 NOGUI=1 wxbuild || exit 1
+make WXSTATIC=1 WITHGTK3=1 NOGUI=1 wxbuild || exit 1
 make WXSTATIC=1 NOGUI=1 clean 	|| exit 1
 make WXSTATIC=1 NOGUI=1 		|| exit 1
 make WXSTATIC=1 NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
