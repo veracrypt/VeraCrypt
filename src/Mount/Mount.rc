@@ -566,11 +566,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt"
-            VALUE "FileVersion", "1.24-Beta6"
+            VALUE "FileVersion", "1.24"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.24-Beta6"
+            VALUE "ProductVersion", "1.24"
         END
     END
     BLOCK "VarFileInfo"
