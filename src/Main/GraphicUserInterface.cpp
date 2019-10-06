@@ -1309,7 +1309,7 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 			htmlPath += L"/../Resources/doc/HTML/";
 #elif defined (TC_UNIX)
-			htmlPath = L"/usr/share/veracrypt/doc/HTML/";
+			htmlPath = L"/usr/share/doc/veracrypt/HTML/";
 #else
 			localFile = false;
 #endif
