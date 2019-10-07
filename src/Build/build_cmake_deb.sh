@@ -20,6 +20,7 @@ make 		|| exit 1
 make install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
 
 echo "Building console version of VeraCrypt for DEB using system wxWidgets"
+
 # This is to avoid " Error: Unable to initialize GTK+, is DISPLAY set properly?" 
 # when building over SSH without X11 Forwarding
 # export DISPLAY=:0.0
@@ -29,13 +30,14 @@ make NOGUI=1 		|| exit 1
 make NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
 
 echo "Creating VeraCrypt DEB packages"
+
 # -DCPACK_RPM_PACKAGE_DEBUG=TRUE for debugging cpack DEB
 # -DCPACK_RPM_PACKAGE_DEBUG=TRUE for debugging cpack DEB
 
-mkdir $PARENTDIR/VeraCrypt_Packaging
+mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
+mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
 
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE || exit 1
-cpack --config $PARENTDIR/VeraCrypt_Packaging/CPackConfig.cmake || exit 1
-
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE || exit 1
-cpack --config $PARENTDIR/VeraCrypt_Packaging/CPackConfig.cmake	|| exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DNOGUI=FALSE || exit 1
+cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DNOGUI=TRUE || exit 1
+cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake	|| exit 1
