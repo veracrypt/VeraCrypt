@@ -48,13 +48,31 @@ namespace VeraCrypt
 
 		foreach_ref (HostDevice &device, DeviceList)
 		{
-			if (device.Size == 0)
-				continue;
-
 			vector <wstring> fields (DeviceListCtrl->GetColumnCount());
-
+			
 			if (DeviceListCtrl->GetItemCount() > 0)
 				Gui->AppendToListCtrl (DeviceListCtrl, fields);
+			
+			//	i.e. /dev/rdisk0 might have size = 0 in case open() fails because, for example on OSX, 
+			//	SIP is enabled on the machine ; 
+			//	This does not mean that it does not have partitions that have been successfully opened
+			//	and have a size != 0 ;
+			//	Therefore, we do not show the device ONLY if it does not have partitions with size != 0 ;
+			if (device.Size == 0)
+			{
+				bool bHasNonEmptyPartition = false;
+				foreach_ref (HostDevice &partition, device.Partitions)
+				{
+					if (partition.Size)
+					{
+						bHasNonEmptyPartition = true;
+						break;
+					}
+				}
+				
+				if (!bHasNonEmptyPartition)
+					continue;
+			}
 
 #ifdef TC_WINDOWS
 			fields[ColumnDevice] = StringFormatter (L"{0} {1}:", _("Harddisk"), device.SystemNumber);
@@ -64,11 +82,20 @@ namespace VeraCrypt
 			fields[ColumnDevice] = wstring (device.Path) + L":";
 			fields[ColumnMountPoint] = device.MountPoint;
 #endif
-			fields[ColumnSize] = Gui->SizeToString (device.Size);
+			//	If the size of the device is 0, we do not show the size to avoid confusing the user ;
+			if (device.Size)
+				fields[ColumnSize] = Gui->SizeToString (device.Size);
+			else
+				fields[ColumnSize] = L"";
 			Gui->AppendToListCtrl (DeviceListCtrl, fields, 0, &device);
 
 			foreach_ref (HostDevice &partition, device.Partitions)
 			{
+				//	If a partition's size is 0, there is no need to show it in the list 
+				//	since this means it is not usable (i.e on OSX, because of SIP enabled in the machine) ;
+				if (!partition.Size)
+					continue;
+
 				fields[ColumnDevice] =
 #ifndef TC_WINDOWS
 					wstring (L"      ") +
@@ -113,7 +140,8 @@ namespace VeraCrypt
 	void DeviceSelectionDialog::OnListItemSelected (wxListEvent& event)
 	{
 		HostDevice *device = (HostDevice *) (event.GetItem().GetData());
-		if (device)
+		//	If a device's size is 0, we do not enable the 'OK' button since it is not usable
+		if (device && device->Size)
 		{
 			SelectedDevice = *device;
 			StdButtonsOK->Enable();
