@@ -91,6 +91,9 @@ ifeq "$(origin WXSTATIC)" "command line"
 	export VC_WX_STATIC := 1
 	WX_CONFIG = $(WX_BUILD_DIR)/wx-config
 	WX_CONFIG_ARGS += --static
+	ifneq "$(WXSTATIC)" "FULL"
+		export VC_WX_MINIMAL := 1
+	endif
 endif
 
 
@@ -224,6 +227,10 @@ ifeq "$(shell uname -s)" "Linux"
 		WXCONFIG_CFLAGS += -mno-sse2
 		WXCONFIG_CXXFLAGS += -mno-sse2
 	endif
+	
+	ifeq "$(origin WITHGTK3)" "command line"
+		WX_CONFIGURE_FLAGS += --with-gtk=3
+	endif
 
 endif
 
@@ -240,6 +247,11 @@ ifeq "$(shell uname -s)" "Darwin"
 	VC_OSX_SDK  := /Developer/SDKs/MacOSX$(VC_OSX_TARGET).sdk
 	ifeq ($(wildcard $(VC_OSX_SDK)/SDKSettings.plist),)
 		VC_OSX_SDK := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(VC_OSX_TARGET).sdk
+	endif
+	
+	#----- Legacy build if OSX <= 10.8: we build both 32-bit and 64-bit ----
+	ifneq (,$(filter 10.6 10.7 10.8,$(VC_OSX_TARGET)))
+		export VC_LEGACY_BUILD := 1
 	endif
 
 	CC := gcc
@@ -277,10 +289,18 @@ ifeq "$(shell uname -s)" "Darwin"
 		S := $(C_CXX_FLAGS)
 		C_CXX_FLAGS = $(subst -MMD,,$(S))
 
-		C_CXX_FLAGS += -gfull -arch i386 -arch x86_64
-		LFLAGS += -Wl,-dead_strip -arch i386 -arch x86_64
+		C_CXX_FLAGS += -gfull -arch x86_64
+		LFLAGS += -Wl,-dead_strip -arch x86_64
+		
+		#----- Legacy build: we build both 32-bit and 64-bit ----
+		ifdef VC_LEGACY_BUILD
+			C_CXX_FLAGS += -arch i386
+			LFLAGS += -arch i386
+			WX_CONFIGURE_FLAGS += --enable-universal_binary=i386,x86_64
+		else
+			WX_CONFIGURE_FLAGS += --disable-universal_binary
+		endif
 
-		WX_CONFIGURE_FLAGS += --enable-universal_binary=i386,x86_64
 		WXCONFIG_CFLAGS += -gfull
 		WXCONFIG_CXXFLAGS += -gfull
 
@@ -359,8 +379,10 @@ CFLAGS := $(C_CXX_FLAGS) $(CFLAGS) $(TC_EXTRA_CFLAGS)
 CXXFLAGS := $(C_CXX_FLAGS) $(CXXFLAGS) $(TC_EXTRA_CXXFLAGS)
 LFLAGS := $(LFLAGS) $(TC_EXTRA_LFLAGS)
 
-WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-tracking --disable-compat26 --enable-exceptions --enable-std_string --enable-dataobj --enable-mimetype \
-	--disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
+WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-tracking --enable-exceptions --enable-std_string --enable-dataobj --enable-mimetype
+
+ifdef VC_WX_MINIMAL
+WX_CONFIGURE_FLAGS += --disable-protocol --disable-protocols --disable-url --disable-ipc --disable-sockets --disable-fs_inet --disable-ole --disable-docview --disable-clipboard \
 	--disable-help --disable-html --disable-mshtmlhelp --disable-htmlhelp --disable-mdi --disable-metafile --disable-webkit --disable-webview \
 	--disable-xrc --disable-aui --disable-postscript --disable-printarch \
 	--disable-arcstream --disable-fs_archive --disable-fs_zip --disable-tarstream --disable-zipstream \
@@ -376,15 +398,17 @@ WX_CONFIGURE_FLAGS += --enable-unicode -disable-shared --disable-dependency-trac
 	--disable-sound --disable-mediactrl --disable-joystick --disable-apple_ieee \
 	--disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-pnm --disable-svg \
 	--without-expat --without-libtiff --without-libjpeg --without-libpng -without-regex --without-zlib
-
+	
 ifeq "$(PLATFORM)" "Linux"
 WX_CONFIGURE_FLAGS += --disable-tooltips
-ifeq "$(origin WITHGTK3)" "command line"
-	WX_CONFIGURE_FLAGS += --with-gtk=3
+ifneq "$(origin WITHGTK3)" "command line"
+	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
+endif
 else
 	WX_CONFIGURE_FLAGS += --disable-graphics_ctx
 endif
 endif
+
 
 #------ Project build ------
 
@@ -428,4 +452,4 @@ endif
 	cd "$(WX_BUILD_DIR)" && "$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) >/dev/null
 
 	@echo Building wxWidgets library...
-	cd "$(WX_BUILD_DIR)" && $(MAKE)
+	cd "$(WX_BUILD_DIR)" && $(MAKE) -j 4
