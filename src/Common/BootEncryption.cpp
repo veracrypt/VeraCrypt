@@ -4577,7 +4577,15 @@ namespace VeraCrypt
 			{
 				wchar_t appPath[TC_MAX_PATH];
 				throw_sys_if (!GetModuleFileName (NULL, appPath, ARRAYSIZE (appPath)));
-
+				/* explicitely specify VeraCrypt.exe as the file to copy and don't rely
+				 * on the fact we will be always called by VeraCrypt.exe because it's not
+				 * always true.
+				 */
+				wchar_t* ptr = wcsrchr (appPath, L'\\');
+				if (ptr)
+					ptr[1] = 0;
+				StringCchCatW (appPath, ARRAYSIZE (appPath), _T(TC_APP_NAME) L".exe");
+		
 				throw_sys_if (!CopyFile (appPath, servicePath.c_str(), FALSE));
 			}
 
