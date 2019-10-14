@@ -351,6 +351,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 
 	wxStaticBoxSizer* sbSizer41;
 	sbSizer41 = new wxStaticBoxSizer( new wxStaticBox( MainPanel, wxID_ANY, wxEmptyString ), wxVERTICAL );
+	sbSizer41->SetMinSize( wxSize( 139,-1 ) );
 
 	MountAllDevicesButton = new wxButton( MainPanel, wxID_ANY, _("&Auto-Mount Devices"), wxDefaultPosition, wxDefaultSize, 0 );
 	MountAllDevicesButton->SetMinSize( wxSize( -1,32 ) );
@@ -358,10 +359,11 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer41->Add( MountAllDevicesButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxTOP, 2 );
 
 
-	gSizer2->Add( sbSizer41, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
+	gSizer2->Add( sbSizer41, 1, wxEXPAND, 5 );
 
 	wxStaticBoxSizer* sbSizer42;
 	sbSizer42 = new wxStaticBoxSizer( new wxStaticBox( MainPanel, wxID_ANY, wxEmptyString ), wxVERTICAL );
+	sbSizer42->SetMinSize( wxSize( 139,-1 ) );
 
 	DismountAllButton = new wxButton( MainPanel, wxID_ANY, _("Di&smount All"), wxDefaultPosition, wxDefaultSize, 0 );
 	DismountAllButton->SetMinSize( wxSize( -1,32 ) );
@@ -369,10 +371,11 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer42->Add( DismountAllButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxTOP, 2 );
 
 
-	gSizer2->Add( sbSizer42, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND, 5 );
+	gSizer2->Add( sbSizer42, 1, wxEXPAND, 5 );
 
 	wxStaticBoxSizer* sbSizer43;
 	sbSizer43 = new wxStaticBoxSizer( new wxStaticBox( MainPanel, wxID_ANY, wxEmptyString ), wxVERTICAL );
+	sbSizer43->SetMinSize( wxSize( 139,-1 ) );
 
 	ExitButton = new wxButton( MainPanel, wxID_ANY, _("E&xit"), wxDefaultPosition, wxDefaultSize, 0 );
 	ExitButton->SetMinSize( wxSize( -1,32 ) );
@@ -380,7 +383,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	sbSizer43->Add( ExitButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxTOP, 2 );
 
 
-	gSizer2->Add( sbSizer43, 1, wxALIGN_RIGHT|wxEXPAND, 5 );
+	gSizer2->Add( sbSizer43, 1, wxEXPAND, 5 );
 
 
 	LowStaticBoxSizer->Add( gSizer2, 0, wxEXPAND, 5 );

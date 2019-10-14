@@ -2103,12 +2103,12 @@
                                                     </object>
                                                     <object class="sizeritem" expanded="1">
                                                         <property name="border">5</property>
-                                                        <property name="flag">wxALIGN_CENTER_HORIZONTAL|wxEXPAND</property>
+                                                        <property name="flag">wxEXPAND</property>
                                                         <property name="proportion">1</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
                                                             <property name="label"></property>
-                                                            <property name="minimum_size">-1,-1</property>
+                                                            <property name="minimum_size">139,-1</property>
                                                             <property name="name">sbSizer41</property>
                                                             <property name="orient">wxVERTICAL</property>
                                                             <property name="permission">none</property>
@@ -2205,12 +2205,12 @@
                                                     </object>
                                                     <object class="sizeritem" expanded="1">
                                                         <property name="border">5</property>
-                                                        <property name="flag">wxALIGN_CENTER_HORIZONTAL|wxEXPAND</property>
+                                                        <property name="flag">wxEXPAND</property>
                                                         <property name="proportion">1</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
                                                             <property name="label"></property>
-                                                            <property name="minimum_size">-1,-1</property>
+                                                            <property name="minimum_size">139,-1</property>
                                                             <property name="name">sbSizer42</property>
                                                             <property name="orient">wxVERTICAL</property>
                                                             <property name="permission">none</property>
@@ -2307,12 +2307,12 @@
                                                     </object>
                                                     <object class="sizeritem" expanded="1">
                                                         <property name="border">5</property>
-                                                        <property name="flag">wxALIGN_RIGHT|wxEXPAND</property>
+                                                        <property name="flag">wxEXPAND</property>
                                                         <property name="proportion">1</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
                                                             <property name="label"></property>
-                                                            <property name="minimum_size">-1,-1</property>
+                                                            <property name="minimum_size">139,-1</property>
                                                             <property name="name">sbSizer43</property>
                                                             <property name="orient">wxVERTICAL</property>
                                                             <property name="permission">none</property>
