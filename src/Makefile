@@ -242,11 +242,12 @@ ifeq "$(shell uname -s)" "Darwin"
 	APPNAME := VeraCrypt
 
 	export VC_OSX_TARGET ?= 10.7
+	export VC_OSX_SDK ?= $(VC_OSX_TARGET)
 
 	#check to see if XCode 3 path exists.Otherwise, use XCode 4 path
-	VC_OSX_SDK  := /Developer/SDKs/MacOSX$(VC_OSX_TARGET).sdk
-	ifeq ($(wildcard $(VC_OSX_SDK)/SDKSettings.plist),)
-		VC_OSX_SDK := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(VC_OSX_TARGET).sdk
+	VC_OSX_SDK_PATH  := /Developer/SDKs/MacOSX$(VC_OSX_SDK).sdk
+	ifeq ($(wildcard $(VC_OSX_SDK_PATH)/SDKSettings.plist),)
+		VC_OSX_SDK_PATH := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(VC_OSX_SDK).sdk
 	endif
 	
 	#----- Legacy build if OSX <= 10.8: we build both 32-bit and 64-bit ----
@@ -257,9 +258,9 @@ ifeq "$(shell uname -s)" "Darwin"
 	CC := gcc
 	CXX := g++
 
-	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_MACOSX -mmacosx-version-min=$(VC_OSX_TARGET) -isysroot $(VC_OSX_SDK)
-	LFLAGS += -mmacosx-version-min=$(VC_OSX_TARGET) -Wl,-syslibroot $(VC_OSX_SDK)
-	WX_CONFIGURE_FLAGS += --with-macosx-version-min=$(VC_OSX_TARGET) --with-macosx-sdk=$(VC_OSX_SDK)
+	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_MACOSX -mmacosx-version-min=$(VC_OSX_TARGET) -isysroot $(VC_OSX_SDK_PATH)
+	LFLAGS += -mmacosx-version-min=$(VC_OSX_TARGET) -Wl,-syslibroot $(VC_OSX_SDK_PATH)
+	WX_CONFIGURE_FLAGS += --with-macosx-version-min=$(VC_OSX_TARGET) --with-macosx-sdk=$(VC_OSX_SDK_PATH)
 
 	ifeq "$(CPU_ARCH)" "x64"
 		CPU_ARCH = x86
