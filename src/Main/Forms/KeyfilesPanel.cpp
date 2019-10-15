@@ -59,10 +59,8 @@ namespace VeraCrypt
 
 		SetDropTarget (new FileDropTarget (this));
 		KeyfilesListCtrl->SetDropTarget (new FileDropTarget (this));
-#ifdef TC_MACOSX
 		foreach (wxWindow *c, GetChildren())
 			c->SetDropTarget (new FileDropTarget (this));
-#endif
 
 		UpdateButtons();
 	}
