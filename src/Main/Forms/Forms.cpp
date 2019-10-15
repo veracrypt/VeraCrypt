@@ -328,7 +328,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	VolumeStaticBoxSizer->Add( VolumeGridBagSizer, 1, wxEXPAND|wxALL, 4 );
 
 
-	LowStaticBoxSizer->Add( VolumeStaticBoxSizer, 1, wxEXPAND, 5 );
+	LowStaticBoxSizer->Add( VolumeStaticBoxSizer, 1, wxEXPAND|wxALL, 5 );
 
 
 	LowStaticBoxSizer->Add( 0, 0, 0, 0, 5 );
@@ -344,7 +344,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	VolumeButton->SetDefault();
 	VolumeButton->SetMinSize( wxSize( -1,32 ) );
 
-	sbSizer4->Add( VolumeButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxTOP, 2 );
+	sbSizer4->Add( VolumeButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
 
 
 	gSizer2->Add( sbSizer4, 1, wxEXPAND, 0 );
@@ -356,7 +356,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	MountAllDevicesButton = new wxButton( MainPanel, wxID_ANY, _("&Auto-Mount Devices"), wxDefaultPosition, wxDefaultSize, 0 );
 	MountAllDevicesButton->SetMinSize( wxSize( -1,32 ) );
 
-	sbSizer41->Add( MountAllDevicesButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxTOP, 2 );
+	sbSizer41->Add( MountAllDevicesButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
 
 
 	gSizer2->Add( sbSizer41, 1, wxEXPAND, 5 );
@@ -368,7 +368,7 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	DismountAllButton = new wxButton( MainPanel, wxID_ANY, _("Di&smount All"), wxDefaultPosition, wxDefaultSize, 0 );
 	DismountAllButton->SetMinSize( wxSize( -1,32 ) );
 
-	sbSizer42->Add( DismountAllButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxTOP, 2 );
+	sbSizer42->Add( DismountAllButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
 
 
 	gSizer2->Add( sbSizer42, 1, wxEXPAND, 5 );
@@ -380,13 +380,13 @@ MainFrameBase::MainFrameBase( wxWindow* parent, wxWindowID id, const wxString& t
 	ExitButton = new wxButton( MainPanel, wxID_ANY, _("E&xit"), wxDefaultPosition, wxDefaultSize, 0 );
 	ExitButton->SetMinSize( wxSize( -1,32 ) );
 
-	sbSizer43->Add( ExitButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxTOP, 2 );
+	sbSizer43->Add( ExitButton, 1, wxALIGN_CENTER_HORIZONTAL|wxEXPAND|wxALL, 2 );
 
 
 	gSizer2->Add( sbSizer43, 1, wxEXPAND, 5 );
 
 
-	LowStaticBoxSizer->Add( gSizer2, 0, wxEXPAND, 5 );
+	LowStaticBoxSizer->Add( gSizer2, 0, wxEXPAND|wxALL, 5 );
 
 
 	bSizer48->Add( LowStaticBoxSizer, 0, wxEXPAND, 5 );
