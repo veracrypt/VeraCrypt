@@ -393,10 +393,8 @@ namespace VeraCrypt
 		};
 
 		SetDropTarget (new FileDropTarget (this));
-#ifdef TC_MACOSX
 		foreach (wxWindow *c, MainPanel->GetChildren())
 			c->SetDropTarget (new FileDropTarget (this));
-#endif
 
 		// Volume history
 		VolumeHistory::ConnectComboBox (VolumePathComboBox);
