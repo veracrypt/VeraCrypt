@@ -13,6 +13,7 @@
 #include "CoreService.h"
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <stdio.h>
 #include "Platform/FileStream.h"
 #include "Platform/MemoryStream.h"
 #include "Platform/Serializable.h"
