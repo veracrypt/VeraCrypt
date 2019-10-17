@@ -2364,6 +2364,35 @@ namespace VeraCrypt
 		WriteConfigInteger (configFile, configContent, "AuthorizeRetry", authorizeRetry);
 		WriteConfigInteger (configFile, configContent, "DcsBmlLockFlags", bmlLockFlags);
 		WriteConfigInteger (configFile, configContent, "DcsBmlDriver", bmlDriverEnabled);
+
+		string fieldValue;
+		if (IsPostExecFileField(actionSuccessValue, fieldValue) && (0 == _stricmp(fieldValue.c_str(), "\\EFI\\Microsoft\\Boot\\bootmgfw.efi")))
+		{
+			// fix wrong configuration file since bootmgfw.efi is now a copy of VeraCrypt and if we don't fix the DcsProp
+			// file, veraCrypt bootloader will call itself
+			// We first check if bootmgfw.efi is original Microsoft one. If yes, we don't do anything, otherwise we set the field to bootmgfw_ms.vc
+			unsigned __int64 loaderSize = 0;
+			bool bModifiedMsBoot = true;
+			EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
+
+			if (loaderSize > 32768)
+			{
+				std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+
+				EfiBootInst.ReadFile(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", &bootLoaderBuf[0], (DWORD) loaderSize);
+
+				// look for bootmgfw.efi identifiant string
+				const char* g_szMsBootString = "bootmgfw.pdb";
+				if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+				{
+					bModifiedMsBoot = false;
+				}
+			}
+
+			if (bModifiedMsBoot)
+				actionSuccessValue = "postexec file(EFI\\Microsoft\\Boot\\bootmgfw_ms.vc)";
+		}
+
 		WriteConfigString (configFile, configContent, "ActionSuccess", actionSuccessValue.c_str());
 
 		// Write unmodified values
@@ -2392,6 +2421,55 @@ namespace VeraCrypt
 			burn (configContent, size);
 			free (configContent);
 		}
+
+		return bRet;
+	}
+
+	BOOL EfiBootConf::IsPostExecFileField (const string& fieldValue, string& filePath)
+	{
+		BOOL bRet = FALSE;
+		filePath = "";
+
+		if (!fieldValue.empty() && strlen (fieldValue.c_str()))
+		{
+			string  copieValue = fieldValue;
+			std::transform(copieValue.begin(), copieValue.end(), copieValue.begin(), ::tolower);
+
+			if (strstr (copieValue.c_str(), "postexec") && strstr (copieValue.c_str(), "file("))
+			{
+				char c;
+				const char* ptr = strstr (copieValue.c_str(), "file(");
+
+				filePath = "\\";
+				ptr += 5;
+				while ((c = *ptr))
+				{
+					if (c == ')')
+						break;
+					if (c == '/')
+						c = '\\';
+					filePath += c;
+					ptr++;
+				}
+
+				if (c == ')')
+					bRet = TRUE;									
+				else
+					filePath = "";
+			}
+		}
+
+		return bRet;
+	}
+
+	BOOL EfiBootConf::IsPostExecFileField (const string& fieldValue, wstring& filePath)
+	{
+		string aPath;
+		BOOL bRet = IsPostExecFileField (fieldValue, aPath);
+		if (bRet)
+			filePath = wstring(aPath.begin(), aPath.end());
+		else
+			filePath = L"";
 
 		return bRet;
 	}
@@ -3120,24 +3198,15 @@ namespace VeraCrypt
 							EfiBootConf conf;
 							if (EfiBootInst.ReadConfig (L"\\EFI\\VeraCrypt\\DcsProp", conf) && strlen (conf.actionSuccessValue.c_str()))
 							{
-								string actionValue = conf.actionSuccessValue;
-								std::transform(actionValue.begin(), actionValue.end(), actionValue.begin(), ::tolower);
-
-								if (strstr (actionValue.c_str(), "postexec") && strstr (actionValue.c_str(), "file("))
+								wstring loaderPath;
+								if (EfiBootConf::IsPostExecFileField (conf.actionSuccessValue, loaderPath))
 								{
-									char c;
-									const char* ptr = strstr (actionValue.c_str(), "file(");
-									ptr += 5;
-									wstring loaderPath = L"\\";
-									while ((c = *ptr))
+									// check that it is not bootmgfw.efi
+									if (0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
 									{
-										if (c == ')' || c == ' ')
-											break;
-										loaderPath += (wchar_t) c;
-										ptr++;
+										bFound = true;
+										EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
 									}
-									bFound = true;
-									EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
 								}
 							}
 
@@ -4230,24 +4299,16 @@ namespace VeraCrypt
 				EfiBootConf conf;
 				if (EfiBootInst.ReadConfig (L"\\EFI\\VeraCrypt\\DcsProp", conf) && strlen (conf.actionSuccessValue.c_str()))
 				{
-					string actionValue = conf.actionSuccessValue;
-					std::transform(actionValue.begin(), actionValue.end(), actionValue.begin(), ::tolower);
-
-					if (strstr (actionValue.c_str(), "postexec") && strstr (actionValue.c_str(), "file("))
+					wstring loaderPath;
+					if (EfiBootConf::IsPostExecFileField (conf.actionSuccessValue, loaderPath))
 					{
-						char c;
-						const char* ptr = strstr (actionValue.c_str(), "file(");
-						ptr += 5;
-						wstring loaderPath = L"\\";
-						while ((c = *ptr))
+						// check that it is not bootmgfw_ms.vc or bootmgfw.efi
+						if (	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
+							&&	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
+							)
 						{
-							if (c == ')' || c == ' ')
-								break;
-							loaderPath += (wchar_t) c;
-							ptr++;
+							EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE);
 						}
-
-						EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE);
 					}
 				}
 			}

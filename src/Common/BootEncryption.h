@@ -189,6 +189,8 @@ namespace VeraCrypt
 		BOOL Load (const wchar_t* fileName);
 		void Load (char* configContent);
 		BOOL Save (const wchar_t* fileName, HWND hwnd);
+		static BOOL IsPostExecFileField (const string& szFieldValue, string& filePath);
+		static BOOL IsPostExecFileField (const string& szFieldValue, wstring& filePath);
 	};
 
 	void GetVolumeESP(wstring& path);
