@@ -643,6 +643,20 @@ static const uint64 Whirlpool_C[8*256+R] = {
 void WhirlpoolTransform(uint64 *digest, const uint64 *block)
 {
 #if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
+#if defined(__GNUC__) && (CRYPTOPP_GCC_VERSION <= 40407)
+	/* workaround for gcc 4.4.7 bug under CentOS which causes crash
+	 * in inline assembly.
+	 * This dummy check that is always false since "block" is aligned. 
+	 */
+	uint64 lb = (uint64) block;
+	if (lb % 16)
+	{
+		TC_THROW_FATAL_EXCEPTION;
+	}
+#endif
+#endif
+	
+#if CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE
 	if (HasISSE())
 	{
 #ifdef __GNUC__
