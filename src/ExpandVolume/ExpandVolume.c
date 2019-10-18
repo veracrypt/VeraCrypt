@@ -750,13 +750,24 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 		liNewSize.QuadPart=(LONGLONG)newHostSize;
 
-		// Preallocate the file
-		if (!SetFilePointerEx (dev, liNewSize, NULL, FILE_BEGIN)
-			|| !SetEndOfFile (dev)
-			|| SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+		if (hostSize != newHostSize)
 		{
-			nStatus = ERR_OS_ERROR;
-			goto error;
+			// Preallocate the file
+			if (!SetFilePointerEx (dev, liNewSize, NULL, FILE_BEGIN)
+				|| !SetEndOfFile (dev)
+				|| SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
+		}
+		else
+		{
+			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
 		}
 	}
 

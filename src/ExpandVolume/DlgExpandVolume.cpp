@@ -717,7 +717,7 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 
 		if ( !bIsDevice )
 		{
-			if ( newVolumeSize < hostSize + TC_MINVAL_FS_EXPAND)
+			if ( (newVolumeSize < hostSize + TC_MINVAL_FS_EXPAND) && ((hostSize == volSize) || (newVolumeSize != hostSize) || ((hostSize - volSize) < TC_MINVAL_FS_EXPAND)))
 			{
 				StringCbPrintfW(szTmp,sizeof(szTmp),L"New volume size too small, must be at least %I64u kB larger than the current size.",TC_MINVAL_FS_EXPAND/BYTES_PER_KB);
 				MessageBoxW (hwndDlg, szTmp, lpszTitle, MB_OK | MB_ICONEXCLAMATION );
