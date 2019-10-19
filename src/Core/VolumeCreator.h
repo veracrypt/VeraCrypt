@@ -45,6 +45,7 @@ namespace VeraCrypt
 				Ext3,
 				Ext4,
 				MacOsExt,
+				APFS,
 				UFS
 			};
 

@@ -475,6 +475,7 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 				case VolumeCreationOptions::FilesystemType::MacOsExt:	fsFormatter = "newfs_hfs"; break;
 				case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "newfs_exfat"; break;
+				case VolumeCreationOptions::FilesystemType::APFS:		fsFormatter = "newfs_apfs"; break;
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 				case VolumeCreationOptions::FilesystemType::UFS:		fsFormatter = "newfs" ; break;
 #endif

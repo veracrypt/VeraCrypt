@@ -13,6 +13,7 @@
 #include "System.h"
 #include "Main/GraphicUserInterface.h"
 #include "VolumeFormatOptionsWizardPage.h"
+#include <wx/platinfo.h>
 
 namespace VeraCrypt
 {
@@ -40,6 +41,8 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 		FilesystemTypeChoice->Append (L"Mac OS Extended",	(void *) VolumeCreationOptions::FilesystemType::MacOsExt);
 		FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
+		if (wxPlatformInfo::Get().CheckOSVersion (10, 13))
+			FilesystemTypeChoice->Append (L"APFS",			(void *) VolumeCreationOptions::FilesystemType::APFS);
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 		FilesystemTypeChoice->Append (L"UFS",				(void *) VolumeCreationOptions::FilesystemType::UFS);
 #endif
@@ -81,6 +84,7 @@ namespace VeraCrypt
 		case VolumeCreationOptions::FilesystemType::Ext3:		FilesystemTypeChoice->SetStringSelection (L"Linux Ext3"); break;
 		case VolumeCreationOptions::FilesystemType::Ext4:		FilesystemTypeChoice->SetStringSelection (L"Linux Ext4"); break;
 		case VolumeCreationOptions::FilesystemType::MacOsExt:	FilesystemTypeChoice->SetStringSelection (L"Mac OS Extended"); break;
+		case VolumeCreationOptions::FilesystemType::APFS:		FilesystemTypeChoice->SetStringSelection (L"APFS"); break;
 		case VolumeCreationOptions::FilesystemType::UFS:		FilesystemTypeChoice->SetStringSelection (L"UFS"); break;
 
 		default:

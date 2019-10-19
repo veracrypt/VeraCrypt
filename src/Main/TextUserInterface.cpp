@@ -20,6 +20,7 @@
 #include "Platform/Unix/Process.h"
 #endif
 
+#include <wx/platinfo.h>
 #include "Common/SecurityToken.h"
 #include "Core/RandomNumberGenerator.h"
 #include "Application.h"
@@ -785,6 +786,10 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 				ShowInfo (L" 3) Mac OS Extended"); filesystems.push_back (VolumeCreationOptions::FilesystemType::MacOsExt);
 				ShowInfo (L" 4) exFAT");      filesystems.push_back (VolumeCreationOptions::FilesystemType::exFAT);
+				if (wxPlatformInfo::Get().CheckOSVersion (10, 13))
+				{
+					ShowInfo (L" 5) APFS");      filesystems.push_back (VolumeCreationOptions::FilesystemType::APFS);
+				}
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 				ShowInfo (L" 3) UFS"); filesystems.push_back (VolumeCreationOptions::FilesystemType::UFS);
 #endif
@@ -881,6 +886,7 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 			case VolumeCreationOptions::FilesystemType::MacOsExt:	fsFormatter = "newfs_hfs"; break;
 			case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "newfs_exfat"; break;
+			case VolumeCreationOptions::FilesystemType::APFS:		fsFormatter = "newfs_apfs"; break;
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 			case VolumeCreationOptions::FilesystemType::UFS:		fsFormatter = "newfs" ; break;
 #endif

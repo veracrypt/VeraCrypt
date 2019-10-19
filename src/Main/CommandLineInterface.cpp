@@ -321,6 +321,8 @@ namespace VeraCrypt
 				}
 				else if (str.IsSameAs (L"exFAT", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
+				else if (str.IsSameAs (L"APFS", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::APFS;
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
 				else if (str.IsSameAs (L"UFS", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::UFS;
