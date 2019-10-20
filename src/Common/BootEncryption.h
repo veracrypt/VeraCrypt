@@ -211,6 +211,8 @@ namespace VeraCrypt
 		void ReadFile(const wchar_t* name, byte* data, DWORD size);
 		void CopyFile(const wchar_t* name, const wchar_t* targetName);
 		bool FileExists(const wchar_t* name);
+		static bool CompareFiles (const wchar_t* fileName1, const wchar_t* fileName2);
+		static bool CompareFileData (const wchar_t* fileName, const byte* data, DWORD size);
 
 		BOOL RenameFile(const wchar_t* name, const wchar_t* nameNew, BOOL bForce);
 		BOOL DelFile(const wchar_t* name);

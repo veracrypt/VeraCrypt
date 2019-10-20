@@ -2829,14 +2829,120 @@ namespace VeraCrypt
 
 	}
 
+	bool EfiBoot::CompareFiles (const wchar_t* fileName1, const wchar_t* fileName2)
+	{
+		bool bRet = false;
+		File f1 (fileName1, true);
+		File f2 (fileName2, true);
+
+		if (f1.IsOpened() && f2.IsOpened())
+		{
+			try
+			{
+				DWORD size1, size2;
+				f1.GetFileSize (size1);
+				f2.GetFileSize (size2);
+
+				if (size1 == size2)
+				{
+					// same size, so now we compare content
+					std::vector<byte> file1Buf (8096);
+					std::vector<byte> file2Buf (8096);
+					DWORD remainingBytes = size1, dataToRead;
+
+					while (remainingBytes)
+					{
+						dataToRead = VC_MIN (remainingBytes, (DWORD) file1Buf.size());
+						DWORD f1Bytes = f1.Read (file1Buf.data(), dataToRead);
+						DWORD f2Bytes = f2.Read (file2Buf.data(), dataToRead);
+
+						if ((f1Bytes != f2Bytes) || memcmp (file1Buf.data(), file2Buf.data(), (size_t) f1Bytes))
+						{
+							break;
+						}
+						else
+						{
+							remainingBytes -= f1Bytes;
+						}
+					}
+
+					if (0 == remainingBytes)
+					{
+						// content is the same
+						bRet = true;
+					}
+				}
+			}
+			catch (...) {}
+		}
+
+		f1.Close();
+		f2.Close();
+
+		return bRet;
+	}
+
+	bool EfiBoot::CompareFileData (const wchar_t* fileName, const byte* data, DWORD size)
+	{
+		bool bRet = false;
+
+		File f(fileName, true);
+		if (f.IsOpened ())
+		{
+			try
+			{
+				// check if the file has the same content
+				// if yes, don't perform any write operation to avoid changing its timestamp
+				DWORD existingSize = 0;
+
+				f.GetFileSize(existingSize);				
+				
+				if (existingSize == size)
+				{
+					std::vector<byte> fileBuf (8096);
+					DWORD remainingBytes = size, dataOffset = 0, dataToRead;
+
+					while (remainingBytes)
+					{
+						dataToRead = VC_MIN (remainingBytes, (DWORD) fileBuf.size());
+						dataToRead = f.Read (fileBuf.data(), dataToRead);
+
+						if (memcmp (data + dataOffset, fileBuf.data(), (size_t) dataToRead))
+						{
+							break;
+						}
+						else
+						{
+							dataOffset += dataToRead;
+							remainingBytes -= dataToRead;
+						}
+					}
+
+					if (0 == remainingBytes)
+					{
+						// content is the same
+						bRet = true;
+					}
+				}			
+			}
+			catch (...){}
+		}
+		
+		f.Close();
+
+		return bRet;
+	}
+
 	void EfiBoot::SaveFile(const wchar_t* name, byte* data, DWORD size) {
 		wstring path = EfiBootPartPath;
 		path += name;
 
-		File f(path, false, true);
-		f.Write(data, size);
-		f.Close();
-
+		if (!CompareFileData (path.c_str(), data, size))
+		{
+			File f(path, false, true);
+			f.Write(data, size);
+			f.Close();
+		}
 	}
 
 	bool EfiBoot::FileExists(const wchar_t* name) {
@@ -2875,7 +2981,10 @@ namespace VeraCrypt
 		}
 		else
 			targetPath = targetName;
-		throw_sys_if (!::CopyFileW (path.c_str(), targetPath.c_str(), FALSE));
+
+		// if both files are the same, we don't perform copy operation
+		if (!CompareFiles (path.c_str(), targetPath.c_str()))
+			throw_sys_if (!::CopyFileW (path.c_str(), targetPath.c_str(), FALSE));
 	}
 
 	BOOL EfiBoot::RenameFile(const wchar_t* name, const wchar_t* nameNew, BOOL bForce) {
@@ -2883,7 +2992,16 @@ namespace VeraCrypt
 		path += name;
 		wstring pathNew = EfiBootPartPath;
 		pathNew += nameNew;
-		return MoveFileExW(path.c_str(), pathNew.c_str(), bForce? MOVEFILE_REPLACE_EXISTING : 0);
+		
+		BOOL bRet;
+		if (CompareFiles (path.c_str(), pathNew.c_str()))
+		{
+			// files identical. Delete source file only
+			bRet = DeleteFile (path.c_str());
+		}
+		else
+			bRet = MoveFileExW(path.c_str(), pathNew.c_str(), bForce? MOVEFILE_REPLACE_EXISTING : 0);
+		return bRet;
 	}
 
 	BOOL EfiBoot::DelFile(const wchar_t* name) {
