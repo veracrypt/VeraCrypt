@@ -39,6 +39,35 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
+
+<p><strong style="text-align:left">1.24-Hotfix1-Preview </strong>(October 20<sup>th</sup>, 2019):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Fix 1.24 regression that caused system favorites not to mount at boot if VeraCrypt freshly installed.</li>
+<li>Make VeraCrypt Expander able to resume expansion of volumes whose previous expansion was aborted before it finishes.</li>
+<li>Add several robustness checks and validation in case of system encryption to better handle some corner cases.</li>
+<li>Minor UI and documentation changes.</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Workaround gcc 4.4.7 bug under CentOS 6 that caused VeraCrypt built under CentOS 6 to crash when Whirlpool hash is used.</li>
+<li>Fix "incorrect password attempt" written to /var/log/auth.log when mounting volumes.</li>
+<li>Fix dropping file in UI not showing its correct path , specifically under GTK-3.</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>Fix some devices and partitions not showing in the device selection dialog under OSX 10.13 and newer.</li>
+<li>Fix keyboard tab navigation between password fields in "Volume Password" page of volume creation wizard.</li>
+<li>Support APFS filesystem for creation volumes.</li>
+<li>Support Dark Mode.</li>
+</ul>
+</li>
+</ul>
+
+
 <p><strong style="text-align:left">1.24 </strong>(October 6<sup>th</sup>, 2019):</p>
 <ul>
 <li><strong>All OSs:</strong>
