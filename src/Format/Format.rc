@@ -50,7 +50,7 @@ BEGIN
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt Format.exe"
             VALUE "ProductName", "VeraCrypt"
-            // VALUE "ProductVersion", "1.24"
+            VALUE "ProductVersion", "1.24"
         END
     END
     BLOCK "VarFileInfo"
@@ -278,12 +278,12 @@ IDD_SYSENC_COLLECTING_RANDOM_DATA_DLG DIALOGEX 0, 0, 276, 193
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,1,93,225,10
-    CONTROL         "",IDC_SYS_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,6,17,209,63,WS_EX_TRANSPARENT
-    LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.",IDT_COLLECTING_RANDOM_DATA_NOTE,1,107,225,63
-    GROUPBOX        "Current pool content (partial)",IDT_PARTIAL_POOL_CONTENTS,0,5,225,83
-    GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,0,174,225,18
-    CONTROL         "",IDC_ENTROPY_BAR,"msctls_progress32",WS_BORDER,11,183,202,6
+    CONTROL         "Display pool content",IDC_DISPLAY_POOL_CONTENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,93,266,10
+    CONTROL         "",IDC_SYS_POOL_CONTENTS,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,33,17,209,63,WS_EX_TRANSPARENT
+    LTEXT           "IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.",IDT_COLLECTING_RANDOM_DATA_NOTE,10,107,265,63
+    GROUPBOX        "Current pool content (partial)",IDT_PARTIAL_POOL_CONTENTS,0,5,276,83
+    GROUPBOX        "Randomness Collected From Mouse Movements",IDT_ENTROPY_BAR,0,174,276,18
+    CONTROL         "",IDC_ENTROPY_BAR,"msctls_progress32",WS_BORDER,11,183,254,6
 END
 
 IDD_SYSENC_MULTI_BOOT_MODE_PAGE_DLG DIALOGEX 0, 0, 276, 193
@@ -588,7 +588,6 @@ BEGIN
 
     IDD_SYSENC_COLLECTING_RANDOM_DATA_DLG, DIALOG
     BEGIN
-        RIGHTMARGIN, 267
         BOTTOMMARGIN, 174
         HORZGUIDE, 80
         HORZGUIDE, 96
