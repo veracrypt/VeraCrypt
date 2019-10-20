@@ -3204,8 +3204,18 @@ namespace VeraCrypt
 									// check that it is not bootmgfw.efi
 									if (0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
 									{
-										bFound = true;
-										EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
+										// look for bootmgfw.efi identifiant string
+										EfiBootInst.GetFileSize(loaderPath.c_str(), loaderSize);
+										std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+
+										EfiBootInst.ReadFile(loaderPath.c_str(), &bootLoaderBuf[0], (DWORD) loaderSize);
+
+										// look for bootmgfw.efi identifiant string
+										if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+										{
+											bFound = true;
+											EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc", TRUE);
+										}
 									}
 								}
 							}
@@ -4307,7 +4317,18 @@ namespace VeraCrypt
 							&&	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
 							)
 						{
-							EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE);
+							const char* g_szMsBootString = "bootmgfw.pdb";
+							unsigned __int64 loaderSize = 0;
+							EfiBootInst.GetFileSize(loaderPath.c_str(), loaderSize);
+							std::vector<byte> bootLoaderBuf ((size_t) loaderSize);
+
+							EfiBootInst.ReadFile(loaderPath.c_str(), &bootLoaderBuf[0], (DWORD) loaderSize);
+
+							// look for bootmgfw.efi identifiant string
+							if (BufferHasPattern (bootLoaderBuf.data (), (size_t) loaderSize, g_szMsBootString, strlen (g_szMsBootString)))
+							{
+								EfiBootInst.RenameFile(loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", TRUE);
+							}
 						}
 					}
 				}
