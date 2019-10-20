@@ -473,7 +473,7 @@ BOOL CALLBACK CloseTCWindowsEnum( HWND hwnd, LPARAM lParam);
 BOOL CALLBACK FindTCWindowEnum (HWND hwnd, LPARAM lParam);
 BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size);
 void InconsistencyResolved (char *msg);
-void ReportUnexpectedState (char *techInfo);
+void ReportUnexpectedState (const char *techInfo);
 BOOL SelectMultipleFiles (HWND hwndDlg, const char *stringId, wchar_t *lpszFileName, size_t cbFileName, BOOL keepHistory);
 BOOL SelectMultipleFilesNext (wchar_t *lpszFileName, size_t cbFileName);
 void OpenOnlineHelp ();

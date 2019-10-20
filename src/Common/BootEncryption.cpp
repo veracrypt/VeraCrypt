@@ -4628,6 +4628,16 @@ namespace VeraCrypt
 
 		if (registerService)
 		{
+			// check if service already exists.
+			// If yes then start it immediatly after reinstalling it
+			bool bAlreadyExists = false;
+			SC_HANDLE service = OpenService (scm, TC_SYSTEM_FAVORITES_SERVICE_NAME, GENERIC_READ);
+			if (service)
+			{
+				bAlreadyExists = true;
+				CloseServiceHandle (service);
+			}
+
 			try
 			{
 				RegisterSystemFavoritesService (FALSE, noFileHandling);
@@ -4650,7 +4660,7 @@ namespace VeraCrypt
 				throw_sys_if (!CopyFile (appPath, servicePath.c_str(), FALSE));
 			}
 
-			SC_HANDLE service = CreateService (scm,
+			service = CreateService (scm,
 				TC_SYSTEM_FAVORITES_SERVICE_NAME,
 				_T(TC_APP_NAME) L" System Favorites",
 				SERVICE_ALL_ACCESS,
@@ -4669,6 +4679,10 @@ namespace VeraCrypt
 			SERVICE_DESCRIPTION description;
 			description.lpDescription = L"Mounts VeraCrypt system favorite volumes.";
 			ChangeServiceConfig2 (service, SERVICE_CONFIG_DESCRIPTION, &description);
+
+			// start the service immediatly if it already existed before
+			if (bAlreadyExists)
+				StartService (service, 0, NULL);
 
 			CloseServiceHandle (service);
 
@@ -4709,6 +4723,30 @@ namespace VeraCrypt
 					DeleteFile (serviceLegacyPath.c_str());
 			}
 		}
+	}
+
+	bool BootEncryption::IsSystemFavoritesServiceRunning ()
+	{
+		bool bRet = false;
+		SC_HANDLE scm = OpenSCManager (NULL, NULL, SC_MANAGER_CONNECT);
+		if (scm)
+		{
+			SC_HANDLE service = OpenService(scm, TC_SYSTEM_FAVORITES_SERVICE_NAME, GENERIC_READ);
+			if (service)
+			{
+				SERVICE_STATUS status;
+				if (QueryServiceStatus(service, &status))
+				{
+					bRet = (status.dwCurrentState == SERVICE_RUNNING);
+				}
+
+				CloseServiceHandle(service);
+			}
+
+			CloseServiceHandle (scm);
+		}
+
+		return bRet;
 	}
 
 	void BootEncryption::UpdateSystemFavoritesService ()

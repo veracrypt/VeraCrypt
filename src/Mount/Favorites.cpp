@@ -260,6 +260,13 @@ namespace VeraCrypt
 								if (reqConfig != (ReadDriverConfigurationFlags() & TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES))
 									BootEncObj.SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD_FOR_SYS_FAVORITES, reqConfig ? true : false);
 
+								if (!BootEncObj.IsSystemFavoritesServiceRunning())
+								{
+									// The system favorites service should be always running
+									// If it is stopped for some reason, we reconfigure it
+									BootEncObj.RegisterSystemFavoritesService (TRUE);
+								}
+
 								SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_NONADMIN_SYS_FAVORITES_ACCESS, IsDlgButtonChecked (hwndDlg, IDC_FAVORITE_DISABLE_HOTKEY));
 							}
 							catch (Exception &e)

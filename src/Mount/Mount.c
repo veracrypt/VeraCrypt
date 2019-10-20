@@ -11626,6 +11626,14 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				BOOL bClearKeysEnabled = (driverConfig & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)? TRUE : FALSE;
 				BOOL bIsHiddenOS = IsHiddenOSRunning ();
 
+				if (bClearKeysEnabled)
+				{
+					// the clear keys option works only if the service is running
+					if (!BootEncObj->IsSystemFavoritesServiceRunning())
+						bClearKeysEnabled = false;
+				}
+
+
 				if (!BootEncObj->ReadBootSectorConfig (nullptr, 0, &userConfig, &customUserMessage, &bootLoaderVersion))
 				{
 					// operations canceled
@@ -11789,6 +11797,17 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					BOOL bPimCacheEnabled = IsDlgButtonChecked (hwndDlg, IDC_BOOT_LOADER_CACHE_PIM);
 					BOOL bBlockSysEncTrimEnabled = IsDlgButtonChecked (hwndDlg, IDC_BLOCK_SYSENC_TRIM);
 					BOOL bClearKeysEnabled = IsDlgButtonChecked (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION);
+
+					if (bClearKeysEnabled && !BootEncObj->IsSystemFavoritesServiceRunning())
+					{
+						// the system favorite service service should be running
+						// if it is not the case, report a failure and quit
+						std::string techInfo = SRC_POS;
+						techInfo += "\nIsSystemFavoritesServiceRunning = False.";
+						ReportUnexpectedState (techInfo.c_str());
+						return 1;
+					}
+
 					BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage, prop.volumePim, prop.pkcs5);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, bPasswordCacheEnabled);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
@@ -11841,7 +11860,18 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 		case IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION:
 			if (IsDlgButtonChecked (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION))
 			{
-				Warning ("CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING", hwndDlg);
+				if (!BootEncObj->IsSystemFavoritesServiceRunning())
+				{
+					// the system favorite service service should be running
+					// if it is not the case, report a failure
+					std::string techInfo = SRC_POS;
+					techInfo += "\nIsSystemFavoritesServiceRunning = False.";
+					ReportUnexpectedState (techInfo.c_str());
+
+					CheckDlgButton (hwndDlg, IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, BST_UNCHECKED);
+				}
+				else
+					Warning ("CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING", hwndDlg);
 			}
 
 			break;

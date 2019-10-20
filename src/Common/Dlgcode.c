@@ -11142,7 +11142,7 @@ void InconsistencyResolved (char *techInfo)
 }
 
 
-void ReportUnexpectedState (char *techInfo)
+void ReportUnexpectedState (const char *techInfo)
 {
 	wchar_t finalMsg[8024];
 
