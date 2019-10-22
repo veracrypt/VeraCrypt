@@ -71,6 +71,7 @@
 #define IDC_OLD_PIM                     1143
 #define IDC_OLD_PIM_HELP                1144
 #define ID_HOMEPAGE                     1145
+#define IDC_QUICKEXPAND                 1146
 #define IDM_HELP                        40001
 #define IDM_ABOUT                       40002
 #define IDM_UNMOUNT_VOLUME              40003
@@ -135,13 +136,13 @@
 #define IDM_MANAGE_TOKEN_KEYFILES       40062
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40064
-#define _APS_NEXT_CONTROL_VALUE         1146
+#define _APS_NEXT_CONTROL_VALUE         1147
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

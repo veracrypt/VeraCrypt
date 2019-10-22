@@ -49,6 +49,8 @@
 #define TIMER_ID_RANDVIEW								0xff
 #define TIMER_INTERVAL_RANDVIEW							50
 
+BOOL bSeManageVolumeNameSet = FALSE;
+
 // see definition of enum EV_FileSystem
 const wchar_t * szFileSystemStr[4] = {L"RAW",L"FAT",L"NTFS",L"EXFAT"};
 
@@ -117,6 +119,20 @@ uint64 GetSizeBoxMultiplier(HWND hwndDlg)
 	return Muliplier[i];
 }
 
+void HandleQuickExpanddCheckBox (HWND hwndDlg)
+{
+	if (IsButtonChecked (GetDlgItem (hwndDlg, IDC_INIT_NEWSPACE)))
+	{
+		EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKEXPAND), FALSE);
+		SendDlgItemMessage (hwndDlg, IDC_QUICKEXPAND, BM_SETCHECK, BST_UNCHECKED, 0);
+	}
+	else
+	{
+		EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKEXPAND), TRUE);
+	}
+}
+
+
 BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static EXPAND_VOL_THREAD_PARAMS *pVolExpandParam;
@@ -164,6 +180,12 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SetWindowText (GetDlgItem (hwndDlg, IDT_NEW_SIZE), L"");
 				GetSpaceString(szHostFreeStr,sizeof(szHostFreeStr),pVolExpandParam->hostSizeFree,FALSE);
 				StringCbPrintfW (szTemp,sizeof(szTemp),L"%s available on host drive", szHostFreeStr);
+
+				if (!pVolExpandParam->bDisableQuickExpand)
+				{
+					ShowWindow (GetDlgItem (hwndDlg, IDC_QUICKEXPAND), SW_SHOW);
+					HandleQuickExpanddCheckBox (hwndDlg);
+				}
 			}
 
 			SetWindowText (GetDlgItem (hwndDlg, IDC_EXPAND_VOLUME_NEWSIZE), szTemp);
@@ -179,7 +201,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				StringCbPrintfW (szTemp, sizeof(szTemp),L"Please specify the new size of the VeraCrypt volume (must be at least %I64u KB larger than the current size).",TC_MINVAL_FS_EXPAND/1024);
 			}
-			SetWindowText (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTemp);
+			SetWindowText (GetDlgItem (hwndDlg, IDC_BOX_HELP), szTemp);			
 
 		}
 		return 0;
@@ -197,6 +219,7 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			wchar_t szTemp[4096];
 
 			pVolExpandParam->bInitFreeSpace = IsButtonChecked (GetDlgItem (hwndDlg, IDC_INIT_NEWSPACE));
+			pVolExpandParam->bQuickExpand = IsButtonChecked (GetDlgItem (hwndDlg, IDC_QUICKEXPAND));
 			if (!pVolExpandParam->bIsDevice) // for devices new size is set by calling function
 			{
 				GetWindowText (GetDlgItem (hwndDlg, IDC_SIZEBOX), szTemp, ARRAYSIZE (szTemp));
@@ -205,6 +228,23 @@ BOOL CALLBACK ExpandVolSizeDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			EndDialog (hwndDlg, lw);
 			return 1;
+		}
+
+		if (lw == IDC_INIT_NEWSPACE && !pVolExpandParam->bDisableQuickExpand)
+		{
+			HandleQuickExpanddCheckBox (hwndDlg);
+			return 1;
+		}
+
+		if (lw == IDC_QUICKEXPAND  && IsButtonChecked (GetDlgItem (hwndDlg, IDC_QUICKEXPAND)))
+		{
+			// If quick expand selected, then we warn about security issue
+			if (MessageBoxW (hwndDlg, L"WARNING: You should use Quick Expand only in the following cases:\n\n1) The device where the file container is located contains no sensitive data and you do not need plausible deniability.\n2) The device where the file container is located has already been securely and fully encrypted.\n\nAre you sure you want to use Quick Expand?",
+				lpszTitle, YES_NO|MB_ICONWARNING|MB_DEFBUTTON2) == IDNO)
+			{
+				SendDlgItemMessage (hwndDlg, IDC_QUICKEXPAND, BM_SETCHECK, BST_UNCHECKED, 0);
+				return 1;
+			}
 		}
 
 		return 0;
@@ -393,6 +433,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 				// tell the volume transform thread to terminate
 				bVolTransformThreadCancel = TRUE;
 			}
+			NormalCursor ();
 			EndDialog (hwndDlg, lw);
 			return 1;
 		}
@@ -402,6 +443,7 @@ BOOL CALLBACK ExpandVolProgressDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (bVolTransformStarted)
 			{
 				// TransformThreadFunction finished -> OK button is now exit
+				NormalCursor ();
 				EndDialog (hwndDlg, lw);
 			}
 			else
@@ -561,7 +603,6 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 		if (KeyFilesEnable && FirstKeyFile)
 			KeyFilesApply (hwndDlg, &VolumePassword, FirstKeyFile, lpszVolume);
 
-		WaitCursor ();
 
 		OpenVolumeThreadParam threadParam;
 		threadParam.context = &expandVol;
@@ -691,6 +732,8 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	EXPAND_VOL_THREAD_PARAMS VolExpandParam;
 
 	VolExpandParam.bInitFreeSpace = (bIsLegacy && bIsDevice) ? FALSE:TRUE;
+	VolExpandParam.bQuickExpand = FALSE;
+	VolExpandParam.bDisableQuickExpand = bIsDevice;
 	VolExpandParam.szVolumeName = lpszVolume;
 	VolExpandParam.FileSystem = volFSType;
 	VolExpandParam.pVolumePassword = &VolumePassword;
@@ -701,6 +744,17 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 	VolExpandParam.oldSize = bIsDevice ? volSize : hostSize;
 	VolExpandParam.newSize = hostSize;
 	VolExpandParam.hostSizeFree = hostSizeFree;
+
+	// disable Quick Expand if the file is sparse or compressed
+	if (!bIsDevice)
+	{
+		DWORD dwFileAttrib = GetFileAttributesW (lpszVolume);
+		if (INVALID_FILE_ATTRIBUTES != dwFileAttrib)
+		{
+			if (dwFileAttrib & (FILE_ATTRIBUTE_COMPRESSED | FILE_ATTRIBUTE_SPARSE_FILE))
+				VolExpandParam.bDisableQuickExpand = TRUE;
+		}
+	}
 
 	while (1)
 	{
@@ -736,6 +790,18 @@ void ExpandVolumeWizard (HWND hwndDlg, wchar_t *lpszVolume)
 				StringCbPrintfW(szTmp,sizeof(szTmp),L"Maximum file size of %I64u MB on host drive exceeded.",maxSizeFS/BYTES_PER_MB);
 				MessageBoxW (hwndDlg, L"!\n",lpszTitle, MB_OK | MB_ICONEXCLAMATION );
 				continue;
+			}
+
+			if (VolExpandParam.bQuickExpand && !bSeManageVolumeNameSet)
+			{
+				if (!SetPrivilege (SE_MANAGE_VOLUME_NAME, TRUE))
+				{
+					MessageBoxW (hwndDlg, L"Error: Failed to get necessary privileges to enable Quick Expand!\nPlease uncheck Quick Expand option and try again.",lpszTitle, MB_OK | MB_ICONEXCLAMATION );
+					VolExpandParam.bQuickExpand = FALSE;
+					continue;
+				}
+
+				bSeManageVolumeNameSet = TRUE;
 			}
 		}
 

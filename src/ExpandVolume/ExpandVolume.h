@@ -40,6 +40,8 @@ typedef struct
 	BOOL bIsDevice;
 	BOOL bIsLegacy;
 	BOOL bInitFreeSpace;
+	BOOL bQuickExpand;
+	BOOL bDisableQuickExpand;
 	Password *pVolumePassword;
 	int VolumePkcs5;
 	int VolumePim;
