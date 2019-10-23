@@ -46,6 +46,16 @@ namespace VeraCrypt
 
 			throw_sys_sub_if (read (random, buffer, buffer.Size()) == -1 && errno != EAGAIN, L"/dev/random");
 			AddToPool (buffer);
+			
+			/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
+			if (JitterRngCtx)
+			{
+				ssize_t rndLen = jent_read_entropy (JitterRngCtx, (char*) buffer.Ptr(), buffer.Size());
+				if (rndLen > 0)
+				{
+					AddToPool (buffer);
+				}
+			}
 		}
 #endif
 	}
@@ -80,6 +90,12 @@ namespace VeraCrypt
 		ScopeLock lock (AccessMutex);
 		size_t bufferLen = buffer.Size(), loopLen;
 		byte* pbBuffer = buffer.Get();
+		
+		// Initialize JitterEntropy RNG for this call
+		if (0 == jent_entropy_init ())
+		{
+			JitterRngCtx = jent_entropy_collector_alloc (1, 0);
+		}
 
 		// Poll system for data
 		AddSystemDataToPool (fast);
@@ -126,6 +142,12 @@ namespace VeraCrypt
 			}
 
 			pbBuffer += loopLen;
+		}
+		
+		if (JitterRngCtx)
+		{
+			jent_entropy_collector_free (JitterRngCtx);
+			JitterRngCtx = NULL;
 		}
 	}
 
@@ -232,4 +254,5 @@ namespace VeraCrypt
 	size_t RandomNumberGenerator::ReadOffset;
 	bool RandomNumberGenerator::Running = false;
 	size_t RandomNumberGenerator::WriteOffset;
+	struct rand_data *RandomNumberGenerator::JitterRngCtx = NULL;
 }

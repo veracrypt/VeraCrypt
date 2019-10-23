@@ -88,7 +88,7 @@ static VC_INLINE void jent_get_nstime(__u64 *out)
 #define EAX_EDX_RET(val, low, high)     "=A" (val)
 #endif
 
-static VC_INLINE void jent_get_nstime(__u64 *out)
+VC_INLINE void jent_get_nstime(__u64 *out)
 {
 	DECLARE_ARGS(val, low, high);
 	asm volatile("rdtsc" : EAX_EDX_RET(val, low, high));
@@ -97,7 +97,10 @@ static VC_INLINE void jent_get_nstime(__u64 *out)
 
 #endif
 
-static VC_INLINE void *jent_zalloc(size_t len)
+#ifdef _MSC_VER
+static
+#endif
+VC_INLINE void *jent_zalloc(size_t len)
 {
 	void *tmp = NULL;
 	tmp = TCalloc(len);
@@ -111,7 +114,10 @@ static VC_INLINE void *jent_zalloc(size_t len)
 	return tmp;
 }
 
-static VC_INLINE void jent_zfree(void *ptr, unsigned int len)
+#ifdef _MSC_VER
+static
+#endif
+VC_INLINE void jent_zfree(void *ptr, unsigned int len)
 {
 	if (len % 8)
 		burn(ptr, len);
@@ -123,7 +129,10 @@ static VC_INLINE void jent_zfree(void *ptr, unsigned int len)
 	TCfree(ptr);
 }
 
-static VC_INLINE int jent_fips_enabled(void)
+#ifdef _MSC_VER
+static
+#endif
+VC_INLINE int jent_fips_enabled(void)
 {
         return 0;
 }

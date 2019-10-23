@@ -16,6 +16,7 @@
 #include "Platform/Platform.h"
 #include "Volume/Hash.h"
 #include "Common/Random.h"
+#include "Crypto/jitterentropy.h"
 
 namespace VeraCrypt
 {
@@ -53,6 +54,7 @@ namespace VeraCrypt
 		static size_t ReadOffset;
 		static bool Running;
 		static size_t WriteOffset;
+		static struct rand_data *JitterRngCtx;
 	};
 }
 
