@@ -14,11 +14,15 @@ $(NAME): $(NAME).a
 
 clean:
 	@echo Cleaning $(NAME)
-	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJS:.o=.d) *.gch
+	rm -f $(APPNAME) $(NAME).a $(OBJS) $(OBJSEX) $(OBJSNOOPT) $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d) *.gch
 
 %.o: %.c
 	@echo Compiling $(<F)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o0: %.c
+	@echo Compiling $(<F)
+	$(CC) $(CFLAGS) -O0 -c $< -o $@
 
 %.o: %.cpp
 	@echo Compiling $(<F)
@@ -64,10 +68,10 @@ TR_SED_BIN := tr '\n' ' ' | tr -s ' ' ',' | sed -e 's/^,//g' -e 's/,$$/n/' | tr 
 
 
 # Dependencies
--include $(OBJS:.o=.d) $(OBJSEX:.oo=.d)
+-include $(OBJS:.o=.d) $(OBJSEX:.oo=.d) $(OBJSNOOPT:.o0=.d)
 
 
-$(NAME).a: $(OBJS) $(OBJSEX)
+$(NAME).a: $(OBJS) $(OBJSEX) $(OBJSNOOPT)
 	@echo Updating library $@
-	$(AR) $(AFLAGS) -rcu $@ $(OBJS) $(OBJSEX)
+	$(AR) $(AFLAGS) -rcu $@ $(OBJS) $(OBJSEX) $(OBJSNOOPT)
 	$(RANLIB) $@

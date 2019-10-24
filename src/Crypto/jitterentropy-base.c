@@ -57,7 +57,11 @@
 #pragma optimize( "", off )
 #pragma warning(disable:4242 4244 4334) /* disable warnings on the original code */
 #else
-#pragma GCC optimize ("O0")
+#if defined(__clang__)
+	#pragma clang optimize off
+#elif defined (__GNUC__)
+	#pragma GCC optimize ("O0")
+#endif
 #endif
 
 #include "jitterentropy.h"
