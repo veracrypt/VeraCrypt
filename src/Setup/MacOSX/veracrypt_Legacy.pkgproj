@@ -5,10 +5,6 @@
 	<key>PACKAGES</key>
 	<array>
 		<dict>
-			<key>MUST-CLOSE-APPLICATION-ITEMS</key>
-			<array/>
-			<key>MUST-CLOSE-APPLICATIONS</key>
-			<false/>
 			<key>PACKAGE_FILES</key>
 			<dict>
 				<key>DEFAULT_INSTALL_LOCATION</key>
@@ -257,7 +253,7 @@
 									<key>PATH_TYPE</key>
 									<integer>0</integer>
 									<key>PERMISSIONS</key>
-									<integer>1005</integer>
+									<integer>493</integer>
 									<key>TYPE</key>
 									<integer>1</integer>
 									<key>UID</key>
@@ -350,38 +346,6 @@
 									<integer>0</integer>
 									<key>PATH</key>
 									<string>Widgets</string>
-									<key>PATH_TYPE</key>
-									<integer>0</integer>
-									<key>PERMISSIONS</key>
-									<integer>493</integer>
-									<key>TYPE</key>
-									<integer>1</integer>
-									<key>UID</key>
-									<integer>0</integer>
-								</dict>
-								<dict>
-									<key>CHILDREN</key>
-									<array/>
-									<key>GID</key>
-									<integer>0</integer>
-									<key>PATH</key>
-									<string>Automator</string>
-									<key>PATH_TYPE</key>
-									<integer>0</integer>
-									<key>PERMISSIONS</key>
-									<integer>493</integer>
-									<key>TYPE</key>
-									<integer>1</integer>
-									<key>UID</key>
-									<integer>0</integer>
-								</dict>
-								<dict>
-									<key>CHILDREN</key>
-									<array/>
-									<key>GID</key>
-									<integer>0</integer>
-									<key>PATH</key>
-									<string>Extensions</string>
 									<key>PATH_TYPE</key>
 									<integer>0</integer>
 									<key>PERMISSIONS</key>
@@ -504,29 +468,15 @@
 				</dict>
 				<key>PAYLOAD_TYPE</key>
 				<integer>0</integer>
-				<key>PRESERVE_EXTENDED_ATTRIBUTES</key>
-				<false/>
-				<key>SHOW_INVISIBLE</key>
-				<false/>
-				<key>SPLIT_FORKS</key>
-				<true/>
-				<key>TREAT_MISSING_FILES_AS_WARNING</key>
-				<false/>
 				<key>VERSION</key>
-				<integer>5</integer>
+				<integer>2</integer>
 			</dict>
 			<key>PACKAGE_SCRIPTS</key>
 			<dict>
 				<key>POSTINSTALL_PATH</key>
-				<dict>
-					<key>PATH_TYPE</key>
-					<integer>0</integer>
-				</dict>
+				<dict/>
 				<key>PREINSTALL_PATH</key>
-				<dict>
-					<key>PATH_TYPE</key>
-					<integer>0</integer>
-				</dict>
+				<dict/>
 				<key>RESOURCES</key>
 				<array/>
 			</dict>
@@ -536,8 +486,6 @@
 				<integer>1</integer>
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
-				<key>FOLLOW_SYMBOLIC_LINKS</key>
-				<false/>
 				<key>IDENTIFIER</key>
 				<string>com.idrix.pkg.veracrypt</string>
 				<key>LOCATION</key>
@@ -546,19 +494,9 @@
 				<string>veracrypt</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
-				<key>PAYLOAD_SIZE</key>
-				<integer>-1</integer>
-				<key>REFERENCE_PATH</key>
-				<string></string>
-				<key>RELOCATABLE</key>
-				<false/>
-				<key>USE_HFS+_COMPRESSION</key>
-				<false/>
 				<key>VERSION</key>
 				<string>1.24.7</string>
 			</dict>
-			<key>TYPE</key>
-			<integer>0</integer>
 			<key>UUID</key>
 			<string>B14381D9-EC5F-43E4-B971-82AB3D132A64</string>
 		</dict>
@@ -586,15 +524,14 @@
 		<dict>
 			<key>BACKGROUND</key>
 			<dict>
-				<key>APPAREANCES</key>
-				<dict>
-					<key>DARK_AQUA</key>
-					<dict/>
-					<key>LIGHT_AQUA</key>
-					<dict/>
-				</dict>
-				<key>SHARED_SETTINGS_FOR_ALL_APPAREANCES</key>
-				<true/>
+				<key>ALIGNMENT</key>
+				<integer>4</integer>
+				<key>BACKGROUND_PATH</key>
+				<dict/>
+				<key>CUSTOM</key>
+				<false/>
+				<key>SCALING</key>
+				<integer>0</integer>
 			</dict>
 			<key>INSTALLATION TYPE</key>
 			<dict>
@@ -630,7 +567,7 @@
 						<dict/>
 					</dict>
 				</dict>
-				<key>MODE</key>
+				<key>INSTALLATION TYPE</key>
 				<integer>0</integer>
 			</dict>
 			<key>INSTALLATION_STEPS</key>
@@ -699,6 +636,8 @@
 			</dict>
 			<key>LICENSE</key>
 			<dict>
+				<key>KEYWORDS</key>
+				<dict/>
 				<key>LOCALIZATIONS</key>
 				<array>
 					<dict>
@@ -751,7 +690,7 @@
 						<key>IC_REQUIREMENT_CPU_ARCHITECTURE_FAMILY</key>
 						<integer>2</integer>
 						<key>IC_REQUIREMENT_CPU_INTEL_ARCHITECTURE_TYPE</key>
-						<integer>2</integer>
+						<integer>0</integer>
 						<key>IC_REQUIREMENT_CPU_MINIMUM_CPU_CORES_COUNT</key>
 						<integer>1</integer>
 						<key>IC_REQUIREMENT_CPU_MINIMUM_FREQUENCY</key>
@@ -771,7 +710,7 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>VeraCrypt runs only on Intel 64-bit platforms.</string>
+							<string>VeraCrypt runs only on Intel platforms.</string>
 						</dict>
 						<dict>
 							<key>LANGUAGE</key>
@@ -779,7 +718,7 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>VeraCrypt supporte seulement les platformes Intel 64 bit.</string>
+							<string>VeraCrypt supporte seulement les platformes Intel.</string>
 						</dict>
 					</array>
 					<key>NAME</key>
@@ -797,7 +736,7 @@
 						<key>IC_REQUIREMENT_OS_DISTRIBUTION_TYPE</key>
 						<integer>0</integer>
 						<key>IC_REQUIREMENT_OS_MINIMUM_VERSION</key>
-						<integer>100900</integer>
+						<integer>100701</integer>
 					</dict>
 					<key>IC_REQUIREMENT_CHECK_TYPE</key>
 					<integer>0</integer>
@@ -809,13 +748,13 @@
 							<key>LANGUAGE</key>
 							<string>English</string>
 							<key>VALUE</key>
-							<string>VeraCrypt requires MacOSX 10.9 and above.</string>
+							<string>VeraCrypt requires MacOSX 10.7.1 and above.</string>
 						</dict>
 						<dict>
 							<key>LANGUAGE</key>
 							<string>French</string>
 							<key>VALUE</key>
-							<string>VeraCrypt nécessite MacOSX 10.9 et supérieur.</string>
+							<string>VeraCrypt nécessite MacOSX 10.7.1 et supérieur.</string>
 						</dict>
 					</array>
 					<key>NAME</key>
@@ -874,6 +813,10 @@ https://osxfuse.github.io/
 					<true/>
 				</dict>
 			</array>
+			<key>POSTINSTALL_PATH</key>
+			<dict/>
+			<key>PREINSTALL_PATH</key>
+			<dict/>
 			<key>RESOURCES</key>
 			<array/>
 			<key>ROOT_VOLUME_ONLY</key>
@@ -881,6 +824,8 @@ https://osxfuse.github.io/
 		</dict>
 		<key>PROJECT_SETTINGS</key>
 		<dict>
+			<key>ADVANCED_OPTIONS</key>
+			<dict/>
 			<key>BUILD_FORMAT</key>
 			<integer>0</integer>
 			<key>BUILD_PATH</key>
@@ -1060,10 +1005,6 @@ https://osxfuse.github.io/
 			</array>
 			<key>NAME</key>
 			<string>VeraCrypt 1.24-Hotfix1</string>
-			<key>PAYLOAD_ONLY</key>
-			<false/>
-			<key>TREAT_MISSING_PRESENTATION_DOCUMENTS_AS_WARNING</key>
-			<false/>
 		</dict>
 	</dict>
 	<key>SHARED_GLOBAL_DATA</key>
