@@ -15,7 +15,7 @@ PARENTDIR=$(cd "$(dirname "$SCRIPTPATH/../../../.")"; pwd)
 # the sources of wxWidgets 3.0.4 must be extracted to the parent directory
 export WX_ROOT=$PARENTDIR/wxWidgets-3.0.4
 echo "Using wxWidgets sources in $WX_ROOT"
-0# this will be the temporary wxWidgets directory
+# this will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuild
 
 # define the SDK version to use. We use 10.7 by default
