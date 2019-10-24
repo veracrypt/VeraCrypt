@@ -3151,20 +3151,69 @@ namespace VeraCrypt
 
 				if (bForInstall)
 				{
+					/* Before updating files, we check first if they already have the expected content. If yes, then we don't perform
+					 * any write operation to avoid modifying file timestamps Unnecessarily.
+					 */
+					bool bSkipWrite = false;
+					wchar_t wszBuffer [2 * TC_MAX_PATH] = {0};
 					wstring szPathParam = L"\"";
 					szPathParam += szInstallPath;
 					szPathParam += L"\"";
-					WritePrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", szPathParam.c_str(), szSetupconfigLocation);
 
+					if (	(0 < GetPrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", L"", wszBuffer, ARRAYSIZE (wszBuffer), szSetupconfigLocation))
+						&&	(_wcsicmp (wszBuffer, szPathParam.c_str()) == 0)
+						)
+					{
+						bSkipWrite = true;
+					}
+
+					if (!bSkipWrite)
+						WritePrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", szPathParam.c_str(), szSetupconfigLocation);
+
+					bSkipWrite = false;
 					szPathParam = GetProgramConfigPath (L"SetupComplete.cmd");
-					FILE* scriptFile = _wfopen (szPathParam.c_str(), L"w");
+
+					wstring wszExpectedValue = L"\"";
+					wszExpectedValue += szInstallPath;
+					wszExpectedValue += L"\\VeraCrypt.exe\" /PostOOBE";
+
+					FILE* scriptFile = _wfopen (szPathParam.c_str(), L"r");
 					if (scriptFile)
 					{
-						fwprintf (scriptFile, L"\"%s\\VeraCrypt.exe\" /PostOOBE\n", szInstallPath);
-						fclose (scriptFile);
+						long fileSize = _filelength (_fileno (scriptFile));
+						if (fileSize < (2 * TC_MAX_PATH))
+						{
+							fgetws (wszBuffer, ARRAYSIZE (wszBuffer), scriptFile);
 
-						WritePrivateProfileStringW (L"SetupConfig", L"PostOOBE", szPathParam.c_str(), szSetupconfigLocation);
+							if (wszBuffer[wcslen (wszBuffer) - 1] == L'\n')
+								wszBuffer[wcslen (wszBuffer) - 1] = 0;
+
+							bSkipWrite = (0 == _wcsicmp (wszBuffer, wszExpectedValue.c_str()));
+						}
+						fclose (scriptFile);
 					}
+
+					if (!bSkipWrite)
+					{
+						scriptFile = _wfopen (szPathParam.c_str(), L"w");
+						if (scriptFile)
+						{
+							fwprintf (scriptFile, L"%s\n", wszExpectedValue.c_str());
+							fclose (scriptFile);
+						}
+					}
+
+					bSkipWrite = false;
+
+					if (	(0 < GetPrivateProfileStringW (L"SetupConfig", L"PostOOBE", L"", wszBuffer, ARRAYSIZE (wszBuffer), szSetupconfigLocation))
+						&&	(_wcsicmp (wszBuffer, szPathParam.c_str()) == 0)
+						)
+					{
+						bSkipWrite = true;
+					}
+
+					if (!bSkipWrite)
+						WritePrivateProfileStringW (L"SetupConfig", L"PostOOBE", szPathParam.c_str(), szSetupconfigLocation);
 				}
 				else
 				{
