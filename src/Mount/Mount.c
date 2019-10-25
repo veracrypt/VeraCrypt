@@ -9422,24 +9422,20 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 	case SERVICE_CONTROL_STOP:
 		SystemFavoritesServiceSetStatus (SERVICE_STOP_PENDING);
 
-		if (bSystemIsGPT)
+		if (!(BootEncObj->ReadServiceConfigurationFlags () & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
 		{
-			uint32 serviceFlags = BootEncObj->ReadServiceConfigurationFlags ();
-			if (!(serviceFlags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER))
+			try
 			{
-				try
+				BootEncryption::UpdateSetupConfigFile (true);
+				if (!BootEncStatus.HiddenSystem)
 				{
-					BootEncryption::UpdateSetupConfigFile (true);
-					if (!BootEncStatus.HiddenSystem)
-					{
-						// re-install our bootloader again in case the update process has removed it.
-						BootEncryption bootEnc (NULL, true);
-						bootEnc.InstallBootLoader (true);
-					}
+					// re-install our bootloader again in case the update process has removed it.
+					BootEncryption bootEnc (NULL, true);
+					bootEnc.InstallBootLoader (true);
 				}
-				catch (...)
-				{
-				}
+			}
+			catch (...)
+			{
 			}
 		}
 
