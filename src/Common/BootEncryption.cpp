@@ -3161,7 +3161,7 @@ namespace VeraCrypt
 					szPathParam += L"\"";
 
 					if (	(0 < GetPrivateProfileStringW (L"SetupConfig", L"ReflectDrivers", L"", wszBuffer, ARRAYSIZE (wszBuffer), szSetupconfigLocation))
-						&&	(_wcsicmp (wszBuffer, szPathParam.c_str()) == 0)
+						&&	(_wcsicmp (wszBuffer, szInstallPath) == 0)
 						)
 					{
 						bSkipWrite = true;
