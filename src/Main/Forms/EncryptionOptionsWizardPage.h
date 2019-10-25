@@ -22,6 +22,9 @@ namespace VeraCrypt
 	public:
 		EncryptionOptionsWizardPage (wxPanel* parent);
 
+#ifdef TC_MACOSX
+		~EncryptionOptionsWizardPage ();
+#endif
 		shared_ptr <EncryptionAlgorithm> GetEncryptionAlgorithm () const;
 		shared_ptr <Hash> GetHash () const;
 		bool IsValid () { return true; }
@@ -37,6 +40,9 @@ namespace VeraCrypt
 		void OnHashHyperlinkClick (wxHyperlinkEvent& event);
 		void OnTestButtonClick (wxCommandEvent& event);
 
+#ifdef TC_MACOSX
+		void HandleOnSize( wxSizeEvent& event );
+#endif
 		EncryptionAlgorithmList EncryptionAlgorithms;
 		HashList Hashes;
 	};

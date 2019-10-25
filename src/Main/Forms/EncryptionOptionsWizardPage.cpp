@@ -24,6 +24,9 @@ namespace VeraCrypt
 		: EncryptionOptionsWizardPageBase (parent)
 	{
 
+#ifdef TC_MACOSX
+		EncryptionAlgorithmStaticText->Connect( wxEVT_SIZE, wxSizeEventHandler( EncryptionOptionsWizardPage::HandleOnSize ), NULL, this );
+#endif
 		EncryptionAlgorithms = EncryptionAlgorithm::GetAvailableAlgorithms();
 		foreach (shared_ptr <EncryptionAlgorithm> ea, EncryptionAlgorithms)
 		{
@@ -44,6 +47,21 @@ namespace VeraCrypt
 		OnEncryptionAlgorithmSelected();
 
 	}
+
+#ifdef TC_MACOSX
+	EncryptionOptionsWizardPage::~EncryptionOptionsWizardPage()
+	{
+		EncryptionAlgorithmStaticText->Disconnect( wxEVT_SIZE, wxSizeEventHandler( EncryptionOptionsWizardPage::HandleOnSize ), NULL, this );
+	}
+	
+	void EncryptionOptionsWizardPage::HandleOnSize( wxSizeEvent& event )
+	{
+		int width, height;
+		EncryptionAlgorithmStaticText->GetClientSize (&width, &height);
+		EncryptionAlgorithmStaticText->Wrap (width);
+		event.Skip();
+	}
+#endif
 
 	shared_ptr <EncryptionAlgorithm> EncryptionOptionsWizardPage::GetEncryptionAlgorithm () const
 	{
