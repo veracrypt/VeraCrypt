@@ -3490,50 +3490,65 @@ namespace VeraCrypt
 		}
 		else
 		{
-			byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
-			CreateBootLoaderInMemory (bootLoaderBuf, sizeof (bootLoaderBuf), false, hiddenOSCreation);
-
-			// Write MBR
-			byte mbr[TC_SECTOR_SIZE_BIOS];
-
-			device.SeekAt (0);
-			device.Read (mbr, sizeof (mbr));
-
-			if (preserveUserConfig && BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME))
+			try
 			{
-				uint16 version = BE16 (*(uint16 *) (mbr + TC_BOOT_SECTOR_VERSION_OFFSET));
-				if (version != 0)
-				{
-					bootLoaderBuf[TC_BOOT_SECTOR_USER_CONFIG_OFFSET] = mbr[TC_BOOT_SECTOR_USER_CONFIG_OFFSET];
-					memcpy (bootLoaderBuf + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, mbr + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH);
+				byte bootLoaderBuf[TC_BOOT_LOADER_AREA_SIZE - TC_BOOT_ENCRYPTION_VOLUME_HEADER_SIZE] = {0};
+				CreateBootLoaderInMemory (bootLoaderBuf, sizeof (bootLoaderBuf), false, hiddenOSCreation);
 
-					if (bootLoaderBuf[TC_BOOT_SECTOR_USER_CONFIG_OFFSET] & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
+				// Write MBR
+				byte mbr[TC_SECTOR_SIZE_BIOS];
+
+				device.SeekAt (0);
+				device.Read (mbr, sizeof (mbr));
+
+				if (preserveUserConfig && BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME))
+				{
+					uint16 version = BE16 (*(uint16 *) (mbr + TC_BOOT_SECTOR_VERSION_OFFSET));
+					if (version != 0)
 					{
-						if (pim >= 0)
+						bootLoaderBuf[TC_BOOT_SECTOR_USER_CONFIG_OFFSET] = mbr[TC_BOOT_SECTOR_USER_CONFIG_OFFSET];
+						memcpy (bootLoaderBuf + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, mbr + TC_BOOT_SECTOR_USER_MESSAGE_OFFSET, TC_BOOT_SECTOR_USER_MESSAGE_MAX_LENGTH);
+
+						if (bootLoaderBuf[TC_BOOT_SECTOR_USER_CONFIG_OFFSET] & TC_BOOT_USER_CFG_FLAG_DISABLE_PIM)
 						{
-							memcpy (bootLoaderBuf + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, &pim, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
+							if (pim >= 0)
+							{
+								memcpy (bootLoaderBuf + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, &pim, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
+							}
+							else
+								memcpy (bootLoaderBuf + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, mbr + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
 						}
-						else
-							memcpy (bootLoaderBuf + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, mbr + TC_BOOT_SECTOR_PIM_VALUE_OFFSET, TC_BOOT_SECTOR_PIM_VALUE_SIZE);
 					}
 				}
+
+				// perform actual write only if content is different
+				if (memcmp (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE))
+				{
+					memcpy (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE);
+
+					device.SeekAt (0);
+					device.Write (mbr, sizeof (mbr));
+
+					byte mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
+					device.SeekAt (0);
+					device.Read (mbrVerificationBuf, sizeof (mbr));
+
+					if (memcmp (mbr, mbrVerificationBuf, sizeof (mbr)) != 0)
+						throw ErrorException ("ERROR_MBR_PROTECTED", SRC_POS);
+				}
+
+				if (!PostOOBEMode)
+				{
+					// Write boot loader
+					device.SeekAt (TC_SECTOR_SIZE_BIOS);
+					device.Write (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, sizeof (bootLoaderBuf) - TC_SECTOR_SIZE_BIOS);
+				}
 			}
-
-			memcpy (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE);
-
-			device.SeekAt (0);
-			device.Write (mbr, sizeof (mbr));
-
-			byte mbrVerificationBuf[TC_SECTOR_SIZE_BIOS];
-			device.SeekAt (0);
-			device.Read (mbrVerificationBuf, sizeof (mbr));
-
-			if (memcmp (mbr, mbrVerificationBuf, sizeof (mbr)) != 0)
-				throw ErrorException ("ERROR_MBR_PROTECTED", SRC_POS);
-
-			// Write boot loader
-			device.SeekAt (TC_SECTOR_SIZE_BIOS);
-			device.Write (bootLoaderBuf + TC_SECTOR_SIZE_BIOS, sizeof (bootLoaderBuf) - TC_SECTOR_SIZE_BIOS);
+			catch (...)
+			{
+				if (!PostOOBEMode)
+					throw;
+			}
 		}
 
 		if (!IsAdmin() && IsUacSupported())
