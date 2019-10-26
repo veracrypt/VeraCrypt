@@ -9430,7 +9430,10 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 				if (!BootEncStatus.HiddenSystem)
 				{
 					// re-install our bootloader again in case the update process has removed it.
-					BootEncryption bootEnc (NULL, true);
+					bool bForceSetNextBoot = false;
+					if (BootEncObj->ReadServiceConfigurationFlags () & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)
+						bForceSetNextBoot = true;
+					BootEncryption bootEnc (NULL, true, bForceSetNextBoot);
 					bootEnc.InstallBootLoader (true);
 				}
 			}

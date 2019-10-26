@@ -1030,7 +1030,7 @@ namespace VeraCrypt
 
 	static EfiBoot EfiBootInst;
 
-	BootEncryption::BootEncryption (HWND parent, bool postOOBE)
+	BootEncryption::BootEncryption (HWND parent, bool postOOBE, bool setBootNext)
 		: DriveConfigValid (false),
 		ParentWindow (parent),
 		RealSystemDriveSizeValid (false),
@@ -1041,7 +1041,8 @@ namespace VeraCrypt
 		SelectedEncryptionAlgorithmId (0),
 		SelectedPrfAlgorithmId (0),
 		VolumeHeaderValid (false),
-		PostOOBEMode (postOOBE)
+		PostOOBEMode (postOOBE),
+		SetBootNext (setBootNext)
 	{
       HiddenOSCandidatePartition.IsGPT = FALSE;
       HiddenOSCandidatePartition.Number = (size_t) -1;
@@ -2693,7 +2694,7 @@ namespace VeraCrypt
 		}
 	}
 
-	void EfiBoot::SetStartExec(wstring description, wstring execPath, uint16 statrtOrderNum , wchar_t* type, uint32 attr) {
+	void EfiBoot::SetStartExec(wstring description, wstring execPath, bool setBootNext, uint16 statrtOrderNum , wchar_t* type, uint32 attr) {
 		SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
 		// Check EFI
 		if (!IsEfiBoot()) {
@@ -2783,8 +2784,14 @@ namespace VeraCrypt
 		// Set variable
 		wchar_t	varName[256];
 		StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
-		SetFirmwareEnvironmentVariable(varName, EfiVarGuid, startVar, varSize);
+
+		// only set value if it doesn't already exist
+		byte* existingVar = new byte[varSize];
+		DWORD existingVarLen = GetFirmwareEnvironmentVariableW (varName, EfiVarGuid, existingVar, varSize);
+		if ((existingVarLen != varSize) || (0 != memcmp (existingVar, startVar, varSize)))
+			SetFirmwareEnvironmentVariable(varName, EfiVarGuid, startVar, varSize);
 		delete [] startVar;
+		delete [] existingVar;
 
 		// Update order
 		wstring order = L"Order";
@@ -2821,12 +2828,15 @@ namespace VeraCrypt
 			SetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, startOrder, startOrderLen);
 		}
 
-		// set BootNext value
-		wstring next = L"Next";
-		next.insert(0, type == NULL ? L"Boot" : type);
+		if (setBootNext)
+		{
+			// set BootNext value
+			wstring next = L"Next";
+			next.insert(0, type == NULL ? L"Boot" : type);
 
-		SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, &statrtOrderNum, 2);
+			SetFirmwareEnvironmentVariable(next.c_str(), EfiVarGuid, &statrtOrderNum, 2);
 
+		}
 	}
 
 	bool EfiBoot::CompareFiles (const wchar_t* fileName1, const wchar_t* fileName2)
@@ -3329,7 +3339,7 @@ namespace VeraCrypt
 
 					// restore boot menu entry in case of PostOOBE
 					if (PostOOBEMode)
-						EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi");
+						EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi", SetBootNext);
 
 					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
 					{
