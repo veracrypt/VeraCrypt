@@ -3321,8 +3321,15 @@ namespace VeraCrypt
 
 				if (preserveUserConfig)
 				{
-					bool bModifiedMsBoot = true;
-					EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
+					bool bModifiedMsBoot = true, bMissingMsBoot = false;;
+					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
+						EfiBootInst.GetFileSize(L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi", loaderSize);
+					else
+						bMissingMsBoot = true;
+
+					// restore boot menu entry in case of PostOOBE
+					if (PostOOBEMode)
+						EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi");
 
 					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
 					{
@@ -3369,7 +3376,9 @@ namespace VeraCrypt
 								if (EfiBootConf::IsPostExecFileField (conf.actionSuccessValue, loaderPath))
 								{
 									// check that it is not bootmgfw.efi
-									if (0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
+									if (	(0 != _wcsicmp (loaderPath.c_str(), L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi"))
+										&&	(EfiBootInst.FileExists (loaderPath.c_str()))
+										)
 									{
 										// look for bootmgfw.efi identifiant string
 										EfiBootInst.GetFileSize(loaderPath.c_str(), loaderSize);
@@ -3387,16 +3396,16 @@ namespace VeraCrypt
 								}
 							}
 
-							if (!bFound)
+							if (!bFound && !PostOOBEMode)
 								throw ErrorException ("WINDOWS_EFI_BOOT_LOADER_MISSING", SRC_POS);
 						}
 					}
 
-					if (PostOOBEMode)
-					{
+					if (PostOOBEMode && EfiBootInst.FileExists (L"\\EFI\\VeraCrypt\\DcsBoot.efi"))
+					{						
 						// check if bootmgfw.efi has been set again to Microsoft version
 						// if yes, replace it with our bootloader after it was copied to bootmgfw_ms.vc
-						if (!bModifiedMsBoot)
+						if (!bModifiedMsBoot || bMissingMsBoot)
 							EfiBootInst.CopyFile (L"\\EFI\\VeraCrypt\\DcsBoot.efi", L"\\EFI\\Microsoft\\Boot\\bootmgfw.efi");
 
 						if (EfiBootInst.FileExists (szStdEfiBootloader))
