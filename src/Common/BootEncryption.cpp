@@ -2579,6 +2579,7 @@ namespace VeraCrypt
 		ZeroMemory (&sdn, sizeof (sdn));
 		ZeroMemory (&partInfo, sizeof (partInfo));
 		m_bMounted = false;
+		bDeviceInfoValid = false;
 		bBootVolumePathSelected = false;
 	}
 
@@ -2611,7 +2612,7 @@ namespace VeraCrypt
 		bBootVolumePathSelected = true;
 	}
 
-	void EfiBoot::PrepareBootPartition() {
+	void EfiBoot::PrepareBootPartition(bool bDisableException) {
 		if (!bBootVolumePathSelected) {
 			SelectBootVolumeESP();
 		}
@@ -2625,18 +2626,22 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
-			throw;
+			if (!bDisableException)
+				throw;
 		}
 		
-		bool bSuccess = dev.IoCtl(IOCTL_STORAGE_GET_DEVICE_NUMBER, NULL, 0, &sdn, sizeof(sdn))
-							&& dev.IoCtl(IOCTL_DISK_GET_PARTITION_INFO_EX, NULL, 0, &partInfo, sizeof(partInfo));
-		DWORD dwLastError = GetLastError ();
-		dev.Close();
-		if (!bSuccess)
+		if (dev.IsOpened())
 		{
-			SetLastError (dwLastError);
-			throw SystemException(SRC_POS);
-		}		
+			bDeviceInfoValid = dev.IoCtl(IOCTL_STORAGE_GET_DEVICE_NUMBER, NULL, 0, &sdn, sizeof(sdn))
+								&& dev.IoCtl(IOCTL_DISK_GET_PARTITION_INFO_EX, NULL, 0, &partInfo, sizeof(partInfo));
+			DWORD dwLastError = GetLastError ();
+			dev.Close();
+			if (!bDeviceInfoValid && !bDisableException)
+			{
+				SetLastError (dwLastError);
+				throw SystemException(SRC_POS);
+			}		
+		}
 	}
 
 	bool EfiBoot::IsEfiBoot() {
@@ -2701,97 +2706,100 @@ namespace VeraCrypt
 			throw ErrorException(L"can not detect EFI environment", SRC_POS);
 		}
 		
-		uint32 varSize = 56;
-		varSize += ((uint32) description.length()) * 2 + 2;
-		varSize += ((uint32) execPath.length()) * 2 + 2;
-		byte *startVar = new byte[varSize];
-		byte *pVar = startVar;
+		if (bDeviceInfoValid)
+		{
+			uint32 varSize = 56;
+			varSize += ((uint32) description.length()) * 2 + 2;
+			varSize += ((uint32) execPath.length()) * 2 + 2;
+			byte *startVar = new byte[varSize];
+			byte *pVar = startVar;
 
-		// Attributes (1b Active, 1000b - Hidden)
-		*(uint32 *)pVar = attr;
-		pVar += sizeof(uint32);
+			// Attributes (1b Active, 1000b - Hidden)
+			*(uint32 *)pVar = attr;
+			pVar += sizeof(uint32);
 
-		// Size Of device path + file path
-		*(uint16 *)pVar = (uint16)(50 + execPath.length() * 2 + 2);
-		pVar += sizeof(uint16);
-
-		// description
-		for (uint32 i = 0; i < description.length(); i++) {
-			*(uint16 *)pVar = description[i];
+			// Size Of device path + file path
+			*(uint16 *)pVar = (uint16)(50 + execPath.length() * 2 + 2);
 			pVar += sizeof(uint16);
-		}
-		*(uint16 *)pVar = 0;
-		pVar += sizeof(uint16);
 
-		/* EFI_DEVICE_PATH_PROTOCOL (HARDDRIVE_DEVICE_PATH \ FILE_PATH \ END) */
+			// description
+			for (uint32 i = 0; i < description.length(); i++) {
+				*(uint16 *)pVar = description[i];
+				pVar += sizeof(uint16);
+			}
+			*(uint16 *)pVar = 0;
+			pVar += sizeof(uint16);
 
-		// Type
-		*(byte *)pVar = 0x04;
-		pVar += sizeof(byte);
+			/* EFI_DEVICE_PATH_PROTOCOL (HARDDRIVE_DEVICE_PATH \ FILE_PATH \ END) */
 
-		// SubType
-		*(byte *)pVar = 0x01;
-		pVar += sizeof(byte);
+			// Type
+			*(byte *)pVar = 0x04;
+			pVar += sizeof(byte);
 
-		// HDD dev path length
-		*(uint16 *)pVar = 0x2A; // 42
-		pVar += sizeof(uint16);
+			// SubType
+			*(byte *)pVar = 0x01;
+			pVar += sizeof(byte);
+
+			// HDD dev path length
+			*(uint16 *)pVar = 0x2A; // 42
+			pVar += sizeof(uint16);
 		
-		// PartitionNumber
-		*(uint32 *)pVar = (uint32)partInfo.PartitionNumber;
-		pVar += sizeof(uint32);
+			// PartitionNumber
+			*(uint32 *)pVar = (uint32)partInfo.PartitionNumber;
+			pVar += sizeof(uint32);
 
-		// PartitionStart
-		*(uint64 *)pVar = partInfo.StartingOffset.QuadPart >> 9;
-		pVar += sizeof(uint64);
+			// PartitionStart
+			*(uint64 *)pVar = partInfo.StartingOffset.QuadPart >> 9;
+			pVar += sizeof(uint64);
 
-		// PartitiontSize
-		*(uint64 *)pVar = partInfo.PartitionLength.QuadPart >> 9;
-		pVar += sizeof(uint64);
+			// PartitiontSize
+			*(uint64 *)pVar = partInfo.PartitionLength.QuadPart >> 9;
+			pVar += sizeof(uint64);
 
-		// GptGuid
-		memcpy(pVar, &partInfo.Gpt.PartitionId, 16);
-		pVar += 16;
+			// GptGuid
+			memcpy(pVar, &partInfo.Gpt.PartitionId, 16);
+			pVar += 16;
 
-		// MbrType
-		*(byte *)pVar = 0x02;
-		pVar += sizeof(byte);
+			// MbrType
+			*(byte *)pVar = 0x02;
+			pVar += sizeof(byte);
 
-		// SigType
-		*(byte *)pVar = 0x02;
-		pVar += sizeof(byte);
+			// SigType
+			*(byte *)pVar = 0x02;
+			pVar += sizeof(byte);
 
-		// Type and sub type 04 04 (file path)
-		*(uint16 *)pVar = 0x0404;
-		pVar += sizeof(uint16);
-
-		// SizeOfFilePath ((CHAR16)FullPath.length + sizeof(EndOfrecord marker) )
-		*(uint16 *)pVar = (uint16)(execPath.length() * 2 + 2 + sizeof(uint32));
-		pVar += sizeof(uint16);
-
-		// FilePath
-		for (uint32 i = 0; i < execPath.length(); i++) {
-			*(uint16 *)pVar = execPath[i];
+			// Type and sub type 04 04 (file path)
+			*(uint16 *)pVar = 0x0404;
 			pVar += sizeof(uint16);
+
+			// SizeOfFilePath ((CHAR16)FullPath.length + sizeof(EndOfrecord marker) )
+			*(uint16 *)pVar = (uint16)(execPath.length() * 2 + 2 + sizeof(uint32));
+			pVar += sizeof(uint16);
+
+			// FilePath
+			for (uint32 i = 0; i < execPath.length(); i++) {
+				*(uint16 *)pVar = execPath[i];
+				pVar += sizeof(uint16);
+			}
+			*(uint16 *)pVar = 0;
+			pVar += sizeof(uint16);
+
+			// EndOfrecord
+			*(uint32 *)pVar = 0x04ff7f;
+			pVar += sizeof(uint32);
+
+			// Set variable
+			wchar_t	varName[256];
+			StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
+
+			// only set value if it doesn't already exist
+			byte* existingVar = new byte[varSize];
+			DWORD existingVarLen = GetFirmwareEnvironmentVariableW (varName, EfiVarGuid, existingVar, varSize);
+			if ((existingVarLen != varSize) || (0 != memcmp (existingVar, startVar, varSize)))
+				SetFirmwareEnvironmentVariable(varName, EfiVarGuid, startVar, varSize);
+			delete [] startVar;
+			delete [] existingVar;
 		}
-		*(uint16 *)pVar = 0;
-		pVar += sizeof(uint16);
-
-		// EndOfrecord
-		*(uint32 *)pVar = 0x04ff7f;
-		pVar += sizeof(uint32);
-
-		// Set variable
-		wchar_t	varName[256];
-		StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, statrtOrderNum);
-
-		// only set value if it doesn't already exist
-		byte* existingVar = new byte[varSize];
-		DWORD existingVarLen = GetFirmwareEnvironmentVariableW (varName, EfiVarGuid, existingVar, varSize);
-		if ((existingVarLen != varSize) || (0 != memcmp (existingVar, startVar, varSize)))
-			SetFirmwareEnvironmentVariable(varName, EfiVarGuid, startVar, varSize);
-		delete [] startVar;
-		delete [] existingVar;
 
 		// Update order
 		wstring order = L"Order";
@@ -2810,12 +2818,15 @@ namespace VeraCrypt
 
 		// Create new entry if absent
 		if (startOrderNumPos == UINT_MAX) {
-			for (uint32 i = startOrderLen / 2; i > 0; --i) {
-				startOrder[i] = startOrder[i - 1];
+			if (bDeviceInfoValid)
+			{
+				for (uint32 i = startOrderLen / 2; i > 0; --i) {
+					startOrder[i] = startOrder[i - 1];
+				}
+				startOrder[0] = statrtOrderNum;
+				startOrderLen += 2;
+				startOrderUpdate = true;
 			}
-			startOrder[0] = statrtOrderNum;
-			startOrderLen += 2;
-			startOrderUpdate = true;
 		} else if (startOrderNumPos > 0) {
 			for (uint32 i = startOrderNumPos; i > 0; --i) {
 				startOrder[i] = startOrder[i - 1];
@@ -3318,7 +3329,7 @@ namespace VeraCrypt
 			if (!DcsInfoImg)
 				throw ErrorException(L"Out of resource DcsInfo", SRC_POS);
 
-			EfiBootInst.PrepareBootPartition();			
+			EfiBootInst.PrepareBootPartition(PostOOBEMode);			
 
 			try
 			{

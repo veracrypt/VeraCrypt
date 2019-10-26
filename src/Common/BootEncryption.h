@@ -201,7 +201,7 @@ namespace VeraCrypt
 	public:
 		EfiBoot();
 
-		void PrepareBootPartition();
+		void PrepareBootPartition(bool bDisableException = false);
 		bool IsEfiBoot();
 
 		void DeleteStartExec(uint16 statrtOrderNum = 0xDC5B, wchar_t* type = NULL);
@@ -222,13 +222,14 @@ namespace VeraCrypt
 		BOOL WriteConfig (const wchar_t* name, bool preserveUserConfig, int pim, int hashAlgo, const char* passPromptMsg, HWND hwndDlg);
 		BOOL DelDir(const wchar_t* name);
 		void SelectBootVolumeESP();
-		PSTORAGE_DEVICE_NUMBER GetStorageDeviceNumber () { return &sdn;}
+		PSTORAGE_DEVICE_NUMBER GetStorageDeviceNumber () { if (bDeviceInfoValid) return &sdn; else { SetLastError (ERROR_INVALID_DRIVE); throw SystemException(SRC_POS);}}
 
 	protected:
 		bool m_bMounted;
 		std::wstring	EfiBootPartPath;
 		STORAGE_DEVICE_NUMBER sdn;
 		PARTITION_INFORMATION_EX partInfo;
+		bool bDeviceInfoValid;
 		WCHAR     tempBuf[1024];
 		bool  bBootVolumePathSelected;
 		std::wstring BootVolumePath;
