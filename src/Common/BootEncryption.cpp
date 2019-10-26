@@ -2478,9 +2478,10 @@ namespace VeraCrypt
 	static const wchar_t*	EfiVarGuid = L"{8BE4DF61-93CA-11D2-AA0D-00E098032B8C}";
 
 	void 
-	GetVolumeESP(wstring& path) 
+	GetVolumeESP(wstring& path, wstring& bootVolumePath) 
 	{
 		static wstring g_EspPath;
+		static wstring g_BootVolumePath;
 		static bool g_EspPathInitialized = false;
 
 		if (!g_EspPathInitialized)
@@ -2501,17 +2502,29 @@ namespace VeraCrypt
 			res = NtQuerySystemInformationPtr((SYSTEM_INFORMATION_CLASS)SYSPARTITIONINFORMATION, tempBuf, sizeof(tempBuf), &len);
 			if (res != S_OK)
 			{
+				/* try to convert the returned NTSTATUS to a WIN32 system error using RtlNtStatusToDosError */
+				RtlNtStatusToDosErrorFn RtlNtStatusToDosErrorPtr = (RtlNtStatusToDosErrorFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "RtlNtStatusToDosError");
+				if (RtlNtStatusToDosErrorPtr)
+				{
+					ULONG win32err = RtlNtStatusToDosErrorPtr (res);
+					if (win32err != ERROR_MR_MID_NOT_FOUND)
+						res = (NTSTATUS) win32err;
+				}
+
 				SetLastError (res);
 				throw SystemException (SRC_POS);
 			}		
 
 			PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
+
+			g_BootVolumePath = pStr->Buffer;
 			g_EspPath = L"\\\\?";
 			g_EspPath += &pStr->Buffer[7];
 			g_EspPathInitialized = true;
 		}
 
 		path = g_EspPath;
+		bootVolumePath = g_BootVolumePath;
 	}
 
 	std::string ReadESPFile (LPCWSTR szFilePath, bool bSkipUTF8BOM)
@@ -2521,9 +2534,9 @@ namespace VeraCrypt
 
 		ByteArray fileContent;
 		DWORD dwSize = 0, dwOffset = 0;
-		std::wstring pathESP;
+		std::wstring pathESP, bootVolumePath;
 
-		GetVolumeESP(pathESP);
+		GetVolumeESP(pathESP, bootVolumePath);
 		if (szFilePath[0] != L'\\')
 			pathESP += L"\\";
 		File f(pathESP + szFilePath, true);
@@ -2552,7 +2565,7 @@ namespace VeraCrypt
 
 		ByteArray fileContent;
 		DWORD dwSize = dwDataLen, dwOffset = 0;
-		std::wstring pathESP;
+		std::wstring pathESP, bootVolumePath;
 
 		if (bAddUTF8BOM)
 		{
@@ -2560,7 +2573,7 @@ namespace VeraCrypt
 			dwOffset = 3;
 		}
 
-		GetVolumeESP(pathESP);
+		GetVolumeESP(pathESP, bootVolumePath);
 		if (szFilePath[0] != L'\\')
 			pathESP += L"\\";
 
@@ -2580,42 +2593,12 @@ namespace VeraCrypt
 		ZeroMemory (&partInfo, sizeof (partInfo));
 		m_bMounted = false;
 		bDeviceInfoValid = false;
-		bBootVolumePathSelected = false;
-	}
-
-	void EfiBoot::SelectBootVolumeESP() {
-		NTSTATUS res;
-		ULONG    len;
-		memset(tempBuf, 0, sizeof(tempBuf));
-
-		// Load NtQuerySystemInformation function point
-		if (!NtQuerySystemInformationPtr)
-		{
-			NtQuerySystemInformationPtr = (NtQuerySystemInformationFn) GetProcAddress (GetModuleHandle (L"ntdll.dll"), "NtQuerySystemInformation");
-			if (!NtQuerySystemInformationPtr)
-				throw SystemException (SRC_POS);
-		}
-
-		res = NtQuerySystemInformationPtr((SYSTEM_INFORMATION_CLASS)SYSPARTITIONINFORMATION, tempBuf, sizeof(tempBuf), &len);
-		if (res != S_OK)
-		{
-			SetLastError (res);
-			throw SystemException (SRC_POS);
-		}		
-
-		PUNICODE_STRING pStr = (PUNICODE_STRING) tempBuf;
-		BootVolumePath = pStr->Buffer;
-
-		EfiBootPartPath = L"\\\\?";
-		EfiBootPartPath += &pStr->Buffer[7];
-
-		bBootVolumePathSelected = true;
 	}
 
 	void EfiBoot::PrepareBootPartition(bool bDisableException) {
-		if (!bBootVolumePathSelected) {
-			SelectBootVolumeESP();
-		}
+		
+		GetVolumeESP (EfiBootPartPath, BootVolumePath);
+
 		std::wstring devicePath = L"\\\\?\\GLOBALROOT";
 		devicePath += BootVolumePath;
 		Device  dev(devicePath.c_str(), TRUE);

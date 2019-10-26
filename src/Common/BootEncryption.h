@@ -29,6 +29,10 @@ typedef NTSTATUS (WINAPI *NtQuerySystemInformationFn)(
 		PULONG                   ReturnLength
 );
 
+typedef ULONG (WINAPI *RtlNtStatusToDosErrorFn)(
+  NTSTATUS Status
+);
+
 using namespace std;
 
 namespace VeraCrypt
@@ -193,7 +197,7 @@ namespace VeraCrypt
 		static BOOL IsPostExecFileField (const string& szFieldValue, wstring& filePath);
 	};
 
-	void GetVolumeESP(wstring& path);
+	void GetVolumeESP(wstring& path, wstring& bootVolumePath);
 	std::string ReadESPFile (LPCWSTR szFilePath, bool bSkipUTF8BOM);
 	void WriteESPFile (LPCWSTR szFilePath, LPBYTE pbData, DWORD dwDataLen, bool bAddUTF8BOM);
 
@@ -221,7 +225,6 @@ namespace VeraCrypt
 		BOOL UpdateConfig (const wchar_t* name, int pim, int hashAlgo, HWND hwndDlg);
 		BOOL WriteConfig (const wchar_t* name, bool preserveUserConfig, int pim, int hashAlgo, const char* passPromptMsg, HWND hwndDlg);
 		BOOL DelDir(const wchar_t* name);
-		void SelectBootVolumeESP();
 		PSTORAGE_DEVICE_NUMBER GetStorageDeviceNumber () { if (bDeviceInfoValid) return &sdn; else { SetLastError (ERROR_INVALID_DRIVE); throw SystemException(SRC_POS);}}
 
 	protected:
@@ -231,7 +234,6 @@ namespace VeraCrypt
 		PARTITION_INFORMATION_EX partInfo;
 		bool bDeviceInfoValid;
 		WCHAR     tempBuf[1024];
-		bool  bBootVolumePathSelected;
 		std::wstring BootVolumePath;
 	};
 
