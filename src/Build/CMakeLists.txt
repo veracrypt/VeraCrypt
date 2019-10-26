@@ -294,8 +294,7 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) )
 		
 	elseif ( PLATFORM STREQUAL "openSUSE" )
 		
-		#	TODO
-	
+		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2" )
 	endif()
 	
 	set( CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE 			${RPM_PRERM})															# optional
