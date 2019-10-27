@@ -3715,16 +3715,23 @@ namespace VeraCrypt
 			if (!DcsInfoImg)
 				throw ParameterIncorrect (SRC_POS);
 
-			char szTmpPath[MAX_PATH + 1], szTmpFilePath[MAX_PATH + 1];
-			if (!GetTempPathA (MAX_PATH, szTmpPath))
+			WCHAR szTmpPath[MAX_PATH + 1], szTmpFilePath[MAX_PATH + 1];
+			if (!GetTempPathW (MAX_PATH, szTmpPath))
 				throw SystemException (SRC_POS);
-			if (!GetTempFileNameA (szTmpPath, "_vrd", 0, szTmpFilePath))
+			if (!GetTempFileNameW (szTmpPath, L"_vrd", 0, szTmpFilePath))
 				throw SystemException (SRC_POS);
 
-			finally_do_arg (char*, szTmpFilePath,  { DeleteFileA (finally_arg);});
+			finally_do_arg (WCHAR*, szTmpFilePath,  { DeleteFileW (finally_arg);});
 
 			int ierr;
-			zip_t* z = zip_open (szTmpFilePath, ZIP_CREATE | ZIP_TRUNCATE | ZIP_CHECKCONS, &ierr);
+
+			// convert szTmpFilePath to UTF-8 since this is what zip_open expected
+			char szUtf8Path[2*MAX_PATH + 1];
+			int utf8Len = WideCharToMultiByte (CP_UTF8, 0, szTmpFilePath, -1, szUtf8Path, sizeof (szUtf8Path), NULL, NULL);
+			if (utf8Len <= 0)
+				throw SystemException (SRC_POS);
+
+			zip_t* z = zip_open (szUtf8Path, ZIP_CREATE | ZIP_TRUNCATE | ZIP_CHECKCONS, &ierr);
 			if (!z)
 				throw ParameterIncorrect (SRC_POS);
 
@@ -3816,7 +3823,7 @@ namespace VeraCrypt
 			z = NULL;
 
 			// read the zip data from the temporary file
-			FILE* ftmpFile = fopen (szTmpFilePath, "rb");
+			FILE* ftmpFile = _wfopen (szTmpFilePath, L"rb");
 			if (!ftmpFile)
 				throw ParameterIncorrect (SRC_POS);
 
