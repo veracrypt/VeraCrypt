@@ -11720,7 +11720,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 					while (TextEditDialogBox(FALSE, hwndDlg, GetString ("BOOT_LOADER_CONFIGURATION_FILE"), dcsprop) == IDOK)
 					{
-						if (dcsprop == currentDcsprop)
+						if (0 == strcmp(dcsprop.c_str(), currentDcsprop.c_str()))
 						{
 							break;
 						}
