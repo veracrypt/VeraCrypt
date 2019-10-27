@@ -40,11 +40,12 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
-<p><strong style="text-align:left">1.24-Hotfix1 </strong>(October 25<sup>rd</sup>, 2019):</p>
+<p><strong style="text-align:left">1.24-Hotfix1 </strong>(October 27<sup>rd</sup>, 2019):</p>
 <ul>
 <li><strong>Windows:</strong>
 <ul>
 <li>Fix 1.24 regression that caused system favorites not to mount at boot if VeraCrypt freshly installed.</li>
+<li>Fix failure to encrypt system if the current Windows username contains a Unicode non-ASCII character.</li>
 <li>Make VeraCrypt Expander able to resume expansion of volumes whose previous expansion was aborted before it finishes.</li>
 <li>Add "Quick Expand" option to VeraCrypt Expander to accelarate the expansion of large file containers.</li>
 <li>Add several robustness checks and validation in case of system encryption to better handle some corner cases.</li>
