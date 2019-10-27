@@ -11599,6 +11599,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 {
 	WORD lw = LOWORD (wParam);
 	static std::string platforminfo;
+	static byte currentUserConfig;
+	static string currentCustomUserMessage;
 
 	switch (msg)
 	{
@@ -11639,6 +11641,10 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					EndDialog (hwndDlg, IDCANCEL);
 					return 1;
 				}
+
+				// we store current configuration in order to be able to detect if user changed it or not after clicking OK
+				currentUserConfig = userConfig;
+				currentCustomUserMessage = customUserMessage;
 
 				if (bootLoaderVersion != VERSION_NUM)
 					Warning ("BOOT_LOADER_VERSION_INCORRECT_PREFERENCES", hwndDlg);
@@ -11709,11 +11715,16 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 			{
 				try
 				{
-					std::string dcsprop = ReadESPFile (L"\\EFI\\VeraCrypt\\DcsProp", true);
+					std::string currentDcsprop = ReadESPFile (L"\\EFI\\VeraCrypt\\DcsProp", true);
+					std::string dcsprop = currentDcsprop;
 
 					while (TextEditDialogBox(FALSE, hwndDlg, GetString ("BOOT_LOADER_CONFIGURATION_FILE"), dcsprop) == IDOK)
 					{
-						if (validateDcsPropXml (dcsprop.c_str()))
+						if (dcsprop == currentDcsprop)
+						{
+							break;
+						}
+						else if (validateDcsPropXml (dcsprop.c_str()))
 						{
 							WriteESPFile (L"\\EFI\\VeraCrypt\\DcsProp", (LPBYTE) dcsprop.c_str(), (DWORD) dcsprop.size(), true);
 							break;
@@ -11753,17 +11764,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				if (!bSystemIsGPT)
 					GetDlgItemTextA (hwndDlg, IDC_CUSTOM_BOOT_LOADER_MESSAGE, customUserMessage, sizeof (customUserMessage));
 
-				byte userConfig;
-				try
-				{
-					if (!BootEncObj->ReadBootSectorConfig (nullptr, 0, &userConfig))
-						return 1;
-				}
-				catch (Exception &e)
-				{
-					e.Show (hwndDlg);
-					return 1;
-				}
+				byte userConfig = currentUserConfig;
 
 				if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_PIM_PROMPT))
 					userConfig |= TC_BOOT_USER_CFG_FLAG_DISABLE_PIM;
@@ -11772,22 +11773,22 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 				if (bSystemIsGPT)
 				{
-				if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_HASH_PROMPT))
-					userConfig |= TC_BOOT_USER_CFG_FLAG_STORE_HASH;
-				else
-					userConfig &= ~TC_BOOT_USER_CFG_FLAG_STORE_HASH;
+					if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_HASH_PROMPT))
+						userConfig |= TC_BOOT_USER_CFG_FLAG_STORE_HASH;
+					else
+						userConfig &= ~TC_BOOT_USER_CFG_FLAG_STORE_HASH;
 				}
 				else
 				{
 					if (IsDlgButtonChecked (hwndDlg, IDC_DISABLE_BOOT_LOADER_OUTPUT))
-					userConfig |= TC_BOOT_USER_CFG_FLAG_SILENT_MODE;
-				else
-					userConfig &= ~TC_BOOT_USER_CFG_FLAG_SILENT_MODE;
+						userConfig |= TC_BOOT_USER_CFG_FLAG_SILENT_MODE;
+					else
+						userConfig &= ~TC_BOOT_USER_CFG_FLAG_SILENT_MODE;
 
-				if (!IsDlgButtonChecked (hwndDlg, IDC_ALLOW_ESC_PBA_BYPASS))
-					userConfig |= TC_BOOT_USER_CFG_FLAG_DISABLE_ESC;
-				else
-					userConfig &= ~TC_BOOT_USER_CFG_FLAG_DISABLE_ESC;
+					if (!IsDlgButtonChecked (hwndDlg, IDC_ALLOW_ESC_PBA_BYPASS))
+						userConfig |= TC_BOOT_USER_CFG_FLAG_DISABLE_ESC;
+					else
+						userConfig &= ~TC_BOOT_USER_CFG_FLAG_DISABLE_ESC;
 				}
 
 				try
@@ -11807,7 +11808,10 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 						return 1;
 					}
 
-					BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage, prop.volumePim, prop.pkcs5);
+					// only write boot configuration if something changed
+					if ((userConfig != currentUserConfig) || (!bSystemIsGPT && (customUserMessage != currentCustomUserMessage)))
+						BootEncObj->WriteBootSectorUserConfig (userConfig, customUserMessage, prop.volumePim, prop.pkcs5);
+
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PASSWORD, bPasswordCacheEnabled);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
