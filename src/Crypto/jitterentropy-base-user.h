@@ -49,8 +49,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef uint64 __u64;
-
 #ifdef _MSC_VER
 
 typedef uint64 uint64_t;
@@ -70,7 +68,7 @@ typedef int32 ssize_t;
 #endif
 #endif
 
-static VC_INLINE void jent_get_nstime(__u64 *out)
+static VC_INLINE void jent_get_nstime(uint64 *out)
 {
 	*out = __rdtsc();;
 }
@@ -80,7 +78,7 @@ static VC_INLINE void jent_get_nstime(__u64 *out)
 /* taken from Linux kernel */
 #if CRYPTOPP_BOOL_X64
 #define DECLARE_ARGS(val, low, high)    unsigned low, high
-#define EAX_EDX_VAL(val, low, high)     ((low) | ((__u64)(high) << 32))
+#define EAX_EDX_VAL(val, low, high)     ((low) | ((uint64)(high) << 32))
 #define EAX_EDX_RET(val, low, high)     "=a" (low), "=d" (high)
 #else   
 #define DECLARE_ARGS(val, low, high)    unsigned long long val
@@ -88,7 +86,7 @@ static VC_INLINE void jent_get_nstime(__u64 *out)
 #define EAX_EDX_RET(val, low, high)     "=A" (val)
 #endif
 
-VC_INLINE void jent_get_nstime(__u64 *out)
+VC_INLINE void jent_get_nstime(uint64 *out)
 {
 	DECLARE_ARGS(val, low, high);
 	asm volatile("rdtsc" : EAX_EDX_RET(val, low, high));
