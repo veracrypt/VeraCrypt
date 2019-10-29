@@ -217,5 +217,8 @@
     <CustomBuild Include="rdrand_ml.asm">
       <Filter>Source Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="rdseed_ml.asm">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

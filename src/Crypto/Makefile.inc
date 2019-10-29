@@ -60,4 +60,8 @@ TC_ASM_ERR_LOG = ..\Driver\build_errors_asm.log
 	
 "$(OBJ_PATH)\$(O)\rdrand_ml.obj": rdrand_ml.asm
 	$(VC_MLEXE) $(VC_MLFLAGS) /Fo "$@" /c rdrand_ml.asm 2>$(TC_ASM_ERR_LOG)
+	
+"$(OBJ_PATH)\$(O)\rdseed_ml.obj": rdseed_ml.asm
+	$(VC_MLEXE) $(VC_MLFLAGS) /Fo "$@" /c rdseed_ml.asm 2>$(TC_ASM_ERR_LOG)
+
 

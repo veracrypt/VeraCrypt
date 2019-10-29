@@ -25,6 +25,7 @@ SOURCES = \
 	gost89_$(TC_ARCH).asm \
 	Aes_hw_cpu.asm \
 	rdrand_ml.asm \
+	rdseed_ml.asm \
 	Aeskey.c \
 	Aestab.c \
 	chacha-xmm.c \
