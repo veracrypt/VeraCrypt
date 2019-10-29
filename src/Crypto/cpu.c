@@ -218,8 +218,8 @@ VC_INLINE int IsAMD(const uint32 output[4])
 {
 	// This is the "AuthenticAMD" string
 	return (output[1] /*EBX*/ == 0x68747541) &&
-    (output[2] /*ECX*/ == 0x69746E65) &&
-    (output[3] /*EDX*/ == 0x444D4163);
+    (output[2] /*ECX*/ == 0x444D4163) &&
+    (output[3] /*EDX*/ == 0x69746E65);
 }
 
 VC_INLINE int IsHygon(const uint32 output[4])
