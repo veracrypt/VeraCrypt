@@ -105,7 +105,7 @@ void Print (const ChsAddress &chs)
 
 void PrintSectorCountInMB (const uint64 &sectorCount)
 {
-	Print (sectorCount >> (TC_LB_SIZE_BIT_SHIFT_DIVISOR + 2)); Print (" MB ");
+	Print (sectorCount >> (TC_LB_SIZE_BIT_SHIFT_DIVISOR + 2)); Print (" MiB ");
 }
 
 
