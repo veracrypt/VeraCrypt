@@ -397,6 +397,19 @@ void DetectX86Features()
 			)
 		{
 			g_hasRDRAND = 0;
+			g_hasRDSEED = 0;
+		}
+	}
+
+	if (g_hasRDSEED)
+	{
+		if (	RDSEED_getBytes ((unsigned char*) cpuid, sizeof (cpuid))
+			&&	(cpuid[0] == 0xFFFFFFFF) &&	(cpuid[1] == 0xFFFFFFFF)
+			&&	(cpuid[2] == 0xFFFFFFFF) &&	(cpuid[3] == 0xFFFFFFFF)
+			)
+		{
+			g_hasRDRAND = 0;
+			g_hasRDSEED = 0;
 		}
 	}
 
