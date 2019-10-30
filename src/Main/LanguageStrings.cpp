@@ -75,7 +75,7 @@ namespace VeraCrypt
 		Map["CHECKING_FS"] = _("Checking the file system on the VeraCrypt volume mounted as {0}...");
 		Map["REPAIRING_FS"] = _("Attempting to repair the file system on the VeraCrypt volume mounted as {0}...");
 		Map["UNMOUNT_LOCK_FAILED"] = _("Volume \"{0}\" contains files or folders being used by applications or system.\n\nForce dismount?");
-		Map["VOLUME_SIZE_HELP"] = _("Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KB.");
+		Map["VOLUME_SIZE_HELP"] = _("Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.");
 		Map["ENCRYPTION_MODE_NOT_SUPPORTED_BY_KERNEL"] = _("The volume you have mounted uses a mode of operation that is not supported by the Linux kernel. You may experience slow performance when using this volume. To achieve full performance, you should move the data from this volume to a new volume created by VeraCrypt 5.0 or later.");
 	}
 
