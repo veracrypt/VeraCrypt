@@ -2,6 +2,7 @@
 
 #include "cpu.h"
 #include "misc.h"
+#include "rdrand.h"
 
 #ifndef EXCEPTION_EXECUTE_HANDLER
 #define EXCEPTION_EXECUTE_HANDLER 1
@@ -384,6 +385,18 @@ void DetectX86Features()
 				g_hasAVX2 = (cpuid2[1] & (1 <<  5)) != 0;
 				g_hasBMI2 = (cpuid2[1] & (1 <<  8)) != 0;
 			}
+		}
+	}
+
+	/* Add check fur buggy RDRAND (AMD Ryzen case) even if we always use RDSEED instead of RDRAND when RDSEED available */
+	if (g_hasRDRAND)
+	{
+		if (	RDRAND_getBytes ((unsigned char*) cpuid, sizeof (cpuid))
+			&&	(cpuid[0] == 0xFFFFFFFF) &&	(cpuid[1] == 0xFFFFFFFF)
+			&&	(cpuid[2] == 0xFFFFFFFF) &&	(cpuid[3] == 0xFFFFFFFF)
+			)
+		{
+			g_hasRDRAND = 0;
 		}
 	}
 
