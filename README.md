@@ -68,7 +68,7 @@ IDRIX certificate).
 Keep this in mind if you compile VeraCrypt
 and compare your binaries with the official binaries. If your binaries are
 unsigned, the sizes of the official binaries will usually be approximately
-10 KB greater than sizes of your binaries (there may be further differences
+10 KiB greater than sizes of your binaries (there may be further differences
 if you use a different version of the compiler, or if you install a different
 or no service pack for Visual Studio, or different hotfixes for it, or if you
 use different versions of the required SDKs).
