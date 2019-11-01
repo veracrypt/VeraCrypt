@@ -40,7 +40,7 @@
 <p>VeraCrypt keyfile is a file whose content is combined with a password. The user can use any kind of file as a VeraCrypt keyfile. The user can also generate a keyfile using the built-in keyfile generator, which utilizes the VeraCrypt RNG to generate a file
  with random content (for more information, see the section <a href="Random%20Number%20Generator.html">
 <em>Random Number Generator</em></a>).</p>
-<p>The maximum size of a keyfile is not limited; however, only its first 1,048,576 bytes (1 MB) are processed (all remaining bytes are ignored due to performance issues connected with processing extremely large files). The user can supply one or more keyfiles
+<p>The maximum size of a keyfile is not limited; however, only its first 1,048,576 bytes (1 MiB) are processed (all remaining bytes are ignored due to performance issues connected with processing extremely large files). The user can supply one or more keyfiles
  (the number of keyfiles is not limited).</p>
 <p>Keyfiles can be stored on PKCS-11-compliant [23] security tokens and smart cards protected by multiple PIN codes (which can be entered either using a hardware PIN pad or via the VeraCrypt GUI).</p>
 <p>Keyfiles are processed and applied to a password using the following method:</p>
