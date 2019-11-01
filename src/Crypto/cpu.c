@@ -387,7 +387,7 @@ void DetectX86Features()
 			}
 		}
 	}
-
+#ifndef _UEFI
 	/* Add check fur buggy RDRAND (AMD Ryzen case) even if we always use RDSEED instead of RDRAND when RDSEED available */
 	if (g_hasRDRAND)
 	{
@@ -412,6 +412,7 @@ void DetectX86Features()
 			g_hasRDSEED = 0;
 		}
 	}
+#endif
 
 	if (!g_cacheLineSize)
 		g_cacheLineSize = CRYPTOPP_L1_CACHE_LINE_SIZE;
