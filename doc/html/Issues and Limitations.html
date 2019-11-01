@@ -36,7 +36,7 @@
 <h1>Known Issues &amp; Limitations</h1>
 <h3>Known Issues</h3>
 <ul>
-<li>On Windows, it may happen that two drive letters are assigned to a mounted volume instead of a single one. This is caused by an issue with Windows Mount Manager cache and it can be solve by typing the command &quot;<strong>mountvol.exe /r</strong>&quot; in an elevated
+<li>On Windows, it may happen that two drive letters are assigned to a mounted volume instead of a single one. This is caused by an issue with Windows Mount Manager cache and it can be solved by typing the command &quot;<strong>mountvol.exe /r</strong>&quot; in an elevated
  command prompt (run as an administrator) before mounting any volume. If the issue persists after rebooting, the following procedure can be used to solve it:
 <ul>
 <li>Check the registry key &quot;HKEY_LOCAL_MACHINE\SYSTEM\MountedDevices&quot; using regedit. Scroll down and you'll find entries starting with &quot;\DosDevices\&quot; or &quot;\Global??\&quot; which indicate the drive letters that are taken by the system. Before mounting any volume,
@@ -45,7 +45,7 @@
 Also, there are other entries whose name start with &quot;#{&quot; and &quot;\??\Volume{&quot;: double click on each one of them and remove the ones whose data value contains the name &quot;VeraCrypt&quot; and &quot;TrueCrypt&quot;.
 </li></ul>
 </li>
-<li>On some Windows machines, VeraCrypt may hang intermittently when mounting or dismounting a volume. Similar hanging may affect other running applications during veraCrypt mounting or dismounting operations.
+<li>On some Windows machines, VeraCrypt may hang intermittently when mounting or dismounting a volume. Similar hanging may affect other running applications during VeraCrypt mounting or dismounting operations.
 This issue is caused by a conflict between VeraCrypt waiting dialog displayed during mount/dismount operations and other software installed on the machine (e.g. Outpost Firewall Pro).
 In such situations, the issue can be solved by disabling VeraCrypt waiting dialog in the Preferences: use menu "Settings -> Preferences" and check the option "Don't show wait message dialog when performing operations".
 </li>
