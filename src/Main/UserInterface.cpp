@@ -1265,7 +1265,7 @@ namespace VeraCrypt
 					"--size=SIZE[K|M|G|T]\n"
 					" Use specified size when creating a new volume. If no suffix is indicated,\n"
 					" then SIZE is interpreted in bytes. Suffixes K, M, G or T can be used to\n"
-					" indicate a value in KB, MB, GB or TB respectively.\n"
+					" indicate a value in KiB, MiB, GiB or TiB respectively.\n"
 					"\n"
 					"-t, --text\n"
 					" Use text user interface. Graphical user interface is used by default if\n"
