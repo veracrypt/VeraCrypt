@@ -85,6 +85,9 @@ namespace VeraCrypt
         shared_ptr<SecureBuffer> ArgTokenPin;
         bool ArgDisableFileSizeCheck;
         bool ArgUseLegacyPassword;
+#if defined(TC_LINUX ) || defined (TC_FREEBSD)
+        bool ArgUseDummySudoPassword;
+#endif
 
 		bool StartBackgroundTask;
 		UserPreferences Preferences;

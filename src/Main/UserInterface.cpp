@@ -534,6 +534,10 @@ namespace VeraCrypt
 			Core->SetAdminPasswordCallback (shared_ptr <GetStringFunctor> (new AdminPasswordRequestHandler));
 		}
 
+#if defined(TC_LINUX ) || defined (TC_FREEBSD)
+		Core->ForceUseDummySudoPassword (CmdLine->ArgUseDummySudoPassword);
+#endif
+
 		Core->WarningEvent.Connect (EventConnector <UserInterface> (this, &UserInterface::OnWarning));
 		Core->VolumeMountedEvent.Connect (EventConnector <UserInterface> (this, &UserInterface::OnVolumeMounted));
 

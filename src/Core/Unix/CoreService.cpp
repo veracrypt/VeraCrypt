@@ -300,38 +300,42 @@ namespace VeraCrypt
 				//	See : https://superuser.com/questions/902826/why-does-sudo-n-on-mac-os-x-always-return-0
 				//
 				//	If for some reason we are getting empty output from pipe, we revert to old behavior
+				//	We also use the old way if the user is forcing the use of dummy password for sudo
 				
 #if defined(TC_LINUX ) || defined (TC_FREEBSD)
 				
-				std::vector<char> buffer(128, 0);
-				std::string result;
-				bool authCheckDone = false;
-				
-				FILE* pipe = popen("sudo -n uptime 2>&1 | grep 'load average' | wc -l", "r");	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
-				if (pipe)
+				if (!Core->GetUseDummySudoPassword ())
 				{
-					while (!feof(pipe))
+					std::vector<char> buffer(128, 0);
+					std::string result;
+					bool authCheckDone = false;
+					
+					FILE* pipe = popen("sudo -n uptime 2>&1 | grep 'load average' | wc -l", "r");	//	We redirect stderr to stdout (2>&1) to be able to catch the result of the command
+					if (pipe)
 					{
-						if (fgets(buffer.data(), 128, pipe) != nullptr)
-							result += buffer.data();
+						while (!feof(pipe))
+						{
+							if (fgets(buffer.data(), 128, pipe) != nullptr)
+								result += buffer.data();
+						}
+						
+						fflush(pipe);
+						pclose(pipe);
+						pipe = NULL;
+						
+						if (!result.empty() && strlen(result.c_str()) != 0)
+						{
+							authCheckDone = true;
+							if (result[0] == '0') // no line found with "load average" text, rerquest admin password
+								(*AdminPasswordCallback) (request.AdminPassword);
+						}
 					}
 					
-					fflush(pipe);
-					pclose(pipe);
-					pipe = NULL;
-					
-					if (!result.empty() && strlen(result.c_str()) != 0)
+					if (authCheckDone)
 					{
-						authCheckDone = true;
-						if (result[0] == '0') // no line found with "load average" text, rerquest admin password
-							(*AdminPasswordCallback) (request.AdminPassword);
+						//	Set to false to force the 'WarningEvent' to be raised in case of and elevation exception.
+						request.FastElevation = false;
 					}
-				}
-				
-				if (authCheckDone)
-				{
-					//	Set to false to force the 'WarningEvent' to be raised in case of and elevation exception.
-					request.FastElevation = false;
 				}
 #endif				
 				try
