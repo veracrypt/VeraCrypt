@@ -247,11 +247,11 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	if ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) ) 
 		OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "18.04" ) ) )
 		
-		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libfuse2, dmsetup" )										
+		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libfuse2, dmsetup, sudo" )										
 		
 	else ()
 	
-		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup" )
+		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup, sudo" )
 		
 	endif()
 		
@@ -287,14 +287,14 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) )
 	if ( PLATFORM STREQUAL "CentOS" )
 			
 		if ( DEFINED WITHGTK3 AND WITHGTK3 )
-			set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk3" )
+			set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk3, sudo" )
 		else ()
-			set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2" )
+			set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2, sudo" )
 		endif()
 		
 	elseif ( PLATFORM STREQUAL "openSUSE" )
 		
-		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2" )
+		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2, sudo" )
 	endif()
 	
 	set( CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE 			${RPM_PRERM})															# optional
