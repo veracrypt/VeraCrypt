@@ -13104,7 +13104,7 @@ BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL 
 		{
 			SetFocus (GetDlgItem(hwndDlg, ctrlID));
 			if (GetLastError () == ERROR_INSUFFICIENT_BUFFER)
-				Error ("PASSWORD_UTF8_TOO_LONG", hwndDlg);
+				Error ((bufSize == (MAX_LEGACY_PASSWORD + 1))? "LEGACY_PASSWORD_UTF8_TOO_LONG": "PASSWORD_UTF8_TOO_LONG", hwndDlg);
 			else
 				Error ("PASSWORD_UTF8_INVALID", hwndDlg);
 		}
