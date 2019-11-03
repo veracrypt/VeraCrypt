@@ -387,7 +387,7 @@ void DetectX86Features()
 			}
 		}
 	}
-#ifndef _UEFI
+#if defined(_MSC_VER) && !defined(_UEFI)
 	/* Add check fur buggy RDRAND (AMD Ryzen case) even if we always use RDSEED instead of RDRAND when RDSEED available */
 	if (g_hasRDRAND)
 	{
