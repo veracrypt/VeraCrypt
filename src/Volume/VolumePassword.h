@@ -81,6 +81,7 @@ namespace VeraCrypt
 	TC_EXCEPTION (PasswordEmpty); \
 	TC_EXCEPTION (PasswordTooLong); \
 	TC_EXCEPTION (PasswordUTF8TooLong); \
+	TC_EXCEPTION (PasswordLegacyUTF8TooLong); \
 	TC_EXCEPTION (PasswordUTF8Invalid); \
 	TC_EXCEPTION (UnportablePassword);
 

@@ -125,7 +125,7 @@ namespace VeraCrypt
 
 			if (verify && verPhase)
 			{
-				shared_ptr <VolumePassword> verPassword = ToUTF8Password (passwordBuf, length);
+				shared_ptr <VolumePassword> verPassword = ToUTF8Password (passwordBuf, length, CmdLine->ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize);
 
 				if (*password != *verPassword)
 				{
@@ -136,7 +136,7 @@ namespace VeraCrypt
 				}
 			}
 
-			password = ToUTF8Password (passwordBuf, length);
+			password = ToUTF8Password (passwordBuf, length, CmdLine->ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize);
 
 			if (!verPhase)
 			{

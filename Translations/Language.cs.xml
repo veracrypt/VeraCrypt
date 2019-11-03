@@ -1437,6 +1437,7 @@
     <entry lang="cs" key="IDC_ENABLE_RAM_ENCRYPTION">Aktivovat šifrování klíčů a hesel uložených v paměti RAM</entry>
     <entry lang="cs" key="IDT_BENCHMARK">Test výkonu:</entry>
     <entry lang="cs" key="IDC_DISABLE_MOUNT_MANAGER">Vytvořit virtuální zařízení bez připojení na vybrané písmeno jednotky</entry>
+    <entry lang="cs" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Zadané heslo je moc dlouhé: jeho reprezentace v UTF-8 přesahuje 64 bajtů.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

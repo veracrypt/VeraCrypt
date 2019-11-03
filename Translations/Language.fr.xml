@@ -1437,6 +1437,7 @@
     <entry lang="fr" key="IDC_ENABLE_RAM_ENCRYPTION">Activer le chiffrement des clefs et des mots de passe stockés en RAM</entry>
     <entry lang="fr" key="IDT_BENCHMARK">Banc de test:</entry>
     <entry lang="fr" key="IDC_DISABLE_MOUNT_MANAGER">Créer seulement le périphérique virtuel sans montage à la lettre de lecteur</entry>
+    <entry lang="fr" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Le mot de passe saisi est trop long: sa representation UTF-8 dépasse 64 octets.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

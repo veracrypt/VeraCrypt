@@ -1440,6 +1440,7 @@
     <entry lang="de" key="IDC_ENABLE_RAM_ENCRYPTION">Verschlüsselung der im Arbeitsspeicher gespeicherten Schlüssel und Passwörter aktivieren</entry>
     <entry lang="de" key="IDT_BENCHMARK">Benchmark:</entry>
     <entry lang="de" key="IDC_DISABLE_MOUNT_MANAGER">Nur virtuelles Gerät erstellen ohne Einbinden auf dem ausgewählten Laufwerksbuchstaben</entry>
+    <entry lang="de" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Das eingegebene Passwort ist zu lang: Kodiert mit UTF-8 überschreitet es 64 Byte.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

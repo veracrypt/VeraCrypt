@@ -38,6 +38,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (PasswordEmpty);
 		VC_CONVERT_EXCEPTION (PasswordTooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8TooLong);
+		VC_CONVERT_EXCEPTION (PasswordLegacyUTF8TooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8Invalid);
 		VC_CONVERT_EXCEPTION (UnportablePassword);
 		VC_CONVERT_EXCEPTION (ElevationFailed);

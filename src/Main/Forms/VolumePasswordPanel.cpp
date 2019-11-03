@@ -21,6 +21,7 @@ namespace VeraCrypt
 	VolumePasswordPanel::VolumePasswordPanel (wxWindow* parent, MountOptions* options, shared_ptr <VolumePassword> password, bool disableTruecryptMode, shared_ptr <KeyfileList> keyfiles, bool enableCache, bool enablePassword, bool enableKeyfiles, bool enableConfirmation, bool enablePkcs5Prf, bool isMountPassword, const wxString &passwordLabel)
 		: VolumePasswordPanelBase (parent), Keyfiles (new KeyfileList), EnablePimEntry (true)
 	{
+		size_t maxPasswordLength = CmdLine->ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize;
 		if (keyfiles)
 		{
 			*Keyfiles = *keyfiles;
@@ -32,8 +33,8 @@ namespace VeraCrypt
 			UseKeyfilesCheckBox->SetValue (Gui->GetPreferences().UseKeyfiles && !Keyfiles->empty());
 		}
 
-		PasswordTextCtrl->SetMaxLength (VolumePassword::MaxSize);
-		ConfirmPasswordTextCtrl->SetMaxLength (VolumePassword::MaxSize);
+		PasswordTextCtrl->SetMaxLength (maxPasswordLength);
+		ConfirmPasswordTextCtrl->SetMaxLength (maxPasswordLength);
 
 		if (!passwordLabel.empty())
 		{
@@ -195,9 +196,10 @@ namespace VeraCrypt
 		FreezeScope freeze (this);
 		bool isPim = (*textCtrl == VolumePimTextCtrl);
 		int colspan = isPim? 1 : 2;
+		size_t maxPasswordLength = CmdLine->ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize;
 
 		wxTextCtrl *newTextCtrl = new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, display ? 0 : wxTE_PASSWORD);
-		newTextCtrl->SetMaxLength (isPim? MAX_PIM_DIGITS : VolumePassword::MaxSize);
+		newTextCtrl->SetMaxLength (isPim? MAX_PIM_DIGITS : maxPasswordLength);
 		newTextCtrl->SetValue ((*textCtrl)->GetValue());
 		newTextCtrl->SetMinSize ((*textCtrl)->GetSize());
 
@@ -226,12 +228,12 @@ namespace VeraCrypt
 	{
 		shared_ptr <VolumePassword> password;
 		wchar_t passwordBuf[VolumePassword::MaxSize + 1];
-		size_t maxPasswordLength = bLegacyPassword? VolumePassword::MaxLegacySize: VolumePassword::MaxSize;
+		size_t maxPasswordLength = (bLegacyPassword || CmdLine->ArgUseLegacyPassword)? VolumePassword::MaxLegacySize: VolumePassword::MaxSize;
 		finally_do_arg (BufferPtr, BufferPtr (reinterpret_cast <byte *> (passwordBuf), sizeof (passwordBuf)), { finally_arg.Erase(); });
 
 #ifdef TC_WINDOWS
 		int len = GetWindowText (static_cast <HWND> (textCtrl->GetHandle()), passwordBuf, VolumePassword::MaxSize + 1);
-		password = ToUTF8Password (passwordBuf, len);
+		password = ToUTF8Password (passwordBuf, len, maxPasswordLength);
 #else
 		wxString passwordStr (textCtrl->GetValue());	// A copy of the password is created here by wxWidgets, which cannot be erased
 		for (size_t i = 0; i < passwordStr.size() && i < maxPasswordLength; ++i)
@@ -239,7 +241,7 @@ namespace VeraCrypt
 			passwordBuf[i] = (wchar_t) passwordStr[i];
 			passwordStr[i] = L'X';
 		}
-		password = ToUTF8Password (passwordBuf, passwordStr.size() <= maxPasswordLength ? passwordStr.size() : maxPasswordLength);
+		password = ToUTF8Password (passwordBuf, passwordStr.size() <= maxPasswordLength ? passwordStr.size() : maxPasswordLength, maxPasswordLength);
 #endif
 		return password;
 	}

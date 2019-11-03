@@ -84,6 +84,7 @@ namespace VeraCrypt
 		bool ArgTrueCryptMode;
         shared_ptr<SecureBuffer> ArgTokenPin;
         bool ArgDisableFileSizeCheck;
+        bool ArgUseLegacyPassword;
 
 		bool StartBackgroundTask;
 		UserPreferences Preferences;
@@ -98,8 +99,8 @@ namespace VeraCrypt
 		CommandLineInterface &operator= (const CommandLineInterface &);
 	};
 
-	shared_ptr<VolumePassword> ToUTF8Password (const wchar_t* str, size_t charCount = (size_t) -1);
-	shared_ptr<SecureBuffer> ToUTF8Buffer (const wchar_t* str, size_t charCount = (size_t) -1);
+	shared_ptr<VolumePassword> ToUTF8Password (const wchar_t* str, size_t charCount, size_t maxUtf8Len);
+	shared_ptr<SecureBuffer> ToUTF8Buffer (const wchar_t* str, size_t charCount, size_t maxUtf8Len);
 
 	extern auto_ptr <CommandLineInterface> CmdLine;
 }

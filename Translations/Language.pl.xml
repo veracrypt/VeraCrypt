@@ -1437,6 +1437,7 @@
     <entry lang="pl" key="IDC_ENABLE_RAM_ENCRYPTION">Aktywuj szyfrowanie kluczy i haseł przechowywanych w RAM</entry>
     <entry lang="pl" key="IDT_BENCHMARK">Testowanie:</entry>
     <entry lang="pl" key="IDC_DISABLE_MOUNT_MANAGER">Utwórz tylko urządzenie wirtualne bez montowania na wybranej literze dysku</entry>
+    <entry lang="pl" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Wpisane hasło jest zbyt długie: jego reprezentacja UTF-8 przekracza 64 bajty.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

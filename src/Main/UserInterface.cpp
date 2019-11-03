@@ -464,6 +464,7 @@ namespace VeraCrypt
 		EX2MSG (PasswordOrMountOptionsIncorrect,	LangString["PASSWORD_OR_KEYFILE_OR_MODE_WRONG"] + _("\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'."));
 		EX2MSG (PasswordTooLong,					StringFormatter (_("Password is longer than {0} characters."), (int) VolumePassword::MaxSize));
 		EX2MSG (PasswordUTF8TooLong,				LangString["PASSWORD_UTF8_TOO_LONG"]);
+		EX2MSG (PasswordLegacyUTF8TooLong,			LangString["LEGACY_PASSWORD_UTF8_TOO_LONG"]);
 		EX2MSG (PasswordUTF8Invalid,				LangString["PASSWORD_UTF8_INVALID"]);
 		EX2MSG (PartitionDeviceRequired,			_("Partition device required."));
 		EX2MSG (ProtectionPasswordIncorrect,		_("Incorrect password to the protected hidden volume or the hidden volume does not exist."));
@@ -908,7 +909,8 @@ namespace VeraCrypt
 			wstring pwdInput;
 			getline(wcin, pwdInput);
 
-			cmdLine.ArgPassword = ToUTF8Password ( pwdInput.c_str (), pwdInput.size ());
+			size_t maxUtf8Len = cmdLine.ArgUseLegacyPassword? VolumePassword::MaxLegacySize : VolumePassword::MaxSize;
+			cmdLine.ArgPassword = ToUTF8Password ( pwdInput.c_str (), pwdInput.size (), maxUtf8Len);
 		}
 
 		switch (cmdLine.ArgCommand)
@@ -1575,6 +1577,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (PasswordEmpty);
 		VC_CONVERT_EXCEPTION (PasswordTooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8TooLong);
+		VC_CONVERT_EXCEPTION (PasswordLegacyUTF8TooLong);
 		VC_CONVERT_EXCEPTION (PasswordUTF8Invalid);
 		VC_CONVERT_EXCEPTION (UnportablePassword);
 		VC_CONVERT_EXCEPTION (ElevationFailed);
