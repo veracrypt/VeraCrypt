@@ -24,7 +24,8 @@
 enum
 {
 	BiosResultSuccess = 0x00,
-	BiosResultInvalidFunction = 0x01
+	BiosResultInvalidFunction = 0x01,
+	BiosResultTimeout = 0x80
 };
 
 typedef byte BiosResult;

@@ -237,7 +237,7 @@ static BiosResult ReadWriteSectors (bool write, BiosLbaPacket &dapPacket, byte d
 }
 
 
-static BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
+BiosResult ReadWriteSectors (bool write, byte *buffer, byte drive, const uint64 &sector, uint16 sectorCount, bool silent)
 {
 	BiosLbaPacket dapPacket;
 	dapPacket.Buffer = (uint32) buffer;

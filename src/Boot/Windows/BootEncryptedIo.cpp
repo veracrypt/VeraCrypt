@@ -108,7 +108,16 @@ BiosResult WriteEncryptedSectors (uint16 sourceSegment, uint16 sourceOffset, byt
 			EncryptDataUnits (SectorBuffer, &dataUnitNo, 1, BootCryptoInfo);
 		}
 
-		result = WriteSectors (SectorBuffer, drive, sector + writeOffset, 1);
+		result = ReadWriteSectors (true, SectorBuffer, drive, sector + writeOffset, 1, false);
+		if (BiosResultTimeout == result)
+		{
+			result = ReadWriteSectors (false, TC_BOOT_LOADER_BUFFER_SEGMENT, 0, drive, sector + writeOffset, 8, false);
+			if (BiosResultSuccess == result)
+			{
+				CopyMemory (SectorBuffer, TC_BOOT_LOADER_BUFFER_SEGMENT,0, TC_LB_SIZE);
+				result = ReadWriteSectors (true, TC_BOOT_LOADER_BUFFER_SEGMENT, 0, drive, sector + writeOffset, 8, false);
+			}
+		}
 
 		if (result != BiosResultSuccess)
 			break;
