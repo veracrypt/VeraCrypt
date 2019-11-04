@@ -51,7 +51,12 @@
 
 /* Adapted for VeraCrypt */
 
+
+#ifdef TC_WINDOWS_DRIVER
+#define UINT64_MAX	0xffffffffffffffffU
+#else
 #include <stdint.h>
+#endif
 
 #undef _FORTIFY_SOURCE
 
