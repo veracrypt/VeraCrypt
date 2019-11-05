@@ -886,6 +886,18 @@ void TCCloseVolume (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 	}
 }
 
+typedef struct
+{
+	PDEVICE_OBJECT deviceObject; PEXTENSION Extension; ULONG ioControlCode; void *inputBuffer; int inputBufferSize; void *outputBuffer; int outputBufferSize;
+	NTSTATUS Status;
+	KEVENT WorkItemCompletedEvent;
+} TCSendHostDeviceIoControlRequestExWorkItemArgs;
+
+static VOID TCSendHostDeviceIoControlRequestExWorkItemRoutine (PDEVICE_OBJECT rootDeviceObject, TCSendHostDeviceIoControlRequestExWorkItemArgs *arg)
+{
+	arg->Status = TCSendHostDeviceIoControlRequestEx (arg->deviceObject, arg->Extension, arg->ioControlCode, arg->inputBuffer, arg->inputBufferSize, arg->outputBuffer, arg->outputBufferSize);
+	KeSetEvent (&arg->WorkItemCompletedEvent, IO_NO_INCREMENT, FALSE);
+}
 
 NTSTATUS TCSendHostDeviceIoControlRequestEx (PDEVICE_OBJECT DeviceObject,
 			       PEXTENSION Extension,
@@ -900,6 +912,31 @@ NTSTATUS TCSendHostDeviceIoControlRequestEx (PDEVICE_OBJECT DeviceObject,
 	PIRP Irp;
 
 	UNREFERENCED_PARAMETER(DeviceObject);	/* Remove compiler warning */
+
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	{
+		TCSendHostDeviceIoControlRequestExWorkItemArgs args;
+
+		PIO_WORKITEM workItem = IoAllocateWorkItem (RootDeviceObject);
+		if (!workItem)
+			return STATUS_INSUFFICIENT_RESOURCES;
+
+		args.deviceObject = DeviceObject;
+		args.Extension = Extension;
+		args.ioControlCode = IoControlCode;
+		args.inputBuffer = InputBuffer;
+		args.inputBufferSize = InputBufferSize;
+		args.outputBuffer = OutputBuffer;
+		args.outputBufferSize = OutputBufferSize;
+
+		KeInitializeEvent (&args.WorkItemCompletedEvent, SynchronizationEvent, FALSE);
+		IoQueueWorkItem (workItem, TCSendHostDeviceIoControlRequestExWorkItemRoutine, DelayedWorkQueue, &args);
+
+		KeWaitForSingleObject (&args.WorkItemCompletedEvent, Executive, KernelMode, FALSE, NULL);
+		IoFreeWorkItem (workItem);
+
+		return args.Status;
+	}
 
 	KeClearEvent (&Extension->keVolumeEvent);
 

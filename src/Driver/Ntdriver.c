@@ -142,6 +142,7 @@ static BOOL RamEncryptionActivated = FALSE;
 static KeSaveExtendedProcessorStateFn KeSaveExtendedProcessorStatePtr = NULL;
 static KeRestoreExtendedProcessorStateFn KeRestoreExtendedProcessorStatePtr = NULL;
 static ExGetFirmwareEnvironmentVariableFn ExGetFirmwareEnvironmentVariablePtr = NULL;
+static KeAreAllApcsDisabledFn KeAreAllApcsDisabledPtr = NULL;
 
 POOL_TYPE ExDefaultNonPagedPoolType = NonPagedPool;
 ULONG ExDefaultMdlProtection = 0;
@@ -270,6 +271,15 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	{
 		ExDefaultNonPagedPoolType = (POOL_TYPE) NonPagedPoolNx;
 		ExDefaultMdlProtection = MdlMappingNoExecute;
+	}
+
+	// KeAreAllApcsDisabled is available starting from Windows Server 2003
+	if ((OsMajorVersion > 5) || (OsMajorVersion == 5 && OsMinorVersion >= 2))
+	{
+		UNICODE_STRING KeAreAllApcsDisabledFuncName;
+		RtlInitUnicodeString(&KeAreAllApcsDisabledFuncName, L"KeAreAllApcsDisabled");
+
+		KeAreAllApcsDisabledPtr = (KeAreAllApcsDisabledFn) MmGetSystemRoutineAddress(&KeAreAllApcsDisabledFuncName);
 	}
 
 	// KeSaveExtendedProcessorState/KeRestoreExtendedProcessorState are available starting from Windows 7
@@ -3457,6 +3467,18 @@ void OnShutdownPending ()
 	while (SendDeviceIoControlRequest (RootDeviceObject, TC_IOCTL_WIPE_PASSWORD_CACHE, NULL, 0, NULL, 0) == STATUS_INSUFFICIENT_RESOURCES);
 }
 
+typedef struct
+{
+	PWSTR deviceName; ULONG IoControlCode; void *InputBuffer; ULONG InputBufferSize; void *OutputBuffer; ULONG OutputBufferSize;
+	NTSTATUS Status;
+	KEVENT WorkItemCompletedEvent;
+} TCDeviceIoControlWorkItemArgs;
+
+static VOID TCDeviceIoControlWorkItemRoutine (PDEVICE_OBJECT rootDeviceObject, TCDeviceIoControlWorkItemArgs *arg)
+{
+	arg->Status = TCDeviceIoControl (arg->deviceName, arg->IoControlCode, arg->InputBuffer, arg->InputBufferSize, arg->OutputBuffer, arg->OutputBufferSize);
+	KeSetEvent (&arg->WorkItemCompletedEvent, IO_NO_INCREMENT, FALSE);
+}
 
 NTSTATUS TCDeviceIoControl (PWSTR deviceName, ULONG IoControlCode, void *InputBuffer, ULONG InputBufferSize, void *OutputBuffer, ULONG OutputBufferSize)
 {
@@ -3467,6 +3489,30 @@ NTSTATUS TCDeviceIoControl (PWSTR deviceName, ULONG IoControlCode, void *InputBu
 	PDEVICE_OBJECT deviceObject;
 	KEVENT event;
 	UNICODE_STRING name;
+
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	{
+		TCDeviceIoControlWorkItemArgs args;
+
+		PIO_WORKITEM workItem = IoAllocateWorkItem (RootDeviceObject);
+		if (!workItem)
+			return STATUS_INSUFFICIENT_RESOURCES;
+
+		args.deviceName = deviceName;
+		args.IoControlCode = IoControlCode;
+		args.InputBuffer = InputBuffer;
+		args.InputBufferSize = InputBufferSize;
+		args.OutputBuffer = OutputBuffer;
+		args.OutputBufferSize = OutputBufferSize;
+
+		KeInitializeEvent (&args.WorkItemCompletedEvent, SynchronizationEvent, FALSE);
+		IoQueueWorkItem (workItem, TCDeviceIoControlWorkItemRoutine, DelayedWorkQueue, &args);
+
+		KeWaitForSingleObject (&args.WorkItemCompletedEvent, Executive, KernelMode, FALSE, NULL);
+		IoFreeWorkItem (workItem);
+
+		return args.Status;
+	}
 
 	RtlInitUnicodeString(&name, deviceName);
 	ntStatus = IoGetDeviceObjectPointer (&name, FILE_READ_ATTRIBUTES, &fileObject, &deviceObject);
@@ -3528,7 +3574,7 @@ NTSTATUS SendDeviceIoControlRequest (PDEVICE_OBJECT deviceObject, ULONG ioContro
 	PIRP irp;
 	KEVENT event;
 
-	if (KeGetCurrentIrql() > APC_LEVEL)
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
 	{
 		SendDeviceIoControlRequestWorkItemArgs args;
 
@@ -3844,6 +3890,136 @@ NTSTATUS MountManagerUnmount (int nDosDriveNo)
 	return ntStatus;
 }
 
+typedef struct
+{
+	MOUNT_STRUCT* mount; PEXTENSION NewExtension;
+	NTSTATUS Status;
+	KEVENT WorkItemCompletedEvent;
+} UpdateFsVolumeInformationWorkItemArgs;
+
+static NTSTATUS UpdateFsVolumeInformation (MOUNT_STRUCT* mount, PEXTENSION NewExtension);
+
+static VOID UpdateFsVolumeInformationWorkItemRoutine (PDEVICE_OBJECT rootDeviceObject, UpdateFsVolumeInformationWorkItemArgs *arg)
+{
+	arg->Status = UpdateFsVolumeInformation (arg->mount, arg->NewExtension);
+	KeSetEvent (&arg->WorkItemCompletedEvent, IO_NO_INCREMENT, FALSE);
+}
+
+static NTSTATUS UpdateFsVolumeInformation (MOUNT_STRUCT* mount, PEXTENSION NewExtension)
+{
+	HANDLE volumeHandle;
+	PFILE_OBJECT volumeFileObject;
+	ULONG labelLen = (ULONG) wcslen (mount->wszLabel);
+	BOOL bIsNTFS = FALSE;
+	ULONG labelMaxLen, labelEffectiveLen;
+
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	{
+		UpdateFsVolumeInformationWorkItemArgs args;
+
+		PIO_WORKITEM workItem = IoAllocateWorkItem (RootDeviceObject);
+		if (!workItem)
+			return STATUS_INSUFFICIENT_RESOURCES;
+
+		args.mount = mount;
+		args.NewExtension = NewExtension;
+
+		KeInitializeEvent (&args.WorkItemCompletedEvent, SynchronizationEvent, FALSE);
+		IoQueueWorkItem (workItem, UpdateFsVolumeInformationWorkItemRoutine, DelayedWorkQueue, &args);
+
+		KeWaitForSingleObject (&args.WorkItemCompletedEvent, Executive, KernelMode, FALSE, NULL);
+		IoFreeWorkItem (workItem);
+
+		return args.Status;
+	}
+
+	__try
+	{
+		if (NT_SUCCESS (TCOpenFsVolume (NewExtension, &volumeHandle, &volumeFileObject)))
+		{
+			__try
+			{
+				ULONG fsStatus;
+
+				if (NT_SUCCESS (TCFsctlCall (volumeFileObject, FSCTL_IS_VOLUME_DIRTY, NULL, 0, &fsStatus, sizeof (fsStatus)))
+					&& (fsStatus & VOLUME_IS_DIRTY))
+				{
+					mount->FilesystemDirty = TRUE;
+				}
+			}
+			__except (EXCEPTION_EXECUTE_HANDLER)
+			{
+				mount->FilesystemDirty = TRUE;
+			}
+
+			// detect if the filesystem is NTFS or FAT
+			__try
+			{
+				NTFS_VOLUME_DATA_BUFFER ntfsData;
+				if (NT_SUCCESS (TCFsctlCall (volumeFileObject, FSCTL_GET_NTFS_VOLUME_DATA, NULL, 0, &ntfsData, sizeof (ntfsData))))
+				{
+					bIsNTFS = TRUE;
+				}
+			}
+			__except (EXCEPTION_EXECUTE_HANDLER)
+			{
+				bIsNTFS = FALSE;
+			}
+
+			NewExtension->bIsNTFS = bIsNTFS;
+			mount->bIsNTFS = bIsNTFS;
+
+			if (labelLen > 0)
+			{
+				if (bIsNTFS)
+					labelMaxLen = 32; // NTFS maximum label length
+				else
+					labelMaxLen = 11; // FAT maximum label length
+
+				// calculate label effective length
+				labelEffectiveLen = labelLen > labelMaxLen? labelMaxLen : labelLen;
+
+				// correct the label in the device
+				memset (&NewExtension->wszLabel[labelEffectiveLen], 0, 33 - labelEffectiveLen);
+				memcpy (mount->wszLabel, NewExtension->wszLabel, 33);
+
+				// set the volume label
+				__try
+				{
+					IO_STATUS_BLOCK ioblock;
+					ULONG labelInfoSize = sizeof(FILE_FS_LABEL_INFORMATION) + (labelEffectiveLen * sizeof(WCHAR));
+					FILE_FS_LABEL_INFORMATION* labelInfo = (FILE_FS_LABEL_INFORMATION*) TCalloc (labelInfoSize);
+					if (labelInfo)
+					{
+						labelInfo->VolumeLabelLength = labelEffectiveLen * sizeof(WCHAR);
+						memcpy (labelInfo->VolumeLabel, mount->wszLabel, labelInfo->VolumeLabelLength);
+
+						if (STATUS_SUCCESS == ZwSetVolumeInformationFile (volumeHandle, &ioblock, labelInfo, labelInfoSize, FileFsLabelInformation))
+						{
+							mount->bDriverSetLabel = TRUE;
+							NewExtension->bDriverSetLabel = TRUE;
+						}
+
+						TCfree(labelInfo);
+					}
+				}
+				__except (EXCEPTION_EXECUTE_HANDLER)
+				{
+
+				}
+			}
+
+			TCCloseFsVolume (volumeHandle, volumeFileObject);
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+
+	}
+
+	return STATUS_SUCCESS;
+}
+
 
 NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 {
@@ -3931,12 +4107,6 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 		{
 			if (mount->nReturnCode == 0)
 			{
-				HANDLE volumeHandle;
-				PFILE_OBJECT volumeFileObject;
-				ULONG labelLen = (ULONG) wcslen (mount->wszLabel);
-				BOOL bIsNTFS = FALSE;
-				ULONG labelMaxLen, labelEffectiveLen;
-
 				Dump ("Mount SUCCESS TC code = 0x%08x READ-ONLY = %d\n", mount->nReturnCode, NewExtension->bReadOnly);
 
 				if (NewExtension->bReadOnly)
@@ -3968,81 +4138,13 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 
 				mount->FilesystemDirty = FALSE;
 
-				if (mount->bMountManager && NT_SUCCESS (TCOpenFsVolume (NewExtension, &volumeHandle, &volumeFileObject)))
+				if (mount->bMountManager)
 				{
-					__try
+					NTSTATUS updateStatus = UpdateFsVolumeInformation (mount, NewExtension);	
+					if (!NT_SUCCESS (updateStatus))
 					{
-						ULONG fsStatus;
-
-						if (NT_SUCCESS (TCFsctlCall (volumeFileObject, FSCTL_IS_VOLUME_DIRTY, NULL, 0, &fsStatus, sizeof (fsStatus)))
-							&& (fsStatus & VOLUME_IS_DIRTY))
-						{
-							mount->FilesystemDirty = TRUE;
-						}
+						Dump ("MountDevice: UpdateFsVolumeInformation failed with status 0x%08x\n", updateStatus);
 					}
-					__except (EXCEPTION_EXECUTE_HANDLER)
-					{
-						mount->FilesystemDirty = TRUE;
-					}
-
-					// detect if the filesystem is NTFS or FAT
-					__try
-					{
-						NTFS_VOLUME_DATA_BUFFER ntfsData;
-						if (NT_SUCCESS (TCFsctlCall (volumeFileObject, FSCTL_GET_NTFS_VOLUME_DATA, NULL, 0, &ntfsData, sizeof (ntfsData))))
-						{
-							bIsNTFS = TRUE;
-						}
-					}
-					__except (EXCEPTION_EXECUTE_HANDLER)
-					{
-						bIsNTFS = FALSE;
-					}
-
-					NewExtension->bIsNTFS = bIsNTFS;
-					mount->bIsNTFS = bIsNTFS;
-
-					if (labelLen > 0)
-					{
-						if (bIsNTFS)
-							labelMaxLen = 32; // NTFS maximum label length
-						else
-							labelMaxLen = 11; // FAT maximum label length
-
-						// calculate label effective length
-						labelEffectiveLen = labelLen > labelMaxLen? labelMaxLen : labelLen;
-
-						// correct the label in the device
-						memset (&NewExtension->wszLabel[labelEffectiveLen], 0, 33 - labelEffectiveLen);
-						memcpy (mount->wszLabel, NewExtension->wszLabel, 33);
-
-						// set the volume label
-						__try
-						{
-							IO_STATUS_BLOCK ioblock;
-							ULONG labelInfoSize = sizeof(FILE_FS_LABEL_INFORMATION) + (labelEffectiveLen * sizeof(WCHAR));
-							FILE_FS_LABEL_INFORMATION* labelInfo = (FILE_FS_LABEL_INFORMATION*) TCalloc (labelInfoSize);
-							if (labelInfo)
-							{
-								labelInfo->VolumeLabelLength = labelEffectiveLen * sizeof(WCHAR);
-								memcpy (labelInfo->VolumeLabel, mount->wszLabel, labelInfo->VolumeLabelLength);
-
-								if (STATUS_SUCCESS == ZwSetVolumeInformationFile (volumeHandle, &ioblock, labelInfo, labelInfoSize, FileFsLabelInformation))
-								{
-									mount->bDriverSetLabel = TRUE;
-									NewExtension->bDriverSetLabel = TRUE;
-								}
-
-								TCfree(labelInfo);
-							}
-						}
-						__except (EXCEPTION_EXECUTE_HANDLER)
-						{
-
-						}
-					}
-
-					TCCloseFsVolume (volumeHandle, volumeFileObject);
 				}
 			}
 			else
@@ -4056,12 +4158,47 @@ NTSTATUS MountDevice (PDEVICE_OBJECT DeviceObject, MOUNT_STRUCT *mount)
 	}
 }
 
+typedef struct
+{
+	UNMOUNT_STRUCT *unmountRequest; PDEVICE_OBJECT deviceObject; BOOL ignoreOpenFiles;
+	NTSTATUS Status;
+	KEVENT WorkItemCompletedEvent;
+} UnmountDeviceWorkItemArgs;
+
+
+static VOID UnmountDeviceWorkItemRoutine (PDEVICE_OBJECT rootDeviceObject, UnmountDeviceWorkItemArgs *arg)
+{
+	arg->Status = UnmountDevice (arg->unmountRequest, arg->deviceObject, arg->ignoreOpenFiles);
+	KeSetEvent (&arg->WorkItemCompletedEvent, IO_NO_INCREMENT, FALSE);
+}
+
 NTSTATUS UnmountDevice (UNMOUNT_STRUCT *unmountRequest, PDEVICE_OBJECT deviceObject, BOOL ignoreOpenFiles)
 {
 	PEXTENSION extension = deviceObject->DeviceExtension;
 	NTSTATUS ntStatus;
 	HANDLE volumeHandle;
 	PFILE_OBJECT volumeFileObject;
+
+	if ((KeGetCurrentIrql() >= APC_LEVEL) || VC_KeAreAllApcsDisabled())
+	{
+		UnmountDeviceWorkItemArgs args;
+
+		PIO_WORKITEM workItem = IoAllocateWorkItem (RootDeviceObject);
+		if (!workItem)
+			return STATUS_INSUFFICIENT_RESOURCES;
+
+		args.deviceObject = deviceObject;
+		args.unmountRequest = unmountRequest;
+		args.ignoreOpenFiles = ignoreOpenFiles;
+
+		KeInitializeEvent (&args.WorkItemCompletedEvent, SynchronizationEvent, FALSE);
+		IoQueueWorkItem (workItem, UnmountDeviceWorkItemRoutine, DelayedWorkQueue, &args);
+
+		KeWaitForSingleObject (&args.WorkItemCompletedEvent, Executive, KernelMode, FALSE, NULL);
+		IoFreeWorkItem (workItem);
+
+		return args.Status;
+	}
 
 	Dump ("UnmountDevice %d\n", extension->nDosDriveNo);
 
@@ -4759,4 +4896,12 @@ VOID NTAPI KeRestoreExtendedProcessorState (
 	{
 		(KeRestoreExtendedProcessorStatePtr) (XStateSave);
 	}
+}
+
+BOOLEAN VC_KeAreAllApcsDisabled (VOID)
+{
+	if (KeAreAllApcsDisabledPtr)
+		return (KeAreAllApcsDisabledPtr) ();
+	else
+		return FALSE;
 }
