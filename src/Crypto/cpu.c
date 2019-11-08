@@ -2,7 +2,9 @@
 
 #include "cpu.h"
 #include "misc.h"
+#if defined(_MSC_VER) && !defined(_UEFI)
 #include "rdrand.h"
+#endif
 
 #ifndef EXCEPTION_EXECUTE_HANDLER
 #define EXCEPTION_EXECUTE_HANDLER 1
