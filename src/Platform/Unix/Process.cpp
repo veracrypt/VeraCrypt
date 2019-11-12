@@ -30,7 +30,7 @@ namespace VeraCrypt
 	string Process::Execute (const string &processName, const list <string> &arguments, int timeOut, ProcessExecFunctor *execFunctor, const Buffer *inputData)
 	{
 		char *args[32];
-		if (array_capacity (args) <= arguments.size())
+		if (array_capacity (args) <= (arguments.size() + 1))
 			throw ParameterTooLarge (SRC_POS);
 
 #if 0
