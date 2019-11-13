@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.24-Hotfix2">
-    <language langid="fi" name="Suomi" en-name="Finnish" version="0.2.0" translators="Matti Ruhanen" />
+    <language langid="fi" name="Suomi" en-name="Finnish" version="0.3.0" translators="Matti Ruhanen" />
     <font lang="fi" class="normal" size="11" face="default" />
     <font lang="fi" class="bold" size="13" face="Arial" />
     <font lang="fi" class="fixed" size="12" face="Lucida Console" />
@@ -78,7 +78,7 @@
     <entry lang="fi" key="IDT_DRIVE_LETTER">Aseman kirjain:</entry>
     <entry lang="fi" key="IDT_ENCRYPTION_ALGO">Salausalgoritmi</entry>
     <entry lang="fi" key="IDT_FILESYSTEM">Järjestelmä </entry>
-    <entry lang="fi" key="IDT_FILE_CONTAINER">Luo virtuaalisesti salattulevy tiedoston sisälle. Tämä valinta on suositeltava aloittelijalle.</entry>
+    <entry lang="fi" key="IDT_FILE_CONTAINER">Luo virtuaalisesti salattulevy tiedoston sisään. Tämä valinta on suositeltava aloittelijalle.</entry>
     <entry lang="fi" key="IDT_FORMAT_OPTIONS">Valinnat</entry>
     <entry lang="fi" key="IDT_HASH_ALGO">Hash algoritmi</entry>
     <entry lang="fi" key="IDT_HEADER_KEY">Otsikkoavain: </entry>
@@ -111,7 +111,7 @@
     <entry lang="fi" key="IDC_BROWSE_DIRS">Selaa..</entry>
     <entry lang="fi" key="IDC_BROWSE_FILES">Selaa..</entry>
     <entry lang="fi" key="IDC_CACHE">Välimuisti salasanat ja avaintie&amp;dostot muistissa</entry>
-    <entry lang="fi" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Poistu sitten kun ei ole yhdistettyjä taltioita</entry>
+    <entry lang="fi" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">Poistu, kun ei ole yhdistettyjä taltioita</entry>
     <entry lang="fi" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;Sulje näennäinen yhteys (kirjaudu ulos) kun taltio on onnistuneesti yhdistetty</entry>
     <entry lang="fi" key="IDC_COPY_EXPANDER">Sisällytä VeraCrypt Taltion Laajennin</entry>
     <entry lang="fi" key="IDC_COPY_WIZARD">Sisällytä Opastettu VeraCrypt Taltion Luonti</entry>
@@ -155,23 +155,23 @@
     <entry lang="fi" key="IDC_OLD_PIM_HELP">(Tyhjä tai 0 oletus iteraatiolle)</entry>
     <entry lang="fi" key="IDC_PIM_HELP">(Tyhjä tai 0 oletus iteraatiolle)</entry>
     <entry lang="fi" key="IDC_PREF_BKG_TASK_ENABLE">Päällä</entry>
-    <entry lang="fi" key="IDC_PREF_CACHE_PASSWORDS">Salasanat Ohjaimen Välimuistiin</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_INACTIVE">Automaattinen yhteyden poisto taltiolle kun dataa ei ole luettu/kirjoitettu sille</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_LOGOFF">Käyttäjän ulos kirjautuessa</entry>
-    <entry lang="fi" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Käyttäjän istunto on lukittu</entry>
+    <entry lang="fi" key="IDC_PREF_CACHE_PASSWORDS">Tallenna salasanat aseman muistiin</entry>
+    <entry lang="fi" key="IDC_PREF_DISMOUNT_INACTIVE">Poista taltion yhdistäminen kun dataa ei ole luettu/kirjoitettu sille</entry>
+    <entry lang="fi" key="IDC_PREF_DISMOUNT_LOGOFF">Käyttäjän uloskirjautuessa</entry>
+    <entry lang="fi" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">Käyttäjän istunnon lukkiutuessa</entry>
     <entry lang="fi" key="IDC_PREF_DISMOUNT_POWERSAVING">Siirryttäessä Virransäästötilaan</entry>
     <entry lang="fi" key="IDC_PREF_DISMOUNT_SCREENSAVER">Näytönsäästäjän käynnistyessä</entry>
-    <entry lang="fi" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Pakotettu autoyhteyden poisto vaikka taltiolla olisi avoimia tiedostoja tai hakemistoja</entry>
-    <entry lang="fi" key="IDC_PREF_LOGON_MOUNT_DEVICES">Yhdistä kaikki laite ohjatut VeraCrypt-taltiot</entry>
+    <entry lang="fi" key="IDC_PREF_FORCE_AUTO_DISMOUNT">Pakotettu autom. poiskytkentä vaikka taltiolla olisi avoimia tiedostoja tai hakemistoja</entry>
+    <entry lang="fi" key="IDC_PREF_LOGON_MOUNT_DEVICES">Yhdistä kaikki laiteohjatut VeraCrypt-taltiot</entry>
     <entry lang="fi" key="IDC_PREF_LOGON_START">Käynnistä VeraCrypt Taustatehtävä</entry>
-    <entry lang="fi" key="IDC_PREF_MOUNT_READONLY">Yhdistä taltiot vain lukutilaan</entry>
-    <entry lang="fi" key="IDC_PREF_MOUNT_REMOVABLE">Yhdistä taltiot liikutettavina välineinä</entry>
-    <entry lang="fi" key="IDC_PREF_OPEN_EXPLORER">Avaa Selaus ikkuna onnistuneesti yhdistetyille taltioille</entry>
-    <entry lang="fi" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Väliaikaisesti tallenna salasana välimuistin "Kytke Suosikkitaltiot" -toimintojen ajaksi</entry>
-    <entry lang="fi" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Käytä toista työkalupalkin kuvaketta kun täällä on kytkettyjä taltioita</entry>
-    <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Tyhjennä tallennetut välimuisti salasanat taltioilta auto-poiskytketyillä yhteyksillä</entry>
-    <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Pyyhi välimuisti salasanat poistuttaessa</entry>
-    <entry lang="fi" key="IDC_PRESERVE_TIMESTAMPS">Säilytä tiedostojen aikaleimat</entry>
+    <entry lang="fi" key="IDC_PREF_MOUNT_READONLY">Yhdistä taltiot vain luku-tyyppisinä</entry>
+    <entry lang="fi" key="IDC_PREF_MOUNT_REMOVABLE">Yhdistä taltiot kuin liikutettavina välineinä</entry>
+    <entry lang="fi" key="IDC_PREF_OPEN_EXPLORER">Avaa resurssienhallinta onnistuneesti yhdistetyille taltioille</entry>
+    <entry lang="fi" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Tallenna salasana väliaikaisesti "Yhdistä Suosikkitaltiot" -toimintojen ajaksi</entry>
+    <entry lang="fi" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">Käytä erilaista työkalupalkin kuvaketta kun on yhdistettyjä taltioita</entry>
+    <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">Poista välimuistiin tallennetut salasanat automaattisissa poiskytkennöissä</entry>
+    <entry lang="fi" key="IDC_PREF_WIPE_CACHE_ON_EXIT">Pyyhi välimuistiin tallennetut salasanat poistuttaessa</entry>
+    <entry lang="fi" key="IDC_PRESERVE_TIMESTAMPS">Säilytä tiedostosäilöjen muokkausaikaleima</entry>
     <entry lang="fi" key="IDC_RESET_HOTKEYS">Tyhjennä</entry>
     <entry lang="fi" key="IDC_SELECT_DEVICE">&amp;Valitse Laite..</entry>
     <entry lang="fi" key="IDC_SELECT_FILE">Valitse T&amp;iedosto..</entry>
@@ -181,7 +181,7 @@
     <entry lang="fi" key="IDC_TRAVEL_OPEN_EXPLORER">Avaa &amp;Tutkinta Ikkuna Yhdistetyille taltioille</entry>
     <entry lang="fi" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Välimuistisalasana ajurin muistille</entry>
     <entry lang="fi" key="IDC_TRUECRYPT_MODE">TrueCrypt Tila</entry>
-    <entry lang="fi" key="IDC_UNMOUNTALL">P&amp;oista Kaikki Yhteydet</entry>
+    <entry lang="fi" key="IDC_UNMOUNTALL">P&amp;oista Yhdistämiset</entry>
     <entry lang="fi" key="IDC_VOLUME_PROPERTIES">Taltion Ominaisuu&amp;det..</entry>
     <entry lang="fi" key="IDC_VOLUME_TOOLS">Taltio&amp;n Työkalut..</entry>
     <entry lang="fi" key="IDC_WIPE_CACHE">Tyhjennä &amp;Välimuisti</entry>
@@ -209,7 +209,7 @@
     <entry lang="fi" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">Aseta Otsikko Avaimesta Periytyvä algoritmi..</entry>
     <entry lang="fi" key="IDM_CHANGE_SYS_PASSWORD">Muuta Salasana..</entry>
     <entry lang="fi" key="IDM_CLEAR_HISTORY">Tyhjennä Taltion Historia</entry>
-    <entry lang="fi" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Sulje Kaikki Turvallisuustunniste Istunnot</entry>
+    <entry lang="fi" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">Sulje Kaikki Turvallisuustunnisteiden istunnot</entry>
     <entry lang="fi" key="IDM_CONTACT">Yhteydenotto..</entry>
     <entry lang="fi" key="IDM_CREATE_HIDDEN_OS">Luo Piilotettu Käyttöjärjestelmä..</entry>
     <entry lang="fi" key="IDM_CREATE_RESCUE_DISK">Luo Pelastuslevy..</entry>
@@ -243,7 +243,7 @@
     <entry lang="fi" key="IDM_REFRESH_DRIVE_LETTERS">Päivitä Asemakirjaimet</entry>
     <entry lang="fi" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">Poista Kaikki Avaintiedostot Taltiolta..</entry>
     <entry lang="fi" key="IDM_RESTORE_VOL_HEADER">Palauta Taltion Otsikot..</entry>
-    <entry lang="fi" key="IDM_RESUME_INTERRUPTED_PROC">Jatka Keskeytetty Prosessi</entry>
+    <entry lang="fi" key="IDM_RESUME_INTERRUPTED_PROC">Jatka Keskeytynyttä Prosessia</entry>
     <entry lang="fi" key="IDM_SELECT_DEVICE">Valitse Laite..</entry>
     <entry lang="fi" key="IDM_SELECT_FILE">Valitse Tiedosto..</entry>
     <entry lang="fi" key="IDM_SYSENC_RESUME">Jatka Keskeytetty Prosessi</entry>
@@ -269,13 +269,13 @@
     <entry lang="fi" key="IDT_ACCELERATION_OPTIONS">Laitteistokiihdytin</entry>
     <entry lang="fi" key="IDT_ASSIGN_HOTKEY">Pikakuvake</entry>
     <entry lang="fi" key="IDT_AUTORUN">Automaattinen käynnistys kokoonpano (autorun.inf)</entry>
-    <entry lang="fi" key="IDT_AUTO_DISMOUNT">Automaattinen-yhteyden Poisto</entry>
-    <entry lang="fi" key="IDT_AUTO_DISMOUNT_ON">Poista Yhteydet:</entry>
+    <entry lang="fi" key="IDT_AUTO_DISMOUNT">Automaattinen Poiskytkentä</entry>
+    <entry lang="fi" key="IDT_AUTO_DISMOUNT_ON">Poista Yhdistämiset:</entry>
     <entry lang="fi" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">Käynnistys Lataus Näyttö Valinnat</entry>
     <entry lang="fi" key="IDT_CONFIRM_PASSWORD">Vahvista Salasana</entry>
     <entry lang="fi" key="IDT_CURRENT">Nykyinen</entry>
     <entry lang="fi" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">Näytä tämä käyttäjän sanoma esikäynnistys autentikointi ikkunassa (Maksimi 24 merkkiä):</entry>
-    <entry lang="fi" key="IDT_DEFAULT_MOUNT_OPTIONS">Oletus yhteys valinnat</entry>
+    <entry lang="fi" key="IDT_DEFAULT_MOUNT_OPTIONS">Yhdistämisen oletusasetukset</entry>
     <entry lang="fi" key="IDT_DISMOUNT_ACTION">Pikanäppäinten Valinnat</entry>
     <entry lang="fi" key="IDT_DRIVER_OPTIONS">Aseman Asetukset</entry>
     <entry lang="fi" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Ota käyttöön laajennettu levyohjauskoodit</entry>
@@ -283,7 +283,7 @@
     <entry lang="fi" key="IDT_FILE_SETTINGS">Tiedosto Asetukset</entry>
     <entry lang="fi" key="IDT_HOTKEY_KEY">Määriteltävä näppäin:</entry>
     <entry lang="fi" key="IDT_HW_AES_SUPPORTED_BY_CPU">Processori (CPU) tietokoneesi tukee AES laitteistokiihdytystä:</entry>
-    <entry lang="fi" key="IDT_LOGON">Toiminta suorittaa kirjautumisen Windowsiin</entry>
+    <entry lang="fi" key="IDT_LOGON">Toiminto suoritetaan kirjautuessa Windowsiin</entry>
     <entry lang="fi" key="IDT_MINUTES">minuuttia</entry>
     <entry lang="fi" key="IDT_MOUNT_LETTER">Yhdistä taltio kirjaimelle:</entry>
     <entry lang="fi" key="IDT_MOUNT_SETTINGS">Yhdistä asetukset</entry>
@@ -293,14 +293,14 @@
     <entry lang="fi" key="IDT_PKCS11_LIB_PATH">PKCS #11 Kirjastopolku</entry>
     <entry lang="fi" key="IDT_PKCS5_PRF">PKCS-5 PRF:</entry>
     <entry lang="fi" key="IDT_NEW_PKCS5_PRF">PKCS-5 PRF:</entry>
-    <entry lang="fi" key="IDT_PW_CACHE_OPTIONS">Salasana Välimuistiin</entry>
+    <entry lang="fi" key="IDT_PW_CACHE_OPTIONS">Salasanan Välimuisti</entry>
     <entry lang="fi" key="IDT_SECURITY_OPTIONS">Salausvalinnat</entry>
     <entry lang="fi" key="IDT_TASKBAR_ICON">VeraCrypt Taustatehtävä</entry>
     <entry lang="fi" key="IDT_TRAVELER_MOUNT">VeraCrypt-taltion yhteys (liittyy siirrettävän levyn juureen):</entry>
     <entry lang="fi" key="IDT_TRAVEL_INSERTION">Siirrettävän levyn sisällyttäminen: </entry>
     <entry lang="fi" key="IDT_TRAVEL_ROOT">Luo siirrettävä levytiedosto (Siirrettävän levyjuuri-hakemistoon):</entry>
     <entry lang="fi" key="IDT_VOLUME">Taltio</entry>
-    <entry lang="fi" key="IDT_WINDOWS_RELATED_SETTING">Ikkuna</entry>
+    <entry lang="fi" key="IDT_WINDOWS_RELATED_SETTING">Windows</entry>
     <entry lang="fi" key="IDC_ADD_KEYFILE_PATH">Lisää P&amp;olku..</entry>
     <entry lang="fi" key="IDC_AUTO">&amp;Auto-testi Kaikille</entry>
     <entry lang="fi" key="IDC_CONTINUE">&amp;Jatka</entry>
@@ -328,7 +328,7 @@
     <entry lang="fi" key="IDC_PROTECT_HIDDEN_VOL">&amp;Suojaa salattu taltio vaurioilta ulkoisten taltioiden kirjoitusta vastaan</entry>
     <entry lang="fi" key="IDC_RESET">&amp;Tyhjennä</entry>
     <entry lang="fi" key="IDC_SHOW_PASSWORD_MO">&amp;Näytä Salasana</entry>
-    <entry lang="fi" key="IDC_TOKEN_FILES_ADD">Lisää &amp;Tunniste Tie..</entry>
+    <entry lang="fi" key="IDC_TOKEN_FILES_ADD">Lisää Tunniste Tie.</entry>
     <entry lang="fi" key="IDC_USE_EMBEDDED_HEADER_BAK">Käytä varmistettua otsikko varustusta &amp;asemalle jos mahdollista</entry>
     <entry lang="fi" key="IDC_XTS_MODE_ENABLED">XTS tila</entry>
     <entry lang="fi" key="IDD_ABOUT_DLG">Tietoa VeraCrypt</entry>
@@ -427,7 +427,7 @@
     <entry lang="fi" key="DEVICE_PARTITIONS_ERR">Valittu laite sisältää osion.\n\nAlustamalla laitteen saattaa aiheutua järjestelmän epävakautta ja/tai tietojen vioittumista. Valitse joko laitteen osio, tai poista kaikki laitteen osiot, jotta VeraCrypt-salausohjelma voi alustaa sen turvallisesti.</entry>
     <entry lang="fi" key="DEVICE_PARTITIONS_ERR_W_INPLACE_ENC_NOTE">Valittu ei-järjestelmäasema sisältää osioita.\n\nSalattu laiteisännöity VeraCrypt-taltio voidaan luoda laitteen sisälle jotka eivät sisällä osioita (sisältäen kiintolevyn ja kiinteän aseman). Laite joka sisältää osion voidaan täysin salata (käyttäen yksinkertaista pääavainta) ainoastaan jos se on laite jonne Windows on asennettuna ja josta se myös käynnistyy.\n\nJos haluat salata valitun ei-järjestelmälaitteen käyttäen yksinkertaista pääavainta, sinun tulee poistaa ensin kaikki osiot laitteelta mahdollistaaksesi VeraCrypt-salausohjelman alustaa se turvallisesti (alustaaksesi laitteen, joka sisältää osioita saattaa johtaa järjestelmän epävakauteen ja/tai tietojen korruptoitumiseen). Vaihtoehtoisesti, voit salata jokaisen osion laitteelta yksilöllisesti (jokainen osio salataan käyttäen erilaista pääavainta).\n\nHuomioi: Jos haluat poistaa kaikki osiot GPT levyltä, sinun saattaa tarvita muuntaa MBR levy (käyttäen esim. Computer Management työkalua) poistaaksesi piilotetun osion.</entry>
     <entry lang="fi" key="WHOLE_NONSYS_DEVICE_ENC_CONFIRM">Varoitus: Jos salaat koko laitteen (sen sijaan, että salaat vain sen osiota), käyttöjärjestelmät pitävät laitetta uutena, tyhjänä ja muotoilemattomana (koska se ei sisällä ositustaulukkoa) ja voi käynnistää laitteen spontaanisti (tai kysyä, haluatko tehdä sen), mikä voi vahingoittaa taltiota. Liäksi ei ole mahdollista jatkuvasti kytkeä taltiota suosikkina (esim. kun aseman numero muuttuu) tai määrittää sille suosikkitaltion otsikon.\n\nVälttääksesi tämän voit haluta keskittyä luomaan osion laitteelle ja salaamaan sen sijaan osion.\n\nOletko varma, että haluat salata koko laitteen?</entry>
-    <entry lang="fi" key="AFTER_FORMAT_DRIVE_LETTER_WARN">TÄRKEÄÄ: Muista että tätä taltiota EI voida kytkeä/käyttää käyttämällä asemakirjainta %c:, mikä sille on nykyisellään määritelty!\n\nKytkeäksesi taltion, paina 'Autoyhdistä Laitteet' VeraCrypt-salausohjelman pääikkunassa (vaihtoehtona, VeraCrypt pääikkunassa, paina 'Valitse Laite', ja sitten valitse osio/laite, ja paina 'Yhdistä Laite'). Taltio kytketään eri kirjaimelle, jonka valitsit VeraCrypt pääikkunan listalta.\n\nAlkuperäinen kirjain %c: tulee käyttää vain siinä tapauksessa, että sinun tarvitsee poistaa salauksen osiolta/laitteelta (esim., jos et tarvitse enää salausta). Siinä tapauksessa, paina hiiren oikealla asemakirjainta %c: 'Tietokone' (tai 'My Computer') listalta ja valitse 'Alusta'. Muutoin, asemakirjainta %c: ei tule koskaan käyttää (paitsi jos poistat sen ja uudelleen määrittelet toiselle kirjaimelle osion/laitteen).</entry>
+    <entry lang="fi" key="AFTER_FORMAT_DRIVE_LETTER_WARN">TÄRKEÄÄ: Muista että tätä taltiota EI voida kytkeä/käyttää käyttämällä asemakirjainta %c:, mikä sille on nykyisellään määritelty!\n\nKytkeäksesi taltion, paina 'Autoyhdistä Laitteet' VeraCrypt-salausohjelman pääikkunassa (vaihtoehtona, VeraCrypt pääikkunassa, paina 'Valitse Laite', ja sitten valitse osio/laite, ja paina 'Yhdistä'). Taltio kytketään eri kirjaimelle, jonka valitsit VeraCrypt pääikkunan listalta.\n\nAlkuperäinen kirjain %c: tulee käyttää vain siinä tapauksessa, että sinun tarvitsee poistaa salauksen osiolta/laitteelta (esim., jos et tarvitse enää salausta). Siinä tapauksessa, paina hiiren oikealla asemakirjainta %c: 'Tietokone' (tai 'My Computer') listalta ja valitse 'Alusta'. Muutoin, asemakirjainta %c: ei tule koskaan käyttää (paitsi jos poistat sen ja uudelleen määrittelet toiselle kirjaimelle osion/laitteen).</entry>
     <entry lang="fi" key="OS_NOT_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Paikallisen ei-järjestelmäaseman salausta ei ole tuettu käyttöjärjestelmässäsi (tuettuna ovat ainoastaan Windows Vista ja myöhemmät Windows versiot).\n\nSyy tähän on se ettei Windows tue tiedostojärjestelmän kutistusta (järjestelmäosio tarvitsee kutistaa tehdäkseen tilaa asemaotsikolle ja varmuustallennukselle).</entry>
     <entry lang="fi" key="ONLY_NTFS_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Valittu osio ei sisällä NTFS tiedostojärjestelmää. Ainoastaan osiot jotka sisältävät NTFS tiedostojärjestelmän voidaan salata paikallaan.\n\nHuomio: Syy tähän on se, että Windows ei tue kutistamista toisentyyppisillä tiedostojärjestelmillä (tiedostojärjestelmä täytyy kutistaa tehdäkseen tilaa taltion otsikoille ja varmuustallentamiseksi).</entry>
     <entry lang="fi" key="ONLY_MOUNTED_VOL_SUPPORTED_FOR_NONSYS_INPLACE_ENC">Valittu osio ei sisällä NTFS tiedostojärjestelmää. Ainoastaan osiot jotka sisältävät NTFS tiedostojärjestelmän voidaan salata paikallaan.\n\nJos haluat luoda salatun VeraCrypt-taltion tälle osiolle, valitse "Luo salattu taltio ja alusta se" (sen sijaan kuin valinta "Salaa osio paikallaan").</entry>
@@ -450,7 +450,7 @@
     <entry lang="fi" key="ERR_CIPHER_INIT_WEAK_KEY">Virhe: Heikko tai mahdollinen heikko avain on havaittu. Avain hylätty. Yritä uudelleen.</entry>
     <entry lang="fi" key="EXCEPTION_REPORT">Kriittinen virhe on tapahtunut ja VeraCrypt täytyy keskeyttää. Jos tämä johtui virheestä VeraCrypt-ohjelmassa, haluaisimme korjata sen. Auttaaksesi meitä, voit lähettää automaattisesti generoidun raportin mikä sisältää seuraavat asiat:\n\n- Ohjelma versio\n- Käyttöjärjestelmäverso\n- CPU tyyppi\n- VeraCrypt-komponentin nimi\n- Tarkistussumma tiedot VeraCrypt-salausohjelmasta\n- Symbolinen dialogi-ikkunan nimi\n- Virhe kategoria\n- Virhe osoite\n- VeraCrypt kutsupino\n\nJos valitsit 'Kyllä', seuraava URL (sisältää virheraportin) avataan oletusselaimessasi.\n\n%hs\n\nHaluatko lähettää meille oheisen virheraportin?</entry>
     <entry lang="fi" key="EXCEPTION_REPORT_EXT">Kriittinen virhe tapahtunut järjestelmässäsi, mikä vaatii VeraCrypt-ohjelman keskeyttämisen.\n\nHuomioi, että tämä virhe ei ole tapahtunut johtuen VeraCrypt-ohjelmasta (siksi VeraCryptin kehittäjät eivät voi sitä korjata). Ole hyvä ja tarkista järjestelmäsi mahdollisten ongelmien johdosta  (esim. järjestelmä asetukset, verkkoyhteys, vioittuneet järjestelmän osat).</entry>
-    <entry lang="fi" key="EXCEPTION_REPORT_EXT_FILESEL"Järjestelmässäsi on tapahtunut kriittinen virhe, mikä edellyttää VeraCryptin lopettamista.\n\nJos tämä ongelma jatkuu, voit yrittää poistaa sen käytöstä tai poistaa järjestelmästä sovelluksia, jotka saattavat aiheuttaa tämän ongelman, kuten virustentorjuntaohjelmiston tai Internet-tietoturvaohjelmiston, järjestelmän "tehostajat", "optimoijat" tai "tweakers" jne. Jos tämä ei auta, voit yrittää asentaa käyttöjärjestelmäsi uudelleen (tämä ongelma saattaa johtua myös haittaohjelmista).</entry>
+    <entry lang="fi" key="EXCEPTION_REPORT_EXT_FILESEL">Järjestelmässäsi on tapahtunut kriittinen virhe, mikä edellyttää VeraCryptin lopettamista.\n\nJos tämä ongelma jatkuu, voit yrittää poistaa sen käytöstä tai poistaa järjestelmästä sovelluksia, jotka saattavat aiheuttaa tämän ongelman, kuten virustentorjuntaohjelmiston tai Internet-tietoturvaohjelmiston, järjestelmän "tehostajat", "optimoijat" tai "tweakers" jne. Jos tämä ei auta, voit yrittää asentaa käyttöjärjestelmäsi uudelleen (tämä ongelma saattaa johtua myös haittaohjelmista).</entry>
     <entry lang="fi" key="EXCEPTION_REPORT_TITLE">VeraCrypt-salausohjelman Kriittinen Virhe</entry>
     <entry lang="fi" key="SYSTEM_CRASHED_ASK_REPORT">VeraCryp havaitsi, että käyttöjärjestelmäsi kaatui äskettäin. On monia syitä, miksi näin on voinut käydä (esim. virheellinen laitteistokomponentti, vika laiteohjaimessa jne.)\n\nHaluatko VeraCrypt:n tarkistavan, mistä tämä vika olisi voinut johtua?</entry>
     <entry lang="fi" key="ASK_KEEP_DETECTING_SYSTEM_CRASH">Haluatko, että VeraCrypt jatkaa havaitsemaan järjestelmän kaatumiset?</entry>
@@ -505,7 +505,7 @@
     <entry lang="fi" key="SYSENC_HIDDEN_VOL_FORMAT_FINISHED_HELP">\n\nPiilotettu VeraCrypt-taltio on luotu onnistuneesti (piilotettu käyttöjärjestelmä sijaitsee tämän Piilotetun VeraCrypt taltion sisällä).\n\nPaina 'Seuraava' jatkaaksesi.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_ENC_FINISHED_TITLE">Taltio Kokonaan Salattu</entry>
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_TITLE">Taltio Kokonaan Purettu</entry>
-    <entry lang="fi" key="NONSYS_INPLACE_ENC_FINISHED_INFO">TÄRKEÄÄ: KYTKEÄKSESI TÄMÄN UUDEN LUODUN VERACRYPT TALTION JA PÄÄSY TALLENTAMAAN SILLE, PAINA 'Autoyhdistä Laitteet' VERACRYPT PÄÄIKKUNASSA. Sen jälkeen kun annat oikean salasanan (ja/tai toimitat oikean avaintiedoston), taltio yhdistetään asemakirjaimelle jonka valitsit VeraCrypt-ohjelman pääikkunasta (ja sinun on mahdollista päästä salatuille tiedolle valitun asemakirjaimen kautta).\n\nMUISTA TAI KIRJOITA YLöS ALLA OLEVAT VAIHEET. SINUN TULLE SEURATA NIITÄ AINA KUN HALUAT YHDISTÄÄ TALTION JA PÄÄSTÄ KIINNI TALLENNETTUIHIN TIETOIHIN. Vaihtoehtoisesti, VeraCryptin pääikkunasta, paina 'Valitse Laite', ja sitten valitse osio/taltio, ja paina 'Yhdistä'.\n\nOsio/taltio on onnistuneesti salattu (se sisältää nyt täysin salatun VeraCrypt-taltion) ja on valmis käytettäväksi.</entry>
+    <entry lang="fi" key="NONSYS_INPLACE_ENC_FINISHED_INFO">TÄRKEÄÄ: KYTKEÄKSESI TÄMÄN UUDEN LUODUN VERACRYPT TALTION JA PÄÄSY TALLENTAMAAN SILLE, PAINA 'Autom. yhdistäminen' VERACRYPT PÄÄIKKUNASSA. Sen jälkeen kun annat oikean salasanan (ja/tai toimitat oikean avaintiedoston), taltio yhdistetään asemakirjaimelle jonka valitsit VeraCrypt-ohjelman pääikkunasta (ja sinun on mahdollista päästä salatuille tiedolle valitun asemakirjaimen kautta).\n\nMUISTA TAI KIRJOITA YLöS ALLA OLEVAT VAIHEET. SINUN TULLE SEURATA NIITÄ AINA KUN HALUAT YHDISTÄÄ TALTION JA PÄÄSTÄ KIINNI TALLENNETTUIHIN TIETOIHIN. Vaihtoehtoisesti, VeraCryptin pääikkunasta, paina 'Valitse Laite', ja sitten valitse osio/taltio, ja paina 'Yhdistä'.\n\nOsio/taltio on onnistuneesti salattu (se sisältää nyt täysin salatun VeraCrypt-taltion) ja on valmis käytettäväksi.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_INFO">VeraCryptin taltio on onnistuneesti purettu.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_DRIVE_LETTER_SEL_INFO">VeraCryptin taltio on poistettu onnistuneesti.\n\nValitse aseman kirjain, jonka haluat määrittää salauksen purkamiseen, ja valitse sitten Valmis.\n\nHyödyllinen: Ennen kuin salakirjoituskirjaan on merkitty salaustaltioon, et pysty käyttämään taltiolle tallennettuja tietoja.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_DEC_FINISHED_NO_DRIVE_LETTER_AVAILABLE">Varoitus: Jotta voit käyttää salakirjoitettua dataa, salakirjoitetulle taltiolle on määritettävä aseman kirjain.\n\nKäytä aseman kirjainta (esimerkiksi irrottamalla USB-muistitikku tai ulkoinen kiintolevy jne.) ja paina OK.</entry>
@@ -566,7 +566,7 @@
     <entry lang="fi" key="MAX_HIDVOL_SIZE_TB">Suurin mahdollinen piilotettu taltion koko tälle taltiolle on %.2f Tt.</entry>
     <entry lang="fi" key="MOUNTED_NOPWCHANGE">Taltion salasanaa/avaintiedostoa ei voida muuttaa kun taltio on yhdistettynä. Poista yhteys taltiolta.</entry>
     <entry lang="fi" key="MOUNTED_NO_PKCS5_PRF_CHANGE">Otsikkoavaimen periytyvää algoritmia ei voida muuttaa kun taltio on yhdistettynä. Poista yhteys taltiolta.</entry>
-    <entry lang="fi" key="MOUNT_BUTTON">Y&amp;hdistä Laite</entry>
+    <entry lang="fi" key="MOUNT_BUTTON">Y&amp;hdistä</entry>
     <entry lang="fi" key="NEW_VERSION_REQUIRED">Uusi VeraCrypt-ohjelman versio vaaditaan, jotta tämän taltion yhdistäminen on mahdollista.</entry>
     <entry lang="fi" key="VOL_CREATION_WIZARD_NOT_FOUND">Virhe: Taltion Luonnin Ohjattuatoimintoa ei löydetty.\n\nOle hyvä ja varmista, että tiedosto 'VeraCrypt Format.exe' on hakemistossa missä 'VeraCrypt.exe' on perustettu. Jos se ei ole, asenna uudelleen VeraCrypt-ohjelma, tai määritä 'VeraCrypt Format.exe' levylläsi ja aja se.</entry>
     <entry lang="fi" key="VOL_EXPANDER_NOT_FOUND">Virhe: Taltion Laajenninta ei löytynyt.\n\nOle hyvä ja varmista, että tiedosto 'VeraCryptExpander.exe' on samassa hakemistossa 'VeraCrypt.exe' kanssa. Jos se ei ole, ole hyvä ja asenna uudelleen VeraCrypt, tai paikallista 'VeraCryptExpander.exe' levylläsi ja suorita se.</entry>
@@ -1009,9 +1009,9 @@
     <entry lang="fi" key="HK_AUTOMOUNT_DEVICES">Automaattinen yhdistäminen laitteille</entry>
     <entry lang="fi" key="HK_DISMOUNT_ALL">Poista kaikki yhteydet</entry>
     <entry lang="fi" key="HK_WIPE_CACHE">Tyhjennä välimuisti</entry>
-    <entry lang="fi" key="HK_DISMOUNT_ALL_AND_WIPE">Poista Kaikki yhteydet  &amp;  Tyhjennä välimuisti</entry>
-    <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Pakotettu yhteyden poisto kaikille  &amp;  Tyhjennä välimuisti</entry>
-    <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Pakotettu yhteyden poisto kaikille,  Tyhjennä välimuisti  &amp;  Poistu</entry>
+    <entry lang="fi" key="HK_DISMOUNT_ALL_AND_WIPE">Poista Kaikki Yhistämiset &amp; Tyhjennä välimuisti</entry>
+    <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">Pakotettu yhdistämisen poisto kaikille  &amp;  Tyhjennä välimuisti</entry>
+    <entry lang="fi" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">Pakotettu yhdistämisen poisto kaikille,  Tyhjennä välimuisti  &amp;  Poistu</entry>
     <entry lang="fi" key="HK_MOUNT_FAVORITE_VOLUMES">Yhdistä Suosikkitaltiot</entry>
     <entry lang="fi" key="HK_SHOW_HIDE_MAIN_WINDOW">Näytä/Piilota VeraCrypt pääikkuna</entry>
     <entry lang="fi" key="PRESS_A_KEY_TO_ASSIGN">(Klikkaa tästä ja Paina näppäintä)</entry>
@@ -1029,7 +1029,7 @@
     <entry lang="fi" key="SUCCESSFULLY_DISMOUNTED">Onnistuneesti poiskytketty</entry>
     <entry lang="fi" key="CONFIRM_BACKGROUND_TASK_DISABLED">VAROITUS: Jos VeraCrypt Taustatoiminto on poistettu käytöstä, seuraavat toiminnot poistetaan käytöstä:\n\n1) Pikanäppäimet\n2) Automaattinen poiskytkentä (esim. kun kirjauduttu, tahattoman vastaanottavan laitteen poistaminen, aikakatkaisu jne.)\n3 ) Suosikkitaltion automaattinen kytkentä\n4) Ilmoitukset (esim. kun Piilotetun VeraCrypt taltion vauriot on estetty)\n5) Lokeron kuvake\n\nHuom: voit sulkea Tausta toiminnon milloin tahansa napsauttamalla VeraCrypt-kuvaketta hiiren oikealla kakkospainikkeella ja valitsemalla 'Poistu'.\n\nHaluat varmasti poistaa pysyvästi VeraCrypt-ohjelman Tausta-toiminnon käytöstä?</entry>
     <entry lang="fi" key="CONFIRM_NO_FORCED_AUTODISMOUNT">VAROITUS: Jos tämä valinta poistetaan, taltiot jotka sisältävät avoimia tiedostoja/hakemistoja ei voida automaattisesti poistaa yhteyttä.\n\nOletko varma, että haluat poistaa tämän valinnan?</entry>
-    <entry lang="fi" key="WARN_PREF_AUTO_DISMOUNT">VAROITUS: Taltiot sisältää avattuja tiedostoja/hakemistoja joita EI voida automaattisesti poistaa yhteyttä.\n\nEstääksesi tämän, valitse seuraava vaihtoehto dialogi ikkunasta: 'Pakotettu auto-yhteyden poisto vaikka taltiolla on avoimia tiedostoja/hakemistoja'</entry>
+    <entry lang="fi" key="WARN_PREF_AUTO_DISMOUNT">VAROITUS: Taltiot sisältää avattuja tiedostoja/hakemistoja joita EI voida automaattisesti poistaa yhteyttä.\n\nEstääksesi tämän, valitse seuraava vaihtoehto dialogi ikkunasta: 'Pakotettu autom. yhdistämisen poisto vaikka taltiolla olisi avoimia tiedostoja/hakemistoja'</entry>
     <entry lang="fi" key="WARN_PREF_AUTO_DISMOUNT_ON_POWER">VAROITUS: Kun kannettavan akun virta on alhainen, Windows saattaa jättää lähettämättä tarkoituksenmukaista viestiä suoritettavalta sovellukselta, kun tietokone asettuu virransäästö tilaan. Siksi, VeraCrypt-ohjelma saattaa epäonnistua taltion auto-poiskytkennässä näissä tapauksissa.</entry>
     <entry lang="fi" key="NONSYS_INPLACE_ENC_RESUME_PROMPT">Olet ajastanut salausprosessin osiolle/taltiolle. Prosessi ei ole vielä suoritettu loppuun.\n\nHaluatko aloittaa nyt uudelleen prosessin?</entry>
     <entry lang="fi" key="SYSTEM_ENCRYPTION_RESUME_PROMPT">Olet ajastanut salaus/salauksenpurku järjestelmälevyllä/asemalla. Ajo ei ole vielä valmis.\n\nHaluatko käynnistää (alkaa uudelleen) ajon nyt?</entry>
@@ -1137,7 +1137,7 @@
     <entry lang="fi" key="WIPE_MODE_256">256-läpi</entry>
     <entry lang="fi" key="SYS_MULTI_BOOT_MODE_TITLE">Käyttöjärjestelmän numero</entry>
     <entry lang="fi" key="MULTI_BOOT_FOR_ADVANCED_ONLY">VAROITUS: Aloittelevan käyttäjän ei koskaan pidä yrittää salata Windows monikäynnistys (multi-boot) konfiguraatioita.\n\nJatkatko?</entry>
-    <entry lang="fi" key="HIDDEN_OS_MULTI_BOOT"Piilotettua käyttöjärjestelmää luotaessa/käytettäessä VeraCrypt-ohjelma tukee usean käynnistyksen konfiguraatiota vain, kun seuraavat ehdot täyttyvät:\n\n- Käynnissä oleva käyttöjärjestelmä on asennettava käynnistysasemaan, joka ei saa sisältää muita käyttöjärjestelmiä.\n\n - Muissa asemissa asennettuihin käyttöjärjestelmiin ei saa käyttää käynnistyslatainta, joka sijaitsee asemalla, johon tällä hetkellä käynnissä oleva käyttöjärjestelmä on asennettu.\n\nOnko edellä mainitut edellytykset täyttyneet?</entry>
+    <entry lang="fi" key="HIDDEN_OS_MULTI_BOOT">Piilotettua käyttöjärjestelmää luotaessa/käytettäessä VeraCrypt-ohjelma tukee usean käynnistyksen konfiguraatiota vain, kun seuraavat ehdot täyttyvät:\n\n- Käynnissä oleva käyttöjärjestelmä on asennettava käynnistysasemaan, joka ei saa sisältää muita käyttöjärjestelmiä.\n\n - Muissa asemissa asennettuihin käyttöjärjestelmiin ei saa käyttää käynnistyslatainta, joka sijaitsee asemalla, johon tällä hetkellä käynnissä oleva käyttöjärjestelmä on asennettu.\n\nOnko edellä mainitut edellytykset täyttyneet?</entry>
     <entry lang="fi" key="UNSUPPORTED_HIDDEN_OS_MULTI_BOOT_CFG">VeraCrypt-ohjelma ei tue tätä monikäynnistys (multi-boot) konfiguraatiota piilotetun käyttöjärjestelmän luomisen tai käytön aikana.</entry>
     <entry lang="fi" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_TITLE">käynnistysasema</entry>
     <entry lang="fi" key="SYSENC_MULTI_BOOT_SYS_EQ_BOOT_HELP">Onko nykyinen käytössä oleva käyttöjärjestelmä asennettuna käynnistysasemalle?\n\nTiedotus: Joskus Windows ei ole asennettu samalle asemalle kuin käynnistyslataaja (käynnistys osiolle). Tässä tapauksessa valitse 'Ei'.</entry>
@@ -1335,11 +1335,11 @@
     <entry lang="fi" key="VKEY_90">Num Lock</entry>
     <entry lang="fi" key="VKEY_91">Scroll Lock</entry>
     <entry lang="fi" key="VKEY_A6">Selaa Takaisin</entry>
-    <entry lang="fi" key="VKEY_A7">Selaa eteenpäin</entry>
+    <entry lang="fi" key="VKEY_A7">Selaa Eteenpäin</entry>
     <entry lang="fi" key="VKEY_A8">Päivitä selaus</entry>
     <entry lang="fi" key="VKEY_A9">Pysäytä selaus</entry>
     <entry lang="fi" key="VKEY_AA">Selaa Etsi</entry>
-    <entry lang="fi" key="VKEY_AB">Selaa suosikit</entry>
+    <entry lang="fi" key="VKEY_AB">Selaa Suosikit</entry>
     <entry lang="fi" key="VKEY_AC">Selaa Home</entry>
     <entry lang="fi" key="VKEY_AD">Mykistä</entry>
     <entry lang="fi" key="VKEY_AE">Hiljennä</entry>
@@ -1376,8 +1376,8 @@
     <entry lang="fi" key="PB_PER_SEC">Pt/s</entry>
     <entry lang="fi" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</entry>
     <entry lang="fi" key="IDC_BOOT_LOADER_CACHE_PIM">Sisällytä &amp;PIM-asetusta, kun tallennat esi-käynnistys tunnistus salasanan</entry>
-    <entry lang="fi" key="IDC_PREF_CACHE_PIM">Sisällytä PIM kun tallennat välimuistiin salasanan</entry>
-    <entry lang="fi" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Tee irrotettavat verkkoasemat mahdollisiksi kytkemiselle</entry>
+    <entry lang="fi" key="IDC_PREF_CACHE_PIM">Sisällytä PIM tallennettaessa salasana välimuistiin</entry>
+    <entry lang="fi" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Tee irrotetut verkkoajurit mahdollisiksi kytkemiselle</entry>
     <entry lang="fi" key="PASSWORD_UTF8_TOO_LONG">Syötetty salasana on liian pitkä: sen UTF-8-esitys ylittää 128 tavua.</entry>
     <entry lang="fi" key="PASSWORD_UTF8_INVALID">Syötetty salasana sisältää Unicode-merkkejä, joita ei voitu muuntaa UTF-8-esitykseksi.</entry>
     <entry lang="fi" key="INIT_DLL">Virhe: järjestelmän kirjaston lataaminen epäonnistui.</entry>
@@ -1389,11 +1389,11 @@
     <entry lang="fi" key="VOLUME_ID_INVALID">Volume ID -arvo on virheellinen</entry>
     <entry lang="fi" key="VOLUME_ID_NOT_FOUND">Järjestelmässä ei löytynyt taltiota, jossa olisi määritetty tunnus</entry>
     <entry lang="fi" key="IDPM_COPY_VALUE_TO_CLIPBOARD">Kopioi Arvo Leikepöydälle...</entry>
-    <entry lang="fi" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Älä pyydä PIM: tä esi-käynnistys autentikointi näytöä (PIM-arvo tallennetaan salaamattomana levylle)</entry>
+    <entry lang="fi" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Älä pyydä PIM:iä esi-käynnistys autentikointinäyttöä (PIM-arvo tallennetaan salaamattomana levylle)</entry>
     <entry lang="fi" key="DISABLE_BOOT_LOADER_PIM_PROMPT">VAROITUS: Muista, että jos otat tämän vaihtoehdon käyttöön, PIM-arvo tallennetaan salaamattomana levylle.\n\nHaluat varmasti ottaa tämän asetuksen käyttöön?</entry>
     <entry lang="fi" key="PIM_TOO_BIG">Personal Iterations Multiplier (PIM) maksimi arvo on 2147468.</entry>
     <entry lang="fi" key="IDC_SKIP_RESCUE_VERIFICATION">Ohita Pelastuslevyn varmistaminen</entry>
-    <entry lang="fi" key="IDC_HIDE_WAITING_DIALOG">Älä näytä odotusviestiasetuksia suoritettaessa toimintoja</entry>
+    <entry lang="fi" key="IDC_HIDE_WAITING_DIALOG">Älä näytä odotusviesti-ikkunaa toimintoja suoritettaessa</entry>
     <entry lang="fi" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">Älä pyydä Hash-algoritmia ennen esi-käynnistyksen autentikointi näyttöä</entry>
     <entry lang="fi" key="KUZNYECHIK_HELP">Kuznyechik on lohkosekvenssi julkaistu ensimmäisen kerran vuonna 2015 ja määritelty Venäjän federaation kansallisessa standardissa GOST R 34.12-2015 ja myös RFC 7801: ssä. 256-bittinen avain, 128-bittinen lohko. Toimintatapa on XTS.</entry>
     <entry lang="fi" key="CAMELLIA_HELP">Mitsubishi Electric ja Japanin NTT ovat yhdessä kehittäneet. Julkaistu ensimmäisen kerran vuonna 2000. 256-bittinen avain, 128-bittinen lohko. Toimintatapa on XTS. Se on hyväksytty käytettäväksi ISO/IEC:n, Euroopan unionin NESSIE-hankkeen ja japanilaisen CRYPTREC-projektin käytössä.</entry>
@@ -1407,7 +1407,7 @@
     <entry lang="fi" key="RESCUE_DISK_EFI_CHECK_FAILED">Varmista, että Pelastuslevy on poistettu oikein.\n\nJos olet purkanut Pelastuslevyn -levykuvan, irrota USB-tikku ja asenna se uudelleen. Yritä uudelleen valitsemalla 'Seuraava'. Jos tämä ei auta, kokeile toista USB-muistitikkua ja/tai muuta ZIP-ohjelmistoa.\n\nJos et ole vielä purkanut Pelastuslevyn -ohjelmaa, valitse se ja valitse sitten 'Seuraava'.\n\nJos yritit tarkistaa VeraCryptin Pelastuslevyn, joka on luotu ennen ohjatun toiminnon aloittamista, huomaa, että tällaista pelastuslevyä ei voida käyttää, koska se on luotu toista pääavainta varten. Sinun täytyy purkaa vasta tehdyn Pelastuslevyn ZIP -levykuva.</entry>
     <entry lang="fi" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Varmista, että Pelastuslevy on poistettu oikein.\n\nJos olet levittänyt Pelastuslevyn -kuvan USB-muistitikulle, irrota se ja aseta se takaisin paikalleen; yritä uudelleen. Jos tämä ei auta, kokeile muita ZIP-ohjelmistoja ja/tai tietovälineitä.\n\nJos yritit tarkistaa eri pääavain, salasana, suola jne. Varten luotu VeraCryptin Pelastuslevy, huomaa, että tällainen pelastuslevy on aina epäonnistuta tätä tarkistusta. Jos haluat luoda uuden Pelastuslevyn, joka on täysin yhteensopiva nykyisen kokoonpanon kanssa, valitse 'Järjestelmä'> 'Luo Pelastuslevy'.</entry>
     <entry lang="fi" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">Pelastuslevy -levykuva on luotu ja tallennettu tähän tiedostoon:\n%s\n\nJoten sinun on purettava Pelastuslevy -levykuva USB-muistille, joka on alustettu FAT/FAT32:ksi.\n\nVAROITUS: Huomaa, että zip tiedosto on purettava suoraan USB-tikun juureen. Esimerkiksi jos USB-muistin aseman kirjain on E: purkamalla zip-tiedoston, sen on luotava kansio E:\\EFI USB-muistitikulle.\n\nJos olet luonut Pelastuslevyn, valitse 'Järjestelmä'> 'Vahvista Pelastuslevy' varmistaaksesi, että se on luotu oikein.</entry>
-    <entry lang="fi" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Käytä Secure Desktopia salasanojen syöttämiseen</entry>
+    <entry lang="fi" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">Käytä salasanaa suojatulle työpöydälle</entry>
     <entry lang="fi" key="ERR_REFS_INVALID_VOLUME_SIZE">Komentorivin määrittämä tiedostokoko ei ole yhteensopiva valitun ReFS-tiedostojärjestelmän kanssa.</entry>
     <entry lang="fi" key="IDC_EDIT_DCSPROP">Muokkaa käynnistyslataajan kokoonpanoa</entry>
     <entry lang="fi" key="IDC_SHOW_PLATFORMINFO">Näytä EFI Platform -tiedot</entry>
@@ -1424,19 +1424,19 @@
     <entry lang="fi" key="PASSWORD_PASTED_TRUNCATED">Liitetty teksti katkaistaan, koska salasanan enimmäispituus on 128 merkkiä</entry>
     <entry lang="fi" key="PASSWORD_MAXLENGTH_REACHED">Salasanan enimmäispituus on 128 merkkiä.\nErikoismerkkejä ei sallittu.</entry>
     <entry lang="fi" key="IDC_SELECT_LANGUAGE_LABEL">Valitse asentamisen aikana käytettävä kieli:</entry>
-    <entry lang="fi" key="VOLUME_TOO_LARGE_FOR_HOST">VIRHE: Tiedostosäilö koko on suurempi kuin käytettävissä oleva vapaata tilaa levyllä.</entry>
+    <entry lang="fi" key="VOLUME_TOO_LARGE_FOR_HOST">VIRHE: Tiedostosäilön koko on suurempi kuin käytettävissä oleva vapaa levytila.</entry>
     <entry lang="fi" key="IDC_ALLOW_WINDOWS_DEFRAG">Salli Windowsin Levyn Eheytyksen eheyttää ei-järjestelmäosio/asema</entry>    
     <entry lang="fi" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">VAROITUS: Järjestelmällisten osioiden tai aseman eheyttäminen voi vuotaa metatietoja sisällöstä tai aiheuttaa piilotettujen tiedostojen aiheuttamaa ongelmaa.\n\nJatketaan?</entry>
-    <entry lang="en" key="VIRTUAL_DEVICE">Virtual Device</entry>
-    <entry lang="en" key="MOUNTED_VOLUME_NOT_ASSOCIATED">The selected mounted volume is not associated with its drive letter in Windows and so it can not be opened in Windows Explorer.</entry>
-    <entry lang="en" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Clear encryption keys from memory if a new device is inserted</entry>
-    <entry lang="en" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">IMPORTANT NOTES:\n - Please keep in mind that this option will not persist after a shutdown/reboot so you will need to select it again next time the machine is started.\n\n - With this option enabled and after a new device is connected, the machine will freeze and it will eventually crash with a BSOD since Windows can not access the encrypted disk after its keys are cleared from memory.\n</entry>
-    <entry lang="en" key="STARTING">Starting</entry>
-    <entry lang="en" key="IDC_ENABLE_CPU_RNG">Use CPU hardware random generator as an additional source of entropy</entry>
-    <entry lang="en" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Use legacy maximum password length (64 characters)</entry>
-    <entry lang="en" key="IDC_ENABLE_RAM_ENCRYPTION">Activate encryption of keys and passwords stored in RAM</entry>
+    <entry lang="fi" key="VIRTUAL_DEVICE">Virtuaalinen laite</entry>
+    <entry lang="fi" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Valittu kytketty taltio ei ole yhdistetty Windows asemakirjaimeen ja siksi sitä ei voida avata resurssienhallinnassa.</entry>
+    <entry lang="fi" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Poista (tyhjennä) salausavaimet muistista jos uusi laite on lisätty</entry>
+    <entry lang="fi" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">TÄRKEÄÄ:\n - Pidä mielessäsi, että tämä ei ole pysyvä valinta joten joudut valitsemaan sen uudelleen sammutuksen/ uudelleenkäynnistyksen jälkeen.\n\n - Tällä valinnalla ja kun uusi laite on kytketty, tietokone jäätyy ja se kaatuu lopulta BSOD: llä, koska Windows ei pääse salattuun levyyn sen jälkeen, kun sen avaimet on poistettu muistista.\n</entry>
+    <entry lang="fi" key="STARTING">Käynnistyy</entry>
+    <entry lang="fi" key="IDC_ENABLE_CPU_RNG">Käytä CPU-laitteiston satunnaista generaattoria ylimääräisenä entropian lähteenä</entry>
+    <entry lang="fi" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Käytä salasanan enimmäispituutta (64 merkkiä)</entry>
+    <entry lang="fi" key="IDC_ENABLE_RAM_ENCRYPTION">Aktivoi RAM-muistiin tallennettujen avainten ja salasanojen salaus</entry>
     <entry lang="fi" key="IDT_BENCHMARK">Nopeustesti:</entry>
-    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
+    <entry lang="fi" key="IDC_DISABLE_MOUNT_MANAGER">Luo vain virtuaalinen laite asentamatta sitä valittuun aseman kirjaimeen</entry>
     <entry lang="fi" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Syötetty salasana on liian pitkä: sen UTF-8-esitys ylittää 64 tavua.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
