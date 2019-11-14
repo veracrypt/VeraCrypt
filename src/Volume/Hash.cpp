@@ -40,7 +40,7 @@ namespace VeraCrypt
 
 	void Hash::ValidateDigestParameters (const BufferPtr &buffer) const
 	{
-		if (buffer.Size() != GetDigestSize ())
+		if (buffer.Size() < GetDigestSize ())
 			throw ParameterIncorrect (SRC_POS);
 	}
 
