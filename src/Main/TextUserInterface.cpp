@@ -41,7 +41,9 @@ namespace VeraCrypt
 #endif
 		{
 			FInputStream.reset (new wxFFileInputStream (stdin));
-			TextInputStream.reset (new wxTextInputStream (*FInputStream));
+			// Set fallback encoding of the stream converter to UTF-8
+			// to make sure we interpret multibyte symbols properly
+			TextInputStream.reset (new wxTextInputStream (*FInputStream, wxT(" \t"), wxConvAuto(wxFONTENCODING_UTF8)));
 		}
 	}
 
