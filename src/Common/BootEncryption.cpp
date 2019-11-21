@@ -1030,7 +1030,7 @@ namespace VeraCrypt
 
 	static EfiBoot EfiBootInst;
 
-	BootEncryption::BootEncryption (HWND parent, bool postOOBE, bool setBootNext)
+	BootEncryption::BootEncryption (HWND parent, bool postOOBE, bool setBootEntry, bool forceFirstBootEntry, bool setBootNext)
 		: DriveConfigValid (false),
 		ParentWindow (parent),
 		RealSystemDriveSizeValid (false),
@@ -1042,7 +1042,9 @@ namespace VeraCrypt
 		SelectedPrfAlgorithmId (0),
 		VolumeHeaderValid (false),
 		PostOOBEMode (postOOBE),
-		SetBootNext (setBootNext)
+		SetBootNext (setBootNext),
+		SetBootEntry (setBootEntry),
+		ForceFirstBootEntry (forceFirstBootEntry)
 	{
       HiddenOSCandidatePartition.IsGPT = FALSE;
       HiddenOSCandidatePartition.Number = (size_t) -1;
@@ -2682,7 +2684,7 @@ namespace VeraCrypt
 		}
 	}
 
-	void EfiBoot::SetStartExec(wstring description, wstring execPath, bool setBootNext, uint16 statrtOrderNum , wchar_t* type, uint32 attr) {
+	void EfiBoot::SetStartExec(wstring description, wstring execPath, bool setBootEntry, bool forceFirstBootEntry, bool setBootNext, uint16 statrtOrderNum , wchar_t* type, uint32 attr) {
 		SetPrivilege(SE_SYSTEM_ENVIRONMENT_NAME, TRUE);
 		// Check EFI
 		if (!IsEfiBoot()) {
@@ -2799,27 +2801,37 @@ namespace VeraCrypt
 			}
 		}
 
-		// Create new entry if absent
-		if (startOrderNumPos == UINT_MAX) {
-			if (bDeviceInfoValid)
-			{
-				for (uint32 i = startOrderLen / 2; i > 0; --i) {
+		if (setBootEntry)
+		{
+			// Create new entry if absent
+			if (startOrderNumPos == UINT_MAX) {
+				if (bDeviceInfoValid)
+				{
+					if (forceFirstBootEntry)
+					{
+						for (uint32 i = startOrderLen / 2; i > 0; --i) {
+							startOrder[i] = startOrder[i - 1];
+						}
+						startOrder[0] = statrtOrderNum;
+					}
+					else
+					{
+						startOrder[startOrderLen/2] = statrtOrderNum;
+					}
+					startOrderLen += 2;
+					startOrderUpdate = true;
+				}
+			} else if ((startOrderNumPos > 0) && forceFirstBootEntry) {
+				for (uint32 i = startOrderNumPos; i > 0; --i) {
 					startOrder[i] = startOrder[i - 1];
 				}
 				startOrder[0] = statrtOrderNum;
-				startOrderLen += 2;
 				startOrderUpdate = true;
 			}
-		} else if (startOrderNumPos > 0) {
-			for (uint32 i = startOrderNumPos; i > 0; --i) {
-				startOrder[i] = startOrder[i - 1];
-			}
-			startOrder[0] = statrtOrderNum;
-			startOrderUpdate = true;
-		}
 
-		if (startOrderUpdate) {
-			SetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, startOrder, startOrderLen);
+			if (startOrderUpdate) {
+				SetFirmwareEnvironmentVariable(order.c_str(), EfiVarGuid, startOrder, startOrderLen);
+			}
 		}
 
 		if (setBootNext)
@@ -3333,7 +3345,7 @@ namespace VeraCrypt
 
 					// restore boot menu entry in case of PostOOBE
 					if (PostOOBEMode)
-						EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi", SetBootNext);
+						EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi", SetBootEntry, ForceFirstBootEntry, SetBootNext);
 
 					if (EfiBootInst.FileExists (L"\\EFI\\Microsoft\\Boot\\bootmgfw_ms.vc"))
 					{

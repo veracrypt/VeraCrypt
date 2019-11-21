@@ -9436,9 +9436,16 @@ static DWORD WINAPI SystemFavoritesServiceCtrlHandler (	DWORD dwControl,
 				{
 					// re-install our bootloader again in case the update process has removed it.
 					bool bForceSetNextBoot = false;
-					if (BootEncObj->ReadServiceConfigurationFlags () & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)
+					bool bSetBootentry = true;
+					bool bForceFirstBootEntry = true;
+					uint32 flags = BootEncObj->ReadServiceConfigurationFlags ();
+					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)
 						bForceSetNextBoot = true;
-					BootEncryption bootEnc (NULL, true, bForceSetNextBoot);
+					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)
+						bSetBootentry = false;
+					if (flags & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)
+						bForceFirstBootEntry = false;
+					BootEncryption bootEnc (NULL, true, bSetBootentry, bForceFirstBootEntry, bForceSetNextBoot);
 					bootEnc.InstallBootLoader (true);
 				}
 			}

@@ -209,7 +209,7 @@ namespace VeraCrypt
 		bool IsEfiBoot();
 
 		void DeleteStartExec(uint16 statrtOrderNum = 0xDC5B, wchar_t* type = NULL);
-		void SetStartExec(wstring description, wstring execPath, bool setBootNext = true, uint16 statrtOrderNum = 0xDC5B, wchar_t* type = NULL, uint32 attr = 1);
+		void SetStartExec(wstring description, wstring execPath, bool setBootEntry = true, bool forceFirstBootEntry = true, bool setBootNext = true, uint16 statrtOrderNum = 0xDC5B, wchar_t* type = NULL, uint32 attr = 1);
 		void SaveFile(const wchar_t* name, byte* data, DWORD size);
 		void GetFileSize(const wchar_t* name, unsigned __int64& size);
 		void ReadFile(const wchar_t* name, byte* data, DWORD size);
@@ -240,7 +240,7 @@ namespace VeraCrypt
 	class BootEncryption
 	{
 	public:
-		BootEncryption (HWND parent, bool postOOBE = false, bool setBootNext = false);
+		BootEncryption (HWND parent, bool postOOBE = false, bool setBootEntry = true, bool forceFirstBootEntry = true, bool setBootNext = false);
 		~BootEncryption ();
 
 		enum FilterType
@@ -353,6 +353,8 @@ namespace VeraCrypt
 		bool VolumeHeaderValid;
 		bool PostOOBEMode;
 		bool SetBootNext;
+		bool SetBootEntry;
+		bool ForceFirstBootEntry;
 	};
 }
 
@@ -371,6 +373,8 @@ namespace VeraCrypt
 
 #define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER			0x1
 #define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT			0x2
+#define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY			0x4
+#define VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY	0x8
 
 #define VC_WINDOWS_UPGRADE_POSTOOBE_CMDLINE_OPTION		L"/PostOOBE"
 
