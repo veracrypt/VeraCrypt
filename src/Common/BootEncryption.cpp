@@ -275,6 +275,27 @@ bool ZipAdd (zip_t *z, const char* name, const unsigned char* pbData, DWORD cbDa
 	return true;
 }
 
+static BOOL IsWindowsMBR (const byte *buffer, size_t bufferSize)
+{
+	BOOL bRet = FALSE;
+	byte g_pbMsSignature[4] = {0x33, 0xc0, 0x8e, 0xd0};
+	const char* g_szStr1 = "Invalid partition table";
+	const char* g_szStr2 = "Error loading operating system";
+	const char* g_szStr3 = "Missing operating system";
+
+	if ((0 == memcmp (buffer, g_pbMsSignature, 4)) &&
+		(BufferContainsString (buffer, bufferSize, g_szStr1) 
+		|| BufferContainsString (buffer, bufferSize, g_szStr2) 
+		|| BufferContainsString (buffer, bufferSize, g_szStr3)
+		)
+		)
+	{
+		bRet = TRUE;
+	}
+
+	return bRet;
+}
+
 namespace VeraCrypt
 {
 #if !defined (SETUP)
@@ -3546,8 +3567,10 @@ namespace VeraCrypt
 					}
 				}
 
-				// perform actual write only if content is different
-				if (memcmp (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE))
+				// perform actual write only if content is different and either we are not in PostOOBE mode or the MBR contains VeraCrypt/Windows signature.
+				// this last check is done to avoid interfering with multi-boot configuration where MBR belongs to a boot manager like Grub
+				if (memcmp (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE) 
+					&& (!PostOOBEMode || BufferContainsString (mbr, sizeof (mbr), TC_APP_NAME) || IsWindowsMBR (mbr, sizeof (mbr))))
 				{
 					memcpy (mbr, bootLoaderBuf, TC_MAX_MBR_BOOT_CODE_SIZE);
 
