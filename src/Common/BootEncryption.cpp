@@ -2824,11 +2824,30 @@ namespace VeraCrypt
 
 		if (setBootEntry)
 		{
+			// check if first entry in BootOrder is Windows one
+			bool bFirstEntryIsWindows = false;
+			if (startOrderNumPos != 0)
+			{
+				wchar_t	varName[256];
+				StringCchPrintfW(varName, ARRAYSIZE (varName), L"%s%04X", type == NULL ? L"Boot" : type, startOrder[0]);
+
+				byte* existingVar = new byte[512];
+				DWORD existingVarLen = GetFirmwareEnvironmentVariableW (varName, EfiVarGuid, existingVar, 512);
+				if (existingVarLen > 0)
+				{
+					if (BufferContainsWideString (existingVar, existingVarLen, L"EFI\\Microsoft\\Boot\\bootmgfw.efi"))
+						bFirstEntryIsWindows = true;
+				}
+
+				delete [] existingVar;
+			}
+
+
 			// Create new entry if absent
 			if (startOrderNumPos == UINT_MAX) {
 				if (bDeviceInfoValid)
 				{
-					if (forceFirstBootEntry)
+					if (forceFirstBootEntry && bFirstEntryIsWindows)
 					{
 						for (uint32 i = startOrderLen / 2; i > 0; --i) {
 							startOrder[i] = startOrder[i - 1];
@@ -2842,7 +2861,7 @@ namespace VeraCrypt
 					startOrderLen += 2;
 					startOrderUpdate = true;
 				}
-			} else if ((startOrderNumPos > 0) && forceFirstBootEntry) {
+			} else if ((startOrderNumPos > 0) && forceFirstBootEntry && bFirstEntryIsWindows) {
 				for (uint32 i = startOrderNumPos; i > 0; --i) {
 					startOrder[i] = startOrder[i - 1];
 				}

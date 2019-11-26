@@ -12685,23 +12685,31 @@ void CheckFilesystem (HWND hwndDlg, int driveNo, BOOL fixErrors)
 	ShellExecuteW (NULL, (!IsAdmin() && IsUacSupported()) ? L"runas" : L"open", cmdPath, param, NULL, SW_SHOW);
 }
 
-
-BOOL BufferContainsString (const byte *buffer, size_t bufferSize, const char *str)
+BOOL BufferContainsPattern (const byte *buffer, size_t bufferSize, const byte *pattern, size_t patternSize)
 {
-	size_t strLen = strlen (str);
-
-	if (bufferSize < strLen)
+	if (bufferSize < patternSize)
 		return FALSE;
 
-	bufferSize -= strLen;
+	bufferSize -= patternSize;
 
 	for (size_t i = 0; i < bufferSize; ++i)
 	{
-		if (memcmp (buffer + i, str, strLen) == 0)
+		if (memcmp (buffer + i, pattern, patternSize) == 0)
 			return TRUE;
 	}
 
 	return FALSE;
+}
+
+
+BOOL BufferContainsString (const byte *buffer, size_t bufferSize, const char *str)
+{
+	return BufferContainsPattern (buffer, bufferSize, (const byte*) str, strlen (str));
+}
+
+BOOL BufferContainsWideString (const byte *buffer, size_t bufferSize, const wchar_t *str)
+{
+	return BufferContainsPattern (buffer, bufferSize, (const byte*) str, 2 * wcslen (str));
 }
 
 
