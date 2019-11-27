@@ -11732,13 +11732,14 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 					while (TextEditDialogBox(FALSE, hwndDlg, GetString ("BOOT_LOADER_CONFIGURATION_FILE"), dcsprop) == IDOK)
 					{
-						if (0 == strcmp(dcsprop.c_str(), currentDcsprop.c_str()))
+						const char* dcspropContent = dcsprop.c_str();
+						if (0 == strcmp(dcspropContent, currentDcsprop.c_str()))
 						{
 							break;
 						}
-						else if (validateDcsPropXml (dcsprop.c_str()))
+						else if (validateDcsPropXml (dcspropContent))
 						{
-							WriteESPFile (L"\\EFI\\VeraCrypt\\DcsProp", (LPBYTE) dcsprop.c_str(), (DWORD) dcsprop.size(), true);
+							WriteESPFile (L"\\EFI\\VeraCrypt\\DcsProp", (LPBYTE) dcspropContent, (DWORD) strlen (dcspropContent), true);
 							break;
 						}
 						else
