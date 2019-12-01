@@ -82,6 +82,7 @@ namespace VeraCrypt
 	TC_EXCEPTION_NODECL (ExecutedProcessFailed); \
 	TC_EXCEPTION (AlreadyInitialized); \
 	TC_EXCEPTION (AssertionFailed); \
+	TC_EXCEPTION (DeviceSectorSizeMismatch); \
 	TC_EXCEPTION (ExternalException); \
 	TC_EXCEPTION (InsufficientData); \
 	TC_EXCEPTION (NotApplicable); \
