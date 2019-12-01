@@ -444,6 +444,7 @@ namespace VeraCrypt
 	{
 #define EX2MSG(exception, message) do { if (ex == typeid (exception)) return (message); } while (false)
 		EX2MSG (DriveLetterUnavailable,				LangString["DRIVE_LETTER_UNAVAILABLE"]);
+		EX2MSG (DeviceSectorSizeMismatch,			_("Storage device and VC volume sector size mismatch"));
 		EX2MSG (EncryptedSystemRequired,			_("This operation must be performed only when the system hosted on the volume is running."));
 		EX2MSG (ExternalException,					LangString["EXCEPTION_OCCURRED"]);
 		EX2MSG (InsufficientData,					_("Not enough data available."));
@@ -1588,6 +1589,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (RootDeviceUnavailable);
 		VC_CONVERT_EXCEPTION (DriveLetterUnavailable);
 		VC_CONVERT_EXCEPTION (DriverError);
+		VC_CONVERT_EXCEPTION (DeviceSectorSizeMismatch);
 		VC_CONVERT_EXCEPTION (EncryptedSystemRequired);
 		VC_CONVERT_EXCEPTION (HigherFuseVersionRequired);
 		VC_CONVERT_EXCEPTION (KernelCryptoServiceTestFailed);

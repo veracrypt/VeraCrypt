@@ -45,6 +45,7 @@ namespace VeraCrypt
 		VC_CONVERT_EXCEPTION (RootDeviceUnavailable);
 		VC_CONVERT_EXCEPTION (DriveLetterUnavailable);
 		VC_CONVERT_EXCEPTION (DriverError);
+		VC_CONVERT_EXCEPTION (DeviceSectorSizeMismatch);
 		VC_CONVERT_EXCEPTION (EncryptedSystemRequired);
 		VC_CONVERT_EXCEPTION (HigherFuseVersionRequired);
 		VC_CONVERT_EXCEPTION (KernelCryptoServiceTestFailed);
