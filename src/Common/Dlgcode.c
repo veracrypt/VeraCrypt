@@ -300,6 +300,7 @@ HMODULE hntmartadll = NULL;
 HMODULE hwinscarddll = NULL;
 HMODULE hmsvcrtdll = NULL;
 HMODULE hWinTrustLib = NULL;
+HMODULE hAdvapi32Dll = NULL;
 
 #define FREE_DLL(h)	if (h) { FreeLibrary (h); h = NULL;}
 
@@ -336,6 +337,18 @@ typedef HRESULT (STDAPICALLTYPE *SHStrDupWPtr)(LPCWSTR psz, LPWSTR *ppwsz);
 // ChangeWindowMessageFilter
 typedef BOOL (WINAPI *ChangeWindowMessageFilterPtr) (UINT, DWORD);
 
+typedef BOOL (WINAPI *CreateProcessWithTokenWFn)(
+    __in        HANDLE hToken,
+    __in        DWORD dwLogonFlags,
+    __in_opt    LPCWSTR lpApplicationName,
+    __inout_opt LPWSTR lpCommandLine,
+    __in        DWORD dwCreationFlags,
+    __in_opt    LPVOID lpEnvironment,
+    __in_opt    LPCWSTR lpCurrentDirectory,
+    __in        LPSTARTUPINFOW lpStartupInfo,
+    __out       LPPROCESS_INFORMATION lpProcessInformation
+      );
+
 SetDllDirectoryPtr SetDllDirectoryFn = NULL;
 SetSearchPathModePtr SetSearchPathModeFn = NULL;
 SetDefaultDllDirectoriesPtr SetDefaultDllDirectoriesFn = NULL;
@@ -350,6 +363,7 @@ SetupOpenInfFileWPtr SetupOpenInfFileWFn = NULL;
 SHDeleteKeyWPtr SHDeleteKeyWFn = NULL;
 SHStrDupWPtr SHStrDupWFn = NULL;
 ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
+CreateProcessWithTokenWFn CreateProcessWithTokenWPtr = NULL;
 
 typedef LONG (WINAPI *WINVERIFYTRUST)(HWND hwnd, GUID *pgActionID, LPVOID pWVTData);
 typedef CRYPT_PROVIDER_DATA* (WINAPI *WTHELPERPROVDATAFROMSTATEDATA)(HANDLE hStateData);
@@ -758,6 +772,7 @@ void AbortProcessDirect (wchar_t *abortMsg)
 	FREE_DLL (hntmartadll);
 	FREE_DLL (hwinscarddll);
 	FREE_DLL (hmsvcrtdll);
+	FREE_DLL (hAdvapi32Dll);
 
 	exit (1);
 }
@@ -808,6 +823,7 @@ void AbortProcessSilent (void)
 	FREE_DLL (hntmartadll);
 	FREE_DLL (hwinscarddll);
 	FREE_DLL (hmsvcrtdll);
+	FREE_DLL (hAdvapi32Dll);
 
 	// Note that this function also causes localcleanup() to be called (see atexit())
 	exit (1);
@@ -3014,6 +3030,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		AbortProcess ("INIT_DLL");
 
 	LoadSystemDll (L"Riched20.dll", &hRichEditDll, FALSE, SRC_POS);
+	LoadSystemDll (L"Advapi32.dll", &hAdvapi32Dll, FALSE, SRC_POS);
 
 #if !defined(SETUP)
 	if (!VerifyModuleSignature (modPath))
@@ -3046,6 +3063,9 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		AllowMessageInUIPI (WM_COPYGLOBALDATA);
 #endif
 	}
+
+	// Get CreateProcessWithTokenW function pointer
+	CreateProcessWithTokenWPtr = (CreateProcessWithTokenWFn) GetProcAddress(hAdvapi32Dll, "CreateProcessWithTokenW");
 
 	/* Save the instance handle for later */
 	hInst = hInstance;
@@ -3271,6 +3291,7 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 		FREE_DLL (hntmartadll);
 		FREE_DLL (hwinscarddll);
 		FREE_DLL (hmsvcrtdll);
+		FREE_DLL (hAdvapi32Dll);
 		exit (1);
 	}
 #endif
@@ -3316,6 +3337,7 @@ void FinalizeApp (void)
 	FREE_DLL (hntmartadll);
 	FREE_DLL (hwinscarddll);
 	FREE_DLL (hmsvcrtdll);
+	FREE_DLL (hAdvapi32Dll);
 }
 
 void InitHelpFileName (void)
@@ -5101,7 +5123,7 @@ void OpenVolumeExplorerWindow (int driveNo)
 	// Force explorer to discover the drive
 	SHGetFileInfo (dosName, 0, &fInfo, sizeof (fInfo), 0);
 
-	ShellExecute (NULL, L"open", dosName, NULL, NULL, SW_SHOWNORMAL);
+	SafeOpenURL (dosName);
 }
 
 static BOOL explorerCloseSent;
@@ -10499,25 +10521,37 @@ void ConfigReadCompareString (char *configKey, char *defaultValue, char *str, in
 
 void OpenPageHelp (HWND hwndDlg, int nPage)
 {
-	int r = (int)ShellExecuteW (NULL, L"open", szHelpFile, NULL, NULL, SW_SHOWNORMAL);
-
-	if (r == ERROR_FILE_NOT_FOUND)
+	if (IsAdmin ())
 	{
-		// Try the secondary help file
-		r = (int)ShellExecuteW (NULL, L"open", szHelpFile2, NULL, NULL, SW_SHOWNORMAL);
+		if (FileExists (szHelpFile))
+			SafeOpenURL (szHelpFile);
+		else if (FileExists (szHelpFile2))
+			SafeOpenURL (szHelpFile2);
+		else
+			Applink ("help");
+	}
+	else
+	{
+		int r = (int)ShellExecuteW (NULL, L"open", szHelpFile, NULL, NULL, SW_SHOWNORMAL);
 
 		if (r == ERROR_FILE_NOT_FOUND)
 		{
-			// Open local HTML help. It will fallback to online help if not found.
-			Applink ("help");
-			return;
-		}
-	}
+			// Try the secondary help file
+			r = (int)ShellExecuteW (NULL, L"open", szHelpFile2, NULL, NULL, SW_SHOWNORMAL);
 
-	if (r == SE_ERR_NOASSOC)
-	{
-		if (AskYesNo ("HELP_READER_ERROR", MainDlg) == IDYES)
-			OpenOnlineHelp ();
+			if (r == ERROR_FILE_NOT_FOUND)
+			{
+				// Open local HTML help. It will fallback to online help if not found.
+				Applink ("help");
+				return;
+			}
+		}
+
+		if (r == SE_ERR_NOASSOC)
+		{
+			if (AskYesNo ("HELP_READER_ERROR", MainDlg) == IDYES)
+				OpenOnlineHelp ();
+		}
 	}
 }
 
@@ -11021,14 +11055,30 @@ void Applink (const char *dest)
 		CorrectURL (url);
 	}
 
-	r = (int) ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
-
-	if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
+	if (IsAdmin ())
 	{
-		// fallbacl to online resources
-		StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
-		ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
-	}			
+		if (buildUrl && !FileExists (url))
+		{
+			// fallbacl to online resources
+			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+			SafeOpenURL (url);
+		}
+		else
+		{
+			SafeOpenURL (url);
+		}
+	}
+	else
+	{
+		r = (int) ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
+
+		if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
+		{
+			// fallbacl to online resources
+			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+			ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
+		}			
+	}
 
 	Sleep (200);
 	NormalCursor ();
@@ -14034,6 +14084,165 @@ Cleanup:
     }
 
     return bSuccess;
+}
+
+// Based on sample code from: 
+//    https://blogs.msdn.microsoft.com/aaron_margosis/2009/06/06/faq-how-do-i-start-a-program-as-the-desktop-user-from-an-elevated-app/
+// start a program non-elevated as the desktop user from an elevated app
+
+static bool RunAsDesktopUser(
+  __in    const wchar_t *       szApp,
+  __in    wchar_t *             szCmdLine)
+{
+	HANDLE hThreadToken = NULL, hShellProcess = NULL, hShellProcessToken = NULL, hPrimaryToken = NULL;
+	HWND hwnd = NULL;
+	DWORD dwPID = 0;
+	BOOL ret;
+	DWORD dwLastErr;
+	STARTUPINFOW si;
+	PROCESS_INFORMATION pi;
+	bool retval = false;
+	SecureZeroMemory(&si, sizeof(si));
+	SecureZeroMemory(&pi, sizeof(pi));
+	si.cb = sizeof(si);
+
+	// locate CreateProcessWithTokenW in Advapi32.dll
+	if (!CreateProcessWithTokenWPtr)
+	{
+		return false;
+	}
+
+	if (!ImpersonateSelf (SecurityImpersonation))
+	{
+		return false;
+	}
+
+	if (!OpenThreadToken (GetCurrentThread(),  TOKEN_ADJUST_PRIVILEGES, FALSE, &hThreadToken))
+	{
+		return false;
+	}
+	else
+	{
+		TOKEN_PRIVILEGES tkp;
+		tkp.PrivilegeCount = 1;
+		LookupPrivilegeValueW(NULL, SE_INCREASE_QUOTA_NAME, &tkp.Privileges[0].Luid);
+		tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		AdjustTokenPrivileges(hThreadToken, FALSE, &tkp, 0, NULL, NULL);
+		dwLastErr = GetLastError();
+		if (ERROR_SUCCESS != dwLastErr)
+		{
+			goto cleanup;
+		}
+	}
+
+	// From this point down, we have handles to close, so make sure to clean up.
+
+	// Get an HWND representing the desktop shell.
+	// CAVEATS:  This will fail if the shell is not running (crashed or terminated), or the default shell has been
+	// replaced with a custom shell.  This also won't return what you probably want if Explorer has been terminated and
+	// restarted elevated.
+	hwnd = GetShellWindow();
+	if (NULL == hwnd)
+	{
+		dwLastErr = GetLastError();
+		goto cleanup;
+	}
+
+	// Get the PID of the desktop shell process.
+	GetWindowThreadProcessId(hwnd, &dwPID);
+	if (0 == dwPID)
+	{
+		dwLastErr = GetLastError();
+		goto cleanup;
+	}
+
+	// Open the desktop shell process in order to query it (get the token)
+	hShellProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, dwPID);
+	if (!hShellProcess)
+	{
+		dwLastErr = GetLastError();
+		goto cleanup;
+	}
+
+	// Get the process token of the desktop shell.
+	ret = OpenProcessToken(hShellProcess, TOKEN_DUPLICATE, &hShellProcessToken);
+	if (!ret)
+	{
+		dwLastErr = GetLastError();
+		goto cleanup;
+	}
+
+	// Duplicate the shell's process token to get a primary token.
+	// Based on experimentation, this is the minimal set of rights required for CreateProcessWithTokenW (contrary to current documentation).
+	const DWORD dwTokenRights = TOKEN_QUERY | TOKEN_ASSIGN_PRIMARY | TOKEN_DUPLICATE | TOKEN_ADJUST_DEFAULT | TOKEN_ADJUST_SESSIONID;
+	ret = DuplicateTokenEx(hShellProcessToken, dwTokenRights, NULL, SecurityImpersonation, TokenPrimary, &hPrimaryToken);
+	if (!ret)
+	{
+		dwLastErr = GetLastError();
+		goto cleanup;
+	}
+
+	// Start the target process with the new token.
+	ret = CreateProcessWithTokenWPtr(
+		hPrimaryToken,
+		0,
+		szApp,
+		szCmdLine,
+		0,
+		NULL,
+		NULL,
+		&si,
+		&pi);
+	if (!ret)
+	{
+		dwLastErr = GetLastError();
+		goto cleanup;
+	}
+
+	// Make sure to close HANDLEs return in the PROCESS_INFORMATION.
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+
+	retval = true;
+
+cleanup:
+	// Clean up resources
+	if (hShellProcessToken) CloseHandle(hShellProcessToken);
+	if (hPrimaryToken) CloseHandle(hPrimaryToken);
+	if (hShellProcess) CloseHandle(hShellProcess);
+	if (hThreadToken) CloseHandle(hThreadToken);
+	RevertToSelf ();
+	if (!retval)
+		SetLastError (dwLastErr);
+	return retval;
+}
+
+// This function always loads a URL in a non-privileged mode
+// If current process has admin privileges, we execute the command "rundll32 url.dll,FileProtocolHandler URL" as non-elevated
+void SafeOpenURL (LPCWSTR szUrl)
+{
+	if (IsAdmin ())
+	{
+		WCHAR szRunDllPath[TC_MAX_PATH];
+		WCHAR szUrlDllPath[TC_MAX_PATH];
+		WCHAR szSystemPath[TC_MAX_PATH];
+		LPWSTR szCommandLine = new WCHAR[1024];
+
+		if (!GetSystemDirectory(szSystemPath, MAX_PATH))
+			StringCbCopyW(szSystemPath, sizeof(szSystemPath), L"C:\\Windows\\System32");
+
+		StringCbPrintfW(szRunDllPath, sizeof(szRunDllPath), L"%s\\%s", szSystemPath, L"rundll32.exe");
+		StringCbPrintfW(szUrlDllPath, sizeof(szUrlDllPath), L"%s\\%s", szSystemPath, L"url.dll");
+		StringCchPrintfW(szCommandLine, 1024, L"%s,FileProtocolHandler %s", szUrlDllPath, szUrl);
+
+		RunAsDesktopUser (szRunDllPath, szCommandLine);
+
+		delete [] szCommandLine;
+	}
+	else
+	{
+		ShellExecuteW (NULL, L"open", szUrl, NULL, NULL, SW_SHOWNORMAL);
+	}
 }
 
 #if !defined(SETUP) && defined(_WIN64)

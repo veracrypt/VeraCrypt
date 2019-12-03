@@ -957,7 +957,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if (lw == IDM_HOMEPAGE )
 		{
 			ArrowWaitCursor ();
-			ShellExecute (NULL, L"open", L"https://www.veracrypt.fr", NULL, NULL, SW_SHOWNORMAL);
+			SafeOpenURL (L"https://www.veracrypt.fr");
 			Sleep (200);
 			NormalCursor ();
 

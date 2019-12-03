@@ -545,6 +545,7 @@ void GetInstallationPath (HWND hwndDlg, wchar_t* szInstallPath, DWORD cchSize, B
 BOOL GetSetupconfigLocation (wchar_t* path, DWORD cchSize);
 BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void* pattern, size_t patternLen);
 BOOL EnableProcessProtection();
+void SafeOpenURL (LPCWSTR szUrl);
 #ifdef _WIN64
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif
