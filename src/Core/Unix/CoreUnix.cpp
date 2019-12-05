@@ -465,6 +465,7 @@ namespace VeraCrypt
 					continue;
 				}
 
+				options.Password.reset();
 				throw;
 			}
 
