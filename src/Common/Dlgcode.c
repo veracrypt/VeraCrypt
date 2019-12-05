@@ -14017,6 +14017,17 @@ BOOL EnableProcessProtection()
     PACL pACL = NULL;
     DWORD cbACL = 0;
 
+	// Acces mask
+	DWORD dwAccessMask = SYNCHRONIZE | PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_TERMINATE; // same as protected process
+	
+	if (IsAdmin ())
+	{
+		// if we are running elevated, we allow CreateProcessXXX calls alongside PROCESS_DUP_HANDLE and PROCESS_QUERY_INFORMATION in order to be able 
+		// to implement secure way to open URLs (cf RunAsDesktopUser)
+		// we are still protecting against memory access from non-admon processes
+		dwAccessMask |= PROCESS_CREATE_PROCESS | PROCESS_DUP_HANDLE | PROCESS_QUERY_INFORMATION;
+	}
+
     // Open the access token associated with the calling process
     if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
         goto Cleanup;
@@ -14055,7 +14066,7 @@ BOOL EnableProcessProtection()
     if (!AddAccessAllowedAce(
             pACL,
             ACL_REVISION,
-            SYNCHRONIZE | PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_TERMINATE, // same as protected process
+            dwAccessMask,
             pTokenUser->User.Sid // pointer to the trustee's SID
             )) {
         goto Cleanup;
