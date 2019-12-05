@@ -14117,7 +14117,7 @@ static bool RunAsDesktopUser(
 		return false;
 	}
 
-	if (!OpenThreadToken (GetCurrentThread(),  TOKEN_ADJUST_PRIVILEGES, FALSE, &hThreadToken))
+	if (!OpenThreadToken (GetCurrentThread(),  TOKEN_ADJUST_PRIVILEGES, TRUE, &hThreadToken))
 	{
 		return false;
 	}
@@ -14127,6 +14127,9 @@ static bool RunAsDesktopUser(
 		tkp.PrivilegeCount = 1;
 		LookupPrivilegeValueW(NULL, SE_INCREASE_QUOTA_NAME, &tkp.Privileges[0].Luid);
 		tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+		SetThreadToken (NULL, NULL);
+
 		AdjustTokenPrivileges(hThreadToken, FALSE, &tkp, 0, NULL, NULL);
 		dwLastErr = GetLastError();
 		if (ERROR_SUCCESS != dwLastErr)
@@ -14233,9 +14236,9 @@ void SafeOpenURL (LPCWSTR szUrl)
 
 		StringCbPrintfW(szRunDllPath, sizeof(szRunDllPath), L"%s\\%s", szSystemPath, L"rundll32.exe");
 		StringCbPrintfW(szUrlDllPath, sizeof(szUrlDllPath), L"%s\\%s", szSystemPath, L"url.dll");
-		StringCchPrintfW(szCommandLine, 1024, L"%s,FileProtocolHandler %s", szUrlDllPath, szUrl);
+		StringCchPrintfW(szCommandLine, 1024, L"%s %s,FileProtocolHandler %s", szRunDllPath, szUrlDllPath, szUrl);
 
-		RunAsDesktopUser (szRunDllPath, szCommandLine);
+		RunAsDesktopUser (NULL, szCommandLine);
 
 		delete [] szCommandLine;
 	}
