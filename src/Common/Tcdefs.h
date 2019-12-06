@@ -263,6 +263,10 @@ extern ULONG AllocTag;
 typedef int BOOL;
 #endif
 
+#ifndef BOOLEAN
+typedef unsigned char  BOOLEAN;
+#endif
+
 #ifndef TRUE
 #define TRUE 1
 #endif
@@ -289,6 +293,8 @@ typedef NTSTATUS (NTAPI *ExGetFirmwareEnvironmentVariableFn) (
   PULONG          Attributes
 );
 
+typedef BOOLEAN (NTAPI *KeAreAllApcsDisabledFn) ();
+
 extern NTSTATUS NTAPI KeSaveExtendedProcessorState (
     __in ULONG64 Mask,
     PXSTATE_SAVE XStateSave
@@ -298,6 +304,9 @@ extern NTSTATUS NTAPI KeSaveExtendedProcessorState (
 extern VOID NTAPI KeRestoreExtendedProcessorState (
 	PXSTATE_SAVE XStateSave
 	);
+
+extern BOOLEAN VC_KeAreAllApcsDisabled (VOID);
+
 
 #else				/* !TC_WINDOWS_DRIVER */
 #if !defined(_UEFI)
