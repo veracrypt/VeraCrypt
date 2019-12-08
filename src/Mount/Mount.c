@@ -10861,6 +10861,21 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 			nStatus = ERR_OS_ERROR;
 			goto error;
 		}
+		else if (!bDevice && bPreserveTimestamp)
+		{
+			// ensure that Last Access timestamp is not modified
+			ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+			ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+			SetFileTime (dev, NULL, &ftLastAccessTime, NULL);
+
+			/* Remember the container modification/creation date and time. */
+
+			if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
+				bTimeStampValid = FALSE;
+			else
+				bTimeStampValid = TRUE;
+		}
 
 		// Determine volume host size
 		if (bDevice)
@@ -10931,15 +10946,6 @@ int RestoreVolumeHeader (HWND hwndDlg, const wchar_t *lpszVolume)
 			hostSize = fileSize.QuadPart;
 		}
 
-		if (!bDevice && bPreserveTimestamp)
-		{
-			/* Remember the container modification/creation date and time. */
-
-			if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
-				bTimeStampValid = FALSE;
-			else
-				bTimeStampValid = TRUE;
-		}
 
 		/* Read the volume header from the backup file */
 		char buffer[TC_VOLUME_HEADER_GROUP_SIZE];

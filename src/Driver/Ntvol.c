@@ -303,7 +303,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	if (mount->bMountReadOnly || ntStatus == STATUS_ACCESS_DENIED)
 	{
 		ntStatus = ZwCreateFile (&Extension->hDeviceFile,
-			GENERIC_READ | SYNCHRONIZE,
+			GENERIC_READ | (!bRawDevice && mount->bPreserveTimestamp? FILE_WRITE_ATTRIBUTES : 0) | SYNCHRONIZE,
 			&oaFileAttributes,
 			&IoStatusBlock,
 			NULL,
@@ -317,6 +317,26 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			FILE_SYNCHRONOUS_IO_NONALERT,
 			NULL,
 			0);
+
+		if (!NT_SUCCESS (ntStatus) && !bRawDevice && mount->bPreserveTimestamp)
+		{
+			/* try again without FILE_WRITE_ATTRIBUTES */
+			ntStatus = ZwCreateFile (&Extension->hDeviceFile,
+				GENERIC_READ | SYNCHRONIZE,
+				&oaFileAttributes,
+				&IoStatusBlock,
+				NULL,
+				FILE_ATTRIBUTE_NORMAL |
+				FILE_ATTRIBUTE_SYSTEM,
+				exclusiveAccess ? FILE_SHARE_READ : FILE_SHARE_READ | FILE_SHARE_WRITE,
+				FILE_OPEN,
+				FILE_RANDOM_ACCESS |
+				FILE_WRITE_THROUGH |
+				(disableBuffering ? FILE_NO_INTERMEDIATE_BUFFERING : 0) |
+				FILE_SYNCHRONOUS_IO_NONALERT,
+				NULL,
+				0);
+		}
 
 		if (NT_SUCCESS (ntStatus) && !mount->bMountReadOnly)
 			mount->VolumeMountedReadOnlyAfterAccessDenied = TRUE;
@@ -362,6 +382,18 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 				Extension->fileLastWriteTime = FileBasicInfo.LastWriteTime;
 				Extension->fileLastChangeTime = FileBasicInfo.ChangeTime;
 				Extension->bTimeStampValid = TRUE;
+
+				// we tell the system not to update LastAccessTime, LastWriteTime, and ChangeTime
+				FileBasicInfo.CreationTime.QuadPart = 0;
+				FileBasicInfo.LastAccessTime.QuadPart = -1;
+				FileBasicInfo.LastWriteTime.QuadPart = -1;
+				FileBasicInfo.ChangeTime.QuadPart = -1;
+
+				ZwSetInformationFile (Extension->hDeviceFile,
+					&IoStatusBlock,
+					&FileBasicInfo,
+					sizeof (FileBasicInfo),
+					FileBasicInformation);
 			}
 
 			ntStatus = ZwQueryInformationFile (Extension->hDeviceFile,

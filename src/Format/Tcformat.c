@@ -3313,6 +3313,12 @@ BOOL IsSparseFile (HWND hwndDlg)
 
 	if (bPreserveTimestamp)
 	{
+		FILETIME ftLastAccessTime;
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (hFile, NULL, &ftLastAccessTime, NULL);
+
 		if (GetFileTime (hFile, NULL, &ftLastAccessTime, NULL) == 0)
 			bTimeStampValid = FALSE;
 		else
@@ -3352,6 +3358,12 @@ BOOL GetFileVolSize (HWND hwndDlg, unsigned __int64 *size)
 
 	if (bPreserveTimestamp)
 	{
+		FILETIME ftLastAccessTime;
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (hFile, NULL, &ftLastAccessTime, NULL);
+
 		if (GetFileTime (hFile, NULL, &ftLastAccessTime, NULL) == 0)
 			bTimeStampValid = FALSE;
 		else

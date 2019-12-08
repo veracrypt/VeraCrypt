@@ -11238,10 +11238,8 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 	else
 		StringCbCopyW (szCFDevice, sizeof(szCFDevice), szDiskFile);
 
-	if (preserveTimestamps)
-		write = TRUE;
 
-	context->HostFileHandle = CreateFile (szCFDevice, GENERIC_READ | (write ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	context->HostFileHandle = CreateFile (szCFDevice, GENERIC_READ | (write ? GENERIC_WRITE : (!context->IsDevice && preserveTimestamps? FILE_WRITE_ATTRIBUTES : 0)), FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
 	if (context->HostFileHandle == INVALID_HANDLE_VALUE)
 	{
@@ -11263,6 +11261,13 @@ int OpenVolume (OpenVolumeContext *context, const wchar_t *volumePath, Password 
 	// Remember the container modification/creation date and time
 	if (!context->IsDevice && preserveTimestamps)
 	{
+		// ensure that Last Access and Last Write timestamps are not modified
+		FILETIME ftLastAccessTime;
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (context->HostFileHandle, NULL, &ftLastAccessTime, NULL);
+
 		if (GetFileTime (context->HostFileHandle, &context->CreationTime, &context->LastAccessTime, &context->LastWriteTime) == 0)
 			context->TimestampsValid = FALSE;
 		else

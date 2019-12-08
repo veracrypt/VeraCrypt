@@ -350,6 +350,19 @@ begin_format:
 			nStatus = ERR_OS_ERROR;
 			goto error;
 		}
+		else if (volParams->hiddenVol && bPreserveTimestamp)
+		{
+			// ensure that Last Access and Last Write timestamps are not modified
+			ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+			ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+			SetFileTime (dev, NULL, &ftLastAccessTime, NULL);
+
+			if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
+				bTimeStampValid = FALSE;
+			else
+				bTimeStampValid = TRUE;
+		}
 
 		DisableFileCompression (dev);
 
@@ -378,14 +391,6 @@ begin_format:
 				goto error;
 			}
 		}
-	}
-
-	if (volParams->hiddenVol && !volParams->bDevice && bPreserveTimestamp)
-	{
-		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
-			bTimeStampValid = FALSE;
-		else
-			bTimeStampValid = TRUE;
 	}
 
 	if (volParams->hwndDlg && volParams->bGuiMode) KillTimer (volParams->hwndDlg, TIMER_ID_RANDVIEW);

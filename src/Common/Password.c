@@ -224,6 +224,19 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 
 	if (dev == INVALID_HANDLE_VALUE)
 		goto error;
+	else if (!bDevice && bPreserveTimestamp)
+	{
+		// ensure that Last Access and Last Write timestamps are not modified
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (dev, NULL, &ftLastAccessTime, NULL);
+
+		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
+			bTimeStampValid = FALSE;
+		else
+			bTimeStampValid = TRUE;
+	}
 
 	if (bDevice)
 	{
@@ -313,13 +326,6 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 
 	SetRandomPoolEnrichedByUserStatus (FALSE); /* force the display of the random enriching dialog */
 
-	if (!bDevice && bPreserveTimestamp)
-	{
-		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
-			bTimeStampValid = FALSE;
-		else
-			bTimeStampValid = TRUE;
-	}
 
 	for (volumeType = TC_VOLUME_TYPE_NORMAL; volumeType < TC_VOLUME_TYPE_COUNT; volumeType++)
 	{

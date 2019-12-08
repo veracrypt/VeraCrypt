@@ -535,6 +535,27 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	if (dev == INVALID_HANDLE_VALUE)
 		goto error;
+	else if (!bDevice && bPreserveTimestamp)
+	{
+		// ensure that Last Access and Last Time timestamps are not modified
+		// in order to preserve plausible deniability of hidden volumes (last password change time is stored in the volume header).
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (dev, NULL, &ftLastAccessTime, NULL);
+
+		/* Remember the container modification/creation date and time, (used to reset file date and time of
+		file-hosted volumes after password change (or attempt to), in order to preserve plausible deniability
+		of hidden volumes (last password change time is stored in the volume header). */
+
+		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
+		{
+			bTimeStampValid = FALSE;
+			MessageBoxW (hwndDlg, GetString ("GETFILETIME_FAILED_PW"), lpszTitle, MB_OK | MB_ICONEXCLAMATION);
+		}
+		else
+			bTimeStampValid = TRUE;
+	}
 
 	if (bDevice)
 	{
@@ -628,20 +649,6 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 		goto error;
 	}
 
-	if (!bDevice && bPreserveTimestamp)
-	{
-		/* Remember the container modification/creation date and time, (used to reset file date and time of
-		file-hosted volumes after password change (or attempt to), in order to preserve plausible deniability
-		of hidden volumes (last password change time is stored in the volume header). */
-
-		if (GetFileTime ((HANDLE) dev, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime) == 0)
-		{
-			bTimeStampValid = FALSE;
-			MessageBoxW (hwndDlg, GetString ("GETFILETIME_FAILED_PW"), lpszTitle, MB_OK | MB_ICONEXCLAMATION);
-		}
-		else
-			bTimeStampValid = TRUE;
-	}
 
 	// Seek the volume header
 	headerOffset.QuadPart = TC_VOLUME_HEADER_OFFSET;

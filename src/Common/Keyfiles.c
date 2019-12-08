@@ -149,50 +149,41 @@ void KeyFileCloneAll (KeyFile *firstKeyFile, KeyFile **outputKeyFile)
 
 static BOOL KeyFileProcess (unsigned __int8 *keyPool, unsigned __int32 keyPoolSize, KeyFile *keyFile)
 {
-	FILE *f;
 	unsigned __int8 buffer[64 * 1024];
 	unsigned __int32 crc = 0xffffffff;
 	unsigned __int32 writePos = 0;
-	size_t bytesRead, totalRead = 0;
+	DWORD bytesRead, totalRead = 0;
 	int status = TRUE;
-
 	HANDLE src;
-	FILETIME ftCreationTime;
-	FILETIME ftLastWriteTime;
-	FILETIME ftLastAccessTime;
+	BOOL bReadStatus = FALSE;
 
-	BOOL bTimeStampValid = FALSE;
-
-	/* Remember the last access time of the keyfile. It will be preserved in order to prevent
-	an adversary from determining which file may have been used as keyfile. */
 	src = CreateFile (keyFile->FileName,
-		GENERIC_READ | GENERIC_WRITE,
+		GENERIC_READ | FILE_WRITE_ATTRIBUTES,
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
 	if (src != INVALID_HANDLE_VALUE)
 	{
-		if (GetFileTime ((HANDLE) src, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime))
-			bTimeStampValid = TRUE;
+		/* We tell Windows not to update the Last Access timestamp in order to prevent
+		an adversary from determining which file may have been used as keyfile. */
+		FILETIME ftLastAccessTime;
+		ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+		ftLastAccessTime.dwLowDateTime = 0xFFFFFFFF;
+
+		SetFileTime (src, NULL, &ftLastAccessTime, NULL);
+	}
+	else
+	{
+		/* try to open without FILE_WRITE_ATTRIBUTES in case we are in a ReadOnly filesystem (e.g. CD)                                                                                                                                                                                                                                         */
+		src = CreateFile (keyFile->FileName,
+			GENERIC_READ,
+			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+		if (src == INVALID_HANDLE_VALUE)
+			return FALSE;
 	}
 
-	finally_do_arg (HANDLE, src,
+	while ((bReadStatus = ReadFile (src, buffer, sizeof (buffer), &bytesRead, NULL)) && (bytesRead > 0))
 	{
-		if (finally_arg != INVALID_HANDLE_VALUE)
-			CloseHandle (finally_arg);
-	});
-
-	f = _wfopen (keyFile->FileName, L"rb");
-	if (f == NULL) return FALSE;
-
-	while ((bytesRead = fread (buffer, 1, sizeof (buffer), f)) > 0)
-	{
-		size_t i;
-
-		if (ferror (f))
-		{
-			status = FALSE;
-			goto close;
-		}
+		DWORD i;
 
 		for (i = 0; i < bytesRead; i++)
 		{
@@ -211,7 +202,7 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, unsigned __int32 keyPoolSi
 		}
 	}
 
-	if (ferror (f))
+	if (!bReadStatus)
 	{
 		status = FALSE;
 	}
@@ -223,13 +214,9 @@ static BOOL KeyFileProcess (unsigned __int8 *keyPool, unsigned __int32 keyPoolSi
 
 close:
 	DWORD err = GetLastError();
-	fclose (f);
 
-	if (bTimeStampValid && !IsFileOnReadOnlyFilesystem (keyFile->FileName))
-	{
-		// Restore the keyfile timestamp
-		SetFileTime (src, &ftCreationTime, &ftLastAccessTime, &ftLastWriteTime);
-	}
+	CloseHandle (src);
+	burn (buffer, sizeof (buffer));
 
 	SetLastError (err);
 	return status;
