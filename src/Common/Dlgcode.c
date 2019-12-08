@@ -14238,9 +14238,10 @@ cleanup:
 
 // This function always loads a URL in a non-privileged mode
 // If current process has admin privileges, we execute the command "rundll32 url.dll,FileProtocolHandler URL" as non-elevated
+// Use this security mechanism only starting from Windows Vista
 void SafeOpenURL (LPCWSTR szUrl)
 {
-	if (IsAdmin ())
+	if (IsAdmin () && IsOSAtLeast (WIN_VISTA))
 	{
 		WCHAR szRunDllPath[TC_MAX_PATH];
 		WCHAR szUrlDllPath[TC_MAX_PATH];
