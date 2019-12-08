@@ -247,7 +247,7 @@ namespace VeraCrypt
 		if (!Initialized)
 			throw NotInitialized (SRC_POS);
 
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(CRYPTOPP_DISABLE_ASM)
 		if ((blockCount >= 4)
 			&& IsHwSupportAvailable())
 		{
@@ -263,7 +263,7 @@ namespace VeraCrypt
 		if (!Initialized)
 			throw NotInitialized (SRC_POS);
 
-#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE
+#if CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE && !defined(CRYPTOPP_DISABLE_ASM)
 		if ((blockCount >= 4)
 			&& IsHwSupportAvailable())
 		{
@@ -318,7 +318,7 @@ namespace VeraCrypt
 		if (!Initialized)
 			throw NotInitialized (SRC_POS);
 
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		twofish_encrypt_blocks ( (TwofishInstance *) ScheduledKey.Ptr(), data, data, blockCount);
 #else
 		Cipher::EncryptBlocks (data, blockCount);
@@ -330,7 +330,7 @@ namespace VeraCrypt
 		if (!Initialized)
 			throw NotInitialized (SRC_POS);
 
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		twofish_decrypt_blocks ( (TwofishInstance *) ScheduledKey.Ptr(), data, data, blockCount);
 #else
 		Cipher::DecryptBlocks (data, blockCount);
@@ -339,7 +339,7 @@ namespace VeraCrypt
 	
 	bool CipherTwofish::IsHwSupportAvailable () const
 	{
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		return true;
 #else
 		return false;
@@ -372,7 +372,7 @@ namespace VeraCrypt
 		if (!Initialized)
 			throw NotInitialized (SRC_POS);
 
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		camellia_encrypt_blocks ( ScheduledKey.Ptr(), data, data, blockCount);
 #else
 		Cipher::EncryptBlocks (data, blockCount);
@@ -384,7 +384,7 @@ namespace VeraCrypt
 		if (!Initialized)
 			throw NotInitialized (SRC_POS);
 
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		camellia_decrypt_blocks ( ScheduledKey.Ptr(), data, data, blockCount);
 #else
 		Cipher::DecryptBlocks (data, blockCount);
@@ -393,7 +393,7 @@ namespace VeraCrypt
 	
 	bool CipherCamellia::IsHwSupportAvailable () const
 	{
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		return true;
 #else
 		return false;

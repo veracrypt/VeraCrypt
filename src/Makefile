@@ -151,6 +151,7 @@ endif
 
 ifeq "$(origin NOASM)" "command line"
 	CPU_ARCH = unknown
+	C_CXX_FLAGS += -DCRYPTOPP_DISABLE_X86ASM
 endif
 
 ifeq "$(CPU_ARCH)" "x86"
