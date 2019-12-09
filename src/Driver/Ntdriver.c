@@ -1384,7 +1384,8 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 			else
 			{
 				IO_STATUS_BLOCK ioStatus;
-				PVOID buffer = TCalloc (max (pVerifyInformation->Length, PAGE_SIZE));
+				DWORD dwBuffersize = min (pVerifyInformation->Length, 16 * PAGE_SIZE);
+				PVOID buffer = TCalloc (dwBuffersize);
 
 				if (!buffer)
 				{
@@ -1392,14 +1393,29 @@ NTSTATUS ProcessVolumeDeviceControlIrp (PDEVICE_OBJECT DeviceObject, PEXTENSION 
 				}
 				else
 				{
-					LARGE_INTEGER offset = pVerifyInformation->StartingOffset;
+					LARGE_INTEGER offset;
+					DWORD dwRemainingBytes = pVerifyInformation->Length, dwReadCount;
 					offset.QuadPart = ullNewOffset;
 
-					Irp->IoStatus.Status = ZwReadFile (Extension->hDeviceFile, NULL, NULL, NULL, &ioStatus, buffer, pVerifyInformation->Length, &offset, NULL);
-					TCfree (buffer);
+					while (dwRemainingBytes)
+					{
+						dwReadCount = min (dwBuffersize, dwRemainingBytes);
+						Irp->IoStatus.Status = ZwReadFile (Extension->hDeviceFile, NULL, NULL, NULL, &ioStatus, buffer, dwReadCount, &offset, NULL);						
 
-					if (NT_SUCCESS (Irp->IoStatus.Status) && ioStatus.Information != pVerifyInformation->Length)
-						Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+						if (NT_SUCCESS (Irp->IoStatus.Status) && ioStatus.Information != dwReadCount)
+						{
+							Irp->IoStatus.Status = STATUS_INVALID_PARAMETER;
+							break;
+						}
+						else if (!NT_SUCCESS (Irp->IoStatus.Status))
+							break;
+
+						dwRemainingBytes -= dwReadCount;
+						offset.QuadPart += (ULONGLONG) dwReadCount;
+					}
+
+					burn (buffer, dwBuffersize);
+					TCfree (buffer);
 				}
 			}
 
