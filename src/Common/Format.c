@@ -369,7 +369,12 @@ begin_format:
 		if (!volParams->hiddenVol && !bInstantRetryOtherFilesys)
 		{
 			LARGE_INTEGER volumeSize;
+			BOOL speedupFileCreation = FALSE;
 			volumeSize.QuadPart = dataAreaSize + TC_VOLUME_HEADER_GROUP_SIZE;
+
+			// speedup for file creation only makes sens when using quick format
+			if (volParams->quickFormat && volParams->fastCreateFile)
+				speedupFileCreation = TRUE;
 
 			if (volParams->sparseFileSwitch && volParams->quickFormat)
 			{
@@ -384,12 +389,28 @@ begin_format:
 
 			// Preallocate the file
 			if (!SetFilePointerEx (dev, volumeSize, NULL, FILE_BEGIN)
-				|| !SetEndOfFile (dev)
-				|| SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+				|| !SetEndOfFile (dev))
 			{
 				nStatus = ERR_OS_ERROR;
 				goto error;
 			}
+
+			if (speedupFileCreation)
+			{
+				// accelerate file creation by telling Windows not to fill all file content with zeros
+				// this has security issues since it will put existing disk content into file container
+				// We use this mechanism only when switch /fastCreateFile specific and when quick format
+				// also specified and which is documented to have security issues.
+				// we don't check returned status because failure is not issue for us
+				SetFileValidData (dev, volumeSize.QuadPart);
+			}
+
+			if (SetFilePointer (dev, 0, NULL, FILE_BEGIN) != 0)
+			{
+				nStatus = ERR_OS_ERROR;
+				goto error;
+			}
+
 		}
 	}
 

@@ -250,6 +250,7 @@ int CmdVolumeFilesystem = FILESYS_NONE;
 unsigned __int64 CmdVolumeFileSize = 0;
 BOOL CmdSparseFileSwitch = FALSE;
 BOOL CmdQuickFormat = FALSE;
+BOOL CmdFastCreateFile = FALSE;
 
 BOOL bForceOperation = FALSE;
 
@@ -282,6 +283,7 @@ BOOL bDisplayPoolContents = TRUE;
 
 volatile BOOL bSparseFileSwitch = FALSE;
 volatile BOOL quickFormat = FALSE;
+volatile BOOL fastCreateFile = FALSE;
 volatile BOOL dynamicFormat = FALSE; /* this variable represents the sparse file flag. */
 volatile int fileSystem = FILESYS_NONE;
 volatile int clusterSize = 0;
@@ -2635,6 +2637,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	volParams->clusterSize = clusterSize;
 	volParams->sparseFileSwitch = dynamicFormat;
 	volParams->quickFormat = quickFormat;
+	volParams->fastCreateFile = fastCreateFile;
 	volParams->sectorSize = GetFormatSectorSize();
 	volParams->realClusterSize = &realClusterSize;
 	volParams->password = &volumePassword;
@@ -6234,6 +6237,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				quickFormat = CmdQuickFormat;
+				fastCreateFile = CmdFastCreateFile;
 				dynamicFormat = CmdSparseFileSwitch;
 
 				if (!GetDiskFreeSpaceEx (root, &free, 0, 0))
@@ -8994,6 +8998,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionForce,
 				OptionNoSizeCheck,
 				OptionQuickFormat,
+				OptionFastCreateFile,
 			};
 
 			argument args[]=
@@ -9016,6 +9021,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionForce,					L"/force",			NULL, FALSE },
 				{ OptionNoSizeCheck,			L"/nosizecheck",	NULL, FALSE },
 				{ OptionQuickFormat,			L"/quick",	NULL, FALSE },
+				{ OptionFastCreateFile,			L"/fastcreatefile",	NULL, FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9370,6 +9376,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionQuickFormat:
 				CmdQuickFormat = TRUE;
+				break;
+
+			case OptionFastCreateFile:
+				CmdFastCreateFile = TRUE;
 				break;
 
 			case OptionHistory:

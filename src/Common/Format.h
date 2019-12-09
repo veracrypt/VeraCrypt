@@ -38,6 +38,7 @@ typedef struct
 	unsigned int clusterSize;
 	BOOL sparseFileSwitch;
 	BOOL quickFormat;
+	BOOL fastCreateFile;
 	DWORD sectorSize;
 	int *realClusterSize;
 	Password *password;
