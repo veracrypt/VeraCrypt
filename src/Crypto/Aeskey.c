@@ -27,6 +27,7 @@
 
 #include "Aesopt.h"
 #include "Aestab.h"
+#include "Common/Tcdefs.h"
 
 #ifdef USE_VIA_ACE_IF_PRESENT
 #  include "aes_via_ace.h"
@@ -95,6 +96,8 @@ AES_RETURN aes_encrypt_key128(const unsigned char *key, aes_encrypt_ctx cx[1])
         cx->inf.b[1] = 0xff;
 #endif
 
+    burn(ss, sizeof(ss));
+
 #if defined( AES_ERR_CHK )
     return EXIT_SUCCESS;
 #endif
@@ -146,6 +149,8 @@ AES_RETURN aes_encrypt_key192(const unsigned char *key, aes_encrypt_ctx cx[1])
     if(VIA_ACE_AVAILABLE)
         cx->inf.b[1] = 0xff;
 #endif
+
+    burn(ss, sizeof(ss));
 
 #if defined( AES_ERR_CHK )
     return EXIT_SUCCESS;
@@ -201,6 +206,8 @@ AES_RETURN aes_encrypt_key256(const unsigned char *key, aes_encrypt_ctx cx[1])
     if(VIA_ACE_AVAILABLE)
         cx->inf.b[1] = 0xff;
 #endif
+
+    burn(ss, sizeof(ss));
 
 #if defined( AES_ERR_CHK )
     return EXIT_SUCCESS;
@@ -352,6 +359,8 @@ AES_RETURN aes_decrypt_key128(const unsigned char *key, aes_decrypt_ctx cx[1])
         cx->inf.b[1] = 0xff;
 #endif
 
+    burn(ss, sizeof(ss));
+
 #if defined( AES_ERR_CHK )
     return EXIT_SUCCESS;
 #endif
@@ -438,6 +447,8 @@ AES_RETURN aes_decrypt_key192(const unsigned char *key, aes_decrypt_ctx cx[1])
     if(VIA_ACE_AVAILABLE)
         cx->inf.b[1] = 0xff;
 #endif
+
+    burn(ss, sizeof(ss));
 
 #if defined( AES_ERR_CHK )
     return EXIT_SUCCESS;
@@ -537,6 +548,8 @@ AES_RETURN aes_decrypt_key256(const unsigned char *key, aes_decrypt_ctx cx[1])
     if(VIA_ACE_AVAILABLE)
         cx->inf.b[1] = 0xff;
 #endif
+
+    burn(ss, sizeof(ss));
 
 #if defined( AES_ERR_CHK )
     return EXIT_SUCCESS;
