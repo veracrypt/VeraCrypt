@@ -54,7 +54,7 @@
 #define UNROLL_TWOFISH
 #endif
 
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 
 /* these are 64-bit assembly implementation taken from https://github.com/jkivilin/supercop-blockciphers
    Copyright © 2011-2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
@@ -630,7 +630,7 @@ void twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
 		uint32 b = rotl32(MDSQ[0][Q[0][Q[0][Q[1][Q[1][i + 1] ^ key[28]] ^ key[20]] ^ key[12]] ^ key[4]] ^ MDSQ[1][Q[0][Q[1][Q[1][Q[0][i + 1] ^ key[29]] ^ key[21]] ^ key[13]] ^ key[5]]
 			^ MDSQ[2][Q[1][Q[0][Q[0][Q[0][i + 1] ^ key[30]] ^ key[22]] ^ key[14]] ^ key[6]] ^ MDSQ[3][Q[1][Q[1][Q[0][Q[1][i + 1] ^ key[31]] ^ key[23]] ^ key[15]] ^ key[7]], 8);
 		a += b;
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 		if (i < 8)
 		{
 			instance->w[i] = a;
@@ -998,7 +998,7 @@ void twofish_set_key(TwofishInstance *instance, const u4byte in_key[])
 
 #ifndef TC_MINIMIZE_CODE_SIZE
 
-#if (CRYPTOPP_BOOL_X64 == 0)
+#if (CRYPTOPP_BOOL_X64 == 0) || defined(CRYPTOPP_DISABLE_ASM)
 void twofish_encrypt(TwofishInstance *ks, const u4byte in_blk[4], u4byte out_blk[4])
 {   
 	uint32* rk = ks->l_key;
@@ -1071,7 +1071,7 @@ void twofish_encrypt(TwofishInstance *instance, const u4byte in_blk[4], u4byte o
 
 #ifndef TC_MINIMIZE_CODE_SIZE
 
-#if (CRYPTOPP_BOOL_X64 == 0)
+#if (CRYPTOPP_BOOL_X64 == 0) || defined(CRYPTOPP_DISABLE_ASM)
 void twofish_decrypt(TwofishInstance *ks, const u4byte in_blk[4], u4byte out_blk[4])
 {
 	uint32* rk = ks->l_key;

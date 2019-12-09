@@ -3,7 +3,7 @@
 #include "Crypto/cpu.h"
 #include "Crypto/misc.h"
 
-#if CRYPTOPP_BOOL_X64
+#if CRYPTOPP_BOOL_X64 && !defined(CRYPTOPP_DISABLE_ASM)
 
 /* camellia.c ver 1.2.0-x86_64_asm1.1
  *

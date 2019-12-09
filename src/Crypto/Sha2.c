@@ -10,7 +10,7 @@ and released into public domain.
 #include "Crypto/cpu.h"
 #include "Crypto/misc.h"
 
-#ifdef _UEFI
+#if defined(_UEFI) || defined(CRYPTOPP_DISABLE_ASM)
 #define NO_OPTIMIZED_VERSIONS
 #endif
 
