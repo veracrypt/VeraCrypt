@@ -2,7 +2,7 @@
 ;;; VeraCrypt
 ;;;
 ;;;
-;;; Copyright (c) 2018, IDRIX
+;;; Copyright (c) 2019, IDRIX
 ;;;
 
 [Version]
@@ -10,7 +10,7 @@ signature   = "$Windows NT$"
 Class       = "Encryption"                              ;This is determined by the work this filter driver does
 ClassGuid   = {a0a701c0-a511-42ff-aa6c-06dc0395576f}    ;This value is determined by the Class
 Provider    = %ProviderString%
-DriverVer   = 11/05/2019,1.24.8.1
+DriverVer   = 12/09/2019,1.24.9.1
 CatalogFile = veracrypt.cat
 
 
