@@ -42,19 +42,19 @@ During the process of preparing the encryption of a system partition/drive, Vera
 <li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 If the VeraCrypt Boot Loader screen does not appear after you start your computer (or if Windows does not boot), the
 <strong style="text-align:left">VeraCrypt Boot Loader may be damaged</strong>. The VeraCrypt Rescue Disk allows you restore it and thus to regain access to your encrypted system and data (however, note that you will still have to enter the correct password
- then). In the Rescue Disk screen, select <em style="text-align:left">Restore OS header keys</em> (or <em style="text-align:left">Repair Options</em> &gt;
-<em style="text-align:left">Restore VeraCrypt Boot Loader</em> in case of MBR legacy boot mode). Then press 'Y' to confirm the action, remove the Rescue Disk from your USB port or CD/DVD drive and restart your computer.
+ then). For EFI boot mode, select <em style="text-align:left">Restore VeraCrypt loader binaries to system disk</em> in the Rescue Disk screen. For MBR legacy boot mode, select instead <em style="text-align:left">Repair Options</em> &gt;
+<em style="text-align:left">Restore VeraCrypt Boot Loader</em>. Then press 'Y' to confirm the action, remove the Rescue Disk from your USB port or CD/DVD drive and restart your computer.
 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 If the <strong style="text-align:left">VeraCrypt Boot Loader is frequently damaged
 </strong>(for example, by inappropriately designed activation software) or if <strong style="text-align:left">
 you do not want the VeraCrypt boot loader </strong><strong style="text-align:left">to reside on the hard drive
 </strong>(for example, if you want to use an alternative boot loader/manager for other operating systems), you can boot directly from the VeraCrypt Rescue Disk (as it contains the VeraCrypt boot loader too) without restoring the boot loader to the hard drive.
- In case of EFI boot mode, just insert your Rescue Disk into a USB port, boot your computer on it and then select <em style="text-align:left">Boot VeraCrypt loader from rescue disk</em> on the Rescue Disk screen. In case of MBR legacy boot mode, you need to insert the Rescue Disk in your CD/DVD drive and then enter your password in the Rescue Disk screen.
+ For EFI boot mode, just insert your Rescue Disk into a USB port, boot your computer on it and then select <em style="text-align:left">Boot VeraCrypt loader from rescue disk</em> on the Rescue Disk screen. For MBR legacy boot mode, you need to insert the Rescue Disk in your CD/DVD drive and then enter your password in the Rescue Disk screen.
 </li><li style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
 If you repeatedly enter the correct password but VeraCrypt says that the password is incorrect, it is possible that the
 <strong style="text-align:left">master key or other critical data are damaged</strong>. The VeraCrypt Rescue Disk allows you to restore them and thus to regain access to your encrypted system and data (however, note that you will still have to enter the correct
- password then). In the Rescue Disk screen, select <em style="text-align:left">Restore OS header keys</em> (or <em style="text-align:left">Repair Options</em> &gt;
-<em style="text-align:left">Restore VeraCrypt Boot Loader</em> in case of MBR legacy boot mode). Then enter your password, press 'Y' to confirm the action, remove the Rescue Disk from the USB port or CD/DVD drive, and restart your computer.<br style="text-align:left">
+ password then). For EFI boot mode, select <em style="text-align:left">Restore OS header keys</em> in the Rescue Disk screen. For MBR legacy boot mode, select instead <em style="text-align:left">Repair Options</em> &gt;
+<em style="text-align:left">Restore VeraCrypt Boot Loader</em>. Then enter your password, press 'Y' to confirm the action, remove the Rescue Disk from the USB port or CD/DVD drive, and restart your computer.<br style="text-align:left">
 <br style="text-align:left">
 Note: This feature cannot be used to restore the header of a hidden volume within which a
 <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
@@ -68,9 +68,9 @@ WARNING: By restoring key data using a VeraCrypt Rescue Disk, you also restore t
  one (select <em style="text-align:left">System</em> -&gt; <em style="text-align:left">
 Create Rescue Disk</em>). Otherwise, if an attacker knows your old password (for example, captured by a keystroke logger) and if he then finds your old VeraCrypt Rescue Disk, he could use it to restore the key data (the master key encrypted with the old password)
  and thus decrypt your system partition/drive </li><li id="WindowsDamaged" style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
-If <strong style="text-align:left">Windows is damaged and cannot start</strong> after typing the correct password on VeraCrypt password prompt, the VeraCrypt Rescue Disk allows you to permanently decrypt the partition/drive before Windows starts. In the Rescue Disk screen, select
-<em style="text-align:left">Decrypt OS</em> (or <em style="text-align:left">Repair Options</em> &gt; <em style="text-align:left">
-Permanently decrypt system partition/drive</em> in case of MBR legacy boot mode). Enter the correct password and wait until decryption is complete. Then you can e.g. boot your MS Windows setup CD/DVD to repair your Windows installation. Note that this feature cannot be used to decrypt a hidden
+If <strong style="text-align:left">Windows is damaged and cannot start</strong> after typing the correct password on VeraCrypt password prompt, the VeraCrypt Rescue Disk allows you to permanently decrypt the partition/drive before Windows starts. For EFI boot, select
+<em style="text-align:left">Decrypt OS</em> in the Rescue Disk screen. For MBR legacy boot mode, select instead <em style="text-align:left">Repair Options</em> &gt; <em style="text-align:left">
+Permanently decrypt system partition/drive</em>. Enter the correct password and wait until decryption is complete. Then you can e.g. boot your MS Windows setup CD/DVD to repair your Windows installation. Note that this feature cannot be used to decrypt a hidden
  volume within which a <a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none.html">
 hidden operating system</a> resides (see the section <a href="Hidden%20Operating%20System.html">
 Hidden Operating System</a>).<br style="text-align:left">
