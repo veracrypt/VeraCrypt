@@ -4562,6 +4562,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
 			SetWindowTextW (GetDlgItem (hwndDlg, IDT_RESCUE_DISK_INFO), bSystemIsGPT? GetString ("RESCUE_DISK_EFI_INFO"): GetString ("RESCUE_DISK_INFO"));
+			SetCheckBox (hwndDlg, IDC_SKIP_RESCUE_VERIFICATION, bDontVerifyRescueDisk);
 			SetDlgItemText (hwndDlg, IDC_RESCUE_DISK_ISO_PATH, szRescueDiskISO);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), (GetWindowTextLength (GetDlgItem (hwndDlg, IDC_RESCUE_DISK_ISO_PATH)) > 1));
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
