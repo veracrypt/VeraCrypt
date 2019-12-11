@@ -81,15 +81,7 @@ CXXFLAGS += -I$(BASE_DIR)/Main
 
 #------ wxWidgets configuration ------
 
-ifdef TC_NO_GUI
-ifdef VC_WX_STATIC
-WX_CONFIG_LIBS := base
-else
 WX_CONFIG_LIBS := adv,core,base
-endif
-else
-WX_CONFIG_LIBS := adv,core,base
-endif
 
 ifeq "$(TC_BUILD_CONFIG)" "Release"
 

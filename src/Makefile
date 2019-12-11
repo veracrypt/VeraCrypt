@@ -70,7 +70,6 @@ endif
 ifeq "$(origin NOGUI)" "command line"
 	export TC_NO_GUI := 1
 	C_CXX_FLAGS += -DTC_NO_GUI
-	WX_CONFIGURE_FLAGS += --disable-gui
 endif
 
 ifdef PKCS11_INC
