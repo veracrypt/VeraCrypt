@@ -5061,7 +5061,7 @@ static BOOL Mount (HWND hwndDlg, int nDosDriveNo, wchar_t *szFileName, int pim, 
 		else if (!Silent)
 		{
 			int GuiPkcs5 = EffectiveVolumePkcs5;
-			BOOL GuiTrueCryptMode = EffectiveVolumeTrueCryptMode;
+			BOOL GuiTrueCryptMode = EffectiveVolumeTrueCryptMode || IsTrueCryptFileExtension (szFileName)? TRUE : FALSE;
 			int GuiPim = EffectiveVolumePim;
 			StringCbCopyW (PasswordDlgVolume, sizeof(PasswordDlgVolume), szFileName);
 

@@ -7392,6 +7392,15 @@ BOOL CheckFileExtension (wchar_t *fileName)
 	return FALSE;
 }
 
+BOOL IsTrueCryptFileExtension (wchar_t *fileName)
+{
+	wchar_t *ext = wcsrchr (fileName, L'.');
+	if (ext && !_wcsicmp (ext, L".tc"))
+		return TRUE;
+	else
+		return FALSE;
+}
+
 void CorrectFileName (wchar_t* fileName)
 {
 	/* replace '/' by '\' */

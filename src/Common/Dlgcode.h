@@ -351,6 +351,7 @@ BOOL CloseVolumeExplorerWindows (HWND hwnd, int driveNo);
 BOOL UpdateDriveCustomLabel (int driveNo, wchar_t* effectiveLabel, BOOL bSetValue);
 BOOL CheckCapsLock (HWND hwnd, BOOL quiet);
 BOOL CheckFileExtension (wchar_t *fileName);
+BOOL IsTrueCryptFileExtension (wchar_t *fileName);
 void CorrectFileName (wchar_t* fileName);
 void CorrectURL (wchar_t* fileName);
 void IncreaseWrongPwdRetryCount (int count);
