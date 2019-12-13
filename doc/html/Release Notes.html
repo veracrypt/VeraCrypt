@@ -40,6 +40,72 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
+<p><strong style="text-align:left">1.24-Update2-RC </strong>(December 12<sup>th</sup>, 2019):</p>
+<ul>
+<li><strong>All OSes:</strong>
+<ul>
+<li>clear AES key from stack memory when using non-optimized implementation. Doesn't apply to VeraCrypt official build (Reported and fixed by Hanno Böck)</li>
+<li>Update Jitterentropy RNG Library to version 2.2.0</li>
+<li>Start following IEEE 1541 agreed naming of bytes (KiB, MiB, GiB, TiB, PiB).</li>
+<li>Various documentation enhancements.</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>Fix possible local privilege escalation vulnerability during execution of VeraCrypt Expander (CVE-2019-19501)</li>
+<li>MBR bootloader:
+<ul>
+<li>workaround for SSD disks that don't allow write operations in BIOS mode with buffers less than 4096 bytes.</li>
+<li>Don't restore MBR to VeraCrypt value if it is coming from a loader different from us or different from Microsoft one.</li>
+</ul>
+</li>
+<li>EFI bootloader:
+<ul>
+<li>Fix "ActionFailed" not working and add "ActionCancelled" to customize handling of user hitting ESC on password prompt</li>
+<li>Fix F5 showing previous password after failed authentication attempt. Ensure that even wrong password value are cleared from memory.</li>
+</ul>
+</li>
+<li>Fix multi-OS boot compatibility by only setting VeraCrypt as first bootloader of the system if the current first bootloader is Windows one.</li>
+<li>Add new registry flags for SystemFavoritesService to control updating of EFI BIOS boot menu on shutdown.</li>
+<li>Allow system encrypted drive to be mounted in WindowsPE even if changing keyboard layout fails (reported and fixed by Sven Strickroth)</li>
+<li>Enhancements to the mechanism preserving file timestamps, especially for keyfiles.</li>
+<li>Fix RDRAND instruction not detected on AMD CPUs.</li>
+<li>Detect cases where RDRAND is flawed (e.g. AMD Ryzen) to avoid using it if enabled by user</li>.
+<li>Don't write extra 0x00 byte at the end of DcsProp file when modifying it through UI</li>
+<li>Reduce memory usage of IOCTL_DISK_VERIFY handler used in disk verification by Windows.</li>
+<li>Add switch /FastCreateFile for VeraCrypt Format.exe to speedup creation of large file container if quick format is selected.</li>
+<li>Fix the checkbox for skipping verification of Rescue Disk not reflecting the value of /noisocheck switch specified in VeraCrypt Format command line.</li>
+<li>check "TrueCrypt Mode" in password dialog when mounting a file container with .tc extension</li>
+<li>Update XML languages files.</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Fix regression causing admin password to be requested too many times in some cases</li>
+<li>Fix off by one buffer overflow in function Process::Execute (Reported and fixed by Hanno Böck)</li>
+<li>Make sure password gets deleted in case of internal error when mounting volume (Reported and fixed by Hanno Böck)</li>
+<li>Fix passwords using Unicode characters not recognized in text mode.</li>
+<li>Fix failure to run VeraCrypt binary built for console mode on headless machines.</li>
+<li>Add switch to force the use of legacy maximum password length (64 UTF8 bytes)</li>
+<li>Add CLI switch (--use-dummy-sudo-password) to force use of old sudo behavior of sending a dummy password</li>
+<li>During uninstall, output error message to STDERR instead of STDOUT for better compatibility with package managers.</li>
+<li>Make sector size mismatch error when mounting disks more verbose.</li>
+<li>Speedup SHA256 in 64-bit mode by using assembly code.</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>Add switch to force the use of legacy maximum password length (64 UTF8 bytes)</li>
+<li>Fix off by one buffer overflow in function Process::Execute (Reported and fixed by Hanno Böck)</li>
+<li>Fix passwords using Unicode characters not recognized in text mode.</li>
+<li>Make sector size mismatch error when mounting disks more verbose.</li>
+<li>Speedup SHA256 in 64-bit mode by using assembly code.</li>
+<li>Link against latest wxWidgets version 3.1.3</li>
+</ul>
+</li>
+</ul>
+
+
 <p><strong style="text-align:left">1.24-Hotfix1 </strong>(October 27<sup>rd</sup>, 2019):</p>
 <ul>
 <li><strong>Windows:</strong>
