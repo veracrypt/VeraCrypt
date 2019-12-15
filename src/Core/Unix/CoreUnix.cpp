@@ -477,7 +477,7 @@ namespace VeraCrypt
 			const uint32 devSectorSize = volume->GetFile()->GetDeviceSectorSize();
 			const size_t volSectorSize = volume->GetSectorSize();
 			if (devSectorSize != volSectorSize)
-				throw DeviceSectorSizeMismatch (SRC_POS, StringConverter::ToWide(devSectorSize) + L" != " + StringConverter::ToWide(volSectorSize));
+				throw DeviceSectorSizeMismatch (SRC_POS, StringConverter::ToWide(devSectorSize) + L" != " + StringConverter::ToWide((uint32) volSectorSize));
 		}
 
 		// Find a free mount point for FUSE service
