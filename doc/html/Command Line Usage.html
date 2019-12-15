@@ -259,13 +259,21 @@ It has no parameters and it indicates that no message box or dialog will be disp
 <td>/nosizecheck</td>
 <td>Don't check that the given size of the file container is smaller than the available disk free. This applies to both UI and command line.</td>
 </tr>
+<tr>
+<td>/quick</td>
+<td>Perform quick formatting of volumes instead of full formatting. This applies to both UI and command line.</td>
+</tr>
+<tr>
+<td>/FastCreateFile</td>
+<td>Use a faster but potentially insecure way to create file containers. This applies to both UI and command line.</td>
+</tr>
 </tbody>
 </table>
 <h4>Syntax</h4>
 <p>VeraCrypt.exe [/tc] [/hash {sha256|sha-256|sha512|sha-512|whirlpool |ripemd160|ripemd-160}][/a [devices|favorites]] [/b] [/c [y|n|f]] [/d [drive letter]] [/e] [/f] [/h [y|n]] [/k keyfile or search path] [tryemptypass [y|n]] [/l drive letter] [/m {bk|rm|recovery|ro|sm|ts|noattach}]
  [/p password] [/pim pimvalue] [/q [background|preferences]] [/s] [/tokenlib path] [/v volume] [/w]</p>
 <p>&quot;VeraCrypt Format.exe&quot; [/n] [/create] [/size number[{K|M|G|T}]] [/p password]&nbsp; [/encryption {AES | Serpent | Twofish | Camellia | Kuznyechik | AES(Twofish) | AES(Twofish(Serpent)) | Serpent(AES) | Serpent(Twofish(AES)) | Twofish(Serpent) | Camellia(Kuznyechik) | Kuznyechik(Twofish) | Camellia(Serpent) | Kuznyechik(AES) | Kuznyechik(Serpent(Camellia))}] [/hash {sha256|sha-256|sha512|sha-512|whirlpool|ripemd160|ripemd-160}]
- [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent]</p>
+ [/filesystem {None|FAT|NTFS|ExFAT|ReFS}] [/dynamic] [/force] [/silent] [/noisocheck] [FastCreateFile] [/quick]</p>
 <p>Note that the order in which options are specified does not matter.</p>
 <h4>Examples</h4>
 <p>Mount the volume <em>d:\myvolume</em> as the first free drive letter, using the password prompt (the main program window will not be displayed):</p>
