@@ -725,6 +725,7 @@ namespace VeraCrypt
 #ifdef TC_MACOSX
 		if (Gui->IsInBackgroundMode())
 			Gui->SetBackgroundMode (false);
+		EnsureVisible ();
 #endif
 		AboutDialog dialog (this);
 		dialog.ShowModal();
