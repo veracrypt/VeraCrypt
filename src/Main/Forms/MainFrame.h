@@ -162,8 +162,12 @@ namespace VeraCrypt
 		void UpdateVolumeList ();
 		void UpdateWipeCacheButton ();
 		void WipeCache ();
-        
-        void EnsureVisible()
+
+#ifdef TC_MACOSX
+		void OnMoveHandler(wxMoveEvent& event);
+#endif
+
+        void EnsureVisible(bool bOnlyHeadingBar = false)
         {
         	wxDisplay display (this);
         	wxRect displayRect = display.GetClientArea();
@@ -171,14 +175,19 @@ namespace VeraCrypt
         	bool bMove = false;
         	wxPoint p = GetScreenPosition();
         	wxRect r = GetRect ();
-        	if (p.x < displayRect.x)
+        	wxRect rc = GetClientRect ();
+        	int titleBarHeight = r.height - rc.height; 	
+        	
+        	if (!bOnlyHeadingBar && (p.x < displayRect.x))
         		p.x = 0, bMove = true;
         	if (p.y < displayRect.y)
         		p.y = displayRect.y, bMove = true;
-        	if (p.x + r.width > displayRect.x + displayRect.width)
+        	if (!bOnlyHeadingBar && (p.x + r.width > displayRect.x + displayRect.width))
         		p.x = displayRect.x + displayRect.width - r.width, bMove = true;
-        	if (p.y + r.height > displayRect.y + displayRect.height)
+        	if (!bOnlyHeadingBar && (p.y + r.height > displayRect.y + displayRect.height))
         		p.y = displayRect.y + displayRect.height - r.height, bMove = true;
+        	if (bOnlyHeadingBar && (p.y > (displayRect.y + displayRect.height - titleBarHeight)))
+        		p.y = displayRect.y + displayRect.height - titleBarHeight, bMove = true;
         	if (bMove)
         		Move (p);
         }
