@@ -12,7 +12,7 @@ endif()
 
 # - Set version of the package
 set( FULL_VERSION 		"1.24-Update2" )
-set( VERSION 			"1.24.9" )
+set( VERSION 			"1.24.10" )
 set( RELEASE 			"1" )
 
 # - Set PROJECT_NAME and CONFLICT_PACKAGE values
