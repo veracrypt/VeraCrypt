@@ -6157,6 +6157,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				exit (0);
 			}
 
+			fastCreateFile = CmdFastCreateFile;
+
 			if (DirectCreationMode)
 			{
 				wchar_t root[TC_MAX_PATH];
@@ -6238,7 +6240,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				quickFormat = CmdQuickFormat;
-				fastCreateFile = CmdFastCreateFile;
 				dynamicFormat = CmdSparseFileSwitch;
 
 				if (!GetDiskFreeSpaceEx (root, &free, 0, 0))
