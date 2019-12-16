@@ -15,7 +15,9 @@
 
 #include "Forms.h"
 #include "ChangePasswordDialog.h"
+#ifdef TC_MACOSX
 #include <wx/display.h>
+#endif
 
 namespace VeraCrypt
 {
@@ -165,7 +167,6 @@ namespace VeraCrypt
 
 #ifdef TC_MACOSX
 		void OnMoveHandler(wxMoveEvent& event);
-#endif
 
         void EnsureVisible(bool bOnlyHeadingBar = false)
         {
@@ -191,6 +192,7 @@ namespace VeraCrypt
         	if (bMove)
         		Move (p);
         }
+#endif
 
 		struct VolumeActivityMapEntry
 		{
