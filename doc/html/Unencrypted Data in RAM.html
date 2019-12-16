@@ -48,6 +48,10 @@ Inherently, unencrypted master keys have to be stored in RAM too. When a non-sys
  cleanly restarted), or when the system crashes, <strong style="text-align:left">
 VeraCrypt naturally stops running and therefore cannot </strong>erase any keys or any other sensitive data. Furthermore, as Microsoft does not provide any appropriate API for handling hibernation and shutdown, master keys used for system encryption cannot be
  reliably (and are not) erased from RAM when the computer hibernates, is shut down or restarted.**</div>
+<div style="text-align:left; margin-top:19px; margin-bottom:19px; padding-top:0px; padding-bottom:0px">
+Starting from version 1.24, VeraCrypt introduces a mechanism to encrypt master keys and cached passwords in RAM. This RAM encryption mechanism must be activated manually in "Performance/Driver Configuration" dialog. RAM encryption comes with a performance overhead (between 5% and 15% depending on the CPU speed) and it disables Windows hibernate. <br>
+Moreover, VeraCrypt 1.24 and above provide an additional security mechanism when system encryption is used that makes VeraCrypt erase master keys from RAM when a new device is connected to the PC. This additional mechanism can be activated using an option in System Settings dialog.<br/>
+Even though both above mechanisms provides strong protection for masterskeys and cached password, users should still take usual precautions related for the safery of sensitive data in RAM.</div>
 <table style="border-collapse:separate; border-spacing:0px; text-align:left; font-size:11px; line-height:13px; font-family:Verdana,Arial,Helvetica,sans-serif">
 <tbody style="text-align:left">
 <tr style="text-align:left">

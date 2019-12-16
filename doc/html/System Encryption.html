@@ -65,7 +65,8 @@ Because of BIOS requirement, the pre-boot password is typed using <strong>US key
 </strong>During the system encryption process, VeraCrypt automatically and transparently switches the keyboard to US layout in order to ensure that the password value typed will match the one typed in pre-boot mode. Thus, in order to avoid wrong password errors,
  one must type the password using the same keys as when creating the system encryption.</div>
 <p>Note: By default, Windows 7 and later boot from a special small partition. The partition contains files that are required to boot the system. Windows allows only applications that have administrator privileges to write to the partition (when the system is
- running). VeraCrypt encrypts the partition only if you choose to encrypt the whole system drive (as opposed to choosing to encrypt only the partition where Windows is installed).</p>
+ running). In EFI boot mode, which is the default on modern PCs, VeraCrypt can not encrypt this partition since it must remain unencrypted so that the BIOS can load the EFI bootloader from it. This in turn implies that in EFI boot mode, VeraCrypt offers only to encrypt the system partition where Windows is installed (the user can later manualy encrypt other data partitions using VeraCrypt). 
+ In MBR legacy boot mode, VeraCrypt encrypts the partition only if you choose to encrypt the whole system drive (as opposed to choosing to encrypt only the partition where Windows is installed).</p>
 <p>&nbsp;</p>
 <p><a href="Hidden%20Operating%20System.html" style="text-align:left; color:#0080c0; text-decoration:none; font-weight:bold.html">Next Section &gt;&gt;</a></p>
 </div>
