@@ -47,7 +47,9 @@ namespace VeraCrypt
 		virtual void ExportSecurityTokenKeyfile () const;
 		virtual shared_ptr <GetStringFunctor> GetAdminPasswordRequestHandler ();
 		virtual void ImportSecurityTokenKeyfiles () const;
+#ifndef TC_NO_GUI
 		virtual bool Initialize (int &argc, wxChar **argv) { return wxAppBase::Initialize(argc, argv); }
+#endif
 		virtual void InitSecurityTokenLibrary () const;
 		virtual void ListSecurityTokenKeyfiles () const;
 		virtual VolumeInfoList MountAllDeviceHostedVolumes (MountOptions &options) const;
