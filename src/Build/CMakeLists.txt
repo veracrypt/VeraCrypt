@@ -242,19 +242,24 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set( CPACK_DEBIAN_PACKAGE_RELEASE 		${CPACK_PACKAGE_RELEASE} )
 	set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE 	${ARCHITECTURE} )																	# mandatory
 	
-	# Link against gtk3 version of wxWidgets if >= Debian 10 or >= Ubuntu 18.04
-	# Otherwise, link against gtk2 version of wxWidgets
-	if ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) ) 
-		OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "18.04" ) ) )
-		
-		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libfuse2, dmsetup, sudo" )										
-		
+	if (NOGUI)
+		# We build wxWidgets statically so that we don't depend on any GTK library
+		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2, dmsetup, sudo" )
 	else ()
-	
-		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup, sudo" )
+		# Link against gtk3 version of wxWidgets if >= Debian 10 or >= Ubuntu 18.04
+		# Otherwise, link against gtk2 version of wxWidgets
+		if ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "10" ) ) 
+			OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_GREATER_EQUAL "18.04" ) ) )
+			
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libfuse2, dmsetup, sudo" )										
+			
+		else ()
 		
+			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup, sudo" )
+			
+		endif()
 	endif()
-		
+
 	set( CPACK_DEBIAN_PACKAGE_MAINTAINER 	${CONTACT} )																		# mandatory
 	set( CPACK_DEBIAN_PACKAGE_DESCRIPTION 	${CPACK_PACKAGE_DESCRIPTION_SUMMARY} )												# mandatory
 	set( CPACK_DEBIAN_ARCHIVE_TYPE 			"gnutar")																			# mandatory
@@ -284,19 +289,23 @@ elseif ( ( PLATFORM STREQUAL "CentOS" ) OR ( PLATFORM STREQUAL "openSUSE" ) )
 	set( CPACK_RPM_PACKAGE_VENDOR 		${CPACK_PACKAGE_VENDOR} )																# mandatory
 	set( CPACK_RPM_PACKAGE_AUTOREQ 		"no" ) 																					# disable automatic shared libraries dependency detection (most of the time buggy)
 	
-	if ( PLATFORM STREQUAL "CentOS" )
+	if (NOGUI)
+		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, sudo" )
+	else ()
+		if ( PLATFORM STREQUAL "CentOS" )
+				
+			if ( DEFINED WITHGTK3 AND WITHGTK3 )
+				set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk3, sudo" )
+			else ()
+				set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2, sudo" )
+			endif()
 			
-		if ( DEFINED WITHGTK3 AND WITHGTK3 )
-			set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk3, sudo" )
-		else ()
+		elseif ( PLATFORM STREQUAL "openSUSE" )
+			
 			set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2, sudo" )
 		endif()
-		
-	elseif ( PLATFORM STREQUAL "openSUSE" )
-		
-		set( CPACK_RPM_PACKAGE_REQUIRES 	"fuse, device-mapper, gtk2, sudo" )
 	endif()
-	
+
 	set( CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE 			${RPM_PRERM})															# optional
 	
 	# Prevents CPack from generating file conflicts

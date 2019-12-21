@@ -19,15 +19,24 @@ make clean 	|| exit 1
 make 		|| exit 1
 make install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
 
-echo "Building console version of VeraCrypt for DEB using system wxWidgets"
+echo "Building console version of VeraCrypt for DEB using wxWidgets static libraries"
 
 # This is to avoid " Error: Unable to initialize GTK+, is DISPLAY set properly?" 
 # when building over SSH without X11 Forwarding
 # export DISPLAY=:0.0
 
-make NOGUI=1 clean 	|| exit 1
-make NOGUI=1 		|| exit 1
-make NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
+# The sources of wxWidgets 3.0.4 must be extracted to the parent directory
+export WX_ROOT=$PARENTDIR/wxWidgets-3.0.4
+echo "Using wxWidgets sources in $WX_ROOT"
+
+# This will be the temporary wxWidgets directory
+export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole
+
+# To build wxWidgets without GUI
+make WXSTATIC=1 NOGUI=1 wxbuild 	|| exit 1
+make WXSTATIC=1 NOGUI=1 clean 		|| exit 1
+make WXSTATIC=1 NOGUI=1 			|| exit 1
+make WXSTATIC=1 NOGUI=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/Console"	|| exit 1
 
 echo "Creating VeraCrypt DEB packages"
 
