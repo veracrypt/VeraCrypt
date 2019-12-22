@@ -12,22 +12,39 @@ export SOURCEPATH=$(readlink -f "$SCRIPTPATH/..")
 # Directory where the VeraCrypt has been checked out
 export PARENTDIR=$(readlink -f "$SCRIPTPATH/../../..")
 
+# The sources of wxWidgets 3.0.4 must be extracted to the parent directory
+export WX_ROOT=$PARENTDIR/wxWidgets-3.0.4
+echo "Using wxWidgets sources in $WX_ROOT"
+
 cd $SOURCEPATH
+
+if [ "$#" = "1" ] && [ "$1" = "WXSTATIC" ]
+then
+echo "Building GUI version of VeraCrypt for DEB using wxWidgets static libraries"
+
+# This will be the temporary wxWidgets directory
+export WX_BUILD_DIR=$PARENTDIR/wxBuildGUI
+
+# To build wxWidgets without GUI
+make WXSTATIC=1 wxbuild 	|| exit 1
+make WXSTATIC=1 clean 		|| exit 1
+make WXSTATIC=1  			|| exit 1
+make WXSTATIC=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
+
+else
 
 echo "Building GUI version of VeraCrypt for DEB using system wxWidgets"
 make clean 	|| exit 1
 make 		|| exit 1
 make install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
 
+fi
+
 echo "Building console version of VeraCrypt for DEB using wxWidgets static libraries"
 
 # This is to avoid " Error: Unable to initialize GTK+, is DISPLAY set properly?" 
 # when building over SSH without X11 Forwarding
 # export DISPLAY=:0.0
-
-# The sources of wxWidgets 3.0.4 must be extracted to the parent directory
-export WX_ROOT=$PARENTDIR/wxWidgets-3.0.4
-echo "Using wxWidgets sources in $WX_ROOT"
 
 # This will be the temporary wxWidgets directory
 export WX_BUILD_DIR=$PARENTDIR/wxBuildConsole

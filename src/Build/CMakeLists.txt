@@ -243,7 +243,7 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 	set( CPACK_DEBIAN_PACKAGE_ARCHITECTURE 	${ARCHITECTURE} )																	# mandatory
 	
 	if (NOGUI)
-		# We build wxWidgets statically so that we don't depend on any GTK library
+		# Link against statically built wxWidgets so that we don't depend on any GTK library
 		set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libfuse2, dmsetup, sudo" )
 	else ()
 		# Link against gtk3 version of wxWidgets if >= Debian 10 or >= Ubuntu 18.04
@@ -254,8 +254,13 @@ if ( ( PLATFORM STREQUAL "Debian" ) OR ( PLATFORM STREQUAL "Ubuntu" ) )
 			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-gtk3-0v5, libfuse2, dmsetup, sudo" )										
 			
 		else ()
-		
-			set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup, sudo" )
+			# Link against statically built wxWidgets on Ubuntu 14.04 and older, and Debian 8 and older
+			if ( ( ( PLATFORM STREQUAL "Debian" ) AND ( PLATFORM_VERSION VERSION_LESS_EQUAL "8" ) ) 
+				OR ( ( PLATFORM STREQUAL "Ubuntu" ) AND ( PLATFORM_VERSION VERSION_LESS_EQUAL "14.04" ) ) )
+				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libgtk2.0-0, libfuse2, dmsetup, sudo" )
+			else ()
+				set( CPACK_DEBIAN_PACKAGE_DEPENDS 		"libwxgtk3.0-0v5, libfuse2, dmsetup, sudo" )
+			endif ()
 			
 		endif()
 	endif()
