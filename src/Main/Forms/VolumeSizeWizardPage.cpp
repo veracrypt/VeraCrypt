@@ -103,7 +103,7 @@ namespace VeraCrypt
 			try
 			{
 				uint64 uiVolumeSize = GetVolumeSize();
-				if (uiVolumeSize >= MinVolumeSize && (!MaxVolumeSizeValid || uiVolumeSize <= MaxVolumeSize) && (CmdLine->ArgDisableFileSizeCheck || !AvailableDiskSpace || uiVolumeSize <= AvailableDiskSpace))
+				if (uiVolumeSize >= MinVolumeSize && (!MaxVolumeSizeValid || uiVolumeSize <= MaxVolumeSize) && (MaxVolumeSizeValid || CmdLine->ArgDisableFileSizeCheck || !AvailableDiskSpace || uiVolumeSize <= AvailableDiskSpace))
 					return true;
 			}
 			catch (...) { }
