@@ -167,6 +167,7 @@ extern BOOL MultipleMountOperationInProgress;
 
 extern volatile BOOL NeedPeriodicDeviceListUpdate;
 extern BOOL DisablePeriodicDeviceListUpdate;
+extern BOOL EnableMemoryProtection;
 
 #ifndef SETUP
 extern BOOL bLanguageSetInSetup;

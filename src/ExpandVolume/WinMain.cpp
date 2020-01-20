@@ -866,6 +866,67 @@ static BOOL SelectPartition (HWND hwndDlg)
 	return FALSE;
 }
 
+void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
+{
+	wchar_t **lpszCommandLineArgs = NULL;	/* Array of command line arguments */
+	int nNoCommandLineArgs;	/* The number of arguments in the array */
+
+	/* Extract command line arguments */
+	nNoCommandLineArgs = Win32CommandLine (&lpszCommandLineArgs);
+	if (nNoCommandLineArgs > 0)
+	{
+		int i;
+
+		for (i = 0; i < nNoCommandLineArgs; i++)
+		{
+			enum
+			{
+				OptionEnableMemoryProtection,
+			};
+
+			argument args[]=
+			{
+				{ OptionEnableMemoryProtection,	L"/protectMemory",	NULL, FALSE },
+			};
+
+			argumentspec as;
+
+			int x;
+
+			if (lpszCommandLineArgs[i] == NULL)
+				continue;
+
+			as.args = args;
+			as.arg_cnt = sizeof(args)/ sizeof(args[0]);
+
+			x = GetArgumentID (&as, lpszCommandLineArgs[i]);
+
+			switch (x)
+			{
+
+			case OptionEnableMemoryProtection:
+				EnableMemoryProtection = TRUE;
+				break;
+
+			default:
+				DialogBoxParamW (hInst, MAKEINTRESOURCEW (IDD_COMMANDHELP_DLG), hwndDlg, (DLGPROC)
+						CommandHelpDlgProc, (LPARAM) &as);
+
+				exit(0);
+			}
+		}
+	}
+
+	/* Free up the command line arguments */
+	while (--nNoCommandLineArgs >= 0)
+	{
+		free (lpszCommandLineArgs[nNoCommandLineArgs]);
+	}
+
+	if (lpszCommandLineArgs)
+		free (lpszCommandLineArgs);
+}
+
 
 /* Except in response to the WM_INITDIALOG and WM_ENDSESSION messages, the dialog box procedure
    should return nonzero if it processes a message, and zero if it does not. */
@@ -890,6 +951,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			bUseSecureDesktop = FALSE;
 			bUseLegacyMaxPasswordLength = FALSE;
 
+			VeraCryptExpander::ExtractCommandLine (hwndDlg, (wchar_t *) lParam);
+
 			if (UsePreferences)
 			{
 				// General preferences
@@ -898,6 +961,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				// Keyfiles
 				LoadDefaultKeyFilesParam ();
 				RestoreDefaultKeyFilesParam ();
+			}
+
+			if (EnableMemoryProtection)
+			{
+				/* Protect this process memory from being accessed by non-admin users */
+				EnableProcessProtection ();
 			}
 
 			InitMainDialog (hwndDlg);

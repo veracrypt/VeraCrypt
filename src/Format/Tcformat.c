@@ -6145,6 +6145,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			ExtractCommandLine (hwndDlg, (wchar_t *) lParam);
 
+			if (EnableMemoryProtection)
+			{
+				/* Protect this process memory from being accessed by non-admin users */
+				EnableProcessProtection ();
+			}
+
 			if (ComServerMode)
 			{
 				InitDialog (hwndDlg);
@@ -9001,6 +9007,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionNoSizeCheck,
 				OptionQuickFormat,
 				OptionFastCreateFile,
+				OptionEnableMemoryProtection,
 			};
 
 			argument args[]=
@@ -9024,6 +9031,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionNoSizeCheck,			L"/nosizecheck",	NULL, FALSE },
 				{ OptionQuickFormat,			L"/quick",	NULL, FALSE },
 				{ OptionFastCreateFile,			L"/fastcreatefile",	NULL, FALSE },
+				{ OptionEnableMemoryProtection,	L"/protectMemory",	NULL, FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9382,6 +9390,10 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 			case OptionFastCreateFile:
 				CmdFastCreateFile = TRUE;
+				break;
+
+			case OptionEnableMemoryProtection:
+				EnableMemoryProtection = TRUE;
 				break;
 
 			case OptionHistory:

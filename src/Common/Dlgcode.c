@@ -190,6 +190,7 @@ BOOL MultipleMountOperationInProgress = FALSE;
 
 volatile BOOL NeedPeriodicDeviceListUpdate = FALSE;
 BOOL DisablePeriodicDeviceListUpdate = FALSE;
+BOOL EnableMemoryProtection = FALSE;
 
 BOOL WaitDialogDisplaying = FALSE;
 
@@ -2919,9 +2920,6 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	char langId[6];	
 	InitCommonControlsPtr InitCommonControlsFn = NULL;	
 	wchar_t modPath[MAX_PATH];
-	
-	/* Protect this process memory from being accessed by non-admin users */
-	EnableProcessProtection ();
 
 	GetModuleFileNameW (NULL, modPath, ARRAYSIZE (modPath));
 

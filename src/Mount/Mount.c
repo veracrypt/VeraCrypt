@@ -6859,6 +6859,12 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					AbortProcess ("COMMAND_LINE_ERROR");
 			}
 
+			if (EnableMemoryProtection)
+			{
+				/* Protect this process memory from being accessed by non-admin users */
+				EnableProcessProtection ();
+			}
+
 			if (ComServerMode)
 			{
 				InitDialog (hwndDlg);
@@ -8883,6 +8889,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionNoWaitDlg,
 				OptionSecureDesktop,
 				OptionDisableDeviceUpdate,
+				OptionEnableMemoryProtection,
 			};
 
 			argument args[]=
@@ -8912,6 +8919,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionNoWaitDlg,			L"/nowaitdlg",	NULL, FALSE },
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
 				{ OptionDisableDeviceUpdate,			L"/disableDeviceUpdate",	NULL, FALSE },
+				{ OptionEnableMemoryProtection,			L"/protectMemory",	NULL, FALSE },
 			};
 
 			argumentspec as;
@@ -9005,6 +9013,12 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 			case OptionDisableDeviceUpdate:
 				{
 					DisablePeriodicDeviceListUpdate = TRUE;
+				}
+				break;
+
+			case OptionEnableMemoryProtection:
+				{
+					EnableMemoryProtection = TRUE;
 				}
 				break;
 
