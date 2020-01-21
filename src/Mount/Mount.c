@@ -181,6 +181,8 @@ static int bPrebootPasswordDlgMode = FALSE;
 static int NoCmdLineArgs;
 static BOOL CmdLineVolumeSpecified;
 static int LastDriveListVolumeColumnWidth;
+static BOOL ExitMailSlotSpecified = FALSE;
+static TCHAR ExitMailSlotName[MAX_PATH];
 // WTS handling
 static HMODULE hWtsLib = NULL;
 static WTSREGISTERSESSIONNOTIFICATION   fnWtsRegisterSessionNotification = NULL;
@@ -6780,6 +6782,41 @@ void DisplayDriveListContextMenu (HWND hwndDlg, LPARAM lParam)
 	}
 }
 
+// broadcast signal to WAITFOR.EXE MailSlot to notify any waiting instance that we are exiting
+static void SignalExitCode (int exitCode)
+{
+	if (ExitMailSlotSpecified)
+	{
+		HANDLE hFile; 
+		hFile = CreateFile (ExitMailSlotName, 
+			GENERIC_WRITE, 
+			FILE_SHARE_READ,
+			(LPSECURITY_ATTRIBUTES) NULL, 
+			OPEN_EXISTING, 
+			FILE_ATTRIBUTE_NORMAL, 
+			(HANDLE) NULL);
+		if ((hFile == INVALID_HANDLE_VALUE) && (GetLastError () == ERROR_FILE_NOT_FOUND))
+		{
+			// MailSlot not found, wait 1 second and try again in case we exited too quickly
+			Sleep (1000);
+			hFile = CreateFile (ExitMailSlotName, 
+				GENERIC_WRITE, 
+				FILE_SHARE_READ,
+				(LPSECURITY_ATTRIBUTES) NULL, 
+				OPEN_EXISTING, 
+				FILE_ATTRIBUTE_NORMAL, 
+				(HANDLE) NULL);
+		}
+		if (hFile != INVALID_HANDLE_VALUE)
+		{
+			char szMsg[64];
+			DWORD cbWritten;
+			StringCbPrintfA (szMsg, sizeof (szMsg), "VeraCrypt Exit %d", exitCode);
+			WriteFile(hFile, szMsg, (DWORD) (strlen (szMsg) +1), &cbWritten, (LPOVERLAPPED) NULL); 
+			CloseHandle (hFile);
+		}
+	}
+}
 
 /* Except in response to the WM_INITDIALOG and WM_ENDSESSION messages, the dialog box procedure
    should return nonzero if it processes a message, and zero if it does not. */
@@ -7126,7 +7163,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (Quit)
 			{
 				if (TaskBarIconMutex == NULL)
+				{
+					SignalExitCode (exitCode);
 					exit (exitCode);
+				}
 
 				MainWindowHidden = TRUE;
 
@@ -7138,6 +7178,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					if (TaskBarIconMutex)
 						TaskBarIconRemove (hwndDlg);
+					SignalExitCode (exitCode);
 					exit (exitCode);
 				}
 				else
@@ -8890,6 +8931,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionSecureDesktop,
 				OptionDisableDeviceUpdate,
 				OptionEnableMemoryProtection,
+				OptionSignalExit,
 			};
 
 			argument args[]=
@@ -8920,6 +8962,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
 				{ OptionDisableDeviceUpdate,			L"/disableDeviceUpdate",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,			L"/protectMemory",	NULL, FALSE },
+				{ OptionSignalExit,			L"/signalExit",	NULL, FALSE },
 			};
 
 			argumentspec as;
@@ -9020,6 +9063,17 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{
 					EnableMemoryProtection = TRUE;
 				}
+				break;
+
+			case OptionSignalExit:
+				if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i,
+					nNoCommandLineArgs, tmpPath, ARRAYSIZE (tmpPath)))
+				{
+					StringCbPrintfW (ExitMailSlotName, sizeof (ExitMailSlotName), L"\\\\.\\mailslot\\WAITFOR.EXE\\%s", tmpPath);
+					ExitMailSlotSpecified = TRUE;
+				}
+				else
+					AbortProcess ("COMMAND_LINE_ERROR");
 				break;
 
 			case OptionCache:
