@@ -180,6 +180,16 @@ Note that turning the password cache off will not clear it (use /w to clear the 
 <td><em>/DisableDeviceUpdate</em>&nbsp;</td>
 <td>Disables periodic internel check on devices connected to the system that is used for handling favorites identified with VolumeID and replace it with on-demande checks.</td>
 </tr>
+<tr>
+<td><em>/protectMemory</em>&nbsp;</td>
+<td>Activates a mechanism that protects VeraCrypt process memory from being accessed by other non-admin processes.</td>
+</tr>
+<tr>
+<td><em>/signalExit</em>&nbsp;</td>
+<td>It must be followed by a parameter specifying the name of the signal to send to unblock a waiting <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/waitfor" target="_blank">WAITFOR.EXE</a> command when VeraCrypt exists.<br>
+The name of signal must be the same as the one specified to WAITFOR.EXE command (e.g."veracrypt.exe /q /v test.hc /l Z /signal SigName" followed by "waitfor.exe SigName"<br>
+This switch is ignored if /q is not specified</td>
+</tr>
 </tbody>
 </table>
 <h4>VeraCrypt Format.exe (VeraCrypt Volume Creation Wizard):</h4>
@@ -266,6 +276,10 @@ It has no parameters and it indicates that no message box or dialog will be disp
 <tr>
 <td>/FastCreateFile</td>
 <td>Use a faster but potentially insecure way to create file containers. This applies to both UI and command line.</td>
+</tr>
+<tr>
+<td><em>/protectMemory</em>&nbsp;</td>
+<td>Activates a mechanism that protects VeraCrypt Format process memory from being accessed by other non-admin processes.</td>
 </tr>
 </tbody>
 </table>
