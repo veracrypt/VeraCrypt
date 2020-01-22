@@ -40,6 +40,29 @@
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
 
+<p><strong style="text-align:left">1.24-Update4 </strong>(January 23<sup>rd</sup>, 2020):</p>
+<ul>
+<li><strong>Windows:</strong>
+<ul>
+<li>Fix regression in Expander and Format when RAM encryption is enable that was causing volume headers to be corrupted.</li>
+<li>Fix failure of Screen Readers (Accessibility support) to read UI by disabling newly introduced memory protection by default and adding a CLI switch (/protectMemory) to enable it when needed.</li>
+<li>Add switch /signalExit to support notifying <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/waitfor" target="_blank">WAITFOR</a> Windows command when VeraCrypt.exe exits if /q was specified in CLI (cf documentation for usage).</li>
+<li>Don't display mount/dismount examples in help dialog for command line in Format and Expander.</li>
+<li>Documentation and translation updates.</li>
+</ul>
+</li>
+<li><strong>Linux:</strong>
+<ul>
+<li>Fix regression that limited the size available for hidden volumes created on disk or partition.</li>
+</ul>
+</li>
+<li><strong>MacOSX:</strong>
+<ul>
+<li>Fix regression that limited the size available for hidden volumes created on disk or partition.</li>
+</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.24-Update3 </strong>(December 21<sup>nd</sup>, 2019):</p>
 <ul>
 <li><strong>Linux:</strong>

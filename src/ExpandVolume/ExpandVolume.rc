@@ -193,8 +193,8 @@ IDR_MOUNT_RSRC_HEADER   HEADER                  "resource.h"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,24,10,0
- PRODUCTVERSION 1,24,10,0
+ FILEVERSION 1,24,12,0
+ PRODUCTVERSION 1,24,12,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -211,11 +211,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt Expander"
-            VALUE "FileVersion", "1.24-Update2"
+            VALUE "FileVersion", "1.24-Update4"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCryptExpander.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.24-Update2"
+            VALUE "ProductVersion", "1.24-Update4"
         END
     END
     BLOCK "VarFileInfo"

@@ -555,7 +555,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.24.10</string>
+				<string>1.24.12</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>
@@ -1059,7 +1059,7 @@ https://osxfuse.github.io/
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>VeraCrypt Legacy 1.24-Update2</string>
+			<string>VeraCrypt Legacy 1.24-Update4</string>
 			<key>PAYLOAD_ONLY</key>
 			<false/>
 			<key>TREAT_MISSING_PRESENTATION_DOCUMENTS_AS_WARNING</key>

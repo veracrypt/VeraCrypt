@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.24-Update2">
+  <localization prog-version= "1.24-Update4">
     <language langid="uz" name="Ўзбекча" en-name="Uzbek (Cyrillic)" version="0.1.0" translators="Abdurauf Azizov, Dmitry Yerokhin" />
     <font lang="uz" class="normal" size="11" face="default" />
     <font lang="uz" class="bold" size="13" face="Arial" />
