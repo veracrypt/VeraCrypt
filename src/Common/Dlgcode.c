@@ -14243,12 +14243,33 @@ cleanup:
 	return retval;
 }
 
+// This function checks if the process is running with elevated privileges or not
+BOOL IsElevated()
+{
+	DWORD dwSize = 0;
+	HANDLE hToken = NULL;
+	TOKEN_ELEVATION tokenInformation;
+	BOOL bReturn = FALSE;
+	
+	if(OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken))
+	{
+		if(GetTokenInformation(hToken, TokenElevation, &tokenInformation, sizeof(TOKEN_ELEVATION), &dwSize))
+		{
+			if (tokenInformation.TokenIsElevated)
+				bReturn = TRUE;
+		}
+
+		CloseHandle(hToken);
+	}
+	return bReturn;
+}
+
 // This function always loads a URL in a non-privileged mode
 // If current process has admin privileges, we execute the command "rundll32 url.dll,FileProtocolHandler URL" as non-elevated
 // Use this security mechanism only starting from Windows Vista
 void SafeOpenURL (LPCWSTR szUrl)
 {
-	if (IsAdmin () && IsOSAtLeast (WIN_VISTA))
+	if (IsOSAtLeast (WIN_VISTA) && IsAdmin () && IsElevated())
 	{
 		WCHAR szRunDllPath[TC_MAX_PATH];
 		WCHAR szUrlDllPath[TC_MAX_PATH];
