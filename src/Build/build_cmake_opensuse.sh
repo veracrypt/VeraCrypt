@@ -65,7 +65,7 @@ mkdir -p $PARENTDIR/VeraCrypt_Packaging/GUI
 mkdir -p $PARENTDIR/VeraCrypt_Packaging/Console
 
 # wxWidgets was built using GTK-2
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DWITHGTK3=TRUE -DNOGUI=FALSE || exit 1		
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/GUI -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/GUI" -DWITHGTK3=FALSE -DNOGUI=FALSE || exit 1		
 cpack --config $PARENTDIR/VeraCrypt_Packaging/GUI/CPackConfig.cmake || exit 1
-cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DWITHGTK3=TRUE -DNOGUI=TRUE || exit 1
+cmake -H$SCRIPTPATH -B$PARENTDIR/VeraCrypt_Packaging/Console -DVERACRYPT_BUILD_DIR="$PARENTDIR/VeraCrypt_Setup/Console" -DWITHGTK3=FALSE -DNOGUI=TRUE || exit 1
 cpack --config $PARENTDIR/VeraCrypt_Packaging/Console/CPackConfig.cmake|| exit 1
