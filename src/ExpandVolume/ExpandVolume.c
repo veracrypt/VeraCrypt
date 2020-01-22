@@ -512,6 +512,10 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	BOOL backupHeader;
 	byte *wipeBuffer = NULL;
 	uint32 workChunkSize = TC_VOLUME_HEADER_GROUP_SIZE;
+#ifdef _WIN64
+	CRYPTO_INFO tmpCI;
+	PCRYPTO_INFO cryptoInfoBackup = NULL;
+#endif
 
 	if (pVolumePassword->Length == 0) return -1;
 
@@ -851,6 +855,17 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 		else
 			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted primary header ...\r\n");
 
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled ())
+		{
+			VirtualLock (&tmpCI, sizeof (CRYPTO_INFO));
+			memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+			VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+			cryptoInfoBackup = cryptoInfo;
+			cryptoInfo = &tmpCI;
+		}
+#endif
+
 		// Prepare new volume header
 		nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 			buffer,
@@ -869,6 +884,15 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			cryptoInfo->HeaderFlags,
 			cryptoInfo->SectorSize,
 			FALSE ); // use slow poll
+
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled ())
+		{
+			cryptoInfo = cryptoInfoBackup;
+			burn (&tmpCI, sizeof (CRYPTO_INFO));
+			VirtualUnlock (&tmpCI, sizeof (CRYPTO_INFO));
+		}
+#endif
 
 		if (ci != NULL)
 			crypto_close (ci);
@@ -901,7 +925,26 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			PCRYPTO_INFO dummyInfo = NULL;
 			LARGE_INTEGER hiddenOffset;
 
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled ())
+			{
+				VirtualLock (&tmpCI, sizeof (CRYPTO_INFO));
+				memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+				VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+				cryptoInfoBackup = cryptoInfo;
+				cryptoInfo = &tmpCI;
+			}
+#endif
+
 			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader);
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled ())
+			{
+				cryptoInfo = cryptoInfoBackup;
+				burn (&tmpCI, sizeof (CRYPTO_INFO));
+				VirtualUnlock (&tmpCI, sizeof (CRYPTO_INFO));
+			}
+#endif
 			if (nStatus != ERR_SUCCESS)
 				goto error;
 

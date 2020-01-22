@@ -394,6 +394,8 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 
 	if(!quickFormat)
 	{
+		CRYPTO_INFO tmpCI;
+
 		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
 			goto fail;
 
@@ -402,23 +404,41 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 		deniability of hidden volumes (and also reduces the amount of predictable plaintext
 		within the volume). */
 
+		VirtualLock (&tmpCI, sizeof (tmpCI));
+		memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+		cryptoInfo = &tmpCI;
+
 		// Temporary master key
 		if (!RandgetBytes (hwndDlg, temporaryKey, EAGetKeySize (cryptoInfo->ea), FALSE))
+		{
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			goto fail;
+		}
 
 		// Temporary secondary key (XTS mode)
 		if (!RandgetBytes (hwndDlg, cryptoInfo->k2, sizeof cryptoInfo->k2, FALSE))
+		{
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			goto fail;
+		}
 
 		retVal = EAInit (cryptoInfo->ea, temporaryKey, cryptoInfo->ks);
 		if (retVal != ERR_SUCCESS)
 		{
+			TCfree (write_buf);
 			burn (temporaryKey, sizeof(temporaryKey));
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			return retVal;
 		}
 		if (!EAInitMode (cryptoInfo, cryptoInfo->k2))
 		{
+			TCfree (write_buf);
 			burn (temporaryKey, sizeof(temporaryKey));
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
 			return ERR_MODE_INIT_FAILED;
 		}
 
@@ -430,12 +450,24 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 				goto fail;
 		}
 		UpdateProgressBar (nSecNo * ft->sector_size);
+
+		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
+		{
+			burn (&tmpCI, sizeof (tmpCI));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
+			goto fail;
+		}
+
+		burn (&tmpCI, sizeof (tmpCI));
+		VirtualUnlock (&tmpCI, sizeof (tmpCI));
 	}
 	else
+	{
 		UpdateProgressBar ((uint64) ft->num_sectors * ft->sector_size);
 
-	if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
-		goto fail;
+		if (!FlushFormatWriteBuffer (dev, write_buf, &write_buf_cnt, &nSecNo, cryptoInfo))
+			goto fail;
+	}
 
 	TCfree (write_buf);
 	burn (temporaryKey, sizeof(temporaryKey));

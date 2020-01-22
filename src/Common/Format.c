@@ -100,6 +100,10 @@ int TCFormatVolume (volatile FORMAT_VOL_PARAMETERS *volParams)
 	LARGE_INTEGER offset;
 	BOOL bFailedRequiredDASD = FALSE;
 	HWND hwndDlg = volParams->hwndDlg;
+#ifdef _WIN64
+	CRYPTO_INFO tmpCI;
+	PCRYPTO_INFO cryptoInfoBackup = NULL;
+#endif
 
 	FormatSectorSize = volParams->sectorSize;
 
@@ -574,6 +578,17 @@ begin_format:
 		goto error;
 	}
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		VirtualLock (&tmpCI, sizeof (tmpCI));
+		memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+		cryptoInfoBackup = cryptoInfo;
+		cryptoInfo = &tmpCI;
+	}
+#endif
+
 	nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 		header,
 		volParams->ea,
@@ -592,6 +607,15 @@ begin_format:
 		FormatSectorSize,
 		FALSE);
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		cryptoInfo = cryptoInfoBackup;
+		burn (&tmpCI, sizeof (CRYPTO_INFO));
+		VirtualUnlock (&tmpCI, sizeof (tmpCI));
+	}
+#endif
+
 	if (!WriteEffectiveVolumeHeader (volParams->bDevice, dev, header))
 	{
 		nStatus = ERR_OS_ERROR;
@@ -603,7 +627,27 @@ begin_format:
 	{
 		BOOL bUpdateBackup = FALSE;
 
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled ())
+		{
+			VirtualLock (&tmpCI, sizeof (tmpCI));
+			memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+			VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+			cryptoInfoBackup = cryptoInfo;
+			cryptoInfo = &tmpCI;
+		}
+#endif
+
 		nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, dataAreaSize, FALSE, FALSE);
+
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled ())
+		{
+			cryptoInfo = cryptoInfoBackup;
+			burn (&tmpCI, sizeof (CRYPTO_INFO));
+			VirtualUnlock (&tmpCI, sizeof (tmpCI));
+		}
+#endif
 
 		if (nStatus != ERR_SUCCESS)
 			goto error;
@@ -794,6 +838,10 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
 
+#ifdef _WIN64
+	CRYPTO_INFO tmpCI;
+#endif
+
 	// Seek to start sector
 	startOffset.QuadPart = startSector * FormatSectorSize;
 	if (!SetFilePointerEx ((HANDLE) dev, startOffset, &newOffset, FILE_BEGIN)
@@ -810,6 +858,16 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 	VirtualLock (originalK2, sizeof (originalK2));
 
 	memset (sector, 0, sizeof (sector));
+
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		VirtualLock (&tmpCI, sizeof (tmpCI));
+		memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+		cryptoInfo = &tmpCI;
+	}
+#endif
 
 	// Remember the original secondary key (XTS mode) before generating a temporary one
 	memcpy (originalK2, cryptoInfo->k2, sizeof (cryptoInfo->k2));
@@ -873,6 +931,13 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 	VirtualUnlock (temporaryKey, sizeof (temporaryKey));
 	VirtualUnlock (originalK2, sizeof (originalK2));
 	TCfree (write_buf);
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		burn (&tmpCI, sizeof (CRYPTO_INFO));
+		VirtualUnlock (&tmpCI, sizeof (tmpCI));
+	}
+#endif
 
 	return 0;
 
@@ -884,6 +949,13 @@ fail:
 	VirtualUnlock (temporaryKey, sizeof (temporaryKey));
 	VirtualUnlock (originalK2, sizeof (originalK2));
 	TCfree (write_buf);
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		burn (&tmpCI, sizeof (CRYPTO_INFO));
+		VirtualUnlock (&tmpCI, sizeof (tmpCI));
+	}
+#endif
 
 	SetLastError (err);
 	return (retVal ? retVal : ERR_OS_ERROR);

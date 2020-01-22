@@ -1097,6 +1097,19 @@ inplace_enc_read:
 		{
 			PCRYPTO_INFO dummyInfo = NULL;
 
+#ifdef _WIN64
+			CRYPTO_INFO tmpCI;
+			PCRYPTO_INFO cryptoInfoBackup = NULL;
+			if (IsRamEncryptionEnabled ())
+			{
+				VirtualLock (&tmpCI, sizeof(tmpCI));
+				memcpy (&tmpCI, masterCryptoInfo, sizeof (CRYPTO_INFO));
+				VcUnprotectKeys (&tmpCI, VcGetEncryptionID (masterCryptoInfo));
+				cryptoInfoBackup = masterCryptoInfo;
+				masterCryptoInfo = &tmpCI;
+			}
+#endif
+
 			nStatus = CreateVolumeHeaderInMemory (hwndDlg, FALSE,
 				header,
 				headerCryptoInfo->ea,
@@ -1115,6 +1128,15 @@ inplace_enc_read:
 				masterCryptoInfo->SectorSize,
 				wipeAlgorithm == TC_WIPE_NONE ? FALSE : (wipePass < PRAND_HEADER_WIPE_PASSES - 1));
 
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled ())
+			{
+				masterCryptoInfo = cryptoInfoBackup;
+				burn (&tmpCI, sizeof (CRYPTO_INFO));
+				VirtualUnlock (&tmpCI, sizeof(tmpCI));
+			}
+#endif
+
 			if (nStatus != ERR_SUCCESS)
 				goto closing_seq;
 
@@ -1128,8 +1150,27 @@ inplace_enc_read:
 				goto closing_seq;
 			}
 
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled ())
+			{
+				VirtualLock (&tmpCI, sizeof(tmpCI));
+				memcpy (&tmpCI, headerCryptoInfo, sizeof (CRYPTO_INFO));
+				VcUnprotectKeys (&tmpCI, VcGetEncryptionID (headerCryptoInfo));
+				cryptoInfoBackup = headerCryptoInfo;
+				headerCryptoInfo = &tmpCI;
+			}
+#endif
 			// Fill the reserved sectors of the header area with random data
 			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, headerCryptoInfo, masterCryptoInfo->VolumeSize.Value, TRUE, FALSE);
+
+#ifdef _WIN64
+			if (IsRamEncryptionEnabled ())
+			{
+				headerCryptoInfo = cryptoInfoBackup;
+				burn (&tmpCI, sizeof (CRYPTO_INFO));
+				VirtualUnlock (&tmpCI, sizeof(tmpCI));
+			}
+#endif
 
 			if (nStatus != ERR_SUCCESS)
 				goto closing_seq;

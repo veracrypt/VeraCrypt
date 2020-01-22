@@ -56,6 +56,9 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 
 	LARGE_INTEGER startOffset;
 	LARGE_INTEGER newOffset;
+#ifdef _WIN64
+	CRYPTO_INFO tmpCI;
+#endif
 
 	// Seek to start sector
 	startOffset.QuadPart = startSector * FormatSectorSize;
@@ -73,6 +76,16 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 	VirtualLock (originalK2, sizeof (originalK2));
 
 	memset (sector, 0, sizeof (sector));
+
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		VirtualLock (&tmpCI, sizeof (tmpCI));
+		memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
+		VcUnprotectKeys (&tmpCI, VcGetEncryptionID (cryptoInfo));
+		cryptoInfo = &tmpCI;
+	}
+#endif
 
 	// Remember the original secondary key (XTS mode) before generating a temporary one
 	memcpy (originalK2, cryptoInfo->k2, sizeof (cryptoInfo->k2));
@@ -136,6 +149,13 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 	VirtualUnlock (temporaryKey, sizeof (temporaryKey));
 	VirtualUnlock (originalK2, sizeof (originalK2));
 	TCfree (write_buf);
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		burn (&tmpCI, sizeof (CRYPTO_INFO));
+		VirtualUnlock (&tmpCI, sizeof (tmpCI));
+	}
+#endif
 
 	return 0;
 
@@ -147,6 +167,13 @@ fail:
 	VirtualUnlock (temporaryKey, sizeof (temporaryKey));
 	VirtualUnlock (originalK2, sizeof (originalK2));
 	TCfree (write_buf);
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+	{
+		burn (&tmpCI, sizeof (CRYPTO_INFO));
+		VirtualUnlock (&tmpCI, sizeof (tmpCI));
+	}
+#endif
 
 	SetLastError (err);
 	return (retVal ? retVal : ERR_OS_ERROR);
