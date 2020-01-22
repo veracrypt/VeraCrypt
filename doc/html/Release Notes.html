@@ -46,6 +46,7 @@
 <ul>
 <li>Fix regression in Expander and Format when RAM encryption is enable that was causing volume headers to be corrupted.</li>
 <li>Fix failure of Screen Readers (Accessibility support) to read UI by disabling newly introduced memory protection by default and adding a CLI switch (/protectMemory) to enable it when needed.</li>
+<li>Fix side effects related to the fix for CVE-2019-19501 which caused links in UI not to open.</li>
 <li>Add switch /signalExit to support notifying <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/waitfor" target="_blank">WAITFOR</a> Windows command when VeraCrypt.exe exits if /q was specified in CLI (cf documentation for usage).</li>
 <li>Don't display mount/dismount examples in help dialog for command line in Format and Expander.</li>
 <li>Documentation and translation updates.</li>
