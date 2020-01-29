@@ -10,13 +10,19 @@
  code distribution packages.
 */
 
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined (WIN64)
+#include <Windows.h>
+#include <Versionhelpers.h>
+#endif
+
 #include "EncryptionThreadPool.h"
 #include "Pkcs5.h"
 #ifdef DEVICE_DRIVER
 #include "Driver/Ntdriver.h"
 #endif
 
-#define TC_ENC_THREAD_POOL_MAX_THREAD_COUNT 64
+//Increasing the maximum number of threads 
+#define TC_ENC_THREAD_POOL_MAX_THREAD_COUNT 256 //64
 #define TC_ENC_THREAD_POOL_QUEUE_SIZE (TC_ENC_THREAD_POOL_MAX_THREAD_COUNT * 2)
 
 #ifdef DEVICE_DRIVER
@@ -111,6 +117,10 @@ static TC_MUTEX DequeueMutex;
 static TC_EVENT WorkItemReadyEvent;
 static TC_EVENT WorkItemCompletedEvent;
 
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined (WIN64)
+static uint32 totalProcessors;
+#endif
+
 #if defined(_WIN64)
 void EncryptDataUnitsCurrentThreadEx (unsigned __int8 *buf, const UINT64_STRUCT *structUnitNo, TC_LARGEST_COMPILER_UINT nbrUnits, PCRYPTO_INFO ci)
 {
@@ -163,6 +173,12 @@ static void SetWorkItemState (EncryptionThreadPoolWorkItem *workItem, WorkItemSt
 
 static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 {
+
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
+	GROUP_AFFINITY groupAffinity = { ~0ULL, *(int*)(threadArg), { 0, 0, 0 } };
+	BOOL value = SetThreadGroupAffinity(GetCurrentThread(), &groupAffinity, NULL);
+#endif
+
 	EncryptionThreadPoolWorkItem *workItem;
 
 	while (!StopPending)
@@ -263,11 +279,26 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 
 BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 {
-	size_t cpuCount, i;
+	size_t cpuCount = 0, i = 0, processors = 0, totalProcessors = 0;
+	int threadProcessorGroups[128];
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined (WIN64)
+	for (i = 0; i < GetActiveProcessorGroupCount(); ++i)
+	{
+		processors = GetActiveProcessorCount(i);
+		totalProcessors += processors;
+}
+#endif
 
 	if (ThreadPoolRunning)
 		return TRUE;
 
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
+	SYSTEM_INFO sysInfo;
+	GetSystemInfo(&sysInfo);
+	cpuCount = (IsWindows7OrGreater) ? totalProcessors : sysInfo.dwNumberOfProcessors;
+#endif
+
+/*
 #ifdef DEVICE_DRIVER
 	cpuCount = GetCpuCount();
 #else
@@ -277,7 +308,7 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 		cpuCount = sysInfo.dwNumberOfProcessors;
 	}
 #endif
-
+*/
 	if (cpuCount > encryptionFreeCpuCount)
 		cpuCount -= encryptionFreeCpuCount;
 
@@ -337,11 +368,34 @@ BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount)
 
 	for (ThreadCount = 0; ThreadCount < cpuCount; ++ThreadCount)
 	{
+
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
+		// Determine which processor group to bind the thread to.
+		totalProcessors = 0U;
+		for (i = 0U; i < GetActiveProcessorGroupCount(); ++i)
+		{
+			totalProcessors += GetActiveProcessorCount(i);
+			if (totalProcessors >= ThreadCount)
+			{
+				threadProcessorGroups[ThreadCount] = i;
+				break;
+			}
+		}
+#endif
+
+#ifdef DEVICE_DRIVER
+		if (!NT_SUCCESS(TCStartThread(EncryptionThreadProc, (void*)(&threadProcessorGroups[ThreadCount]), &ThreadHandles[ThreadCount])))
+#else
+		if (!(ThreadHandles[ThreadCount] = (HANDLE)_beginthreadex(NULL, 0, EncryptionThreadProc, (void*)(&threadProcessorGroups[ThreadCount]), 0, NULL)))
+#endif
+
+/*
 #ifdef DEVICE_DRIVER
 		if (!NT_SUCCESS (TCStartThread (EncryptionThreadProc, NULL, &ThreadHandles[ThreadCount])))
 #else
 		if (!(ThreadHandles[ThreadCount] = (HANDLE) _beginthreadex (NULL, 0, EncryptionThreadProc, NULL, 0, NULL)))
 #endif
+*/
 		{
 			EncryptionThreadPoolStop();
 			return FALSE;
