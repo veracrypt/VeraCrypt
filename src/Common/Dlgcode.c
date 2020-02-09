@@ -5529,11 +5529,11 @@ static void DisplayBenchmarkResults (HWND hwndDlg)
 			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
 			break;
 		case BENCHMARK_TYPE_PRF:
-			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d ms", benchmarkTable[i].meanBytesPerSec);
+			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d ms", (int) benchmarkTable[i].meanBytesPerSec);
 			LvItem.iSubItem = 1;
 			LvItem.pszText = item1;
 			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
-			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d", benchmarkTable[i].decSpeed);
+			swprintf_s (item1, sizeof(item1) / sizeof(item1[0]), L"%d", (int) benchmarkTable[i].decSpeed);
 			LvItem.iSubItem = 2;
 			LvItem.pszText = item1;
 			SendMessageW (hList, LVM_SETITEMW, 0, (LPARAM)&LvItem); 
@@ -7530,7 +7530,10 @@ int GetLastAvailableDrive ()
 
 BOOL IsDriveAvailable (int driveNo)
 {
-	return (GetUsedLogicalDrives() & (1 << driveNo)) == 0;
+	if (driveNo >= 0 && driveNo < 26)
+		return (GetUsedLogicalDrives() & (1 << driveNo)) == 0;
+	else
+		return FALSE;
 }
 
 
@@ -13057,7 +13060,7 @@ BOOL IsApplicationInstalled (const wchar_t *appName, BOOL b32bitApp)
 	}
 
 	wchar_t regName[1024];
-	DWORD regNameSize = sizeof (regName);
+	DWORD regNameSize = ARRAYSIZE (regName);
 	DWORD index = 0;
 	while (RegEnumKeyEx (unistallKey, index++, regName, &regNameSize, NULL, NULL, NULL, NULL) == ERROR_SUCCESS)
 	{

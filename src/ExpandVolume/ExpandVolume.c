@@ -515,6 +515,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 #ifdef _WIN64
 	CRYPTO_INFO tmpCI;
 	PCRYPTO_INFO cryptoInfoBackup = NULL;
+	BOOL bIsRamEncryptionEnabled = IsRamEncryptionEnabled();
 #endif
 
 	if (pVolumePassword->Length == 0) return -1;
@@ -684,7 +685,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	}
 
 #ifdef _WIN64
-	if (IsRamEncryptionEnabled())
+	if (bIsRamEncryptionEnabled)
 	{
 		VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
 	}
@@ -856,7 +857,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			DebugAddProgressDlgStatus(hwndDlg, L"Writing re-encrypted primary header ...\r\n");
 
 #ifdef _WIN64
-		if (IsRamEncryptionEnabled ())
+		if (bIsRamEncryptionEnabled)
 		{
 			VirtualLock (&tmpCI, sizeof (CRYPTO_INFO));
 			memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
@@ -886,7 +887,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			FALSE ); // use slow poll
 
 #ifdef _WIN64
-		if (IsRamEncryptionEnabled ())
+		if (bIsRamEncryptionEnabled)
 		{
 			cryptoInfo = cryptoInfoBackup;
 			burn (&tmpCI, sizeof (CRYPTO_INFO));
@@ -926,7 +927,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 			LARGE_INTEGER hiddenOffset;
 
 #ifdef _WIN64
-			if (IsRamEncryptionEnabled ())
+			if (bIsRamEncryptionEnabled)
 			{
 				VirtualLock (&tmpCI, sizeof (CRYPTO_INFO));
 				memcpy (&tmpCI, cryptoInfo, sizeof (CRYPTO_INFO));
@@ -938,7 +939,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 			nStatus = WriteRandomDataToReservedHeaderAreas (hwndDlg, dev, cryptoInfo, newDataAreaSize, !backupHeader, backupHeader);
 #ifdef _WIN64
-			if (IsRamEncryptionEnabled ())
+			if (bIsRamEncryptionEnabled)
 			{
 				cryptoInfo = cryptoInfoBackup;
 				burn (&tmpCI, sizeof (CRYPTO_INFO));
