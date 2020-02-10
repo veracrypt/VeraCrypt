@@ -263,6 +263,10 @@ extern ULONG AllocTag;
 typedef int BOOL;
 #endif
 
+#ifndef WORD
+typedef USHORT WORD;
+#endif
+
 #ifndef BOOLEAN
 typedef unsigned char  BOOLEAN;
 #endif
@@ -294,6 +298,17 @@ typedef NTSTATUS (NTAPI *ExGetFirmwareEnvironmentVariableFn) (
 );
 
 typedef BOOLEAN (NTAPI *KeAreAllApcsDisabledFn) ();
+
+typedef void (NTAPI *KeSetSystemGroupAffinityThreadFn)(
+  PGROUP_AFFINITY Affinity,
+  PGROUP_AFFINITY PreviousAffinity
+);
+
+typedef USHORT (NTAPI *KeQueryActiveGroupCountFn)();
+
+typedef ULONG (NTAPI *KeQueryActiveProcessorCountExFn)(
+  USHORT GroupNumber
+);
 
 extern NTSTATUS NTAPI KeSaveExtendedProcessorState (
     __in ULONG64 Mask,

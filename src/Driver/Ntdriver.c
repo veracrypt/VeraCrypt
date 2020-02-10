@@ -143,6 +143,9 @@ static KeSaveExtendedProcessorStateFn KeSaveExtendedProcessorStatePtr = NULL;
 static KeRestoreExtendedProcessorStateFn KeRestoreExtendedProcessorStatePtr = NULL;
 static ExGetFirmwareEnvironmentVariableFn ExGetFirmwareEnvironmentVariablePtr = NULL;
 static KeAreAllApcsDisabledFn KeAreAllApcsDisabledPtr = NULL;
+static KeSetSystemGroupAffinityThreadFn KeSetSystemGroupAffinityThreadPtr = NULL;
+static KeQueryActiveGroupCountFn KeQueryActiveGroupCountPtr = NULL;
+static KeQueryActiveProcessorCountExFn KeQueryActiveProcessorCountExPtr = NULL;
 
 POOL_TYPE ExDefaultNonPagedPoolType = NonPagedPool;
 ULONG ExDefaultMdlProtection = 0;
@@ -283,13 +286,20 @@ NTSTATUS DriverEntry (PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)
 	}
 
 	// KeSaveExtendedProcessorState/KeRestoreExtendedProcessorState are available starting from Windows 7
+	// KeQueryActiveGroupCount/KeQueryActiveProcessorCountEx/KeSetSystemGroupAffinityThread are available starting from Windows 7
 	if ((OsMajorVersion > 6) || (OsMajorVersion == 6 && OsMinorVersion >= 1))
 	{
-		UNICODE_STRING saveFuncName, restoreFuncName;
+		UNICODE_STRING saveFuncName, restoreFuncName, groupCountFuncName, procCountFuncName, setAffinityFuncName;
 		RtlInitUnicodeString(&saveFuncName, L"KeSaveExtendedProcessorState");
 		RtlInitUnicodeString(&restoreFuncName, L"KeRestoreExtendedProcessorState");
+		RtlInitUnicodeString(&groupCountFuncName, L"KeQueryActiveGroupCount");
+		RtlInitUnicodeString(&procCountFuncName, L"KeQueryActiveProcessorCountEx");
+		RtlInitUnicodeString(&setAffinityFuncName, L"KeSetSystemGroupAffinityThread");
 		KeSaveExtendedProcessorStatePtr = (KeSaveExtendedProcessorStateFn) MmGetSystemRoutineAddress(&saveFuncName);
 		KeRestoreExtendedProcessorStatePtr = (KeRestoreExtendedProcessorStateFn) MmGetSystemRoutineAddress(&restoreFuncName);
+		KeSetSystemGroupAffinityThreadPtr = (KeSetSystemGroupAffinityThreadFn) MmGetSystemRoutineAddress(&setAffinityFuncName);
+		KeQueryActiveGroupCountPtr = (KeQueryActiveGroupCountFn) MmGetSystemRoutineAddress(&groupCountFuncName);
+		KeQueryActiveProcessorCountExPtr = (KeQueryActiveProcessorCountExFn) MmGetSystemRoutineAddress(&procCountFuncName);
 	}
 	
 	// ExGetFirmwareEnvironmentVariable is available starting from Windows 8
@@ -4488,16 +4498,27 @@ NTSTATUS TCCompleteDiskIrp (PIRP irp, NTSTATUS status, ULONG_PTR information)
 
 size_t GetCpuCount ()
 {
-	KAFFINITY activeCpuMap = KeQueryActiveProcessors();
-	size_t mapSize = sizeof (activeCpuMap) * 8;
 	size_t cpuCount = 0;
-
-	while (mapSize--)
+	if (KeQueryActiveGroupCountPtr && KeQueryActiveProcessorCountExPtr)
 	{
-		if (activeCpuMap & 1)
-			++cpuCount;
+		USHORT i, groupCount = KeQueryActiveGroupCountPtr ();
+		for (i = 0; i < groupCount; i++)
+		{
+			cpuCount += (size_t) KeQueryActiveProcessorCountExPtr (i);
+		}
+	}
+	else
+	{
+		KAFFINITY activeCpuMap = KeQueryActiveProcessors();
+		size_t mapSize = sizeof (activeCpuMap) * 8;		
 
-		activeCpuMap >>= 1;
+		while (mapSize--)
+		{
+			if (activeCpuMap & 1)
+				++cpuCount;
+
+			activeCpuMap >>= 1;
+		}
 	}
 
 	if (cpuCount == 0)
@@ -4506,6 +4527,35 @@ size_t GetCpuCount ()
 	return cpuCount;
 }
 
+USHORT GetCpuGroup (size_t index)
+{
+	if (KeQueryActiveGroupCountPtr && KeQueryActiveProcessorCountExPtr)
+	{
+		USHORT i, groupCount = KeQueryActiveGroupCountPtr ();
+		size_t cpuCount = 0;
+		for (i = 0; i < groupCount; i++)
+		{
+			cpuCount += (size_t) KeQueryActiveProcessorCountExPtr (i);
+			if (cpuCount >= index)
+			{
+				return i;
+			}
+		}
+	}
+	
+	return 0;
+}
+
+void SetThreadCpuGroupAffinity (USHORT index)
+{
+	if (KeSetSystemGroupAffinityThreadPtr)
+	{
+		GROUP_AFFINITY groupAffinity = {0};
+		groupAffinity.Mask = ~0ULL;
+		groupAffinity.Group = index;
+		KeSetSystemGroupAffinityThreadPtr (&groupAffinity, NULL);
+	}
+}
 
 void EnsureNullTerminatedString (wchar_t *str, size_t maxSizeInBytes)
 {

@@ -174,6 +174,8 @@ NTSTATUS TCCompleteDiskIrp (PIRP irp, NTSTATUS status, ULONG_PTR information);
 NTSTATUS ProbeRealDriveSize (PDEVICE_OBJECT driveDeviceObject, LARGE_INTEGER *driveSize);
 BOOL UserCanAccessDriveDevice ();
 size_t GetCpuCount ();
+USHORT GetCpuGroup (size_t index);
+void SetThreadCpuGroupAffinity (USHORT index);
 void EnsureNullTerminatedString (wchar_t *str, size_t maxSizeInBytes);
 void *AllocateMemoryWithTimeout (size_t size, int retryDelay, int timeout);
 BOOL IsDriveLetterAvailable (int nDosDriveNo, DeviceNamespaceType namespaceType);
