@@ -179,7 +179,7 @@ BOOL bInPlaceEncNonSysPending = FALSE;		// TRUE if the non-system in-place encry
 BOOL PimEnable = FALSE;
 BOOL KeyFilesEnable = FALSE;
 KeyFile	*FirstKeyFile = NULL;
-KeyFilesDlgParam		defaultKeyFilesParam;
+KeyFilesDlgParam		defaultKeyFilesParam = {0};
 
 BOOL IgnoreWmDeviceChange = FALSE;
 BOOL DeviceChangeBroadcastDisabled = FALSE;
@@ -487,6 +487,8 @@ void FinalizeGlobalLocks ()
 void cleanup ()
 {
 	burn (&CmdTokenPin, sizeof (CmdTokenPin));
+	KeyFileRemoveAll (&FirstKeyFile);
+	KeyFileRemoveAll (&defaultKeyFilesParam.FirstKeyFile);
 
 	/* Cleanup the GDI fonts */
 	if (hFixedFont != NULL)

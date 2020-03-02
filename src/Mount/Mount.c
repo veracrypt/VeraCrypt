@@ -158,14 +158,14 @@ MountOptions CmdMountOptions;
 BOOL CmdMountOptionsValid = FALSE;
 MountOptions mountOptions;
 MountOptions defaultMountOptions;
-KeyFile *FirstCmdKeyFile;
+KeyFile *FirstCmdKeyFile = NULL;
 
 HBITMAP hbmLogoBitmapRescaled = NULL;
 wchar_t OrigKeyboardLayout [8+1] = L"00000409";
 BOOL bKeyboardLayoutChanged = FALSE;		/* TRUE if the keyboard layout was changed to the standard US keyboard layout (from any other layout). */
 BOOL bKeybLayoutAltKeyWarningShown = FALSE;	/* TRUE if the user has been informed that it is not possible to type characters by pressing keys while the right Alt key is held down. */
 
-static KeyFilesDlgParam				hidVolProtKeyFilesParam;
+static KeyFilesDlgParam				hidVolProtKeyFilesParam = {0};
 
 static MOUNT_LIST_STRUCT	LastKnownMountList = {0};
 VOLUME_NOTIFICATIONS_LIST	VolumeNotificationsList;
@@ -376,6 +376,9 @@ static void localcleanup (void)
 	burn (&mountOptions, sizeof (mountOptions));
 	burn (&defaultMountOptions, sizeof (defaultMountOptions));
 	burn (szFileName, sizeof(szFileName));
+
+	KeyFileRemoveAll (&FirstCmdKeyFile);
+	KeyFileRemoveAll (&hidVolProtKeyFilesParam.FirstKeyFile);
 
 	/* Cleanup common code resources */
 	cleanup ();
@@ -7034,7 +7037,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (FirstCmdKeyFile)
 						{
 							KeyFileRemoveAll (&FirstKeyFile);
-							FirstKeyFile = FirstCmdKeyFile;
+							KeyFileCloneAll (FirstCmdKeyFile, &FirstKeyFile);
 							KeyFilesEnable = TRUE;
 						}
 
