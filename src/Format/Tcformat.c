@@ -260,6 +260,8 @@ BOOL bGuiMode = TRUE;
 
 BOOL bSystemIsGPT = FALSE;
 
+KeyFile *FirstCmdKeyFile = NULL;
+
 int nPbar = 0;			/* Control ID of progress bar:- for format code */
 
 wchar_t HeaderKeyGUIView [KEY_GUI_VIEW_SIZE];
@@ -487,6 +489,8 @@ static void localcleanup (void)
 	burn (maskRandPool, sizeof(maskRandPool));
 	burn (szFileName, sizeof(szFileName));
 	burn (szDiskFile, sizeof(szDiskFile));
+
+	KeyFileRemoveAll (&FirstCmdKeyFile);
 
 	// Attempt to wipe the GUI fields showing portions of randpool, of the master and header keys
 	wmemset (tmp, L'X', ARRAYSIZE(tmp));
@@ -6176,7 +6180,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				showKeys = FALSE;
 				bGuiMode = FALSE;
 
-				if (CmdVolumePassword.Length == 0)
+				if (CmdVolumePassword.Length == 0 && !FirstCmdKeyFile)
 					AbortProcess ("ERR_PASSWORD_MISSING");
 
 				if (CmdVolumeFileSize == 0)
@@ -6329,6 +6333,11 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						exit (1);
 					}
+				}
+
+				if (!KeyFilesApply (hwndDlg, &volumePassword, FirstCmdKeyFile, NULL))
+				{
+					exit (1);
 				}
 
 				volTransformThreadFunction (hwndDlg);
@@ -9008,6 +9017,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionQuickFormat,
 				OptionFastCreateFile,
 				OptionEnableMemoryProtection,
+				OptionKeyfile,
 			};
 
 			argument args[]=
@@ -9032,6 +9042,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionQuickFormat,			L"/quick",	NULL, FALSE },
 				{ OptionFastCreateFile,			L"/fastcreatefile",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,	L"/protectMemory",	NULL, FALSE },
+				{ OptionKeyfile,				L"/keyfile",		L"/k", FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9448,6 +9459,27 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 					if (GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs, szTmp, ARRAYSIZE (szTmp)) != HAS_ARGUMENT)
 						AbortProcess ("COMMAND_LINE_ERROR");
 				}
+				break;
+
+			case OptionKeyfile:
+				{
+					wchar_t tmpPath [2 * TC_MAX_PATH] = {0};
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i,
+						nNoCommandLineArgs, tmpPath, ARRAYSIZE (tmpPath)))
+					{
+						KeyFile *kf;
+						RelativePath2Absolute (tmpPath);
+						kf = (KeyFile *) malloc (sizeof (KeyFile));
+						if (kf)
+						{
+							StringCchCopyW (kf->FileName, ARRAYSIZE(kf->FileName), tmpPath);
+							FirstCmdKeyFile = KeyFileAdd (FirstCmdKeyFile, kf);
+						}
+					}
+					else
+						AbortProcess ("COMMAND_LINE_ERROR");
+				}
+
 				break;
 
 			default:
