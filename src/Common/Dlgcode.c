@@ -487,8 +487,10 @@ void FinalizeGlobalLocks ()
 void cleanup ()
 {
 	burn (&CmdTokenPin, sizeof (CmdTokenPin));
+#ifndef SETUP
 	KeyFileRemoveAll (&FirstKeyFile);
 	KeyFileRemoveAll (&defaultKeyFilesParam.FirstKeyFile);
+#endif
 
 	/* Cleanup the GDI fonts */
 	if (hFixedFont != NULL)
