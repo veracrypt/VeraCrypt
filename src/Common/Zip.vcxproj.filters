@@ -360,6 +360,9 @@
     <ClCompile Include="libzip\zip_source_get_compression_flags.c">
       <Filter>libzip</Filter>
     </ClCompile>
+    <ClCompile Include="libzip\zip_source_accept_empty.c">
+      <Filter>libzip</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libzip\compat.h">

@@ -81,6 +81,7 @@
     <ClCompile Include="libzip\zip_set_file_comment.c" />
     <ClCompile Include="libzip\zip_set_file_compression.c" />
     <ClCompile Include="libzip\zip_set_name.c" />
+    <ClCompile Include="libzip\zip_source_accept_empty.c" />
     <ClCompile Include="libzip\zip_source_begin_write.c" />
     <ClCompile Include="libzip\zip_source_begin_write_cloning.c" />
     <ClCompile Include="libzip\zip_source_buffer.c" />
