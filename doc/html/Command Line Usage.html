@@ -107,8 +107,8 @@ If it is followed by <strong>n</strong> or <strong>no</strong>: force the displa
 </tr>
 <tr>
 <td><em>/secureDesktop</em></td>
-<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: display password dialog in a dedicated secure desktop to protect against certain types of attacks.<br>
-If it is followed by <strong>n</strong> or <strong>no</strong>: the password dialog is displayed in the normal desktop.</td>
+<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: display password dialog and token PIN dialog in a dedicated secure desktop to protect against certain types of attacks.<br>
+If it is followed by <strong>n</strong> or <strong>no</strong>: the password dialog and token PIN dialog are displayed in the normal desktop.</td>
 </tr>
 <tr>
 <td><em>/tokenlib</em></td>
@@ -215,6 +215,23 @@ It must be followed by a parameter indicating the size of the container file tha
 It must be followed by a parameter indicating the password of the container that will be created.</td>
 </tr>
 <tr>
+<td>&nbsp;/keyfile or /k</td>
+<td>&nbsp;(Only with /create)<br>
+It must be followed by a parameter specifying a keyfile or a keyfile search path. For multiple keyfiles, specify e.g.: /k c:\keyfile1.dat /k d:\KeyfileFolder /k c:\kf2 To specify a keyfile stored on a security token or smart card, use the following syntax:
+ token://slot/SLOT_NUMBER/file/FILE_NAME</td>
+</tr>
+<tr>
+<td><em>/tokenlib</em></td>
+<td>&nbsp;(Only with /create)<br>
+It must be followed by a parameter indicating the PKCS #11 library to use for security tokens and smart cards. (e.g.: /tokenlib c:\pkcs11lib.dll)</td>
+</tr>
+<tr>
+<td><em>/tokenpin</em></td>
+<td>&nbsp;(Only with /create)<br>
+It must be followed by a parameter indicating the PIN to use in order to authenticate to the security token or smart card (e.g.: /tokenpin 0000). Warning: This method of entering a smart card PIN may be insecure, for example, when an unencrypted command
+ prompt history log is being saved to unencrypted disk.</td>
+</tr>
+<tr>
 <td>&nbsp;<em>/hash</em></td>
 <td>(Only with /create)<br>
 It must be followed by a parameter indicating the PRF hash algorithm to use when creating the volume. It has the same syntax as VeraCrypt.exe.</td>
@@ -280,6 +297,11 @@ It has no parameters and it indicates that no message box or dialog will be disp
 <tr>
 <td><em>/protectMemory</em>&nbsp;</td>
 <td>Activates a mechanism that protects VeraCrypt Format process memory from being accessed by other non-admin processes.</td>
+</tr>
+<tr>
+<td><em>/secureDesktop</em></td>
+<td>If it is followed by <strong>y</strong> or <strong>yes</strong> or if no parameter is specified: display password dialog and token PIN dialog in a dedicated secure desktop to protect against certain types of attacks.<br>
+If it is followed by <strong>n</strong> or <strong>no</strong>: the password dialog and token PIN dialog are displayed in the normal desktop.</td>
 </tr>
 </tbody>
 </table>
