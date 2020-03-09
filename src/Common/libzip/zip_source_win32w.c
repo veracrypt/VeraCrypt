@@ -1,6 +1,6 @@
 /*
   zip_source_win32w.c -- create data source from Windows file (UTF-16)
-  Copyright (C) 1999-2018 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -136,8 +136,18 @@ _win32_create_temp_w(_zip_source_win32_read_file_t *ctx, void **temp, zip_uint32
 
 static int
 _win32_rename_temp_w(_zip_source_win32_read_file_t *ctx) {
+    DWORD attributes = GetFileAttributesW(ctx->tmpname);
+    if (INVALID_FILE_ATTRIBUTES == attributes)
+	return -1;
+
+    if (FILE_ATTRIBUTE_TEMPORARY & attributes) {
+	if (!SetFileAttributesW(ctx->tmpname, attributes & ~FILE_ATTRIBUTE_TEMPORARY))
+	    return -1;
+    }
+
     if (!MoveFileExW(ctx->tmpname, ctx->fname, MOVEFILE_REPLACE_EXISTING))
 	return -1;
+
     return 0;
 }
 

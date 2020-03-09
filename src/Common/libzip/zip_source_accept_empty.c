@@ -1,6 +1,6 @@
 /*
-  zip_memdup.c -- internal zip function, "strdup" with len
-  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
+  zip_source_accept_empty.c -- if empty source is a valid archive
+  Copyright (C) 2019 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -31,26 +31,22 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <stdlib.h>
-#include <string.h>
 
 #include "zipint.h"
 
 
-void *
-_zip_memdup(const void *mem, size_t len, zip_error_t *error) {
-    void *ret;
+bool
+zip_source_accept_empty(zip_source_t *src) {
+    int ret;
 
-    if (len == 0)
-	return NULL;
-
-    ret = malloc(len);
-    if (!ret) {
-	zip_error_set(error, ZIP_ER_MEMORY, 0);
-	return NULL;
+    if ((zip_source_supports(src) & ZIP_SOURCE_MAKE_COMMAND_BITMASK(ZIP_SOURCE_ACCEPT_EMPTY)) == 0) {
+	if (ZIP_SOURCE_IS_LAYERED(src)) {
+	    return zip_source_accept_empty(src->src);
+	}
+	return true;
     }
 
-    memcpy(ret, mem, len);
+    ret = (int)_zip_source_call(src, NULL, 0, ZIP_SOURCE_ACCEPT_EMPTY);
 
-    return ret;
+    return ret != 0;
 }

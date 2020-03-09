@@ -3,7 +3,7 @@
 
 /*
   compat.h -- compatibility defines.
-  Copyright (C) 1999-2018 Dieter Baron and Thomas Klausner
+  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -81,6 +81,11 @@ typedef char bool;
 #define EOVERFLOW EFBIG
 #endif
 
+/* not supported on at least Windows */
+#ifndef O_CLOEXEC
+#define O_CLOEXEC 0
+#endif
+
 #ifdef _WIN32
 #if defined(HAVE__CHMOD)
 #define chmod _chmod
@@ -120,9 +125,6 @@ typedef char bool;
 #if !defined(HAVE_STRTOULL) && defined(HAVE__STRTOUI64)
 #define strtoull _strtoui64
 #endif
-#if defined(HAVE__UMASK)
-#define umask _umask
-#endif
 #if defined(HAVE__UNLINK)
 #define unlink _unlink
 #endif
@@ -134,11 +136,6 @@ typedef char bool;
 
 #ifndef HAVE_FTELLO
 #define ftello(s) ((long)ftell((s)))
-#endif
-
-#ifndef HAVE_MKSTEMP
-int _zip_mkstemp(char *);
-#define mkstemp _zip_mkstemp
 #endif
 
 #if !defined(HAVE_STRCASECMP)
@@ -201,6 +198,10 @@ int _zip_mkstemp(char *);
 
 #ifndef S_ISDIR
 #define S_ISDIR(mode) (((mode)&S_IFMT) == S_IFDIR)
+#endif
+
+#ifndef S_ISREG
+#define S_ISREG(mode) (((mode)&S_IFMT) == S_IFREG)
 #endif
 
 #endif /* compat.h */
