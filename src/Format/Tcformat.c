@@ -9018,6 +9018,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				OptionFastCreateFile,
 				OptionEnableMemoryProtection,
 				OptionKeyfile,
+				OptionSecureDesktop,
 			};
 
 			argument args[]=
@@ -9043,6 +9044,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 				{ OptionFastCreateFile,			L"/fastcreatefile",	NULL, FALSE },
 				{ OptionEnableMemoryProtection,	L"/protectMemory",	NULL, FALSE },
 				{ OptionKeyfile,				L"/keyfile",		L"/k", FALSE },
+				{ OptionSecureDesktop,			L"/secureDesktop",	NULL, FALSE },
 
 				// Internal
 				{ CommandResumeSysEncLogOn,		L"/acsysenc",		L"/a", TRUE },
@@ -9480,6 +9482,25 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 						AbortProcess ("COMMAND_LINE_ERROR");
 				}
 
+				break;
+
+			case OptionSecureDesktop:
+				{
+					wchar_t szTmp[16] = {0};
+					bCmdUseSecureDesktop = TRUE;
+					bCmdUseSecureDesktopValid = TRUE;
+
+					if (HAS_ARGUMENT == GetArgumentValue (lpszCommandLineArgs, &i, nNoCommandLineArgs,
+						     szTmp, ARRAYSIZE (szTmp)))
+					{
+						if (!_wcsicmp(szTmp,L"n") || !_wcsicmp(szTmp,L"no"))
+							bCmdUseSecureDesktop = FALSE;
+						else if (!_wcsicmp(szTmp,L"y") || !_wcsicmp(szTmp,L"yes"))
+							bCmdUseSecureDesktop = TRUE;
+						else
+							AbortProcess ("COMMAND_LINE_ERROR");
+					}
+				}
 				break;
 
 			default:
