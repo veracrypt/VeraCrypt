@@ -20,7 +20,7 @@ signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac %PFXCA% /fd sha1 /t http:/
 timeout /t 10
 
 rem sign using SHA-256
-signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Debug\Setup Files\veracrypt.sys" "..\Debug\Setup Files\veracrypt-x64.sys" "..\Debug\Setup Files\VeraCrypt.exe" "..\Debug\Setup Files\VeraCrypt Format.exe" "..\Debug\Setup Files\VeraCryptExpander.exe" "..\Debug\Setup Files\VeraCrypt-x64.exe" "..\Debug\Setup Files\VeraCrypt Format-x64.exe" "..\Debug\Setup Files\VeraCryptExpander-x64.exe"
+signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /as /fd sha256 /tr http://rfc3161timestamp.globalsign.com/advanced /td SHA256 "..\Debug\Setup Files\veracrypt.sys" "..\Debug\Setup Files\veracrypt-x64.sys" "..\Debug\Setup Files\VeraCrypt.exe" "..\Debug\Setup Files\VeraCrypt Format.exe" "..\Debug\Setup Files\VeraCryptExpander.exe" "..\Debug\Setup Files\VeraCrypt-x64.exe" "..\Debug\Setup Files\VeraCrypt Format-x64.exe" "..\Debug\Setup Files\VeraCryptExpander-x64.exe"
 
 cd "..\Debug\Setup Files\"
 
@@ -67,6 +67,6 @@ signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac %PFXCA% /fd sha1 /t http:/
 timeout /t 10
 
 rem sign using SHA-256
-signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /as /fd sha256 /tr http://timestamp.globalsign.com/?signature=sha2 /td SHA256 "..\Debug\Setup Files\VeraCrypt Setup %VC_VERSION%.exe"
+signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /as /fd sha256 /tr http://rfc3161timestamp.globalsign.com/advanced /td SHA256 "..\Debug\Setup Files\VeraCrypt Setup %VC_VERSION%.exe"
 
 pause
