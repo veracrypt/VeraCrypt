@@ -195,8 +195,8 @@ BEGIN
     EDITTEXT        IDC_PIM,69,43,42,14,ES_RIGHT | ES_PASSWORD | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Use P&IM",IDC_PIM_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,48,97,10
     CONTROL         "Cache passwords and keyfil&es in memory",IDC_CACHE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,61,153,10
-    CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,74,83,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,61,241,10
+    CONTROL         "&Display password",IDC_SHOW_PASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,74,244,10
     CONTROL         "U&se keyfiles",IDC_KEYFILES_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,87,99,11
     PUSHBUTTON      "&Keyfiles...",IDC_KEY_FILES,173,84,75,14
     PUSHBUTTON      "Mount Opti&ons...",IDC_MOUNT_OPTIONS,252,84,69,14
@@ -548,8 +548,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,24,14,0
- PRODUCTVERSION 1,24,14,0
+ FILEVERSION 1,24,15,0
+ PRODUCTVERSION 1,24,15,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -566,11 +566,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "IDRIX"
             VALUE "FileDescription", "VeraCrypt"
-            VALUE "FileVersion", "1.24-Update5"
+            VALUE "FileVersion", "1.24-Update6"
             VALUE "LegalTrademarks", "VeraCrypt"
             VALUE "OriginalFilename", "VeraCrypt.exe"
             VALUE "ProductName", "VeraCrypt"
-            VALUE "ProductVersion", "1.24-Update5"
+            VALUE "ProductVersion", "1.24-Update6"
         END
     END
     BLOCK "VarFileInfo"

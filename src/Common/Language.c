@@ -209,6 +209,7 @@ static BOOL LoadLanguageData (int resourceid, BOOL bForceSetPreferredLanguage, B
 	LocalizationActive = FALSE;
 	ActiveLangPackVersion[0] = 0;
 	ClearDictionaryPool ();
+	LanguageResource = NULL;
 
 	if ((resourceid == 0) && (PreferredLangId[0] != 0))
 		StringCbCopyA (langId, sizeof(langId), PreferredLangId);

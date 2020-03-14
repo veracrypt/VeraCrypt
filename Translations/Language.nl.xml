@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version= "1.24-Update5">
+  <localization prog-version= "1.24-Update6">
     <language langid="nl" name="Nederlands" en-name="Dutch" version="0.0.0" translators="Jan van der Wal, Peter Tak, Thomas De Rocker"/>
 
     <font lang="nl" class="normal" size="11" face="default"/>
     <font lang="nl" class="bold" size="13" face="Arial"/>
     <font lang="nl" class="fixed" size="12" face="Lucida Console"/>
     <font lang="nl" class="title" size="21" face="Times New Roman"/>
+
     <entry lang="nl" key="IDCANCEL">Annuleren</entry>
     <entry lang="nl" key="IDC_ALL_USERS">Installeren &amp;voor alle gebruikers</entry>
     <entry lang="nl" key="IDC_BROWSE">&amp;Bladeren...</entry>

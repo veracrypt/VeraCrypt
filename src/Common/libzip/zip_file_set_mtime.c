@@ -1,6 +1,6 @@
 /*
  zip_file_set_mtime.c -- set modification time of entry.
- Copyright (C) 2014-2018 Dieter Baron and Thomas Klausner
+ Copyright (C) 2014-2020 Dieter Baron and Thomas Klausner
 
  This file is part of libzip, a library to manipulate ZIP archives.
  The authors can be contacted at <libzip@nih.at>
@@ -34,9 +34,15 @@
 #include "zipint.h"
 
 ZIP_EXTERN int
+zip_file_set_dostime(zip_t *za, zip_uint64_t idx, zip_uint16_t dtime, zip_uint16_t ddate, zip_flags_t flags) {
+    time_t mtime;
+    mtime = _zip_d2u_time(dtime, ddate);
+    return zip_file_set_mtime(za, idx, mtime, flags);
+}
+
+ZIP_EXTERN int
 zip_file_set_mtime(zip_t *za, zip_uint64_t idx, time_t mtime, zip_flags_t flags) {
     zip_entry_t *e;
-    int changed;
 
     if (_zip_get_dirent(za, idx, 0, NULL) == NULL)
 	return -1;
@@ -48,27 +54,15 @@ zip_file_set_mtime(zip_t *za, zip_uint64_t idx, time_t mtime, zip_flags_t flags)
 
     e = za->entry + idx;
 
-    changed = e->orig == NULL || mtime != e->orig->last_mod;
+    if (e->changes == NULL) {
+	if ((e->changes = _zip_dirent_clone(e->orig)) == NULL) {
+	    zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
+	    return -1;
+	}
+    }
 
-    if (changed) {
-	if (e->changes == NULL) {
-	    if ((e->changes = _zip_dirent_clone(e->orig)) == NULL) {
-		zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
-		return -1;
-	    }
-	}
-	e->changes->last_mod = mtime;
-	e->changes->changed |= ZIP_DIRENT_LAST_MOD;
-    }
-    else {
-	if (e->changes) {
-	    e->changes->changed &= ~ZIP_DIRENT_LAST_MOD;
-	    if (e->changes->changed == 0) {
-		_zip_dirent_free(e->changes);
-		e->changes = NULL;
-	    }
-	}
-    }
+    e->changes->last_mod = mtime;
+    e->changes->changed |= ZIP_DIRENT_LAST_MOD;
 
     return 0;
 }
