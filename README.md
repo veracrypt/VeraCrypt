@@ -146,7 +146,7 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
    command to configure the wxWidgets static library for VeraCrypt and to
    build it:
 
-   $ make WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+       $ make WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
 
    The variable WX_ROOT must point to the location of the source code of the
    wxWidgets library. Output files will be placed in the './wxrelease/'
@@ -154,11 +154,11 @@ Instructions for Building VeraCrypt for Linux and Mac OS X:
 
 3) To build VeraCrypt, run the following command:
 
-   $ make
+       $ make
 
    or if you have no wxWidgets shared library installed:
 
-   $ make WXSTATIC=1
+       $ make WXSTATIC=1
 
 4) If successful, the VeraCrypt executable should be located in the directory
    'Main'.
@@ -168,8 +168,8 @@ interface (through the switch --text) is built.
 On Linux, a console-only executable, which requires no GUI library, can be
 built using the 'NOGUI' parameter:
 
-   $ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
-   $ make NOGUI=1 WXSTATIC=1
+    $ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+    $ make NOGUI=1 WXSTATIC=1
 
 On MacOSX, building a console-only executable is not supported.
 
