@@ -844,7 +844,7 @@
     <entry lang="ko" key="AUTO_FOLDER_CREATION">지정한 폴더가 없으면 자동으로 생성됩니다.</entry>
     <entry lang="ko" key="SETUP_UPGRADE_DESTINATION">VeraCrypt 프로그램 파일은 VeraCrypt가 설치된 위치에서 업그레이드됩니다. 다른 위치를 선택해야하는 경우 먼저 VeraCrypt를 제거하세요.</entry>
     <entry lang="ko" key="AFTER_UPGRADE_RELEASE_NOTES">VeraCrypt의 최신 (안정적인 최신 버전) 릴리스 노트를 보시겠습니까?</entry>
-    <entry lang="ko" key="AFTER_INSTALL_TUTORIAL">이전에 VeraCrypt를 사용한 적이 없다면 VeraCrypt User Guide의 Beginner 's Tutorial을 읽어보세요. 자습서를 보시겠습니까?</entry>
+    <entry lang="ko" key="AFTER_INSTALL_TUTORIAL">이전에 VeraCrypt를 사용한 적이 없다면 VeraCrypt 사용자 가이드의 초보자 설명서를 읽어보세요. 설명서를 보시겠습니까?</entry>
     <entry lang="ko" key="SELECT_AN_ACTION">수행 할 작업을 다음 중에서 선택하세요.</entry>
     <entry lang="ko" key="REPAIR_REINSTALL">수리/재설치</entry>
     <entry lang="ko" key="UPGRADE">업그레이드</entry>
@@ -1436,7 +1436,7 @@
     <entry lang="ko" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">기존 최대 암호 길이(64자)를 사용합니다.</entry>
     <entry lang="ko" key="IDC_ENABLE_RAM_ENCRYPTION">RAM에 저장된 키 및 암호의 암호화를 활성화합니다.</entry>
     <entry lang="ko" key="IDT_BENCHMARK">벤치마크:</entry>
-    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
+    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">선택한 드라이브 문자에 마운트하지 않고 가상 장치 만 생성</entry>
     <entry lang="ko" key="LEGACY_PASSWORD_UTF8_TOO_LONG">입력한 암호가 너무 깁니다. UTF-8 표시가 64바이트를 초과합니다.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
