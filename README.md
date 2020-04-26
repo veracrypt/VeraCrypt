@@ -169,6 +169,7 @@ On Linux, a console-only executable, which requires no GUI library, can be
 built using the 'NOGUI' parameter:
 
    $ make NOGUI=1 WXSTATIC=1 WX_ROOT=/usr/src/wxWidgets wxbuild
+   
    $ make NOGUI=1 WXSTATIC=1
 
 On MacOSX, building a console-only executable is not supported.
