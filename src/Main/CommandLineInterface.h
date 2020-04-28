@@ -105,7 +105,7 @@ namespace VeraCrypt
 	shared_ptr<VolumePassword> ToUTF8Password (const wchar_t* str, size_t charCount, size_t maxUtf8Len);
 	shared_ptr<SecureBuffer> ToUTF8Buffer (const wchar_t* str, size_t charCount, size_t maxUtf8Len);
 
-	extern auto_ptr <CommandLineInterface> CmdLine;
+	extern unique_ptr <CommandLineInterface> CmdLine;
 }
 
 #endif // TC_HEADER_Main_CommandInterface

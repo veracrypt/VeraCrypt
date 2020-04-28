@@ -592,5 +592,5 @@ namespace VeraCrypt
 	VolumeSlotNumber FuseService::SlotNumber;
 	uid_t FuseService::UserId;
 	gid_t FuseService::GroupId;
-	auto_ptr <Pipe> FuseService::SignalHandlerPipe;
+	unique_ptr <Pipe> FuseService::SignalHandlerPipe;
 }

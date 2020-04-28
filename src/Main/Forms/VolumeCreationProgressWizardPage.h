@@ -48,7 +48,7 @@ namespace VeraCrypt
 
 		int PreviousGaugeValue;
 		uint64 ProgressBarRange;
-		auto_ptr <wxTimer> RandomPoolTimer;
+		unique_ptr <wxTimer> RandomPoolTimer;
 		int RealProgressBarRange;
 		wxLongLong StartTime;
 		bool VolumeCreatorRunning;

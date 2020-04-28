@@ -39,17 +39,17 @@ namespace VeraCrypt
 		static void Stop ();
 
 	protected:
-		template <class T> static auto_ptr <T> GetResponse ();
-		template <class T> static auto_ptr <T> SendRequest (CoreServiceRequest &request);
+		template <class T> static unique_ptr <T> GetResponse ();
+		template <class T> static unique_ptr <T> SendRequest (CoreServiceRequest &request);
 		static void StartElevated (const CoreServiceRequest &request);
 
 		static shared_ptr <GetStringFunctor> AdminPasswordCallback;
 
-		static auto_ptr <Pipe> AdminInputPipe;
-		static auto_ptr <Pipe> AdminOutputPipe;
+		static unique_ptr <Pipe> AdminInputPipe;
+		static unique_ptr <Pipe> AdminOutputPipe;
 
-		static auto_ptr <Pipe> InputPipe;
-		static auto_ptr <Pipe> OutputPipe;
+		static unique_ptr <Pipe> InputPipe;
+		static unique_ptr <Pipe> OutputPipe;
 		static shared_ptr <Stream> ServiceInputStream;
 		static shared_ptr <Stream> ServiceOutputStream;
 

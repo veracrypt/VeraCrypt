@@ -36,7 +36,7 @@ namespace VeraCrypt
 		void OnAbortButtonClick (wxCommandEvent& event);
 		void OnTimer ();
 
-		auto_ptr <wxTimer> mTimer;
+		unique_ptr <wxTimer> mTimer;
 		int PreviousGaugeValue;
 		uint64 ProgressBarRange;
 		int RealProgressBarRange;

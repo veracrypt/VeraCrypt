@@ -70,7 +70,7 @@ namespace VeraCrypt
 		static VolumeSlotNumber SlotNumber;
 		static uid_t UserId;
 		static gid_t GroupId;
-		static auto_ptr <Pipe> SignalHandlerPipe;
+		static unique_ptr <Pipe> SignalHandlerPipe;
 	};
 }
 

@@ -130,7 +130,7 @@ DWORD BaseCom::ReadWriteFile (BOOL write, BOOL device, BSTR filePath, BSTR *buff
 {
 	try
 	{
-		auto_ptr <File> file (device ? new Device (filePath, !write) : new File (filePath, !write));
+		unique_ptr <File> file (device ? new Device (filePath, !write) : new File (filePath, !write));
 		file->CheckOpened (SRC_POS);
 		file->SeekAt (offset);
 
@@ -194,7 +194,7 @@ DWORD BaseCom::DeviceIoControl (BOOL readOnly, BOOL device, BSTR filePath, DWORD
 {
 	try
 	{
-		auto_ptr <File> file (device ? new Device (filePath, readOnly == TRUE) : new File (filePath, readOnly == TRUE));
+		unique_ptr <File> file (device ? new Device (filePath, readOnly == TRUE) : new File (filePath, readOnly == TRUE));
 		file->CheckOpened (SRC_POS);
 		if (!file->IoCtl (dwIoControlCode, (BYTE *) input, !(BYTE *) input ? 0 : ((DWORD *) ((BYTE *) input))[-1],
 			(BYTE *) *output, !(BYTE *) *output ? 0 : ((DWORD *) ((BYTE *) *output))[-1]))

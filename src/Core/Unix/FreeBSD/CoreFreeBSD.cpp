@@ -200,7 +200,7 @@ namespace VeraCrypt
 	}
 
 #ifdef TC_FREEBSD
-	auto_ptr <CoreBase> Core (new CoreServiceProxy <CoreFreeBSD>);
-	auto_ptr <CoreBase> CoreDirect (new CoreFreeBSD);
+	unique_ptr <CoreBase> Core (new CoreServiceProxy <CoreFreeBSD>);
+	unique_ptr <CoreBase> CoreDirect (new CoreFreeBSD);
 #endif
 }

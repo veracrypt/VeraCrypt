@@ -344,7 +344,7 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::BeginInteractiveBusyState (wxWindow *window)
 	{
-		static auto_ptr <wxCursor> arrowWaitCursor;
+		static unique_ptr <wxCursor> arrowWaitCursor;
 
 		if (arrowWaitCursor.get() == nullptr)
 			arrowWaitCursor.reset (new wxCursor (wxCURSOR_ARROWWAIT));
@@ -409,7 +409,7 @@ namespace VeraCrypt
 
 	void GraphicUserInterface::EndInteractiveBusyState (wxWindow *window) const
 	{
-		static auto_ptr <wxCursor> arrowCursor;
+		static unique_ptr <wxCursor> arrowCursor;
 
 		if (arrowCursor.get() == nullptr)
 			arrowCursor.reset (new wxCursor (wxCURSOR_ARROW));
@@ -632,7 +632,7 @@ namespace VeraCrypt
 
 		try
 		{
-			SecurityToken::InitLibrary (Preferences.SecurityTokenModule, auto_ptr <GetPinFunctor> (new PinRequestHandler), auto_ptr <SendExceptionFunctor> (new WarningHandler));
+			SecurityToken::InitLibrary (Preferences.SecurityTokenModule, unique_ptr <GetPinFunctor> (new PinRequestHandler), unique_ptr <SendExceptionFunctor> (new WarningHandler));
 		}
 		catch (Exception &e)
 		{
@@ -965,8 +965,8 @@ namespace VeraCrypt
 					wxConnectionBase *OnMakeConnection () { return new Connection; }
 				};
 
-				auto_ptr <wxDDEClient> client (new Client);
-				auto_ptr <wxConnectionBase> connection (client->MakeConnection (L"localhost", serverName, L"raise"));
+				unique_ptr <wxDDEClient> client (new Client);
+				unique_ptr <wxConnectionBase> connection (client->MakeConnection (L"localhost", serverName, L"raise"));
 
 				if (connection.get() && connection->Execute (nullptr))
 				{

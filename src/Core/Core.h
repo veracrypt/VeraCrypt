@@ -17,8 +17,8 @@
 
 namespace VeraCrypt
 {
-	extern auto_ptr <CoreBase> Core;
-	extern auto_ptr <CoreBase> CoreDirect;
+	extern unique_ptr <CoreBase> Core;
+	extern unique_ptr <CoreBase> CoreDirect;
 
 	class WaitThreadRoutine
 	{

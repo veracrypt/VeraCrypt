@@ -173,6 +173,6 @@ namespace VeraCrypt
 		}
 	}
 
-	auto_ptr <CoreBase> Core (new CoreServiceProxy <CoreSolaris>);
-	auto_ptr <CoreBase> CoreDirect (new CoreSolaris);
+	unique_ptr <CoreBase> Core (new CoreServiceProxy <CoreSolaris>);
+	unique_ptr <CoreBase> CoreDirect (new CoreSolaris);
 }
