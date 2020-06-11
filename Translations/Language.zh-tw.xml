@@ -834,7 +834,7 @@
     <entry lang="zh-tw" key="SETUP_PROGRESS_TITLE">正在安裝</entry>
     <entry lang="zh-tw" key="SETUP_PROGRESS_INFO">VeraCrypt 正在安裝請稍候。</entry>
     <entry lang="zh-tw" key="SETUP_FINISHED_TITLE_DON">VeraCrypt 已成功安裝</entry>
-    <entry lang="zh-tw" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeryCrypt 已成功升級</entry>
+    <entry lang="zh-tw" key="SETUP_FINISHED_UPGRADE_TITLE_DON">VeraCrypt 已成功升級</entry>
     <entry lang="en" key="SETUP_FINISHED_INFO_DON">Please consider making a donation. You can click Finish anytime to close the installer.</entry>
     <entry lang="zh-tw" key="EXTRACTION_OPTIONS_TITLE">解壓縮選項</entry>
     <entry lang="zh-tw" key="EXTRACTION_OPTIONS_INFO">您可以在這裡設定不同選項來控制解壓縮的過程。</entry>

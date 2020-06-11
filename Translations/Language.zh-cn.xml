@@ -608,7 +608,7 @@
     <entry lang="zh-cn" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">添加/移除 密钥文件...</entry>
     <entry lang="zh-cn" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">从加密卷中移除所有密钥文件</entry>
     <entry lang="zh-cn" key="PASSWORD_CHANGED">密码 和/或 密钥文件已成功修改。\n\n重要：请确认您已经阅读了用户指南的'Security Requirements and Precautions'章节中的'Changing Passwords and Keyfiles'部分。</entry>
-    <entry lang="zh-cn" key="FAVORITE_PIM_CHANGED">此加密卷已经修改PIM并标记成"系统收藏加密卷"。\n您希望VeryCrypt自动更新系统收藏加密卷设置么(需要管理员权限)。\n\n如果您不希望的话，请稍后手动更新设置。</entry>
+    <entry lang="zh-cn" key="FAVORITE_PIM_CHANGED">此加密卷已经修改PIM并标记成"系统收藏加密卷"。\n您希望VeraCrypt自动更新系统收藏加密卷设置么(需要管理员权限)。\n\n如果您不希望的话，请稍后手动更新设置。</entry>
     <entry lang="zh-cn" key="SYS_PASSWORD_CHANGED_ASK_RESCUE_DISK">重要：如果您不销毁 VeraCrypt 应急盘，您的系统分区/驱动器仍然可以通过使用旧密码解密（通过启动 VeraCrypt 应急盘和输入旧密码）。您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="SYS_HKD_ALGO_CHANGED_ASK_RESCUE_DISK">请注意，VeraCrypt 应急盘仍然使用着早期的加密算法。如果您觉的先前的加密算法不安全，您应当创建一个新的 VeraCrypt 应急盘，之后并销毁原来的应急盘。\n\n您希望创建一个新的 VeraCrypt 应急盘吗？</entry>
     <entry lang="zh-cn" key="KEYFILES_NOTE">任何类型的文件（例如：.mp3、.jpg、.zip、.avi）都可以作为 VeraCrypt 的密钥文件。VeraCrypt 并不会修改密钥文件的内容。 您可以选择一个以上的密钥文件（与次序无关）。如果您添加了一个文件夹，里面的所有非隐藏文件都将作为密钥文件。点击〖添加口令牌〗来选择存储于安全口令牌或智能卡中的密钥文件（或者导入密钥文件到安全口令牌或智能卡）。</entry>
