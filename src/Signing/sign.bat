@@ -9,8 +9,8 @@ call "..\..\doc\chm\create_chm.bat"
 cd %SIGNINGPATH%
 
 rem sign using SHA-1
-signtool sign /v /sha1 1FE67EF0455A9CC11433542FEC0A86DDD644B405 /ac DigiCert_High_Assurance_MS_Cross_Cert.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\veracrypt.sys" "..\Release\Setup Files\veracrypt-x64.sys"
-signtool sign /v /sha1 1FE67EF0455A9CC11433542FEC0A86DDD644B405 /ac DigiCert_High_Assurance_Code_Signing_CA.cer /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt.exe" "..\Release\Setup Files\VeraCrypt Format.exe" "..\Release\Setup Files\VeraCryptExpander.exe" "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe"
+signtool sign /v /sha1 85aa2e55cfb9c38fe474c58b38e9521450cd9306 /ac DigiCert_Assured_ID_MS_Cross_Cert.crt /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\veracrypt.sys" "..\Release\Setup Files\veracrypt-x64.sys"
+signtool sign /v /sha1 85aa2e55cfb9c38fe474c58b38e9521450cd9306 /ac DigiCert_Assured_ID_Code_Signing_CA.cer /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt.exe" "..\Release\Setup Files\VeraCrypt Format.exe" "..\Release\Setup Files\VeraCryptExpander.exe" "..\Release\Setup Files\VeraCrypt-x64.exe" "..\Release\Setup Files\VeraCrypt Format-x64.exe" "..\Release\Setup Files\VeraCryptExpander-x64.exe"
 
 timeout /t 10
 
@@ -58,7 +58,7 @@ rmdir /S /Q docs
 cd %SIGNINGPATH%
 
 rem sign using SHA-1
-signtool sign /v /sha1 1FE67EF0455A9CC11433542FEC0A86DDD644B405 /ac DigiCert_High_Assurance_Code_Signing_CA.cer /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe"
+signtool sign /v /sha1 85aa2e55cfb9c38fe474c58b38e9521450cd9306 /ac DigiCert_Assured_ID_Code_Signing_CA.cer /fd sha1 /t http://timestamp.verisign.com/scripts/timestamp.dll "..\Release\Setup Files\VeraCrypt Setup %VC_VERSION%.exe" "..\Release\Setup Files\VeraCrypt Portable %VC_VERSION%.exe"
 
 timeout /t 10
 
