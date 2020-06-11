@@ -1,0 +1,18 @@
+# For those using Visual Studio Code for development
+.vscode/
+
+# VC Linux build artifacts
+*.o
+*.o0
+*.d
+*.a
+*.bmp.h
+*.xml.h
+*.txt.h
+*.h.gch
+src/Main/veracrypt
+
+# wxWidgets Linux build artifacts
+src/wxrelease
+src/wxdebug
+
