@@ -509,7 +509,7 @@ namespace VeraCrypt
 
 			wxMenu *CreatePopupMenu ()
 			{
-				auto_ptr <wxMenu> popup (new wxMenu);
+				unique_ptr <wxMenu> popup (new wxMenu);
 
 				Gui->AppendToMenu (*popup, LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"], this, wxCommandEventHandler (TaskBarIcon::OnShowHideMenuItemSelected));
 

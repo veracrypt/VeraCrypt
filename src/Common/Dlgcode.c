@@ -12104,7 +12104,7 @@ BOOL InitSecurityTokenLibrary (HWND hwndDlg)
 
 	try
 	{
-		SecurityToken::InitLibrary (SecurityTokenLibraryPath, auto_ptr <GetPinFunctor> (new PinRequestHandler(MainDlg)), auto_ptr <SendExceptionFunctor> (new WarningHandler(MainDlg)));
+		SecurityToken::InitLibrary (SecurityTokenLibraryPath, unique_ptr <GetPinFunctor> (new PinRequestHandler(MainDlg)), unique_ptr <SendExceptionFunctor> (new WarningHandler(MainDlg)));
 	}
 	catch (Exception &e)
 	{

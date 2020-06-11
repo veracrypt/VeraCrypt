@@ -191,9 +191,9 @@ namespace VeraCrypt
 		static list <SecurityTokenInfo> GetAvailableTokens ();
 		static SecurityTokenInfo GetTokenInfo (CK_SLOT_ID slotId);
 #ifdef TC_WINDOWS
-		static void InitLibrary (const wstring &pkcs11LibraryPath, auto_ptr <GetPinFunctor> pinCallback, auto_ptr <SendExceptionFunctor> warningCallback);
+		static void InitLibrary (const wstring &pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback);
 #else
-		static void InitLibrary (const string &pkcs11LibraryPath, auto_ptr <GetPinFunctor> pinCallback, auto_ptr <SendExceptionFunctor> warningCallback);
+		static void InitLibrary (const string &pkcs11LibraryPath, unique_ptr <GetPinFunctor> pinCallback, unique_ptr <SendExceptionFunctor> warningCallback);
 #endif
 		static bool IsInitialized () { return Initialized; }
 		static bool IsKeyfilePathValid (const wstring &securityTokenKeyfilePath);
@@ -211,7 +211,7 @@ namespace VeraCrypt
 		static void CheckLibraryStatus ();
 
 		static bool Initialized;
-		static auto_ptr <GetPinFunctor> PinCallback;
+		static unique_ptr <GetPinFunctor> PinCallback;
 		static CK_FUNCTION_LIST_PTR Pkcs11Functions;
 #ifdef TC_WINDOWS
 		static HMODULE Pkcs11LibraryHandle;
@@ -219,7 +219,7 @@ namespace VeraCrypt
 		static void *Pkcs11LibraryHandle;
 #endif
 		static map <CK_SLOT_ID, Pkcs11Session> Sessions;
-		static auto_ptr <SendExceptionFunctor> WarningCallback;
+		static unique_ptr <SendExceptionFunctor> WarningCallback;
 	};
 }
 

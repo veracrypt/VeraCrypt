@@ -69,8 +69,8 @@ namespace VeraCrypt
 		virtual void ReadInputStreamLine (wxString &line) const;
 		virtual wxString ReadInputStreamLine () const;
 
-		auto_ptr <wxFFileInputStream> FInputStream;
-		auto_ptr <wxTextInputStream> TextInputStream;
+		unique_ptr <wxFFileInputStream> FInputStream;
+		unique_ptr <wxTextInputStream> TextInputStream;
 
 	private:
 		TextUserInterface (const TextUserInterface &);

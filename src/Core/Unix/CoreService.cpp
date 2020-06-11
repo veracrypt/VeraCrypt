@@ -28,9 +28,9 @@
 namespace VeraCrypt
 {
 	template <class T>
-	auto_ptr <T> CoreService::GetResponse ()
+	unique_ptr <T> CoreService::GetResponse ()
 	{
-		auto_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream));
+		unique_ptr <Serializable> deserializedObject (Serializable::DeserializeNew (ServiceOutputStream));
 
 		Exception *deserializedException = dynamic_cast <Exception*> (deserializedObject.get());
 		if (deserializedException)
@@ -39,7 +39,7 @@ namespace VeraCrypt
 		if (dynamic_cast <T *> (deserializedObject.get()) == nullptr)
 			throw ParameterIncorrect (SRC_POS);
 
-		return auto_ptr <T> (dynamic_cast <T *> (deserializedObject.release()));
+		return unique_ptr <T> (dynamic_cast <T *> (deserializedObject.release()));
 	}
 
 	void CoreService::ProcessElevatedRequests ()
@@ -90,7 +90,7 @@ namespace VeraCrypt
 	{
 		try
 		{
-			Core = CoreDirect;
+			Core = std::move(CoreDirect);
 
 			shared_ptr <Stream> inputStream (new FileStream (inputFD != -1 ? inputFD : InputPipe->GetReadFD()));
 			shared_ptr <Stream> outputStream (new FileStream (outputFD != -1 ? outputFD : OutputPipe->GetWriteFD()));
@@ -278,7 +278,7 @@ namespace VeraCrypt
 	}
 
 	template <class T>
-	auto_ptr <T> CoreService::SendRequest (CoreServiceRequest &request)
+	unique_ptr <T> CoreService::SendRequest (CoreServiceRequest &request)
 	{
 		static Mutex mutex;
 		ScopeLock lock (mutex);
@@ -341,7 +341,7 @@ namespace VeraCrypt
 				try
 				{
 					request.Serialize (ServiceInputStream);
-					auto_ptr <T> response (GetResponse <T>());
+					unique_ptr <T> response (GetResponse <T>());
 					ElevatedServiceAvailable = true;
 					return response;
 				}
@@ -390,8 +390,8 @@ namespace VeraCrypt
 
 	void CoreService::StartElevated (const CoreServiceRequest &request)
 	{
-		auto_ptr <Pipe> inPipe (new Pipe());
-		auto_ptr <Pipe> outPipe (new Pipe());
+		unique_ptr <Pipe> inPipe (new Pipe());
+		unique_ptr <Pipe> outPipe (new Pipe());
 		Pipe errPipe;
 
 		int forkedPid = fork();
@@ -533,7 +533,7 @@ namespace VeraCrypt
 
 		if (!errOutput.empty())
 		{
-			auto_ptr <Serializable> deserializedObject;
+			unique_ptr <Serializable> deserializedObject;
 			Exception *deserializedException = nullptr;
 
 			try
@@ -573,8 +573,8 @@ namespace VeraCrypt
 		byte sync[] = { 0, 0x11, 0x22 };
 		ServiceInputStream->Write (ConstBufferPtr (sync, array_capacity (sync)));
 
-		AdminInputPipe = inPipe;
-		AdminOutputPipe = outPipe;
+		AdminInputPipe = std::move(inPipe);
+		AdminOutputPipe = std::move(outPipe);
 	}
 
 	void CoreService::Stop ()
@@ -585,11 +585,11 @@ namespace VeraCrypt
 
 	shared_ptr <GetStringFunctor> CoreService::AdminPasswordCallback;
 
-	auto_ptr <Pipe> CoreService::AdminInputPipe;
-	auto_ptr <Pipe> CoreService::AdminOutputPipe;
+	unique_ptr <Pipe> CoreService::AdminInputPipe;
+	unique_ptr <Pipe> CoreService::AdminOutputPipe;
 
-	auto_ptr <Pipe> CoreService::InputPipe;
-	auto_ptr <Pipe> CoreService::OutputPipe;
+	unique_ptr <Pipe> CoreService::InputPipe;
+	unique_ptr <Pipe> CoreService::OutputPipe;
 	shared_ptr <Stream> CoreService::ServiceInputStream;
 	shared_ptr <Stream> CoreService::ServiceOutputStream;
 

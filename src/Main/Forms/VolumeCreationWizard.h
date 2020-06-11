@@ -67,8 +67,8 @@ namespace VeraCrypt
 		bool CrossPlatformSupport;
 		static bool DeviceWarningConfirmed;
 		bool DisplayKeyInfo;
-		auto_ptr <wxTimer> ProgressTimer;
-		auto_ptr <wxTimer> RandomPoolUpdateTimer;
+		unique_ptr <wxTimer> ProgressTimer;
+		unique_ptr <wxTimer> RandomPoolUpdateTimer;
 		shared_ptr <KeyfileList> Keyfiles;
 		bool LargeFilesSupport;
 		uint64 MaxHiddenVolumeSize;

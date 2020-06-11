@@ -828,5 +828,5 @@ namespace VeraCrypt
 			return shared_ptr<SecureBuffer>(new SecureBuffer ());
 	}
 
-	auto_ptr <CommandLineInterface> CmdLine;
+	unique_ptr <CommandLineInterface> CmdLine;
 }
