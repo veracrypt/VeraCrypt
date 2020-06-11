@@ -7,7 +7,7 @@
     <font lang="ko" class="fixed" size="12" face="돋움체" />
     <font lang="ko" class="title" size="21" face="맑은 고딕" />
     <entry lang="ko" key="IDCANCEL">취소</entry>
-    <entry lang="ko" key="IDC_ALL_USERS">모든 사용자를 위해 설치</entry>
+    <entry lang="ko" key="IDC_ALL_USERS">모든 사용자용으로 설치</entry>
     <entry lang="ko" key="IDC_BROWSE">탐색</entry>
     <entry lang="ko" key="IDC_DESKTOP_ICON">바탕화면에 VeraCrypt 바로가기 추가</entry>
     <entry lang="ko" key="IDC_DONATE">기부하러 가기</entry>
@@ -693,7 +693,7 @@
     <entry lang="ko" key="UNKNOWN">알 수 없는</entry>
     <entry lang="ko" key="ERR_UNKNOWN">알 수없는 또는 알 수없는 오류가 발생했습니다(%d).</entry>
     <entry lang="ko" key="UNMOUNTALL_LOCK_FAILED">일부 볼륨에는 응용 프로그램이나 시스템에서 사용중인 파일이나 폴더가 포함되어 있습니다.\n\n강제 마운트 해제 하시겠습니까?</entry>
-    <entry lang="ko" key="UNMOUNT_BUTTON">내리다</entry>
+    <entry lang="ko" key="UNMOUNT_BUTTON">마운트 해제</entry>
     <entry lang="ko" key="UNMOUNT_FAILED">마운트 해제에 실패했습니다!</entry>
     <entry lang="ko" key="UNMOUNT_LOCK_FAILED">볼륨에 응용 프로그램이나 시스템에서 사용중인 파일이나 폴더가 있습니다.\n\n강제로 분리 하시겠습니까?</entry>
     <entry lang="ko" key="NO_VOLUME_MOUNTED_TO_DRIVE">지정된 드라이브 문자에 볼륨이 마운트되어 있지 않습니다.</entry>
@@ -844,7 +844,7 @@
     <entry lang="ko" key="AUTO_FOLDER_CREATION">지정한 폴더가 없으면 자동으로 생성됩니다.</entry>
     <entry lang="ko" key="SETUP_UPGRADE_DESTINATION">VeraCrypt 프로그램 파일은 VeraCrypt가 설치된 위치에서 업그레이드됩니다. 다른 위치를 선택해야하는 경우 먼저 VeraCrypt를 제거하세요.</entry>
     <entry lang="ko" key="AFTER_UPGRADE_RELEASE_NOTES">VeraCrypt의 최신 (안정적인 최신 버전) 릴리스 노트를 보시겠습니까?</entry>
-    <entry lang="ko" key="AFTER_INSTALL_TUTORIAL">이전에 VeraCrypt를 사용한 적이 없다면 VeraCrypt User Guide의 Beginner 's Tutorial을 읽어보세요. 자습서를 보시겠습니까?</entry>
+    <entry lang="ko" key="AFTER_INSTALL_TUTORIAL">이전에 VeraCrypt를 사용한 적이 없다면 VeraCrypt 사용자 가이드의 초보자 설명서를 읽어보세요. 설명서를 보시겠습니까?</entry>
     <entry lang="ko" key="SELECT_AN_ACTION">수행 할 작업을 다음 중에서 선택하세요.</entry>
     <entry lang="ko" key="REPAIR_REINSTALL">수리/재설치</entry>
     <entry lang="ko" key="UPGRADE">업그레이드</entry>
@@ -1319,7 +1319,7 @@
     <entry lang="ko" key="VKEY_21">Page Up</entry>
     <entry lang="ko" key="VKEY_22">Page Down</entry>
     <entry lang="ko" key="VKEY_23">End</entry>
-    <entry lang="ko" key="VKEY_24">Home</entry>
+    <entry lang="ko" key="VKEY_24">홈</entry>
     <entry lang="ko" key="VKEY_25">왼쪽 화살표</entry>
     <entry lang="ko" key="VKEY_26">위쪽 화살표</entry>
     <entry lang="ko" key="VKEY_27">오른쪽 화살표</entry>
@@ -1327,13 +1327,13 @@
     <entry lang="ko" key="VKEY_29">키 선택</entry>
     <entry lang="ko" key="VKEY_2A">프린트 키</entry>
     <entry lang="ko" key="VKEY_2B">실행 키</entry>
-    <entry lang="ko" key="VKEY_2C">Print screen</entry>
-    <entry lang="ko" key="VKEY_2D">Insert</entry>
-    <entry lang="ko" key="VKEY_2E">Delete</entry>
+    <entry lang="ko" key="VKEY_2C">화면 캡쳐</entry>
+    <entry lang="ko" key="VKEY_2D">삽입</entry>
+    <entry lang="ko" key="VKEY_2E">삭제</entry>
     <entry lang="ko" key="VKEY_5D">응용 프로그램 키</entry>
     <entry lang="ko" key="VKEY_5F">절전</entry>
-    <entry lang="ko" key="VKEY_90">Num Lock</entry>
-    <entry lang="ko" key="VKEY_91">Scroll Lock</entry>
+    <entry lang="ko" key="VKEY_90">숫자 잠금</entry>
+    <entry lang="ko" key="VKEY_91">스크롤 잠금</entry>
     <entry lang="ko" key="VKEY_A6">브라우저 뒤로 이동</entry>
     <entry lang="ko" key="VKEY_A7">브라우저 앞으로 이동</entry>
     <entry lang="ko" key="VKEY_A8">브라우저 새로 고침</entry>
@@ -1411,7 +1411,7 @@
     <entry lang="ko" key="ERR_REFS_INVALID_VOLUME_SIZE">명령줄에 지정된 볼륨 파일 크기가 선택한 ReFS 파일 시스템과 호환되지 않습니다.</entry>
     <entry lang="ko" key="IDC_EDIT_DCSPROP">부트 로더 구성을 편집</entry>
     <entry lang="ko" key="IDC_SHOW_PLATFORMINFO">EFI 플랫폼 정보 표시</entry>
-    <entry lang="ko" key="BOOT_LOADER_CONFIGURATION_FILE">로더 구성 파일 부팅</entry>
+    <entry lang="ko" key="BOOT_LOADER_CONFIGURATION_FILE">부트로더 구성 파일 부팅</entry>
     <entry lang="ko" key="EFI_PLATFORM_INFORMATION">EFI 플랫폼 정보 제공</entry>
     <entry lang="ko" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">경고: 경험이 없는 사용자는 부트 로더 구성을 수동으로 편집하려고 해서는 안 됩니다.\n\n계속할까요?</entry>
     <entry lang="ko" key="DCSPROP_XML_VALIDATION_FAILED">경고: 부트 로더 구성의 XML 형식을 검증하지 못했습니다. 수정 사항을 확인해 주세요.</entry>
@@ -1436,7 +1436,7 @@
     <entry lang="ko" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">기존 최대 암호 길이(64자)를 사용합니다.</entry>
     <entry lang="ko" key="IDC_ENABLE_RAM_ENCRYPTION">RAM에 저장된 키 및 암호의 암호화를 활성화합니다.</entry>
     <entry lang="ko" key="IDT_BENCHMARK">벤치마크:</entry>
-    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">Only create virtual device without mounting on selected drive letter</entry>
+    <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">선택한 드라이브 문자에 마운트하지 않고 가상 장치 만 생성</entry>
     <entry lang="ko" key="LEGACY_PASSWORD_UTF8_TOO_LONG">입력한 암호가 너무 깁니다. UTF-8 표시가 64바이트를 초과합니다.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
