@@ -20,7 +20,9 @@ extern "C"
 {
 #endif
 
+#if defined (TC_WINDOWS_BOOT)
 byte is_aes_hw_cpu_supported ();
+#endif
 void aes_hw_cpu_enable_sse ();
 void aes_hw_cpu_decrypt (const byte *ks, byte *data);
 void aes_hw_cpu_decrypt_32_blocks (const byte *ks, byte *data);

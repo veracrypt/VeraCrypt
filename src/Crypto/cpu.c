@@ -422,28 +422,6 @@ void DetectX86Features()
 	*((volatile int*)&g_x86DetectionDone) = 1;
 }
 
-int is_aes_hw_cpu_supported ()
-{
-	int bHasAESNI = 0;
-	uint32 cpuid[4];
-
-	if (CpuId(1, cpuid))
-	{
-		if (cpuid[2] & (1<<25))
-			bHasAESNI = 1;
-#if !defined (_UEFI) && ((defined(__AES__) && defined(__PCLMUL__)) || defined(__INTEL_COMPILER) || CRYPTOPP_BOOL_AESNI_INTRINSICS_AVAILABLE)
-		// Hypervisor = bit 31 of ECX of CPUID leaf 0x1
-		// reference: http://artemonsecurity.com/vmde.pdf
-		if (!bHasAESNI && (cpuid[2] & (1<<31)))
-		{
-			bHasAESNI = Detect_MS_HyperV_AES ();
-		}
-#endif
-	}
-
-	return bHasAESNI;
-}
-
 void DisableCPUExtendedFeatures ()
 {
 	g_hasSSE2 = 0;
