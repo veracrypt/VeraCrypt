@@ -5808,6 +5808,11 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				if (!EAInitMode (ci, ci->k2))
 					goto counter_error;
 
+#ifdef _WIN64
+				if (IsRamEncryptionEnabled ())
+					VcProtectKeys (ci, VcGetEncryptionID (ci));
+#endif
+
 				if (QueryPerformanceCounter (&performanceCountStart) == 0)
 					goto counter_error;
 
