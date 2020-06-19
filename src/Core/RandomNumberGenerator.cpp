@@ -44,7 +44,24 @@ namespace VeraCrypt
 			throw_sys_sub_if (random == -1, L"/dev/random");
 			finally_do_arg (int, random, { close (finally_arg); });
 
-			throw_sys_sub_if (read (random, buffer, buffer.Size()) == -1 && errno != EAGAIN, L"/dev/random");
+			// ensure that we have read /dev/random successfully at least once before continuing
+			while (true)
+			{
+				int rndCount = read (random, buffer, buffer.Size());
+				throw_sys_sub_if ((rndCount == -1) && errno != EAGAIN, L"/dev/random");
+				if (rndCount == -1 && !DevRandomSucceeded)
+				{
+					// wait 250ms before querying /dev/random again
+					::usleep (250 * 1000);
+				}
+				else
+				{
+					if (rndCount != -1)
+						DevRandomSucceeded = true;
+					break;
+				}
+			}
+			
 			AddToPool (buffer);
 			
 			/* use JitterEntropy library to get good quality random bytes based on CPU timing jitter */
@@ -218,6 +235,7 @@ namespace VeraCrypt
 
 		EnrichedByUser = false;
 		Running = false;
+		DevRandomSucceeded = false;
 	}
 
 	void RandomNumberGenerator::Test ()
@@ -255,4 +273,5 @@ namespace VeraCrypt
 	bool RandomNumberGenerator::Running = false;
 	size_t RandomNumberGenerator::WriteOffset;
 	struct rand_data *RandomNumberGenerator::JitterRngCtx = NULL;
+	bool RandomNumberGenerator::DevRandomSucceeded = false;
 }
