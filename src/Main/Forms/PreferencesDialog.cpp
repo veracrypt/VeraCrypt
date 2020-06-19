@@ -87,7 +87,7 @@ namespace VeraCrypt
 		// Encryption
 		AesHwCpuSupportedStaticText->SetLabel (
 #ifdef TC_AES_HW_CPU
-			(is_aes_hw_cpu_supported() ? LangString["UISTR_YES"] : LangString["UISTR_NO"]));
+			(HasAESNI() ? LangString["UISTR_YES"] : LangString["UISTR_NO"]));
 #else
 			LangString["NOT_APPLICABLE_OR_NOT_AVAILABLE"]);
 #endif
