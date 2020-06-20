@@ -2234,6 +2234,11 @@ static VOID DecoySystemWipeThreadProc (PVOID threadArg)
 		goto err;
 	}
 
+#ifdef _WIN64
+	if (IsRamEncryptionEnabled ())
+		VcProtectKeys (wipeCryptoInfo, VcGetEncryptionID (wipeCryptoInfo));
+#endif
+
 	EncryptDataUnits (wipeRandBuffer, &dataUnit, wipeBlockSize / ENCRYPTION_DATA_UNIT_SIZE, wipeCryptoInfo);
 	memcpy (wipeRandChars, wipeRandBuffer, sizeof (wipeRandChars));
 

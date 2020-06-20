@@ -116,6 +116,11 @@ int FormatNoFs (HWND hwndDlg, unsigned __int64 startSector, __int64 num_sectors,
 			goto fail;
 		}
 
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled ())
+			VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
+#endif
+
 		while (num_sectors--)
 		{
 			if (WriteSector (dev, sector, write_buf, &write_buf_cnt, &nSecNo,

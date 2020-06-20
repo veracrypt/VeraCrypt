@@ -442,6 +442,11 @@ FormatFat (void* hwndDlgPtr, unsigned __int64 startSector, fatparams * ft, void 
 			return ERR_MODE_INIT_FAILED;
 		}
 
+#ifdef _WIN64
+		if (IsRamEncryptionEnabled ())
+			VcProtectKeys (cryptoInfo, VcGetEncryptionID (cryptoInfo));
+#endif
+
 		x = ft->num_sectors - ft->reserved - ft->size_root_dir / ft->sector_size - ft->fat_length * 2;
 		while (x--)
 		{
