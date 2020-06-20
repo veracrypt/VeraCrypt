@@ -5787,6 +5787,10 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 				if (EAInitMode (ci, ci->k2))
 				{
 					int i;
+#ifdef _WIN64
+					if (IsRamEncryptionEnabled ())
+						VcProtectKeys (ci, VcGetEncryptionID (ci));
+#endif
 
 					for (i = 0; i < 10; i++)
 					{
