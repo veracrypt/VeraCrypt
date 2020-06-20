@@ -1243,7 +1243,10 @@ BOOL IsCpuRngEnabled ()
 BOOL IsRamEncryptionSupported ()
 {
 #ifdef _WIN64
-	return TRUE;
+	if (t1ha_selfcheck__t1ha2() == 0)
+		return TRUE;
+	else
+		return FALSE;
 #else
 	return FALSE;
 #endif
