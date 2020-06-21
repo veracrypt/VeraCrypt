@@ -56,6 +56,7 @@ namespace VeraCrypt
 		static size_t WriteOffset;
 		static struct rand_data *JitterRngCtx;
 		static bool DevRandomSucceeded;
+		static int DevRandomBytesCount;
 	};
 }
 
