@@ -774,16 +774,31 @@ namespace VeraCrypt
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
 
+				if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden)
+				{
+					shared_ptr <VolumePassword> hiddenPassword;
+					try
+					{
+						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password);
+					}
+					catch (...)
+					{
+						hiddenPassword = Password;
+					}
+
+					// check if Outer and Hidden passwords are the same
+					if ( 	(hiddenPassword && !hiddenPassword->IsEmpty() && OuterPassword && !OuterPassword->IsEmpty() && (*(OuterPassword.get()) == *(hiddenPassword.get())))
+						||
+							((!hiddenPassword || hiddenPassword->IsEmpty()) && (!OuterPassword || OuterPassword->IsEmpty()))
+						)
+					{
+						Gui->ShowError (_("The Hidden volume password can not be identical to the Outer volume password"));
+						return GetCurrentStep();
+					}
+				}
+
 				if (forward && Password && !Password->IsEmpty())
 				{
-					if (!OuterVolume && SelectedVolumeType == VolumeType::Hidden)
-					{
-						if (*(OuterPassword.get()) == *(Password.get()))
-						{
-							Gui->ShowError (_("The Hidden volume password can not be identical to the Outer volume password"));
-							return GetCurrentStep();
-						}
-					}
 					if (Password->Size() < VolumePassword::WarningSizeThreshold)
 					{
 						if (!Gui->AskYesNo (LangString["PASSWORD_LENGTH_WARNING"], false, true))
@@ -1088,8 +1103,15 @@ namespace VeraCrypt
 
 				MaxHiddenVolumeSize -= MaxHiddenVolumeSize % outerVolume->GetSectorSize();		// Must be a multiple of the sector size
 
-				// remember Outer password in order to be able to compare it with Hidden password
-				OuterPassword = Password;
+				// remember Outer password and keyfiles in order to be able to compare it with those of Hidden volume
+				try
+				{
+					OuterPassword = Keyfile::ApplyListToPassword (Keyfiles, Password);
+				}
+				catch (...)
+				{
+					OuterPassword = Password;
+				}
 			}
 			catch (exception &e)
 			{
