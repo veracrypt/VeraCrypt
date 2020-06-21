@@ -3653,11 +3653,16 @@ NTSTATUS ProbeRealDriveSize (PDEVICE_OBJECT driveDeviceObject, LARGE_INTEGER *dr
 	LARGE_INTEGER offset;
 	byte *sectorBuffer;
 	ULONGLONG startTime;
+	ULONG sectorSize;
 
 	if (!UserCanAccessDriveDevice())
 		return STATUS_ACCESS_DENIED;
 
-	sectorBuffer = TCalloc (TC_SECTOR_SIZE_BIOS);
+	status = GetDeviceSectorSize (driveDeviceObject, &sectorSize);
+	if (!NT_SUCCESS (status))
+		return status;
+
+	sectorBuffer = TCalloc (sectorSize);
 	if (!sectorBuffer)
 		return STATUS_INSUFFICIENT_RESOURCES;
 
@@ -3672,12 +3677,12 @@ NTSTATUS ProbeRealDriveSize (PDEVICE_OBJECT driveDeviceObject, LARGE_INTEGER *dr
 	}
 
 	startTime = KeQueryInterruptTime ();
-	for (offset.QuadPart = sysLength.QuadPart; ; offset.QuadPart += TC_SECTOR_SIZE_BIOS)
+	for (offset.QuadPart = sysLength.QuadPart; ; offset.QuadPart += sectorSize)
 	{
-		status = TCReadDevice (driveDeviceObject, sectorBuffer, offset, TC_SECTOR_SIZE_BIOS);
+		status = TCReadDevice (driveDeviceObject, sectorBuffer, offset, sectorSize);
 
 		if (NT_SUCCESS (status))
-			status = TCWriteDevice (driveDeviceObject, sectorBuffer, offset, TC_SECTOR_SIZE_BIOS);
+			status = TCWriteDevice (driveDeviceObject, sectorBuffer, offset, sectorSize);
 
 		if (!NT_SUCCESS (status))
 		{
