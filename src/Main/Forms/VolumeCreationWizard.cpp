@@ -776,6 +776,14 @@ namespace VeraCrypt
 
 				if (forward && Password && !Password->IsEmpty())
 				{
+					if (!OuterVolume && SelectedVolumeType == VolumeType::Hidden)
+					{
+						if (*(OuterPassword.get()) == *(Password.get()))
+						{
+							Gui->ShowError (_("The Hidden volume password can not be identical to the Outer volume password"));
+							return GetCurrentStep();
+						}
+					}
 					if (Password->Size() < VolumePassword::WarningSizeThreshold)
 					{
 						if (!Gui->AskYesNo (LangString["PASSWORD_LENGTH_WARNING"], false, true))
@@ -1079,6 +1087,9 @@ namespace VeraCrypt
 					MaxHiddenVolumeSize -= reservedSize;
 
 				MaxHiddenVolumeSize -= MaxHiddenVolumeSize % outerVolume->GetSectorSize();		// Must be a multiple of the sector size
+
+				// remember Outer password in order to be able to compare it with Hidden password
+				OuterPassword = Password;
 			}
 			catch (exception &e)
 			{
