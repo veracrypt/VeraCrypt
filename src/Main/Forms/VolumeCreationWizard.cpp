@@ -58,6 +58,7 @@ namespace VeraCrypt
 		SelectedVolumeHostType (VolumeHostType::File),
 		SelectedVolumeType (VolumeType::Normal),
 		Pim (0),
+		OuterPim (0),
 		SectorSize (0),
 		VolumeSize (0)
 	{
@@ -1081,6 +1082,12 @@ namespace VeraCrypt
 		case Step::VolumeCreatedInfo:
 			Creator.reset();
 			SetCancelButtonText (L"");
+
+			// clear saved credentials
+			Password.reset();
+			OuterPassword.reset();
+			burn (&Pim, sizeof (Pim));
+			burn (&OuterPim, sizeof (OuterPim));
 
 			return Step::VolumeHostType;
 
