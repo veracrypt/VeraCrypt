@@ -92,6 +92,8 @@ namespace VeraCrypt
 
 	VolumeCreationWizard::~VolumeCreationWizard ()
 	{
+		burn (&Pim, sizeof (Pim));
+		burn (&OuterPim, sizeof (OuterPim));
 	}
 
 	WizardPage *VolumeCreationWizard::GetPage (WizardStep step)
@@ -774,29 +776,6 @@ namespace VeraCrypt
 				Kdf = page->GetPkcs5Kdf();
 				Keyfiles = page->GetKeyfiles();
 
-				if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden)
-				{
-					shared_ptr <VolumePassword> hiddenPassword;
-					try
-					{
-						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password);
-					}
-					catch (...)
-					{
-						hiddenPassword = Password;
-					}
-
-					// check if Outer and Hidden passwords are the same
-					if ( 	(hiddenPassword && !hiddenPassword->IsEmpty() && OuterPassword && !OuterPassword->IsEmpty() && (*(OuterPassword.get()) == *(hiddenPassword.get())))
-						||
-							((!hiddenPassword || hiddenPassword->IsEmpty()) && (!OuterPassword || OuterPassword->IsEmpty()))
-						)
-					{
-						Gui->ShowError (_("The Hidden volume password can not be identical to the Outer volume password"));
-						return GetCurrentStep();
-					}
-				}
-
 				if (forward && Password && !Password->IsEmpty())
 				{
 					if (Password->Size() < VolumePassword::WarningSizeThreshold)
@@ -814,6 +793,33 @@ namespace VeraCrypt
 				{
 					// Clear PIM
 					Pim = 0;
+
+					if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden)
+					{
+						shared_ptr <VolumePassword> hiddenPassword;
+						try
+						{
+							hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password);
+						}
+						catch (...)
+						{
+							hiddenPassword = Password;
+						}
+
+						// check if Outer and Hidden passwords are the same
+						if ( 	(hiddenPassword && !hiddenPassword->IsEmpty() && OuterPassword && !OuterPassword->IsEmpty() && (*(OuterPassword.get()) == *(hiddenPassword.get())))
+							||
+								((!hiddenPassword || hiddenPassword->IsEmpty()) && (!OuterPassword || OuterPassword->IsEmpty()))
+							)
+						{
+							//check if they have also the same PIM
+							if (OuterPim == Pim)
+							{
+								Gui->ShowError (_("The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume"));
+								return GetCurrentStep();
+							}
+						}
+					}
 
 					// Skip PIM
 					if (forward && OuterVolume)
@@ -841,15 +847,42 @@ namespace VeraCrypt
 				VolumePimWizardPage *page = dynamic_cast <VolumePimWizardPage *> (GetCurrentPage());
 				Pim = page->GetVolumePim();
 
-				if (forward && Password && !Password->IsEmpty())
+				if (-1 == Pim)
 				{
-					if (-1 == Pim)
+					// PIM invalid: don't go anywhere
+					Gui->ShowError ("PIM_TOO_BIG");
+					return GetCurrentStep();
+				}
+
+				if (forward && !OuterVolume && SelectedVolumeType == VolumeType::Hidden)
+				{
+					shared_ptr <VolumePassword> hiddenPassword;
+					try
 					{
-						// PIM invalid: don't go anywhere
-						Gui->ShowError ("PIM_TOO_BIG");
-						return GetCurrentStep();
+						hiddenPassword = Keyfile::ApplyListToPassword (Keyfiles, Password);
+					}
+					catch (...)
+					{
+						hiddenPassword = Password;
 					}
 
+					// check if Outer and Hidden passwords are the same
+					if ( 	(hiddenPassword && !hiddenPassword->IsEmpty() && OuterPassword && !OuterPassword->IsEmpty() && (*(OuterPassword.get()) == *(hiddenPassword.get())))
+						||
+							((!hiddenPassword || hiddenPassword->IsEmpty()) && (!OuterPassword || OuterPassword->IsEmpty()))
+						)
+					{
+						//check if they have also the same PIM
+						if (OuterPim == Pim)
+						{
+							Gui->ShowError (_("The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume"));
+							return GetCurrentStep();
+						}
+					}
+				}
+
+				if (forward && Password && !Password->IsEmpty())
+				{
 					if (Password->Size() < VolumePassword::WarningSizeThreshold)
 					{
 						if (Pim > 0 && Pim < 485)
@@ -1112,6 +1145,8 @@ namespace VeraCrypt
 				{
 					OuterPassword = Password;
 				}
+
+				OuterPim = Pim;
 			}
 			catch (exception &e)
 			{
