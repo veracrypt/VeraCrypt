@@ -39,6 +39,28 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
+<p><strong style="text-align:left">1.24-Update7</strong>(June 23<sup>rd</sup>, 2020):</p>
+<ul>
+<li><strong>All OSes:</strong>
+<ul>
+<li>Don't allow Hidden volume to have the same password, PIM and keyfiles as Outer volume</li>
+<li>Minor code cleanup</li>
+</ul>
+</li>
+<li><strong>Windows:</strong>
+<ul>
+<li>Fix wrong results in benchmark of encryption algorithms when RAM encryption is enabled</li>
+<li>Fix issue when RAM encryption used, AES selected and AES-NI not supported by CPU that caused the free space of newly created volumes not filled with random data even if "quick format" is not selected.</li>
+<li>Update translations.</li>
+</ul>
+</li>
+<li><strong>Linux/MacOSX:</strong>
+<ul>
+<li>Force reading of at least 32 bytes from /dev/random before allowing it to fail gracefully</li>
+</ul>
+</li>
+</ul>
+
 <p><strong style="text-align:left">1.24-Update6 </strong>(March 10<sup>th</sup>, 2020):</p>
 <ul>
 <li><strong>Windows:</strong>
