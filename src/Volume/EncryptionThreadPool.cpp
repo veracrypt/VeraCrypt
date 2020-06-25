@@ -125,7 +125,9 @@ namespace VeraCrypt
 
 		firstFragmentWorkItem->ItemCompletedEvent.Wait();
 
-		unique_ptr <Exception> itemException = std::move(firstFragmentWorkItem->ItemException);
+		unique_ptr <Exception> itemException;
+		if (firstFragmentWorkItem->ItemException.get())
+			itemException = move_ptr(firstFragmentWorkItem->ItemException);
 
 		firstFragmentWorkItem->State.Set (WorkItem::State::Free);
 		WorkItemCompletedEvent.Signal();

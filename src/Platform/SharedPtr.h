@@ -14,12 +14,25 @@
 #define TC_HEADER_Platform_SharedPtr
 
 #include <stdexcept>
+#include <memory>
 #include "SharedVal.h"
 
 #ifdef nullptr
 
 namespace VeraCrypt
 {
+#if (__cplusplus >= 201103L)
+	#define VC_USE_NATIVE_PTR	1
+#endif
+
+#ifdef VC_USE_NATIVE_PTR
+
+#define shared_ptr std::shared_ptr
+#define make_shared std::make_shared
+#define move_ptr	std::move
+
+#else
+
 	template <class T>
 	class SharedPtr
 	{
@@ -157,6 +170,10 @@ namespace VeraCrypt
 
 #define make_shared VeraCrypt::make_shared
 
+#define unique_ptr auto_ptr
+#define move_ptr(p)	p
+
+#endif
 }
 
 #endif // nullptr

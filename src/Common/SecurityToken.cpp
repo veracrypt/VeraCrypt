@@ -548,8 +548,8 @@ namespace VeraCrypt
 		if (status != CKR_OK)
 			throw Pkcs11Exception (status);
 
-		PinCallback = std::move(pinCallback);
-		WarningCallback = std::move(warningCallback);
+		PinCallback = move_ptr(pinCallback);
+		WarningCallback = move_ptr(warningCallback);
 
 		Initialized = true;
 	}

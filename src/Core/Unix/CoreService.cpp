@@ -90,7 +90,7 @@ namespace VeraCrypt
 	{
 		try
 		{
-			Core = std::move(CoreDirect);
+			Core = move_ptr(CoreDirect);
 
 			shared_ptr <Stream> inputStream (new FileStream (inputFD != -1 ? inputFD : InputPipe->GetReadFD()));
 			shared_ptr <Stream> outputStream (new FileStream (outputFD != -1 ? outputFD : OutputPipe->GetWriteFD()));
@@ -573,8 +573,8 @@ namespace VeraCrypt
 		byte sync[] = { 0, 0x11, 0x22 };
 		ServiceInputStream->Write (ConstBufferPtr (sync, array_capacity (sync)));
 
-		AdminInputPipe = std::move(inPipe);
-		AdminOutputPipe = std::move(outPipe);
+		AdminInputPipe = move_ptr(inPipe);
+		AdminOutputPipe = move_ptr(outPipe);
 	}
 
 	void CoreService::Stop ()
