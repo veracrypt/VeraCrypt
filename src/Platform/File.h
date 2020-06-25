@@ -54,7 +54,11 @@ namespace VeraCrypt
 		typedef int SystemFileHandleType;
 #endif
 
-		File () : FileIsOpen (false), SharedHandle (false) { }
+		File () : FileIsOpen (false), mFileOpenFlags (FlagsNone), SharedHandle (false), FileHandle (0)
+#ifndef TC_WINDOWS
+				,AccTime(0), ModTime (0)
+#endif
+		 { }
 		virtual ~File ();
 
 		void AssignSystemHandle (SystemFileHandleType openFileHandle, bool sharedHandle = true)

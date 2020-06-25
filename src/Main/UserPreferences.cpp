@@ -21,7 +21,7 @@ namespace VeraCrypt
 	{
 		if (cfgText == L"0")
 			cfgVar = false;
-		else if (cfgText == L"1")
+		else
 			cfgVar = true;
 	}
 
@@ -93,7 +93,7 @@ namespace VeraCrypt
 			TC_CONFIG_SET (MountDevicesOnLogon);
 			TC_CONFIG_SET (MountFavoritesOnLogon);
 
-			bool readOnly;
+			bool readOnly = false;
 			SetValue (configMap[L"MountVolumesReadOnly"], readOnly);
 			DefaultMountOptions.Protection = readOnly ? VolumeProtection::ReadOnly : VolumeProtection::None;
 
