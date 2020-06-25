@@ -947,7 +947,6 @@ void WHIRLPOOL_add(const unsigned char * input,
 				HashMultipleBlocks(ctx, dataBuf, 64);
 				input += (64-num);
 				len -= (64-num);
-				num = 0;
 				// drop through and do the rest
 			}
 			else
