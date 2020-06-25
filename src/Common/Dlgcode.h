@@ -601,6 +601,30 @@ struct HostDevice
 
 	~HostDevice () {}
 
+	HostDevice& operator= (const HostDevice& device)
+	{
+		if (this != &device)
+		{
+			Bootable = device.Bootable;
+			ContainsSystem = device.ContainsSystem;
+			DynamicVolume = device.DynamicVolume;
+			Floppy = device.Floppy;
+			IsPartition = device.IsPartition;
+			IsVirtualPartition = device.IsVirtualPartition;
+			HasUnencryptedFilesystem = device.HasUnencryptedFilesystem;
+			MountPoint = device.MountPoint;
+			Name = device.Name;
+			Path = device.Path;
+			Removable = device.Removable;
+			Size = device.Size;
+			SystemNumber = device.SystemNumber;
+			HasVolumeIDs = device.HasVolumeIDs;
+			Partitions = device.Partitions;
+			memcpy (VolumeIDs, device.VolumeIDs, sizeof (VolumeIDs));
+		}
+		return *this;
+	}
+
 	bool Bootable;
 	bool ContainsSystem;
 	bool DynamicVolume;
