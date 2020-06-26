@@ -1438,6 +1438,7 @@
     <entry lang="zh-cn" key="IDT_BENCHMARK">基准测试:</entry>
     <entry lang="zh-cn" key="IDC_DISABLE_MOUNT_MANAGER">仅创建虚拟设备而不加载在选定的盘符上</entry>
     <entry lang="zh-cn" key="LEGACY_PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节。</entry>
+    <entry lang="en" key="HIDDEN_CREDS_SAME_AS_OUTER">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
