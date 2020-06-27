@@ -5169,10 +5169,7 @@ namespace VeraCrypt
 #endif
 #ifndef SETUP
 	void BootEncryption::CheckRequirements ()
-	{
-		if (nCurrentOS == WIN_2000)
-			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
- 
+	{ 
 		if (CurrentOSMajor == 6 && CurrentOSMinor == 0 && CurrentOSServicePack < 1)
 			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0", SRC_POS);
 

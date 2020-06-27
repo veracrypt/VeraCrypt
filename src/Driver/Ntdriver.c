@@ -3429,31 +3429,21 @@ void TCDeleteDeviceObject (PDEVICE_OBJECT DeviceObject, PEXTENSION Extension)
 
 		if (Extension->SecurityClientContextValid)
 		{
-			if (OsMajorVersion == 5 && OsMinorVersion == 0)
-			{
-				ObDereferenceObject (Extension->SecurityClientContext.ClientToken);
-			}
-			else
-			{
-				// Windows 2000 does not support PsDereferenceImpersonationToken() used by SeDeleteClientSecurity().
-				// TODO: Use only SeDeleteClientSecurity() once support for Windows 2000 is dropped.
+			VOID (*PsDereferenceImpersonationTokenD) (PACCESS_TOKEN ImpersonationToken);
+			UNICODE_STRING name;
+			RtlInitUnicodeString (&name, L"PsDereferenceImpersonationToken");
 
-				VOID (*PsDereferenceImpersonationTokenD) (PACCESS_TOKEN ImpersonationToken);
-				UNICODE_STRING name;
-				RtlInitUnicodeString (&name, L"PsDereferenceImpersonationToken");
+			PsDereferenceImpersonationTokenD = MmGetSystemRoutineAddress (&name);
+			if (!PsDereferenceImpersonationTokenD)
+				TC_BUG_CHECK (STATUS_NOT_IMPLEMENTED);
 
-				PsDereferenceImpersonationTokenD = MmGetSystemRoutineAddress (&name);
-				if (!PsDereferenceImpersonationTokenD)
-					TC_BUG_CHECK (STATUS_NOT_IMPLEMENTED);
+#			define PsDereferencePrimaryToken
+#			define PsDereferenceImpersonationToken PsDereferenceImpersonationTokenD
 
-#				define PsDereferencePrimaryToken
-#				define PsDereferenceImpersonationToken PsDereferenceImpersonationTokenD
+			SeDeleteClientSecurity (&Extension->SecurityClientContext);
 
-				SeDeleteClientSecurity (&Extension->SecurityClientContext);
-
-#				undef PsDereferencePrimaryToken
-#				undef PsDereferenceImpersonationToken
-			}
+#			undef PsDereferencePrimaryToken
+#			undef PsDereferenceImpersonationToken
 		}
 
 		VirtualVolumeDeviceObjects[Extension->nDosDriveNo] = NULL;

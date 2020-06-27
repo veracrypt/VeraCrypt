@@ -55,7 +55,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	int volumeType;
 	char *readBuffer = 0;
 	NTSTATUS ntStatus = 0;
-	BOOL forceAccessCheck = (!bRawDevice && !(OsMajorVersion == 5 &&OsMinorVersion == 0)); // Windows 2000 does not support OBJ_FORCE_ACCESS_CHECK attribute
+	BOOL forceAccessCheck = !bRawDevice;
 	BOOL disableBuffering = TRUE;
 	BOOL exclusiveAccess = mount->bExclusiveAccess;
 
@@ -224,7 +224,7 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 			lDiskLength.QuadPart = pix.PartitionLength.QuadPart;
 			partitionStartingOffset = pix.StartingOffset.QuadPart;
 		}
-		// Windows 2000 does not support IOCTL_DISK_GET_PARTITION_INFO_EX
+		// If IOCTL_DISK_GET_PARTITION_INFO_EX fails, switch to IOCTL_DISK_GET_PARTITION_INFO
 		else if (NT_SUCCESS (TCSendHostDeviceIoControlRequest (DeviceObject, Extension, IOCTL_DISK_GET_PARTITION_INFO, (char *) &pi, sizeof (pi))))
 		{
 			lDiskLength.QuadPart = pi.PartitionLength.QuadPart;
