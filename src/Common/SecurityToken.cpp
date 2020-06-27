@@ -32,10 +32,6 @@
 
 #include "SecurityToken.h"
 
-#ifndef burn
-#	define burn Memory::Erase
-#endif
-
 using namespace std;
 
 namespace VeraCrypt

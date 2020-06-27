@@ -57,7 +57,7 @@ namespace VeraCrypt
 					break;
 			}
 
-			Memory::Erase (&keyfileData.front(), keyfileData.size());
+			burn (&keyfileData.front(), keyfileData.size());
 			goto done;
 		}
 

@@ -10,7 +10,6 @@
  code distribution packages.
 */
 
-#include "Common/Tcdefs.h"
 #include "Memory.h"
 #include "Exception.h"
 #include <stdlib.h>
@@ -60,11 +59,6 @@ namespace VeraCrypt
 	{
 		assert (memoryDestination != nullptr && memorySource != nullptr);
 		memcpy (memoryDestination, memorySource, size);
-	}
-
-	void Memory::Erase (void *memory, size_t size)
-	{
-		burn (memory, size);
 	}
 
 	void Memory::Zero (void *memory, size_t size)

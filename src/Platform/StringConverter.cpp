@@ -233,7 +233,7 @@ namespace VeraCrypt
 
 			str.clear();
 			str.insert (0, &buf.front(), size);
-			Memory::Erase (&buf.front(), buf.size());
+			burn (&buf.front(), buf.size());
 		}
 		catch (...)
 		{

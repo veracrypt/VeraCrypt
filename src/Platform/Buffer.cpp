@@ -77,7 +77,7 @@ namespace VeraCrypt
 	void Buffer::Erase ()
 	{
 		if (DataSize > 0)
-			Memory::Erase (DataPtr, DataSize);
+			burn (DataPtr, DataSize);
 	}
 
 	void Buffer::Free ()

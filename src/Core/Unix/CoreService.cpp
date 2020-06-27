@@ -460,7 +460,7 @@ namespace VeraCrypt
 
 		if (write (inPipe->GetWriteFD(), &adminPassword.front(), adminPassword.size())) { } // Errors ignored
 
-		Memory::Erase (&adminPassword.front(), adminPassword.size());
+		burn (&adminPassword.front(), adminPassword.size());
 
 		throw_sys_if (fcntl (outPipe->GetReadFD(), F_SETFL, O_NONBLOCK) == -1);
 		throw_sys_if (fcntl (errPipe.GetReadFD(), F_SETFL, O_NONBLOCK) == -1);
