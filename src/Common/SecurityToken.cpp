@@ -26,6 +26,10 @@
 #	include <dlfcn.h>
 #endif
 
+#ifdef TC_WINDOWS
+#define move_ptr	std::move
+#endif
+
 #include "SecurityToken.h"
 
 #ifndef burn
