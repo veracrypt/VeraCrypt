@@ -7918,7 +7918,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					NormalCursor ();
 
-					ShowWaitDialog (hwndDlg, TRUE, ResumeInPlaceEncWaitThreadProc, NULL);
+					if (!Silent)
+						ShowWaitDialog (hwndDlg, TRUE, ResumeInPlaceEncWaitThreadProc, NULL);
 
 					WaitCursor();
 
