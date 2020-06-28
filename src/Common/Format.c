@@ -762,7 +762,7 @@ error:
 		}
 
 		mountOptions.ReadOnly = FALSE;
-		mountOptions.Removable = FALSE;
+		mountOptions.Removable = TRUE; /* mount as removal media to allow formatting without admin rights */
 		mountOptions.ProtectHiddenVolume = FALSE;
 		mountOptions.PreserveTimestamp = bPreserveTimestamp;
 		mountOptions.PartitionInInactiveSysEncScope = FALSE;
@@ -778,11 +778,17 @@ error:
 			nStatus = ERR_VOL_MOUNT_FAILED;
 			goto fv_end;
 		}
-
+		
 		if (!Silent && !IsAdmin () && IsUacSupported ())
 			retCode = UacFormatFs (volParams->hwndDlg, driveNo, volParams->clusterSize, fsType);
 		else
 			retCode = FormatFs (driveNo, volParams->clusterSize, fsType);
+
+		if (retCode != TRUE)
+		{
+			/* fallback to calling Windows native formatting tool */
+			retCode = ExternalFormatFs (driveNo, volParams->clusterSize, fsType);
+		}
 
 		if (retCode != TRUE)
 		{
@@ -1092,6 +1098,150 @@ BOOL FormatFs (int driveNo, int clusterSize, int fsType)
 BOOL FormatNtfs (int driveNo, int clusterSize)
 {
 	return FormatFs (driveNo, clusterSize, FILESYS_NTFS);
+}
+
+/* call Windows format.com program to perform formatting */
+BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
+{
+	wchar_t exePath[MAX_PATH] = {0};
+	HANDLE hChildStd_IN_Rd = NULL;
+	HANDLE hChildStd_IN_Wr = NULL;
+	HANDLE hChildStd_OUT_Rd = NULL;
+	HANDLE hChildStd_OUT_Wr = NULL;
+	WCHAR szFsFormat[16];
+	TCHAR szCmdline[2 * MAX_PATH];
+	STARTUPINFO siStartInfo;
+	PROCESS_INFORMATION piProcInfo;
+	BOOL bSuccess = FALSE; 
+	SECURITY_ATTRIBUTES saAttr; 
+
+	switch (fsType)
+	{
+		case FILESYS_NTFS:
+			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"NTFS");
+			break;
+		case FILESYS_EXFAT:
+			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"exFAT");
+			break;
+		case FILESYS_REFS:
+			StringCchCopyW (szFsFormat, ARRAYSIZE (szFsFormat),L"ReFS");
+			break;
+		default:
+			return FALSE;
+	}
+
+	/* Set the bInheritHandle flag so pipe handles are inherited.  */
+	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES); 
+	saAttr.bInheritHandle = TRUE; 
+	saAttr.lpSecurityDescriptor = NULL; 
+
+	/* Create a pipe for the child process's STDOUT. */
+	if ( !CreatePipe(&hChildStd_OUT_Rd, &hChildStd_OUT_Wr, &saAttr, 0) ) 
+		return FALSE;
+
+	/* Ensure the read handle to the pipe for STDOUT is not inherited. */
+	/* Create a pipe for the child process's STDIN.  */ 
+	if (	!SetHandleInformation(hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0) 
+		||	!CreatePipe(&hChildStd_IN_Rd, &hChildStd_IN_Wr, &saAttr, 0))
+	{
+		CloseHandle (hChildStd_OUT_Rd);
+		CloseHandle (hChildStd_OUT_Wr);
+		return FALSE;
+	}
+
+	/* Ensure the write handle to the pipe for STDIN is not inherited. */ 
+	if ( !SetHandleInformation(hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0))
+	{
+		CloseHandle (hChildStd_OUT_Rd);
+		CloseHandle (hChildStd_OUT_Wr);
+		CloseHandle (hChildStd_IN_Rd);
+		CloseHandle (hChildStd_IN_Wr);
+		return FALSE;
+	}
+
+	if (GetSystemDirectory (exePath, MAX_PATH))
+	{
+		StringCchCatW(exePath, ARRAYSIZE(exePath), L"\\format.com");
+	}
+	else
+		StringCchCopyW(exePath, ARRAYSIZE(exePath), L"C:\\Windows\\System32\\format.com");
+	
+	StringCbPrintf (szCmdline, sizeof(szCmdline), L"%s %c: /FS:%s /Q /X /V:\"\"", exePath, (WCHAR) driveNo + L'A', szFsFormat);
+	
+	if (clusterSize)
+	{
+		WCHAR szSize[8];
+		uint32 unitSize = (uint32) clusterSize * FormatSectorSize;
+		if (unitSize <= 8192)
+			StringCbPrintf (szSize, sizeof (szSize), L"%d", unitSize);
+		else if (unitSize < BYTES_PER_MB)
+		{
+			StringCbPrintf (szSize, sizeof (szSize), L"%dK", unitSize / BYTES_PER_KB);
+		}
+		else
+			StringCbPrintf (szSize, sizeof (szSize), L"%dM", unitSize / BYTES_PER_MB);
+
+		StringCbCat (szCmdline, sizeof (szCmdline), L" /A:");
+		StringCbCat (szCmdline, sizeof (szCmdline), szSize);
+	}
+
+ 
+   ZeroMemory( &piProcInfo, sizeof(PROCESS_INFORMATION) ); 
+
+   /* Set up members of the STARTUPINFO structure. 
+	  This structure specifies the STDIN and STDOUT handles for redirection.
+	*/ 
+   ZeroMemory( &siStartInfo, sizeof(STARTUPINFO) );
+   siStartInfo.cb = sizeof(STARTUPINFO); 
+   siStartInfo.hStdError = hChildStd_OUT_Wr;
+   siStartInfo.hStdOutput = hChildStd_OUT_Wr;
+   siStartInfo.hStdInput = hChildStd_IN_Rd;
+   siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
+ 
+   /* Create the child process.      */
+   bSuccess = CreateProcess(NULL, 
+      szCmdline,     // command line 
+      NULL,          // process security attributes 
+      NULL,          // primary thread security attributes 
+      TRUE,          // handles are inherited 
+      0,             // creation flags 
+      NULL,          // use parent's environment 
+      NULL,          // use parent's current directory 
+      &siStartInfo,  // STARTUPINFO pointer 
+      &piProcInfo);  // receives PROCESS_INFORMATION 
+
+   if (bSuccess)
+   {
+	   /* Unblock the format process by simulating hit on ENTER key */
+	   DWORD dwExitCode, dwWritten;
+	   LPCSTR newLine = "\n";
+	   
+	   WriteFile(hChildStd_IN_Wr, (LPCVOID) newLine, 1, &dwWritten, NULL);
+
+	   /* wait for the format process to finish */
+	   WaitForSingleObject (piProcInfo.hProcess, INFINITE);
+
+	   /* check if it was successfull */	   
+	   if (GetExitCodeProcess (piProcInfo.hProcess, &dwExitCode))
+	   {
+		   if (dwExitCode == 0)
+			   bSuccess = TRUE;
+		   else
+			   bSuccess = FALSE;
+	   }
+	   else
+		   bSuccess = FALSE;
+
+	   CloseHandle (piProcInfo.hThread);
+	   CloseHandle (piProcInfo.hProcess);
+   }
+
+	CloseHandle(hChildStd_OUT_Wr);
+	CloseHandle(hChildStd_OUT_Rd);
+	CloseHandle(hChildStd_IN_Rd);
+	CloseHandle(hChildStd_IN_Wr);
+
+   return bSuccess;
 }
 
 BOOL WriteSector (void *dev, char *sector,
