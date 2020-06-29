@@ -8,7 +8,7 @@ Here the steps to build VeraCrypt-DCS (Visual Studio 2010 SP1 should be installe
   * Clone EDK: git clone https://github.com/tianocore/tianocore.github.io.git edk2
   * Switch to UDK2015 branche: git checkout UDK2015
   * Clone VeraCrypt-DCS as DcsPkg inside edk2 folder: git clone https://github.com/veracrypt/VeraCrypt-DCS.git DcsPkg 
-  * Switch to VeraCrypt_1.18 branche: git checkout VeraCrypt_1.18
+  * Switch to VeraCrypt_1.19 branche: git checkout VeraCrypt_1.19
   * Setup EDK by typing edksetup.bat at the root of folder edk2
   * change directoty to DcsPkg and then type setenv.bat.
   * change directory to DcsPkg\Library\VeraCryptLib and then type mklinks_src.bat: you will be asked to provide the path to VeraCrypt src folder.
