@@ -4491,7 +4491,7 @@ NTSTATUS TCCompleteDiskIrp (PIRP irp, NTSTATUS status, ULONG_PTR information)
 }
 
 
-size_t GetCpuCount ()
+size_t GetCpuCount (WORD* pGroupCount)
 {
 	size_t cpuCount = 0;
 	if (KeQueryActiveGroupCountPtr && KeQueryActiveProcessorCountExPtr)
@@ -4501,6 +4501,9 @@ size_t GetCpuCount ()
 		{
 			cpuCount += (size_t) KeQueryActiveProcessorCountExPtr (i);
 		}
+
+		if (pGroupCount)
+			*pGroupCount = groupCount;
 	}
 	else
 	{
@@ -4514,6 +4517,9 @@ size_t GetCpuCount ()
 
 			activeCpuMap >>= 1;
 		}
+
+		if (pGroupCount)
+			*pGroupCount = 1;
 	}
 
 	if (cpuCount == 0)

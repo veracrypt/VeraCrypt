@@ -27,6 +27,10 @@ typedef enum
 	DeriveKeyWork
 } EncryptionThreadPoolWorkType;
 
+#ifndef DEVICE_DRIVER
+size_t GetCpuCount (WORD* pGroupCount);
+#endif
+
 void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG *completionFlag, LONG *outstandingWorkItemCount, int pkcs5Prf, char *password, int passwordLength, char *salt, int iterationCount, char *derivedKey);
 void EncryptionThreadPoolDoWork (EncryptionThreadPoolWorkType type, byte *data, const UINT64_STRUCT *startUnitNo, uint32 unitCount, PCRYPTO_INFO cryptoInfo);
 BOOL EncryptionThreadPoolStart (size_t encryptionFreeCpuCount);
