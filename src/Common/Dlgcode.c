@@ -5578,13 +5578,11 @@ static BOOL PerformBenchmark(HWND hBenchDlg, HWND hwndDlg)
 	BYTE *lpTestBuffer = NULL;
 	PCRYPTO_INFO ci = NULL;
 	UINT64_STRUCT startDataUnitNo;
-	SYSTEM_INFO sysInfo = {0};
-
-	GetSystemInfo (&sysInfo);
+	size_t cpuCount = GetCpuCount(NULL);
 	startDataUnitNo.Value = 0;
 
 	/* set priority to critical only when there are 2 or more CPUs on the system */
-	if (sysInfo.dwNumberOfProcessors > 1 && (benchmarkType != BENCHMARK_TYPE_ENCRYPTION))
+	if (cpuCount > 1 && (benchmarkType != BENCHMARK_TYPE_ENCRYPTION))
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 
 	ci = crypto_open ();
@@ -6023,13 +6021,12 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				Warning ("DISABLED_HW_AES_AFFECTS_PERFORMANCE", hwndDlg);
 			}
 
-			SYSTEM_INFO sysInfo;
-			GetSystemInfo (&sysInfo);
+			size_t cpuCount = GetCpuCount (NULL);
 
 			size_t nbrThreads = GetEncryptionThreadCount();
 
 			wchar_t nbrThreadsStr [300];
-			if (sysInfo.dwNumberOfProcessors < 2)
+			if (cpuCount < 2)
 			{
 				StringCbCopyW (nbrThreadsStr, sizeof(nbrThreadsStr), GetString ("NOT_APPLICABLE_OR_NOT_AVAILABLE"));
 			}
@@ -6046,8 +6043,8 @@ BOOL CALLBACK BenchmarkDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			ToHyperlink (hwndDlg, IDC_PARALLELIZATION_LABEL_LINK);
 
-			if (nbrThreads < min (sysInfo.dwNumberOfProcessors, GetMaxEncryptionThreadCount())
-				&& sysInfo.dwNumberOfProcessors > 1)
+			if (nbrThreads < min (cpuCount, GetMaxEncryptionThreadCount())
+				&& cpuCount > 1)
 			{
 				Warning ("LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE", hwndDlg);
 			}

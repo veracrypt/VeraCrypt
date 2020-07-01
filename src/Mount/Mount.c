@@ -49,6 +49,7 @@
 #include "../Platform/Finally.h"
 #include "../Platform/ForEach.h"
 #include "../Setup/SelfExtract.h"
+#include "../Common/EncryptionThreadPool.h"
 
 #include <Strsafe.h>
 #include <InitGuid.h>
@@ -11285,26 +11286,25 @@ static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM 
 				EnableWindow (GetDlgItem (hwndDlg, IDC_ENABLE_RAM_ENCRYPTION), FALSE);
 			}
 
-			SYSTEM_INFO sysInfo;
-			GetSystemInfo (&sysInfo);
+			size_t cpuCount = GetCpuCount(NULL);
 
 			HWND freeCpuCombo = GetDlgItem (hwndDlg, IDC_ENCRYPTION_FREE_CPU_COUNT);
 			uint32 encryptionFreeCpuCount = ReadEncryptionThreadPoolFreeCpuCountLimit();
 
-			if (encryptionFreeCpuCount > sysInfo.dwNumberOfProcessors - 1)
-				encryptionFreeCpuCount = sysInfo.dwNumberOfProcessors - 1;
+			if (encryptionFreeCpuCount > (uint32) (cpuCount - 1))
+				encryptionFreeCpuCount = (uint32) (cpuCount - 1);
 
-			for (uint32 i = 1; i < sysInfo.dwNumberOfProcessors; ++i)
+			for (uint32 i = 1; i < cpuCount; ++i)
 			{
 				wstringstream s;
 				s << i;
 				AddComboPair (freeCpuCombo, s.str().c_str(), i);
 			}
 
-			if (sysInfo.dwNumberOfProcessors < 2 || encryptionFreeCpuCount == 0)
+			if (cpuCount < 2 || encryptionFreeCpuCount == 0)
 				EnableWindow (freeCpuCombo, FALSE);
 
-			if (sysInfo.dwNumberOfProcessors < 2)
+			if (cpuCount < 2)
 				EnableWindow (GetDlgItem (hwndDlg, IDC_LIMIT_ENC_THREAD_POOL), FALSE);
 
 			if (encryptionFreeCpuCount != 0)
