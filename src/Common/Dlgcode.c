@@ -14372,3 +14372,105 @@ void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed)
 	burn (&tctx, sizeof(tctx));
 }
 #endif
+
+/*
+ * GetBitLockerEncryptionStatus: retuns the BitLocker encryption status of a given drive.
+ */
+
+typedef enum BitLockerProtectionState
+{
+    BL_State_FullyDecrypted = 0,
+    BL_State_FullyEncrypted = 1, 
+    BL_State_EncryptionInProgress = 2,
+    BL_State_DecryptionInProgress = 3,
+    BL_State_EncryptionSuspended = 4,
+    BL_State_DecryptionSuspended = 5,
+    BL_State_FullyEncryptedWipeInProgress = 6,
+    BL_State_FullyEncryptedWipeSuspended = 7
+} BitLockerProtectionState;
+
+typedef HRESULT (WINAPI *SHCreateItemFromParsingNameFn)(
+    PCWSTR   pszPath,
+    IBindCtx* pbc,
+    REFIID   riid,
+    void** ppv
+);
+
+typedef HRESULT (WINAPI *PSGetPropertyKeyFromNameFn)(
+    _In_ PCWSTR pszName,
+    _Out_ PROPERTYKEY* ppropkey);
+
+
+/*
+   Code derived from https://stackoverflow.com/questions/23841973/how-to-tell-if-drive-is-bitlocker-encrypted-without-admin-privilege/47192128#47192128
+*/
+BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter)
+{    
+    HRESULT hr;
+    BitLockerEncryptionStatus blStatus = BL_Status_Unknown;
+    wchar_t szDllPath[MAX_PATH] = { 0 };
+    HMODULE hShell32 = NULL;
+
+    CoInitialize(NULL);
+
+    if (GetSystemDirectory(szDllPath, MAX_PATH))
+        StringCchCatW(szDllPath, MAX_PATH, L"\\Shell32.dll");
+    else
+        StringCchCopyW(szDllPath, MAX_PATH, L"C:\\Windows\\System32\\Shell32.dll");
+
+    hShell32 = LoadLibrary(szDllPath);
+    if (hShell32)
+    {
+        SHCreateItemFromParsingNameFn SHCreateItemFromParsingNamePtr = (SHCreateItemFromParsingNameFn)GetProcAddress(hShell32, "SHCreateItemFromParsingName");
+        if (SHCreateItemFromParsingNamePtr)
+        {
+            HMODULE hPropsys = NULL;
+
+            if (GetSystemDirectory(szDllPath, MAX_PATH))
+                StringCchCatW(szDllPath, MAX_PATH, L"\\Propsys.dll");
+            else
+                StringCchCopyW(szDllPath, MAX_PATH, L"C:\\Windows\\System32\\Propsys.dll");
+
+            hPropsys = LoadLibrary(szDllPath);
+            if (hPropsys)
+            {
+                PSGetPropertyKeyFromNameFn PSGetPropertyKeyFromNamePtr = (PSGetPropertyKeyFromNameFn)GetProcAddress(hPropsys, "PSGetPropertyKeyFromName");
+                if (PSGetPropertyKeyFromNamePtr)
+                {
+					WCHAR parsingName[3] = {driveLetter, L':', 0};
+                    IShellItem2* drive = NULL;
+                    hr = SHCreateItemFromParsingNamePtr(parsingName, NULL, IID_PPV_ARGS(&drive));
+                    if (SUCCEEDED(hr)) {
+                        PROPERTYKEY pKey;
+                        hr = PSGetPropertyKeyFromNamePtr(L"System.Volume.BitLockerProtection", &pKey);
+                        if (SUCCEEDED(hr)) {
+                            PROPVARIANT prop;
+                            PropVariantInit(&prop);
+                            hr = drive->GetProperty(pKey, &prop);
+                            if (SUCCEEDED(hr)) {
+                                int status = prop.intVal;
+                                if (status == BL_State_FullyEncrypted || status == BL_State_DecryptionInProgress || status == BL_State_DecryptionSuspended)
+                                    blStatus = BL_Status_Protected;
+                                else
+                                    blStatus = BL_Status_Unprotected;
+                            }
+                        }
+                    }
+                    if (drive)
+                        drive->Release();
+                }
+
+                FreeLibrary(hPropsys);
+            }
+        }
+        else
+        {
+            blStatus = BL_Status_Unprotected; // before Vista, there was no Bitlocker
+        }
+
+        FreeLibrary(hShell32);
+    }
+
+    CoUninitialize();
+    return blStatus;
+}

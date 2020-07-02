@@ -242,6 +242,13 @@ typedef struct
 
 } OpenVolumeContext;
 
+typedef enum BitLockerEncryptionStatus
+{
+    BL_Status_Unknown = 0,
+    BL_Status_Unprotected,
+    BL_Status_Protected
+} BitLockerEncryptionStatus;
+
 
 #define DEFAULT_VOL_CREATION_WIZARD_MODE	WIZARD_MODE_FILE_CONTAINER
 
@@ -548,6 +555,7 @@ BOOL GetSetupconfigLocation (wchar_t* path, DWORD cchSize);
 BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void* pattern, size_t patternLen);
 BOOL EnableProcessProtection();
 void SafeOpenURL (LPCWSTR szUrl);
+BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter);
 #ifdef _WIN64
 void GetAppRandomSeed (unsigned char* pbRandSeed, size_t cbRandSeed);
 #endif

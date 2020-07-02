@@ -5176,6 +5176,12 @@ namespace VeraCrypt
 		if (IsNonInstallMode())
 			throw ErrorException ("FEATURE_REQUIRES_INSTALLATION", SRC_POS);
 
+		/* check if the system drive is already encrypted by BitLocker */
+		wchar_t windowsDrive = (wchar_t) towupper (GetWindowsDirectory()[0]);
+		BitLockerEncryptionStatus bitLockerStatus = GetBitLockerEncryptionStatus (windowsDrive);
+		if (bitLockerStatus == BL_Status_Protected)
+			throw ErrorException ("SYSENC_BITLOCKER_CONFLICT", SRC_POS);
+
 		SystemDriveConfiguration config = GetSystemDriveConfiguration ();
 
 		if (SystemDriveIsDynamic())
