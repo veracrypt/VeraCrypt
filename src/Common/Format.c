@@ -778,16 +778,15 @@ error:
 			nStatus = ERR_VOL_MOUNT_FAILED;
 			goto fv_end;
 		}
-		
-		if (!Silent && !IsAdmin () && IsUacSupported ())
-			retCode = UacFormatFs (volParams->hwndDlg, driveNo, volParams->clusterSize, fsType);
-		else
-			retCode = FormatFs (driveNo, volParams->clusterSize, fsType);
 
+		retCode = ExternalFormatFs (driveNo, volParams->clusterSize, fsType);
 		if (retCode != TRUE)
 		{
-			/* fallback to calling Windows native formatting tool */
-			retCode = ExternalFormatFs (driveNo, volParams->clusterSize, fsType);
+			/* fallback to using FormatEx function from fmifs.dll */
+			if (!Silent && !IsAdmin () && IsUacSupported ())
+				retCode = UacFormatFs (volParams->hwndDlg, driveNo, volParams->clusterSize, fsType);
+			else
+				retCode = FormatFs (driveNo, volParams->clusterSize, fsType);
 		}
 
 		if (retCode != TRUE)
