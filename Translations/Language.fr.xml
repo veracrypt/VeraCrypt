@@ -1439,6 +1439,7 @@
     <entry lang="fr" key="IDC_DISABLE_MOUNT_MANAGER">Créer seulement le périphérique virtuel sans montage à la lettre de lecteur</entry>
     <entry lang="fr" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Le mot de passe saisi est trop long: sa representation UTF-8 dépasse 64 octets.</entry>
     <entry lang="fr" key="HIDDEN_CREDS_SAME_AS_OUTER">Le volume caché ne peut pas avoir le même mot de passe, PIM et fichier(s) clé(s) que le volume externe.</entry>
+    <entry lang="fr" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt ne supporte pas le chiffrement d’un disque système qui a été déjà chiffré par BitLocker.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
