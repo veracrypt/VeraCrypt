@@ -1196,7 +1196,8 @@ BOOL ExternalFormatFs (int driveNo, int clusterSize, int fsType)
    siStartInfo.hStdError = hChildStd_OUT_Wr;
    siStartInfo.hStdOutput = hChildStd_OUT_Wr;
    siStartInfo.hStdInput = hChildStd_IN_Rd;
-   siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
+   siStartInfo.wShowWindow = SW_HIDE;
+   siStartInfo.dwFlags |= STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
  
    /* Create the child process.      */
    bSuccess = CreateProcess(NULL, 
