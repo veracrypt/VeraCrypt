@@ -39,11 +39,12 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.24-Update7</strong>(June 23<sup>rd</sup>, 2020):</p>
+<p><strong style="text-align:left">1.24-Update7</strong>(July 2<sup>nd</sup>, 2020):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
 <li>Don't allow Hidden volume to have the same password, PIM and keyfiles as Outer volume</li>
+<li>Fix random crash in 32-bit builds when using Streebog.</li>
 <li>Minor code cleanup</li>
 </ul>
 </li>
@@ -51,12 +52,19 @@
 <ul>
 <li>Fix wrong results in benchmark of encryption algorithms when RAM encryption is enabled</li>
 <li>Fix issue when RAM encryption used, AES selected and AES-NI not supported by CPU that caused the free space of newly created volumes not filled with random data even if "quick format" is not selected.</li>
+<li>Implements compatibility with Windows 10 Modern Standby and Windows 8.1 Connected Standby power model. This makes detection of entring power saving mode more reliable.</li>
+<li>Avoid displaying waiting dialog when /silent specified for "VeraCrypt Format" during creating of file container using /create switch and a filesystem other than FAT.</li>
+<li>Use native Windows format program to perform formatting of volume since it is more reliable and only fallback to FormatEx function from fmifs.dll in case of issue.</li>
+<li>Don't use API for Processor Groups support if there is only 1 CPU group in the system. This can fix slowness issue observed on some PCs with AMD CPUs.</li>
+<li>Don't allow to encrypt the system drive if it is already encrypted by BitLocker.</li>
 <li>Update translations.</li>
 </ul>
 </li>
 <li><strong>Linux/MacOSX:</strong>
 <ul>
 <li>Force reading of at least 32 bytes from /dev/random before allowing it to fail gracefully</li>
+<li>Allow choosing a filesystem other than FAT for Outer volume but display warning about risks of such choice. Implement an estimation of maximum possible size of hidden volume in this case.</li>
+<li>Erase sensitive memory explicitly instead of relying on the compiler not optimizing calls to method Memory::Erase.</li>
 </ul>
 </li>
 </ul>
