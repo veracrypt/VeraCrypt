@@ -420,7 +420,9 @@ static void WipePasswordsAndKeyfiles (bool bFull)
 	// Attempt to wipe passwords stored in the input field buffers
 	wmemset (tmp, L'X', MAX_PASSWORD);
 	tmp [MAX_PASSWORD] = 0;
+	if (hPasswordInputField)
 		SetWindowText (hPasswordInputField, tmp);
+	if (hVerifyPasswordInputField)
 		SetWindowText (hVerifyPasswordInputField, tmp);
 
 	burn (&szVerify[0], sizeof (szVerify));
@@ -436,8 +438,10 @@ static void WipePasswordsAndKeyfiles (bool bFull)
 		burn (&outerVolumePim, sizeof (outerVolumePim));
 	}
 
-	SetWindowText (hPasswordInputField, L"");
-	SetWindowText (hVerifyPasswordInputField, L"");
+	if (hPasswordInputField)
+		SetWindowText (hPasswordInputField, L"");
+	if (hVerifyPasswordInputField)
+		SetWindowText (hVerifyPasswordInputField, L"");
 
 	KeyFileRemoveAll (&FirstKeyFile);
 	KeyFileRemoveAll (&defaultKeyFilesParam.FirstKeyFile);
@@ -4327,6 +4331,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				/* make autodetection the default */
 				SendMessage (hComboBox, CB_SETCURSEL, 0, 0);
 
+				hPasswordInputField = GetDlgItem (hwndDlg, IDC_PASSWORD_DIRECT);
+				hVerifyPasswordInputField = NULL;
 				ToNormalPwdField (hwndDlg, IDC_PASSWORD_DIRECT);
 
 				SetPassword (hwndDlg, IDC_PASSWORD_DIRECT, szRawPassword);
