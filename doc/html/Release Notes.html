@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.24-Update7</strong>(July 2<sup>nd</sup>, 2020):</p>
+<p><strong style="text-align:left">1.24-Update7</strong>(July 6<sup>th</sup>, 2020):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -52,6 +52,7 @@
 <ul>
 <li>Fix wrong results in benchmark of encryption algorithms when RAM encryption is enabled</li>
 <li>Fix issue when RAM encryption used, AES selected and AES-NI not supported by CPU that caused the free space of newly created volumes not filled with random data even if "quick format" is not selected.</li>
+<li>Support password drag-n-drop from external applications (e.g. KeePass) to password UI fields which is more secure than using clipboard.</li>
 <li>Implements compatibility with Windows 10 Modern Standby and Windows 8.1 Connected Standby power model. This makes detection of entring power saving mode more reliable.</li>
 <li>Avoid displaying waiting dialog when /silent specified for "VeraCrypt Format" during creating of file container using /create switch and a filesystem other than FAT.</li>
 <li>Use native Windows format program to perform formatting of volume since it is more reliable and only fallback to FormatEx function from fmifs.dll in case of issue.</li>
