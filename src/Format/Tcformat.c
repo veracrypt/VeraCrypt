@@ -420,8 +420,8 @@ static void WipePasswordsAndKeyfiles (bool bFull)
 	// Attempt to wipe passwords stored in the input field buffers
 	wmemset (tmp, L'X', MAX_PASSWORD);
 	tmp [MAX_PASSWORD] = 0;
-	SetWindowText (hPasswordInputField, tmp);
-	SetWindowText (hVerifyPasswordInputField, tmp);
+		SetWindowText (hPasswordInputField, tmp);
+		SetWindowText (hVerifyPasswordInputField, tmp);
 
 	burn (&szVerify[0], sizeof (szVerify));
 	burn (&volumePassword, sizeof (volumePassword));
@@ -6372,6 +6372,14 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			strcpy (szRawPassword, "q");
 #endif
 
+			PasswordEditDropTarget* pTarget = new PasswordEditDropTarget ();
+			if (pTarget->Register (hwndDlg))
+			{
+				SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) pTarget);
+			}
+			else
+				delete pTarget;
+
 			PostMessage (hwndDlg, TC_APPMSG_PERFORM_POST_WMINIT_TASKS, 0, 0);
 		}
 		return 0;
@@ -8995,6 +9003,22 @@ ovf_end:
 	case WM_CLOSE:
 		PostMessage (hwndDlg, TC_APPMSG_FORMAT_USER_QUIT, 0, 0);
 		return 1;
+
+	case WM_NCDESTROY:
+		{
+			hPasswordInputField = NULL;
+			hVerifyPasswordInputField = NULL;
+
+			/* unregister drap-n-drop support */
+			PasswordEditDropTarget* pTarget = (PasswordEditDropTarget*) GetWindowLongPtr (hwndDlg, DWLP_USER);
+			if (pTarget)
+			{
+				SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) 0);
+				pTarget->Revoke ();
+				pTarget->Release();
+			}
+		}
+		return 0;
 	}
 
 	return 0;

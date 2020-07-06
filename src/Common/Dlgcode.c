@@ -11638,6 +11638,17 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 
 			SetForegroundWindow (hwndDlg);
 			SetFocus (GetDlgItem (hwndDlg, IDC_TOKEN_PASSWORD));
+
+			if (!bSecureDesktopOngoing)
+			{
+				PasswordEditDropTarget* pTarget = new PasswordEditDropTarget ();
+				if (pTarget->Register (hwndDlg))
+				{
+					SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) pTarget);
+				}
+				else
+					delete pTarget;
+			}
 		}
 		return 0;
 
@@ -11673,6 +11684,19 @@ BOOL CALLBACK SecurityTokenPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wPara
 			EndDialog (hwndDlg, lw);
 		}
 		return 1;
+
+	case WM_NCDESTROY:
+		{
+			/* unregister drap-n-drop support */
+			PasswordEditDropTarget* pTarget = (PasswordEditDropTarget*) GetWindowLongPtr (hwndDlg, DWLP_USER);
+			if (pTarget)
+			{
+				SetWindowLongPtr (hwndDlg, DWLP_USER, (LONG_PTR) 0);
+				pTarget->Revoke ();
+				pTarget->Release();
+			}
+		}
+		return 0;
 	}
 
 	return 0;
@@ -14474,3 +14498,401 @@ BitLockerEncryptionStatus GetBitLockerEncryptionStatus(WCHAR driveLetter)
     CoUninitialize();
     return blStatus;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+static CLIPFORMAT g_supportedFormats[] = { CF_UNICODETEXT, CF_TEXT, CF_OEMTEXT};
+
+//*************************************************************
+//	GenericDropTarget
+//*************************************************************
+GenericDropTarget::GenericDropTarget(CLIPFORMAT* pFormats, size_t count)
+	:	m_DropTargetWnd(NULL),
+		m_dwRefCount(1),
+		m_KeyState(0L),
+		m_Data(NULL)
+{
+	m_DropPoint.x = 0;
+	m_DropPoint.y = 0;
+
+	if (pFormats && count)
+	{
+		for (size_t i = 0; i < count; i++)
+		{
+			m_SupportedFormat.push_back (pFormats[i]);
+		}
+	}
+}
+
+GenericDropTarget::~GenericDropTarget()
+{
+}
+
+HRESULT GenericDropTarget::QueryInterface(REFIID iid, void **ppvObject)
+{
+	if(ppvObject == NULL)
+		return E_FAIL;
+	
+    if (iid == IID_IUnknown)
+    {
+		AddRef();
+		(*ppvObject) = this;
+		return S_OK;
+    }
+	//	compare guids fast and dirty
+    if (IsEqualGUID (iid, IID_IDropTarget))
+	{
+		AddRef();
+		(*ppvObject) = this;
+		return S_OK;
+	}
+
+	return E_FAIL;
+}
+
+ULONG GenericDropTarget::AddRef(void)
+{
+	return (ULONG) InterlockedIncrement (&m_dwRefCount);
+}
+
+ULONG GenericDropTarget::Release(void)
+{
+	if (InterlockedDecrement (&m_dwRefCount) == 0)
+	{
+		delete this;
+		return 0;
+	}
+	else
+		return (ULONG) m_dwRefCount;
+}
+
+//*************************************************************
+//	Register
+//		Called by whom implements us so we can serve
+//*************************************************************
+BOOL GenericDropTarget::Register(HWND hWnd)
+{
+	if(NULL == hWnd)
+		return E_FAIL;
+
+	OleInitialize(NULL);
+
+	//	required: these MUST be strong locked
+	CoLockObjectExternal(this, TRUE, 0);
+
+	//	this is ok, we have it
+	DWORD hRes = ::RegisterDragDrop(hWnd, this);
+	if(SUCCEEDED(hRes))
+	{
+		//	keep
+		m_DropTargetWnd = hWnd;
+		return TRUE;
+	}
+
+	//	unlock
+	CoLockObjectExternal(this, FALSE, 0);
+
+	// bye bye COM
+	OleUninitialize();
+
+	//	wont accept data now
+	return FALSE;
+}
+
+//*************************************************************
+//	Revoke
+//		Unregister us as a target
+//*************************************************************
+void GenericDropTarget::Revoke()
+{
+	if(NULL == m_DropTargetWnd)
+		return;
+
+	RevokeDragDrop(m_DropTargetWnd);
+
+	m_DropTargetWnd = NULL;
+
+	//	unlock
+	CoLockObjectExternal(this, FALSE, 0);
+
+	// bye bye COM
+	OleUninitialize();
+}
+ 
+//*************************************************************
+//	DragEnter
+//*************************************************************
+HRESULT	GenericDropTarget::DragEnter(struct IDataObject *pDataObject, unsigned long grfKeyState, struct _POINTL pMouse, unsigned long * pDropEffect)
+{
+	if(pDataObject == NULL)
+		return E_FAIL;	//	must have data
+
+	//	keep point
+	m_DropPoint.x = pMouse.x;
+	m_DropPoint.y = pMouse.y;
+
+	//	keep key
+	m_KeyState = grfKeyState;
+
+	//	call top
+	*pDropEffect = GotEnter();
+
+	return S_OK;
+}
+
+//*************************************************************
+//	DragOver
+//		Coming over!
+//*************************************************************
+HRESULT	GenericDropTarget::DragOver(unsigned long grfKeyState, struct _POINTL pMouse, unsigned long *pEffect)
+{
+	//	keep point
+	m_DropPoint.x = pMouse.x;
+	m_DropPoint.y = pMouse.y;
+
+	//	keep key
+	m_KeyState = grfKeyState;
+
+	//	call top
+	*pEffect = GotDrag();
+
+	return S_OK;
+}
+
+//*************************************************************
+//	DragLeave
+//		Free! At last!
+//*************************************************************
+HRESULT	GenericDropTarget::DragLeave(void)
+{
+	GotLeave();
+
+	return S_OK;
+}
+
+//*************************************************************
+//	Drop
+//*************************************************************
+HRESULT	GenericDropTarget::Drop(struct IDataObject *pDataObject, unsigned long grfKeyState, struct _POINTL pMouse, unsigned long *pdwEffect)
+{
+	if(NULL == pDataObject)
+		return E_FAIL;
+
+	//	do final effect
+	*pdwEffect = DROPEFFECT_COPY;
+	
+	//	Check the data
+	FORMATETC iFormat;
+	ZeroMemory(&iFormat, sizeof(FORMATETC));
+
+	STGMEDIUM iMedium;
+	ZeroMemory(&iMedium, sizeof(STGMEDIUM));
+
+	HRESULT hRes;
+	size_t i;
+	bool bFound = false;
+
+	for (i = 0; i < m_SupportedFormat.size(); i++)
+	{
+		//	data
+		iFormat.cfFormat = m_SupportedFormat[i];	
+		iFormat.dwAspect = DVASPECT_CONTENT;
+		iFormat.lindex = -1;			//	give me all baby
+		iFormat.tymed = TYMED_HGLOBAL;	//	want mem
+
+		hRes = pDataObject->GetData(&iFormat, &iMedium);
+		if(SUCCEEDED(hRes))
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	if (!bFound)
+		return hRes;
+
+	//	we have the data, get it		
+	BYTE *iMem = (BYTE *)::GlobalLock(iMedium.hGlobal);
+
+	//	pass over
+	m_Data = iMem;
+	
+	//	keep point
+	m_DropPoint.x = pMouse.x;
+	m_DropPoint.y = pMouse.y;
+
+	//	keep key
+	m_KeyState = grfKeyState;
+
+	//	notify parent of drop
+	GotDrop(m_SupportedFormat[i]);
+
+	::GlobalUnlock(iMedium.hGlobal);
+
+	//	free data
+	if(iMedium.pUnkForRelease != NULL)
+		iMedium.pUnkForRelease->Release();
+
+	return S_OK;
+}
+
+//*************************************************************
+//	Stub implementation
+//		Real stuff would be done in parent
+//*************************************************************
+void GenericDropTarget::GotDrop(CLIPFORMAT format)
+{
+}
+
+DWORD GenericDropTarget::GotDrag(void)
+{
+	return DROPEFFECT_LINK;
+}
+
+void GenericDropTarget::GotLeave(void)
+{
+}
+
+DWORD GenericDropTarget::GotEnter(void)
+{
+	return DROPEFFECT_LINK;
+}
+
+// ************************************************************
+//	PasswordEditDropTarget
+//		Constructor
+// ************************************************************
+PasswordEditDropTarget::PasswordEditDropTarget() : GenericDropTarget (g_supportedFormats, ARRAYSIZE (g_supportedFormats))
+{
+
+}
+
+// ************************************************************
+//	GotDrag
+
+// ************************************************************
+DWORD PasswordEditDropTarget::GotDrag(void)
+{
+	return GotEnter();  
+}
+
+// ************************************************************
+//	GotLeave
+// ************************************************************
+void PasswordEditDropTarget::GotLeave(void)
+{
+}
+
+// ************************************************************
+//	GotEnter
+// ************************************************************
+DWORD PasswordEditDropTarget::GotEnter(void)
+{
+	TCHAR szClassName[64];
+	DWORD dwStyles;
+	int maxLen;
+	HWND hChild = WindowFromPoint (m_DropPoint);
+	// check that we are on password edit control (we use maximum length to correctly identify password fields since they don't always have ES_PASSWORD style (if the the user checked show password)
+	if (hChild && GetClassName (hChild, szClassName, ARRAYSIZE (szClassName)) && (0 == _tcsicmp (szClassName, _T("EDIT")))
+		&& (dwStyles = GetWindowLong (hChild, GWL_STYLE)) && !(dwStyles & ES_NUMBER)
+		&& (maxLen = (int) SendMessage (hChild, EM_GETLIMITTEXT, 0, 0)) && (maxLen == MAX_PASSWORD || maxLen == MAX_LEGACY_PASSWORD)
+		)
+	{
+		return DROPEFFECT_COPY; 
+	}
+
+	return DROPEFFECT_LINK;
+}
+
+// ************************************************************
+//	GotDrop
+//		Called if we have a drop text drop here.
+//	
+// ************************************************************
+void PasswordEditDropTarget::GotDrop(CLIPFORMAT format)
+{
+	//	value contains the material itself
+	if(m_Data)
+	{
+		TCHAR szClassName[64];
+		DWORD dwStyles;
+		int maxLen;
+		HWND hChild = WindowFromPoint (m_DropPoint);
+		if (hChild && GetClassName (hChild, szClassName, ARRAYSIZE (szClassName)) && (0 == _tcsicmp (szClassName, _T("EDIT")))
+			&& (dwStyles = GetWindowLong (hChild, GWL_STYLE)) && !(dwStyles & ES_NUMBER)
+			&& (maxLen = (int) SendMessage (hChild, EM_GETLIMITTEXT, 0, 0)) && (maxLen == MAX_PASSWORD || maxLen == MAX_LEGACY_PASSWORD)
+			)
+		{
+			WCHAR* wszText;
+			int wlen;
+			bool bFree = false;
+			//	get the text
+			if (format == CF_UNICODETEXT)
+			{
+				wszText = (WCHAR *)m_Data;			
+			}
+			else
+			{
+				char *iText = (char *)m_Data;
+				wlen = MultiByteToWideChar ((format == CF_OEMTEXT)? CP_OEMCP : CP_ACP, 0, iText, -1, NULL, 0);
+				wszText = new WCHAR[wlen];
+				if (wszText)
+				{
+					wlen = MultiByteToWideChar (CP_ACP, 0, iText, -1, wszText, wlen);
+					bFree = true;
+				}
+			}
+
+			WCHAR* pchData = wszText;
+			int txtlen = 0;
+			bool bTruncated = false;
+
+			// remove any appended \r or \n
+			while (*pchData)
+			{
+				if (*pchData == '\r' || *pchData == '\n')
+					break;
+				else
+				{
+					txtlen++;
+					pchData++;
+				}
+			}
+
+			if (txtlen)
+			{
+				if (txtlen > maxLen)
+				{
+					bTruncated = true;
+					txtlen = maxLen;
+				}
+
+				SetFocus (hChild);
+
+				wszText[txtlen] = 0;
+				SetWindowText(hChild , wszText);
+
+				if (bTruncated)
+				{
+					EDITBALLOONTIP ebt;
+
+					ebt.cbStruct = sizeof( EDITBALLOONTIP );
+					ebt.pszText = GetString ("PASSWORD_PASTED_TRUNCATED");
+					ebt.pszTitle = lpszTitle;
+					ebt.ttiIcon = TTI_WARNING_LARGE;    // tooltip warning icon
+
+					SendMessage(hChild, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
+
+					MessageBeep (0xFFFFFFFF);
+				}
+			}
+
+			if (bFree)
+			{
+				burn (wszText, wlen * sizeof (WCHAR));
+				delete [] wszText;
+			}
+		}
+	}
+}
+

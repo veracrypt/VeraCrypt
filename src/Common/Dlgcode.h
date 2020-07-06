@@ -691,6 +691,61 @@ typedef void (CALLBACK* WaitThreadProc)(void* pArg, HWND hWaitDlg);
 void BringToForeground(HWND hWnd);
 void ShowWaitDialog(HWND hwnd, BOOL bUseHwndAsParent, WaitThreadProc callback, void* pArg);
 
+// classes used to implement support for password drag-n-drop from KeePass Password Safe
+// Implementation based the following source code with many modifications to fix isses and add features
+// URL: https://www.codeguru.com/cpp/misc/misc/draganddrop/article.php/c349/Drag-And-Drop-between-Window-Controls.htm
+
+interface GenericDropTarget : public IDropTarget
+{
+public:
+	GenericDropTarget(CLIPFORMAT* pFormats, size_t count);
+	~GenericDropTarget();
+
+	//	basic IUnknown stuff
+	HRESULT	STDMETHODCALLTYPE	QueryInterface(REFIID iid, void ** ppvObject); 
+	ULONG	STDMETHODCALLTYPE	AddRef(void); 
+	ULONG	STDMETHODCALLTYPE	Release(void); 
+
+	HRESULT	STDMETHODCALLTYPE	DragEnter(struct IDataObject *,unsigned long,struct _POINTL,unsigned long *); 
+	HRESULT	STDMETHODCALLTYPE	DragOver(unsigned long,struct _POINTL,unsigned long *); 
+	HRESULT	STDMETHODCALLTYPE	DragLeave(void);
+	HRESULT	STDMETHODCALLTYPE	Drop(struct IDataObject *,unsigned long,struct _POINTL,unsigned long *);
+
+	//	called by parents
+	BOOL						Register(HWND hWnd);
+	void						Revoke();
+
+	//	call parent we have goodies
+	virtual	void				GotDrop(CLIPFORMAT format);
+	virtual	DWORD				GotDrag(void);
+	virtual	void				GotLeave(void);
+	virtual	DWORD				GotEnter(void);
+public:
+	BYTE			*m_Data;
+
+	POINT			m_DropPoint;
+
+	DWORD			m_KeyState;
+
+protected:
+	HWND			m_DropTargetWnd;
+	std::vector<CLIPFORMAT> m_SupportedFormat;
+	volatile LONG	m_dwRefCount;
+};
+
+class PasswordEditDropTarget : public GenericDropTarget
+{
+public:
+	PasswordEditDropTarget();
+
+	//	called by child we have drop
+	void	GotDrop(CLIPFORMAT format);
+	DWORD	GotDrag(void);
+	void	GotLeave(void);
+	DWORD	GotEnter(void);
+};
+
+
 #endif // __cplusplus
 
 #endif // TC_HEADER_DLGCODE
