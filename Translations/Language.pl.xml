@@ -1440,10 +1440,10 @@
     <entry lang="pl" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Wpisane hasło jest zbyt długie: jego reprezentacja UTF-8 przekracza 64 bajty.</entry>
     <entry lang="pl" key="HIDDEN_CREDS_SAME_AS_OUTER">Wolumen ukryty nie może mieć tego samego hasła, PIM i plików-kluczy, co wolumen zewnętrzny</entry>
     <entry lang="pl" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt nie obsługuje szyfrowania dysku systemowego, który jest już zaszyfrowany przez BitLocker.</entry>
-    <entry lang="en" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Automatically fix boot configuration issues that may prevent Windows from starting</entry>
-    <entry lang="en" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Force machine to boot on VeraCrypt in the next startup</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Force the presence of VeraCrypt entry in the EFI firmware boot menu</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Force VeraCrypt entry to be the first in the EFI firmware boot menu</entry>
+    <entry lang="pl" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Automatycznie napraw problemy z konfiguracją rozruchu, które mogą uniemożliwić uruchomienie systemu Windows</entry>
+    <entry lang="pl" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Wymuś rozruch komputera na VeraCrypt przy następnym uruchomieniu</entry>
+    <entry lang="pl" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Wymuś obecność wpisu VeraCrypt w menu uruchamiania oprogramowania układowego EFI</entry>
+    <entry lang="pl" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Wymuś pierwszeństwo wpisu VeraCrypt w menu uruchamiania oprogramowania układowego EFI</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
