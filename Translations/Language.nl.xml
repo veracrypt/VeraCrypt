@@ -158,7 +158,7 @@
     <entry lang="nl" key="IDC_PIM_HELP">(leeg of 0 voor standaard iteraties)</entry>
     <entry lang="nl" key="IDC_PREF_BKG_TASK_ENABLE">Ingeschakeld</entry>
     <entry lang="nl" key="IDC_PREF_CACHE_PASSWORDS">Wachtw. in stuurprog.-geheugen opslaan</entry>
-    <entry lang="nl" key="IDC_PREF_DISMOUNT_INACTIVE">Volume automatisch ontkoppelen na inactiviteit lezen/schrijven gedurende</entry>
+    <entry lang="nl" key="IDC_PREF_DISMOUNT_INACTIVE">Volume automatisch ontkoppelen na inactiviteit lezen/schrijven voor</entry>
     <entry lang="nl" key="IDC_PREF_DISMOUNT_LOGOFF">gebruiker afmeldt</entry>
     <entry lang="nl" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">gebruikerssessie wordt vergrendeld</entry>
     <entry lang="nl" key="IDC_PREF_DISMOUNT_POWERSAVING">energiebesparende modus start</entry>
@@ -370,7 +370,7 @@
     <entry lang="nl" key="IDT_SECURITY_TOKEN">Beveiligingstoken:</entry>
     <entry lang="nl" key="IDT_SORT_METHOD">Weergave:</entry>
     <entry lang="nl" key="IDT_STATIC_MODELESS_WAIT_DLG_INFO">Even geduld. Dit proces kan lang duren....</entry>
-    <entry lang="nl" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Even geduld...\nDit proces kan lang duren en het kan misschien lijken dat VeraCrypt niet reageert.</entry>
+    <entry lang="nl" key="IDT_STATIC_MODAL_WAIT_DLG_INFO">Even geduld...\nDit proces kan lang duren en VeraCrypt lijkt misschien niet te reageren.</entry>
     <entry lang="nl" key="IDT_TEST_BLOCK_NUMBER">Bloknummer:</entry>
     <entry lang="nl" key="IDT_TEST_CIPHERTEXT">Versleutelingstekst (hexadecimaal)</entry>
     <entry lang="nl" key="IDT_TEST_DATA_UNIT_NUMBER">Gegevenseenheid-nummer (64-bits hexadecimaal, grootte van gegevenseenh. is 512 bytes).</entry>
@@ -1386,7 +1386,7 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</entry>
     <entry lang="nl" key="IDC_BOOT_LOADER_CACHE_PIM">&amp;PIM toevoegen bij cachen van pre-boot-authenticatiewachtwoord</entry>
     <entry lang="nl" key="IDC_PREF_CACHE_PIM">PIM toevoegen bij opslaan van een wachtwoord</entry>
-    <entry lang="nl" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Losgekoppelde netwerkstations beschikbaar stellen voor koppeling.</entry>
+    <entry lang="nl" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Losgekoppelde netwerkstations beschikbaar stellen voor koppeling</entry>
     <entry lang="nl" key="PASSWORD_UTF8_TOO_LONG">Het ingevoerde wachtwoord is te lang: de UTF-8-weergave is groter dan 128 bytes.</entry>
     <entry lang="nl" key="PASSWORD_UTF8_INVALID">Het ingevoerde wachtwoord bevat Unicode-tekens die niet konden worden geconverteerd naar UTF-8-weergave.</entry>
     <entry lang="nl" key="INIT_DLL">Fout: een systeembibliotheek is niet geladen.</entry>
@@ -1448,11 +1448,11 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="IDC_DISABLE_MOUNT_MANAGER">Alleen virtueel apparaat aanmaken zonder koppeling aan geselecteerde stationsletter</entry>
     <entry lang="nl" key="LEGACY_PASSWORD_UTF8_TOO_LONG">Het ingevoerde wachtwoord is te lang: de UTF-8-weergave is groter dan 64 bytes.</entry>
     <entry lang="nl" key="HIDDEN_CREDS_SAME_AS_OUTER">Het verborgen volume kan niet hetzelfde wachtwoord, PIM en sleutelbestanden hebben als het buitenste volume.</entry>
-    <entry lang="en" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt does not support encrypting a system drive that is already encrypted by BitLocker.</entry>
-    <entry lang="en" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Automatically fix boot configuration issues that may prevent Windows from starting</entry>
-    <entry lang="en" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Force machine to boot on VeraCrypt in the next startup</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Force the presence of VeraCrypt entry in the EFI firmware boot menu</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Force VeraCrypt entry to be the first in the EFI firmware boot menu</entry>
+    <entry lang="nl" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt biedt geen ondersteuning voor het versleutelen van een systeemschijf die al is versleuteld door BitLocker.</entry>
+    <entry lang="nl" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Automatisch opstartconfiguratieproblemen oplossen die het starten van Windows kunnen verhinderen</entry>
+    <entry lang="nl" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">De machine dwingen om op te starten op VeraCrypt bij de volgende opstart.</entry>
+    <entry lang="nl" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">De aanwezigheid van VeraCrypt in het EFI-firmware-opstartmenu forceren</entry>
+    <entry lang="nl" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Zorgen dat VeraCrypt als eerste wordt weergegeven in het EFI-firmware-opstartmenu.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
