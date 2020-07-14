@@ -157,7 +157,7 @@ static
 #endif
 VC_INLINE int jent_fips_enabled(void)
 {
-        return 0;
+        return 1;
 }
 
 /* --- helpers needed in user space -- */
