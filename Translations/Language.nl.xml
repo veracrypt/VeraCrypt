@@ -1453,6 +1453,8 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">De machine dwingen om op te starten op VeraCrypt bij de volgende opstart.</entry>
     <entry lang="nl" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">De aanwezigheid van VeraCrypt in het EFI-firmware-opstartmenu forceren</entry>
     <entry lang="nl" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Zorgen dat VeraCrypt als eerste wordt weergegeven in het EFI-firmware-opstartmenu.</entry>
+    <entry lang="en" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNING: RAM encryption is not compatible with Windows Hibernate and Windows Fast Startup features. VeraCrypt needs to disable them before activating RAM encryption.\n\nContinue?</entry>
+    <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">

@@ -1444,6 +1444,8 @@
     <entry lang="fr" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Forcer l'amorçage de la machine sur VeraCrypt au prochain démarrage</entry>
     <entry lang="fr" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Forcer la présence de l'entrée VeraCrypt de le menu des chargeurs d'amorçage EFI de la carte mère</entry>
     <entry lang="fr" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Forcer l'entrée VeraCrypt a être la première dans le menu des chargeurs d'amorçage EFI de la carte mère</entry>
+    <entry lang="fr" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">AVERTISSEMENT: Le chiffrement de la RAM n'est pas compatible avec les fonctionnalités hibernation et démarrage rapide de Windows. VeraCrypt a besoin de les désactiver avant d'activer le chiffrement de la RAM.\n\n Continuer?</entry>
+    <entry lang="fr" key="CONFIRM_DISABLE_FAST_STARTUP">AVERTISSEMENT: Le démarrage rapide de Windows est activé, ce qui peut causer des problèmes lors de l'utilisation de VeraCrypt. Il est conseillé de le désactiver pour améliorer la sécurité et l'utilisabilié de VeraCrypt.\n\nVoulez-vous désactiver le démarrage rapide de Windows?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
