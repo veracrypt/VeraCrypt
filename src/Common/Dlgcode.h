@@ -745,6 +745,7 @@ public:
 	DWORD	GotEnter(void);
 };
 
+BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled);
 
 #endif // __cplusplus
 

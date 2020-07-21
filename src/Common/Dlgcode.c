@@ -14896,3 +14896,76 @@ void PasswordEditDropTarget::GotDrop(CLIPFORMAT format)
 	}
 }
 
+
+/*
+ * Query the status of Hibernate and Fast Startup
+ */
+
+typedef BOOLEAN (WINAPI *GetPwrCapabilitiesFn)(
+  PSYSTEM_POWER_CAPABILITIES lpspc
+);
+
+BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled)
+{
+	wchar_t szPowrProfPath[MAX_PATH] = {0};
+	HMODULE hPowrProf = NULL;
+	BOOL bResult = FALSE;
+
+	bHibernateEnabled = bHiberbootEnabled = FALSE;
+
+	if (GetSystemDirectory(szPowrProfPath, MAX_PATH))
+		StringCchCatW (szPowrProfPath, MAX_PATH, L"\\PowrProf.dll");
+	else
+		StringCchCopyW (szPowrProfPath, MAX_PATH, L"C:\\Windows\\System32\\PowrProf.dll");
+
+	hPowrProf = LoadLibrary (szPowrProfPath);
+	if (hPowrProf)
+	{
+		GetPwrCapabilitiesFn GetPwrCapabilitiesPtr = (GetPwrCapabilitiesFn) GetProcAddress (hPowrProf, "GetPwrCapabilities");
+		if ( GetPwrCapabilitiesPtr)
+		{
+			SYSTEM_POWER_CAPABILITIES spc;
+			BOOLEAN bRet = GetPwrCapabilitiesPtr (&spc);
+			if (bRet)
+			{
+				DWORD dwHibernateEnabled = 0;
+				DWORD dwHiberbootEnabled = 0;
+
+				if (spc.SystemS4)
+				{
+					dwHibernateEnabled = 1;
+					if(!ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Power", L"HibernateEnabled", &dwHibernateEnabled))
+					{
+						// starting from Windows 10 1809 (Build 17763), HibernateEnabledDefault is used when HibernateEnabled is absent
+						if (IsOSVersionAtLeast (WIN_10, 0) && CurrentOSBuildNumber >= 17763)
+							ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Power", L"HibernateEnabledDefault", &dwHibernateEnabled);
+					}
+				}
+
+				// check if Fast Startup / Hybrid Boot is enabled
+				if (IsOSVersionAtLeast (WIN_8, 0) && spc.spare2[0])
+				{
+					dwHiberbootEnabled = 1;
+					ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", &dwHiberbootEnabled);
+				}
+
+				if (dwHibernateEnabled)
+					bHibernateEnabled = TRUE;
+				else
+					bHibernateEnabled = FALSE;
+
+				if (dwHiberbootEnabled)
+					bHiberbootEnabled = TRUE;
+				else
+					bHiberbootEnabled = FALSE;
+
+				bResult = TRUE;
+			}
+		}
+
+		FreeLibrary (hPowrProf);
+	}
+
+	return bResult;
+}
+
