@@ -25,6 +25,7 @@ BOOL CALLBACK MainDialogProc ( HWND hwndDlg , UINT uMsg , WPARAM wParam , LPARAM
 
 extern BOOL bPromptTutorial;
 extern BOOL bPromptReleaseNotes;
+extern BOOL bPromptFastStartup;
 
 #ifdef __cplusplus
 }

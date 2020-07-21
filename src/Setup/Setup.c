@@ -2362,6 +2362,15 @@ void DoInstall (void *arg)
 
 	if (bOK && !bUninstall && !bDowngrade && !bRepairMode && !bDevm)
 	{
+		BOOL bHibernateEnabled = FALSE, bHiberbootEnabled = FALSE;
+		if (GetHibernateStatus (bHibernateEnabled, bHiberbootEnabled))
+		{
+			if (bHiberbootEnabled)
+			{
+				bPromptFastStartup = TRUE;
+			}
+		}
+
 		if (!IsHiddenOSRunning())	// A hidden OS user should not see the post-install notes twice (on decoy OS and then on hidden OS).
 		{
 			if (bRestartRequired || SystemEncryptionUpdate)

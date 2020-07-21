@@ -60,6 +60,7 @@ BOOL bStartExtraction = FALSE;
 BOOL bInProgress = FALSE;
 BOOL bPromptTutorial = FALSE;
 BOOL bPromptReleaseNotes = FALSE;
+BOOL bPromptFastStartup = FALSE;
 
 extern BOOL bUserSetLanguage;
 
@@ -1202,6 +1203,15 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				bPromptTutorial = FALSE;
 			}
+
+			if (bPromptFastStartup
+				&& AskWarnYesNo ("CONFIRM_DISABLE_FAST_STARTUP", hwndDlg) == IDYES)
+			{
+				WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
+				bRestartRequired = TRUE;
+			}
+
+			bPromptFastStartup = FALSE;
 
 			if (bRestartRequired
 				&& AskYesNo (bUpgrade ? "UPGRADE_OK_REBOOT_REQUIRED" : "CONFIRM_RESTART", hwndDlg) == IDYES)
