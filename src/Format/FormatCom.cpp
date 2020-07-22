@@ -291,3 +291,42 @@ extern "C" int UacAnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 h
 
 	return r;
 }
+
+extern "C" BOOL UacWriteLocalMachineRegistryDword (HWND hwndDlg, wchar_t *keyPath, wchar_t *valueName, DWORD value)
+{
+	CComPtr<ITrueCryptFormatCom> tc;
+	int r = 0;
+
+	CoInitialize (NULL);
+
+	if (ComGetInstance (hwndDlg, &tc))
+	{
+		CComBSTR keyPathBstr, valueNameBstr;
+		BSTR bstr = W2BSTR(keyPath);
+		if (bstr)
+		{
+			keyPathBstr.Attach (bstr);
+			bstr = W2BSTR(valueName);
+			if (bstr)
+			{
+				valueNameBstr.Attach (bstr);
+				r = tc->WriteLocalMachineRegistryDwordValue (keyPathBstr, valueNameBstr, value);
+			}
+			else
+				r = ERROR_OUTOFMEMORY;
+		}
+		else
+			r = ERROR_OUTOFMEMORY;
+	}
+
+	CoUninitialize ();
+
+	if (r == ERROR_SUCCESS)
+		return TRUE;
+	else
+	{
+		SetLastError (r);
+		return FALSE;
+	}
+}
+

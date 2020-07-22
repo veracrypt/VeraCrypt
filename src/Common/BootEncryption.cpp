@@ -5673,6 +5673,16 @@ namespace VeraCrypt
 		
 		if (!rescueIsoImagePath.empty())
 			CreateRescueIsoImage (true, rescueIsoImagePath);
+
+		// check if Fast Startup is enabled and if yes then offer to disable it
+		BOOL bHibernateEnabled = FALSE, bHiberbootEnabled = FALSE;
+		if (GetHibernateStatus (bHibernateEnabled, bHiberbootEnabled) && bHiberbootEnabled)
+		{
+			if (AskWarnYesNo ("CONFIRM_DISABLE_FAST_STARTUP", ParentWindow) == IDYES)
+			{
+				WriteLocalMachineRegistryDwordValue (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
+			}
+		}
 	}
 
 	bool BootEncryption::IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly)

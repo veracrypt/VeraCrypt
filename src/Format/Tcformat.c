@@ -8453,6 +8453,7 @@ retryCDDriveCheck:
 			else if (nCurPageNo == FORMAT_PAGE)
 			{
 				/* Format start  (the 'Next' button has been clicked on the Format page) */
+				static BOOL g_bFastStartupCheckDone = FALSE;
 
 				if (bVolTransformThreadRunning || bVolTransformThreadToRun)
 					return 1;
@@ -8460,6 +8461,23 @@ retryCDDriveCheck:
 				bVolTransformThreadCancel = FALSE;
 
 				bVolTransformThreadToRun = TRUE;
+
+				// check if Fast Startup is enabled and if yes then offer to disable it
+				if (!g_bFastStartupCheckDone)
+				{
+					BOOL bHibernateEnabled = FALSE, bHiberbootEnabled = FALSE;
+					if (GetHibernateStatus (bHibernateEnabled, bHiberbootEnabled) && bHiberbootEnabled)
+					{
+						if (AskWarnYesNo ("CONFIRM_DISABLE_FAST_STARTUP", hwndDlg) == IDYES)
+						{
+							if (!IsAdmin () && IsUacSupported ())
+								UacWriteLocalMachineRegistryDword (hwndDlg, L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
+							else
+								WriteLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", 0);
+						}
+					}
+					g_bFastStartupCheckDone = true;
+				}
 
 				fileSystem = (int) SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETITEMDATA,
 					SendMessage (GetDlgItem (hCurPage, IDC_FILESYS), CB_GETCURSEL, 0, 0) , 0);

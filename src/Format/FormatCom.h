@@ -29,6 +29,7 @@ int UacFormatFs (HWND hWnd, int driveNo, int clusterSize, int fsType);
 int UacAnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *nbrFreeClusters);
 int UacFormatVolume (char *cvolumePath , BOOL bDevice , unsigned __int64 size , unsigned __int64 hiddenVolHostSize , Password *password , int cipher , int pkcs5 , BOOL quickFormat, BOOL sparseFileSwitch, int fileSystem , int clusterSize, HWND hwndDlg , BOOL hiddenVol , int *realClusterSize);
 BOOL UacUpdateProgressBar (__int64 nSecNo, BOOL *bVolTransformThreadCancel);
+BOOL UacWriteLocalMachineRegistryDword (HWND hwndDlg, wchar_t *keyPath, wchar_t *valueName, DWORD value);
 
 #ifdef __cplusplus
 }
