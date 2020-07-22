@@ -1444,8 +1444,8 @@
     <entry lang="zh-cn" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">强制下次启动时进行VeraCrypt引导</entry>
     <entry lang="zh-cn" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">强制在EFI固件启动菜单显示VeraCrypt引导项</entry>
     <entry lang="zh-cn" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">强制VeraCrypt引导项作为EFI固件启动菜单的第一项</entry>
-    <entry lang="en" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNING: RAM encryption is not compatible with Windows Hibernate and Windows Fast Startup features. VeraCrypt needs to disable them before activating RAM encryption.\n\nContinue?</entry>
-    <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
+    <entry lang="zh-cn" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">警告：RAM加密与Windows休眠和Windows快速启动功能不兼容。VeraCrypt需要在激活RAM加密之前禁用它们。\n\n继续吗？</entry>
+    <entry lang="zh-cn" key="CONFIRM_DISABLE_FAST_STARTUP">警告：Windows快速启动已启用，已知在使用VeraCrypt加密卷时会导致问题。建议禁用它以提高安全性和可用性。\n\n是否要禁用Windows快速启动？</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
