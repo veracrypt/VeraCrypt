@@ -1447,8 +1447,8 @@
     <entry lang="de" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Booten unter VeraCrypt beim nächsten Start vom Rechner erzwingen</entry>
     <entry lang="de" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Vorhandensein des VeraCrypt-Eintrags im EFI-Firmware-Bootmenü erzwingen</entry>
     <entry lang="de" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">VeraCrypt als ersten Eintrag im EFI-Firmware-Bootmenü erzwingen</entry>
-    <entry lang="en" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNING: RAM encryption is not compatible with Windows Hibernate and Windows Fast Startup features. VeraCrypt needs to disable them before activating RAM encryption.\n\nContinue?</entry>
-    <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
+    <entry lang="de" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNUNG: Die RAM-Verschlüsselung ist nicht kompatibel mit den Windows-Funktionen Ruhezustand und Schnellstart. VeraCrypt muss sie deaktivieren, bevor die RAM-Verschlüsselung aktiviert wird.\n\nFortfahren?</entry>
+    <entry lang="de" key="CONFIRM_DISABLE_FAST_STARTUP">WARNUNG: Der Windows-Schnellstart ist aktiviert und es ist bekannt, dass er Probleme bei der Arbeit mit VeraCrypt-Volumes verursacht. Es wird empfohlen, ihn für eine bessere Sicherheit und Benutzerfreundlichkeit zu deaktivieren.\n\nMöchten Sie den Windows-Schnellstart deaktivieren?</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
