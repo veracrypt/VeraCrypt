@@ -91,8 +91,8 @@ deallocate(void *ud) {
 }
 
 
-static int
-compression_flags(void *ud) {
+static zip_uint16_t
+general_purpose_bit_flags(void *ud) {
     struct ctx *ctx = (struct ctx *)ud;
 
     if (!ctx->compress) {
@@ -100,10 +100,10 @@ compression_flags(void *ud) {
     }
 
     if (ctx->compression_flags < 3) {
-	return 2;
+	return 2 << 1;
     }
     else if (ctx->compression_flags > 7) {
-	return 1;
+	return 1 << 1;
     }
     return 0;
 }
@@ -220,12 +220,13 @@ process(void *ud, zip_uint8_t *data, zip_uint64_t *length) {
     }
 }
 
-// clang-format off
+/* clang-format off */
 
 zip_compression_algorithm_t zip_algorithm_deflate_compress = {
     compress_allocate,
     deallocate,
-    compression_flags,
+    general_purpose_bit_flags,
+    20,
     start,
     end,
     input,
@@ -237,7 +238,8 @@ zip_compression_algorithm_t zip_algorithm_deflate_compress = {
 zip_compression_algorithm_t zip_algorithm_deflate_decompress = {
     decompress_allocate,
     deallocate,
-    compression_flags,
+    general_purpose_bit_flags,
+    20,
     start,
     end,
     input,
@@ -245,4 +247,4 @@ zip_compression_algorithm_t zip_algorithm_deflate_decompress = {
     process
 };
 
-// clang-format on
+/* clang-format on */

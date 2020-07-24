@@ -36,25 +36,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#ifdef HAVE_STRINGS_H
-#include <strings.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#include <sys/stat.h>
-#include <sys/types.h>
 #ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
 #endif
 
 
-static int add_data(zip_t *, zip_source_t *, zip_dirent_t *);
+static int add_data(zip_t *, zip_source_t *, zip_dirent_t *, zip_uint32_t);
 static int copy_data(zip_t *, zip_uint64_t);
 static int copy_source(zip_t *, zip_source_t *, zip_int64_t);
 static int write_cdir(zip_t *, const zip_filelist_t *, zip_uint64_t);
+static int write_data_descriptor(zip_t *za, const zip_dirent_t *dirent, int is_zip64);
 
 ZIP_EXTERN int
 zip_close(zip_t *za) {
@@ -204,6 +196,7 @@ zip_close(zip_t *za) {
 	}
 
 	if ((off = zip_source_tell_write(za->src)) < 0) {
+            _zip_error_set_from_source(&za->error, za->src);
 	    error = 1;
 	    break;
 	}
@@ -221,7 +214,7 @@ zip_close(zip_t *za) {
 	    }
 
 	    /* add_data writes dirent */
-	    if (add_data(za, zs ? zs : entry->source, de) < 0) {
+	    if (add_data(za, zs ? zs : entry->source, de, entry->changes ? entry->changes->changed : 0) < 0) {
 		error = 1;
 		if (zs)
 		    zip_source_free(zs);
@@ -233,8 +226,11 @@ zip_close(zip_t *za) {
 	else {
 	    zip_uint64_t offset;
 
-	    /* when copying data, all sizes are known -> no data descriptor needed */
-	    de->bitflags &= (zip_uint16_t)~ZIP_GPBF_DATA_DESCRIPTOR;
+	    if (de->encryption_method != ZIP_EM_TRAD_PKWARE) {
+		/* when copying data, all sizes are known -> no data descriptor needed */
+		/* except for PKWare encryption, where removing the data descriptor breaks password validation */
+		de->bitflags &= (zip_uint16_t)~ZIP_GPBF_DATA_DESCRIPTOR;
+	    }
 	    if (_zip_dirent_write(za, de, ZIP_FL_LOCAL) < 0) {
 		error = 1;
 		break;
@@ -245,12 +241,19 @@ zip_close(zip_t *za) {
 	    }
 	    if (zip_source_seek(za->src, (zip_int64_t)offset, SEEK_SET) < 0) {
 		_zip_error_set_from_source(&za->error, za->src);
-		error = 1;
+                error = 1;
 		break;
 	    }
 	    if (copy_data(za, de->comp_size) < 0) {
-		error = 1;
+ 		error = 1;
 		break;
+	    }
+
+	    if (de->bitflags & ZIP_GPBF_DATA_DESCRIPTOR) {
+		if (write_data_descriptor(za, de, _zip_dirent_needs_zip64(de, 0)) < 0) {
+		    error = 1;
+		    break;
+		}
 	    }
 	}
     }
@@ -282,14 +285,14 @@ zip_close(zip_t *za) {
 
 
 static int
-add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de) {
+add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de, zip_uint32_t changed) {
     zip_int64_t offstart, offdata, offend, data_length;
-    struct zip_stat st;
+    zip_stat_t st;
+    zip_file_attributes_t attributes;
     zip_source_t *src_final, *src_tmp;
     int ret;
     int is_zip64;
     zip_flags_t flags;
-    zip_int8_t compression_flags;
     bool needs_recompress, needs_decompress, needs_crc, needs_compress, needs_reencrypt, needs_decrypt, needs_encrypt;
 
     if (zip_source_stat(src, &st) < 0) {
@@ -453,6 +456,9 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de) {
 	    zip_source_free(src_final);
 	    return -1;
 	}
+	if (de->encryption_method == ZIP_EM_TRAD_PKWARE) {
+	    de->bitflags |= ZIP_GPBF_DATA_DESCRIPTOR;
+	}
 
 	zip_source_free(src_final);
 	src_final = src_tmp;
@@ -471,7 +477,7 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de) {
 	ret = -1;
     }
 
-    if ((compression_flags = zip_source_get_compression_flags(src_final)) < 0) {
+    if (zip_source_get_file_attributes(src_final, &attributes) != 0) {
 	_zip_error_set_from_source(&za->error, src_final);
 	ret = -1;
     }
@@ -507,8 +513,7 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de) {
     de->crc = st.crc;
     de->uncomp_size = st.size;
     de->comp_size = (zip_uint64_t)(offend - offdata);
-    de->bitflags = (zip_uint16_t)((de->bitflags & (zip_uint16_t)~6) | ((zip_uint8_t)compression_flags << 1));
-    _zip_dirent_set_version_needed(de, (flags & ZIP_FL_FORCE_ZIP64) != 0);
+    _zip_dirent_apply_attributes(de, &attributes, (flags & ZIP_FL_FORCE_ZIP64) != 0, changed);
 
     if ((ret = _zip_dirent_write(za, de, flags)) < 0)
 	return -1;
@@ -522,6 +527,12 @@ add_data(zip_t *za, zip_source_t *src, zip_dirent_t *de) {
     if (zip_source_seek_write(za->src, offend, SEEK_SET) < 0) {
 	_zip_error_set_from_source(&za->error, za->src);
 	return -1;
+    }
+
+    if (de->bitflags & ZIP_GPBF_DATA_DESCRIPTOR) {
+	if (write_data_descriptor(za, de, is_zip64) < 0) {
+	    return -1;
+	}
     }
 
     return 0;
@@ -655,4 +666,38 @@ _zip_changed(const zip_t *za, zip_uint64_t *survivorsp) {
     }
 
     return changed;
+}
+
+static int
+write_data_descriptor(zip_t *za, const zip_dirent_t *de, int is_zip64) {
+    zip_buffer_t *buffer = _zip_buffer_new(NULL, MAX_DATA_DESCRIPTOR_LENGTH);
+    int ret = 0;
+
+    if (buffer == NULL) {
+	zip_error_set(&za->error, ZIP_ER_MEMORY, 0);
+	return -1;
+    }
+
+    _zip_buffer_put(buffer, DATADES_MAGIC, 4);
+    _zip_buffer_put_32(buffer, de->crc);
+    if (is_zip64) {
+	_zip_buffer_put_64(buffer, de->comp_size);
+	_zip_buffer_put_64(buffer, de->uncomp_size);
+    }
+    else {
+	_zip_buffer_put_32(buffer, (zip_uint32_t)de->comp_size);
+	_zip_buffer_put_32(buffer, (zip_uint32_t)de->uncomp_size);
+    }
+
+    if (!_zip_buffer_ok(buffer)) {
+	zip_error_set(&za->error, ZIP_ER_INTERNAL, 0);
+	ret = -1;
+    }
+    else {
+	ret = _zip_write(za, _zip_buffer_data(buffer), _zip_buffer_offset(buffer));
+    }
+
+    _zip_buffer_free(buffer);
+
+    return ret;
 }

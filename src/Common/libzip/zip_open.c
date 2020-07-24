@@ -32,19 +32,13 @@
 */
 
 
-#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
 
 #include "zipint.h"
 
-typedef enum {
-    EXISTS_ERROR = -1,
-    EXISTS_NOT = 0,
-    EXISTS_OK
-} exists_t;
+typedef enum { EXISTS_ERROR = -1, EXISTS_NOT = 0, EXISTS_OK } exists_t;
 static zip_t *_zip_allocate_new(zip_source_t *src, unsigned int flags, zip_error_t *error);
 static zip_int64_t _zip_checkcons(zip_t *za, zip_cdir_t *cdir, zip_error_t *error);
 static zip_cdir_t *_zip_find_central_dir(zip_t *za, zip_uint64_t len);

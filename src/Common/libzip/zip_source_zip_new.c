@@ -36,15 +36,19 @@
 
 #include "zipint.h"
 
+static void _zip_file_attributes_from_dirent(zip_file_attributes_t *attributes, zip_dirent_t *de);
 
 zip_source_t *
 _zip_source_zip_new(zip_t *za, zip_t *srcza, zip_uint64_t srcidx, zip_flags_t flags, zip_uint64_t start, zip_uint64_t len, const char *password) {
     zip_source_t *src, *s2;
-    struct zip_stat st;
+    zip_stat_t st;
+    zip_file_attributes_t attributes;
+    zip_dirent_t *de;
     bool partial_data, needs_crc, needs_decrypt, needs_decompress;
 
-    if (za == NULL)
+    if (za == NULL) {
 	return NULL;
+    }
 
     if (srcza == NULL || srcidx >= srcza->nentry) {
 	zip_error_set(&za->error, ZIP_ER_INVAL, 0);
@@ -61,8 +65,9 @@ _zip_source_zip_new(zip_t *za, zip_t *srcza, zip_uint64_t srcidx, zip_flags_t fl
 	return NULL;
     }
 
-    if (flags & ZIP_FL_ENCRYPTED)
+    if (flags & ZIP_FL_ENCRYPTED) {
 	flags |= ZIP_FL_COMPRESSED;
+    }
 
     if ((start > 0 || len > 0) && (flags & ZIP_FL_COMPRESSED)) {
 	zip_error_set(&za->error, ZIP_ER_INVAL, 0);
@@ -95,8 +100,13 @@ _zip_source_zip_new(zip_t *za, zip_t *srcza, zip_uint64_t srcidx, zip_flags_t fl
 	}
     }
 
+    if ((de = _zip_get_dirent(srcza, srcidx, flags, &za->error)) == NULL) {
+	return NULL;
+    }
+    _zip_file_attributes_from_dirent(&attributes, de);
+
     if (st.comp_size == 0) {
-	return zip_source_buffer(za, NULL, 0, 0);
+	return zip_source_buffer_with_attributes(za, NULL, 0, 0, &attributes);
     }
 
     if (partial_data && !needs_decrypt && !needs_decompress) {
@@ -108,17 +118,12 @@ _zip_source_zip_new(zip_t *za, zip_t *srcza, zip_uint64_t srcidx, zip_flags_t fl
 	st2.mtime = st.mtime;
 	st2.valid = ZIP_STAT_SIZE | ZIP_STAT_COMP_SIZE | ZIP_STAT_COMP_METHOD | ZIP_STAT_MTIME;
 
-	if ((src = _zip_source_window_new(srcza->src, start, len, &st2, 0, srcza, srcidx, &za->error)) == NULL) {
+	if ((src = _zip_source_window_new(srcza->src, start, len, &st2, &attributes, srcza, srcidx, &za->error)) == NULL) {
 	    return NULL;
 	}
     }
     else {
-	zip_dirent_t *de;
-
-	if ((de = _zip_get_dirent(srcza, srcidx, flags, &za->error)) == NULL) {
-	    return NULL;
-	}
-	if ((src = _zip_source_window_new(srcza->src, 0, st.comp_size, &st, (de->bitflags >> 1) & 3, srcza, srcidx, &za->error)) == NULL) {
+	if ((src = _zip_source_window_new(srcza->src, 0, st.comp_size, &st, &attributes, srcza, srcidx, &za->error)) == NULL) {
 	    return NULL;
 	}
     }
@@ -172,4 +177,15 @@ _zip_source_zip_new(zip_t *za, zip_t *srcza, zip_uint64_t srcidx, zip_flags_t fl
     }
 
     return src;
+}
+
+static void
+_zip_file_attributes_from_dirent(zip_file_attributes_t *attributes, zip_dirent_t *de) {
+    zip_file_attributes_init(attributes);
+    attributes->valid = ZIP_FILE_ATTRIBUTES_ASCII | ZIP_FILE_ATTRIBUTES_HOST_SYSTEM | ZIP_FILE_ATTRIBUTES_EXTERNAL_FILE_ATTRIBUTES | ZIP_FILE_ATTRIBUTES_GENERAL_PURPOSE_BIT_FLAGS;
+    attributes->ascii = de->int_attrib & 1;
+    attributes->host_system = de->version_madeby >> 8;
+    attributes->external_file_attributes = de->ext_attrib;
+    attributes->general_purpose_bit_flags = de->bitflags;
+    attributes->general_purpose_bit_mask = ZIP_FILE_ATTRIBUTES_GENERAL_PURPOSE_BIT_FLAGS_ALLOWED_MASK;
 }

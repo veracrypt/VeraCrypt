@@ -34,10 +34,7 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
-
 #include "compat.h"
 
 #ifdef ZIP_ALLOCATE_BUFFER
@@ -69,6 +66,9 @@
 #define BUFSIZE 8192
 #define EFZIP64SIZE 28
 #define EF_WINZIP_AES_SIZE 7
+#define MAX_DATA_DESCRIPTOR_LENGTH 24
+
+#define ZIP_CRYPTO_PKWARE_HEADERLEN 12
 
 #define ZIP_CM_REPLACED_DEFAULT (-2)
 #define ZIP_CM_WINZIP_AES 99 /* Winzip AES encrypted */
@@ -95,6 +95,7 @@
 /* according to unzip-6.0's zipinfo.c, this corresponds to a directory with rwx permissions for everyone */
 #define ZIP_EXT_ATTRIB_DEFAULT_DIR (0040777u << 16)
 
+#define ZIP_FILE_ATTRIBUTES_GENERAL_PURPOSE_BIT_FLAGS_ALLOWED_MASK 0x0836
 
 #define ZIP_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define ZIP_MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -111,14 +112,14 @@ typedef zip_source_t *(*zip_encryption_implementation)(zip_t *, zip_source_t *, 
 
 zip_encryption_implementation _zip_get_encryption_implementation(zip_uint16_t method, int operation);
 
-// clang-format off
+/* clang-format off */
 enum zip_compression_status {
     ZIP_COMPRESSION_OK,
     ZIP_COMPRESSION_END,
     ZIP_COMPRESSION_ERROR,
     ZIP_COMPRESSION_NEED_DATA
 };
-// clang-format on
+/* clang-format on */
 typedef enum zip_compression_status zip_compression_status_t;
 
 struct zip_compression_algorithm {
@@ -128,7 +129,9 @@ struct zip_compression_algorithm {
     void (*deallocate)(void *ctx);
 
     /* get compression specific general purpose bitflags */
-    int (*compression_flags)(void *ctx);
+    zip_uint16_t (*general_purpose_bit_flags)(void *ctx);
+    /* minimum version needed when using this algorithm */
+    zip_uint8_t version_needed;
 
     /* start processing */
     bool (*start)(void *ctx);
@@ -154,8 +157,6 @@ extern zip_compression_algorithm_t zip_algorithm_xz_compress;
 extern zip_compression_algorithm_t zip_algorithm_xz_decompress;
 
 
-bool zip_compression_method_supported(zip_int32_t method, bool compress);
-
 /* This API is not final yet, but we need it internally, so it's private for now. */
 
 const zip_uint8_t *zip_get_extra_field_by_id(zip_t *, int, int, zip_uint16_t, int, zip_uint16_t *);
@@ -170,13 +171,14 @@ zip_source_t *zip_source_crc(zip_t *, zip_source_t *, int);
 zip_source_t *zip_source_decompress(zip_t *za, zip_source_t *src, zip_int32_t cm);
 zip_source_t *zip_source_layered(zip_t *, zip_source_t *, zip_source_layered_callback, void *);
 zip_source_t *zip_source_layered_create(zip_source_t *src, zip_source_layered_callback cb, void *ud, zip_error_t *error);
-zip_source_t *zip_source_pkware(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
+zip_source_t *zip_source_pkware_decode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
+zip_source_t *zip_source_pkware_encode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
 int zip_source_remove(zip_source_t *);
 zip_int64_t zip_source_supports(zip_source_t *src);
 zip_source_t *zip_source_window(zip_t *, zip_source_t *, zip_uint64_t, zip_uint64_t);
 zip_source_t *zip_source_winzip_aes_decode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
 zip_source_t *zip_source_winzip_aes_encode(zip_t *, zip_source_t *, zip_uint16_t, int, const char *);
-
+zip_source_t *zip_source_buffer_with_attributes(zip_t *za, const void *data, zip_uint64_t len, int freep, zip_file_attributes_t *attributes);
 
 /* error source for layered sources */
 
@@ -381,13 +383,13 @@ struct zip_string {
    for those, use malloc()/free() */
 
 #ifdef ZIP_ALLOCATE_BUFFER
-#define DEFINE_BYTE_ARRAY(buf, size)	zip_uint8_t *buf
-#define byte_array_init(buf, size)	(((buf) = (zip_uint8_t *)malloc(size)) != NULL)
-#define byte_array_fini(buf)	(free(buf))
+#define DEFINE_BYTE_ARRAY(buf, size) zip_uint8_t *buf
+#define byte_array_init(buf, size) (((buf) = (zip_uint8_t *)malloc(size)) != NULL)
+#define byte_array_fini(buf) (free(buf))
 #else
-#define DEFINE_BYTE_ARRAY(buf, size)	zip_uint8_t buf[size]
-#define byte_array_init(buf, size)	(1)
-#define byte_array_fini(buf)	((void)0)
+#define DEFINE_BYTE_ARRAY(buf, size) zip_uint8_t buf[size]
+#define byte_array_init(buf, size) (1)
+#define byte_array_fini(buf) ((void)0)
 #endif
 
 
@@ -413,6 +415,11 @@ typedef struct zip_filelist zip_filelist_t;
 
 struct _zip_winzip_aes;
 typedef struct _zip_winzip_aes zip_winzip_aes_t;
+
+struct _zip_pkware_keys {
+    zip_uint32_t key[3];
+};
+typedef struct _zip_pkware_keys zip_pkware_keys_t;
 
 extern const char *const _zip_err_str[];
 extern const int _zip_nerr_str;
@@ -466,7 +473,6 @@ int _zip_buffer_skip(zip_buffer_t *buffer, zip_uint64_t length);
 int _zip_buffer_set_offset(zip_buffer_t *buffer, zip_uint64_t offset);
 zip_uint64_t _zip_buffer_size(zip_buffer_t *buffer);
 
-int _zip_cdir_compute_crc(zip_t *, uLong *);
 void _zip_cdir_free(zip_cdir_t *);
 bool _zip_cdir_grow(zip_cdir_t *cd, zip_uint64_t additional_entries, zip_error_t *error);
 zip_cdir_t *_zip_cdir_new(zip_uint64_t, zip_error_t *);
@@ -474,6 +480,7 @@ zip_int64_t _zip_cdir_write(zip_t *za, const zip_filelist_t *filelist, zip_uint6
 time_t _zip_d2u_time(zip_uint16_t, zip_uint16_t);
 void _zip_deregister_source(zip_t *za, zip_source_t *src);
 
+void _zip_dirent_apply_attributes(zip_dirent_t *, zip_file_attributes_t *, bool, zip_uint32_t);
 zip_dirent_t *_zip_dirent_clone(const zip_dirent_t *);
 void _zip_dirent_free(zip_dirent_t *);
 void _zip_dirent_finalize(zip_dirent_t *);
@@ -512,8 +519,6 @@ int _zip_file_fillbuf(void *, size_t, zip_file_t *);
 zip_uint64_t _zip_file_get_end(const zip_t *za, zip_uint64_t index, zip_error_t *error);
 zip_uint64_t _zip_file_get_offset(const zip_t *, zip_uint64_t, zip_error_t *);
 
-int _zip_filerange_crc(zip_source_t *src, zip_uint64_t offset, zip_uint64_t length, uLong *crcp, zip_error_t *error);
-
 zip_dirent_t *_zip_get_dirent(zip_t *, zip_uint64_t, zip_flags_t, zip_error_t *);
 
 enum zip_encoding_type _zip_guess_encoding(zip_string_t *, enum zip_encoding_type);
@@ -545,7 +550,7 @@ int _zip_read(zip_source_t *src, zip_uint8_t *data, zip_uint64_t length, zip_err
 int _zip_read_at_offset(zip_source_t *src, zip_uint64_t offset, unsigned char *b, size_t length, zip_error_t *error);
 zip_uint8_t *_zip_read_data(zip_buffer_t *buffer, zip_source_t *src, size_t length, bool nulp, zip_error_t *error);
 int _zip_read_local_ef(zip_t *, zip_uint64_t);
-zip_string_t *_zip_read_string(zip_buffer_t *buffer, zip_source_t *src, zip_uint16_t lenght, bool nulp, zip_error_t *error);
+zip_string_t *_zip_read_string(zip_buffer_t *buffer, zip_source_t *src, zip_uint16_t length, bool nulp, zip_error_t *error);
 int _zip_register_source(zip_t *za, zip_source_t *src);
 
 void _zip_set_open_error(int *zep, const zip_error_t *err, int ze);
@@ -554,12 +559,11 @@ bool zip_source_accept_empty(zip_source_t *src);
 zip_int64_t _zip_source_call(zip_source_t *src, void *data, zip_uint64_t length, zip_source_cmd_t command);
 bool _zip_source_eof(zip_source_t *);
 zip_source_t *_zip_source_file_or_p(const char *, FILE *, zip_uint64_t, zip_int64_t, const zip_stat_t *, zip_error_t *error);
-zip_int8_t zip_source_get_compression_flags(zip_source_t *);
 bool _zip_source_had_error(zip_source_t *);
 void _zip_source_invalidate(zip_source_t *src);
 zip_source_t *_zip_source_new(zip_error_t *error);
 int _zip_source_set_source_archive(zip_source_t *, zip_t *);
-zip_source_t *_zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_uint64_t length, zip_stat_t *st, zip_int8_t compression_flags, zip_t *source_archive, zip_uint64_t source_index, zip_error_t *error);
+zip_source_t *_zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_uint64_t length, zip_stat_t *st, zip_file_attributes_t *attributes, zip_t *source_archive, zip_uint64_t source_index, zip_error_t *error);
 zip_source_t *_zip_source_zip_new(zip_t *, zip_t *, zip_uint64_t, zip_flags_t, zip_uint64_t, zip_uint64_t, const char *);
 
 int _zip_stat_merge(zip_stat_t *dst, const zip_stat_t *src, zip_error_t *error);
@@ -575,6 +579,12 @@ bool _zip_winzip_aes_encrypt(zip_winzip_aes_t *ctx, zip_uint8_t *data, zip_uint6
 bool _zip_winzip_aes_finish(zip_winzip_aes_t *ctx, zip_uint8_t *hmac);
 void _zip_winzip_aes_free(zip_winzip_aes_t *ctx);
 zip_winzip_aes_t *_zip_winzip_aes_new(const zip_uint8_t *password, zip_uint64_t password_length, const zip_uint8_t *salt, zip_uint16_t key_size, zip_uint8_t *password_verify, zip_error_t *error);
+
+void _zip_pkware_encrypt(zip_pkware_keys_t *keys, zip_uint8_t *out, const zip_uint8_t *in, zip_uint64_t len);
+void _zip_pkware_decrypt(zip_pkware_keys_t *keys, zip_uint8_t *out, const zip_uint8_t *in, zip_uint64_t len);
+zip_pkware_keys_t *_zip_pkware_keys_new(zip_error_t *error);
+void _zip_pkware_keys_free(zip_pkware_keys_t *keys);
+void _zip_pkware_keys_reset(zip_pkware_keys_t *keys);
 
 int _zip_changed(const zip_t *, zip_uint64_t *);
 const char *_zip_get_name(zip_t *, zip_uint64_t, zip_flags_t, zip_error_t *);

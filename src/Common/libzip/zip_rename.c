@@ -32,8 +32,6 @@
 */
 
 
-#include <string.h>
-
 #define _ZIP_COMPILING_DEPRECATED
 #include "zipint.h"
 

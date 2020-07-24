@@ -61,6 +61,7 @@ typedef struct buffer buffer_t;
 struct read_data {
     zip_error_t error;
     time_t mtime;
+    zip_file_attributes_t attributes;
     buffer_t *in;
     buffer_t *out;
 };
@@ -79,33 +80,42 @@ static zip_int64_t buffer_write(buffer_t *buffer, const zip_uint8_t *data, zip_u
 
 static zip_int64_t read_data(void *, void *, zip_uint64_t, zip_source_cmd_t);
 
+zip_source_t *zip_source_buffer_with_attributes_create(const void *data, zip_uint64_t len, int freep, zip_file_attributes_t *attributes, zip_error_t *error);
+zip_source_t *zip_source_buffer_fragment_with_attributes_create(const zip_buffer_fragment_t *fragments, zip_uint64_t nfragments, int freep, zip_file_attributes_t *attributes, zip_error_t *error);
+
 
 ZIP_EXTERN zip_source_t *
 zip_source_buffer(zip_t *za, const void *data, zip_uint64_t len, int freep) {
     if (za == NULL)
 	return NULL;
 
-    return zip_source_buffer_create(data, len, freep, &za->error);
+    return zip_source_buffer_with_attributes_create(data, len, freep, NULL, &za->error);
 }
 
 
 ZIP_EXTERN zip_source_t *
 zip_source_buffer_create(const void *data, zip_uint64_t len, int freep, zip_error_t *error) {
+    return zip_source_buffer_with_attributes_create(data, len, freep, NULL, error);
+}
+
+
+zip_source_t *
+zip_source_buffer_with_attributes_create(const void *data, zip_uint64_t len, int freep, zip_file_attributes_t *attributes, zip_error_t *error) {
     zip_buffer_fragment_t fragment;
 
     if (data == NULL) {
-        if (len > 0) {
-            zip_error_set(error, ZIP_ER_INVAL, 0);
-            return NULL;
-        }
+	if (len > 0) {
+	    zip_error_set(error, ZIP_ER_INVAL, 0);
+	    return NULL;
+	}
 
-        return zip_source_buffer_fragment_create(NULL, 0, freep, error);
+	return zip_source_buffer_fragment_with_attributes_create(NULL, 0, freep, attributes, error);
     }
 
     fragment.data = (zip_uint8_t *)data;
     fragment.length = len;
 
-    return zip_source_buffer_fragment_create(&fragment, 1, freep, error);
+    return zip_source_buffer_fragment_with_attributes_create(&fragment, 1, freep, attributes, error);
 }
 
 
@@ -115,12 +125,17 @@ zip_source_buffer_fragment(zip_t *za, const zip_buffer_fragment_t *fragments, zi
 	return NULL;
     }
 
-    return zip_source_buffer_fragment_create(fragments, nfragments, freep, &za->error);
+    return zip_source_buffer_fragment_with_attributes_create(fragments, nfragments, freep, NULL, &za->error);
 }
 
 
 ZIP_EXTERN zip_source_t *
 zip_source_buffer_fragment_create(const zip_buffer_fragment_t *fragments, zip_uint64_t nfragments, int freep, zip_error_t *error) {
+    return zip_source_buffer_fragment_with_attributes_create(fragments, nfragments, freep, NULL, error);
+}
+
+zip_source_t *
+zip_source_buffer_fragment_with_attributes_create(const zip_buffer_fragment_t *fragments, zip_uint64_t nfragments, int freep, zip_file_attributes_t *attributes, zip_error_t *error) {
     struct read_data *ctx;
     zip_source_t *zs;
     buffer_t *buffer;
@@ -143,6 +158,12 @@ zip_source_buffer_fragment_create(const zip_buffer_fragment_t *fragments, zip_ui
     ctx->in = buffer;
     ctx->out = NULL;
     ctx->mtime = time(NULL);
+    if (attributes) {
+	memcpy(&ctx->attributes, attributes, sizeof(ctx->attributes));
+    }
+    else {
+	zip_file_attributes_init(&ctx->attributes);
+    }
     zip_error_init(&ctx->error);
 
     if ((zs = zip_source_function_create(read_data, ctx, error)) == NULL) {
@@ -154,6 +175,11 @@ zip_source_buffer_fragment_create(const zip_buffer_fragment_t *fragments, zip_ui
     return zs;
 }
 
+
+zip_source_t *
+zip_source_buffer_with_attributes(zip_t *za, const void *data, zip_uint64_t len, int freep, zip_file_attributes_t *attributes) {
+    return zip_source_buffer_with_attributes_create(data, len, freep, attributes, &za->error);
+}
 
 static zip_int64_t
 read_data(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
@@ -193,6 +219,17 @@ read_data(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
 	buffer_free(ctx->out);
 	free(ctx);
 	return 0;
+
+    case ZIP_SOURCE_GET_FILE_ATTRIBUTES: {
+	if (len < sizeof(ctx->attributes)) {
+	    zip_error_set(&ctx->error, ZIP_ER_INVAL, 0);
+	    return -1;
+	}
+
+	memcpy(data, &ctx->attributes, sizeof(ctx->attributes));
+
+	return sizeof(ctx->attributes);
+    }
 
     case ZIP_SOURCE_OPEN:
 	ctx->in->offset = 0;
@@ -250,7 +287,7 @@ read_data(void *state, void *data, zip_uint64_t len, zip_source_cmd_t cmd) {
     }
 
     case ZIP_SOURCE_SUPPORTS:
-	return zip_source_make_command_bitmap(ZIP_SOURCE_OPEN, ZIP_SOURCE_READ, ZIP_SOURCE_CLOSE, ZIP_SOURCE_STAT, ZIP_SOURCE_ERROR, ZIP_SOURCE_FREE, ZIP_SOURCE_SEEK, ZIP_SOURCE_TELL, ZIP_SOURCE_BEGIN_WRITE, ZIP_SOURCE_BEGIN_WRITE_CLONING, ZIP_SOURCE_COMMIT_WRITE, ZIP_SOURCE_REMOVE, ZIP_SOURCE_ROLLBACK_WRITE, ZIP_SOURCE_SEEK_WRITE, ZIP_SOURCE_TELL_WRITE, ZIP_SOURCE_WRITE, -1);
+	return zip_source_make_command_bitmap(ZIP_SOURCE_GET_FILE_ATTRIBUTES, ZIP_SOURCE_OPEN, ZIP_SOURCE_READ, ZIP_SOURCE_CLOSE, ZIP_SOURCE_STAT, ZIP_SOURCE_ERROR, ZIP_SOURCE_FREE, ZIP_SOURCE_SEEK, ZIP_SOURCE_TELL, ZIP_SOURCE_BEGIN_WRITE, ZIP_SOURCE_BEGIN_WRITE_CLONING, ZIP_SOURCE_COMMIT_WRITE, ZIP_SOURCE_REMOVE, ZIP_SOURCE_ROLLBACK_WRITE, ZIP_SOURCE_SEEK_WRITE, ZIP_SOURCE_TELL_WRITE, ZIP_SOURCE_WRITE, -1);
 
     case ZIP_SOURCE_TELL:
 	if (ctx->in->offset > ZIP_INT64_MAX) {

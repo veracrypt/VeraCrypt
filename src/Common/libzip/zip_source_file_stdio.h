@@ -1,6 +1,9 @@
+#ifndef _HAD_ZIP_SOURCE_FILE_STDIO_H
+#define _HAD_ZIP_SOURCE_FILE_STDIO_H
+
 /*
-  zip_source_file.c -- create data source from file
-  Copyright (C) 1999-2019 Dieter Baron and Thomas Klausner
+  zip_source_file_stdio.h -- common header for stdio file implementation
+  Copyright (C) 2020 Dieter Baron and Thomas Klausner
 
   This file is part of libzip, a library to manipulate ZIP archives.
   The authors can be contacted at <libzip@nih.at>
@@ -31,31 +34,14 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #include <stdio.h>
 
-#include "zipint.h"
+void _zip_stdio_op_close(zip_source_file_context_t *ctx);
+zip_int64_t _zip_stdio_op_read(zip_source_file_context_t *ctx, void *buf, zip_uint64_t len);
+bool _zip_stdio_op_seek(zip_source_file_context_t *ctx, void *f, zip_int64_t offset, int whence);
+bool _zip_stdio_op_stat(zip_source_file_context_t *ctx, zip_source_file_stat_t *st);
+zip_int64_t _zip_stdio_op_tell(zip_source_file_context_t *ctx, void *f);
 
-#ifdef _WIN32
-#error This file is incompatible with Windows, use zip_source_win32utf8.c instead.
-#error Something probably went wrong with configure/cmake.
-#endif
+FILE *_zip_fopen_close_on_exec(const char *name, bool writeable);
 
-ZIP_EXTERN zip_source_t *
-zip_source_file(zip_t *za, const char *fname, zip_uint64_t start, zip_int64_t len) {
-    if (za == NULL)
-	return NULL;
-
-    return zip_source_file_create(fname, start, len, &za->error);
-}
-
-
-ZIP_EXTERN zip_source_t *
-zip_source_file_create(const char *fname, zip_uint64_t start, zip_int64_t length, zip_error_t *error) {
-    if (fname == NULL || length < -1) {
-	zip_error_set(error, ZIP_ER_INVAL, 0);
-	return NULL;
-    }
-
-    return _zip_source_file_or_p(fname, NULL, start, length, NULL, error);
-}
+#endif /* _HAD_ZIP_SOURCE_FILE_STDIO_H */

@@ -48,7 +48,7 @@ struct window {
     zip_uint64_t offset; /* offset in src for next read */
 
     zip_stat_t stat;
-    zip_int8_t compression_flags;
+    zip_file_attributes_t attributes;
     zip_error_t error;
     zip_int64_t supports;
     bool needs_seek;
@@ -64,7 +64,7 @@ zip_source_window(zip_t *za, zip_source_t *src, zip_uint64_t start, zip_uint64_t
 
 
 zip_source_t *
-_zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_uint64_t length, zip_stat_t *st, zip_int8_t compression_flags, zip_t *source_archive, zip_uint64_t source_index, zip_error_t *error) {
+_zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_uint64_t length, zip_stat_t *st, zip_file_attributes_t *attributes, zip_t *source_archive, zip_uint64_t source_index, zip_error_t *error) {
     struct window *ctx;
 
     if (src == NULL || start + length < start || (source_archive == NULL && source_index != 0)) {
@@ -80,11 +80,16 @@ _zip_source_window_new(zip_source_t *src, zip_uint64_t start, zip_uint64_t lengt
     ctx->start = start;
     ctx->end = start + length;
     zip_stat_init(&ctx->stat);
-    ctx->compression_flags = compression_flags;
+    if (attributes != NULL) {
+	memcpy(&ctx->attributes, attributes, sizeof(ctx->attributes));
+    }
+    else {
+	zip_file_attributes_init(&ctx->attributes);
+    }
     ctx->source_archive = source_archive;
     ctx->source_index = source_index;
     zip_error_init(&ctx->error);
-    ctx->supports = (zip_source_supports(src) & ZIP_SOURCE_SUPPORTS_SEEKABLE) | (zip_source_make_command_bitmap(ZIP_SOURCE_GET_COMPRESSION_FLAGS, ZIP_SOURCE_SUPPORTS, ZIP_SOURCE_TELL, -1));
+    ctx->supports = (zip_source_supports(src) & ZIP_SOURCE_SUPPORTS_SEEKABLE) | (zip_source_make_command_bitmap(ZIP_SOURCE_GET_FILE_ATTRIBUTES, ZIP_SOURCE_SUPPORTS, ZIP_SOURCE_TELL, -1));
     ctx->needs_seek = (ctx->supports & ZIP_SOURCE_MAKE_COMMAND_BITMASK(ZIP_SOURCE_SEEK)) ? true : false;
 
     if (st) {
@@ -173,7 +178,7 @@ window_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_sou
 		    return -1;
 		}
 	    }
-	    
+
 	    byte_array_fini(b);
 	}
 
@@ -231,8 +236,14 @@ window_read(zip_source_t *src, void *_ctx, void *data, zip_uint64_t len, zip_sou
 	return 0;
     }
 
-    case ZIP_SOURCE_GET_COMPRESSION_FLAGS:
-	return ctx->compression_flags;
+    case ZIP_SOURCE_GET_FILE_ATTRIBUTES:
+	if (len < sizeof(ctx->attributes)) {
+	    zip_error_set(&ctx->error, ZIP_ER_INVAL, 0);
+	    return -1;
+	}
+
+	memcpy(data, &ctx->attributes, sizeof(ctx->attributes));
+	return sizeof(ctx->attributes);
 
     case ZIP_SOURCE_SUPPORTS:
 	return ctx->supports;

@@ -39,10 +39,7 @@ zip_encryption_implementation
 _zip_get_encryption_implementation(zip_uint16_t em, int operation) {
     switch (em) {
     case ZIP_EM_TRAD_PKWARE:
-	if (operation == ZIP_CODEC_ENCODE) {
-	    return NULL;
-	}
-	return zip_source_pkware;
+	return operation == ZIP_CODEC_DECODE ? zip_source_pkware_decode : zip_source_pkware_encode;
 
 #if defined(HAVE_CRYPTO)
     case ZIP_EM_AES_128:
@@ -54,4 +51,12 @@ _zip_get_encryption_implementation(zip_uint16_t em, int operation) {
     default:
 	return NULL;
     }
+}
+
+ZIP_EXTERN int
+zip_encryption_method_supported(zip_uint16_t method, int encode) {
+    if (method == ZIP_EM_NONE) {
+	return 1;
+    }
+    return _zip_get_encryption_implementation(method, encode ? ZIP_CODEC_ENCODE : ZIP_CODEC_DECODE) != NULL;
 }
