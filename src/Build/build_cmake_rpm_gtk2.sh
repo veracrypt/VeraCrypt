@@ -1,4 +1,10 @@
 #!/bin/sh
+#
+# Copyright (c) 2013-2020 IDRIX
+# Governed by the Apache License 2.0 the full text of which is contained
+# in the file License.txt included in VeraCrypt binary and source
+# code distribution packages.
+#
 
 # Errors should cause script to exit
 set -e
@@ -12,8 +18,8 @@ export SOURCEPATH=$(readlink -f "$SCRIPTPATH/..")
 # Directory where the VeraCrypt has been checked out
 export PARENTDIR=$(readlink -f "$SCRIPTPATH/../../..")
 
-# The sources of wxWidgets 3.0.4 must be extracted to the parent directory
-export WX_ROOT=$PARENTDIR/wxWidgets-3.0.4
+# The sources of wxWidgets 3.0.5 must be extracted to the parent directory
+export WX_ROOT=$PARENTDIR/wxWidgets-3.0.5
 echo "Using wxWidgets sources in $WX_ROOT"
 
 cd $SOURCEPATH
