@@ -5633,8 +5633,24 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (hw == CBN_EDITCHANGE && nCurPageNo == VOLUME_LOCATION_PAGE)
 		{
+			BOOL bValidEntry = (GetWindowTextLength (GetDlgItem (hCurPage, IDC_COMBO_BOX)) > 0)? TRUE : FALSE;
+
+			if (bValidEntry && !bDevice)
+			{
+				/* check that the entered path is not for an existing directory */
+				WCHAR szEnteredFilePath[TC_MAX_PATH + 1] = {0};
+				GetWindowTextW (GetDlgItem (hCurPage, IDC_COMBO_BOX), szEnteredFilePath, ARRAYSIZE (szEnteredFilePath));
+				RelativePath2Absolute (szEnteredFilePath);
+
+				DWORD dwAttr = GetFileAttributes (szEnteredFilePath);
+				if ((dwAttr != INVALID_FILE_ATTRIBUTES) && (dwAttr & FILE_ATTRIBUTE_DIRECTORY))
+				{
+					/* this is a directory. Consider it as invalid */
+					bValidEntry = FALSE;
+				}
+			}
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT),
-				GetWindowTextLength (GetDlgItem (hCurPage, IDC_COMBO_BOX)) > 0);
+				bValidEntry);
 
 			bDeviceTransformModeChoiceMade = FALSE;
 			bInPlaceEncNonSys = FALSE;
