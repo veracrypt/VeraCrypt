@@ -13887,7 +13887,7 @@ BOOL VerifyModuleSignature (const wchar_t* path)
 	WVTData.dwProvFlags         = WTD_REVOCATION_CHECK_NONE | WTD_CACHE_ONLY_URL_RETRIEVAL;
 
 	hResult = WinVerifyTrustFn(0, &gActionID, &WVTData);
-	if (SUCCEEDED (hResult))
+	if (0 == hResult)
 	{
 		PCRYPT_PROVIDER_DATA pProviderData = WTHelperProvDataFromStateDataFn (WVTData.hWVTStateData);
 		if (pProviderData)
