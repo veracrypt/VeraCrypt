@@ -14313,10 +14313,12 @@ BOOL IsElevated()
 
 // This function always loads a URL in a non-privileged mode
 // If current process has admin privileges, we execute the command "rundll32 url.dll,FileProtocolHandler URL" as non-elevated
-// Use this security mechanism only starting from Windows Vista
+// Use this security mechanism only starting from Windows Vista and only if we can get the window of the Shell's desktop since
+// we rely on the Shell to be already running in a non-privileges mode. If the Shell is not running or if it has been modified,
+// then we can't protect the user in such non standard environment
 void SafeOpenURL (LPCWSTR szUrl)
 {
-	if (IsOSAtLeast (WIN_VISTA) && IsAdmin () && IsElevated())
+	if (IsOSAtLeast (WIN_VISTA) && IsAdmin () && IsElevated() && GetShellWindow())
 	{
 		WCHAR szRunDllPath[TC_MAX_PATH];
 		WCHAR szUrlDllPath[TC_MAX_PATH];
