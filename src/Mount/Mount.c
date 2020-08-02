@@ -12088,15 +12088,18 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled);
 					SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, bAutoFixBootloader? FALSE : TRUE);
-					if (bSystemIsGPT && !IsHiddenOSRunning ())
+					if (!IsHiddenOSRunning ())
 					{
 						/* we don't need to update TRIM config for hidden OS since it's always blocked */
 						SetDriverConfigurationFlag (VC_DRIVER_CONFIG_BLOCK_SYS_TRIM, bBlockSysEncTrimEnabled);
 
-						/* we don't update bootloader settings since we never update bootloader under Hidden OS */
-						SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT, bForceVeraCryptNextBoot);
-						SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY, bForceSetVeraCryptBootEntry? FALSE : TRUE);
-						SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY, bForceVeraCryptFirstEntry? FALSE : TRUE);
+						if (bSystemIsGPT)
+						{
+							/* we don't update bootloader settings since we never update bootloader under Hidden OS */
+							SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT, bForceVeraCryptNextBoot);
+							SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY, bForceSetVeraCryptBootEntry? FALSE : TRUE);
+							SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY, bForceVeraCryptFirstEntry? FALSE : TRUE);
+						}
 					}
 				}
 				catch (Exception &e)
