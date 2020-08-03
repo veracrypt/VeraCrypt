@@ -39,13 +39,14 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.24-Update7</strong>(July 22<sup>nd</sup>, 2020):</p>
+<p><strong style="text-align:left">1.24-Update7</strong>(August 3<sup>rd</sup>, 2020):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
 <li>Don't allow Hidden volume to have the same password, PIM and keyfiles as Outer volume</li>
 <li>Fix random crash in 32-bit builds when using Streebog.</li>
 <li>Enable FIPS mode in JitterEntropy random generator.</li>
+<li>Update Beginner's Tutorial in documentation to use "MyVolume.hc" instead of "My Volume" for file container name in order to avoid confusion about nature of file nature.</li>
 <li>Minor code cleanup</li>
 </ul>
 </li>
@@ -53,6 +54,7 @@
 <ul>
 <li>Fix wrong results in benchmark of encryption algorithms when RAM encryption is enabled</li>
 <li>Fix issue when RAM encryption used, AES selected and AES-NI not supported by CPU that caused the free space of newly created volumes not filled with random data even if "quick format" is not selected.</li>
+<li>Fix UI for blocking TRIM in system encryption not working in MBR boot mode.</li>
 <li>Support password drag-n-drop from external applications (e.g. KeePass) to password UI fields which is more secure than using clipboard.</li>
 <li>Implements compatibility with Windows 10 Modern Standby and Windows 8.1 Connected Standby power model. This makes detection of entring power saving mode more reliable.</li>
 <li>Avoid displaying waiting dialog when /silent specified for "VeraCrypt Format" during creating of file container using /create switch and a filesystem other than FAT.</li>
@@ -62,6 +64,10 @@
 <li>Implement detection of Hibernate and Fast Startup and disable them if RAM encryption is activated.</li>
 <li>Warn about Fast Startup if it is enabled during VeraCrypt installation/upgrade, when starting system encryption or when creating a volume, and propose to disable it.</li>
 <li>Add UI options to control the behavior of automatic bootloader fixing when System Encryption used.</li>
+<li>Don't allow a directory path to be entered for the file container to be created in Format wizard.</li>
+<li>Don't try to use fix for CVE-2019-19501 if Windows Shell has been modified or is not running since there is no reliable way to fix it in such non standard configuation.</li>
+<li>MBR bootloader: fix incorrect compressed data size passed to decompressor in boot sector.</li>
+<li>Update libzip to latest version 1.7.3.</li>
 <li>Update translations.</li>
 </ul>
 </li>
@@ -70,6 +76,7 @@
 <li>Force reading of at least 32 bytes from /dev/random before allowing it to fail gracefully</li>
 <li>Allow choosing a filesystem other than FAT for Outer volume but display warning about risks of such choice. Implement an estimation of maximum possible size of hidden volume in this case.</li>
 <li>Erase sensitive memory explicitly instead of relying on the compiler not optimizing calls to method Memory::Erase.</li>
+<li>Update wxWidgets for static builds to version 3.0.5.</li>
 </ul>
 </li>
 </ul>
