@@ -139,7 +139,7 @@ checksum_ok:
 	push dx
 
 	; Decompress boot loader
-	mov cx, word ptr [start + TC_BOOT_SECTOR_LOADER_LENGTH_OFFSET]
+	mov cx, word ptr cs:[start + TC_BOOT_SECTOR_LOADER_LENGTH_OFFSET]
 	sub cx, TC_GZIP_HEADER_SIZE
 	push cx																		; Compressed data size
 	push TC_BOOT_LOADER_COMPRESSED_BUFFER_OFFSET + TC_GZIP_HEADER_SIZE			; Compressed data
