@@ -319,6 +319,7 @@ BOOL InstanceHasAppSetupMutex (void);
 void CloseAppSetupMutex (void);
 BOOL IsTrueCryptInstallerRunning (void);
 uint32 ReadDriverConfigurationFlags ();
+uint32 ReadServiceConfigurationFlags ();
 uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ();
 BOOL LoadSysEncSettings ();
 int LoadNonSysInPlaceEncSettings (WipeAlgorithmId *wipeAlgorithm);

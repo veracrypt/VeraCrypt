@@ -11310,6 +11310,11 @@ void SetDriverConfigurationFlag (uint32 flag, BOOL state)
 		BootEncObj->SetDriverConfigurationFlag (flag, state ? true : false);
 }
 
+void SetServiceConfigurationFlag (uint32 flag, BOOL state)
+{
+	if (BootEncObj)
+		BootEncObj->SetServiceConfigurationFlag (flag, state ? true : false);
+}
 
 static BOOL CALLBACK PerformanceSettingsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -11848,6 +11853,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 			{
 				LocalizeDialog (hwndDlg, "IDD_SYSENC_SETTINGS");
 				uint32 driverConfig = ReadDriverConfigurationFlags();
+				uint32 serviceConfig = ReadServiceConfigurationFlags();
 				byte userConfig;
 				string customUserMessage;
 				uint16 bootLoaderVersion = 0;
@@ -11855,15 +11861,15 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 				BOOL bPimCacheEnabled = (driverConfig & TC_DRIVER_CONFIG_CACHE_BOOT_PIM)? TRUE : FALSE;
 				BOOL bBlockSysEncTrimEnabled = (driverConfig & VC_DRIVER_CONFIG_BLOCK_SYS_TRIM)? TRUE : FALSE;
 				BOOL bClearKeysEnabled = (driverConfig & VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION)? TRUE : FALSE;
-				BOOL bAutoFixBootloader = (driverConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER)? FALSE : TRUE;
+				BOOL bAutoFixBootloader = (serviceConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER)? FALSE : TRUE;
 				BOOL bForceVeraCryptNextBoot = FALSE;
 				BOOL bForceSetVeraCryptBootEntry = TRUE;
 				BOOL bForceVeraCryptFirstEntry = TRUE;
 				if (bSystemIsGPT)
 				{
-					bForceVeraCryptNextBoot = (driverConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)? TRUE : FALSE;
-					bForceSetVeraCryptBootEntry = (driverConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)? FALSE : TRUE;
-					bForceVeraCryptFirstEntry = (driverConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)? FALSE : TRUE;
+					bForceVeraCryptNextBoot = (serviceConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)? TRUE : FALSE;
+					bForceSetVeraCryptBootEntry = (serviceConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)? FALSE : TRUE;
+					bForceVeraCryptFirstEntry = (serviceConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)? FALSE : TRUE;
 				}
 
 				BOOL bIsHiddenOS = IsHiddenOSRunning ();
@@ -11941,7 +11947,8 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 						EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY), FALSE);
 						EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY), FALSE);
 					}
-					else
+					
+					if (!bIsHiddenOS)
 					{
 						CheckDlgButton (hwndDlg, IDC_FORCE_NEXT_BOOT_VERACRYPT, bForceVeraCryptNextBoot? BST_CHECKED : BST_UNCHECKED);
 						CheckDlgButton (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY, bForceSetVeraCryptBootEntry? BST_CHECKED : BST_UNCHECKED);
@@ -12087,7 +12094,7 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_CACHE_BOOT_PIM, (bPasswordCacheEnabled && bPimCacheEnabled)? TRUE : FALSE);
 					SetDriverConfigurationFlag (TC_DRIVER_CONFIG_DISABLE_EVIL_MAID_ATTACK_DETECTION, IsDlgButtonChecked (hwndDlg, IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION));
 					SetDriverConfigurationFlag (VC_DRIVER_CONFIG_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION, bClearKeysEnabled);
-					SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, bAutoFixBootloader? FALSE : TRUE);
+					SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_UPDATE_LOADER, bAutoFixBootloader? FALSE : TRUE);
 					if (!IsHiddenOSRunning ())
 					{
 						/* we don't need to update TRIM config for hidden OS since it's always blocked */
@@ -12095,10 +12102,13 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 
 						if (bSystemIsGPT)
 						{
-							/* we don't update bootloader settings since we never update bootloader under Hidden OS */
-							SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT, bForceVeraCryptNextBoot);
-							SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY, bForceSetVeraCryptBootEntry? FALSE : TRUE);
-							SetDriverConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY, bForceVeraCryptFirstEntry? FALSE : TRUE);
+							if (bAutoFixBootloader)
+							{
+								/* we update bootloader settings only if the autofix option is enabled */
+								SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT, bForceVeraCryptNextBoot);
+								SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY, bForceSetVeraCryptBootEntry? FALSE : TRUE);
+								SetServiceConfigurationFlag (VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY, bForceVeraCryptFirstEntry? FALSE : TRUE);
+							}
 						}
 					}
 				}
@@ -12163,31 +12173,16 @@ static BOOL CALLBACK BootLoaderPreferencesDlgProc (HWND hwndDlg, UINT msg, WPARA
 			break;
 
 		case IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN:
-			if (bSystemIsGPT)
+			if (bSystemIsGPT && !IsHiddenOSRunning ())
 			{
 				if (IsDlgButtonChecked (hwndDlg, IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN))
 				{
-					if (!IsHiddenOSRunning ())
-					{
-						uint32 driverConfig = ReadDriverConfigurationFlags();
-						BOOL bForceVeraCryptNextBoot = (driverConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_FORCE_SET_BOOTNEXT)? TRUE : FALSE;
-						BOOL bForceSetVeraCryptBootEntry = (driverConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_SET_BOOTENTRY)? FALSE : TRUE;
-						BOOL bForceVeraCryptFirstEntry = (driverConfig & VC_SYSTEM_FAVORITES_SERVICE_CONFIG_DONT_FORCE_FIRST_BOOTENTRY)? FALSE : TRUE;
-
-						EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_NEXT_BOOT_VERACRYPT), TRUE);
-						EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY), TRUE);
-						EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY), TRUE);
-
-						CheckDlgButton (hwndDlg, IDC_FORCE_NEXT_BOOT_VERACRYPT, bForceVeraCryptNextBoot? BST_CHECKED : BST_UNCHECKED);
-						CheckDlgButton (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY, bForceSetVeraCryptBootEntry? BST_CHECKED : BST_UNCHECKED);
-						CheckDlgButton (hwndDlg, IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY, bForceVeraCryptFirstEntry? BST_CHECKED : BST_UNCHECKED);
-					}
+					EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_NEXT_BOOT_VERACRYPT), TRUE);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY), TRUE);
+					EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY), TRUE);
 				}
 				else
 				{
-					CheckDlgButton (hwndDlg, IDC_FORCE_NEXT_BOOT_VERACRYPT, BST_UNCHECKED);
-					CheckDlgButton (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY, BST_UNCHECKED);
-					CheckDlgButton (hwndDlg, IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY, BST_UNCHECKED);
 					EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_NEXT_BOOT_VERACRYPT), FALSE);
 					EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_BOOT_ENTRY), FALSE);
 					EnableWindow (GetDlgItem (hwndDlg, IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY), FALSE);

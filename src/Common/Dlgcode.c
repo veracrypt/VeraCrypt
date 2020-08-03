@@ -2645,6 +2645,16 @@ uint32 ReadDriverConfigurationFlags ()
 	return configMap;
 }
 
+uint32 ReadServiceConfigurationFlags ()
+{
+	DWORD configMap;
+
+	if (!ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Services\\" TC_SYSTEM_FAVORITES_SERVICE_NAME, TC_SYSTEM_FAVORITES_SERVICE_NAME L"Config", &configMap))
+		configMap = 0;
+
+	return configMap;
+}
+
 
 uint32 ReadEncryptionThreadPoolFreeCpuCountLimit ()
 {
