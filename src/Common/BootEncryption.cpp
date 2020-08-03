@@ -3498,7 +3498,7 @@ namespace VeraCrypt
 				EfiBootInst.SaveFile(L"\\EFI\\VeraCrypt\\DcsInfo.dcs", DcsInfoImg, sizeDcsInfo);
 				if (!preserveUserConfig)
 					EfiBootInst.DelFile(L"\\EFI\\VeraCrypt\\PlatformInfo");
-				EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi");
+				EfiBootInst.SetStartExec(L"VeraCrypt BootLoader (DcsBoot)", L"\\EFI\\VeraCrypt\\DcsBoot.efi", SetBootEntry, ForceFirstBootEntry, SetBootNext);
 
 				if (EfiBootInst.FileExists (szStdEfiBootloader))
 				{
