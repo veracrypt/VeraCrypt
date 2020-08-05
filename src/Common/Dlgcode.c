@@ -13251,7 +13251,6 @@ BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL 
 		passValue [0] = 0;
 		if (bShowError)
 		{
-			SetFocus (GetDlgItem(hwndDlg, ctrlID));
 			if (GetLastError () == ERROR_INSUFFICIENT_BUFFER)
 			{
 				DWORD dwTextSize = (DWORD) wcslen (GetString ("PASSWORD_UTF8_TOO_LONG")) + 16;
@@ -13266,6 +13265,7 @@ BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL 
 			}
 			else
 				Error ("PASSWORD_UTF8_INVALID", hwndDlg);
+			SetFocus (GetDlgItem(hwndDlg, ctrlID));
 		}
 	}
 
