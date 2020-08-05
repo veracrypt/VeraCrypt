@@ -16,6 +16,11 @@
 #include "Platform/Platform.h"
 #include "Volume/Volume.h"
 #include "RandomNumberGenerator.h"
+#if defined (TC_LINUX)
+#include "Platform/Unix/Process.h"
+#endif
+
+#define VC_MIN_BTRFS_VOLUME_SIZE 114294784ULL
 
 namespace VeraCrypt
 {
@@ -44,6 +49,7 @@ namespace VeraCrypt
 				Ext2,
 				Ext3,
 				Ext4,
+				Btrfs,
 				MacOsExt,
 				APFS,
 				UFS
@@ -62,6 +68,55 @@ namespace VeraCrypt
 #else
 				return VolumeCreationOptions::FilesystemType::FAT;
 #endif
+			}
+
+			static const char* GetFsFormatter (VolumeCreationOptions::FilesystemType::Enum fsType)
+			{
+				switch (fsType)
+				{
+	#if defined (TC_LINUX)
+				case VolumeCreationOptions::FilesystemType::Ext2:		return "mkfs.ext2";
+				case VolumeCreationOptions::FilesystemType::Ext3:		return "mkfs.ext3";
+				case VolumeCreationOptions::FilesystemType::Ext4:		return "mkfs.ext4";
+				case VolumeCreationOptions::FilesystemType::NTFS:		return "mkfs.ntfs";
+				case VolumeCreationOptions::FilesystemType::exFAT:		return "mkfs.exfat";
+				case VolumeCreationOptions::FilesystemType::Btrfs:		return "mkfs.btrfs";
+	#elif defined (TC_MACOSX)
+				case VolumeCreationOptions::FilesystemType::MacOsExt:	return "newfs_hfs";
+				case VolumeCreationOptions::FilesystemType::exFAT:		return "newfs_exfat";
+				case VolumeCreationOptions::FilesystemType::APFS:		return "newfs_apfs";
+	#elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
+				case VolumeCreationOptions::FilesystemType::UFS:		return "newfs" ;
+	#endif
+				default: return NULL;
+				}
+			}
+
+			static bool IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::Enum fsType)
+			{
+				bool bRet = false;
+				const char* fsFormatter = GetFsFormatter (fsType);
+				if (fsFormatter)
+				{
+#if defined (TC_LINUX)
+					try
+					{
+						list <string> args;
+
+						args.push_back ("-V");
+						Process::Execute (fsFormatter, args);
+
+						bRet = true;
+					}
+					catch (exception &e)
+					{
+					}
+#else
+					bRet = true;
+#endif
+				}
+
+				return bRet;
 			}
 		};
 

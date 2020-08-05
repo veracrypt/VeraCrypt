@@ -35,9 +35,19 @@ namespace VeraCrypt
 #elif defined (TC_LINUX)
 		FilesystemTypeChoice->Append (L"Linux Ext2",		(void *) VolumeCreationOptions::FilesystemType::Ext2);
 		FilesystemTypeChoice->Append (L"Linux Ext3",		(void *) VolumeCreationOptions::FilesystemType::Ext3);
-		FilesystemTypeChoice->Append (L"Linux Ext4",		(void *) VolumeCreationOptions::FilesystemType::Ext4);
-		FilesystemTypeChoice->Append (L"NTFS",				(void *) VolumeCreationOptions::FilesystemType::NTFS);
-		FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
+		if (VolumeCreationOptions::FilesystemType::IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::Ext4))
+			FilesystemTypeChoice->Append (L"Linux Ext4",		(void *) VolumeCreationOptions::FilesystemType::Ext4);		
+		if (VolumeCreationOptions::FilesystemType::IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::NTFS))
+			FilesystemTypeChoice->Append (L"NTFS",				(void *) VolumeCreationOptions::FilesystemType::NTFS);
+		if (VolumeCreationOptions::FilesystemType::IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::exFAT))
+			FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
+		if (VolumeCreationOptions::FilesystemType::IsFsFormatterPresent (VolumeCreationOptions::FilesystemType::Btrfs))
+		{
+			uint64 minVolumeSizeForBtrfs = VC_MIN_BTRFS_VOLUME_SIZE + (uint64) (VC_MAX (TC_TOTAL_VOLUME_HEADERS_SIZE, TC_HIDDEN_VOLUME_HOST_FS_RESERVED_END_AREA_SIZE_HIGH));
+			// minimum size to be able to format as Btrfs is 114294784 bytes
+			if (volumeSize >= minVolumeSizeForBtrfs)
+				FilesystemTypeChoice->Append (L"Btrfs",				(void *) VolumeCreationOptions::FilesystemType::Btrfs);
+		}
 #elif defined (TC_MACOSX)
 		FilesystemTypeChoice->Append (L"Mac OS Extended",	(void *) VolumeCreationOptions::FilesystemType::MacOsExt);
 		FilesystemTypeChoice->Append (L"exFAT",				(void *) VolumeCreationOptions::FilesystemType::exFAT);
@@ -83,6 +93,7 @@ namespace VeraCrypt
 		case VolumeCreationOptions::FilesystemType::Ext2:		FilesystemTypeChoice->SetStringSelection (L"Linux Ext2"); break;
 		case VolumeCreationOptions::FilesystemType::Ext3:		FilesystemTypeChoice->SetStringSelection (L"Linux Ext3"); break;
 		case VolumeCreationOptions::FilesystemType::Ext4:		FilesystemTypeChoice->SetStringSelection (L"Linux Ext4"); break;
+		case VolumeCreationOptions::FilesystemType::Btrfs:		FilesystemTypeChoice->SetStringSelection (L"Btrfs"); break;
 		case VolumeCreationOptions::FilesystemType::MacOsExt:	FilesystemTypeChoice->SetStringSelection (L"Mac OS Extended"); break;
 		case VolumeCreationOptions::FilesystemType::APFS:		FilesystemTypeChoice->SetStringSelection (L"APFS"); break;
 		case VolumeCreationOptions::FilesystemType::UFS:		FilesystemTypeChoice->SetStringSelection (L"UFS"); break;

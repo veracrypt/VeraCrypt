@@ -318,6 +318,8 @@ namespace VeraCrypt
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::NTFS;
 				else if (str.IsSameAs (L"exFAT", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
+				else if (str.IsSameAs (L"Btrfs", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::Btrfs;
 #elif defined (TC_MACOSX)
 				else if (	str.IsSameAs (L"HFS", false)
 						|| 	str.IsSameAs (L"HFS+", false)
@@ -328,6 +330,8 @@ namespace VeraCrypt
 				}
 				else if (str.IsSameAs (L"exFAT", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::exFAT;
+				else if (str.IsSameAs (L"Btrfs", false))
+					ArgFilesystem = VolumeCreationOptions::FilesystemType::Btrfs;
 				else if (str.IsSameAs (L"APFS", false))
 					ArgFilesystem = VolumeCreationOptions::FilesystemType::APFS;
 #elif defined (TC_FREEBSD) || defined (TC_SOLARIS)

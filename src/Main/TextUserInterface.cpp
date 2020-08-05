@@ -785,6 +785,7 @@ namespace VeraCrypt
 				ShowInfo (L" 5) Linux Ext4"); filesystems.push_back (VolumeCreationOptions::FilesystemType::Ext4);
 				ShowInfo (L" 6) NTFS");       filesystems.push_back (VolumeCreationOptions::FilesystemType::NTFS);
 				ShowInfo (L" 7) exFAT");      filesystems.push_back (VolumeCreationOptions::FilesystemType::exFAT);
+				ShowInfo (L" 8) Btrfs");      filesystems.push_back (VolumeCreationOptions::FilesystemType::Btrfs);
 #elif defined (TC_MACOSX)
 				ShowInfo (L" 3) Mac OS Extended"); filesystems.push_back (VolumeCreationOptions::FilesystemType::MacOsExt);
 				ShowInfo (L" 4) exFAT");      filesystems.push_back (VolumeCreationOptions::FilesystemType::exFAT);
@@ -806,6 +807,12 @@ namespace VeraCrypt
 			&& (filesystemSize < TC_MIN_FAT_FS_SIZE || filesystemSize > TC_MAX_FAT_SECTOR_COUNT * options->SectorSize))
 		{
 			throw_err (_("Specified volume size cannot be used with FAT filesystem."));
+		}
+
+		if (options->Filesystem == VolumeCreationOptions::FilesystemType::Btrfs
+			&& (filesystemSize < VC_MIN_BTRFS_VOLUME_SIZE))
+		{
+			throw_err (_("Specified volume size is too small to be used with Btrfs filesystem."));
 		}
 
 		// Password
@@ -875,25 +882,9 @@ namespace VeraCrypt
 		if (options->Filesystem != VolumeCreationOptions::FilesystemType::None
 			&& options->Filesystem != VolumeCreationOptions::FilesystemType::FAT)
 		{
-			const char *fsFormatter = nullptr;
-
-			switch (options->Filesystem)
-			{
-#if defined (TC_LINUX)
-			case VolumeCreationOptions::FilesystemType::Ext2:		fsFormatter = "mkfs.ext2"; break;
-			case VolumeCreationOptions::FilesystemType::Ext3:		fsFormatter = "mkfs.ext3"; break;
-			case VolumeCreationOptions::FilesystemType::Ext4:		fsFormatter = "mkfs.ext4"; break;
-			case VolumeCreationOptions::FilesystemType::NTFS:		fsFormatter = "mkfs.ntfs"; break;
-			case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "mkfs.exfat"; break;
-#elif defined (TC_MACOSX)
-			case VolumeCreationOptions::FilesystemType::MacOsExt:	fsFormatter = "newfs_hfs"; break;
-			case VolumeCreationOptions::FilesystemType::exFAT:		fsFormatter = "newfs_exfat"; break;
-			case VolumeCreationOptions::FilesystemType::APFS:		fsFormatter = "newfs_apfs"; break;
-#elif defined (TC_FREEBSD) || defined (TC_SOLARIS)
-			case VolumeCreationOptions::FilesystemType::UFS:		fsFormatter = "newfs" ; break;
-#endif
-			default: throw ParameterIncorrect (SRC_POS);
-			}
+			const char *fsFormatter = VolumeCreationOptions::FilesystemType::GetFsFormatter (options->Filesystem);
+			if (!fsFormatter)
+				throw ParameterIncorrect (SRC_POS);
 
 			MountOptions mountOptions (GetPreferences().DefaultMountOptions);
 			mountOptions.Path = make_shared <VolumePath> (options->Path);
@@ -945,6 +936,9 @@ namespace VeraCrypt
 
 			// Perform a quick NTFS formatting
 			if (options->Filesystem == VolumeCreationOptions::FilesystemType::NTFS)
+				args.push_back ("-f");
+
+			if (options->Filesystem == VolumeCreationOptions::FilesystemType::Btrfs)
 				args.push_back ("-f");
 
 			args.push_back (string (virtualDevice));
