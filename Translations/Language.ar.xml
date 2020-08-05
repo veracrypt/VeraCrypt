@@ -1378,7 +1378,7 @@
     <entry lang="ar" key="IDC_BOOT_LOADER_CACHE_PIM">اشمل &amp;PIM حينما يتم تخزين كلمة سر الإقلاع مؤقتا في الكاش</entry>
     <entry lang="ar" key="IDC_PREF_CACHE_PIM">اشمل PIM حينتخزين كلمة سر الإقلاع مؤقتا</entry>
     <entry lang="ar" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">اجعل أقراص الشبكة المفصولة متاحة للتحميل</entry>
-    <entry lang="ar" key="PASSWORD_UTF8_TOO_LONG">كلمة السر المدخلة طويلة: تمثيلها بصيغة UTF-8 يزيد عن 128 بايت.</entry>
+    <entry lang="ar" key="PASSWORD_UTF8_TOO_LONG">كلمة السر المدخلة طويلة: تمثيلها بصيغة UTF-8 يزيد عن %d بايت.</entry>
     <entry lang="ar" key="PASSWORD_UTF8_INVALID">كلمة السر المدخلة تحوي أحرفا لم يمكن تحويل ترميزها لصيغة UTF-8 </entry>
     <entry lang="ar" key="INIT_DLL">خطأ: فشل في تحميل برامج النظام.</entry>
     <entry lang="ar" key="ERR_EXFAT_INVALID_VOLUME_SIZE">حجم القرص المحدد في سطر الأوامر لا يتطابق مع نظام الملفات exFAT المختار.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="ar" key="IDC_BLOCK_SYSENC_TRIM">امنع أمر TRIM للقسم/المحارف النظامي</entry>
     <entry lang="ar" key="WINDOWS_EFI_BOOT_LOADER_MISSING">خطأ: لم يمكن إيجاد مُقلع EFI لنظام ويندوز على القرص. سيتم إنهاء العملية.</entry>
     <entry lang="ar" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">لا يمكن حاليا تشفير النظام إذا كان الإقلاع الآمن SecureBoot مفعلا وكذلك إذا لم يتم تحميل مفاتيح فيراكريبت المخصصة في البرنامج الثابت للجهاز. الإقلاع الآمن ينبغي تعطيله في إعدادات بايوس لتستطيع إستكمال عملية تشفير النظام.</entry>
-    <entry lang="ar" key="PASSWORD_PASTED_TRUNCATED">النص الملصق سوف يتم اجتزاؤه لأن الحد الأقصى لطول كلمة السر هو 128 خانة.</entry>
-    <entry lang="ar" key="PASSWORD_MAXLENGTH_REACHED">لقد وصلت كلمة السر إلى أقصى طول الذي هو 128 خانة. لا يمكن إضافة أي خانة.</entry>
+    <entry lang="ar" key="PASSWORD_PASTED_TRUNCATED">النص الملصق سوف يتم اجتزاؤه لأن الحد الأقصى لطول كلمة السر هو %d خانة.</entry>
+    <entry lang="ar" key="PASSWORD_MAXLENGTH_REACHED">لقد وصلت كلمة السر إلى أقصى طول الذي هو %d خانة. لا يمكن إضافة أي خانة.</entry>
     <entry lang="ar" key="IDC_SELECT_LANGUAGE_LABEL">اختر اللغة التي ستستخدم أثناء التثبيت :</entry>
     <entry lang="ar" key="VOLUME_TOO_LARGE_FOR_HOST">خطأ: حجم ملف الحاوية أكبر من حجم المساحة المتاحة على القرص.</entry>
     <entry lang="ar" key="IDC_ALLOW_WINDOWS_DEFRAG">اسمح لملغي تجزئة القرص من ويندوز أن يقوم بإلغاء تجزئة القرص أو القسم غي النظامي.</entry>    

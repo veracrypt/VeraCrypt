@@ -1378,7 +1378,7 @@
     <entry lang="fi" key="IDC_BOOT_LOADER_CACHE_PIM">Sisällytä &amp;PIM-asetusta, kun tallennat esi-käynnistys tunnistus salasanan</entry>
     <entry lang="fi" key="IDC_PREF_CACHE_PIM">Sisällytä PIM tallennettaessa salasana välimuistiin</entry>
     <entry lang="fi" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Tee irrotetut verkkoajurit mahdollisiksi kytkemiselle</entry>
-    <entry lang="fi" key="PASSWORD_UTF8_TOO_LONG">Syötetty salasana on liian pitkä: sen UTF-8-esitys ylittää 128 tavua.</entry>
+    <entry lang="fi" key="PASSWORD_UTF8_TOO_LONG">Syötetty salasana on liian pitkä: sen UTF-8-esitys ylittää %d tavua.</entry>
     <entry lang="fi" key="PASSWORD_UTF8_INVALID">Syötetty salasana sisältää Unicode-merkkejä, joita ei voitu muuntaa UTF-8-esitykseksi.</entry>
     <entry lang="fi" key="INIT_DLL">Virhe: järjestelmän kirjaston lataaminen epäonnistui.</entry>
     <entry lang="fi" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Komentorivin määrittämä taltion koko ei ole yhteensopiva valitun exFAT-tiedostojärjestelmän kanssa.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="fi" key="IDC_BLOCK_SYSENC_TRIM">Estä TRIM-komento järjestelmän osio/asemalle</entry>
     <entry lang="fi" key="WINDOWS_EFI_BOOT_LOADER_MISSING">VIRHE: Windows EFI -järjestelmänlataajaa ei löydy levyltä. Toiminto keskeytyy.</entry>
     <entry lang="fi" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Tällä hetkellä ei ole mahdollista salata järjestelmää, jos SecureBoot on käytössä ja jos VeraCrypt-mukautettuja avaimia ei ladata laitteen laiteohjelmistoon. SecureBoot on poistettava käytöstä BIOS-kokoonpanossa, jotta järjestelmän salauksessa voidaan edetä.</entry>
-    <entry lang="fi" key="PASSWORD_PASTED_TRUNCATED">Liitetty teksti katkaistaan, koska salasanan enimmäispituus on 128 merkkiä</entry>
-    <entry lang="fi" key="PASSWORD_MAXLENGTH_REACHED">Salasanan enimmäispituus on 128 merkkiä.\nErikoismerkkejä ei sallittu.</entry>
+    <entry lang="fi" key="PASSWORD_PASTED_TRUNCATED">Liitetty teksti katkaistaan, koska salasanan enimmäispituus on %d merkkiä</entry>
+    <entry lang="fi" key="PASSWORD_MAXLENGTH_REACHED">Salasanan enimmäispituus on %d merkkiä.\nErikoismerkkejä ei sallittu.</entry>
     <entry lang="fi" key="IDC_SELECT_LANGUAGE_LABEL">Valitse asentamisen aikana käytettävä kieli:</entry>
     <entry lang="fi" key="VOLUME_TOO_LARGE_FOR_HOST">VIRHE: Tiedostosäilön koko on suurempi kuin käytettävissä oleva vapaa levytila.</entry>
     <entry lang="fi" key="IDC_ALLOW_WINDOWS_DEFRAG">Salli Windowsin Levyn Eheytyksen eheyttää ei-järjestelmäosio/asema</entry>    

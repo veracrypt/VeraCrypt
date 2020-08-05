@@ -1378,7 +1378,7 @@
     <entry lang="ko" key="IDC_BOOT_LOADER_CACHE_PIM">사전 부트 인증 암호를 캐싱할 때 PIM을 포함합니다.</entry>
     <entry lang="ko" key="IDC_PREF_CACHE_PIM">암호를 캐싱할 때 PIM을 포함합니다.</entry>
     <entry lang="ko" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">연결이 끊긴 네트워크 드라이브를 장착할 수 있도록 합니다.</entry>
-    <entry lang="ko" key="PASSWORD_UTF8_TOO_LONG">입력한 암호가 너무 깁니다. UTF-8 표시가 128바이트를 초과합니다.</entry>
+    <entry lang="ko" key="PASSWORD_UTF8_TOO_LONG">입력한 암호가 너무 깁니다. UTF-8 표시가 %d바이트를 초과합니다.</entry>
     <entry lang="ko" key="PASSWORD_UTF8_INVALID">입력한 암호에 UTF-8 표현으로 변환할 수 없는 유니코드 문자가 포함되어 있습니다.</entry>
     <entry lang="ko" key="INIT_DLL">오류: 시스템 라이브러리를 로드하지 못했습니다.</entry>
     <entry lang="ko" key="ERR_EXFAT_INVALID_VOLUME_SIZE">명령줄에 지정된 볼륨 파일 크기가 선택한 exFAT 파일 시스템과 호환되지 않습니다.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="ko" key="IDC_BLOCK_SYSENC_TRIM">시스템 파티션/드라이브에서 TRIM 명령을 차단합니다.</entry>
     <entry lang="ko" key="WINDOWS_EFI_BOOT_LOADER_MISSING">오류: 디스크에서 Windows EFI 시스템 로더를 찾을 수 없습니다. 작업이 중단됩니다.</entry>
     <entry lang="ko" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">현재 보안부팅이 활성화되어 있고 VeraCrypt 사용자 지정 키가 시스템 펌웨어에 로드되지 않은 경우에는 시스템을 암호화할 수 없습니다. 시스템 암호화를 계속하려면 BIOS 구성에서 보안부팅을 사용하지 않도록 설정해야 합니다.</entry>
-    <entry lang="ko" key="PASSWORD_PASTED_TRUNCATED">암호의 최대 길이가 128자이므로 붙여넣은 텍스트가 잘립니다.</entry>
-    <entry lang="ko" key="PASSWORD_MAXLENGTH_REACHED">암호가 이미 최대 길이인 128자까지 도달했습니다.\n추가 문자는 허용되지 않습니다.</entry>
+    <entry lang="ko" key="PASSWORD_PASTED_TRUNCATED">암호의 최대 길이가 %d자이므로 붙여넣은 텍스트가 잘립니다.</entry>
+    <entry lang="ko" key="PASSWORD_MAXLENGTH_REACHED">암호가 이미 최대 길이인 %d자까지 도달했습니다.\n추가 문자는 허용되지 않습니다.</entry>
     <entry lang="ko" key="IDC_SELECT_LANGUAGE_LABEL">설치 중에 사용할 언어를 선택합니다.</entry>
     <entry lang="ko" key="VOLUME_TOO_LARGE_FOR_HOST">오류: 파일 컨테이너의 크기가 디스크에서 사용 가능한 사용 가능한 공간보다 큽니다.</entry>
     <entry lang="ko" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows 디스크 조각 모음을 허용하여 시스템 파티션/드라이브를 조각 모음할 수 있습니다.</entry>

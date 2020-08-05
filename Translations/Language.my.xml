@@ -1380,7 +1380,7 @@
     <entry lang="en" key="IDC_BOOT_LOADER_CACHE_PIM">Include &amp;PIM when caching pre-boot authentication password</entry>
     <entry lang="en" key="IDC_PREF_CACHE_PIM">Include PIM when caching a password</entry>
     <entry lang="en" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Make disconnected network drives available for mounting</entry>
-    <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds 128 bytes.</entry>
+    <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds %d bytes.</entry>
     <entry lang="en" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</entry>
     <entry lang="en" key="INIT_DLL">Error: Failed to load a system library.</entry>
     <entry lang="en" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</entry>
@@ -1423,8 +1423,8 @@
     <entry lang="en" key="IDC_BLOCK_SYSENC_TRIM">Block TRIM command on system partition/drive</entry>
     <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
-    <entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is 128 characters</entry>
-    <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of 128 characters.\nNo additional character is allowed.</entry>
+    <entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is %d characters</entry>
+    <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of %d characters.\nNo additional character is allowed.</entry>
     <entry lang="en" key="IDC_SELECT_LANGUAGE_LABEL">Select the language to use during the installation:</entry>
     <entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
     <entry lang="en" key="IDC_ALLOW_WINDOWS_DEFRAG">Allow Windows Disk Defragmenter to defragment non-system partition/drive</entry>    

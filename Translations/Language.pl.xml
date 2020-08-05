@@ -1378,7 +1378,7 @@
     <entry lang="pl" key="IDC_BOOT_LOADER_CACHE_PIM">Dołączaj &amp;PIM w trakcie przechowywania hasła uwierzytelniania rozruchu wstępnego</entry>
     <entry lang="pl" key="IDC_PREF_CACHE_PIM">Dołączaj PIM w trakcie przechowywania hasła w pamięci</entry>
     <entry lang="pl" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Uczyń odłączone napędy sieciowe dostępnymi do montowania</entry>
-    <entry lang="pl" key="PASSWORD_UTF8_TOO_LONG">Wpisane hasło jest zbyt długie: jego reprezentacja UTF-8 przekracza 128 bajty.</entry>
+    <entry lang="pl" key="PASSWORD_UTF8_TOO_LONG">Wpisane hasło jest zbyt długie: jego reprezentacja UTF-8 przekracza %d bajty.</entry>
     <entry lang="pl" key="PASSWORD_UTF8_INVALID">Wpisane hasło zawiera znaki Unicode, które nie mogą zostać przekonwertowane do reprezentacji UTF-8.</entry>
     <entry lang="pl" key="INIT_DLL">Błąd: Nie można załadować biblioteki systemowej.</entry>
     <entry lang="pl" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Rozmiar pliku wolumenu, który określono w wierszu poleceń, jest niekompatybilny z wybranym systemem plików exFAT.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="pl" key="IDC_BLOCK_SYSENC_TRIM">Blokuj komendę TRIM na systemowej partycji/napędzie</entry>
     <entry lang="pl" key="WINDOWS_EFI_BOOT_LOADER_MISSING">BŁĄD: Nie można zlokalizować programu rozruchowego EFI systemu Windows na dysku. Operacja zostanie przerwana.</entry>
     <entry lang="pl" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Obecnie nie jest możliwe szyfrowanie systemu, gdy włączona jest funkcja SecureBoot, a niestandardowe klucze VeraCrypt nie zostały załadowane do oprogramowania sprzętowego urządzenia. Funkcja SecureBoot musi być wyłączona w konfiguracji BIOS-u, aby umożliwić kontynuowanie szyfrowania systemu.</entry>
-    <entry lang="pl" key="PASSWORD_PASTED_TRUNCATED">Wklejony tekst został obcięty, ponieważ maksymalna długość hasła wynosi 128 znaki</entry>
-    <entry lang="pl" key="PASSWORD_MAXLENGTH_REACHED">Hasło osiągnęło już maksymalną długość 128 znaków.\nDodatkowy znak nie jest dozwolony.</entry>
+    <entry lang="pl" key="PASSWORD_PASTED_TRUNCATED">Wklejony tekst został obcięty, ponieważ maksymalna długość hasła wynosi %d znaki</entry>
+    <entry lang="pl" key="PASSWORD_MAXLENGTH_REACHED">Hasło osiągnęło już maksymalną długość %d znaków.\nDodatkowy znak nie jest dozwolony.</entry>
     <entry lang="pl" key="IDC_SELECT_LANGUAGE_LABEL">Wybierz używany język podczas instalacji:</entry>
     <entry lang="pl" key="VOLUME_TOO_LARGE_FOR_HOST">BŁĄD: Rozmiar kontenera pliku jest większy niż dostępne wolne miejsce na dysku.</entry>
     <entry lang="pl" key="IDC_ALLOW_WINDOWS_DEFRAG">Zezwalaj Defragmentatorowi dysków Windows na defragmentację bezsystemowej partycji/napędu</entry>

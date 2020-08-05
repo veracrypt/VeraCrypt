@@ -1378,7 +1378,7 @@
     <entry lang="cs" key="IDC_BOOT_LOADER_CACHE_PIM">Zahrnout &amp;PIM s ověřovacím heslem do mezipaměti</entry>
     <entry lang="cs" key="IDC_PREF_CACHE_PIM">Zahrnout PIM při uložení hesla do mezipaměti</entry>
     <entry lang="cs" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Odpojené síťové disky budou dostupné pro připojení</entry>
-    <entry lang="cs" key="PASSWORD_UTF8_TOO_LONG">Zadané heslo je moc dlouhé: jeho reprezentace v UTF-8 přesahuje 128 bajtů.</entry>
+    <entry lang="cs" key="PASSWORD_UTF8_TOO_LONG">Zadané heslo je moc dlouhé: jeho reprezentace v UTF-8 přesahuje %d bajtů.</entry>
     <entry lang="cs" key="PASSWORD_UTF8_INVALID">Zadané heslo obsahuje znaky v Unicode, které nemohou být převedeny do UTF-8.</entry>
     <entry lang="cs" key="INIT_DLL">Chyba: nebylo možné načíst systémovou knihovnu.</entry>
     <entry lang="cs" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Velikost souboru ve svazku specifikovaná v příkazovém řádku je nekompatibilní s vybraným souborovým systémem exFAT.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="cs" key="IDC_BLOCK_SYSENC_TRIM">Zakázat příkazy TRIM na systémových diskových oddílech/discích</entry>
     <entry lang="cs" key="WINDOWS_EFI_BOOT_LOADER_MISSING">CHYBA: systémový zavaděč Windows EFI nebyl na disku nalezen. Úkon bude přerušen.</entry>
     <entry lang="cs" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Je-li SecureBoot povolen a uživatelské klíče Veracryptu nejsou načteny do firmware přístroje, není možné zašifrovat systém. Aby mohl být systém zašifrován, musí být v BIOSu zakázán SecureBoot.</entry>
-    <entry lang="cs" key="PASSWORD_PASTED_TRUNCATED">Vložený text byl zkrácen, neboť maximální délka hesla je 128 znaků.</entry>
-    <entry lang="cs" key="PASSWORD_MAXLENGTH_REACHED">Heslo je již dlouhé 128 znaků.\nDalší znaky nejsou již umožněny.</entry>
+    <entry lang="cs" key="PASSWORD_PASTED_TRUNCATED">Vložený text byl zkrácen, neboť maximální délka hesla je %d znaků.</entry>
+    <entry lang="cs" key="PASSWORD_MAXLENGTH_REACHED">Heslo je již dlouhé %d znaků.\nDalší znaky nejsou již umožněny.</entry>
     <entry lang="cs" key="IDC_SELECT_LANGUAGE_LABEL">Vyberte si jazyk instalace:</entry>
     <entry lang="cs" key="VOLUME_TOO_LARGE_FOR_HOST">CHYBA: velikost kontejneru souboru je větší, než je volné místo na disku.</entry>
     <entry lang="cs" key="IDC_ALLOW_WINDOWS_DEFRAG">Povolit systému Windows vlastním nástrojem defragmentovat nesystémový diskový oddíl/disk</entry>

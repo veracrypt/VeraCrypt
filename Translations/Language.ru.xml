@@ -1378,7 +1378,7 @@
     <entry lang="ru" key="IDC_BOOT_LOADER_CACHE_PIM">Кэшировать &amp;PIM вместе с паролем предзагрузочной аутентификации</entry>
     <entry lang="ru" key="IDC_PREF_CACHE_PIM">Кэшировать PIM вместе с паролем</entry>
     <entry lang="ru" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Отключённые сетевые диски доступны для монтирования</entry>
-    <entry lang="ru" key="PASSWORD_UTF8_TOO_LONG">Слишком длинный пароль: в UTF-8 он превышает 128 байт.</entry>
+    <entry lang="ru" key="PASSWORD_UTF8_TOO_LONG">Слишком длинный пароль: в UTF-8 он превышает %d байт.</entry>
     <entry lang="ru" key="PASSWORD_UTF8_INVALID">Введённый пароль содержит символы Юникода, которые не удалось преобразовать в UTF-8.</entry>
     <entry lang="ru" key="INIT_DLL">ОШИБКА: Не удалось загрузить системную библиотеку.</entry>
     <entry lang="ru" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Указанный в командной строке размер файла тома несовместим с выбранной файловой системой exFAT.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="ru" key="IDC_BLOCK_SYSENC_TRIM">Блокировать команду TRIM на системном разделе/диске</entry>
     <entry lang="ru" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ОШИБКА: Не удалось обнаружить на диске системный EFI-загрузчик Windows. Операция будет прервана.</entry>
     <entry lang="ru" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">В настоящий момент невозможно зашифровать систему, если включена безопасная загрузка (Secure Boot) и если свои ключи VeraCrypt не загружены в прошивку машины. Чтобы зашифровать систему, отключите Secure Boot в настройках BIOS.</entry>
-    <entry lang="ru" key="PASSWORD_PASTED_TRUNCATED">Скопированный текст усечён до предельно допустимой длины пароля (128 символов)</entry>
-    <entry lang="ru" key="PASSWORD_MAXLENGTH_REACHED">Максимальная длина пароля (128 символов).\nБольше ничего вводить нельзя.</entry>
+    <entry lang="ru" key="PASSWORD_PASTED_TRUNCATED">Скопированный текст усечён до предельно допустимой длины пароля (%d символов)</entry>
+    <entry lang="ru" key="PASSWORD_MAXLENGTH_REACHED">Максимальная длина пароля (%d символов).\nБольше ничего вводить нельзя.</entry>
     <entry lang="ru" key="IDC_SELECT_LANGUAGE_LABEL">Выберите язык, который будет использован при установке:</entry>
     <entry lang="ru" key="VOLUME_TOO_LARGE_FOR_HOST">ОШИБКА: Размер файлового контейнера больше, чем свободно места на диске.</entry>
     <entry lang="ru" key="IDC_ALLOW_WINDOWS_DEFRAG">Разрешить дефрагментатору Windows обрабатывать несистемный раздел/диск</entry>

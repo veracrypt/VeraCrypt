@@ -1288,9 +1288,13 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 						if (curLen == dwMaxPassLen)
 						{
 							EDITBALLOONTIP ebt;
+							DWORD dwTextSize = (DWORD) wcslen (GetString ("PASSWORD_MAXLENGTH_REACHED")) + 16;
+							WCHAR* szErrorText = (WCHAR*) malloc (dwTextSize * sizeof (WCHAR));
+
+							StringCchPrintf (szErrorText, dwTextSize, GetString ("PASSWORD_MAXLENGTH_REACHED"), dwMaxPassLen);
 
 							ebt.cbStruct = sizeof( EDITBALLOONTIP );
-							ebt.pszText = GetString ("PASSWORD_MAXLENGTH_REACHED");
+							ebt.pszText = szErrorText;
 							ebt.pszTitle = lpszTitle;
 							ebt.ttiIcon = TTI_ERROR_LARGE;    // tooltip warning icon
 
@@ -1298,20 +1302,28 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 
 							MessageBeep (0xFFFFFFFF);
 
+							free (szErrorText);
+
 							bBlock = true;
 						}
 						else if ((txtlen + curLen) > dwMaxPassLen)
 						{
 							EDITBALLOONTIP ebt;
+							DWORD dwTextSize = (DWORD) wcslen (GetString ("PASSWORD_PASTED_TRUNCATED")) + 16;
+							WCHAR* szErrorText = (WCHAR*) malloc (dwTextSize * sizeof (WCHAR));
+
+							StringCchPrintf (szErrorText, dwTextSize, GetString ("PASSWORD_PASTED_TRUNCATED"), dwMaxPassLen);
 
 							ebt.cbStruct = sizeof( EDITBALLOONTIP );
-							ebt.pszText = GetString ("PASSWORD_PASTED_TRUNCATED");
+							ebt.pszText = szErrorText;
 							ebt.pszTitle = lpszTitle;
 							ebt.ttiIcon = TTI_WARNING_LARGE;    // tooltip warning icon
 
 							SendMessage(hwnd, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
 
 							MessageBeep (0xFFFFFFFF);
+
+							free (szErrorText);
 						}
 						else
 							 SendMessage(hwnd, EM_HIDEBALLOONTIP, 0, 0);
@@ -1343,15 +1355,21 @@ static LRESULT CALLBACK NormalPwdFieldProc (HWND hwnd, UINT message, WPARAM wPar
 				&& (GetWindowTextLength (hwnd) == dwMaxPassLen))
 			{
 				EDITBALLOONTIP ebt;
+				DWORD dwTextSize = (DWORD) wcslen (GetString ("PASSWORD_MAXLENGTH_REACHED")) + 16;
+				WCHAR* szErrorText = (WCHAR*) malloc (dwTextSize * sizeof (WCHAR));
+
+				StringCchPrintf (szErrorText, dwTextSize, GetString ("PASSWORD_MAXLENGTH_REACHED"), dwMaxPassLen);
 
 				ebt.cbStruct = sizeof( EDITBALLOONTIP );
-				ebt.pszText = GetString ("PASSWORD_MAXLENGTH_REACHED");
+				ebt.pszText = szErrorText;
 				ebt.pszTitle = lpszTitle;
 				ebt.ttiIcon = TTI_ERROR_LARGE;    // tooltip warning icon
 
 				SendMessage(hwnd, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
 
 				MessageBeep (0xFFFFFFFF);
+
+				free (szErrorText);
 			}
 			else
 				 SendMessage(hwnd, EM_HIDEBALLOONTIP, 0, 0);
@@ -13229,7 +13247,17 @@ BOOL GetPassword (HWND hwndDlg, UINT ctrlID, char* passValue, int bufSize, BOOL 
 		{
 			SetFocus (GetDlgItem(hwndDlg, ctrlID));
 			if (GetLastError () == ERROR_INSUFFICIENT_BUFFER)
-				Error ((bufSize == (MAX_LEGACY_PASSWORD + 1))? "LEGACY_PASSWORD_UTF8_TOO_LONG": "PASSWORD_UTF8_TOO_LONG", hwndDlg);
+			{
+				DWORD dwTextSize = (DWORD) wcslen (GetString ("PASSWORD_UTF8_TOO_LONG")) + 16;
+				WCHAR* szErrorText = (WCHAR*) malloc (dwTextSize * sizeof (WCHAR));
+
+				// bufSize is equal to maximum password length plus one
+				StringCchPrintf (szErrorText, dwTextSize, GetString ("PASSWORD_UTF8_TOO_LONG"), (bufSize - 1));
+
+				ErrorDirect (szErrorText, hwndDlg);
+
+				free (szErrorText);
+			}
 			else
 				Error ("PASSWORD_UTF8_INVALID", hwndDlg);
 		}
@@ -14899,15 +14927,21 @@ void PasswordEditDropTarget::GotDrop(CLIPFORMAT format)
 				if (bTruncated)
 				{
 					EDITBALLOONTIP ebt;
+					DWORD dwTextSize = (DWORD) wcslen (GetString ("PASSWORD_PASTED_TRUNCATED")) + 16;
+					WCHAR* szErrorText = (WCHAR*) malloc (dwTextSize * sizeof (WCHAR));
+
+					StringCchPrintf (szErrorText, dwTextSize, GetString ("PASSWORD_PASTED_TRUNCATED"), maxLen);
 
 					ebt.cbStruct = sizeof( EDITBALLOONTIP );
-					ebt.pszText = GetString ("PASSWORD_PASTED_TRUNCATED");
+					ebt.pszText = szErrorText;
 					ebt.pszTitle = lpszTitle;
 					ebt.ttiIcon = TTI_WARNING_LARGE;    // tooltip warning icon
 
 					SendMessage(hChild, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
 
 					MessageBeep (0xFFFFFFFF);
+
+					free (szErrorText);
 				}
 			}
 

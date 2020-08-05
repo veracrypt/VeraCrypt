@@ -1378,7 +1378,7 @@
     <entry lang="ro" key="IDC_BOOT_LOADER_CACHE_PIM">Include și MI&amp;P la salvarea parolei de autentificare la pornire</entry>
     <entry lang="ro" key="IDC_PREF_CACHE_PIM">Include MIP când se salvează o parolă</entry>
     <entry lang="ro" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Unitățile de rețea deconectate afişate ca disponibile pentru montare</entry>
-    <entry lang="ro" key="PASSWORD_UTF8_TOO_LONG">Parola introdusă este prea lungă: reprezentarea sa în UTF-8 depășește 128 de baiți.</entry>
+    <entry lang="ro" key="PASSWORD_UTF8_TOO_LONG">Parola introdusă este prea lungă: reprezentarea sa în UTF-8 depășește %d de baiți.</entry>
     <entry lang="ro" key="PASSWORD_UTF8_INVALID">Parola introdusă conține caractere în Unicode care nu s-au putut converti în UTF-8.</entry>
     <entry lang="ro" key="INIT_DLL">Eroare: eșuare la încărcarea unei librării de sistem.</entry>
     <entry lang="ro" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Mărimea fișierului volumului specificată în linia de comandă este incompatibilă cu sistemul de fișiere exFAT.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="ro" key="IDC_BLOCK_SYSENC_TRIM">Blocare comandă TRIM pe partițiile/unitățile sistem</entry>
     <entry lang="ro" key="WINDOWS_EFI_BOOT_LOADER_MISSING">EROARE: Încărcătorul de sistem Windows EFI nu a fost găsit pe disc. Operația va fi anulată.</entry>
     <entry lang="ro" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Momentan nu este posibilă criptarea dacă SecureBoot este activat și dacă cheile personale VeraCrypt nu sunt încărcate în firmware-ul sistemului. SecureBoot trebuie să fie dezactivat în BIOS pentru a permite criptarea sistemului.</entry>
-    <entry lang="ro" key="PASSWORD_PASTED_TRUNCATED">Textul inserat este trunchiat deoarece lungimea maximă a parolei este de 128 de caractere.</entry>
-    <entry lang="ro" key="PASSWORD_MAXLENGTH_REACHED">Parola a atins lungimea maximă de 128 de caractere.\nNu mai sunt admise caractere suplimentare.</entry>
+    <entry lang="ro" key="PASSWORD_PASTED_TRUNCATED">Textul inserat este trunchiat deoarece lungimea maximă a parolei este de %d de caractere.</entry>
+    <entry lang="ro" key="PASSWORD_MAXLENGTH_REACHED">Parola a atins lungimea maximă de %d de caractere.\nNu mai sunt admise caractere suplimentare.</entry>
     <entry lang="ro" key="IDC_SELECT_LANGUAGE_LABEL">Selectați limba folosită la instalare:</entry>
     <entry lang="ro" key="VOLUME_TOO_LARGE_FOR_HOST">EROARE: Mărimea fișierului container este mai mare decât spațiul liber disponibil.</entry>
     <entry lang="ro" key="IDC_ALLOW_WINDOWS_DEFRAG">Permitere program de defragmentare din Windows să defragmenteze partițiile/unitățile nonsistem</entry>

@@ -1378,7 +1378,7 @@
     <entry lang="zh-cn" key="IDC_BOOT_LOADER_CACHE_PIM">当缓存预引导身份验证密码时，包含 &amp;PIM</entry>
     <entry lang="zh-cn" key="IDC_PREF_CACHE_PIM">在缓存密码时，包含 PIM</entry>
     <entry lang="zh-cn" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">使断开的网络驱动器可用于加载</entry>
-    <entry lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过128字节。</entry>
+    <entry lang="zh-cn" key="PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过%d字节。</entry>
     <entry lang="zh-cn" key="PASSWORD_UTF8_INVALID">键入的密码中包含无法转换为UTF-8编码的Unicode字符。</entry>
     <entry lang="zh-cn" key="INIT_DLL">错误: 加载系统库失败。</entry>
     <entry lang="zh-cn" key="ERR_EXFAT_INVALID_VOLUME_SIZE">输入的加密卷的大小不兼容所选择的exFAT文件系统。</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="zh-cn" key="IDC_BLOCK_SYSENC_TRIM">阻止系统分区/磁盘上使用 TRIM 命令</entry>
     <entry lang="zh-cn" key="WINDOWS_EFI_BOOT_LOADER_MISSING">错误: 无法在磁盘上找到 Windows EFI 系统加载程序。操作将中止。</entry>
     <entry lang="zh-cn" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">如果启用了 SecureBoot, 并且 VeraCrypt 自定义密钥未加载到计算机固件中, 则无法对当前系统进行加密。SecureBoot 需要在 BIOS 配置中禁用, 以允许系统加密继续进行。</entry>
-    <entry lang="zh-cn" key="PASSWORD_PASTED_TRUNCATED">粘贴的文本被截断, 因为密码最大长度为128个字符</entry>
-    <entry lang="zh-cn" key="PASSWORD_MAXLENGTH_REACHED">密码已达到其最大长度128个字符。\n不允许附加字符。</entry>
+    <entry lang="zh-cn" key="PASSWORD_PASTED_TRUNCATED">粘贴的文本被截断, 因为密码最大长度为%d个字符</entry>
+    <entry lang="zh-cn" key="PASSWORD_MAXLENGTH_REACHED">密码已达到其最大长度%d个字符。\n不允许附加字符。</entry>
     <entry lang="zh-cn" key="IDC_SELECT_LANGUAGE_LABEL">选择安装期间要使用的语言：</entry>
     <entry lang="zh-cn" key="VOLUME_TOO_LARGE_FOR_HOST">错误：文件容器的大小大于磁盘上的可用空间。</entry>
     <entry lang="zh-cn" key="IDC_ALLOW_WINDOWS_DEFRAG">允许Windows磁盘碎片整理程序对非系统分区/驱动器进行碎片整理</entry>    

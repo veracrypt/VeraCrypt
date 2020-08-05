@@ -1378,7 +1378,7 @@
     <entry lang="it" key="IDC_BOOT_LOADER_CACHE_PIM">Includi &amp;PIM durante il caching della password di autenticazione pre-boot</entry>
     <entry lang="it" key="IDC_PREF_CACHE_PIM">Include PIM quando memorizza una password</entry>
     <entry lang="it" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Rendere disponibili le unità di rete disconnesse per il montaggio</entry>
-    <entry lang="it" key="PASSWORD_UTF8_TOO_LONG">La password inserita è troppo lunga: la sua rappresentazione in UTF-8 supera i 128 bytes.</entry>
+    <entry lang="it" key="PASSWORD_UTF8_TOO_LONG">La password inserita è troppo lunga: la sua rappresentazione in UTF-8 supera i %d bytes.</entry>
     <entry lang="it" key="PASSWORD_UTF8_INVALID">La password inserita contiene caratteri Unicode che non possono essere convertiti nella rappresentazione UTF-8.</entry>
     <entry lang="it" key="INIT_DLL">Errore: Caricamento di una libreria di sistema non riuscita.</entry>
     <entry lang="it" key="ERR_EXFAT_INVALID_VOLUME_SIZE">La dimensione del volume specificata nella linea di comando non è compatibile con il filesystem exFAT selezionato.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="it" key="IDC_BLOCK_SYSENC_TRIM">Blocca comandi TRIM sulla partizione/disco di sistema</entry>
     <entry lang="it" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERRORE: Windows EFI  system loader non localizzato sul disco. L'operazione sarà annullata.</entry>
     <entry lang="it" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Attualmente non è possibile cifrare un sistema se BootSecuro è abilitato e se le chiavi personalizzate VeraCrypt non sono caricate nel firmware della macchina. BootSicuro necessita d'essere disabilitato nella configurazione BIOS al fine di permettere alla cifratura di sistema di procedere.</entry>
-    <entry lang="it" key="PASSWORD_PASTED_TRUNCATED">Troncato testo incollato a causa della massima lunghezza password di 128 caratteri</entry>
-    <entry lang="it" key="PASSWORD_MAXLENGTH_REACHED">La password ha già raggiunto la lunghezza massima di 128 caratteri.\nNessun ulteriore carattere è ammesso.</entry>
+    <entry lang="it" key="PASSWORD_PASTED_TRUNCATED">Troncato testo incollato a causa della massima lunghezza password di %d caratteri</entry>
+    <entry lang="it" key="PASSWORD_MAXLENGTH_REACHED">La password ha già raggiunto la lunghezza massima di %d caratteri.\nNessun ulteriore carattere è ammesso.</entry>
     <entry lang="it" key="IDC_SELECT_LANGUAGE_LABEL">Seleziona la lingua da utilizzare per l'installazione:</entry>
     <entry lang="it" key="VOLUME_TOO_LARGE_FOR_HOST">ERRORE: La dimensione del contenitore file è maggiore dello spazio disponibile su disco.</entry>
     <entry lang="it" key="IDC_ALLOW_WINDOWS_DEFRAG">Permetti Windows Frammentazione Disco per deframmentare una partizione/disco non di sistema.</entry>

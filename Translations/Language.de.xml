@@ -1381,7 +1381,7 @@
     <entry lang="de" key="IDC_BOOT_LOADER_CACHE_PIM">&amp;PIM beim Zwischenspeichern eines Prä-Boot-Authentifikationspasswortes einbeziehen</entry>
     <entry lang="de" key="IDC_PREF_CACHE_PIM">PIM beim Zwischenspeichern eines Passwortes einbeziehen</entry>
     <entry lang="de" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Getrennte Netzlaufwerke zum Einbinden verfügbar machen</entry>
-    <entry lang="de" key="PASSWORD_UTF8_TOO_LONG">Das eingegebene Passwort ist zu lang: Kodiert mit UTF-8 überschreitet es 128 Byte.</entry>
+    <entry lang="de" key="PASSWORD_UTF8_TOO_LONG">Das eingegebene Passwort ist zu lang: Kodiert mit UTF-8 überschreitet es %d Byte.</entry>
     <entry lang="de" key="PASSWORD_UTF8_INVALID">Das eingegebene Passwort enthält Unicode-Zeichen, die nicht mit UTF-8 kodiert werden können.</entry>
     <entry lang="de" key="INIT_DLL">Fehler: Kann eine Systembibliothek nicht laden.</entry>
     <entry lang="de" key="ERR_EXFAT_INVALID_VOLUME_SIZE">Die auf der Kommandozeile angegebene Volume-Größe ist nicht mit dem gewählten exFAT Dateisystem kompatibel.</entry>
@@ -1424,8 +1424,8 @@
     <entry lang="de" key="IDC_BLOCK_SYSENC_TRIM">TRIM-Befehl auf Systempartition/Laufwerk blockieren</entry>
     <entry lang="de" key="WINDOWS_EFI_BOOT_LOADER_MISSING">FEHLER: Windows-EFI-Systemlader konnte nicht auf der Festplatte gefunden werden. Operation wird abgebrochen.</entry>
     <entry lang="de" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Es ist derzeit nicht möglich, ein System zu verschlüsseln, wenn SecureBoot aktiviert ist und keine benutzerdefinierten Schlüssel von VeraCrypt in die Maschinen-Firmware geladen sind. SecureBoot muss in der BIOS-Konfiguration deaktiviert werden, damit die Systemverschlüsselung fortgesetzt werden kann.</entry>
-    <entry lang="de" key="PASSWORD_PASTED_TRUNCATED">Eingefügter Text wurde abgeschnitten, da die maximale Länge des Passworts 128 Zeichen beträgt</entry>
-    <entry lang="de" key="PASSWORD_MAXLENGTH_REACHED">Passwort hat bereits seine maximale Länge von 128 Zeichen erreicht.\nEs ist kein zusätzliches Zeichen erlaubt.</entry>
+    <entry lang="de" key="PASSWORD_PASTED_TRUNCATED">Eingefügter Text wurde abgeschnitten, da die maximale Länge des Passworts %d Zeichen beträgt</entry>
+    <entry lang="de" key="PASSWORD_MAXLENGTH_REACHED">Passwort hat bereits seine maximale Länge von %d Zeichen erreicht.\nEs ist kein zusätzliches Zeichen erlaubt.</entry>
     <entry lang="de" key="IDC_SELECT_LANGUAGE_LABEL">Wählen Sie die Sprache aus, die während der Installation benutzt werden soll:</entry>
     <entry lang="de" key="VOLUME_TOO_LARGE_FOR_HOST">FEHLER: Der Datei-Container ist größer als der verfügbare freie Speicherplatz auf der Festplatte.</entry>
     <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows-Festplattendefragmentierung die Defragmentierung von Nicht-Systempartitionen/-laufwerken erlauben</entry>    

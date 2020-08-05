@@ -1387,7 +1387,7 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="IDC_BOOT_LOADER_CACHE_PIM">&amp;PIM toevoegen bij cachen van pre-boot-authenticatiewachtwoord</entry>
     <entry lang="nl" key="IDC_PREF_CACHE_PIM">PIM toevoegen bij opslaan van een wachtwoord</entry>
     <entry lang="nl" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Losgekoppelde netwerkstations beschikbaar stellen voor koppeling</entry>
-    <entry lang="nl" key="PASSWORD_UTF8_TOO_LONG">Het ingevoerde wachtwoord is te lang: de UTF-8-weergave is groter dan 128 bytes.</entry>
+    <entry lang="nl" key="PASSWORD_UTF8_TOO_LONG">Het ingevoerde wachtwoord is te lang: de UTF-8-weergave is groter dan %d bytes.</entry>
     <entry lang="nl" key="PASSWORD_UTF8_INVALID">Het ingevoerde wachtwoord bevat Unicode-tekens die niet konden worden geconverteerd naar UTF-8-weergave.</entry>
     <entry lang="nl" key="INIT_DLL">Fout: een systeembibliotheek is niet geladen.</entry>
     <entry lang="nl" key="ERR_EXFAT_INVALID_VOLUME_SIZE">De in de opdrachtregel aangegeven bestandsgrootte is niet compatibel met het geselecteerde exFAT-bestandssysteem.</entry>
@@ -1430,8 +1430,8 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="IDC_BLOCK_SYSENC_TRIM">TRIM-opdracht op systeempartitie/-schijf blokkeren</entry>
     <entry lang="nl" key="WINDOWS_EFI_BOOT_LOADER_MISSING">FOUT: de Windows EFI system loader kon niet op de schijf worden teruggevonden. De bewerking wordt afgebroken.</entry>
     <entry lang="nl" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Het is momenteel niet mogelijk om een systeem te versleutelen als SecureBoot is ingeschakeld en als VeraCrypt aangepaste sleutels niet in de firmware van de machine zijn geladen. SecureBoot moet worden uitgeschakeld in de BIOS-configuratie om de systeemversleuteling te kunnen voortzetten.</entry>
-    <entry lang="nl" key="PASSWORD_PASTED_TRUNCATED">Geplakte tekst is ingekort omdat de maximale wachtwoordlengte van 128 tekens is overschreden.</entry>
-    <entry lang="nl" key="PASSWORD_MAXLENGTH_REACHED">Het wachtwoord heeft zijn maximale lengte van 128 tekens bereikt.\nEr zijn geen extra tekens toegestaan. </entry>
+    <entry lang="nl" key="PASSWORD_PASTED_TRUNCATED">Geplakte tekst is ingekort omdat de maximale wachtwoordlengte van %d tekens is overschreden.</entry>
+    <entry lang="nl" key="PASSWORD_MAXLENGTH_REACHED">Het wachtwoord heeft zijn maximale lengte van %d tekens bereikt.\nEr zijn geen extra tekens toegestaan. </entry>
     <entry lang="nl" key="IDC_SELECT_LANGUAGE_LABEL">Selecteer de taal die u tijdens de installatie wilt gebruiken:</entry>
     <entry lang="nl" key="VOLUME_TOO_LARGE_FOR_HOST">FOUT: de grootte van de bestandscontainer is groter dan de beschikbare vrije ruimte op de schijf.</entry>
     <entry lang="nl" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows Schijfdefragmentatie toestaan om een niet-systeempartitie/-schijf te defragmenteren</entry>

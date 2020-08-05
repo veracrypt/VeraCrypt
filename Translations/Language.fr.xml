@@ -1378,7 +1378,7 @@
     <entry lang="fr" key="IDC_BOOT_LOADER_CACHE_PIM">Inclure le &amp;PIM quand le mot de passe d’authentification de préamorçage est mis en cache</entry>
     <entry lang="fr" key="IDC_PREF_CACHE_PIM">Inclure le PIM quand le mot de passe est mis en cache</entry>
     <entry lang="fr" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Permettre d’utiliser les lecteurs réseaux déconnectés comme point de montage</entry>
-    <entry lang="fr" key="PASSWORD_UTF8_TOO_LONG">Le mot de passe saisi est trop long: sa representation UTF-8 dépasse 128 octets.</entry>
+    <entry lang="fr" key="PASSWORD_UTF8_TOO_LONG">Le mot de passe saisi est trop long: sa representation UTF-8 dépasse %d octets.</entry>
     <entry lang="fr" key="PASSWORD_UTF8_INVALID">Le mot de passe saisi contient des caractères Unicode qui n’ont pas pu être converti en UTF-8.</entry>
     <entry lang="fr" key="INIT_DLL">Erreur : Echec de chargement d’une librairie système.</entry>
     <entry lang="fr" key="ERR_EXFAT_INVALID_VOLUME_SIZE">La taille du volume spécifiée en ligne de commande n’est pas compatible avec exFAT.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="fr" key="IDC_BLOCK_SYSENC_TRIM">Bloquer la commande TRIM sur la partition/disque système</entry>
     <entry lang="fr" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERREUR: Le chargeur de démarrage système EFI de Windows n’a pas pu être trouvé sur le disque. L’opération va être interrompue.</entry>
     <entry lang="fr" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Il n’est actuellement pas possible de chiffrer un système si SecureBoot est activé et si les clefs personnalisées de VeraCrypt ne sont pas chargées dans le firmware de la machine. SecureBoot doit être désactivé dans la configuration du BIOS afin de permettre d’effectuer le chiffrement du système.</entry>
-    <entry lang="fr" key="PASSWORD_PASTED_TRUNCATED">Le texte collé a été tronqué car la taille maximale du mot de passe est de 128 caractères</entry>
-    <entry lang="fr" key="PASSWORD_MAXLENGTH_REACHED">Le mot de passe a déjà atteint sa taille maximale de 128 caractères.\nAucun caractère supplémentaire n'est autorisé.</entry>
+    <entry lang="fr" key="PASSWORD_PASTED_TRUNCATED">Le texte collé a été tronqué car la taille maximale du mot de passe est de %d caractères</entry>
+    <entry lang="fr" key="PASSWORD_MAXLENGTH_REACHED">Le mot de passe a déjà atteint sa taille maximale de %d caractères.\nAucun caractère supplémentaire n'est autorisé.</entry>
     <entry lang="fr" key="IDC_SELECT_LANGUAGE_LABEL">Veuillez sélectionner la langue qui sera utilisée par l'assistant d'installation :</entry>
     <entry lang="fr" key="VOLUME_TOO_LARGE_FOR_HOST">ERREUR : La taille du fichier conteneur est plus grande que l'espace libre sur le disque.</entry>
     <entry lang="fr" key="IDC_ALLOW_WINDOWS_DEFRAG">Autoriser l'outil de défragmentation de disque de Windows à défragmenter les disques non système</entry>

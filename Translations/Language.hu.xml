@@ -1378,7 +1378,7 @@
     <entry lang="hu" key="IDC_BOOT_LOADER_CACHE_PIM">Tartalmazza a &amp;PIM-et a rendszerindítás előtti hitelesítési jelszó gyorsítótárazásakor</entry>
     <entry lang="hu" key="IDC_PREF_CACHE_PIM">Tartalmazza a PIM-et a jelszó gyorsítótárazásakor</entry>
     <entry lang="hu" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">Tegye elérhetővé a leválasztott hálózati meghajtókat a csatlakoztatáshoz</entry>
-    <entry lang="hu" key="PASSWORD_UTF8_TOO_LONG">A beütött jelszó túl hosszú. Az UTF-8 kódolása meghaladja a 64 bájtot.</entry>
+    <entry lang="hu" key="PASSWORD_UTF8_TOO_LONG">A beütött jelszó túl hosszú. Az UTF-8 kódolása meghaladja a %d bájtot.</entry>
     <entry lang="hu" key="PASSWORD_UTF8_INVALID">A beütött jelszó olyan Unicode karaktereket tartalmaz, melyeket lehetett átkonvertálni UTF-8 kódolásra.</entry>
     <entry lang="hu" key="INIT_DLL">Hiba: Nem sikerült betölteni a rendszer könyvtárat (DLL fájlt).</entry>
     <entry lang="hu" key="ERR_EXFAT_INVALID_VOLUME_SIZE">A megadott fájlméret nem kompatibilis a választott exFAT fájlrendszerrel.</entry>
@@ -1421,8 +1421,8 @@
     <entry lang="hu" key="IDC_BLOCK_SYSENC_TRIM">Blokkolja a TRIM parancsot a rendszerpartíción/meghajtón</entry>
     <entry lang="hu" key="WINDOWS_EFI_BOOT_LOADER_MISSING">HIBA: A Windows EFI rendszertöltő nem található a lemezen. A művelet megszakad.</entry>
     <entry lang="hu" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">Jelenleg nem titkosítható egy rendszer, ha a biztonságos rendszerindítás engedélyezve van és a VeraCrypt egyéni kulcsai nincsenek betöltve a gép firmware-jébe. A biztonságos rendszerindítást le kell tiltani a BIOS-konfigurációban a rendszer titkosításának folytatása érdekében.</entry>
-    <entry lang="hu" key="PASSWORD_PASTED_TRUNCATED">A beillesztett szöveg le lett rövidítve, mivel a jelszó maximális hossza 64 karakter lehet</entry>
-    <entry lang="hu" key="PASSWORD_MAXLENGTH_REACHED">A jelszó elérte a maximális 64 karakter hosszúságot.\nTovábbi karakterek hozzáadása nem engedélyezett.</entry>
+    <entry lang="hu" key="PASSWORD_PASTED_TRUNCATED">A beillesztett szöveg le lett rövidítve, mivel a jelszó maximális hossza %d karakter lehet</entry>
+    <entry lang="hu" key="PASSWORD_MAXLENGTH_REACHED">A jelszó elérte a maximális %d karakter hosszúságot.\nTovábbi karakterek hozzáadása nem engedélyezett.</entry>
     <entry lang="hu" key="IDC_SELECT_LANGUAGE_LABEL">Válassza ki a telepítés során használni kívánt nyelvet:</entry>
     <entry lang="hu" key="VOLUME_TOO_LARGE_FOR_HOST">HIBA: A fájltároló mérete nagyobb, mint a lemezen rendelkezésre álló szabad terület.</entry>
     <entry lang="hu" key="IDC_ALLOW_WINDOWS_DEFRAG">Nem rendszerpartíció/meghajtó töredezettségmentesítésének engedélyezése a Windows lemeztöredezettség-mentesítőjével</entry>
