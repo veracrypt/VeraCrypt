@@ -555,7 +555,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.24.21</string>
+				<string>1.24.22</string>
 			</dict>
 			<key>TYPE</key>
 			<integer>0</integer>

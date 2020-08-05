@@ -67,7 +67,7 @@ extern unsigned short _rotl16(unsigned short value, unsigned char shift);
 #define VERSION_NUM						0x0124
 
 // Release date
-#define TC_STR_RELEASE_DATE			L"August 3, 2020"
+#define TC_STR_RELEASE_DATE			L"August 5, 2020"
 #define TC_RELEASE_DATE_YEAR			2020
 #define TC_RELEASE_DATE_MONTH			 8
 

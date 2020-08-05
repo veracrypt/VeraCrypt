@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.24-Update7</strong>(August 3<sup>rd</sup>, 2020):</p>
+<p><strong style="text-align:left">1.24-Update7</strong> (August 5<sup>rd</sup>, 2020):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -67,6 +67,8 @@
 <li>Don't allow a directory path to be entered for the file container to be created in Format wizard.</li>
 <li>Don't try to use fix for CVE-2019-19501 if Windows Shell has been modified or is not running since there is no reliable way to fix it in such non standard configuation.</li>
 <li>MBR bootloader: fix incorrect compressed data size passed to decompressor in boot sector.</li>
+<li>Add warning message when typed password reaches maximum length during the system encryption wizard.</li>
+<li>Add support for Btrfs filesystem when creating volumes.</li>
 <li>Update libzip to latest version 1.7.3.</li>
 <li>Update translations.</li>
 </ul>
@@ -76,6 +78,7 @@
 <li>Force reading of at least 32 bytes from /dev/random before allowing it to fail gracefully</li>
 <li>Allow choosing a filesystem other than FAT for Outer volume but display warning about risks of such choice. Implement an estimation of maximum possible size of hidden volume in this case.</li>
 <li>Erase sensitive memory explicitly instead of relying on the compiler not optimizing calls to method Memory::Erase.</li>
+<li>Add support for Btrfs filesystem when creating volumes (Linux Only).</li>
 <li>Update wxWidgets for static builds to version 3.0.5.</li>
 </ul>
 </li>
