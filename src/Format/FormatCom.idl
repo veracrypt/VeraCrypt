@@ -16,7 +16,7 @@ import "..\Common\Password.h";
 [
 	uuid(56327DDA-F1A7-4e13-B128-520D129BDEF6),
 	helpstring("VeraCrypt Format UAC Support Library"),
-	version(2.8)	// Update ComSetup.cpp when changing version number
+	version(2.9)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptFormatCom
 {
@@ -28,7 +28,7 @@ library TrueCryptFormatCom
 	]
 	interface ITrueCryptFormatCom : IUnknown
 	{
-		int AnalyzeHiddenVolumeHost (LONG_PTR hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *nbrFreeClusters);
+		int AnalyzeHiddenVolumeHost (__int64 hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *nbrFreeClusters);
 		DWORD CallDriver (DWORD ioctl, BSTR input, BSTR *output);
 		DWORD CopyFile (BSTR sourceFile, BSTR destinationFile);
 		DWORD DeleteFile (BSTR file);

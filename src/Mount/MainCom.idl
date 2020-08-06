@@ -16,7 +16,7 @@ import "..\Common\Password.h";
 [
 	uuid(9ACF6176-5FC4-4690-A025-B3306A50EB6A),
 	helpstring("VeraCrypt Main UAC Support Library"),
-	version(2.10)	// Update ComSetup.cpp when changing version number
+	version(2.11)	// Update ComSetup.cpp when changing version number
 ]
 library TrueCryptMainCom
 {
@@ -28,22 +28,22 @@ library TrueCryptMainCom
 	]
 	interface ITrueCryptMainCom : IUnknown
 	{
-		void AnalyzeKernelMiniDump (LONG_PTR hwndDlg);
-		int BackupVolumeHeader (LONG_PTR hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume);
+		void AnalyzeKernelMiniDump (__int64 hwndDlg);
+		int BackupVolumeHeader (__int64 hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume);
 		DWORD CallDriver (DWORD ioctl, BSTR input, BSTR *output);
-		int ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd);
+		int ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd);
 		DWORD CopyFile (BSTR sourceFile, BSTR destinationFile);
 		DWORD DeleteFile (BSTR file);
 		BOOL IsPagingFileActive (BOOL checkNonWindowsPartitionsOnly);
 		DWORD ReadWriteFile (BOOL write, BOOL device, BSTR filePath, BSTR *bufferBstr, unsigned __int64 offset, unsigned __int32 size, DWORD *sizeDone);
 		DWORD RegisterFilterDriver (BOOL registerDriver, int filterType);
 		DWORD RegisterSystemFavoritesService (BOOL registerService);
-		int RestoreVolumeHeader (LONG_PTR hwndDlg, BSTR lpszVolume);
+		int RestoreVolumeHeader (__int64 hwndDlg, BSTR lpszVolume);
 		DWORD SetDriverServiceStartType (DWORD startType);
 		DWORD WriteLocalMachineRegistryDwordValue (BSTR keyPath, BSTR valueName, DWORD value);
-		int ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd);
-		int ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd);
-		int ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, LONG_PTR hWnd);
+		int ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd);
+		int ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd);
+		int ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, __int64 hWnd);
 		DWORD GetFileSize (BSTR filePath, unsigned __int64* pSize);
 		DWORD DeviceIoControl (BOOL readOnly, BOOL device, BSTR filePath, DWORD dwIoControlCode, BSTR input, BSTR *output);
 		DWORD InstallEfiBootLoader (BOOL preserveUserConfig, BOOL hiddenOSCreation, int pim, int hashAlg);

@@ -71,19 +71,19 @@ public:
 		return S_OK;
 	}
 
-	virtual void STDMETHODCALLTYPE AnalyzeKernelMiniDump (LONG_PTR hwndDlg)
+	virtual void STDMETHODCALLTYPE AnalyzeKernelMiniDump (__int64 hwndDlg)
 	{
 		// Do nothing
 		MainDlg = (HWND) hwndDlg;
 	}
 
-	virtual int STDMETHODCALLTYPE BackupVolumeHeader (LONG_PTR hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume)
+	virtual int STDMETHODCALLTYPE BackupVolumeHeader (__int64 hwndDlg, BOOL bRequireConfirmation, BSTR lpszVolume)
 	{
 		MainDlg = (HWND) hwndDlg;
 		return ::BackupVolumeHeader ((HWND) hwndDlg, bRequireConfirmation, lpszVolume);
 	}
 
-	virtual int STDMETHODCALLTYPE RestoreVolumeHeader (LONG_PTR hwndDlg, BSTR lpszVolume)
+	virtual int STDMETHODCALLTYPE RestoreVolumeHeader (__int64 hwndDlg, BSTR lpszVolume)
 	{
 		MainDlg = (HWND) hwndDlg;
 		return ::RestoreVolumeHeader ((HWND) hwndDlg, lpszVolume);
@@ -94,7 +94,7 @@ public:
 		return BaseCom::CallDriver (ioctl, input, output);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePassword (BSTR volumePath, Password *oldPassword, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
 		return ::ChangePwd (volumePath, oldPassword, 0, 0, FALSE, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
@@ -140,19 +140,19 @@ public:
 		return BaseCom::WriteLocalMachineRegistryDwordValue (keyPath, valueName, value);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx (BSTR volumePath, Password *oldPassword, int old_pkcs5, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
 		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, FALSE, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx2 (BSTR volumePath, Password *oldPassword, int old_pkcs5, BOOL truecryptMode, Password *newPassword, int pkcs5, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
 		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, 0, truecryptMode, newPassword, pkcs5, 0, wipePassCount, (HWND) hWnd);
 	}
 
-	virtual int STDMETHODCALLTYPE ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, LONG_PTR hWnd)
+	virtual int STDMETHODCALLTYPE ChangePasswordEx3 (BSTR volumePath, Password *oldPassword, int old_pkcs5, int old_pim, BOOL truecryptMode, Password *newPassword, int pkcs5, int pim, int wipePassCount, __int64 hWnd)
 	{
 		MainDlg = (HWND) hWnd;
 		return ::ChangePwd (volumePath, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (HWND) hWnd);
@@ -274,7 +274,7 @@ extern "C" int UacBackupVolumeHeader (HWND hwndDlg, BOOL bRequireConfirmation, w
 		if (bstr)
 		{
 			volumeBstr.Attach (bstr);
-			r = tc->BackupVolumeHeader ((LONG_PTR) hwndDlg, bRequireConfirmation, volumeBstr);
+			r = tc->BackupVolumeHeader ((__int64) hwndDlg, bRequireConfirmation, volumeBstr);
 		}
 		else
 			r = ERR_OUTOFMEMORY;
@@ -302,7 +302,7 @@ extern "C" int UacRestoreVolumeHeader (HWND hwndDlg, wchar_t *lpszVolume)
 		if (bstr)
 		{
 			volumeBstr.Attach (bstr);
-			r = tc->RestoreVolumeHeader ((LONG_PTR) hwndDlg, volumeBstr);
+			r = tc->RestoreVolumeHeader ((__int64) hwndDlg, volumeBstr);
 		}
 		else
 			r = ERR_OUTOFMEMORY;
@@ -327,7 +327,7 @@ extern "C" int UacChangePwd (wchar_t *lpszVolume, Password *oldPassword, int old
 	{
 		CComBSTR bstrVolume (lpszVolume);
 		WaitCursor ();
-		r = tc->ChangePasswordEx3 (bstrVolume, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (LONG_PTR) hwndDlg);
+		r = tc->ChangePasswordEx3 (bstrVolume, oldPassword, old_pkcs5, old_pim, truecryptMode, newPassword, pkcs5, pim, wipePassCount, (__int64) hwndDlg);
 		NormalCursor ();
 	}
 	else

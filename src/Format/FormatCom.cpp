@@ -96,7 +96,7 @@ public:
 	}
 
 	virtual int STDMETHODCALLTYPE AnalyzeHiddenVolumeHost (
-		LONG_PTR hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *nbrFreeClusters)
+		__int64 hwndDlg, int *driveNo, __int64 hiddenVolHostSize, int *realClusterSize, __int64 *nbrFreeClusters)
 	{
 		return ::AnalyzeHiddenVolumeHost (
 			(HWND) hwndDlg, driveNo, hiddenVolHostSize, realClusterSize, nbrFreeClusters);
@@ -283,7 +283,7 @@ extern "C" int UacAnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 h
 	CoInitialize (NULL);
 
 	if (ComGetInstance (hwndDlg, &tc))
-		r = tc->AnalyzeHiddenVolumeHost ((LONG_PTR) hwndDlg, driveNo, hiddenVolHostSize, realClusterSize, nbrFreeClusters);
+		r = tc->AnalyzeHiddenVolumeHost ((__int64) hwndDlg, driveNo, hiddenVolHostSize, realClusterSize, nbrFreeClusters);
 	else
 		r = 0;
 
