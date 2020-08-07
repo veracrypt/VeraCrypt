@@ -108,6 +108,18 @@ namespace VeraCrypt
 
 						bRet = true;
 					}
+					catch (ExecutedProcessFailed& epe)
+					{
+						// only permission error is accepted in case of failure of the command
+						if (epe.GetExitCode () == EPERM || epe.GetExitCode () == EACCES)
+							bRet = true;
+					}
+					catch (SystemException& se)
+					{
+						// if a permission error occured, then we consider that the command exists
+						if (se.GetErrorCode () == EPERM || se.GetErrorCode () == EACCES)
+							bRet = true;
+					}
 					catch (exception &e)
 					{
 					}
