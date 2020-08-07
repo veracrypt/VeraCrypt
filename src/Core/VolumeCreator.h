@@ -18,6 +18,7 @@
 #include "RandomNumberGenerator.h"
 #if defined (TC_LINUX)
 #include "Platform/Unix/Process.h"
+#include <errno.h>
 #endif
 
 #define VC_MIN_BTRFS_VOLUME_SIZE 114294784ULL

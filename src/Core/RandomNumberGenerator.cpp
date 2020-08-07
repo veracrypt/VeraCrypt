@@ -14,6 +14,11 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <fcntl.h>
+
+#ifndef ERESTART
+#define ERESTART EINTR
+#endif
+
 #endif
 
 #include "RandomNumberGenerator.h"
