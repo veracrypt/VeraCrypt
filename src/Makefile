@@ -300,6 +300,7 @@ ifeq "$(shell uname -s)" "Darwin"
 			LFLAGS += -arch i386
 			WX_CONFIGURE_FLAGS += --enable-universal_binary=i386,x86_64
 		else
+			CXXFLAGS += -std=c++11
 			WX_CONFIGURE_FLAGS += --disable-universal_binary
 		endif
 
