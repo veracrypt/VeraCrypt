@@ -199,8 +199,8 @@
     <entry lang="zh-hk" key="IDD_VOLUME_PROPERTIES">VeraCrypt 加密碟區屬性</entry>
     <entry lang="zh-hk" key="IDM_ABOUT">關於</entry>
     <entry lang="zh-hk" key="IDM_ADD_REMOVE_VOL_KEYFILES">新增或移除加密鑰檔案...</entry>
-    <entry lang="zh-hk" key="IDM_ADD_VOLUME_TO_FAVORITES">新增已掛載的加密碟區為最愛...</entry>
-    <entry lang="zh-hk" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">新增已掛載的加密碟區為系統最愛加密碟區...</entry>
+    <entry lang="zh-hk" key="IDM_ADD_VOLUME_TO_FAVORITES">新增已掛載的加密碟區到最愛加密碟區...</entry>
+    <entry lang="zh-hk" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">新增已掛載的加密碟區到系統最愛加密碟區...</entry>
     <entry lang="zh-hk" key="IDM_ANALYZE_SYSTEM_CRASH">分析系統崩潰原因...</entry>
     <entry lang="zh-hk" key="IDM_BACKUP_VOL_HEADER">備份加密碟區的表頭數據...</entry>
     <entry lang="zh-hk" key="IDM_BENCHMARK">效能測試...</entry>
@@ -236,7 +236,7 @@
     <entry lang="zh-hk" key="IDM_ONLINE_HELP">線上幫助</entry>
     <entry lang="zh-hk" key="IDM_ONLINE_TUTORIAL">新手教學</entry>
     <entry lang="zh-hk" key="IDM_ORGANIZE_FAVORITES">管理最愛加密碟區...</entry>
-    <entry lang="zh-hk" key="IDM_ORGANIZE_SYSTEM_FAVORITES">管理最愛系統加密碟區...</entry>
+    <entry lang="zh-hk" key="IDM_ORGANIZE_SYSTEM_FAVORITES">管理系統最愛加密碟區...</entry>
     <entry lang="zh-hk" key="IDM_PERFORMANCE_SETTINGS">效能/驅動程式設定</entry>
     <entry lang="zh-hk" key="IDM_PERMANENTLY_DECRYPT_SYS">永久解密系統分割區/磁碟機</entry>
     <entry lang="zh-hk" key="IDM_PREFERENCES">偏好設定...</entry>
@@ -921,7 +921,7 @@
     <entry lang="zh-hk" key="PROGRESS_STATUS_FINISHED">已完成</entry>
     <entry lang="zh-hk" key="PROGRESS_STATUS_ERROR">錯誤</entry>
     <entry lang="zh-hk" key="FAVORITE_DISCONNECTED_DEV">裝置已移除</entry>
-    <entry lang="zh-hk" key="SYS_FAVORITE_VOLUMES_SAVED">已儲存最愛系統加密碟區。\n\n要想在系統啟動時掛載系統最愛加密碟區，請選擇「設定」 &gt; 「系統最愛加密碟區」 &gt; 「當 Windows 啟動時掛載系統最愛加密碟區」。</entry>
+    <entry lang="zh-hk" key="SYS_FAVORITE_VOLUMES_SAVED">已儲存系統最愛加密碟區。\n\n要想在系統啟動時掛載系統最愛加密碟區，請選擇「設定」 &gt; 「系統最愛加密碟區」 &gt; 「當 Windows 啟動時掛載系統最愛加密碟區」。</entry>
     <entry lang="zh-hk" key="FAVORITE_ADD_DRIVE_DEV_WARNING">您新增最愛的既不是分割區也不是動態磁碟區。因此，如果裝置號發生改變，VeraCrypt 將不能掛載此最愛磁碟區。</entry>
     <entry lang="zh-hk" key="FAVORITE_ADD_PARTITION_TYPE_WARNING">您新增最愛的磁碟區不是 Windows 能夠識別的分割區。\n\n因此，如果裝置號發生改變，VeraCrypt 將不能掛載此最愛磁碟區。請設定分割區的類型為 Windows 系統所能夠識別的類型(使用Windows 'diskpart' 工具的 SETID 命令)。之後再新增此分割區到最愛。</entry>
     <entry lang="zh-hk" key="FAVORITE_ARRIVAL_MOUNT_BACKGROUND_TASK_ERR">VeraCrypt 背景服務已被禁用，或者它被配置為在沒有加密碟區被掛載時退出(或者 VeraCrypt 正在以便攜模式運行)。當含有這些加密碟區的裝置連接到電腦的時候，後臺服務被禁用可能會阻止您的最愛加密碟區被自動掛載。\n\n說明：要啟用 VeraCrypt 背景服務，選擇〖 設定 &gt; 參數〗之後勾選 'VeraCrypt 背景服務' 部份的 '啟用' 核取方塊。</entry>
@@ -994,8 +994,8 @@
     <entry lang="zh-hk" key="DRIVE_LETTER_ITEM">磁碟機磁碟機代號:   </entry>
     <entry lang="zh-hk" key="UNSUPPORTED_CHARS_IN_PWD">錯誤：密碼必須僅包含 ASCII 字元。\n\n密碼中的非-ASCII 字元可能會導致在 作業系統配置改變時加密碟區不能掛載。\n\n允許使用下面字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</entry>
     <entry lang="zh-hk" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">警告：密碼中包含非-ASCII 字元。可能會導致在作業系統配置改變時加密碟區不能掛載。\n\n您應當使用 ASCII 字元替換密碼中的非 ASCII 字元。 如要這樣做，按“加密碟區” -&gt; “修改加密碟區密碼”\n\n下面字元為 ASCII 字元：\n\n  ! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4  5 6 7 8 9 : ; &lt; = &gt; ? @ A B C D E F  G H I J K L M N O P Q R S T U V W X  Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m  n o p q r s t u v w x y z { | } ~</entry>
-    <entry lang="zh-hk" key="EXE_FILE_EXTENSION_CONFIRM">警告：我們強烈建議您避免使用可執行檔案名(例如 .exe，.sys，或 .dll)以及其他可能有問題的類似擴展名作為加密碟區的名稱。使用這些副檔名通常會導致 Windows 或反病毒軟件干擾加密碟區，這很可能會嚴重影響加密碟區的性能，也可能會導致其他嚴重的問題。\n\n我們強烈建議您移除此副檔名或更換其副檔名(例如，改變為 .iso，.img，.dat)。\n\n您確認繼續使用可能有潛在問題的副檔名嗎？</entry>
-    <entry lang="zh-hk" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告：該加密碟區帶有可執行檔的副檔名(例如 .exe，.sys，或 .dll)或其他可能有問題的類似擴展名作為加密碟區的名稱。 這很可能導致 Windows 或反病毒軟件干預加密碟區，會嚴重影響加密碟區的性能，也可能會導致其他嚴重的問題。\n\n我們強烈建議您在卸載加密碟區後移除此副檔名或更換為其他副檔名(例如，改變為 .iso，.img，.dat)。</entry>
+    <entry lang="zh-hk" key="EXE_FILE_EXTENSION_CONFIRM">警告：我們強烈建議您避免使用可執行檔案名(例如 .exe，.sys，或 .dll)以及其他可能有問題的類似副檔名作為加密碟區的名稱。使用這些副檔名通常會導致 Windows 或反病毒軟件干擾加密碟區，這很可能會嚴重影響加密碟區的性能，也可能會導致其他嚴重的問題。\n\n我們強烈建議您移除此副檔名或更換其副檔名(例如，改變為 .iso，.img，.dat)。\n\n您確認繼續使用可能有潛在問題的副檔名嗎？</entry>
+    <entry lang="zh-hk" key="EXE_FILE_EXTENSION_MOUNT_WARNING">警告：該加密碟區帶有可執行檔的副檔名(例如 .exe，.sys，或 .dll)或其他可能有問題的類似副檔名作為加密碟區的名稱。 這很可能導致 Windows 或反病毒軟件干預加密碟區，會嚴重影響加密碟區的性能，也可能會導致其他嚴重的問題。\n\n我們強烈建議您在卸載加密碟區後移除此副檔名或更換為其他副檔名(例如，改變為 .iso，.img，.dat)。</entry>
     <entry lang="zh-hk" key="HOMEPAGE">主頁</entry>
     <entry lang="zh-hk" key="LARGE_IDE_WARNING_XP">警告：似乎還沒有安裝任何 Windows 作業系統的更新包。您不應當向未 安裝 SP1 或以後更新包的 Windows XP 系統中的大於128 GiB 的 IDE 硬碟寫 入資料！如果這樣做，磁碟區上的資料(不論是否為 VeraCrypt 加密碟區)可能 會損壞。注意：這是 Windows 作業系統的限制，而不是 VeraCrypt 的錯誤。</entry>
     <entry lang="zh-hk" key="LARGE_IDE_WARNING_2K">警告：看起來您的 Windows 2000 系統還未安裝 SP3 或以後補丁包。 您不應當向這個系統中大於 128 GiB 的 IDE 硬碟寫入資料！如果這樣 做了，磁片上的資料(不論是否為 VeraCrypt 加密碟區)可能會損壞。 注意：這是 Windows 作業系統的限制，而不是 VeraCrypt 的錯誤。\n\n注意：您也需在註冊表裏面啟用 48-位 LBA 支持；更多資訊，請參考 http：//support.microsoft.com/kb/305098/EN-US</entry>
@@ -1008,10 +1008,10 @@
     <entry lang="zh-hk" key="CONFIRM_SAVE_DEFAULT_KEYFILES">警告：如果預設的加密鑰檔案被設定和啟用後，則不能掛載不使用該加密鑰檔案的加密碟區。因此，如果預設的加密鑰檔案被設定和啟用後，在打開非加密鑰檔案加密的加密碟區時，請記住取消對“使用加密鑰檔案”選項的選擇(在密碼輸入框的下面)。\n\n您確認保存指定的加密鑰檔案/路徑作為預設值嗎？</entry>
     <entry lang="zh-hk" key="HK_AUTOMOUNT_DEVICES">自動掛載裝置</entry>
     <entry lang="zh-hk" key="HK_DISMOUNT_ALL">全部卸載</entry>
-    <entry lang="zh-hk" key="HK_WIPE_CACHE">抹除暫存</entry>
-    <entry lang="zh-hk" key="HK_DISMOUNT_ALL_AND_WIPE">卸載全部  &amp;  抹除暫存</entry>
-    <entry lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">強制全部卸載並抹除暫存</entry>
-    <entry lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">強制全部卸載抹除暫存並退出程式</entry>
+    <entry lang="zh-hk" key="HK_WIPE_CACHE">清除暫存</entry>
+    <entry lang="zh-hk" key="HK_DISMOUNT_ALL_AND_WIPE">卸載全部  &amp;  清除暫存</entry>
+    <entry lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">強制全部卸載並清除暫存</entry>
+    <entry lang="zh-hk" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">強制全部卸載清除暫存並退出程式</entry>
     <entry lang="zh-hk" key="HK_MOUNT_FAVORITE_VOLUMES">掛載最愛加密碟區</entry>
     <entry lang="zh-hk" key="HK_SHOW_HIDE_MAIN_WINDOW">顯示/隱藏 VeraCrypt 主視窗</entry>
     <entry lang="zh-hk" key="PRESS_A_KEY_TO_ASSIGN">(單擊這裏並按下某個鍵盤按鍵)</entry>
@@ -1275,7 +1275,7 @@
     <entry lang="zh-hk" key="INVALID_TOKEN_KEYFILE_PATH">安全鑰匙加密鑰檔案路徑無效。</entry>
     <entry lang="zh-hk" key="SECURITY_TOKEN_ERROR">安全鑰匙錯誤</entry>
     <entry lang="zh-hk" key="CKR_PIN_INCORRECT">安全鑰匙密碼不正確。</entry>
-    <entry lang="zh-hk" key="CKR_DEVICE_MEMORY">安全鑰匙無足夠的 記憶體/空間 執行請求的操作。\n\n如果您試圖導入一個加密鑰檔案，您應當選擇一個小一些的檔或者使用由 VeraCrypt 產生的加密鑰檔案(選擇 '工具' &gt; '加密鑰檔案產生器')。</entry>
+    <entry lang="zh-hk" key="CKR_DEVICE_MEMORY">安全鑰匙無足夠的 記憶體/空間 來執行請求的操作。\n\n如果您嘗試匯入一個加密鑰檔案，您應該選擇一個細一些的檔或使用由 VeraCrypt 產生的加密鑰檔案(選擇 「工具」 &gt; 「加密鑰檔案產生器」)。</entry>
     <entry lang="zh-hk" key="ALL_TOKEN_SESSIONS_CLOSED">所有打開的安全鑰匙工作階段均已被關閉。</entry>
     <entry lang="zh-hk" key="SELECT_TOKEN_KEYFILES">選擇安全鑰匙加密鑰檔案</entry>
     <entry lang="zh-hk" key="TOKEN_SLOT_ID">插槽</entry>
@@ -1284,7 +1284,7 @@
     <entry lang="zh-hk" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">重要：請注意，啟動驗證的密碼總是以美國鍵盤佈局輸入的。因此，對於使用非美國鍵盤佈局輸入密碼的加密碟區，在使用暫存的密碼掛載時是不可能被掛載的(注意這不是 VeraCrypt 的程式缺陷)。要允許這樣的加密碟區使用啟動驗證密碼掛載，請遵循以下步驟：\n\n1)按 '選擇檔' 或 '選擇裝置' 並選擇加密碟區。 2)選擇 '加密碟區' &gt; '更改加密碟區密碼'。 3)輸入當前加密碟區的密碼。 4)更改鍵盤佈局為 English (US)，通過按 Windows 通知欄上的語言欄和選擇 '英語(美國)'。 5)在 VeraCrypt，在新密碼位置，輸入啟動驗證密碼。 6)在確認密碼位置重複輸入密碼，之後點 '確定'. 警告：如果您採用這些步驟，請牢記，加密碟區密碼總是只能以美國鍵盤佈局輸入(這樣才能在啟動驗證環境中自動匹配)。</entry>
     <entry lang="zh-hk" key="SYS_FAVORITES_KEYBOARD_WARNING">系統最愛加密碟區將會以啟動驗證密碼掛載。如果任何系統最愛加密碟區使用了不同的密碼，它將不會被掛載。</entry>
     <entry lang="zh-hk" key="SYS_FAVORITES_ADMIN_ONLY_INFO">請注意，如果您希望系統最愛加密碟區不會受到一般 VeraCrypt 加密碟區操作的影響(例如 "全部卸載")，您應當啟用選項 '在 VeraCrypt 中，只允許系統管理員查看和卸載系統最愛加密碟區'。另外，如果 VeraCrypt 以非管理員身份運行(在 Windows Vista 和以後版本的系統中預設為非管理員身份)，系統最愛加密碟區將不會出現在 VeraCrypt 程式視窗的驅動磁碟機代號列表中。</entry>
-    <entry lang="zh-hk" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">重要：請必須記住，此選項已經啟用並且 VeraCrypt 不具有系統管理員許可權，已掛載的系統最愛加密碟區不會顯示在 VeraCrypt 程式視窗並且它們也不能被卸載。因此，如果您需要卸載系統最愛加密碟區，請右鍵單擊 VeraCrypt 圖示(在開始功能表中)，並選擇“運行方式”和選擇管理員帳戶運行。"全部卸載"、"自動卸載"、"全部卸載"快捷鍵等功能也存在上面所說的限制。</entry>
+    <entry lang="zh-hk" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">重要：請必須記住，此選項已經啟用並且 VeraCrypt 不具有系統管理員權限，已掛載的系統最愛加密碟區不會顯示在 VeraCrypt 程式視窗並且它們也不能被卸載。因此，如果您需要卸載系統最愛加密碟區，請先右按 VeraCrypt 圖示(在開始功能表中)，然後選擇「以系統管理員帳戶執行」。「全部卸載」、「自動卸載」、「全部卸載」快捷鍵等功能也存在上述的限制。</entry>
     <entry lang="zh-hk" key="SETTING_REQUIRES_REBOOT">請注意，此設定在系統重啟後才會生效。</entry>
     <entry lang="zh-hk" key="COMMAND_LINE_ERROR">解析命令行時出錯。</entry>
     <entry lang="zh-hk" key="RESCUE_DISK">救機光碟</entry>
@@ -1297,69 +1297,69 @@
     <entry lang="zh-hk" key="FILESYS_REPAIR_CONFIRM_BACKUP">警告：使用微軟的 'chkdsk' 工具修復受損的檔案系統時可能會導致受損區域的資料丟失。因此，建議您首先備份存儲在 VeraCrypt 加密碟區中的檔到另外完好的加密碟區。\n\n您確認現在就修復檔案系統嗎？</entry>
     <entry lang="zh-hk" key="MOUNTED_CONTAINER_FORCED_READ_ONLY">由於寫入許可權被拒絕，加密碟區 '%s' 只能以唯讀模式掛載。\n\n請確認加密容器檔案的存取權允許您對其執行寫入操作(右按此容器並選擇 屬性 &gt; 安全性)。\n\n注意，由於 Windows 的原因，您可能在設定成合適的安全屬性後還會看到這個警告，這並非是 VeraCrypt 的程式故障。其中一個解決方法是移動您的加密容器檔案，例如移動到另一個資料資料夾。\n\n如果您確實要保持加密碟區的唯讀模式，請設定加密碟區的屬性為唯讀(右鍵單擊加密盤檔並選擇屬性 &gt; 唯讀)，這樣就可以禁止顯示警告了。</entry>
     <entry lang="zh-hk" key="MOUNTED_DEVICE_FORCED_READ_ONLY">由於寫入許可權被拒絕，加密碟區 '%s' 不得不以唯讀模式掛載。\n\n請確認沒有其他程式(例如，防病毒程式)正在存取加密碟區所在的分割區/裝置。</entry>
-    <entry lang="zh-hk" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密碟區 '%s' 已被已唯讀模式掛載，這是因為作業系統報告主裝置為防寫狀態。\n\n請注意，在一些第三方的晶片驅動中，已有錯誤報告指出可能會造成可寫入介質錯誤的被系統報告為防寫。這個問題並不是由 VeraCrypt 造成。這可以通過更新或卸載當前系統中的任何第三方晶片組驅動(非微軟認證)。</entry>
+    <entry lang="zh-hk" key="MOUNTED_DEVICE_FORCED_READ_ONLY_WRITE_PROTECTION">加密碟區 '%s' 已被唯讀模式掛載，這是因為作業系統報告主裝置為防寫狀態。\n\n請注意，在一些第三方的晶片驅動中，已有錯誤報告指出可能會造成可寫入介質錯誤的被系統報告為防寫。這個問題並不是由 VeraCrypt 造成。這可以通過更新或卸載當前系統中的任何第三方晶片組驅動(非微軟認證)。</entry>
     <entry lang="zh-hk" key="LIMIT_ENC_THREAD_POOL_NOTE">Note that the Hyper-Threading technology provides multiple logical cores per a single physical core. When Hyper Threading is enabled, the number selected above represents the number of logical processors/cores.</entry>
     <entry lang="zh-hk" key="NUMBER_OF_THREADS">%d 線程</entry>
-    <entry lang="zh-hk" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">請注意，硬體加速 AES 已被禁用，這將會影響測試結果(效能更差)。\n\n要啟用硬體加速，請選擇 '設定' &gt; '性能' 並禁用相應選項。</entry>
-    <entry lang="zh-hk" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">請注意，線程的數目當前受限，這將會影響測試結果(效能更差)。\n\n要利用處理器的潛能，請選擇 '設定' &gt; '性能' 並禁用相應選項。</entry>
-    <entry lang="zh-hk" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">您想要 VeraCrypt 嘗試禁用此分割區/裝置 的防寫嗎？</entry>
+    <entry lang="zh-hk" key="DISABLED_HW_AES_AFFECTS_PERFORMANCE">請注意，硬體加速 AES 已被禁用，這將會影響測試結果(效能更差)。\n\n要啟用硬體加速，請選擇 「設定」 &gt; 「性能」 並禁用相應選項。</entry>
+    <entry lang="zh-hk" key="LIMITED_THREAD_COUNT_AFFECTS_PERFORMANCE">請注意，線程的數目當前受限，這將會影響測試結果(效能更差)。\n\n要充份發揮中央處理器的潛能，請選擇 「設定」 &gt; 「性能」並禁用相關選項。</entry>
+    <entry lang="zh-hk" key="ASK_REMOVE_DEVICE_WRITE_PROTECTION">您想要 VeraCrypt 嘗試禁用此分割區/裝置的防寫保護嗎？</entry>
     <entry lang="zh-hk" key="CONFIRM_SETTING_DEGRADES_PERFORMANCE">警告：此設定可能會降低性能。\n\n您確認要使用該設定嗎？</entry>
     <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">警告： VeraCrypt 加密碟區已經自動卸掛載</entry>
-    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
-    <entry lang="zh-hk" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
+    <entry lang="zh-hk" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">含有已掛載加密碟區的裝置在實體移除或關閉電源前，你應該慣常先將加密碟區卸載。\n\n不預期地自行卸載通常由於電線、磁碟機 (外置盒)之類出現間歇性故障所致。</entry>
+    <entry lang="zh-hk" key="UNSUPPORTED_TRUECRYPT_FORMAT">這個加密碟區使用 TrueCrypt %x.%x 建立，但 VeraCrypt 只支援使用 TrueCrypt 6.x/7.x 系列所建立的加密碟區</entry>
     <entry lang="zh-hk" key="TEST">測試</entry>
     <entry lang="zh-hk" key="KEYFILE">加密鑰檔案</entry>
-    <entry lang="zh-hk" key="VKEY_08">Backspace</entry>
+    <entry lang="zh-hk" key="VKEY_08">退格</entry>
     <entry lang="zh-hk" key="VKEY_09">Tab</entry>
-    <entry lang="zh-hk" key="VKEY_0C">Clear</entry>
-    <entry lang="zh-hk" key="VKEY_0D">Enter</entry>
-    <entry lang="zh-hk" key="VKEY_13">Pause</entry>
-    <entry lang="zh-hk" key="VKEY_14">Caps Lock</entry>
-    <entry lang="zh-hk" key="VKEY_20">Spacebar</entry>
-    <entry lang="zh-hk" key="VKEY_21">Page Up</entry>
-    <entry lang="zh-hk" key="VKEY_22">Page Down</entry>
+    <entry lang="zh-hk" key="VKEY_0C">清除</entry>
+    <entry lang="zh-hk" key="VKEY_0D">輸入</entry>
+    <entry lang="zh-hk" key="VKEY_13">暫停</entry>
+    <entry lang="zh-hk" key="VKEY_14">大小寫鎖定</entry>
+    <entry lang="zh-hk" key="VKEY_20">空白</entry>
+    <entry lang="zh-hk" key="VKEY_21">上一頁</entry>
+    <entry lang="zh-hk" key="VKEY_22">下一頁</entry>
     <entry lang="zh-hk" key="VKEY_23">End</entry>
     <entry lang="zh-hk" key="VKEY_24">Home</entry>
     <entry lang="zh-hk" key="VKEY_25">左</entry>
     <entry lang="zh-hk" key="VKEY_26">上</entry>
     <entry lang="zh-hk" key="VKEY_27">右</entry>
     <entry lang="zh-hk" key="VKEY_28">下</entry>
-    <entry lang="zh-hk" key="VKEY_29">Select Key</entry>
-    <entry lang="zh-hk" key="VKEY_2A">Print Key</entry>
-    <entry lang="zh-hk" key="VKEY_2B">Execute Key</entry>
+    <entry lang="zh-hk" key="VKEY_29">選擇鍵</entry>
+    <entry lang="zh-hk" key="VKEY_2A">列印鍵</entry>
+    <entry lang="zh-hk" key="VKEY_2B">執行鍵</entry>
     <entry lang="zh-hk" key="VKEY_2C">Print Screen</entry>
-    <entry lang="zh-hk" key="VKEY_2D">Insert</entry>
-    <entry lang="zh-hk" key="VKEY_2E">Delete</entry>
-    <entry lang="zh-hk" key="VKEY_5D">Applications Key</entry>
-    <entry lang="zh-hk" key="VKEY_5F">Sleep</entry>
-    <entry lang="zh-hk" key="VKEY_90">Num Lock</entry>
-    <entry lang="zh-hk" key="VKEY_91">Scroll Lock</entry>
-    <entry lang="zh-hk" key="VKEY_A6">Browser Back</entry>
-    <entry lang="zh-hk" key="VKEY_A7">Browser Forward</entry>
-    <entry lang="zh-hk" key="VKEY_A8">Browser Refresh</entry>
-    <entry lang="zh-hk" key="VKEY_A9">Browser Stop</entry>
-    <entry lang="zh-hk" key="VKEY_AA">Browser Search</entry>
-    <entry lang="zh-hk" key="VKEY_AB">Browser Favorites</entry>
-    <entry lang="zh-hk" key="VKEY_AC">Browser Home</entry>
-    <entry lang="zh-hk" key="VKEY_AD">Mute</entry>
-    <entry lang="zh-hk" key="VKEY_AE">Volume Down</entry>
-    <entry lang="zh-hk" key="VKEY_AF">Volume Up</entry>
-    <entry lang="zh-hk" key="VKEY_B0">Next Track</entry>
-    <entry lang="zh-hk" key="VKEY_B1">Previous Track</entry>
-    <entry lang="zh-hk" key="VKEY_B2">Stop Media</entry>
-    <entry lang="zh-hk" key="VKEY_B3">Play/Pause Media</entry>
-    <entry lang="zh-hk" key="VKEY_B4">Start Mail Key</entry>
-    <entry lang="zh-hk" key="VKEY_B5">Select Media Key</entry>
-    <entry lang="zh-hk" key="VKEY_B6">Application 1</entry>
-    <entry lang="zh-hk" key="VKEY_B7">Application 2</entry>
+    <entry lang="zh-hk" key="VKEY_2D">插入</entry>
+    <entry lang="zh-hk" key="VKEY_2E">刪除</entry>
+    <entry lang="zh-hk" key="VKEY_5D">應用程式鍵</entry>
+    <entry lang="zh-hk" key="VKEY_5F">睡眠</entry>
+    <entry lang="zh-hk" key="VKEY_90">數字鍵盤鎖</entry>
+    <entry lang="zh-hk" key="VKEY_91">捲動鎖定</entry>
+    <entry lang="zh-hk" key="VKEY_A6">瀏覽器上一步</entry>
+    <entry lang="zh-hk" key="VKEY_A7">瀏覽器下一步</entry>
+    <entry lang="zh-hk" key="VKEY_A8">瀏覽器重新整理</entry>
+    <entry lang="zh-hk" key="VKEY_A9">瀏覽器停止</entry>
+    <entry lang="zh-hk" key="VKEY_AA">瀏覽器搜尋</entry>
+    <entry lang="zh-hk" key="VKEY_AB">瀏覽器最愛</entry>
+    <entry lang="zh-hk" key="VKEY_AC">瀏覽器首頁</entry>
+    <entry lang="zh-hk" key="VKEY_AD">靜音</entry>
+    <entry lang="zh-hk" key="VKEY_AE">音量減</entry>
+    <entry lang="zh-hk" key="VKEY_AF">音量加</entry>
+    <entry lang="zh-hk" key="VKEY_B0">下一首</entry>
+    <entry lang="zh-hk" key="VKEY_B1">上一首</entry>
+    <entry lang="zh-hk" key="VKEY_B2">媒體停止</entry>
+    <entry lang="zh-hk" key="VKEY_B3">媒體播放/暫停</entry>
+    <entry lang="zh-hk" key="VKEY_B4">開啟電郵鍵</entry>
+    <entry lang="zh-hk" key="VKEY_B5">選擇媒體鍵</entry>
+    <entry lang="zh-hk" key="VKEY_B6">應用程式 1</entry>
+    <entry lang="zh-hk" key="VKEY_B7">應用程式 2</entry>
     <entry lang="zh-hk" key="VKEY_F6">Attn</entry>
     <entry lang="zh-hk" key="VKEY_F7">CrSel</entry>
     <entry lang="zh-hk" key="VKEY_F8">ExSel</entry>
     <entry lang="zh-hk" key="VKEY_FA">Play</entry>
     <entry lang="zh-hk" key="VKEY_FB">Zoom</entry>
     <entry lang="zh-hk" key="VK_NUMPAD">數字鍵盤</entry>
-    <entry lang="zh-hk" key="VK_SHIFT">Shift</entry>
-    <entry lang="zh-hk" key="VK_CONTROL">Control</entry>
+    <entry lang="zh-hk" key="VK_SHIFT">大小寫切換</entry>
+    <entry lang="zh-hk" key="VK_CONTROL">控制</entry>
     <entry lang="zh-hk" key="VK_ALT">Alt</entry>
     <entry lang="zh-hk" key="VK_WIN">Win</entry>
     <entry lang="zh-hk" key="BYTE">B</entry>
@@ -1375,19 +1375,19 @@
     <entry lang="zh-hk" key="TB_PER_SEC">TiB/s</entry>
     <entry lang="zh-hk" key="PB_PER_SEC">PiB/s</entry>
     <entry lang="zh-hk" key="TRIPLE_DOT_GLYPH_ELLIPSIS">…</entry>
-    <entry lang="zh-hk" key="IDC_BOOT_LOADER_CACHE_PIM">暫存開機驗證密碼時同時包括 &amp;PIM</entry>
-    <entry lang="zh-hk" key="IDC_PREF_CACHE_PIM">暫存密碼同時包括 PIM</entry>
-    <entry lang="zh-hk" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">容許使用已斷線的網絡磁碟機代號來掛載</entry>
-    <entry lang="en" key="PASSWORD_UTF8_TOO_LONG">The entered password is too long: its UTF-8 representation exceeds %d bytes.</entry>
-    <entry lang="zh-hk" key="PASSWORD_UTF8_INVALID">The entered password contains Unicode characters that couldn't be converted to UTF-8 representation.</entry>
+    <entry lang="zh-hk" key="IDC_BOOT_LOADER_CACHE_PIM">暫存開機驗證密碼的同時包括 &amp;PIM</entry>
+    <entry lang="zh-hk" key="IDC_PREF_CACHE_PIM">暫存密碼的同時包括 PIM</entry>
+    <entry lang="zh-hk" key="IDC_SHOW_DISCONNECTED_NETWORK_DRIVES">容許使用已離線的網絡磁碟機代號來掛載</entry>
+    <entry lang="zh-hk" key="PASSWORD_UTF8_TOO_LONG">輸入的密碼太長：密碼的 UTF-8 編碼超過 %d 位元組。</entry>
+    <entry lang="zh-hk" key="PASSWORD_UTF8_INVALID">輸入的密碼含有無法轉換成 UTF-8 編碼的 Unicode 字符。</entry>
     <entry lang="zh-hk" key="INIT_DLL">錯誤: 無法載入一個系統程式庫。</entry>
-    <entry lang="zh-hk" key="ERR_EXFAT_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected exFAT filesystem.</entry>
-    <entry lang="zh-hk" key="IDT_ENTROPY_BAR">Randomness Collected From Mouse Movements</entry>
+    <entry lang="zh-hk" key="ERR_EXFAT_INVALID_VOLUME_SIZE">在命令行中指定的磁碟區大小與所選的 exFAT 檔案系統不兼容。</entry>
+    <entry lang="zh-hk" key="IDT_ENTROPY_BAR">由滑鼠指標移動所收集的隨機性</entry>
     <entry lang="zh-hk" key="IDT_VOLUME_ID">磁碟區編號:</entry>
     <entry lang="zh-hk" key="VOLUME_ID">磁碟區編號</entry>
     <entry lang="zh-hk" key="IDC_FAVORITE_USE_VOLUME_ID">使用磁碟區編號來掛載我最愛的</entry>
     <entry lang="zh-hk" key="VOLUME_ID_INVALID">加密碟區的編號無效</entry>
-    <entry lang="zh-hk" key="VOLUME_ID_NOT_FOUND">No Volume with the specified ID was found on the system</entry>
+    <entry lang="zh-hk" key="VOLUME_ID_NOT_FOUND">在系統找不到這個編號的磁碟區</entry>
     <entry lang="zh-hk" key="IDPM_COPY_VALUE_TO_CLIPBOARD">複製數值到剪貼簿...</entry>
     <entry lang="zh-hk" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</entry>
     <entry lang="zh-hk" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</entry>
