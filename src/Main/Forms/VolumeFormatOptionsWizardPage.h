@@ -21,7 +21,7 @@ namespace VeraCrypt
 	class VolumeFormatOptionsWizardPage : public VolumeFormatOptionsWizardPageBase
 	{
 	public:
-		VolumeFormatOptionsWizardPage (wxPanel* parent, uint64 volumeSize, uint32 sectorSize, bool enableQuickFormatButton = true, bool disableNoneFilesystem = false, bool disable32bitFilesystems = false);
+		VolumeFormatOptionsWizardPage (wxPanel* parent, uint64 filesystemSize, uint32 sectorSize, bool enableQuickFormatButton = true, bool disableNoneFilesystem = false, bool disable32bitFilesystems = false);
 
 		VolumeCreationOptions::FilesystemType::Enum GetFilesystemType () const;
 		bool IsValid () { return true; }

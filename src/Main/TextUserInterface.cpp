@@ -810,7 +810,7 @@ namespace VeraCrypt
 		}
 
 		if (options->Filesystem == VolumeCreationOptions::FilesystemType::Btrfs
-			&& (filesystemSize < VC_MIN_BTRFS_VOLUME_SIZE))
+			&& (filesystemSize < VC_MIN_SMALL_BTRFS_VOLUME_SIZE))
 		{
 			throw_err (_("Specified volume size is too small to be used with Btrfs filesystem."));
 		}
@@ -939,7 +939,14 @@ namespace VeraCrypt
 				args.push_back ("-f");
 
 			if (options->Filesystem == VolumeCreationOptions::FilesystemType::Btrfs)
+			{
 				args.push_back ("-f");
+				if (filesystemSize < VC_MIN_LARGE_BTRFS_VOLUME_SIZE)
+				{
+					// use mixed mode for small BTRFS volumes
+					args.push_back ("-M");
+				}
+			}
 
 			args.push_back (string (virtualDevice));
 
