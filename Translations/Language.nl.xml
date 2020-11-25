@@ -158,7 +158,7 @@
     <entry lang="nl" key="IDC_PIM_HELP">(leeg of 0 voor standaard iteraties)</entry>
     <entry lang="nl" key="IDC_PREF_BKG_TASK_ENABLE">Ingeschakeld</entry>
     <entry lang="nl" key="IDC_PREF_CACHE_PASSWORDS">Wachtw. in stuurprog.-geheugen opslaan</entry>
-    <entry lang="nl" key="IDC_PREF_DISMOUNT_INACTIVE">Volume automatisch ontkoppelen na inactiviteit lezen/schrijven voor</entry>
+    <entry lang="nl" key="IDC_PREF_DISMOUNT_INACTIVE">Volume automatisch ontkoppelen na inactiviteit lezen/schrijven van</entry>
     <entry lang="nl" key="IDC_PREF_DISMOUNT_LOGOFF">gebruiker afmeldt</entry>
     <entry lang="nl" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">gebruikerssessie wordt vergrendeld</entry>
     <entry lang="nl" key="IDC_PREF_DISMOUNT_POWERSAVING">energiebesparende modus start</entry>
