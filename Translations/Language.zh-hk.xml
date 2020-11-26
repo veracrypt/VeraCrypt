@@ -1389,8 +1389,8 @@
     <entry lang="zh-hk" key="VOLUME_ID_INVALID">無效的加密區編號</entry>
     <entry lang="zh-hk" key="VOLUME_ID_NOT_FOUND">在系統找不到這個編號的磁碟區</entry>
     <entry lang="zh-hk" key="IDPM_COPY_VALUE_TO_CLIPBOARD">複製數值到剪貼簿...</entry>
-    <entry lang="zh-hk" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">Do not request PIM in the pre-boot authentication screen (PIM value is stored unencrypted on disk)</entry>
-    <entry lang="zh-hk" key="DISABLE_BOOT_LOADER_PIM_PROMPT">WARNING: Please keep in mind that if you enable this option, the PIM value will be stored unencrypted on the disk.\n\nAre you sure you want to enable this option?</entry>
+    <entry lang="zh-hk" key="IDC_DISABLE_BOOT_LOADER_PIM_PROMPT">不要在開機前驗證畫面詢問 PIM（PIM 數值會不加密地記錄在磁碟上）</entry>
+    <entry lang="zh-hk" key="DISABLE_BOOT_LOADER_PIM_PROMPT">警告：請留意如果你啟用這個選項，PIM 數值會將會不加密地記錄在磁碟上。\n\n您是否確認要啟用這個選項？</entry>
     <entry lang="zh-hk" key="PIM_TOO_BIG">自設加密鑰的重復次數 (PIM) 最大數值為 2147468.</entry>
     <entry lang="zh-hk" key="IDC_SKIP_RESCUE_VERIFICATION">跳過救機光碟驗證</entry>
     <entry lang="zh-hk" key="IDC_HIDE_WAITING_DIALOG">在進行操作時不要顯示等候訊息畫面</entry>
@@ -1408,12 +1408,12 @@
     <entry lang="zh-hk" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' &gt; 'Create Rescue Disk'.</entry>
     <entry lang="zh-hk" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">The Rescue Disk image has been created and stored in this file:\n%s\n\nNow you need to extract the Rescue Disk image to a USB stick that is formatted as FAT/FAT32.\n\nIMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\nAfter you create the Rescue Disk, select 'System' &gt; 'Verify Rescue Disk' to verify that it has been correctly created.</entry>
     <entry lang="zh-hk" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">輸入密碼時使用安全桌面</entry>
-    <entry lang="zh-hk" key="ERR_REFS_INVALID_VOLUME_SIZE">The volume file size specified in the command line is incompatible with selected ReFS filesystem.</entry>
+    <entry lang="zh-hk" key="ERR_REFS_INVALID_VOLUME_SIZE">在指令行中所指定的檔案大小與所選取的 ReFS 檔案系統不兼容。</entry>
     <entry lang="zh-hk" key="IDC_EDIT_DCSPROP">編輯開機掛載設定</entry>
     <entry lang="zh-hk" key="IDC_SHOW_PLATFORMINFO">顯示 EFI 平台資訊</entry>
     <entry lang="zh-hk" key="BOOT_LOADER_CONFIGURATION_FILE">開機掛載設定檔案</entry>
     <entry lang="zh-hk" key="EFI_PLATFORM_INFORMATION">EFI 平台資訊</entry>
-    <entry lang="zh-hk" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">WARNING: Inexperienced users should never attempt to manually edit boot loader configurations.\n\nContinue?</entry>
+    <entry lang="zh-hk" key="EDIT_DCSPROP_FOR_ADVANCED_ONLY">警告：沒有經驗的使用者不應嘗試自行修改開機載入程式設定。\n\n還要繼續嗎？</entry>
     <entry lang="zh-hk" key="DCSPROP_XML_VALIDATION_FAILED">WARNING: Failed to validate the XML format of the Boot Loader configuration. Please check your modifications.</entry>
     <entry lang="zh-hk" key="IDT_ADVANCED_OPTIONS">進階選項</entry>
     <entry lang="zh-hk" key="AFTER_UPGRADE_RESCUE_DISK">It is strongly recommended that you create a new VeraCrypt Rescue Disk (which will contain the new version of the VeraCrypt Boot Loader) by selecting 'System' &gt; 'Create Rescue Disk'.\nDo you want to do it now?</entry>
@@ -1421,7 +1421,7 @@
     <entry lang="zh-hk" key="IDC_BLOCK_SYSENC_TRIM">在系統分割區/磁碟機阻截 TRIM 指令</entry>
     <entry lang="en" key="WINDOWS_EFI_BOOT_LOADER_MISSING">ERROR: Windows EFI system loader could not be located on the disk. Operation will be aborted.</entry>
     <entry lang="en" key="SYSENC_EFI_UNSUPPORTED_SECUREBOOT">It is currently not possible to encrypt a system if SecureBoot is enabled and if VeraCrypt custom keys are not loaded into the machine firmware. SecureBoot needs to be disabled in the BIOS configuration in order to allow system encryption to proceed.</entry>
-    <entry lang="en" key="PASSWORD_PASTED_TRUNCATED">Pasted text truncated because the password maximum length is %d characters</entry>
+    <entry lang="zh-hk" key="PASSWORD_PASTED_TRUNCATED">貼上的文字因密碼長度限制為 %d 字元而被截短。</entry>
     <entry lang="en" key="PASSWORD_MAXLENGTH_REACHED">Password already reached its maximum length of %d characters.\nNo additional character is allowed.</entry>
     <entry lang="en" key="IDC_SELECT_LANGUAGE_LABEL">Select the language to use during the installation:</entry>
     <entry lang="en" key="VOLUME_TOO_LARGE_FOR_HOST">ERROR: The size of the file container is larger than the available free space on disk.</entry>
