@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.24-Update7">
-    <language langid="tr" name="Türkçe" en-name="Turkish" version="0.1.0" translators="Ali İskender Turan, Zeynel Abidin Öztürk" />
+    <language langid="tr" name="Türkçe" en-name="Turkish" version="0.1.0" translators="Ali İskender Turan, Zeynel Abidin Öztürk, Mehmet Keçeci" />
     <font lang="tr" class="normal" size="11" face="default" />
     <font lang="tr" class="bold" size="13" face="Arial" />
     <font lang="tr" class="fixed" size="12" face="Lucida Console" />
@@ -21,18 +21,18 @@
     <entry lang="en" key="IDD_INSTL_DLG">VeraCrypt Setup Wizard</entry>
     <entry lang="tr" key="IDD_UNINSTALL">VeraCrypt'i Kaldır</entry>
     <entry lang="tr" key="IDHELP">&amp;Yardım</entry>
-    <entry lang="en" key="IDT_EXTRACT_DESTINATION">Please select or type the location where you want to place the extracted files:</entry>
-    <entry lang="en" key="IDT_INSTALL_DESTINATION">Please select or type the location where you want to install the VeraCrypt program files. If the specified folder does not exist, it will be automatically created.</entry>
-    <entry lang="en" key="IDT_UNINSTALL_DIR">Click Uninstall to remove VeraCrypt from this system.</entry>
+    <entry lang="en" key="IDT_EXTRACT_DESTINATION">Lütfen çıkarılan dosyaları yerleştirmek istediğiniz konumu seçin veya yazın:</entry>
+    <entry lang="en" key="IDT_INSTALL_DESTINATION">Lütfen VeraCrypt program dosyalarını kurmak istediğiniz yeri seçin veya yazın. Belirtilen klasör yoksa, otomatik olarak oluşturulacaktır.</entry>
+    <entry lang="en" key="IDT_UNINSTALL_DIR">VeraCrypt'i bu sistemden kaldırmak için Kaldır'a tıklayın.</entry>
     <entry lang="tr" key="IDC_ABORT_BUTTON">İptal</entry>
     <entry lang="en" key="IDC_BENCHMARK">&amp;Benchmark</entry>
     <entry lang="tr" key="IDC_CIPHER_TEST">&amp;Test</entry>
-    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Create encrypted volume and format it</entry>
-    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Encrypt partition in place</entry>
-    <entry lang="en" key="IDC_DISPLAY_KEYS">Display generated keys (their portions)</entry>
+    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Şifrelenmiş birim oluşturun ve biçimlendirin</entry>
+    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Bölümü yerinde şifrele</entry>
+    <entry lang="en" key="IDC_DISPLAY_KEYS">Oluşturulan anahtarları (bölümlerini) görüntüle</entry>
     <entry lang="tr" key="IDC_DISPLAY_POOL_CONTENTS">Havuz içeriğini göster</entry>
-    <entry lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">Download CD/DVD recording software</entry>
-    <entry lang="en" key="IDC_FILE_CONTAINER">Create an encrypted file container</entry>
+    <entry lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD kayıt yazılımını indirin</entry>
+    <entry lang="en" key="IDC_FILE_CONTAINER">Şifreli dosya kapsayıcısı oluşturma</entry>
     <entry lang="en" key="IDC_GB">&amp;GB</entry>
     <entry lang="en" key="IDC_TB">&amp;TB</entry>
     <entry lang="tr" key="IDC_HIDDEN_SYSENC_INFO_LINK">Daha fazla bilgi</entry>
