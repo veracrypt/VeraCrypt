@@ -170,7 +170,7 @@ namespace VeraCrypt
 
         void EnsureVisible(bool bOnlyHeadingBar = false)
         {
-        	wxDisplay display (this);
+		wxDisplay display;
         	wxRect displayRect = display.GetClientArea();
         	    
         	bool bMove = false;

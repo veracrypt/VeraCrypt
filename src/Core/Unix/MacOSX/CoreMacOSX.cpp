@@ -123,13 +123,17 @@ namespace VeraCrypt
 			fuseVersionStringLength = MAXHOSTNAMELEN;
 			if ((status = sysctlbyname ("vfs.generic.osxfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
 			{
-				throw HigherFuseVersionRequired (SRC_POS);
+				fuseVersionStringLength = MAXHOSTNAMELEN;
+				if ((status = sysctlbyname ("vfs.generic.macfuse.version.number", fuseVersionString, &fuseVersionStringLength, NULL, 0)) != 0)
+				{
+					throw HigherFuseVersionRequired (SRC_POS);
+				}
 			}
 		}
 
 		// look for OSXFuse dynamic library
 		struct stat sb;
-		if (0 != stat("/usr/local/lib/libosxfuse_i64.2.dylib", &sb))
+		if (0 != stat("/usr/local/lib/libosxfuse_i64.2.dylib", &sb) && 0 != stat("/usr/local/lib/libfuse.dylib", &sb))
 		{
 			throw HigherFuseVersionRequired (SRC_POS);
 		}
