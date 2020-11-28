@@ -11,9 +11,6 @@
 *.txt.h
 *.h.gch
 src/Main/veracrypt
-*.oo
-*.o.32
-*.o.64
 
 # wxWidgets Linux build artifacts
 src/wxrelease
