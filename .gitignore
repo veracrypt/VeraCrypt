@@ -12,6 +12,16 @@
 *.h.gch
 src/Main/veracrypt
 
+# VC macOS build artifacts
+src/Main/VeraCrypt
+src/Main/VeraCrypt.app
+src/Main/*.dmg
+src/Setup/MacOSX/*.pkg
+*.oo
+*.o.32
+*.o.64
+.DS_Store
+
 # wxWidgets Linux build artifacts
 src/wxrelease
 src/wxdebug
