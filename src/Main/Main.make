@@ -102,11 +102,7 @@ endif
 
 #------ FUSE configuration ------
 
-ifeq "$(PLATFORM)" "MacOSX"
-FUSE_LIBS = $(shell pkg-config $(if $(patsubst 10.%,,$(VC_OSX_TARGET)),fuse,osxfuse) --libs)
-else
 FUSE_LIBS = $(shell pkg-config fuse --libs)
-endif
 
 #------ Executable ------
 
