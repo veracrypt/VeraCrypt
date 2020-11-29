@@ -1812,11 +1812,10 @@ add512(const unsigned long long *x, const unsigned long long *y, unsigned long l
     z[7] = x[7] ^ y[7]; \
 }
 
-#ifndef __GOST3411_BIG_ENDIAN__
 #define __XLPS_FOR for (_i = 0; _i <= 7; _i++)
+#ifndef __GOST3411_BIG_ENDIAN__
 #define _datai _i
 #else
-#define __XLPS_FOR for (_i = 7; _i >= 0; _i--)
 #define _datai 7 - _i
 #endif
 
@@ -1836,14 +1835,22 @@ add512(const unsigned long long *x, const unsigned long long *y, unsigned long l
     \
     __XLPS_FOR \
     {\
-        data[_datai]  = Ax[0][(r0 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[1][(r1 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[2][(r2 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[3][(r3 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[4][(r4 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[5][(r5 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[6][(r6 >> (_i << 3)) & 0xFF]; \
-        data[_datai] ^= Ax[7][(r7 >> (_i << 3)) & 0xFF]; \
+        data[_datai]  = Ax[0][r0 & 0xFF]; \
+        data[_datai] ^= Ax[1][r1 & 0xFF]; \
+        data[_datai] ^= Ax[2][r2 & 0xFF]; \
+        data[_datai] ^= Ax[3][r3 & 0xFF]; \
+        data[_datai] ^= Ax[4][r4 & 0xFF]; \
+        data[_datai] ^= Ax[5][r5 & 0xFF]; \
+        data[_datai] ^= Ax[6][r6 & 0xFF]; \
+        data[_datai] ^= Ax[7][r7 & 0xFF]; \
+        r0 >>= 8; \
+        r1 >>= 8; \
+        r2 >>= 8; \
+        r3 >>= 8; \
+        r4 >>= 8; \
+        r5 >>= 8; \
+        r6 >>= 8; \
+        r7 >>= 8; \
     }\
 }
 
@@ -1966,31 +1973,6 @@ VC_INLINE __m128i _mm_set_epi64x_a(uint64 i0, uint64 i1) {
     mm1 = _mm_xor_64(mm1, Ax[7][HI(ax)]); \
     \
     xmm4 = _mm_set_epi64(mm1, mm0); \
-}
-
-#define __EXTRACT64(row, xmm0, xmm1, xmm2, xmm3, xmm4) { \
-    __m128i tmm4; \
-    register unsigned long long r0, r1; \
-    r0  = Ax[0][_mm_extract_epi8(xmm0, row + 0)]; \
-    r0 ^= Ax[1][_mm_extract_epi8(xmm0, row + 8)]; \
-    r0 ^= Ax[2][_mm_extract_epi8(xmm1, row + 0)]; \
-    r0 ^= Ax[3][_mm_extract_epi8(xmm1, row + 8)]; \
-    r0 ^= Ax[4][_mm_extract_epi8(xmm2, row + 0)]; \
-    r0 ^= Ax[5][_mm_extract_epi8(xmm2, row + 8)]; \
-    r0 ^= Ax[6][_mm_extract_epi8(xmm3, row + 0)]; \
-    r0 ^= Ax[7][_mm_extract_epi8(xmm3, row + 8)]; \
-    \
-    r1  = Ax[0][_mm_extract_epi8(xmm0, row + 1)]; \
-    r1 ^= Ax[1][_mm_extract_epi8(xmm0, row + 9)]; \
-    r1 ^= Ax[2][_mm_extract_epi8(xmm1, row + 1)]; \
-    r1 ^= Ax[3][_mm_extract_epi8(xmm1, row + 9)]; \
-    r1 ^= Ax[4][_mm_extract_epi8(xmm2, row + 1)]; \
-    r1 ^= Ax[5][_mm_extract_epi8(xmm2, row + 9)]; \
-    r1 ^= Ax[6][_mm_extract_epi8(xmm3, row + 1)]; \
-    r1 ^= Ax[7][_mm_extract_epi8(xmm3, row + 9)]; \
-    xmm4 = _mm_cvtsi64_si128((long long) r0); \
-    tmm4 = _mm_cvtsi64_si128((long long) r1); \
-    xmm4 = _mm_unpacklo_epi64(xmm4, tmm4); \
 }
 
 #define EXTRACT64(row, xmm0, xmm1, xmm2, xmm3, xmm4) { \
