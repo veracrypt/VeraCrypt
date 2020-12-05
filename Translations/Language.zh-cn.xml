@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
   <localization prog-version= "1.24-Update8">
-    <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.0" translators="Barney Li and Zhangjintao" />
+    <language langid="zh-cn" name="简体中文" en-name="Chinese (Simplified)" version="1.0.1" translators="Barney Li, Zhangjintao, Nkh0472" />
     <font lang="zh-cn" class="normal" size="11" face="Tahoma" />
     <font lang="zh-cn" class="bold" size="14" face="Tahoma" />
     <font lang="zh-cn" class="fixed" size="14" face="MingLiU" />
@@ -133,7 +133,7 @@
     <entry lang="zh-cn" key="IDC_FAVORITE_MOVE_UP">上移(&amp;U)</entry>
     <entry lang="zh-cn" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">成功加载选定加密卷后，为其打开资源管理器窗口(&amp;E)</entry>
     <entry lang="zh-cn" key="IDC_FAVORITE_REMOVE">移除(&amp;R)</entry>
-    <entry lang="zh-cn" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">使用收藏卷的标签作为资源管理器中卷的名称</entry>
+    <entry lang="zh-cn" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">使用收藏卷的卷标作为资源管理器中卷的名称</entry>
     <entry lang="zh-cn" key="IDC_FAV_VOL_OPTIONS_GLOBAL_SETTINGS_BOX">全局设置</entry>
     <entry lang="zh-cn" key="IDC_HK_DISMOUNT_BALLOON_TOOLTIP">热键卸载后显示气球提示</entry>
     <entry lang="zh-cn" key="IDC_HK_DISMOUNT_PLAY_SOUND">热键卸载后播放系统提示音</entry>
@@ -144,7 +144,7 @@
     <entry lang="zh-cn" key="IDC_HOTKEY_ASSIGN">分配</entry>
     <entry lang="zh-cn" key="IDC_HOTKEY_REMOVE">移除</entry>
     <entry lang="zh-cn" key="IDC_KEYFILES">密钥文件...</entry>
-    <entry lang="zh-cn" key="IDC_LIMIT_ENC_THREAD_POOL">不使用下面数目的处理器加密/解密:</entry>
+    <entry lang="zh-cn" key="IDC_LIMIT_ENC_THREAD_POOL">保留指定的逻辑处理器个数不参与加密/解密:</entry>
     <entry lang="zh-cn" key="IDC_MORE_INFO_ON_HW_ACCELERATION">更多信息（联网）</entry>
     <entry lang="zh-cn" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">更多信息（联网）</entry>
     <entry lang="zh-cn" key="IDC_MORE_SETTINGS">更多设置...</entry>
@@ -282,7 +282,7 @@
     <entry lang="zh-cn" key="IDT_FAVORITE_LABEL">所选收藏加密卷的卷标:</entry>
     <entry lang="zh-cn" key="IDT_FILE_SETTINGS">文件选项</entry>
     <entry lang="zh-cn" key="IDT_HOTKEY_KEY">要分配的热键：</entry>
-    <entry lang="zh-cn" key="IDT_HW_AES_SUPPORTED_BY_CPU">此电脑中可为 AES 提供硬件加速的处理器:</entry>
+    <entry lang="zh-cn" key="IDT_HW_AES_SUPPORTED_BY_CPU">此电脑的处理器可为 AES 提供硬件加速:</entry>
     <entry lang="zh-cn" key="IDT_LOGON">Windows 登陆时执行的操作</entry>
     <entry lang="zh-cn" key="IDT_MINUTES">分钟</entry>
     <entry lang="zh-cn" key="IDT_MOUNT_LETTER">以该驱动器盘符加载：</entry>
@@ -353,7 +353,7 @@
     <entry lang="zh-cn" key="IDT_HIDDEN_VOL_PROTECTION">保护隐藏加密卷</entry>
     <entry lang="zh-cn" key="IDT_KEY">密钥长度：</entry>
     <entry lang="zh-cn" key="IDT_KEYFILE_GENERATOR_NOTE">重要：请在此窗口内随机移动鼠标，移动时间越长越好。这将会显著增加密钥的加密强度。</entry>
-    <entry lang="zh-cn" key="IDT_KEYFILE_WARNING">警告：如果您丢失了密钥文件或者密钥文件的前 1024 KB 字节已改变，将不可能再加载使用该密钥的加密卷！</entry>
+    <entry lang="zh-cn" key="IDT_KEYFILE_WARNING">警告：如果您丢失了密钥文件或者密钥文件的前 1024 KB 内容被改变，该密钥将无法加载相应的加密卷！</entry>
     <entry lang="zh-cn" key="IDT_KEY_UNIT">位</entry>
     <entry lang="zh-cn" key="IDT_NUMBER_KEYFILES">密钥文件数量:</entry>
     <entry lang="zh-cn" key="IDT_KEYFILES_SIZE">密钥文件大小(以字节计算):</entry>
@@ -675,7 +675,7 @@
     <entry lang="zh-cn" key="SIZE_PARTITION_HIDDEN_SYSENC_HELP">外层加密卷和隐藏加密卷（包含隐形操作系统）将存在于上面分区。\n\n请确认上面显示的分区大小和数值是正确的，如果正确，请点击〖下一步〗。</entry>
     <entry lang="zh-cn" key="SIZE_PARTITION_HIDDEN_VOL_HELP">\n\n注意：如若在其内创建隐藏加密卷，则外层加密卷最小可能大小为 340 KB。</entry>
     <entry lang="zh-cn" key="SIZE_TITLE">加密卷大小</entry>
-    <entry lang="zh-cn" key="SPARSE_FILE">动态加密卷</entry>
+    <entry lang="zh-cn" key="SPARSE_FILE">动态扩展卷</entry>
     <entry lang="zh-cn" key="TESTS_FAILED">警告：自检失败！</entry>
     <entry lang="zh-cn" key="TESTS_PASSED">全部算法自检通过</entry>
     <entry lang="zh-cn" key="TEST_INCORRECT_TEST_DATA_UNIT_SIZE">您提供的数据单元数值太长或太短。</entry>
@@ -702,8 +702,8 @@
     <entry lang="zh-cn" key="VOL_SEEKING">在加密卷里寻址时出错。</entry>
     <entry lang="zh-cn" key="VOL_SIZE_WRONG">错误：错误的加密卷大小。</entry>
     <entry lang="zh-cn" key="WARN_QUICK_FORMAT">警告：您应当只能在下面的情况下使用快速格式化：\n\n1) 设备不包含敏感数据，且您不需要隐蔽性。\n2) 设备或分区已经被完全加密过。\n\n您确认要使用快速格式化吗？</entry>
-    <entry lang="zh-cn" key="CONFIRM_SPARSE_FILE">动态的容器是一个预先分配的 NTFS 稀疏文件，它的物理大小（实际磁盘空间占用）在有新数据添加到里面的时候才会增加。\n\n警告: 稀疏文件基础的加密卷性能比常规加密卷的性能有较大降低。稀疏文件基础的加密卷的安全性也要弱些－因为它有可能泄漏哪些加密卷扇区未被使用的情况。另外，稀疏文件基础的加密卷无法实现隐蔽性（容纳一个隐藏加密卷）。同时需要注意到是如果数据被写入到稀疏文件基础的加密卷，而此时主机文件系统剩余空间不足，加密的文件系统可能会损坏。\n\n您确认要创建稀疏文件基础的加密卷吗？</entry>
-    <entry lang="zh-cn" key="SPARSE_FILE_SIZE_NOTE">注意，Windows 系统和 VeraCrypt 报告的动态加密卷的大小会等于它的最大尺寸。要查看当前容器的物理大小（占用的实际磁盘空间），在 Windows 资源管理器窗口右键单击容器文件，之后选择“属性”并查看“占用空间”的数值。\n\n同时也要注意，如果您把动态加密卷移动到另外容器或驱动器，容器的物理大小会变为它的最大大小。 (为避免此类情况发生，您可以在目标位置创建一个新的动态加密卷，然后把文件从老的加密卷中复制过来)</entry>
+    <entry lang="zh-cn" key="CONFIRM_SPARSE_FILE">动态扩展加密卷的容器是一个预先分配的 NTFS 稀疏文件，它的物理大小（实际磁盘空间占用）在有新数据添加到里面的时候才会增加。\n\n警告: 动态扩展加密卷的性能比常规加密卷的性能有较大降低。动态扩展加密卷的安全性也要弱些－因为它有可能泄漏哪些加密卷扇区未被使用。另外，动态扩展加密卷无法实现隐蔽性（容纳一个隐藏加密卷）。同时需要注意，如果数据被写入到动态扩展加密卷，而此时宿主文件系统的剩余空间不足，加密卷的文件系统可能会损坏。\n\n您确认要创建动态扩展加密卷吗？</entry>
+    <entry lang="zh-cn" key="SPARSE_FILE_SIZE_NOTE">注意，Windows 系统和 VeraCrypt 报告的动态扩展加密卷的大小会等于它的最大尺寸。要查看当前容器的物理大小（占用的实际磁盘空间），在 Windows 资源管理器窗口右键单击容器文件，之后选择“属性”并查看“占用空间”的数值。\n\n同时也要注意，如果您把动态扩展加密卷移动到另外容器或驱动器，容器的物理大小会变为它的最大大小。 (为避免此类情况发生，您可以在目标位置创建一个新的动态加密卷，然后把文件从之前的的加密卷中复制过来)</entry>
     <entry lang="zh-cn" key="PASSWORD_CACHE_WIPED_SHORT">密码缓存已擦除</entry>
     <entry lang="zh-cn" key="PASSWORD_CACHE_WIPED">存储在 VeraCrypt 驱动缓存中的密码（和/或 已处理的密钥文件内容）已经被擦除。</entry>
     <entry lang="zh-cn" key="WRONG_VOL_TYPE">VeraCrypt 不能修改外层加密卷的密码。</entry>
@@ -881,7 +881,7 @@
     <entry lang="zh-cn" key="CANT_CREATE_FOLDER">无法创建文件夹 '%s'</entry>
     <entry lang="zh-cn" key="CLOSE_TC_FIRST">不能卸载 VeraCrypt 设备驱动。\n\n请首先关闭所有打开的 VeraCrypt 窗口。如果这样仍然不起作用，请重启计算机然后再试一次。</entry>
     <entry lang="zh-cn" key="DISMOUNT_ALL_FIRST">在安装或者卸载 VeraCrypt 之前必须先要卸载所有的 VeraCrypt 加密卷。</entry>
-    <entry lang="zh-cn" key="UNINSTALL_OLD_VERSION_FIRST">当前系统已经安装了老版本的 VeraCrypt。在安装新版本前需要卸载旧版本的 VeraCrypt。\n\n在您关闭此对话框之后，将会加载旧版本的卸载程序。在卸载的过程中将不会执行任何加密分区的解密操作。在卸载旧版本的 VeraCrypt 之后，请再次运行新版 VeraCrypt 安装程序。</entry>
+    <entry lang="zh-cn" key="UNINSTALL_OLD_VERSION_FIRST">当前系统已经安装了旧版本的 VeraCrypt。在安装新版本前需要卸载旧版本的 VeraCrypt。\n\n在您关闭此对话框之后，将会加载旧版本的卸载程序。在卸载的过程中将不会执行任何加密分区的解密操作。在卸载旧版本的 VeraCrypt 之后，请再次运行新版 VeraCrypt 安装程序。</entry>
     <entry lang="zh-cn" key="REG_INSTALL_FAILED">安装注册表项目失败</entry>
     <entry lang="zh-cn" key="DRIVER_INSTALL_FAILED">安装设备驱动失败。请重启计算机后再尝试安装 VeraCrypt。</entry>
     <entry lang="zh-cn" key="STARTING_DRIVER">正在启动 VeraCrypt 设备驱动</entry>
@@ -945,7 +945,7 @@
     <entry lang="zh-cn" key="HEADER_DAMAGED_AUTO_USED_HEADER_BAK">警告：加密卷头信息已经损坏！VeraCrypt 将自动使用内嵌在加密卷中的头信息备份。\n\n您应当通过选择〖工具〗-&gt;〖恢复加密卷头信息〗来修复头信息。</entry>
     <entry lang="zh-cn" key="VOL_HEADER_BACKED_UP">加密卷头信息备份已经成功创建。\n\n重要：使用恢复功能恢复时也会恢复当前加密卷的密码。另外，如果创建加密卷的时候使用了密钥文件，恢复后也需要同样的密钥文件来打开加密卷。\n\n警告：该加密卷头信息备份只能用在这个提供备份的加密卷上。如果您把该头信息备份恢复到其它加密卷，您可能能够打开加密卷，但是您将不能解密存储于加密卷的任何数据（这是因为您已经改变了加密卷的主密钥）。</entry>
     <entry lang="zh-cn" key="VOL_HEADER_RESTORED">加密卷头信息备份已经成功恢复。\n\n重要：请注意旧密码也同样被恢复了。另外，备份时如果需要密钥文件来加载加密卷，恢复后也需要同样的密钥文件。</entry>
-    <entry lang="zh-cn" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">安全起见，您需要输入正确的加密卷密码（和/或 提供正确的密钥文件）。\n\n注意：如果该加密卷中包含隐藏加密卷，您需要先输入正确的外层加密卷的密码（和/或 正确的密钥文件）。之后，如果选择老备份隐藏加密卷的头信息，您需要输入正确的隐藏加密卷密码（和/或 提供正确的密钥文件）。</entry>
+    <entry lang="zh-cn" key="EXTERNAL_VOL_HEADER_BAK_FIRST_INFO">安全起见，您需要输入正确的加密卷密码（和/或 提供正确的密钥文件）。\n\n注意：如果该加密卷中包含隐藏加密卷，您需要先输入正确的外层加密卷的密码（和/或 正确的密钥文件）。之后，如果选择备份隐藏加密卷的头信息，您还需要输入正确的隐藏加密卷密码（和/或 提供正确的密钥文件）。</entry>
     <entry lang="zh-cn" key="CONFIRM_VOL_HEADER_BAK">您确认要创建加密卷 %s 的头信息的备份吗？\n\n在您点击〖是〗后，将会弹出备份的头信息文件的文件名提示对话框。\n\n注意：常规加密卷和隐藏加密卷头信息均将使用新的元素加密并存储到备份文件中。如果加密卷中没有隐藏加密卷，在备份文件中为隐藏加密卷保留的区域将会使用随机数据填充（以保持隐蔽性）。您需要输入创建头信息备份时的正确的密码（和/或 提供正确的密钥文件）。密码或密钥文件会自动确定要恢复的加密卷头信息类型，即常规的或是隐藏的（VeraCrypt 通过尝试和错误来侦测类型），尽管有时在加密卷里面并没有隐藏加密卷（为保留隐蔽性）。当从备份文件中恢复一个加密卷的头信息时，可以选择恢复哪个头信息（例如，隐藏解密卷或是标准加密卷）</entry>
     <entry lang="zh-cn" key="CONFIRM_VOL_HEADER_RESTORE">您确认要恢复加密卷 %s 的头信息吗？\n\n警告：恢复加密卷头信息也会恢复在创建备份时 有效的密码。另外，如果在备份时需要使用密钥文件加载加密卷，那么在头信息恢复后，仍然需要同样的密钥文件。\n\n在您点击〖是〗后，您将选择头信息备份文件。</entry>
     <entry lang="zh-cn" key="DOES_VOLUME_CONTAIN_HIDDEN">此加密卷包含隐藏加密卷吗？</entry>
@@ -1009,10 +1009,10 @@
     <entry lang="zh-cn" key="HK_AUTOMOUNT_DEVICES">自动加载设备</entry>
     <entry lang="zh-cn" key="HK_DISMOUNT_ALL">全部卸载</entry>
     <entry lang="zh-cn" key="HK_WIPE_CACHE">擦除缓存</entry>
-    <entry lang="zh-cn" key="HK_DISMOUNT_ALL_AND_WIPE">卸载全部  &amp;  擦除缓存</entry>
+    <entry lang="zh-cn" key="HK_DISMOUNT_ALL_AND_WIPE">全部卸载并擦除缓存</entry>
     <entry lang="zh-cn" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE">强制全部卸载并擦除缓存</entry>
-    <entry lang="zh-cn" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">强制全部卸载擦除缓存并退出程序</entry>
-    <entry lang="zh-cn" key="HK_MOUNT_FAVORITE_VOLUMES">加载收藏加密卷</entry>
+    <entry lang="zh-cn" key="HK_FORCE_DISMOUNT_ALL_AND_WIPE_AND_EXIT">强制全部卸载后擦除缓存并退出程序</entry>
+    <entry lang="zh-cn" key="HK_MOUNT_FAVORITE_VOLUMES">加载收藏的加密卷</entry>
     <entry lang="zh-cn" key="HK_SHOW_HIDE_MAIN_WINDOW">显示/隐藏 VeraCrypt 主窗口</entry>
     <entry lang="zh-cn" key="PRESS_A_KEY_TO_ASSIGN">（单击这里并按下某个键盘按键）</entry>
     <entry lang="zh-cn" key="ACTION">操作</entry>
@@ -1434,7 +1434,7 @@
     <entry lang="zh-cn" key="STARTING">开始</entry>
     <entry lang="zh-cn" key="IDC_ENABLE_CPU_RNG">使用CPU硬件随机数生成器作为额外的熵源</entry>
     <entry lang="zh-cn" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">使用旧密码长度 (64个字符)</entry>
-    <entry lang="zh-cn" key="IDC_ENABLE_RAM_ENCRYPTION">激活存储在RAM中的密钥和密码加密</entry>
+    <entry lang="zh-cn" key="IDC_ENABLE_RAM_ENCRYPTION">对存储在RAM中的密钥和密码进行加密</entry>
     <entry lang="zh-cn" key="IDT_BENCHMARK">基准测试:</entry>
     <entry lang="zh-cn" key="IDC_DISABLE_MOUNT_MANAGER">仅创建虚拟设备而不加载在选定的盘符上</entry>
     <entry lang="zh-cn" key="LEGACY_PASSWORD_UTF8_TOO_LONG">键入的密码过长：在UTF-8下已超过64字节</entry>
