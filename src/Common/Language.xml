@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt>
-  <localization prog-version="1.16">
+  <localization prog-version="1.24-Update8">
     <language langid="en" name="English" en-name="English" version="0.0.0" translators="TrueCrypt/VeraCrypt Teams" />
     <font lang="en" class="normal" size="11" face="default" />
     <font lang="en" class="bold" size="13" face="Arial" />
@@ -144,7 +144,7 @@
     <entry lang="en" key="IDC_HOTKEY_ASSIGN">Assign</entry>
     <entry lang="en" key="IDC_HOTKEY_REMOVE">Remove</entry>
     <entry lang="en" key="IDC_KEYFILES">Keyfiles...</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>
