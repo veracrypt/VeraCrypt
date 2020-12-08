@@ -2,7 +2,7 @@
 <wxFormBuilder_Project>
     <FileVersion major="1" minor="13" />
     <object class="Project" expanded="1">
-        <property name="class_decoration"></property>
+        <property name="class_decoration">; international.h</property>
         <property name="code_generation">C++</property>
         <property name="disconnect_events">1</property>
         <property name="disconnect_mode">source_name</property>
@@ -134,7 +134,7 @@
                 <event name="OnSize"></event>
                 <event name="OnUpdateUI"></event>
                 <object class="wxMenu" expanded="0">
-                    <property name="label">&amp;Volumes</property>
+                    <property name="label">MENU_VOLUMES</property>
                     <property name="name">VolumesMenu</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
@@ -144,7 +144,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Create New Volume...</property>
+                        <property name="label">IDM_CREATE_VOLUME</property>
                         <property name="name">CreateNewVolumeMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -163,7 +163,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Mount Volume</property>
+                        <property name="label">IDM_MOUNT_VOLUME</property>
                         <property name="name">MountVolumeMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -178,7 +178,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Auto-Mount All Device-Hosted Volumes</property>
+                        <property name="label">IDM_MOUNTALL</property>
                         <property name="name">AutoMountDevicesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -197,7 +197,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Dismount Volume</property>
+                        <property name="label">IDM_UNMOUNT_VOLUME</property>
                         <property name="name">DismountVolumeMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -212,7 +212,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Dismount All Mounted Volumes</property>
+                        <property name="label">IDM_UNMOUNTALL</property>
                         <property name="name">DismountAllMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -231,7 +231,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Change Volume Password...</property>
+                        <property name="label">IDM_CHANGE_PASSWORD</property>
                         <property name="name">ChangePasswordMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -246,7 +246,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Change Header Key Derivation Algorithm...</property>
+                        <property name="label">IDM_CHANGE_HEADER_KEY_DERIV_ALGO</property>
                         <property name="name">ChangePkcs5PrfMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -261,7 +261,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Add/Remove Keyfiles to/from Volume...</property>
+                        <property name="label">IDD_PCDM_ADD_REMOVE_VOL_KEYFILES</property>
                         <property name="name">ChangeKeyfilesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -276,7 +276,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Remove All Keyfiles from Volume...</property>
+                        <property name="label">IDM_REMOVE_ALL_KEYFILES_FROM_VOL</property>
                         <property name="name">RemoveKeyfilesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -295,7 +295,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Volume Properties...</property>
+                        <property name="label">IDC_VOLUME_PROPERTIES</property>
                         <property name="name">VolumePropertiesMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -305,7 +305,7 @@
                     </object>
                 </object>
                 <object class="wxMenu" expanded="0">
-                    <property name="label">&amp;Favorites</property>
+                    <property name="label">MENU_FAVORITES</property>
                     <property name="name">FavoritesMenu</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
@@ -315,7 +315,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Add Selected Volume to Favorites...</property>
+                        <property name="label">IDM_ADD_VOLUME_TO_FAVORITES</property>
                         <property name="name">AddToFavoritesMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -330,7 +330,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Add All Mounted Volumes to Favorites...</property>
+                        <property name="label">IDM_ADD_ALL_VOLUME_TO_FAVORITES</property>
                         <property name="name">AddAllMountedToFavoritesMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -345,7 +345,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Organize Favorite Volumes...</property>
+                        <property name="label">IDM_ORGANIZE_FAVORITES</property>
                         <property name="name">OrganizeFavoritesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -364,7 +364,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Mount Favorite Volumes</property>
+                        <property name="label">IDM_MOUNT_FAVORITE_VOLUMES</property>
                         <property name="name">MountAllFavoritesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -378,7 +378,7 @@
                     </object>
                 </object>
                 <object class="wxMenu" expanded="0">
-                    <property name="label">T&amp;ools</property>
+                    <property name="label">MENU_TOOLS</property>
                     <property name="name">ToolsMenu</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
@@ -388,7 +388,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Benchmark...</property>
+                        <property name="label">IDM_BENCHMARK</property>
                         <property name="name">BenchmarkMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -403,7 +403,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Test Vectors...</property>
+                        <property name="label">IDM_TEST_VECTORS</property>
                         <property name="name">EncryptionTestMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -422,7 +422,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Volume Creation Wizard</property>
+                        <property name="label">IDM_VOLUME_WIZARD</property>
                         <property name="name">VolumeCreationWizardMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -441,7 +441,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Backup Volume Header...</property>
+                        <property name="label">IDM_BACKUP_VOL_HEADER</property>
                         <property name="name">BackupVolumeHeadersMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -456,7 +456,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Restore Volume Header...</property>
+                        <property name="label">IDM_RESTORE_VOL_HEADER</property>
                         <property name="name">RestoreVolumeHeaderMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -475,7 +475,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Keyfile Generator</property>
+                        <property name="label">IDM_KEYFILE_GENERATOR</property>
                         <property name="name">CreateKeyfileMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -490,7 +490,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Manage Security Token Keyfiles...</property>
+                        <property name="label">IDM_MANAGE_TOKEN_KEYFILES</property>
                         <property name="name">ManageSecurityTokenKeyfilesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -505,7 +505,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Close All Security Token Sessions</property>
+                        <property name="label">IDM_CLOSE_ALL_TOKEN_SESSIONS</property>
                         <property name="name">CloseAllSecurityTokenSessionsMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -524,7 +524,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Wipe Cached Passwords</property>
+                        <property name="label">IDM_WIPE_CACHE</property>
                         <property name="name">WipeCachedPasswordsMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -534,7 +534,7 @@
                     </object>
                 </object>
                 <object class="wxMenu" expanded="0">
-                    <property name="label">Settin&amp;gs</property>
+                    <property name="label">MENU_SETTINGS</property>
                     <property name="name">SettingsMenu</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
@@ -544,7 +544,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Hotkeys...</property>
+                        <property name="label">IDM_HOTKEY_SETTINGS</property>
                         <property name="name">HotkeysMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -559,7 +559,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Default Keyfiles...</property>
+                        <property name="label">IDM_DEFAULT_KEYFILES</property>
                         <property name="name">DefaultKeyfilesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -574,7 +574,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Default Mount Parameters...</property>
+                        <property name="label">IDM_DEFAULT_MOUNT_PARAMETERS</property>
                         <property name="name">DefaultMountParametersMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -589,7 +589,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Security Tokens...</property>
+                        <property name="label">IDM_TOKEN_PREFERENCES</property>
                         <property name="name">SecurityTokenPreferencesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -608,7 +608,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_PREFERENCES</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">&amp;Preferences...</property>
+                        <property name="label">IDM_PREFERENCES</property>
                         <property name="name">PreferencesMenuItem</property>
                         <property name="permission">protected</property>
                         <property name="shortcut"></property>
@@ -618,7 +618,7 @@
                     </object>
                 </object>
                 <object class="wxMenu" expanded="0">
-                    <property name="label">&amp;Help</property>
+                    <property name="label">MENU_HELP</property>
                     <property name="name">HelpMenu</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
@@ -628,7 +628,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_HELP</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">User&apos;s Guide</property>
+                        <property name="label">IDM_HELP</property>
                         <property name="name">UserGuideMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -643,7 +643,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Online Help</property>
+                        <property name="label">IDM_ONLINE_HELP</property>
                         <property name="name">OnlineHelpMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -658,7 +658,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Beginner&apos;s Tutorial</property>
+                        <property name="label">IDM_ONLINE_TUTORIAL</property>
                         <property name="name">BeginnersTutorialMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -673,7 +673,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Frequently Asked Questions</property>
+                        <property name="label">IDM_FAQ</property>
                         <property name="name">FaqMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -692,7 +692,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">VeraCrypt Website</property>
+                        <property name="label">IDM_WEBSITE</property>
                         <property name="name">WebsiteMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -707,7 +707,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Downloads</property>
+                        <property name="label">IDM_TC_DOWNLOADS</property>
                         <property name="name">DownloadsMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -722,7 +722,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">News</property>
+                        <property name="label">IDM_NEWS</property>
                         <property name="name">NewsMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -737,7 +737,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Version History</property>
+                        <property name="label">IDM_VERSION_HISTORY</property>
                         <property name="name">VersionHistoryMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -756,7 +756,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Donate</property>
+                        <property name="label">IDM_DONATE</property>
                         <property name="name">DonateMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -771,7 +771,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Contact</property>
+                        <property name="label">IDM_CONTACT</property>
                         <property name="name">ContactMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -786,7 +786,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Legal Notices</property>
+                        <property name="label">IDM_LICENSE</property>
                         <property name="name">LegalNoticesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -801,7 +801,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ABOUT</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">About</property>
+                        <property name="label">ABOUTBOX</property>
                         <property name="name">AboutMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -1104,7 +1104,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">&amp;Create Volume</property>
+                                                                    <property name="label">IDC_CREATE_VOLUME</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -1203,7 +1203,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">&amp;Volume Properties...</property>
+                                                                    <property name="label">IDC_VOLUME_PROPERTIES</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -1302,7 +1302,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">&amp;Wipe Cache</property>
+                                                                    <property name="label">HK_WIPE_CACHE</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -1377,7 +1377,7 @@
                                                 <property name="proportion">1</property>
                                                 <object class="wxStaticBoxSizer" expanded="1">
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">Volume</property>
+                                                    <property name="label">IDT_VOLUME</property>
                                                     <property name="minimum_size"></property>
                                                     <property name="name">VolumeStaticBoxSizer</property>
                                                     <property name="orient">wxVERTICAL</property>
@@ -1621,7 +1621,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Select &amp;File...</property>
+                                                                            <property name="label">IDC_SELECT_FILE</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -1714,7 +1714,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">&amp;Never save history</property>
+                                                                    <property name="label">IDC_NO_HISTORY</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -1814,7 +1814,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Volume &amp;Tools...</property>
+                                                                            <property name="label">IDC_VOLUME_TOOLS</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -1916,7 +1916,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Select D&amp;evice...</property>
+                                                                            <property name="label">IDC_SELECT_DEVICE</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -2044,7 +2044,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">&amp;Mount</property>
+                                                                    <property name="label">MOUNT_BUTTON</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -2146,7 +2146,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">&amp;Auto-Mount Devices</property>
+                                                                    <property name="label">IDC_MOUNTALL</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -2248,7 +2248,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Di&amp;smount All</property>
+                                                                    <property name="label">IDC_UNMOUNTALL</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -2350,7 +2350,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">E&amp;xit</property>
+                                                                    <property name="label">IDC_EXIT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -2840,7 +2840,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_HELP</property>
-                                                    <property name="label">&amp;Help</property>
+                                                    <property name="label">IDHELP</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -2938,7 +2938,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">&lt; &amp;Prev</property>
+                                                    <property name="label">PREV</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -3026,7 +3026,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">&amp;Next &gt;</property>
+                                                    <property name="label">NEXT</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -3124,7 +3124,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_CANCEL</property>
-                                                    <property name="label">Cancel</property>
+                                                    <property name="label">IDCANCEL</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -4154,7 +4154,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_OK</property>
-                                        <property name="label">OK</property>
+                                        <property name="label">IDOK</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -4246,7 +4246,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">VeraCrypt - Algorithms Benchmark</property>
+            <property name="title">IDD_BENCHMARK_DLG</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -4349,7 +4349,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Benchmark:</property>
+                                        <property name="label">IDT_BENCHMARK</property>
                                         <property name="markup">0</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -4419,7 +4419,7 @@
                                         <property name="caption"></property>
                                         <property name="caption_visible">1</property>
                                         <property name="center_pane">0</property>
-                                        <property name="choices">&quot;Encryption Algorithm&quot; &quot;PKCS-5 PRF&quot; &quot;Hash Algorithm&quot;</property>
+                                        <property name="choices">&quot;ENCRYPTION_ALGORITHM&quot; &quot;PKCS5_PRF&quot; &quot;IDT_HASH_ALGO&quot;</property>
                                         <property name="close_button">1</property>
                                         <property name="context_help"></property>
                                         <property name="context_menu">1</property>
@@ -4521,7 +4521,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Buffer Size:</property>
+                                        <property name="label">IDT_BUFFER_SIZE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -4692,7 +4692,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Volume PIM:</property>
+                                        <property name="label">IDT_PIM</property>
                                         <property name="markup">0</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -5074,7 +5074,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_OK</property>
-                                                <property name="label">Benchmark</property>
+                                                <property name="label">IDC_PERFORM_BENCHMARK</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -5162,7 +5162,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_CANCEL</property>
-                                                <property name="label">Close</property>
+                                                <property name="label">IDCLOSE</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -5409,7 +5409,7 @@
                                     <property name="proportion">0</property>
                                     <object class="wxStaticBoxSizer" expanded="1">
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Current</property>
+                                        <property name="label">IDT_CURRENT</property>
                                         <property name="minimum_size"></property>
                                         <property name="name">CurrentSizer</property>
                                         <property name="orient">wxVERTICAL</property>
@@ -5434,7 +5434,7 @@
                                     <property name="proportion">0</property>
                                     <object class="wxStaticBoxSizer" expanded="1">
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">New</property>
+                                        <property name="label">IDT_NEW</property>
                                         <property name="minimum_size"></property>
                                         <property name="name">NewSizer</property>
                                         <property name="orient">wxVERTICAL</property>
@@ -5497,7 +5497,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_OK</property>
-                                        <property name="label">OK</property>
+                                        <property name="label">IDOK</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -5585,7 +5585,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_CANCEL</property>
-                                        <property name="label">Cancel</property>
+                                        <property name="label">IDCANCEL</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -5667,7 +5667,7 @@
             <property name="size">-1,-1</property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Select a Partition or Device</property>
+            <property name="title">IDD_RAWDEVICES_DLG</property>
             <property name="tooltip"></property>
             <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
             <property name="window_name"></property>
@@ -5878,7 +5878,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">VeraCrypt - Test Vectors</property>
+            <property name="title">IDD_CIPHER_TEST_DLG</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -5974,7 +5974,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Encryption algorithm:</property>
+                                        <property name="label">IDT_CIPHER</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -6146,7 +6146,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">XTS mode</property>
+                                        <property name="label">IDT_XTS_MODE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -6209,7 +6209,7 @@
                             <property name="proportion">0</property>
                             <object class="wxStaticBoxSizer" expanded="1">
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Key (hexadecimal)</property>
+                                <property name="label">IDT_TEST_KEY</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">sbSizer38</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -6347,7 +6347,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Key size:</property>
+                                                <property name="label">IDT_KEY</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -6491,7 +6491,7 @@
                             <property name="proportion">1</property>
                             <object class="wxStaticBoxSizer" expanded="1">
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">XTS mode</property>
+                                <property name="label">IDT_XTS_MODE</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">sbSizer39</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -6529,7 +6529,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Secondary key (hexadecimal)</property>
+                                        <property name="label">IDT_SECONDARY_KEY</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -6703,7 +6703,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Data unit number (64-bit, data unit size is 512 bytes)</property>
+                                        <property name="label">IDT_TEST_DATA_UNIT_NUMBER</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -6877,7 +6877,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Block number:</property>
+                                        <property name="label">IDT_TEST_BLOCK_NUMBER</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -7027,7 +7027,7 @@
                             <property name="proportion">0</property>
                             <object class="wxStaticBoxSizer" expanded="1">
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Plaintext (hexadecimal)</property>
+                                <property name="label">IDT_TEST_PLAINTEXT</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">sbSizer40</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -7132,7 +7132,7 @@
                             <property name="proportion">0</property>
                             <object class="wxStaticBoxSizer" expanded="1">
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Ciphertext (hexadecimal)</property>
+                                <property name="label">IDT_TEST_CIPHERTEXT</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">sbSizer41</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -7273,7 +7273,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">&amp;Encrypt</property>
+                                        <property name="label">ENCRYPT</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -7361,7 +7361,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">&amp;Decrypt</property>
+                                        <property name="label">DECRYPT</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -7449,7 +7449,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">&amp;Auto-Test All</property>
+                                        <property name="label">IDC_AUTO</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -7537,7 +7537,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">&amp;Reset</property>
+                                        <property name="label">IDC_RESET</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -7625,7 +7625,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_CANCEL</property>
-                                        <property name="label">Close</property>
+                                        <property name="label">IDCLOSE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -7707,7 +7707,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Favorite Volumes</property>
+            <property name="title">IDD_FAVORITE_VOLUMES</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -7921,7 +7921,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Move &amp;Up</property>
+                                                <property name="label">IDC_FAVORITE_MOVE_UP</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -8009,7 +8009,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Move &amp;Down</property>
+                                                <property name="label">IDC_FAVORITE_MOVE_DOWN</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -8097,7 +8097,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">&amp;Remove</property>
+                                                <property name="label">IDC_KEYREMOVE</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -8185,7 +8185,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Remove &amp;All</property>
+                                                <property name="label">IDC_KEYREMOVEALL</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -8314,7 +8314,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_OK</property>
-                                        <property name="label">OK</property>
+                                        <property name="label">IDOK</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -8402,7 +8402,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_CANCEL</property>
-                                        <property name="label">Cancel</property>
+                                        <property name="label">IDCANCEL</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -8484,7 +8484,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Select Keyfiles</property>
+            <property name="title">SELECT_TOKEN_KEYFILES</property>
             <property name="tooltip"></property>
             <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
             <property name="window_name"></property>
@@ -8592,7 +8592,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_OK</property>
-                                        <property name="label">OK</property>
+                                        <property name="label">IDOK</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -8680,7 +8680,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_CANCEL</property>
-                                        <property name="label">Cancel</property>
+                                        <property name="label">IDCANCEL</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -9136,7 +9136,7 @@
                                         <property name="hidden">0</property>
                                         <property name="hover_color">wxSYS_COLOUR_WINDOWTEXT</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">More information on keyfiles</property>
+                                        <property name="label">IDC_LINK_KEYFILES_INFO</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -9223,7 +9223,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">&amp;Generate Random Keyfile...</property>
+                                        <property name="label">IDC_GENERATE_KEYFILE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -9411,7 +9411,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Mixing PRF:</property>
+                                        <property name="label">IDT_PRF</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -9615,7 +9615,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Random Pool:</property>
+                                                <property name="label">IDT_RANDOM_POOL</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -9782,7 +9782,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Show</property>
+                                                <property name="label">IDC_DISPLAY_POOL_CONTENTS</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -9855,7 +9855,7 @@
                                     <property name="proportion">0</property>
                                     <object class="wxStaticBoxSizer" expanded="0">
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Randomness Collected From Mouse Movements</property>
+                                        <property name="label">IDT_ENTROPY_BAR</property>
                                         <property name="minimum_size"></property>
                                         <property name="name">sbSizer45</property>
                                         <property name="orient">wxVERTICAL</property>
@@ -9992,7 +9992,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the keyfile.</property>
+                                        <property name="label">IDT_KEYFILE_GENERATOR_NOTE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -10112,7 +10112,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Number of keyfiles:</property>
+                                                <property name="label">IDT_NUMBER_KEYFILES</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -10363,7 +10363,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Keyfiles size (in Bytes):</property>
+                                                <property name="label">IDT_KEYFILES_SIZE</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -10535,7 +10535,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Random size (64 &lt;-&gt; 1048576)</property>
+                                                <property name="label">IDC_KEYFILES_RANDOM_SIZE</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -10622,7 +10622,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Keyfiles base name:</property>
+                                                <property name="label">IDT_KEYFILES_BASE_NAME</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -10890,7 +10890,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Generate and Save Keyfile...</property>
+                                        <property name="label">IDC_GENERATE_AND_SAVE_KEYFILE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -10988,7 +10988,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_CANCEL</property>
-                                        <property name="label">Close</property>
+                                        <property name="label">IDCLOSE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -11070,7 +11070,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">VeraCrypt - Legal Notices</property>
+            <property name="title">LEGAL_NOTICES_DLG_TITLE</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -11249,7 +11249,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_OK</property>
-                                <property name="label">OK</property>
+                                <property name="label">IDOK</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -11329,7 +11329,7 @@
             <property name="size">-1,-1</property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Enter VeraCrypt Volume Password</property>
+            <property name="title">IDD_PASSWORD_DLG</property>
             <property name="tooltip"></property>
             <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
             <property name="window_name"></property>
@@ -11446,7 +11446,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_OK</property>
-                                                <property name="label">OK</property>
+                                                <property name="label">IDOK</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -11534,7 +11534,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_CANCEL</property>
-                                                <property name="label">Cancel</property>
+                                                <property name="label">IDCANCEL</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -11632,7 +11632,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Op&amp;tions</property>
+                                                <property name="label">IDT_FORMAT_OPTIONS</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -11829,7 +11829,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">Mount volume as &amp;read-only</property>
+                                                    <property name="label">IDC_MOUNT_READONLY</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -11917,7 +11917,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">Mount volume as removable &amp;medium</property>
+                                                    <property name="label">IDC_MOUNT_REMOVABLE</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -12005,7 +12005,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">Use backup header embedded in &amp;volume if available</property>
+                                                    <property name="label">IDC_USE_EMBEDDED_HEADER_BAK</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -12093,7 +12093,7 @@
                                                     <property name="gripper">0</property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">Mount partition &amp;using system encryption (preboot authentication)</property>
+                                                    <property name="label">LINUX_MOUNT_SYSTEM_ENC_PREBOOT</property>
                                                     <property name="max_size"></property>
                                                     <property name="maximize_button">0</property>
                                                     <property name="maximum_size"></property>
@@ -12154,7 +12154,7 @@
                                                 <property name="proportion">1</property>
                                                 <object class="wxStaticBoxSizer" expanded="1">
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">Hidden Volume Protection</property>
+                                                    <property name="label">IDT_HIDDEN_VOL_PROTECTION</property>
                                                     <property name="minimum_size"></property>
                                                     <property name="name">ProtectionSizer</property>
                                                     <property name="orient">wxVERTICAL</property>
@@ -12193,7 +12193,7 @@
                                                             <property name="gripper">0</property>
                                                             <property name="hidden">0</property>
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">&amp;Protect hidden volume when mounting outer volume</property>
+                                                            <property name="label">IDC_PROTECT_HIDDEN_VOL</property>
                                                             <property name="max_size"></property>
                                                             <property name="maximize_button">0</property>
                                                             <property name="maximum_size"></property>
@@ -12292,7 +12292,7 @@
                                                             <property name="hidden">0</property>
                                                             <property name="hover_color">wxSYS_COLOUR_WINDOWTEXT</property>
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">What is hidden volume protection?</property>
+                                                            <property name="label">IDC_LINK_HIDVOL_PROTECTION_INFO</property>
                                                             <property name="max_size"></property>
                                                             <property name="maximize_button">0</property>
                                                             <property name="maximum_size"></property>
@@ -12437,7 +12437,7 @@
                                                             <event name="OnUpdateUI"></event>
                                                             <object class="wxStaticBoxSizer" expanded="1">
                                                                 <property name="id">wxID_ANY</property>
-                                                                <property name="label">Filesystem</property>
+                                                                <property name="label">IDT_FILESYSTEM</property>
                                                                 <property name="minimum_size"></property>
                                                                 <property name="name">sbSizer28</property>
                                                                 <property name="orient">wxVERTICAL</property>
@@ -12494,7 +12494,7 @@
                                                                                         <property name="gripper">0</property>
                                                                                         <property name="hidden">0</property>
                                                                                         <property name="id">wxID_ANY</property>
-                                                                                        <property name="label">Do &amp;not mount</property>
+                                                                                        <property name="label">LINUX_DO_NOT_MOUNT</property>
                                                                                         <property name="max_size"></property>
                                                                                         <property name="maximize_button">0</property>
                                                                                         <property name="maximum_size"></property>
@@ -12615,7 +12615,7 @@
                                                                                         <property name="gripper">0</property>
                                                                                         <property name="hidden">0</property>
                                                                                         <property name="id">wxID_ANY</property>
-                                                                                        <property name="label">Mount at directory:</property>
+                                                                                        <property name="label">LINUX_MOUNT_AT_DIR</property>
                                                                                         <property name="max_size"></property>
                                                                                         <property name="maximize_button">0</property>
                                                                                         <property name="maximum_size"></property>
@@ -12796,7 +12796,7 @@
                                                                                         <property name="gripper">0</property>
                                                                                         <property name="hidden">0</property>
                                                                                         <property name="id">wxID_ANY</property>
-                                                                                        <property name="label">Se&amp;lect...</property>
+                                                                                        <property name="label">LINUX_SELECT</property>
                                                                                         <property name="max_size"></property>
                                                                                         <property name="maximize_button">0</property>
                                                                                         <property name="maximum_size"></property>
@@ -12886,7 +12886,7 @@
                                                                                         <property name="gripper">0</property>
                                                                                         <property name="hidden">0</property>
                                                                                         <property name="id">wxID_ANY</property>
-                                                                                        <property name="label">Mount options:</property>
+                                                                                        <property name="label">IDT_LINUX_PREF_TAB_MOUNT_OPTIONS</property>
                                                                                         <property name="max_size"></property>
                                                                                         <property name="maximize_button">0</property>
                                                                                         <property name="maximum_size"></property>
@@ -13070,7 +13070,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">New Security Token Keyfile Properties</property>
+            <property name="title">IDD_TOKEN_PREFERENCES</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -13185,7 +13185,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Security token:</property>
+                                                <property name="label">IDT_SECURITY_TOKEN</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -13356,7 +13356,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Keyfile name:</property>
+                                                <property name="label">IDT_TOKEN_KEYFILE_NAME</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -13553,7 +13553,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Preferences</property>
+            <property name="title">IDD_PREFERENCES_DLG</property>
             <property name="tooltip"></property>
             <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
             <property name="window_name"></property>
@@ -13692,7 +13692,7 @@
                                 <event name="OnUpdateUI"></event>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">Security</property>
+                                    <property name="label">LINUX_PREF_TAB_SECURITY</property>
                                     <property name="select">1</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -13788,7 +13788,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Auto-Dismount</property>
+                                                            <property name="label">IDT_AUTO_DISMOUNT</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">AutoDismountSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -13800,7 +13800,7 @@
                                                                 <property name="proportion">0</property>
                                                                 <object class="wxStaticBoxSizer" expanded="1">
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Dismount All Volumes When</property>
+                                                                    <property name="label">LINUX_DISMOUNT_ALL_WHEN</property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">sbSizer13</property>
                                                                     <property name="orient">wxVERTICAL</property>
@@ -13839,7 +13839,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">User logs off</property>
+                                                                            <property name="label">IDC_PREF_DISMOUNT_LOGOFF</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -13927,7 +13927,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Screen saver is launched</property>
+                                                                            <property name="label">IDC_PREF_DISMOUNT_SCREENSAVER</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -14015,7 +14015,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">System is entering power saving mode</property>
+                                                                            <property name="label">LINUX_ENTERING_POVERSAWING</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -14114,7 +14114,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Auto-dismount volume after no data has been read/written to it for</property>
+                                                                            <property name="label">IDC_PREF_DISMOUNT_INACTIVE</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -14289,7 +14289,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">minutes</property>
+                                                                            <property name="label">MINUTES</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -14375,7 +14375,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Force auto-dismount even if volume contains open files or directories</property>
+                                                                    <property name="label">IDC_PREF_FORCE_AUTO_DISMOUNT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -14438,7 +14438,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Filesystem</property>
+                                                            <property name="label">LINUX_PREF_TAB_MOUNT_OPTIONS_FS</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">FilesystemSecuritySizer</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -14477,7 +14477,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Preserve modification timestamp of file containers</property>
+                                                                    <property name="label">IDC_PRESERVE_TIMESTAMPS</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -14540,7 +14540,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Password Cache</property>
+                                                            <property name="label">IDT_PW_CACHE_OPTIONS</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer14</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -14579,7 +14579,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Wipe after VeraCrypt window has been closed</property>
+                                                                    <property name="label">IDC_PREF_WIPE_CACHE_ON_EXIT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -14667,7 +14667,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Wipe after volume has been auto-dismounted</property>
+                                                                    <property name="label">IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -14731,7 +14731,7 @@
                                 </object>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">Mount Options</property>
+                                    <property name="label">LINUX_PREF_TAB_MOUNT_OPTIONS</property>
                                     <property name="select">0</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -14827,7 +14827,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Default Mount Options</property>
+                                                            <property name="label">IDT_DEFAULT_MOUNT_OPTIONS</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer15</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -14866,7 +14866,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Mount volumes as read-only</property>
+                                                                    <property name="label">IDC_PREF_MOUNT_READONLY</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -14954,7 +14954,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Mount volumes as removable media</property>
+                                                                    <property name="label">IDC_PREF_MOUNT_REMOVABLE</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -15042,7 +15042,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Cache passwords in memory</property>
+                                                                    <property name="label">IDC_TRAV_CACHE_PASSWORDS</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -15130,7 +15130,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">TrueCrypt Mode</property>
+                                                                    <property name="label">IDC_TRUECRYPT_MODE</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -15226,7 +15226,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">PKCS5-PRF:</property>
+                                                                            <property name="label">PKCS5_PRF</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -15375,7 +15375,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Filesystem</property>
+                                                            <property name="label">LINUX_PREF_TAB_MOUNT_OPTIONS_FS</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">FilesystemSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -15429,7 +15429,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Mount options:</property>
+                                                                            <property name="label">IDT_LINUX_PREF_TAB_MOUNT_OPTIONS</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -15582,7 +15582,7 @@
                                 </object>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">Background Task</property>
+                                    <property name="label">LINUX_PREF_TAB_BACKGROUND_TASK</property>
                                     <property name="select">0</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -15678,7 +15678,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">VeraCrypt Background Task</property>
+                                                            <property name="label">IDT_TASKBAR_ICON</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer18</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -15717,7 +15717,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Enabled</property>
+                                                                    <property name="label">IDC_PREF_BKG_TASK_ENABLE</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -15805,7 +15805,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Exit when there are no mounted volumes</property>
+                                                                    <property name="label">IDC_CLOSE_BKG_TASK_WHEN_NOVOL</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -15866,7 +15866,7 @@
                                                                 <property name="proportion">1</property>
                                                                 <object class="wxStaticBoxSizer" expanded="1">
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Task Icon Menu Items</property>
+                                                                    <property name="label">TASKICON_PREF_MENU_ITEMS</property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">sbSizer26</property>
                                                                     <property name="orient">wxVERTICAL</property>
@@ -15905,7 +15905,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Mount Favorite Volumes</property>
+                                                                            <property name="label">HK_MOUNT_FAVORITE_VOLUMES</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -15993,7 +15993,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Open Mounted Volumes</property>
+                                                                            <property name="label">TASKICON_PREF_OPEN_VOL</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -16081,7 +16081,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Dismount Mounted Volumes</property>
+                                                                            <property name="label">TASKICON_PREF_DISMOUNT_VOL</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -16147,7 +16147,7 @@
                                 </object>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">System Integration</property>
+                                    <property name="label">LINUX_PREF_TAB_SYSTEM_INTEGRATION</property>
                                     <property name="select">0</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -16243,7 +16243,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Actions to Perform when User Logs On</property>
+                                                            <property name="label">LINUX_LOGIN_ACTION</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">LogOnSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -16282,7 +16282,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Start VeraCrypt Background Task</property>
+                                                                    <property name="label">IDC_PREF_LOGON_START</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -16370,7 +16370,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Mount favorite volumes</property>
+                                                                    <property name="label">HK_MOUNT_FAVORITE_VOLUMES</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -16458,7 +16458,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Mount all device-hosted VeraCrypt volumes</property>
+                                                                    <property name="label">IDC_PREF_LOGON_MOUNT_DEVICES</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -16521,7 +16521,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Filesystem Explorer</property>
+                                                            <property name="label">LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">ExplorerSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -16560,7 +16560,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Open Explorer window for successfully mounted volume</property>
+                                                                    <property name="label">IDC_PREF_OPEN_EXPLORER</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -16648,7 +16648,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Close all Explorer windows of volume being dismounted</property>
+                                                                    <property name="label">LINUX_CLOSE_EXPL_ON_DISMOUNT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -16711,7 +16711,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Kernel Services</property>
+                                                            <property name="label">LINUX_PREF_KERNEL_SERVICES</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">KernelServicesSizer</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -16750,7 +16750,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Do not use kernel cryptographic services</property>
+                                                                    <property name="label">LINUX_PREF_KERNEL_CRYPT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -16814,7 +16814,7 @@
                                 </object>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">Performance</property>
+                                    <property name="label">LINUX_PREF_TAB_PERFORMANCE</property>
                                     <property name="select">0</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -16910,7 +16910,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Hardware Acceleration</property>
+                                                            <property name="label">IDT_ACCELERATION_OPTIONS</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer44</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -16957,7 +16957,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Processor (CPU) in this computer supports hardware acceleration for AES:</property>
+                                                                            <property name="label">IDT_HW_AES_SUPPORTED_BY_CPU</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -17136,7 +17136,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</property>
+                                                                    <property name="label">IDC_ENABLE_HARDWARE_ENCRYPTION_NEG</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -17200,7 +17200,7 @@
                                 </object>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">Keyfiles</property>
+                                    <property name="label">LINUX_PREF_TAB_KEYFILES</property>
                                     <property name="select">0</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -17296,7 +17296,7 @@
                                                         <property name="proportion">1</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Default Keyfiles</property>
+                                                            <property name="label">IDD_KEYFILES</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">bSizer42</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -17348,7 +17348,7 @@
                                                             <property name="gripper">0</property>
                                                             <property name="hidden">0</property>
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Use keyfiles by default</property>
+                                                            <property name="label">IDC_KEYFILES_ENABLE</property>
                                                             <property name="max_size"></property>
                                                             <property name="maximize_button">0</property>
                                                             <property name="maximum_size"></property>
@@ -17410,7 +17410,7 @@
                                 </object>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">Security Tokens</property>
+                                    <property name="label">LINUX_PREF_TAB_TOKENS</property>
                                     <property name="select">0</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -17506,7 +17506,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">PKCS #11 Library Path</property>
+                                                            <property name="label">IDT_PKCS11_LIB_PATH</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer36</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -17645,7 +17645,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Select &amp;Library...</property>
+                                                                            <property name="label">IDC_SELECT_PKCS11_MODULE</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -17710,7 +17710,7 @@
                                                         <property name="proportion">0</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">Security Options</property>
+                                                            <property name="label">IDT_SECURITY_OPTIONS</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer37</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -17749,7 +17749,7 @@
                                                                     <property name="gripper">0</property>
                                                                     <property name="hidden">0</property>
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">&amp;Close token session (log out) after a volume is successfully mounted</property>
+                                                                    <property name="label">IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT</property>
                                                                     <property name="max_size"></property>
                                                                     <property name="maximize_button">0</property>
                                                                     <property name="maximum_size"></property>
@@ -17813,7 +17813,7 @@
                                 </object>
                                 <object class="notebookpage" expanded="1">
                                     <property name="bitmap"></property>
-                                    <property name="label">Hotkeys</property>
+                                    <property name="label">LINUX_HOTKEYS</property>
                                     <property name="select">0</property>
                                     <object class="wxPanel" expanded="0">
                                         <property name="BottomDockable">1</property>
@@ -17909,7 +17909,7 @@
                                                         <property name="proportion">1</property>
                                                         <object class="wxStaticBoxSizer" expanded="1">
                                                             <property name="id">wxID_ANY</property>
-                                                            <property name="label">System-Wide Hotkeys</property>
+                                                            <property name="label">LINUX_SYSTEM_HOTKEYS</property>
                                                             <property name="minimum_size"></property>
                                                             <property name="name">sbSizer21</property>
                                                             <property name="orient">wxVERTICAL</property>
@@ -18026,7 +18026,7 @@
                                                                 <property name="proportion">0</property>
                                                                 <object class="wxStaticBoxSizer" expanded="0">
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Shortcut</property>
+                                                                    <property name="label">SHORTCUT</property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">sbSizer23</property>
                                                                     <property name="orient">wxVERTICAL</property>
@@ -18080,7 +18080,7 @@
                                                                                     <property name="gripper">0</property>
                                                                                     <property name="hidden">0</property>
                                                                                     <property name="id">wxID_ANY</property>
-                                                                                    <property name="label">Key to assign:</property>
+                                                                                    <property name="label">IDT_HOTKEY_KEY</property>
                                                                                     <property name="max_size"></property>
                                                                                     <property name="maximize_button">0</property>
                                                                                     <property name="maximum_size"></property>
@@ -18255,7 +18255,7 @@
                                                                                     <property name="gripper">0</property>
                                                                                     <property name="hidden">0</property>
                                                                                     <property name="id">wxID_ANY</property>
-                                                                                    <property name="label">Assign</property>
+                                                                                    <property name="label">IDC_HOTKEY_ASSIGN</property>
                                                                                     <property name="max_size"></property>
                                                                                     <property name="maximize_button">0</property>
                                                                                     <property name="maximum_size"></property>
@@ -18365,7 +18365,7 @@
                                                                                             <property name="gripper">0</property>
                                                                                             <property name="hidden">0</property>
                                                                                             <property name="id">wxID_ANY</property>
-                                                                                            <property name="label">Control</property>
+                                                                                            <property name="label">VK_CONTROL</property>
                                                                                             <property name="max_size"></property>
                                                                                             <property name="maximize_button">0</property>
                                                                                             <property name="maximum_size"></property>
@@ -18453,7 +18453,7 @@
                                                                                             <property name="gripper">0</property>
                                                                                             <property name="hidden">0</property>
                                                                                             <property name="id">wxID_ANY</property>
-                                                                                            <property name="label">Shift</property>
+                                                                                            <property name="label">VK_SHIFT</property>
                                                                                             <property name="max_size"></property>
                                                                                             <property name="maximize_button">0</property>
                                                                                             <property name="maximum_size"></property>
@@ -18541,7 +18541,7 @@
                                                                                             <property name="gripper">0</property>
                                                                                             <property name="hidden">0</property>
                                                                                             <property name="id">wxID_ANY</property>
-                                                                                            <property name="label">Alt</property>
+                                                                                            <property name="label">VK_ALT</property>
                                                                                             <property name="max_size"></property>
                                                                                             <property name="maximize_button">0</property>
                                                                                             <property name="maximum_size"></property>
@@ -18629,7 +18629,7 @@
                                                                                             <property name="gripper">0</property>
                                                                                             <property name="hidden">0</property>
                                                                                             <property name="id">wxID_ANY</property>
-                                                                                            <property name="label">Win</property>
+                                                                                            <property name="label">VK_WIN</property>
                                                                                             <property name="max_size"></property>
                                                                                             <property name="maximize_button">0</property>
                                                                                             <property name="maximum_size"></property>
@@ -18719,7 +18719,7 @@
                                                                                     <property name="gripper">0</property>
                                                                                     <property name="hidden">0</property>
                                                                                     <property name="id">wxID_ANY</property>
-                                                                                    <property name="label">Remove</property>
+                                                                                    <property name="label">IDC_KEYREMOVE</property>
                                                                                     <property name="max_size"></property>
                                                                                     <property name="maximize_button">0</property>
                                                                                     <property name="maximum_size"></property>
@@ -18784,7 +18784,7 @@
                                                                 <property name="proportion">0</property>
                                                                 <object class="wxStaticBoxSizer" expanded="0">
                                                                     <property name="id">wxID_ANY</property>
-                                                                    <property name="label">Options</property>
+                                                                    <property name="label">IDT_FORMAT_OPTIONS</property>
                                                                     <property name="minimum_size"></property>
                                                                     <property name="name">sbSizer24</property>
                                                                     <property name="orient">wxVERTICAL</property>
@@ -18823,7 +18823,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Play system notification sound after mount/dismount</property>
+                                                                            <property name="label">LINUX_SOUND_NOTIFICATION</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -18911,7 +18911,7 @@
                                                                             <property name="gripper">0</property>
                                                                             <property name="hidden">0</property>
                                                                             <property name="id">wxID_ANY</property>
-                                                                            <property name="label">Display confirmation message box after dismount</property>
+                                                                            <property name="label">LINUX_CONFIRM_AFTER_DISMOUNT</property>
                                                                             <property name="max_size"></property>
                                                                             <property name="maximize_button">0</property>
                                                                             <property name="maximum_size"></property>
@@ -19028,7 +19028,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">VeraCrypt - Random Pool Enrichment</property>
+            <property name="title">IDD_RANDOM_POOL_ENRICHMENT</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -19134,7 +19134,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Mixing PRF:</property>
+                                        <property name="label">IDT_PRF</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -19338,7 +19338,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Random Pool:</property>
+                                                <property name="label">IDT_RANDOM_POOL</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -19505,7 +19505,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Show</property>
+                                                <property name="label">IDC_DISPLAY_POOL_CONTENTS</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -19578,7 +19578,7 @@
                                     <property name="proportion">0</property>
                                     <object class="wxStaticBoxSizer" expanded="0">
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Randomness Collected From Mouse Movements</property>
+                                        <property name="label">IDT_ENTROPY_BAR</property>
                                         <property name="minimum_size"></property>
                                         <property name="name">sbSizer45</property>
                                         <property name="orient">wxVERTICAL</property>
@@ -19715,7 +19715,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases security. When done, click &apos;Continue&apos;.</property>
+                                        <property name="label">IDT_RANDOM_POOL_ENRICHMENT_NOTE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -19830,7 +19830,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_OK</property>
-                                        <property name="label">&amp;Continue</property>
+                                        <property name="label">CONTINUE</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -19922,7 +19922,7 @@
             <property name="size">-1,-1</property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Security Token Keyfiles</property>
+            <property name="title">IDD_KEYFILES</property>
             <property name="tooltip"></property>
             <property name="window_extra_style">wxWS_EX_VALIDATE_RECURSIVELY</property>
             <property name="window_name"></property>
@@ -20133,7 +20133,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">&amp;Export...</property>
+                                                <property name="label">IDC_EXPORT</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -20221,7 +20221,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">&amp;Delete</property>
+                                                <property name="label">VKEY_2E</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -20319,7 +20319,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">&amp;Import Keyfile to Token...</property>
+                                                <property name="label">IDC_IMPORT_KEYFILE</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -20420,7 +20420,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_OK</property>
-                                        <property name="label">OK</property>
+                                        <property name="label">IDOK</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -20508,7 +20508,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_CANCEL</property>
-                                        <property name="label">Cancel</property>
+                                        <property name="label">IDCANCEL</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -20590,7 +20590,7 @@
             <property name="size"></property>
             <property name="style">wxDEFAULT_DIALOG_STYLE</property>
             <property name="subclass"></property>
-            <property name="title">Volume Properties</property>
+            <property name="title">IDD_VOLUME_PROPERTIES</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
@@ -20861,7 +20861,7 @@
                                     <property name="proportion">1</property>
                                     <object class="wxStaticBoxSizer" expanded="1">
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Encryption Algorithm</property>
+                                        <property name="label">ENCRYPTION_ALGORITHM_LV</property>
                                         <property name="minimum_size"></property>
                                         <property name="name">sbSizer29</property>
                                         <property name="orient">wxVERTICAL</property>
@@ -20997,7 +20997,7 @@
                                                         <property name="gripper">0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">&amp;Test</property>
+                                                        <property name="label">TEST</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -21179,7 +21179,7 @@
                                                         <property name="hidden">0</property>
                                                         <property name="hover_color">wxSYS_COLOUR_WINDOWTEXT</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">More information</property>
+                                                        <property name="label">IDC_LINK_MORE_INFO_ABOUT_CIPHER</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -21276,7 +21276,7 @@
                                                         <property name="gripper">0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">&amp;Benchmark</property>
+                                                        <property name="label">IDC_BENCHMARK</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -21341,7 +21341,7 @@
                                     <property name="proportion">0</property>
                                     <object class="wxStaticBoxSizer" expanded="1">
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Hash Algorithm</property>
+                                        <property name="label">IDT_HASH_ALGO</property>
                                         <property name="minimum_size"></property>
                                         <property name="name">sbSizer30</property>
                                         <property name="orient">wxHORIZONTAL</property>
@@ -21468,7 +21468,7 @@
                                                 <property name="hidden">0</property>
                                                 <property name="hover_color">wxSYS_COLOUR_WINDOWTEXT</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Information on hash algorithms</property>
+                                                <property name="label">IDC_LINK_HASH_INFO</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -21905,7 +21905,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Add &amp;Files...</property>
+                                                <property name="label">IDC_KEYADD</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -21993,7 +21993,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Add &amp;Path...</property>
+                                                <property name="label">IDC_ADD_KEYFILE_PATH</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -22081,7 +22081,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Add &amp;Token Files...</property>
+                                                <property name="label">IDC_TOKEN_FILES_ADD</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -22169,7 +22169,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">&amp;Remove</property>
+                                                <property name="label">IDC_KEYREMOVE</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -22257,7 +22257,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Remove &amp;All</property>
+                                                <property name="label">IDC_KEYREMOVEALL</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -22515,7 +22515,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">&amp;Abort</property>
+                                        <property name="label">IDC_ABORT_BUTTON</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -22858,7 +22858,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">&amp;Browse...</property>
+                                        <property name="label">IDC_BROWSE_FILES</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -23335,7 +23335,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Random Pool:</property>
+                                                <property name="label">IDT_RANDOM_POOL</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -23511,7 +23511,7 @@
                                                         <property name="gripper">0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">Show</property>
+                                                        <property name="label">IDC_DISPLAY_POOL_CONTENTS</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -23600,7 +23600,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Header Key:</property>
+                                                <property name="label">IDT_HEADER_KEY</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -23766,7 +23766,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Master Key:</property>
+                                                <property name="label">IDT_MASTER_KEY</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -23910,7 +23910,7 @@
                             <property name="proportion">0</property>
                             <object class="wxStaticBoxSizer" expanded="0">
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Randomness Collected From Mouse Movements</property>
+                                <property name="label">IDT_ENTROPY_BAR</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">sbSizer45</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -24146,7 +24146,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Abort</property>
+                                                <property name="label">IDC_ABORT_BUTTON</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -24256,7 +24256,7 @@
                                                         <property name="gripper">0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">Done</property>
+                                                        <property name="label">IDT_DONE</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -24519,7 +24519,7 @@
                                                         <property name="gripper">0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">Speed</property>
+                                                        <property name="label">IDT_SPEED</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -24782,7 +24782,7 @@
                                                         <property name="gripper">0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">Left</property>
+                                                        <property name="label">IDT_LEFT</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -25331,7 +25331,7 @@
                                                                 <property name="gripper">0</property>
                                                                 <property name="hidden">0</property>
                                                                 <property name="id">wxID_ANY</property>
-                                                                <property name="label">Select &amp;File...</property>
+                                                                <property name="label">IDC_SELECT_FILE</property>
                                                                 <property name="max_size"></property>
                                                                 <property name="maximize_button">0</property>
                                                                 <property name="maximum_size"></property>
@@ -25419,7 +25419,7 @@
                                                                 <property name="gripper">0</property>
                                                                 <property name="hidden">0</property>
                                                                 <property name="id">wxID_ANY</property>
-                                                                <property name="label">Select D&amp;evice...</property>
+                                                                <property name="label">IDC_SELECT_DEVICE</property>
                                                                 <property name="max_size"></property>
                                                                 <property name="maximize_button">0</property>
                                                                 <property name="maximum_size"></property>
@@ -25530,7 +25530,7 @@
                                                         <property name="gripper">0</property>
                                                         <property name="hidden">0</property>
                                                         <property name="id">wxID_ANY</property>
-                                                        <property name="label">&amp;Never save history</property>
+                                                        <property name="label">IDC_NO_HISTORY</property>
                                                         <property name="max_size"></property>
                                                         <property name="maximize_button">0</property>
                                                         <property name="maximum_size"></property>
@@ -25760,7 +25760,7 @@
                             <property name="proportion">0</property>
                             <object class="wxStaticBoxSizer" expanded="1">
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Filesystem Options</property>
+                                <property name="label">IDT_FORMAT_OPTIONS</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">sbSizer33</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -25814,7 +25814,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Filesystem type:</property>
+                                                <property name="label">IDT_FILESYSTEM</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -25963,7 +25963,7 @@
                             <property name="proportion">0</property>
                             <object class="wxStaticBoxSizer" expanded="1">
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Volume Format Options</property>
+                                <property name="label">IDT_FORMAT_OPTIONS</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">sbSizer34</property>
                                 <property name="orient">wxVERTICAL</property>
@@ -26002,7 +26002,7 @@
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
                                         <property name="id">wxID_ANY</property>
-                                        <property name="label">Quick format</property>
+                                        <property name="label">IDC_QUICKFORMAT</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
                                         <property name="maximum_size"></property>
@@ -26263,7 +26263,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Password:</property>
+                                <property name="label">IDT_NEW_PASSWORD</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -26443,7 +26443,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Confirm password:</property>
+                                <property name="label">IDT_CONFIRM_PASSWORD</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -26623,7 +26623,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Volume PIM:</property>
+                                <property name="label">IDT_PIM</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -26803,7 +26803,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">(Empty or 0 for default iterations)</property>
+                                <property name="label">IDC_PIM_HELP</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -26890,7 +26890,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Use PIM</property>
+                                <property name="label">IDC_NEW_PIM_ENABLE</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -26981,7 +26981,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Cach&amp;e passwords and keyfiles in memory </property>
+                                <property name="label">IDC_CACHE</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -27072,7 +27072,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">&amp;Display password</property>
+                                <property name="label">IDC_SHOW_PASSWORD_MO</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -27163,7 +27163,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">U&amp;se keyfiles</property>
+                                <property name="label">IDC_KEYFILES_ENABLE_HIDVOL_PROT</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -27254,7 +27254,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">&amp;Keyfiles...</property>
+                                <property name="label">IDC_KEYFILES_HIDVOL_PROT</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -27358,7 +27358,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">PKCS-5 PRF:</property>
+                                <property name="label">IDT_NEW_PKCS5_PRF</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -27430,7 +27430,7 @@
                                 <property name="caption"></property>
                                 <property name="caption_visible">1</property>
                                 <property name="center_pane">0</property>
-                                <property name="choices">&quot;Unchanged&quot;</property>
+                                <property name="choices">&quot;UNCHANGED&quot;</property>
                                 <property name="close_button">1</property>
                                 <property name="context_help"></property>
                                 <property name="context_menu">1</property>
@@ -27536,7 +27536,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">TrueCrypt Mode</property>
+                                <property name="label">IDC_TRUECRYPT_MODE</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -27626,7 +27626,7 @@
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
                                 <property name="id">wxID_ANY</property>
-                                <property name="label">Header Wipe:</property>
+                                <property name="label">IDT_WIPE_MODE</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
                                 <property name="maximum_size"></property>
@@ -27698,7 +27698,7 @@
                                 <property name="caption"></property>
                                 <property name="caption_visible">1</property>
                                 <property name="center_pane">0</property>
-                                <property name="choices">&quot;1-pass&quot; &quot;3-pass&quot; &quot;7-pass&quot; &quot;35-pass&quot; &quot;256-pass&quot;</property>
+                                <property name="choices">&quot;WIPE_MODE_1_RAND&quot; &quot;WIPE_MODE_3_DOD_5220&quot; &quot;WIPE_MODE_7_DOD_5220&quot; &quot;WIPE_MODE_35_GUTMANN&quot; &quot;WIPE_MODE_256&quot;</property>
                                 <property name="close_button">1</property>
                                 <property name="context_help"></property>
                                 <property name="context_menu">1</property>
@@ -28066,7 +28066,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">Volume PIM:</property>
+                                                <property name="label">IDT_PIM</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -28240,7 +28240,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">(Empty or 0 for default iterations)</property>
+                                                <property name="label">IDC_PIM_HELP</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
@@ -28335,7 +28335,7 @@
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
-                                                <property name="label">&amp;Display PIM</property>
+                                                <property name="label">IDC_SHOW_PIM</property>
                                                 <property name="max_size"></property>
                                                 <property name="maximize_button">0</property>
                                                 <property name="maximum_size"></property>
