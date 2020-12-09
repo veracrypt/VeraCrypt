@@ -75,7 +75,7 @@ namespace VeraCrypt
 			}
 
 #ifdef TC_WINDOWS
-			fields[ColumnDevice] = StringFormatter (L"{0} {1}:", _("Harddisk"), device.SystemNumber);
+			fields[ColumnDevice] = StringFormatter (L"{0} {1}:", LangString["HARDDISK"], device.SystemNumber);
 			fields[ColumnDrive] = device.MountPoint;
 			fields[ColumnName] = device.Name;
 #else

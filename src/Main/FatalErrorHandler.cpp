@@ -243,7 +243,7 @@ namespace VeraCrypt
 		}
 		catch (...)
 		{
-			Gui->ShowError (_("Unknown exception occurred."));
+			Gui->ShowError (LangString["LINUX_UNKNOWN_EXC_OCCURRED"]);
 		}
 
 		_exit (1);

@@ -165,7 +165,7 @@ namespace VeraCrypt
 		void OnAdminPasswordRequest(wxCommandEvent &)
 		{
 
-			wxPasswordEntryDialog dialog (this, _("Enter your user password or administrator password:"), _("Administrator privileges required"));
+			wxPasswordEntryDialog dialog (this, LangString["LINUX_ADMIN_PW_QUERY"], LangString["LINUX_ADMIN_PW_QUERY_TITLE"]);
 			if (dialog.ShowModal() != wxID_OK)
 				m_queue.Post(wxT(""));
 			else

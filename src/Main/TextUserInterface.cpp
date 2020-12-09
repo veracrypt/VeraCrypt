@@ -238,7 +238,7 @@ namespace VeraCrypt
 		while (true)
 		{
 			wxString s = AskString (StringFormatter (L"{0} (y={1}/n={2}) [{3}]: ",
-				message, LangString["YES"], LangString["NO"], LangString[defaultYes ? "YES" : "NO"]));
+				message, LangString["UISTR_YES"], LangString["UISTR_NO"], LangString[defaultYes ? "UISTR_YES" : "UISTR_NO"]));
 
 			if (s.IsSameAs (L'n', false) || s.IsSameAs (L"no", false) || (!defaultYes && s.empty()))
 				return false;

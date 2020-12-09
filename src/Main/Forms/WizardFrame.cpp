@@ -100,7 +100,7 @@ namespace VeraCrypt
 
 	void WizardFrame::SetCancelButtonText (const wxString &text)
 	{
-		CancelButton->SetLabel (text.empty() ? wxString (_("Cancel")) : text);
+		CancelButton->SetLabel (text.empty() ? wxString (LangString["IDC_ABORT_BUTTON"]) : text);
 	}
 
 	void WizardFrame::SetImage (const wxBitmap &bitmap)
@@ -167,7 +167,7 @@ namespace VeraCrypt
 
 		wxString nextButtonText = CurrentPage->GetNextButtonText();
 		if (nextButtonText.empty())
-			NextButton->SetLabel (_("&Next >"));
+			NextButton->SetLabel (_("NEXT"));
 		else
 			NextButton->SetLabel (nextButtonText);
 
