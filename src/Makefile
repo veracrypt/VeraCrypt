@@ -180,8 +180,8 @@ ifeq "$(shell uname -s)" "Linux"
 		CFLAGS += -msse2
 		CXXFLAGS += -msse2
 
-		GCC_GTEQ_440 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
-		GCC_GTEQ_430 := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
+		GCC_GTEQ_440 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40400)
+		GCC_GTEQ_430 := $(shell expr `$(CC) -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/' -e 's/^[0-9]\{1,2\}$$/&0000/'` \>= 40300)
 		ifeq "$(GCC_GTEQ_440)" "1"
 			CFLAGS += -maes
 			CXXFLAGS += -maes
@@ -215,7 +215,7 @@ ifeq "$(shell uname -s)" "Linux"
 	ifneq "$(origin WXSTATIC)" "command line"
 		LFLAGS += -ldl
 	else
-		GCC5USED := $(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 5)
+		GCC5USED := $(shell expr `$(CC) -dumpversion | cut -f1 -d.` \>= 5)
 		ifeq "$(GCC5USED)" "1"
 			CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 			WXCONFIG_CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
