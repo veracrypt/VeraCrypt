@@ -13,6 +13,8 @@
 
 #include "TCdefs.h"
 #include <ntddk.h>
+#include <initguid.h>
+#include <Ntddstor.h>
 #include "Crypto.h"
 #include "Fat.h"
 #include "Tests.h"

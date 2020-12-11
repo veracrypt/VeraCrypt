@@ -181,7 +181,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 #if !defined(_UEFI)
 	TC_EVENT keyDerivationCompletedEvent;
 	TC_EVENT noOutstandingWorkItemEvent;
-	KeyDerivationWorkItem *keyDerivationWorkItems;
+	KeyDerivationWorkItem *keyDerivationWorkItems = NULL;
 	KeyDerivationWorkItem *item;
 	size_t encryptionThreadCount = GetEncryptionThreadCount();
 	LONG outstandingWorkItemCount = 0;
@@ -589,8 +589,11 @@ ret:
 	{
 		TC_WAIT_EVENT (noOutstandingWorkItemEvent);
 
-		burn (keyDerivationWorkItems, sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
-		TCfree (keyDerivationWorkItems);
+		if (keyDerivationWorkItems)
+		{
+			burn (keyDerivationWorkItems, sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
+			TCfree (keyDerivationWorkItems);
+		}
 
 #if !defined(DEVICE_DRIVER) 
 		CloseHandle (keyDerivationCompletedEvent);

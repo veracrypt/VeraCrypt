@@ -43,14 +43,14 @@ NTSTATUS TCOpenVolume (PDEVICE_OBJECT DeviceObject,
 	       PWSTR pwszMountVolume,
 	       BOOL bRawDevice)
 {
-	FILE_STANDARD_INFORMATION FileStandardInfo;
+	FILE_STANDARD_INFORMATION FileStandardInfo = {0};
 	FILE_BASIC_INFORMATION FileBasicInfo;
 	OBJECT_ATTRIBUTES oaFileAttributes;
 	UNICODE_STRING FullFileName;
 	IO_STATUS_BLOCK IoStatusBlock;
 	PCRYPTO_INFO cryptoInfoPtr = NULL;
 	PCRYPTO_INFO tmpCryptoInfo = NULL;
-	LARGE_INTEGER lDiskLength;
+	LARGE_INTEGER lDiskLength = {0};
 	__int64 partitionStartingOffset = 0;
 	int volumeType;
 	char *readBuffer = 0;

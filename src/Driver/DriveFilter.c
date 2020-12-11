@@ -220,7 +220,7 @@ NTSTATUS LoadBootArguments (BOOL bIsEfi)
 
 NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 {
-	DriveFilterExtension *Extension;
+	DriveFilterExtension *Extension = NULL;
 	NTSTATUS status;
 	PDEVICE_OBJECT filterDeviceObject = NULL;
 	PDEVICE_OBJECT attachedDeviceObject;
@@ -275,7 +275,7 @@ NTSTATUS DriveFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 err:
 	if (filterDeviceObject)
 	{
-		if (Extension->LowerDeviceObject)
+		if (Extension && Extension->LowerDeviceObject)
 			IoDetachDevice (Extension->LowerDeviceObject);
 
 		IoDeleteDevice (filterDeviceObject);

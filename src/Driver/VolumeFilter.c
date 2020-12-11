@@ -25,7 +25,7 @@ uint32 HiddenSysLeakProtectionCount = 0;
 
 NTSTATUS VolumeFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 {
-	VolumeFilterExtension *Extension;
+	VolumeFilterExtension *Extension = NULL;
 	NTSTATUS status;
 	PDEVICE_OBJECT filterDeviceObject = NULL;
 	PDEVICE_OBJECT attachedDeviceObject;
@@ -72,7 +72,7 @@ NTSTATUS VolumeFilterAddDevice (PDRIVER_OBJECT driverObject, PDEVICE_OBJECT pdo)
 err:
 	if (filterDeviceObject)
 	{
-		if (Extension->LowerDeviceObject)
+		if (Extension && Extension->LowerDeviceObject)
 			IoDetachDevice (Extension->LowerDeviceObject);
 
 		IoDeleteDevice (filterDeviceObject);
