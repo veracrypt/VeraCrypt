@@ -363,7 +363,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 #ifdef _WIN64
 		XSTATE_SAVE SaveState;
 		if (g_isIntel && HasSAVX())
-			saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+			saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 		KFLOATING_SAVE floatingPointState;		
 		if (HasISSE() || (HasSSSE3() && HasMMX()))
@@ -405,7 +405,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 
 		if (NT_SUCCESS (saveStatus))
 #ifdef _WIN64
-			KeRestoreExtendedProcessorState(&SaveState);
+			KeRestoreExtendedProcessorStateVC(&SaveState);
 #else
 			KeRestoreFloatingPointState (&floatingPointState);
 #endif

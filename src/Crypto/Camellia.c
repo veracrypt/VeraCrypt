@@ -1100,7 +1100,7 @@ void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 	{
 #if defined (TC_WINDOWS_DRIVER)
 		XSTATE_SAVE SaveState;
-		if (NT_SUCCESS (KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState)))
+		if (NT_SUCCESS (KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState)))
 		{
 #endif
 			while (blockCount >= 16)
@@ -1111,7 +1111,7 @@ void camellia_encrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 				blockCount -= 16;
 			}
 #if defined (TC_WINDOWS_DRIVER)
-			KeRestoreExtendedProcessorState(&SaveState);
+			KeRestoreExtendedProcessorStateVC(&SaveState);
 		}
 #endif
 	}
@@ -1136,7 +1136,7 @@ void camellia_decrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 	{
 #if defined (TC_WINDOWS_DRIVER)
 		XSTATE_SAVE SaveState;
-		if (NT_SUCCESS (KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState)))
+		if (NT_SUCCESS (KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState)))
 		{
 #endif
 		while (blockCount >= 16)
@@ -1147,7 +1147,7 @@ void camellia_decrypt_blocks(unsigned __int8 *instance, const byte* in_blk, byte
 			blockCount -= 16;
 		}
 #if defined (TC_WINDOWS_DRIVER)
-			KeRestoreExtendedProcessorState(&SaveState);
+			KeRestoreExtendedProcessorStateVC(&SaveState);
 		}
 #endif
 	}

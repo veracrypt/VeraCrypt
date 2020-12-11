@@ -310,13 +310,13 @@ typedef ULONG (NTAPI *KeQueryActiveProcessorCountExFn)(
   USHORT GroupNumber
 );
 
-extern NTSTATUS NTAPI KeSaveExtendedProcessorState (
+extern NTSTATUS NTAPI KeSaveExtendedProcessorStateVC (
     __in ULONG64 Mask,
     PXSTATE_SAVE XStateSave
     );
 
 
-extern VOID NTAPI KeRestoreExtendedProcessorState (
+extern VOID NTAPI KeRestoreExtendedProcessorStateVC (
 	PXSTATE_SAVE XStateSave
 	);
 

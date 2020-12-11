@@ -92,7 +92,7 @@ void hmac_sha256
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (g_isIntel && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
 	if (HasSSE2())
@@ -143,7 +143,7 @@ void hmac_sha256
 #if defined (DEVICE_DRIVER)
 	if (NT_SUCCESS (saveStatus))
 #ifdef _WIN64
-		KeRestoreExtendedProcessorState(&SaveState);
+		KeRestoreExtendedProcessorStateVC(&SaveState);
 #else
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
@@ -219,7 +219,7 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (g_isIntel && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
 	if (HasSSE2())
@@ -292,7 +292,7 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 #if defined (DEVICE_DRIVER)
 	if (NT_SUCCESS (saveStatus))
 #ifdef _WIN64
-		KeRestoreExtendedProcessorState(&SaveState);
+		KeRestoreExtendedProcessorStateVC(&SaveState);
 #else
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
@@ -362,7 +362,7 @@ void hmac_sha512
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (g_isIntel && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
 	if (HasSSSE3() && HasMMX())
@@ -414,7 +414,7 @@ void hmac_sha512
 #if defined (DEVICE_DRIVER)
 	if (NT_SUCCESS (saveStatus))
 #ifdef _WIN64
-		KeRestoreExtendedProcessorState(&SaveState);
+		KeRestoreExtendedProcessorStateVC(&SaveState);
 #else
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
@@ -464,7 +464,7 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
 	if (g_isIntel && HasSAVX())
-		saveStatus = KeSaveExtendedProcessorState(XSTATE_MASK_GSSE, &SaveState);
+		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
 	if (HasSSSE3() && HasMMX())
@@ -537,7 +537,7 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 #if defined (DEVICE_DRIVER)
 	if (NT_SUCCESS (saveStatus))
 #ifdef _WIN64
-		KeRestoreExtendedProcessorState(&SaveState);
+		KeRestoreExtendedProcessorStateVC(&SaveState);
 #else
 		KeRestoreFloatingPointState (&floatingPointState);
 #endif
