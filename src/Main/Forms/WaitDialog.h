@@ -13,6 +13,7 @@
 #include "Main/Main.h"
 #include "Main/Application.h"
 #include <wx/msgqueue.h>
+#include <wx/msgdlg.h>
 
 namespace VeraCrypt
 {
@@ -196,8 +197,9 @@ namespace VeraCrypt
 
 				pParam->m_style |= wxSTAY_ON_TOP;
 			}
-
-			int iResult = wxMessageBox (pParam->m_message, pParam->m_caption, pParam->m_style, this);
+			wxMessageDialog cur(this, pParam->m_message, pParam->m_caption, pParam->m_style);
+			cur.SetYesNoLabels(LangString["UISTR_YES"], LangString["UISTR_NO"]);
+			int iResult =  (cur.ShowModal() == wxID_YES ? wxYES : wxNO);
 			delete pParam;
 			m_queue.Post(wxString::Format(wxT("%d"), iResult));
 		}

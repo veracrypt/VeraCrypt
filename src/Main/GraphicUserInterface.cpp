@@ -1907,8 +1907,9 @@ namespace VeraCrypt
 
 				style |= wxSTAY_ON_TOP;
 			}
-
-			return wxMessageBox (subMessage, caption, style, GetActiveWindow());
+			wxMessageDialog cur(GetActiveWindow(), subMessage, caption, style);
+			cur.SetYesNoLabels(LangString["UISTR_YES"], LangString["UISTR_NO"]);
+			return (cur.ShowModal() == wxID_YES ? wxYES : wxNO) ;
 		}
 	}
 
