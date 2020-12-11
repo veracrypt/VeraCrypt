@@ -252,7 +252,6 @@ prepare: $(APPNAME)
 	cp $(BASE_DIR)/../doc/html/* "$(BASE_DIR)/Setup/Linux/usr/share/doc/$(APPNAME)/HTML"
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages
 	cp -r $(BASE_DIR)/../Translations/* $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages/
-	cp $(BASE_DIR)/Common/Language.xml $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages/Language.en.xml
 
 ifndef TC_NO_GUI
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/applications
