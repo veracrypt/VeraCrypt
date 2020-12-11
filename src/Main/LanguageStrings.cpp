@@ -40,6 +40,21 @@ namespace VeraCrypt
 
 	void LanguageStrings::Init ()
 	{
+#ifdef TC_LINUX
+		static byte LanguageXml[] =
+        {
+#           include "Common/Language.xml.h"
+            , 0
+        };
+		string def = string ((const char*) LanguageXml);
+		foreach (XmlNode node, XmlParser (def).GetNodes (L"entry"))
+		{
+			wxString text = node.InnerText;
+			text.Replace (L"\\n", L"\n");
+			text.Replace (L"%s", L"{0}");
+			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
+		}
+#endif
 		foreach (XmlNode node, XmlParser (Resources::GetLanguageXml()).GetNodes (L"entry"))
 		{
 			wxString text = node.InnerText;
