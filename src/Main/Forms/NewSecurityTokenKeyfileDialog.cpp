@@ -43,7 +43,7 @@ namespace VeraCrypt
 
 	void NewSecurityTokenKeyfileDialog::OnKeyfileNameChanged (wxCommandEvent& event)
 	{
-		StdButtonsOK->Enable (!KeyfileNameTextCtrl->GetValue().empty());
+		OKButton->Enable(!KeyfileNameTextCtrl->GetValue().empty());
 		event.Skip();
 	}
 }

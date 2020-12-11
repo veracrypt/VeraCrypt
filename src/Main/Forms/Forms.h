@@ -286,14 +286,14 @@ namespace VeraCrypt
 		
 		protected:
 			wxListCtrl* DeviceListCtrl;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
-			wxButton* StdButtonsCancel;
+			wxButton* CancelButton;
+			wxButton* OKButton;
 			
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnListItemActivated( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemDeselected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnListItemSelected( wxListEvent& event ) { event.Skip(); }
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			
 		
 		public:
@@ -524,17 +524,17 @@ namespace VeraCrypt
 		protected:
 			wxChoice* SecurityTokenChoice;
 			wxTextCtrl* KeyfileNameTextCtrl;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
-			wxButton* StdButtonsCancel;
+			wxButton* CancelButton;
+			wxButton* OKButton;
 			
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnKeyfileNameChanged( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			
 		
 		public:
 			
-			NewSecurityTokenKeyfileDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_TOKEN_PREFERENCES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+			NewSecurityTokenKeyfileDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_TOKEN_PREFERENCES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 			~NewSecurityTokenKeyfileDialogBase();
 		
 	};
@@ -547,6 +547,7 @@ namespace VeraCrypt
 		private:
 		
 		protected:
+			wxBoxSizer* bSizer32;
 			wxNotebook* PreferencesNotebook;
 			wxPanel* SecurityPage;
 			wxStaticBoxSizer* AutoDismountSizer;
@@ -602,9 +603,8 @@ namespace VeraCrypt
 			wxButton* RemoveHotkeyButton;
 			wxCheckBox* BeepAfterHotkeyMountDismountCheckBox;
 			wxCheckBox* DisplayMessageAfterHotkeyDismountCheckBox;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
-			wxButton* StdButtonsCancel;
+			wxButton* OKButton;
+			wxButton* CancelButton;
 			
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
@@ -620,7 +620,6 @@ namespace VeraCrypt
 			virtual void OnHotkeyListItemSelected( wxListEvent& event ) { event.Skip(); }
 			virtual void OnAssignHotkeyButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnRemoveHotkeyButtonClick( wxCommandEvent& event ) { event.Skip(); }
-			virtual void OnCancelButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
 			
 		
@@ -630,7 +629,7 @@ namespace VeraCrypt
 			wxPanel* SecurityTokensPage;
 			wxPanel* HotkeysPage;
 			
-			PreferencesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_PREFERENCES_DLG"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+			PreferencesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_PREFERENCES_DLG"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 			~PreferencesDialogBase();
 		
 	};
@@ -705,12 +704,15 @@ namespace VeraCrypt
 		
 		protected:
 			wxListCtrl* PropertiesListCtrl;
-			wxStdDialogButtonSizer* StdButtons;
-			wxButton* StdButtonsOK;
+			wxButton* OKButton;
+			
+			// Virtual event handlers, overide them in your derived class
+			virtual void OnOKButtonClick( wxCommandEvent& event ) { event.Skip(); }
+			
 		
 		public:
 			
-			VolumePropertiesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_VOLUME_PROPERTIES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+			VolumePropertiesDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("IDD_VOLUME_PROPERTIES"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 			~VolumePropertiesDialogBase();
 		
 	};

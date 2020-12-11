@@ -200,7 +200,7 @@ namespace VeraCrypt
 		Fit();
 		Center();
 
-		StdButtonsOK->SetDefault();
+		OKButton->SetDefault();
 
 #ifdef TC_WINDOWS
 		// Hotkey timer

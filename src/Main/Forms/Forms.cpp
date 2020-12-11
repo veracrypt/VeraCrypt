@@ -969,17 +969,25 @@ DeviceSelectionDialogBase::DeviceSelectionDialogBase( wxWindow* parent, wxWindow
 	DeviceListCtrl = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_SORT_HEADER|wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES|wxSUNKEN_BORDER );
 	bSizer4->Add( DeviceListCtrl, 1, wxALL|wxEXPAND, 5 );
 	
-	StdButtons = new wxStdDialogButtonSizer();
-	StdButtonsOK = new wxButton( this, wxID_OK );
-	StdButtons->AddButton( StdButtonsOK );
-	StdButtonsCancel = new wxButton( this, wxID_CANCEL );
-	StdButtons->AddButton( StdButtonsCancel );
-	StdButtons->Realize();
-	
-	bSizer4->Add( StdButtons, 0, wxEXPAND|wxALL, 5 );
-	
 	
 	bSizer3->Add( bSizer4, 1, wxEXPAND|wxALL, 5 );
+	
+	wxBoxSizer* bSizer166;
+	bSizer166 = new wxBoxSizer( wxHORIZONTAL );
+	
+	
+	bSizer166->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	CancelButton = new wxButton( this, wxID_CANCEL, _("IDCANCEL"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer166->Add( CancelButton, 0, wxALL, 5 );
+	
+	OKButton = new wxButton( this, wxID_OK, _("IDOK"), wxDefaultPosition, wxDefaultSize, 0 );
+	OKButton->SetDefault();
+	
+	bSizer166->Add( OKButton, 0, wxALL, 5 );
+	
+	
+	bSizer3->Add( bSizer166, 0, wxALIGN_RIGHT|wxALL|wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizer3 );
@@ -992,6 +1000,7 @@ DeviceSelectionDialogBase::DeviceSelectionDialogBase( wxWindow* parent, wxWindow
 	DeviceListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( DeviceSelectionDialogBase::OnListItemActivated ), NULL, this );
 	DeviceListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( DeviceSelectionDialogBase::OnListItemDeselected ), NULL, this );
 	DeviceListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( DeviceSelectionDialogBase::OnListItemSelected ), NULL, this );
+	OKButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeviceSelectionDialogBase::OnOKButtonClick ), NULL, this );
 }
 
 DeviceSelectionDialogBase::~DeviceSelectionDialogBase()
@@ -1000,6 +1009,7 @@ DeviceSelectionDialogBase::~DeviceSelectionDialogBase()
 	DeviceListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_ACTIVATED, wxListEventHandler( DeviceSelectionDialogBase::OnListItemActivated ), NULL, this );
 	DeviceListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxListEventHandler( DeviceSelectionDialogBase::OnListItemDeselected ), NULL, this );
 	DeviceListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( DeviceSelectionDialogBase::OnListItemSelected ), NULL, this );
+	OKButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DeviceSelectionDialogBase::OnOKButtonClick ), NULL, this );
 	
 }
 
@@ -1802,14 +1812,22 @@ NewSecurityTokenKeyfileDialogBase::NewSecurityTokenKeyfileDialogBase( wxWindow* 
 	
 	bSizer144->Add( sbSizer42, 1, wxEXPAND|wxALL, 5 );
 	
-	StdButtons = new wxStdDialogButtonSizer();
-	StdButtonsOK = new wxButton( this, wxID_OK );
-	StdButtons->AddButton( StdButtonsOK );
-	StdButtonsCancel = new wxButton( this, wxID_CANCEL );
-	StdButtons->AddButton( StdButtonsCancel );
-	StdButtons->Realize();
+	wxBoxSizer* bSizer167;
+	bSizer167 = new wxBoxSizer( wxHORIZONTAL );
 	
-	bSizer144->Add( StdButtons, 0, wxALIGN_RIGHT|wxALL, 5 );
+	
+	bSizer167->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	CancelButton = new wxButton( this, wxID_CANCEL, _("IDCANCEL"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer167->Add( CancelButton, 0, wxALL, 5 );
+	
+	OKButton = new wxButton( this, wxID_OK, _("IDOK"), wxDefaultPosition, wxDefaultSize, 0 );
+	OKButton->SetDefault();
+	
+	bSizer167->Add( OKButton, 0, wxALL, 5 );
+	
+	
+	bSizer144->Add( bSizer167, 0, wxEXPAND, 5 );
 	
 	
 	bSizer143->Add( bSizer144, 1, wxEXPAND|wxALL, 5 );
@@ -1821,12 +1839,14 @@ NewSecurityTokenKeyfileDialogBase::NewSecurityTokenKeyfileDialogBase( wxWindow* 
 	
 	// Connect Events
 	KeyfileNameTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( NewSecurityTokenKeyfileDialogBase::OnKeyfileNameChanged ), NULL, this );
+	OKButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( NewSecurityTokenKeyfileDialogBase::OnOKButtonClick ), NULL, this );
 }
 
 NewSecurityTokenKeyfileDialogBase::~NewSecurityTokenKeyfileDialogBase()
 {
 	// Disconnect Events
 	KeyfileNameTextCtrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( NewSecurityTokenKeyfileDialogBase::OnKeyfileNameChanged ), NULL, this );
+	OKButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( NewSecurityTokenKeyfileDialogBase::OnOKButtonClick ), NULL, this );
 	
 }
 
@@ -1835,11 +1855,10 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetExtraStyle( this->GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
 	
-	wxBoxSizer* bSizer32;
 	bSizer32 = new wxBoxSizer( wxVERTICAL );
 	
-	wxBoxSizer* bSizer41;
-	bSizer41 = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* bSizer178;
+	bSizer178 = new wxBoxSizer( wxVERTICAL );
 	
 	PreferencesNotebook = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	SecurityPage = new wxPanel( PreferencesNotebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -2284,19 +2303,27 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	bSizer51->Fit( HotkeysPage );
 	PreferencesNotebook->AddPage( HotkeysPage, _("LINUX_HOTKEYS"), false );
 	
-	bSizer41->Add( PreferencesNotebook, 1, wxEXPAND | wxALL, 5 );
+	bSizer178->Add( PreferencesNotebook, 1, wxEXPAND | wxALL, 5 );
 	
-	StdButtons = new wxStdDialogButtonSizer();
-	StdButtonsOK = new wxButton( this, wxID_OK );
-	StdButtons->AddButton( StdButtonsOK );
-	StdButtonsCancel = new wxButton( this, wxID_CANCEL );
-	StdButtons->AddButton( StdButtonsCancel );
-	StdButtons->Realize();
-	
-	bSizer41->Add( StdButtons, 0, wxEXPAND|wxALL, 5 );
+	wxBoxSizer* bSizer182;
+	bSizer182 = new wxBoxSizer( wxHORIZONTAL );
 	
 	
-	bSizer32->Add( bSizer41, 1, wxEXPAND|wxALL, 5 );
+	bSizer182->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	OKButton = new wxButton( this, wxID_OK, _("IDOK"), wxDefaultPosition, wxDefaultSize, 0 );
+	OKButton->SetDefault();
+	
+	bSizer182->Add( OKButton, 0, wxALIGN_RIGHT|wxALL, 5 );
+	
+	CancelButton = new wxButton( this, wxID_CANCEL, _("IDCANCEL"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer182->Add( CancelButton, 0, wxALL, 5 );
+	
+	
+	bSizer178->Add( bSizer182, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer32->Add( bSizer178, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizer32 );
@@ -2317,8 +2344,7 @@ PreferencesDialogBase::PreferencesDialogBase( wxWindow* parent, wxWindowID id, c
 	HotkeyListCtrl->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PreferencesDialogBase::OnHotkeyListItemSelected ), NULL, this );
 	AssignHotkeyButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnAssignHotkeyButtonClick ), NULL, this );
 	RemoveHotkeyButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnRemoveHotkeyButtonClick ), NULL, this );
-	StdButtonsCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnCancelButtonClick ), NULL, this );
-	StdButtonsOK->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnOKButtonClick ), NULL, this );
+	OKButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnOKButtonClick ), NULL, this );
 }
 
 PreferencesDialogBase::~PreferencesDialogBase()
@@ -2337,8 +2363,7 @@ PreferencesDialogBase::~PreferencesDialogBase()
 	HotkeyListCtrl->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( PreferencesDialogBase::OnHotkeyListItemSelected ), NULL, this );
 	AssignHotkeyButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnAssignHotkeyButtonClick ), NULL, this );
 	RemoveHotkeyButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnRemoveHotkeyButtonClick ), NULL, this );
-	StdButtonsCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnCancelButtonClick ), NULL, this );
-	StdButtonsOK->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnOKButtonClick ), NULL, this );
+	OKButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PreferencesDialogBase::OnOKButtonClick ), NULL, this );
 	
 }
 
@@ -2564,12 +2589,22 @@ VolumePropertiesDialogBase::VolumePropertiesDialogBase( wxWindow* parent, wxWind
 	PropertiesListCtrl = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_SORT_HEADER|wxLC_REPORT|wxLC_VRULES|wxSUNKEN_BORDER );
 	bSizer50->Add( PropertiesListCtrl, 1, wxALL|wxEXPAND, 5 );
 	
-	StdButtons = new wxStdDialogButtonSizer();
-	StdButtonsOK = new wxButton( this, wxID_OK );
-	StdButtons->AddButton( StdButtonsOK );
-	StdButtons->Realize();
+	wxBoxSizer* bSizer169;
+	bSizer169 = new wxBoxSizer( wxHORIZONTAL );
 	
-	bSizer50->Add( StdButtons, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	bSizer169->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	OKButton = new wxButton( this, wxID_OK, _("IDOK"), wxDefaultPosition, wxDefaultSize, 0 );
+	OKButton->SetDefault();
+	
+	bSizer169->Add( OKButton, 0, wxALL, 5 );
+	
+	
+	bSizer169->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	bSizer50->Add( bSizer169, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizer49->Add( bSizer50, 1, wxEXPAND|wxALL, 5 );
@@ -2578,10 +2613,16 @@ VolumePropertiesDialogBase::VolumePropertiesDialogBase( wxWindow* parent, wxWind
 	this->SetSizer( bSizer49 );
 	this->Layout();
 	bSizer49->Fit( this );
+	
+	// Connect Events
+	OKButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VolumePropertiesDialogBase::OnOKButtonClick ), NULL, this );
 }
 
 VolumePropertiesDialogBase::~VolumePropertiesDialogBase()
 {
+	// Disconnect Events
+	OKButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( VolumePropertiesDialogBase::OnOKButtonClick ), NULL, this );
+	
 }
 
 EncryptionOptionsWizardPageBase::EncryptionOptionsWizardPageBase( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : WizardPage( parent, id, pos, size, style )
