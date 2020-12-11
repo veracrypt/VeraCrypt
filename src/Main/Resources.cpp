@@ -14,6 +14,12 @@
 #include "Platform/Platform.h"
 #include "Resources.h"
 
+#ifdef TC_LINUX
+#include "Platform/File.h"
+#include "Platform/StringConverter.h"
+#include <stdio.h>
+#endif
+
 #ifdef TC_WINDOWS
 #include "Main/resource.h"
 #endif
@@ -48,6 +54,79 @@ namespace VeraCrypt
 		strBuf.Zero();
 		strBuf.CopyFrom (res);
 		return string (reinterpret_cast <char *> (strBuf.Ptr()));
+#elif TC_LINUX
+		// get language from env LANG
+		// support:  C,POSIX,
+		// support for e.g. german: de_DE.UTF-8, de.UTF8, de_DE, de
+		// not support e.g.: de@Euro
+		string defaultLang("en");
+		string filenamePrefix("/usr/share/veracrypt/languages/Language.");
+		string filenamePost(".xml");
+		string filename = filenamePrefix + defaultLang + filenamePost;
+		if(const char* env_p = std::getenv("LANG")){
+		    string lang(env_p);
+			std::cout << lang << std::endl;
+			if ( lang.size() > 1 ){
+				int found = lang.find(".");
+				if ( found > 1 ){
+					string langTag = lang.substr (0,found);
+					string lowerLangTag(StringConverter::ToLower (langTag) );
+					int foundUnderscore = lowerLangTag.find("_");
+					if ( foundUnderscore > 0 ) {
+						lowerLangTag.replace(foundUnderscore,1,1,'-');
+						filename = filenamePrefix + lowerLangTag + filenamePost;
+						FilesystemPath xml(filename);
+						if (! xml.IsFile()){
+							string shortLangTag = lowerLangTag.substr(0,foundUnderscore);
+							filename = filenamePrefix + shortLangTag + filenamePost;
+							FilesystemPath xml(filename);
+							if (! xml.IsFile()){
+								filename = filenamePrefix + defaultLang + filenamePost;
+							}
+						}
+					}else{
+						filename = filenamePrefix + langTag + filenamePost;
+						FilesystemPath xml(filename);
+						if (! xml.IsFile()){
+							filename = filenamePrefix + defaultLang + filenamePost;
+						}
+					}
+				}else{
+					string lowerLang(StringConverter::ToLower (lang) );
+					filename = filenamePrefix + lowerLang + filenamePost;
+					FilesystemPath xml(filename);
+					if (! xml.IsFile()){
+						int foundUnderscore = lowerLang.find("_");
+						if ( foundUnderscore > 0 ) {
+							lowerLang.replace(foundUnderscore,1,1,'-');
+							filename = filenamePrefix + lowerLang + filenamePost;
+							FilesystemPath xml(filename);
+							if (! xml.IsFile()){
+								filename = filenamePrefix + defaultLang + filenamePost;
+							}
+						}
+					}
+				}
+			}
+		}
+		FilesystemPath xml(filename);
+		if ( xml.IsFile() ){
+			File file;
+			file.Open (xml, File::OpenRead, File::ShareRead);
+			vector <byte> keyfileData (file.Length());
+			BufferPtr keyfileDataBuf (&keyfileData.front(), keyfileData.size());
+			file.ReadCompleteBuffer (keyfileDataBuf);
+			file.Close();
+			string langxml(keyfileData.begin(), keyfileData.end());
+			return langxml;
+		}
+		static byte LanguageXml[] =
+		{
+#			include "Common/Language.xml.h"
+			, 0
+		};
+
+		return string ((const char*) LanguageXml);
 #else
 		static byte LanguageXml[] =
 		{

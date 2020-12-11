@@ -89,7 +89,7 @@ namespace VeraCrypt
 		Fit();
 		Center();
 
-		StdButtonsOK->SetDefault();
+		OKButton->SetDefault();
 	}
 
 	void VolumePropertiesDialog::AppendToList (const string &name, const wxString &value)

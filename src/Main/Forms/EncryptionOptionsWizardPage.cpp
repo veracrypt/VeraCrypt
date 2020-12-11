@@ -121,7 +121,7 @@ namespace VeraCrypt
 			else
 				EncryptionAlgorithmStaticText->SetLabel (L"");
 
-			EncryptionAlgorithmHyperlink->SetLabel (_("More information"));
+			EncryptionAlgorithmHyperlink->SetLabel (LangString["IDC_MORE_INFO_SYS_ENCRYPTION"]);
 		}
 
 		Layout();

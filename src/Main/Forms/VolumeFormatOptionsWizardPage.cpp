@@ -20,9 +20,7 @@ namespace VeraCrypt
 	VolumeFormatOptionsWizardPage::VolumeFormatOptionsWizardPage (wxPanel* parent, uint64 filesystemSize, uint32 sectorSize, bool enableQuickFormatButton, bool disableNoneFilesystem, bool disable32bitFilesystems)
 		: VolumeFormatOptionsWizardPageBase (parent)
 	{
-		InfoStaticText->SetLabel (_(
-			"In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume."));
-
+		InfoStaticText->SetLabel ( LangString["QUICK_FORMAT_HELP"] );
 		if (!disableNoneFilesystem)
 			FilesystemTypeChoice->Append (LangString["NONE"],	(void *) VolumeCreationOptions::FilesystemType::None);
 

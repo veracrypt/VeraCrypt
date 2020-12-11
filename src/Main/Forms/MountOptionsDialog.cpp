@@ -88,7 +88,7 @@ namespace VeraCrypt
 		OptionsButton->SetLabel (OptionsButtonLabel + L" >");
 		OptionsPanel->Show (false);
 
-		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, &options, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, _("P&assword to hidden volume:"));
+		ProtectionPasswordPanel = new VolumePasswordPanel (OptionsPanel, &options, options.ProtectionPassword, true, options.ProtectionKeyfiles, false, true, true, false, true, true, LangString["IDT_HIDDEN_PROT_PASSWD"]);
 		ProtectionPasswordSizer->Add (ProtectionPasswordPanel, 1, wxALL | wxEXPAND);
 
 		UpdateDialog();
@@ -143,7 +143,7 @@ namespace VeraCrypt
 		
 		if (Options.PartitionInSystemEncryptionScope && Options.Password->Size() > VolumePassword::MaxLegacySize)
 		{
-			Gui->ShowWarning (StringFormatter (_("System Encryption password is longer than {0} characters."), (int) VolumePassword::MaxLegacySize));
+			Gui->ShowWarning (StringFormatter (LangString["LINUX_SYSTEM_ENC_PW_LENGTH_NOTE"], (int) VolumePassword::MaxLegacySize));
 			return;
 		}
 		

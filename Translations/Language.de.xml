@@ -1449,6 +1449,125 @@
     <entry lang="de" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">VeraCrypt als ersten Eintrag im EFI-Firmware-Bootmenü erzwingen</entry>
     <entry lang="de" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNUNG: Die RAM-Verschlüsselung ist nicht kompatibel mit den Windows-Funktionen Ruhezustand und Schnellstart. VeraCrypt muss sie deaktivieren, bevor die RAM-Verschlüsselung aktiviert wird.\n\nFortfahren?</entry>
     <entry lang="de" key="CONFIRM_DISABLE_FAST_STARTUP">WARNUNG: Der Windows-Schnellstart ist aktiviert und es ist bekannt, dass er Probleme bei der Arbeit mit VeraCrypt-Volumes verursacht. Es wird empfohlen, ihn für eine bessere Sicherheit und Benutzerfreundlichkeit zu deaktivieren.\n\nMöchten Sie den Windows-Schnellstart deaktivieren?</entry>
+    <entry lang="de" key="QUICK_FORMAT_HELP">Damit das neue Volumen im Betriebsystem eingehängt werden kann, muß es mit einem Dateisystem formatiert werden. Bitte wählen Sie einen Typ aus.\n\nWenn das Volumen auf einem Laufwerk oder einer Partition liegt, kann 'Schnell-Formatierung' gewählt werden um die Verschlüsselung des freien Speicherplatz zu überspringen.</entry>
+    <entry lang="de" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">AES-Verschlüsselung nicht beschleunigen durch Nutzung der AES-Befehle des Prozessors</entry>
+    <entry lang="de" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Alle eingebundenen Volumen zu Favoriten hinzufügen...</entry>
+    <entry lang="de" key="TASKICON_PREF_MENU_ITEMS">Taskleistensymbol</entry>
+    <entry lang="de" key="TASKICON_PREF_OPEN_VOL">Eingehängte Volumen öffnen</entry>
+    <entry lang="de" key="TASKICON_PREF_DISMOUNT_VOL">Eingehängte Volumen trennen</entry>
+    <entry lang="de" key="MOUNT_POINT">Einhängepunkt</entry>
+    <entry lang="de" key="DISK_FREE">Freier Speicherplatz: {0}</entry>
+    <entry lang="de" key="VOLUME_SIZE_HELP">Bitte Größe des zu erstellenden Containers angeben. Hinweis: die Mindestgröße eines Volumes ist 292 KiB.</entry>
+    <entry lang="de" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNUNG: Sie haben nicht das Dateisystem FAT für das äußere Volumen ausgewählt. Bitte beachten Sie, dass VeraCrypt derzeit nicht die exakte maximale Größe des versteckten Volumen bestimmen kann und diese nur, möglicherweise falsch, abschätzt. Es liegt deshalb in Ihrer Verantwortung eine angemessene Größe für das versteckte Volumen zu wählen um eine Überlappung mit dem äußeren Volumen zu verhindern.\n\nMöchten Sie trotzdem mit dem ausgewählten Dateisystem für das äußere Volumen fortfahren?</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_SECURITY">Sicherheit</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Einbinden</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_BACKGROUND_TASK">Hintergrunddienst</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">Systemintegration</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Dateiverwaltung</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_PERFORMANCE">Leistung</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_KEYFILES">Schlüsseldatein</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_TOKENS">Sicherheitstoken</entry>
+    <entry lang="de" key="LINUX_PREF_KERNEL_SERVICES">Kernel-Dienste</entry>
+    <entry lang="de" key="LINUX_PREF_KERNEL_CRYPT">Kryptografiedienste des Kernel nicht verwenden</entry>
+    <entry lang="de" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Dateisystem</entry>
+    <entry lang="de" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Einbindungsoptionen:</entry>
+    <entry lang="de" key="LINUX_CROSS_SUPPORT">Plattformunabhängigkeit</entry>
+    <entry lang="de" key="LINUX_CROSS_SUPPORT_OTHER">I werde das Volumen plattformübergreifend nutzen</entry>
+    <entry lang="de" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Wählen Sie diese Option, wenn Sie das Volumen auf anderen Platformen einhängen können müssen.</entry>
+    <entry lang="de" key="LINUX_CROSS_SUPPORT_ONLY">I werde diese Volumen nur unter {0} einhängen</entry>
+    <entry lang="de" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Wählen Sie diese Option, wenn Sie das Volumen nicht auf anderen Platformen einhängen können müssen.</entry>
+    <entry lang="en" key="LINUX_DESELECT">Abwählen</entry>
+    <entry lang="de" key="LINUX_ADMIN_PW_QUERY">Benutzer- oder Administrator-Passwort eingeben:</entry>
+    <entry lang="de" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator Privilegien erforderlich</entry>
+    <entry lang="de" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt wird bereits ausgeführt.</entry>
+    <entry lang="de" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">Das Passwort für die Systemverschlüsselung ist länger als {0} Zeichen.</entry>
+    <entry lang="de" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Partition mithilfe der Sytemverschlüsselung einbinden(Preboot Authentifizierung)</entry>
+    <entry lang="de" key="LINUX_DO_NOT_MOUNT">Nicht einbinden</entry>
+    <entry lang="de" key="LINUX_MOUNT_AT_DIR">Einbinden als Verzeichnis:</entry>
+    <entry lang="de" key="LINUX_SELECT">Auswählen...</entry>
+    <entry lang="de" key="LINUX_DISMOUNT_ALL_WHEN">Alle Volumen aushängen wenn</entry>
+    <entry lang="de" key="LINUX_ENTERING_POWERSAVING">System betritt Energiesparmodus</entry>
+    <entry lang="de" key="LINUX_LOGIN_ACTION">Aktionen beim anmelden ausführen</entry>
+    <entry lang="de" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Alle Explorer Fenster schließen wenn Volumen ausgehänt wird</entry>
+    <entry lang="de" key="LINUX_HOTKEYS">Tastenkombinationen</entry>
+    <entry lang="de" key="LINUX_SYSTEM_HOTKEYS">Systemweite Tastenkombinationen</entry>
+    <entry lang="de" key="LINUX_SOUND_NOTIFICATION">Systembenachichtigungston wird beim ein- und aushängen abgespielt</entry>
+    <entry lang="de" key="LINUX_CONFIRM_AFTER_DISMOUNT">Bestätigungsnachricht nach dem aushängen anzeigen</entry>
+    <entry lang="de" key="LINUX_VC_QUITS">VeraCrypt beendet</entry>
+    <entry lang="de" key="LINUX_OPEN_FINDER">Finder Fenster nach erfolgreichem einbinden öffnen</entry>
+    <entry lang="de" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Bitte beachten Sie, dass diese Einstellungen nur bei deaktivierten Kernel-Kryptographidienst wirksam werden.</entry>
+    <entry lang="de" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Das deaktivierten des Kernel-Kryptographidienstes kann die Leistung reduzieren.\n\nSind Sie sicher?</entry>
+    <entry lang="de" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Bitte beachten Sie, dass das deaktivierten dieser Einstellungen möglicherwiese keine Auswirkung auf mit Hilfe des Kernel-Kryptographidienst eingehängten Volumens hat.</entry>
+    <entry lang="de" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Bitte beachten Sie, dass alle eingehängten Volumen neu einhänget werden müssen bevor diese Einstellungen genutzt werden können</entry>
+    <entry lang="de" key="LINUX_UNKNOWN_EXC_OCCURRED">Unbekannte Ausnahme aufgetreten.</entry>
+    <entry lang="de" key="LINUX_FIRST_AID">Das Laufwerk Werkzeug wird nach dem drücken von 'OK' geladen.\n\nBitte wählen Sie das Volumen im Werkzeug aus und drücken 'Laufwerk verifizieren' oder 'Laufwerk reparieren' auf der 'Erste Hilfe' Seite</entry>
+    <entry lang="de" key="LINUX_MOUNT_ALL_DEV">Alle Geräte einhängen</entry>
+    <entry lang="de" key="LINUX_ERROR_LOADING_CONFIG">Es ist ein Fehler aufgetreten beim lader der Konfigurationdatein aus </entry>
+    <entry lang="de" key="LINUX_SELECT_FREE_SLOT">Bitte einen freien Laufwerksplatz aus der Liste wählen.</entry>
+    <entry lang="de" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nSoll die Meldung beim nächten einhängen eines solchen Volumes wieder angezeigt werden?</entry>
+    <entry lang="de" key="LINUX_WARNING">Warnung</entry>
+    <entry lang="de" key="LINUX_ERROR"></entry>
+    <entry lang="de" key="LINUX_ONLY_TEXTMODE">Diese Merkmal wird nur im Text-Modus unterstützt.</entry>
+    <entry lang="de" key="LINUX_FREE_SPACE_ON_DRIVE">Freier Speicherplatz auf Laufwerk {0}: ist {1}.</entry>
+    <entry lang="de" key="LINUX_DYNAMIC_NOTICE">Bitte beachten Sie, falls Ihr Betriebsystem Speicherplatz nicht vom Beginn des Verzeichnissystems an belegt, ist der maximale Speicherplatz im versteckten Volumen viel weniger als der Platz des Äusseren Volumen. Dies ist kein Fehler in VeraCrypt, sondern eine Limitierung des Betriebsystems.</entry>
+    <entry lang="de" key="LINUX_MAX_HIDDEN_SIZE">Maximal möglicher Speicherplatz im versteckten Volumen ist {0}.</entry>
+    <entry lang="de" key="LINUX_OPEN_OUTER_VOL">Öffne Äusseres Volumen</entry>
+    <entry lang="de" key="LINUX_OUTER_VOL_IS_MOUNTED">Das äußere Volume wurde erfolgreich erstellt und als '{0}' eingebunden. Jetzt müssen Sie noch einige sensibel aussehende Alibi-Dateien auf dieses Volume kopieren. Diese Dateien sind für Personen bestimmt welche die Herausgabe des Passwortes erzwingen möchten. Diesen Personen offenbaren Sie nur das Passwort des äußeren, nicht aber das des versteckten Volumes. Die wirklich wichtigen Dateien speichern Sie in das (noch zu erstellende) versteckte Volume. Klicken Sie nach dem Kopieren der Alibi-Dateien auf „Weiter“, ohne zuvor das Volume zu trennen. Es erfolgt dann eine Analyse der Clusterbelegung des äußeren Volumes, um festzustellen, wie viel freier zusammenhängender Speicher vom Ende des Volumes aus verfügbar ist. Dieser Bereich wird für die Unterbringung des versteckten Volumes verwendet. Die Analyse der Clusterbelegung stellt sicher, dass keine Daten des äußeren Volumes durch das versteckte Volume überschrieben werden.</entry>
+    <entry lang="de" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Fehler: Sie versuchen ein Systemlaufwerk zu verschlüsseln.\n\nVeraCrypt kann nur unter Windows Systemlaufwerke verschlüsseln.</entry>
+    <entry lang="de" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Fehler: Sie versuchen eine Systempartition zu verschlüsseln.\n\nVeraCrypt kann nur unter Windows Systempartitionen verschlüsseln.</entry>
+    <entry lang="de" key="LINUX_WARNING_FORMAT_DESTROY_FS">Warnung: Formatieren des Gerätes wird alle Daten im Dateisystem '{0}' zerstören.\n\nWollen Sie trotzdemfortfahren?</entry>
+    <entry lang="de" key="LINUX_MOUNTET_HINT">Das Dateisystem des gewählten Gerätes ins eingehängt. Bitte hängen Sie '{0}' aus um fortzufahren.</entry>
+    <entry lang="de" key="LINUX_HIDDEN_PASS_NO_DIFF">Das versteckte Volumen darft nicht zum äußeren Volumen identische Schlüsseldatein, Passworter und PIM haben.</entry>
+    <entry lang="de" key="LINUX_NOT_FAT_HINT">Bitte beachten Sie, dass das Volumen nicht mit dem FAT Dateisystem formatiert wird, und darum kann die Installation eines Dateisystemtreibers auf anderen Platformen als '{0}' notwendig sein um das Volumen einzuhängen.</entry>
+    <entry lang="de" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Fehler: Das versteckte Volumen wird größer {0} TB {1} GB angelegt werden.\n\n Mögliche Lösung:\n- Erstellen Sie ein Volumen/Partition kleiner als {0} TB.\n</entry>
+    <entry lang="de" key="LINUX_MAX_SIZE_HINT">- Benutzen Sie ein Laufwerk mit 4096-Byte Sektoren um in der Lage zu sein Partitionen/Geräte beasierte versteckte Volumen mit bis zu 16 TB anzulegen.</entry>
+    <entry lang="de" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="de" key="LINUX_NOT_SUPPORTED">(wird von den vorhandenen Komponenten dieser Platform nicht unterstützt).</entry>
+    <entry lang="de" key="LINUX_KERNEL_OLD">Ihr System verwenden einen alten Linux Kernel.\n\nWegen eines Fehlers im Linux Kernel kann es passieren, dass Ihr System beim schreiben auf ein VeraCrypt Volumen nicht mehr reagiert. Diese Problem kann durch einen Kernel in Version 2.6.24 oder neuer gelöst werden.</entry>
+    <entry lang="de" key="LINUX_VOL_DISMOUNTED">Volume {0} ausgehängt.</entry>
+    <entry lang="de" key="LINUX_OOM">Zu wenig Speicher.</entry>
+    <entry lang="de" key="LINUX_CANT_GET_ADMIN_PRIV">Erlangen der Administrator Privilegien fehlgeschlagen</entry>
+    <entry lang="de" key="LINUX_COMMAND_GET_ERROR">Kommando {0} lieferte Fehler: {1}.</entry>
+    <entry lang="de" key="LINUX_CMD_HELP">VeraCrypt Kommandozeilen Hilfe</entry>
+    <entry lang="de" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWARNUNG: Versteckte Dateien wurden im Suchpfad gefunden. Diese versteckten Dateien können nicht als Schlüsseldateien verwendet werden. Wenn Sie diese Dateien als Schlüsseldateien verwenden möchten, müssen Sie das den führenden Punkt vom Dateinamen entfernen. Hinweis: Versteckte Dateien sind nur sichtbar wenn die entsprechende Option in den System Optionen aktiviert ist.</entry>
+    -<entry lang="de" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Speichergerät und VeraCrypt Volumen Sektorgröße stimmen nicht überein</entry>
+    <entry lang="de" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">Diese Operation kann nur ausgefühert werden wenn das Betriebsystem auch auf diesem Volumen läuft.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_INSUFFICIENTDATA">Nicht genügend Daten vorhanden.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel Kryptographiedienst Test fehlgeschlagen. Dier Kryptographiedienst Ihres Kernels unterstützt wahrscheinlich keine Volumen größer als 2 TB.\n\nMögliche Lösungen:\n- Aktualisieren Sie den Linux Kernel auf die Version 2.6.33 oder höher.\n- Deaktivieren sie den Kryptographiedienst oder benutzen Sie die Einhängeoption 'nokernelcrypto' auf der Kommandozeile.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Fehler beim setzen den Loop Gerätes.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_MISSINGARGUMENT">Ein benötigtest Argument fehlt.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume Daten fehlen.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Einhängepunkt ist erforderlich.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Einhängepunkt wird bereits verwendet.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_PASSWORDEMPTY">Kein Passwort oder keine Schlüsseldatei angegeben.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nHinweis: Das Preboot Authentifikations-Passwort muss in der Preboot Umgebung eingegen werden wo Nicht-US Tasturbelegung nicht verfügbar sind. Daher müssen Preboot Authentifikations-Passwörter immer mit der standart US Tasturbelegung eingegeben werden.(Sonst wird das Password meistens falsch eingegen). Trotzdem brauchen Sie kein echte US Tastatur; Sie müssen nur die Tasturbelegung im Betriebsystem änder.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nHinweis: Wenn Sie versuchen eine Partition auf einem verschlüsselten Systemlaufwerk ohne Preboot Authentifizierung oder eines nicht laufenden Betriesystems einzuhängen, benutzen Sie bitte die Option Systemverschlüsselung.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password ist länger als {0} Zeichen.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partitionsgerät erforderlich.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Inkorrektes Password für das versteckte Volumen oder es existiert kein verstecktes Volumen.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Inkorrekte Schlüsseldatei(n) und/oder Password für das versteckte Volumen oder es existiert kein verstecktes Volumen.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Ungültige Zeichen characters aufgetreten.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Fehler beim der Textformatierung aufgetreten.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Fehler beim Erstellen einer Datein oder eines Verzeichnis im temporären Ordner.\n\nBitte stellen Sie sicher, dass der temporären Ordner existiert, Sie zu Zugriffsberechtigt sind und genug Speicherplatz vorhanden ist.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Fehler: Das Laufwerk benutzt eine von 512 Byte verschiedene Sektorgröße.\n\nWegen Komponentenlimitierung auf Ihrer Platform, äußere Voluem auf dem Laufwerk können nicht mit Schutz eine versteckten Volumens eingehängt werden.\n\nMögliche Lösungen:\n- Erstellen Sie einen dateibasierten Volumen-Kontainer auf dem Laufwerk.\n- Sichern Sie den Inhalt den versteckte Volumen und aktualisieren Sie dann das äußere Volumen.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Fehler: Das Laufwerk benutzt eine von 512 Byte verschiedene Sektorgröße.\n\nWegen Komponentenlimitierung auf Ihrer Platform, können Partitions- und Gerätebasierende Volumen nicht auf dem Laufwerk erstellt/benutzt werden. \n\nMögliche Lösungen:\n- Aktivieren Sie den Kernel Kryptographiedienst.\n-  Benutzen Sie ein Laufwerk mit 512-Byte Sektoren.\n- Erstellen Sie einen dateibasierten Volumen-Kontainer auf dem Laufwerk.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Fehler: Das Laufwerk benutzt eine von 512 Byte verschiedene Sektorgröße.\n\nWegen Komponentenlimitierung auf Ihrer Platform, können Partitions- und Gerätebasierende Volumen nicht auf dem Laufwerk erstellt/benutzt werden. \n\nMögliche Lösungen:\n- Erstellen Sie einen dateibasierten Volumen-Kontainer auf dem Laufwerk.\n- Benutzen Sie ein Laufwerk mit 512-Byte Sektoren.\n- Benutzen Sie VeraCrypt auf einer anderen Platform.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Die Host Datei oder das Host Gerät ist bereits in Benutzung.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume Platz nicht verfügbar.</entry>
+    <entry lang="de" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt benötigt OSXFUSE in Version 2.5 oder höher.</entry>
+    <entry lang="de" key="EXCEPTION_OCCURRED">Ausnahme aufgetreten</entry>        
+    <entry lang="de" key="ENTER_PASSWORD">Passwort eingeben</entry>
+    <entry lang="de" key="ENTER_TC_VOL_PASSWORD">VeraCrypt Volume Passwort eingeben</entry>
+    <entry lang="de" key="MOUNT">Einhängen</entry>
+    <entry lang="de" key="NO_VOLUMES_MOUNTED">Keine Volumen eingehängt.</entry>
+    <entry lang="de" key="OPEN_NEW_VOLUME">Erstellen ein neues VeraCrypt Volumen</entry>
+    <entry lang="de" key="PARAMETER_INCORRECT">Parameter falsch</entry>
+    <entry lang="de" key="SELECT_KEYFILES">Schlüsseldatei auswählen</entry>
+    <entry lang="de" key="START_TC">Starte VeraCrypt</entry>
+    <entry lang="de" key="VOLUME_ALREADY_MOUNTED">Das volume {0} ist bereits eingeängt.</entry>
+    <entry lang="de" key="UNKNOWN_OPTION">Unbekannte Option</entry>
+    <entry lang="de" key="VOLUME_LOCATION">Volume Speicherort</entry>
+    <entry lang="de" key="VOLUME_HOST_IN_USE">WARNUNG: Die Datei/das Laufwerk {0} ist bereits in Verwendung!\n\nWenn Sie diese Warnung ignorieren, können nicht vorhersehbare Probleme einschließlich Systemabstürze auftreten. Alle Programme, die die Datei/das Laufwerk verwenden (zum Beispiel Virenscanner oder Backup-Software) sollten geschlossen werden, bevor das Volume eingebunden wird.\n\nTrotzdem fortfahren?</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

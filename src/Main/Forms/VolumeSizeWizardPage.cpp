@@ -52,13 +52,13 @@ namespace VeraCrypt
 			wxString drive = wxFileName (wstring (volumePath)).GetVolume();
 			if (!drive.empty())
 			{
-				FreeSpaceStaticText->SetLabel (StringFormatter (_("Free space on drive {0}: is {1}."),
+				FreeSpaceStaticText->SetLabel (StringFormatter (LangString["LINUX_FREE_SPACE_ON_DRIVE"],
 					drive, Gui->SizeToString (diskSpace.GetValue())));
 			}
 			else
 #endif
 			{
-				FreeSpaceStaticText->SetLabel (StringFormatter (_("Free space available: {0}"),
+				FreeSpaceStaticText->SetLabel (StringFormatter (LangString["DISK_FREE"],
 					Gui->SizeToString (diskSpace.GetValue())));
 			}
 		}
