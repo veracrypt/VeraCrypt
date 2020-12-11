@@ -5187,7 +5187,7 @@ namespace VeraCrypt
 		if (SystemDriveIsDynamic())
 			throw ErrorException ("SYSENC_UNSUPPORTED_FOR_DYNAMIC_DISK", SRC_POS);
 
-		if (config.InitialUnallocatedSpace < TC_BOOT_LOADER_AREA_SIZE)
+		if (!config.SystemPartition.IsGPT && (config.InitialUnallocatedSpace < TC_BOOT_LOADER_AREA_SIZE))
 			throw ErrorException ("NO_SPACE_FOR_BOOT_LOADER", SRC_POS);
 
 		DISK_GEOMETRY_EX geometry = GetDriveGeometry (config.DriveNumber);
