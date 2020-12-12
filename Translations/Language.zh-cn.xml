@@ -1462,7 +1462,7 @@
     <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">文件系统资源管理器</entry>
     <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">性能</entry>
     <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">密钥文件</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">安全口令</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">安全口令牌</entry>
     <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">内核服务</entry>
     <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">不要使用内核加密服务</entry>
     <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">文件系统</entry>
