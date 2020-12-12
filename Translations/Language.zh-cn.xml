@@ -1564,7 +1564,7 @@
     <entry lang="en" key="VOLUME_ALREADY_MOUNTED">卷 {0} 已被装载。</entry>
     <entry lang="en" key="UNKNOWN_OPTION">未知选项</entry>
     <entry lang="en" key="VOLUME_LOCATION">卷的位置</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">警告：宿主文件/设备 {0} 已在使用中！\n\n忽略此操作可能会导致意外结果，包括系统不稳定。在装入卷之前，应关闭可能正在使用宿主文件/设备的所有应用程序。\n\n是否继续装载？</entry>
+    <entry lang="en" key="VOLUME_HOST_IN_USE">警告：宿主文件/设备 {0} 已在使用中！\n\n忽略此提示可能会导致意外结果，包括系统不稳定。在装载卷之前，应关闭可能正在使用宿主文件/设备的所有应用程序。\n\n是否继续装载？</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
