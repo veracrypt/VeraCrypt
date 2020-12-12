@@ -1446,64 +1446,63 @@
     <entry lang="zh-cn" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">强制VeraCrypt引导项作为EFI固件启动菜单的第一项</entry>
     <entry lang="zh-cn" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">警告：RAM加密与Windows休眠和Windows快速启动功能不兼容。VeraCrypt需要在激活RAM加密之前禁用它们。\n\n继续吗？</entry>
     <entry lang="zh-cn" key="CONFIRM_DISABLE_FAST_STARTUP">警告：Windows快速启动已启用，已知在使用VeraCrypt加密卷时会导致问题。建议禁用它以提高安全性和可用性。\n\n是否要禁用Windows快速启动？</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it doesn\'t overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
+    <entry lang="en" key="QUICK_FORMAT_HELP">为了使操作系统能够装载新卷，必须为其进行格式化。请选择文件系统类型。\n\n如果您的卷将托管在设备或分区上，您可以使用“快速格式化”跳过对卷可用空间的加密。</entry>
+    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">不要使用处理器的AES指令加速AES加密/解密</entry>
+    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">将所有已装载卷加入收藏...</entry>
+    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">任务栏图标菜单项</entry>
+    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">打开已装载的卷</entry>
+    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">卸载已装载的卷</entry>
+    <entry lang="en" key="DISK_FREE">可用空间为: {0}</entry>
+    <entry lang="en" key="VOLUME_SIZE_HELP">请指定要创建的容器的大小。请注意，卷的最小容量为292 KB。</entry>
+    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">警告：您为外部卷选择了FAT以外的文件系统。\n请注意，在这种情况下，VeraCrypt无法计算隐藏卷的准确最大允许大小，将只使用可能有误的估计值。\n因此，您必须确保设置适当的隐藏卷的大小，使其不会超过外部卷。\n\n要继续为外部卷使用选定的文件系统吗？</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">安全</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">装载选项</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">后台任务</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">系统集成</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">文件系统资源管理器</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">性能</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">密钥文件</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">安全口令牌</entry>
+    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">内核服务</entry>
+    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">不要使用内核加密服务</entry>
+    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">文件系统</entry>
+    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">装载选项:</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT">跨平台支持</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">我将在其他平台上装载该卷</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">如果需要在其他平台上使用该卷，请选择此选项。</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">我将仅在 {0} 平台上装载该卷</entry>
+    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">如果不需要在其他平台上使用该卷，请选择此选项。</entry>
+    <entry lang="en" key="LINUX_DESELECT">取消选择</entry>
+    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">输入您的用户密码或管理员密码:</entry>
+    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">需要管理员权限</entry>
+    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt已经在运行了。</entry>
+    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">系统加密密码长于 {0} 个字符。</entry>
+    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">使用系统加密装载分区(preboot身份验证) (&amp;u)</entry>
+    <entry lang="en" key="LINUX_DO_NOT_MOUNT">不要装载(&amp;)</entry>
+    <entry lang="en" key="LINUX_MOUNT_AT_DIR">装载于目录:</entry>
+    <entry lang="en" key="LINUX_SELECT">选择...(&amp;)</entry>
+    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">卸载全部卷，当</entry>
+    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">系统将进入省电模式</entry>
+    <entry lang="en" key="LINUX_LOGIN_ACTION">用户登录时要执行的操作</entry>
+    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">关闭正在卸载的卷的所有资源管理器窗口</entry>
+    <entry lang="en" key="LINUX_HOTKEYS">快捷键</entry>
+    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">全局快捷键</entry>
+    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">装载/卸载后播放系统提示音</entry>
+    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">卸载后显示确认消息框</entry>
+    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt退出</entry>
     <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
+    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">请注意，此设置仅在禁用内核加密服务时生效。</entry>
+    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">禁用内核加密服务会导致性能降低。\n\n您确定要注意做吗？</entry>
+    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">请注意，禁用此选项可能对已通过内核加密服务装入的卷没有影响。</entry>
+    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">请注意，任何当前已装载的卷都需要重新装载才能应用此设置。</entry>
+    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">发生未知异常。</entry>
     <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
+    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">装载所有设备</entry>
+    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">加载此处的配置文件时出错: </entry>
+    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">请从列表中选择一个可用驱动器插槽。</entry>
+    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\n下次装入此类卷时是否要显示此消息？</entry>
+    <entry lang="en" key="LINUX_WARNING">警告</entry>
+    <entry lang="en" key="LINUX_ERROR">错误</entry>
     <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
     <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
     <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
@@ -1552,20 +1551,20 @@
     <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
     <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
     <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory"</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
+    <entry lang="en" key="EXCEPTION_OCCURRED">出现异常</entry>
+    <entry lang="en" key="ENTER_PASSWORD">输入密码</entry>
+    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">输入 VeraCrypt 卷的密码</entry>
+    <entry lang="en" key="MOUNT">装载</entry>
+    <entry lang="en" key="MOUNT_POINT">装载目录</entry>
+    <entry lang="en" key="NO_VOLUMES_MOUNTED">未装载卷。</entry>
+    <entry lang="en" key="OPEN_NEW_VOLUME">指定一个新的 VeraCrypt 卷</entry>
+    <entry lang="en" key="PARAMETER_INCORRECT">参数有误</entry>
+    <entry lang="en" key="SELECT_KEYFILES">选择密钥文件</entry>
+    <entry lang="en" key="START_TC">启动 VeraCrypt</entry>
+    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">卷 {0} 已被装载。</entry>
+    <entry lang="en" key="UNKNOWN_OPTION">未知选项</entry>
+    <entry lang="en" key="VOLUME_LOCATION">卷的位置</entry>
+    <entry lang="en" key="VOLUME_HOST_IN_USE">警告：宿主文件/设备 {0} 已在使用中！\n\n忽略此提示可能会导致意外结果，包括系统不稳定。在装载卷之前，应关闭可能正在使用宿主文件/设备的所有应用程序。\n\n是否继续装载？</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
