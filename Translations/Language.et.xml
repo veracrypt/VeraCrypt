@@ -144,7 +144,7 @@
     <entry lang="et" key="IDC_HOTKEY_ASSIGN">Määra</entry>
     <entry lang="et" key="IDC_HOTKEY_REMOVE">Eemalda</entry>
     <entry lang="et" key="IDC_KEYFILES">Võtmefailid...</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="et" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Rohkem informatsiooni</entry>
     <entry lang="et" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Rohkem informatsiooni</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>

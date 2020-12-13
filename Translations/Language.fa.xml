@@ -144,7 +144,7 @@
     <entry lang="fa" key="IDC_HOTKEY_ASSIGN">تخصيص</entry>
     <entry lang="fa" key="IDC_HOTKEY_REMOVE">حذف</entry>
     <entry lang="fa" key="IDC_KEYFILES">...كليدفايلها</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="fa" key="IDC_MORE_INFO_ON_HW_ACCELERATION">اطلاعات بیشتر</entry>
     <entry lang="fa" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">اطلاعات بیشتر</entry>
     <entry lang="fa" key="IDC_MORE_SETTINGS">تنظیمات بیشتر...</entry>

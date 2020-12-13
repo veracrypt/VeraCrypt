@@ -144,7 +144,7 @@
     <entry lang="ka" key="IDC_HOTKEY_ASSIGN">დანიშვნა</entry>
     <entry lang="ka" key="IDC_HOTKEY_REMOVE">წაშლა</entry>
     <entry lang="ka" key="IDC_KEYFILES">ფაილები</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="ka" key="IDC_MORE_INFO_ON_HW_ACCELERATION">დამატებით ინფორმაცია</entry>
     <entry lang="ka" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">დამატებით ინფორმაცია</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>

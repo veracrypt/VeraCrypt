@@ -144,7 +144,7 @@
     <entry lang="sl" key="IDC_HOTKEY_ASSIGN">Zadolži</entry>
     <entry lang="sl" key="IDC_HOTKEY_REMOVE">Odstrani</entry>
     <entry lang="sl" key="IDC_KEYFILES">Ključne dat. ...</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
     <entry lang="sl" key="IDC_MORE_SETTINGS">Več nastavitev...</entry>

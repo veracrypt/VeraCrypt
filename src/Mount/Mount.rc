@@ -330,7 +330,7 @@ BEGIN
     CONTROL         "Accelerate AES encryption/decryption by using the AES instructions of the processor (if available)",IDC_ENABLE_HARDWARE_ENCRYPTION,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,18,41,340,17
     LTEXT           "More information",IDC_MORE_INFO_ON_HW_ACCELERATION,18,61,165,10,SS_NOTIFY
-    CONTROL         "Do not use the following number of processors for encryption/decryption:",IDC_LIMIT_ENC_THREAD_POOL,
+    CONTROL         "Do not use the following number of logical processors for encryption/decryption:",IDC_LIMIT_ENC_THREAD_POOL,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,18,103,283,11
     COMBOBOX        IDC_ENCRYPTION_FREE_CPU_COUNT,304,101,48,51,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "",IDT_LIMIT_ENC_THREAD_POOL_NOTE,18,126,334,33

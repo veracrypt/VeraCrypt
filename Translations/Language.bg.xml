@@ -144,7 +144,7 @@
     <entry lang="bg" key="IDC_HOTKEY_ASSIGN">Присвояване</entry>
     <entry lang="bg" key="IDC_HOTKEY_REMOVE">Премахване</entry>
     <entry lang="bg" key="IDC_KEYFILES">Ключ-файлове...</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="bg" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Повече информация</entry>
     <entry lang="bg" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Повече информация</entry>
     <entry lang="bg" key="IDC_MORE_SETTINGS">Още настройки...</entry>

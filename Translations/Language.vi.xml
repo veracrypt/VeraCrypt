@@ -144,7 +144,7 @@
     <entry lang="vi" key="IDC_HOTKEY_ASSIGN">Gán</entry>
     <entry lang="vi" key="IDC_HOTKEY_REMOVE">Gỡ bỏ</entry>
     <entry lang="vi" key="IDC_KEYFILES">Tập tin khóa...</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_HW_ACCELERATION">More information</entry>
     <entry lang="en" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">More information</entry>
     <entry lang="vi" key="IDC_MORE_SETTINGS">Thêm Thiết lập...</entry>

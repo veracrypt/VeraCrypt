@@ -144,7 +144,7 @@
     <entry lang="id" key="IDC_HOTKEY_ASSIGN">Tentukan</entry>
     <entry lang="id" key="IDC_HOTKEY_REMOVE">Hapus</entry>
     <entry lang="id" key="IDC_KEYFILES">File kunci...</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="id" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Informasi lebih lanjut</entry>
     <entry lang="id" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Informasi lebih lanjut</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>

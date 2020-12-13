@@ -144,7 +144,7 @@
     <entry lang="el" key="IDC_HOTKEY_ASSIGN">Καθορισμός</entry>
     <entry lang="el" key="IDC_HOTKEY_REMOVE">Απομάκρυνση</entry>
     <entry lang="el" key="IDC_KEYFILES">Αρχεία-κλειδιά</entry>
-    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of processors for encryption/decryption:</entry>
+    <entry lang="en" key="IDC_LIMIT_ENC_THREAD_POOL">Do not use the following number of logical processors for encryption/decryption:</entry>
     <entry lang="el" key="IDC_MORE_INFO_ON_HW_ACCELERATION">Περισσότερες πληροφορίες</entry>
     <entry lang="el" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">Περισσότερες πληροφορίες</entry>
     <entry lang="en" key="IDC_MORE_SETTINGS">More Settings...</entry>
