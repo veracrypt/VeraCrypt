@@ -1534,7 +1534,7 @@ Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte vo
     <entry lang="nl" key="LINUX_VOL_DISMOUNTED">Volume {0} is ontkoppeld.</entry>
     <entry lang="nl" key="LINUX_OOM">Onvoldoende geheugen.</entry>
     <entry lang="nl" key="LINUX_CANT_GET_ADMIN_PRIV">Geen beheerdersrechten verkregen</entry>
-    <entry lang="nl" key="LINUX_COMMAND_GET_ERROR">Opdracht \"{0}\" gaf fout {1}.</entry>
+    <entry lang="nl" key="LINUX_COMMAND_GET_ERROR">Opdracht {0} gaf fout {1}.</entry>
     <entry lang="nl" key="LINUX_CMD_HELP">VeraCrypt opdrachtregel-hulp</entry>
     <entry lang="nl" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWaarschuwing: er zijn verborgen bestanden aanwezig in een sleutelbestand-pad. Als u ze als sleutelbestanden moet gebruiken, verwijder dan het voorafgaande punt uit hun bestandsnamen. Verborgen bestanden zijn alleen zichtbaar als ze zijn ingeschakeld in de systeemopties.</entry>
     <entry lang="nl" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Opslagapparaat en VC-volumesector-grootte komen niet overeen</entry>
