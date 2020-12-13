@@ -1462,8 +1462,7 @@ Wisselbestanden kunnen zich alleen op de systeempartitie bevinden.</entry>
     <entry lang="nl" key="TASKICON_PREF_DISMOUNT_VOL">Gekoppelde volumes ontkoppelen</entry>
     <entry lang="nl" key="DISK_FREE">Beschikbare vrije ruimte: {0}</entry>
     <entry lang="nl" key="VOLUME_SIZE_HELP">Geef de grootte van de container op die u wilt maken. Merk op dat de minimaal mogelijke grootte van een volume 292 KiB is.</entry>
-    <entry lang="nl" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WAARSCHUWING: u hebt een ander bestandssysteem dan FAT geselecteerd voor het buitenste volume.
-Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte voor het verborgen volume kan berekenen en dat het alleen een schatting zal gebruiken die verkeerd kan zijn.\nHet is dus uw verantwoordelijkheid om een adequate waarde te gebruiken voor de grootte van het verborgen volume zodat het niet overlapt met het buitenste volume.\n\nWilt u het geselecteerde bestandssysteem blijven gebruiken voor het buitenste volume?</entry>
+    <entry lang="nl" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WAARSCHUWING: u hebt een ander bestandssysteem dan FAT geselecteerd voor het buitenste volume. Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte voor het verborgen volume kan berekenen en dat het alleen een schatting zal gebruiken die verkeerd kan zijn.\nHet is dus uw verantwoordelijkheid om een adequate waarde te gebruiken voor de grootte van het verborgen volume zodat het niet overlapt met het buitenste volume.\n\nWilt u het geselecteerde bestandssysteem blijven gebruiken voor het buitenste volume?</entry>
     <entry lang="nl" key="LINUX_PREF_TAB_SECURITY">Beveiliging</entry>
     <entry lang="nl" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Koppelopties</entry>
     <entry lang="nl" key="LINUX_PREF_TAB_BACKGROUND_TASK">Achtergrondtaak</entry>
