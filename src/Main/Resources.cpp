@@ -63,7 +63,7 @@ namespace VeraCrypt
 		string filenamePrefix("/usr/share/veracrypt/languages/Language.");
 		string filenamePost(".xml");
 		string filename = filenamePrefix + defaultLang + filenamePost;
-		if(const char* env_p = std::getenv("LANG")){
+		if(const char* env_p = getenv("LANG")){
 		    string lang(env_p);
 			std::cout << lang << std::endl;
 			if ( lang.size() > 1 ){
