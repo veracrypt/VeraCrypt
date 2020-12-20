@@ -344,4 +344,6 @@ $(OBJS): $(PCH)
 
 Resources.o: $(RESOURCES)
 
+LanguageStrings.o: $(RESOURCES)
+
 include $(BUILD_INC)/Makefile.inc
