@@ -9,6 +9,16 @@
 # contained in the file License.txt included in VeraCrypt binary and source
 # code distribution packages.
 #
+# For best build performance, invoke Make using this command (using GNU Gold):
+#
+#    LD=ld.gold nice make -j`nproc` ...
+#
+# Or, simply (if you don't have the GNU Gold linker on your system):
+#
+#    nice make -j`nproc` ...
+#
+# The `nice` command gives the desktop environment some needed breathing room.
+# The `-j` option makes Make use all cores in the system concurrently.
 
 #------ Command line arguments ------
 # DEBUG:		Disable optimizations and enable debugging checks
@@ -455,4 +465,4 @@ endif
 	cd "$(WX_BUILD_DIR)" && "$(WX_ROOT)/configure" $(WX_CONFIGURE_FLAGS) >/dev/null
 
 	@echo Building wxWidgets library...
-	cd "$(WX_BUILD_DIR)" && $(MAKE) -j 4
+	cd "$(WX_BUILD_DIR)" && $(MAKE)
