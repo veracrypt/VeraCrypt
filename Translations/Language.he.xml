@@ -659,7 +659,7 @@
     <entry lang="he" key="MOUNT_WITHOUT_PBA_VOL_ON_ACTIVE_SYSENC_DRIVE">In this mode, you cannot mount a partition located on a drive whose portion is within the key scope of active system encryption.\n\nBefore you can mount this partition in this mode, you need to either boot an operating system installed on a different drive (encrypted or unencrypted) or boot an unencrypted operating system.</entry>
     <entry lang="he" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE">VeraCrypt אינו יכול לפענח מחיצה בודדת בכונן מערכת מוצפן לחלוטין (ניתן לפענח רק את כונן המערכת כולו).</entry>
     <entry lang="he" key="CANT_DECRYPT_PARTITION_ON_ENTIRELY_ENCRYPTED_SYS_DRIVE_UNSURE">אזהרה: מכיוון שהכונן מכיל את ה- VeraCrypt Boot Loader, ייתכן שמדובר בכונן מערכת מוצפן לחלוטין.אם כן, שים לב ש- VeraCrypt לא יכול לפענח מחיצה בודדת בכונן מערכת מוצפן לחלוטין (אתה יכול לפענח רק את כונן המערכת כולו).אם זה המקרה, תוכל להמשיך עכשיו אבל תקבל את הודעת השגיאה 'סיסמה שגויה' מאוחר יותר.</entry>
-    <entry lang="he" key="PREV">&lt; &amp;Back</entry>
+    <entry lang="he" key="PREV">&lt; &amp; חזרה</entry>
     <entry lang="he" key="RAWDEVICES">לא ניתן לרשום מכשירים גולמיים המותקנים במערכת שלך!</entry>
     <entry lang="he" key="READONLYPROMPT">The volume '%s' exists, and is read-only. Are you sure you want to replace it?</entry>
     <entry lang="he" key="SELECT_DEST_DIR">בחר ספריית יעד</entry>
