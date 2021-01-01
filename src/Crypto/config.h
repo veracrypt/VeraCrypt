@@ -113,13 +113,13 @@
     #define CRYPTOPP_X64_ASM_AVAILABLE
 #endif
 
-#if !defined(CRYPTOPP_DISABLE_SSE2) && (defined(CRYPTOPP_MSVC6PP_OR_LATER) || defined(__SSE2__)) && !defined(_M_ARM)
+#if !defined(CRYPTOPP_DISABLE_SSE2) && (defined(CRYPTOPP_MSVC6PP_OR_LATER) || defined(__SSE2__)) && !defined(_M_ARM) && !defined(_M_ARM64)
     #define CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE 1
 #else
     #define CRYPTOPP_BOOL_SSE2_INTRINSICS_AVAILABLE 0
 #endif
 
-#if !defined(CRYPTOPP_DISABLE_ASM) && !defined(CRYPTOPP_DISABLE_SSSE3) && ( \
+#if !defined(CRYPTOPP_DISABLE_ASM) && !defined(CRYPTOPP_DISABLE_SSSE3) && !defined(_M_ARM) && !defined(_M_ARM64) && ( \
 	defined(__SSSE3__) || (_MSC_VER >= 1500) || \
 	(CRYPTOPP_GCC_VERSION >= 40300) || (__INTEL_COMPILER >= 1000) || (__SUNPRO_CC >= 0x5110) || \
 	(CRYPTOPP_LLVM_CLANG_VERSION >= 20300) || (CRYPTOPP_APPLE_CLANG_VERSION >= 40000))

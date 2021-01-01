@@ -107,6 +107,15 @@ LOCAL_DEFINE_GUID(PARTITION_LDM_DATA_GUID,       0xAF9B60A0L, 0x1431, 0x4F62, 0x
 LOCAL_DEFINE_GUID(PARTITION_MSFT_RECOVERY_GUID,  0xDE94BBA4L, 0x06D1, 0x4D40, 0xA1, 0x6A, 0xBF, 0xD5, 0x01, 0x79, 0xD6, 0xAC);    // Microsoft recovery partition
 LOCAL_DEFINE_GUID(PARTITION_CLUSTER_GUID, 	   0xdb97dba9L, 0x0840, 0x4bae, 0x97, 0xf0, 0xff, 0xb9, 0xa3, 0x27, 0xc7, 0xe1);    // Cluster metadata partition
 
+#ifndef PROCESSOR_ARCHITECTURE_ARM64
+#define PROCESSOR_ARCHITECTURE_ARM64            12
+#endif
+
+#ifndef IMAGE_FILE_MACHINE_ARM64
+#define IMAGE_FILE_MACHINE_ARM64 0xAA64
+#endif
+
+
 using namespace VeraCrypt;
 
 LONG DriverVersion;
@@ -4409,7 +4418,7 @@ static int DriverLoad ()
 	else
 		*tmp = 0;
 
-	StringCbCatW (driverPath, sizeof(driverPath), !Is64BitOs () ? L"\\veracrypt.sys" : L"\\veracrypt-x64.sys");
+	StringCbCatW (driverPath, sizeof(driverPath), !Is64BitOs () ? L"\\veracrypt.sys" : IsARM()? L"\\veracrypt-arm64.sys" : L"\\veracrypt-x64.sys");
 
 	file = FindFirstFile (driverPath, &find);
 
@@ -10753,30 +10762,94 @@ BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack)
 }
 
 
-BOOL Is64BitOs ()
+BOOL Is64BitOs()
 {
 #ifdef _WIN64
 	return TRUE;
 #else
-    static BOOL isWow64 = FALSE;
+	static BOOL isWow64 = FALSE;
 	static BOOL valid = FALSE;
-	typedef BOOL (__stdcall *LPFN_ISWOW64PROCESS ) (HANDLE hProcess,PBOOL Wow64Process);
+	typedef BOOL(__stdcall* LPFN_ISWOW64PROCESS) (HANDLE hProcess, PBOOL Wow64Process);
+	typedef BOOL(__stdcall* LPFN_ISWOW64PROCESS2)(
+		HANDLE hProcess,
+		USHORT* pProcessMachine,
+		USHORT* pNativeMachine
+		);
 	LPFN_ISWOW64PROCESS fnIsWow64Process;
+	LPFN_ISWOW64PROCESS2 fnIsWow64Process2;
 
 	if (valid)
 		return isWow64;
 
-	fnIsWow64Process = (LPFN_ISWOW64PROCESS) GetProcAddress (GetModuleHandle(L"kernel32"), "IsWow64Process");
+	fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandle(L"kernel32"), "IsWow64Process");
+	fnIsWow64Process2 = (LPFN_ISWOW64PROCESS2)GetProcAddress(GetModuleHandle(L"kernel32"), "IsWow64Process2");
 
-    if (fnIsWow64Process != NULL)
-        if (!fnIsWow64Process (GetCurrentProcess(), &isWow64))
+	if (fnIsWow64Process2)
+	{
+		USHORT processMachine, nativeMachine;
+		if (!fnIsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine))
 			isWow64 = FALSE;
-
+		else
+		{
+			if (IMAGE_FILE_MACHINE_ARM64 == nativeMachine || IMAGE_FILE_MACHINE_AMD64 == nativeMachine || IMAGE_FILE_MACHINE_IA64 == nativeMachine || IMAGE_FILE_MACHINE_ALPHA64 == nativeMachine)
+				isWow64 = TRUE;
+		}
+}
+	else if (fnIsWow64Process != NULL)
+	{
+		if (!fnIsWow64Process(GetCurrentProcess(), &isWow64))
+			isWow64 = FALSE;
+	}
 	valid = TRUE;
-    return isWow64;
+	return isWow64;
 #endif
 }
 
+BOOL IsARM()
+{
+#if defined(_M_ARM) || defined(_M_ARM64)
+	return TRUE;
+#else
+	static BOOL isARM = FALSE;
+	static BOOL valid = FALSE;
+	typedef BOOL(__stdcall* LPFN_ISWOW64PROCESS2)(
+		HANDLE hProcess,
+		USHORT* pProcessMachine,
+		USHORT* pNativeMachine
+		);
+	LPFN_ISWOW64PROCESS2 fnIsWow64Process2;
+
+	if (valid)
+		return isARM;
+
+	fnIsWow64Process2 = (LPFN_ISWOW64PROCESS2)GetProcAddress(GetModuleHandle(L"kernel32"), "IsWow64Process2");
+	if (fnIsWow64Process2)
+	{
+		USHORT processMachine, nativeMachine;
+		if (fnIsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine))
+		{
+			if (IMAGE_FILE_MACHINE_ARM64 == nativeMachine || IMAGE_FILE_MACHINE_AMD64 == nativeMachine || IMAGE_FILE_MACHINE_IA64 == nativeMachine || IMAGE_FILE_MACHINE_ALPHA64 == nativeMachine)
+				isARM = TRUE;
+			else
+				isARM = FALSE;
+			valid = TRUE;
+		}
+	}
+
+	if (!valid)
+	{
+		SYSTEM_INFO systemInfo;
+		GetNativeSystemInfo(&systemInfo);
+		if (systemInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM || systemInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM64)
+			isARM = TRUE;
+		else
+			isARM = FALSE;
+	}
+	valid = TRUE;
+	return isARM;
+
+#endif
+}
 
 BOOL IsServerOS ()
 {
@@ -10946,7 +11019,7 @@ std::wstring GetWindowsEdition ()
 		osname += L"-basic";
 
 	if (Is64BitOs())
-		osname += L"-x64";
+		osname += IsARM()? L"-arm64" : L"-x64";
 
 	if (CurrentOSServicePack > 0)
 	{
@@ -15007,7 +15080,11 @@ BOOL GetHibernateStatus (BOOL& bHibernateEnabled, BOOL& bHiberbootEnabled)
 				}
 
 				// check if Fast Startup / Hybrid Boot is enabled
-				if (IsOSVersionAtLeast (WIN_8, 0) && spc.spare2[0])
+#if _MSC_VER >= 1900
+				if (IsOSVersionAtLeast (WIN_8, 0) && spc.Hiberboot)
+#else
+				if (IsOSVersionAtLeast(WIN_8, 0) && spc.spare2[0])
+#endif
 				{
 					dwHiberbootEnabled = 1;
 					ReadLocalMachineRegistryDword (L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Power", L"HiberbootEnabled", &dwHiberbootEnabled);

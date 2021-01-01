@@ -851,31 +851,46 @@ BOOL DoFilesInstall (HWND hwndDlg, wchar_t *szDestDir)
 				if (Is64BitOs ()
 					&& ((wcscmp (szFiles[i], L"Dveracrypt.sys") == 0) || (wcscmp (szFiles[i], L"Averacrypt.sys") == 0)))
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-arm64.sys", sizeof(L"veracrypt-arm64.sys"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), FILENAME_64BIT_DRIVER, sizeof (FILENAME_64BIT_DRIVER));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"Averacrypt.cat") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-x64.cat", sizeof (L"veracrypt-x64.cat"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-arm64.cat", sizeof(L"veracrypt-arm64.cat"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"veracrypt-x64.cat", sizeof (L"veracrypt-x64.cat"));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCrypt.exe") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-x64.exe", sizeof (L"VeraCrypt-x64.exe"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-arm64.exe", sizeof(L"VeraCrypt-arm64.exe"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt-x64.exe", sizeof (L"VeraCrypt-x64.exe"));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCryptExpander.exe") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-x64.exe", sizeof (L"VeraCryptExpander-x64.exe"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-arm64.exe", sizeof(L"VeraCryptExpander-arm64.exe"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCryptExpander-x64.exe", sizeof (L"VeraCryptExpander-x64.exe"));
 				}
 
 				if (Is64BitOs ()
 					&& wcscmp (szFiles[i], L"AVeraCrypt Format.exe") == 0)
 				{
-					StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-x64.exe", sizeof (L"VeraCrypt Format-x64.exe"));
+					if (IsARM())
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-arm64.exe", sizeof(L"VeraCrypt Format-arm64.exe"));
+					else
+						StringCbCopyNW (curFileName, sizeof(curFileName), L"VeraCrypt Format-x64.exe", sizeof (L"VeraCrypt Format-x64.exe"));
 				}
 
 				if (!bDevm)

@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Driver Files">
+      <UniqueIdentifier>{8E41214B-6785-4CFE-B992-037D68949A14}</UniqueIdentifier>
+      <Extensions>inf;inv;inx;mof;mc;</Extensions>
+    </Filter>
+    <Filter Include="Crypto">
+      <UniqueIdentifier>{27c1f176-3bb2-46ab-abe5-d5ea01d8d4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Crypto\Source Files">
+      <UniqueIdentifier>{a5c1dc1f-29ec-4ea8-b535-61dd2c5e4342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Crypto\Header Files">
+      <UniqueIdentifier>{e69db28f-0030-4532-9d70-5c11b63d1e2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{c9095cb6-8efa-4261-902e-a9b8afa443d6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DriveFilter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DumpFilter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EncryptedIoQueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ntvol.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VolumeFilter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Aeskey.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Aestab.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Camellia.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\chacha-xmm.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\chacha256.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\chachaRng.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\cpu.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\GostCipher.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\jitterentropy-base.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\kuznyechik.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\kuznyechik_simd.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\rdrand.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Rmd160.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\SerpentFast.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\SerpentFast_simd.cpp">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Sha2.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Streebog.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\t1ha2.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\t1ha2_selfcheck.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\t1ha_selfcheck.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Twofish.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Whirlpool.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Cache.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Crc.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Crypto.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\EncryptionThreadPool.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Endian.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\GfMul.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Pkcs5.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Tests.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Volumes.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Wipe.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Xts.c">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Aescrypt.c">
+      <Filter>Crypto\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ntdriver.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DriveFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DumpFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EncryptedIoQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ntdriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ntvol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Aes.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Aes_hw_cpu.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Aesopt.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Aestab.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Camellia.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\chacha256.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\chachaRng.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\chacha_u1.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\chacha_u4.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\config.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\cpu.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\GostCipher.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\jitterentropy-base-user.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\jitterentropy.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\kuznyechik.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\misc.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\rdrand.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Rmd160.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\SerpentFast.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\SerpentFast_sbox.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Sha2.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Streebog.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\t1ha.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\t1ha_bits.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\t1ha_selfcheck.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Twofish.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\Whirlpool.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Crypto\AesSmall.h">
+      <Filter>Crypto\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Aes_hw_cpu.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\Aes_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\Aes_x86.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\Gost89_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\Twofish_x64.S">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\Camellia_aesni_x64.S">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\Camellia_x64.S">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha256-x86-nayuki.S">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha256_avx1_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha256_avx2_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha256_sse4_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha512-x86-nayuki.S">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha512-x64-nayuki.S">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha512_avx1_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha512_avx2_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\sha512_sse4_x64.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\rdrand_ml.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Crypto\rdseed_ml.asm">
+      <Filter>Crypto\Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Driver.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

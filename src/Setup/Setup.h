@@ -48,11 +48,16 @@ static wchar_t *szCompressedFiles[]=
 	L"VeraCrypt-x64.exe",
 	L"VeraCryptExpander-x64.exe",
 	L"VeraCrypt Format-x64.exe",
+	L"VeraCrypt-arm64.exe",
+	L"VeraCryptExpander-arm64.exe",
+	L"VeraCrypt Format-arm64.exe",
 	L"veracrypt.inf",
 	L"veracrypt.cat",
 	L"veracrypt.sys",
 	L"veracrypt-x64.cat",
 	L"veracrypt-x64.sys",
+	L"veracrypt-arm64.cat",
+	L"veracrypt-arm64.sys",
 	L"Languages.zip",
 	L"docs.zip"
 };

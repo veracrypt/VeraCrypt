@@ -796,8 +796,6 @@ namespace VeraCrypt
 
 		if (Elevated)
 		{
-			DWORD bytesRead;
-
 			Elevator::ReadWriteFile (false, IsDevice, Path, buffer, FilePointerPosition, size, &bytesRead);
 			FilePointerPosition += bytesRead;
 			return bytesRead;
@@ -5172,6 +5170,9 @@ namespace VeraCrypt
 	{ 
 		if (CurrentOSMajor == 6 && CurrentOSMinor == 0 && CurrentOSServicePack < 1)
 			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_VISTA_SP0", SRC_POS);
+
+		if (IsARM())
+			throw ErrorException ("SYS_ENCRYPTION_UNSUPPORTED_ON_CURRENT_OS", SRC_POS);
 
 		if (IsNonInstallMode())
 			throw ErrorException ("FEATURE_REQUIRES_INSTALLATION", SRC_POS);

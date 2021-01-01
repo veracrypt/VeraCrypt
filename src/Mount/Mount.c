@@ -4639,6 +4639,20 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					goto stop;
 				}
 
+				// Main app ARM 64-bit
+				StringCbPrintfW(srcPath, sizeof(srcPath), L"%s\\VeraCrypt-arm64.exe", appDir);
+				StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-arm64.exe", dstDir);
+				if (!VerifyModuleSignature(srcPath))
+				{
+					Error("DIST_PACKAGE_CORRUPTED", hwndDlg);
+					goto stop;
+				}
+				else if (!TCCopyFile(srcPath, dstPath))
+				{
+					handleWin32Error(hwndDlg, SRC_POS);
+					goto stop;
+				}
+
 				// Wizard
 				if (copyWizard)
 				{
@@ -4667,6 +4681,20 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					else if (!TCCopyFile (srcPath, dstPath))
 					{
 						handleWin32Error (hwndDlg, SRC_POS);
+						goto stop;
+					}
+
+					// Wizard ARM 64-bit
+					StringCbPrintfW(srcPath, sizeof(srcPath), L"%s\\VeraCrypt Format-arm64.exe", appDir);
+					StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-arm64.exe", dstDir);
+					if (!VerifyModuleSignature(srcPath))
+					{
+						Error("DIST_PACKAGE_CORRUPTED", hwndDlg);
+						goto stop;
+					}
+					else if (!TCCopyFile(srcPath, dstPath))
+					{
+						handleWin32Error(hwndDlg, SRC_POS);
 						goto stop;
 					}
 				}
@@ -4701,6 +4729,20 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 						handleWin32Error (hwndDlg, SRC_POS);
 						goto stop;
 					}
+
+					// Expander ARM 64-bit
+					StringCbPrintfW(srcPath, sizeof(srcPath), L"%s\\VeraCryptExpander-arm64.exe", appDir);
+					StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-arm64.exe", dstDir);
+					if (!VerifyModuleSignature(srcPath))
+					{
+						Error("DIST_PACKAGE_CORRUPTED", hwndDlg);
+						goto stop;
+					}
+					else if (!TCCopyFile(srcPath, dstPath))
+					{
+						handleWin32Error(hwndDlg, SRC_POS);
+						goto stop;
+					}
 				}
 
 				// Driver
@@ -4728,6 +4770,20 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				else if (!TCCopyFile (srcPath, dstPath))
 				{
 					handleWin32Error (hwndDlg, SRC_POS);
+					goto stop;
+				}
+
+				// Driver ARM64
+				StringCbPrintfW(srcPath, sizeof(srcPath), L"%s\\veracrypt-arm64.sys", appDir);
+				StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-arm64.sys", dstDir);
+				if (!VerifyModuleSignature(srcPath))
+				{
+					Error("DIST_PACKAGE_CORRUPTED", hwndDlg);
+					goto stop;
+				}
+				else if (!TCCopyFile(srcPath, dstPath))
+				{
+					handleWin32Error(hwndDlg, SRC_POS);
 					goto stop;
 				}
 			}

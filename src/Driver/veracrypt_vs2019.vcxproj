@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Common\Cache.c" />
+    <ClCompile Include="..\Common\Crc.c" />
+    <ClCompile Include="..\Common\Crypto.c" />
+    <ClCompile Include="..\Common\EncryptionThreadPool.c" />
+    <ClCompile Include="..\Common\Endian.c" />
+    <ClCompile Include="..\Common\GfMul.c" />
+    <ClCompile Include="..\Common\Pkcs5.c" />
+    <ClCompile Include="..\Common\Tests.c" />
+    <ClCompile Include="..\Common\Volumes.c" />
+    <ClCompile Include="..\Common\Wipe.c" />
+    <ClCompile Include="..\Common\Xts.c" />
+    <ClCompile Include="..\Crypto\Aescrypt.c" />
+    <ClCompile Include="..\Crypto\Aeskey.c" />
+    <ClCompile Include="..\Crypto\Aestab.c" />
+    <ClCompile Include="..\Crypto\Camellia.c" />
+    <ClCompile Include="..\Crypto\chacha-xmm.c" />
+    <ClCompile Include="..\Crypto\chacha256.c" />
+    <ClCompile Include="..\Crypto\chachaRng.c" />
+    <ClCompile Include="..\Crypto\cpu.c" />
+    <ClCompile Include="..\Crypto\GostCipher.c" />
+    <ClCompile Include="..\Crypto\jitterentropy-base.c" />
+    <ClCompile Include="..\Crypto\kuznyechik.c" />
+    <ClCompile Include="..\Crypto\kuznyechik_simd.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\rdrand.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Rmd160.c" />
+    <ClCompile Include="..\Crypto\SerpentFast.c" />
+    <ClCompile Include="..\Crypto\SerpentFast_simd.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Crypto\Sha2.c" />
+    <ClCompile Include="..\Crypto\Streebog.c" />
+    <ClCompile Include="..\Crypto\t1ha2.c" />
+    <ClCompile Include="..\Crypto\t1ha2_selfcheck.c" />
+    <ClCompile Include="..\Crypto\t1ha_selfcheck.c" />
+    <ClCompile Include="..\Crypto\Twofish.c" />
+    <ClCompile Include="..\Crypto\Whirlpool.c" />
+    <ClCompile Include="Ntdriver.c" />
+    <ClCompile Include="VolumeFilter.c" />
+    <ClCompile Include="DriveFilter.c" />
+    <ClCompile Include="DumpFilter.c" />
+    <ClCompile Include="EncryptedIoQueue.c" />
+    <ClCompile Include="Ntvol.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4B41C7B5-75C6-40A2-AF4D-55BC1E012BCD}</ProjectGuid>
+    <TemplateGuid>{f2f62967-0815-4fd7-9b86-6eedcac766eb}</TemplateGuid>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <Configuration>Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">Win32</Platform>
+    <RootNamespace>veracrypt</RootNamespace>
+    <WindowsTargetPlatformVersion>$(LatestTargetPlatformVersion)</WindowsTargetPlatformVersion>
+    <ProjectName>driver</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <TargetVersion>Windows10</TargetVersion>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
+    <ConfigurationType>Driver</ConfigurationType>
+    <DriverType>WDM</DriverType>
+    <DriverTargetPlatform>Universal</DriverTargetPlatform>
+    <_NT_TARGET_VERSION>0x0A00</_NT_TARGET_VERSION>
+    <SupportsPackaging>false</SupportsPackaging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <TargetVersion>Windows10</TargetVersion>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
+    <ConfigurationType>Driver</ConfigurationType>
+    <DriverType>WDM</DriverType>
+    <_NT_TARGET_VERSION>0x0A00</_NT_TARGET_VERSION>
+    <SupportsPackaging>false</SupportsPackaging>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
+    <OutDir>$(SolutionDir)$(Platform)\$(ConfigurationName)\</OutDir>
+    <TargetName>veracrypt</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
+    <OutDir>$(ProjectDir)$(Platform)\$(ConfigurationName)\</OutDir>
+    <TargetName>veracrypt</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <Link>
+      <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TC_WINDOWS_DRIVER;_WIN32;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4064;4627;4627;4366;4100;4057;4457;4456;4152;4213;4244;4127;4706;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) "..\Debug\Setup Files\VeraCrypt-arm64.sys"</Command>
+    </PostBuildEvent>
+    <Inf>
+      <SpecifyDriverVerDirectiveVersion>false</SpecifyDriverVerDirectiveVersion>
+    </Inf>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <Link>
+      <AdditionalDependencies>fltmgr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Crypto;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TC_WINDOWS_DRIVER;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4064;4627;4627;4366;4100;4057;4457;4456;4152;4213;4244;4127;4706;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) "..\Release\Setup Files\VeraCrypt-arm64.sys"</Command>
+    </PostBuildEvent>
+    <Inf>
+      <SpecifyArchitecture>true</SpecifyArchitecture>
+      <SpecifyDriverVerDirectiveVersion>false</SpecifyDriverVerDirectiveVersion>
+    </Inf>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <FilesToPackage Include="$(TargetPath)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Crypto\Aes.h" />
+    <ClInclude Include="..\Crypto\Aesopt.h" />
+    <ClInclude Include="..\Crypto\AesSmall.h" />
+    <ClInclude Include="..\Crypto\Aestab.h" />
+    <ClInclude Include="..\Crypto\Aes_hw_cpu.h" />
+    <ClInclude Include="..\Crypto\Camellia.h" />
+    <ClInclude Include="..\Crypto\chacha256.h" />
+    <ClInclude Include="..\Crypto\chachaRng.h" />
+    <ClInclude Include="..\Crypto\chacha_u1.h" />
+    <ClInclude Include="..\Crypto\chacha_u4.h" />
+    <ClInclude Include="..\Crypto\config.h" />
+    <ClInclude Include="..\Crypto\cpu.h" />
+    <ClInclude Include="..\Crypto\GostCipher.h" />
+    <ClInclude Include="..\Crypto\jitterentropy-base-user.h" />
+    <ClInclude Include="..\Crypto\jitterentropy.h" />
+    <ClInclude Include="..\Crypto\kuznyechik.h" />
+    <ClInclude Include="..\Crypto\misc.h" />
+    <ClInclude Include="..\Crypto\rdrand.h" />
+    <ClInclude Include="..\Crypto\Rmd160.h" />
+    <ClInclude Include="..\Crypto\SerpentFast.h" />
+    <ClInclude Include="..\Crypto\SerpentFast_sbox.h" />
+    <ClInclude Include="..\Crypto\Sha2.h" />
+    <ClInclude Include="..\Crypto\Streebog.h" />
+    <ClInclude Include="..\Crypto\t1ha.h" />
+    <ClInclude Include="..\Crypto\t1ha_bits.h" />
+    <ClInclude Include="..\Crypto\t1ha_selfcheck.h" />
+    <ClInclude Include="..\Crypto\Twofish.h" />
+    <ClInclude Include="..\Crypto\Whirlpool.h" />
+    <ClInclude Include="DriveFilter.h" />
+    <ClInclude Include="DumpFilter.h" />
+    <ClInclude Include="EncryptedIoQueue.h" />
+    <ClInclude Include="Ntdriver.h" />
+    <ClInclude Include="Ntvol.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="VolumeFilter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Aes_hw_cpu.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -g -o "$(TargetDir)\%(Filename).obj" "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win64 -Ox -g -o "$(TargetDir)\%(Filename).obj" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Aes_x64.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Aes_x86.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win32 -Ox -g --prefix _ -o "$(TargetDir)\%(Filename).obj" "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">echo %(Filename)%(Extension) &amp; nasm.exe -Xvc -f win32 -Ox -g --prefix _ -o "$(TargetDir)\%(Filename).obj" "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Gost89_x64.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Twofish_x64.S">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Camellia_aesni_x64.S">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\Camellia_x64.S">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha256-x86-nayuki.S">
+      <FileType>Document</FileType>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha256_avx1_x64.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha256_avx2_x64.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha256_sse4_x64.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha512-x86-nayuki.S">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha512-x64-nayuki.S">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha512_avx1_x64.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha512_avx2_x64.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\sha512_sse4_x64.asm">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\rdrand_ml.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">echo %(Filename)%(Extension) &amp; ml64.exe /nologo /D_M_X64 /W3 /Cx /Zi /Fo "$(TargetDir)\%(Filename).obj" /c "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">echo %(Filename)%(Extension) &amp; ml64.exe /nologo /D_M_X64 /W3 /Cx /Zi /Fo "$(TargetDir)\%(Filename).obj" /c "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Crypto\rdseed_ml.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">echo %(Filename)%(Extension) &amp; ml64.exe /nologo /D_M_X64 /W3 /Cx /Zi /Fo "$(TargetDir)\%(Filename).obj" /c "%(FullPath)"
+</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">echo %(Filename)%(Extension) &amp; ml64.exe /nologo /D_M_X64 /W3 /Cx /Zi /Fo "$(TargetDir)\%(Filename).obj" /c "%(FullPath)"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(TargetDir)\%(Filename).obj;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Driver.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

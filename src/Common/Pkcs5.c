@@ -91,7 +91,7 @@ void hmac_sha256
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
-	if (g_isIntel && HasSAVX())
+	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
@@ -218,7 +218,7 @@ void derive_key_sha256 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
-	if (g_isIntel && HasSAVX())
+	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
@@ -361,7 +361,7 @@ void hmac_sha512
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
-	if (g_isIntel && HasSAVX())
+	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
@@ -463,7 +463,7 @@ void derive_key_sha512 (char *pwd, int pwd_len, char *salt, int salt_len, uint32
 	NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 #ifdef _WIN64
 	XSTATE_SAVE SaveState;
-	if (g_isIntel && HasSAVX())
+	if (IsCpuIntel() && HasSAVX())
 		saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 	KFLOATING_SAVE floatingPointState;	
@@ -1277,7 +1277,9 @@ int get_pkcs5_iteration_count (int pkcs5_prf_id, int pim, BOOL truecryptMode, BO
 	default:		
 		TC_THROW_FATAL_EXCEPTION;	// Unknown/wrong ID
 	}
+#if _MSC_VER < 1900
 	return 0;
+#endif
 }
 
 int is_pkcs5_prf_supported (int pkcs5_prf_id, BOOL truecryptMode, PRF_BOOT_TYPE bootType)

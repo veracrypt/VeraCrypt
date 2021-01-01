@@ -472,6 +472,7 @@ void DebugMsgBox (char *format, ...);
 BOOL IsOSAtLeast (OSVersionEnum reqMinOS);
 BOOL IsOSVersionAtLeast (OSVersionEnum reqMinOS, int reqMinServicePack);
 BOOL Is64BitOs ();
+BOOL IsARM();
 BOOL IsServerOS ();
 BOOL IsHiddenOSRunning (void);
 BOOL EnableWow64FsRedirection (BOOL enable);
