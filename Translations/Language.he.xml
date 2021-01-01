@@ -7,7 +7,7 @@
     <font lang="he" class="title" size="21" face="Times New Roman" />
     <entry lang="he" key="IDCANCEL">ביטול</entry>
     <entry lang="he" key="IDC_ALL_USERS">מתקין &amp;לכל המשתמשים</entry>
-    <entry lang="he" key="IDC_BROWSE">Bro&amp;wse...</entry>
+    <entry lang="he" key="IDC_BROWSE">...לדפ&amp;דף</entry>
     <entry lang="he" key="IDC_DESKTOP_ICON">הוסף את סמל Veracrypt ל &amp;שולחן העבודה</entry>
     <entry lang="he" key="IDC_DONATE">תרום עכשיו ...</entry>
     <entry lang="he" key="IDC_FILE_TYPE">קשר קבצים עם סיומת .hc &amp;עם VeraCrypt</entry>
@@ -155,7 +155,8 @@
     <entry lang="he" key="IDC_PIM_HELP">(ריק או 0 עבור איטרציות ברירת מחדל)</entry>
     <entry lang="he" key="IDC_PREF_BKG_TASK_ENABLE">מופעל</entry>
     <entry lang="he" key="IDC_PREF_CACHE_PASSWORDS">סיסמאות מטמון בזיכרון מנהל ההתקן</entry>
-    <entry lang="he" key="IDC_PREF_DISMOUNT_INACTIVE">Auto-dismount volume after no data has been read/written to it for</entry>
+    
+    <entry lang="he" key="IDC_PREF_DISMOUNT_INACTIVE">נתק אמצעי אחסון אם לא נכתב או נקרא לתוכו מידע לאחר זמן מה</entry>
     <entry lang="he" key="IDC_PREF_DISMOUNT_LOGOFF">המשתמש מתנתק</entry>
     <entry lang="he" key="IDC_PREF_DISMOUNT_SESSION_LOCKED">הפעלת המשתמש נעולה</entry>
     <entry lang="he" key="IDC_PREF_DISMOUNT_POWERSAVING">נכנסים למצב חיסכון בחשמל</entry>
@@ -166,7 +167,8 @@
     <entry lang="he" key="IDC_PREF_MOUNT_READONLY">הר כרכים לקריאה בלבד</entry>
     <entry lang="he" key="IDC_PREF_MOUNT_REMOVABLE">הרכיב כרכים כמדיה נשלפת</entry>
     <entry lang="he" key="IDC_PREF_OPEN_EXPLORER">פתח את חלון סייר עבור נפח המותקן בהצלחה</entry>
-    <entry lang="he" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">Temporarily cache password during "Mount Favorite Volumes" operations</entry>
+    
+    <entry lang="he" key="IDC_PREF_TEMP_CACHE_ON_MULTIPLE_MOUNT">שמירה זמנית של הסיסמא במהלך ביצוע טעינה אוטמטית של אמצעי אחסון</entry>
     <entry lang="he" key="IDC_PREF_USE_DIFF_TRAY_ICON_IF_VOL_MOUNTED">השתמש בסמל של שורת המשימות אחרת כשיש אמצעי אחסון מותקנים</entry>
     <entry lang="he" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">מחק סיסמאות שנשמרו במטמון בפירוק אוטומטי</entry>
     <entry lang="he" key="IDC_PREF_WIPE_CACHE_ON_EXIT">מחק סיסמאות במטמון בעת היציאה</entry>
@@ -174,10 +176,10 @@
     <entry lang="he" key="IDC_RESET_HOTKEYS">אִתחוּל</entry>
     <entry lang="he" key="IDC_SELECT_DEVICE">...בחר &amp; מכשיר</entry>
     <entry lang="he" key="IDC_SELECT_FILE">...בחר &amp;קובץ</entry>
-    <entry lang="he" key="IDC_SELECT_PKCS11_MODULE">Select &amp;Library...</entry>
+    <entry lang="he" key="IDC_SELECT_PKCS11_MODULE">בחר &amp;ספריה...</entry>
     <entry lang="he" key="IDC_SHOW_PASSWORD_CHPWD_NEW">הצגת סיסמה</entry>
     <entry lang="he" key="IDC_SHOW_PASSWORD_CHPWD_ORI">הצגת סיסמה</entry>
-    <entry lang="he" key="IDC_TRAVEL_OPEN_EXPLORER">Open &amp;Explorer window for mounted volume</entry>
+    <entry lang="he" key="IDC_TRAVEL_OPEN_EXPLORER">פתח את &amp;חלון סייר הקבצים לאמצעי אחסון שנטענו</entry>
     <entry lang="he" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Cache password in driver memory</entry>
     <entry lang="he" key="IDC_TRUECRYPT_MODE">מצב TrueCrypt</entry>
     <entry lang="he" key="IDC_UNMOUNTALL">נתק הכל</entry>
@@ -228,7 +230,7 @@
     <entry lang="he" key="IDM_MANAGE_TOKEN_KEYFILES">...נהל קובצי אבטחה של אסימון אבטחה</entry>
     <entry lang="he" key="IDM_MOUNTALL">הרכבה אוטומטית של כל הכרכים המארחים התקנים</entry>
     <entry lang="he" key="IDM_MOUNT_FAVORITE_VOLUMES">הר כרכים אהובים</entry>
-    <entry lang="he" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">Mount Without Pre-Boot &amp;Authentication...</entry>
+    <entry lang="he" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">טען ללא אימות&amp;באתחול...</entry>
     <entry lang="he" key="IDM_MOUNT_VOLUME">טען אמצעי אחסון</entry>
     <entry lang="he" key="IDM_MOUNT_VOLUME_OPTIONS">הגדל את עוצמת הקול עם אפשרויות</entry>
     <entry lang="he" key="IDM_NEWS">חֲדָשׁוֹת</entry>
@@ -264,7 +266,7 @@
     <entry lang="he" key="IDM_VOLUME_WIZARD">אשף יצירת נפח</entry>
     <entry lang="he" key="IDM_WEBSITE">אתר VeraCrypt</entry>
     <entry lang="he" key="IDM_WIPE_CACHE">מחק סיסמאות שמורות</entry>
-    <entry lang="he" key="IDOK">בסדר</entry>
+    <entry lang="he" key="IDOK">אישור</entry>
     <entry lang="he" key="IDT_ACCELERATION_OPTIONS">האצת חומרה</entry>
     <entry lang="he" key="IDT_ASSIGN_HOTKEY">קיצור</entry>
     <entry lang="he" key="IDT_AUTORUN">תצורת הפעלה אוטומטית (autorun.inf)</entry>
@@ -311,23 +313,24 @@
     <entry lang="he" key="IDC_GENERATE_KEYFILE">&amp;צור קבצי מפתחות רנדומליים</entry>
     <entry lang="he" key="IDC_GET_LANG_PACKS">הורד חבילת שפה</entry>
     <entry lang="he" key="IDC_HW_AES_LABEL_LINK">AES מואץ חומרה:</entry>
-    <entry lang="he" key="IDC_IMPORT_KEYFILE">&amp;Import Keyfile to Token...</entry>
-    <entry lang="he" key="IDC_KEYADD">Add &amp;Files...</entry>
-    <entry lang="he" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">U&amp;se keyfiles</entry>
-    <entry lang="he" key="IDC_KEYFILES_HIDVOL_PROT">&amp;Keyfiles...</entry>
-    <entry lang="he" key="IDC_KEYREMOVE">&amp;Remove</entry>
-    <entry lang="he" key="IDC_KEYREMOVEALL">Remove &amp;All</entry>
+    <entry lang="he" key="IDC_IMPORT_KEYFILE">&amp;יבא קבצי מפתחות לאמצעי אבטחה...</entry>
+    <entry lang="he" key="IDC_KEYADD">הוסף &amp;קבצים...</entry>
+    <entry lang="he" key="IDC_KEYFILES_ENABLE_HIDVOL_PROT">ה&amp;שתמש ב קבצי מפתחות</entry>
+    <entry lang="he" key="IDC_KEYFILES_HIDVOL_PROT">&amp;קבצי מפתחות...</entry>
+    <entry lang="he" key="IDC_KEYREMOVE">&amp;הסר</entry>
+    <entry lang="he" key="IDC_KEYREMOVEALL">הסר &amp;הכל</entry>
     <entry lang="he" key="IDC_LINK_HIDVOL_PROTECTION_INFO">מהי הגנה על עוצמת קול מוסתרת?</entry>
     <entry lang="he" key="IDC_LINK_KEYFILES_INFO">מידע נוסף על קובצי מפתח</entry>
-    <entry lang="he" key="IDC_MOUNT_REMOVABLE">Mount volume as removable &amp;medium</entry>
-    <entry lang="he" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">Mount partition &amp;using system encryption without pre-boot authentication</entry>
+    <entry lang="he" key="IDC_MOUNT_REMOVABLE">טען אמצעי אחסון כ &amp;אמצעי אחסון נשלף</entry>
+    <entry lang="he" key="IDC_MOUNT_SYSENC_PART_WITHOUT_PBA">טען את המחיצה באמצעות הצפנת המערכת &amp;ללא אימות באתחול המחשב</entry>
+    
     <entry lang="he" key="IDC_PARALLELIZATION_LABEL_LINK">מקביליות:</entry>
     <entry lang="he" key="IDC_PERFORM_BENCHMARK">אמת מידה</entry>
-    <entry lang="he" key="IDC_PRINT">&amp;Print</entry>
-    <entry lang="he" key="IDC_PROTECT_HIDDEN_VOL">&amp;Protect hidden volume against damage caused by writing to outer volume</entry>
-    <entry lang="he" key="IDC_RESET">&amp;Reset</entry>
+    <entry lang="he" key="IDC_PRINT">&amp;הדפס</entry>
+    <entry lang="he" key="IDC_PROTECT_HIDDEN_VOL">&amp;הגן על אמצעי אחסון נסתר מפני נזק הנגרם כתיבה לאמצעי אחסון חיצוני</entry>
+    <entry lang="he" key="IDC_RESET">&amp;איפוס</entry>
     <entry lang="he" key="IDC_SHOW_PASSWORD_MO">&amp;הצג סיסמא</entry>
-    <entry lang="he" key="IDC_TOKEN_FILES_ADD">Add &amp;Token Files...</entry>
+    <entry lang="he" key="IDC_TOKEN_FILES_ADD">הוסף &amp; קבצי טוקן</entry>
     <entry lang="he" key="IDC_USE_EMBEDDED_HEADER_BAK">Use backup header embedded in &amp;volume if available</entry>
     <entry lang="he" key="IDC_XTS_MODE_ENABLED">מצב XTS</entry>
     <entry lang="he" key="IDD_ABOUT_DLG">אודות VeraCrypt</entry>
@@ -343,7 +346,7 @@
     <entry lang="he" key="IDD_RAWDEVICES_DLG">בחר מחיצה או מכשיר</entry>
     <entry lang="he" key="IDD_STATIC_MODELESS_WAIT_DLG">VeraCrypt</entry>
     <entry lang="he" key="IDD_TOKEN_KEYFILES">מילות מפתח של אסימון אבטחה</entry>
-    <entry lang="he" key="IDD_TOKEN_PASSWORD">Security token password/PIN required</entry>
+    <entry lang="he" key="IDD_TOKEN_PASSWORD">Security אמצעי אבטחה password/PIN required</entry>
     <entry lang="he" key="IDT_ACTIVE_LANG_PACK">חבילת שפה פעילה</entry>
     <entry lang="he" key="IDT_BOX_BENCHMARK_INFO">Speed is affected by CPU load and storage device characteristics.\n\nThese tests take place in RAM.</entry>
     <entry lang="he" key="IDT_BUFFER_SIZE">גודל חיץ:</entry>
@@ -412,12 +415,12 @@
     <entry lang="he" key="CLEAN_WINMRU_FAILED">WARNING: Failed to clear the path of the last selected volume/keyfile (remembered by file selector)!</entry>
     <entry lang="he" key="COMPRESSION_NOT_SUPPORTED">Error: The container has been compressed at the filesystem level. VeraCrypt does not support compressed containers (note that compression of encrypted data is ineffective and redundant).\n\nPlease disable compression for the container by following these steps:\n1) Right-click the container in Windows Explorer (not in VeraCrypt).\n2) Select 'Properties'.\n3) In the 'Properties' dialog box, click 'Advanced'.\n4) In the 'Advanced Attributes' dialog box, disable the option 'Compress contents to save disk space' and click 'OK'.\n5) In the 'Properties' dialog box, click 'OK'.</entry>
     <entry lang="he" key="CREATE_FAILED">Failed to create volume %s</entry>
-    <entry lang="he" key="DEVICE_FREE_BYTES">Size of %s is %.2f bytes</entry>
-    <entry lang="he" key="DEVICE_FREE_KB">Size of %s is %.2f ק"ב</entry>
-    <entry lang="he" key="DEVICE_FREE_MB">Size of %s is %.2f </entry>
-    <entry lang="he" key="DEVICE_FREE_GB">Size of %s is %.2f ג"ב</entry>
-    <entry lang="he" key="DEVICE_FREE_TB">Size of %s is %.2f ט"ב</entry>
-    <entry lang="he" key="DEVICE_FREE_PB">Size of %s is %.2f פ"ב</entry>
+    <entry lang="he" key="DEVICE_FREE_BYTES">הגודל of %s is %.2f bytes</entry>
+    <entry lang="he" key="DEVICE_FREE_KB">הגודל של %s הוא %.2f ק"ב</entry>
+    <entry lang="he" key="DEVICE_FREE_MB">הגודל של %s הוא %.2f </entry>
+    <entry lang="he" key="DEVICE_FREE_GB">הגודל של %s הוא %.2f ג"ב</entry>
+    <entry lang="he" key="DEVICE_FREE_TB">הגודל של %s הוא %.2f ט"ב</entry>
+    <entry lang="he" key="DEVICE_FREE_PB">הגודל של %s הוא %.2f פ"ב</entry>
     <entry lang="he" key="DEVICE_IN_USE_FORMAT">WARNING: The device/partition is in use by the operating system or applications. Formatting the device/partition might cause data corruption and system instability.\n\nContinue?</entry>
     <entry lang="he" key="DEVICE_IN_USE_INPLACE_ENC">Warning: The partition is in use by the operating system or applications. You should close any applications that might be using the partition (including antivirus software).\n\nContinue?</entry>
     <entry lang="he" key="FORMAT_CANT_DISMOUNT_FILESYS">Error: The device/partition contains a file system that could not be dismounted. The file system may be in use by the operating system. Formatting the device/partition would very likely cause data corruption and system instability.\n\nTo solve this issue, we recommend that you first delete the partition and then recreate it without formatting. To do so, follow these steps:\n1) Right-click the 'Computer' (or 'My Computer') icon in the 'Start Menu' and select 'Manage'. The 'Computer Management' window should appear.\n2) In the 'Computer Management' window, select 'Storage' &gt; 'Disk Management'.\n3) Right-click the partition you want to encrypt and select either 'Delete Partition', or 'Delete Volume', or 'Delete Logical Drive'.\n4) Click 'Yes'. If Windows asks you to restart the computer, do so. Then repeat the steps 1 and 2 and continue from the step 5.\n5) Right-click the unallocated/free space area and select either 'New Partition', or 'New Simple Volume', or 'New Logical Drive'.\n6) The 'New Partition Wizard' or 'New Simple Volume Wizard' window should appear now; follow its instructions. On the wizard page entitled 'Format Partition', select either 'Do not format this partition' or 'Do not format this volume'. In the same wizard, click 'Next' and then 'Finish'.\n7) Note that the device path you have selected in VeraCrypt may be wrong now. Therefore, exit the VeraCrypt Volume Creation Wizard (if it is still running) and then start it again.\n8) Try encrypting the device/partition again.\n\nIf VeraCrypt repeatedly fails to encrypt the device/partition, you may want to consider creating a file container instead.</entry>
@@ -436,12 +439,12 @@
     <entry lang="he" key="INPLACE_ENC_INVALID_PATH">שגיאה: VeraCrypt יכול להצפין במקום רק מחיצה, נפח דינמי או כונן מערכת שלם.אנא ודא שהנתיב שצוין תקף.</entry>
     <entry lang="he" key="CANNOT_RESIZE_FILESYS">Error: Cannot shrink the filesystem (the filesystem needs to be shrunk to make space for the volume header and backup header).\n\nPossible causes and solutions:\n\n- Not enough free space on the volume. Please make sure no other application is writing to the filesystem.\n\n- Corrupted file system. Try to check it and fix any errors (right-click the corresponding drive letter in the 'Computer' list, then select Properties &gt; Tools &gt; 'Check Now', make sure the option 'Automatically fix file system errors' is enabled and click Start).\n\nIf the above steps do not help, please follow the below steps.</entry>
     <entry lang="he" key="NOT_ENOUGH_FREE_FILESYS_SPACE_FOR_SHRINK">Error: There is not enough free space on the volume and so the filesystem cannot be shrunk (the filesystem needs to be shrunk to make space for the volume header and backup header).\n\nPlease delete any redundant files and empty the Recycle Bin so as to free at least 256 ק"ב of space and then try again. Note that due to a Windows issue, the amount of free space reported by the Windows Explorer may be incorrect until the operating system is restarted. If restarting the system does not help, the file system may be corrupted. Try to check it and fix any errors (right-click the corresponding drive letter in the 'Computer' list, then select Properties &gt; Tools &gt; 'Check Now', make sure the option 'Automatically fix file system errors' is enabled and click Start).\n\nIf the above steps do not help, please follow the below steps.</entry>
-    <entry lang="he" key="DISK_FREE_BYTES">Free space on drive %s is %.2f bytes.</entry>
-    <entry lang="he" key="DISK_FREE_KB">Free space on drive %s is %.2f ק"ב</entry>
-    <entry lang="he" key="DISK_FREE_MB">Free space on drive %s is %.2f </entry>
-    <entry lang="he" key="DISK_FREE_GB">Free space on drive %s is %.2f ג"ב</entry>
-    <entry lang="he" key="DISK_FREE_TB">Free space on drive %s is %.2f ט"ב</entry>
-    <entry lang="he" key="DISK_FREE_PB">Free space on drive %s is %.2f פ"ב</entry>
+    <entry lang="he" key="DISK_FREE_BYTES">המקום הפנוי בכונן %s is %.2f בתים.</entry>
+    <entry lang="he" key="DISK_FREE_KB">המקום הפנוי בכונן %s הוא %.2f ק"ב</entry>
+    <entry lang="he" key="DISK_FREE_MB">המקום הפנוי בכונן %s הוא %.2f </entry>
+    <entry lang="he" key="DISK_FREE_GB">המקום הפנוי בכונן %s הוא %.2f ג"ב</entry>
+    <entry lang="he" key="DISK_FREE_TB">המקום הפנוי בכונן %s הוא %.2f ט"ב</entry>
+    <entry lang="he" key="DISK_FREE_PB">המקום הפנוי בכונן %s הוא %.2f פ"ב</entry>
     <entry lang="he" key="DRIVELETTERS">לא ניתן היה לקבל אותיות כונן זמינות.</entry>
     <entry lang="he" key="DRIVER_NOT_FOUND">Error: VeraCrypt driver not found.\n\nPlease copy the files 'veracrypt.sys' and 'veracrypt-x64.sys' to the directory where the main VeraCrypt application (VeraCrypt.exe) is located.</entry>
     <entry lang="he" key="DRIVER_VERSION">Error: An incompatible version of the VeraCrypt driver is currently running.\n\nIf you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already installed, you must uninstall it first (or upgrade it using the VeraCrypt installer). To uninstall it, follow these steps: On Windows Vista or later, select 'Start Menu' &gt; Computer &gt; 'Uninstall or change a program' &gt; VeraCrypt &gt; Uninstall; on Windows XP, select 'Start Menu' &gt; Settings &gt; 'Control Panel' &gt; 'Add Or Remove Programs' &gt; VeraCrypt &gt; Remove.\n\nSimilarly, if you are trying to run VeraCrypt in portable mode (i.e. without installing it) and a different version of VeraCrypt is already running in portable mode, you must restart the system first and then run only this new version.</entry>
@@ -1261,26 +1264,26 @@
     <entry lang="he" key="DISCARD_UNREADABLE_ENCRYPTED_SECTORS">Error: Content of one or more sectors on the disk cannot be read (probably due to a physical defect).\n\nTo be able to proceed with decryption, VeraCrypt will have to discard the content of the unreadable sectors (the content will be replaced with pseudorandom data). Please note that, before proceeding, you can attempt to recover portions of any corrupted data using appropriate third-party tools.\n\nDo you want VeraCrypt to discard data in the unreadable sectors now?</entry>
     <entry lang="he" key="ZEROED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with encrypted all-zero plaintext blocks.</entry>
     <entry lang="he" key="SKIPPED_BAD_SECTOR_COUNT">Note: VeraCrypt has replaced the content of %I64d unreadable sectors (%s) with pseudorandom data.</entry>
-    <entry lang="he" key="ENTER_TOKEN_PASSWORD">Enter password/PIN for token '%s':</entry>
-    <entry lang="he" key="PKCS11_LIB_LOCATION_HELP">In order to allow VeraCrypt to access a security token or smart card, you need to install a PKCS #11 software library for the token or smart card first. Such a library may be supplied with the device or it may be available for download from the website of the vendor or other third parties.\n\nAfter you install the library, you can either select it manually by clicking 'Select Library' or you can let VeraCrypt find and select it automatically by clicking 'Auto-Detect Library' (only the Windows system directory will be searched).</entry>
-    <entry lang="he" key="SELECT_PKCS11_MODULE_HELP">Note: For the filename and location of the PKCS #11 library installed for your security token or smart card, please refer to the documentation supplied with the token, card, or third-party software.\n\nClick 'OK' to select the path and filename.</entry>
-    <entry lang="he" key="NO_PKCS11_MODULE_SPECIFIED">In order to allow VeraCrypt to access a security token or smart card, you need to select a PKCS #11 software library for the token/card first. To do so, select 'Settings' &gt; 'Security Tokens'.</entry>
-    <entry lang="he" key="PKCS11_MODULE_INIT_FAILED">Failed to initialize PKCS #11 security token library.\n\nPlease make sure the specified path and filename refer to a valid PKCS #11 library. To specify a PKCS #11 library path and filename, select 'Settings' &gt; 'Security Tokens'.</entry>
-    <entry lang="he" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">No PKCS #11 library has been found in the Windows system directory.\n\nPlease make sure that a PKCS #11 library for your security token (or for your smart card) is installed (such a library may be supplied with the token/card or it may be available for download from the website of the vendor or other third parties). If it is installed in a directory other than the Windows system directory, click 'Select Library' to locate the library (e.g. in the folder where the software for the token/card is installed).</entry>
-    <entry lang="he" key="NO_TOKENS_FOUND">No security token found.\n\nPlease make sure your security token is connected to your computer and the correct device driver for your token is installed.</entry>
+    <entry lang="he" key="ENTER_TOKEN_PASSWORD">Enter password/PIN for אמצעי אבטחה '%s':</entry>
+    <entry lang="he" key="PKCS11_LIB_LOCATION_HELP">In order to allow VeraCrypt to access a security אמצעי אבטחה or smart card, you need to install a PKCS #11 software library for the אמצעי אבטחה or smart card first. Such a library may be supplied with the device or it may be available for download from the website of the vendor or other third parties.\n\nAfter you install the library, you can either select it manually by clicking 'Select Library' or you can let VeraCrypt find and select it automatically by clicking 'Auto-Detect Library' (only the Windows system directory will be searched).</entry>
+    <entry lang="he" key="SELECT_PKCS11_MODULE_HELP">Note: For the filename and location of the PKCS #11 library installed for your security אמצעי אבטחה or smart card, please refer to the documentation supplied with the אמצעי אבטחה, card, or third-party software.\n\nClick 'OK' to select the path and filename.</entry>
+    <entry lang="he" key="NO_PKCS11_MODULE_SPECIFIED">In order to allow VeraCrypt to access a security אמצעי אבטחה or smart card, you need to select a PKCS #11 software library for the אמצעי אבטחה/card first. To do so, select 'Settings' &gt; 'Security אמצעי אבטחהs'.</entry>
+    <entry lang="he" key="PKCS11_MODULE_INIT_FAILED">Failed to initialize PKCS #11 security אמצעי אבטחה library.\n\nPlease make sure the specified path and filename refer to a valid PKCS #11 library. To specify a PKCS #11 library path and filename, select 'Settings' &gt; 'Security אמצעי אבטחהs'.</entry>
+    <entry lang="he" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">No PKCS #11 library has been found in the Windows system directory.\n\nPlease make sure that a PKCS #11 library for your security אמצעי אבטחה (or for your smart card) is installed (such a library may be supplied with the אמצעי אבטחה/card or it may be available for download from the website of the vendor or other third parties). If it is installed in a directory other than the Windows system directory, click 'Select Library' to locate the library (e.g. in the folder where the software for the אמצעי אבטחה/card is installed).</entry>
+    <entry lang="he" key="NO_TOKENS_FOUND">No security אמצעי אבטחה found.\n\nPlease make sure your security אמצעי אבטחה is connected to your computer and the correct device driver for your אמצעי אבטחה is installed.</entry>
     <entry lang="he" key="TOKEN_KEYFILE_NOT_FOUND">קובץ מפתח אסימון האבטחה לא נמצא.</entry>
     <entry lang="he" key="TOKEN_KEYFILE_ALREADY_EXISTS">כבר קיים קובץ מפתח אסימון אבטחה בשם זהה.</entry>
     <entry lang="he" key="CONFIRM_SEL_FILES_DELETE">האם ברצונך למחוק את הקבצים שנבחרו?</entry>
     <entry lang="he" key="INVALID_TOKEN_KEYFILE_PATH">נתיב הקובץ של קובץ האבטחה אינו חוקי.</entry>
     <entry lang="he" key="SECURITY_TOKEN_ERROR">שגיאת אסימון אבטחה</entry>
     <entry lang="he" key="CKR_PIN_INCORRECT">הסיסמה לאסימון האבטחה שגויה.</entry>
-    <entry lang="he" key="CKR_DEVICE_MEMORY">The security token does not have enough memory/space to perform the requested operation.\n\nIf you are attempting to import a keyfile, you should select a smaller file or use a keyfile generated by VeraCrypt (select 'Tools' &gt; 'Keyfile Generator').</entry>
+    <entry lang="he" key="CKR_DEVICE_MEMORY">The security אמצעי אבטחה does not have enough memory/space to perform the requested operation.\n\nIf you are attempting to import a keyfile, you should select a smaller file or use a keyfile generated by VeraCrypt (select 'Tools' &gt; 'Keyfile Generator').</entry>
     <entry lang="he" key="ALL_TOKEN_SESSIONS_CLOSED">כל הפעלות אסימון האבטחה הפתוחות נסגרו.</entry>
     <entry lang="he" key="SELECT_TOKEN_KEYFILES">בחר בקובצי מפתח של אסימון אבטחה</entry>
     <entry lang="he" key="TOKEN_SLOT_ID">חָרִיץ</entry>
     <entry lang="he" key="TOKEN_NAME">שם אסימון</entry>
     <entry lang="he" key="TOKEN_DATA_OBJECT_LABEL">שם קובץ</entry>
-    <entry lang="he" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">IMPORTANT: Please note that pre-boot authentication passwords are always typed using the standard US keyboard layout. Therefore, a volume that uses a password typed using any other keyboard layout may be impossible to mount using a pre-boot authentication password (note that this is not a bug in VeraCrypt). To allow such a volume to be mounted using a pre-boot authentication password, follow these steps:\n\n1) Click 'Select File' or 'Select Device' and select the volume.\n2) Select 'Volumes' &gt; 'Change Volume Password'.\n3) Enter the current password for the volume.\n4) Change the keyboard layout to English (US) by clicking the Language bar icon in the Windows taskbar and selecting 'EN  English (United States)'.\n5) In VeraCrypt, in the field for the new password, type the pre-boot authentication password.\n6) Confirm the new password by retyping it in the confirmation field and click 'OK'.\nWARNING: Please keep in mind that if you follow these steps, the volume password will always have to be typed using the US keyboard layout (which is automatically ensured only in the pre-boot environment).</entry>
+    <entry lang="he" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">הודעה חשובה: שים לב שאימות עם סיסמא לפני האתחול נכתב תמיד בשפה האנגלית. לכן, אמצעי אחסון שמשתמש בסיסמא שנכתבת בעזרת כל שפה אחרת תהיה בלתי אפשרית לפתיחה עם אימות לפני האתחול עם סיסמא (שים לב שזה לא באג בVeracCrypt ). כדי לאפשר לאמצעי אחסון להטען בעזרת אימות לפני אתחול עם סיסמא, עקוב אחר הוראות אלה: \n\n1) לחץ על 'בחר קובץ todo'</entry>
     <entry lang="he" key="SYS_FAVORITES_KEYBOARD_WARNING">אמצעי האחסון המועדפים על המערכת יותקנו באמצעות סיסמת האימות לפני האתחול.אם אמצעי אחסון מועדף כלשהו של המערכת משתמש בסיסמה אחרת, הוא לא יותקן.</entry>
     <entry lang="he" key="SYS_FAVORITES_ADMIN_ONLY_INFO">שים לב שאם אתה צריך למנוע מפעולות נפח רגילות של VeraCrypt (כגון 'בטל הכל', פירוק אוטומטי וכו ') להשפיע על אמצעי האחסון המועדפים על המערכת, עליך להפעיל את האפשרות' אפשר רק למנהלי מערכת להציג ולהוריד אמצעי אחסון מועדפים במערכתVeraCrypt '.בנוסף, כאשר VeraCrypt מופעל ללא הרשאות מנהל (ברירת המחדל ב- Windows Vista ואילך), אמצעי האחסון המועדפים על המערכת לא יוצגו ברשימת אותיות הכונן בחלון היישום הראשי של VeraCrypt.</entry>
     <entry lang="he" key="SYS_FAVORITES_ADMIN_ONLY_WARNING">חשוב: זכור שאם אפשרות זו מופעלת ול- VeraCrypt אין הרשאות מנהל, אמצעי האחסון המועדפים על המערכת אינם מוצגים בחלון היישום VeraCrypt ולא ניתן לפרק אותם.לכן, אם אתה צריך למשלכדי להוריד את אמצעי האחסון המועדף על המערכת, לחץ לחיצה ימנית על סמל VeraCrypt (בתפריט התחל) ובחר תחילה 'הפעל כמנהל'.אותה מגבלה חלה על פונקציית 'פירוק הכל', פונקציות 'פירוק אוטומטי', מקשים חמים של 'פירוק הכל' וכו '.</entry>
@@ -1461,7 +1464,7 @@
     <entry lang="he" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">סייר מערכת הקבצים</entry>
     <entry lang="he" key="LINUX_PREF_TAB_PERFORMANCE">ביצועים</entry>
     <entry lang="he" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="he" key="LINUX_PREF_TAB_TOKENS">אסימונים ביטחוניים</entry>
+    <entry lang="he" key="LINUX_PREF_TAB_TOKENS">אמצעי אבטחה</entry>
     <entry lang="he" key="LINUX_PREF_KERNEL_SERVICES">שירותי ליבה</entry>
     <entry lang="he" key="LINUX_PREF_KERNEL_CRYPT">אל תשתמש בשירותי הצפנה ליבה</entry>
     <entry lang="he" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">מערכת קבצים</entry>
