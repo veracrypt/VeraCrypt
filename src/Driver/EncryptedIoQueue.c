@@ -398,7 +398,7 @@ static VOID IoThreadProc (PVOID threadArg)
 							for (subFragment = 0 ; subFragment < 3; ++subFragment)
 							{
 								LARGE_INTEGER subFragmentOffset;
-								ULONG subFragmentLength;
+								ULONG subFragmentLength = 0;
 								subFragmentOffset.QuadPart = request->Offset.QuadPart;
 
 								switch (subFragment)

@@ -362,7 +362,7 @@ static void ComputeBootLoaderFingerprint(PDEVICE_OBJECT LowerDeviceObject, byte*
 		NTSTATUS saveStatus = STATUS_INVALID_PARAMETER;
 #ifdef _WIN64
 		XSTATE_SAVE SaveState;
-		if (g_isIntel && HasSAVX())
+		if (IsCpuIntel() && HasSAVX())
 			saveStatus = KeSaveExtendedProcessorStateVC(XSTATE_MASK_GSSE, &SaveState);
 #else
 		KFLOATING_SAVE floatingPointState;		
