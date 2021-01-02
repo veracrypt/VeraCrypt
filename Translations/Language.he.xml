@@ -7,7 +7,7 @@
     <font lang="he" class="title" size="21" face="Times New Roman" />
     <entry lang="he" key="IDCANCEL">ביטול</entry>
     <entry lang="he" key="IDC_ALL_USERS">מתקין &amp;לכל המשתמשים</entry>
-    <entry lang="he" key="IDC_BROWSE">...לדפ&amp;דף</entry>
+    <entry lang="he" key="IDC_BROWSE">לדפ&amp;דף...</entry>
     <entry lang="he" key="IDC_DESKTOP_ICON">הוסף את סמל Veracrypt ל &amp;שולחן העבודה</entry>
     <entry lang="he" key="IDC_DONATE">תרום עכשיו ...</entry>
     <entry lang="he" key="IDC_FILE_TYPE">קשר קבצים עם סיומת .hc &amp;עם VeraCrypt</entry>
@@ -142,7 +142,7 @@
     <entry lang="he" key="IDC_HK_MOD_WIN">לנצח</entry>
     <entry lang="he" key="IDC_HOTKEY_ASSIGN">לְהַקְצוֹת</entry>
     <entry lang="he" key="IDC_HOTKEY_REMOVE">לְהַסִיר</entry>
-    <entry lang="he" key="IDC_KEYFILES">...קבצי מפתחות</entry>
+    <entry lang="he" key="IDC_KEYFILES">קבצי מפתחות...</entry>
     <entry lang="he" key="IDC_LIMIT_ENC_THREAD_POOL">אל תשתמש במספר הבא של מעבדים לוגיים להצפנה / פענוח:</entry>
     <entry lang="he" key="IDC_MORE_INFO_ON_HW_ACCELERATION">מידע נוסף</entry>
     <entry lang="he" key="IDC_MORE_INFO_ON_THREAD_BASED_PARALLELIZATION">מידע נוסף</entry>
@@ -174,8 +174,8 @@
     <entry lang="he" key="IDC_PREF_WIPE_CACHE_ON_EXIT">מחק סיסמאות במטמון בעת היציאה</entry>
     <entry lang="he" key="IDC_PRESERVE_TIMESTAMPS">שמור על חותמת הזמן לשינוי מכולות הקבצים</entry>
     <entry lang="he" key="IDC_RESET_HOTKEYS">אִתחוּל</entry>
-    <entry lang="he" key="IDC_SELECT_DEVICE">...בחר &amp; התקן</entry>
-    <entry lang="he" key="IDC_SELECT_FILE">...בחר &amp;קובץ</entry>
+    <entry lang="he" key="IDC_SELECT_DEVICE">בחר &amp; התקן...</entry>
+    <entry lang="he" key="IDC_SELECT_FILE">בחר &amp;קובץ...</entry>
     <entry lang="he" key="IDC_SELECT_PKCS11_MODULE">בחר &amp;ספריה...</entry>
     <entry lang="he" key="IDC_SHOW_PASSWORD_CHPWD_NEW">הצגת סיסמה</entry>
     <entry lang="he" key="IDC_SHOW_PASSWORD_CHPWD_ORI">הצגת סיסמה</entry>
@@ -199,15 +199,15 @@
     <entry lang="he" key="IDD_TRAVELER_DLG">הגדרת דיסק VeraCrypt מטייל</entry>
     <entry lang="he" key="IDD_VOLUME_PROPERTIES">מאפייני אמצעי האחסון של VeraCrypt</entry>
     <entry lang="he" key="IDM_ABOUT">על אודות</entry>
-    <entry lang="he" key="IDM_ADD_REMOVE_VOL_KEYFILES">...הוסף / הסר קבצי מפתחות לאמצעי האחסון</entry>
-    <entry lang="he" key="IDM_ADD_VOLUME_TO_FAVORITES">...הוסף אמצעי אחסון רכוב למועדפים</entry>
-    <entry lang="he" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">...הוסף אמצעי אחסון רכוב למועדפי המערכת</entry>
-    <entry lang="he" key="IDM_ANALYZE_SYSTEM_CRASH">...ניתוח קריסת מערכת</entry>
-    <entry lang="he" key="IDM_BACKUP_VOL_HEADER">...כותרת אמצעי אחסון גיבוי</entry>
-    <entry lang="he" key="IDM_BENCHMARK">...אמת מידה</entry>
-    <entry lang="he" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">...הגדר אלגוריתם לגזירת מפתח כותרת</entry>
-    <entry lang="he" key="IDM_CHANGE_PASSWORD">...שנה סיסמת אמצעי אחסון</entry>
-    <entry lang="he" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">...הגדר אלגוריתם לגזירת מפתח כותרת</entry>
+    <entry lang="he" key="IDM_ADD_REMOVE_VOL_KEYFILES">הוסף / הסר קבצי מפתחות לאמצעי האחסון...</entry>
+    <entry lang="he" key="IDM_ADD_VOLUME_TO_FAVORITES">הוסף אמצעי אחסון רכוב למועדפים...</entry>
+    <entry lang="he" key="IDM_ADD_VOLUME_TO_SYSTEM_FAVORITES">הוסף אמצעי אחסון רכוב למועדפי המערכת...</entry>
+    <entry lang="he" key="IDM_ANALYZE_SYSTEM_CRASH">ניתוח קריסת מערכת...</entry>
+    <entry lang="he" key="IDM_BACKUP_VOL_HEADER">כותרת אמצעי אחסון גיבוי...</entry>
+    <entry lang="he" key="IDM_BENCHMARK">אמת מידה...</entry>
+    <entry lang="he" key="IDM_CHANGE_HEADER_KEY_DERIV_ALGO">הגדר אלגוריתם לגזירת מפתח כותרת...</entry>
+    <entry lang="he" key="IDM_CHANGE_PASSWORD">שנה סיסמת אמצעי אחסון...</entry>
+    <entry lang="he" key="IDM_CHANGE_SYS_HEADER_KEY_DERIV_ALGO">הגדר אלגוריתם לגזירת מפתח כותרת...</entry>
     <entry lang="he" key="IDM_CHANGE_SYS_PASSWORD">שנה סיסמא...</entry>
     <entry lang="he" key="IDM_CLEAR_HISTORY">נקה היסטוריית עוצמת קול</entry>
     <entry lang="he" key="IDM_CLOSE_ALL_TOKEN_SESSIONS">סגור את כל הפעלות אמצעי אבטחה</entry>
@@ -215,19 +215,19 @@
     <entry lang="he" key="IDM_CREATE_HIDDEN_OS">צור מערכת הפעלה נסתרת ...</entry>
     <entry lang="he" key="IDM_CREATE_RESCUE_DISK">צור דיסק הצלה ...</entry>
     <entry lang="he" key="IDM_CREATE_VOLUME">צור אמצעי אחסון חדש ...</entry>
-    <entry lang="he" key="IDM_DECRYPT_NONSYS_VOL">...מפענח לצמיתות</entry>
-    <entry lang="he" key="IDM_DEFAULT_KEYFILES">...קבצי ברירת מחדל של מקשים</entry>
+    <entry lang="he" key="IDM_DECRYPT_NONSYS_VOL">מפענח לצמיתות...</entry>
+    <entry lang="he" key="IDM_DEFAULT_KEYFILES">קבצי ברירת מחדל של מקשים...</entry>
     <entry lang="he" key="IDM_DEFAULT_MOUNT_PARAMETERS">מאפייני ברירת מחדל של אמצעי אחסון...</entry>
-    <entry lang="he" key="IDM_DONATE">...תרום עכשיו</entry>
+    <entry lang="he" key="IDM_DONATE">תרום עכשיו...</entry>
     <entry lang="he" key="IDM_ENCRYPT_SYSTEM_DEVICE">הצפן מחיצת / כונן מערכת</entry>
     <entry lang="he" key="IDM_FAQ">שאלות נפוצות</entry>
     <entry lang="he" key="IDM_HELP">מדריך למשתמש</entry>
     <entry lang="he" key="IDM_HOMEPAGE">&amp;דף הבית </entry>
-    <entry lang="he" key="IDM_HOTKEY_SETTINGS">...מקשים חמים</entry>
+    <entry lang="he" key="IDM_HOTKEY_SETTINGS">מקשים חמים...</entry>
     <entry lang="he" key="IDM_KEYFILE_GENERATOR">מחולל מקשים</entry>
-    <entry lang="he" key="IDM_LANGUAGE">...שפה</entry>
+    <entry lang="he" key="IDM_LANGUAGE">שפה...</entry>
     <entry lang="he" key="IDM_LICENSE">הודעות משפטיות</entry>
-    <entry lang="he" key="IDM_MANAGE_TOKEN_KEYFILES">...נהל קובצי אבטחה של אמצעי אבטחה</entry>
+    <entry lang="he" key="IDM_MANAGE_TOKEN_KEYFILES">נהל קובצי אבטחה של אמצעי אבטחה...</entry>
     <entry lang="he" key="IDM_MOUNTALL">טעינה אוטומטית של כל האמצעי אחסון המארחים התקנים</entry>
     <entry lang="he" key="IDM_MOUNT_FAVORITE_VOLUMES">טעינה אמצעי אחסון אהובים</entry>
     <entry lang="he" key="IDM_MOUNT_SYSENC_PART_WITHOUT_PBA">טען ללא אימות&amp;באתחול...</entry>
@@ -236,26 +236,26 @@
     <entry lang="he" key="IDM_NEWS">חֲדָשׁוֹת</entry>
     <entry lang="he" key="IDM_ONLINE_HELP">עזרה אינטרנטית</entry>
     <entry lang="he" key="IDM_ONLINE_TUTORIAL">מדריך למתחילים</entry>
-    <entry lang="he" key="IDM_ORGANIZE_FAVORITES">...ארגן אמצעי אחסון אהובים</entry>
-    <entry lang="he" key="IDM_ORGANIZE_SYSTEM_FAVORITES">...ארגן אמצעי אחסון מועדפים על המערכת</entry>
+    <entry lang="he" key="IDM_ORGANIZE_FAVORITES">ארגן אמצעי אחסון אהובים...</entry>
+    <entry lang="he" key="IDM_ORGANIZE_SYSTEM_FAVORITES">ארגן אמצעי אחסון מועדפים על המערכת...</entry>
     <entry lang="he" key="IDM_PERFORMANCE_SETTINGS">תצורת מנהל התקן וביצועים</entry>
     <entry lang="he" key="IDM_PERMANENTLY_DECRYPT_SYS">הסר הצפנת מחיצה או כונן לצמיתות</entry>
-    <entry lang="he" key="IDM_PREFERENCES">...העדפות</entry>
+    <entry lang="he" key="IDM_PREFERENCES">העדפות...</entry>
     <entry lang="he" key="IDM_REFRESH_DRIVE_LETTERS">רענן אותיות כונן</entry>
-    <entry lang="he" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">...הסר את כל קבצי המקשים מהאמצעי אחסון</entry>
-    <entry lang="he" key="IDM_RESTORE_VOL_HEADER">...שחזר כותרת עוצמת קול</entry>
+    <entry lang="he" key="IDM_REMOVE_ALL_KEYFILES_FROM_VOL">הסר את כל קבצי המקשים מהאמצעי אחסון...</entry>
+    <entry lang="he" key="IDM_RESTORE_VOL_HEADER">שחזר כותרת עוצמת קול...</entry>
     <entry lang="he" key="IDM_RESUME_INTERRUPTED_PROC">המשך התהליך שנקטע</entry>
-    <entry lang="he" key="IDM_SELECT_DEVICE">...תבחר התקן</entry>
-    <entry lang="he" key="IDM_SELECT_FILE">...בחר קובץ</entry>
+    <entry lang="he" key="IDM_SELECT_DEVICE">תבחר התקן...</entry>
+    <entry lang="he" key="IDM_SELECT_FILE">בחר קובץ...</entry>
     <entry lang="he" key="IDM_SYSENC_RESUME">המשך התהליך שנקטע</entry>
-    <entry lang="he" key="IDM_SYSENC_SETTINGS">...הצפנת מערכת</entry>
-    <entry lang="he" key="IDM_SYSTEM_ENCRYPTION_STATUS">...נכסים</entry>
-    <entry lang="he" key="IDM_SYS_ENC_SETTINGS">...הגדרות</entry>
-    <entry lang="he" key="IDM_SYS_FAVORITES_SETTINGS">...אמצעי אחסון מועדפים על המערכת</entry>
+    <entry lang="he" key="IDM_SYSENC_SETTINGS">הצפנת מערכת...</entry>
+    <entry lang="he" key="IDM_SYSTEM_ENCRYPTION_STATUS">נכסים...</entry>
+    <entry lang="he" key="IDM_SYS_ENC_SETTINGS">הגדרות...</entry>
+    <entry lang="he" key="IDM_SYS_FAVORITES_SETTINGS">אמצעי אחסון מועדפים על המערכת...</entry>
     <entry lang="he" key="IDM_TC_DOWNLOADS">הורדות</entry>
-    <entry lang="he" key="IDM_TEST_VECTORS">...בדיקת וקטורים</entry>
-    <entry lang="he" key="IDM_TOKEN_PREFERENCES">...אמצעי האבטחה</entry>
-    <entry lang="he" key="IDM_TRAVELER">...הגדרת דיסק מטייל</entry>
+    <entry lang="he" key="IDM_TEST_VECTORS">בדיקת וקטורים...</entry>
+    <entry lang="he" key="IDM_TOKEN_PREFERENCES">אמצעי האבטחה...</entry>
+    <entry lang="he" key="IDM_TRAVELER">הגדרת דיסק מטייל...</entry>
     <entry lang="he" key="IDM_UNMOUNTALL">פרק את כל האמצעי אחסון המותקנים</entry>
     <entry lang="he" key="IDM_UNMOUNT_VOLUME">פירוק אמצעי אחסון</entry>
     <entry lang="he" key="IDM_VERIFY_RESCUE_DISK">אמת את דיסק ההצלה</entry>
@@ -302,7 +302,7 @@
     <entry lang="he" key="IDT_TRAVEL_ROOT">צור קבצי דיסק מטיילים ב- (ספריית הבסיס של דיסק הנוסע):</entry>
     <entry lang="he" key="IDT_VOLUME">אמצעי אחסון</entry>
     <entry lang="he" key="IDT_WINDOWS_RELATED_SETTING">חלונות</entry>
-    <entry lang="he" key="IDC_ADD_KEYFILE_PATH">...נתיב &amp; הוסף</entry>
+    <entry lang="he" key="IDC_ADD_KEYFILE_PATH">נתיב &amp; הוסף...</entry>
     <entry lang="he" key="IDC_AUTO">ובדיקה אוטומטית של הכל</entry>
     <entry lang="he" key="IDC_CONTINUE">&amp;המשך</entry>
     <entry lang="he" key="IDC_DECRYPT">&amp;פענח</entry>
@@ -385,7 +385,7 @@
     <entry lang="he" key="MENU_SETTINGS">הגדרות</entry>
     <entry lang="he" key="MENU_HELP">&amp;עזרה</entry>
     <entry lang="he" key="MENU_WEBSITE">   דף&amp; הבית   </entry>
-    <entry lang="he" key="ABOUTBOX">&amp;על אודות...</entry>
+    <entry lang="he" key="ABOUTBOX">&amp;אודות...</entry>
     <entry lang="he" key="ACCESSMODEFAIL">לא ניתן היה לשנות את המאפיין לקריאה בלבד באמצעי אחסון הישן שלך.אנא בדוק את הרשאות הגישה לקבצים.</entry>
     <entry lang="he" key="ACCESS_DENIED">שגיאה: גישה נדחתה. מהנשמע On מהנשמע המחיצה שאליה אתה מנסה לגשת אורכה 0 מגזרים, או שהיא התקן האתחול.</entry>
     <entry lang="he" key="ADMINISTRATOR">מנהל</entry>
@@ -1520,7 +1520,7 @@
     <entry lang="he" key="LINUX_NOT_FAT_HINT">שים לב שהאמצעי אחסון לא יעוצב עם מערכת קבצים FAT ולכן ייתכן שתידרש להתקין מנהלי התקנים נוספים של מערכות קבצים בפלטפורמות שאינן {0}, שיאפשרו לך לעלות על אמצעי האחסון.</entry>
     <entry lang="he" key="LINUX_ERROR_SIZE_HIDDEN_VOL">שגיאה: האמצעי אחסון הנסתר שייווצר גדול מ- {0} TB ({1} GB). \n \n פתרונות אפשריים: \n- צור מיכל / מחיצה קטנים מ- {0} TB. \n</entry>
     <entry lang="he" key="LINUX_MAX_SIZE_HINT">- השתמש בכונן עם מגזרים של 4096 בתים כדי להיות מסוגל ליצור אמצעי אחסון מוסתרים של מחיצות / התקנים בגודל של עד 16 TB.</entry>
-    <entry lang="he" key="LINUX_DOT_LF">. \n</entry>
+    <entry lang="he" key="LINUX_DOT_LF"> \n.</entry>
     <entry lang="he" key="LINUX_NOT_SUPPORTED">(לא נתמך על ידי רכיבים הזמינים בפלטפורמה זו). \n</entry>
     <entry lang="he" key="LINUX_KERNEL_OLD">המערכת שלך משתמשת בגרסה ישנה של ליבת לינוקס. \n \n בשל באג בליבת הלינוקס, המערכת שלך עשויה להפסיק להגיב בעת כתיבת נתונים לאמצעי אחסון VeraCrypt.ניתן לפתור בעיה זו על ידי שדרוג הגרעין לגרסה 2.6.24 ואילך.</entry>
     <entry lang="he" key="LINUX_VOL_DISMOUNTED">אמצעי האחסון {0} הוסר.</entry>
