@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <VeraCrypt>
-  <localization prog-version= "1.24-Update8">
+  <localization prog-version= "1.24-Update9">
     <language langid="nl" name="Nederlands" en-name="Dutch" version="0.0.0" translators="Jan van der Wal, Peter Tak, Thomas De Rocker"/>
 
     <font lang="nl" class="normal" size="11" face="default"/>
