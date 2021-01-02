@@ -70,7 +70,7 @@
     <entry lang="he" key="IDC_SYS_PARTITION">הצפן את מחיצת מערכת Windows</entry>
     <entry lang="he" key="IDC_WHOLE_SYS_DRIVE">הצפן את כל הכונן</entry>
     <entry lang="he" key="IDD_VOL_CREATION_WIZARD_DLG">אשף יצירת VeraCrypt</entry>
-    <entry lang="he" key="IDT_CLUSTER">אֶשׁכּוֹל</entry>
+    <entry lang="he" key="IDT_CLUSTER">אשכול</entry>
     <entry lang="he" key="IDT_COLLECTING_RANDOM_DATA_NOTE">חשוב: הזז את העכבר באופן אקראי ככל האפשר בתוך חלון זה.ככל שתזיזו אותו זמן רב יותר, כך ייטב.זה מגדיל משמעותית את חוזק ההצפנה של מפתחות ההצפנה.לאחר מכן לחץ על הבא כדי להמשיך.</entry>
     <entry lang="he" key="IDT_CONFIRM">&amp;אשר:</entry>
     <entry lang="he" key="IDT_DONE">בוצע</entry>
@@ -86,15 +86,15 @@
     <entry lang="he" key="IDT_MULTI_BOOT">בחר באפשרות זו אם יש שני מערכות או יותר שמותקנות על מחשב זה.\nלדוגמא:\nWindows xp ו Windows xp\nWindows xp ו Windows Vista\nWindows ו Mac OS X\nWindows ו Linux\nWindows, Linux, ו Mac OS X</entry>
     <entry lang="he" key="IDT_NON_SYS_DEVICE">מצפין מחיצה שאינה מערכת בכל כונן פנימי או חיצוני (למשל כונן הבזק).אופציונלי, יוצר אמצעי אחסון נסתר.</entry>
     <entry lang="he" key="IDT_PARTIAL_POOL_CONTENTS">תוכן הבריכה הנוכחי (חלקי)</entry>
-    <entry lang="he" key="IDT_PASS">לַעֲבוֹר</entry>
+    <entry lang="he" key="IDT_PASS">לעבור</entry>
     <entry lang="he" key="IDT_PASSWORD">סיסמה:</entry>
     <entry lang="he" key="IDT_PIM">אמצעי אחסון PIM:</entry>
     <entry lang="he" key="IDT_OLD_PIM">אמצעי אחסון PIM:</entry>
     <entry lang="he" key="IDT_PROGRESS">התקדמות:</entry>
     <entry lang="he" key="IDT_RANDOM_POOL">בריכה אקראית:</entry>
     <entry lang="he" key="IDT_SINGLE_BOOT">בחר באפשרות זו אם מותקנת רק מערכת הפעלה אחת במחשב זה (גם אם יש לה מספר משתמשים).</entry>
-    <entry lang="he" key="IDT_SPEED">מְהִירוּת</entry>
-    <entry lang="he" key="IDT_STATUS">סטָטוּס</entry>
+    <entry lang="he" key="IDT_SPEED">מהירות</entry>
+    <entry lang="he" key="IDT_STATUS">סטטוס</entry>
     <entry lang="he" key="IDT_SYSENC_KEYS_GEN_INFO">המפתחות, המלח ונתונים אחרים נוצרו בהצלחה.אם ברצונך ליצור מפתחות חדשים, לחץ על חזרה ואז על הבא.אחרת, לחץ על הבא כדי להמשיך.</entry>
     <entry lang="he" key="IDT_SYS_DEVICE">הצפן את המחיצה בה Windows מותקןכל מי שרוצה לקבל גישה להשתמש במערכת, לקרוא ולכתוב קבצים וכ&amp;apos;ו, יצטרך להקליד את הסיסמא הנכונה בכל פעם לפני שהמערכת עולה. בנוסף, תוכל ליצור מערכת נסתרת.</entry>
     <entry lang="he" key="IDT_SYS_PARTITION">בחר באפשרות זו כדי להצפין את המחיצה שבה מותקנת מערכת ההפעלה Windows הפועלת כעת.</entry>
@@ -107,14 +107,14 @@
     <entry lang="he" key="IDC_AUTORUN_START">&amp;פתח את VeraCrypt</entry>
     <entry lang="he" key="IDC_AUTO_DETECT_PKCS11_MODULE">זהה &amp;ספרייה אוטומטית</entry>
     <entry lang="he" key="IDC_BOOT_LOADER_CACHE_PASSWORD">&amp;שמור במטמון את סיסמת האימות בזכרון הדרייבר, בשביל לטעון מחיצות שאינם מחיצות המערכת</entry>
-    <entry lang="he" key="IDC_BROWSE_DIRS">לְדַפדֵף...</entry>
-    <entry lang="he" key="IDC_BROWSE_FILES">לְדַפדֵף...</entry>
+    <entry lang="he" key="IDC_BROWSE_DIRS">לדפדף...</entry>
+    <entry lang="he" key="IDC_BROWSE_FILES">לדפדף...</entry>
     <entry lang="he" key="IDC_CACHE">שמור סיסמאות ומפתחות בזכרון</entry>
     <entry lang="he" key="IDC_CLOSE_BKG_TASK_WHEN_NOVOL">צא כשאין אמצעי אחסון מותקנים</entry>
     <entry lang="he" key="IDC_CLOSE_TOKEN_SESSION_AFTER_MOUNT">&amp;סיים את הפעלת הפקודה (צא) לאחר צירוף התקייה בהצלחה</entry>
     <entry lang="he" key="IDC_COPY_EXPANDER">כלול את הרחבת אמצעי האחסון של VeraCrypt</entry>
     <entry lang="he" key="IDC_COPY_WIZARD">כלול את אשף יצירת אמצעי אחסון VeraCrypt</entry>
-    <entry lang="he" key="IDC_CREATE">לִיצוֹר</entry>
+    <entry lang="he" key="IDC_CREATE">ליצור</entry>
     <entry lang="he" key="IDC_CREATE_VOLUME">&amp;צור אמצעי אחסון</entry>
     <entry lang="he" key="IDC_DISABLE_BOOT_LOADER_OUTPUT">אל תציג טקסט במסך האימות לפני האתחול</entry>
     <entry lang="he" key="IDC_DISABLE_EVIL_MAID_ATTACK_DETECTION">&amp;quot;Evil Maid&amp;quot; בטל את זיהוי התקפת</entry>
@@ -138,10 +138,10 @@
     <entry lang="he" key="IDC_HK_DISMOUNT_PLAY_SOUND">הפעל צליל התראה למערכת לאחר הורדת מקש חם מוצלח</entry>
     <entry lang="he" key="IDC_HK_MOD_ALT">Alt</entry>
     <entry lang="he" key="IDC_HK_MOD_CTRL">Ctrl</entry>
-    <entry lang="he" key="IDC_HK_MOD_SHIFT">מִשׁמֶרֶת</entry>
+    <entry lang="he" key="IDC_HK_MOD_SHIFT">משמרת</entry>
     <entry lang="he" key="IDC_HK_MOD_WIN">לנצח</entry>
-    <entry lang="he" key="IDC_HOTKEY_ASSIGN">לְהַקְצוֹת</entry>
-    <entry lang="he" key="IDC_HOTKEY_REMOVE">לְהַסִיר</entry>
+    <entry lang="he" key="IDC_HOTKEY_ASSIGN">להקצות</entry>
+    <entry lang="he" key="IDC_HOTKEY_REMOVE">להסיר</entry>
     <entry lang="he" key="IDC_KEYFILES">קבצי מפתחות...</entry>
     <entry lang="he" key="IDC_LIMIT_ENC_THREAD_POOL">אל תשתמש במספר הבא של מעבדים לוגיים להצפנה / פענוח:</entry>
     <entry lang="he" key="IDC_MORE_INFO_ON_HW_ACCELERATION">מידע נוסף</entry>
@@ -173,7 +173,7 @@
     <entry lang="he" key="IDC_PREF_WIPE_CACHE_ON_AUTODISMOUNT">מחק סיסמאות שנשמרו במטמון בפירוק אוטומטי</entry>
     <entry lang="he" key="IDC_PREF_WIPE_CACHE_ON_EXIT">מחק סיסמאות במטמון בעת היציאה</entry>
     <entry lang="he" key="IDC_PRESERVE_TIMESTAMPS">שמור על חותמת הזמן לשינוי מכולות הקבצים</entry>
-    <entry lang="he" key="IDC_RESET_HOTKEYS">אִתחוּל</entry>
+    <entry lang="he" key="IDC_RESET_HOTKEYS">אתחול</entry>
     <entry lang="he" key="IDC_SELECT_DEVICE">בחר &amp; התקן...</entry>
     <entry lang="he" key="IDC_SELECT_FILE">בחר &amp;קובץ...</entry>
     <entry lang="he" key="IDC_SELECT_PKCS11_MODULE">בחר &amp;ספריה...</entry>
@@ -274,7 +274,7 @@
     <entry lang="he" key="IDT_AUTO_DISMOUNT_ON">בטל הכל כאשר:</entry>
     <entry lang="he" key="IDT_BOOT_LOADER_SCREEN_OPTIONS">אפשרויות מסך מטעין אתחול</entry>
     <entry lang="he" key="IDT_CONFIRM_PASSWORD">אשר סיסמה:</entry>
-    <entry lang="he" key="IDT_CURRENT">נוֹכְחִי</entry>
+    <entry lang="he" key="IDT_CURRENT">נוכחי</entry>
     <entry lang="he" key="IDT_CUSTOM_BOOT_LOADER_MESSAGE">הצג הודעה מותאמת אישית זו במסך אימות טרום האתחול (24 תווים לכל היותר):</entry>
     <entry lang="he" key="IDT_DEFAULT_MOUNT_OPTIONS">אפשרויות ברירת מחדל להתקנה</entry>
     <entry lang="he" key="IDT_DISMOUNT_ACTION">אפשרויות מקשים חמים</entry>
@@ -288,7 +288,7 @@
     <entry lang="he" key="IDT_MINUTES">דקות</entry>
     <entry lang="he" key="IDT_MOUNT_LETTER">הגדל את אמצעי האחסון כאות כונן:</entry>
     <entry lang="he" key="IDT_MOUNT_SETTINGS">הגדרות טעינה</entry>
-    <entry lang="he" key="IDT_NEW">חָדָשׁ</entry>
+    <entry lang="he" key="IDT_NEW">חדש</entry>
     <entry lang="he" key="IDT_NEW_PASSWORD">סיסמה:</entry>
     <entry lang="he" key="IDT_PARALLELIZATION_OPTIONS">מקבילים מבוססי חוטים</entry>
     <entry lang="he" key="IDT_PKCS11_LIB_PATH">נתיב הספרייה PKCS # 11</entry>
@@ -350,7 +350,7 @@
     <entry lang="he" key="IDT_ACTIVE_LANG_PACK">חבילת שפה פעילה</entry>
     <entry lang="he" key="IDT_BOX_BENCHMARK_INFO">המהירות מושפעת מעומס המעבד ומאפייני התקני האחסון\nבדיקות אלה מתקיימות בזכרון הראם.</entry>
     <entry lang="he" key="IDT_BUFFER_SIZE">גודל חיץ:</entry>
-    <entry lang="he" key="IDT_CIPHER">צוֹפֶן:</entry>
+    <entry lang="he" key="IDT_CIPHER">צופן:</entry>
     <entry lang="he" key="IDT_HIDDEN_PROT_PASSWD">סיסמא &amp; לאמצעי אחסון נסתר\nאם היא ריקה, יעשה שימוש בזכרון המטמון</entry>
     <entry lang="he" key="IDT_HIDDEN_VOL_PROTECTION">הגנה על אמצעי אחסון נסתר</entry>
     <entry lang="he" key="IDT_KEY">גודל מפתח:</entry>
@@ -402,7 +402,7 @@
     <entry lang="he" key="WHOLE_DRIVE_ENCRYPTION_PREVENTED_BY_DRIVERS">נראה כי המערכת שלך משתמשת במנהלי התקן מותאמים אישית של ערכת שבבים המכילים באג המונע הצפנה של כל כונן המערכת. \n \n נסה לעדכן או להסיר התקנה של מנהלי התקנים מותאמים אישית (שאינם מיקרוסופט) לפני שתמשיך.אם זה לא עוזר, נסה להצפין את מחיצת המערכת בלבד.</entry>
     <entry lang="he" key="BAD_DRIVE_LETTER">אות כונן לא חוקית.</entry>
     <entry lang="he" key="INVALID_PATH">נתיב שגוי.</entry>
-    <entry lang="he" key="CANCEL">לְבַטֵל</entry>
+    <entry lang="he" key="CANCEL">לבטל</entry>
     <entry lang="he" key="CANNOT_CALC_SPACE">אין אפשרות לגשת להתקן.וודא שהתקן שנבחר קיים ואינו בשימוש על ידי המערכת.</entry>
     <entry lang="he" key="CAPSLOCK_ON">אזהרה: Caps Lock פועל.זה עלול לגרום לך להזין את הסיסמה שלך באופן שגוי.</entry>
     <entry lang="he" key="VOLUME_TYPE_TITLE">סוג אמצעי אחסון</entry>
@@ -468,7 +468,7 @@
     <entry lang="he" key="ENCRYPT">&amp; הצפן</entry>
     <entry lang="he" key="DECRYPT">&amp; לפענח</entry>
     <entry lang="he" key="PERMANENTLY_DECRYPT">&amp; לפענח לצמיתות</entry>
-    <entry lang="he" key="EXIT">יְצִיאָה</entry>
+    <entry lang="he" key="EXIT">יציאה</entry>
     <entry lang="he" key="EXT_PARTITION">אנא צור כונן לוגי למחיצה המורחבת הזו, ואז נסה שוב.</entry>
     <entry lang="he" key="FILE_HELP">אמצעי אחסון של VeraCrypt (נקרא מיכל),\nיכול להתאחסן על גבי כונן קשיח, דיסק און קי, וכ'ו.\nאמצעי אחסון של VeraCrypt הוא בדיוק כמו קובץ רגיל.\nלדוגמא,\nניתן להעביר אותו או למחוק אותו בדיוק כמו קובץ רגיל.\nלחץ על 'בחר קובץ' כדי לבחור שם לקובץ האחסון וכדי לבחור את מיקום הקובץ.\nאזהרה:\nאם אתה בוחר קובץ קיים,\nלא יצפין אותו VeraCrypt.\nהקובץ יימחק ויוחלף עם הקובץ החדש שנוצר מVeraCrypt.\nתוכל להצפין קבצים קיימים מאוחר יותר ע"י העברה שלהם לאמצעי האחסון של VeraCrypt שאתה עומד ליצור ממש עכשיו עם.</entry>
     <entry lang="he" key="FILE_HELP_HIDDEN_HOST_VOL">בחר את מיקום האמצעי אחסון החיצוני שייווצר (בתוך אמצעי האחסון הזה האמצעי אחסון הנסתר ייווצר בהמשך). \n \n אמצעי אחסון של VeraCrypt יכול להתגורר בקובץ (הנקרא מיכל VeraCrypt), יכול לשכן בדיסק הקשיח, עלכונן הבזק מסוג USB וכו &amp;apos;. ניתן להעביר או למחוק מיכל VeraCrypt ככל קובץ רגיל.לחץ על &amp;apos;בחר קובץ&amp;apos; כדי לבחור שם קובץ עבור המכולה ולבחור את המיקום שבו ברצונך שייווצר המכולה.אם תבחר קובץ קיים, VeraCrypt לא יצפין אותו;הוא יימחק ויוחלף במיכל החדש שנוצר.תוכל להצפין קבצים קיימים (בהמשך) על ידי העברתם למיכל ה- VeraCrypt שאתה עומד ליצור כעת.</entry>
@@ -490,10 +490,10 @@
     <entry lang="he" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">המחיצה שנבחרה וכל הנתונים המאוחסנים בה יוצפנו במקום.אם המחיצה ריקה, עליך לבחור באפשרות האחרת (אמצעי האחסון תיווצר הרבה יותר מהר).</entry>
     <entry lang="he" key="NOTE_BEGINNING">הערה:</entry>
     <entry lang="he" key="RESUME">&amp;קורות חיים</entry>
-    <entry lang="he" key="DEFER">&amp;לִדחוֹת</entry>
-    <entry lang="he" key="START">&amp;הַתחָלָה</entry>
-    <entry lang="he" key="CONTINUE">&amp;לְהַמשִׁיך</entry>
-    <entry lang="he" key="FORMAT">&amp;פוּרמָט</entry>
+    <entry lang="he" key="DEFER">&amp;לדחות</entry>
+    <entry lang="he" key="START">&amp;התחלה</entry>
+    <entry lang="he" key="CONTINUE">&amp;להמשיך</entry>
+    <entry lang="he" key="FORMAT">&amp;פורמט</entry>
     <entry lang="he" key="WIPE">&amp;לנגב</entry>
     <entry lang="he" key="FORMAT_ABORT">הפסקת פורמט?</entry>
     <entry lang="he" key="SHOW_MORE_INFORMATION">הראה מידע נוסף</entry>
@@ -601,7 +601,7 @@
     <entry lang="he" key="NONSYS_INPLACE_ENC_CONFIRM">אזהרה: לא תוכל לעלות על אמצעי האחסון או לגשת לקבצים המאוחסנים בו עד שהוצפן לחלוטין. \n \n האם אתה בטוח שברצונך להתחיל להצפין את %s &amp;apos; %s&amp;apos; %s שנבחרו?</entry>
     <entry lang="he" key="NONSYS_INPLACE_DEC_CONFIRM">אזהרה: לא תוכל לעלות על אמצעי האחסון או לגשת לקבצים השמורים בו עד לפענוחו המלא. \n \n האם אתה בטוח שברצונך להתחיל לפענח את %s &amp;apos; %s&amp;apos; %s שנבחרו?</entry>
     <entry lang="he" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">אזהרה: שים לב שאם אספקת החשמל נקטעת פתאום בעת הצפנה / פענוח נתונים קיימים במקום, או כאשר מערכת ההפעלה קורסת בגלל שגיאת תוכנה או תקלה בחומרה בזמן ש- VeraCrypt מצפין / מפענח את הנתונים הקיימים במקום, חלקים מהנתונים יהיולהיות מושחתים או אבודים.לכן, לפני שתתחיל להצפין / לפענח, אנא ודא שיש לך עותקי גיבוי של הקבצים שברצונך להצפין / לפענח. \n \n האם יש לך גיבוי כזה?</entry>
-    <entry lang="he" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">זהירות: כל קבצים שנשמרים כרגע בחלק &amp;apos; %s&amp;apos; של החלק (כלומר בחלקה הראשונה מאחורי מחיצת המערכת) יימחקו ויאבדו (הם לא יועתקו)! \n \n האם אתה בטוח שאתה רוצה להמשיךפוּרמָט?</entry>
+    <entry lang="he" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">זהירות: כל קבצים שנשמרים כרגע בחלק &amp;apos; %s&amp;apos; של החלק (כלומר בחלקה הראשונה מאחורי מחיצת המערכת) יימחקו ויאבדו (הם לא יועתקו)! \n \n האם אתה בטוח שאתה רוצה להמשיךפורמט?</entry>
     <entry lang="he" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">אזהרה: החלקה הנבחרת מכילה כמות גדולה של נתונים!כל הקבצים המאוחסנים במחיצה יימחקו ויאבדו (הם לא יוצפנו)!</entry>
     <entry lang="he" key="ERASE_FILES_BY_CREATING_VOLUME">מחק את כל הקבצים המאוחסנים במחיצה על ידי יצירת אמצעי אחסון VeraCrypt בתוכה</entry>
     <entry lang="he" key="PASSWORD">סיסמה</entry>
@@ -677,7 +677,7 @@
     <entry lang="he" key="SIZE_PARTITION_HIDDEN_SYSENC_HELP">האמצעי אחסון החיצוני והאמצעי אחסון הנסתר (המכיל את מערכת ההפעלה הנסתרת) יישארו בתוך המחיצה שלעיל.זו צריכה להיות המחיצה הראשונה מאחורי מחיצת המערכת. \n \n אנא ודא שגודל המחיצה ומספרה המוצג לעיל נכונים, ואם כן, לחץ על הבא.</entry>
     <entry lang="he" key="SIZE_PARTITION_HIDDEN_VOL_HELP">\n\nNote that the minimum possible size of a volume within which a hidden volume is intended to be created is 340 ק&amp;quot;ב.</entry>
     <entry lang="he" key="SIZE_TITLE">גודל אמצעי אחסון</entry>
-    <entry lang="he" key="SPARSE_FILE">דִינָמִי</entry>
+    <entry lang="he" key="SPARSE_FILE">דינמי</entry>
     <entry lang="he" key="TESTS_FAILED">זהירות: בדיקת העצמי נכשלה!</entry>
     <entry lang="he" key="TESTS_PASSED">בדיקות עצמיות של כל האלגוריתמים שעברו</entry>
     <entry lang="he" key="TEST_INCORRECT_TEST_DATA_UNIT_SIZE">מספר יחידת הנתונים שסיפקת ארוך או קצר מדי.</entry>
@@ -695,7 +695,7 @@
     <entry lang="he" key="UNKNOWN">לא ידוע</entry>
     <entry lang="he" key="ERR_UNKNOWN">אירעה שגיאה לא מוגדרת או לא ידועה (%d).</entry>
     <entry lang="he" key="UNMOUNTALL_LOCK_FAILED">חלק האמצעי אחסון מכילים קבצים או תיקיות המשמשים יישומים או מערכת. \n \n הורדת כוחות?</entry>
-    <entry lang="he" key="UNMOUNT_BUTTON">&amp;לָרֶדֶת</entry>
+    <entry lang="he" key="UNMOUNT_BUTTON">&amp;לרדת</entry>
     <entry lang="he" key="UNMOUNT_FAILED">הפירוק נכשל!</entry>
     <entry lang="he" key="UNMOUNT_LOCK_FAILED">אמצעי האחסון מכיל קבצים או תיקיות המשמשים יישומים או מערכת. \n \n הורדת כוחות?</entry>
     <entry lang="he" key="NO_VOLUME_MOUNTED_TO_DRIVE">אין אמצעי אחסון מותקן באות הכונן שצוינה.</entry>
@@ -732,9 +732,9 @@
     <entry lang="he" key="CANT_DISMOUNT_VOLUME">לא ניתן להוריד את אמצעי האחסון.</entry>
     <entry lang="he" key="FORMAT_NTFS_FAILED">Windows לא הצליח לעצב את אמצעי האחסון כ- NTFS / exFAT / ReFS. \n \n אנא בחר סוג אחר של מערכת קבצים (אם ניתן) ונסה שוב.לחלופין, אתה יכול להשאיר את אמצעי האחסון ללא עיצוב (בחר &amp;apos;ללא&amp;apos; כמערכת הקבצים), לצאת מאשף זה, לעלות על אמצעי האחסון ואז להשתמש במערכת או בכלי של צד שלישי כדי לעצב את אמצעי האחסון המותקנת (אמצעי האחסון תישאר מוצפנת).</entry>
     <entry lang="he" key="FORMAT_NTFS_FAILED_ASK_FAT">Windows לא הצליח לעצב את אמצעי האחסון כ- NTFS / exFAT / ReFS. \n \n האם ברצונך לעצב את אמצעי האחסון כ- FAT במקום זאת?</entry>
-    <entry lang="he" key="DEFAULT">בְּרִירַת מֶחדָל</entry>
-    <entry lang="he" key="PARTITION_LOWER_CASE">חֲלוּקָה</entry>
-    <entry lang="he" key="PARTITION_UPPER_CASE">חֲלוּקָה</entry>
+    <entry lang="he" key="DEFAULT">ברירת מחדל</entry>
+    <entry lang="he" key="PARTITION_LOWER_CASE">חלוקה</entry>
+    <entry lang="he" key="PARTITION_UPPER_CASE">חלוקה</entry>
     <entry lang="he" key="DEVICE">התקן</entry>
     <entry lang="he" key="DEVICE_LOWER_CASE">התקן</entry>
     <entry lang="he" key="DEVICE_UPPER_CASE">התקן</entry>
@@ -763,8 +763,8 @@
     <entry lang="he" key="NONSYS_INPLACE_DECRYPTION_CANT_DECRYPT_HID_VOL">שגיאה: VeraCrypt לא יכול לפענח במקום אמצעי אחסון מוסתר של VeraCrypt. \n \n הערה: עדיין תוכל לפענח קבצים המאוחסנים בעוצמת הקול על ידי העתקה / העברה לכל אמצעי אחסון לא מוצפן.</entry>
     <entry lang="he" key="CONFIRM_VOL_CONTAINS_NO_HIDDEN_VOL">אזהרה: שים לב כי VeraCrypt אינו יכול לפענח במקום אמצעי אחסון המכיל אמצעי אחסון מוסתר של VeraCrypt (האמצעי אחסון הנסתר יוחלף בנתוני מזויף). \n \n אנא אשר שהאמצעי אחסון שאתה עומד לפענח אינו מכיל אמצעי אחסון מוסתר. \nהערה: אם אמצעי האחסון מכיל אמצעי אחסון מוסתר אך לא אכפת לך לאבד את אמצעי האחסון הנסתר, תוכל לבחור להמשיך (האמצעי אחסון החיצוני יפענח בבטחה).</entry>
     <entry lang="he" key="VOL_CONTAINS_NO_HIDDEN_VOL">אמצעי האחסון אינו מכיל שום עוצמה נסתרת.להמשיך.</entry>
-    <entry lang="he" key="VOL_CONTAINS_A_HIDDEN_VOL">האמצעי אחסון מכיל אמצעי אחסון נסתר.לְבַטֵל.</entry>
-    <entry lang="he" key="CANT_ACCESS_VOL">שגיאה: אין אפשרות לגשת לעוצמת הקול! \n \n וודא כי אמצעי האחסון שנבחר קיים, שהוא אינו מותקן או נמצא בשימוש על ידי המערכת או יישום, שיש לך הרשאת קריאה / כתיבה עבור אמצעי האחסון ושהוא אינו כתוב-מוּגָן.</entry>
+    <entry lang="he" key="VOL_CONTAINS_A_HIDDEN_VOL">האמצעי אחסון מכיל אמצעי אחסון נסתר.לבטל.</entry>
+    <entry lang="he" key="CANT_ACCESS_VOL">שגיאה: אין אפשרות לגשת לעוצמת הקול! \n \n וודא כי אמצעי האחסון שנבחר קיים, שהוא אינו מותקן או נמצא בשימוש על ידי המערכת או יישום, שיש לך הרשאת קריאה / כתיבה עבור אמצעי האחסון ושהוא אינו כתוב-מוגן.</entry>
     <entry lang="he" key="CANT_GET_VOL_INFO">שגיאה: לא ניתן להשיג מאפייני אמצעי אחסון.</entry>
     <entry lang="he" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL">שגיאה: אין אפשרות לגשת לעוצמת הקול ו / או להשיג מידע אודות אמצעי האחסון. \n \n וודא כי אמצעי האחסון שנבחר קיים, שהוא אינו נמצא בשימוש על ידי המערכת או היישומים, שיש לך הרשאת קריאה / כתיבה עבור אמצעי האחסון, ושהוא לא מוגן מפני כתיבה.</entry>
     <entry lang="he" key="INPLACE_ENC_CANT_ACCESS_OR_GET_INFO_ON_VOL_ALT">שגיאה: אין אפשרות לגשת לעוצמת הקול ו / או להשיג מידע על אמצעי האחסון.וודא כי אמצעי האחסון שנבחר קיים, שהוא אינו נמצא בשימוש על ידי המערכת או היישומים, שיש לך הרשאת קריאה / כתיבה עבור אמצעי האחסון ושהוא אינו מוגן מפני כתיבה. \n \n אם הבעיה נמשכת, היא עלולה לוודאעזרו לבצע את השלבים הבאים.</entry>
@@ -778,7 +778,7 @@
     <entry lang="he" key="CANT_GET_CLUSTER_BITMAP">שגיאה: לא ניתן לקבל מפת סיביות של אשכול אמצעי האחסון!לא ניתן להמשיך ליצור יצירה.</entry>
     <entry lang="he" key="ALPHABETICAL_CATEGORIZED">אלפביתי / מסווג</entry>
     <entry lang="he" key="MEAN_SPEED">מהירות ממוצעת (יורדת)</entry>
-    <entry lang="he" key="ALGORITHM">אַלגוֹרִיתְם</entry>
+    <entry lang="he" key="ALGORITHM">אלגוריתם</entry>
     <entry lang="he" key="ENCRYPTION">הצפנה</entry>
     <entry lang="he" key="DECRYPTION">פענוח</entry>
     <entry lang="he" key="MEAN">מתכוון</entry>
@@ -786,14 +786,14 @@
     <entry lang="he" key="SIZE">גודל</entry>
     <entry lang="he" key="ENCRYPTION_ALGORITHM">אלגוריתם הצפנה</entry>
     <entry lang="he" key="ENCRYPTION_ALGORITHM_LV">אלגוריתם הצפנה</entry>
-    <entry lang="he" key="TYPE">סוּג</entry>
+    <entry lang="he" key="TYPE">סוג</entry>
     <entry lang="he" key="VALUE">ערך</entry>
     <entry lang="he" key="PROPERTY">תכונה</entry>
     <entry lang="he" key="LOCATION">נתיב</entry>
     <entry lang="he" key="BYTES">בתים</entry>
-    <entry lang="he" key="HIDDEN">מוּסתָר</entry>
-    <entry lang="he" key="OUTER">חִיצוֹנִי</entry>
-    <entry lang="he" key="NORMAL">נוֹרמָלִי</entry>
+    <entry lang="he" key="HIDDEN">מוסתר</entry>
+    <entry lang="he" key="OUTER">חיצוני</entry>
+    <entry lang="he" key="NORMAL">נורמלי</entry>
     <entry lang="he" key="SYSTEM_VOLUME_TYPE_ADJECTIVE">מערכת</entry>
     <entry lang="he" key="TYPE_HIDDEN_SYSTEM_ADJECTIVE">מוסתר (מערכת)</entry>
     <entry lang="he" key="READ_ONLY">לקריאה בלבד</entry>
@@ -871,7 +871,7 @@
     <entry lang="he" key="ADDING_REG">הוספת רשומת רישום</entry>
     <entry lang="he" key="REMOVING_APPDATA">הסרת נתונים ספציפיים ליישום</entry>
     <entry lang="he" key="INSTALLING">מתקין</entry>
-    <entry lang="he" key="STOPPING">סְתִימָה</entry>
+    <entry lang="he" key="STOPPING">סתימה</entry>
     <entry lang="he" key="REMOVING">מסיר</entry>
     <entry lang="he" key="ADDING_ICON">הוספת סמל</entry>
     <entry lang="he" key="CREATING_SYS_RESTORE">יצירת נקודת שחזור מערכת</entry>
@@ -897,13 +897,13 @@
     <entry lang="he" key="TRAVELER_UAC_NOTE">שים לב שאם תחליט להפעיל את VeraCrypt במצב נייד (בניגוד להפעלת עותק מותקן של VeraCrypt), המערכת תבקש ממך רשות להפעיל את VeraCrypt (UAC prompt) בכל פעם שתנסה להריץ אותו. \n \n הסיבההוא שכאשר אתה מפעיל את VeraCrypt במצב נייד, VeraCrypt צריך לטעון ולהפעיל את מנהל ההתקן של VeraCrypt.VeraCrypt זקוק למנהל התקן שיספק הצפנה / פענוח שקופים בזמן, ומשתמשים ללא הרשאות מנהל אינם יכולים להפעיל מנהלי התקנים ב- Windows.לכן, המערכת תבקש ממך אישור להריץ את VeraCrypt עם הרשאות מנהל (בקשת UAC). \n \n שים לב שאם תתקין את VeraCrypt במערכת (בניגוד להפעלת VeraCrypt במצב נייד), המערכת לא תבקש ממךהרשאה להריץ את VeraCrypt (UAC prompt) בכל פעם שאתה מנסה להריץ אותו. \n \n האם אתה בטוח שברצונך לחלץ את הקבצים?</entry>
     <entry lang="he" key="CONTAINER_ADMIN_WARNING">אזהרה: למופע זה של אשף יצירת אמצעי האחסון יש הרשאות מנהל. \n \n ייתכן שייווצר הכרך החדש שלך עם הרשאות שלא יאפשרו לך לכתוב לאמצעי אחסון כאשר הוא מותקן.אם ברצונך להימנע מכך, סגור מופע זה של אשף יצירת אמצעי האחסון והפעל הפעלה חדשה ללא הרשאות מנהל. \n \n האם ברצונך לסגור מופע זה של אשף יצירת אמצעי האחסון?</entry>
     <entry lang="he" key="CANNOT_DISPLAY_LICENSE">שגיאה: לא ניתן להציג רישיון.</entry>
-    <entry lang="he" key="OUTER_VOL_WRITE_PREVENTED">חִיצוֹנִי(!)</entry>
+    <entry lang="he" key="OUTER_VOL_WRITE_PREVENTED">חיצוני(!)</entry>
     <entry lang="he" key="DAYS">ימים</entry>
     <entry lang="he" key="HOURS">שעה (ות</entry>
     <entry lang="he" key="MINUTES">דקות</entry>
     <entry lang="he" key="SECONDS">ס</entry>
-    <entry lang="he" key="OPEN">לִפְתוֹחַ</entry>
-    <entry lang="he" key="DISMOUNT">לָרֶדֶת</entry>
+    <entry lang="he" key="OPEN">לפתוח</entry>
+    <entry lang="he" key="DISMOUNT">לרדת</entry>
     <entry lang="he" key="SHOW_TC">הצג את VeraCrypt</entry>
     <entry lang="he" key="HIDE_TC">הסתר את VeraCrypt</entry>
     <entry lang="he" key="TOTAL_DATA_READ">נתונים שנקראו מאז ההר</entry>
@@ -913,15 +913,15 @@
     <entry lang="he" key="ENCRYPTED_PORTION_NOT_ENCRYPTED">0% (לא מוצפן)</entry>
     <entry lang="he" key="PROCESSED_PORTION_X_PERCENT">% .3f %%</entry>
     <entry lang="he" key="PROCESSED_PORTION_100_PERCENT">100%</entry>
-    <entry lang="he" key="PROGRESS_STATUS_WAITING">הַמתָנָה</entry>
+    <entry lang="he" key="PROGRESS_STATUS_WAITING">המתנה</entry>
     <entry lang="he" key="PROGRESS_STATUS_PREPARING">מכין</entry>
     <entry lang="he" key="PROGRESS_STATUS_RESIZING">שינוי גודל</entry>
     <entry lang="he" key="PROGRESS_STATUS_ENCRYPTING">הצפנה</entry>
     <entry lang="he" key="PROGRESS_STATUS_DECRYPTING">פענוח</entry>
     <entry lang="he" key="PROGRESS_STATUS_FINALIZING">סיום</entry>
     <entry lang="he" key="PROGRESS_STATUS_PAUSED">מושהה</entry>
-    <entry lang="he" key="PROGRESS_STATUS_FINISHED">גָמוּר</entry>
-    <entry lang="he" key="PROGRESS_STATUS_ERROR">שְׁגִיאָה</entry>
+    <entry lang="he" key="PROGRESS_STATUS_FINISHED">גמור</entry>
+    <entry lang="he" key="PROGRESS_STATUS_ERROR">שגיאה</entry>
     <entry lang="he" key="FAVORITE_DISCONNECTED_DEV">ההתקן מנותק</entry>
     <entry lang="he" key="SYS_FAVORITE_VOLUMES_SAVED">אמצעי האחסון האהובים על המערכת נשמרו. \n \n כדי לאפשר טעינה של אמצעי האחסון האהובים על המערכת בעת הפעלת המערכת, בחר &amp;apos;הגדרות&amp;apos;&gt; &amp;apos;אמצעי אחסון מועדפים על המערכת&amp;apos;&gt; &amp;apos;הרכיב אמצעי אחסון מועדפים על המערכת בעת הפעלת Windows&amp;apos;.</entry>
     <entry lang="he" key="FAVORITE_ADD_DRIVE_DEV_WARNING">אמצעי האחסון שאתה מוסיף למועדפים אינה מחיצה ואינה אמצעי אחסון דינמי.לכן, VeraCrypt לא יוכל להעלות אמצעי אחסון מועדף זה אם מספר ההתקן ישתנה.</entry>
@@ -986,13 +986,13 @@
     <entry lang="he" key="NOT_APPLICABLE_OR_NOT_AVAILABLE">לא</entry>
     <entry lang="he" key="UISTR_YES">כן</entry>
     <entry lang="he" key="UISTR_NO">לא</entry>
-    <entry lang="he" key="UISTR_DISABLED">נָכֶה</entry>
+    <entry lang="he" key="UISTR_DISABLED">נכה</entry>
     <entry lang="he" key="DIGIT_ONE">1</entry>
     <entry lang="he" key="TWO_OR_MORE">2 ומעלה</entry>
     <entry lang="he" key="MODE_OF_OPERATION">אופן פעולה</entry>
     <entry lang="he" key="LABEL_ITEM">תווית:</entry>
     <entry lang="he" key="SIZE_ITEM">גודל:</entry>
-    <entry lang="he" key="PATH_ITEM">נָתִיב:</entry>
+    <entry lang="he" key="PATH_ITEM">נתיב:</entry>
     <entry lang="he" key="DRIVE_LETTER_ITEM">אות כונן:</entry>
     <entry lang="he" key="UNSUPPORTED_CHARS_IN_PWD">שגיאה: הסיסמה חייבת להכיל תווי ASCII בלבד. \n \n תווים שאינם ASCII בסיסמה עלולים לגרום לבלתי אפשרי להתקין את אמצעי האחסון כאשר תצורת המערכת שלך משתנה. \n \n התווים הבאים מותרים: \n \n!&amp;quot;# $% &amp; &amp;apos;() * +, -. / 0 1 2 3 4 5 6 7 8 9:; &lt;=&gt;? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [מהנשמעמהנשמע] ^ _` a b c d e f g h i j k l m n o p q r s t u v w x y z {|} ~</entry>
     <entry lang="he" key="UNSUPPORTED_CHARS_IN_PWD_RECOM">אזהרה: הסיסמה מכילה תווים שאינם ASCII.זה עלול לגרום לבלתי אפשרי להתקנה של אמצעי האחסון כאשר תצורת המערכת שלך משתנה. \n \n עליך להחליף את כל התווים שאינם ASCII בסיסמה בתווי ASCII.לשם כך לחץ על &amp;apos;אמצעי אחסון&amp;apos; -&gt; &amp;apos;שנה סיסמת אמצעי אחסון&amp;apos;. \n \n להלן תווי ASCII: \n \n!&amp;quot;# $% &amp; &amp;apos;() * +, -. / 0 1 2 3 4 5 6 7 8 9:; &lt;=&gt;? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [מהנשמעמהנשמע] ^ _` a b c d e f g h i j k l m n o p q r s t u v w x y z {|} ~</entry>
@@ -1041,7 +1041,7 @@
     <entry lang="he" key="NONSYS_INPLACE_ENC_NOTIFICATION_REMOVAL_NOTE">חשוב: זכור כי באפשרותך לחדש את תהליך ההצפנה / פענוח של כל מחיצה / אמצעי אחסון שאינם מערכתיים על ידי בחירה באפשרות &amp;apos;Volumes&amp;apos;&gt; &amp;apos;Resume Interrupted Process&amp;apos; משורת התפריטים של חלון VeraCrypt הראשי.</entry>
     <entry lang="he" key="SYSTEM_ENCRYPTION_SCHEDULED_BUT_PBA_FAILED">קבעתם את תהליך ההצפנה או הפענוח של מחיצת המערכת / כונן המערכת.עם זאת, אימות טרום האתחול נכשל (או עבר עקיפה). \n \n הערה: אם פענחתם את מחיצת המערכת / כונן בסביבת טרום האתחול, יתכן שתצטרכו לסיים את התהליך על ידי בחירה ב&amp;apos;מערכת &amp;apos;&gt;&amp;apos; פענוח קבוע של המערכתמחיצה / כונן &amp;apos;משורת התפריטים של חלון VeraCrypt הראשי.</entry>
     <entry lang="he" key="CONFIRM_EXIT">אזהרה: אם VeraCrypt יוצא כעת, הפונקציות הבאות יושבתו: \n \n1) מקשים חמים \n2) הורדה אוטומטית (למשל, בעת התנתקות, הסרת התקן מארח בשוגג, פסק זמן וכו &amp;apos;) \n3) אוטומטיטעינה של אמצעי האחסון המועדפים \n4) התראות (למשל, כאשר נמנעת פגיעה באמצעי אחסון מוסתר) \n \n הערה: אם אינך מעוניין ש- VeraCrypt יפעל ברקע, השבת את משימת הרקע של VeraCrypt בהעדפות (ובמידת הצורך,השבת את ההפעלה האוטומטית של VeraCrypt בהעדפות). \n \n האם אתה בטוח שברצונך ש- VeraCrypt ייצא?</entry>
-    <entry lang="he" key="CONFIRM_EXIT_UNIVERSAL">יְצִיאָה?</entry>
+    <entry lang="he" key="CONFIRM_EXIT_UNIVERSAL">יציאה?</entry>
     <entry lang="he" key="CHOOSE_ENCRYPT_OR_DECRYPT">ל- VeraCrypt אין מספיק מידע כדי לקבוע אם להצפין או לפענח.</entry>
     <entry lang="he" key="CHOOSE_ENCRYPT_OR_DECRYPT_FINALIZE_DECRYPT_NOTE">ל- VeraCrypt אין מספיק מידע כדי לקבוע אם להצפין או לפענח. \n \n הערה: אם פענחתם את מחיצת המערכת / כונן בסביבת טרום האתחול, יתכן שתצטרכו לסיים את התהליך על ידי לחיצה על Decrypt.</entry>
     <entry lang="he" key="NONSYS_INPLACE_ENC_REVERSE_INFO">הערה: כאשר אתה מצפין מחיצה / אמצעי אחסון שאינם של המערכת במקום ושגיאה מונעת ממך ללא הרף לסיים את התהליך, לא תוכל לעלות על אמצעי האחסון (ולגשת לנתונים המאוחסנים בו) עד שתבטל לחלוטין את אמצעי האחסון (כלומר להפוך את התהליך). \n \n אם אתה צריך לעשות זאת, בצע את הצעדים הבאים: \n1) צא מהאשף הזה. \n2) בחלון הראשי של VeraCrypt בחר &amp;apos;אמצעי אחסון&amp;apos;&gt; &amp;apos;המשך תהליך מופרע&amp;apos;. \n3)בחר &amp;apos;פענוח&amp;apos;.</entry>
@@ -1124,7 +1124,7 @@
     <entry lang="he" key="WIPE_MODE_TITLE">מצב מחיקה</entry>
     <entry lang="he" key="INPLACE_ENC_WIPE_MODE_INFO">בכמה סוגים של אמצעי אחסון, כאשר נתונים מוחלפים עם נתונים אחרים, יתכן ויהיה ניתן לשחזר את הנתונים שנדרסו בטכניקות כגון מיקרוסקופ כוח מגנטי. זה חל גם על נתונים המחליפים את צורתם המוצפנת (מה שקורה כאשר VeraCrypt מצפין תחילה מחיצה או כונן לא מוצפנים). על פי כמה מחקרים ופרסומים ממשלתיים, ניתן למנוע התאוששות של נתונים מוחלפים (או להקשות עליהם) על ידי החלפת הנתונים באופן מזויף ונתונים מסוימים שאינם אקראיים מספר פעמים מסוים. לכן, אם אתה סבור שיריב יוכל להשתמש בטכניקות כאלה כדי לשחזר את הנתונים שאתה מתכוון להצפין, ייתכן שתרצה לבחור באחד ממצבי המחיקה (הנתונים הקיימים לא יאבדו). שים לב שהניגוב לא יתבצע לאחר הצפנת המחיצה / הכונן. כאשר המחיצה / הכונן מוצפן לחלוטין, לא נכתבים אליו נתונים לא מוצפנים. כל נתונים שנכתבים אליו מוצפנים תחילה בזיכרון וזאת רק הנתונים (המוצפנים) נכתבים לדיסק.</entry>
     <entry lang="he" key="WIPE_MODE_INFO">בכמה סוגים של אמצעי אחסון, כאשר הנתונים מוחלפים עם נתונים אחרים (למשל כאשר הנתונים נמחקים), יתכן ויהיה ניתן לשחזר את הנתונים החולפים באמצעות טכניקות כגון מיקרוסקופ של כוח מגנטי.על פי כמה מחקרים ופרסומים ממשלתיים, ניתן למנוע התאוששות של נתונים מוחלפים (או להקשות עליהם מאוד) על ידי החלפת הנתונים באופן מזויף ונתונים מסוימים שאינם אקראיים מספר מסוים של פעמים.לכן, אם אתה סבור כי יריב יוכל להשתמש בטכניקות כאלה כדי לשחזר את הנתונים שיש למחוק, ייתכן שתרצה לבחור באחד ממצבי הנגב הרב-מעבר. \n \n הערה: ככל שתעבור יותר מחיקה אתה משתמש., ככל שנדרש זמן רב יותר למחיקת הנתונים.</entry>
-    <entry lang="he" key="DEVICE_WIPE_PAGE_TITLE">קִנוּחַ</entry>
+    <entry lang="he" key="DEVICE_WIPE_PAGE_TITLE">קנוח</entry>
     <entry lang="he" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">הערה: ניתן להפריע לתהליך הניגוב, לכבות את המחשב, להפעיל את המערכת הנסתרת שוב ואז לחדש את התהליך (אשף זה יופעל אוטומטית).עם זאת, אם תפריע לה, כל תהליך הניגוב יצטרך להתחיל מההתחלה.</entry>
     <entry lang="he" key="DEVICE_WIPE_PAGE_INFO">\n \n הערה: אם תפריע לתהליך הניקוי ואז תנסה לחדש אותו, התהליך כולו יצטרך להתחיל מההתחלה.</entry>
     <entry lang="he" key="CONFIRM_WIPE_ABORT">האם אתה רוצה לבטל את תהליך הניגוב?</entry>
@@ -1180,7 +1180,7 @@
     <entry lang="he" key="RESCUE_DISK_VERIFIED_INFO">מהנשמע דיסק ההצלה של VeraCrypt אומת בהצלחה.הסר אותו כעת מהכונן ושמור אותו במקום בטוח. מהנשמע ולחץ על הבא כדי להמשיך.</entry>
     <entry lang="he" key="REMOVE_RESCUE_DISK_FROM_DRIVE">אזהרה: במהלך השלבים הבאים, דיסק ההצלה של VeraCrypt לא יכול להיות בכונן.אחרת, לא ניתן יהיה להשלים את השלבים בצורה נכונה. \n \n אנא הסר אותו מהכונן כעת ואחסן אותו במקום בטוח.לאחר מכן לחץ על אישור.</entry>
     <entry lang="he" key="PREBOOT_NOT_LOCALIZED">אזהרה: בשל מגבלות טכניות של סביבת טרום האתחול, לא ניתן למקם טקסטים המוצגים על ידי VeraCrypt בסביבת טרום האתחול (כלומר לפני הפעלת Windows).ממשק המשתמש VeraCrypt Boot Loader נמצא באנגלית לחלוטין. \n \n להמשיך?</entry>
-    <entry lang="he" key="SYS_ENCRYPTION_PRETEST_INFO">לפני שמצפינים את מחיצת המערכת או את הכונן, VeraCrypt צריך לוודא שהכל עובד כראוי. \n \n לאחר שתלחץ על Test, יותקנו וכל הרכיבים הדרושים (למשל, רכיב האימות לפני האתחול, כלומר ה- VeraCrypt Boot Loader).המחשב יופעל מחדש.אז תצטרך להזין את הסיסמה שלך במסך Loader Boot VeraCrypt שיופיע לפני תחילת Windows.לאחר הפעלת Windows, תקבל הודעה אוטומטית על התוצאה של בדיקה מוקדמת זו. \n \n ההתקן הבא ישונה: כונן #%d \n \n \n אם תלחץ על ביטול עכשיו, שום דבר לא יותקן והמבחנה המקדימה לאלְהֵעָשׂוֹת.</entry>
+    <entry lang="he" key="SYS_ENCRYPTION_PRETEST_INFO">לפני שמצפינים את מחיצת המערכת או את הכונן, VeraCrypt צריך לוודא שהכל עובד כראוי. \n \n לאחר שתלחץ על Test, יותקנו וכל הרכיבים הדרושים (למשל, רכיב האימות לפני האתחול, כלומר ה- VeraCrypt Boot Loader).המחשב יופעל מחדש.אז תצטרך להזין את הסיסמה שלך במסך Loader Boot VeraCrypt שיופיע לפני תחילת Windows.לאחר הפעלת Windows, תקבל הודעה אוטומטית על התוצאה של בדיקה מוקדמת זו. \n \n ההתקן הבא ישונה: כונן #%d \n \n \n אם תלחץ על ביטול עכשיו, שום דבר לא יותקן והמבחנה המקדימה לאלהעשות.</entry>
     <entry lang="he" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">הערות חשובות - אנא קרא או הדפיס (לחץ על &amp;apos;הדפס&amp;apos;): \n \n שים לב שאף אחד מהקבצים שלך לא יוצפן לפני שתפעיל מחדש את המחשב והפעל את Windows.לפיכך, אם משהו נכשל, הנתונים שלך לא יאבדו.עם זאת, אם משהו משתבש, אתה עלול להיתקל בקשיים בהפעלת Windows.לכן אנא קרא (ואם אפשר, הדפיס) את ההנחיות הבאות לגבי פעולות אם Windows אינו יכול להפעיל לאחר הפעלת המחשב מחדש. \n \n</entry>
     <entry lang="he" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">מה לעשות אם Windows לא יכול להפעיל \n ------------------------------------------------ \n \n הערה: הוראות אלה תקפות רק אם לא התחלת להצפין. \n \n- אם Windows לא מתחיל לאחר הזנת הסיסמה הנכונה (או אם הזנת את הסיסמה הנכונה שוב ושוב אךVeraCrypt אומר שהסיסמה שגויה), אל תיבהלו.הפעל מחדש (כיבוי והדלקה) של המחשב, ובמסך VeraCrypt Boot Loader, לחץ על מקש Esc במקלדת (ואם יש לך מספר מערכות, בחר אילו להתחיל).ואז Windows צריך להתחיל (בתנאי שהוא לא מוצפן) ו- VeraCrypt ישאל אוטומטית אם ברצונך להסיר את ההתקנה של רכיב האימות לפני האתחול.שים לב שהשלבים הקודמים אינם פועלים אם מחיצת המערכת / כונן ההצפנה (איש אינו יכול להפעיל את Windows או לגשת לנתונים מוצפנים בכונן ללא הסיסמה הנכונה גם אם הוא או היא מבצעים את השלבים הקודמים). \n \n</entry>
     <entry lang="he" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- אם השלבים הקודמים לא עוזרים או אם מסך ה- VeraCrypt Boot Loader אינו מופיע (לפני הפעלת Windows), הכנס את דיסק ההצלה של VeraCrypt לכונן התקליטורים / DVD שלך והפעל מחדש את המחשב. אם מסך דיסק ההצלה של VeraCrypt אינו מופיע (או אם אינך רואה את הפריט &amp;apos;אפשרויות תיקון&amp;apos; בקטע &amp;apos;בקרות מקלדת&amp;apos; במסך דיסק ההצלה של VeraCrypt), ייתכן שה- BIOS שלך מוגדר לנסות לאתחל מ כוננים קשיחים לפני כונני CD / DVD. אם זה המקרה, הפעל מחדש את המחשב, לחץ על F2 או על מחק (ברגע שאתה רואה מסך הפעלה של ה- BIOS), והמתין עד שיופיע מסך תצורת ה- BIOS. אם לא מופיע מסך תצורת BIOS, הפעל מחדש (אפס) את המחשב שוב והתחל ללחוץ שוב ושוב על F2 או מחק ברגע שתפעיל מחדש (איפוס) את המחשב. כאשר מופיע מסך תצורת BIOS, הגדר את ה- BIOS שלך לאתחול מכונן CD / DVD תחילה (לקבלת מידע אודות אופן פעולה זה, עיין בתיעוד של ה- BIOS / לוח האם שלך או פנה לצוות התמיכה הטכנית של ספק המחשב לקבלת סיוע). ואז הפעל מחדש את המחשב. מסך דיסק ההצלה של VeraCrypt אמור להופיע כעת. במסך דיסק ההצלה של VeraCrypt בחר &amp;apos;אפשרויות תיקון&amp;apos; על ידי לחיצה על F8 במקלדת. בתפריט &amp;apos;אפשרויות תיקון&amp;apos; בחר &amp;apos;שחזר מטעין מערכת מקורי&amp;apos;. לאחר מכן הסר את דיסק ההצלה מכונן התקליטורים / DVD והפעל מחדש את המחשב. Windows צריך להתחיל כרגיל (בתנאי שהוא אינו מוצפן). \n \n</entry>
@@ -1280,7 +1280,7 @@
     <entry lang="he" key="CKR_DEVICE_MEMORY">The security אמצעי אבטחה does not have enough memory/space to perform the requested operation.\n\nIf you are attempting to import a keyfile, you should select a smaller file or use a keyfile generated by VeraCrypt (select &amp;apos;Tools&amp;apos; &gt; &amp;apos;Keyfile Generator&amp;apos;).</entry>
     <entry lang="he" key="ALL_TOKEN_SESSIONS_CLOSED">כל הפעלות אמצעי אבטחה האבטחה הפתוחות נסגרו.</entry>
     <entry lang="he" key="SELECT_TOKEN_KEYFILES">בחר בקובצי מפתח של אמצעי אבטחה</entry>
-    <entry lang="he" key="TOKEN_SLOT_ID">חָרִיץ</entry>
+    <entry lang="he" key="TOKEN_SLOT_ID">חריץ</entry>
     <entry lang="he" key="TOKEN_NAME">שם אמצעי אבטחה</entry>
     <entry lang="he" key="TOKEN_DATA_OBJECT_LABEL">שם קובץ</entry>
     <entry lang="he" key="BOOT_PASSWORD_CACHE_KEYBOARD_WARNING">הודעה חשובה: שים לב שאימות עם סיסמא לפני האתחול נכתב תמיד בשפה האנגלית. לכן, אמצעי אחסון שמשתמש בסיסמא שנכתבת בעזרת כל שפה אחרת תהיה בלתי אפשרית לפתיחה עם אימות לפני האתחול עם סיסמא (שים לב שזה לא באג בVeracCrypt ). כדי לאפשר לאמצעי אחסון להטען בעזרת אימות לפני אתחול עם סיסמא, עקוב אחר הוראות אלה: \n\n1) לחץ על &amp;apos;בחר קובץ todo&amp;apos;</entry>
@@ -1309,18 +1309,18 @@
     <entry lang="he" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">אזהרה: אמצעי אחסון VeraCrypt פורק אוטומטית</entry>
     <entry lang="he" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">לפני שמסירים או מכבים פיזית התקן המכיל אמצעי אחסון מותקן, עליכם תמיד לנתק את אמצעי האחסון ב- VeraCrypt. \n \n הורדה ספונטנית בלתי צפויה נגרמת בדרך כלל מכבל, כונן (מארז) וכו &amp;apos;.</entry>
     <entry lang="he" key="UNSUPPORTED_TRUECRYPT_FORMAT">אמצעי אחסון זה נוצר באמצעות TrueCrypt% x.% X אך VeraCrypt תומך רק בכמויות TrueCrypt שנוצרו באמצעות סדרת TrueCrypt 6.x / 7.x</entry>
-    <entry lang="he" key="TEST">מִבְחָן</entry>
+    <entry lang="he" key="TEST">מבחן</entry>
     <entry lang="he" key="KEYFILE">קובץ מפתח</entry>
     <entry lang="he" key="VKEY_08">מקש לחזור אחורה</entry>
     <entry lang="he" key="VKEY_09">כרטיסייה</entry>
     <entry lang="he" key="VKEY_0C">ברור</entry>
     <entry lang="he" key="VKEY_0D">להיכנס</entry>
-    <entry lang="he" key="VKEY_13">הַפסָקָה</entry>
+    <entry lang="he" key="VKEY_13">הפסקה</entry>
     <entry lang="he" key="VKEY_14">נעילה אותיות גדולות</entry>
     <entry lang="he" key="VKEY_20">מקש רווח</entry>
     <entry lang="he" key="VKEY_21">גלול למעלה</entry>
     <entry lang="he" key="VKEY_22">עמוד למטה</entry>
-    <entry lang="he" key="VKEY_23">סוֹף</entry>
+    <entry lang="he" key="VKEY_23">סוף</entry>
     <entry lang="he" key="VKEY_24">בית</entry>
     <entry lang="he" key="VKEY_25">חץ שמאלי</entry>
     <entry lang="he" key="VKEY_26">חץ המורה למעלה</entry>
@@ -1330,10 +1330,10 @@
     <entry lang="he" key="VKEY_2A">מפתח הדפסה</entry>
     <entry lang="he" key="VKEY_2B">מפתח ביצוע</entry>
     <entry lang="he" key="VKEY_2C">צילום מסך</entry>
-    <entry lang="he" key="VKEY_2D">לְהַכנִיס</entry>
-    <entry lang="he" key="VKEY_2E">לִמְחוֹק</entry>
+    <entry lang="he" key="VKEY_2D">להכניס</entry>
+    <entry lang="he" key="VKEY_2E">למחוק</entry>
     <entry lang="he" key="VKEY_5D">מפתח יישומים</entry>
-    <entry lang="he" key="VKEY_5F">לִישׁוֹן</entry>
+    <entry lang="he" key="VKEY_5F">לישון</entry>
     <entry lang="he" key="VKEY_90">Num Lock</entry>
     <entry lang="he" key="VKEY_91">נעילת גלילה</entry>
     <entry lang="he" key="VKEY_A6">דפדפן חזרה</entry>
@@ -1343,7 +1343,7 @@
     <entry lang="he" key="VKEY_AA">חיפוש בדפדפן</entry>
     <entry lang="he" key="VKEY_AB">מועדפים בדפדפן</entry>
     <entry lang="he" key="VKEY_AC">דף הבית של הדפדפן</entry>
-    <entry lang="he" key="VKEY_AD">לְהַשְׁתִיק</entry>
+    <entry lang="he" key="VKEY_AD">להשתיק</entry>
     <entry lang="he" key="VKEY_AE">להנמיך קול</entry>
     <entry lang="he" key="VKEY_AF">הגבר קול</entry>
     <entry lang="he" key="VKEY_B0">הרצועה הבאה</entry>
@@ -1357,11 +1357,11 @@
     <entry lang="he" key="VKEY_F6">Attn</entry>
     <entry lang="he" key="VKEY_F7">CrSel</entry>
     <entry lang="he" key="VKEY_F8">ExSel</entry>
-    <entry lang="he" key="VKEY_FA">לְשַׂחֵק</entry>
+    <entry lang="he" key="VKEY_FA">לשחק</entry>
     <entry lang="he" key="VKEY_FB">תקריב</entry>
     <entry lang="he" key="VK_NUMPAD">NumPad</entry>
-    <entry lang="he" key="VK_SHIFT">מִשׁמֶרֶת</entry>
-    <entry lang="he" key="VK_CONTROL">לִשְׁלוֹט</entry>
+    <entry lang="he" key="VK_SHIFT">משמרת</entry>
+    <entry lang="he" key="VK_CONTROL">לשלוט</entry>
     <entry lang="he" key="VK_ALT">Alt</entry>
     <entry lang="he" key="VK_WIN">לנצח</entry>
     <entry lang="he" key="BYTE">ב</entry>
@@ -1399,7 +1399,7 @@
     <entry lang="he" key="IDC_DISABLE_BOOT_LOADER_HASH_PROMPT">אל תבקש אלגוריתם Hash במסך האימות לפני האתחול</entry>
     <entry lang="he" key="KUZNYECHIK_HELP">קוזניצ&amp;apos;יק הוא צופן בלוקים שפורסם לראשונה בשנת 2015 והוגדר בתקן הלאומי של הפדרציה הרוסית GOST R 34.12-2015 וגם ב- RFC 7801. מפתח 256 סיביות, בלוק 128 סיביות.אופן הפעולה הוא XTS.</entry>
     <entry lang="he" key="CAMELLIA_HELP">פותח במשותף על ידי מיצובישי אלקטריק ו- NTT מיפן.פורסם לראשונה בשנת 2000. מפתח 256 סיביות, חסימת 128 סיביות.אופן הפעולה הוא XTS.הוא אושר לשימוש על ידי ISO / IEC, פרויקט NESSIE של האיחוד האירופי ופרויקט CRYPTREC היפני.</entry>
-    <entry lang="he" key="TIME">זְמַן</entry>
+    <entry lang="he" key="TIME">זמן</entry>
     <entry lang="he" key="ITERATIONS">איטרציות</entry>
     <entry lang="he" key="PRE-BOOT">טרום אתחול</entry>
     <entry lang="he" key="RESCUE_DISK_EFI_INFO">לפני שתוכל להצפין את המחיצה, עליך ליצור דיסק הצלה של VeraCrypt (VRD), המשרת את המטרות הבאות: \n \n- אם מטען האתחול של VeraCrypt, מפתח הראשי או נתונים קריטיים אחרים נפגעים, ה- VRD מאפשר לךשחזר אותו (עם זאת, שים לב שעדיין תצטרך להזין את הסיסמה הנכונה אז). \n \n- אם Windows נפגע ואינו יכול להתחיל, ה- VRD מאפשר לך לפענח לצמיתות את המחיצה לפני הפעלת Windows. \n \n- VRD יכיל גיבוי של מטעין האתחול הנוכחי של EFI ויאפשר לך לשחזר אותו במידת הצורך. \n \n תמונת ה- ZIP של דיסק ההצלה של VeraCrypt תיווצר במיקום שצוין למטה.</entry>
@@ -1457,7 +1457,7 @@
     <entry lang="he" key="DISK_FREE">מקום פנוי פנוי: {0}</entry>
     <entry lang="he" key="VOLUME_SIZE_HELP">אנא ציין את גודל המכולה ליצירה.שים לב שהגודל המינימלי האפשרי של אמצעי אחסון הוא 292 ק&amp;quot;ב.</entry>
     <entry lang="he" key="LINUX_CONFIRM_INNER_VOLUME_CALC">אזהרה: בחרת מערכת קבצים שאינה FAT עבור אמצעי האחסון החיצוני. \n שים לב שבמקרה זה VeraCrypt אינו יכול לחשב את הגודל המקסימלי המותר המותר עבור אמצעי האחסון הנסתר והוא ישתמש רק בהערכה שיכולה להיות שגויה. \n כךבאחריותך להשתמש בערך הולם לגודל האמצעי אחסון הנסתר, כך שהוא לא חופף את האמצעי אחסון החיצוני. \n \n האם ברצונך להמשיך להשתמש במערכת הקבצים שנבחרה עבור הכרך החיצוני?</entry>
-    <entry lang="he" key="LINUX_PREF_TAB_SECURITY">בִּטָחוֹן</entry>
+    <entry lang="he" key="LINUX_PREF_TAB_SECURITY">בטחון</entry>
     <entry lang="he" key="LINUX_PREF_TAB_MOUNT_OPTIONS">אפשרויות טען</entry>
     <entry lang="he" key="LINUX_PREF_TAB_BACKGROUND_TASK">משימת רקע</entry>
     <entry lang="he" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">שילוב מערכת</entry>
@@ -1504,8 +1504,8 @@
     <entry lang="he" key="LINUX_ERROR_LOADING_CONFIG">שגיאה בעת טעינת קבצי תצורה הממוקמים ב</entry>
     <entry lang="he" key="LINUX_SELECT_FREE_SLOT">אנא בחר חריץ כונן חופשי מהרשימה.</entry>
     <entry lang="he" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n \n האם אתה רוצה להציג הודעה זו בפעם הבאה שתעלה אמצעי אחסון כזה?</entry>
-    <entry lang="he" key="LINUX_WARNING">אַזהָרָה</entry>
-    <entry lang="he" key="LINUX_ERROR">שְׁגִיאָה</entry>
+    <entry lang="he" key="LINUX_WARNING">אזהרה</entry>
+    <entry lang="he" key="LINUX_ERROR">שגיאה</entry>
     <entry lang="he" key="LINUX_ONLY_TEXTMODE">מאפיין זה נתמך כרגע רק במצב טקסט.</entry>
     <entry lang="he" key="LINUX_FREE_SPACE_ON_DRIVE">שטח פנוי בכונן {0}: הוא {1}.</entry>
     <entry lang="he" key="LINUX_DYNAMIC_NOTICE">שים לב שאם מערכת ההפעלה שלך לא מקצה קבצים מתחילת השטח הפנוי, גודל האמצעי אחסון הסמוי המרבי האפשרי עשוי להיות קטן בהרבה מגודל השטח הפנוי באמצעי אחסון החיצוני.זה לא באג ב- VeraCrypt אלא מגבלה של מערכת ההפעלה.</entry>
