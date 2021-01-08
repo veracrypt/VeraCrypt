@@ -692,7 +692,7 @@
     <entry lang="he" key="UNKNOWN">לא ידוע</entry>
     <entry lang="he" key="ERR_UNKNOWN">אירעה שגיאה לא מוגדרת או לא ידועה (%d).</entry>
     <entry lang="he" key="UNMOUNTALL_LOCK_FAILED">חלק האמצעי אחסון מכילים קבצים או תיקיות המשמשים יישומים או מערכת. \n \n הורדת כוחות?</entry>
-    <entry lang="he" key="UNMOUNT_BUTTON">&amp;לרדת</entry>
+    <entry lang="he" key="UNMOUNT_BUTTON">&amp;נתק</entry>
     <entry lang="he" key="UNMOUNT_FAILED">הניתוק נכשל!</entry>
     <entry lang="he" key="UNMOUNT_LOCK_FAILED">אמצעי האחסון מכיל קבצים או תיקיות המשמשים יישומים או מערכת. \n \n הורדת כוחות?</entry>
     <entry lang="he" key="NO_VOLUME_MOUNTED_TO_DRIVE">אין אמצעי אחסון מותקן באות הכונן שצוינה.</entry>
