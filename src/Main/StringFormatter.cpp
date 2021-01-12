@@ -20,7 +20,18 @@ namespace VeraCrypt
 	{
 		bool numberExpected = false;
 		bool endTagExpected = false;
-		foreach (wchar_t c, wstring (format))
+
+		//TODO replace this workaround for %s, %d, %c for printf
+		wxString text(format);
+		text.Replace (L"%s", L"{}",true);
+		text.Replace (L"%d", L"{}",true);
+		text.Replace (L"%c", L"{}",true);
+		int i=0;
+		while (text.find(L"{}") != (size_t) wxNOT_FOUND){
+			text.Replace(L"{}",L"{"+wxString::Format(wxT("%i"),i++)+L"}",false);
+		}
+
+		foreach (wchar_t c, wstring (text))
 		{
 			if (numberExpected)
 			{
