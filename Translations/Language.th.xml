@@ -180,7 +180,7 @@
     <entry lang="en" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Display password</entry>
     <entry lang="en" key="IDC_TRAVEL_OPEN_EXPLORER">Open &amp;Explorer window for mounted volume</entry>
     <entry lang="en" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Cache password in driver memory</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="en" key="IDC_UNMOUNTALL">Di&amp;smount All</entry>
     <entry lang="en" key="IDC_VOLUME_PROPERTIES">&amp;Volume Properties...</entry>
     <entry lang="en" key="IDC_VOLUME_TOOLS">Volume &amp;Tools...</entry>

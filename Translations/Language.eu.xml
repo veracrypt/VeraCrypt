@@ -180,7 +180,7 @@
     <entry lang="eu" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Pasahitza erakutsi</entry>
     <entry lang="eu" key="IDC_TRAVEL_OPEN_EXPLORER">Muntatutako Bolumenak &amp;Explorer-aren lehioak ireki</entry>
     <entry lang="eu" key="IDC_TRAV_CACHE_PASSWORDS">Pasahitza &amp;gorde diskaren memorian</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="eu" key="IDC_UNMOUNTALL">&amp;Guztiak desmuntatu</entry>
     <entry lang="eu" key="IDC_VOLUME_PROPERTIES">&amp;Bolumenaren ezaugarriak...</entry>
     <entry lang="eu" key="IDC_VOLUME_TOOLS">Bolumenaren &amp;Tresnak...</entry>

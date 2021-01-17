@@ -180,7 +180,7 @@
     <entry lang="ja" key="IDC_SHOW_PASSWORD_CHPWD_ORI">パスワードを表示</entry>
     <entry lang="ja" key="IDC_TRAVEL_OPEN_EXPLORER">マウントされたボリュームのウィンドウを開く(&amp;E)</entry>
     <entry lang="ja" key="IDC_TRAV_CACHE_PASSWORDS">パスワードをドライバのメモリに記憶(&amp;C)</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="ja" key="IDC_UNMOUNTALL">全てアンマウント(&amp;S)</entry>
     <entry lang="ja" key="IDC_VOLUME_PROPERTIES">ボリュームのプロパティ(&amp;V)...</entry>
     <entry lang="ja" key="IDC_VOLUME_TOOLS">ボリュームツール(&amp;T)...</entry>

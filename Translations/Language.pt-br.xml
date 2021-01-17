@@ -180,7 +180,7 @@
     <entry lang="pt-br" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Mostrar senha</entry>
     <entry lang="pt-br" key="IDC_TRAVEL_OPEN_EXPLORER">Abrir janela do &amp;Explorer para os volumes montados</entry>
     <entry lang="pt-br" key="IDC_TRAV_CACHE_PASSWORDS">Armazenar as senhas na memória da unidade</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="pt-br" key="IDC_UNMOUNTALL">De&amp;smontar Todos</entry>
     <entry lang="pt-br" key="IDC_VOLUME_PROPERTIES">Propriedades do &amp;Volume</entry>
     <entry lang="pt-br" key="IDC_VOLUME_TOOLS">Ferramen&amp;tas do Volume</entry>

@@ -180,7 +180,7 @@
     <entry lang="id" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Tampilkan password</entry>
     <entry lang="id" key="IDC_TRAVEL_OPEN_EXPLORER">Buka jendela &amp;Explorer untuk volume yang tersambung</entry>
     <entry lang="id" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Simpan password pada driver memory</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="id" key="IDC_UNMOUNTALL">Putu&amp;skan semua</entry>
     <entry lang="id" key="IDC_VOLUME_PROPERTIES">Profil &amp;Volume...</entry>
     <entry lang="id" key="IDC_VOLUME_TOOLS">Penga&amp;turan volume...</entry>
