@@ -210,7 +210,7 @@ enum tc_app_msg_ids
 enum system_encryption_status
 {
 	/* WARNING: As these values are written to config files, if they or their meanings
-	are changed, incompatiblity with other versions may arise (upgrade, downgrade, etc.).
+	are changed, incompatibility with other versions may arise (upgrade, downgrade, etc.).
 	When adding a new constant, verify that the value is unique within this block. */
 	SYSENC_STATUS_NONE = 0,
 	SYSENC_STATUS_PRETEST = 200,	// This may also mean that the OS is to be (or has been) copied to a hidden volume (to create a hidden OS).

@@ -17,7 +17,7 @@
 
  /* Adapted to VeraCrypt
    - original file pre-processed using "gcc -E"
-   - added instructions at begining of each functiont to adapt to Windows parameters passing convention
+   - added instructions at beginning of each functiont to adapt to Windows parameters passing convention
    - Fix "'ADDR32' relocation" error when building Windows driver by using lea to load address of tables into
      registers instead of using immediat form in xorq. This required saving many registers in the stack in order
 	 to free 7 general purpose registers %r9-%r15 and %xmm0/%xmm1 are used for the 8th table: %xmm0 stores table

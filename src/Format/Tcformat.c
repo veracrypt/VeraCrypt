@@ -850,8 +850,8 @@ void SaveSettings (HWND hwndDlg)
 {
 	WaitCursor ();
 
-	// Check first if modifications ocurred before writing to the settings and history files
-	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing setttings or history
+	// Check first if modifications occurred before writing to the settings and history files
+	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing settings or history
 	BOOL bSettingsChanged = FALSE;
 	BOOL bHistoryChanged = FALSE;
 

@@ -17,8 +17,8 @@
 
  /* Adapted to VeraCrypt
    - original file pre-processed using "gcc -E"
-   - added instructions at begining of each functiont to adapt to Windows parameters passing convention
-   - Fix "'ADDR32' relocation" error when building Windows driver by explicitely using %rip addressing when
+   - added instructions at beginning of each functiont to adapt to Windows parameters passing convention
+   - Fix "'ADDR32' relocation" error when building Windows driver by explicitly using %rip addressing when
      accessing various locally defined data variables. This has no performance impact.
  */ 
 

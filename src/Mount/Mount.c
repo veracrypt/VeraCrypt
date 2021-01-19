@@ -1057,8 +1057,8 @@ void SaveSettings (HWND hwndDlg)
 {
 	WaitCursor ();
 
-	// Check first if modifications ocurred before writing to the settings and history files
-	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing setttings or history
+	// Check first if modifications occurred before writing to the settings and history files
+	// This avoids leaking information about VeraCrypt usage when user only mount volumes without changing settings or history
 	BOOL bSettingsChanged = FALSE;
 	BOOL bHistoryChanged = FALSE;
 
@@ -2987,7 +2987,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SetPim (hwndDlg, IDC_PIM, *pim);
 
-			/* make PIM field visible if a PIM value has been explicitely specified */
+			/* make PIM field visible if a PIM value has been explicitly specified */
 			if (*pim > 0)
 			{
 				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, TRUE);
@@ -3038,7 +3038,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
 
 			/* Start the timer to check if we are foreground only if Secure Desktop is not used */
-			/* Implement Text drag-n-drop in order to support droping password from KeePass directly only if Secure Desktop is not used */
+			/* Implement Text drag-n-drop in order to support dropping password from KeePass directly only if Secure Desktop is not used */
 			if (!bSecureDesktopOngoing)
 			{
 				SetTimer (hwndDlg, TIMER_ID_CHECK_FOREGROUND, TIMER_INTERVAL_CHECK_FOREGROUND, NULL);
@@ -3093,7 +3093,7 @@ BOOL CALLBACK PasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 			{
 				Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", hwndDlg);
-				/* don't be too agressive on enforcing an English keyboard layout. E.g. on WindowsPE this call fails and
+				/* don't be too aggressive on enforcing an English keyboard layout. E.g. on WindowsPE this call fails and
 				 * then the user can only mount a system encrypted device using the command line by passing the password as a parameter
 				 * (which might not be obvious for not so advanced users).
 				 *
@@ -3728,7 +3728,7 @@ BOOL CALLBACK MountOptionsDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			SetPim (hwndDlg, IDC_PIM, mountOptions->ProtectedHidVolPim);
 
-			/* make PIM field visible if a PIM value has been explicitely specified */
+			/* make PIM field visible if a PIM value has been explicitly specified */
 			if (mountOptions->ProtectedHidVolPim > 0)
 			{
 				SetCheckBox (hwndDlg, IDC_PIM_ENABLE, TRUE);
@@ -6288,7 +6288,7 @@ static void DecryptNonSysDevice (HWND hwndDlg, BOOL bResolveAmbiguousSelection, 
 }
 
 // Blindly attempts (without any checks) to instruct the wizard to resume whatever system encryption process
-// had been interrupted or not started but scheduled or exptected to start.
+// had been interrupted or not started but scheduled or expected to start.
 static void ResumeInterruptedSysEncProcess (HWND hwndDlg)
 {
 	if (!MutexExistsOnSystem (TC_MUTEX_NAME_SYSENC))	// If no instance of the wizard is currently taking care of system encryption
@@ -9571,7 +9571,7 @@ void ExtractCommandLine (HWND hwndDlg, wchar_t *lpszCommandLine)
 
 	if (CmdVolumePasswordValid && (CmdVolumeTrueCryptMode || (CmdMountOptionsValid && bPrebootPasswordDlgMode)))
 	{
-		/* truncate the password to 64 first characer in case of TrueCrypt Mode or System Encryption */
+		/* truncate the password to 64 first character in case of TrueCrypt Mode or System Encryption */
 		if (lstrlen (CmdRawPassword) > MAX_LEGACY_PASSWORD)
 		{
 			int iLen;
@@ -10273,7 +10273,7 @@ BOOL MountFavoriteVolumes (HWND hwnd, BOOL systemFavorites, BOOL logOnMount, BOO
 
 	if (ServiceMode)
 	{
-		// in service case, intialize some global variable here.
+		// in service case, initialize some global variable here.
 		LastKnownMountList.ulMountedDrives = 0;
 		LoadDriveLetters (MainDlg, GetDlgItem (MainDlg, IDC_DRIVELIST), 0);
 	}

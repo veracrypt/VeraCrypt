@@ -2954,7 +2954,7 @@ static void LoadSystemDll (LPCTSTR szModuleName, HMODULE *pHandle, BOOL bIgnoreE
 {
 	wchar_t dllPath[MAX_PATH];
 
-	/* Load dll explictely from System32 to avoid Dll hijacking attacks*/
+	/* Load dll explicitly from System32 to avoid Dll hijacking attacks*/
 	if (!GetSystemDirectory(dllPath, MAX_PATH))
 		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32");
 
@@ -14178,7 +14178,7 @@ BOOL BufferHasPattern (const unsigned char* buffer, size_t bufferLen, const void
 
 /* Implementation borrowed from KeePassXC source code (https://github.com/keepassxreboot/keepassxc/blob/release/2.4.0/src/core/Bootstrap.cpp#L150) 
  *
- * Reduce current user acess rights for this process to the minimum in order to forbid non-admin users from reading the process memory.
+ * Reduce current user access rights for this process to the minimum in order to forbid non-admin users from reading the process memory.
  */
 BOOL EnableProcessProtection()
 {

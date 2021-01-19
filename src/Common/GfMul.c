@@ -250,7 +250,7 @@ in_line void xor_block_aligned64( void *p, const void *q)
     q(0xf8), q(0xf9), q(0xfa), q(0xfb), q(0xfc), q(0xfd), q(0xfe), q(0xff) }
 
 /* given the value i in 0..255 as the byte overflow when a a field  */
-/* element in GHASH is multipled by x^8, this function will return  */
+/* element in GHASH is multiplied by x^8, this function will return  */
 /* the values that are generated in the lo 16-bit word of the field */
 /* value by applying the modular polynomial. The values lo_byte and */
 /* hi_byte are returned via the macro xp_fun(lo_byte, hi_byte) so   */
@@ -341,7 +341,7 @@ in_line void mul_x64(mode(32t) x[2])
 static const unsigned __int16 gft_le[256] = gf_dat(xp);
 static const unsigned __int16 gft_le64[256] = gf_dat(xp64);
 
-in_line void mul_lex8(mode(32t) x[4])   /* mutiply with long words  */
+in_line void mul_lex8(mode(32t) x[4])   /* multiply with long words  */
 {   mode(32t)   t = (x[3] >> 24);       /* in little endian format  */
     x[3] = (x[3] << 8) | (x[2] >> 24);
     x[2] = (x[2] << 8) | (x[1] >> 24);
@@ -349,7 +349,7 @@ in_line void mul_lex8(mode(32t) x[4])   /* mutiply with long words  */
     x[0] = (x[0] << 8) ^ gft_le[t];
 }
 
-in_line void mul_lex8_64(mode(32t) x[2])   /* mutiply with long words  */
+in_line void mul_lex8_64(mode(32t) x[2])   /* multiply with long words  */
 {   mode(32t)   t = (x[1] >> 24);       /* in little endian format  */
     x[1] = (x[1] << 8) | (x[0] >> 24);
     x[0] = (x[0] << 8) ^ gft_le64[t];
@@ -364,7 +364,7 @@ in_line void mul_lex8_64(mode(32t) x[2])   /* mutiply with long words  */
 static const unsigned __int16 gft_be[256] = gf_dat(xp);
 static const unsigned __int16 gft_be64[256] = gf_dat(xp64);
 
-in_line void mul_bex8(mode(32t) x[4])   /* mutiply with long words  */
+in_line void mul_bex8(mode(32t) x[4])   /* multiply with long words  */
 {   mode(32t)   t = (x[3] & 0xff);      /* in big endian format     */
     x[3] = (x[3] >> 8) | (x[2] << 24);
     x[2] = (x[2] >> 8) | (x[1] << 24);
@@ -372,7 +372,7 @@ in_line void mul_bex8(mode(32t) x[4])   /* mutiply with long words  */
     x[0] = (x[0] >> 8) ^ (((mode(32t))gft_be[t]) << 16);
 }
 
-in_line void mul_bex8_64(mode(32t) x[2])   /* mutiply with long words  */
+in_line void mul_bex8_64(mode(32t) x[2])   /* multiply with long words  */
 {   mode(32t)   t = (x[1] & 0xff);      /* in big endian format     */
     x[1] = (x[1] >> 8) | (x[0] << 24);
     x[0] = (x[0] >> 8) ^ (((mode(32t))gft_be64[t]) << 16);

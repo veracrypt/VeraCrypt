@@ -415,7 +415,7 @@ int ChangePwd (const wchar_t *lpszVolume, Password *oldPassword, int old_pkcs5, 
 		techniques such as magnetic force microscopy or magnetic force scanning tunnelling microscopy
 		to recover the overwritten header. According to Peter Gutmann, data should be overwritten 22
 		times (ideally, 35 times) using non-random patterns and pseudorandom data. However, as users might
-		impatiently interupt the process (etc.) we will not use the Gutmann's patterns but will write the
+		impatiently interrupt the process (etc.) we will not use the Gutmann's patterns but will write the
 		valid re-encrypted header, i.e. pseudorandom data, and there will be many more passes than Guttman
 		recommends. During each pass we will write a valid working header. Each pass will use the same master
 		key, and also the same header key, secondary key (XTS), etc., derived from the new password. The only

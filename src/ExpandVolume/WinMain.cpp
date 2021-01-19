@@ -447,7 +447,7 @@ BOOL CALLBACK ExtcvPasswordDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SetPim (hwndDlg, IDC_PIM, *pim);
 
-			/* make PIM field visible if a PIM value has been explicitely specified */
+			/* make PIM field visible if a PIM value has been explicitly specified */
 			if (*pim > 0)
 			{
 				ShowWindow (GetDlgItem (hwndDlg, IDC_PIM_ENABLE), SW_HIDE);

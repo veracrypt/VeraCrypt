@@ -483,7 +483,7 @@ error:
 			     which means the volume should use all space of the host device)
 
 		initFreeSpace : BOOL
-			[in] if true, the new volume space will be initalized with random data
+			[in] if true, the new volume space will be initialized with random data
 
 	Return value:
 
@@ -848,7 +848,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 	backupHeader = TRUE;
 	headerOffset.QuadPart = TC_VOLUME_HEADER_OFFSET + newHostSize - TC_VOLUME_HEADER_GROUP_SIZE;
 
-	/* note: updating the header is not neccessary for legay volumes */
+	/* note: updating the header is not necessary for legay volumes */
 	while ( !cryptoInfo->LegacyVolume )
 	{
 		if (backupHeader)

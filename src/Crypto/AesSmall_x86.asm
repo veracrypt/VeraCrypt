@@ -40,7 +40,7 @@
 ; This code provides the standard AES block size (128 bits, 16 bytes) and the
 ; three standard AES key sizes (128, 192 and 256 bits). It has the same call
 ; interface as my C implementation. The ebx, esi, edi and ebp registers are
-; preserved across calls but eax, ecx and edx and the artihmetic status flags
+; preserved across calls but eax, ecx and edx and the arithmetic status flags
 ; are not.  Although this is a full assembler implementation, it can be used
 ; in conjunction with my C code which provides faster key scheduling using
 ; large tables. In this case aeskey.c should be compiled with ASM_X86_V2C

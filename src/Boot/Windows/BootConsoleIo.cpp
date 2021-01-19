@@ -323,7 +323,7 @@ void ClearBiosKeystrokeBuffer ()
 		cld
 		rep stosb
 
-        // reset position pointers at 0x41A and 0x41C to the begining
+        // reset position pointers at 0x41A and 0x41C to the beginning
         // of keyboard buffer to avoid revealing password/PIM length
         mov ax, 0x001e
         mov es:[0x41a], ax

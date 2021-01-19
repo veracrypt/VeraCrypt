@@ -130,7 +130,7 @@ if ( UNIX )
 			set ( PLATFORM "CentOS" )
 		endif ( )
 		
-		# Get ditribution release version
+		# Get distribution release version
 		file(READ "/etc/os-release" OS_RELEASE)
 		string(REGEX MATCH "VERSION=\"([a-zA-Z0-9 /\\.]+)\"" _ ${OS_RELEASE})
 		set(PLATFORM_VERSION ${CMAKE_MATCH_1})

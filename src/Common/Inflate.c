@@ -457,7 +457,7 @@ ZCONST ush near mask_bits[] = {
    where NEEDBITS makes sure that b has at least j bits in it, and
    DUMPBITS removes the bits from b.  The macros use the variable k
    for the number of bits in b.  Normally, b and k are register
-   variables for speed and are initialized at the begining of a
+   variables for speed and are initialized at the beginning of a
    routine that uses these macros from a global bit buffer and count.
 
    In order to not ask for more bits than there are in the compressed

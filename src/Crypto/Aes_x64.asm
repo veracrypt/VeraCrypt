@@ -35,7 +35,7 @@
 ;
 
 ; An AES implementation for AMD64 processors using the YASM assembler.  This
-; implemetation provides only encryption, decryption and hence requires key
+; implementation provides only encryption, decryption and hence requires key
 ; scheduling support in C. It uses 8k bytes of tables but its encryption and
 ; decryption performance is very close to that obtained using large tables.
 ; It can use either Windows or Gnu/Linux calling conventions, which are as

@@ -1175,7 +1175,7 @@ namespace VeraCrypt
 		/* WARNING: Note that the partition number at the end of a device path (\Device\HarddiskY\PartitionX) must
 		NOT be used to find the first partition physically located behind the active one. The reason is that the
 		user may have deleted and created partitions during this session and e.g. the second partition could have
-		a higer number than the third one. */
+		a higher number than the third one. */
 
 
 		// Find the first partition physically located behind the active partition
@@ -4904,7 +4904,7 @@ namespace VeraCrypt
 		if (registerService)
 		{
 			// check if service already exists.
-			// If yes then start it immediatly after reinstalling it
+			// If yes then start it immediately after reinstalling it
 			bool bAlreadyExists = false;
 			SC_HANDLE service = OpenService (scm, TC_SYSTEM_FAVORITES_SERVICE_NAME, GENERIC_READ);
 			if (service)
@@ -4923,7 +4923,7 @@ namespace VeraCrypt
 			{
 				wchar_t appPath[TC_MAX_PATH];
 				throw_sys_if (!GetModuleFileName (NULL, appPath, ARRAYSIZE (appPath)));
-				/* explicitely specify VeraCrypt.exe as the file to copy and don't rely
+				/* explicitly specify VeraCrypt.exe as the file to copy and don't rely
 				 * on the fact we will be always called by VeraCrypt.exe because it's not
 				 * always true.
 				 */
@@ -4955,7 +4955,7 @@ namespace VeraCrypt
 			description.lpDescription = L"Mounts VeraCrypt system favorite volumes.";
 			ChangeServiceConfig2 (service, SERVICE_CONFIG_DESCRIPTION, &description);
 
-			// start the service immediatly if it already existed before
+			// start the service immediately if it already existed before
 			if (bAlreadyExists)
 				StartService (service, 0, NULL);
 
@@ -5453,7 +5453,7 @@ namespace VeraCrypt
 		techniques such as magnetic force microscopy or magnetic force scanning tunnelling microscopy
 		to recover the overwritten header. According to Peter Gutmann, data should be overwritten 22
 		times (ideally, 35 times) using non-random patterns and pseudorandom data. However, as users might
-		impatiently interupt the process (etc.) we will not use the Gutmann's patterns but will write the
+		impatiently interrupt the process (etc.) we will not use the Gutmann's patterns but will write the
 		valid re-encrypted header, i.e. pseudorandom data, and there will be many more passes than Guttman
 		recommends. During each pass we will write a valid working header. Each pass will use the same master
 		key, and also the same header key, secondary key (XTS), etc., derived from the new password. The only

@@ -901,7 +901,7 @@ That is:
 
 We then multiply the generator polynomial by m[7] * x^7 and subtract
 it - xor in GF(2^8) - from the above to eliminate the x^7 term (the
-artihmetic on the coefficients is done in GF(2^8). We then multiply
+arithmetic on the coefficients is done in GF(2^8). We then multiply
 the generator polynomial by x^6 * coeff(x^10) and use this to remove
 the x^10 term. We carry on in this way until the x^4 term is removed
 so that we are left with:

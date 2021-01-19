@@ -86,7 +86,7 @@ endstruc
 %define W_t(i)    rsp + frame.W  + 8*(i) ; Message Schedule (stack frame)
 %define WK_2(i)   rsp + frame.WK + 8*((i) % 2) ; W[t]+K[t] (stack frame)
 ; MSG, DIGEST, K_t, W_t are arrays
-; WK_2(t) points to 1 of 2 qwords at frame.WK depdending on t being odd/even
+; WK_2(t) points to 1 of 2 qwords at frame.WK depending on t being odd/even
 
 %macro RotateState 0
 	; Rotate symbles a..h right

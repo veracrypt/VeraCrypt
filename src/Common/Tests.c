@@ -1544,7 +1544,7 @@ BOOL AutoTestAlgorithms (void)
 
 	if (exceptionCatched)
 	{
-		/* unexepected exception raised. Disable all CPU extended feature and try again */
+		/* unexpected exception raised. Disable all CPU extended feature and try again */
 		EnableHwEncryption (hwEncryptionEnabled);
 		DisableCPUExtendedFeatures ();
 		__try
