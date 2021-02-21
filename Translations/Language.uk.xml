@@ -180,7 +180,7 @@
     <entry lang="uk" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Показати пароль</entry>
     <entry lang="uk" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Відкрити змонтований том в вікні Провідника</entry>
     <entry lang="uk" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Кешувати пароль в памяті драйвера</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="uk" key="IDC_UNMOUNTALL">&amp;Розмонтувати всі</entry>
     <entry lang="uk" key="IDC_VOLUME_PROPERTIES">Власт&amp;ивості тома...</entry>
     <entry lang="uk" key="IDC_VOLUME_TOOLS">О&amp;перації...</entry>

@@ -180,7 +180,7 @@
     <entry lang="tr" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Parolayı göster</entry>
     <entry lang="tr" key="IDC_TRAVEL_OPEN_EXPLORER">Bağlanan &amp;birim için Gezgin penceresini aç</entry>
     <entry lang="tr" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Parolayı aygıt belleğinde önbelleğe al</entry>
-    <entry lang="en" key="IDC_TRUECRYPT_MODE">TrueCrypt Mode</entry>
+    <entry lang="en" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt Mode</entry>
     <entry lang="tr" key="IDC_UNMOUNTALL">H&amp;epsinin Bağlantısını Kes</entry>
     <entry lang="tr" key="IDC_VOLUME_PROPERTIES">Birim Ö&amp;zellikleri...</entry>
     <entry lang="tr" key="IDC_VOLUME_TOOLS">Biri&amp;m Araçları...</entry>
