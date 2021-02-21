@@ -404,7 +404,7 @@
     <entry lang="ko" key="CANNOT_CALC_SPACE">기기에 접근 할 수 없습니다. 선택한 장치가 존재하고 시스템에 의해 사용되지 않았는지 확인 해 보세요.</entry>
     <entry lang="ko" key="CAPSLOCK_ON">경고: Caps Lock이 켜져 있습니다. 이로 인해 암호를 잘못 입력 할 수 있습니다.</entry>
     <entry lang="ko" key="VOLUME_TYPE_TITLE">볼륨 유형</entry>
-    <entry lang="ko" key="HIDDEN_VOLUME_TYPE_HELP">누군가가 암호화 된 볼륨에 대한 암호를 공개하도록 강요당하는 경우가 있습니다. 암호를 밝히기를 거부 할 수없는 많은 경우가 있습니다(예를 들어, 강요로 인한 경우). 소위 숨겨진 볼륨을 사용하면 볼륨에 비밀번호를 공개하지 않고 이러한 상황을 해결할 수 있습니다.</entry>
+    <entry lang="ko" key="HIDDEN_VOLUME_TYPE_HELP">누군가가 암호화 된 볼륨에 대한 암호를 공개하도록 강요당하는 경우가 있습니다. 암호를 밝히기를 거부 할 수 없는 많은 경우가 있습니다(예를 들어, 강요로 인한 경우). 소위 숨겨진 볼륨을 사용하면 볼륨에 비밀번호를 공개하지 않고 이러한 상황을 해결할 수 있습니다.</entry>
     <entry lang="ko" key="NORMAL_VOLUME_TYPE_HELP">정상적인 VeraCrypt 볼륨을 만들려면 이 설정을 선택하세요.</entry>
     <entry lang="ko" key="HIDDEN_OS_PRECLUDES_SINGLE_KEY_WDE">숨겨진 파티션에 운영 체제를 설치하려면 단일 키를 사용하여 전체 시스템 드라이브를 암호화 할 수 없습니다.</entry>
     <entry lang="ko" key="CIPHER_HIDVOL_HOST_TITLE">외부 볼륨 암호 설정</entry>
@@ -1309,13 +1309,13 @@
     <entry lang="ko" key="UNSUPPORTED_TRUECRYPT_FORMAT">이 볼륨은 TrueCrypt %x를 사용하여 생성되었습니다. 하지만 VeraCrypt는 TrueCrypt 6.x/7.x 시리즈로 생성된 TrueCrypt 볼륨만 지원합니다.</entry>
     <entry lang="ko" key="TEST">테스트</entry>
     <entry lang="ko" key="KEYFILE">키파일</entry>
-    <entry lang="ko" key="VKEY_08">Backspace</entry>
-    <entry lang="ko" key="VKEY_09">Tab</entry>
+    <entry lang="ko" key="VKEY_08">백스페이스</entry>
+    <entry lang="ko" key="VKEY_09">탭</entry>
     <entry lang="ko" key="VKEY_0C">Clear</entry>
     <entry lang="ko" key="VKEY_0D">Enter</entry>
     <entry lang="ko" key="VKEY_13">Pause</entry>
     <entry lang="ko" key="VKEY_14">Caps Lock</entry>
-    <entry lang="ko" key="VKEY_20">Space bar</entry>
+    <entry lang="ko" key="VKEY_20">스페이스바</entry>
     <entry lang="ko" key="VKEY_21">Page Up</entry>
     <entry lang="ko" key="VKEY_22">Page Down</entry>
     <entry lang="ko" key="VKEY_23">End</entry>
@@ -1438,134 +1438,134 @@
     <entry lang="ko" key="IDT_BENCHMARK">벤치마크:</entry>
     <entry lang="en" key="IDC_DISABLE_MOUNT_MANAGER">선택한 드라이브 문자에 마운트하지 않고 가상 장치 만 생성</entry>
     <entry lang="ko" key="LEGACY_PASSWORD_UTF8_TOO_LONG">입력한 암호가 너무 깁니다. UTF-8 표시가 64바이트를 초과합니다.</entry>
-    <entry lang="en" key="HIDDEN_CREDS_SAME_AS_OUTER">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt does not support encrypting a system drive that is already encrypted by BitLocker.</entry>
-    <entry lang="en" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">Automatically fix boot configuration issues that may prevent Windows from starting</entry>
-    <entry lang="en" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">Force machine to boot on VeraCrypt in the next startup</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">Force the presence of VeraCrypt entry in the EFI firmware boot menu</entry>
-    <entry lang="en" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">Force VeraCrypt entry to be the first in the EFI firmware boot menu</entry>
-    <entry lang="en" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">WARNING: RAM encryption is not compatible with Windows Hibernate and Windows Fast Startup features. VeraCrypt needs to disable them before activating RAM encryption.\n\nContinue?</entry>
-    <entry lang="en" key="CONFIRM_DISABLE_FAST_STARTUP">WARNING: Windows Fast Startup is enabled and it is known to cause issues when working with VeraCrypt volumes. It is advised to disable it for better security and usability.\n\nDo you want to disable Windows Fast Startup?</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">In order to enable your operating system to mount your new volume, it has to be formatted with a filesystem. Please select a filesystem type.\n\nIf your volume is going to be hosted on a device or partition, you can use 'Quick format' to skip encryption of free space of the volume.</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">Do not accelerate AES encryption/decryption by using the AES instructions of the processor</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">Add All Mounted Volumes to Favorites...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">Task Icon Menu Items</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">Open Mounted Volumes</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">Dismount Mounted Volumes</entry>
-    <entry lang="en" key="DISK_FREE">Free space available: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">Please specify the size of the container to create. Note that the minimum possible size of a volume is 292 KiB.</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">WARNING: You have selected a filesystem other than FAT for the outer volume.\nPlease Note that in this case VeraCrypt can't calculate the exact maximum allowed size for the hidden volume and it will use only an estimation that can be wrong.\nThus, it is your responsibility to use an adequate value for the size of the hidden volume so that it does not overlap the outer volume.\n\nDo you want to continue using the selected filesystem for the outer volume?</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">Security</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">Mount Options</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">Background Task</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">System Integration</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">Filesystem Explorer</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">Performance</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">Keyfiles</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">Security Tokens</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">Kernel Services</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">Do not use kernel cryptographic services</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">Filesystem</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">Mount options:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">Cross-Platform Support</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">I will mount the volume on other platforms</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt is already running.</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">System Encryption password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">Mount partition &amp;using system encryption (preboot authentication)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">Do &amp;not mount</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">Mount at directory:</entry>
-    <entry lang="en" key="LINUX_SELECT">Se&amp;lect...</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">Dismount All Volumes When</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">System is entering power saving mode</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">Actions to Perform when User Logs On</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">Close all Explorer windows of volume being dismounted</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">Hotkeys</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">System-Wide Hotkeys</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">Play system notification sound after mount/dismount</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">Display confirmation message box after dismount</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt quits</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">Please note that this setting takes effect only if use of the kernel cryptographic services is disabled.</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">Disabling the use of kernel cryptographic services can degrade performance.\n\nAre you sure?</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">Please note that disabling this option may have no effect on volumes mounted using kernel cryptographic services.</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">Please note that any currently mounted volumes need to be remounted before they can use this setting.</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">Unknown exception occurred.</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">Mount All Devices</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">Error while loading configuration files located in </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">Please select a free drive slot from the list.</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\nDo you want to show this message next time you mount such a volume?</entry>
-    <entry lang="en" key="LINUX_WARNING">Warning</entry>
-    <entry lang="en" key="LINUX_ERROR">Error</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">Exception occurred</entry>
-    <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
-    <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory"</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
-    <entry lang="en" key="SELECT_KEYFILES">Select Keyfiles</entry>
-    <entry lang="en" key="START_TC">Start VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">The volume {0} is already mounted.</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
-    <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
+    <entry lang="ko" key="HIDDEN_CREDS_SAME_AS_OUTER">숨겨진 볼륨은 외부 볼륨과 동일한 비밀번호 혹은 PIM 그리고 키 파일을 사용할 수 없습니다.</entry>
+    <entry lang="ko" key="SYSENC_BITLOCKER_CONFLICT">VeraCrypt는 이미 BitLocker로 암호화된 시스템 드라이버를 암호화하는 것을 지원하지 않습니다.</entry>
+    <entry lang="ko" key="IDC_UPDATE_BOOTLOADER_ON_SHUTDOWN">자동으로 Windows가 시작할 수 없게 만들 수 있는 부트 설정 문제 고치기</entry>
+    <entry lang="ko" key="IDC_FORCE_NEXT_BOOT_VERACRYPT">장치가 다음 시작부터 VeraCrypt로 부팅하도록 강제</entry>
+    <entry lang="ko" key="IDC_FORCE_VERACRYPT_BOOT_ENTRY">EFI 펌웨어 부트 메뉴에서 VeraCrypt 항목이 보이도록 강제</entry>
+    <entry lang="ko" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">VeraCrypt가 EFI 펌웨어 부트 메뉴에서 첫 번째 항목이 되도록 강제</entry>
+    <entry lang="ko" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">주의: RAM 암호화는 Windows 절전 혹은 빠른 시작 기능과 호환되지 않습니다. VeraCrypt에서 RAM 암호화를 활성화하기 전에 해당 기능들을 비활성화해야 합니다.\n\n계속하시겠습니까?</entry>
+    <entry lang="ko" key="CONFIRM_DISABLE_FAST_STARTUP">주의: Windows 빠른 시작 기능이 활성화되어 있으며 이는 VeraCrypt 볼륨과 문제를 일으키는 것으로 알려져 있습니다. 더 나은 보안과 사용성을 위해 비활성화하는 것은 권장합니다.\n\nWindows 빠른 시작 기능을 비활성화하시겠습니까?</entry>
+    <entry lang="ko" key="QUICK_FORMAT_HELP">운영체제가 새로운 볼륨을 마운트하기 위해서는 하나의 파일 시스템으로 포맷되어 있어야 합니다. 파일 시스템 형태를 선택하십시오.\n\n만약 볼륨이 기기나 파티션에서 호스트될 예정이라면 '빠른 포맷'을 사용하여 남은 공간의 암호화를 건너뛸 수 있습니다.</entry>
+    <entry lang="ko" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">프로세서의 AES 명령어 셋을 통해 AES 암호화/해독 가속하지 않기</entry>
+    <entry lang="ko" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">현재 마운트된 모든 볼륨을 즐겨찾기에 추가...</entry>
+    <entry lang="ko" key="TASKICON_PREF_MENU_ITEMS">작업 아이콘 메뉴 항목</entry>
+    <entry lang="ko" key="TASKICON_PREF_OPEN_VOL">마운트된 볼륨들 열기</entry>
+    <entry lang="ko" key="TASKICON_PREF_DISMOUNT_VOL">마운트된 볼륨들 마운트 해제</entry>
+    <entry lang="ko" key="DISK_FREE">남은 공간: {0}</entry>
+    <entry lang="ko" key="VOLUME_SIZE_HELP">생성할 컨테이너의 크기를 명시해주세요. 볼륨의 최소 크기는 292 KiB입니다.</entry>
+    <entry lang="ko" key="LINUX_CONFIRM_INNER_VOLUME_CALC">주의: FAT 포맷이 아닌 볼륨을 선택했습니다.\n이 경우에는 VeraCrypt가 숨겨진 볼륨에 대한 사용 가능한 최대 크기를 계산할 수 없으며 잘못될 수 있는 추정값만 사용하게 됩니다.\n그러므로 외부 볼륨을 덮어씌우지 않도록 숨겨진 볼륨 크기에 대한 적절한 값을 설정하는 것은 사용자 책임입니다.\n\n해당 파일 시스템을 외부 볼륨으로 사용하시겠습니까?</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_SECURITY">보안</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_MOUNT_OPTIONS">마운트 옵션</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_BACKGROUND_TASK">백그라운드 작업</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">시스템 통합</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">파일 탐색기</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_PERFORMANCE">성능</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_KEYFILES">키 파일</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_TOKENS">보안 토큰</entry>
+    <entry lang="ko" key="LINUX_PREF_KERNEL_SERVICES">커널 보안</entry>
+    <entry lang="ko" key="LINUX_PREF_KERNEL_CRYPT">커널 암호화 서비스 사용하지 않기</entry>
+    <entry lang="ko" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">파일 시스템</entry>
+    <entry lang="ko" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">마운트 옵션:</entry>
+    <entry lang="ko" key="LINUX_CROSS_SUPPORT">다중 플랫폼 지원</entry>
+    <entry lang="ko" key="LINUX_CROSS_SUPPORT_OTHER">다른 플랫폼에서도 볼륨을 마운트할 것입니다</entry>
+    <entry lang="ko" key="LINUX_CROSS_SUPPORT_OTHER_HELP">다른 플랫폼에서 볼륨을 사용해야 한다면 이 옵션을 선택하시기 바랍니다.</entry>
+    <entry lang="ko" key="LINUX_CROSS_SUPPORT_ONLY">{0}에서만 볼륨을 마운트할 것입니다</entry>
+    <entry lang="ko" key="LINUX_CROSS_SUPPORT_ONLY_HELP">다른 플랫폼에서 볼륨을 사용할 필요가 없는 경우에 이 옵션을 선택하시기 바랍니다.</entry>
+    <entry lang="ko" key="LINUX_CROSS_SUPPORT_ONLY_HELP">다른 플랫폼에서 볼륨을 사용할 필요가 없는 경우에 이 옵션을 선택하시기 바랍니다.</entry>
+    <entry lang="ko" key="LINUX_DESELECT">선택해제</entry>
+    <entry lang="ko" key="LINUX_ADMIN_PW_QUERY">유저 혹은 관리자 비밀번호를 입력하세요:</entry>
+    <entry lang="ko" key="LINUX_ADMIN_PW_QUERY_TITLE">관리자 권한 요구됨</entry>
+    <entry lang="ko" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt가 이미 실행 중입니다.</entry>
+    <entry lang="ko" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">시스템 암호화 암호는 {0}자보다 길어야 합니다.</entry>
+    <entry lang="ko" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">시스템 암호화를 사용하여 파티션 마운트 (부팅 전 인증)</entry>
+    <entry lang="ko" key="LINUX_DO_NOT_MOUNT">마운트 하지 않기</entry>
+    <entry lang="ko" key="LINUX_MOUNT_AT_DIR">특정 디렉터리에 마운트:</entry>
+    <entry lang="ko" key="LINUX_SELECT">선택...</entry>
+    <entry lang="ko" key="LINUX_DISMOUNT_ALL_WHEN">이 때에 모든 볼륨 마운트 해제:</entry>
+    <entry lang="ko" key="LINUX_ENTERING_POWERSAVING">시스템이 절전 모드에 진입하고 있습니다.</entry>
+    <entry lang="ko" key="LINUX_LOGIN_ACTION">사용자가 로그온 했을 때 할 행동:</entry>
+    <entry lang="ko" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">마운트 해제되는 모든 파일 탐색기 창 종료</entry>
+    <entry lang="ko" key="LINUX_HOTKEYS">단축키</entry>
+    <entry lang="ko" key="LINUX_SYSTEM_HOTKEYS">시스템 전역 단축키</entry>
+    <entry lang="ko" key="LINUX_SOUND_NOTIFICATION">마운트/마운트 해제 후에 시스템 알림 소리 재생</entry>
+    <entry lang="ko" key="LINUX_CONFIRM_AFTER_DISMOUNT">마운트 해제 후에 확인 메세지 창 표시</entry>
+    <entry lang="ko" key="LINUX_VC_QUITS">VeraCrypt 종료</entry>
+    <entry lang="ko" key="LINUX_OPEN_FINDER">성공적으로 마운트된 볼륨에 파일 탐색기 창 열기</entry>
+    <entry lang="ko" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">이 설정은 커널 암호화 서비스가 비활성화되었을 때만 사용될 것입니다.</entry>
+    <entry lang="ko" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">커널 암호화 서비스를 비활성화하는 것은 성능을 저하시킬 수 있습니다.\n\n계속하시겠습니까?</entry>
+    <entry lang="ko" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">이 설정을 비활성화해도 커널 암호화 서비스를 통해 마운트된 볼륨에는 효과가 없을 수 있습니다.</entry>
+    <entry lang="ko" key="LINUX_REMOUNT_BECAUSEOF_SETTING">현재 설정을 적용하려면 현재 마운트된 볼륨들을 다시 마운트해야 합니다.</entry>
+    <entry lang="ko" key="LINUX_UNKNOWN_EXC_OCCURRED">알 수 없는 오류가 발생했습니다.</entry>
+    <entry lang="ko" key="LINUX_FIRST_AID">"'확인'을 누르면 디스크 유틸리티가 실행될 것입니다\n\n디스크 유틸리티 창에서 당신의 볼륨을 선택하고 'First Aid' 페이지에서 '디스크 확인' 혹은 '디스크 수리' 버튼을 누르십시오.</entry>
+    <entry lang="ko" key="LINUX_MOUNT_ALL_DEV">모든 장치 마운트</entry>
+    <entry lang="ko" key="LINUX_ERROR_LOADING_CONFIG">특정 위치의 설정 파일 불러오기 실패: </entry>
+    <entry lang="ko" key="LINUX_SELECT_FREE_SLOT">리스트에서 빈 드라이브 자리를 선택하세요.</entry>
+    <entry lang="ko" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\n이러한 볼륨을 나중에 다시 마운트할 때도 이 메세지를 표시하시겠습니까?</entry>
+    <entry lang="ko" key="LINUX_WARNING">경고</entry>
+    <entry lang="ko" key="LINUX_ERROR">오류</entry>
+    <entry lang="ko" key="LINUX_ONLY_TEXTMODE">이 기능은 현재 텍스트 모드에서만 지원됩니다.</entry>
+    <entry lang="ko" key="LINUX_FREE_SPACE_ON_DRIVE">{0} 드라이브에 남은 공간: {1}</entry>
+    <entry lang="ko" key="LINUX_DYNAMIC_NOTICE">만약 당신의 운영체제가 파일을 빈 공간에서부터 할당하지 않는다면 숨겨진 볼륨의 최대 크기는 외부 볼륨의 남은 공간보다 훨씬 적을 수 있습니다. 이는 VeraCrypt의 버그가 아닌 운영체제의 한계입니다.</entry>
+    <entry lang="ko" key="LINUX_MAX_HIDDEN_SIZE">숨겨진 볼륨에 사용가능한 최대 크기는 {0}입니다.</entry>
+    <entry lang="ko" key="LINUX_OPEN_OUTER_VOL">외부 볼륨 열기</entry>
+    <entry lang="ko" key="LINUX_OUTER_VOL_IS_MOUNTED">외부 볼륨이 성공적으로 생성되었으며 '{0}'에 마운트되었습니다. 이 볼륨에서 당신이 실제로 숨기는 것을 원치 않는 민감해보이는 파일들을 지금 복사해야 합니다. 이 파일들은 당신의 비밀번호를 공개를 강요하는 누군가를 위해 계속 그 자리에 남아있을 것입니다. 이 때 당신은 숨겨진 볼륨이 아닌 이 외부 볼륨만을 위한 비밀번호만 공개합니다. 당신이 정말로 중요하게 생각하는 파일들은 이후에 생성될 숨겨진 볼륨에 보관될 것입니다. 복사를 끝내셨다면 다음을 눌러주세요. 이 볼륨을 마운트해제 하지 마십시오.\n\n참고: 다음 버튼을 클릭하면 외부 볼륨이 볼륨의 끝 부분과 맞닿아 있는 중단되지 않는 빈 공간의 크기 계산을 위해 분석될 것입니다. 이 영역은 최대 크기를 제한할 수 있도록 숨겨진 볼륨을 위해 사용될 것입니다. 이 절차는 외부 볼륨의 데이터가 숨겨진 볼륨으로부터 덮어씌워지지 않는 것을 보장합니다.</entry>
+    <entry lang="ko" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">오류: 시스템 드라이브를 암호화하려고 시도하고 있습니다.\n\nVeraCrypt는 Windows에서만 시스템 드라이브를 암호화할 수 있습니다.</entry>
+    <entry lang="ko" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">오류: 지금 시스템 파티션을 암호화하려고 시도하고 있습니다.\n\nVeraCrypt는 Windows에서만 시스템 파티션을 암호화할 수 있습니다.</entry>
+    <entry lang="ko" key="LINUX_WARNING_FORMAT_DESTROY_FS">경고: 장치를 포맷하면 '{0}'에 있는 모든 데이터가 지워집니다.\n\n계속하시겠습니까?</entry>
+    <entry lang="ko" key="LINUX_MOUNTET_HINT">선택된 장치의 파일 시스템이 현재 마운트되어 있습니다. 계속하기 전에 '{0}'을 마운트 해제하십시오.</entry>
+    <entry lang="ko" key="LINUX_HIDDEN_PASS_NO_DIFF">숨겨진 볼륨은 외부 볼륨과 같은 비밀번호 혹은 PIM, 키 파일 가질 수 없습니다.The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
+    <entry lang="ko" key="LINUX_NOT_FAT_HINT">모든 볼륨이 FAT 파일시스템으로 포맷되지 않고 마운트하려는 볼륨에 대해 {0}가 아닌 다른 플랫폼에서 추가로 파일 시스템 드라이브를 설치해야 할 수도 있습니다.</entry>
+    <entry lang="ko" key="LINUX_ERROR_SIZE_HIDDEN_VOL">오류: 숨겨진 볼륨은 {0} TB ({1} GB)보다 크게 만들 수 없습니다.\n\n사용가능한 해결책:\n- 컨테이너 혹은 파티션을 {0} TB보다 작게 생성하세요.\n</entry>
+    <entry lang="ko" key="LINUX_MAX_SIZE_HINT">- 4096 바이트 섹터를 사용하는 드라이브는 장치에 호스트되는 숨겨진 볼륨 혹은 파티션의 크기를 최대 16 TB까지 생성할 수 있습니다.</entry>
+    <entry lang="ko" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="ko" key="LINUX_NOT_SUPPORTED"> (이 플랫폼의 구성요소로는 지원되지 않습니다).\n</entry>
+    <entry lang="ko" key="LINUX_KERNEL_OLD">시스템이 오래된 Linux 커널을 사용하고 있습니다.\n\nLinux 커널의 버그로 인해, VeraCrypt 볼륨으로 데이터 작성 중에 시스템이 응답을 중단할 수도 있습니다. 이 문제는 커널을 2.6.24 혹은 더 높은 버전으로 업그레이드하면 해결됩니다.</entry>
+    <entry lang="ko" key="LINUX_VOL_DISMOUNTED">{0} 볼륨이 마운트 해제되었습니다.</entry>
+    <entry lang="ko" key="LINUX_OOM">메모리 부족.</entry>
+    <entry lang="ko" key="LINUX_CANT_GET_ADMIN_PRIV">관리자 권한을 취득하는데에 실패했습니다.</entry>
+    <entry lang="ko" key="LINUX_COMMAND_GET_ERROR">{0} 명령어가 {1} 오류를 반환하였습니다.</entry>
+    <entry lang="ko" key="LINUX_CMD_HELP">VeraCrypt 커맨드 라인 도움말</entry>
+    <entry lang="ko" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n경고: 숨겨진 파일들(dot file)이 키 파일의 경로에 존재합니다. 만약 그것들을 키 파일로 써야 한다면 파일명에서 시작하는 온점(.)을 제거하십시오. 숨겨진 파일은 시스템 옵션에서 활성화된 경우에만 보입니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">저장 장치와 VC 볼륨 섹터의 크기 불일치</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">이 작업은 반드시 볼륨에서 호스트되는 시스템이 실행 중일 때만 실행되어야 합니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_INSUFFICIENTDATA">충분한 데이터를 사용할 수 없습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">커널 암호화 서비스 테스트가 실패했습니다. 커널의 암호화 서비스는 대부분 2TB보다 큰 볼륨을 지원하지 않습니다.\n\n가능한 해결책:\n- 커널 버전을 2.6.33 혹은 더 높은 버전으로 업그레이드하십시오.\n- 커널 암호화 서비스를 비활성화하거나 (설정 > 시스템 설정 > 시스템 통합) 커맨드라인에서 nokernelcrypto 옵션을 사용하세요.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">루프 장치 설정에 실패했습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_MISSINGARGUMENT">필요한 인자가 없습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">볼륨 데이터가 없습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">마운트 위치가 필요합니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">마운트 위치가 이미 사용 중입니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_PASSWORDEMPTY">비밀번호 혹은 키 파일이 선택되지 않았습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\n부팅 전 인증 비밀번호는 US 외 레이아웃이 지원되지 않는 부팅 전 환경에서 입력되어야 합니다. 그러므로 부팅 전 인증 비밀번호는 반드시 표준 US 키보드 레이아.에서 입력이 가능해야 합니다. (그렇지 않으면 대부분의 경우에 비밀번호가 정확하게 입력되지 않을 것입니다). 그러나 실제로 US 레이아웃 키보드가 필요한 것은 아닙니다; 운영체제에서 키보드 레이아웃을 변경하기만 하면 됩니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n참고: 만약 부팅 전 인증 과정없이 암호화된 시스템 드라이브의 파티션을 마운트하려고 하거나 운영체제가 실행 중이지 않은 암호화된 시스템 파티션을 마운트하려는 경우에는 '옵션 >' > '시스템 암호화를 사용하여 파티션 마운트'를 통해 가능합니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_PASSWORDTOOLONG">비밀번호는 {0}자보다 길어야 합니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">파티션 장치가 필요합니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">숨겨진 볼륨이 없거나 숨겨진 볼륨의 잘못된 비밀번호를 입력하였습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">숨겨진 볼륨이 없거나 숨겨진 볼륨의 잘못된 비밀번호를 입력 혹은 잘못된 키 파일을 사용하셨습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">잘못된 문자를 발견했습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">포맷팅된 문자열을 분석하는 중에 오류가 발생했습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">임시 디렉터리에서 파일이나 폴더를 생성하는 중에 오류가 발생했습니다.\n\n임시 디렉터리가 존재하는지 확인하고 보안 정책이 액세스를 허용하는지 혹은 디스크 공간이 충분한지 확인하십시오.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">오류: 드라이브 섹터가 512 바이트가 아닌 크기를 사용합니다.\n\n사용가능한 플랫폼 구성요소의 제한으로 인해 숨겨진 볼륨 보호를 사용하면서 드라이브에 호스트된 외부 볼륨을 마운트할 수 없습니다.\n\n가능한 해결책:\n- 512 바이트 섹터를 사용하는 드라이브를 사용하세요.\n- 드라이브에 파일 호스트 볼륨 (컨테이너)를 생성하세요.\n- 숨겨진 볼륨의 내용을 백업한 후에 외부 볼륨을 업데이트하세요.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">오류: 드라이브 섹터가 512 바이트가 아닌 크기를 사용합니다.\n\n사용가능한 플랫폼 구성요소의 제한으로 인해 드라이브의 파티션 혹은 장치에 호스트된 볼륨은 커널 암호화 서비스를 사용해야만 마운트가 가능합니다.\n\n가능한 해결책:\n- 커널 암호화 서비스를 활성화하세요. (설정 > 시스템 통합).\n- 512 바이트를 섹터 크기로 사용하는 드라이브를 사용하세요.\n- 드라이브에 파일 호스트 볼륨 (컨테이너)을 생성하세요.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">오류: 드라이브 섹터가 512 바이트가 아닌 크기를 사용합니다.\n\n사용가능한 플랫폼 구성요소의 제한으로 인해 드라이브 혹은 장치에 호스트된 볼륨을 이 장치에서 생성하거나 사용할 수 없습니다.\n\n가능한 해결책:\n- 파일 호스트 볼륨(컨테이너)를 생성합니다.\n- 512 바이트를 섹터 크기로 사용하는 드라이브를 사용하세요.\n- 다른 플랫폼에서 VeraCrypt를 사용하세요.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">호스트 파일이나 장치가 이미 사용 중입니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">볼륨 슬롯이 사용가능하지 않습니다.</entry>
+    <entry lang="ko" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt는 OSXFUSE 2.5 혹은 더 높은 버전을 필요로 합니다.</entry>
+    <entry lang="ko" key="EXCEPTION_OCCURRED">예외 발생</entry>
+    <entry lang="ko" key="ENTER_PASSWORD">비밀번호 입력</entry>
+    <entry lang="ko" key="ENTER_TC_VOL_PASSWORD">VeraCrypt 볼륨 비밀번호 입력</entry>
+    <entry lang="ko" key="MOUNT">마운트</entry>
+    <entry lang="ko" key="MOUNT_POINT">디렉터리 마운트"</entry>
+    <entry lang="ko" key="NO_VOLUMES_MOUNTED">볼륨이 마운트되어 있지 않습니다.</entry>
+    <entry lang="ko" key="OPEN_NEW_VOLUME">새로운 VeraCrypt 볼륨 지정</entry>
+    <entry lang="ko" key="PARAMETER_INCORRECT">파라메터 잘못됨</entry>
+    <entry lang="ko" key="SELECT_KEYFILES">키 파일 선택</entry>
+    <entry lang="ko" key="START_TC">VeraCrypt 시작</entry>
+    <entry lang="ko" key="VOLUME_ALREADY_MOUNTED">{0} 볼륨은 이미 마운트되어 있습니다.</entry>
+    <entry lang="ko" key="UNKNOWN_OPTION">알 수 없는 옵션</entry>
+    <entry lang="ko" key="VOLUME_LOCATION">볼륨 위치</entry>
+    <entry lang="ko" key="VOLUME_HOST_IN_USE">경고: 호스트 파일 및 장치 {0}이 이미 사용 중입니다!\n\n이 것을 무시하면 시스템 불안정을 포함한 원치 않은 결과를 불러일으킬 수 있습니다. 호스트 파일 혹은 장치를 사용하는 모든 애플리케이션은 볼륨을 마운트하기 전에 종료되어야 합니다.\n\n계속 마운트하시겠습니까?</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
