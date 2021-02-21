@@ -51,7 +51,6 @@ namespace VeraCrypt
 		{
 			wxString text = node.InnerText;
 			text.Replace (L"\\n", L"\n");
-			text.Replace (L"%s", L"{0}");
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
 #endif
@@ -59,7 +58,6 @@ namespace VeraCrypt
 		{
 			wxString text = node.InnerText;
 			text.Replace (L"\\n", L"\n");
-			text.Replace (L"%s", L"{0}");
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
 	}
