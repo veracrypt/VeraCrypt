@@ -11192,13 +11192,31 @@ void Applink (const char *dest)
 
 	if (IsAdmin ())
 	{
-		if (buildUrl && !FileExists (url))
+		int openDone = 0;
+		if (buildUrl)
 		{
-			// fallbacl to online resources
-			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
-			SafeOpenURL (url);
+			wchar_t pageFileName [TC_MAX_PATH] = {0};
+			DWORD cchUnescaped = ARRAYSIZE(pageFileName);
+
+			StringCbCopyW (pageFileName, sizeof(pageFileName), page);
+			/* remove escape sequences from the page name before calling FileExists function */
+			if (S_OK == UrlUnescapeW (pageFileName, pageFileName, &cchUnescaped, URL_UNESCAPE_INPLACE))
+			{
+				std::wstring pageFullPath = installDir;
+				pageFullPath += L"docs\\html\\en\\";
+				pageFullPath += pageFileName;
+			
+				if (!FileExists (pageFullPath.c_str()))
+				{
+					// fallback to online resources
+					StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
+					SafeOpenURL (url);
+					openDone = 1;
+				}
+			}
 		}
-		else
+
+		if (!openDone)
 		{
 			SafeOpenURL (url);
 		}
@@ -11209,7 +11227,7 @@ void Applink (const char *dest)
 
 		if (((r == ERROR_FILE_NOT_FOUND) || (r == ERROR_PATH_NOT_FOUND)) && buildUrl)
 		{
-			// fallbacl to online resources
+			// fallback to online resources
 			StringCbPrintfW (url, sizeof (url), L"https://www.veracrypt.fr/en/%s", page);
 			ShellExecuteW (NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL);
 		}			
