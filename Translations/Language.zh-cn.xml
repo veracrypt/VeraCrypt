@@ -600,7 +600,7 @@
     <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_CONFIRM">警告：您在加密卷完全解密前不能加载此加密卷或者访问存储于该卷上的任何文件。\n\n您确认要开始解密选择的 %s '%s'%s 吗？</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">警告：请注意如果在就地加密现有数据时突然断电，或者在 VeraCrypt 就地加密现有数据时由于软硬件故障而导致电脑死机，可能会损坏或丢失一些数据。因此，在您开始加密前，请确认您已经备份了要加密的数据。\n\n您确认已经有这样的备份了吗？</entry>
     <entry lang="zh-cn" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">警告：任何存在于分区 '%s'%s（即位于系统分区后面的第一个分区）的文件将会因被擦除而丢失。（这些文件并不会被加密）！\n\n您确认要继续格式化吗？</entry>
-    <entry lang="zh-cn" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：选定的分区包含大量的数据！！！任何存储于此分区上的文件将会被擦除（他们并不会被加密）！</entry>
+    <entry lang="zh-cn" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">警告：选定的分区包含大量的数据！！！任何存储于此分区上的文件将会被擦除（它们并不会被加密）！</entry>
     <entry lang="zh-cn" key="ERASE_FILES_BY_CREATING_VOLUME">通过在分区内创建 VeraCrypt 加密卷擦除该分区上的任何文件</entry>
     <entry lang="zh-cn" key="PASSWORD">密码</entry>
     <entry lang="zh-cn" key="PIM">PIM</entry>
@@ -615,7 +615,7 @@
     <entry lang="zh-cn" key="KEYFILE_CHANGED">密钥文件已成功添加/移除。</entry>
     <entry lang="zh-cn" key="KEYFILE_EXPORTED">密钥文件已导出。</entry>
     <entry lang="zh-cn" key="PKCS5_PRF_CHANGED">首密钥衍生算法已成功设置。</entry>
-    <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">请为您想要继续就地加密的非系统分区输入密码 和/或 密钥文件。\n\n\n注解：在您点击〖下一步〗之后，VeraCrypt 将尝试查找所有加密过程被中断的非系统分区（这些中断加密的分区的 VeraCrypt 头信息可以使用提供的密码 和/或 密钥文件解密）。如果发现了多个此类的分区，您需要在下个步骤里面选择他们其中的一个。</entry>
+    <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE_HELP">请为您想要继续就地加密的非系统分区输入密码 和/或 密钥文件。\n\n\n注解：在您点击〖下一步〗之后，VeraCrypt 将尝试查找所有加密过程被中断的非系统分区（这些中断加密的分区的 VeraCrypt 头信息可以使用提供的密码 和/或 密钥文件解密）。如果发现了多个此类的分区，您需要在下个步骤里面选择它们其中的一个。</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_ENC_RESUME_VOL_SELECT_HELP">请选择下面列表中的一个加密卷。此列表包含所有加密被中断的非系统加密卷，它们的头信息可以使用提供的密码 和/或 密钥文件解密。</entry>
     <entry lang="zh-cn" key="NONSYS_INPLACE_DEC_PASSWORD_PAGE_HELP">请输入用于解密非系统加密卷的密码和(或)提供密钥文件。</entry>
     <entry lang="zh-cn" key="PASSWORD_HELP">选择一个安全的密码非常重要。您应该避免选取能够在字典中查到的简单词汇（或是2、3、4 这类字符组合）作为密码，也不应包含任何名字或生日，同时也不应该容易被猜到。安全的密码应当包含随机的大小写字母、数字、以及类似 @ ^ = $ * + 这样的特殊字符。我们推荐使用大于 20 个字符的密码（越长越好）。最大的密码长度为 128 个字符。</entry>
@@ -1120,8 +1120,8 @@
     <entry lang="zh-cn" key="CANNOT_INITIATE_SYS_ENCRYPTION_PRETEST">不能初始化系统加密预测试。</entry>
     <entry lang="zh-cn" key="CANNOT_INITIATE_HIDDEN_OS_CREATION">不能初始化创建隐形操作系统的过程。</entry>
     <entry lang="zh-cn" key="WIPE_MODE_TITLE">擦除模式</entry>
-    <entry lang="zh-cn" key="INPLACE_ENC_WIPE_MODE_INFO">在某些存储介质上，当数据被其他数据覆盖后，也仍有可能通过磁力显微技术恢复出来被覆盖的数据。这也包括一些被加密方式覆盖的数据（这在 VeraCrypt 加密那些原来没有加密的系统分区或系统驱动器时可能会发生）。根据一些研究机构和政府机构发布的文献，通过使用伪随机或非随机数据覆盖一定次数可以阻止数据恢复或使数据恢复变的异常困难。因此，如果您确认攻击者可能会使用类似磁力显微技术恢复您的加密数据，您可以选择下拉列表中几种擦除算法中的一种（已经存在的数据不会丢失）。需要说明的是在分区/驱动器加密后不需要再执行擦除操作。当分区/驱动器被完全加密后，不会再有非加密数据向其写入。写入加密卷中的任何数据都是在内存中实时加密，然后这些已加密数据才会被写入到磁盘。</entry>
-    <entry lang="zh-cn" key="WIPE_MODE_INFO">在某些存储介质上，当数据被其他数据覆盖后，也仍有可能通过磁力显微技术恢复出来被覆盖的数据。根据一些研究机构和政府机构发布的文献，通过使用伪随机或非随机数据覆盖一定次数可以阻止数据恢复或使数据恢复变的异常困难。因此，如果您确认攻击者可能会使用类似磁力显微技术恢复您的加密数据，您可以选择下拉列表中几种擦除算法中的一种（已经存在的数据不会丢失）。\n\n说明：擦除次数越多，花费的时间越长。</entry>
+    <entry lang="zh-cn" key="INPLACE_ENC_WIPE_MODE_INFO">在某些存储介质上，当数据被其它数据覆盖后，也仍有可能通过磁力显微技术恢复出来被覆盖的数据。这也包括一些被加密方式覆盖的数据（这在 VeraCrypt 加密那些原来没有加密的系统分区或系统驱动器时可能会发生）。根据一些研究机构和政府机构发布的文献，通过使用伪随机或非随机数据覆盖一定次数可以阻止数据恢复或使数据恢复变的异常困难。因此，如果您确认攻击者可能会使用类似磁力显微技术恢复您的加密数据，您可以选择下拉列表中几种擦除算法中的一种（已经存在的数据不会丢失）。需要说明的是在分区/驱动器加密后不需要再执行擦除操作。当分区/驱动器被完全加密后，不会再有非加密数据向其写入。写入加密卷中的任何数据都是在内存中实时加密，然后这些已加密数据才会被写入到磁盘。</entry>
+    <entry lang="zh-cn" key="WIPE_MODE_INFO">在某些存储介质上，当数据被其它数据覆盖后，也仍有可能通过磁力显微技术恢复出来被覆盖的数据。根据一些研究机构和政府机构发布的文献，通过使用伪随机或非随机数据覆盖一定次数可以阻止数据恢复或使数据恢复变的异常困难。因此，如果您确认攻击者可能会使用类似磁力显微技术恢复您的加密数据，您可以选择下拉列表中几种擦除算法中的一种（已经存在的数据不会丢失）。\n\n说明：擦除次数越多，花费的时间越长。</entry>
     <entry lang="zh-cn" key="DEVICE_WIPE_PAGE_TITLE">正在擦除</entry>
     <entry lang="zh-cn" key="DEVICE_WIPE_PAGE_INFO_HIDDEN_OS">\n说明：您可以中断擦除的过程，关闭您的计算机，重新启动隐形系统并在此后继续这个过程（该向导将会被自动运行）。然而，如果您中断此过程，整个擦除将会从头开始执行。</entry>
     <entry lang="zh-cn" key="DEVICE_WIPE_PAGE_INFO">\n\n说明：如果您中断了擦除的过程并想在以后继续擦除，整个的过程将不得不从头开始。</entry>
@@ -1176,7 +1176,7 @@
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_TITLE">系统加密预测试</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_DISK_VERIFIED_TITLE">应急盘已验证</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_VERIFIED_INFO">\nVeraCrypt 应急盘已成功验证。请从光驱中取出应急盘并把它存放到安全的地方。\n\n点击〖下一步〗继续。</entry>
-    <entry lang="zh-cn" key="REMOVE_RESCUE_DISK_FROM_DRIVE">警告：在下面步骤中，VeraCrypt 应急盘必须不能放在光驱中。否则就不可能正确完成此步骤。\n\n请从光驱中取出应急盘并把他放在一个安全的地方，之后点〖确定〗按钮。</entry>
+    <entry lang="zh-cn" key="REMOVE_RESCUE_DISK_FROM_DRIVE">警告：在下面步骤中，VeraCrypt 应急盘必须不能放在光驱中。否则就不可能正确完成此步骤。\n\n请从光驱中取出应急盘并把它放在一个安全的地方，之后点〖确定〗按钮。</entry>
     <entry lang="zh-cn" key="PREBOOT_NOT_LOCALIZED">警告：由于启动验证环境（即在 Windows 系统启动前）的技术局限，VeraCrypt 在启动验证环境显示的文本不能汉化。VeraCrypt 启动管理器的界面完全为英文模式。\n\n确认继续吗？</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO">在加密系统分区或启动前，VeraCrypt 需要验证每个环节都正确无误。\n\n在点击〖测试〗按钮以后，所有的组件（例如，启动验证组件，即 VeraCrypt 启动管理器）将会被安装并且您的计算机将会重启。之后您需要在 Windows 启动前的 VeraCrypt 启动管理器界面输入您的密码。在 Windows 启动后，程序将会自动通知您测试的结果。\n\n以下设备将会被修改: 驱动器 #%d\n\n\n如果您点击〖取消〗，将不会安装任何内容并且预测试将不会被执行。</entry>
     <entry lang="zh-cn" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">重要提示 -- 请仔细阅读或打印（点击〖打印〗）：\n\n注意：在您成功重启计算机和启动 Windows 前，您的文件并没有被加密。因此，如果出现任何失败，您的数据不会丢失。然而，如果过程中发生某些错误，您可能在启动 Windows 时会遇到麻烦。因此，请阅读（如果可能，请打印）下面的操作指南，以了解在重启计算机后不能启动 Windows 时如何操作。\n\n</entry>
@@ -1400,12 +1400,12 @@
     <entry lang="zh-cn" key="TIME">时间</entry>
     <entry lang="zh-cn" key="ITERATIONS">迭代</entry>
     <entry lang="zh-cn" key="PRE-BOOT">预启动</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_INFO">在对分区进行加密之前，必须创建一个 VeraCrypt 的修复盘 (VRD)，该磁盘具有以下用途：\n\n- 如果 VeraCrypt 启动加载程序、主密钥或其他关键数据被破坏, 则 VRD 允许您还原它 (注意, 但是, 您将仍然必须输入正确的密码)。\n\n- 如果 windows 损坏且无法启动，VRD 允许您在 windows 启动之前永久解密该分区。\n\n- VRD 将包含当前 EFI 引导加载程序的备份, 并允许您恢复如果有必要。\n\nVeraCrypt 救援磁盘 ZIP 映像将在下面指定的位置创建。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_INFO">在对分区进行加密之前，必须创建一个 VeraCrypt 的修复盘 (VRD)，该磁盘具有以下用途：\n\n- 如果 VeraCrypt 启动加载程序、主密钥或其它关键数据被破坏, 则 VRD 允许您还原它 (注意, 但是, 您将仍然必须输入正确的密码)。\n\n- 如果 windows 损坏且无法启动，VRD 允许您在 windows 启动之前永久解密该分区。\n\n- VRD 将包含当前 EFI 引导加载程序的备份, 并允许您恢复如果有必要。\n\nVeraCrypt 救援磁盘 ZIP 映像将在下面指定的位置创建。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO">修复盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您需要将其解压到一个格式化为 FAT/FAT32 的 U盘。\n\n%ls您创建修复盘后，单击 "下一步" 以验证它是否已正确创建。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">修复盘 ZIP 映像已创建并存储在文件：\n%s\n\n现在您应该将镜像提取到格式化为 FAT/FAT32 的 U盘，或将其移动到安全位置以备以后使用。\n\n%ls 单击 "下一步" 继续。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">重要：请注意，必须将 zip 文件直接提取到 U盘的根目录中。例如，如果 U盘的驱动器号是 E:， 那么解压 zip 文件，应该在 U盘上创建一个文件夹 E:\\EFI。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n如果您已经提取了修复盘，请弹出并重新插入 U盘；然后单击 "下一步" 重试。如果这没有帮助，请尝试另一个 U盘和/或其他 ZIP 软件。\n\n如果您尚未提取修复盘，请执行此操作，然后单击 "下一步"。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 修复盘；请注意，无法使用此修复盘，因为它是为不同的主密钥创建的。您需要提取新生成的修复盘 ZIP 映像。</entry>
-    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n您已将修复盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其他 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 修复盘, 请注意此修复盘将始终无法通过此验证。要创建与当前配置完全兼容的新的修复盘, 请选择 "系统" > "创建修复盘"。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n如果您已经提取了修复盘，请弹出并重新插入 U盘；然后单击 "下一步" 重试。如果这没有帮助，请尝试另一个 U盘和/或其它 ZIP 软件。\n\n如果您尚未提取修复盘，请执行此操作，然后单击 "下一步"。\n\n如果您试图验证在启动此向导之前创建的 VeraCrypt 修复盘；请注意，无法使用此修复盘，因为它是为不同的主密钥创建的。您需要提取新生成的修复盘 ZIP 映像。</entry>
+    <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">无法验证是否已正确提取了修复盘。\n\n您已将修复盘映像提取到 U盘上，请将其弹出并重新插入；然后再试一次。如果这没有帮助，请尝试其它 ZIP 软件和/或 媒体。\n\n如果您试图验证不同的主密钥、密码、salt 等创建的 VeraCrypt 修复盘, 请注意此修复盘将始终无法通过此验证。要创建与当前配置完全兼容的新的修复盘, 请选择 "系统" > "创建修复盘"。</entry>
     <entry lang="zh-cn" key="RESCUE_DISK_EFI_NON_WIZARD_CREATION">恢复盘镜像文件已经创建并存储在文件：\n%s\n\n现在您需要提取恢复盘镜像到格式化为 FAT 和 FAT32 的 U盘。\n\n重要：注意 zip 文件必须直接提取到 U盘的根目录。例如，如果 U盘的盘符是 E: ，解压缩 ZIP 文件应该在 U盘创建一个文件夹 E:\\EFI。\n\n创建恢复盘后，选择 “系统” > “验证恢复盘” 以确认它已正确创建。</entry>
     <entry lang="zh-cn" key="IDC_SECURE_DESKTOP_PASSWORD_ENTRY">使用安全桌面输入密码</entry>
     <entry lang="zh-cn" key="ERR_REFS_INVALID_VOLUME_SIZE">命令行中指定的卷文件大小与选定的 ReFS 文件系统不兼容。</entry>
@@ -1446,125 +1446,125 @@
     <entry lang="zh-cn" key="IDC_FORCE_VERACRYPT_FIRST_BOOT_ENTRY">强制VeraCrypt引导项作为EFI固件启动菜单的第一项</entry>
     <entry lang="zh-cn" key="RAM_ENCRYPTION_DISABLE_HIBERNATE">警告：RAM加密与Windows休眠和Windows快速启动功能不兼容。VeraCrypt需要在激活RAM加密之前禁用它们。\n\n继续吗？</entry>
     <entry lang="zh-cn" key="CONFIRM_DISABLE_FAST_STARTUP">警告：Windows快速启动已启用，已知在使用VeraCrypt加密卷时会导致问题。建议禁用它以提高安全性和可用性。\n\n是否要禁用Windows快速启动？</entry>
-    <entry lang="en" key="QUICK_FORMAT_HELP">为了使操作系统能够装载新卷，必须为其进行格式化。请选择文件系统类型。\n\n如果您的卷将托管在设备或分区上，您可以使用“快速格式化”跳过对卷可用空间的加密。</entry>
-    <entry lang="en" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">不要使用处理器的AES指令加速AES加密/解密</entry>
-    <entry lang="en" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">将所有已装载卷加入收藏...</entry>
-    <entry lang="en" key="TASKICON_PREF_MENU_ITEMS">任务栏图标菜单项</entry>
-    <entry lang="en" key="TASKICON_PREF_OPEN_VOL">打开已装载的卷</entry>
-    <entry lang="en" key="TASKICON_PREF_DISMOUNT_VOL">卸载已装载的卷</entry>
-    <entry lang="en" key="DISK_FREE">可用空间为: {0}</entry>
-    <entry lang="en" key="VOLUME_SIZE_HELP">请指定要创建的容器的大小。请注意，卷的最小容量为292 KB。</entry>
-    <entry lang="en" key="LINUX_CONFIRM_INNER_VOLUME_CALC">警告：您为外部卷选择了FAT以外的文件系统。\n请注意，在这种情况下，VeraCrypt无法计算隐藏卷的准确最大允许大小，将只使用可能有误的估计值。\n因此，您必须确保设置适当的隐藏卷的大小，使其不会超过外部卷。\n\n要继续为外部卷使用选定的文件系统吗？</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SECURITY">安全</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS">装载选项</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_BACKGROUND_TASK">后台任务</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">系统集成</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">文件系统资源管理器</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_PERFORMANCE">性能</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_KEYFILES">密钥文件</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_TOKENS">安全口令牌</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_SERVICES">内核服务</entry>
-    <entry lang="en" key="LINUX_PREF_KERNEL_CRYPT">不要使用内核加密服务</entry>
-    <entry lang="en" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">文件系统</entry>
-    <entry lang="en" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">装载选项:</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT">跨平台支持</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER">我将在其他平台上装载该卷</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">如果需要在其他平台上使用该卷，请选择此选项。</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">我将仅在 {0} 平台上装载该卷</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">如果不需要在其他平台上使用该卷，请选择此选项。</entry>
-    <entry lang="en" key="LINUX_DESELECT">取消选择</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY">输入您的用户密码或管理员密码:</entry>
-    <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">需要管理员权限</entry>
-    <entry lang="en" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt已经在运行了。</entry>
-    <entry lang="en" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">系统加密密码长于 {0} 个字符。</entry>
-    <entry lang="en" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">使用系统加密装载分区(preboot身份验证) (&amp;u)</entry>
-    <entry lang="en" key="LINUX_DO_NOT_MOUNT">不要装载(&amp;)</entry>
-    <entry lang="en" key="LINUX_MOUNT_AT_DIR">装载于目录:</entry>
-    <entry lang="en" key="LINUX_SELECT">选择...(&amp;)</entry>
-    <entry lang="en" key="LINUX_DISMOUNT_ALL_WHEN">卸载全部卷，当</entry>
-    <entry lang="en" key="LINUX_ENTERING_POWERSAVING">系统将进入省电模式</entry>
-    <entry lang="en" key="LINUX_LOGIN_ACTION">用户登录时要执行的操作</entry>
-    <entry lang="en" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">关闭正在卸载的卷的所有资源管理器窗口</entry>
-    <entry lang="en" key="LINUX_HOTKEYS">快捷键</entry>
-    <entry lang="en" key="LINUX_SYSTEM_HOTKEYS">全局快捷键</entry>
-    <entry lang="en" key="LINUX_SOUND_NOTIFICATION">装载/卸载后播放系统提示音</entry>
-    <entry lang="en" key="LINUX_CONFIRM_AFTER_DISMOUNT">卸载后显示确认消息框</entry>
-    <entry lang="en" key="LINUX_VC_QUITS">VeraCrypt退出</entry>
-    <entry lang="en" key="LINUX_OPEN_FINDER">Open Finder window for successfully mounted volume</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">请注意，此设置仅在禁用内核加密服务时生效。</entry>
-    <entry lang="en" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">禁用内核加密服务会导致性能降低。\n\n您确定要注意做吗？</entry>
-    <entry lang="en" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">请注意，禁用此选项可能对已通过内核加密服务装入的卷没有影响。</entry>
-    <entry lang="en" key="LINUX_REMOUNT_BECAUSEOF_SETTING">请注意，任何当前已装载的卷都需要重新装载才能应用此设置。</entry>
-    <entry lang="en" key="LINUX_UNKNOWN_EXC_OCCURRED">发生未知异常。</entry>
-    <entry lang="en" key="LINUX_FIRST_AID">"Disk Utility will be launched after you press 'OK'.\n\nPlease select your volume in the Disk Utility window and press 'Verify Disk' or 'Repair Disk' button on the 'First Aid' page.</entry>
-    <entry lang="en" key="LINUX_MOUNT_ALL_DEV">装载所有设备</entry>
-    <entry lang="en" key="LINUX_ERROR_LOADING_CONFIG">加载此处的配置文件时出错: </entry>
-    <entry lang="en" key="LINUX_SELECT_FREE_SLOT">请从列表中选择一个可用驱动器插槽。</entry>
-    <entry lang="en" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\n下次装入此类卷时是否要显示此消息？</entry>
-    <entry lang="en" key="LINUX_WARNING">警告</entry>
-    <entry lang="en" key="LINUX_ERROR">错误</entry>
-    <entry lang="en" key="LINUX_ONLY_TEXTMODE">This feature is currently supported only in text mode.</entry>
-    <entry lang="en" key="LINUX_FREE_SPACE_ON_DRIVE">Free space on drive {0}: is {1}.</entry>
-    <entry lang="en" key="LINUX_DYNAMIC_NOTICE">Please note that if your operating system does not allocate files from the beginning of the free space, the maximum possible hidden volume size may be much smaller than the size of the free space on the outer volume. This is not a bug in VeraCrypt but a limitation of the operating system.</entry>
-    <entry lang="en" key="LINUX_MAX_HIDDEN_SIZE">Maximum possible hidden volume size for this volume is {0}.</entry>
-    <entry lang="en" key="LINUX_OPEN_OUTER_VOL">Open Outer Volume</entry>
-    <entry lang="en" key="LINUX_OUTER_VOL_IS_MOUNTED">Outer volume has been successfully created and mounted as '{0}'. To this volume you should now copy some sensitive-looking files that you actually do NOT want to hide. The files will be there for anyone forcing you to disclose your password. You will reveal only the password for this outer volume, not for the hidden one. The files that you really care about will be stored in the hidden volume, which will be created later on. When you finish copying, click Next. Do not dismount the volume.\n\nNote: After you click Next, the outer volume will be analyzed to determine the size of uninterrupted area of free space whose end is aligned with the end of the volume. This area will accommodate the hidden volume, so it will limit its maximum possible size. The procedure ensures no data on the outer volume are overwritten by the hidden volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">Error: You are trying to encrypt a system drive.\n\nVeraCrypt can encrypt a system drive only under Windows.</entry>
-    <entry lang="en" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">Error: You are trying to encrypt a system partition.\n\nVeraCrypt can encrypt system partitions only under Windows.</entry>
-    <entry lang="en" key="LINUX_WARNING_FORMAT_DESTROY_FS">WARNING: Formatting of the device will destroy all data on filesystem '{0}'.\n\nDo you want to continue?</entry>
-    <entry lang="en" key="LINUX_MOUNTET_HINT">The filesystem of the selected device is currently mounted. Please dismount '{0}' before proceeding.</entry>
-    <entry lang="en" key="LINUX_HIDDEN_PASS_NO_DIFF">The Hidden volume can't have the same password, PIM and keyfiles as the Outer volume</entry>
-    <entry lang="en" key="LINUX_NOT_FAT_HINT">Please note that the volume will not be formatted with a FAT filesystem and, therefore, you may be required to install additional filesystem drivers on platforms other than {0}, which will enable you to mount the volume.</entry>
-    <entry lang="en" key="LINUX_ERROR_SIZE_HIDDEN_VOL">Error: The hidden volume to be created is larger than {0} TB ({1} GB).\n\nPossible solutions:\n- Create a container/partition smaller than {0} TB.\n</entry>
-    <entry lang="en" key="LINUX_MAX_SIZE_HINT">- Use a drive with 4096-byte sectors to be able to create partition/device-hosted hidden volumes up to 16 TB in size</entry>
-    <entry lang="en" key="LINUX_DOT_LF">.\n</entry>
-    <entry lang="en" key="LINUX_NOT_SUPPORTED"> (not supported by components available on this platform).\n</entry>
-    <entry lang="en" key="LINUX_KERNEL_OLD">Your system uses an old version of the Linux kernel.\n\nDue to a bug in the Linux kernel, your system may stop responding when writing data to a VeraCrypt volume. This problem can be solved by upgrading the kernel to version 2.6.24 or later.</entry>
-    <entry lang="en" key="LINUX_VOL_DISMOUNTED">Volume {0} has been dismounted.</entry>
-    <entry lang="en" key="LINUX_OOM">Out of memory.</entry>
-    <entry lang="en" key="LINUX_CANT_GET_ADMIN_PRIV">Failed to obtain administrator privileges</entry>
-    <entry lang="en" key="LINUX_COMMAND_GET_ERROR">Command {0} returned error {1}.</entry>
-    <entry lang="en" key="LINUX_CMD_HELP">VeraCrypt Command Line Help</entry>
-    <entry lang="en" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\nWarning: Hidden files are present in a keyfile path. If you need to use them as keyfiles, remove the leading dot from their filenames. Hidden files are visible only if enabled in system options.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">Storage device and VC volume sector size mismatch</entry>
-    <entry lang="en" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">This operation must be performed only when the system hosted on the volume is running.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_INSUFFICIENTDATA">Not enough data available.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">Kernel cryptographic service test failed. The cryptographic service of your kernel most likely does not support volumes larger than 2 TB.\n\nPossible solutions:\n- Upgrade the Linux kernel to version 2.6.33 or later.\n- Disable use of the kernel cryptographic services (Settings > Preferences > System Integration) or use 'nokernelcrypto' mount option on the command line.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">Failed to set up a loop device.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGARGUMENT">A required argument is missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">Volume data missing.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">Mount point required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">Mount point is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDEMPTY">No password or keyfile specified.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\nNote that pre-boot authentication passwords need to be typed in the pre-boot environment where non-US keyboard layouts are not available. Therefore, pre-boot authentication passwords must always be typed using the standard US keyboard layout (otherwise, the password will be typed incorrectly in most cases). However, note that you do NOT need a real US keyboard; you just need to change the keyboard layout in your operating system.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\nNote: If you are attempting to mount a partition located on an encrypted system drive without pre-boot authentication or to mount the encrypted system partition of an operating system that is not running, you can do so by selecting 'Options >' > 'Mount partition using system encryption'.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PASSWORDTOOLONG">Password is longer than {0} characters.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">Partition device required.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">Incorrect password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">Incorrect keyfile(s) and/or password to the protected hidden volume or the hidden volume does not exist.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">Invalid characters encountered.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">Error while parsing formatted string.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">Failed to create a file or directory in a temporary directory.\n\nPlease make sure that the temporary directory exists, its security permissions allow you to access it, and there is sufficient disk space.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, outer volumes hosted on the drive cannot be mounted using hidden volume protection.\n\nPossible solutions:\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.\n- Backup the contents of the hidden volume and then update the outer volume.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes on the drive can only be mounted using kernel cryptographic services.\n\nPossible solutions:\n- Enable use of the kernel cryptographic services (Preferences > System Integration).\n- Use a drive with 512-byte sectors.\n- Create a file-hosted volume (container) on the drive.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">Error: The drive uses a sector size other than 512 bytes.\n\nDue to limitations of components available on your platform, partition/device-hosted volumes cannot be created/used on the drive.\n\nPossible solutions:\n- Create a file-hosted volume (container) on the drive.\n- Use a drive with 512-byte sectors.\n- Use VeraCrypt on another platform.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">The host file/device is already in use.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volume slot unavailable.</entry>
-    <entry lang="en" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt requires OSXFUSE 2.5 or above.</entry>
-    <entry lang="en" key="EXCEPTION_OCCURRED">出现异常</entry>
-    <entry lang="en" key="ENTER_PASSWORD">输入密码</entry>
-    <entry lang="en" key="ENTER_TC_VOL_PASSWORD">输入 VeraCrypt 卷的密码</entry>
-    <entry lang="en" key="MOUNT">装载</entry>
-    <entry lang="en" key="MOUNT_POINT">装载目录</entry>
-    <entry lang="en" key="NO_VOLUMES_MOUNTED">未装载卷。</entry>
-    <entry lang="en" key="OPEN_NEW_VOLUME">指定一个新的 VeraCrypt 卷</entry>
-    <entry lang="en" key="PARAMETER_INCORRECT">参数有误</entry>
-    <entry lang="en" key="SELECT_KEYFILES">选择密钥文件</entry>
-    <entry lang="en" key="START_TC">启动 VeraCrypt</entry>
-    <entry lang="en" key="VOLUME_ALREADY_MOUNTED">卷 {0} 已被装载。</entry>
-    <entry lang="en" key="UNKNOWN_OPTION">未知选项</entry>
-    <entry lang="en" key="VOLUME_LOCATION">卷的位置</entry>
-    <entry lang="en" key="VOLUME_HOST_IN_USE">警告：宿主文件/设备 {0} 已在使用中！\n\n忽略此提示可能会导致意外结果，包括系统不稳定。在装载卷之前，应关闭可能正在使用宿主文件/设备的所有应用程序。\n\n是否继续装载？</entry>
+    <entry lang="zh-cn" key="QUICK_FORMAT_HELP">为了使操作系统能够装载新卷，必须为其进行格式化。请选择文件系统类型。\n\n如果您的卷将托管在设备或分区上，您可以使用“快速格式化”跳过对卷可用空间的加密。</entry>
+    <entry lang="zh-cn" key="IDC_ENABLE_HARDWARE_ENCRYPTION_NEG">不要使用处理器的AES指令加速AES加密/解密</entry>
+    <entry lang="zh-cn" key="IDM_ADD_ALL_VOLUME_TO_FAVORITES">将所有已装载卷加入收藏...</entry>
+    <entry lang="zh-cn" key="TASKICON_PREF_MENU_ITEMS">任务栏图标菜单项</entry>
+    <entry lang="zh-cn" key="TASKICON_PREF_OPEN_VOL">打开已装载的卷</entry>
+    <entry lang="zh-cn" key="TASKICON_PREF_DISMOUNT_VOL">卸载已装载的卷</entry>
+    <entry lang="zh-cn" key="DISK_FREE">可用空间为: {0}</entry>
+    <entry lang="zh-cn" key="VOLUME_SIZE_HELP">请指定要创建的容器的大小。请注意，卷的最小容量为292 KB。</entry>
+    <entry lang="zh-cn" key="LINUX_CONFIRM_INNER_VOLUME_CALC">警告：您为外部卷选择了FAT以外的文件系统。\n请注意，在这种情况下，VeraCrypt无法计算隐藏卷的准确最大允许大小，将只使用可能有误的估计值。\n因此，您必须确保设置适当的隐藏卷的大小，使其不会超过外部卷。\n\n要继续为外部卷使用选定的文件系统吗？</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_SECURITY">安全</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_MOUNT_OPTIONS">装载选项</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_BACKGROUND_TASK">后台任务</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION">系统集成</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_SYSTEM_INTEGRATION_EXPLORER">文件系统资源管理器</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_PERFORMANCE">性能</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_KEYFILES">密钥文件</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_TOKENS">安全口令牌</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_KERNEL_SERVICES">内核服务</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_KERNEL_CRYPT">不要使用内核加密服务</entry>
+    <entry lang="zh-cn" key="LINUX_PREF_TAB_MOUNT_OPTIONS_FS">文件系统</entry>
+    <entry lang="zh-cn" key="IDT_LINUX_PREF_TAB_MOUNT_OPTIONS">装载选项:</entry>
+    <entry lang="zh-cn" key="LINUX_CROSS_SUPPORT">跨平台支持</entry>
+    <entry lang="zh-cn" key="LINUX_CROSS_SUPPORT_OTHER">我将在其它平台上装载该卷</entry>
+    <entry lang="zh-cn" key="LINUX_CROSS_SUPPORT_OTHER_HELP">如果需要在其它平台上使用该卷，请选择此选项。</entry>
+    <entry lang="zh-cn" key="LINUX_CROSS_SUPPORT_ONLY">我将仅在 {0} 平台上装载该卷</entry>
+    <entry lang="zh-cn" key="LINUX_CROSS_SUPPORT_ONLY_HELP">如果不需要在其它平台上使用该卷，请选择此选项。</entry>
+    <entry lang="zh-cn" key="LINUX_DESELECT">取消选择</entry>
+    <entry lang="zh-cn" key="LINUX_ADMIN_PW_QUERY">输入您的用户密码或管理员密码:</entry>
+    <entry lang="zh-cn" key="LINUX_ADMIN_PW_QUERY_TITLE">需要管理员权限</entry>
+    <entry lang="zh-cn" key="LINUX_VC_RUNNING_ALREADY">VeraCrypt已经在运行了。</entry>
+    <entry lang="zh-cn" key="LINUX_SYSTEM_ENC_PW_LENGTH_NOTE">系统加密密码长于 {0} 个字符。</entry>
+    <entry lang="zh-cn" key="LINUX_MOUNT_SYSTEM_ENC_PREBOOT">使用系统加密装载分区(preboot身份验证) (&amp;u)</entry>
+    <entry lang="zh-cn" key="LINUX_DO_NOT_MOUNT">不要装载(&amp;)</entry>
+    <entry lang="zh-cn" key="LINUX_MOUNT_AT_DIR">装载于目录:</entry>
+    <entry lang="zh-cn" key="LINUX_SELECT">选择...(&amp;)</entry>
+    <entry lang="zh-cn" key="LINUX_DISMOUNT_ALL_WHEN">卸载全部卷，当</entry>
+    <entry lang="zh-cn" key="LINUX_ENTERING_POWERSAVING">系统将进入省电模式</entry>
+    <entry lang="zh-cn" key="LINUX_LOGIN_ACTION">用户登录时要执行的操作</entry>
+    <entry lang="zh-cn" key="LINUX_CLOSE_EXPL_ON_DISMOUNT">关闭正在卸载的卷的所有资源管理器窗口</entry>
+    <entry lang="zh-cn" key="LINUX_HOTKEYS">快捷键</entry>
+    <entry lang="zh-cn" key="LINUX_SYSTEM_HOTKEYS">全局快捷键</entry>
+    <entry lang="zh-cn" key="LINUX_SOUND_NOTIFICATION">装载/卸载后播放系统提示音</entry>
+    <entry lang="zh-cn" key="LINUX_CONFIRM_AFTER_DISMOUNT">卸载后显示确认消息框</entry>
+    <entry lang="zh-cn" key="LINUX_VC_QUITS">VeraCrypt退出</entry>
+    <entry lang="zh-cn" key="LINUX_OPEN_FINDER">打开查找窗口以查找已成功装入的卷 </entry>
+    <entry lang="zh-cn" key="LINUX_DISABLE_KERNEL_ONLY_SETTING">请注意，此设置仅在禁用内核加密服务时生效。</entry>
+    <entry lang="zh-cn" key="LINUX_DISABLE_KERNEL_CRYPT_CONFIRM">禁用内核加密服务会导致性能降低。\n\n您确定要注意做吗？</entry>
+    <entry lang="zh-cn" key="LINUX_KERNEL_CRYPT_OPTION_CHANGE_MOUNTED_HINT">请注意，禁用此选项可能对已通过内核加密服务装入的卷没有影响。</entry>
+    <entry lang="zh-cn" key="LINUX_REMOUNT_BECAUSEOF_SETTING">请注意，任何当前已装载的卷都需要重新装载才能应用此设置。</entry>
+    <entry lang="zh-cn" key="LINUX_UNKNOWN_EXC_OCCURRED">发生未知异常。</entry>
+    <entry lang="zh-cn" key="LINUX_FIRST_AID">磁盘实用程序将在你按下'确定'后启动。\n\n请在“磁盘实用程序”窗口选择您的卷，然后按“急救”页上的“验证磁盘”或“修复磁盘”按钮。</entry>
+    <entry lang="zh-cn" key="LINUX_MOUNT_ALL_DEV">装载所有设备</entry>
+    <entry lang="zh-cn" key="LINUX_ERROR_LOADING_CONFIG">加载此处的配置文件时出错: </entry>
+    <entry lang="zh-cn" key="LINUX_SELECT_FREE_SLOT">请从列表中选择一个可用驱动器插槽。</entry>
+    <entry lang="zh-cn" key="LINUX_MESSAGE_ON_MOUNT_AGAIN">\n\n下次装入此类卷时是否要显示此消息？</entry>
+    <entry lang="zh-cn" key="LINUX_WARNING">警告</entry>
+    <entry lang="zh-cn" key="LINUX_ERROR">错误</entry>
+    <entry lang="zh-cn" key="LINUX_ONLY_TEXTMODE">目前仅在文本模式下支持此功能.</entry>
+    <entry lang="zh-cn" key="LINUX_FREE_SPACE_ON_DRIVE">驱动器{0}上的可用空间:为{1}.</entry>
+    <entry lang="zh-cn" key="LINUX_DYNAMIC_NOTICE">请注意，如果操作系统没有从空闲空间开始分配文件，那么最大可隐藏卷大小可能远小于外部卷上可用空间的大小。这不是VeraCrypt的错误，而是操作系统的限制。</entry>
+    <entry lang="zh-cn" key="LINUX_MAX_HIDDEN_SIZE">这个卷的最大隐藏卷大小是{0}。</entry>
+    <entry lang="zh-cn" key="LINUX_OPEN_OUTER_VOL">打开外部卷</entry>
+    <entry lang="zh-cn" key="LINUX_OUTER_VOL_IS_MOUNTED">外部卷已成功创建并装载为'{0}'。现在，您应该将一些外观敏感但实际并不需要隐藏的文件复制到这个卷。文件将在那里，任何人强迫你透露你的密码，您应该只透露此外部卷的密码而不是隐藏卷的密码。稍后创建的隐藏卷中，完成复制后，单击“下一步”。不要卸除卷。\n\n注意：单击“下一步”后，将分析外部卷，以确定自由空间的不间断区域的大小，该区域的端部与卷的端部对齐。这个区域将容纳隐藏的卷，因此它将限制其最大可能的大小。该过程可以确保外部卷上的数据不会被隐藏卷覆盖。</entry>
+    <entry lang="zh-cn" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_DRIVE">错误:您正在尝试加密系统驱动器。\n\nVeraCrypt只能在Windows下加密系统驱动器。</entry>
+    <entry lang="zh-cn" key="LINUX_ERROR_TRY_ENCRYPT_SYSTEM_PARTITION">错误:您正在尝试加密系统分区。\n\nVeraCrypt只能在Windows下加密系统分区。</entry>
+    <entry lang="zh-cn" key="LINUX_WARNING_FORMAT_DESTROY_FS">警告:格式化设备将破坏文件系统'{0}'上的所有数据。\n\n你想继续吗?</entry>
+    <entry lang="zh-cn" key="LINUX_MOUNTET_HINT">所选设备的文件系统当前已挂载。在继续之前请卸载'{0}'。</entry>
+    <entry lang="zh-cn" key="LINUX_HIDDEN_PASS_NO_DIFF">隐藏卷不能与外部卷有相同的密码、PIM和密钥文件</entry>
+    <entry lang="zh-cn" key="LINUX_NOT_FAT_HINT">请注意，该卷将不会被格式化为FAT文件系统，因此，您可能需要在{0}以外的平台上安装额外的文件系统驱动程序，这将使您能够挂载该卷。</entry>
+    <entry lang="zh-cn" key="LINUX_ERROR_SIZE_HIDDEN_VOL">错误:要创建的隐藏卷大于 {0} TB ({1} GB)。\n\n可能的解决方式:\n- 创建一个小于 {0} TB的容器/分区。\n</entry>
+    <entry lang="zh-cn" key="LINUX_MAX_SIZE_HINT">- 使用具有4096字节扇区的驱动器，能够创建分区/设备托管的隐藏卷尺寸可达 16 TB</entry>
+    <entry lang="zh-cn" key="LINUX_DOT_LF">.\n</entry>
+    <entry lang="zh-cn" key="LINUX_NOT_SUPPORTED"> (此平台上可用的组件不支持).\n</entry>
+    <entry lang="zh-cn" key="LINUX_KERNEL_OLD">您的系统使用的是旧版本Linux内核。\n\n由于Linux内核中的错误，在将数据写入VeraCrypt卷时，系统可能会停止响应。这个问题可以通过将内核升级到2.6.24或更高版本来解决。</entry>
+    <entry lang="zh-cn" key="LINUX_VOL_DISMOUNTED">卷{0}已卸载。</entry>
+    <entry lang="zh-cn" key="LINUX_OOM">内存不足。</entry>
+    <entry lang="zh-cn" key="LINUX_CANT_GET_ADMIN_PRIV">获取管理员权限失败</entry>
+    <entry lang="zh-cn" key="LINUX_COMMAND_GET_ERROR">命令{0}返回错误{1}.</entry>
+    <entry lang="zh-cn" key="LINUX_CMD_HELP">VeraCrypt命令行帮助</entry>
+    <entry lang="zh-cn" key="LINUX_HIDDEN_FILES_PRESENT_IN_KEYFILE_PATH">\n\n警告：密钥文件路径中存在隐藏文件。如果需要将它们用作密钥文件，请从它们的文件名中删除前导点。只有在“系统选项”中启用时，隐藏文件才可见。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_DEVICESECTORSIZEMISMATCH">存储设备和VC卷扇区大小不匹配 </entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_ENCRYPTEDSYSTEMREQUIRED">仅当卷上承载的系统正在运行时，才能执行此操作。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_INSUFFICIENTDATA">没有足够的可用数据。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_KERNELCRYPTOSERVICETESTFAILED">内核加密服务测试失败。内核的加密服务很可能不支持大于2 TB的卷。\n\n可能的解决方案：\n- 升级Linux内核至2.6.33或更高版本。\n- 禁用内核加密服务（设置>首选项>系统集成）或在命令行上使用'nokernelcrypto'挂载选项。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_LOOPDEVICESETUPFAILED">设置循环设备失败。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_MISSINGARGUMENT">缺少必需的参数。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_MISSINGVOLUMEDATA">缺少卷数据。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_MOUNTPOINTREQUIRED">需要挂载点。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_MOUNTPOINTUNAVAILABLE">挂载点已经在使用中。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDEMPTY">未指定密码或密钥文件。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORKEYBOARDLAYOUTINCORRECT">\n\n请注意，在非美国键盘布局不可用的预启动环境中，需要输入预启动身份验证密码。因此，开机前的认证密码必须使用标准的美国键盘布局(否则大多数情况下密码会输入错误)。但是，请注意，你不需要一个真正的美国键盘;你只需要改变操作系统中的键盘布局。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDORMOUNTOPTIONSINCORRECT">\n\n注意：如果您试图在没有预引导身份验证的情况下挂载位于加密系统驱动器上的分区，或者挂载未运行的操作系统的加密系统分区，则可以通过选择'选项 >' > '使用系统加密挂载分区'来执行此操作。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PASSWORDTOOLONG">密码长度超过{0}个字符。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PARTITIONDEVICEREQUIRED">需要分区设备。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PROTECTIONPASSWORDINCORRECT">受保护的隐藏卷密码错误或隐藏卷不存在。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_PROTECTIONPASSWORDKEYFILESINCORRECT">受保护的隐藏卷的密钥文件和/或密码不正确，或者隐藏卷不存在。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_STRINGCONVERSIONFAILED">无效字符。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_STRINGFORMATTEREXCEPTION">分析格式化字符串时出错。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_TEMPORARYDIRECTORYFAILURE">无法在临时目录中创建文件或目录。\n\n请确保临时目录存在，其安全权限允许您访问它，并且有足够的磁盘空间。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZEHIDDENVOLUMEPROTECTION">错误:驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，无法使用隐藏卷保护挂载承载在驱动器上的外部卷。\n\n可能的解决方案：\n- 使用512字节扇区的驱动器。\n- 在驱动器上创建以文件为宿主的卷（容器）。\n- 备份隐藏卷的内容，然后更新外部卷。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZENOKERNELCRYPTO">错误:驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，驱动器上承载分区/设备的卷只能使用内核加密服务挂载。\n\n可能的解决方案:\n- 启用内核密码服务(首选项>系统集成)。\n- 使用512字节扇区的驱动器。\n- 在驱动器上创建以文件为宿主的卷(容器)。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_UNSUPPORTEDSECTORSIZE">错误:驱动器使用的扇区大小不是512字节。\n\n由于平台上可用组件的限制，分区/设备托管卷不能在驱动器上创建/使用。\n\n可能的解决方案:\n- 在驱动器上创建以文件为宿主的卷(容器)。\n- 使用512字节扇区的驱动器。\n- 在其它平台上使用VeraCrypt。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">主机文件/设备已经被使用。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">卷位置不可用。</entry>
+    <entry lang="zh-cn" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt需要OSXFUSE 2.5或更高版本。</entry>
+    <entry lang="zh-cn" key="EXCEPTION_OCCURRED">出现异常</entry>
+    <entry lang="zh-cn" key="ENTER_PASSWORD">输入密码</entry>
+    <entry lang="zh-cn" key="ENTER_TC_VOL_PASSWORD">输入 VeraCrypt 卷的密码</entry>
+    <entry lang="zh-cn" key="MOUNT">装载</entry>
+    <entry lang="zh-cn" key="MOUNT_POINT">装载目录</entry>
+    <entry lang="zh-cn" key="NO_VOLUMES_MOUNTED">未装载卷。</entry>
+    <entry lang="zh-cn" key="OPEN_NEW_VOLUME">指定一个新的 VeraCrypt 卷</entry>
+    <entry lang="zh-cn" key="PARAMETER_INCORRECT">参数有误</entry>
+    <entry lang="zh-cn" key="SELECT_KEYFILES">选择密钥文件</entry>
+    <entry lang="zh-cn" key="START_TC">启动 VeraCrypt</entry>
+    <entry lang="zh-cn" key="VOLUME_ALREADY_MOUNTED">卷 {0} 已被装载。</entry>
+    <entry lang="zh-cn" key="UNKNOWN_OPTION">未知选项</entry>
+    <entry lang="zh-cn" key="VOLUME_LOCATION">卷的位置</entry>
+    <entry lang="zh-cn" key="VOLUME_HOST_IN_USE">警告：宿主文件/设备 {0} 已在使用中！\n\n忽略此提示可能会导致意外结果，包括系统不稳定。在装载卷之前，应关闭可能正在使用宿主文件/设备的所有应用程序。\n\n是否继续装载？</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
