@@ -1046,6 +1046,11 @@ static NTSTATUS DispatchControl (PDEVICE_OBJECT DeviceObject, PIRP Irp, DriveFil
 				}
 			}
 			break;
+		case IOCTL_DISK_GROW_PARTITION:
+			Dump ("DriverFilter-DispatchControl: IOCTL_DISK_GROW_PARTITION blocked\n");
+			IoReleaseRemoveLock (&Extension->Queue.RemoveLock, Irp);
+			return TCCompleteDiskIrp (Irp, STATUS_UNSUCCESSFUL, 0);
+			break;
 	}
 
 	status = PassIrp (Extension->LowerDeviceObject, Irp);
