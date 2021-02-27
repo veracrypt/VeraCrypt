@@ -22,13 +22,13 @@
 #include <io.h>
 #include <math.h>
 #include <shlobj.h>
+#include <shlwapi.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <time.h>
 #include <tchar.h>
 #include <Richedit.h>
 #if defined (TCMOUNT) || defined (VOLFORMAT)
-#include <Shlwapi.h>
 #include <process.h>
 #include <Tlhelp32.h>
 #endif
@@ -345,6 +345,13 @@ typedef LSTATUS (STDAPICALLTYPE *SHDeleteKeyWPtr)(HKEY hkey, LPCWSTR pszSubKey);
 
 typedef HRESULT (STDAPICALLTYPE *SHStrDupWPtr)(LPCWSTR psz, LPWSTR *ppwsz);
 
+typedef HRESULT (STDAPICALLTYPE *UrlUnescapeWPtr)(
+  PWSTR pszUrl,
+  PWSTR pszUnescaped,
+  DWORD *pcchUnescaped,
+  DWORD dwFlags
+);
+
 // ChangeWindowMessageFilter
 typedef BOOL (WINAPI *ChangeWindowMessageFilterPtr) (UINT, DWORD);
 
@@ -373,6 +380,7 @@ SetupInstallFromInfSectionWPtr SetupInstallFromInfSectionWFn = NULL;
 SetupOpenInfFileWPtr SetupOpenInfFileWFn = NULL;
 SHDeleteKeyWPtr SHDeleteKeyWFn = NULL;
 SHStrDupWPtr SHStrDupWFn = NULL;
+UrlUnescapeWPtr UrlUnescapeWFn = NULL;
 ChangeWindowMessageFilterPtr ChangeWindowMessageFilterFn = NULL;
 CreateProcessWithTokenWFn CreateProcessWithTokenWPtr = NULL;
 
@@ -3101,10 +3109,11 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 	if (!SetupCloseInfFileFn || !SetupDiOpenClassRegKeyFn || !SetupInstallFromInfSectionWFn || !SetupOpenInfFileWFn)
 		AbortProcess ("INIT_DLL");
 
-	// Get SHDeleteKeyW function pointer
+	// Get SHDeleteKeyW,SHStrDupW, UrlUnescapeW functions pointers
 	SHDeleteKeyWFn = (SHDeleteKeyWPtr) GetProcAddress (hShlwapiDll, "SHDeleteKeyW");
 	SHStrDupWFn = (SHStrDupWPtr) GetProcAddress (hShlwapiDll, "SHStrDupW");
-	if (!SHDeleteKeyWFn || !SHStrDupWFn)
+	UrlUnescapeWFn = (UrlUnescapeWPtr) GetProcAddress(hShlwapiDll, "UrlUnescapeW");
+	if (!SHDeleteKeyWFn || !SHStrDupWFn || !UrlUnescapeWFn)
 		AbortProcess ("INIT_DLL");
 
 	if (IsOSAtLeast (WIN_VISTA))
@@ -11191,7 +11200,7 @@ void Applink (const char *dest)
 		CorrectURL (url);
 	}
 
-	if (IsAdmin ())
+	if (IsOSAtLeast (WIN_VISTA) && IsAdmin ())
 	{
 		int openDone = 0;
 		if (buildUrl)
@@ -11201,7 +11210,7 @@ void Applink (const char *dest)
 
 			StringCbCopyW (pageFileName, sizeof(pageFileName), page);
 			/* remove escape sequences from the page name before calling FileExists function */
-			if (S_OK == UrlUnescapeW (pageFileName, pageFileName, &cchUnescaped, URL_UNESCAPE_INPLACE))
+			if (S_OK == UrlUnescapeWFn (pageFileName, pageFileName, &cchUnescaped, URL_UNESCAPE_INPLACE))
 			{
 				std::wstring pageFullPath = installDir;
 				pageFullPath += L"docs\\html\\en\\";
