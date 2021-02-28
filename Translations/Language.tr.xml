@@ -7,56 +7,56 @@
     <font lang="tr" class="fixed" size="12" face="Lucida Console" />
     <font lang="tr" class="title" size="21" face="Times New Roman" />
     <entry lang="tr" key="IDCANCEL">İptal</entry>
-    <entry lang="en" key="IDC_ALL_USERS">Install &amp;for all users</entry>
-    <entry lang="en" key="IDC_BROWSE">Bro&amp;wse...</entry>
+    <entry lang="tr" key="IDC_ALL_USERS">Tüm kullanıcılar için kur</entry>
+    <entry lang="tr" key="IDC_BROWSE">Gezin...</entry>
     <entry lang="tr" key="IDC_DESKTOP_ICON">VeraCrypt simgesini &amp;masaüstüne ekle</entry>
-    <entry lang="en" key="IDC_DONATE">Donate now...</entry>
-    <entry lang="en" key="IDC_FILE_TYPE">Associate the .hc file &amp;extension with VeraCrypt</entry>
-    <entry lang="en" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Open the destination location when finished</entry>
+    <entry lang="tr" key="IDC_DONATE">Bağış yap</entry>
+    <entry lang="tr" key="IDC_FILE_TYPE">.hc dosya uzantısını VeraCrypt ile özleştir</entry>
+    <entry lang="tr" key="IDC_OPEN_CONTAINING_FOLDER">&amp;Tamamlandığında hedef klasörü aç</entry>
     <entry lang="tr" key="IDC_PROG_GROUP">VeraCrypt'i &amp;Başlat menüsüne ekle</entry>
     <entry lang="tr" key="IDC_SYSTEM_RESTORE">Sistem Geri Yükleme &amp;noktası oluştur</entry>
     <entry lang="tr" key="IDC_UNINSTALL">&amp;Kaldır</entry>
-    <entry lang="en" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Extract</entry>
-    <entry lang="en" key="IDC_WIZARD_MODE_INSTALL">&amp;Install</entry>
-    <entry lang="en" key="IDD_INSTL_DLG">VeraCrypt Setup Wizard</entry>
+    <entry lang="tr" key="IDC_WIZARD_MODE_EXTRACT_ONLY">&amp;Çıkart</entry>
+    <entry lang="tr" key="IDC_WIZARD_MODE_INSTALL">&amp;Yükle</entry>
+    <entry lang="tr" key="IDD_INSTL_DLG">VeraCrypt Kurulum Sihirbazı</entry>
     <entry lang="tr" key="IDD_UNINSTALL">VeraCrypt'i Kaldır</entry>
     <entry lang="tr" key="IDHELP">&amp;Yardım</entry>
-    <entry lang="en" key="IDT_EXTRACT_DESTINATION">Lütfen çıkarılan dosyaları yerleştirmek istediğiniz konumu seçin veya yazın:</entry>
-    <entry lang="en" key="IDT_INSTALL_DESTINATION">Lütfen VeraCrypt program dosyalarını kurmak istediğiniz yeri seçin veya yazın. Belirtilen klasör yoksa, otomatik olarak oluşturulacaktır.</entry>
-    <entry lang="en" key="IDT_UNINSTALL_DIR">VeraCrypt'i bu sistemden kaldırmak için Kaldır'a tıklayın.</entry>
+    <entry lang="tr" key="IDT_EXTRACT_DESTINATION">Lütfen çıkarılan dosyaları yerleştirmek istediğiniz konumu seçin veya yazın:</entry>
+    <entry lang="tr" key="IDT_INSTALL_DESTINATION">Lütfen VeraCrypt program dosyalarını kurmak istediğiniz yeri seçin veya yazın. Belirtilen klasör yoksa, otomatik olarak oluşturulacaktır.</entry>
+    <entry lang="tr" key="IDT_UNINSTALL_DIR">VeraCrypt'i bu sistemden kaldırmak için Kaldır'a tıklayın.</entry>
     <entry lang="tr" key="IDC_ABORT_BUTTON">İptal</entry>
-    <entry lang="en" key="IDC_BENCHMARK">&amp;Benchmark</entry>
+    <entry lang="tr" key="IDC_BENCHMARK">&amp;Benchmark</entry>
     <entry lang="tr" key="IDC_CIPHER_TEST">&amp;Test</entry>
-    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Şifrelenmiş birim oluşturun ve biçimlendirin</entry>
-    <entry lang="en" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Bölümü yerinde şifrele</entry>
-    <entry lang="en" key="IDC_DISPLAY_KEYS">Oluşturulan anahtarları (bölümlerini) görüntüle</entry>
+    <entry lang="tr" key="IDC_DEVICE_TRANSFORM_MODE_FORMAT">Şifrelenmiş birim oluşturun ve biçimlendirin</entry>
+    <entry lang="tr" key="IDC_DEVICE_TRANSFORM_MODE_INPLACE">Bölümü yerinde şifrele</entry>
+    <entry lang="tr" key="IDC_DISPLAY_KEYS">Oluşturulan anahtarları (bölümlerini) görüntüle</entry>
     <entry lang="tr" key="IDC_DISPLAY_POOL_CONTENTS">Havuz içeriğini göster</entry>
-    <entry lang="en" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD kayıt yazılımını indirin</entry>
-    <entry lang="en" key="IDC_FILE_CONTAINER">Şifreli dosya kapsayıcısı oluşturma</entry>
-    <entry lang="en" key="IDC_GB">&amp;GB</entry>
-    <entry lang="en" key="IDC_TB">&amp;TB</entry>
+    <entry lang="tr" key="IDC_DOWNLOAD_CD_BURN_SOFTWARE">CD/DVD kayıt yazılımını indirin</entry>
+    <entry lang="tr" key="IDC_FILE_CONTAINER">Şifreli dosya kapsayıcısı oluşturma</entry>
+    <entry lang="tr" key="IDC_GB">&amp;GB</entry>
+    <entry lang="tr" key="IDC_TB">&amp;TB</entry>
     <entry lang="tr" key="IDC_HIDDEN_SYSENC_INFO_LINK">Daha fazla bilgi</entry>
-    <entry lang="en" key="IDC_HIDDEN_VOL">Hi&amp;dden VeraCrypt volume </entry>
-    <entry lang="en" key="IDC_HIDDEN_VOL_HELP">More information about hidden volumes</entry>
-    <entry lang="en" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direct mode</entry>
-    <entry lang="en" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mode</entry>
+    <entry lang="tr" key="IDC_HIDDEN_VOL">Gizli VeraCrypt birimi </entry>
+    <entry lang="tr" key="IDC_HIDDEN_VOL_HELP">Gizli birimler hakkında daha fazla bilgi</entry>
+    <entry lang="tr" key="IDC_HIDVOL_WIZ_MODE_DIRECT">Direk mod</entry>
+    <entry lang="tr" key="IDC_HIDVOL_WIZ_MODE_FULL">Normal mod</entry>
     <entry lang="tr" key="IDC_KB">&amp;KB</entry>
     <entry lang="tr" key="IDC_KEYFILES_ENABLE">Anah&amp;tar dosya kullan</entry>
-    <entry lang="en" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">Try first to mount with an empty password</entry>
-    <entry lang="en" key="IDC_KEYFILES_RANDOM_SIZE">Random size ( 64 &lt;-&gt; 1048576 )</entry>
+    <entry lang="tr" key="IDC_KEYFILES_TRY_EMPTY_PASSWORD">İlk olarak boş şifre ile bağlamayı dene</entry>
+    <entry lang="tr" key="IDC_KEYFILES_RANDOM_SIZE">Rastgele boyut ( 64 &lt;-&gt; 1048576 )</entry>
     <entry lang="tr" key="IDC_KEY_FILES">&amp;Anahtar Dosyalar</entry>
     <entry lang="tr" key="IDC_LINK_HASH_INFO">Karma algoritmaları hakkında bilgi</entry>
     <entry lang="tr" key="IDC_LINK_MORE_INFO_ABOUT_CIPHER">Daha fazla bilgi</entry>
-    <entry lang="en" key="IDC_LINK_PIM_INFO">Information on PIM</entry>
+    <entry lang="tr" key="IDC_LINK_PIM_INFO">PIM hakkında bilgi</entry>
     <entry lang="tr" key="IDC_MB">&amp;MB</entry>
     <entry lang="tr" key="IDC_MORE_INFO_ON_CONTAINERS">Daha fazla bilgi</entry>
-    <entry lang="en" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">More information about system encryption</entry>
+    <entry lang="tr" key="IDC_MORE_INFO_ON_SYS_ENCRYPTION">Sistem şifreleme hakkında daha fazla bilgi</entry>
     <entry lang="tr" key="IDC_MORE_INFO_SYS_ENCRYPTION">Daha fazla bilgi</entry>
     <entry lang="en" key="IDC_MULTI_BOOT">Multi-Boot</entry>
-    <entry lang="en" key="IDC_NONSYS_DEVICE">Encrypt a non-system partition/drive</entry>
+    <entry lang="tr" key="IDC_NONSYS_DEVICE">Sistem harici birim/sürücü şifrele </entry>
     <entry lang="tr" key="IDC_NO_HISTORY">Geçmi&amp;şi asla kaydetme</entry>
     <entry lang="tr" key="IDC_OPEN_OUTER_VOLUME">Dış Birimi Aç</entry>
-    <entry lang="en" key="IDC_PAUSE">&amp;Pause</entry>
+    <entry lang="tr" key="IDC_PAUSE">&amp;Duraklat</entry>
     <entry lang="en" key="IDC_PIM_ENABLE">Use P&amp;IM</entry>
     <entry lang="en" key="IDC_NEW_PIM_ENABLE">Use PIM</entry>
     <entry lang="tr" key="IDC_QUICKFORMAT">Hızlı Biçimlendirme</entry>
