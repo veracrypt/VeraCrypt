@@ -183,7 +183,7 @@
     <entry lang="de" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Passwort an&amp;zeigen</entry>
     <entry lang="de" key="IDC_TRAVEL_OPEN_EXPLORER">&amp;Explorer-Fenster für eingehängtes Volumen öffnen</entry>
     <entry lang="de" key="IDC_TRAV_CACHE_PASSWORDS">Passwort im Cache halten</entry>
-    <entry lang="de" key="IDC_TRUECRYPT_MODE">TrueCrypt-Modus</entry>
+    <entry lang="de" key="IDC_TRUECRYPT_MODE">&amp;TrueCrypt-Modus</entry>
     <entry lang="de" key="IDC_UNMOUNTALL">A&amp;lle trennen</entry>
     <entry lang="de" key="IDC_VOLUME_PROPERTIES">Eigenscha&amp;ften ...</entry>
     <entry lang="de" key="IDC_VOLUME_TOOLS">Vol.-&amp;Operationen ...</entry>
