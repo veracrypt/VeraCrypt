@@ -132,8 +132,8 @@
     <entry lang="de" key="IDC_FAVORITE_MOUNT_ON_LOGON">Ausgewähltes Volumen beim &amp;Anmelden einhängen</entry>
     <entry lang="de" key="IDC_FAVORITE_MOUNT_READONLY">Ausgewähltes Volumen &amp;schreibgeschützt einhängen</entry>
     <entry lang="de" key="IDC_FAVORITE_MOUNT_REMOVABLE">Ausgewähltes Volumen als &amp;Wechselmedium einhängen</entry>
-    <entry lang="de" key="IDC_FAVORITE_MOVE_DOWN">Nach &amp;oben</entry>
-    <entry lang="de" key="IDC_FAVORITE_MOVE_UP">Nach &amp;unten</entry>
+    <entry lang="de" key="IDC_FAVORITE_MOVE_DOWN">Nach &amp;unten</entry>
+    <entry lang="de" key="IDC_FAVORITE_MOVE_UP">Nach &amp;oben</entry>
     <entry lang="de" key="IDC_FAVORITE_OPEN_EXPLORER_WIN_ON_MOUNT">Explorer-&amp;Fenster für das gewählte Volumen öffnen, wenn es erfolgreich eingehängt wurde</entry>
     <entry lang="de" key="IDC_FAVORITE_REMOVE">&amp;Entfernen</entry>
     <entry lang="de" key="IDC_FAVORITE_USE_LABEL_IN_EXPLORER">Bezeichnung des ausgewählten Volumen für Explorer verwenden</entry>
