@@ -9523,8 +9523,11 @@ BOOL PrintHardCopyTextUTF16 (wchar_t *text, wchar_t *title, size_t textByteLen)
 
 BOOL IsNonInstallMode ()
 {
-	HKEY hkey;
+	HKEY hkey, hkeybis;
 	DWORD dw;
+	WCHAR szBuffer[512];
+    DWORD dwBufferSize = sizeof(szBuffer);
+	std::wstring msiProductGUID;
 
 	if (bPortableModeConfirmed)
 		return TRUE;
@@ -9581,6 +9584,29 @@ BOOL IsNonInstallMode ()
 		else
 			CloseHandle (hDriverTmp);
 	}
+
+	// The following test checks whether the MSI is installed, which means we're not in portable mode.
+	// The ProductGUID is read from registry.
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt_MSI", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &hkey) == ERROR_SUCCESS ||
+        RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\VeraCrypt_MSI", 0, KEY_QUERY_VALUE, &hkey) == ERROR_SUCCESS)
+    {
+        if (ERROR_SUCCESS == RegQueryValueExW(hkey, L"ProductGuid", 0, NULL, (LPBYTE)szBuffer, &dwBufferSize))
+        {
+            msiProductGUID = szBuffer;
+
+            std::wstring regKey = L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\";
+            regKey += msiProductGUID;
+
+            if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, regKey.c_str(), 0, KEY_READ | KEY_WOW64_32KEY, &hkeybis) == ERROR_SUCCESS ||
+                RegOpenKeyEx(HKEY_LOCAL_MACHINE, regKey.c_str(), 0, KEY_READ, &hkeybis) == ERROR_SUCCESS)
+            {
+                RegCloseKey(hkeybis);
+                return FALSE;
+            }
+        }
+
+        RegCloseKey(hkey);
+    }
 
 	// The following test may be unreliable in some cases (e.g. after the user selects restore "Last Known Good
 	// Configuration" from the Windows boot menu).
@@ -11335,12 +11361,21 @@ BYTE *MapResource (wchar_t *resourceType, int resourceId, PDWORD size)
 {
 	HGLOBAL hResL;
     HRSRC hRes;
+    HINSTANCE hResInst = NULL;
 
-	hRes = FindResource (NULL, MAKEINTRESOURCE(resourceId), resourceType);
-	hResL = LoadResource (NULL, hRes);
+#ifdef SETUP_DLL
+	//	In case we're being called from the SetupDLL project, FindResource()
+	//	and LoadResource() with NULL will fail since we're in a DLL. We need
+	//	to call them with the HINSTANCE of the DLL instead, which we set in 
+	//	Setup.c of SetupDLL, DllMain() function.
+    hResInst = hInst;
+#endif
+
+	hRes = FindResource (hResInst, MAKEINTRESOURCE(resourceId), resourceType);
+	hResL = LoadResource (hResInst, hRes);
 
 	if (size != NULL)
-		*size = SizeofResource (NULL, hRes);
+		*size = SizeofResource (hResInst, hRes);
 
 	return (BYTE *) LockResource (hResL);
 }

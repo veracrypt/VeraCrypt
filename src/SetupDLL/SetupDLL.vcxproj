@@ -15,23 +15,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DF5F654D-BD44-4E31-B92E-B68074DC37A8}</ProjectGuid>
+    <ProjectGuid>{ADD324E2-ADC8-402E-87EB-03E4E26B1B49}</ProjectGuid>
     <RootNamespace>Setup</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>SetupDLL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>Windows7.1SDK</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>Windows7.1SDK</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>Windows7.1SDK</PlatformToolset>
   </PropertyGroup>
@@ -74,7 +75,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SETUP;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_ATL_NO_DEFAULT_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SETUP;SETUP_DLL;WIN32;HAVE_CONFIG_H;ZIP_STATIC;DEBUG;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_ATL_NO_DEFAULT_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -87,8 +88,8 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
+      <AdditionalDependencies>msi.lib;libcmtd.lib;atlsd.lib;mpr.lib;..\Common\Debug\Zip.lib;..\Crypto\Debug\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)VeraCryptSetup.dll</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -97,14 +98,14 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ModuleDefinitionFile>SetupDLL.def</ModuleDefinitionFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>Setup.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
       <Command>md "..\Debug\Setup Files" 2&gt;NUL:
-copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt Setup.exe" &gt;NUL:
-copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NUL:
+copy Debug\VeraCryptSetup.dll "..\Debug\Setup Files\VeraCryptSetup.dll" &gt;NUL:
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -113,7 +114,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
       <AdditionalOptions>/w34189 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..\Common;..\Crypto;..\;..\PKCS11;..\Common\zlib;..\Common\libzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SETUP;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_ATL_NO_DEFAULT_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SETUP;SETUP_DLL;WIN32;HAVE_CONFIG_H;ZIP_STATIC;NDEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_ATL_NO_DEFAULT_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <PrecompiledHeader>
@@ -122,12 +123,12 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4057;4100;4127;4201;4505;4701;4706;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4995;4057;4100;4127;4201;4505;4701;4706;4131;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
+      <AdditionalDependencies>msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)VeraCryptSetup.dll</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -138,12 +139,13 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ModuleDefinitionFile>SetupDLL.def</ModuleDefinitionFile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>Setup.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy Release\VeraCryptSetup.exe "..\Release\Setup Files\VeraCrypt Setup.exe" &amp;&amp; copy Release\VeraCryptSetup.exe "..\Release\Setup Files\VeraCrypt COMReg.exe"</Command>
+      <Command>copy Release\VeraCryptSetup.dll "..\Release\Setup Files\VeraCryptSetup.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">
@@ -164,7 +166,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>msi.lib;mpr.lib;..\Common\Release\Zip.lib;..\Crypto\Release\crypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)VeraCryptSetup.exe</OutputFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <DelayLoadDLLs>user32.dll;gdi32.dll;advapi32.dll;shell32.dll;ole32.dll;oleaut32.dll;mpr.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -181,7 +183,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
       <AdditionalManifestFiles>Setup.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy Release\VeraCryptSetup.exe "..\Release\Setup Files\VeraCrypt Setup.exe"</Command>
+      <Command>copy Release\VeraCryptSetup.dll "..\Release\Setup Files\VeraCryptSetup.dll"</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>VC_EFI_CUSTOM_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -190,13 +192,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
   <ItemGroup>
     <ClCompile Include="ComSetup.cpp" />
     <ClCompile Include="Dir.c" />
-    <ClCompile Include="SelfExtract.c" />
     <ClCompile Include="Setup.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="Wizard.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='ReleaseCustomEFI|Win32'">CompileAsCpp</CompileAs>
@@ -222,6 +218,7 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
     <None Include="ComSetup.rgs" />
     <None Include="Setup.ico" />
     <None Include="..\Common\VeraCrypt.ico" />
+    <None Include="SetupDLL.def" />
     <None Include="VeraCrypt_setup.bmp" />
     <None Include="VeraCrypt_setup_background.bmp" />
     <None Include="..\Common\VeraCrypt_Volume.ico" />
@@ -244,10 +241,8 @@ copy Debug\VeraCryptSetup.exe "..\Debug\Setup Files\VeraCrypt COMReg.exe" &gt;NU
     <ClInclude Include="..\Common\Registry.h" />
     <ClInclude Include="..\Common\Resource.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SelfExtract.h" />
     <ClInclude Include="Setup.h" />
     <ClInclude Include="..\Common\Tcdefs.h" />
-    <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Setup.manifest" />

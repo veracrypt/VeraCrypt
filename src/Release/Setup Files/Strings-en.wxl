@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="Lang" Overridable="yes">1033</String>
+	<String Id="NoDowngrade" Overridable="yes">A newer version is already installed</String>
+	<String Id="MinOs" Overridable="yes">This 32-bit installer can only run on at least Windows Vista</String>
+	<String Id="OSBitness" Overridable="yes">This is a 32-bit installer that cannot be run under 64-bit Windows</String>
+	<String Id="OS64Bitness" Overridable="yes">This is a 64-bit installer that cannot be run under 32-bit Windows</String>
+	
+	<String Id="CustomInstallDirDlgDescription" Overridable="yes">Choose which options to enable then click Next to proceed.</String>
+	
+	<String Id="InstallForAllUsersDesc" Overridable="yes">Install for all users</String>
+	<String Id="CreateDesktopShortcutDesc" Overridable="yes">Add VeraCrypt icon to desktop</String>
+	<String Id="CreateStartMenuShortcutDesc" Overridable="yes">Add VeraCrypt to Start Menu</String>
+	<String Id="AssociateVCFileExtensionDesc" Overridable="yes">Associate the .hc file extension with VeraCrypt</String>
+	
+	<String Id="CloseVCFirstDesc" Overridable="yes">Please close all open VeraCrypt windows first.</String>
+	
+	<String Id="AcceptVCLicenseDesc" Overridable="yes">Please accept the license agreement by passing ACCEPTLICENSE=YES during installation.</String>
+
+	<String Id="VeraCryptDesc" Overridable="yes">VeraCrypt</String>
+	<String Id="VeraCryptExpanderDesc" Overridable="yes">VeraCrypt Expander</String>
+	<String Id="VeraCryptWebsiteDesc" Overridable="yes">VeraCrypt Website</String>
+  
+</WixLocalization>

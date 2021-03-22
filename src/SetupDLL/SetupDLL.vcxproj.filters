@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Common\Xml.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ComSetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dir.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Endian.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Setup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\BootEncryption.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Dictionary.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Dlgcode.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Language.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Registry.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Crc.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\Apidrvr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Combo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComSetup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Crc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Dlgcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Inflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Language.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Registry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Setup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Tcdefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Setup.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="..\Common\Common.rc">
+      <Filter>Resource Files\Common</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Setup.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Common\VeraCrypt.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="VeraCrypt_setup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="VeraCrypt_setup_background.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Common\VeraCrypt_Volume.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Common\Language.xml">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Resources\Texts\License.rtf">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\Textual_logo_288dpi.bmp">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\Textual_logo_96dpi.bmp">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\Common\Textual_logo_background.bmp">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="ComSetup.rgs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="SetupDLL.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{abfa03d7-3de7-4832-b36d-5b45cd0fc304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{d912b4b9-7f5e-4063-8af7-4d544dde2233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5a0efac0-b028-4388-a278-1fe6dc479d79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Common">
+      <UniqueIdentifier>{3cb669f1-3949-43f4-a1e5-3b5d0fd75f76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{92f9499e-670d-464b-9edf-c1a2c56fb813}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Setup.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
+  </ItemGroup>
+</Project>

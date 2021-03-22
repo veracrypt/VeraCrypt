@@ -1,0 +1,1709 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix 	xmlns="http://schemas.microsoft.com/wix/2006/wi"
+		xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+	<!-- FullProductVersion's first 3 parts MUST BE incremented at each release in order 
+			for upgrades to work ; Windows Installer ignores the 4th part -->
+	<?define var.FullProductVersion = 1.24.25?>
+	<?define var.ProductName = VeraCrypt $(var.FullProductVersion)?>
+
+	<!-- Unique GUID identifying this family of product (32-bit and 64-bit have the same) -->
+	<?define var.UpgradeCode = {298F5D2B-3B01-4A13-BEFD-4B3C7BE43BC6}?>
+  
+	<!-- Unique GUID identifying this product release (32-bit and 64-bit have different ones) -->
+	<!-- MUST BE regenerated for each new release -->
+	<?define var.ProductGuid = {4B0DDCE8-2DAC-4350-8F5E-632BD9BA9209}?>
+
+	<!-- Unique GUID identifying a particular Windows Installer package -->
+	<!-- When compiling a product, it should not be set in order to allow it to be generated for each build -->
+	<?define var.PackageCode = "*"?>
+	
+	<!-- Set path to License file -->
+	<?define var.licenseRtf = "$(sys.CURRENTDIR)\License.rtf"?>
+
+	<!-- See https://wixtoolset.org/documentation/manual/v3/xsd/wix/product.html -->
+	<!-- Lang will be defined in a .wxl file which will be passed to the WIX linker 'light' -->
+	<Product 	Id="$(var.ProductGuid)"
+				Language="!(loc.Lang)" 
+				Manufacturer="IDRIX"
+				Name="$(var.ProductName)"
+				Version="$(var.FullProductVersion)"
+				UpgradeCode="$(var.UpgradeCode)">
+	
+		<!-- See https://wixtoolset.org/documentation/manual/v3/xsd/wix/package.html -->
+		<!-- InstallerVersion="500"(v5.0) Released with Windows 7 and later, see https://en.wikipedia.org/wiki/Windows_Installer -->
+		<!-- Language IDs (LCIDs) can be found here https://docs.microsoft.com/en-us/previous-versions/windows/embedded/ms912047(v=winembedded.10)?redirectedfrom=MSDN -->
+		<!-- InstallScope="perMachine" sets <Property Id="ALLUSERS" Value="1". Because we set it manually from checkbox, we do not set InstallScope. /> -->
+		<!-- InstallPrivileges="elevated" makes it so that Install button has little shield which prompts for Admin password if needed.
+			 If the MSI is installed from an elevated cmd, no password is asked -->
+		<!-- Languages is optional ; We set it to 0 to avoid LGHT0309 : Failed to open merge module for validation -->
+		<Package 	Compressed="yes"
+					Id="$(var.PackageCode)"
+					InstallerVersion="500"
+					InstallPrivileges="elevated"
+					Keywords="VeraCrypt MSI Installer"
+					Manufacturer="IDRIX"
+					Languages="0"
+					Platform="x64"
+					Description="VeraCrypt $(var.FullProductVersion) 64-bit MSI Installer"
+					Comments="MSI Installer of VeraCrypt for Windows 64-bit editions"
+		/>
+
+		<!-- Major upgrade -->
+		<!-- Prevent downgrades -->
+		<!-- Prevent same versions upgrades to avoid having 2 products -->
+		<!-- Since the Windows Installer only uses the first 3 parts of the version in upgrade scenarios,
+				versions a.b.c.d and a.b.c.e are treated as being the same version.
+				By setting 'AllowSameVersionUpgrades' to 'yes', version a.b.c.d and a.b.c.e can upgrade each other : 
+				this fixes the issue for a.b.c.e upgrading a.b.c.d but also enables downgrades from a.b.c.e to a.b.c.d.
+				Therefore, this property is not set to 'yes' -->
+		<!-- We guarantee that two different x.y.z versions will have a different ProductId, so
+				everything is always a MajorUpgrade. MinorUpdates and Patches have many requirements
+				for Feature and Component changes, which we will no doubt forget about in the future.
+				A MajorUpgrade is a small price to pay to prevent any mishaps.
+				Since we strictly follow component rules, we use afterInstallExecute to speed things up a bit. -->
+		<!-- We schedule RemoveExistingProducts after InstallExecute, so that, the install of the new version's files precedes the 
+			 removal of obsolete files. In this scenario files are only replaced if they are versioned and newer than installed files, 
+			 and for unversioned files, the file replacement rules basically states that the file will only be 
+			 overwritten if it has not been changed on disk, meaning it will keep files that have been changed.
+			 So, what happens is MSI will PreInst, InstallFiles and PostInst first, as if 'NOT Installed' is true.
+				Here, UPGRADINGPRODUCTCODE is not set.
+			 Then, it will execute RemoveExistingProducts where the ACTUAL upgrade happens.
+				Here, UPGRADINGPRODUCTCODE is set.
+			 We do this to avoid the following :
+				- Windows Installer determines which files to install. It decides that some files don't need to be installed 
+					(possibly because they already exist and are of the same or newer versions as the ones in the MSI).
+				- The previous version of software is removed, including the files Windows Installer determined didn't need to be installed.
+				- Windows installer installs files for the new installation, but does not install files that it determined did not need to be installed.
+					The end result is that a bunch of files are missing after upgrading the software. -->
+		<MajorUpgrade 
+			AllowSameVersionUpgrades="no"
+			DowngradeErrorMessage="!(loc.NoDowngrade)"
+			Schedule="afterInstallExecute"
+		/>
+		
+		<!-- Windows 8 (602) is our Min OS -->
+		<!-- See https://docs.microsoft.com/en-us/windows/win32/msi/operating-system-property-values -->
+		<!-- 'Installed' is a Windows Installer property that is set only if the product is installed per-machine or for the current user.
+			 Using !Installed ensures the check is only done when the user is installing the application, rather than on a repair or remove -->
+		<!-- Notice the ! : If Not Installed AND VersionNT < 602 => Show error message -->
+		<Condition Message="!(loc.MinOs)">
+			<![CDATA[
+			Installed
+			OR (VersionNT = 602)
+			OR (VersionNT > 602)
+			]]>
+		</Condition>
+		
+		<!-- This installer can only be executed under 64bit, never under 32-bit -->
+		<Condition Message="!(loc.OS64Bitness)">
+			<![CDATA[
+			Installed 
+			OR (VersionNT64)
+			]]>
+		</Condition>
+		
+		<!-- Uncomment the following if you want the installer to only be runnable by Admin.
+				This means that, in order to be be run, an elevated cmd must be used or it must be run using "run as admin".
+				Otherwise, an error message is shown.
+		-->
+		<!--
+		<Property Id="MSIUSEREALADMINDETECTION" Value="1" /> 
+		<Condition Message="!(loc.AdminNeeded)">
+			NOT Installed AND NOT Privileged
+		</Condition>
+		-->
+		
+		<!-- Media describes a disk that makes up the source media for the installation -->
+		<!-- For DiskId and compression -->
+		<Media Id="1" Cabinet="VeraCrypt.cab" EmbedCab="yes" />
+
+		<!-- Icon used for Add/Remove Programs icon -->
+		<Icon Id="Setup.ico" SourceFile="$(sys.CURRENTDIR)\Setup.ico"/>
+		
+		<!-- Icon used for Shortcut, ProgId, or Class elements (but not UI controls) -->
+		<Icon Id="VeraCrypt.ico" SourceFile="$(sys.CURRENTDIR)\VeraCrypt.ico"/>
+		
+		<!-- Top banner -->
+		<WixVariable Id="WixUIBannerBmp" Value="$(sys.CURRENTDIR)\VeraCrypt_setup.bmp" />
+		
+		<!-- Background bitmap used on the welcome and completion dialogs -->
+		<WixVariable Id="WixUIDialogBmp" Value="$(sys.CURRENTDIR)\VeraCrypt_setup_background.bmp" />
+		
+		<!-- The primary icon displayed in Add/Remove Programs  -->
+		<!-- Cannot set the MSI Installer exe icon, only possible using Bundle and IconSourceFile -->
+		<Property Id="ARPPRODUCTICON" Value="Setup.ico" />
+		
+		<!-- URL for the link to the publishers home page or the application's home page -->
+		<Property Id="ARPURLINFOABOUT" Value="https://www.idrix.fr"/>
+		
+		<!-- Following properties are meant to install the Desktop and StartMenu shortcuts -->
+		<!-- They make it possible to give the user checkboxes to choose whether to install or not -->
+		<!-- By default, we install all the shortcuts -->
+		<Property Id="INSTALLDESKTOPSHORTCUT" Value ="1" />
+		<Property Id="INSTALLSTARTMENUSHORTCUT" Value ="1" />
+		
+		<!-- Following property is meant to install the RegKeys -->
+		<!-- They make it possible to give the user checkboxes to choose whether to install or not -->
+		<!-- By default, we install all the RegKeys -->
+		<Property Id="REGISTERVCFILEEXT" Value ="1" />
+		
+		<!-- Following property is meant to set whether to install for All users or just the current one -->
+		<!-- They make it possible to give the user checkboxes to choose what to do -->
+		<!-- By default, we install all for all users -->
+		<Property Id="ALLUSERS" Value="1" />
+		
+		<!-- Following property sets the default acceptance of the license.
+			 In UI mode, the user needs to check the license box in order to accept 
+			 the license, which sets 'LicenseAccepted' to '1', but not 'ACCEPTLICENSE'.
+			 Therefore, for UI mode, we need to set 'ACCEPTLICENSE' manually when 
+			 we detect that 'LicenseAccepted' is set, and only in UI sequence.
+			 In silent mode, 'LicenseAccepted' is by default set to '1', therefore,
+			 the user must only specify 'ACCEPTLICENSE' to 'YES' in msiexec.
+			 By default, the license is not accepted. -->
+		<Property Id="ACCEPTLICENSE" Value="NO"/>
+
+		<!-- Directory layout / structure for the product -->
+		<!-- Windows Installer expects the Directory tree to always be rooted in a 
+				Directory row where the primary key (Directory/@Id) is "TARGETDIR" 
+				and the DefaultDir column (Directory/@Name) is "SourceDir" -->
+		<!-- During an install, TARGETDIR will default to the largest drive on the machine. 
+				SourceDir will be set to the location where the MSI is being executed -->
+		<!-- See https://wixtoolset.org/documentation/manual/v3/bundle/bundle_built_in_variables.html -->
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			
+			<!-- Reference DesktopFolder to create a Desktop Shortcut -->
+			<Directory Id="DesktopFolder" Name="Desktop"/>
+			
+			<!-- Reference APPLICATIONPROGRAMSFOLDER to create a Start Menu Shortcut -->
+			<!-- See https://wixtoolset.org/documentation/manual/v3/howtos/files_and_registry/create_start_menu_shortcut.html -->
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)"/>
+			</Directory>
+			
+			<!-- We do not Reference QuickLaunchFolder under AppDataFolder to create a Quick Launch Shortcut -->
+			<!-- The shortcut is installed under C:/Users/<user>/AppData/Roaming/Microsoft/Internet Explorer/QuickLaunch 
+				 which is not created for all users (only for the one under which the install occurred) because of 
+				 perMachine installation (sets ALLUSERS to 1)
+				 Also, when uninstalling, and if the user that uninstalls is not the same that has installed,
+				 the shortcut is not cleared from the quick launch of the installing user.
+				 Therefore, we avoid this.
+			-->
+			
+			<!-- Reference C:\Windows\System32 -->
+			<Directory Id="System64Folder">
+			
+				<!-- Reference C:\Windows\System32\Drivers -->
+				<!-- The directory is not created here, instead if is implicitly created when we add install using { Component, Files } ... -->
+				<!-- The creation can be forced without installing files by setting CreateFolder inside Component -->
+				<Directory Id="DRIVERSFOLDER" Name="Drivers"/>
+				
+			</Directory>
+		  
+			<!-- Reference C:\Program Files (only 64-bit) -->
+			<Directory Id="ProgramFiles64Folder">
+			
+				<!-- Reference C:\Program Files\VeraCrypt -->
+				<!-- The directory is not created here, instead if is implicitly created when we install files using { Component, Files } ... -->
+				<!-- The creation can be forced without installing files by setting CreateFolder inside Component -->
+				<Directory Id="APPLICATIONROOTFOLDER" Name="VeraCrypt">
+				
+					<!-- Reference C:\Program Files\VeraCrypt\Languages -->
+					<Directory Id="LANGUAGESFOLDER" Name="Languages"/>
+					
+					<!-- Reference C:\Program Files\VeraCrypt\docs -->
+					<Directory Id="DOCSFOLDER" Name="docs">
+						
+						<!-- Reference C:\Program Files\VeraCrypt\docs\EFI-DCS -->
+						<Directory Id="EFIDOCSFOLDER" Name="EFI-DCS"/>
+						
+						<!-- Reference C:\Program Files\VeraCrypt\docs\html -->
+						<Directory Id="HTMLDOCSFOLDER" Name="html">
+							
+							<!-- Reference C:\Program Files\VeraCrypt\docs\html\en -->
+							<Directory Id="ENHTMLDOCSFOLDER" Name="en"/>
+							
+						</Directory>
+						
+					</Directory>
+					
+				</Directory>
+
+			</Directory>	
+		  
+		</Directory>
+		
+		<!-- Directories referencing to install components -->
+		
+		<!-- Refer to C:\Windows\System32\Drivers in order to install files in it -->
+		<DirectoryRef Id="DRIVERSFOLDER">
+		
+			<!-- Add files to the installer package inside components -->
+			<!-- We restrict ourselves to a single file per component to avoid any problems -->
+			<!-- Generatable guids are supported only for components with a single file as the component's keypath or no files and a registry value as the keypath -->
+			<!-- The KeyPath for a Component is a single resource that the Windows Installer uses to determine if a Component "exists" on a machine -->
+			<Component Id="veracryptDriverSys" Guid="{6A1833A1-8A99-42B0-8ABF-9601EFE54DB8}" >
+				<File Id="veracryptDriver.sys" Name="veracrypt.sys" Source="$(sys.CURRENTDIR)\veracrypt-x64.sys" KeyPath="yes" DiskId="1" />
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Refer to C:\Program Files\VeraCrypt in order to install files in it -->
+		<DirectoryRef Id="APPLICATIONROOTFOLDER">
+			
+			<Component Id="LICENSEFile" Guid="{370D29C4-3A58-4B9E-A0D6-A06430FCCA6D}">
+				<File Id="LICENSE" Name="LICENSE" Source="$(sys.CURRENTDIR)\LICENSE" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="LicenseTxt" Guid="{14F0F218-FBA2-4C68-820B-376345AB9D33}">
+				<File Id="License.txt" Name="License.txt" Source="$(sys.CURRENTDIR)\License.txt" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="NOTICEFile" Guid="{56980D3E-9568-446D-8518-CA381EBE56C4}">
+				<File Id="NOTICE" Name="NOTICE" Source="$(sys.CURRENTDIR)\NOTICE" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="VeraCrypt_FormatExe" Guid="{55F89F55-62A6-40D0-A7B4-BC2505C118AA}">
+				<File Id="VeraCrypt_Format.exe" Name="VeraCrypt Format.exe" Source="$(sys.CURRENTDIR)\VeraCrypt Format-x64.exe" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="veracryptCat" Guid="{F1910CF2-3DA7-471D-845E-1A1C20AD3076}">
+				<File Id="veracrypt.cat" Name="veracrypt.cat" Source="$(sys.CURRENTDIR)\veracrypt-x64.cat" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="VeraCryptExe" Guid="{9C13F7BE-6ACE-48DE-BD44-714F421ADC2C}">
+				<File Id="VeraCrypt.exe" Name="VeraCrypt.exe" Source="$(sys.CURRENTDIR)\VeraCrypt-x64.exe" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="veracryptInf" Guid="{955B99DC-74C3-476D-8ECE-52FD0916EA34}">
+				<File Id="veracrypt.inf" Name="veracrypt.inf" Source="$(sys.CURRENTDIR)\veracrypt.inf" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="veracryptSys" Guid="{5CE01773-01EA-417C-BBA4-8363881763DC}">
+				<File Id="veracrypt.sys" Name="veracrypt.sys" Source="$(sys.CURRENTDIR)\veracrypt-x64.sys" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="VeraCryptExpanderExe" Guid="{FF1F4376-9025-4124-808E-1C4B58024F14}">
+				<File Id="VeraCryptExpander.exe" Name="VeraCryptExpander.exe" Source="$(sys.CURRENTDIR)\VeraCryptExpander-x64.exe" KeyPath="yes" DiskId="1" />
+			</Component>
+			<Component Id="VeraCryptComRegExe" Guid="{A922CAA3-5D78-49BC-92C9-B317FD7050A7}">
+				<!-- Needed only to be able to perform RegisterComServers() & UnregisterComServers -->
+				<File Id="VeraCryptComReg.exe" Name="VeraCrypt COMReg.exe" Source="$(sys.CURRENTDIR)\VeraCrypt COMReg.exe" Hidden="yes" KeyPath="yes" DiskId="1" />
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Refer to C:\Program Files\VeraCrypt\Languages in order to install files in it -->
+		<!-- Components generated using 'heat dir ".\Translations" -gg -sfrag -template:fragment -out directory.wxs -var "sys.CURRENTDIR"' -->
+		<DirectoryRef Id="LANGUAGESFOLDER">
+		
+			<Component Id="cmpF27E43A4E59E04A5B095C5101B229139" Guid="{8EB22F2F-AFE2-45E5-92C3-AB50B377935E}">
+				<File Id="fil1B0F0BB59C5EE9FC44F8DA3BA57CB272" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ar.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp4350812363930B900E24C845940DF416" Guid="{52F707BF-2C0D-4690-84E8-8C1806BFC740}">
+				<File Id="fil7E02C9035678F667086D2D483D8FDF35" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.be.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp1DD254125CF07901EACECC70930818B0" Guid="{AD31462E-039E-41CF-B2CF-D73FD4075C76}">
+				<File Id="filA52BE38FF2164268AA9562C09281D09B" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.bg.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp8C9E97CFD69D3BCB44B84D886720F3FC" Guid="{A328C74D-C352-4406-8C75-8BA159210936}">
+				<File Id="fil2A31F450F9C022901212461A240C5D17" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ca.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp2BC45D6EC406DDC470E8501442A7AF68" Guid="{5E99CB8F-33E2-430C-A0B2-A31058D6D449}">
+				<File Id="fil0F3AB0CD6266BA1530A0253F059A85DD" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.cs.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp74A0CA1914A6C6FE33D76DE1C01C676D" Guid="{F1E82507-7C31-41F0-A643-69BB53F3CD41}">
+				<File Id="filDED1A10C5657065D291DC62CA9A32FAE" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.da.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpC186D3472CE1EC872FF1B0CF3682B3B6" Guid="{C23FC0D1-A6B7-4AB1-BA05-EBDC1B4328F9}">
+				<File Id="filF4D7849840B295D75BA68B5F6C12F7B3" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.de.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp2AB0B613D25DDEF3466CBC86BD6B878B" Guid="{3757C2DE-FCC8-4970-8CB8-A0D9B2404A1C}">
+				<File Id="fil7AECCD25826C51216C12F09DC87F1B22" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.el.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpB09224EB45E097BF511CBC5DBE3E251C" Guid="{70B91FFF-BDB7-48AE-A664-243A057F1EA7}">
+				<File Id="filC426C0D58EE0FC49743BDB8AEDA3C6BE" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.es.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpF24BBBEB613F893CBC5FBF6533CB48C9" Guid="{F578356A-16E1-42CF-8DB2-2DC21B4C154B}">
+				<File Id="fil38AB8BFA030ACBECA75C821E3574759A" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.et.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp50E1DEF37599D2900447B13FC285B7B7" Guid="{1FDF2F45-97F1-40C0-A450-A2342BBF913C}">
+				<File Id="fil1BCCDEC84EB4D85DB0380FCD6153D1FA" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.eu.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp46E5A0DB48A03A91267C97A664BD9BD4" Guid="{07165ABB-1B3C-4C0F-A73E-E3A85AB37B58}">
+				<File Id="fil1AC953E5BA23EC81206D212369F1544D" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.fa.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp95BAB91FA0B7E37D5B9343478899CC75" Guid="{F0ADBE30-225D-4EF9-B0F4-1ADEFEF07625}">
+				<File Id="filEEF3EF4EEE97747B255238CFB88EAF9C" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.fi.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpE73E4CCF9F6EC39998B9BE35E43768CC" Guid="{EA4FADF0-BF20-40FD-9BAA-D1023357FD28}">
+				<File Id="filFB10C722F275051A8DDB25D4D9AF43E5" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.fr.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp28EEAA4B2230460BDDA61DEFBC71A905" Guid="{68D7B2E5-273B-4782-AF3D-65F255BBF9B2}">
+				<File Id="filD03BE3868262DD16654690ED91BC89C8" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.hu.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpCFF4CB46421F1A713D45607393ED9B90" Guid="{F96AF79F-0364-4A68-8790-209C751C37FB}">
+				<File Id="fil040570D344D75F6A57E5DD5ECB94BD8B" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.id.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp31601B4199D0CD3977758A3F2B63CDE7" Guid="{9F347364-2673-4184-A069-342A88BAF90C}">
+				<File Id="fil5A7288C1B9CC498419FC14D5B12B1D8D" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.it.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp8E2E0489348A190B00532591CE0AC325" Guid="{BE526CC3-99F7-4F94-AFC4-C86FCF0D742C}">
+				<File Id="fil9DF155D4A63D3AAAFDBF3BEF8C47BBEA" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ja.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpEE57E2901F12294E638E66C39F1B39BB" Guid="{C2CAFD97-84B7-4053-A8D0-DE21F4D8F741}">
+				<File Id="filFD48E7A9628E7FF9B3D96BD222A3A0D9" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ka.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp2F1F644C870AFF8970FE18AF2CD151C4" Guid="{96564F4E-7D92-40B3-84F6-84B357EB4F41}">
+				<File Id="filF68A13BECFA9D8DD21B371298AF93B5B" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ko.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp4B8E0B5A7B7A8BE4267C722B1434E4CF" Guid="{E9AD4FA0-9CD7-43B9-8099-69AD6EB1A305}">
+				<File Id="fil23F177B7621D7D78240CAA60E6AB1048" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.lv.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp84BB49D30BDBB4212707D14B7A9C13F1" Guid="{B63CC062-CD52-463F-8B30-1E611A90EDA9}">
+				<File Id="filA7135961859CF705E28FFF4DA79A28C2" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.my.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp406E3BE632055CDDE1E42F45E31318DC" Guid="{627980E8-F6BE-4794-B9BC-68F96267D721}">
+				<File Id="filF46FDB7781620EB1D7491039E4029463" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.nl.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp4E363AF94947A27A4E9CF57C69E6DE54" Guid="{9D17F34C-4475-4995-A696-FE3EA54F2FBB}">
+				<File Id="fil24BA52B3E3209F48021C1D75AF5BBDB4" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.nn.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp562F7970AF2F9EF535AC21A84C7229D1" Guid="{9F36CA4F-BF14-40D7-81A2-8ADFCC0EF30B}">
+				<File Id="fil8C40C1C5E3776F4C0FCF8BD02D742D70" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.pl.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp19EF976916B5E207A32BA08C3143A281" Guid="{B0EAEA97-9176-4613-9338-41B63B85CB18}">
+				<File Id="fil6CC66A3690F008524FCCB68FA1EE1176" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.pt-br.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp4C9B5090256B2E88D27C9CF7E6CFD9EF" Guid="{8D783A02-023C-4018-8315-79A82BA593E2}">
+				<File Id="filA3239DE9C316B9C04171EB42F4F9653D" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ro.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp91165C08D5943C21F132A349F8CBAAE7" Guid="{0C3290FF-8000-42CF-8329-92C828AE5A53}">
+				<File Id="fil77375796E780F641C2FF5E6E3D4CAFDB" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.ru.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp4A51B27F9D8DBBABFE4581EC2B162832" Guid="{FB8CCAC7-0EAC-4C1A-B5E5-BEFD8F7B47E6}">
+				<File Id="fil414686FD325EB0C5D03FC4693978451D" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.sk.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp041827E393D8777802256FD480D377FC" Guid="{7FEB72AD-48CA-4330-A4C9-A22218EC5D8F}">
+				<File Id="fil4EABC40F288E8289D4888EB0BE6F07B1" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.sl.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp68CC2DB5FA70FC1F6CA959FB5E1B78BF" Guid="{00D9FB47-120C-4061-B2DB-8F3D5D94F221}">
+				<File Id="fil90E6ABC4A98B19C0ECCDCC9712928162" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.sv.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpFF128AFA659D8C2E65E0BE55E0943F83" Guid="{5AB50FC2-867A-4239-850F-AD2C0FCDA2DE}">
+				<File Id="fil5BF14221A225DAB25A02463BBC92DC37" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.th.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp1896040764F0DF6F89280C428013ECE7" Guid="{3A2D27E8-4AB3-471A-A574-F148DCDF8D8C}">
+				<File Id="filE839661CD956C44F0E95C85AAA11D6FF" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.tr.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpA52EAD237A44CBD337E302185BE12FB2" Guid="{4D7A4A01-5AFB-4B37-93C7-91B9DA96BA30}">
+				<File Id="fil9E3A6DE502ECEF2025129A97D3F98CA2" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.uk.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmpBBB82A6228B54372ACAF9B1310CB2025" Guid="{939C9CDD-0CEA-4161-9812-96B77B643C2E}">
+				<File Id="fil4B209843380976D1FBEB96B21EB849B5" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.uz.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp4A275EC29DB9B5ECD56CD9C62D358750" Guid="{0E29F3C1-2D27-4F1F-BEC0-C39CA1B4EAAF}">
+				<File Id="fil1FD00998B7A757165A03FDFD6D241F14" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.vi.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp8DF0B84F470901D8800F8CAB88A90656" Guid="{7B9A6F50-C242-4DAE-BD10-CDF2D63FB4AC}">
+				<File Id="fil4EC683D0A468CAA1D4B8FC6FFCBFEAD6" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.zh-cn.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp529250BEE557732B5B8CBC47914A0F2A" Guid="{2D4E3902-96E9-4C8B-BF8C-623D10FF7B57}">
+				<File Id="fil915C308602F025646FC5A874F74AA475" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.zh-hk.xml" DiskId="1" />
+			</Component>
+			<Component Id="cmp38274F8F5E4F600A9AC5225A0472D656" Guid="{74B65782-BFB6-42CD-B3BA-D736C7B0B3BE}">
+				<File Id="filFD4B1ECAE9F0FF855503D800C1A2891A" KeyPath="yes" Source="$(sys.CURRENTDIR)\Languages\Language.zh-tw.xml" DiskId="1" />
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Refer to C:\Program Files\VeraCrypt\docs in order to install files in it -->
+		<DirectoryRef Id="DOCSFOLDER">
+		
+			<Component Id="VCUserGuideChm" Guid="{8CBE67F1-D493-4B33-9141-DB221021C59B}">
+				<File Id="VeraCrypt_User_Guide.chm" Name="VeraCrypt User Guide.chm" Source="$(sys.CURRENTDIR)\docs\VeraCrypt User Guide.chm" KeyPath="yes" DiskId="1" />
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Refer to C:\Program Files\VeraCrypt\docs\EFI-DCS in order to install files in it -->
+		<DirectoryRef Id="EFIDOCSFOLDER">
+		
+			<Component Id="dcs_tpm_owner_02_pdf" Guid="{DC75D11E-8250-4DDD-9BD2-451194F8717D}">
+				<File Id="dcs_tpm_owner_02.pdf" Name="dcs_tpm_owner_02.pdf" Source="$(sys.CURRENTDIR)\docs\EFI-DCS\dcs_tpm_owner_02.pdf" KeyPath="yes" DiskId="1" />
+			</Component>
+			
+			<Component Id="disk_encryption_v1_2_pdf" Guid="{DFD46CE4-B65B-468A-B236-3E5C43090235}">
+				<File Id="disk_encryption_v1_2.pdf" Name="disk_encryption_v1_2.pdf" Source="$(sys.CURRENTDIR)\docs\EFI-DCS\disk_encryption_v1_2.pdf" KeyPath="yes" DiskId="1" />
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Refer to C:\Program Files\VeraCrypt\docs\html\en in order to install files in it -->
+		<!-- Components generated using 'heat dir ".\html" -gg -sfrag -template:fragment -out directory.wxs -var "sys.CURRENTDIR"' -->
+		<DirectoryRef Id="ENHTMLDOCSFOLDER">
+		
+			<Component Id="cmp5A2505C1E4CE33EAC578A8D1C8C505D2" Guid="{EB5FB334-0E04-4DC8-BCA7-9233982B0FF8}">
+				<File Id="fil2FC60DD03A8AFECD3E1FB3B2F358CDF5" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Acknowledgements.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpE985CD1A96188861286D758A12A1D0A1" Guid="{25ED8C45-E6AF-4582-ADDE-5EDF51BF4EC2}">
+				<File Id="fil81B62ADB5DD42B4C9666C61A4F59E00C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Additional Security Requirements and Precautions.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp310514F655B6D66F5308A5823B0AB691" Guid="{B18F4EA7-2A2E-4DB2-BA72-E1AE3C090C4D}">
+				<File Id="fil8194761219752C0F565AAD6F30B00920" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\AES.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp0664DF8B1FE440C02B1E20D2F23C2CDF" Guid="{2A048A0F-A19B-4EE2-A1FA-2761C8931A29}">
+				<File Id="fil6B563B1A4AA551468283EEB5872DD176" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\arrow_right.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp2934E77CB835216789F88BD686160A94" Guid="{084CDB58-6A9F-4985-9818-727FBFF0D95B}">
+				<File Id="fil960742ACFA2D79EEC2E6D45D7A93047B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Authenticity and Integrity.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp688E76C9A297923D616068E33A6A4F49" Guid="{63DABE8B-7EE0-479E-890F-701C7E890647}">
+				<File Id="filCC9CD11F958A26366B700B8EE8812A65" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Authors.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp2ABB10C0A5AC0F1084EDF94E0FDFFD09" Guid="{034D6A64-B712-49C1-9450-5585B207C8AD}">
+				<File Id="fil63E5CE3D0A91ACFF543B523A58476CCF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\bank_30x30.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp32E7F4F5C0F44D00B53E3946E7E1FCF9" Guid="{4A9AD9E2-8ADA-41BF-B2EC-643579DF9B35}">
+				<File Id="filD1052E711F1CD089D66C27B04EDD6113" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\BCH_Logo_48x30.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp989B890D94671F634D04D8F945090F21" Guid="{4C123649-753C-404B-908D-AF1B48CBB844}">
+				<File Id="fil02D4C60C8A30C22AE1F14E33DA3DA38C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\BC_Logo_30x30.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp109BF0667C5A7B7036CCAAD9B29D9449" Guid="{5951DADE-1544-4213-A018-E33CC10AFA5C}">
+				<File Id="fil07FA1CE512F8C8605304C23C4DFE264D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp82ABD3094B751094F3A49CD338A3713D" Guid="{1D02B8D8-92E6-4E2E-B29B-1C3633C625BB}">
+				<File Id="fil4431451829FDF5841BC97BA0A0CA8133" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_001.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpE6A18205CB9F847CD7C4375AED2196D5" Guid="{D84BA05D-74CB-47CE-8098-C3C27E9292BA}">
+				<File Id="fil89FAEFEC223673825DC022EED971C0E0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_002.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpAA4D61C5E17E2A8513EC120AC9B1DB8A" Guid="{62C84C2A-D459-4BE2-84B4-7D43F3C5726E}">
+				<File Id="filE334137ACF34B80CE263C7A3868862FE" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_003.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp39251BC13DA4AD6508E18D90D86DF06D" Guid="{E4095A6D-EAD5-429C-A75F-39758A7F1C87}">
+				<File Id="fil924A6AEB99A9EF73D5240117A35F4A73" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_004.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpBABB0BD95FD763E9C72D2F51C325CF15" Guid="{0905EB74-CB03-4479-8D47-D5F1071E6D1C}">
+				<File Id="fil2C527AD0D6FF9D8991263AEAEF0028C1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_005.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp2FE3B3719DCC4362AFF8BF7B4CADFF80" Guid="{8F29956A-6555-45C9-B254-F277FD9D0230}">
+				<File Id="fil1CCA48715513D4C909E9B413C8D1DDD0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_007.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp2FC8BD312D06FEC4E244604E27117B62" Guid="{22F89049-FED2-46D8-A298-E43ECE3226B9}">
+				<File Id="fil4F7DCD31A2B30BC40BCC4E76DDCE58C1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_008.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpAE99FB30CC29DF92E71A31EC39E61EF5" Guid="{C125C0FE-AEC0-455B-A7A6-BD216E712F11}">
+				<File Id="fil3E632F1EA36028C0146D810EB2A994BB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_009.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp535B1A9BACA231F518973D620DC23779" Guid="{35958B4E-683D-4F34-B510-04E5801B4A1C}">
+				<File Id="fil820662B184499949D0F2AF8C702010BF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_010.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpD2ED5F6D8C0A4CA0D26F9F1BB34AB8BA" Guid="{E3CDE6DA-DCC0-418C-926F-406962D00BB7}">
+				<File Id="fil0377513CEC808B0549D7B1D3AC22DED8" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_011.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp5F7E0D8587039E1BA0F236F228C163BD" Guid="{B3E56E0C-7368-42D8-9EEC-56FC2568A649}">
+				<File Id="fil07880CC54CBA150765E18E78D707B361" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_012.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpF4DA2D3DABC768C2040A67A993C53E9E" Guid="{817105D4-7E68-417B-9592-F664A20AD861}">
+				<File Id="filA63E7BA341C510BB5F5BE441475173A0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_013.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpC0AD9100DE0F43E8149F8D3271B02D17" Guid="{81CFCB27-3F21-493C-AA7A-836E05157AC3}">
+				<File Id="fil1872F82E98E3D4AAE017F70E311912DE" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_014.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp32646E8087D106AE2B62E5DCF2419EDD" Guid="{54C078C1-1641-4A06-BBCA-D6A2C0389695}">
+				<File Id="fil0C921426CF20987C0ED9364F11F534F0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_015.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpB3C777FAF214F7D304EE7CF907D7FF57" Guid="{C44D9DD8-7803-41C1-9323-4CFD516C2DEB}">
+				<File Id="filE9FA9200D40A4970139496FD4D09CC9C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_016.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp338115DF524F0B412A21AB64F59240DD" Guid="{D4B1FD10-580F-4889-95F4-EDFFFC3C1309}">
+				<File Id="fil74DD6EA64196A3168E669A1FF7AE3E0A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_017.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp2F24E0C7B7175D60257F6D01231C8373" Guid="{BF43A78C-C0A8-498E-A3EF-7D0265F1E312}">
+				<File Id="fil37771854D19D4FEC1E9E8DB377B24B8D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_018.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpAE9D52ADD94D3A2711AA79FA0C91CA00" Guid="{3EF7862C-7D09-4662-BF1C-67D05EBF9711}">
+				<File Id="filEC84ED23804D7FD220C90FF50B92FD7C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_019.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp0A6270FD26128E8D1CC83E392E91A772" Guid="{5252F18E-BFB7-4FCC-865E-809BBD431C22}">
+				<File Id="filBB21339DA6F921A2596897061F9C1F7E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_020.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpEDB0E152195A7EB91BBB28631B689E0B" Guid="{C3750B19-85AF-4B35-98C9-969168C0C19F}">
+				<File Id="fil23F7783C38C515A1DAA07F85B306D695" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_021.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpFD76EB6B5546D1C38CC33FABA95FAA15" Guid="{AA874CBC-A2B7-48C6-AC23-654C190C65B0}">
+				<File Id="fil769661E570AC147356DE7C8AD17F9F76" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_022.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpDC4FD19F507A5152351B9F71C8691486" Guid="{5B95B2F6-EF6F-4D08-9014-F4C621EA49D3}">
+				<File Id="fil6AD3B2642AC17EBF625FEBC38F376F96" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_023.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp9E45BE754042F9DD742A0B7B9F27E786" Guid="{7DD3EFD4-E5DC-4D5A-BCE0-5E2F6FA86E9C}">
+				<File Id="fil29A133B2F2F200139A6F8BA5753FD673" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_024.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmpB6AC414023A6BDBF855F4A807DAE138C" Guid="{557B4D3A-C503-4EAF-8DFC-5B9177A1F737}">
+				<File Id="filE1FF7E56D4D7BAE636B289521CD0C787" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Beginner's Tutorial_Image_034.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp053692809BD5B3F5682AFCC539A767A3" Guid="{C99F1ECB-6AAB-4D06-B4C7-134CD2502104}">
+				<File Id="fil9D6A859E5E76057E4E64E35D03BF1739" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Camellia.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp9049A791E9E1AB7FF01BD7F08D1CB069" Guid="{F9B7E6CD-6AAB-4FD2-9CCC-8D13191057FA}">
+				<File Id="fil768C59AC95806B46E5921E83E17DF406" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Cascades.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp4E6F9484484A40645D519F688ED9C21E" Guid="{5231376B-B4D8-4733-8EA9-ECA11DD034BF}">
+				<File Id="fil45397F2F396BA3408992A437902E6951" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Changing Passwords and Keyfiles.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp3CF724F2A2347A2A30C85CB76490F687" Guid="{BB072BB5-3F7F-4F18-B00F-0A75D3AC0F49}">
+				<File Id="filF949C326CAEAC18B9572844C807C9D19" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Choosing Passwords and Keyfiles.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp3858A4BB7577362DE87F4485575DFC99" Guid="{94549BE1-9A7B-4DA7-A66F-17193865335E}">
+				<File Id="fil72F9481463D425378DDDD5FCDBCC909B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Command Line Usage.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp90AB4CF273108F47223E3432838CDE37" Guid="{9510EAF5-F452-4991-9BA2-F1F641C1D697}">
+				<File Id="fil1DAD595818432F019735F37E86305500" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Contact.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB9A0461BF7CF75538111B088C986A62F" Guid="{EC931A38-5F11-4C02-AA88-3A072E802C0B}">
+				<File Id="fil8ABFD40EA9A1BE1765D794C2B8EAF909" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Contributed Resources.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpD8C7B52BC03709FAB2642B93BFE4FFE8" Guid="{1592BAD3-086F-4DDE-8970-199B44FFBD6E}">
+				<File Id="filE99ED4C6D87549A1F623A37A5C47552A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Converting TrueCrypt volumes and partitions.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpFD6EB163EA6B74C4F59FF04D2B3796CC" Guid="{60D5BA7E-7466-4F09-ADB4-571A7502DD7B}">
+				<File Id="filBD6D90F11807407F91F2F7AEA5DDC8EA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Converting TrueCrypt volumes and partitions_truecrypt_convertion.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp612D2E75E857D164665BE8CA37570D04" Guid="{6D667BD9-F8C1-4C46-BEA0-6AAA44B838CA}">
+				<File Id="fil14C75587323CCC7F69E32786D82A5BD6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Creating New Volumes.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpF65BF759DA7F65BAD6D74A83FEF9D205" Guid="{08FEF348-778B-42C7-81B9-F62EA5F658A6}">
+				<File Id="filDAF1BCFE93CF42677E91DCF5E515D861" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Data Leaks.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpA6A249B42C89657DE664B9D88D04DB3F" Guid="{76F64E31-ED27-46A8-8A0D-6CFB4A79B856}">
+				<File Id="fil58A7A13A2773C5CDDBF9D85254395A75" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Default Mount Parameters.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpEE8A03DA56EF1B35979430E8711A6960" Guid="{034B338B-7719-4E70-B08E-C118CBCD2432}">
+				<File Id="fil7D0C9ABA361EB2D263FA1F2EDB839223" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Default Mount Parameters_VeraCrypt_password_using_default_parameters.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp628E75C5DD0F38348B6F8694D5D5149C" Guid="{B4CA9CED-3087-4115-AC8C-A8E12C3A4383}">
+				<File Id="filAFAAE965983C249FC9A818A28333DFA4" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Defragmenting.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp40BDD4F3CA20DEE006E087930EF3847C" Guid="{696CB75F-F832-4E11-9617-E4F05B6CA29A}">
+				<File Id="fil7887EE82BC26C1CFAAC5CD3A29EF5049" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Digital Signatures.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp7AEEABAF151FCE92735664A55F7B8FFA" Guid="{40361F33-E50C-492C-8D5F-9B32B2318FBF}">
+				<File Id="filE430D3D4AD453AD90952510D4194438A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Disclaimers.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp9380DDE2560B4D8EE9CC363AF4BC7B5F" Guid="{787E2CF2-DF61-4341-94A2-497BCF9882C8}">
+				<File Id="fil04BCDEC7438B23A6BBF1C95ACF126266" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Documentation.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp84A94F04CD486338F57C03B316145945" Guid="{44F12D12-3BB4-4FE5-B829-5D471C05A2AF}">
+				<File Id="fil07C7557AAF506EE9095B8C76E9C56776" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpDF544847A4B1F86B3BA3468336CD73FE" Guid="{8E46CB17-1956-4E28-B8F4-30DEFCEA1CF6}">
+				<File Id="filD27301F6F853ABFC08499D4085599774" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_Bank.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp9A6A861B59A23E534C7407EF95500AA5" Guid="{044EF38F-E86C-4A28-B675-CA7E8E318559}">
+				<File Id="fil87AEAF6DE829555C03BF7888DDD40D8F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp09C34B1CBDE9F2F4E897340B1C67728E" Guid="{CEA5EA37-6E8B-4DC0-A4DC-F95A050D36A1}">
+				<File Id="fil2E4790AC38717B6E5E9B77A926CA98C4" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate_CHF.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmpD3183A7373751A19B4B7C9B041F9035D" Guid="{23A3ADFD-3BC8-4F77-9281-EED6A67CAFFD}">
+				<File Id="fil12198C69AEB78A4CDE5C4343E8EE27A7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate_Dollars.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp3DED9073AB120DC026C48E9CDF9283EB" Guid="{8F9DA5BB-3BFE-4D21-8B79-65AFBFC93ECF}">
+				<File Id="filDA4E4CC3AAE26E3ADE9CFF4940975500" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate_Euros.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp0FF3027C2662D967ACB4B01BA7BC85F9" Guid="{1B9D2475-C2D0-4695-B51D-AE53BFF05A46}">
+				<File Id="filF7C4F27359F58FD995B964FF3B5AAAFF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate_GBP.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp3FC9C0126A2074CAABCF73197358F824" Guid="{7AD29EC1-38EF-4F2A-8038-E70A6D360CA0}">
+				<File Id="fil0D75D569E37C808031A4217294796BC7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate_PLN.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp1830E220882FBA276350032258B478AA" Guid="{A1A3410C-6B91-44FF-AC33-BDB18F4F2022}">
+				<File Id="fil7779997A454E1C0068F2DF292319AA6A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_donate_YEN.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmpE5D6E9DF3EE1301C6D5A4F44362BCE96" Guid="{0811DEAF-F857-4839-A31B-C1B3A2C932FE}">
+				<File Id="fil83A3E2E3996B9CC933A606F6E4661FD5" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_BitcoinCash.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpB7B429D414CF1DD05A4B70CE94E343F7" Guid="{04490FFA-387E-4FD7-9449-AB6C99886EA9}">
+				<File Id="fil25C86292E018E61CB762731F14261986" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Bitcoin_small.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp00845B9781D5633702C834BCB4EB93D1" Guid="{A41BFAC5-42BF-45DB-BFF9-703F9DBE7346}">
+				<File Id="filAD426632459DB7AB1528AC311CE28870" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Ethereum.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp47F92D029E335F7865F8ACB30763FED2" Guid="{A6C96C85-D0E8-442B-8C84-8705F17EE4C7}">
+				<File Id="fil155C2578FFCBDBD39679AB6AF62EEA7B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Litecoin.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpF3B90B0C1F316854E9142B22783ACF19" Guid="{A369FF58-377C-47B9-A2A6-B222CA95898C}">
+				<File Id="filBE9E8FB59340806B67751E8BC2E00071" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Donation_VeraCrypt_Monero.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp2EC17F48BC15C5405D2DB40FC6E01745" Guid="{700262B3-5BB2-4482-B96B-A511EA875986}">
+				<File Id="filACA26698300072DB7F917CA47A8AB6B3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Encryption Algorithms.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpE00F8980768E14DF59474B5CB3D84041" Guid="{45C099F3-92B5-4514-9049-BEA244F0C942}">
+				<File Id="fil0B06214692CAA0ACCACC01D1372A93B5" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Encryption Scheme.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpD17B73F5892E45458E960025558B3452" Guid="{F974B54B-B964-4B65-A718-DF09BE96F106}">
+				<File Id="filAEB57F6A5B5C2593D13AEF942A2C721C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Ethereum_Logo_19x30.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpF45A8248FAFA80A8DF62989C477E7C0F" Guid="{9184BA24-53AB-4753-907C-E88D7F56B3FE}">
+				<File Id="filA72BC6DCFD81551D166437E20BA8224F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\FAQ.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpD066CBBD66E8CABB4AD4B928F823A5D2" Guid="{A8B260B0-505C-4948-801F-A03236A0D61D}">
+				<File Id="filACB34BF3CCD1B081CBA230C962B4023D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Favorite Volumes.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpACFE3B967BB844C3FD0FE21C9E87EE5B" Guid="{46D1B528-C7B7-4AEC-B5AE-0A3F91D4312E}">
+				<File Id="fil88A41060BD4F57CB6135E162D4AB5CD7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-au-small.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpFAA171DECE81EA4EA99B5570C9FF7D0E" Guid="{6EC15848-F7A8-40B3-88DF-52010E89E634}">
+				<File Id="fil16558379B1C9116103DF96CB9C5C36AD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-au.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp7C1E782A2C12520E4CACF0D8FD4EAA4E" Guid="{625A778A-7F8A-42D8-A725-85973721DFF0}">
+				<File Id="filA16A3EF20ACB7C21ACD09A4D1593A6F1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-eu-small.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpE9009D51D7CF4AA8BBA735E91F1D6044" Guid="{58D024BC-047D-44AA-9818-9E68C256D84D}">
+				<File Id="filCEC0006C74C3A5D4FB0CDA60EEE61C91" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-eu.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp5D46BFDD0D54DD715695756148C22028" Guid="{42A27E61-0190-4654-8996-91B092CC314F}">
+				<File Id="filE84495221B2E5A505F3AA4CA4595C7A9" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-gb-small.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpE34BBB4D255F23D71B0143270915E6D7" Guid="{5E95AE9C-8807-4E4D-81DA-1A83DACDC8A1}">
+				<File Id="filECFBF3D126ECCB088B3B313A370D71ED" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-gb.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpEB665F1BFDB30B20C90142CCD1DA7664" Guid="{DB6617B7-2FEE-4FDB-A2DA-834B33B29C3E}">
+				<File Id="fil968867F284C9559835DFF02CFA106E13" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-nz-small.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpFDCC994071E7ADACE3EB2CBACC60E34A" Guid="{0494762C-CFB8-4CF7-85AA-0650B2B4E813}">
+				<File Id="filF5C5A9923D299431406A6B5D8D2BF34D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-nz.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp21A3A9B1C7FAA004EF937114F0F41C61" Guid="{2F88A1FE-94B5-46E0-93C2-DE9F9BEE58FF}">
+				<File Id="filC1071DD08F53BDD0249A4E15993448D6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-us-small.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpFD4A149B4654FEF0542A5ECE211A86B8" Guid="{CC1D951A-2C70-4AE4-AC3C-E2D56789B981}">
+				<File Id="fil1120ADD37C4E5039A94D7442675B202D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flag-us.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpE7CDDDCDA7CD20F1150F2879E0293D1D" Guid="{67630C6C-178E-41CF-A74A-AA086E5B4553}">
+				<File Id="filA42CDEA93CCFE721C2569FA3D0786D57" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\flattr-badge-large.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp9CDBE7ACC2D5393535D2981C3DD73682" Guid="{97414D97-9C51-419A-9FE2-392223B7600A}">
+				<File Id="fil901AA5AF4A010844A1F50A5881B8FD16" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\gf2_mul.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmpF09EAA16502FCF137AAD38D70D50B200" Guid="{95BBE9B0-AB65-43FF-A3C4-0D347BE43DF0}">
+				<File Id="fil3E73719A927F1E24178C1E3C05DC1384" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Hardware Acceleration.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp62D4B7B5DACB58D3EEA9E6D3385769A7" Guid="{285C17A2-418E-4ACD-B0E8-A3940A9E9E61}">
+				<File Id="fil05C2A8A0846F0288FDC2580173316E05" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Hash Algorithms.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpBF36D06FA293DFD3AFA1543C43A54E17" Guid="{EC20DE1B-F10D-4F9E-9CEA-8E06170EE71C}">
+				<File Id="fil12E28B4819EEC3590C5CFA611E8BAF01" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Header Key Derivation.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp7345D3EE0CFEA227E8AA9ADADF95E623" Guid="{F5E2342E-2879-48B1-B3CE-5C626AEDC366}">
+				<File Id="fil25DB00F86CBD631E7750B8050A9CC9CD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Hibernation File.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpE92C5D4B774B7214B49931528F7EDCF6" Guid="{44B9627E-29EC-4B8E-9B20-3D0ECCC77C1E}">
+				<File Id="filA094EFE79FB6AAAEDCCC3C997972E35E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Hidden Operating System.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB6A3927A1BE4D2836C1007D3CC989C4B" Guid="{13D8AB5D-0F73-4C29-AB08-9086313EF010}">
+				<File Id="filC7CDBCEC9B1D4BA6BCFC0362CE353D51" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Hidden Volume.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp28666EA10A3DCEC7D2583ADD52785FDC" Guid="{55E58038-C992-4683-AA9F-9CA4111884FF}">
+				<File Id="fil707007462E284E1048B6AB488EFFD466" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Home_facebook_veracrypt.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp08768A6308C114126260614CCDF6F72E" Guid="{30FDB2BD-5E5B-421E-97AE-F819944A4B57}">
+				<File Id="filFA4C178FEBD09C0A4D38AA90B4523E9E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Home_reddit.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpF00E284DEEE43B341D12987E20DB76C5" Guid="{A2160846-E461-4C23-BC88-64531B3D2C59}">
+				<File Id="fil4A9EA521DBB6DD5E280E4186CD34FA11" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Home_utilities-file-archiver-3.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpB75BD74E0F63097DC1777FF4BF440479" Guid="{E2C9732A-0FD0-4A33-9B69-0BCD132AB427}">
+				<File Id="filDABCE60F828DEEE9AE5064EA3F71EC67" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Home_VeraCrypt_Default_Mount_Parameters.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp1745256A6ECE8FB1779B0DA82CEECAB9" Guid="{1A5FBC9F-430E-4F8D-AEA4-7391D85F2E27}">
+				<File Id="fil9C3B9E9CFB06A1F7C162B4941656906A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Home_VeraCrypt_menu_Default_Mount_Parameters.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp3F248F4BDDB12D98D3CF173FEA01CE24" Guid="{1B2E6370-1DD1-42D8-9E84-6D85922DFA07}">
+				<File Id="fil9E39BB9774782EA2337679D8B86AB1A5" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Hot Keys.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp1209E63998A1D1504B062C4ECC45EE07" Guid="{ED60D316-7B35-4622-90B5-938260E9E150}">
+				<File Id="fil2B4301AD5F5E385426DEEE0DE166D557" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\How to Back Up Securely.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp035C544DF9B46B9DD7871AD7898B7D36" Guid="{44C5611E-FF00-41F3-B744-E18801513D89}">
+				<File Id="filF60B07EAEE2B63ECAA396508EC68858F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Incompatibilities.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpA891AF32EF72B7AC80533FC31773B604" Guid="{305DB86E-AE27-4634-9CE1-C4C875EF9569}">
+				<File Id="fil8F60E744AB05081B8929E635DDF7B733" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Introduction.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp1FC684D1C3742A927228DE9A669A2895" Guid="{EE9D3F20-7EB4-4628-ADE6-51238E60A998}">
+				<File Id="fil9BA13C18F0927CFB3AFBFBDA5944B166" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Issues and Limitations.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp265116FC4778248E01BADFB30A2C32A7" Guid="{37C6EB1F-7A7D-4F00-9204-51240EB7FB81}">
+				<File Id="filC57676C07D244DB5A336F1D52D978004" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Journaling File Systems.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB2A3FFEE7A15E23A2835A843438E3669" Guid="{BF14B9BF-8AFB-4E5E-80E4-CA2F3D132F51}">
+				<File Id="filF08A4DB40EFF11FE0784034B3D70B750" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Keyfiles in VeraCrypt.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpFC8FB415783E0AA424FBD685EFACF54E" Guid="{01FCB5FD-953B-49D6-B993-6AC117052F6B}">
+				<File Id="fil6DA5794E0BA3F26779AFE828D4E41AAC" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Keyfiles in VeraCrypt_Image_040.gif" DiskId="1" />
+			</Component>
+			<Component Id="cmp2BCEA21755E1C812ACCF15A09210FCCD" Guid="{0CECEA1A-AB6B-49B6-8D07-8D86B452995A}">
+				<File Id="fil5450B4F3DD747980B87B30ACEC318F6E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Keyfiles.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp9EC1750F7CD9717D3A761FC2930C509D" Guid="{980F49E8-EBCD-4720-8466-C03DC2B3BBD7}">
+				<File Id="fil780042F951150166D5D328C10993CE7E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Kuznyechik.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp4298A84BD6956E2A2742B5678BCFF173" Guid="{2809427F-697F-48A4-853B-5BE4AE1E720A}">
+				<File Id="fil01E37EFCBAF6AB983418B79E3DD75E88" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Language Packs.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp2D9F7D88EF1F843BDEA5A39D13330B8A" Guid="{7A515A66-AD7E-4B89-8935-62C7B3FCF0A7}">
+				<File Id="fil587E308C1A86BF1B8DA5BEFF409C509E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Legal Information.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp58EAECCB29CB9ABDDDB72F9378E4EE77" Guid="{03CB945A-4EE1-4EC6-8360-56B00FD8C7E8}">
+				<File Id="fil76CDD0FA0D1CFE86ABAFDF8ED174B7D5" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\liberapay_donate.svg" DiskId="1" />
+			</Component>
+			<Component Id="cmp61C660976A230AD4AD8B42A90D4BCC7C" Guid="{7B5EFF52-9EBF-4A15-8117-684E0B40EC9E}">
+				<File Id="filE7AA75571211982F69DEE42B8A42D2BA" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\LTC_Logo_30x30.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp29A0605ED3FB7D4E2EAC833D56411563" Guid="{A65BBFC8-1956-4F8E-A0C8-74D32230342F}">
+				<File Id="fil9DB1C5CAE05C434550F18FEFC614D725" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Main Program Window.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp4A0EF1CFD1E1DE8B4E7BF698E05680E9" Guid="{273E1197-B7FC-40E4-AFB0-317D1D0AD816}">
+				<File Id="fil8F40D01C235606BC89A05FF0956B7146" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Malware.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp1E4F8137AD337BEA1B902E6B003AB953" Guid="{6FF05277-1E0B-4885-8AC4-9B3044DA19CA}">
+				<File Id="fil1C19C87ED25856F0A34F96A3AA92D695" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Memory Dump Files.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp8D35F7D61B2B7DF0EDEAE2E56031E7CB" Guid="{41103C48-5692-4593-8042-75B847917265}">
+				<File Id="fil03685445FCFED7E0BA2CA91812337283" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Miscellaneous.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpDE2C66707086A509EABD0F9F6E8BDB1A" Guid="{077B9131-7B76-4E56-9895-0A34F2B7DB5A}">
+				<File Id="fil52FBC994010BF4A06B7C78261E002986" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Modes of Operation.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpA80443C3767E3E51F3DE88BFD0D7A33B" Guid="{221A050D-548A-42F2-9555-7ECA43D71CB6}">
+				<File Id="filD4C6BB0CDA1B086217E6C8B6E4930DEE" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Monero_Logo_30x30.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp214446AAABEBAC0C3827B8977083FAE2" Guid="{76AB42FF-2CD5-4CC2-9E32-640FFA611F17}">
+				<File Id="fil82C85BB54B2E986169D519B2AAF71A46" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Mounting VeraCrypt Volumes.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp4AF022868FE6883520C700676C43B15D" Guid="{DE7F786D-2B71-4654-86F1-C02CCDA23E23}">
+				<File Id="fil1B5039BFF40C7C3BAA602D9AE17668E6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Multi-User Environment.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpC27AA2C4496C9EFA95DCD663B031B5D0" Guid="{23C15FAB-969E-491A-802E-ADE3255F9002}">
+				<File Id="fil5FA8E7B0268E1EF7F9FAFA478FE0C8B1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Notation.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp9CBBC8311BBFC54C8DC1162BB17E5AED" Guid="{9C5C22CF-AB15-4D0C-B715-AF1E31B0AFD0}">
+				<File Id="fil7A50CAD8D98A751781AF007ABEE22CD2" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Paging File.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp033461B0777614621A2ED7B4E2B08D55" Guid="{1A3135F7-200E-4563-90C3-79E5511394CD}">
+				<File Id="fil45662024A9E5B2BEBA51908F9478105E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Parallelization.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp0E43CDBBAE343957423AE2907AC16883" Guid="{5C63387F-3BB8-405A-BA0A-10F87C828F9A}">
+				<File Id="fil70B46565AEC42A408480FE289D55EA5E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\paypal_30x30.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp8A8526D2061A14810E1B7A8A6E527DCD" Guid="{F46FE563-00F0-465E-A7E7-901B1B3F412E}">
+				<File Id="filF33DCC20E8AA63F4190D46B9D22D71C6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Personal Iterations Multiplier (PIM).html" DiskId="1" />
+			</Component>
+			<Component Id="cmpAE2DADEF126C59D8CCD3A18D8CDC49C8" Guid="{EF70E2B7-4109-4327-BE89-0D411119AC4D}">
+				<File Id="fil357A891A8A012F17A7B040E444D36B5F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step1.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp2F972A5C99F7EE708B7C232EE8647672" Guid="{3190ECDC-675E-4845-A885-F12A1DF98B80}">
+				<File Id="filF8BC3136E117642C05A9DE926C174FAF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_Step2.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpB21F7D781FE7B006ABCA7974A21F29E2" Guid="{E07A247C-4600-4FAD-9766-585D2385EA6B}">
+				<File Id="fil559077BE31FD160F8A07CC74414D0B6A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step1.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpF345174585735CD7A31AE138DDE8B439" Guid="{516094A0-18EA-4AA4-806C-DAFC7BAF1245}">
+				<File Id="fil191704A44DE6065F1A5919C5EB1D49E1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Personal Iterations Multiplier (PIM)_VeraCrypt_ChangePIM_System_Step2.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp06772C03A0ECA40F11F1D5C5ACD607D8" Guid="{9235C68E-30B0-4B4C-94EB-6BDBC4057677}">
+				<File Id="filF226612AEE0B01C8ECE40DDF61B34478" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step1.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp79E890B8891FA87AA5B10A67E15E7E8E" Guid="{E0EA3C67-4624-47E1-A528-9859B868C7A5}">
+				<File Id="fil6351515AD3FA423CD458336ABC480500" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Personal Iterations Multiplier (PIM)_VeraCrypt_UsePIM_Step2.png" DiskId="1" />
+			</Component>
+			<Component Id="cmp89C46AE8EC4175E62A9CFE3DF9DF924A" Guid="{0A572658-4C6A-4F2A-8302-FF92CCEA3FB4}">
+				<File Id="fil0435E327F9A0E86EC58E465ED1474BBB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Physical Security.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpC8F860B10D41961424874F69C6D84ED3" Guid="{ED207B14-7958-4933-BF3A-1A1F85ECBA4E}">
+				<File Id="fil3B718B54EE1655F0A905435EE96043B9" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Pipelining.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp285021B8CBC8E92B1CBCE4C88731083C" Guid="{86BDBC99-AC0B-4542-B14E-99908DD27628}">
+				<File Id="filB7C15B9F7B056DB59B2E536B74F5F1AE" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Plausible Deniability.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpABE9B0A93A9B14C0732EBD8CD17A11AE" Guid="{5EE9BF82-FFB8-4511-B967-3383965953FB}">
+				<File Id="filE75832AA56BFC08BDB777474186CECD6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Portable Mode.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpD9B960879A3227B971E33222CE13BC18" Guid="{BD467209-9DA1-4383-BE25-E2EC8C9616ED}">
+				<File Id="filFBF0DB894794EFB2376487A579DFED67" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Preface.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp3B3BB414D13FDBF2B0C7A9CEBD7D98F5" Guid="{2CF8409E-3423-44A2-96FA-54D793EEB3F0}">
+				<File Id="fil7F7441447BC07C288597FEFA0D495255" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Program Menu.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB39B1096387C2617720F515D24953B37" Guid="{48233666-96CF-4C73-9284-259EC39EA2B7}">
+				<File Id="filBE0C2BED7FB2DD3D2FC511AC4D7D385A" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Protection of Hidden Volumes.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp493A37205039E2A3A476A1A4F5360EBF" Guid="{3D92A6B0-B03F-4C86-8020-F756FBAADDC8}">
+				<File Id="filC70F6B9415FAADA8160DB4529D0BE54D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Protection of Hidden Volumes_Image_027.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpF36A771DF9B1C4CD8E82C08A6D3D0786" Guid="{C0D77203-5FAC-4052-A490-ABB0346384AF}">
+				<File Id="filE1423115AD04FF5AEC6F63AA963CB4D6" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Protection of Hidden Volumes_Image_028.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp63F6A68C5538B45661168554BC3B93D1" Guid="{252A5E82-AD3A-49A7-8185-421735A09DCE}">
+				<File Id="fil5286E3B666BFB60D10FBA4CF8D8F6925" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Protection of Hidden Volumes_Image_029.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp0158A6D8BED6391AC7150B6C6AE2A9F9" Guid="{5A0D3271-1439-4E71-B7F6-D645FEC8FD49}">
+				<File Id="fil2C5151D680BC4575AC607487970F87D8" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Protection of Hidden Volumes_Image_030.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmpDE45667E9E3CD9F800EAC1E02B57AAB7" Guid="{333167EF-38B6-49E2-A24A-04E08F7D87BE}">
+				<File Id="fil1B03C5F8575364F36A893E5EE4723659" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Protection of Hidden Volumes_Image_031.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp632453049391BAACDD117A40EC442743" Guid="{75B50C72-2495-4A22-BFDA-5BFE041EB265}">
+				<File Id="fil37E6C8BC6738BF93446E4F2D13E312EC" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Random Number Generator.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpCE16E453CAD75A461B4FEBF451A51B7B" Guid="{E68D3F57-0A30-4492-9088-F2D1B0C7934A}">
+				<File Id="filC3043FC38C97C7B8038FF12DD7882D85" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Reallocated Sectors.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpC741D187A28A87BD33866C9AC09A1298" Guid="{FB850461-6BD1-495F-9C10-19A34CFA0F16}">
+				<File Id="filFFB70B91C00A69849F9E36950C6606B3" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\References.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB313B00E647A121B2CBE47F3048A18A7" Guid="{5985576D-6F6C-4D96-9B3E-9E0961CF9FAF}">
+				<File Id="fil2EB5F87C05CCC55D3964D595C85EF19E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Release Notes.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp400428F6494DE58618E3B92539548C39" Guid="{0A1869ED-25F1-4430-97A5-4C6EA8CDA7FC}">
+				<File Id="filEDEDEF956F04F36B4163989F9AB9285F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Removable Medium Volume.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpFB2313AB16EF2467366ED136C0E61CE6" Guid="{CFEC9559-9F85-46C6-9E98-AEBB573B96FE}">
+				<File Id="filE496203C4727FDF47F8352CB9722A8C7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Removing Encryption.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp960F36632D3FB602421D1195E4EB6FE1" Guid="{321F49A5-8A1B-4881-A32D-12EDA99D1B85}">
+				<File Id="fil324009D5856BF4C5270D40F1EC4110EB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\RIPEMD-160.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB4C7B1A7A3EC0CB2DE805AC5CC5FC0D7" Guid="{4534E8B2-114E-4173-AE3E-75E0D96EB573}">
+				<File Id="fil8CFD1CFDCBE261B6F91D9E587F8720C0" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Security Model.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp00540BF93A805E0B9996945B61E1BC2F" Guid="{1D5B7A85-87F3-45AF-9C09-BA7E088A835D}">
+				<File Id="filA7A29851126AC571C090BB0FBEE83CB5" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Security Requirements and Precautions.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp4C46C6668AD830D543AFE593D51676B3" Guid="{4CD21E9D-243F-4A58-A535-AA8EF9D2BFD1}">
+				<File Id="fil440C5158A3CD96689918C976DC917325" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Security Requirements for Hidden Volumes.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp6EE914124966E3A0F695359116413DD4" Guid="{724FA79D-49BC-4075-ABF4-0C318AE39855}">
+				<File Id="filD229058EB41E2E150C0CA4D0EC1DF39B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Security Tokens &amp; Smart Cards.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp28E29B4CA17AB51913B756CD9397EEFE" Guid="{1B9083B9-8E76-44CA-AE3E-0771B1ABA62B}">
+				<File Id="filC173058120D357E87951F41755A9210B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Serpent.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp5DF24509F284FABC600232197F803DE5" Guid="{120A40CF-E44A-4F4F-9072-93248DABACA2}">
+				<File Id="fil01F3ACD810057C4A059A5C424E1B79E1" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\SHA-256.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp09E31B885345FBEA1F473AF7A10FD88D" Guid="{1B1C80CF-6C3C-4C7D-BE7B-579042701D0F}">
+				<File Id="fil2E702CC679444D8DDB66A3FBDB32C807" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\SHA-512.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpAE05C79A35A43ECCAC995A711DC4D60B" Guid="{151A493F-38A5-4EF1-9740-255B610B4117}">
+				<File Id="fil167B9CF3B9CD2FA5458778733095F780" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Sharing over Network.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB6D91209A93313D08150643F1738DED8" Guid="{270DF8A0-8859-49F3-BF05-2F155C3CA428}">
+				<File Id="filF3B75776C2FEC0F4397274BCA02330DB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Source Code.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpDB66E821EC13977824FB1069DF5DAA69" Guid="{D08B0614-2B88-4445-9B47-52BEA0E29E77}">
+				<File Id="filA67FBF7D25BFBA155A0E4570F404CBEE" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Standard Compliance.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp159AB26E32632FC87229090B3AA89BF8" Guid="{B35B4FD4-D82C-47E9-BB2A-5539115F40CC}">
+				<File Id="filBFED47E502C7539F724D68EAF73A554D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Streebog.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp5BE3E12343551B853E1B143371CBEBE6" Guid="{5ACC0589-AD8D-4BAC-BD40-201BAD7D07BC}">
+				<File Id="filA40C816E149FB745F49DAF482DF97F3B" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\styles.css" DiskId="1" />
+			</Component>
+			<Component Id="cmp0E081D9499DA225BB788494A1D86893D" Guid="{A79816FA-0683-4097-988B-75FB49DF3265}">
+				<File Id="filB5B2E158090CD673A8FE9D55020AFC48" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Supported Operating Systems.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpBC7134AF21BAE309E9FD1A52ADF92527" Guid="{9570C06B-324A-4216-8D39-57AE06CAC70A}">
+				<File Id="fil6D85A49AF2B16D6EE47465F315B140EF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Supported Systems for System Encryption.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpB586F01E9F9657C498F2AB64E1F51BD7" Guid="{9E7FE222-18AC-48E5-ADAD-2A45BD498DAB}">
+				<File Id="fil4943B1ACB69010EBD9EC4E9D4E010E11" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\System Encryption.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp6EB049078039C276CADA69E7B79FDFA8" Guid="{8BDEFB8D-9143-45EE-8095-65B5F4C95417}">
+				<File Id="fil5A3E287172F44E471AE59AE8AB15B797" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\System Favorite Volumes.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp3135BB68A1F44DDD9FE19B7D5FB4ED7B" Guid="{00ED20A0-F1D4-443F-91EE-646A14B229BA}">
+				<File Id="fil2C3C74388CBEB07327ED4D549C0067FE" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Technical Details.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp98ECAD990DF7B535B05EF6E840B7B2DF" Guid="{1827AFAB-C8B0-46BF-B281-88662B87E583}">
+				<File Id="filAB4D4629FE812B0E1CDB1E3CBFB4A297" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Trim Operation.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpFE417CCCB859A1C3E4FB90A9C4E132F0" Guid="{A03D9719-6170-4239-9E67-5857521417C3}">
+				<File Id="filECA5FD7DEC2F3112CF19DB201F4DD774" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Troubleshooting.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpD91C00B1B2AACF38761B45D0574884D7" Guid="{52CD1733-C124-401A-9830-56AECD35F8DF}">
+				<File Id="fil524C8D572AD8121392C6584496A57345" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\TrueCrypt Support.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp590EDE3CE6E09D0D43B35287E849B75A" Guid="{5A433701-05CD-4972-9B85-B318BFD5D8DD}">
+				<File Id="fil35D6691D20085B8A5F8941864C44EC0C" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\TrueCrypt Support_truecrypt_mode_gui.jpg" DiskId="1" />
+			</Component>
+			<Component Id="cmp9D6F95F912C3B9C95E92E39BA1CE6BC9" Guid="{95929E0A-1AB1-44BC-A86D-F4F4B552121F}">
+				<File Id="filE04EC2E8B20706A01283B31462E0DB0F" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\twitter_veracrypt.PNG" DiskId="1" />
+			</Component>
+			<Component Id="cmpAD429D8A050A0D31B661626BDCA9C952" Guid="{6437B9F6-6024-4ACA-8FF1-23A613E2373E}">
+				<File Id="filC71BF1DDF8EB4C886801C1E95CD42F31" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Twofish.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp3BDE199844AB81673ABB0E5E61E9B7B5" Guid="{95B5F172-3BBE-4620-B68A-F2D3473C066C}">
+				<File Id="filD2BC6D56B2FF1A44DB6FF7B24B594430" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Unencrypted Data in RAM.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp0A4AB9AEF0D351FA5E63BCD67DC00607" Guid="{CF5B6BB4-4263-4354-BA4F-ADF283A0F238}">
+				<File Id="fil82416621AEEFEB29EFA3DE265214EA14" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Uninstalling VeraCrypt.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpCC25F1CB6A1C9D8B47C407B818F73B59" Guid="{5E74CF1D-85A3-4A4F-B1D8-E965912E00DA}">
+				<File Id="fil9D6D114ED531555871AD956FCBA5B7DC" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Using VeraCrypt Without Administrator Privileges.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpE0F5E8A2D6FEF181686370F0E1EAC632" Guid="{FDF54DAD-73B4-4D06-A292-353E3AFC27F7}">
+				<File Id="fil980276E3BC07E82993537096C68872EF" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt Background Task.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp46B2E8BCD50BD668153E793EB737BC39" Guid="{A899B8CF-2847-4BC2-BDD5-4B9C77EC13F9}">
+				<File Id="filF1064BAE73402AAE56CBD0BED505159D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt Hidden Operating System.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp0305CC2824E44F697B402E56A0CD1754" Guid="{4A81FE38-C1CE-430D-855B-2126B865A643}">
+				<File Id="filB279C24D2499DFD0899469188292D02E" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt License.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp0E00CBDCB82A904FD6AD82E458CA6AA7" Guid="{54998F1F-E717-4881-B63E-A3493B3EB7FD}">
+				<File Id="fil069503600DD8A66DCDA448933183871D" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt Rescue Disk.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp594B5E68E63675F4986F6717BC1F5950" Guid="{1216918B-2AEE-48BE-B956-9BF6F9AA568E}">
+				<File Id="fil3AB9FDA0E3D8D0A0BD0C321E1779EC14" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt System Files.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp62748E79EC04EBE33DC46770AD65CDCE" Guid="{6A32F378-04F7-42B4-A9B2-7A500BB34071}">
+				<File Id="filB21E0ACBD1948FFB662842F1F6A86DAB" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt Volume Format Specification.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpE1265CF3CC5E0B487E99D9D5936BB3F4" Guid="{ADFAD315-C3D8-4084-A7F3-FA957429C5F1}">
+				<File Id="filDFCE636A6439CD7F236E004E67DBCD23" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt Volume.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp1C162513D52824629D7C9FAF96054182" Guid="{8772B5F9-85B5-4DB9-AD86-AF6FB0FECF13}">
+				<File Id="fil0CC62FF0B0565DF602BDF277B36D1696" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\VeraCrypt128x128.png" DiskId="1" />
+			</Component>
+			<Component Id="cmpB5FA2A488D2C7E59E0B52D18820CE00A" Guid="{CF1BAE7D-281D-49DB-A096-51C3B3DFC40F}">
+				<File Id="filCEA5B6C14C18E120FCFF7BBD6791B9FD" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Volume Clones.html" DiskId="1" />
+			</Component>
+			<Component Id="cmpBB1A4A1EB3FBBE5B2BF2752C302CDC2D" Guid="{69F8D869-FB10-436B-8D13-DBBA92BA4B29}">
+				<File Id="fil78A530A8C9B138112029FBCC58AE22E7" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Wear-Leveling.html" DiskId="1" />
+			</Component>
+			<Component Id="cmp9D908DF026E6297D51B6C4A6700092F1" Guid="{567314CF-BEA8-4AA7-A9EF-F0C776EF80E1}">
+				<File Id="fil21EEF98CAEE8AF1A7263353EE9D83C38" KeyPath="yes" Source="$(sys.CURRENTDIR)\docs\html\en\Whirlpool.html" DiskId="1" />
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Refer to Desktop folder in order to install files in it (shortcut) -->
+		<DirectoryRef Id="DesktopFolder">
+		
+			<!-- Creating an advertised shortcut : enhances resiliency by verifying that all the components in the feature are installed when the shortcut is activated -->
+			<Component Id="VCShortcutDesktop" Guid="C7EBBEFB-8E9C-48D6-8014-2BBA1C7D1957">
+			
+				<Condition>INSTALLDESKTOPSHORTCUT</Condition>
+				<Shortcut 	Id="VCDesktopShortcut"
+							Name="VeraCrypt"
+							Description="!(loc.VeraCryptDesc)"
+							Target="[APPLICATIONROOTFOLDER]VeraCrypt.exe"
+							WorkingDirectory="APPLICATIONROOTFOLDER"
+							Icon="VeraCrypt.ico">
+				</Shortcut>
+									
+				<RemoveFolder Id="CleanupDesktopShortcut" On="uninstall"/>
+				
+				<RegistryValue
+					Root="HKCU"
+					Key="Software\VeraCrypt_MSI"
+					Name="VCDesktopShortcutInstalled"
+					Type="integer"
+					Value="1"
+					KeyPath="yes"/>
+					
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Refer to ApplicationProgramsFolder folder in order to install files in it (shortcut) -->
+		<DirectoryRef Id="ApplicationProgramsFolder">
+		
+			<!-- Creating an advertised shortcut : enhances resiliency by verifying that all the components in the feature are installed when the shortcut is activated -->
+			<Component Id="VCShortcutStartMenu" Guid="{9CA5F425-0268-4424-8E41-A94D90F1118D}">
+			
+				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
+				<Shortcut 	Id="VCMenuShortcut"
+							Name="VeraCrypt"
+							Description="!(loc.VeraCryptDesc)"
+							Target="[APPLICATIONROOTFOLDER]VeraCrypt.exe"
+							WorkingDirectory="APPLICATIONROOTFOLDER"
+							Icon="VeraCrypt.ico">
+				</Shortcut>
+											
+				<RemoveFolder Id="CleanupVCStartMenuShortcut" On="uninstall"/>
+				
+				<RegistryValue 
+					Root="HKCU" 
+					Key="Software\VeraCrypt_MSI" 
+					Name="VCStartMenuShortcutInstalled" 
+					Type="integer" 
+					Value="1" 
+					KeyPath="yes"/>
+					
+			</Component>
+			
+			<!-- Creating an advertised shortcut : enhances resiliency by verifying that all the components in the feature are installed when the shortcut is activated -->
+			<Component Id="VCExpanderShortcutStartMenu" Guid="9BA70A97-CB6D-4ED4-A0F7-A4CF9885DC33">
+			
+				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
+				<Shortcut 	Id="VCExpanderStartMenuShortcut"
+							Name="VeraCryptExpander"
+							Description="!(loc.VeraCryptExpanderDesc)"
+							Target="[APPLICATIONROOTFOLDER]VeraCryptExpander.exe"
+							WorkingDirectory="APPLICATIONROOTFOLDER"
+							Icon="VeraCrypt.ico">
+				</Shortcut>
+											
+				<RemoveFolder Id="CleanupVCExpanderStartMenuShortcut" On="uninstall"/>
+				
+				<RegistryValue 
+					Root="HKCU" 
+					Key="Software\VeraCrypt_MSI" 
+					Name="VCEexpanderStartMenuShortcutInstalled" 
+					Type="integer" 
+					Value="1" 
+					KeyPath="yes"/>
+					
+			</Component>
+			
+			<!-- Creating an advertised shortcut : enhances resiliency by verifying that all the components in the feature are installed when the shortcut is activated -->
+			<Component Id="VCWebsiteShortcutStartMenu" Guid="{D5AA7FFE-5256-4234-AEE1-F9F1EB6ECA4A}">
+			
+				<Condition>INSTALLSTARTMENUSHORTCUT</Condition>
+				<util:InternetShortcut 	Id="VCWebsiteStartMenuShortcut"
+										Name="VeraCrypt Website"
+										Target="https://www.veracrypt.fr"
+										Type="url"
+										IconFile="VeraCrypt.ico">
+				</util:InternetShortcut>
+											
+				<RemoveFolder Id="CleanupVCWebsiteStartMenuShortcut" On="uninstall"/>
+				
+				<RegistryValue 
+					Root="HKCU" 
+					Key="Software\VeraCrypt_MSI" 
+					Name="VCWebsiteStartMenuShortcutInstalled" 
+					Type="integer" 
+					Value="1" 
+					KeyPath="yes"/>
+					
+			</Component>
+			
+		</DirectoryRef>
+		
+		<!-- Registry Keys -->
+		<!-- When Name is not provided the default value for the registry key will be set instead. -->
+		<!-- We use &quot; for when a " is needed in a Value -->
+		<DirectoryRef Id="TARGETDIR">
+		
+			<!-- Win64="no" means the RegKey / RegValue will be created in the 32-bit node of HKLM (HKLM32) -->
+			<!-- By default, on 64-bit, Win64 is set to "yes" ; On 32-bit, there are no 64-bit regkeys / regvalues -->
+			<Component Id="VeraCryptVolume_Main_64" Guid="{C0C6A818-7D7B-483C-98B5-D2BDFF35A84D}" Win64="yes">
+				
+				<!-- Create only if user checks "Associate .hc to VC" -->
+				<Condition>REGISTERVCFILEEXT</Condition>
+				
+				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
+				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume" >
+					<RegistryValue 	Type="string" Value="VeraCrypt Volume" KeyPath="yes" />
+					<RegistryValue 	Type="string" Name="AppUserModelID" Value="IDRIX.VeraCrypt" KeyPath="no" />
+				</RegistryKey>
+			</Component>
+		  
+			<Component Id="VeraCryptVolume_DefaultIcon_64" Guid="{4A30C85F-935B-4EE6-98BC-5FAE89621C54}" Win64="yes">
+			
+				<!-- Create only if user checks "Associate .hc to VC" -->
+				<Condition>REGISTERVCFILEEXT</Condition>
+			
+				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
+				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume\DefaultIcon" >
+					<RegistryValue 	Type="string" Value="[APPLICATIONROOTFOLDER]\VeraCrypt.exe,1" KeyPath="yes" />
+				</RegistryKey>
+			</Component>
+			
+			<Component Id="VeraCryptVolume_Open_64" Guid="{99300DB4-5A81-44C1-B358-3CA356169BAB}" Win64="yes">
+			
+				<!-- Create only if user checks "Associate .hc to VC" -->
+				<Condition>REGISTERVCFILEEXT</Condition>
+			
+				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
+				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\VeraCryptVolume\Shell\open\command" >
+					<RegistryValue 	Type="string" Value="&quot;[APPLICATIONROOTFOLDER]\VeraCrypt.exe&quot; /v &quot;%%1&quot;" KeyPath="yes" />
+				</RegistryKey>
+			</Component>
+			
+			<Component Id="VeraCryptVolume_Extension_64" Guid="{89EC023F-4BB3-446E-A2A6-FD7BFC5B4962}" Win64="yes">
+			
+				<!-- Create only if user checks "Associate .hc to VC" -->
+				<Condition>REGISTERVCFILEEXT</Condition>
+			
+				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
+				<RegistryKey 		Root="HKLM" Key="SOFTWARE\Classes\.hc" >
+					<RegistryValue 	Type="string" Value="VeraCryptVolume" KeyPath="yes" />
+				</RegistryKey>
+			</Component>
+			
+			<Component Id="VeraCrypt_ProductGUID" Guid="{C8F09E5D-47CE-4FCE-BF4D-853C56AA20C6}" Win64="yes">
+				
+				<!-- MSI already removes all values and subkeys that it creates : no need to set Action="createAndRemoveOnUninstall" -->
+				<RegistryKey 		Root="HKLM" Key="SOFTWARE\VeraCrypt_MSI" >
+					<RegistryValue 	Type="string" Name="ProductGuid" Value="$(var.ProductGuid)" KeyPath="yes" />
+				</RegistryKey>
+			</Component>
+
+		</DirectoryRef>
+		
+		<!-- Smallest installable units ; Regroups Components to be installed in the same unit into one Feature -->
+		<!-- Tell Windows Installer to install -->
+		
+		<Feature 	Id="Install_System"
+					Absent="disallow"
+					Level="1">
+					
+			<!-- C:\Windows\System32\Drivers -->
+			<ComponentRef Id="veracryptDriverSys" />
+			
+		</Feature>
+		
+		<Feature 	Id="Install_Exe"
+					Absent="disallow"
+					Level="1">
+					
+			<!-- C:\Program Files\VeraCrypt -->
+			<ComponentRef Id="LICENSEFile" />
+			<ComponentRef Id="LicenseTxt" />
+			<ComponentRef Id="NOTICEFile" />
+			<ComponentRef Id="VeraCrypt_FormatExe" />
+			<ComponentRef Id="veracryptCat" />
+			<ComponentRef Id="VeraCryptExe" />
+			<ComponentRef Id="veracryptInf" />
+			<ComponentRef Id="veracryptSys" />
+			<ComponentRef Id="VeraCryptExpanderExe" />
+			<ComponentRef Id="VeraCryptComRegExe" />
+			
+		</Feature>
+		
+		<Feature 	Id="Install_Lang"
+					Absent="disallow"
+					Level="1">
+					
+			<!-- C:\Program Files\VeraCrypt\Languages -->
+			<ComponentRef Id="cmpF27E43A4E59E04A5B095C5101B229139" />
+			<ComponentRef Id="cmp4350812363930B900E24C845940DF416" />
+			<ComponentRef Id="cmp1DD254125CF07901EACECC70930818B0" />
+			<ComponentRef Id="cmp8C9E97CFD69D3BCB44B84D886720F3FC" />
+			<ComponentRef Id="cmp2BC45D6EC406DDC470E8501442A7AF68" />
+			<ComponentRef Id="cmp74A0CA1914A6C6FE33D76DE1C01C676D" />
+			<ComponentRef Id="cmpC186D3472CE1EC872FF1B0CF3682B3B6" />
+			<ComponentRef Id="cmp2AB0B613D25DDEF3466CBC86BD6B878B" />
+			<ComponentRef Id="cmpB09224EB45E097BF511CBC5DBE3E251C" />
+			<ComponentRef Id="cmpF24BBBEB613F893CBC5FBF6533CB48C9" />
+			<ComponentRef Id="cmp50E1DEF37599D2900447B13FC285B7B7" />
+			<ComponentRef Id="cmp46E5A0DB48A03A91267C97A664BD9BD4" />
+			<ComponentRef Id="cmp95BAB91FA0B7E37D5B9343478899CC75" />
+			<ComponentRef Id="cmpE73E4CCF9F6EC39998B9BE35E43768CC" />
+			<ComponentRef Id="cmp28EEAA4B2230460BDDA61DEFBC71A905" />
+			<ComponentRef Id="cmpCFF4CB46421F1A713D45607393ED9B90" />
+			<ComponentRef Id="cmp31601B4199D0CD3977758A3F2B63CDE7" />
+			<ComponentRef Id="cmp8E2E0489348A190B00532591CE0AC325" />
+			<ComponentRef Id="cmpEE57E2901F12294E638E66C39F1B39BB" />
+			<ComponentRef Id="cmp2F1F644C870AFF8970FE18AF2CD151C4" />
+			<ComponentRef Id="cmp4B8E0B5A7B7A8BE4267C722B1434E4CF" />
+			<ComponentRef Id="cmp84BB49D30BDBB4212707D14B7A9C13F1" />
+			<ComponentRef Id="cmp406E3BE632055CDDE1E42F45E31318DC" />
+			<ComponentRef Id="cmp4E363AF94947A27A4E9CF57C69E6DE54" />
+			<ComponentRef Id="cmp562F7970AF2F9EF535AC21A84C7229D1" />
+			<ComponentRef Id="cmp19EF976916B5E207A32BA08C3143A281" />
+			<ComponentRef Id="cmp4C9B5090256B2E88D27C9CF7E6CFD9EF" />
+			<ComponentRef Id="cmp91165C08D5943C21F132A349F8CBAAE7" />
+			<ComponentRef Id="cmp4A51B27F9D8DBBABFE4581EC2B162832" />
+			<ComponentRef Id="cmp041827E393D8777802256FD480D377FC" />
+			<ComponentRef Id="cmp68CC2DB5FA70FC1F6CA959FB5E1B78BF" />
+			<ComponentRef Id="cmpFF128AFA659D8C2E65E0BE55E0943F83" />
+			<ComponentRef Id="cmp1896040764F0DF6F89280C428013ECE7" />
+			<ComponentRef Id="cmpA52EAD237A44CBD337E302185BE12FB2" />
+			<ComponentRef Id="cmpBBB82A6228B54372ACAF9B1310CB2025" />
+			<ComponentRef Id="cmp4A275EC29DB9B5ECD56CD9C62D358750" />
+			<ComponentRef Id="cmp8DF0B84F470901D8800F8CAB88A90656" />
+			<ComponentRef Id="cmp529250BEE557732B5B8CBC47914A0F2A" />
+			<ComponentRef Id="cmp38274F8F5E4F600A9AC5225A0472D656" />
+			
+		</Feature>
+		
+		<Feature 	Id="Install_Help"
+					Absent="disallow"
+					Level="1">
+					
+			<!-- C:\Program Files\VeraCrypt\docs -->
+			<ComponentRef Id="VCUserGuideChm" />
+			
+			<!-- C:\Program Files\VeraCrypt\docs\EFI-DCS -->
+			<ComponentRef Id="dcs_tpm_owner_02_pdf" />
+			<ComponentRef Id="disk_encryption_v1_2_pdf" />
+			
+			<ComponentRef Id="cmp5A2505C1E4CE33EAC578A8D1C8C505D2" />
+			<ComponentRef Id="cmpE985CD1A96188861286D758A12A1D0A1" />
+			<ComponentRef Id="cmp310514F655B6D66F5308A5823B0AB691" />
+			<ComponentRef Id="cmp0664DF8B1FE440C02B1E20D2F23C2CDF" />
+			<ComponentRef Id="cmp2934E77CB835216789F88BD686160A94" />
+			<ComponentRef Id="cmp688E76C9A297923D616068E33A6A4F49" />
+			<ComponentRef Id="cmp2ABB10C0A5AC0F1084EDF94E0FDFFD09" />
+			<ComponentRef Id="cmp32E7F4F5C0F44D00B53E3946E7E1FCF9" />
+			<ComponentRef Id="cmp989B890D94671F634D04D8F945090F21" />
+			<ComponentRef Id="cmp109BF0667C5A7B7036CCAAD9B29D9449" />
+			<ComponentRef Id="cmp82ABD3094B751094F3A49CD338A3713D" />
+			<ComponentRef Id="cmpE6A18205CB9F847CD7C4375AED2196D5" />
+			<ComponentRef Id="cmpAA4D61C5E17E2A8513EC120AC9B1DB8A" />
+			<ComponentRef Id="cmp39251BC13DA4AD6508E18D90D86DF06D" />
+			<ComponentRef Id="cmpBABB0BD95FD763E9C72D2F51C325CF15" />
+			<ComponentRef Id="cmp2FE3B3719DCC4362AFF8BF7B4CADFF80" />
+			<ComponentRef Id="cmp2FC8BD312D06FEC4E244604E27117B62" />
+			<ComponentRef Id="cmpAE99FB30CC29DF92E71A31EC39E61EF5" />
+			<ComponentRef Id="cmp535B1A9BACA231F518973D620DC23779" />
+			<ComponentRef Id="cmpD2ED5F6D8C0A4CA0D26F9F1BB34AB8BA" />
+			<ComponentRef Id="cmp5F7E0D8587039E1BA0F236F228C163BD" />
+			<ComponentRef Id="cmpF4DA2D3DABC768C2040A67A993C53E9E" />
+			<ComponentRef Id="cmpC0AD9100DE0F43E8149F8D3271B02D17" />
+			<ComponentRef Id="cmp32646E8087D106AE2B62E5DCF2419EDD" />
+			<ComponentRef Id="cmpB3C777FAF214F7D304EE7CF907D7FF57" />
+			<ComponentRef Id="cmp338115DF524F0B412A21AB64F59240DD" />
+			<ComponentRef Id="cmp2F24E0C7B7175D60257F6D01231C8373" />
+			<ComponentRef Id="cmpAE9D52ADD94D3A2711AA79FA0C91CA00" />
+			<ComponentRef Id="cmp0A6270FD26128E8D1CC83E392E91A772" />
+			<ComponentRef Id="cmpEDB0E152195A7EB91BBB28631B689E0B" />
+			<ComponentRef Id="cmpFD76EB6B5546D1C38CC33FABA95FAA15" />
+			<ComponentRef Id="cmpDC4FD19F507A5152351B9F71C8691486" />
+			<ComponentRef Id="cmp9E45BE754042F9DD742A0B7B9F27E786" />
+			<ComponentRef Id="cmpB6AC414023A6BDBF855F4A807DAE138C" />
+			<ComponentRef Id="cmp053692809BD5B3F5682AFCC539A767A3" />
+			<ComponentRef Id="cmp9049A791E9E1AB7FF01BD7F08D1CB069" />
+			<ComponentRef Id="cmp4E6F9484484A40645D519F688ED9C21E" />
+			<ComponentRef Id="cmp3CF724F2A2347A2A30C85CB76490F687" />
+			<ComponentRef Id="cmp3858A4BB7577362DE87F4485575DFC99" />
+			<ComponentRef Id="cmp90AB4CF273108F47223E3432838CDE37" />
+			<ComponentRef Id="cmpB9A0461BF7CF75538111B088C986A62F" />
+			<ComponentRef Id="cmpD8C7B52BC03709FAB2642B93BFE4FFE8" />
+			<ComponentRef Id="cmpFD6EB163EA6B74C4F59FF04D2B3796CC" />
+			<ComponentRef Id="cmp612D2E75E857D164665BE8CA37570D04" />
+			<ComponentRef Id="cmpF65BF759DA7F65BAD6D74A83FEF9D205" />
+			<ComponentRef Id="cmpA6A249B42C89657DE664B9D88D04DB3F" />
+			<ComponentRef Id="cmpEE8A03DA56EF1B35979430E8711A6960" />
+			<ComponentRef Id="cmp628E75C5DD0F38348B6F8694D5D5149C" />
+			<ComponentRef Id="cmp40BDD4F3CA20DEE006E087930EF3847C" />
+			<ComponentRef Id="cmp7AEEABAF151FCE92735664A55F7B8FFA" />
+			<ComponentRef Id="cmp9380DDE2560B4D8EE9CC363AF4BC7B5F" />
+			<ComponentRef Id="cmp84A94F04CD486338F57C03B316145945" />
+			<ComponentRef Id="cmpDF544847A4B1F86B3BA3468336CD73FE" />
+			<ComponentRef Id="cmp9A6A861B59A23E534C7407EF95500AA5" />
+			<ComponentRef Id="cmp09C34B1CBDE9F2F4E897340B1C67728E" />
+			<ComponentRef Id="cmpD3183A7373751A19B4B7C9B041F9035D" />
+			<ComponentRef Id="cmp3DED9073AB120DC026C48E9CDF9283EB" />
+			<ComponentRef Id="cmp0FF3027C2662D967ACB4B01BA7BC85F9" />
+			<ComponentRef Id="cmp3FC9C0126A2074CAABCF73197358F824" />
+			<ComponentRef Id="cmp1830E220882FBA276350032258B478AA" />
+			<ComponentRef Id="cmpE5D6E9DF3EE1301C6D5A4F44362BCE96" />
+			<ComponentRef Id="cmpB7B429D414CF1DD05A4B70CE94E343F7" />
+			<ComponentRef Id="cmp00845B9781D5633702C834BCB4EB93D1" />
+			<ComponentRef Id="cmp47F92D029E335F7865F8ACB30763FED2" />
+			<ComponentRef Id="cmpF3B90B0C1F316854E9142B22783ACF19" />
+			<ComponentRef Id="cmp2EC17F48BC15C5405D2DB40FC6E01745" />
+			<ComponentRef Id="cmpE00F8980768E14DF59474B5CB3D84041" />
+			<ComponentRef Id="cmpD17B73F5892E45458E960025558B3452" />
+			<ComponentRef Id="cmpF45A8248FAFA80A8DF62989C477E7C0F" />
+			<ComponentRef Id="cmpD066CBBD66E8CABB4AD4B928F823A5D2" />
+			<ComponentRef Id="cmpACFE3B967BB844C3FD0FE21C9E87EE5B" />
+			<ComponentRef Id="cmpFAA171DECE81EA4EA99B5570C9FF7D0E" />
+			<ComponentRef Id="cmp7C1E782A2C12520E4CACF0D8FD4EAA4E" />
+			<ComponentRef Id="cmpE9009D51D7CF4AA8BBA735E91F1D6044" />
+			<ComponentRef Id="cmp5D46BFDD0D54DD715695756148C22028" />
+			<ComponentRef Id="cmpE34BBB4D255F23D71B0143270915E6D7" />
+			<ComponentRef Id="cmpEB665F1BFDB30B20C90142CCD1DA7664" />
+			<ComponentRef Id="cmpFDCC994071E7ADACE3EB2CBACC60E34A" />
+			<ComponentRef Id="cmp21A3A9B1C7FAA004EF937114F0F41C61" />
+			<ComponentRef Id="cmpFD4A149B4654FEF0542A5ECE211A86B8" />
+			<ComponentRef Id="cmpE7CDDDCDA7CD20F1150F2879E0293D1D" />
+			<ComponentRef Id="cmp9CDBE7ACC2D5393535D2981C3DD73682" />
+			<ComponentRef Id="cmpF09EAA16502FCF137AAD38D70D50B200" />
+			<ComponentRef Id="cmp62D4B7B5DACB58D3EEA9E6D3385769A7" />
+			<ComponentRef Id="cmpBF36D06FA293DFD3AFA1543C43A54E17" />
+			<ComponentRef Id="cmp7345D3EE0CFEA227E8AA9ADADF95E623" />
+			<ComponentRef Id="cmpE92C5D4B774B7214B49931528F7EDCF6" />
+			<ComponentRef Id="cmpB6A3927A1BE4D2836C1007D3CC989C4B" />
+			<ComponentRef Id="cmp28666EA10A3DCEC7D2583ADD52785FDC" />
+			<ComponentRef Id="cmp08768A6308C114126260614CCDF6F72E" />
+			<ComponentRef Id="cmpF00E284DEEE43B341D12987E20DB76C5" />
+			<ComponentRef Id="cmpB75BD74E0F63097DC1777FF4BF440479" />
+			<ComponentRef Id="cmp1745256A6ECE8FB1779B0DA82CEECAB9" />
+			<ComponentRef Id="cmp3F248F4BDDB12D98D3CF173FEA01CE24" />
+			<ComponentRef Id="cmp1209E63998A1D1504B062C4ECC45EE07" />
+			<ComponentRef Id="cmp035C544DF9B46B9DD7871AD7898B7D36" />
+			<ComponentRef Id="cmpA891AF32EF72B7AC80533FC31773B604" />
+			<ComponentRef Id="cmp1FC684D1C3742A927228DE9A669A2895" />
+			<ComponentRef Id="cmp265116FC4778248E01BADFB30A2C32A7" />
+			<ComponentRef Id="cmpB2A3FFEE7A15E23A2835A843438E3669" />
+			<ComponentRef Id="cmpFC8FB415783E0AA424FBD685EFACF54E" />
+			<ComponentRef Id="cmp2BCEA21755E1C812ACCF15A09210FCCD" />
+			<ComponentRef Id="cmp9EC1750F7CD9717D3A761FC2930C509D" />
+			<ComponentRef Id="cmp4298A84BD6956E2A2742B5678BCFF173" />
+			<ComponentRef Id="cmp2D9F7D88EF1F843BDEA5A39D13330B8A" />
+			<ComponentRef Id="cmp58EAECCB29CB9ABDDDB72F9378E4EE77" />
+			<ComponentRef Id="cmp61C660976A230AD4AD8B42A90D4BCC7C" />
+			<ComponentRef Id="cmp29A0605ED3FB7D4E2EAC833D56411563" />
+			<ComponentRef Id="cmp4A0EF1CFD1E1DE8B4E7BF698E05680E9" />
+			<ComponentRef Id="cmp1E4F8137AD337BEA1B902E6B003AB953" />
+			<ComponentRef Id="cmp8D35F7D61B2B7DF0EDEAE2E56031E7CB" />
+			<ComponentRef Id="cmpDE2C66707086A509EABD0F9F6E8BDB1A" />
+			<ComponentRef Id="cmpA80443C3767E3E51F3DE88BFD0D7A33B" />
+			<ComponentRef Id="cmp214446AAABEBAC0C3827B8977083FAE2" />
+			<ComponentRef Id="cmp4AF022868FE6883520C700676C43B15D" />
+			<ComponentRef Id="cmpC27AA2C4496C9EFA95DCD663B031B5D0" />
+			<ComponentRef Id="cmp9CBBC8311BBFC54C8DC1162BB17E5AED" />
+			<ComponentRef Id="cmp033461B0777614621A2ED7B4E2B08D55" />
+			<ComponentRef Id="cmp0E43CDBBAE343957423AE2907AC16883" />
+			<ComponentRef Id="cmp8A8526D2061A14810E1B7A8A6E527DCD" />
+			<ComponentRef Id="cmpAE2DADEF126C59D8CCD3A18D8CDC49C8" />
+			<ComponentRef Id="cmp2F972A5C99F7EE708B7C232EE8647672" />
+			<ComponentRef Id="cmpB21F7D781FE7B006ABCA7974A21F29E2" />
+			<ComponentRef Id="cmpF345174585735CD7A31AE138DDE8B439" />
+			<ComponentRef Id="cmp06772C03A0ECA40F11F1D5C5ACD607D8" />
+			<ComponentRef Id="cmp79E890B8891FA87AA5B10A67E15E7E8E" />
+			<ComponentRef Id="cmp89C46AE8EC4175E62A9CFE3DF9DF924A" />
+			<ComponentRef Id="cmpC8F860B10D41961424874F69C6D84ED3" />
+			<ComponentRef Id="cmp285021B8CBC8E92B1CBCE4C88731083C" />
+			<ComponentRef Id="cmpABE9B0A93A9B14C0732EBD8CD17A11AE" />
+			<ComponentRef Id="cmpD9B960879A3227B971E33222CE13BC18" />
+			<ComponentRef Id="cmp3B3BB414D13FDBF2B0C7A9CEBD7D98F5" />
+			<ComponentRef Id="cmpB39B1096387C2617720F515D24953B37" />
+			<ComponentRef Id="cmp493A37205039E2A3A476A1A4F5360EBF" />
+			<ComponentRef Id="cmpF36A771DF9B1C4CD8E82C08A6D3D0786" />
+			<ComponentRef Id="cmp63F6A68C5538B45661168554BC3B93D1" />
+			<ComponentRef Id="cmp0158A6D8BED6391AC7150B6C6AE2A9F9" />
+			<ComponentRef Id="cmpDE45667E9E3CD9F800EAC1E02B57AAB7" />
+			<ComponentRef Id="cmp632453049391BAACDD117A40EC442743" />
+			<ComponentRef Id="cmpCE16E453CAD75A461B4FEBF451A51B7B" />
+			<ComponentRef Id="cmpC741D187A28A87BD33866C9AC09A1298" />
+			<ComponentRef Id="cmpB313B00E647A121B2CBE47F3048A18A7" />
+			<ComponentRef Id="cmp400428F6494DE58618E3B92539548C39" />
+			<ComponentRef Id="cmpFB2313AB16EF2467366ED136C0E61CE6" />
+			<ComponentRef Id="cmp960F36632D3FB602421D1195E4EB6FE1" />
+			<ComponentRef Id="cmpB4C7B1A7A3EC0CB2DE805AC5CC5FC0D7" />
+			<ComponentRef Id="cmp00540BF93A805E0B9996945B61E1BC2F" />
+			<ComponentRef Id="cmp4C46C6668AD830D543AFE593D51676B3" />
+			<ComponentRef Id="cmp6EE914124966E3A0F695359116413DD4" />
+			<ComponentRef Id="cmp28E29B4CA17AB51913B756CD9397EEFE" />
+			<ComponentRef Id="cmp5DF24509F284FABC600232197F803DE5" />
+			<ComponentRef Id="cmp09E31B885345FBEA1F473AF7A10FD88D" />
+			<ComponentRef Id="cmpAE05C79A35A43ECCAC995A711DC4D60B" />
+			<ComponentRef Id="cmpB6D91209A93313D08150643F1738DED8" />
+			<ComponentRef Id="cmpDB66E821EC13977824FB1069DF5DAA69" />
+			<ComponentRef Id="cmp159AB26E32632FC87229090B3AA89BF8" />
+			<ComponentRef Id="cmp5BE3E12343551B853E1B143371CBEBE6" />
+			<ComponentRef Id="cmp0E081D9499DA225BB788494A1D86893D" />
+			<ComponentRef Id="cmpBC7134AF21BAE309E9FD1A52ADF92527" />
+			<ComponentRef Id="cmpB586F01E9F9657C498F2AB64E1F51BD7" />
+			<ComponentRef Id="cmp6EB049078039C276CADA69E7B79FDFA8" />
+			<ComponentRef Id="cmp3135BB68A1F44DDD9FE19B7D5FB4ED7B" />
+			<ComponentRef Id="cmp98ECAD990DF7B535B05EF6E840B7B2DF" />
+			<ComponentRef Id="cmpFE417CCCB859A1C3E4FB90A9C4E132F0" />
+			<ComponentRef Id="cmpD91C00B1B2AACF38761B45D0574884D7" />
+			<ComponentRef Id="cmp590EDE3CE6E09D0D43B35287E849B75A" />
+			<ComponentRef Id="cmp9D6F95F912C3B9C95E92E39BA1CE6BC9" />
+			<ComponentRef Id="cmpAD429D8A050A0D31B661626BDCA9C952" />
+			<ComponentRef Id="cmp3BDE199844AB81673ABB0E5E61E9B7B5" />
+			<ComponentRef Id="cmp0A4AB9AEF0D351FA5E63BCD67DC00607" />
+			<ComponentRef Id="cmpCC25F1CB6A1C9D8B47C407B818F73B59" />
+			<ComponentRef Id="cmpE0F5E8A2D6FEF181686370F0E1EAC632" />
+			<ComponentRef Id="cmp46B2E8BCD50BD668153E793EB737BC39" />
+			<ComponentRef Id="cmp0305CC2824E44F697B402E56A0CD1754" />
+			<ComponentRef Id="cmp0E00CBDCB82A904FD6AD82E458CA6AA7" />
+			<ComponentRef Id="cmp594B5E68E63675F4986F6717BC1F5950" />
+			<ComponentRef Id="cmp62748E79EC04EBE33DC46770AD65CDCE" />
+			<ComponentRef Id="cmpE1265CF3CC5E0B487E99D9D5936BB3F4" />
+			<ComponentRef Id="cmp1C162513D52824629D7C9FAF96054182" />
+			<ComponentRef Id="cmpB5FA2A488D2C7E59E0B52D18820CE00A" />
+			<ComponentRef Id="cmpBB1A4A1EB3FBBE5B2BF2752C302CDC2D" />
+			<ComponentRef Id="cmp9D908DF026E6297D51B6C4A6700092F1" />
+			
+		</Feature>
+			
+		<Feature 	Id="Install_Registry"
+					Absent="disallow"
+					Level="1">
+					
+			<!-- Registry Keys and Values -->
+			<ComponentRef Id="VeraCryptVolume_Main_64" />
+			<ComponentRef Id="VeraCryptVolume_DefaultIcon_64" />
+			<ComponentRef Id="VeraCryptVolume_Open_64" />
+			<ComponentRef Id="VeraCryptVolume_Extension_64" />
+			<ComponentRef Id="VeraCrypt_ProductGUID" />
+			
+		</Feature>
+		
+		<Feature 	Id="Install_Shortcuts"
+					Absent="disallow"
+					Level="1">
+					
+			<!-- Shortcuts : Desktop and StartMenu -->
+			<ComponentRef Id="VCShortcutDesktop" />
+			<ComponentRef Id="VCShortcutStartMenu" />
+			<ComponentRef Id="VCExpanderShortcutStartMenu" />
+			<ComponentRef Id="VCWebsiteShortcutStartMenu" />
+			
+		</Feature>
+		
+		<!-- Tell Wix that WixUILicenseRtf was overrided by our definition of var.licenseRtf -->
+		<WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="$(var.licenseRtf)"/>
+		
+		<!-- UI specifications -->
+		<UI>
+		
+			<!-- In order to have a list of Features, we need to reference WixUI_FeatureTree, which we do not do here -->
+			
+			<!-- Set the default installation directory to [APPLICATIONROOTFOLDER] -->
+			<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTFOLDER" />
+			
+			<!-- Reference our custom UI which contains checkboxes for creating shortcuts -->
+			<UIRef Id="Custom_InstallDir" />
+			
+			<!-- Reference 'WixUI_ErrorProgressText' to include translated errors and progress text -->
+			<UIRef Id="WixUI_ErrorProgressText" />
+			
+		</UI>
+		
+		<!-- Import our Custom Action DLL into the installer's executable -->
+		<Binary 		Id="VeraCryptCustomActions"
+						SourceFile="$(sys.CURRENTDIR)\VeraCryptSetup.dll" />
+		
+		<!-- The UILEVEL MSI property is simply not available when running a deferred Custom Action.
+			 Therefore, we work around this limitation by explicitly passing it on Custom Action Data using WiX	-->
+			 
+		<!-- Custom actions that run after InstallFinalize or before InstallInitialize will not run elevated -->
+		
+		<!-- Create a Custom Action which checks whether the license was accepted and throws an error if not -->
+		<CustomAction 	Id="CheckLicense" 
+						Error="!(loc.AcceptVCLicenseDesc)" />
+						
+		<!-- Create a Custom Action which executes only in UI sequence (not in silent mode)
+			 right after the user checks License Agreeemnt Dialog checkbox and clicks on next.
+			 It sets 'ACCEPTLICENSE' to 'YES' as a consequence so that 'CheckLicense' CA does not 
+			 fail in UI install. 
+			 See 'Custom_InstallDir.wxs' for details. -->
+		<CustomAction 	Id="SetAcceptLicense"
+						Property="ACCEPTLICENSE"
+						Value="YES"/>
+						
+		<!-- Create a Custom Action which sets the CustomActionData property
+			 for DoPreInstall Deferred Custom Action.
+			 Its Property must be set to the Id of the Deferred Custom Action 
+			 DoPreInstall which is goind to catch it as a CustomActionData property. -->
+		<CustomAction 	Id="PreInst_SetData"
+						Property="DoPreInstall"
+						Value="UILEVEL=[UILevel]?INSTALLDIR=[APPLICATIONROOTFOLDER]?REINSTALL=[REINSTALL]" />
+						
+		<!-- Create a Custom Action which sets the CustomActionData property
+			 for DoPreUninstall Deferred Custom Action.
+			 Its Property must be set to the Id of the Deferred Custom Action 
+			 DoPreInstall which is goind to catch it as a CustomActionData property. -->
+		<CustomAction 	Id="PreUninst_SetData"
+						Property="DoPreUninstall"
+						Value="UILEVEL=[UILevel]?INSTALLDIR=[APPLICATIONROOTFOLDER]?REINSTALL=[REINSTALL]" />
+						
+		<!-- Create a Custom Action which sets the CustomActionData property
+			 for DoPostInstall Deferred Custom Action.
+			 Its Property must be set to the Id of the Deferred Custom Action 
+			 DoPostInstall which is goind to catch it as a CustomActionData property. -->
+		<CustomAction 	Id="PostInst_SetData"
+						Property="DoPostInstall"
+						Value="INSTALLDIR=[APPLICATIONROOTFOLDER]" />
+						
+		<!-- Create a Custom Action which sets the CustomActionData property
+			 for DoPostUninstall Deferred Custom Action.
+			 Its Property must be set to the Id of the Deferred Custom Action 
+			 DoPostInstall which is goind to catch it as a CustomActionData property. -->
+		<CustomAction 	Id="PostUninst_SetData"
+						Property="DoPostUninstall"
+						Value="INSTALLDIR=[APPLICATIONROOTFOLDER]" />
+		
+		<!-- Create our Pre-Install Custom Action. 
+			 We need to run it as deferred so that it runs 
+			 with admin privileges.
+			 When it finishes, this CA creates RegKeys which 
+			 tell, for example, whether a reboot is required or not. -->
+		<CustomAction 	Id="DoPreInstall"
+						Execute="deferred"
+						Impersonate="no"
+						Return="check"
+						BinaryKey="VeraCryptCustomActions"
+						DllEntry="VC_CustomAction_PreInstall" />
+						
+		<!-- Create our Post-Install Custom Action. 
+			 We need to run it as deferred so that it runs 
+			 with admin privileges. -->
+		<CustomAction 	Id="DoPostInstall"
+						Execute="deferred"
+						Impersonate="no"
+						Return="check"
+						BinaryKey="VeraCryptCustomActions"
+						DllEntry="VC_CustomAction_PostInstall" />
+						
+		<!-- Create our Pre-Uninstall Custom Action. 
+			 We need to run it as deferred so that it runs 
+			 with admin privileges.
+			 When it finishes, this CA creates RegKeys which 
+			 tell, for example, whether a reboot is required or not. -->
+		<CustomAction 	Id="DoPreUninstall"
+						Execute="deferred"
+						Impersonate="no"
+						Return="check"
+						BinaryKey="VeraCryptCustomActions"
+						DllEntry="VC_CustomAction_PreUninstall" />
+						
+		<!-- Create our Post-Uninstall Custom Action. 
+			 We need to run it as deferred so that it runs 
+			 with admin privileges.
+			 When it finishes, this CA creates RegKeys which 
+			 tell, for example, whether a reboot is required or not. -->
+		<CustomAction 	Id="DoPostUninstall"
+						Execute="deferred"
+						Impersonate="no"
+						Return="check"
+						BinaryKey="VeraCryptCustomActions"
+						DllEntry="VC_CustomAction_PostUninstall" />
+						
+		<!-- Create our Custom Action which does all kinds of checks
+			 (including reboot check).
+			 Note that we MUST NOT create ISREBOOTREQUIRED as a Property 
+			 in Wix, we only set it with MsiSetProperty in CA. 
+			 Note that using properties (with all uppercase names, 
+			 otherwise Windows Installer will not treat them as public properties) 
+			 is the only way to pass arguments to and from the custom action. -->
+		<CustomAction 	Id="DoChecks"
+						Return="check"
+						BinaryKey="VeraCryptCustomActions"
+						DllEntry="VC_CustomAction_DoChecks" />
+						
+		<!-- SetARPINSTALLLOCATION sets the property (Programs and Features) which specifies the install location in the registry entries of the Add & Remove Panel -->
+		<CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[APPLICATIONROOTFOLDER]" />
+		
+		<!-- Cancel install if one of VC's apps is running -->
+		<util:CloseApplication 	Id="CheckVCFormatRunning" 
+								Target="VeraCrypt Format.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCRunning" 
+								Target="VeraCrypt.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCExpanderRunning" 
+								Target="VeraCryptExpander.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCFormat86Running" 
+								Target="VeraCrypt Format-x86.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVC86Running" 
+								Target="VeraCrypt-x86.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCExpander86Running" 
+								Target="VeraCryptExpander-x86.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCFormat64Running" 
+								Target="VeraCrypt Format-x64.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVC64Running" 
+								Target="VeraCrypt-x64.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCExpander64Running" 
+								Target="VeraCryptExpander-x64.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCSetupRunning" 
+								Target="VeraCrypt Setup.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		<util:CloseApplication 	Id="CheckVCCOMRegRunning" 
+								Target="VeraCrypt COMReg.exe"
+								Property="VCISRUNNING" 
+								RebootPrompt="no" />
+		
+		<InstallUISequence>
+		
+			<!-- Try to close all VC apps before launching installer, fail in case VC running, only at repair / upgrade / uninstall -->
+			<Custom Action="WixCloseApplications" Before="LaunchConditions">REINSTALL OR UPGRADINGPRODUCTCODE OR REMOVE~="ALL"</Custom>
+			
+		</InstallUISequence>
+		
+		<InstallExecuteSequence>
+		
+			<!-- Execute CheckLicense (show license error) before LaunchConditions only if license not accepted at first install -->
+			<Custom Action="CheckLicense" Before="LaunchConditions"><![CDATA[ ACCEPTLICENSE ~<> "YES" AND NOT Installed ]]></Custom> 
+			
+			<!-- Try to close all VC apps before launching installer, fail in case VC running, only at repair / upgrade / uninstall -->
+			<Custom Action="WixCloseApplications" Before="LaunchConditions">REINSTALL OR UPGRADINGPRODUCTCODE OR REMOVE~="ALL"</Custom>
+			
+			<!-- INSTALLATION / REPAIR / UPGRADE ONLY CAs -->
+			
+				<!-- Execute PreInst_SetData before InstallFiles action of first installation ONLY OR repair ONLY
+					 and before DoPreInstall to set the DoPreInstall's Custom Action Data.
+					 Since we schedule RemoveExistingProducts after InstallExecute, if we execute this CA at UPGRADINGPRODUCTCODE,
+					 it will execute it twice : once when it installs new files (NOT Installed), and then when it removes unnecessary files (actual upgrade: UPGRADINGPRODUCTCODE).
+					 Therefore, we do not need to execute it at UPGRADINGPRODUCTCODE. -->
+				<Custom Action="PreInst_SetData" Before="DoPreInstall">(NOT Installed AND NOT REMOVE) OR REINSTALL</Custom>
+				
+				<!-- Execute DoPreInstall before InstallFiles action of first installation ONLY OR repair ONLY.
+					 Since we schedule RemoveExistingProducts after InstallExecute, if we execute this CA at UPGRADINGPRODUCTCODE,
+					 it will execute it twice : once when it installs new files (NOT Installed), and then when it removes unnecessary files (actual upgrade: UPGRADINGPRODUCTCODE).
+					 Therefore, we do not need to execute it at UPGRADINGPRODUCTCODE. -->
+				<Custom Action="DoPreInstall" Before="InstallFiles">(NOT Installed AND NOT REMOVE) OR REINSTALL</Custom>
+				
+				<!-- Execute PostInst_SetData after InstallFiles action of first installation ONLY OR repair ONLY
+					 and before DoPostInstall to set the DoPostInstall's Custom Action Data.
+					 Since we schedule RemoveExistingProducts after InstallExecute, if we execute this CA at UPGRADINGPRODUCTCODE,
+					 it will execute it twice : once when it installs new files (NOT Installed), and then when it removes unnecessary files (actual upgrade: UPGRADINGPRODUCTCODE).
+					 Therefore, we do not need to execute it at UPGRADINGPRODUCTCODE. -->
+				<Custom Action="PostInst_SetData" Before="DoPostInstall">(NOT Installed AND NOT REMOVE) OR REINSTALL</Custom>
+				
+				<!-- Execute DoPostInstall after InstallFiles action of first installation ONLY OR repair ONLY.
+					 Since we schedule RemoveExistingProducts after InstallExecute, if we execute this CA at UPGRADINGPRODUCTCODE,
+					 it will execute it twice : once when it installs new files (NOT Installed), and then when it removes unnecessary files (actual upgrade: UPGRADINGPRODUCTCODE).
+					 Therefore, we do not need to execute it at UPGRADINGPRODUCTCODE. -->
+				<Custom Action="DoPostInstall" After="InstallFiles">(NOT Installed AND NOT REMOVE) OR REINSTALL</Custom>
+			
+			<!-- UNINSTALLATION ONLY CAs -->
+			
+				<!-- Execute PreUninst_SetData before RemoveFiles action when uninstalling ONLY
+					 and before DoPreUninstall to set the DoPreUninstall's Custom Action Data -->
+				<Custom Action="PreUninst_SetData" Before="DoPreUninstall">REMOVE~="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+				
+				<!-- Execute DoPreUninstall before RemoveFiles when uninstalling ONLY -->
+				<Custom Action="DoPreUninstall" Before="RemoveFiles">REMOVE~="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+				
+				<!-- Execute PostUninst_SetData after RemoveFiles action when uninstalling ONLY
+					 and before DoPostUninstall to set the DoPostUninstall's Custom Action Data -->
+				<Custom Action="PostUninst_SetData" Before="DoPostUninstall">REMOVE~="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+				
+				<!-- Execute DoPostUninstall after RemoveFiles action when uninstalling ONLY -->
+				<Custom Action="DoPostUninstall" After="RemoveFiles">REMOVE~="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+			
+			<!-- Execute DoChecks after InstallFinalize action of first installation or repair  or uninstall.
+				 Since we schedule RemoveExistingProducts after InstallExecute, if we execute this CA at UPGRADINGPRODUCTCODE,
+				 it will execute it twice : once when it installs new files (NOT Installed), and then when it removes unnecessary files (actual upgrade: UPGRADINGPRODUCTCODE).
+				 Since the first time it executes, it will delete the RegKeys, the second time it executes will fail, and with 
+				 it the whole upgrade.
+				 Therefore, we do not need to execute it at UPGRADINGPRODUCTCODE. -->
+			<Custom Action="DoChecks" After="InstallFinalize">(NOT Installed AND NOT REMOVE) OR REINSTALL OR (REMOVE~="ALL" AND NOT UPGRADINGPRODUCTCODE)</Custom>
+			
+			<!-- Set the ARP -->
+			<Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
+			
+			<!-- ScheduleReboot only after DoChecks, which sets ISREBOOTREQUIRED -->
+			<ScheduleReboot After="DoChecks">ISREBOOTREQUIRED = "1"</ScheduleReboot>
+			
+		</InstallExecuteSequence>
+
+	</Product>
+  
+</Wix>
