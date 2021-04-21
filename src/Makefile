@@ -363,6 +363,27 @@ ifeq "$(shell uname -s)" "FreeBSD"
 endif
 
 
+#------ OpenBSD configuration ------
+
+ifeq "$(shell uname -s)" "OpenBSD"
+
+	PLATFORM := OpenBSD
+	PLATFORM_UNSUPPORTED := 1
+	C_CXX_FLAGS += -DTC_UNIX -DTC_BSD -DTC_OPENBSD
+
+	CC := cc
+	CXX := c++
+
+	ifeq "$(TC_BUILD_CONFIG)" "Release"
+		C_CXX_FLAGS += -fdata-sections -ffunction-sections -fpie
+		LFLAGS += -Wl,--gc-sections -pie
+
+		WXCONFIG_CFLAGS += -fpie -fPIC
+		WXCONFIG_CXXFLAGS += -fpie -fPIC
+	endif
+endif
+
+
 #------ Solaris configuration ------
 
 ifeq "$(shell uname -s)" "SunOS"
