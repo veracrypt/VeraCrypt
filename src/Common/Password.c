@@ -38,6 +38,7 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 	char szTmp1Utf8[MAX_PASSWORD + 1];
 	char szTmp2Utf8[MAX_PASSWORD + 1];
 	int k = GetWindowTextLength (hPassword);
+	int j = GetWindowTextLength (hVerify);
 	BOOL bEnable = FALSE;
 	int utf8Len1, utf8Len2;
 
@@ -49,8 +50,13 @@ void VerifyPasswordAndUpdate (HWND hwndDlg, HWND hButton, HWND hPassword,
 	utf8Len1 = WideCharToMultiByte (CP_UTF8, 0, szTmp1, -1, szTmp1Utf8, MAX_PASSWORD + 1, NULL, NULL);
 	utf8Len2 = WideCharToMultiByte (CP_UTF8, 0, szTmp2, -1, szTmp2Utf8, MAX_PASSWORD + 1, NULL, NULL);
 
-	if (wcscmp (szTmp1, szTmp2) != 0)
+	if (wcscmp (szTmp1, szTmp2) != 0){
 		bEnable = FALSE;
+		if(k>0){
+			if(j>=k)
+				Warning ("WARNING_PASSWORD_NOT_IDENTICAL", hwndDlg);
+		}
+	}
 	else if (utf8Len1 <= 0)
 		bEnable = FALSE;
 	else

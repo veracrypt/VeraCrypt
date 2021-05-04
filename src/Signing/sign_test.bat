@@ -28,6 +28,7 @@ cd "..\Release\Setup Files\"
 copy ..\..\LICENSE .
 copy ..\..\License.txt .
 copy ..\..\NOTICE .
+copy ..\..\password1000000 .
 copy ..\..\Resources\Texts\License.rtf .
 copy ..\..\Common\VeraCrypt.ico .
 copy ..\..\Setup\VeraCrypt_setup_background.bmp .
@@ -52,6 +53,7 @@ call build_msi_x64.bat %VC_VERSION_NBRE%
 del LICENSE
 del License.txt
 del NOTICE
+del password1000000.txt
 del License.rtf
 del VeraCrypt.ico
 del VeraCrypt_setup_background.bmp

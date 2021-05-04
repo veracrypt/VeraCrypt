@@ -145,16 +145,43 @@
 #define IDC_SHOW_PIM                    1106
 #define IDC_TB                          1107
 #define IDC_SKIP_RESCUE_VERIFICATION    1108
-#define SPARSE_FILE                     1109
+#define SPARSE_FILE						1109
+#define IDC_ADVANCE_INTRO               1110 //Advanced Button in the intro page
+#define IDC_ADVANCE_PW					1111 
+#define IDC_HIDE_PW                     1112 //Path to hide bmp
+#define IDC_HIDE_CFM					1113
+#define HIDDEN_EYE_BUTTON				1114 //Hide Button in password page
+#define IDD_ADVANCE						1115 //Advanced password page identifier
+#define IDC_ADVANCE						1116 //Advanced Button in the password page
+#define PASSWORDMETER					1117
+#define IDC_EMAIL						1118
+#define IDC_SENDMAILBUTTON				1119
+#define IDC_REMEMBER_PASSWORD			1120
+#define IDC_STORE_RESCUE_DISK			1121	
+#define IDC_BACKUP_DATA					1122
+#define IDT_REMEMBER_PASSWORD			1123
+#define IDT_STORE_RESCUE_DISK			1124
+#define IDT_BACKUP_DATA					1125
+#define IDC_CHECKLIST_A					1126
+#define IDC_CHECKLIST_B					1127
+#define IDC_CHECKLIST_C					1128
+#define ADVANCED_NOTE					1129
+#define IDD_ADVANCE_MBR					1130 
+#define IDC_INFORMATION_TIP				1131
+#define IDC_SHA512_HELP					1132
+#define IDT_PASSWORD_STRENGTH			1133
+#define IDT_PASSWORD_HELP				1134
+#define IDT_RESCUE_DISK_INFO_2			1135
 
+					
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1110
+#define _APS_NEXT_CONTROL_VALUE         1109
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

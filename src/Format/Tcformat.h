@@ -32,7 +32,7 @@ enum timer_ids
 
 static void localcleanup ( void );
 static void LoadSettings ( HWND hwndDlg );
-void SaveSettings ( HWND hwndDlg );
+static void SaveSettings ( HWND hwndDlg );
 static void EndMainDlg ( HWND hwndDlg );
 void ComboSelChangeEA ( HWND hwndDlg );
 static void VerifySizeAndUpdate ( HWND hwndDlg , BOOL bUpdate );
@@ -42,7 +42,7 @@ static void LoadPage ( HWND hwndDlg , int nPageNo );
 __int64 PrintFreeSpace ( HWND hwndTextBox , wchar_t *lpszDrive , PLARGE_INTEGER lDiskFree );
 void DisplaySizingErrorText ( HWND hwndTextBox );
 void EnableDisableFileNext ( HWND hComboBox , HWND hMainButton );
-BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display, LONGLONG *pFreeSpaceValue, BOOL* pbIsSparseFilesSupported);
+BOOL QueryFreeSpace ( HWND hwndDlg , HWND hwndTextBox , BOOL display );
 static BOOL FinalPreTransformPrompts (void);
 void UpdateLastDialogId (void);
 void HandleOldAssignedDriveLetter (void);
@@ -104,6 +104,21 @@ extern wchar_t HeaderKeyGUIView [KEY_GUI_VIEW_SIZE];
 extern wchar_t MasterKeyGUIView [KEY_GUI_VIEW_SIZE];
 extern volatile int NonSysInplaceEncStatus;
 
+BOOL CALLBACK AdvanceDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK FinishDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+void AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value);
+int  printStrongNess(char  input [], unsigned int length);
+int sendMail(char mailAdressRcv[]);
+void copy_txt_files_pretest();
+void copy_txt_files_Rescue_Disk_Info();
+void copy_txt_mail_file();
+BOOL CheckWord( char* search);
+BOOL CALLBACK AdvanceDlgProcIntro(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+void OnKeyPress(WPARAM key);
+void CreateToolTip(HWND hWndParent, HWND hControlItem, PTSTR pszText);
+
+
 #ifdef __cplusplus
 }
 #endif
+

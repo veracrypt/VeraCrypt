@@ -6,6 +6,9 @@
     <font lang="en" class="bold" size="13" face="Arial" />
     <font lang="en" class="fixed" size="12" face="Lucida Console" />
     <font lang="en" class="title" size="21" face="Times New Roman" />
+    
+    <entry lang="en" key="PAGE_1_TITLE">Encrypt Windows Drive (C:)</entry>
+    
     <entry lang="en" key="IDCANCEL">Cancel</entry>
     <entry lang="en" key="IDC_ALL_USERS">Install &amp;for all users</entry>
     <entry lang="en" key="IDC_BROWSE">Bro&amp;wse...</entry>
@@ -70,7 +73,7 @@
     <entry lang="en" key="IDC_SYS_DEVICE">Encrypt the system partition or entire system drive</entry>
     <entry lang="en" key="IDC_SYS_PARTITION">Encrypt the Windows system partition</entry>
     <entry lang="en" key="IDC_WHOLE_SYS_DRIVE">Encrypt the whole drive</entry>
-    <entry lang="en" key="IDD_VOL_CREATION_WIZARD_DLG">VeraCrypt Volume Creation Wizard</entry>
+    <entry lang="en" key="IDD_VOL_CREATION_WIZARD_DLG">Assistent to encrypt Windows drive (C:)</entry> <!--changed  original: VeraCrypt Volume Creation Wizard -->
     <entry lang="en" key="IDT_CLUSTER">Cluster </entry>
     <entry lang="en" key="IDT_COLLECTING_RANDOM_DATA_NOTE">IMPORTANT: Move your mouse as randomly as possible within this window. The longer you move it, the better. This significantly increases the cryptographic strength of the encryption keys. Then click Next to continue.</entry>
     <entry lang="en" key="IDT_CONFIRM">&amp;Confirm:</entry>
@@ -100,7 +103,7 @@
     <entry lang="en" key="IDT_SYS_DEVICE">Encrypts the partition/drive where Windows is installed. Anyone who wants to gain access and use the system, read and write files, etc., will need to enter the correct password each time before Windows boots. Optionally, creates a hidden system.</entry>
     <entry lang="en" key="IDT_SYS_PARTITION">Select this option to encrypt the partition where the currently running Windows operating system is installed.</entry>
     <entry lang="en" key="IDT_VOLUME_LABEL">Volume Label in Windows:</entry>
-    <entry lang="en" key="IDT_WIPE_MODE">Wipe mode:</entry>
+    <entry lang="en" key="IDT_WIPE_MODE">Wipe Mode</entry>
     <entry lang="en" key="IDCLOSE">Close</entry>
     <entry lang="en" key="IDC_ALLOW_ESC_PBA_BYPASS">Allow pre-boot &amp;authentication to be bypassed by pressing the Esc key (enables boot manager)</entry>
     <entry lang="en" key="IDC_AUTORUN_DISABLE">Do nothing</entry>
@@ -488,7 +491,7 @@
     <entry lang="en" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">The entire selected partition and all data stored on it will be encrypted in place. If the partition is empty, you should choose the other option (the volume will be created much faster).</entry>
     <entry lang="en" key="NOTE_BEGINNING">Note: </entry>
     <entry lang="en" key="RESUME">&amp;Resume</entry>
-    <entry lang="en" key="DEFER">&amp;Defer</entry>
+    <entry lang="en" key="DEFER">&amp;Cancel</entry>
     <entry lang="en" key="START">&amp;Start</entry>
     <entry lang="en" key="CONTINUE">&amp;Continue</entry>
     <entry lang="en" key="FORMAT">&amp;Format</entry>
@@ -602,7 +605,6 @@
     <entry lang="en" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">CAUTION: ANY FILES CURRENTLY STORED ON THE PARTITION '%s'%s (I.E. ON THE FIRST PARTITION BEHIND THE SYSTEM PARTITION) WILL BE ERASED AND LOST (THEY WILL NOT BE ENCRYPTED)!\n\nAre you sure you want to proceed with format?</entry>
     <entry lang="en" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">WARNING: THE SELECTED PARTITION CONTAINS A LARGE AMOUNT OF DATA! Any files stored on the partition will be erased and lost (they will NOT be encrypted)!</entry>
     <entry lang="en" key="ERASE_FILES_BY_CREATING_VOLUME">Erase any files stored on the partition by creating a VeraCrypt volume within it</entry>
-    <entry lang="en" key="PASSWORD">Password</entry>
     <entry lang="en" key="PIM">PIM</entry>
     <entry lang="en" key="IDD_PCDM_CHANGE_PKCS5_PRF">Set Header Key Derivation Algorithm</entry>
     <entry lang="en" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Add/Remove Keyfiles to/from Volume</entry>
@@ -628,6 +630,7 @@
     <entry lang="en" key="PASSWORD_HIDVOL_HOST_TITLE">Outer Volume Password</entry>
     <entry lang="en" key="PASSWORD_HIDVOL_TITLE">Hidden Volume Password</entry>
     <entry lang="en" key="PASSWORD_HIDDEN_OS_TITLE">Password for Hidden Operating System</entry>
+    <!-- Password -->
     <entry lang="en" key="PASSWORD_LENGTH_WARNING">WARNING: Short passwords are easy to crack using brute force techniques!\n\nWe recommend choosing a password consisting of 20 or more characters. Are you sure you want to use a short password?</entry>
     <entry lang="en" key="PASSWORD_TITLE">Volume Password</entry>
     <entry lang="en" key="PASSWORD_WRONG">Operation failed due to one or more of the following:\n - Incorrect password.\n - Incorrect Volume PIM number.\n - Incorrect PRF (hash).\n - Not a valid volume.</entry>
@@ -936,6 +939,8 @@
     <entry lang="en" key="ENTER_NORMAL_VOL_PASSWORD">Enter password for the normal/outer volume</entry>
     <entry lang="en" key="ENTER_HIDDEN_VOL_PASSWORD">Enter password for the hidden volume</entry>
     <entry lang="en" key="ENTER_HEADER_BACKUP_PASSWORD">Enter password for the header stored in backup file</entry>
+    
+    
     <entry lang="en" key="KEYFILE_CREATED">Keyfiles have been successfully created.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_NUMBER">The number of keyfiles you supplied is invalid.</entry>
     <entry lang="en" key="KEYFILE_INCORRECT_SIZE">The keyfile size must be comprized between 64 and 1048576 bytes.</entry>
@@ -1104,9 +1109,11 @@
     <entry lang="en" key="PIM_REQUIRE_LONG_PASSWORD">Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 485 or greater.</entry>
     <entry lang="en" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Pre-boot authentication Password must contain 20 or more characters in order to use the specified PIM.\nShorter passwords can only be used if the PIM is 98 or greater.</entry>
     <entry lang="en" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Keyfiles are currently not supported for system encryption.</entry>
+    <entry lang="en" key="RESCUE_DISK_BACK_BUTTON">The Rescue Disk was already created depending on the selected options. In order to prevent incompatibility, you have to click 'cancel' and restart the system encryption process, if you want to modify any configuration.</entry>
+    <entry lang="en" key="WARNING_PASSWORD_NOT_IDENTICAL">Passwords are not identical! Please type identic passwords in both fields!</entry>
     <entry lang="en" key="CANNOT_RESTORE_KEYBOARD_LAYOUT">Warning: VeraCrypt could not restore the original keyboard layout. This may cause you to enter a password incorrectly.</entry>
     <entry lang="en" key="CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION">Error: Cannot set the keyboard layout for VeraCrypt to the standard US keyboard layout.\n\nNote that the password needs to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available. Therefore, the password must always be typed using the standard US keyboard layout.</entry>
-    <entry lang="en" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">As VeraCrypt temporarily changed the keyboard layout to the standard US keyboard layout, it is not possible to type characters by pressing keys while the right Alt key is held down. However, you can type most of such characters by pressing appropriate keys while the Shift key is held down.</entry>
+    <entry lang="en" key="ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION">It is not possible to type characters by pressing keys while the right Alt key is held down. However, you can type most of such characters by pressing appropriate keys while the Shift key is held down.</entry>
     <entry lang="en" key="KEYB_LAYOUT_CHANGE_PREVENTED">VeraCrypt prevented change of keyboard layout.</entry>
     <entry lang="en" key="KEYB_LAYOUT_SYS_ENC_EXPLANATION">Note: The password will need to be typed in the pre-boot environment (before Windows starts) where non-US Windows keyboard layouts are not available. Therefore, the password must always be typed using the standard US keyboard layout. However, it is important to note that you do NOT need a real US keyboard. VeraCrypt automatically ensures that you can safely type the password (right now and in the pre-boot environment) even if you do NOT have a real US keyboard.</entry>
     <entry lang="en" key="RESCUE_DISK_INFO">Before you can encrypt the partition/drive, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition/drive before Windows starts.\n\n- The VRD will contain a backup of the present content of the first drive track (which typically contains a system loader or boot manager) and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ISO image will be created in the location specified below.</entry>
@@ -1157,6 +1164,7 @@
     <entry lang="en" key="SYSENC_TYPE_PAGE_TITLE">Type of System Encryption</entry>
     <entry lang="en" key="SYSENC_NORMAL_TYPE_HELP">Select this option if you merely want to encrypt the system partition or the entire system drive.</entry>
     <entry lang="en" key="SYSENC_HIDDEN_TYPE_HELP">It may happen that you are forced by somebody to decrypt the operating system. There are many situations where you cannot refuse to do so (for example, due to extortion). If you select this option, you will create a hidden operating system whose existence should be impossible to prove (provided that certain guidelines are followed). Thus, you will not have to decrypt or reveal the password to the hidden operating system. For a detailed explanation, please click the link below.</entry>
+    <entry lang="en" key="SYSENC_ADVANCED_FEATURES_NOTE">Note: The advanced features hidden-OS encryption, full-disk encryption and multi-boot encryption are not possible on your system due to technical incompatibility (GPT partition).</entry>
     <entry lang="en" key="HIDDEN_OS_PREINFO">It may happen that you are forced by somebody to decrypt the operating system. There are many situations where you cannot refuse to do so (for example, due to extortion).\n\nUsing this wizard, you can create a hidden operating system whose existence should be impossible to prove (provided that certain guidelines are followed). Thus, you will not have to decrypt or reveal the password for the hidden operating system.</entry>
     <entry lang="en" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE">Hidden Operating System</entry>
     <entry lang="en" key="SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_HELP">In the following steps, you will create two VeraCrypt volumes (outer and hidden) within the first partition behind the system partition. The hidden volume will contain the hidden operating system (OS). VeraCrypt will create the hidden OS by copying the content of the system partition (where the currently running OS is installed) to the hidden volume. To the outer volume, you will copy some sensitive looking files that you actually do NOT want to hide. They will be there for anyone forcing you to disclose the password for the hidden OS partition. You can reveal the password for the outer volume within the hidden OS partition (the existence of the hidden OS remains secret).\n\nFinally, on the system partition of the currently running OS, you will install a new OS, so-called decoy OS, and encrypt it. It must not contain sensitive data and will be there for anyone forcing you to reveal your pre-boot authentication password. In total, there will be three passwords. Two of them can be disclosed (for the decoy OS and outer volume). If you use the third one, the hidden OS will start.</entry>
@@ -1172,20 +1180,25 @@
     <entry lang="en" key="CD_BURNER_NOT_PRESENT_CONNECTED_NOW">A CD/DVD burner is connected to my computer now. Continue and write the Rescue Disk.</entry>
     <entry lang="en" key="CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO">Please follow these steps:\n\n1) Connect a removable drive, such as a USB flash drive, to your computer now.\n\n2) Copy the VeraCrypt Rescue Disk image file (%s) to the removable drive.\n\nIn case you need to use the VeraCrypt Rescue Disk in the future, you will be able to connect your removable drive (containing the VeraCrypt Rescue Disk image) to a computer with a CD/DVD burner and create a bootable VeraCrypt Rescue Disk by burning the image to a CD or DVD. IMPORTANT: Note that the VeraCrypt Rescue Disk image file must be written to the CD/DVD as an ISO disk image (not as an individual file).</entry>
     <entry lang="en" key="RESCUE_DISK_RECORDING_TITLE">Rescue Disk Recording</entry>
+    <!--changed-->
+    <entry lang="en" key="AES_BOX_HELP">AES is secure according to NIST</entry>
+    <entry lang="en" key="BACKUP_RESCUE_DISK_TITLE">Backup Rescue Disk</entry>
     <entry lang="en" key="RESCUE_DISK_CREATED_TITLE">Rescue Disk Created</entry>
     <entry lang="en" key="SYS_ENCRYPTION_PRETEST_TITLE">System Encryption Pretest</entry>
     <entry lang="en" key="RESCUE_DISK_DISK_VERIFIED_TITLE">Rescue Disk Verified</entry>
     <entry lang="en" key="RESCUE_DISK_VERIFIED_INFO">\nThe VeraCrypt Rescue Disk has been successfully verified. Please remove it from the drive now and store it in a safe place.\n\nClick Next to continue.</entry>
     <entry lang="en" key="REMOVE_RESCUE_DISK_FROM_DRIVE">WARNING: During the next steps, the VeraCrypt Rescue Disk must not be in the drive. Otherwise, it will not be possible to complete the steps correctly.\n\nPlease remove it from the drive now and store it in a safe place. Then click OK.</entry>
     <entry lang="en" key="PREBOOT_NOT_LOCALIZED">Warning: Due to technical limitations of the pre-boot environment, texts displayed by VeraCrypt in the pre-boot environment (i.e. before Windows starts) cannot be localized. The VeraCrypt Boot Loader user interface is completely in English.\n\nContinue?</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_PRETEST_INFO">Before encrypting your system partition or drive, VeraCrypt needs to verify that everything works correctly.\n\nAfter you click Test, all the necessary components (for example, the pre-boot authentication component, i.e. the VeraCrypt Boot Loader) will be installed and your computer will be restarted. Then you will have to enter your password in the VeraCrypt Boot Loader screen that will appear before Windows starts. After Windows starts, you will be automatically informed about the result of this pretest.\n\nThe following device will be modified: Drive #%d\n\n\nIf you click Cancel now, nothing will be installed and the pretest will not be performed.</entry>
     <entry lang="en" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_1">IMPORTANT NOTES -- PLEASE READ OR PRINT (click 'Print'):\n\nNote that none of your files will be encrypted before you successfully restart your computer and start Windows. Thus, if anything fails, your data will NOT be lost. However, if something does go wrong, you might encounter difficulties in starting Windows. Therefore, please read (and, if possible, print) the following guidelines on what to do if Windows cannot start after you restart the computer.\n\n</entry>
     <entry lang="en" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_2">What to Do If Windows Cannot Start\n------------------------------------------------\n\nNote: These instructions are valid only if you have not started encrypting.\n\n- If Windows does not start after you enter the correct password (or if you repeatedly enter the correct password but VeraCrypt says that the password is incorrect), do not panic. Restart (power off and on) the computer, and in the VeraCrypt Boot Loader screen, press the Esc key on your keyboard (and if you have multiple systems, choose which to start). Then Windows should start (provided that it is not encrypted) and VeraCrypt will automatically ask whether you want to uninstall the pre-boot authentication component. Note that the previous steps do NOT work if the system partition/drive is encrypted (nobody can start Windows or access encrypted data on the drive without the correct password even if he or she follows the previous steps).\n\n</entry>
     <entry lang="en" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_3">- If the previous steps do not help or if the VeraCrypt Boot Loader screen does not appear (before Windows starts), insert the VeraCrypt Rescue Disk into your CD/DVD drive and restart your computer. If the VeraCrypt Rescue Disk screen does not appear (or if you do not see the 'Repair Options' item in the 'Keyboard Controls' section of the VeraCrypt Rescue Disk screen), it is possible that your BIOS is configured to attempt to boot from hard drives before CD/DVD drives. If that is the case, restart your computer, press F2 or Delete (as soon as you see a BIOS start-up screen), and wait until a BIOS configuration screen appears. If no BIOS configuration screen appears, restart (reset) the computer again and start pressing F2 or Delete repeatedly as soon as you restart (reset) the computer. When a BIOS configuration screen appears, configure your BIOS to boot from the CD/DVD drive first (for information on how to do so, please refer to the documentation for your BIOS/motherboard or contact your computer vendor's technical support team for assistance). Then restart your computer. The VeraCrypt Rescue Disk screen should appear now. In the VeraCrypt Rescue Disk screen, select 'Repair Options' by pressing F8 on your keyboard. From the 'Repair Options' menu, select 'Restore original system loader'. Then remove the Rescue Disk from your CD/DVD drive and restart your computer. Windows should start normally (provided that it is not encrypted).\n\n</entry>
     <entry lang="en" key="SYS_ENCRYPTION_PRETEST_INFO2_PORTION_4">Note that the previous steps do NOT work if the system partition/drive is encrypted (nobody can start Windows or access encrypted data on the drive without the correct password even if he or she follows the previous steps).\n\n\nNote that even if you lose your VeraCrypt Rescue Disk and an attacker finds it, he or she will NOT be able to decrypt the system partition or drive without the correct password.</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">Pretest Completed</entry>
-    <entry lang="en" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">The pretest has been successfully completed.\n\nWARNING: Please note that if power supply is suddenly interrupted while encrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting, please make sure that you have backup copies of the files you want to encrypt. If you do not, please back up the files now (you can click Defer, back up the files, then run VeraCrypt again anytime, and select 'System' &gt; 'Resume Interrupted Process' to start encrypting).\n\nWhen ready, click Encrypt to start encrypting.</entry>
-    <entry lang="en" key="SYSENC_ENCRYPTION_PAGE_INFO">You can click Pause or Defer anytime to interrupt the process of encryption or decryption, exit this wizard, restart or shut down your computer, and then resume the process, which will continue from the point it was stopped. To prevent slowdown when the system or applications write or read data from the system drive, VeraCrypt automatically waits until the data is written or read (see Status above) and then automatically continues encrypting or decrypting.</entry>
+    <entry lang="en" key="SYS_ENCRYPTION_PRETEST_RESULT_TITLE">Pretest Completed</entry>  
+    <entry lang="en" key="SYS_ENCRYPTION_PRETEST_RESULT_INFO">The pretest has been successfully completed.\n\nWARNING: Please note that if power supply is suddenly interrupted while encrypting existing data in place, or when the operating system crashes due to a software error or hardware malfunction while VeraCrypt is encrypting existing data in place, portions of the data will be corrupted or lost. Therefore, before you start encrypting, please make sure that you have backup copies of the files you want to encrypt. If you do not, please back up the files now (you can click Cancel, back up the files, then run VeraCrypt again anytime, and select 'System' &gt; 'Resume Interrupted Process' to start encrypting).\n\nWhen ready, click Encrypt to start encrypting.</entry>
+    
+    <entry lang="en" key="SYSENC_ENCRYPTION_PAGE_INFO"></entry>
+    <!--<entry lang="en" key="SYSENC_ENCRYPTION_PAGE_INFO">You can click Pause or Defer anytime to interrupt the process of encryption or decryption, exit this wizard, restart or shut down your computer, and then resume the process, which will continue from the point it was stopped. To prevent slowdown when the system or applications write or read data from the system drive, VeraCrypt automatically waits until the data is written or read (see Status above) and then automatically continues encrypting or decrypting.</entry>-->
+    
     <entry lang="en" key="NONSYS_INPLACE_ENC_ENCRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of encryption, exit this wizard, restart or shut down your computer, and then resume the process, which will continue from the point it was stopped. Note that the volume cannot be mounted until it has been fully encrypted.</entry>
     <entry lang="en" key="NONSYS_INPLACE_DEC_DECRYPTION_PAGE_INFO">\n\nYou can click Pause or Defer anytime to interrupt the process of decryption, exit this wizard, restart or shut down the computer, and then resume the process, which will continue from the point where it was stopped. Note that the volume cannot be mounted until it has been fully decrypted.</entry>
     <entry lang="en" key="SYSENC_HIDDEN_OS_INITIAL_INFO_TITLE">Hidden System Started</entry>
@@ -1307,7 +1320,8 @@
     <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN_TITLE">Warning: VeraCrypt volume auto-dismounted</entry>
     <entry lang="en" key="HOST_DEVICE_REMOVAL_DISMOUNT_WARN">Before you physically remove or turn off a device containing a mounted volume, you should always dismount the volume in VeraCrypt first.\n\nUnexpected spontaneous dismount is usually caused by an intermittently failing cable, drive (enclosure), etc.</entry>
     <entry lang="en" key="UNSUPPORTED_TRUECRYPT_FORMAT">This volume was created with TrueCrypt %x.%x but VeraCrypt supports only TrueCrypt volumes created with TrueCrypt 6.x/7.x series</entry>
-    <entry lang="en" key="TEST">Test</entry>
+    <entry lang="en" key="TEST">Next ></entry>
+    <!-- changed -->
     <entry lang="en" key="KEYFILE">Keyfile</entry>
     <entry lang="en" key="VKEY_08">Backspace</entry>
     <entry lang="en" key="VKEY_09">Tab</entry>
@@ -1400,9 +1414,12 @@
     <entry lang="en" key="TIME">Time</entry>
     <entry lang="en" key="ITERATIONS">Iterations</entry>
     <entry lang="en" key="PRE-BOOT">Pre-Boot</entry>
+
+    
     <entry lang="en" key="RESCUE_DISK_EFI_INFO">Before you can encrypt the partition, you must create a VeraCrypt Rescue Disk (VRD), which serves the following purposes:\n\n- If the VeraCrypt Boot Loader, master key, or other critical data gets damaged, the VRD allows you to restore it (note, however, that you will still have to enter the correct password then).\n\n- If Windows gets damaged and cannot start, the VRD allows you to permanently decrypt the partition before Windows starts.\n\n- The VRD will contain a backup of the present EFI boot loader and will allow you to restore it if necessary.\n\nThe VeraCrypt Rescue Disk ZIP image will be created in the location specified below.</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you need to extract it to a USB stick that is formatted as FAT/FAT32.\n\n%lsAfter you create the Rescue Disk, click Next to verify that it has been correctly created.</entry>
-    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n%lsClick Next to continue.</entry>
+
+    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK">The Rescue Disk ZIP image has been created and stored in this file:\n%s\n\nNow you should either extract the image to a USB stick that is formatted as FAT/FAT32 or move it to a safe location for later use.\n\n\n\n%lsClick Next to continue.</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NOTE">IMPORTANT: Note that the zip file must be extracted directly to the root of the USB stick. For example, if the drive letter of the USB stick is E: then extracting the zip file should create a folder E:\\EFI on the USB stick.\n\n</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk, please eject and reinsert the USB stick; then click Next to try again. If this does not help, please try another USB stick and/or another ZIP software.\n\nIf you have not extracted the Rescue Disk yet, please do so, and then click Next.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created before you started this wizard, please note that such Rescue Disk cannot be used, because it was created for a different master key. You need to extract the newly generated Rescue Disk ZIP image.</entry>
     <entry lang="en" key="RESCUE_DISK_EFI_NON_WIZARD_CHECK_FAILED">Cannot verify that the Rescue Disk has been correctly extracted.\n\nIf you have extracted the Rescue Disk image to a USB stick, please eject it and reinsert it; then try again. If this does not help, please try other ZIP software and/or medium.\n\nIf you attempted to verify a VeraCrypt Rescue Disk created for a different master key, password, salt, etc., please note that such Rescue Disk will always fail this verification. To create a new Rescue Disk fully compatible with your current configuration, select 'System' > 'Create Rescue Disk'.</entry>
@@ -1566,6 +1583,31 @@
     <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
     <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
     <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
+    <!--new strings-->
+    <!-- changed -->
+    <entry lang="en" key="RESCUE_DISK_EFI_EXTRACT_INFO_NO_CHECK_NEW">The Rescue Disk has been created and stored in this location:\n\n%s\n\nIt is very important that you backup this file, in case that your Windows is damaged and does not start after being encrypted. You have to store it to an external device (e.g. USB stick), in your cloud or in your email account.\n\nTogether with the Rescue Disk, you can find the following two textfiles with instructions on how to use the Rescue Disk:\n- VeraCrypt Pretest.txt \n- VeraCrypt Rescue.txt \n\nIf you want to receive the Rescue Disk via email, please provide your email address: </entry>
+    <entry lang="en" key="RESCUE_DISK_CHECKLIST_A">Store your password in a safe location. Be aware that there is no possibility to recover your data without the password. That is why VeraCrypt is considered to be secure.</entry>
+    <entry lang="en" key="RESCUE_DISK_CHECKLIST_B">Make sure that you stored the rescue disk on an external medium. If you have not yet, do it NOW before proceeding! It is located here: \n\n%s\n</entry>
+    <entry lang="en" key="RESCUE_DISK_CHECKLIST_C">Before you start encrypting your system, it is always a good idea to backup your personal data on an external drive for the unlikely case that the encryption process fails.</entry>
+    <entry lang="en" key="RESCUE_DISK_NEW">\n\nIf Windows gets damaged and cannot start, the VeraCrypt Rescue Disk allows you to permanently decrypt the partition. Note, however, that you will still have to enter the correct password then!\n\n\nWARNING: If you have already created a VeraCrypt Rescue Disk in the past, it cannot be reused for this encryption! Every time you use this encryption tool, you must create and securely store a new VeraCrypt Rescue Disk for it even if you use the same password.</entry>
+    <entry lang="en" key="RESCUE_DISK_INFO_2">The VeraCrypt Rescue Disk ZIP image will be created by clicking the Next button in location specified below.</entry>
+    <entry lang="en" key="REMEMBER_PASSWORD"> I remember my Password</entry>
+    <entry lang="en" key="STORE_RESCUE_DISK"> I securely stored the Rescue Disk</entry>
+    <entry lang="en" key="BACKUP_DATA"> I considered doing a backup of my personal Data</entry>
+    <entry lang="en" key="CHECKLIST_TITLE">Checklist - Before clicking 'Next'</entry>
+    <entry lang="en" key="SYS_ENCRYPTION_PRETEST_INFO">Some tests have to be done now to verify that everything works correctly.\n\nFor this test, your computer has to be restarted. Then you will have to enter your password in the VeraCrypt Boot Loader screen that will appear before Windows starts. After Windows starts, VeraCrypt is started automatically and you will be informed about the result of this pretest.\n\n\n</entry>
+    <entry lang="en" key="ADVANCED_FEATURES">Advanced features</entry>
+    <entry lang="en" key="VERY_WEAK_PASSWORD">very weak</entry>
+    <entry lang="en" key="WEAK_PASSWORD">weak</entry>
+    <entry lang="en" key="MEDIUM_PASSWORD">medium</entry>
+    <entry lang="en" key="STRONG_PASSWORD">strong</entry>
+    <entry lang="en" key="VERY_STRONG_PASSWORD">very strong</entry>
+    <entry lang="en" key="IDT_PASSWORD_STRENGTH">Password strength:</entry>
+    <entry lang="en" key="IDT_PASSWORD_HELP">Please choose a password that is indicated as 'very strong' but at least 'medium'. \n\nKeep in mind that if you forget your password, there is no possibility to get access to your encrypted data.</entry>
+    <entry lang="en" key="AES_HELP_NEW">AES is secure according to NIST.</entry>
+    <entry lang="en" key="SHA512_HELP">SHA-512 is secure according to NIST.</entry>
+    <entry lang="en" key="CHOOSE_PASSWORD_TITLE">Choose Password</entry>
+
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">
