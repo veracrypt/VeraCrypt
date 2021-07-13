@@ -342,7 +342,7 @@ int EAGetFirst ();
 int EAGetCount (void);
 int EAGetNext (int previousEA);
 #ifndef TC_WINDOWS_BOOT
-wchar_t * EAGetName (wchar_t *buf, int ea, int guiDisplay);
+wchar_t * EAGetName (wchar_t *buf, size_t bufLen, int ea, int guiDisplay);
 int EAGetByName (wchar_t *name);
 #endif
 int EAGetKeySize (int ea);
@@ -373,7 +373,7 @@ const wchar_t *HashGetName (int hash_algo_id);
 int HashGetIdByName (wchar_t *name);
 #endif
 Hash *HashGet (int id);
-void HashGetName2 (wchar_t *buf, int hashId);
+void HashGetName2 (wchar_t *buf, size_t bufLen, int hashId);
 BOOL HashIsDeprecated (int hashId);
 BOOL HashForSystemEncryption (int hashId);
 int GetMaxPkcs5OutSize (void);

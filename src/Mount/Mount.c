@@ -1806,7 +1806,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 
 			if (propSysEnc.ea >= EAGetFirst() && propSysEnc.ea <= EAGetCount())
 			{
-				EAGetName (szTmp, propSysEnc.ea, 1);
+				EAGetName (szTmp, ARRAYSIZE(szTmp),propSysEnc.ea, 1);
 			}
 			else
 			{
@@ -1932,7 +1932,7 @@ void LoadDriveLetters (HWND hwndDlg, HWND hTree, int drive)
 			GetSizeString (bSysEncPartition ? GetSysEncDeviceSize(TRUE) : driver.diskLength[i], szTmpW, sizeof(szTmpW));
 			ListSubItemSet (hTree, listItem.iItem, 2, szTmpW);
 
-			EAGetName (szTmp, bSysEncPartition ? propSysEnc.ea : driver.ea[i], 1);
+			EAGetName (szTmp, ARRAYSIZE(szTmp),bSysEncPartition ? propSysEnc.ea : driver.ea[i], 1);
 			listItem.iSubItem = 3;
 			ListView_SetItem (hTree, &listItem);
 
@@ -4233,14 +4233,14 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				return 1;
 			}
 
-			EAGetName (szTmp, prop.ea, 1);
+			EAGetName (szTmp, ARRAYSIZE(szTmp), prop.ea, 1);
 			ListSubItemSet (list, i++, 1, szTmp);
 
 			// Key size(s)
 			{
 				wchar_t name[128];
 				int size = EAGetKeySize (prop.ea);
-				EAGetName (name, prop.ea, 1);
+				EAGetName (name, ARRAYSIZE(name), prop.ea, 1);
 
 				// Primary key
 				ListItemAdd (list, i, GetString ("KEY_SIZE"));
@@ -4301,7 +4301,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GetDateFormatW (LOCALE_USER_DEFAULT, 0, &st, 0, sw, sizeof (sw)/2);
 				swprintf (date, L"%s ", sw);
 				GetTimeFormatW (LOCALE_USER_DEFAULT, 0, &st, 0, sw, sizeof (sw)/2);
-				wcscat (date, sw);
+				StringCchCatW (date, ARRAYSIZE(date), sw);
 				ListSubItemSet (list, i++, 1, date);
 
 				// Header date
@@ -4311,7 +4311,7 @@ BOOL CALLBACK VolumePropertiesDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GetDateFormatW (LOCALE_USER_DEFAULT, 0, &st, 0, sw, sizeof (sw)/2);
 				swprintf (date, L"%s ", sw);
 				GetTimeFormatW (LOCALE_USER_DEFAULT, 0, &st, 0, sw, sizeof (sw)/2);
-				wcscat (date, sw);
+				StringCchCatW (date, ARRAYSIZE(date), sw);
 
 				GetLocalTime (&st);
 				SystemTimeToFileTime (&st, &curFt);

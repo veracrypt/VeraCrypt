@@ -180,10 +180,10 @@ typedef uint64 uint_64t;
 typedef CHAR16 wchar_t;
 typedef int LONG;
 
-#define wcscpy StrCpy
+#define StringCchCopyW StrCpyS
 #define wcslen StrLen
 #define wcscmp StrCmp
-#define wcscat StrCat
+#define StringCchCatW StrCatS
 
 #define memcpy(dest,source,count)         CopyMem(dest,source,(UINTN)(count))
 #define memset(dest,ch,count)             SetMem(dest,(UINTN)(count),(UINT8)(ch))
@@ -195,7 +195,7 @@ typedef int LONG;
 #define strchr(str,ch)                    ScanMem8((VOID *)(str),AsciiStrSize(str),(UINT8)ch)
 #define strcmp                            AsciiStrCmp
 #define strncmp(string1,string2,count)    (int)(AsciiStrnCmp(string1,string2,(UINTN)(count)))
-#define strcpy(strDest,strSource)         AsciiStrCpyS(strDest,MAX_STRING_SIZE,strSource)
+#define StringCchCopyA(strDest,strMaxSize,strSource)         AsciiStrCpyS(strDest,strMaxSize,strSource)
 #define strncpy(strDest,strSource,count)  AsciiStrnCpyS(strDest,MAX_STRING_SIZE,strSource,(UINTN)count)
 #define strlen(str)                       (size_t)(AsciiStrnLenS(str,MAX_STRING_SIZE))
 #define strstr                            AsciiStrStr

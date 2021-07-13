@@ -37,6 +37,7 @@
 #include "InitDataArea.h"
 #include "ExpandVolume.h"
 #include "Resource.h"
+#include <strsafe.h>
 
 #ifndef SRC_POS
 #define SRC_POS (__FUNCTION__ ":" TC_TO_STRING(__LINE__))
@@ -526,7 +527,7 @@ static int ExpandVolume (HWND hwndDlg, wchar_t *lpszVolume, Password *pVolumePas
 
 	if (bDevice == FALSE)
 	{
-		wcscpy (szCFDevice, szDiskFile);
+		StringCchCopyW (szCFDevice, ARRAYSIZE(szCFDevice), szDiskFile);
 	}
 	else
 	{

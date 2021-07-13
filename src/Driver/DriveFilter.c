@@ -2112,8 +2112,8 @@ void GetBootEncryptionAlgorithmName (PIRP irp, PIO_STACK_LOCATION irpSp)
 			wchar_t BootEncryptionAlgorithmNameW[256];
 			wchar_t BootPrfAlgorithmNameW[256];
 			GetBootEncryptionAlgorithmNameRequest *request = (GetBootEncryptionAlgorithmNameRequest *) irp->AssociatedIrp.SystemBuffer;
-			EAGetName (BootEncryptionAlgorithmNameW, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
-			HashGetName2 (BootPrfAlgorithmNameW, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
+			EAGetName (BootEncryptionAlgorithmNameW, 256, BootDriveFilterExtension->Queue.CryptoInfo->ea, 0);
+			HashGetName2 (BootPrfAlgorithmNameW, 256, BootDriveFilterExtension->Queue.CryptoInfo->pkcs5);
 
 			RtlStringCbPrintfA (request->BootEncryptionAlgorithmName, sizeof (request->BootEncryptionAlgorithmName), "%S", BootEncryptionAlgorithmNameW);
 			RtlStringCbPrintfA (request->BootPrfAlgorithmName, sizeof (request->BootPrfAlgorithmName), "%S", BootPrfAlgorithmNameW);
