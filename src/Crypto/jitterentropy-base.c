@@ -53,7 +53,7 @@
 
 
 #ifdef TC_WINDOWS_DRIVER
-#define UINT64_MAX	0xffffffffffffffffU
+#define UINT64_MAX	 0xffffffffffffffffui64
 #else
 #include <stdint.h>
 #endif
