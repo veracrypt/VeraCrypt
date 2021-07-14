@@ -18,8 +18,8 @@
 #include "Common/Endian.h"
 #if !defined(_UEFI)
 #include <string.h>
-#include <strsafe.h>
 #ifndef TC_WINDOWS_BOOT
+#include <strsafe.h>
 #include "EncryptionThreadPool.h"
 #endif
 #endif
