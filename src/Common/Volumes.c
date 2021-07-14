@@ -179,12 +179,12 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	int primaryKeyOffset;
 	int pkcs5PrfCount = LAST_PRF_ID - FIRST_PRF_ID + 1;
 #if !defined(_UEFI)
-	TC_EVENT keyDerivationCompletedEvent;
-	TC_EVENT noOutstandingWorkItemEvent;
+	TC_EVENT *keyDerivationCompletedEvent = NULL;
+	TC_EVENT *noOutstandingWorkItemEvent = NULL;
 	KeyDerivationWorkItem *keyDerivationWorkItems = NULL;
 	KeyDerivationWorkItem *item;
 	size_t encryptionThreadCount = GetEncryptionThreadCount();
-	LONG outstandingWorkItemCount = 0;
+	LONG *outstandingWorkItemCount = NULL;
 	int i;
 #endif
 	size_t queuedWorkItems = 0;
@@ -218,29 +218,60 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 	/* use thread pool only if no PRF was specified */
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
+		keyDerivationCompletedEvent = TCalloc (sizeof (TC_EVENT));
+		if (!keyDerivationCompletedEvent)
+			return ERR_OUTOFMEMORY;
+
+		noOutstandingWorkItemEvent = TCalloc (sizeof (TC_EVENT));
+		if (!noOutstandingWorkItemEvent)
+		{
+			TCfree(keyDerivationCompletedEvent);
+			return ERR_OUTOFMEMORY;
+		}
+
+		outstandingWorkItemCount = TCalloc (sizeof (LONG));
+		if (!outstandingWorkItemCount)
+		{
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			return ERR_OUTOFMEMORY;
+		}
+
 		keyDerivationWorkItems = TCalloc (sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
 		if (!keyDerivationWorkItems)
+		{
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			TCfree(outstandingWorkItemCount);
 			return ERR_OUTOFMEMORY;
+		}
 
 		for (i = 0; i < pkcs5PrfCount; ++i)
 			keyDerivationWorkItems[i].Free = TRUE;
 
+		*outstandingWorkItemCount = 0;
 #ifdef DEVICE_DRIVER
-		KeInitializeEvent (&keyDerivationCompletedEvent, SynchronizationEvent, FALSE);
-		KeInitializeEvent (&noOutstandingWorkItemEvent, SynchronizationEvent, TRUE);
+		KeInitializeEvent (keyDerivationCompletedEvent, SynchronizationEvent, FALSE);
+		KeInitializeEvent (noOutstandingWorkItemEvent, SynchronizationEvent, TRUE);
 #else
-		keyDerivationCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
-		if (!keyDerivationCompletedEvent)
+		*keyDerivationCompletedEvent = CreateEvent (NULL, FALSE, FALSE, NULL);
+		if (!*keyDerivationCompletedEvent)
 		{
 			TCfree (keyDerivationWorkItems);
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			TCfree(outstandingWorkItemCount);
 			return ERR_OUTOFMEMORY;
 		}
 
-		noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, TRUE, NULL);
-		if (!noOutstandingWorkItemEvent)
+		*noOutstandingWorkItemEvent = CreateEvent (NULL, FALSE, TRUE, NULL);
+		if (!*noOutstandingWorkItemEvent)
 		{
 			CloseHandle (keyDerivationCompletedEvent);
 			TCfree (keyDerivationWorkItems);
+			TCfree(keyDerivationCompletedEvent);
+			TCfree(noOutstandingWorkItemEvent);
+			TCfree(outstandingWorkItemCount);
 			return ERR_OUTOFMEMORY;
 		}
 #endif
@@ -283,8 +314,8 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 						item->KeyReady = FALSE;
 						item->Pkcs5Prf = enqPkcs5Prf;
 
-						EncryptionThreadPoolBeginKeyDerivation (&keyDerivationCompletedEvent, &noOutstandingWorkItemEvent,
-							&item->KeyReady, &outstandingWorkItemCount, enqPkcs5Prf, keyInfo.userKey,
+						EncryptionThreadPoolBeginKeyDerivation (keyDerivationCompletedEvent, noOutstandingWorkItemEvent,
+							&item->KeyReady, outstandingWorkItemCount, enqPkcs5Prf, keyInfo.userKey,
 							keyInfo.keyLength, keyInfo.salt, get_pkcs5_iteration_count (enqPkcs5Prf, pim, truecryptMode, bBoot), item->DerivedKey);
 
 						++queuedWorkItems;
@@ -317,7 +348,7 @@ int ReadVolumeHeader (BOOL bBoot, char *encryptedHeader, Password *password, int
 				}
 
 				if (queuedWorkItems > 0)
-					TC_WAIT_EVENT (keyDerivationCompletedEvent);
+					TC_WAIT_EVENT (*keyDerivationCompletedEvent);
 			}
 			continue;
 KeyReady:	;
@@ -587,18 +618,7 @@ ret:
 #if !defined(_UEFI)
 	if ((selected_pkcs5_prf == 0) && (encryptionThreadCount > 1))
 	{
-		TC_WAIT_EVENT (noOutstandingWorkItemEvent);
-
-		if (keyDerivationWorkItems)
-		{
-			burn (keyDerivationWorkItems, sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
-			TCfree (keyDerivationWorkItems);
-		}
-
-#if !defined(DEVICE_DRIVER) 
-		CloseHandle (keyDerivationCompletedEvent);
-		CloseHandle (noOutstandingWorkItemEvent);
-#endif
+		EncryptionThreadPoolBeginReadVolumeHeaderFinalization (keyDerivationCompletedEvent, noOutstandingWorkItemEvent, outstandingWorkItemCount, keyDerivationWorkItems, sizeof (KeyDerivationWorkItem) * pkcs5PrfCount);
 	}
 #endif
 	return status;

@@ -102,12 +102,22 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 			int IterationCount;
 			TC_EVENT *NoOutstandingWorkItemEvent;
 			LONG *OutstandingWorkItemCount;
-			char *Password;
+			CRYPTOPP_ALIGN_DATA(16) char Password[MAX_PASSWORD];
 			int PasswordLength;
 			int Pkcs5Prf;
-			char *Salt;
+			char Salt[PKCS5_SALT_SIZE];
 
 		} KeyDerivation;
+
+		struct
+		{
+			TC_EVENT *KeyDerivationCompletedEvent;
+			TC_EVENT *NoOutstandingWorkItemEvent;
+			LONG *outstandingWorkItemCount;
+			void* keyDerivationWorkItems;
+			int keyDerivationWorkItemsSize;
+
+		} ReadVolumeHeaderFinalization;
 	};
 
 } EncryptionThreadPoolWorkItem;
@@ -275,6 +285,25 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			TC_SET_EVENT (WorkItemCompletedEvent);
 			continue;
 
+		case ReadVolumeHeaderFinalizationWork:
+			TC_WAIT_EVENT (*(workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent));
+
+			if (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems)
+			{
+				burn (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems, workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize);
+				TCfree (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems);
+			}
+
+#if !defined(DEVICE_DRIVER) 
+			CloseHandle (*(workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent));
+			CloseHandle (*(workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent));
+#endif
+			TCfree (workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent);
+			TCfree (workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent);
+			TCfree (workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount);
+			SetWorkItemState (workItem, WorkItemFree);
+			TC_SET_EVENT (WorkItemCompletedEvent);
+			continue;
 		default:
 			TC_THROW_FATAL_EXCEPTION;
 		}
@@ -515,13 +544,45 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	workItem->KeyDerivation.IterationCount = iterationCount;
 	workItem->KeyDerivation.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
 	workItem->KeyDerivation.OutstandingWorkItemCount = outstandingWorkItemCount;
-	workItem->KeyDerivation.Password = password;
+	memcpy (workItem->KeyDerivation.Password, password, passwordLength);
 	workItem->KeyDerivation.PasswordLength = passwordLength;
 	workItem->KeyDerivation.Pkcs5Prf = pkcs5Prf;
-	workItem->KeyDerivation.Salt = salt;
+	memcpy (workItem->KeyDerivation.Salt, salt, PKCS5_SALT_SIZE);
 
 	InterlockedIncrement (outstandingWorkItemCount);
 	TC_CLEAR_EVENT (*noOutstandingWorkItemEvent);
+
+	SetWorkItemState (workItem, WorkItemReady);
+	TC_SET_EVENT (WorkItemReadyEvent);
+	TC_RELEASE_MUTEX (&EnqueueMutex);
+}
+
+void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivationCompletedEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG* outstandingWorkItemCount, void* keyDerivationWorkItems, int keyDerivationWorkItemsSize)
+{
+	EncryptionThreadPoolWorkItem *workItem;
+
+	if (!ThreadPoolRunning)
+		TC_THROW_FATAL_EXCEPTION;
+
+	TC_ACQUIRE_MUTEX (&EnqueueMutex);
+
+	workItem = &WorkItemQueue[EnqueuePosition++];
+	if (EnqueuePosition >= ThreadQueueSize)
+		EnqueuePosition = 0;
+
+	while (GetWorkItemState (workItem) != WorkItemFree)
+	{
+		TC_WAIT_EVENT (WorkItemCompletedEvent);
+	}
+
+	workItem->Type = ReadVolumeHeaderFinalizationWork;
+	workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
+#if !defined(DEVICE_DRIVER) 
+	workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent = keyDerivationCompletedEvent;
+#endif
+	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems = keyDerivationWorkItems;
+	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize = keyDerivationWorkItemsSize;
+	workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount = outstandingWorkItemCount;
 
 	SetWorkItemState (workItem, WorkItemReady);
 	TC_SET_EVENT (WorkItemReadyEvent);
