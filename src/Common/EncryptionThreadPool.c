@@ -275,6 +275,12 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 				TC_THROW_FATAL_EXCEPTION;
 			}
 
+#if !defined(DEVICE_DRIVER)
+			burn (workItem->KeyDerivation.Password, sizeof(workItem->KeyDerivation.Password));
+			burn (workItem->KeyDerivation.Salt, sizeof(workItem->KeyDerivation.Salt));
+			VirtualUnlock (&workItem->KeyDerivation, sizeof (workItem->KeyDerivation));
+#endif
+
 			InterlockedExchange (workItem->KeyDerivation.CompletionFlag, TRUE);
 			TC_SET_EVENT (*workItem->KeyDerivation.CompletionEvent);
 
@@ -510,6 +516,11 @@ void EncryptionThreadPoolStop ()
 
 	for (i = 0; i < sizeof (WorkItemQueue) / sizeof (WorkItemQueue[0]); ++i)
 	{
+#if !defined(DEVICE_DRIVER)
+		burn (WorkItemQueue[i].KeyDerivation.Password, sizeof(WorkItemQueue[i].KeyDerivation.Password));
+		burn (WorkItemQueue[i].KeyDerivation.Salt, sizeof(WorkItemQueue[i].KeyDerivation.Salt));
+		VirtualUnlock (&WorkItemQueue[i].KeyDerivation, sizeof (WorkItemQueue[i].KeyDerivation));
+#endif
 		if (WorkItemQueue[i].ItemCompletedEvent)
 			CloseHandle (WorkItemQueue[i].ItemCompletedEvent);
 	}
@@ -538,6 +549,9 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	}
 
 	workItem->Type = DeriveKeyWork;
+#if !defined(DEVICE_DRIVER)
+	VirtualLock (&workItem->KeyDerivation, sizeof (workItem->KeyDerivation));
+#endif
 	workItem->KeyDerivation.CompletionEvent = completionEvent;
 	workItem->KeyDerivation.CompletionFlag = completionFlag;
 	workItem->KeyDerivation.DerivedKey = derivedKey;
