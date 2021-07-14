@@ -4816,6 +4816,10 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					{
 						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-x64.exe", dstDir);
 					}
+					else if (wcscmp(fileName, L"VeraCrypt-arm64.exe") == 0)
+					{
+						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt-arm64.exe", dstDir);
+					}
 					else if (wcscmp (fileName, L"veracrypt.sys") == 0)
 					{
 						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt.sys", dstDir);
@@ -4823,6 +4827,10 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					else if (wcscmp (fileName, L"veracrypt-x64.sys") == 0)
 					{
 						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-x64.sys", dstDir);
+					}
+					else if (wcscmp(fileName, L"veracrypt-arm64.sys") == 0)
+					{
+						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\veracrypt-arm64.sys", dstDir);
 					}
 					else if (copyWizard && (wcscmp (fileName, L"VeraCrypt Format.exe") == 0))
 					{
@@ -4832,6 +4840,10 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					{
 						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-x64.exe", dstDir);
 					}
+					else if (copyWizard && (wcscmp(fileName, L"VeraCrypt Format-arm64.exe") == 0))
+					{
+						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCrypt Format-arm64.exe", dstDir);
+					}
 					else if (copyExpander && (wcscmp (fileName, L"VeraCryptExpander.exe") == 0))
 					{
 						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander.exe", dstDir);
@@ -4839,6 +4851,10 @@ BOOL CALLBACK TravelerDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					else if (copyExpander && (wcscmp (fileName, L"VeraCryptExpander-x64.exe") == 0))
 					{
 						StringCbPrintfW (dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-x64.exe", dstDir);
+					}
+					else if (copyExpander && (wcscmp(fileName, L"VeraCryptExpander-arm64.exe") == 0))
+					{
+						StringCbPrintfW(dstPath, sizeof(dstPath), L"%s\\VeraCrypt\\VeraCryptExpander-arm64.exe", dstDir);
 					}
 					else
 						continue;
