@@ -25,7 +25,7 @@
 
 #ifdef TC_MACOSX
 #	include <sys/ucontext.h>
-#elif defined (TC_BSD)
+#elif defined (TC_BSD) && !defined (TC_OPENBSD)
 #	include <ucontext.h>
 #endif
 

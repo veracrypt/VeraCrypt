@@ -15,7 +15,7 @@
 #include "Platform/StringConverter.h"
 #include <stdio.h>
 #include <sys/stat.h>
-#if !defined(__FreeBSD__) && !defined(__APPLE__)
+#if !defined(__FreeBSD__) && !defined(__APPLE__) && !defined(__OpenBSD__)
 #include <sys/sysmacros.h>
 #endif
 

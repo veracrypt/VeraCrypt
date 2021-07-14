@@ -23,6 +23,12 @@
 #include <sys/disk.h>
 #endif
 
+#ifdef TC_OPENBSD
+#include <sys/ioctl.h>
+#include <sys/dkio.h>
+#include <sys/disklabel.h>
+#endif
+
 #ifdef TC_SOLARIS
 #include <stropts.h>
 #include <sys/dkio.h>
@@ -113,6 +119,11 @@ namespace VeraCrypt
 			throw_sys_sub_if (ioctl (FileHandle, DIOCGSECTORSIZE, &sectorSize) == -1, wstring (Path));
 			return (uint32) sectorSize;
 
+#elif defined (TC_OPENBSD)
+			struct disklabel dl;
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGPDINFO, &dl) == -1, wstring (Path));
+			return (uint32) dl.d_secsize;
+
 #elif defined (TC_SOLARIS)
 			struct dk_minfo mediaInfo;
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGMEDIAINFO, &mediaInfo) == -1, wstring (Path));
@@ -171,6 +182,10 @@ namespace VeraCrypt
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBLOCKSIZE, &blockSize) == -1, wstring (Path));
 			throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBLOCKCOUNT, &blockCount) == -1, wstring (Path));
 			return blockCount * blockSize;
+#	elif TC_OPENBSD
+			struct disklabel dl;
+			throw_sys_sub_if (ioctl (FileHandle, DIOCGPDINFO, &dl) == -1, wstring (Path));
+			return DL_GETDSIZE(&dl);
 #	else
 			uint64 mediaSize;
 			throw_sys_sub_if (ioctl (FileHandle, DIOCGMEDIASIZE, &mediaSize) == -1, wstring (Path));

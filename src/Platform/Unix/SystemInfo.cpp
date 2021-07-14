@@ -24,6 +24,8 @@ namespace VeraCrypt
 		return L"Mac OS X";
 #elif defined (TC_FREEBSD)
 		return L"FreeBSD";
+#elif defined (TC_OPENBSD)
+		return L"OpenBSD";
 #elif defined (TC_SOLARIS)
 		return L"Solaris";
 #else
