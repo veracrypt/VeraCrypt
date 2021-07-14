@@ -38,6 +38,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef TC_FREEBSD
+#include <sys/sysctl.h>
+#endif
+
 #include "Platform/File.h"
 #include "Platform/TextReader.h"
 
@@ -156,6 +160,31 @@ namespace VeraCrypt
 		uint64 offset;
 		throw_sys_sub_if (ioctl (FileHandle, DKIOCGETBASE, &offset) == -1, wstring (Path));
 		return offset;
+
+#elif defined (TC_FREEBSD)
+		// Get the kernel GEOM configuration
+		size_t sysctlDataLen, mibLen;
+		int mib[4];
+		mibLen = 4;
+		throw_sys_sub_if (sysctlnametomib ("kern.geom.conftxt", mib, &mibLen), wstring (Path));
+		throw_sys_sub_if (sysctl (mib, mibLen, NULL, &sysctlDataLen, NULL, 0), wstring (Path));
+		vector<char> conftxt(sysctlDataLen);
+		throw_sys_sub_if (sysctl (mib, mibLen, (void *)conftxt.data(), &sysctlDataLen, NULL, 0), wstring (Path));
+
+		// Find the slice/partition data
+		string conftxtStr (conftxt.begin(), conftxt.end());
+		size_t confLoc = conftxtStr.find (Path.ToBaseName());
+		throw_sys_sub_if (confLoc == string::npos, wstring (Path));
+
+		// Skip to the ninth column
+		for (int i = 0; i < 6;i++) {
+			confLoc = conftxtStr.find (" ", confLoc + 1);
+			throw_sys_sub_if (confLoc == string::npos, wstring (Path));
+		}
+		confLoc++;
+		size_t end = conftxtStr.find (" ", confLoc);
+		throw_sys_sub_if (end == string::npos, wstring (Path));
+		return StringConverter::ToUInt64 (conftxtStr.substr (confLoc, end - confLoc));
 
 #elif defined (TC_SOLARIS)
 
