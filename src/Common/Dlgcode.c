@@ -10855,7 +10855,7 @@ BOOL IsARM()
 		USHORT processMachine, nativeMachine;
 		if (fnIsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine))
 		{
-			if (IMAGE_FILE_MACHINE_ARM64 == nativeMachine || IMAGE_FILE_MACHINE_AMD64 == nativeMachine || IMAGE_FILE_MACHINE_IA64 == nativeMachine || IMAGE_FILE_MACHINE_ALPHA64 == nativeMachine)
+			if (IMAGE_FILE_MACHINE_ARM64 == nativeMachine || IMAGE_FILE_MACHINE_ARM == nativeMachine)
 				isARM = TRUE;
 			else
 				isARM = FALSE;
