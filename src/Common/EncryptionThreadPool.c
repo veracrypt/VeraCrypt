@@ -517,9 +517,12 @@ void EncryptionThreadPoolStop ()
 	for (i = 0; i < sizeof (WorkItemQueue) / sizeof (WorkItemQueue[0]); ++i)
 	{
 #if !defined(DEVICE_DRIVER)
-		burn (WorkItemQueue[i].KeyDerivation.Password, sizeof(WorkItemQueue[i].KeyDerivation.Password));
-		burn (WorkItemQueue[i].KeyDerivation.Salt, sizeof(WorkItemQueue[i].KeyDerivation.Salt));
-		VirtualUnlock (&WorkItemQueue[i].KeyDerivation, sizeof (WorkItemQueue[i].KeyDerivation));
+		if (WorkItemQueue[i].Type == DeriveKeyWork)
+		{
+			burn (WorkItemQueue[i].KeyDerivation.Password, sizeof(WorkItemQueue[i].KeyDerivation.Password));
+			burn (WorkItemQueue[i].KeyDerivation.Salt, sizeof(WorkItemQueue[i].KeyDerivation.Salt));
+			VirtualUnlock (&WorkItemQueue[i].KeyDerivation, sizeof (WorkItemQueue[i].KeyDerivation));
+		}
 #endif
 		if (WorkItemQueue[i].ItemCompletedEvent)
 			CloseHandle (WorkItemQueue[i].ItemCompletedEvent);
