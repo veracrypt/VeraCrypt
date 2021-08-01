@@ -174,6 +174,15 @@ ifeq "$(shell uname -s)" "Linux"
 
 	PLATFORM := Linux
 	C_CXX_FLAGS += -DTC_UNIX -DTC_LINUX
+
+	# GNU GCC version 11 and higher compile with -std=gnu++17 by default
+        # which breaks "byte" definitions in Crypto++ library. So set 
+        # -std=gnu++14 instead.
+        GCC11PLUS := $(shell expr `$(CC) -dumpversion | cut -f1 -d.` \>= 11)
+        ifeq "$(GCC11PLUS)" "1"
+                CXXFLAGS += -std=gnu++14
+        endif
+
 	
 	ifeq "$(SIMD_SUPPORTED)" "1"
 		CFLAGS += -msse2
