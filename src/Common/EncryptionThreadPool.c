@@ -594,9 +594,7 @@ void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivat
 
 	workItem->Type = ReadVolumeHeaderFinalizationWork;
 	workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
-#if !defined(DEVICE_DRIVER) 
 	workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent = keyDerivationCompletedEvent;
-#endif
 	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems = keyDerivationWorkItems;
 	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize = keyDerivationWorkItemsSize;
 	workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount = outstandingWorkItemCount;
