@@ -102,10 +102,10 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 			int IterationCount;
 			TC_EVENT *NoOutstandingWorkItemEvent;
 			LONG *OutstandingWorkItemCount;
-			CRYPTOPP_ALIGN_DATA(16) char Password[MAX_PASSWORD];
+			char *Password;
 			int PasswordLength;
 			int Pkcs5Prf;
-			char Salt[PKCS5_SALT_SIZE];
+			char *Salt;
 
 		} KeyDerivation;
 
@@ -114,6 +114,8 @@ typedef struct EncryptionThreadPoolWorkItemStruct
 			TC_EVENT *KeyDerivationCompletedEvent;
 			TC_EVENT *NoOutstandingWorkItemEvent;
 			LONG *outstandingWorkItemCount;
+			void* keyInfoBuffer;
+			int keyInfoBufferSize;
 			void* keyDerivationWorkItems;
 			int keyDerivationWorkItemsSize;
 
@@ -275,12 +277,6 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 				TC_THROW_FATAL_EXCEPTION;
 			}
 
-#if !defined(DEVICE_DRIVER)
-			burn (workItem->KeyDerivation.Password, sizeof(workItem->KeyDerivation.Password));
-			burn (workItem->KeyDerivation.Salt, sizeof(workItem->KeyDerivation.Salt));
-			VirtualUnlock (&workItem->KeyDerivation, sizeof (workItem->KeyDerivation));
-#endif
-
 			InterlockedExchange (workItem->KeyDerivation.CompletionFlag, TRUE);
 			TC_SET_EVENT (*workItem->KeyDerivation.CompletionEvent);
 
@@ -297,7 +293,19 @@ static TC_THREAD_PROC EncryptionThreadProc (void *threadArg)
 			if (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems)
 			{
 				burn (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems, workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize);
+#if !defined(DEVICE_DRIVER)
+				VirtualUnlock (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems, workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize);
+#endif
 				TCfree (workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems);
+			}
+
+			if (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer)
+			{
+				burn (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer, workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize);
+#if !defined(DEVICE_DRIVER)
+				VirtualUnlock (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer, workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize);
+#endif
+				TCfree (workItem->ReadVolumeHeaderFinalization.keyInfoBuffer);
 			}
 
 #if !defined(DEVICE_DRIVER) 
@@ -516,14 +524,6 @@ void EncryptionThreadPoolStop ()
 
 	for (i = 0; i < sizeof (WorkItemQueue) / sizeof (WorkItemQueue[0]); ++i)
 	{
-#if !defined(DEVICE_DRIVER)
-		if (WorkItemQueue[i].Type == DeriveKeyWork)
-		{
-			burn (WorkItemQueue[i].KeyDerivation.Password, sizeof(WorkItemQueue[i].KeyDerivation.Password));
-			burn (WorkItemQueue[i].KeyDerivation.Salt, sizeof(WorkItemQueue[i].KeyDerivation.Salt));
-			VirtualUnlock (&WorkItemQueue[i].KeyDerivation, sizeof (WorkItemQueue[i].KeyDerivation));
-		}
-#endif
 		if (WorkItemQueue[i].ItemCompletedEvent)
 			CloseHandle (WorkItemQueue[i].ItemCompletedEvent);
 	}
@@ -552,19 +552,16 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	}
 
 	workItem->Type = DeriveKeyWork;
-#if !defined(DEVICE_DRIVER)
-	VirtualLock (&workItem->KeyDerivation, sizeof (workItem->KeyDerivation));
-#endif
 	workItem->KeyDerivation.CompletionEvent = completionEvent;
 	workItem->KeyDerivation.CompletionFlag = completionFlag;
 	workItem->KeyDerivation.DerivedKey = derivedKey;
 	workItem->KeyDerivation.IterationCount = iterationCount;
 	workItem->KeyDerivation.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
 	workItem->KeyDerivation.OutstandingWorkItemCount = outstandingWorkItemCount;
-	memcpy (workItem->KeyDerivation.Password, password, passwordLength);
+	workItem->KeyDerivation.Password = password;
 	workItem->KeyDerivation.PasswordLength = passwordLength;
 	workItem->KeyDerivation.Pkcs5Prf = pkcs5Prf;
-	memcpy (workItem->KeyDerivation.Salt, salt, PKCS5_SALT_SIZE);
+	workItem->KeyDerivation.Salt = salt;
 
 	InterlockedIncrement (outstandingWorkItemCount);
 	TC_CLEAR_EVENT (*noOutstandingWorkItemEvent);
@@ -574,7 +571,9 @@ void EncryptionThreadPoolBeginKeyDerivation (TC_EVENT *completionEvent, TC_EVENT
 	TC_RELEASE_MUTEX (&EnqueueMutex);
 }
 
-void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivationCompletedEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG* outstandingWorkItemCount, void* keyDerivationWorkItems, int keyDerivationWorkItemsSize)
+void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivationCompletedEvent, TC_EVENT *noOutstandingWorkItemEvent, LONG* outstandingWorkItemCount, 
+	void* keyInfoBuffer, int keyInfoBufferSize,
+	void* keyDerivationWorkItems, int keyDerivationWorkItemsSize)
 {
 	EncryptionThreadPoolWorkItem *workItem;
 
@@ -595,6 +594,8 @@ void EncryptionThreadPoolBeginReadVolumeHeaderFinalization (TC_EVENT *keyDerivat
 	workItem->Type = ReadVolumeHeaderFinalizationWork;
 	workItem->ReadVolumeHeaderFinalization.NoOutstandingWorkItemEvent = noOutstandingWorkItemEvent;
 	workItem->ReadVolumeHeaderFinalization.KeyDerivationCompletedEvent = keyDerivationCompletedEvent;
+	workItem->ReadVolumeHeaderFinalization.keyInfoBuffer = keyInfoBuffer;
+	workItem->ReadVolumeHeaderFinalization.keyInfoBufferSize = keyInfoBufferSize;
 	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItems = keyDerivationWorkItems;
 	workItem->ReadVolumeHeaderFinalization.keyDerivationWorkItemsSize = keyDerivationWorkItemsSize;
 	workItem->ReadVolumeHeaderFinalization.outstandingWorkItemCount = outstandingWorkItemCount;
