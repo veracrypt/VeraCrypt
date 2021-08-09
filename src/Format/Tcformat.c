@@ -132,7 +132,7 @@ enum sys_encryption_cmd_line_switches
 	SYSENC_COMMAND_CREATE_HIDDEN_OS,
 	SYSENC_COMMAND_CREATE_HIDDEN_OS_ELEV
 };
-	
+
 enum password_status
 {
 	very_weak = 0,
@@ -163,19 +163,7 @@ BootEncryptionStatus	BootEncStatus;
 HWND hCurPage = NULL;		/* Handle to current wizard page */
 int nCurPageNo = -1;		/* The current wizard page */
 int nLastPageNo = -1;
-
-int iIconX=0;
-int iIconY=0;
-HWND hDlgItemTooltip = NULL;
-HANDLE hIconTooltip = NULL;
-	
-volatile int WizardMode = WIZARD_MODE_SYS_DEVICE; /* IMPORTANT: Never change this value directly -- always use ChangeWizardMode() instead. */
-char tmp_password[127];
-int pw_strength;
-bool passwordAcceptable = false;
-char mailAdressRcv[128];
-bool emailExists = false;
-
+volatile int WizardMode = DEFAULT_VOL_CREATION_WIZARD_MODE; /* IMPORTANT: Never change this value directly -- always use ChangeWizardMode() instead. */
 volatile BOOL bHiddenOS = FALSE;		/* If TRUE, we are performing or (or supposed to perform) actions relating to an operating system installed in a hidden volume (i.e., encrypting a decoy OS partition or creating the outer/hidden volume for the hidden OS). To determine or set the phase of the process, call ChangeHiddenOSCreationPhase() and DetermineHiddenOSCreationPhase()) */
 BOOL bDirectSysEncMode = FALSE;
 BOOL bDirectSysEncModeCommand = SYSENC_COMMAND_NONE;
@@ -186,14 +174,20 @@ BOOL DirectNonSysInplaceDecResumeMode = FALSE;
 BOOL DirectPromptNonSysInplaceEncResumeMode = FALSE;
 BOOL DirectCreationMode = FALSE;
 
-volatile BOOL bInPlaceEncNonSys = FALSE;		/* If TRUE, existing data on a non-system partition/volume are to be encrypted (or decrypted if bInPlaceDecNonSys is TRUE) in place (for system encryption, this flag is ignored) */
+int iIconX=0;
+int iIconY=0;
+HWND hDlgItemTooltip = NULL;
+HANDLE hIconTooltip = NULL;
+char tempPassword[MAX_PASSWORD + 1];
+int iPasswordStrength;
+
+volatile BOOL bInPlaceEncNonSys = TRUE;		/* If TRUE, existing data on a non-system partition/volume are to be encrypted (or decrypted if bInPlaceDecNonSys is TRUE) in place (for system encryption, this flag is ignored) */
 volatile BOOL bInPlaceDecNonSys = FALSE;		/* If TRUE, existing data on a non-system partition/volume are to be decrypted in place (for system encryption, this flag is ignored) */
 volatile BOOL bInPlaceEncNonSysResumed = FALSE;	/* If TRUE, the wizard is supposed to resume (or has resumed) process of non-system in-place encryption/decryption. */
 volatile BOOL bFirstNonSysInPlaceEncResumeDone = FALSE;
 __int64 NonSysInplaceEncBytesDone = 0;
 __int64 NonSysInplaceEncTotalSize = 0;
-
-BOOL bDeviceTransformModeChoiceMade = TRUE;		/* TRUE if the user has at least once manually selected the 'in-place' or 'format' option (on the 'device transform mode' page). */
+BOOL bDeviceTransformModeChoiceMade = FALSE;		/* TRUE if the user has at least once manually selected the 'in-place' or 'format' option (on the 'device transform mode' page). */
 int nNeedToStoreFilesOver4GB = 0;		/* Whether the user wants to be able to store files larger than 4GB on the volume: -1 = Undecided or error, 0 = No, 1 = Yes */
 int nVolumeEA = 1;			/* Default encryption algorithm */
 BOOL bSystemEncryptionInProgress = FALSE;		/* TRUE when encrypting/decrypting the system partition/drive (FALSE when paused). */
@@ -203,12 +197,10 @@ volatile BOOL bSysEncDriveAnalysisInProgress = FALSE;
 volatile BOOL bSysEncDriveAnalysisTimeOutOccurred = FALSE;
 int SysEncDetectHiddenSectors = -1;		/* Whether the user wants us to detect and encrypt the Host Protect Area (if any): -1 = Undecided or error, 0 = No, 1 = Yes */
 int SysEncDriveAnalysisStart;
-BOOL bDontVerifyRescueDisk = TRUE; // TODO, for now always skip the 'Verification'
+BOOL bDontVerifyRescueDisk = FALSE;
 BOOL bFirstSysEncResumeDone = FALSE;
 BOOL bDontCheckFileContainerSize = FALSE; /* If true, we don't check if the given size of file container is smaller than the available size on the hosting disk */
-
 int nMultiBoot = 0;			/* The number of operating systems installed on the computer, according to the user. 0: undetermined, 1: one, 2: two or more */
-
 volatile BOOL bHiddenVol = FALSE;	/* If true, we are (or will be) creating a hidden volume. */
 volatile BOOL bHiddenVolHost = FALSE;	/* If true, we are (or will be) creating the host volume (called "outer") for a hidden volume. */
 volatile BOOL bHiddenVolDirect = FALSE;	/* If true, the wizard omits creating a host volume in the course of the process of hidden volume creation. */
@@ -248,6 +240,7 @@ volatile HWND hPasswordInputField = NULL;	/* Password input field */
 volatile HWND hVerifyPasswordInputField = NULL;		/* Verify-password input field */
 
 HBITMAP hbmWizardBitmapRescaled = NULL;
+
 wchar_t OrigKeyboardLayout [8+1] = L"00000409";
 BOOL bKeyboardLayoutChanged = FALSE;		/* TRUE if the keyboard layout was changed to the standard US keyboard layout (from any other layout). */
 BOOL bKeybLayoutAltKeyWarningShown = FALSE;	/* TRUE if the user has been informed that it is not possible to type characters by pressing keys while the right Alt key is held down. */
@@ -264,6 +257,7 @@ Password volumePassword;			/* User password */
 Password outerVolumePassword;			/* Outer volume user password */
 char szVerify[MAX_PASSWORD + 1];	/* Tmp password buffer */
 char szRawPassword[MAX_PASSWORD + 1];	/* Password before keyfile was applied to it */
+BOOL bNextButtonClicked = FALSE;
 
 int volumePim = 0;
 int outerVolumePim = 0;
@@ -314,8 +308,7 @@ wchar_t outRandPoolDispBuffer [RANDPOOL_DISPLAY_SIZE];
 BOOL bDisplayPoolContents = TRUE;
 
 volatile BOOL bSparseFileSwitch = FALSE;
-volatile BOOL quickFormat = FALSE; /* WARNING: Meaning of this variable depends on bSparseFileSwitch. If bSparseFileSwitch is TRUE, this variable 
-								   represents the sparse file flag. */
+volatile BOOL quickFormat = FALSE;
 volatile BOOL fastCreateFile = FALSE;
 volatile BOOL dynamicFormat = FALSE; /* this variable represents the sparse file flag. */
 volatile int fileSystem = FILESYS_NONE;
@@ -329,10 +322,11 @@ LONGLONG nAvailableFreeSpace = -1;
 BOOL bIsSparseFilesSupportedByHost = FALSE;
 
 vector <HostDevice> DeferredNonSysInPlaceEncDevices;
-	
-BOOL CHECKLIST_A;
-BOOL CHECKLIST_B;
-BOOL CHECKLIST_C;
+
+BOOL bChecklistA;
+BOOL bChecklistB;
+BOOL bChecklistC;
+BOOL bCheckboxPretest;
 
 int iMaxPasswordLength = MAX_PASSWORD;
 
@@ -1452,10 +1446,10 @@ void ComboSelChangeEA (HWND hwndDlg)
 	else
 	{
 		wchar_t name[100];
-		
+
 		nIndex = (int) SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_GETITEMDATA, nIndex, 0);
 		EAGetName (name, nIndex, 0);
-		
+
 		SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("AES_HELP_NEW"));
 	}
 }
@@ -1720,14 +1714,10 @@ static void UpdateSysEncControls (void)
 	{
 		return;
 	}
-	
+
 	EnableWindow (GetDlgItem (hCurPage, IDC_WIPE_MODE),
 		!locBootEncStatus.SetupInProgress
 		&& SystemEncryptionStatus == SYSENC_STATUS_ENCRYPTING);
-
-	// TODO: try to make the pause button visible without having to hover over it	
-	SetWindowTextW (GetDlgItem (hCurPage, IDC_PAUSE),
-		GetString ("IDC_PAUSE"));
 
 	SetWindowTextW (GetDlgItem (hCurPage, IDC_PAUSE),
 		GetString (locBootEncStatus.SetupInProgress ? "IDC_PAUSE" : "RESUME"));
@@ -2610,11 +2600,9 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 	volParams->headerFlags = (CreatingHiddenSysVol() ? TC_HEADER_FLAG_ENCRYPTED_SYSTEM : 0);
 	volParams->fileSystem = fileSystem;
 	volParams->clusterSize = clusterSize;
-	//volParams->sparseFileSwitch = dynamicFormat; //1.24
-	volParams->sparseFileSwitch = bSparseFileSwitch;
-
+	volParams->sparseFileSwitch = dynamicFormat;
 	volParams->quickFormat = quickFormat;
-	volParams->fastCreateFile = fastCreateFile; 
+	volParams->fastCreateFile = fastCreateFile;
 	volParams->sectorSize = GetFormatSectorSize();
 	volParams->realClusterSize = &realClusterSize;
 	volParams->password = &volumePassword;
@@ -2802,7 +2790,7 @@ static void __cdecl volTransformThreadFunction (void *hwndDlgArg)
 				{
 					Info("FORMAT_FINISHED_INFO", hwndDlg);
 
-					if (bSparseFileSwitch && quickFormat) //u 1.24. if(dynamicFormat)
+					if (dynamicFormat)
 						Warning("SPARSE_FILE_SIZE_NOTE", hwndDlg);
 				}
 			}
@@ -2900,7 +2888,6 @@ static void LoadPage (HWND hwndDlg, int nPageNo)
 		case PASSWORD_PAGE:
 			{
 				wchar_t tmp[MAX_PASSWORD+1];
-				char *passTmp[MAX_PASSWORD+1];
 
 				// Attempt to wipe passwords stored in the input field buffers. This is performed here (and
 				// not in the IDC_PREV or IDC_NEXT sections) in order to prevent certain race conditions
@@ -2909,7 +2896,6 @@ static void LoadPage (HWND hwndDlg, int nPageNo)
 				tmp [MAX_PASSWORD] = 0;
 				SetWindowText (hPasswordInputField, tmp);
 				SetWindowText (hVerifyPasswordInputField, tmp);
-
 			}
 			break;
 		}
@@ -3369,6 +3355,7 @@ BOOL GetFileVolSize (HWND hwndDlg, unsigned __int64 *size)
 	return TRUE;
 }
 
+
 BOOL QueryFreeSpace (HWND hwndDlg, HWND hwndTextBox, BOOL display, LONGLONG *pFreeSpaceValue, BOOL* pbIsSparceFilesSupported)
 {
 	if (pFreeSpaceValue)
@@ -3737,51 +3724,81 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			UpdateWizardModeControls (hwndDlg, WizardMode);
 			break;
 
-		case SYSENC_TYPE_PAGE:		
+		case SYSENC_TYPE_PAGE:
+			{
+
 			bHiddenVolHost = bHiddenVol = bHiddenOS;
 
-			SetWindowTextW(GetDlgItem(GetParent(hwndDlg), IDC_BOX_TITLE), GetString("PAGE_1_TITLE"));
+			wchar_t finalMsg[8024] = {0};
 
-			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("SYSENC_HIDDEN_TYPE_HELP"));
-			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP_SYSENC_NORMAL), GetString ("SYSENC_NORMAL_TYPE_HELP"));
+			try
+			{
+				StringCbPrintfW (finalMsg, sizeof(finalMsg),
+					GetString ("SYSENC_TYPE_PAGE_TITLE"),
+					GetSystemDriveLetter ());
+			}
+			catch (Exception &e)
+			{
+				e.Show (hwndDlg);
+				EndMainDlg (MainDlg);
+				return 0;
+			}
 
-			if(bSystemIsGPT)
+			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), finalMsg);
+
+			wmemset (finalMsg, 0, sizeof (finalMsg));
+			try
+			{
+				StringCbPrintfW (finalMsg, sizeof(finalMsg),
+					GetString ("SYSENC_INFO"),
+					GetSystemDriveLetter ());
+			}
+			catch (Exception &e)
+			{
+				e.Show (hwndDlg);
+				EndMainDlg (MainDlg);
+				return 0;
+			}
+
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), finalMsg);
+			SetWindowTextW (GetDlgItem (hwndDlg, IDT_SYSENC_INFO_2), GetString ("SYSENC_INFO_2"));
+			
+			if (bSystemIsGPT)
 			{
 				ShowWindow (GetDlgItem(hwndDlg, IDC_ADVANCE_INTRO), SW_HIDE);
 				ShowWindow (GetDlgItem(hwndDlg, IDC_INFORMATION_TIP), SW_HIDE);
 			}
 			else
 			{
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ADVANCE_INTRO), TRUE);
-				iIconX = GetSystemMetrics(SM_CXSMICON);
-				iIconY = GetSystemMetrics(SM_CYSMICON);
+				EnableWindow (GetDlgItem(hwndDlg, IDC_ADVANCE_INTRO), TRUE);
+				iIconX = GetSystemMetrics (SM_CXSMICON);
+				iIconY = GetSystemMetrics (SM_CYSMICON);
 
-				hIconTooltip = LoadImage(NULL, MAKEINTRESOURCE(104), IMAGE_ICON, iIconX, iIconY, LR_DEFAULTCOLOR);
-				SendDlgItemMessage(hwndDlg, IDC_INFORMATION_TIP, STM_SETICON, (WPARAM) hIconTooltip, 0);
+				hIconTooltip = LoadImage (NULL, MAKEINTRESOURCE (104), IMAGE_ICON, iIconX, iIconY, LR_DEFAULTCOLOR);
+				SendDlgItemMessage (hwndDlg, IDC_INFORMATION_TIP, STM_SETICON, (WPARAM) hIconTooltip, 0);
 			
-				hDlgItemTooltip = GetDlgItem(hwndDlg, IDC_INFORMATION_TIP);
-				if(hDlgItemTooltip)
+				hDlgItemTooltip = GetDlgItem (hwndDlg, IDC_INFORMATION_TIP);
+				if (hDlgItemTooltip)
 				{
-					// TODO Add string for tooltip here
-					CreateToolTip(hwndDlg, hDlgItemTooltip, L"TESTING");
+					CreateToolTip (hwndDlg, hDlgItemTooltip, GetString ("ADV_FEATURES_INTRO_TOOLTIP"));
 				}
 				else
 				{
-					MessageBox(0, TEXT("Cannot find dialog item"), 0, 0);
+					MessageBox (0, TEXT("Cannot find dialog item"), 0, 0);
 				}
 			}
-			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);	
-			EnableWindow(GetDlgItem(GetParent(hwndDlg), IDC_PREV), FALSE);
+			
+			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
+			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), !bDirectSysEncMode);
 
 			SetWindowTextW (GetDlgItem (MainDlg, IDC_NEXT), GetString ("NEXT"));
 			SetWindowTextW (GetDlgItem (MainDlg, IDC_PREV), GetString ("PREV"));
 			SetWindowTextW (GetDlgItem (MainDlg, IDCANCEL), GetString ("CANCEL"));
-
+			
 			// Start loading the password dictonary into memory ("need" is just a random word for initializing the process)	
 			CheckWord("need");
-
 			break;
-
+			}
 		case SYSENC_HIDDEN_OS_REQ_CHECK_PAGE:
 
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("SYSENC_HIDDEN_OS_REQ_CHECK_PAGE_TITLE"));
@@ -3815,7 +3832,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			break;
-
 
 		case SYSENC_PRE_DRIVE_ANALYSIS_PAGE:
 
@@ -3884,12 +3900,11 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDCANCEL), GetString ("CANCEL"));
 
 			RefreshMultiBootControls (hwndDlg);
-			
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), nMultiBoot > 0);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), TRUE);
 			break;
-			
+
 
 		case SYSENC_MULTI_BOOT_SYS_EQ_BOOT_PAGE:
 
@@ -4130,65 +4145,66 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			break;
 
-		case CIPHER_PAGE: 
-			int ea, hid;
-			wchar_t buf[100];
-
-			// Encryption algorithms
-
-			SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_RESETCONTENT, 0, 0);
-
-			if (bHiddenVol)
-				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString (bHiddenVolHost ? "CIPHER_HIDVOL_HOST_TITLE" : "CIPHER_HIDVOL_TITLE"));
-			else
-				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("CIPHER_TITLE"));
-
-			for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
+		case CIPHER_PAGE:
 			{
-				if (EAIsFormatEnabled (ea) && (!SysEncInEffect () || bSystemIsGPT || EAIsMbrSysEncEnabled (ea)))
-					AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea, 1), ea);
-			}
+				int ea, hid;
+				wchar_t buf[100];
 
-			SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), &nVolumeEA);
-			ComboSelChangeEA (hwndDlg);
-			SetFocus (GetDlgItem (hwndDlg, IDC_COMBO_BOX));
+				// Encryption algorithms
 
-			ToHyperlink (hwndDlg, IDC_LINK_MORE_INFO_ABOUT_CIPHER);
+				SendMessage (GetDlgItem (hwndDlg, IDC_COMBO_BOX), CB_RESETCONTENT, 0, 0);
 
-			// Hash algorithms
+				if (bHiddenVol)
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString (bHiddenVolHost ? "CIPHER_HIDVOL_HOST_TITLE" : "CIPHER_HIDVOL_TITLE"));
+				else
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("CIPHER_TITLE"));
 
-			if (SysEncInEffect ())
-			{
-				hash_algo = bSystemIsGPT? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
-				RandSetHashFunction (hash_algo);
-
-				for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
+				for (ea = EAGetFirst (); ea != 0; ea = EAGetNext (ea))
 				{
-					// For now, we keep RIPEMD160 for system encryption
-					if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
-						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+					if (EAIsFormatEnabled (ea) && (!SysEncInEffect () || bSystemIsGPT || EAIsMbrSysEncEnabled (ea)))
+						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX), EAGetName (buf, ea, 1), ea);
 				}
-			}
-			else
-			{
-				hash_algo = RandGetHashFunction();
-				for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
+
+				SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX), &nVolumeEA);
+				ComboSelChangeEA (hwndDlg);
+				SetFocus (GetDlgItem (hwndDlg, IDC_COMBO_BOX));
+
+				ToHyperlink (hwndDlg, IDC_LINK_MORE_INFO_ABOUT_CIPHER);
+
+				// Hash algorithms
+
+				if (SysEncInEffect ())
 				{
-					if (!HashIsDeprecated (hid))
-						AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+					hash_algo = bSystemIsGPT? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
+					RandSetHashFunction (hash_algo);
+
+					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
+					{
+						// For now, we keep RIPEMD160 for system encryption
+						if (((hid == RIPEMD160) || !HashIsDeprecated (hid)) && (bSystemIsGPT || HashForSystemEncryption (hid)))
+							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+					}
 				}
+				else
+				{
+					hash_algo = RandGetHashFunction();
+					for (hid = FIRST_PRF_ID; hid <= LAST_PRF_ID; hid++)
+					{
+						if (!HashIsDeprecated (hid))
+							AddComboPair (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), HashGetName(hid), hid);
+					}
+				}
+
+				SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), &hash_algo);
+
+				ToHyperlink (hwndDlg, IDC_LINK_HASH_INFO);
+
+				// Wizard buttons
+				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
+				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
+				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
+				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
 			}
-
-			SelectAlgo (GetDlgItem (hwndDlg, IDC_COMBO_BOX_HASH_ALGO), &hash_algo);
-
-			ToHyperlink (hwndDlg, IDC_LINK_HASH_INFO);
-
-			// Wizard buttons
-			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
-			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
-			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
-			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
-		
 			break;
 
 		case SIZE_PAGE:
@@ -4342,7 +4358,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			break;
 
 		case PASSWORD_PAGE:
-			{			
+			{
+				wchar_t str[1000];
+
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VERIFY), FALSE);
 
 				hPasswordInputField = GetDlgItem (hwndDlg, IDC_PASSWORD);
@@ -4356,34 +4374,68 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					ToBootPwdField (hwndDlg, IDC_PASSWORD);
 					ToBootPwdField (hwndDlg, IDC_VERIFY);
 
-					StringCbPrintfW (OrigKeyboardLayout, sizeof(OrigKeyboardLayout), L"%08X", (DWORD) GetKeyboardLayout (NULL) & 0xFFFF);
+					bKeyboardLayoutChanged = FALSE;
 
-					if ((DWORD) GetKeyboardLayout (NULL) != 0x00000409 && (DWORD) GetKeyboardLayout (NULL) != 0x04090409)
+					if (CheckIsIMESupported ())
 					{
-						DWORD keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
-
-						if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
+						// East Asian languages are not translated to US keyboard layout so we need to change keyboard layout
+						if ((DWORD) GetKeyboardLayout (NULL) != 0x00000409 && (DWORD) GetKeyboardLayout (NULL) != 0x04090409)
 						{
-							Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
-							EndMainDlg (MainDlg);
-							return 1;
+							DWORD keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
+
+							if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
+							{
+								Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
+								EndMainDlg (MainDlg);
+								return 1;
+							}
+							bKeyboardLayoutChanged = TRUE;
 						}
-						bKeyboardLayoutChanged = TRUE;
 					}
-					
-					
+
 					if (SetTimer (MainDlg, TIMER_ID_KEYB_LAYOUT_GUARD, TIMER_INTERVAL_KEYB_LAYOUT_GUARD, NULL) == 0)
 					{
 						Error ("CANNOT_SET_TIMER", MainDlg);
 						EndMainDlg (MainDlg);
 						return 1;
 					}
+
+					ShowWindow(GetDlgItem(hwndDlg, IDC_KEYFILES_ENABLE), SW_HIDE);
+					ShowWindow(GetDlgItem(hwndDlg, IDC_KEY_FILES), SW_HIDE);
+					ShowWindow(GetDlgItem(hwndDlg, IDC_PIM_ENABLE), SW_HIDE);
+
+					ShowWindow(GetDlgItem(hwndDlg, IDC_ADVANCE), SW_SHOW);
+				}
+				else
+				{
+					SetCheckBox (hwndDlg, IDC_PIM_ENABLE, PimEnable);
+
+					SetCheckBox (hwndDlg, IDC_KEYFILES_ENABLE, KeyFilesEnable && !SysEncInEffect());
+					EnableWindow (GetDlgItem (hwndDlg, IDC_KEY_FILES), KeyFilesEnable && !SysEncInEffect());
+					EnableWindow (GetDlgItem (hwndDlg, IDC_KEYFILES_ENABLE), !SysEncInEffect());
+
+					SetPassword (hwndDlg, IDC_PASSWORD, szRawPassword);
+					SetPassword (hwndDlg, IDC_VERIFY, szVerify);
 				}
 
-				SetPassword (hwndDlg, IDC_PASSWORD, szRawPassword);
-				SetPassword (hwndDlg, IDC_VERIFY, szVerify);
-				
+				if (bHiddenVolHost)
+				{
+					StringCbCopyW (str, sizeof(str), GetString (bHiddenOS ? "PASSWORD_SYSENC_OUTERVOL_HELP" : "PASSWORD_HIDDENVOL_HOST_HELP"));
+				}
+				else if (bHiddenVol)
+				{
+					StringCbPrintfW (str, sizeof str, L"%s%s",
+						GetString (bHiddenOS ? "PASSWORD_HIDDEN_OS_HELP" : "PASSWORD_HIDDENVOL_HELP"),
+						GetString ("PASSWORD_HELP"));
+				}
+				else
+				{
+					StringCbCopyW (str, sizeof(str), GetString ("PASSWORD_HELP_SYSENC"));
+				}
+
 				SetFocus (GetDlgItem (hwndDlg, IDC_PASSWORD));
+
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), str);
 
 				if (CreatingHiddenSysVol())
 					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("PASSWORD_HIDDEN_OS_TITLE"));
@@ -4393,7 +4445,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("CHOOSE_PASSWORD_TITLE"));
 				else
 					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("PASSWORD_TITLE"));
-				
+
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
 
@@ -4405,41 +4457,42 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						      NULL,
 							  NULL,
 							  KeyFilesEnable && FirstKeyFile!=NULL && !SysEncInEffect());
-
 				volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
-				
-				/* Random pool parameter */
-
-				mouseEntropyGathered = 0xFFFFFFFF;
-				mouseEventsInitialCount = 0;
-				bUseMask = FALSE;
-				
+			
+				if(SysEncInEffect ())
 				{
-					HCRYPTPROV hRngProv;
-					if (CryptAcquireContext (&hRngProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
-					{
-						if (CryptGenRandom (hRngProv, sizeof (maskRandPool), maskRandPool))
-							bUseMask = TRUE;
-						CryptReleaseContext (hRngProv, 0);
-					}
-				}
+					/* Random pool parameter is here because random page is removed */
 
-				SetTimer(GetParent(hwndDlg), TIMER_ID_RANDVIEW, TIMER_INTERVAL_RANDVIEW, NULL);
-
-				hRandPoolSys = GetDlgItem(hwndDlg, IDC_SYS_POOL_CONTENTS);
-				hEntropyBar = GetDlgItem(hwndDlg, IDC_ENTROPY_BAR);
-				SendMessage(hEntropyBar, PBM_SETRANGE32, 0, maxEntropyLevel);
-				SendMessage(hEntropyBar, PBM_SETSTEP, 1, 0);
-				SendMessage(GetDlgItem(hwndDlg, IDC_SYS_POOL_CONTENTS), WM_SETFONT, (WPARAM)hFixedDigitFont, (LPARAM)TRUE);
+					mouseEntropyGathered = 0xFFFFFFFF;
+					mouseEventsInitialCount = 0;
+					bUseMask = FALSE;
 				
+					{
+						HCRYPTPROV hRngProv;
+						if (CryptAcquireContext (&hRngProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
+						{
+							if (CryptGenRandom (hRngProv, sizeof (maskRandPool), maskRandPool))
+								bUseMask = TRUE;
+							CryptReleaseContext (hRngProv, 0);
+						}
+					}
 
-				/* set default values */
+					SetTimer(GetParent(hwndDlg), TIMER_ID_RANDVIEW, TIMER_INTERVAL_RANDVIEW, NULL);
 
-				hash_algo = bSystemIsGPT ? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
-				RandSetHashFunction(hash_algo); 
+					hRandPoolSys = GetDlgItem(hwndDlg, IDC_SYS_POOL_CONTENTS);
+					hEntropyBar = GetDlgItem(hwndDlg, IDC_ENTROPY_BAR);
+					SendMessage(hEntropyBar, PBM_SETRANGE32, 0, maxEntropyLevel);
+					SendMessage(hEntropyBar, PBM_SETSTEP, 1, 0);
+					SendMessage(GetDlgItem(hwndDlg, IDC_SYS_POOL_CONTENTS), WM_SETFONT, (WPARAM)hFixedDigitFont, (LPARAM)TRUE);
+
+					/* set default values */
+
+					hash_algo = bSystemIsGPT ? SHA512 : DEFAULT_HASH_ALGORITHM_BOOT;
+					RandSetHashFunction(hash_algo); 
 					
-				nWipeMode = TC_WIPE_1_RAND;
+					nWipeMode = TC_WIPE_NONE;
 				}
+			}
 			break;
 
 		case PIM_PAGE:
@@ -4567,7 +4620,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("RESCUE_DISK"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
-			SetWindowTextW(GetDlgItem(hwndDlg, IDT_RESCUE_DISK_INFO), GetString("RESCUE_DISK_NEW"));
+			SetWindowTextW (GetDlgItem (hwndDlg, IDT_RESCUE_DISK_INFO), bSystemIsGPT? GetString ("RESCUE_DISK_EFI_INFO"): GetString ("RESCUE_DISK_INFO"));
 			SetWindowTextW(GetDlgItem(hwndDlg, IDT_RESCUE_DISK_INFO_2), GetString("RESCUE_DISK_INFO_2"));
 
 			SetCheckBox (hwndDlg, IDC_SKIP_RESCUE_VERIFICATION, bDontVerifyRescueDisk);
@@ -4599,15 +4652,12 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				}
 				SetWindowTextW (GetDlgItem (hwndDlg, IDT_RESCUE_DISK_BURN_INFO), szTmp);
-				
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
-			
+
 				/* The 'Back' button is enabled but user can't go back, instead warning is provided */
 				EnableWindow(GetDlgItem(GetParent(hwndDlg), IDC_PREV), TRUE);
 				
-				ShowWindow(GetDlgItem(hwndDlg, IDC_DOWNLOAD_CD_BURN_SOFTWARE), SW_HIDE);
-			}		
-
+			}			
 			break;
 
 		case SYSENC_RESCUE_DISK_VERIFIED_PAGE:
@@ -4629,41 +4679,79 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			break;
 
 		case SYSENC_WIPE_MODE_PAGE:
-		case NONSYS_INPLACE_ENC_WIPE_MODE_PAGE:// Checklist page
-			
-			wchar_t szTmp[8192];
+		case NONSYS_INPLACE_ENC_WIPE_MODE_PAGE:
+			{
+				if (SysEncInEffect ())
+				{
+					/* Wipe mode page is now checklist page */
+					ShowWindow (GetDlgItem (hwndDlg, IDC_WIPE_MODE), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDT_WIPE_MODE), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDT_WIPE_MODE_INFO), SW_HIDE);
 
-			SetWindowTextW (GetDlgItem (hwndDlg, IDC_REMEMBER_PASSWORD), GetString ("REMEMBER_PASSWORD"));
-			SetWindowTextW (GetDlgItem (hwndDlg, IDC_STORE_RESCUE_DISK), GetString ("STORE_RESCUE_DISK"));
-			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BACKUP_DATA), GetString ("BACKUP_DATA"));
+					SetWindowTextW (GetDlgItem (hwndDlg, IDC_REMEMBER_PASSWORD), GetString ("REMEMBER_PASSWORD"));
+					SetWindowTextW (GetDlgItem (hwndDlg, IDC_STORE_RESCUE_DISK), GetString ("STORE_RESCUE_DISK"));
+					SetWindowTextW (GetDlgItem (hwndDlg, IDC_BACKUP_DATA), GetString ("BACKUP_DATA"));
 			 	
-			SendMessage(GetDlgItem(hwndDlg, IDC_REMEMBER_PASSWORD), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_STORE_RESCUE_DISK), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_BACKUP_DATA), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
-			
-			CHECKLIST_A = FALSE;
-			CHECKLIST_B = FALSE;
-			CHECKLIST_C = FALSE;
+					SendMessage(GetDlgItem(hwndDlg, IDC_REMEMBER_PASSWORD), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
+					SendMessage(GetDlgItem(hwndDlg, IDC_STORE_RESCUE_DISK), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
+					SendMessage(GetDlgItem(hwndDlg, IDC_BACKUP_DATA), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
+
+					bChecklistA = FALSE;
+					bChecklistB = FALSE;
+					bChecklistC = FALSE;
 				
-			SetWindowTextW(GetDlgItem(GetParent(hwndDlg), IDC_BOX_TITLE), GetString("CHECKLIST_TITLE"));
+					SetWindowTextW(GetDlgItem(GetParent(hwndDlg), IDC_BOX_TITLE), GetString("CHECKLIST_TITLE"));
 			
-			StringCbPrintfW(szTmp, sizeof szTmp,
-				GetString("RESCUE_DISK_CHECKLIST_B"),
-				szRescueDiskISO, "");
-			SetDlgItemText(hwndDlg, IDT_STORE_RESCUE_DISK, szTmp);
-			SetWindowTextW (GetDlgItem (hwndDlg, IDT_REMEMBER_PASSWORD), GetString ("RESCUE_DISK_CHECKLIST_A"));
-			SetWindowTextW (GetDlgItem (hwndDlg, IDT_BACKUP_DATA), GetString ("RESCUE_DISK_CHECKLIST_C"));
+					SetDlgItemText(hwndDlg, IDC_BROWSE, GetString ("OPEN_PATH_CHECKLIST_PAGE"));
+					SetWindowTextW (GetDlgItem (hwndDlg, IDT_STORE_RESCUE_DISK), GetString ("RESCUE_DISK_CHECKLIST_B"));
+					SetWindowTextW (GetDlgItem (hwndDlg, IDT_REMEMBER_PASSWORD), GetString ("RESCUE_DISK_CHECKLIST_A"));
+					SetWindowTextW (GetDlgItem (hwndDlg, IDT_BACKUP_DATA), GetString ("RESCUE_DISK_CHECKLIST_C"));
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBER_PASSWORD), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_STORE_RESCUE_DISK), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUP_DATA), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBER_PASSWORD), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_STORE_RESCUE_DISK), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUP_DATA), TRUE);
 
-			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
 
-			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
-			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
-			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), FALSE);
-			
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
+					EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
+					EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), FALSE);
+				}
+				else
+				{
+					/* Hide elements from Checklist page and show Wipe mode page */
+					ShowWindow (GetDlgItem (hwndDlg, IDC_CHECKLIST_A), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDC_CHECKLIST_B), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDC_CHECKLIST_C), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDC_STORE_RESCUE_DISK), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDC_REMEMBER_PASSWORD), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDC_BACKUP_DATA), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDT_REMEMBER_PASSWORD), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDT_STORE_RESCUE_DISK), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDT_BACKUP_DATA), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDC_BROWSE), SW_HIDE);
+					ShowWindow (GetDlgItem (hwndDlg, IDC_RESCUE_DISK_ISO_PATH), SW_HIDE);
+					
+					if (nWipeMode == TC_WIPE_1_RAND)
+						nWipeMode = TC_WIPE_NONE;
+
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("WIPE_MODE_TITLE"));
+					SetWindowTextW (GetDlgItem (hwndDlg, IDT_WIPE_MODE_INFO), GetString ("INPLACE_ENC_WIPE_MODE_INFO"));
+
+					PopulateWipeModeCombo (GetDlgItem (hwndDlg, IDC_WIPE_MODE),
+						SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING && !bInPlaceEncNonSys,
+						TRUE,
+						FALSE);
+
+					SelectAlgo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), (int *) &nWipeMode);
+
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("NEXT"));
+
+					SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
+					EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
+					EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
+				}
+			}
 			break;
 
 		case SYSENC_PRETEST_INFO_PAGE:
@@ -4685,7 +4773,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					StringCbPrintfW (finalMsg, sizeof(finalMsg),
 						GetString ("SYS_ENCRYPTION_PRETEST_INFO"),
-						BootEncObj->GetSystemDriveConfiguration().DriveNumber);
+						GetSystemDriveLetter ());
 				}
 				catch (Exception &e)
 				{
@@ -4709,13 +4797,29 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE), GetString ("SYS_ENCRYPTION_PRETEST_RESULT_TITLE"));
 			SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), GetString ("SYS_ENCRYPTION_PRETEST_RESULT_INFO"));
 
+			ShowWindow (GetDlgItem (hwndDlg, IDC_CHECKBOX_PRETEST), SW_SHOW);
+			SetWindowTextW (GetDlgItem (hwndDlg, IDC_CHECKBOX_PRETEST), GetString ("PRETEST_CHECKBOX"));
+
+			bCheckboxPretest = FALSE;
+
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), GetString ("ENCRYPT"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_PREV), GetString ("PREV"));
 			SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDCANCEL), GetString ("DEFER"));
 
-			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
-			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), FALSE);
+			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), FALSE);
+			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_PREV), TRUE);
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), TRUE);
+
+			HWND hTooltip;
+			hTooltip = GetDlgItem (GetParent (hwndDlg), IDC_PREV);
+			if (hTooltip)
+			{
+				CreateToolTip (hwndDlg, hTooltip, GetString ("PRETEST_BACK_BUTTON"));
+			}
+			else
+			{
+				MessageBox (0, TEXT ("Cannot find dialog item for tooltip!"), 0, 0);
+			}
 
 			break;
 
@@ -4738,7 +4842,9 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_BOX_TITLE),
 					GetString (SystemEncryptionStatus != SYSENC_STATUS_DECRYPTING ? "ENCRYPTION" : "DECRYPTION"));
-
+				
+				SetWindowTextW (GetDlgItem (hwndDlg, IDC_BOX_HELP), 
+					GetString (SystemEncryptionStatus != SYSENC_STATUS_DECRYPTING ? "SYSENC_ENCRYPTION_PAGE_INFO" : "SYSENC_DECRYPTION_PAGE_INFO"));
 
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDCANCEL), GetString ("DEFER"));
 
@@ -4746,11 +4852,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				SetWindowTextW (GetDlgItem (GetParent (hwndDlg), IDC_NEXT),
 					GetString (SystemEncryptionStatus != SYSENC_STATUS_DECRYPTING ? "ENCRYPT" : "DECRYPT"));
-
-				//TODO current: 'Pause' button is not vidible until hover over it	
-				SetWindowTextW (GetDlgItem (hwndDlg, IDC_PAUSE),
-					GetString ( "IDC_PAUSE"));
-				EnableWindow (GetDlgItem (hwndDlg, IDC_PAUSE), TRUE);
 
 				SetWindowTextW (GetDlgItem (hwndDlg, IDC_PAUSE),
 					GetString (bSystemEncryptionInProgress ? "IDC_PAUSE" : "RESUME"));
@@ -4761,14 +4862,13 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDCANCEL), TRUE);
 				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDHELP), TRUE);
 
-
 				if (SystemEncryptionStatus == SYSENC_STATUS_DECRYPTING)
 				{
 					nWipeMode = TC_WIPE_NONE;
 					EnableWindow (GetDlgItem (hwndDlg, IDC_WIPE_MODE), FALSE);
 					EnableWindow (GetDlgItem (hwndDlg, IDT_WIPE_MODE), FALSE);
 					PopulateWipeModeCombo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), TRUE, TRUE, FALSE);
-					SelectAlgo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), (int *) &nWipeMode);					
+					SelectAlgo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), (int *) &nWipeMode);
 				}
 				else
 				{
@@ -4776,13 +4876,14 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					PopulateWipeModeCombo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), FALSE, TRUE, FALSE);
 					SelectAlgo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), (int *) &nWipeMode);
 				}
-		
-				if (nWipeMode == TC_WIPE_NONE || nWipeMode == TC_WIPE_1_RAND)
+
+				if (nWipeMode == TC_WIPE_NONE)
 				{
 					ShowWindow (GetDlgItem(hwndDlg, IDC_WIPE_MODE), SW_HIDE);
 					ShowWindow (GetDlgItem(hwndDlg, IDT_FORMAT_OPTIONS), SW_HIDE);
 					ShowWindow (GetDlgItem(hwndDlg, IDT_WIPE_MODE), SW_HIDE);
 				}
+
 				PostMessage (hwndDlg, TC_APPMSG_PERFORM_POST_SYSENC_WMINIT_TASKS, 0, 0);
 			}
 			else
@@ -4842,7 +4943,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			EnableWindow (GetDlgItem (hwndDlg, IDC_PAUSE), FALSE);
 
 			ShowWindow (GetDlgItem (hwndDlg, IDC_MORE_INFO_SYS_ENCRYPTION), SW_HIDE);
-			
+
 			if (bInPlaceDecNonSys)
 			{
 				ShowWindow(GetDlgItem(hwndDlg, IDT_FORMAT_OPTIONS), SW_HIDE);
@@ -4854,15 +4955,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				EnableWindow (GetDlgItem (hwndDlg, IDC_WIPE_MODE), TRUE);
 				PopulateWipeModeCombo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), FALSE, TRUE, FALSE);
 				SelectAlgo (GetDlgItem (hwndDlg, IDC_WIPE_MODE), (int *) &nWipeMode);
-				
 			}
-			
-			if (nWipeMode == TC_WIPE_NONE || nWipeMode == TC_WIPE_1_RAND)
-			{
-				ShowWindow (GetDlgItem(hwndDlg, IDC_WIPE_MODE), SW_HIDE);
-				ShowWindow (GetDlgItem(hwndDlg, IDT_FORMAT_OPTIONS), SW_HIDE);
-				ShowWindow (GetDlgItem(hwndDlg, IDT_WIPE_MODE), SW_HIDE);
-			}
+
 			break;
 
 		case NONSYS_INPLACE_ENC_TRANSFORM_FINISHED_PAGE:
@@ -4991,7 +5085,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						dynamicFormat = FALSE;
 						bSparseFileSwitch = FALSE;
-			
 						SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
 						EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), FALSE);
 						EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), TRUE);
@@ -5000,7 +5093,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						wchar_t root[TC_MAX_PATH];
 						DWORD fileSystemFlags = 0;
-						
+
 						/* Check if the host file system supports sparse files */
 
 						if (GetVolumePathName (szFileName, root, array_capacity (root)))
@@ -5015,7 +5108,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 							dynamicFormat = FALSE;
 							SetCheckBox (hwndDlg, SPARSE_FILE, FALSE);
 						}
-
 						EnableWindow (GetDlgItem (hwndDlg, SPARSE_FILE), bSparseFileSwitch);
 						EnableWindow (GetDlgItem (hwndDlg, IDC_QUICKFORMAT), TRUE);
 					}
@@ -5246,6 +5338,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			break;
 
 		case DEVICE_WIPE_PAGE:
+
 			if (bHiddenOS && IsHiddenOSRunning())
 			{
 				// Decoy system partition wipe
@@ -5280,7 +5373,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case WM_CTLCOLORSTATIC:
 		{
-			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORDMETER) && pw_strength == 1)
+			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORD_METER) && iPasswordStrength == 1)
 			{
 				// we're about to draw the static
 				// set the text colour in (HDC)lParam
@@ -5288,7 +5381,8 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetTextColor ((HDC)wParam, RGB(255, 0, 0)); // password weak red	
 				return (BOOL)GetSysColorBrush(COLOR_MENU);
 			}
-			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORDMETER) && pw_strength == 2)
+
+			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORD_METER) && iPasswordStrength == 2)
 			{	
 				// we're about to draw the static
 				// set the text colour in (HDC)lParam
@@ -5297,28 +5391,28 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return (BOOL) GetSysColorBrush (COLOR_MENU);
 			}
 			
-			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORDMETER) && pw_strength == 3)
+			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORD_METER) && iPasswordStrength == 3)
 			{
 				SetBkMode ((HDC)wParam, TRANSPARENT);
 				SetTextColor ((HDC)wParam, RGB (218, 218, 0)); // password strong yellow	
 				return (BOOL) GetSysColorBrush (COLOR_MENU);
 			}
 			
-			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORDMETER) && pw_strength == 4)
+			if ((HWND)lParam == GetDlgItem (hwndDlg, PASSWORD_METER) && iPasswordStrength == 4)
 			{
 				SetBkMode((HDC)wParam, TRANSPARENT);
 				SetTextColor((HDC)wParam, RGB(50, 205, 50)); // password very strong green	
 				return (BOOL) GetSysColorBrush (COLOR_MENU);
 			}
-			
-			if (PimValueChangedWarning && ((HWND)lParam == GetDlgItem (hwndDlg, IDC_PIM_HELP)) )
+
+			if (PimValueChangedWarning && ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PIM_HELP)) )
 			{
 				// we're about to draw the static
 				// set the text colour in (HDC)lParam
-				SetBkMode ((HDC)wParam,TRANSPARENT);
-				SetTextColor ((HDC)wParam, RGB (255,0,0));
+				SetBkMode((HDC)wParam,TRANSPARENT);
+				SetTextColor((HDC)wParam, RGB(255,0,0));
 				// NOTE: per documentation as pointed out by selbie, GetSolidBrush would leak a GDI handle.
-				return (BOOL) GetSysColorBrush (COLOR_MENU);
+				return (BOOL)GetSysColorBrush(COLOR_MENU);
 			}
 		}
 		return 0;
@@ -5372,6 +5466,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 		}
+
 		if (lw == IDC_ADVANCE_INTRO && nCurPageNo == SYSENC_TYPE_PAGE)
 		{
 			DialogBoxParamW(hInst,
@@ -5379,7 +5474,15 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				(DLGPROC)AdvanceDlgProcIntro, NULL);
 			return 1;
 		}
-		
+
+		if (lw == IDC_ADVANCE && nCurPageNo == PASSWORD_PAGE)	
+		{
+			DialogBoxParamW(hInst,
+				MAKEINTRESOURCEW(IDD_ADVANCE), hwndDlg,
+				(DLGPROC)AdvanceDlgProc, NULL);
+			return 1;
+		}
+
 		if (nCurPageNo == SYSENC_HIDDEN_OS_REQ_CHECK_PAGE && lw == IDC_HIDDEN_SYSENC_INFO_LINK)
 		{
 			Applink ("hiddensysenc");
@@ -5430,14 +5533,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 			break;
-		}
-
-		if (lw == IDC_ADVANCE && nCurPageNo == PASSWORD_PAGE)	
-		{
-			DialogBoxParamW(hInst,
-				MAKEINTRESOURCEW(IDD_ADVANCE), hwndDlg,
-				(DLGPROC)AdvanceDlgProc, NULL);
-			return 1;
 		}
 
 		if (nCurPageNo == FILESYS_PAGE && (lw == IDC_CHOICE1 || lw == IDC_CHOICE2))
@@ -5703,7 +5798,6 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					bValidEntry = FALSE;
 				}
 			}
-
 			EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT),
 				bValidEntry);
 
@@ -5739,48 +5833,55 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		if (hw == EN_CHANGE && nCurPageNo == PASSWORD_PAGE)
 		{
-			VerifyPasswordAndUpdate (hwndDlg, GetDlgItem (GetParent (hwndDlg), IDC_NEXT),
-				GetDlgItem(hCurPage, IDC_PASSWORD),
-				GetDlgItem(hCurPage, IDC_VERIFY),
-				volumePassword.Text,
-				szVerify,
-				KeyFilesEnable && FirstKeyFile != NULL && !SysEncInEffect());
-				
+			// If 'Next' button was clicked (and keyboard layout is not US), don't verify
+			if (!bNextButtonClicked)
+			{
+				VerifyPasswordAndUpdate (hwndDlg, GetDlgItem (GetParent (hwndDlg), IDC_NEXT),
+						GetDlgItem(hCurPage, IDC_PASSWORD),
+						GetDlgItem(hCurPage, IDC_VERIFY),
+						NULL,
+						NULL,
+						KeyFilesEnable && FirstKeyFile != NULL && !SysEncInEffect());
+
+				bNextButtonClicked = FALSE;
+			}
+
 			volumePassword.Length = (unsigned __int32) strlen ((char *) volumePassword.Text);
 			
-			SendMessage(GetDlgItem(hwndDlg, PASSWORDMETER), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
+			SendMessage (GetDlgItem (hwndDlg, PASSWORD_METER), WM_SETFONT, (WPARAM)hUserBoldFont, (LPARAM)TRUE);
 			
-			memset(&tmp_password[0], 0, sizeof(tmp_password));
-			for (unsigned int i = 0; i < volumePassword.Length; i++)
-			{
-				tmp_password[i] = volumePassword.Text[i];
-			}
+			memset (&tempPassword[0], 0, sizeof (tempPassword));
 
-			pw_strength = printStrongNess(tmp_password, volumePassword.Length);
+			if (GetPassword (hCurPage, IDC_PASSWORD, tempPassword, iMaxPasswordLength + 1, FALSE, TRUE))
+				iPasswordStrength = PrintStrongness (tempPassword, strlen (tempPassword));
+			else
+				Error ("ERROR_GETTING_PWD", hwndDlg);
 
-			if (pw_strength == very_strong)
+			burn (tempPassword, sizeof (tempPassword));
+
+			if (iPasswordStrength == very_strong)
 			{
-				SetWindowTextW(GetDlgItem (hwndDlg, PASSWORDMETER), GetString ("VERY_STRONG_PASSWORD"));
-				EnableWindow(GetDlgItem (hwndDlg, IDC_VERIFY), TRUE);
+				SetWindowTextW (GetDlgItem (hwndDlg, PASSWORD_METER), GetString ("VERY_STRONG_PASSWORD"));
+				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), TRUE);
 			}
-			else if (pw_strength == strong)
+			else if (iPasswordStrength == strong)
 			{
-				SetWindowTextW(GetDlgItem (hwndDlg, PASSWORDMETER), GetString ("STRONG_PASSWORD"));
-				EnableWindow(GetDlgItem (hwndDlg, IDC_VERIFY), TRUE);
+				SetWindowTextW (GetDlgItem (hwndDlg, PASSWORD_METER), GetString ("STRONG_PASSWORD"));
+				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), TRUE);
 			}
-			else if (pw_strength == medium)
+			else if (iPasswordStrength == medium)
 			{
-				EnableWindow(GetDlgItem (hwndDlg, IDC_VERIFY), TRUE);
-				SetWindowTextW(GetDlgItem (hwndDlg, PASSWORDMETER), GetString ("MEDIUM_PASSWORD"));
+				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), TRUE);
+				SetWindowTextW (GetDlgItem (hwndDlg, PASSWORD_METER), GetString ("MEDIUM_PASSWORD"));
 			}
-			else if (pw_strength == weak)
+			else if (iPasswordStrength == weak)
 			{
-				EnableWindow(GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
-				SetWindowTextW(GetDlgItem (hwndDlg, PASSWORDMETER), GetString ("WEAK_PASSWORD"));
+				EnableWindow (GetDlgItem (hwndDlg, IDC_VERIFY), FALSE);
+				SetWindowTextW (GetDlgItem (hwndDlg, PASSWORD_METER), GetString ("WEAK_PASSWORD"));
 			}
 			else
 			{
-				SetWindowTextW(GetDlgItem(hwndDlg, PASSWORDMETER), GetString ("VERY_WEAK_PASSWORD"));
+				SetWindowTextW (GetDlgItem (hwndDlg, PASSWORD_METER), GetString ("VERY_WEAK_PASSWORD"));
 			}
 			return 1;
 		}
@@ -5809,25 +5910,37 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PASSWORD, IDC_PASSWORD, IDC_VERIFY);
 			return 1;
 		}
-		
-		
+
 		if (lw == IDC_SHOW_PIM && nCurPageNo == PIM_PAGE)
 		{
 			HandleShowPasswordFieldAction (hwndDlg, IDC_SHOW_PIM, IDC_PIM, 0);
 			return 1;
 		}
-		
+
 		if (lw == IDC_CHECKLIST_A)
 		{
-			CHECKLIST_A = GetCheckBox(hwndDlg, IDC_CHECKLIST_A);
-			CHECKLIST_B = GetCheckBox(hwndDlg, IDC_CHECKLIST_B);
-
+			bChecklistA = GetCheckBox (hwndDlg, IDC_CHECKLIST_A);
+			bChecklistB = GetCheckBox (hwndDlg, IDC_CHECKLIST_B);
+			bChecklistC = GetCheckBox (hwndDlg, IDC_CHECKLIST_C);
 		}
 		
 		if (lw == IDC_CHECKLIST_B)	
 		{
-			CHECKLIST_B = GetCheckBox(hwndDlg, IDC_CHECKLIST_B);
-			CHECKLIST_A = GetCheckBox(hwndDlg, IDC_CHECKLIST_A);
+			bChecklistA = GetCheckBox (hwndDlg, IDC_CHECKLIST_A);
+			bChecklistB = GetCheckBox (hwndDlg, IDC_CHECKLIST_B);
+			bChecklistC = GetCheckBox (hwndDlg, IDC_CHECKLIST_C);
+		}
+
+		if (lw == IDC_CHECKLIST_C)
+		{
+			bChecklistA = GetCheckBox (hwndDlg, IDC_CHECKLIST_A);
+			bChecklistB = GetCheckBox (hwndDlg, IDC_CHECKLIST_B);
+			bChecklistC = GetCheckBox (hwndDlg, IDC_CHECKLIST_C);
+		}
+
+		if (lw == IDC_CHECKBOX_PRETEST)
+		{
+			bCheckboxPretest = GetCheckBox (hwndDlg, IDC_CHECKBOX_PRETEST);
 		}
 
 		if (lw == IDC_PIM_ENABLE)
@@ -6067,7 +6180,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 1;
 
 		}
-		
+
 		if (lw == IDC_QUICKFORMAT)
 		{
 			if (IsButtonChecked (GetDlgItem (hCurPage, IDC_QUICKFORMAT)))
@@ -6082,7 +6195,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 			return 1;
 		}
-		
+
 		if (lw == SPARSE_FILE && IsButtonChecked (GetDlgItem (hCurPage, SPARSE_FILE)))
 		{
 			if (AskWarnYesNo("CONFIRM_SPARSE_FILE", MainDlg) == IDNO)
@@ -6117,6 +6230,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SetWindowText (GetDlgItem (hCurPage, IDC_DISK_KEY), showKeys ? L"" : L"********************************                                              ");
 			return 1;
 		}
+
 		if (lw == IDC_DISPLAY_POOL_CONTENTS
 			&& (nCurPageNo == SYSENC_COLLECTING_RANDOM_DATA_PAGE || nCurPageNo == NONSYS_INPLACE_ENC_RAND_DATA_PAGE))
 		{
@@ -6157,30 +6271,50 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 		}
-		
-		if (nCurPageNo == SYSENC_RESCUE_DISK_BURN_PAGE && lw == IDC_DOWNLOAD_CD_BURN_SOFTWARE)
+
+		/* The password and rescue checkbox have to be clicked in order to enable the next button */
+		if ((nCurPageNo == SYSENC_WIPE_MODE_PAGE || nCurPageNo == NONSYS_INPLACE_ENC_WIPE_MODE_PAGE) && 
+			(lw == IDC_CHECKLIST_A || lw == IDC_CHECKLIST_B || lw == IDC_CHECKLIST_C))
 		{
-			if (IsWindowsIsoBurnerAvailable())
-				LaunchWindowsIsoBurner (hwndDlg, szRescueDiskISO);
-			else
-				Applink ("isoburning");
+			if (SysEncInEffect ())
+			{
+				if (bChecklistA && bChecklistB && bChecklistC)
+					EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
+				else
+					EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), FALSE);
+			}
+		}
+
+		if (lw == IDC_BROWSE && (nCurPageNo == SYSENC_WIPE_MODE_PAGE || nCurPageNo == NONSYS_INPLACE_ENC_WIPE_MODE_PAGE))
+		{
+			wchar_t tmpszRescueDiskISO [TC_MAX_PATH+1];
+
+			StringCbCopyW (tmpszRescueDiskISO, sizeof(tmpszRescueDiskISO), szRescueDiskISO);
+
+			//detects the last '\' in order to remove the name of the zip file and save file name	
+			for (int i = wcslen(tmpszRescueDiskISO); i > 1; i--)
+			{
+				if (tmpszRescueDiskISO[i] == '\\')
+				{
+					for (int j = i + 1; i < wcslen(tmpszRescueDiskISO); i++)
+						tmpszRescueDiskISO[j] = '\0';
+					break;
+				}
+			}
+			
+			if(!BrowseFile (hwndDlg, "RESCUE_DISK_PATH", tmpszRescueDiskISO))
+				return 1;
 
 			return 1;
 		}
-	
-		/* The password and rescue checkbox have to be clicked in order to enable the next button */
-		if ((nCurPageNo == SYSENC_WIPE_MODE_PAGE || nCurPageNo == NONSYS_INPLACE_ENC_WIPE_MODE_PAGE) && (lw == IDC_CHECKLIST_A || lw == IDC_CHECKLIST_B))
+		if (nCurPageNo == SYSENC_PRETEST_RESULT_PAGE && lw == IDC_CHECKBOX_PRETEST)
 		{
-			if (CHECKLIST_A && CHECKLIST_B)
-			{
-				EnableWindow(GetDlgItem(GetParent(hwndDlg), IDC_NEXT), TRUE);
-			}
+			if (bCheckboxPretest)
+				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), TRUE);
 			else
-			{
-				EnableWindow(GetDlgItem(GetParent(hwndDlg), IDC_NEXT), FALSE);
-			}
+				EnableWindow (GetDlgItem (GetParent (hwndDlg), IDC_NEXT), FALSE);
 		}
-		
+
 		if ((nCurPageNo == SYSENC_WIPE_MODE_PAGE
 			|| nCurPageNo == NONSYS_INPLACE_ENC_WIPE_MODE_PAGE
 			|| nCurPageNo == DEVICE_WIPE_MODE_PAGE)
@@ -6216,21 +6350,7 @@ BOOL CALLBACK PageDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		return 0;
-	/*case WM_CHAR:
-		if(nCurPageNo == PASSWORD_PAGE)
-		{
-			OnKeyPress(wParam);
-		}*/
-	/*case WM_INPUT:
-		if(nCurPageNo == PASSWORD_PAGE)
-		{
-			UINT virtualKey;
-			UINT scanCode = (lParam >> 16) & 0xFF;
-			// UINT scanCode = (lparam >> 16) & 0x7f) | ((lparam & (1 << 24)) != 0 ? 0x80 : 0;
-			virtualKey = MapVirtualKeyExW(scanCode, MAPVK_VSC_TO_VK_EX, OrigEnUSKeyboardLayout);
-			
-		}	*/
-	}// closes the first switch (uMsg)
+	}
 
 	return 0;
 }
@@ -6297,7 +6417,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			try
-			{//variable is set if it is gpt instead of mbr
+			{
 				bSystemIsGPT = BootEncObj->GetSystemDriveConfiguration().SystemPartition.IsGPT;
 			}
 			catch (...)
@@ -6485,6 +6605,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					AbortProcess ("VOLUME_TOO_LARGE_FOR_WINXP");
 				}
+
 				if (volumePassword.Length > 0)
 				{
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
@@ -6506,9 +6627,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SHGetFolderPath (NULL, CSIDL_MYDOCUMENTS, NULL, 0, szRescueDiskISO);
 
-			// Zip rescue for both GPT and MBR
 			StringCbCatW (szRescueDiskISO, sizeof(szRescueDiskISO), L"\\VeraCrypt Rescue Disk.zip");
-
+			
 			if (IsOSAtLeast (WIN_VISTA))
 			{
 				// Availability of in-place encryption (which is pre-selected by default whenever
@@ -6597,7 +6717,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		case TIMER_ID_SYSENC_PROGRESS:
 			{
 				// Manage system encryption/decryption and update related GUI
-	
+
 				try
 				{
 					BootEncStatus = BootEncObj->GetStatus();
@@ -6777,82 +6897,39 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 		case TIMER_ID_KEYB_LAYOUT_GUARD:
 			if (SysEncInEffect ())
 			{
-				DWORD keybLayout = (DWORD) GetKeyboardLayout (NULL);
-				bKeyboardLayoutChanged = FALSE;
-
-				/* Watch the keyboard layout */
-
-				if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
+				if (CheckIsIMESupported ())
 				{
-					// Keyboard layout is not standard US
+					DWORD keybLayout = (DWORD) GetKeyboardLayout (NULL);
 
-					WipePasswordsAndKeyfiles (true);
-
-					SetPassword (hCurPage, IDC_PASSWORD, szRawPassword);
-					SetPassword (hCurPage, IDC_VERIFY, szVerify);
-
-					keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
-
+					// East Asian languages are not translated to US keyboard layout so we need to change keyboard layout
 					if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
 					{
-						KillTimer (hwndDlg, TIMER_ID_KEYB_LAYOUT_GUARD);
-						Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
-						EndMainDlg (MainDlg);
-						return 1;
-					}
+						WipePasswordsAndKeyfiles (true);
 
-					bKeyboardLayoutChanged = TRUE;
+						SetPassword (hCurPage, IDC_PASSWORD, szRawPassword);
+						SetPassword (hCurPage, IDC_VERIFY, szVerify);
 
-					wchar_t szTmp [4096];
-					StringCbCopyW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
-					StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
-					StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
-					MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-				}
-				/*if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
-				{
-					// Keyboard layout is not standard US
+						keybLayout = (DWORD) LoadKeyboardLayout (L"00000409", KLF_ACTIVATE);
 
-					
-					bKeyboardLayoutChanged = FALSE;
-					/*switch (uMsg){
-						case WM_INPUT:
-							if(nCurPageNo == PASSWORD_PAGE)
-							{
-								wchar_t c [4096]={0};
-								
-								UINT virtualKey;
-								UINT scanCode = (lParam >> 16) & 0xFF;
-									// UINT scanCode = (lparam >> 16) & 0x7f) | ((lparam & (1 << 24)) != 0 ? 0x80 : 0;
-								virtualKey = MapVirtualKeyExW(scanCode, MAPVK_VSC_TO_VK_EX, OrigEnUSKeyboardLayout);
-								c[i] = MapVirtualKeyExW(scanCode, MAPVK_VK_TO_CHAR, OrigEnUSKeyboardLayout);
-								i++;
-								
-							MessageBoxW (MainDlg, c, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
+						if (keybLayout != 0x00000409 && keybLayout != 0x04090409)
+						{
+							KillTimer (hwndDlg, TIMER_ID_KEYB_LAYOUT_GUARD);
+							Error ("CANT_CHANGE_KEYB_LAYOUT_FOR_SYS_ENCRYPTION", MainDlg);
+							EndMainDlg (MainDlg);
+							return 1;
+						}
 
-							}	
-
-					}
-				}*/
-								
-				/* Watch the right Alt key (which is used to enter various characters on non-US keyboards) */
-
-				if (!bKeybLayoutAltKeyWarningShown)
-				{
-					if (GetAsyncKeyState (VK_RMENU) < 0)
-					{
-						bKeybLayoutAltKeyWarningShown = TRUE;
+						bKeyboardLayoutChanged = TRUE;
 
 						wchar_t szTmp [4096];
-						StringCbCopyW (szTmp, sizeof(szTmp), GetString ("ALT_KEY_CHARS_NOT_FOR_SYS_ENCRYPTION"));
+						StringCbCopyW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_CHANGE_PREVENTED"));
 						StringCbCatW (szTmp, sizeof(szTmp), L"\n\n");
 						StringCbCatW (szTmp, sizeof(szTmp), GetString ("KEYB_LAYOUT_SYS_ENC_EXPLANATION"));
-						MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONINFORMATION  | MB_SETFOREGROUND | MB_TOPMOST);
+						MessageBoxW (MainDlg, szTmp, lpszTitle, MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 					}
 				}
 			}
 			return 1;
-
 		case TIMER_ID_SYSENC_DRIVE_ANALYSIS_PROGRESS:
 
 			if (bSysEncDriveAnalysisInProgress)
@@ -7103,11 +7180,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				return 1;
 			}
 			else
-				return 1;	// Disallow close 
-			bVolTransformThreadCancel = TRUE;
-
-			EndMainDlg (hwndDlg);
-			return 1;
+				return 1;	// Disallow close
 		}
 		else if ((nCurPageNo == SYSENC_ENCRYPTION_PAGE || nCurPageNo == SYSENC_PRETEST_RESULT_PAGE)
 			&& SystemEncryptionStatus != SYSENC_STATUS_NONE
@@ -7176,7 +7249,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 
 		if (lw == IDHELP)
-		{	
+		{
 			if (nCurPageNo == SYSENC_RESCUE_DISK_CREATION_PAGE ||
 				nCurPageNo == SYSENC_RESCUE_DISK_BURN_PAGE ||
 				nCurPageNo == SYSENC_RESCUE_DISK_VERIFIED_PAGE)
@@ -7259,7 +7332,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				if (!bHiddenOS)
-					nNewPageNo = SYSENC_SPAN_PAGE - 1;	// Skip irrelevant pages
+					nNewPageNo = PASSWORD_PAGE - 1;	// Skip irrelevant pages
 			}
 			else if (nCurPageNo == SYSENC_HIDDEN_OS_REQ_CHECK_PAGE)
 			{
@@ -7803,6 +7876,34 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			else if (nCurPageNo == PASSWORD_PAGE)
 			{
+				if (SysEncInEffect ())
+				{
+					wchar_t tmpPwd[MAX_PASSWORD + 1];
+					GetWindowText (GetDlgItem (hCurPage, IDC_PASSWORD), tmpPwd, iMaxPasswordLength + 1);
+
+					if (wcscmp (tmpPwd, GetTranslatedPassword ()) != 0)
+					{	
+						if (wcslen (GetTranslatedPassword ()) ==  wcslen (tmpPwd))
+						{
+							bNextButtonClicked = TRUE;
+							BOOL bWritePwd = SetWindowTextW (GetDlgItem (hCurPage, IDC_PASSWORD), GetTranslatedPassword ());
+							BOOL bWriteVerifyPwd = SetWindowTextW (GetDlgItem (hCurPage, IDC_VERIFY), GetTranslatedPassword ());	
+							if (!bWritePwd || !bWriteVerifyPwd)
+							{
+								Error ("TRANSLATED_PWD_NOT_WRITTEN", hwndDlg);
+								return 1;
+							}
+						}
+						else
+						{
+							Error ("ERROR_TRANSLATE_PWD", hwndDlg);
+							return 1;
+						}
+
+						burn (tmpPwd, sizeof (tmpPwd));
+						WipeTranslatedPassword ();
+					}
+				}
 				VerifyPasswordAndUpdate (hwndDlg, GetDlgItem (MainDlg, IDC_NEXT),
 					GetDlgItem (hCurPage, IDC_PASSWORD),
 					GetDlgItem (hCurPage, IDC_VERIFY),
@@ -7879,11 +7980,6 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 					}
 
-					if (SysEncInEffect ())
-					{
-						nNewPageNo = SYSENC_COLLECTING_RANDOM_DATA_PAGE - 1;	// Skip irrelevant pages
-					}
-
 					if (bInPlaceEncNonSys)
 					{
 						nNewPageNo = NONSYS_INPLACE_ENC_RAND_DATA_PAGE - 1;		// Skip irrelevant pages
@@ -7896,6 +7992,7 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 				}
+
 				wchar_t tmp[RANDPOOL_DISPLAY_SIZE + 1];
 				if (!bInPlaceEncNonSys)
 				{
@@ -7918,6 +8015,15 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				tmp[ARRAYSIZE(tmp) - 1] = 0;
 				SetWindowText(hRandPoolSys, tmp);
 				NormalCursor();
+
+				if (SysEncInEffect ())
+				{
+					if (PimEnable)
+						nNewPageNo = PIM_PAGE - 1;
+					else
+						nNewPageNo = SYSENC_RESCUE_DISK_CREATION_PAGE - 1; // Skip irrelevant pages
+
+				}
 			}
 
 			else if (nCurPageNo == PIM_PAGE)
@@ -7953,16 +8059,10 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 						return 1;
 					}
 					// Check password length (check also done for outer volume which is not the case in TrueCrypt).
-					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, TRUE, FALSE))
+					else if (!CheckPasswordLength (hwndDlg, volumePassword.Length, volumePim, SysEncInEffect(), SysEncInEffect()? hash_algo : 0, FALSE, FALSE))
 					{
 						return 1;
 					}
-				}
-
-				if (SysEncInEffect ())
-				{
-
-					nNewPageNo = SYSENC_COLLECTING_RANDOM_DATA_PAGE - 1;	// Skip irrelevant pages
 				}
 
 				if (bInPlaceEncNonSys)
@@ -7975,13 +8075,18 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 				{
 					nNewPageNo = FORMAT_PAGE - 1;				// Skip irrelevant pages
 				}
+
+				if (SysEncInEffect ())
+				{
+					nNewPageNo = SYSENC_RESCUE_DISK_CREATION_PAGE - 1;	// Skip irrelevant pages
+				}
 			}
 
 			else if (nCurPageNo == HIDDEN_VOL_HOST_PASSWORD_PAGE
 				|| nCurPageNo == NONSYS_INPLACE_ENC_RESUME_PASSWORD_PAGE)
 			{
 				WaitCursor ();
-				
+
 				if (!GetPassword (hCurPage, IDC_PASSWORD_DIRECT, (char*) volumePassword.Text, iMaxPasswordLength + 1, FALSE, TRUE))
 				{
 					NormalCursor ();
@@ -8349,6 +8454,8 @@ BOOL CALLBACK MainDialogProc (HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				GetWindowText (GetDlgItem (hCurPage, IDC_RESCUE_DISK_ISO_PATH), szRescueDiskISO, ARRAYSIZE (szRescueDiskISO));
 
+				bDontVerifyRescueDisk = GetCheckBox (hCurPage, IDC_SKIP_RESCUE_VERIFICATION);
+
 				try
 				{
 					WaitCursor();
@@ -8379,6 +8486,7 @@ retryCDDriveCheck:
 							wchar_t msg[8192];
 							StringCchPrintfW (msg, array_capacity (msg), GetString ("CD_BURNER_NOT_PRESENT_WILL_STORE_ISO_INFO"), szRescueDiskISO);
 							WarningDirect (msg, hwndDlg);
+
 							Warning ("RESCUE_DISK_BURN_NO_CHECK_WARN", hwndDlg);
 							bDontVerifyRescueDisk = TRUE;
 							nNewPageNo = SYSENC_RESCUE_DISK_VERIFIED_PAGE;
@@ -8447,14 +8555,14 @@ retryCDDriveCheck:
 					nNewPageNo = SYSENC_RESCUE_DISK_VERIFIED_PAGE;		// Skip irrelevant pages
 				}
 			}
-			// TODO current: skip the warning that wipe mode will take longer
-			/*else if (nCurPageNo == SYSENC_WIPE_MODE_PAGE
+
+			else if (nCurPageNo == SYSENC_WIPE_MODE_PAGE
 				|| nCurPageNo == NONSYS_INPLACE_ENC_WIPE_MODE_PAGE)
 			{
 				if (nWipeMode > 0
 					&& AskWarnYesNo ("WIPE_MODE_WARN", hwndDlg) == IDNO)
 					return 1;
-			}*/
+			}
 
 			else if (nCurPageNo == SYSENC_PRETEST_INFO_PAGE)
 			{
@@ -8597,7 +8705,7 @@ retryCDDriveCheck:
 					// Cancel
 					return 1;
 				}
-				
+
 				NonSysInplaceEncResume ();
 				return 1;
 			}
@@ -8854,7 +8962,6 @@ retryCDDriveCheck:
 
 					SetWindowTextW (GetDlgItem (MainDlg, IDCANCEL), GetString ("CANCEL"));
 					bHiddenVolFinished = FALSE;
-					
 					WipePasswordsAndKeyfiles (true);
 
 					return 1;
@@ -8985,58 +9092,8 @@ retryCDDriveCheck:
 				}
 				return 1;
 			}
-			switch (nCurPageNo)
-			{
-			case INTRO_PAGE: // TODO is never called, instead AfterWMInitTasks is called	
-				nNewPageNo = PASSWORD_PAGE;
-				LoadPage(hwndDlg, nNewPageNo);  	
-				break;
-			case SYSENC_TYPE_PAGE:
-				if(bHiddenOS)
-					nNewPageNo = SYSENC_SPAN_PAGE;
-				else
-					nNewPageNo = PASSWORD_PAGE;
-				SwitchWizardToSysEncMode();	
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
 
-			case SYSENC_SPAN_PAGE:
-				nNewPageNo = SYSENC_MULTI_BOOT_MODE_PAGE;
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-
-			case SYSENC_MULTI_BOOT_MODE_PAGE:
-				nNewPageNo = PASSWORD_PAGE;
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-
-			case PASSWORD_PAGE:
-				if (PimEnable)
-				{
-					nNewPageNo = PIM_PAGE;
-				}
-				else
-				{
-					nNewPageNo = SYSENC_RESCUE_DISK_CREATION_PAGE;
-				}
-
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-
-			case PIM_PAGE:
-				nNewPageNo = SYSENC_RESCUE_DISK_CREATION_PAGE;
-
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-
-			case SYSENC_COLLECTING_RANDOM_DATA_PAGE:
-				LoadPage(hwndDlg, nNewPageNo + 2); 	
-				break;
-
-			default:
-				LoadPage(hwndDlg, nNewPageNo + 1);
-			}
-
+			LoadPage (hwndDlg, nNewPageNo + 1);
 ovf_end:
 			return 1;
 		}
@@ -9045,12 +9102,27 @@ ovf_end:
 			if (nCurPageNo == SYSENC_SPAN_PAGE)
 			{
 				// Skip irrelevant pages when going back
-				
-				nNewPageNo = SYSENC_TYPE_PAGE + 1;
+				if (!bHiddenOS)
+					nNewPageNo = SYSENC_TYPE_PAGE + 1;
 			}
+
+			if (nCurPageNo == SYSENC_RESCUE_DISK_CREATION_PAGE)
+			{
+				if (SysEncInEffect ())
+				{
+					nNewPageNo = (PimEnable? PIM_PAGE : PASSWORD_PAGE) + 1;
+				}
+			}
+
 			if (nCurPageNo == SYSENC_RESCUE_DISK_BURN_PAGE)
 			{
+				nNewPageNo = SYSENC_RESCUE_DISK_BURN_PAGE + 1; // Stay on the same page
 				Warning("RESCUE_DISK_BACK_BUTTON", hwndDlg);
+			}
+
+			if (nCurPageNo == SYSENC_PRETEST_RESULT_PAGE)
+			{
+				nNewPageNo = SYSENC_PRETEST_RESULT_PAGE + 1; // Stay on the same page
 			}
 
 			if (nCurPageNo == SYSENC_MULTI_BOOT_MODE_PAGE)
@@ -9178,7 +9250,10 @@ ovf_end:
 
 				if (SysEncInEffect ())
 				{
-					nNewPageNo = CIPHER_PAGE + 1;				// Skip irrelevant pages
+					if (!bHiddenOS)
+						nNewPageNo = SYSENC_TYPE_PAGE + 1;			// Skip irrelevant pages
+					else
+						nNewPageNo = CIPHER_PAGE + 1;				// Skip irrelevant pages
 
 					KillTimer (hwndDlg, TIMER_ID_KEYB_LAYOUT_GUARD);
 
@@ -9193,7 +9268,6 @@ ovf_end:
 				}
 				else if (bInPlaceEncNonSys)
 					nNewPageNo = CIPHER_PAGE + 1;
-				
 			}
 
 			else if (nCurPageNo == PIM_PAGE)
@@ -9273,38 +9347,8 @@ ovf_end:
 						nNewPageNo = (PimEnable? PIM_PAGE : PASSWORD_PAGE) + 1;
 				}
 			}
-			switch (nCurPageNo)
-			{
-			case SYSENC_MULTI_BOOT_MODE_PAGE:
-				nNewPageNo = SYSENC_SPAN_PAGE;
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-			case PASSWORD_PAGE:
-				nNewPageNo = SYSENC_TYPE_PAGE;
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-			case PIM_PAGE:
-				nNewPageNo = PASSWORD_PAGE;
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-			case SYSENC_RESCUE_DISK_CREATION_PAGE:
-				if (PimEnable)
-				{
-					nNewPageNo = PIM_PAGE;
-				}
-				else
-				{
-					nNewPageNo = PASSWORD_PAGE;
-				}
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-			case SYSENC_RESCUE_DISK_BURN_PAGE:
-				nNewPageNo = SYSENC_RESCUE_DISK_BURN_PAGE; // Stay on the same page
-				LoadPage(hwndDlg, nNewPageNo);
-				break;
-			default:
-				LoadPage(hwndDlg, nNewPageNo - 1);
-			}
+
+			LoadPage (hwndDlg, nNewPageNo - 1);
 
 			return 1;
 		}
@@ -10077,6 +10121,7 @@ int AnalyzeHiddenVolumeHost (HWND hwndDlg, int *driveNo, __int64 hiddenVolHostSi
 	else
 	{
 		// Unsupported file system
+
 		Error ("HIDDEN_VOL_HOST_UNSUPPORTED_FILESYS", hwndDlg);
 		return 0;
 	}
@@ -10794,7 +10839,7 @@ static void AfterWMInitTasks (HWND hwndDlg)
 			return;
 		}
 
-		LoadPage(hwndDlg, SYSENC_TYPE_PAGE);
+		LoadPage (hwndDlg, INTRO_PAGE);
 	}
 }
 
@@ -10904,8 +10949,9 @@ static DWORD GetFormatSectorSize ()
 
 	return geometry.Geometry.BytesPerSector;
 }
+
 /* This function is called when advanced dialog in intro page is open */
-BOOL CALLBACK AdvanceDlgProcIntro(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+BOOL CALLBACK AdvanceDlgProcIntro (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD(wParam);
 
@@ -10919,10 +10965,8 @@ BOOL CALLBACK AdvanceDlgProcIntro(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SendMessage (GetDlgItem (hwndDlg, IDC_SYSENC_NORMAL), WM_SETFONT, (WPARAM) hUserBoldFont, (LPARAM) TRUE);
 
 		CheckButton (GetDlgItem (hwndDlg, bHiddenOS ? IDC_SYSENC_HIDDEN : IDC_SYSENC_NORMAL));
-			
-		//SetFocus(GetDlgItem(hwndDlg, IDOK));
 		
-		return 0;
+		return 1;
 	case WM_COMMAND:
 		{
 			if (lw == IDCANCEL)
@@ -10973,7 +11017,7 @@ BOOL CALLBACK AdvanceDlgProcIntro(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 }
 
 /* AES, HASH, Pim and Wipe mode can be selected here */
-BOOL CALLBACK AdvanceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+BOOL CALLBACK AdvanceDlgProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD lw = LOWORD(wParam);
 	WORD hw = HIWORD(wParam);
@@ -10990,6 +11034,10 @@ BOOL CALLBACK AdvanceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	{
 	case WM_INITDIALOG:
 	{
+		SetWindowTextW ( GetDlgItem (hwndDlg, IDT_IMPORTANT_NOTE), GetString ("ADV_FEATURES_NOTE"));
+		SetWindowTextW ( GetDlgItem (hwndDlg, IDT_PIM_INFO), GetString ("PIM_INFO"));
+		SetWindowTextW ( GetDlgItem (hwndDlg, IDT_WIPE_INFO), GetString ("WIPE_INFO"));
+		
 		/* Encryption algorithms */
 
 		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_BOX), CB_RESETCONTENT, 0, 0);
@@ -11173,7 +11221,7 @@ BOOL CALLBACK AdvanceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		SelectAlgo(GetDlgItem(hwndDlg, IDC_WIPE_MODE), (int *)&nWipeMode);
 		SetFocus(GetDlgItem(GetParent(hwndDlg), IDOK));
 	}
-	return 0;
+	return 1;
 	case WM_COMMAND:
 		if (lw == IDCANCEL)
 		{
@@ -11248,6 +11296,7 @@ BOOL CALLBACK AdvanceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		if (lw == IDC_WIPE_MODE && hw == CBN_SELCHANGE)
 		{	
+			Warning ("WIPE_WARNING", hwndDlg);
 			return 1;
 		}
 		
@@ -11279,6 +11328,7 @@ BOOL CALLBACK AdvanceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		if (lw == IDC_PIM_ENABLE)
 		{
+			PimEnable = GetCheckBox (hwndDlg, IDC_PIM_ENABLE);
 			if (!PimEnable)
 				volumePim = 0;
 			return 1;
@@ -11286,51 +11336,56 @@ BOOL CALLBACK AdvanceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	}
 	return 0;
 }
+
 void
-AddComboPairW(HWND hComboBox, const wchar_t *lpszItem, int value)
+AddComboPairW (HWND hComboBox, const wchar_t *lpszItem, int value)
 {
 	LPARAM nIndex;
 	nIndex = SendMessageW(hComboBox, CB_ADDSTRING, 0, (LPARAM)lpszItem);
 	nIndex = SendMessage(hComboBox, CB_SETITEMDATA, nIndex, (LPARAM)value);
 }
+
 /* Acording to NIST, only a blacklist check and at least 8 character should be compulsary, no special character check... */
-int  printStrongNess(char  input[], unsigned int length)
+int PrintStrongness (char input[], unsigned int length)
 {
 	unsigned int n = length;
-	int return_val = 0;
-	if (n < 8)
+	int iReturnValue = 0;
+	if (n < 10)
 	{
-		return return_val = weak;
+		burn (input, sizeof(input));
+		return iReturnValue = weak;
 	}
 	else if (CheckWord(input))
 	{
-		return return_val = weak;
+		burn (input, sizeof(input));
+		return iReturnValue = weak;
 	}
 	//Tetermine the strength of the passsord	
 	if ((n >= 13))
 	{
-		return_val = very_strong;
+		iReturnValue = very_strong;
 	}
 	//if 3 out of 4 paramters are true	
 	else if (n >= 10)
 	{	
-		return_val = strong;
+		iReturnValue = strong;
 	}
 	//if 2 out of 4 values are true	
 	else if (n >= 8)
 	{
-		return_val = medium;
+		iReturnValue = medium;
 	}
 	else
 	{
-		return_val = weak;
+		iReturnValue = weak;
 	}
-	return return_val;
+	burn (input, sizeof(input));
+	return iReturnValue;
 }
 
 /* Check if password is in list
 Credits go Martin York from https://codereview.stackexchange.com/questions/52702/how-to-search-for-a-word-in-a-sorted-text-file-efficiently */
-BOOL CheckWord(char* search)
+BOOL CheckWord (char* search)
 {
 	
 	bool isWordInDict(std::string const& word);
@@ -11345,15 +11400,19 @@ BOOL CheckWord(char* search)
 				wchar_t destFileName[TC_MAX_PATH] = L"password1000000.txt";
 				wchar_t *destPathName;
 				
-				GetModuleFileName (NULL, path, ARRAYSIZE (path));
+				if (GetModuleFileName (NULL, path, ARRAYSIZE (path)) == 0)
+				{
+					Error ("ERROR_GETTING_PATH", MainDlg);
+				}
 
 				wcsncpy(tmp, path, wcslen(path));
+				
 				//detects the last '\' in order to remove the name of the exe file. Afterwards add .txt file in the path	
 				for (int i = wcslen(path); i > 1; i--)
 				{
 					if (tmp[i] == '\\')
 					{
-						for(unsigned int j = i + 1; j < wcslen(szRescueDiskISO); j++)
+						for(unsigned int j = i + 1; j < wcslen(path); j++)
 						{
 							tmp[j] = '\0';
 						}
@@ -11361,26 +11420,17 @@ BOOL CheckWord(char* search)
 					}
 				}
 				destPathName = wcscat(tmp, destFileName);
-					
+				
 				std::ifstream fin(destPathName);
 				std::copy(std::istream_iterator<std::string>(fin), std::istream_iterator<std::string>(),
 					std::inserter(*this, end()));
 			}
 		};
-		static const MyDict  dict;
+		static const MyDict dict;
 		MyDict::const_iterator find = dict.find(search);
-
+		
 		return find != dict.end();
 	}
-}
-void OnKeyPress(WPARAM key)
-{
-    switch (key)
-    {
-    // Space key toggles between running and paused
-    case VK_SPACE:
-        break;
-    }
 }
 
 /* Credits go to Barmak Shemirani from https://stackoverflow.com/questions/31407492/c-tooltip-function-for-checkbox */
@@ -11406,7 +11456,6 @@ void CreateToolTip(HWND hWndParent, HWND hControlItem, PTSTR pszText)
 	GetClientRect(hWndParent, &toolInfo.rect);
     if (!SendMessage(hwndTip, TTM_ADDTOOL, 0, (LPARAM)&toolInfo))
     {
-        //OutputDebugString(L"TTM_ADDTOOL failed\nWrong project manifest!");
         MessageBox(0, TEXT("TTM_ADDTOOL failed\nWrong project manifest!"), 0, 0);
     }
 }
