@@ -13,6 +13,12 @@
 #ifndef TC_HEADER_Main_Forms_MainFrame
 #define TC_HEADER_Main_Forms_MainFrame
 
+#ifdef HAVE_INDICATORS
+#define GSocket GlibGSocket
+#include <libayatana-appindicator/app-indicator.h>
+#undef GSocket
+#endif
+
 #include "Forms.h"
 #include "ChangePasswordDialog.h"
 #ifdef TC_MACOSX
@@ -38,6 +44,18 @@ namespace VeraCrypt
 		static FilePath GetShowRequestFifoPath () { return Application::GetConfigFilePath (L".show-request-queue", true); }
 #endif
 
+		void MountAllFavorites ();
+
+#ifdef HAVE_INDICATORS
+		AppIndicator *indicator;
+		GtkWidget *indicator_item_showhide;
+		GtkWidget *indicator_item_mountfavorites;
+		GtkWidget *indicator_item_dismountall;
+		GtkWidget *indicator_item_prefs;
+		GtkWidget *indicator_item_exit;
+		void SetBusy (bool busy);
+
+#endif
 	protected:
 		enum
 		{
@@ -71,7 +89,6 @@ namespace VeraCrypt
 		void LoadFavoriteVolumes ();
 		void LoadPreferences ();
 		void MountAllDevices ();
-		void MountAllFavorites ();
 		void MountVolume ();
 		void OnAboutMenuItemSelected (wxCommandEvent& event);
 		void OnQuit(wxCommandEvent& event) { Close(true); }

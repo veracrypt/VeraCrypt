@@ -95,6 +95,15 @@ ifeq "$(origin WXSTATIC)" "command line"
 	endif
 endif
 
+ifeq "$(origin INDICATOR)" "command line"
+	ifneq (,$(findstring gtk3,$(shell $(WX_CONFIG) --selected-config)))
+		INDICATOR_LIBRARY=ayatana-appindicator3-0.1
+	else
+		INDICATOR_LIBRARY=ayatana-appindicator-0.1
+	endif
+	export LIBS += $(shell pkg-config --libs $(INDICATOR_LIBRARY))
+	C_CXX_FLAGS += $(shell pkg-config --cflags $(INDICATOR_LIBRARY)) -DHAVE_INDICATORS
+endif
 
 #------ Release configuration ------
 
