@@ -274,6 +274,10 @@ ifeq "$(shell uname -s)" "Darwin"
 	ifeq "$(CPU_ARCH)" "x64"
 		CPU_ARCH = x86
 	endif
+	
+	ifeq "$(CPU_ARCH)" "arm64"
+		CPU_ARCH = x86
+	endif
 
 	CFLAGS += -msse2
 	CXXFLAGS += -msse2
@@ -302,14 +306,18 @@ ifeq "$(shell uname -s)" "Darwin"
 		C_CXX_FLAGS += -gfull -arch x86_64
 		LFLAGS += -Wl,-dead_strip -arch x86_64
 		
+		WX_CONFIGURE_FLAGS += --without-libpng --disable-gif --disable-pcx --disable-tga --disable-iff --disable-gif --disable-svg
+
 		#----- Legacy build: we build both 32-bit and 64-bit ----
 		ifdef VC_LEGACY_BUILD
 			C_CXX_FLAGS += -arch i386
 			LFLAGS += -arch i386
 			WX_CONFIGURE_FLAGS += --enable-universal_binary=i386,x86_64
 		else
-			CXXFLAGS += -std=c++11
-			WX_CONFIGURE_FLAGS += --disable-universal_binary
+			CXXFLAGS += -std=c++11			
+			C_CXX_FLAGS += -arch arm64
+			LFLAGS += -arch arm64
+			WX_CONFIGURE_FLAGS += --enable-universal_binary=arm64,x86_64
 		endif
 
 		WXCONFIG_CFLAGS += -gfull

@@ -56,9 +56,13 @@ namespace VeraCrypt
 #elif defined (TC_MACOSX)
 #	ifdef __x86_64__
 		faultingInstructionAddress = context->uc_mcontext->__ss.__rip;
+#   else
+#	ifdef __aarch64__
+		faultingInstructionAddress = context->uc_mcontext->__ss.__pc;
 #	else
 		faultingInstructionAddress = context->uc_mcontext->__ss.__eip;
 #	endif
+#   endif
 
 #endif
 		wstringstream vars;

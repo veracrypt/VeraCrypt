@@ -282,7 +282,7 @@ namespace VeraCrypt
 		VolumeStaticBoxSizer->Detach (VolumeGridBagSizer);
 		VolumeStaticBoxSizer->Add (VolumeGridBagSizer, 1, wxEXPAND, 0);
 
-		ExitButton->SetLabel (LangString["CLOSE"]);
+		ExitButton->SetLabel (LangString["IDCLOSE"]);
 		MountAllDevicesButton->SetLabel (LangString["LINUX_MOUNT_ALL_DEV"]);
 #endif
 

@@ -29,6 +29,9 @@ namespace VeraCrypt
 	{
 		if (Map.count (key) > 0)
 			return wxString (Map.find (key)->second);
+		// return "VeraCrypt" as it is
+		if (key == "VeraCrypt")
+			return L"VeraCrypt";
 
 		return wxString (L"?") + StringConverter::ToWide (key) + L"?";
 	}
@@ -40,7 +43,6 @@ namespace VeraCrypt
 
 	void LanguageStrings::Init ()
 	{
-#ifdef TC_LINUX
 		static byte LanguageXml[] =
         {
 #           include "Common/Language.xml.h"
@@ -53,7 +55,7 @@ namespace VeraCrypt
 			text.Replace (L"\\n", L"\n");
 			Map[StringConverter::ToSingle (wstring (node.Attributes[L"key"]))] = text;
 		}
-#endif
+
 		foreach (XmlNode node, XmlParser (Resources::GetLanguageXml()).GetNodes (L"entry"))
 		{
 			wxString text = node.InnerText;
