@@ -1754,6 +1754,10 @@ namespace VeraCrypt
 		}
 
 		BackgroundMode = state;
+
+#ifdef HAVE_INDICATORS
+		gtk_menu_item_set_label ((GtkMenuItem*) ((MainFrame*) mMainFrame)->indicator_item_showhide, LangString[Gui->IsInBackgroundMode() ? "SHOW_TC" : "HIDE_TC"].mb_str());
+#endif
 	}
 
 	void GraphicUserInterface::SetListCtrlColumnWidths (wxListCtrl *listCtrl, list <int> columnWidthPermilles, bool hasVerticalScrollbar) const
