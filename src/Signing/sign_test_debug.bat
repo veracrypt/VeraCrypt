@@ -1,5 +1,5 @@
 PATH=%PATH%;%WSDK81%\bin\x86;C:\Program Files\7-Zip;C:\Program Files (x86)\7-Zip
-set VC_VERSION=1.24-Update9
+set VC_VERSION=1.24-Update9-Beta-21-08-15
 set VC_VERSION_NBRE=1.24.25
 set PFXNAME=TestCertificate\idrix_codeSign.pfx
 set PFXPASSWORD=idrix
@@ -15,13 +15,9 @@ call "..\..\doc\chm\create_chm.bat"
 
 cd %SIGNINGPATH%
 
-rem sign using SHA-1
-signtool sign /v /a /f %PFXNAME% /p %PFXPASSWORD% /ac %PFXCA% /fd sha1 /t http://timestamp.digicert.com "..\Debug\Setup Files\veracrypt.sys" "..\Debug\Setup Files\veracrypt-x64.sys" "..\Debug\Setup Files\VeraCrypt.exe" "..\Debug\Setup Files\VeraCrypt Format.exe" "..\Debug\Setup Files\VeraCryptExpander.exe" "..\Debug\Setup Files\VeraCrypt-x64.exe" "..\Debug\Setup Files\VeraCrypt Format-x64.exe" "..\Debug\Setup Files\VeraCryptExpander-x64.exe" "..\Debug\Setup Files\VeraCrypt COMReg.exe"
-
-timeout /t 10
 
 rem sign using SHA-256
-signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /as /fd sha256 /tr http://rfc3161timestamp.globalsign.com/advanced /td SHA256 "..\Debug\Setup Files\veracrypt.sys" "..\Debug\Setup Files\veracrypt-x64.sys" "..\Debug\Setup Files\veracrypt-arm64.sys" "..\Debug\Setup Files\VeraCrypt.exe" "..\Debug\Setup Files\VeraCrypt Format.exe" "..\Debug\Setup Files\VeraCryptExpander.exe" "..\Debug\Setup Files\VeraCrypt-x64.exe" "..\Debug\Setup Files\VeraCrypt Format-x64.exe" "..\Debug\Setup Files\VeraCryptExpander-x64.exe" "..\Debug\Setup Files\VeraCrypt-arm64.exe" "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" "..\Debug\Setup Files\VeraCrypt COMReg.exe"
+signtool sign /v /a /f %SHA256PFXNAME% /p %SHA256PFXPASSWORD% /ac %SHA256PFXCA% /fd sha256 /tr http://rfc3161timestamp.globalsign.com/advanced /td SHA256 "..\Debug\Setup Files\veracrypt.sys" "..\Debug\Setup Files\veracrypt-x64.sys" "..\Debug\Setup Files\veracrypt-arm64.sys" "..\Debug\Setup Files\VeraCrypt.exe" "..\Debug\Setup Files\VeraCrypt Format.exe" "..\Debug\Setup Files\VeraCryptExpander.exe" "..\Debug\Setup Files\VeraCrypt-x64.exe" "..\Debug\Setup Files\VeraCrypt Format-x64.exe" "..\Debug\Setup Files\VeraCryptExpander-x64.exe" "..\Debug\Setup Files\VeraCrypt-arm64.exe" "..\Debug\Setup Files\VeraCrypt Format-arm64.exe" "..\Debug\Setup Files\VeraCryptExpander-arm64.exe" "..\Debug\Setup Files\VeraCrypt COMReg.exe"
 
 rem create setup and MSI
 cd "..\Debug\Setup Files\"
