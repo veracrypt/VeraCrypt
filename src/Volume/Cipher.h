@@ -14,8 +14,7 @@
 #define TC_HEADER_Encryption_Ciphers
 
 #include "Platform/Platform.h"
-#include "Crypto/config.h"
-
+#include "Crypto/cpu.h"
 
 namespace VeraCrypt
 {
@@ -125,10 +124,6 @@ namespace VeraCrypt
 	TC_EXCEPTION_SET;
 
 #undef TC_EXCEPTION
-
-#if (defined (TC_ARCH_X86) || defined (TC_ARCH_X64)) && !defined (__ppc__)
-#	define TC_AES_HW_CPU
-#endif
 
 }
 

@@ -22,7 +22,6 @@
 #ifdef TC_AES_HW_CPU
 #	include "Crypto/Aes_hw_cpu.h"
 #endif
-#include "Crypto/cpu.h"
 
 extern "C" int IsAesHwCpuSupported ()
 {
@@ -32,7 +31,7 @@ extern "C" int IsAesHwCpuSupported ()
 
 	if (!stateValid)
 	{
-		state = g_hasAESNI ? true : false;
+		state = HasAESNI() ? true : false;
 		stateValid = true;
 	}
 	return state && VeraCrypt::Cipher::IsHwSupportEnabled();
@@ -203,7 +202,7 @@ namespace VeraCrypt
 
 		if (!stateValid)
 		{
-			state = g_hasAESNI ? true : false;
+			state = HasAESNI() ? true : false;
 			stateValid = true;
 		}
 		return state && HwSupportEnabled;

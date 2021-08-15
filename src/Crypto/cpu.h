@@ -209,6 +209,7 @@ extern "C" {
 #endif
 
 #define CRYPTOPP_CPUID_AVAILABLE
+#define TC_AES_HW_CPU
 
 // these should not be used directly
 extern volatile int g_x86DetectionDone;
