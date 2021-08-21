@@ -1472,7 +1472,6 @@
     <entry lang="pl" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Wybierz tę opcję, jeśli chcesz użyć wolumenu na innych platformach.</entry>
     <entry lang="pl" key="LINUX_CROSS_SUPPORT_ONLY">Wolumen podłączę tylko na {0}</entry>
     <entry lang="pl" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Wybierz tę opcję, jeśli nie musisz używać wolumenu na innych platformach.</entry>
-    <entry lang="pl" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Wybierz tę opcję, jeśli nie musisz używać wolumenu na innych platformach.</entry>
     <entry lang="pl" key="LINUX_DESELECT">Usuń</entry>
     <entry lang="pl" key="LINUX_ADMIN_PW_QUERY">Wprowadź hasło użytkownika lub hasło administratora:</entry>
     <entry lang="pl" key="LINUX_ADMIN_PW_QUERY_TITLE">Wymagane uprawnienia administratora</entry>

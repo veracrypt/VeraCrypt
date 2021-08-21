@@ -1472,7 +1472,6 @@
     <entry lang="ko" key="LINUX_CROSS_SUPPORT_OTHER_HELP">다른 플랫폼에서 볼륨을 사용해야 한다면 이 옵션을 선택하시기 바랍니다.</entry>
     <entry lang="ko" key="LINUX_CROSS_SUPPORT_ONLY">{0}에서만 볼륨을 마운트할 것입니다</entry>
     <entry lang="ko" key="LINUX_CROSS_SUPPORT_ONLY_HELP">다른 플랫폼에서 볼륨을 사용할 필요가 없는 경우에 이 옵션을 선택하시기 바랍니다.</entry>
-    <entry lang="ko" key="LINUX_CROSS_SUPPORT_ONLY_HELP">다른 플랫폼에서 볼륨을 사용할 필요가 없는 경우에 이 옵션을 선택하시기 바랍니다.</entry>
     <entry lang="ko" key="LINUX_DESELECT">선택해제</entry>
     <entry lang="ko" key="LINUX_ADMIN_PW_QUERY">유저 혹은 관리자 비밀번호를 입력하세요:</entry>
     <entry lang="ko" key="LINUX_ADMIN_PW_QUERY_TITLE">관리자 권한 요구됨</entry>
@@ -1556,7 +1555,7 @@
     <entry lang="ko" key="ENTER_PASSWORD">비밀번호 입력</entry>
     <entry lang="ko" key="ENTER_TC_VOL_PASSWORD">VeraCrypt 볼륨 비밀번호 입력</entry>
     <entry lang="ko" key="MOUNT">마운트</entry>
-    <entry lang="ko" key="MOUNT_POINT">디렉터리 마운트"</entry>
+    <entry lang="ko" key="MOUNT_POINT">디렉터리 마운트</entry>
     <entry lang="ko" key="NO_VOLUMES_MOUNTED">볼륨이 마운트되어 있지 않습니다.</entry>
     <entry lang="ko" key="OPEN_NEW_VOLUME">새로운 VeraCrypt 볼륨 지정</entry>
     <entry lang="ko" key="PARAMETER_INCORRECT">파라메터 잘못됨</entry>

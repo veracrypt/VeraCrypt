@@ -1472,7 +1472,6 @@
     <entry lang="hu" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Válassza ezt a lehetőséget, ha a kötetet más platformokon szeretné használni.</entry>
     <entry lang="hu" key="LINUX_CROSS_SUPPORT_ONLY">Csak a következőn csatlakoztatom a kötetet: {0}</entry>
     <entry lang="hu" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Válassza ezt az opciót, ha nem szükséges a kötetet más platformokon használni.</entry>
-    <entry lang="hu" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Válassza ezt az opciót, ha nem szükséges a kötetet más platformokon használni.</entry>
     <entry lang="hu" key="LINUX_DESELECT">Kijelölés megszüntetése</entry>
     <entry lang="hu" key="LINUX_ADMIN_PW_QUERY">Adja meg felhasználói vagy rendszergazdai jelszavát:</entry>
     <entry lang="hu" key="LINUX_ADMIN_PW_QUERY_TITLE">Adminisztrátori jogosultságok szükségesek</entry>
@@ -1556,7 +1555,7 @@
     <entry lang="hu" key="ENTER_PASSWORD">Adja meg a jelszót</entry>
     <entry lang="hu" key="ENTER_TC_VOL_PASSWORD">Adja meg a VeraCrypt kötet jelszavát</entry>
     <entry lang="hu" key="MOUNT">Csatolás</entry>
-    <entry lang="hu" key="MOUNT_POINT">Könyvtár csatlakoztatása"</entry>
+    <entry lang="hu" key="MOUNT_POINT">Könyvtár csatlakoztatása</entry>
     <entry lang="hu" key="NO_VOLUMES_MOUNTED">Nincsenek csatlakoztatott kötetek.</entry>
     <entry lang="hu" key="OPEN_NEW_VOLUME">Adjon meg egy új VeraCrypt kötetet</entry>
     <entry lang="hu" key="PARAMETER_INCORRECT">A paraméter helytelen</entry>

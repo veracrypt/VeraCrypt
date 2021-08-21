@@ -1474,7 +1474,6 @@
     <entry lang="en" key="LINUX_CROSS_SUPPORT_OTHER_HELP">Choose this option if you need to use the volume on other platforms.</entry>
     <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY">I will mount the volume only on {0}</entry>
     <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
-    <entry lang="en" key="LINUX_CROSS_SUPPORT_ONLY_HELP">Choose this option if you do not need to use the volume on other platforms.</entry>
     <entry lang="en" key="LINUX_DESELECT">Deselect</entry>
     <entry lang="en" key="LINUX_ADMIN_PW_QUERY">Enter your user password or administrator password:</entry>
     <entry lang="en" key="LINUX_ADMIN_PW_QUERY_TITLE">Administrator privileges required</entry>
@@ -1558,7 +1557,7 @@
     <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
     <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
     <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory"</entry>
+    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
     <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
     <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
     <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
