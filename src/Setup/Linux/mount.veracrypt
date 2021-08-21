@@ -1,0 +1,23 @@
+#!/bin/bash
+DEV="$1"
+MNTPT="$2"
+VCOPTIONS=""
+OPTIONS=""
+
+shift 3
+IFS=','
+for arg in $*; do
+  case "$arg" in
+    truecrypt)        VCOPTIONS=(${VCOPTIONS[*]} --truecrypt);;
+    system)           VCOPTIONS=(${VCOPTIONS[*]} --mount-options=system);;
+    fs=*)             VCOPTIONS=(${VCOPTIONS[*]} --filesystem=${arg#*=});;
+    keyfiles=*)       VCOPTIONS=(${VCOPTIONS[*]} --keyfiles=${arg#*=});;
+    password=*)       VCOPTIONS=(${VCOPTIONS[*]} --password=${arg#*=});;
+    pim=*)            VCOPTIONS=(${VCOPTIONS[*]} --pim==${arg#*=});;
+    protect-hidden=*) VCOPTIONS=(${VCOPTIONS[*]} --protect-hidden=${arg#*=});;
+    slot=*)           VCOPTIONS=(${VCOPTIONS[*]} --slot=${arg#*=});;
+    *)                OPTIONS="${OPTIONS}${arg},";;
+  esac
+done
+
+/usr/bin/veracrypt --non-interactive --text ${VCOPTIONS[*]} --fs-options="${OPTIONS%,*}" ${DEV} ${MNTPT}

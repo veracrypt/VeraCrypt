@@ -255,11 +255,16 @@ prepare: $(APPNAME)
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages
 	cp -r $(BASE_DIR)/../Translations/* $(BASE_DIR)/Setup/Linux/usr/share/veracrypt/languages/
 
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/sbin
+	cp $(BASE_DIR)/Setup/Linux/mount.$(APPNAME) $(BASE_DIR)/Setup/Linux/usr/sbin/mount.$(APPNAME)
+	chmod +x $(BASE_DIR)/Setup/Linux/usr/sbin/mount.$(APPNAME)
 ifndef TC_NO_GUI
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/applications
 	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/pixmaps
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/mime/packages
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/Linux/usr/share/pixmaps/$(APPNAME).xpm
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).desktop $(BASE_DIR)/Setup/Linux/usr/share/applications/$(APPNAME).desktop
+	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).xml $(BASE_DIR)/Setup/Linux/usr/share/mime/packages/$(APPNAME).xml
 endif
 
 
@@ -306,8 +311,10 @@ prepare: $(APPNAME)
 ifndef TC_NO_GUI
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/applications
 	mkdir -p $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps
+	mkdir -p $(BASE_DIR)/Setup/Linux/usr/share/mime/packages
 	cp $(BASE_DIR)/Resources/Icons/VeraCrypt-256x256.xpm $(BASE_DIR)/Setup/FreeBSD/usr/share/pixmaps/$(APPNAME).xpm
 	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).desktop $(BASE_DIR)/Setup/FreeBSD/usr/share/applications/$(APPNAME).desktop
+	cp $(BASE_DIR)/Setup/Linux/$(APPNAME).xml $(BASE_DIR)/Setup/Linux/usr/share/mime/packages/$(APPNAME).xml
 endif
 	chown -R root:wheel $(BASE_DIR)/Setup/FreeBSD/usr
 	chmod -R go-w $(BASE_DIR)/Setup/FreeBSD/usr
