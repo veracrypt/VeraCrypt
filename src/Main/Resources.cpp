@@ -70,7 +70,9 @@ namespace VeraCrypt
 		string filename = filenamePrefix + defaultLang + filenamePost;
 		if(const char* env_p = getenv("LANG")){
 		    string lang(env_p);
+#ifdef DEBUG
 			std::cout << lang << std::endl;
+#endif
 			if ( lang.size() > 1 ){
 				int found = lang.find(".");
 				if ( found > 1 ){
