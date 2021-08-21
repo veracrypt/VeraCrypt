@@ -1556,7 +1556,7 @@
     <entry lang="en" key="ENTER_PASSWORD">Enter password</entry>
     <entry lang="en" key="ENTER_TC_VOL_PASSWORD">Enter VeraCrypt Volume Password</entry>
     <entry lang="en" key="MOUNT">Mount</entry>
-    <entry lang="en" key="MOUNT_POINT">Mount Directory"</entry>
+    <entry lang="en" key="MOUNT_POINT">Mount Directory</entry>
     <entry lang="en" key="NO_VOLUMES_MOUNTED">No volumes mounted.</entry>
     <entry lang="en" key="OPEN_NEW_VOLUME">Specify a New VeraCrypt Volume</entry>
     <entry lang="en" key="PARAMETER_INCORRECT">Parameter incorrect</entry>
