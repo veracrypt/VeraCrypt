@@ -1018,7 +1018,7 @@ namespace VeraCrypt
 
 				wxLog::FlushActive();
 				Application::SetExitCode (1);
-				Gui->ShowInfo (LangStrin["LINUX_VC_RUNNING_ALREADY"]);
+				Gui->ShowInfo (LangString["LINUX_VC_RUNNING_ALREADY"]);
 				return false;
 #endif
 			}
