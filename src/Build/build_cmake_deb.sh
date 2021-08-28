@@ -41,8 +41,19 @@ else
 
 echo "Building GUI version of VeraCrypt for DEB using system wxWidgets"
 make clean 	|| exit 1
-make 		|| exit 1
+
+if [ "$#" = "1" ] && [ "$1" = "INDICATOR" ]
+then
+
+make INDICATOR=1		|| exit 1
+make INDICATOR=1 install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
+
+else
+
+make		|| exit 1
 make install DESTDIR="$PARENTDIR/VeraCrypt_Setup/GUI"	|| exit 1
+
+fi
 
 fi
 
