@@ -3472,6 +3472,7 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 	DWORD			dw				= 0;
 	std::wstring	szInstallDir	= L"";
 	BOOL			bRefreshExts	= FALSE;
+	BOOL			bDisableReboot	= FALSE;
 	UINT			uiRet           = ERROR_INSTALL_FAILURE;
 
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"Begin VC_CustomAction_DoChecks");
@@ -3503,6 +3504,22 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 		{
 			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_DoChecks: REGISTERVCFILEEXT = '%s'", szValueBuf.c_str());
 			bRefreshExts = (szValueBuf[0] == L'1');
+		}
+	}
+
+	//  Get REBOOT to see whether it specified "ReallySuppress" which means no automatic reboot
+	szValueBuf.clear();
+	cchValueBuf = 0;
+	uiStat = MsiGetProperty(hInstaller, TEXT("REBOOT"), (LPWSTR)TEXT(""), &cchValueBuf);
+	if (ERROR_MORE_DATA == uiStat)
+	{
+		++cchValueBuf; // add 1 for null termination
+		szValueBuf.resize(cchValueBuf);
+		uiStat = MsiGetProperty(hInstaller, TEXT("REBOOT"), &szValueBuf[0], &cchValueBuf);
+		if ((ERROR_SUCCESS == uiStat))
+		{
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_DoChecks: REBOOT = '%s'", szValueBuf.c_str());
+			bDisableReboot = (szValueBuf[0] == L'R' || szValueBuf[0] == L'r');
 		}
 	}
 
@@ -3585,8 +3602,16 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 
 	//	Check if reboot was required by the pre/post-install and set Wix property ISREBOOTREQUIRED accordingly.
 	if (bRestartRequired)
-	{
-		uiRet = MsiSetProperty(hInstaller, L"ISREBOOTREQUIRED", L"1");
+	{		
+		if (bDisableReboot)
+		{
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_DoChecks: reboot is required but it is disabled because \"REBOOT\" specifies ReallySuppress");
+		}
+		else
+		{
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"VC_CustomAction_DoChecks: reboot is required");
+			uiRet = MsiSetProperty(hInstaller, L"ISREBOOTREQUIRED", L"1");
+		}
 	}
 	else 
 	{
