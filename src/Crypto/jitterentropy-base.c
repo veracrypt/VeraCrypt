@@ -345,7 +345,7 @@ static uint64_t jent_loop_shuffle(struct rand_data *ec,
 	 * We add a lower boundary value to ensure we have a minimum
 	 * RNG loop count.
 	 */
-	return (shuffle + (1<<min));
+	return (shuffle + (1ULL<<min));
 }
 
 /**

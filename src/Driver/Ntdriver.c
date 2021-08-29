@@ -4612,7 +4612,7 @@ void EnsureNullTerminatedString (wchar_t *str, size_t maxSizeInBytes)
 void *AllocateMemoryWithTimeout (size_t size, int retryDelay, int timeout)
 {
 	LARGE_INTEGER waitInterval;
-	waitInterval.QuadPart = retryDelay * -10000;
+	waitInterval.QuadPart = ((LONGLONG)retryDelay) * -10000;
 
 	ASSERT (KeGetCurrentIrql() <= APC_LEVEL);
 	ASSERT (retryDelay > 0 && retryDelay <= timeout);
