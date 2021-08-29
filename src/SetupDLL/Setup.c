@@ -3045,6 +3045,9 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_PostInstall(MSIHANDLE hInstaller)
 		{
 			MSILog(hInstaller, MSI_ERROR_LEVEL, L"End VC_CustomAction_PostInstall: Could not write to registry");
 		}
+		
+		// delete entry of EXE installation if it exists
+		RegDeleteKeyExW (HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\VeraCrypt", KEY_WOW64_32KEY, 0);
 	}
 end:
 
