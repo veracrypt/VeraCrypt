@@ -19,7 +19,13 @@
 #if !defined(_UEFI)
 #include <string.h>
 #ifndef TC_WINDOWS_BOOT
+#ifdef TC_WINDOWS_DRIVER
+#include <ntstrsafe.h>
+#define StringCchCatW	RtlStringCchCatW
+#define StringCchCopyW	RtlStringCchCopyW
+#else
 #include <strsafe.h>
+#endif
 #include "EncryptionThreadPool.h"
 #endif
 #endif
