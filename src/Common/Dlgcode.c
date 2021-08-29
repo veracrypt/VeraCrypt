@@ -3206,8 +3206,8 @@ void InitApp (HINSTANCE hInstance, wchar_t *lpszCommandLine)
 
 	RemoteSession = GetSystemMetrics (SM_REMOTESESSION) != 0;
 
-	// OS version check
-	if (CurrentOSMajor < 5)
+	// OS version check: from version 1.25, only Windows 8 and newer is supported
+	if (!IsOSVersionAtLeast(WIN_8, 0))
 	{
 		MessageBoxW (NULL, GetString ("UNSUPPORTED_OS"), lpszTitle, MB_ICONSTOP);
 		exit (1);
