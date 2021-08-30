@@ -2875,6 +2875,45 @@ void DoPostInstallTasks (HWND hwndDlg)
 		SavePostInstallTasksSettings (TC_POST_INSTALL_CFG_REMOVE_ALL);
 }
 
+#ifdef SETUP_DLL
+static BOOL GetWindowVersionFromFile(DWORD* pdwMajor, DWORD* pdwMinor, DWORD* pdwBuildNumber)
+{
+	wchar_t dllPath[MAX_PATH];
+	BOOL bRet = FALSE;
+	LPBYTE versionInfo = NULL;
+	UINT size;
+	VS_FIXEDFILEINFO *vinfo;
+
+	/* Load dll explictely from System32 to avoid Dll hijacking attacks*/
+	if (!GetSystemDirectory(dllPath, MAX_PATH))
+		StringCbCopyW(dllPath, sizeof(dllPath), L"C:\\Windows\\System32");
+
+	StringCbCatW(dllPath, sizeof(dllPath), L"\\");
+	StringCbCatW(dllPath, sizeof(dllPath), L"Kernel32.dll");
+
+    size = GetFileVersionInfoSizeW(dllPath, NULL);
+    if (size)
+    {
+		versionInfo = (LPBYTE) TCalloc(size);
+		if (GetFileVersionInfo(dllPath, 0, size, versionInfo))
+		{
+    
+			if (VerQueryValueW(versionInfo, L"\\", (LPVOID *)&vinfo, &size) && (size >=sizeof(VS_FIXEDFILEINFO)))
+			{
+				*pdwMajor = HIWORD(vinfo->dwProductVersionMS);
+				*pdwMinor = LOWORD(vinfo->dwProductVersionMS);
+				*pdwBuildNumber = HIWORD(vinfo->dwProductVersionLS);
+				bRet = TRUE;
+			}
+		}
+	}
+
+	if (versionInfo)
+		TCfree(versionInfo);
+	return bRet;
+}
+#endif
+
 /*
  * Use RtlGetVersion to get Windows version because GetVersionEx is affected by application manifestation.
  */
@@ -2883,6 +2922,9 @@ typedef NTSTATUS (WINAPI* RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
 static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
 {
 	BOOL bRet = FALSE;
+#ifdef SETUP_DLL
+	DWORD dwMajor, dwMinor, dwBuildNumber;
+#endif
 	RtlGetVersionPtr RtlGetVersionFn = (RtlGetVersionPtr) GetProcAddress(GetModuleHandle (L"ntdll.dll"), "RtlGetVersion");
 	if (RtlGetVersionFn != NULL)
 	{
@@ -2892,6 +2934,17 @@ static BOOL GetWindowsVersion(LPOSVERSIONINFOW lpVersionInformation)
 
 	if (!bRet)
 		bRet = GetVersionExW (lpVersionInformation);
+
+#ifdef SETUP_DLL
+	// we get real version from Kernel32.dll version since MSI always sets current version to 6.0
+	// https://stackoverflow.com/questions/49335885/windows-10-not-detecting-on-installshield/49343826#49343826
+	if (GetWindowVersionFromFile(&dwMajor, &dwMinor, &dwBuildNumber))
+	{
+		lpVersionInformation->dwMajorVersion = dwMajor;
+		lpVersionInformation->dwMinorVersion = dwMinor;
+		lpVersionInformation->dwBuildNumber = dwBuildNumber;
+	}
+#endif
 
 	return bRet;
 }
