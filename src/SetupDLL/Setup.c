@@ -1511,6 +1511,11 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 			BootEncryption bootEnc (hwnd);
 			if (bootEnc.GetDriverServiceStartType() == SERVICE_BOOT_START)
 			{
+				MSILogAndShow(hInstaller, MSI_ERROR_LEVEL, L"VeraCrypt MSI installation is currently not compatible with Windows System Encryption");
+				bOK = FALSE;
+				goto end;
+
+				/************* TODO: find a workaround to the fact that MSI service cannot access EFI environment variable
 				try
 				{
 					// Check hidden OS update consistency
@@ -1554,6 +1559,7 @@ BOOL DoDriverUnload_Dll (MSIHANDLE hInstaller, HWND hwnd)
 					SystemEncryptionUpdate = TRUE;
 					PortableMode = FALSE;
 				}
+				*****************************************/
 			}
 		}
 		catch (...)	{ }
