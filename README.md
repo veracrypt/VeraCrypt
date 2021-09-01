@@ -106,7 +106,7 @@ for Windows 8.1 installation directory.
 The folder "Signing" contains a batch file (sign.bat) that will sign all
 VeraCrypt components using a code signing certificate present on the
 certificate store and also build the final installation setup.
-The batch file suppose that the code signing certificate is issued by Thawt.
+The batch file suppose that the code signing certificate is issued by Thawte.
 This is the case for IDRIX's certificate. If yours is issued by another CA,
 then you should put the Root and Intermediate certificates in the "Signing"
 folder and then modify sign.bat accordingly.

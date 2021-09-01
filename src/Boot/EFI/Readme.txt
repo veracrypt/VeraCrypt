@@ -1,6 +1,6 @@
 The source code for VeraCrypt EFI bootloader files is available at: https://github.com/veracrypt/VeraCrypt-DCS
 
-VeraCrypt-DCS uses EDK II as its UEFI development environement.
+VeraCrypt-DCS uses EDK II as its UEFI development environment.
 
 VeraCrypt-DCS is licensed under LGPL: https://github.com/veracrypt/VeraCrypt-DCS/blob/master/LICENSE
 
