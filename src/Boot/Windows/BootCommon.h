@@ -3,7 +3,7 @@
  Copyright (c) 2008-2012 TrueCrypt Developers Association and which is governed
  by the TrueCrypt License 3.0.
 
- Modifications and additions to the original source code (contained in this file) 
+ Modifications and additions to the original source code (contained in this file)
  and all other portions of this file are Copyright (c) 2013-2017 IDRIX
  and are governed by the Apache License 2.0 the full text of which is
  contained in the file License.txt included in VeraCrypt binary and source
@@ -178,7 +178,7 @@ CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Length) == FIELD_OFFSET(DCS_DISK_ENT
 CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_SECTORS, Offset), Wrong_Offset_offset);
 CSTATIC_ASSERT(FIELD_OFFSET(DCS_DISK_ENTRY, Offset) == FIELD_OFFSET(DCS_DISK_ENTRY_PARAMS,  Offset), Wrong_Offset_offset);
 
-// DE type specific data 
+// DE type specific data
 // DE List
 typedef struct _DCS_DISK_ENTRY_LIST {
 	//	EFI_TABLE_HEADER

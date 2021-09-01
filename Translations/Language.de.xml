@@ -1428,7 +1428,7 @@
     <entry lang="de" key="PASSWORD_MAXLENGTH_REACHED">Passwort hat bereits seine maximale Länge von %d Zeichen erreicht.\nEs ist kein zusätzliches Zeichen erlaubt.</entry>
     <entry lang="de" key="IDC_SELECT_LANGUAGE_LABEL">Wählen Sie die Sprache aus, die während der Installation benutzt werden soll:</entry>
     <entry lang="de" key="VOLUME_TOO_LARGE_FOR_HOST">FEHLER: Der Datei-Container ist größer als der verfügbare freie Speicherplatz auf der Festplatte.</entry>
-    <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows-Festplattendefragmentierung die Defragmentierung von Nicht-Systempartitionen/-laufwerken erlauben</entry>    
+    <entry lang="de" key="IDC_ALLOW_WINDOWS_DEFRAG">Windows-Festplattendefragmentierung die Defragmentierung von Nicht-Systempartitionen/-laufwerken erlauben</entry>
     <entry lang="de" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">WARNUNG: Defragmentierung von Nicht-Systempartitionen/-laufwerken kann Metadaten über ihren Inhalt preisgeben oder Probleme mit versteckten Volumen verursachen, die sie enthalten können.\n\nFortsetzen?</entry>
     <entry lang="de" key="VIRTUAL_DEVICE">Virtuelles Gerät</entry>
     <entry lang="de" key="MOUNTED_VOLUME_NOT_ASSOCIATED">Das ausgewählte eingehängte Volumen ist nicht mit seinem Laufwerksbuchstaben in Windows verknüpft und kann daher nicht im Windows Explorer geöffnet werden.</entry>
@@ -1554,7 +1554,7 @@
     <entry lang="de" key="LINUX_EX2MSG_VOLUMEHOSTINUSE">Die Host Datei oder das Host Gerät ist bereits in Benutzung.</entry>
     <entry lang="de" key="LINUX_EX2MSG_VOLUMESLOTUNAVAILABLE">Volumenplatz nicht verfügbar.</entry>
     <entry lang="de" key="LINUX_EX2MSG_HIGHERFUSEVERSIONREQUIRED">VeraCrypt benötigt OSXFUSE in Version 2.5 oder höher.</entry>
-    <entry lang="de" key="EXCEPTION_OCCURRED">Ausnahme aufgetreten</entry>        
+    <entry lang="de" key="EXCEPTION_OCCURRED">Ausnahme aufgetreten</entry>
     <entry lang="de" key="ENTER_PASSWORD">Passwort eingeben</entry>
     <entry lang="de" key="ENTER_TC_VOL_PASSWORD">VeraCrypt-Volumenpasswort eingeben</entry>
     <entry lang="de" key="MOUNT">Einhängen</entry>
