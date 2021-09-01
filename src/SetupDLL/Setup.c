@@ -1891,13 +1891,27 @@ BOOL UpgradeBootLoader_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
 {
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"Begin UpgradeBootLoader_Dll");
 
-	BOOL bOK = FALSE;
+	BOOL bOK = FALSE, bNeedUnloadDriver = FALSE;
+	int status;
 
 	if (!SystemEncryptionUpdate)
 	{
 		MSILog(hInstaller, MSI_INFO_LEVEL, L"SystemEncryptionUpdate == FALSE");
 		bOK = TRUE;
 		goto end;
+	}
+
+	if (hDriver == INVALID_HANDLE_VALUE)
+	{
+		status = DriverAttach();
+		if ((status == 0) && (hDriver != INVALID_HANDLE_VALUE))
+		{
+			bNeedUnloadDriver = TRUE;
+		}
+		else
+		{
+			MSILog(hInstaller, MSI_INFO_LEVEL, L"UpgradeBootLoader_Dll: failed to attach to driver");
+		}
 	}
 
 	try
@@ -1928,6 +1942,11 @@ BOOL UpgradeBootLoader_Dll (MSIHANDLE hInstaller, HWND hwndDlg)
 	MSILog (hInstaller, MSI_ERROR_LEVEL, GetString("BOOT_LOADER_UPGRADE_FAILED"));
 
 end:
+	if (bNeedUnloadDriver)
+	{
+		CloseHandle (hDriver);
+		hDriver = INVALID_HANDLE_VALUE;
+	}
 	MSILog(hInstaller, MSI_INFO_LEVEL, L"End UpgradeBootLoader_Dll");
 	return bOK;
 }
