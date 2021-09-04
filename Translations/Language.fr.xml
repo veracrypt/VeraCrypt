@@ -1565,6 +1565,7 @@
     <entry lang="en" key="UNKNOWN_OPTION">Unknown option</entry>
     <entry lang="en" key="VOLUME_LOCATION">Volume Location</entry>
     <entry lang="en" key="VOLUME_HOST_IN_USE">WARNING: The host file/device {0} is already in use!\n\nIgnoring this can cause undesired results including system instability. All applications that might be using the host file/device should be closed before mounting the volume.\n\nContinue mounting?</entry>
+    <entry lang="fr" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt a déjà été installé à l'aide d'un package MSI et de ce fait il ne peut pas être mis à jour à l'aide du programme d'installation standard.\n\nVeuillez utiliser le package MSI pour mettre à jour votre installation VeraCrypt.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

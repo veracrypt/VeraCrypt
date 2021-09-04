@@ -738,6 +738,24 @@ void DetermineUpgradeDowngradeStatus (BOOL bCloseDriverHandle, LONG *driverVersi
 	*driverVersionPtr = driverVersion;
 }
 
+BOOL isMsiInstalled ()
+{
+	BOOL bRet = FALSE;
+	HKEY hKey;
+	if (ERROR_SUCCESS == RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\VeraCrypt_MSI", 0, KEY_READ | KEY_WOW64_64KEY, &hKey))
+	{
+		DWORD dwType = 0;
+		if (	(ERROR_SUCCESS == RegQueryValueExW(hKey, L"ProductGuid", NULL, &dwType, NULL, NULL))
+			&&	(REG_SZ == dwType))
+		{
+			bRet = TRUE;
+		}
+		RegCloseKey(hKey);
+	}
+
+	return bRet;
+}
+
 
 static BOOL IsFileInUse (const wstring &filePath)
 {
@@ -2223,6 +2241,14 @@ void DoInstall (void *arg)
 	InvalidateRect (MainDlg, NULL, TRUE);
 
 	ClearLogWindow (hwndDlg);
+
+	if (isMsiInstalled())
+	{
+		MessageBoxW (hwndDlg,  GetString ("CANT_INSTALL_WITH_EXE_OVER_MSI"), lpszTitle, MB_ICONHAND);
+		Error ("INSTALL_FAILED", hwndDlg);
+		PostMessage (MainDlg, TC_APPMSG_INSTALL_FAILURE, 0, 0);
+		return;
+	}
 
 	if (mkfulldir (InstallationPath, TRUE) != 0)
 	{

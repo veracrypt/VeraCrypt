@@ -1565,6 +1565,7 @@
     <entry lang="ko" key="UNKNOWN_OPTION">알 수 없는 옵션</entry>
     <entry lang="ko" key="VOLUME_LOCATION">볼륨 위치</entry>
     <entry lang="ko" key="VOLUME_HOST_IN_USE">경고: 호스트 파일 및 장치 {0}이 이미 사용 중입니다!\n\n이 것을 무시하면 시스템 불안정을 포함한 원치 않은 결과를 불러일으킬 수 있습니다. 호스트 파일 혹은 장치를 사용하는 모든 애플리케이션은 볼륨을 마운트하기 전에 종료되어야 합니다.\n\n계속 마운트하시겠습니까?</entry>
+    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
   </localization>
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="VeraCrypt">

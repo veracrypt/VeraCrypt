@@ -1568,6 +1568,7 @@
     <entry lang="de" key="UNKNOWN_OPTION">Unbekannte Option</entry>
     <entry lang="de" key="VOLUME_LOCATION">Volumen-Speicherort</entry>
     <entry lang="de" key="VOLUME_HOST_IN_USE">WARNUNG: Die Datei/das Laufwerk {0} ist bereits in Verwendung!\n\nWenn Sie diese Warnung ignorieren, können nicht vorhersehbare Probleme einschließlich Systemabstürze auftreten. Alle Programme, die die Datei/das Laufwerk verwenden (zum Beispiel Virenscanner oder Backup-Software) sollten geschlossen werden, bevor das Volumen eingehängt wird.\n\nTrotzdem fortfahren?</entry>
+    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
   </localization>
   <!-- XML-Schema -->
   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">

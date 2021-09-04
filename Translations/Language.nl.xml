@@ -1576,6 +1576,7 @@ Merk op dat VeraCrypt in dit geval niet de exacte maximaal toegestane grootte vo
     <entry lang="nl" key="UNKNOWN_OPTION">Onbekende optie</entry>
     <entry lang="nl" key="VOLUME_LOCATION">Volumelocatie</entry>
     <entry lang="nl" key="VOLUME_HOST_IN_USE">WAARSCHUWING: hostbestand/apparaat {0} is al in gebruik!\n\nHet negeren hiervan kan ongewenste resultaten veroorzaken, waaronder systeeminstabiliteit. Alle toepassingen die het hostbestand/apparaat gebruiken moeten worden gesloten voordat het volume wordt gekoppeld.\n\nDoorgaan met koppelen?</entry>
+    <entry lang="en" key="CANT_INSTALL_WITH_EXE_OVER_MSI">VeraCrypt was previously installed using an MSI package and so it can't be updated using the standard installer.\n\nPlease use the MSI package to update your VeraCrypt installation.</entry>
   </localization>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
     <xs:element name="VeraCrypt">
