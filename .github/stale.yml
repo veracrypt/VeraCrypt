@@ -18,7 +18,7 @@ closeComment: >
   This issue has been automatically closed because it has not had
   recent activity. This probably means that it is not reproducible
   or it has been fixed in a newer version. If it’s an enhancement
-  and hasn’t been taken on for so long, then it seems no one has
+  and hasn't been taken on for so long, then it seems no one has
   the time to implement this.
   Please reopen if you still encounter this issue with the [latest stable version](https://www.veracrypt.fr/en/Downloads.html).
   You can also contribute directly by providing a pull request.

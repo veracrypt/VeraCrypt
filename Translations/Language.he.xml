@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <VeraCrypt xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <localization prog-version="1.24-Update7">
     <language langid="he" name="עברית" en-name="Hebrew" version="0.1.0" translators="thewh1teagle" />
@@ -1424,7 +1425,7 @@
     <entry lang="he" key="PASSWORD_MAXLENGTH_REACHED">הסיסמה כבר הגיעה לאורכה המרבי של%d תווים. \n אין תו נוסף מותר.</entry>
     <entry lang="he" key="IDC_SELECT_LANGUAGE_LABEL">בחר את השפה לשימוש במהלך ההתקנה:</entry>
     <entry lang="he" key="VOLUME_TOO_LARGE_FOR_HOST">שגיאה: גודלו של מיכל הקבצים גדול מהשטח הפנוי הזמין בדיסק.</entry>
-    <entry lang="he" key="IDC_ALLOW_WINDOWS_DEFRAG">אפשר למאחה הדיסקים של Windows לאחות את המחיצה / הכונן שאינם ממערכת</entry>    
+    <entry lang="he" key="IDC_ALLOW_WINDOWS_DEFRAG">אפשר למאחה הדיסקים של Windows לאחות את המחיצה / הכונן שאינם ממערכת</entry>
     <entry lang="he" key="CONFIRM_ALLOW_WINDOWS_DEFRAG">אזהרה: איחוי מחיצות / כוננים שאינם ממערכת עלול לדלוף מטא-נתונים לגבי התוכן שלהם או לגרום לבעיות באמצעי אחסוןים נסתרים שהם עשויים להכיל. \n \n להמשיך?</entry>
     <entry lang="he" key="VIRTUAL_DEVICE">התקן וירטואלי</entry>
     <entry lang="he" key="MOUNTED_VOLUME_NOT_ASSOCIATED">אמצעי האחסון המותקן שנבחר אינו משויך לאות הכונן שלו ב- Windows ולכן לא ניתן לפתוח אותו בסייר Windows.</entry>

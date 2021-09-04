@@ -153,7 +153,7 @@
     <entry lang="ro" key="IDC_MOUNT_READONLY">Montare volum ca doar-&amp;citire</entry>
     <entry lang="ro" key="IDC_NEW_KEYFILES">Fișiere-cheie</entry>
     <entry lang="ro" key="IDC_OLD_PIM_HELP">(Nimic sau 0 pentru iterații implicite)</entry>
-    <entry lang="ro" key="IDC_PIM_HELP">(Nimic sau 0 pentru iterații implicite)</entry>	
+    <entry lang="ro" key="IDC_PIM_HELP">(Nimic sau 0 pentru iterații implicite)</entry>
     <entry lang="ro" key="IDC_PREF_BKG_TASK_ENABLE">Activat</entry>
     <entry lang="ro" key="IDC_PREF_CACHE_PASSWORDS">Păstrare parolă în memorie</entry>
     <entry lang="ro" key="IDC_PREF_DISMOUNT_INACTIVE">Autodemontare volum dacă nu s-au citit/scris date de pe el timp de</entry>
@@ -180,7 +180,7 @@
     <entry lang="ro" key="IDC_SHOW_PASSWORD_CHPWD_ORI">Afișare parolă</entry>
     <entry lang="ro" key="IDC_TRAVEL_OPEN_EXPLORER">Deschidere fereastră &amp;Explorer la volumul montat</entry>
     <entry lang="ro" key="IDC_TRAV_CACHE_PASSWORDS">&amp;Păstrare parolă în memorie</entry>
-	 <entry lang="ro" key="IDC_TRUECRYPT_MODE">Mod TrueCrypt</entry>
+    <entry lang="ro" key="IDC_TRUECRYPT_MODE">Mod TrueCrypt</entry>
     <entry lang="ro" key="IDC_UNMOUNTALL">&amp;Demontare toate</entry>
     <entry lang="ro" key="IDC_VOLUME_PROPERTIES">Proprietăți &amp;volum</entry>
     <entry lang="ro" key="IDC_VOLUME_TOOLS">U&amp;nelte volum</entry>
@@ -280,7 +280,7 @@
     <entry lang="ro" key="IDT_DRIVER_OPTIONS">Configurare driver</entry>
     <entry lang="ro" key="IDC_ENABLE_EXTENDED_IOCTL_SUPPORT">Activare suport extins coduri de control disc</entry>
     <entry lang="ro" key="IDT_FAVORITE_LABEL">Etichetă volum favorit selectat:</entry>
-    <entry lang="ro" key="IDT_FILE_SETTINGS">Setări fișier</entry> 
+    <entry lang="ro" key="IDT_FILE_SETTINGS">Setări fișier</entry>
     <entry lang="ro" key="IDT_HOTKEY_KEY">Atribuire tastă:</entry>
     <entry lang="ro" key="IDT_HW_AES_SUPPORTED_BY_CPU">Procesorul (CPU) acestui computer suportă accelerare hardware pentru AES:</entry>
     <entry lang="ro" key="IDT_LOGON">Acțiuni de executat după intrarea în Windows</entry>
@@ -597,13 +597,13 @@
     <entry lang="ro" key="OVERWRITEPROMPT">AVERTISMENT: Fișierul '%s' există deja!\n\nIMPORTANT: VERACRYPT NU VA CRIPTA FIȘIERUL, DAR ÎL VA ȘTERGE. Sunteți sigur că doriți să ștergeți fișierul și să-l înlocuiți cu un nou fișier container VeraCrypt?</entry>
     <entry lang="ro" key="OVERWRITEPROMPT_DEVICE">ATENȚIE: TOATE FIȘIERELE STOCATE ÎN PREZENT PE %s '%s'%s VOR FI ȘTERSE ȘI PIERDUTE (ACESTEA NU VOR FI CRIPTATE)!\n\nSunteți sigur că doriți să continuați cu formatarea?</entry>
     <entry lang="ro" key="NONSYS_INPLACE_ENC_CONFIRM">AVERTISMENT: Nu veți putea monta volumul sau să accesați vreun fișier stocat pe el până când nu va fi criptat în întregime.\n\nSunteți sigur că doriți să începeți criptarea pentru %s '%s'%s?</entry>
-    <entry lang="ro" key="NONSYS_INPLACE_DEC_CONFIRM">AVERTISMENT: Nu veți putea monta volumul sau să accesați vreun fișier stocat pe el până când nu va fi decriptat în întregime.\n\nSunteți sigur că doriți să începeți decriptarea pentru %s '%s'%s?</entry>    
+    <entry lang="ro" key="NONSYS_INPLACE_DEC_CONFIRM">AVERTISMENT: Nu veți putea monta volumul sau să accesați vreun fișier stocat pe el până când nu va fi decriptat în întregime.\n\nSunteți sigur că doriți să începeți decriptarea pentru %s '%s'%s?</entry>
     <entry lang="ro" key="NONSYS_INPLACE_ENC_CONFIRM_BACKUP">AVERTISMENT: Rețineți că dacă se va întrerupe alimentarea cu curent a sistemului pe durata procesului de criptare din mers sau dacă sistemul de operare se blochează datorită unei erori software sau componentă hardware defectă, o parte din date vor fi corupte sau pierdute. Prin urmare, înainte de a începe criptarea, asigurați-vă că aveți copii de rezervă ale fișierelor pe care le veți cripta.\n\nAveți astfel copii de rezervă?</entry>
     <entry lang="ro" key="OVERWRITEPROMPT_DEVICE_HIDDEN_OS_PARTITION">ATENȚIE: ORICE FIȘIER STOCAT CURENT PE PARTIȚIA '%s'%s (DE EX. PE PRIMA PARTIȚIE AFLATĂ DUPĂ PARTIȚIA SISTEM) VA FI ȘTERS ȘI PIERDUT (ACESTEA NU VOR FI CRIPTATE)!\n\nSigur doriți să continuați cu formatarea?</entry>
     <entry lang="ro" key="OVERWRITEPROMPT_DEVICE_SECOND_WARNING_LOTS_OF_DATA">AVERTISMENT: PARTIȚIA SELECTATĂ CONȚINE O CANTITATE MARE DE DATE! Orice fișier stocat pe partiție va fi șters și pierdut (acestea NU vor fi criptate)!</entry>
     <entry lang="ro" key="ERASE_FILES_BY_CREATING_VOLUME">Ștergere toate fișierele stocate pe partiție prin crearea unui volum VeraCrypt</entry>
     <entry lang="ro" key="PASSWORD">Parola</entry>
-    <entry lang="ro" key="PIM">MIP</entry> 
+    <entry lang="ro" key="PIM">MIP</entry>
     <entry lang="ro" key="IDD_PCDM_CHANGE_PKCS5_PRF">Setare algoritm derivare cheie antet</entry>
     <entry lang="ro" key="IDD_PCDM_ADD_REMOVE_VOL_KEYFILES">Adăugare/Eliminare fișiere-cheie pe/de pe volum</entry>
     <entry lang="ro" key="IDD_PCDM_REMOVE_ALL_KEYFILES_FROM_VOL">Eliminare toate fișierele-cheie de pe volum</entry>
@@ -721,7 +721,7 @@
     <entry lang="ro" key="ERR_VOL_FORMAT_BAD">Eroare: formatare eronată volum.</entry>
     <entry lang="ro" key="ERR_HIDDEN_NOT_NORMAL_VOLUME">Eroare: ați furnizat o parolă pentru un volum ascuns (nu pentru un volum normal).</entry>
     <entry lang="ro" key="ERR_HIDDEN_VOL_HOST_ENCRYPTED_INPLACE">Din motive de securitate, un volum ascuns nu poate fi creat într-un volum ce conține un sistem de fișiere care a fost criptat din mers (deoarcere spațiul liber de pe volum nu a fost umplut cu date aleatoare).</entry>
-    <entry lang="ro" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - Mențiuni legale</entry>    
+    <entry lang="ro" key="LEGAL_NOTICES_DLG_TITLE">VeraCrypt - Mențiuni legale</entry>
     <entry lang="ro" key="ALL_FILES">Toate fișierele</entry>
     <entry lang="ro" key="TC_VOLUMES">Volume VeraCrypt</entry>
     <entry lang="ro" key="DLL_FILES">Module librărie</entry>
@@ -1100,7 +1100,7 @@
     <entry lang="ro" key="GAP_BETWEEN_SYS_AND_HIDDEN_OS_PARTITION">Avertisment: Există spațiu nealocat între partiția sistem și prima partiție de după aceasta. După ce veți crea sistemul de operare ascuns, nu ar trebui să mai creați vreo partiție în acel spațiu nealocat. Altfel, sistemul de operare ascuns nu va putea să pornească (până când veți șterge noua partiție astfel creată).</entry>
     <entry lang="ro" key="ALGO_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Acest algoritm nu este momentan suportat pentru criptarea partiției sistem.</entry>
     <entry lang="ro" key="ALGO_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">Acest algoritm nu este suportat pentru modul TrueCrypt.</entry>
-    <entry lang="ro" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">MIP (Multiplicator Iterații Personal) nu este suportat în modul TrueCrypt.</entry>	  
+    <entry lang="ro" key="PIM_NOT_SUPPORTED_FOR_TRUECRYPT_MODE">MIP (Multiplicator Iterații Personal) nu este suportat în modul TrueCrypt.</entry>
     <entry lang="ro" key="PIM_REQUIRE_LONG_PASSWORD">Parola trebuie să conțină 20 sau mai multe caractere pentru a putea folosi valoarea MIP specificată.\nParolele mai scurte pot fi folosite doar dacă MIP este 485 sau mai mare.</entry>
     <entry lang="ro" key="BOOT_PIM_REQUIRE_LONG_PASSWORD">Parola de autentificare la pornire trebuie să conțină 20 sau mai multe caractere pentru a putea folosi valoarea MIP specificată.\nParolele mai scurte pot fi folosite doar dacă MIP este 98 sau mai mare.</entry>
     <entry lang="ro" key="KEYFILES_NOT_SUPPORTED_FOR_SYS_ENCRYPTION">Fișierele-cheie nu sunt momentan suportate pentru criptarea partiției sistem.</entry>
@@ -1266,7 +1266,7 @@
     <entry lang="ro" key="PKCS11_LIB_LOCATION_HELP">Pentru a permite ca VeraCrypt să acceseze un dispozitiv de securitate sau card inteligent, trebuie să instalați mai întâi librăria software PKCS #11 pentru dispozitive de securitate sau card inteligent. O astfel de librărie poate fi furnizată cu unitatea respectivă sau poate fi disponibilă pentru descărcare de pe pagina web a producătorului sau o altă terță parte.\n\nDupă ce veți instala librăria, puteți fie să o selectați manual apăsaând pe 'Selectare librărie' sau puteți lăsa ca VeraCrypt să o găsească și să o selecteze automat apăsând pe 'Autodetectare librărie' (va fi căutată doar în folderul de sistem Windows).</entry>
     <entry lang="ro" key="SELECT_PKCS11_MODULE_HELP">Notă: Pentru numele fișierului și locația librăriei PKCS #11 instalată pentru dispozitivul de securitate sau cardul inteligent, vă rugăm consultați documentația primită cu dispozitivul, cardul sau programul terței părți.\n\nApăsați pe OK pentru a selecta calea și numele fișierului.</entry>
     <entry lang="ro" key="NO_PKCS11_MODULE_SPECIFIED">Pentru a permite ca VeraCrypt să acceseze un dispozitiv de securitate sau card inteligent, trebuie mai întâi să selectați o librărie software PKCS #11 pentru dispozitiv sau card inteligent. Pentru aceasta, selectați 'Setări' > 'Dispozitive de securitate'.</entry>
-    <entry lang="ro" key="PKCS11_MODULE_INIT_FAILED">Eșuare inițializare librărie PKCS #11 a dispozitivului de securitate.\n\nVerificați dacă calea și numele fișierului specificate se referă la o librărie PKCS #11 validă. Pentru a specifica calea și numele fișierului unei librării PKCS #11, selectați 'Setări' > 'Dispozitive de securitate'.</entry>  
+    <entry lang="ro" key="PKCS11_MODULE_INIT_FAILED">Eșuare inițializare librărie PKCS #11 a dispozitivului de securitate.\n\nVerificați dacă calea și numele fișierului specificate se referă la o librărie PKCS #11 validă. Pentru a specifica calea și numele fișierului unei librării PKCS #11, selectați 'Setări' > 'Dispozitive de securitate'.</entry>
     <entry lang="ro" key="PKCS11_MODULE_AUTO_DETECTION_FAILED">Nu a fost găsită nici o librărie PKCS #11 în folderul de sistem Windows.\n\nAsigurați-vă că pentru dispozitivul de securitate (sau pentru cardul inteligent) există instalată o librărie PKCS #11 (o astfel de librărie poate fi primită cu dispozitivul/cardul sau poate fi disponibilă pentru descărcare de pe pagina de web a producătorului sau a unei terțe părți). Dacă e instalată într-un alt folder decât folderul de sistem Windows, apăsați pe 'Selectare librărie' pentru a localiza librăria (de ex. în folderul unde este instalat programul pentru dispozitiv/card).</entry>
     <entry lang="ro" key="NO_TOKENS_FOUND">Nu există dispozitiv de securitate.\n\nAsigurați-vă că dispozitiv-ul de securitate este conectat la calculator și este instalat driver-ul corect pentru acesta.</entry>
     <entry lang="ro" key="TOKEN_KEYFILE_NOT_FOUND">Fișierul cheie al dispozitivului de securitate lipsește.</entry>
@@ -1274,10 +1274,10 @@
     <entry lang="ro" key="CONFIRM_SEL_FILES_DELETE">Doriți să ștergeți fișierele selectate?</entry>
     <entry lang="ro" key="INVALID_TOKEN_KEYFILE_PATH">Cale nevalidă spre fișierul cheie al dispozitivului de securitate.</entry>
     <entry lang="ro" key="SECURITY_TOKEN_ERROR">Eroare dispozitiv de securitate</entry>
-    <entry lang="ro" key="CKR_PIN_INCORRECT">Parola pentru dispozitivul de securitate este incorectă.</entry>  
+    <entry lang="ro" key="CKR_PIN_INCORRECT">Parola pentru dispozitivul de securitate este incorectă.</entry>
     <entry lang="ro" key="CKR_DEVICE_MEMORY">Dispozitivul de securitate nu are destulă memorie/spațiu pentru a executa operația solicitată.\n\nDacă încercați să importați un fișier-cheie, ar trebui să selectați un fișier mai mic generat de VeraCrypt (selectați 'Unelte' > 'Generator fișiere-cheie').</entry>
     <entry lang="ro" key="ALL_TOKEN_SESSIONS_CLOSED">Toate sesiunile deschise ale dispozitivului de securitate au fost închise.</entry>
-    <entry lang="ro" key="SELECT_TOKEN_KEYFILES">Selectare fișiere-cheie dispozitiv de securitate</entry>    
+    <entry lang="ro" key="SELECT_TOKEN_KEYFILES">Selectare fișiere-cheie dispozitiv de securitate</entry>
     <entry lang="ro" key="TOKEN_SLOT_ID">Slot</entry>
     <entry lang="ro" key="TOKEN_NAME">Nume dispozitiv</entry>
     <entry lang="ro" key="TOKEN_DATA_OBJECT_LABEL">Nume fișier</entry>

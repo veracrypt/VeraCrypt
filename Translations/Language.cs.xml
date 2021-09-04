@@ -1432,7 +1432,7 @@
     <entry lang="cs" key="IDC_CLEAR_KEYS_ON_NEW_DEVICE_INSERTION">Smazat šifrovací klíč z paměti, je-li připojeno nové zařízení</entry>
     <entry lang="cs" key="CLEAR_KEYS_ON_DEVICE_INSERTION_WARNING">DŮLEŽITÉ UPOZORNĚNÍ:\n - Mějte na paměti, že tato možnost nepřetrvá po vypnutí/restartu systému, proto ji budete muset znovu zapnout po spuštění.\n\n - Je-li tato možnost povolena a bude připojeno nové zařízení, počítač zamrzne a může přejít do BSOD, jelikož Windows nebude mít přístup k zašifrovanému disku, smažete-li klíče z paměti.\n</entry>
     <entry lang="cs" key="STARTING">Spuštění</entry>
-    <entry lang="cs" key="IDC_ENABLE_CPU_RNG">Použít náhodné hardwarové generování v CPU jako dodatečný zdroj entropie</entry> 
+    <entry lang="cs" key="IDC_ENABLE_CPU_RNG">Použít náhodné hardwarové generování v CPU jako dodatečný zdroj entropie</entry>
     <entry lang="cs" key="IDC_USE_LEGACY_MAX_PASSWORD_LENGTH">Použít starou maximální délku hesla (64 znaků)</entry>
     <entry lang="cs" key="IDC_ENABLE_RAM_ENCRYPTION">Aktivovat šifrování klíčů a hesel uložených v paměti RAM</entry>
     <entry lang="cs" key="IDT_BENCHMARK">Test výkonu:</entry>

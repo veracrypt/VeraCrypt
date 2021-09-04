@@ -106,7 +106,7 @@ for Windows 8.1 installation directory.
 The folder "Signing" contains a batch file (sign.bat) that will sign all
 VeraCrypt components using a code signing certificate present on the
 certificate store and also build the final installation setup.
-The batch file suppose that the code signing certificate is issued by Thawt.
+The batch file suppose that the code signing certificate is issued by Thawte.
 This is the case for IDRIX's certificate. If yours is issued by another CA,
 then you should put the Root and Intermediate certificates in the "Signing"
 folder and then modify sign.bat accordingly.
@@ -115,7 +115,7 @@ VeraCrypt EFI Boot Loader:
 --------------------------
 
 VeraCrypt source code contains pre-built EFI binaries under src\Boot\EFI.
-The source code of VeraCrypt EFI Boot Loader is licensed under LGPL and 
+The source code of VeraCrypt EFI Boot Loader is licensed under LGPL and
 it is available at https://github.com/veracrypt/VeraCrypt-DCS.
 For build instructions, please refer to the file src\Boot\EFI\Readme.txt.
 
@@ -200,7 +200,7 @@ VeraCrypt sources (i.e. if "src" path is "/Users/joe/Projects/VeraCrypt/src"
 then wxWidgets should be at "/Users/joe/Projects/wxWidgets-3.0.3")
 
 The build process uses Code Signing certificates whose ID is specified in
-src/Main/Main.make (look for lines containing "Developer ID Application" and 
+src/Main/Main.make (look for lines containing "Developer ID Application" and
 "Developer ID Installer"). You'll have to modify these lines to put the ID of
 your Code Signing certificates or comment them if you don't have one.
 
