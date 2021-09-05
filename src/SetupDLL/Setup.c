@@ -3497,7 +3497,6 @@ EXTERN_C UINT STDAPICALLTYPE VC_CustomAction_DoChecks(MSIHANDLE hInstaller)
 	DWORD           cchValueBuf		= 0;
 	UINT            uiStat			= 0;
 	HKEY			hkey			= 0;
-	DWORD			dw				= 0;
 	std::wstring	szInstallDir	= L"";
 	BOOL			bRefreshExts	= FALSE;
 	BOOL			bDisableReboot	= FALSE;
