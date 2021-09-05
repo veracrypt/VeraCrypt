@@ -39,7 +39,7 @@
 <strong>Note to users who created volumes with 1.17 version of VeraCrypt or earlier: </strong><br/>
 <span style="color:#ff0000;">To avoid hinting whether your volumes contain a hidden volume or not, or if you depend on plausible deniability when using hidden volumes/OS, then you must recreate both the outer and hidden volumes including system encryption and hidden OS, discarding existing volumes created prior to 1.18a version of VeraCrypt.</span></li>
 </p>
-<p><strong style="text-align:left">1.24-Update9-Beta-21-08-15</strong> (August 15<sup>th</sup>, 2021):</p>
+<p><strong style="text-align:left">1.25-RC1</strong> (September 5<sup>th</sup>, 2021):</p>
 <ul>
 <li><strong>All OSes:</strong>
 <ul>
@@ -50,9 +50,21 @@
 <li><strong>Windows:</strong>
 <ul>
 <li>Add support for Windows on ARM64 (e.g. Microsoft Surface Pro X) but system encryption not yet supported.</li>
-<li>Add MSI installer for silent mode deployment (ACCEPTLICENSE=YES must be set in msiexec command line).</li>
+<li>Add MSI installer for silent mode deployment (ACCEPTLICENSE=YES must be set in msiexec command line).
+<ul>
+<li>For now, MSI installer cannot be used if system partition is encrypted with VeraCrypt</li>
+</ul>
+</li>
+<li>Drop support of Windows XP, Windows Vista and Windows 7. Windows 8 is now the minimum supported Windows version.</li>
 <li>Reduce time of mount when PRF auto-detection is selected.</li>
+<li>Fix potential memory corruption in driver caused by integer overflow in IOCTL_STORAGE_MANAGE_DATA_SET_ATTRIBUTES (reported by Ilja van Sprundel).</li>
 <li>Replace insecure wcscpy/wcscat/strcpy runtime functions with secure equivalents.</li>
+<li>Changes to EFI bootloader:
+<ul>
+<li>Fix memory leak in some cases caused by wrong check of pointer for calling MEM_FREE</li>
+<li>Clear bootParams variable that may contain sensitive information when halting the system in case of fatal error</li>
+<li>Add option "KeyboardInputDelay" in DcsProp to control the minimum delay supported between two key strokes</li>
+</ul></li>
 <li>Fix failure to load local HTML documentation if application running with administrative privileges</li>
 <li>Fix freeze when password dialog displayed in secure desktop and try to access token keyfiles protected by PIN</li>
 <li>Fix failure to launch keyfile generator in secure desktop mode</li>
@@ -64,6 +76,7 @@
 <li><strong>MacOSX:</strong>
 <ul>
 <li>Native support of Apple Silicon M1.</li>
+<li>Drop official support of Mac OS X 10.7 Lion and Mac OS X 10.8 Mountain Lion.</li>
 <li>Add UI language support using installed XML files. Language is automatically detected using "LANG" environment variable</li>
 </ul>
 </li>
@@ -71,6 +84,7 @@
 <ul>
 <li>Add UI language support using installed XML files. Language is automatically detected using "LANG" environment variable</li>
 <li>Compatiblity with with pam_tmpdir.</li>
+<li>Display icon in notification area on Ubuntu 18.04 and newer (contibuted by https://unit193.net/).</li>
 </ul>
 </li>
 <li><strong>FreeBSD:</strong>
