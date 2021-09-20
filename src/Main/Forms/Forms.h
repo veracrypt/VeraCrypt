@@ -1063,12 +1063,14 @@ namespace VeraCrypt
 		protected:
 			wxTextCtrl* VolumeSizeTextCtrl;
 			wxChoice* VolumeSizePrefixChoice;
+			wxCheckBox* UseAllFreeSpaceCheckBox;
 			wxStaticText* FreeSpaceStaticText;
 			wxStaticText* InfoStaticText;
 			
 			// Virtual event handlers, overide them in your derived class
 			virtual void OnVolumeSizeTextChanged( wxCommandEvent& event ) { event.Skip(); }
 			virtual void OnVolumeSizePrefixSelected( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnUseAllFreeSpaceCheckBoxClick( wxCommandEvent& event ) { event.Skip(); }
 			
 		
 		public:

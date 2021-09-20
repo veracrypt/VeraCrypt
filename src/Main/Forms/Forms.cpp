@@ -3625,6 +3625,12 @@ VolumeSizeWizardPageBase::VolumeSizeWizardPageBase( wxWindow* parent, wxWindowID
 	
 	bSizer99->Add( 0, 0, 0, wxEXPAND|wxTOP|wxBOTTOM, 5 );
 	
+	UseAllFreeSpaceCheckBox = new wxCheckBox( this, wxID_ANY, _("IDC_USE_ALL_FREE_SPACE"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer99->Add( UseAllFreeSpaceCheckBox, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer99->Add( 0, 0, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
+	
 	FreeSpaceStaticText = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	FreeSpaceStaticText->Wrap( -1 );
 	
@@ -3649,6 +3655,7 @@ VolumeSizeWizardPageBase::VolumeSizeWizardPageBase( wxWindow* parent, wxWindowID
 	// Connect Events
 	VolumeSizeTextCtrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumeSizeWizardPageBase::OnVolumeSizeTextChanged ), NULL, this );
 	VolumeSizePrefixChoice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( VolumeSizeWizardPageBase::OnVolumeSizePrefixSelected ), NULL, this );
+	UseAllFreeSpaceCheckBox->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumeSizeWizardPageBase::OnUseAllFreeSpaceCheckBoxClick ), NULL, this );
 }
 
 VolumeSizeWizardPageBase::~VolumeSizeWizardPageBase()
@@ -3656,6 +3663,7 @@ VolumeSizeWizardPageBase::~VolumeSizeWizardPageBase()
 	// Disconnect Events
 	VolumeSizeTextCtrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( VolumeSizeWizardPageBase::OnVolumeSizeTextChanged ), NULL, this );
 	VolumeSizePrefixChoice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( VolumeSizeWizardPageBase::OnVolumeSizePrefixSelected ), NULL, this );
+	UseAllFreeSpaceCheckBox->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( VolumeSizeWizardPageBase::OnUseAllFreeSpaceCheckBoxClick ), NULL, this );
 	
 }
 
