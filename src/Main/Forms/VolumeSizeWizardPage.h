@@ -37,13 +37,15 @@ namespace VeraCrypt
 			{
 				KB = 0,
 				MB,
-				GB
+				GB,
+				TB
 			};
 		};
 
 		void OnBrowseButtonClick (wxCommandEvent& event);
 		void OnVolumeSizePrefixSelected (wxCommandEvent& event) { PageUpdatedEvent.Raise(); }
 		void OnVolumeSizeTextChanged (wxCommandEvent& event) { PageUpdatedEvent.Raise(); }
+		void OnUseAllFreeSpaceCheckBoxClick( wxCommandEvent& event );
 
 		uint64 MaxVolumeSize;
 		bool MaxVolumeSizeValid;

@@ -646,6 +646,29 @@ namespace VeraCrypt
 		}
 		else
 		{
+			uint64 AvailableDiskSpace = 0;
+			wxLongLong diskSpace = 0;
+			if (wxGetDiskSpace (wxFileName (wstring (options->Path)).GetPath(), nullptr, &diskSpace))
+			{
+				AvailableDiskSpace = (uint64) diskSpace.GetValue ();
+				if (maxVolumeSize > AvailableDiskSpace)
+					maxVolumeSize = AvailableDiskSpace;
+			}
+
+			if (options->Size == (uint64) (-1))
+			{
+				if (AvailableDiskSpace)
+				{
+					// caller requesting maximum size
+					// we use maxVolumeSize because it is guaranteed to be less of equal to AvailableDiskSpace
+					options->Size = maxVolumeSize;
+				}
+				else
+				{
+					throw_err (_("Failed to get available disk space on the selected target."));
+				}
+			}
+
 			options->Quick = false;
 
 			uint32 sectorSizeRem = options->Size % options->SectorSize;
@@ -657,43 +680,62 @@ namespace VeraCrypt
 				if (Preferences.NonInteractive)
 					throw MissingArgument (SRC_POS);
 
-				wstring sizeStr = AskString (options->Type == VolumeType::Hidden ? _("\nEnter hidden volume size (sizeK/size[M]/sizeG): ") : _("\nEnter volume size (sizeK/size[M]/sizeG): "));
 				uint64 multiplier = 1024 * 1024;
+				wxString sizeStr = AskString (options->Type == VolumeType::Hidden ? _("\nEnter hidden volume size (sizeK/size[M]/sizeG/sizeT/max): ") : _("\nEnter volume size (sizeK/size[M]/sizeG.sizeT/max): "));
+				if (sizeStr.CmpNoCase(wxT("max")) == 0)
+				{
+					multiplier = 1;
+					if (AvailableDiskSpace)
+					{
+						// caller requesting maximum size
+						// we use maxVolumeSize because it is guaranteed to be less of equal to AvailableDiskSpace
+						options->Size = maxVolumeSize;
+					}
+					else
+					{
+						throw_err (_("Failed to get available disk space on the selected target."));
+					}
+				}
+				else
+				{
+					multiplier = 1024 * 1024;
+					size_t index = sizeStr.find_first_not_of (wxT("0123456789"));
+					if (index == 0)
+					{
+						continue;
+					}
+					else if (index != (size_t) wxNOT_FOUND)
+					{
+						wxString sizeSuffix = sizeStr.Mid(index);
+						if (sizeSuffix.CmpNoCase(wxT("K")) == 0 || sizeSuffix.CmpNoCase(wxT("KiB")) == 0)
+							multiplier = BYTES_PER_KB;
+						else if (sizeSuffix.CmpNoCase(wxT("M")) == 0 || sizeSuffix.CmpNoCase(wxT("MiB")) == 0)
+							multiplier = BYTES_PER_MB;
+						else if (sizeSuffix.CmpNoCase(wxT("G")) == 0 || sizeSuffix.CmpNoCase(wxT("GiB")) == 0)
+							multiplier = BYTES_PER_GB;
+						else if (sizeSuffix.CmpNoCase(wxT("T")) == 0 || sizeSuffix.CmpNoCase(wxT("TiB")) == 0)
+							multiplier = BYTES_PER_TB;
+						else
+							continue;
 
-				if (sizeStr.find (L"K") != string::npos)
-				{
-					multiplier = 1024;
-					sizeStr.resize (sizeStr.size() - 1);
-				}
-				else if (sizeStr.find (L"M") != string::npos)
-				{
-					sizeStr.resize (sizeStr.size() - 1);
-				}
-				else if (sizeStr.find (L"G") != string::npos)
-				{
-					multiplier = 1024 * 1024 * 1024;
-					sizeStr.resize (sizeStr.size() - 1);
-				}
-				else if (sizeStr.find (L"T") != string::npos)
-				{
-					multiplier = (uint64) 1024 * 1024 * 1024 * 1024;
-					sizeStr.resize (sizeStr.size() - 1);
-				}
+						sizeStr = sizeStr.Left (index);
+					}
 
-				try
-				{
-					options->Size = StringConverter::ToUInt64 (sizeStr);
-					options->Size *= multiplier;
+					try
+					{
+						options->Size = StringConverter::ToUInt64 (wstring(sizeStr));
+					}
+					catch (...)
+					{
+						options->Size = 0;
+						continue;
+					}
+				}
+				options->Size *= multiplier;
 
-					sectorSizeRem = options->Size % options->SectorSize;
-					if (sectorSizeRem != 0)
-						options->Size += options->SectorSize - sectorSizeRem;
-				}
-				catch (...)
-				{
-					options->Size = 0;
-					continue;
-				}
+				sectorSizeRem = options->Size % options->SectorSize;
+				if (sectorSizeRem != 0)
+					options->Size += options->SectorSize - sectorSizeRem;
 
 				if (options->Size < minVolumeSize)
 				{
