@@ -482,7 +482,7 @@
     <entry lang="zh-hk" key="FILESYS_PAGE_HELP_QUESTION">您想要在此 VeraCrypt 加密區中儲存大於 4 GiB 的檔案嗎？</entry>
     <entry lang="zh-hk" key="FILESYS_PAGE_HELP_EXPLANATION">根據您在前面的選擇，VeraCrypt 將為加密區選擇一個合適的檔案系統格式(您可以在下一步選擇檔案系統類型)。</entry>
     <entry lang="zh-hk" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL">當您建立外層加密區的時候，您應該考慮選擇「否」。如果您選擇「是」，預設的檔案系統將會是 NTFS，NTFS 不如 FAT 檔案系統那樣適合於建立外層加密區(例如，如果外層加密區為 FAT 格式，可以建立的隱藏加密區的最大容量比NTFS外層加密區那個建立的隱藏加密區要大很多)。通常情況下，FAT 格式為隱藏加密區和一般加密區的預設格式(因此建立 FAT 加密區並無太多疑慮)。然而，如果用戶計畫在加密區中儲存大於 4 GiB 的檔(FAT檔案系統不支援)，那麼 FAT 系統則不是預設的格式。</entry>
-    <entry lang="zh-hk" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">您確認要選擇「是」 嗎？</entry>
+    <entry lang="zh-hk" key="FILESYS_PAGE_HELP_EXPLANATION_HIDVOL_CONFIRM">您確認要選擇「是」嗎？</entry>
     <entry lang="zh-hk" key="DEVICE_TRANSFORM_MODE_PAGE_TITLE">加密區建立模式</entry>
     <entry lang="zh-hk" key="DEVICE_TRANSFORM_MODE_PAGE_FORMAT_HELP">這是建立分割區類型或裝置類型加密區的最快方式(就地加密，是另外一種選項，速度比此種方式要慢，這是因為就地加密時每個磁區的內容都需要首先讀取、加密，之後再寫入)。任何當前儲存在選擇的分割區/裝置上的資料都會丟失(這些資料並不會被加密，它們將會被亂數據覆蓋)。如果您想加密一個分割區中的現有資料，請選擇其他的選項。</entry>
     <entry lang="zh-hk" key="DEVICE_TRANSFORM_MODE_PAGE_INPLACE_HELP">整個指定的分割區以及位於該分割區上的資料將會被就地加密。如果分割區裏面沒有內容，您應該選擇其他的選項(以使加密區建立速度更快)。</entry>
